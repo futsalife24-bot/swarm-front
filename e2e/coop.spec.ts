@@ -1,7 +1,7 @@
 import { localCreationKey } from "../tests/credentials";
 import { test, expect } from "@playwright/test";
 import { writeFileSync } from "node:fs";
-test("local credential file is not served and creation requires a host key", async ({
+test("local credential file is not served and creation key stays in the development panel", async ({
   page,
   request,
 }) => {
@@ -10,11 +10,12 @@ test("local credential file is not served and creation requires a host key", asy
   expect((await denied.text()).includes(localCreationKey())).toBe(false);
   await page.goto("/");
   await page.getByRole("button", { name: "協力プレイ" }).click();
+  await expect(page.locator("#creation-key")).toHaveCount(0);
+  await page.locator(".coop-advanced summary").click();
   await expect(page.locator("#creation-key")).toHaveAttribute(
     "type",
     "password",
   );
-  await page.locator(".coop-advanced summary").click();
   await page.locator("#endpoint").fill("http://127.0.0.1:8789");
   await page.getByRole("button", { name: "ルームを作る" }).click();
   await expect(page.getByRole("status")).toContainText("作成キーを確認");
