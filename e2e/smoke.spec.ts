@@ -35,6 +35,22 @@ test("solo boots, moves, changes weapons and resets focus input", async ({
   await page.screenshot({ path: "dist-validation/evidence/combat.png" });
   expect(errors).toEqual([]);
 });
+test("third-person camera follows the rendered local player during fixed-step movement", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "ソロで出撃準備" }).click();
+  await page.getByRole("button", { name: "ソロ出撃" }).click();
+  await page.keyboard.down("KeyW");
+  await page.waitForTimeout(260);
+  await page.keyboard.up("KeyW");
+  const state = await page.evaluate(() => (window as any).__swarm);
+  expect(state.renderedLocal).not.toBeNull();
+  // The camera collision calculation must start from the smoothed visual
+  // position, not the 20Hz world position. Buildings can shorten its final
+  // offset, so assert the actual collision anchor instead of its result.
+  expect(state.cameraAnchor).toEqual(state.renderedLocal);
+});
 test("mobile simultaneous movement/look/fire cancels and survives rotation", async ({
   browser,
 }) => {

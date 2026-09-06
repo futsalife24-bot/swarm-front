@@ -581,6 +581,12 @@ if (import.meta.env.DEV)
       fps: view.fps,
       drawCalls: view.drawCalls,
       frameMs: [...view.frames],
+      renderedLocal: (() => {
+        const player = view.players.get(myId);
+        return player ? { x: player.position.x, z: player.position.z } : null;
+      })(),
+      cameraAnchor: { ...view.cameraAnchor },
+      camera: { x: view.camera.position.x, z: view.camera.position.z },
       inventory: structuredClone(save.inventory),
       equipped: [...save.equipped],
     }),

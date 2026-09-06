@@ -20,6 +20,14 @@ const box = new T.BoxGeometry(1, 1, 1),
   ico = new T.IcosahedronGeometry(1, 0),
   cone = new T.ConeGeometry(1, 1, 5),
   cylinder = new T.CylinderGeometry(1, 1, 1, 6);
+
+// InstancedMesh keeps a cached bounding sphere for frustum culling. Updating
+// instance matrices does not invalidate that cache, so moving enemies could be
+// culled while their game entities remained active.
+export function syncDynamicInstances(mesh: T.InstancedMesh) {
+  mesh.instanceMatrix.needsUpdate = true;
+  mesh.computeBoundingSphere();
+}
 function part(
   g: T.Group,
   geo: T.BufferGeometry,
@@ -164,6 +172,7 @@ export class Renderer {
   fps = 60;
   quality = 1;
   drawCalls = 0;
+  cameraAnchor = { x: 0, z: 0 };
   onSound: (type: string) => void = () => {};
   frames: number[] = [];
   constructor(canvas: HTMLCanvasElement) {
@@ -343,12 +352,13 @@ export class Renderer {
     if (w) {
       for (const p of w.players) {
         let m = this.players.get(p.id);
+        const target = p.id === id && predict ? predict : p;
         if (!m) {
           m = soldier(p.id === id ? 0xcaa25f : 0x5bbbb1);
+          m.position.set(target.x, p.hp <= 0 ? 0.2 : 0, target.z);
           this.players.set(p.id, m);
           this.scene.add(m);
         }
-        const target = p.id === id && predict ? predict : p;
         m.position.lerp(
           new T.Vector3(target.x, p.hp <= 0 ? 0.2 : 0, target.z),
           1 - Math.exp(-dt * 18),
@@ -415,11 +425,11 @@ export class Renderer {
           }
         }
         mesh.count = n;
-        mesh.instanceMatrix.needsUpdate = true;
+        syncDynamicInstances(mesh);
         if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
       }
       this.rings.count = ri;
-      this.rings.instanceMatrix.needsUpdate = true;
+      syncDynamicInstances(this.rings);
       w.projectiles.forEach((q, i) => {
         this.instance(
           this.projectiles,
@@ -437,7 +447,7 @@ export class Renderer {
         );
       });
       this.projectiles.count = w.projectiles.length;
-      this.projectiles.instanceMatrix.needsUpdate = true;
+      syncDynamicInstances(this.projectiles);
       if (this.projectiles.instanceColor)
         this.projectiles.instanceColor.needsUpdate = true;
       w.drops
@@ -457,7 +467,7 @@ export class Renderer {
           ),
         );
       this.drops.count = w.drops.filter((d) => d.owner === id).length;
-      this.drops.instanceMatrix.needsUpdate = true;
+      syncDynamicInstances(this.drops);
       for (const e of w.events.filter((e) => e.id > this.lastEvent)) {
         this.lastEvent = Math.max(this.lastEvent, e.id);
         if (e.type === "shot" && this.traces.length < 50) {
@@ -493,7 +503,15 @@ export class Renderer {
       }
       const p = w.players.find((p) => p.id === id);
       if (p) {
-        const pos = predict ?? p;
+        // Keep the third-person camera anchored to the visual player position.
+        // The world updates at 20 Hz; anchoring the camera to the un-smoothed
+        // simulation position made the character visibly shake beneath it.
+        const rendered = this.players.get(id);
+        const pos = rendered
+          ? { x: rendered.position.x, z: rendered.position.z }
+          : (predict ?? p);
+        this.cameraAnchor.x = pos.x;
+        this.cameraAnchor.z = pos.z;
         const aim = new T.Vector3(
           pos.x + Math.sin(yaw) * 30 * Math.cos(pitch),
           1.5 + Math.sin(pitch) * 30,
@@ -551,7 +569,7 @@ export class Renderer {
       );
     });
     this.particles.count = this.effects.length;
-    this.particles.instanceMatrix.needsUpdate = true;
+    syncDynamicInstances(this.particles);
     this.effects = this.effects.filter((e) => e.life > 0);
     this.renderer.render(this.scene, this.camera);
     this.drawCalls = this.renderer.info.render.calls;
