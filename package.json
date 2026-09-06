@@ -1,0 +1,35 @@
+{
+  "name": "swarm-front",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "server": "wrangler dev --local --ip 127.0.0.1 --port 8787",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.worker.json",
+    "build": "vite build",
+    "build:pages": "vite build --base=/swarm-front/ --outDir dist-pages",
+    "server:build": "wrangler deploy --dry-run --outdir dist-worker",
+    "test": "vitest run",
+    "test:integration": "vitest run --config=vitest.integration.config.ts",
+    "test:offline": "node scripts/check-offline.mjs",
+    "format:check": "prettier --check src server tests e2e *.ts *.json *.jsonc",
+    "setup:windows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-windows.ps1",
+    "server:test": "wrangler dev --local --config wrangler.test.jsonc --ip 127.0.0.1 --port 8789 --persist-to .wrangler/test-state",
+    "test:e2e": "playwright test",
+    "preview": "vite preview --host 127.0.0.1"
+  },
+  "dependencies": {
+    "three": "0.185.1"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20260905.1",
+    "@playwright/test": "1.63.0",
+    "@types/three": "0.185.4",
+    "prettier": "3.9.6",
+    "typescript": "7.0.2",
+    "vite": "8.2.2",
+    "vitest": "5.0.0",
+    "wrangler": "4.129.0"
+  }
+}

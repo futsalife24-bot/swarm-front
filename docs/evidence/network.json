@@ -1,0 +1,11 @@
+{
+  "transport": "real local workerd WebSocket",
+  "clients": 2,
+  "revive": true,
+  "individualRewards": true,
+  "reconnect": true,
+  "rewardDedup": true,
+  "loadEnemies": 40,
+  "snapshotBytes": 5770,
+  "fixtureSetup": true
+}

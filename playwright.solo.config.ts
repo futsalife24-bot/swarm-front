@@ -1,0 +1,12 @@
+import config from "./playwright.config";
+export default {
+  ...config,
+  webServer: [
+    {
+      command: "npm run dev",
+      url: "http://127.0.0.1:5186",
+      reuseExistingServer: true,
+    },
+  ],
+  testMatch: ["smoke.spec.ts", "mission.spec.ts"],
+};

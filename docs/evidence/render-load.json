@@ -1,0 +1,10 @@
+{
+  "environment": "Windows PC Chrome SwiftShader, 915x412 touch emulation",
+  "androidHardware": false,
+  "enemies": 40,
+  "fps": 32.68054412261012,
+  "drawCalls": 52,
+  "frameMsMedian": 33.40000000000009,
+  "frameMsP95": 66.80000000000018,
+  "sampleCount": 172
+}
