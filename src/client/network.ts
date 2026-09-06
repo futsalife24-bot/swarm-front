@@ -5,6 +5,36 @@ export interface Member {
   ready: boolean;
   connected: boolean;
 }
+export interface NetworkSession {
+  version: 1;
+  endpoint: string;
+  code: string;
+  token: string;
+}
+export const NETWORK_SESSION_KEY = "swarm-front-session";
+export function loadNetworkSession(
+  storage: Pick<Storage, "getItem" | "removeItem"> = sessionStorage,
+): NetworkSession | null {
+  try {
+    const value = JSON.parse(storage.getItem(NETWORK_SESSION_KEY) ?? "null");
+    if (
+      value?.version !== 1 ||
+      typeof value.endpoint !== "string" ||
+      !/^https?:\/\/[^\s]+$/.test(value.endpoint) ||
+      !/^[a-f0-9]{32}$/.test(value.code) ||
+      !/^[a-f0-9]{32}$/.test(value.token)
+    )
+      throw new Error("invalid session");
+    return value as NetworkSession;
+  } catch {
+    try {
+      storage.removeItem(NETWORK_SESSION_KEY);
+    } catch {
+      // Storage may be unavailable; joining still works for the current page.
+    }
+    return null;
+  }
+}
 export class Network {
   ws: WebSocket | undefined;
   id = "";
@@ -110,7 +140,20 @@ export class Network {
         this.id = m.id;
         this.token = m.token;
         this.retry = 0;
-        // Identity survives a brief network loss in this page. No token in URLs or logs.
+        // Keep identity in this tab across reloads. Never put the token in URLs or logs.
+        try {
+          sessionStorage.setItem(
+            NETWORK_SESSION_KEY,
+            JSON.stringify({
+              version: 1,
+              endpoint: this.endpoint,
+              code: this.code,
+              token: this.token,
+            } satisfies NetworkSession),
+          );
+        } catch {
+          // A blocked/full session store must not break the live connection.
+        }
         this.onStatus("接続済み", false);
         this.send({ type: "equip", weapons: this.equip });
         this.ready();
@@ -122,6 +165,11 @@ export class Network {
         this.onLobby();
       } else if (m.type === "error") {
         this.closed = true;
+        try {
+          sessionStorage.removeItem(NETWORK_SESSION_KEY);
+        } catch {
+          // The fatal server response is still shown when storage is unavailable.
+        }
         this.onStatus(m.reason, true);
       } else if (m.type === "notice") this.onStatus(m.reason, false);
     };
@@ -166,6 +214,10 @@ export class Network {
     this.closed = true;
     clearInterval(this.timer);
     this.ws?.close(1000, "退出");
-    sessionStorage.removeItem("swarm-front-session");
+    try {
+      sessionStorage.removeItem(NETWORK_SESSION_KEY);
+    } catch {
+      // The socket is still closed when browser storage is unavailable.
+    }
   }
 }

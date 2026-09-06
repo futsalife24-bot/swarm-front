@@ -1,5 +1,9 @@
 import { it, expect, vi } from "vitest";
-import { Network } from "../src/client/network";
+import {
+  loadNetworkSession,
+  NETWORK_SESSION_KEY,
+  Network,
+} from "../src/client/network";
 import { randomBytes } from "node:crypto";
 import { creationAccess } from "../server/auth";
 import { WAVE_INTERVAL, WAVE_QUOTAS } from "../src/shared/defs";
@@ -20,6 +24,27 @@ function fixture() {
   w.nextSpawn = 1e9;
   return { w, p, ally };
 }
+it("accepts only a versioned same-tab reconnect session", () => {
+  const values = new Map<string, string>();
+  const storage = {
+    getItem: (key: string) => values.get(key) ?? null,
+    removeItem: (key: string) => void values.delete(key),
+  };
+  const valid = {
+    version: 1,
+    endpoint: "https://play.example/api",
+    code: "a".repeat(32),
+    token: "b".repeat(32),
+  };
+  values.set(NETWORK_SESSION_KEY, JSON.stringify(valid));
+  expect(loadNetworkSession(storage)).toEqual(valid);
+  values.set(
+    NETWORK_SESSION_KEY,
+    JSON.stringify({ ...valid, token: "visible-or-invalid" }),
+  );
+  expect(loadNetworkSession(storage)).toBeNull();
+  expect(values.has(NETWORK_SESSION_KEY)).toBe(false);
+});
 it("disconnected combat state and individual pickups freeze for ten seconds", () => {
   const { w, p } = fixture();
   Object.assign(p, {

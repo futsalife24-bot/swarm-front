@@ -27,6 +27,7 @@ test("local credential file is not served and creation requires a host key", asy
 });
 test("two independent browsers join a real room and receive the same battlefield", async ({
   browser,
+  request,
 }) => {
   const ca = await browser.newContext(),
     cb = await browser.newContext();
@@ -81,11 +82,69 @@ test("two independent browsers join a real room and receive the same battlefield
   } finally {
     await a.keyboard.up("KeyW");
   }
+  const code = invite.split("#")[1];
+  expect(
+    (await request.post(`http://127.0.0.1:8789/fixtures/${code}/freeze`)).ok(),
+  ).toBe(true);
+  await expect
+    .poll(() =>
+      a.evaluate(
+        () =>
+          (window as any).__swarm.world.players.find(
+            (p: any) => p.id === (window as any).__swarm.id,
+          )?.hp,
+      ),
+    )
+    .toBe(50);
+  const beforeReload = await a.evaluate(() => {
+    const diagnostic = (window as any).__swarm;
+    const session = JSON.parse(sessionStorage.getItem("swarm-front-session")!);
+    return {
+      id: diagnostic.id,
+      token: session.token,
+      player: diagnostic.world.players.find((p: any) => p.id === diagnostic.id),
+    };
+  });
+  expect(beforeReload.token).toMatch(/^[a-f0-9]{32}$/);
+  expect(a.url()).not.toContain(beforeReload.token);
+  await a.reload();
+  await expect(
+    a.getByRole("button", { name: "進行中の部隊へ戻る" }),
+  ).toBeVisible();
+  await expect
+    .poll(() =>
+      b.evaluate(
+        (id: string) =>
+          (window as any).__swarm.world.players.find((p: any) => p.id === id)
+            ?.connected,
+        beforeReload.id,
+      ),
+    )
+    .toBe(false);
+  await a.getByRole("button", { name: "進行中の部隊へ戻る" }).click();
+  await expect(a.locator("#hud")).toBeVisible();
+  const restored = await a.evaluate(() => (window as any).__swarm);
+  const restoredPlayer = restored.world.players.find(
+    (p: any) => p.id === restored.id,
+  );
+  expect(restored.id).toBe(beforeReload.id);
+  expect(restored.world.players).toHaveLength(2);
+  expect(restoredPlayer.hp).toBe(beforeReload.player.hp);
+  expect(restoredPlayer.ammo).toEqual(beforeReload.player.ammo);
+  expect(JSON.stringify(restored)).not.toContain(beforeReload.token);
+  expect(documentText(await a.locator("body").textContent())).not.toContain(
+    beforeReload.token,
+  );
+  expect(a.url()).not.toContain(beforeReload.token);
   await a.screenshot({ path: "dist-validation/evidence/coop-a.png" });
   await b.screenshot({ path: "dist-validation/evidence/coop-b.png" });
   await ca.close();
   await cb.close();
 });
+
+function documentText(value: string | null) {
+  return value ?? "";
+}
 test("40 authoritative enemies render in a mobile-sized browser; record PC-only frame timings", async ({
   browser,
   request,

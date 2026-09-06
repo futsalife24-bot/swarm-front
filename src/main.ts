@@ -29,7 +29,7 @@ import {
 import { Controls } from "./client/input";
 import { Renderer } from "./client/render";
 import { Sound } from "./client/audio";
-import { Network } from "./client/network";
+import { loadNetworkSession, Network } from "./client/network";
 import {
   fresh,
   parseSave,
@@ -213,17 +213,22 @@ function gear() {
     );
   if (weaponSort === "rarity") shown.sort((a, b) => b.rarity - a.rarity);
   const invitation = mode === "coop" ? inviteCode() : "";
+  const previous = mode === "coop" ? loadNetworkSession() : null;
+  const resumable =
+    previous && (!invitation || invitation === previous.code) ? previous : null;
   const launchLabel =
     mode === "solo"
       ? "ソロ出撃 ↗"
       : network?.id
         ? "ルームに戻る ↗"
-        : invitation
-          ? "招待ルームに参加 ↗"
-          : "ルームを作る ↗";
+        : resumable
+          ? "進行中の部隊へ戻る ↗"
+          : invitation
+            ? "招待ルームに参加 ↗"
+            : "ルームを作る ↗";
   const coopEntry =
     mode === "coop"
-      ? `<div class="coop-entry"><b>${invitation ? "招待を受け取りました" : "友人と遊ぶ"}</b><p>${invitation ? "装備を選び、上の「招待ルームに参加」を押してください。" : "装備を選び、上の「ルームを作る」を押します。次の画面から友人へリンクを送れます。"}</p></div><details class="coop-advanced"><summary>招待コード・接続先を手動設定</summary><div class="join"><input id="code" aria-label="招待コード" placeholder="32文字の招待コード" value="${esc(invitation)}" maxlength="32"><button id="join">コードで参加</button><input id="creation-key" type="password" aria-label="ルーム作成キー" placeholder="管理者用の作成キー" autocomplete="off" maxlength="256"><input id="endpoint" aria-label="協力サーバー" value="${esc(import.meta.env.VITE_SERVER_URL ?? "http://127.0.0.1:8787")}"></div></details>`
+      ? `<div class="coop-entry"><b>${resumable ? "進行中の部隊があります" : invitation ? "招待を受け取りました" : "友人と遊ぶ"}</b><p>${resumable ? "30秒以内なら同じ隊員・戦闘状態へ復帰できます。" : invitation ? "装備を選び、上の「招待ルームに参加」を押してください。" : "装備を選び、上の「ルームを作る」を押します。次の画面から友人へリンクを送れます。"}</p></div><details class="coop-advanced"><summary>招待コード・接続先を手動設定</summary><div class="join"><input id="code" aria-label="招待コード" placeholder="32文字の招待コード" value="${esc(invitation)}" maxlength="32"><button id="join">コードで参加</button><input id="creation-key" type="password" aria-label="ルーム作成キー" placeholder="管理者用の作成キー" autocomplete="off" maxlength="256"><input id="endpoint" aria-label="協力サーバー" value="${esc(import.meta.env.VITE_SERVER_URL ?? "http://127.0.0.1:8787")}"></div></details>`
       : "";
   ui.innerHTML = `<section class="panel gear"><header><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><button id="home">タイトルへ</button></header><div class="brief"><div><b>01 灰明の街区</b><p>3ウェーブ → クラウン撃破。被弾せず5秒で自動回復、波の間にもHP回復。目標5〜8分。</p></div><button class="primary" id="launch" ${saveError ? "disabled" : ""}>${launchLabel}</button></div>${coopEntry}<p class="status" role="status">${esc(saveError || status)}</p><div class="gear-tools"><button id="layout-settings">操作ボタンの配置</button><small>${esc(layoutWarning || "ボタンの位置・大きさ・濃さを設定")}</small></div><div class="loadout-slots">${equipped()
     .map((w, i) => `<span>装備 ${i + 1}<b>${weaponName(w)}</b></span>`)
@@ -285,7 +290,7 @@ function gear() {
     sound.unlock();
     if (mode === "solo") solo();
     else if (network?.id) lobby();
-    else void connect(!inviteCode());
+    else void connect(!inviteCode() && !resumable, Boolean(resumable));
   };
   if (mode === "coop") $("join").onclick = () => void connect(false);
   ui.querySelectorAll<HTMLButtonElement>("[data-equip]").forEach(
@@ -360,10 +365,13 @@ function solo() {
   controls.reset();
   battle();
 }
-async function connect(create: boolean) {
+async function connect(create: boolean, restore = false) {
   status = "接続中…";
-  const endpoint = ($("endpoint") as HTMLInputElement).value.trim();
-  let code = ($("code") as HTMLInputElement).value.trim();
+  const previous = restore ? loadNetworkSession() : null;
+  const endpoint =
+    previous?.endpoint ?? ($("endpoint") as HTMLInputElement).value.trim();
+  let code = previous?.code ?? ($("code") as HTMLInputElement).value.trim();
+  const token = previous?.token ?? "";
   try {
     const url = new URL(endpoint);
     if (
@@ -427,7 +435,7 @@ async function connect(create: boolean) {
     if (!/^[a-f0-9]{32}$/.test(code))
       throw new Error("招待コードは32文字の英数字です");
     netFatal = false;
-    network.connect(code);
+    network.connect(code, token);
     lobby();
   } catch (e) {
     network?.close();
@@ -597,7 +605,7 @@ window.addEventListener("hashchange", () => {
     gear();
   }
 });
-if (inviteCode()) {
+if (inviteCode() || loadNetworkSession()) {
   mode = "coop";
   gear();
 } else title();
