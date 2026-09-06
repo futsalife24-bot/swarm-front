@@ -56,15 +56,24 @@ test("two independent browsers join a real room and receive the same battlefield
   );
   expect(wa.id).not.toBe(wb.id);
   await a.keyboard.down("KeyW");
-  await a.waitForTimeout(700);
-  await a.keyboard.up("KeyW");
-  await b.waitForTimeout(300);
-  const observed = await b.evaluate(
-    (id: string) =>
-      (window as any).__swarm.world.players.find((p: any) => p.id === id).z,
-    wa.id,
-  );
-  expect(observed).toBeLessThan(16);
+  try {
+    // Wait for the remote authoritative observation, not a fixed wall-clock delay.
+    await expect
+      .poll(
+        () =>
+          b.evaluate(
+            (id: string) =>
+              (window as any).__swarm.world.players.find(
+                (p: any) => p.id === id,
+              ).z,
+            wa.id,
+          ),
+        { timeout: 10000 },
+      )
+      .toBeLessThan(16);
+  } finally {
+    await a.keyboard.up("KeyW");
+  }
   await a.screenshot({ path: "dist-validation/evidence/coop-a.png" });
   await b.screenshot({ path: "dist-validation/evidence/coop-b.png" });
   await ca.close();
