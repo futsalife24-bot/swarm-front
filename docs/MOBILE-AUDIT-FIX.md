@@ -5,7 +5,7 @@
 ## 最小変更
 
 - 操作レイヤー: DOMではmoveの後にlookがあり、z-index:auto同士のためlookがhit-testを奪っていた。mobile-ui.cssでlook=0、moveと全アクションボタン=1を明示。portrait=100は維持。負のz-indexやDOM並べ替えは使わない。
-- 4人HUD: 狭幅で味方3人のnowrap表示が親幅を超過していた。700px以下だけ幅を制約した3列grid、9px文字、右4pxの余白を使う。子spanはmin-width:0とoverflow:hidden/text-overflow:ellipsisでフォント幅差を封じ込める。844pxでは従来の11pxとflex表示を維持。HUD72px・操作開始88pxは変更しない。
+- 4人HUD: 狭幅で味方3人のnowrap表示が親幅を超過していた。700px以下だけ幅を制約した3列grid、9px文字・文字間隔0、右4pxの余白を使う。子spanはmin-width:0とoverflow:hidden/text-overflow:ellipsisでフォント幅差を封じ込める。844pxでは従来の11pxとflex表示を維持。HUD72px・操作開始88pxは変更しない。
 - 記録経路: 以後の全ログ・E2E画像・結合/オフライン証拠はdist-validationへ統一。scripts/record-check.mjsが唯一の記録用スクリプト。出力先引数や環境変数は受け付けず、任意パスへ書き込めない。旧dist-mobile-uiの独自コピーは使用・同梱しない。
 
 戦闘・報酬・Worker・武器定義・保存・入力処理・通信処理・描画処理は変更しない。
@@ -36,6 +36,8 @@ P2は本番hudMarkupでselfと味方3人（160HP / DOWN / 切断）を描画す�
 1. 製品修正前の対象2件は失敗。P1は初回、touch丸めに対し厳しすぎる精度で止まった。精度を調整してP1だけ再実行し、lookがhit-testを奪い移動0の本来の不具合を確認。P2は640/568の実overflowを確認。
 2. 初回CSS修正後も対象2件は失敗。P1ではviewport更新直後のresizeハンドラ前に測定していたため、配置が戻る条件を待つようテストを修正。製品の回転処理は変更していない。P2では568pxの右余白が10pxで要求した12pxに不足し、右4pxを追加。
 3. 上記修正後、対象2件が合格。ログmobile-audit-before.log、mobile-audit-before-hit.log、mobile-audit-after.log、mobile-audit-after2.logを保持する。途中の証拠コピーで未生成P1 JSONを参照してENOENTとなったが、再現後に生成した証拠を保存し直した。
+
+4. 証拠画像の目視で、既存vitals spanのletter-spacing:1pxにより640pxでも不要な省略が発生していたため、狭幅だけ文字間隔を0へ修正。640/844では実文字も全て収まることをE2Eに追加し、その後の最終commitを検証対象にした。
 
 ## 凍結後の検証契約
 

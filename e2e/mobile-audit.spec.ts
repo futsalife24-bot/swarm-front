@@ -231,6 +231,10 @@ test("P2 four-player HUD contains HP DOWN and disconnected spans at short landsc
     }
     for (const s of m.spans) {
       expect.soft(s.right).toBeLessThanOrEqual(m.mission.left - 12);
+      if (width >= 640) {
+        expect.soft(s.scrollWidth).toBeLessThanOrEqual(s.clientWidth);
+        expect.soft(s.textRight).toBeLessThanOrEqual(s.right);
+      }
       if (s.scrollWidth > s.clientWidth) {
         expect.soft(s.overflow).toBe("hidden");
         expect.soft(s.ellipsis).toBe("ellipsis");

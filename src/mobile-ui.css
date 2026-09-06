@@ -305,6 +305,7 @@ body[data-screen="title"] footer {
   }
   #hud .squad-strip span {
     font-size: 9px;
+    letter-spacing: 0;
   }
 }
 #hud .mission-hud {
