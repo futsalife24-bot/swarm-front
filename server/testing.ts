@@ -45,6 +45,7 @@ export class TestRoom extends Room {
       } else if (u.searchParams.get("case") === "revive") {
         w.players[0].hp = 0;
         w.players[0].down = 25;
+        this.saved.members[0].last = Date.now() - 181000;
         w.players[1].x = w.players[0].x + 1;
         w.players[1].z = w.players[0].z;
       } else if (u.searchParams.get("case") === "reward") {

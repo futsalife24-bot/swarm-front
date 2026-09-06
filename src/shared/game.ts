@@ -476,7 +476,6 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     p.swapCd = Math.max(0, p.swapCd - dt);
     p.evade = Math.max(0, p.evade - dt);
     if (p.hp <= 0) {
-      p.down = Math.max(0, p.down - dt);
       continue;
     }
     p.safe += dt;

@@ -524,12 +524,16 @@ export class Room extends DurableObject<Env> {
       this.stop();
       return;
     }
-    for (const [ws, s] of this.sockets)
+    for (const [ws, s] of this.sockets) {
+      const player = w.players.find((p) => p.id === s.id);
       if (
+        player &&
+        player.hp > 0 &&
         now - (this.saved.members.find((p) => p.id === s.id)?.last ?? s.at) >
-        LIMITS.idleMs
+          LIMITS.idleMs
       )
         this.error(ws, "放置時間の上限です");
+    }
     for (const m of this.saved.members)
       if (m.gone && now - m.gone > LIMITS.reconnectMs) {
         const p = w.players.find((p) => p.id === m.id);

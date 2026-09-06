@@ -95,7 +95,7 @@ export function hudMarkup(w: World, id: string, status: string) {
     (p.hurt > 0 ? '<div class="damage"></div>' : "") +
     (p.hp <= 0
       ? '<div class="downed">DOWNED<small>' +
-        (p.down > 0 ? "味方の蘇生を待っています" : "蘇生期限が切れました") +
+        (p.down > 0 ? "味方の蘇生を待っています" : "部隊の戦闘を観戦中") +
         '</small><progress value="' +
         p.revive +
         '" max="2.5"></progress></div>'

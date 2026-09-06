@@ -164,7 +164,7 @@ describe("P1 admission and reconnect regressions over real Workers", () => {
 });
 
 describe("isolated real-Workers fixtures (not full-mission proof)", () => {
-  it("server revives a downed ally, persists individual results, and replays identical rewards safely", async () => {
+  it("keeps an idle downed ally connected and revivable, then persists and replays individual rewards safely", async () => {
     const endpoint = "http://127.0.0.1:8789",
       code = await room(endpoint),
       a = await join(code, "", endpoint),

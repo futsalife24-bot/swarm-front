@@ -70,6 +70,8 @@ describe("authoritative combat", () => {
     ally.z = 0;
     p.hp = 0;
     p.down = 25;
+    for (let n = 0; n < 3600; n++) step(w, {});
+    expect(p.down).toBe(25);
     for (let n = 0; n < 49; n++)
       step(w, { ally: { ...neutral(), revive: true } });
     expect(p.hp).toBe(0);
