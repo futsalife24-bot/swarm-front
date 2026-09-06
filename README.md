@@ -109,4 +109,4 @@ npm run test:e2e
 
 E2Eはインストール済みChromeを使う。必要なローカルサーバーはPlaywright設定にも記載。`server:build` はdry-runのみで公開しない。`build:pages` は `/swarm-front/` 配信用。ソロ独立検証は通常Workersを停止して `npm run test:offline`。詳細な実行結果・失敗の履歴・スクリーンショットは `docs/TESTS.md` と `docs/evidence/`。
 
-公開は未実施。公開用は `wrangler.production.jsonc` で、画面の静的ファイルと同じWorkerの `/api` に協力通信を載せる。公開ビルドでは接続先を自動的に同一Originの `/api` にするため、友人は招待URLだけを開けばよい。`ROOM_CREATION_KEY` はCloudflare Secretとして別途設定し、Git・URL・配布JavaScriptには入れない。`npm run server:build:production` は公開せず設定を検証するdry-run。無料枠の見積もりと制約は `docs/FREE-TIER.md`、次の開始地点は `docs/STATE.md`。
+公開先は <https://swarm-front.melosalife-24.workers.dev>。公開用は `wrangler.production.jsonc` で、画面の静的ファイルと同じWorkerの `/api` に協力通信を載せる。公開ビルドでは接続先を自動的に同一Originの `/api` にするため、友人は招待URLだけを開けばよい。`ROOM_CREATION_KEY` はCloudflare Secretとして設定済みで、Git・URL・配布JavaScriptには入れない。`npm run server:build:production` は公開せず設定を検証するdry-run。無料枠の見積もりと制約は `docs/FREE-TIER.md`、次の開始地点は `docs/STATE.md`。
