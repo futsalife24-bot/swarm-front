@@ -15,7 +15,7 @@ import {
 interface Env {
   ROOMS: DurableObjectNamespace<Room>;
   GATE: DurableObjectNamespace<Gate>;
-  ALLOWED_ORIGINS: string;
+  ALLOWED_ORIGINS?: string;
   ROOM_CREATION_KEY?: string;
 }
 interface Member {
@@ -38,27 +38,35 @@ const secret = () => crypto.randomUUID().replaceAll("-", "");
 export default {
   async fetch(req: Request, env: Env) {
     const u = new URL(req.url);
+    // The deployed app and its API share one Worker origin.  Local development
+    // still uses the explicitly configured Vite origins.
+    const allowedOrigins = (env.ALLOWED_ORIGINS ?? "")
+      .split(",")
+      .filter(Boolean);
     const origin = req.headers.get("Origin");
-    if (origin && !env.ALLOWED_ORIGINS.split(",").includes(origin))
+    if (origin && origin !== u.origin && !allowedOrigins.includes(origin))
       return json({ error: "接続元が許可されていません" }, 403);
     if (req.method === "OPTIONS")
       return new Response(null, {
         headers: {
           "Access-Control-Allow-Origin":
-            origin ?? env.ALLOWED_ORIGINS.split(",")[0],
+            origin ?? allowedOrigins[0] ?? u.origin,
           "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
           "Access-Control-Allow-Headers": "Content-Type,X-Room-Creation-Key",
           Vary: "Origin",
         },
       });
     let res: Response;
-    if (u.pathname === "/health")
+    const path = u.pathname.startsWith("/api/")
+      ? u.pathname.slice(4)
+      : u.pathname;
+    if (path === "/health")
       res = json({
         ok: true,
         transport: "websocket",
         authority: "durable-object",
       });
-    else if (u.pathname === "/rooms" && req.method === "POST") {
+    else if (path === "/rooms" && req.method === "POST") {
       const access = await creationAccess(
         env.ROOM_CREATION_KEY,
         req.headers.get("X-Room-Creation-Key"),
@@ -92,7 +100,7 @@ export default {
         }
       }
     } else if (
-      /^\/rooms\/[a-f0-9]{32}$/.test(u.pathname) &&
+      /^\/rooms\/[a-f0-9]{32}$/.test(path) &&
       req.headers.get("Upgrade")?.toLowerCase() === "websocket"
     ) {
       const gate = env.GATE.get(env.GATE.idFromName("admission"));
@@ -100,14 +108,14 @@ export default {
         new Request("https://internal/connect", {
           headers: {
             "X-Client": req.headers.get("CF-Connecting-IP") ?? "local",
-            "X-Room": u.pathname.split("/")[2],
+            "X-Room": path.split("/")[2],
           },
         }),
       );
       if (!allowed.ok) res = allowed;
       else
         res = await env.ROOMS.get(
-          env.ROOMS.idFromName(u.pathname.split("/")[2]),
+          env.ROOMS.idFromName(path.split("/")[2]),
         ).fetch(req);
     } else res = json({ error: "見つかりません" }, 404);
     if (res.status === 101) return res;
