@@ -1,4 +1,5 @@
 import { DurableObject } from "cloudflare:workers";
+import { creationAccess } from "./auth";
 import { LIMITS, validWeapon, type Weapon } from "../src/shared/defs";
 import {
   addPlayer,
@@ -15,6 +16,7 @@ interface Env {
   ROOMS: DurableObjectNamespace<Room>;
   GATE: DurableObjectNamespace<Gate>;
   ALLOWED_ORIGINS: string;
+  ROOM_CREATION_KEY?: string;
 }
 interface Member {
   id: string;
@@ -45,7 +47,7 @@ export default {
           "Access-Control-Allow-Origin":
             origin ?? env.ALLOWED_ORIGINS.split(",")[0],
           "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Headers": "Content-Type,X-Room-Creation-Key",
           Vary: "Origin",
         },
       });
@@ -57,21 +59,37 @@ export default {
         authority: "durable-object",
       });
     else if (u.pathname === "/rooms" && req.method === "POST") {
-      const gate = env.GATE.get(env.GATE.idFromName("admission"));
-      const allowed = await gate.fetch(
-        new Request("https://internal/create", {
-          headers: {
-            "X-Client": req.headers.get("CF-Connecting-IP") ?? "local",
-          },
-        }),
+      const access = await creationAccess(
+        env.ROOM_CREATION_KEY,
+        req.headers.get("X-Room-Creation-Key"),
       );
-      if (!allowed.ok) res = allowed;
-      else {
-        const code = secret();
-        await env.ROOMS.get(env.ROOMS.idFromName(code)).fetch(
-          new Request("https://internal/init", { method: "POST" }),
+      if (access !== 200) {
+        res = json(
+          {
+            error:
+              access === 503
+                ? "ルーム作成は現在利用できません"
+                : "作成キーを確認してください",
+          },
+          access,
         );
-        res = json({ code });
+      } else {
+        const gate = env.GATE.get(env.GATE.idFromName("admission"));
+        const allowed = await gate.fetch(
+          new Request("https://internal/create", {
+            headers: {
+              "X-Client": req.headers.get("CF-Connecting-IP") ?? "local",
+            },
+          }),
+        );
+        if (!allowed.ok) res = allowed;
+        else {
+          const { code } = (await allowed.json()) as { code: string };
+          await env.ROOMS.get(env.ROOMS.idFromName(code)).fetch(
+            new Request("https://internal/init", { method: "POST" }),
+          );
+          res = json({ code });
+        }
       }
     } else if (
       /^\/rooms\/[a-f0-9]{32}$/.test(u.pathname) &&
@@ -82,6 +100,7 @@ export default {
         new Request("https://internal/connect", {
           headers: {
             "X-Client": req.headers.get("CF-Connecting-IP") ?? "local",
+            "X-Room": u.pathname.split("/")[2],
           },
         }),
       );
@@ -110,8 +129,16 @@ export class Gate extends DurableObject<Env> {
       day: number;
       total: number;
       connections?: number;
+      rooms?: Record<string, number>;
       clients: Record<string, { at: number; c: number; j: number }>;
     }>("gate")) ?? { day, total: 0, clients: {} };
+    const create = new URL(req.url).pathname === "/create";
+    const rooms = (state.rooms ??= {});
+    for (const [code, expires] of Object.entries(rooms))
+      if (expires <= now) delete rooms[code];
+    // Check the authoritative, bounded creation registry before any admission counter.
+    if (!create && !Object.hasOwn(rooms, req.headers.get("X-Room") ?? ""))
+      return json({ error: "ルームが存在しないか、有効期限切れです" }, 404);
     if (state.day !== day) {
       state.day = day;
       state.total = 0;
@@ -132,7 +159,6 @@ export class Gate extends DurableObject<Env> {
     if (!state.clients[key] && Object.keys(state.clients).length >= 1000)
       return json({ error: "受付が混雑しています" }, 429);
     const c = (state.clients[key] ??= { at: now, c: 0, j: 0 });
-    const create = new URL(req.url).pathname === "/create";
     if (
       (create && (c.c >= 10 || state.total >= 100)) ||
       (!create && (c.j >= 60 || (state.connections ?? 0) >= 2000))
@@ -141,16 +167,19 @@ export class Gate extends DurableObject<Env> {
         { error: "接続回数の上限です。10分後に再試行してください" },
         429,
       );
+    let code: string | undefined;
     if (create) {
       c.c++;
       state.total++;
+      code = secret();
+      rooms[code] = now + LIMITS.roomMs;
     } else {
       c.j++;
       state.connections = (state.connections ?? 0) + 1;
     }
     await this.ctx.storage.put("gate", state);
     await this.ctx.storage.setAlarm(now + 86400000);
-    return json({ ok: true });
+    return json({ ok: true, ...(code ? { code } : {}) });
   }
   async alarm() {
     await this.ctx.storage.deleteAll();

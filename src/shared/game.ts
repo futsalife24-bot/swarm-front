@@ -4,6 +4,10 @@ import {
   LIMITS,
   STARTERS,
   WEAPONS,
+  POWER,
+  WAVE_QUOTAS,
+  WAVE_INTERVAL,
+  MOVE_SPEED,
   type Weapon,
 } from "./defs";
 export interface Input {
@@ -114,6 +118,7 @@ export interface World {
   waveKills: number;
   nextSpawn: number;
   waveAt: number;
+  waveClearAt: number | null;
   serial: number;
   eventSerial: number;
   totalKills: number;
@@ -138,6 +143,7 @@ export function createWorld(run: string, seed = 123): World {
     waveKills: 0,
     nextSpawn: 0,
     waveAt: 0,
+    waveClearAt: null,
     serial: 0,
     eventSerial: 0,
     totalKills: 0,
@@ -197,7 +203,10 @@ export function loot(w: World): Weapon {
     id: `${w.run}-${++w.serial}`,
     kind,
     rarity,
-    power: Math.round((1 + random(w) * 0.12 * (rarity + 1)) * 1000) / 1000,
+    power:
+      (POWER.min +
+        Math.floor(random(w) * (POWER.max[rarity] - POWER.min + 1))) /
+      POWER.scale,
     effect:
       rarity && random(w) < 0.6
         ? kind !== "rocket" && random(w) < 0.55
@@ -452,9 +461,11 @@ export function angle(n: number) {
 }
 export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   if (w.phase !== "battle") return;
+  if (!w.players.some((p) => p.connected)) return;
   dt = Math.min(0.1, Math.max(0, dt));
   w.time += dt;
   for (const p of w.players) {
+    if (!p.connected) continue;
     const i = inputs[p.id] ?? neutral();
     p.ack = i.seq;
     p.yaw = i.yaw;
@@ -492,7 +503,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       p.evadeCd = 2.2;
     }
     const norm = Math.max(1, Math.hypot(i.mx, i.mz)),
-      speed = p.evade > 0 ? 17 : 7;
+      speed = p.evade > 0 ? MOVE_SPEED.dodge : MOVE_SPEED.walk;
     move(
       p,
       ((i.mx * Math.cos(i.yaw) + i.mz * Math.sin(i.yaw)) / norm) * speed * dt,
@@ -506,7 +517,9 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       w.drops = w.drops.filter((x) => x !== d);
     }
   }
-  for (const p of w.players.filter((p) => p.hp <= 0 && p.down > 0)) {
+  for (const p of w.players.filter(
+    (p) => p.connected && p.hp <= 0 && p.down > 0,
+  )) {
     const aid = w.players.some(
       (a) =>
         a.hp > 0 &&
@@ -525,11 +538,10 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   }
   const living = w.players.filter((p) => p.hp > 0 && p.connected);
   if (!living.length) {
-    if (w.players.some((p) => !p.connected && p.hp > 0)) return;
     finish(w, false, "部隊が全員ダウンしました");
     return;
   }
-  const quota = [0, 45, 55, 65][w.wave] ?? 0;
+  const quota = WAVE_QUOTAS[w.wave] ?? 0;
   if (
     w.wave <= 3 &&
     w.spawned < quota &&
@@ -540,14 +552,13 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     w.spawned++;
     w.nextSpawn = w.time + 0.7;
   }
-  if (
-    w.wave <= 3 &&
-    w.waveKills >= quota &&
-    w.enemies.every((e) => e.hp <= 0) &&
-    w.time - w.waveAt >= 90
-  ) {
+  if (w.wave <= 3 && w.spawned >= quota && w.enemies.every((e) => e.hp <= 0)) {
+    w.waveClearAt ??= w.time;
+  } else w.waveClearAt = null;
+  if (w.waveClearAt !== null && w.time - w.waveClearAt >= WAVE_INTERVAL) {
     w.wave++;
     w.waveAt = w.time;
+    w.waveClearAt = null;
     w.spawned = 0;
     w.waveKills = 0;
     for (const p of living) p.hp = Math.min(160, p.hp + 45);

@@ -1,5 +1,7 @@
 # テスト記録
 
+現行P1修正は [P1-AUDIT.md](P1-AUDIT.md) と Git除外の ../dist-validation/checks.json を参照。以下の検証件数・測定は修正前 eb39568 の履歴であり、今回の合格証明ではない。
+
 実行日: 2026-09-06。Windows build 26200 / 25H2、Node v24.14.1、npm 11.11.0。インストール済みGoogle Chrome、PlaywrightはSwiftShaderのソフトウェア描画。通信は同一PCのTCP/WebSocket、Wrangler 4.129.0＋workerd 2026-09-03、SQLite-backed Durable Objectsのローカル実体。
 
 ## 合格した検証

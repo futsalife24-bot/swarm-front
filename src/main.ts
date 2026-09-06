@@ -1,5 +1,13 @@
 import "./style.css";
-import { EFFECTS, LIMITS, RARITIES, WEAPONS, type Weapon } from "./shared/defs";
+import {
+  EFFECTS,
+  LIMITS,
+  WAVE_INTERVAL,
+  MOVE_SPEED,
+  RARITIES,
+  WEAPONS,
+  type Weapon,
+} from "./shared/defs";
 import {
   addPlayer,
   createWorld,
@@ -119,7 +127,7 @@ function gear() {
   setScreen("gear");
   world = null;
   predicted = undefined;
-  ui.innerHTML = `<section class="panel gear"><header><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><button id="home">タイトルへ</button></header><div class="brief"><div><b>01 灰明の街区</b><p>3ウェーブ → クラウン撃破。被弾せず5秒で自動回復、波の間にもHP回復。目標5〜8分。</p></div><button class="primary" id="launch" ${saveError ? "disabled" : ""}>${mode === "solo" ? "ソロ出撃 ↗" : network?.id ? "ルームに戻る ↗" : "ルーム作成 ↗"}</button></div>${mode === "coop" ? `<div class="join"><input id="code" aria-label="招待コード" placeholder="32文字の招待コード" value="${esc(location.hash.slice(1))}" maxlength="32"><button id="join">招待から参加</button><input id="endpoint" aria-label="協力サーバー" value="${esc(import.meta.env.VITE_SERVER_URL ?? "http://127.0.0.1:8787")}"></div>` : ""}<p class="status" role="status">${esc(saveError || status)}</p><div class="inventory-head"><b>武器庫 <span>${save.inventory.length} / ${LIMITS.inventory}</span></b><span>2本を持ち込み · 数字の差は同系統の装備（なければ装備1）との単発比較</span></div><div class="weapon-grid">${save.inventory.map(card).join("")}</div><details><summary>操作・設定・保存について</summary><p>PC: WASD移動 / クリック射撃・マウス照準 / R装填 / Q切替 / Space回避 / E長押し蘇生 / Escマウス解放</p><p>スマホ: 左スティック移動 / 右側ドラッグ照準 / 射撃ボタン長押し。味方3.5m以内で蘇生を2.5秒長押し。</p><label>視点感度 <input id="sense" type="range" min="0.3" max="2.5" step="0.1" value="${save.sensitivity}"></label><label>音量（0でミュート） <input id="volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量</option></select></label><p>道中の緑の戦利品は接近して回収。勝利時に確定、敗北・復帰できない切断では未確定品を失います。保存済みの武器は失いません。端末変更・ブラウザデータ削除で引き継げません。クラウド保存や完全な改ざん防止はありません。</p><button id="export">保存データを書き出す</button></details></section>`;
+  ui.innerHTML = `<section class="panel gear"><header><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><button id="home">タイトルへ</button></header><div class="brief"><div><b>01 灰明の街区</b><p>3ウェーブ → クラウン撃破。被弾せず5秒で自動回復、波の間にもHP回復。目標5〜8分。</p></div><button class="primary" id="launch" ${saveError ? "disabled" : ""}>${mode === "solo" ? "ソロ出撃 ↗" : network?.id ? "ルームに戻る ↗" : "ルーム作成 ↗"}</button></div>${mode === "coop" ? `<div class="join"><input id="code" aria-label="招待コード" placeholder="32文字の招待コード" value="${esc(location.hash.slice(1))}" maxlength="32"><button id="join">招待から参加</button><input id="creation-key" type="password" aria-label="ルーム作成キー" placeholder="作成キー（ホストのみ）" autocomplete="off" maxlength="256"><input id="endpoint" aria-label="協力サーバー" value="${esc(import.meta.env.VITE_SERVER_URL ?? "http://127.0.0.1:8787")}"></div>` : ""}<p class="status" role="status">${esc(saveError || status)}</p><div class="inventory-head"><b>武器庫 <span>${save.inventory.length} / ${LIMITS.inventory}</span></b><span>2本を持ち込み · 数字の差は同系統の装備（なければ装備1）との単発比較</span></div><div class="weapon-grid">${save.inventory.map(card).join("")}</div><details><summary>操作・設定・保存について</summary><p>PC: WASD移動 / クリック射撃・マウス照準 / R装填 / Q切替 / Space回避 / E長押し蘇生 / Escマウス解放</p><p>スマホ: 左スティック移動 / 右側ドラッグ照準 / 射撃ボタン長押し。味方3.5m以内で蘇生を2.5秒長押し。</p><label>視点感度 <input id="sense" type="range" min="0.3" max="2.5" step="0.1" value="${save.sensitivity}"></label><label>音量（0でミュート） <input id="volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量</option></select></label><p>道中の緑の戦利品は接近して回収。勝利時に確定、敗北・復帰できない切断では未確定品を失います。保存済みの武器は失いません。端末変更・ブラウザデータ削除で引き継げません。クラウド保存や完全な改ざん防止はありません。</p><button id="export">保存データを書き出す</button></details></section>`;
   $("home").onclick = () => {
     network?.close();
     network = undefined;
@@ -212,6 +220,8 @@ async function connect(create: boolean) {
     const url = new URL(endpoint);
     if (
       !["http:", "https:"].includes(url.protocol) ||
+      (url.protocol === "http:" &&
+        !["localhost", "127.0.0.1", "[::1]"].includes(url.hostname)) ||
       url.username ||
       url.password ||
       url.search ||
@@ -260,7 +270,12 @@ async function connect(create: boolean) {
     network.ready = () => {
       myId = network!.id;
     };
-    if (create) code = await network.create();
+    if (create) {
+      const field = $("creation-key") as HTMLInputElement;
+      const key = field.value;
+      field.value = "";
+      code = await network.create(key);
+    }
     if (!/^[a-f0-9]{32}$/.test(code))
       throw new Error("招待コードは32文字の英数字です");
     netFatal = false;
@@ -364,15 +379,17 @@ function frame(now: number) {
         network?.input(input);
         const p = world.players.find((p) => p.id === myId);
         if (predicted && p?.hp && network?.ws?.readyState === 1) {
-          const n = Math.max(1, Math.hypot(input.mx, input.mz));
+          const n = Math.max(1, Math.hypot(input.mx, input.mz)),
+            distance =
+              (p.evade > 0 ? MOVE_SPEED.dodge : MOVE_SPEED.walk) * 0.05;
           move(
             predicted,
             ((input.mx * Math.cos(input.yaw) + input.mz * Math.sin(input.yaw)) /
               n) *
-              0.35,
+              distance,
             ((input.mx * Math.sin(input.yaw) - input.mz * Math.cos(input.yaw)) /
               n) *
-              0.35,
+              distance,
           );
         }
       }
@@ -385,7 +402,7 @@ function frame(now: number) {
       if (p) {
         const weapon = p.weapons[p.slot],
           boss = world.enemies.find((e) => e.kind === "boss");
-        hud.innerHTML = `<div class="hud-top"><div class="mission-hud"><span>OPERATION 01 / 灰明の街区</span><b>${world.wave === 4 ? "クラウンを撃破せよ" : `WAVE 0${world.wave} / 03`}</b><small>${world.enemies.length} HOSTILES · ${Math.floor(world.time / 60)}:${String(Math.floor(world.time % 60)).padStart(2, "0")} · ${world.totalKills} KILLS</small></div><div class="squad-hud">${world.players.map((a) => `<div>${a.id === myId ? "YOU" : "ALLY"} <span>${!a.connected ? "切断" : a.hp <= 0 ? `DOWN ${Math.ceil(a.down)}s` : Math.ceil(a.hp)}</span></div>`).join("")}<small>${Math.round(view.fps)} FPS · ${esc(status)}</small><button id="retreat">作戦離脱</button></div></div>${boss ? `<div class="boss"><span>大型個体 / CROWN</span><div><i style="width:${(boss.hp / boss.maxHp) * 100}%"></i></div></div>` : ""}<div class="crosshair ${p.hurt > 0 ? "hurt" : ""}">+</div>${p.hurt > 0 ? '<div class="damage"></div>' : ""}${p.hp <= 0 ? `<div class="downed">DOWNED <small>${p.down > 0 ? "味方の蘇生を待っています" : "この作戦での蘇生期限が切れました"}</small><progress value="${p.revive}" max="2.5"></progress></div>` : ""}<div class="vitals"><span>INFANTRY / 01</span><b>${Math.ceil(p.hp)} <small>/ 160</small></b><div class="hp"><i style="width:${(p.hp / 160) * 100}%"></i></div><small>回避 ${p.evadeCd > 0 ? p.evadeCd.toFixed(1) + "s" : "READY"} · 未確定品 ${(world.pending[myId] ?? []).length}</small></div><div class="weapon-hud"><span>${weaponName(weapon)}</span><b>${p.reload > 0 ? "RELOADING" : p.ammo[p.slot]} <small>/ ${WEAPONS[weapon.kind].mag}</small></b><small>${EFFECTS[weapon.effect]} · ${p.slot + 1}/2</small></div>${world.enemies.length === 0 && world.wave < 4 && world.spawned > 0 ? '<div class="wave-note">周辺警戒 · 緑の戦利品を回収しよう</div>' : ""}<div class="pc-help">WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · E 蘇生</div>`;
+        hud.innerHTML = `<div class="hud-top"><div class="mission-hud"><span>OPERATION 01 / 灰明の街区</span><b>${world.wave === 4 ? "クラウンを撃破せよ" : `WAVE 0${world.wave} / 03`}</b><small>${world.enemies.length} HOSTILES · ${Math.floor(world.time / 60)}:${String(Math.floor(world.time % 60)).padStart(2, "0")} · ${world.totalKills} KILLS</small></div><div class="squad-hud">${world.players.map((a) => `<div>${a.id === myId ? "YOU" : "ALLY"} <span>${!a.connected ? "切断" : a.hp <= 0 ? `DOWN ${Math.ceil(a.down)}s` : Math.ceil(a.hp)}</span></div>`).join("")}<small>${Math.round(view.fps)} FPS · ${esc(status)}</small><button id="retreat">作戦離脱</button></div></div>${boss ? `<div class="boss"><span>大型個体 / CROWN</span><div><i style="width:${(boss.hp / boss.maxHp) * 100}%"></i></div></div>` : ""}<div class="crosshair ${p.hurt > 0 ? "hurt" : ""}">+</div>${p.hurt > 0 ? '<div class="damage"></div>' : ""}${p.hp <= 0 ? `<div class="downed">DOWNED <small>${p.down > 0 ? "味方の蘇生を待っています" : "この作戦での蘇生期限が切れました"}</small><progress value="${p.revive}" max="2.5"></progress></div>` : ""}<div class="vitals"><span>INFANTRY / 01</span><b>${Math.ceil(p.hp)} <small>/ 160</small></b><div class="hp"><i style="width:${(p.hp / 160) * 100}%"></i></div><small>回避 ${p.evadeCd > 0 ? p.evadeCd.toFixed(1) + "s" : "READY"} · 未確定品 ${(world.pending[myId] ?? []).length}</small></div><div class="weapon-hud"><span>${weaponName(weapon)}</span><b>${p.reload > 0 ? "RELOADING" : p.ammo[p.slot]} <small>/ ${WEAPONS[weapon.kind].mag}</small></b><small>${EFFECTS[weapon.effect]} · ${p.slot + 1}/2</small></div>${world.waveClearAt != null ? `<div class="wave-note">WAVE CLEAR · 次波到着まで ${Math.max(0, Math.ceil(WAVE_INTERVAL - (world.time - world.waveClearAt)))}秒</div>` : ""}<div class="pc-help">WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · E 蘇生</div>`;
         $("retreat").onclick = () => {
           if (mode === "coop") {
             network?.close();

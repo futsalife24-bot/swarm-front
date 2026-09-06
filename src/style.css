@@ -594,8 +594,8 @@ footer span {
 }
 #move {
   position: absolute;
-  left: 45px;
-  bottom: 35px;
+  left: calc(45px + env(safe-area-inset-left));
+  bottom: calc(35px + env(safe-area-inset-bottom));
   width: 125px;
   height: 125px;
   border-radius: 50%;
@@ -624,8 +624,8 @@ footer span {
   font-size: 12px;
 }
 #controls #fire {
-  right: 35px;
-  bottom: 65px;
+  right: calc(35px + env(safe-area-inset-right));
+  bottom: calc(65px + env(safe-area-inset-bottom));
   width: 92px;
   height: 92px;
   background: #ca8a3da6;
@@ -633,20 +633,20 @@ footer span {
   font-size: 19px;
 }
 #dodge {
-  right: 140px;
-  bottom: 24px;
+  right: calc(140px + env(safe-area-inset-right));
+  bottom: calc(24px + env(safe-area-inset-bottom));
 }
 #reload {
-  right: 142px;
-  bottom: 99px;
+  right: calc(142px + env(safe-area-inset-right));
+  bottom: calc(99px + env(safe-area-inset-bottom));
 }
 #swap {
-  right: 38px;
-  bottom: 172px;
+  right: calc(38px + env(safe-area-inset-right));
+  bottom: calc(172px + env(safe-area-inset-bottom));
 }
 #revive {
-  right: 215px;
-  bottom: 38px;
+  right: calc(215px + env(safe-area-inset-right));
+  bottom: calc(38px + env(safe-area-inset-bottom));
 }
 #portrait {
   display: none;

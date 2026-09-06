@@ -1,3 +1,5 @@
+import { request as httpRequest } from "node:http";
+import { localCreationKey } from "./credentials";
 import { afterEach, describe, it, expect } from "vitest";
 import { STARTERS } from "../src/shared/defs";
 import { neutral } from "../src/shared/game";
@@ -43,6 +45,124 @@ afterEach(() => {
   clients.splice(0).forEach((c) => c.close());
 });
 
+describe("P1 admission and reconnect regressions over real Workers", () => {
+  const endpoint = "http://127.0.0.1:8789";
+  const fixture = async (code: string, name: string) => {
+    const response = await fetch(`${endpoint}/fixtures/${code}/${name}`, {
+      method: "POST",
+    });
+    expect(response.status).toBe(200);
+    return response.json();
+  };
+  it("requires credentials even with a forged/missing Origin; fake codes consume no global slots", async () => {
+    const stats = async () =>
+      (await fetch(`${endpoint}/admission-stats`)).json();
+    const before = await stats();
+    for (const headers of [
+      {},
+      { Origin: "http://127.0.0.1:5186" },
+      { "X-Room-Creation-Key": "wrong", Origin: "http://127.0.0.1:5186" },
+    ]) {
+      const response = await fetch(`${endpoint}/rooms`, {
+        method: "POST",
+        headers: headers as Record<string, string>,
+      });
+      expect(response.status).toBe(401);
+      expect((await response.text()).includes(localCreationKey())).toBe(false);
+    }
+    expect(await stats()).toEqual(before);
+    for (let n = 0; n < 65; n++) {
+      const code = crypto.randomUUID().replaceAll("-", "");
+      const status = await new Promise<number>((resolve, reject) => {
+        const req = httpRequest(
+          endpoint + "/rooms/" + code,
+          { headers: { Upgrade: "websocket", Connection: "Upgrade" } },
+          (res) => {
+            res.resume();
+            resolve(res.statusCode!);
+          },
+        );
+        req.on("error", reject);
+        req.setTimeout(5000, () => req.destroy(new Error("Handshake timeout")));
+        req.end();
+      });
+      expect(status).toBe(404);
+    }
+    expect(await stats()).toEqual(before);
+    const code = await room(endpoint); // correct credential succeeds after invalid attempts
+    expect(code).toMatch(/^[a-f0-9]{32}$/);
+    const cs = [];
+    for (let n = 0; n < 4; n++) cs.push(await join(code, "", endpoint));
+    const fifth = new Client(code, "", endpoint);
+    clients.push(fifth);
+    expect((await fifth.wait((m) => m.type === "error")).reason).toContain(
+      "満員",
+    );
+    const after = await stats();
+    expect(after.total - before.total).toBe(1);
+    expect(after.connections - before.connections).toBe(5);
+    for (const c of cs) {
+      expect(c.ws.url.includes(c.token)).toBe(false);
+      expect(c.ws.url.includes(localCreationKey())).toBe(false);
+      for (const m of c.messages.filter((m) => m.type !== "welcome")) {
+        const raw = JSON.stringify(m);
+        expect(raw.includes(localCreationKey())).toBe(false);
+        expect(cs.some((peer) => raw.includes(peer.token))).toBe(false);
+      }
+    }
+  });
+  it("keeps disconnected HP/ammo/timers, pauses all-disconnected, resumes identical state within 30 seconds", async () => {
+    const code = await room(endpoint),
+      a = await join(code, "", endpoint),
+      b = await join(code, "", endpoint);
+    await fixture(code, "freeze");
+    a.close();
+    await b.wait(
+      (m) => m.type === "state" && m.world.players[0].connected === false,
+    );
+    const before = await fixture(code, "snapshot");
+    await new Promise((r) => setTimeout(r, 10000));
+    const later = await fixture(code, "snapshot");
+    expect(later.world.players[0]).toEqual(before.world.players[0]);
+    expect(later.world.players[0].hp).toBe(50);
+    expect(later.world.time).toBeGreaterThan(before.world.time);
+    b.close();
+    await new Promise((r) => setTimeout(r, 150));
+    const paused = await fixture(code, "snapshot");
+    expect(paused.paused).toBe(true);
+    expect(paused.running).toBe(false);
+    expect(paused.world.phase).toBe("battle");
+    await new Promise((r) => setTimeout(r, 500));
+    expect((await fixture(code, "snapshot")).world).toEqual(paused.world);
+    const back = await join(code, a.token, endpoint);
+    expect(back.id).toBe(a.id);
+    const resumed = await back.wait((m) => m.type === "state");
+    const p = resumed.world.players[0],
+      old = paused.world.players[0];
+    for (const key of ["hp", "cool", "reload", "safe", "x", "z"])
+      expect(p[key]).toBe(Math.round(old[key] * 100) / 100);
+    expect(p.ammo).toEqual(old.ammo);
+    expect(p.connected).toBe(true);
+    expect(resumed.world.phase).toBe("battle");
+    expect(resumed.world.time).toBe(Math.round(paused.world.time * 100) / 100);
+    expect(JSON.stringify(resumed).includes(back.token)).toBe(false);
+  });
+  it("retains the 30-second disconnected participant expiry", async () => {
+    const code = await room(endpoint),
+      a = await join(code, "", endpoint),
+      b = await join(code, "", endpoint);
+    await fixture(code, "freeze");
+    a.close();
+    await b.wait((m) => m.type === "state" && !m.world.players[0].connected);
+    await new Promise((r) => setTimeout(r, 30500));
+    const late = new Client(code, a.token, endpoint);
+    clients.push(late);
+    expect((await late.wait((m) => m.type === "error")).reason).toContain(
+      "期限",
+    );
+  }, 40000);
+});
+
 describe("isolated real-Workers fixtures (not full-mission proof)", () => {
   it("server revives a downed ally, persists individual results, and replays identical rewards safely", async () => {
     const endpoint = "http://127.0.0.1:8789",
@@ -80,7 +200,7 @@ describe("isolated real-Workers fixtures (not full-mission proof)", () => {
           m.type === "state" &&
           m.world.run === down.world.run &&
           m.world.players[0].hp >= 90,
-        7000,
+        15000,
       );
       const same = await b.wait(
         (m) =>
@@ -147,7 +267,7 @@ describe("isolated real-Workers fixtures (not full-mission proof)", () => {
       rewards(saved, replay.world.run, replay.world.rewards[id]).save.inventory,
     ).toEqual(saved.inventory);
     writeFileSync(
-      "docs/evidence/network.json",
+      "dist-validation/evidence/network.json",
       JSON.stringify(
         {
           transport: "real local workerd WebSocket",
@@ -168,6 +288,7 @@ describe("isolated real-Workers fixtures (not full-mission proof)", () => {
 });
 async function room(endpoint = base) {
   const r = await fetch(`${endpoint}/rooms`, {
+    headers: { "X-Room-Creation-Key": localCreationKey() },
     method: "POST",
     signal: AbortSignal.timeout(7000),
   });

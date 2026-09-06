@@ -1,5 +1,28 @@
+import { localCreationKey } from "../tests/credentials";
 import { test, expect } from "@playwright/test";
 import { writeFileSync } from "node:fs";
+test("local credential file is not served and creation requires a host key", async ({
+  page,
+  request,
+}) => {
+  const denied = await request.get("/.dev.vars");
+  expect(denied.status()).toBe(403);
+  expect((await denied.text()).includes(localCreationKey())).toBe(false);
+  await page.goto("/");
+  await page.getByRole("button", { name: "協力プレイ" }).click();
+  await expect(page.locator("#creation-key")).toHaveAttribute(
+    "type",
+    "password",
+  );
+  await page.getByRole("button", { name: "ルーム作成" }).click();
+  await expect(page.getByRole("status")).toContainText("作成キーを確認");
+  expect(
+    await page.evaluate(
+      (key) => Object.values(localStorage).join("").includes(key),
+      localCreationKey(),
+    ),
+  ).toBe(false);
+});
 test("two independent browsers join a real room and receive the same battlefield", async ({
   browser,
 }) => {
@@ -11,6 +34,9 @@ test("two independent browsers join a real room and receive the same battlefield
     await p.goto("/");
     await p.getByRole("button", { name: "協力プレイ" }).click();
   }
+  await a.locator("#creation-key").evaluate((el: HTMLInputElement, key) => {
+    el.value = key;
+  }, localCreationKey());
   await a.getByRole("button", { name: "ルーム作成" }).click();
   await expect(a.getByText("準備完了")).toBeVisible();
   const invite = await a.locator("#invite").inputValue();
@@ -39,8 +65,8 @@ test("two independent browsers join a real room and receive the same battlefield
     wa.id,
   );
   expect(observed).toBeLessThan(16);
-  await a.screenshot({ path: "docs/evidence/coop-a.png" });
-  await b.screenshot({ path: "docs/evidence/coop-b.png" });
+  await a.screenshot({ path: "dist-validation/evidence/coop-a.png" });
+  await b.screenshot({ path: "dist-validation/evidence/coop-b.png" });
   await ca.close();
   await cb.close();
 });
@@ -57,6 +83,9 @@ test("40 authoritative enemies render in a mobile-sized browser; record PC-only 
   await p.goto("/");
   await p.getByRole("button", { name: "協力プレイ" }).click();
   await p.locator("#endpoint").fill("http://127.0.0.1:8789");
+  await p.locator("#creation-key").evaluate((el: HTMLInputElement, key) => {
+    el.value = key;
+  }, localCreationKey());
   await p.getByRole("button", { name: "ルーム作成" }).click();
   await expect(p.getByText("準備完了")).toBeVisible();
   const invite = await p.locator("#invite").inputValue();
@@ -80,9 +109,9 @@ test("40 authoritative enemies render in a mobile-sized browser; record PC-only 
     sampleCount: sorted.length,
   };
   writeFileSync(
-    "docs/evidence/render-load.json",
+    "dist-validation/evidence/render-load.json",
     JSON.stringify(report, null, 2),
   );
-  await p.screenshot({ path: "docs/evidence/combat-40.png" });
+  await p.screenshot({ path: "dist-validation/evidence/combat-40.png" });
   await context.close();
 });

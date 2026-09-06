@@ -1,3 +1,4 @@
+import { localCreationKey } from "../tests/credentials";
 import { test, expect } from "@playwright/test";
 test("co-op fixture rewards save on both clients and allow equipment change and a real rematch", async ({
   browser,
@@ -12,6 +13,9 @@ test("co-op fixture rewards save on both clients and allow equipment change and 
     await p.getByRole("button", { name: "協力プレイ" }).click();
     await p.locator("#endpoint").fill("http://127.0.0.1:8789");
   }
+  await a.locator("#creation-key").evaluate((el: HTMLInputElement, key) => {
+    el.value = key;
+  }, localCreationKey());
   await a.getByRole("button", { name: "ルーム作成" }).click();
   await expect(a.getByText("準備完了")).toBeVisible();
   const code = (await a.locator("#invite").inputValue()).split("#")[1];
@@ -28,7 +32,7 @@ test("co-op fixture rewards save on both clients and allow equipment change and 
   await a.mouse.up();
   await expect(b.getByRole("heading", { name: "MISSION CLEAR" })).toBeVisible();
   const oldRun = await a.evaluate(() => (window as any).__swarm.world.run);
-  await a.screenshot({ path: "docs/evidence/coop-loot.png" });
+  await a.screenshot({ path: "dist-validation/evidence/coop-loot.png" });
   for (const p of [a, b]) {
     expect(
       await p.evaluate(() => (window as any).__swarm.inventory.length),

@@ -27,9 +27,11 @@ export class Network {
         this.ws.close();
     }, 5000);
   }
-  async create() {
+  async create(creationKey: string) {
     const res = await fetch(`${this.endpoint}/rooms`, {
       method: "POST",
+      headers: { "X-Room-Creation-Key": creationKey },
+      redirect: "error",
       signal: AbortSignal.timeout(7000),
     });
     if (!res.ok)
@@ -62,7 +64,44 @@ export class Network {
     };
     ws.onmessage = (e) => {
       this.last = Date.now();
-      const m = JSON.parse(e.data);
+      let m;
+      try {
+        if (typeof e.data !== "string" || e.data.length > 65536) return;
+        m = JSON.parse(e.data);
+        if (!m || typeof m !== "object" || typeof m.type !== "string") return;
+        if (
+          m.type === "welcome" &&
+          (typeof m.id !== "string" || typeof m.token !== "string")
+        )
+          return;
+        if (
+          (m.type === "state" || m.type === "lobby") &&
+          (!Array.isArray(m.members) ||
+            !m.members.every(
+              (p: Member) =>
+                p &&
+                typeof p.id === "string" &&
+                typeof p.connected === "boolean" &&
+                typeof p.ready === "boolean",
+            ))
+        )
+          return;
+        if (
+          m.type === "state" &&
+          (!m.world ||
+            !["battle", "victory", "defeat"].includes(m.world.phase) ||
+            !Array.isArray(m.world.players) ||
+            !Array.isArray(m.world.enemies))
+        )
+          return;
+        if (
+          (m.type === "error" || m.type === "notice") &&
+          typeof m.reason !== "string"
+        )
+          return;
+      } catch {
+        return;
+      }
       if (m.type === "welcome") {
         welcomed = true;
         clearTimeout(timeout);

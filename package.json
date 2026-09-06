@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "setup:local": "node scripts/setup-local.mjs",
     "dev": "vite --host 127.0.0.1",
     "server": "wrangler dev --local --ip 127.0.0.1 --port 8787",
     "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.worker.json",
@@ -15,7 +16,7 @@
     "test:offline": "node scripts/check-offline.mjs",
     "format:check": "prettier --check src server tests e2e *.ts *.json *.jsonc",
     "setup:windows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-windows.ps1",
-    "server:test": "wrangler dev --local --config wrangler.test.jsonc --ip 127.0.0.1 --port 8789 --persist-to .wrangler/test-state",
+    "server:test": "wrangler dev --local --config wrangler.test.jsonc --ip 127.0.0.1 --port 8789",
     "test:e2e": "playwright test",
     "preview": "vite preview --host 127.0.0.1"
   },

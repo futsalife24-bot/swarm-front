@@ -104,9 +104,10 @@ describe("authoritative combat", () => {
   });
   it("bounded loot includes all weapon families, rarities and piercing", () => {
     const w = createWorld("loot", 53),
-      items = Array.from({ length: 500 }, () => loot(w));
+      items = Array.from({ length: 100000 }, () => loot(w));
+    expect(items.slice(0, 1793).every(validWeapon)).toBe(true);
     expect(items.every(validWeapon)).toBe(true);
-    expect(new Set(items.map((w) => w.id)).size).toBe(500);
+    expect(new Set(items.map((w) => w.id)).size).toBe(100000);
     expect(new Set(items.map((w) => w.kind)).size).toBe(3);
     expect(new Set(items.map((w) => w.rarity)).size).toBe(3);
     expect(items.some((w) => w.effect === "pierce")).toBe(true);
@@ -139,10 +140,45 @@ describe("authoritative combat", () => {
       }),
     );
     expect(w.phase).toBe("victory");
+    expect(w.time).toBeLessThan(600);
     expect(w.rewards.p.length).toBeGreaterThanOrEqual(1);
   });
 });
 describe("versioned local inventory", () => {
+  it("accepts exact milli-power boundaries and saves a 1.36 victory reward across reload", () => {
+    const item = {
+      ...STARTERS[0],
+      id: "boundary",
+      rarity: 2 as const,
+      power: 1.36,
+    };
+    expect(validWeapon(item)).toBe(true);
+    for (const power of [1.361, 1.36001, NaN, Infinity, 0.999])
+      expect(validWeapon({ ...item, power })).toBe(false);
+    for (const rarity of [0, 1, 2] as const) {
+      expect(
+        validWeapon({ ...item, rarity, power: [1.12, 1.24, 1.36][rarity] }),
+      ).toBe(true);
+      expect(
+        validWeapon({ ...item, rarity, power: [1.121, 1.241, 1.361][rarity] }),
+      ).toBe(false);
+    }
+    const { w } = fixture();
+    w.pending.p = [item];
+    finish(w, true);
+    const saved = rewards(fresh(), w.run, w.rewards.p).save;
+    saved.equipped = [item.id, saved.equipped[0]];
+    let raw = "";
+    persist(saved, {
+      setItem(_key, value) {
+        raw = value;
+      },
+    });
+    const loaded = parseSave(raw);
+    expect(loaded.inventory.find((x) => x.id === item.id)).toEqual(item);
+    expect(loaded.inventory.every(validWeapon)).toBe(true);
+    expect(loaded.equipped[0]).toBe(item.id);
+  });
   it("persists unique weapons and equipped IDs across reloads", () => {
     const w = createWorld("save");
     addPlayer(w, "p");

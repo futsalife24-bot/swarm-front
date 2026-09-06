@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { writeFileSync } from "node:fs";
 test("full solo mission rewards equip reload and redeploy with ordinary inputs", async ({
   page,
 }) => {
@@ -46,8 +47,23 @@ test("full solo mission rewards equip reload and redeploy with ordinary inputs",
   await expect(
     page.getByRole("heading", { name: "MISSION CLEAR" }),
   ).toBeVisible({ timeout: 540000 });
-  await page.screenshot({ path: "docs/evidence/loot.png" });
+  await page.screenshot({ path: "dist-validation/evidence/loot.png" });
   const initial = await page.evaluate(() => (window as any).__swarm);
+  expect(initial.world.time).toBeLessThan(600);
+  writeFileSync(
+    "dist-validation/evidence/mission.json",
+    JSON.stringify(
+      {
+        phase: initial.world.phase,
+        seconds: initial.world.time,
+        kills: initial.world.totalKills,
+        starterEquipment: true,
+        fixture: false,
+      },
+      null,
+      2,
+    ),
+  );
   expect(initial.inventory.length).toBeGreaterThan(3);
   const rewardId = initial.inventory.at(-1).id;
   await page.getByRole("button", { name: "装備変更・再出撃" }).click();

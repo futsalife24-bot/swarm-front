@@ -48,6 +48,23 @@ export const ENEMIES = {
   boss: { hp: 4200, speed: 1.4, radius: 4, damage: 40 },
 } as const;
 export const RARITIES = ["STANDARD", "REFINED", "RELIC"];
+export const POWER = {
+  scale: 1000,
+  min: 1000,
+  max: [1120, 1240, 1360],
+} as const;
+export function validPower(power: number, rarity: Weapon["rarity"]) {
+  const milli = Math.round(power * POWER.scale);
+  return (
+    Number.isFinite(power) &&
+    power === milli / POWER.scale &&
+    milli >= POWER.min &&
+    milli <= POWER.max[rarity]
+  );
+}
+export const WAVE_QUOTAS = [0, 45, 55, 65] as const;
+export const WAVE_INTERVAL = 4;
+export const MOVE_SPEED = { walk: 7, dodge: 17 } as const;
 export const EFFECTS = {
   none: "標準仕様",
   pierce: "貫通：最大3体",
@@ -98,9 +115,7 @@ export function validWeapon(w: unknown): w is Weapon {
     /^[a-zA-Z0-9_-]{1,100}$/.test(v.id) &&
     Object.hasOwn(WEAPONS, v.kind) &&
     [0, 1, 2].includes(v.rarity) &&
-    Number.isFinite(v.power) &&
-    v.power >= 1 &&
-    v.power <= 1 + 0.12 * (v.rarity + 1) &&
+    validPower(v.power, v.rarity) &&
     Object.hasOwn(EFFECTS, v.effect) &&
     (v.effect === "none" || v.rarity > 0) &&
     (v.effect !== "pierce" || v.kind !== "rocket")
