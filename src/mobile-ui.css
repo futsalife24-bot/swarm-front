@@ -421,6 +421,10 @@ body[data-screen="title"] footer {
 #controls button.cooling {
   background: #182e3edb;
 }
+/* No one to revive: keep the button in place but stop it reading as actionable. */
+#controls button.idle {
+  opacity: 0.45;
+}
 #controls #fire {
   font-size: 17px;
 }

@@ -555,6 +555,42 @@ footer span {
   display: block;
   font-size: 13px;
 }
+#minimap {
+  position: fixed;
+  left: 12px;
+  top: 96px;
+  width: 96px;
+  height: auto;
+  z-index: 3;
+  pointer-events: none;
+  border: 1px solid #4d7b8877;
+}
+.rescue {
+  position: absolute;
+  top: 22%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #102532da;
+  padding: 8px 18px;
+  color: var(--gold);
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+.rescue small {
+  display: block;
+  font-size: 11px;
+  opacity: 0.85;
+}
+.rescue[data-rescue="blocked"] {
+  color: #ff9e75;
+}
+.rescue progress {
+  display: block;
+  width: 140px;
+  height: 5px;
+  margin: 6px auto 0;
+}
 .boss {
   position: absolute;
   left: 32%;

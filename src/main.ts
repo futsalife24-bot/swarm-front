@@ -8,6 +8,7 @@ import {
 } from "./client/layout";
 import { openLayoutEditor } from "./client/layout-editor";
 import { hudMarkup, updateCooldowns } from "./client/hud";
+import { Minimap } from "./client/minimap";
 import {
   EFFECTS,
   LIMITS,
@@ -62,6 +63,7 @@ const showFps = new URLSearchParams(location.search).get("qa") === "1";
 const ui = $("ui"),
   hud = $("hud"),
   controls = new Controls(),
+  minimap = new Minimap(),
   sound = new Sound();
 interface InstallPromptEvent extends Event {
   prompt(): Promise<void>;
@@ -209,6 +211,7 @@ function setScreen(name: string) {
   }
   hud.hidden = name !== "battle";
   $("controls").hidden = name !== "battle";
+  $("minimap").hidden = name !== "battle";
 }
 function title() {
   setScreen("title");
@@ -688,7 +691,7 @@ function frame(now: number) {
           myId,
           status + (showFps ? ` · ${Math.round(view.fps)}FPS` : ""),
         );
-        updateCooldowns(p);
+        updateCooldowns(world, myId);
         $("retreat").onclick = () => {
           if (mode === "coop") {
             network?.close();
@@ -708,6 +711,8 @@ function frame(now: number) {
     controls.input.pitch,
     mode === "coop" ? predicted : undefined,
   );
+  if (screen === "battle" && world)
+    minimap.draw(world, myId, controls.input.yaw, now);
   requestAnimationFrame(frame);
 }
 window.addEventListener("resize", () => placeControls(layout));

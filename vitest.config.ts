@@ -6,6 +6,7 @@ export default defineConfig({
       "tests/p1.test.ts",
       "tests/layout.test.ts",
       "tests/render.test.ts",
+      "tests/rescue.test.ts",
     ],
     testTimeout: 30000,
   },

@@ -1,6 +1,58 @@
 import { WEAPONS, WAVE_INTERVAL } from "../shared/defs";
-import type { Player, World } from "../shared/game";
-export function updateCooldowns(p: Player) {
+import { visible, type Player, type World } from "../shared/game";
+// Mirrors the authoritative revive rule in src/shared/game.ts (range and hold time).
+const REVIVE_RANGE = 3.5,
+  REVIVE_TIME = 2.5;
+export type Rescue =
+  | { state: "none" }
+  | { state: "far"; distance: number }
+  | { state: "blocked" }
+  | { state: "ready"; progress: number };
+// What the rescuer needs to know: who is being revived and which condition is missing.
+export function rescue(w: World, id: string): Rescue {
+  const self = w.players.find((p) => p.id === id);
+  if (!self || self.hp <= 0) return { state: "none" };
+  const downed = w.players.filter(
+    (p) => p.id !== id && p.connected && p.hp <= 0 && p.down > 0,
+  );
+  if (!downed.length) return { state: "none" };
+  // Prefer a target the server would actually accept over the merely closest one.
+  const rank = (p: Player) => {
+    const d = Math.hypot(p.x - self.x, p.z - self.z);
+    return (d >= REVIVE_RANGE ? 2 : visible(self, p) ? 0 : 1) * 1e4 + d;
+  };
+  const target = downed.reduce((a, b) => (rank(a) <= rank(b) ? a : b));
+  const distance = Math.hypot(target.x - self.x, target.z - self.z);
+  if (distance >= REVIVE_RANGE) return { state: "far", distance };
+  if (!visible(self, target)) return { state: "blocked" };
+  return { state: "ready", progress: target.revive / REVIVE_TIME };
+}
+const RESCUE_NOTE: Record<Rescue["state"], string> = {
+  none: "対象なし",
+  far: "近づく",
+  blocked: "遮蔽物",
+  ready: "長押し",
+};
+function updateRevive(w: World, id: string) {
+  const r = rescue(w, id),
+    b = document.getElementById("revive")!,
+    ratio = r.state === "ready" ? Math.max(0, Math.min(1, r.progress)) : 0,
+    note =
+      r.state === "far"
+        ? r.distance.toFixed(1) + "m"
+        : ratio > 0
+          ? (ratio * REVIVE_TIME).toFixed(1) + "s"
+          : RESCUE_NOTE[r.state];
+  b.style.setProperty("--remaining", String(ratio));
+  b.classList.toggle("cooling", ratio > 0);
+  b.classList.toggle("idle", r.state === "none");
+  b.dataset.remaining = String(ratio);
+  b.dataset.rescue = r.state;
+  b.setAttribute("aria-label", "蘇生 · " + RESCUE_NOTE[r.state]);
+  b.innerHTML = "<span>蘇生</span><small>" + note + "</small>";
+}
+export function updateCooldowns(w: World, id: string) {
+  const p = w.players.find((x) => x.id === id)!;
   const duration =
     WEAPONS[p.weapons[p.slot].kind].reload *
     (p.weapons[p.slot].effect === "quick" ? 0.8 : 1);
@@ -26,6 +78,7 @@ export function updateCooldowns(p: Player) {
       (remaining > 0 ? remaining.toFixed(1) + "s" : "READY") +
       "</small>";
   }
+  updateRevive(w, id);
 }
 const esc = (s: string) =>
   s.replace(
@@ -35,6 +88,28 @@ const esc = (s: string) =>
         c
       ]!,
   );
+// The rescuer saw nothing at all before this: no progress, no reason for failure.
+function rescueMarkup(w: World, id: string) {
+  const r = rescue(w, id);
+  if (r.state === "none") return "";
+  const detail =
+    r.state === "far"
+      ? "あと " + (r.distance - REVIVE_RANGE).toFixed(1) + "m 近づく"
+      : r.state === "blocked"
+        ? "遮蔽物があります。回り込んでください"
+        : "蘇生を長押し";
+  return (
+    '<div class="rescue" data-rescue="' +
+    r.state +
+    '">味方がダウン<small>' +
+    detail +
+    "</small>" +
+    (r.state === "ready"
+      ? '<progress value="' + r.progress + '" max="1"></progress>'
+      : "") +
+    "</div>"
+  );
+}
 export function hudMarkup(w: World, id: string, status: string) {
   const p = w.players.find((p) => p.id === id)!;
   const def = WEAPONS[p.weapons[p.slot].kind],
@@ -99,7 +174,7 @@ export function hudMarkup(w: World, id: string, status: string) {
         '</small><progress value="' +
         p.revive +
         '" max="2.5"></progress></div>'
-      : "") +
+      : rescueMarkup(w, id)) +
     '<div class="pc-help">WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · E 蘇生</div>'
   );
 }
