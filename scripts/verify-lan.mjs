@@ -63,6 +63,10 @@ try {
       () => isSecureContext && typeof crypto.randomUUID === "function",
     ),
   ).toBe(true);
+  await page.waitForTimeout(750);
+  report.pwaOnSelfSignedLan = await page.evaluate(async () =>
+    Boolean((await navigator.serviceWorker.getRegistration())?.active),
+  );
   await page.locator("#solo").click();
   await page.locator("#launch").click();
   await expect(page.locator("#hud")).toBeVisible();
@@ -118,7 +122,12 @@ try {
     .poll(() => [...worlds[0]].some(([t, state]) => worlds[1].get(t) === state))
     .toBe(true);
   for (const p of pages) expect(p.url()).not.toContain(key);
-  expect(errors).toEqual([]);
+  const expectedPwaCertificateErrors = errors.filter((message) =>
+    /^Failed to register a ServiceWorker for scope \('.+'\) with script \('.+\/sw\.js'\): An SSL certificate error occurred when fetching the script\.$/.test(
+      message,
+    ),
+  );
+  expect(errors).toEqual(expectedPwaCertificateErrors);
   await page.screenshot({ path: "dist-lan/evidence/coop.png" });
   report.twoBrowserRealWss = true;
   report.authoritativeCombatStatesMatch = true;

@@ -629,7 +629,9 @@ window.addEventListener("appinstalled", () => {
   if (screen === "title") title();
 });
 if ("serviceWorker" in navigator)
-  void navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`);
+  void navigator.serviceWorker
+    .register(`${import.meta.env.BASE_URL}sw.js`)
+    .catch(() => {});
 if (inviteCode() || loadNetworkSession()) {
   mode = "coop";
   gear();

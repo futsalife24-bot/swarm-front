@@ -10,6 +10,8 @@
 4. `node scripts/lan-preview.mjs`。指定したWi-Fi IPの5443のみでHTTPS配信し、APIとWSSをローカルWorkerへ中継する。配布ビルドだけを配信し、Vite・ソース・秘密・fixtureは配信しない。
 5. 同じWi-FiのAndroidで `https://<同じIP>:5443/?qa=1` を開く。自己署名のローカル証明書のため初回に警告が出る。自分のPCの上記アドレスであることを確認し、このサイトだけ続行する。全サイトの証明書検査や安全機能を無効化しない。Chromeが続行を認めない環境では無理に解除せず接続方法を再検討する。
 
+自己署名証明書のLAN URLでは、ChromeがService Workerを拒否するためPWAのホーム画面追加は確認できない。LANでは協力プレイ確認だけを行い、PWAの実機インストールは信頼済みHTTPSの公開候補で確認する。
+
 PCが起動し、2プロセスが動いている間だけ利用可能。別Wi-Fiや携帯回線では利用できない。IP/オリジン変更でブラウザの武器庫は別扱いになる。証明書警告の続行操作・実機からの到達性はPC模擬検証と区別する。
 
 ## 確認順
@@ -20,6 +22,6 @@ PCが起動し、2プロセスが動いている間だけ利用可能。別Wi-Fi
 
 自動確認: 稼働中に `node scripts/verify-lan.mjs`。HTTPSでのsecure context、ソロ、任意FPS、2ブラウザの実WSSと状態一致、無資格作成401、秘密経路404。テストの自己署名許容は独立したブラウザcontextだけに限定。
 
-結果はdist-lan/verification.jsonとevidence。Android実機1台でのLANソロ起動と描画修正はユーザー確認済み。今回のリザルト配置と実機2台協力は未検証。試遊用プロセスは依頼により稼働させておく。終了依頼時はこのLAN gatewayとlan-preview指定Workerだけを停止する。
+結果はdist-lan/verification.jsonとevidence。Android実機1台でのLANソロ起動と描画修正、実機2台協力と戦闘中再読み込み復帰はユーザー確認済み。PWAの実機インストール、修正後の長時間観戦・蘇生は未検証。試遊用プロセスは依頼により稼働させておく。終了依頼時はこのLAN gatewayとlan-preview指定Workerだけを停止する。
 
 初回の自動検証では、意図的に参加者別となるpending/rewards/dropsまで同一とする誤った比較で失敗した。検証を共通戦闘状態（HP・敵・進行等）の比較へ修正。ゲーム・サーバーの個別報酬仕様は変更していない。
