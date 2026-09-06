@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { mkdirSync } from "node:fs";
-const dir = "dist-mobile-ui/evidence";
+const dir = "dist-validation/evidence";
 mkdirSync(dir, { recursive: true });
 test.use({
   viewport: { width: 844, height: 320 },

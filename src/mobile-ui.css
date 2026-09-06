@@ -291,6 +291,22 @@ body[data-screen="title"] footer {
   font-size: 9px;
   white-space: nowrap;
 }
+#hud .squad-strip span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 700px) {
+  #hud .squad-strip {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1.05fr);
+    gap: 4px;
+    padding-right: 4px;
+  }
+  #hud .squad-strip span {
+    font-size: 9px;
+  }
+}
 #hud .mission-hud {
   display: block;
 }
@@ -388,8 +404,14 @@ body[data-screen="title"] footer {
   height: 42%;
 }
 #look {
+  z-index: 0;
   top: 88px;
   left: 38%;
+}
+/* Custom positions may overlap the look surface; controls must win hit-testing. */
+#move,
+#controls button {
+  z-index: 1;
 }
 .layout-editor {
   position: fixed;

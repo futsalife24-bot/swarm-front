@@ -47,11 +47,11 @@ test("full solo mission rewards equip reload and redeploy with ordinary inputs",
   await expect(
     page.getByRole("heading", { name: "MISSION CLEAR" }),
   ).toBeVisible({ timeout: 540000 });
-  await page.screenshot({ path: "dist-mobile-ui/evidence/loot.png" });
+  await page.screenshot({ path: "dist-validation/evidence/loot.png" });
   const initial = await page.evaluate(() => (window as any).__swarm);
   expect(initial.world.time).toBeLessThan(600);
   writeFileSync(
-    "dist-mobile-ui/evidence/mission.json",
+    "dist-validation/evidence/mission.json",
     JSON.stringify(
       {
         phase: initial.world.phase,

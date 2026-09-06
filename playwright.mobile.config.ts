@@ -1,7 +1,7 @@
 import config from "./playwright.config";
 export default {
   ...config,
-  testMatch: ["mobile-ui.spec.ts", "smoke.spec.ts"],
+  testMatch: ["mobile-ui.spec.ts", "mobile-audit.spec.ts", "smoke.spec.ts"],
   webServer: [
     {
       command: "npm run dev",

@@ -74,8 +74,8 @@ test("two independent browsers join a real room and receive the same battlefield
   } finally {
     await a.keyboard.up("KeyW");
   }
-  await a.screenshot({ path: "dist-mobile-ui/evidence/coop-a.png" });
-  await b.screenshot({ path: "dist-mobile-ui/evidence/coop-b.png" });
+  await a.screenshot({ path: "dist-validation/evidence/coop-a.png" });
+  await b.screenshot({ path: "dist-validation/evidence/coop-b.png" });
   await ca.close();
   await cb.close();
 });
@@ -118,9 +118,9 @@ test("40 authoritative enemies render in a mobile-sized browser; record PC-only 
     sampleCount: sorted.length,
   };
   writeFileSync(
-    "dist-mobile-ui/evidence/render-load.json",
+    "dist-validation/evidence/render-load.json",
     JSON.stringify(report, null, 2),
   );
-  await p.screenshot({ path: "dist-mobile-ui/evidence/combat-40.png" });
+  await p.screenshot({ path: "dist-validation/evidence/combat-40.png" });
   await context.close();
 });

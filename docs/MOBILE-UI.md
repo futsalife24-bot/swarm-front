@@ -1,5 +1,7 @@
 # スマホUI改善・独立監査引継ぎ
 
+現行の再監査修正は [MOBILE-AUDIT-FIX.md](MOBILE-AUDIT-FIX.md)。下記は1f9cc6bまでの初回UI改善の履歴。
+
 開始branch: fix/p1-audit / base: 3bdb438fe2283a89f02abe6679db2e827a3f0064。
 作業branch: feat/mobile-ui。開始時の未追跡はユーザー添付画像フォルダのみ。画像は変更せずGit除外へ追加。
 P1最終記録は dist-validation/checks.json。baseで単体21・実通信7・ブラウザ9と指定ビルド等が合格。P1の独立監査承認そのものではない。
@@ -22,11 +24,11 @@ P1最終記録は dist-validation/checks.json。baseで単体21・実通信7・�
 ## 検証と証拠
 
 Windows / Node24.14.1 / npm11.11.0 / Chrome・Playwright。実機の再確認は未実施。
-初回のUI E2Eは4成功1失敗。640×280でHUDの内容最小高さが指定高さを超え、切替ボタンと交差した。グリッド行の最小高さと行高を修正し、その後5件合格（タイトル・一覧・HUD非重複、配置編集/再読込/回転、ゲージ、PC入力、3点タッチ）。新規フィルターと保存失敗テストを含む最終結果は dist-mobile-ui のログを参照。
+初回のUI E2Eは4成功1失敗。640×280でHUDの内容最小高さが指定高さを超え、切替ボタンと交差した。グリッド行の最小高さと行高を修正し、その後5件合格（タイトル・一覧・HUD非重複、配置編集/再読込/回転、ゲージ、PC入力、3点タッチ）。1f9cc6bの新規フィルターと保存失敗テストを含む当時のログは、配布済みのdist-mobile-ui/swarm-front-mobile-ui-1f9cc6b.zipに保持。現行の記録・画像はdist-validationへ統一し、scripts/record-check.mjsを直接使う。
 
 対象チェック: npm run format:check / npm run typecheck / npm test / npm run build / npm run build:pages / npm run test:e2e。
 E2Eでは通常ソロ完走と、844×320の協力リザルト→装備→再出撃も確認する。fixtureによるリザルト準備は通常ミッション攻略とは区別。
-今回の画像は dist-mobile-ui/evidence。P1の配布済み証拠ZIPは dist-validation/swarm-front-p1-audit-3bdb438.zip に保持。
+現行の画像出力先は dist-validation/evidence。P1の配布済み証拠ZIPは dist-validation/swarm-front-p1-audit-3bdb438.zip に保持。
 
 ## 残る制約
 

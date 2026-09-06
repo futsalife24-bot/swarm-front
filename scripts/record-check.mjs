@@ -1,4 +1,5 @@
 // Runs one fixed npm check and records its actual HEAD and exit status outside Git.
+// All checks and evidence use dist-validation; no caller-supplied output path.
 import { spawn, execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 const name = process.argv[2];

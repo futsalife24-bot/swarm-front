@@ -41,7 +41,7 @@ test("co-op fixture rewards save on both clients and allow equipment change and 
   await a.mouse.up();
   await expect(b.getByRole("heading", { name: "MISSION CLEAR" })).toBeVisible();
   const oldRun = await a.evaluate(() => (window as any).__swarm.world.run);
-  await a.screenshot({ path: "dist-mobile-ui/evidence/coop-loot.png" });
+  await a.screenshot({ path: "dist-validation/evidence/coop-loot.png" });
   for (const p of [a, b]) {
     expect(
       await p.evaluate(() => (window as any).__swarm.inventory.length),
