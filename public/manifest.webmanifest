@@ -1,0 +1,20 @@
+{
+  "name": "SWARM FRONT",
+  "short_name": "SWARM FRONT",
+  "description": "巨大な敵群を仲間と突破する三人称3D協力アクション",
+  "lang": "ja",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#0c1820",
+  "theme_color": "#0c1820",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

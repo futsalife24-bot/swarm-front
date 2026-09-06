@@ -81,3 +81,11 @@ E2Eは合計8ケースを分割実行して確認。さらにサーバー停止�
 - 単体でダウン状態を3分進めても蘇生資格を保持し、その後の2.5秒入力で90HPへ復帰することを確認。
 - テストWorkerではダウン者の最終操作を181秒前に設定し、切断されず実WebSocket入力で蘇生できることを確認。fixtureは時間待ちだけを短縮する。
 - 修正後のAndroid実機での長時間観戦・蘇生は未検証。
+
+## 2026-09-06 PWA準備
+
+- 実ブラウザでmanifestのstandalone・landscape設定、SVGのmaskableアイコン、Service Workerの登録を確認。
+- Service Worker制御後に通信を切って再読み込みし、キャッシュ済みのソロ開始画面が開くことを確認。
+- `/swarm-front/` 配下でもmanifestのstart URL・scopeとService Workerのscopeが一致することを確認。
+- Android実機でのホーム画面追加、インストールUI、実端末のオフライン起動は未検証。協力通信をオフラインで行えるとは扱わない。
+- 全18件のE2Eでは一度だけ40敵協力fixtureのルーム作成が一時的に`Failed to fetch`となり失敗。新規テストWorkerで同一ケースを再実行して成功し、ほか17件も同じソースで成功。

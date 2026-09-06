@@ -44,6 +44,11 @@ const ui = $("ui"),
   hud = $("hud"),
   controls = new Controls(),
   sound = new Sound();
+interface InstallPromptEvent extends Event {
+  prompt(): Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+}
+let installPrompt: InstallPromptEvent | undefined;
 let layout = defaultLayout(),
   layoutWarning = "";
 try {
@@ -122,7 +127,7 @@ function setScreen(name: string) {
 function title() {
   setScreen("title");
   world = null;
-  ui.innerHTML = `<section class="title"><div class="eyebrow">FIELD TEST 01 <span>LOCAL BUILD</span></div><div class="mark">SF<span>／</span></div><h1>SWARM<br>FRONT<span class="dot">.</span></h1><p class="tagline">群れを砕け。仲間と、次の戦場へ。</p><p class="intro">三人称3D協力アクション · 開発用仮名</p><div class="title-actions"><button class="primary" id="solo">ソロで出撃準備 <span>↗</span></button><button id="coop">協力プレイ <small>1–4 PLAYERS</small></button></div><p class="fine">ソロは通信サーバー不要。戦利品はこの端末に保存。</p>${saveError ? `<p class="error">${esc(saveError)}</p><button id="export">保存データを書き出す</button>` : ""}</section><aside class="mission-card"><div>01 / OPERATION</div><h2>灰明の街区</h2><p>3つの敵群を突破し、<br>大型個体〈クラウン〉を排除せよ。</p><span>INFANTRY · URBAN DISTRICT</span></aside><footer>FIRST PLAYABLE <span>無料素材・コード生成モデル ／ 公開前ビルド</span></footer>`;
+  ui.innerHTML = `<section class="title"><div class="eyebrow">FIELD TEST 01 <span>LOCAL BUILD</span></div><div class="mark">SF<span>／</span></div><h1>SWARM<br>FRONT<span class="dot">.</span></h1><p class="tagline">群れを砕け。仲間と、次の戦場へ。</p><p class="intro">三人称3D協力アクション · 開発用仮名</p><div class="title-actions"><button class="primary" id="solo">ソロで出撃準備 <span>↗</span></button><button id="coop">協力プレイ <small>1–4 PLAYERS</small></button>${installPrompt ? '<button id="install">ホーム画面に追加</button>' : ""}</div><p class="fine">ソロは通信サーバー不要。戦利品はこの端末に保存。</p>${saveError ? `<p class="error">${esc(saveError)}</p><button id="export">保存データを書き出す</button>` : ""}</section><aside class="mission-card"><div>01 / OPERATION</div><h2>灰明の街区</h2><p>3つの敵群を突破し、<br>大型個体〈クラウン〉を排除せよ。</p><span>INFANTRY · URBAN DISTRICT</span></aside><footer>FIRST PLAYABLE <span>無料素材・コード生成モデル ／ 公開前ビルド</span></footer>`;
   $("solo").onclick = () => {
     mode = "solo";
     network?.close();
@@ -133,6 +138,15 @@ function title() {
     mode = "coop";
     gear();
   };
+  if (installPrompt)
+    $("install").onclick = async () => {
+      const prompt = installPrompt;
+      if (!prompt) return;
+      installPrompt = undefined;
+      await prompt.prompt();
+      await prompt.userChoice;
+      title();
+    };
   if (saveError) $("export").onclick = exportSave;
 }
 function card(w: Weapon, lootOnly = false) {
@@ -605,6 +619,17 @@ window.addEventListener("hashchange", () => {
     gear();
   }
 });
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  installPrompt = event as InstallPromptEvent;
+  if (screen === "title") title();
+});
+window.addEventListener("appinstalled", () => {
+  installPrompt = undefined;
+  if (screen === "title") title();
+});
+if ("serviceWorker" in navigator)
+  void navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`);
 if (inviteCode() || loadNetworkSession()) {
   mode = "coop";
   gear();
