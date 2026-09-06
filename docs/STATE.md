@@ -1,5 +1,7 @@
 # 開発状態
 
+現行のスマホUI改善は [MOBILE-UI.md](MOBILE-UI.md)。P1基点3bdb438からfeat/mobile-uiで作業。
+
 現行P1修正は [P1-AUDIT.md](P1-AUDIT.md) と Git除外の ../dist-validation/checks.json を参照。以下の検証件数・測定は修正前 eb39568 の履歴であり、今回の合格証明ではない。
 
 2026-09-06 / 初回ローカル版。正式名称未定。カタモン・Sparkling Hollowとは独立。

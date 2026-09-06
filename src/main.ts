@@ -1,4 +1,13 @@
 import "./style.css";
+import "./mobile-ui.css";
+import {
+  defaultLayout,
+  parseLayout,
+  placeControls,
+  LAYOUT_KEY,
+} from "./client/layout";
+import { openLayoutEditor } from "./client/layout-editor";
+import { hudMarkup, updateCooldowns } from "./client/hud";
 import {
   EFFECTS,
   LIMITS,
@@ -34,6 +43,13 @@ const ui = $("ui"),
   hud = $("hud"),
   controls = new Controls(),
   sound = new Sound();
+let layout = defaultLayout(),
+  layoutWarning = "";
+try {
+  layout = parseLayout(localStorage.getItem(LAYOUT_KEY));
+} catch (e) {
+  layoutWarning = (e as Error).message;
+}
 let view: Renderer;
 let save: Save = fresh(),
   saveError = "",
@@ -65,6 +81,7 @@ function configured() {
   sound.volume = save.volume;
   view.quality = save.quality;
   view.resize();
+  placeControls(layout);
 }
 configured();
 function write(next: Save) {
@@ -91,6 +108,8 @@ const equipped = () =>
   save.equipped.map((id) => save.inventory.find((w) => w.id === id)!);
 function setScreen(name: string) {
   screen = name;
+  document.body.dataset.screen = name;
+  ui.scrollTop = 0;
   controls.enabled = name === "battle";
   if (!controls.enabled) {
     controls.reset();
@@ -115,19 +134,132 @@ function title() {
   };
   if (saveError) $("export").onclick = exportSave;
 }
-function card(w: Weapon) {
-  const def = WEAPONS[w.kind],
-    base = equipped().find((a) => a.kind === w.kind) ?? equipped()[0],
-    diff = Math.round(
-      def.damage * w.power - WEAPONS[base.kind].damage * base.power,
-    );
-  return `<article class="weapon rarity${w.rarity}"><div class="weapon-top"><span>${RARITIES[w.rarity]}</span><b>${w.kind === "rifle" ? "━━╾" : w.kind === "shotgun" ? "═╦═" : "◉━━"}</b></div><h3>${weaponName(w)}</h3><p>${w.kind === "rifle" ? "連射で群れを削る" : w.kind === "shotgun" ? "近距離・8発の散弾" : "爆風半径6.5m"}</p><dl><div><dt>威力${def.pellets > 1 ? " / 1発" : ""}</dt><dd>${Math.round(def.damage * w.power)} <small>${diff >= 0 ? "+" : ""}${diff}</small></dd></div><div><dt>装弾 / 装填</dt><dd>${def.mag} / ${def.reload * (w.effect === "quick" ? 0.8 : 1)}s</dd></div></dl><p class="effect">${EFFECTS[w.effect]}</p><div class="equip-actions">${[0, 1].map((slot) => `<button data-equip="${w.id}" data-slot="${slot}" ${save.equipped[1 - slot] === w.id ? "disabled" : ""} class="${save.equipped[slot] === w.id ? "selected" : ""}">${save.equipped[slot] === w.id ? "装備中" : "装備"} ${slot + 1}</button>`).join("")}</div>${!save.equipped.includes(w.id) ? `<button class="discard" data-discard="${w.id}">整理して空きを作る</button>` : ""}</article>`;
+function card(w: Weapon, lootOnly = false) {
+  const d = WEAPONS[w.kind],
+    base = equipped().find((a) => a.kind === w.kind),
+    diff = base ? Math.round(d.damage * (w.power - base.power)) : null;
+  const damage =
+    Math.round(d.damage * w.power) + (d.pellets > 1 ? " × " + d.pellets : "");
+  return (
+    '<article class="weapon-row rarity' +
+    w.rarity +
+    '"><div class="weapon-identity"><h3>' +
+    weaponName(w) +
+    "</h3><small>" +
+    RARITIES[w.rarity] +
+    " · " +
+    EFFECTS[w.effect] +
+    '</small></div><div class="weapon-stat"><small>威力' +
+    (d.pellets > 1 ? " / 散弾" : "") +
+    "</small><b>" +
+    damage +
+    "</b><small>" +
+    (diff === null
+      ? "同系統未装備"
+      : (diff >= 0 ? "+" : "") + diff + " / 装備比較") +
+    '</small></div><div class="weapon-stat"><small>装弾 / 装填</small><b>' +
+    d.mag +
+    " / " +
+    (d.reload * (w.effect === "quick" ? 0.8 : 1)).toFixed(2) +
+    "s</b><small>" +
+    d.range +
+    "m · " +
+    (1 / d.interval).toFixed(1) +
+    "発/s</small></div>" +
+    (lootOnly
+      ? '<div class="loot-state"><b>獲得</b><small>' +
+        (save.inventory.some((a) => a.id === w.id) ? "保存済み" : "未保存") +
+        "</small></div>"
+      : '<div class="equip-actions">' +
+        [0, 1]
+          .map(
+            (slot) =>
+              '<button data-equip="' +
+              w.id +
+              '" data-slot="' +
+              slot +
+              '" ' +
+              (save.equipped[1 - slot] === w.id ? "disabled" : "") +
+              ' class="' +
+              (save.equipped[slot] === w.id ? "selected" : "") +
+              '">' +
+              (save.equipped[slot] === w.id ? "装備中" : "装備") +
+              " " +
+              (slot + 1) +
+              "</button>",
+          )
+          .join("") +
+        "</div>") +
+    "</article>"
+  );
 }
+
+let weaponFilter = "all",
+  weaponSort = "default";
 function gear() {
   setScreen("gear");
   world = null;
   predicted = undefined;
-  ui.innerHTML = `<section class="panel gear"><header><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><button id="home">タイトルへ</button></header><div class="brief"><div><b>01 灰明の街区</b><p>3ウェーブ → クラウン撃破。被弾せず5秒で自動回復、波の間にもHP回復。目標5〜8分。</p></div><button class="primary" id="launch" ${saveError ? "disabled" : ""}>${mode === "solo" ? "ソロ出撃 ↗" : network?.id ? "ルームに戻る ↗" : "ルーム作成 ↗"}</button></div>${mode === "coop" ? `<div class="join"><input id="code" aria-label="招待コード" placeholder="32文字の招待コード" value="${esc(location.hash.slice(1))}" maxlength="32"><button id="join">招待から参加</button><input id="creation-key" type="password" aria-label="ルーム作成キー" placeholder="作成キー（ホストのみ）" autocomplete="off" maxlength="256"><input id="endpoint" aria-label="協力サーバー" value="${esc(import.meta.env.VITE_SERVER_URL ?? "http://127.0.0.1:8787")}"></div>` : ""}<p class="status" role="status">${esc(saveError || status)}</p><div class="inventory-head"><b>武器庫 <span>${save.inventory.length} / ${LIMITS.inventory}</span></b><span>2本を持ち込み · 数字の差は同系統の装備（なければ装備1）との単発比較</span></div><div class="weapon-grid">${save.inventory.map(card).join("")}</div><details><summary>操作・設定・保存について</summary><p>PC: WASD移動 / クリック射撃・マウス照準 / R装填 / Q切替 / Space回避 / E長押し蘇生 / Escマウス解放</p><p>スマホ: 左スティック移動 / 右側ドラッグ照準 / 射撃ボタン長押し。味方3.5m以内で蘇生を2.5秒長押し。</p><label>視点感度 <input id="sense" type="range" min="0.3" max="2.5" step="0.1" value="${save.sensitivity}"></label><label>音量（0でミュート） <input id="volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量</option></select></label><p>道中の緑の戦利品は接近して回収。勝利時に確定、敗北・復帰できない切断では未確定品を失います。保存済みの武器は失いません。端末変更・ブラウザデータ削除で引き継げません。クラウド保存や完全な改ざん防止はありません。</p><button id="export">保存データを書き出す</button></details></section>`;
+  const shown = save.inventory.filter(
+    (w) => weaponFilter === "all" || w.kind === weaponFilter,
+  );
+  if (weaponSort === "power")
+    shown.sort(
+      (a, b) =>
+        WEAPONS[b.kind].damage * b.power - WEAPONS[a.kind].damage * a.power,
+    );
+  if (weaponSort === "rarity") shown.sort((a, b) => b.rarity - a.rarity);
+  ui.innerHTML = `<section class="panel gear"><header><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><button id="home">タイトルへ</button></header><div class="brief"><div><b>01 灰明の街区</b><p>3ウェーブ → クラウン撃破。被弾せず5秒で自動回復、波の間にもHP回復。目標5〜8分。</p></div><button class="primary" id="launch" ${saveError ? "disabled" : ""}>${mode === "solo" ? "ソロ出撃 ↗" : network?.id ? "ルームに戻る ↗" : "ルーム作成 ↗"}</button></div>${mode === "coop" ? `<div class="join"><input id="code" aria-label="招待コード" placeholder="32文字の招待コード" value="${esc(location.hash.slice(1))}" maxlength="32"><button id="join">招待から参加</button><input id="creation-key" type="password" aria-label="ルーム作成キー" placeholder="作成キー（ホストのみ）" autocomplete="off" maxlength="256"><input id="endpoint" aria-label="協力サーバー" value="${esc(import.meta.env.VITE_SERVER_URL ?? "http://127.0.0.1:8787")}"></div>` : ""}<p class="status" role="status">${esc(saveError || status)}</p><div class="gear-tools"><button id="layout-settings">操作ボタンの配置</button><small>${esc(layoutWarning || "ボタンの位置・大きさ・濃さを設定")}</small></div><div class="loadout-slots">${equipped()
+    .map((w, i) => `<span>装備 ${i + 1}<b>${weaponName(w)}</b></span>`)
+    .join(
+      "",
+    )}</div><div class="inventory-head"><b>武器庫 <span>${save.inventory.length} / ${LIMITS.inventory}</span></b><div class="weapon-filters"><select id="weapon-filter" aria-label="武器系統"><option value="all">全系統</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select><select id="weapon-sort" aria-label="武器の並び順"><option value="default">入手順</option><option value="rarity">レア度順</option><option value="power">1発の威力順</option></select></div></div><div class="weapon-list" aria-label="所持武器リスト">${shown.map((w) => card(w)).join("")}</div><details class="inventory-management"><summary>武器を整理する（装備中は保護）</summary>${save.inventory
+    .filter((w) => !save.equipped.includes(w.id))
+    .map(
+      (w) =>
+        `<button data-discard="${w.id}">${weaponName(w)} · 威力${Math.round(WEAPONS[w.kind].damage * w.power)}を整理</button>`,
+    )
+    .join(
+      "",
+    )}</details><details><summary>操作・設定・保存について</summary><p>PC: WASD移動 / クリック射撃・マウス照準 / R装填 / Q切替 / Space回避 / E長押し蘇生 / Escマウス解放</p><p>スマホ: 左スティック移動 / 右側ドラッグ照準 / 射撃ボタン長押し。味方3.5m以内で蘇生を2.5秒長押し。</p><label>視点感度 <input id="sense" type="range" min="0.3" max="2.5" step="0.1" value="${save.sensitivity}"></label><label>音量（0でミュート） <input id="volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量</option></select></label><p>道中の緑の戦利品は接近して回収。勝利時に確定、敗北・復帰できない切断では未確定品を失います。保存済みの武器は失いません。端末変更・ブラウザデータ削除で引き継げません。クラウド保存や完全な改ざん防止はありません。</p><button id="export">保存データを書き出す</button></details></section>`;
+  const filter = $("weapon-filter") as HTMLSelectElement,
+    sort = $("weapon-sort") as HTMLSelectElement;
+  filter.value = weaponFilter;
+  sort.value = weaponSort;
+  filter.onchange = () => {
+    weaponFilter = filter.value;
+    gear();
+  };
+  sort.onchange = () => {
+    weaponSort = sort.value;
+    gear();
+  };
+  const gearActions = document.createElement("div");
+  gearActions.className = "gear-header-actions";
+  ui.querySelector(".gear header")!.append(gearActions);
+  for (const id of ["layout-settings", "home", "launch"])
+    gearActions.append($(id));
+  ui.querySelector(".gear-tools")!.remove();
+  if (layoutWarning) {
+    const note = document.createElement("p");
+    note.className = "status";
+    note.textContent = layoutWarning;
+    gearActions.after(note);
+  }
+  $("layout-settings").onclick = () => {
+    setScreen("layout");
+    openLayoutEditor(
+      ui,
+      layout,
+      (value) => {
+        localStorage.setItem(LAYOUT_KEY, JSON.stringify(value));
+        layout = value;
+        layoutWarning = "";
+        placeControls(layout);
+      },
+      () => gear(),
+    );
+  };
   $("home").onclick = () => {
     network?.close();
     network = undefined;
@@ -311,7 +443,9 @@ function lobby() {
 function battle() {
   setScreen("battle");
   ui.innerHTML = "";
-  status = mode === "solo" ? "SOLO / LOCAL" : "CO-OP / SERVER";
+  status = mode === "solo" ? "SOLO" : "CO-OP";
+  const fallback = placeControls(layout);
+  if (fallback) status += " · 標準配置";
 }
 function result() {
   if (!world) return;
@@ -332,7 +466,7 @@ function result() {
       status = (e as Error).message;
     }
   }
-  ui.innerHTML = `<section class="panel result"><div class="eyebrow">OPERATION 01 / DEBRIEF</div><h1>${w.phase === "victory" ? "MISSION CLEAR" : "MISSION FAILED"}</h1><p>${w.phase === "victory" ? "街区を奪還。新しい武器で、もう一度。" : esc(w.reason || "部隊が全員ダウンしました")}</p><div class="stats"><div><span>TIME</span><b>${Math.floor(w.time / 60)}:${String(Math.floor(w.time % 60)).padStart(2, "0")}</b></div><div><span>ELIMINATIONS</span><b>${w.totalKills}</b></div><div><span>RECOVERED</span><b>${items.length}</b></div></div><h2>${w.phase === "victory" ? "個別戦利品" : "未確定戦利品は失われました"}</h2><p class="status" role="status">${esc(w.phase === "victory" ? status : "保存済みの武器は保持されています。")}</p><div class="loot-grid">${items.map((w) => `<article class="weapon rarity${w.rarity}"><div class="eyebrow">${RARITIES[w.rarity]}</div><h3>${weaponName(w)}</h3><p>威力 ${Math.round(WEAPONS[w.kind].damage * w.power)} · ${EFFECTS[w.effect]}</p><small>${save.inventory.some((a) => a.id === w.id) ? "保存済み" : "未保存"}</small></article>`).join("")}</div><button class="primary" id="regear">装備変更・再出撃 ↗</button><button id="retry-save">保存を再試行</button>${overflow.length ? "<p>所持上限: 装備画面で整理後、この結果を再度保存できます。</p>" : ""}</section>`;
+  ui.innerHTML = `<section class="panel result"><div class="eyebrow">OPERATION 01 / DEBRIEF</div><h1>${w.phase === "victory" ? "MISSION CLEAR" : "MISSION FAILED"}</h1><p>${w.phase === "victory" ? "街区を奪還。新しい武器で、もう一度。" : esc(w.reason || "部隊が全員ダウンしました")}</p><div class="stats"><div><span>TIME</span><b>${Math.floor(w.time / 60)}:${String(Math.floor(w.time % 60)).padStart(2, "0")}</b></div><div><span>ELIMINATIONS</span><b>${w.totalKills}</b></div><div><span>RECOVERED</span><b>${items.length}</b></div></div><h2>${w.phase === "victory" ? "個別戦利品" : "未確定戦利品は失われました"}</h2><p class="status" role="status">${esc(w.phase === "victory" ? status : "保存済みの武器は保持されています。")}</p><div class="loot-list" aria-label="獲得武器リスト">${items.map((w) => card(w, true)).join("")}</div><div class="result-actions"><button class="primary" id="regear">装備変更・再出撃 ↗</button><button id="retry-save">保存を再試行</button>${overflow.length ? "<p>所持上限: 装備画面で整理後、この結果を再度保存できます。</p>" : ""}</div></section>`;
   $("regear").onclick = () => {
     if (items.some((i) => !save.inventory.some((w) => w.id === i.id))) {
       status =
@@ -363,6 +497,10 @@ function result() {
     gear();
   };
   $("retry-save").onclick = result;
+  $("retry-save").hidden =
+    w.phase !== "victory" ||
+    (items.every((i) => save.inventory.some((a) => a.id === i.id)) &&
+      !overflow.length);
 }
 let last = performance.now(),
   acc = 0,
@@ -400,9 +538,8 @@ function frame(now: number) {
       hudAt = now;
       const p = world.players.find((p) => p.id === myId);
       if (p) {
-        const weapon = p.weapons[p.slot],
-          boss = world.enemies.find((e) => e.kind === "boss");
-        hud.innerHTML = `<div class="hud-top"><div class="mission-hud"><span>OPERATION 01 / 灰明の街区</span><b>${world.wave === 4 ? "クラウンを撃破せよ" : `WAVE 0${world.wave} / 03`}</b><small>${world.enemies.length} HOSTILES · ${Math.floor(world.time / 60)}:${String(Math.floor(world.time % 60)).padStart(2, "0")} · ${world.totalKills} KILLS</small></div><div class="squad-hud">${world.players.map((a) => `<div>${a.id === myId ? "YOU" : "ALLY"} <span>${!a.connected ? "切断" : a.hp <= 0 ? `DOWN ${Math.ceil(a.down)}s` : Math.ceil(a.hp)}</span></div>`).join("")}<small>${Math.round(view.fps)} FPS · ${esc(status)}</small><button id="retreat">作戦離脱</button></div></div>${boss ? `<div class="boss"><span>大型個体 / CROWN</span><div><i style="width:${(boss.hp / boss.maxHp) * 100}%"></i></div></div>` : ""}<div class="crosshair ${p.hurt > 0 ? "hurt" : ""}">+</div>${p.hurt > 0 ? '<div class="damage"></div>' : ""}${p.hp <= 0 ? `<div class="downed">DOWNED <small>${p.down > 0 ? "味方の蘇生を待っています" : "この作戦での蘇生期限が切れました"}</small><progress value="${p.revive}" max="2.5"></progress></div>` : ""}<div class="vitals"><span>INFANTRY / 01</span><b>${Math.ceil(p.hp)} <small>/ 160</small></b><div class="hp"><i style="width:${(p.hp / 160) * 100}%"></i></div><small>回避 ${p.evadeCd > 0 ? p.evadeCd.toFixed(1) + "s" : "READY"} · 未確定品 ${(world.pending[myId] ?? []).length}</small></div><div class="weapon-hud"><span>${weaponName(weapon)}</span><b>${p.reload > 0 ? "RELOADING" : p.ammo[p.slot]} <small>/ ${WEAPONS[weapon.kind].mag}</small></b><small>${EFFECTS[weapon.effect]} · ${p.slot + 1}/2</small></div>${world.waveClearAt != null ? `<div class="wave-note">WAVE CLEAR · 次波到着まで ${Math.max(0, Math.ceil(WAVE_INTERVAL - (world.time - world.waveClearAt)))}秒</div>` : ""}<div class="pc-help">WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · E 蘇生</div>`;
+        hud.innerHTML = hudMarkup(world, myId, status);
+        updateCooldowns(p);
         $("retreat").onclick = () => {
           if (mode === "coop") {
             network?.close();
@@ -424,6 +561,8 @@ function frame(now: number) {
   );
   requestAnimationFrame(frame);
 }
+window.addEventListener("resize", () => placeControls(layout));
+window.visualViewport?.addEventListener("resize", () => placeControls(layout));
 title();
 requestAnimationFrame(frame);
 // Read-only diagnostics in development; no mission skip or debug damage endpoint.

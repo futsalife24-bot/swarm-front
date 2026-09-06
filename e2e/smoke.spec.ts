@@ -32,7 +32,7 @@ test("solo boots, moves, changes weapons and resets focus input", async ({
     await page.evaluate(() => (window as any).__swarm.world.players[0].z),
   ).toBeCloseTo(stopped, 1);
   await page.waitForTimeout(5000);
-  await page.screenshot({ path: "dist-validation/evidence/combat.png" });
+  await page.screenshot({ path: "dist-mobile-ui/evidence/combat.png" });
   expect(errors).toEqual([]);
 });
 test("mobile simultaneous movement/look/fire cancels and survives rotation", async ({
@@ -86,7 +86,7 @@ test("mobile simultaneous movement/look/fire cancels and survives rotation", asy
   await expect(page.locator("#portrait")).toBeHidden();
   await expect(page.locator("#hud")).toBeVisible();
   await page.screenshot({
-    path: "dist-validation/evidence/mobile-emulation.png",
+    path: "dist-mobile-ui/evidence/mobile-emulation.png",
   });
   await context.close();
 });

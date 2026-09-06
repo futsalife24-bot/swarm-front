@@ -4,8 +4,16 @@ test("co-op fixture rewards save on both clients and allow equipment change and 
   browser,
   request,
 }) => {
-  const ca = await browser.newContext(),
-    cb = await browser.newContext(),
+  const ca = await browser.newContext({
+      viewport: { width: 844, height: 320 },
+      isMobile: true,
+      hasTouch: true,
+    }),
+    cb = await browser.newContext({
+      viewport: { width: 844, height: 320 },
+      isMobile: true,
+      hasTouch: true,
+    }),
     a = await ca.newPage(),
     b = await cb.newPage();
   for (const p of [a, b]) {
@@ -26,13 +34,14 @@ test("co-op fixture rewards save on both clients and allow equipment change and 
     (await request.post(`http://127.0.0.1:8789/fixtures/${code}/reward`)).ok(),
   ).toBe(true);
   await expect(a.locator("#hud")).toBeVisible();
-  await a.mouse.move(620, 350);
+  const fire = (await a.locator("#fire").boundingBox())!;
+  await a.mouse.move(fire.x + fire.width / 2, fire.y + fire.height / 2);
   await a.mouse.down();
   await expect(a.getByRole("heading", { name: "MISSION CLEAR" })).toBeVisible();
   await a.mouse.up();
   await expect(b.getByRole("heading", { name: "MISSION CLEAR" })).toBeVisible();
   const oldRun = await a.evaluate(() => (window as any).__swarm.world.run);
-  await a.screenshot({ path: "dist-validation/evidence/coop-loot.png" });
+  await a.screenshot({ path: "dist-mobile-ui/evidence/coop-loot.png" });
   for (const p of [a, b]) {
     expect(
       await p.evaluate(() => (window as any).__swarm.inventory.length),

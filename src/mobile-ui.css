@@ -1,0 +1,707 @@
+/* Mobile viewport, inventory lists and a reserved information rail. */
+:root {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+html,
+body {
+  width: 100%;
+  height: 100dvh;
+  overscroll-behavior: none;
+}
+#ui,
+#world,
+#hud,
+#controls {
+  height: 100dvh;
+}
+#ui {
+  padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+}
+body[data-screen="title"] #ui {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  align-items: center;
+  gap: 24px;
+  padding: 20px max(24px, var(--safe-right)) 20px max(24px, var(--safe-left));
+}
+body[data-screen="title"] .title {
+  padding: 0 2vw;
+  max-width: none;
+}
+body[data-screen="title"] .title h1 {
+  font-size: clamp(38px, 15dvh, 105px);
+  margin: 12px 0;
+  letter-spacing: -0.045em;
+}
+body[data-screen="title"] .mark {
+  display: none;
+}
+body[data-screen="title"] .tagline {
+  font-size: clamp(12px, 2.6dvh, 18px);
+  margin: 8px 0;
+}
+body[data-screen="title"] .intro {
+  display: none;
+}
+body[data-screen="title"] .title-actions {
+  margin-top: 12px;
+  gap: 8px;
+  max-width: 420px;
+}
+body[data-screen="title"] .title-actions button {
+  min-height: 44px;
+  padding: 10px 16px;
+  font-size: 16px;
+}
+body[data-screen="title"] .fine {
+  font-size: 10px;
+  margin: 10px 0 0;
+}
+body[data-screen="title"] .mission-card {
+  position: static;
+  margin: 0 2vw 0 0;
+  padding: 24px;
+  max-width: 400px;
+}
+body[data-screen="title"] footer {
+  display: none;
+}
+.panel.gear,
+.panel.result {
+  max-width: 1180px;
+  margin: 12px auto;
+  padding: 18px 24px;
+}
+.panel h1 {
+  font-size: clamp(24px, 5dvh, 36px);
+  margin: 6px 0;
+}
+.gear header {
+  position: sticky;
+  top: -18px;
+  background: #0e2531;
+  z-index: 2;
+  padding: 8px 0;
+}
+.brief {
+  padding: 10px 0;
+  gap: 12px;
+}
+.brief p {
+  font-size: 11px;
+  max-width: 610px;
+}
+#launch {
+  white-space: nowrap;
+  min-height: 44px;
+}
+.gear-tools {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin: 12px 0;
+}
+.gear-tools button {
+  min-height: 44px;
+  font-size: 13px;
+}
+.gear-tools small {
+  font-size: 11px;
+  color: #abc5cc;
+}
+.loadout-slots {
+  display: flex;
+  gap: 12px;
+}
+.loadout-slots span {
+  flex: 1;
+  background: #193b45;
+  border-left: 3px solid var(--mint);
+  padding: 9px 14px;
+  font-size: 10px;
+  color: #a6bfc7;
+}
+.loadout-slots b {
+  display: block;
+  color: #edf4ef;
+  font-size: 14px;
+  margin-top: 3px;
+}
+.inventory-head {
+  margin: 14px 0 8px;
+}
+.inventory-head > span {
+  max-width: 55%;
+  font-size: 10px;
+}
+.weapon-list,
+.loot-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.weapon-row {
+  display: grid;
+  grid-template-columns:
+    minmax(180px, 1.5fr) minmax(90px, 0.6fr) minmax(120px, 0.7fr)
+    160px;
+  gap: 16px;
+  align-items: center;
+  background: #17313d;
+  border: 1px solid #668d9b40;
+  border-left: 3px solid #88aaa9;
+  padding: 12px 14px;
+}
+.weapon-row.rarity1 {
+  border-left-color: var(--mint);
+}
+.weapon-row.rarity2 {
+  border-left-color: var(--gold);
+  background: linear-gradient(90deg, #354037, #17313d);
+}
+.weapon-row h3 {
+  font-size: 16px;
+  margin: 0 0 5px;
+}
+.weapon-row small {
+  font-size: 10px;
+  color: #a5bec8;
+  display: block;
+}
+.weapon-stat b {
+  font-size: 14px;
+  display: block;
+  margin: 3px 0;
+  color: #f2f5e7;
+}
+.weapon-row .equip-actions {
+  margin: 0;
+  gap: 6px;
+}
+.weapon-row .equip-actions button {
+  min-height: 44px;
+  padding: 8px 5px;
+  font-size: 11px;
+}
+.inventory-management {
+  margin-top: 12px !important;
+  padding-top: 12px !important;
+}
+.inventory-management button {
+  font-size: 11px;
+  margin: 8px 6px 0 0;
+  min-height: 44px;
+}
+.loot-state {
+  color: var(--mint);
+  font-size: 13px;
+}
+.loot-state small {
+  margin-top: 5px;
+}
+.result .stats {
+  gap: 0;
+  margin: 16px 0;
+  padding: 10px 0;
+}
+.result .stats > div {
+  flex: 1;
+}
+.result .stats b {
+  font-size: 28px;
+  margin-top: 3px;
+}
+.result h2 {
+  font-size: 17px;
+  margin: 10px 0;
+}
+.result > p {
+  margin: 8px 0;
+}
+.result-actions {
+  position: sticky;
+  bottom: -18px;
+  background: #0e2531f5;
+  border-top: 1px solid var(--line);
+  padding: 10px 0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.result-actions .primary {
+  margin: 0;
+  min-height: 44px;
+}
+.join {
+  flex-wrap: wrap;
+}
+.join input {
+  min-width: 160px;
+}
+/* Fixed-size rail; action buttons cannot enter its reserved area. */
+#hud .hud-rail {
+  position: absolute;
+  top: calc(8px + var(--safe-top));
+  left: calc(8px + var(--safe-left));
+  right: calc(8px + var(--safe-right));
+  height: 72px;
+  display: grid;
+  grid-template-columns: minmax(130px, 1fr) minmax(180px, 1.25fr) minmax(
+      140px,
+      1fr
+    );
+  gap: 10px;
+}
+#hud .hud-rail > div {
+  position: static;
+  width: auto;
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+  padding: 6px 10px;
+  background: #0c2332db;
+  border: 1px solid #82aeb045;
+  border-radius: 3px;
+}
+#hud .vital-number {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px;
+}
+#hud .vitals b {
+  font-size: 24px;
+  line-height: 1;
+}
+#hud .vitals small {
+  font-size: 9px;
+}
+#hud .vitals .hp {
+  height: 5px;
+  margin: 7px 0 3px;
+}
+#hud .squad-strip {
+  display: flex;
+  gap: 6px;
+  font-size: 9px;
+  white-space: nowrap;
+}
+#hud .mission-hud {
+  display: block;
+}
+#hud .mission-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+#hud .mission-hud b {
+  font-size: 15px;
+  letter-spacing: 0;
+}
+#hud .mission-hud small {
+  display: block;
+  font-size: 10px;
+  margin-top: 6px;
+  white-space: nowrap;
+}
+#hud .mission-hud button {
+  margin: 0;
+  padding: 5px 7px;
+  font-size: 9px;
+  min-height: 28px;
+}
+#hud .weapon-hud {
+  text-align: right;
+}
+#hud .weapon-hud > span {
+  font-size: 10px;
+  letter-spacing: 0;
+  white-space: nowrap;
+  display: block;
+}
+#hud .weapon-hud b {
+  font-size: 24px;
+  line-height: 1.15;
+  margin: 2px 0;
+  display: block;
+}
+#hud .weapon-hud small {
+  font-size: 9px;
+  letter-spacing: 0;
+}
+.boss-meter {
+  height: 4px;
+  background: #4c3130;
+  margin-top: 5px;
+}
+.boss-meter i {
+  display: block;
+  height: 100%;
+  background: #ffab83;
+}
+#controls button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 12px;
+  border-radius: 50%;
+  overflow: visible;
+  isolation: isolate;
+}
+#controls button span,
+#controls button small {
+  pointer-events: none;
+  z-index: 1;
+}
+#controls button small {
+  font-size: 9px;
+  margin-top: 2px;
+}
+#controls button.cooling::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from -90deg,
+    var(--gold) calc(var(--remaining) * 1turn),
+    #78939544 0
+  );
+  mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 0);
+  pointer-events: none;
+}
+#controls button.cooling {
+  background: #182e3edb;
+}
+#controls #fire {
+  font-size: 17px;
+}
+#move span {
+  width: 42%;
+  height: 42%;
+}
+#look {
+  top: 88px;
+  left: 38%;
+}
+.layout-editor {
+  position: fixed;
+  inset: 0;
+  height: 100dvh;
+  background: #0c253780;
+  touch-action: none;
+}
+.layout-toolbar {
+  position: absolute;
+  z-index: 3;
+  top: var(--safe-top);
+  left: var(--safe-left);
+  right: var(--safe-right);
+  min-height: 80px;
+  background: #0d2535f7;
+  border-bottom: 1px dashed #92baaf;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  padding: 6px 12px;
+}
+.layout-toolbar > div {
+  margin-right: auto;
+}
+.layout-toolbar b {
+  font-size: 13px;
+}
+.layout-toolbar small {
+  font-size: 9px;
+  display: block;
+  margin-top: 3px;
+  color: #b4cbd1;
+}
+.layout-toolbar label {
+  font-size: 10px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.layout-toolbar input {
+  width: 80px;
+}
+.layout-toolbar select {
+  padding: 5px;
+  font-size: 11px;
+}
+.layout-toolbar button {
+  padding: 8px 11px;
+  font-size: 11px;
+  min-height: 36px;
+}
+#layout-message {
+  font-size: 10px;
+  margin: 0;
+  width: 100%;
+  color: var(--gold);
+}
+.layout-preview button {
+  position: absolute;
+  padding: 0;
+  border-radius: 50%;
+  touch-action: none;
+  cursor: move;
+  background: #264b61d9;
+  border: 2px solid #abc0bb;
+}
+.layout-preview button.selected {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px #eebb6650;
+}
+@media (pointer: fine) {
+  #controls button {
+    display: none;
+  }
+}
+@media (max-height: 400px) {
+  body[data-screen="title"] #ui {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    gap: 12px;
+  }
+  body[data-screen="title"] .title h1 {
+    font-size: clamp(32px, 13dvh, 52px);
+    margin: 8px 0;
+  }
+  body[data-screen="title"] .mission-card {
+    padding: 16px;
+  }
+  body[data-screen="title"] .mission-card h2 {
+    font-size: 24px;
+    margin: 16px 0;
+  }
+  body[data-screen="title"] .mission-card p {
+    font-size: 12px;
+  }
+  .panel.gear,
+  .panel.result {
+    margin: 0 12px;
+    padding: 12px 16px;
+  }
+  .gear header {
+    top: -12px;
+  }
+  .panel header h1 {
+    font-size: 24px;
+  }
+  .result-actions {
+    bottom: -12px;
+  }
+  .layout-toolbar {
+    gap: 4px 8px;
+    padding: 4px 8px;
+  }
+  .layout-toolbar input {
+    width: 60px;
+  }
+}
+@media (max-width: 850px) {
+  .weapon-row {
+    grid-template-columns: minmax(150px, 1.5fr) 80px 105px 125px;
+    gap: 8px;
+    padding: 9px 10px;
+  }
+  .weapon-row h3 {
+    font-size: 13px;
+  }
+  .weapon-stat b {
+    font-size: 12px;
+  }
+  .weapon-row small {
+    font-size: 9px;
+  }
+  .gear-tools small {
+    max-width: 230px;
+  }
+  .layout-toolbar > div {
+    width: 100%;
+  }
+  .layout-toolbar small {
+    display: none;
+  }
+}
+@media (max-width: 620px) {
+  .weapon-row {
+    grid-template-columns: minmax(125px, 1fr) 70px 108px;
+  }
+  .weapon-row .weapon-stat:nth-child(3) {
+    display: none;
+  }
+  .hud-rail {
+    gap: 4px !important;
+    grid-template-columns: 1fr 1.2fr 1fr !important;
+  }
+  #hud .hud-rail > div {
+    padding: 5px;
+  }
+  #hud .weapon-hud > span {
+    font-size: 8px;
+  }
+  #hud .mission-hud b {
+    font-size: 12px;
+  }
+  #hud .mission-hud small {
+    font-size: 9px;
+  }
+}
+
+#hud .hud-rail {
+  grid-template-rows: minmax(0, 1fr);
+}
+#hud .hud-rail > div {
+  min-height: 0;
+  line-height: 1.2;
+}
+#hud .weapon-hud > small {
+  display: block;
+  line-height: 11px;
+}
+#hud .weapon-hud > span {
+  line-height: 12px;
+}
+.gear-header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.gear-header-actions button {
+  font-size: 12px;
+  padding: 8px 12px;
+  min-height: 40px;
+}
+.gear .status:empty {
+  display: none;
+}
+@media (max-height: 450px) {
+  .gear header {
+    padding: 2px 0;
+    min-height: 44px;
+  }
+  .gear header .eyebrow {
+    display: none;
+  }
+  .gear .brief {
+    padding: 5px 0;
+    min-height: 30px;
+    display: flex;
+  }
+  .gear .brief > div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .gear .brief b {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .gear .brief p {
+    margin: 0;
+    font-size: 10px;
+  }
+  .gear .loadout-slots {
+    margin-top: 6px;
+  }
+  .gear .loadout-slots span {
+    padding: 4px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .gear .loadout-slots b {
+    display: inline;
+    font-size: 12px;
+    margin: 0;
+  }
+  .gear .inventory-head {
+    margin: 8px 0 6px;
+  }
+  .gear .inventory-head b {
+    font-size: 13px;
+  }
+  .gear .weapon-list {
+    max-height: calc(100dvh - 166px);
+    min-height: 80px;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+  .gear .weapon-row {
+    padding: 6px 10px;
+    min-height: 64px;
+  }
+  .gear .weapon-row h3 {
+    margin-bottom: 3px;
+  }
+  .panel.result {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+  }
+  .result > .eyebrow,
+  .result > h1,
+  .result > p:not(.status) {
+    grid-column: 1;
+  }
+  .result > .eyebrow {
+    font-size: 9px;
+  }
+  .result > h1 {
+    font-size: 26px;
+    margin: 4px 0;
+  }
+  .result > p {
+    font-size: 11px;
+    margin: 3px 0;
+  }
+  .result > .stats {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    margin: 0;
+    padding: 8px 0;
+  }
+  .result > h2,
+  .result > .status,
+  .result > .loot-list,
+  .result > .result-actions {
+    grid-column: 1 / -1;
+  }
+  .result > h2 {
+    font-size: 15px;
+    margin: 8px 0 3px;
+  }
+  .result .loot-list {
+    max-height: calc(100dvh - 180px);
+    overflow: auto;
+  }
+  .result-actions {
+    margin-top: 8px;
+    padding: 8px 0;
+  }
+  .result-actions button {
+    font-size: 12px;
+    padding: 8px 14px;
+  }
+}
+
+.weapon-filters {
+  display: flex;
+  gap: 6px;
+}
+.weapon-filters select {
+  font-size: 10px;
+  padding: 5px 8px;
+  min-height: 28px;
+}
