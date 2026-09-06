@@ -1,5 +1,5 @@
 import { DurableObject } from "cloudflare:workers";
-import { creationAccess } from "./auth";
+import { creationAccess, turnstileAccess } from "./auth";
 import { LIMITS, validWeapon, type Weapon } from "../src/shared/defs";
 import {
   addPlayer,
@@ -17,6 +17,8 @@ interface Env {
   GATE: DurableObjectNamespace<Gate>;
   ALLOWED_ORIGINS?: string;
   ROOM_CREATION_KEY?: string;
+  TURNSTILE_SECRET_KEY?: string;
+  TURNSTILE_SITE_KEY?: string;
 }
 interface Member {
   id: string;
@@ -52,7 +54,8 @@ export default {
           "Access-Control-Allow-Origin":
             origin ?? allowedOrigins[0] ?? u.origin,
           "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type,X-Room-Creation-Key",
+          "Access-Control-Allow-Headers":
+            "Content-Type,X-Room-Creation-Key,X-Turnstile-Token",
           Vary: "Origin",
         },
       });
@@ -66,18 +69,29 @@ export default {
         transport: "websocket",
         authority: "durable-object",
       });
+    else if (path === "/turnstile-config")
+      res = env.TURNSTILE_SITE_KEY
+        ? json({ siteKey: env.TURNSTILE_SITE_KEY })
+        : json({ error: "ルーム作成の準備中です" }, 503);
     else if (path === "/rooms" && req.method === "POST") {
-      const access = await creationAccess(
-        env.ROOM_CREATION_KEY,
-        req.headers.get("X-Room-Creation-Key"),
-      );
+      const local = ["localhost", "127.0.0.1", "[::1]"].includes(u.hostname);
+      const access = local
+        ? await creationAccess(
+            env.ROOM_CREATION_KEY,
+            req.headers.get("X-Room-Creation-Key"),
+          )
+        : await turnstileAccess(
+            env.TURNSTILE_SECRET_KEY,
+            req.headers.get("X-Turnstile-Token"),
+            req.headers.get("CF-Connecting-IP"),
+          );
       if (access !== 200) {
         res = json(
           {
             error:
               access === 503
                 ? "ルーム作成は現在利用できません"
-                : "作成キーを確認してください",
+                : "人間確認を完了して、もう一度ルームを作成してください",
           },
           access,
         );

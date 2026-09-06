@@ -5,7 +5,7 @@ import {
   Network,
 } from "../src/client/network";
 import { randomBytes } from "node:crypto";
-import { creationAccess } from "../server/auth";
+import { creationAccess, turnstileAccess } from "../server/auth";
 import { WAVE_INTERVAL, WAVE_QUOTAS } from "../src/shared/defs";
 import {
   addPlayer,
@@ -146,6 +146,22 @@ it("creation credentials fail closed when unset, empty, wrong or oversized", asy
   expect(await creationAccess(key, "wrong")).toBe(401);
   expect(await creationAccess(key, "x".repeat(257))).toBe(401);
   expect(await creationAccess(key, key)).toBe(200);
+});
+it("Turnstile room admission fails closed and validates only a successful response", async () => {
+  const request = vi.fn(async () => Response.json({ success: true }));
+  expect(await turnstileAccess(undefined, "proof", null, request)).toBe(503);
+  expect(await turnstileAccess("x".repeat(20), null, null, request)).toBe(401);
+  expect(request).not.toHaveBeenCalled();
+  expect(
+    await turnstileAccess("x".repeat(20), "proof", "127.0.0.1", request),
+  ).toBe(200);
+  const [, options] = request.mock.calls[0];
+  expect(String(options.body)).toContain("response=proof");
+  expect(
+    await turnstileAccess("x".repeat(20), "proof", null, async () =>
+      Response.json({ success: false }),
+    ),
+  ).toBe(401);
 });
 it("ignores malformed JSON and invalid message types without invoking UI callbacks", () => {
   class Socket {

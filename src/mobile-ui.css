@@ -259,6 +259,10 @@ body[data-screen="title"] footer {
 .coop-entry p {
   margin: 0;
 }
+.turnstile-room-create {
+  min-height: 65px;
+  margin: 10px 0 4px;
+}
 .coop-advanced {
   margin-top: 8px !important;
   padding-top: 8px !important;

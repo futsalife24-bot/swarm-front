@@ -30,9 +30,9 @@ npm run server
 
 ローカルWorkersは `http://127.0.0.1:8787`。同一Wi-FiのLANプレイテストでは、一人目が「協力プレイ → ルームを作る → 招待リンクを共有」、二人目は届いたリンクを開いて「招待ルームに参加」。準備完了後、ホストが出撃する。最大4人。通常画面に作成キーや接続先は表示せず、開発時に必要な場合だけ「招待コード・接続先を手動設定」を開く。
 
-作成資格はサーバー専用の `ROOM_CREATION_KEY`（32〜256文字）で検証する。ローカルは明示的に `npm run setup:local` を実行し、無作為なキーをGit除外の `.dev.vars` へ生成する。LAN用HTTPSゲートウェイはこのキーをPC内だけで読み、ルーム作成要求へ付与するため、スマホへの入力・配布・保存は不要。直接Workerへ接続する開発時だけ手動設定から入力する。値をGit、ログ、URL、ブラウザ配布物へ出さない。参加者には招待リンクだけ渡す。ローカル以外の通信先にはHTTPSが必要。
+公開URLでのルーム作成はCloudflare Turnstileの人間確認で行う。作成キーの入力・配布は不要で、参加者には招待リンクだけ渡す。Turnstileの検証用SecretはWorker設定だけに置き、Git、URL、ログ、配布JavaScriptへ出さない。ローカル開発だけは明示的に `npm run setup:local` を実行し、Git除外の `.dev.vars` の作成キーを「接続先を手動設定（開発用）」へ入力する。ローカル以外の通信先にはHTTPSが必要。
 
-本番ではCloudflare secretへ別の強い値を設定する必要がある（今回は設定・接続を実施しない）。未設定・短すぎる設定は503、無資格は401で停止する。OriginはCORSの制限であり認証ではない。発行済みコードの期限付き登録をGateで確認し、偽コードは全体接続数を更新する前に404で拒否する。登録は最大1時間・日跨ぎを含め最大200件。本変更前の招待は作り直す。キー漏洩時はsecretを変更する。公式資料：[Cloudflare Secrets](https://developers.cloudflare.com/workers/configuration/secrets/)。
+TurnstileのSecret未設定・検証不能時は503、確認トークンなし・不正時は401で停止する。OriginはCORSの制限であり認証ではない。発行済みコードの期限付き登録をGateで確認し、偽コードは全体接続数を更新する前に404で拒否する。登録は最大1時間・日跨ぎを含め最大200件。公式資料：[Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/)。
 
 Windowsの古いVisual C++ランタイムでworkerdが起動前にクラッシュする場合、公式の新しいMicrosoft Visual C++ x64ランタイムを使用する。この検証環境ではCodexに既存同梱された14.51.36247.0のDLLをworkerdの隣へコピーして解決した。OS全体の更新は完了扱いしていない。
 
@@ -50,14 +50,14 @@ npm run setup:windows
 
 ## 操作とゲームルール
 
-| 操作 | PC | 横持ちスマホ |
-| --- | --- | --- |
-| 移動 | WASD | 左スティック |
-| 照準 | マウス（クリックで固定、Escで解除） | 右側ドラッグ |
-| 射撃 | 左ボタン長押し | 射撃ボタン長押し |
-| 装填・切替 | R / Q | 装填 / 切替 |
-| 回避 | Space | 回避 |
-| 蘇生 | E長押し | 蘇生長押し |
+| 操作       | PC                                  | 横持ちスマホ     |
+| ---------- | ----------------------------------- | ---------------- |
+| 移動       | WASD                                | 左スティック     |
+| 照準       | マウス（クリックで固定、Escで解除） | 右側ドラッグ     |
+| 射撃       | 左ボタン長押し                      | 射撃ボタン長押し |
+| 装填・切替 | R / Q                               | 装填 / 切替      |
+| 回避       | Space                               | 回避             |
+| 蘇生       | E長押し                             | 蘇生長押し       |
 
 蘇生は3.5m以内・遮蔽物なし・2.5秒の継続操作。協力では作戦終了まで蘇生でき、倒れた隊員は観戦中も放置切断の対象にしない。ソロのダウンは敗北。5秒間被弾しないと毎秒3HP回復、ウェーブ間は45HP回復。初期HP160。回避中0.32秒は無敵、再使用2.2秒。
 
@@ -109,4 +109,4 @@ npm run test:e2e
 
 E2Eはインストール済みChromeを使う。必要なローカルサーバーはPlaywright設定にも記載。`server:build` はdry-runのみで公開しない。`build:pages` は `/swarm-front/` 配信用。ソロ独立検証は通常Workersを停止して `npm run test:offline`。詳細な実行結果・失敗の履歴・スクリーンショットは `docs/TESTS.md` と `docs/evidence/`。
 
-公開先は <https://swarm-front.melosalife-24.workers.dev>。公開用は `wrangler.production.jsonc` で、画面の静的ファイルと同じWorkerの `/api` に協力通信を載せる。公開ビルドでは接続先を自動的に同一Originの `/api` にするため、友人は招待URLだけを開けばよい。`ROOM_CREATION_KEY` はCloudflare Secretとして設定済みで、Git・URL・配布JavaScriptには入れない。`npm run server:build:production` は公開せず設定を検証するdry-run。無料枠の見積もりと制約は `docs/FREE-TIER.md`、次の開始地点は `docs/STATE.md`。
+公開先は <https://swarm-front.melosalife-24.workers.dev>。公開用は `wrangler.production.jsonc` で、画面の静的ファイルと同じWorkerの `/api` に協力通信を載せる。公開ビルドでは接続先を自動的に同一Originの `/api` にするため、友人は招待URLだけを開けばよい。Turnstileの公開Site KeyはWorkerが設定取得用に返し、検証SecretはCloudflare Secretとしてのみ設定する。`npm run server:build:production` は公開せず設定を検証するdry-run。無料枠の見積もりと制約は `docs/FREE-TIER.md`、次の開始地点は `docs/STATE.md`。

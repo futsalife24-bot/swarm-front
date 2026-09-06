@@ -39,6 +39,25 @@ import {
   type Save,
 } from "./client/save";
 const $ = (id: string) => document.getElementById(id)!;
+interface TurnstileApi {
+  render(
+    container: HTMLElement,
+    options: {
+      sitekey: string;
+      theme: "dark";
+      action: string;
+      callback: (token: string) => void;
+      "expired-callback": () => void;
+      "error-callback": () => void;
+    },
+  ): string;
+  reset(widgetId?: string): void;
+}
+declare global {
+  interface Window {
+    turnstile?: TurnstileApi;
+  }
+}
 const showFps = new URLSearchParams(location.search).get("qa") === "1";
 const ui = $("ui"),
   hud = $("hud"),
@@ -69,6 +88,73 @@ let save: Save = fresh(),
   overflow: Weapon[] = [],
   netFatal = false,
   predicted: { x: number; z: number } | undefined;
+let turnstileToken = "";
+function defaultEndpoint() {
+  return (
+    import.meta.env.VITE_SERVER_URL ??
+    (import.meta.env.PROD ? `${location.origin}/api` : "http://127.0.0.1:8787")
+  );
+}
+async function mountTurnstile(endpoint: string) {
+  const holder = document.getElementById("turnstile-room-create");
+  if (!holder) return;
+  turnstileToken = "";
+  holder.textContent = "人間確認を準備中…";
+  try {
+    const response = await fetch(
+      `${endpoint.replace(/\/$/, "")}/turnstile-config`,
+      {
+        signal: AbortSignal.timeout(7000),
+      },
+    );
+    const data: unknown = await response.json();
+    const siteKey =
+      data &&
+      typeof data === "object" &&
+      typeof (data as { siteKey?: unknown }).siteKey === "string"
+        ? (data as { siteKey: string }).siteKey
+        : "";
+    if (!response.ok || !siteKey) throw new Error("設定未完了");
+    const render = () => {
+      if (!document.body.contains(holder)) return;
+      if (!window.turnstile) {
+        setTimeout(render, 50);
+        return;
+      }
+      holder.textContent = "";
+      window.turnstile.render(holder, {
+        sitekey: siteKey,
+        theme: "dark",
+        action: "create-room",
+        callback: (token) => {
+          turnstileToken = token;
+          const launch = document.getElementById(
+            "launch",
+          ) as HTMLButtonElement | null;
+          if (launch) launch.disabled = false;
+          const note = document.getElementById("turnstile-status");
+          if (note) note.textContent = "確認済みです。ルームを作れます。";
+        },
+        "expired-callback": () => {
+          turnstileToken = "";
+          const launch = document.getElementById(
+            "launch",
+          ) as HTMLButtonElement | null;
+          if (launch) launch.disabled = true;
+        },
+        "error-callback": () => {
+          turnstileToken = "";
+          holder.textContent =
+            "人間確認を完了できません。通信を確認して再試行してください。";
+        },
+      });
+    };
+    render();
+  } catch {
+    holder.textContent =
+      "ルーム作成の準備中です。招待リンクからの参加は利用できます。";
+  }
+}
 try {
   save = parseSave(localStorage.getItem(SAVE_KEY));
 } catch (e) {
@@ -240,12 +326,10 @@ function gear() {
           : invitation
             ? "招待ルームに参加 ↗"
             : "ルームを作る ↗";
-  const endpoint =
-    import.meta.env.VITE_SERVER_URL ??
-    (import.meta.env.PROD ? `${location.origin}/api` : "http://127.0.0.1:8787");
+  const endpoint = defaultEndpoint();
   const coopEntry =
     mode === "coop"
-      ? `<div class="coop-entry"><b>${resumable ? "進行中の部隊があります" : invitation ? "招待を受け取りました" : "友人と遊ぶ"}</b><p>${resumable ? "30秒以内なら同じ隊員・戦闘状態へ復帰できます。" : invitation ? "装備を選び、上の「招待ルームに参加」を押してください。" : "装備を選び、上の「ルームを作る」を押します。次の画面から友人へリンクを送れます。"}</p></div><details class="coop-advanced"><summary>招待コード・接続先を手動設定</summary><div class="join"><input id="code" aria-label="招待コード" placeholder="32文字の招待コード" value="${esc(invitation)}" maxlength="32"><button id="join">コードで参加</button><input id="creation-key" type="password" aria-label="ルーム作成キー" placeholder="管理者用の作成キー" autocomplete="off" maxlength="256"><input id="endpoint" aria-label="協力サーバー" value="${esc(endpoint)}"></div></details>`
+      ? `<div class="coop-entry"><b>${resumable ? "進行中の部隊があります" : invitation ? "招待を受け取りました" : "友人と遊ぶ"}</b><p>${resumable ? "30秒以内なら同じ隊員・戦闘状態へ復帰できます。" : invitation ? "装備を選び、上の「招待ルームに参加」を押してください。" : "人間確認の後に「ルームを作る」を押すと、すぐ招待リンクを送れます。作成キーの共有は不要です。"}</p></div>${!resumable && !invitation ? '<div id="turnstile-room-create" class="turnstile-room-create" aria-label="ルーム作成の人間確認"></div><p id="turnstile-status" class="fine">人間確認が終わるまで、ルーム作成はできません。</p>' : ""}<details class="coop-advanced"><summary>接続先を手動設定（開発用）</summary><div class="join"><input id="endpoint" aria-label="協力サーバー" value="${esc(endpoint)}"><input id="creation-key" type="password" aria-label="ローカル作成キー" placeholder="ローカル作成キー" autocomplete="off" maxlength="256"></div></details>`
       : "";
   ui.innerHTML = `<section class="panel gear"><header><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><button id="home">タイトルへ</button></header><div class="brief"><div><b>01 灰明の街区</b><p>3ウェーブ → クラウン撃破。被弾せず5秒で自動回復、波の間にもHP回復。目標5〜8分。</p></div><button class="primary" id="launch" ${saveError ? "disabled" : ""}>${launchLabel}</button></div>${coopEntry}<p class="status" role="status">${esc(saveError || status)}</p><div class="gear-tools"><button id="layout-settings">操作ボタンの配置</button><small>${esc(layoutWarning || "ボタンの位置・大きさ・濃さを設定")}</small></div><div class="loadout-slots">${equipped()
     .map((w, i) => `<span>装備 ${i + 1}<b>${weaponName(w)}</b></span>`)
@@ -278,6 +362,11 @@ function gear() {
   for (const id of ["layout-settings", "home", "launch"])
     gearActions.append($(id));
   ui.querySelector(".gear-tools")!.remove();
+  if (mode === "coop" && !resumable && !invitation && import.meta.env.PROD) {
+    const launch = $("launch") as HTMLButtonElement;
+    launch.disabled = true;
+    void mountTurnstile(endpoint);
+  }
   if (layoutWarning) {
     const note = document.createElement("p");
     note.className = "status";
@@ -309,7 +398,6 @@ function gear() {
     else if (network?.id) lobby();
     else void connect(!inviteCode() && !resumable, Boolean(resumable));
   };
-  if (mode === "coop") $("join").onclick = () => void connect(false);
   ui.querySelectorAll<HTMLButtonElement>("[data-equip]").forEach(
     (b) =>
       (b.onclick = () => {
@@ -387,7 +475,7 @@ async function connect(create: boolean, restore = false) {
   const previous = restore ? loadNetworkSession() : null;
   const endpoint =
     previous?.endpoint ?? ($("endpoint") as HTMLInputElement).value.trim();
-  let code = previous?.code ?? ($("code") as HTMLInputElement).value.trim();
+  let code = previous?.code ?? inviteCode();
   const token = previous?.token ?? "";
   try {
     const url = new URL(endpoint);
@@ -444,10 +532,18 @@ async function connect(create: boolean, restore = false) {
       myId = network!.id;
     };
     if (create) {
-      const field = $("creation-key") as HTMLInputElement;
-      const key = field.value;
-      field.value = "";
-      code = await network.create(key);
+      const local = ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname);
+      if (local) {
+        const field = $("creation-key") as HTMLInputElement;
+        const key = field.value;
+        field.value = "";
+        code = await network.create("", key);
+      } else {
+        if (!turnstileToken) throw new Error("人間確認を完了してください");
+        const proof = turnstileToken;
+        turnstileToken = "";
+        code = await network.create(proof);
+      }
     }
     if (!/^[a-f0-9]{32}$/.test(code))
       throw new Error("招待コードは32文字の英数字です");

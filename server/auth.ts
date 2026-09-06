@@ -15,3 +15,39 @@ export async function creationAccess(
   for (let n = 0; n < aa.length; n++) difference |= aa[n] ^ bb[n];
   return difference === 0 ? 200 : 401;
 }
+
+export async function turnstileAccess(
+  configured: string | undefined,
+  supplied: string | null,
+  remoteIp?: string | null,
+  request: typeof fetch = fetch,
+) {
+  if (!configured || configured.length < 20 || configured.length > 256)
+    return 503;
+  if (!supplied || supplied.length > 2048) return 401;
+  try {
+    const body = new URLSearchParams({
+      secret: configured,
+      response: supplied,
+      idempotency_key: crypto.randomUUID(),
+    });
+    if (remoteIp) body.set("remoteip", remoteIp);
+    const result = await request(
+      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body,
+      },
+    );
+    const parsed: unknown = await result.json();
+    return result.ok &&
+      !!parsed &&
+      typeof parsed === "object" &&
+      (parsed as { success?: unknown }).success === true
+      ? 200
+      : 401;
+  } catch {
+    return 503;
+  }
+}

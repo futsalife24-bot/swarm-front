@@ -57,9 +57,10 @@ export class Network {
         this.ws.close();
     }, 5000);
   }
-  async create(creationKey: string) {
+  async create(turnstileToken: string, localCreationKey = "") {
     const headers: Record<string, string> = {};
-    if (creationKey) headers["X-Room-Creation-Key"] = creationKey;
+    if (turnstileToken) headers["X-Turnstile-Token"] = turnstileToken;
+    if (localCreationKey) headers["X-Room-Creation-Key"] = localCreationKey;
     const res = await fetch(`${this.endpoint}/rooms`, {
       method: "POST",
       headers,
