@@ -39,6 +39,7 @@ import {
   type Save,
 } from "./client/save";
 const $ = (id: string) => document.getElementById(id)!;
+const showFps = new URLSearchParams(location.search).get("qa") === "1";
 const ui = $("ui"),
   hud = $("hud"),
   controls = new Controls(),
@@ -538,7 +539,11 @@ function frame(now: number) {
       hudAt = now;
       const p = world.players.find((p) => p.id === myId);
       if (p) {
-        hud.innerHTML = hudMarkup(world, myId, status);
+        hud.innerHTML = hudMarkup(
+          world,
+          myId,
+          status + (showFps ? ` · ${Math.round(view.fps)}FPS` : ""),
+        );
         updateCooldowns(p);
         $("retreat").onclick = () => {
           if (mode === "coop") {
