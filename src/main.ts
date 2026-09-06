@@ -197,6 +197,8 @@ function card(w: Weapon, lootOnly = false) {
 
 let weaponFilter = "all",
   weaponSort = "default";
+const inviteCode = () =>
+  /^[a-f0-9]{32}$/.test(location.hash.slice(1)) ? location.hash.slice(1) : "";
 function gear() {
   setScreen("gear");
   world = null;
@@ -210,7 +212,20 @@ function gear() {
         WEAPONS[b.kind].damage * b.power - WEAPONS[a.kind].damage * a.power,
     );
   if (weaponSort === "rarity") shown.sort((a, b) => b.rarity - a.rarity);
-  ui.innerHTML = `<section class="panel gear"><header><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><button id="home">タイトルへ</button></header><div class="brief"><div><b>01 灰明の街区</b><p>3ウェーブ → クラウン撃破。被弾せず5秒で自動回復、波の間にもHP回復。目標5〜8分。</p></div><button class="primary" id="launch" ${saveError ? "disabled" : ""}>${mode === "solo" ? "ソロ出撃 ↗" : network?.id ? "ルームに戻る ↗" : "ルーム作成 ↗"}</button></div>${mode === "coop" ? `<div class="join"><input id="code" aria-label="招待コード" placeholder="32文字の招待コード" value="${esc(location.hash.slice(1))}" maxlength="32"><button id="join">招待から参加</button><input id="creation-key" type="password" aria-label="ルーム作成キー" placeholder="作成キー（ホストのみ）" autocomplete="off" maxlength="256"><input id="endpoint" aria-label="協力サーバー" value="${esc(import.meta.env.VITE_SERVER_URL ?? "http://127.0.0.1:8787")}"></div>` : ""}<p class="status" role="status">${esc(saveError || status)}</p><div class="gear-tools"><button id="layout-settings">操作ボタンの配置</button><small>${esc(layoutWarning || "ボタンの位置・大きさ・濃さを設定")}</small></div><div class="loadout-slots">${equipped()
+  const invitation = mode === "coop" ? inviteCode() : "";
+  const launchLabel =
+    mode === "solo"
+      ? "ソロ出撃 ↗"
+      : network?.id
+        ? "ルームに戻る ↗"
+        : invitation
+          ? "招待ルームに参加 ↗"
+          : "ルームを作る ↗";
+  const coopEntry =
+    mode === "coop"
+      ? `<div class="coop-entry"><b>${invitation ? "招待を受け取りました" : "友人と遊ぶ"}</b><p>${invitation ? "装備を選び、上の「招待ルームに参加」を押してください。" : "装備を選び、上の「ルームを作る」を押します。次の画面から友人へリンクを送れます。"}</p></div><details class="coop-advanced"><summary>招待コード・接続先を手動設定</summary><div class="join"><input id="code" aria-label="招待コード" placeholder="32文字の招待コード" value="${esc(invitation)}" maxlength="32"><button id="join">コードで参加</button><input id="creation-key" type="password" aria-label="ルーム作成キー" placeholder="管理者用の作成キー" autocomplete="off" maxlength="256"><input id="endpoint" aria-label="協力サーバー" value="${esc(import.meta.env.VITE_SERVER_URL ?? "http://127.0.0.1:8787")}"></div></details>`
+      : "";
+  ui.innerHTML = `<section class="panel gear"><header><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><button id="home">タイトルへ</button></header><div class="brief"><div><b>01 灰明の街区</b><p>3ウェーブ → クラウン撃破。被弾せず5秒で自動回復、波の間にもHP回復。目標5〜8分。</p></div><button class="primary" id="launch" ${saveError ? "disabled" : ""}>${launchLabel}</button></div>${coopEntry}<p class="status" role="status">${esc(saveError || status)}</p><div class="gear-tools"><button id="layout-settings">操作ボタンの配置</button><small>${esc(layoutWarning || "ボタンの位置・大きさ・濃さを設定")}</small></div><div class="loadout-slots">${equipped()
     .map((w, i) => `<span>装備 ${i + 1}<b>${weaponName(w)}</b></span>`)
     .join(
       "",
@@ -270,7 +285,7 @@ function gear() {
     sound.unlock();
     if (mode === "solo") solo();
     else if (network?.id) lobby();
-    else void connect(true);
+    else void connect(!inviteCode());
   };
   if (mode === "coop") $("join").onclick = () => void connect(false);
   ui.querySelectorAll<HTMLButtonElement>("[data-equip]").forEach(
@@ -425,16 +440,24 @@ function lobby() {
   if (netFatal || screen === "battle" || screen === "result") return;
   setScreen("lobby");
   const members = network?.members ?? [];
-  const link = `${location.origin}${location.pathname}#${network?.code ?? ""}`;
-  ui.innerHTML = `<section class="panel lobby"><div class="eyebrow">SQUAD / ${members.filter((p) => p.connected).length} OF 4</div><h1>部隊を編成</h1><p>出撃前のロビーから参加できます。進行中への新規参加はできません。</p><label>招待URL <input id="invite" readonly value="${esc(link)}"></label><button id="copy">招待URLをコピー</button><p class="status">${esc(status)}</p><div class="members">${members.map((m, i) => `<div><b>0${i + 1} ${m.id === network?.id ? "あなた" : "隊員"}</b><span>${m.connected ? (m.ready ? "準備完了" : "装備待ち") : "切断中"}</span></div>`).join("")}</div><button class="primary" id="begin" ${!network?.id || members.filter((m) => m.connected)[0]?.id !== network.id || members.some((m) => m.connected && !m.ready) ? "disabled" : ""}>全員で出撃 ↗</button><button id="back">装備画面へ</button><p class="fine">ホストだけが出撃を開始できます。通信: 入力20Hz / 状態10Hz。</p></section>`;
+  const link = `${location.origin}${location.pathname}${location.search}#${network?.code ?? ""}`;
+  ui.innerHTML = `<section class="panel lobby"><div class="eyebrow">SQUAD / ${members.filter((p) => p.connected).length} OF 4</div><h1>部隊を編成</h1><p>① 招待リンクを友人へ送る　② 友人がリンクを開いて参加　③ 準備完了になったら出撃</p><label>招待リンク <input id="invite" readonly value="${esc(link)}"></label><button class="primary" id="copy">招待リンクを共有</button><p class="status">${esc(status)}</p><div class="members">${members.map((m, i) => `<div><b>0${i + 1} ${m.id === network?.id ? "あなた" : "隊員"}</b><span>${m.connected ? (m.ready ? "準備完了" : "装備待ち") : "切断中"}</span></div>`).join("")}</div><button class="primary" id="begin" ${!network?.id || members.filter((m) => m.connected)[0]?.id !== network.id || members.some((m) => m.connected && !m.ready) ? "disabled" : ""}>全員で出撃 ↗</button><button id="back">装備画面へ</button><p class="fine">ホストだけが出撃を開始できます。進行中への新規参加はできません。</p></section>`;
   $("begin").onclick = () => {
     sound.unlock();
     network?.send({ type: "start" });
   };
   $("copy").onclick = async () => {
     try {
-      await navigator.clipboard.writeText(link);
-      $("copy").textContent = "コピーしました";
+      if (navigator.share)
+        await navigator.share({
+          title: "SWARM FRONT 協力プレイ",
+          text: "このリンクを開いて部隊に参加してください。",
+          url: link,
+        });
+      else {
+        await navigator.clipboard.writeText(link);
+        $("copy").textContent = "リンクをコピーしました";
+      }
     } catch {
       ($("invite") as HTMLInputElement).select();
     }
@@ -467,7 +490,7 @@ function result() {
       status = (e as Error).message;
     }
   }
-  ui.innerHTML = `<section class="panel result"><div class="eyebrow">OPERATION 01 / DEBRIEF</div><h1>${w.phase === "victory" ? "MISSION CLEAR" : "MISSION FAILED"}</h1><p>${w.phase === "victory" ? "街区を奪還。新しい武器で、もう一度。" : esc(w.reason || "部隊が全員ダウンしました")}</p><div class="stats"><div><span>TIME</span><b>${Math.floor(w.time / 60)}:${String(Math.floor(w.time % 60)).padStart(2, "0")}</b></div><div><span>ELIMINATIONS</span><b>${w.totalKills}</b></div><div><span>RECOVERED</span><b>${items.length}</b></div></div><h2>${w.phase === "victory" ? "個別戦利品" : "未確定戦利品は失われました"}</h2><p class="status" role="status">${esc(w.phase === "victory" ? status : "保存済みの武器は保持されています。")}</p><div class="loot-list" aria-label="獲得武器リスト">${items.map((w) => card(w, true)).join("")}</div><div class="result-actions"><button class="primary" id="regear">装備変更・再出撃 ↗</button><button id="retry-save">保存を再試行</button>${overflow.length ? "<p>所持上限: 装備画面で整理後、この結果を再度保存できます。</p>" : ""}</div></section>`;
+  ui.innerHTML = `<section class="panel result"><div class="result-summary"><div class="eyebrow">OPERATION 01 / DEBRIEF</div><h1>${w.phase === "victory" ? "MISSION CLEAR" : "MISSION FAILED"}</h1><p>${w.phase === "victory" ? "街区を奪還。新しい武器で、もう一度。" : esc(w.reason || "部隊が全員ダウンしました")}</p><div class="stats"><div><span>TIME</span><b>${Math.floor(w.time / 60)}:${String(Math.floor(w.time % 60)).padStart(2, "0")}</b></div><div><span>ELIMINATIONS</span><b>${w.totalKills}</b></div><div><span>RECOVERED</span><b>${items.length}</b></div></div><div class="result-actions"><button class="primary" id="regear">装備変更・再出撃 ↗</button><button id="retry-save">保存を再試行</button>${overflow.length ? "<p>所持上限: 装備画面で整理後、この結果を再度保存できます。</p>" : ""}</div></div><section class="result-loot"><h2>${w.phase === "victory" ? "個別戦利品" : "未確定戦利品は失われました"}</h2><p class="status" role="status">${esc(w.phase === "victory" ? status : "保存済みの武器は保持されています。")}</p><div class="loot-list" aria-label="獲得武器リスト">${items.map((w) => card(w, true)).join("")}</div></section></section>`;
   $("regear").onclick = () => {
     if (items.some((i) => !save.inventory.some((w) => w.id === i.id))) {
       status =
@@ -568,7 +591,16 @@ function frame(now: number) {
 }
 window.addEventListener("resize", () => placeControls(layout));
 window.visualViewport?.addEventListener("resize", () => placeControls(layout));
-title();
+window.addEventListener("hashchange", () => {
+  if (inviteCode() && !["battle", "lobby", "result"].includes(screen)) {
+    mode = "coop";
+    gear();
+  }
+});
+if (inviteCode()) {
+  mode = "coop";
+  gear();
+} else title();
 requestAnimationFrame(frame);
 // Read-only diagnostics in development; no mission skip or debug damage endpoint.
 if (import.meta.env.DEV)

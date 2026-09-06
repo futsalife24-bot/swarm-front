@@ -7,6 +7,10 @@ import path from "node:path";
 
 const config = JSON.parse(readFileSync("dist-lan/config.json", "utf8"));
 const host = config.address;
+const creationKey = /^ROOM_CREATION_KEY="([a-f0-9]{64})"$/m.exec(
+  readFileSync(".dev.vars", "utf8"),
+)?.[1];
+if (!creationKey) throw Error("Local room creation credential missing");
 const privateV4 = (s) => {
   if (typeof s !== "string" || isIP(s) !== 4) return false;
   const [a, b] = s.split(".").map(Number);
@@ -60,6 +64,12 @@ function upstream(req) {
     "sec-websocket-protocol",
   ])
     if (req.headers[name]) headers[name] = req.headers[name];
+  if (
+    req.url === "/api/rooms" &&
+    req.method === "POST" &&
+    !headers["x-room-creation-key"]
+  )
+    headers["x-room-creation-key"] = creationKey;
   headers["cf-connecting-ip"] = req.socket.remoteAddress;
   return http.request({
     host: "127.0.0.1",

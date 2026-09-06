@@ -28,9 +28,11 @@ export class Network {
     }, 5000);
   }
   async create(creationKey: string) {
+    const headers: Record<string, string> = {};
+    if (creationKey) headers["X-Room-Creation-Key"] = creationKey;
     const res = await fetch(`${this.endpoint}/rooms`, {
       method: "POST",
-      headers: { "X-Room-Creation-Key": creationKey },
+      headers,
       redirect: "error",
       signal: AbortSignal.timeout(7000),
     });

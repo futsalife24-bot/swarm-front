@@ -14,7 +14,9 @@ test("local credential file is not served and creation requires a host key", asy
     "type",
     "password",
   );
-  await page.getByRole("button", { name: "ルーム作成" }).click();
+  await page.locator(".coop-advanced summary").click();
+  await page.locator("#endpoint").fill("http://127.0.0.1:8789");
+  await page.getByRole("button", { name: "ルームを作る" }).click();
   await expect(page.getByRole("status")).toContainText("作成キーを確認");
   expect(
     await page.evaluate(
@@ -34,15 +36,20 @@ test("two independent browsers join a real room and receive the same battlefield
     await p.goto("/");
     await p.getByRole("button", { name: "協力プレイ" }).click();
   }
+  await a.locator(".coop-advanced summary").click();
+  await a.locator("#endpoint").fill("http://127.0.0.1:8789");
   await a.locator("#creation-key").evaluate((el: HTMLInputElement, key) => {
     el.value = key;
   }, localCreationKey());
-  await a.getByRole("button", { name: "ルーム作成" }).click();
-  await expect(a.getByText("準備完了")).toBeVisible();
+  await a.getByRole("button", { name: "ルームを作る" }).click();
+  await expect(a.getByText("準備完了", { exact: true })).toBeVisible();
   const invite = await a.locator("#invite").inputValue();
-  await b.locator("#code").fill(invite.split("#")[1]);
-  await b.getByRole("button", { name: "招待から参加" }).click();
-  await expect(a.getByText("準備完了")).toHaveCount(2);
+  await b.goto(invite);
+  await expect(b.locator(".coop-entry")).toContainText("招待を受け取りました");
+  await b.locator(".coop-advanced summary").click();
+  await b.locator("#endpoint").fill("http://127.0.0.1:8789");
+  await b.getByRole("button", { name: "招待ルームに参加" }).click();
+  await expect(a.getByText("準備完了", { exact: true })).toHaveCount(2);
   await a.getByRole("button", { name: "全員で出撃" }).click();
   await expect(a.locator("#hud")).toBeVisible();
   await expect(b.locator("#hud")).toBeVisible();
@@ -91,12 +98,13 @@ test("40 authoritative enemies render in a mobile-sized browser; record PC-only 
   const p = await context.newPage();
   await p.goto("/");
   await p.getByRole("button", { name: "協力プレイ" }).click();
+  await p.locator(".coop-advanced summary").click();
   await p.locator("#endpoint").fill("http://127.0.0.1:8789");
   await p.locator("#creation-key").evaluate((el: HTMLInputElement, key) => {
     el.value = key;
   }, localCreationKey());
-  await p.getByRole("button", { name: "ルーム作成" }).click();
-  await expect(p.getByText("準備完了")).toBeVisible();
+  await p.getByRole("button", { name: "ルームを作る" }).click();
+  await expect(p.getByText("準備完了", { exact: true })).toBeVisible();
   const invite = await p.locator("#invite").inputValue();
   const response = await request.post(
     `http://127.0.0.1:8789/fixtures/${invite.split("#")[1]}/load`,

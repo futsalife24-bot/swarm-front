@@ -243,6 +243,26 @@ body[data-screen="title"] footer {
 .join input {
   min-width: 160px;
 }
+.coop-entry {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 10px 0;
+  padding: 10px 14px;
+  border-left: 3px solid var(--mint);
+  background: #173741;
+}
+.coop-entry b {
+  white-space: nowrap;
+  color: var(--mint);
+}
+.coop-entry p {
+  margin: 0;
+}
+.coop-advanced {
+  margin-top: 8px !important;
+  padding-top: 8px !important;
+}
 /* Fixed-size rail; action buttons cannot enter its reserved area. */
 #hud .hud-rail {
   position: absolute;
@@ -716,6 +736,109 @@ body[data-screen="title"] footer {
   .result-actions button {
     font-size: 12px;
     padding: 8px 14px;
+  }
+  .coop-entry {
+    margin: 5px 0;
+    padding: 5px 10px;
+  }
+  .coop-entry p {
+    font-size: 10px;
+    line-height: 1.35;
+  }
+}
+
+@media (orientation: landscape) {
+  .panel.result {
+    width: min(1180px, calc(100vw - 24px));
+    height: calc(100dvh - 24px - var(--safe-top) - var(--safe-bottom));
+    display: grid;
+    grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.35fr);
+    gap: 20px;
+    overflow: hidden;
+  }
+  .result-summary,
+  .result-loot {
+    min-width: 0;
+    min-height: 0;
+  }
+  .result-summary {
+    display: flex;
+    flex-direction: column;
+  }
+  .result-summary > p {
+    margin: 6px 0;
+  }
+  .result-summary .stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin: 12px 0;
+  }
+  .result-summary .stats b {
+    font-size: clamp(18px, 4dvh, 28px);
+  }
+  .result-loot {
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+    border-left: 1px solid var(--line);
+  }
+  .result-loot h2 {
+    flex: 0 0 auto;
+    margin-top: 0;
+  }
+  .result-loot > .status {
+    flex: 0 0 auto;
+    margin: 3px 0 8px;
+  }
+  .result-loot .loot-list {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-right: 4px;
+  }
+  .result .weapon-row {
+    grid-template-columns: minmax(105px, 1.2fr) minmax(65px, 0.7fr) 64px;
+    gap: 7px;
+  }
+  .result .weapon-row .weapon-stat:nth-child(3) {
+    display: none;
+  }
+  .result-actions {
+    position: static;
+    margin-top: auto;
+    padding: 10px 0 0;
+    background: none;
+  }
+  .result-actions .primary {
+    margin: 0;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 450px) {
+  .panel.result {
+    grid-template-columns: minmax(230px, 0.82fr) minmax(0, 1.18fr);
+    gap: 12px;
+  }
+  .result-loot {
+    padding-left: 12px;
+  }
+  .result-summary h1 {
+    font-size: 25px;
+    margin: 4px 0;
+  }
+  .result-summary .stats {
+    padding: 7px 0;
+  }
+  .result-summary .stats span {
+    font-size: 7px;
+    letter-spacing: 0.08em;
+  }
+  .result .weapon-row {
+    min-height: 62px;
+    padding: 6px 8px;
   }
 }
 

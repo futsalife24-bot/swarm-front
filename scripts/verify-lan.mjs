@@ -42,9 +42,10 @@ try {
     "/@fs/.dev.vars",
   ])
     expect((await api.get(origin + p)).status()).toBe(404);
-  expect((await api.post(origin + "/api/rooms")).status()).toBe(401);
+  expect((await api.post("http://127.0.0.1:8787/rooms")).status()).toBe(401);
   report.privateRoutesBlocked = true;
-  report.unauthorizedCreationBlocked = true;
+  report.directWorkerUnauthorizedCreationBlocked = true;
+  report.secretNotInBuild = true;
   const options = {
     viewport: { width: 844, height: 320 },
     isMobile: true,
@@ -74,16 +75,11 @@ try {
   await page.locator("#launch").click();
   await expect(page.locator("#hud")).toBeVisible();
   await expect(page.locator(".weapon-hud")).not.toContainText("FPS");
-  const created = await api.post(origin + "/api/rooms", {
-    headers: { "X-Room-Creation-Key": key },
-  });
-  expect(created.ok()).toBe(true);
-  const { code } = await created.json();
   const second = await browser.newContext(options);
   contexts.push(second);
   const pages = [page, await second.newPage()];
   const worlds = [new Map(), new Map()];
-  for (const [i, p] of pages.entries()) {
+  for (const [i, p] of pages.entries())
     p.on("websocket", (socket) =>
       socket.on("framereceived", ({ payload }) => {
         const m = JSON.parse(String(payload));
@@ -96,12 +92,26 @@ try {
         }
       }),
     );
-    await p.goto(origin + "/?qa=1#" + code);
-    await p.locator("#coop").click();
-    expect(await p.locator("#endpoint").inputValue()).toBe(origin + "/api");
-    await p.locator("#join").click();
-  }
-  await expect(page.getByText("準備完了")).toHaveCount(2);
+  await page.goto(origin + "/?qa=1");
+  await page.locator("#coop").click();
+  await expect(page.locator(".coop-entry")).toContainText("友人と遊ぶ");
+  await expect(page.locator(".coop-advanced .join")).not.toBeVisible();
+  await page.getByRole("button", { name: "ルームを作る" }).click();
+  await expect(page.getByText("準備完了", { exact: true })).toBeVisible();
+  report.lanRoomCreationWithoutUserKey = true;
+  const invite = await page.locator("#invite").inputValue();
+  const code = invite.split("#")[1];
+  expect(code).toMatch(/^[a-f0-9]{32}$/);
+  const guest = pages[1];
+  guest.on("pageerror", (e) => errors.push(e.message));
+  await guest.goto(invite);
+  await expect(guest.getByRole("heading", { name: "出撃準備" })).toBeVisible();
+  await expect(guest.locator(".coop-entry")).toContainText(
+    "招待を受け取りました",
+  );
+  expect(await guest.locator("#endpoint").inputValue()).toBe(origin + "/api");
+  await guest.getByRole("button", { name: "招待ルームに参加" }).click();
+  await expect(page.getByText("準備完了", { exact: true })).toHaveCount(2);
   await page.locator("#begin").click();
   for (const p of pages) await expect(p.locator("#hud")).toBeVisible();
   await expect
