@@ -21,3 +21,5 @@ PCが起動し、2プロセスが動いている間だけ利用可能。別Wi-Fi
 自動確認: 稼働中に `node scripts/verify-lan.mjs`。HTTPSでのsecure context、ソロ、任意FPS、2ブラウザの実WSSと状態一致、無資格作成401、秘密経路404。テストの自己署名許容は独立したブラウザcontextだけに限定。
 
 結果はdist-lan/verification.jsonとevidence。Android実機と証明書警告の続行はユーザーの実機報告が届くまで未検証。試遊用プロセスは依頼により稼働させておく。終了依頼時はこのLAN gatewayとlan-preview指定Workerだけを停止する。
+
+初回の自動検証では、意図的に参加者別となるpending/rewards/dropsまで同一とする誤った比較で失敗した。検証を共通戦闘状態（HP・敵・進行等）の比較へ修正。ゲーム・サーバーの個別報酬仕様は変更していない。

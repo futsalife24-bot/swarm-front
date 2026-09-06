@@ -88,7 +88,9 @@ try {
       socket.on("framereceived", ({ payload }) => {
         const m = JSON.parse(String(payload));
         if (m.type === "state") {
-          worlds[i].set(m.world.time, JSON.stringify(m.world));
+          // Individual loot is intentionally private and differs by participant.
+          const { pending, rewards, drops, ...combat } = m.world;
+          worlds[i].set(m.world.time, JSON.stringify(combat));
           if (worlds[i].size > 40)
             worlds[i].delete(worlds[i].keys().next().value);
         }
@@ -109,7 +111,7 @@ try {
   expect(errors).toEqual([]);
   await page.screenshot({ path: "dist-lan/evidence/coop.png" });
   report.twoBrowserRealWss = true;
-  report.authoritativeStatesMatch = true;
+  report.authoritativeCombatStatesMatch = true;
   writeFileSync("dist-lan/verification.json", JSON.stringify(report, null, 2));
   console.log(JSON.stringify(report));
 } finally {
