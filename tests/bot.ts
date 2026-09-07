@@ -1,4 +1,10 @@
-import { neutral, visible, type World, type Input } from "../src/shared/game";
+import {
+  neutral,
+  visible,
+  eye,
+  type World,
+  type Input,
+} from "../src/shared/game";
 // Test pilot only: sends ordinary movement and aim inputs; never modifies HP, timing or rewards.
 export function pilot(w: World, id: string): Input {
   const p = w.players.find((p) => p.id === id)!;
@@ -14,7 +20,7 @@ export function pilot(w: World, id: string): Input {
   if (!e) return i;
   const d = Math.hypot(e.x - p.x, e.z - p.z);
   i.yaw = Math.atan2(e.x - p.x, -(e.z - p.z));
-  i.pitch = Math.atan2((e.kind === "boss" ? 3 : 1.4) - 1.5, d);
+  i.pitch = Math.atan2(eye(e) - 1.5, d);
   i.fire = true;
   let vx = Math.cos(w.time * 0.7) * 4,
     vz = Math.sin(w.time * 0.7) * 2;

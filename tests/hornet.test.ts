@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { ENEMIES } from "../src/shared/defs";
+import { ENEMIES, MOVE_SPEED } from "../src/shared/defs";
 import {
   createWorld,
   addPlayer,
@@ -10,6 +10,7 @@ import {
   fire,
   eye,
   blocked,
+  falloff,
 } from "../src/shared/game";
 // Trial flier. These cover the parts that altitude actually changed; balance and
 // wave composition are deliberately not asserted.
@@ -78,5 +79,35 @@ describe("airborne enemy", () => {
       }
       expect(target.hp < before).toBe(expected);
     }
+  });
+});
+describe("kiting costs", () => {
+  it("charges the rifle for distance but leaves close range alone", () => {
+    expect(falloff("rifle", 10)).toBe(1);
+    expect(falloff("rifle", 22)).toBe(1);
+    expect(falloff("rifle", 65)).toBeLessThan(0.6);
+    expect(falloff("rifle", 200)).toBe(0.45);
+    // The rocket is the answer to distance, so it keeps its damage.
+    expect(falloff("rocket", 65)).toBe(1);
+    // Shotgun behaviour is unchanged.
+    expect(falloff("shotgun", 0)).toBe(1);
+    expect(falloff("shotgun", 35)).toBe(0.3);
+  });
+  it("outruns a walking player", () => {
+    expect(ENEMIES.hornet.speed).toBeGreaterThan(MOVE_SPEED.walk);
+    for (const kind of ["crawler", "spitter", "boss"] as const)
+      expect(ENEMIES[kind].speed).toBeLessThan(MOVE_SPEED.walk);
+  });
+  it("closes on a player who keeps backing away", () => {
+    const { w, p } = field();
+    spawn(w, "hornet", 0, -30);
+    const away = { ...neutral(), mz: -1 };
+    for (let n = 0; n < 400; n++) {
+      step(w, { p: away });
+      if (p.z < 40) p.z += 0;
+    }
+    expect(Math.hypot(w.enemies[0].x - p.x, w.enemies[0].z - p.z)).toBeLessThan(
+      8,
+    );
   });
 });

@@ -8,6 +8,8 @@ export interface Save {
   sensitivity: number;
   quality: number;
   receipts: string[];
+  // Optional so saves written before this setting existed still load.
+  mapRotates?: boolean;
 }
 export const fresh = (): Save => ({
   version: 1,
@@ -17,6 +19,7 @@ export const fresh = (): Save => ({
   sensitivity: 1,
   quality: 1,
   receipts: [],
+  mapRotates: false,
 });
 export function parseSave(raw: string | null): Save {
   if (raw === null) return fresh();
@@ -39,7 +42,8 @@ export function parseSave(raw: string | null): Save {
     !Number.isFinite(v.sensitivity) ||
     v.sensitivity < 0.3 ||
     v.sensitivity > 2.5 ||
-    ![0.65, 1].includes(v.quality)
+    ![0.65, 1].includes(v.quality) ||
+    !["boolean", "undefined"].includes(typeof v.mapRotates)
   )
     throw new Error(
       "保存データを読めません。上書きを停止しました。データを書き出して保管してください。",

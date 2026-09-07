@@ -565,6 +565,11 @@ footer span {
   pointer-events: none;
   border: 1px solid #4d7b8877;
 }
+/* The turning view draws its own circular edge, so the square frame would
+   only box in empty corners. */
+#minimap.round {
+  border: 0;
+}
 .rescue {
   position: absolute;
   top: 22%;

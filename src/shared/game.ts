@@ -354,6 +354,14 @@ export function finish(w: World, win: boolean, reason = "") {
 }
 // Where a shot has to pass to hit: the unit's own centre, lifted by how high it floats.
 export const eye = (e: Enemy) => e.y + ENEMIES[e.kind].aim;
+// Every enemy is slower than a walking player, so backing away while firing was
+// free. Distance now costs damage: holding ground is worth something.
+export function falloff(kind: Weapon["kind"], distance: number) {
+  if (kind === "shotgun") return Math.max(0.3, 1 - distance / 35);
+  if (kind === "rifle")
+    return Math.max(0.45, 1 - Math.max(0, distance - 22) / 55);
+  return 1;
+}
 export function fire(w: World, p: Player, i: Input) {
   const weapon = p.weapons[p.slot],
     def = WEAPONS[weapon.kind];
@@ -444,9 +452,7 @@ export function fire(w: World, p: Player, i: Input) {
       hurtEnemy(
         w,
         h.e,
-        def.damage *
-          weapon.power *
-          (weapon.kind === "shotgun" ? Math.max(0.3, 1 - h.along / 35) : 1),
+        def.damage * weapon.power * falloff(weapon.kind, h.along),
         p.id,
       );
     if (hits.length) range = hits[hits.length - 1].along;

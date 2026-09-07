@@ -63,7 +63,9 @@ export const ENEMIES = {
     cruise: 0,
   },
   boss: { hp: 4200, speed: 1.4, radius: 4, damage: 40, aim: 3, cruise: 0 },
-  hornet: { hp: 60, speed: 4.2, radius: 1.15, damage: 12, aim: 1, cruise: 6.5 },
+  // The only thing in the game faster than a walking player (7 m/s), so that
+  // retreating while firing has a cost instead of being a free win.
+  hornet: { hp: 60, speed: 8.2, radius: 1.15, damage: 12, aim: 1, cruise: 6.5 },
 } as const;
 export const RARITIES = ["STANDARD", "REFINED", "RELIC"];
 export const POWER = {

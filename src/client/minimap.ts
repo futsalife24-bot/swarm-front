@@ -3,6 +3,9 @@ import type { World } from "../shared/game";
 // Mirrors the arena bounds enforced in src/shared/game.ts (blocked()).
 const ARENA_X = 47,
   ARENA_Z = 52;
+// How far the rotating view reaches. Turning the map means centring it on the
+// player, so it becomes a window rather than the whole district.
+const VIEW_RADIUS = 42;
 const COLORS = {
   ground: "#0d1c25e6",
   block: "#28414d",
@@ -15,12 +18,12 @@ const COLORS = {
   downed: "#ffd479",
   self: "#d9f4ff",
 };
-// North-up on purpose: the district never rotates, so players can learn it.
 export class Minimap {
   canvas = document.getElementById("minimap") as HTMLCanvasElement;
   ctx = this.canvas.getContext("2d")!;
   drawnAt = 0;
   scale = 0;
+  rotates = false;
   // Buildings never move, so they are baked once per resize instead of per frame.
   base = document.createElement("canvas");
   fit() {
@@ -42,64 +45,96 @@ export class Minimap {
         k.w * this.scale,
         k.d * this.scale,
       );
-    b.strokeStyle = COLORS.edge;
-    b.lineWidth = devicePixelRatio;
-    b.strokeRect(0, 0, this.base.width, this.base.height);
   }
   px = (x: number) => (x + ARENA_X) * this.scale;
   pz = (z: number) => (z + ARENA_Z) * this.scale;
-  dot(x: number, z: number, r: number, color: string) {
+  ring(x: number, y: number, r: number, color: string, width: number) {
+    this.ctx.strokeStyle = color;
+    this.ctx.lineWidth = width * devicePixelRatio;
+    this.ctx.beginPath();
+    this.ctx.arc(x, y, r * devicePixelRatio, 0, 7);
+    this.ctx.stroke();
+  }
+  dot(x: number, y: number, r: number, color: string) {
     this.ctx.fillStyle = color;
     this.ctx.beginPath();
-    this.ctx.arc(this.px(x), this.pz(z), r * devicePixelRatio, 0, 7);
+    this.ctx.arc(x, y, r * devicePixelRatio, 0, 7);
     this.ctx.fill();
+  }
+  arrow(x: number, y: number, fx: number, fz: number) {
+    const c = this.ctx,
+      s = 5 * devicePixelRatio;
+    c.fillStyle = COLORS.self;
+    c.beginPath();
+    c.moveTo(x + fx * s, y + fz * s);
+    c.lineTo(x - fz * s * 0.7 - fx * s * 0.5, y + fx * s * 0.7 - fz * s * 0.5);
+    c.lineTo(x + fz * s * 0.7 - fx * s * 0.5, y - fx * s * 0.7 - fz * s * 0.5);
+    c.closePath();
+    c.fill();
   }
   draw(w: World, id: string, yaw: number, now: number) {
     if (now - this.drawnAt < 100) return;
     this.drawnAt = now;
     this.fit();
     if (!this.scale) return;
-    const c = this.ctx;
-    c.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    const c = this.ctx,
+      cw = this.canvas.width,
+      ch = this.canvas.height,
+      self = w.players.find((p) => p.id === id);
+    const turning = this.rotates && !!self;
+    this.canvas.classList.toggle("round", turning);
+    const zoom = cw / 2 / (VIEW_RADIUS * this.scale),
+      cos = Math.cos(-yaw),
+      sin = Math.sin(-yaw);
+    // World position to a pixel on this canvas, under whichever view is active.
+    const at = (x: number, z: number): [number, number] => {
+      if (!turning) return [this.px(x), this.pz(z)];
+      const dx = (this.px(x) - this.px(self!.x)) * zoom,
+        dz = (this.pz(z) - this.pz(self!.z)) * zoom;
+      return [cw / 2 + dx * cos - dz * sin, ch / 2 + dx * sin + dz * cos];
+    };
+    c.clearRect(0, 0, cw, ch);
+    c.save();
+    if (turning) {
+      c.beginPath();
+      c.arc(cw / 2, ch / 2, Math.min(cw, ch) / 2, 0, 7);
+      c.clip();
+      c.translate(cw / 2, ch / 2);
+      c.rotate(-yaw);
+      c.scale(zoom, zoom);
+      c.translate(-this.px(self!.x), -this.pz(self!.z));
+    }
     c.drawImage(this.base, 0, 0);
+    c.restore();
     for (const e of w.enemies) {
-      const r = e.kind === "boss" ? 4 : 1.6;
+      const [x, y] = at(e.x, e.z),
+        r = e.kind === "boss" ? 4 : 1.6;
       // Airborne reads as a hollow mark. A flat map cannot say how high something
       // is, and pretending otherwise makes "overhead" look like "on top of you".
-      if (e.y > 1.5) {
-        c.strokeStyle = COLORS[e.kind];
-        c.lineWidth = 1.1 * devicePixelRatio;
-        c.beginPath();
-        c.arc(this.px(e.x), this.pz(e.z), (r + 0.8) * devicePixelRatio, 0, 7);
-        c.stroke();
-      } else this.dot(e.x, e.z, r, COLORS[e.kind]);
+      if (e.y > 1.5) this.ring(x, y, r + 0.8, COLORS[e.kind], 1.1);
+      else this.dot(x, y, r, COLORS[e.kind]);
     }
     for (const p of w.players) {
       if (!p.connected || p.id === id) continue;
-      if (p.hp > 0) this.dot(p.x, p.z, 2.4, COLORS.mate);
-      else if (p.down > 0) {
-        // A downed mate is the one thing on this map worth walking towards.
-        c.strokeStyle = COLORS.downed;
-        c.lineWidth = 1.4 * devicePixelRatio;
-        c.beginPath();
-        c.arc(this.px(p.x), this.pz(p.z), 4 * devicePixelRatio, 0, 7);
-        c.stroke();
-      }
+      const [x, y] = at(p.x, p.z);
+      if (p.hp > 0) this.dot(x, y, 2.4, COLORS.mate);
+      // A downed mate is the one thing on this map worth walking towards.
+      else if (p.down > 0) this.ring(x, y, 4, COLORS.downed, 1.4);
     }
-    const self = w.players.find((p) => p.id === id);
     if (!self) return;
-    const x = this.px(self.x),
-      z = this.pz(self.z),
-      s = 5 * devicePixelRatio,
+    // Turning the map puts forward at the top, so the arrow stops turning.
+    if (turning) this.arrow(cw / 2, ch / 2, 0, -1);
+    else {
+      const [x, y] = at(self.x, self.z);
       // Forward is (sin yaw, -cos yaw); the same basis move() uses in game.ts.
-      fx = Math.sin(yaw),
-      fz = -Math.cos(yaw);
-    c.fillStyle = COLORS.self;
-    c.beginPath();
-    c.moveTo(x + fx * s, z + fz * s);
-    c.lineTo(x - fz * s * 0.7 - fx * s * 0.5, z + fx * s * 0.7 - fz * s * 0.5);
-    c.lineTo(x + fz * s * 0.7 - fx * s * 0.5, z - fx * s * 0.7 - fz * s * 0.5);
-    c.closePath();
-    c.fill();
+      this.arrow(x, y, Math.sin(yaw), -Math.cos(yaw));
+    }
+    c.strokeStyle = COLORS.edge;
+    c.lineWidth = devicePixelRatio;
+    if (turning) {
+      c.beginPath();
+      c.arc(cw / 2, ch / 2, Math.min(cw, ch) / 2 - devicePixelRatio / 2, 0, 7);
+      c.stroke();
+    } else c.strokeRect(0, 0, cw, ch);
   }
 }
