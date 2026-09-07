@@ -52,7 +52,13 @@ function part(
 function bug(kind: Enemy["kind"]) {
   const g = new T.Group();
   const shell =
-    kind === "spitter" ? 0x789849 : kind === "boss" ? 0x9b584c : 0x48666b;
+    kind === "spitter"
+      ? 0x789849
+      : kind === "boss"
+        ? 0x9b584c
+        : kind === "hornet"
+          ? 0xd8a13c
+          : 0x48666b;
   part(g, ico, shell, 0, 1.2, 0.35, 0.85, 0.7, 1.3);
   part(g, ico, 0x172e37, 0, 0.95, -0.9, 0.65, 0.5, 0.65);
   part(g, ico, 0xafd87c, 0, 1.5, 0.6, 0.45, 0.2, 0.75);
@@ -104,6 +110,12 @@ function bug(kind: Enemy["kind"]) {
     }
   }
   if (kind === "spitter") part(g, ico, 0xe5bd67, 0, 1.6, 0.3, 0.65, 0.8, 0.65);
+  if (kind === "hornet") {
+    // Wings read as a silhouette from below, which is where it is usually seen.
+    for (const s of [-1, 1])
+      part(g, box, 0xdfeef2, s * 0.9, 1.45, 0.1, 0.95, 0.05, 0.5, 0, s * 0.25);
+    g.scale.setScalar(0.75);
+  }
   if (kind === "boss") {
     for (let j = 0; j < 4; j++)
       part(g, cone, 0xf3b174, 0, 2, j * 0.6 - 0.8, 0.36, 1, 0.36);
@@ -252,7 +264,7 @@ export class Renderer {
       m.scale.set(10, 16 + (i % 6) * 6, 8);
       this.scene.add(m);
     }
-    for (const kind of ["crawler", "spitter", "boss"] as const) {
+    for (const kind of ["crawler", "spitter", "boss", "hornet"] as const) {
       const mesh = new T.InstancedMesh(
         bug(kind),
         new T.MeshStandardMaterial({
@@ -383,8 +395,8 @@ export class Renderer {
         let n = 0;
         for (const e of w.enemies.filter((e) => e.kind === kind)) {
           const key = String(e.id),
-            v = this.visual.get(key) ?? new T.Vector3(e.x, 0, e.z);
-          v.lerp(new T.Vector3(e.x, 0, e.z), 1 - Math.exp(-dt * 12));
+            v = this.visual.get(key) ?? new T.Vector3(e.x, e.y, e.z);
+          v.lerp(new T.Vector3(e.x, e.y, e.z), 1 - Math.exp(-dt * 12));
           this.visual.set(key, v);
           const t = w.players.reduce<Player | undefined>(
             (a, b) =>
@@ -400,7 +412,7 @@ export class Renderer {
             mesh,
             n,
             v.x,
-            Math.sin(w.time * 9 + e.id) * 0.08,
+            v.y + Math.sin(w.time * 9 + e.id) * 0.08,
             v.z,
             1,
             1,

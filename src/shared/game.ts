@@ -61,6 +61,7 @@ export interface Enemy {
   id: number;
   kind: keyof typeof ENEMIES;
   x: number;
+  y: number;
   z: number;
   hp: number;
   maxHp: number;
@@ -287,7 +288,8 @@ export function spawn(w: World, kind: Enemy["kind"], x?: number, z?: number) {
   const a = random(w) * Math.PI * 2;
   let ex = x ?? Math.sin(a) * 10,
     ez = z ?? (random(w) < 0.5 ? -46 : 46);
-  if (blocked(ex, ez, ENEMIES[kind].radius)) {
+  // A flier is never trapped by a building, so it keeps its requested spot.
+  if (!ENEMIES[kind].cruise && blocked(ex, ez, ENEMIES[kind].radius)) {
     ex = 0;
     ez = -43;
   }
@@ -296,6 +298,7 @@ export function spawn(w: World, kind: Enemy["kind"], x?: number, z?: number) {
     id: ++w.serial,
     kind,
     x: ex,
+    y: ENEMIES[kind].cruise,
     z: ez,
     hp,
     maxHp: hp,
@@ -349,6 +352,8 @@ export function finish(w: World, win: boolean, reason = "") {
   }
   w.projectiles = [];
 }
+// Where a shot has to pass to hit: the unit's own centre, lifted by how high it floats.
+export const eye = (e: Enemy) => e.y + ENEMIES[e.kind].aim;
 export function fire(w: World, p: Player, i: Input) {
   const weapon = p.weapons[p.slot],
     def = WEAPONS[weapon.kind];
@@ -370,15 +375,16 @@ export function fire(w: World, p: Player, i: Input) {
         Math.abs(angle(t.a - yaw)) < 0.065 &&
         t.d < def.range &&
         Math.abs(pitch) < 0.18 &&
+        // Only nudge towards something roughly at the shooter's own level. Without
+        // this the cone snaps a level shot up onto a flier, and altitude stops
+        // being something the player has to answer for.
+        Math.abs(eye(t.e) - 1.5) < 2 &&
         visible(p, t.e),
     )
     .sort((a, b) => a.d - b.d);
   if (candidates[0]) {
     yaw = candidates[0].a;
-    pitch = Math.atan2(
-      (candidates[0].e.kind === "boss" ? 3 : 1.4) - 1.5,
-      candidates[0].d,
-    );
+    pitch = Math.atan2(eye(candidates[0].e) - 1.5, candidates[0].d);
   }
   for (let j = 0; j < def.pellets; j++) {
     const ya = yaw + (random(w) - 0.5) * def.spread * 2,
@@ -417,7 +423,7 @@ export function fire(w: World, p: Player, i: Input) {
     const hits = w.enemies
       .filter((e) => e.hp > 0)
       .map((e) => {
-        const ey = e.kind === "boss" ? 3 : 1.4,
+        const ey = eye(e),
           along = (e.x - p.x) * dx + (e.z - p.z) * dz + (ey - 1.5) * dy;
         const distance = Math.hypot(
           e.x - p.x - dx * along,
@@ -547,7 +553,13 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     w.enemies.length < LIMITS.enemies &&
     w.time >= w.nextSpawn
   ) {
-    spawn(w, random(w) < 0.3 ? "spitter" : "crawler");
+    // Trial mix. Hornets stay out of wave 1 so the opening is still readable
+    // before the player has any reason to look up.
+    const roll = random(w);
+    spawn(
+      w,
+      roll < 0.2 && w.wave > 1 ? "hornet" : roll < 0.45 ? "spitter" : "crawler",
+    );
     w.spawned++;
     w.nextSpawn = w.time + 0.7;
   }
@@ -609,15 +621,28 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     }
     const stop = e.kind === "spitter" ? 17 : e.kind === "boss" ? 10 : 2;
     if (d > stop) {
-      const old = { x: e.x, z: e.z };
-      move(
-        e,
-        ((t.x - e.x) / d) * def.speed * dt,
-        ((t.z - e.z) / d) * def.speed * dt,
-        def.radius * 0.65,
-      );
-      if (Math.hypot(e.x - old.x, e.z - old.z) < 0.01)
-        move(e, Math.sign(-e.x || 1) * def.speed * dt, 0, def.radius * 0.65);
+      if (def.cruise) {
+        // Nothing to walk around up there, so a flier takes the straight line.
+        e.x += ((t.x - e.x) / d) * def.speed * dt;
+        e.z += ((t.z - e.z) / d) * def.speed * dt;
+      } else {
+        const old = { x: e.x, z: e.z };
+        move(
+          e,
+          ((t.x - e.x) / d) * def.speed * dt,
+          ((t.z - e.z) / d) * def.speed * dt,
+          def.radius * 0.65,
+        );
+        if (Math.hypot(e.x - old.x, e.z - old.z) < 0.01)
+          move(e, Math.sign(-e.x || 1) * def.speed * dt, 0, def.radius * 0.65);
+      }
+    }
+    // Dropping to strike and climbing back out is what makes altitude something
+    // the player has to read, rather than a constant the map could ignore.
+    if (def.cruise) {
+      const want = d < 7 ? 1.2 : def.cruise,
+        step = 5 * dt;
+      e.y += Math.max(-step, Math.min(step, want - e.y));
     }
     if (
       e.cool <= 0 &&

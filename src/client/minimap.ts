@@ -10,6 +10,7 @@ const COLORS = {
   crawler: "#ff8b6b",
   spitter: "#ffd479",
   boss: "#ff5f8f",
+  hornet: "#ffb347",
   mate: "#8fe3d8",
   downed: "#ffd479",
   self: "#d9f4ff",
@@ -61,8 +62,18 @@ export class Minimap {
     const c = this.ctx;
     c.clearRect(0, 0, this.canvas.width, this.canvas.height);
     c.drawImage(this.base, 0, 0);
-    for (const e of w.enemies)
-      this.dot(e.x, e.z, e.kind === "boss" ? 4 : 1.6, COLORS[e.kind]);
+    for (const e of w.enemies) {
+      const r = e.kind === "boss" ? 4 : 1.6;
+      // Airborne reads as a hollow mark. A flat map cannot say how high something
+      // is, and pretending otherwise makes "overhead" look like "on top of you".
+      if (e.y > 1.5) {
+        c.strokeStyle = COLORS[e.kind];
+        c.lineWidth = 1.1 * devicePixelRatio;
+        c.beginPath();
+        c.arc(this.px(e.x), this.pz(e.z), (r + 0.8) * devicePixelRatio, 0, 7);
+        c.stroke();
+      } else this.dot(e.x, e.z, r, COLORS[e.kind]);
+    }
     for (const p of w.players) {
       if (!p.connected || p.id === id) continue;
       if (p.hp > 0) this.dot(p.x, p.z, 2.4, COLORS.mate);

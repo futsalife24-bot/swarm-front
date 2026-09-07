@@ -42,10 +42,28 @@ export const WEAPONS = {
     radius: 6.5,
   },
 } as const;
+// `aim` is the body centre used by bullets and aim assist, measured from the unit's
+// own base. `cruise` is how high that base floats; ground units keep it at 0, so
+// their hit boxes are unchanged.
 export const ENEMIES = {
-  crawler: { hp: 75, speed: 3.5, radius: 1.25, damage: 10 },
-  spitter: { hp: 100, speed: 2.1, radius: 1.45, damage: 14 },
-  boss: { hp: 4200, speed: 1.4, radius: 4, damage: 40 },
+  crawler: {
+    hp: 75,
+    speed: 3.5,
+    radius: 1.25,
+    damage: 10,
+    aim: 1.4,
+    cruise: 0,
+  },
+  spitter: {
+    hp: 100,
+    speed: 2.1,
+    radius: 1.45,
+    damage: 14,
+    aim: 1.4,
+    cruise: 0,
+  },
+  boss: { hp: 4200, speed: 1.4, radius: 4, damage: 40, aim: 3, cruise: 0 },
+  hornet: { hp: 60, speed: 4.2, radius: 1.15, damage: 12, aim: 1, cruise: 6.5 },
 } as const;
 export const RARITIES = ["STANDARD", "REFINED", "RELIC"];
 export const POWER = {

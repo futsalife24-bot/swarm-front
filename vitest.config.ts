@@ -7,6 +7,7 @@ export default defineConfig({
       "tests/layout.test.ts",
       "tests/render.test.ts",
       "tests/rescue.test.ts",
+      "tests/hornet.test.ts",
     ],
     testTimeout: 30000,
   },
