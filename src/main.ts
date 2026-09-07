@@ -94,6 +94,8 @@ let save: Save = fresh(),
 let turnstileToken = "";
 // Which loadout slot the armoury is filling. Picking a weapon replaces this one.
 let activeSlot = 0;
+// Which group of figures the armoury rows show. Keeps each row to one line.
+let weaponStat = "power";
 function defaultEndpoint() {
   return (
     import.meta.env.VITE_SERVER_URL ??
@@ -252,6 +254,12 @@ function title() {
     };
   if (saveError) $("export").onclick = exportSave;
 }
+const STAT_TABS: [string, string][] = [
+  ["power", "威力"],
+  ["load", "装弾・装填"],
+  ["reach", "射程・連射"],
+  ["all", "すべて"],
+];
 const KIND_LABELS: Record<Weapon["kind"], string> = {
   rifle: "ライフル",
   shotgun: "ショットガン",
@@ -302,8 +310,9 @@ function tidyMarkup() {
     })
     .join("");
 }
-const figure = (value: string, label: string) =>
-  "<span><b>" + value + "</b>" + label + "</span>";
+// `group` decides which tab shows this figure; the row stays one line either way.
+const figure = (group: string, value: string, label: string) =>
+  '<span data-stat="' + group + '"><b>' + value + "</b>" + label + "</span>";
 function card(w: Weapon, lootOnly = false) {
   const d = WEAPONS[w.kind],
     base = equipped().find((a) => a.kind === w.kind),
@@ -327,22 +336,23 @@ function card(w: Weapon, lootOnly = false) {
     '</small></div><div class="weapon-figures">' +
     // One line of figures rather than three stacked blocks, so more of the
     // armoury fits on a landscape phone.
-    figure(damage, d.pellets > 1 ? "威力/散弾" : "威力") +
+    figure("power", damage, d.pellets > 1 ? "威力/散弾" : "威力") +
     (diff === null
       ? ""
-      : '<span class="weapon-diff' +
+      : '<span data-stat="power" class="weapon-diff' +
         (diff >= 0 ? "" : " down") +
         '">' +
         (diff >= 0 ? "+" : "") +
         diff +
         "</span>") +
-    figure(String(d.mag), "装弾") +
+    figure("load", String(d.mag), "装弾") +
     figure(
+      "load",
       (d.reload * (w.effect === "quick" ? 0.8 : 1)).toFixed(2) + "s",
       "装填",
     ) +
-    figure(d.range + "m", "射程") +
-    figure((1 / d.interval).toFixed(1), "発/s") +
+    figure("reach", d.range + "m", "射程") +
+    figure("reach", (1 / d.interval).toFixed(1), "発/s") +
     "</div>" +
     (lootOnly
       ? '<div class="loot-state"><b>獲得</b><small>' +
@@ -350,7 +360,11 @@ function card(w: Weapon, lootOnly = false) {
         "</small></div>"
       : slot < 0
         ? ""
-        : '<span class="equipped-flag">装備中 ' + (slot + 1) + "</span>") +
+        : '<span class="equipped-flag" title="装備中 ' +
+          (slot + 1) +
+          '">E' +
+          (slot + 1) +
+          "</span>") +
     "</article>"
   );
 }
@@ -398,7 +412,7 @@ function gear() {
     )
     .join(
       "",
-    )}</div><p class="slot-hint">装備 ${activeSlot + 1} に入れる武器を右から選んでください。</p><div class="inventory-head"><b>武器庫 <span>${kindTally()}</span></b></div><details class="inventory-management" ${overflow.length ? "open" : ""}><summary>武器を整理する（装備中は保護）</summary>${tidyMarkup()}</details><details><summary>操作・設定・保存について</summary><p>PC: WASD移動 / クリック射撃・マウス照準 / R装填 / Q切替 / Space回避 / E長押し蘇生 / Escマウス解放</p><p>スマホ: 左スティック移動 / 右側ドラッグ照準 / 射撃ボタン長押し。味方3.5m以内で蘇生を2.5秒長押し。</p><label>視点感度 <input id="sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>音量（0でミュート） <input id="volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量</option></select></label><label>ミニマップ <select id="map-rotate"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><p>道中の緑の戦利品は接近して回収。勝利時に確定、敗北・復帰できない切断では未確定品を失います。保存済みの武器は失いません。端末変更・ブラウザデータ削除で引き継げません。クラウド保存や完全な改ざん防止はありません。</p><button id="export">保存データを書き出す</button></details></div><section class="gear-arsenal"><div class="weapon-filters"><select id="weapon-filter" aria-label="武器系統"><option value="all">全系統</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select><select id="weapon-sort" aria-label="武器の並び順"><option value="default">入手順</option><option value="rarity">レア度順</option><option value="power">1発の威力順</option></select></div><div class="weapon-list" aria-label="所持武器リスト">${shown.map((w) => card(w)).join("")}</div></section></section>`;
+    )}</div><p class="slot-hint">装備 ${activeSlot + 1} に入れる武器を右から選んでください。</p><div class="inventory-head"><b>武器庫 <span>${kindTally()}</span></b></div><details class="inventory-management" ${overflow.length ? "open" : ""}><summary>武器を整理する（装備中は保護）</summary>${tidyMarkup()}</details><details><summary>操作・設定・保存について</summary><p>PC: WASD移動 / クリック射撃・マウス照準 / R装填 / Q切替 / Space回避 / E長押し蘇生 / Escマウス解放</p><p>スマホ: 左スティック移動 / 右側ドラッグ照準 / 射撃ボタン長押し。味方3.5m以内で蘇生を2.5秒長押し。</p><label>視点感度 <input id="sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>音量（0でミュート） <input id="volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量</option></select></label><label>ミニマップ <select id="map-rotate"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><p>道中の緑の戦利品は接近して回収。勝利時に確定、敗北・復帰できない切断では未確定品を失います。保存済みの武器は失いません。端末変更・ブラウザデータ削除で引き継げません。クラウド保存や完全な改ざん防止はありません。</p><button id="export">保存データを書き出す</button></details></div><section class="gear-arsenal"><div class="weapon-filters"><select id="weapon-filter" aria-label="武器系統"><option value="all">全系統</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select><select id="weapon-sort" aria-label="武器の並び順"><option value="default">入手順</option><option value="rarity">レア度順</option><option value="power">1発の威力順</option></select></div><div class="stat-tabs" role="tablist">${STAT_TABS.map(([key, label]) => `<button type="button" role="tab" data-stat-tab="${key}" aria-selected="${weaponStat === key}" class="${weaponStat === key ? "selected" : ""}">${label}</button>`).join("")}</div><div class="weapon-list" data-stat="${weaponStat}" aria-label="所持武器リスト">${shown.map((w) => card(w)).join("")}</div></section></section>`;
   const filter = $("weapon-filter") as HTMLSelectElement,
     sort = $("weapon-sort") as HTMLSelectElement;
   filter.value = weaponFilter;
@@ -453,6 +467,13 @@ function gear() {
     else if (network?.id) lobby();
     else void connect(!inviteCode() && !resumable, Boolean(resumable));
   };
+  ui.querySelectorAll<HTMLButtonElement>("[data-stat-tab]").forEach(
+    (b) =>
+      (b.onclick = () => {
+        weaponStat = b.dataset.statTab!;
+        gear();
+      }),
+  );
   ui.querySelectorAll<HTMLButtonElement>("[data-pick]").forEach(
     (b) =>
       (b.onclick = () => {
@@ -467,7 +488,11 @@ function gear() {
     // other side swaps them rather than duplicating it.
     if (n.equipped[other] === id) n.equipped[other] = n.equipped[activeSlot];
     n.equipped[activeSlot] = id;
-    if (write(n)) network?.equipment(equipped());
+    if (write(n)) {
+      sound.unlock();
+      sound.play("equip");
+      network?.equipment(equipped());
+    }
     gear();
   };
   ui.querySelectorAll<HTMLElement>("[data-equip]").forEach((el) => {

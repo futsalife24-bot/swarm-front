@@ -794,13 +794,28 @@ body[data-screen="title"] footer {
   .gear .weapon-row {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 7px 10px;
-    min-height: 44px;
+    gap: 10px;
+    padding: 3px 9px;
+    min-height: 40px;
     cursor: pointer;
   }
+  /* Rarity and effect ride beside the name instead of under it. */
   .gear .weapon-row .weapon-identity {
-    flex: 0 0 31%;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  .gear .weapon-row h3 {
+    margin: 0;
+    white-space: nowrap;
+  }
+  .gear .weapon-row .weapon-identity small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .gear .weapon-row .weapon-identity {
+    flex: 0 0 46%;
     min-width: 0;
   }
   .gear .weapon-row .weapon-figures {

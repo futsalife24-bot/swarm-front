@@ -586,10 +586,37 @@ footer span {
   font-size: 11px !important;
   margin: 6px 0 0 !important;
 }
-.equipped-flag {
+/* The tab decides which figures a row shows, so the row stays one line. */
+.weapon-list[data-stat="power"] .weapon-figures span:not([data-stat="power"]),
+.weapon-list[data-stat="load"] .weapon-figures span:not([data-stat="load"]),
+.weapon-list[data-stat="reach"] .weapon-figures span:not([data-stat="reach"]) {
+  display: none;
+}
+.stat-tabs {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 6px;
+}
+.stat-tabs button {
+  flex: 1;
+  padding: 6px 4px;
+  font-size: 11px;
+  min-height: 34px;
+  border-radius: 3px;
+}
+.stat-tabs button.selected {
+  background: #b8edc521;
+  border-color: var(--mint);
   color: var(--mint);
+}
+.equipped-flag {
+  color: #16362d;
+  background: var(--mint);
   font-size: 10px;
+  font-weight: 700;
   white-space: nowrap;
+  border-radius: 3px;
+  padding: 2px 5px;
 }
 .weapon-row[data-equip]:hover {
   background: #1e3d49;
