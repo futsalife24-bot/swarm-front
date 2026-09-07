@@ -698,15 +698,131 @@ body[data-screen="title"] footer {
   .gear .inventory-head b {
     font-size: 13px;
   }
+  /* Left half holds the mission, loadout and stock; the armoury gets the right
+     half to itself and scrolls there. One weapon per full-width row was the
+     thing that made this screen tiring to read. */
+  /* The narrow left column cannot hold a row of full-size buttons. */
+  .gear .gear-brief header {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .gear .gear-brief header h1 {
+    font-size: 20px;
+  }
+  .gear .gear-brief header button,
+  .gear .gear-brief .brief button,
+  .gear .gear-brief .gear-tools button {
+    padding: 7px 10px;
+    font-size: 11px;
+    min-height: 36px;
+    /* Buttons wrap as whole buttons; letting them break mid-word turned the
+       labels into vertical text in this narrow column. */
+    white-space: nowrap;
+  }
+  .gear .gear-brief .gear-tools {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .gear .gear-brief .gear-tools small {
+    display: none;
+  }
+  .gear .gear-brief .brief {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  /* The left column scrolls; the header holding the launch button must not. */
+  .gear .gear-brief header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #0e2531;
+  }
+  /* 283px of buttons do not fit a 196px column; let them wrap and give the
+     primary action its own full-width row. */
+  .gear .gear-brief .gear-header-actions {
+    flex-wrap: wrap;
+    gap: 6px;
+    min-width: 0;
+  }
+  .gear .gear-brief #launch {
+    order: 3;
+    flex: 1 1 100%;
+  }
+  .gear .gear-brief header > div:first-child {
+    min-width: 0;
+  }
+  .gear .gear-brief .loadout-slots {
+    flex-direction: column;
+    gap: 5px;
+  }
+  .panel.gear {
+    display: grid;
+    grid-template-columns: minmax(196px, 0.62fr) 1.7fr;
+    column-gap: 16px;
+    align-items: start;
+    max-height: 100dvh;
+    overflow: hidden;
+  }
+  .gear-brief {
+    max-height: calc(100dvh - 36px);
+    overflow: auto;
+    overscroll-behavior: contain;
+    padding-right: 4px;
+  }
+  .gear-arsenal {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    max-height: calc(100dvh - 36px);
+  }
   .gear .weapon-list {
-    max-height: calc(100dvh - 132px);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(156px, 1fr));
+    /* A flex-basis of 0 hands the grid a fixed height and squashes every auto
+       row; size the tracks by their content and let the box grow instead. */
+    grid-auto-rows: min-content;
+    align-content: start;
+    gap: 6px;
+    max-height: none;
+    flex: 1 1 auto;
     min-height: 80px;
     overflow: auto;
     overscroll-behavior: contain;
   }
   .gear .weapon-row {
-    padding: 4px 10px;
-    min-height: 50px;
+    display: block;
+    padding: 7px 9px;
+    min-height: 0;
+  }
+  .gear .weapon-row h3 {
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
+  .gear .weapon-figures {
+    margin-top: 4px;
+    gap: 0 8px;
+  }
+  .gear .weapon-row .equip-actions {
+    margin-top: 6px;
+  }
+  .gear .weapon-row .equip-actions button {
+    min-height: 34px;
+    font-size: 10px;
+    padding: 4px;
+  }
+  .gear .inventory-head {
+    display: block;
+  }
+  .gear .weapon-filters {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  .gear .weapon-filters select {
+    flex: 1;
+    min-width: 0;
+    padding: 7px;
+    font-size: 11px;
   }
   .gear .weapon-row h3 {
     margin-bottom: 3px;

@@ -57,11 +57,27 @@ test("short landscape title and weapon list fit without HUD/control collisions a
   await page.screenshot({ path: dir + "/title.png" });
   await page.getByRole("button", { name: "ソロで出撃準備" }).click();
   await expect(page.locator(".weapon-list .weapon-row")).toHaveCount(3);
-  const rows = await page
-    .locator(".weapon-row")
-    .evaluateAll((es) => es.map((e) => e.getBoundingClientRect().y));
-  expect(rows[1]).toBeGreaterThan(rows[0]);
-  expect(rows[2]).toBeGreaterThan(rows[1]);
+  // The armoury is a grid now, so cards share a row. What has to hold is that
+  // DOM order still reads left to right then top to bottom, and that no two
+  // cards sit on top of each other.
+  const rows = await page.locator(".weapon-row").evaluateAll((es) =>
+    es.map((e) => {
+      const b = e.getBoundingClientRect();
+      return {
+        x: Math.round(b.x),
+        y: Math.round(b.y),
+        w: b.width,
+        h: b.height,
+      };
+    }),
+  );
+  for (const [i, r] of rows.entries()) {
+    expect(r.w).toBeGreaterThan(0);
+    expect(r.h).toBeGreaterThan(0);
+    if (!i) continue;
+    const prev = rows[i - 1];
+    expect(r.y > prev.y || (r.y === prev.y && r.x > prev.x)).toBe(true);
+  }
   await page.locator("#weapon-filter").selectOption("rocket");
   await expect(page.locator(".weapon-list .weapon-row")).toHaveCount(1);
   await expect(page.locator(".weapon-list")).toContainText("RL-2");
