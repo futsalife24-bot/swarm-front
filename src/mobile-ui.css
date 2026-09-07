@@ -790,14 +790,58 @@ body[data-screen="title"] footer {
     overscroll-behavior: contain;
   }
   /* One weapon per row, and the row itself is the control: picking a slot on
-     the left then tapping a row is the whole interaction. */
+     the left then tapping a row is the whole interaction. The column names are
+     written once in the header instead of on all eight rows. */
+  .gear .weapon-head,
   .gear .weapon-row {
-    display: flex;
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr) 78px 34px 48px 42px 40px
+      24px;
+    gap: 8px;
     align-items: center;
-    gap: 10px;
+  }
+  .gear .weapon-head {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: #0e2531;
+    /* The rows carry a 3px rarity stripe, so the header starts 3px further in. */
+    padding: 4px 9px 4px 12px;
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: #8fa8b3;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 5px;
+  }
+  .gear .weapon-row {
     padding: 3px 9px;
     min-height: 40px;
     cursor: pointer;
+  }
+  /* Lets the five figures sit directly in the row's grid so they line up with
+     the header. */
+  .gear .weapon-list .weapon-figures {
+    display: contents;
+  }
+  .gear .weapon-list .weapon-figures i {
+    display: none;
+  }
+  .gear .weapon-list .weapon-figures b {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .gear .weapon-list .weapon-figures span {
+    min-width: 0;
+  }
+  /* The base rule makes every span a flex box, which turns the comparison chip
+     into a block and breaks the power cell onto two lines. */
+  .gear .weapon-list .weapon-diff {
+    display: inline;
+  }
+  .gear .weapon-list .weapon-diff {
+    font-size: 10px !important;
+    margin-left: 4px;
   }
   /* Rarity and effect ride beside the name instead of under it. */
   .gear .weapon-row .weapon-identity {
@@ -813,19 +857,6 @@ body[data-screen="title"] footer {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-  .gear .weapon-row .weapon-identity {
-    flex: 0 0 46%;
-    min-width: 0;
-  }
-  .gear .weapon-row .weapon-figures {
-    flex: 1;
-    min-width: 0;
-    margin-top: 0;
-    gap: 1px 9px;
-  }
-  .gear .weapon-row .equipped-flag {
-    flex: 0 0 auto;
   }
   /* These slots are buttons now, so the span rules above no longer reach them. */
   .gear .gear-brief .loadout-slots button {

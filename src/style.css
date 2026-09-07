@@ -586,28 +586,10 @@ footer span {
   font-size: 11px !important;
   margin: 6px 0 0 !important;
 }
-/* The tab decides which figures a row shows, so the row stays one line. */
-.weapon-list[data-stat="power"] .weapon-figures span:not([data-stat="power"]),
-.weapon-list[data-stat="load"] .weapon-figures span:not([data-stat="load"]),
-.weapon-list[data-stat="reach"] .weapon-figures span:not([data-stat="reach"]) {
-  display: none;
-}
-.stat-tabs {
-  display: flex;
-  gap: 5px;
-  margin-bottom: 6px;
-}
-.stat-tabs button {
-  flex: 1;
-  padding: 6px 4px;
-  font-size: 11px;
-  min-height: 34px;
-  border-radius: 3px;
-}
-.stat-tabs button.selected {
-  background: #b8edc521;
-  border-color: var(--mint);
-  color: var(--mint);
+/* The result screen has no header row, so its rows keep their own labels. */
+.weapon-figures i {
+  font-style: normal;
+  color: #8fa8b3;
 }
 .equipped-flag {
   color: #16362d;
