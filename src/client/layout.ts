@@ -5,6 +5,7 @@ export const CONTROL_IDS = [
   "reload",
   "swap",
   "revive",
+  "pause",
 ] as const;
 export type ControlId = (typeof CONTROL_IDS)[number];
 export const LABELS: Record<ControlId, string> = {
@@ -14,6 +15,7 @@ export const LABELS: Record<ControlId, string> = {
   reload: "装填",
   swap: "切替",
   revive: "蘇生",
+  pause: "一時停止",
 };
 export interface Placement {
   x: number;
@@ -37,11 +39,16 @@ export const defaultLayout = (): Layout => ({
     reload: { x: 0.77, y: 0.43, size: 1 },
     swap: { x: 0.92, y: 0.13, size: 1 },
     revive: { x: 0.64, y: 0.84, size: 1 },
+    pause: { x: 0.5, y: 0.95, size: 0.7 },
   },
 });
 export function parseLayout(raw: string | null): Layout {
   if (raw === null) return defaultLayout();
   const v = JSON.parse(raw) as Layout;
+  // `pause` arrived after the first layouts were saved. Fill it in rather than
+  // rejecting an arrangement the player already tuned.
+  if (v?.buttons && !v.buttons.pause)
+    v.buttons.pause = defaultLayout().buttons.pause;
   if (
     !v ||
     v.version !== 1 ||

@@ -11,6 +11,7 @@ import {
   eye,
   blocked,
   falloff,
+  roofHeight,
 } from "../src/shared/game";
 // Trial flier. These cover the parts that altitude actually changed; balance and
 // wave composition are deliberately not asserted.
@@ -42,16 +43,25 @@ describe("airborne enemy", () => {
     expect(w.enemies[0].y).toBe(ENEMIES.hornet.cruise);
     expect(eye(w.enemies[0])).toBeCloseTo(7.5);
   });
-  it("crosses ground that a walker cannot enter", () => {
+  it("climbs over a building instead of passing through it", () => {
     const { w, p } = field();
     // Straight line from spawn to the player runs through a building.
     p.x = 17;
     p.z = 30;
     spawn(w, "hornet", 17, -30);
-    expect(blocked(17, 4, ENEMIES.hornet.radius)).toBe(true);
-    const start = w.enemies[0].z;
-    run(w, 12);
-    expect(w.enemies[0].z).toBeGreaterThan(start + 20);
+    const roof = roofHeight(17, 4, ENEMIES.hornet.radius);
+    expect(roof).toBeGreaterThan(ENEMIES.hornet.cruise);
+    let insideAtCruise = 0,
+      cleared = false;
+    for (let n = 0; n < 12 / 0.05; n++) {
+      step(w, { p: neutral() });
+      const e = w.enemies[0];
+      // Never occupy a building's footprint below its roof.
+      if (blocked(e.x, e.z, ENEMIES.hornet.radius, e.y)) insideAtCruise++;
+      if (e.z > 4) cleared = true;
+    }
+    expect(insideAtCruise).toBe(0);
+    expect(cleared).toBe(true);
   });
   it("drops to strike and climbs back out of reach", () => {
     const { w, p } = field();

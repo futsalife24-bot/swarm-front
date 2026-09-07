@@ -40,8 +40,8 @@ export function parseSave(raw: string | null): Save {
     v.volume < 0 ||
     v.volume > 1 ||
     !Number.isFinite(v.sensitivity) ||
-    v.sensitivity < 0.3 ||
-    v.sensitivity > 2.5 ||
+    v.sensitivity < 0.1 ||
+    v.sensitivity > 6 ||
     ![0.65, 1].includes(v.quality) ||
     !["boolean", "undefined"].includes(typeof v.mapRotates)
   )

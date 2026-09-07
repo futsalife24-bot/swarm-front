@@ -216,23 +216,37 @@ export function loot(w: World): Weapon {
         : "none",
   };
 }
-export function blocked(x: number, z: number, r = 0.55) {
+// Roof height over a point, or 0 in the open. Fliers use it to know how high
+// they must climb to cross something instead of going through it.
+export function roofHeight(x: number, z: number, r = 0.55) {
+  let best = 0;
+  for (const b of BLOCKS)
+    if (Math.abs(x - b.x) < b.w / 2 + r && Math.abs(z - b.z) < b.d / 2 + r)
+      best = Math.max(best, b.h);
+  return best;
+}
+// `y` is how high the mover is: a building only stops what is below its roof.
+export function blocked(x: number, z: number, r = 0.55, y = 0) {
   return (
     Math.abs(x) > 47 - r ||
     Math.abs(z) > 52 - r ||
     BLOCKS.some(
-      (b) => Math.abs(x - b.x) < b.w / 2 + r && Math.abs(z - b.z) < b.d / 2 + r,
+      (b) =>
+        b.h > y &&
+        Math.abs(x - b.x) < b.w / 2 + r &&
+        Math.abs(z - b.z) < b.d / 2 + r,
     )
   );
 }
 export function move(
-  p: { x: number; z: number },
+  p: { x: number; z: number; y?: number },
   dx: number,
   dz: number,
   r = 0.55,
 ) {
-  if (!blocked(p.x + dx, p.z, r)) p.x += dx;
-  if (!blocked(p.x, p.z + dz, r)) p.z += dz;
+  const y = p.y ?? 0;
+  if (!blocked(p.x + dx, p.z, r, y)) p.x += dx;
+  if (!blocked(p.x, p.z + dz, r, y)) p.z += dz;
 }
 // Segment/AABB slab intersection; shared by bullets, explosions, aim assist and camera.
 export function wallDistance(
@@ -288,8 +302,7 @@ export function spawn(w: World, kind: Enemy["kind"], x?: number, z?: number) {
   const a = random(w) * Math.PI * 2;
   let ex = x ?? Math.sin(a) * 10,
     ez = z ?? (random(w) < 0.5 ? -46 : 46);
-  // A flier is never trapped by a building, so it keeps its requested spot.
-  if (!ENEMIES[kind].cruise && blocked(ex, ez, ENEMIES[kind].radius)) {
+  if (blocked(ex, ez, ENEMIES[kind].radius, ENEMIES[kind].cruise)) {
     ex = 0;
     ez = -43;
   }
@@ -628,9 +641,13 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     const stop = e.kind === "spitter" ? 17 : e.kind === "boss" ? 10 : 2;
     if (d > stop) {
       if (def.cruise) {
-        // Nothing to walk around up there, so a flier takes the straight line.
-        e.x += ((t.x - e.x) / d) * def.speed * dt;
-        e.z += ((t.z - e.z) / d) * def.speed * dt;
+        // Straight line, but only into space it has actually climbed above.
+        const nx = e.x + ((t.x - e.x) / d) * def.speed * dt,
+          nz = e.z + ((t.z - e.z) / d) * def.speed * dt;
+        if (!blocked(nx, nz, def.radius, e.y)) {
+          e.x = nx;
+          e.z = nz;
+        }
       } else {
         const old = { x: e.x, z: e.z };
         move(
@@ -646,8 +663,21 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     // Dropping to strike and climbing back out is what makes altitude something
     // the player has to read, rather than a constant the map could ignore.
     if (def.cruise) {
-      const want = d < 7 ? 1.2 : def.cruise,
-        step = 5 * dt;
+      // Climb to clear whatever is ahead, otherwise drop to strike and settle
+      // back to cruising height.
+      const ahead = Math.max(
+        roofHeight(e.x, e.z, def.radius),
+        roofHeight(
+          e.x + ((t.x - e.x) / d) * 3,
+          e.z + ((t.z - e.z) / d) * 3,
+          def.radius,
+        ),
+      );
+      const want = Math.max(
+        ahead ? ahead + 1.5 : 0,
+        d < 7 && !ahead ? 1.2 : def.cruise,
+      );
+      const step = 9 * dt;
       e.y += Math.max(-step, Math.min(step, want - e.y));
     }
     if (
