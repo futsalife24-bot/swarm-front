@@ -67,7 +67,8 @@ export const ENEMIES = {
   // retreating while firing has a cost instead of being a free win.
   hornet: { hp: 60, speed: 8.2, radius: 1.15, damage: 12, aim: 1, cruise: 6.5 },
 } as const;
-export const RARITIES = ["STANDARD", "REFINED", "RELIC"];
+// Short enough to sit beside a weapon name without pushing the row wider.
+export const RARITIES = ["R", "SR", "SSR"];
 export const POWER = {
   scale: 1000,
   min: 1000,

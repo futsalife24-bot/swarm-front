@@ -591,6 +591,25 @@ footer span {
   font-style: normal;
   color: #8fa8b3;
 }
+/* Colour scans faster, but the three stripe colours are exactly the pair most
+   often confused, so the tier is written out as well. */
+.rarity-tag {
+  font-style: normal;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  border: 1px solid currentColor;
+  flex: 0 0 auto;
+  color: #9fb6bd;
+}
+.rarity-tag.rarity1 {
+  color: var(--mint);
+}
+.rarity-tag.rarity2 {
+  color: var(--gold);
+}
 .equipped-flag {
   color: #16362d;
   background: var(--mint);

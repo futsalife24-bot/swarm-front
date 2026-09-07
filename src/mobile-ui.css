@@ -796,8 +796,8 @@ body[data-screen="title"] footer {
   .gear .weapon-row {
     display: grid;
     grid-template-columns:
-      minmax(0, 1fr) 78px 34px 48px 42px 40px
-      24px;
+      minmax(0, 1fr) 66px 68px 30px 44px 40px 32px
+      22px;
     gap: 8px;
     align-items: center;
   }
@@ -831,6 +831,11 @@ body[data-screen="title"] footer {
     font-size: 12px;
     white-space: nowrap;
   }
+  /* The effect cell carries a word and a number, so it reads a size down. */
+  .gear .weapon-list [data-stat="effect"] b {
+    font-size: 10px;
+    color: var(--gold);
+  }
   .gear .weapon-list .weapon-figures span {
     min-width: 0;
   }
@@ -853,10 +858,9 @@ body[data-screen="title"] footer {
     margin: 0;
     white-space: nowrap;
   }
-  .gear .weapon-row .weapon-identity small {
+  .gear .weapon-row h3 {
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
   }
   /* These slots are buttons now, so the span rules above no longer reach them. */
   .gear .gear-brief .loadout-slots button {
