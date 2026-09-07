@@ -103,6 +103,9 @@ export const LIMITS = {
   players: 4,
   enemies: 40,
   inventory: 80,
+  // Per weapon family. A single 80-slot pile made "pick one to drop" a choice
+  // between eighty things; eight of one family is a comparison you can make.
+  perKind: 8,
   inputHz: 20,
   snapshotHz: 10,
   messageBytes: 2048,

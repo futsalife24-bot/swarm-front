@@ -50,15 +50,50 @@ export function parseSave(raw: string | null): Save {
     );
   return v;
 }
+// Brings an armoury filled under the old single cap down to the per-family one.
+// Equipped weapons are never dropped; among the rest the weakest go first.
+export function trimToKindCap(save: Save) {
+  const keep = new Set<string>();
+  const removed: Weapon[] = [];
+  for (const kind of new Set(save.inventory.map((w) => w.kind))) {
+    const family = save.inventory.filter((w) => w.kind === kind);
+    const ranked = [...family].sort(
+      (a, b) =>
+        Number(save.equipped.includes(b.id)) -
+          Number(save.equipped.includes(a.id)) ||
+        b.rarity - a.rarity ||
+        b.power - a.power,
+    );
+    for (const [i, w] of ranked.entries())
+      if (i < LIMITS.perKind || save.equipped.includes(w.id)) keep.add(w.id);
+      else removed.push(w);
+  }
+  if (!removed.length) return { save, removed };
+  return {
+    save: {
+      ...save,
+      inventory: save.inventory.filter((w) => keep.has(w.id)),
+    },
+    removed,
+  };
+}
 export function rewards(save: Save, run: string, items: Weapon[]) {
   if (save.receipts.includes(run)) return { save, overflow: [] as Weapon[] };
   const next = structuredClone(save);
   const ids = new Set(next.inventory.map((w) => w.id));
   const overflow: Weapon[] = [];
+  const held = (kind: Weapon["kind"]) =>
+    next.inventory.filter((w) => w.kind === kind).length;
   for (const item of items) {
     if (!validWeapon(item)) throw new Error("報酬が不正です");
     if (ids.has(item.id)) continue;
-    if (next.inventory.length >= LIMITS.inventory) overflow.push(item);
+    // A family fills up long before the armoury does, and that is the point:
+    // the choice it forces is between weapons you can actually compare.
+    if (
+      next.inventory.length >= LIMITS.inventory ||
+      held(item.kind) >= LIMITS.perKind
+    )
+      overflow.push(item);
     else {
       next.inventory.push(item);
       ids.add(item.id);

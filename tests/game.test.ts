@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { STARTERS, LIMITS, validWeapon } from "../src/shared/defs";
+import { STARTERS, LIMITS, validWeapon, type Weapon } from "../src/shared/defs";
 import {
   createWorld,
   addPlayer,
@@ -12,7 +12,13 @@ import {
   validInput,
   finish,
 } from "../src/shared/game";
-import { fresh, parseSave, persist, rewards } from "../src/client/save";
+import {
+  fresh,
+  parseSave,
+  persist,
+  rewards,
+  trimToKindCap,
+} from "../src/client/save";
 import { pilot } from "./bot";
 function fixture() {
   const w = createWorld("test", 42),
@@ -217,5 +223,54 @@ describe("versioned local inventory", () => {
     expect(result.overflow).toEqual([w]);
     expect(result.save.receipts).not.toContain("r");
     expect(result.save.equipped).toEqual(s.equipped);
+  });
+});
+describe("per-family armoury cap", () => {
+  it("refuses a family that is full while other families still take drops", () => {
+    const save = fresh();
+    const make = (kind: Weapon["kind"], n: number, rarity: 0 | 1 | 2 = 0) =>
+      Array.from({ length: n }, (_, i) => ({
+        id: `${kind}-${rarity}-${i}`,
+        kind,
+        rarity,
+        power: 1,
+        effect: "none" as const,
+      }));
+    const filled = {
+      ...save,
+      inventory: [...save.inventory, ...make("rifle", LIMITS.perKind)],
+    };
+    const r = rewards(filled, "run-1", [
+      ...make("rifle", 1).map((w) => ({ ...w, id: "new-rifle" })),
+      ...make("rocket", 1).map((w) => ({ ...w, id: "new-rocket" })),
+    ]);
+    expect(r.overflow.map((w) => w.id)).toEqual(["new-rifle"]);
+    expect(r.save.inventory.some((w) => w.id === "new-rocket")).toBe(true);
+    // A run with anything unsaved must stay re-savable.
+    expect(r.save.receipts).not.toContain("run-1");
+  });
+  it("trims an old armoury to the cap, weakest first, keeping what is equipped", () => {
+    const base = fresh();
+    const extras = Array.from({ length: 12 }, (_, i) => ({
+      id: "rifle-extra-" + i,
+      kind: "rifle" as const,
+      rarity: (i < 2 ? 2 : 0) as 0 | 2,
+      power: 1 + i / 1000,
+      effect: "none" as const,
+    }));
+    const equippedRifle = base.inventory.find((w) => w.kind === "rifle")!;
+    const { save, removed } = trimToKindCap({
+      ...base,
+      inventory: [...base.inventory, ...extras],
+    });
+    expect(save.inventory.filter((w) => w.kind === "rifle")).toHaveLength(
+      LIMITS.perKind,
+    );
+    expect(save.inventory.some((w) => w.id === equippedRifle.id)).toBe(true);
+    // The two RELIC rifles outrank the standard ones and must survive.
+    expect(save.inventory.some((w) => w.id === "rifle-extra-0")).toBe(true);
+    expect(save.inventory.some((w) => w.id === "rifle-extra-1")).toBe(true);
+    expect(removed.every((w) => w.rarity === 0)).toBe(true);
+    expect(removed.every((w) => !base.equipped.includes(w.id))).toBe(true);
   });
 });

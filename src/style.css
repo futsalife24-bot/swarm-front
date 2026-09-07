@@ -557,6 +557,20 @@ footer span {
 }
 /* Placed by the layout system like any other control, so left/top/size/opacity
    all arrive from there. Defaults to bottom centre. */
+.tidy-kind {
+  margin: 10px 0 14px;
+}
+.tidy-kind b {
+  display: block;
+  font-size: 13px;
+  color: var(--gold);
+}
+.tidy-kind small {
+  display: block;
+  font-size: 11px;
+  color: #a5bec8;
+  margin: 4px 0 6px;
+}
 #pause {
   position: fixed;
   z-index: 4;

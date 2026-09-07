@@ -36,6 +36,7 @@ import {
   parseSave,
   persist,
   rewards,
+  trimToKindCap,
   SAVE_KEY,
   type Save,
 } from "./client/save";
@@ -159,6 +160,14 @@ async function mountTurnstile(endpoint: string) {
 }
 try {
   save = parseSave(localStorage.getItem(SAVE_KEY));
+  // Armouries built under the old single cap are brought down to the per-family
+  // one. Say what went, rather than letting the count quietly shrink.
+  const trimmed = trimToKindCap(save);
+  if (trimmed.removed.length) {
+    save = trimmed.save;
+    persist(save);
+    status = `武器庫を系統ごと${LIMITS.perKind}丁までに整理し、レア度と威力の低い${trimmed.removed.length}丁を手放しました。装備中の武器は残しています。`;
+  }
 } catch (e) {
   saveError = String((e as Error).message);
 }
@@ -240,6 +249,56 @@ function title() {
       title();
     };
   if (saveError) $("export").onclick = exportSave;
+}
+const KIND_LABELS: Record<Weapon["kind"], string> = {
+  rifle: "ライフル",
+  shotgun: "ショットガン",
+  rocket: "ロケット",
+};
+const heldOf = (kind: Weapon["kind"]) =>
+  save.inventory.filter((w) => w.kind === kind);
+// Counts per family, because that is the cap the player now runs into.
+const kindTally = () =>
+  (Object.keys(KIND_LABELS) as Weapon["kind"][])
+    .map(
+      (k) =>
+        `${KIND_LABELS[k]} ${heldOf(k).length}/${LIMITS.perKind}` +
+        (heldOf(k).length >= LIMITS.perKind ? "（満杯）" : ""),
+    )
+    .join(" · ");
+// Tidying only ever offers one family at a time: the one that is actually
+// blocking, or the one being browsed. Eighty buttons was not a choice.
+function tidyMarkup() {
+  const blocking = new Set(overflow.map((w) => w.kind));
+  const kinds = (Object.keys(KIND_LABELS) as Weapon["kind"][]).filter((k) =>
+    blocking.size ? blocking.has(k) : heldOf(k).length >= LIMITS.perKind,
+  );
+  const shown = kinds.length
+    ? kinds
+    : (Object.keys(KIND_LABELS) as Weapon["kind"][]).filter(
+        (k) => heldOf(k).length > 0,
+      );
+  return shown
+    .map((k) => {
+      const spare = heldOf(k).filter((w) => !save.equipped.includes(w.id));
+      const waiting = overflow.filter((w) => w.kind === k).length;
+      return (
+        `<div class="tidy-kind"><b>${KIND_LABELS[k]} ${heldOf(k).length}/${LIMITS.perKind}</b>` +
+        (waiting
+          ? `<small>この系統で ${waiting} 丁が保存待ちです。${waiting} 丁ぶん手放すと保存できます。</small>`
+          : "<small>満杯です。新しい1丁を受け取るには1丁手放してください。</small>") +
+        (spare.length
+          ? spare
+              .map(
+                (w) =>
+                  `<button data-discard="${w.id}">${weaponName(w)} · ${RARITIES[w.rarity]} · 威力${Math.round(WEAPONS[w.kind].damage * w.power)}${w.effect === "none" ? "" : " · " + EFFECTS[w.effect]}</button>`,
+              )
+              .join("")
+          : "<small>装備中の武器しかありません。先に装備を替えてください。</small>") +
+        "</div>"
+      );
+    })
+    .join("");
 }
 const figure = (value: string, label: string) =>
   "<span><b>" + value + "</b>" + label + "</span>";
@@ -346,15 +405,7 @@ function gear() {
     .map((w, i) => `<span>装備 ${i + 1}<b>${weaponName(w)}</b></span>`)
     .join(
       "",
-    )}</div><div class="inventory-head"><b>武器庫 <span>${save.inventory.length} / ${LIMITS.inventory}</span></b><div class="weapon-filters"><select id="weapon-filter" aria-label="武器系統"><option value="all">全系統</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select><select id="weapon-sort" aria-label="武器の並び順"><option value="default">入手順</option><option value="rarity">レア度順</option><option value="power">1発の威力順</option></select></div></div><div class="weapon-list" aria-label="所持武器リスト">${shown.map((w) => card(w)).join("")}</div><details class="inventory-management"><summary>武器を整理する（装備中は保護）</summary>${save.inventory
-    .filter((w) => !save.equipped.includes(w.id))
-    .map(
-      (w) =>
-        `<button data-discard="${w.id}">${weaponName(w)} · 威力${Math.round(WEAPONS[w.kind].damage * w.power)}を整理</button>`,
-    )
-    .join(
-      "",
-    )}</details><details><summary>操作・設定・保存について</summary><p>PC: WASD移動 / クリック射撃・マウス照準 / R装填 / Q切替 / Space回避 / E長押し蘇生 / Escマウス解放</p><p>スマホ: 左スティック移動 / 右側ドラッグ照準 / 射撃ボタン長押し。味方3.5m以内で蘇生を2.5秒長押し。</p><label>視点感度 <input id="sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>音量（0でミュート） <input id="volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量</option></select></label><label>ミニマップ <select id="map-rotate"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><p>道中の緑の戦利品は接近して回収。勝利時に確定、敗北・復帰できない切断では未確定品を失います。保存済みの武器は失いません。端末変更・ブラウザデータ削除で引き継げません。クラウド保存や完全な改ざん防止はありません。</p><button id="export">保存データを書き出す</button></details></section>`;
+    )}</div><div class="inventory-head"><b>武器庫 <span>${kindTally()}</span></b><div class="weapon-filters"><select id="weapon-filter" aria-label="武器系統"><option value="all">全系統</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select><select id="weapon-sort" aria-label="武器の並び順"><option value="default">入手順</option><option value="rarity">レア度順</option><option value="power">1発の威力順</option></select></div></div><div class="weapon-list" aria-label="所持武器リスト">${shown.map((w) => card(w)).join("")}</div><details class="inventory-management" ${overflow.length ? "open" : ""}><summary>武器を整理する（装備中は保護）</summary>${tidyMarkup()}</details><details><summary>操作・設定・保存について</summary><p>PC: WASD移動 / クリック射撃・マウス照準 / R装填 / Q切替 / Space回避 / E長押し蘇生 / Escマウス解放</p><p>スマホ: 左スティック移動 / 右側ドラッグ照準 / 射撃ボタン長押し。味方3.5m以内で蘇生を2.5秒長押し。</p><label>視点感度 <input id="sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>音量（0でミュート） <input id="volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量</option></select></label><label>ミニマップ <select id="map-rotate"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><p>道中の緑の戦利品は接近して回収。勝利時に確定、敗北・復帰できない切断では未確定品を失います。保存済みの武器は失いません。端末変更・ブラウザデータ削除で引き継げません。クラウド保存や完全な改ざん防止はありません。</p><button id="export">保存データを書き出す</button></details></section>`;
   const filter = $("weapon-filter") as HTMLSelectElement,
     sort = $("weapon-sort") as HTMLSelectElement;
   filter.value = weaponFilter;
@@ -625,13 +676,13 @@ function result() {
       overflow = r.overflow;
       if (write(r.save))
         status = overflow.length
-          ? `所持上限で${overflow.length}個が未保存です。整理して再試行してください。`
+          ? `${[...new Set(overflow.map((w) => KIND_LABELS[w.kind]))].join("・")}が満杯で${overflow.length}丁を保存できませんでした。装備画面の「武器を整理する」で同じ系統から手放すと保存できます。`
           : "戦利品を端末に保存しました";
     } catch (e) {
       status = (e as Error).message;
     }
   }
-  ui.innerHTML = `<section class="panel result"><div class="result-summary"><div class="eyebrow">OPERATION 01 / DEBRIEF</div><h1>${w.phase === "victory" ? "MISSION CLEAR" : "MISSION FAILED"}</h1><p>${w.phase === "victory" ? "街区を奪還。新しい武器で、もう一度。" : esc(w.reason || "部隊が全員ダウンしました")}</p><div class="stats"><div><span>TIME</span><b>${Math.floor(w.time / 60)}:${String(Math.floor(w.time % 60)).padStart(2, "0")}</b></div><div><span>ELIMINATIONS</span><b>${w.totalKills}</b></div><div><span>RECOVERED</span><b>${items.length}</b></div></div><div class="result-actions"><button class="primary" id="regear">装備変更・再出撃 ↗</button><button id="retry-save">保存を再試行</button>${overflow.length ? "<p>所持上限: 装備画面で整理後、この結果を再度保存できます。</p>" : ""}</div></div><section class="result-loot"><h2>${w.phase === "victory" ? "個別戦利品" : "未確定戦利品は失われました"}</h2><p class="status" role="status">${esc(w.phase === "victory" ? status : "保存済みの武器は保持されています。")}</p><div class="loot-list" aria-label="獲得武器リスト">${items.map((w) => card(w, true)).join("")}</div></section></section>`;
+  ui.innerHTML = `<section class="panel result"><div class="result-summary"><div class="eyebrow">OPERATION 01 / DEBRIEF</div><h1>${w.phase === "victory" ? "MISSION CLEAR" : "MISSION FAILED"}</h1><p>${w.phase === "victory" ? "街区を奪還。新しい武器で、もう一度。" : esc(w.reason || "部隊が全員ダウンしました")}</p><div class="stats"><div><span>TIME</span><b>${Math.floor(w.time / 60)}:${String(Math.floor(w.time % 60)).padStart(2, "0")}</b></div><div><span>ELIMINATIONS</span><b>${w.totalKills}</b></div><div><span>RECOVERED</span><b>${items.length}</b></div></div><div class="result-actions"><button class="primary" id="regear">装備変更・再出撃 ↗</button><button id="retry-save">保存を再試行</button>${overflow.length ? `<p>${esc([...new Set(overflow.map((w) => KIND_LABELS[w.kind]))].join("・"))}が満杯です。装備変更へ進み、同じ系統から手放してからこの画面で保存を再試行してください。</p>` : ""}</div></div><section class="result-loot"><h2>${w.phase === "victory" ? "個別戦利品" : "未確定戦利品は失われました"}</h2><p class="status" role="status">${esc(w.phase === "victory" ? status : "保存済みの武器は保持されています。")}</p><div class="loot-list" aria-label="獲得武器リスト">${items.map((w) => card(w, true)).join("")}</div></section></section>`;
   $("regear").onclick = () => {
     if (items.some((i) => !save.inventory.some((w) => w.id === i.id))) {
       status =
