@@ -103,7 +103,7 @@ test("P1 custom move over look receives hit-tested simultaneous touch input afte
             getComputedStyle(document.getElementById(id)!).zIndex,
           ]),
         ),
-        retreat: center("retreat"),
+        pause: center("pause"),
       };
     });
     const initial = await page.evaluate(() => (window as any).__swarm.input);
@@ -136,7 +136,7 @@ test("P1 custom move over look receives hit-tested simultaneous touch input afte
     for (const [id, b] of Object.entries(geometry.controls))
       expect.soft(b.target).toBe(id);
     expect.soft(geometry.look.target).toBe("look");
-    expect.soft(geometry.retreat.target).toBe("retreat");
+    expect.soft(geometry.pause.target).toBe("pause");
     expect.soft(active.mz).toBeGreaterThan(0.4);
     expect.soft(active.yaw).not.toBe(initial.yaw);
     expect.soft(active.fire).toBe(true);

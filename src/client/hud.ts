@@ -139,7 +139,9 @@ export function hudMarkup(w: World, id: string, status: string) {
       .join("") +
     '</div></div><div class="mission-hud"><div class="mission-line"><b>' +
     (boss ? "クラウンを撃破" : "WAVE " + w.wave + " / 3") +
-    '</b><button id="retreat">作戦離脱</button></div><small>' +
+    // The pause control lives outside this markup: everything here is replaced
+    // ten times a second, which drops taps that land mid-rewrite.
+    "</b></div><small>" +
     next +
     " · " +
     Math.floor(w.time / 60) +

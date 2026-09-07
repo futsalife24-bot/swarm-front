@@ -52,6 +52,9 @@ test("the rescuer is told the revive is working, and it completes", async ({
     "ready",
   );
   await expect(rescuer.locator("#revive")).not.toContainText("対象なし");
+  // Earlier tests leave their own contexts open, so keys only reach this page
+  // once it is the focused one.
+  await rescuer.bringToFront();
   await rescuer.keyboard.down("KeyE");
   try {
     await expect
@@ -77,4 +80,8 @@ test("the rescuer is told the revive is working, and it completes", async ({
   // Once nobody is down the prompt has to disappear again on its own.
   await expect(rescuer.locator(".rescue")).toHaveCount(0);
   await expect(rescuer.locator("#revive")).toContainText("対象なし");
+  // Manually created contexts are not closed for us; leaving them open leaks
+  // live sockets into whatever runs next.
+  await ca.close();
+  await cb.close();
 });

@@ -555,6 +555,73 @@ footer span {
   display: block;
   font-size: 13px;
 }
+/* Bottom centre: clear of the rail it used to crowd, and clear of the stick and
+   action buttons on a landscape phone. */
+#pause {
+  position: fixed;
+  bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  width: 44px;
+  min-height: 34px;
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  letter-spacing: -2px;
+  opacity: 0.65;
+}
+#pause-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #05121ac9;
+  padding: 12px;
+}
+.pause-card {
+  background: #0e2531;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--mint);
+  padding: 16px 20px;
+  width: min(420px, 100%);
+  max-height: 100%;
+  overflow: auto;
+}
+.pause-card h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+.pause-card p {
+  margin: 0 0 10px;
+  font-size: 12px;
+  color: #b9d0d8;
+}
+.pause-card .warn {
+  color: var(--gold);
+}
+.pause-card label {
+  display: block;
+  font-size: 11px;
+  margin: 8px 0;
+  color: #a5bec8;
+}
+.pause-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+.pause-actions button {
+  flex: 1;
+  min-height: 44px;
+  margin: 0;
+}
+.pause-actions .danger {
+  border-color: #ff9e75;
+  color: #ff9e75;
+}
 #minimap {
   position: fixed;
   left: 12px;

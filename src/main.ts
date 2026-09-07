@@ -205,7 +205,8 @@ function setScreen(name: string) {
   screen = name;
   document.body.dataset.screen = name;
   ui.scrollTop = 0;
-  controls.enabled = name === "battle";
+  if (name !== "battle" && paused) closePause();
+  controls.enabled = name === "battle" && !paused;
   if (!controls.enabled) {
     controls.reset();
     if (document.pointerLockElement) void document.exitPointerLock();
@@ -213,6 +214,7 @@ function setScreen(name: string) {
   hud.hidden = name !== "battle";
   $("controls").hidden = name !== "battle";
   $("minimap").hidden = name !== "battle";
+  $("pause").hidden = name !== "battle";
 }
 function title() {
   setScreen("title");
@@ -665,6 +667,69 @@ function result() {
     (items.every((i) => save.inventory.some((a) => a.id === i.id)) &&
       !overflow.length);
 }
+// Solo runs the world here, so it can truly stop. Co-op cannot: the server keeps
+// stepping and the player keeps taking hits, which the menu has to admit.
+let paused = false;
+function closePause() {
+  paused = false;
+  $("pause-menu").hidden = true;
+  $("pause-menu").innerHTML = "";
+  controls.enabled = screen === "battle";
+}
+function retreat() {
+  if (mode === "coop") {
+    network?.close();
+    network = undefined;
+  }
+  closePause();
+  status = "作戦を離脱しました。未確定品は保存されません。";
+  gear();
+}
+function openPause(confirming = false) {
+  paused = true;
+  controls.enabled = false;
+  controls.reset();
+  if (document.pointerLockElement) void document.exitPointerLock();
+  const pending = (world?.pending[myId] ?? []).length;
+  const menu = $("pause-menu");
+  menu.hidden = false;
+  menu.innerHTML = confirming
+    ? `<div class="pause-card"><h2>作戦を離脱しますか</h2><p>${pending ? `未確定の戦利品 <b>${pending} 件</b>を失います。` : "未確定の戦利品はありません。"}確定済みの武器は残ります。</p>${mode === "coop" ? '<p class="warn">部隊は作戦を続けます。あなたは戻れません。</p>' : ""}<div class="pause-actions"><button id="pause-back">やめる</button><button class="danger" id="pause-quit">離脱する</button></div></div>`
+    : `<div class="pause-card"><h2>一時停止</h2>${mode === "coop" ? '<p class="warn">協力プレイは止まりません。この間も戦闘は進み、被弾します。</p>' : "<p>ソロなので戦闘は止まっています。</p>"}<label>視点感度 <input id="pause-sense" type="range" min="0.3" max="2.5" step="0.1" value="${save.sensitivity}"></label><label>音量 <input id="pause-volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>ミニマップ <select id="pause-map"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><div class="pause-actions"><button class="primary" id="pause-resume">戦闘に戻る</button><button id="pause-leave">作戦離脱…</button></div></div>`;
+  if (confirming) {
+    $("pause-back").onclick = () => openPause(false);
+    $("pause-quit").onclick = retreat;
+    return;
+  }
+  $("pause-resume").onclick = closePause;
+  $("pause-leave").onclick = () => openPause(true);
+  $("pause-sense").oninput = () => {
+    const next = {
+      ...save,
+      sensitivity: Number(($("pause-sense") as HTMLInputElement).value),
+    };
+    if (write(next)) configured();
+  };
+  $("pause-volume").oninput = () => {
+    sound.unlock();
+    const next = {
+      ...save,
+      volume: Number(($("pause-volume") as HTMLInputElement).value),
+    };
+    if (write(next)) configured();
+  };
+  $("pause-map").onchange = () => {
+    if (
+      write({
+        ...save,
+        mapRotates: ($("pause-map") as HTMLSelectElement).value === "follow",
+      })
+    )
+      configured();
+  };
+}
+// Bound once, outside the HUD's ten-times-a-second rewrite.
+$("pause").onclick = () => openPause(false);
 let last = performance.now(),
   acc = 0,
   hudAt = 0;
@@ -672,7 +737,7 @@ function frame(now: number) {
   const dt = Math.min(0.1, (now - last) / 1000);
   last = now;
   acc += dt;
-  if (screen === "battle" && world) {
+  if (screen === "battle" && world && !(paused && mode === "solo")) {
     while (acc >= 0.05) {
       const input = document.hidden ? neutral() : controls.read();
       if (mode === "solo") step(world, { [myId]: input });
@@ -707,14 +772,6 @@ function frame(now: number) {
           status + (showFps ? ` · ${Math.round(view.fps)}FPS` : ""),
         );
         updateCooldowns(world, myId);
-        $("retreat").onclick = () => {
-          if (mode === "coop") {
-            network?.close();
-            network = undefined;
-          }
-          status = "作戦を離脱しました。未確定品は保存されません。";
-          gear();
-        };
       }
     }
   } else acc = 0;
