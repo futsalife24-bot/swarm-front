@@ -238,6 +238,8 @@ function title() {
     };
   if (saveError) $("export").onclick = exportSave;
 }
+const figure = (value: string, label: string) =>
+  "<span><b>" + value + "</b>" + label + "</span>";
 function card(w: Weapon, lootOnly = false) {
   const d = WEAPONS[w.kind],
     base = equipped().find((a) => a.kind === w.kind),
@@ -253,23 +255,26 @@ function card(w: Weapon, lootOnly = false) {
     RARITIES[w.rarity] +
     " · " +
     EFFECTS[w.effect] +
-    '</small></div><div class="weapon-stat"><small>威力' +
-    (d.pellets > 1 ? " / 散弾" : "") +
-    "</small><b>" +
-    damage +
-    "</b><small>" +
+    '</small></div><div class="weapon-figures">' +
+    // One line of figures rather than three stacked blocks, so more of the
+    // armoury fits on a landscape phone.
+    figure(damage, d.pellets > 1 ? "威力/散弾" : "威力") +
     (diff === null
-      ? "同系統未装備"
-      : (diff >= 0 ? "+" : "") + diff + " / 装備比較") +
-    '</small></div><div class="weapon-stat"><small>装弾 / 装填</small><b>' +
-    d.mag +
-    " / " +
-    (d.reload * (w.effect === "quick" ? 0.8 : 1)).toFixed(2) +
-    "s</b><small>" +
-    d.range +
-    "m · " +
-    (1 / d.interval).toFixed(1) +
-    "発/s</small></div>" +
+      ? ""
+      : '<span class="weapon-diff' +
+        (diff >= 0 ? "" : " down") +
+        '">' +
+        (diff >= 0 ? "+" : "") +
+        diff +
+        "</span>") +
+    figure(String(d.mag), "装弾") +
+    figure(
+      (d.reload * (w.effect === "quick" ? 0.8 : 1)).toFixed(2) + "s",
+      "装填",
+    ) +
+    figure(d.range + "m", "射程") +
+    figure((1 / d.interval).toFixed(1), "発/s") +
+    "</div>" +
     (lootOnly
       ? '<div class="loot-state"><b>獲得</b><small>' +
         (save.inventory.some((a) => a.id === w.id) ? "保存済み" : "未保存") +
