@@ -571,6 +571,37 @@ footer span {
   color: #a5bec8;
   margin: 4px 0 6px;
 }
+.loadout-slots button {
+  text-align: left;
+  border-left: 3px solid #55707c;
+  background: #16323d;
+}
+.loadout-slots button.selected {
+  border-color: var(--mint);
+  border-left-color: var(--mint);
+  background: #1d3f45;
+}
+.slot-hint {
+  color: var(--mint) !important;
+  font-size: 11px !important;
+  margin: 6px 0 0 !important;
+}
+.equipped-flag {
+  color: var(--mint);
+  font-size: 10px;
+  white-space: nowrap;
+}
+.weapon-row[data-equip]:hover {
+  background: #1e3d49;
+}
+.weapon-row[data-equip]:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+}
+.weapon-row.equipped-0,
+.weapon-row.equipped-1 {
+  background: #1b3b3a;
+}
 #pause {
   position: fixed;
   z-index: 4;

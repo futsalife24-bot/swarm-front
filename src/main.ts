@@ -92,6 +92,8 @@ let save: Save = fresh(),
   netFatal = false,
   predicted: { x: number; z: number } | undefined;
 let turnstileToken = "";
+// Which loadout slot the armoury is filling. Picking a weapon replaces this one.
+let activeSlot = 0;
 function defaultEndpoint() {
   return (
     import.meta.env.VITE_SERVER_URL ??
@@ -308,10 +310,15 @@ function card(w: Weapon, lootOnly = false) {
     diff = base ? Math.round(d.damage * (w.power - base.power)) : null;
   const damage =
     Math.round(d.damage * w.power) + (d.pellets > 1 ? " × " + d.pellets : "");
+  const slot = lootOnly ? -1 : save.equipped.indexOf(w.id);
   return (
     '<article class="weapon-row rarity' +
     w.rarity +
-    '"><div class="weapon-identity"><h3>' +
+    (slot < 0 ? "" : " equipped-" + slot) +
+    (lootOnly
+      ? '"'
+      : '" data-equip="' + w.id + '" role="button" tabindex="0"') +
+    '><div class="weapon-identity"><h3>' +
     weaponName(w) +
     "</h3><small>" +
     RARITIES[w.rarity] +
@@ -341,26 +348,9 @@ function card(w: Weapon, lootOnly = false) {
       ? '<div class="loot-state"><b>獲得</b><small>' +
         (save.inventory.some((a) => a.id === w.id) ? "保存済み" : "未保存") +
         "</small></div>"
-      : '<div class="equip-actions">' +
-        [0, 1]
-          .map(
-            (slot) =>
-              '<button data-equip="' +
-              w.id +
-              '" data-slot="' +
-              slot +
-              '" ' +
-              (save.equipped[1 - slot] === w.id ? "disabled" : "") +
-              ' class="' +
-              (save.equipped[slot] === w.id ? "selected" : "") +
-              '">' +
-              (save.equipped[slot] === w.id ? "装備中" : "装備") +
-              " " +
-              (slot + 1) +
-              "</button>",
-          )
-          .join("") +
-        "</div>") +
+      : slot < 0
+        ? ""
+        : '<span class="equipped-flag">装備中 ' + (slot + 1) + "</span>") +
     "</article>"
   );
 }
@@ -402,10 +392,13 @@ function gear() {
       ? `<div class="coop-entry"><b>${resumable ? "進行中の部隊があります" : invitation ? "招待を受け取りました" : "友人と遊ぶ"}</b><p>${resumable ? "30秒以内なら同じ隊員・戦闘状態へ復帰できます。" : invitation ? "装備を選び、上の「招待ルームに参加」を押してください。" : "人間確認の後に「ルームを作る」を押すと、すぐ招待リンクを送れます。作成キーの共有は不要です。"}</p></div>${!resumable && !invitation ? '<div id="turnstile-room-create" class="turnstile-room-create" aria-label="ルーム作成の人間確認"></div><p id="turnstile-status" class="fine">人間確認が終わるまで、ルーム作成はできません。</p>' : ""}<details class="coop-advanced"><summary>接続先を手動設定（開発用）</summary><div class="join"><input id="endpoint" aria-label="協力サーバー" value="${esc(endpoint)}"><input id="creation-key" type="password" aria-label="ローカル作成キー" placeholder="ローカル作成キー" autocomplete="off" maxlength="256"></div></details>`
       : "";
   ui.innerHTML = `<section class="panel gear"><div class="gear-brief"><header><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><button class="primary" id="launch" ${saveError ? "disabled" : ""}>${launchLabel}</button><button id="home">タイトルへ</button></header><div class="brief"><div><b>01 灰明の街区</b><p>3ウェーブ → クラウン撃破。被弾せず5秒で自動回復、波の間にもHP回復。目標5〜8分。</p></div></div>${coopEntry}<p class="status" role="status">${esc(saveError || status)}</p><div class="gear-tools"><button id="layout-settings">操作ボタンの配置</button><small>${esc(layoutWarning || "ボタンの位置・大きさ・濃さを設定")}</small></div><div class="loadout-slots">${equipped()
-    .map((w, i) => `<span>装備 ${i + 1}<b>${weaponName(w)}</b></span>`)
+    .map(
+      (w, i) =>
+        `<button type="button" data-pick="${i}" class="${activeSlot === i ? "selected" : ""}" aria-pressed="${activeSlot === i}">装備 ${i + 1}<b>${weaponName(w)}</b></button>`,
+    )
     .join(
       "",
-    )}</div><div class="inventory-head"><b>武器庫 <span>${kindTally()}</span></b></div><details class="inventory-management" ${overflow.length ? "open" : ""}><summary>武器を整理する（装備中は保護）</summary>${tidyMarkup()}</details><details><summary>操作・設定・保存について</summary><p>PC: WASD移動 / クリック射撃・マウス照準 / R装填 / Q切替 / Space回避 / E長押し蘇生 / Escマウス解放</p><p>スマホ: 左スティック移動 / 右側ドラッグ照準 / 射撃ボタン長押し。味方3.5m以内で蘇生を2.5秒長押し。</p><label>視点感度 <input id="sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>音量（0でミュート） <input id="volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量</option></select></label><label>ミニマップ <select id="map-rotate"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><p>道中の緑の戦利品は接近して回収。勝利時に確定、敗北・復帰できない切断では未確定品を失います。保存済みの武器は失いません。端末変更・ブラウザデータ削除で引き継げません。クラウド保存や完全な改ざん防止はありません。</p><button id="export">保存データを書き出す</button></details></div><section class="gear-arsenal"><div class="weapon-filters"><select id="weapon-filter" aria-label="武器系統"><option value="all">全系統</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select><select id="weapon-sort" aria-label="武器の並び順"><option value="default">入手順</option><option value="rarity">レア度順</option><option value="power">1発の威力順</option></select></div><div class="weapon-list" aria-label="所持武器リスト">${shown.map((w) => card(w)).join("")}</div></section></section>`;
+    )}</div><p class="slot-hint">装備 ${activeSlot + 1} に入れる武器を右から選んでください。</p><div class="inventory-head"><b>武器庫 <span>${kindTally()}</span></b></div><details class="inventory-management" ${overflow.length ? "open" : ""}><summary>武器を整理する（装備中は保護）</summary>${tidyMarkup()}</details><details><summary>操作・設定・保存について</summary><p>PC: WASD移動 / クリック射撃・マウス照準 / R装填 / Q切替 / Space回避 / E長押し蘇生 / Escマウス解放</p><p>スマホ: 左スティック移動 / 右側ドラッグ照準 / 射撃ボタン長押し。味方3.5m以内で蘇生を2.5秒長押し。</p><label>視点感度 <input id="sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>音量（0でミュート） <input id="volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量</option></select></label><label>ミニマップ <select id="map-rotate"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><p>道中の緑の戦利品は接近して回収。勝利時に確定、敗北・復帰できない切断では未確定品を失います。保存済みの武器は失いません。端末変更・ブラウザデータ削除で引き継げません。クラウド保存や完全な改ざん防止はありません。</p><button id="export">保存データを書き出す</button></details></div><section class="gear-arsenal"><div class="weapon-filters"><select id="weapon-filter" aria-label="武器系統"><option value="all">全系統</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select><select id="weapon-sort" aria-label="武器の並び順"><option value="default">入手順</option><option value="rarity">レア度順</option><option value="power">1発の威力順</option></select></div><div class="weapon-list" aria-label="所持武器リスト">${shown.map((w) => card(w)).join("")}</div></section></section>`;
   const filter = $("weapon-filter") as HTMLSelectElement,
     sort = $("weapon-sort") as HTMLSelectElement;
   filter.value = weaponFilter;
@@ -460,17 +453,31 @@ function gear() {
     else if (network?.id) lobby();
     else void connect(!inviteCode() && !resumable, Boolean(resumable));
   };
-  ui.querySelectorAll<HTMLButtonElement>("[data-equip]").forEach(
+  ui.querySelectorAll<HTMLButtonElement>("[data-pick]").forEach(
     (b) =>
       (b.onclick = () => {
-        const n = structuredClone(save);
-        n.equipped[Number(b.dataset.slot)] = b.dataset.equip!;
-        if (write(n)) {
-          network?.equipment(equipped());
-        }
+        activeSlot = Number(b.dataset.pick);
         gear();
       }),
   );
+  const equip = (id: string) => {
+    const n = structuredClone(save);
+    const other = 1 - activeSlot;
+    // Both slots must stay distinct, so taking one that is already worn on the
+    // other side swaps them rather than duplicating it.
+    if (n.equipped[other] === id) n.equipped[other] = n.equipped[activeSlot];
+    n.equipped[activeSlot] = id;
+    if (write(n)) network?.equipment(equipped());
+    gear();
+  };
+  ui.querySelectorAll<HTMLElement>("[data-equip]").forEach((el) => {
+    el.onclick = () => equip(el.dataset.equip!);
+    el.onkeydown = (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      e.preventDefault();
+      equip(el.dataset.equip!);
+    };
+  });
   ui.querySelectorAll<HTMLButtonElement>("[data-discard]").forEach(
     (b) =>
       (b.onclick = () => {

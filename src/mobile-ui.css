@@ -777,7 +777,7 @@ body[data-screen="title"] footer {
   }
   .gear .weapon-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(156px, 1fr));
+    grid-template-columns: 1fr;
     /* A flex-basis of 0 hands the grid a fixed height and squashes every auto
        row; size the tracks by their content and let the box grow instead. */
     grid-auto-rows: min-content;
@@ -789,10 +789,40 @@ body[data-screen="title"] footer {
     overflow: auto;
     overscroll-behavior: contain;
   }
+  /* One weapon per row, and the row itself is the control: picking a slot on
+     the left then tapping a row is the whole interaction. */
   .gear .weapon-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 7px 10px;
+    min-height: 44px;
+    cursor: pointer;
+  }
+  .gear .weapon-row .weapon-identity {
+    flex: 0 0 31%;
+    min-width: 0;
+  }
+  .gear .weapon-row .weapon-figures {
+    flex: 1;
+    min-width: 0;
+    margin-top: 0;
+    gap: 1px 9px;
+  }
+  .gear .weapon-row .equipped-flag {
+    flex: 0 0 auto;
+  }
+  /* These slots are buttons now, so the span rules above no longer reach them. */
+  .gear .gear-brief .loadout-slots button {
+    width: 100%;
+    padding: 6px 10px;
+    font-size: 10px;
+    min-height: 40px;
+  }
+  .gear .gear-brief .loadout-slots b {
     display: block;
-    padding: 7px 9px;
-    min-height: 0;
+    font-size: 12px;
+    margin-top: 2px;
   }
   .gear .weapon-row h3 {
     font-size: 12px;
@@ -801,14 +831,6 @@ body[data-screen="title"] footer {
   .gear .weapon-figures {
     margin-top: 4px;
     gap: 0 8px;
-  }
-  .gear .weapon-row .equip-actions {
-    margin-top: 6px;
-  }
-  .gear .weapon-row .equip-actions button {
-    min-height: 34px;
-    font-size: 10px;
-    padding: 4px;
   }
   .gear .inventory-head {
     display: block;

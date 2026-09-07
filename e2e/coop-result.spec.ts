@@ -103,7 +103,8 @@ test("co-op fixture rewards save on both clients and allow equipment change and 
     await p.getByRole("button", { name: "装備変更・再出撃" }).click();
   }
   const item = await a.evaluate(() => (window as any).__swarm.inventory[3].id);
-  await a.locator(`[data-equip="${item}"][data-slot="0"]`).click();
+  await a.locator('[data-pick="0"]').click();
+  await a.locator(`[data-equip="${item}"]`).click();
   await a.waitForTimeout(500);
   await expect(a.getByRole("heading", { name: "出撃準備" })).toBeVisible();
   await a.getByRole("button", { name: "ルームに戻る" }).click();
