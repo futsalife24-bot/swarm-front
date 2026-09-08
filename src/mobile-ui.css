@@ -184,6 +184,10 @@ body[data-screen="title"] footer {
   border-left-color: var(--gold);
   background: linear-gradient(90deg, #354037, #17313d);
 }
+.weapon-row.rarity3 {
+  border-left-color: #ff9ec4;
+  background: linear-gradient(90deg, #43334a, #17313d);
+}
 .weapon-row h3 {
   font-size: 16px;
   margin: 0 0 5px;
@@ -837,8 +841,12 @@ body[data-screen="title"] footer {
     color: var(--gold);
   }
   /* Quick reload shows up as the number it changes, not as a second label. */
-  .gear .weapon-list .boosted b {
+  .gear .weapon-list .boosted b,
+  .gear .weapon-list .roll-high b {
     color: var(--gold);
+  }
+  .gear .weapon-list .roll-low b {
+    color: #8ea6ae;
   }
   .gear .weapon-list .weapon-figures span {
     min-width: 0;

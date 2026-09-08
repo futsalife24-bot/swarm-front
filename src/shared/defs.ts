@@ -3,7 +3,7 @@ export type Effect = "none" | "pierce" | "quick";
 export interface Weapon {
   id: string;
   kind: Kind;
-  rarity: 0 | 1 | 2;
+  rarity: 0 | 1 | 2 | 3;
   power: number;
   effect: Effect;
 }
@@ -68,12 +68,19 @@ export const ENEMIES = {
   hornet: { hp: 60, speed: 8.2, radius: 1.15, damage: 12, aim: 1, cruise: 6.5 },
 } as const;
 // Short enough to sit beside a weapon name without pushing the row wider.
-export const RARITIES = ["R", "SR", "SSR"];
+// LR is not drawn: it is what an SSR becomes when it also rolls an effect and
+// lands in the top of its power band. See promote() in game.ts.
+export const RARITIES = ["R", "SR", "SSR", "LR"];
 export const POWER = {
   scale: 1000,
   min: 1000,
-  max: [1120, 1240, 1360],
+  // LR shares the SSR ceiling on purpose: it is recognition, not extra damage.
+  max: [1120, 1240, 1360, 1360],
 } as const;
+// Top 8% of the SSR band. Both conditions must land at once, so this stays rare.
+export const LR_POWER = Math.round(
+  POWER.min + (POWER.max[2] - POWER.min) * 0.92,
+);
 export function validPower(power: number, rarity: Weapon["rarity"]) {
   const milli = Math.round(power * POWER.scale);
   return (
@@ -138,7 +145,7 @@ export function validWeapon(w: unknown): w is Weapon {
     typeof v.id === "string" &&
     /^[a-zA-Z0-9_-]{1,100}$/.test(v.id) &&
     Object.hasOwn(WEAPONS, v.kind) &&
-    [0, 1, 2].includes(v.rarity) &&
+    [0, 1, 2, 3].includes(v.rarity) &&
     validPower(v.power, v.rarity) &&
     Object.hasOwn(EFFECTS, v.effect) &&
     (v.effect === "none" || v.rarity > 0) &&

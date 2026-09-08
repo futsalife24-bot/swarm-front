@@ -1,5 +1,12 @@
 import { describe, it, expect } from "vitest";
-import { STARTERS, LIMITS, validWeapon, type Weapon } from "../src/shared/defs";
+import {
+  STARTERS,
+  LIMITS,
+  POWER,
+  LR_POWER,
+  validWeapon,
+  type Weapon,
+} from "../src/shared/defs";
 import {
   createWorld,
   addPlayer,
@@ -117,7 +124,8 @@ describe("authoritative combat", () => {
     expect(items.every(validWeapon)).toBe(true);
     expect(new Set(items.map((w) => w.id)).size).toBe(100000);
     expect(new Set(items.map((w) => w.kind)).size).toBe(3);
-    expect(new Set(items.map((w) => w.rarity)).size).toBe(3);
+    // Four tiers now: R, SR, SSR, and the LR an SSR is promoted into.
+    expect(new Set(items.map((w) => w.rarity))).toEqual(new Set([0, 1, 2, 3]));
     expect(items.some((w) => w.effect === "pierce")).toBe(true);
   });
   it("solo starter pilot completes the real mission without stat/time cheats", () => {
@@ -272,5 +280,53 @@ describe("per-family armoury cap", () => {
     expect(save.inventory.some((w) => w.id === "rifle-extra-1")).toBe(true);
     expect(removed.every((w) => w.rarity === 0)).toBe(true);
     expect(removed.every((w) => !base.equipped.includes(w.id))).toBe(true);
+  });
+});
+describe("LR promotion", () => {
+  it("is earned by rolling everything at once, and stays rare", () => {
+    const w = createWorld("lr", 20260908);
+    const counts = [0, 0, 0, 0];
+    const lr: ReturnType<typeof loot>[] = [];
+    for (let n = 0; n < 200000; n++) {
+      const item = loot(w);
+      counts[item.rarity]++;
+      if (item.rarity === 3 && lr.length < 400) lr.push(item);
+    }
+    const rate = counts[3] / 200000;
+    // Rare, but reachable: a run yields roughly fifteen drops.
+    expect(rate).toBeGreaterThan(0.0005);
+    expect(rate).toBeLessThan(0.01);
+    // Every LR must have cleared both gates.
+    for (const item of lr) {
+      expect(item.effect).not.toBe("none");
+      expect(Math.round(item.power * POWER.scale)).toBeGreaterThanOrEqual(
+        LR_POWER,
+      );
+      expect(validWeapon(item)).toBe(true);
+    }
+    // It is recognition, not power creep: no LR beats the SSR ceiling.
+    const ceiling = POWER.max[2] / POWER.scale;
+    expect(Math.max(...lr.map((i) => i.power))).toBeLessThanOrEqual(ceiling);
+    expect(counts[0] + counts[1] + counts[2] + counts[3]).toBe(200000);
+  });
+  it("keeps older saves loadable and survives a round trip", () => {
+    const store = new Map<string, string>();
+    const save = fresh();
+    const relic = {
+      id: "lr-1",
+      kind: "rifle" as const,
+      rarity: 3 as const,
+      power: POWER.max[2] / POWER.scale,
+      effect: "pierce" as const,
+    };
+    expect(validWeapon(relic)).toBe(true);
+    persist(
+      { ...save, inventory: [...save.inventory, relic] },
+      {
+        setItem: (k, v) => void store.set(k, v),
+      },
+    );
+    const back = parseSave(store.get("swarm-front-save-v1")!);
+    expect(back.inventory.some((x) => x.id === "lr-1")).toBe(true);
   });
 });

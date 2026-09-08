@@ -610,6 +610,11 @@ footer span {
 .rarity-tag.rarity2 {
   color: var(--gold);
 }
+.rarity-tag.rarity3 {
+  color: #14202a;
+  background: linear-gradient(100deg, #ffd479, #ff9ec4 60%, #8fe3d8);
+  border-color: transparent;
+}
 .equipped-flag {
   color: #16362d;
   background: var(--mint);

@@ -14,6 +14,7 @@ import {
   LIMITS,
   WAVE_INTERVAL,
   MOVE_SPEED,
+  POWER,
   RARITIES,
   WEAPONS,
   type Weapon,
@@ -327,6 +328,11 @@ function card(w: Weapon, lootOnly = false) {
     diff = base ? Math.round(d.damage * (w.power - base.power)) : null;
   const damage =
     Math.round(d.damage * w.power) + (d.pellets > 1 ? " × " + d.pellets : "");
+  // Where this roll sits inside its own tier's band, so the colour says "good
+  // for an SR" rather than "high number".
+  const band = POWER.max[w.rarity] - POWER.min,
+    roll = band ? (Math.round(w.power * POWER.scale) - POWER.min) / band : 0,
+    rollClass = roll >= 0.85 ? " roll-high" : roll <= 0.2 ? " roll-low" : "";
   const slot = lootOnly ? -1 : save.equipped.indexOf(w.id);
   return (
     '<article class="weapon-row rarity' +
@@ -361,6 +367,7 @@ function card(w: Weapon, lootOnly = false) {
             diff +
             "</span>"),
       d.pellets > 1 ? "威力/散弾" : "威力",
+      rollClass,
     ) +
     figure("load", String(d.mag), "装弾") +
     figure(

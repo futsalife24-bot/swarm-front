@@ -5,6 +5,7 @@ import {
   STARTERS,
   WEAPONS,
   POWER,
+  LR_POWER,
   WAVE_QUOTAS,
   WAVE_INTERVAL,
   MOVE_SPEED,
@@ -200,20 +201,23 @@ export function loot(w: World): Weapon {
   const kind = (["rifle", "shotgun", "rocket"] as const)[
     Math.floor(random(w) * 3)
   ];
+  const milli =
+    POWER.min + Math.floor(random(w) * (POWER.max[rarity] - POWER.min + 1));
+  const effect: Weapon["effect"] =
+    rarity && random(w) < 0.6
+      ? kind !== "rocket" && random(w) < 0.55
+        ? "pierce"
+        : "quick"
+      : "none";
   return {
     id: `${w.run}-${++w.serial}`,
     kind,
-    rarity,
-    power:
-      (POWER.min +
-        Math.floor(random(w) * (POWER.max[rarity] - POWER.min + 1))) /
-      POWER.scale,
-    effect:
-      rarity && random(w) < 0.6
-        ? kind !== "rocket" && random(w) < 0.55
-          ? "pierce"
-          : "quick"
-        : "none",
+    // LR is never drawn. It is what an SSR becomes when the same drop happens to
+    // roll an effect and land in the top of the power band, so the tier means
+    // "this one rolled everything" rather than "this one came from a better bag".
+    rarity: rarity === 2 && effect !== "none" && milli >= LR_POWER ? 3 : rarity,
+    power: milli / POWER.scale,
+    effect,
   };
 }
 // Roof height over a point, or 0 in the open. Fliers use it to know how high
