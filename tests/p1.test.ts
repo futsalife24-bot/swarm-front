@@ -210,3 +210,37 @@ it("ignores malformed JSON and invalid message types without invoking UI callbac
     vi.unstubAllGlobals();
   }
 });
+
+it("reward replacement protects LR rewards and equipped weapons and frees only the selected family", async () => {
+  const { fresh } = await import("../src/client/save");
+  const { replaceForRewards, canReplace, weaponDetails } =
+    await import("../src/client/reward-choice");
+  const save = fresh();
+  const shotgun = save.inventory.find((w) => w.kind === "shotgun")!;
+  for (let i = 1; i < 8; i++)
+    save.inventory.push({
+      ...shotgun,
+      id: `held-${i}`,
+      rarity: i === 1 ? 3 : 0,
+    });
+  const lr = { ...shotgun, id: "reward-lr", rarity: 3 };
+  const original = structuredClone(save);
+  expect(canReplace(save, [lr], [lr], save.equipped[0])).toBe(false);
+  expect(canReplace(save, [lr], [lr], "reward-lr")).toBe(false);
+  const rifle = save.inventory.find((w) => w.kind === "rifle")!;
+  expect(canReplace(save, [lr], [lr], rifle.id)).toBe(false);
+  expect(() => replaceForRewards(save, "run", [lr], rifle.id)).toThrow();
+  const next = replaceForRewards(save, "run", [lr], "held-2");
+  expect(next.inventory.some((w) => w.id === "held-2")).toBe(false);
+  expect(next.inventory.some((w) => w.id === "held-1" && w.rarity === 3)).toBe(
+    true,
+  );
+  expect(
+    next.inventory.some((w) => w.id === "reward-lr" && w.rarity === 3),
+  ).toBe(true);
+  expect(next.receipts).toContain("run");
+  expect(save).toEqual(original);
+  expect(weaponDetails(lr)).toContain("LR");
+  for (const label of ["威力", "装弾", "装填", "射程", "連射"])
+    expect(weaponDetails(lr)).toContain(label);
+});
