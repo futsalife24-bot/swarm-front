@@ -66,3 +66,30 @@ test("the setting turns them off and keeps that across a reload", async ({
     await page.mouse.up();
   }
 });
+test("the title carries a changelog that opens and closes", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const button = page.getByRole("button", { name: "更新履歴" });
+  await expect(button).toBeVisible();
+  // It must not sit on top of the two things the title screen is for.
+  for (const name of ["ソロで出撃準備", "協力プレイ"]) {
+    const a = (await button.boundingBox())!;
+    const b = (await page.getByRole("button", { name }).boundingBox())!;
+    expect(
+      a.x > b.x + b.width || b.x > a.x + a.width || a.y > b.y + b.height,
+    ).toBe(true);
+  }
+  await button.click();
+  const card = page.locator(".log-card");
+  await expect(card).toBeVisible();
+  await expect(card.locator("h3")).not.toHaveCount(0);
+  await expect(card.locator("li")).not.toHaveCount(0);
+  // The way out stays reachable however far down the list you are.
+  await card.evaluate((el) => (el.scrollTop = el.scrollHeight));
+  await page.getByRole("button", { name: "閉じる" }).click();
+  await expect(page.locator("#pause-menu")).toBeHidden();
+  await expect(
+    page.getByRole("button", { name: "ソロで出撃準備" }),
+  ).toBeVisible();
+});

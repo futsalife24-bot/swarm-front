@@ -635,6 +635,57 @@ footer span {
 .weapon-row.equipped-1 {
   background: #1b3b3a;
 }
+.corner-log {
+  position: absolute;
+  right: 6vw;
+  bottom: 6px;
+  padding: 6px 12px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  opacity: 0.75;
+  background: none;
+  border-color: #7595a544;
+}
+.corner-log:hover {
+  opacity: 1;
+  background: #233943;
+}
+.log-card {
+  width: min(680px, 100%);
+}
+/* The list is long; the way out must not be at the bottom of it. */
+.log-card h2 {
+  position: sticky;
+  top: 0;
+  background: #0e2531;
+  padding-bottom: 6px;
+  z-index: 1;
+}
+.log-card .pause-actions {
+  position: sticky;
+  bottom: 0;
+  background: #0e2531;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+.log-card h3 {
+  margin: 14px 0 4px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+.log-card ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.log-card li {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #c3d5db;
+  margin-bottom: 4px;
+}
 #damage {
   position: fixed;
   inset: 0;

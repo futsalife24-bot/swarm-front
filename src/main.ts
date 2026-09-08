@@ -9,6 +9,7 @@ import {
 import { openLayoutEditor } from "./client/layout-editor";
 import { hudMarkup, updateCooldowns } from "./client/hud";
 import { Minimap } from "./client/minimap";
+import { CHANGELOG } from "./client/changelog";
 import {
   EFFECTS,
   LIMITS,
@@ -235,7 +236,7 @@ function setScreen(name: string) {
 function title() {
   setScreen("title");
   world = null;
-  ui.innerHTML = `<section class="title"><div class="eyebrow">FIELD TEST 01 <span>LOCAL BUILD</span></div><div class="mark">SF<span>／</span></div><h1>SWARM<br>FRONT<span class="dot">.</span></h1><p class="tagline">群れを砕け。仲間と、次の戦場へ。</p><p class="intro">三人称3D協力アクション · 開発用仮名</p><div class="title-actions"><button class="primary" id="solo">ソロで出撃準備 <span>↗</span></button><button id="coop">協力プレイ <small>1–4 PLAYERS</small></button>${installPrompt ? '<button id="install">ホーム画面に追加</button>' : ""}</div><p class="fine">ソロは通信サーバー不要。戦利品はこの端末に保存。</p>${saveError ? `<p class="error">${esc(saveError)}</p><button id="export">保存データを書き出す</button>` : ""}</section><aside class="mission-card"><div>01 / OPERATION</div><h2>灰明の街区</h2><p>3つの敵群を突破し、<br>大型個体〈クラウン〉を排除せよ。</p><span>INFANTRY · URBAN DISTRICT</span></aside><footer>FIRST PLAYABLE <span>無料素材・コード生成モデル ／ 公開前ビルド</span></footer>`;
+  ui.innerHTML = `<section class="title"><div class="eyebrow">FIELD TEST 01 <span>LOCAL BUILD</span></div><div class="mark">SF<span>／</span></div><h1>SWARM<br>FRONT<span class="dot">.</span></h1><p class="tagline">群れを砕け。仲間と、次の戦場へ。</p><p class="intro">三人称3D協力アクション · 開発用仮名</p><div class="title-actions"><button class="primary" id="solo">ソロで出撃準備 <span>↗</span></button><button id="coop">協力プレイ <small>1–4 PLAYERS</small></button>${installPrompt ? '<button id="install">ホーム画面に追加</button>' : ""}</div><p class="fine">ソロは通信サーバー不要。戦利品はこの端末に保存。</p>${saveError ? `<p class="error">${esc(saveError)}</p><button id="export">保存データを書き出す</button>` : ""}</section><aside class="mission-card"><div>01 / OPERATION</div><h2>灰明の街区</h2><p>3つの敵群を突破し、<br>大型個体〈クラウン〉を排除せよ。</p><span>INFANTRY · URBAN DISTRICT</span></aside><footer>FIRST PLAYABLE <span>無料素材・コード生成モデル ／ 公開前ビルド</span></footer><button id="changelog" class="corner-log">更新履歴</button>`;
   $("solo").onclick = () => {
     mode = "solo";
     network?.close();
@@ -256,6 +257,26 @@ function title() {
       title();
     };
   if (saveError) $("export").onclick = exportSave;
+  $("changelog").onclick = showChangelog;
+}
+function showChangelog() {
+  const menu = $("pause-menu");
+  menu.hidden = false;
+  menu.innerHTML =
+    '<div class="pause-card log-card"><h2>更新履歴</h2>' +
+    CHANGELOG.map(
+      (release) =>
+        "<h3>" +
+        esc(release.date) +
+        "</h3><ul>" +
+        release.items.map((line) => "<li>" + esc(line) + "</li>").join("") +
+        "</ul>",
+    ).join("") +
+    '<div class="pause-actions"><button class="primary" id="log-close">閉じる</button></div></div>';
+  $("log-close").onclick = () => {
+    menu.hidden = true;
+    menu.innerHTML = "";
+  };
 }
 // This column is for what the numbers cannot say. Pierce qualifies and carries
 // its count; a faster reload is already sitting in the 装填 column, so it is
