@@ -10,6 +10,7 @@ export interface Save {
   receipts: string[];
   // Optional so saves written before this setting existed still load.
   mapRotates?: boolean;
+  damageNumbers?: "self" | "all" | "off";
 }
 export const fresh = (): Save => ({
   version: 1,
@@ -20,6 +21,7 @@ export const fresh = (): Save => ({
   quality: 1,
   receipts: [],
   mapRotates: false,
+  damageNumbers: "self",
 });
 export function parseSave(raw: string | null): Save {
   if (raw === null) return fresh();
@@ -43,7 +45,8 @@ export function parseSave(raw: string | null): Save {
     v.sensitivity < 0.1 ||
     v.sensitivity > 6 ||
     ![0.65, 1].includes(v.quality) ||
-    !["boolean", "undefined"].includes(typeof v.mapRotates)
+    !["boolean", "undefined"].includes(typeof v.mapRotates) ||
+    ![undefined, "self", "all", "off"].includes(v.damageNumbers)
   )
     throw new Error(
       "保存データを読めません。上書きを停止しました。データを書き出して保管してください。",

@@ -94,6 +94,8 @@ export interface Projectile {
 export interface Event {
   id: number;
   type: "shot" | "hit" | "burst" | "kill" | "down" | "revive";
+  // Damage dealt, on hit and kill events, for the floating numbers.
+  amount?: number;
   x: number;
   z: number;
   y: number;
@@ -363,7 +365,14 @@ function hurtEnemy(w: World, e: Enemy, damage: number, owner: string) {
   if (e.hp <= 0) return;
   e.hp -= damage;
   e.hurt = 0.15;
-  event(w, { type: "hit", x: e.x, z: e.z, y: 1.5, owner });
+  event(w, {
+    type: "hit",
+    x: e.x,
+    z: e.z,
+    y: eye(e),
+    owner,
+    amount: Math.round(damage),
+  });
   if (e.hp <= 0) {
     w.totalKills++;
     w.waveKills++;

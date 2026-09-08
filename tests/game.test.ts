@@ -24,6 +24,7 @@ import {
   loot,
   validInput,
   finish,
+  eye,
 } from "../src/shared/game";
 import {
   fresh,
@@ -401,5 +402,49 @@ describe("rolled figures", () => {
         (5 * (ROLL.max - ROLL.min)),
       5,
     );
+  });
+});
+describe("damage readout", () => {
+  it("reports the damage it dealt, at the height it landed", () => {
+    const { w, p } = (() => {
+      const w = createWorld("dmg", 3),
+        p = addPlayer(w, "p");
+      p.x = 0;
+      p.z = 0;
+      start(w);
+      w.nextSpawn = 1e9;
+      w.enemies.length = 0;
+      return { w, p };
+    })();
+    spawn(w, "crawler", 0, -10);
+    const target = w.enemies[0];
+    const before = target.hp;
+    fire(w, p, { ...neutral(), yaw: 0, pitch: 0, fire: true });
+    const hit = w.events.filter((e) => e.type === "hit").at(-1)!;
+    expect(hit.amount).toBeGreaterThan(0);
+    expect(hit.amount).toBe(Math.round(before - target.hp));
+    expect(hit.owner).toBe("p");
+    // Anchored to the body it struck, so a flier's number is not on the floor.
+    expect(hit.y).toBeCloseTo(eye(target), 5);
+  });
+  it("puts an airborne hit up where the hornet is", () => {
+    const w = createWorld("dmg-air", 4),
+      p = addPlayer(w, "p");
+    p.x = 0;
+    p.z = 0;
+    start(w);
+    w.nextSpawn = 1e9;
+    w.enemies.length = 0;
+    spawn(w, "hornet", 0, -10);
+    const target = w.enemies[0];
+    p.cool = 0;
+    fire(w, p, {
+      ...neutral(),
+      yaw: 0,
+      pitch: Math.atan2(eye(target) - 1.5, 10),
+      fire: true,
+    });
+    const hit = w.events.filter((e) => e.type === "hit").at(-1)!;
+    expect(hit.y).toBeGreaterThan(5);
   });
 });

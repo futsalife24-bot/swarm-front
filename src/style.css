@@ -635,6 +635,31 @@ footer span {
 .weapon-row.equipped-1 {
   background: #1b3b3a;
 }
+#damage {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  overflow: hidden;
+}
+.damage-number {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-weight: 800;
+  font-size: 17px;
+  color: #ffe9a8;
+  text-shadow:
+    0 2px 3px #04121b,
+    0 0 6px #04121b;
+  will-change: transform, opacity;
+}
+/* A teammate's hits read quieter, so four players do not bury the fight. */
+.damage-number.ally {
+  font-size: 13px;
+  font-weight: 600;
+  color: #9fd8de;
+}
 #pause {
   position: fixed;
   z-index: 4;

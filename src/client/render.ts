@@ -186,6 +186,57 @@ export class Renderer {
   drawCalls = 0;
   cameraAnchor = { x: 0, z: 0 };
   onSound: (type: string) => void = () => {};
+  // "self" shows only your own hits; four players' numbers at once bury the fight.
+  damageNumbers: "self" | "all" | "off" = "self";
+  damageLayer = document.getElementById("damage")!;
+  // Pooled: a rifle lands about eight hits a second and churning nodes is worse
+  // than keeping a few dozen around.
+  floaters: {
+    el: HTMLElement;
+    x: number;
+    y: number;
+    z: number;
+    life: number;
+  }[] = [];
+  spare: HTMLElement[] = [];
+  showDamage(x: number, y: number, z: number, amount: number, mine: boolean) {
+    if (this.floaters.length >= 28) return;
+    const el = this.spare.pop() ?? document.createElement("span");
+    el.textContent = String(amount);
+    el.className = "damage-number" + (mine ? "" : " ally");
+    this.damageLayer.append(el);
+    this.floaters.push({ el, x, y, z, life: 0.75 });
+  }
+  // Anchored to the world point, so turning the camera does not slide the
+  // numbers off the enemy that earned them.
+  drawDamage(dt: number) {
+    const canvas = this.renderer.domElement,
+      w = canvas.clientWidth,
+      h = canvas.clientHeight;
+    for (let i = this.floaters.length - 1; i >= 0; i--) {
+      const f = this.floaters[i];
+      f.life -= dt;
+      if (f.life <= 0) {
+        f.el.remove();
+        this.spare.push(f.el);
+        this.floaters.splice(i, 1);
+        continue;
+      }
+      const age = 1 - f.life / 0.75;
+      const v = new T.Vector3(f.x, f.y + age * 1.4, f.z).project(this.camera);
+      if (v.z > 1) {
+        f.el.style.opacity = "0";
+        continue;
+      }
+      f.el.style.transform =
+        "translate(-50%,-50%) translate(" +
+        ((v.x + 1) / 2) * w +
+        "px," +
+        ((1 - v.y) / 2) * h +
+        "px)";
+      f.el.style.opacity = String(Math.min(1, f.life * 3));
+    }
+  }
   frames: number[] = [];
   constructor(canvas: HTMLCanvasElement) {
     this.renderer = new T.WebGLRenderer({
@@ -511,6 +562,11 @@ export class Renderer {
               size: e.type === "burst" ? 1.5 : 0.5,
             });
         }
+        if (e.type === "hit" && e.amount && this.damageNumbers !== "off") {
+          const mine = e.owner === id;
+          if (mine || this.damageNumbers === "all")
+            this.showDamage(e.x, e.y, e.z, e.amount, mine);
+        }
         if (e.owner === id || e.type === "down") this.onSound(e.type);
       }
       const p = w.players.find((p) => p.id === id);
@@ -583,6 +639,7 @@ export class Renderer {
     this.particles.count = this.effects.length;
     syncDynamicInstances(this.particles);
     this.effects = this.effects.filter((e) => e.life > 0);
+    this.drawDamage(dt);
     this.renderer.render(this.scene, this.camera);
     this.drawCalls = this.renderer.info.render.calls;
   }
