@@ -1074,3 +1074,139 @@ body[data-screen="title"] footer {
   padding: 5px 8px;
   min-height: 28px;
 }
+
+/* Reward decisions must retain all effective stats on landscape phones. */
+.reward-family h3,
+.reward-family h4 {
+  margin: 10px 0 6px;
+}
+.reward-family p {
+  font-size: 12px;
+}
+.reward-choice {
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid var(--line);
+  background: #102631;
+}
+.reward-choice > small {
+  display: block;
+  margin-top: 4px;
+}
+.reward-choice dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 8px 0;
+}
+.reward-choice dt {
+  font-size: 11px;
+  color: #bed5d8;
+}
+.reward-choice dd {
+  font-size: 13px;
+  margin: 2px 0 0;
+  overflow-wrap: anywhere;
+}
+.reward-choice button {
+  width: 100%;
+  min-height: 44px;
+  white-space: normal;
+  font-size: 12px;
+}
+.result .weapon-row .weapon-figures {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-column: 1 / -1;
+}
+
+/* Give comparison the whole width while storage decisions are pending. */
+.panel.result.result-managing {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 8px;
+}
+.result-managing .result-summary {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.result-managing .result-summary > .eyebrow,
+.result-managing .result-summary > p,
+.result-managing .result-summary .stats,
+.result-managing .result-actions > p {
+  display: none;
+}
+.result-managing .result-summary h1 {
+  font-size: 18px;
+  margin: 0;
+}
+.result-managing .result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+}
+.result-managing .result-actions button {
+  padding: 8px;
+  min-height: 44px;
+  font-size: 12px;
+}
+.result-managing .result-loot {
+  border: 0;
+  padding: 0;
+}
+.result-managing .result-loot h2 {
+  font-size: 15px;
+  margin: 0;
+}
+.result-managing .result-loot > .status {
+  font-size: 11px;
+  max-height: 2.8em;
+  overflow-y: auto;
+}
+@media (orientation: landscape) {
+  .reward-choice dl {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+@media (orientation: landscape) and (max-height: 320px) {
+  .result-managing .result-loot h2 {
+    display: none;
+  }
+  .result-managing .result-loot > .status {
+    font-size: 10px;
+    line-height: 1.25;
+    margin: 0 0 4px;
+    max-height: 2.5em;
+  }
+  .reward-choice {
+    padding: 6px;
+  }
+  .reward-choice > b {
+    font-size: 13px;
+  }
+  .reward-choice > small {
+    font-size: 10px;
+    line-height: 1.2;
+    margin-top: 2px;
+  }
+  .reward-choice dl {
+    gap: 4px;
+    margin: 4px 0;
+  }
+  .reward-choice dt {
+    font-size: 10px;
+  }
+  .reward-choice dd {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+  .reward-choice button {
+    padding: 6px;
+    margin: 0;
+  }
+}

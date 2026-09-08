@@ -9,6 +9,11 @@ import {
 import { openLayoutEditor } from "./client/layout-editor";
 import { hudMarkup, updateCooldowns } from "./client/hud";
 import { Minimap } from "./client/minimap";
+import {
+  weaponDetails,
+  canReplace,
+  replaceForRewards,
+} from "./client/reward-choice";
 import { CHANGELOG } from "./client/changelog";
 import {
   EFFECTS,
@@ -750,12 +755,30 @@ function battle() {
   const fallback = placeControls(layout);
   if (fallback) status += " · 標準配置";
 }
+const declinedRewards = new Set<string>();
+function rewardChoices(items: Weapon[]) {
+  const kinds = [...new Set(overflow.map((w) => w.kind))];
+  return kinds
+    .map((kind) => {
+      const waiting = overflow.filter((w) => w.kind === kind);
+      const held = heldOf(kind);
+      const row = (w: Weapon, state: string) => {
+        const d = stats(w);
+        return `<article class="reward-choice rarity${w.rarity}"><b>${esc(d.name)} <em class="rarity-tag rarity${w.rarity}">${RARITIES[w.rarity]}</em></b><small>${state}</small><dl><div><dt>威力</dt><dd>${Math.round(d.damage)}${d.pellets > 1 ? ` × ${d.pellets}` : ""}</dd></div><div><dt>装弾</dt><dd>${d.mag}発</dd></div><div><dt>装填 ↓</dt><dd>${d.reload.toFixed(2)}秒</dd></div><div><dt>射程</dt><dd>${Math.round(d.range)}m</dd></div><div><dt>連射</dt><dd>${(1 / d.interval).toFixed(1)}発/秒</dd></div><div><dt>効果</dt><dd>${esc(EFFECTS[w.effect])}</dd></div></dl>${canReplace(save, items, overflow, w.id) ? `<button data-reward-discard="${esc(w.id)}">この${RARITIES[w.rarity]}を削除して保存を再試行</button>` : ""}${overflow.some((a) => a.id === w.id) ? `<button data-reward-decline="${esc(w.id)}">この${RARITIES[w.rarity]}の報酬を受け取らない</button>` : ""}</article>`;
+      };
+      return `<section class="reward-family"><h3>${KIND_LABELS[kind]} · 所持 ${held.length}/${LIMITS.perKind} · 保存待ち ${waiting.length}</h3><p>装填は短いほど良い値です。装備中と今回の戦利品は削除から保護しています。</p><h4>保存待ち（入手順に保存）</h4>${waiting.map((w) => row(w, "未保存・受け取らない場合は下のボタンで確認")).join("")}<h4>所持品から手放す1丁を選ぶ</h4>${held.map((w) => row(w, save.equipped.includes(w.id) ? "装備中・保護" : items.some((i) => i.id === w.id) ? "今回獲得・保存済み・保護" : "保存済み・削除すると元に戻せません")).join("")}</section>`;
+    })
+    .join("");
+}
 function result() {
   if (!world) return;
   const w = world;
+  if (resultRun !== w.run) declinedRewards.clear();
   resultRun = w.run;
   setScreen("result");
-  const items = w.rewards[myId] ?? [];
+  const items = (w.rewards[myId] ?? []).filter(
+    (i) => !declinedRewards.has(i.id),
+  );
   overflow = [];
   if (w.phase === "victory") {
     try {
@@ -763,42 +786,66 @@ function result() {
       overflow = r.overflow;
       if (write(r.save))
         status = overflow.length
-          ? `${[...new Set(overflow.map((w) => KIND_LABELS[w.kind]))].join("・")}が満杯で${overflow.length}丁を保存できませんでした。装備画面の「武器を整理する」で同じ系統から手放すと保存できます。`
+          ? `${[...new Set(overflow.map((w) => KIND_LABELS[w.kind]))].join("・")}が満杯で${overflow.length}丁を保存できませんでした。この画面の所持品と保存待ちの性能を比較して、削除する武器を選んでください。`
           : "戦利品を端末に保存しました";
     } catch (e) {
       status = (e as Error).message;
     }
   }
-  ui.innerHTML = `<section class="panel result"><div class="result-summary"><div class="eyebrow">OPERATION 01 / DEBRIEF</div><h1>${w.phase === "victory" ? "MISSION CLEAR" : "MISSION FAILED"}</h1><p>${w.phase === "victory" ? "街区を奪還。新しい武器で、もう一度。" : esc(w.reason || "部隊が全員ダウンしました")}</p><div class="stats"><div><span>TIME</span><b>${Math.floor(w.time / 60)}:${String(Math.floor(w.time % 60)).padStart(2, "0")}</b></div><div><span>ELIMINATIONS</span><b>${w.totalKills}</b></div><div><span>RECOVERED</span><b>${items.length}</b></div></div><div class="result-actions"><button class="primary" id="regear">装備変更・再出撃 ↗</button><button id="retry-save">保存を再試行</button>${overflow.length ? `<p>${esc([...new Set(overflow.map((w) => KIND_LABELS[w.kind]))].join("・"))}が満杯です。装備変更へ進み、同じ系統から手放してからこの画面で保存を再試行してください。</p>` : ""}</div></div><section class="result-loot"><h2>${w.phase === "victory" ? "個別戦利品" : "未確定戦利品は失われました"}</h2><p class="status" role="status">${esc(w.phase === "victory" ? status : "保存済みの武器は保持されています。")}</p><div class="loot-list" aria-label="獲得武器リスト">${items.map((w) => card(w, true)).join("")}</div></section></section>`;
+  ui.innerHTML = `<section class="panel result${overflow.length ? " result-managing" : ""}"><div class="result-summary"><div class="eyebrow">OPERATION 01 / DEBRIEF</div><h1>${w.phase === "victory" ? "MISSION CLEAR" : "MISSION FAILED"}</h1><p>${w.phase === "victory" ? "街区を奪還。新しい武器で、もう一度。" : esc(w.reason || "部隊が全員ダウンしました")}</p><div class="stats"><div><span>TIME</span><b>${Math.floor(w.time / 60)}:${String(Math.floor(w.time % 60)).padStart(2, "0")}</b></div><div><span>ELIMINATIONS</span><b>${w.totalKills}</b></div><div><span>RECOVERED</span><b>${items.length}</b></div></div><div class="result-actions"><button class="primary" id="regear">装備変更・再出撃 ↗</button><button id="retry-save">保存を再試行</button>${overflow.length ? `<p>${esc([...new Set(overflow.map((w) => KIND_LABELS[w.kind]))].join("・"))}が満杯です。右の一覧で同じ系統の性能を比較して、不要な所持品を選んでください。削除は確認後に行います。</p>` : ""}</div></div><section class="result-loot"><h2>${w.phase === "victory" ? "個別戦利品" : "未確定戦利品は失われました"}</h2><p class="status" role="status">${esc(w.phase === "victory" ? status : "保存済みの武器は保持されています。")}</p><div class="loot-list" aria-label="獲得武器リスト">${overflow.length ? rewardChoices(items) : items.map((w) => card(w, true)).join("")}</div></section></section>`;
   $("regear").onclick = () => {
     if (items.some((i) => !save.inventory.some((w) => w.id === i.id))) {
-      status =
-        "未保存の報酬があります。この画面のまま保存を再試行してください。武器庫が満杯なら下の整理を使ってください。";
-      const p = ui.querySelector(".status")!;
-      p.textContent = status;
-      const spare = save.inventory.find(
-        (i) =>
-          !save.equipped.includes(i.id) && !items.some((w) => w.id === i.id),
-      );
-      if (spare && !$("free-slot")) {
-        const b = document.createElement("button");
-        b.id = "free-slot";
-        b.textContent = `${weaponName(spare)}を整理して再試行`;
-        b.onclick = () => {
-          if (confirm(`${weaponName(spare)}を整理しますか？`)) {
-            write({
-              ...save,
-              inventory: save.inventory.filter((i) => i.id !== spare.id),
-            });
-            result();
-          }
-        };
-        p.after(b);
-      }
+      ui.querySelector(".status")!.textContent =
+        "未保存の報酬があります。右の一覧で性能を比較し、削除する所持品を選んでください。この画面を閉じずに保存してください。";
+      ui.querySelector(".loot-list")!.scrollTop = 0;
       return;
     }
     gear();
   };
+  ui.querySelectorAll<HTMLButtonElement>("[data-reward-discard]").forEach(
+    (b) => {
+      b.onclick = () => {
+        const id = b.dataset.rewardDiscard!;
+        if (!canReplace(save, items, overflow, id)) return;
+        const item = save.inventory.find((w) => w.id === id)!;
+        if (
+          !confirm(
+            `次の所持武器を1丁、完全に削除します。元には戻せません。\n\n${weaponDetails(item)}\n\n削除して同じ系統の報酬の保存を再試行しますか？`,
+          )
+        )
+          return;
+        if (write(replaceForRewards(save, w.run, items, id))) result();
+        else
+          ui.querySelector(".status")!.textContent =
+            status + " 所持武器は削除していません。";
+      };
+    },
+  );
+  ui.querySelectorAll<HTMLButtonElement>("[data-reward-decline]").forEach(
+    (b) => {
+      b.onclick = () => {
+        const item = overflow.find((i) => i.id === b.dataset.rewardDecline);
+        if (!item) return;
+        if (
+          !confirm(
+            `次の未保存報酬を受け取らずに手放します。元には戻せません。\n\n${weaponDetails(item)}\n\n所持品は削除しません。この報酬の受け取りを辞退しますか？`,
+          )
+        )
+          return;
+        const next = rewards(
+          save,
+          w.run,
+          items.filter((i) => i.id !== item.id),
+        );
+        if (write(next.save)) {
+          declinedRewards.add(item.id);
+          result();
+        } else
+          ui.querySelector(".status")!.textContent =
+            status + " 報酬の辞退は確定していません。";
+      };
+    },
+  );
   $("retry-save").onclick = result;
   $("retry-save").hidden =
     w.phase !== "victory" ||
