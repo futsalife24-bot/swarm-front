@@ -3,7 +3,13 @@ import {
   STARTERS,
   LIMITS,
   POWER,
-  LR_POWER,
+  ROLL,
+  ROLLS,
+  WEAPONS,
+  quality,
+  stats,
+  LR_QUALITY,
+  validRoll,
   validWeapon,
   type Weapon,
 } from "../src/shared/defs";
@@ -171,13 +177,12 @@ describe("versioned local inventory", () => {
     expect(validWeapon(item)).toBe(true);
     for (const power of [1.361, 1.36001, NaN, Infinity, 0.999])
       expect(validWeapon({ ...item, power })).toBe(false);
-    for (const rarity of [0, 1, 2] as const) {
-      expect(
-        validWeapon({ ...item, rarity, power: [1.12, 1.24, 1.36][rarity] }),
-      ).toBe(true);
-      expect(
-        validWeapon({ ...item, rarity, power: [1.121, 1.241, 1.361][rarity] }),
-      ).toBe(false);
+    // The tier is read from all five rolls, so damage no longer has a per-tier
+    // ceiling: a low tier may carry high damage and pay for it elsewhere.
+    for (const rarity of [0, 1, 2, 3] as const) {
+      for (const power of [1.12, 1.24, 1.36])
+        expect(validWeapon({ ...item, rarity, power })).toBe(true);
+      expect(validWeapon({ ...item, rarity, power: 1.361 })).toBe(false);
     }
     const { w } = fixture();
     w.pending.p = [item];
@@ -299,9 +304,7 @@ describe("LR promotion", () => {
     // Every LR must have cleared both gates.
     for (const item of lr) {
       expect(item.effect).not.toBe("none");
-      expect(Math.round(item.power * POWER.scale)).toBeGreaterThanOrEqual(
-        LR_POWER,
-      );
+      expect(quality(item)).toBeGreaterThanOrEqual(LR_QUALITY);
       expect(validWeapon(item)).toBe(true);
     }
     // It is recognition, not power creep: no LR beats the SSR ceiling.
@@ -328,5 +331,75 @@ describe("LR promotion", () => {
     );
     const back = parseSave(store.get("swarm-front-save-v1")!);
     expect(back.inventory.some((x) => x.id === "lr-1")).toBe(true);
+  });
+});
+describe("rolled figures", () => {
+  const dominates = (a: Weapon, b: Weapon) => {
+    const x = stats(a),
+      y = stats(b);
+    return (
+      x.damage >= y.damage &&
+      x.mag >= y.mag &&
+      x.range >= y.range &&
+      x.interval <= y.interval &&
+      x.reload <= y.reload &&
+      (x.damage > y.damage ||
+        x.mag > y.mag ||
+        x.range > y.range ||
+        x.interval < y.interval ||
+        x.reload < y.reload)
+    );
+  };
+  it("rarely produces a weapon that beats another at everything", () => {
+    const w = createWorld("dominance", 77);
+    const rifles: Weapon[] = [];
+    while (rifles.length < 400) {
+      const item = loot(w);
+      if (item.kind === "rifle" && item.effect === "none") rifles.push(item);
+    }
+    let dominated = 0,
+      pairs = 0;
+    for (const a of rifles)
+      for (const b of rifles) {
+        if (a === b) continue;
+        pairs++;
+        if (dominates(a, b)) dominated++;
+      }
+    // The point of five rolls: "better" stops being one ordering.
+    expect(dominated / pairs).toBeLessThan(0.12);
+  });
+  it("keeps every figure inside its declared band", () => {
+    const w = createWorld("bands", 5);
+    for (let n = 0; n < 20000; n++) {
+      const item = loot(w);
+      expect(validWeapon(item)).toBe(true);
+      const s = stats(item),
+        d = WEAPONS[item.kind];
+      expect(s.mag).toBeGreaterThanOrEqual(1);
+      expect(s.range).toBeGreaterThanOrEqual(d.range * (ROLL.min / ROLL.scale));
+      expect(s.range).toBeLessThanOrEqual(d.range * (ROLL.max / ROLL.scale));
+      for (const key of ROLLS) expect(validRoll(item.rolls![key]!)).toBe(true);
+    }
+  });
+  it("reads a weapon saved before rolls existed as plain base values", () => {
+    const legacy: Weapon = {
+      id: "legacy",
+      kind: "rifle",
+      rarity: 1,
+      power: 1.1,
+      effect: "none",
+    };
+    expect(validWeapon(legacy)).toBe(true);
+    const s = stats(legacy),
+      d = WEAPONS.rifle;
+    expect(s.mag).toBe(d.mag);
+    expect(s.range).toBe(d.range);
+    expect(s.reload).toBe(d.reload);
+    expect(s.interval).toBe(d.interval);
+    expect(quality(legacy)).toBeCloseTo(
+      (4 * (ROLL.scale - ROLL.min) + (ROLL.max - ROLL.scale)) /
+        (5 * (ROLL.max - ROLL.min)),
+      5,
+    );
   });
 });

@@ -1,4 +1,4 @@
-import { WEAPONS, WAVE_INTERVAL } from "../shared/defs";
+import { WAVE_INTERVAL, stats } from "../shared/defs";
 import { visible, type Player, type World } from "../shared/game";
 // Mirrors the authoritative revive rule in src/shared/game.ts (range and hold time).
 const REVIVE_RANGE = 3.5,
@@ -53,9 +53,7 @@ function updateRevive(w: World, id: string) {
 }
 export function updateCooldowns(w: World, id: string) {
   const p = w.players.find((x) => x.id === id)!;
-  const duration =
-    WEAPONS[p.weapons[p.slot].kind].reload *
-    (p.weapons[p.slot].effect === "quick" ? 0.8 : 1);
+  const duration = stats(p.weapons[p.slot]).reload;
   for (const [id, label, left, total] of [
     ["dodge", "回避", p.evadeCd, 2.2],
     ["reload", "装填", p.reload, duration],
@@ -112,7 +110,7 @@ function rescueMarkup(w: World, id: string) {
 }
 export function hudMarkup(w: World, id: string, status: string) {
   const p = w.players.find((p) => p.id === id)!;
-  const def = WEAPONS[p.weapons[p.slot].kind],
+  const def = stats(p.weapons[p.slot]),
     boss = w.enemies.find((e) => e.kind === "boss");
   const next =
     w.waveClearAt != null

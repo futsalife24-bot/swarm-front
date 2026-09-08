@@ -5,7 +5,13 @@ import {
   STARTERS,
   WEAPONS,
   POWER,
-  LR_POWER,
+  ROLL,
+  ROLLS,
+  LOWER_IS_BETTER,
+  LR_QUALITY,
+  TIER_QUALITY,
+  quality,
+  stats,
   WAVE_QUOTAS,
   WAVE_INTERVAL,
   MOVE_SPEED,
@@ -169,7 +175,7 @@ export function addPlayer(
     revive: 0,
     weapons: structuredClone(weapons),
     slot: 0,
-    ammo: weapons.map((a) => WEAPONS[a.kind].mag),
+    ammo: weapons.map((a) => stats(a).mag),
     reload: 0,
     cool: 0,
     evade: 0,
@@ -196,13 +202,22 @@ export function random(w: World) {
   return w.seed / 4294967296;
 }
 export function loot(w: World): Weapon {
-  const r = random(w),
-    rarity = r < 0.65 ? 0 : r < 0.93 ? 1 : 2;
   const kind = (["rifle", "shotgun", "rocket"] as const)[
     Math.floor(random(w) * 3)
   ];
-  const milli =
-    POWER.min + Math.floor(random(w) * (POWER.max[rarity] - POWER.min + 1));
+  // Roll the five figures first; the tier is then a reading of how they landed
+  // rather than a bag that was drawn before anything was known.
+  const rolls: Partial<Record<(typeof ROLLS)[number], number>> = {};
+  let score = 0;
+  for (const key of ROLLS) {
+    const milli = ROLL.min + Math.floor(random(w) * (ROLL.max - ROLL.min + 1));
+    rolls[key] = milli / ROLL.scale;
+    const at = (milli - ROLL.min) / (ROLL.max - ROLL.min);
+    score += LOWER_IS_BETTER.includes(key) ? 1 - at : at;
+  }
+  const grade = score / ROLLS.length;
+  const rarity =
+    grade >= TIER_QUALITY[2] ? 2 : grade >= TIER_QUALITY[1] ? 1 : 0;
   const effect: Weapon["effect"] =
     rarity && random(w) < 0.6
       ? kind !== "rocket" && random(w) < 0.55
@@ -212,12 +227,20 @@ export function loot(w: World): Weapon {
   return {
     id: `${w.run}-${++w.serial}`,
     kind,
-    // LR is never drawn. It is what an SSR becomes when the same drop happens to
-    // roll an effect and land in the top of the power band, so the tier means
-    // "this one rolled everything" rather than "this one came from a better bag".
-    rarity: rarity === 2 && effect !== "none" && milli >= LR_POWER ? 3 : rarity,
-    power: milli / POWER.scale,
+    // LR is never drawn: it is what a top-grade roll becomes when it also
+    // carries an effect, so the tier means "this one landed everything".
+    rarity: grade >= LR_QUALITY && effect !== "none" ? 3 : rarity,
+    // Damage keeps its own scale so old saves and the power cap still line up.
+    power:
+      (POWER.min +
+        Math.round(
+          ((POWER.max[2] - POWER.min) *
+            (rolls.power! - ROLL.min / ROLL.scale)) /
+            ((ROLL.max - ROLL.min) / ROLL.scale),
+        )) /
+      POWER.scale,
     effect,
+    rolls,
   };
 }
 // Roof height over a point, or 0 in the open. Fliers use it to know how high
@@ -381,7 +404,7 @@ export function falloff(kind: Weapon["kind"], distance: number) {
 }
 export function fire(w: World, p: Player, i: Input) {
   const weapon = p.weapons[p.slot],
-    def = WEAPONS[weapon.kind];
+    def = stats(weapon);
   if (p.reload > 0 || p.cool > 0 || p.ammo[p.slot] <= 0) return;
   p.ammo[p.slot]--;
   p.cool = def.interval;
@@ -429,7 +452,7 @@ export function fire(w: World, p: Player, i: Input) {
           dy: dy * 28,
           life: def.range / 28,
           owner: p.id,
-          damage: def.damage * weapon.power,
+          damage: def.damage,
           rocket: true,
         });
       event(w, {
@@ -466,12 +489,7 @@ export function fire(w: World, p: Player, i: Input) {
       .sort((a, b) => a.along - b.along)
       .slice(0, weapon.effect === "pierce" ? 3 : 1);
     for (const h of hits)
-      hurtEnemy(
-        w,
-        h.e,
-        def.damage * weapon.power * falloff(weapon.kind, h.along),
-        p.id,
-      );
+      hurtEnemy(w, h.e, def.damage * falloff(weapon.kind, h.along), p.id);
     if (hits.length) range = hits[hits.length - 1].along;
     event(w, {
       type: "shot",
@@ -511,7 +529,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     if (p.safe > 5) p.hp = Math.min(160, p.hp + dt * 3);
     if (p.reload > 0) {
       p.reload -= dt;
-      if (p.reload <= 0) p.ammo[p.slot] = WEAPONS[p.weapons[p.slot].kind].mag;
+      if (p.reload <= 0) p.ammo[p.slot] = stats(p.weapons[p.slot]).mag;
     }
     if (i.swap && p.swapCd <= 0) {
       p.slot = 1 - p.slot;
@@ -521,11 +539,9 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     if (
       (i.reload || p.ammo[p.slot] === 0) &&
       p.reload <= 0 &&
-      p.ammo[p.slot] < WEAPONS[p.weapons[p.slot].kind].mag
+      p.ammo[p.slot] < stats(p.weapons[p.slot]).mag
     )
-      p.reload =
-        WEAPONS[p.weapons[p.slot].kind].reload *
-        (p.weapons[p.slot].effect === "quick" ? 0.8 : 1);
+      p.reload = stats(p.weapons[p.slot]).reload;
     if (i.dodge && p.evadeCd <= 0) {
       p.evade = 0.32;
       p.evadeCd = 2.2;

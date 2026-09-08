@@ -1,11 +1,21 @@
 export type Kind = "rifle" | "shotgun" | "rocket";
 export type Effect = "none" | "pierce" | "quick";
+// Every figure a weapon shows is rolled, not just damage. With one rolled stat
+// a single best weapon dominated its whole family and the other seven slots
+// were dead; with five that trade against each other, "better" stops being a
+// single ordering.
+export type Roll = "power" | "mag" | "reload" | "range" | "rate";
+export const ROLLS: Roll[] = ["power", "mag", "reload", "range", "rate"];
+// Reload is the one where a smaller number is the better outcome.
+export const LOWER_IS_BETTER: Roll[] = ["reload"];
 export interface Weapon {
   id: string;
   kind: Kind;
   rarity: 0 | 1 | 2 | 3;
   power: number;
   effect: Effect;
+  // Absent on weapons saved before rolls existed; those read as base values.
+  rolls?: Partial<Record<Roll, number>>;
 }
 export const WEAPONS = {
   rifle: {
@@ -77,17 +87,57 @@ export const POWER = {
   // LR shares the SSR ceiling on purpose: it is recognition, not extra damage.
   max: [1120, 1240, 1360, 1360],
 } as const;
-// Top 8% of the SSR band. Both conditions must land at once, so this stays rare.
-export const LR_POWER = Math.round(
-  POWER.min + (POWER.max[2] - POWER.min) * 0.92,
-);
+// Each figure rolls in this band, in thousandths. It reaches below 1 on purpose:
+// upside-only rolls just move the ceiling and rebuild the single best weapon.
+export const ROLL = { scale: 1000, min: 800, max: 1250 } as const;
+// Overall quality, 0..1, averaged over the five rolls. Reload is inverted so
+// that 1 always means "the good end" whichever direction that is.
+export function quality(w: Weapon) {
+  const span = ROLL.max - ROLL.min;
+  return (
+    ROLLS.reduce((sum, key) => {
+      const milli = Math.round((w.rolls?.[key] ?? 1) * ROLL.scale);
+      const at = (milli - ROLL.min) / span;
+      return sum + (LOWER_IS_BETTER.includes(key) ? 1 - at : at);
+    }, 0) / ROLLS.length
+  );
+}
+export function validRoll(value: unknown) {
+  if (typeof value !== "number" || !Number.isFinite(value)) return false;
+  const milli = Math.round(value * ROLL.scale);
+  return value === milli / ROLL.scale && milli >= ROLL.min && milli <= ROLL.max;
+}
+// A drop is promoted to LR only if it also carries an effect.
+export const LR_QUALITY = 0.83;
+// Quality thresholds for the tiers below it.
+export const TIER_QUALITY = [0, 0.55, 0.7] as const;
+// The numbers a weapon actually fights with. Every consumer goes through here so
+// the armoury and the combat code can never disagree about what a weapon is.
+export function stats(w: Weapon) {
+  const d = WEAPONS[w.kind];
+  const roll = (key: Roll) => w.rolls?.[key] ?? 1;
+  return {
+    ...d,
+    damage: d.damage * w.power,
+    // A rocket holds two rounds, so a percentage would round it to ruin; every
+    // magazine keeps at least one and moves in whole rounds.
+    mag: Math.max(1, Math.round(d.mag * roll("mag"))),
+    reload: d.reload * roll("reload") * (w.effect === "quick" ? 0.8 : 1),
+    range: d.range * roll("range"),
+    interval: d.interval / roll("rate"),
+  };
+}
+// Damage is rolled on its own band and the tier is read from all five rolls
+// afterwards, so a low tier can legitimately carry high damage and pay for it
+// elsewhere. The ceiling is therefore the band's, not the tier's.
 export function validPower(power: number, rarity: Weapon["rarity"]) {
+  void rarity;
   const milli = Math.round(power * POWER.scale);
   return (
     Number.isFinite(power) &&
     power === milli / POWER.scale &&
     milli >= POWER.min &&
-    milli <= POWER.max[rarity]
+    milli <= POWER.max[POWER.max.length - 1]
   );
 }
 export const WAVE_QUOTAS = [0, 45, 55, 65] as const;
@@ -147,6 +197,12 @@ export function validWeapon(w: unknown): w is Weapon {
     Object.hasOwn(WEAPONS, v.kind) &&
     [0, 1, 2, 3].includes(v.rarity) &&
     validPower(v.power, v.rarity) &&
+    (v.rolls === undefined ||
+      (typeof v.rolls === "object" &&
+        v.rolls !== null &&
+        Object.entries(v.rolls).every(
+          ([key, value]) => ROLLS.includes(key as Roll) && validRoll(value),
+        ))) &&
     Object.hasOwn(EFFECTS, v.effect) &&
     (v.effect === "none" || v.rarity > 0) &&
     (v.effect !== "pierce" || v.kind !== "rocket")

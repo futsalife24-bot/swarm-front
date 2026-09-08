@@ -14,8 +14,11 @@ import {
   LIMITS,
   WAVE_INTERVAL,
   MOVE_SPEED,
-  POWER,
   RARITIES,
+  ROLL,
+  LOWER_IS_BETTER,
+  stats,
+  type Roll,
   WEAPONS,
   type Weapon,
 } from "./shared/defs";
@@ -302,7 +305,7 @@ function tidyMarkup() {
           ? spare
               .map(
                 (w) =>
-                  `<button data-discard="${w.id}">${weaponName(w)} · ${RARITIES[w.rarity]} · 威力${Math.round(WEAPONS[w.kind].damage * w.power)}${w.effect === "none" ? "" : " · " + EFFECTS[w.effect]}</button>`,
+                  `<button data-discard="${w.id}">${weaponName(w)} · ${RARITIES[w.rarity]} · 威力${Math.round(stats(w).damage)}${w.effect === "none" ? "" : " · " + EFFECTS[w.effect]}</button>`,
               )
               .join("")
           : "<small>装備中の武器しかありません。先に装備を替えてください。</small>") +
@@ -323,16 +326,20 @@ const figure = (group: string, value: string, label: string, cls = "") =>
   label +
   "</i></span>";
 function card(w: Weapon, lootOnly = false) {
-  const d = WEAPONS[w.kind],
+  const d = stats(w),
     base = equipped().find((a) => a.kind === w.kind),
-    diff = base ? Math.round(d.damage * (w.power - base.power)) : null;
+    diff = base ? Math.round(d.damage - stats(base).damage) : null;
   const damage =
-    Math.round(d.damage * w.power) + (d.pellets > 1 ? " × " + d.pellets : "");
-  // Where this roll sits inside its own tier's band, so the colour says "good
-  // for an SR" rather than "high number".
-  const band = POWER.max[w.rarity] - POWER.min,
-    roll = band ? (Math.round(w.power * POWER.scale) - POWER.min) / band : 0,
-    rollClass = roll >= 0.85 ? " roll-high" : roll <= 0.2 ? " roll-low" : "";
+    Math.round(d.damage) + (d.pellets > 1 ? " × " + d.pellets : "");
+  // Each figure is graded against its own roll band. Reload is inverted there,
+  // so a fast reload and a big magazine both read as the good end.
+  const grade = (key: Roll) => {
+    const milli = Math.round((w.rolls?.[key] ?? 1) * ROLL.scale);
+    let at = (milli - ROLL.min) / (ROLL.max - ROLL.min);
+    if (LOWER_IS_BETTER.includes(key)) at = 1 - at;
+    return at >= 0.8 ? "roll-high" : at <= 0.2 ? "roll-low" : "";
+  };
+  const rollClass = grade("power");
   const slot = lootOnly ? -1 : save.equipped.indexOf(w.id);
   return (
     '<article class="weapon-row rarity' +
@@ -369,15 +376,10 @@ function card(w: Weapon, lootOnly = false) {
       d.pellets > 1 ? "威力/散弾" : "威力",
       rollClass,
     ) +
-    figure("load", String(d.mag), "装弾") +
-    figure(
-      "load",
-      (d.reload * (w.effect === "quick" ? 0.8 : 1)).toFixed(2) + "s",
-      "装填",
-      w.effect === "quick" ? "boosted" : "",
-    ) +
-    figure("reach", d.range + "m", "射程") +
-    figure("reach", (1 / d.interval).toFixed(1), "発/s") +
+    figure("load", String(d.mag), "装弾", grade("mag")) +
+    figure("load", d.reload.toFixed(2) + "s", "装填", grade("reload")) +
+    figure("reach", Math.round(d.range) + "m", "射程", grade("range")) +
+    figure("reach", (1 / d.interval).toFixed(1), "発/s", grade("rate")) +
     "</div>" +
     (lootOnly
       ? '<div class="loot-state"><b>獲得</b><small>' +
