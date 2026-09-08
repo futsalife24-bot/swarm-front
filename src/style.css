@@ -471,6 +471,20 @@ footer span {
   font-size: 9px;
   display: block;
 }
+.reload-cue {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 28px);
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #09141ce6;
+  color: #e7f5d9;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  pointer-events: none;
+}
 .crosshair {
   position: absolute;
   left: 50%;
