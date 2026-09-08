@@ -252,12 +252,13 @@ function title() {
     };
   if (saveError) $("export").onclick = exportSave;
 }
-// The number goes in the cell rather than in a legend somewhere else: the
-// question "pierce how many?" should be answered where it is asked.
+// This column is for what the numbers cannot say. Pierce qualifies and carries
+// its count; a faster reload is already sitting in the 装填 column, so it is
+// marked there instead of being named twice.
 const EFFECT_SHORT: Record<Weapon["effect"], string> = {
   none: "—",
   pierce: "貫通 ×3",
-  quick: "装填 -20%",
+  quick: "—",
 };
 const KIND_LABELS: Record<Weapon["kind"], string> = {
   rifle: "ライフル",
@@ -310,9 +311,11 @@ function tidyMarkup() {
     .join("");
 }
 // `group` decides which tab shows this figure; the row stays one line either way.
-const figure = (group: string, value: string, label: string) =>
+const figure = (group: string, value: string, label: string, cls = "") =>
   '<span data-stat="' +
   group +
+  '" class="' +
+  cls +
   '"><b>' +
   value +
   "</b><i>" +
@@ -364,6 +367,7 @@ function card(w: Weapon, lootOnly = false) {
       "load",
       (d.reload * (w.effect === "quick" ? 0.8 : 1)).toFixed(2) + "s",
       "装填",
+      w.effect === "quick" ? "boosted" : "",
     ) +
     figure("reach", d.range + "m", "射程") +
     figure("reach", (1 / d.interval).toFixed(1), "発/s") +

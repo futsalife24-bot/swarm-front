@@ -836,6 +836,10 @@ body[data-screen="title"] footer {
     font-size: 10px;
     color: var(--gold);
   }
+  /* Quick reload shows up as the number it changes, not as a second label. */
+  .gear .weapon-list .boosted b {
+    color: var(--gold);
+  }
   .gear .weapon-list .weapon-figures span {
     min-width: 0;
   }
