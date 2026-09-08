@@ -167,6 +167,9 @@ export function hudMarkup(w: World, id: string, status: string) {
     '</small></div></div><div class="crosshair ' +
     (p.hurt > 0 ? "hurt" : "") +
     '">+</div>' +
+    (p.hp > 0 && p.reload > 0
+      ? '<div class="reload-cue">装填中 · ' + p.reload.toFixed(1) + "秒</div>"
+      : "") +
     (p.hurt > 0 ? '<div class="damage"></div>' : "") +
     (p.hp <= 0
       ? '<div class="downed">DOWNED<small>' +
