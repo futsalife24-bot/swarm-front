@@ -8,3 +8,23 @@ playwright-report/
 *.log
 
 .codex-remote-attachments/
+
+# Local Blender review output and disposable audit copies. Keep source models,
+# build scripts, review pages and source textures under version control.
+__pycache__/
+*.pyc
+/assets/blender/**/*.blend1
+/assets/blender/**/*.zip
+/assets/blender/**/*.mp4
+/assets/blender/**/*.webm
+/assets/blender/candidates/**/*.png
+/assets/blender/candidates/**/*.jpg
+/assets/blender/preview*/**/*.png
+/assets/blender/preview*/**/*.jpg
+/assets/blender/candidates/**/audit-workspace/
+/assets/blender/candidates/**/audit-source/
+/assets/blender/candidates/**/integration-v2-typecheck/
+/assets/blender/candidates/**/integration-v3-typecheck/
+/assets/blender/candidates/**/adoption/before/
+/assets/blender/candidates/**/adoption/published/
+/assets/blender/candidates/**/turn-fix/published/
