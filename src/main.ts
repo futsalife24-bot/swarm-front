@@ -1,5 +1,16 @@
+import { STAGES, MAPS, mapFor, stageFor } from "./shared/stages";
+let selectedStage = 1;
+const stageOptions = () =>
+  STAGES.map(
+    (s) =>
+      `<option value="${s.id}" ${s.id === selectedStage ? "selected" : ""}>${String(s.id).padStart(2, "0")} ${s.name} / ${MAPS[s.map].name}</option>`,
+  ).join("");
 import "./style.css";
 import "./mobile-ui.css";
+import "./menu-ui.css";
+import "./menu-theme.css";
+import "./client/stage-clear.css";
+import { menuDialog, menuIcon, restoreMenuPosition } from "./client/menu-ui";
 import {
   defaultLayout,
   parseLayout,
@@ -9,14 +20,17 @@ import {
 import { openLayoutEditor } from "./client/layout-editor";
 import { hudMarkup, updateCooldowns } from "./client/hud";
 import { Minimap } from "./client/minimap";
+import { weaponDetails } from "./client/reward-choice";
 import {
-  weaponDetails,
-  canReplace,
-  replaceForRewards,
-} from "./client/reward-choice";
+  kindHelp,
+  effectHelp,
+  effectText,
+  kindSummary,
+} from "./client/weapon-help";
+import { openBestiary } from "./client/bestiary";
 import { CHANGELOG } from "./client/changelog";
 import {
-  EFFECTS,
+  effectLabel,
   LIMITS,
   WAVE_INTERVAL,
   MOVE_SPEED,
@@ -27,6 +41,7 @@ import {
   type Roll,
   WEAPONS,
   type Weapon,
+  type Kind,
 } from "./shared/defs";
 import {
   addPlayer,
@@ -45,7 +60,10 @@ import {
   fresh,
   parseSave,
   persist,
-  rewards,
+  bankRewards,
+  dismantleWeapons,
+  POWDER_NAME,
+  POWDER_YIELDS,
   trimToKindCap,
   SAVE_KEY,
   type Save,
@@ -98,7 +116,8 @@ let save: Save = fresh(),
   myId = "solo",
   status = "",
   resultRun = "",
-  overflow: Weapon[] = [],
+  clearRun = "",
+  clearStartedAt = 0,
   netFatal = false,
   predicted: { x: number; z: number } | undefined;
 let turnstileToken = "";
@@ -224,6 +243,10 @@ const weaponName = (w: Weapon) => WEAPONS[w.kind].name;
 const equipped = () =>
   save.equipped.map((id) => save.inventory.find((w) => w.id === id)!);
 function setScreen(name: string) {
+  if (name !== screen)
+    document
+      .querySelectorAll<HTMLDialogElement>("dialog[open]")
+      .forEach((dialog) => dialog.close());
   screen = name;
   document.body.dataset.screen = name;
   ui.scrollTop = 0;
@@ -241,15 +264,21 @@ function setScreen(name: string) {
 function title() {
   setScreen("title");
   world = null;
-  ui.innerHTML = `<section class="title"><div class="eyebrow">FIELD TEST 01 <span>LOCAL BUILD</span></div><div class="mark">SF<span>／</span></div><h1>SWARM<br>FRONT<span class="dot">.</span></h1><p class="tagline">群れを砕け。仲間と、次の戦場へ。</p><p class="intro">三人称3D協力アクション · 開発用仮名</p><div class="title-actions"><button class="primary" id="solo">ソロで出撃準備 <span>↗</span></button><button id="coop">協力プレイ <small>1–4 PLAYERS</small></button>${installPrompt ? '<button id="install">ホーム画面に追加</button>' : ""}</div><p class="fine">ソロは通信サーバー不要。戦利品はこの端末に保存。</p>${saveError ? `<p class="error">${esc(saveError)}</p><button id="export">保存データを書き出す</button>` : ""}</section><aside class="mission-card"><div>01 / OPERATION</div><h2>灰明の街区</h2><p>3つの敵群を突破し、<br>大型個体〈クラウン〉を排除せよ。</p><span>INFANTRY · URBAN DISTRICT</span></aside><footer>FIRST PLAYABLE <span>無料素材・コード生成モデル ／ 公開前ビルド</span></footer><button id="changelog" class="corner-log">更新履歴</button>`;
+  const stage = STAGES[selectedStage - 1];
+  ui.innerHTML = `<section class="title"><div class="eyebrow">TACTICAL OPERATIONS <span>戦術作戦本部</span></div><h1>SWARM<br>FRONT<span class="dot">.</span></h1><p class="tagline">異形の構造体を砕け。<br>仲間と、次の戦場へ。</p><aside class="home-operation"><div class="eyebrow">NEXT OPERATION / ${String(stage.id).padStart(2, "0")}</div><h2>${esc(stage.name)}</h2><p>${esc(MAPS[stage.map].name)} <span>${stage.waves.length} WAVES</span></p><small>${esc(stage.brief)}</small></aside></section><section class="home-command" aria-label="メインメニュー"><div class="command-heading"><span class="eyebrow">COMMAND MENU</span><span class="connection-dot">出撃待機</span></div><div class="title-actions"><button class="primary home-launch" id="solo" aria-label="ソロで出撃準備">${menuIcon("sortie")}<span><small>SOLO OPERATION</small><b>ソロで出撃準備</b><em>ステージと装備を選んで出撃</em></span><i aria-hidden="true">↗</i></button><button id="coop" aria-label="協力プレイ">${menuIcon("squad")}<span><small>CO-OP / 1–4 PLAYERS</small><b>協力プレイ</b><em>部隊を作成・招待から参加</em></span><i aria-hidden="true">↗</i></button><button id="open-armory" aria-label="武器庫">${menuIcon("armory")}<span><small>ARSENAL</small><b>武器庫</b><em>${save.inventory.length}丁を所持${save.pendingWeapons?.length ? ` · 整理待ち ${save.pendingWeapons.length}丁` : " · 比較・お気に入り・整理"}</em></span><i aria-hidden="true">›</i></button><button id="open-bestiary" aria-label="エネミーレポート">${menuIcon("report")}<span><small>FIELD INTELLIGENCE</small><b>エネミーレポート</b><em>敵の特徴と対処を確認</em></span><i aria-hidden="true">›</i></button></div><div class="home-utilities"><button id="home-settings">${menuIcon("settings")}設定・操作</button><button id="changelog">更新履歴</button>${installPrompt ? '<button id="install">ホーム画面に追加</button>' : ""}</div><p class="fine">戦利品はこの端末に保存されます。ソロは通信サーバー不要。</p>${saveError ? `<p class="error">${esc(saveError)}</p><button id="export">保存データを書き出す</button>` : ""}</section>`;
+  $("open-armory").onclick = armory;
+  $("open-bestiary").onclick = openBestiary;
+  $("home-settings").onclick = () => openSettings(title);
   $("solo").onclick = () => {
     mode = "solo";
     network?.close();
     network = undefined;
+    status = "";
     gear();
   };
   $("coop").onclick = () => {
     mode = "coop";
+    status = "";
     gear();
   };
   if (installPrompt)
@@ -265,32 +294,16 @@ function title() {
   $("changelog").onclick = showChangelog;
 }
 function showChangelog() {
-  const menu = $("pause-menu");
-  menu.hidden = false;
-  menu.innerHTML =
-    '<div class="pause-card log-card"><h2>更新履歴</h2>' +
+  menuDialog(
+    "更新履歴",
     CHANGELOG.map(
       (release) =>
-        "<h3>" +
-        esc(release.date) +
-        "</h3><ul>" +
-        release.items.map((line) => "<li>" + esc(line) + "</li>").join("") +
-        "</ul>",
-    ).join("") +
-    '<div class="pause-actions"><button class="primary" id="log-close">閉じる</button></div></div>';
-  $("log-close").onclick = () => {
-    menu.hidden = true;
-    menu.innerHTML = "";
-  };
+        `<section class="release-entry"><h3>${esc(release.date)}</h3><ul>${release.items.map((line) => `<li>${esc(line)}</li>`).join("")}</ul></section>`,
+    ).join(""),
+    "LATEST UPDATES",
+  );
 }
-// This column is for what the numbers cannot say. Pierce qualifies and carries
-// its count; a faster reload is already sitting in the 装填 column, so it is
-// marked there instead of being named twice.
-const EFFECT_SHORT: Record<Weapon["effect"], string> = {
-  none: "—",
-  pierce: "貫通 ×3",
-  quick: "—",
-};
+
 const KIND_LABELS: Record<Weapon["kind"], string> = {
   rifle: "ライフル",
   shotgun: "ショットガン",
@@ -307,40 +320,6 @@ const kindTally = () =>
         (heldOf(k).length >= LIMITS.perKind ? "（満杯）" : ""),
     )
     .join(" · ");
-// Tidying only ever offers one family at a time: the one that is actually
-// blocking, or the one being browsed. Eighty buttons was not a choice.
-function tidyMarkup() {
-  const blocking = new Set(overflow.map((w) => w.kind));
-  const kinds = (Object.keys(KIND_LABELS) as Weapon["kind"][]).filter((k) =>
-    blocking.size ? blocking.has(k) : heldOf(k).length >= LIMITS.perKind,
-  );
-  const shown = kinds.length
-    ? kinds
-    : (Object.keys(KIND_LABELS) as Weapon["kind"][]).filter(
-        (k) => heldOf(k).length > 0,
-      );
-  return shown
-    .map((k) => {
-      const spare = heldOf(k).filter((w) => !save.equipped.includes(w.id));
-      const waiting = overflow.filter((w) => w.kind === k).length;
-      return (
-        `<div class="tidy-kind"><b>${KIND_LABELS[k]} ${heldOf(k).length}/${LIMITS.perKind}</b>` +
-        (waiting
-          ? `<small>この系統で ${waiting} 丁が保存待ちです。${waiting} 丁ぶん手放すと保存できます。</small>`
-          : "<small>満杯です。新しい1丁を受け取るには1丁手放してください。</small>") +
-        (spare.length
-          ? spare
-              .map(
-                (w) =>
-                  `<button data-discard="${w.id}">${weaponName(w)} · ${RARITIES[w.rarity]} · 威力${Math.round(stats(w).damage)}${w.effect === "none" ? "" : " · " + EFFECTS[w.effect]}</button>`,
-              )
-              .join("")
-          : "<small>装備中の武器しかありません。先に装備を替えてください。</small>") +
-        "</div>"
-      );
-    })
-    .join("");
-}
 // `group` decides which tab shows this figure; the row stays one line either way.
 const figure = (group: string, value: string, label: string, cls = "") =>
   '<span data-stat="' +
@@ -355,7 +334,7 @@ const figure = (group: string, value: string, label: string, cls = "") =>
 function card(w: Weapon, lootOnly = false) {
   const d = stats(w),
     base = equipped().find((a) => a.kind === w.kind),
-    diff = base ? Math.round(d.damage - stats(base).damage) : null;
+    diff = !lootOnly && base ? Math.round(d.damage - stats(base).damage) : null;
   const damage =
     Math.round(d.damage) + (d.pellets > 1 ? " × " + d.pellets : "");
   // Each figure is graded against its own roll band. Reload is inverted there,
@@ -377,14 +356,16 @@ function card(w: Weapon, lootOnly = false) {
       : '" data-equip="' + w.id + '" role="button" tabindex="0"') +
     '><div class="weapon-identity"><h3>' +
     weaponName(w) +
-    '</h3><em class="rarity-tag rarity' +
+    "</h3>" +
+    (lootOnly ? kindHelp(w.kind) : "") +
+    '<em class="rarity-tag rarity' +
     w.rarity +
     '" title="' +
-    EFFECTS[w.effect] +
+    effectLabel(w) +
     '">' +
     RARITIES[w.rarity] +
     '</em></div><div class="weapon-figures">' +
-    figure("effect", EFFECT_SHORT[w.effect], "効果") +
+    figure("effect", effectHelp(w.effect, w.kind), "特殊効果") +
     // One line of figures rather than three stacked blocks, so more of the
     // armoury fits on a landscape phone.
     // The comparison rides inside the power cell; as a sibling it would claim a
@@ -409,9 +390,7 @@ function card(w: Weapon, lootOnly = false) {
     figure("reach", (1 / d.interval).toFixed(1), "発/s", grade("rate")) +
     "</div>" +
     (lootOnly
-      ? '<div class="loot-state"><b>獲得</b><small>' +
-        (save.inventory.some((a) => a.id === w.id) ? "保存済み" : "未保存") +
-        "</small></div>"
+      ? favoriteButton(w, true)
       : slot < 0
         ? ""
         : '<span class="equipped-flag" title="装備中 ' +
@@ -423,11 +402,22 @@ function card(w: Weapon, lootOnly = false) {
   );
 }
 
-let weaponFilter = "all",
-  weaponSort = "default";
+let weaponFilter: Kind | "all" = "all";
+let weaponSort = "default";
 const inviteCode = () =>
   /^[a-f0-9]{32}$/.test(location.hash.slice(1)) ? location.hash.slice(1) : "";
 function gear() {
+  const listTop = ui.querySelector(".weapon-list")?.scrollTop ?? 0;
+  const focused = document.activeElement as HTMLElement | null;
+  const focusSelector = focused?.dataset.equip
+    ? `[data-equip="${CSS.escape(focused.dataset.equip)}"]`
+    : focused?.dataset.pick
+      ? `[data-pick="${focused.dataset.pick}"]`
+      : focused?.id
+        ? `#${CSS.escape(focused.id)}`
+        : undefined;
+  if (mode === "coop" && network?.id && !network.preparing)
+    network.preparation(true);
   setScreen("gear");
   world = null;
   predicted = undefined;
@@ -435,10 +425,7 @@ function gear() {
     (w) => weaponFilter === "all" || w.kind === weaponFilter,
   );
   if (weaponSort === "power")
-    shown.sort(
-      (a, b) =>
-        WEAPONS[b.kind].damage * b.power - WEAPONS[a.kind].damage * a.power,
-    );
+    shown.sort((a, b) => stats(b).damage - stats(a).damage);
   if (weaponSort === "rarity") shown.sort((a, b) => b.rarity - a.rarity);
   const invitation = mode === "coop" ? inviteCode() : "";
   const previous = mode === "coop" ? loadNetworkSession() : null;
@@ -448,7 +435,7 @@ function gear() {
     mode === "solo"
       ? "ソロ出撃 ↗"
       : network?.id
-        ? "ルームに戻る ↗"
+        ? "準備完了してロビーへ ↗"
         : resumable
           ? "進行中の部隊へ戻る ↗"
           : invitation
@@ -456,47 +443,159 @@ function gear() {
             : "ルームを作る ↗";
   const endpoint = defaultEndpoint();
   const coopEntry =
-    mode === "coop"
-      ? `<div class="coop-entry"><b>${resumable ? "進行中の部隊があります" : invitation ? "招待を受け取りました" : "友人と遊ぶ"}</b><p>${resumable ? "30秒以内なら同じ隊員・戦闘状態へ復帰できます。" : invitation ? "装備を選び、上の「招待ルームに参加」を押してください。" : "人間確認の後に「ルームを作る」を押すと、すぐ招待リンクを送れます。作成キーの共有は不要です。"}</p></div>${!resumable && !invitation ? '<div id="turnstile-room-create" class="turnstile-room-create" aria-label="ルーム作成の人間確認"></div><p id="turnstile-status" class="fine">人間確認が終わるまで、ルーム作成はできません。</p>' : ""}<details class="coop-advanced"><summary>接続先を手動設定（開発用）</summary><div class="join"><input id="endpoint" aria-label="協力サーバー" value="${esc(endpoint)}"><input id="creation-key" type="password" aria-label="ローカル作成キー" placeholder="ローカル作成キー" autocomplete="off" maxlength="256"></div></details>`
+    mode === "coop" && !network?.id
+      ? `<div class="coop-entry"><b>${resumable ? "進行中の部隊があります" : invitation ? "招待を受け取りました" : "友人と遊ぶ"}</b><p>${resumable ? "30秒以内なら同じ隊員・戦闘状態へ復帰できます。" : invitation ? "下の「招待ルームに参加」を押してください。" : "人間確認の後に「ルームを作る」を押すと、すぐ招待リンクを送れます。"}</p></div>${!resumable && !invitation ? '<div id="turnstile-room-create" class="turnstile-room-create" aria-label="ルーム作成の人間確認"></div><p id="turnstile-status" class="fine">人間確認が終わるまで、ルーム作成はできません。</p>' : ""}<details class="coop-advanced"><summary>接続先を手動設定（開発用）</summary><div class="join"><input id="endpoint" aria-label="協力サーバー" value="${esc(endpoint)}"><input id="creation-key" type="password" aria-label="ローカル作成キー" placeholder="ローカル作成キー" autocomplete="off" maxlength="256"></div></details>`
       : "";
-  ui.innerHTML = `<section class="panel gear"><div class="gear-brief"><header><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><button class="primary" id="launch" ${saveError ? "disabled" : ""}>${launchLabel}</button><button id="home">タイトルへ</button></header><div class="brief"><div><b>01 灰明の街区</b><p>3ウェーブ → クラウン撃破。被弾せず5秒で自動回復、波の間にもHP回復。目標5〜8分。</p></div></div>${coopEntry}<p class="status" role="status">${esc(saveError || status)}</p><div class="gear-tools"><button id="layout-settings">操作ボタンの配置</button><small>${esc(layoutWarning || "ボタンの位置・大きさ・濃さを設定")}</small></div><div class="loadout-slots">${equipped()
+  if (mode === "coop" && !network?.id) {
+    ui.innerHTML = `<section class="panel room-entry"><header><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力プレイ</h1></div><button id="home">タイトルへ</button></header>${coopEntry}<p>武器の変更とステージ選択は、入室後のロビーで行えます。</p><p class="status" role="status">${esc(saveError || status)}</p><button class="primary" id="launch" ${saveError ? "disabled" : ""}>${launchLabel}</button></section>`;
+    $("home").onclick = () => {
+      network?.close();
+      network = undefined;
+      title();
+    };
+    $("launch").onclick = () => {
+      sound.unlock();
+      void connect(!invitation && !resumable, Boolean(resumable));
+    };
+    if (!resumable && !invitation && import.meta.env.PROD) {
+      ($("launch") as HTMLButtonElement).disabled = true;
+      void mountTurnstile(endpoint);
+    }
+    return;
+  }
+
+  ui.innerHTML = `<section class="panel gear menu-screen"><header class="menu-header"><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><nav><button id="gear-armory">${menuIcon("armory")}武器庫</button><button id="gear-settings">${menuIcon("settings")}設定・操作</button><button id="home">ホームへ</button></nav></header><div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 / 出撃先</span><button id="mission-info" aria-label="作戦詳細">作戦詳細 ⓘ</button></div><label class="sr-only" for="stage-select">ステージ</label><select id="stage-select">${stageOptions()}</select><p id="stage-brief" class="sr-only">${esc(STAGES[selectedStage - 1].brief)}</p></section><section class="equipment-select"><div class="section-label"><span>02 / 装備を選択</span><small>2 SLOTS</small></div><div class="loadout-slots">${equipped()
     .map(
       (w, i) =>
-        `<button type="button" data-pick="${i}" class="${activeSlot === i ? "selected" : ""}" aria-pressed="${activeSlot === i}">装備 ${i + 1}<b>${weaponName(w)}</b></button>`,
+        `<button type="button" data-pick="${i}" class="rarity${w.rarity} ${activeSlot === i ? "selected" : ""}" aria-pressed="${activeSlot === i}"><span class="slot-number">0${i + 1}</span><span><small>装備 ${i + 1} <em>${RARITIES[w.rarity]}</em></small><b>${weaponName(w)}</b><strong>${effectText(w.effect, w.kind)}</strong></span><i aria-hidden="true">${activeSlot === i ? "選択中" : "変更"}</i></button>`,
     )
     .join(
       "",
-    )}</div><p class="slot-hint">装備 ${activeSlot + 1} に入れる武器を右から選んでください。</p><div class="inventory-head"><b>武器庫 <span>${kindTally()}</span></b></div><details class="inventory-management" ${overflow.length ? "open" : ""}><summary>武器を整理する（装備中は保護）</summary>${tidyMarkup()}</details><details><summary>操作・設定・保存について</summary><p>PC: WASD移動 / クリック射撃・マウス照準 / R装填 / Q切替 / Space回避 / E長押し蘇生 / Escマウス解放</p><p>スマホ: 左スティック移動 / 右側ドラッグ照準 / 射撃ボタン長押し。味方3.5m以内で蘇生を2.5秒長押し。</p><label>視点感度 <input id="sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>音量（0でミュート） <input id="volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量</option></select></label><label>ミニマップ <select id="map-rotate"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><label>ダメージ表示 <select id="damage-numbers"><option value="self" ${(save.damageNumbers ?? "self") === "self" ? "selected" : ""}>自分のみ</option><option value="all" ${save.damageNumbers === "all" ? "selected" : ""}>味方も表示</option><option value="off" ${save.damageNumbers === "off" ? "selected" : ""}>表示しない</option></select></label><p>道中の緑の戦利品は接近して回収。勝利時に確定、敗北・復帰できない切断では未確定品を失います。保存済みの武器は失いません。端末変更・ブラウザデータ削除で引き継げません。クラウド保存や完全な改ざん防止はありません。</p><button id="export">保存データを書き出す</button></details></div><section class="gear-arsenal"><div class="weapon-filters"><select id="weapon-filter" aria-label="武器系統"><option value="all">全系統</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select><select id="weapon-sort" aria-label="武器の並び順"><option value="default">入手順</option><option value="rarity">レア度順</option><option value="power">1発の威力順</option></select></div><div class="weapon-list" aria-label="所持武器リスト"><div class="weapon-head" aria-hidden="true"><span>武器</span><span>効果</span><span>威力</span><span>装弾</span><span>装填</span><span>射程</span><span>連射</span><span></span></div>${shown.map((w) => card(w)).join("")}</div></section></section>`;
+    )}</div></section></aside><section class="gear-arsenal"><div class="weapon-filters"><label><span class="sr-only">武器系統</span><select id="weapon-filter" aria-label="武器系統"><option value="all">全系統</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select></label><label><span class="sr-only">並び順</span><select id="weapon-sort" aria-label="武器の並び順"><option value="default">入手順</option><option value="rarity">レア度順</option><option value="power">1発の威力順</option></select></label><button id="kind-info" aria-label="武器系統の説明">系統ガイド ⓘ</button><span class="weapon-count">${shown.length}丁</span></div><p class="slot-hint">装備 <b>${activeSlot + 1}</b> を選択中 <span>→ 武器を押すと装備を変更</span><small class="gear-scroll-hint">上下にスクロール ↕</small></p><div class="weapon-list" tabindex="0" aria-label="所持武器リスト"><div class="weapon-head" aria-hidden="true"><span>武器</span><span>特殊効果</span><span>威力</span><span>装弾</span><span>装填</span><span>射程</span><span>連射</span><span></span></div>${shown.map((w) => card(w)).join("") || '<p class="armory-empty">この系統の武器はありません。<br>「全系統」で所持武器を確認できます。</p>'}</div></section></div><div class="gear-footer"><p class="status" role="status">${esc(saveError || status || "装備を確認したら、出撃しましょう。")}</p><button class="primary" id="launch" ${saveError ? "disabled" : ""}>${launchLabel}</button></div></section>`;
+  const currentStage = () =>
+    STAGES[
+      (mode === "coop" && network?.id ? network.stage : selectedStage) - 1
+    ];
+  $("mission-info").onclick = () => {
+    const st = currentStage();
+    menuDialog(
+      st.name,
+      `<div class="mission-facts"><span>${esc(MAPS[st.map].name)}</span><span>${st.waves.length} WAVES</span></div><p>${esc(st.brief)}</p>${mode === "coop" ? "<p>ステージはロビーでホストが選択します。</p>" : ""}`,
+      "OPERATION BRIEF",
+    );
+  };
+  $("kind-info").onclick = () =>
+    menuDialog(
+      "武器系統ガイド",
+      `<p>${kindSummary(weaponFilter)}</p><p>特殊効果の ⓘ を押すと、発動条件と効果を確認できます。</p>`,
+    );
+  if (mode === "coop" && network?.id) {
+    const stage = $("stage-select") as HTMLSelectElement;
+    stage.value = String(network.stage);
+    stage.disabled = true;
+    $("home").textContent = "部隊を退出";
+  }
+  $("gear-armory").onclick = armory;
+  $("gear-settings").onclick = () => openSettings(gear);
   const filter = $("weapon-filter") as HTMLSelectElement,
     sort = $("weapon-sort") as HTMLSelectElement;
   filter.value = weaponFilter;
   sort.value = weaponSort;
   filter.onchange = () => {
-    weaponFilter = filter.value;
+    weaponFilter = filter.value as Kind | "all";
     gear();
+    ui.querySelector(".weapon-list")!.scrollTop = 0;
+    $("weapon-filter").focus();
   };
   sort.onchange = () => {
     weaponSort = sort.value;
     gear();
+    ui.querySelector(".weapon-list")!.scrollTop = 0;
+    $("weapon-sort").focus();
   };
-  const gearActions = document.createElement("div");
-  gearActions.className = "gear-header-actions";
-  ui.querySelector(".gear header")!.append(gearActions);
-  for (const id of ["layout-settings", "home", "launch"])
-    gearActions.append($(id));
-  ui.querySelector(".gear-tools")!.remove();
-  if (mode === "coop" && !resumable && !invitation && import.meta.env.PROD) {
-    const launch = $("launch") as HTMLButtonElement;
-    launch.disabled = true;
-    void mountTurnstile(endpoint);
+  $("stage-select").onchange = (e) => {
+    selectedStage = Number((e.target as HTMLSelectElement).value);
+    $("stage-brief").textContent = STAGES[selectedStage - 1].brief;
+  };
+  $("home").onclick = () => {
+    network?.close();
+    network = undefined;
+    title();
+  };
+  $("launch").onclick = () => {
+    sound.unlock();
+    if (mode === "solo") solo();
+    else if (network?.id) {
+      network.preparation(false);
+      lobby();
+    }
+  };
+  ui.querySelectorAll<HTMLButtonElement>("[data-pick]").forEach(
+    (b) =>
+      (b.onclick = () => {
+        activeSlot = Number(b.dataset.pick);
+        gear();
+      }),
+  );
+  const equip = (id: string) => {
+    const n = structuredClone(save),
+      other = 1 - activeSlot;
+    if (n.equipped[other] === id) n.equipped[other] = n.equipped[activeSlot];
+    n.equipped[activeSlot] = id;
+    if (write(n)) {
+      sound.unlock();
+      sound.play("equip");
+      network?.equipment(equipped());
+      status = `装備 ${activeSlot + 1} を変更しました。`;
+    }
+    gear();
+  };
+  ui.querySelectorAll<HTMLElement>("[data-equip]").forEach((el) => {
+    el.onclick = () => {
+      el.focus({ preventScroll: true });
+      equip(el.dataset.equip!);
+    };
+    el.onkeydown = (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      e.preventDefault();
+      equip(el.dataset.equip!);
+    };
+  });
+  restoreMenuPosition(ui, ".weapon-list", listTop, focusSelector);
+}
+function openSettings(back: () => void) {
+  const dialog = menuDialog(
+    "設定・操作",
+    `<div class="settings-tabs" role="tablist" aria-label="設定の種類"><button role="tab" id="tab-preferences" aria-selected="true" aria-controls="settings-preferences">環境設定</button><button role="tab" id="tab-controls" aria-selected="false" aria-controls="settings-controls" tabindex="-1">操作ガイド</button><button role="tab" id="tab-save" aria-selected="false" aria-controls="settings-save" tabindex="-1">保存データ</button></div><p class="settings-status" role="status">${esc(saveError || "変更はこの端末に自動保存されます。")}</p><div class="settings-content"><p>PC: WASD移動 / クリック射撃・マウス照準 / R装填 / Q切替 / Space回避 / E長押し蘇生 / Escマウス解放</p><p>スマホ: 左スティック移動 / 右側ドラッグ照準 / 射撃ボタン長押し。味方3.5m以内で蘇生を2.5秒長押し。</p><label>視点感度 <input id="sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>音量（0でミュート） <input id="volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量</option></select></label><label>ミニマップ <select id="map-rotate"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><label>ダメージ表示 <select id="damage-numbers"><option value="self" ${(save.damageNumbers ?? "self") === "self" ? "selected" : ""}>自分のみ</option><option value="all" ${save.damageNumbers === "all" ? "selected" : ""}>味方も表示</option><option value="off" ${save.damageNumbers === "off" ? "selected" : ""}>表示しない</option></select></label><p>道中の緑の戦利品は接近して回収。勝利時に確定、敗北・復帰できない切断では未確定品を失います。保存済みの武器は失いません。端末変更・ブラウザデータ削除で引き継げません。クラウド保存や完全な改ざん防止はありません。</p><button id="export">保存データを書き出す</button></div>`,
+    "SYSTEM CONFIGURATION",
+  );
+  const content = dialog.querySelector<HTMLElement>(".settings-content")!;
+  const original = [...content.children];
+  for (const key of ["preferences", "controls", "save"]) {
+    const panel = document.createElement("section");
+    panel.id = "settings-" + key;
+    panel.setAttribute("role", "tabpanel");
+    panel.setAttribute("aria-labelledby", "tab-" + key);
+    panel.hidden = key !== "preferences";
+    content.append(panel);
   }
-  if (layoutWarning) {
-    const note = document.createElement("p");
-    note.className = "status";
-    note.textContent = layoutWarning;
-    gearActions.after(note);
-  }
-  $("layout-settings").onclick = () => {
+  original.forEach((el, i) =>
+    dialog
+      .querySelector(
+        i < 2
+          ? "#settings-controls"
+          : el.tagName === "LABEL"
+            ? "#settings-preferences"
+            : "#settings-save",
+      )!
+      .append(el),
+  );
+  const layoutButton = document.createElement("button");
+  layoutButton.id = "layout-settings";
+  layoutButton.textContent = "操作ボタンの配置";
+  dialog.querySelector("#settings-controls")!.append(layoutButton);
+  layoutButton.onclick = () => {
+    dialog.close();
     setScreen("layout");
     openLayoutEditor(
       ui,
@@ -507,108 +606,87 @@ function gear() {
         layoutWarning = "";
         placeControls(layout);
       },
-      () => gear(),
+      back,
     );
   };
-  $("home").onclick = () => {
-    network?.close();
-    network = undefined;
-    title();
-  };
-  $("launch").onclick = () => {
-    sound.unlock();
-    if (mode === "solo") solo();
-    else if (network?.id) lobby();
-    else void connect(!inviteCode() && !resumable, Boolean(resumable));
-  };
-  ui.querySelectorAll<HTMLButtonElement>("[data-pick]").forEach(
-    (b) =>
-      (b.onclick = () => {
-        activeSlot = Number(b.dataset.pick);
-        gear();
-      }),
-  );
-  const equip = (id: string) => {
-    const n = structuredClone(save);
-    const other = 1 - activeSlot;
-    // Both slots must stay distinct, so taking one that is already worn on the
-    // other side swaps them rather than duplicating it.
-    if (n.equipped[other] === id) n.equipped[other] = n.equipped[activeSlot];
-    n.equipped[activeSlot] = id;
-    if (write(n)) {
-      sound.unlock();
-      sound.play("equip");
-      network?.equipment(equipped());
-    }
-    gear();
-  };
-  ui.querySelectorAll<HTMLElement>("[data-equip]").forEach((el) => {
-    el.onclick = () => equip(el.dataset.equip!);
-    el.onkeydown = (e) => {
-      if (e.key !== "Enter" && e.key !== " ") return;
+  if (layoutWarning) {
+    const note = document.createElement("p");
+    note.textContent = layoutWarning;
+    dialog.querySelector("#settings-controls")!.append(note);
+  }
+  const tabs = [...dialog.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+  tabs.forEach((tab, i) => {
+    tab.onclick = () => {
+      tabs.forEach((t) => {
+        t.setAttribute("aria-selected", String(t === tab));
+        t.tabIndex = t === tab ? 0 : -1;
+        dialog.querySelector<HTMLElement>(
+          "#" + t.getAttribute("aria-controls"),
+        )!.hidden = t !== tab;
+      });
+    };
+    tab.onkeydown = (e) => {
+      let index = i;
+      if (e.key === "ArrowRight") index = (i + 1) % tabs.length;
+      else if (e.key === "ArrowLeft")
+        index = (i + tabs.length - 1) % tabs.length;
+      else if (e.key === "Home") index = 0;
+      else if (e.key === "End") index = tabs.length - 1;
+      else return;
       e.preventDefault();
-      equip(el.dataset.equip!);
+      tabs[index].click();
+      tabs[index].focus();
     };
   });
-  ui.querySelectorAll<HTMLButtonElement>("[data-discard]").forEach(
-    (b) =>
-      (b.onclick = () => {
-        if (!confirm("この武器を整理しますか？ 装備中の武器は対象外です。"))
-          return;
-        const n = structuredClone(save);
-        n.inventory = n.inventory.filter((w) => w.id !== b.dataset.discard);
-        write(n);
-        gear();
-      }),
-  );
-  $("sense").oninput = () => {
-    const next = {
-      ...save,
-      sensitivity: Number(($("sense") as HTMLInputElement).value),
-    };
-    if (write(next)) configured();
+  const update = (next: Save) => {
+    const ok = write(next);
+    if (ok) configured();
+    dialog.querySelector(".settings-status")!.textContent = ok
+      ? "設定を保存しました。"
+      : `保存できませんでした。${saveError || status}`;
+    return ok;
   };
-  $("volume").oninput = () => {
-    sound.unlock();
-    const next = {
-      ...save,
-      volume: Number(($("volume") as HTMLInputElement).value),
+  for (const [id, key, max] of [
+    ["sense", "sensitivity", 6],
+    ["volume", "volume", 1],
+  ] as const) {
+    const input = $(id) as HTMLInputElement;
+    const output = document.createElement("output");
+    output.htmlFor = id;
+    input.before(output);
+    const value = () =>
+      (output.textContent =
+        id === "volume"
+          ? `${Math.round(Number(input.value) * 100)}%`
+          : Number(input.value).toFixed(1));
+    value();
+    input.oninput = () => {
+      if (id === "volume") sound.unlock();
+      if (!update({ ...save, [key]: Math.min(max, Number(input.value)) }))
+        input.value = String(save[key]);
+      value();
     };
-    if (write(next)) configured();
-  };
+  }
   $("quality").onchange = () => {
-    if (
-      write({
-        ...save,
-        quality: Number(($("quality") as HTMLSelectElement).value),
-      })
-    )
-      configured();
+    const input = $("quality") as HTMLSelectElement;
+    if (!update({ ...save, quality: Number(input.value) }))
+      input.value = String(save.quality);
   };
   $("map-rotate").onchange = () => {
+    const input = $("map-rotate") as HTMLSelectElement;
+    if (!update({ ...save, mapRotates: input.value === "follow" }))
+      input.value = save.mapRotates ? "follow" : "fixed";
+  };
+  $("damage-numbers").onchange = () => {
+    const input = $("damage-numbers") as HTMLSelectElement;
     if (
-      write({
-        ...save,
-        mapRotates: ($("map-rotate") as HTMLSelectElement).value === "follow",
-      })
+      !update({ ...save, damageNumbers: input.value as Save["damageNumbers"] })
     )
-      configured();
+      input.value = save.damageNumbers ?? "self";
   };
-  const setDamage = (id: string) => {
-    $(id).onchange = () => {
-      if (
-        write({
-          ...save,
-          damageNumbers: ($(id) as HTMLSelectElement)
-            .value as Save["damageNumbers"],
-        })
-      )
-        configured();
-    };
-  };
-  setDamage("damage-numbers");
-  $("export").onclick = exportSave;
+  dialog.querySelector<HTMLButtonElement>("#export")!.onclick = exportSave;
 }
+
 function exportSave() {
   const raw = localStorage.getItem(SAVE_KEY) ?? JSON.stringify(save);
   const url = URL.createObjectURL(
@@ -626,6 +704,7 @@ function solo() {
   world = createWorld(
     crypto.randomUUID(),
     crypto.getRandomValues(new Uint32Array(1))[0],
+    selectedStage,
   );
   addPlayer(world, myId, equipped());
   start(world);
@@ -634,6 +713,7 @@ function solo() {
   battle();
 }
 async function connect(create: boolean, restore = false) {
+  const requestedStage = selectedStage;
   status = "接続中…";
   const previous = restore ? loadNetworkSession() : null;
   const endpoint =
@@ -669,7 +749,15 @@ async function connect(create: boolean, restore = false) {
         };
       } else if (screen === "lobby") lobby();
     };
-    network.onLobby = lobby;
+    network.onLobby = () => {
+      selectedStage = network!.stage;
+      if (screen === "gear") {
+        ($("stage-select") as HTMLSelectElement).value = String(selectedStage);
+        $("stage-brief").textContent =
+          `${STAGES[selectedStage - 1].brief}（${STAGES[selectedStage - 1].waves.length}波）`;
+      }
+      if (screen === "lobby") lobby();
+    };
     network.onWorld = (w) => {
       world = w;
       myId = network!.id;
@@ -688,10 +776,11 @@ async function connect(create: boolean, restore = false) {
           }
         }
       } else if (w.phase === "victory" || w.phase === "defeat") {
-        if (resultRun !== w.run) result();
+        if (resultRun !== w.run && !netFatal) finishMission();
       }
     };
     network.ready = () => {
+      if (create) network!.send({ type: "stage", stage: requestedStage });
       myId = network!.id;
     };
     if (create) {
@@ -721,29 +810,70 @@ async function connect(create: boolean, restore = false) {
   }
 }
 function lobby() {
-  if (netFatal || screen === "battle" || screen === "result") return;
+  if (netFatal || ["battle", "stage-clear", "result"].includes(screen)) return;
   setScreen("lobby");
   const members = network?.members ?? [];
   const link = `${location.origin}${location.pathname}${location.search}#${network?.code ?? ""}`;
-  ui.innerHTML = `<section class="panel lobby"><div class="eyebrow">SQUAD / ${members.filter((p) => p.connected).length} OF 4</div><h1>部隊を編成</h1><p>① 招待リンクを友人へ送る　② 友人がリンクを開いて参加　③ 準備完了になったら出撃</p><label>招待リンク <input id="invite" readonly value="${esc(link)}"></label><button class="primary" id="copy">招待リンクを共有</button><p class="status">${esc(status)}</p><div class="members">${members.map((m, i) => `<div><b>0${i + 1} ${m.id === network?.id ? "あなた" : "隊員"}</b><span>${m.connected ? (m.ready ? "準備完了" : "装備待ち") : "切断中"}</span></div>`).join("")}</div><button class="primary" id="begin" ${!network?.id || members.filter((m) => m.connected)[0]?.id !== network.id || members.some((m) => m.connected && !m.ready) ? "disabled" : ""}>全員で出撃 ↗</button><button id="back">装備画面へ</button><p class="fine">ホストだけが出撃を開始できます。進行中への新規参加はできません。</p></section>`;
+  const present = members.filter((m) => m.connected);
+  const host = present[0]?.id;
+  const isHost = Boolean(network?.id && host === network.id);
+  const stage = STAGES[(network?.stage ?? selectedStage) - 1];
+  selectedStage = stage.id;
+  const online = network?.ws?.readyState === 1 && !network?.retry;
+  const canStart =
+    online && isHost && present.length > 0 && present.every((m) => m.ready);
+  ui.innerHTML = `<section class="panel lobby"><header class="lobby-header"><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力ロビー</h1></div><div class="lobby-share"><button id="share">招待リンクを共有</button><button id="copy" aria-label="招待リンクをコピー" title="招待リンクをコピー"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/></svg></button><span id="invite-feedback" role="status"></span></div><span>${present.length} / 4 人</span><button id="leave-lobby">退出</button></header><div class="lobby-workspace"><section class="lobby-mission" aria-label="出撃ステージ"><div class="eyebrow">OPERATION ${String(stage.id).padStart(2, "0")}</div><h2>${esc(MAPS[stage.map].name)}</h2><strong>${esc(stage.name)}</strong><label>ホストが選択<select id="lobby-stage" ${!online || !isHost ? "disabled" : ""}>${stageOptions()}</select></label><div class="mission-facts"><span>${stage.waves.length} WAVES</span><span>道中ドロップ ${Math.round(stage.dropRate * 100)}%</span></div><p>${esc(stage.brief)}</p><div class="lobby-actions"><p class="status" role="status">${!online ? esc(status) : canStart ? "全員の準備が整いました" : isHost ? "隊員の準備完了を待っています" : "ホストの出撃を待っています"}</p><button id="back">出撃準備・装備変更</button><button class="primary" id="begin" ${canStart ? "" : "disabled"}>全員で出撃 ↗</button></div></section><section class="lobby-squad" aria-label="参加メンバー"><div class="squad-heading"><h2>参加メンバー</h2><small>装備 / 状況</small></div><div class="squad-cards">${Array.from(
+    { length: 4 },
+    (_, i) => {
+      const m = members[i];
+      if (!m)
+        return `<article class="squad-member empty"><span class="member-number">0${i + 1}</span><div><b>参加待ち</b><small>招待リンクから参加できます</small></div></article>`;
+      return `<article class="squad-member ${m.id === network?.id ? "self" : ""}"><div class="member-heading"><b><span class="member-number">0${i + 1}</span> ${m.id === network?.id ? "あなた" : `隊員 ${String(i + 1).padStart(2, "0")}`}</b><small>${m.id === host ? "HOST" : "MEMBER"}</small><span class="member-status ${m.connected && m.ready ? "is-ready" : "is-preparing"}">${!m.connected ? "切断中" : m.ready ? "準備完了" : "準備中…"}</span></div><div class="member-weapons">${[
+        0, 1,
+      ]
+        .map((slot) => {
+          const w = m.weapons?.[slot];
+          return `<span><small>${slot + 1}</small> ${w ? `${RARITIES[w.rarity]} · ${esc(weaponName(w))}` : "装備を確認中"}</span>`;
+        })
+        .join("")}</div></article>`;
+    },
+  ).join(
+    "",
+  )}</div><aside class="lobby-chat" aria-label="チャット（仮）"><div><b>チャット（仮）</b><small>メッセージ機能は今後追加予定</small></div><input aria-label="チャット入力（未実装）" placeholder="メッセージを入力…" disabled></aside></section></div></section>`;
+  $("leave-lobby").onclick = () => {
+    network?.close();
+    network = undefined;
+    title();
+  };
+  $("lobby-stage").onchange = (e) => {
+    network?.send({
+      type: "stage",
+      stage: Number((e.target as HTMLSelectElement).value),
+    });
+  };
   $("begin").onclick = () => {
     sound.unlock();
     network?.send({ type: "start" });
   };
-  $("copy").onclick = async () => {
+  const copyInvite = async () => {
     try {
-      if (navigator.share)
-        await navigator.share({
-          title: "SWARM FRONT 協力プレイ",
-          text: "このリンクを開いて部隊に参加してください。",
-          url: link,
-        });
-      else {
-        await navigator.clipboard.writeText(link);
-        $("copy").textContent = "リンクをコピーしました";
-      }
+      await navigator.clipboard.writeText(link);
+      $("invite-feedback").textContent = "コピーしました";
     } catch {
-      ($("invite") as HTMLInputElement).select();
+      window.prompt("招待リンクをコピーしてください", link);
+    }
+  };
+  $("copy").onclick = copyInvite;
+  $("share").onclick = async () => {
+    if (!navigator.share) return copyInvite();
+    try {
+      await navigator.share({
+        title: "SWARM FRONT 協力プレイ",
+        text: "このリンクを開いて部隊に参加してください。",
+        url: link,
+      });
+    } catch (error) {
+      if ((error as Error).name !== "AbortError") await copyInvite();
     }
   };
   $("back").onclick = () => gear();
@@ -755,102 +885,324 @@ function battle() {
   const fallback = placeControls(layout);
   if (fallback) status += " · 標準配置";
 }
-const declinedRewards = new Set<string>();
-function rewardChoices(items: Weapon[]) {
-  const kinds = [...new Set(overflow.map((w) => w.kind))];
-  return kinds
-    .map((kind) => {
-      const waiting = overflow.filter((w) => w.kind === kind);
-      const held = heldOf(kind);
-      const row = (w: Weapon, state: string) => {
+function favoriteButton(w: Weapon, compact = false) {
+  const marked = save.favorites?.includes(w.id) ?? false;
+  return `<button data-favorite="${esc(w.id)}" data-compact="${compact}" aria-label="${esc(weaponName(w))}のお気に入り" title="お気に入り" aria-pressed="${marked}" ${![...save.inventory, ...(save.pendingWeapons ?? [])].some((a) => a.id === w.id) ? "disabled" : ""}>${compact ? (marked ? "★" : "☆") : marked ? "★ お気に入り" : "☆ お気に入り"}</button>`;
+}
+function bindFavorites() {
+  ui.querySelectorAll<HTMLButtonElement>("[data-favorite]").forEach((b) => {
+    b.onclick = () => {
+      const id = b.dataset.favorite!;
+      if (
+        ![...save.inventory, ...(save.pendingWeapons ?? [])].some(
+          (w) => w.id === id,
+        )
+      )
+        return;
+      const favorites = new Set(save.favorites ?? []);
+      if (favorites.has(id)) favorites.delete(id);
+      else favorites.add(id);
+      if (write({ ...save, favorites: [...favorites] })) {
+        b.setAttribute("aria-pressed", String(favorites.has(id)));
+        b.textContent =
+          b.dataset.compact === "true"
+            ? favorites.has(id)
+              ? "★"
+              : "☆"
+            : favorites.has(id)
+              ? "★ お気に入り"
+              : "☆ お気に入り";
+        if (screen === "armory") armory();
+      } else ui.querySelector(".status")!.textContent = saveError || status;
+    };
+  });
+}
+let armoryFilter = "all";
+let armorySelected = "";
+let armoryOrganizing = false;
+const armoryChecked = new Set<string>();
+function armory() {
+  const scrollTop = ui.querySelector(".armory-list")?.scrollTop ?? 0;
+  const previousSelection = ui
+    .querySelector("[data-armory-select][aria-pressed='true']")
+    ?.getAttribute("data-armory-select");
+  const detailScroll =
+    ui.querySelector(".armory-detail-scroll")?.scrollTop ?? 0;
+  const favoriteFocus = (document.activeElement as HTMLElement | null)?.dataset
+    .favorite;
+  setScreen("armory");
+  world = null;
+  const waiting = save.pendingWeapons ?? [];
+  const shown = [...waiting, ...save.inventory].filter(
+    (w) =>
+      armoryFilter === "all" ||
+      (armoryFilter === "favorites"
+        ? save.favorites?.includes(w.id)
+        : armoryFilter === "pending"
+          ? waiting.some((a) => a.id === w.id)
+          : w.kind === armoryFilter),
+  );
+  if (!shown.some((w) => w.id === armorySelected))
+    armorySelected = shown[0]?.id ?? "";
+  const all = [...waiting, ...save.inventory];
+  const isProtected = (w: Weapon) =>
+    save.equipped.includes(w.id) || !!save.favorites?.includes(w.id);
+  for (const id of armoryChecked) {
+    if (!all.some((w) => w.id === id && !isProtected(w)))
+      armoryChecked.delete(id);
+  }
+  const checked = all.filter((w) => armoryChecked.has(w.id));
+  const yieldTotal = checked.reduce((n, w) => n + POWDER_YIELDS[w.rarity], 0);
+  const selected = shown.find((w) => w.id === armorySelected);
+  const state = (w: Weapon) => {
+    const slot = save.equipped.indexOf(w.id);
+    return `${slot >= 0 ? `<span class="armory-equipped">装備 ${slot + 1}</span>` : ""}${waiting.some((a) => a.id === w.id) ? '<span class="armory-pending">整理待ち</span>' : ""}${save.favorites?.includes(w.id) ? '<span class="armory-star" aria-label="お気に入り">★</span>' : ""}`;
+  };
+  const row = (w: Weapon, pending: boolean) => {
+    const protectedWeapon =
+      save.equipped.includes(w.id) || save.favorites?.includes(w.id);
+    const d = stats(w);
+    const base = equipped().find((a) => a.kind === w.kind && a.id !== w.id);
+    const bd = base ? stats(base) : null;
+    const metrics: [
+      string,
+      number,
+      number | undefined,
+      string,
+      number,
+      boolean,
+    ][] = [
+      [
+        d.pellets > 1 ? `威力（${d.pellets}発合計）` : "威力",
+        d.damage * d.pellets,
+        bd ? bd.damage * bd.pellets : undefined,
+        "",
+        0,
+        false,
+      ],
+      ["装弾数", d.mag, bd?.mag, "発", 0, false],
+      ["装填時間", d.reload, bd?.reload, "秒", 2, true],
+      ["射程", d.range, bd?.range, "m", 0, false],
+      [
+        "連射速度",
+        1 / d.interval,
+        bd ? 1 / bd.interval : undefined,
+        "発/秒",
+        1,
+        false,
+      ],
+    ];
+    return `<div class="armory-detail-heading"><span class="armory-kind">${KIND_LABELS[w.kind]} · ${RARITIES[w.rarity]}</span>${kindHelp(w.kind)}<h2>${esc(WEAPONS[w.kind].name)}</h2><div class="armory-badges">${state(w)}</div></div><p class="armory-effect">特殊効果 ${effectHelp(w.effect, w.kind)}<button id="armory-compare-open">比較を拡大 ↗</button></p><div class="armory-detail-scroll" tabindex="0" aria-label="性能比較と保護の説明"><p class="armory-compare">${base ? `装備 ${save.equipped.indexOf(base.id) + 1} の同系統武器と比較` : save.equipped.includes(w.id) ? "現在装備している武器" : "同系統の装備なし"}</p><table class="armory-stats"><thead><tr><th>性能</th><th>選択中</th><th>装備との差</th></tr></thead><tbody>${metrics
+      .map(([label, value, other, unit, digits, lower]) => {
+        const delta =
+          other === undefined ? null : Number((value - other).toFixed(digits));
+        const cls =
+          delta === null || delta === 0
+            ? ""
+            : (lower ? delta < 0 : delta > 0)
+              ? "better"
+              : "worse";
+        return `<tr><th>${label}</th><td>${value.toFixed(digits)}<small>${unit}</small></td><td class="${cls}">${delta === null ? "—" : delta === 0 ? "同じ" : `${delta > 0 ? "+" : ""}${delta.toFixed(digits)}${unit}`}</td></tr>`;
+      })
+      .join(
+        "",
+      )}</tbody></table><p class="armory-help">${protectedWeapon ? "装備中・お気に入りは分解から保護されます。" : `分解で${POWDER_NAME} +${POWDER_YIELDS[w.rarity]}。実行前に確認できます。`}${pending ? " 整理待ちは保存済み。空きができると入手順に収納します。" : ""}</p></div><div class="armory-detail-actions">${favoriteButton(w)}<button data-discard="${esc(w.id)}" ${protectedWeapon ? "disabled" : ""}>${protectedWeapon ? "保護中" : `分解（+${POWDER_YIELDS[w.rarity]}）`}</button></div>`;
+  };
+  ui.innerHTML = `<section class="panel armory ${armoryOrganizing ? "organizing" : ""}"><header><div class="armory-title"><h1>武器庫 <small>${save.inventory.length}丁${waiting.length ? ` · 整理待ち ${waiting.length}` : ""}</small></h1><button id="armory-organize" aria-pressed="${armoryOrganizing}">${armoryOrganizing ? "整理を終了" : "整理モード"}</button></div><nav aria-label="武器庫の移動"><button id="armory-home">ホームへ</button><button id="armory-gear">出撃準備へ</button></nav></header><div class="armory-toolbar"><select id="armory-filter" aria-label="武器庫の絞り込み"><option value="all">全武器</option><option value="favorites">お気に入り</option><option value="pending">整理待ち</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select><span>${shown.length}丁を表示</span><small>${kindTally()}</small></div><div class="armory-powder"><span>${POWDER_NAME}：${save.powder ?? 0}</span>${armoryOrganizing ? `<button id="armory-dismantle" ${checked.length ? "" : "disabled"}>選択 ${checked.length}丁を分解（+${yieldTotal}）</button><small>装備中・お気に入りは保護</small>` : ""}</div><p class="status" role="status">${esc(saveError || status)}</p><div class="armory-workspace"><section class="armory-catalog" aria-label="武器一覧"><div class="armory-list-head" aria-hidden="true"><span>武器 / 状態</span><span>特殊効果</span><span>威力</span><span>装弾</span><span title="装填時間（秒）">装填</span><span title="射程（m）">射程</span><span title="連射速度（発/秒）">連射</span></div><div class="armory-list" tabindex="0" aria-label="武器一覧。上下にスクロールできます">${
+    shown
+      .map((w) => {
         const d = stats(w);
-        return `<article class="reward-choice rarity${w.rarity}"><b>${esc(d.name)} <em class="rarity-tag rarity${w.rarity}">${RARITIES[w.rarity]}</em></b><small>${state}</small><dl><div><dt>威力</dt><dd>${Math.round(d.damage)}${d.pellets > 1 ? ` × ${d.pellets}` : ""}</dd></div><div><dt>装弾</dt><dd>${d.mag}発</dd></div><div><dt>装填 ↓</dt><dd>${d.reload.toFixed(2)}秒</dd></div><div><dt>射程</dt><dd>${Math.round(d.range)}m</dd></div><div><dt>連射</dt><dd>${(1 / d.interval).toFixed(1)}発/秒</dd></div><div><dt>効果</dt><dd>${esc(EFFECTS[w.effect])}</dd></div></dl>${canReplace(save, items, overflow, w.id) ? `<button data-reward-discard="${esc(w.id)}">この${RARITIES[w.rarity]}を削除して保存を再試行</button>` : ""}${overflow.some((a) => a.id === w.id) ? `<button data-reward-decline="${esc(w.id)}">この${RARITIES[w.rarity]}の報酬を受け取らない</button>` : ""}</article>`;
+        return `<article>${armoryOrganizing ? `<label class="armory-check"><input type="checkbox" data-dismantle-check="${esc(w.id)}" aria-label="${esc(WEAPONS[w.kind].name)} ${RARITIES[w.rarity]}を分解対象にする" ${isProtected(w) ? "disabled" : ""} ${armoryChecked.has(w.id) ? "checked" : ""}></label>` : ""}<button class="armory-row rarity${w.rarity}" data-armory-select="${esc(w.id)}" aria-pressed="${w.id === armorySelected}"><span class="armory-identity"><strong>${esc(WEAPONS[w.kind].name)}</strong><span><em class="rarity-tag rarity${w.rarity}">${RARITIES[w.rarity]}</em>${state(w)}</span></span><span class="armory-row-effect ${w.effect === "none" ? "standard-effect" : ""}">${effectText(w.effect, w.kind)}</span><span data-label="威力">${Math.round(d.damage)}${d.pellets > 1 ? `<small> ×${d.pellets}</small>` : ""}</span><span data-label="装弾">${d.mag}</span><span data-label="装填 / 秒">${d.reload.toFixed(2)}</span><span data-label="射程 / m">${Math.round(d.range)}</span><span data-label="連射 / 秒">${(1 / d.interval).toFixed(1)}</span></button></article>`;
+      })
+      .join("") ||
+    '<p class="armory-empty">該当する武器はありません。<br>絞り込みを変更してください。</p>'
+  }</div><div class="list-guide">${shown.length}丁を表示 <span>上下にスクロール ↕</span></div></section><section class="armory-detail ${selected ? `rarity${selected.rarity}` : ""}" aria-label="選択した武器の詳細">${
+    selected
+      ? row(
+          selected,
+          waiting.some((w) => w.id === selected.id),
+        )
+      : '<p class="armory-empty">武器を選ぶと性能を確認できます。</p>'
+  }</section></div></section>`;
+  const leave = (next: () => void) => {
+    armoryOrganizing = false;
+    armoryChecked.clear();
+    next();
+  };
+  if (selected)
+    $("armory-compare-open").onclick = () =>
+      menuDialog(
+        weaponName(selected),
+        ui.querySelector(".armory-detail-scroll")!.innerHTML,
+        "WEAPON COMPARISON",
+      );
+  $("armory-home").onclick = () => leave(title);
+  $("armory-gear").onclick = () => leave(gear);
+  $("armory-organize").onclick = () => {
+    armoryOrganizing = !armoryOrganizing;
+    armoryChecked.clear();
+    armory();
+    $("armory-organize").focus();
+  };
+  ui.querySelectorAll<HTMLInputElement>("[data-dismantle-check]").forEach(
+    (input) => {
+      input.onchange = () => {
+        const id = input.dataset.dismantleCheck!;
+        if (input.checked) armoryChecked.add(id);
+        else armoryChecked.delete(id);
+        armory();
+        ui.querySelector<HTMLInputElement>(
+          `[data-dismantle-check="${CSS.escape(id)}"]`,
+        )?.focus({ preventScroll: true });
       };
-      return `<section class="reward-family"><h3>${KIND_LABELS[kind]} · 所持 ${held.length}/${LIMITS.perKind} · 保存待ち ${waiting.length}</h3><p>装填は短いほど良い値です。装備中と今回の戦利品は削除から保護しています。</p><h4>保存待ち（入手順に保存）</h4>${waiting.map((w) => row(w, "未保存・受け取らない場合は下のボタンで確認")).join("")}<h4>所持品から手放す1丁を選ぶ</h4>${held.map((w) => row(w, save.equipped.includes(w.id) ? "装備中・保護" : items.some((i) => i.id === w.id) ? "今回獲得・保存済み・保護" : "保存済み・削除すると元に戻せません")).join("")}</section>`;
-    })
-    .join("");
+    },
+  );
+  const dismantle = async (weapons: Weapon[]) => {
+    if (!weapons.length || weapons.some(isProtected)) return;
+    const amount = weapons.reduce((n, w) => n + POWDER_YIELDS[w.rarity], 0);
+    const breakdown = RARITIES.map(
+      (label, rarity) =>
+        `${label}: ${weapons.filter((w) => w.rarity === rarity).length}丁`,
+    ).join(" / ");
+    const review = menuDialog(
+      "武器を分解しますか",
+      `<p>選択した <b>${weapons.length}丁</b>を分解し、<strong>${POWDER_NAME} +${amount}</strong>を獲得します。元には戻せません。</p><p>${breakdown}</p><ul class="dismantle-review">${weapons.map((w) => `<li><b>${RARITIES[w.rarity]} · ${weaponName(w)}</b><span>${esc(weaponDetails(w))}</span></li>`).join("")}</ul>`,
+      "ARSENAL / DISMANTLE",
+    );
+    const actions = document.createElement("div");
+    actions.className = "dialog-actions";
+    actions.innerHTML = `<button id="dismantle-cancel">やめる</button><button id="dismantle-confirm" class="danger">${weapons.length}丁を分解（+${amount}）</button>`;
+    review.append(actions);
+    const approved = await new Promise<boolean>((resolve) => {
+      review.addEventListener(
+        "close",
+        () => resolve(review.returnValue === "confirm"),
+        { once: true },
+      );
+      $("dismantle-cancel").onclick = () => review.close();
+      $("dismantle-confirm").onclick = () => review.close("confirm");
+      $("dismantle-cancel").focus();
+    });
+    if (!approved || weapons.some(isProtected)) return;
+    try {
+      if (
+        write(
+          dismantleWeapons(
+            save,
+            weapons.map((w) => w.id),
+          ),
+        )
+      ) {
+        armoryChecked.clear();
+        status = `${weapons.length}丁を分解し、${POWDER_NAME}を${amount}獲得しました。`;
+        armory();
+        (
+          ui.querySelector<HTMLElement>(
+            "[data-armory-select][aria-pressed='true']",
+          ) ?? $("armory-organize")
+        ).focus({ preventScroll: true });
+      } else
+        ui.querySelector(".status")!.textContent =
+          (saveError || status) +
+          ` 武器は削除していません。${POWDER_NAME}も変更していません。`;
+    } catch (error) {
+      ui.querySelector(".status")!.textContent = (error as Error).message;
+    }
+  };
+  if (armoryOrganizing)
+    $("armory-dismantle").onclick = () => dismantle(checked);
+  const filter = $("armory-filter") as HTMLSelectElement;
+  filter.value = armoryFilter;
+  filter.onchange = () => {
+    armoryFilter = filter.value;
+    armory();
+    ui.querySelector(".armory-list")!.scrollTop = 0;
+    $("armory-filter").focus();
+  };
+  ui.querySelectorAll<HTMLButtonElement>("[data-armory-select]").forEach(
+    (b) => {
+      b.onclick = () => {
+        armorySelected = b.dataset.armorySelect!;
+        armory();
+        ui.querySelector<HTMLButtonElement>(
+          `[data-armory-select="${armorySelected}"]`,
+        )?.focus({ preventScroll: true });
+      };
+    },
+  );
+  ui.querySelector(".armory-list")!.scrollTop = scrollTop;
+  if (previousSelection === armorySelected) {
+    const detail = ui.querySelector(".armory-detail-scroll");
+    if (detail) detail.scrollTop = detailScroll;
+    if (favoriteFocus)
+      ui.querySelector<HTMLButtonElement>(
+        `[data-favorite="${favoriteFocus}"]`,
+      )?.focus({ preventScroll: true });
+  }
+  bindFavorites();
+  ui.querySelectorAll<HTMLButtonElement>("[data-discard]").forEach((b) => {
+    b.onclick = () => {
+      const id = b.dataset.discard!;
+      const w = [...save.inventory, ...waiting].find((w) => w.id === id);
+      if (!w || save.equipped.includes(id) || save.favorites?.includes(id))
+        return;
+      dismantle([w]);
+    };
+  });
+}
+// Shared solo/co-op presentation boundary. Future BGM switches can subscribe
+// to swarm:stage-clear; repeated terminal snapshots do not replay the cue.
+function finishMission() {
+  if (!world || resultRun === world.run) return;
+  if (world.phase !== "victory") {
+    result();
+    return;
+  }
+  if (clearRun === world.run) return;
+  clearRun = world.run;
+  clearStartedAt = performance.now();
+  storeMissionRewards(world);
+  setScreen("stage-clear");
+  ui.innerHTML = `<section class="stage-clear" role="status" aria-label="ステージクリア"><div class="clear-band"><p class="clear-kicker">OPERATION ${String(stageFor(world).id).padStart(2, "0")} · COMPLETE</p><h1 class="clear-title">STAGE CLEAR</h1><p class="clear-caption">作戦完了</p><div class="clear-line" aria-hidden="true"></div></div></section>`;
+  window.dispatchEvent(new CustomEvent("swarm:stage-clear", {
+    detail: { run: world.run, stage: stageFor(world).id, durationMs: 3200 },
+  }));
+}
+function storeMissionRewards(w: World) {
+  try {
+    const stored = write(bankRewards(save, w.run, w.rewards[myId] ?? []));
+    if (stored)
+      status = save.pendingWeapons?.length
+        ? "獲得武器は端末に保存済みです。上限を超えた武器はホームの武器庫で整理できます。"
+        : "戦利品を端末に保存しました";
+    return stored;
+  } catch (e) {
+    status = (e as Error).message;
+    return false;
+  }
 }
 function result() {
   if (!world) return;
   const w = world;
-  if (resultRun !== w.run) declinedRewards.clear();
   resultRun = w.run;
   setScreen("result");
-  const items = (w.rewards[myId] ?? []).filter(
-    (i) => !declinedRewards.has(i.id),
-  );
-  overflow = [];
+  const items = w.rewards[myId] ?? [];
+  let stored = w.phase !== "victory";
   if (w.phase === "victory") {
-    try {
-      const r = rewards(save, w.run, items);
-      overflow = r.overflow;
-      if (write(r.save))
-        status = overflow.length
-          ? `${[...new Set(overflow.map((w) => KIND_LABELS[w.kind]))].join("・")}が満杯で${overflow.length}丁を保存できませんでした。この画面の所持品と保存待ちの性能を比較して、削除する武器を選んでください。`
-          : "戦利品を端末に保存しました";
-    } catch (e) {
-      status = (e as Error).message;
-    }
+    stored = storeMissionRewards(w);
   }
-  ui.innerHTML = `<section class="panel result${overflow.length ? " result-managing" : ""}"><div class="result-summary"><div class="eyebrow">OPERATION 01 / DEBRIEF</div><h1>${w.phase === "victory" ? "MISSION CLEAR" : "MISSION FAILED"}</h1><p>${w.phase === "victory" ? "街区を奪還。新しい武器で、もう一度。" : esc(w.reason || "部隊が全員ダウンしました")}</p><div class="stats"><div><span>TIME</span><b>${Math.floor(w.time / 60)}:${String(Math.floor(w.time % 60)).padStart(2, "0")}</b></div><div><span>ELIMINATIONS</span><b>${w.totalKills}</b></div><div><span>RECOVERED</span><b>${items.length}</b></div></div><div class="result-actions"><button class="primary" id="regear">装備変更・再出撃 ↗</button><button id="retry-save">保存を再試行</button>${overflow.length ? `<p>${esc([...new Set(overflow.map((w) => KIND_LABELS[w.kind]))].join("・"))}が満杯です。右の一覧で同じ系統の性能を比較して、不要な所持品を選んでください。削除は確認後に行います。</p>` : ""}</div></div><section class="result-loot"><h2>${w.phase === "victory" ? "個別戦利品" : "未確定戦利品は失われました"}</h2><p class="status" role="status">${esc(w.phase === "victory" ? status : "保存済みの武器は保持されています。")}</p><div class="loot-list" aria-label="獲得武器リスト">${overflow.length ? rewardChoices(items) : items.map((w) => card(w, true)).join("")}</div></section></section>`;
+  ui.innerHTML = `<section class="panel result"><div class="result-summary"><div class="eyebrow">OPERATION ${String(stageFor(w).id).padStart(2, "0")} / ${mapFor(w).name}</div><h1>${w.phase === "victory" ? "MISSION CLEAR" : "MISSION FAILED"}</h1><p>${w.phase === "victory" ? "作戦を達成しました。戦利品を確認して、次の戦場へ。" : esc(w.reason || "部隊が全員ダウンしました")}</p><div class="stats"><div><span>作戦時間</span><b>${Math.floor(w.time / 60)}:${String(Math.floor(w.time % 60)).padStart(2, "0")}</b></div><div><span>撃破数</span><b>${w.totalKills}</b></div><div><span>回収武器</span><b>${items.length}</b></div></div><div class="result-actions"><button class="primary" id="regear">ホームへ戻る ↗</button><button id="retry-save" ${stored ? "hidden" : ""}>保存を再試行</button></div></div><section class="result-loot"><h2>${w.phase === "victory" ? "獲得武器" : "未確定戦利品は失われました"}</h2><p class="status" role="status">${esc(saveError || (w.phase === "victory" ? status : "保存済みの武器は保持されています。"))}</p><div class="loot-list loot-table" aria-label="獲得武器リスト"><div class="weapon-head"><span>武器</span><span>特殊効果</span><span>威力</span><span>装弾</span><span>装填</span><span>射程</span><span>連射</span><span title="お気に入り">☆</span></div>${items.map((item) => card(item, true)).join("")}</div></section></section>`;
   $("regear").onclick = () => {
-    if (items.some((i) => !save.inventory.some((w) => w.id === i.id))) {
+    if (!stored) {
       ui.querySelector(".status")!.textContent =
-        "未保存の報酬があります。右の一覧で性能を比較し、削除する所持品を選んでください。この画面を閉じずに保存してください。";
-      ui.querySelector(".loot-list")!.scrollTop = 0;
+        saveError || "端末への保存に失敗しています。保存を再試行してください。";
       return;
     }
-    gear();
+    status = "";
+    title();
   };
-  ui.querySelectorAll<HTMLButtonElement>("[data-reward-discard]").forEach(
-    (b) => {
-      b.onclick = () => {
-        const id = b.dataset.rewardDiscard!;
-        if (!canReplace(save, items, overflow, id)) return;
-        const item = save.inventory.find((w) => w.id === id)!;
-        if (
-          !confirm(
-            `次の所持武器を1丁、完全に削除します。元には戻せません。\n\n${weaponDetails(item)}\n\n削除して同じ系統の報酬の保存を再試行しますか？`,
-          )
-        )
-          return;
-        if (write(replaceForRewards(save, w.run, items, id))) result();
-        else
-          ui.querySelector(".status")!.textContent =
-            status + " 所持武器は削除していません。";
-      };
-    },
-  );
-  ui.querySelectorAll<HTMLButtonElement>("[data-reward-decline]").forEach(
-    (b) => {
-      b.onclick = () => {
-        const item = overflow.find((i) => i.id === b.dataset.rewardDecline);
-        if (!item) return;
-        if (
-          !confirm(
-            `次の未保存報酬を受け取らずに手放します。元には戻せません。\n\n${weaponDetails(item)}\n\n所持品は削除しません。この報酬の受け取りを辞退しますか？`,
-          )
-        )
-          return;
-        const next = rewards(
-          save,
-          w.run,
-          items.filter((i) => i.id !== item.id),
-        );
-        if (write(next.save)) {
-          declinedRewards.add(item.id);
-          result();
-        } else
-          ui.querySelector(".status")!.textContent =
-            status + " 報酬の辞退は確定していません。";
-      };
-    },
-  );
   $("retry-save").onclick = result;
-  $("retry-save").hidden =
-    w.phase !== "victory" ||
-    (items.every((i) => save.inventory.some((a) => a.id === i.id)) &&
-      !overflow.length);
+  bindFavorites();
 }
 // Solo runs the world here, so it can truly stop. Co-op cannot: the server keeps
 // stepping and the player keeps taking hits, which the menu has to admit.
@@ -929,6 +1281,17 @@ let last = performance.now(),
   acc = 0,
   hudAt = 0;
 function frame(now: number) {
+  // Keep the next frame alive even if one simulation/render callback throws.
+  // Otherwise menus still respond, but retreat and every later sortie freeze.
+  requestAnimationFrame(frame);
+  try {
+    updateFrame(now);
+  } catch (error) {
+    acc = 0;
+    throw error;
+  }
+}
+function updateFrame(now: number) {
   const dt = Math.min(0.1, (now - last) / 1000);
   last = now;
   acc += dt;
@@ -951,12 +1314,14 @@ function frame(now: number) {
             ((input.mx * Math.sin(input.yaw) - input.mz * Math.cos(input.yaw)) /
               n) *
               distance,
+            0.55,
+            mapFor(world).blocks,
           );
         }
       }
       acc -= 0.05;
     }
-    if (world.phase === "victory" || world.phase === "defeat") result();
+    if (world.phase === "victory" || world.phase === "defeat") finishMission();
     else if (now - hudAt > 100) {
       hudAt = now;
       const p = world.players.find((p) => p.id === myId);
@@ -970,6 +1335,10 @@ function frame(now: number) {
       }
     }
   } else acc = 0;
+  if (screen === "stage-clear" && world?.run === clearRun) {
+    if (now - clearStartedAt >= 2800) ui.firstElementChild?.classList.add("is-leaving");
+    if (now - clearStartedAt >= 3200) result();
+  }
   view.render(
     world,
     myId,
@@ -977,15 +1346,15 @@ function frame(now: number) {
     controls.input.yaw,
     controls.input.pitch,
     mode === "coop" ? predicted : undefined,
+    screen === "battle" && !(paused && mode === "solo"),
   );
   if (screen === "battle" && world)
     minimap.draw(world, myId, controls.input.yaw, now);
-  requestAnimationFrame(frame);
 }
 window.addEventListener("resize", () => placeControls(layout));
 window.visualViewport?.addEventListener("resize", () => placeControls(layout));
 window.addEventListener("hashchange", () => {
-  if (inviteCode() && !["battle", "lobby", "result"].includes(screen)) {
+  if (inviteCode() && !["battle", "stage-clear", "lobby", "result"].includes(screen)) {
     mode = "coop";
     gear();
   }
@@ -1016,12 +1385,27 @@ if (import.meta.env.DEV)
       screen,
       id: myId,
       input: { ...controls.input },
+      mapAssets: view.mapAssets.status.map(s=>({...s})),
       fps: view.fps,
       drawCalls: view.drawCalls,
       frameMs: [...view.frames],
       renderedLocal: (() => {
         const player = view.players.get(myId);
         return player ? { x: player.position.x, z: player.position.z } : null;
+      })(),
+      trooper: (() => {
+        const model = view.players.get(myId);
+        const trooper = model?.userData.trooper;
+        return trooper
+          ? {
+              loaded: true,
+              mode: trooper.mode,
+              bones: trooper.bones.length,
+              weapons: trooper.weapons.map(
+                (w: { parent?: { name: string } }) => w.parent?.name,
+              ),
+            }
+          : { loaded: false, error: model?.userData.trooperError ?? null };
       })(),
       cameraAnchor: { ...view.cameraAnchor },
       camera: { x: view.camera.position.x, z: view.camera.position.z },

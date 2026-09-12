@@ -1,4 +1,5 @@
-import { WAVE_INTERVAL, stats } from "../shared/defs";
+import { mapFor, stageFor } from "../shared/stages";
+import { reloadDuration, WAVE_INTERVAL, stats } from "../shared/defs";
 import { visible, type Player, type World } from "../shared/game";
 // Mirrors the authoritative revive rule in src/shared/game.ts (range and hold time).
 const REVIVE_RANGE = 3.5,
@@ -19,12 +20,16 @@ export function rescue(w: World, id: string): Rescue {
   // Prefer a target the server would actually accept over the merely closest one.
   const rank = (p: Player) => {
     const d = Math.hypot(p.x - self.x, p.z - self.z);
-    return (d >= REVIVE_RANGE ? 2 : visible(self, p) ? 0 : 1) * 1e4 + d;
+    return (
+      (d >= REVIVE_RANGE ? 2 : visible(self, p, mapFor(w).blocks) ? 0 : 1) *
+        1e4 +
+      d
+    );
   };
   const target = downed.reduce((a, b) => (rank(a) <= rank(b) ? a : b));
   const distance = Math.hypot(target.x - self.x, target.z - self.z);
   if (distance >= REVIVE_RANGE) return { state: "far", distance };
-  if (!visible(self, target)) return { state: "blocked" };
+  if (!visible(self, target, mapFor(w).blocks)) return { state: "blocked" };
   return { state: "ready", progress: target.revive / REVIVE_TIME };
 }
 const RESCUE_NOTE: Record<Rescue["state"], string> = {
@@ -53,7 +58,7 @@ function updateRevive(w: World, id: string) {
 }
 export function updateCooldowns(w: World, id: string) {
   const p = w.players.find((x) => x.id === id)!;
-  const duration = stats(p.weapons[p.slot]).reload;
+  const duration = reloadDuration(p.weapons[p.slot], p.ammo[p.slot]);
   for (const [id, label, left, total] of [
     ["dodge", "回避", p.evadeCd, 2.2],
     ["reload", "装填", p.reload, duration],
@@ -111,7 +116,8 @@ function rescueMarkup(w: World, id: string) {
 export function hudMarkup(w: World, id: string, status: string) {
   const p = w.players.find((p) => p.id === id)!;
   const def = stats(p.weapons[p.slot]),
-    boss = w.enemies.find((e) => e.kind === "boss");
+    bosses = w.enemies.filter((e) => e.kind === "boss" && e.hp > 0),
+    boss = bosses[0];
   const next =
     w.waveClearAt != null
       ? "WAVE CLEAR · 次波 " +
@@ -119,7 +125,11 @@ export function hudMarkup(w: World, id: string, status: string) {
         "秒"
       : w.enemies.length + " 体 · " + w.totalKills + " 撃破";
   return (
-    '<div class="hud-rail"><div class="vitals"><div class="vital-number"><small>ARMOR</small><b>' +
+    '<div class="hud-rail"><div class="vitals' +
+    (p.hp <= 40 ? " critical" : "") +
+    '"><div class="vital-number"><small>' +
+    (p.hp <= 0 ? "DOWN" : p.hp <= 40 ? "HP · 危険" : "HP") +
+    "</small><b>" +
     Math.ceil(p.hp) +
     '<small> / 160</small></b></div><div class="hp"><i style="width:' +
     (p.hp / 160) * 100 +
@@ -136,7 +146,14 @@ export function hudMarkup(w: World, id: string, status: string) {
       )
       .join("") +
     '</div></div><div class="mission-hud"><div class="mission-line"><b>' +
-    (boss ? "クラウンを撃破" : "WAVE " + w.wave + " / 3") +
+    "ST " +
+    stageFor(w).id +
+    " · " +
+    ("WAVE " +
+      w.wave +
+      " / " +
+      stageFor(w).waves.length +
+      (boss ? " · ボス " + bosses.length + "体" : "")) +
     // The pause control lives outside this markup: everything here is replaced
     // ten times a second, which drops taps that land mid-rewrite.
     "</b></div><small>" +
@@ -148,19 +165,24 @@ export function hudMarkup(w: World, id: string, status: string) {
     "</small>" +
     (boss
       ? '<div class="boss-meter"><i style="width:' +
-        (boss.hp / boss.maxHp) * 100 +
+        (bosses.reduce((sum, e) => sum + e.hp, 0) /
+          bosses.reduce((sum, e) => sum + e.maxHp, 0)) *
+          100 +
         '%"></i></div>'
       : "") +
-    '</div><div class="weapon-hud"><span>' +
+    '</div><div class="weapon-hud' +
+    (p.reload > 0 ? " reloading" : p.ammo[p.slot] === 0 ? " empty" : "") +
+    '"><span>' +
     esc(def.name) +
     " · " +
     (p.slot + 1) +
-    "/2</span><b>" +
-    (p.reload > 0 ? p.reload.toFixed(1) + "s" : p.ammo[p.slot]) +
-    " <small>/ " +
-    def.mag +
-    (p.reload > 0 ? " 装填中" : "") +
-    "</small></b><small>未確定 " +
+    '/2</span><div class="ammo-line"><span class="ammo-label">' +
+    (p.reload > 0 ? "装填中" : p.ammo[p.slot] === 0 ? "弾切れ" : "残弾") +
+    "</span><b>" +
+    (p.reload > 0 ? p.reload.toFixed(1) : p.ammo[p.slot]) +
+    " <small>" +
+    (p.reload > 0 ? "秒" : "/ " + def.mag) +
+    "</small></b></div><small>未確定 " +
     (w.pending[id] ?? []).length +
     " · " +
     esc(status) +

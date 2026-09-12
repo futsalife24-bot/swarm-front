@@ -1,8 +1,9 @@
-import { BLOCKS } from "../shared/defs";
+import { ARENA_X, ARENA_Z } from "../shared/arena";
+import { CAVE_BLOCKS, caveClearance } from "../shared/cave";
+import { mapFor } from "../shared/stages";
 import type { World } from "../shared/game";
 // Mirrors the arena bounds enforced in src/shared/game.ts (blocked()).
-const ARENA_X = 47,
-  ARENA_Z = 52;
+
 // How far the rotating view reaches. Turning the map means centring it on the
 // player, so it becomes a window rather than the whole district.
 const VIEW_RADIUS = 42;
@@ -14,6 +15,8 @@ const COLORS = {
   spitter: "#ffd479",
   boss: "#ff5f8f",
   hornet: "#ffb347",
+  ant: "#df7844",
+  spider: "#bf99ff",
   mate: "#8fe3d8",
   downed: "#ffd479",
   self: "#d9f4ff",
@@ -26,6 +29,7 @@ export class Minimap {
   rotates = false;
   // Buildings never move, so they are baked once per resize instead of per frame.
   base = document.createElement("canvas");
+  map = mapFor({});
   fit() {
     const size = this.canvas.clientWidth * devicePixelRatio;
     if (!size || this.canvas.width === Math.round(size)) return;
@@ -37,8 +41,22 @@ export class Minimap {
     const b = this.base.getContext("2d")!;
     b.fillStyle = COLORS.ground;
     b.fillRect(0, 0, this.base.width, this.base.height);
+    if (this.map.blocks === CAVE_BLOCKS) {
+      b.fillStyle = "#39414a";
+      b.fillRect(0, 0, this.base.width, this.base.height);
+      b.fillStyle = "#101c25";
+      for (let x = -ARENA_X; x < ARENA_X; x += 1)
+        for (let z = -ARENA_Z; z < ARENA_Z; z += 1)
+          if (caveClearance(x + 0.5, z + 0.5) >= 0)
+            b.fillRect(
+              this.px(x),
+              this.pz(z),
+              this.scale + 0.5,
+              this.scale + 0.5,
+            );
+    }
     b.fillStyle = COLORS.block;
-    for (const k of BLOCKS)
+    for (const k of this.map.blocks)
       b.fillRect(
         this.px(k.x - k.w / 2),
         this.pz(k.z - k.d / 2),
@@ -75,6 +93,11 @@ export class Minimap {
   draw(w: World, id: string, yaw: number, now: number) {
     if (now - this.drawnAt < 100) return;
     this.drawnAt = now;
+    const map = mapFor(w);
+    if (map !== this.map) {
+      this.map = map;
+      this.canvas.width = 0;
+    }
     this.fit();
     if (!this.scale) return;
     const c = this.ctx,
@@ -106,9 +129,32 @@ export class Minimap {
     }
     c.drawImage(this.base, 0, 0);
     c.restore();
+    // Keep the complete enemy mark inside the rim, preserving its bearing.
+    const enemyAt = (
+      wx: number,
+      wz: number,
+      radius: number,
+    ): [number, number] => {
+      const [x, y] = at(wx, wz);
+      const margin = (radius + 1) * devicePixelRatio;
+      const dx = x - cw / 2,
+        dy = y - ch / 2;
+      const rx = Math.max(0, cw / 2 - margin);
+      const ry = Math.max(0, ch / 2 - margin);
+      const factor = turning
+        ? Math.min(1, Math.min(rx, ry) / (Math.hypot(dx, dy) || 1))
+        : Math.min(1, rx / (Math.abs(dx) || 1), ry / (Math.abs(dy) || 1));
+      return [cw / 2 + dx * factor, ch / 2 + dy * factor];
+    };
     for (const e of w.enemies) {
-      const [x, y] = at(e.x, e.z),
-        r = e.kind === "boss" ? 4 : 1.6;
+      for (const segment of e.segments ?? []) {
+        if (segment.partHp === 0) continue;
+        const [sx, sy] = enemyAt(segment.x, segment.z, 2.5);
+        this.dot(sx, sy, 2.5, COLORS.boss);
+      }
+      if (e.partHp === 0) continue;
+      const r = e.kind === "boss" ? 4 : 1.6,
+        [x, y] = enemyAt(e.x, e.z, e.y > 1.5 ? r + 0.8 + 1.1 / 2 : r);
       // Airborne reads as a hollow mark. A flat map cannot say how high something
       // is, and pretending otherwise makes "overhead" look like "on top of you".
       if (e.y > 1.5) this.ring(x, y, r + 0.8, COLORS[e.kind], 1.1);

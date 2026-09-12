@@ -6,7 +6,8 @@ import {
 } from "../src/client/network";
 import { randomBytes } from "node:crypto";
 import { creationAccess, turnstileAccess } from "../server/auth";
-import { WAVE_INTERVAL, WAVE_QUOTAS } from "../src/shared/defs";
+import { troopCount, stageFor } from "../src/shared/stages";
+import { WAVE_INTERVAL } from "../src/shared/defs";
 import {
   addPlayer,
   createWorld,
@@ -22,6 +23,7 @@ function fixture() {
     ally = addPlayer(w, "ally");
   start(w);
   w.nextSpawn = 1e9;
+  w.enemies = [];
   return { w, p, ally };
 }
 it("accepts only a versioned same-tab reconnect session", () => {
@@ -103,7 +105,7 @@ it("quota and no living enemies are required, then a four second interval advanc
   for (let n = 0; n < 100; n++) step(w, {});
   expect(w.wave).toBe(1);
   expect(w.waveClearAt).toBeNull();
-  w.spawned = WAVE_QUOTAS[1];
+  w.spawned = troopCount(stageFor(w).waves[0]);
   spawn(w, "crawler", 0, -50);
   for (let n = 0; n < 100; n++) step(w, {});
   expect(w.wave).toBe(1);
@@ -124,14 +126,15 @@ it("quota and no living enemies are required, then a four second interval advanc
   expect(w.wave).toBe(2);
   expect(p.hp).toBe(95);
 });
-it("final cleared quota spawns exactly one boss and heals only once", () => {
+it("cleared opening of stage 4 spawns a boss with escorts and heals only once", () => {
   const { w, p } = fixture();
-  w.wave = 3;
-  w.spawned = WAVE_QUOTAS[3];
+  w.stage = 4;
+  w.wave = 1;
+  w.spawned = troopCount(stageFor(w).waves[0]);
   p.hp = 50;
   p.safe = -100;
   for (let n = 0; n < 100; n++) step(w, {});
-  expect(w.wave).toBe(4);
+  expect(w.wave).toBe(2);
   expect(w.enemies.filter((e) => e.kind === "boss")).toHaveLength(1);
   expect(p.hp).toBe(95);
   for (let n = 0; n < 40; n++) step(w, {});

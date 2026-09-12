@@ -1,5 +1,16 @@
+export const EVADE_DURATION = 0.32;
+export const WEAPON_SWITCH_DURATION = .5;
+export const WEAPON_SWITCH_RESUME = 0.08;
+export const HEAVY_HIT_DURATION = 1.2;
 export type Kind = "rifle" | "shotgun" | "rocket";
-export type Effect = "none" | "pierce" | "quick";
+export type Effect =
+  "none" | "pierce" | "quick" | "reserve" | "repel" | "chain";
+// One flat pool per kind; legacy quick and shotgun pierce remain loadable.
+export const EFFECT_POOLS: Record<Kind, readonly Effect[]> = {
+  rifle: ["reserve", "pierce"],
+  shotgun: ["reserve", "repel"],
+  rocket: ["reserve", "chain"],
+};
 // Every figure a weapon shows is rolled, not just damage. With one rolled stat
 // a single best weapon dominated its whole family and the other seven slots
 // were dead; with five that trade against each other, "better" stops being a
@@ -56,6 +67,8 @@ export const WEAPONS = {
 // own base. `cruise` is how high that base floats; ground units keep it at 0, so
 // their hit boxes are unchanged.
 export const ENEMIES = {
+  ant: { hp: 85, speed: 4.1, radius: 1.25, damage: 8, aim: 1.2, cruise: 0 },
+  spider: { hp: 95, speed: 4.8, radius: 1.5, damage: 15, aim: 1, cruise: 0 },
   crawler: {
     hp: 75,
     speed: 3.5,
@@ -127,6 +140,15 @@ export function stats(w: Weapon) {
     interval: d.interval / roll("rate"),
   };
 }
+// Read ammunition at reload start. Ammo stays unchanged until completion,
+// allowing the HUD and authoritative simulation to share this duration.
+export function reloadDuration(w: Weapon, ammo: number) {
+  const d = stats(w);
+  const remaining = Math.max(0, Math.min(d.mag, ammo));
+  return (
+    d.reload * (w.effect === "reserve" ? 1 - (0.5 * remaining) / d.mag : 1)
+  );
+}
 // Damage is rolled on its own band and the tier is read from all five rolls
 // afterwards, so a low tier can legitimately carry high damage and pay for it
 // elsewhere. The ceiling is therefore the band's, not the tier's.
@@ -147,7 +169,15 @@ export const EFFECTS = {
   none: "標準仕様",
   pierce: "貫通：最大3体",
   quick: "高速装填：20%短縮",
+  reserve: "残弾装填",
+  repel: "撃退散弾",
+  chain: "誘爆弾頭",
 };
+export function effectLabel(w: Weapon) {
+  return w.kind === "shotgun" && w.effect === "pierce"
+    ? "標準仕様（貫通は武器の基本性能）"
+    : EFFECTS[w.effect];
+}
 export const STARTERS: Weapon[] = (
   ["rifle", "shotgun", "rocket"] as Kind[]
 ).map((kind) => ({
@@ -205,6 +235,8 @@ export function validWeapon(w: unknown): w is Weapon {
         ))) &&
     Object.hasOwn(EFFECTS, v.effect) &&
     (v.effect === "none" || v.rarity > 0) &&
-    (v.effect !== "pierce" || v.kind !== "rocket")
+    (v.effect !== "pierce" || v.kind !== "rocket") &&
+    (v.effect !== "repel" || v.kind === "shotgun") &&
+    (v.effect !== "chain" || v.kind === "rocket")
   );
 }

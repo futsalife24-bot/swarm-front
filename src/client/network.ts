@@ -4,6 +4,7 @@ export interface Member {
   id: string;
   ready: boolean;
   connected: boolean;
+  weapons?: Weapon[];
 }
 export interface NetworkSession {
   version: 1;
@@ -44,6 +45,8 @@ export class Network {
   closed = false;
   last = 0;
   members: Member[] = [];
+  stage = 1;
+  preparing = false;
   onWorld: (w: World) => void = () => {};
   onLobby: () => void = () => {};
   onStatus: (s: string, fatal: boolean) => void = () => {};
@@ -156,12 +159,18 @@ export class Network {
           // A blocked/full session store must not break the live connection.
         }
         this.onStatus("接続済み", false);
-        this.send({ type: "equip", weapons: this.equip });
+        this.send({
+          type: "equip",
+          weapons: this.equip,
+          ready: !this.preparing,
+        });
         this.ready();
       } else if (m.type === "state") {
         this.members = m.members;
         this.onWorld(m.world);
       } else if (m.type === "lobby") {
+        if (Number.isInteger(m.stage) && m.stage >= 1 && m.stage <= 10)
+          this.stage = m.stage;
         this.members = m.members;
         this.onLobby();
       } else if (m.type === "error") {
@@ -209,7 +218,11 @@ export class Network {
   }
   equipment(weapons: Weapon[]) {
     this.equip = weapons;
-    this.send({ type: "equip", weapons });
+    this.send({ type: "equip", weapons, ready: !this.preparing });
+  }
+  preparation(preparing: boolean) {
+    this.preparing = preparing;
+    this.send({ type: "ready", ready: !preparing });
   }
   close() {
     this.closed = true;

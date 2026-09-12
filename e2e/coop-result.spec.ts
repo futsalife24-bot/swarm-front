@@ -1,3 +1,4 @@
+const endpoint = process.env.SWARM_TEST_ENDPOINT ?? "http://127.0.0.1:8789";
 import { localCreationKey } from "../tests/credentials";
 import { test, expect } from "@playwright/test";
 test("co-op fixture rewards save on both clients and allow equipment change and a real rematch", async ({
@@ -20,7 +21,7 @@ test("co-op fixture rewards save on both clients and allow equipment change and 
     await p.goto("/");
     await p.getByRole("button", { name: "協力プレイ" }).click();
     await p.locator(".coop-advanced summary").click();
-    await p.locator("#endpoint").fill("http://127.0.0.1:8789");
+    await p.locator("#endpoint").fill(endpoint);
   }
   await a.locator("#creation-key").evaluate((el: HTMLInputElement, key) => {
     el.value = key;
@@ -32,12 +33,12 @@ test("co-op fixture rewards save on both clients and allow equipment change and 
   await b.goto(invite);
   await expect(b.locator(".coop-entry")).toContainText("招待を受け取りました");
   await b.locator(".coop-advanced summary").click();
-  await b.locator("#endpoint").fill("http://127.0.0.1:8789");
+  await b.locator("#endpoint").fill(endpoint);
   await b.getByRole("button", { name: "招待ルームに参加" }).click();
   await expect(a.getByText("準備完了", { exact: true })).toHaveCount(2);
-  expect(
-    (await request.post(`http://127.0.0.1:8789/fixtures/${code}/reward`)).ok(),
-  ).toBe(true);
+  expect((await request.post(`${endpoint}/fixtures/${code}/reward`)).ok()).toBe(
+    true,
+  );
   await expect(a.locator("#hud")).toBeVisible();
   const fire = (await a.locator("#fire").boundingBox())!;
   await a.mouse.move(fire.x + fire.width / 2, fire.y + fire.height / 2);
@@ -75,6 +76,7 @@ test("co-op fixture rewards save on both clients and allow equipment change and 
       };
     });
     expect(layout.summary.right).toBeLessThan(layout.loot.left);
+    expect(layout.loot.width / layout.summary.width).toBeCloseTo(2, 1);
     expect(layout.summary.width).toBeLessThan(layout.panel.width / 2);
     expect(layout.loot.width).toBeGreaterThan(layout.summary.width);
     expect(layout.loot.right).toBeLessThanOrEqual(layout.panel.right + 1);
@@ -100,7 +102,8 @@ test("co-op fixture rewards save on both clients and allow equipment change and 
     expect(
       await p.evaluate(() => (window as any).__swarm.inventory.length),
     ).toBe(5);
-    await p.getByRole("button", { name: "装備変更・再出撃" }).click();
+    await p.getByRole("button", { name: "ホームへ戻る" }).click();
+    await p.getByRole("button", { name: "協力プレイ" }).click();
   }
   const item = await a.evaluate(() => (window as any).__swarm.inventory[3].id);
   await a.locator('[data-pick="0"]').click();

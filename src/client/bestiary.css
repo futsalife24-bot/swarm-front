@@ -1,0 +1,264 @@
+.bestiary {
+  width: min(1180px, calc(100vw - 24px));
+  height: min(760px, calc(100dvh - 20px));
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  color: #e4edf1;
+  background: #101c25;
+  border: 1px solid #46616e;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.bestiary::backdrop {
+  background: #030a10df;
+}
+.bestiary[open] {
+  display: flex;
+  flex-direction: column;
+}
+.bestiary header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid #344a57;
+  flex-shrink: 0;
+}
+.bestiary h2 {
+  margin: 4px 0 0;
+  font-size: 24px;
+}
+.bestiary header button {
+  flex-shrink: 0;
+}
+.report-layout {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  flex: 1;
+  min-height: 0;
+}
+.enemy-list {
+  overflow-y: auto;
+  padding: 12px;
+  border-right: 1px solid #344a57;
+}
+.enemy-list button {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  text-align: left;
+  padding: 14px 10px;
+  margin-bottom: 6px;
+  min-height: 60px;
+}
+.enemy-list button > span:nth-child(2) {
+  flex: 1;
+}
+.enemy-list strong {
+  font-size: 14px;
+  display: block;
+}
+.enemy-list small {
+  font-size: 11px;
+  color: #adc3ce;
+  display: block;
+  margin-top: 5px;
+}
+.bestiary button[aria-pressed="true"] {
+  background: #254840;
+  border-color: #90e7cd;
+}
+.report-detail {
+  display: grid;
+  grid-template-rows: minmax(180px, 1fr) minmax(0, 0.85fr);
+  min-height: 0;
+  min-width: 0;
+}
+.specimen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: radial-gradient(ellipse at center, #2d4759, #0b1722 75%);
+  padding: 8px 12px;
+}
+.specimen-label {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  pointer-events: none;
+}
+.enemy-viewport {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+.enemy-viewport canvas {
+  display: block;
+  touch-action: none;
+  cursor: grab;
+}
+.enemy-viewport canvas:active {
+  cursor: grabbing;
+}
+.viewer-tools {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+.viewer-tools button {
+  min-height: 36px;
+  padding: 6px 12px;
+  font-size: 12px;
+}
+.viewer-hint {
+  text-align: center;
+  font-size: 10px;
+  color: #adc3ce;
+  margin: 6px 0 0;
+}
+.enemy-description {
+  min-height: 0;
+  overflow-y: auto;
+  padding: 18px 22px;
+  border-top: 1px solid #344a57;
+}
+.bestiary h3 {
+  font-size: 24px;
+  margin: 6px 0 14px;
+}
+.bestiary dl {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 12px 0;
+}
+.bestiary dt {
+  color: #b4c6d0;
+  font-size: 11px;
+}
+.bestiary dd {
+  margin: 4px 0 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+.bestiary dd small {
+  font-size: 11px;
+  font-weight: 400;
+}
+.bestiary h4 {
+  font-size: 12px;
+  margin: 12px 0 0;
+  color: #90e7cd;
+}
+.bestiary article p {
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 6px 0;
+}
+.bestiary article .bestiary-note {
+  font-size: 10px;
+  color: #a8bbc5;
+  margin-top: 14px;
+}
+.specimen-forms {
+  display: flex;
+  gap: 6px;
+}
+.specimen-forms button {
+  font-size: 12px;
+  padding: 7px 10px;
+}
+@media (orientation: landscape) and (max-height: 550px) {
+  .bestiary header {
+    padding: 8px 12px;
+  }
+  .bestiary h2 {
+    font-size: 18px;
+  }
+  .bestiary header .eyebrow {
+    font-size: 9px;
+  }
+  .bestiary header button {
+    font-size: 12px;
+    min-height: 40px;
+    padding: 8px;
+  }
+  .report-layout {
+    grid-template-columns: 164px minmax(0, 1fr);
+  }
+  .enemy-list {
+    padding: 6px;
+  }
+  .enemy-list button {
+    padding: 8px;
+    gap: 6px;
+    min-height: 48px;
+  }
+  .enemy-list strong {
+    font-size: 12px;
+  }
+  .enemy-list small {
+    font-size: 9px;
+  }
+  .report-detail {
+    grid-template-rows: 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .enemy-description {
+    padding: 12px;
+    border-top: 0;
+    border-left: 1px solid #344a57;
+  }
+  .bestiary h3 {
+    font-size: 18px;
+  }
+  .bestiary dd {
+    font-size: 20px;
+  }
+  .bestiary article p {
+    font-size: 12px;
+  }
+}
+@media (orientation: portrait) and (max-width: 600px) {
+  .bestiary header {
+    padding: 10px;
+  }
+  .bestiary h2 {
+    font-size: 18px;
+  }
+  .bestiary header button {
+    font-size: 11px;
+    padding: 8px;
+  }
+  .report-layout {
+    grid-template-columns: 115px minmax(0, 1fr);
+  }
+  .enemy-list {
+    padding: 5px;
+  }
+  .enemy-list button {
+    padding: 9px 5px;
+    gap: 4px;
+  }
+  .enemy-list button > .eyebrow,
+  .enemy-list button > span:last-child {
+    display: none;
+  }
+  .enemy-list strong {
+    font-size: 12px;
+  }
+  .enemy-description {
+    padding: 12px;
+  }
+  .bestiary h3 {
+    font-size: 18px;
+  }
+  .bestiary dd {
+    font-size: 18px;
+  }
+}

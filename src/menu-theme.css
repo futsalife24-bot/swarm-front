@@ -1,0 +1,313 @@
+/* Human field equipment: graphite armour, machined edges, illuminated controls.
+   Decoration does not add layout space or intercept pointer events. */
+:root {
+  --field-line: #617a7d;
+  --field-metal: #1c2d33;
+  --field-light: #bcf3d8;
+  --field-amber: #e8bc78;
+  --field-cut: polygon(
+    6px 0,
+    100% 0,
+    100% calc(100% - 6px),
+    calc(100% - 6px) 100%,
+    0 100%,
+    0 6px
+  );
+}
+body:not([data-screen="battle"]):not([data-screen="layout"]):not([data-screen="stage-clear"]) #ui {
+  background:
+    linear-gradient(
+        135deg,
+        transparent 48%,
+        #7498910a 48%,
+        #7498910a 49%,
+        transparent 49%
+      )
+      0 0 / 180px 180px,
+    repeating-linear-gradient(0deg, transparent 0 39px, #accbc803 39px 40px),
+    radial-gradient(ellipse at 12% 45%, #354d494d, transparent 62%),
+    linear-gradient(120deg, #0a1117f7, #101e26f2 65%, #0c181ee8);
+}
+body #ui .panel:is(.gear, .armory, .lobby, .result, .room-entry),
+body .menu-dialog,
+body .weapon-help-dialog,
+body .bestiary,
+body .pause-card {
+  position: relative;
+  border: 1px solid #536b70;
+  border-top: 2px solid #82938c;
+  border-radius: 2px;
+  background:
+    linear-gradient(90deg, #c1d3c7 0 28px, #566c6e 28px 76px, transparent 76px)
+      left top / 100% 2px no-repeat,
+    linear-gradient(135deg, #2a3b414a, transparent 42%),
+    linear-gradient(110deg, #16242bf7, #0e1b23fa);
+  box-shadow:
+    0 22px 70px #0008,
+    inset 0 0 0 4px #0b151aaa,
+    inset 0 0 0 5px #829b9714;
+}
+body #ui .panel:is(.gear, .armory, .lobby, .result, .room-entry)::after,
+body :is(.menu-dialog, .weapon-help-dialog, .bestiary, .pause-card)::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  pointer-events: none;
+  background:
+    linear-gradient(#9cae9f, #9cae9f) right bottom / 19px 2px no-repeat,
+    linear-gradient(#9cae9f, #9cae9f) right bottom / 2px 19px no-repeat,
+    linear-gradient(#698c86, #698c86) left top / 12px 2px no-repeat;
+  opacity: 0.65;
+}
+body
+  #ui
+  :is(.menu-header, .armory > header, .lobby-header, .room-entry > header),
+body :is(.menu-dialog, .bestiary, .weapon-help-dialog) > header {
+  border-bottom-color: #718c8545;
+  background-image: linear-gradient(
+    90deg,
+    #a9c7b7 0 30px,
+    #657d78 30px 82px,
+    transparent 82px
+  );
+  background-size: 100% 2px;
+  background-position: left bottom;
+  background-repeat: no-repeat;
+}
+body #ui .panel h1,
+body :is(.menu-dialog, .bestiary, .weapon-help-dialog, .pause-card) h2 {
+  color: #e2e9df;
+  text-shadow: 0 2px 1px #0006;
+}
+body:not([data-screen="battle"]) #ui .eyebrow,
+body dialog .eyebrow {
+  color: #b4bd9f;
+  letter-spacing: 0.16em;
+}
+/* Low bevels and corner cuts keep the controls recognisably physical. */
+body:not([data-screen="battle"]) #ui button,
+body dialog button,
+body .pause-card button {
+  border-radius: 0;
+  clip-path: var(--field-cut);
+  border-color: #68807c80;
+  background:
+    linear-gradient(135deg, #b2c7b22b, transparent 22%) top left / 30px 100%
+      no-repeat,
+    linear-gradient(180deg, #2a3c41, #1a2a31);
+  color: #d5e1db;
+  box-shadow:
+    inset 0 1px #cce3d521,
+    inset 0 -2px #070e1366;
+}
+body:not([data-screen="battle"]) #ui button:hover:not(:disabled),
+body dialog button:hover:not(:disabled),
+body .pause-card button:hover:not(:disabled) {
+  border-color: #b4e2cc;
+  background: linear-gradient(180deg, #3b5555, #243e42);
+  box-shadow:
+    inset 3px 0 #b4e2cc,
+    inset 0 1px #def7e633;
+}
+body:not([data-screen="battle"]) #ui button:active:not(:disabled),
+body dialog button:active:not(:disabled),
+body .pause-card button:active:not(:disabled) {
+  background: #152a30;
+  box-shadow: inset 0 2px 5px #0008;
+}
+body:not([data-screen="battle"]) #ui button.primary,
+body dialog button.primary,
+body .pause-card button.primary {
+  border-color: #c6ecd1;
+  color: #142e2b;
+  background:
+    repeating-linear-gradient(125deg, #163d3222 0 2px, transparent 2px 6px)
+      right center / 14px 100% no-repeat,
+    linear-gradient(100deg, #c8dfb6, #9ed8bc 65%, #82c3b0);
+  box-shadow:
+    inset 0 1px #f4ffe799,
+    inset 0 -3px #234d454d,
+    0 0 20px #9ddbaf12;
+  text-shadow: 0 1px #efffde45;
+}
+body:not([data-screen="battle"]) #ui button.primary:hover:not(:disabled),
+body dialog button.primary:hover:not(:disabled),
+body .pause-card button.primary:hover:not(:disabled) {
+  background: linear-gradient(100deg, #e0edc9, #b9eed3);
+  color: #102923;
+}
+body:not([data-screen="battle"]) #ui button:disabled,
+body dialog button:disabled,
+body .pause-card button:disabled {
+  filter: saturate(0.2);
+  opacity: 0.45;
+  box-shadow: none;
+}
+body:not([data-screen="battle"])
+  #ui
+  button:is(.selected, [aria-pressed="true"]),
+body dialog button:is([aria-selected="true"], [aria-pressed="true"]) {
+  border-color: #a4d5bd;
+  background: linear-gradient(105deg, #34504a, #1b3439);
+  box-shadow:
+    inset 3px 0 #b6e9cd,
+    inset 0 1px #d0f3de30;
+}
+body:not([data-screen="battle"])
+  #ui
+  :is(#armory-dismantle, [data-dismantle-one]),
+body dialog button.danger,
+body .pause-card button.danger {
+  border-color: #b985618f;
+  color: #f0c79a;
+  background: linear-gradient(110deg, #4a352b, #312a29);
+}
+body:not([data-screen="battle"]) #ui select,
+body dialog select,
+body .pause-card select {
+  border-radius: 1px;
+  border-color: #69817d;
+  background-color: #101f26;
+  color: #dce7dc;
+  box-shadow: inset 0 2px 5px #0005;
+}
+body :is(#ui, dialog, .pause-card) input[type="range"] {
+  accent-color: #b7dbbc;
+}
+body[data-screen="title"] .title-actions button {
+  border-left: 3px solid #81928a;
+  --field-cut: polygon(
+    10px 0,
+    100% 0,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    0 100%,
+    0 10px
+  );
+}
+body[data-screen="title"] .title-actions .menu-icon {
+  filter: drop-shadow(0 0 6px #a9e1c52e);
+}
+body[data-screen="title"] .title h1 {
+  color: #e0e4d6;
+  text-shadow:
+    2px 2px #58756b,
+    0 12px 42px #0008;
+}
+body[data-screen="title"] .home-operation {
+  border-left-color: var(--field-amber);
+  background: linear-gradient(90deg, #37382b66, #17282a44);
+}
+body[data-screen="title"] .command-heading {
+  border-bottom: 1px solid #85988970;
+}
+body #ui :is(.weapon-row, .armory-row),
+body .bestiary .enemy-list button {
+  border-radius: 1px;
+  background: linear-gradient(110deg, #203038, #17262e);
+  box-shadow:
+    inset 0 1px #c4dacd0b,
+    inset 0 -1px #050f1644;
+}
+body #ui :is(.weapon-row, .armory-row):hover {
+  background: #2d4447;
+}
+body #ui .weapon-row:is(.equipped-0, .equipped-1),
+body #ui .armory-row.selected {
+  background: linear-gradient(90deg, #31473e, #1c3438);
+}
+body #ui :is(.armory-detail, .lobby-mission, .squad-member),
+body .bestiary .enemy-description {
+  border-radius: 1px;
+  background-color: #12242a;
+  box-shadow: inset 0 1px #bdd7c51a;
+}
+body #ui .armory-detail {
+  background: linear-gradient(130deg, #263a38, #14262d 60%);
+}
+body #ui .gear-footer,
+body #ui .armory-detail-actions,
+body .dialog-actions {
+  border-top-color: #86968660;
+  background-image: linear-gradient(
+    90deg,
+    #d3ba7b 0 22px,
+    #8c8665 22px 48px,
+    transparent 48px
+  );
+  background-size: 100% 2px;
+  background-position: left top;
+  background-repeat: no-repeat;
+}
+body .pause-card :is(button, select, input):focus-visible {
+  outline: 2px solid #ffdb94;
+  outline-offset: -3px;
+}
+/* Fit to the actual available column, including browser bars / safe areas.
+   The two equipment cards cannot push into the fixed launch footer. */
+@media (orientation: landscape) {
+  .gear .gear-brief {
+    container: loadout / size;
+  }
+  .gear .mission-select {
+    flex: none;
+  }
+  .gear .equipment-select {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+  .gear .equipment-select > .section-label {
+    flex: none;
+  }
+  .gear .gear-brief .loadout-slots {
+    flex: 1;
+    min-height: 0;
+  }
+  .gear .gear-brief .loadout-slots button {
+    flex: 1 1 0;
+    min-height: 0;
+    max-height: 92px;
+  }
+}
+@container loadout (max-height: 330px) {
+  .gear .gear-brief .loadout-slots button {
+    padding: 5px 8px;
+    gap: 8px;
+  }
+  .gear .gear-brief .loadout-slots b {
+    font-size: 13px;
+    margin: 2px 0;
+  }
+  .gear .loadout-slots button :is(small, strong) {
+    font-size: 10px;
+  }
+  .gear .loadout-slots .slot-number {
+    font-size: 20px;
+  }
+}
+@container loadout (max-height: 220px) {
+  .gear .equipment-select > .section-label {
+    display: none;
+  }
+  .gear .gear-brief .loadout-slots {
+    gap: 4px;
+  }
+  .gear .gear-brief .loadout-slots button {
+    padding: 3px 6px;
+    gap: 6px;
+  }
+  .gear .gear-brief .loadout-slots b {
+    font-size: 12px;
+    margin: 1px 0;
+  }
+  .gear .loadout-slots button i {
+    display: none;
+  }
+}
+@container loadout (max-height: 175px) {
+  .gear .loadout-slots button strong {
+    display: none;
+  }
+}

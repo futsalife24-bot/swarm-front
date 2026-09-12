@@ -1,3 +1,21 @@
+import { ARENA_X, ARENA_Z, MAP_SCALE } from "./arena";
+import { STRUCTURE_TIMING } from "./structure-timing";
+import { initWorm, moveWorm, wormNodes, type WormNode } from "./worm";
+import { CAVE_BLOCKS, CAVE_NODES, caveBlocked, caveRay } from "./cave";
+import {
+  mapFor,
+  stageFor,
+  validStage,
+  troopAt,
+  troopCount,
+  type BossForm,
+} from "./stages";
+import { pursuitDirection, specialMotion } from "./enemy-motion";
+import {
+  selectStructureTarget,
+  clusterPoint,
+  foundryPhase,
+} from "./structure-ai";
 import {
   BLOCKS,
   ENEMIES,
@@ -12,9 +30,14 @@ import {
   TIER_QUALITY,
   quality,
   stats,
-  WAVE_QUOTAS,
+  EFFECT_POOLS,
+  reloadDuration,
   WAVE_INTERVAL,
   MOVE_SPEED,
+  EVADE_DURATION,
+  WEAPON_SWITCH_DURATION,
+  WEAPON_SWITCH_RESUME,
+  HEAVY_HIT_DURATION,
   type Weapon,
 } from "./defs";
 export interface Input {
@@ -58,13 +81,34 @@ export interface Player {
   evade: number;
   evadeCd: number;
   swapCd: number;
+  swapResume?: number;
+  heavyHit?: number;
   kills: number;
   connected: boolean;
   ack: number;
   hurt: number;
   safe: number;
 }
-export interface Enemy {
+export interface Enemy extends WormNode {
+  targetId?: string;
+  navigation?: { until: number; point: { x: number; z: number } };
+  lunge?: number;
+  lungeWait?: number;
+  phase?: 1 | 2 | 3;
+  fabrication?: number;
+  fractured?: boolean;
+  active?: boolean;
+  steerUntil?: number;
+  steerAngle?: number;
+  wallCooldown?: number;
+  wallYaw?: number;
+  perch?: number;
+  jump?: number;
+  jumpFrom?: number;
+  jumpWait?: number;
+  flightUntil?: number;
+  flightHeight?: number;
+  segments?: WormNode[];
   id: number;
   kind: keyof typeof ENEMIES;
   x: number;
@@ -79,6 +123,7 @@ export interface Enemy {
   hurt: number;
 }
 export interface Projectile {
+  style?: "stake";
   id: number;
   x: number;
   z: number;
@@ -90,12 +135,17 @@ export interface Projectile {
   owner: string;
   damage: number;
   rocket: boolean;
+  // Captured when fired, so switching weapons cannot change an airborne rocket.
+  chain?: boolean;
+  gravity?: number;
 }
 export interface Event {
   id: number;
-  type: "shot" | "hit" | "burst" | "kill" | "down" | "revive";
+  type: "shot" | "hit" | "burst" | "kill" | "down" | "revive" | "acid";
   // Damage dealt, on hit and kill events, for the floating numbers.
   amount?: number;
+  radius?: number;
+  weapon?: "rifle" | "shotgun" | "rocket";
   x: number;
   z: number;
   y: number;
@@ -112,6 +162,7 @@ export interface Drop {
   weapon: Weapon;
 }
 export interface World {
+  stage?: number;
   run: string;
   seed: number;
   time: number;
@@ -135,8 +186,9 @@ export interface World {
   scale: number;
   reason: string;
 }
-export function createWorld(run: string, seed = 123): World {
+export function createWorld(run: string, seed = 123, stage = 1): World {
   return {
+    stage: validStage(stage) ? stage : 1,
     run,
     seed,
     time: 0,
@@ -169,7 +221,7 @@ export function addPlayer(
   const p: Player = {
     id,
     x: w.players.length * 2 - 1,
-    z: 17,
+    z: mapFor(w).blocks === CAVE_BLOCKS ? 36 * MAP_SCALE : 17 * MAP_SCALE,
     yaw: 0,
     pitch: 0,
     hp: 160,
@@ -198,6 +250,7 @@ export function start(w: World) {
   w.scale = 1 + 0.55 * (w.players.length - 1);
   w.wave = 1;
   w.waveAt = 0;
+  beginWave(w);
 }
 export function random(w: World) {
   w.seed = (Math.imul(w.seed, 1664525) + 1013904223) >>> 0;
@@ -212,7 +265,14 @@ export function loot(w: World): Weapon {
   const rolls: Partial<Record<(typeof ROLLS)[number], number>> = {};
   let score = 0;
   for (const key of ROLLS) {
-    const milli = ROLL.min + Math.floor(random(w) * (ROLL.max - ROLL.min + 1));
+    const percentile = random(w) ** stageFor(w).lootExponent;
+    const good = LOWER_IS_BETTER.includes(key) ? 1 - percentile : percentile;
+    const milli =
+      ROLL.min +
+      Math.min(
+        ROLL.max - ROLL.min,
+        Math.floor(good * (ROLL.max - ROLL.min + 1)),
+      );
     rolls[key] = milli / ROLL.scale;
     const at = (milli - ROLL.min) / (ROLL.max - ROLL.min);
     score += LOWER_IS_BETTER.includes(key) ? 1 - at : at;
@@ -220,11 +280,17 @@ export function loot(w: World): Weapon {
   const grade = score / ROLLS.length;
   const rarity =
     grade >= TIER_QUALITY[2] ? 2 : grade >= TIER_QUALITY[1] ? 1 : 0;
+  const pool = EFFECT_POOLS[kind];
+  const effectRoll = rarity ? random(w) : 1;
+  // Keep the established RNG draw count: rocket previously had no second roll.
+  // Conditional on effectRoll < 0.6, effectRoll / 0.6 is uniform in [0, 1).
   const effect: Weapon["effect"] =
-    rarity && random(w) < 0.6
-      ? kind !== "rocket" && random(w) < 0.55
-        ? "pierce"
-        : "quick"
+    effectRoll < 0.6
+      ? pool[
+          Math.floor(
+            (kind === "rocket" ? effectRoll / 0.6 : random(w)) * pool.length,
+          )
+        ]
       : "none";
   return {
     id: `${w.run}-${++w.serial}`,
@@ -247,19 +313,27 @@ export function loot(w: World): Weapon {
 }
 // Roof height over a point, or 0 in the open. Fliers use it to know how high
 // they must climb to cross something instead of going through it.
-export function roofHeight(x: number, z: number, r = 0.55) {
+export function roofHeight(x: number, z: number, r = 0.55, blocks = BLOCKS) {
+  if (blocks === CAVE_BLOCKS) return 0;
   let best = 0;
-  for (const b of BLOCKS)
+  for (const b of blocks)
     if (Math.abs(x - b.x) < b.w / 2 + r && Math.abs(z - b.z) < b.d / 2 + r)
       best = Math.max(best, b.h);
   return best;
 }
 // `y` is how high the mover is: a building only stops what is below its roof.
-export function blocked(x: number, z: number, r = 0.55, y = 0) {
+export function blocked(
+  x: number,
+  z: number,
+  r = 0.55,
+  y = 0,
+  blocks = BLOCKS,
+) {
+  if (blocks === CAVE_BLOCKS) return caveBlocked(x, z, r, y);
   return (
-    Math.abs(x) > 47 - r ||
-    Math.abs(z) > 52 - r ||
-    BLOCKS.some(
+    Math.abs(x) > ARENA_X - r ||
+    Math.abs(z) > ARENA_Z - r ||
+    blocks.some(
       (b) =>
         b.h > y &&
         Math.abs(x - b.x) < b.w / 2 + r &&
@@ -272,10 +346,11 @@ export function move(
   dx: number,
   dz: number,
   r = 0.55,
+  blocks = BLOCKS,
 ) {
   const y = p.y ?? 0;
-  if (!blocked(p.x + dx, p.z, r, y)) p.x += dx;
-  if (!blocked(p.x, p.z + dz, r, y)) p.z += dz;
+  if (!blocked(p.x + dx, p.z, r, y, blocks)) p.x += dx;
+  if (!blocked(p.x, p.z + dz, r, y, blocks)) p.z += dz;
 }
 // Segment/AABB slab intersection; shared by bullets, explosions, aim assist and camera.
 export function wallDistance(
@@ -286,9 +361,11 @@ export function wallDistance(
   dy: number,
   dz: number,
   max: number,
+  blocks = BLOCKS,
 ) {
+  if (blocks === CAVE_BLOCKS) return caveRay(x, y, z, dx, dy, dz, max);
   let best = max;
-  for (const b of BLOCKS) {
+  for (const b of blocks) {
     let lo = 0,
       hi = best;
     for (const [o, d, min, maxv] of [
@@ -312,13 +389,45 @@ export function wallDistance(
   }
   return best;
 }
+export function rayVisible(
+  e: Enemy,
+  p: { x: number; z: number },
+  blocks = BLOCKS,
+) {
+  const height = eye(e);
+  const length = Math.hypot(p.x - e.x, 1.2 - height, p.z - e.z);
+  return (
+    length < 1e-8 ||
+    wallDistance(
+      e.x,
+      height,
+      e.z,
+      (p.x - e.x) / length,
+      (1.2 - height) / length,
+      (p.z - e.z) / length,
+      length,
+      blocks,
+    ) >=
+      length - 0.01
+  );
+}
 export function visible(
   a: { x: number; z: number },
   b: { x: number; z: number },
+  blocks = BLOCKS,
 ) {
   const d = Math.hypot(b.x - a.x, b.z - a.z);
   return (
-    wallDistance(a.x, 1.2, a.z, (b.x - a.x) / d, 0, (b.z - a.z) / d, d) >=
+    wallDistance(
+      a.x,
+      1.2,
+      a.z,
+      (b.x - a.x) / d,
+      0,
+      (b.z - a.z) / d,
+      d,
+      blocks,
+    ) >=
     d - 0.01
   );
 }
@@ -326,16 +435,43 @@ export function event(w: World, e: Omit<Event, "id">) {
   w.events.push({ ...e, id: ++w.eventSerial });
   if (w.events.length > 80) w.events.shift();
 }
-export function spawn(w: World, kind: Enemy["kind"], x?: number, z?: number) {
+export function spawn(
+  w: World,
+  kind: Enemy["kind"],
+  x?: number,
+  z?: number,
+  form: BossForm = "crown",
+) {
   if (w.enemies.length >= LIMITS.enemies) return;
   const a = random(w) * Math.PI * 2;
   let ex = x ?? Math.sin(a) * 10,
-    ez = z ?? (random(w) < 0.5 ? -46 : 46);
-  if (blocked(ex, ez, ENEMIES[kind].radius, ENEMIES[kind].cruise)) {
+    ez = z ?? (random(w) < 0.5 ? -46 : 46) * MAP_SCALE;
+  if (
+    blocked(
+      ex,
+      ez,
+      ENEMIES[kind].radius,
+      ENEMIES[kind].cruise,
+      mapFor(w).blocks,
+    )
+  ) {
     ex = 0;
-    ez = -43;
+    ez = -43 * MAP_SCALE;
   }
-  const hp = ENEMIES[kind].hp * w.scale;
+  if (mapFor(w).blocks === CAVE_BLOCKS) {
+    const candidates = CAVE_NODES.filter(
+      (p) => !caveBlocked(p.x, p.z, ENEMIES[kind].radius, ENEMIES[kind].cruise),
+    );
+    const point =
+      x !== undefined && z !== undefined
+        ? candidates.reduce((a, b) =>
+            Math.hypot(a.x - x, a.z - z) < Math.hypot(b.x - x, b.z - z) ? a : b,
+          )
+        : candidates[Math.floor(random(w) * candidates.length)];
+    ex = point.x;
+    ez = point.z;
+  }
+  const hp = ENEMIES[kind].hp * w.scale * stageFor(w).hp;
   w.enemies.push({
     id: ++w.serial,
     kind,
@@ -349,11 +485,50 @@ export function spawn(w: World, kind: Enemy["kind"], x?: number, z?: number) {
     tx: 0,
     tz: 0,
     hurt: 0,
+    ...(kind === "boss" && form === "worm"
+      ? {
+          segments: Array.from({ length: 7 }, (_, i) => ({
+            x: ex,
+            y: 0,
+            z:
+              mapFor(w).blocks === CAVE_BLOCKS
+                ? ez
+                : Math.max(
+                    -49 * MAP_SCALE,
+                    Math.min(49 * MAP_SCALE, ez - (i + 1) * 2),
+                  ),
+          })),
+        }
+      : {}),
   });
 }
-function hurtPlayer(w: World, p: Player, damage: number) {
+// Separated boss entries and immediate escorts, all counted in this wave.
+function beginWave(w: World) {
+  const wave = stageFor(w).waves[w.wave - 1];
+  w.spawned = 0;
+  w.nextSpawn = w.time + wave.interval;
+  wave.bosses.forEach((form, i) => {
+    spawn(w, "boss", 0, [-35, 35, 0][i] * MAP_SCALE, form);
+    const boss = w.enemies[w.enemies.length - 1];
+    // More simultaneous threats, without multiplying the bullet-sponge duration.
+    boss.hp = boss.maxHp = boss.maxHp / Math.sqrt(wave.bosses.length);
+    boss.cool += i * 1.2;
+  });
+  for (let i = 0; i < Math.min(wave.guards, troopCount(wave)); i++) {
+    spawn(
+      w,
+      troopAt(wave, i),
+      (i % 2 ? 1 : -1) * 6 * MAP_SCALE,
+      (-38 + Math.floor(i / 2) * 22) * MAP_SCALE,
+    );
+    w.enemies[w.enemies.length - 1].active = false;
+    w.spawned++;
+  }
+}
+function hurtPlayer(w: World, p: Player, damage: number, heavy = false) {
   if (p.hp <= 0 || p.evade > 0) return;
-  p.hp = Math.max(0, p.hp - damage);
+  p.hp = Math.max(0, p.hp - damage * stageFor(w).damage);
+  if (heavy) p.heavyHit = HEAVY_HIT_DURATION;
   p.hurt = 0.2;
   p.safe = 0;
   if (!p.hp) {
@@ -361,15 +536,38 @@ function hurtPlayer(w: World, p: Player, damage: number) {
     event(w, { type: "down", x: p.x, z: p.z, y: 1 });
   }
 }
-function hurtEnemy(w: World, e: Enemy, damage: number, owner: string) {
+export function hurtEnemy(
+  w: World,
+  e: Enemy,
+  damage: number,
+  owner: string,
+  part = 0,
+) {
   if (e.hp <= 0) return;
-  e.hp -= damage;
+  e.active = true;
+  let impact = { x: e.x, y: eye(e), z: e.z };
+  if (e.segments) {
+    initWorm(e);
+    const node = wormNodes(e)[part];
+    if (!node || !node.partHp || node.partHp <= 0) return;
+    damage = Math.min(damage, node.partHp);
+    node.partHp -= damage;
+    impact = { x: node.x, y: node.y + (part === 0 ? 3 : 2), z: node.z };
+    if (node.partHp <= 0) {
+      e.fractured = true;
+      event(w, { type: "burst", radius: 2.2, ...impact, owner });
+      const next = wormNodes(e)[part + 1];
+      if (next) {
+        next.route = undefined;
+        next.heading = undefined;
+      }
+    }
+    e.hp = wormNodes(e).reduce((sum, n) => sum + Math.max(0, n.partHp ?? 0), 0);
+  } else e.hp -= damage;
   e.hurt = 0.15;
   event(w, {
     type: "hit",
-    x: e.x,
-    z: e.z,
-    y: eye(e),
+    ...impact,
     owner,
     amount: Math.round(damage),
   });
@@ -378,14 +576,19 @@ function hurtEnemy(w: World, e: Enemy, damage: number, owner: string) {
     w.waveKills++;
     const p = w.players.find((p) => p.id === owner);
     if (p) p.kills++;
-    event(w, { type: "kill", x: e.x, z: e.z, y: 1.2, owner });
-    if (random(w) < 0.09 && w.drops.length < 24)
+    event(w, { type: "kill", ...impact, owner });
+    if (random(w) < stageFor(w).dropRate && w.drops.length < 24)
       for (const p of w.players) {
         if (w.drops.length >= 24) break;
         const weapon = loot(w);
-        w.drops.push({ id: weapon.id, x: e.x, z: e.z, owner: p.id, weapon });
+        w.drops.push({
+          id: weapon.id,
+          x: impact.x,
+          z: impact.z,
+          owner: p.id,
+          weapon,
+        });
       }
-    if (e.kind === "boss") finish(w, true);
   }
 }
 export function finish(w: World, win: boolean, reason = "") {
@@ -403,6 +606,23 @@ export function finish(w: World, win: boolean, reason = "") {
 }
 // Where a shot has to pass to hit: the unit's own centre, lifted by how high it floats.
 export const eye = (e: Enemy) => e.y + ENEMIES[e.kind].aim;
+export const enemyBodies = (e: Enemy) =>
+  [
+    {
+      x: e.x,
+      y: eye(e),
+      z: e.z,
+      radius: ENEMIES[e.kind].radius,
+      part: 0,
+      partHp: e.partHp,
+    },
+    ...(e.segments ?? []).map((s, i) => ({
+      ...s,
+      y: s.y + 2,
+      radius: 2.2,
+      part: i + 1,
+    })),
+  ].filter((b) => b.partHp === undefined || b.partHp > 0);
 // Every enemy is slower than a walking player, so backing away while firing was
 // free. Distance now costs damage: holding ground is worth something.
 export function falloff(kind: Weapon["kind"], distance: number) {
@@ -414,14 +634,14 @@ export function falloff(kind: Weapon["kind"], distance: number) {
 export function fire(w: World, p: Player, i: Input) {
   const weapon = p.weapons[p.slot],
     def = stats(weapon);
-  if (p.reload > 0 || p.cool > 0 || p.ammo[p.slot] <= 0) return;
+  if (p.reload > 0 || p.cool > 0 || p.swapCd > 0 || p.ammo[p.slot] <= 0) return;
   p.ammo[p.slot]--;
   p.cool = def.interval;
   let yaw = i.yaw,
     pitch = i.pitch;
   // A small cone only bends an explicitly fired shot toward a visible enemy.
   const candidates = w.enemies
-    .filter((e) => e.hp > 0)
+    .filter((e) => e.hp > 0 && e.partHp !== 0)
     .map((e) => ({
       e,
       a: Math.atan2(e.x - p.x, -(e.z - p.z)),
@@ -436,13 +656,14 @@ export function fire(w: World, p: Player, i: Input) {
         // this the cone snaps a level shot up onto a flier, and altitude stops
         // being something the player has to answer for.
         Math.abs(eye(t.e) - 1.5) < 2 &&
-        visible(p, t.e),
+        visible(p, t.e, mapFor(w).blocks),
     )
     .sort((a, b) => a.d - b.d);
   if (candidates[0]) {
     yaw = candidates[0].a;
     pitch = Math.atan2(eye(candidates[0].e) - 1.5, candidates[0].d);
   }
+  const repelled = new Set<Enemy>();
   for (let j = 0; j < def.pellets; j++) {
     const ya = yaw + (random(w) - 0.5) * def.spread * 2,
       pi = pitch + (random(w) - 0.5) * def.spread;
@@ -463,9 +684,11 @@ export function fire(w: World, p: Player, i: Input) {
           owner: p.id,
           damage: def.damage,
           rocket: true,
+          chain: weapon.effect === "chain",
         });
       event(w, {
         type: "shot",
+        weapon: weapon.kind,
         x: p.x,
         y: 1.5,
         z: p.z,
@@ -476,32 +699,62 @@ export function fire(w: World, p: Player, i: Input) {
       });
       continue;
     }
-    let range = wallDistance(p.x, 1.5, p.z, dx, dy, dz, def.range);
+    let range = wallDistance(
+      p.x,
+      1.5,
+      p.z,
+      dx,
+      dy,
+      dz,
+      def.range,
+      mapFor(w).blocks,
+    );
     const hits = w.enemies
       .filter((e) => e.hp > 0)
       .map((e) => {
-        const ey = eye(e),
-          along = (e.x - p.x) * dx + (e.z - p.z) * dz + (ey - 1.5) * dy;
-        const distance = Math.hypot(
-          e.x - p.x - dx * along,
-          e.z - p.z - dz * along,
-          ey - 1.5 - dy * along,
-        );
-        return { e, along, distance };
+        const candidates = enemyBodies(e).map((body) => {
+          const ey = body.y,
+            along = (body.x - p.x) * dx + (body.z - p.z) * dz + (ey - 1.5) * dy;
+          const distance = Math.hypot(
+            body.x - p.x - dx * along,
+            body.z - p.z - dz * along,
+            ey - 1.5 - dy * along,
+          );
+          return { e, along, distance, radius: body.radius, part: body.part };
+        });
+        return candidates
+          .filter(
+            (h) => h.along > 0 && h.along < range && h.distance < h.radius,
+          )
+          .sort((a, b) => a.along - b.along)[0];
       })
-      .filter(
-        (h) =>
-          h.along > 0 &&
-          h.along < range &&
-          h.distance < ENEMIES[h.e.kind].radius,
-      )
+      .filter((h): h is NonNullable<typeof h> => !!h)
+      .filter((h) => h.along > 0 && h.along < range && h.distance < h.radius)
       .sort((a, b) => a.along - b.along)
-      .slice(0, weapon.effect === "pierce" ? 3 : 1);
-    for (const h of hits)
-      hurtEnemy(w, h.e, def.damage * falloff(weapon.kind, h.along), p.id);
+      .slice(
+        0,
+        weapon.kind === "shotgun" || weapon.effect === "pierce" ? 3 : 1,
+      );
+    for (const h of hits) {
+      hurtEnemy(
+        w,
+        h.e,
+        def.damage * falloff(weapon.kind, h.along),
+        p.id,
+        h.part,
+      );
+      if (
+        weapon.kind === "shotgun" &&
+        weapon.effect === "repel" &&
+        h.e.kind !== "boss" &&
+        Math.hypot(h.e.x - p.x, eye(h.e) - 1.5, h.e.z - p.z) <= 8
+      )
+        repelled.add(h.e);
+    }
     if (hits.length) range = hits[hits.length - 1].along;
     event(w, {
       type: "shot",
+      weapon: weapon.kind,
       x: p.x,
       z: p.z,
       y: 1.5,
@@ -510,6 +763,16 @@ export function fire(w: World, p: Player, i: Input) {
       ty: 1.5 + dy * range,
       owner: p.id,
     });
+  }
+  // Apply after all pellets, once per enemy per shot; do not push through walls.
+  for (const e of repelled) {
+    if (e.hp <= 0) continue;
+    const d = Math.hypot(e.x - p.x, e.z - p.z);
+    if (d < 0.001) continue;
+    const dx = ((e.x - p.x) / d) * 0.25,
+      dz = ((e.z - p.z) / d) * 0.25;
+    for (let n = 0; n < 12; n++)
+      move(e, dx, dz, ENEMIES[e.kind].radius * 0.65, mapFor(w).blocks);
   }
 }
 export function angle(n: number) {
@@ -529,8 +792,14 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     p.hurt = Math.max(0, p.hurt - dt);
     p.cool = Math.max(0, p.cool - dt);
     p.evadeCd = Math.max(0, p.evadeCd - dt);
-    p.swapCd = Math.max(0, p.swapCd - dt);
+    const wasEvading = p.evade > 0;
     p.evade = Math.max(0, p.evade - dt);
+    p.heavyHit = Math.max(0, (p.heavyHit ?? 0) - dt);
+    if (wasEvading && p.evade <= 0 && p.swapCd > 0)
+      p.swapResume = WEAPON_SWITCH_RESUME;
+    else if ((p.swapResume ?? 0) > 0)
+      p.swapResume = Math.max(0, p.swapResume! - dt);
+    else if (!wasEvading) p.swapCd = Math.max(0, p.swapCd - dt);
     if (p.hp <= 0) {
       continue;
     }
@@ -543,16 +812,17 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     if (i.swap && p.swapCd <= 0) {
       p.slot = 1 - p.slot;
       p.reload = 0;
-      p.swapCd = 0.4;
+      p.swapCd = WEAPON_SWITCH_DURATION;
+      p.swapResume = 0;
     }
     if (
       (i.reload || p.ammo[p.slot] === 0) &&
       p.reload <= 0 &&
       p.ammo[p.slot] < stats(p.weapons[p.slot]).mag
     )
-      p.reload = stats(p.weapons[p.slot]).reload;
+      p.reload = reloadDuration(p.weapons[p.slot], p.ammo[p.slot]);
     if (i.dodge && p.evadeCd <= 0) {
-      p.evade = 0.32;
+      p.evade = EVADE_DURATION;
       p.evadeCd = 2.2;
     }
     const norm = Math.max(1, Math.hypot(i.mx, i.mz)),
@@ -561,6 +831,8 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       p,
       ((i.mx * Math.cos(i.yaw) + i.mz * Math.sin(i.yaw)) / norm) * speed * dt,
       ((i.mx * Math.sin(i.yaw) - i.mz * Math.cos(i.yaw)) / norm) * speed * dt,
+      0.55,
+      mapFor(w).blocks,
     );
     if (i.fire) fire(w, p, i);
     for (const d of w.drops.filter(
@@ -579,7 +851,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
         a.connected &&
         inputs[a.id]?.revive &&
         Math.hypot(a.x - p.x, a.z - p.z) < 3.5 &&
-        visible(a, p),
+        visible(a, p, mapFor(w).blocks),
     );
     p.revive = aid ? p.revive + dt : 0;
     if (p.revive >= 2.5) {
@@ -594,86 +866,204 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     finish(w, false, "部隊が全員ダウンしました");
     return;
   }
-  const quota = WAVE_QUOTAS[w.wave] ?? 0;
+  const plan = stageFor(w);
+  const wave = plan.waves[w.wave - 1];
+  if (!wave) return;
   if (
-    w.wave <= 3 &&
-    w.spawned < quota &&
+    w.spawned < troopCount(wave) &&
     w.enemies.length < LIMITS.enemies &&
     w.time >= w.nextSpawn
   ) {
-    // Trial mix. Hornets stay out of wave 1 so the opening is still readable
-    // before the player has any reason to look up.
-    const roll = random(w);
-    spawn(
-      w,
-      roll < 0.2 && w.wave > 1 ? "hornet" : roll < 0.45 ? "spitter" : "crawler",
+    const kind = troopAt(wave, w.spawned);
+    const factory = w.enemies.find(
+      (e) => e.kind === "boss" && e.hp > 0 && foundryPhase(e) >= 2,
     );
+    // Existing wave budget only: fabrication relocates the scheduled unit.
+    if (factory && kind === "spitter") {
+      spawn(w, kind, factory.x + 5, factory.z);
+      factory.fabrication = 0.8;
+    } else spawn(w, kind);
     w.spawned++;
-    w.nextSpawn = w.time + 0.7;
+    w.nextSpawn = w.time + wave.interval;
   }
-  if (w.wave <= 3 && w.spawned >= quota && w.enemies.every((e) => e.hp <= 0)) {
+  if (w.spawned >= troopCount(wave) && w.enemies.every((e) => e.hp <= 0)) {
+    if (w.wave === plan.waves.length) {
+      finish(w, true);
+      return;
+    }
     w.waveClearAt ??= w.time;
   } else w.waveClearAt = null;
   if (w.waveClearAt !== null && w.time - w.waveClearAt >= WAVE_INTERVAL) {
     w.wave++;
     w.waveAt = w.time;
     w.waveClearAt = null;
-    w.spawned = 0;
     w.waveKills = 0;
     for (const p of living) p.hp = Math.min(160, p.hp + 45);
-    if (w.wave === 4) spawn(w, "boss", 0, -35);
+    beginWave(w);
   }
   for (const e of w.enemies) {
     if (e.hp <= 0) continue;
     e.hurt = Math.max(0, e.hurt - dt);
-    const t = living.reduce((a, b) =>
-      Math.hypot(a.x - e.x, a.z - e.z) < Math.hypot(b.x - e.x, b.z - e.z)
-        ? a
-        : b,
-    );
+    const t = selectStructureTarget(e, living, (p) =>
+      visible(e, p, mapFor(w).blocks),
+    )!;
+    if (e.wind <= 0) e.targetId = t.id;
+    if (e.kind === "boss") {
+      e.phase = foundryPhase(e);
+      e.fabrication = Math.max(0, (e.fabrication ?? 0) - dt);
+    }
     const d = Math.hypot(t.x - e.x, t.z - e.z),
       def = ENEMIES[e.kind];
+    if (e.active === false) {
+      if (
+        !living.some(
+          (p) =>
+            Math.hypot(p.x - e.x, p.z - e.z) < 18 &&
+            visible(e, p, mapFor(w).blocks),
+        )
+      )
+        continue;
+      e.active = true;
+    }
+    if (e.segments) {
+      moveWorm(w, e, dt);
+      continue;
+    }
+    if (e.kind === "crawler") {
+      e.lungeWait = Math.max(0, (e.lungeWait ?? 0) - dt);
+      e.lunge = Math.max(0, (e.lunge ?? 0) - dt);
+    }
     e.cool -= dt;
+    const special = specialMotion(w, e, t, dt);
     if (e.wind > 0) {
+      if (e.kind === "hornet" && e.wind > 0.4) {
+        const locked = living.find((p) => p.id === e.targetId);
+        if (locked) {
+          e.tx = locked.x;
+          e.tz = locked.z;
+        }
+      }
       e.wind -= dt;
+      if (e.kind === "crawler" && e.wind < 1e-9) e.wind = 0;
       if (e.wind <= 0) {
         if (e.kind === "boss") {
-          event(w, { type: "burst", x: e.tx, z: e.tz, y: 0.1 });
+          event(w, { type: "burst", radius: 7, x: e.tx, z: e.tz, y: 0.1 });
           for (const p of living)
-            if (Math.hypot(p.x - e.tx, p.z - e.tz) < 7 && visible(e, p))
-              hurtPlayer(w, p, def.damage);
+            if (
+              Math.hypot(p.x - e.tx, p.z - e.tz) < 7 &&
+              visible(e, p, mapFor(w).blocks)
+            )
+              hurtPlayer(w, p, def.damage, true);
           e.cool = 3;
-        } else if (e.kind === "spitter") {
+        } else if (
+          e.kind === "spitter" ||
+          (e.kind === "ant" && d > 2.5) ||
+          e.kind === "hornet"
+        ) {
           const dist = Math.hypot(e.tx - e.x, e.tz - e.z);
-          if (w.projectiles.length < 100)
-            w.projectiles.push({
-              id: ++w.serial,
-              x: e.x,
-              z: e.z,
-              y: 1.1,
-              dx: ((e.tx - e.x) / dist) * 13,
-              dz: ((e.tz - e.z) / dist) * 13,
-              dy: 0,
-              life: 4,
-              owner: "enemy",
-              damage: def.damage,
-              rocket: false,
-            });
+          for (const spread of e.kind === "ant" ? [-0.16, 0, 0.16] : [0]) {
+            const angle = Math.atan2(e.tx - e.x, e.tz - e.z) + spread;
+            const speed = e.kind === "hornet" ? 19 : 13;
+            const height = eye(e);
+            const length = Math.max(1e-8, Math.hypot(dist, 1.2 - height));
+            const flight = Math.max(0.3, dist / speed);
+            const gravity = e.kind === "ant" ? 12 : 0;
+            if (w.projectiles.length < 100)
+              w.projectiles.push({
+                id: ++w.serial,
+                x: e.x,
+                z: e.z,
+                y: height,
+                dx:
+                  e.kind === "hornet"
+                    ? ((e.tx - e.x) / length) * speed
+                    : Math.sin(angle) * speed,
+                dz:
+                  e.kind === "hornet"
+                    ? ((e.tz - e.z) / length) * speed
+                    : Math.cos(angle) * speed,
+                // Cross the player's body at the aimed position, then fall to
+                // the ground beyond it if they move away. Aiming at y=0 made
+                // short/medium-range volleys pass underneath a standing player.
+                dy:
+                  e.kind === "hornet"
+                    ? ((1.2 - height) / length) * speed
+                    : gravity
+                      ? (1.2 - height) / flight + 0.5 * gravity * flight
+                      : ((1.2 - height) / Math.max(1, dist)) * speed,
+                gravity,
+                ...(e.kind === "hornet" ? { style: "stake" as const } : {}),
+                life: 4,
+                owner: "enemy",
+                damage: def.damage,
+                rocket: false,
+              });
+          }
           e.cool = 2.7;
+        } else if (e.kind === "crawler") {
+          const ax = e.tx - e.x,
+            az = e.tz - e.z;
+          const length = Math.max(0.001, Math.hypot(ax, az));
+          event(w, {
+            type: "burst",
+            x: e.x + (ax / length) * 1.25,
+            z: e.z + (az / length) * 1.25,
+            y: 0.3,
+            radius: 1.25,
+          });
+          for (const p of living) {
+            const px = p.x - e.x,
+              pz = p.z - e.z,
+              pd = Math.hypot(px, pz);
+            if (
+              pd < 2.5 &&
+              (px * ax + pz * az) / (Math.max(0.001, pd) * length) >= 0.5 &&
+              visible(e, p, mapFor(w).blocks)
+            )
+              hurtPlayer(w, p, def.damage);
+          }
+          e.cool = 1.2;
         } else {
-          if (d < 2.5) hurtPlayer(w, t, def.damage);
+          if (d < 2.5 && e.y < 2) hurtPlayer(w, t, def.damage);
           e.cool = 1.2;
         }
       }
       continue;
     }
-    const stop = e.kind === "spitter" ? 17 : e.kind === "boss" ? 10 : 2;
-    if (d > stop) {
+    const stop =
+      mapFor(w).blocks === CAVE_BLOCKS && !visible(e, t, mapFor(w).blocks)
+        ? 0
+        : e.kind === "spitter"
+          ? 17
+          : e.kind === "boss"
+            ? 10
+            : 2;
+    if ((d > stop || (e.kind === "spitter" && d < 16)) && !special) {
+      const direction = pursuitDirection(w, e, t);
+      if (e.kind === "spitter" && d < 16) {
+        direction.x *= -1;
+        direction.z *= -1;
+      }
+      if (e.kind === "crawler") {
+        if (!e.lungeWait && d < 10 && d > 3) {
+          e.lunge = 0.35;
+          e.lungeWait = 2;
+        }
+        if ((e.lunge ?? 0) > 0) {
+          direction.x *= 2.2;
+          direction.z *= 2.2;
+        }
+      }
+      if (e.kind === "hornet" && d < 9) {
+        const dx = direction.x;
+        direction.x = -direction.z;
+        direction.z = dx;
+      }
       if (def.cruise) {
         // Straight line, but only into space it has actually climbed above.
-        const nx = e.x + ((t.x - e.x) / d) * def.speed * dt,
-          nz = e.z + ((t.z - e.z) / d) * def.speed * dt;
-        if (!blocked(nx, nz, def.radius, e.y)) {
+        const nx = e.x + direction.x * def.speed * dt,
+          nz = e.z + direction.z * def.speed * dt;
+        if (!blocked(nx, nz, def.radius, e.y, mapFor(w).blocks)) {
           e.x = nx;
           e.z = nz;
         }
@@ -681,48 +1071,89 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
         const old = { x: e.x, z: e.z };
         move(
           e,
-          ((t.x - e.x) / d) * def.speed * dt,
-          ((t.z - e.z) / d) * def.speed * dt,
+          direction.x * def.speed * dt,
+          direction.z * def.speed * dt,
           def.radius * 0.65,
+          mapFor(w).blocks,
         );
         if (Math.hypot(e.x - old.x, e.z - old.z) < 0.01)
-          move(e, Math.sign(-e.x || 1) * def.speed * dt, 0, def.radius * 0.65);
+          move(
+            e,
+            Math.sign(-e.x || 1) * def.speed * dt,
+            0,
+            def.radius * 0.65,
+            mapFor(w).blocks,
+          );
       }
     }
-    // Dropping to strike and climbing back out is what makes altitude something
-    // the player has to read, rather than a constant the map could ignore.
-    if (def.cruise) {
-      // Climb to clear whatever is ahead, otherwise drop to strike and settle
-      // back to cruising height.
+    // Choose flight height independently of target proximity.
+    if (def.cruise && !special) {
+      // Obstacle clearance takes priority over the chosen flight height.
       const ahead = Math.max(
-        roofHeight(e.x, e.z, def.radius),
+        roofHeight(e.x, e.z, def.radius, mapFor(w).blocks),
         roofHeight(
-          e.x + ((t.x - e.x) / d) * 3,
-          e.z + ((t.z - e.z) / d) * 3,
+          e.x + ((t.x - e.x) / Math.max(0.001, d)) * 3,
+          e.z + ((t.z - e.z) / Math.max(0.001, d)) * 3,
           def.radius,
+          mapFor(w).blocks,
         ),
       );
-      const want = Math.max(
+      if (w.time >= (e.flightUntil ?? 0)) {
+        const cycle = Math.floor(w.time / 3.5);
+        let flightSeed =
+          Math.imul(e.id + 31, 374761393) ^ Math.imul(cycle + 7, 668265263);
+        flightSeed = Math.imul(flightSeed ^ (flightSeed >>> 13), 1274126177);
+        const choice = ((flightSeed ^ (flightSeed >>> 16)) >>> 0) / 4294967296;
+        e.flightHeight = 4.5 + choice * 7;
+        e.flightUntil = w.time + 3.5;
+      }
+      let want = Math.max(
         ahead ? ahead + 1.5 : 0,
-        d < 7 && !ahead ? 1.2 : def.cruise,
+        e.flightHeight ?? def.cruise,
       );
+      if (mapFor(w).blocks === CAVE_BLOCKS) want = Math.min(want, 5);
       const step = 9 * dt;
       e.y += Math.max(-step, Math.min(step, want - e.y));
     }
     if (
       e.cool <= 0 &&
-      d < (e.kind === "boss" ? 28 : e.kind === "spitter" ? 33 : 2.6) &&
-      visible(e, t)
+      d <
+        (e.kind === "boss"
+          ? 28
+          : e.kind === "spitter"
+            ? 33
+            : e.kind === "ant"
+              ? 18
+              : e.kind === "hornet"
+                ? 24
+                : 2.6) &&
+      (e.kind === "hornet"
+        ? rayVisible(e, t, mapFor(w).blocks)
+        : visible(e, t, mapFor(w).blocks))
     ) {
-      e.wind = e.kind === "boss" ? 1.8 : e.kind === "spitter" ? 0.8 : 0.45;
+      e.wind =
+        e.kind === "boss"
+          ? STRUCTURE_TIMING.boss.wind
+          : e.kind === "hornet"
+            ? STRUCTURE_TIMING.hornet.wind
+            : e.kind === "spitter" || e.kind === "ant"
+              ? 0.8
+              : STRUCTURE_TIMING.crawler.wind;
       e.tx = t.x;
       e.tz = t.z;
+      if (e.kind === "boss") {
+        const point = clusterPoint(living, 7, (p) =>
+          visible(e, p, mapFor(w).blocks),
+        )!;
+        e.tx = point.x;
+        e.tz = point.z;
+      }
     }
   }
   for (const q of w.projectiles) {
     const dx = q.dx * dt,
       dz = q.dz * dt,
-      dy = q.dy * dt,
+      dy = q.dy * dt - 0.5 * (q.gravity ?? 0) * dt * dt,
       dist = Math.hypot(dx, dy, dz);
     const wall = wallDistance(
       q.x,
@@ -732,38 +1163,99 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       dy / dist,
       dz / dist,
       dist,
+      mapFor(w).blocks,
     );
     q.x += dx * Math.min(1, wall / dist);
     q.z += dz * Math.min(1, wall / dist);
     q.y += dy * Math.min(1, wall / dist);
+    q.dy -= (q.gravity ?? 0) * dt;
     q.life -= dt;
-    let hit = wall < dist || q.y < 0 || q.life <= 0;
+    let hit = wall < dist || q.y <= 0 || q.life <= 0;
+    q.y = Math.max(0, q.y);
     if (q.rocket) {
-      hit ||= w.enemies.some(
-        (e) =>
-          e.hp > 0 &&
-          Math.hypot(
-            e.x - q.x,
-            e.z - q.z,
-            (e.kind === "boss" ? 3 : 1.4) - q.y,
-          ) < ENEMIES[e.kind].radius,
-      );
+      const direct = !hit
+        ? w.enemies.find(
+            (e) =>
+              e.hp > 0 &&
+              enemyBodies(e).some(
+                (b) => Math.hypot(b.x - q.x, b.z - q.z, b.y - q.y) < b.radius,
+              ),
+          )
+        : undefined;
+      hit ||= !!direct;
       if (hit) {
-        event(w, { type: "burst", x: q.x, z: q.z, y: q.y, owner: q.owner });
+        event(w, {
+          type: "burst",
+          radius: 6.5,
+          x: q.x,
+          z: q.z,
+          y: q.y,
+          owner: q.owner,
+        });
         for (const e of w.enemies) {
-          const d = Math.hypot(e.x - q.x, e.z - q.z);
-          if (d < 6.5 && visible(q, e))
-            hurtEnemy(w, e, q.damage * (1 - d / 9), q.owner);
+          for (const b of enemyBodies(e)) {
+            const d = Math.hypot(
+              b.x - q.x,
+              b.z - q.z,
+              e.segments ? b.y - q.y : 0,
+            );
+            const clear = e.segments
+              ? d < 0.01 ||
+                wallDistance(
+                  q.x,
+                  q.y,
+                  q.z,
+                  (b.x - q.x) / d,
+                  (b.y - q.y) / d,
+                  (b.z - q.z) / d,
+                  d,
+                  mapFor(w).blocks,
+                ) >=
+                  d - 0.01
+              : visible(q, b, mapFor(w).blocks);
+            if (d < 6.5 && clear)
+              hurtEnemy(w, e, q.damage * (1 - d / 9), q.owner, b.part);
+          }
+        }
+        // Only the directly hit, defeated normal enemy can trigger one burst.
+        // Damage from this secondary burst never enters this trigger again.
+        if (
+          q.chain &&
+          direct &&
+          direct.hp <= 0 &&
+          direct.kind !== "boss" &&
+          w.phase === "battle"
+        ) {
+          event(w, {
+            type: "burst",
+            radius: 3.5,
+            x: direct.x,
+            z: direct.z,
+            y: eye(direct),
+            owner: q.owner,
+          });
+          for (const e of w.enemies) {
+            const d = Math.hypot(
+              e.x - direct.x,
+              e.z - direct.z,
+              eye(e) - eye(direct),
+            );
+            if (e.hp > 0 && d < 3.5 && visible(direct, e, mapFor(w).blocks))
+              hurtEnemy(w, e, q.damage * 0.5 * (1 - d / 7), q.owner);
+          }
         }
       }
     } else {
       for (const p of living)
-        if (Math.hypot(p.x - q.x, p.z - q.z) < 1) {
+        if (!hit && Math.hypot(p.x - q.x, p.z - q.z, 1.2 - q.y) < 1) {
           hurtPlayer(w, p, q.damage);
           hit = true;
         }
     }
-    if (hit) q.life = -1;
+    if (hit) {
+      if (!q.rocket) event(w, { type: "acid", x: q.x, y: q.y, z: q.z });
+      q.life = -1;
+    }
   }
   w.projectiles = w.projectiles.filter((q) => q.life > 0);
   w.enemies = w.enemies.filter((e) => e.hp > 0);
