@@ -1,0 +1,176 @@
+{
+  "before": {
+    "BackWeaponSocket": {
+      "type": "nondeforming bone",
+      "parent": "Chest",
+      "localMatrix": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.18000000715255737
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.1499999761581421
+        ],
+        [
+          0.0,
+          -1.0,
+          0.0,
+          0.46000000834465027
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "armatureMatrix": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.18000000715255737
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          -0.46000000834465027
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          1.399999976158142
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "BackWeaponSocket_2": {
+      "type": "nondeforming bone",
+      "parent": "Chest",
+      "localMatrix": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.3700000047683716
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.1499999761581421
+        ],
+        [
+          0.0,
+          -1.0,
+          0.0,
+          0.3799999952316284
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "armatureMatrix": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.3700000047683716
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          -0.3799999952316284
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          1.399999976158142
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    }
+  },
+  "weaponOffsetInBlender": "identity; source weapon mesh origin is the grip attachment point",
+  "runtimeOffset": "rotation X +pi/2 cancels separately exported weapon GLB axis conversion; not a translation",
+  "bodyWeightsOnSockets": [],
+  "constraints": 0,
+  "drivers": 0,
+  "cause": "Back socket translations in original action/rest arrangement, not a duplicated weapon translation",
+  "poseSocketMatrices": {
+    "BackWeaponSocket": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.18000000715255737
+      ],
+      [
+        0.0,
+        -1.3435884227419592e-07,
+        1.0,
+        -0.46000000834465027
+      ],
+      [
+        0.0,
+        -1.0,
+        -1.3435884227419592e-07,
+        1.399999976158142
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "BackWeaponSocket_2": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.3700000047683716
+      ],
+      [
+        0.0,
+        -1.3435884227419592e-07,
+        1.0,
+        -0.3799999952316284
+      ],
+      [
+        0.0,
+        -1.0,
+        -1.3435884227419592e-07,
+        1.399999976158142
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  }
+}

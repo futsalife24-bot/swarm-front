@@ -1,0 +1,52 @@
+{
+  "unchangedBoneBinds": 56,
+  "changedBoneBinds": [
+    "BackWeaponSocket"
+  ],
+  "changedMeshes": [
+    "Study_Body",
+    "Trial_BackMount_Rifle"
+  ],
+  "otherMeshGeometryWeightsUnchanged": true,
+  "original15ActionsUnchanged": true,
+  "events": [
+    {
+      "action": "Trial_Switch_1_to_2",
+      "frame": 27.0,
+      "positionMeters": 9.987426697605651e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "frame": 36.0,
+      "positionMeters": 1.5365403810637888e-07,
+      "angleDegrees": 0.0
+    },
+    {
+      "action": "Trial_Switch_2_to_1",
+      "frame": 27.0,
+      "positionMeters": 1.8896007703962114e-07,
+      "angleDegrees": 0.0
+    },
+    {
+      "action": "Trial_Switch_2_to_1",
+      "frame": 36.0,
+      "positionMeters": 1.0523689848017723e-07,
+      "angleDegrees": 0.0
+    }
+  ],
+  "maximumScaleError": 1.1920928955078125e-06,
+  "maximumWristGripError": 8.71049031357496e-07,
+  "minimumAdjacentQuaternionDot": 0.9037119150161743,
+  "constraints": 0,
+  "drivers": 0,
+  "largestRotationStep": {
+    "action": "Trial_Switch_2_to_1",
+    "frame": 40.0,
+    "bone": "Hand_R",
+    "degrees": 50.69929082902843
+  },
+  "bodyCoordinatesFacesUnchanged": true,
+  "bodyMaximumWeightSumError": 1.4901161193847656e-07,
+  "bodyMaximumInfluences": 4
+}

@@ -1,0 +1,56 @@
+[
+  {
+    "width": 1280,
+    "height": 720,
+    "loaded": [
+      {
+        "url": "http://127.0.0.1:5199/assets/enemies/pleat_motion_v4.glb",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:5199/assets/enemies/hound_motion_v1.glb",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:5199/assets/enemies/ray_motion_v1.glb",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:5199/assets/enemies/foundry_zero_motion_v1.glb",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:5199/assets/enemies/prism_motion_v1.glb",
+        "status": 200
+      }
+    ],
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "loaded": [
+      {
+        "url": "http://127.0.0.1:5199/assets/enemies/pleat_motion_v4.glb",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:5199/assets/enemies/hound_motion_v1.glb",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:5199/assets/enemies/prism_motion_v1.glb",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:5199/assets/enemies/ray_motion_v1.glb",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:5199/assets/enemies/foundry_zero_motion_v1.glb",
+        "status": 200
+      }
+    ],
+    "errors": []
+  }
+]

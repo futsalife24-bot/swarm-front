@@ -1,0 +1,8 @@
+{
+  "head": "2be699f160c83d641fb68bb1304e4da8059920dc",
+  "source": "src/client/hound-motion.ts",
+  "sourceSHA256": "6dc1ebc865e5965e5cc20f0c62704be61c4da93ffbb3750d5f35c44b283ee293",
+  "candidateSHA256": "98833376a646c73f9a18ac6b4b6a2ca7e587d52db007efe4fd87ff7d7b0724f4",
+  "allowedDifference": "GLTFLoader loadAsync URL, first-line candidate comment, line-ending normalization. No behavioral difference beyond URL.",
+  "identicalAfterDeclaredNormalization": true
+}

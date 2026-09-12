@@ -1,0 +1,132 @@
+[
+  {
+    "name": "approved-bind-change.json",
+    "bytes": 1777,
+    "sha256": "973743F0550B0D582C38E3CCB67349B6788FDE72CB4ABF951A3E9D26A9A84072"
+  },
+  {
+    "name": "axilla-weight-change.json",
+    "bytes": 518,
+    "sha256": "A193FDB40B0E80AD05209EFF7E8AFCC6513E6AC0D4679AAF674035D2F5789BE0"
+  },
+  {
+    "name": "build_switch.py",
+    "bytes": 16247,
+    "sha256": "C96E3807E20143E9FD5D2EA422764BA89708F8F5D93595F454B3CD95E29AB349"
+  },
+  {
+    "name": "check_switch_clearance.py",
+    "bytes": 2949,
+    "sha256": "58B99D0E25B899DF60C7A60E4C2E7DA1F9A1DC77DF86B328DB9E2ECA589FECBE"
+  },
+  {
+    "name": "clearance-screen.json",
+    "bytes": 2651,
+    "sha256": "A776FAC67380DAC1C7DCFF5FB5BE7D22427C175C18F955E24EEF1206599E586F"
+  },
+  {
+    "name": "encode_switch.py",
+    "bytes": 1476,
+    "sha256": "B64D1E0CDE19BA9ED3D9685A4054318752630982AEA34059C3CA8E2424C531C7"
+  },
+  {
+    "name": "make_stage3_boards.py",
+    "bytes": 1610,
+    "sha256": "B5B27139AB36A24A7ACF9E8892E44138D3F556DA8C19007E8D9B3A5435F4F1D4"
+  },
+  {
+    "name": "make_video_frames.py",
+    "bytes": 975,
+    "sha256": "A3A54DF36907014FCC7DA78F39C99C8C944F333E809806278C6C07DEE8D523C9"
+  },
+  {
+    "name": "mount-change-approval.md",
+    "bytes": 4198,
+    "sha256": "C6767ED14CCD6661C0063864F4E3038A23903FD188A72A15D4203FB6D0A40F24"
+  },
+  {
+    "name": "P3_01_mount.jpg",
+    "bytes": 143980,
+    "sha256": "B36F9C9C689C8BEDACC20B4FA5262D3822383D37B81E4BF9369D55E7545B0CDC"
+  },
+  {
+    "name": "P3_02_grip.jpg",
+    "bytes": 132691,
+    "sha256": "D902CBFD6831F7DAF8B1F6735522905BB2DC27BC3B6E27BFF2A4E8D0F8971C6F"
+  },
+  {
+    "name": "P3_03_tuck_support.jpg",
+    "bytes": 115003,
+    "sha256": "F67EE947546AD372AC9A6296EDC9E53075857703F1124CB508CCC0EE3F717145"
+  },
+  {
+    "name": "P3_04_events_1_to_2.jpg",
+    "bytes": 233038,
+    "sha256": "447048530AC9AE829D20083CEC1AB7F474E33ED9950D2E2637952666DD6C2B85"
+  },
+  {
+    "name": "P3_04_events_2_to_1.jpg",
+    "bytes": 233313,
+    "sha256": "B93DE5F08919305FA823BCE08EADFB56FCD9D855F90097B5BB51CF236EEBE79C"
+  },
+  {
+    "name": "P3_1_to_2_normal.mp4",
+    "bytes": 392932,
+    "sha256": "E9373DB0CD33DF4E270258527A5FE8521EC8BB08DCE997214A26B47FDF1C4A28"
+  },
+  {
+    "name": "P3_1_to_2_slow25.mp4",
+    "bytes": 296821,
+    "sha256": "5B0DB3358E6B72E2F7687706D67C8407DAC68F0BCC3A0515867EDCF88436767F"
+  },
+  {
+    "name": "P3_2_to_1_normal.mp4",
+    "bytes": 395505,
+    "sha256": "42353104DEC5A28330EEDB126FCDE318440C737883E348E9116A3B10453F2DCD"
+  },
+  {
+    "name": "P3_2_to_1_slow25.mp4",
+    "bytes": 298837,
+    "sha256": "C730545A057CB9AA2F3BC461029F02A913F6FCCC8CC0E55B0B790E4D8656C257"
+  },
+  {
+    "name": "README.md",
+    "bytes": 4297,
+    "sha256": "799AD7196BC70FEA737673FBF20DE6C6A8106FAFF1FF4FC0BBB6DC80C5A56D18"
+  },
+  {
+    "name": "render_mount_checks.py",
+    "bytes": 2856,
+    "sha256": "FC252FE3103C786366253D003078FB9626FE95595E2907C409CB3BCFD943F450"
+  },
+  {
+    "name": "render_switch.py",
+    "bytes": 2430,
+    "sha256": "BC1B075C342679E35D21087F6CA42BB89B495C724E1F9F32B2A9AF953F0BA31F"
+  },
+  {
+    "name": "restore_axilla_weights.py",
+    "bytes": 3092,
+    "sha256": "C2B8F513BF8585B872ED6E7EA8578A64F92E260B266161134850C6FAF6E06EEB"
+  },
+  {
+    "name": "switch-events.json",
+    "bytes": 1638,
+    "sha256": "AC246B5E1E7A64A92A21E86753183418737EADC973F1E43DDA0910B03F4E48D9"
+  },
+  {
+    "name": "switch-validation.json",
+    "bytes": 1346,
+    "sha256": "440F5F34CF26A5319F6D82F866E60FDD03C50FF46D56E161614A715446F9506C"
+  },
+  {
+    "name": "trooper_stage3_animated.blend",
+    "bytes": 7893272,
+    "sha256": "626A308CF61D940DB3B0E6885D14ABB9812BA5B5EF802918A6CC8DD7FF0E1771"
+  },
+  {
+    "name": "validate_switch.py",
+    "bytes": 4368,
+    "sha256": "CF3D130B144EB5D5A913E4C935C073D1F8597F5BCB3F2339AD9811B8B776E09F"
+  }
+]

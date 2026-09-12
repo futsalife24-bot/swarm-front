@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HOUND / Motion Review</title><link rel="icon" href="data:,">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101d28;color:#dae9ec;font:14px system-ui}canvas{display:block;width:100vw;height:100vh;touch-action:none}header{position:fixed;top:16px;left:20px;right:20px;display:flex;gap:9px;align-items:center;flex-wrap:wrap}strong{letter-spacing:.12em;margin-right:12px}button,select{background:#203643;color:#e9f7f8;border:1px solid #587482;border-radius:5px;padding:8px 12px;cursor:pointer}button.active{border-color:#5df4ff;color:#5df4ff}footer{position:fixed;bottom:12px;left:20px;right:20px;display:flex;justify-content:space-between;gap:10px;color:#c5d8df;font-size:12px;pointer-events:none}#phase{position:fixed;left:20px;top:100px;color:#65f1ff;font-weight:600}.error{color:#ffb5ae}@media(max-height:450px){header{top:8px;left:12px;gap:5px;font-size:11px}button,select{padding:5px 7px}#phase{top:67px;left:12px;font-size:12px}footer{left:12px;bottom:6px;font-size:10px}}
+</style>
+<canvas></canvas><header><strong>HOUND / MOTION</strong><button data-clip="Idle">待機</button><button data-clip="Locomotion">移動</button><button data-clip="Lunge">攻撃</button><button id="sequence">3動作</button><button id="pause">一時停止</button><select id="view"><option value="oblique">斜め</option><option value="front">正面</option><option value="side">側面</option><option value="rear">背面</option><option value="game">ゲーム距離</option></select><select id="count"><option>1</option><option>10</option><option>40</option></select><select id="speed"><option value="1">1×</option><option value="0.5">0.5×</option><option value="2">2×</option></select></header>
+<div id="phase">読み込み中</div><footer><span>ドラッグで回転 · ピンチで拡大 · 通常プレイへの正式置換前</span><span id="metrics"></span></footer>
+<script type="module">
+import * as T from 'three';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {loadHoundMotion,HoundMotionBatch} from '/src/client/hound-motion.ts';
+const canvas=document.querySelector('canvas'),renderer=new T.WebGLRenderer({canvas,antialias:true,preserveDrawingBuffer:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);renderer.setClearColor(0x101d28);renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;
+const scene=new T.Scene();scene.fog=new T.Fog(0x101d28,25,65);scene.add(new T.HemisphereLight(0xcfeaff,0x36494f,2.3));
+const key=new T.DirectionalLight(0xffeedc,3.5);key.position.set(-4,7,-5);scene.add(key);
+const rim=new T.DirectionalLight(0x58ddeb,2.3);rim.position.set(4,3,5);scene.add(rim);
+const grid=new T.GridHelper(70,70,0x354c59,0x1b303d);grid.position.y=-.003;scene.add(grid);
+const floor=new T.Mesh(new T.PlaneGeometry(120,120),new T.MeshStandardMaterial({color:0x162734,roughness:.95}));floor.rotation.x=-Math.PI/2;floor.position.y=-.009;scene.add(floor);
+const camera=new T.PerspectiveCamera(37,innerWidth/innerHeight,.05,200),controls=new OrbitControls(camera,canvas);controls.target.set(0,1.05,0);controls.enableDamping=false;controls.minDistance=2.8;controls.maxDistance=55;controls.maxPolarAngle=Math.PI*.49;
+let batch,asset,clip='Idle',time=0,playing=true,count=1,speed=1,sequence=false,view='oblique';const matrix=new T.Matrix4();
+function setView(name){view=name;let p={oblique:[5,3.3,-6],front:[0,1.8,-8],side:[8,2,0],rear:[0,2,8],game:[.8,3,-13]}[name];if(count>1)p=[14,14,-19];camera.position.fromArray(p);controls.target.set(0,count>1?0:1.05,count>1?8:0);controls.update();}
+function draw(t=time){if(!batch)return;time=t;let mode=clip,local=t;if(sequence){const tt=t%12;if(tt<4){mode='Idle';local=tt}else if(tt<8){mode='Locomotion';local=tt-4}else{mode='Lunge';local=(tt-8)%1.6;}}
+ for(let i=0;i<count;i++){matrix.makeTranslation(count===1?0:(i%8-3.5)*3.1,0,count===1?0:Math.floor(i/8)*4.3);batch.setTransform(i,matrix);batch.setPose(i,mode,mode==='Lunge'?Math.min(1.2,local%(sequence?1.6:1.8)):local+i*.117);}
+ batch.finish(count);renderer.render(scene,camera);
+ document.querySelector('#phase').textContent=mode==='Lunge'?(local%1.8<.45?'攻撃 / 0.45秒の予兆':local%1.8<.69?'攻撃 / 衝撃動作':'攻撃 / 復帰'):mode==='Idle'?'待機 / 独立した安定化動作':'移動 / 前脚の引き込みと後脚の支持';
+ document.querySelector('#metrics').textContent=`${count}体 · HOUND 4 draw calls`;
+}
+function select(name){clip=name;sequence=false;time=0;draw();document.querySelectorAll('[data-clip]').forEach(b=>b.classList.toggle('active',b.dataset.clip===name));}
+document.querySelectorAll('[data-clip]').forEach(b=>b.onclick=()=>select(b.dataset.clip));document.querySelector('#sequence').onclick=()=>{sequence=true;time=0;};document.querySelector('#pause').onclick=()=>{playing=!playing;document.querySelector('#pause').textContent=playing?'一時停止':'再生';};
+document.querySelector('#view').onchange=e=>setView(e.target.value);document.querySelector('#count').onchange=e=>{count=+e.target.value;setView(view);draw();};document.querySelector('#speed').onchange=e=>speed=+e.target.value;
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);draw();});
+try{asset=await loadHoundMotion();batch=new HoundMotionBatch(asset,80);scene.add(batch.group);setView(view);select('Idle');window.houndMotion={asset,batch,scene,camera,renderer,draw,select,setView,setCount(n){count=n;setView(view);draw()},setPlaying(v){playing=v},setSequence(v){sequence=v;time=0},get time(){return time},ready:true};let last=performance.now();function loop(now){const dt=Math.min(.1,(now-last)/1000);last=now;if(playing)time+=dt*speed;draw();requestAnimationFrame(loop)}requestAnimationFrame(loop);}catch(e){document.querySelector('#phase').textContent='読込失敗: '+String(e);document.querySelector('#phase').className='error';window.houndMotion={error:String(e)};throw e;}
+</script></html>

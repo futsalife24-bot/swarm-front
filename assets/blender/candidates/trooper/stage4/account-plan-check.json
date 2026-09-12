@@ -1,0 +1,9 @@
+{
+  "workers/account-settings": {
+    "default_usage_model": "standard",
+    "green_compute": false
+  },
+  "subscriptions": {
+    "httpStatus": 403
+  }
+}

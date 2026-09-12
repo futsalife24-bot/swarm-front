@@ -1,0 +1,187 @@
+{
+  "originalActionsPreserved": {
+    "Dodge_Roll": "20d3b6064a28fb7a85acff1633f1fb4b757f74d2dae31fcff6a416597c9926cd",
+    "Fire_Rifle": "f49eb6cb9bb22cdab73eac19c5e86df9b5a423da833955efa5890dc9771eeb15",
+    "Fire_Rocket": "a7f2a7837e523be7bf291d9b3a2d5085da3f14fca1744af8f85a503a0305362f",
+    "Fire_Shotgun": "cafa6720c73b247b744c90a56e08537656bd86057838fe42f769fedf98a562f3",
+    "Hit_Heavy": "02d0b4c2bfecfc92c77c611195d8e5f48ea1a296bd15dd31fd0f91ca08258985",
+    "Idle": "485116063efac26c4b108c5a7635d968b178d244bb14c9ba365603399f4e3440",
+    "Run": "dd6f3398248ccc2840d0ab704888e76f3ee92cb750f2a522078b5394bedf29fb",
+    "Run_Backward": "5cd821b4f5ed860832ee2feea0a9707c017f6228df3a760be2db3190b3e0dce1",
+    "Run_Backward_Rocket": "7e07a4f491d58b062cf6621f144806bb2dc43b6cac8bc87e61def987acf1a34c",
+    "Run_Rocket": "aaa62158e63a5944eec26725c9e68700fc4e99833f30a5d4be21354cf6aed7e5",
+    "Switch_1_to_2": "8a4ffd24519e3253da1325338d2cac320addc49b027a9197b12aeb3db0e2570b",
+    "Switch_2_to_1": "bf904a17ab1c0ed44f50377e7910164d68b1b36cf9156f6a440bd1905306f60d",
+    "Weapon_Idle_Rifle": "49d2ff94ff8e5563c84dccb57d6e49ceae170ffd15e669e5596f5637e91153e1",
+    "Weapon_Idle_Rocket": "508cb1be2530e01be59032506acf954b239f95f8118eee8c78d6d3c38da1ac1b",
+    "Weapon_Idle_Shotgun": "49d2ff94ff8e5563c84dccb57d6e49ceae170ffd15e669e5596f5637e91153e1"
+  },
+  "bindsUnchangedFromApprovedStage3": true,
+  "clips": [
+    {
+      "name": "Trial_Dodge_Roll",
+      "weapon": "rifle",
+      "duration": 0.3333333333333333,
+      "loop": false,
+      "source": "Dodge_Roll"
+    },
+    {
+      "name": "Trial_Fire_Rifle",
+      "weapon": "rifle",
+      "duration": 0.13333333333333333,
+      "loop": false,
+      "source": "Fire_Rifle"
+    },
+    {
+      "name": "Trial_Fire_Rocket",
+      "weapon": "rocket",
+      "duration": 1.15,
+      "loop": false,
+      "source": "Fire_Rocket"
+    },
+    {
+      "name": "Trial_Fire_Shotgun",
+      "weapon": "shotgun",
+      "duration": 0.8,
+      "loop": false,
+      "source": "Fire_Shotgun"
+    },
+    {
+      "name": "Trial_Hit_Heavy",
+      "weapon": "rifle",
+      "duration": 1.2,
+      "loop": false,
+      "source": "Hit_Heavy"
+    },
+    {
+      "name": "Trial_Idle",
+      "weapon": "rifle",
+      "duration": 3.0,
+      "loop": true,
+      "source": "Idle"
+    },
+    {
+      "name": "Trial_Run",
+      "weapon": "rifle",
+      "duration": 0.6333333333333333,
+      "loop": true,
+      "source": "Run"
+    },
+    {
+      "name": "Trial_Run_Backward",
+      "weapon": "rifle",
+      "duration": 0.6333333333333333,
+      "loop": true,
+      "source": "Run_Backward"
+    },
+    {
+      "name": "Trial_Run_Backward_Rocket",
+      "weapon": "rocket",
+      "duration": 0.6333333333333333,
+      "loop": true,
+      "source": "Run_Backward_Rocket"
+    },
+    {
+      "name": "Trial_Run_Rocket",
+      "weapon": "rocket",
+      "duration": 0.6333333333333333,
+      "loop": true,
+      "source": "Run_Rocket"
+    },
+    {
+      "name": "Trial_Weapon_Idle_Rifle",
+      "weapon": "rifle",
+      "duration": 3.0,
+      "loop": true,
+      "source": "Weapon_Idle_Rifle"
+    },
+    {
+      "name": "Trial_Weapon_Idle_Rocket",
+      "weapon": "rocket",
+      "duration": 3.0,
+      "loop": true,
+      "source": "Weapon_Idle_Rocket"
+    },
+    {
+      "name": "Trial_Weapon_Idle_Shotgun",
+      "weapon": "shotgun",
+      "duration": 3.0,
+      "loop": true,
+      "source": "Weapon_Idle_Shotgun"
+    },
+    {
+      "name": "Trial_Reload_Rifle",
+      "weapon": "rifle",
+      "duration": 1.65,
+      "loop": false,
+      "source": "new SF feed-unit gesture"
+    },
+    {
+      "name": "Trial_Reload_Shotgun",
+      "weapon": "shotgun",
+      "duration": 2.1,
+      "loop": false,
+      "source": "new SF feed-unit gesture"
+    },
+    {
+      "name": "Trial_Reload_Rocket",
+      "weapon": "rocket",
+      "duration": 2.7,
+      "loop": false,
+      "source": "new SF feed-unit gesture"
+    },
+    {
+      "name": "Trial_Switch_1_to_2",
+      "weapon": "rifle",
+      "duration": 1,
+      "runtimeDuration": 0.5,
+      "loop": false,
+      "events": {
+        "holster": 0.45,
+        "draw": 0.6
+      }
+    },
+    {
+      "name": "Trial_Switch_2_to_1",
+      "weapon": "rocket",
+      "duration": 1,
+      "runtimeDuration": 0.5,
+      "loop": false,
+      "events": {
+        "holster": 0.45,
+        "draw": 0.6
+      }
+    }
+  ],
+  "exportedMeshes": [
+    "Study_Glove_L",
+    "Study_Glove_R",
+    "Helmet",
+    "Boots",
+    "Study_Body",
+    "Trial_Shoulder_L",
+    "Trial_Forearm_L",
+    "Trial_Shin_L",
+    "Trial_Knee_L",
+    "Trial_Shoulder_R",
+    "Trial_Forearm_R",
+    "Trial_Shin_R",
+    "Trial_Knee_R",
+    "Trial_Chest",
+    "Trial_Chest_Ceramic",
+    "Trial_Back",
+    "Trial_Back_Ceramic",
+    "Trial_BackMount_Rifle",
+    "Trial_BackMount_Rocket",
+    "Trial_Waist_Band"
+  ],
+  "triangles": 48384,
+  "bytes": 5529072,
+  "bones": 57,
+  "criterion": "normal speed and game scale; isolated transient intersections accepted",
+  "limitations": [
+    "Reload is an SF feed-unit gesture, not individual cartridge or magazine simulation.",
+    "Representative slot assignment rifle/shotgun slot 0, rocket slot 1; arbitrary reversed loadouts not tested.",
+    "No game main files, collision scale or production changes."
+  ]
+}

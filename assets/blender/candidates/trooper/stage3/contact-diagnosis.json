@@ -1,0 +1,239 @@
+{
+  "method": "All weapon vertices; three-direction majority ray parity; nearest body surface; >3mm reporting threshold is not permission. Normal and transparent cloth use identical pose/camera. Red=deepest weapon vertex, green=nearest cloth surface. Armor hidden only in transparent diagnostic.",
+  "frames": [
+    {
+      "group": "C1",
+      "direction": "1_to_2",
+      "frame": 0,
+      "weapon": "rifle",
+      "insideVerticesOver3mm": 43,
+      "maxDepthMeters": 0.0434991754591465,
+      "deepestVertex": 158,
+      "insidePoint": [
+        0.2674999535083771,
+        -0.048000186681747437,
+        1.4155000448226929
+      ],
+      "nearestSurface": [
+        0.2629075050354004,
+        -0.0910334587097168,
+        1.4111154079437256
+      ]
+    },
+    {
+      "group": "C1",
+      "direction": "1_to_2",
+      "frame": 2,
+      "weapon": "rifle",
+      "insideVerticesOver3mm": 24,
+      "maxDepthMeters": 0.03774063661694527,
+      "deepestVertex": 98,
+      "insidePoint": [
+        0.2815740704536438,
+        -0.0518890880048275,
+        1.3435739278793335
+      ],
+      "nearestSurface": [
+        0.2904649078845978,
+        -0.08832409977912903,
+        1.3393551111221313
+      ]
+    },
+    {
+      "group": "C1",
+      "direction": "2_to_1",
+      "frame": 58,
+      "weapon": "rifle",
+      "insideVerticesOver3mm": 23,
+      "maxDepthMeters": 0.0322420597076416,
+      "deepestVertex": 98,
+      "insidePoint": [
+        0.29990923404693604,
+        -0.05282672494649887,
+        1.3433512449264526
+      ],
+      "nearestSurface": [
+        0.31744319200515747,
+        -0.07975470274686813,
+        1.340706467628479
+      ]
+    },
+    {
+      "group": "C1",
+      "direction": "2_to_1",
+      "frame": 60,
+      "weapon": "rifle",
+      "insideVerticesOver3mm": 43,
+      "maxDepthMeters": 0.043499160557985306,
+      "deepestVertex": 158,
+      "insidePoint": [
+        0.2674999237060547,
+        -0.04800019413232803,
+        1.4155000448226929
+      ],
+      "nearestSurface": [
+        0.262907475233078,
+        -0.0910334512591362,
+        1.4111154079437256
+      ]
+    },
+    {
+      "group": "C2",
+      "direction": "1_to_2",
+      "frame": 34,
+      "weapon": "rocket",
+      "insideVerticesOver3mm": 7,
+      "maxDepthMeters": 0.005963072646409273,
+      "deepestVertex": 139,
+      "insidePoint": [
+        0.24836629629135132,
+        -0.12021787464618683,
+        1.3738266229629517
+      ],
+      "nearestSurface": [
+        0.24382835626602173,
+        -0.12382638454437256,
+        1.3724323511123657
+      ]
+    },
+    {
+      "group": "C2",
+      "direction": "1_to_2",
+      "frame": 35,
+      "weapon": "rocket",
+      "insideVerticesOver3mm": 23,
+      "maxDepthMeters": 0.010953642427921295,
+      "deepestVertex": 189,
+      "insidePoint": [
+        0.20899999141693115,
+        -0.2549999952316284,
+        1.3772118091583252
+      ],
+      "nearestSurface": [
+        0.21033573150634766,
+        -0.2566254436969757,
+        1.3664621114730835
+      ]
+    },
+    {
+      "group": "C2",
+      "direction": "1_to_2",
+      "frame": 36,
+      "weapon": "rocket",
+      "insideVerticesOver3mm": 17,
+      "maxDepthMeters": 0.01725141331553459,
+      "deepestVertex": 137,
+      "insidePoint": [
+        0.24966385960578918,
+        -0.12000653892755508,
+        1.3654003143310547
+      ],
+      "nearestSurface": [
+        0.23468734323978424,
+        -0.12796367704868317,
+        1.3622381687164307
+      ]
+    },
+    {
+      "group": "C2",
+      "direction": "1_to_2",
+      "frame": 37,
+      "weapon": "rocket",
+      "insideVerticesOver3mm": 0,
+      "maxDepthMeters": 0,
+      "deepestVertex": null,
+      "insidePoint": null,
+      "nearestSurface": null
+    },
+    {
+      "group": "C2",
+      "direction": "1_to_2",
+      "frame": 38,
+      "weapon": "rocket",
+      "insideVerticesOver3mm": 0,
+      "maxDepthMeters": 0,
+      "deepestVertex": null,
+      "insidePoint": null,
+      "nearestSurface": null
+    },
+    {
+      "group": "C3",
+      "direction": "2_to_1",
+      "frame": 8,
+      "weapon": "rocket",
+      "insideVerticesOver3mm": 1,
+      "maxDepthMeters": 0.003121432615444064,
+      "deepestVertex": 178,
+      "insidePoint": [
+        0.5989236831665039,
+        0.1916884481906891,
+        1.2671661376953125
+      ],
+      "nearestSurface": [
+        0.5990369915962219,
+        0.1941860318183899,
+        1.265297293663025
+      ]
+    },
+    {
+      "group": "C3",
+      "direction": "2_to_1",
+      "frame": 9,
+      "weapon": "rocket",
+      "insideVerticesOver3mm": 0,
+      "maxDepthMeters": 0,
+      "deepestVertex": null,
+      "insidePoint": null,
+      "nearestSurface": null
+    },
+    {
+      "group": "C3",
+      "direction": "2_to_1",
+      "frame": 10,
+      "weapon": "rocket",
+      "insideVerticesOver3mm": 12,
+      "maxDepthMeters": 0.021525831893086433,
+      "deepestVertex": 222,
+      "insidePoint": [
+        0.5466095805168152,
+        0.13059885799884796,
+        1.4033621549606323
+      ],
+      "nearestSurface": [
+        0.5432322025299072,
+        0.11156097054481506,
+        1.4128233194351196
+      ]
+    },
+    {
+      "group": "C3",
+      "direction": "2_to_1",
+      "frame": 11,
+      "weapon": "rocket",
+      "insideVerticesOver3mm": 51,
+      "maxDepthMeters": 0.044717937707901,
+      "deepestVertex": 382,
+      "insidePoint": [
+        0.3407875895500183,
+        0.008573813363909721,
+        1.4267456531524658
+      ],
+      "nearestSurface": [
+        0.38083887100219727,
+        -0.011275961063802242,
+        1.4254904985427856
+      ]
+    },
+    {
+      "group": "C3",
+      "direction": "2_to_1",
+      "frame": 12,
+      "weapon": "rocket",
+      "insideVerticesOver3mm": 0,
+      "maxDepthMeters": 0,
+      "deepestVertex": null,
+      "insidePoint": null,
+      "nearestSurface": null
+    }
+  ]
+}

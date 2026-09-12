@@ -1,0 +1,72 @@
+{
+  "simulation": {
+    "states": [
+      "Idle",
+      "Locomotion",
+      "Lunge"
+    ],
+    "worldMutations": 0,
+    "bursts": [
+      {
+        "type": "burst",
+        "x": 0.4565885507187154,
+        "z": -1.0737498360941418,
+        "y": 0.3,
+        "radius": 1.25,
+        "id": 1
+      },
+      {
+        "type": "burst",
+        "x": 0.2511463953396078,
+        "z": -0.5906157752029781,
+        "y": 0.3,
+        "radius": 1.25,
+        "id": 2
+      },
+      {
+        "type": "burst",
+        "x": 0.2511463953396078,
+        "z": -0.5906157752029781,
+        "y": 0.3,
+        "radius": 1.25,
+        "id": 3
+      },
+      {
+        "type": "burst",
+        "x": 0.2511463953396078,
+        "z": -0.5906157752029781,
+        "y": 0.3,
+        "radius": 1.25,
+        "id": 4
+      }
+    ],
+    "speedMax": 7.70000000000001,
+    "finalHP": 120
+  },
+  "playback": {
+    "duration": 8,
+    "width": 960,
+    "height": 540,
+    "samples": [
+      {
+        "time": 0.6,
+        "checksum": 970255
+      },
+      {
+        "time": 1.7,
+        "checksum": 985979
+      },
+      {
+        "time": 3.2,
+        "checksum": 987288
+      },
+      {
+        "time": 6,
+        "checksum": 979799
+      }
+    ]
+  },
+  "frames": 240,
+  "bytes": 2364844,
+  "scope": "isolated fixture, extra spawns deferred, fixed observation camera; real step and Renderer; not live-device FPS"
+}

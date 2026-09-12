@@ -1,0 +1,12 @@
+diff --git a/src/shared/game.ts b/assets/blender/candidates/crawler/pleat-audit/game.ts.proposed.txt
+index 2a8467e..db34156 100644
+--- a/src/shared/game.ts
++++ b/assets/blender/candidates/crawler/pleat-audit/game.ts.proposed.txt
+@@ -944,6 +944,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
+         }
+       }
+       e.wind -= dt;
++      if (e.kind === "crawler" && e.wind < 1e-9) e.wind = 0;
+       if (e.wind <= 0) {
+         if (e.kind === "boss") {
+           event(w, { type: "burst", radius: 7, x: e.tx, z: e.tz, y: 0.1 });

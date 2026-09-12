@@ -1,0 +1,37 @@
+{
+  "method": "Full weapon vertices; positive-X slanted ray parity in closed body mesh, nearest-surface distance; diagnostic rest pose. No bind edits saved.",
+  "results": [
+    {
+      "mode": "current",
+      "weapon": "rifle",
+      "insideBodyOver12mm": 88,
+      "worst": {
+        "index": 504,
+        "depth": 0.09005533158779144,
+        "world": [
+          -0.009500027634203434,
+          -0.050604481250047684,
+          1.2450031042099
+        ]
+      }
+    },
+    {
+      "mode": "current",
+      "weapon": "rocket",
+      "insideBodyOver12mm": 0,
+      "worst": null
+    },
+    {
+      "mode": "proposal",
+      "weapon": "rifle",
+      "insideBodyOver12mm": 0,
+      "worst": null
+    },
+    {
+      "mode": "proposal",
+      "weapon": "rocket",
+      "insideBodyOver12mm": 0,
+      "worst": null
+    }
+  ]
+}

@@ -1,0 +1,556 @@
+{
+  "checked": 110,
+  "changed": [],
+  "files": [
+    {
+      "path": "public/assets/enemies/foundry_zero_motion_v1.glb",
+      "before": "a8e3b2921fac1000e30642227c4d5deb697f46777c7c5a5d85eb5fca892887cf",
+      "after": "a8e3b2921fac1000e30642227c4d5deb697f46777c7c5a5d85eb5fca892887cf"
+    },
+    {
+      "path": "public/assets/enemies/foundry_zero_v1.glb",
+      "before": "9b03b80bacba4d8c092b4d0aa3f074bb3ab2ad1c4776b3a4b23a001829a80454",
+      "after": "9b03b80bacba4d8c092b4d0aa3f074bb3ab2ad1c4776b3a4b23a001829a80454"
+    },
+    {
+      "path": "public/assets/enemies/hound_blockout_v1.glb",
+      "before": "782905206b1d450f8d1c57418d051bd4aefdb2c50d3559689eb40d4e0912d6cd",
+      "after": "782905206b1d450f8d1c57418d051bd4aefdb2c50d3559689eb40d4e0912d6cd"
+    },
+    {
+      "path": "public/assets/enemies/hound_blockout_v2.glb",
+      "before": "cacbbb213b4f86360e2b86ea1dc1d85f30690bcbc0a56875182b40a7cbf551a9",
+      "after": "cacbbb213b4f86360e2b86ea1dc1d85f30690bcbc0a56875182b40a7cbf551a9"
+    },
+    {
+      "path": "public/assets/enemies/hound_blockout_v3.glb",
+      "before": "bdb9fb2288db6b5167f44104277f7dcd265a400b3a99f005108e54f64b389ffa",
+      "after": "bdb9fb2288db6b5167f44104277f7dcd265a400b3a99f005108e54f64b389ffa"
+    },
+    {
+      "path": "public/assets/enemies/hound_motion_v1.glb",
+      "before": "ab0d39eb16a7de79a71810f625d2ef05a0246c211df78d0dce5be82a19f53a88",
+      "after": "ab0d39eb16a7de79a71810f625d2ef05a0246c211df78d0dce5be82a19f53a88"
+    },
+    {
+      "path": "public/assets/enemies/prism_motion_v1.glb",
+      "before": "54439f79a6b552eff19413a82f164ddf3c2b4c37d3305ce332dc15e281c1450f",
+      "after": "54439f79a6b552eff19413a82f164ddf3c2b4c37d3305ce332dc15e281c1450f"
+    },
+    {
+      "path": "public/assets/enemies/prism_v1.glb",
+      "before": "c4eb27b61919b06a9430b1c2b8a6919a2dcee1a7c29c319f9d4672bd94d83838",
+      "after": "c4eb27b61919b06a9430b1c2b8a6919a2dcee1a7c29c319f9d4672bd94d83838"
+    },
+    {
+      "path": "public/assets/enemies/ray_motion_v1.glb",
+      "before": "cb513efbbac681c6fbfde65f366a9b7ae3bdacfd87340605f771400fa9180d11",
+      "after": "cb513efbbac681c6fbfde65f366a9b7ae3bdacfd87340605f771400fa9180d11"
+    },
+    {
+      "path": "public/assets/enemies/ray_v1.glb",
+      "before": "aa46a5c6c9a6082d5ec1ab12ccc4bc9a03e05536c4d9b0f082305a34432c1693",
+      "after": "aa46a5c6c9a6082d5ec1ab12ccc4bc9a03e05536c4d9b0f082305a34432c1693"
+    },
+    {
+      "path": "assets/blender/source/foundry_zero_motion_v1.blend",
+      "before": "9d7879925c1f2a81025a3563c9c73e484d97a766921f61a40a4790d9b1456dd4",
+      "after": "9d7879925c1f2a81025a3563c9c73e484d97a766921f61a40a4790d9b1456dd4"
+    },
+    {
+      "path": "assets/blender/source/foundry_zero_v1.blend",
+      "before": "fc39a25976bd53795aba3af4c9e99ae7fcfac55eb0aec6e898a5234ad4a4ebcc",
+      "after": "fc39a25976bd53795aba3af4c9e99ae7fcfac55eb0aec6e898a5234ad4a4ebcc"
+    },
+    {
+      "path": "assets/blender/source/hound_blockout_v1.blend",
+      "before": "c4a9e259cfebe7861a9a56ebfad9d7cc4604c13b13eeca7168d5f9e7ac171819",
+      "after": "c4a9e259cfebe7861a9a56ebfad9d7cc4604c13b13eeca7168d5f9e7ac171819"
+    },
+    {
+      "path": "assets/blender/source/hound_blockout_v2.blend",
+      "before": "57af20a9ac02cdedfec43a90bb2a87d4b20244a838c63615f94a0c36d94d773a",
+      "after": "57af20a9ac02cdedfec43a90bb2a87d4b20244a838c63615f94a0c36d94d773a"
+    },
+    {
+      "path": "assets/blender/source/hound_blockout_v3.blend",
+      "before": "8591e24cdbe47ad3f8716fe1aaa2c38d6558f26e173c679abcbc7ae5939d4fb4",
+      "after": "8591e24cdbe47ad3f8716fe1aaa2c38d6558f26e173c679abcbc7ae5939d4fb4"
+    },
+    {
+      "path": "assets/blender/source/hound_motion_v1.blend",
+      "before": "765b8731f1582d2f42364a748cfe37f958073c63c7d332192269fa2ac1a919f3",
+      "after": "765b8731f1582d2f42364a748cfe37f958073c63c7d332192269fa2ac1a919f3"
+    },
+    {
+      "path": "assets/blender/source/prism_motion_v1.blend",
+      "before": "198e773d6b3210ef3e5a24f8b4d041c0fe6c82ecfeb5d73f7d6f382639b8f934",
+      "after": "198e773d6b3210ef3e5a24f8b4d041c0fe6c82ecfeb5d73f7d6f382639b8f934"
+    },
+    {
+      "path": "assets/blender/source/prism_v1.blend",
+      "before": "a44bb2b3086273ce0b519f427846a87769cae0475e4a7ae73728a88eea2bcbc8",
+      "after": "a44bb2b3086273ce0b519f427846a87769cae0475e4a7ae73728a88eea2bcbc8"
+    },
+    {
+      "path": "assets/blender/source/ray_motion_v1.blend",
+      "before": "1200646f86250e1ce6cac5a857b298bf64f2ead91f2445a97d2b386b44f36286",
+      "after": "1200646f86250e1ce6cac5a857b298bf64f2ead91f2445a97d2b386b44f36286"
+    },
+    {
+      "path": "assets/blender/source/ray_v1.blend",
+      "before": "715b141ea873e705140ae01113a1c37b4b48ae2b152f94c2ea28b59266104406",
+      "after": "715b141ea873e705140ae01113a1c37b4b48ae2b152f94c2ea28b59266104406"
+    },
+    {
+      "path": "assets/blender/source/standard_trooper_v1.blend",
+      "before": "dee9d9cbc71819971c5fc1981db2fa9443dff6fc278858f5c231577b0c9e06ec",
+      "after": "dee9d9cbc71819971c5fc1981db2fa9443dff6fc278858f5c231577b0c9e06ec"
+    },
+    {
+      "path": "assets/blender/source/standard_trooper_v2.blend",
+      "before": "0dfe19d739351e0a02a8e6a6d973ed9662ddde921bbd130bd4a62b2a89791529",
+      "after": "0dfe19d739351e0a02a8e6a6d973ed9662ddde921bbd130bd4a62b2a89791529"
+    },
+    {
+      "path": "assets/blender/source/standard_trooper_v3.blend",
+      "before": "a26d82af1421c51d420c3b17f52c0997b21da79b18d7fd0061d16f814a98009a",
+      "after": "a26d82af1421c51d420c3b17f52c0997b21da79b18d7fd0061d16f814a98009a"
+    },
+    {
+      "path": "assets/blender/source/maps/distant_0_v1.blend",
+      "before": "8035c4150055b498e8796cda09f26146f7850b312f749b5b39c2401fa8901a00",
+      "after": "8035c4150055b498e8796cda09f26146f7850b312f749b5b39c2401fa8901a00"
+    },
+    {
+      "path": "assets/blender/source/maps/distant_1_v1.blend",
+      "before": "2efdae2f2291ad40f5daed786142a2d598de02cba1bb55519e098d33ce418431",
+      "after": "2efdae2f2291ad40f5daed786142a2d598de02cba1bb55519e098d33ce418431"
+    },
+    {
+      "path": "assets/blender/source/maps/distant_2_v1.blend",
+      "before": "7a51318df844319bf0a177516187d9101c0109b7793c5144f8b95fc4f97182f0",
+      "after": "7a51318df844319bf0a177516187d9101c0109b7793c5144f8b95fc4f97182f0"
+    },
+    {
+      "path": "assets/blender/source/maps/distant_3_v1.blend",
+      "before": "e61a24092d4dec1a2ffe4deb4a043d6dbb04587d44368312f25f4955cf4a5b46",
+      "after": "e61a24092d4dec1a2ffe4deb4a043d6dbb04587d44368312f25f4955cf4a5b46"
+    },
+    {
+      "path": "assets/blender/source/maps/distant_4_v1.blend",
+      "before": "f841f5b18dc7f15a390868ab67d65eebf6012d27c469a943639b947a86176c1b",
+      "after": "f841f5b18dc7f15a390868ab67d65eebf6012d27c469a943639b947a86176c1b"
+    },
+    {
+      "path": "assets/blender/source/maps/map_0_v1.blend",
+      "before": "2a46693a00fc6e8a5b9ef25e494573e36ad710569fa55ef6ed17f4e15b5b937a",
+      "after": "2a46693a00fc6e8a5b9ef25e494573e36ad710569fa55ef6ed17f4e15b5b937a"
+    },
+    {
+      "path": "assets/blender/source/maps/map_1_v1.blend",
+      "before": "a5778309252b996525bb91814cae2555dffd2edac9ecce5eca1cac81a12fb506",
+      "after": "a5778309252b996525bb91814cae2555dffd2edac9ecce5eca1cac81a12fb506"
+    },
+    {
+      "path": "assets/blender/source/maps/map_2_v1.blend",
+      "before": "648198c87e070eb7e42c91b2e283f5bc27fb3cd378d1ce23466fa0b11f91c9d0",
+      "after": "648198c87e070eb7e42c91b2e283f5bc27fb3cd378d1ce23466fa0b11f91c9d0"
+    },
+    {
+      "path": "assets/blender/source/maps/map_3_v1.blend",
+      "before": "46cca8e12114b740b9d9f42e7b2034682a49b7c217c5b998ceec1b14fd84cb9b",
+      "after": "46cca8e12114b740b9d9f42e7b2034682a49b7c217c5b998ceec1b14fd84cb9b"
+    },
+    {
+      "path": "assets/blender/source/maps/map_4_v1.blend",
+      "before": "052ef311d4138813913f1d17c53816e269385e8888f90b9b01dd74d774ef5253",
+      "after": "052ef311d4138813913f1d17c53816e269385e8888f90b9b01dd74d774ef5253"
+    },
+    {
+      "path": "assets/blender/source/maps/map_5_v1.blend",
+      "before": "14f299d66c510c841b53cd1d4bf9a116b95a2ded54f54eda1c73ccde89267660",
+      "after": "14f299d66c510c841b53cd1d4bf9a116b95a2ded54f54eda1c73ccde89267660"
+    },
+    {
+      "path": "assets/blender/scripts/build_distant_scenery.py",
+      "before": "d592d3037f1ea2fba0036548de00fcaa44495b1733ff1c5c68d479b171d5b55a",
+      "after": "d592d3037f1ea2fba0036548de00fcaa44495b1733ff1c5c68d479b171d5b55a"
+    },
+    {
+      "path": "assets/blender/scripts/build_enemy_motion.py",
+      "before": "4a787cd1a5b232158c9a57fbce612e5aa93f2b739e6f25ef851259bcd7953c3e",
+      "after": "4a787cd1a5b232158c9a57fbce612e5aa93f2b739e6f25ef851259bcd7953c3e"
+    },
+    {
+      "path": "assets/blender/scripts/build_foundry_zero_v1.py",
+      "before": "eb947eb1097937019e0f444f1d79052b2f62c48cd6d244e87dc4ac13d3a34418",
+      "after": "eb947eb1097937019e0f444f1d79052b2f62c48cd6d244e87dc4ac13d3a34418"
+    },
+    {
+      "path": "assets/blender/scripts/build_hound_motion.py",
+      "before": "6774607d491fb1f9ac460c4dfcfd4541a082215cdb0c98ffb9131567d8a425a6",
+      "after": "6774607d491fb1f9ac460c4dfcfd4541a082215cdb0c98ffb9131567d8a425a6"
+    },
+    {
+      "path": "assets/blender/scripts/build_hound_v1.py",
+      "before": "bd25e2a335f1a2c6677440aac8f99de2ecf0e09c9009a7c5262a0a6b59d1e53f",
+      "after": "bd25e2a335f1a2c6677440aac8f99de2ecf0e09c9009a7c5262a0a6b59d1e53f"
+    },
+    {
+      "path": "assets/blender/scripts/build_hound_v2.py",
+      "before": "5aecf2a5ef0c23c3122a5bfa93b07c228d9d7d5f0e02ab257c65be2cce7de8af",
+      "after": "5aecf2a5ef0c23c3122a5bfa93b07c228d9d7d5f0e02ab257c65be2cce7de8af"
+    },
+    {
+      "path": "assets/blender/scripts/build_hound_v3.py",
+      "before": "b971b46896a4a89b22a1fc0529d09c8cc5234c1b1c38a1a36dbd164b61c73907",
+      "after": "b971b46896a4a89b22a1fc0529d09c8cc5234c1b1c38a1a36dbd164b61c73907"
+    },
+    {
+      "path": "assets/blender/scripts/build_maps_v1.py",
+      "before": "189f963c12e988b575f2be36586616c2f9d99f05c4c3a51cb09d3534bcc2b74b",
+      "after": "189f963c12e988b575f2be36586616c2f9d99f05c4c3a51cb09d3534bcc2b74b"
+    },
+    {
+      "path": "assets/blender/scripts/build_prism_v1.py",
+      "before": "c40a40ee30ee29d758ace8b8ed30b6954fc31ee850124e3ddfb01dd0912359fe",
+      "after": "c40a40ee30ee29d758ace8b8ed30b6954fc31ee850124e3ddfb01dd0912359fe"
+    },
+    {
+      "path": "assets/blender/scripts/build_ray_v1.py",
+      "before": "cb1029245aa34a75d0d69ead013cccbab70ec8db3fab3c1a3a9749befc94973b",
+      "after": "cb1029245aa34a75d0d69ead013cccbab70ec8db3fab3c1a3a9749befc94973b"
+    },
+    {
+      "path": "assets/blender/scripts/build_standard_trooper_v3.py",
+      "before": "7781ba261745feb8596cf29057522006d7cd183f2df2c25479fe08a1df7bdacb",
+      "after": "7781ba261745feb8596cf29057522006d7cd183f2df2c25479fe08a1df7bdacb"
+    },
+    {
+      "path": "assets/blender/scripts/build_standard_trooper.py",
+      "before": "6039a1232d35ab04d7b099ae00211a686054ab9dd22fa23bbbfcc3d5996bfb6e",
+      "after": "6039a1232d35ab04d7b099ae00211a686054ab9dd22fa23bbbfcc3d5996bfb6e"
+    },
+    {
+      "path": "assets/blender/scripts/check_alien_polish_images.mjs",
+      "before": "c9265513f8e43e989067301b86249c3549ab16bebdeac814cafd70e877146470",
+      "after": "c9265513f8e43e989067301b86249c3549ab16bebdeac814cafd70e877146470"
+    },
+    {
+      "path": "assets/blender/scripts/check_attack_v2.mjs",
+      "before": "17e14d21511939977a6b0f4bbf35513fed719a83d7598cde55e6df51850fb44c",
+      "after": "17e14d21511939977a6b0f4bbf35513fed719a83d7598cde55e6df51850fb44c"
+    },
+    {
+      "path": "assets/blender/scripts/check_enemies_phase1_integration.mjs",
+      "before": "3b3fef5d22902ffc715e551e21a1d7a17ee492c2ee9c58af497417a6640a5fc3",
+      "after": "3b3fef5d22902ffc715e551e21a1d7a17ee492c2ee9c58af497417a6640a5fc3"
+    },
+    {
+      "path": "assets/blender/scripts/check_enemy_motion.mjs",
+      "before": "9a9afc73b9ddab6a35a36dbd715bd6ec33113d5e0ec1d2e83b593def41445115",
+      "after": "9a9afc73b9ddab6a35a36dbd715bd6ec33113d5e0ec1d2e83b593def41445115"
+    },
+    {
+      "path": "assets/blender/scripts/check_enemy_phase1.mjs",
+      "before": "3c4e168688473a3e00171582ea231c0810ac5c2170b1bd0c5f529cf577beca53",
+      "after": "3c4e168688473a3e00171582ea231c0810ac5c2170b1bd0c5f529cf577beca53"
+    },
+    {
+      "path": "assets/blender/scripts/check_foundry_polish_images.mjs",
+      "before": "1ac63fa0df48592b0c6c328eb170fbe13bae17a72586fb65a0d8f0f03e2fb0a2",
+      "after": "1ac63fa0df48592b0c6c328eb170fbe13bae17a72586fb65a0d8f0f03e2fb0a2"
+    },
+    {
+      "path": "assets/blender/scripts/check_hound_motion_solo.mjs",
+      "before": "fb118527d55df23025f89fc17a71df7640edbc768aaec7bc0bb0dd664d12b2c4",
+      "after": "fb118527d55df23025f89fc17a71df7640edbc768aaec7bc0bb0dd664d12b2c4"
+    },
+    {
+      "path": "assets/blender/scripts/check_hound_motion.mjs",
+      "before": "c73a24b2458ccdd8fb160111fbf6c95a11c03b87dbd438e6526191d7e799a1fa",
+      "after": "c73a24b2458ccdd8fb160111fbf6c95a11c03b87dbd438e6526191d7e799a1fa"
+    },
+    {
+      "path": "assets/blender/scripts/check_hound_preview.mjs",
+      "before": "4ca3fad6fc5d9c0fcb78b118fa523c7030618784930e55780b98a092243d0cd5",
+      "after": "4ca3fad6fc5d9c0fcb78b118fa523c7030618784930e55780b98a092243d0cd5"
+    },
+    {
+      "path": "assets/blender/scripts/check_hound_v2_boundaries.mjs",
+      "before": "01beee7c5e027bf5e9850c8a9c7e6178c09187eb8be56021aa4c80e8fa1bc746",
+      "after": "01beee7c5e027bf5e9850c8a9c7e6178c09187eb8be56021aa4c80e8fa1bc746"
+    },
+    {
+      "path": "assets/blender/scripts/check_hound_v2_polish.mjs",
+      "before": "7484f500f05bb4a2e15019ec399351d3b34b5f355fa88e7794f80c2591b9a91b",
+      "after": "7484f500f05bb4a2e15019ec399351d3b34b5f355fa88e7794f80c2591b9a91b"
+    },
+    {
+      "path": "assets/blender/scripts/check_hound_v2_solo.mjs",
+      "before": "5cf16bb8509152b942b2113f99afbd2eca3200ac3341fe88cf3de927a1fb3768",
+      "after": "5cf16bb8509152b942b2113f99afbd2eca3200ac3341fe88cf3de927a1fb3768"
+    },
+    {
+      "path": "assets/blender/scripts/check_hound_v2.mjs",
+      "before": "26103542e1ce265b4f6fec014050a3649c675f00d17b04d62304a25ba5fa2434",
+      "after": "26103542e1ce265b4f6fec014050a3649c675f00d17b04d62304a25ba5fa2434"
+    },
+    {
+      "path": "assets/blender/scripts/check_hound_v3_boundaries.mjs",
+      "before": "b473f85a963868dc3f90aa10395a2d34c320ee62a64334c69ee6d607c421a3df",
+      "after": "b473f85a963868dc3f90aa10395a2d34c320ee62a64334c69ee6d607c421a3df"
+    },
+    {
+      "path": "assets/blender/scripts/check_hound_v3_solo.mjs",
+      "before": "7346ef2ec24572bd6c7b3ae5452e243f207327642fe17944e17221b253865c97",
+      "after": "7346ef2ec24572bd6c7b3ae5452e243f207327642fe17944e17221b253865c97"
+    },
+    {
+      "path": "assets/blender/scripts/check_hound_v3.mjs",
+      "before": "903cc194d3eb875a9f20506b4e66dd2033f1c27bf73ac8717fae9d653544793f",
+      "after": "903cc194d3eb875a9f20506b4e66dd2033f1c27bf73ac8717fae9d653544793f"
+    },
+    {
+      "path": "assets/blender/scripts/motion_video_mux.mjs",
+      "before": "ee11475bb400fa3647e80dab7cbec2281b7d4cb523fb32945e1b4b8711605d9d",
+      "after": "ee11475bb400fa3647e80dab7cbec2281b7d4cb523fb32945e1b4b8711605d9d"
+    },
+    {
+      "path": "assets/blender/scripts/phase1_common.py",
+      "before": "feddd1747a34bb783f6d041b43754307dc50c59d0e0ca436b3f6fb0bafff1f65",
+      "after": "feddd1747a34bb783f6d041b43754307dc50c59d0e0ca436b3f6fb0bafff1f65"
+    },
+    {
+      "path": "assets/blender/scripts/preserve_standard_trooper_geometry.py",
+      "before": "d07da7c1456095b52112d532c4a2657fe2cf9d611aea1c3a2c932c75c401cd13",
+      "after": "d07da7c1456095b52112d532c4a2657fe2cf9d611aea1c3a2c932c75c401cd13"
+    },
+    {
+      "path": "assets/blender/scripts/record_attack_v2.mjs",
+      "before": "e9fb85f58b26e8242eb254d3336afacf06b353266d25ad04af16bf13e4dbacf0",
+      "after": "e9fb85f58b26e8242eb254d3336afacf06b353266d25ad04af16bf13e4dbacf0"
+    },
+    {
+      "path": "assets/blender/scripts/record_enemy_motion.mjs",
+      "before": "1806b587a45caa0d1f370fb023c5693f6d4f2f54650dc06acbcf19311ef9dce2",
+      "after": "1806b587a45caa0d1f370fb023c5693f6d4f2f54650dc06acbcf19311ef9dce2"
+    },
+    {
+      "path": "assets/blender/scripts/record_enemy_phase1.mjs",
+      "before": "f8ad23618599069e551f4d6b071611266c5125e16a9f713fc19143b315f31919",
+      "after": "f8ad23618599069e551f4d6b071611266c5125e16a9f713fc19143b315f31919"
+    },
+    {
+      "path": "assets/blender/scripts/record_hound_motion.mjs",
+      "before": "11fd922abb6eb7633a1f20dd8898b5f67955dbb0bf54dbe3e853785a0b81dc55",
+      "after": "11fd922abb6eb7633a1f20dd8898b5f67955dbb0bf54dbe3e853785a0b81dc55"
+    },
+    {
+      "path": "assets/blender/scripts/trooper_v3_ao.py",
+      "before": "c8b74d685044c2b4fbc96b462e758af53fc265368f1fbca412d753e758485913",
+      "after": "c8b74d685044c2b4fbc96b462e758af53fc265368f1fbca412d753e758485913"
+    },
+    {
+      "path": "assets/blender/scripts/trooper_v3_details.py",
+      "before": "f3f173a51f37a40abde4b398545bba66f4dc50784750c5a2b2b63b7c42aa571a",
+      "after": "f3f173a51f37a40abde4b398545bba66f4dc50784750c5a2b2b63b7c42aa571a"
+    },
+    {
+      "path": "assets/blender/scripts/validate_maps_v1.py",
+      "before": "9d7ea6a3649f478b1ce38d7c12f380963733e93b9f4d43f0eb6ba55143b9f35e",
+      "after": "9d7ea6a3649f478b1ce38d7c12f380963733e93b9f4d43f0eb6ba55143b9f35e"
+    },
+    {
+      "path": "assets/blender/scripts/validate_standard_trooper_polish_source.py",
+      "before": "6955d97f551fdd55f71856fbbca63fbe6dd578bb603a24690a14d77f8d78f60d",
+      "after": "6955d97f551fdd55f71856fbbca63fbe6dd578bb603a24690a14d77f8d78f60d"
+    },
+    {
+      "path": "assets/blender/scripts/validate_standard_trooper_run_source.py",
+      "before": "ef7115297b9166f27cbef60649c2dad72efb0cba43517dcb09f8842d710d733a",
+      "after": "ef7115297b9166f27cbef60649c2dad72efb0cba43517dcb09f8842d710d733a"
+    },
+    {
+      "path": "assets/blender/scripts/validate_standard_trooper_source.py",
+      "before": "162185bdc732b25130ed3f844b119678697767dbc95533d1daec928a359bfe35",
+      "after": "162185bdc732b25130ed3f844b119678697767dbc95533d1daec928a359bfe35"
+    },
+    {
+      "path": "assets/blender/scripts/__pycache__/phase1_common.cpython-313.pyc",
+      "before": "d66f33d8d947c6111ceb5cd623fc6e9b958bb14a6f4044bd0f190662d29a8210",
+      "after": "d66f33d8d947c6111ceb5cd623fc6e9b958bb14a6f4044bd0f190662d29a8210"
+    },
+    {
+      "path": "src/client/audio.ts",
+      "before": "e915d4cc082ebbb56b8dbe4252add4bf8fedb6e1d3fca05cd2a2a17a224f627e",
+      "after": "e915d4cc082ebbb56b8dbe4252add4bf8fedb6e1d3fca05cd2a2a17a224f627e"
+    },
+    {
+      "path": "src/client/bestiary.css",
+      "before": "76eff3228de4e9a479ebdac564cdf0598af1acf70a821c562875cac205f7d6f4",
+      "after": "76eff3228de4e9a479ebdac564cdf0598af1acf70a821c562875cac205f7d6f4"
+    },
+    {
+      "path": "src/client/bestiary.ts",
+      "before": "0f46f43774fca1c36e8617c9d6a4e9c8be6d1811006c98371341134949d26fc9",
+      "after": "0f46f43774fca1c36e8617c9d6a4e9c8be6d1811006c98371341134949d26fc9"
+    },
+    {
+      "path": "src/client/cave-scene.ts",
+      "before": "4442f786d0b749cc4785c746873c765525fa321a16b05a120cf06598ae1d1aca",
+      "after": "4442f786d0b749cc4785c746873c765525fa321a16b05a120cf06598ae1d1aca"
+    },
+    {
+      "path": "src/client/changelog.ts",
+      "before": "545743b4eef55dc98e5412b6695cb61703b8cf1a3a447581216ee320f2c99aa8",
+      "after": "545743b4eef55dc98e5412b6695cb61703b8cf1a3a447581216ee320f2c99aa8"
+    },
+    {
+      "path": "src/client/combat-effects.ts",
+      "before": "5123f855bb37b9b950c15391104daa8344c1cf2fa1bd2a1905ae5c773cd1a178",
+      "after": "5123f855bb37b9b950c15391104daa8344c1cf2fa1bd2a1905ae5c773cd1a178"
+    },
+    {
+      "path": "src/client/enemy-glb-debug.ts",
+      "before": "164c9d0ca57c018e75ba4a37e2aea033dbf34ded1a2fcdecb326e258eec19afb",
+      "after": "164c9d0ca57c018e75ba4a37e2aea033dbf34ded1a2fcdecb326e258eec19afb"
+    },
+    {
+      "path": "src/client/enemy-model.ts",
+      "before": "6da38026432af409c5c4667ca380a4cd716009ae4da154aa9e15990f515becb1",
+      "after": "6da38026432af409c5c4667ca380a4cd716009ae4da154aa9e15990f515becb1"
+    },
+    {
+      "path": "src/client/enemy-viewer.ts",
+      "before": "8376cb736b010f54a19d1c240d823bc6b6e7727f467560741080adc929382c8c",
+      "after": "8376cb736b010f54a19d1c240d823bc6b6e7727f467560741080adc929382c8c"
+    },
+    {
+      "path": "src/client/hound-glb-debug.ts",
+      "before": "b02816eaa3d3d5765e57799e2b898b49d2707609c4d2f0d4a95e3673594ec510",
+      "after": "b02816eaa3d3d5765e57799e2b898b49d2707609c4d2f0d4a95e3673594ec510"
+    },
+    {
+      "path": "src/client/hound-motion.ts",
+      "before": "6dc1ebc865e5965e5cc20f0c62704be61c4da93ffbb3750d5f35c44b283ee293",
+      "after": "6dc1ebc865e5965e5cc20f0c62704be61c4da93ffbb3750d5f35c44b283ee293"
+    },
+    {
+      "path": "src/client/hud.ts",
+      "before": "db1111b415f19e3c57fb9f3bc387c4bd13df9f82ce5c41a0806fb5e312eb67b9",
+      "after": "db1111b415f19e3c57fb9f3bc387c4bd13df9f82ce5c41a0806fb5e312eb67b9"
+    },
+    {
+      "path": "src/client/input.ts",
+      "before": "66a29496739a63b336cb5c37cf6e54c8b3df95b083ff3e0ee0eb4adf540fbf21",
+      "after": "66a29496739a63b336cb5c37cf6e54c8b3df95b083ff3e0ee0eb4adf540fbf21"
+    },
+    {
+      "path": "src/client/layout-editor.ts",
+      "before": "a5a607f2cebc1b50fac3d174e8f36d9ea628245ef5e8d56bb6aa2ff36f2092f7",
+      "after": "a5a607f2cebc1b50fac3d174e8f36d9ea628245ef5e8d56bb6aa2ff36f2092f7"
+    },
+    {
+      "path": "src/client/layout.ts",
+      "before": "f0e9504c72930480eaedcdebd705f215cb43902e75c215cdf9fbfe8dd105205e",
+      "after": "f0e9504c72930480eaedcdebd705f215cb43902e75c215cdf9fbfe8dd105205e"
+    },
+    {
+      "path": "src/client/map-assets.ts",
+      "before": "bfe59a12b52e35c63843bee239326d9de18dd9dfb419b6871309851bb85763eb",
+      "after": "bfe59a12b52e35c63843bee239326d9de18dd9dfb419b6871309851bb85763eb"
+    },
+    {
+      "path": "src/client/menu-ui.ts",
+      "before": "3fcb6b8bde88db63739b7b64fafdf849b72437994fe630013cdba914139d8aed",
+      "after": "3fcb6b8bde88db63739b7b64fafdf849b72437994fe630013cdba914139d8aed"
+    },
+    {
+      "path": "src/client/minimap.ts",
+      "before": "526676694d68b5d2bdf335550dcb897f26a52ef5dea626065856f0df6c37839f",
+      "after": "526676694d68b5d2bdf335550dcb897f26a52ef5dea626065856f0df6c37839f"
+    },
+    {
+      "path": "src/client/network.ts",
+      "before": "6ca2de8f6a797dbc6fce820bc5646fb5caefa9bb0d240fb5a99194617b31b8f6",
+      "after": "6ca2de8f6a797dbc6fce820bc5646fb5caefa9bb0d240fb5a99194617b31b8f6"
+    },
+    {
+      "path": "src/client/render.ts",
+      "before": "21430d6567d80bb03be875871e277b90978ec96f0b971b6d1911619face179c5",
+      "after": "21430d6567d80bb03be875871e277b90978ec96f0b971b6d1911619face179c5"
+    },
+    {
+      "path": "src/client/reward-choice.ts",
+      "before": "e11c303d5281f4a9455c7f1d6bc98941cb3122e0bcda46155e7c86717d1ac25b",
+      "after": "e11c303d5281f4a9455c7f1d6bc98941cb3122e0bcda46155e7c86717d1ac25b"
+    },
+    {
+      "path": "src/client/save.ts",
+      "before": "70bdf31f1a264895b1efae5b747dfb4a21fcf841ab582e0200ac27df35a0848a",
+      "after": "70bdf31f1a264895b1efae5b747dfb4a21fcf841ab582e0200ac27df35a0848a"
+    },
+    {
+      "path": "src/client/standard-trooper.ts",
+      "before": "841069c57ed42e5871dc8dbd4530ed19f924f429258221b49c252a7c9a2bd353",
+      "after": "841069c57ed42e5871dc8dbd4530ed19f924f429258221b49c252a7c9a2bd353"
+    },
+    {
+      "path": "src/client/structure-motion.ts",
+      "before": "e50dfe017837e711e079e55b2dd6a9d9ed866e00486a9c70591cd01071e18494",
+      "after": "e50dfe017837e711e079e55b2dd6a9d9ed866e00486a9c70591cd01071e18494"
+    },
+    {
+      "path": "src/client/weapon-help.ts",
+      "before": "6a86f06d9cec27e5eb3cf20a022ba271d7a2edabb5096b3eeaacaf9d8407dd47",
+      "after": "6a86f06d9cec27e5eb3cf20a022ba271d7a2edabb5096b3eeaacaf9d8407dd47"
+    },
+    {
+      "path": "src/shared/arena.ts",
+      "before": "d49eb2bcc09f0e653076969c07244e5a6fa692ce55a58d0dcafd510b65c9b557",
+      "after": "d49eb2bcc09f0e653076969c07244e5a6fa692ce55a58d0dcafd510b65c9b557"
+    },
+    {
+      "path": "src/shared/cave.ts",
+      "before": "4e2de6da90206a553ce6b787a3625b82672e0fa2233579461f0d0bf6bf06d89c",
+      "after": "4e2de6da90206a553ce6b787a3625b82672e0fa2233579461f0d0bf6bf06d89c"
+    },
+    {
+      "path": "src/shared/defs.ts",
+      "before": "12034dbcdf9aa9eac7df65294a0d456e5f570545001a7fdcc26b517faa29a170",
+      "after": "12034dbcdf9aa9eac7df65294a0d456e5f570545001a7fdcc26b517faa29a170"
+    },
+    {
+      "path": "src/shared/enemy-motion.ts",
+      "before": "97750d9855c9fc1130edf5a11e1277068e44cfd0ad759596524b8376ce9dd12f",
+      "after": "97750d9855c9fc1130edf5a11e1277068e44cfd0ad759596524b8376ce9dd12f"
+    },
+    {
+      "path": "src/shared/game.ts",
+      "before": "e871db5fbadf93ea89ce77fe0de45ceae6cb9e0642a3d4cf498ff8baa15eace3",
+      "after": "e871db5fbadf93ea89ce77fe0de45ceae6cb9e0642a3d4cf498ff8baa15eace3"
+    },
+    {
+      "path": "src/shared/stages.ts",
+      "before": "9e7663b95437af102642b82c80783d6bfc3ec318046179437b731b65962c9db2",
+      "after": "9e7663b95437af102642b82c80783d6bfc3ec318046179437b731b65962c9db2"
+    },
+    {
+      "path": "src/shared/structure-ai.ts",
+      "before": "f456cdc1bcc0fc64590a57e701bc398d38460032200c8344c94ed0f27f1a78ea",
+      "after": "f456cdc1bcc0fc64590a57e701bc398d38460032200c8344c94ed0f27f1a78ea"
+    },
+    {
+      "path": "src/shared/structure-timing.ts",
+      "before": "2a28cdabe1729e9450568a483ad728cc3310c4b4f88581ccee8939ed85e61621",
+      "after": "2a28cdabe1729e9450568a483ad728cc3310c4b4f88581ccee8939ed85e61621"
+    },
+    {
+      "path": "src/shared/worm.ts",
+      "before": "06067c27a40220a5cad2a185fc868f541b608bdb05c25a2fcd6ba8f6b5274f09",
+      "after": "06067c27a40220a5cad2a185fc868f541b608bdb05c25a2fcd6ba8f6b5274f09"
+    }
+  ]
+}

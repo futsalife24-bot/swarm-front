@@ -1,0 +1,35 @@
+{
+  "boneMatricesUnchanged": true,
+  "bones": 57,
+  "actionsPreserved": 15,
+  "candidateMeshes": [
+    {
+      "name": "Study_Body",
+      "vertices": 4605,
+      "triangles": 9206,
+      "nonmanifoldEdges": 0,
+      "weightErrors": 0,
+      "maxInfluences": 2
+    },
+    {
+      "name": "Study_Glove_L",
+      "vertices": 933,
+      "triangles": 1862,
+      "nonmanifoldEdges": 0,
+      "weightErrors": 0,
+      "maxInfluences": 2
+    },
+    {
+      "name": "Study_Glove_R",
+      "vertices": 933,
+      "triangles": 1862,
+      "nonmanifoldEdges": 0,
+      "weightErrors": 0,
+      "maxInfluences": 2
+    }
+  ],
+  "height": 1.86650002,
+  "soleZ": 0.000500001,
+  "externalAssetsUsed": false,
+  "fullMotionValidated": false
+}

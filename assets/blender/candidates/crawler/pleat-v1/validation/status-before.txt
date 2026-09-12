@@ -1,0 +1,195 @@
+ M AGENTS.md
+ M README.md
+ M docs/BACKLOG.md
+ M docs/STATE.md
+ M e2e/coop-result.spec.ts
+ M e2e/defeat.spec.ts
+ M e2e/mission.spec.ts
+ M e2e/reward-choice.spec.ts
+ M server/testing.ts
+ M server/worker.ts
+ M src/client/changelog.ts
+ M src/client/hud.ts
+ M src/client/minimap.ts
+ M src/client/network.ts
+ M src/client/render.ts
+ M src/client/reward-choice.ts
+ M src/client/save.ts
+ M src/main.ts
+ M src/mobile-ui.css
+ M src/shared/defs.ts
+ M src/shared/game.ts
+ M src/style.css
+ M tests/bot.ts
+ M tests/game.test.ts
+ M tests/hornet.test.ts
+ M tests/p1.test.ts
+ M tests/render.test.ts
+ M tests/rescue.test.ts
+ M vitest.config.ts
+?? assets/
+?? docs/ALIEN-DESIGN-POLISH.md
+?? docs/ARMORY-UI.md
+?? docs/BESTIARY.md
+?? docs/BLAST-DOME.md
+?? docs/CHANGELOG-LEGACY.ts.txt
+?? docs/COMBAT-EFFECTS.md
+?? docs/COMBAT-HUD.md
+?? docs/COOP-ENTRY.md
+?? docs/COOP-LOBBY.md
+?? docs/DISMANTLE.md
+?? docs/DISTANT-SCENERY.md
+?? docs/ENEMIES-ATTACK-V2.md
+?? docs/ENEMIES-MOTION-PROTOTYPE.md
+?? docs/ENEMIES-PRODUCTION.md
+?? docs/ENEMIES.md
+?? docs/ENEMY-BEHAVIOR.md
+?? docs/ENEMY-DESIGN.md
+?? docs/ENEMY-MOTION-FIX.md
+?? docs/FILTER-HELP-UI.md
+?? docs/FOUNDRY-ZERO-BLENDER-PHASE1.md
+?? docs/FOUNDRY-ZERO-POLISH.md
+?? docs/HOME-ARMORY.md
+?? docs/HOUND-BLENDER-PHASE1.md
+?? docs/HOUND-BLENDER-PHASE2.md
+?? docs/HOUND-BLENDER-PHASE3.md
+?? docs/HOUND-MOTION-READY.md
+?? docs/HOUND-PHASE2-EXTERNAL-REVIEW.md
+?? docs/HOUND-PHASE2-POLISH.md
+?? docs/HOUND-PHASE3-CHAT-REVIEW.md
+?? docs/MAPS-6.md
+?? docs/MAPS-BLENDER.md
+?? docs/MECHA-DESIGN.md
+?? docs/MENU-DESIGN.md
+?? docs/MENU-UI.md
+?? docs/PRISM-BLENDER-PHASE1.md
+?? docs/RAY-BLENDER-PHASE1.md
+?? docs/RESERVE-RELOAD.md
+?? docs/RETREAT-FREEZE-FIX.md
+?? docs/ROLLING.md
+?? docs/STAGES-20.md
+?? docs/STAGES.md
+?? docs/STANDARD-TROOPER.md
+?? docs/STRUCTURE-ANOMALY-v2.md
+?? docs/STRUCTURE-AUDIT-FIX.md
+?? docs/STRUCTURE-v2-VALIDATION.md
+?? docs/TROOPER-MOTION-FIX.md
+?? docs/TROOPER-POLISH.md
+?? docs/TROOPER-RUN.md
+?? docs/UNDERGROUND-NEST.md
+?? docs/WEAPON-EFFECTS.md
+?? docs/WEAPON-HELP.md
+?? docs/WORM-SPLIT.md
+?? docs/art/
+?? e2e/armory-ui.spec.ts
+?? e2e/enemies.spec.ts
+?? e2e/lobby.spec.ts
+?? e2e/menu-network.spec.ts
+?? e2e/menu-ui.spec.ts
+?? e2e/stages.spec.ts
+?? e2e/structure-fixture.html
+?? e2e/structure-v2.spec.ts
+?? playwright.armory-ui.config.ts
+?? playwright.armory.config.ts
+?? playwright.enemies.config.ts
+?? playwright.lobby.config.ts
+?? playwright.menu-network.config.ts
+?? playwright.menu.config.ts
+?? playwright.release.config.ts
+?? playwright.stages.config.ts
+?? playwright.structure.config.ts
+?? playwright.weapon-help.config.ts
+?? public/.assetsignore
+?? public/assets/
+?? scripts/audit-trooper-polish.mjs
+?? scripts/capture-trooper-details.mjs
+?? scripts/check-acid-hit-live.mjs
+?? scripts/check-bestiary.mjs
+?? scripts/check-blender-maps.mjs
+?? scripts/check-combat-effects-live.mjs
+?? scripts/check-combat-effects.mjs
+?? scripts/check-distant-lifecycle.mjs
+?? scripts/check-distant-scenery.mjs
+?? scripts/check-effects-live.mjs
+?? scripts/check-effects-network.mjs
+?? scripts/check-enemies-live.mjs
+?? scripts/check-enemy-behavior-live.mjs
+?? scripts/check-enemy-design.mjs
+?? scripts/check-enemy-motion-live.mjs
+?? scripts/check-lobby-layout-live.mjs
+?? scripts/check-lobby-live.mjs
+?? scripts/check-maps-live.mjs
+?? scripts/check-maps-release.mjs
+?? scripts/check-mecha-design.mjs
+?? scripts/check-mecha-live.mjs
+?? scripts/check-menu-design.mjs
+?? scripts/check-menu-production.mjs
+?? scripts/check-nest-live.mjs
+?? scripts/check-retreat-published.mjs
+?? scripts/check-retreat.mjs
+?? scripts/check-rolling.mjs
+?? scripts/check-room-entry-live.mjs
+?? scripts/check-stages-live.mjs
+?? scripts/check-standard-trooper-game.mjs
+?? scripts/check-standard-trooper-network.mjs
+?? scripts/check-standard-trooper-published.mjs
+?? scripts/check-standard-trooper.mjs
+?? scripts/check-structures-published.mjs
+?? scripts/check-structures-release.mjs
+?? scripts/check-trooper-motion-game.mjs
+?? scripts/check-trooper-motion-network.mjs
+?? scripts/check-trooper-motion-published.mjs
+?? scripts/check-trooper-motion.mjs
+?? scripts/check-trooper-polish-directions.mjs
+?? scripts/check-trooper-polish-game.mjs
+?? scripts/check-trooper-polish-network.mjs
+?? scripts/check-trooper-polish-poses.mjs
+?? scripts/check-trooper-polish-preservation.mjs
+?? scripts/check-trooper-polish-published.mjs
+?? scripts/check-trooper-polish.mjs
+?? scripts/check-trooper-run-directions.mjs
+?? scripts/check-trooper-run-game.mjs
+?? scripts/check-trooper-run-network.mjs
+?? scripts/check-trooper-run-preservation.mjs
+?? scripts/check-trooper-run-published.mjs
+?? scripts/check-trooper-run.mjs
+?? scripts/check-worm-live.mjs
+?? scripts/export-map-source.mjs
+?? scripts/inspect-menu-design.mjs
+?? scripts/measure-standard-trooper.mjs
+?? scripts/record-standard-trooper.mjs
+?? scripts/record-trooper-polish.mjs
+?? scripts/record-trooper-run.mjs
+?? scripts/render-trooper-polish-review.py
+?? scripts/render-trooper-run-review.py
+?? src/client/bestiary.css
+?? src/client/bestiary.ts
+?? src/client/cave-scene.ts
+?? src/client/combat-effects.ts
+?? src/client/enemy-glb-debug.ts
+?? src/client/enemy-model.ts
+?? src/client/enemy-viewer.ts
+?? src/client/hound-glb-debug.ts
+?? src/client/hound-motion.ts
+?? src/client/map-assets.ts
+?? src/client/menu-ui.ts
+?? src/client/standard-trooper.ts
+?? src/client/structure-motion.ts
+?? src/client/weapon-help.ts
+?? src/menu-theme.css
+?? src/menu-ui.css
+?? src/shared/arena.ts
+?? src/shared/cave.ts
+?? src/shared/enemy-motion.ts
+?? src/shared/stages.ts
+?? src/shared/structure-ai.ts
+?? src/shared/structure-timing.ts
+?? src/shared/worm.ts
+?? tests/armory.test.ts
+?? tests/enemies.test.ts
+?? tests/hound-motion.test.ts
+?? tests/maps.test.ts
+?? tests/stages.test.ts
+?? tests/standard-trooper.test.ts
+?? tests/structure-motion.test.ts
+?? tests/structure-v2.test.ts

@@ -1,0 +1,11 @@
+{
+  "restoredVertices": 1671,
+  "smoothedVertices": 1952,
+  "smoothingIterations": 8,
+  "mesh": "Study_Body",
+  "geometryChanged": false,
+  "source": "preserved Diagnostic_Body_PreJointLoops barycentric surface weights + local neighbor smoothing",
+  "blendRegion": "abs(x) .15-.24m; z fade1.08-1.16 and1.42-1.48; no change below1.08m",
+  "maximumInfluences": 4,
+  "reason": "Stage2 waist weight hard boundary x=.26 crossed inner upper arm; adjacent vertices moved 0.33m across a 0.006m edge in reach pose."
+}

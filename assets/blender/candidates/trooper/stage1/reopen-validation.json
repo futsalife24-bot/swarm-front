@@ -1,0 +1,14 @@
+{
+  "originalBoneMatricesParentsPreserved": true,
+  "allOriginalMeshesPreserved": true,
+  "originalActionsPreserved": true,
+  "forearmRegionVerticesChecked": 568,
+  "candidateGeometry": {
+    "Study_Body": "68a2d9db43cfdadb911b45153aa0af5c377a29690a8927d1ae3c3de7f7d4d941",
+    "Study_Glove_L": "dc3b0d237c3fc4f627f868f23b9ce0fd1e30a5060f5532cef68357e25a742c77",
+    "Study_Glove_R": "450727949367e27dc69cbf636326ee8341a0c2aa6a160e7112bcf62adc38c5a6"
+  },
+  "restPoseOnly": true,
+  "renderEvidence": "Current revision rendered directly before save; closeups from reopened saved blend.",
+  "protectedFileHashesUnchanged": true
+}

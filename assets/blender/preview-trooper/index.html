@@ -1,0 +1,31 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><title>SWARM FRONT — Standard Trooper inspection</title>
+<style>body{margin:0;background:#20282c;color:#e4e4df;font:14px system-ui}canvas{display:block}aside{position:absolute;top:20px;left:20px;background:#111c;padding:16px;border-left:3px solid #ed812f}select,input,button{margin:6px;padding:5px}#stats{max-width:260px;font-size:12px}h3{margin:0 0 10px}</style>
+<aside><h3>STANDARD TROOPER / A1</h3><select id="clip"></select><br><select id="weapon"><option>rifle</option><option>shotgun</option><option>rocket</option></select><br><button id="play">Pause</button><input id="time" type="range" min="0" max="3" step=".001" value="0"><br><button data-view="front">Front</button><button data-view="back">Back</button><button data-view="side">Side</button><p id="stats"></p></aside>
+<script type="module">
+import * as T from '/node_modules/three/build/three.module.js';
+import {OrbitControls} from '/node_modules/three/examples/jsm/controls/OrbitControls.js';
+import {loadStandardTrooper,StandardTrooper,TROOPER_SKINS} from '/src/client/standard-trooper.ts';
+const scene=new T.Scene();scene.background=new T.Color('#293338');
+const renderer=new T.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.toneMapping=T.ACESFilmicToneMapping;document.body.append(renderer.domElement);
+const camera=new T.PerspectiveCamera(35,innerWidth/innerHeight,.01,100);camera.position.set(2.5,1.9,-4.3);const controls=new OrbitControls(camera,renderer.domElement);controls.target.set(0,.96,0);controls.update();
+scene.add(new T.HemisphereLight(0xe7f2ff,0x4b4540,2));for(const [x,y,z,intensity] of [[-3,5,-4,3],[3,3,3,2]]){const l=new T.DirectionalLight(0xffffff,intensity);l.position.set(x,y,z);scene.add(l)}
+const floor=new T.Mesh(new T.PlaneGeometry(200,200),new T.MeshStandardMaterial({color:0x343c3b,roughness:1}));floor.rotation.x=-Math.PI/2;floor.position.y=-.006;scene.add(floor);scene.add(new T.GridHelper(6,24,0x63716d,0x424f4a));
+const trooper=new StandardTrooper(await loadStandardTrooper());scene.add(trooper.model);let active='Weapon_Idle_Rifle',time=0,play=true;
+trooper.clips.set('Bind_Pose',new T.AnimationClip('Bind_Pose',3,[]));
+const helper=new T.SkeletonHelper(trooper.model);helper.visible=false;helper.material.depthTest=false;helper.renderOrder=10;scene.add(helper);
+const panel=document.querySelector('aside');panel.querySelector('h3').textContent='STANDARD TROOPER / V4';
+const skin=document.createElement('select');skin.id='skin';skin.setAttribute('aria-label','Skin palette');
+for(const name of Object.keys(TROOPER_SKINS))skin.add(new Option(name,name));skin.onchange=()=>trooper.setSkin(skin.value);panel.append(skin);
+const rigButton=document.createElement('button');rigButton.textContent='骨格表示';rigButton.onclick=()=>helper.visible=!helper.visible;panel.append(rigButton);
+const bodyButton=document.createElement('button');bodyButton.textContent='ボディ表示';bodyButton.onclick=()=>trooper.model.traverse(o=>{if(o.isSkinnedMesh)o.visible=!o.visible});panel.append(bodyButton);
+const select=document.querySelector('#clip');for(const n of trooper.clips.keys())if(!n.startsWith('Upper_')&&!n.startsWith('Lower_'))select.add(new Option(n,n));select.value=active;
+const weapons=[{id:'qa-rifle',kind:'rifle'},{id:'qa-shotgun',kind:'shotgun'}];trooper.equip(weapons,0);
+select.onchange=()=>{active=select.value;time=0};document.querySelector('#weapon').onchange=e=>{weapons[0]={id:'qa-'+e.target.value,kind:e.target.value};trooper.equip(weapons,0)};
+document.querySelector('#play').onclick=()=>play=!play;document.querySelector('#time').oninput=e=>{play=false;time=+e.target.value};
+function view(v){camera.position.set(...({front:[0,1.2,-4.3],back:[0,1.2,4.3],side:[4.3,1.2,0],oblique:[2.5,1.9,-4.3]}[v]));controls.update()}
+document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>view(b.dataset.view));
+function pose(){if(active.startsWith('Switch'))trooper.sampleSwitch(active==='Switch_1_to_2'?0:1,time*.5);else{trooper.sample(active,time);trooper.equip(weapons,0);trooper.weapons.forEach((w,i)=>{(i?trooper.back[1]:trooper.hand).add(w);w.position.set(0,0,0);w.rotation.set(Math.PI/2,0,0)})}trooper.weapons.forEach(w=>w.visible=active!=='Bind_Pose');scene.updateMatrixWorld(true)}
+window.trooperQA={trooper,scene,camera,renderer,view,weapon:(kind)=>{weapons[0]={id:'qa-'+kind,kind};trooper.equip(weapons,0)},set:(n,t)=>{play=false;active=n;select.value=n;time=t;pose();renderer.render(scene,camera)},stats:()=>({calls:renderer.info.render.calls,triangles:renderer.info.render.triangles,bones:trooper.bones.length,clips:[...trooper.clips.keys()]})};
+let last=performance.now();function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;const duration=trooper.clips.get(active).duration;if(play)time=(time+dt)%duration;document.querySelector('#time').max=duration;document.querySelector('#time').value=time;pose();renderer.render(scene,camera);document.querySelector('#stats').textContent=`${active} · ${time.toFixed(3)} s | ${renderer.info.render.triangles} triangles / ${renderer.info.render.calls} draws`;requestAnimationFrame(frame)}requestAnimationFrame(frame);
+onresize=()=>{renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix()};
+</script></html>

@@ -1,0 +1,14 @@
+{
+  "rest": {
+    "minDistance_m": 0.0027383824344724417,
+    "meanDistance_m": 0.00641612894711822,
+    "maxDistance_m": 0.010009905323386192
+  },
+  "tuck": {
+    "minDistance_m": 0.00047449307749047875,
+    "meanDistance_m": 0.006087359557871726,
+    "maxDistance_m": 0.010009905323386192
+  },
+  "bodyNonmanifoldEdges": 0,
+  "limits": "Vertex-to-nearest-surface distances and topological continuity; not a global self-intersection proof."
+}

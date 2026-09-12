@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HOUND — Blockout v1 / local preview</title>
+<link rel="icon" href="data:,">
+<style>body{margin:0;background:#14212b;color:#d6e7e9;font:14px system-ui}canvas{display:block;width:100vw;height:100vh}nav{position:fixed;top:16px;left:20px;right:20px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}strong{margin-right:16px}button{background:#233b47;color:#d6e7e9;border:1px solid #69818b;border-radius:4px;padding:7px 10px;cursor:pointer}footer{position:fixed;bottom:16px;left:20px;font-size:12px;color:#aabcc2;pointer-events:none}</style>
+<canvas></canvas><nav><strong>HOUND / BLOCKOUT v1</strong><button data-model="new">Blender</button><button data-model="current">Current</button><button data-view="front">Front</button><button data-view="side">Side</button><button data-view="oblique">Oblique</button><button data-view="gameview">Game camera</button><button id="pulse">Ring cue</button><button id="silhouette">Silhouette</button></nav><footer>LOCAL PREVIEW · 1 unit = 1 m · forward −Z · ground Y=0 · drag to orbit</footer>
+<script type="module">
+import * as T from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {enemyGeometry, mechanizeMaterial} from '/src/client/enemy-model.ts';
+const renderer=new T.WebGLRenderer({canvas:document.querySelector('canvas'),antialias:true,preserveDrawingBuffer:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth,innerHeight);renderer.setClearColor(0x14212b);
+const scene=new T.Scene();
+scene.add(new T.HemisphereLight(0xdff3ff,0x49524a,2.4));
+const light=new T.DirectionalLight(0xffffff,3);light.position.set(-3,7,-4);scene.add(light);
+const grid=new T.GridHelper(12,24,0x55727a,0x293e49);grid.position.y=-.002;scene.add(grid);
+const forward=new T.ArrowHelper(new T.Vector3(0,0,-1),new T.Vector3(0,.01,-2.2),.7,0x65edff,.17,.1);scene.add(forward);
+const collision=new T.LineLoop(new T.BufferGeometry().setFromPoints(Array.from({length:96},(_,i)=>new T.Vector3(Math.cos(i/96*Math.PI*2)*1.25,.005,Math.sin(i/96*Math.PI*2)*1.25))),new T.LineBasicMaterial({color:0x52636a}));scene.add(collision);
+const gltf=await new GLTFLoader().loadAsync('/assets/enemies/hound_blockout_v1.glb');
+const model=gltf.scene;scene.add(model);
+const current=new T.Mesh(enemyGeometry('crawler'),mechanizeMaterial(new T.MeshStandardMaterial({vertexColors:true})));scene.add(current);current.visible=false;
+let camera,controls,view='oblique',silhouette=false;
+const saved=new Map();model.traverse(o=>{if(o.isMesh)saved.set(o,o.material)});saved.set(current,current.material);
+const flat=new T.MeshBasicMaterial({color:0xd9e6e4});
+function render(){renderer.render(scene,camera)}
+function setView(name){view=name;controls?.dispose();const aspect=innerWidth/innerHeight;
+ if(name==='gameview'){camera=new T.PerspectiveCamera(65,aspect,.1,180);camera.position.set(.8,2.9,-10);camera.lookAt(0,1.5,20)}
+ else{const h=4.8;camera=new T.OrthographicCamera(-h*aspect/2,h*aspect/2,h/2,-h/2,.01,100);camera.position.fromArray({front:[0,1.04,-8],side:[8,1.04,0],oblique:[5,3.4,-6]}[name]);camera.lookAt(0,1.04,0)}
+ controls=new OrbitControls(camera,renderer.domElement);if(name==='gameview')controls.target.set(0,1.5,20);else controls.target.set(0,1.04,0);controls.update();controls.addEventListener('change',render);render();}
+function select(name){model.visible=name==='new';current.visible=!model.visible;render()}
+function cue(active){const ring=model.getObjectByName('shoulder_ring');ring.scale.set(active?.72:1,active?.72:1,1);saved.get(ring).emissiveIntensity=active?3:.65;render()}
+function mono(active){silhouette=active;for(const [o,mat] of saved)o.material=active?flat:mat;render()}
+document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>setView(b.dataset.view));
+document.querySelectorAll('[data-model]').forEach(b=>b.onclick=()=>select(b.dataset.model));
+document.querySelector('#pulse').onclick=()=>cue(model.getObjectByName('shoulder_ring').scale.x===1);
+document.querySelector('#silhouette').onclick=()=>mono(!silhouette);
+addEventListener('resize',()=>{renderer.setSize(innerWidth,innerHeight);setView(view)});
+setView('oblique');
+window.houndPreview={model,current,renderer,scene,setView,select,cue,mono,render,ready:true};
+</script></html>

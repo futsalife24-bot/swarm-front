@@ -1,0 +1,54 @@
+{
+  "events": [
+    {
+      "action": "Trial_Switch_1_to_2",
+      "frame": 27,
+      "sourceSeconds": 0.45,
+      "runtimeSeconds": 0.225,
+      "weapon": "rifle",
+      "from": "RightHandWeaponSocket",
+      "to": "BackWeaponSocket",
+      "sameTimePositionError": 4.620705421420856e-10,
+      "sameTimeAngleErrorDegrees": 0.0
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "frame": 36,
+      "sourceSeconds": 0.6,
+      "runtimeSeconds": 0.3,
+      "weapon": "rocket",
+      "from": "BackWeaponSocket_2",
+      "to": "RightHandWeaponSocket",
+      "sameTimePositionError": 7.048756095183281e-09,
+      "sameTimeAngleErrorDegrees": 0.0
+    },
+    {
+      "action": "Trial_Switch_2_to_1",
+      "frame": 27,
+      "sourceSeconds": 0.45,
+      "runtimeSeconds": 0.225,
+      "weapon": "rocket",
+      "from": "RightHandWeaponSocket",
+      "to": "BackWeaponSocket_2",
+      "sameTimePositionError": 2.644857234535418e-07,
+      "sameTimeAngleErrorDegrees": 0.0
+    },
+    {
+      "action": "Trial_Switch_2_to_1",
+      "frame": 36,
+      "sourceSeconds": 0.6,
+      "runtimeSeconds": 0.3,
+      "weapon": "rifle",
+      "from": "BackWeaponSocket",
+      "to": "RightHandWeaponSocket",
+      "sameTimePositionError": 8.542895444500005e-09,
+      "sameTimeAngleErrorDegrees": 0.0
+    }
+  ],
+  "maxRightWristIKError": 2.682209014892578e-07,
+  "sourceDuration": 1,
+  "runtimeDuration": 0.5,
+  "fps": 60,
+  "originalActionsPreserved": true,
+  "binding": "Rendered weapons use runtime-equivalent socket matrices by phase; object parent changes are not a glTF animation channel."
+}

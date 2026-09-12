@@ -1,0 +1,9 @@
+{
+  "localRetopology": "Legs below z=.69, ring loops at .015m around knees, upper anatomy retained",
+  "nonmanifoldEdges": 0,
+  "bodyVertices": 10904,
+  "restSkeletonChanged": false,
+  "belt": "Ray-fitted to saved torso, rigid pelvis binding",
+  "waistWeights": "Pelvis through belt; smooth Spine/SpineMid/Chest distribution above",
+  "kneePads": "Rigid UpperLeg binding retains protection over patella"
+}

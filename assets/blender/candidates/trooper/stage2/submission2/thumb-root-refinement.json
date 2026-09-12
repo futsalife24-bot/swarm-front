@@ -1,0 +1,16 @@
+[
+  {
+    "side": "L",
+    "rootConnectorVerticesChanged": 32,
+    "articulatedShaftGeometryUnchanged": true,
+    "wholeHandBoundsUnchanged": true,
+    "boneAndWeightDataUnchanged": true
+  },
+  {
+    "side": "R",
+    "rootConnectorVerticesChanged": 32,
+    "articulatedShaftGeometryUnchanged": true,
+    "wholeHandBoundsUnchanged": true,
+    "boneAndWeightDataUnchanged": true
+  }
+]

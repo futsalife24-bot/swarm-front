@@ -1,0 +1,35 @@
+{
+  "files": [
+    {
+      "sha256": "99b3f2f9b71857f5b40ee60f4061dd18e59c6b0190a9a741425adf6f8a2b195d",
+      "bytes": 1770,
+      "name": "FIRST_OBSERVATION_CONTRACT.md"
+    },
+    {
+      "sha256": "1d79c68bdd7223fe2919b68411a8604742ea4e78e3b35b4e90888aeb6348baab",
+      "bytes": 7443,
+      "name": "integration-v3-external-pass.json"
+    },
+    {
+      "sha256": "1812bb886b613ebe0bfa3fa4cee9c1f92484e8033d4511b77927ef87bff86a2a",
+      "bytes": 48652,
+      "name": "pleat-v3-integration-final-review.zip"
+    },
+    {
+      "sha256": "407e025b21943d154ea46de0ec88dd279e6e6e3597af9c0214a32d026609c5f0",
+      "bytes": 16726994,
+      "name": "pleat-v3-review.zip"
+    },
+    {
+      "sha256": "45e4edd9a923c2e20887f5b236f32be234ecae7d932782d4e2e5754a912793fb",
+      "bytes": 2964,
+      "name": "README.md"
+    },
+    {
+      "sha256": "e94fcb6731e068e28643d39bc6bf439eae15095f6bd0580194543cb8053dc7f9",
+      "bytes": 6784,
+      "name": "v3-external-review.json"
+    }
+  ],
+  "status": "External PASS for candidate and unapplied proposal; not game adoption"
+}

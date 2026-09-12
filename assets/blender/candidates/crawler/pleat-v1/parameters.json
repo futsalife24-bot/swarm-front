@@ -1,0 +1,18 @@
+{
+  "name": "PLEAT",
+  "candidate": "pleat-v1",
+  "seed": 24601,
+  "cycle_seconds": 0.8,
+  "cycle_distance_m": 0.72,
+  "stance_fraction": 0.62,
+  "foot_lift_m": 0.17,
+  "impact_seconds": 0.45,
+  "materials": {
+    "felt": [0.32, 0.255, 0.16],
+    "horn": [0.54, 0.53, 0.40],
+    "support": [0.045, 0.074, 0.073],
+    "seam": [0.085, 0.46, 0.38]
+  },
+  "budget": {"triangles": 5128, "materials": 4, "bones": 20, "clips": 3},
+  "notes": "All dimensions in build_candidate.py plus these parameters are deterministic. No external image, hair system, or industrial fittings. Geometry is original to this candidate."
+}

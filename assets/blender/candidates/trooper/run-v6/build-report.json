@@ -1,0 +1,31 @@
+{
+  "reference": "https://www.youtube.com/watch?v=lK6iiZBxJuk",
+  "strideMetres": 2.6,
+  "clips": {
+    "Trial_Run": {
+      "duration": 0.8,
+      "loopError": 0.0
+    },
+    "Trial_Run_Rocket": {
+      "duration": 0.8,
+      "loopError": 0.0
+    },
+    "Trial_Run_Backward": {
+      "duration": 0.8,
+      "loopError": 0.0
+    },
+    "Trial_Run_Backward_Rocket": {
+      "duration": 0.8,
+      "loopError": 0.0
+    }
+  },
+  "maxIKClamp": 0.03415699047338028,
+  "maxIKClampAt": [
+    "Trial_Run_Backward",
+    15,
+    "R"
+  ],
+  "geometrySkeletonMaterialsUnchanged": true,
+  "other14ClipsUnchanged": true,
+  "sha256": "85d1ddc6e19fc67690309db916d14660bd34b6ea6fc6587de605a0d255239405"
+}

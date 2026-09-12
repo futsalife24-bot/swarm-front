@@ -1,0 +1,14 @@
+diff --git a/src/client/render.ts b/assets/blender/candidates/crawler/pleat-audit/render.ts.proposed.txt
+index 73c84c1..200a6c5 100644
+--- a/src/client/render.ts
++++ b/assets/blender/candidates/crawler/pleat-audit/render.ts.proposed.txt
+@@ -720,8 +720,7 @@ export class Renderer {
+             mesh.geometry.getAttribute("unfold").needsUpdate = true;
+           }
+           this.visual.set(key, v);
+-          const t =
+-            e.wind > 0
++          const t = e.wind > 0 || (e.kind === "crawler" && this.structures.get("crawler")?.controller.states.get(e.id)?.clip === "Lunge")
+               ? { x: e.tx, z: e.tz }
+               : w.players.find(
+                   (p) => p.id === e.targetId && p.hp > 0 && p.connected,

@@ -1,0 +1,666 @@
+{
+  "files": [
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\public\\assets\\enemies\\foundry_zero_motion_v1.glb",
+      "after": "A8E3B2921FAC1000E30642227C4D5DEB697F46777C7C5A5D85EB5FCA892887CF",
+      "match": true,
+      "before": "A8E3B2921FAC1000E30642227C4D5DEB697F46777C7C5A5D85EB5FCA892887CF"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\public\\assets\\enemies\\foundry_zero_v1.glb",
+      "after": "9B03B80BACBA4D8C092B4D0AA3F074BB3AB2AD1C4776B3A4B23A001829A80454",
+      "match": true,
+      "before": "9B03B80BACBA4D8C092B4D0AA3F074BB3AB2AD1C4776B3A4B23A001829A80454"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\public\\assets\\enemies\\hound_blockout_v1.glb",
+      "after": "782905206B1D450F8D1C57418D051BD4AEFDB2C50D3559689EB40D4E0912D6CD",
+      "match": true,
+      "before": "782905206B1D450F8D1C57418D051BD4AEFDB2C50D3559689EB40D4E0912D6CD"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\public\\assets\\enemies\\hound_blockout_v2.glb",
+      "after": "CACBBB213B4F86360E2B86EA1DC1D85F30690BCBC0A56875182B40A7CBF551A9",
+      "match": true,
+      "before": "CACBBB213B4F86360E2B86EA1DC1D85F30690BCBC0A56875182B40A7CBF551A9"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\public\\assets\\enemies\\hound_blockout_v3.glb",
+      "after": "BDB9FB2288DB6B5167F44104277F7DCD265A400B3A99F005108E54F64B389FFA",
+      "match": true,
+      "before": "BDB9FB2288DB6B5167F44104277F7DCD265A400B3A99F005108E54F64B389FFA"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\public\\assets\\enemies\\hound_motion_v1.glb",
+      "after": "AB0D39EB16A7DE79A71810F625D2EF05A0246C211DF78D0DCE5BE82A19F53A88",
+      "match": true,
+      "before": "AB0D39EB16A7DE79A71810F625D2EF05A0246C211DF78D0DCE5BE82A19F53A88"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\public\\assets\\enemies\\prism_motion_v1.glb",
+      "after": "54439F79A6B552EFF19413A82F164DDF3C2B4C37D3305CE332DC15E281C1450F",
+      "match": true,
+      "before": "54439F79A6B552EFF19413A82F164DDF3C2B4C37D3305CE332DC15E281C1450F"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\public\\assets\\enemies\\prism_v1.glb",
+      "after": "C4EB27B61919B06A9430B1C2B8A6919A2DCEE1A7C29C319F9D4672BD94D83838",
+      "match": true,
+      "before": "C4EB27B61919B06A9430B1C2B8A6919A2DCEE1A7C29C319F9D4672BD94D83838"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\public\\assets\\enemies\\ray_motion_v1.glb",
+      "after": "CB513EFBBAC681C6FBFDE65F366A9B7AE3BDACFD87340605F771400FA9180D11",
+      "match": true,
+      "before": "CB513EFBBAC681C6FBFDE65F366A9B7AE3BDACFD87340605F771400FA9180D11"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\public\\assets\\enemies\\ray_v1.glb",
+      "after": "AA46A5C6C9A6082D5EC1AB12CCC4BC9A03E05536C4D9B0F082305A34432C1693",
+      "match": true,
+      "before": "AA46A5C6C9A6082D5EC1AB12CCC4BC9A03E05536C4D9B0F082305A34432C1693"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\foundry_zero_motion_v1.blend",
+      "after": "9D7879925C1F2A81025A3563C9C73E484D97A766921F61A40A4790D9B1456DD4",
+      "match": true,
+      "before": "9D7879925C1F2A81025A3563C9C73E484D97A766921F61A40A4790D9B1456DD4"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\foundry_zero_v1.blend",
+      "after": "FC39A25976BD53795ABA3AF4C9E99AE7FCFAC55EB0AEC6E898A5234AD4A4EBCC",
+      "match": true,
+      "before": "FC39A25976BD53795ABA3AF4C9E99AE7FCFAC55EB0AEC6E898A5234AD4A4EBCC"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\hound_blockout_v1.blend",
+      "after": "C4A9E259CFEBE7861A9A56EBFAD9D7CC4604C13B13EECA7168D5F9E7AC171819",
+      "match": true,
+      "before": "C4A9E259CFEBE7861A9A56EBFAD9D7CC4604C13B13EECA7168D5F9E7AC171819"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\hound_blockout_v2.blend",
+      "after": "57AF20A9AC02CDEDFEC43A90BB2A87D4B20244A838C63615F94A0C36D94D773A",
+      "match": true,
+      "before": "57AF20A9AC02CDEDFEC43A90BB2A87D4B20244A838C63615F94A0C36D94D773A"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\hound_blockout_v3.blend",
+      "after": "8591E24CDBE47AD3F8716FE1AAA2C38D6558F26E173C679ABCBC7AE5939D4FB4",
+      "match": true,
+      "before": "8591E24CDBE47AD3F8716FE1AAA2C38D6558F26E173C679ABCBC7AE5939D4FB4"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\hound_motion_v1.blend",
+      "after": "765B8731F1582D2F42364A748CFE37F958073C63C7D332192269FA2AC1A919F3",
+      "match": true,
+      "before": "765B8731F1582D2F42364A748CFE37F958073C63C7D332192269FA2AC1A919F3"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\prism_motion_v1.blend",
+      "after": "198E773D6B3210EF3E5A24F8B4D041C0FE6C82ECFEB5D73F7D6F382639B8F934",
+      "match": true,
+      "before": "198E773D6B3210EF3E5A24F8B4D041C0FE6C82ECFEB5D73F7D6F382639B8F934"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\prism_v1.blend",
+      "after": "A44BB2B3086273CE0B519F427846A87769CAE0475E4A7AE73728A88EEA2BCBC8",
+      "match": true,
+      "before": "A44BB2B3086273CE0B519F427846A87769CAE0475E4A7AE73728A88EEA2BCBC8"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\ray_motion_v1.blend",
+      "after": "1200646F86250E1CE6CAC5A857B298BF64F2EAD91F2445A97D2B386B44F36286",
+      "match": true,
+      "before": "1200646F86250E1CE6CAC5A857B298BF64F2EAD91F2445A97D2B386B44F36286"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\ray_v1.blend",
+      "after": "715B141EA873E705140AE01113A1C37B4B48AE2B152F94C2EA28B59266104406",
+      "match": true,
+      "before": "715B141EA873E705140AE01113A1C37B4B48AE2B152F94C2EA28B59266104406"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\standard_trooper_v1.blend",
+      "after": "DEE9D9CBC71819971C5FC1981DB2FA9443DFF6FC278858F5C231577B0C9E06EC",
+      "match": true,
+      "before": "DEE9D9CBC71819971C5FC1981DB2FA9443DFF6FC278858F5C231577B0C9E06EC"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\standard_trooper_v2.blend",
+      "after": "0DFE19D739351E0A02A8E6A6D973ED9662DDDE921BBD130BD4A62B2A89791529",
+      "match": true,
+      "before": "0DFE19D739351E0A02A8E6A6D973ED9662DDDE921BBD130BD4A62B2A89791529"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\standard_trooper_v3.blend",
+      "after": "A26D82AF1421C51D420C3B17F52C0997B21DA79B18D7FD0061D16F814A98009A",
+      "match": true,
+      "before": "A26D82AF1421C51D420C3B17F52C0997B21DA79B18D7FD0061D16F814A98009A"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\maps\\distant_0_v1.blend",
+      "after": "8035C4150055B498E8796CDA09F26146F7850B312F749B5B39C2401FA8901A00",
+      "match": true,
+      "before": "8035C4150055B498E8796CDA09F26146F7850B312F749B5B39C2401FA8901A00"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\maps\\distant_1_v1.blend",
+      "after": "2EFDAE2F2291AD40F5DAED786142A2D598DE02CBA1BB55519E098D33CE418431",
+      "match": true,
+      "before": "2EFDAE2F2291AD40F5DAED786142A2D598DE02CBA1BB55519E098D33CE418431"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\maps\\distant_2_v1.blend",
+      "after": "7A51318DF844319BF0A177516187D9101C0109B7793C5144F8B95FC4F97182F0",
+      "match": true,
+      "before": "7A51318DF844319BF0A177516187D9101C0109B7793C5144F8B95FC4F97182F0"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\maps\\distant_3_v1.blend",
+      "after": "E61A24092D4DEC1A2FFE4DEB4A043D6DBB04587D44368312F25F4955CF4A5B46",
+      "match": true,
+      "before": "E61A24092D4DEC1A2FFE4DEB4A043D6DBB04587D44368312F25F4955CF4A5B46"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\maps\\distant_4_v1.blend",
+      "after": "F841F5B18DC7F15A390868AB67D65EEBF6012D27C469A943639B947A86176C1B",
+      "match": true,
+      "before": "F841F5B18DC7F15A390868AB67D65EEBF6012D27C469A943639B947A86176C1B"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\maps\\map_0_v1.blend",
+      "after": "2A46693A00FC6E8A5B9EF25E494573E36AD710569FA55EF6ED17F4E15B5B937A",
+      "match": true,
+      "before": "2A46693A00FC6E8A5B9EF25E494573E36AD710569FA55EF6ED17F4E15B5B937A"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\maps\\map_1_v1.blend",
+      "after": "A5778309252B996525BB91814CAE2555DFFD2EDAC9ECCE5ECA1CAC81A12FB506",
+      "match": true,
+      "before": "A5778309252B996525BB91814CAE2555DFFD2EDAC9ECCE5ECA1CAC81A12FB506"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\maps\\map_2_v1.blend",
+      "after": "648198C87E070EB7E42C91B2E283F5BC27FB3CD378D1CE23466FA0B11F91C9D0",
+      "match": true,
+      "before": "648198C87E070EB7E42C91B2E283F5BC27FB3CD378D1CE23466FA0B11F91C9D0"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\maps\\map_3_v1.blend",
+      "after": "46CCA8E12114B740B9D9F42E7B2034682A49B7C217C5B998CEEC1B14FD84CB9B",
+      "match": true,
+      "before": "46CCA8E12114B740B9D9F42E7B2034682A49B7C217C5B998CEEC1B14FD84CB9B"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\maps\\map_4_v1.blend",
+      "after": "052EF311D4138813913F1D17C53816E269385E8888F90B9B01DD74D774EF5253",
+      "match": true,
+      "before": "052EF311D4138813913F1D17C53816E269385E8888F90B9B01DD74D774EF5253"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\maps\\map_5_v1.blend",
+      "after": "14F299D66C510C841B53CD1D4BF9A116B95A2DED54F54EDA1C73CCDE89267660",
+      "match": true,
+      "before": "14F299D66C510C841B53CD1D4BF9A116B95A2DED54F54EDA1C73CCDE89267660"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\build_distant_scenery.py",
+      "after": "D592D3037F1EA2FBA0036548DE00FCAA44495B1733FF1C5C68D479B171D5B55A",
+      "match": true,
+      "before": "D592D3037F1EA2FBA0036548DE00FCAA44495B1733FF1C5C68D479B171D5B55A"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\build_enemy_motion.py",
+      "after": "4A787CD1A5B232158C9A57FBCE612E5AA93F2B739E6F25EF851259BCD7953C3E",
+      "match": true,
+      "before": "4A787CD1A5B232158C9A57FBCE612E5AA93F2B739E6F25EF851259BCD7953C3E"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\build_foundry_zero_v1.py",
+      "after": "EB947EB1097937019E0F444F1D79052B2F62C48CD6D244E87DC4AC13D3A34418",
+      "match": true,
+      "before": "EB947EB1097937019E0F444F1D79052B2F62C48CD6D244E87DC4AC13D3A34418"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\build_hound_motion.py",
+      "after": "6774607D491FB1F9AC460C4DFCFD4541A082215CDB0C98FFB9131567D8A425A6",
+      "match": true,
+      "before": "6774607D491FB1F9AC460C4DFCFD4541A082215CDB0C98FFB9131567D8A425A6"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\build_hound_v1.py",
+      "after": "BD25E2A335F1A2C6677440AAC8F99DE2ECF0E09C9009A7C5262A0A6B59D1E53F",
+      "match": true,
+      "before": "BD25E2A335F1A2C6677440AAC8F99DE2ECF0E09C9009A7C5262A0A6B59D1E53F"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\build_hound_v2.py",
+      "after": "5AECF2A5EF0C23C3122A5BFA93B07C228D9D7D5F0E02AB257C65BE2CCE7DE8AF",
+      "match": true,
+      "before": "5AECF2A5EF0C23C3122A5BFA93B07C228D9D7D5F0E02AB257C65BE2CCE7DE8AF"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\build_hound_v3.py",
+      "after": "B971B46896A4A89B22A1FC0529D09C8CC5234C1B1C38A1A36DBD164B61C73907",
+      "match": true,
+      "before": "B971B46896A4A89B22A1FC0529D09C8CC5234C1B1C38A1A36DBD164B61C73907"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\build_maps_v1.py",
+      "after": "189F963C12E988B575F2BE36586616C2F9D99F05C4C3A51CB09D3534BCC2B74B",
+      "match": true,
+      "before": "189F963C12E988B575F2BE36586616C2F9D99F05C4C3A51CB09D3534BCC2B74B"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\build_prism_v1.py",
+      "after": "C40A40EE30EE29D758ACE8B8ED30B6954FC31EE850124E3DDFB01DD0912359FE",
+      "match": true,
+      "before": "C40A40EE30EE29D758ACE8B8ED30B6954FC31EE850124E3DDFB01DD0912359FE"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\build_ray_v1.py",
+      "after": "CB1029245AA34A75D0D69EAD013CCCBAB70EC8DB3FAB3C1A3A9749BEFC94973B",
+      "match": true,
+      "before": "CB1029245AA34A75D0D69EAD013CCCBAB70EC8DB3FAB3C1A3A9749BEFC94973B"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\build_standard_trooper_v3.py",
+      "after": "7781BA261745FEB8596CF29057522006D7CD183F2DF2C25479FE08A1DF7BDACB",
+      "match": true,
+      "before": "7781BA261745FEB8596CF29057522006D7CD183F2DF2C25479FE08A1DF7BDACB"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\build_standard_trooper.py",
+      "after": "6039A1232D35AB04D7B099AE00211A686054AB9DD22FA23BBBFCC3D5996BFB6E",
+      "match": true,
+      "before": "6039A1232D35AB04D7B099AE00211A686054AB9DD22FA23BBBFCC3D5996BFB6E"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\check_alien_polish_images.mjs",
+      "after": "C9265513F8E43E989067301B86249C3549AB16BEBDEAC814CAFD70E877146470",
+      "match": true,
+      "before": "C9265513F8E43E989067301B86249C3549AB16BEBDEAC814CAFD70E877146470"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\check_attack_v2.mjs",
+      "after": "17E14D21511939977A6B0F4BBF35513FED719A83D7598CDE55E6DF51850FB44C",
+      "match": true,
+      "before": "17E14D21511939977A6B0F4BBF35513FED719A83D7598CDE55E6DF51850FB44C"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\check_enemies_phase1_integration.mjs",
+      "after": "3B3FEF5D22902FFC715E551E21A1D7A17EE492C2EE9C58AF497417A6640A5FC3",
+      "match": true,
+      "before": "3B3FEF5D22902FFC715E551E21A1D7A17EE492C2EE9C58AF497417A6640A5FC3"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\check_enemy_motion.mjs",
+      "after": "9A9AFC73B9DDAB6A35A36DBD715BD6EC33113D5E0EC1D2E83B593DEF41445115",
+      "match": true,
+      "before": "9A9AFC73B9DDAB6A35A36DBD715BD6EC33113D5E0EC1D2E83B593DEF41445115"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\check_enemy_phase1.mjs",
+      "after": "3C4E168688473A3E00171582EA231C0810AC5C2170B1BD0C5F529CF577BECA53",
+      "match": true,
+      "before": "3C4E168688473A3E00171582EA231C0810AC5C2170B1BD0C5F529CF577BECA53"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\check_foundry_polish_images.mjs",
+      "after": "1AC63FA0DF48592B0C6C328EB170FBE13BAE17A72586FB65A0D8F0F03E2FB0A2",
+      "match": true,
+      "before": "1AC63FA0DF48592B0C6C328EB170FBE13BAE17A72586FB65A0D8F0F03E2FB0A2"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\check_hound_motion_solo.mjs",
+      "after": "FB118527D55DF23025F89FC17A71DF7640EDBC768AAEC7BC0BB0DD664D12B2C4",
+      "match": true,
+      "before": "FB118527D55DF23025F89FC17A71DF7640EDBC768AAEC7BC0BB0DD664D12B2C4"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\check_hound_motion.mjs",
+      "after": "C73A24B2458CCDD8FB160111FBF6C95A11C03B87DBD438E6526191D7E799A1FA",
+      "match": true,
+      "before": "C73A24B2458CCDD8FB160111FBF6C95A11C03B87DBD438E6526191D7E799A1FA"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\check_hound_preview.mjs",
+      "after": "4CA3FAD6FC5D9C0FCB78B118FA523C7030618784930E55780B98A092243D0CD5",
+      "match": true,
+      "before": "4CA3FAD6FC5D9C0FCB78B118FA523C7030618784930E55780B98A092243D0CD5"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\check_hound_v2_boundaries.mjs",
+      "after": "01BEEE7C5E027BF5E9850C8A9C7E6178C09187EB8BE56021AA4C80E8FA1BC746",
+      "match": true,
+      "before": "01BEEE7C5E027BF5E9850C8A9C7E6178C09187EB8BE56021AA4C80E8FA1BC746"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\check_hound_v2_polish.mjs",
+      "after": "7484F500F05BB4A2E15019EC399351D3B34B5F355FA88E7794F80C2591B9A91B",
+      "match": true,
+      "before": "7484F500F05BB4A2E15019EC399351D3B34B5F355FA88E7794F80C2591B9A91B"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\check_hound_v2_solo.mjs",
+      "after": "5CF16BB8509152B942B2113F99AFBD2ECA3200AC3341FE88CF3DE927A1FB3768",
+      "match": true,
+      "before": "5CF16BB8509152B942B2113F99AFBD2ECA3200AC3341FE88CF3DE927A1FB3768"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\check_hound_v2.mjs",
+      "after": "26103542E1CE265B4F6FEC014050A3649C675F00D17B04D62304A25BA5FA2434",
+      "match": true,
+      "before": "26103542E1CE265B4F6FEC014050A3649C675F00D17B04D62304A25BA5FA2434"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\check_hound_v3_boundaries.mjs",
+      "after": "B473F85A963868DC3F90AA10395A2D34C320EE62A64334C69EE6D607C421A3DF",
+      "match": true,
+      "before": "B473F85A963868DC3F90AA10395A2D34C320EE62A64334C69EE6D607C421A3DF"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\check_hound_v3_solo.mjs",
+      "after": "7346EF2EC24572BD6C7B3AE5452E243F207327642FE17944E17221B253865C97",
+      "match": true,
+      "before": "7346EF2EC24572BD6C7B3AE5452E243F207327642FE17944E17221B253865C97"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\check_hound_v3.mjs",
+      "after": "903CC194D3EB875A9F20506B4E66DD2033F1C27BF73AC8717FAE9D653544793F",
+      "match": true,
+      "before": "903CC194D3EB875A9F20506B4E66DD2033F1C27BF73AC8717FAE9D653544793F"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\motion_video_mux.mjs",
+      "after": "EE11475BB400FA3647E80DAB7CBEC2281B7D4CB523FB32945E1B4B8711605D9D",
+      "match": true,
+      "before": "EE11475BB400FA3647E80DAB7CBEC2281B7D4CB523FB32945E1B4B8711605D9D"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\phase1_common.py",
+      "after": "FEDDD1747A34BB783F6D041B43754307DC50C59D0E0CA436B3F6FB0BAFFF1F65",
+      "match": true,
+      "before": "FEDDD1747A34BB783F6D041B43754307DC50C59D0E0CA436B3F6FB0BAFFF1F65"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\preserve_standard_trooper_geometry.py",
+      "after": "D07DA7C1456095B52112D532C4A2657FE2CF9D611AEA1C3A2C932C75C401CD13",
+      "match": true,
+      "before": "D07DA7C1456095B52112D532C4A2657FE2CF9D611AEA1C3A2C932C75C401CD13"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\record_attack_v2.mjs",
+      "after": "E9FB85F58B26E8242EB254D3336AFACF06B353266D25AD04AF16BF13E4DBACF0",
+      "match": true,
+      "before": "E9FB85F58B26E8242EB254D3336AFACF06B353266D25AD04AF16BF13E4DBACF0"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\record_enemy_motion.mjs",
+      "after": "1806B587A45CAA0D1F370FB023C5693F6D4F2F54650DC06ACBCF19311EF9DCE2",
+      "match": true,
+      "before": "1806B587A45CAA0D1F370FB023C5693F6D4F2F54650DC06ACBCF19311EF9DCE2"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\record_enemy_phase1.mjs",
+      "after": "F8AD23618599069E551F4D6B071611266C5125E16A9F713FC19143B315F31919",
+      "match": true,
+      "before": "F8AD23618599069E551F4D6B071611266C5125E16A9F713FC19143B315F31919"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\record_hound_motion.mjs",
+      "after": "11FD922ABB6EB7633A1F20DD8898B5F67955DBB0BF54DBE3E853785A0B81DC55",
+      "match": true,
+      "before": "11FD922ABB6EB7633A1F20DD8898B5F67955DBB0BF54DBE3E853785A0B81DC55"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\trooper_v3_ao.py",
+      "after": "C8B74D685044C2B4FBC96B462E758AF53FC265368F1FBCA412D753E758485913",
+      "match": true,
+      "before": "C8B74D685044C2B4FBC96B462E758AF53FC265368F1FBCA412D753E758485913"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\trooper_v3_details.py",
+      "after": "F3F173A51F37A40ABDE4B398545BBA66F4DC50784750C5A2B2B63B7C42AA571A",
+      "match": true,
+      "before": "F3F173A51F37A40ABDE4B398545BBA66F4DC50784750C5A2B2B63B7C42AA571A"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\validate_maps_v1.py",
+      "after": "9D7EA6A3649F478B1CE38D7C12F380963733E93B9F4D43F0EB6BA55143B9F35E",
+      "match": true,
+      "before": "9D7EA6A3649F478B1CE38D7C12F380963733E93B9F4D43F0EB6BA55143B9F35E"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\validate_standard_trooper_polish_source.py",
+      "after": "6955D97F551FDD55F71856FBBCA63FBE6DD578BB603A24690A14D77F8D78F60D",
+      "match": true,
+      "before": "6955D97F551FDD55F71856FBBCA63FBE6DD578BB603A24690A14D77F8D78F60D"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\validate_standard_trooper_run_source.py",
+      "after": "EF7115297B9166F27CBEF60649C2DAD72EFB0CBA43517DCB09F8842D710D733A",
+      "match": true,
+      "before": "EF7115297B9166F27CBEF60649C2DAD72EFB0CBA43517DCB09F8842D710D733A"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\validate_standard_trooper_source.py",
+      "after": "162185BDC732B25130ED3F844B119678697767DBC95533D1DAEC928A359BFE35",
+      "match": true,
+      "before": "162185BDC732B25130ED3F844B119678697767DBC95533D1DAEC928A359BFE35"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\__pycache__\\phase1_common.cpython-313.pyc",
+      "after": "D66F33D8D947C6111CEB5CD623FC6E9B958BB14A6F4044BD0F190662D29A8210",
+      "match": true,
+      "before": "D66F33D8D947C6111CEB5CD623FC6E9B958BB14A6F4044BD0F190662D29A8210"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\audio.ts",
+      "after": "E915D4CC082EBBB56B8DBE4252ADD4BF8FEDB6E1D3FCA05CD2A2A17A224F627E",
+      "match": true,
+      "before": "E915D4CC082EBBB56B8DBE4252ADD4BF8FEDB6E1D3FCA05CD2A2A17A224F627E"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\bestiary.css",
+      "after": "76EFF3228DE4E9A479EBDAC564CDF0598AF1ACF70A821C562875CAC205F7D6F4",
+      "match": true,
+      "before": "76EFF3228DE4E9A479EBDAC564CDF0598AF1ACF70A821C562875CAC205F7D6F4"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\bestiary.ts",
+      "after": "0F46F43774FCA1C36E8617C9D6A4E9C8BE6D1811006C98371341134949D26FC9",
+      "match": true,
+      "before": "0F46F43774FCA1C36E8617C9D6A4E9C8BE6D1811006C98371341134949D26FC9"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\cave-scene.ts",
+      "after": "4442F786D0B749CC4785C746873C765525FA321A16B05A120CF06598AE1D1ACA",
+      "match": true,
+      "before": "4442F786D0B749CC4785C746873C765525FA321A16B05A120CF06598AE1D1ACA"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\changelog.ts",
+      "after": "545743B4EEF55DC98E5412B6695CB61703B8CF1A3A447581216EE320F2C99AA8",
+      "match": true,
+      "before": "545743B4EEF55DC98E5412B6695CB61703B8CF1A3A447581216EE320F2C99AA8"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\combat-effects.ts",
+      "after": "5123F855BB37B9B950C15391104DAA8344C1CF2FA1BD2A1905AE5C773CD1A178",
+      "match": true,
+      "before": "5123F855BB37B9B950C15391104DAA8344C1CF2FA1BD2A1905AE5C773CD1A178"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\enemy-glb-debug.ts",
+      "after": "164C9D0CA57C018E75BA4A37E2AEA033DBF34DED1A2FCDECB326E258EEC19AFB",
+      "match": true,
+      "before": "164C9D0CA57C018E75BA4A37E2AEA033DBF34DED1A2FCDECB326E258EEC19AFB"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\enemy-model.ts",
+      "after": "6DA38026432AF409C5C4667CA380A4CD716009AE4DA154AA9E15990F515BECB1",
+      "match": true,
+      "before": "6DA38026432AF409C5C4667CA380A4CD716009AE4DA154AA9E15990F515BECB1"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\enemy-viewer.ts",
+      "after": "8376CB736B010F54A19D1C240D823BC6B6E7727F467560741080ADC929382C8C",
+      "match": true,
+      "before": "8376CB736B010F54A19D1C240D823BC6B6E7727F467560741080ADC929382C8C"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\hound-glb-debug.ts",
+      "after": "B02816EAA3D3D5765E57799E2B898B49D2707609C4D2F0D4A95E3673594EC510",
+      "match": true,
+      "before": "B02816EAA3D3D5765E57799E2B898B49D2707609C4D2F0D4A95E3673594EC510"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\hound-motion.ts",
+      "after": "6DC1EBC865E5965E5CC20F0C62704BE61C4DA93FFBB3750D5F35C44B283EE293",
+      "match": true,
+      "before": "6DC1EBC865E5965E5CC20F0C62704BE61C4DA93FFBB3750D5F35C44B283EE293"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\hud.ts",
+      "after": "DB1111B415F19E3C57FB9F3BC387C4BD13DF9F82CE5C41A0806FB5E312EB67B9",
+      "match": true,
+      "before": "DB1111B415F19E3C57FB9F3BC387C4BD13DF9F82CE5C41A0806FB5E312EB67B9"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\input.ts",
+      "after": "66A29496739A63B336CB5C37CF6E54C8B3DF95B083FF3E0EE0EB4ADF540FBF21",
+      "match": true,
+      "before": "66A29496739A63B336CB5C37CF6E54C8B3DF95B083FF3E0EE0EB4ADF540FBF21"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\layout-editor.ts",
+      "after": "A5A607F2CEBC1B50FAC3D174E8F36D9EA628245EF5E8D56BB6AA2FF36F2092F7",
+      "match": true,
+      "before": "A5A607F2CEBC1B50FAC3D174E8F36D9EA628245EF5E8D56BB6AA2FF36F2092F7"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\layout.ts",
+      "after": "F0E9504C72930480EAEDCDEBD705F215CB43902E75C215CDF9FBFE8DD105205E",
+      "match": true,
+      "before": "F0E9504C72930480EAEDCDEBD705F215CB43902E75C215CDF9FBFE8DD105205E"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\map-assets.ts",
+      "after": "BFE59A12B52E35C63843BEE239326D9DE18DD9DFB419B6871309851BB85763EB",
+      "match": true,
+      "before": "BFE59A12B52E35C63843BEE239326D9DE18DD9DFB419B6871309851BB85763EB"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\menu-ui.ts",
+      "after": "3FCB6B8BDE88DB63739B7B64FAFDF849B72437994FE630013CDBA914139D8AED",
+      "match": true,
+      "before": "3FCB6B8BDE88DB63739B7B64FAFDF849B72437994FE630013CDBA914139D8AED"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\minimap.ts",
+      "after": "526676694D68B5D2BDF335550DCB897F26A52EF5DEA626065856F0DF6C37839F",
+      "match": true,
+      "before": "526676694D68B5D2BDF335550DCB897F26A52EF5DEA626065856F0DF6C37839F"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\network.ts",
+      "after": "6CA2DE8F6A797DBC6FCE820BC5646FB5CAEFA9BB0D240FB5A99194617B31B8F6",
+      "match": true,
+      "before": "6CA2DE8F6A797DBC6FCE820BC5646FB5CAEFA9BB0D240FB5A99194617B31B8F6"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\render.ts",
+      "after": "21430D6567D80BB03BE875871E277B90978EC96F0B971B6D1911619FACE179C5",
+      "match": true,
+      "before": "21430D6567D80BB03BE875871E277B90978EC96F0B971B6D1911619FACE179C5"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\reward-choice.ts",
+      "after": "E11C303D5281F4A9455C7F1D6BC98941CB3122E0BCDA46155E7C86717D1AC25B",
+      "match": true,
+      "before": "E11C303D5281F4A9455C7F1D6BC98941CB3122E0BCDA46155E7C86717D1AC25B"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\save.ts",
+      "after": "70BDF31F1A264895B1EFAE5B747DFB4A21FCF841AB582E0200AC27DF35A0848A",
+      "match": true,
+      "before": "70BDF31F1A264895B1EFAE5B747DFB4A21FCF841AB582E0200AC27DF35A0848A"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\standard-trooper.ts",
+      "after": "841069C57ED42E5871DC8DBD4530ED19F924F429258221B49C252A7C9A2BD353",
+      "match": true,
+      "before": "841069C57ED42E5871DC8DBD4530ED19F924F429258221B49C252A7C9A2BD353"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\structure-motion.ts",
+      "after": "E50DFE017837E711E079E55B2DD6A9D9ED866E00486A9C70591CD01071E18494",
+      "match": true,
+      "before": "E50DFE017837E711E079E55B2DD6A9D9ED866E00486A9C70591CD01071E18494"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\weapon-help.ts",
+      "after": "6A86F06D9CEC27E5EB3CF20A022BA271D7A2EDABB5096B3EEAACAF9D8407DD47",
+      "match": true,
+      "before": "6A86F06D9CEC27E5EB3CF20A022BA271D7A2EDABB5096B3EEAACAF9D8407DD47"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\shared\\arena.ts",
+      "after": "D49EB2BCC09F0E653076969C07244E5A6FA692CE55A58D0DCAFD510B65C9B557",
+      "match": true,
+      "before": "D49EB2BCC09F0E653076969C07244E5A6FA692CE55A58D0DCAFD510B65C9B557"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\shared\\cave.ts",
+      "after": "4E2DE6DA90206A553CE6B787A3625B82672E0FA2233579461F0D0BF6BF06D89C",
+      "match": true,
+      "before": "4E2DE6DA90206A553CE6B787A3625B82672E0FA2233579461F0D0BF6BF06D89C"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\shared\\defs.ts",
+      "after": "12034DBCDF9AA9EAC7DF65294A0D456E5F570545001A7FDCC26B517FAA29A170",
+      "match": true,
+      "before": "12034DBCDF9AA9EAC7DF65294A0D456E5F570545001A7FDCC26B517FAA29A170"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\shared\\enemy-motion.ts",
+      "after": "97750D9855C9FC1130EDF5A11E1277068E44CFD0AD759596524B8376CE9DD12F",
+      "match": true,
+      "before": "97750D9855C9FC1130EDF5A11E1277068E44CFD0AD759596524B8376CE9DD12F"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\shared\\game.ts",
+      "after": "E871DB5FBADF93EA89CE77FE0DE45CEAE6CB9E0642A3D4CF498FF8BAA15EACE3",
+      "match": true,
+      "before": "E871DB5FBADF93EA89CE77FE0DE45CEAE6CB9E0642A3D4CF498FF8BAA15EACE3"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\shared\\stages.ts",
+      "after": "9E7663B95437AF102642B82C80783D6BFC3EC318046179437B731B65962C9DB2",
+      "match": true,
+      "before": "9E7663B95437AF102642B82C80783D6BFC3EC318046179437B731B65962C9DB2"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\shared\\structure-ai.ts",
+      "after": "F456CDC1BCC0FC64590A57E701BC398D38460032200C8344C94ED0F27F1A78EA",
+      "match": true,
+      "before": "F456CDC1BCC0FC64590A57E701BC398D38460032200C8344C94ED0F27F1A78EA"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\shared\\structure-timing.ts",
+      "after": "2A28CDABE1729E9450568A483AD728CC3310C4B4F88581CCEE8939ED85E61621",
+      "match": true,
+      "before": "2A28CDABE1729E9450568A483AD728CC3310C4B4F88581CCEE8939ED85E61621"
+    },
+    {
+      "path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\shared\\worm.ts",
+      "after": "06067C27A40220A5CAD2A185FC868F541B608BDB05C25A2FCD6BA8F6B5274F09",
+      "match": true,
+      "before": "06067C27A40220A5CAD2A185FC868F541B608BDB05C25A2FCD6BA8F6B5274F09"
+    }
+  ],
+  "changed": [],
+  "checked": 110
+}
