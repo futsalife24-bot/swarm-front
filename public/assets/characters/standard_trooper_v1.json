@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "height_m": 1.865,
+  "forward": "-Z",
+  "up": "+Y",
+  "root_motion": false,
+  "clips": {
+    "Idle": 3,
+    "Weapon_Idle_Rifle": 3,
+    "Weapon_Idle_Shotgun": 3,
+    "Weapon_Idle_Rocket": 3,
+    "Run": 0.64,
+    "Fire_Rifle": 0.13,
+    "Fire_Shotgun": 0.8,
+    "Fire_Rocket": 1.15,
+    "Switch_1_to_2": 1,
+    "Switch_2_to_1": 1,
+    "Dodge_Roll": 0.3333333333333333,
+    "Hit_Heavy": 1.2
+  },
+  "switch": {
+    "duration": 1,
+    "holster": 0.45,
+    "draw": 0.6,
+    "fps": 60,
+    "holster_frame": 27,
+    "draw_frame": 36
+  },
+  "profiles": {
+    "rifle": "Rifle",
+    "shotgun": "Shotgun",
+    "rocket": "Rocket"
+  },
+  "slots": 2,
+  "dodge_runtime_duration": 0.32
+}
