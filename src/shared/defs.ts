@@ -1,4 +1,4 @@
-import { newStats, type NewWeapon } from './progression';
+import { newStats, type NewWeapon } from "./progression";
 export const EVADE_DURATION = 0.32;
 export const WEAPON_SWITCH_DURATION = 0.5;
 export const WEAPON_SWITCH_RESUME = 0.08;
@@ -214,7 +214,7 @@ export function validWeapon(w: unknown): w is Weapon {
   if (!w || typeof w !== "object") return false;
   const v = w as Weapon;
   return (
-    !('format' in v) &&
+    !("format" in v) &&
     typeof v.id === "string" &&
     /^[a-zA-Z0-9_-]{1,100}$/.test(v.id) &&
     Object.hasOwn(WEAPONS, v.kind) &&

@@ -64,7 +64,10 @@ export class MapAssets {
   private fallback(index: number) {
     const map = VIEW_MAPS[index],
       g = this.groups[index];
-    if (map === TRAINING_MAP) { g.add(trainingMapScene()); return; }
+    if (map === TRAINING_MAP) {
+      g.add(trainingMapScene());
+      return;
+    }
     if (map.biome !== "cave") {
       const floor = new T.Mesh(
         new T.PlaneGeometry(420, 440, 210, 220),
@@ -101,10 +104,14 @@ export class MapAssets {
     }
     this.groups.forEach((g, i) => (g.visible = i === index));
     this.distantGroups.forEach((g, i) => {
-      g.visible = i === index && distantVisible && VIEW_MAPS[i].biome !== "cave";
+      g.visible =
+        i === index && distantVisible && VIEW_MAPS[i].biome !== "cave";
     });
     if (!this.groups[index].children.length) this.fallback(index);
-    if (VIEW_MAPS[index] === TRAINING_MAP) { this.status[index].state = "ready"; return; }
+    if (VIEW_MAPS[index] === TRAINING_MAP) {
+      this.status[index].state = "ready";
+      return;
+    }
     if (!load) return;
     if (
       distantVisible &&

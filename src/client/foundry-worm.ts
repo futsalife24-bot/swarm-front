@@ -315,7 +315,12 @@ export class FoundryWormView {
       ),
     );
     this.aims = units.map(() => ({ until: -Infinity }));
-    this.emitters = Array.from({length:6},(_,i)=>requiredNode(units[0],`FZ_HEAD_EMITTER_${String(i+1).padStart(2,'0')}`));
+    this.emitters = Array.from({ length: 6 }, (_, i) =>
+      requiredNode(
+        units[0],
+        `FZ_HEAD_EMITTER_${String(i + 1).padStart(2, "0")}`,
+      ),
+    );
     this.gait = new FoundryWormGait(units);
     this.batches = buildBatches(root);
     try {
@@ -352,18 +357,36 @@ export class FoundryWormView {
    * Coordinates are in root-local game metres; callers may transform root for
    * an inspection scene. time is the monotonic visual clock within one run.
    */
-  update(enemy: Readonly<Enemy>, time: number, ground?: (x:number,z:number)=>number): void {
+  update(
+    enemy: Readonly<Enemy>,
+    time: number,
+    ground?: (x: number, z: number) => number,
+  ): void {
     const size = enemySize(enemy);
     // Run the existing articulated solver in model metres, then scale the whole
     // assembly. This preserves planted feet, socket joints and laser direction.
     this.root.scale.setScalar(size);
     const normalize = (node: Readonly<WormNode>): WormNode => ({
-      ...node, x: node.x / size, y: node.y / size, z: node.z / size,
-      pulseAim: node.pulseAim ? { x: node.pulseAim.x / size,
-        y: (node.pulseAim.y ?? 1.2) / size, z: node.pulseAim.z / size } : undefined,
+      ...node,
+      x: node.x / size,
+      y: node.y / size,
+      z: node.z / size,
+      pulseAim: node.pulseAim
+        ? {
+            x: node.pulseAim.x / size,
+            y: (node.pulseAim.y ?? 1.2) / size,
+            z: node.pulseAim.z / size,
+          }
+        : undefined,
     });
-    enemy = { ...enemy, ...normalize(enemy), segments: enemy.segments?.map(normalize) };
-    this.gait.ground = ground ? (x, z) => ground(x * size, z * size) / size : undefined;
+    enemy = {
+      ...enemy,
+      ...normalize(enemy),
+      segments: enemy.segments?.map(normalize),
+    };
+    this.gait.ground = ground
+      ? (x, z) => ground(x * size, z * size) / size
+      : undefined;
     if (this.disposed) throw new Error("FOUNDRY ZERO view has been disposed");
     if (enemy.kind !== "boss" || enemy.segments?.length !== 7)
       throw new Error(
@@ -435,9 +458,19 @@ export class FoundryWormView {
     }
     this.gait.update(time);
     // Fan the head's articulated launchers while its central laser builds pressure.
-    const headProgress=1-((enemy.acidAt ?? time)-time)/FOUNDRY_LASER_WARNING;
-    const headCharge=enemy.pulseAim && alive(enemy) ? windupPressure(headProgress) : 0;
-    this.emitters.forEach((organ,i)=>organ.quaternion.setFromEuler(this.chargeAngles.set(-.32*headCharge,(i%2?1:-1)*.40*headCharge,0)));
+    const headProgress =
+      1 - ((enemy.acidAt ?? time) - time) / FOUNDRY_LASER_WARNING;
+    const headCharge =
+      enemy.pulseAim && alive(enemy) ? windupPressure(headProgress) : 0;
+    this.emitters.forEach((organ, i) =>
+      organ.quaternion.setFromEuler(
+        this.chargeAngles.set(
+          -0.32 * headCharge,
+          (i % 2 ? 1 : -1) * 0.4 * headCharge,
+          0,
+        ),
+      ),
+    );
     for (const [index, node] of nodes.entries()) {
       const aim = this.aims[index];
       if (node.pulseAim) {
@@ -457,26 +490,46 @@ export class FoundryWormView {
       this.inverse.copy(this.units[index].quaternion).invert();
       this.direction.applyQuaternion(this.inverse);
       laser.quaternion.setFromUnitVectors(FORWARD, this.direction);
-      const progress=1-((node.acidAt ?? time)-time)/FOUNDRY_LASER_WARNING;
-      const charge=node.pulseAim ? windupPressure(progress) : 0;
+      const progress =
+        1 - ((node.acidAt ?? time) - time) / FOUNDRY_LASER_WARNING;
+      const charge = node.pulseAim ? windupPressure(progress) : 0;
       // The muzzle pivot stays fixed; the original firing direction is restored at release.
-      laser.quaternion.multiply(this.chargeTurn.setFromEuler(this.chargeAngles.set(-.52*charge,0,0)));
+      laser.quaternion.multiply(
+        this.chargeTurn.setFromEuler(
+          this.chargeAngles.set(-0.52 * charge, 0, 0),
+        ),
+      );
     }
     this.syncBatches();
   }
 
   /** Observation sweep while planted; no gait, aim, or simulation clock is advanced. */
   inspectionIdle() {
-    const organs = [...this.lasers, ...Array.from({ length: 6 }, (_, i) =>
-      requiredNode(this.units[0], `FZ_HEAD_EMITTER_${String(i + 1).padStart(2, "0")}`))];
-    const rotations = organs.map(organ => organ.quaternion.clone());
-    const turn = new T.Quaternion(), angles = new T.Euler();
+    const organs = [
+      ...this.lasers,
+      ...Array.from({ length: 6 }, (_, i) =>
+        requiredNode(
+          this.units[0],
+          `FZ_HEAD_EMITTER_${String(i + 1).padStart(2, "0")}`,
+        ),
+      ),
+    ];
+    const rotations = organs.map((organ) => organ.quaternion.clone());
+    const turn = new T.Quaternion(),
+      angles = new T.Euler();
     return {
       update: (time: number) => {
         organs.forEach((laser, i) => {
-          const fade = Math.min(1, time / .4), phase = time * Math.PI / 3 + i * .65;
-          angles.set(Math.sin(phase * 2) * .08 * fade, Math.sin(phase) * .24 * fade, 0);
-          laser.quaternion.copy(rotations[i]).multiply(turn.setFromEuler(angles));
+          const fade = Math.min(1, time / 0.4),
+            phase = (time * Math.PI) / 3 + i * 0.65;
+          angles.set(
+            Math.sin(phase * 2) * 0.08 * fade,
+            Math.sin(phase) * 0.24 * fade,
+            0,
+          );
+          laser.quaternion
+            .copy(rotations[i])
+            .multiply(turn.setFromEuler(angles));
         });
         this.syncBatches();
       },

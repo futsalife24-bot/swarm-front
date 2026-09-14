@@ -136,12 +136,19 @@ it.each([6, 10, 13, 16, 20])(
           blocked(node.x, node.z, i === 0 ? 4 : 2.2, node.y, mapFor(w).blocks),
         ).toBe(false);
         // Paved maps are flat; both flat and natural maps must keep every node grounded.
-        expect(node.y).toBeCloseTo(supportHeight(node.x, node.z, mapFor(w).blocks), 6);
+        expect(node.y).toBeCloseTo(
+          supportHeight(node.x, node.z, mapFor(w).blocks),
+          6,
+        );
       }
     }
     expect(maxX - minX).toBeGreaterThan(45);
     expect(maxZ - minZ).toBeGreaterThan(45);
-    for(const node of wormNodes(e)) expect(node.y).toBeCloseTo(supportHeight(node.x,node.z,mapFor(w).blocks),6);
+    for (const node of wormNodes(e))
+      expect(node.y).toBeCloseTo(
+        supportHeight(node.x, node.z, mapFor(w).blocks),
+        6,
+      );
     const copy = JSON.parse(JSON.stringify(w));
     moveWorm(w, e, 0.05);
     moveWorm(copy, copy.enemies[0], 0.05);
@@ -494,7 +501,11 @@ it("spider never walks between jumps and favors flanking more than other enemies
   const e = w.enemies[0];
   e.jumpWait = 0.5;
   for (let i = 0; i < 5; i++) step(w, { p: neutral() });
-  expect([e.x, e.y, e.z]).toEqual([0, supportHeight(0,-8,mapFor(w).blocks), -8]);
+  expect([e.x, e.y, e.z]).toEqual([
+    0,
+    supportHeight(0, -8, mapFor(w).blocks),
+    -8,
+  ]);
   let spider = 0,
     ant = 0;
   for (let i = 0; i < 100; i++) {

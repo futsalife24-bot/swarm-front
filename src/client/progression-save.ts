@@ -220,7 +220,7 @@ export function validateProgress(s: ProgressSave) {
       !["pending", "normal", "ad"].includes(r.choice) ||
       !Array.isArray(r.weapons) ||
       !Array.isArray(r.bonus) ||
-      (r.choice === 'pending' && r.weapons.some((w) => !ids.includes(w.id))) ||
+      (r.choice === "pending" && r.weapons.some((w) => !ids.includes(w.id))) ||
       !integer(r.collected) ||
       !integer(r.coins) ||
       !integer(r.firstCoins)
@@ -364,7 +364,7 @@ export function grantResult(
     key = missionKey(input.stage, input.difficulty),
     old = n.missions[key] ?? [false, false, false],
     first = input.win && !old[0];
-  n.serial=Math.max(n.serial,...input.weapons.map(w=>w.acquired+1));
+  n.serial = Math.max(n.serial, ...input.weapons.map((w) => w.acquired + 1));
   const r: Receipt = {
     ...structuredClone(input),
     first,
@@ -407,7 +407,7 @@ export function appendCollected(s: ProgressSave, items: NewWeapon[]) {
   const known = new Set(r.weapons.map((w) => w.id)),
     fresh = items.filter((w) => !known.has(w.id));
   r.collected += fresh.length;
-  n.serial=Math.max(n.serial,...fresh.map(w=>w.acquired+1));
+  n.serial = Math.max(n.serial, ...fresh.map((w) => w.acquired + 1));
   r.weapons.push(...fresh);
   bank(n, fresh);
   return n;

@@ -2,7 +2,9 @@ let fullscreenRequest: Promise<void> | undefined;
 
 /** Keep native dialogs above an in-flight fullscreen transition from the same tap. */
 export function showModalAfterFullscreen(dialog: HTMLDialogElement) {
-  const show = () => { if (dialog.isConnected && !dialog.open) dialog.showModal(); };
+  const show = () => {
+    if (dialog.isConnected && !dialog.open) dialog.showModal();
+  };
   if (fullscreenRequest) void fullscreenRequest.then(show, show);
   else show();
 }

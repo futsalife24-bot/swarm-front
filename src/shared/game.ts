@@ -1,7 +1,24 @@
 import { enemySize, enemySpeedFactor, spawnSize } from "./enemy-size";
-import { settings, rollWeapon, type NewWeapon } from './progression';
-import { maxHp, recoveryWait, switchTime, soloBeginWave, soloSpawnAndProgress, soloDrop, collectSolo, endSoloTick, type SoloProgression } from './solo-progression';
-import { groundHeight, supportHeight, terrainProps, terrainBlocked, terrainRay, WALK_STEP } from "./terrain";
+import { settings, rollWeapon, type NewWeapon } from "./progression";
+import {
+  maxHp,
+  recoveryWait,
+  switchTime,
+  soloBeginWave,
+  soloSpawnAndProgress,
+  soloDrop,
+  collectSolo,
+  endSoloTick,
+  type SoloProgression,
+} from "./solo-progression";
+import {
+  groundHeight,
+  supportHeight,
+  terrainProps,
+  terrainBlocked,
+  terrainRay,
+  WALK_STEP,
+} from "./terrain";
 import { ARENA_X, ARENA_Z, MAP_SCALE } from "./arena";
 import { MAX_PITCH } from "./aim";
 import {
@@ -186,7 +203,7 @@ export interface Event {
   owner?: string;
 }
 export interface Drop {
-  type?: 'weapon'|'heal';
+  type?: "weapon" | "heal";
   born?: number;
   fromX?: number;
   fromZ?: number;
@@ -298,7 +315,15 @@ export function random(w: World) {
   return w.seed / 4294967296;
 }
 export function loot(w: World): Weapon {
-  if(w.solo)return rollWeapon(`${w.run}-${++w.serial}`,w.solo.stage,w.solo.difficulty,w.solo.test,w.solo.acquired++,()=>random(w));
+  if (w.solo)
+    return rollWeapon(
+      `${w.run}-${++w.serial}`,
+      w.solo.stage,
+      w.solo.difficulty,
+      w.solo.test,
+      w.solo.acquired++,
+      () => random(w),
+    );
   const kind = (["rifle", "shotgun", "rocket"] as const)[
     Math.floor(random(w) * 3)
   ];
@@ -392,18 +417,27 @@ export function move(
   airborne = false,
 ) {
   // Substeps prevent dodge/knockback from tunnelling through narrow props.
-  const steps = Math.max(1, Math.ceil(Math.hypot(dx, dz) / .2));
+  const steps = Math.max(1, Math.ceil(Math.hypot(dx, dz) / 0.2));
   let y = p.y ?? supportHeight(p.x, p.z, blocks);
-  const grounded = !airborne && y <= supportHeight(p.x, p.z, blocks, y, r) + WALK_STEP;
-  for(let i=0;i<steps;i++) for(const axis of ["x", "z"] as const) {
-    const nx=p.x+(axis==="x"?dx/steps:0), nz=p.z+(axis==="z"?dz/steps:0);
-    const floor=supportHeight(nx,nz,blocks,y,r);
-    const nextY=grounded?floor:y;
-    if(nextY + 1e-6 >= groundHeight(nx,nz,blocks) && (!grounded || floor-y<=WALK_STEP) && !blocked(nx,nz,r,nextY,blocks)) {
-      p.x=nx;p.z=nz;y=nextY;
+  const grounded =
+    !airborne && y <= supportHeight(p.x, p.z, blocks, y, r) + WALK_STEP;
+  for (let i = 0; i < steps; i++)
+    for (const axis of ["x", "z"] as const) {
+      const nx = p.x + (axis === "x" ? dx / steps : 0),
+        nz = p.z + (axis === "z" ? dz / steps : 0);
+      const floor = supportHeight(nx, nz, blocks, y, r);
+      const nextY = grounded ? floor : y;
+      if (
+        nextY + 1e-6 >= groundHeight(nx, nz, blocks) &&
+        (!grounded || floor - y <= WALK_STEP) &&
+        !blocked(nx, nz, r, nextY, blocks)
+      ) {
+        p.x = nx;
+        p.z = nz;
+        y = nextY;
+      }
     }
-  }
-  p.y=y;
+  p.y = y;
 }
 // Segment/AABB slab intersection; shared by bullets, explosions, aim assist and camera.
 export function wallDistance(
@@ -416,14 +450,20 @@ export function wallDistance(
   max: number,
   blocks = BLOCKS,
 ) {
-  let best = terrainRay(x,y,z,dx,dy,dz,max,blocks);
-  if (blocks === CAVE_BLOCKS) best = Math.min(best,caveRay(x,y,z,dx,dy,dz,max));
+  let best = terrainRay(x, y, z, dx, dy, dz, max, blocks);
+  if (blocks === CAVE_BLOCKS)
+    best = Math.min(best, caveRay(x, y, z, dx, dy, dz, max));
   for (const b of [...blocks, ...terrainProps(blocks)]) {
     let lo = 0,
       hi = best;
     for (const [o, d, min, maxv] of [
       [x, dx, b.x - b.w / 2, b.x + b.w / 2],
-      [y, dy, "base" in b ? Number(b.base) : 0, b.h + ("base" in b ? Number(b.base) : 0)],
+      [
+        y,
+        dy,
+        "base" in b ? Number(b.base) : 0,
+        b.h + ("base" in b ? Number(b.base) : 0),
+      ],
       [z, dz, b.z - b.d / 2, b.z + b.d / 2],
     ]) {
       if (Math.abs(d) < 1e-8) {
@@ -469,16 +509,16 @@ export function visible(
   b: { x: number; z: number; y?: number },
   blocks = BLOCKS,
 ) {
-  const dy=(b.y ?? 0)-(a.y ?? 0);
+  const dy = (b.y ?? 0) - (a.y ?? 0);
   const d = Math.hypot(b.x - a.x, dy, b.z - a.z);
-  if(d<1e-8)return true;
+  if (d < 1e-8) return true;
   return (
     wallDistance(
       a.x,
       (a.y ?? 0) + 1.2,
       a.z,
       (b.x - a.x) / d,
-      dy/d,
+      dy / d,
       (b.z - a.z) / d,
       d,
       blocks,
@@ -498,7 +538,13 @@ export function spawn(
   form: BossForm = "crown",
   sizeSlot?: number,
 ) {
-  if (w.enemies.length >= (w.solo?settings(w.solo.stage,w.solo.difficulty).enemyCap:LIMITS.enemies)) return;
+  if (
+    w.enemies.length >=
+    (w.solo
+      ? settings(w.solo.stage, w.solo.difficulty).enemyCap
+      : LIMITS.enemies)
+  )
+    return;
   const ordinal = w.enemyOrdinal ?? 0;
   const size = spawnSize(kind, form === "worm", sizeSlot ?? ordinal);
   const a = random(w) * Math.PI * 2;
@@ -535,7 +581,10 @@ export function spawn(
     size,
     kind,
     x: ex,
-    y: Math.min(supportHeight(ex,ez,mapFor(w).blocks) + ENEMIES[kind].cruise, mapFor(w).blocks === CAVE_BLOCKS && kind === "hornet" ? 5 : Infinity),
+    y: Math.min(
+      supportHeight(ex, ez, mapFor(w).blocks) + ENEMIES[kind].cruise,
+      mapFor(w).blocks === CAVE_BLOCKS && kind === "hornet" ? 5 : Infinity,
+    ),
     z: ez,
     hp,
     maxHp: hp,
@@ -567,11 +616,19 @@ export function spawn(
 }
 // Authored slots do not shift when players cause different reinforcement counts.
 function waveSizeSlot(w: World, offset: number) {
-  return stageFor(w).waves.slice(0, w.wave - 1).reduce((sum, wave) => sum + troopCount(wave) + wave.bosses.length, 0) + offset;
+  return (
+    stageFor(w)
+      .waves.slice(0, w.wave - 1)
+      .reduce((sum, wave) => sum + troopCount(wave) + wave.bosses.length, 0) +
+    offset
+  );
 }
 // Separated boss entries and immediate escorts, all counted in this wave.
 function beginWave(w: World) {
-  if(w.solo){soloBeginWave(w);return;}
+  if (w.solo) {
+    soloBeginWave(w);
+    return;
+  }
   const wave = stageFor(w).waves[w.wave - 1];
   w.spawned = 0;
   w.nextSpawn = w.time + wave.interval;
@@ -588,14 +645,15 @@ function beginWave(w: World) {
       troopAt(wave, i),
       (i % 2 ? 1 : -1) * 6 * MAP_SCALE,
       (-38 + Math.floor(i / 2) * 22) * MAP_SCALE,
-      "crown", waveSizeSlot(w, wave.bosses.length + i),
+      "crown",
+      waveSizeSlot(w, wave.bosses.length + i),
     );
     w.enemies[w.enemies.length - 1].active = false;
     w.spawned++;
   }
 }
 function hurtPlayer(w: World, p: Player, damage: number, heavy = false) {
-  if (p.hp <= 0 || p.evade > 0 || (w.solo?.invincible??0)>0) return;
+  if (p.hp <= 0 || p.evade > 0 || (w.solo?.invincible ?? 0) > 0) return;
   p.hp = Math.max(0, p.hp - damage * stageFor(w).damage);
   if (heavy) p.heavyHit = HEAVY_HIT_DURATION;
   p.hurt = 0.2;
@@ -699,13 +757,13 @@ export function hurtEnemy(
     amount: Math.round(damage),
   });
   if (e.hp <= 0) {
-    if(w.solo&&e.foundrySource===undefined)w.solo.plannedKills++;
+    if (w.solo && e.foundrySource === undefined) w.solo.plannedKills++;
     w.totalKills++;
     w.waveKills++;
     const p = w.players.find((p) => p.id === owner);
     if (p) p.kills++;
     event(w, { type: "kill", ...impact, owner });
-    if(w.solo)soloDrop(w,e);
+    if (w.solo) soloDrop(w, e);
     else if (random(w) < stageFor(w).dropRate && w.drops.length < 24)
       for (const p of w.players) {
         if (w.drops.length >= 24) break;
@@ -794,7 +852,7 @@ export function aimCamera(
   };
   const ray = {
     x: p.x + Math.sin(yaw) * 30 * Math.cos(pitch) - camera.x,
-    y: ((p.y ?? 0) + 1.5) + Math.sin(pitch) * 30 - camera.y,
+    y: (p.y ?? 0) + 1.5 + Math.sin(pitch) * 30 - camera.y,
     z: p.z - Math.cos(yaw) * 30 * Math.cos(pitch) - camera.z,
   };
   const rayLength = Math.hypot(ray.x, ray.y, ray.z);
@@ -856,7 +914,7 @@ export function cameraShot(
     dx = d.x;
     dy = d.y;
     dz = d.z;
-    target = { x: p.x + dx, y: ((p.y ?? 0) + 1.5) + dy, z: p.z + dz };
+    target = { x: p.x + dx, y: (p.y ?? 0) + 1.5 + dy, z: p.z + dz };
   }
   const length = Math.hypot(dx, dy, dz);
   return {
@@ -889,7 +947,8 @@ export function fire(w: World, p: Player, i: Input) {
     }))
     .filter(
       (t) =>
-        Math.abs(angle(t.a - yaw)) < 0.065 * (1 + .04*(w.solo?.levels.aim??0)) &&
+        Math.abs(angle(t.a - yaw)) <
+          0.065 * (1 + 0.04 * (w.solo?.levels.aim ?? 0)) &&
         t.d < def.range &&
         Math.abs(pitch) < 0.18 &&
         // Only nudge towards something roughly at the shooter's own level. Without
@@ -901,7 +960,10 @@ export function fire(w: World, p: Player, i: Input) {
     .sort((a, b) => a.d - b.d);
   if (candidates[0]) {
     yaw = candidates[0].a;
-    pitch = Math.atan2(eye(candidates[0].e) - ((p.y ?? 0) + 1.5), candidates[0].d);
+    pitch = Math.atan2(
+      eye(candidates[0].e) - ((p.y ?? 0) + 1.5),
+      candidates[0].d,
+    );
   }
   const repelled = new Set<Enemy>();
   for (let j = 0; j < def.pellets; j++) {
@@ -916,7 +978,7 @@ export function fire(w: World, p: Player, i: Input) {
           id: ++w.serial,
           x: p.x,
           z: p.z,
-          y: ((p.y ?? 0) + 1.5),
+          y: (p.y ?? 0) + 1.5,
           dx: dx * 28,
           dz: dz * 28,
           dy: dy * 28,
@@ -930,18 +992,18 @@ export function fire(w: World, p: Player, i: Input) {
         type: "shot",
         weapon: weapon.kind,
         x: p.x,
-        y: ((p.y ?? 0) + 1.5),
+        y: (p.y ?? 0) + 1.5,
         z: p.z,
         tx: p.x + dx * 2,
         tz: p.z + dz * 2,
-        ty: ((p.y ?? 0) + 1.5) + dy * 2,
+        ty: (p.y ?? 0) + 1.5 + dy * 2,
         owner: p.id,
       });
       continue;
     }
     let range = wallDistance(
       p.x,
-      ((p.y ?? 0) + 1.5),
+      (p.y ?? 0) + 1.5,
       p.z,
       dx,
       dy,
@@ -949,13 +1011,17 @@ export function fire(w: World, p: Player, i: Input) {
       def.range,
       mapFor(w).blocks,
     );
-    if (i.cameraAim && dy < -1e-8) range = Math.min(range, -((p.y ?? 0) + 1.5) / dy);
+    if (i.cameraAim && dy < -1e-8)
+      range = Math.min(range, -((p.y ?? 0) + 1.5) / dy);
     const hits = w.enemies
       .filter((e) => e.hp > 0)
       .map((e) => {
         const candidates = enemyBodies(e).map((body) => {
           const ey = body.y,
-            along = (body.x - p.x) * dx + (body.z - p.z) * dz + (ey - ((p.y ?? 0) + 1.5)) * dy;
+            along =
+              (body.x - p.x) * dx +
+              (body.z - p.z) * dz +
+              (ey - ((p.y ?? 0) + 1.5)) * dy;
           const distance = Math.hypot(
             body.x - p.x - dx * along,
             body.z - p.z - dz * along,
@@ -1000,10 +1066,10 @@ export function fire(w: World, p: Player, i: Input) {
       weapon: weapon.kind,
       x: p.x,
       z: p.z,
-      y: ((p.y ?? 0) + 1.5),
+      y: (p.y ?? 0) + 1.5,
       tx: p.x + dx * range,
       tz: p.z + dz * range,
-      ty: ((p.y ?? 0) + 1.5) + dy * range,
+      ty: (p.y ?? 0) + 1.5 + dy * range,
       owner: p.id,
     });
   }
@@ -1026,7 +1092,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   if (!w.players.some((p) => p.connected)) return;
   dt = Math.min(0.1, Math.max(0, dt));
   w.time += dt;
-  if(w.solo)w.solo.invincible=Math.max(0,w.solo.invincible-dt);
+  if (w.solo) w.solo.invincible = Math.max(0, w.solo.invincible - dt);
   for (const p of w.players) {
     if (!p.connected) continue;
     const i = inputs[p.id] ?? neutral();
@@ -1048,17 +1114,27 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       continue;
     }
     p.safe += dt;
-    if (p.safe > recoveryWait(w) && p.hp < maxHp(w)*(w.solo?.5:1)) p.hp = Math.min(maxHp(w)*(w.solo?.5:1), p.hp + dt * 3);
-    if(w.solo&&p.reloadSlots)for(let slot=0;slot<2;slot++)if(slot!==p.slot&&p.reloadSlots[slot]>0){p.reloadSlots[slot]=Math.max(0,p.reloadSlots[slot]-dt);if(p.reloadSlots[slot]===0)p.ammo[slot]=stats(p.weapons[slot]).mag;}
+    if (p.safe > recoveryWait(w) && p.hp < maxHp(w) * (w.solo ? 0.5 : 1))
+      p.hp = Math.min(maxHp(w) * (w.solo ? 0.5 : 1), p.hp + dt * 3);
+    if (w.solo && p.reloadSlots)
+      for (let slot = 0; slot < 2; slot++)
+        if (slot !== p.slot && p.reloadSlots[slot] > 0) {
+          p.reloadSlots[slot] = Math.max(0, p.reloadSlots[slot] - dt);
+          if (p.reloadSlots[slot] === 0)
+            p.ammo[slot] = stats(p.weapons[slot]).mag;
+        }
     if (p.reload > 0) {
       p.reload -= dt;
       if (p.reload <= 0) p.ammo[p.slot] = stats(p.weapons[p.slot]).mag;
     }
     if (i.swap && p.swapCd <= 0) {
-      if(w.solo){p.reloadSlots??=[0,0];p.reloadSlots[p.slot]=Math.max(0,p.reload);}
+      if (w.solo) {
+        p.reloadSlots ??= [0, 0];
+        p.reloadSlots[p.slot] = Math.max(0, p.reload);
+      }
       p.slot = 1 - p.slot;
-      p.reload = w.solo?(p.reloadSlots?.[p.slot]??0):0;
-      p.swapCd = w.solo?switchTime(w):WEAPON_SWITCH_DURATION;
+      p.reload = w.solo ? (p.reloadSlots?.[p.slot] ?? 0) : 0;
+      p.swapCd = w.solo ? switchTime(w) : WEAPON_SWITCH_DURATION;
       if (w.solo) p.swapDuration = p.swapCd;
       p.swapResume = 0;
     }
@@ -1073,7 +1149,10 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       p.evadeCd = 2.2;
     }
     const norm = Math.max(1, Math.hypot(i.mx, i.mz)),
-      speed = p.evade > 0 ? MOVE_SPEED.dodge : MOVE_SPEED.walk*(1+.03*(w.solo?.levels.move??0));
+      speed =
+        p.evade > 0
+          ? MOVE_SPEED.dodge
+          : MOVE_SPEED.walk * (1 + 0.03 * (w.solo?.levels.move ?? 0));
     move(
       p,
       ((i.mx * Math.cos(i.yaw) + i.mz * Math.sin(i.yaw)) / norm) * speed * dt,
@@ -1087,13 +1166,14 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       p.yaw = shot.yaw;
       p.pitch = shot.pitch;
     }
-    if(w.solo)collectSolo(w,p);
-    else for (const d of w.drops.filter(
-      (d) => d.owner === p.id && Math.hypot(d.x - p.x, d.z - p.z) < 3,
-    )) {
-      if (w.pending[p.id].length < 20) w.pending[p.id].push(d.weapon);
-      w.drops = w.drops.filter((x) => x !== d);
-    }
+    if (w.solo) collectSolo(w, p);
+    else
+      for (const d of w.drops.filter(
+        (d) => d.owner === p.id && Math.hypot(d.x - p.x, d.z - p.z) < 3,
+      )) {
+        if (w.pending[p.id].length < 20) w.pending[p.id].push(d.weapon);
+        w.drops = w.drops.filter((x) => x !== d);
+      }
   }
   for (const p of w.players.filter(
     (p) => p.connected && p.hp <= 0 && p.down > 0,
@@ -1116,53 +1196,71 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   }
   const living = w.players.filter((p) => p.hp > 0 && p.connected);
   if (!living.length) {
-    if(w.solo){endSoloTick(w);return;}
+    if (w.solo) {
+      endSoloTick(w);
+      return;
+    }
     finish(w, false, "部隊が全員ダウンしました");
     return;
   }
   const plan = stageFor(w);
   const wave = plan.waves[w.wave - 1];
   if (!wave) return;
-  if(w.solo)soloSpawnAndProgress(w);
+  if (w.solo) soloSpawnAndProgress(w);
   else if (!w.training) {
-  if (
-    w.spawned < troopCount(wave) &&
-    pendingFoundryCount(w) === 0 &&
-    w.enemies.length < LIMITS.enemies &&
-    w.time >= w.nextSpawn
-  ) {
-    const kind = troopAt(wave, w.spawned);
-    const factory = w.enemies.find(
-      (e) =>
-        e.kind === "boss" && !e.segments && e.hp > 0 && foundryPhase(e) >= 2,
-    );
-    // Existing wave budget only: fabrication relocates the scheduled unit.
-    if (factory && kind === "spitter") {
-      spawn(w, kind, factory.x + 5, factory.z, "crown", waveSizeSlot(w, wave.bosses.length + w.spawned));
-      factory.fabrication = 0.8;
-    } else spawn(w, kind, undefined, undefined, "crown", waveSizeSlot(w, wave.bosses.length + w.spawned));
-    w.spawned++;
-    w.nextSpawn = w.time + wave.interval;
-  }
-  if (
-    w.spawned >= troopCount(wave) &&
-    w.enemies.every((e) => e.hp <= 0) &&
-    pendingFoundryCount(w) === 0
-  ) {
-    if (w.wave === plan.waves.length) {
-      finish(w, true);
-      return;
+    if (
+      w.spawned < troopCount(wave) &&
+      pendingFoundryCount(w) === 0 &&
+      w.enemies.length < LIMITS.enemies &&
+      w.time >= w.nextSpawn
+    ) {
+      const kind = troopAt(wave, w.spawned);
+      const factory = w.enemies.find(
+        (e) =>
+          e.kind === "boss" && !e.segments && e.hp > 0 && foundryPhase(e) >= 2,
+      );
+      // Existing wave budget only: fabrication relocates the scheduled unit.
+      if (factory && kind === "spitter") {
+        spawn(
+          w,
+          kind,
+          factory.x + 5,
+          factory.z,
+          "crown",
+          waveSizeSlot(w, wave.bosses.length + w.spawned),
+        );
+        factory.fabrication = 0.8;
+      } else
+        spawn(
+          w,
+          kind,
+          undefined,
+          undefined,
+          "crown",
+          waveSizeSlot(w, wave.bosses.length + w.spawned),
+        );
+      w.spawned++;
+      w.nextSpawn = w.time + wave.interval;
     }
-    w.waveClearAt ??= w.time;
-  } else w.waveClearAt = null;
-  if (w.waveClearAt !== null && w.time - w.waveClearAt >= WAVE_INTERVAL) {
-    w.wave++;
-    w.waveAt = w.time;
-    w.waveClearAt = null;
-    w.waveKills = 0;
-    for (const p of living) p.hp = Math.min(160, p.hp + 45);
-    beginWave(w);
-  }
+    if (
+      w.spawned >= troopCount(wave) &&
+      w.enemies.every((e) => e.hp <= 0) &&
+      pendingFoundryCount(w) === 0
+    ) {
+      if (w.wave === plan.waves.length) {
+        finish(w, true);
+        return;
+      }
+      w.waveClearAt ??= w.time;
+    } else w.waveClearAt = null;
+    if (w.waveClearAt !== null && w.time - w.waveClearAt >= WAVE_INTERVAL) {
+      w.wave++;
+      w.waveAt = w.time;
+      w.waveClearAt = null;
+      w.waveKills = 0;
+      for (const p of living) p.hp = Math.min(160, p.hp + 45);
+      beginWave(w);
+    }
   }
   for (const e of w.enemies) {
     if (e.hp <= 0) continue;
@@ -1179,7 +1277,11 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       e.fabrication = Math.max(0, (e.fabrication ?? 0) - dt);
     }
     const d = Math.hypot(t.x - e.x, t.z - e.z),
-      def = { ...ENEMIES[e.kind], speed: ENEMIES[e.kind].speed * enemySpeedFactor(e), damage: ENEMIES[e.kind].damage * enemySize(e) };
+      def = {
+        ...ENEMIES[e.kind],
+        speed: ENEMIES[e.kind].speed * enemySpeedFactor(e),
+        damage: ENEMIES[e.kind].damage * enemySize(e),
+      };
     if (e.active === false) {
       if (
         !living.some(
@@ -1213,7 +1315,13 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       if (e.kind === "crawler" && e.wind < 1e-9) e.wind = 0;
       if (e.wind <= 0) {
         if (e.kind === "boss") {
-          event(w, { type: "burst", radius: 7, x: e.tx, z: e.tz, y: groundHeight(e.tx,e.tz,mapFor(w).blocks) + 0.1 });
+          event(w, {
+            type: "burst",
+            radius: 7,
+            x: e.tx,
+            z: e.tz,
+            y: groundHeight(e.tx, e.tz, mapFor(w).blocks) + 0.1,
+          });
           for (const p of living)
             if (
               Math.hypot(p.x - e.tx, p.z - e.tz) < 7 &&
@@ -1283,7 +1391,8 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
               pz = p.z - e.z,
               pd = Math.hypot(px, pz);
             if (
-              pd < 2.5 && Math.abs((p.y ?? 0)-e.y)<2.5 &&
+              pd < 2.5 &&
+              Math.abs((p.y ?? 0) - e.y) < 2.5 &&
               (px * ax + pz * az) / (Math.max(0.001, pd) * length) >= 0.5 &&
               visible(e, p, mapFor(w).blocks)
             )
@@ -1291,7 +1400,8 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
           }
           e.cool = 1.2;
         } else {
-          if (d < 2.5 && Math.abs(e.y - (t.y ?? 0)) < 2) hurtPlayer(w, t, def.damage);
+          if (d < 2.5 && Math.abs(e.y - (t.y ?? 0)) < 2)
+            hurtPlayer(w, t, def.damage);
           e.cool = 1.2;
         }
       }
@@ -1442,7 +1552,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     q.y += dy * Math.min(1, wall / dist);
     q.dy -= (q.gravity ?? 0) * dt;
     q.life -= dt;
-    const floor = groundHeight(q.x,q.z,mapFor(w).blocks);
+    const floor = groundHeight(q.x, q.z, mapFor(w).blocks);
     let hit = wall < dist || q.y <= floor || q.life <= 0;
     q.y = Math.max(floor, q.y);
     if (q.rocket) {
@@ -1471,23 +1581,20 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
             (a, b) =>
               Number(a.part === 0) - Number(b.part === 0) || a.part - b.part,
           )) {
-            const d = Math.hypot(
-              b.x - q.x,
-              b.z - q.z,
-              b.y - q.y,
-            );
-            const clear = d < 0.01 ||
-                wallDistance(
-                  q.x,
-                  q.y,
-                  q.z,
-                  (b.x - q.x) / d,
-                  (b.y - q.y) / d,
-                  (b.z - q.z) / d,
-                  d,
-                  mapFor(w).blocks,
-                ) >=
-                  d - 0.01;
+            const d = Math.hypot(b.x - q.x, b.z - q.z, b.y - q.y);
+            const clear =
+              d < 0.01 ||
+              wallDistance(
+                q.x,
+                q.y,
+                q.z,
+                (b.x - q.x) / d,
+                (b.y - q.y) / d,
+                (b.z - q.z) / d,
+                d,
+                mapFor(w).blocks,
+              ) >=
+                d - 0.01;
             if (d < 6.5 && clear)
               hurtEnemy(w, e, q.damage * (1 - d / 9), q.owner, b.part);
           }
@@ -1523,7 +1630,10 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       }
     } else {
       for (const p of living)
-        if (!hit && Math.hypot(p.x - q.x, p.z - q.z, (p.y ?? 0) + 1.2 - q.y) < 1) {
+        if (
+          !hit &&
+          Math.hypot(p.x - q.x, p.z - q.z, (p.y ?? 0) + 1.2 - q.y) < 1
+        ) {
           hurtPlayer(w, p, q.damage);
           hit = true;
         }
@@ -1536,8 +1646,9 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   w.projectiles = w.projectiles.filter((q) => q.life > 0);
   w.enemies = w.enemies.filter((e) => e.hp > 0);
   flushFoundrySpawns(w);
-  if(w.solo)endSoloTick(w);
-  else if (!w.training && w.time > 600) finish(w, false, "作戦時間の上限（10分）に達しました");
+  if (w.solo) endSoloTick(w);
+  else if (!w.training && w.time > 600)
+    finish(w, false, "作戦時間の上限（10分）に達しました");
 }
 export function validInput(v: unknown): v is Input {
   if (!v || typeof v !== "object") return false;

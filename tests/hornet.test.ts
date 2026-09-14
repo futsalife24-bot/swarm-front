@@ -35,16 +35,24 @@ describe("airborne enemy", () => {
   it("keeps existing enemies on the ground and unchanged", () => {
     const { w } = field();
     spawn(w, "crawler", 0, -10);
-    expect(w.enemies[0].y).toBeCloseTo(supportHeight(w.enemies[0].x,w.enemies[0].z,mapFor(w).blocks));
-    expect(eye(w.enemies[0])).toBeCloseTo(w.enemies[0].y+1.4*enemySize(w.enemies[0]));
+    expect(w.enemies[0].y).toBeCloseTo(
+      supportHeight(w.enemies[0].x, w.enemies[0].z, mapFor(w).blocks),
+    );
+    expect(eye(w.enemies[0])).toBeCloseTo(
+      w.enemies[0].y + 1.4 * enemySize(w.enemies[0]),
+    );
     run(w, 1);
     expect(w.enemies[0].y).toBe(0);
   });
   it("spawns at cruising height", () => {
     const { w } = field();
     spawn(w, "hornet", 0, -30);
-    expect(w.enemies[0].y).toBe(ENEMIES.hornet.cruise + supportHeight(0,-30,mapFor(w).blocks));
-    expect(eye(w.enemies[0])).toBeCloseTo(w.enemies[0].y+enemySize(w.enemies[0]));
+    expect(w.enemies[0].y).toBe(
+      ENEMIES.hornet.cruise + supportHeight(0, -30, mapFor(w).blocks),
+    );
+    expect(eye(w.enemies[0])).toBeCloseTo(
+      w.enemies[0].y + enemySize(w.enemies[0]),
+    );
   });
   it("climbs over a building instead of passing through it", () => {
     const { w, p } = field();

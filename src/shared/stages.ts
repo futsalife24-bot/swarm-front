@@ -376,10 +376,19 @@ export function validStage(id: unknown): id is number {
     id <= STAGES.length
   );
 }
-export function stageFor(w: { stage?: number; solo?: {stage:number;difficulty:'normal'|'medium'} }) {
-  const base=STAGES[validStage(w.stage) ? w.stage - 1 : 0];
-  if(!w.solo)return base;
-  return {...base,name:w.solo.stage===21?'街区奥部の調査':base.name,hp:base.hp*(w.solo.difficulty==='medium'?1.25:1),damage:base.damage*(w.solo.difficulty==='medium'?1.15:1),dropRate:.05};
+export function stageFor(w: {
+  stage?: number;
+  solo?: { stage: number; difficulty: "normal" | "medium" };
+}) {
+  const base = STAGES[validStage(w.stage) ? w.stage - 1 : 0];
+  if (!w.solo) return base;
+  return {
+    ...base,
+    name: w.solo.stage === 21 ? "街区奥部の調査" : base.name,
+    hp: base.hp * (w.solo.difficulty === "medium" ? 1.25 : 1),
+    damage: base.damage * (w.solo.difficulty === "medium" ? 1.15 : 1),
+    dropRate: 0.05,
+  };
 }
 export function mapFor(w: { stage?: number; training?: boolean }) {
   return w.training ? TRAINING_MAP : MAPS[stageFor(w).map];
@@ -387,7 +396,11 @@ export function mapFor(w: { stage?: number; training?: boolean }) {
 
 /** Flat dedicated range, intentionally outside the campaign and terrain generation. */
 export const TRAINING_MAP: ArenaMap = {
-  name: "訓練射撃場", biome: "city", ground: 0x35464b, color: 0x53676a, sky: 0x9bbbc5,
+  name: "訓練射撃場",
+  biome: "city",
+  ground: 0x35464b,
+  color: 0x53676a,
+  sky: 0x9bbbc5,
   blocks: [
     { x: -24, z: -12, w: 2, d: 74, h: 5 },
     { x: 24, z: -12, w: 2, d: 74, h: 5 },

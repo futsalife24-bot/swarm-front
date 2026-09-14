@@ -11,7 +11,8 @@ export default defineConfig({
       url: "http://127.0.0.1:5326",
     },
     {
-      command: "node node_modules/wrangler/bin/wrangler.js dev --local --persist-to dist-validation/stage-clear/worker-state --config wrangler.test.jsonc --ip 127.0.0.1 --port 8926 --var ALLOWED_ORIGINS:http://127.0.0.1:5326",
+      command:
+        "node node_modules/wrangler/bin/wrangler.js dev --local --persist-to dist-validation/stage-clear/worker-state --config wrangler.test.jsonc --ip 127.0.0.1 --port 8926 --var ALLOWED_ORIGINS:http://127.0.0.1:5326",
       url: "http://127.0.0.1:8926/health",
       timeout: 120000,
     },

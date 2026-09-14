@@ -229,8 +229,11 @@ export function soloDrop(w: World, e: Enemy) {
 export function collectSolo(w: World, p: Player) {
   if (p.hp <= 0) return;
   for (const d of [...w.drops]) {
-    const pos=dropAt(w,d);
-    if (d.owner !== p.id || Math.hypot(pos.x - p.x, pos.z - p.z) >= pickupRadius(w))
+    const pos = dropAt(w, d);
+    if (
+      d.owner !== p.id ||
+      Math.hypot(pos.x - p.x, pos.z - p.z) >= pickupRadius(w)
+    )
       continue;
     if (d.type === "heal") {
       if (p.hp >= maxHp(w)) continue;
@@ -246,9 +249,14 @@ export function collectSolo(w: World, p: Player) {
     w.drops = w.drops.filter((x) => x !== d);
   }
 }
-export function dropAt(w:World,d:Drop){
-  const age=w.time+(w.solo?.collection??0)-(d.born??-100),t=Math.max(0,Math.min(1,age/.6));
-  return {x:(d.fromX??d.x)*(1-t)+d.x*t,z:(d.fromZ??d.z)*(1-t)+d.z*t,jump:Math.sin(t*Math.PI)*1.6};
+export function dropAt(w: World, d: Drop) {
+  const age = w.time + (w.solo?.collection ?? 0) - (d.born ?? -100),
+    t = Math.max(0, Math.min(1, age / 0.6));
+  return {
+    x: (d.fromX ?? d.x) * (1 - t) + d.x * t,
+    z: (d.fromZ ?? d.z) * (1 - t) + d.z * t,
+    jump: Math.sin(t * Math.PI) * 1.6,
+  };
 }
 export function collectionStep(w: World, i: Input, dt: number) {
   if (!w.solo || w.phase !== "victory") return;

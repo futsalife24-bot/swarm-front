@@ -14,7 +14,10 @@
     0 6px
   );
 }
-body:not([data-screen="battle"]):not([data-screen="layout"]):not([data-screen="stage-clear"]) #ui {
+body:not([data-screen="battle"]):not([data-screen="layout"]):not(
+    [data-screen="stage-clear"]
+  )
+  #ui {
   background:
     linear-gradient(
         135deg,

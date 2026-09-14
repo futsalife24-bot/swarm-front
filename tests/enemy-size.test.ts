@@ -110,8 +110,20 @@ it("authored slots are independent of reinforcements and combat serials", () => 
   );
 });
 it("simultaneous attacks do not dereference a player downed earlier in the tick", () => {
-  const w=createWorld('down',42,1),p=addPlayer(w,'p');w.phase='battle';w.wave=1;w.nextSpawn=999;p.hp=1;
-  for(let n=0;n<2;n++){const e=spawn(w,'boss',p.x,p.z)!;e.wind=.01;e.tx=p.x;e.tz=p.z;}
-  expect(()=>step(w,{p:neutral()})).not.toThrow();expect(p.hp).toBe(0);
-  step(w,{p:neutral()});expect(w.phase).toBe('defeat');
+  const w = createWorld("down", 42, 1),
+    p = addPlayer(w, "p");
+  w.phase = "battle";
+  w.wave = 1;
+  w.nextSpawn = 999;
+  p.hp = 1;
+  for (let n = 0; n < 2; n++) {
+    const e = spawn(w, "boss", p.x, p.z)!;
+    e.wind = 0.01;
+    e.tx = p.x;
+    e.tz = p.z;
+  }
+  expect(() => step(w, { p: neutral() })).not.toThrow();
+  expect(p.hp).toBe(0);
+  step(w, { p: neutral() });
+  expect(w.phase).toBe("defeat");
 });

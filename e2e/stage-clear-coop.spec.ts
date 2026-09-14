@@ -21,10 +21,13 @@ test("co-op clear cue precedes results and saves each reward exactly once", asyn
     await p.addInitScript(() => {
       (window as any).__clearCues = [];
       window.addEventListener("swarm:stage-clear", (e) => {
-        (window as any).__clearCues.push({ ...(e as CustomEvent).detail, at: performance.now(),
+        (window as any).__clearCues.push({
+          ...(e as CustomEvent).detail,
+          at: performance.now(),
           title: document.querySelector(".clear-title")?.textContent,
           resultAbsent: !document.querySelector(".panel.result"),
-          controlsHidden: (document.querySelector("#controls") as HTMLElement).hidden,
+          controlsHidden: (document.querySelector("#controls") as HTMLElement)
+            .hidden,
           inventory: (window as any).__swarm.inventory.length,
         });
       });
@@ -57,16 +60,24 @@ test("co-op clear cue precedes results and saves each reward exactly once", asyn
   const fire = (await a.locator("#fire").boundingBox())!;
   await a.mouse.move(fire.x + fire.width / 2, fire.y + fire.height / 2);
   await a.mouse.down();
-  await expect(a.getByRole("heading", { name: "MISSION CLEAR" })).toBeVisible({ timeout: 15000 });
+  await expect(a.getByRole("heading", { name: "MISSION CLEAR" })).toBeVisible({
+    timeout: 15000,
+  });
   await a.mouse.up();
   await expect(b.getByRole("heading", { name: "MISSION CLEAR" })).toBeVisible();
   for (const p of [a, b]) {
     const cues = await p.evaluate(() => (window as any).__clearCues);
     expect(cues).toHaveLength(1);
-    expect(cues[0]).toMatchObject({ title: "STAGE CLEAR", resultAbsent: true, controlsHidden: true, inventory: 5 });
-    expect(await p.evaluate(() => performance.now()) - cues[0].at).toBeGreaterThanOrEqual(3000);
+    expect(cues[0]).toMatchObject({
+      title: "STAGE CLEAR",
+      resultAbsent: true,
+      controlsHidden: true,
+      inventory: 5,
+    });
+    expect(
+      (await p.evaluate(() => performance.now())) - cues[0].at,
+    ).toBeGreaterThanOrEqual(3000);
   }
   await ca.close();
   await cb.close();
 });
-

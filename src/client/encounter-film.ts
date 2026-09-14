@@ -2,15 +2,26 @@ import { menuDialog } from "./menu-ui";
 import "./encounter-film.css";
 
 export const encounterFilms = {
-  crawler: "PLEAT", ant: "HOUND / VOLLEY", spider: "HOUND / LEAPER",
-  spitter: "PRISM", hornet: "RAY", boss: "FOUNDRY ZERO", worm: "FOUNDRY ZERO 連結炉",
+  crawler: "PLEAT",
+  ant: "HOUND / VOLLEY",
+  spider: "HOUND / LEAPER",
+  spitter: "PRISM",
+  hornet: "RAY",
+  boss: "FOUNDRY ZERO",
+  worm: "FOUNDRY ZERO 連結炉",
 } as const;
 export type EncounterFilm = keyof typeof encounterFilms;
 
 /** Movies are fetched only when requested, not when the report or game opens. */
-export function showEncounterFilm(key: EncounterFilm, owner: HTMLDialogElement) {
-  const d = menuDialog(`${encounterFilms[key]} — 会敵ムービー`,
-    '<video controls playsinline muted preload="metadata" aria-label="会敵ムービー"></video><p class="film-status" role="status">映像を読み込み中…</p><button class="film-retry" hidden>再読み込み</button>', "ENEMY REPORT");
+export function showEncounterFilm(
+  key: EncounterFilm,
+  owner: HTMLDialogElement,
+) {
+  const d = menuDialog(
+    `${encounterFilms[key]} — 会敵ムービー`,
+    '<video controls playsinline muted preload="metadata" aria-label="会敵ムービー"></video><p class="film-status" role="status">映像を読み込み中…</p><button class="film-retry" hidden>再読み込み</button>',
+    "ENEMY REPORT",
+  );
   d.classList.add("report-film-dialog");
   const video = d.querySelector("video")!;
   const status = d.querySelector<HTMLElement>(".film-status")!;
@@ -24,13 +35,17 @@ export function showEncounterFilm(key: EncounterFilm, owner: HTMLDialogElement) 
   const play = () => {
     retry.hidden = true;
     void video.play().catch(() => {
-      if (d.open && !video.error) status.textContent = "再生ボタンで映像を開始できます。";
+      if (d.open && !video.error)
+        status.textContent = "再生ボタンで映像を開始できます。";
     });
   };
-  video.addEventListener("playing", () => { status.textContent = ""; });
+  video.addEventListener("playing", () => {
+    status.textContent = "";
+  });
   const failed = () => {
     if (!d.open) return;
-    status.textContent = "映像を読み込めませんでした。再読み込みをお試しください。";
+    status.textContent =
+      "映像を読み込めませんでした。再読み込みをお試しください。";
     retry.hidden = false;
   };
   video.addEventListener("error", failed);
@@ -59,16 +74,22 @@ export function showEncounterFilm(key: EncounterFilm, owner: HTMLDialogElement) 
       if (!pending.signal.aborted) failed();
     }
   };
-  retry.onclick = () => { void load(); };
+  retry.onclick = () => {
+    void load();
+  };
   const closeWithReport = () => d.close();
   owner.addEventListener("close", closeWithReport, { once: true });
-  d.addEventListener("close", () => {
-    owner.removeEventListener("close", closeWithReport);
-    request?.abort();
-    video.pause();
-    video.removeAttribute("src");
-    video.load();
-    if (objectUrl) URL.revokeObjectURL(objectUrl);
-  }, { once: true });
+  d.addEventListener(
+    "close",
+    () => {
+      owner.removeEventListener("close", closeWithReport);
+      request?.abort();
+      video.pause();
+      video.removeAttribute("src");
+      video.load();
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    },
+    { once: true },
+  );
   void load();
 }

@@ -6,7 +6,7 @@
   "workers_dev": true,
   "send_metrics": false,
   "vars": {
-    "TURNSTILE_SITE_KEY": "0x4AAAAAAEqP4GMKnl-xNQKK"
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAEqP4GMKnl-xNQKK",
   },
   "durable_objects": {
     "bindings": [

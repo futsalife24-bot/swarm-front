@@ -135,7 +135,7 @@ export function placeWormOnGround(w: World, e: Enemy) {
       sample = trailSample(trail, offset);
     node.x = sample.point.x;
     node.z = sample.point.z;
-    node.y = supportHeight(node.x,node.z,mapFor(w).blocks);
+    node.y = supportHeight(node.x, node.z, mapFor(w).blocks);
     node.heading = sample.heading;
     node.trail = index === 0 ? trail : undefined;
     node.trailOwner = 0;
@@ -160,7 +160,9 @@ function nearestPlayer(
     const distance = Math.hypot(
       player.x - node.x,
       player.z - node.z,
-      originY === undefined ? 0 : (player.y ?? 0) + FOUNDRY_TARGET_HEIGHT - originY,
+      originY === undefined
+        ? 0
+        : (player.y ?? 0) + FOUNDRY_TARGET_HEIGHT - originY,
     );
     if (distance > range) continue;
     if (
@@ -313,7 +315,7 @@ function moveLeader(
     node.heading = Math.atan2(next.x - node.x, next.z - node.z);
     node.x = next.x;
     node.z = next.z;
-    node.y = supportHeight(node.x,node.z,mapFor(w).blocks);
+    node.y = supportHeight(node.x, node.z, mapFor(w).blocks);
     appendHistory(w, node, next);
     remaining -= amount;
     if (foundryDistance(next, target) < 1e-6) node.groundPath.shift();
@@ -331,7 +333,11 @@ function fireLaser(w: World, node: WormNode, part: number, size: number) {
       origin.y,
     );
     if (player) {
-      node.pulseAim = { x: player.x, y: (player.y ?? 0) + FOUNDRY_TARGET_HEIGHT, z: player.z };
+      node.pulseAim = {
+        x: player.x,
+        y: (player.y ?? 0) + FOUNDRY_TARGET_HEIGHT,
+        z: player.z,
+      };
       // A player entering range late still sees the complete warning. The
       // stored cooldown is an earliest-fire time, not permission to skip windup.
       node.acidAt = w.time + FOUNDRY_LASER_WARNING;
@@ -400,12 +406,15 @@ export function moveWorm(w: World, e: Enemy, dt: number) {
     for (const [offset, part] of parts.entries()) {
       const node = nodes[part];
       if (offset > 0) {
-        const sample = trailSample(leader.trail, offset * FOUNDRY_UNIT_PITCH * enemySize(e));
+        const sample = trailSample(
+          leader.trail,
+          offset * FOUNDRY_UNIT_PITCH * enemySize(e),
+        );
         node.x = sample.point.x;
         node.z = sample.point.z;
         node.heading = sample.heading;
       }
-      node.y = supportHeight(node.x,node.z,mapFor(w).blocks);
+      node.y = supportHeight(node.x, node.z, mapFor(w).blocks);
       node.trailOwner = parts[0];
       node.trailOffset = offset * FOUNDRY_UNIT_PITCH * enemySize(e);
       fireLaser(w, node, part, enemySize(e));

@@ -1,5 +1,5 @@
 import { spawnSize } from "./enemy-size";
-import { settings } from './progression';
+import { settings } from "./progression";
 import { groundHeight } from "./terrain";
 import { ENEMIES, LIMITS } from "./defs";
 import { mapFor, type TroopKind } from "./stages";
@@ -92,7 +92,13 @@ export function flushFoundrySpawns(w: World) {
         () => allowed[Math.floor(random(w) * allowed.length)],
       );
     }
-    while (batch.kinds.length && w.enemies.length < (w.solo?settings(w.solo.stage,w.solo.difficulty).enemyCap:LIMITS.enemies)) {
+    while (
+      batch.kinds.length &&
+      w.enemies.length <
+        (w.solo
+          ? settings(w.solo.stage, w.solo.difficulty).enemyCap
+          : LIMITS.enemies)
+    ) {
       const kind = batch.kinds[0];
       const position = spawnPoint(w, batch, kind);
       if (!position) break;
@@ -102,7 +108,9 @@ export function flushFoundrySpawns(w: World) {
       // against the same collision geometry and keeps the promised head vicinity.
       enemy.x = position.x;
       enemy.z = position.z;
-      enemy.y = groundHeight(position.x,position.z,mapFor(w).blocks) + ENEMIES[kind].cruise;
+      enemy.y =
+        groundHeight(position.x, position.z, mapFor(w).blocks) +
+        ENEMIES[kind].cruise;
       enemy.foundrySource = batch.source;
       batch.kinds.shift();
       w.foundrySpawned = (w.foundrySpawned ?? 0) + 1;

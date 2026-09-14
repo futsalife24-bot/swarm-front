@@ -29,7 +29,14 @@ import { menuDialog } from "./menu-ui";
 import { RewardedAdSession, type AdOutcome } from "./rewarded-ad";
 import { openBestiary } from "./bestiary";
 import { developerProgress } from "./developer-mode";
-import { developerAuthorized, developerRequested, openDeveloperLogin, exitDeveloperMode, checkDeveloperSession, returnToNormal } from "./developer-access";
+import {
+  developerAuthorized,
+  developerRequested,
+  openDeveloperLogin,
+  exitDeveloperMode,
+  checkDeveloperSession,
+  returnToNormal,
+} from "./developer-access";
 import { STAGES, MAPS, stageFor, mapFor, troopCount } from "../shared/stages";
 import { WEAPONS, stats, effectLabel, type Kind } from "../shared/defs";
 import {
@@ -249,14 +256,18 @@ function pause() {
   );
   d.querySelector<HTMLButtonElement>("#pt-pause-layout")!.onclick = () => {
     const previousScreen = screen;
-    const collectionNodes = previousScreen === "collection" ? [...ui.childNodes] : [];
+    const collectionNodes =
+      previousScreen === "collection" ? [...ui.childNodes] : [];
     const collectionFade = document.querySelector(".pt-fade");
     d.close();
     editControlLayout(() => {
       battleUI();
       if (previousScreen === "collection") {
-        screen = "collection"; document.body.dataset.screen = "stage-clear";
-        ui.replaceChildren(...collectionNodes); ui.classList.add("pt-clear"); ui.hidden = false;
+        screen = "collection";
+        document.body.dataset.screen = "stage-clear";
+        ui.replaceChildren(...collectionNodes);
+        ui.classList.add("pt-clear");
+        ui.hidden = false;
         if (collectionFade) document.body.append(collectionFade);
       }
       paused = false;
@@ -453,9 +464,13 @@ function result() {
 function report() {
   modalCount++;
   controls.enabled = false;
-  openBestiary({encounters: save.encounters, onClose: () => {
-    modalCount--; controls.reset();
-  }});
+  openBestiary({
+    encounters: save.encounters,
+    onClose: () => {
+      modalCount--;
+      controls.reset();
+    },
+  });
 }
 function encounter() {
   if (!world || encounterActive || modalCount) return;
@@ -464,9 +479,15 @@ function encounter() {
     if (save.encounters[key] === "solo") continue;
     if (view.spawnEffects.active(e.id)) continue;
     // Let the normal renderer place an asynchronously loaded model before freezing it.
-    const visual = e.segments ? view.foundryWorms.get(e.id) : view.structures.get(e.kind);
-    if (e.segments ? !(visual && ("view" in visual && visual.view || visual.error))
-      : !(visual && ("batch" in visual && visual.batch || visual.error))) continue;
+    const visual = e.segments
+      ? view.foundryWorms.get(e.id)
+      : view.structures.get(e.kind);
+    if (
+      e.segments
+        ? !(visual && (("view" in visual && visual.view) || visual.error))
+        : !(visual && (("batch" in visual && visual.batch) || visual.error))
+    )
+      continue;
     const pos = new T.Vector3(e.x, eye(e), e.z),
       projected = pos.clone().project(view.camera);
     if (
@@ -496,18 +517,29 @@ function encounter() {
       d.classList.add("pt-cutscene");
       const title = d.querySelector("h2")!;
       const [family, variant] = names[key].split(" / ");
-      title.innerHTML = key === "worm"
-        ? 'FOUNDRY ZERO<span class="pt-intro-variant">連結炉</span>'
-        : `${esc(family)}${variant ? `<span class="pt-intro-variant">${esc(variant)}</span>` : ""}`;
+      title.innerHTML =
+        key === "worm"
+          ? 'FOUNDRY ZERO<span class="pt-intro-variant">連結炉</span>'
+          : `${esc(family)}${variant ? `<span class="pt-intro-variant">${esc(variant)}</span>` : ""}`;
       d.querySelector(".eyebrow")!.textContent = "ANOMALY // FIRST CONTACT";
       const oldPosition = view.camera.position.clone(),
         oldQuaternion = view.camera.quaternion.clone(),
         oldFov = view.camera.fov;
-      const distance = Math.max(6, (e.size ?? 1) * (e.kind === "boss" ? 12 : 5)) * (e.segments ? 1 : 1.35);
-      const cameraPose = encounterCamera(view.camera.clone(), pos, view.encounterFront(e), distance);
+      const distance =
+        Math.max(6, (e.size ?? 1) * (e.kind === "boss" ? 12 : 5)) *
+        (e.segments ? 1 : 1.35);
+      const cameraPose = encounterCamera(
+        view.camera.clone(),
+        pos,
+        view.encounterFront(e),
+        distance,
+      );
       // Keep the rendered world frozen; only the camera moves after the bars enter.
-      let elapsed = 0, previous = performance.now(), animation = 0;
-      let idle: ReturnType<Renderer["encounterIdle"]>, idleTime = 0;
+      let elapsed = 0,
+        previous = performance.now(),
+        animation = 0;
+      let idle: ReturnType<Renderer["encounterIdle"]>,
+        idleTime = 0;
       const animate = (now: number) => {
         if (!d.open) return;
         const delta = document.hidden ? 0 : Math.min(now - previous, 50);
@@ -517,7 +549,14 @@ function encounter() {
         const zoom = Math.min(1, Math.max(0, (elapsed - 500) / 1200));
         const eased = zoom * zoom * (3 - 2 * zoom);
         d.style.setProperty("--intro-bars", String(bars));
-        d.dataset.phase = elapsed < 180 ? "freeze" : elapsed < 500 ? "bars" : zoom < 1 ? "zoom" : "text";
+        d.dataset.phase =
+          elapsed < 180
+            ? "freeze"
+            : elapsed < 500
+              ? "bars"
+              : zoom < 1
+                ? "zoom"
+                : "text";
         const pose = cameraPose(eased);
         view.camera.position.copy(pose.position);
         view.camera.quaternion.copy(pose.quaternion);
@@ -527,7 +566,9 @@ function encounter() {
           if (!d.classList.contains("pt-cutscene-ready")) {
             idle = view.encounterIdle(e);
             d.classList.add("pt-cutscene-ready");
-            d.querySelector<HTMLButtonElement>("#pt-intro-skip")!.focus({ preventScroll: true });
+            d.querySelector<HTMLButtonElement>("#pt-intro-skip")!.focus({
+              preventScroll: true,
+            });
           } else idleTime += delta / 1000;
           idle?.update(idleTime);
         }
@@ -572,19 +613,46 @@ function victoryJingle() {
   });
 }
 function openDeveloperEntry() {
-  if (developerMode) { void exitDeveloperMode(); return; }
+  if (developerMode) {
+    void exitDeveloperMode();
+    return;
+  }
   if (document.querySelector("#developer-login")) return;
-  modalCount++; controls.enabled = false;
-  openDeveloperLogin("playtest", () => { modalCount--; controls.reset(); });
+  modalCount++;
+  controls.enabled = false;
+  openDeveloperLogin("playtest", () => {
+    modalCount--;
+    controls.reset();
+  });
 }
 function editControlLayout(returnTo: () => void) {
-  const weapons = ["battle", "collection"].includes(screen) ? world?.players[0]?.weapons : save ? soldier(save).equipped.map(id => save.inventory.find(w => w.id === id)!) : undefined;
+  const weapons = ["battle", "collection"].includes(screen)
+    ? world?.players[0]?.weapons
+    : save
+      ? soldier(save).equipped.map((id) =>
+          save.inventory.find((w) => w.id === id)!,
+        )
+      : undefined;
   setScreen("layout");
-  openLayoutEditor(ui, layout, next => {
-    localStorage.setItem(LAYOUT_KEY, JSON.stringify(next));
-    layout = next; placeControls(layout);
-  }, returnTo, { config: () => ({ preferences: preferences.snapshot(), weapons, solo: true }) });
-  ui.querySelector('[data-layout-button="revive"]')!.innerHTML = "<span>救急箱</span><small>1 / H</small>";
+  openLayoutEditor(
+    ui,
+    layout,
+    (next) => {
+      localStorage.setItem(LAYOUT_KEY, JSON.stringify(next));
+      layout = next;
+      placeControls(layout);
+    },
+    returnTo,
+    {
+      config: () => ({
+        preferences: preferences.snapshot(),
+        weapons,
+        solo: true,
+      }),
+    },
+  );
+  ui.querySelector('[data-layout-button="revive"]')!.innerHTML =
+    "<span>救急箱</span><small>1 / H</small>";
   ui.querySelector('option[value="revive"]')!.textContent = "救急箱";
 }
 function settingsUI() {
@@ -593,19 +661,26 @@ function settingsUI() {
     "設定",
     `<button id="pt-build-label">初期試遊版 v1</button><label>音量 <input id="pt-volume" type="range" min="0" max="1" step=".05" value="${sound.volume}"></label><label>描画 <select id="pt-quality"><option value="1">標準</option><option value="0.65">軽量</option></select></label><button id="pt-save-export">現在の保存を書き出す</button><div id="pt-test-entry" hidden><p>ローカルテスト用。通常進行と分離します。</p><label>ローカルパスワード <input id="pt-password" type="password"></label><button id="pt-test-switch">${mode === "normal" ? "テストセーブへ" : "通常セーブへ"}</button><p id="pt-password-note"></p></div>`,
   );
-  const developerEntry = document.createElement('button');
-  developerEntry.id = 'pt-developer-entry';
-  developerEntry.textContent = developerMode ? '通常モードへ戻る' : '開発者モード';
-  developerEntry.className = 'settings-developer-entry';
-  developerEntry.onclick = () => { d.close(); openDeveloperEntry(); };
-  d.querySelector('#pt-save-export')!.after(developerEntry);
-  if(developerMode) {
-    const note = document.createElement('p');
-    note.textContent = '全ステージ・全敵情報・全武器レア度・アクセサリを解放。変更は再読み込みでリセットされ、通常の進行は変更しません。';
+  const developerEntry = document.createElement("button");
+  developerEntry.id = "pt-developer-entry";
+  developerEntry.textContent = developerMode
+    ? "通常モードへ戻る"
+    : "開発者モード";
+  developerEntry.className = "settings-developer-entry";
+  developerEntry.onclick = () => {
+    d.close();
+    openDeveloperEntry();
+  };
+  d.querySelector("#pt-save-export")!.after(developerEntry);
+  if (developerMode) {
+    const note = document.createElement("p");
+    note.textContent =
+      "全ステージ・全敵情報・全武器レア度・アクセサリを解放。変更は再読み込みでリセットされ、通常の進行は変更しません。";
     developerEntry.after(note);
   }
   preferences.mount(d, () => {
-    const returnTo = screen === "gear" ? gear : () => (save ? home() : onboard());
+    const returnTo =
+      screen === "gear" ? gear : () => (save ? home() : onboard());
     d.close();
     editControlLayout(returnTo);
   });
@@ -851,8 +926,12 @@ let mode: SaveMode = "normal",
   saving: ProgressSave | undefined,
   retryAfter: (() => void) | undefined;
 const developerMode = developerAuthorized && developerRequested;
-const retryKey = developerMode ? "swarm-front-developer-retry" : "swarm-front-playtest-retry";
-const sampleMenus = developerMode && new URLSearchParams(location.search).get("menuSample") === "1";
+const retryKey = developerMode
+  ? "swarm-front-developer-retry"
+  : "swarm-front-playtest-retry";
+const sampleMenus =
+  developerMode &&
+  new URLSearchParams(location.search).get("menuSample") === "1";
 let gearOrganizing = false;
 let selectedGearSlot = 0;
 let armoryKind: Kind | null = null;
@@ -1049,8 +1128,10 @@ function header(title: string, body: string, nav = true) {
 
 function loadMode(next: SaveMode) {
   if (developerMode) {
-    mode = 'test'; save = sampleMenus ? menuSamples() : developerProgress();
-    if (sampleMenus) gear(); else home();
+    mode = "test";
+    save = sampleMenus ? menuSamples() : developerProgress();
+    if (sampleMenus) gear();
+    else home();
     return;
   }
 
@@ -1114,15 +1195,17 @@ function showHome(initialized: boolean) {
         );
   bind("solo", () => enter(gear));
   bind("open-armory", () => enter(armory));
-  if (developerMode) ui.querySelector(".home-utilities")!.insertAdjacentHTML(
-    "beforeend",
-    '<button id="pt-menu-sample">武器48丁で表示を試す</button>',
-  );
-  if (developerMode) bind("pt-menu-sample", () => {
-    const url = new URL(location.href);
-    url.searchParams.set("menuSample", "1");
-    location.href = url.href;
-  });
+  if (developerMode)
+    ui.querySelector(".home-utilities")!.insertAdjacentHTML(
+      "beforeend",
+      '<button id="pt-menu-sample">武器48丁で表示を試す</button>',
+    );
+  if (developerMode)
+    bind("pt-menu-sample", () => {
+      const url = new URL(location.href);
+      url.searchParams.set("menuSample", "1");
+      location.href = url.href;
+    });
   bind("open-bestiary", () => enter(report));
   bind("home-settings", settingsUI);
   bind("coop", () => {
@@ -1145,11 +1228,19 @@ function showHome(initialized: boolean) {
   );
   bind("pt-growth", () => enter(growth));
   if (mode === "test")
-    ui.querySelector(".connection-dot")!.textContent = developerMode ? "開発者モード · 全解放" : "TEST DATA";
+    ui.querySelector(".connection-dot")!.textContent = developerMode
+      ? "開発者モード · 全解放"
+      : "TEST DATA";
   if (developerMode) {
-    ui.querySelector('.fine')!.textContent = '全解放の検証用。変更は再読み込みでリセット。通常進行は変更しません。';
-    ui.querySelector('.home-utilities')!.insertAdjacentHTML('beforeend','<button id="pt-developer-exit">通常モード<br>へ戻る</button>');
-    bind('pt-developer-exit', () => { void exitDeveloperMode(); });
+    ui.querySelector(".fine")!.textContent =
+      "全解放の検証用。変更は再読み込みでリセット。通常進行は変更しません。";
+    ui.querySelector(".home-utilities")!.insertAdjacentHTML(
+      "beforeend",
+      '<button id="pt-developer-exit">通常モード<br>へ戻る</button>',
+    );
+    bind("pt-developer-exit", () => {
+      void exitDeveloperMode();
+    });
   }
 }
 
@@ -1719,14 +1810,16 @@ function accessories() {
 
 loadMode(
   testAvailable() &&
-    !developerMode && sessionStorage.getItem("swarm-front-playtest-mode") === "test"
+    !developerMode &&
+    sessionStorage.getItem("swarm-front-playtest-mode") === "test"
     ? "test"
     : "normal",
 );
 const unauthorizedDeveloper = developerRequested && !developerMode;
-const retryLaunch = sampleMenus || unauthorizedDeveloper
-  ? null
-  : sessionStorage.getItem(retryKey);
+const retryLaunch =
+  sampleMenus || unauthorizedDeveloper
+    ? null
+    : sessionStorage.getItem(retryKey);
 if (!sampleMenus && !unauthorizedDeveloper) sessionStorage.removeItem(retryKey);
 if (retryLaunch && save && save.result?.choice !== "pending") {
   try {
@@ -1753,12 +1846,18 @@ if (developerMode) {
   const verify = async () => {
     if (checking || document.hidden) return;
     checking = true;
-    if (!await checkDeveloperSession()) returnToNormal();
+    if (!(await checkDeveloperSession())) returnToNormal();
     checking = false;
   };
-  setInterval(() => { void verify(); }, 60000);
-  window.addEventListener("pageshow", event => { if (event.persisted) void verify(); });
-  document.addEventListener("visibilitychange", () => { void verify(); });
+  setInterval(() => {
+    void verify();
+  }, 60000);
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) void verify();
+  });
+  document.addEventListener("visibilitychange", () => {
+    void verify();
+  });
 }
 if (import.meta.env.DEV)
   Object.defineProperty(window, "__playtest", {
@@ -1770,7 +1869,11 @@ if (import.meta.env.DEV)
       paused,
       modalCount,
       encounterActive,
-      camera: { position: view.camera.position.toArray(), quaternion: view.camera.quaternion.toArray(), fov: view.camera.fov },
+      camera: {
+        position: view.camera.position.toArray(),
+        quaternion: view.camera.quaternion.toArray(),
+        fov: view.camera.fov,
+      },
       loadReady,
       input: { ...controls.input },
       renderedEnemies: Object.fromEntries(

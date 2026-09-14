@@ -25,20 +25,26 @@ function fixture() {
 const kinds = (v: { type: string }[]) => v.map((v) => v.type);
 describe("combat audio authoritative transitions", () => {
   it.each([
-    ["crawler", "impactShell"], ["ant", "impactShell"],
-    ["spider", "impactShell"], ["spitter", "impactHard"],
-    ["boss", "impactHard"], ["hornet", "impactSoft"],
+    ["crawler", "impactShell"],
+    ["ant", "impactShell"],
+    ["spider", "impactShell"],
+    ["spitter", "impactHard"],
+    ["boss", "impactHard"],
+    ["hornet", "impactSoft"],
   ] as const)("selects AR material from an actual hit on %s", (kind, sound) => {
     const { w, p, a } = fixture();
     spawn(w, kind, p.x, p.z - 5);
     const e = w.enemies[0];
-    fire(w, p, { ...neutral(), fire: true,
-      pitch: Math.atan2(eye(e) - ((p.y ?? 0) + 1.5), 5) });
-    const hit = w.events.find(e => e.type === "hit");
+    fire(w, p, {
+      ...neutral(),
+      fire: true,
+      pitch: Math.atan2(eye(e) - ((p.y ?? 0) + 1.5), 5),
+    });
+    const hit = w.events.find((e) => e.type === "hit");
     expect(hit).toMatchObject({ enemyKind: kind, weapon: "rifle" });
     // Exercise the same JSON transport as a received authoritative snapshot.
     const cues = a.collect(JSON.parse(JSON.stringify(w)));
-    expect(cues.filter(c => c.type.startsWith("impact"))).toEqual([
+    expect(cues.filter((c) => c.type.startsWith("impact"))).toEqual([
       expect.objectContaining({ type: sound, key: "impact:p" }),
     ]);
     expect(kinds(cues)).toContain("rifle");
@@ -51,7 +57,9 @@ describe("combat audio authoritative transitions", () => {
     fire(w, p, { ...neutral(), fire: true });
     expect(w.enemies[0].hp).toBeLessThanOrEqual(0);
     w.enemies = [];
-    expect(kinds(a.collect(JSON.parse(JSON.stringify(w))))).toContain("impactShell");
+    expect(kinds(a.collect(JSON.parse(JSON.stringify(w))))).toContain(
+      "impactShell",
+    );
   });
   it("retains the generic hit for legacy snapshots and non-AR damage", () => {
     const { w, p, a } = fixture();
@@ -70,13 +78,20 @@ describe("combat audio authoritative transitions", () => {
     p.ammo[0] = 3;
     fire(w, p, { ...neutral(), fire: true, pitch: 0.8 });
     expect(kinds(a.collect(w))).toContain("rocket");
-    for (let i = 0; i < 100 && !w.events.some(e => e.type === "burst" && e.weapon === "rocket"); i++)
+    for (
+      let i = 0;
+      i < 100 &&
+      !w.events.some((e) => e.type === "burst" && e.weapon === "rocket");
+      i++
+    )
       step(w, { p: neutral() });
     expect(kinds(a.collect(w))).toContain("rocketBurst");
     expect(a.collect(w)).toEqual([]);
-    const id = Math.max(...w.events.map(e => e.id));
-    w.events.push({ id: id + 1, type: "burst", x: 0, y: 0, z: 0, radius: 7 },
-      { id: id + 2, type: "burst", x: 0, y: 0, z: 0, radius: 1 });
+    const id = Math.max(...w.events.map((e) => e.id));
+    w.events.push(
+      { id: id + 1, type: "burst", x: 0, y: 0, z: 0, radius: 7 },
+      { id: id + 2, type: "burst", x: 0, y: 0, z: 0, radius: 1 },
+    );
     expect(kinds(a.collect(w))).toEqual(["burst", "melee"]);
   });
   it("plays one gunshot per shotgun discharge, retaining simultaneous impacts", () => {

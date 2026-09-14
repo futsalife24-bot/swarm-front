@@ -75,13 +75,13 @@ export class CombatAudio {
           type:
             e.type === "hit"
               ? e.weapon === "rifle" && e.enemyKind
-                ? AR_HITS[e.enemyKind] ?? "impact"
+                ? (AR_HITS[e.enemyKind] ?? "impact")
                 : "impact"
               : e.type === "burst" && e.weapon === "rocket"
                 ? "rocketBurst"
-              : e.type === "burst" && !e.owner && (e.radius ?? 7) < 2
-                ? "melee"
-                : e.type,
+                : e.type === "burst" && !e.owner && (e.radius ?? 7) < 2
+                  ? "melee"
+                  : e.type,
           key: e.type === "hit" ? `impact:${e.owner}` : undefined,
         });
     }

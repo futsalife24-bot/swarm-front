@@ -23,7 +23,13 @@ export function pilot(w: World, id: string): Input {
   const targets = w.enemies
     .flatMap((e) =>
       e.segments
-        ? enemyBodies(e).map((b) => ({ ...e, x: b.x, z: b.z, y: b.y - 1.2, aimY: b.y }))
+        ? enemyBodies(e).map((b) => ({
+            ...e,
+            x: b.x,
+            z: b.z,
+            y: b.y - 1.2,
+            aimY: b.y,
+          }))
         : [{ ...e, aimY: eye(e) }],
     )
     .filter((e) => e.hp > 0);
@@ -137,8 +143,12 @@ export function pilot(w: World, id: string): Input {
     if (
       when > 0 &&
       when < 0.6 &&
-      Math.abs(q.y + q.dy * when - 0.5 * (q.gravity ?? 0) * when * when - ((p.y ?? 0) + 1.2)) <
-        1.5 &&
+      Math.abs(
+        q.y +
+          q.dy * when -
+          0.5 * (q.gravity ?? 0) * when * when -
+          ((p.y ?? 0) + 1.2),
+      ) < 1.5 &&
       Math.hypot(q.x + q.dx * when - p.x, q.z + q.dz * when - p.z) < 2
     ) {
       const side = (p.x - q.x) * q.dz - (p.z - q.z) * q.dx >= 0 ? 1 : -1;

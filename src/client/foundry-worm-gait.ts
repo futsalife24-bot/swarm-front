@@ -138,7 +138,7 @@ export class FoundryWormGait {
     });
   }
 
-  ground?: (x:number,z:number)=>number;
+  ground?: (x: number, z: number) => number;
 
   private reset(unit: Unit) {
     unit.travel = 0;
@@ -148,7 +148,9 @@ export class FoundryWormGait {
         .copy(leg.toe)
         .applyQuaternion(unit.root.quaternion)
         .add(unit.root.position);
-      leg.anchor.y = (this.ground?.(leg.anchor.x,leg.anchor.z) ?? unit.root.position.y) + leg.clearance;
+      leg.anchor.y =
+        (this.ground?.(leg.anchor.x, leg.anchor.z) ?? unit.root.position.y) +
+        leg.clearance;
       leg.rotation.copy(unit.root.quaternion).multiply(leg.footRotation);
       leg.step = undefined;
       leg.stepIndex = 0;
@@ -202,7 +204,8 @@ export class FoundryWormGait {
           const to = leg.toe.clone();
           to.z -= lead;
           to.applyQuaternion(unit.root.quaternion).add(unit.root.position);
-          to.y = (this.ground?.(to.x,to.z) ?? unit.root.position.y) + leg.clearance;
+          to.y =
+            (this.ground?.(to.x, to.z) ?? unit.root.position.y) + leg.clearance;
           leg.step = {
             from: leg.anchor.clone(),
             to,
@@ -224,7 +227,9 @@ export class FoundryWormGait {
             step.to
               .applyQuaternion(unit.root.quaternion)
               .add(unit.root.position);
-            step.to.y = (this.ground?.(step.to.x,step.to.z) ?? unit.root.position.y) + leg.clearance;
+            step.to.y =
+              (this.ground?.(step.to.x, step.to.z) ?? unit.root.position.y) +
+              leg.clearance;
             step.rotation.copy(unit.root.quaternion).multiply(leg.footRotation);
           }
           // A stopped unit finishes its current step instead of freezing a foot in air.

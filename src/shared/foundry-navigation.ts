@@ -18,7 +18,13 @@ export const foundryDistance = (a: FoundryPoint, b: FoundryPoint) =>
   Math.hypot(a.x - b.x, a.z - b.z);
 
 export function foundryGroundClear(map: ArenaMap, p: FoundryPoint) {
-  return !blocked(p.x, p.z, FOUNDRY_NAV_RADIUS, groundHeight(p.x,p.z,map.blocks), map.blocks);
+  return !blocked(
+    p.x,
+    p.z,
+    FOUNDRY_NAV_RADIUS,
+    groundHeight(p.x, p.z, map.blocks),
+    map.blocks,
+  );
 }
 
 export function foundryGroundLine(
@@ -28,7 +34,7 @@ export function foundryGroundLine(
 ) {
   if (!foundryGroundClear(map, a) || !foundryGroundClear(map, b)) return false;
   if (map.biome === "cave") return caveLine(a, b, FOUNDRY_NAV_RADIUS);
-  for (const block of [...map.blocks,...terrainProps(map.blocks)]) {
+  for (const block of [...map.blocks, ...terrainProps(map.blocks)]) {
     if (block.h <= 0) continue;
     let lo = 0,
       hi = 1;
@@ -68,7 +74,7 @@ function graphFor(map: ArenaMap): Graph {
   if (cached) return cached;
   const points: FoundryPoint[] = [];
   const r = FOUNDRY_NAV_RADIUS + MARGIN;
-  for (const block of [...map.blocks,...terrainProps(map.blocks)])
+  for (const block of [...map.blocks, ...terrainProps(map.blocks)])
     for (const sx of [-1, 1])
       for (const sz of [-1, 1]) {
         const p = {
@@ -122,7 +128,7 @@ export function foundrySafePoint(
     const x = Math.max(-ARENA_X + r, Math.min(ARENA_X - r, point.x));
     const z = Math.max(-ARENA_Z + r, Math.min(ARENA_Z - r, point.z));
     candidates.push({ x, z }, ...graphFor(map).points);
-    for (const block of [...map.blocks,...terrainProps(map.blocks)])
+    for (const block of [...map.blocks, ...terrainProps(map.blocks)])
       for (const side of [-1, 1]) {
         candidates.push({ x: block.x + side * (block.w / 2 + r), z });
         candidates.push({ x, z: block.z + side * (block.d / 2 + r) });

@@ -111,7 +111,9 @@ it("PRISM snapshots and retreats below 16m without changing damage", () => {
   p.x = 3;
   while (e.wind > 0) step(w, {});
   expect({ x: e.tx, z: e.tz }).toEqual(aim);
-  expect(w.projectiles[0].damage).toBeCloseTo(ENEMIES.spitter.damage * enemySize(e));
+  expect(w.projectiles[0].damage).toBeCloseTo(
+    ENEMIES.spitter.damage * enemySize(e),
+  );
 });
 it("HOUND shockwave hits forward after .45 seconds, not behind or outside range", () => {
   const { w, e } = field();
@@ -125,7 +127,9 @@ it("HOUND shockwave hits forward after .45 seconds, not behind or outside range"
   expect(e.wind).toBe(0.45);
   const hp = w.players.map((p) => p.hp);
   while (e.wind > 0) step(w, {});
-  expect(w.players[0].hp).toBeCloseTo(hp[0] - ENEMIES.crawler.damage * enemySize(e));
+  expect(w.players[0].hp).toBeCloseTo(
+    hp[0] - ENEMIES.crawler.damage * enemySize(e),
+  );
   expect(w.players.slice(1).map((p) => p.hp)).toEqual(hp.slice(1));
 });
 it("FOUNDRY phases preserve HP, damage and scheduled wave count", () => {

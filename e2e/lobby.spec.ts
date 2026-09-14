@@ -21,12 +21,10 @@ test("four-player lobby shares preparation, equipment and host stage without lan
       { width: 1280, height: 720 },
     ]) {
       await a.setViewportSize(size);
-      const bounds = await a
-        .locator(".room-entry")
-        .evaluate((e) => ({
-          x: e.getBoundingClientRect().x,
-          overflow: e.scrollWidth - e.clientWidth,
-        }));
+      const bounds = await a.locator(".room-entry").evaluate((e) => ({
+        x: e.getBoundingClientRect().x,
+        overflow: e.scrollWidth - e.clientWidth,
+      }));
       expect(bounds.x).toBeGreaterThanOrEqual(0);
       expect(bounds.overflow).toBeLessThanOrEqual(1);
       await a.locator("#launch").scrollIntoViewIfNeeded();

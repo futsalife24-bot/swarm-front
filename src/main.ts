@@ -1,7 +1,7 @@
-import { homeMarkup } from './client/home-screen';
-import { openDeveloperLogin } from './client/developer-access';
+import { homeMarkup } from "./client/home-screen";
+import { openDeveloperLogin } from "./client/developer-access";
 import { STAGES, MAPS, mapFor, stageFor } from "./shared/stages";
-import {recordCoopEncounters} from './client/progression-coop';
+import { recordCoopEncounters } from "./client/progression-coop";
 let selectedStage = 1;
 const stageOptions = () =>
   STAGES.map(
@@ -271,7 +271,13 @@ function title() {
   setScreen("title");
   world = null;
   const stage = STAGES[selectedStage - 1];
-  ui.innerHTML = homeMarkup({stage, inventoryCount: save.inventory.length, pendingCount: save.pendingWeapons?.length, install: !!installPrompt, error: saveError});
+  ui.innerHTML = homeMarkup({
+    stage,
+    inventoryCount: save.inventory.length,
+    pendingCount: save.pendingWeapons?.length,
+    install: !!installPrompt,
+    error: saveError,
+  });
   $("open-armory").onclick = armory;
   $("open-bestiary").onclick = () => openBestiary();
   $("home-settings").onclick = () => openSettings(title);
@@ -583,26 +589,32 @@ function openSettings(back: () => void) {
   for (const key of ["preferences", "save"]) {
     const panel = document.createElement("section");
     panel.id = "settings-" + key;
-    panel.setAttribute("aria-label", key === "preferences" ? "環境設定" : "保存データ");
+    panel.setAttribute(
+      "aria-label",
+      key === "preferences" ? "環境設定" : "保存データ",
+    );
     panel.innerHTML = `<h3>${key === "preferences" ? "環境設定" : "保存データ"}</h3>`;
     content.append(panel);
   }
-  original.slice(0, 2).forEach(el => el.remove());
-  original.slice(2).forEach((el) =>
-    dialog
-      .querySelector(
-        el.tagName === "LABEL"
-            ? "#settings-preferences"
-            : "#settings-save",
-      )!
-      .append(el),
-  );
+  original.slice(0, 2).forEach((el) => el.remove());
+  original
+    .slice(2)
+    .forEach((el) =>
+      dialog
+        .querySelector(
+          el.tagName === "LABEL" ? "#settings-preferences" : "#settings-save",
+        )!
+        .append(el),
+    );
   const layoutButton = document.createElement("button");
   const developerButton = document.createElement("button");
   developerButton.id = "settings-developer";
   developerButton.textContent = "開発者モード";
   developerButton.className = "settings-developer-entry";
-  developerButton.onclick = () => { dialog.close(); openDeveloperLogin("main"); };
+  developerButton.onclick = () => {
+    dialog.close();
+    openDeveloperLogin("main");
+  };
   dialog.querySelector(".menu-dialog-body")!.append(developerButton);
   layoutButton.id = "layout-settings";
   layoutButton.textContent = "操作ボタンの配置";
@@ -620,7 +632,14 @@ function openSettings(back: () => void) {
         placeControls(layout);
       },
       back,
-      { config: () => ({ preferences: save, weapons: save.equipped.map(id => save.inventory.find(w => w.id === id)!) }) },
+      {
+        config: () => ({
+          preferences: save,
+          weapons: save.equipped.map((id) =>
+            save.inventory.find((w) => w.id === id)!,
+          ),
+        }),
+      },
     );
   };
   if (layoutWarning) {
@@ -823,10 +842,19 @@ async function connect(create: boolean, restore = false) {
       if (screen === "lobby") lobby();
     };
     network.onWorld = (w) => {
-      try { recordCoopEncounters(w); } catch { status='遭遇記録を保存できません。端末の保存容量を確認してください。'; }
+      try {
+        recordCoopEncounters(w);
+      } catch {
+        status = "遭遇記録を保存できません。端末の保存容量を確認してください。";
+      }
       world = w;
       myId = network!.id;
-      sound.update(w, myId, controls.input.yaw, w.phase === "battle" && !paused);
+      sound.update(
+        w,
+        myId,
+        controls.input.yaw,
+        w.phase === "battle" && !paused,
+      );
       if (w.phase === "battle") {
         if (screen !== "battle" && !netFatal) battle();
         const p = w.players.find((p) => p.id === myId);
@@ -1318,14 +1346,31 @@ function openPause(confirming = false) {
   $("pause-layout").onclick = () => {
     setScreen("layout");
     ui.hidden = false;
-    openLayoutEditor(ui, layout, value => {
-      localStorage.setItem(LAYOUT_KEY, JSON.stringify(value));
-      layout = value; placeControls(layout);
-    }, () => { ui.innerHTML = ""; ui.hidden = true; setScreen("battle"); openPause(); }, {
-      enabled: mode !== "coop",
-      config: () => ({ preferences: save, weapons: world?.players.find(p => p.id === myId)?.weapons }),
-    });
-    if (mode === "coop") $("layout-message").textContent = "協力プレイは進行中です。試し撃ちはホームから利用できます。";
+    openLayoutEditor(
+      ui,
+      layout,
+      (value) => {
+        localStorage.setItem(LAYOUT_KEY, JSON.stringify(value));
+        layout = value;
+        placeControls(layout);
+      },
+      () => {
+        ui.innerHTML = "";
+        ui.hidden = true;
+        setScreen("battle");
+        openPause();
+      },
+      {
+        enabled: mode !== "coop",
+        config: () => ({
+          preferences: save,
+          weapons: world?.players.find((p) => p.id === myId)?.weapons,
+        }),
+      },
+    );
+    if (mode === "coop")
+      $("layout-message").textContent =
+        "協力プレイは進行中です。試し撃ちはホームから利用できます。";
   };
   $("pause-resume").onclick = closePause;
   $("pause-leave").onclick = () => openPause(true);
@@ -1399,8 +1444,7 @@ function updateFrame(now: number) {
       if (mode === "solo") {
         step(world, { [myId]: input });
         sound.update(world, myId, controls.input.yaw, !paused);
-      }
-      else {
+      } else {
         network?.input(input);
         const p = world.players.find((p) => p.id === myId);
         if (predicted && p?.hp && network?.ws?.readyState === 1) {
@@ -1470,14 +1514,25 @@ function updateFrame(now: number) {
     minimap.draw(world, myId, controls.input.yaw, now);
 }
 // Capture before menu handlers replace their DOM; native click covers keyboard too.
-document.addEventListener("click", (event) => {
-  const target = event.target instanceof Element ? event.target.closest("button, select, [data-equip]") : null;
-  if (!target || target.matches(":disabled") || target.closest("#controls")) return;
-  sound.unlock();
-  if (!target.matches("[data-equip]")) sound.play("menu");
-}, true);
+document.addEventListener(
+  "click",
+  (event) => {
+    const target =
+      event.target instanceof Element
+        ? event.target.closest("button, select, [data-equip]")
+        : null;
+    if (!target || target.matches(":disabled") || target.closest("#controls"))
+      return;
+    sound.unlock();
+    if (!target.matches("[data-equip]")) sound.play("menu");
+  },
+  true,
+);
 document.addEventListener("change", (event) => {
-  if (event.target instanceof HTMLSelectElement) { sound.unlock(); sound.play("menu"); }
+  if (event.target instanceof HTMLSelectElement) {
+    sound.unlock();
+    sound.play("menu");
+  }
 });
 window.addEventListener("resize", () => placeControls(layout));
 window.visualViewport?.addEventListener("resize", () => placeControls(layout));

@@ -116,12 +116,16 @@ it("maps share collision, roof and ray geometry and keep player/boss entry clear
       expect(wallDistance(b.x, b.h + 1, b.z, 0, -1, 0, 30, blocks)).toBeCloseTo(
         1,
       );
-      const p = { x: b.x - b.w / 2 - 1, z: b.z, y: supportHeight(b.x - b.w / 2 - 1, b.z, blocks) };
+      const p = {
+        x: b.x - b.w / 2 - 1,
+        z: b.z,
+        y: supportHeight(b.x - b.w / 2 - 1, b.z, blocks),
+      };
       const old = p.x;
       move(p, 1, 0, 0.55, blocks);
       expect(p.x).toBeGreaterThanOrEqual(old);
-      expect(blocked(p.x,p.z,.55,p.y,blocks)).toBe(false);
-      expect(p.x).toBeLessThan(b.x-b.w/2);
+      expect(blocked(p.x, p.z, 0.55, p.y, blocks)).toBe(false);
+      expect(p.x).toBeLessThan(b.x - b.w / 2);
     }
   }
   for (const bad of [0, 21, 1.5, "2", null, NaN])

@@ -100,7 +100,10 @@ it.each(MAPS.map((map, index) => [index, map.name] as const))(
       );
       if (tick % 5) continue;
       for (const [index, node] of wormNodes(e).entries()) {
-        expect(node.y).toBeCloseTo(supportHeight(node.x,node.z,arena.blocks),6);
+        expect(node.y).toBeCloseTo(
+          supportHeight(node.x, node.z, arena.blocks),
+          6,
+        );
         expect(
           blocked(node.x, node.z, index ? 2.6 : 4, node.y, arena.blocks),
           `node ${index} tick ${tick}`,
@@ -258,7 +261,10 @@ it("each unit warns then emits a straight 60m/s, 100m laser from its model socke
     expect(q.x + q.dx * flight).toBeCloseTo(target.x, 8);
     expect(q.y + q.dy * flight).toBeCloseTo(target.y, 8);
     expect(q.z + q.dz * flight).toBeCloseTo(target.z, 8);
-    expect(wormNodes(e)[part].acidAt).toBeCloseTo(w.time + 4.8 * Math.max(1, enemySize(e)), 8);
+    expect(wormNodes(e)[part].acidAt).toBeCloseTo(
+      w.time + 4.8 * Math.max(1, enemySize(e)),
+      8,
+    );
   }
 });
 
@@ -374,7 +380,10 @@ it.each(MAPS.map((_, index) => index))(
       for (const parts of wormChains(e))
         for (const part of parts) {
           const node = wormNodes(e)[part];
-          expect(node.y).toBeCloseTo(supportHeight(node.x,node.z,arena.blocks),6);
+          expect(node.y).toBeCloseTo(
+            supportHeight(node.x, node.z, arena.blocks),
+            6,
+          );
           expect(
             blocked(node.x, node.z, part ? 2.6 : 4, node.y, arena.blocks),
             `map ${map} tick ${tick} part ${part}`,

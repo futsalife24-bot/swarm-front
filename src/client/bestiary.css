@@ -105,14 +105,38 @@
 .enemy-viewport canvas:active {
   cursor: grabbing;
 }
-.report-playback { flex-shrink: 0; margin: 4px 0 6px; }
-.motion-buttons { display: flex; justify-content: center; gap: 5px; }
-.motion-buttons button { min-height: 36px; padding: 6px 9px; font-size: 12px; }
-.motion-status { text-align: center; min-height: 14px; color: #adc3ce; font-size: 10px; margin: 4px 0 0; }
+.report-playback {
+  flex-shrink: 0;
+  margin: 4px 0 6px;
+}
+.motion-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+.motion-buttons button {
+  min-height: 36px;
+  padding: 6px 9px;
+  font-size: 12px;
+}
+.motion-status {
+  text-align: center;
+  min-height: 14px;
+  color: #adc3ce;
+  font-size: 10px;
+  margin: 4px 0 0;
+}
 @media (max-height: 450px) {
-  .motion-buttons button { padding: 5px 7px; font-size: 11px; }
-  .motion-status { margin: 2px 0 0; }
-  .viewer-hint { margin-top: 2px; }
+  .motion-buttons button {
+    padding: 5px 7px;
+    font-size: 11px;
+  }
+  .motion-status {
+    margin: 2px 0 0;
+  }
+  .viewer-hint {
+    margin-top: 2px;
+  }
 }
 .viewer-hint {
   text-align: center;

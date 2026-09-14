@@ -36,7 +36,9 @@ const BASE = `${import.meta.env.BASE_URL}assets/audio/se-v1/`;
 const SELECTED = `${import.meta.env.BASE_URL}assets/audio/selected-v1/`;
 const ROCKET_FINAL = `${import.meta.env.BASE_URL}assets/audio/rocket-final-v1/`;
 const AR_HIT = `${import.meta.env.BASE_URL}assets/audio/ar-hit-v1/`;
-const isImpact = (type: string) => type === "impact" || ["impactShell", "impactHard", "impactSoft"].includes(type);
+const isImpact = (type: string) =>
+  type === "impact" ||
+  ["impactShell", "impactHard", "impactSoft"].includes(type);
 export class Sound {
   context: AudioContext | undefined;
   private master?: GainNode;
@@ -76,8 +78,15 @@ export class Sound {
         if (this.bytes.has(key)) return;
         try {
           const r = await fetch(
-            (key !== "impact" && isImpact(key) ? AR_HIT : key === "rocketBurst" ? ROCKET_FINAL : ["rifle", "shotgun"].includes(key) ? SELECTED : BASE) +
-              key + ".wav",
+            (key !== "impact" && isImpact(key)
+              ? AR_HIT
+              : key === "rocketBurst"
+                ? ROCKET_FINAL
+                : ["rifle", "shotgun"].includes(key)
+                  ? SELECTED
+                  : BASE) +
+              key +
+              ".wav",
           );
           if (!r.ok) throw Error(String(r.status));
           this.bytes.set(key, await r.arrayBuffer());
@@ -105,7 +114,10 @@ export class Sound {
         // Leave headroom for short transients before the compressor reacts.
         const headroom = this.context.createGain();
         headroom.gain.value = 0.6;
-        this.master.connect(compressor).connect(headroom).connect(this.context.destination);
+        this.master
+          .connect(compressor)
+          .connect(headroom)
+          .connect(this.context.destination);
       }
       if (this.context.state !== "running")
         void this.context.resume().catch(() => {});
@@ -166,7 +178,9 @@ export class Sound {
         d = Math.hypot(dx, dz),
         mine = cue.owner === id;
       const gain =
-        mine && !isImpact(cue.type) && !["burst", "rocketBurst", "kill"].includes(cue.type)
+        mine &&
+        !isImpact(cue.type) &&
+        !["burst", "rocketBurst", "kill"].includes(cue.type)
           ? 1
           : 1 / (1 + (d / 13) ** 2);
       if (d > 85 && !mine) continue;

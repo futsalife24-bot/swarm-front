@@ -69,7 +69,9 @@ export default {
       ? u.pathname.slice(4)
       : u.pathname;
     if (path.startsWith("/developer/"))
-      res = await env.GATE.get(env.GATE.idFromName("developer-access")).fetch(req);
+      res = await env.GATE.get(env.GATE.idFromName("developer-access")).fetch(
+        req,
+      );
     else if (path === "/health")
       res = json({
         ok: true,
@@ -152,7 +154,9 @@ export default {
 export class Gate extends DurableObject<Env> {
   async fetch(req: Request) {
     if (new URL(req.url).pathname.startsWith("/api/developer/"))
-      return this.ctx.blockConcurrencyWhile(() => developerAuth(req, this.ctx.storage, this.env.DEVELOPER_PASSWORD_HASH));
+      return this.ctx.blockConcurrencyWhile(() =>
+        developerAuth(req, this.ctx.storage, this.env.DEVELOPER_PASSWORD_HASH),
+      );
     return this.ctx.blockConcurrencyWhile(() => this.admit(req));
   }
   private async admit(req: Request) {

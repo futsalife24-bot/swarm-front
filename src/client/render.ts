@@ -1,5 +1,5 @@
 import { enemySize } from "../shared/enemy-size";
-import {dropAt} from '../shared/solo-progression';
+import { dropAt } from "../shared/solo-progression";
 import { groundHeight } from "../shared/terrain";
 import { TerrainWarnings } from "./terrain-warnings";
 import { MapAssets } from "./map-assets";
@@ -24,12 +24,7 @@ import {
   FOUNDRY_TARGET_HEIGHT,
   FOUNDRY_LASER_WARNING,
 } from "../shared/foundry-defs";
-import {
-  eye,
-  type Enemy,
-  type Player,
-  type World,
-} from "../shared/game";
+import { eye, type Enemy, type Player, type World } from "../shared/game";
 const mats = new Map<number, T.MeshStandardMaterial>();
 function material(color: number) {
   if (!mats.has(color))
@@ -164,7 +159,8 @@ export function poseSoldier(
     : 0;
   const tuck = rolling ? Math.sin(Math.PI * progress) : 0;
   m.rotation.set(p.hp <= 0 ? Math.PI / 2 : 0, -yaw, 0);
-  m.position.y = (p.y ?? 0) + (p.hp <= 0 ? 0.2 : rolling ? 0 : Math.sin(time * 13) * 0.035);
+  m.position.y =
+    (p.y ?? 0) + (p.hp <= 0 ? 0.2 : rolling ? 0 : Math.sin(time * 13) * 0.035);
   // Convert the captured world roll axis into the current facing's local space.
   const axis = (data.axis as T.Vector3)
     .clone()
@@ -187,8 +183,12 @@ export class Renderer {
       }
     } else {
       const motion = this.structures.get(enemy.kind);
-      const index = this.structureInputs.get(enemy.kind)?.findIndex(e => e.id === enemy.id) ?? -1;
-      if (motion?.batch && index >= 0) motion.batch.parts[0].getMatrixAt(index, matrix);
+      const index =
+        this.structureInputs
+          .get(enemy.kind)
+          ?.findIndex((e) => e.id === enemy.id) ?? -1;
+      if (motion?.batch && index >= 0)
+        motion.batch.parts[0].getMatrixAt(index, matrix);
     }
     return new T.Vector3(0, 0, -1).transformDirection(matrix);
   }
@@ -200,15 +200,27 @@ export class Renderer {
     }
     const motion = this.structures.get(enemy.kind);
     const batch = motion?.batch;
-    const index = this.structureInputs.get(enemy.kind)?.findIndex(e => e.id === enemy.id) ?? -1;
+    const index =
+      this.structureInputs
+        .get(enemy.kind)
+        ?.findIndex((e) => e.id === enemy.id) ?? -1;
     if (!batch || index < 0) return;
     const attributes = [batch.poseA, batch.poseB, batch.blend];
-    const saved = attributes.map(a => Array.from(a.array.slice(index * a.itemSize, (index + 1) * a.itemSize)));
+    const saved = attributes.map((a) =>
+      Array.from(a.array.slice(index * a.itemSize, (index + 1) * a.itemSize)),
+    );
     const state = motion!.controller.states.get(enemy.id);
     const phase = state?.clip === "Idle" ? state.time : 0;
     return {
       update: (time: number) => {
-        batch.setPose(index, "Idle", phase + time, state?.clip ?? "Idle", state?.time ?? 0, Math.min(1, time / .25));
+        batch.setPose(
+          index,
+          "Idle",
+          phase + time,
+          state?.clip ?? "Idle",
+          state?.time ?? 0,
+          Math.min(1, time / 0.25),
+        );
         for (const attribute of attributes) attribute.needsUpdate = true;
       },
       restore: () => {
@@ -255,7 +267,10 @@ export class Renderer {
   lastEvent = 0;
   run = "";
   visual = new Map<string, T.Vector3>();
-  private crawlerAim = new Map<number, { cool: number; time: number; until: number; wind: number; yaw: number }>();
+  private crawlerAim = new Map<
+    number,
+    { cool: number; time: number; until: number; wind: number; yaw: number }
+  >();
   fps = 60;
   quality = 1;
   drawCalls = 0;
@@ -784,10 +799,16 @@ export class Renderer {
     const localAim = w && local ? cameraShot(w, local, { yaw, pitch }) : null;
     scoped = scoped && !!local && local.hp > 0 && local.swapCd <= 0;
     const fov = scoped ? SCOPE_FOV : NORMAL_FOV;
-    if (this.camera.fov !== fov) { this.camera.fov = fov; this.camera.updateProjectionMatrix(); }
+    if (this.camera.fov !== fov) {
+      this.camera.fov = fov;
+      this.camera.updateProjectionMatrix();
+    }
     const activeMap = mapFor(w ?? {});
     this.terrainWarnings.select(activeMap.blocks);
-    this.mapAssets.select(w?.training ? MAPS.length : MAPS.indexOf(activeMap), !!w && w.phase !== "lobby");
+    this.mapAssets.select(
+      w?.training ? MAPS.length : MAPS.indexOf(activeMap),
+      !!w && w.phase !== "lobby",
+    );
     const underground = activeMap.biome === "cave";
     this.caveLamp.visible = underground;
     this.caveLamp.position.set(this.cameraAnchor.x, 4, this.cameraAnchor.z);
@@ -822,7 +843,9 @@ export class Renderer {
       this.foundryTime += animate ? Math.max(0, Math.min(0.1, dt)) : 0;
       if (Math.abs(this.foundryTime - w.time) > 0.3) this.foundryTime = w.time;
       const aliveWorms = new Set(
-        w.enemies.filter((e) => e.kind === "boss" && e.segments).map((e) => e.id),
+        w.enemies
+          .filter((e) => e.kind === "boss" && e.segments)
+          .map((e) => e.id),
       );
       for (const [key, state] of this.foundryWorms)
         if (!aliveWorms.has(key)) {
@@ -848,12 +871,20 @@ export class Renderer {
         const target = p.id === id && predict ? predict : p;
         if (!m) {
           m = soldier(p.id === id ? 0xcaa25f : 0x5bbbb1);
-          m.position.set(target.x, (target.y ?? 0) + (p.hp <= 0 ? 0.2 : 0), target.z);
+          m.position.set(
+            target.x,
+            (target.y ?? 0) + (p.hp <= 0 ? 0.2 : 0),
+            target.z,
+          );
           this.players.set(p.id, m);
           this.scene.add(m);
         }
         m.position.lerp(
-          new T.Vector3(target.x, (target.y ?? 0) + (p.hp <= 0 ? 0.2 : 0), target.z),
+          new T.Vector3(
+            target.x,
+            (target.y ?? 0) + (p.hp <= 0 ? 0.2 : 0),
+            target.z,
+          ),
           1 - Math.exp(-dt * 18),
         );
         poseSoldier(
@@ -899,7 +930,11 @@ export class Renderer {
                 x: v.x,
                 y: e.y,
                 z: v.z,
-                heading: this.foundryHeading(key, e.heading ?? 0, animate ? dt : 0),
+                heading: this.foundryHeading(
+                  key,
+                  e.heading ?? 0,
+                  animate ? dt : 0,
+                ),
                 segments: e.segments.map((segment, index) => {
                   const segmentKey = `${e.id}:segment:${index}`;
                   const position =
@@ -925,7 +960,9 @@ export class Renderer {
                 }),
               };
               this.visual.set(key, v);
-              foundry.view.update(projected, this.foundryTime, (x,z)=>groundHeight(x,z,activeMap.blocks));
+              foundry.view.update(projected, this.foundryTime, (x, z) =>
+                groundHeight(x, z, activeMap.blocks),
+              );
               this.foundryWarning(projected);
               continue;
             }
@@ -934,7 +971,10 @@ export class Renderer {
           if (kind === "crawler" && this.houndDebug?.motion)
             this.houndVisualInputs.push({
               id: e.id,
-              moving: moving && e.active !== false && (e.kind === "crawler" ? !(e.wind > 0) : !e.wind),
+              moving:
+                moving &&
+                e.active !== false &&
+                (e.kind === "crawler" ? !(e.wind > 0) : !e.wind),
               wind: e.wind,
               cool: e.cool,
               distance: Math.hypot(v.x - previousHoundX, v.z - previousHoundZ),
@@ -944,7 +984,10 @@ export class Renderer {
             inputs.push({
               slot: n,
               id: e.id,
-              moving: moving && e.active !== false && (e.kind === "crawler" ? !(e.wind > 0) : !e.wind),
+              moving:
+                moving &&
+                e.active !== false &&
+                (e.kind === "crawler" ? !(e.wind > 0) : !e.wind),
               wind: e.wind,
               cool: e.cool,
               distance: Math.hypot(v.x - previousHoundX, v.z - previousHoundZ),
@@ -954,7 +997,14 @@ export class Renderer {
           if (kind === "ant" || kind === "crawler") {
             (
               mesh.geometry.getAttribute("stride") as T.InstancedBufferAttribute
-            ).setX(n, moving && e.active !== false && (e.kind === "crawler" ? !(e.wind > 0) : !e.wind) ? 1 : 0);
+            ).setX(
+              n,
+              moving &&
+                e.active !== false &&
+                (e.kind === "crawler" ? !(e.wind > 0) : !e.wind)
+                ? 1
+                : 0,
+            );
             mesh.geometry.getAttribute("stride").needsUpdate = true;
             mesh.userData.gaitClock.value = w.time;
             (
@@ -981,23 +1031,47 @@ export class Renderer {
           if (e.kind === "crawler") {
             const prior = this.crawlerAim.get(e.id);
             const valid = prior && prior.time <= w.time;
-            const fired = valid && e.wind <= 0 && e.cool > 0.85 && e.cool > prior.cool + 0.4;
-            const until = e.active === false ? 0 : fired ? w.time + Math.max(0, 0.75 - (1.2 - e.cool)) : valid ? prior.until : 0;
-            crawlerAttacking = e.active !== false && (e.wind > 0 || w.time < until);
+            const fired =
+              valid &&
+              e.wind <= 0 &&
+              e.cool > 0.85 &&
+              e.cool > prior.cool + 0.4;
+            const until =
+              e.active === false
+                ? 0
+                : fired
+                  ? w.time + Math.max(0, 0.75 - (1.2 - e.cool))
+                  : valid
+                    ? prior.until
+                    : 0;
+            crawlerAttacking =
+              e.active !== false && (e.wind > 0 || w.time < until);
             // Hold a direction, not the old target point: movement can cross that point
             // during recovery, which would otherwise turn the whole model backwards.
-            const yaw = valid && crawlerAttacking && (prior.wind > 0 || (!fired && w.time < prior.until))
-              ? prior.yaw : Math.atan2(e.tx - e.x, -(e.tz - e.z));
+            const yaw =
+              valid &&
+              crawlerAttacking &&
+              (prior.wind > 0 || (!fired && w.time < prior.until))
+                ? prior.yaw
+                : Math.atan2(e.tx - e.x, -(e.tz - e.z));
             if (crawlerAttacking) crawlerAttackYaw = yaw;
-            this.crawlerAim.set(e.id, { cool: e.cool, time: w.time, until, wind: e.wind, yaw });
+            this.crawlerAim.set(e.id, {
+              cool: e.cool,
+              time: w.time,
+              until,
+              wind: e.wind,
+              yaw,
+            });
           }
-          const t = e.wind > 0 || crawlerAttacking
+          const t =
+            e.wind > 0 || crawlerAttacking
               ? { x: e.tx, z: e.tz }
               : w.players.find(
                   (p) => p.id === e.targetId && p.hp > 0 && p.connected,
                 );
-          const ya = crawlerAttackYaw ?? (
-            e.segments && e.heading !== undefined
+          const ya =
+            crawlerAttackYaw ??
+            (e.segments && e.heading !== undefined
               ? Math.PI - e.heading
               : (e.perch ?? 0) > 0
                 ? (e.wallYaw ?? 0)
@@ -1241,12 +1315,15 @@ export class Renderer {
       w.drops
         .filter((d) => d.owner === id)
         .forEach((d, i) => {
-          const pos=w.solo?dropAt(w,d):{x:d.x,z:d.z,jump:0};
+          const pos = w.solo ? dropAt(w, d) : { x: d.x, z: d.z, jump: 0 };
           this.instance(
             this.drops,
             i,
             pos.x,
-            groundHeight(pos.x,pos.z,activeMap.blocks) + 1 + pos.jump + Math.sin(w.time * 3) * 0.2,
+            groundHeight(pos.x, pos.z, activeMap.blocks) +
+              1 +
+              pos.jump +
+              Math.sin(w.time * 3) * 0.2,
             pos.z,
             1,
             1,
@@ -1254,11 +1331,15 @@ export class Renderer {
             0,
             w.time,
           );
-          if(w.solo)this.drops.setColorAt(i,new T.Color(d.type==='heal'?0xff5d67:0x69efcb));
+          if (w.solo)
+            this.drops.setColorAt(
+              i,
+              new T.Color(d.type === "heal" ? 0xff5d67 : 0x69efcb),
+            );
         });
       this.drops.count = w.drops.filter((d) => d.owner === id).length;
       syncDynamicInstances(this.drops);
-      if(this.drops.instanceColor)this.drops.instanceColor.needsUpdate=true;
+      if (this.drops.instanceColor) this.drops.instanceColor.needsUpdate = true;
       for (const e of w.events.filter((e) => e.id > this.lastEvent)) {
         this.lastEvent = Math.max(this.lastEvent, e.id);
         this.combat.event(e);
@@ -1286,7 +1367,11 @@ export class Renderer {
         // simulation position made the character visibly shake beneath it.
         const rendered = this.players.get(id);
         const pos = rendered
-          ? { x: rendered.position.x, y: rendered.position.y, z: rendered.position.z }
+          ? {
+              x: rendered.position.x,
+              y: rendered.position.y,
+              z: rendered.position.z,
+            }
           : (predict ?? p);
         this.cameraAnchor.x = pos.x;
         this.cameraAnchor.z = pos.z;
@@ -1295,7 +1380,11 @@ export class Renderer {
         // Both ends of the view must use the same interpolated position.
         // A simulation-tick target makes nearby ground jerk while moving.
         const visualAim = cameraShot(w, { ...p, ...pos }, { yaw, pitch });
-        this.camera.lookAt(visualAim.target.x, visualAim.target.y, visualAim.target.z);
+        this.camera.lookAt(
+          visualAim.target.x,
+          visualAim.target.y,
+          visualAim.target.z,
+        );
       }
     } else {
       this.run = "";
@@ -1326,12 +1415,17 @@ export class Renderer {
     }
     if (!w) this.combat.clear();
     this.combat.update(animate ? dt : 0, this.camera);
-    if (w && animate) this.combat.trails(w.projectiles.filter(q => q.style !== "laser"), dt);
+    if (w && animate)
+      this.combat.trails(
+        w.projectiles.filter((q) => q.style !== "laser"),
+        dt,
+      );
     for (const beam of [
       this.foundryWarnings,
       this.foundryLasers,
       this.foundryLaserGlow,
-    ]) syncDynamicInstances(beam);
+    ])
+      syncDynamicInstances(beam);
     this.effects.forEach((e, i) => {
       e.life -= dt;
       e.y += dt * 2;
@@ -1364,7 +1458,8 @@ export class Renderer {
         animate ? dt : 0,
       );
     for (const id of this.crawlerAim.keys()) {
-      if (!w?.enemies.some(e => e.kind === "crawler" && e.id === id)) this.crawlerAim.delete(id);
+      if (!w?.enemies.some((e) => e.kind === "crawler" && e.id === id))
+        this.crawlerAim.delete(id);
     }
     this.spawnEffects.update(w, dt, animate, this.camera);
     this.renderer.render(this.scene, this.camera);

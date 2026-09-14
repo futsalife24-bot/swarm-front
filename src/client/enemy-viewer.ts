@@ -2,11 +2,16 @@ import * as T from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { enemyGeometry } from "./enemy-model";
 import type { Enemy } from "../shared/game";
-import {loadEnemyMotion,HoundMotionBatch} from './hound-motion';
-import {STRUCTURE_ASSETS} from './structure-motion';
-import type {StructureVisualKind} from './structure-motion';
+import { loadEnemyMotion, HoundMotionBatch } from "./hound-motion";
+import { STRUCTURE_ASSETS } from "./structure-motion";
+import type { StructureVisualKind } from "./structure-motion";
 import { FoundryWormView, FOUNDRY_WORM_ASSET } from "./foundry-worm";
-import { ReportEffects, reportPose, reportWorm, type ReportMotion } from "./enemy-report-motion";
+import {
+  ReportEffects,
+  reportPose,
+  reportWorm,
+  type ReportMotion,
+} from "./enemy-report-motion";
 
 export function createEnemyViewer(host: HTMLElement) {
   const renderer = new T.WebGLRenderer({ antialias: true, alpha: true });
@@ -34,12 +39,16 @@ export function createEnemyViewer(host: HTMLElement) {
   const render = () => renderer.render(scene, camera);
   controls.addEventListener("change", render);
   let radius = 1;
-  let generation=0,disposed=false,motion:HoundMotionBatch|undefined;
+  let generation = 0,
+    disposed = false,
+    motion: HoundMotionBatch | undefined;
   let foundry: FoundryWormView | undefined;
-  let foundryIdle: ReturnType<FoundryWormView['inspectionIdle']> | undefined;
+  let foundryIdle: ReturnType<FoundryWormView["inspectionIdle"]> | undefined;
   let wormForm = false;
   let kind: Enemy["kind"] = "crawler";
-  let mode: ReportMotion = "idle", time = 0, last = 0;
+  let mode: ReportMotion = "idle",
+    time = 0,
+    last = 0;
   const effects = new ReportEffects();
   scene.add(effects.root);
   const transform = new T.Matrix4();
@@ -51,30 +60,36 @@ export function createEnemyViewer(host: HTMLElement) {
   }
   function animatePose() {
     if (motion) {
-      const pose = reportPose(kind,mode,time);
-      motion.setPose(0,pose.clip,pose.sample);
-      motion.setTransform(0,transform.makeTranslation(0,pose.height,0));
+      const pose = reportPose(kind, mode, time);
+      motion.setPose(0, pose.clip, pose.sample);
+      motion.setTransform(0, transform.makeTranslation(0, pose.height, 0));
       motion.finish(1);
     }
     if (foundry) {
-      if(mode==='idle') {
-        if(!foundryIdle) {foundry.update(reportWorm('idle',0),0);foundryIdle=foundry.inspectionIdle();}
+      if (mode === "idle") {
+        if (!foundryIdle) {
+          foundry.update(reportWorm("idle", 0), 0);
+          foundryIdle = foundry.inspectionIdle();
+        }
         foundryIdle.update(time);
       } else {
-        foundryIdle?.restore();foundryIdle=undefined;
-        const snapshot = reportWorm(mode,time);
-        foundry.update(snapshot,time);
+        foundryIdle?.restore();
+        foundryIdle = undefined;
+        const snapshot = reportWorm(mode, time);
+        foundry.update(snapshot, time);
       }
       foundry.root.position.z = mode === "move" ? time * 4.2 : 0;
     }
     effects.root.position.copy(model.position);
-    effects.update(kind,wormForm,mode,time);
+    effects.update(kind, wormForm, mode, time);
   }
   renderer.setAnimationLoop((now) => {
-    const dt = last ? Math.min(.05,(now-last)/1000) : 0;
+    const dt = last ? Math.min(0.05, (now - last) / 1000) : 0;
     last = now;
     if (disposed || document.hidden) return;
-    time += dt;animatePose();render();
+    time += dt;
+    animatePose();
+    render();
   });
   const halfSize = new T.Vector3();
   function reset() {
@@ -124,10 +139,11 @@ export function createEnemyViewer(host: HTMLElement) {
   });
   resize.observe(host);
   function clear() {
-    foundryIdle=undefined;
+    foundryIdle = undefined;
     foundry?.dispose();
     foundry = undefined;
-    motion?.dispose();motion=undefined;
+    motion?.dispose();
+    motion = undefined;
     for (const child of [...model.children]) {
       if (child instanceof T.Mesh) child.geometry.dispose();
       model.remove(child);
@@ -135,10 +151,13 @@ export function createEnemyViewer(host: HTMLElement) {
   }
   return {
     show(selectedKind: Enemy["kind"], worm = false) {
-      kind = selectedKind;mode = "idle";time = 0;
-      host.dataset.motion = mode;host.dataset.asset = "loading";
-      effects.root.children.forEach(o=>o.visible=false);
-      const ticket=++generation;
+      kind = selectedKind;
+      mode = "idle";
+      time = 0;
+      host.dataset.motion = mode;
+      host.dataset.asset = "loading";
+      effects.root.children.forEach((o) => (o.visible = false));
+      const ticket = ++generation;
       wormForm = worm;
       clear();
       model.position.set(0, 0, 0);
@@ -172,9 +191,13 @@ export function createEnemyViewer(host: HTMLElement) {
             const primitiveBounds = new T.Box3();
             view.root.updateWorldMatrix(true, true);
             view.root.traverseVisible((object) => {
-              if (!(object instanceof T.Mesh) || object instanceof T.BatchedMesh)
+              if (
+                !(object instanceof T.Mesh) ||
+                object instanceof T.BatchedMesh
+              )
                 return;
-              if (!object.geometry.boundingBox) object.geometry.computeBoundingBox();
+              if (!object.geometry.boundingBox)
+                object.geometry.computeBoundingBox();
               primitiveBounds
                 .copy(object.geometry.boundingBox!)
                 .applyMatrix4(object.matrixWorld);
@@ -190,18 +213,39 @@ export function createEnemyViewer(host: HTMLElement) {
           .catch(() => {
             if (ticket === generation) host.dataset.asset = "error";
           });
-      if(!worm&&kind in STRUCTURE_ASSETS)void loadEnemyMotion(STRUCTURE_ASSETS[kind as StructureVisualKind],kind==='spider').then(asset=>{
-        if(disposed||ticket!==generation)return;
-        clear();model.position.set(0,0,0);motion=new HoundMotionBatch(asset,1);motion.setPose(0,'Idle',0);motion.setTransform(0,new T.Matrix4());motion.finish(1);model.add(motion.group);
-        const bounds=new T.Box3().setFromObject(asset.model);
-        restBounds.copy(bounds);fitSpecimen();
-        host.dataset.asset='ready';animatePose();reset();
-      }).catch(()=>{if(ticket===generation)host.dataset.asset='error'});
+      if (!worm && kind in STRUCTURE_ASSETS)
+        void loadEnemyMotion(
+          STRUCTURE_ASSETS[kind as StructureVisualKind],
+          kind === "spider",
+        )
+          .then((asset) => {
+            if (disposed || ticket !== generation) return;
+            clear();
+            model.position.set(0, 0, 0);
+            motion = new HoundMotionBatch(asset, 1);
+            motion.setPose(0, "Idle", 0);
+            motion.setTransform(0, new T.Matrix4());
+            motion.finish(1);
+            model.add(motion.group);
+            const bounds = new T.Box3().setFromObject(asset.model);
+            restBounds.copy(bounds);
+            fitSpecimen();
+            host.dataset.asset = "ready";
+            animatePose();
+            reset();
+          })
+          .catch(() => {
+            if (ticket === generation) host.dataset.asset = "error";
+          });
     },
     play(next: ReportMotion) {
-      mode=next;time=0;last=0;host.dataset.motion=mode;
-      if(foundry)foundry.root.position.z=0;
-      animatePose();render();
+      mode = next;
+      time = 0;
+      last = 0;
+      host.dataset.motion = mode;
+      if (foundry) foundry.root.position.z = 0;
+      animatePose();
+      render();
     },
     reset,
     rotate(direction: number) {
@@ -212,7 +256,8 @@ export function createEnemyViewer(host: HTMLElement) {
       controls.update();
     },
     dispose() {
-      disposed=true;++generation;
+      disposed = true;
+      ++generation;
       renderer.setAnimationLoop(null);
       resize.disconnect();
       controls.dispose();
