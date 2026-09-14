@@ -1,5 +1,6 @@
 import * as T from 'three';
 import { GLTFLoader, type GLTF } from 'three/addons/loaders/GLTFLoader.js';
+import { progressionWeaponModel } from './progression-weapons';
 import { clone } from 'three/addons/utils/SkeletonUtils.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import type { Player } from '../shared/game';
@@ -10,6 +11,8 @@ export const TROOPER_PROFILES: Record<Kind, string> = { rifle: 'Rifle', shotgun:
 export const TROOPER_SWITCH = { duration: WEAPON_SWITCH_DURATION, holster: .45 * WEAPON_SWITCH_DURATION, draw: .60 * WEAPON_SWITCH_DURATION } as const;
 // Matches the v6 support-foot trajectory, in world metres per complete cycle.
 export const TROOPER_RUN_STRIDE = 2.6;
+// Provisional B adoption: the exact reviewed UAL Sprint lower-body clip.
+export const TROOPER_SPRINT_STRIDE = 5.21351158618927;
 export const TROOPER_SKINS = {
   standard: { Armor: '#5b6469', Ceramic: '#d1d7d8', Cloth: '#394039', Orange: '#f98f35' },
   desert: { Armor: '#ad9870', Ceramic: '#d6c5a0', Cloth: '#675c42', Orange: '#df913e' },
@@ -25,7 +28,7 @@ export const TROOPER_BONES = [
   ]),
   'RightHandWeaponSocket', 'LeftHandSupportSocket', 'BackWeaponSocket', 'BackWeaponSocket_2',
 ] as const;
-type Assets = { character: GLTF; weapons: Record<Kind, T.Group> };
+type Assets = { character: GLTF; weapons: Record<Kind, T.Group>; runTrial?: { clip: T.AnimationClip; stride: number; name: string } };
 let loading: Promise<Assets> | undefined;
 function trooperEnvironment() {
   // A continuous, neutral sky/ground reflection for the small metal and visor
@@ -48,8 +51,8 @@ export function loadStandardTrooper() {
   return loading ??= (async () => {
     const loader = new GLTFLoader(), base = `${import.meta.env.BASE_URL}assets/characters/`;
     const [character, rifle, shotgun, rocket] = await Promise.all([
-      loader.loadAsync(`${base}standard_trooper_v7.glb`),
-      ...(['rifle', 'shotgun', 'rocket'] as const).map(k => loader.loadAsync(`${base}standard_${k}_v4.glb`)),
+      loader.loadAsync(`${base}standard_trooper_sprint_v8.glb`),
+      ...(['rifle', 'shotgun', 'rocket'] as const).map(k => loader.loadAsync(`${import.meta.env.BASE_URL}assets/weapons/realism-v2/${k}_0.glb`)),
     ]);
     const env = trooperEnvironment();
     for (const asset of [character, rifle, shotgun, rocket]) asset.scene.traverse(o => {
@@ -87,7 +90,12 @@ export function loadStandardTrooper() {
       merged.bind(first.skeleton, first.bindMatrix); first.parent!.add(merged);
       for (const m of meshes) m.removeFromParent();
     }
-    return { character, weapons: { rifle: rifle.scene, shotgun: shotgun.scene, rocket: rocket.scene } };
+    const assets: Assets = { character, weapons: { rifle: rifle.scene, shotgun: shotgun.scene, rocket: rocket.scene } };
+    if (import.meta.env.DEV) {
+      const trial = new URLSearchParams(location.search).get('runTrial');
+      if (trial === 'jog' || trial === 'sprint') assets.runTrial = await (await import('./run-trial')).loadRunTrial(trial);
+    }
+    return assets;
   })();
 }
 
@@ -109,6 +117,7 @@ export class StandardTrooper {
   private oldSlot = 0;
   private selectedSlot = 0;
   private locomotion = 0;
+  private runStride = TROOPER_RUN_STRIDE;
   private moveYaw = 0;
   private stopYaw = 0;
   private stopTurnTime = .18;
@@ -170,6 +179,16 @@ export class StandardTrooper {
       });
       this.feet.push({ hip: this.model.getObjectByName(`UpperLeg_${side}`) as T.Bone, knee: this.model.getObjectByName(`LowerLeg_${side}`) as T.Bone, foot, sole, lastP: new T.Vector3(), lastQ: new T.Quaternion(), fromP: new T.Vector3(), fromQ: new T.Quaternion() });
     }
+    const adopted = this.clips.get('UAL_sprint');
+    const runMotion = assets.runTrial ?? (adopted ? { clip: adopted, stride: TROOPER_SPRINT_STRIDE, name: 'Sprint_Loop (provisional B)' } : undefined);
+    if (runMotion) {
+      const trial = runMotion.clip.clone();
+      const duration = this.clips.get('Run')!.duration;
+      for (const track of trial.tracks) track.scale(duration / trial.duration);
+      trial.duration = duration; trial.name = 'Lower_Run';
+      this.clips.set('Lower_Run', trial); this.runStride = runMotion.stride;
+      this.model.userData.runTrial = runMotion.name;
+    }
   }
   /** Blend ankle paths, then solve the knees: joint-only blends cut through the floor. */
   private settleFeet(weight: number, targets: { p: T.Vector3; q: T.Quaternion }[]) {
@@ -217,11 +236,11 @@ export class StandardTrooper {
     this.model.userData.skin = skin;
   }
   equip(weapons: Player['weapons'], slot: number) {
-    if (weapons.every((w, i) => this.weaponIds[i] === w.id)) return;
+    if (weapons.every((w, i) => this.weaponIds[i] === w.id + (progressionWeaponModel(w)?.uuid ?? ''))) return;
     for (const o of this.weapons) o.removeFromParent();
     this.weapons.length = 0;
-    weapons.forEach(w => this.weapons.push(this.assets.weapons[w.kind].clone(true)));
-    this.weaponIds = weapons.map(w => w.id);
+    weapons.forEach(w => this.weapons.push((progressionWeaponModel(w) ?? this.assets.weapons[w.kind]).clone(true)));
+    this.weaponIds = weapons.map(w => w.id + (progressionWeaponModel(w)?.uuid ?? ''));
     this.selectedSlot = slot;
     this.switchTime = 10;
     this.attachRest(slot);
@@ -278,16 +297,17 @@ export class StandardTrooper {
     if (fresh) { this.moveYaw = 0; this.stopYaw = 0; this.stopTurnTime = .18; this.locomotion = 0; }
     // Backpedal has its own forward-playing landing and push-off sequence.
     const runDuration = this.clips.get('Run')!.duration;
-    if (moving && p.evade <= 0) this.locomotion = (this.locomotion + distance / TROOPER_RUN_STRIDE * runDuration) % runDuration;
+    if (moving && p.evade <= 0) this.locomotion = (this.locomotion + distance / (backward ? TROOPER_RUN_STRIDE : this.runStride) * runDuration) % runDuration;
     const runClip = backward ? 'Run_Backward' : 'Run';
     this.shotTime += dt; this.heavyTime += dt;
     if (!fresh && p.cool > prev.cool + .025) this.shotTime = 0;
     if (!fresh && p.slot !== this.selectedSlot) { this.oldSlot = this.selectedSlot; this.selectedSlot = p.slot; this.switchTime = 0; }
     // The authority gates both firing and attachment progress, including dodge pauses.
     if (p.swapCd > 0) {
-      const elapsed = TROOPER_SWITCH.duration - p.swapCd;
+      const rate = TROOPER_SWITCH.duration / (p.swapDuration ?? TROOPER_SWITCH.duration);
+      const elapsed = TROOPER_SWITCH.duration - p.swapCd * rate;
       this.switchTime = Math.min(TROOPER_SWITCH.duration - .00001,
-        Math.max(elapsed, (this.switchTime >= TROOPER_SWITCH.duration ? elapsed : this.switchTime) + (p.evade > 0 || (p.swapResume ?? 0) > 0 ? 0 : dt)));
+        Math.max(elapsed, (this.switchTime >= TROOPER_SWITCH.duration ? elapsed : this.switchTime) + (p.evade > 0 || (p.swapResume ?? 0) > 0 ? 0 : dt * rate)));
     } else this.switchTime = 10;
     const heavy = p.heavyHit ?? 0;
     if (heavy > 0) this.heavyTime = fresh || heavy > prev.heavy + .001
@@ -368,7 +388,7 @@ export class StandardTrooper {
     if (mode.startsWith('normal_')) {
       const spine = this.model.getObjectByName('Spine');
       // The whole upper body, including both grip points, follows vertical aim.
-      spine?.rotateX(T.MathUtils.clamp(p.pitch || 0, -.8, .8));
+      spine?.rotateX(T.MathUtils.clamp(p.pitch || 0, -Math.PI / 2, Math.PI / 2));
       if (moving) {
         const fire = this.clips.get(`Fire_${profile}`)!;
         if (this.shotTime < fire.duration) spine?.rotateX(-Math.sin(Math.PI * this.shotTime / fire.duration) * (profile === 'Rifle' ? .025 : .055));

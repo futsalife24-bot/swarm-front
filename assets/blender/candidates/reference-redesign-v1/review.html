@@ -1,0 +1,32 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><title>PLEAT / LEAPER 制作プレビュー</title>
+<style>body{margin:0;background:#18252e;color:#dceaf0;font:14px system-ui}canvas{display:block}nav{position:fixed;top:14px;left:18px}button,select,input{padding:6px;margin-right:8px}p{margin:6px}</style>
+<nav><p>PLEAT / LEAPER — Blenderモデル・同条件比較</p><select id="kind"><option value="pleat">PLEAT</option><option value="leaper">LEAPER</option></select><select id="variant"><option value="new">新モデル</option><option value="old">従来モデル</option></select><select id="clip"><option>Idle</option><option>Locomotion</option><option>Lunge</option></select><button id="play">再生 / 停止</button><input id="seek" type="range" min="0" max="4" step=".01" value="0"><select id="view"><option>oblique</option><option>front</option><option>side</option><option>back</option></select></nav>
+<script type="module">
+import * as T from 'three';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {loadEnemyMotion,HoundMotionBatch} from '/src/client/hound-motion.ts';
+const renderer=new T.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(innerWidth,innerHeight);document.body.append(renderer.domElement);
+const scene=new T.Scene();scene.background=new T.Color(0x18252e);scene.add(new T.HemisphereLight(0xeaf3ff,0x37414a,2));
+const light=new T.DirectionalLight(0xfff0dd,3);light.position.set(4,8,-6);scene.add(light);
+const fill=new T.DirectionalLight(0x9acfff,1.5);fill.position.set(-4,4,3);scene.add(fill);
+const camera=new T.PerspectiveCamera(38,innerWidth/innerHeight,.01,500);const controls=new OrbitControls(camera,renderer.domElement);
+const floor=new T.Mesh(new T.PlaneGeometry(500,500),new T.MeshStandardMaterial({color:0x263640,roughness:.85}));floor.rotation.x=-Math.PI/2;floor.position.y=-.006;scene.add(floor);
+let batch,old,mixer,asset,playing=false,time=0,clip='Idle',count=1;
+const api={T,renderer,scene,camera,loadEnemyMotion,HoundMotionBatch,GLTFLoader,ready:false};window.redesign=api;
+function view(name='oblique'){camera.position.fromArray(({oblique:[4.1,2.7,-5.8],front:[0,1.5,-7.3],side:[7.3,1.5,0],back:[0,1.5,7.3]})[name]);controls.target.set(0,1,0);controls.update()}
+function draw(t){time=t;if(batch){for(let i=0;i<count;i++){batch.setPose(i,clip,t+i*.13);batch.setTransform(i,new T.Matrix4().makeTranslation((i%8)*3.2,0,Math.floor(i/8)*3.5))}batch.finish(count)}if(mixer){mixer.setTime(t);old.updateMatrixWorld(true)}renderer.render(scene,camera)}
+async function select(kind,variant='new'){
+  api.ready=false;batch?.dispose();batch=undefined;old?.removeFromParent();old=undefined;mixer=undefined;
+  if(variant==='new'){asset=await loadEnemyMotion(kind);batch=new HoundMotionBatch(asset,40);scene.add(batch.group)}
+  else {const g=await new GLTFLoader().loadAsync('/assets/enemies/'+(kind==='pleat'?'pleat_motion_v4':'hound_motion_v1')+'.glb');old=g.scene;asset={model:old,clips:g.animations};scene.add(old);mixer=new T.AnimationMixer(old)}
+  api.asset=asset;api.batch=batch;setClip('Idle');view();draw(0);api.ready=true;
+}
+function setClip(name){clip=name;if(mixer){mixer.stopAllAction();mixer.clipAction(asset.clips.find(c=>c.name===name)).play()}document.querySelector('#seek').max=asset.clips.find(c=>c.name===name).duration;draw(0)}
+Object.assign(api,{select,draw,setClip,view,setCount(n){count=n;draw(time)},setPlaying(v){playing=v}});
+document.querySelector('#kind').onchange=document.querySelector('#variant').onchange=()=>select(document.querySelector('#kind').value,document.querySelector('#variant').value);
+document.querySelector('#clip').onchange=e=>setClip(e.target.value);document.querySelector('#play').onclick=()=>playing=!playing;document.querySelector('#seek').oninput=e=>{playing=false;draw(+e.target.value)};document.querySelector('#view').onchange=e=>view(e.target.value);
+controls.addEventListener('change',()=>renderer.render(scene,camera));
+let last=0;renderer.setAnimationLoop(now=>{if(playing)draw(time+Math.min(.05,(now-last)/1000));last=now});
+await select('pleat');
+</script></html>

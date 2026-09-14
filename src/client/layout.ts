@@ -6,6 +6,7 @@ export const CONTROL_IDS = [
   "swap",
   "revive",
   "pause",
+  "scope",
 ] as const;
 export type ControlId = (typeof CONTROL_IDS)[number];
 export const LABELS: Record<ControlId, string> = {
@@ -16,11 +17,13 @@ export const LABELS: Record<ControlId, string> = {
   swap: "切替",
   revive: "蘇生",
   pause: "一時停止",
+  scope: "スコープ",
 };
 export interface Placement {
   x: number;
   y: number;
   size: number;
+  opacity?: number;
 }
 export interface Layout {
   version: 1;
@@ -40,6 +43,7 @@ export const defaultLayout = (): Layout => ({
     swap: { x: 0.92, y: 0.13, size: 1 },
     revive: { x: 0.64, y: 0.84, size: 1 },
     pause: { x: 0.5, y: 0.95, size: 0.7 },
+    scope: { x: 0.77, y: 0.13, size: 1 },
   },
 });
 export function parseLayout(raw: string | null): Layout {
@@ -49,6 +53,8 @@ export function parseLayout(raw: string | null): Layout {
   // rejecting an arrangement the player already tuned.
   if (v?.buttons && !v.buttons.pause)
     v.buttons.pause = defaultLayout().buttons.pause;
+  if (v?.buttons && !v.buttons.scope)
+    v.buttons.scope = defaultLayout().buttons.scope;
   if (
     !v ||
     v.version !== 1 ||
@@ -66,7 +72,9 @@ export function parseLayout(raw: string | null): Layout {
         b.y >= 0 &&
         b.y <= 1 &&
         b.size >= 0.7 &&
-        b.size <= 1.4
+        b.size <= 1.4 &&
+        (b.opacity === undefined ||
+          (Number.isFinite(b.opacity) && b.opacity >= 0.4 && b.opacity <= 1))
       );
     })
   )
@@ -154,7 +162,7 @@ export function placeControls(layout: Layout) {
       bottom: "auto",
       width: r.size + "px",
       height: r.size + "px",
-      opacity: String(layout.opacity),
+      opacity: String(layout.buttons[r.id].opacity ?? layout.opacity),
     });
   }
   return fallback;

@@ -43,14 +43,20 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const request = event.request;
   if (request.method !== "GET" || !isAppAsset(new URL(request.url))) return;
-  if (request.mode === "navigate") {
+  // The installed app must be able to discover updated display/orientation
+  // settings; an indefinitely cached manifest keeps the old window mode.
+  if (
+    request.mode === "navigate" ||
+    new URL(request.url).pathname === new URL("manifest.webmanifest", scope).pathname
+  ) {
+    const cacheKey = request.mode === "navigate" ? appUrl : request;
     event.respondWith(
       fetch(request)
         .then(async (response) => {
-          if (response.ok) (await caches.open(CACHE)).put(appUrl, response.clone());
+          if (response.ok) (await caches.open(CACHE)).put(cacheKey, response.clone());
           return response;
         })
-        .catch(async () => (await caches.match(appUrl)) ?? Response.error()),
+        .catch(async () => (await caches.match(cacheKey)) ?? Response.error()),
     );
     return;
   }

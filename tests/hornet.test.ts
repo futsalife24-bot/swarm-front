@@ -1,3 +1,5 @@
+import { enemySize } from "../src/shared/enemy-size";
+import { supportHeight } from "../src/shared/terrain";
 import { mapFor } from "../src/shared/stages";
 import { describe, it, expect } from "vitest";
 import { ENEMIES, MOVE_SPEED } from "../src/shared/defs";
@@ -33,16 +35,16 @@ describe("airborne enemy", () => {
   it("keeps existing enemies on the ground and unchanged", () => {
     const { w } = field();
     spawn(w, "crawler", 0, -10);
-    expect(w.enemies[0].y).toBe(0);
-    expect(eye(w.enemies[0])).toBe(1.4);
+    expect(w.enemies[0].y).toBeCloseTo(supportHeight(w.enemies[0].x,w.enemies[0].z,mapFor(w).blocks));
+    expect(eye(w.enemies[0])).toBeCloseTo(w.enemies[0].y+1.4*enemySize(w.enemies[0]));
     run(w, 1);
     expect(w.enemies[0].y).toBe(0);
   });
   it("spawns at cruising height", () => {
     const { w } = field();
     spawn(w, "hornet", 0, -30);
-    expect(w.enemies[0].y).toBe(ENEMIES.hornet.cruise);
-    expect(eye(w.enemies[0])).toBeCloseTo(7.5);
+    expect(w.enemies[0].y).toBe(ENEMIES.hornet.cruise + supportHeight(0,-30,mapFor(w).blocks));
+    expect(eye(w.enemies[0])).toBeCloseTo(w.enemies[0].y+enemySize(w.enemies[0]));
   });
   it("climbs over a building instead of passing through it", () => {
     const { w, p } = field();

@@ -73,9 +73,6 @@ dialog :is(h2, h3) {
   white-space: nowrap !important;
   border: 0 !important;
 }
-body:not([data-screen="battle"]):not([data-screen="layout"]) #portrait {
-  display: none;
-}
 body:not([data-screen="battle"])
   :is(
     .weapon-list,
@@ -2311,3 +2308,349 @@ body:not([data-screen="battle"]) #damage {
     overflow: visible;
   }
 }
+/* Shared settings: item on the left, aligned controls on the right. */
+body #settings-preferences {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+}
+body .pause-card {
+  width: min(600px, 100%);
+}
+body :is(#settings-preferences, .pause-card) .setting-row {
+  display: grid;
+  grid-template-columns: minmax(130px, 0.9fr) minmax(0, 1.3fr);
+  align-items: center;
+  gap: 2px 18px;
+  margin: 0;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  font-size: 13px;
+}
+.setting-name {
+  grid-column: 1;
+  line-height: 1.4;
+}
+.setting-control {
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+body :is(#settings-preferences, .pause-card) .setting-control input {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+  min-height: 36px;
+  margin: 0;
+}
+body :is(#settings-preferences, .pause-card) .setting-control output {
+  flex: 0 0 38px;
+  text-align: right;
+  font: 13px monospace;
+  color: #c9f7e6;
+}
+body :is(#settings-preferences, .pause-card) .setting-control select {
+  width: 100%;
+  min-width: 0;
+  min-height: 38px;
+  margin: 0;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+body :is(#settings-preferences, .pause-card) button[role="switch"] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 94px;
+  min-height: 40px;
+  margin: 0;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+button[role="switch"]::after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #687778;
+}
+button[role="switch"][aria-checked="true"]::after {
+  background: #b7dbbc;
+  box-shadow: 0 0 6px #b7dbbc66;
+}
+.setting-note {
+  grid-column: 1 / -1;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #a5bec8;
+}
+@media (max-height: 500px) {
+  body .pause-card {
+    padding: 12px 18px;
+  }
+  body :is(#settings-preferences, .pause-card) .setting-row {
+    padding: 1px 0;
+  }
+  body .pause-card h2 {
+    margin-bottom: 4px;
+  }
+  body .pause-card p {
+    margin: 4px 0;
+  }
+  body .pause-card .pause-actions {
+    margin-top: 6px;
+  }
+}
+
+body .pause-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.pause-settings {
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+body .pause-card > :not(.pause-settings) {
+  flex-shrink: 0;
+}
+
+/* Keep sortie weapon names and comparison values on the same row. */
+.gear .weapon-head,
+.gear .weapon-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) 84px 70px 30px 44px 36px 28px 22px;
+  grid-template-rows: auto;
+  column-gap: 5px;
+  min-width: 489px;
+}
+.gear .weapon-head {
+  padding: 3px 8px 3px 10px;
+}
+.gear .weapon-head > :is(:first-child, :nth-child(2), :last-child) {
+  display: block;
+}
+.gear .weapon-row {
+  min-height: 44px;
+  padding: 5px 7px;
+}
+.gear .weapon-row .weapon-identity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 3px 5px;
+  grid-column: 1;
+  grid-row: 1;
+}
+.gear .weapon-list [data-stat="effect"] {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: start;
+}
+.gear .weapon-list .weapon-figures > span:not([data-stat="effect"]) {
+  grid-row: 1;
+}
+.gear .weapon-list .weapon-figures i {
+  display: none;
+}
+.gear .equipped-flag {
+  grid-column: 8;
+  grid-row: 1;
+}
+/* Landscape density contract: controls share headers; collections use one row. */
+.gear > .menu-header {
+  gap: 8px;
+}
+.gear > .menu-header > .weapon-filters {
+  margin: 0 0 0 auto;
+  gap: 6px;
+  flex-shrink: 1;
+}
+.gear .menu-header nav {
+  flex-shrink: 0;
+}
+.gear .menu-header .weapon-filters select {
+  width: 110px;
+}
+.armory .armory-title {
+  min-width: 0;
+  gap: 8px;
+}
+.armory .armory-title #armory-organize {
+  flex: none;
+  white-space: nowrap;
+}
+.armory .armory-title #armory-filter {
+  width: 130px;
+  min-height: 32px;
+  padding: 5px 8px;
+  font-size: 12px;
+  flex: none;
+}
+.armory .armory-toolbar {
+  display: none;
+}
+.armory .armory-list {
+  gap: 2px;
+  padding: 0;
+}
+.armory .armory-list-head,
+.armory .armory-list .armory-row {
+  display: grid;
+  grid-template-columns: minmax(178px, 1fr) 62px 48px 28px 36px 30px 28px;
+  grid-template-rows: auto;
+  gap: 3px;
+  min-width: 450px;
+  padding: 3px 5px;
+  align-items: center;
+}
+.armory .armory-list-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #102630;
+  margin: 0;
+  min-height: 22px;
+  border-left: 3px solid transparent;
+  font-size: 9px;
+}
+.armory .armory-list-head > span,
+.armory .armory-list .armory-row > span {
+  display: block;
+  grid-column: auto;
+  grid-row: 1;
+  text-align: center;
+  justify-self: stretch;
+}
+.armory .armory-list .armory-row {
+  height: 32px;
+  min-height: 32px;
+  font-size: 11px;
+}
+.armory .armory-list .armory-identity,
+.armory .armory-list .armory-identity > span {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 3px;
+  margin: 0;
+  white-space: nowrap;
+  text-align: left;
+}
+.armory .armory-list .armory-identity strong {
+  font-size: 11px;
+}
+.armory .armory-row-effect {
+  font-size: 9px;
+  padding: 0;
+}
+.armory .armory-list .armory-row > [data-label] {
+  font-size: 11px;
+}
+.armory .armory-row > [data-label]::before {
+  display: none;
+}
+.armory .armory-check {
+  height: 32px;
+}
+.armory.organizing .armory-list-head {
+  margin-left: 34px;
+}
+@media (max-width: 950px) {
+  .gear .menu-header .weapon-filters select {
+    width: 92px;
+    font-size: 10px;
+    padding-inline: 4px;
+  }
+  .gear .menu-header nav button {
+    padding-inline: 6px;
+  }
+  .gear .menu-header .menu-icon {
+    display: none;
+  }
+  .armory-workspace {
+    grid-template-columns: minmax(0, 1fr) 220px;
+    gap: 8px;
+  }
+  .armory header h1 small {
+    display: none;
+  }
+}
+.armory .armory-list .armory-list-head > span {
+  display: block;
+  grid-column: auto;
+  text-align: center;
+}
+.armory .armory-list .armory-row > .armory-identity {
+  display: flex;
+  justify-content: flex-start;
+  text-align: left;
+}
+.armory .armory-list .armory-identity > span {
+  flex: none;
+}
+.armory .armory-list article {
+  margin: 0;
+}
+/* Settings keep both sections visible in landscape; each column scrolls independently. */
+body .menu-dialog:has(.settings-columns) { width: min(1100px, calc(100vw - 32px - var(--safe-left) - var(--safe-right))); height: min(610px, calc(100dvh - 24px - var(--safe-top) - var(--safe-bottom))); }
+body .menu-dialog:has(.settings-columns) .menu-dialog-body { display:flex; flex-direction:column; overflow:hidden; padding:10px 16px; }
+body .settings-columns { display:grid; grid-template-columns:minmax(0, 2.4fr) minmax(190px, 1fr); gap:18px; min-height:0; flex:1; }
+body .settings-columns > section { min-width:0; min-height:0; overflow-y:auto; overscroll-behavior:contain; align-content:start; padding-right:8px; }
+body .settings-columns h3 { margin:0 0 6px; font-size:15px; color:#c9e2d4; grid-column:1 / -1; }
+body .settings-columns #settings-save { border-left:1px solid #78938b66; padding-left:16px; font-size:12px; }
+body .settings-columns #settings-save button { width:100%; margin:0 0 8px; min-height:40px; font-size:12px; padding:6px 10px; }
+body .settings-columns #settings-save p { margin-bottom:10px; }
+body .settings-columns #settings-preferences .setting-row { grid-template-columns:minmax(145px, .9fr) minmax(0, 1.25fr); gap:2px 12px; }
+body .menu-dialog .settings-status { margin:0 0 8px; font-size:11px; }
+body .menu-dialog:has(.settings-columns) .reading-guide { display:none; }
+body[data-screen="layout"] .layout-toolbar { display:grid; grid-template-columns:minmax(105px, 1.2fr) repeat(3,minmax(80px, 1fr)) repeat(4,auto); gap:4px 8px; min-height:0; height:88px; box-sizing:border-box; padding:6px 10px; }
+body[data-screen="layout"] .layout-toolbar > div { width:auto; margin:0; }
+body[data-screen="layout"] .layout-toolbar small { display:none; }
+body[data-screen="layout"] .layout-toolbar label { display:flex; flex-direction:column; align-items:stretch; min-width:0; gap:0; font-size:10px; }
+body[data-screen="layout"] .layout-toolbar input { width:100%; min-width:0; height:28px; margin:0; }
+body[data-screen="layout"] .layout-toolbar select { width:100%; min-width:0; height:32px; padding:2px; }
+body[data-screen="layout"] .layout-toolbar button { min-height:44px; padding:5px 8px; font-size:11px; white-space:nowrap; }
+body[data-screen="layout"] #layout-message { grid-column:1 / -1; font-size:10px; line-height:1.2; }
+body #ui .layout-preview button { position:absolute; touch-action:none; cursor:move; }
+body #ui .layout-preview button::before, body #ui .layout-preview button::after { content:none; }
+body #ui .layout-preview button.selected { outline:2px solid #edcf8b; outline-offset:4px; }
+body #ui .layout-preview [data-layout-button="move"] span { width:47%; height:47%; border-radius:50%; border:1px solid #c4e8e7; background:#7eaab36b; pointer-events:none; }
+body #ui .layout-preview button small { display:block; font-size:9px; }
+.training-frame { position:fixed; inset:0; width:100%; height:100dvh; border:0; z-index:100; background:#102833; }
+.training-toolbar { position:fixed; top:var(--safe-top); left:var(--safe-left); right:var(--safe-right); height:80px; box-sizing:border-box; display:flex; align-items:center; gap:14px; padding:8px 14px; background:#102832ee; z-index:6; pointer-events:auto; }
+.training-toolbar small { display:block; font-size:10px; }
+.training-toolbar output { flex:1; font-size:12px; }
+.training-toolbar button { min-height:44px; padding:8px 12px; font-size:12px; }
+#training-start-panel { position:fixed; inset:88px 0 0; z-index:8; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#08192288; pointer-events:auto; }
+#training-start-panel[hidden] { display:none; }
+#training-start-panel p { font-size:12px; }
+body.training-mode #controls button { display:flex; flex-direction:column; align-items:center; justify-content:center; }
+body.training-mode #move { display:flex; }
+body.training-mode #ui { pointer-events:none; }
+body.training-mode #ui button { pointer-events:auto; }
+@media(max-width:850px) {
+ body .settings-columns { grid-template-columns:minmax(0,2.4fr) minmax(170px,1fr); gap:12px; }
+ body .settings-columns #settings-save { padding-left:10px; }
+ body[data-screen="layout"] .layout-toolbar { grid-template-columns:repeat(3,minmax(65px,1fr)) repeat(4,auto); gap:3px 6px; }
+ body[data-screen="layout"] .layout-toolbar > div { display:none; }
+}
+
+body.training-mode #controls, body.training-mode #controls * { -webkit-tap-highlight-color: transparent; }
+
+/* Separate secondary entries from the main command menu. */
+body[data-screen="title"] #ui { grid-template-rows: minmax(0, 1fr) auto; row-gap: 8px; }
+.home-footer { grid-column: 1 / -1; justify-self: start; }
+body .home-footer button { min-height: 32px; padding: 4px 12px; font-size: 12px; }
+body .menu-dialog .settings-developer-entry { align-self: flex-end; flex: 0 0 auto; width: auto; min-height: 32px; margin: 6px 0 0; padding: 4px 10px; font-size: 11px; color: #abc1bd; }
+
+/* Preserve the supplied PNG; frame only its nontransparent logo area. */
+body[data-screen="title"] .title h1.title-logo { width: min(100%, 88dvh); margin: clamp(10px, 3dvh, 24px) 0; font-size: 0; line-height: 0; }
+.title-logo svg { display: block; width: 100%; height: auto; aspect-ratio: 2919 / 1178; overflow: hidden; }
+
+/* The replacement artwork has a black matte; screen blends it into the title background. */
+body[data-screen="title"] .title h1.title-logo { mix-blend-mode: screen; }

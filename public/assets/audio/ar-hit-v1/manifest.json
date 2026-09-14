@@ -1,0 +1,111 @@
+{
+  "status": "provisional",
+  "weapon": "rifle",
+  "rate": 48000,
+  "source": "https://kenney.nl/assets/impact-sounds",
+  "license": "CC0",
+  "assets": [
+    {
+      "code": "HIT-05",
+      "title": "砕ける外殻",
+      "desc": "細かな破片が残る質感",
+      "sources": [
+        {
+          "file": "impactMining_001.ogg",
+          "gain": 0.6,
+          "pitch": 1.3,
+          "duration": 0.24,
+          "lowpass": 6500,
+          "sha256": "61235a18de3f3d92118235398222dbf51d448f1be70b1c8bc962b10b86f2d9c6"
+        },
+        {
+          "file": "impactPunch_medium_001.ogg",
+          "gain": 1,
+          "pitch": 0.9,
+          "duration": 0.18,
+          "lowpass": 4000,
+          "sha256": "e71d23abcc3f10d9d6bc9615b2a431fff70b12333a5fcdd9964457564ace4349"
+        }
+      ],
+      "start_seconds": 50,
+      "seconds": 0.32,
+      "peak": 0.6384555275330592,
+      "rms_320ms": 0.12000000000000001,
+      "sha256": "8e78dc8dfd03d18bf7e7ba72cb5a4e334b1efb1810fe9267f24ce7e47f8d7647",
+      "key": "impactShell",
+      "enemies": [
+        "crawler",
+        "ant",
+        "spider"
+      ],
+      "bytes": 30764
+    },
+    {
+      "code": "HIT-07",
+      "title": "鋭い命中",
+      "desc": "高めの短い輪郭",
+      "sources": [
+        {
+          "file": "impactPlate_light_003.ogg",
+          "gain": 0.45,
+          "pitch": 1.55,
+          "duration": 0.1,
+          "lowpass": 7000,
+          "sha256": "dbfb7c1d002576696df3e9a43d6639ee3f342068398b5e7b55bc2389d20508a9"
+        },
+        {
+          "file": "impactPunch_medium_004.ogg",
+          "gain": 1,
+          "pitch": 1.05,
+          "duration": 0.15,
+          "lowpass": 5500,
+          "sha256": "4a256878a3afb994ec9a4399336687748e68c7c136872c08c9c797d8c4e2464a"
+        }
+      ],
+      "start_seconds": 70,
+      "seconds": 0.32,
+      "peak": 0.6940431919163602,
+      "rms_320ms": 0.11999999999999998,
+      "sha256": "fb27dfe4835f5e2f6831a99f81b0b39dd639fdea976099ad8cb625b1e56ca713",
+      "key": "impactHard",
+      "enemies": [
+        "spitter",
+        "boss"
+      ],
+      "bytes": 30764
+    },
+    {
+      "code": "HIT-10",
+      "title": "連射向けの短音",
+      "desc": "余韻を絞った密度重視",
+      "sources": [
+        {
+          "file": "impactPunch_heavy_002.ogg",
+          "gain": 1,
+          "pitch": 1.12,
+          "duration": 0.115,
+          "lowpass": 5500,
+          "sha256": "7993dd4c156b9979ad69f17be5ebe31850b16039a3857f8477141be54dfee1b3"
+        },
+        {
+          "file": "impactWood_medium_003.ogg",
+          "gain": 0.4,
+          "pitch": 1.22,
+          "duration": 0.1,
+          "lowpass": 4800,
+          "sha256": "635c37cfcd854b187d643d450ff0397798dcc29ae94da32192b814fae6bd854c"
+        }
+      ],
+      "start_seconds": 100,
+      "seconds": 0.32,
+      "peak": 0.6137806969358356,
+      "rms_320ms": 0.12000000000000001,
+      "sha256": "07a7ceb7fc016ddf7dbff791db5a9733c122aed579258b40266fdc6a6bfa2038",
+      "key": "impactSoft",
+      "enemies": [
+        "hornet"
+      ],
+      "bytes": 30764
+    }
+  ]
+}

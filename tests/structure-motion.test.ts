@@ -14,10 +14,10 @@ for(const kind of Object.keys(STRUCTURE_TIMING) as StructureKind[])it(`${kind} t
 it('cancels aborted wind-up and never interprets spawn cooldown as a hit',()=>{
  const c=new StructureMotionController('boss'),b={setPose(){}};c.update(b,[sample({cool:3})],.016);expect(c.states.get(7)?.clip).toBe('Idle');c.update(b,[sample({wind:2,cool:0})],.016);c.update(b,[sample()],.016);expect(c.states.get(7)?.clip).toBe('Idle');
 });
-it('HOUND variants share the adopted model while matching their original attack times',async()=>{
+it('LEAPER has its own model while VOLLEY and both attack timings are preserved',async()=>{
  const {STRUCTURE_ASSETS}=await import('../src/client/structure-motion');
  for(const kind of ['ant','spider'] as const){
-  expect(STRUCTURE_ASSETS[kind]).toBe('hound');
+   expect(STRUCTURE_ASSETS[kind]).toBe(kind === 'ant' ? 'hound' : 'leaper');
   const c=new StructureMotionController(kind),b={setPose(){}};const wind=kind==='ant'?.8:.45,cool=kind==='ant'?2.7:1.2;
   c.update(b,[sample({wind})],.016);expect(c.states.get(7)?.time).toBe(0);
   c.update(b,[sample({wind:wind/2})],.016);expect(c.states.get(7)?.time).toBeCloseTo(.225);

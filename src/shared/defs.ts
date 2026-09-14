@@ -1,5 +1,6 @@
+import { newStats, type NewWeapon } from './progression';
 export const EVADE_DURATION = 0.32;
-export const WEAPON_SWITCH_DURATION = .5;
+export const WEAPON_SWITCH_DURATION = 0.5;
 export const WEAPON_SWITCH_RESUME = 0.08;
 export const HEAVY_HIT_DURATION = 1.2;
 export type Kind = "rifle" | "shotgun" | "rocket";
@@ -22,7 +23,7 @@ export const LOWER_IS_BETTER: Roll[] = ["reload"];
 export interface Weapon {
   id: string;
   kind: Kind;
-  rarity: 0 | 1 | 2 | 3;
+  rarity: 0 | 1 | 2 | 3 | 4;
   power: number;
   effect: Effect;
   // Absent on weapons saved before rolls existed; those read as base values.
@@ -127,6 +128,7 @@ export const TIER_QUALITY = [0, 0.55, 0.7] as const;
 // The numbers a weapon actually fights with. Every consumer goes through here so
 // the armoury and the combat code can never disagree about what a weapon is.
 export function stats(w: Weapon) {
+  if ((w as NewWeapon).format === 2) return newStats(w as NewWeapon);
   const d = WEAPONS[w.kind];
   const roll = (key: Roll) => w.rolls?.[key] ?? 1;
   return {
@@ -174,9 +176,15 @@ export const EFFECTS = {
   chain: "誘爆弾頭",
 };
 export function effectLabel(w: Weapon) {
-  return w.kind === "shotgun" && w.effect === "pierce"
-    ? "標準仕様（貫通は武器の基本性能）"
-    : EFFECTS[w.effect];
+  return isSpecialEffect(w.effect, w.kind) ? EFFECTS[w.effect] : "ー";
+}
+// Legacy quick remains part of the displayed reload stat, never a special effect.
+export function isSpecialEffect(effect: Effect, kind: Kind) {
+  return (
+    effect !== "none" &&
+    effect !== "quick" &&
+    !(kind === "shotgun" && effect === "pierce")
+  );
 }
 export const STARTERS: Weapon[] = (
   ["rifle", "shotgun", "rocket"] as Kind[]
@@ -201,27 +209,12 @@ export const LIMITS = {
   roomMs: 3600000,
   idleMs: 180000,
 };
-export interface Block {
-  x: number;
-  z: number;
-  w: number;
-  d: number;
-  h: number;
-}
-export const BLOCKS: Block[] = [];
-for (const x of [-31, -17, 17, 31])
-  for (const z of [-35, -17, 4, 24, 40])
-    BLOCKS.push({
-      x,
-      z,
-      w: 8,
-      d: z === 4 ? 9 : 11,
-      h: 8 + ((x * x + z * z) % 14),
-    });
+export { BLOCKS, type Block } from "./map-blocks";
 export function validWeapon(w: unknown): w is Weapon {
   if (!w || typeof w !== "object") return false;
   const v = w as Weapon;
   return (
+    !('format' in v) &&
     typeof v.id === "string" &&
     /^[a-zA-Z0-9_-]{1,100}$/.test(v.id) &&
     Object.hasOwn(WEAPONS, v.kind) &&

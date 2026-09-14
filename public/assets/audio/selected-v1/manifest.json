@@ -1,0 +1,46 @@
+{
+  "assets": [
+    {
+      "key": "rifle",
+      "candidate": "AR-04",
+      "source": "Prepared SFX Library/AK-47/C_27P.wav",
+      "url": "https://opengameart.org/content/the-free-firearm-sound-library",
+      "source_sha256": "c61948fe17d7c0e4f4146dff52a70943686fe901da58d14bfe2f097e3a12d70f",
+      "sha256": "7bdff35e248c041eb59cb55f5599474882fa818d0be0db4471824ba51fdbf9ee",
+      "seconds": 0.094,
+      "start": 0.255,
+      "end": 0.349,
+      "peak": 0.800000011920929,
+      "rms": 0.09757561981678009,
+      "gain": 0.851045548915863
+    },
+    {
+      "key": "shotgun",
+      "candidate": "SG-01",
+      "source": "SG-01.mp3",
+      "url": "https://elevenlabs.io/sound-effects/shotgun",
+      "source_sha256": "df3cc781ee519e3a6aae949c69b523a7f96d59da1ab33b45bbe4d2585c8b26ca",
+      "sha256": "dde26ec283b5ea2599025c04ea8770378ace5779d448d25430e419fb2e5684ee",
+      "seconds": 1.47625,
+      "start": 0.0,
+      "end": 1.47625,
+      "peak": 0.7493560314178467,
+      "rms": 0.18000000715255737,
+      "gain": 0.4464251697063446
+    },
+    {
+      "key": "rocket",
+      "candidate": "RL-05",
+      "source": "RL-05.mp3",
+      "url": "https://mixkit.co/free-sound-effects/rocket/",
+      "source_sha256": "b911d354a6f440db37825086a1eb03980bcb3f5e2a4b769bc2f79e39ab5b4818",
+      "sha256": "bda2c48b2a3433ad55739937cbdf18f6b16e23e39007b2650a31333a7a0a9438",
+      "seconds": 2.6794375,
+      "start": 0.33346875,
+      "end": 3.01290625,
+      "peak": 0.7546277046203613,
+      "rms": 0.18000000715255737,
+      "gain": 0.6667354106903076
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import { enemySpeedFactor } from "./enemy-size";
 import { CAVE_BLOCKS, caveWaypoint } from "./cave";
 import type { Enemy, Player, World } from "./game";
 import { blocked, roofHeight } from "./game";
@@ -82,12 +83,12 @@ export function specialMotion(w: World, e: Enemy, t: Player, dt: number) {
     const f = Math.min(1, e.jump! / 0.9);
     const floor = roofHeight(e.x, e.z, def.radius, blocks);
     e.y = Math.max(
-      floor ? floor + 0.1 : 0,
+      floor,
       (1 - f) * (e.jumpFrom ?? 0) + Math.sin(f * Math.PI) * 3.5,
     );
     const direction = pursuitDirection(w, e, t);
-    const x = e.x + direction.x * 10 * dt,
-      z = e.z + direction.z * 10 * dt;
+    const x = e.x + direction.x * 10 * enemySpeedFactor(e) * dt,
+      z = e.z + direction.z * 10 * enemySpeedFactor(e) * dt;
     if (!blocked(x, z, def.radius, e.y, blocks)) {
       e.x = x;
       e.z = z;
@@ -96,7 +97,7 @@ export function specialMotion(w: World, e: Enemy, t: Player, dt: number) {
       e.jump = 0;
       e.jumpWait = 0.65;
       const landing = roofHeight(e.x, e.z, def.radius, blocks);
-      e.y = landing ? landing + 0.1 : 0;
+      e.y = landing;
     }
     return true;
   }
@@ -134,7 +135,7 @@ export function specialMotion(w: World, e: Enemy, t: Player, dt: number) {
   }
   if (e.kind === "spider") {
     const floor = roofHeight(e.x, e.z, def.radius, blocks);
-    e.y = Math.max(floor ? floor + 0.1 : 0, e.y - 9 * dt);
+    e.y = Math.max(floor, e.y - 9 * enemySpeedFactor(e) * dt);
     return true;
   }
   return false;

@@ -257,7 +257,7 @@ it("RAY uses roof height for line of fire and rejects an intersecting building",
   Object.assign(e, { x: 0, z: 0, y: 20 });
   Object.assign(p, { x: 20, z: 0 });
   const blocks = [{ x: 5, z: 0, w: 2, d: 4, h: 3 }];
-  expect(visible(e, p, blocks)).toBe(false);
+  expect(visible(e, p, blocks)).toBe(true); // relative-height ray clears the low wall
   expect(rayVisible(e, p, blocks)).toBe(true);
   blocks[0].h = 30;
   expect(rayVisible(e, p, blocks)).toBe(false);

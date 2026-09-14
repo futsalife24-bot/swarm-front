@@ -1,0 +1,14 @@
+Selected weapon sound effects — 2026-09-14
+AR-04: The Free Firearm Sound Library / AK-47 C_27P.wav
+Ben Jaszczak, Brian Nelson, Kevin Heras, Matthew Nanney. CC0.
+https://opengameart.org/content/the-free-firearm-sound-library
+SG-01: Heavy shotgun blast, U1cjvUadak7Zu0Myj95g
+Sound effect from ElevenLabs — elevenlabs.io
+https://elevenlabs.io/sound-effects/shotgun
+Free public-library download; attribution retained. No paid generation used.
+RL-05: Fast rocket whoosh (1714), Mixkit Sound Effects Free License.
+https://mixkit.co/free-sound-effects/rocket/
+https://mixkit.co/license/
+Edits: mono 32kHz PCM16, onset trim, gain adjustment, short edge fades.
+AR-04: one discharge extracted from the selected burst recording, retriggered by each authoritative game shot.
+Original samples are not included as a standalone sound library.

@@ -1,7 +1,7 @@
 import * as T from 'three';
 import {loadEnemyMotion,HoundMotionBatch,type HoundClip,type HoundVisualInput} from './hound-motion';
 import {STRUCTURE_TIMING} from '../shared/structure-timing';
-export const STRUCTURE_ASSETS={crawler:'pleat',ant:'hound',spider:'hound',spitter:'prism',hornet:'ray',boss:'foundry_zero'} as const;
+export const STRUCTURE_ASSETS={crawler:'pleat',ant:'hound',spider:'leaper',spitter:'prism',hornet:'ray',boss:'foundry_zero'} as const;
 export type StructureVisualKind=keyof typeof STRUCTURE_ASSETS;
 export type StructureInput=HoundVisualInput & {slot:number};
 type State={clip:HoundClip;time:number;from:HoundClip;fromTime:number;blend:number;wind:number;cool:number};
@@ -19,7 +19,7 @@ export class StructureMotionController {
       if(desired!==s.clip){s.from=s.clip;s.fromTime=s.time;s.clip=desired;s.time=0;s.blend=0}
       if(e.wind>0)s.time=T.MathUtils.clamp((spec.wind-e.wind)/spec.wind*spec.impact,0,spec.impact);
       else if(fired){s.time=spec.impact;s.blend=.12}
-      else if(s.clip==='Locomotion')s.time+=this.kind==='crawler'||STRUCTURE_ASSETS[this.kind]==='hound'?e.distance/.72*.8:this.kind==='boss'?e.distance/.48*2:dt;
+      else if(s.clip==='Locomotion')s.time+=this.kind==='crawler'||this.kind==='ant'||this.kind==='spider'?e.distance/.72*.8:this.kind==='boss'?e.distance/.48*2:dt;
       else s.time+=dt;
       s.blend+=dt;s.fromTime+=dt;s.wind=e.wind;s.cool=e.cool;
       batch.setPose(i,s.clip,s.time,s.from,s.fromTime,s.blend/.12);

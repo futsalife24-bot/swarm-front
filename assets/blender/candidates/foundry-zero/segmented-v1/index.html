@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FOUNDRY ZERO / Segmented candidate</title><link rel="icon" href="data:,">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0a151b;color:#dce8e9;font:13px system-ui,sans-serif}canvas{width:100vw;height:100vh;display:block;touch-action:none}header{position:fixed;left:28px;top:24px;pointer-events:none}small{font-size:10px;letter-spacing:.27em;color:#90a9b2}h1{font-size:32px;letter-spacing:.13em;margin:6px 0;font-weight:550}header p{color:#b9c8ce;margin:0;font-size:12px;line-height:1.8}.badge{position:fixed;right:28px;top:29px;border:1px solid #335966;padding:9px 13px;color:#70dbea;font-size:11px;letter-spacing:.04em}nav{position:fixed;bottom:44px;left:20px;right:20px;display:flex;justify-content:center;gap:6px;flex-wrap:wrap}button,select{font:12px system-ui;color:#dce8e9;background:#12262ee8;border:1px solid #355963;padding:8px 12px;border-radius:3px;cursor:pointer}button.active{color:#08242b;background:#9cdbe1}footer{position:fixed;bottom:17px;left:28px;right:28px;display:flex;justify-content:space-between;color:#819da8;font-size:10px}#seek{width:130px;accent-color:#73d9e9}#status{position:fixed;top:158px;left:28px;color:#73d9e9;font-size:12px}#error{color:#f99} @media(max-height:500px){header{top:12px;left:16px}h1{font-size:22px}header p{display:none}.badge{top:16px;right:16px;padding:6px}#status{top:77px;left:16px}nav{bottom:32px;gap:4px}button,select{font-size:10px;padding:5px 8px}footer{left:16px;bottom:10px;font-size:9px}}
+</style>
+<canvas></canvas><header><small>SWARM FRONT / MECHANICAL ANOMALY</small><h1>FOUNDRY ZERO</h1><p>頭部 × 1 ＋ 胴体 × 7<br>可動レーザー器官・節の接続部・独立した多関節脚</p></header><div class="badge">統合初版 / 接地・屈曲確認</div><div id="status">読込中…</div><nav><button id="neutral" class="active">中立姿勢</button><button id="flex">屈曲プレビュー</button><button id="pause">一時停止</button><select id="view"><option value="oblique">斜め</option><option value="side">側面</option><option value="front">正面</option><option value="rear">背面</option><option value="top">上面</option><option value="head">頭部詳細</option><option value="body">胴体詳細</option><option value="game">ゲーム距離</option></select><button id="split">分離構造</button><button id="mono">単色輪郭</button><input id="seek" type="range" aria-label="屈曲プレビューの再生位置" min="0" max="4" step="0.016667" value="0"></nav><footer><span>ドラッグで回転 / ホイールで拡大 · 屈曲は構造確認用</span><span id="metrics"></span></footer>
+<script type="module">
+import * as T from '/node_modules/three/build/three.module.js';
+import {OrbitControls} from '/node_modules/three/examples/jsm/controls/OrbitControls.js';
+import {GLTFLoader} from '/node_modules/three/examples/jsm/loaders/GLTFLoader.js';
+const canvas=document.querySelector('canvas'),renderer=new T.WebGLRenderer({canvas,antialias:true,preserveDrawingBuffer:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);renderer.setClearColor(0x0a151b);renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.24;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;
+renderer.toneMappingExposure=.85;
+const scene=new T.Scene();scene.fog=new T.Fog(0x0a151b,65,140);scene.add(new T.HemisphereLight(0xd8ecf5,0x163242,1.25));
+const key=new T.DirectionalLight(0xffe8ce,2.4);key.position.set(-12,20,-8);key.castShadow=true;key.shadow.mapSize.set(2048,2048);Object.assign(key.shadow.camera,{left:-20,right:20,top:20,bottom:-20,near:.5,far:65});key.target.position.set(0,0,9);key.shadow.bias=-.00025;scene.add(key,key.target);
+const rim=new T.DirectionalLight(0x42bddd,1.8);rim.position.set(7,8,24);scene.add(rim);
+const fill=new T.DirectionalLight(0xbed4ec,.6);fill.position.set(10,5,-16);scene.add(fill);
+const floor=new T.Mesh(new T.PlaneGeometry(600,600),new T.MeshStandardMaterial({color:0x101e27,roughness:.78,metalness:.2}));floor.rotation.x=-Math.PI/2;floor.position.y=-.018;floor.receiveShadow=true;scene.add(floor);
+const grid=new T.GridHelper(80,80,0x2c444d,0x182c36);grid.position.set(0,-.012,12);scene.add(grid);
+const camera=new T.PerspectiveCamera(32,innerWidth/innerHeight,.05,200);const controls=new OrbitControls(camera,canvas);controls.target.set(0,1.4,10);controls.minDistance=3;controls.maxDistance=80;controls.maxPolarAngle=Math.PI*.495;
+let neutral,preview,mixer,clip,playing=true,mode='neutral',time=0,split=false,mono=false,view='oblique';const materials=[];
+function setView(name){view=name;const pos={oblique:[-29,15,-20],side:[-42,7,11],front:[0,7,-34],rear:[0,7,55],top:[0,43,11.2],head:[-8,5,-9],body:[-6.8,4.9,1.5],game:[7,15,-55]}[name];const target=name==='head'?[0,1.9,.2]:name==='body'?[0,1.3,6.4]:[0,1.4,10.5];camera.position.fromArray(pos);controls.target.fromArray(target);camera.up.set(0,1,0);controls.update();draw(time)}
+function draw(t=time){if(!neutral)return;time=t;neutral.scene.visible=mode==='neutral';preview.scene.visible=mode==='flex';
+if(mode==='flex'){mixer.setTime(t%4);preview.scene.updateMatrixWorld(true)}
+for(const asset of [neutral,preview]){for(let i=0;i<8;i++){const u=asset.scene.getObjectByName(i===0?'FZ_HEAD':`FZ_BODY_${String(i).padStart(2,'0')}`);if(asset===neutral)u.position.set(split&&i>3?4:0,0,i*3.2);u.visible=i!==3||!split;const con=u.getObjectByName(u.name+'_CONNECTOR');if(con)con.visible=!(split&&i===4)}}
+renderer.render(scene,camera);document.querySelector('#status').textContent=split?'構造確認：胴体3を非表示 / 後方4節を分離':mode==='flex'?'屈曲確認：各節と接続部が動き、支持脚は接地を保つ':'中立姿勢：頭部1＋胴体7 / 8ユニット';document.querySelector('#metrics').textContent=`${renderer.info.render.triangles.toLocaleString()} triangles · ${renderer.info.render.calls} draw calls`;document.querySelector('#seek').value=time%4;
+}
+function select(next){mode=next;time=0;document.querySelector('#neutral').classList.toggle('active',mode==='neutral');document.querySelector('#flex').classList.toggle('active',mode==='flex');draw()}
+function setMono(v){mono=v;for(const [mat,color,emissive] of materials){mat.color.copy(v?new T.Color(0x162f3a):color);mat.emissive.copy(v?new T.Color(0):emissive)}renderer.setClearColor(v?0xb7c8cb:0x0a151b);floor.visible=!v;grid.visible=!v;draw()}
+document.querySelector('#neutral').onclick=()=>select('neutral');document.querySelector('#flex').onclick=()=>select('flex');document.querySelector('#pause').onclick=()=>{playing=!playing;document.querySelector('#pause').textContent=playing?'一時停止':'再生'};document.querySelector('#view').onchange=e=>setView(e.target.value);document.querySelector('#split').onclick=()=>{split=!split;draw()};document.querySelector('#mono').onclick=()=>setMono(!mono);document.querySelector('#seek').oninput=e=>{playing=false;select('flex');draw(+e.target.value)};
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);draw()});
+try{
+[neutral,preview]=await Promise.all([new GLTFLoader().loadAsync('./foundry_zero_segmented_v1.glb'),new GLTFLoader().loadAsync('./foundry_zero_articulation_preview.glb')]);
+for(const asset of [neutral,preview]){scene.add(asset.scene);asset.scene.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;for(const mat of Array.isArray(o.material)?o.material:[o.material])if(!materials.some(x=>x[0]===mat))materials.push([mat,mat.color.clone(),mat.emissive.clone()])}})}
+mixer=new T.AnimationMixer(preview.scene);clip=preview.animations.find(c=>c.name==='ArticulationPreview')??preview.animations[0];if(!clip)throw new Error('Articulation clip missing');mixer.clipAction(clip).play();
+window.foundryCandidate={ready:true,neutral,preview,mixer,clip,scene,camera,renderer,draw,select,setView,setMono,setPlaying(v){playing=v},setSplit(v){split=v;draw()},get time(){return time}};
+setView('oblique');draw(0);controls.addEventListener('change',()=>draw());let previous=performance.now();function loop(now){const dt=Math.min(.1,(now-previous)/1000);previous=now;if(playing&&mode==='flex')draw(time+dt);requestAnimationFrame(loop)}requestAnimationFrame(loop);
+}catch(e){document.querySelector('#status').id='error';document.querySelector('#error').textContent=String(e);throw e}
+</script></html>
+
+

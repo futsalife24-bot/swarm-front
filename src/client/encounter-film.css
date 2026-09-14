@@ -1,0 +1,22 @@
+body .report-film-dialog {
+  width: min(1180px, calc(100vw - 24px));
+  max-height: calc(100dvh - 16px);
+  padding: 0;
+}
+body .report-film-dialog header { padding: 8px 14px; }
+body .report-film-dialog h2 { font-size: 18px; margin: 0; }
+body .report-film-dialog .eyebrow,
+body .report-film-dialog .reading-guide { display: none; }
+body .report-film-dialog .menu-dialog-body { padding: 0 12px 8px; }
+body .report-film-dialog video {
+  display: block;
+  width: 100%;
+  max-height: calc(100dvh - 112px);
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+body .report-film-dialog .film-status { margin: 4px 0 0; font-size: 12px; }
+body .report-film-dialog .film-status:empty { display: none; }
+.pt-report-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.pt-report-heading h3 { margin: 6px 0; }
+.pt-report-heading button { flex-shrink: 0; }

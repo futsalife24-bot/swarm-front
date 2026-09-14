@@ -1,3 +1,5 @@
+import { enemySize, enemySpeedFactor } from "../src/shared/enemy-size";
+import { supportHeight } from "../src/shared/terrain";
 import { expect, it } from "vitest";
 import {
   createWorld,
@@ -11,7 +13,13 @@ import {
   hurtEnemy,
   enemyBodies,
 } from "../src/shared/game";
-import { moveWorm, wormNodes, wormSpeed } from "../src/shared/worm";
+import {
+  attachedWormBodyParts,
+  moveWorm,
+  wormChains,
+  wormNodes,
+  wormSpeed,
+} from "../src/shared/worm";
 import { pursuitDirection, specialMotion } from "../src/shared/enemy-motion";
 import { ENEMIES } from "../src/shared/defs";
 import { mapFor } from "../src/shared/stages";
@@ -25,16 +33,66 @@ function field(stage = 1) {
   p.z = 0;
   return { w, p };
 }
+it("head-connected generation count excludes every detached chain for all body destruction patterns", () => {
+  for (let mask = 0; mask < 128; mask++) {
+    const { w, p } = field(6);
+    spawn(w, "boss", 0, 0, "worm");
+    const e = w.enemies[0];
+    for (let part = 1; part <= 7; part++)
+      if (mask & (1 << (part - 1))) hurtEnemy(w, e, 1e6, p.id, part);
+    const firstCut =
+      Array.from({ length: 7 }, (_, i) => i + 1).find(
+        (part) => mask & (1 << (part - 1)),
+      ) ?? 8;
+    expect(attachedWormBodyParts(e)).toEqual(
+      Array.from({ length: firstCut - 1 }, (_, i) => i + 1),
+    );
+    const copy = JSON.parse(JSON.stringify(e));
+    expect(wormChains(copy)).toEqual(wormChains(e));
+    expect(wormChains(e).flat()).toEqual(enemyBodies(e).map((b) => b.part));
+    const snapshot = JSON.stringify(e);
+    attachedWormBodyParts(e);
+    expect(JSON.stringify(e)).toBe(snapshot);
+    hurtEnemy(w, e, 1e6, p.id, 0);
+    expect(attachedWormBodyParts(e)).toEqual([]);
+  }
+});
+it("body cuts preserve stable fragment identities regardless of cut order or spatial proximity", () => {
+  for (const order of [
+    [2, 5],
+    [5, 2],
+  ]) {
+    const { w, p } = field(6);
+    spawn(w, "boss", 0, 0, "worm");
+    const e = w.enemies[0];
+    for (const part of order) hurtEnemy(w, e, 1e6, p.id, part);
+    for (const node of wormNodes(e)) {
+      node.x = 0;
+      node.z = 0;
+    }
+    expect(wormChains(e)).toEqual([
+      [0, 1],
+      [3, 4],
+      [6, 7],
+    ]);
+    expect(attachedWormBodyParts(e)).toEqual([1]);
+  }
+  const { w } = field();
+  spawn(w, "boss", 0, 0, "crown");
+  expect(wormChains(w.enemies[0])).toEqual([]);
+  expect(attachedWormBodyParts(w.enemies[0])).toEqual([]);
+});
 it("worm cuts remove only the hit segment, accelerate both chains, and award one final kill", () => {
   const { w, p } = field(6);
   spawn(w, "boss", 0, 0, "worm");
   const e = w.enemies[0];
-  expect(wormSpeed(e)).toBeCloseTo(4.2);
+  expect(wormSpeed(e)).toBeCloseTo(4.2 * enemySpeedFactor(e));
   hurtEnemy(w, e, 1e6, p.id, 4);
   expect(enemyBodies(e).map((b) => b.part)).toEqual([0, 1, 2, 3, 5, 6, 7]);
   expect(e.hp).toBeCloseTo((e.maxHp * 7) / 8);
   expect(w.totalKills).toBe(0);
-  expect(wormSpeed(e)).toBeCloseTo(8.4);
+  expect(wormSpeed(e)).toBeCloseTo(6.3 * enemySpeedFactor(e));
+  p.z = 38;
   const before = wormNodes(e).map((n) => ({ ...n }));
   for (let n = 0; n < 100; n++) {
     w.time += 0.05;
@@ -48,7 +106,7 @@ it("worm cuts remove only the hit segment, accelerate both chains, and award one
   }
   hurtEnemy(w, e, 1e6, p.id, 0);
   expect(e.hp).toBeGreaterThan(0);
-  expect(wormSpeed(e)).toBeCloseTo(8.4);
+  expect(wormSpeed(e)).toBeCloseTo(6.3 * enemySpeedFactor(e));
   for (let i = 1; i < 8; i++) hurtEnemy(w, e, 1e6, p.id, i);
   expect(e.hp).toBe(0);
   expect(enemyBodies(e)).toHaveLength(0);
@@ -56,7 +114,7 @@ it("worm cuts remove only the hit segment, accelerate both chains, and award one
   expect(p.kills).toBe(1);
 });
 it.each([6, 10, 13, 16, 20])(
-  "worm roams safely through stage %s with altitude and survives snapshot replay",
+  "worm roams safely through stage %s on the ground and survives snapshot replay",
   (stage) => {
     const { w } = field(stage);
     spawn(w, "boss", 0, -35, "worm");
@@ -82,35 +140,45 @@ it.each([6, 10, 13, 16, 20])(
     }
     expect(maxX - minX).toBeGreaterThan(45);
     expect(maxZ - minZ).toBeGreaterThan(45);
-    expect(maxY).toBeGreaterThan(2);
+    expect(maxY).toBeGreaterThan(0);
+    for(const node of wormNodes(e)) expect(node.y).toBeCloseTo(supportHeight(node.x,node.z,mapFor(w).blocks),6);
     const copy = JSON.parse(JSON.stringify(w));
     moveWorm(w, e, 0.05);
     moveWorm(copy, copy.enemies[0], 0.05);
     expect(copy.enemies[0]).toEqual(e);
   },
 );
-it("every surviving worm node fires aimed acid while moving", () => {
+it("every surviving worm node fires a straight laser while moving", () => {
   const { w, p } = field(6);
   spawn(w, "boss", 0, 0, "worm");
   const e = w.enemies[0];
   p.x = 8;
   p.z = 8;
   moveWorm(w, e, 0);
-  for (const node of wormNodes(e)) node.acidAt = 0;
+  for (const node of wormNodes(e)) node.acidAt = w.time + 0.8;
+  moveWorm(w, e, 0);
+  expect(w.projectiles).toHaveLength(0);
+  w.time += 0.8;
   moveWorm(w, e, 0);
   expect(w.projectiles).toHaveLength(8);
   for (const q of w.projectiles) {
+    expect(q.style).toBe("laser");
+    expect(q.gravity ?? 0).toBe(0);
+    expect(Math.hypot(q.dx, q.dy, q.dz)).toBeCloseTo(60);
     const t = (p.x - q.x) / q.dx;
     expect(q.z + q.dz * t).toBeCloseTo(p.z);
-    expect(q.y + q.dy * t - 0.5 * q.gravity! * t * t).toBeCloseTo(1.2);
+    expect(q.y + q.dy * t).toBeCloseTo((p.y ?? 0) + 1.2);
   }
   hurtEnemy(w, e, 1e6, p.id, 3);
   w.projectiles = [];
-  for (const node of wormNodes(e)) node.acidAt = 0;
+  for (const node of wormNodes(e)) node.acidAt = w.time + 0.8;
+  moveWorm(w, e, 0);
+  expect(w.projectiles).toHaveLength(0);
+  w.time += 0.8;
   moveWorm(w, e, 0);
   expect(w.projectiles).toHaveLength(7);
 });
-it("a cave fragment can complete repeated circuits after a mid-corridor cut", () => {
+it("a cave fragment pursues a player after a mid-corridor cut", () => {
   const { w, p } = field(10);
   spawn(w, "boss", 0, -35, "worm");
   const e = w.enemies[0];
@@ -120,6 +188,9 @@ it("a cave fragment can complete repeated circuits after a mid-corridor cut", ()
   }
   for (const i of [0, 1, 3, 4, 5, 6, 7]) hurtEnemy(w, e, 1e6, p.id, i);
   const node = e.segments![1];
+  p.x = 0;
+  p.z = 0;
+  const initialDistance = Math.hypot(node.x - p.x, node.z - p.z);
   let minX = 100,
     maxX = -100,
     minZ = 100,
@@ -133,21 +204,18 @@ it("a cave fragment can complete repeated circuits after a mid-corridor cut", ()
     minZ = Math.min(minZ, node.z);
     maxZ = Math.max(maxZ, node.z);
   }
-  expect(maxX - minX).toBeGreaterThan(45);
-  expect(maxZ - minZ).toBeGreaterThan(45);
+  expect(Math.hypot(node.x - p.x, node.z - p.z)).toBeLessThan(initialDistance);
+  expect(Math.hypot(node.x - p.x, node.z - p.z)).toBeLessThan(5);
 });
-it("rocket blast damages nearby airborne segments but not the ground directly below", () => {
+it("rocket blast respects vertical distance and damages only nearby grounded segments", () => {
   const { w, p } = field(6);
   spawn(w, "boss", 0, 0, "worm");
   const e = w.enemies[0];
-  e.y = 18;
-  e.segments![0] = { x: 0, y: 18, z: -3 };
-  e.segments![1] = { x: 0, y: 0, z: -3 };
-  w.projectiles.push({
+  const rocket = {
     id: ++w.serial,
-    x: 0,
+    x: e.x,
     y: 20,
-    z: -3,
+    z: e.z,
     dx: 0,
     dy: 0,
     dz: -1,
@@ -155,11 +223,22 @@ it("rocket blast damages nearby airborne segments but not the ground directly be
     owner: p.id,
     damage: 100,
     rocket: true,
+  };
+  w.projectiles.push(rocket);
+  step(w, {}, 0.001);
+  expect(wormNodes(e).every((n) => n.partHp === e.maxHp / 8)).toBe(true);
+  w.projectiles.push({
+    ...rocket,
+    id: ++w.serial,
+    x: e.x,
+    z: e.z,
+    y: 2,
+    life: 0,
   });
   step(w, {}, 0.001);
   expect(e.partHp).toBeLessThan(e.maxHp / 8);
   expect(e.segments![0].partHp).toBeLessThan(e.maxHp / 8);
-  expect(e.segments![1].partHp).toBe(e.maxHp / 8);
+  expect(e.segments![6].partHp).toBe(e.maxHp / 8);
 });
 it.each([3, 5, 10, 17, 24, 30])(
   "airborne ant acid hits a stationary player at %sm",
@@ -415,7 +494,7 @@ it("spider never walks between jumps and favors flanking more than other enemies
   const e = w.enemies[0];
   e.jumpWait = 0.5;
   for (let i = 0; i < 5; i++) step(w, { p: neutral() });
-  expect([e.x, e.y, e.z]).toEqual([0, 0, -8]);
+  expect([e.x, e.y, e.z]).toEqual([0, supportHeight(0,-8,mapFor(w).blocks), -8]);
   let spider = 0,
     ant = 0;
   for (let i = 0; i < 100; i++) {

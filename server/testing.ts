@@ -44,9 +44,18 @@ export class TestRoom extends Room {
       w.nextSpawn = 1e9;
       w.enemies = [];
       if (u.searchParams.get("case") === "trooper") {
-        w.players.forEach((p, i) => { p.x = i * 1.5; p.z = 0; });
+        w.players.forEach((p, i) => {
+          p.x = i * 1.5;
+          p.z = 0;
+        });
         spawn(w, "boss", 0, -10, "crown");
-        Object.assign(w.enemies[0], { active: true, wind: 1.5, tx: 0, tz: 0, cool: 0 });
+        Object.assign(w.enemies[0], {
+          active: true,
+          wind: 1.5,
+          tx: 0,
+          tz: 0,
+          cool: 0,
+        });
       } else if (u.searchParams.get("case") === "freeze") {
         Object.assign(w.players[0], {
           hp: 50,
@@ -82,6 +91,18 @@ export class TestRoom extends Room {
         w.stage = 6;
         spawn(w, "boss", 0, -15, "worm");
         hurtEnemy(w, w.enemies[0], 1e6, w.players[0].id, 4);
+      } else if (u.searchParams.get("case") === "foundry") {
+        w.stage = 6;
+        w.players.forEach((p, i) => {
+          p.x = i * 3;
+          p.z = -32;
+          p.hp = 10000;
+        });
+        const boss = spawn(w, "boss", 0, -15, "worm")!;
+        hurtEnemy(w, boss, 1e6, w.players[0].id, 4);
+        boss.partHp = 1;
+        boss.hp =
+          1 + boss.segments!.reduce((sum, part) => sum + (part.partHp ?? 0), 0);
       } else if (u.searchParams.get("case") === "structures") {
         w.players.forEach((p, i) => {
           p.x = 0;
@@ -131,7 +152,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(revive|reward|reward-overflow|load|freeze|enemies|structures|worm-split|trooper|snapshot)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(revive|reward|reward-overflow|load|freeze|enemies|structures|worm-split|foundry|trooper|snapshot)$/.exec(
         u.pathname,
       );
     if (match && req.method === "POST") {

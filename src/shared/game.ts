@@ -1,6 +1,25 @@
+import { enemySize, enemySpeedFactor, spawnSize } from "./enemy-size";
+import { settings, rollWeapon, type NewWeapon } from './progression';
+import { maxHp, recoveryWait, switchTime, soloBeginWave, soloSpawnAndProgress, soloDrop, collectSolo, endSoloTick, type SoloProgression } from './solo-progression';
+import { groundHeight, supportHeight, terrainProps, terrainBlocked, terrainRay, WALK_STEP } from "./terrain";
 import { ARENA_X, ARENA_Z, MAP_SCALE } from "./arena";
+import { MAX_PITCH } from "./aim";
+import {
+  queueFoundrySpawn,
+  cutPendingFoundrySpawn,
+  flushFoundrySpawns,
+  pendingFoundryCount,
+  type FoundrySpawnBatch,
+} from "./foundry-spawning";
 import { STRUCTURE_TIMING } from "./structure-timing";
-import { initWorm, moveWorm, wormNodes, type WormNode } from "./worm";
+import {
+  initWorm,
+  moveWorm,
+  wormNodes,
+  WORM_BODY_COUNT,
+  placeWormOnGround,
+  type WormNode,
+} from "./worm";
 import { CAVE_BLOCKS, CAVE_NODES, caveBlocked, caveRay } from "./cave";
 import {
   mapFor,
@@ -51,6 +70,8 @@ export interface Input {
   swap: boolean;
   revive: boolean;
   seq: number;
+  // New clients send camera angles; omitted on older clients/direct simulation inputs.
+  cameraAim?: boolean;
 }
 export const neutral = (): Input => ({
   mx: 0,
@@ -65,6 +86,8 @@ export const neutral = (): Input => ({
   seq: 0,
 });
 export interface Player {
+  reloadSlots?: number[];
+  y?: number; // Authoritative feet altitude; absent legacy snapshots mean zero.
   id: string;
   x: number;
   z: number;
@@ -81,6 +104,8 @@ export interface Player {
   evade: number;
   evadeCd: number;
   swapCd: number;
+  /** Solo progression only; animation maps this duration onto the existing clip. */
+  swapDuration?: number;
   swapResume?: number;
   heavyHit?: number;
   kills: number;
@@ -90,6 +115,9 @@ export interface Player {
   safe: number;
 }
 export interface Enemy extends WormNode {
+  size?: number; // Fixed at spawn and replicated in authoritative snapshots.
+  foundryTriggered?: boolean;
+  foundrySource?: number;
   targetId?: string;
   navigation?: { until: number; point: { x: number; z: number } };
   lunge?: number;
@@ -119,11 +147,12 @@ export interface Enemy extends WormNode {
   cool: number;
   wind: number;
   tx: number;
+  ty?: number;
   tz: number;
   hurt: number;
 }
 export interface Projectile {
-  style?: "stake";
+  style?: "stake" | "laser";
   id: number;
   x: number;
   z: number;
@@ -146,6 +175,8 @@ export interface Event {
   amount?: number;
   radius?: number;
   weapon?: "rifle" | "shotgun" | "rocket";
+  // Preserve hit material even when the target dies before the next snapshot.
+  enemyKind?: Enemy["kind"];
   x: number;
   z: number;
   y: number;
@@ -155,6 +186,10 @@ export interface Event {
   owner?: string;
 }
 export interface Drop {
+  type?: 'weapon'|'heal';
+  born?: number;
+  fromX?: number;
+  fromZ?: number;
   id: string;
   x: number;
   z: number;
@@ -162,6 +197,10 @@ export interface Drop {
   weapon: Weapon;
 }
 export interface World {
+  training?: boolean;
+  solo?: SoloProgression;
+  foundrySpawns?: FoundrySpawnBatch[];
+  foundrySpawned?: number;
   stage?: number;
   run: string;
   seed: number;
@@ -182,6 +221,7 @@ export interface World {
   waveClearAt: number | null;
   serial: number;
   eventSerial: number;
+  enemyOrdinal?: number;
   totalKills: number;
   scale: number;
   reason: string;
@@ -241,6 +281,7 @@ export function addPlayer(
     hurt: 0,
     safe: 0,
   };
+  p.y = supportHeight(p.x, p.z, mapFor(w).blocks);
   w.players.push(p);
   w.pending[id] = [];
   return p;
@@ -257,6 +298,7 @@ export function random(w: World) {
   return w.seed / 4294967296;
 }
 export function loot(w: World): Weapon {
+  if(w.solo)return rollWeapon(`${w.run}-${++w.serial}`,w.solo.stage,w.solo.difficulty,w.solo.test,w.solo.acquired++,()=>random(w));
   const kind = (["rifle", "shotgun", "rocket"] as const)[
     Math.floor(random(w) * 3)
   ];
@@ -314,8 +356,7 @@ export function loot(w: World): Weapon {
 // Roof height over a point, or 0 in the open. Fliers use it to know how high
 // they must climb to cross something instead of going through it.
 export function roofHeight(x: number, z: number, r = 0.55, blocks = BLOCKS) {
-  if (blocks === CAVE_BLOCKS) return 0;
-  let best = 0;
+  let best = supportHeight(x, z, blocks, Infinity, r);
   for (const b of blocks)
     if (Math.abs(x - b.x) < b.w / 2 + r && Math.abs(z - b.z) < b.d / 2 + r)
       best = Math.max(best, b.h);
@@ -329,6 +370,7 @@ export function blocked(
   y = 0,
   blocks = BLOCKS,
 ) {
+  if (terrainBlocked(x, z, r, y, blocks)) return true;
   if (blocks === CAVE_BLOCKS) return caveBlocked(x, z, r, y);
   return (
     Math.abs(x) > ARENA_X - r ||
@@ -347,10 +389,21 @@ export function move(
   dz: number,
   r = 0.55,
   blocks = BLOCKS,
+  airborne = false,
 ) {
-  const y = p.y ?? 0;
-  if (!blocked(p.x + dx, p.z, r, y, blocks)) p.x += dx;
-  if (!blocked(p.x, p.z + dz, r, y, blocks)) p.z += dz;
+  // Substeps prevent dodge/knockback from tunnelling through narrow props.
+  const steps = Math.max(1, Math.ceil(Math.hypot(dx, dz) / .2));
+  let y = p.y ?? supportHeight(p.x, p.z, blocks);
+  const grounded = !airborne && y <= supportHeight(p.x, p.z, blocks, y, r) + WALK_STEP;
+  for(let i=0;i<steps;i++) for(const axis of ["x", "z"] as const) {
+    const nx=p.x+(axis==="x"?dx/steps:0), nz=p.z+(axis==="z"?dz/steps:0);
+    const floor=supportHeight(nx,nz,blocks,y,r);
+    const nextY=grounded?floor:y;
+    if(nextY + 1e-6 >= groundHeight(nx,nz,blocks) && (!grounded || floor-y<=WALK_STEP) && !blocked(nx,nz,r,nextY,blocks)) {
+      p.x=nx;p.z=nz;y=nextY;
+    }
+  }
+  p.y=y;
 }
 // Segment/AABB slab intersection; shared by bullets, explosions, aim assist and camera.
 export function wallDistance(
@@ -363,14 +416,14 @@ export function wallDistance(
   max: number,
   blocks = BLOCKS,
 ) {
-  if (blocks === CAVE_BLOCKS) return caveRay(x, y, z, dx, dy, dz, max);
-  let best = max;
-  for (const b of blocks) {
+  let best = terrainRay(x,y,z,dx,dy,dz,max,blocks);
+  if (blocks === CAVE_BLOCKS) best = Math.min(best,caveRay(x,y,z,dx,dy,dz,max));
+  for (const b of [...blocks, ...terrainProps(blocks)]) {
     let lo = 0,
       hi = best;
     for (const [o, d, min, maxv] of [
       [x, dx, b.x - b.w / 2, b.x + b.w / 2],
-      [y, dy, 0, b.h],
+      [y, dy, "base" in b ? Number(b.base) : 0, b.h + ("base" in b ? Number(b.base) : 0)],
       [z, dz, b.z - b.d / 2, b.z + b.d / 2],
     ]) {
       if (Math.abs(d) < 1e-8) {
@@ -391,11 +444,11 @@ export function wallDistance(
 }
 export function rayVisible(
   e: Enemy,
-  p: { x: number; z: number },
+  p: { x: number; z: number; y?: number },
   blocks = BLOCKS,
 ) {
   const height = eye(e);
-  const length = Math.hypot(p.x - e.x, 1.2 - height, p.z - e.z);
+  const length = Math.hypot(p.x - e.x, (p.y ?? 0) + 1.2 - height, p.z - e.z);
   return (
     length < 1e-8 ||
     wallDistance(
@@ -403,7 +456,7 @@ export function rayVisible(
       height,
       e.z,
       (p.x - e.x) / length,
-      (1.2 - height) / length,
+      ((p.y ?? 0) + 1.2 - height) / length,
       (p.z - e.z) / length,
       length,
       blocks,
@@ -412,18 +465,20 @@ export function rayVisible(
   );
 }
 export function visible(
-  a: { x: number; z: number },
-  b: { x: number; z: number },
+  a: { x: number; z: number; y?: number },
+  b: { x: number; z: number; y?: number },
   blocks = BLOCKS,
 ) {
-  const d = Math.hypot(b.x - a.x, b.z - a.z);
+  const dy=(b.y ?? 0)-(a.y ?? 0);
+  const d = Math.hypot(b.x - a.x, dy, b.z - a.z);
+  if(d<1e-8)return true;
   return (
     wallDistance(
       a.x,
-      1.2,
+      (a.y ?? 0) + 1.2,
       a.z,
       (b.x - a.x) / d,
-      0,
+      dy/d,
       (b.z - a.z) / d,
       d,
       blocks,
@@ -441,8 +496,11 @@ export function spawn(
   x?: number,
   z?: number,
   form: BossForm = "crown",
+  sizeSlot?: number,
 ) {
-  if (w.enemies.length >= LIMITS.enemies) return;
+  if (w.enemies.length >= (w.solo?settings(w.solo.stage,w.solo.difficulty).enemyCap:LIMITS.enemies)) return;
+  const ordinal = w.enemyOrdinal ?? 0;
+  const size = spawnSize(kind, form === "worm", sizeSlot ?? ordinal);
   const a = random(w) * Math.PI * 2;
   let ex = x ?? Math.sin(a) * 10,
     ez = z ?? (random(w) < 0.5 ? -46 : 46) * MAP_SCALE;
@@ -471,12 +529,13 @@ export function spawn(
     ex = point.x;
     ez = point.z;
   }
-  const hp = ENEMIES[kind].hp * w.scale * stageFor(w).hp;
-  w.enemies.push({
+  const hp = ENEMIES[kind].hp * w.scale * stageFor(w).hp * size;
+  const enemy: Enemy = {
     id: ++w.serial,
+    size,
     kind,
     x: ex,
-    y: ENEMIES[kind].cruise,
+    y: Math.min(supportHeight(ex,ez,mapFor(w).blocks) + ENEMIES[kind].cruise, mapFor(w).blocks === CAVE_BLOCKS && kind === "hornet" ? 5 : Infinity),
     z: ez,
     hp,
     maxHp: hp,
@@ -487,7 +546,7 @@ export function spawn(
     hurt: 0,
     ...(kind === "boss" && form === "worm"
       ? {
-          segments: Array.from({ length: 7 }, (_, i) => ({
+          segments: Array.from({ length: WORM_BODY_COUNT }, (_, i) => ({
             x: ex,
             y: 0,
             z:
@@ -500,15 +559,24 @@ export function spawn(
           })),
         }
       : {}),
-  });
+  };
+  if (enemy.segments) placeWormOnGround(w, enemy);
+  w.enemyOrdinal = ordinal + 1;
+  w.enemies.push(enemy);
+  return enemy;
+}
+// Authored slots do not shift when players cause different reinforcement counts.
+function waveSizeSlot(w: World, offset: number) {
+  return stageFor(w).waves.slice(0, w.wave - 1).reduce((sum, wave) => sum + troopCount(wave) + wave.bosses.length, 0) + offset;
 }
 // Separated boss entries and immediate escorts, all counted in this wave.
 function beginWave(w: World) {
+  if(w.solo){soloBeginWave(w);return;}
   const wave = stageFor(w).waves[w.wave - 1];
   w.spawned = 0;
   w.nextSpawn = w.time + wave.interval;
   wave.bosses.forEach((form, i) => {
-    spawn(w, "boss", 0, [-35, 35, 0][i] * MAP_SCALE, form);
+    spawn(w, "boss", 0, [-35, 35, 0][i] * MAP_SCALE, form, waveSizeSlot(w, i));
     const boss = w.enemies[w.enemies.length - 1];
     // More simultaneous threats, without multiplying the bullet-sponge duration.
     boss.hp = boss.maxHp = boss.maxHp / Math.sqrt(wave.bosses.length);
@@ -520,20 +588,73 @@ function beginWave(w: World) {
       troopAt(wave, i),
       (i % 2 ? 1 : -1) * 6 * MAP_SCALE,
       (-38 + Math.floor(i / 2) * 22) * MAP_SCALE,
+      "crown", waveSizeSlot(w, wave.bosses.length + i),
     );
     w.enemies[w.enemies.length - 1].active = false;
     w.spawned++;
   }
 }
 function hurtPlayer(w: World, p: Player, damage: number, heavy = false) {
-  if (p.hp <= 0 || p.evade > 0) return;
+  if (p.hp <= 0 || p.evade > 0 || (w.solo?.invincible??0)>0) return;
   p.hp = Math.max(0, p.hp - damage * stageFor(w).damage);
   if (heavy) p.heavyHit = HEAVY_HIT_DURATION;
   p.hurt = 0.2;
   p.safe = 0;
   if (!p.hp) {
     p.down = 25;
-    event(w, { type: "down", x: p.x, z: p.z, y: 1 });
+    event(w, { type: "down", x: p.x, z: p.z, y: (p.y ?? 0) + 1 });
+  }
+}
+// A 60m/s pulse can cross a player's entire collider between simulation ticks.
+// Sweep its remaining travel against walls, ground and the nearest live player.
+function advanceFoundryLaser(
+  w: World,
+  q: Projectile,
+  living: Player[],
+  dt: number,
+) {
+  const speed = Math.hypot(q.dx, q.dy, q.dz);
+  if (q.life <= 0 || speed <= 0) {
+    q.life = -1;
+    return;
+  }
+  const travel = speed * Math.min(dt, q.life);
+  const dx = q.dx / speed,
+    dy = q.dy / speed,
+    dz = q.dz / speed;
+  let distance = wallDistance(
+    q.x,
+    q.y,
+    q.z,
+    dx,
+    dy,
+    dz,
+    travel,
+    mapFor(w).blocks,
+  );
+  if (dy < 0) distance = Math.min(distance, Math.max(0, -q.y / dy));
+  let target: Player | undefined;
+  for (const p of living) {
+    const x = p.x - q.x,
+      y = (p.y ?? 0) + 1.2 - q.y,
+      z = p.z - q.z;
+    const along = x * dx + y * dy + z * dz;
+    const squared = 1 - (x * x + y * y + z * z - along * along);
+    if (squared < 0 || along + Math.sqrt(squared) < 0) continue;
+    const near = Math.max(0, along - Math.sqrt(squared));
+    if (near < distance) {
+      distance = near;
+      target = p;
+    }
+  }
+  q.x += dx * distance;
+  q.y += dy * distance;
+  q.z += dz * distance;
+  q.life -= dt;
+  if (target) hurtPlayer(w, target, q.damage);
+  if (target || distance < travel || q.life <= 0) {
+    event(w, { type: "acid", x: q.x, y: Math.max(0, q.y), z: q.z });
+    q.life = -1;
   }
 }
 export function hurtEnemy(
@@ -542,6 +663,7 @@ export function hurtEnemy(
   damage: number,
   owner: string,
   part = 0,
+  weapon?: Event["weapon"],
 ) {
   if (e.hp <= 0) return;
   e.active = true;
@@ -551,15 +673,18 @@ export function hurtEnemy(
     const node = wormNodes(e)[part];
     if (!node || !node.partHp || node.partHp <= 0) return;
     damage = Math.min(damage, node.partHp);
+    if (part === 0 && damage >= node.partHp) queueFoundrySpawn(w, e);
     node.partHp -= damage;
     impact = { x: node.x, y: node.y + (part === 0 ? 3 : 2), z: node.z };
     if (node.partHp <= 0) {
-      e.fractured = true;
+      if (part > 0) {
+        e.fractured = true;
+        cutPendingFoundrySpawn(w, e, part);
+      }
       event(w, { type: "burst", radius: 2.2, ...impact, owner });
       const next = wormNodes(e)[part + 1];
       if (next) {
         next.route = undefined;
-        next.heading = undefined;
       }
     }
     e.hp = wormNodes(e).reduce((sum, n) => sum + Math.max(0, n.partHp ?? 0), 0);
@@ -567,17 +692,21 @@ export function hurtEnemy(
   e.hurt = 0.15;
   event(w, {
     type: "hit",
+    enemyKind: e.kind,
+    weapon,
     ...impact,
     owner,
     amount: Math.round(damage),
   });
   if (e.hp <= 0) {
+    if(w.solo&&e.foundrySource===undefined)w.solo.plannedKills++;
     w.totalKills++;
     w.waveKills++;
     const p = w.players.find((p) => p.id === owner);
     if (p) p.kills++;
     event(w, { type: "kill", ...impact, owner });
-    if (random(w) < stageFor(w).dropRate && w.drops.length < 24)
+    if(w.solo)soloDrop(w,e);
+    else if (random(w) < stageFor(w).dropRate && w.drops.length < 24)
       for (const p of w.players) {
         if (w.drops.length >= 24) break;
         const weapon = loot(w);
@@ -605,21 +734,21 @@ export function finish(w: World, win: boolean, reason = "") {
   w.projectiles = [];
 }
 // Where a shot has to pass to hit: the unit's own centre, lifted by how high it floats.
-export const eye = (e: Enemy) => e.y + ENEMIES[e.kind].aim;
+export const eye = (e: Enemy) => e.y + ENEMIES[e.kind].aim * enemySize(e);
 export const enemyBodies = (e: Enemy) =>
   [
     {
       x: e.x,
       y: eye(e),
       z: e.z,
-      radius: ENEMIES[e.kind].radius,
+      radius: ENEMIES[e.kind].radius * enemySize(e),
       part: 0,
       partHp: e.partHp,
     },
     ...(e.segments ?? []).map((s, i) => ({
       ...s,
-      y: s.y + 2,
-      radius: 2.2,
+      y: s.y + 2 * enemySize(e),
+      radius: 2.2 * enemySize(e),
       part: i + 1,
     })),
   ].filter((b) => b.partHp === undefined || b.partHp > 0);
@@ -631,6 +760,112 @@ export function falloff(kind: Weapon["kind"], distance: number) {
     return Math.max(0.45, 1 - Math.max(0, distance - 22) / 55);
   return 1;
 }
+// The renderer and authority use the same shoulder camera and sight ray.
+export function aimCamera(
+  p: { x: number; z: number; y?: number },
+  i: { yaw: number; pitch: number },
+  blocks = BLOCKS,
+) {
+  const { yaw, pitch } = i;
+  const pivot = { x: p.x, y: (p.y ?? 0) + 1.9, z: p.z };
+  const offset = {
+    x: -Math.sin(yaw) * 5.2 + Math.cos(yaw) * 0.8,
+    y: Math.max(0.35, 2.9 - Math.sin(pitch) * 4) - 1.9,
+    z: Math.cos(yaw) * 5.2 + Math.sin(yaw) * 0.8,
+  };
+  const length = Math.hypot(offset.x, offset.y, offset.z);
+  const distance = Math.max(
+    0.2,
+    wallDistance(
+      pivot.x,
+      pivot.y,
+      pivot.z,
+      offset.x / length,
+      offset.y / length,
+      offset.z / length,
+      length,
+      blocks,
+    ) - 0.25,
+  );
+  const camera = {
+    x: pivot.x + (offset.x * distance) / length,
+    y: pivot.y + (offset.y * distance) / length,
+    z: pivot.z + (offset.z * distance) / length,
+  };
+  const ray = {
+    x: p.x + Math.sin(yaw) * 30 * Math.cos(pitch) - camera.x,
+    y: ((p.y ?? 0) + 1.5) + Math.sin(pitch) * 30 - camera.y,
+    z: p.z - Math.cos(yaw) * 30 * Math.cos(pitch) - camera.z,
+  };
+  const rayLength = Math.hypot(ray.x, ray.y, ray.z);
+  return {
+    camera,
+    direction: {
+      x: ray.x / rayLength,
+      y: ray.y / rayLength,
+      z: ray.z / rayLength,
+    },
+  };
+}
+
+export function cameraShot(
+  w: World,
+  p: Player,
+  i: { yaw: number; pitch: number },
+) {
+  const blocks = mapFor(w).blocks;
+  const { camera, direction: d } = aimCamera(p, i, blocks);
+  const max =
+    stats(p.weapons[p.slot]).range +
+    Math.hypot(camera.x - p.x, camera.y - ((p.y ?? 0) + 1.5), camera.z - p.z);
+  let distance = wallDistance(
+    camera.x,
+    camera.y,
+    camera.z,
+    d.x,
+    d.y,
+    d.z,
+    max,
+    blocks,
+  );
+  if (d.y < -1e-8) distance = Math.min(distance, Math.max(0, -camera.y / d.y));
+  for (const e of w.enemies) {
+    if (e.hp <= 0) continue;
+    for (const body of enemyBodies(e)) {
+      const x = body.x - camera.x,
+        y = body.y - camera.y,
+        z = body.z - camera.z;
+      const along = x * d.x + y * d.y + z * d.z;
+      const radial = x * x + y * y + z * z - along * along;
+      const squared = body.radius * body.radius - radial;
+      if (squared < 0 || along <= 0) continue;
+      const near = along - Math.sqrt(squared);
+      if (near > 0) distance = Math.min(distance, near);
+    }
+  }
+  let target = {
+    x: camera.x + d.x * distance,
+    y: camera.y + d.y * distance,
+    z: camera.z + d.z * distance,
+  };
+  let dx = target.x - p.x,
+    dy = target.y - ((p.y ?? 0) + 1.5),
+    dz = target.z - p.z;
+  // A surface between shoulder camera and player must never turn a shot backwards.
+  if (dx * d.x + dy * d.y + dz * d.z < 0.1) {
+    dx = d.x;
+    dy = d.y;
+    dz = d.z;
+    target = { x: p.x + dx, y: ((p.y ?? 0) + 1.5) + dy, z: p.z + dz };
+  }
+  const length = Math.hypot(dx, dy, dz);
+  return {
+    target,
+    yaw: Math.atan2(dx, -dz),
+    pitch: Math.atan2(dy, Math.hypot(dx, dz)),
+    direction: { x: dx / length, y: dy / length, z: dz / length },
+  };
+}
 export function fire(w: World, p: Player, i: Input) {
   const weapon = p.weapons[p.slot],
     def = stats(weapon);
@@ -639,8 +874,13 @@ export function fire(w: World, p: Player, i: Input) {
   p.cool = def.interval;
   let yaw = i.yaw,
     pitch = i.pitch;
+  if (i.cameraAim) {
+    const shot = cameraShot(w, p, i);
+    yaw = shot.yaw;
+    pitch = shot.pitch;
+  }
   // A small cone only bends an explicitly fired shot toward a visible enemy.
-  const candidates = w.enemies
+  const candidates = (i.cameraAim && !w.solo ? [] : w.enemies)
     .filter((e) => e.hp > 0 && e.partHp !== 0)
     .map((e) => ({
       e,
@@ -649,19 +889,19 @@ export function fire(w: World, p: Player, i: Input) {
     }))
     .filter(
       (t) =>
-        Math.abs(angle(t.a - yaw)) < 0.065 &&
+        Math.abs(angle(t.a - yaw)) < 0.065 * (1 + .04*(w.solo?.levels.aim??0)) &&
         t.d < def.range &&
         Math.abs(pitch) < 0.18 &&
         // Only nudge towards something roughly at the shooter's own level. Without
         // this the cone snaps a level shot up onto a flier, and altitude stops
         // being something the player has to answer for.
-        Math.abs(eye(t.e) - 1.5) < 2 &&
+        Math.abs(eye(t.e) - ((p.y ?? 0) + 1.5)) < 2 &&
         visible(p, t.e, mapFor(w).blocks),
     )
     .sort((a, b) => a.d - b.d);
   if (candidates[0]) {
     yaw = candidates[0].a;
-    pitch = Math.atan2(eye(candidates[0].e) - 1.5, candidates[0].d);
+    pitch = Math.atan2(eye(candidates[0].e) - ((p.y ?? 0) + 1.5), candidates[0].d);
   }
   const repelled = new Set<Enemy>();
   for (let j = 0; j < def.pellets; j++) {
@@ -676,7 +916,7 @@ export function fire(w: World, p: Player, i: Input) {
           id: ++w.serial,
           x: p.x,
           z: p.z,
-          y: 1.5,
+          y: ((p.y ?? 0) + 1.5),
           dx: dx * 28,
           dz: dz * 28,
           dy: dy * 28,
@@ -690,18 +930,18 @@ export function fire(w: World, p: Player, i: Input) {
         type: "shot",
         weapon: weapon.kind,
         x: p.x,
-        y: 1.5,
+        y: ((p.y ?? 0) + 1.5),
         z: p.z,
         tx: p.x + dx * 2,
         tz: p.z + dz * 2,
-        ty: 1.5 + dy * 2,
+        ty: ((p.y ?? 0) + 1.5) + dy * 2,
         owner: p.id,
       });
       continue;
     }
     let range = wallDistance(
       p.x,
-      1.5,
+      ((p.y ?? 0) + 1.5),
       p.z,
       dx,
       dy,
@@ -709,16 +949,17 @@ export function fire(w: World, p: Player, i: Input) {
       def.range,
       mapFor(w).blocks,
     );
+    if (i.cameraAim && dy < -1e-8) range = Math.min(range, -((p.y ?? 0) + 1.5) / dy);
     const hits = w.enemies
       .filter((e) => e.hp > 0)
       .map((e) => {
         const candidates = enemyBodies(e).map((body) => {
           const ey = body.y,
-            along = (body.x - p.x) * dx + (body.z - p.z) * dz + (ey - 1.5) * dy;
+            along = (body.x - p.x) * dx + (body.z - p.z) * dz + (ey - ((p.y ?? 0) + 1.5)) * dy;
           const distance = Math.hypot(
             body.x - p.x - dx * along,
             body.z - p.z - dz * along,
-            ey - 1.5 - dy * along,
+            ey - ((p.y ?? 0) + 1.5) - dy * along,
           );
           return { e, along, distance, radius: body.radius, part: body.part };
         });
@@ -742,25 +983,27 @@ export function fire(w: World, p: Player, i: Input) {
         def.damage * falloff(weapon.kind, h.along),
         p.id,
         h.part,
+        weapon.kind,
       );
       if (
         weapon.kind === "shotgun" &&
         weapon.effect === "repel" &&
         h.e.kind !== "boss" &&
-        Math.hypot(h.e.x - p.x, eye(h.e) - 1.5, h.e.z - p.z) <= 8
+        Math.hypot(h.e.x - p.x, eye(h.e) - ((p.y ?? 0) + 1.5), h.e.z - p.z) <= 8
       )
         repelled.add(h.e);
     }
     if (hits.length) range = hits[hits.length - 1].along;
     event(w, {
       type: "shot",
+      enemyKind: hits[0]?.e.kind,
       weapon: weapon.kind,
       x: p.x,
       z: p.z,
-      y: 1.5,
+      y: ((p.y ?? 0) + 1.5),
       tx: p.x + dx * range,
       tz: p.z + dz * range,
-      ty: 1.5 + dy * range,
+      ty: ((p.y ?? 0) + 1.5) + dy * range,
       owner: p.id,
     });
   }
@@ -783,6 +1026,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   if (!w.players.some((p) => p.connected)) return;
   dt = Math.min(0.1, Math.max(0, dt));
   w.time += dt;
+  if(w.solo)w.solo.invincible=Math.max(0,w.solo.invincible-dt);
   for (const p of w.players) {
     if (!p.connected) continue;
     const i = inputs[p.id] ?? neutral();
@@ -804,15 +1048,18 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       continue;
     }
     p.safe += dt;
-    if (p.safe > 5) p.hp = Math.min(160, p.hp + dt * 3);
+    if (p.safe > recoveryWait(w) && p.hp < maxHp(w)*(w.solo?.5:1)) p.hp = Math.min(maxHp(w)*(w.solo?.5:1), p.hp + dt * 3);
+    if(w.solo&&p.reloadSlots)for(let slot=0;slot<2;slot++)if(slot!==p.slot&&p.reloadSlots[slot]>0){p.reloadSlots[slot]=Math.max(0,p.reloadSlots[slot]-dt);if(p.reloadSlots[slot]===0)p.ammo[slot]=stats(p.weapons[slot]).mag;}
     if (p.reload > 0) {
       p.reload -= dt;
       if (p.reload <= 0) p.ammo[p.slot] = stats(p.weapons[p.slot]).mag;
     }
     if (i.swap && p.swapCd <= 0) {
+      if(w.solo){p.reloadSlots??=[0,0];p.reloadSlots[p.slot]=Math.max(0,p.reload);}
       p.slot = 1 - p.slot;
-      p.reload = 0;
-      p.swapCd = WEAPON_SWITCH_DURATION;
+      p.reload = w.solo?(p.reloadSlots?.[p.slot]??0):0;
+      p.swapCd = w.solo?switchTime(w):WEAPON_SWITCH_DURATION;
+      if (w.solo) p.swapDuration = p.swapCd;
       p.swapResume = 0;
     }
     if (
@@ -826,7 +1073,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       p.evadeCd = 2.2;
     }
     const norm = Math.max(1, Math.hypot(i.mx, i.mz)),
-      speed = p.evade > 0 ? MOVE_SPEED.dodge : MOVE_SPEED.walk;
+      speed = p.evade > 0 ? MOVE_SPEED.dodge : MOVE_SPEED.walk*(1+.03*(w.solo?.levels.move??0));
     move(
       p,
       ((i.mx * Math.cos(i.yaw) + i.mz * Math.sin(i.yaw)) / norm) * speed * dt,
@@ -835,7 +1082,13 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       mapFor(w).blocks,
     );
     if (i.fire) fire(w, p, i);
-    for (const d of w.drops.filter(
+    if (i.cameraAim) {
+      const shot = cameraShot(w, p, i);
+      p.yaw = shot.yaw;
+      p.pitch = shot.pitch;
+    }
+    if(w.solo)collectSolo(w,p);
+    else for (const d of w.drops.filter(
       (d) => d.owner === p.id && Math.hypot(d.x - p.x, d.z - p.z) < 3,
     )) {
       if (w.pending[p.id].length < 20) w.pending[p.id].push(d.weapon);
@@ -858,35 +1111,44 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       p.hp = 90;
       p.down = 0;
       p.revive = 0;
-      event(w, { type: "revive", x: p.x, z: p.z, y: 1 });
+      event(w, { type: "revive", x: p.x, z: p.z, y: (p.y ?? 0) + 1 });
     }
   }
   const living = w.players.filter((p) => p.hp > 0 && p.connected);
   if (!living.length) {
+    if(w.solo){endSoloTick(w);return;}
     finish(w, false, "部隊が全員ダウンしました");
     return;
   }
   const plan = stageFor(w);
   const wave = plan.waves[w.wave - 1];
   if (!wave) return;
+  if(w.solo)soloSpawnAndProgress(w);
+  else if (!w.training) {
   if (
     w.spawned < troopCount(wave) &&
+    pendingFoundryCount(w) === 0 &&
     w.enemies.length < LIMITS.enemies &&
     w.time >= w.nextSpawn
   ) {
     const kind = troopAt(wave, w.spawned);
     const factory = w.enemies.find(
-      (e) => e.kind === "boss" && e.hp > 0 && foundryPhase(e) >= 2,
+      (e) =>
+        e.kind === "boss" && !e.segments && e.hp > 0 && foundryPhase(e) >= 2,
     );
     // Existing wave budget only: fabrication relocates the scheduled unit.
     if (factory && kind === "spitter") {
-      spawn(w, kind, factory.x + 5, factory.z);
+      spawn(w, kind, factory.x + 5, factory.z, "crown", waveSizeSlot(w, wave.bosses.length + w.spawned));
       factory.fabrication = 0.8;
-    } else spawn(w, kind);
+    } else spawn(w, kind, undefined, undefined, "crown", waveSizeSlot(w, wave.bosses.length + w.spawned));
     w.spawned++;
     w.nextSpawn = w.time + wave.interval;
   }
-  if (w.spawned >= troopCount(wave) && w.enemies.every((e) => e.hp <= 0)) {
+  if (
+    w.spawned >= troopCount(wave) &&
+    w.enemies.every((e) => e.hp <= 0) &&
+    pendingFoundryCount(w) === 0
+  ) {
     if (w.wave === plan.waves.length) {
       finish(w, true);
       return;
@@ -901,19 +1163,23 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     for (const p of living) p.hp = Math.min(160, p.hp + 45);
     beginWave(w);
   }
+  }
   for (const e of w.enemies) {
     if (e.hp <= 0) continue;
     e.hurt = Math.max(0, e.hurt - dt);
+    if (w.training) continue;
     const t = selectStructureTarget(e, living, (p) =>
       visible(e, p, mapFor(w).blocks),
-    )!;
+    );
+    // An earlier enemy can down the last target in this same tick.
+    if (!t) continue;
     if (e.wind <= 0) e.targetId = t.id;
-    if (e.kind === "boss") {
+    if (e.kind === "boss" && !e.segments) {
       e.phase = foundryPhase(e);
       e.fabrication = Math.max(0, (e.fabrication ?? 0) - dt);
     }
     const d = Math.hypot(t.x - e.x, t.z - e.z),
-      def = ENEMIES[e.kind];
+      def = { ...ENEMIES[e.kind], speed: ENEMIES[e.kind].speed * enemySpeedFactor(e), damage: ENEMIES[e.kind].damage * enemySize(e) };
     if (e.active === false) {
       if (
         !living.some(
@@ -947,14 +1213,14 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       if (e.kind === "crawler" && e.wind < 1e-9) e.wind = 0;
       if (e.wind <= 0) {
         if (e.kind === "boss") {
-          event(w, { type: "burst", radius: 7, x: e.tx, z: e.tz, y: 0.1 });
+          event(w, { type: "burst", radius: 7, x: e.tx, z: e.tz, y: groundHeight(e.tx,e.tz,mapFor(w).blocks) + 0.1 });
           for (const p of living)
             if (
               Math.hypot(p.x - e.tx, p.z - e.tz) < 7 &&
               visible(e, p, mapFor(w).blocks)
             )
               hurtPlayer(w, p, def.damage, true);
-          e.cool = 3;
+          e.cool = 3 * enemySize(e);
         } else if (
           e.kind === "spitter" ||
           (e.kind === "ant" && d > 2.5) ||
@@ -965,7 +1231,8 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
             const angle = Math.atan2(e.tx - e.x, e.tz - e.z) + spread;
             const speed = e.kind === "hornet" ? 19 : 13;
             const height = eye(e);
-            const length = Math.max(1e-8, Math.hypot(dist, 1.2 - height));
+            const targetY = (e.ty ?? t.y ?? 0) + 1.2;
+            const length = Math.max(1e-8, Math.hypot(dist, targetY - height));
             const flight = Math.max(0.3, dist / speed);
             const gravity = e.kind === "ant" ? 12 : 0;
             if (w.projectiles.length < 100)
@@ -987,10 +1254,10 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
                 // short/medium-range volleys pass underneath a standing player.
                 dy:
                   e.kind === "hornet"
-                    ? ((1.2 - height) / length) * speed
+                    ? ((targetY - height) / length) * speed
                     : gravity
-                      ? (1.2 - height) / flight + 0.5 * gravity * flight
-                      : ((1.2 - height) / Math.max(1, dist)) * speed,
+                      ? (targetY - height) / flight + 0.5 * gravity * flight
+                      : ((targetY - height) / Math.max(1, dist)) * speed,
                 gravity,
                 ...(e.kind === "hornet" ? { style: "stake" as const } : {}),
                 life: 4,
@@ -1016,7 +1283,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
               pz = p.z - e.z,
               pd = Math.hypot(px, pz);
             if (
-              pd < 2.5 &&
+              pd < 2.5 && Math.abs((p.y ?? 0)-e.y)<2.5 &&
               (px * ax + pz * az) / (Math.max(0.001, pd) * length) >= 0.5 &&
               visible(e, p, mapFor(w).blocks)
             )
@@ -1024,7 +1291,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
           }
           e.cool = 1.2;
         } else {
-          if (d < 2.5 && e.y < 2) hurtPlayer(w, t, def.damage);
+          if (d < 2.5 && Math.abs(e.y - (t.y ?? 0)) < 2) hurtPlayer(w, t, def.damage);
           e.cool = 1.2;
         }
       }
@@ -1140,6 +1407,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
               ? 0.8
               : STRUCTURE_TIMING.crawler.wind;
       e.tx = t.x;
+      e.ty = t.y ?? 0;
       e.tz = t.z;
       if (e.kind === "boss") {
         const point = clusterPoint(living, 7, (p) =>
@@ -1151,6 +1419,10 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     }
   }
   for (const q of w.projectiles) {
+    if (q.style === "laser") {
+      advanceFoundryLaser(w, q, living, dt);
+      continue;
+    }
     const dx = q.dx * dt,
       dz = q.dz * dt,
       dy = q.dy * dt - 0.5 * (q.gravity ?? 0) * dt * dt,
@@ -1170,8 +1442,9 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     q.y += dy * Math.min(1, wall / dist);
     q.dy -= (q.gravity ?? 0) * dt;
     q.life -= dt;
-    let hit = wall < dist || q.y <= 0 || q.life <= 0;
-    q.y = Math.max(0, q.y);
+    const floor = groundHeight(q.x,q.z,mapFor(w).blocks);
+    let hit = wall < dist || q.y <= floor || q.life <= 0;
+    q.y = Math.max(floor, q.y);
     if (q.rocket) {
       const direct = !hit
         ? w.enemies.find(
@@ -1187,20 +1460,23 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
         event(w, {
           type: "burst",
           radius: 6.5,
+          weapon: "rocket",
           x: q.x,
           z: q.z,
           y: q.y,
           owner: q.owner,
         });
         for (const e of w.enemies) {
-          for (const b of enemyBodies(e)) {
+          for (const b of enemyBodies(e).sort(
+            (a, b) =>
+              Number(a.part === 0) - Number(b.part === 0) || a.part - b.part,
+          )) {
             const d = Math.hypot(
               b.x - q.x,
               b.z - q.z,
-              e.segments ? b.y - q.y : 0,
+              b.y - q.y,
             );
-            const clear = e.segments
-              ? d < 0.01 ||
+            const clear = d < 0.01 ||
                 wallDistance(
                   q.x,
                   q.y,
@@ -1211,8 +1487,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
                   d,
                   mapFor(w).blocks,
                 ) >=
-                  d - 0.01
-              : visible(q, b, mapFor(w).blocks);
+                  d - 0.01;
             if (d < 6.5 && clear)
               hurtEnemy(w, e, q.damage * (1 - d / 9), q.owner, b.part);
           }
@@ -1229,6 +1504,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
           event(w, {
             type: "burst",
             radius: 3.5,
+            weapon: "rocket",
             x: direct.x,
             z: direct.z,
             y: eye(direct),
@@ -1247,7 +1523,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       }
     } else {
       for (const p of living)
-        if (!hit && Math.hypot(p.x - q.x, p.z - q.z, 1.2 - q.y) < 1) {
+        if (!hit && Math.hypot(p.x - q.x, p.z - q.z, (p.y ?? 0) + 1.2 - q.y) < 1) {
           hurtPlayer(w, p, q.damage);
           hit = true;
         }
@@ -1259,7 +1535,9 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   }
   w.projectiles = w.projectiles.filter((q) => q.life > 0);
   w.enemies = w.enemies.filter((e) => e.hp > 0);
-  if (w.time > 600) finish(w, false, "作戦時間の上限（10分）に達しました");
+  flushFoundrySpawns(w);
+  if(w.solo)endSoloTick(w);
+  else if (!w.training && w.time > 600) finish(w, false, "作戦時間の上限（10分）に達しました");
 }
 export function validInput(v: unknown): v is Input {
   if (!v || typeof v !== "object") return false;
@@ -1271,7 +1549,9 @@ export function validInput(v: unknown): v is Input {
     Math.abs(i.mx) <= 1 &&
     Math.abs(i.mz) <= 1 &&
     Math.abs(i.yaw) <= Math.PI &&
-    Math.abs(i.pitch) <= 0.8 &&
+    i.pitch >= -0.8 &&
+    i.pitch <= MAX_PITCH &&
+    (i.cameraAim === undefined || typeof i.cameraAim === "boolean") &&
     Number.isSafeInteger(i.seq) &&
     i.seq >= 0 &&
     ["fire", "reload", "dodge", "swap", "revive"].every(

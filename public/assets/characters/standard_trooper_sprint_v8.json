@@ -1,0 +1,14 @@
+{
+  "status": "provisional B, user selected",
+  "source": "Quaternius Universal Animation Library Standard / Sprint_Loop",
+  "sourceURL": "https://opengameart.org/content/universal-animation-library",
+  "license": "CC0-1.0",
+  "licenseURL": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "stride": 5.21351158618927,
+  "originalDuration": 0.6666666666666666,
+  "clip": "UAL_sprint",
+  "base": "standard_trooper_v7.glb",
+  "originalClipsPreserved": 18,
+  "sha256": "5621035c7405bad7b0fa1ea20231ce036a7b70fd07def7554de2a6ba70c96896",
+  "adjustments": "Lower body only; pelvis rotations suppressed to preserve aim; original upper body, backward, dodge, hit and reload retained"
+}

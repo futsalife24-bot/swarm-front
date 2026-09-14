@@ -1,0 +1,17 @@
+{
+  "source": "assets\\blender\\candidates\\crawler\\pleat-v4\\pleat_motion_v4.blend",
+  "source_sha256": "0f43e2f5d235b9a48e9aef4574144ad68c22885ae45da8ebb24f27d650c4ee46",
+  "blender": "5.2.1 LTS",
+  "triangles": 11304,
+  "materials": 4,
+  "bones": 20,
+  "images": 9,
+  "clips": [
+    "Idle",
+    "Locomotion",
+    "Lunge"
+  ],
+  "bytes": 4394424,
+  "sha256": "891dfa187cb1c0d54b92a47af962e693984ff9ba04198e5a3b7b95e763a8b018",
+  "reimport": "PASS"
+}

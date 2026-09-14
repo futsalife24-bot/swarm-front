@@ -1,3 +1,7 @@
+import { enemySize } from "../shared/enemy-size";
+import {dropAt} from '../shared/solo-progression';
+import { groundHeight } from "../shared/terrain";
+import { TerrainWarnings } from "./terrain-warnings";
 import { MapAssets } from "./map-assets";
 import {
   StructureMotion,
@@ -7,12 +11,20 @@ import {
 import { loadStandardTrooper, StandardTrooper } from "./standard-trooper";
 import type { StructureVisualKind } from "./structure-motion";
 import { CombatEffects } from "./combat-effects";
+import { EnemySpawnEffects } from "./enemy-spawn-effects";
 import { MAPS, mapFor } from "../shared/stages";
 import * as T from "three";
 import { enemyGeometry, mechanizeMaterial } from "./enemy-model";
 import { ENEMIES, EVADE_DURATION } from "../shared/defs";
+import { NORMAL_FOV, SCOPE_FOV } from "../shared/aim";
+import { aimCamera, cameraShot } from "../shared/game";
+import { FoundryWormView, FOUNDRY_WORM_ASSET } from "./foundry-worm";
 import {
-  wallDistance,
+  foundryLaserOrigin,
+  FOUNDRY_TARGET_HEIGHT,
+  FOUNDRY_LASER_WARNING,
+} from "../shared/foundry-defs";
+import {
   eye,
   type Enemy,
   type Player,
@@ -120,7 +132,7 @@ export function poseSoldier(
   const data = m.userData;
   if (data.trooper) {
     m.rotation.set(0, -yaw, 0);
-    m.position.y = 0;
+    // Preserve the interpolated feet altitude.
     (data.trooper as StandardTrooper).update(p, yaw, time, run, dt, m.position);
     return;
   }
@@ -152,7 +164,7 @@ export function poseSoldier(
     : 0;
   const tuck = rolling ? Math.sin(Math.PI * progress) : 0;
   m.rotation.set(p.hp <= 0 ? Math.PI / 2 : 0, -yaw, 0);
-  m.position.y = p.hp <= 0 ? 0.2 : rolling ? 0 : Math.sin(time * 13) * 0.035;
+  m.position.y = (p.y ?? 0) + (p.hp <= 0 ? 0.2 : rolling ? 0 : Math.sin(time * 13) * 0.035);
   // Convert the captured world roll axis into the current facing's local space.
   const axis = (data.axis as T.Vector3)
     .clone()
@@ -164,27 +176,82 @@ export function poseSoldier(
   gun.rotation.x = -0.65 * tuck;
 }
 export class Renderer {
+  /** Authored GLB forward is local -Z; use the rendered transform, including held attack yaw. */
+  encounterFront(enemy: Readonly<Enemy>) {
+    const matrix = new T.Matrix4();
+    if (enemy.segments) {
+      const head = this.foundryWorms.get(enemy.id)?.view?.units[0];
+      if (head) {
+        head.updateWorldMatrix(true, false);
+        matrix.copy(head.matrixWorld);
+      }
+    } else {
+      const motion = this.structures.get(enemy.kind);
+      const index = this.structureInputs.get(enemy.kind)?.findIndex(e => e.id === enemy.id) ?? -1;
+      if (motion?.batch && index >= 0) motion.batch.parts[0].getMatrixAt(index, matrix);
+    }
+    return new T.Vector3(0, 0, -1).transformDirection(matrix);
+  }
+
+  /** Separate visual clock for one introduction; combat state and other instances stay frozen. */
+  encounterIdle(enemy: Readonly<Enemy>) {
+    if (enemy.segments) {
+      return this.foundryWorms.get(enemy.id)?.view?.inspectionIdle();
+    }
+    const motion = this.structures.get(enemy.kind);
+    const batch = motion?.batch;
+    const index = this.structureInputs.get(enemy.kind)?.findIndex(e => e.id === enemy.id) ?? -1;
+    if (!batch || index < 0) return;
+    const attributes = [batch.poseA, batch.poseB, batch.blend];
+    const saved = attributes.map(a => Array.from(a.array.slice(index * a.itemSize, (index + 1) * a.itemSize)));
+    const state = motion!.controller.states.get(enemy.id);
+    const phase = state?.clip === "Idle" ? state.time : 0;
+    return {
+      update: (time: number) => {
+        batch.setPose(index, "Idle", phase + time, state?.clip ?? "Idle", state?.time ?? 0, Math.min(1, time / .25));
+        for (const attribute of attributes) attribute.needsUpdate = true;
+      },
+      restore: () => {
+        attributes.forEach((a, i) => {
+          a.array.set(saved[i], index * a.itemSize);
+          a.needsUpdate = true;
+        });
+      },
+    };
+  }
+
   readonly structures = new Map<StructureVisualKind, StructureMotion>();
   private structureInputs = new Map<StructureVisualKind, StructureInput[]>();
   enemyGlbDebug = new Map<string, import("./enemy-glb-debug").EnemyGlbDebug>();
   houndDebug?: import("./hound-glb-debug").HoundGlbDebug;
   private houndVisualInputs: import("./hound-motion").HoundVisualInput[] = [];
   scene = new T.Scene();
-  camera = new T.PerspectiveCamera(65, 1, 0.1, 1200);
+  camera = new T.PerspectiveCamera(NORMAL_FOV, 1, 0.1, 1200);
   renderer: T.WebGLRenderer;
   enemies = new Map<string, T.InstancedMesh>();
   bossBody!: T.InstancedMesh;
+  readonly foundryWorms = new Map<
+    number,
+    { view?: FoundryWormView; loading: Promise<void>; error?: string }
+  >();
+  private foundryTime = 0;
+  private foundryHeadings = new Map<string, number>();
+  foundryWarnings!: T.InstancedMesh;
+  foundryLasers!: T.InstancedMesh;
+  foundryLaserGlow!: T.InstancedMesh;
   players = new Map<string, T.Group>();
   dummy = new T.Object3D();
   particles: T.InstancedMesh;
   projectiles: T.InstancedMesh;
   drops: T.InstancedMesh;
   rings: T.InstancedMesh;
+  private terrainWarnings = new TerrainWarnings();
   aimWarnings: T.InstancedMesh;
   houndWarnings: T.InstancedMesh;
   effects: { x: number; y: number; z: number; life: number; size: number }[] =
     [];
   combat = new CombatEffects(this.scene);
+  spawnEffects = new EnemySpawnEffects(this.scene);
   lastEvent = 0;
   run = "";
   visual = new Map<string, T.Vector3>();
@@ -248,7 +315,7 @@ export class Renderer {
   caveLamp = new T.PointLight(0xffd9aa, 55, 28, 1.5);
   mapAssets!: MapAssets;
   frames: number[] = [];
-  constructor(canvas: HTMLCanvasElement) {
+  constructor(canvas: HTMLCanvasElement, enemyCapacity = 80) {
     this.renderer = new T.WebGLRenderer({
       canvas,
       antialias: false,
@@ -286,16 +353,16 @@ export class Renderer {
           roughness: 0.8,
           flatShading: true,
         }),
-        80,
+        enemyCapacity,
       );
       if (kind === "ant" || kind === "crawler") {
         mesh.geometry.setAttribute(
           "stride",
-          new T.InstancedBufferAttribute(new Float32Array(80), 1),
+          new T.InstancedBufferAttribute(new Float32Array(enemyCapacity), 1),
         );
         mesh.geometry.setAttribute(
           "charge",
-          new T.InstancedBufferAttribute(new Float32Array(80), 1),
+          new T.InstancedBufferAttribute(new Float32Array(enemyCapacity), 1),
         );
         const clock = { value: 0 };
         mesh.userData.gaitClock = clock;
@@ -319,7 +386,7 @@ export class Renderer {
       if (kind === "hornet") {
         mesh.geometry.setAttribute(
           "flight",
-          new T.InstancedBufferAttribute(new Float32Array(80), 1),
+          new T.InstancedBufferAttribute(new Float32Array(enemyCapacity), 1),
         );
         const clock = { value: 0 };
         mesh.userData.wingClock = clock;
@@ -343,7 +410,7 @@ export class Renderer {
       if (kind === "boss") {
         mesh.geometry.setAttribute(
           "unfold",
-          new T.InstancedBufferAttribute(new Float32Array(80), 1),
+          new T.InstancedBufferAttribute(new Float32Array(enemyCapacity), 1),
         );
         mesh.material.onBeforeCompile = (shader) => {
           shader.vertexShader =
@@ -364,11 +431,46 @@ export class Renderer {
       mechanizeMaterial(
         new T.MeshStandardMaterial({ vertexColors: true, roughness: 0.8 }),
       ),
-      80,
+      enemyCapacity,
     );
     this.bossBody.instanceMatrix.setUsage(T.DynamicDrawUsage);
     this.bossBody.count = 0;
     this.scene.add(this.bossBody);
+    this.foundryWarnings = new T.InstancedMesh(
+      box,
+      new T.MeshBasicMaterial({
+        color: 0x50d9fa,
+        transparent: true,
+        opacity: 0.36,
+        depthWrite: false,
+      }),
+      640,
+    );
+    this.foundryLasers = new T.InstancedMesh(
+      box,
+      new T.MeshBasicMaterial({ color: 0xcaffff }),
+      100,
+    );
+    this.foundryLaserGlow = new T.InstancedMesh(
+      box,
+      new T.MeshBasicMaterial({
+        color: 0x39d2ff,
+        transparent: true,
+        opacity: 0.26,
+        depthWrite: false,
+        blending: T.AdditiveBlending,
+      }),
+      100,
+    );
+    for (const beam of [
+      this.foundryWarnings,
+      this.foundryLasers,
+      this.foundryLaserGlow,
+    ]) {
+      beam.count = 0;
+      beam.instanceMatrix.setUsage(T.DynamicDrawUsage);
+      this.scene.add(beam);
+    }
     this.particles = new T.InstancedMesh(
       ico,
       new T.MeshBasicMaterial({
@@ -397,25 +499,27 @@ export class Renderer {
       24,
     );
     this.rings = new T.InstancedMesh(
-      new T.RingGeometry(0.9, 1, 40),
+      new T.RingGeometry(0.9, 1, 192, 4),
       new T.MeshBasicMaterial({
         color: 0xff5d4c,
         side: T.DoubleSide,
         transparent: true,
         opacity: 0.75,
       }),
-      80,
+      enemyCapacity,
     );
     this.houndWarnings = new T.InstancedMesh(
-      new T.RingGeometry(0.04, 2.5, 32, 1, Math.PI / 6, (Math.PI * 2) / 3),
+      new T.RingGeometry(0.04, 2.5, 64, 16, Math.PI / 6, (Math.PI * 2) / 3),
       new T.MeshBasicMaterial({
         color: 0xff7755,
         side: T.DoubleSide,
         transparent: true,
         opacity: 0.3,
       }),
-      40,
+      Math.max(40, enemyCapacity),
     );
+    this.terrainWarnings.attach(this.rings);
+    this.terrainWarnings.attach(this.houndWarnings);
     this.aimWarnings = new T.InstancedMesh(
       new T.BoxGeometry(1, 1, 1),
       new T.MeshBasicMaterial({
@@ -583,17 +687,107 @@ export class Renderer {
     this.camera.aspect = innerWidth / innerHeight;
     this.camera.updateProjectionMatrix();
   }
+  private clearFoundryWorms() {
+    for (const state of this.foundryWorms.values()) state.view?.dispose();
+    // A late async result sees its state is no longer in the map and disposes itself.
+    this.foundryWorms.clear();
+    this.foundryHeadings.clear();
+  }
+  private foundryHeading(key: string, heading: number, dt: number) {
+    const previous = this.foundryHeadings.get(key) ?? heading;
+    const difference = Math.atan2(
+      Math.sin(heading - previous),
+      Math.cos(heading - previous),
+    );
+    const step =
+      Math.sign(difference) *
+      Math.min(
+        Math.abs(difference) * (1 - Math.exp(-Math.max(0, dt) * 12)),
+        Math.max(0, dt) * 4,
+      );
+    const projected = previous + step;
+    this.foundryHeadings.set(key, projected);
+    return projected;
+  }
+  private foundryWorm(id: number) {
+    let state = this.foundryWorms.get(id);
+    if (!state) {
+      const pending: {
+        view?: FoundryWormView;
+        loading: Promise<void>;
+        error?: string;
+      } = { loading: Promise.resolve() };
+      this.foundryWorms.set(id, pending);
+      pending.loading = FoundryWormView.load(FOUNDRY_WORM_ASSET)
+        .then((view) => {
+          if (this.foundryWorms.get(id) !== pending) {
+            view.dispose();
+            return;
+          }
+          view.root.visible = false;
+          pending.view = view;
+          this.scene.add(view.root);
+        })
+        .catch((error) => {
+          pending.error = String(error);
+          console.warn("FOUNDRY ZERO unavailable; using fallback", error);
+        });
+      state = pending;
+    }
+    return state;
+  }
+  private foundryWarning(enemy: Enemy) {
+    for (const [part, node] of [enemy, ...(enemy.segments ?? [])].entries()) {
+      if (
+        !node.pulseAim ||
+        node.partHp === 0 ||
+        this.foundryWarnings.count >= 640
+      )
+        continue;
+      const origin = foundryLaserOrigin(node, part, enemySize(enemy)),
+        target = node.pulseAim;
+      const dy = (target.y ?? FOUNDRY_TARGET_HEIGHT) - origin.y;
+      const dx = target.x - origin.x,
+        dz = target.z - origin.z;
+      const charge = T.MathUtils.clamp(
+        1 -
+          ((node.acidAt ?? this.foundryTime) - this.foundryTime) /
+            FOUNDRY_LASER_WARNING,
+        0,
+        1,
+      );
+      this.instance(
+        this.foundryWarnings,
+        this.foundryWarnings.count++,
+        (origin.x + target.x) / 2,
+        origin.y + dy / 2,
+        (origin.z + target.z) / 2,
+        0.012 + charge * 0.014,
+        0.012 + charge * 0.014,
+        Math.hypot(dx, dy, dz),
+        -Math.atan2(dy, Math.hypot(dx, dz)),
+        Math.atan2(dx, dz),
+      );
+    }
+  }
   render(
     w: World | null,
     id: string,
     dt: number,
     yaw: number,
     pitch: number,
-    predict?: { x: number; z: number },
+    predict?: { x: number; z: number; y?: number },
     animate = true,
+    scoped = false,
   ) {
+    const local = w?.players.find((p) => p.id === id);
+    const localAim = w && local ? cameraShot(w, local, { yaw, pitch }) : null;
+    scoped = scoped && !!local && local.hp > 0 && local.swapCd <= 0;
+    const fov = scoped ? SCOPE_FOV : NORMAL_FOV;
+    if (this.camera.fov !== fov) { this.camera.fov = fov; this.camera.updateProjectionMatrix(); }
     const activeMap = mapFor(w ?? {});
-    this.mapAssets.select(MAPS.indexOf(activeMap), !!w && w.phase !== "lobby");
+    this.terrainWarnings.select(activeMap.blocks);
+    this.mapAssets.select(w?.training ? MAPS.length : MAPS.indexOf(activeMap), !!w && w.phase !== "lobby");
     const underground = activeMap.biome === "cave";
     this.caveLamp.visible = underground;
     this.caveLamp.position.set(this.cameraAnchor.x, 4, this.cameraAnchor.z);
@@ -615,6 +809,8 @@ export class Renderer {
     this.frames.push(dt * 1000);
     if (this.frames.length > 600) this.frames.shift();
     if (w && w.run !== this.run) {
+      this.clearFoundryWorms();
+      this.foundryTime = w.time;
       this.run = w.run;
       this.lastEvent = 0;
       this.visual.clear();
@@ -622,6 +818,22 @@ export class Renderer {
       this.structures.get("crawler")?.controller.states.clear();
       this.combat.clear();
     }
+    if (w) {
+      this.foundryTime += animate ? Math.max(0, Math.min(0.1, dt)) : 0;
+      if (Math.abs(this.foundryTime - w.time) > 0.3) this.foundryTime = w.time;
+      const aliveWorms = new Set(
+        w.enemies.filter((e) => e.kind === "boss" && e.segments).map((e) => e.id),
+      );
+      for (const [key, state] of this.foundryWorms)
+        if (!aliveWorms.has(key)) {
+          state.view?.dispose();
+          this.foundryWorms.delete(key);
+          this.foundryHeadings.delete(String(key));
+          for (let part = 0; part < 7; part++)
+            this.foundryHeadings.delete(`${key}:segment:${part}`);
+        }
+    } else this.clearFoundryWorms();
+    this.foundryWarnings.count = 0;
     const active = new Set(w?.players.map((p) => p.id));
     for (const [key, m] of this.players)
       if (!active.has(key)) {
@@ -636,22 +848,23 @@ export class Renderer {
         const target = p.id === id && predict ? predict : p;
         if (!m) {
           m = soldier(p.id === id ? 0xcaa25f : 0x5bbbb1);
-          m.position.set(target.x, p.hp <= 0 ? 0.2 : 0, target.z);
+          m.position.set(target.x, (target.y ?? 0) + (p.hp <= 0 ? 0.2 : 0), target.z);
           this.players.set(p.id, m);
           this.scene.add(m);
         }
         m.position.lerp(
-          new T.Vector3(target.x, p.hp <= 0 ? 0.2 : 0, target.z),
+          new T.Vector3(target.x, (target.y ?? 0) + (p.hp <= 0 ? 0.2 : 0), target.z),
           1 - Math.exp(-dt * 18),
         );
         poseSoldier(
           m,
-          p,
-          p.id === id ? yaw : p.yaw,
+          p.id === id && localAim ? { ...p, pitch: localAim.pitch } : p,
+          p.id === id && localAim ? localAim.yaw : p.yaw,
           w.time,
           w.run,
           animate ? dt : 0,
         );
+        m.visible = !(scoped && p.id === id);
         const gun = m.userData.gun as T.Group;
         if (!m.userData.trooper)
           gun.scale.setScalar(
@@ -678,6 +891,46 @@ export class Renderer {
           const previousHoundX = v.x,
             previousHoundZ = v.z;
           v.lerp(new T.Vector3(e.x, e.y, e.z), 1 - Math.exp(-dt * 12));
+          if (e.kind === "boss" && e.segments) {
+            const foundry = this.foundryWorm(e.id);
+            if (foundry.view) {
+              const projected: Enemy = {
+                ...e,
+                x: v.x,
+                y: e.y,
+                z: v.z,
+                heading: this.foundryHeading(key, e.heading ?? 0, animate ? dt : 0),
+                segments: e.segments.map((segment, index) => {
+                  const segmentKey = `${e.id}:segment:${index}`;
+                  const position =
+                    this.visual.get(segmentKey) ??
+                    new T.Vector3(segment.x, segment.y, segment.z);
+                  position.lerp(
+                    new T.Vector3(segment.x, segment.y, segment.z),
+                    1 - Math.exp(-dt * 12),
+                  );
+                  position.y = segment.y;
+                  this.visual.set(segmentKey, position);
+                  return {
+                    ...segment,
+                    x: position.x,
+                    y: position.y,
+                    z: position.z,
+                    heading: this.foundryHeading(
+                      segmentKey,
+                      segment.heading ?? 0,
+                      animate ? dt : 0,
+                    ),
+                  };
+                }),
+              };
+              this.visual.set(key, v);
+              foundry.view.update(projected, this.foundryTime, (x,z)=>groundHeight(x,z,activeMap.blocks));
+              this.foundryWarning(projected);
+              continue;
+            }
+            this.foundryWarning(e);
+          }
           if (kind === "crawler" && this.houndDebug?.motion)
             this.houndVisualInputs.push({
               id: e.id,
@@ -766,9 +1019,9 @@ export class Renderer {
               ((e.perch ?? 0) > 0
                 ? Math.cos(ya) * (ENEMIES[e.kind].radius - 0.15)
                 : 0),
-            e.partHp === 0 ? 0 : 1,
-            e.partHp === 0 ? 0 : 1,
-            e.partHp === 0 ? 0 : 1,
+            e.partHp === 0 ? 0 : enemySize(e),
+            e.partHp === 0 ? 0 : enemySize(e),
+            e.partHp === 0 ? 0 : enemySize(e),
             (e.perch ?? 0) > 0 ? Math.PI / 2 : 0,
             -ya,
           );
@@ -793,7 +1046,8 @@ export class Renderer {
                 previous = { ...e, ...segment };
                 continue;
               }
-              const front = previous.partHp === 0;
+              // A severed body remains a body in the fallback, too.
+              const front = false;
               const segmentKey = `${e.id}:segment:${index}`;
               const position =
                 this.visual.get(segmentKey) ??
@@ -813,11 +1067,11 @@ export class Renderer {
                 position.x,
                 position.y + (front ? 0.35 : 0),
                 position.z,
-                front ? 0.55 : 0.92,
-                front ? 0.55 : 0.95,
-                front ? 0.55 : 0.92,
+                (front ? 0.55 : 0.92) * enemySize(e),
+                (front ? 0.55 : 0.95) * enemySize(e),
+                (front ? 0.55 : 0.92) * enemySize(e),
                 0,
-                front ? (segment.heading ?? 0) + Math.PI : angle + Math.PI,
+                (segment.heading ?? angle) + Math.PI,
               );
               (front ? mesh : this.bossBody).setColorAt(
                 front ? n++ : bodyCount++,
@@ -826,7 +1080,7 @@ export class Renderer {
               previous = { ...e, ...segment };
             }
           }
-          for (const node of [e, ...(e.segments ?? [])]) {
+          for (const node of e.segments ? [] : [e]) {
             if (node.pulseAim && node.partHp !== 0)
               this.instance(
                 this.rings,
@@ -868,7 +1122,7 @@ export class Renderer {
                 this.aimWarnings,
                 ai,
                 e.tx,
-                0.09,
+                groundHeight(e.tx, e.tz, activeMap.blocks) + 0.09,
                 e.tz,
                 sx,
                 0.05,
@@ -877,13 +1131,13 @@ export class Renderer {
               this.aimWarnings.setColorAt(ai++, color);
             }
             const dx = e.tx - e.x,
-              dy = 1.2 - eye(e),
+              dy = groundHeight(e.tx, e.tz, activeMap.blocks) + 1.2 - eye(e),
               dz = e.tz - e.z;
             this.instance(
               this.aimWarnings,
               ai,
               (e.x + e.tx) / 2,
-              (eye(e) + 1.2) / 2,
+              (eye(e) + groundHeight(e.tx, e.tz, activeMap.blocks) + 1.2) / 2,
               (e.z + e.tz) / 2,
               0.035,
               0.035,
@@ -923,7 +1177,43 @@ export class Renderer {
       syncDynamicInstances(this.houndWarnings);
       this.rings.count = ri;
       syncDynamicInstances(this.rings);
-      w.projectiles.forEach((q, i) => {
+      let projectileCount = 0,
+        laserCount = 0;
+      w.projectiles.forEach((q) => {
+        if (q.style === "laser") {
+          const length = Math.max(0.001, Math.hypot(q.dx, q.dy, q.dz));
+          const x = q.x - (q.dx / length) * 0.6,
+            y = q.y - (q.dy / length) * 0.6,
+            z = q.z - (q.dz / length) * 0.6;
+          const pitch = -Math.atan2(q.dy, Math.hypot(q.dx, q.dz)),
+            yaw = Math.atan2(q.dx, q.dz);
+          this.instance(
+            this.foundryLasers,
+            laserCount,
+            x,
+            y,
+            z,
+            0.055,
+            0.055,
+            1.2,
+            pitch,
+            yaw,
+          );
+          this.instance(
+            this.foundryLaserGlow,
+            laserCount++,
+            x,
+            y,
+            z,
+            0.17,
+            0.17,
+            1.3,
+            pitch,
+            yaw,
+          );
+          return;
+        }
+        const i = projectileCount++;
         this.instance(
           this.projectiles,
           i,
@@ -943,28 +1233,32 @@ export class Renderer {
           ),
         );
       });
-      this.projectiles.count = w.projectiles.length;
+      this.projectiles.count = projectileCount;
+      this.foundryLasers.count = this.foundryLaserGlow.count = laserCount;
       syncDynamicInstances(this.projectiles);
       if (this.projectiles.instanceColor)
         this.projectiles.instanceColor.needsUpdate = true;
       w.drops
         .filter((d) => d.owner === id)
-        .forEach((d, i) =>
+        .forEach((d, i) => {
+          const pos=w.solo?dropAt(w,d):{x:d.x,z:d.z,jump:0};
           this.instance(
             this.drops,
             i,
-            d.x,
-            1 + Math.sin(w.time * 3) * 0.2,
-            d.z,
+            pos.x,
+            groundHeight(pos.x,pos.z,activeMap.blocks) + 1 + pos.jump + Math.sin(w.time * 3) * 0.2,
+            pos.z,
             1,
             1,
             1,
             0,
             w.time,
-          ),
-        );
+          );
+          if(w.solo)this.drops.setColorAt(i,new T.Color(d.type==='heal'?0xff5d67:0x69efcb));
+        });
       this.drops.count = w.drops.filter((d) => d.owner === id).length;
       syncDynamicInstances(this.drops);
+      if(this.drops.instanceColor)this.drops.instanceColor.needsUpdate=true;
       for (const e of w.events.filter((e) => e.id > this.lastEvent)) {
         this.lastEvent = Math.max(this.lastEvent, e.id);
         this.combat.event(e);
@@ -992,37 +1286,16 @@ export class Renderer {
         // simulation position made the character visibly shake beneath it.
         const rendered = this.players.get(id);
         const pos = rendered
-          ? { x: rendered.position.x, z: rendered.position.z }
+          ? { x: rendered.position.x, y: rendered.position.y, z: rendered.position.z }
           : (predict ?? p);
         this.cameraAnchor.x = pos.x;
         this.cameraAnchor.z = pos.z;
-        const aim = new T.Vector3(
-          pos.x + Math.sin(yaw) * 30 * Math.cos(pitch),
-          1.5 + Math.sin(pitch) * 30,
-          pos.z - Math.cos(yaw) * 30 * Math.cos(pitch),
-        );
-        const pivot = new T.Vector3(pos.x, 1.9, pos.z);
-        const desired = new T.Vector3(
-          pos.x - Math.sin(yaw) * 5.2 + Math.cos(yaw) * 0.8,
-          2.9 - Math.sin(pitch) * 4,
-          pos.z + Math.cos(yaw) * 5.2 + Math.sin(yaw) * 0.8,
-        );
-        const delta = desired.clone().sub(pivot),
-          len = delta.length();
-        delta.normalize();
-        const wall = wallDistance(
-          pivot.x,
-          pivot.y,
-          pivot.z,
-          delta.x,
-          delta.y,
-          delta.z,
-          len,
-          mapFor(w).blocks,
-        );
-        desired.copy(pivot).addScaledVector(delta, Math.max(0.2, wall - 0.25));
-        this.camera.position.copy(desired);
-        this.camera.lookAt(aim);
+        const { camera } = aimCamera(pos, { yaw, pitch }, mapFor(w).blocks);
+        this.camera.position.set(camera.x, camera.y, camera.z);
+        // Both ends of the view must use the same interpolated position.
+        // A simulation-tick target makes nearby ground jerk while moving.
+        const visualAim = cameraShot(w, { ...p, ...pos }, { yaw, pitch });
+        this.camera.lookAt(visualAim.target.x, visualAim.target.y, visualAim.target.z);
       }
     } else {
       this.run = "";
@@ -1041,6 +1314,7 @@ export class Renderer {
       this.cameraAnchor.x = this.cameraAnchor.z = 0;
       for (const mesh of this.enemies.values()) mesh.count = 0;
       this.bossBody.count = 0;
+      this.foundryLasers.count = this.foundryLaserGlow.count = 0;
       this.aimWarnings.count =
         this.houndWarnings.count =
         this.rings.count =
@@ -1052,7 +1326,12 @@ export class Renderer {
     }
     if (!w) this.combat.clear();
     this.combat.update(animate ? dt : 0, this.camera);
-    if (w && animate) this.combat.trails(w.projectiles, dt);
+    if (w && animate) this.combat.trails(w.projectiles.filter(q => q.style !== "laser"), dt);
+    for (const beam of [
+      this.foundryWarnings,
+      this.foundryLasers,
+      this.foundryLaserGlow,
+    ]) syncDynamicInstances(beam);
     this.effects.forEach((e, i) => {
       e.life -= dt;
       e.y += dt * 2;
@@ -1087,6 +1366,7 @@ export class Renderer {
     for (const id of this.crawlerAim.keys()) {
       if (!w?.enemies.some(e => e.kind === "crawler" && e.id === id)) this.crawlerAim.delete(id);
     }
+    this.spawnEffects.update(w, dt, animate, this.camera);
     this.renderer.render(this.scene, this.camera);
     this.drawCalls = this.renderer.info.render.calls;
   }

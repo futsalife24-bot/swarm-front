@@ -1,0 +1,23 @@
+import {chromium} from '@playwright/test';import fs from 'node:fs';import assert from 'node:assert/strict';
+const out='dist-validation/encounter-front',rows=[];
+const browser=await chromium.launch({channel:'chrome',args:['--use-angle=d3d11']});
+try{for(const [width,height] of [[844,390],[1280,720]]){
+ const page=await browser.newPage({viewport:{width,height},serviceWorkers:'block'}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.route('**/src/client/playtest-app.ts*',async route=>{const response=await route.fetch();let body=await response.text();body+=`\nwindow.__prepare=async(key)=>{paused=true;save.encounters=Object.fromEntries(Object.keys(names).map(k=>[k,'solo']));for(const d of document.querySelectorAll('dialog'))d.close();encounterActive=false;world.enemies=[];const {spawn}=await import('/src/shared/game.ts');spawn(world,key==='worm'?'boss':key,0,key==='boss'||key==='worm'?-8:4,key==='worm'?'worm':'crown',0);if(key!=='worm')spawn(world,key,12,4,'crown',0);controls.input.yaw=0;controls.input.pitch=0;view.render(world,'solo',0,0,0,undefined,false,false);window.__key=key;if(key==='worm'){await view.foundryWorms.get(world.enemies[0].id).loading;view.render(world,'solo',0,0,0,undefined,false,false);}};window.__begin=()=>{delete save.encounters[window.__key];encounter();};window.__snapshot=()=>({world:JSON.stringify(world),states:JSON.stringify([...view.structures].map(([k,v])=>[k,[...v.controller.states]])),poses:[...view.structures].map(([k,v])=>[k,Array.from(v.batch?.poseB.array??[])]),worm:[...view.foundryWorms].map(([id,v])=>[id,v.view?.root.children.filter(o=>o.isInstancedMesh).map(o=>Array.from(o.instanceMatrix.array))]),facing:(()=>{const e=world.enemies[0],f=view.encounterFront(e),v=view.camera.position.clone().sub(new T.Vector3(e.x,eye(e),e.z));f.y=0;v.y=0;return f.normalize().dot(v.normalize())})(),camera:view.camera.position.toArray()});\n`;await route.fulfill({response,body});});
+ await page.goto('http://127.0.0.1:5351/?playtest=1');await page.locator('#solo').click();await page.locator('#pt-confirm').click();await page.locator('#pt-start').click();await page.locator('#pt-enter').waitFor({timeout:90000});await page.locator('#pt-enter').click();
+ for(const kind of ['crawler','ant','spider','spitter','hornet','boss','worm']){if(process.env.ENCOUNTER_KIND&&kind!==process.env.ENCOUNTER_KIND)continue;
+  await page.evaluate(k=>window.__prepare(k),kind);await page.waitForTimeout(600);await page.evaluate(()=>window.__begin());
+  const frozen=await page.evaluate(()=>window.__snapshot());await page.waitForTimeout(800);const zooming=await page.evaluate(()=>window.__snapshot());assert.equal(zooming.world,frozen.world);assert.deepEqual(zooming.poses,frozen.poses);
+  await page.locator('.pt-cutscene-ready').waitFor();await page.waitForTimeout(650);const a=await page.evaluate(()=>window.__snapshot());const imgA=await page.screenshot();await page.waitForTimeout(750);const b=await page.evaluate(()=>window.__snapshot());const imgB=await page.screenshot({path:`${out}/${kind}-${width}.png`});
+  assert.ok(b.facing>.999,kind+' front-facing '+b.facing);assert.equal(a.world,b.world);assert.equal(b.world,frozen.world);assert.equal(a.states,b.states);assert.deepEqual(a.camera,b.camera);assert.ok(!imgA.equals(imgB),kind+' visually animates');
+  if(kind!=='worm'){const pa=a.poses.find(([k])=>k===kind)[1],pb=b.poses.find(([k])=>k===kind)[1];assert.notDeepEqual(pa.slice(0,3),pb.slice(0,3));assert.deepEqual(pa.slice(3),pb.slice(3));}
+  const layout=await page.locator('.pt-cutscene header').evaluate(el=>{const r=el.getBoundingClientRect(),h=el.querySelector('h2'),t=h.getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height,textRight:t.right,scroll:h.scrollWidth,client:h.clientWidth,font:getComputedStyle(h).fontFamily,loaded:document.fonts.check('700 32px Rajdhani')};});assert.ok(layout.loaded);assert.ok(layout.y>0&&layout.y+layout.h<height);assert.ok(layout.scroll<=layout.client+1);assert.ok(layout.x+layout.w<width*.42);
+  await page.locator('#pt-intro-skip').click();await page.waitForTimeout(150);const restored=await page.evaluate(()=>window.__snapshot());assert.equal(restored.world,frozen.world);assert.deepEqual(restored.poses,frozen.poses);assert.deepEqual(errors,[]);
+  rows.push({kind,width,height,layout,facing:b.facing,worldFrozen:true,otherInstanceFrozen:true,visualIdle:true,restored:true});console.log('PASS',kind,width);
+ }
+ await page.close();
+}fs.writeFileSync(out+(process.env.ENCOUNTER_KIND?'/checks-'+process.env.ENCOUNTER_KIND+'.json':'/checks.json'),JSON.stringify({rows,errors:[]},null,2));}finally{await browser.close()}
+
+
+
+

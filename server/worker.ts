@@ -1,4 +1,5 @@
 import { validStage } from "../src/shared/stages";
+import { developerAuth } from "./developer-auth";
 import { DurableObject } from "cloudflare:workers";
 import { creationAccess, turnstileAccess } from "./auth";
 import { LIMITS, validWeapon, type Weapon } from "../src/shared/defs";
@@ -20,6 +21,7 @@ interface Env {
   ROOM_CREATION_KEY?: string;
   TURNSTILE_SECRET_KEY?: string;
   TURNSTILE_SITE_KEY?: string;
+  DEVELOPER_PASSWORD_HASH?: string;
 }
 interface Member {
   id: string;
@@ -66,7 +68,9 @@ export default {
     const path = u.pathname.startsWith("/api/")
       ? u.pathname.slice(4)
       : u.pathname;
-    if (path === "/health")
+    if (path.startsWith("/developer/"))
+      res = await env.GATE.get(env.GATE.idFromName("developer-access")).fetch(req);
+    else if (path === "/health")
       res = json({
         ok: true,
         transport: "websocket",
@@ -147,6 +151,8 @@ export default {
 // One bounded admission object: persistent daily cap, per-address creation/connection windows.
 export class Gate extends DurableObject<Env> {
   async fetch(req: Request) {
+    if (new URL(req.url).pathname.startsWith("/api/developer/"))
+      return this.ctx.blockConcurrencyWhile(() => developerAuth(req, this.ctx.storage, this.env.DEVELOPER_PASSWORD_HASH));
     return this.ctx.blockConcurrencyWhile(() => this.admit(req));
   }
   private async admit(req: Request) {

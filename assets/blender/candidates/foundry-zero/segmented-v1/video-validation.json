@@ -1,0 +1,35 @@
+{
+  "duration": 6,
+  "width": 960,
+  "height": 540,
+  "positions": [
+    {
+      "time": 0.1,
+      "checksum": 189059
+    },
+    {
+      "time": 1,
+      "checksum": 185308
+    },
+    {
+      "time": 2,
+      "checksum": 184291
+    },
+    {
+      "time": 3.9,
+      "checksum": 188842
+    },
+    {
+      "time": 5.5,
+      "checksum": 183627
+    }
+  ],
+  "frames": 180,
+  "fps": 30,
+  "bytes": 2697387,
+  "method": "Deterministic WebCodecs H264 / existing ISO-BMFF mux; saved bytes decoded and played/seeked at 5 times",
+  "limitations": [
+    "Structural exercise only; no gameplay speed",
+    "Offline 30fps video is not runtime mobile FPS"
+  ]
+}

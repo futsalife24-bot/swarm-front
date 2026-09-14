@@ -1,0 +1,15 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;background:#132631;color:#d9ebe8;font:16px sans-serif}#label{position:absolute;top:15px;left:20px}canvas{display:block}</style></head><body><div id="label">LEAPER support binding</div><script type="module">
+import * as T from '/node_modules/three/build/three.module.js';
+import {loadEnemyMotion,HoundMotionBatch} from '/src/client/hound-motion.ts';
+const asset=await loadEnemyMotion('leaper',true),batch=new HoundMotionBatch(asset,1);
+const scene=new T.Scene();scene.add(batch.group,new T.HemisphereLight(0xdcefff,0x566577,2.6));
+const light=new T.DirectionalLight(0xffffff,3);light.position.set(4,8,6);scene.add(light);
+const renderer=new T.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);document.body.append(renderer.domElement);
+renderer.setClearColor(0x132631);const camera=new T.PerspectiveCamera(38,innerWidth/innerHeight,.01,100);
+function draw(view,time,clip='Locomotion'){
+ camera.position.fromArray(({back:[0,2.5,5.5],left:[-5,2.5,2.8],right:[5,2.5,2.8],front:[0,2.5,-5.5]})[view]);camera.lookAt(0,1,0);
+ batch.setPose(0,clip,time);batch.setTransform(0,new T.Matrix4());batch.finish(1);renderer.render(scene,camera);
+ document.querySelector('#label').textContent=`LEAPER — ${view} / ${clip} / ${time}s`;
+}
+window.review={T,asset,batch,draw};draw('back',.825);
+</script></body></html>

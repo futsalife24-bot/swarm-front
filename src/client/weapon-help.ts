@@ -1,4 +1,5 @@
 import type { Effect, Kind } from "../shared/defs";
+import { isSpecialEffect } from "../shared/defs";
 
 const kinds: Record<Kind, [string, string]> = {
   rifle: [
@@ -33,7 +34,7 @@ const effects: Record<Effect, [string, string]> = {
   ],
   pierce: [
     "貫通",
-    "アサルトライフル専用の特殊効果です。1発の弾が射線上の敵を最大3体まで貫通します。建物は貫通しません。ショットガンの貫通は武器の標準性能です。",
+    "アサルトライフル専用の特殊効果です。1発の弾が射線上の敵を最大3体まで貫通します。建物は貫通しません。",
   ],
   quick: [
     "高速装填",
@@ -55,15 +56,14 @@ export function kindHelp(kind: Kind) {
   return `<button type="button" class="weapon-help-button kind-help" data-kind-help="${kind}" aria-label="${kinds[kind][0]}の説明" aria-haspopup="dialog">?</button>`;
 }
 export function effectHelp(effect: Effect, kind: Kind) {
-  if (kind === "shotgun" && effect === "pierce") effect = "none";
-  return `<button type="button" class="weapon-help-button effect-help ${effect === "none" ? "standard-effect" : ""}" data-effect-help="${effect}" aria-label="${effects[effect][0]}の説明" aria-haspopup="dialog">${effectText(effect, kind)}<span aria-hidden="true"> ⓘ</span></button>`;
+  if (!isSpecialEffect(effect, kind))
+    return '<span class="standard-effect" data-no-effect>ー</span>';
+  return `<button type="button" class="weapon-help-button effect-help" data-effect-help="${effect}" aria-label="${effects[effect][0]}の説明" aria-haspopup="dialog">${effectText(effect, kind)}<span aria-hidden="true"> ⓘ</span></button>`;
 }
 
 export function effectText(effect: Effect, kind: Kind) {
-  if (effect === "none" || (kind === "shotgun" && effect === "pierce"))
-    return "標準";
+  if (!isSpecialEffect(effect, kind)) return "ー";
   if (effect === "pierce") return "貫通 ×3";
-  if (effect === "quick") return "装填 −20%";
   return effects[effect][0];
 }
 
@@ -71,6 +71,11 @@ export function effectText(effect: Effect, kind: Kind) {
 document.addEventListener(
   "click",
   (event) => {
+    if ((event.target as Element).closest("[data-no-effect]")) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
     const trigger = (event.target as Element).closest<HTMLButtonElement>(
       "[data-kind-help], [data-effect-help]",
     );

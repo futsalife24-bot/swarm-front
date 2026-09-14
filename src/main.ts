@@ -1,4 +1,7 @@
+import { homeMarkup } from './client/home-screen';
+import { openDeveloperLogin } from './client/developer-access';
 import { STAGES, MAPS, mapFor, stageFor } from "./shared/stages";
+import {recordCoopEncounters} from './client/progression-coop';
 let selectedStage = 1;
 const stageOptions = () =>
   STAGES.map(
@@ -53,6 +56,8 @@ import {
   type World,
 } from "./shared/game";
 import { Controls } from "./client/input";
+import { installLandscapeGuard } from "./client/landscape";
+import { installZoomGuard } from "./client/zoom-guard";
 import { Renderer } from "./client/render";
 import { Sound } from "./client/audio";
 import { loadNetworkSession, Network } from "./client/network";
@@ -69,6 +74,7 @@ import {
   type Save,
 } from "./client/save";
 const $ = (id: string) => document.getElementById(id)!;
+installZoomGuard();
 interface TurnstileApi {
   render(
     container: HTMLElement,
@@ -119,7 +125,7 @@ let save: Save = fresh(),
   clearRun = "",
   clearStartedAt = 0,
   netFatal = false,
-  predicted: { x: number; z: number } | undefined;
+  predicted: { x: number; z: number; y?: number } | undefined;
 let turnstileToken = "";
 // Which loadout slot the armoury is filling. Picking a weapon replaces this one.
 let activeSlot = 0;
@@ -193,18 +199,14 @@ try {
   save = parseSave(localStorage.getItem(SAVE_KEY));
   // Armouries built under the old single cap are brought down to the per-family
   // one. Say what went, rather than letting the count quietly shrink.
-  const trimmed = trimToKindCap(save);
-  if (trimmed.removed.length) {
-    save = trimmed.save;
-    persist(save);
-    status = `武器庫を系統ごと${LIMITS.perKind}丁までに整理し、レア度と威力の低い${trimmed.removed.length}丁を手放しました。装備中の武器は残しています。`;
-  }
+  // Preserve old inventory verbatim. Progression initialization has an explicit
+  // backup/confirmation flow; opening the legacy client must never delete loot.
 } catch (e) {
   saveError = String((e as Error).message);
 }
 try {
   view = new Renderer($("world") as HTMLCanvasElement);
-  view.onSound = (t) => sound.play(t);
+  // Audio is driven by authoritative state, independently of rendering.
 } catch {
   ui.innerHTML =
     '<section class="panel"><h1>3D描画を開始できません</h1><p>WebGL 2に対応したブラウザで開いてください。</p></section>';
@@ -212,8 +214,12 @@ try {
 }
 function configured() {
   controls.sensitivity = save.sensitivity;
+  controls.fireSensitivity = save.fireSensitivity ?? save.sensitivity;
+  controls.gyroEnabled = save.gyroEnabled === true;
+  controls.gyroSensitivity = save.gyroSensitivity ?? 1;
   sound.volume = save.volume;
   view.quality = save.quality;
+  view.mapAssets.setQuality(save.quality);
   minimap.rotates = save.mapRotates === true;
   view.damageNumbers = save.damageNumbers ?? "self";
   view.resize();
@@ -265,9 +271,9 @@ function title() {
   setScreen("title");
   world = null;
   const stage = STAGES[selectedStage - 1];
-  ui.innerHTML = `<section class="title"><div class="eyebrow">TACTICAL OPERATIONS <span>戦術作戦本部</span></div><h1>SWARM<br>FRONT<span class="dot">.</span></h1><p class="tagline">異形の構造体を砕け。<br>仲間と、次の戦場へ。</p><aside class="home-operation"><div class="eyebrow">NEXT OPERATION / ${String(stage.id).padStart(2, "0")}</div><h2>${esc(stage.name)}</h2><p>${esc(MAPS[stage.map].name)} <span>${stage.waves.length} WAVES</span></p><small>${esc(stage.brief)}</small></aside></section><section class="home-command" aria-label="メインメニュー"><div class="command-heading"><span class="eyebrow">COMMAND MENU</span><span class="connection-dot">出撃待機</span></div><div class="title-actions"><button class="primary home-launch" id="solo" aria-label="ソロで出撃準備">${menuIcon("sortie")}<span><small>SOLO OPERATION</small><b>ソロで出撃準備</b><em>ステージと装備を選んで出撃</em></span><i aria-hidden="true">↗</i></button><button id="coop" aria-label="協力プレイ">${menuIcon("squad")}<span><small>CO-OP / 1–4 PLAYERS</small><b>協力プレイ</b><em>部隊を作成・招待から参加</em></span><i aria-hidden="true">↗</i></button><button id="open-armory" aria-label="武器庫">${menuIcon("armory")}<span><small>ARSENAL</small><b>武器庫</b><em>${save.inventory.length}丁を所持${save.pendingWeapons?.length ? ` · 整理待ち ${save.pendingWeapons.length}丁` : " · 比較・お気に入り・整理"}</em></span><i aria-hidden="true">›</i></button><button id="open-bestiary" aria-label="エネミーレポート">${menuIcon("report")}<span><small>FIELD INTELLIGENCE</small><b>エネミーレポート</b><em>敵の特徴と対処を確認</em></span><i aria-hidden="true">›</i></button></div><div class="home-utilities"><button id="home-settings">${menuIcon("settings")}設定・操作</button><button id="changelog">更新履歴</button>${installPrompt ? '<button id="install">ホーム画面に追加</button>' : ""}</div><p class="fine">戦利品はこの端末に保存されます。ソロは通信サーバー不要。</p>${saveError ? `<p class="error">${esc(saveError)}</p><button id="export">保存データを書き出す</button>` : ""}</section>`;
+  ui.innerHTML = homeMarkup({stage, inventoryCount: save.inventory.length, pendingCount: save.pendingWeapons?.length, install: !!installPrompt, error: saveError});
   $("open-armory").onclick = armory;
-  $("open-bestiary").onclick = openBestiary;
+  $("open-bestiary").onclick = () => openBestiary();
   $("home-settings").onclick = () => openSettings(title);
   $("solo").onclick = () => {
     mode = "solo";
@@ -464,14 +470,14 @@ function gear() {
     return;
   }
 
-  ui.innerHTML = `<section class="panel gear menu-screen"><header class="menu-header"><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><nav><button id="gear-armory">${menuIcon("armory")}武器庫</button><button id="gear-settings">${menuIcon("settings")}設定・操作</button><button id="home">ホームへ</button></nav></header><div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 / 出撃先</span><button id="mission-info" aria-label="作戦詳細">作戦詳細 ⓘ</button></div><label class="sr-only" for="stage-select">ステージ</label><select id="stage-select">${stageOptions()}</select><p id="stage-brief" class="sr-only">${esc(STAGES[selectedStage - 1].brief)}</p></section><section class="equipment-select"><div class="section-label"><span>02 / 装備を選択</span><small>2 SLOTS</small></div><div class="loadout-slots">${equipped()
+  ui.innerHTML = `<section class="panel gear menu-screen"><header class="menu-header"><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><div class="weapon-filters"><label><span class="sr-only">武器系統</span><select id="weapon-filter" aria-label="武器系統"><option value="all">全系統</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select></label><label><span class="sr-only">並び順</span><select id="weapon-sort" aria-label="武器の並び順"><option value="default">入手順</option><option value="rarity">レア度順</option><option value="power">1発の威力順</option></select></label><button id="kind-info" aria-label="武器系統の説明">系統ガイド ⓘ</button></div><nav><button id="gear-armory">${menuIcon("armory")}武器庫</button><button id="gear-settings">${menuIcon("settings")}設定・操作</button><button id="home">ホームへ</button></nav></header><div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 / 出撃先</span><button id="mission-info" aria-label="作戦詳細">作戦詳細 ⓘ</button></div><label class="sr-only" for="stage-select">ステージ</label><select id="stage-select">${stageOptions()}</select><p id="stage-brief" class="sr-only">${esc(STAGES[selectedStage - 1].brief)}</p></section><section class="equipment-select"><div class="section-label"><span>02 / 装備を選択</span><small>2 SLOTS</small></div><div class="loadout-slots">${equipped()
     .map(
       (w, i) =>
         `<button type="button" data-pick="${i}" class="rarity${w.rarity} ${activeSlot === i ? "selected" : ""}" aria-pressed="${activeSlot === i}"><span class="slot-number">0${i + 1}</span><span><small>装備 ${i + 1} <em>${RARITIES[w.rarity]}</em></small><b>${weaponName(w)}</b><strong>${effectText(w.effect, w.kind)}</strong></span><i aria-hidden="true">${activeSlot === i ? "選択中" : "変更"}</i></button>`,
     )
     .join(
       "",
-    )}</div></section></aside><section class="gear-arsenal"><div class="weapon-filters"><label><span class="sr-only">武器系統</span><select id="weapon-filter" aria-label="武器系統"><option value="all">全系統</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select></label><label><span class="sr-only">並び順</span><select id="weapon-sort" aria-label="武器の並び順"><option value="default">入手順</option><option value="rarity">レア度順</option><option value="power">1発の威力順</option></select></label><button id="kind-info" aria-label="武器系統の説明">系統ガイド ⓘ</button><span class="weapon-count">${shown.length}丁</span></div><p class="slot-hint">装備 <b>${activeSlot + 1}</b> を選択中 <span>→ 武器を押すと装備を変更</span><small class="gear-scroll-hint">上下にスクロール ↕</small></p><div class="weapon-list" tabindex="0" aria-label="所持武器リスト"><div class="weapon-head" aria-hidden="true"><span>武器</span><span>特殊効果</span><span>威力</span><span>装弾</span><span>装填</span><span>射程</span><span>連射</span><span></span></div>${shown.map((w) => card(w)).join("") || '<p class="armory-empty">この系統の武器はありません。<br>「全系統」で所持武器を確認できます。</p>'}</div></section></div><div class="gear-footer"><p class="status" role="status">${esc(saveError || status || "装備を確認したら、出撃しましょう。")}</p><button class="primary" id="launch" ${saveError ? "disabled" : ""}>${launchLabel}</button></div></section>`;
+    )}</div></section></aside><section class="gear-arsenal"><p class="slot-hint">装備 <b>${activeSlot + 1}</b> を選択中 <span>→ 武器を押すと装備を変更</span><small class="gear-scroll-hint">${shown.length}丁 · 上下にスクロール ↕</small></p><div class="weapon-list" tabindex="0" aria-label="所持武器リスト"><div class="weapon-head" aria-hidden="true"><span>武器</span><span>特殊効果</span><span>威力</span><span>装弾</span><span>装填</span><span>射程</span><span>連射</span><span></span></div>${shown.map((w) => card(w)).join("") || '<p class="armory-empty">この系統の武器はありません。<br>「全系統」で所持武器を確認できます。</p>'}</div></section></div><div class="gear-footer"><p class="status" role="status">${esc(saveError || status || "装備を確認したら、出撃しましょう。")}</p><button class="primary" id="launch" ${saveError ? "disabled" : ""}>${launchLabel}</button></div></section>`;
   const currentStage = () =>
     STAGES[
       (mode === "coop" && network?.id ? network.stage : selectedStage) - 1
@@ -538,20 +544,23 @@ function gear() {
       }),
   );
   const equip = (id: string) => {
+    if (save.equipped[activeSlot] === id) return;
     const n = structuredClone(save),
       other = 1 - activeSlot;
     if (n.equipped[other] === id) n.equipped[other] = n.equipped[activeSlot];
     n.equipped[activeSlot] = id;
     if (write(n)) {
       sound.unlock();
-      sound.play("equip");
+      sound.play("unequip");
+      sound.play("equip", 1, 0, "equip", 0.12);
       network?.equipment(equipped());
       status = `装備 ${activeSlot + 1} を変更しました。`;
     }
     gear();
   };
   ui.querySelectorAll<HTMLElement>("[data-equip]").forEach((el) => {
-    el.onclick = () => {
+    el.onclick = (event) => {
+      if ((event.target as Element).closest('[data-stat="effect"]')) return;
       el.focus({ preventScroll: true });
       equip(el.dataset.equip!);
     };
@@ -566,34 +575,38 @@ function gear() {
 function openSettings(back: () => void) {
   const dialog = menuDialog(
     "設定・操作",
-    `<div class="settings-tabs" role="tablist" aria-label="設定の種類"><button role="tab" id="tab-preferences" aria-selected="true" aria-controls="settings-preferences">環境設定</button><button role="tab" id="tab-controls" aria-selected="false" aria-controls="settings-controls" tabindex="-1">操作ガイド</button><button role="tab" id="tab-save" aria-selected="false" aria-controls="settings-save" tabindex="-1">保存データ</button></div><p class="settings-status" role="status">${esc(saveError || "変更はこの端末に自動保存されます。")}</p><div class="settings-content"><p>PC: WASD移動 / クリック射撃・マウス照準 / R装填 / Q切替 / Space回避 / E長押し蘇生 / Escマウス解放</p><p>スマホ: 左スティック移動 / 右側ドラッグ照準 / 射撃ボタン長押し。味方3.5m以内で蘇生を2.5秒長押し。</p><label>視点感度 <input id="sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>音量（0でミュート） <input id="volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量</option></select></label><label>ミニマップ <select id="map-rotate"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><label>ダメージ表示 <select id="damage-numbers"><option value="self" ${(save.damageNumbers ?? "self") === "self" ? "selected" : ""}>自分のみ</option><option value="all" ${save.damageNumbers === "all" ? "selected" : ""}>味方も表示</option><option value="off" ${save.damageNumbers === "off" ? "selected" : ""}>表示しない</option></select></label><p>道中の緑の戦利品は接近して回収。勝利時に確定、敗北・復帰できない切断では未確定品を失います。保存済みの武器は失いません。端末変更・ブラウザデータ削除で引き継げません。クラウド保存や完全な改ざん防止はありません。</p><button id="export">保存データを書き出す</button></div>`,
+    `<p class="settings-status" role="status">${esc(saveError || "変更はこの端末に自動保存されます。")}</p><div class="settings-content settings-columns"><p>PC: WASD移動 / クリック射撃・マウス照準 / R装填 / Q切替 / Space回避 / E長押し蘇生 / Escマウス解放</p><p>スマホ: 左スティック移動 / 右側ドラッグ照準 / 射撃ボタン長押し。味方3.5m以内で蘇生を2.5秒長押し。</p><label>視点感度 <input id="sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>射撃ボタンの視点感度 <input id="fire-sense" type="range" min="0.1" max="6" step="0.1" value="${save.fireSensitivity ?? save.sensitivity}"></label><label>ジャイロ <button id="gyro" type="button" role="switch" aria-label="ジャイロ" aria-checked="${save.gyroEnabled === true}">${save.gyroEnabled ? "オン" : "オフ"}</button><span id="gyro-status" role="status">端末を動かして照準。反応しない場合はオフ→オンで許可を確認。</span></label><label>ジャイロ感度 <input id="gyro-sense" type="range" min="0.1" max="6" step="0.1" value="${save.gyroSensitivity ?? 1}"></label><label>音量（0でミュート） <input id="volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準（精細な地形・質感）</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量（従来の描画）</option></select></label><label>ミニマップ <select id="map-rotate"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><label>ダメージ表示 <select id="damage-numbers"><option value="self" ${(save.damageNumbers ?? "self") === "self" ? "selected" : ""}>自分のみ</option><option value="all" ${save.damageNumbers === "all" ? "selected" : ""}>味方も表示</option><option value="off" ${save.damageNumbers === "off" ? "selected" : ""}>表示しない</option></select></label><p>道中の緑の戦利品は接近して回収。勝利時に確定、敗北・復帰できない切断では未確定品を失います。保存済みの武器は失いません。端末変更・ブラウザデータ削除で引き継げません。クラウド保存や完全な改ざん防止はありません。</p><button id="export">保存データを書き出す</button></div>`,
     "SYSTEM CONFIGURATION",
   );
   const content = dialog.querySelector<HTMLElement>(".settings-content")!;
   const original = [...content.children];
-  for (const key of ["preferences", "controls", "save"]) {
+  for (const key of ["preferences", "save"]) {
     const panel = document.createElement("section");
     panel.id = "settings-" + key;
-    panel.setAttribute("role", "tabpanel");
-    panel.setAttribute("aria-labelledby", "tab-" + key);
-    panel.hidden = key !== "preferences";
+    panel.setAttribute("aria-label", key === "preferences" ? "環境設定" : "保存データ");
+    panel.innerHTML = `<h3>${key === "preferences" ? "環境設定" : "保存データ"}</h3>`;
     content.append(panel);
   }
-  original.forEach((el, i) =>
+  original.slice(0, 2).forEach(el => el.remove());
+  original.slice(2).forEach((el) =>
     dialog
       .querySelector(
-        i < 2
-          ? "#settings-controls"
-          : el.tagName === "LABEL"
+        el.tagName === "LABEL"
             ? "#settings-preferences"
             : "#settings-save",
       )!
       .append(el),
   );
   const layoutButton = document.createElement("button");
+  const developerButton = document.createElement("button");
+  developerButton.id = "settings-developer";
+  developerButton.textContent = "開発者モード";
+  developerButton.className = "settings-developer-entry";
+  developerButton.onclick = () => { dialog.close(); openDeveloperLogin("main"); };
+  dialog.querySelector(".menu-dialog-body")!.append(developerButton);
   layoutButton.id = "layout-settings";
   layoutButton.textContent = "操作ボタンの配置";
-  dialog.querySelector("#settings-controls")!.append(layoutButton);
+  dialog.querySelector("#settings-preferences")!.append(layoutButton);
   layoutButton.onclick = () => {
     dialog.close();
     setScreen("layout");
@@ -607,37 +620,14 @@ function openSettings(back: () => void) {
         placeControls(layout);
       },
       back,
+      { config: () => ({ preferences: save, weapons: save.equipped.map(id => save.inventory.find(w => w.id === id)!) }) },
     );
   };
   if (layoutWarning) {
     const note = document.createElement("p");
     note.textContent = layoutWarning;
-    dialog.querySelector("#settings-controls")!.append(note);
+    dialog.querySelector("#settings-preferences")!.append(note);
   }
-  const tabs = [...dialog.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
-  tabs.forEach((tab, i) => {
-    tab.onclick = () => {
-      tabs.forEach((t) => {
-        t.setAttribute("aria-selected", String(t === tab));
-        t.tabIndex = t === tab ? 0 : -1;
-        dialog.querySelector<HTMLElement>(
-          "#" + t.getAttribute("aria-controls"),
-        )!.hidden = t !== tab;
-      });
-    };
-    tab.onkeydown = (e) => {
-      let index = i;
-      if (e.key === "ArrowRight") index = (i + 1) % tabs.length;
-      else if (e.key === "ArrowLeft")
-        index = (i + tabs.length - 1) % tabs.length;
-      else if (e.key === "Home") index = 0;
-      else if (e.key === "End") index = tabs.length - 1;
-      else return;
-      e.preventDefault();
-      tabs[index].click();
-      tabs[index].focus();
-    };
-  });
   const update = (next: Save) => {
     const ok = write(next);
     if (ok) configured();
@@ -646,27 +636,9 @@ function openSettings(back: () => void) {
       : `保存できませんでした。${saveError || status}`;
     return ok;
   };
-  for (const [id, key, max] of [
-    ["sense", "sensitivity", 6],
-    ["volume", "volume", 1],
-  ] as const) {
-    const input = $(id) as HTMLInputElement;
-    const output = document.createElement("output");
-    output.htmlFor = id;
-    input.before(output);
-    const value = () =>
-      (output.textContent =
-        id === "volume"
-          ? `${Math.round(Number(input.value) * 100)}%`
-          : Number(input.value).toFixed(1));
-    value();
-    input.oninput = () => {
-      if (id === "volume") sound.unlock();
-      if (!update({ ...save, [key]: Math.min(max, Number(input.value)) }))
-        input.value = String(save[key]);
-      value();
-    };
-  }
+  alignSettings(dialog.querySelector("#settings-preferences")!);
+  bindAimRanges("", update);
+  bindGyro("", update);
   $("quality").onchange = () => {
     const input = $("quality") as HTMLSelectElement;
     if (!update({ ...save, quality: Number(input.value) }))
@@ -685,6 +657,98 @@ function openSettings(back: () => void) {
       input.value = save.damageNumbers ?? "self";
   };
   dialog.querySelector<HTMLButtonElement>("#export")!.onclick = exportSave;
+}
+
+function alignSettings(container: Element) {
+  container
+    .querySelectorAll<HTMLLabelElement>(":scope > label")
+    .forEach((row) => {
+      row.classList.add("setting-row");
+      const name = document.createElement("span");
+      name.className = "setting-name";
+      name.textContent = row.firstChild?.textContent?.trim() ?? "";
+      row.firstChild?.replaceWith(name);
+      const control = row.querySelector<HTMLInputElement>(
+        "input, select, button",
+      )!;
+      row.htmlFor = control.id;
+      const field = document.createElement("span");
+      field.className = "setting-control";
+      control.before(field);
+      field.append(control);
+      const note = row.querySelector<HTMLElement>('[role="status"]');
+      if (note) {
+        note.className = "setting-note";
+        control.setAttribute("aria-describedby", note.id);
+      }
+    });
+  if (container.matches(".pause-card")) {
+    const rows = [...container.querySelectorAll(":scope > .setting-row")];
+    const scroll = document.createElement("div");
+    scroll.className = "pause-settings";
+    rows[0]?.before(scroll);
+    scroll.append(...rows);
+  }
+}
+
+function bindAimRanges(prefix: string, update: (next: Save) => boolean) {
+  for (const [id, key] of [
+    ["sense", "sensitivity"],
+    ["fire-sense", "fireSensitivity"],
+    ["gyro-sense", "gyroSensitivity"],
+    ["volume", "volume"],
+  ] as const) {
+    const input = $(prefix + id) as HTMLInputElement;
+    const output = document.createElement("output");
+    output.htmlFor = input.id;
+    input.after(output);
+    const value = () =>
+      (output.textContent =
+        id === "volume"
+          ? `${Math.round(Number(input.value) * 100)}%`
+          : Number(input.value).toFixed(1));
+    value();
+    input.oninput = () => {
+      if (id === "volume") sound.unlock();
+      if (
+        !update({
+          ...save,
+          fireSensitivity: save.fireSensitivity ?? save.sensitivity,
+          [key]: Number(input.value),
+        })
+      )
+        input.value = String(
+          save[key] ?? (key === "gyroSensitivity" ? 1 : save.sensitivity),
+        );
+      value();
+    };
+  }
+}
+
+function bindGyro(prefix: string, update: (next: Save) => boolean) {
+  const button = $(prefix + "gyro") as HTMLButtonElement;
+  const message = $(prefix + "gyro-status");
+  button.onclick = async () => {
+    const enabled = !save.gyroEnabled;
+    button.disabled = true;
+    try {
+      if (enabled) await controls.requestGyro();
+      if (!update({ ...save, gyroEnabled: enabled })) {
+        message.textContent = "設定を保存できませんでした。";
+        return;
+      }
+      button.textContent = enabled ? "オン" : "オフ";
+      button.setAttribute("aria-checked", String(enabled));
+      message.textContent = enabled
+        ? "ジャイロをオンにしました。対応端末で端末を動かすと照準が動きます。"
+        : "ジャイロをオフにしました。";
+    } catch (error) {
+      message.textContent =
+        error instanceof Error ? error.message : "ジャイロを利用できません。";
+    } finally {
+      button.disabled = false;
+    }
+  };
 }
 
 function exportSave() {
@@ -759,8 +823,10 @@ async function connect(create: boolean, restore = false) {
       if (screen === "lobby") lobby();
     };
     network.onWorld = (w) => {
+      try { recordCoopEncounters(w); } catch { status='遭遇記録を保存できません。端末の保存容量を確認してください。'; }
       world = w;
       myId = network!.id;
+      sound.update(w, myId, controls.input.yaw, w.phase === "battle" && !paused);
       if (w.phase === "battle") {
         if (screen !== "battle" && !netFatal) battle();
         const p = w.players.find((p) => p.id === myId);
@@ -769,10 +835,11 @@ async function connect(create: boolean, restore = false) {
             !predicted ||
             Math.hypot(predicted.x - p.x, predicted.z - p.z) > 3
           )
-            predicted = { x: p.x, z: p.z };
+            predicted = { x: p.x, z: p.z, y: p.y ?? 0 };
           else {
             predicted.x += (p.x - predicted.x) * 0.4;
             predicted.z += (p.z - predicted.z) * 0.4;
+            predicted.y = p.y ?? 0;
           }
         }
       } else if (w.phase === "victory" || w.phase === "defeat") {
@@ -1008,7 +1075,7 @@ function armory() {
         "",
       )}</tbody></table><p class="armory-help">${protectedWeapon ? "装備中・お気に入りは分解から保護されます。" : `分解で${POWDER_NAME} +${POWDER_YIELDS[w.rarity]}。実行前に確認できます。`}${pending ? " 整理待ちは保存済み。空きができると入手順に収納します。" : ""}</p></div><div class="armory-detail-actions">${favoriteButton(w)}<button data-discard="${esc(w.id)}" ${protectedWeapon ? "disabled" : ""}>${protectedWeapon ? "保護中" : `分解（+${POWDER_YIELDS[w.rarity]}）`}</button></div>`;
   };
-  ui.innerHTML = `<section class="panel armory ${armoryOrganizing ? "organizing" : ""}"><header><div class="armory-title"><h1>武器庫 <small>${save.inventory.length}丁${waiting.length ? ` · 整理待ち ${waiting.length}` : ""}</small></h1><button id="armory-organize" aria-pressed="${armoryOrganizing}">${armoryOrganizing ? "整理を終了" : "整理モード"}</button></div><nav aria-label="武器庫の移動"><button id="armory-home">ホームへ</button><button id="armory-gear">出撃準備へ</button></nav></header><div class="armory-toolbar"><select id="armory-filter" aria-label="武器庫の絞り込み"><option value="all">全武器</option><option value="favorites">お気に入り</option><option value="pending">整理待ち</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select><span>${shown.length}丁を表示</span><small>${kindTally()}</small></div><div class="armory-powder"><span>${POWDER_NAME}：${save.powder ?? 0}</span>${armoryOrganizing ? `<button id="armory-dismantle" ${checked.length ? "" : "disabled"}>選択 ${checked.length}丁を分解（+${yieldTotal}）</button><small>装備中・お気に入りは保護</small>` : ""}</div><p class="status" role="status">${esc(saveError || status)}</p><div class="armory-workspace"><section class="armory-catalog" aria-label="武器一覧"><div class="armory-list-head" aria-hidden="true"><span>武器 / 状態</span><span>特殊効果</span><span>威力</span><span>装弾</span><span title="装填時間（秒）">装填</span><span title="射程（m）">射程</span><span title="連射速度（発/秒）">連射</span></div><div class="armory-list" tabindex="0" aria-label="武器一覧。上下にスクロールできます">${
+  ui.innerHTML = `<section class="panel armory ${armoryOrganizing ? "organizing" : ""}"><header><div class="armory-title"><h1>武器庫 <small>${save.inventory.length}丁${waiting.length ? ` · 整理待ち ${waiting.length}` : ""}</small></h1><button id="armory-organize" aria-pressed="${armoryOrganizing}">${armoryOrganizing ? "整理を終了" : "整理モード"}</button><select id="armory-filter" aria-label="武器庫の絞り込み"><option value="all">全武器</option><option value="favorites">お気に入り</option><option value="pending">整理待ち</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select></div><nav aria-label="武器庫の移動"><button id="armory-home">ホームへ</button><button id="armory-gear">出撃準備へ</button></nav></header><div class="armory-toolbar"><span>${shown.length}丁を表示</span><small>${kindTally()}</small></div><div class="armory-powder"><span>${POWDER_NAME}：${save.powder ?? 0}</span>${armoryOrganizing ? `<button id="armory-dismantle" ${checked.length ? "" : "disabled"}>選択 ${checked.length}丁を分解（+${yieldTotal}）</button><small>装備中・お気に入りは保護</small>` : ""}</div><p class="status" role="status">${esc(saveError || status)}</p><div class="armory-workspace"><section class="armory-catalog" aria-label="武器一覧"><div class="armory-list" tabindex="0" aria-label="武器一覧。上下にスクロールできます"><div class="armory-list-head" aria-hidden="true"><span>武器 / 状態</span><span>特殊効果</span><span>威力</span><span>装弾</span><span title="装填時間（秒）">装填</span><span title="射程（m）">射程</span><span title="連射速度（発/秒）">連射</span></div>${
     shown
       .map((w) => {
         const d = stats(w);
@@ -1164,9 +1231,11 @@ function finishMission() {
   storeMissionRewards(world);
   setScreen("stage-clear");
   ui.innerHTML = `<section class="stage-clear" role="status" aria-label="ステージクリア"><div class="clear-band"><p class="clear-kicker">OPERATION ${String(stageFor(world).id).padStart(2, "0")} · COMPLETE</p><h1 class="clear-title">STAGE CLEAR</h1><p class="clear-caption">作戦完了</p><div class="clear-line" aria-hidden="true"></div></div></section>`;
-  window.dispatchEvent(new CustomEvent("swarm:stage-clear", {
-    detail: { run: world.run, stage: stageFor(world).id, durationMs: 3200 },
-  }));
+  window.dispatchEvent(
+    new CustomEvent("swarm:stage-clear", {
+      detail: { run: world.run, stage: stageFor(world).id, durationMs: 3200 },
+    }),
+  );
 }
 function storeMissionRewards(w: World) {
   try {
@@ -1207,11 +1276,19 @@ function result() {
 // Solo runs the world here, so it can truly stop. Co-op cannot: the server keeps
 // stepping and the player keeps taking hits, which the menu has to admit.
 let paused = false;
+installLandscapeGuard(() => {
+  controls.reset();
+  if (screen === "battle" && !paused) openPause();
+});
 function closePause() {
   paused = false;
   $("pause-menu").hidden = true;
   $("pause-menu").innerHTML = "";
   controls.enabled = screen === "battle";
+  const p = world?.players.find((p) => p.id === myId);
+  controls.setScopeAvailable(
+    controls.enabled && !!p && p.hp > 0 && p.swapCd <= 0,
+  );
 }
 function retreat() {
   if (mode === "coop") {
@@ -1232,28 +1309,41 @@ function openPause(confirming = false) {
   menu.hidden = false;
   menu.innerHTML = confirming
     ? `<div class="pause-card"><h2>作戦を離脱しますか</h2><p>${pending ? `未確定の戦利品 <b>${pending} 件</b>を失います。` : "未確定の戦利品はありません。"}確定済みの武器は残ります。</p>${mode === "coop" ? '<p class="warn">部隊は作戦を続けます。あなたは戻れません。</p>' : ""}<div class="pause-actions"><button id="pause-back">やめる</button><button class="danger" id="pause-quit">離脱する</button></div></div>`
-    : `<div class="pause-card"><h2>一時停止</h2>${mode === "coop" ? '<p class="warn">協力プレイは止まりません。この間も戦闘は進み、被弾します。</p>' : "<p>ソロなので戦闘は止まっています。</p>"}<label>視点感度 <input id="pause-sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>音量 <input id="pause-volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>ミニマップ <select id="pause-map"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><label>ダメージ表示 <select id="pause-damage"><option value="self" ${(save.damageNumbers ?? "self") === "self" ? "selected" : ""}>自分のみ</option><option value="all" ${save.damageNumbers === "all" ? "selected" : ""}>味方も表示</option><option value="off" ${save.damageNumbers === "off" ? "selected" : ""}>表示しない</option></select></label><div class="pause-actions"><button class="primary" id="pause-resume">戦闘に戻る</button><button id="pause-leave">作戦離脱…</button></div></div>`;
+    : `<div class="pause-card"><h2>一時停止</h2>${mode === "coop" ? '<p class="warn">協力プレイは止まりません。この間も戦闘は進み、被弾します。</p>' : "<p>ソロなので戦闘は止まっています。</p>"}<label>視点感度 <input id="pause-sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>射撃ボタンの視点感度 <input id="pause-fire-sense" type="range" min="0.1" max="6" step="0.1" value="${save.fireSensitivity ?? save.sensitivity}"></label><label>ジャイロ <button id="pause-gyro" type="button" role="switch" aria-label="ジャイロ" aria-checked="${save.gyroEnabled === true}">${save.gyroEnabled ? "オン" : "オフ"}</button><span id="pause-gyro-status" role="status">端末を動かして照準。反応しない場合はオフ→オンで許可を確認。</span></label><label>ジャイロ感度 <input id="pause-gyro-sense" type="range" min="0.1" max="6" step="0.1" value="${save.gyroSensitivity ?? 1}"></label><label>音量 <input id="pause-volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="pause-quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準（精細な地形・質感）</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量（従来の描画）</option></select></label><label>ミニマップ <select id="pause-map"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><label>ダメージ表示 <select id="pause-damage"><option value="self" ${(save.damageNumbers ?? "self") === "self" ? "selected" : ""}>自分のみ</option><option value="all" ${save.damageNumbers === "all" ? "selected" : ""}>味方も表示</option><option value="off" ${save.damageNumbers === "off" ? "selected" : ""}>表示しない</option></select></label><div class="pause-actions"><button class="primary" id="pause-resume">戦闘に戻る</button><button id="pause-layout">操作ボタンの配置</button><button id="pause-leave">作戦離脱…</button></div></div>`;
   if (confirming) {
     $("pause-back").onclick = () => openPause(false);
     $("pause-quit").onclick = retreat;
     return;
   }
+  $("pause-layout").onclick = () => {
+    setScreen("layout");
+    ui.hidden = false;
+    openLayoutEditor(ui, layout, value => {
+      localStorage.setItem(LAYOUT_KEY, JSON.stringify(value));
+      layout = value; placeControls(layout);
+    }, () => { ui.innerHTML = ""; ui.hidden = true; setScreen("battle"); openPause(); }, {
+      enabled: mode !== "coop",
+      config: () => ({ preferences: save, weapons: world?.players.find(p => p.id === myId)?.weapons }),
+    });
+    if (mode === "coop") $("layout-message").textContent = "協力プレイは進行中です。試し撃ちはホームから利用できます。";
+  };
   $("pause-resume").onclick = closePause;
   $("pause-leave").onclick = () => openPause(true);
-  $("pause-sense").oninput = () => {
-    const next = {
-      ...save,
-      sensitivity: Number(($("pause-sense") as HTMLInputElement).value),
-    };
-    if (write(next)) configured();
-  };
-  $("pause-volume").oninput = () => {
-    sound.unlock();
-    const next = {
-      ...save,
-      volume: Number(($("pause-volume") as HTMLInputElement).value),
-    };
-    if (write(next)) configured();
+  bindGyro("pause-", (next) => {
+    const ok = write(next);
+    if (ok) configured();
+    return ok;
+  });
+  alignSettings(menu.querySelector(".pause-card")!);
+  bindAimRanges("pause-", (next) => {
+    const ok = write(next);
+    if (ok) configured();
+    return ok;
+  });
+  $("pause-quality").onchange = () => {
+    const input = $("pause-quality") as HTMLSelectElement;
+    if (write({ ...save, quality: Number(input.value) })) configured();
+    else input.value = String(save.quality);
   };
   $("pause-damage").onchange = () => {
     if (
@@ -1295,10 +1385,21 @@ function updateFrame(now: number) {
   const dt = Math.min(0.1, (now - last) / 1000);
   last = now;
   acc += dt;
+  const scopePlayer = world?.players.find((p) => p.id === myId);
+  controls.setScopeAvailable(
+    screen === "battle" &&
+      !paused &&
+      !!scopePlayer &&
+      scopePlayer.hp > 0 &&
+      scopePlayer.swapCd <= 0,
+  );
   if (screen === "battle" && world && !(paused && mode === "solo")) {
     while (acc >= 0.05) {
       const input = document.hidden ? neutral() : controls.read();
-      if (mode === "solo") step(world, { [myId]: input });
+      if (mode === "solo") {
+        step(world, { [myId]: input });
+        sound.update(world, myId, controls.input.yaw, !paused);
+      }
       else {
         network?.input(input);
         const p = world.players.find((p) => p.id === myId);
@@ -1336,9 +1437,25 @@ function updateFrame(now: number) {
     }
   } else acc = 0;
   if (screen === "stage-clear" && world?.run === clearRun) {
-    if (now - clearStartedAt >= 2800) ui.firstElementChild?.classList.add("is-leaving");
+    if (now - clearStartedAt >= 2800)
+      ui.firstElementChild?.classList.add("is-leaving");
     if (now - clearStartedAt >= 3200) result();
   }
+  const currentPlayer = world?.players.find((p) => p.id === myId);
+  controls.setScopeAvailable(
+    screen === "battle" &&
+      !paused &&
+      !!currentPlayer &&
+      currentPlayer.hp > 0 &&
+      currentPlayer.swapCd <= 0,
+  );
+  $("scope").hidden =
+    screen !== "battle" || !currentPlayer || currentPlayer.hp <= 0;
+  ($("scope") as HTMLButtonElement).disabled = !controls.scopeAvailable;
+  $("scope").setAttribute("aria-pressed", String(controls.scoped));
+  $("scope").textContent = controls.scoped ? "解除" : "スコープ";
+  $("scope-overlay").hidden = !controls.scoped;
+  sound.update(world, myId, controls.input.yaw, screen === "battle" && !paused);
   view.render(
     world,
     myId,
@@ -1347,14 +1464,28 @@ function updateFrame(now: number) {
     controls.input.pitch,
     mode === "coop" ? predicted : undefined,
     screen === "battle" && !(paused && mode === "solo"),
+    controls.scoped,
   );
   if (screen === "battle" && world)
     minimap.draw(world, myId, controls.input.yaw, now);
 }
+// Capture before menu handlers replace their DOM; native click covers keyboard too.
+document.addEventListener("click", (event) => {
+  const target = event.target instanceof Element ? event.target.closest("button, select, [data-equip]") : null;
+  if (!target || target.matches(":disabled") || target.closest("#controls")) return;
+  sound.unlock();
+  if (!target.matches("[data-equip]")) sound.play("menu");
+}, true);
+document.addEventListener("change", (event) => {
+  if (event.target instanceof HTMLSelectElement) { sound.unlock(); sound.play("menu"); }
+});
 window.addEventListener("resize", () => placeControls(layout));
 window.visualViewport?.addEventListener("resize", () => placeControls(layout));
 window.addEventListener("hashchange", () => {
-  if (inviteCode() && !["battle", "stage-clear", "lobby", "result"].includes(screen)) {
+  if (
+    inviteCode() &&
+    !["battle", "stage-clear", "lobby", "result"].includes(screen)
+  ) {
     mode = "coop";
     gear();
   }
@@ -1385,7 +1516,9 @@ if (import.meta.env.DEV)
       screen,
       id: myId,
       input: { ...controls.input },
-      mapAssets: view.mapAssets.status.map(s=>({...s})),
+      scoped: controls.scoped,
+      cameraFov: view.camera.fov,
+      mapAssets: view.mapAssets.status.map((s) => ({ ...s })),
       fps: view.fps,
       drawCalls: view.drawCalls,
       frameMs: [...view.frames],

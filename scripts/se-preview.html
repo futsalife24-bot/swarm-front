@@ -1,0 +1,6 @@
+<!doctype html><meta charset="utf-8"><title>スワフロ SE試聴</title><style>body{background:#101923;color:#eee;font:16px sans-serif;max-width:920px;margin:40px auto}button{margin:8px;padding:16px;background:#22394b;color:#fff;border:1px solid #6e9aaf;border-radius:6px}p{color:#bccbd4}</style><h1>ゲーム内SE 試聴</h1><p>録音銃声・装備操作・敵の攻撃。ゲーム内と同じ音量バランスで再生します。</p><div id="list"></div><script type="module">
+import {Sound} from '/src/client/audio.ts';
+window.sound=new Sound();
+const names={rifle:'ライフル',shotgun:'ショットガン',rocket:'ロケット発射',burst:'爆発・重攻撃',impact:'着弾',reload:'装填開始',ready:'装填完了',switch:'武器切替',equip:'装備',unequip:'取り外し',menu:'メニュー選択',dodge:'回避',hurt:'被弾',melee:'近接攻撃',spit:'酸弾発射',acid:'酸着弾',stake:'杭発射',laser:'レーザー',charge:'重攻撃予告',warning:'攻撃予告',leap:'跳躍',lunge:'突進',land:'着地',kill:'撃破',down:'ダウン',revive:'蘇生'};
+for(const [key,name] of Object.entries(names)){const b=document.createElement('button');b.textContent=name;b.onclick=async()=>{sound.unlock();await sound.load();sound.play(key)};document.querySelector('#list').append(b)}
+</script>

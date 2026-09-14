@@ -1,0 +1,51 @@
+{
+  "blender": "5.2.1 LTS",
+  "source": {
+    "triangles": 36152,
+    "vertices": 20000,
+    "meshes": 165,
+    "materials": 5,
+    "bones": 0,
+    "nonfinite": 0,
+    "degenerate": 0,
+    "bounds_blender": {
+      "min": [
+        -2.820000171661377,
+        -23.660499572753906,
+        0.0
+      ],
+      "max": [
+        2.820000171661377,
+        2.302500009536743,
+        4.289999961853027
+      ]
+    }
+  },
+  "unit_count": 8,
+  "body_count": 7,
+  "head_count": 1,
+  "connector_count": 7,
+  "leg_count": 34,
+  "emitter_arm_count": 6,
+  "seed": "none; deterministic geometry",
+  "glb_bytes": 1787652,
+  "glb_sha256": "cefb976551d55167ba6b2ecf7ec9c7144105d890a85cb1c5335e24db90c275ab",
+  "generator_sha256": "28f50cbe5aa2a06c8ecff4b0b840633f95da5202ea4591a59f7f33fe9c34e1ef",
+  "helper_sha256": "feddd1747a34bb783f6d041b43754307dc50c59d0e0ca436b3f6fb0bafff1f65",
+  "checks": [
+    "8 independent units",
+    "7 independent front connectors",
+    "34 independent articulated legs",
+    "6 independently pivoted laser organs",
+    "finite positions",
+    "positive transforms",
+    "no degenerate triangles",
+    "neutral ground min 0"
+  ],
+  "limitations": [
+    "Integrated first-version production permitted by user; final game validation owned by integration lead",
+    "Gameplay movement and attacks authored separately",
+    "Standard rigid GLTFLoader plus rigid-part batching required; legacy skinned loader incompatible",
+    "Runtime performance and head/body collision correspondence validated separately"
+  ]
+}

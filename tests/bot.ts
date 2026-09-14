@@ -1,6 +1,7 @@
 import { MOVE_SPEED } from "../src/shared/defs";
 import { CAVE_BLOCKS, caveWaypoint } from "../src/shared/cave";
 import { mapFor } from "../src/shared/stages";
+import { foundryPath } from "../src/shared/foundry-navigation";
 import {
   neutral,
   visible,
@@ -19,13 +20,19 @@ export function pilot(w: World, id: string): Input {
   const p = w.players.find((p) => p.id === id)!;
   const i = neutral();
   i.seq = Math.round(w.time * 20) + 1;
-  const enemies = w.enemies
+  const targets = w.enemies
     .flatMap((e) =>
       e.segments
-        ? enemyBodies(e).map((b) => ({ ...e, x: b.x, z: b.z, y: b.y - 3 }))
-        : [e],
+        ? enemyBodies(e).map((b) => ({ ...e, x: b.x, z: b.z, y: b.y - 1.2, aimY: b.y }))
+        : [{ ...e, aimY: eye(e) }],
     )
-    .filter((e) => e.hp > 0 && Math.hypot(e.x-p.x,e.z-p.z)<60 && visible(p, e, mapFor(w).blocks))
+    .filter((e) => e.hp > 0);
+  const enemies = targets
+    .filter(
+      (e) =>
+        Math.hypot(e.x - p.x, e.z - p.z) < 60 &&
+        visible(p, e, mapFor(w).blocks),
+    )
     .sort(
       (a, b) =>
         Math.hypot(a.x - p.x, a.z - p.z) - Math.hypot(b.x - p.x, b.z - p.z),
@@ -33,17 +40,10 @@ export function pilot(w: World, id: string): Input {
   const e = enemies[0];
   if (!e) {
     if (mapFor(w).blocks === CAVE_BLOCKS) {
-      const target = w.enemies
-        .flatMap((e) =>
-          e.segments
-            ? enemyBodies(e).map((b) => ({ ...e, x: b.x, z: b.z, y: b.y - 3 }))
-            : [e],
-        )
-        .filter((e) => e.hp > 0)
-        .sort(
-          (a, b) =>
-            Math.hypot(a.x - p.x, a.z - p.z) - Math.hypot(b.x - p.x, b.z - p.z),
-        )[0];
+      const target = [...targets].sort(
+        (a, b) =>
+          Math.hypot(a.x - p.x, a.z - p.z) - Math.hypot(b.x - p.x, b.z - p.z),
+      )[0];
       if (target) {
         let next = searchWaypoints.get(w);
         if (
@@ -70,7 +70,7 @@ export function pilot(w: World, id: string): Input {
           Math.PI,
         ].map((turn) => {
           const yaw = i.yaw + turn,
-            trial = { x: p.x, z: p.z };
+            trial = { x: p.x, z: p.z, y: p.y };
           move(
             trial,
             Math.sin(yaw) * MOVE_SPEED.walk * 0.05,
@@ -90,15 +90,42 @@ export function pilot(w: World, id: string): Input {
       }
       return i;
     }
-    // Search the clear boulevard when dormant guards are behind a building.
+    // Outdoor enemies can remain beyond the firing radius or behind cover.
+    // Walk toward a live body along clear ground instead of indefinitely
+    // oscillating down the central boulevard. The wider enemy navigation
+    // clearance is conservative for the player; only ordinary inputs are sent.
+    const target = [...targets].sort(
+      (a, b) =>
+        Math.hypot(a.x - p.x, a.z - p.z) - Math.hypot(b.x - p.x, b.z - p.z),
+    )[0];
+    if (target) {
+      let next = searchWaypoints.get(w);
+      if (
+        !next ||
+        w.time >= next.until ||
+        Math.hypot(next.x - p.x, next.z - p.z) < 0.5
+      ) {
+        const waypoint = foundryPath(mapFor(w), p, target)[0];
+        next = waypoint ? { ...waypoint, until: w.time + 0.5 } : undefined;
+        if (next) searchWaypoints.set(w, next);
+        else searchWaypoints.delete(w);
+      }
+      if (next) {
+        i.yaw = Math.atan2(next.x - p.x, -(next.z - p.z));
+        i.mz = 1;
+        return i;
+      }
+    }
+    // While waiting for the next spawn, keep searching the clear boulevard.
     i.yaw = 0;
     i.mx = Math.max(-1, Math.min(1, -p.x));
     i.mz = p.z > 80 ? 1 : p.z < -80 ? -1 : Math.sin(w.time * 0.1) > 0 ? 1 : -1;
     return i;
   }
+  searchWaypoints.delete(w);
   const d = Math.hypot(e.x - p.x, e.z - p.z);
   i.yaw = Math.atan2(e.x - p.x, -(e.z - p.z));
-  i.pitch = Math.atan2(eye(e) - 1.5, d);
+  i.pitch = Math.atan2(e.aimY - ((p.y ?? 0) + 1.5), d);
   i.fire = true;
   let vx = Math.cos(w.time * 0.7) * 4,
     vz = Math.sin(w.time * 0.7) * 2;
@@ -110,7 +137,7 @@ export function pilot(w: World, id: string): Input {
     if (
       when > 0 &&
       when < 0.6 &&
-      Math.abs(q.y + q.dy * when - 0.5 * (q.gravity ?? 0) * when * when - 1.2) <
+      Math.abs(q.y + q.dy * when - 0.5 * (q.gravity ?? 0) * when * when - ((p.y ?? 0) + 1.2)) <
         1.5 &&
       Math.hypot(q.x + q.dx * when - p.x, q.z + q.dz * when - p.z) < 2
     ) {
@@ -150,6 +177,37 @@ export function pilot(w: World, id: string): Input {
   const norm = Math.max(1, Math.hypot(vx, vz));
   vx /= norm;
   vz /= norm;
+  // A valid evade into a cave wall still leaves the pilot inside the next
+  // laser's path. Predict only legal movement on copies and steer around cover
+  // when the intended combat direction cannot make progress.
+  const speed =
+    p.evade > 0 || (imminent && p.evadeCd <= 0.05)
+      ? MOVE_SPEED.dodge
+      : MOVE_SPEED.walk;
+  const trialMove = (turn: number) => {
+    const dx = vx * Math.cos(turn) - vz * Math.sin(turn),
+      dz = vx * Math.sin(turn) + vz * Math.cos(turn),
+      trial = { x: p.x, z: p.z, y: p.y };
+    for (let n = 0; n < 5; n++)
+      move(trial, dx * speed * 0.05, dz * speed * 0.05, 0.55, mapFor(w).blocks);
+    const x = trial.x - p.x,
+      z = trial.z - p.z,
+      distance = Math.hypot(x, z);
+    return {
+      dx,
+      dz,
+      distance,
+      score: x * vx + z * vz + distance * 0.2 - Math.abs(turn) * 0.025,
+    };
+  };
+  const forward = trialMove(0);
+  if (forward.distance < speed * 0.25 * 0.75) {
+    const best = [0, -0.4, 0.4, -0.8, 0.8, -1.2, 1.2, -1.6, 1.6, Math.PI]
+      .map(trialMove)
+      .sort((a, b) => b.score - a.score)[0];
+    vx = best.dx;
+    vz = best.dz;
+  }
   i.mx = Math.max(-1, Math.min(1, vx * Math.cos(i.yaw) + vz * Math.sin(i.yaw)));
   i.mz = Math.max(-1, Math.min(1, vx * Math.sin(i.yaw) - vz * Math.cos(i.yaw)));
   // Dodge close to impact; dodging at 0.6 seconds expires before the projectile arrives.

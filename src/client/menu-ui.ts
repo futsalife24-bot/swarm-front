@@ -1,3 +1,4 @@
+import { showModalAfterFullscreen } from "./landscape";
 /** Shared, native modal: Escape, focus containment and return focus are browser managed. */
 export function menuDialog(
   title: string,
@@ -16,7 +17,7 @@ export function menuDialog(
     if (trigger?.isConnected) trigger.focus({ preventScroll: true });
   });
   document.body.append(dialog);
-  dialog.showModal();
+  showModalAfterFullscreen(dialog);
   const guide = document.createElement("div");
   guide.className = "reading-guide";
   guide.textContent = "続きは上下にスクロール ↕";

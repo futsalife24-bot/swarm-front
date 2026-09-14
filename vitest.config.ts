@@ -2,10 +2,21 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     include: [
+      "tests/training.test.ts",
+      "tests/developer-auth.test.ts",
+      "tests/encounter-camera.test.ts",
+      "tests/audio.test.ts",
+      "tests/enemy-size.test.ts",
+      "tests/foundry-generation.test.ts",
+      "tests/foundry-movement.test.ts",
+      "tests/aim.test.ts",
       "tests/standard-trooper.test.ts",
       "tests/hound-motion.test.ts",
       "tests/structure-motion.test.ts",
+      "tests/enemy-report-motion.test.ts",
       "tests/maps.test.ts",
+      "tests/terrain.test.ts",
+      "tests/scenery-boundary.test.ts",
       "tests/structure-v2.test.ts",
       "tests/enemies.test.ts",
       "tests/stages.test.ts",

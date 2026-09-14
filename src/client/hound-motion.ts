@@ -1,5 +1,8 @@
 import * as T from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { leaperReportClip } from './leaper-report-clip';
+import { enemyIdleClip } from './enemy-idle-clip';
+import { enemyWindupClip } from './enemy-windup-clip';
 
 export type HoundClip = 'Idle' | 'Locomotion' | 'Lunge';
 type ClipRange = { start: number; steps: number; duration: number };
@@ -13,16 +16,21 @@ const cached=new Map<string,Promise<HoundMotionAsset>>();
 export function loadHoundMotion(): Promise<HoundMotionAsset> {
   return loadEnemyMotion('hound');
 }
-export function loadEnemyMotion(name:'hound'|'pleat'|'prism'|'ray'|'foundry_zero'): Promise<HoundMotionAsset> {
-  if(cached.has(name))return cached.get(name)!;
-  const request = new GLTFLoader().loadAsync(`${import.meta.env.BASE_URL}assets/enemies/${name}_motion_${name==='pleat'?'v4':'v1'}.glb`).then(({scene:model,animations:clips}) => {
+export function loadEnemyMotion(name:'hound'|'leaper'|'pleat'|'prism'|'ray'|'foundry_zero', report = false): Promise<HoundMotionAsset> {
+  const key=name+(report?'_report':'');
+  if(cached.has(key))return cached.get(key)!;
+  const request = new GLTFLoader().loadAsync(`${import.meta.env.BASE_URL}assets/enemies/${name}_motion_${name==='pleat'?'v5':name==='leaper'?'v2':'v1'}.glb`).then(({scene:model,animations:clips}) => {
     model.updateMatrixWorld(true);
     const meshes: T.SkinnedMesh[] = [];
     model.traverse(o => { if (o instanceof T.SkinnedMesh) meshes.push(o); });
     const attack=clips.find(c=>c.name==='Attack');if(attack)attack.name='Lunge';
     if (meshes.length !== (name==='foundry_zero'?5:4) || !(['Idle','Locomotion','Lunge'] as const).every(n => clips.some(c => c.name === n))) throw new Error('Invalid enemy motion asset');
     const skeleton = meshes[0].skeleton, bones = skeleton.bones.length;
-    if (bones !== ({hound:20,pleat:20,prism:9,ray:15,foundry_zero:21})[name] || meshes.some(m => !m.bindMatrix.equals(meshes[0].bindMatrix) || !m.matrixWorld.equals(meshes[0].matrixWorld))) throw new Error('Unexpected enemy skin binding');
+    clips.splice(clips.findIndex(c=>c.name==='Idle'),1,enemyIdleClip(model,skeleton.bones,name));
+    const lungeIndex=clips.findIndex(c=>c.name==='Lunge');
+    clips.splice(lungeIndex,1,enemyWindupClip(model,skeleton.bones,name,clips[lungeIndex]));
+    if(name==='leaper' && report) clips.splice(clips.findIndex(c=>c.name==='Locomotion'),1,leaperReportClip(model,skeleton.bones));
+    if (bones !== ({hound:20,leaper:20,pleat:20,prism:9,ray:15,foundry_zero:21})[name] || meshes.some(m => !m.bindMatrix.equals(meshes[0].bindMatrix) || !m.matrixWorld.equals(meshes[0].matrixWorld))) throw new Error('Unexpected enemy skin binding');
     const ranges = {} as Record<HoundClip, ClipRange>;
     let rows=0;
     for (const name of ['Idle','Locomotion','Lunge'] as const) {
@@ -48,8 +56,8 @@ export function loadEnemyMotion(name:'hound'|'pleat'|'prism'|'ray'|'foundry_zero
     const atlas=new T.DataTexture(data,bones*4,rows,T.RGBAFormat,T.FloatType);
     atlas.minFilter=atlas.magFilter=T.NearestFilter;atlas.generateMipmaps=false;atlas.needsUpdate=true;
     return {model,clips,atlas,ranges,meshes,bones};
-  }).catch(error => {cached.delete(name);throw error;});
-  cached.set(name,request);return request;
+  }).catch(error => {cached.delete(key);throw error;});
+  cached.set(key,request);return request;
 }
 
 /** Four instanced draws at 1–80 enemies, independent clip/phase and transition for every instance. */

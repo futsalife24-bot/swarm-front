@@ -1,0 +1,140 @@
+{
+  "asset": "foundry_zero_mechanical_legs_v2.glb",
+  "root": "FOUNDRY_ZERO_ROOT",
+  "format": "glTF 2.0 rigid mesh hierarchy; no skin or bones",
+  "units": [
+    {
+      "name": "FZ_HEAD",
+      "index": 0,
+      "kind": "head",
+      "neutral_translation_gltf": [
+        0,
+        0,
+        0.0
+      ]
+    },
+    {
+      "name": "FZ_BODY_01",
+      "index": 1,
+      "kind": "body",
+      "neutral_translation_gltf": [
+        0,
+        0,
+        3.2
+      ]
+    },
+    {
+      "name": "FZ_BODY_02",
+      "index": 2,
+      "kind": "body",
+      "neutral_translation_gltf": [
+        0,
+        0,
+        6.4
+      ]
+    },
+    {
+      "name": "FZ_BODY_03",
+      "index": 3,
+      "kind": "body",
+      "neutral_translation_gltf": [
+        0,
+        0,
+        9.600000000000001
+      ]
+    },
+    {
+      "name": "FZ_BODY_04",
+      "index": 4,
+      "kind": "body",
+      "neutral_translation_gltf": [
+        0,
+        0,
+        12.8
+      ]
+    },
+    {
+      "name": "FZ_BODY_05",
+      "index": 5,
+      "kind": "body",
+      "neutral_translation_gltf": [
+        0,
+        0,
+        16.0
+      ]
+    },
+    {
+      "name": "FZ_BODY_06",
+      "index": 6,
+      "kind": "body",
+      "neutral_translation_gltf": [
+        0,
+        0,
+        19.200000000000003
+      ]
+    },
+    {
+      "name": "FZ_BODY_07",
+      "index": 7,
+      "kind": "body",
+      "neutral_translation_gltf": [
+        0,
+        0,
+        22.400000000000002
+      ]
+    }
+  ],
+  "unit_pitch_m": 3.2,
+  "unit_origin": "ground below center; native unit scales all 1",
+  "forward": "glTF -Z; Blender +Y",
+  "connector_pivot_gltf": [
+    0,
+    1.65,
+    -1.04
+  ],
+  "previous_rear_socket_gltf": [
+    0,
+    1.65,
+    1.05
+  ],
+  "connector_nominal_length_m": 1.11,
+  "connector_axis": "local -Z; endpoints 0 to -1.11; extend scale.z",
+  "runtime_placement": "Clone FZ_HEAD or each FZ_BODY_nn with children. Reset extracted root translation to authoritative node position and yaw to node heading + PI. Child part transforms stay local. Do not apply whole-scene ArticulationPreview to game-state-driven roots.",
+  "parts": {
+    "shell": "<unit>_SHELL",
+    "connector": "<body>_CONNECTOR",
+    "legs": "<unit>_LEG_[LR][1..2]; head [1..3]",
+    "leg_rigid_parts": [
+      "HIP",
+      "UPPER",
+      "LOWER",
+      "FOOT"
+    ],
+    "head_emitters": "FZ_HEAD_EMITTER_01..06",
+    "muzzle": "<emitter>_MUZZLE / FZ_HEAD_CENTRAL_MUZZLE"
+  },
+  "combat_lasers": {
+    "head": {
+      "pivot": "FZ_HEAD_CENTRAL_LASER",
+      "muzzle": "FZ_HEAD_CENTRAL_MUZZLE",
+      "unit_local_muzzle_gltf": [
+        0,
+        1.65,
+        -1.66
+      ]
+    },
+    "body": {
+      "pivot": "FZ_BODY_nn_LASER",
+      "muzzle": "FZ_BODY_nn_LASER_MUZZLE",
+      "unit_local_muzzle_gltf": [
+        0,
+        2.68,
+        -0.62
+      ]
+    },
+    "aim": "Muzzle is at pivot origin and does not translate when local -Z is aimed; short optics rotate, static housing stays on shell"
+  },
+  "disconnect": "Hide the connector on a chain-leading body. Preserve its body and legs. Removing any unit does not reparent or renumber the others.",
+  "animation": "ArticulationPreview is a 4 second in-place inspection exercise with world-planted feet. It is not a specified locomotion speed, combat ability or attack timing.",
+  "scaling_warning": "Integrated first version; shared ground movement and head/body hit volumes still require final integration validation."
+}

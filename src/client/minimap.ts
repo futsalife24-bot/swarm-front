@@ -1,3 +1,4 @@
+import { markerAbove, groundHeight, terrainProps } from "../shared/terrain";
 import { ARENA_X, ARENA_Z } from "../shared/arena";
 import { CAVE_BLOCKS, caveClearance } from "../shared/cave";
 import { mapFor } from "../shared/stages";
@@ -55,6 +56,15 @@ export class Minimap {
               this.scale + 0.5,
             );
     }
+    for(let x=-ARENA_X;x<ARENA_X;x+=2)for(let z=-ARENA_Z;z<ARENA_Z;z+=2){
+      if(this.map.blocks===CAVE_BLOCKS && caveClearance(x,z)<0)continue;
+      const h=groundHeight(x,z,this.map.blocks);
+      if(h<.3)continue;
+      b.fillStyle=`rgba(130,170,150,${Math.min(.42,Math.ceil(h)*.035)})`;
+      b.fillRect(this.px(x),this.pz(z),2*this.scale+.5,2*this.scale+.5);
+    }
+    b.fillStyle="#77908d";
+    for(const prop of terrainProps(this.map.blocks))b.fillRect(this.px(prop.x-prop.w/2),this.pz(prop.z-prop.d/2),Math.max(1,prop.w*this.scale),Math.max(1,prop.d*this.scale));
     b.fillStyle = COLORS.block;
     for (const k of this.map.blocks)
       b.fillRect(
@@ -149,15 +159,16 @@ export class Minimap {
     for (const e of w.enemies) {
       for (const segment of e.segments ?? []) {
         if (segment.partHp === 0) continue;
-        const [sx, sy] = enemyAt(segment.x, segment.z, 2.5);
-        this.dot(sx, sy, 2.5, COLORS.boss);
+        const [sx, sy] = enemyAt(segment.x, segment.z, markerAbove(segment,self)?3.05:2.5);
+        if (markerAbove(segment,self)) this.ring(sx,sy,2.5,COLORS.boss,1.1);
+        else this.dot(sx, sy, 2.5, COLORS.boss);
       }
       if (e.partHp === 0) continue;
       const r = e.kind === "boss" ? 4 : 1.6,
-        [x, y] = enemyAt(e.x, e.z, e.y > 1.5 ? r + 0.8 + 1.1 / 2 : r);
+        [x, y] = enemyAt(e.x, e.z, markerAbove(e, self) ? r + 0.8 + 1.1 / 2 : r);
       // Airborne reads as a hollow mark. A flat map cannot say how high something
       // is, and pretending otherwise makes "overhead" look like "on top of you".
-      if (e.y > 1.5) this.ring(x, y, r + 0.8, COLORS[e.kind], 1.1);
+      if (markerAbove(e, self)) this.ring(x, y, r + 0.8, COLORS[e.kind], 1.1);
       else this.dot(x, y, r, COLORS[e.kind]);
     }
     for (const p of w.players) {

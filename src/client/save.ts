@@ -6,6 +6,9 @@ export interface Save {
   equipped: string[];
   volume: number;
   sensitivity: number;
+  fireSensitivity?: number;
+  gyroEnabled?: boolean;
+  gyroSensitivity?: number;
   quality: number;
   receipts: string[];
   pendingWeapons?: Weapon[];
@@ -61,6 +64,15 @@ export function parseSave(raw: string | null): Save {
     !Number.isFinite(v.sensitivity) ||
     v.sensitivity < 0.1 ||
     v.sensitivity > 6 ||
+    (v.fireSensitivity !== undefined &&
+      (!Number.isFinite(v.fireSensitivity) ||
+        v.fireSensitivity < 0.1 ||
+        v.fireSensitivity > 6)) ||
+    (v.gyroSensitivity !== undefined &&
+      (!Number.isFinite(v.gyroSensitivity) ||
+        v.gyroSensitivity < 0.1 ||
+        v.gyroSensitivity > 6)) ||
+    !["boolean", "undefined"].includes(typeof v.gyroEnabled) ||
     ![0.65, 1].includes(v.quality) ||
     !["boolean", "undefined"].includes(typeof v.mapRotates) ||
     ![undefined, "self", "all", "off"].includes(v.damageNumbers)
@@ -140,7 +152,7 @@ export function bankRewards(save: Save, run: string, items: Weapon[]): Save {
   };
 }
 export const POWDER_NAME = "武装片";
-export const POWDER_YIELDS = [1, 3, 10, 30] as const;
+export const POWDER_YIELDS: readonly number[] = [1, 3, 10, 30];
 export function dismantleWeapons(save: Save, ids: string[]): Save {
   const selected = new Set(ids);
   const weapons = [...save.inventory, ...(save.pendingWeapons ?? [])].filter(

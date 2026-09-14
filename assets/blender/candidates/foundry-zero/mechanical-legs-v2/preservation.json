@@ -1,0 +1,48 @@
+{
+  "pass": true,
+  "before": {
+    "path": "public/assets/enemies/foundry_zero_segmented_v1.glb",
+    "sha256": "2df80e300c824c6665134bb9e0b0463da2eedf2e3acad9415830169cf7a9a7ea",
+    "bytes": 1580536,
+    "triangles": 36628
+  },
+  "after": {
+    "path": "assets/blender/candidates/foundry-zero/mechanical-legs-v2/foundry_zero_mechanical_legs_v2.glb",
+    "sha256": "cefb976551d55167ba6b2ecf7ec9c7144105d890a85cb1c5335e24db90c275ab",
+    "bytes": 1787652,
+    "triangles": 36152
+  },
+  "unchangedNonLegMeshes": [
+    "FZ_BODY_01_CONNECTOR_MESH",
+    "FZ_BODY_01_LASER_OPTICS",
+    "FZ_BODY_01_SHELL",
+    "FZ_BODY_02_CONNECTOR_MESH",
+    "FZ_BODY_02_LASER_OPTICS",
+    "FZ_BODY_02_SHELL",
+    "FZ_BODY_03_CONNECTOR_MESH",
+    "FZ_BODY_03_LASER_OPTICS",
+    "FZ_BODY_03_SHELL",
+    "FZ_BODY_04_CONNECTOR_MESH",
+    "FZ_BODY_04_LASER_OPTICS",
+    "FZ_BODY_04_SHELL",
+    "FZ_BODY_05_CONNECTOR_MESH",
+    "FZ_BODY_05_LASER_OPTICS",
+    "FZ_BODY_05_SHELL",
+    "FZ_BODY_06_CONNECTOR_MESH",
+    "FZ_BODY_06_LASER_OPTICS",
+    "FZ_BODY_06_SHELL",
+    "FZ_BODY_07_CONNECTOR_MESH",
+    "FZ_BODY_07_LASER_OPTICS",
+    "FZ_BODY_07_SHELL",
+    "FZ_HEAD_CENTRAL_OPTICS",
+    "FZ_HEAD_EMITTER_01_MESH",
+    "FZ_HEAD_EMITTER_02_MESH",
+    "FZ_HEAD_EMITTER_03_MESH",
+    "FZ_HEAD_EMITTER_04_MESH",
+    "FZ_HEAD_EMITTER_05_MESH",
+    "FZ_HEAD_EMITTER_06_MESH",
+    "FZ_HEAD_SHELL"
+  ],
+  "unchangedLegPivots": 136,
+  "materialsUnchanged": true
+}

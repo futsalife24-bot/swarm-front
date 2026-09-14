@@ -23,6 +23,7 @@ import { validWeapon } from "../src/shared/defs";
 import { STARTERS } from "../src/shared/defs";
 import { step } from "../src/shared/game";
 import { pilot } from "./bot";
+import { supportHeight } from "../src/shared/terrain";
 
 it.each(STAGES)(
   "stage $id completes within the time limit using legal endgame gear and ordinary inputs",
@@ -46,7 +47,11 @@ it.each(STAGES)(
     if (w.phase !== "victory")
       console.log(
         JSON.stringify({
-          wave:w.wave, spawned:w.spawned, nextSpawn:w.nextSpawn, waveClearAt:w.waveClearAt, player: w.players[0],
+          wave: w.wave,
+          spawned: w.spawned,
+          nextSpawn: w.nextSpawn,
+          waveClearAt: w.waveClearAt,
+          player: w.players[0],
           enemies: w.enemies.filter((e) => e.hp > 0),
         }),
       );
@@ -54,7 +59,9 @@ it.each(STAGES)(
       w.phase,
       `Stage ${s.id}, time ${w.time}, kills ${w.totalKills}`,
     ).toBe("victory");
-    expect(w.totalKills).toBe(s.waves.reduce((a, b) => a + waveCount(b), 0));
+    expect(w.totalKills).toBe(
+      s.waves.reduce((a, b) => a + waveCount(b), 0) + (w.foundrySpawned ?? 0),
+    );
   },
 );
 
@@ -65,7 +72,7 @@ it("twenty stages increase combat pressure and reward quality within legal weapo
     start(w);
     w.enemies = [];
     spawn(w, "boss");
-    expect(w.enemies[0].maxHp).toBeCloseTo(4200 * s.hp);
+    expect(w.enemies[0].maxHp).toBeCloseTo(4200 * s.hp * 2);
     const tiers = [0, 0, 0, 0];
     for (let n = 0; n < 50000; n++) {
       const item = loot(w);
@@ -109,10 +116,12 @@ it("maps share collision, roof and ray geometry and keep player/boss entry clear
       expect(wallDistance(b.x, b.h + 1, b.z, 0, -1, 0, 30, blocks)).toBeCloseTo(
         1,
       );
-      const p = { x: b.x - b.w / 2 - 1, z: b.z };
+      const p = { x: b.x - b.w / 2 - 1, z: b.z, y: supportHeight(b.x - b.w / 2 - 1, b.z, blocks) };
       const old = p.x;
       move(p, 1, 0, 0.55, blocks);
-      expect(p.x).toBe(old);
+      expect(p.x).toBeGreaterThanOrEqual(old);
+      expect(blocked(p.x,p.z,.55,p.y,blocks)).toBe(false);
+      expect(p.x).toBeLessThan(b.x-b.w/2);
     }
   }
   for (const bad of [0, 21, 1.5, "2", null, NaN])

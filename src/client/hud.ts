@@ -56,7 +56,7 @@ function updateRevive(w: World, id: string) {
   b.setAttribute("aria-label", "蘇生 · " + RESCUE_NOTE[r.state]);
   b.innerHTML = "<span>蘇生</span><small>" + note + "</small>";
 }
-export function updateCooldowns(w: World, id: string) {
+export function updateCooldowns(w: World, id: string, solo = false) {
   const p = w.players.find((x) => x.id === id)!;
   const duration = reloadDuration(p.weapons[p.slot], p.ammo[p.slot]);
   for (const [id, label, left, total] of [
@@ -81,7 +81,7 @@ export function updateCooldowns(w: World, id: string) {
       (remaining > 0 ? remaining.toFixed(1) + "s" : "READY") +
       "</small>";
   }
-  updateRevive(w, id);
+  if (!solo) updateRevive(w, id);
 }
 const esc = (s: string) =>
   s.replace(
@@ -113,17 +113,24 @@ function rescueMarkup(w: World, id: string) {
     "</div>"
   );
 }
-export function hudMarkup(w: World, id: string, status: string) {
+export function hudMarkup(
+  w: World,
+  id: string,
+  status: string,
+  hpMax = 160,
+  waveStatus?: string,
+) {
   const p = w.players.find((p) => p.id === id)!;
   const def = stats(p.weapons[p.slot]),
     bosses = w.enemies.filter((e) => e.kind === "boss" && e.hp > 0),
     boss = bosses[0];
   const next =
-    w.waveClearAt != null
+    waveStatus ??
+    (w.waveClearAt != null
       ? "WAVE CLEAR · 次波 " +
         Math.max(0, Math.ceil(WAVE_INTERVAL - (w.time - w.waveClearAt))) +
         "秒"
-      : w.enemies.length + " 体 · " + w.totalKills + " 撃破";
+      : w.enemies.length + " 体 · " + w.totalKills + " 撃破");
   return (
     '<div class="hud-rail"><div class="vitals' +
     (p.hp <= 40 ? " critical" : "") +
@@ -131,8 +138,10 @@ export function hudMarkup(w: World, id: string, status: string) {
     (p.hp <= 0 ? "DOWN" : p.hp <= 40 ? "HP · 危険" : "HP") +
     "</small><b>" +
     Math.ceil(p.hp) +
-    '<small> / 160</small></b></div><div class="hp"><i style="width:' +
-    (p.hp / 160) * 100 +
+    "<small> / " +
+    Math.round(hpMax) +
+    '</small></b></div><div class="hp"><i style="width:' +
+    (p.hp / hpMax) * 100 +
     '%"></i></div><div class="squad-strip">' +
     w.players
       .filter((a) => a.id !== id)

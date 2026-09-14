@@ -1,8 +1,10 @@
+import { registerTerrain } from "./terrain";
 import { CAVE_BLOCKS } from "./cave";
 import { MAP_SCALE } from "./arena";
-import { BLOCKS, type Block } from "./defs";
+import { BLOCKS, type Block } from "./map-blocks";
 
 export interface ArenaMap {
+  foundryAllowed?: TroopKind[];
   name: string;
   color: number;
   sky: number;
@@ -90,6 +92,8 @@ for (const map of MAPS) {
       d: b.d * MAP_SCALE,
     }));
 }
+
+MAPS.forEach((map, index) => registerTerrain(map.blocks, index));
 
 export type TroopKind = "crawler" | "ant" | "spider" | "spitter" | "hornet";
 export type BossForm = "crown" | "worm";
@@ -350,6 +354,20 @@ export const STAGES = plans.map((plan, i) => ({
   dropRate: 0.04 + i * (0.09 / 19),
   lootExponent: 1.25 - i * (0.63 / 19),
 }));
+// Explicit per-map permission lists, derived only from that map's existing
+// normal-enemy rosters. Bosses can never recursively fabricate more bosses.
+for (const [mapId, map] of MAPS.entries())
+  map.foundryAllowed = [
+    ...new Set(
+      STAGES.filter((stage) => stage.map === mapId).flatMap((stage) =>
+        stage.waves.flatMap((wave) =>
+          Object.entries(wave.troops)
+            .filter(([, count]) => count > 0)
+            .map(([kind]) => kind as TroopKind),
+        ),
+      ),
+    ),
+  ];
 export function validStage(id: unknown): id is number {
   return (
     typeof id === "number" &&
@@ -358,9 +376,22 @@ export function validStage(id: unknown): id is number {
     id <= STAGES.length
   );
 }
-export function stageFor(w: { stage?: number }) {
-  return STAGES[validStage(w.stage) ? w.stage - 1 : 0];
+export function stageFor(w: { stage?: number; solo?: {stage:number;difficulty:'normal'|'medium'} }) {
+  const base=STAGES[validStage(w.stage) ? w.stage - 1 : 0];
+  if(!w.solo)return base;
+  return {...base,name:w.solo.stage===21?'街区奥部の調査':base.name,hp:base.hp*(w.solo.difficulty==='medium'?1.25:1),damage:base.damage*(w.solo.difficulty==='medium'?1.15:1),dropRate:.05};
 }
-export function mapFor(w: { stage?: number }) {
-  return MAPS[stageFor(w).map];
+export function mapFor(w: { stage?: number; training?: boolean }) {
+  return w.training ? TRAINING_MAP : MAPS[stageFor(w).map];
 }
+
+/** Flat dedicated range, intentionally outside the campaign and terrain generation. */
+export const TRAINING_MAP: ArenaMap = {
+  name: "訓練射撃場", biome: "city", ground: 0x35464b, color: 0x53676a, sky: 0x9bbbc5,
+  blocks: [
+    { x: -24, z: -12, w: 2, d: 74, h: 5 },
+    { x: 24, z: -12, w: 2, d: 74, h: 5 },
+    { x: 0, z: -48, w: 50, d: 2, h: 6 },
+    { x: 0, z: 24, w: 50, d: 2, h: 3 },
+  ],
+};
