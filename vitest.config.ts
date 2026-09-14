@@ -29,5 +29,7 @@ export default defineConfig({
       "tests/hornet.test.ts",
     ],
     testTimeout: 30000,
+    // Full mission simulations compete for CPU and can exhaust the wall-clock timeout.
+    fileParallelism: false,
   },
 });

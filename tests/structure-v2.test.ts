@@ -19,6 +19,7 @@ import { specialMotion } from "../src/shared/enemy-motion";
 import { ENEMIES } from "../src/shared/defs";
 import { troopCount, stageFor, troopAt } from "../src/shared/stages";
 import { enemyGeometry } from "../src/client/enemy-model";
+import { enemySize } from "../src/shared/enemy-size";
 
 function field(kind: Enemy["kind"] = "crawler", count = 4, stage = 1) {
   const w = createWorld("structure", 123, stage);
@@ -110,7 +111,7 @@ it("PRISM snapshots and retreats below 16m without changing damage", () => {
   p.x = 3;
   while (e.wind > 0) step(w, {});
   expect({ x: e.tx, z: e.tz }).toEqual(aim);
-  expect(w.projectiles[0].damage).toBe(ENEMIES.spitter.damage);
+  expect(w.projectiles[0].damage).toBeCloseTo(ENEMIES.spitter.damage * enemySize(e));
 });
 it("HOUND shockwave hits forward after .45 seconds, not behind or outside range", () => {
   const { w, e } = field();
@@ -124,7 +125,7 @@ it("HOUND shockwave hits forward after .45 seconds, not behind or outside range"
   expect(e.wind).toBe(0.45);
   const hp = w.players.map((p) => p.hp);
   while (e.wind > 0) step(w, {});
-  expect(w.players[0].hp).toBe(hp[0] - ENEMIES.crawler.damage);
+  expect(w.players[0].hp).toBeCloseTo(hp[0] - ENEMIES.crawler.damage * enemySize(e));
   expect(w.players.slice(1).map((p) => p.hp)).toEqual(hp.slice(1));
 });
 it("FOUNDRY phases preserve HP, damage and scheduled wave count", () => {
@@ -233,7 +234,7 @@ it("RAY shoots vertically down at speed 19 and hits the stationary player", () =
   expect(q.dz).toBe(0);
   expect(q.dy).toBe(-19);
   for (let i = 0; i < 15; i++) step(w, {});
-  expect(p.hp).toBe(hp - ENEMIES.hornet.damage);
+  expect(p.hp).toBeCloseTo(hp - ENEMIES.hornet.damage * enemySize(e));
 });
 it("RAY near-vertical shots have finite normalized 3D speed", () => {
   const { w, e, p } = field("hornet", 1);
@@ -271,7 +272,8 @@ it("FOUNDRY scores only players reachable by its damage rule", () => {
   expect({ x: e.tx, z: e.tz }).toEqual({ x: 0, z: 18 });
   const hp = w.players.map((p) => p.hp);
   while (e.wind > 0) step(w, {});
-  expect(w.players.map((p) => p.hp)).toEqual([hp[0] - 40, ...hp.slice(1)]);
+  expect(w.players[0].hp).toBeCloseTo(hp[0] - 40 * enemySize(e));
+  expect(w.players.slice(1).map((p) => p.hp)).toEqual(hp.slice(1));
 });
 it("linked foundry targets a real member when the cluster centre is empty", async () => {
   const { clusterMember } = await import("../src/shared/structure-ai");

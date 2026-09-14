@@ -122,8 +122,7 @@ it.each([6, 10, 13, 16, 20])(
     let minX = e.x,
       maxX = e.x,
       minZ = e.z,
-      maxZ = e.z,
-      maxY = 0;
+      maxZ = e.z;
     for (let n = 0; n < 2400; n++) {
       w.time += 0.05;
       moveWorm(w, e, 0.05);
@@ -132,15 +131,16 @@ it.each([6, 10, 13, 16, 20])(
       maxX = Math.max(maxX, e.x);
       minZ = Math.min(minZ, e.z);
       maxZ = Math.max(maxZ, e.z);
-      maxY = Math.max(maxY, e.y);
-      for (const [i, node] of wormNodes(e).entries())
+      for (const [i, node] of wormNodes(e).entries()) {
         expect(
           blocked(node.x, node.z, i === 0 ? 4 : 2.2, node.y, mapFor(w).blocks),
         ).toBe(false);
+        // Paved maps are flat; both flat and natural maps must keep every node grounded.
+        expect(node.y).toBeCloseTo(supportHeight(node.x, node.z, mapFor(w).blocks), 6);
+      }
     }
     expect(maxX - minX).toBeGreaterThan(45);
     expect(maxZ - minZ).toBeGreaterThan(45);
-    expect(maxY).toBeGreaterThan(0);
     for(const node of wormNodes(e)) expect(node.y).toBeCloseTo(supportHeight(node.x,node.z,mapFor(w).blocks),6);
     const copy = JSON.parse(JSON.stringify(w));
     moveWorm(w, e, 0.05);

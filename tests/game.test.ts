@@ -52,7 +52,7 @@ describe("authoritative combat", () => {
     const i = { ...neutral(), fire: true };
     for (let n = 0; n < 20; n++) step(w, { p: i });
     expect(p.ammo[0]).toBe(25);
-    expect(w.enemies[0].hp).toBeLessThan(4200);
+    expect(w.enemies[0].maxHp - w.enemies[0].hp).toBeCloseTo(7 * 24);
   });
   it("blocks bullets and aim assistance through a building", () => {
     const { w, p } = fixture();
@@ -60,7 +60,7 @@ describe("authoritative combat", () => {
     p.z = 30;
     spawn(w, "crawler", 34, -12);
     fire(w, p, { ...neutral(), fire: true });
-    expect(w.enemies[0].hp).toBe(75);
+    expect(w.enemies[0].hp).toBe(w.enemies[0].maxHp);
   });
   it("shotgun has close-range pellets; rocket damages multiple enemies", () => {
     const a = fixture();
@@ -68,12 +68,14 @@ describe("authoritative combat", () => {
     a.p.ammo = [7, 32];
     spawn(a.w, "boss", 0, -5);
     fire(a.w, a.p, { ...neutral(), fire: true });
-    expect(a.w.enemies[0].hp).toBeLessThan(4100);
+    expect(a.w.enemies[0].maxHp - a.w.enemies[0].hp).toBeGreaterThan(100);
     const b = fixture();
     b.p.weapons = [STARTERS[2], STARTERS[0]];
     b.p.ammo = [2, 32];
     spawn(b.w, "crawler", 0, -10);
     spawn(b.w, "crawler", 2, -10);
+    // Hold targets in their telegraph so this checks blast damage, not their dodge AI.
+    for (const e of b.w.enemies) e.wind = 100;
     fire(b.w, b.p, { ...neutral(), fire: true });
     for (let n = 0; n < 20; n++) step(b.w, {});
     expect(b.w.totalKills).toBe(2);
@@ -83,7 +85,7 @@ describe("authoritative combat", () => {
     p.weapons[0] = { ...STARTERS[0], rarity: 1, effect: "pierce" };
     for (const z of [-5, -9, -13, -17]) spawn(w, "crawler", 0, z);
     fire(w, p, neutral());
-    expect(w.enemies.map((e) => e.hp)).toEqual([51, 51, 51, 75]);
+    expect(w.enemies.map((e) => e.maxHp - e.hp)).toEqual([24, 24, 24, 0]);
   });
   it("revive requires a living nearby ally and sustained input", () => {
     const { w, p } = fixture();
@@ -556,10 +558,10 @@ describe("flat effect pools and innate shotgun piercing", () => {
       p.ammo[0] = 7;
       for (const z of [-5, -8, -11, -14]) spawn(w, "boss", 0, z);
       fire(w, p, neutral());
-      const hp = w.enemies.map((e) => e.hp);
-      expect(hp.slice(0, 3).every((value) => value < 4200)).toBe(true);
-      expect(hp[3]).toBe(4200);
-      return hp;
+      const damage = w.enemies.map((e) => e.maxHp - e.hp);
+      expect(damage.slice(0, 3).every((value) => value > 0)).toBe(true);
+      expect(damage[3]).toBe(0);
+      return damage;
     });
     expect(results[1]).toEqual(results[0]);
     expect(results[2]).toEqual(results[0]);
@@ -568,7 +570,7 @@ describe("flat effect pools and innate shotgun piercing", () => {
     const { w, p } = fixture();
     for (const z of [-5, -9]) spawn(w, "crawler", 0, z);
     fire(w, p, neutral());
-    expect(w.enemies.map((e) => e.hp)).toEqual([51, 75]);
+    expect(w.enemies.map((e) => e.maxHp - e.hp)).toEqual([24, 0]);
     const saved = fresh();
     saved.inventory[1] = { ...STARTERS[1], rarity: 1, effect: "pierce" };
     expect(parseSave(JSON.stringify(saved))).toEqual(saved);
