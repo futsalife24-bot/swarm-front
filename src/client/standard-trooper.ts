@@ -268,7 +268,11 @@ export class StandardTrooper {
   private walking = false;
   private aimProgress = 0;
   private readonly combat: boolean;
-  private contactLocks: { key: string; point: T.Vector3 }[] = [];
+  private contactLocks: {
+    key: string;
+    point: T.Vector3;
+    localPoint?: T.Vector3;
+  }[] = [];
   private moveYaw = 0;
   private stopYaw = 0;
   private stopTurnTime = 0.18;
@@ -305,12 +309,12 @@ export class StandardTrooper {
       this.clips.set(clip.name, clip);
     }
     if (this.combat) {
-      for (const name of ["Walk", "Run", "Walk_Rocket", "Run_Rocket"]) {
+      // Keep the preserved v9 Run upper body and UAL_sprint legs below.
+      for (const name of ["Walk", "Walk_Rocket"]) {
         const clip = this.clips.get(`Combat_${name}`)!.clone();
         clip.name = name;
         this.clips.set(name, clip);
       }
-      this.runStride = 3.6;
     }
     const lower = /^(Root|Pelvis|UpperLeg_|LowerLeg_|Foot_|Toe_)/;
     for (const name of [
@@ -415,7 +419,7 @@ export class StandardTrooper {
     const adopted = this.clips.get("UAL_sprint");
     const runMotion =
       assets.runTrial ??
-      (adopted && !this.combat
+      (adopted
         ? {
             clip: adopted,
             stride: TROOPER_SPRINT_STRIDE,
@@ -518,22 +522,34 @@ export class StandardTrooper {
       const key = `${walking}_${q < 0.075 ? "heel" : q > stance - 0.1 ? "toe" : "flat"}`;
       // The lowest authored sole point is the rolling contact, not the ankle.
       let offset = new T.Vector3(),
+        localPoint = new T.Vector3(),
         bottom = Infinity;
       for (const point of leg.sole) {
         const v = point.clone().applyQuaternion(rotation);
         if (v.y < bottom) {
           bottom = v.y;
           offset = v;
+          localPoint = point;
         }
       }
-      const contact = p.clone().add(offset),
-        previous = this.contactLocks[i];
+      const previous = this.contactLocks[i];
+      // Flat soles have several equally low vertices. Keep the same vertex
+      // during contact instead of letting floating-point ties move the anchor.
+      if (previous?.key === key && previous.localPoint) {
+        localPoint = previous.localPoint;
+        offset = localPoint.clone().applyQuaternion(rotation);
+      }
+      const contact = p.clone().add(offset);
       if (
         !previous ||
         previous.key !== key ||
         previous.point.distanceTo(contact) > 0.18
       )
-        this.contactLocks[i] = { key, point: contact.clone() };
+        this.contactLocks[i] = {
+          key,
+          point: contact.clone(),
+          localPoint: localPoint.clone(),
+        };
       const anchor = this.contactLocks[i].point;
       p.x += anchor.x - contact.x;
       p.z += anchor.z - contact.z;
@@ -998,6 +1014,7 @@ export class StandardTrooper {
       runClip === "Walk",
       this.combat &&
         moving &&
+        runClip === "Walk" &&
         !backward &&
         !rolling &&
         p.hp > 0 &&
