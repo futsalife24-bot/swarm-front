@@ -102,7 +102,7 @@ try {
   });
   assert.ok(response.ok);
   const { code } = await response.json();
-  await page.goto(`${origin}/#${code}`);
+  await page.goto(`${origin}/?coop=1#${code}`);
   await page.locator("#launch").waitFor();
   const shared = await coop();
   assert.deepEqual(ids(shared.inventory), originalIds);
