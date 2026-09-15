@@ -1,6 +1,8 @@
-# 現在地: 走行をv9へ復元、監査・公開準備（2026-09-16）
+# 現在地: 走行をv9へ復元・公開済み（2026-09-16）
 
-ユーザーが比較動画を見て走行をv9へ戻すよう指定。歩行・構えは維持し、元クリップ・歩幅を再採用。接地中の靴底頂点入替を防ぐ歩行補正を併せて修正。branch `codex/restore-v9-run`、base `61eed2eba819618169d0d484d9a29f182efd4bf7`。[変更・検証](RESTORE-V9-RUN.md)。独立監査後にmain反映・既存Worker公開まで進める。以下は現行公開版と過去の記録。
+ユーザー指定で走行だけv9へ復元し、歩行と構えの改善は維持。[PR #13](https://github.com/futsalife24-bot/swarm-front/pull/13)のHEAD `383f87b7334fd973ef0e6f505d6df6e9e5cce8b2`に[独立監査](https://chatgpt.com/c/6aa9bf22-8940-83ee-8563-eadce61b71a4)合格・必須修正なし。通常merge後の公開ソース `faba697e74dfa3fcf0c2c18043563af443411dcd` は監査HEADとtree差分0。
+
+既存Worker https://swarm-front.melosalife-24.workers.dev に公開、Version `4c35e871-da24-40ed-95b2-e93fdfbeb5ed`。配信11ファイルSHA一致・health成功。[詳細](RESTORE-V9-RUN.md)。以下は前回公開版と過去の記録。
 
 # 現在地: 兵士3動作をmain反映・公開済み（2026-09-16）
 
