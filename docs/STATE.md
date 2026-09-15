@@ -1,14 +1,14 @@
-# 現在地: main集約の指摘修正済み・再監査待ち（2026-09-15）
+# 現在地: main集約完了（2026-09-15）
 
 正本: GitHub `futsalife24-bot/swarm-front` のmain。正規作業場所はこの `game/`。新しい開始・終了ルールは [WORKFLOW.md](WORKFLOW.md)。
 
-集約PR: [#3（Draft・独立監査待ち）](https://github.com/futsalife24-bot/swarm-front/pull/3)。監査対象の最終HEADはPRと `git rev-parse HEAD` で照合する。監査資料は `dist-validation/main-consolidation-20260915/audit.zip`（ローカル保管）。
+集約PR: [#3（merge済み）](https://github.com/futsalife24-bot/swarm-front/pull/3)。Chat独立再監査で `34193cfe65564a752f98b6d118974f7f6485a63e` が合格し、ユーザーからmerge可の判定を受領。2026-09-15 11:31 JSTに通常mergeを実施した。merge commitは `6dea3ce3eed6d1671dc478f7f24da32922fd5ad1`、監査対象HEADとtree差分0。手元mainもfast-forward同期し、origin/mainとのSHA一致・cleanを確認済み。この後続更新は完了記録だけ。
 
-保存先: `codex/main-consolidation-20260915`。初回監査対象 `d72871c` はST11〜20のロビー同期不具合で要修正。共通判定への修正と実Worker回帰テストを `1fb2395e408170c13c2b665953f13c6d7fb30a63` で保存・検証済み。後続は文書更新のみ。[指摘対応と再現・検証結果](MAIN-CONSOLIDATION-REAUDIT-20260915.md)。mainはまだ `25d95e35ba1e5dfd9ad1ee088a5c72689c169fcd`。初回のバックアップ・327件の単体/試遊・実通信7件・対象UI確認は[集約記録](MAIN-CONSOLIDATION-20260915.md)。旧audit.zipは初回監査対象版の資料として保管しており、今回の修正を含まない。
+初回監査対象 `d72871c` はST11〜20のロビー同期不具合で要修正だった。共通判定への修正と実Worker回帰テストを `1fb2395e408170c13c2b665953f13c6d7fb30a63` で保存・検証し、再監査合格後に上記PRで反映済み。[指摘対応と再現・検証結果](MAIN-CONSOLIDATION-REAUDIT-20260915.md)。初回のバックアップ・327件の単体/試遊・実通信7件・対象UI確認は[集約記録](MAIN-CONSOLIDATION-20260915.md)。旧audit.zipは初回監査対象版の資料として保管しており、後続の修正を含まない。
 
-停止理由: READMEに明示されたmerge前の独立監査で指摘を受け、修正後の再監査が未完了。再開条件: 集約PRの新HEADに対するChat再監査結果を取得し、必要修正と承認条件を満たすこと。その後PRをmainへ反映し、ローカルmainを同期してSHA一致・cleanを確認する。
+この集約に関する監査待ち・停止条件は解消済み。次の通常タスクは最新mainから [WORKFLOW.md](WORKFLOW.md) に従って開始する。`codex/main-consolidation-20260915` と旧ブランチは履歴保管用で、新規開発の起点にしない。
 
-次のセッションはまずこの集約ブランチとPRを照合して継続する。反映完了前に旧mainから別の開発を始めない。旧 `codex/home-armory` を最新版として編集しない。既存Workerの再デプロイは今回行っていない。
+Worker再公開は今回のmerge条件では不要とされ、実施していない。全バイナリの個別監査、ローカル退避物の独立再照合、実機、広告SDK、PWA、GitHub CIでの再実行は監査合格の範囲外として維持する。
 
 以下は機能ごとの履歴。古い承認待ち・未コミット・branch/HEADは当時の記録であり、この先頭と実際のGitに優先しない。
 
@@ -561,4 +561,3 @@ EDFはミニマップが視点に追従して回転するためこの分担が�
 
 ## 2026-09-12 下向き移動のカメラ振動
 カメラ位置と注視点の補間基準を統一。原因・差分・修正前後の計測は docs/CAMERA-JITTER.md。
-
