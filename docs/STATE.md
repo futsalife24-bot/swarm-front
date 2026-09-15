@@ -1,10 +1,10 @@
-# 現在地: 兵士3動作の公開準備・独立監査待ち（2026-09-16）
+# 現在地: 兵士3動作をmain反映・公開済み（2026-09-16）
 
-歩行・走行・AR/SG構えをv9の57骨を維持してv10へ改善。60fpsの編集可能Blender、In-placeの8クリップ、描画側の歩行分離・構え遷移・Foot Lock・保持補正を追加。ローリング動画は使用していない。
+[PR #10](https://github.com/futsalife24-bot/swarm-front/pull/10)のHEAD `21283f21e3abbbd6de22dab26f8ea7033e6b5322`に[Chat独立監査](https://chatgpt.com/c/6aa96936-4cb8-83ee-b892-e090274ccedd)「合格・必須修正なし」。不足バイナリを直接添付してGLB・Blend構造・動画/画像の独立確認も完了。ユーザーの公開承認に従い通常merge済み。
 
-branch `codex/trooper-kling-motion`、base/HEAD `51773683b1a28af03ecc2e78b9cbf70fc5d3b6e6`。ユーザーの「公開までやって」でcommit/push/merge/deployを承認済み。実装commit `2913cd7` をpush済み。[PR #10](https://github.com/futsalife24-bot/swarm-front/pull/10)へ比較動画・原本・検証証拠を保存済み。監査対象はPR最新HEAD（後続は本状態記録のみ）。README第9行の独立監査条件は維持し、main反映・公開は監査後。開始時全追跡ファイルのZIP保全済み。
+公開ソース `8f6f150f02957eec02b8c84fde8f30d826db20d3` は監査HEADとtree差分0。既存Worker https://swarm-front.melosalife-24.workers.dev に公開、Version `37bf836b-09f9-4973-bb55-35c11fb5ff37`。変更11ファイルとsw.jsの配信SHA一致、health成功。公開版844×390・1280×720で通常出撃、移動、射撃、装填、SG切替と弾消費を確認。実スマホ・実マルチ・斜面は未確認。
 
-型、関連14テスト、両build、数値QA、開発/ビルド版の通常出撃操作を確認。実ゲームの改修前後A〜E比較録画あり。実スマホ・実マルチ・斜面は未確認。[変更・動画・検証・バックアップ](TROOPER-KLING-MOTION.md)。停止理由: 今回差分に対するChat独立監査結果が未受領。再開条件: PRの対象HEADに監査合格を受領し、既存保護を満たしてmain反映・Worker公開・配信照合を実施。公開の再承認は不要。以下は従来の公開済み状態と履歴。
+歩行・戦闘走り・AR/SG構えを改善し、RL保持と既存57骨・19クリップを維持。[詳細・比較動画・バックアップ](TROOPER-KLING-MOTION.md)。以後の監査は初回から必要素材・証拠をZIPで通常Chatへ添付する（WORKFLOWへ記録）。後続は公開記録と運用文書のみ。
 
 # ステージ選択の星表示をmain反映・公開済み（2026-09-15）
 
