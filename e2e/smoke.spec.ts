@@ -8,13 +8,19 @@ test("solo boots, moves, changes weapons and resets focus input", async ({
   await page.getByRole("button", { name: "ソロで出撃準備" }).click();
   await page.getByRole("button", { name: "ソロ出撃" }).click();
   await expect(page.locator("#hud")).toBeVisible();
-  await page.keyboard.down("KeyW");
-  await page.waitForTimeout(500);
-  await page.keyboard.up("KeyW");
-  const before = await page.evaluate(
-    () => (window as any).__swarm.world.players[0].z,
+  const startX = await page.evaluate(
+    () => (window as any).__swarm.world.players[0].x,
   );
-  expect(before).toBeLessThan(17);
+  await page.bringToFront();
+  await page.keyboard.down("KeyD");
+  await expect
+    .poll(() => page.evaluate(() => (window as any).__swarm.world.players[0].x))
+    .toBeGreaterThan(startX + 1);
+  await page.keyboard.up("KeyD");
+  const before = await page.evaluate(
+    () => (window as any).__swarm.world.players[0].x,
+  );
+  expect(before).toBeGreaterThan(startX + 1);
   await page.keyboard.press("KeyQ");
   await page.waitForTimeout(250);
   expect(

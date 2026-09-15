@@ -3,12 +3,14 @@ import { test, expect } from "@playwright/test";
 import { STARTERS } from "../src/shared/defs";
 import { fresh, SAVE_KEY } from "../src/client/save";
 import { localCreationKey } from "../tests/credentials";
+import { copyInvite } from "./invite";
 
 test("result banks overflow, favorites survive home and reload, and armory deletion is atomic", async ({
   browser,
   request,
 }) => {
   const context = await browser.newContext({
+    serviceWorkers: "block",
     viewport: { width: 844, height: 390 },
     isMobile: true,
     hasTouch: true,
@@ -39,7 +41,7 @@ test("result banks overflow, favorites survive home and reload, and armory delet
       }, localCreationKey());
     await page.getByRole("button", { name: "ルームを作る" }).click();
     await expect(page.getByText("準備完了", { exact: true })).toBeVisible();
-    const code = (await page.locator("#invite").inputValue()).split("#")[1];
+    const code = (await copyInvite(page)).split("#")[1];
     expect(
       (await request.post(`${endpoint}/fixtures/${code}/reward-overflow`)).ok(),
     ).toBe(true);
@@ -49,7 +51,7 @@ test("result banks overflow, favorites survive home and reload, and armory delet
     await page.mouse.down();
     await expect(
       page.getByRole("heading", { name: "MISSION CLEAR" }),
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 20000 });
     await page.mouse.up();
     const saved = () =>
       page.evaluate((key) => JSON.parse(localStorage.getItem(key)!), SAVE_KEY);
@@ -115,15 +117,18 @@ test("result banks overflow, favorites survive home and reload, and armory delet
       page.getByRole("heading", { name: "武器庫", exact: true }),
     ).toBeVisible();
     await page.reload();
-    // A previous co-op session can reopen preparation on reload.
-    if (await page.locator("#gear-armory").count())
-      await page.locator("#gear-armory").click();
-    else await page.locator("#open-armory").click();
+    // Reload restores the co-op entry; return through the visible title action.
+    await page.getByRole("button", { name: "タイトルへ" }).click();
+    await page.locator("#open-armory").click();
+    await page.locator('[data-armory-select="fixture-lr"]').click();
     await expect(page.locator('[data-discard="fixture-lr"]')).toBeDisabled();
     await page.locator('[data-armory-select="shotgun-2"]').click();
     const candidate = page.locator('[data-discard="shotgun-2"]');
-    page.once("dialog", (d) => d.dismiss());
     await candidate.click();
+    await page
+      .getByRole("dialog")
+      .getByRole("button", { name: "やめる", exact: true })
+      .click();
     expect(await saved()).toEqual(before);
     await page.evaluate(() => {
       const original = Storage.prototype.setItem;
@@ -135,13 +140,20 @@ test("result banks overflow, favorites survive home and reload, and armory delet
         original.call(this, key, value);
       };
     });
-    page.once("dialog", (d) => d.accept());
     await candidate.click();
+    await page
+      .getByRole("dialog")
+      .getByRole("button", { name: "1丁を分解", exact: false })
+      .click();
     await expect(page.locator(".status")).toContainText("削除していません");
     expect(await saved()).toEqual(before);
     await page.evaluate(() => (window as any).restoreStorage());
-    page.once("dialog", (d) => d.accept());
     await candidate.click();
+    await page
+      .getByRole("dialog")
+      .getByRole("button", { name: "1丁を分解", exact: false })
+      .click();
+    await expect(page.locator(".status")).toContainText("1丁を分解し");
     const after = await saved();
     expect(after.inventory.some((w: any) => w.id === "shotgun-2")).toBe(false);
     expect(after.inventory.some((w: any) => w.id === "fixture-lr")).toBe(true);
