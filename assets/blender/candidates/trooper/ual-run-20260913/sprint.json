@@ -1,0 +1,30 @@
+{
+  "key": "sprint",
+  "sourceClip": "Sprint_Loop",
+  "sourceSHA256": "1b7bf67866360665426bb99e4c71bd619f19b408453c24e30f0c3071601eee5c",
+  "blender": "5.2.1 LTS",
+  "mapping": {
+    "Root": "root",
+    "Pelvis": "DEF-hips",
+    "UpperLeg_L": "DEF-thigh.L",
+    "LowerLeg_L": "DEF-shin.L",
+    "Foot_L": "DEF-foot.L",
+    "Toe_L": "DEF-toe.L",
+    "UpperLeg_R": "DEF-thigh.R",
+    "LowerLeg_R": "DEF-shin.R",
+    "Foot_R": "DEF-foot.R",
+    "Toe_R": "DEF-toe.R"
+  },
+  "coordinateCorrection": "180 degrees around Z, source -Y to target +Y",
+  "legLengthScale": 1.0048965771547969,
+  "duration": 0.6666666666666666,
+  "stride": 5.21351158618927,
+  "strideMethod": "median rearward ankle displacement per cycle while both adjacent boot-sole samples are below 2cm",
+  "playbackAt7mps": 0.8951100596052743,
+  "maxFloorLift": 0.06562470984458924,
+  "loopEndpointAdjustmentMaxComponent": 0.0,
+  "originalClipCount": 18,
+  "originalDataPreserved": true,
+  "sha256": "5621035c7405bad7b0fa1ea20231ce036a7b70fd07def7554de2a6ba70c96896",
+  "scope": "Lower body only; pelvis rotations suppressed to preserve aim; original upper body, backward, dodge, hit and reload retained"
+}

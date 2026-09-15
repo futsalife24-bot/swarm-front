@@ -1,0 +1,82 @@
+[
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\audit-manifest.json",
+    "Hash": "121E784EE706DF270F3A35CA04D2C46E552E04B2E12F5761C97670DAA4BB296F"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\build_candidate.py",
+    "Hash": "F5039F7A5EDEA75287557CC8BE7F83097E6675E49CC21C3F0C0D13FA443EECAF"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\bundle_source.mjs",
+    "Hash": "D9142C6D87EE087D5A3405DDC7E86F11C37E8FD2A2C2A5F360C7E62F585DDE8D"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\candidate-motion.ts",
+    "Hash": "8050B44B7DAF471EFDCF08EFC205C54603FD3E115C7E7F918A4C7CE6314DD602"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\check_candidate.mjs",
+    "Hash": "CD370F0A2009A1315025574D1614AD517C8FD1F29C777D25F3A10CBE18C61DC7"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\check_contacts.mjs",
+    "Hash": "4529EEC62FC161B38E2C437DD92A968C5A8175F1B0F563270814DDB8EF5AA2BD"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\DESIGN.md",
+    "Hash": "13196573C6C5A58293AEDA7ED91C4860636DD479CF4655D624ABDEB4FFB190FF"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\index.html",
+    "Hash": "CAF51B03132382206C00BCD69053F7198C37F0E200664ECD2A8306DB744F5D41"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\make_review_sheet.mjs",
+    "Hash": "384F301EDD46EF36815C9ED52D2841709AC3E4E0509186202A393435D606A19F"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\motion_video_mux.mjs",
+    "Hash": "EE11475BB400FA3647E80DAB7CBEC2281B7D4CB523FB32945E1B4B8711605D9D"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\package_audit.mjs",
+    "Hash": "8C4BFDFB6E2BB07BD8014F9AC9C097B370FF68FAB89EBDD8281ADBBE65979BBE"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\parameters.json",
+    "Hash": "07916C1CBB4C9BB8D72694B445FC6E76700AA9DEB9DF89661CA9B0B189C74C42"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\phase1_common.py",
+    "Hash": "FEDDD1747A34BB783F6D041B43754307DC50C59D0E0CA436B3F6FB0BAFFF1F65"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\pleat_motion_v3.blend",
+    "Hash": "17E8C1DC5B097480E83138C5C093E332E3D905B3DAD6A304145470C620964FE9"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\pleat_motion_v3.glb",
+    "Hash": "81BBFE16449F9D7E3E954C0BAAA10E56F9BBFF433D5AED4522B2A6D685ECEDBC"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\README.md",
+    "Hash": "0E10FC4D88EAE1820A982C5FCC66061B42474CA03C2AF36BCDE228A7D8FADE5A"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\record_candidate.mjs",
+    "Hash": "18FAC5411FECA801756341C331FB057DBD8995CAE2F86AF0F59EFB8BFCCF7901"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\record_gameplay.mjs",
+    "Hash": "CC043309302D073F51202A38883344BFCAE733D107728390A8FD5246FDF4902D"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\review.html",
+    "Hash": "42DFD01333890CF9C6DE10E38C2F5E7DE72D9A3C23B529DD1250F3C2CDB9E40C"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\candidates\\crawler\\pleat-v3\\VALIDATION.md",
+    "Hash": "2B59DA885E76B1E520B4D5F3B1A12B6559BA5ABF3BCACF0CFBA569480FCED7D0"
+  }
+]

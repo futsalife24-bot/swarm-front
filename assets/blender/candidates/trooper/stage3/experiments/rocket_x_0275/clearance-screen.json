@@ -1,0 +1,510 @@
+{
+  "source": "rocket",
+  "method": "Every frame and all weapon vertices within target AABB; three-direction majority slanted ray parity and nearest surface depth >12mm. Body closed, helmet disconnected. Inspect flagged frames visually. No hand/armor/weapon-vs-weapon coverage. Threshold is detection only, not approved penetration allowance.",
+  "flags": [
+    {
+      "direction": "1_to_2",
+      "frame": 21,
+      "weapon": "rifle",
+      "held": true,
+      "sampledDeepVertices": 20,
+      "worst": [
+        0.03286724537611008,
+        "Study_Body",
+        242,
+        [
+          0.428425133228302,
+          -0.2587752342224121,
+          1.465011715888977
+        ]
+      ],
+      "bodyRegion": "LowerArm_R"
+    },
+    {
+      "direction": "1_to_2",
+      "frame": 22,
+      "weapon": "rifle",
+      "held": true,
+      "sampledDeepVertices": 50,
+      "worst": [
+        0.050066232681274414,
+        "Study_Body",
+        240,
+        [
+          0.4227675199508667,
+          -0.25939929485321045,
+          1.447569727897644
+        ]
+      ],
+      "bodyRegion": "LowerArm_R"
+    },
+    {
+      "direction": "1_to_2",
+      "frame": 23,
+      "weapon": "rocket",
+      "held": false,
+      "sampledDeepVertices": 45,
+      "worst": [
+        0.052809178829193115,
+        "Study_Body",
+        137,
+        [
+          0.2996640205383301,
+          -0.12000656127929688,
+          1.3389999866485596
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "1_to_2",
+      "frame": 24,
+      "weapon": "rocket",
+      "held": false,
+      "sampledDeepVertices": 12,
+      "worst": [
+        0.03481060266494751,
+        "Study_Body",
+        184,
+        [
+          0.2516336739063263,
+          -0.12021787464618683,
+          1.3437820672988892
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "1_to_2",
+      "frame": 25,
+      "weapon": "rocket",
+      "held": false,
+      "sampledDeepVertices": 12,
+      "worst": [
+        0.03570735827088356,
+        "Study_Body",
+        182,
+        [
+          0.2503359615802765,
+          -0.125,
+          1.3439934253692627
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "1_to_2",
+      "frame": 26,
+      "weapon": "rifle",
+      "held": true,
+      "sampledDeepVertices": 1,
+      "worst": [
+        0.012809216044843197,
+        "Study_Body",
+        277,
+        [
+          0.0299999862909317,
+          -0.3489205241203308,
+          1.2967307567596436
+        ]
+      ],
+      "bodyRegion": "LowerArm_R"
+    },
+    {
+      "direction": "1_to_2",
+      "frame": 26,
+      "weapon": "rocket",
+      "held": false,
+      "sampledDeepVertices": 12,
+      "worst": [
+        0.028473297134041786,
+        "Study_Body",
+        184,
+        [
+          0.2516336739063263,
+          -0.12021787464618683,
+          1.3437820672988892
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "1_to_2",
+      "frame": 27,
+      "weapon": "rocket",
+      "held": false,
+      "sampledDeepVertices": 24,
+      "worst": [
+        0.042584508657455444,
+        "Study_Body",
+        183,
+        [
+          0.2503359615802765,
+          -0.12000656127929688,
+          1.3389999866485596
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "1_to_2",
+      "frame": 28,
+      "weapon": "rocket",
+      "held": false,
+      "sampledDeepVertices": 14,
+      "worst": [
+        0.032208383083343506,
+        "Study_Body",
+        184,
+        [
+          0.2516336739063263,
+          -0.12021787464618683,
+          1.3437820672988892
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "1_to_2",
+      "frame": 29,
+      "weapon": "rocket",
+      "held": false,
+      "sampledDeepVertices": 12,
+      "worst": [
+        0.023478131741285324,
+        "Study_Body",
+        182,
+        [
+          0.2503359615802765,
+          -0.125,
+          1.3439934253692627
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "1_to_2",
+      "frame": 30,
+      "weapon": "rocket",
+      "held": false,
+      "sampledDeepVertices": 10,
+      "worst": [
+        0.017814913764595985,
+        "Study_Body",
+        182,
+        [
+          0.2503359615802765,
+          -0.125,
+          1.3439934253692627
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "1_to_2",
+      "frame": 31,
+      "weapon": "rocket",
+      "held": false,
+      "sampledDeepVertices": 30,
+      "worst": [
+        0.06453718990087509,
+        "Study_Body",
+        138,
+        [
+          0.2996640205383301,
+          -0.125,
+          1.3439934253692627
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "1_to_2",
+      "frame": 36,
+      "weapon": "rocket",
+      "held": true,
+      "sampledDeepVertices": 8,
+      "worst": [
+        0.01911555416882038,
+        "Study_Body",
+        128,
+        [
+          0.2909999191761017,
+          -0.11500014364719391,
+          1.33899986743927
+        ]
+      ],
+      "bodyRegion": "LowerArm_R"
+    },
+    {
+      "direction": "1_to_2",
+      "frame": 58,
+      "weapon": "rocket",
+      "held": true,
+      "sampledDeepVertices": 2,
+      "worst": [
+        0.01291944831609726,
+        "Study_Body",
+        186,
+        [
+          0.403586208820343,
+          0.1932619959115982,
+          1.3025925159454346
+        ]
+      ],
+      "bodyRegion": "LowerArm_R"
+    },
+    {
+      "direction": "2_to_1",
+      "frame": 2,
+      "weapon": "rocket",
+      "held": true,
+      "sampledDeepVertices": 1,
+      "worst": [
+        0.012434996664524078,
+        "Study_Body",
+        186,
+        [
+          0.3919423520565033,
+          0.1898699253797531,
+          1.302505373954773
+        ]
+      ],
+      "bodyRegion": "LowerArm_R"
+    },
+    {
+      "direction": "2_to_1",
+      "frame": 27,
+      "weapon": "rocket",
+      "held": false,
+      "sampledDeepVertices": 8,
+      "worst": [
+        0.01911570504307747,
+        "Study_Body",
+        128,
+        [
+          0.29099997878074646,
+          -0.11499999463558197,
+          1.3389999866485596
+        ]
+      ],
+      "bodyRegion": "LowerArm_R"
+    },
+    {
+      "direction": "2_to_1",
+      "frame": 32,
+      "weapon": "rocket",
+      "held": false,
+      "sampledDeepVertices": 30,
+      "worst": [
+        0.06453721970319748,
+        "Study_Body",
+        138,
+        [
+          0.2996640205383301,
+          -0.125,
+          1.3439934253692627
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "2_to_1",
+      "frame": 33,
+      "weapon": "rocket",
+      "held": false,
+      "sampledDeepVertices": 10,
+      "worst": [
+        0.01781497150659561,
+        "Study_Body",
+        182,
+        [
+          0.2503359615802765,
+          -0.125,
+          1.3439934253692627
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "2_to_1",
+      "frame": 34,
+      "weapon": "rocket",
+      "held": false,
+      "sampledDeepVertices": 12,
+      "worst": [
+        0.023478152230381966,
+        "Study_Body",
+        182,
+        [
+          0.2503359615802765,
+          -0.125,
+          1.3439934253692627
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "2_to_1",
+      "frame": 35,
+      "weapon": "rocket",
+      "held": false,
+      "sampledDeepVertices": 14,
+      "worst": [
+        0.032208383083343506,
+        "Study_Body",
+        184,
+        [
+          0.2516336739063263,
+          -0.12021787464618683,
+          1.3437820672988892
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "2_to_1",
+      "frame": 36,
+      "weapon": "rocket",
+      "held": false,
+      "sampledDeepVertices": 24,
+      "worst": [
+        0.0425846092402935,
+        "Study_Body",
+        183,
+        [
+          0.2503359615802765,
+          -0.12000656127929688,
+          1.3389999866485596
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "2_to_1",
+      "frame": 37,
+      "weapon": "rocket",
+      "held": false,
+      "sampledDeepVertices": 12,
+      "worst": [
+        0.0292649082839489,
+        "Study_Body",
+        182,
+        [
+          0.2503359615802765,
+          -0.125,
+          1.3439934253692627
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "2_to_1",
+      "frame": 37,
+      "weapon": "rifle",
+      "held": true,
+      "sampledDeepVertices": 1,
+      "worst": [
+        0.012239905074238777,
+        "Study_Body",
+        277,
+        [
+          0.029921719804406166,
+          -0.3555665910243988,
+          1.2963649034500122
+        ]
+      ],
+      "bodyRegion": "LowerArm_R"
+    },
+    {
+      "direction": "2_to_1",
+      "frame": 38,
+      "weapon": "rocket",
+      "held": false,
+      "sampledDeepVertices": 12,
+      "worst": [
+        0.035793740302324295,
+        "Study_Body",
+        182,
+        [
+          0.2503359615802765,
+          -0.125,
+          1.3439934253692627
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "2_to_1",
+      "frame": 39,
+      "weapon": "rocket",
+      "held": false,
+      "sampledDeepVertices": 59,
+      "worst": [
+        0.05956019088625908,
+        "Study_Body",
+        178,
+        [
+          0.2590000033378601,
+          -0.125,
+          1.3489999771118164
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "2_to_1",
+      "frame": 40,
+      "weapon": "rocket",
+      "held": false,
+      "sampledDeepVertices": 12,
+      "worst": [
+        0.02364293485879898,
+        "Study_Body",
+        136,
+        [
+          0.2957821190357208,
+          -0.12021787464618683,
+          1.346366286277771
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "2_to_1",
+      "frame": 40,
+      "weapon": "rifle",
+      "held": true,
+      "sampledDeepVertices": 12,
+      "worst": [
+        0.022411365061998367,
+        "Study_Body",
+        241,
+        [
+          0.4011732041835785,
+          -0.30674269795417786,
+          1.4149190187454224
+        ]
+      ],
+      "bodyRegion": "LowerArm_R"
+    },
+    {
+      "direction": "2_to_1",
+      "frame": 41,
+      "weapon": "rifle",
+      "held": true,
+      "sampledDeepVertices": 24,
+      "worst": [
+        0.04632997140288353,
+        "Study_Body",
+        242,
+        [
+          0.4241963326931,
+          -0.2677742540836334,
+          1.4625341892242432
+        ]
+      ],
+      "bodyRegion": "LowerArm_R"
+    }
+  ]
+}

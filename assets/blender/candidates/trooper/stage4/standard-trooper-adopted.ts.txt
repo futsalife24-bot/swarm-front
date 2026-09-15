@@ -1,0 +1,304 @@
+import * as T from 'three';
+import { GLTFLoader, type GLTF } from 'three/addons/loaders/GLTFLoader.js';
+import { clone } from 'three/addons/utils/SkeletonUtils.js';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+import type { Player } from '../shared/game';
+import type { Kind } from '../shared/defs';
+import { EVADE_DURATION, WEAPON_SWITCH_DURATION, HEAVY_HIT_DURATION, reloadDuration } from '../shared/defs';
+
+export const TROOPER_PROFILES: Record<Kind, string> = { rifle: 'Rifle', shotgun: 'Shotgun', rocket: 'Rocket' };
+export const TROOPER_SWITCH = { duration: WEAPON_SWITCH_DURATION, holster: .45 * WEAPON_SWITCH_DURATION, draw: .60 * WEAPON_SWITCH_DURATION } as const;
+export const TROOPER_SKINS = {
+  standard: { Armor: '#5b6469', Ceramic: '#d1d7d8', Cloth: '#394039', Orange: '#f98f35' },
+  desert: { Armor: '#ad9870', Ceramic: '#d6c5a0', Cloth: '#675c42', Orange: '#df913e' },
+  arctic: { Armor: '#c7d2d6', Ceramic: '#e5ecee', Cloth: '#66777f', Orange: '#f98f35' },
+  special: { Armor: '#30383e', Ceramic: '#555d65', Cloth: '#272c30', Orange: '#b65754' },
+} as const;
+export type TrooperSkin = keyof typeof TROOPER_SKINS;
+export const TROOPER_BONES = [
+  'Root', 'Pelvis', 'Spine', 'SpineMid', 'Chest', 'Neck', 'Head',
+  ...['L', 'R'].flatMap(side => [
+    ...['Clavicle', 'UpperArm', 'LowerArm', 'Hand', 'UpperLeg', 'LowerLeg', 'Foot', 'Toe'].map(n => `${n}_${side}`),
+    ...['Thumb', 'Index', 'Middle', 'Ring', 'Little'].flatMap(n => [1, 2, 3].map(i => `${n}${i}_${side}`)),
+  ]),
+  'RightHandWeaponSocket', 'LeftHandSupportSocket', 'BackWeaponSocket', 'BackWeaponSocket_2',
+] as const;
+type Assets = { character: GLTF; weapons: Record<Kind, T.Group> };
+let loading: Promise<Assets> | undefined;
+function trooperEnvironment() {
+  // A continuous, neutral sky/ground reflection for the small metal and visor
+  // surfaces. Shared once across players; no changes to the world's lighting.
+  const faces = Array.from({ length: 6 }, (_, face) => {
+    const canvas = document.createElement('canvas'); canvas.width = canvas.height = 64;
+    const ctx = canvas.getContext('2d')!, pixels = ctx.createImageData(64, 64);
+    for (let y = 0; y < 64; y++) for (let x = 0; x < 64; x++) {
+      const u = 2 * (x + .5) / 64 - 1, v = 2 * (y + .5) / 64 - 1;
+      const dir = [new T.Vector3(1, -v, -u), new T.Vector3(-1, -v, u), new T.Vector3(u, 1, v), new T.Vector3(u, -1, -v), new T.Vector3(u, -v, 1), new T.Vector3(-u, -v, -1)][face].normalize();
+      const sky = T.MathUtils.smoothstep(dir.y, -.2, .7), highlight = Math.pow(Math.max(0, dir.dot(new T.Vector3(-.5, .8, -.3).normalize())), 24);
+      const i = (y * 64 + x) * 4;
+      [0, 1, 2].forEach(c => pixels.data[i + c] = Math.min(255, [38, 43, 44][c] + sky * [152, 162, 170][c] + highlight * 65)); pixels.data[i + 3] = 255;
+    }
+    ctx.putImageData(pixels, 0, 0); return canvas;
+  });
+  const texture = new T.CubeTexture(faces); texture.colorSpace = T.SRGBColorSpace; texture.needsUpdate = true; return texture;
+}
+export function loadStandardTrooper() {
+  return loading ??= (async () => {
+    const loader = new GLTFLoader(), base = `${import.meta.env.BASE_URL}assets/characters/`;
+    const [character, rifle, shotgun, rocket] = await Promise.all([
+      loader.loadAsync(`${base}standard_trooper_v5.glb`),
+      ...(['rifle', 'shotgun', 'rocket'] as const).map(k => loader.loadAsync(`${base}standard_${k}_v4.glb`)),
+    ]);
+    const env = trooperEnvironment();
+    for (const asset of [character, rifle, shotgun, rocket]) asset.scene.traverse(o => {
+      if (!(o instanceof T.Mesh)) return;
+      for (const material of Array.isArray(o.material) ? o.material : [o.material]) if (material instanceof T.MeshStandardMaterial) {
+        if (/Armor|Ceramic|Metal|Visor/.test(material.name)) { material.envMap = env; material.envMapIntensity = material.name === 'Visor' ? 1.1 : .35; }
+        for (const map of [material.map, material.normalMap, material.roughnessMap]) if (map) map.anisotropy = 4;
+      }
+    });
+    for (const name of TROOPER_BONES)
+      if (!(character.scene.getObjectByName(name) instanceof T.Bone)) throw new Error(`Trooper rig bone missing: ${name}`);
+    // Keep modular components in the .blend/GLB; collapse only equivalent runtime
+    // primitives. All source meshes were authored in the same armature space.
+    character.scene.updateMatrixWorld(true);
+    const materials = new Map<T.Material, T.SkinnedMesh[]>();
+    character.scene.traverse(o => {
+      if (o instanceof T.SkinnedMesh && !Array.isArray(o.material)) {
+        const list = materials.get(o.material) ?? []; list.push(o); materials.set(o.material, list);
+      }
+    });
+    for (const [material, meshes] of materials) {
+      const first = meshes[0];
+      if (!meshes.every(m => m.matrixWorld.equals(first.matrixWorld) && m.bindMatrix.equals(first.bindMatrix) && m.skeleton === first.skeleton)) continue;
+      const geometry = mergeGeometries(meshes.map(m => m.geometry));
+      if (!geometry) continue;
+      const merged = new T.SkinnedMesh(geometry, material); merged.name = `Trooper_${material.name}`;
+      // Preserve source module provenance even though runtime geometry is batched.
+      let indexStart = 0;
+      merged.userData.components = meshes.map(m => {
+        const count = m.geometry.index?.count ?? m.geometry.attributes.position.count;
+        const range = { name: m.parent?.name || m.name, start: indexStart, count };
+        indexStart += count; return range;
+      });
+      merged.position.copy(first.position); merged.quaternion.copy(first.quaternion); merged.scale.copy(first.scale);
+      merged.bind(first.skeleton, first.bindMatrix); first.parent!.add(merged);
+      for (const m of meshes) m.removeFromParent();
+    }
+    return { character, weapons: { rifle: rifle.scene, shotgun: shotgun.scene, rocket: rocket.scene } };
+  })();
+}
+
+/** Character clips and weapon profiles are independent of authoritative combat rules. */
+export class StandardTrooper {
+  readonly model: T.Group;
+  readonly mixer: T.AnimationMixer;
+  readonly clips = new Map<string, T.AnimationClip>();
+  readonly bones: T.Bone[] = [];
+  readonly hand: T.Object3D;
+  readonly back: T.Object3D[];
+  readonly weapons: T.Group[] = [];
+  private readonly skinMaterials = new Map<T.MeshStandardMaterial, T.MeshStandardMaterial>();
+  private weaponIds: string[] = [];
+  private prior?: { x: number; z: number; hp: number; slot: number; cool: number; evade: number; heavy: number; run: string };
+  private shotTime = 10;
+  private heavyTime = 10;
+  private switchTime = 10;
+  private oldSlot = 0;
+  private selectedSlot = 0;
+  private locomotion = 0;
+  private moveYaw = 0;
+  private rollTime = 0;
+  private rollYaw = 0;
+  private mode = '';
+  private blend = 1;
+  private previousPose: { p: T.Vector3; q: T.Quaternion; s: T.Vector3 }[] = [];
+  constructor(readonly assets: Assets) {
+    this.model = clone(assets.character.scene) as T.Group;
+    this.model.name = 'StandardTrooper_Player';
+    this.mixer = new T.AnimationMixer(this.model);
+    for (const authored of assets.character.animations) {
+      const clip = authored.clone();
+      clip.name = clip.name.replace(/^Trial_/, '');
+      this.clips.set(clip.name, clip);
+    }
+    const lower = /^(Root|Pelvis|UpperLeg_|LowerLeg_|Foot_|Toe_)/;
+    for (const name of ['Idle', 'Run', 'Run_Backward', 'Weapon_Idle_Rocket', 'Hit_Heavy']) {
+      const clip = this.clips.get(name)!;
+      this.clips.set(`Lower_${name}`, new T.AnimationClip(`Lower_${name}`, clip.duration, clip.tracks.filter(t => lower.test(t.name))));
+    }
+    for (const [name, clip] of [...this.clips]) {
+      if (name.startsWith('Run') || name.startsWith('Fire_') || name.startsWith('Weapon_Idle_') || name.startsWith('Switch_') || name.startsWith('Reload_'))
+        this.clips.set(`Upper_${name}`, new T.AnimationClip(`Upper_${name}`, clip.duration, clip.tracks.filter(t => !lower.test(t.name))));
+    }
+    this.hand = this.model.getObjectByName('RightHandWeaponSocket')!;
+    this.back = ['BackWeaponSocket', 'BackWeaponSocket_2'].map(n => this.model.getObjectByName(n)!);
+    this.model.traverse(o => {
+      if (o instanceof T.Bone) this.bones.push(o);
+      if (o instanceof T.SkinnedMesh) {
+        o.frustumCulled = false; o.castShadow = true;
+        const owned = (material: T.Material) => {
+          if (!(material instanceof T.MeshStandardMaterial)) return material;
+          let local = this.skinMaterials.get(material);
+          if (!local) { local = material.clone(); this.skinMaterials.set(material, local); }
+          return local;
+        };
+        o.material = Array.isArray(o.material) ? o.material.map(owned) : owned(o.material);
+      }
+    });
+  }
+  /** Cosmetic-only, per-player material instances. Textures and geometry stay shared. */
+  setSkin(skin: TrooperSkin) {
+    const palette = TROOPER_SKINS[skin];
+    if (!palette) throw new Error(`Unknown trooper skin: ${skin}`);
+    for (const [source, material] of this.skinMaterials) {
+      const role = (source.name === 'Study_Cloth' ? 'Cloth' : source.name) as keyof typeof palette;
+      if (!(role in palette)) continue;
+      const base = new T.Color(TROOPER_SKINS.standard[role]);
+      const target = new T.Color(palette[role]);
+      // Maps carry the authored standard colors. Tint by a linear-light ratio,
+      // always from the source so repeated switches never accumulate darkening.
+      material.color.copy(source.color).multiply(new T.Color().setRGB(target.r / base.r, target.g / base.g, target.b / base.b));
+    }
+    this.model.userData.skin = skin;
+  }
+  equip(weapons: Player['weapons'], slot: number) {
+    if (weapons.every((w, i) => this.weaponIds[i] === w.id)) return;
+    for (const o of this.weapons) o.removeFromParent();
+    this.weapons.length = 0;
+    weapons.forEach(w => this.weapons.push(this.assets.weapons[w.kind].clone(true)));
+    this.weaponIds = weapons.map(w => w.id);
+    this.selectedSlot = slot;
+    this.switchTime = 10;
+    this.attachRest(slot);
+  }
+  private attach(o: T.Object3D, parent: T.Object3D) {
+    if (o.parent === parent) return;
+    // Blender-authored sockets carry the Z-up -> Y-up basis. Cancel the
+    // standalone weapon GLB's second basis conversion at the attachment root.
+    parent.add(o); o.position.set(0, 0, 0); o.rotation.set(Math.PI / 2, 0, 0); o.scale.set(1, 1, 1);
+  }
+  private attachRest(slot: number) {
+    this.weapons.forEach((o, i) => this.attach(o, i === slot ? this.hand : this.back[i]));
+  }
+  /** Explicit seconds make exported clips inspectable in the same runtime as the game. */
+  sample(name: string, time: number, lowerName?: string, lowerTime = 0) {
+    this.mixer.stopAllAction();
+    for (const [n, t] of [[name, time], ...(lowerName ? [[lowerName, lowerTime]] : [])] as [string, number][]) {
+      const clip = this.clips.get(n);
+      if (!clip) throw new Error(`Trooper animation missing: ${n}`);
+      const action = this.mixer.clipAction(clip);
+      action.reset().setLoop(T.LoopOnce, 1).play(); action.clampWhenFinished = true;
+      action.time = T.MathUtils.clamp(t, 0, clip.duration);
+    }
+    this.mixer.update(0);
+    this.model.updateMatrixWorld(true);
+  }
+  sampleSwitch(from: number, time: number) {
+    const clip = from === 0 ? 'Switch_1_to_2' : 'Switch_2_to_1';
+    this.sample(clip, time / TROOPER_SWITCH.duration * this.clips.get(clip)!.duration);
+    this.weapons.forEach((o, i) => this.attach(o, i === from ? (time < TROOPER_SWITCH.holster ? this.hand : this.back[i]) : (time < TROOPER_SWITCH.draw ? this.back[i] : this.hand)));
+    this.model.updateMatrixWorld(true);
+  }
+  update(p: Player, yaw: number, time: number, run: string, dt: number, motion: { x: number; z: number } = p) {
+    dt = Math.max(0, Math.min(.1, dt));
+    this.equip(p.weapons, p.slot);
+    const prev = this.prior, fresh = !prev || prev.run !== run;
+    if (fresh) { this.selectedSlot = p.slot; this.oldSlot = 1-p.slot; this.switchTime = 10; this.heavyTime = 10; this.shotTime = 10; this.mode = ''; }
+    const dx = fresh ? 0 : motion.x - prev.x, dz = fresh ? 0 : motion.z - prev.z;
+    const distance = Math.hypot(dx, dz);
+    const moving = dt > 0 && distance / dt > .12;
+    let backward = false;
+    if (moving) {
+      let relative = Math.atan2(Math.sin(yaw - Math.atan2(dx, -dz)), Math.cos(yaw - Math.atan2(dx, -dz)));
+      backward = Math.abs(relative) > Math.PI / 2;
+      if (backward) relative -= Math.sign(relative) * Math.PI;
+      this.moveYaw = relative;
+    }
+    if (fresh) { this.moveYaw = 0; this.locomotion = 0; }
+    // Backpedal has its own forward-playing landing and push-off sequence.
+    const runDuration = this.clips.get('Run')!.duration;
+    if (moving && p.evade <= 0) this.locomotion = (this.locomotion + distance / 4.2 * runDuration) % runDuration;
+    const runClip = backward ? 'Run_Backward' : 'Run';
+    this.shotTime += dt; this.heavyTime += dt;
+    if (!fresh && p.cool > prev.cool + .025) this.shotTime = 0;
+    if (!fresh && p.slot !== this.selectedSlot) { this.oldSlot = this.selectedSlot; this.selectedSlot = p.slot; this.switchTime = 0; }
+    // The authority gates both firing and attachment progress, including dodge pauses.
+    if (p.swapCd > 0) {
+      const elapsed = TROOPER_SWITCH.duration - p.swapCd;
+      this.switchTime = Math.min(TROOPER_SWITCH.duration - .00001,
+        Math.max(elapsed, (this.switchTime >= TROOPER_SWITCH.duration ? elapsed : this.switchTime) + (p.evade > 0 || (p.swapResume ?? 0) > 0 ? 0 : dt)));
+    } else this.switchTime = 10;
+    const heavy = p.heavyHit ?? 0;
+    if (heavy > 0) this.heavyTime = fresh || heavy > prev.heavy + .001
+      ? Math.max(0, HEAVY_HIT_DURATION - heavy)
+      : Math.max(this.heavyTime, HEAVY_HIT_DURATION - heavy);
+    const rolling = p.hp > 0 && p.evade > 0;
+    if (rolling && (fresh || prev.evade <= 0 || p.evade > prev.evade)) {
+      this.rollTime = Math.max(0, EVADE_DURATION - p.evade);
+      this.rollYaw = distance > .00001 ? Math.atan2(dx, -dz) : yaw;
+    } else if (rolling) this.rollTime = Math.max(this.rollTime + dt, EVADE_DURATION - p.evade);
+    const profile = TROOPER_PROFILES[p.weapons[p.slot].kind];
+    let mode = '', clip = '', at = 0, lower: string | undefined;
+    if (p.hp <= 0) { mode = 'down'; clip = 'Hit_Heavy'; at = .83; }
+    else if (rolling) { mode = 'roll'; clip = 'Dodge_Roll'; at = this.rollTime / EVADE_DURATION * this.clips.get('Dodge_Roll')!.duration; }
+    else if (this.switchTime < TROOPER_SWITCH.duration) {
+      mode = 'switch'; clip = this.oldSlot === 0 ? 'Switch_1_to_2' : 'Switch_2_to_1'; at = this.switchTime / TROOPER_SWITCH.duration * this.clips.get(clip)!.duration;
+      if (heavy > 0) { mode = 'switch_heavy'; clip = `Upper_${clip}`; lower = 'Lower_Hit_Heavy'; }
+      else if (moving) { clip = `Upper_${clip}`; lower = `Lower_${runClip}`; }
+    }
+    else if (this.heavyTime < HEAVY_HIT_DURATION) { mode = 'heavy'; clip = 'Hit_Heavy'; at = this.heavyTime; }
+    else if (p.reload > 0) {
+      mode = `normal_${profile}_reload_${moving ? runClip : 'idle'}`;
+      clip = `Upper_Reload_${profile}`;
+      const duration = reloadDuration(p.weapons[p.slot], p.ammo[p.slot]);
+      at = T.MathUtils.clamp(1 - p.reload / duration, 0, 1) * this.clips.get(clip)!.duration;
+      lower = `Lower_${moving ? runClip : profile === 'Rocket' ? 'Weapon_Idle_Rocket' : 'Idle'}`;
+    }
+    else {
+      const fire = this.clips.get(`Fire_${profile}`)!;
+      const firing = this.shotTime < fire.duration;
+      mode = `normal_${profile}_${moving ? runClip : 'idle'}`;
+      clip = moving ? `Upper_${runClip}${profile === 'Rocket' ? '_Rocket' : ''}` : `Upper_${firing ? 'Fire_' : 'Weapon_Idle_'}${profile}`;
+      at = moving ? this.locomotion : firing ? this.shotTime : time % 3;
+      lower = `Lower_${moving ? runClip : profile === 'Rocket' ? 'Weapon_Idle_Rocket' : 'Idle'}`;
+    }
+    if (mode !== this.mode) {
+      this.previousPose = this.bones.map(b => ({ p: b.position.clone(), q: b.quaternion.clone(), s: b.scale.clone() }));
+      this.blend = this.mode && mode !== 'roll' ? 0 : 1; this.mode = mode;
+    }
+    this.sample(clip, at, lower, lower?.startsWith('Lower_Run') ? this.locomotion : lower === 'Lower_Hit_Heavy' ? this.heavyTime : time % 3);
+    this.blend = Math.min(1, this.blend + dt / .08);
+    if (this.blend < 1) this.bones.forEach((b, i) => {
+      const from = this.previousPose[i]; b.position.lerpVectors(from.p, b.position, this.blend); b.quaternion.slerpQuaternions(from.q, b.quaternion, this.blend); b.scale.lerpVectors(from.s, b.scale, this.blend);
+    });
+    if (mode.startsWith('normal_')) {
+      const spine = this.model.getObjectByName('Spine');
+      // The whole upper body, including both grip points, follows vertical aim.
+      spine?.rotateX(T.MathUtils.clamp(p.pitch || 0, -.8, .8));
+      if (moving) {
+        const fire = this.clips.get(`Fire_${profile}`)!;
+        if (this.shotTime < fire.duration) spine?.rotateX(-Math.sin(Math.PI * this.shotTime / fire.duration) * (profile === 'Rifle' ? .025 : .055));
+      }
+    }
+    if (lower?.startsWith('Lower_Run')) {
+      // Turn the hips in world up, then cancel at the spine so aim and grips stay aligned.
+      for (const [name, angle] of [['Pelvis', this.moveYaw], ['Spine', -this.moveYaw]] as const) {
+        const bone = this.model.getObjectByName(name)!;
+        const axis = new T.Vector3(0, 1, 0).applyQuaternion(bone.parent!.getWorldQuaternion(new T.Quaternion()).invert());
+        bone.quaternion.premultiply(new T.Quaternion().setFromAxisAngle(axis, angle));
+        bone.updateWorldMatrix(false, true);
+      }
+    }
+    this.model.rotation.y = rolling ? yaw - this.rollYaw : 0;
+    this.model.updateMatrixWorld(true);
+    if (this.switchTime < TROOPER_SWITCH.duration) this.weapons.forEach((o, i) => this.attach(o, i === this.oldSlot ? (this.switchTime < TROOPER_SWITCH.holster ? this.hand : this.back[i]) : (this.switchTime < TROOPER_SWITCH.draw ? this.back[i] : this.hand)));
+    else this.attachRest(this.selectedSlot);
+    this.prior = { x: motion.x, z: motion.z, hp: p.hp, slot: p.slot, cool: p.cool, evade: p.evade, heavy, run };
+  }
+  dispose() {
+    this.mixer.stopAllAction(); this.mixer.uncacheRoot(this.model); this.model.removeFromParent();
+    for (const material of this.skinMaterials.values()) material.dispose();
+    this.skinMaterials.clear();
+  }
+}

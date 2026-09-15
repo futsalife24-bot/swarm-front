@@ -1,0 +1,91 @@
+body[data-screen="stage-clear"] #ui {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #07192315, #030d1899);
+}
+.stage-clear {
+  width: 100%;
+  text-align: center;
+  color: #e4fff3;
+  animation: clear-reveal 0.4s both;
+  transition: opacity 0.4s;
+}
+.stage-clear.is-leaving {
+  animation: none;
+  opacity: 0;
+}
+.clear-band {
+  padding: clamp(20px, 5vh, 52px) 16px;
+  border-block: 1px solid #a7f6d86b;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #09202ce8 25%,
+    #09202ce8 75%,
+    transparent
+  );
+}
+.clear-kicker {
+  margin: 0 0 12px;
+  font-size: clamp(10px, 1.2vw, 14px);
+  letter-spacing: 0.28em;
+  color: #a7e9d0;
+}
+.clear-title {
+  margin: 0;
+  font-size: clamp(32px, 8.5vw, 112px);
+  line-height: 1.12;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 28px #90ffcb66;
+  animation: clear-title-in 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.clear-caption {
+  margin: 14px 0 0;
+  font-size: clamp(12px, 1.6vw, 18px);
+  letter-spacing: 0.4em;
+}
+.clear-line {
+  height: 3px;
+  width: min(300px, 48vw);
+  margin: 22px auto 0;
+  background: #b4f9d6;
+  box-shadow: 0 0 16px #90ffcb88;
+  animation: clear-line-in 0.8s 0.15s both;
+}
+@keyframes clear-reveal {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes clear-title-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(1.12);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes clear-line-in {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stage-clear,
+  .clear-title,
+  .clear-line {
+    animation: none;
+    transition: none;
+  }
+}

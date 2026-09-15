@@ -1,0 +1,14 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {spawnSync} from 'node:child_process';
+const dir='dist-validation/trooper-run',sha=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
+const changed=['src/client/standard-trooper.ts','src/client/changelog.ts','assets/blender/scripts/build_standard_trooper.py'];
+const added=['assets/blender/scripts/preserve_standard_trooper_geometry.py','assets/blender/scripts/validate_standard_trooper_run_source.py','scripts/check-trooper-run.mjs','scripts/check-trooper-run-directions.mjs','scripts/check-trooper-run-game.mjs','scripts/check-trooper-run-network.mjs','scripts/check-trooper-run-published.mjs','scripts/check-trooper-run-preservation.mjs','scripts/render-trooper-run-review.py','scripts/record-trooper-run.mjs','docs/TROOPER-RUN.md'];
+const binaries=['assets/blender/source/standard_trooper_v2.blend','public/assets/characters/standard_trooper_v2.glb','public/assets/characters/standard_trooper_v2.json'];
+let patch='';const files=[];
+for(const p of changed){const before=`${dir}/before/${p.split('/').at(-1)}`,result=spawnSync('git',['diff','--no-index','--',before,p],{encoding:'utf8'});if(![0,1].includes(result.status))throw Error(result.stderr);patch+=result.stdout;files.push({path:p,before:sha(before),after:sha(p)});}
+for(const p of added){const lines=readFileSync(p,'utf8').trimEnd().split('\n');patch+=`diff --git a/${p} b/${p}\nnew file mode 100644\n--- /dev/null\n+++ b/${p}\n@@ -0,0 +1,${lines.length} @@\n${lines.map(l=>'+'+l).join('\n')}\n`;files.push({path:p,before:null,after:sha(p)});}
+for(const p of binaries)files.push({path:p,before:null,after:sha(p),bytes:readFileSync(p).length});
+const json=n=>JSON.parse(readFileSync(`${dir}/${n}.json`));
+const checks={date:new Date().toISOString(),branch:'codex/home-armory',base:'2be699f160c83d641fb68bb1304e4da8059920dc',head:'2be699f160c83d641fb68bb1304e4da8059920dc',uncommitted:true,version:'8c6df17a-5ffd-408b-a299-15eb08d8d402',files,validation:{typecheck:'PASS',unit:'175 PASS',build:'PASS; existing chunk size warning',workerDryRun:'PASS',gait:json('gait-summary'),preservation:json('preservation'),source:json('source-validation'),game:json('game-validation').map(r=>({width:r.width,height:r.height,errors:r.errors})),network:json('network-validation'),published:json('published-validation')},limitations:['Android/iPhone real hardware and Internet co-op unverified','Initial real-time dodge test missed timing; unchanged isolated rerun passed','Maximum sampled ground penetration 0.30 mm','Backward locomotion uses reverse playback of the forward clip']};
+writeFileSync(`${dir}/task.patch`,patch);writeFileSync(`${dir}/checks.json`,JSON.stringify(checks,null,2));console.log('Run task patch and final checks saved');

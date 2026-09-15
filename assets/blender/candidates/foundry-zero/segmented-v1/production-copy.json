@@ -1,0 +1,9 @@
+{
+  "source": "assets\\blender\\candidates\\foundry-zero\\segmented-v1\\foundry_zero_segmented_v1.glb",
+  "destination": "public/assets/enemies/foundry_zero_segmented_v1.glb",
+  "sha256": "2df80e300c824c6665134bb9e0b0463da2eedf2e3acad9415830169cf7a9a7ea",
+  "previous_production_sha256": "71fc3857ba52a3b088c245f0effa82c754f51b07ffcf6230df09703ebe6eac0c",
+  "bytes": 1580536,
+  "authorized": "User approved integrated first version and publication on 2026-09-12",
+  "sourceValidation": "Final Blender source/fresh GLB import/native GLTFLoader + 4 second articulation + 8 fixed-origin unobstructed muzzle tests passed"
+}

@@ -1,0 +1,11 @@
+{
+  "bytes": 605876,
+  "triangles": 5128,
+  "materials": 4,
+  "bones": 20,
+  "clips": [
+    "Idle",
+    "Locomotion",
+    "Lunge"
+  ]
+}

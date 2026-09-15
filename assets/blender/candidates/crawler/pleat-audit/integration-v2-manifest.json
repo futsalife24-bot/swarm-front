@@ -1,0 +1,91 @@
+{
+  "files": [
+    {
+      "path": "proposal-v2.mjs",
+      "sha256": "ac2bee35cfe18418a537587635b89317bf773bf7e5674ef71ba4e00293a15f30",
+      "bytes": 2280
+    },
+    {
+      "path": "check-proposal-v2.mjs",
+      "sha256": "bc813eccce615ccc7b2a874a4671afb2ff0f90f9185b71f6ad3f09e160a7a5b9",
+      "bytes": 4565
+    },
+    {
+      "path": "record-proposal-v2.mjs",
+      "sha256": "1132f33b1d9401db5371019af99484ed34208bc683e2e5ce9b8bdf42d55c3294",
+      "bytes": 4527
+    },
+    {
+      "path": "recovery-evidence.mjs",
+      "sha256": "b8f9bc57a29ef996b7d8d2186a669d35a119143e9f00b0a8cfa469cdeeb7a12b",
+      "bytes": 1620
+    },
+    {
+      "path": "integration-v2/check.log",
+      "sha256": "d70aab62bcc58603c960d69a9a490d83c7b5e55382253fead2838e9119ab2339",
+      "bytes": 154
+    },
+    {
+      "path": "integration-v2/game-fix.diff",
+      "sha256": "ec5784baa88dcb110183c83e58788e744fe027d22f864aa95b600d141229d99f",
+      "bytes": 594
+    },
+    {
+      "path": "integration-v2/game.ts.proposed.txt",
+      "sha256": "2d9ee1d3e1cadc4bea3ead3d0c668d5ab45d67017da660a81fe437926e18c8e1",
+      "bytes": 35913
+    },
+    {
+      "path": "integration-v2/integration-proposal-results.json",
+      "sha256": "c4058edaa74b41a7f47e5bfbb73ee72637437073584bf0f8083fb0c083b58375",
+      "bytes": 140756
+    },
+    {
+      "path": "integration-v2/README.md",
+      "sha256": "77f60b1a97a95a31a4eeffb37f8be3ce44563ae2f77b99ae1a175b3a35099b7d",
+      "bytes": 2508
+    },
+    {
+      "path": "integration-v2/record.log",
+      "sha256": "3af3e85957cb59b872bd390bd2192e4117b19b6a2ad60ebdc03ffd7e233c8f76",
+      "bytes": 1034
+    },
+    {
+      "path": "integration-v2/render-fix.diff",
+      "sha256": "560ae4c1963b408a539bc652a64c386f74e78328e482f031abfff60d8aae3728",
+      "bytes": 3622
+    },
+    {
+      "path": "integration-v2/render.ts.proposed.txt",
+      "sha256": "8cd81638f10112f8068332b5d0be60bbc2bfe2aa292510f41ec9d85e4453605b",
+      "bytes": 37657
+    },
+    {
+      "path": "integration-v2/results.json",
+      "sha256": "653df5a66017fb2c74f6233e4cc9a5f07645c43b7b96b7fd15b9963634cfe132",
+      "bytes": 447897
+    },
+    {
+      "path": "integration-v2/integration-videos/current.webm",
+      "sha256": "c5de8a6be27244dffe6b8eb4c2f293d78df939bf679e4a6ee0030502ded0a5eb",
+      "bytes": 1636320
+    },
+    {
+      "path": "integration-v2/integration-videos/proposed.webm",
+      "sha256": "76abee2a591d37e992b48d6dd3b9808019ae0a59786e4620129458bed7f87174",
+      "bytes": 1521467
+    },
+    {
+      "path": "integration-v2/integration-videos/sampled-frames.png",
+      "sha256": "41ecef9f83a9117067843905d64568bebbecc76a4ddb931d2361ec4b0e60b007",
+      "bytes": 582614
+    },
+    {
+      "path": "integration-v2/integration-videos/video-metadata.json",
+      "sha256": "37ff1e0679af9676f9d435ff7e44d44f5da800d066db1356ab2a0da76bd3ca96",
+      "bytes": 43
+    }
+  ],
+  "scope": "Unapplied integration proposal v2",
+  "glbSHA256": "81bbfe16449f9d7e3e954c0baaa10e56f9bbff433d5aed4522b2a6d685ecedbc"
+}

@@ -1,0 +1,76 @@
+diff --git a/src/client/render.ts b/assets/blender/candidates/crawler/pleat-audit/integration-v2/render.ts.proposed.txt
+index 73c84c1..0fdc23f 100644
+--- a/src/client/render.ts
++++ b/assets/blender/candidates/crawler/pleat-audit/integration-v2/render.ts.proposed.txt
+@@ -188,6 +188,7 @@ export class Renderer {
+   lastEvent = 0;
+   run = "";
+   visual = new Map<string, T.Vector3>();
++  private crawlerAim = new Map<number, { cool: number; time: number; until: number }>();
+   fps = 60;
+   quality = 1;
+   drawCalls = 0;
+@@ -659,6 +660,7 @@ export class Renderer {
+                 : 1,
+           );
+       }
++      if (!w) this.crawlerAim.clear();
+       this.houndVisualInputs.length = 0;
+       for (const inputs of this.structureInputs.values()) inputs.length = 0;
+       let ai = 0;
+@@ -678,7 +680,7 @@ export class Renderer {
+           if (kind === "crawler" && this.houndDebug?.motion)
+             this.houndVisualInputs.push({
+               id: e.id,
+-              moving: moving && e.active !== false && !e.wind,
++              moving: moving && e.active !== false && (e.kind === "crawler" ? !(e.wind > 0) : !e.wind),
+               wind: e.wind,
+               cool: e.cool,
+               distance: Math.hypot(v.x - previousHoundX, v.z - previousHoundZ),
+@@ -688,7 +690,7 @@ export class Renderer {
+             inputs.push({
+               slot: n,
+               id: e.id,
+-              moving: moving && e.active !== false && !e.wind,
++              moving: moving && e.active !== false && (e.kind === "crawler" ? !(e.wind > 0) : !e.wind),
+               wind: e.wind,
+               cool: e.cool,
+               distance: Math.hypot(v.x - previousHoundX, v.z - previousHoundZ),
+@@ -698,7 +700,7 @@ export class Renderer {
+           if (kind === "ant" || kind === "crawler") {
+             (
+               mesh.geometry.getAttribute("stride") as T.InstancedBufferAttribute
+-            ).setX(n, moving && e.active !== false && !e.wind ? 1 : 0);
++            ).setX(n, moving && e.active !== false && (e.kind === "crawler" ? !(e.wind > 0) : !e.wind) ? 1 : 0);
+             mesh.geometry.getAttribute("stride").needsUpdate = true;
+             mesh.userData.gaitClock.value = w.time;
+             (
+@@ -720,8 +722,16 @@ export class Renderer {
+             mesh.geometry.getAttribute("unfold").needsUpdate = true;
+           }
+           this.visual.set(key, v);
+-          const t =
+-            e.wind > 0
++          let crawlerAttacking = false;
++          if (e.kind === "crawler") {
++            const prior = this.crawlerAim.get(e.id);
++            const valid = prior && prior.time <= w.time;
++            const fired = valid && e.wind <= 0 && e.cool > 0.85 && e.cool > prior.cool + 0.4;
++            const until = e.active === false ? 0 : fired ? w.time + Math.max(0, 0.75 - (1.2 - e.cool)) : valid ? prior.until : 0;
++            crawlerAttacking = e.active !== false && (e.wind > 0 || w.time < until);
++            this.crawlerAim.set(e.id, { cool: e.cool, time: w.time, until });
++          }
++          const t = e.wind > 0 || crawlerAttacking
+               ? { x: e.tx, z: e.tz }
+               : w.players.find(
+                   (p) => p.id === e.targetId && p.hp > 0 && p.connected,
+@@ -1065,6 +1075,9 @@ export class Renderer {
+         w ? this.structureInputs.get(kind)! : [],
+         animate ? dt : 0,
+       );
++    for (const id of this.crawlerAim.keys()) {
++      if (!w?.enemies.some(e => e.kind === "crawler" && e.id === id)) this.crawlerAim.delete(id);
++    }
+     this.renderer.render(this.scene, this.camera);
+     this.drawCalls = this.renderer.info.render.calls;
+   }

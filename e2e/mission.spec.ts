@@ -66,7 +66,8 @@ test("full solo mission rewards equip reload and redeploy with ordinary inputs",
   );
   expect(initial.inventory.length).toBeGreaterThan(3);
   const rewardId = initial.inventory.at(-1).id;
-  await page.getByRole("button", { name: "装備変更・再出撃" }).click();
+  await page.getByRole("button", { name: "ホームへ戻る" }).click();
+  await page.getByRole("button", { name: "ソロで出撃準備" }).click();
   // Slot first, then the weapon: the per-card equip buttons are gone.
   await page.locator('[data-pick="0"]').click();
   await page.locator(`[data-equip="${rewardId}"]`).click();

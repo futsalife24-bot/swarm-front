@@ -1,0 +1,272 @@
+{
+  "binary": {
+    "sha256": "cefb976551d55167ba6b2ecf7ec9c7144105d890a85cb1c5335e24db90c275ab",
+    "bytes": 1787652,
+    "meshes": 165,
+    "primitives": 448,
+    "triangles": 36152,
+    "materials": 5,
+    "nodes": 243,
+    "skins": 0,
+    "animations": 0,
+    "previewAnimations": [
+      "ArticulationPreview"
+    ]
+  },
+  "geometry": {
+    "unitNames": [
+      "FZ_HEAD",
+      "FZ_BODY_01",
+      "FZ_BODY_02",
+      "FZ_BODY_03",
+      "FZ_BODY_04",
+      "FZ_BODY_05",
+      "FZ_BODY_06",
+      "FZ_BODY_07"
+    ],
+    "unitParentNames": [
+      "FOUNDRY_ZERO_ROOT",
+      "FOUNDRY_ZERO_ROOT",
+      "FOUNDRY_ZERO_ROOT",
+      "FOUNDRY_ZERO_ROOT",
+      "FOUNDRY_ZERO_ROOT",
+      "FOUNDRY_ZERO_ROOT",
+      "FOUNDRY_ZERO_ROOT",
+      "FOUNDRY_ZERO_ROOT"
+    ],
+    "legs": 34,
+    "meshes": 448,
+    "bounds": {
+      "min": [
+        -2.820000171661377,
+        0,
+        -2.302500069141388
+      ],
+      "max": [
+        2.820000171661377,
+        4.289999961853027,
+        23.660499477386477
+      ]
+    },
+    "unitTranslations": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        3.2
+      ],
+      [
+        0,
+        0,
+        6.4
+      ],
+      [
+        0,
+        0,
+        9.600000000000001
+      ],
+      [
+        0,
+        0,
+        12.8
+      ],
+      [
+        0,
+        0,
+        16
+      ],
+      [
+        0,
+        0,
+        19.200000000000003
+      ],
+      [
+        0,
+        0,
+        22.400000000000002
+      ]
+    ],
+    "connectorPivot": [
+      0,
+      1.649999976158142,
+      -1.0399999618530273
+    ],
+    "positiveDeterminants": true,
+    "mainBoneCount": 0,
+    "maxFootDrift": 0.0004422202670557858,
+    "maxUpperJointGap": 0.00011910036323023659,
+    "maxLowerJointGap": 0.00044243414295380473,
+    "previewMinY": -0.003857125273140194,
+    "nonfinite": 0,
+    "clipDuration": 4,
+    "drawCalls": 898,
+    "combatLasers": [
+      {
+        "unit": "FZ_HEAD",
+        "pivot": "FZ_HEAD_CENTRAL_LASER",
+        "muzzle": "FZ_HEAD_CENTRAL_MUZZLE",
+        "unitLocal": [
+          0,
+          1.649999976158142,
+          -1.659999966621399
+        ],
+        "muzzleLocal": [
+          0,
+          0,
+          0
+        ],
+        "aimOriginDrift": 0,
+        "forwardOccluders": []
+      },
+      {
+        "unit": "FZ_BODY_01",
+        "pivot": "FZ_BODY_01_LASER",
+        "muzzle": "FZ_BODY_01_LASER_MUZZLE",
+        "unitLocal": [
+          0,
+          2.680000066757202,
+          -0.6200001239776611
+        ],
+        "muzzleLocal": [
+          0,
+          0,
+          0
+        ],
+        "aimOriginDrift": 0,
+        "forwardOccluders": []
+      },
+      {
+        "unit": "FZ_BODY_02",
+        "pivot": "FZ_BODY_02_LASER",
+        "muzzle": "FZ_BODY_02_LASER_MUZZLE",
+        "unitLocal": [
+          0,
+          2.680000066757202,
+          -0.619999885559082
+        ],
+        "muzzleLocal": [
+          0,
+          0,
+          0
+        ],
+        "aimOriginDrift": 0,
+        "forwardOccluders": []
+      },
+      {
+        "unit": "FZ_BODY_03",
+        "pivot": "FZ_BODY_03_LASER",
+        "muzzle": "FZ_BODY_03_LASER_MUZZLE",
+        "unitLocal": [
+          0,
+          2.680000066757202,
+          -0.619999885559082
+        ],
+        "muzzleLocal": [
+          0,
+          0,
+          0
+        ],
+        "aimOriginDrift": 0,
+        "forwardOccluders": []
+      },
+      {
+        "unit": "FZ_BODY_04",
+        "pivot": "FZ_BODY_04_LASER",
+        "muzzle": "FZ_BODY_04_LASER_MUZZLE",
+        "unitLocal": [
+          0,
+          2.680000066757202,
+          -0.619999885559082
+        ],
+        "muzzleLocal": [
+          0,
+          0,
+          0
+        ],
+        "aimOriginDrift": 0,
+        "forwardOccluders": []
+      },
+      {
+        "unit": "FZ_BODY_05",
+        "pivot": "FZ_BODY_05_LASER",
+        "muzzle": "FZ_BODY_05_LASER_MUZZLE",
+        "unitLocal": [
+          0,
+          2.680000066757202,
+          -0.619999885559082
+        ],
+        "muzzleLocal": [
+          0,
+          0,
+          0
+        ],
+        "aimOriginDrift": 0,
+        "forwardOccluders": []
+      },
+      {
+        "unit": "FZ_BODY_06",
+        "pivot": "FZ_BODY_06_LASER",
+        "muzzle": "FZ_BODY_06_LASER_MUZZLE",
+        "unitLocal": [
+          0,
+          2.680000066757202,
+          -0.6200008392333984
+        ],
+        "muzzleLocal": [
+          0,
+          0,
+          0
+        ],
+        "aimOriginDrift": 0,
+        "forwardOccluders": []
+      },
+      {
+        "unit": "FZ_BODY_07",
+        "pivot": "FZ_BODY_07_LASER",
+        "muzzle": "FZ_BODY_07_LASER_MUZZLE",
+        "unitLocal": [
+          0,
+          2.680000066757202,
+          -0.6200008392333984
+        ],
+        "muzzleLocal": [
+          0,
+          0,
+          0
+        ],
+        "aimOriginDrift": 0,
+        "forwardOccluders": []
+      }
+    ],
+    "worstFoot": {
+      "frame": 234,
+      "name": "FZ_BODY_02_LEG_R2_FOOT",
+      "actual": [
+        2.4304422859897556,
+        0.07500000298023224,
+        5.420000937459151
+      ],
+      "expected": [
+        2.430000066757202,
+        0.07500000298023224,
+        5.419999980926514
+      ],
+      "unitPosition": [
+        -0.24976849568805823,
+        0,
+        6.400000095367432
+      ]
+    }
+  },
+  "browserErrors": [],
+  "method": "Exported GLB reloaded by native GLTFLoader; AnimationMixer sampled at 60Hz over one 4s loop. Static and movement review PNGs saved.",
+  "limits": [
+    "Draw calls measured in dedicated two-asset preview with shadows; not an integrated performance result",
+    "No real mobile FPS or thermals measured",
+    "No combat behavior or head/body collision compatibility is asserted"
+  ]
+}

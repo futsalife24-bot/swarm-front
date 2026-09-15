@@ -1,0 +1,57 @@
+{
+  "workflow": "PLEAT external audit loop",
+  "status": "REVIEWED_CANDIDATE_DELIVERED",
+  "automationId": "pleat",
+  "producerThreadId": "01a08b37-5698-7aa1-9683-fe0adbed8dc4",
+  "reviewerThreadId": "6aa25fea-00d4-83e8-8e5f-3390b27cb790",
+  "reviewerTitle": "モンスター案作成",
+  "reviewerShareUrl": "https://chatgpt.com/share/6aa2a7eb-06c0-83ee-90ea-d28b17c81914?ogimg=plain",
+  "currentRevision": "pleat-v3",
+  "submittedRevision": "pleat-v3",
+  "lastReviewedTurnId": "e2ac380b-b2ca-44dc-ae03-117c4a19f3be",
+  "transferApproval": {
+    "date": "2026-09-10",
+    "userMessage": "承認します",
+    "destination": "モンスター案作成 / 6aa25fea-00d4-83e8-8e5f-3390b27cb790",
+    "scope": "PLEATの設計・性能条件・画像／動画・監査に必要なモデル／生成コード・検証結果と修正版の継続提出",
+    "excludes": "ゲーム本採用、公開、他種展開、課金、最終造形の本人承認"
+  },
+  "userVisualApproval": null,
+  "externalAuditPass": {
+    "scope": "造形v3・候補内制作証拠、および未適用の統合第3案。追加の必須修正なし",
+    "evidence": "integration-v3-external-pass.json",
+    "glbSHA256": "81bbfe16449f9d7e3e954c0baaa10e56f9bbff433d5aed4522b2a6d685ecedbc",
+    "date": "2026-09-11",
+    "integrationZipSHA256": "1812bb886b613ebe0bfa3fa4cee9c1f92484e8033d4511b77927ef87bff86a2a"
+  },
+  "pendingFindings": [
+    "今回の候補制作・未適用修正案の外部監査は完了",
+    "本体適用、本人見た目承認、本採用、公開は未実施",
+    "初回未観測時の攻撃状態再現と実スマホ性能は本採用時の別条件"
+  ],
+  "lastSend": {
+    "date": "2026-09-11",
+    "sha256": "1812bb886b613ebe0bfa3fa4cee9c1f92484e8033d4511b77927ef87bff86a2a",
+    "status": "SUBMITTED_VIA_BROWSER",
+    "zip": "pleat-v3-integration-final-review.zip",
+    "revision": "integration-v3"
+  },
+  "resumeCondition": "本体適用や本採用等を別途依頼・承認された場合のみ、保存済み候補と修正案から再開。",
+  "noProgressRounds": 0,
+  "scope": "One crawler replacement candidate only; preserve existing models; no gameplay adoption, deployment, other species, commits, purchases or model changes.",
+  "integrationApproval": null,
+  "integrationProposal": "integration-v3/README.md; 18 runtime cases + 6 lifecycle cases (cool 1.2/1.9, active holding interruption) PASS; client/worker snapshot CLI typecheck PASS; final zip prepared, not sent.",
+  "codeZipTransferApproval": {
+    "excludes": "ゲーム本体への適用、本採用、公開",
+    "date": "2026-09-11",
+    "sha256": "1812bb886b613ebe0bfa3fa4cee9c1f92484e8033d4511b77927ef87bff86a2a",
+    "userMessage": "承認します",
+    "scope": "pleat-v3-integration-final-review.zip（ゲーム修正コード・検査コード入り）をモンスター案作成へ送信し、同範囲の修正版も継続共有"
+  },
+  "delivery": {
+    "readme": "pleat-v3-delivery/README.md",
+    "path": "pleat-v3-reviewed-candidate.zip",
+    "sha256": "b8dcd3cc0a501c643601ccd6051a2599023ed54ad13140c0400f289642bb42ef",
+    "automation": "PAUSED after external PASS"
+  }
+}

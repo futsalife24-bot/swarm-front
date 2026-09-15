@@ -1,0 +1,22 @@
+[
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\source\\standard_trooper_v4.blend",
+    "Hash": "F36F040C21603BF691CA37F9DFE50BB0B60C7249CA6B34A00E8576338FBB861D"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\build_standard_trooper_v4.py",
+    "Hash": "7ED7C76D71AA2AB3F7F0005C0AB74D59438DEAE88ABF050A27F713EF8EFFE67C"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\assets\\blender\\scripts\\trooper_v4_geometry.py",
+    "Hash": "FCCDF430B951ABBDD8AA311DA0FC0AE254B653591D6D4C89A9371DF91A4006E8"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\public\\assets\\characters\\standard_trooper_v4.glb",
+    "Hash": "92BA118B47CBB1452D177378276F647E6B188BC463742D566A0BB8A443FBF396"
+  },
+  {
+    "Path": "C:\\Users\\futsa\\OneDrive\\ドキュメント\\ChatGPT\\スワフロ\\game\\src\\client\\standard-trooper.ts",
+    "Hash": "5401DE5D05B18427CCA84F88074E12A8F8D839ECD06F586D3BF8A6ED8D0FA847"
+  }
+]

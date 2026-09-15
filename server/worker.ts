@@ -1,3 +1,5 @@
+import { validStage } from "../src/shared/stages";
+import { developerAuth } from "./developer-auth";
 import { DurableObject } from "cloudflare:workers";
 import { creationAccess, turnstileAccess } from "./auth";
 import { LIMITS, validWeapon, type Weapon } from "../src/shared/defs";
@@ -19,6 +21,7 @@ interface Env {
   ROOM_CREATION_KEY?: string;
   TURNSTILE_SECRET_KEY?: string;
   TURNSTILE_SITE_KEY?: string;
+  DEVELOPER_PASSWORD_HASH?: string;
 }
 interface Member {
   id: string;
@@ -27,6 +30,7 @@ interface Member {
   gone: number;
   weapons: Weapon[];
   edits?: number;
+  ready?: boolean;
 }
 interface Saved {
   created: number;
@@ -34,6 +38,7 @@ interface Saved {
   world: World | null;
   interrupted: boolean;
   paused?: boolean;
+  stage?: number;
 }
 const json = (body: unknown, status = 200) => Response.json(body, { status });
 const secret = () => crypto.randomUUID().replaceAll("-", "");
@@ -63,7 +68,11 @@ export default {
     const path = u.pathname.startsWith("/api/")
       ? u.pathname.slice(4)
       : u.pathname;
-    if (path === "/health")
+    if (path.startsWith("/developer/"))
+      res = await env.GATE.get(env.GATE.idFromName("developer-access")).fetch(
+        req,
+      );
+    else if (path === "/health")
       res = json({
         ok: true,
         transport: "websocket",
@@ -144,6 +153,10 @@ export default {
 // One bounded admission object: persistent daily cap, per-address creation/connection windows.
 export class Gate extends DurableObject<Env> {
   async fetch(req: Request) {
+    if (new URL(req.url).pathname.startsWith("/api/developer/"))
+      return this.ctx.blockConcurrencyWhile(() =>
+        developerAuth(req, this.ctx.storage, this.env.DEVELOPER_PASSWORD_HASH),
+      );
     return this.ctx.blockConcurrencyWhile(() => this.admit(req));
   }
   private async admit(req: Request) {
@@ -441,6 +454,24 @@ export class Room extends DurableObject<Env> {
         },
         at: now,
       };
+    } else if (m.type === "ready" || m.type === "stage") {
+      // Completed runs retain their world; players must still ready for a rematch.
+      if (
+        this.saved.world &&
+        (m.type === "stage" || this.saved.world.phase === "battle")
+      )
+        return;
+      if (m.type === "stage") {
+        if (s.id !== this.saved.members.find((p) => !p.gone)?.id) return;
+        if (!validStage(m.stage) || this.saved.stage === m.stage) return;
+        this.saved.stage = m.stage;
+      } else {
+        if (typeof m.ready !== "boolean" || member.ready === m.ready) return;
+        member.ready = m.ready && member.weapons.length === 2;
+      }
+      member.last = now;
+      await this.persist();
+      this.broadcast();
     } else if (m.type === "equip") {
       if (this.saved.world?.phase === "battle") return;
       if (
@@ -458,12 +489,14 @@ export class Room extends DurableObject<Env> {
       }
       member.edits = (member.edits ?? 0) + 1;
       member.last = now;
+      member.ready = m.ready !== false;
       member.weapons = m.weapons.map((w: Weapon) => ({
         id: w.id,
         kind: w.kind,
         rarity: w.rarity,
         power: w.power,
         effect: w.effect,
+        ...(w.rolls ? { rolls: { ...w.rolls } } : {}),
       }));
       await this.persist();
       this.broadcast();
@@ -471,16 +504,24 @@ export class Room extends DurableObject<Env> {
       const present = this.saved.members.filter((p) => !p.gone);
       if (s.id !== present[0]?.id || this.saved.world?.phase === "battle")
         return;
-      if (!present.length || present.some((p) => p.weapons.length !== 2)) {
+      if (
+        !present.length ||
+        present.some((p) => p.weapons.length !== 2 || p.ready === false)
+      ) {
         this.send(ws, {
           type: "notice",
           reason: "全員の装備準備を待っています",
         });
         return;
       }
+      if (m.stage !== undefined && !validStage(m.stage)) {
+        this.error(ws, "ステージが不正です");
+        return;
+      }
       const world = createWorld(
         secret(),
         crypto.getRandomValues(new Uint32Array(1))[0],
+        this.saved.stage ?? m.stage ?? 1,
       );
       for (const p of present) addPlayer(world, p.id, p.weapons);
       for (const p of present) p.last = now;
@@ -508,7 +549,8 @@ export class Room extends DurableObject<Env> {
       if (!s.id) continue;
       const members = this.saved.members.map((p) => ({
         id: p.id,
-        ready: p.weapons.length === 2,
+        ready: p.weapons.length === 2 && p.ready !== false,
+        ...(!w ? { weapons: p.weapons } : {}),
         connected: !p.gone,
       }));
       if (w) {
@@ -524,7 +566,8 @@ export class Room extends DurableObject<Env> {
           },
           members,
         });
-      } else this.send(ws, { type: "lobby", members });
+      } else
+        this.send(ws, { type: "lobby", members, stage: this.saved.stage ?? 1 });
     }
     if (w) this.sentEvent = w.eventSerial;
   }

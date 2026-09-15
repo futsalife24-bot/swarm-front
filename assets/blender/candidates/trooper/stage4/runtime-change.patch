@@ -1,0 +1,64 @@
+--- before/standard-trooper.ts
++++ after/standard-trooper.ts
+@@ -4,7 +4,7 @@
+ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+ import type { Player } from '../shared/game';
+ import type { Kind } from '../shared/defs';
+-import { EVADE_DURATION, WEAPON_SWITCH_DURATION, HEAVY_HIT_DURATION } from '../shared/defs';
++import { EVADE_DURATION, WEAPON_SWITCH_DURATION, HEAVY_HIT_DURATION, reloadDuration } from '../shared/defs';
+ 
+ export const TROOPER_PROFILES: Record<Kind, string> = { rifle: 'Rifle', shotgun: 'Shotgun', rocket: 'Rocket' };
+ export const TROOPER_SWITCH = { duration: WEAPON_SWITCH_DURATION, holster: .45 * WEAPON_SWITCH_DURATION, draw: .60 * WEAPON_SWITCH_DURATION } as const;
+@@ -46,7 +46,7 @@
+   return loading ??= (async () => {
+     const loader = new GLTFLoader(), base = `${import.meta.env.BASE_URL}assets/characters/`;
+     const [character, rifle, shotgun, rocket] = await Promise.all([
+-      loader.loadAsync(`${base}standard_trooper_v4.glb`),
++      loader.loadAsync(`${base}standard_trooper_v5.glb`),
+       ...(['rifle', 'shotgun', 'rocket'] as const).map(k => loader.loadAsync(`${base}standard_${k}_v4.glb`)),
+     ]);
+     const env = trooperEnvironment();
+@@ -117,14 +117,18 @@
+     this.model = clone(assets.character.scene) as T.Group;
+     this.model.name = 'StandardTrooper_Player';
+     this.mixer = new T.AnimationMixer(this.model);
+-    for (const clip of assets.character.animations) this.clips.set(clip.name, clip);
++    for (const authored of assets.character.animations) {
++      const clip = authored.clone();
++      clip.name = clip.name.replace(/^Trial_/, '');
++      this.clips.set(clip.name, clip);
++    }
+     const lower = /^(Root|Pelvis|UpperLeg_|LowerLeg_|Foot_|Toe_)/;
+     for (const name of ['Idle', 'Run', 'Run_Backward', 'Weapon_Idle_Rocket', 'Hit_Heavy']) {
+       const clip = this.clips.get(name)!;
+       this.clips.set(`Lower_${name}`, new T.AnimationClip(`Lower_${name}`, clip.duration, clip.tracks.filter(t => lower.test(t.name))));
+     }
+     for (const [name, clip] of [...this.clips]) {
+-      if (name.startsWith('Run') || name.startsWith('Fire_') || name.startsWith('Weapon_Idle_') || name.startsWith('Switch_'))
++      if (name.startsWith('Run') || name.startsWith('Fire_') || name.startsWith('Weapon_Idle_') || name.startsWith('Switch_') || name.startsWith('Reload_'))
+         this.clips.set(`Upper_${name}`, new T.AnimationClip(`Upper_${name}`, clip.duration, clip.tracks.filter(t => !lower.test(t.name))));
+     }
+     this.hand = this.model.getObjectByName('RightHandWeaponSocket')!;
+@@ -148,7 +152,7 @@
+     const palette = TROOPER_SKINS[skin];
+     if (!palette) throw new Error(`Unknown trooper skin: ${skin}`);
+     for (const [source, material] of this.skinMaterials) {
+-      const role = source.name as keyof typeof palette;
++      const role = (source.name === 'Study_Cloth' ? 'Cloth' : source.name) as keyof typeof palette;
+       if (!(role in palette)) continue;
+       const base = new T.Color(TROOPER_SKINS.standard[role]);
+       const target = new T.Color(palette[role]);
+@@ -244,6 +248,13 @@
+       else if (moving) { clip = `Upper_${clip}`; lower = `Lower_${runClip}`; }
+     }
+     else if (this.heavyTime < HEAVY_HIT_DURATION) { mode = 'heavy'; clip = 'Hit_Heavy'; at = this.heavyTime; }
++    else if (p.reload > 0) {
++      mode = `normal_${profile}_reload_${moving ? runClip : 'idle'}`;
++      clip = `Upper_Reload_${profile}`;
++      const duration = reloadDuration(p.weapons[p.slot], p.ammo[p.slot]);
++      at = T.MathUtils.clamp(1 - p.reload / duration, 0, 1) * this.clips.get(clip)!.duration;
++      lower = `Lower_${moving ? runClip : profile === 'Rocket' ? 'Weapon_Idle_Rocket' : 'Idle'}`;
++    }
+     else {
+       const fire = this.clips.get(`Fire_${profile}`)!;
+       const firing = this.shotTime < fire.duration;

@@ -57,3 +57,27 @@ it("detects overlap while clamping dragged controls into the safe area", () => {
   expect(r.left).toBeGreaterThanOrEqual(8);
   expect(r.top).toBeGreaterThanOrEqual(88);
 });
+it("adds the scope control to old layouts without losing custom positions", () => {
+  const value = defaultLayout();
+  value.buttons.fire.x = 0.85;
+  const raw = JSON.parse(JSON.stringify(value));
+  delete raw.buttons.scope;
+  const loaded = parseLayout(JSON.stringify(raw));
+  expect(loaded.buttons.fire).toEqual(value.buttons.fire);
+  expect(loaded.buttons.scope).toEqual(defaultLayout().buttons.scope);
+});
+it("inherits legacy opacity while saving each control independently", () => {
+  const v = defaultLayout();
+  v.opacity = 0.55;
+  v.buttons.fire.opacity = 0.9;
+  v.buttons.move.opacity = 0.4;
+  const loaded = parseLayout(JSON.stringify(v));
+  expect(loaded.buttons.fire.opacity).toBe(0.9);
+  expect(loaded.buttons.move.opacity).toBe(0.4);
+  expect(loaded.buttons.reload.opacity ?? loaded.opacity).toBe(0.55);
+  for (const opacity of [0, 1.1, "0.8", null]) {
+    const raw = JSON.parse(JSON.stringify(v));
+    raw.buttons.fire.opacity = opacity;
+    expect(() => parseLayout(JSON.stringify(raw))).toThrow();
+  }
+});

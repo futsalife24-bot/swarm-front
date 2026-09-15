@@ -1,0 +1,64 @@
+import { chromium } from '@playwright/test';
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+const base = 'https://swarm-front.melosalife-24.workers.dev';
+const sha = bytes => createHash('sha256').update(bytes).digest('hex');
+const b = await chromium.launch({channel:'chrome',args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+const page = await b.newPage({viewport:{width:915,height:412},hasTouch:true,isMobile:true,serviceWorkers:'block'});
+page.setDefaultTimeout(20000);
+const errors = [];
+page.on('pageerror', e => errors.push(e.message));
+try {
+  const response = await page.goto(base);
+  assert.equal(response.status(), 200);
+  const local = readFileSync('dist/index.html','utf8');
+  const js = await page.locator('script[type="module"]').getAttribute('src');
+  assert.equal(js, local.match(/src="([^"]+\.js)"/)[1]);
+  const hashes = {};
+  for (const path of [js, local.match(/href="([^"]+\.css)"/)[1]]) {
+    const r = await page.request.get(base + path);
+    assert.equal(r.status(),200);
+    const remote = sha(await r.body()), built = sha(readFileSync('dist'+path));
+    assert.equal(remote,built);
+    hashes[path]=remote;
+  }
+  await page.locator('#home-settings').click();
+  assert.equal(await page.locator('#fire-sense').inputValue(),'1');
+  assert.match(await page.locator('#gyro').innerText(),/オフ/);
+  await page.locator('#fire-sense').fill('2');
+  await page.locator('#sense').fill('3');
+  await page.locator('#gyro-sense').fill('2.5');
+  await page.reload();
+  await page.locator('#home-settings').click();
+  assert.equal(await page.locator('#fire-sense').inputValue(),'2');
+  assert.equal(await page.locator('#sense').inputValue(),'3');
+  assert.equal(await page.locator('#gyro-sense').inputValue(),'2.5');
+  await page.screenshot({path:'dist-validation/gyro-layout-published-home.png'});
+  await page.locator('.dialog-close').click();
+  await page.locator('#solo').click();
+  await page.locator('#launch').click();
+  await page.locator('#pause').click();
+  assert.equal(await page.locator('#pause-fire-sense').inputValue(),'2');
+  assert.equal(await page.locator('#pause-sense').inputValue(),'3');
+  assert.match(await page.locator('#pause-gyro').innerText(),/オフ/);
+  assert.equal(await page.locator('#pause-gyro-sense').inputValue(),'2.5');
+  const layout = await page.evaluate(() => {
+    const controls = [...document.querySelectorAll('.pause-card .setting-control')].map(el => el.getBoundingClientRect().x);
+    const rect = document.querySelector('#pause-resume').getBoundingClientRect();
+    return {controls, resumeVisible: rect.top >= 0 && rect.bottom <= innerHeight};
+  });
+  assert.ok(layout.controls.every(x => Math.abs(x-layout.controls[0])<1));
+  assert.ok(layout.resumeVisible);
+  await page.screenshot({path:'dist-validation/gyro-layout-published-pause.png'});
+  await page.locator('#pause-leave').click();
+  await page.locator('#pause-quit').click();
+  const healthResponse = await page.request.get(base+'/api/health');
+  assert.equal(healthResponse.status(),200);
+  const health = await healthResponse.json();
+  assert.equal(health.ok,true);
+  assert.deepEqual(errors,[]);
+  writeFileSync('dist-validation/gyro-layout-published.json',JSON.stringify({pass:true,base,js,hashes,health,errors,checks:['home settings','independent sensitivity persistence','battle pause settings','sortie and retreat','gyro sensitivity persistence','aligned controls','resume always visible']},null,2));
+  console.log('PUBLISHED GYRO LAYOUT PASS',js);
+  await page.goto('about:blank');
+} finally { await b.close(); }

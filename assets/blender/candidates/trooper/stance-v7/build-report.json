@@ -1,0 +1,21 @@
+{
+  "clips": {
+    "Trial_Idle": {
+      "duration": 3.0
+    },
+    "Trial_Weapon_Idle_Rifle": {
+      "duration": 3.0
+    },
+    "Trial_Weapon_Idle_Shotgun": {
+      "duration": 3.0
+    },
+    "Trial_Weapon_Idle_Rocket": {
+      "duration": 3.0
+    }
+  },
+  "ankleWidth": 0.54,
+  "foreAftStagger": 0.14,
+  "geometrySkeletonMaterialsUnchanged": true,
+  "other14ClipsUnchanged": true,
+  "sha256": "fb477da790f8644657409171d474fda4d2117fbd52fadd43e113bea1464e74ec"
+}

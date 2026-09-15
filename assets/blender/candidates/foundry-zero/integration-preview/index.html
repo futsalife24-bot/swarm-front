@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FOUNDRY ZERO — 構造検証</title>
+<style>
+  *{box-sizing:border-box}body{margin:0;background:#09121a;color:#e5f0f2;font:14px system-ui,sans-serif;overflow:hidden}
+  canvas{display:block}header{position:absolute;top:24px;left:28px;pointer-events:none}
+  .tag{font-size:10px;letter-spacing:.24em;color:#68c5d7}h1{font-size:28px;letter-spacing:.09em;margin:8px 0}
+  .note{color:#8cabb8;font-size:12px;line-height:1.8}footer{position:absolute;bottom:24px;left:28px;right:28px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  button{font:inherit;border:1px solid #456274;color:#cfe0e6;background:#152b37;padding:9px 15px;cursor:pointer}button.active{border-color:#70deef;background:#254959;color:white}
+  #status{margin-left:auto;font-size:12px;color:#81becb}#error{color:#ffa6a6}
+  @media(max-height:450px){header{top:12px;left:16px}h1{font-size:19px;margin:4px 0}.note{font-size:10px}footer{bottom:12px;left:16px;right:16px}button{font-size:11px;padding:7px 10px}}
+</style>
+<header><div class="tag">SWARMFRONT / LOCAL CANDIDATE</div><h1>FOUNDRY ZERO</h1><div class="note">頭部1＋胴体7 / 独立ユニットと接続部の表示検証<br>姿勢は検証用入力です。ゲームの行動・速度を確定するものではありません。</div><div id="error"></div></header>
+<footer>
+  <button data-mode="intact" class="active">全8ユニット</button><button data-mode="middle">中央で分離</button><button data-mode="head">頭部破壊</button><button data-mode="multiple">複数箇所で分離</button><button id="bend">屈曲の試験</button><button id="reset">視点リセット</button><span id="status">モデル読込中</span>
+</footer>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { FoundryWormView } from '/src/client/foundry-worm.ts';
+const url='/assets/blender/candidates/foundry-zero/segmented-v1/foundry_zero_segmented_v1.glb';
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);
+renderer.setClearColor(0x09121a);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.35;
+document.body.prepend(renderer.domElement);
+const scene=new THREE.Scene();scene.fog=new THREE.Fog(0x09121a,70,140);
+const camera=new THREE.PerspectiveCamera(36,innerWidth/innerHeight,.1,200);
+const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.maxDistance=80;controls.minDistance=6;
+function reset(){camera.position.set(-22,17,31);controls.target.set(0,1,0);controls.update()};reset();
+scene.add(new THREE.HemisphereLight(0xb8d8ed,0x263540,2));
+const key=new THREE.DirectionalLight(0xf0f4ff,4);key.position.set(-12,24,18);scene.add(key);
+const rim=new THREE.DirectionalLight(0x64daf9,3);rim.position.set(10,14,-12);scene.add(rim);
+const plane=new THREE.Mesh(new THREE.PlaneGeometry(180,180),new THREE.MeshStandardMaterial({color:0x111f29,roughness:.83}));plane.rotation.x=-Math.PI/2;plane.position.y=-.025;scene.add(plane);
+const grid=new THREE.GridHelper(100,50,0x254652,0x152e3b);grid.position.y=-.015;scene.add(grid);
+let view,mode='intact',bending=false,clock=0;
+const deadByMode={intact:[],middle:[4],head:[0],multiple:[2,5]};
+function fixture(dead=[],t=0,bend=false){
+  const nodes=Array.from({length:8},(_,i)=>({x:(i-3.5)*3.2,y:0,z:bend?Math.sin(i*.6+t)*1.5:0,heading:-Math.PI/2,partHp:dead.includes(i)?0:100}));
+  for(let i=1;i<8;i++)nodes[i].heading=Math.atan2(nodes[i-1].x-nodes[i].x,nodes[i-1].z-nodes[i].z);
+  nodes[0].heading=nodes[1].heading;
+  return {id:1,kind:'boss',...nodes[0],segments:nodes.slice(1),hp:(8-dead.length)*100,maxHp:800,cool:0,wind:0,tx:0,tz:0,hurt:0};
+}
+function setMode(next){mode=next;document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));draw(clock);}
+function draw(t=0){if(!view)return;const e=fixture(deadByMode[mode],t,bending);const before=JSON.stringify(e);view.update(e,t);if(JSON.stringify(e)!==before)throw Error('View mutated authoritative state');scene.updateMatrixWorld(true);renderer.render(scene,camera);document.querySelector('#status').textContent=`生存 ${8-deadByMode[mode].length}/8 · ${renderer.info.render.calls} draw calls`;}
+const api=window.foundryPreview={ready:false,view:null,renderer,scene,camera,fixture,setMode,draw,get mode(){return mode},setBending(v){bending=v;document.querySelector('#bend').classList.toggle('active',v);draw(clock)},async checks(){
+  const results=[];
+  for(const name of Object.keys(deadByMode)){
+    setMode(name);const expected=Array.from({length:8},(_,i)=>i).filter(i=>!deadByMode[name].includes(i));
+    const visible=view.units.flatMap((unit,i)=>unit.visible?[i]:[]);
+    if(JSON.stringify(visible)!==JSON.stringify(expected))throw Error(`Visibility mismatch ${name}: ${visible}`);
+    view.root.traverse(o=>{if(o.matrixWorld.elements.some(v=>!Number.isFinite(v)))throw Error('Non-finite transform');});
+    const connectors=[];
+    for(let i=1;i<8;i++){
+      const connector=view.units[i].getObjectByName(`${view.units[i].name}_CONNECTOR`);
+      const shouldConnect=expected.includes(i)&&expected.includes(i-1);
+      if(connector.visible!==shouldConnect)throw Error(`Connector visibility mismatch ${name}:${i}`);
+      if(shouldConnect){
+        const endpoint=new THREE.Vector3(0,0,-1.11).applyMatrix4(connector.matrixWorld);
+        const rear=new THREE.Vector3(0,1.65,1.05).applyMatrix4(view.units[i-1].matrixWorld);
+        if(endpoint.distanceTo(rear)>1e-5)throw Error(`Connector endpoint detached ${name}:${i}`);
+        connectors.push(i);
+      }
+    }
+    results.push({name,visible,connectors,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles});
+  }
+  setMode('intact');draw(0);const baselineGeometries=renderer.info.memory.geometries;
+  const [a,b]=await Promise.all([FoundryWormView.load(url),FoundryWormView.load(url)]);scene.add(a.root,b.root);
+  a.root.position.z=8;b.root.position.z=-8;
+  a.update({...fixture([2]),id:2},2);b.update({...fixture([]),id:3},1);view.update(fixture([]),0);renderer.render(scene,camera);
+  const threeUnits={calls:renderer.info.render.calls,triangles:renderer.info.render.triangles};
+  if(!view.units[2].visible||a.units[2].visible)throw Error('Cross-instance visibility leak');
+  a.dispose();a.dispose();b.dispose();if(scene.children.includes(a.root)||scene.children.includes(b.root))throw Error('Disposed root retained');
+  setMode('intact');bending=false;draw(0);
+  if(renderer.info.memory.geometries!==baselineGeometries)throw Error('GPU geometry leak after dispose');
+  return {pass:true,results,threeUnits,independentInstances:true,disposeTwice:true,gpuGeometryReleased:true,stateUnchanged:true};
+}};
+document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));document.querySelector('#bend').onclick=()=>api.setBending(!bending);document.querySelector('#reset').onclick=reset;
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+try{view=await FoundryWormView.load(url);api.view=view;scene.add(view.root);api.ready=true;draw();}catch(error){document.querySelector('#error').textContent=String(error);api.error=String(error);throw error;}
+renderer.setAnimationLoop(()=>{clock+=1/60;controls.update();draw(clock)});
+addEventListener('pagehide',()=>{renderer.setAnimationLoop(null);controls.dispose();view?.dispose();plane.geometry.dispose();plane.material.dispose();grid.geometry.dispose();const materials=Array.isArray(grid.material)?grid.material:[grid.material];materials.forEach(m=>m.dispose());renderer.dispose();},{once:true});
+</script>
+</html>

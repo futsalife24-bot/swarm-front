@@ -1,0 +1,318 @@
+{
+  "version": 1,
+  "rate": 32000,
+  "sources": {
+    "rifle": "Prepared SFX Library/AR-15/D_32P.wav",
+    "shotgun": "Prepared SFX Library/Mossberg/N_26P.wav",
+    "reload": "reload.wav",
+    "cock": "cock.wav",
+    "metal": "Audio/impactMetal_medium_000.ogg",
+    "plate": "Audio/impactPlate_heavy_000.ogg",
+    "cloth": "Audio/footstep_carpet_000.ogg",
+    "boot": "Audio/footstep_concrete_000.ogg",
+    "punch": "Audio/impactPunch_heavy_000.ogg",
+    "click": "Audio/impactMetal_light_000.ogg"
+  },
+  "assets": [
+    {
+      "key": "rifle",
+      "seconds": 0.7,
+      "bytes": 44844,
+      "peak": 0.84,
+      "rms": 0.03578922579983404,
+      "sha256": "657f443590f8c19586fb15a0bc642dd678a720408b84dc07d03cf4ce3ad9c7e0",
+      "origin": [
+        "rifle"
+      ]
+    },
+    {
+      "key": "shotgun",
+      "seconds": 1.05,
+      "bytes": 67244,
+      "peak": 0.84,
+      "rms": 0.04129179794775871,
+      "sha256": "2867b5510706de5b2c205b6e70944c2124ecd19504d15f5fa7411ab29457c5ac",
+      "origin": [
+        "shotgun"
+      ]
+    },
+    {
+      "key": "reload",
+      "seconds": 0.65,
+      "bytes": 41644,
+      "peak": 0.84,
+      "rms": 0.043991452451300594,
+      "sha256": "a0e5235f6c4e1d6d7f1197831bcfec89ad7cbb6cfced943816c49d543da256d7",
+      "origin": [
+        "reload"
+      ]
+    },
+    {
+      "key": "ready",
+      "seconds": 0.38,
+      "bytes": 24364,
+      "peak": 0.84,
+      "rms": 0.17389196975751248,
+      "sha256": "1703ada47d968dc8299f9fc85c5f6b9ba5ce4dc34d4c8ab79116122e1bea3521",
+      "origin": [
+        "cock"
+      ]
+    },
+    {
+      "key": "switch",
+      "seconds": 0.42,
+      "bytes": 26924,
+      "peak": 0.84,
+      "rms": 0.16418428068858018,
+      "sha256": "ef99a5f8c54ef77789d1d7a7c026dcf8f1a17b5dfab4e8faddcb21324ef390c6",
+      "origin": [
+        "cloth",
+        "cock"
+      ]
+    },
+    {
+      "key": "equip",
+      "seconds": 0.5,
+      "bytes": 32044,
+      "peak": 0.84,
+      "rms": 0.1250525554040422,
+      "sha256": "cb70d1cd4c3a35811d67a86e8d4bac382e33fd42f980b80433a307ca870e9e76",
+      "origin": [
+        "cock",
+        "metal"
+      ]
+    },
+    {
+      "key": "unequip",
+      "seconds": 0.35,
+      "bytes": 22444,
+      "peak": 0.84,
+      "rms": 0.07799622704270232,
+      "sha256": "2a7c7ce17ef8bc45ca0198cd182ffc2624cbe8c29936ac5a02a20ae39224e31a",
+      "origin": [
+        "click",
+        "cloth"
+      ]
+    },
+    {
+      "key": "menu",
+      "seconds": 0.075,
+      "bytes": 4844,
+      "peak": 0.84,
+      "rms": 0.14840681047934892,
+      "sha256": "d6cf3237d40380dc3f085e6f22394c16eff327ec2d1f75dc75bbe966172d089f",
+      "origin": [
+        "click"
+      ]
+    },
+    {
+      "key": "impact",
+      "seconds": 0.22,
+      "bytes": 14124,
+      "peak": 0.84,
+      "rms": 0.16207162227497002,
+      "sha256": "3b226f8dbcaf404999b265b910d3e967d623427c332d2a9ccf9df74d265ef89f",
+      "origin": [
+        "metal",
+        "punch"
+      ]
+    },
+    {
+      "key": "dodge",
+      "seconds": 0.5,
+      "bytes": 32044,
+      "peak": 0.84,
+      "rms": 0.04512132759684091,
+      "sha256": "4720236b0ef49c4536427ca9825b0f7a3363d76b40158e49ac007292749b4515",
+      "origin": [
+        "cloth",
+        "boot"
+      ]
+    },
+    {
+      "key": "hurt",
+      "seconds": 0.22,
+      "bytes": 14124,
+      "peak": 0.84,
+      "rms": 0.20260833430387315,
+      "sha256": "ca4d8167f193635c020dc4902dc2fa29794415ab9844cdb725b464c49e826fb0",
+      "origin": [
+        "punch"
+      ]
+    },
+    {
+      "key": "rocket",
+      "seconds": 0.75,
+      "bytes": 48044,
+      "peak": 0.84,
+      "rms": 0.10946264934773502,
+      "sha256": "570fd95fbd430e3e0547d8938c6d2fd36e9a1c5bfc3fdf5661269b0517615a41",
+      "origin": [
+        "original synthesis",
+        "punch"
+      ]
+    },
+    {
+      "key": "burst",
+      "seconds": 1.25,
+      "bytes": 80044,
+      "peak": 0.84,
+      "rms": 0.0762808680601774,
+      "sha256": "6fcbb1e99fb42e9e03e30aa0166f623d98882b33173ca89bcb737c6bb44d0a86",
+      "origin": [
+        "original synthesis",
+        "plate",
+        "punch"
+      ]
+    },
+    {
+      "key": "melee",
+      "seconds": 0.43,
+      "bytes": 27564,
+      "peak": 0.84,
+      "rms": 0.14761179503867913,
+      "sha256": "bc7657b0f3de8a55c2b2e64254e57c3e432890e2a6f9332c613c34ac9443ffd8",
+      "origin": [
+        "plate",
+        "punch"
+      ]
+    },
+    {
+      "key": "spit",
+      "seconds": 0.42,
+      "bytes": 26924,
+      "peak": 0.84,
+      "rms": 0.11582865455025779,
+      "sha256": "fbcdc5b8a390714991f02f02fe30b2af91134039f1b0685c03278a9352bfb203",
+      "origin": [
+        "original synthesis"
+      ]
+    },
+    {
+      "key": "acid",
+      "seconds": 0.65,
+      "bytes": 41644,
+      "peak": 0.84,
+      "rms": 0.10101411043486554,
+      "sha256": "75bc608045305b2d7330882aa3b2031060cc6ea3f5bd20d198c70e57d635dab4",
+      "origin": [
+        "original synthesis"
+      ]
+    },
+    {
+      "key": "stake",
+      "seconds": 0.35,
+      "bytes": 22444,
+      "peak": 0.84,
+      "rms": 0.10108770540236497,
+      "sha256": "d6f2e0ac3f5016002734ac5ec67c216482b8db8bd0e27b18ccb77d48f7dfae40",
+      "origin": [
+        "original synthesis",
+        "click"
+      ]
+    },
+    {
+      "key": "laser",
+      "seconds": 0.8,
+      "bytes": 51244,
+      "peak": 0.84,
+      "rms": 0.14843221535289527,
+      "sha256": "a079845e3528806e1c4f5cd801e2128964d70c2774d76a24ce6d40913d3e222b",
+      "origin": [
+        "original synthesis"
+      ]
+    },
+    {
+      "key": "charge",
+      "seconds": 0.7,
+      "bytes": 44844,
+      "peak": 0.84,
+      "rms": 0.3139150419881242,
+      "sha256": "838385b3b5549ec720483f1fd155069f917de0a9ddc19acf53aeb0d426f645d0",
+      "origin": [
+        "original synthesis"
+      ]
+    },
+    {
+      "key": "warning",
+      "seconds": 0.2,
+      "bytes": 12844,
+      "peak": 0.84,
+      "rms": 0.11901139671972692,
+      "sha256": "3e210a52dec8596ac604334ca4e34228f9484796b368ceed97a417a8fcb8cb6f",
+      "origin": [
+        "metal"
+      ]
+    },
+    {
+      "key": "leap",
+      "seconds": 0.4,
+      "bytes": 25644,
+      "peak": 0.84,
+      "rms": 0.044159398608395864,
+      "sha256": "ad3e66b4286dfe0a72a60e4b7ae8caf3fb65914d8202f6b2082c893b8abe70f6",
+      "origin": [
+        "cloth",
+        "plate"
+      ]
+    },
+    {
+      "key": "lunge",
+      "seconds": 0.4,
+      "bytes": 25644,
+      "peak": 0.84,
+      "rms": 0.11151762491876682,
+      "sha256": "90c34702dfe7f7b6f950e422a0535b3e942253bee10b429b89e082ceb63ac288",
+      "origin": [
+        "original synthesis",
+        "metal"
+      ]
+    },
+    {
+      "key": "land",
+      "seconds": 0.45,
+      "bytes": 28844,
+      "peak": 0.84,
+      "rms": 0.11866684846904749,
+      "sha256": "b857c8c21c0c0c4821a7732be547507a8a20485d1ceec0a8913d6a9ab0cd7034",
+      "origin": [
+        "plate",
+        "punch"
+      ]
+    },
+    {
+      "key": "kill",
+      "seconds": 0.4,
+      "bytes": 25644,
+      "peak": 0.84,
+      "rms": 0.08592576989249412,
+      "sha256": "80d2e5e12dfa7600846dc2a308b93f6019a0c07f6adf8de8ac1c9544da66bfbe",
+      "origin": [
+        "plate"
+      ]
+    },
+    {
+      "key": "down",
+      "seconds": 0.7,
+      "bytes": 44844,
+      "peak": 0.84,
+      "rms": 0.22983640741148742,
+      "sha256": "7eee90c79ce28a713638c7ad2f752e5efc9d7df4d49ca02786a46a18b3181398",
+      "origin": [
+        "original synthesis"
+      ]
+    },
+    {
+      "key": "revive",
+      "seconds": 0.55,
+      "bytes": 35244,
+      "peak": 0.84,
+      "rms": 0.15357873956318024,
+      "sha256": "736ae3cea21dc97166e6b2df999d26355b3f287347db3d0a39ae69b31f8d16dc",
+      "origin": [
+        "click",
+        "cock"
+      ]
+    }
+  ]
+}

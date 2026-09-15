@@ -14,6 +14,7 @@ export function openLayoutEditor(
   current: Layout,
   onSave: (value: Layout) => void,
   onExit: () => void,
+  training?: { config: () => unknown; enabled?: boolean },
 ) {
   let draft = structuredClone(current),
     selected: ControlId = "fire";
@@ -22,7 +23,7 @@ export function openLayoutEditor(
     CONTROL_IDS.map(
       (id) => '<option value="' + id + '">' + LABELS[id] + "</option>",
     ).join("") +
-    '</select></label><label>大きさ <input id="layout-size" type="range" min="0.7" max="1.4" step="0.05"></label><label>濃さ <input id="layout-opacity" type="range" min="0.4" max="1" step="0.05"></label><button id="layout-reset">初期配置</button><button id="layout-cancel">キャンセル</button><button id="layout-save" class="primary">保存</button><p id="layout-message" role="status">配置はこの端末だけに保存されます</p></header><div class="layout-preview">' +
+    '</select></label><label>大きさ <input id="layout-size" type="range" min="0.7" max="1.4" step="0.05"></label><label>濃さ <input id="layout-opacity" type="range" min="0.4" max="1" step="0.05"></label><button id="layout-training">試し撃ち</button><button id="layout-reset">初期配置</button><button id="layout-cancel">キャンセル</button><button id="layout-save" class="primary">保存</button><p id="layout-message" role="status">配置はこの端末だけに保存されます</p></header><div class="layout-preview">' +
     CONTROL_IDS.map(
       (id) =>
         '<button data-layout-button="' +
@@ -30,7 +31,9 @@ export function openLayoutEditor(
         '" aria-label="' +
         LABELS[id] +
         'の配置">' +
-        LABELS[id] +
+        (id === "move"
+          ? "<span></span>"
+          : document.getElementById(id)!.innerHTML) +
         "</button>",
     ).join("") +
     "</div></section>";
@@ -48,25 +51,56 @@ export function openLayoutEditor(
       const b = root.querySelector<HTMLElement>(
         '[data-layout-button="' + r.id + '"]',
       )!;
+      const actual = getComputedStyle(document.getElementById(r.id)!);
+      for (const key of [
+        "border-radius",
+        "border",
+        "background",
+        "color",
+        "font-size",
+        "font-family",
+        "font-weight",
+        "line-height",
+        "padding",
+        "box-shadow",
+        "clip-path",
+        "flex-direction",
+        "align-items",
+        "justify-content",
+      ])
+        b.style.setProperty(key, actual.getPropertyValue(key));
       Object.assign(b.style, {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minWidth: "0",
+        minHeight: "0",
+        margin: "0",
+        transform: "none",
         left: r.left + "px",
         top: r.top + "px",
         width: r.size + "px",
         height: r.size + "px",
-        opacity: String(draft.opacity),
+        opacity: String(draft.buttons[r.id].opacity ?? draft.opacity),
       });
       b.classList.toggle("selected", r.id === selected);
     }
+    (el("layout-training") as HTMLButtonElement).disabled =
+      training?.enabled === false ||
+      overlaps(resolveLayout(draft, innerWidth, innerHeight, readInsets()));
     choose.value = selected;
     size.value = String(draft.buttons[selected].size);
-    opacity.value = String(draft.opacity);
+    opacity.value = String(draft.buttons[selected].opacity ?? draft.opacity);
     const bad = overlaps(
       resolveLayout(draft, innerWidth, innerHeight, readInsets()),
     );
     (el("layout-save") as HTMLButtonElement).disabled = bad;
     el("layout-message").textContent = bad
       ? "ボタンが重なっています。間隔を空けてください"
-      : "ボタンを選び、位置・大きさ・濃さを調整できます";
+      : training?.enabled === false
+        ? "協力プレイは進行中です。試し撃ちはホームから利用できます。"
+        : "ボタンを選び、位置・大きさ・濃さを調整できます";
   };
   let drag:
     | {
@@ -139,7 +173,7 @@ export function openLayoutEditor(
     draw();
   };
   opacity.oninput = () => {
-    draft.opacity = Number(opacity.value);
+    draft.buttons[selected].opacity = Number(opacity.value);
     draw();
   };
   el("layout-reset").onclick = () => {
@@ -161,6 +195,34 @@ export function openLayoutEditor(
       el("layout-message").textContent =
         "配置の保存に失敗しました。容量やブラウザ設定を確認してください。";
     }
+  };
+  el("layout-training").onclick = () => {
+    if (training?.enabled === false) return;
+    const frame = document.createElement("iframe");
+    frame.className = "training-frame";
+    frame.title = "試し撃ち用トレーニングマップ";
+    frame.allow = "autoplay; gyroscope; accelerometer";
+    frame.src = import.meta.env.BASE_URL + "?training=1";
+    const receive = (event: MessageEvent) => {
+      if (
+        event.origin !== location.origin ||
+        event.source !== frame.contentWindow
+      )
+        return;
+      if (event.data?.type === "training-ready")
+        frame.contentWindow!.postMessage(
+          { type: "training-start", layout: draft, config: training?.config() },
+          location.origin,
+        );
+      if (event.data?.type === "training-exit") {
+        window.removeEventListener("message", receive);
+        frame.remove();
+        draw();
+        el("layout-training").focus();
+      }
+    };
+    window.addEventListener("message", receive);
+    root.append(frame);
   };
   window.addEventListener("resize", draw);
   draw();

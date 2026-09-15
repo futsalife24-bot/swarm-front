@@ -1,0 +1,113 @@
+{
+  "method": "Every fourth weapon vertex within target AABB; slanted ray parity and nearest surface depth >12mm. Body closed, helmet disconnected. Inspect flagged frames visually. No hand/armor/weapon-vs-weapon coverage. Threshold is detection only, not approved penetration allowance.",
+  "flags": [
+    {
+      "direction": "1_to_2",
+      "frame": 0,
+      "weapon": "rifle",
+      "held": true,
+      "sampledDeepVertices": 6,
+      "worst": [
+        0.03665858507156372,
+        "Study_Body",
+        160,
+        [
+          0.2614920735359192,
+          -0.04800015315413475,
+          1.4258968830108643
+        ]
+      ],
+      "bodyRegion": "Clavicle_R"
+    },
+    {
+      "direction": "1_to_2",
+      "frame": 2,
+      "weapon": "rifle",
+      "held": true,
+      "sampledDeepVertices": 6,
+      "worst": [
+        0.03429819270968437,
+        "Study_Body",
+        100,
+        [
+          0.2875819504261017,
+          -0.05188906192779541,
+          1.333177089691162
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "1_to_2",
+      "frame": 36,
+      "weapon": "rocket",
+      "held": true,
+      "sampledDeepVertices": 2,
+      "worst": [
+        0.015758875757455826,
+        "Study_Body",
+        132,
+        [
+          0.2459932565689087,
+          -0.11633595824241638,
+          1.3654003143310547
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "2_to_1",
+      "frame": 10,
+      "weapon": "rocket",
+      "held": true,
+      "sampledDeepVertices": 1,
+      "worst": [
+        0.016356509178876877,
+        "Study_Body",
+        220,
+        [
+          0.5461574792861938,
+          0.12797851860523224,
+          1.4094035625457764
+        ]
+      ],
+      "bodyRegion": "LowerArm_R"
+    },
+    {
+      "direction": "2_to_1",
+      "frame": 58,
+      "weapon": "rifle",
+      "held": true,
+      "sampledDeepVertices": 3,
+      "worst": [
+        0.02769983746111393,
+        "Study_Body",
+        100,
+        [
+          0.3059178590774536,
+          -0.05281426012516022,
+          1.3329548835754395
+        ]
+      ],
+      "bodyRegion": "UpperArm_R"
+    },
+    {
+      "direction": "2_to_1",
+      "frame": 60,
+      "weapon": "rifle",
+      "held": true,
+      "sampledDeepVertices": 6,
+      "worst": [
+        0.03665858879685402,
+        "Study_Body",
+        160,
+        [
+          0.2614920437335968,
+          -0.048000164330005646,
+          1.4258968830108643
+        ]
+      ],
+      "bodyRegion": "Clavicle_R"
+    }
+  ]
+}

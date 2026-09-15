@@ -1,0 +1,5 @@
+EX-05: Bomb explosion in battle (2800) — Mixkit Sound Effects Free License.
+https://mixkit.co/free-sound-effects/explosion/
+https://mixkit.co/license/
+Edited: silence trim, mono 32kHz PCM16, edge fades, gain only.
+Rocket launch: restored original se-v1/rocket.wav, unchanged bytes. Original synthesis + Kenney impactPunch_heavy_000 (CC0), see se-v1 credits.

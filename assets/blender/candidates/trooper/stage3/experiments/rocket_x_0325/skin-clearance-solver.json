@@ -1,0 +1,1107 @@
+{
+  "skinVertexCounts": {
+    "R": 1692,
+    "L": 1668
+  },
+  "method": "actual LBS sleeve/armor vertices vs conservative weapon solids; 32 elbow positions x 8 forearm rolls per side/frame; global temporal path with large rotation penalty; original hand/socket world matrices preserved",
+  "frames": [
+    {
+      "frame": 0,
+      "side": "R",
+      "selected": 4,
+      "envelopeDepth": 0,
+      "cost": 27.452380192014154,
+      "minimumFrameCost": 27.452380192014154,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 0,
+      "side": "L",
+      "selected": 3,
+      "envelopeDepth": 0.001273799274818549,
+      "cost": 1.0276747568917808,
+      "minimumFrameCost": 0.9066223859372164,
+      "minimumFrameDepth": 0.001273799274818549
+    },
+    {
+      "frame": 1,
+      "side": "R",
+      "selected": 252,
+      "envelopeDepth": 0,
+      "cost": 1.3856223511126886,
+      "minimumFrameCost": 1.3856223511126886,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 1,
+      "side": "L",
+      "selected": 11,
+      "envelopeDepth": 0,
+      "cost": 0.3730180166360593,
+      "minimumFrameCost": 0.24351835040110265,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 2,
+      "side": "R",
+      "selected": 252,
+      "envelopeDepth": 0.0011130525373413067,
+      "cost": 0.06637575404476201,
+      "minimumFrameCost": 0.001856281020445749,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 2,
+      "side": "L",
+      "selected": 11,
+      "envelopeDepth": 0,
+      "cost": 0.25309490691944253,
+      "minimumFrameCost": 0.049461050491574426,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 3,
+      "side": "R",
+      "selected": 252,
+      "envelopeDepth": 0.0025353102819750464,
+      "cost": 0.7917042362717777,
+      "minimumFrameCost": 0.004647228405445843,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 3,
+      "side": "L",
+      "selected": 20,
+      "envelopeDepth": 0,
+      "cost": 0.39259721120712704,
+      "minimumFrameCost": 0.1077418642757079,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 4,
+      "side": "R",
+      "selected": 12,
+      "envelopeDepth": 0.00707156300307963,
+      "cost": 19.60173719860542,
+      "minimumFrameCost": 12.313064408025623,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 4,
+      "side": "L",
+      "selected": 21,
+      "envelopeDepth": 0,
+      "cost": 0.33487781526957694,
+      "minimumFrameCost": 0.21179005459600486,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 5,
+      "side": "R",
+      "selected": 28,
+      "envelopeDepth": 0.011393581834231871,
+      "cost": 5.286541257619885,
+      "minimumFrameCost": 3.6231566943841784,
+      "minimumFrameDepth": 0.004108214217982433
+    },
+    {
+      "frame": 5,
+      "side": "L",
+      "selected": 31,
+      "envelopeDepth": 0,
+      "cost": 0.19335936270627926,
+      "minimumFrameCost": 0.11645951690601271,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 6,
+      "side": "R",
+      "selected": 20,
+      "envelopeDepth": 0.012001067180080684,
+      "cost": 5.4183799015188425,
+      "minimumFrameCost": 4.409947933356343,
+      "minimumFrameDepth": 0.006130208850100606
+    },
+    {
+      "frame": 6,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.12272517403040639,
+      "minimumFrameCost": 0.0875089429656837,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 7,
+      "side": "R",
+      "selected": 4,
+      "envelopeDepth": 0.00627017413265283,
+      "cost": 8.04075875090527,
+      "minimumFrameCost": 6.788077921990818,
+      "minimumFrameDepth": 0.005202448973616859
+    },
+    {
+      "frame": 7,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.12977733334975206,
+      "minimumFrameCost": 0.093081412188392,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 8,
+      "side": "R",
+      "selected": 4,
+      "envelopeDepth": 0.006450593564429875,
+      "cost": 7.512275367090723,
+      "minimumFrameCost": 6.256388975095619,
+      "minimumFrameDepth": 0.0011574810567152385
+    },
+    {
+      "frame": 8,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.13802006733220284,
+      "minimumFrameCost": 0.0993269274448848,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 9,
+      "side": "R",
+      "selected": 4,
+      "envelopeDepth": 0.004026285774324376,
+      "cost": 8.65968772957721,
+      "minimumFrameCost": 7.976202780960432,
+      "minimumFrameDepth": 0.0003552267468124107
+    },
+    {
+      "frame": 9,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1472827851924534,
+      "minimumFrameCost": 0.10608243840056567,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 10,
+      "side": "R",
+      "selected": 4,
+      "envelopeDepth": 0.007554168543246677,
+      "cost": 6.275779702219528,
+      "minimumFrameCost": 4.832905612457145,
+      "minimumFrameDepth": 0.002800392182424019
+    },
+    {
+      "frame": 10,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.15722942576472307,
+      "minimumFrameCost": 0.11309943971556313,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 11,
+      "side": "R",
+      "selected": 12,
+      "envelopeDepth": 0.007747786236880886,
+      "cost": 5.911323526864262,
+      "minimumFrameCost": 4.020636960162849,
+      "minimumFrameDepth": 0.007603421962059331
+    },
+    {
+      "frame": 11,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.167327595673689,
+      "minimumFrameCost": 0.12002794206836756,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 12,
+      "side": "R",
+      "selected": 13,
+      "envelopeDepth": 0.014604207164317616,
+      "cost": 8.743396091278427,
+      "minimumFrameCost": 3.453934170906396,
+      "minimumFrameDepth": 0.010142890813063611
+    },
+    {
+      "frame": 12,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.17683641638324274,
+      "minimumFrameCost": 0.12640939411934826,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 13,
+      "side": "R",
+      "selected": 6,
+      "envelopeDepth": 0.01675310688138045,
+      "cost": 12.954304048343953,
+      "minimumFrameCost": 5.685145282822742,
+      "minimumFrameDepth": 0.01166260728740318
+    },
+    {
+      "frame": 13,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.18484035763280796,
+      "minimumFrameCost": 0.13169268617867852,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 14,
+      "side": "R",
+      "selected": 7,
+      "envelopeDepth": 0.02082545684342694,
+      "cost": 18.154250751596017,
+      "minimumFrameCost": 10.813752008562213,
+      "minimumFrameDepth": 0.014813719235412949
+    },
+    {
+      "frame": 14,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.19032906490744908,
+      "minimumFrameCost": 0.13527591719939264,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 15,
+      "side": "R",
+      "selected": 248,
+      "envelopeDepth": 0.024586928167479073,
+      "cost": 19.882903587865304,
+      "minimumFrameCost": 12.009522429577048,
+      "minimumFrameDepth": 0.015933718353219085
+    },
+    {
+      "frame": 15,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.19234085492377506,
+      "minimumFrameCost": 0.1365820320373165,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 16,
+      "side": "R",
+      "selected": 0,
+      "envelopeDepth": 0.023661108049017443,
+      "cost": 19.580582720537283,
+      "minimumFrameCost": 11.342343363389896,
+      "minimumFrameDepth": 0.015419616991967124
+    },
+    {
+      "frame": 16,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.19234085460628025,
+      "minimumFrameCost": 0.13658206646333643,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 17,
+      "side": "R",
+      "selected": 0,
+      "envelopeDepth": 0.0220047711112819,
+      "cost": 46.639567372445356,
+      "minimumFrameCost": 18.70837825640838,
+      "minimumFrameDepth": 0.015236766054752326
+    },
+    {
+      "frame": 17,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.19234076397887084,
+      "minimumFrameCost": 0.1365820114804524,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 18,
+      "side": "R",
+      "selected": 0,
+      "envelopeDepth": 0.03186198609130844,
+      "cost": 199.16694807310566,
+      "minimumFrameCost": 109.80405515518366,
+      "minimumFrameDepth": 0.021674595521491494
+    },
+    {
+      "frame": 18,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923407969089439,
+      "minimumFrameCost": 0.13658196811374643,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 19,
+      "side": "R",
+      "selected": 40,
+      "envelopeDepth": 0.032393418221345366,
+      "cost": 471.9343205004015,
+      "minimumFrameCost": 170.9533512561274,
+      "minimumFrameDepth": 0.024102868394996563
+    },
+    {
+      "frame": 19,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 20,
+      "side": "R",
+      "selected": 0,
+      "envelopeDepth": 0.026664057782906342,
+      "cost": 122.6968823846483,
+      "minimumFrameCost": 122.6968823846483,
+      "minimumFrameDepth": 0.02575970455380952
+    },
+    {
+      "frame": 20,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 21,
+      "side": "R",
+      "selected": 0,
+      "envelopeDepth": 0.028281865227928277,
+      "cost": 117.28737420302272,
+      "minimumFrameCost": 117.28737420302272,
+      "minimumFrameDepth": 0.026239102383841778
+    },
+    {
+      "frame": 21,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 22,
+      "side": "R",
+      "selected": 0,
+      "envelopeDepth": 0.032722953265019644,
+      "cost": 89.72962635757328,
+      "minimumFrameCost": 89.72962635757328,
+      "minimumFrameDepth": 0.029001389751272005
+    },
+    {
+      "frame": 22,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 23,
+      "side": "R",
+      "selected": 249,
+      "envelopeDepth": 0.08404221610593582,
+      "cost": 1326.3455161970971,
+      "minimumFrameCost": 211.67619290033062,
+      "minimumFrameDepth": 0.02579757437570246
+    },
+    {
+      "frame": 23,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 24,
+      "side": "R",
+      "selected": 9,
+      "envelopeDepth": 0.02863041611036815,
+      "cost": 291.1889196829405,
+      "minimumFrameCost": 98.74509477392236,
+      "minimumFrameDepth": 0.017941122535534357
+    },
+    {
+      "frame": 24,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 25,
+      "side": "R",
+      "selected": 1,
+      "envelopeDepth": 0.027722933975391495,
+      "cost": 58.62375139621502,
+      "minimumFrameCost": 24.672209673764563,
+      "minimumFrameDepth": 0.01035319108076652
+    },
+    {
+      "frame": 25,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 26,
+      "side": "R",
+      "selected": 1,
+      "envelopeDepth": 0.02432709232851704,
+      "cost": 61.9275541807137,
+      "minimumFrameCost": 29.003402501570978,
+      "minimumFrameDepth": 0.01165886108260046
+    },
+    {
+      "frame": 26,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 27,
+      "side": "R",
+      "selected": 1,
+      "envelopeDepth": 0.02818515843652225,
+      "cost": 71.68228422071792,
+      "minimumFrameCost": 22.505227830520553,
+      "minimumFrameDepth": 0.009428859777124814
+    },
+    {
+      "frame": 27,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 28,
+      "side": "R",
+      "selected": 1,
+      "envelopeDepth": 0.02728176390984327,
+      "cost": 41.740242566987966,
+      "minimumFrameCost": 9.656273549593749,
+      "minimumFrameDepth": 0.0004927225996144702
+    },
+    {
+      "frame": 28,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 29,
+      "side": "R",
+      "selected": 1,
+      "envelopeDepth": 0.026401391891815312,
+      "cost": 43.12556032672315,
+      "minimumFrameCost": 16.813323890860932,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 29,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 30,
+      "side": "R",
+      "selected": 7,
+      "envelopeDepth": 0.029403274642180816,
+      "cost": 127.80392651521949,
+      "minimumFrameCost": 1.1977421850396552,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 30,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 31,
+      "side": "R",
+      "selected": 79,
+      "envelopeDepth": 0.03983253557572896,
+      "cost": 390.87569406331716,
+      "minimumFrameCost": 31.321042660718344,
+      "minimumFrameDepth": 0.020883071421020596
+    },
+    {
+      "frame": 31,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 32,
+      "side": "R",
+      "selected": 110,
+      "envelopeDepth": 0.03731956061829684,
+      "cost": 160.15503475383508,
+      "minimumFrameCost": 140.78460641884413,
+      "minimumFrameDepth": 0.035443752624842666
+    },
+    {
+      "frame": 32,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 33,
+      "side": "R",
+      "selected": 125,
+      "envelopeDepth": 0,
+      "cost": 0.14228016519919037,
+      "minimumFrameCost": 0.09931840114295483,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 33,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 34,
+      "side": "R",
+      "selected": 133,
+      "envelopeDepth": 0,
+      "cost": 0.15178865427151322,
+      "minimumFrameCost": 0.1049378402531147,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 34,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 35,
+      "side": "R",
+      "selected": 150,
+      "envelopeDepth": 0,
+      "cost": 0.17688718146457927,
+      "minimumFrameCost": 0.11446776241064072,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 35,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 36,
+      "side": "R",
+      "selected": 175,
+      "envelopeDepth": 0.02098071683773914,
+      "cost": 36.907680633472545,
+      "minimumFrameCost": 4.579812234760985,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 36,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 37,
+      "side": "R",
+      "selected": 191,
+      "envelopeDepth": 0.017736580862347005,
+      "cost": 9.778702338269841,
+      "minimumFrameCost": 0.11487581445942334,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 37,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 38,
+      "side": "R",
+      "selected": 223,
+      "envelopeDepth": 0.00491260397015135,
+      "cost": 2.1047511023508005,
+      "minimumFrameCost": 1.2789769243681802e-14,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 38,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 39,
+      "side": "R",
+      "selected": 239,
+      "envelopeDepth": 0,
+      "cost": 0.01325449202473329,
+      "minimumFrameCost": 3.8369307731045406e-14,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 39,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 40,
+      "side": "R",
+      "selected": 247,
+      "envelopeDepth": 0,
+      "cost": 0.00503864434431307,
+      "minimumFrameCost": 1.0258460747536445e-14,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 40,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 41,
+      "side": "R",
+      "selected": 255,
+      "envelopeDepth": 0,
+      "cost": 0.0012339644716121256,
+      "minimumFrameCost": 1.3322676295501878e-16,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 41,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 42,
+      "side": "R",
+      "selected": 7,
+      "envelopeDepth": 0,
+      "cost": 1.3855583347321953e-14,
+      "minimumFrameCost": 1.3855583347321953e-14,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 42,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 43,
+      "side": "R",
+      "selected": 7,
+      "envelopeDepth": 0,
+      "cost": 4.476419235288631e-14,
+      "minimumFrameCost": 4.476419235288631e-14,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 43,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 44,
+      "side": "R",
+      "selected": 7,
+      "envelopeDepth": 0,
+      "cost": 4.263256414560601e-15,
+      "minimumFrameCost": 4.263256414560601e-15,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 44,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 45,
+      "side": "R",
+      "selected": 0,
+      "envelopeDepth": 0.007163747004747201,
+      "cost": 1.2950316628547265,
+      "minimumFrameCost": 1.2950316628547265,
+      "minimumFrameDepth": 0.004100476330936603
+    },
+    {
+      "frame": 45,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 46,
+      "side": "R",
+      "selected": 1,
+      "envelopeDepth": 0.016950268373380234,
+      "cost": 11.710256346134742,
+      "minimumFrameCost": 1.3215983758974572,
+      "minimumFrameDepth": 0.007512188270410145
+    },
+    {
+      "frame": 46,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 47,
+      "side": "R",
+      "selected": 250,
+      "envelopeDepth": 0.01758958775427344,
+      "cost": 16.75593936305492,
+      "minimumFrameCost": 2.430865063126938,
+      "minimumFrameDepth": 0.005344268311246972
+    },
+    {
+      "frame": 47,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 48,
+      "side": "R",
+      "selected": 250,
+      "envelopeDepth": 0.019235266648722993,
+      "cost": 22.108205457006385,
+      "minimumFrameCost": 2.492953064848015,
+      "minimumFrameDepth": 0.0034645135115288113
+    },
+    {
+      "frame": 48,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 49,
+      "side": "R",
+      "selected": 26,
+      "envelopeDepth": 0.02838022109394367,
+      "cost": 55.87228300627473,
+      "minimumFrameCost": 3.2375372168378473,
+      "minimumFrameDepth": 0.0045035912446591275
+    },
+    {
+      "frame": 49,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 50,
+      "side": "R",
+      "selected": 34,
+      "envelopeDepth": 0.014212059949116077,
+      "cost": 14.28331050143676,
+      "minimumFrameCost": 14.217617192191668,
+      "minimumFrameDepth": 0.014212059949116077
+    },
+    {
+      "frame": 50,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 51,
+      "side": "R",
+      "selected": 34,
+      "envelopeDepth": 0.005046012014559873,
+      "cost": 2.410767052480566,
+      "minimumFrameCost": 2.410767052480566,
+      "minimumFrameDepth": 0.005046012014559873
+    },
+    {
+      "frame": 51,
+      "side": "L",
+      "selected": 32,
+      "envelopeDepth": 0,
+      "cost": 0.1923409109034859,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 52,
+      "side": "R",
+      "selected": 26,
+      "envelopeDepth": 0.0068732234069532605,
+      "cost": 1.0779723442243465,
+      "minimumFrameCost": 1.0105956191738663,
+      "minimumFrameDepth": 0.0011935994667813948
+    },
+    {
+      "frame": 52,
+      "side": "L",
+      "selected": 31,
+      "envelopeDepth": 0,
+      "cost": 0.24157128165652075,
+      "minimumFrameCost": 0.1365822482061312,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 53,
+      "side": "R",
+      "selected": 18,
+      "envelopeDepth": 0.008180174292553605,
+      "cost": 1.2928867142579492,
+      "minimumFrameCost": 0.08888402827954682,
+      "minimumFrameDepth": 0.0002570123369486088
+    },
+    {
+      "frame": 53,
+      "side": "L",
+      "selected": 22,
+      "envelopeDepth": 0,
+      "cost": 0.30632147790124714,
+      "minimumFrameCost": 0.1380100557935058,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 54,
+      "side": "R",
+      "selected": 10,
+      "envelopeDepth": 0.008050632700404708,
+      "cost": 1.214838590010022,
+      "minimumFrameCost": 0.3113311221624387,
+      "minimumFrameDepth": 0.002157631300666346
+    },
+    {
+      "frame": 54,
+      "side": "L",
+      "selected": 13,
+      "envelopeDepth": 0,
+      "cost": 0.3917524850817728,
+      "minimumFrameCost": 0.2021756455546055,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 55,
+      "side": "R",
+      "selected": 10,
+      "envelopeDepth": 0.005563985622202866,
+      "cost": 0.948333613685323,
+      "minimumFrameCost": 0.01362853380889923,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 55,
+      "side": "L",
+      "selected": 4,
+      "envelopeDepth": 0,
+      "cost": 0.48148544911229724,
+      "minimumFrameCost": 0.23279253809648098,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 56,
+      "side": "R",
+      "selected": 10,
+      "envelopeDepth": 0.006974899939497934,
+      "cost": 0.848699884225059,
+      "minimumFrameCost": 0.023668849478413488,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 56,
+      "side": "L",
+      "selected": 3,
+      "envelopeDepth": 0,
+      "cost": 0.45062766224055184,
+      "minimumFrameCost": 0.11596890288982117,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 57,
+      "side": "R",
+      "selected": 10,
+      "envelopeDepth": 0.003460304075051379,
+      "cost": 0.519035277251989,
+      "minimumFrameCost": 0.49685536795208296,
+      "minimumFrameDepth": 0.0030945167785381145
+    },
+    {
+      "frame": 57,
+      "side": "L",
+      "selected": 3,
+      "envelopeDepth": 0,
+      "cost": 0.42861561677555526,
+      "minimumFrameCost": 0.07846694663978575,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 58,
+      "side": "R",
+      "selected": 18,
+      "envelopeDepth": 0.008982046448178432,
+      "cost": 21.543031534764104,
+      "minimumFrameCost": 21.471937397895836,
+      "minimumFrameDepth": 0.006586952914592936
+    },
+    {
+      "frame": 58,
+      "side": "L",
+      "selected": 3,
+      "envelopeDepth": 0,
+      "cost": 0.5047321831420055,
+      "minimumFrameCost": 0.19875341295564453,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 59,
+      "side": "R",
+      "selected": 18,
+      "envelopeDepth": 0.006387920387683738,
+      "cost": 74.30932187484329,
+      "minimumFrameCost": 73.77188397100413,
+      "minimumFrameDepth": 0.0049199882176268785
+    },
+    {
+      "frame": 59,
+      "side": "L",
+      "selected": 251,
+      "envelopeDepth": 0,
+      "cost": 0.8687607000042189,
+      "minimumFrameCost": 0.8369870747736579,
+      "minimumFrameDepth": 0
+    },
+    {
+      "frame": 60,
+      "side": "R",
+      "selected": 18,
+      "envelopeDepth": 0.005603196924584497,
+      "cost": 89.7622955423306,
+      "minimumFrameCost": 89.49527189639572,
+      "minimumFrameDepth": 0.005603196924584497
+    },
+    {
+      "frame": 60,
+      "side": "L",
+      "selected": 251,
+      "envelopeDepth": 0,
+      "cost": 1.4006168178859275,
+      "minimumFrameCost": 1.3946447671532163,
+      "minimumFrameDepth": 0
+    }
+  ]
+}

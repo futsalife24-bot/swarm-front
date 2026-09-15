@@ -1,0 +1,29 @@
+{
+  "reviewerThreadId": "6aa25fea-00d4-83e8-8e5f-3390b27cb790",
+  "title": "モンスター案作成",
+  "turn": {
+    "id": "e2ac380b-b2ca-44dc-ae03-117c4a19f3be",
+    "status": "completed",
+    "error": null,
+    "startedAt": 1789064122.945,
+    "completedAt": 1789064629.99412,
+    "durationMs": null,
+    "items": [
+      {
+        "type": "userMessage",
+        "id": "e2ac380b-b2ca-44dc-ae03-117c4a19f3be",
+        "content": [
+          {
+            "type": "text",
+            "text": "統合第3案の最終準備ZIPを提出します。ユーザーから、このゲーム修正コード入りZIPと同範囲の修正版の継続共有を明示承認いただき、送信を再開しました。本体適用の承認とは別で、本体は未変更です。\n対象 pleat-v3-integration-final-review.zip SHA256 1812bb886b613ebe0bfa3fa4cee9c1f92484e8033d4511b77927ef87bff86a2a。固定GLB v3/81bbfe16449f9d7e3e954c0baaa10e56f9bbff433d5aed4522b2a6d685ecedbc。\nINT-RUN-RESET: 既存run変更とWorld解除のvisual.clear箇所でcrawlerAimとcrawler Controller.statesをともにclear。到達不能なif(!w)も除去。実Rendererのnullなしrun切替/同一敵ID/新時刻が旧以上で、第2案の90度ずれとLunge誤継承を再現、第3案は方向0・Idle。初期cool1.2と1.9の両条件を確認。\ncheck-proposal-reset.mjsは方向保持中であることをassertしてから、非active中断・敵消失・null等を検査。計6条件成功。check-proposal-v3.mjsで既存18条件も第3案から再実行成功、client/worker型検査も別コピーの現行CLIで成功。差分・提案本文・全時系列・検査コードを同梱しています。今回はリセット差分の数値/実Renderer検査で、新動画の作成や目視済みとは主張しません。\nFIRST_OBSERVATION_CONTRACT.md: network.tsの現在state受信、main.tsのonWorld、worker.tsの現在world配信を確認。途中参加/再接続で攻撃前の初回観測を保証できません。attackAt追加は未適用の別設計案として記録しました。前回指示に従い、本採用時に確認する別条件とし、今回の候補へ無断で通信項目を追加していません。\n今回のハッシュを確認し、残件INT-RUN-RESETと検証補足の解消を差分中心で監査してください。造形v3の再生成はせず、今回範囲の判定と、本体適用・初回未観測・本人見た目承認・本採用の残条件を分けて返してください。必要な元ソースは既提出v3 ZIPを併用できます。\n\n[User attached 1 file; file contents were not included]"
+          }
+        ]
+      },
+      {
+        "type": "agentMessage",
+        "id": "bd7cfccc-29e1-4e95-8ded-c2aa4dc8c73e",
+        "text": "## 判定：**PASS — 統合第3案の今回の監査範囲**\n\n**INT-RUN-RESETと検証補足の解消を確認しました。今回の範囲で、追加の必須修正はありません。**  \nこれは**未適用の修正案の合格**であり、本体適用後の統合合格や本採用の承認ではありません。\n\n### 1．対象確認\n\n```text\n対象：pleat-v3-integration-final-review.zip\nSHA-256：\n1812bb886b613ebe0bfa3fa4cee9c1f92484e8033d4511b77927ef87bff86a2a\n\n固定モデル：PLEAT v3\nGLB SHA-256：\n81bbfe16449f9d7e3e954c0baaa10e56f9bbff433d5aed4522b2a6d685ecedbc\n```\n\n**ZIP・固定GLBとも実ファイルと一致。manifestの15ファイルも、ハッシュ・容量すべて一致**しました。GLB本体は、併用指定の既提出v3 ZIPから確認しています。\n\n## 2．差分と残件の判定\n\n| 対象 | 判定 | 確認結果 |\n|---|---|---|\n| **INT-RUN-RESET** | **PASS** | run変更・World解除時に、`crawlerAim`とcrawler Controllerの履歴を両方消去。第2案の**90度ずれ・Lunge誤継承**を再現した同条件で、第3案は**方向差0・Idle**になりました。 |\n| **保持中の中断検査** | **PASS** | 実際に方向保持中であることをassertしてから、非active・敵消失・nullへ移る検査を確認。以前の「保持終了後しか調べていない」不足は補われています。 |\n| **既存18条件の回帰** | **PASS・確認範囲限定** | 条件の欠落・重複なし。予兆開始から**0.45秒、burst 1回、保存照準との方向一致**を照合。読込済みではLocomotion復帰も確認しました。 |\n| **提案本文の再現性** | **PASS** | 隔離コピーで提出生成器を実行し、生成された2ファイルが提出本文とバイト単位で一致しました。 |\n\n第2案との差分は、**2箇所の履歴クリア追加と、到達不能な条件の削除**に限定されています。`game.ts`の提案本文は第2案から不変です。\n\n### 独立検査の範囲\n\nこちらでも、**実`shared.step`・実Controller・Rendererから抽出した実際の初期化／方向決定処理**を実行しました。run切替は初期cool **1.2／1.9**の両方で確認し、旧攻撃が既に終了していた場合の反例も解消しています。\n\nただし、**こちらでWebGLの実Rendererを起動して18条件を再実行したわけではありません。** 提出されたブラウザ検証記録の照合と、独立したロジック検査を分けています。\n\nなお、時刻巻戻り・非activeの検査で確認したのは**方向保持の解除**です。「全6条件でアニメーションも即座にIdleへ戻る」とは判定していません。\n\n## 3．初回未観測は、別の未解決条件です\n\n`FIRST_OBSERVATION_CONTRACT.md`の**「途中参加・再接続では攻撃前の観測を保証しない」**という調査結果を、残る制約として記録します。今回直した「一度観測した個体の予兆描画スキップ」とは別です。\n\n**初回から攻撃・復帰を正確に表示することまで本採用要件に含めるなら、発動時刻などの追加設計・承認・検証が必要**です。`attackAt`は未適用の案であり、今回の修正に無断追加する必要はありません。\n\n参照されている`network.ts`・`main.ts`・`worker.ts`の当該コードは今回の同梱範囲にないため、その呼出元についてはこちらの独立実読ではなく、提出調査結果として扱っています。\n\n## 4．残る承認・適用条件\n\n| 項目 | 現在の扱い |\n|---|---|\n| **本体2ファイルへの適用** | **本人の追加承認待ち。** 適用前に現行ソースとの一致を確認し、適用後に差分・ハッシュ・正式テスト・実Renderer回帰を確認。 |\n| **本人の見た目承認** | 造形v3の監査PASSとは別。取得済みとは扱いません。 |\n| **モデル本採用・公開** | 未実施。初回未観測の扱いと適用後の統合確認を含め、別判断です。 |\n\n制作側のclient／worker型検査成功ログと検査スクリプトは確認しましたが、**こちらでの正式tsc／Vitest、新規`npm ci`、実スマホ性能、本体適用後の動作は未確認**です。今回は新動画の作成・目視も行っていません。\n\n**造形v3は固定のまま、統合第3案を本人の適用承認に進める状態です。**\n\n:chatgpt-content-reference{index=\"0\"}  \n:chatgpt-content-reference{index=\"1\"}"
+      }
+    ]
+  }
+}

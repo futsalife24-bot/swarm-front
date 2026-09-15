@@ -1,0 +1,87 @@
+{
+  "scope": "real Renderer with lifecycle snapshots; fixed GLB; unapplied overlays",
+  "results": [
+    {
+      "version": "v2",
+      "cases": [
+        {
+          "reset": "new-run",
+          "angle": 1.5707963267948966,
+          "clip": "Lunge",
+          "held": 10.85
+        },
+        {
+          "reset": "new-run-cool-jump",
+          "angle": 1.5707963267948966,
+          "clip": "Lunge",
+          "held": 11.6
+        },
+        {
+          "reset": "null-world",
+          "angle": 0,
+          "clip": "Idle",
+          "held": 0
+        },
+        {
+          "reset": "enemy-removed",
+          "angle": 0,
+          "clip": "Idle",
+          "held": 0
+        },
+        {
+          "reset": "time-rewind",
+          "angle": 0,
+          "clip": "Lunge",
+          "held": 0
+        },
+        {
+          "reset": "inactive",
+          "angle": 0,
+          "clip": "Lunge",
+          "held": 0
+        }
+      ]
+    },
+    {
+      "version": "v3",
+      "cases": [
+        {
+          "reset": "new-run",
+          "angle": 0,
+          "clip": "Idle",
+          "held": 0
+        },
+        {
+          "reset": "new-run-cool-jump",
+          "angle": 0,
+          "clip": "Idle",
+          "held": 0
+        },
+        {
+          "reset": "null-world",
+          "angle": 0,
+          "clip": "Idle",
+          "held": 0
+        },
+        {
+          "reset": "enemy-removed",
+          "angle": 0,
+          "clip": "Idle",
+          "held": 0
+        },
+        {
+          "reset": "time-rewind",
+          "angle": 0,
+          "clip": "Lunge",
+          "held": 0
+        },
+        {
+          "reset": "inactive",
+          "angle": 0,
+          "clip": "Lunge",
+          "held": 0
+        }
+      ]
+    }
+  ]
+}

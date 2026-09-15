@@ -1,0 +1,10 @@
+{
+  "v1": "43d05957a8442d7d6be4bb22efb0d64f8aade02044234b8244aca8b4b9196456",
+  "v2": "4b67dbfde687f65b9852cba5e89b48dd589c26ca7755385236007d9814fb5818",
+  "exactAnimationDataEqual": true,
+  "clips": [
+    "Idle",
+    "Locomotion",
+    "Lunge"
+  ]
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "side": "L",
+    "vertices": 1152,
+    "triangles": 2280,
+    "topology": "closed palm and five closed joint-loop fingers; roots overlap within palm; no external open boundaries",
+    "weights": "palm Hand only, each finger blends only own chain and Hand at root"
+  },
+  {
+    "side": "R",
+    "vertices": 1152,
+    "triangles": 2280,
+    "topology": "closed palm and five closed joint-loop fingers; roots overlap within palm; no external open boundaries",
+    "weights": "palm Hand only, each finger blends only own chain and Hand at root"
+  }
+]

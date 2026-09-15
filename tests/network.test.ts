@@ -5,6 +5,7 @@ import { STARTERS } from "../src/shared/defs";
 import { neutral } from "../src/shared/game";
 import { fresh, rewards } from "../src/client/save";
 import { writeFileSync } from "node:fs";
+import { pilot } from "./bot";
 const base = "http://127.0.0.1:8787";
 class Client {
   ws: WebSocket;
@@ -335,25 +336,15 @@ describe("real local workerd WebSocket authority", () => {
     expect(other.world.phase).toBe("battle");
     let seq = 0;
     const timer = setInterval(() => {
-      const w = a.messages.at(-1)?.world;
+      const w = a.messages.findLast((m) => m.type === "state")?.world;
       if (!w) return;
-      const p = w.players.find((p: any) => p.id === a.id),
-        e = w.enemies[0];
-      if (e)
-        a.send({
-          type: "input",
-          input: {
-            ...neutral(),
-            seq: ++seq,
-            fire: true,
-            yaw: Math.atan2(e.x - p.x, -(e.z - p.z)),
-          },
-        });
+      // Use ordinary movement and height-aware aim against the current maps/roster.
+      a.send({ type: "input", input: { ...pilot(w, a.id), seq: ++seq } });
     }, 50);
     try {
       const kill = await a.wait(
         (m) => m.type === "state" && m.world.totalKills > 0,
-        10000,
+        20000,
       );
       const matching = await b.wait(
         (m) => m.type === "state" && m.world.time === kill.world.time,

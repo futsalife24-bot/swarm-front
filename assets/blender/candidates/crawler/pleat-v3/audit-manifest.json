@@ -1,0 +1,589 @@
+{
+  "revision": "pleat-v3",
+  "base": "pleat-v2",
+  "baseGLB": "4b67dbfde687f65b9852cba5e89b48dd589c26ca7755385236007d9814fb5818",
+  "candidateGLB": "81bbfe16449f9d7e3e954c0baaa10e56f9bbff433d5aed4522b2a6d685ecedbc",
+  "evidence": "review images/video regenerated using this candidate. v1-v2 comparisons combine same-view screenshots without model rescaling.",
+  "files": [
+    {
+      "path": "audit-source/build_candidate_v2.py",
+      "sha256": "247e36ce091b40351e20cc27d91473e04e1ba86ecbbc9a17c2a472507a9b4657",
+      "bytes": 16004
+    },
+    {
+      "path": "audit-source/parameters_v2.json",
+      "sha256": "9c49cffb15e4582730bb310feaca09d9564d0ffe09e3858da311df44ce19e57a",
+      "bytes": 613
+    },
+    {
+      "path": "audit-source/pleat_motion_v2.json",
+      "sha256": "a8daf90071490cbc463600183fa9be1fc8d996fb00dfcbf71f253c2ebe2aa9a2",
+      "bytes": 354
+    },
+    {
+      "path": "audit-source/src__client__hound-motion.ts",
+      "sha256": "6dc1ebc865e5965e5cc20f0c62704be61c4da93ffbb3750d5f35c44b283ee293",
+      "bytes": 9411
+    },
+    {
+      "path": "audit-source/src__client__render.ts",
+      "sha256": "21430d6567d80bb03be875871e277b90978ec96f0b971b6d1911619face179c5",
+      "bytes": 36660
+    },
+    {
+      "path": "audit-source/src__client__structure-motion.ts",
+      "sha256": "e50dfe017837e711e079e55b2dd6a9d9ed866e00486a9c70591cd01071e18494",
+      "bytes": 3592
+    },
+    {
+      "path": "audit-source/src__shared__defs.ts",
+      "sha256": "12034dbcdf9aa9eac7df65294a0d456e5f570545001a7fdcc26b517faa29a170",
+      "bytes": 8118
+    },
+    {
+      "path": "audit-source/src__shared__enemy-motion.ts",
+      "sha256": "97750d9855c9fc1130edf5a11e1277068e44cfd0ad759596524b8376ce9dd12f",
+      "bytes": 4405
+    },
+    {
+      "path": "audit-source/src__shared__game.ts",
+      "sha256": "e871db5fbadf93ea89ce77fe0de45ceae6cb9e0642a3d4cf498ff8baa15eace3",
+      "bytes": 35852
+    },
+    {
+      "path": "audit-source/src__shared__structure-ai.ts",
+      "sha256": "f456cdc1bcc0fc64590a57e701bc398d38460032200c8344c94ed0f27f1a78ea",
+      "bytes": 2802
+    },
+    {
+      "path": "audit-source/src__shared__structure-timing.ts",
+      "sha256": "2a28cdabe1729e9450568a483ad728cc3310c4b4f88581ccee8939ed85e61621",
+      "bytes": 458
+    },
+    {
+      "path": "audit-workspace/AUDIT-README.md",
+      "sha256": "a2364f32f5ef15ae8ca49abeb9056d0a2828da01e404219e41f897afdbeead12",
+      "bytes": 574
+    },
+    {
+      "path": "audit-workspace/e2e/structure-fixture.html",
+      "sha256": "0e86cbb72317eba693584c72bfc1f5d522b55c418b61d8e1dda814e48b90c729",
+      "bytes": 124
+    },
+    {
+      "path": "audit-workspace/package-lock.json",
+      "sha256": "5fc44d8cf39937c9234aeaea5c8994ad1c573f01fd31a490bab7b907a5e79dfb",
+      "bytes": 101747
+    },
+    {
+      "path": "audit-workspace/package.json",
+      "sha256": "7e086c5717f3113705c9c68d8f75771def5ce85cddb843486e523934fbdd1249",
+      "bytes": 1501
+    },
+    {
+      "path": "audit-workspace/src/client/cave-scene.ts",
+      "sha256": "4442f786d0b749cc4785c746873c765525fa321a16b05a120cf06598ae1d1aca",
+      "bytes": 2534
+    },
+    {
+      "path": "audit-workspace/src/client/combat-effects.ts",
+      "sha256": "5123f855bb37b9b950c15391104daa8344c1cf2fa1bd2a1905ae5c773cd1a178",
+      "bytes": 8118
+    },
+    {
+      "path": "audit-workspace/src/client/enemy-glb-debug.ts",
+      "sha256": "164c9d0ca57c018e75ba4a37e2aea033dbf34ded1a2fcdecb326e258eec19afb",
+      "bytes": 2060
+    },
+    {
+      "path": "audit-workspace/src/client/enemy-model.ts",
+      "sha256": "6da38026432af409c5c4667ca380a4cd716009ae4da154aa9e15990f515becb1",
+      "bytes": 7125
+    },
+    {
+      "path": "audit-workspace/src/client/hound-glb-debug.ts",
+      "sha256": "b02816eaa3d3d5765e57799e2b898b49d2707609c4d2f0d4a95e3673594ec510",
+      "bytes": 3444
+    },
+    {
+      "path": "audit-workspace/src/client/hound-motion.ts",
+      "sha256": "6dc1ebc865e5965e5cc20f0c62704be61c4da93ffbb3750d5f35c44b283ee293",
+      "bytes": 9411
+    },
+    {
+      "path": "audit-workspace/src/client/map-assets.ts",
+      "sha256": "bfe59a12b52e35c63843bee239326d9de18dd9dfb419b6871309851bb85763eb",
+      "bytes": 4587
+    },
+    {
+      "path": "audit-workspace/src/client/render.ts",
+      "sha256": "21430d6567d80bb03be875871e277b90978ec96f0b971b6d1911619face179c5",
+      "bytes": 36660
+    },
+    {
+      "path": "audit-workspace/src/client/standard-trooper.ts",
+      "sha256": "841069c57ed42e5871dc8dbd4530ed19f924f429258221b49c252a7c9a2bd353",
+      "bytes": 14940
+    },
+    {
+      "path": "audit-workspace/src/client/structure-motion.ts",
+      "sha256": "e50dfe017837e711e079e55b2dd6a9d9ed866e00486a9c70591cd01071e18494",
+      "bytes": 3592
+    },
+    {
+      "path": "audit-workspace/src/shared/arena.ts",
+      "sha256": "d49eb2bcc09f0e653076969c07244e5a6fa692ce55a58d0dcafd510b65c9b557",
+      "bytes": 200
+    },
+    {
+      "path": "audit-workspace/src/shared/cave.ts",
+      "sha256": "4e2de6da90206a553ce6b787a3625b82672e0fa2233579461f0d0bf6bf06d89c",
+      "bytes": 4262
+    },
+    {
+      "path": "audit-workspace/src/shared/defs.ts",
+      "sha256": "12034dbcdf9aa9eac7df65294a0d456e5f570545001a7fdcc26b517faa29a170",
+      "bytes": 8118
+    },
+    {
+      "path": "audit-workspace/src/shared/enemy-motion.ts",
+      "sha256": "97750d9855c9fc1130edf5a11e1277068e44cfd0ad759596524b8376ce9dd12f",
+      "bytes": 4405
+    },
+    {
+      "path": "audit-workspace/src/shared/game.ts",
+      "sha256": "e871db5fbadf93ea89ce77fe0de45ceae6cb9e0642a3d4cf498ff8baa15eace3",
+      "bytes": 35852
+    },
+    {
+      "path": "audit-workspace/src/shared/stages.ts",
+      "sha256": "9e7663b95437af102642b82c80783d6bfc3ec318046179437b731b65962c9db2",
+      "bytes": 10312
+    },
+    {
+      "path": "audit-workspace/src/shared/structure-ai.ts",
+      "sha256": "f456cdc1bcc0fc64590a57e701bc398d38460032200c8344c94ed0f27f1a78ea",
+      "bytes": 2802
+    },
+    {
+      "path": "audit-workspace/src/shared/structure-timing.ts",
+      "sha256": "2a28cdabe1729e9450568a483ad728cc3310c4b4f88581ccee8939ed85e61621",
+      "bytes": 458
+    },
+    {
+      "path": "audit-workspace/src/shared/worm.ts",
+      "sha256": "06067c27a40220a5cad2a185fc868f541b608bdb05c25a2fcd6ba8f6b5274f09",
+      "bytes": 5662
+    },
+    {
+      "path": "audit-workspace/tests/hound-motion.test.ts",
+      "sha256": "ee65fccf133deca2fd4535e8a46a9fd0db5ff53e3156b403788af9ec39e3957b",
+      "bytes": 2209
+    },
+    {
+      "path": "audit-workspace/tests/structure-motion.test.ts",
+      "sha256": "21eb74c3df999688212dfd0a825a466bec6de03197c93660eebb0af1f929718b",
+      "bytes": 2235
+    },
+    {
+      "path": "audit-workspace/tsconfig.json",
+      "sha256": "319bbf51731dc1eebfe3783d5a0e374176463b9ada6b9e9487af29c572dfeb97",
+      "bytes": 277
+    },
+    {
+      "path": "audit-workspace/vitest.config.ts",
+      "sha256": "620e302b06438651465a4c12cea82f0dea68aa3df448c55ca6c861ea85c76d4c",
+      "bytes": 586
+    },
+    {
+      "path": "build_candidate.py",
+      "sha256": "f5039f7a5edea75287557cc8be7f83097e6675e49cc21c3f0c0d13fa443eecaf",
+      "bytes": 16792
+    },
+    {
+      "path": "bundle_source.mjs",
+      "sha256": "d9142c6d87ee087d5a3405ddc7e86f11c37e8fd2a2c2a5f360c7e62f585dde8d",
+      "bytes": 1802
+    },
+    {
+      "path": "candidate-motion.ts",
+      "sha256": "8050b44b7daf471efdcf08efc205c54603fd3e115c7e7f918a4c7ce6314dd602",
+      "bytes": 9501
+    },
+    {
+      "path": "check_candidate.mjs",
+      "sha256": "cd370f0a2009a1315025574d1614ad517c8fd1f29c777d25f3a10cbe18c61dc7",
+      "bytes": 11664
+    },
+    {
+      "path": "check_contacts.mjs",
+      "sha256": "4529eec62fc161b38e2c437dd92a968c5a8175f1b0f563270814ddb8ef5aa2bd",
+      "bytes": 5327
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "13196573c6c5a58293aeda7ed91c4860636dd479cf4655d624abdeb4ffb190ff",
+      "bytes": 6267
+    },
+    {
+      "path": "index.html",
+      "sha256": "caf51b03132382206c00bcd69053f7198c37f0e200664ecd2a8306db744f5d41",
+      "bytes": 9039
+    },
+    {
+      "path": "integration-proposal/check-integration-proposal.mjs",
+      "sha256": "8681fdcf77b623b661ebbc235b579ee0ea7902b54bdba11b980a97cda51c5d33",
+      "bytes": 4124
+    },
+    {
+      "path": "integration-proposal/game.ts.proposed.txt",
+      "sha256": "2d9ee1d3e1cadc4bea3ead3d0c668d5ab45d67017da660a81fe437926e18c8e1",
+      "bytes": 35913
+    },
+    {
+      "path": "integration-proposal/integration-proposal-results.json",
+      "sha256": "bfa140c3c7027ff4c358427855b222e974d68acc71d1eee36db9cd4419984c8e",
+      "bytes": 23030
+    },
+    {
+      "path": "integration-proposal/integration-proposal.log",
+      "sha256": "3af3e85957cb59b872bd390bd2192e4117b19b6a2ad60ebdc03ffd7e233c8f76",
+      "bytes": 1034
+    },
+    {
+      "path": "integration-proposal/render.ts.proposed.txt",
+      "sha256": "37e850dfdf45c6e085f9943b98f45232173b7e214e7f72ac5f470200d2070a98",
+      "bytes": 36755
+    },
+    {
+      "path": "make_review_sheet.mjs",
+      "sha256": "384f301edd46ef36815c9ed52d2841709ac3e4e0509186202a393435d606a19f",
+      "bytes": 1762
+    },
+    {
+      "path": "motion_video_mux.mjs",
+      "sha256": "ee11475bb400fa3647e80dab7cbec2281b7d4cb523fb32945e1b4b8711605d9d",
+      "bytes": 2024
+    },
+    {
+      "path": "package_audit.mjs",
+      "sha256": "8c4bfdfb6e2bb07bd8014f9ac9c097b370ff68fab89ebdd8281adbbe65979bbe",
+      "bytes": 3963
+    },
+    {
+      "path": "parameters.json",
+      "sha256": "07916c1cbb4c9bb8d72694b445fc6e76700aa9deb9df89661ca9b0b189c74c42",
+      "bytes": 736
+    },
+    {
+      "path": "phase1_common.py",
+      "sha256": "feddd1747a34bb783f6d041b43754307dc50c59d0e0ca436b3f6fb0bafff1f65",
+      "bytes": 5721
+    },
+    {
+      "path": "pleat_motion_v3.blend",
+      "sha256": "17e8c1dc5b097480e83138c5c093e332e3d905b3dad6a304145470c620964fe9",
+      "bytes": 490972
+    },
+    {
+      "path": "pleat_motion_v3.glb",
+      "sha256": "81bbfe16449f9d7e3e954c0baaa10e56f9bbff433d5aed4522b2a6d685ecedbc",
+      "bytes": 264752
+    },
+    {
+      "path": "README.md",
+      "sha256": "0e10fc4d88eae1820a982c5fcc66061b42474ca03c2af36bcde228a7d8fade5a",
+      "bytes": 4137
+    },
+    {
+      "path": "record_candidate.mjs",
+      "sha256": "18fac5411feca801756341c331fb057dbd8995cae2f86af0f59efb8bfccf7901",
+      "bytes": 7948
+    },
+    {
+      "path": "record_gameplay.mjs",
+      "sha256": "cc043309302d073f51202a38883344bfcae733d107728390a8fd5246fdf4902d",
+      "bytes": 5349
+    },
+    {
+      "path": "review/attack-0.18.png",
+      "sha256": "5a57aacace64b225e8dbf66925056a434b932c5439c8cd62404a8035dad90e8f",
+      "bytes": 130676
+    },
+    {
+      "path": "review/attack-0.36.png",
+      "sha256": "573669d9ae3e391f033506eca28c24ab94493a898b405ec89c00d518ea633c3e",
+      "bytes": 128062
+    },
+    {
+      "path": "review/attack-0.45.png",
+      "sha256": "939c664608d6f4d1089a24eac103a6749f7654f8346873449a63d0ee570b7c0c",
+      "bytes": 129126
+    },
+    {
+      "path": "review/attack-0.65.png",
+      "sha256": "c0f18283a574a4153c9abcde7e6d98ea23ca4f822cc2ffa19998c5a053b8abac",
+      "bytes": 128489
+    },
+    {
+      "path": "review/attack-0.png",
+      "sha256": "88ca3780138e9c62422dc3d0b2bab421fa9f2c84ffa55567546d16dd849a10f0",
+      "bytes": 131410
+    },
+    {
+      "path": "review/attack-1.2.png",
+      "sha256": "866c37d10285495ded976d481711924d4112c6c62e89729643c07fea13ce7d77",
+      "bytes": 130289
+    },
+    {
+      "path": "review/comparison.png",
+      "sha256": "ae5e6c747f4357f3edc1cc7faf1824a8df2cf87d8712abcb4556c36a611dd56d",
+      "bytes": 110562
+    },
+    {
+      "path": "review/front.png",
+      "sha256": "39845ce96823ed57b6934cb9137de03acc1be6e50816882ab8decd231e27452d",
+      "bytes": 121034
+    },
+    {
+      "path": "review/game-hurt.png",
+      "sha256": "10d213be48c4f39ee4a73f0686188a218aef8e91b9167893f52eea6e3319332d",
+      "bytes": 18408
+    },
+    {
+      "path": "review/game-kill.png",
+      "sha256": "34f88ad7fbdbbff22b08081cdae012874a32d501c44547de90f3feccd8e2a4aa",
+      "bytes": 213025
+    },
+    {
+      "path": "review/game-size.png",
+      "sha256": "922d31b8501a606c01207d18424249f16fbe41b952fd2e3b5fd9fe6d8e946d29",
+      "bytes": 50825
+    },
+    {
+      "path": "review/gameplay-poster.png",
+      "sha256": "7ed81704935ae843d8c805be023fa39dded4d19588405c9e3acb540b3140bd6b",
+      "bytes": 451754
+    },
+    {
+      "path": "review/motion-sheet.png",
+      "sha256": "aec80038067a64d2c083b3ccbd4b40df121cb53e58c8b34b2c41f487049341b1",
+      "bytes": 320991
+    },
+    {
+      "path": "review/oblique.png",
+      "sha256": "53190efc06afc76938ec9bc23c2a0cf9879e0c3b75a6384f828832956e6fbd58",
+      "bytes": 133629
+    },
+    {
+      "path": "review/pleat_gameplay.mp4",
+      "sha256": "561795987ee932504bd7c881f68e5d9d195aff75eab814d0f75bbd870dc38547",
+      "bytes": 2370643
+    },
+    {
+      "path": "review/pleat_motion_charge.png",
+      "sha256": "bdbfa9f8db96f1b4485ca9a8cc2fb2d08dd986030a22a3529026da6ab6af285f",
+      "bytes": 90217
+    },
+    {
+      "path": "review/pleat_motion_front.png",
+      "sha256": "b2d350b2a86980e5a94780849dfa0ccfa029a4213517cf9d0c9195f106b4520d",
+      "bytes": 87409
+    },
+    {
+      "path": "review/pleat_motion_idle.png",
+      "sha256": "858b6cf7ae7f40841970295c00375cc005a266787d31d08070ae8de0ed23caf9",
+      "bytes": 95642
+    },
+    {
+      "path": "review/pleat_motion_impact.png",
+      "sha256": "3349a86830b61a0a86afc1c26615852bd606ca5c488ce8db0883b9129cbda731",
+      "bytes": 91286
+    },
+    {
+      "path": "review/pleat_motion_mobile.png",
+      "sha256": "1b3ba91df0ce370ac86f029aeb264a61ea7392a32bf3917059116f6f0587a5b1",
+      "bytes": 66391
+    },
+    {
+      "path": "review/pleat_motion_oblique.mp4",
+      "sha256": "b7996b21c62d1a9644f927ca0e1d72951122e5d911a9fa1abe11bad1ef37b600",
+      "bytes": 3994278
+    },
+    {
+      "path": "review/pleat_motion_oblique_poster.png",
+      "sha256": "b7daae4bed53c20fbff0b385579845e83b9723f1ae49a90e726d8a3e7063fe6d",
+      "bytes": 153518
+    },
+    {
+      "path": "review/pleat_motion_side.mp4",
+      "sha256": "05658481b7e4f3672896f7a95fc13f6d2aa29dfcbd36bad8e5cd73737e502f08",
+      "bytes": 4430173
+    },
+    {
+      "path": "review/pleat_motion_side_poster.png",
+      "sha256": "f3bb1d07587df7a226dec9498e6fe5dcdeda40fcba252f0fe9afcff264d6ce32",
+      "bytes": 159156
+    },
+    {
+      "path": "review/pleat_motion_v3_oblique.png",
+      "sha256": "fb6c944b9c9b902c582dcd5a6ddf388795375aa4b75273b9e991cb81ab4cd74b",
+      "bytes": 1007679
+    },
+    {
+      "path": "review/rear.png",
+      "sha256": "a86a079761871a670f800766679b8b82076a364899b19add9cdb0be1822dfe13",
+      "bytes": 112826
+    },
+    {
+      "path": "review/side.png",
+      "sha256": "dcc1c6e923a0046463062cfa1ad02c9e69c7ab8abfaed97aeddf2171bfa25d5c",
+      "bytes": 131303
+    },
+    {
+      "path": "review/silhouette-comparison.png",
+      "sha256": "2af98ae38fb1f4683927c9171c3c475c197ff0da01f9320ef8b3a0892362e26a",
+      "bytes": 81779
+    },
+    {
+      "path": "review/v2-v3-game-size.png",
+      "sha256": "b2a8ae17cd7e9e0163a38079c3f7db12cff6ee76b286d04eda6a1f0116549802",
+      "bytes": 76060
+    },
+    {
+      "path": "review/v2-v3-oblique.png",
+      "sha256": "1f921f49ee17512d67fdfc3f0414a7e67c7169a447e2a2734ec56f7acedca86b",
+      "bytes": 266297
+    },
+    {
+      "path": "review/v2-v3-side.png",
+      "sha256": "19f8c74c26c121e58655990e45a7de7adf73a8419428519a180bfd0deb1abb24",
+      "bytes": 270901
+    },
+    {
+      "path": "review.html",
+      "sha256": "42dfd01333890cf9c6de10e38c2f5e7de72d9a3c23b529dd1250f3c2cdb9e40c",
+      "bytes": 3781
+    },
+    {
+      "path": "validation/browser-validation.json",
+      "sha256": "e89f1d6bccec6b6c44e517adbca64dad42d3ca85f9c0fc4430c3598cc6c23466",
+      "bytes": 6272
+    },
+    {
+      "path": "validation/browser.log",
+      "sha256": "e86786bfa5d8784ae40d48b8697943bb9194498d0dc68563585b1039d2a1380c",
+      "bytes": 767
+    },
+    {
+      "path": "validation/build.log",
+      "sha256": "88a6bd7d6d6debc09798e150e62bfd1f24a5648b804b0299cb93f6e2310cc083",
+      "bytes": 1821
+    },
+    {
+      "path": "validation/contact-samples.json",
+      "sha256": "df948499fc8a598f1279a344bb47f9dfc5d38877bdcc22e22637ce3cf115694d",
+      "bytes": 237082
+    },
+    {
+      "path": "validation/contact-validation.json",
+      "sha256": "6cf73c4a53fd138a6710048f5b3887dbe6c0ee6208bc7325f6509758281b7af3",
+      "bytes": 1724
+    },
+    {
+      "path": "validation/contacts.log",
+      "sha256": "1022f3cd0fb75b1568307d880925ea69342052b194171912e8c887ed5553a682",
+      "bytes": 962
+    },
+    {
+      "path": "validation/gameplay-video.json",
+      "sha256": "a1a07b91e613d8e54d5e7828a104bae01c95c5b2d1ce2af125073860c966a0b4",
+      "bytes": 1383
+    },
+    {
+      "path": "validation/gameplay-video.log",
+      "sha256": "9a228382eb0da5c5cab3431f067620aee28a2c23d4307dadb9b65137ed4639c0",
+      "bytes": 21
+    },
+    {
+      "path": "validation/geometry-check.json",
+      "sha256": "713d7aeb0d0854c7b7bdb958609adea4168088baec718fca0e064cc6c3b5469e",
+      "bytes": 743
+    },
+    {
+      "path": "validation/Idle-1.png",
+      "sha256": "485305f0b3c12637622bfd840db09848b2c4adb06375a6c61dc62c0d16c897b5",
+      "bytes": 134030
+    },
+    {
+      "path": "validation/loader-provenance.json",
+      "sha256": "6da9cabc81d662884224d222661ff88b8b20e8a13759f3b5e36a1f44e18f9271",
+      "bytes": 466
+    },
+    {
+      "path": "validation/Locomotion-0.3.png",
+      "sha256": "736b944740fb3b989f183ccaa9933572727b29afc5b9c4585ff4922ee814142a",
+      "bytes": 135146
+    },
+    {
+      "path": "validation/Lunge-0.4.png",
+      "sha256": "9095d01f66e46931175a75ecb1303ef47513919d5fd571200e36964a3eb54cc8",
+      "bytes": 130106
+    },
+    {
+      "path": "validation/Lunge-0.48.png",
+      "sha256": "6e179166c7667a289240dc2492419eb1d57d74923f6f40843438e019e9be6cd9",
+      "bytes": 129692
+    },
+    {
+      "path": "validation/mobile-1.png",
+      "sha256": "c1b9581a3e2543f2250248a5596c2a3df76403d4afa217e153375562c6dbf709",
+      "bytes": 76104
+    },
+    {
+      "path": "validation/mobile-10.png",
+      "sha256": "74835d061b2eb625ee80d3c0d6a7e62fb36927bd273a67b7e8a1ece5dfe0573c",
+      "bytes": 75944
+    },
+    {
+      "path": "validation/mobile-40.png",
+      "sha256": "08ee6ed0f22cbbd5288f0673bfa332e308b96fe38625994f8b034f1d3b0d5303",
+      "bytes": 107259
+    },
+    {
+      "path": "validation/mobile-front.png",
+      "sha256": "4bedd3f7f8a74056070ab455ec7813fadd638ef92b98d3de2d6ecc6a02083f5f",
+      "bytes": 59933
+    },
+    {
+      "path": "validation/pleat_motion_v3.json",
+      "sha256": "0726a14ddb91acb265e2a71f7185d68f328a3ed9932969a0c2b1c9e799da511c",
+      "bytes": 354
+    },
+    {
+      "path": "validation/preservation.json",
+      "sha256": "165b93889f63b343fd78a4864bfd5376fed29975203c871613f9262c2e0540c0",
+      "bytes": 25932
+    },
+    {
+      "path": "validation/protected-before.json",
+      "sha256": "009217521de245a00a2f292e72e3838b0598a7f88efa4b27cc528f84ba044e55",
+      "bytes": 24871
+    },
+    {
+      "path": "validation/video-validation.json",
+      "sha256": "060c108b590f35990725d898b356767ec7f442c8e2fedf3371063e5c97fe07ce",
+      "bytes": 1075
+    },
+    {
+      "path": "validation/video.log",
+      "sha256": "29184c2a3f019d91a3a3de3ce1e9a77f9f8d54d4ca4794085b368a2be10ddfa2",
+      "bytes": 966
+    },
+    {
+      "path": "VALIDATION.md",
+      "sha256": "2b59da885e76b1e520b4d5f3b1a12b6559ba5abf3bcacf0cfba569480fced7d0",
+      "bytes": 3126
+    }
+  ]
+}

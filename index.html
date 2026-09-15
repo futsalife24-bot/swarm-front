@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width,initial-scale=1,viewport-fit=cover"
+      content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
     />
     <meta name="theme-color" content="#0c1820" />
     <meta name="mobile-web-app-capable" content="yes" />
@@ -14,7 +14,8 @@
       content="black-translucent"
     />
     <link rel="manifest" href="%BASE_URL%manifest.webmanifest" />
-    <link rel="icon" href="%BASE_URL%icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="%BASE_URL%icon-swarm-v3-64.png" type="image/png" sizes="64x64" />
+    <link rel="apple-touch-icon" href="%BASE_URL%icon-swarm-v3-180.png" sizes="180x180" />
     <title>SWARM FRONT</title>
   </head>
   <body>
@@ -23,6 +24,7 @@
     <div id="hud" hidden></div>
     <canvas id="minimap" aria-label="戦場のミニマップ" hidden></canvas>
     <div id="damage" aria-hidden="true"></div>
+    <div id="scope-overlay" aria-hidden="true" hidden><span>2×</span></div>
     <button id="pause" aria-label="一時停止メニュー" hidden>| |</button>
     <div id="pause-menu" role="dialog" aria-label="一時停止" hidden></div>
     <div id="controls" hidden>
@@ -31,17 +33,26 @@
       <button id="fire">射撃</button><button id="dodge">回避</button
       ><button id="reload">装填</button><button id="swap">切替</button
       ><button id="revive">蘇生</button>
-    </div>
-    <div id="portrait">
-      端末を横向きにして遊んでください<br /><small
-        >進行状況はそのまま保持されます</small
+      <button
+        id="scope"
+        type="button"
+        aria-label="スコープ"
+        aria-pressed="false"
+        hidden
       >
+        スコープ
+      </button>
+    </div>
+    <div id="portrait" role="dialog" aria-modal="true" aria-label="ゲーム開始">
+      <strong>SWARM FRONT</strong>
+      <button id="landscape-start" type="button">ゲームを開始</button>
+      <small id="landscape-status" role="status"></small>
     </div>
     <script
       src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
       async
       defer
     ></script>
-    <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="/src/bootstrap.ts"></script>
   </body>
 </html>

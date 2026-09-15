@@ -1,0 +1,46 @@
+{
+  "scope": "real Renderer with lifecycle snapshots; fixed GLB; actual adopted source",
+  "results": [
+    {
+      "version": "adopted",
+      "cases": [
+        {
+          "reset": "new-run",
+          "angle": 0,
+          "clip": "Idle",
+          "held": 0
+        },
+        {
+          "reset": "new-run-cool-jump",
+          "angle": 0,
+          "clip": "Idle",
+          "held": 0
+        },
+        {
+          "reset": "null-world",
+          "angle": 0,
+          "clip": "Idle",
+          "held": 0
+        },
+        {
+          "reset": "enemy-removed",
+          "angle": 0,
+          "clip": "Idle",
+          "held": 0
+        },
+        {
+          "reset": "time-rewind",
+          "angle": 0,
+          "clip": "Lunge",
+          "held": 0
+        },
+        {
+          "reset": "inactive",
+          "angle": 0,
+          "clip": "Lunge",
+          "held": 0
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
+  BLOCKS,
   STARTERS,
   LIMITS,
   POWER,
@@ -41,6 +42,7 @@ function fixture() {
   p.z = 0;
   start(w);
   w.nextSpawn = 1e9;
+  w.enemies = [];
   return { w, p };
 }
 describe("authoritative combat", () => {
@@ -50,15 +52,15 @@ describe("authoritative combat", () => {
     const i = { ...neutral(), fire: true };
     for (let n = 0; n < 20; n++) step(w, { p: i });
     expect(p.ammo[0]).toBe(25);
-    expect(w.enemies[0].hp).toBeLessThan(4200);
+    expect(w.enemies[0].maxHp - w.enemies[0].hp).toBeCloseTo(7 * 24);
   });
   it("blocks bullets and aim assistance through a building", () => {
     const { w, p } = fixture();
-    p.x = 17;
-    p.z = 15;
-    spawn(w, "crawler", 17, -6);
+    p.x = 34;
+    p.z = 30;
+    spawn(w, "crawler", 34, -12);
     fire(w, p, { ...neutral(), fire: true });
-    expect(w.enemies[0].hp).toBe(75);
+    expect(w.enemies[0].hp).toBe(w.enemies[0].maxHp);
   });
   it("shotgun has close-range pellets; rocket damages multiple enemies", () => {
     const a = fixture();
@@ -66,12 +68,14 @@ describe("authoritative combat", () => {
     a.p.ammo = [7, 32];
     spawn(a.w, "boss", 0, -5);
     fire(a.w, a.p, { ...neutral(), fire: true });
-    expect(a.w.enemies[0].hp).toBeLessThan(4100);
+    expect(a.w.enemies[0].maxHp - a.w.enemies[0].hp).toBeGreaterThan(100);
     const b = fixture();
     b.p.weapons = [STARTERS[2], STARTERS[0]];
     b.p.ammo = [2, 32];
     spawn(b.w, "crawler", 0, -10);
     spawn(b.w, "crawler", 2, -10);
+    // Hold targets in their telegraph so this checks blast damage, not their dodge AI.
+    for (const e of b.w.enemies) e.wind = 100;
     fire(b.w, b.p, { ...neutral(), fire: true });
     for (let n = 0; n < 20; n++) step(b.w, {});
     expect(b.w.totalKills).toBe(2);
@@ -81,7 +85,7 @@ describe("authoritative combat", () => {
     p.weapons[0] = { ...STARTERS[0], rarity: 1, effect: "pierce" };
     for (const z of [-5, -9, -13, -17]) spawn(w, "crawler", 0, z);
     fire(w, p, neutral());
-    expect(w.enemies.map((e) => e.hp)).toEqual([51, 51, 51, 75]);
+    expect(w.enemies.map((e) => e.maxHp - e.hp)).toEqual([24, 24, 24, 0]);
   });
   it("revive requires a living nearby ally and sustained input", () => {
     const { w, p } = fixture();
@@ -413,6 +417,7 @@ describe("damage readout", () => {
       p.z = 0;
       start(w);
       w.nextSpawn = 1e9;
+      w.enemies = [];
       w.enemies.length = 0;
       return { w, p };
     })();
@@ -434,6 +439,7 @@ describe("damage readout", () => {
     p.z = 0;
     start(w);
     w.nextSpawn = 1e9;
+    w.enemies = [];
     w.enemies.length = 0;
     spawn(w, "hornet", 0, -10);
     const target = w.enemies[0];
@@ -448,3 +454,215 @@ describe("damage readout", () => {
     expect(hit.y).toBeGreaterThan(5);
   });
 });
+
+describe("reserve reload", () => {
+  for (const starter of STARTERS) {
+    it(`${starter.kind}: partial reload shortens, empty reload stays normal, full magazine cannot reload`, () => {
+      const { w, p } = fixture();
+      const weapon: Weapon = {
+        ...starter,
+        id: `reserve-${starter.kind}`,
+        rarity: 1,
+        effect: "reserve",
+        rolls: { mag: 1.25, reload: 0.8 },
+      };
+      p.weapons[0] = weapon;
+      const d = stats(weapon);
+      const remaining = Math.floor(d.mag / 2);
+      p.ammo[0] = remaining;
+      step(w, { p: { ...neutral(), reload: true } });
+      const expected = d.reload * (1 - (0.5 * remaining) / d.mag);
+      expect(p.reload).toBeCloseTo(expected);
+      expect(p.ammo[0]).toBe(remaining);
+      step(w, { p: { ...neutral(), reload: true, fire: true } });
+      expect(p.reload).toBeCloseTo(expected - 0.05);
+      expect(p.ammo[0]).toBe(remaining);
+      for (let n = 0; n < Math.ceil(expected / 0.05); n++)
+        step(w, { p: neutral() });
+      expect(p.ammo[0]).toBe(d.mag);
+      step(w, { p: { ...neutral(), reload: true } });
+      expect(p.reload).toBeLessThanOrEqual(0);
+      p.ammo[0] = 0;
+      step(w, { p: neutral() });
+      expect(p.reload).toBeCloseTo(d.reload);
+      expect(validWeapon(weapon)).toBe(true);
+      const saved = fresh();
+      saved.inventory.push(weapon);
+      expect(parseSave(JSON.stringify(saved)).inventory.at(-1)).toEqual(weapon);
+    });
+  }
+  it("drops reserve for every kind, retires quick drops, and preserves existing quick weapons", () => {
+    const w = createWorld("reserve-drops", 42);
+    const drops = Array.from({ length: 10000 }, () => loot(w));
+    for (const starter of STARTERS)
+      expect(
+        drops.some(
+          (item) => item.kind === starter.kind && item.effect === "reserve",
+        ),
+      ).toBe(true);
+    expect(drops.every(validWeapon)).toBe(true);
+    expect(drops.some((item) => item.effect === "quick")).toBe(false);
+    const old: Weapon = { ...STARTERS[0], rarity: 1, effect: "quick" };
+    expect(validWeapon(old)).toBe(true);
+    expect(stats(old).reload).toBeCloseTo(1.65 * 0.8);
+  });
+  it("weapon switching cancels shortened reload without refilling ammo", () => {
+    const { w, p } = fixture();
+    p.weapons[0] = { ...STARTERS[0], rarity: 1, effect: "reserve" };
+    p.ammo[0] = 16;
+    step(w, { p: { ...neutral(), reload: true } });
+    step(w, { p: { ...neutral(), swap: true } });
+    expect(p.reload).toBe(0);
+    expect(p.ammo[0]).toBe(16);
+    expect(p.slot).toBe(1);
+  });
+});
+
+describe("flat effect pools and innate shotgun piercing", () => {
+  it("uses a flat rifle pool and never drops a shotgun piercing affix", () => {
+    const w = createWorld("flat-effects", 2026);
+    const items = Array.from({ length: 40000 }, () => loot(w));
+    const rifle = items.filter(
+      (item) => item.kind === "rifle" && item.effect !== "none",
+    );
+    const fraction =
+      rifle.filter((item) => item.effect === "pierce").length / rifle.length;
+    expect(fraction).toBeGreaterThan(0.47);
+    expect(fraction).toBeLessThan(0.53);
+    for (const kind of ["shotgun", "rocket"]) {
+      const effects = new Set(
+        items.filter((item) => item.kind === kind).map((item) => item.effect),
+      );
+      expect(effects).toEqual(
+        new Set(["none", "reserve", kind === "shotgun" ? "repel" : "chain"]),
+      );
+      const affixed = items.filter(
+        (item) => item.kind === kind && item.effect !== "none",
+      );
+      const ratio =
+        affixed.filter((item) => item.effect === "reserve").length /
+        affixed.length;
+      expect(ratio).toBeGreaterThan(0.47);
+      expect(ratio).toBeLessThan(0.53);
+    }
+    expect(items.every(validWeapon)).toBe(true);
+  });
+  it("shotgun pellets hit three enemies with no affix, reserve, or legacy pierce, without stacking", () => {
+    const results = ["none", "reserve", "pierce"].map((effect) => {
+      const { w, p } = fixture();
+      p.weapons[0] = {
+        ...STARTERS[1],
+        rarity: 1,
+        effect: effect as Weapon["effect"],
+      };
+      p.ammo[0] = 7;
+      for (const z of [-5, -8, -11, -14]) spawn(w, "boss", 0, z);
+      fire(w, p, neutral());
+      const damage = w.enemies.map((e) => e.maxHp - e.hp);
+      expect(damage.slice(0, 3).every((value) => value > 0)).toBe(true);
+      expect(damage[3]).toBe(0);
+      return damage;
+    });
+    expect(results[1]).toEqual(results[0]);
+    expect(results[2]).toEqual(results[0]);
+  });
+  it("rifle without pierce stops at the first enemy and legacy shotgun saves still load", () => {
+    const { w, p } = fixture();
+    for (const z of [-5, -9]) spawn(w, "crawler", 0, z);
+    fire(w, p, neutral());
+    expect(w.enemies.map((e) => e.maxHp - e.hp)).toEqual([24, 0]);
+    const saved = fresh();
+    saved.inventory[1] = { ...STARTERS[1], rarity: 1, effect: "pierce" };
+    expect(parseSave(JSON.stringify(saved))).toEqual(saved);
+  });
+});
+
+describe("exclusive weapon affixes", () => {
+  it("repel pushes surviving close normal enemies once per shot; distant enemies and bosses stay put", () => {
+    const { w, p } = fixture();
+    p.weapons[0] = { ...STARTERS[1], rarity: 1, effect: "repel" };
+    for (const [kind, z] of [
+      ["crawler", -5],
+      ["crawler", -12],
+      ["boss", -16],
+    ] as const)
+      spawn(w, kind, 0, z);
+    for (const e of w.enemies) e.hp = 10000;
+    fire(w, p, neutral());
+    expect(w.enemies[0].hp).toBeLessThan(10000);
+    expect(w.enemies[0].z).toBeCloseTo(-8);
+    expect(w.enemies[1].z).toBe(-12);
+    expect(w.enemies[2].z).toBe(-16);
+  });
+  it("only a lethal direct rocket hit triggers one secondary explosion", () => {
+    const run = (chain: boolean, directHp = 75, x = 0) => {
+      const { w } = fixture();
+      spawn(w, "crawler", x, -5);
+      spawn(w, "crawler", 2.5, -5);
+      spawn(w, "crawler", 4.5, -5);
+      w.enemies[0].hp = directHp;
+      w.enemies[1].hp = 155;
+      w.enemies[2].hp = 1000;
+      const targets = [...w.enemies];
+      for (const e of w.enemies) e.wind = 100;
+      w.projectiles.push({
+        id: 999,
+        x: 0,
+        y: 1.4,
+        z: -2.6,
+        dx: 0,
+        dy: 0,
+        dz: -28,
+        life: 3,
+        owner: "p",
+        damage: 170,
+        rocket: true,
+        chain,
+      });
+      step(w, { p: neutral() });
+      return { w, targets };
+    };
+    const base = run(false),
+      extra = run(true);
+    expect(extra.w.events.filter((e) => e.type === "burst")).toHaveLength(2);
+    expect(base.targets[1].hp).toBeGreaterThan(0);
+    expect(extra.targets[1].hp).toBeLessThanOrEqual(0);
+    expect(extra.targets[2].hp).toBeCloseTo(base.targets[2].hp);
+    expect(
+      run(true, 1000).w.events.filter((e) => e.type === "burst"),
+    ).toHaveLength(1);
+  });
+  it("captures the rocket affix at firing and rejects affixes on the wrong weapon kind", () => {
+    const { w, p } = fixture();
+    p.weapons = [{ ...STARTERS[2], rarity: 1, effect: "chain" }, STARTERS[0]];
+    fire(w, p, neutral());
+    expect(w.projectiles[0].chain).toBe(true);
+    p.slot = 1;
+    expect(w.projectiles[0].chain).toBe(true);
+    for (const starter of STARTERS) {
+      expect(validWeapon({ ...starter, rarity: 1, effect: "repel" })).toBe(
+        starter.kind === "shotgun",
+      );
+      expect(validWeapon({ ...starter, rarity: 1, effect: "chain" })).toBe(
+        starter.kind === "rocket",
+      );
+    }
+  });
+});
+
+it("repel cannot push an enemy through a building", () => {
+  const { w, p } = fixture();
+  const wall = mapFor(w).blocks[0],
+    front = wall.z - wall.d / 2;
+  p.x = wall.x;
+  p.z = front - 6;
+  p.weapons[0] = { ...STARTERS[1], rarity: 1, effect: "repel" };
+  spawn(w, "crawler", wall.x, front - 2);
+  const enemy = w.enemies[0];
+  enemy.hp = 10000;
+  fire(w, p, { ...neutral(), yaw: Math.PI });
+  expect(enemy.hp).toBeLessThan(10000);
+  expect(enemy.z).toBeGreaterThan(front - 2);
+  expect(enemy.z).toBeLessThan(front);
+});
+import { mapFor } from "../src/shared/stages";

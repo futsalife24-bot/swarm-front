@@ -1,0 +1,109 @@
+{
+  "savedBlendReopened": true,
+  "original15FullCurveHashesMatch": true,
+  "boneCount": 57,
+  "clips": [
+    {
+      "clip": "Trial_Dodge_Roll",
+      "framesChecked": 21,
+      "finite": true
+    },
+    {
+      "clip": "Trial_Fire_Rifle",
+      "framesChecked": 9,
+      "finite": true
+    },
+    {
+      "clip": "Trial_Fire_Rocket",
+      "framesChecked": 70,
+      "finite": true
+    },
+    {
+      "clip": "Trial_Fire_Shotgun",
+      "framesChecked": 49,
+      "finite": true
+    },
+    {
+      "clip": "Trial_Hit_Heavy",
+      "framesChecked": 73,
+      "finite": true
+    },
+    {
+      "clip": "Trial_Idle",
+      "framesChecked": 181,
+      "finite": true,
+      "loopMaximumMatrixDifference": 0.0
+    },
+    {
+      "clip": "Trial_Run",
+      "framesChecked": 39,
+      "finite": true,
+      "loopMaximumMatrixDifference": 0.0
+    },
+    {
+      "clip": "Trial_Run_Backward",
+      "framesChecked": 39,
+      "finite": true,
+      "loopMaximumMatrixDifference": 0.0
+    },
+    {
+      "clip": "Trial_Run_Backward_Rocket",
+      "framesChecked": 39,
+      "finite": true,
+      "loopMaximumMatrixDifference": 0.0
+    },
+    {
+      "clip": "Trial_Run_Rocket",
+      "framesChecked": 39,
+      "finite": true,
+      "loopMaximumMatrixDifference": 0.0
+    },
+    {
+      "clip": "Trial_Weapon_Idle_Rifle",
+      "framesChecked": 181,
+      "finite": true,
+      "loopMaximumMatrixDifference": 0.0
+    },
+    {
+      "clip": "Trial_Weapon_Idle_Rocket",
+      "framesChecked": 181,
+      "finite": true,
+      "loopMaximumMatrixDifference": 0.0
+    },
+    {
+      "clip": "Trial_Weapon_Idle_Shotgun",
+      "framesChecked": 181,
+      "finite": true,
+      "loopMaximumMatrixDifference": 0.0
+    },
+    {
+      "clip": "Trial_Reload_Rifle",
+      "framesChecked": 100,
+      "finite": true
+    },
+    {
+      "clip": "Trial_Reload_Shotgun",
+      "framesChecked": 127,
+      "finite": true
+    },
+    {
+      "clip": "Trial_Reload_Rocket",
+      "framesChecked": 163,
+      "finite": true
+    },
+    {
+      "clip": "Trial_Switch_1_to_2",
+      "framesChecked": 61,
+      "finite": true
+    },
+    {
+      "clip": "Trial_Switch_2_to_1",
+      "framesChecked": 61,
+      "finite": true
+    }
+  ],
+  "maximumScaleError": 2.0265579223632812e-06,
+  "restSoleZ": 0.000500007881782949,
+  "restHeight": 1.8660000121453777,
+  "restTopZ": 1.8665000200271606
+}

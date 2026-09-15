@@ -1,0 +1,58 @@
+[
+  {
+    "view": "oblique",
+    "duration": 13.4,
+    "width": 960,
+    "height": 540,
+    "positions": [
+      {
+        "time": 0.1,
+        "pixelChecksum": 731443
+      },
+      {
+        "time": 6,
+        "pixelChecksum": 728687
+      },
+      {
+        "time": 8.4,
+        "pixelChecksum": 729848
+      },
+      {
+        "time": 12.8,
+        "pixelChecksum": 729654
+      }
+    ],
+    "frames": 402,
+    "fps": 30,
+    "bytes": 4137141,
+    "method": "deterministic WebCodecs H264 / ISO-BMFF; not a runtime FPS measurement"
+  },
+  {
+    "view": "side",
+    "duration": 13.4,
+    "width": 960,
+    "height": 540,
+    "positions": [
+      {
+        "time": 0.1,
+        "pixelChecksum": 664129
+      },
+      {
+        "time": 6,
+        "pixelChecksum": 657924
+      },
+      {
+        "time": 8.4,
+        "pixelChecksum": 659827
+      },
+      {
+        "time": 12.8,
+        "pixelChecksum": 661931
+      }
+    ],
+    "frames": 402,
+    "fps": 30,
+    "bytes": 4868432,
+    "method": "deterministic WebCodecs H264 / ISO-BMFF; not a runtime FPS measurement"
+  }
+]

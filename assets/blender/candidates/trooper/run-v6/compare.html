@@ -1,0 +1,38 @@
+<!doctype html><meta charset="utf-8"><title>兵士の走り・ビフォーアフター</title>
+<style>body{margin:0;background:#182329;color:white;font:16px system-ui}button{padding:12px;margin:8px}canvas{max-width:100%;height:auto}pre{white-space:pre-wrap}</style>
+<button id="record" disabled>比較動画を録画（24秒）</button><button id="check" disabled>接地・本体動作を検証</button><pre id="status">読込中</pre><div id="screen"></div>
+<script type="module">
+import * as T from 'three';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {StandardTrooper,loadStandardTrooper,TROOPER_RUN_STRIDE} from '/src/client/standard-trooper.ts';
+import {createWorld,addPlayer,step,neutral,start} from '/src/shared/game.ts';import {STARTERS} from '/src/shared/defs.ts';
+const status=document.querySelector('#status'),assets=await loadStandardTrooper();
+const old=await new GLTFLoader().loadAsync('/assets/characters/standard_trooper_v5.glb');
+const models=[new StandardTrooper({...assets,character:old}),new StandardTrooper(assets)];
+const renderer=new T.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(1280,640);renderer.setPixelRatio(1);renderer.toneMapping=T.ACESFilmicToneMapping;
+const canvas=document.createElement('canvas');canvas.width=1280;canvas.height=720;document.querySelector('#screen').append(canvas);const ctx=canvas.getContext('2d');
+const scenes=models.map(t=>{const s=new T.Scene();s.background=new T.Color('#293338');s.add(t.model);s.add(new T.HemisphereLight(0xe7f2ff,0x4b4540,2));const l=new T.DirectionalLight(0xffffff,3);l.position.set(-3,5,-4);s.add(l);const floor=new T.Mesh(new T.PlaneGeometry(200,200),new T.MeshStandardMaterial({color:0x343c3b}));floor.rotation.x=-Math.PI/2;floor.position.y=-.006;s.add(floor);const grid=new T.GridHelper(40,80,0x63716d,0x424f4a);s.add(grid);return {s,grid}});
+const camera=new T.PerspectiveCamera(35,1,.01,100);let playing=true,recording=false,origin=performance.now();
+const views=[[4.6,1.2,0],[0,1.3,-4.6],[2.9,2.4,4.8],[4.6,1.2,0]];
+function draw(seconds){
+ const part=Math.max(0,Math.min(3,Math.floor(seconds/6))),slow=part===3,elapsed=seconds*(slow?.5:1),kind=part===2?'rocket':'rifle';
+ camera.position.set(...views[part]);camera.lookAt(0,.92,0);renderer.setScissorTest(true);
+ models.forEach((t,i)=>{const duration=t.clips.get('Run').duration,phase=(elapsed*7/(i?TROOPER_RUN_STRIDE:4.2))%1;t.sample('Upper_Run'+(kind==='rocket'?'_Rocket':''),phase*duration,'Lower_Run',phase*duration);t.equip([{id:'r',kind},{id:'s',kind:kind==='rocket'?'rifle':'rocket'}],0);scenes[i].grid.position.z=(elapsed*7)%.5;renderer.setViewport(i*640,0,640,640);renderer.setScissor(i*640,0,640,640);renderer.render(scenes[i].s,camera)});
+ ctx.fillStyle='#152027';ctx.fillRect(0,0,1280,720);ctx.drawImage(renderer.domElement,0,54);ctx.fillStyle='#f1d5b5';ctx.font='bold 24px sans-serif';ctx.fillText('BEFORE / 変更前 v5',30,35);ctx.fillStyle='#97e8cb';ctx.fillText('AFTER / 改善版 v6',670,35);ctx.fillStyle='#edf3f5';ctx.font='18px sans-serif';ctx.fillText(['横から / 通常速度 7 m/s','正面 / 通常速度 7 m/s','ゲームに近い角度・ロケット / 通常速度 7 m/s','横から / 0.5倍速'][part],30,709);ctx.fillText('同じモデル・同じ移動速度',940,709);ctx.fillStyle='#859195';ctx.fillRect(639,0,2,690);
+}
+function frame(now){if(playing)draw(((now-origin)/1000)%24);requestAnimationFrame(frame)}requestAnimationFrame(frame);
+document.querySelector('#record').disabled=false;document.querySelector('#check').disabled=false;status.textContent='準備完了';
+document.querySelector('#record').onclick=()=>{if(recording)return;recording=true;playing=true;origin=performance.now();const chunks=[],stream=canvas.captureStream(30),rec=new MediaRecorder(stream,{mimeType:'video/webm;codecs=vp9',videoBitsPerSecond:7000000});rec.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};rec.onstop=async()=>{const blob=new Blob(chunks,{type:'video/webm'});await fetch('http://127.0.0.1:5327/video',{method:'POST',body:blob});stream.getTracks().forEach(t=>t.stop());recording=false;status.textContent='録画保存完了 '+blob.size+' bytes'};rec.start();status.textContent='録画中';setTimeout(()=>rec.stop(),24000)};
+document.querySelector('#check').onclick=async()=>{playing=false;status.textContent='検証中';await new Promise(r=>setTimeout(r,20));const report={passed:false,stride:TROOPER_RUN_STRIDE,gaits:[],runtime:[]};try{
+ for(const [i,t] of models.entries())for(const name of ['Run','Run_Backward','Run_Rocket','Run_Backward_Rocket']){
+  const duration=t.clips.get(name).duration,heights=[],head=[],foot=[],v=new T.Vector3();let min=Infinity,air=0;
+  // Use skinned boot vertices, not merely ankle height.
+  const vertices=[];t.model.traverse(o=>{if(!o.isSkinnedMesh)return;const ix=o.geometry.attributes.skinIndex,w=o.geometry.attributes.skinWeight;for(let j=0;j<ix.count;j++){if([0,1,2,3].some(k=>w.getComponent(j,k)>.5&&/^(Foot|Toe)_/.test(o.skeleton.bones[ix.getComponent(j,k)].name)))vertices.push([o,j])}});
+  for(let f=0;f<48;f++){t.sample(name,duration*f/48);const minimum={L:Infinity,R:Infinity};for(const [o,j] of vertices){o.skeleton.update();o.getVertexPosition(j,v).applyMatrix4(o.matrixWorld);const ix=o.geometry.attributes.skinIndex,w=o.geometry.attributes.skinWeight;for(let k=0;k<4;k++){const b=o.skeleton.bones[ix.getComponent(j,k)].name;if(w.getComponent(j,k)>.5&&/^(Foot|Toe)_/.test(b)){const s=b.slice(-1);minimum[s]=Math.min(minimum[s],v.y)}}}min=Math.min(min,minimum.L,minimum.R);if(Math.min(minimum.L,minimum.R)>.015)air++;heights.push(t.model.getObjectByName('Pelvis').getWorldPosition(v).y);if(!t.bones.every(b=>b.matrixWorld.elements.every(Number.isFinite)))throw Error('nonfinite')}
+  const dir=name.includes('Backward')?-1:1;for(const phase of [.105,.19]){t.sample(name,duration*phase);foot.push(t.model.getObjectByName('Foot_R').getWorldPosition(v).z-dir*(i?TROOPER_RUN_STRIDE:4.2)*phase)}
+  const row={version:i?'after':'before',name,minSoleY:min,airFrames:air,pelvisTravel:Math.max(...heights)-Math.min(...heights),supportSlip:Math.abs(foot[1]-foot[0])};report.gaits.push(row);if(i&&(min<-.012||air<2||row.supportSlip>.018))throw Error('gait limits '+JSON.stringify(row));
+ }
+ const t=models[1];for(const [dx,dz] of [[0,-1],[0,1],[1,0],[-1,0],[.707,-.707]]){const w=createWorld('run-qa'),p=addPlayer(w,'p',[STARTERS[0],STARTERS[2]]);start(w);w.enemies=[];w.nextSpawn=1e9;t.update(p,0,0,w.run,1/60);for(let f=0;f<20;f++){step(w,{p:{...neutral(),mx:dx,mz:dz}});t.update(p,0,f/20,w.run,1/20);if(!t.bones.every(b=>b.matrixWorld.elements.every(Number.isFinite)))throw Error('runtime finite')};report.runtime.push({dx,dz,mode:t.mode,distance:Math.hypot(p.x,p.z)});p.reload=.5;t.update(p,0,1.1,w.run,1/20);p.reload=0;p.slot=1;p.swapCd=.25;t.update(p,0,1.2,w.run,1/20);p.evade=.1;t.update(p,0,1.3,w.run,1/20);if(!t.bones.every(b=>b.matrixWorld.elements.every(Number.isFinite)))throw Error('layer finite')}
+ report.passed=true;
+ }catch(e){report.error=String(e)}await fetch('http://127.0.0.1:5327/qa',{method:'POST',body:JSON.stringify(report,null,2)});status.textContent=JSON.stringify(report,null,2);playing=true;};
+</script>
+

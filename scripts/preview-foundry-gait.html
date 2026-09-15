@@ -1,0 +1,27 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><title>FOUNDRY ZERO 歩行確認</title>
+<style>body{margin:0;background:#17222b;color:#e4f3f7;font:16px system-ui}canvas{display:block}nav{position:fixed;top:18px;left:24px}button{margin-right:12px;padding:8px 18px}p{margin:8px 0}</style>
+<nav><p>FOUNDRY ZERO — 不規則な足運び</p><button id="pause">停止</button><button id="reset">最初から</button></nav>
+<script type="module">
+import * as T from 'three';
+import {FoundryWormView, FOUNDRY_WORM_ASSET} from '../src/client/foundry-worm';
+const renderer=new T.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});
+renderer.setSize(innerWidth,innerHeight);document.body.append(renderer.domElement);
+const scene=new T.Scene();scene.background=new T.Color(0x17222b);
+scene.add(new T.HemisphereLight(0xf0f7ff,0x36464b,2));
+const light=new T.DirectionalLight(0xffffff,3);light.position.set(5,15,9);scene.add(light);
+const floor=new T.Mesh(new T.PlaneGeometry(1000,1000),new T.MeshStandardMaterial({color:0x34414b,roughness:.85}));floor.rotation.x=-Math.PI/2;floor.position.y=-.002;scene.add(floor);
+const grid=new T.GridHelper(1000,1000,0x556069,0x3c4850);grid.position.y=-.001;scene.add(grid);
+const camera=new T.PerspectiveCamera(42,innerWidth/innerHeight,.1,200);
+const view=await FoundryWormView.load(FOUNDRY_WORM_ASSET);scene.add(view.root);
+let time=0,last=performance.now(),playing=true;
+function draw(t){
+ const distance=t*4.2;
+ const nodes=Array.from({length:8},(_,i)=>({x:0,y:0,z:distance-i*3.2,heading:0,partHp:100,pulseAim:{x:0,y:1,z:distance+30},acidAt:1000}));
+ view.update({id:1,kind:'boss',...nodes[0],segments:nodes.slice(1),hp:800,maxHp:800,cool:0,wind:0,hurt:0,tx:0,tz:0},t);
+ camera.position.set(15,5,distance+10);camera.lookAt(0,1.1,distance-7);renderer.render(scene,camera);
+}
+document.querySelector('#pause').onclick=()=>{playing=!playing;document.querySelector('#pause').textContent=playing?'停止':'再生'};
+document.querySelector('#reset').onclick=()=>{time=0;draw(time)};
+window.gaitPreview={view,draw,setPlaying(v){playing=v}};draw(0);
+function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;if(playing){time+=dt;draw(time)}requestAnimationFrame(frame)}requestAnimationFrame(frame);
+</script></html>

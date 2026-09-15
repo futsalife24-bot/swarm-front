@@ -1,0 +1,3 @@
+AR enemy hit sounds: HIT-05 / HIT-07 / HIT-10.
+Recorded layers: Kenney Impact Sounds (CC0). https://kenney.nl/assets/impact-sounds
+Modified and layered for Swarm Front. Exact source files, hashes and processing are in manifest.json.

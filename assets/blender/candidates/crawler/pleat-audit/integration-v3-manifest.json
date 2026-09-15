@@ -1,0 +1,76 @@
+{
+  "glbSHA256": "81bbfe16449f9d7e3e954c0baaa10e56f9bbff433d5aed4522b2a6d685ecedbc",
+  "scope": "Unapplied integration proposal v3",
+  "files": [
+    {
+      "path": "proposal-v2.mjs",
+      "sha256": "ac2bee35cfe18418a537587635b89317bf773bf7e5674ef71ba4e00293a15f30",
+      "bytes": 2280
+    },
+    {
+      "path": "proposal-v3.mjs",
+      "sha256": "738db25b946dba45602b1de4763c5e3f1e57878b37bdf24c890a6e6b99c5ba61",
+      "bytes": 954
+    },
+    {
+      "path": "check-proposal-v3.mjs",
+      "sha256": "def3e83c1c2bb25e9736e285d4b40427e2c3c3afcf2b5f64cc6028ff386b400a",
+      "bytes": 4567
+    },
+    {
+      "path": "check-proposal-reset.mjs",
+      "sha256": "23fc1c19e4fe7191e59fa896fe854d5f41c6da55e28b9ad66d71c13b151e8e04",
+      "bytes": 3278
+    },
+    {
+      "path": "typecheck-proposal-v3.ps1",
+      "sha256": "ea90cac8cf42541eca53bd96ae508be0f0ebc72fffcb5d54fcb10bae4b9a0375",
+      "bytes": 1435
+    },
+    {
+      "path": "integration-v3/check.log",
+      "sha256": "d70aab62bcc58603c960d69a9a490d83c7b5e55382253fead2838e9119ab2339",
+      "bytes": 154
+    },
+    {
+      "path": "integration-v3/game-fix.diff",
+      "sha256": "4de2150e8d2c23f7d9e220f2700937f7246502acf0f65841915898b342c1b1bf",
+      "bytes": 594
+    },
+    {
+      "path": "integration-v3/game.ts.proposed.txt",
+      "sha256": "2d9ee1d3e1cadc4bea3ead3d0c668d5ab45d67017da660a81fe437926e18c8e1",
+      "bytes": 35913
+    },
+    {
+      "path": "integration-v3/README.md",
+      "sha256": "0e308a7f3ba43928530698483658d913f407d5e0d4ffccb4bb7d5dfbf479e99a",
+      "bytes": 1985
+    },
+    {
+      "path": "integration-v3/render-fix.diff",
+      "sha256": "b9cd442b61c05f5b92b65b19049a6719a706c7b5b63fc26b69051810293c014d",
+      "bytes": 3986
+    },
+    {
+      "path": "integration-v3/render.ts.proposed.txt",
+      "sha256": "b6da8cbbbbd208b9e4e117d4d58d5d77b49f16251aeb3c5577e9c256330fe5b3",
+      "bytes": 37810
+    },
+    {
+      "path": "integration-v3/reset-results.json",
+      "sha256": "3cd201a1b8ae6bb700af7500631b72e16217dfb5cfd3080c49ca38a75b74feb2",
+      "bytes": 1469
+    },
+    {
+      "path": "integration-v3/results.json",
+      "sha256": "653df5a66017fb2c74f6233e4cc9a5f07645c43b7b96b7fd15b9963634cfe132",
+      "bytes": 447897
+    },
+    {
+      "path": "integration-v3/typecheck.log",
+      "sha256": "15c75bb8240a8e828d29eedb7139136f69078ef6229b9438fb23b0c5d5ca5bd7",
+      "bytes": 86
+    }
+  ]
+}

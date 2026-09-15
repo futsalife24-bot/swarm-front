@@ -1,0 +1,310 @@
+{
+  "originalMeshGeometryUnchanged": true,
+  "originalFilesUnchanged": true,
+  "originalActionCurveHashes": {
+    "Dodge_Roll": {
+      "sha256": "20d3b6064a28fb7a85acff1633f1fb4b757f74d2dae31fcff6a416597c9926cd",
+      "curves": 570,
+      "fingerCurves": 300
+    },
+    "Fire_Rifle": {
+      "sha256": "f49eb6cb9bb22cdab73eac19c5e86df9b5a423da833955efa5890dc9771eeb15",
+      "curves": 570,
+      "fingerCurves": 300
+    },
+    "Fire_Rocket": {
+      "sha256": "a7f2a7837e523be7bf291d9b3a2d5085da3f14fca1744af8f85a503a0305362f",
+      "curves": 570,
+      "fingerCurves": 300
+    },
+    "Fire_Shotgun": {
+      "sha256": "cafa6720c73b247b744c90a56e08537656bd86057838fe42f769fedf98a562f3",
+      "curves": 570,
+      "fingerCurves": 300
+    },
+    "Hit_Heavy": {
+      "sha256": "02d0b4c2bfecfc92c77c611195d8e5f48ea1a296bd15dd31fd0f91ca08258985",
+      "curves": 570,
+      "fingerCurves": 300
+    },
+    "Idle": {
+      "sha256": "485116063efac26c4b108c5a7635d968b178d244bb14c9ba365603399f4e3440",
+      "curves": 570,
+      "fingerCurves": 300
+    },
+    "Run": {
+      "sha256": "dd6f3398248ccc2840d0ab704888e76f3ee92cb750f2a522078b5394bedf29fb",
+      "curves": 570,
+      "fingerCurves": 300
+    },
+    "Run_Backward": {
+      "sha256": "5cd821b4f5ed860832ee2feea0a9707c017f6228df3a760be2db3190b3e0dce1",
+      "curves": 570,
+      "fingerCurves": 300
+    },
+    "Run_Backward_Rocket": {
+      "sha256": "7e07a4f491d58b062cf6621f144806bb2dc43b6cac8bc87e61def987acf1a34c",
+      "curves": 570,
+      "fingerCurves": 300
+    },
+    "Run_Rocket": {
+      "sha256": "aaa62158e63a5944eec26725c9e68700fc4e99833f30a5d4be21354cf6aed7e5",
+      "curves": 570,
+      "fingerCurves": 300
+    },
+    "Switch_1_to_2": {
+      "sha256": "8a4ffd24519e3253da1325338d2cac320addc49b027a9197b12aeb3db0e2570b",
+      "curves": 570,
+      "fingerCurves": 300
+    },
+    "Switch_2_to_1": {
+      "sha256": "bf904a17ab1c0ed44f50377e7910164d68b1b36cf9156f6a440bd1905306f60d",
+      "curves": 570,
+      "fingerCurves": 300
+    },
+    "Weapon_Idle_Rifle": {
+      "sha256": "49d2ff94ff8e5563c84dccb57d6e49ceae170ffd15e669e5596f5637e91153e1",
+      "curves": 570,
+      "fingerCurves": 300
+    },
+    "Weapon_Idle_Rocket": {
+      "sha256": "508cb1be2530e01be59032506acf954b239f95f8118eee8c78d6d3c38da1ac1b",
+      "curves": 570,
+      "fingerCurves": 300
+    },
+    "Weapon_Idle_Shotgun": {
+      "sha256": "49d2ff94ff8e5563c84dccb57d6e49ceae170ffd15e669e5596f5637e91153e1",
+      "curves": 570,
+      "fingerCurves": 300
+    }
+  },
+  "boneCount": 57,
+  "changedBinds": [
+    "Index1_L",
+    "Index2_L",
+    "Index3_L",
+    "Middle1_L",
+    "Middle2_L",
+    "Middle3_L",
+    "Ring1_L",
+    "Ring2_L",
+    "Ring3_L",
+    "Little1_L",
+    "Little2_L",
+    "Little3_L",
+    "Thumb1_L",
+    "Thumb2_L",
+    "Thumb3_L",
+    "Index1_R",
+    "Index2_R",
+    "Index3_R",
+    "Middle1_R",
+    "Middle2_R",
+    "Middle3_R",
+    "Ring1_R",
+    "Ring2_R",
+    "Ring3_R",
+    "Little1_R",
+    "Little2_R",
+    "Little3_R",
+    "Thumb1_R",
+    "Thumb2_R",
+    "Thumb3_R",
+    "BackWeaponSocket",
+    "BackWeaponSocket_2"
+  ],
+  "unchangedBinds": [
+    "Root",
+    "Pelvis",
+    "Spine",
+    "SpineMid",
+    "Chest",
+    "Neck",
+    "Head",
+    "Clavicle_L",
+    "UpperArm_L",
+    "LowerArm_L",
+    "Hand_L",
+    "LeftHandSupportSocket",
+    "Clavicle_R",
+    "UpperArm_R",
+    "LowerArm_R",
+    "Hand_R",
+    "RightHandWeaponSocket",
+    "UpperLeg_L",
+    "LowerLeg_L",
+    "Foot_L",
+    "Toe_L",
+    "UpperLeg_R",
+    "LowerLeg_R",
+    "Foot_R",
+    "Toe_R"
+  ],
+  "candidateMeshes": {
+    "Boots": {
+      "vertices": 3640,
+      "triangles": 7056,
+      "maxInfluences": 2
+    },
+    "Helmet": {
+      "vertices": 2624,
+      "triangles": 5112,
+      "maxInfluences": 1
+    },
+    "Study_Body": {
+      "vertices": 4605,
+      "triangles": 9206,
+      "maxInfluences": 4
+    },
+    "Study_Glove_L": {
+      "vertices": 1152,
+      "triangles": 2280,
+      "maxInfluences": 2
+    },
+    "Study_Glove_R": {
+      "vertices": 1152,
+      "triangles": 2280,
+      "maxInfluences": 2
+    },
+    "Trial_Back": {
+      "vertices": 336,
+      "triangles": 668,
+      "maxInfluences": 1
+    },
+    "Trial_Back_Ceramic": {
+      "vertices": 294,
+      "triangles": 584,
+      "maxInfluences": 1
+    },
+    "Trial_BackMount_Rifle": {
+      "vertices": 56,
+      "triangles": 108,
+      "maxInfluences": 1
+    },
+    "Trial_BackMount_Rocket": {
+      "vertices": 56,
+      "triangles": 108,
+      "maxInfluences": 1
+    },
+    "Trial_Chest": {
+      "vertices": 362,
+      "triangles": 720,
+      "maxInfluences": 1
+    },
+    "Trial_Chest_Ceramic": {
+      "vertices": 294,
+      "triangles": 584,
+      "maxInfluences": 1
+    },
+    "Trial_Forearm_L": {
+      "vertices": 320,
+      "triangles": 636,
+      "maxInfluences": 1
+    },
+    "Trial_Forearm_R": {
+      "vertices": 320,
+      "triangles": 636,
+      "maxInfluences": 1
+    },
+    "Trial_Knee_L": {
+      "vertices": 720,
+      "triangles": 1440,
+      "maxInfluences": 1
+    },
+    "Trial_Knee_R": {
+      "vertices": 720,
+      "triangles": 1440,
+      "maxInfluences": 1
+    },
+    "Trial_Shin_L": {
+      "vertices": 320,
+      "triangles": 636,
+      "maxInfluences": 1
+    },
+    "Trial_Shin_R": {
+      "vertices": 320,
+      "triangles": 636,
+      "maxInfluences": 1
+    },
+    "Trial_Shoulder_L": {
+      "vertices": 320,
+      "triangles": 636,
+      "maxInfluences": 1
+    },
+    "Trial_Shoulder_R": {
+      "vertices": 320,
+      "triangles": 636,
+      "maxInfluences": 1
+    },
+    "Trial_Waist_Band": {
+      "vertices": 480,
+      "triangles": 960,
+      "maxInfluences": 1
+    }
+  },
+  "individualFingerIsolation": [
+    {
+      "side": "L",
+      "finger": "Index",
+      "movedVertices": 174,
+      "unrelatedVerticesMoved": 0
+    },
+    {
+      "side": "L",
+      "finger": "Middle",
+      "movedVertices": 174,
+      "unrelatedVerticesMoved": 0
+    },
+    {
+      "side": "L",
+      "finger": "Ring",
+      "movedVertices": 174,
+      "unrelatedVerticesMoved": 0
+    },
+    {
+      "side": "L",
+      "finger": "Little",
+      "movedVertices": 174,
+      "unrelatedVerticesMoved": 0
+    },
+    {
+      "side": "L",
+      "finger": "Thumb",
+      "movedVertices": 176,
+      "unrelatedVerticesMoved": 0
+    },
+    {
+      "side": "R",
+      "finger": "Index",
+      "movedVertices": 174,
+      "unrelatedVerticesMoved": 0
+    },
+    {
+      "side": "R",
+      "finger": "Middle",
+      "movedVertices": 174,
+      "unrelatedVerticesMoved": 0
+    },
+    {
+      "side": "R",
+      "finger": "Ring",
+      "movedVertices": 174,
+      "unrelatedVerticesMoved": 0
+    },
+    {
+      "side": "R",
+      "finger": "Little",
+      "movedVertices": 174,
+      "unrelatedVerticesMoved": 0
+    },
+    {
+      "side": "R",
+      "finger": "Thumb",
+      "movedVertices": 176,
+      "unrelatedVerticesMoved": 0
+    }
+  ],
+  "constraints": {},
+  "drivers": 0,
+  "limits": "Static poses and finger isolation only. Existing action data preserved, not yet revalidated for updated fingers/sockets. Full stage3 animation and stage4 GLB/runtime tests pending."
+}

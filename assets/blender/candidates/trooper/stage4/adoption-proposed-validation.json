@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "source": "Prepared copy of actual StandardTrooper class with proposed GLB/reload connection; main source not yet changed",
+  "clipCount": 18,
+  "bones": 57,
+  "loadoutPairs": 9,
+  "switchSamples": 378,
+  "reloadProfiles": ["rifle", "shotgun", "rocket"],
+  "layeredStates": ["switch_heavy", "switch", "roll"],
+  "skeletonsIndependent": true,
+  "materialsIndependent": true,
+  "finite": true,
+  "note": "App's own checks were triggered via visible UI; result and four-character rendering were inspected. No zero-intersection claim."
+}

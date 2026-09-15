@@ -1,0 +1,795 @@
+{
+  "scope": "Vite response substitution in isolated test browser only. Production files unchanged.",
+  "results": [
+    {
+      "patched": false,
+      "report": [
+        {
+          "side": 0,
+          "windStart": 0.05,
+          "burst": {
+            "tick": 10,
+            "time": 0.5499999999999999,
+            "wind": -0.04999999999999993,
+            "cool": 1.2,
+            "hp": 150,
+            "clip": "Lunge",
+            "poseTime": 0.45,
+            "directionErrorRadians": 0,
+            "elapsed": 0.49999999999999994,
+            "event": {
+              "type": "burst",
+              "x": 0,
+              "z": -0.75,
+              "y": 0.3,
+              "radius": 1.25,
+              "id": 1
+            }
+          },
+          "samples": [
+            {
+              "tick": 0,
+              "time": 0.05,
+              "wind": 0.45,
+              "cool": -0.05,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 1,
+              "time": 0.1,
+              "wind": 0.4,
+              "cool": -0.1,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.04999999999999999,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 2,
+              "time": 0.15000000000000002,
+              "wind": 0.35000000000000003,
+              "cool": -0.15000000000000002,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.09999999999999998,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 3,
+              "time": 0.2,
+              "wind": 0.30000000000000004,
+              "cool": -0.2,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.14999999999999997,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 4,
+              "time": 0.25,
+              "wind": 0.25000000000000006,
+              "cool": -0.25,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.19999999999999996,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 5,
+              "time": 0.3,
+              "wind": 0.20000000000000007,
+              "cool": -0.3,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.24999999999999997,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 6,
+              "time": 0.35,
+              "wind": 0.15000000000000008,
+              "cool": -0.35,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.29999999999999993,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 7,
+              "time": 0.39999999999999997,
+              "wind": 0.10000000000000007,
+              "cool": -0.39999999999999997,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.3499999999999999,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 8,
+              "time": 0.44999999999999996,
+              "wind": 0.05000000000000007,
+              "cool": -0.44999999999999996,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.3999999999999999,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 9,
+              "time": 0.49999999999999994,
+              "wind": 6.938893903907228e-17,
+              "cool": -0.49999999999999994,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.44999999999999996,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 10,
+              "time": 0.5499999999999999,
+              "wind": -0.04999999999999993,
+              "cool": 1.2,
+              "hp": 150,
+              "clip": "Lunge",
+              "poseTime": 0.45,
+              "directionErrorRadians": 0
+            }
+          ]
+        },
+        {
+          "side": -1,
+          "windStart": 0.05,
+          "burst": {
+            "tick": 10,
+            "time": 0.5499999999999999,
+            "wind": -0.04999999999999993,
+            "cool": 1.2,
+            "hp": 160,
+            "clip": "Lunge",
+            "poseTime": 0.45,
+            "directionErrorRadians": 1.5707963267948968,
+            "elapsed": 0.49999999999999994,
+            "event": {
+              "type": "burst",
+              "x": 0,
+              "z": -0.75,
+              "y": 0.3,
+              "radius": 1.25,
+              "id": 1
+            }
+          },
+          "samples": [
+            {
+              "tick": 0,
+              "time": 0.05,
+              "wind": 0.45,
+              "cool": -0.05,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 1,
+              "time": 0.1,
+              "wind": 0.4,
+              "cool": -0.1,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.04999999999999999,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 2,
+              "time": 0.15000000000000002,
+              "wind": 0.35000000000000003,
+              "cool": -0.15000000000000002,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.09999999999999998,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 3,
+              "time": 0.2,
+              "wind": 0.30000000000000004,
+              "cool": -0.2,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.14999999999999997,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 4,
+              "time": 0.25,
+              "wind": 0.25000000000000006,
+              "cool": -0.25,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.19999999999999996,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 5,
+              "time": 0.3,
+              "wind": 0.20000000000000007,
+              "cool": -0.3,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.24999999999999997,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 6,
+              "time": 0.35,
+              "wind": 0.15000000000000008,
+              "cool": -0.35,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.29999999999999993,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 7,
+              "time": 0.39999999999999997,
+              "wind": 0.10000000000000007,
+              "cool": -0.39999999999999997,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.3499999999999999,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 8,
+              "time": 0.44999999999999996,
+              "wind": 0.05000000000000007,
+              "cool": -0.44999999999999996,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.3999999999999999,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 9,
+              "time": 0.49999999999999994,
+              "wind": 6.938893903907228e-17,
+              "cool": -0.49999999999999994,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.44999999999999996,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 10,
+              "time": 0.5499999999999999,
+              "wind": -0.04999999999999993,
+              "cool": 1.2,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.45,
+              "directionErrorRadians": 1.5707963267948968
+            }
+          ]
+        },
+        {
+          "side": 1,
+          "windStart": 0.05,
+          "burst": {
+            "tick": 10,
+            "time": 0.5499999999999999,
+            "wind": -0.04999999999999993,
+            "cool": 1.2,
+            "hp": 160,
+            "clip": "Lunge",
+            "poseTime": 0.45,
+            "directionErrorRadians": 1.5707963267948968,
+            "elapsed": 0.49999999999999994,
+            "event": {
+              "type": "burst",
+              "x": 0,
+              "z": -0.75,
+              "y": 0.3,
+              "radius": 1.25,
+              "id": 1
+            }
+          },
+          "samples": [
+            {
+              "tick": 0,
+              "time": 0.05,
+              "wind": 0.45,
+              "cool": -0.05,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 1,
+              "time": 0.1,
+              "wind": 0.4,
+              "cool": -0.1,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.04999999999999999,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 2,
+              "time": 0.15000000000000002,
+              "wind": 0.35000000000000003,
+              "cool": -0.15000000000000002,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.09999999999999998,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 3,
+              "time": 0.2,
+              "wind": 0.30000000000000004,
+              "cool": -0.2,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.14999999999999997,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 4,
+              "time": 0.25,
+              "wind": 0.25000000000000006,
+              "cool": -0.25,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.19999999999999996,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 5,
+              "time": 0.3,
+              "wind": 0.20000000000000007,
+              "cool": -0.3,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.24999999999999997,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 6,
+              "time": 0.35,
+              "wind": 0.15000000000000008,
+              "cool": -0.35,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.29999999999999993,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 7,
+              "time": 0.39999999999999997,
+              "wind": 0.10000000000000007,
+              "cool": -0.39999999999999997,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.3499999999999999,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 8,
+              "time": 0.44999999999999996,
+              "wind": 0.05000000000000007,
+              "cool": -0.44999999999999996,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.3999999999999999,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 9,
+              "time": 0.49999999999999994,
+              "wind": 6.938893903907228e-17,
+              "cool": -0.49999999999999994,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.44999999999999996,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 10,
+              "time": 0.5499999999999999,
+              "wind": -0.04999999999999993,
+              "cool": 1.2,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.45,
+              "directionErrorRadians": 1.5707963267948968
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "patched": true,
+      "report": [
+        {
+          "side": 0,
+          "windStart": 0.05,
+          "burst": {
+            "tick": 9,
+            "time": 0.49999999999999994,
+            "wind": 0,
+            "cool": 1.2,
+            "hp": 150,
+            "clip": "Lunge",
+            "poseTime": 0.45,
+            "directionErrorRadians": 0,
+            "elapsed": 0.44999999999999996,
+            "event": {
+              "type": "burst",
+              "x": 0,
+              "z": -0.75,
+              "y": 0.3,
+              "radius": 1.25,
+              "id": 1
+            }
+          },
+          "samples": [
+            {
+              "tick": 0,
+              "time": 0.05,
+              "wind": 0.45,
+              "cool": -0.05,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 1,
+              "time": 0.1,
+              "wind": 0.4,
+              "cool": -0.1,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.04999999999999999,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 2,
+              "time": 0.15000000000000002,
+              "wind": 0.35000000000000003,
+              "cool": -0.15000000000000002,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.09999999999999998,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 3,
+              "time": 0.2,
+              "wind": 0.30000000000000004,
+              "cool": -0.2,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.14999999999999997,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 4,
+              "time": 0.25,
+              "wind": 0.25000000000000006,
+              "cool": -0.25,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.19999999999999996,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 5,
+              "time": 0.3,
+              "wind": 0.20000000000000007,
+              "cool": -0.3,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.24999999999999997,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 6,
+              "time": 0.35,
+              "wind": 0.15000000000000008,
+              "cool": -0.35,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.29999999999999993,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 7,
+              "time": 0.39999999999999997,
+              "wind": 0.10000000000000007,
+              "cool": -0.39999999999999997,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.3499999999999999,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 8,
+              "time": 0.44999999999999996,
+              "wind": 0.05000000000000007,
+              "cool": -0.44999999999999996,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.3999999999999999,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 9,
+              "time": 0.49999999999999994,
+              "wind": 0,
+              "cool": 1.2,
+              "hp": 150,
+              "clip": "Lunge",
+              "poseTime": 0.45,
+              "directionErrorRadians": 0
+            }
+          ]
+        },
+        {
+          "side": -1,
+          "windStart": 0.05,
+          "burst": {
+            "tick": 9,
+            "time": 0.49999999999999994,
+            "wind": 0,
+            "cool": 1.2,
+            "hp": 160,
+            "clip": "Lunge",
+            "poseTime": 0.45,
+            "directionErrorRadians": 0,
+            "elapsed": 0.44999999999999996,
+            "event": {
+              "type": "burst",
+              "x": 0,
+              "z": -0.75,
+              "y": 0.3,
+              "radius": 1.25,
+              "id": 1
+            }
+          },
+          "samples": [
+            {
+              "tick": 0,
+              "time": 0.05,
+              "wind": 0.45,
+              "cool": -0.05,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 1,
+              "time": 0.1,
+              "wind": 0.4,
+              "cool": -0.1,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.04999999999999999,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 2,
+              "time": 0.15000000000000002,
+              "wind": 0.35000000000000003,
+              "cool": -0.15000000000000002,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.09999999999999998,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 3,
+              "time": 0.2,
+              "wind": 0.30000000000000004,
+              "cool": -0.2,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.14999999999999997,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 4,
+              "time": 0.25,
+              "wind": 0.25000000000000006,
+              "cool": -0.25,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.19999999999999996,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 5,
+              "time": 0.3,
+              "wind": 0.20000000000000007,
+              "cool": -0.3,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.24999999999999997,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 6,
+              "time": 0.35,
+              "wind": 0.15000000000000008,
+              "cool": -0.35,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.29999999999999993,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 7,
+              "time": 0.39999999999999997,
+              "wind": 0.10000000000000007,
+              "cool": -0.39999999999999997,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.3499999999999999,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 8,
+              "time": 0.44999999999999996,
+              "wind": 0.05000000000000007,
+              "cool": -0.44999999999999996,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.3999999999999999,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 9,
+              "time": 0.49999999999999994,
+              "wind": 0,
+              "cool": 1.2,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.45,
+              "directionErrorRadians": 0
+            }
+          ]
+        },
+        {
+          "side": 1,
+          "windStart": 0.05,
+          "burst": {
+            "tick": 9,
+            "time": 0.49999999999999994,
+            "wind": 0,
+            "cool": 1.2,
+            "hp": 160,
+            "clip": "Lunge",
+            "poseTime": 0.45,
+            "directionErrorRadians": 0,
+            "elapsed": 0.44999999999999996,
+            "event": {
+              "type": "burst",
+              "x": 0,
+              "z": -0.75,
+              "y": 0.3,
+              "radius": 1.25,
+              "id": 1
+            }
+          },
+          "samples": [
+            {
+              "tick": 0,
+              "time": 0.05,
+              "wind": 0.45,
+              "cool": -0.05,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 1,
+              "time": 0.1,
+              "wind": 0.4,
+              "cool": -0.1,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.04999999999999999,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 2,
+              "time": 0.15000000000000002,
+              "wind": 0.35000000000000003,
+              "cool": -0.15000000000000002,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.09999999999999998,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 3,
+              "time": 0.2,
+              "wind": 0.30000000000000004,
+              "cool": -0.2,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.14999999999999997,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 4,
+              "time": 0.25,
+              "wind": 0.25000000000000006,
+              "cool": -0.25,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.19999999999999996,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 5,
+              "time": 0.3,
+              "wind": 0.20000000000000007,
+              "cool": -0.3,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.24999999999999997,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 6,
+              "time": 0.35,
+              "wind": 0.15000000000000008,
+              "cool": -0.35,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.29999999999999993,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 7,
+              "time": 0.39999999999999997,
+              "wind": 0.10000000000000007,
+              "cool": -0.39999999999999997,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.3499999999999999,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 8,
+              "time": 0.44999999999999996,
+              "wind": 0.05000000000000007,
+              "cool": -0.44999999999999996,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.3999999999999999,
+              "directionErrorRadians": 0
+            },
+            {
+              "tick": 9,
+              "time": 0.49999999999999994,
+              "wind": 0,
+              "cool": 1.2,
+              "hp": 160,
+              "clip": "Lunge",
+              "poseTime": 0.45,
+              "directionErrorRadians": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "blender": "5.2.1 LTS",
+  "triangles": 2344,
+  "materials": 4,
+  "bones": 20,
+  "bytes": 81556,
+  "max_ik_error": 0,
+  "impact_tip_blender": null,
+  "seed": 24601,
+  "sha256": "bbcf0b8c5ea20b4f8c2b16bdd429b7ba566d1af6edf878736401810a9d0240ac",
+  "blockout": true,
+  "reimport": "PASS"
+}

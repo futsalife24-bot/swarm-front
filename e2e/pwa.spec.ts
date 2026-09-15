@@ -10,7 +10,7 @@ test("PWA manifest installs an app shell that reopens solo offline", async ({
   });
   expect(manifest).toMatchObject({
     name: "SWARM FRONT",
-    display: "standalone",
+    display: "fullscreen",
     orientation: "landscape",
     start_url: "./",
     scope: "./",

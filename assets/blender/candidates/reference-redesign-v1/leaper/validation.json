@@ -1,0 +1,17 @@
+{
+  "source": "assets\\blender\\source\\hound_motion_v1.blend",
+  "source_sha256": "765b8731f1582d2f42364a748cfe37f958073c63c7d332192269fa2ac1a919f3",
+  "blender": "5.2.1 LTS",
+  "triangles": 12400,
+  "materials": 4,
+  "bones": 20,
+  "images": 9,
+  "clips": [
+    "Idle",
+    "Locomotion",
+    "Lunge"
+  ],
+  "bytes": 4531232,
+  "sha256": "3b0f46e012b0d1eebe3db54dc1e7fe85b0f90f901081d5dad8139c30cb0b57f0",
+  "reimport": "PASS"
+}

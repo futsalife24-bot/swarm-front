@@ -1,0 +1,20 @@
+{
+  "objects": [
+    "Trial_Chest",
+    "Trial_Chest_Ceramic",
+    "Trial_Back",
+    "Trial_Back_Ceramic",
+    "Trial_Shoulder_L",
+    "Trial_Forearm_L",
+    "Trial_Shin_L",
+    "Trial_Knee_L",
+    "Trial_Shoulder_R",
+    "Trial_Forearm_R",
+    "Trial_Shin_R",
+    "Trial_Knee_R",
+    "Trial_Waist_Band"
+  ],
+  "triangles": 9812,
+  "bones": 57,
+  "actions": 15
+}

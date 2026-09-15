@@ -1,0 +1,31 @@
+{
+  "clips": {
+    "Idle": {
+      "duration": 4,
+      "steps": 240,
+      "minY": -1.9905842627789382e-7,
+      "maxY": 1.4189605281543551,
+      "maxLoopDelta": 1.1920928955078125e-7,
+      "nonfinite": 0
+    },
+    "Locomotion": {
+      "duration": 0.800000011920929,
+      "steps": 48,
+      "minY": -4.921391979296971e-7,
+      "maxY": 1.3945582470622968,
+      "maxLoopDelta": 5.960464477539063e-8,
+      "nonfinite": 0
+    },
+    "Lunge": {
+      "duration": 1.2000000476837158,
+      "steps": 72,
+      "minY": -1.9805121082038497e-7,
+      "maxY": 1.418713092803955,
+      "maxLoopDelta": 6.605687108418579e-10,
+      "nonfinite": 0
+    }
+  },
+  "bones": 20,
+  "textureBytes": 464640,
+  "nativeSkinMaxDelta": 5.0821279026162533e-8
+}

@@ -13,7 +13,8 @@ test("solo defeat through ordinary enemy attacks returns to equipment and redepl
     () => (window as any).__swarm.inventory.length,
   );
   expect(before).toBe(3);
-  await page.getByRole("button", { name: "装備変更・再出撃" }).click();
+  await page.getByRole("button", { name: "ホームへ戻る" }).click();
+  await page.getByRole("button", { name: "ソロで出撃準備" }).click();
   await page.getByRole("button", { name: "ソロ出撃" }).click();
   await expect(page.locator("#hud")).toBeVisible();
 });

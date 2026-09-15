@@ -9,6 +9,8 @@
 }
 * {
   box-sizing: border-box;
+  /* Keep one-finger scrolling, but prevent pinch zoom on every scroll surface. */
+  touch-action: pan-x pan-y;
 }
 body {
   margin: 0;
@@ -35,6 +37,29 @@ button:hover {
 button:disabled {
   opacity: 0.4;
   cursor: default;
+}
+/* Pause is outside #controls. Suppress iOS text selection and long-press
+   callouts on game surfaces without disabling copy/paste in text inputs. */
+button,
+button *,
+#controls,
+#controls *,
+#hud,
+#hud *,
+#damage,
+#damage *,
+#pause-menu,
+#pause-menu *,
+#world,
+#portrait {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+#pause-menu :is(input, textarea, select) {
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
 }
 .primary {
   background: var(--mint);
@@ -490,9 +515,73 @@ footer span {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  font: 300 33px monospace;
+  width: 18px;
+  height: 18px;
+  font-size: 0;
   color: #e7f5d9;
   text-shadow: 0 0 5px #111;
+}
+.crosshair::before,
+.crosshair::after {
+  content: "";
+  position: absolute;
+  background: #e7f5d9;
+  box-shadow: 0 0 3px #111;
+}
+.crosshair::before {
+  width: 18px;
+  height: 2px;
+  left: 0;
+  top: 8px;
+}
+.crosshair::after {
+  width: 2px;
+  height: 18px;
+  left: 8px;
+  top: 0;
+}
+#scope-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at center,
+    transparent 22%,
+    #03101566 70%,
+    #031015b3 100%
+  );
+}
+#scope-overlay::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(68vh, 50vw);
+  height: min(68vh, 50vw);
+  transform: translate(-50%, -50%);
+  border: 1px solid #d0e7d37a;
+  border-radius: 50%;
+}
+#scope-overlay span {
+  position: absolute;
+  left: calc(50% + 22px);
+  top: calc(50% + 18px);
+  color: #e7f5d9;
+  font-size: 12px;
+}
+#controls #scope[aria-pressed="true"] {
+  background: #b8edc5;
+  color: #16362d;
+  border-color: #b8edc5;
+}
+#scope {
+  font-size: 11px;
+  padding: 0;
+}
+@media (pointer: fine) {
+  #controls #scope {
+    display: block;
+  }
 }
 .vitals {
   position: absolute;
@@ -923,8 +1012,9 @@ footer span {
   display: none;
   position: fixed;
   inset: 0;
-  background: #0d2334f2;
-  z-index: 100;
+  background: #0d2334;
+  z-index: 2147483647;
+  padding: 24px;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -979,7 +1069,11 @@ footer span {
     font-size: 8px;
   }
 }
-@media (orientation: portrait) and (max-width: 900px) {
+@media (orientation: portrait) {
+  body > :not(#portrait) {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
   #portrait {
     display: flex;
   }

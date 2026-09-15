@@ -1,0 +1,7 @@
+# Static design studies remain local; publish only the four accepted motion assets.
+assets/enemies/hound_blockout_v1.glb
+assets/enemies/hound_blockout_v2.glb
+assets/enemies/hound_blockout_v3.glb
+assets/enemies/prism_v1.glb
+assets/enemies/ray_v1.glb
+assets/enemies/foundry_zero_v1.glb

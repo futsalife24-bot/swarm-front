@@ -44,9 +44,9 @@ describe("rescue feedback", () => {
   });
   it("distinguishes a blocked line of sight from being out of range", () => {
     const { w, self } = pair();
-    self.x = 12.5;
-    self.z = 0.5;
-    down(w, "mate", 14, -1.5);
+    self.x = 25.5;
+    self.z = -0.5;
+    down(w, "mate", 27, -2);
     expect(rescue(w, "self").state).toBe("blocked");
   });
   it("offers nothing while the player is down themselves", () => {

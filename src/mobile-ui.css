@@ -287,118 +287,191 @@ body[data-screen="title"] footer {
   margin-top: 8px !important;
   padding-top: 8px !important;
 }
-/* Fixed-size rail; action buttons cannot enter its reserved area. */
+/* Content-sized combat instruments leave the centre of the battlefield open. */
 #hud .hud-rail {
   position: absolute;
   top: calc(8px + var(--safe-top));
-  left: calc(8px + var(--safe-left));
-  right: calc(8px + var(--safe-right));
-  height: 72px;
+  left: calc(12px + var(--safe-left));
+  right: calc(12px + var(--safe-right));
   display: grid;
-  grid-template-columns: minmax(130px, 1fr) minmax(180px, 1.25fr) minmax(
-      140px,
-      1fr
-    );
-  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+  font-variant-numeric: tabular-nums;
+  text-shadow:
+    0 1px 3px #000,
+    0 0 6px #07151c;
 }
 #hud .hud-rail > div {
   position: static;
-  width: auto;
   min-width: 0;
-  max-width: none;
+  max-width: 100%;
   margin: 0;
-  padding: 6px 10px;
-  background: #0c2332db;
-  border: 1px solid #82aeb045;
-  border-radius: 3px;
+  line-height: 1.2;
+}
+#hud .vitals {
+  width: 200px;
+  padding: 4px 10px 6px 0;
+  border: 0;
+  background: linear-gradient(90deg, #091d2bd9, #091d2b00);
 }
 #hud .vital-number {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
-  gap: 4px;
+  gap: 10px;
 }
 #hud .vitals b {
-  font-size: 24px;
+  font-size: 26px;
   line-height: 1;
+  margin: 0;
 }
 #hud .vitals small {
-  font-size: 9px;
+  font-size: 11px;
+  color: #e0f3ee;
 }
 #hud .vitals .hp {
-  height: 5px;
-  margin: 7px 0 3px;
+  height: 7px;
+  margin: 5px 0 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #142c37;
+  box-shadow: 0 0 0 1px #b5dfd755;
+}
+#hud .critical .hp i {
+  background: #ff947e;
+}
+#hud .critical .vital-number {
+  color: #ffb39f;
 }
 #hud .squad-strip {
   display: flex;
-  gap: 6px;
-  font-size: 9px;
-  white-space: nowrap;
+  flex-wrap: wrap;
+  gap: 3px 8px;
+  font-size: 10px;
+  margin-top: 5px;
+}
+#hud .squad-strip:empty {
+  display: none;
 }
 #hud .squad-strip span {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-@media (max-width: 700px) {
-  #hud .squad-strip {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1.05fr);
-    gap: 4px;
-    padding-right: 4px;
-  }
-  #hud .squad-strip span {
-    font-size: 9px;
-    letter-spacing: 0;
-  }
+  font-size: inherit;
+  letter-spacing: 0;
+  white-space: nowrap;
 }
 #hud .mission-hud {
+  width: auto;
   display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: center;
 }
 #hud .mission-line {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
+  padding: 6px 16px;
+  border-radius: 0 0 16px 16px;
+  background: #0b2130d9;
+  border-top: 2px solid #b4dad3;
 }
 #hud .mission-hud b {
-  font-size: 15px;
-  letter-spacing: 0;
+  font-size: 14px;
+  letter-spacing: 0.3px;
 }
 #hud .mission-hud small {
   display: block;
-  font-size: 10px;
-  margin-top: 6px;
-  white-space: nowrap;
+  width: fit-content;
+  max-width: 100%;
+  margin: 4px auto 0;
+  padding: 2px 6px;
+  border-radius: 8px;
+  background: #091d2bbd;
+  color: #e0ecee;
+  font-size: 11px;
 }
 #hud .weapon-hud {
+  justify-self: end;
+  width: 210px;
+  padding: 3px 0 3px 10px;
+  border: 0;
+  border-right: 2px solid var(--gold);
+  padding-right: 8px;
+  background: linear-gradient(270deg, #091d2bd9, #091d2b00);
   text-align: right;
 }
 #hud .weapon-hud > span {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+#hud .ammo-line {
+  display: flex;
+  justify-content: end;
+  align-items: baseline;
+  gap: 8px;
+}
+#hud .ammo-label {
   font-size: 10px;
   letter-spacing: 0;
-  white-space: nowrap;
-  display: block;
 }
 #hud .weapon-hud b {
-  font-size: 24px;
-  line-height: 1.15;
+  font-size: 30px;
+  line-height: 1;
   margin: 2px 0;
-  display: block;
 }
 #hud .weapon-hud small {
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 0;
 }
+#hud .weapon-hud > small {
+  display: block;
+  color: #d0dde0;
+}
+#hud .weapon-hud.empty {
+  border-color: #ff947e;
+}
+#hud .weapon-hud.empty .ammo-line {
+  color: #ffb39f;
+}
+#hud .weapon-hud.reloading .ammo-line {
+  color: #ffe0a1;
+}
 .boss-meter {
-  height: 4px;
+  height: 5px;
   background: #4c3130;
-  margin-top: 5px;
+  margin: 5px 8px 0;
+  border-radius: 3px;
+  overflow: hidden;
 }
 .boss-meter i {
   display: block;
   height: 100%;
   background: #ffab83;
+}
+@media (max-width: 700px) {
+  #hud .hud-rail {
+    gap: 8px;
+  }
+  #hud .vitals {
+    width: 155px;
+  }
+  #hud .weapon-hud {
+    width: 170px;
+  }
+  #hud .mission-line {
+    padding: 5px 9px;
+  }
+  #hud .mission-hud b {
+    font-size: 12px;
+  }
+  #hud .mission-hud small {
+    font-size: 10px;
+  }
+  #hud .vitals b {
+    font-size: 23px;
+  }
+  #hud .weapon-hud b {
+    font-size: 26px;
+  }
 }
 #controls button {
   display: flex;
@@ -610,38 +683,8 @@ body[data-screen="title"] footer {
   .weapon-row .weapon-figures {
     display: none;
   }
-  .hud-rail {
-    gap: 4px !important;
-    grid-template-columns: 1fr 1.2fr 1fr !important;
-  }
-  #hud .hud-rail > div {
-    padding: 5px;
-  }
-  #hud .weapon-hud > span {
-    font-size: 8px;
-  }
-  #hud .mission-hud b {
-    font-size: 12px;
-  }
-  #hud .mission-hud small {
-    font-size: 9px;
-  }
 }
 
-#hud .hud-rail {
-  grid-template-rows: minmax(0, 1fr);
-}
-#hud .hud-rail > div {
-  min-height: 0;
-  line-height: 1.2;
-}
-#hud .weapon-hud > small {
-  display: block;
-  line-height: 11px;
-}
-#hud .weapon-hud > span {
-  line-height: 12px;
-}
 .gear-header-actions {
   display: flex;
   gap: 8px;
@@ -975,7 +1018,7 @@ body[data-screen="title"] footer {
     width: min(1180px, calc(100vw - 24px));
     height: calc(100dvh - 24px - var(--safe-top) - var(--safe-bottom));
     display: grid;
-    grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.35fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
     gap: 20px;
     overflow: hidden;
   }
@@ -985,6 +1028,9 @@ body[data-screen="title"] footer {
     min-height: 0;
   }
   .result-summary {
+    grid-column: 1;
+    grid-row: 1;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
   }
@@ -1001,9 +1047,11 @@ body[data-screen="title"] footer {
     font-size: clamp(18px, 4dvh, 28px);
   }
   .result-loot {
+    grid-column: 2;
+    grid-row: 1;
     display: flex;
     flex-direction: column;
-    padding-left: 20px;
+    padding-left: 12px;
     border-left: 1px solid var(--line);
   }
   .result-loot h2 {
@@ -1042,7 +1090,7 @@ body[data-screen="title"] footer {
 
 @media (orientation: landscape) and (max-height: 450px) {
   .panel.result {
-    grid-template-columns: minmax(230px, 0.82fr) minmax(0, 1.18fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
     gap: 12px;
   }
   .result-loot {
@@ -1120,53 +1168,6 @@ body[data-screen="title"] footer {
   grid-column: 1 / -1;
 }
 
-/* Give comparison the whole width while storage decisions are pending. */
-.panel.result.result-managing {
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: auto minmax(0, 1fr);
-  gap: 8px;
-}
-.result-managing .result-summary {
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-.result-managing .result-summary > .eyebrow,
-.result-managing .result-summary > p,
-.result-managing .result-summary .stats,
-.result-managing .result-actions > p {
-  display: none;
-}
-.result-managing .result-summary h1 {
-  font-size: 18px;
-  margin: 0;
-}
-.result-managing .result-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 0;
-  padding: 0;
-}
-.result-managing .result-actions button {
-  padding: 8px;
-  min-height: 44px;
-  font-size: 12px;
-}
-.result-managing .result-loot {
-  border: 0;
-  padding: 0;
-}
-.result-managing .result-loot h2 {
-  font-size: 15px;
-  margin: 0;
-}
-.result-managing .result-loot > .status {
-  font-size: 11px;
-  max-height: 2.8em;
-  overflow-y: auto;
-}
 @media (orientation: landscape) {
   .reward-choice dl {
     grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -1174,15 +1175,6 @@ body[data-screen="title"] footer {
 }
 
 @media (orientation: landscape) and (max-height: 320px) {
-  .result-managing .result-loot h2 {
-    display: none;
-  }
-  .result-managing .result-loot > .status {
-    font-size: 10px;
-    line-height: 1.25;
-    margin: 0 0 4px;
-    max-height: 2.5em;
-  }
   .reward-choice {
     padding: 6px;
   }
@@ -1209,4 +1201,1513 @@ body[data-screen="title"] footer {
     padding: 6px;
     margin: 0;
   }
+}
+
+.panel.armory {
+  width: min(1120px, calc(100vw - 24px - var(--safe-left) - var(--safe-right)));
+  height: calc(100dvh - 24px - var(--safe-top) - var(--safe-bottom));
+  margin: 12px auto;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+  background: #102631;
+}
+.armory header {
+  flex: none;
+  gap: 12px;
+}
+.armory header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+.armory header h1 small {
+  font-size: 12px;
+  color: #b4c8cf;
+  font-weight: 400;
+}
+.armory nav {
+  display: flex;
+  gap: 8px;
+}
+.armory nav button {
+  min-height: 44px;
+  padding: 8px 14px;
+  font-size: 13px;
+}
+.armory-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: none;
+}
+.armory-toolbar select {
+  min-height: 44px;
+  padding: 8px 12px;
+  width: 160px;
+}
+.armory-toolbar span {
+  color: #e3edee;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.armory-toolbar > small {
+  margin-left: auto;
+  font-size: 11px;
+  color: #b4c8cf;
+}
+.armory > .status {
+  margin: 0;
+  flex: none;
+}
+.armory > .status:empty {
+  display: none;
+}
+.armory-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(220px, 1fr);
+  gap: 16px;
+  flex: 1;
+  min-height: 0;
+}
+.armory-catalog {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.armory-list-head,
+.armory-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 48px 32px 42px 40px 40px;
+  align-items: center;
+  gap: 8px;
+}
+.armory-list-head {
+  padding: 0 12px 8px;
+  font-size: 11px;
+  color: #adc3cd;
+  flex: none;
+}
+.armory-list-head > :not(:first-child),
+.armory-row > :not(:first-child) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.armory-list {
+  overflow-y: auto;
+  min-height: 0;
+  flex: 1;
+  scrollbar-gutter: stable;
+}
+.armory-list article {
+  margin-bottom: 2px;
+}
+.armory-row {
+  width: 100%;
+  height: 32px;
+  min-height: 32px;
+  padding: 1px 6px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 500;
+  background: #19343f;
+  border: 1px solid #345260;
+  border-left: 3px solid #91a9b3;
+}
+.armory-row.rarity1 {
+  border-left-color: #7cdda7;
+}
+.armory-row.rarity2 {
+  border-left-color: #efbe78;
+}
+.armory-row.rarity3 {
+  border-left-color: #ffe28a;
+}
+.armory-row[aria-pressed="true"] {
+  background: #294e57;
+  outline: 2px solid #b8edc5;
+  outline-offset: -2px;
+}
+.armory-row:focus-visible {
+  outline: 3px solid #efbe78;
+  outline-offset: -3px;
+}
+.armory-identity {
+  display: grid;
+  gap: 1px;
+  line-height: 12px;
+  min-width: 0;
+}
+.armory-identity strong {
+  font-size: 12px;
+  white-space: nowrap;
+}
+.armory-identity > span,
+.armory-badges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.armory .rarity-tag {
+  position: static;
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.3;
+}
+.armory-equipped,
+.armory-pending {
+  font-size: 10px;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+.armory-equipped {
+  color: #c9f5d3;
+  background: #274c3b;
+}
+.armory-pending {
+  color: #ffe0a0;
+  background: #594424;
+}
+.armory-star {
+  color: #ffe28a;
+}
+.armory-row small {
+  font-size: 10px;
+  color: #b4c8cf;
+}
+.armory-detail {
+  min-width: 0;
+  overflow-y: auto;
+  background: #0b202b;
+  border: 1px solid #345260;
+  border-radius: 5px;
+  padding: 16px;
+}
+.armory-kind {
+  font-size: 11px;
+  color: #b8edc5;
+}
+.armory-detail h2 {
+  font-size: 22px;
+  margin: 5px 0 8px;
+}
+.armory .armory-compare {
+  font-size: 11px;
+  margin: 12px 0 6px;
+}
+.armory-stats {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.armory-stats th,
+.armory-stats td {
+  padding: 8px 0;
+  border-bottom: 1px solid #29434e;
+  font-size: 13px;
+  text-align: right;
+}
+.armory-stats th:first-child {
+  text-align: left;
+  font-weight: 400;
+  color: #c1d2d9;
+}
+.armory-stats thead th {
+  font-size: 10px;
+  color: #adc3cd;
+  font-weight: 400;
+}
+.armory-stats td small {
+  font-size: 10px;
+  margin-left: 3px;
+  color: #adc3cd;
+}
+.armory-stats .better {
+  color: #a0edb6;
+}
+.armory-stats .worse {
+  color: #ffb59e;
+}
+.armory .armory-effect {
+  font-size: 12px;
+  margin: 10px 0;
+}
+.armory-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.armory-detail-actions button {
+  min-height: 44px;
+  padding: 8px 10px;
+  font-size: 12px;
+  flex: 1;
+}
+.armory [data-discard]:not(:disabled) {
+  color: #ffd0c2;
+  border-color: #9c6e60;
+}
+.armory .armory-help {
+  font-size: 11px;
+  margin: 8px 0 0;
+}
+.armory .armory-empty {
+  padding: 20px;
+}
+@media (orientation: landscape) and (max-height: 500px) {
+  .panel.armory {
+    position: relative;
+    padding: 10px 12px;
+    gap: 6px;
+    margin: 6px auto;
+    height: calc(100dvh - 12px - var(--safe-top) - var(--safe-bottom));
+  }
+  .armory header h1 {
+    font-size: 20px;
+  }
+  .armory header h1 small {
+    display: block;
+  }
+  .armory-toolbar {
+    position: absolute;
+    top: 10px;
+    left: 180px;
+  }
+  .armory-toolbar > small {
+    display: none;
+  }
+  .armory-workspace {
+    gap: 10px;
+  }
+  .armory-detail {
+    padding: 10px;
+  }
+  .armory-detail h2 {
+    font-size: 18px;
+  }
+  .armory-stats th,
+  .armory-stats td {
+    padding: 5px 0;
+    font-size: 12px;
+  }
+  .armory-row {
+    min-height: 32px;
+  }
+}
+@media (max-width: 700px) {
+  .armory-toolbar {
+    left: 108px;
+  }
+  .armory-toolbar > span {
+    display: none;
+  }
+  .armory-toolbar > small {
+    display: none;
+  }
+  .armory-list-head,
+  .armory-row {
+    grid-template-columns: minmax(0, 1fr) 38px 25px 33px 30px 30px;
+    gap: 4px;
+  }
+  .armory-row {
+    padding: 1px 4px;
+    font-size: 11px;
+  }
+  .armory-identity strong {
+    font-size: 12px;
+  }
+  .armory header h1 small {
+    display: block;
+    margin-top: 3px;
+  }
+}
+@media (orientation: portrait) {
+  .armory-workspace {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(120px, 1fr) minmax(140px, 1fr);
+  }
+  .armory header h1 {
+    font-size: 20px;
+  }
+  .armory nav button {
+    padding: 8px;
+    font-size: 12px;
+  }
+}
+
+[data-favorite][aria-pressed="true"] {
+  color: #ffe28a;
+  border-color: #ffe28a;
+}
+.loot-list [data-favorite] {
+  min-height: 44px;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+.result .loot-state {
+  overflow-wrap: anywhere;
+}
+@media (orientation: landscape) and (max-height: 320px) {
+  .result-loot > .status {
+    font-size: 10px;
+    margin: 2px 0;
+  }
+  .result-loot h2 {
+    font-size: 16px;
+    margin-bottom: 2px;
+  }
+  .result-summary > p {
+    font-size: 11px;
+  }
+  .result-summary .stats {
+    margin: 4px 0;
+  }
+  .result-actions {
+    padding-top: 2px;
+  }
+  .armory {
+    padding: 10px;
+  }
+}
+
+/* Result rewards use one shared, sticky stat header and one compact row per weapon. */
+.result .loot-table {
+  gap: 2px;
+}
+.result .loot-table .weapon-head,
+.result .loot-table .weapon-row {
+  display: grid;
+  grid-template-columns: minmax(64px, 1fr) 48px 58px 30px 42px 34px 28px 36px;
+  gap: 4px;
+  align-items: center;
+  flex-shrink: 0;
+}
+.result .loot-table .weapon-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #0e2531;
+  padding: 5px 7px 5px 9px;
+  border-bottom: 1px solid var(--line);
+  font-size: 10px;
+  color: #8fa8b3;
+}
+.result .loot-table .weapon-row {
+  padding: 0 6px;
+  min-height: 30px;
+}
+.result .loot-table .weapon-figures {
+  display: contents;
+}
+.result .loot-table .weapon-figures i {
+  display: none;
+}
+.result .loot-table .weapon-figures b {
+  font-size: 11px;
+  white-space: nowrap;
+}
+.result .loot-table .weapon-identity {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+.result .loot-table h3 {
+  font-size: 11px;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.result .loot-table .rarity-tag {
+  flex-shrink: 0;
+  font-size: 9px;
+  padding: 2px;
+}
+.result .loot-table .weapon-diff {
+  display: inline;
+  font-size: 8px !important;
+}
+.result .loot-table [data-stat="effect"] b {
+  font-size: 9px;
+  color: var(--gold);
+}
+.result .loot-table .roll-high b {
+  color: var(--gold);
+}
+.result .loot-table .roll-low b {
+  color: #8ea6ae;
+}
+.result .loot-table [data-favorite] {
+  padding: 0;
+  margin: 0;
+  min-height: 28px;
+  width: 100%;
+  font-size: 16px;
+}
+@media (max-width: 700px) {
+  .result .loot-table .weapon-head,
+  .result .loot-table .weapon-row {
+    grid-template-columns: minmax(50px, 1fr) 36px 42px 22px 34px 27px 23px 32px;
+    gap: 2px;
+  }
+  .result .loot-table .weapon-figures b {
+    font-size: 10px;
+  }
+  .result .loot-table h3 {
+    font-size: 10px;
+  }
+  .result .loot-table .weapon-identity {
+    gap: 2px;
+  }
+}
+
+/* Keep the filter on the header row when browser chrome leaves little height. */
+@media (orientation: landscape) and (max-height: 320px) {
+  .panel.armory {
+    position: relative;
+  }
+  .armory header {
+    min-height: 44px;
+  }
+  .armory header h1 small {
+    display: none;
+  }
+  .armory-toolbar {
+    position: absolute;
+    top: 10px;
+    left: 108px;
+  }
+  .armory-toolbar select {
+    width: 150px;
+  }
+  .armory-toolbar > span,
+  .armory-toolbar > small {
+    display: none;
+  }
+}
+.armory {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+.armory-detail-heading {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 4px 8px;
+}
+.armory-detail-heading .armory-kind {
+  grid-column: 1 / -1;
+}
+.armory-detail-heading h2 {
+  margin: 0;
+}
+.armory .armory-compare {
+  margin-top: 8px;
+}
+
+.armory-list-head {
+  padding: 0 6px 6px;
+  gap: 4px;
+}
+.armory-row {
+  gap: 4px;
+}
+.armory-identity > span {
+  flex-wrap: nowrap;
+  gap: 4px;
+}
+.armory-identity .rarity-tag,
+.armory-identity .armory-equipped,
+.armory-identity .armory-pending {
+  font-size: 9px;
+  line-height: 10px;
+  padding: 0 3px;
+}
+@media (max-width: 700px) {
+  .armory-list-head {
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 9px;
+  }
+  .armory-identity strong {
+    font-size: 10px;
+  }
+  .armory-workspace {
+    gap: 6px;
+  }
+}
+.gear .brief label {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 4px;
+  min-width: 0;
+}
+.gear #stage-select {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  font-size: 12px;
+}
+
+/* Help stays inside compact weapon rows; native modal keeps focus inside. */
+.weapon-help-button {
+  min-height: 28px;
+  min-width: 28px;
+  padding: 2px 3px;
+  border: 1px solid #557d8e;
+  border-radius: 5px;
+  background: #142f3b;
+  color: #bceeff;
+  cursor: pointer;
+  font: inherit;
+}
+.weapon-help-button:focus-visible {
+  outline: 2px solid #8cf4dc;
+  outline-offset: 1px;
+}
+.weapon-help-button.kind-help {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  padding: 0;
+  justify-self: start;
+  font-size: 14px;
+  line-height: 1;
+}
+.armory-detail-heading {
+  grid-template-columns: 28px minmax(0, 1fr);
+}
+.armory-detail-heading .armory-badges {
+  grid-column: 1 / -1;
+}
+.gear .weapon-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.gear .weapon-filters select {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 0;
+  max-width: 100%;
+  padding: 5px 6px;
+  font-size: 11px;
+}
+.weapon-kind-summary {
+  flex: 0 0 100%;
+  min-width: 0;
+  margin: 0;
+  color: #bdd2da;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.weapon-identity .kind-help {
+  flex: 0 0 28px;
+}
+.weapon-figures .effect-help {
+  font-size: 10px;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+}
+.weapon-help-dialog {
+  width: min(420px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  box-sizing: border-box;
+  overflow: auto;
+  padding: 20px;
+  border: 1px solid #557d8e;
+  border-radius: 12px;
+  background: #102733;
+  color: #e1eef3;
+}
+.weapon-help-dialog::backdrop {
+  background: #0009;
+}
+.weapon-help-dialog h2 {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+.weapon-help-dialog p {
+  line-height: 1.7;
+}
+.weapon-help-dialog > button {
+  min-height: 44px;
+  width: 100%;
+}
+.gear .weapon-row .weapon-identity,
+.result .loot-table .weapon-row .weapon-identity {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 28px;
+  grid-template-rows: 14px 12px;
+  gap: 0 2px;
+  min-width: 0;
+}
+.gear .weapon-row .weapon-identity h3,
+.result .loot-table .weapon-row .weapon-identity h3 {
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10px;
+  line-height: 14px;
+}
+.weapon-row .weapon-identity .kind-help {
+  grid-column: 2;
+  grid-row: 1 / 3;
+}
+.gear .weapon-row .weapon-identity {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 12px;
+}
+.gear .weapon-row .weapon-identity h3 {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.weapon-row .weapon-identity .rarity-tag {
+  grid-column: 1;
+  grid-row: 2;
+  justify-self: start;
+  font-size: 8px;
+  line-height: 10px;
+  padding: 0 2px;
+}
+@media (max-width: 900px) and (orientation: landscape) {
+  .gear .weapon-head,
+  .gear .weapon-row {
+    grid-template-columns: minmax(80px, 1fr) 46px 52px 24px 40px 30px 25px 22px;
+    gap: 2px;
+  }
+  .gear .weapon-head {
+    letter-spacing: 0;
+  }
+}
+
+.weapon-row .weapon-identity .rarity-tag {
+  position: static;
+  margin: 0;
+}
+/* Keep headings and close controls visible even with long effect descriptions. */
+.weapon-help-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+.weapon-help-dialog h2,
+.weapon-help-dialog > button {
+  flex-shrink: 0;
+}
+.weapon-help-dialog p {
+  overflow: auto;
+  min-height: 0;
+  margin: 0 0 14px;
+}
+.gear .weapon-row .weapon-identity,
+.result .loot-table .weapon-row .weapon-identity {
+  align-items: start;
+}
+.weapon-row .weapon-identity .rarity-tag {
+  align-self: start;
+}
+.weapon-figures .effect-help {
+  font-weight: 500;
+  letter-spacing: 0;
+  padding: 2px;
+}
+
+/* Dismantling shares the existing rarity palette. */
+.armory-detail.rarity0 {
+  border: 2px solid #91a9b3;
+}
+.armory-detail.rarity1 {
+  border: 2px solid #7cdda7;
+}
+.armory-detail.rarity2 {
+  border: 2px solid #efbe78;
+}
+.armory-detail.rarity3 {
+  border: 2px solid #ffe28a;
+}
+.armory-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.armory #armory-organize {
+  min-height: 36px;
+  padding: 6px 8px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.armory #armory-organize[aria-pressed="true"] {
+  border-color: #efbe78;
+  color: #efbe78;
+}
+.armory-powder {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: none;
+  font-size: 12px;
+}
+.armory-powder small {
+  color: #b4c8cf;
+}
+.armory-powder button {
+  min-height: 32px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+.organizing .armory-list article {
+  display: flex;
+  align-items: center;
+}
+.organizing .armory-row {
+  flex: 1;
+  min-width: 0;
+}
+.armory .armory-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 32px;
+  flex: none;
+  margin: 0;
+}
+.armory-check input {
+  padding: 0;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: #efbe78;
+}
+.armory-check input:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.organizing .armory-list-head {
+  margin-left: 28px;
+}
+@media (orientation: landscape) and (max-height: 600px) {
+  .armory-toolbar {
+    left: 260px;
+  }
+  .armory-toolbar select {
+    width: 130px;
+  }
+  .armory-toolbar > span {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .armory-title {
+    gap: 6px;
+  }
+  .armory header h1 small {
+    display: none;
+  }
+  .armory-toolbar {
+    left: 216px;
+  }
+  .armory-toolbar select {
+    width: 120px;
+  }
+  .armory-powder {
+    gap: 8px;
+    font-size: 11px;
+  }
+  .armory-powder small {
+    display: none;
+  }
+}
+@media (orientation: portrait) {
+  .armory header {
+    flex-wrap: wrap;
+  }
+  .armory-toolbar {
+    position: static;
+  }
+  .armory-powder {
+    flex-wrap: wrap;
+  }
+}
+/* Cooperative lobby: mission and all four members remain in view. */
+.panel.lobby {
+  max-width: 1440px;
+  height: calc(100dvh - 32px);
+  margin: 16px auto;
+  padding: 22px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 14px;
+}
+.lobby h1,
+.lobby h2,
+.lobby p {
+  margin: 0;
+}
+.lobby h1 {
+  font-size: 28px;
+}
+.lobby h2 {
+  font-size: 20px;
+}
+.lobby-header {
+  gap: 18px;
+}
+.lobby-header > div {
+  flex: 1;
+}
+.lobby-workspace {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(230px, 0.8fr) minmax(0, 1.6fr);
+  gap: 18px;
+}
+.lobby-mission {
+  padding: 22px;
+  border: 1px solid #75919b55;
+  border-radius: 6px;
+  background: linear-gradient(145deg, #294c59, #102b37);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  overflow: auto;
+}
+.lobby-mission label {
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+}
+.lobby select {
+  width: 100%;
+  min-width: 0;
+  font-size: 12px;
+}
+.mission-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  font-size: 11px;
+  color: var(--mint);
+}
+.lobby-chat {
+  padding: 14px;
+  display: grid;
+  gap: 10px;
+  background: #0c202b80;
+  border: 1px dashed #78939d5c;
+  color: #94afb8;
+}
+.lobby-squad {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  min-height: 0;
+}
+.squad-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.squad-heading small {
+  color: #94afb8;
+}
+.squad-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.squad-member {
+  min-width: 0;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #78939d45;
+  border-radius: 5px;
+  background: #163441;
+}
+.squad-member.self {
+  border-left: 3px solid var(--mint);
+}
+.member-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px 8px;
+}
+.member-heading > b {
+  flex: 1;
+}
+.member-heading > small {
+  grid-column: 1;
+  grid-row: 2;
+  color: #94afb8;
+  font-size: 10px;
+}
+.member-number {
+  color: #8daab6;
+  font-size: 12px;
+  margin-right: 6px;
+}
+.member-status {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.is-ready {
+  color: var(--mint);
+}
+.is-preparing {
+  color: var(--gold);
+}
+.member-weapons {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  font-size: 12px;
+}
+.member-weapons > span {
+  overflow-wrap: anywhere;
+}
+.member-weapons small {
+  color: #8daab6;
+}
+.squad-member.empty {
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  background: #10293488;
+  border-style: dashed;
+  color: #8daab6;
+}
+.squad-member.empty small {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+}
+.lobby-invite,
+.lobby-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.lobby-invite label {
+  flex: 1;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  min-width: 0;
+  margin: 0;
+}
+.lobby-invite input {
+  width: 0;
+  font-size: 11px;
+  padding: 9px;
+}
+.lobby-actions .status {
+  flex: 1;
+}
+.lobby button {
+  font-size: 13px;
+  padding: 10px 16px;
+}
+@media (max-height: 600px) and (orientation: landscape) {
+  .panel.lobby {
+    height: calc(100dvh - 12px);
+    margin: 6px auto;
+    padding: 10px 14px;
+    gap: 6px;
+  }
+  .lobby h1 {
+    font-size: 20px;
+  }
+  .lobby h2 {
+    font-size: 15px;
+  }
+  .lobby-header .eyebrow {
+    display: none;
+  }
+  .lobby-workspace {
+    gap: 10px;
+    grid-template-columns: minmax(205px, 0.8fr) minmax(0, 1.6fr);
+  }
+  .lobby-mission {
+    padding: 12px;
+    gap: 9px;
+  }
+  .lobby-mission > p {
+    display: none;
+  }
+  .lobby-squad {
+    gap: 5px;
+  }
+  .squad-cards {
+    gap: 4px;
+  }
+  .squad-member {
+    padding: 5px 10px;
+    gap: 3px;
+  }
+  .member-heading {
+    gap: 8px;
+    font-size: 12px;
+  }
+  .member-weapons {
+    font-size: 11px;
+    gap: 6px;
+  }
+  .lobby button {
+    padding: 7px 12px;
+    min-height: 34px;
+    font-size: 12px;
+  }
+  .lobby-invite input {
+    padding: 6px;
+  }
+  .lobby-actions .status {
+    font-size: 11px;
+  }
+}
+@media (orientation: portrait) {
+  .panel.lobby {
+    height: auto;
+    min-height: calc(100dvh - 24px);
+    margin: 12px;
+    padding: 14px;
+  }
+  .lobby-workspace {
+    grid-template-columns: 1fr;
+  }
+  .squad-cards {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, minmax(90px, auto));
+  }
+
+  .lobby-actions,
+  .lobby-invite {
+    flex-wrap: wrap;
+  }
+  .lobby-actions .status {
+    flex-basis: 100%;
+  }
+}
+@media (max-height: 600px) and (orientation: landscape) {
+  .lobby-mission {
+    gap: 6px;
+    padding: 10px;
+  }
+  .lobby-mission label {
+    margin: 0;
+    gap: 4px;
+  }
+  .lobby-mission select {
+    padding: 8px;
+  }
+}
+.lobby-chat > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.lobby-chat b {
+  font-size: 13px;
+}
+.lobby-chat small {
+  font-size: 11px;
+}
+.lobby-chat input {
+  width: 100%;
+  min-width: 0;
+  font-size: 12px;
+  padding: 9px;
+}
+@media (max-height: 600px) and (orientation: landscape) {
+  .member-heading {
+    gap: 0 4px;
+  }
+  .member-heading > small {
+    font-size: 8px;
+  }
+  .member-status {
+    font-size: 11px;
+  }
+  .member-weapons {
+    gap: 2px;
+  }
+  .lobby-chat {
+    padding: 7px 10px;
+    gap: 6px;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+  .lobby-chat > div {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .lobby-chat b {
+    font-size: 11px;
+  }
+  .lobby-chat small {
+    font-size: 9px;
+  }
+  .lobby-chat input {
+    padding: 6px;
+    font-size: 11px;
+  }
+}
+@media (max-height: 600px) and (orientation: landscape) {
+  .member-heading {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+  .member-heading > small {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .member-status {
+    grid-column: 3;
+    grid-row: 1;
+  }
+}
+@media (max-height: 380px) and (orientation: landscape) {
+  .squad-member {
+    padding-block: 2px;
+  }
+  .lobby-chat {
+    padding-block: 4px;
+  }
+}
+
+/* Lobby: invitation in header, launch inside operation, chat fills remainder. */
+.lobby-header > div {
+  flex: initial;
+}
+.lobby-header .lobby-share {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: auto;
+  position: relative;
+}
+.lobby-share #copy {
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  min-width: 36px;
+}
+#invite-feedback {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 2;
+  white-space: nowrap;
+  background: #102b37;
+  color: var(--mint);
+  font-size: 11px;
+}
+.lobby-actions {
+  display: grid;
+  gap: 8px;
+  margin-top: auto;
+}
+.lobby-actions .status {
+  font-size: 11px;
+}
+.lobby-actions #begin {
+  min-height: 52px;
+  font-size: 17px;
+  font-weight: 800;
+}
+.lobby-actions #begin:not(:disabled) {
+  background: linear-gradient(115deg, #bcf5c7, #83dfba);
+  color: #12392f;
+  border-color: #d2ffe0;
+  box-shadow: 0 0 18px #9cf0bb28;
+}
+.lobby-squad {
+  grid-template-rows: auto auto minmax(0, 1fr);
+}
+.lobby-chat {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
+  align-items: start;
+  min-height: 0;
+}
+.lobby-chat input {
+  grid-row: 3;
+  align-self: end;
+}
+@media (max-height: 600px) and (orientation: landscape) {
+  .lobby-header {
+    gap: 10px;
+  }
+  .lobby-actions {
+    gap: 5px;
+  }
+  .lobby-actions #begin {
+    min-height: 42px;
+    font-size: 15px;
+  }
+  .lobby-chat > div {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+@media (orientation: portrait) {
+  .lobby-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .lobby-header .lobby-share {
+    order: 3;
+    flex-basis: 100%;
+  }
+  .lobby-header > div:first-child {
+    margin-right: auto;
+  }
+  .lobby-chat {
+    min-height: 180px;
+  }
+}
+@media (max-height: 380px) and (orientation: landscape) {
+  .lobby-mission {
+    gap: 4px;
+    padding: 8px;
+  }
+  .lobby-mission > strong {
+    font-size: 13px;
+  }
+  .lobby-mission .mission-facts {
+    gap: 4px 8px;
+    font-size: 10px;
+  }
+  .lobby-actions #back {
+    min-height: 32px;
+    padding-block: 5px;
+  }
+  .lobby-actions #begin {
+    min-height: 40px;
+  }
+}
+/* Dedicated room entry keeps human verification clear of loadout columns. */
+.panel.room-entry {
+  width: min(600px, 100%);
+  min-width: 0;
+  margin: 12px auto;
+  max-height: calc(100% - 24px);
+  overflow-y: auto;
+  padding: 20px;
+}
+.room-entry header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.room-entry h1 {
+  margin: 0;
+}
+.room-entry .coop-entry {
+  display: block;
+}
+.room-entry .coop-entry p {
+  margin-top: 8px;
+}
+.room-entry .join {
+  display: grid;
+  gap: 8px;
+}
+.room-entry input {
+  width: 100%;
+  min-width: 0;
+}
+.room-entry #launch {
+  width: 100%;
+  min-height: 48px;
+}
+.room-entry .status:empty {
+  display: none;
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  .panel.room-entry {
+    width: min(960px, 100% - 24px);
+    padding: 12px 16px;
+    display: grid;
+    grid-template-columns: minmax(300px, 1fr) minmax(0, 1fr);
+    column-gap: 24px;
+    row-gap: 6px;
+  }
+  .room-entry header {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+  }
+  .room-entry h1 {
+    font-size: 24px;
+  }
+  .room-entry p {
+    margin: 0;
+    font-size: 12px;
+  }
+  .room-entry .coop-entry {
+    grid-column: 1;
+    grid-row: 2;
+    margin: 0;
+    padding: 8px 10px;
+  }
+  .room-entry .coop-entry p {
+    margin-top: 4px;
+  }
+  .room-entry .turnstile-room-create {
+    grid-column: 1;
+    grid-row: 3 / 5;
+    margin: 0;
+  }
+  .room-entry #turnstile-status {
+    grid-column: 1;
+    grid-row: 5;
+  }
+  .room-entry > p:not([id]):not(.status) {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: center;
+  }
+  .room-entry .status {
+    grid-column: 2;
+    grid-row: 3;
+  }
+  .room-entry #launch {
+    grid-column: 2;
+    grid-row: 4 / 6;
+    align-self: end;
+  }
+  .room-entry .coop-advanced {
+    grid-column: 1 / -1;
+    grid-row: 6;
+    margin-top: 0 !important;
+    padding-top: 6px !important;
+  }
+}
+@media (max-height: 320px) and (orientation: landscape) {
+  .panel.room-entry {
+    margin-block: 6px;
+    max-height: calc(100% - 12px);
+    padding-block: 8px;
+    row-gap: 4px;
+  }
+  .room-entry header .eyebrow {
+    display: none;
+  }
+  .room-entry #home {
+    min-height: 40px;
+    padding-block: 8px;
+  }
+}
+
+/* Keep title navigation inside the viewport, including the optional install button. */
+body[data-screen="title"] .title-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 520px;
+  margin: 12px 0 0;
+}
+body[data-screen="title"] .title-actions button {
+  font-size: 14px;
+  padding: 10px 12px;
+}
+body[data-screen="title"] #solo {
+  grid-column: 1;
+  grid-row: 1;
+}
+body[data-screen="title"] #coop {
+  grid-column: 2;
+  grid-row: 1;
+}
+body[data-screen="title"] .title-actions small {
+  display: none;
+}
+@media (orientation: landscape) and (max-height: 550px) {
+  body[data-screen="title"] #ui {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 12px max(20px, var(--safe-right)) 40px max(20px, var(--safe-left));
+  }
+  body[data-screen="title"] .title {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 1fr);
+    column-gap: 24px;
+    align-items: center;
+    padding: 0;
+  }
+  body[data-screen="title"] .title > .eyebrow {
+    grid-column: 1;
+    font-size: 9px;
+  }
+  body[data-screen="title"] .title h1 {
+    grid-column: 1;
+    font-size: clamp(38px, 19dvh, 82px);
+    margin: 10px 0;
+  }
+  body[data-screen="title"] .tagline {
+    grid-column: 1;
+    font-size: 12px;
+    margin: 0;
+  }
+  body[data-screen="title"] .title-actions {
+    grid-column: 2;
+    grid-row: 1 / 4;
+    margin: 0;
+    width: 100%;
+    gap: 8px;
+  }
+  body[data-screen="title"] .title-actions button {
+    font-size: 12px;
+    padding: 10px 8px;
+    min-height: 44px;
+  }
+  body[data-screen="title"] .fine {
+    grid-column: 1 / -1;
+    margin-top: 12px;
+  }
+  body[data-screen="title"] .mission-card {
+    display: none;
+  }
+}
+@media (orientation: portrait) {
+  body[data-screen="title"] #ui {
+    grid-template-columns: minmax(0, 1fr);
+    padding-bottom: 50px;
+  }
+  body[data-screen="title"] .mission-card {
+    display: none;
+  }
+  body[data-screen="title"] .title h1 {
+    font-size: clamp(42px, 13dvh, 94px);
+  }
+}
+
+/* The selected encounter is essential preparation, also in landscape. */
+.gear .brief > div {
+  display: block;
+}
+.gear .brief #stage-brief {
+  display: block;
+  margin: 6px 0 0;
+  line-height: 1.45;
 }

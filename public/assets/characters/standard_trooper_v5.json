@@ -1,0 +1,39 @@
+{
+  "version": 5,
+  "rig_version": "SF_Humanoid_3",
+  "height_m": 1.866,
+  "up": "+Y",
+  "forward": "-Z",
+  "root_motion": false,
+  "bones": 57,
+  "skin_contract": "Use the v5 GLB inverse bind matrices. v4 names are preserved but 32 stage2 and two approved stage3 bind refinements are included. Do not bind v4 clothing blindly.",
+  "clips": {
+    "Dodge_Roll": 0.3333333333333333,
+    "Fire_Rifle": 0.13333333333333333,
+    "Fire_Rocket": 1.15,
+    "Fire_Shotgun": 0.8,
+    "Hit_Heavy": 1.2,
+    "Idle": 3.0,
+    "Run": 0.6333333333333333,
+    "Run_Backward": 0.6333333333333333,
+    "Run_Backward_Rocket": 0.6333333333333333,
+    "Run_Rocket": 0.6333333333333333,
+    "Weapon_Idle_Rifle": 3.0,
+    "Weapon_Idle_Rocket": 3.0,
+    "Weapon_Idle_Shotgun": 3.0,
+    "Reload_Rifle": 1.65,
+    "Reload_Shotgun": 2.1,
+    "Reload_Rocket": 2.7,
+    "Switch_1_to_2": 1,
+    "Switch_2_to_1": 1
+  },
+  "authored_clip_prefix": "Trial_",
+  "switch": {
+    "source_duration": 1,
+    "runtime_duration": 0.5,
+    "holster_normalized": 0.45,
+    "draw_normalized": 0.6
+  },
+  "source_blend": "trooper_stage4_candidate.blend",
+  "triangles": 48384
+}

@@ -1,0 +1,29 @@
+{
+  "blender": "5.2.1 LTS",
+  "sha256": "2df80e300c824c6665134bb9e0b0463da2eedf2e3acad9415830169cf7a9a7ea",
+  "triangles": 36628,
+  "meshes": 165,
+  "nonfinite": 0,
+  "degenerate": 0,
+  "bounds_blender": {
+    "min": [
+      -2.75,
+      -23.63442039489746,
+      0.0
+    ],
+    "max": [
+      2.75,
+      2.302500009536743,
+      4.289999961853027
+    ]
+  },
+  "checks": [
+    "Final static GLB imported in fresh dedicated Blender process",
+    "Source triangle count matches",
+    "Source world bounds match within 0.1mm",
+    "8 independent ground-origin unit roots",
+    "Finite coordinates",
+    "No degenerate triangles",
+    "Positive determinant; unit root scales 1"
+  ]
+}

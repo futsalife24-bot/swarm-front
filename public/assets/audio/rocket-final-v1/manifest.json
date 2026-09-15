@@ -1,0 +1,29 @@
+{
+  "assets": [
+    {
+      "key": "rocketBurst",
+      "candidate": "EX-05",
+      "seconds": 2.03803125,
+      "peak": 0.800000011920929,
+      "rms": 0.11175638437271118,
+      "sha256": "3e07c6ec2d9a92e263dcfb3175c138ac68cdbb74633b69ced70cec45f0761a0a",
+      "source_sha256": "c95787edcaaccaf23ab7a875b78a6384eecd2cf594121ed05b859328407b0884",
+      "start": 0.00134375,
+      "end": 2.039375,
+      "gain": 0.6834170818328857,
+      "url": "https://mixkit.co/free-sound-effects/explosion/"
+    }
+  ],
+  "restored_rocket": {
+    "key": "rocket",
+    "seconds": 0.75,
+    "bytes": 48044,
+    "peak": 0.84,
+    "rms": 0.10946264934773502,
+    "sha256": "570fd95fbd430e3e0547d8938c6d2fd36e9a1c5bfc3fdf5661269b0517615a41",
+    "origin": [
+      "original synthesis",
+      "punch"
+    ]
+  }
+}
