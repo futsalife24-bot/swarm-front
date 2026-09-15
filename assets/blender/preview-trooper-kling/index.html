@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  />
+  <title>SWARM FRONT — Trooper design review</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: #182025;
+      color: #e4ebeb;
+      font: 14px system-ui;
+    }
+    header {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 12px 20px;
+      border-bottom: 1px solid #3c5458;
+    }
+    h1 {
+      font-size: 16px;
+      margin: 0 auto 0 0;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+    }
+    select,
+    button {
+      padding: 7px 10px;
+      border: 1px solid #57716e;
+      background: #243137;
+      color: inherit;
+      border-radius: 4px;
+    }
+    button {
+      cursor: pointer;
+    }
+    main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: calc(100vh - 68px);
+    }
+    section {
+      position: relative;
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+    }
+    section + section {
+      border-left: 1px solid #405050;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .caption {
+      position: absolute;
+      top: 16px;
+      left: 20px;
+      pointer-events: none;
+    }
+    .caption b {
+      display: block;
+      font-size: 17px;
+      letter-spacing: 0.06em;
+    }
+    .caption span {
+      display: block;
+      color: #a5b5b7;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+    #status {
+      position: fixed;
+      bottom: 12px;
+      left: 20px;
+      color: #aabbbf;
+      font-size: 12px;
+    }
+    a {
+      color: #8bd4c5;
+    }
+  </style>
+  <header>
+    <h1>SWARM FRONT / TROOPER</h1>
+    <a href="../references/trooper-image-a.jpg" target="_blank">Image A</a
+    ><select id="kind" aria-label="武器">
+      <option value="rifle">AR</option>
+      <option value="shotgun">SG</option>
+      <option value="rocket">RL</option></select
+    ><select id="pose" aria-label="モーション">
+      <option value="idle">待機</option>
+      <option value="walk">歩行</option><option value="run">走行</option><option value="aim">構える</option>
+      <option value="fire">射撃</option>
+      <option value="reload">装填</option>
+      <option value="switch">武器切替</option>
+
+      <option value="hit">被弾</option></select
+    ><select id="view" aria-label="視点">
+      <option value="oblique">斜め</option>
+      <option value="front">正面</option>
+      <option value="back">背面</option>
+      <option value="side">側面</option>
+      <option value="far">遠景</option></select
+    ><button id="play">一時停止</button>
+  </header>
+  <main>
+    <section id="before">
+      <div class="caption"><b>BEFORE</b><span>改修前 / v9</span></div>
+    </section>
+    <section id="after">
+      <div class="caption">
+        <b>AFTER</b><span>改修後 / 歩行・戦闘走り・構え</span>
+      </div>
+    </section>
+  </main>
+  <div id="status">モデルを読み込んでいます…</div>
+  <script type="module">
+    import * as T from "/node_modules/three/build/three.module.js";
+    import { GLTFLoader } from "/node_modules/three/examples/jsm/loaders/GLTFLoader.js";
+    import {
+      StandardTrooper,
+      loadStandardTrooper,
+    } from "/src/client/standard-trooper.ts";
+    const assets = await loadStandardTrooper(),
+      old = await new GLTFLoader().loadAsync(
+        "/assets/characters/standard_trooper_v9.glb",
+      );
+    const env = new Map();
+    assets.character.scene.traverse((o) => {
+      if (o.isMesh && o.material.envMap)
+        env.set(o.material.name, o.material.envMap);
+    });
+    old.scene.traverse((o) => {
+      if (o.isMesh) {
+        for (const m of Array.isArray(o.material) ? o.material : [o.material])
+          if (env.has(m.name)) {
+            m.envMap = env.get(m.name);
+            m.envMapIntensity = m.name === "Visor" ? 1.1 : 0.35;
+          }
+      }
+    });
+    const panels = [];
+    for (const [id, character] of [
+      ["before", old],
+      ["after", assets.character],
+    ]) {
+      const host = document.getElementById(id),
+        scene = new T.Scene();
+      scene.background = new T.Color("#293338");
+      const renderer = new T.WebGLRenderer({
+        antialias: true,
+        preserveDrawingBuffer: true,
+      });
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+      renderer.toneMapping = T.ACESFilmicToneMapping;
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = T.PCFSoftShadowMap;
+      host.append(renderer.domElement);
+      const camera = new T.PerspectiveCamera(33, 1, 0.01, 50),
+        model = new StandardTrooper({ ...assets, character });
+      scene.add(model.model);
+      scene.add(new T.HemisphereLight(0xe7f2ff, 0x414945, 1.6));
+      const sun = new T.DirectionalLight(0xfff2df, 2.7);
+      sun.position.set(-3, 5, -4);
+      sun.castShadow = true;
+      sun.shadow.mapSize.set(1024, 1024);
+      Object.assign(sun.shadow.camera, {
+        left: -2,
+        right: 2,
+        top: 3,
+        bottom: -1,
+        near: 0.1,
+        far: 12,
+      });
+      sun.shadow.bias = -0.0001;
+      scene.add(sun);
+      const fill = new T.DirectionalLight(0xc0d8e6, 1.3);
+      fill.position.set(3, 3, 2);
+      scene.add(fill);
+      const floor = new T.Mesh(
+        new T.PlaneGeometry(100, 100),
+        new T.MeshStandardMaterial({ color: 0x343e40, roughness: 1 }),
+      );
+      floor.rotation.x = -Math.PI / 2;
+      floor.position.y = -0.003;
+      floor.receiveShadow = true;
+      scene.add(floor);
+      panels.push({ host, scene, renderer, camera, model });
+    }
+    let time = 0,
+      playing = true,
+      kind = "rifle",
+      pose = "idle",
+      view = "oblique";
+    function size() {
+      for (const p of panels) {
+        const { width, height } = p.host.getBoundingClientRect();
+        p.renderer.setSize(width, height);
+        p.camera.aspect = width / height;
+        p.camera.updateProjectionMatrix();
+      }
+    }
+    addEventListener("resize", size);
+    size();
+    function draw() {
+      for (const p of panels) {
+        const t = p.model,
+          profile = { rifle: "Rifle", shotgun: "Shotgun", rocket: "Rocket" }[
+            kind
+          ],
+          lower = kind === "rocket" ? "Lower_Weapon_Idle_Rocket" : "Lower_Idle";
+        t.equip(
+          [
+            { id: "main-" + kind, kind },
+            { id: "secondary", kind: "rifle" },
+          ],
+          0,
+        );
+        if (pose === "switch") {
+          const seconds = time % 0.75;
+          t.sampleSwitch(0, Math.min(seconds, 0.5));
+          t.sample(
+            "Upper_Switch_1_to_2",
+            Math.min(seconds / 0.5, 1) * t.clips.get("Switch_1_to_2").duration,
+            lower,
+            0,
+          );
+        } else {
+          t.attachRest(0);
+          const clip =
+            pose === "idle"
+              ? (t.combat && kind !== "rocket" ? "Low_Ready_" : "Weapon_Idle_") + profile
+              : pose === "aim"
+                ? (t.combat && kind !== "rocket" ? "Aim_Raise_" : "Weapon_Idle_") + profile
+              : pose === "walk"
+                ? "Upper_" + (t.combat ? "Walk" : "Run") + (kind === "rocket" ? "_Rocket" : "")
+              : pose === "run"
+                ? "Upper_Run" + (kind === "rocket" ? "_Rocket" : "")
+                : pose === "fire"
+                  ? "Upper_Fire_" + profile
+                  : pose === "reload"
+                    ? "Upper_Reload_" + profile
+                    : pose === "roll"
+                      ? "Dodge_Roll"
+                      : "Hit_Heavy";
+          t.sample(
+            clip,
+            pose === "aim" ? Math.min(time, t.clips.get(clip).duration) : time % t.clips.get(clip).duration,
+            ["walk", "run", "fire", "reload"].includes(pose)
+              ? ["walk", "run"].includes(pose)
+                ? (pose === "walk" && t.combat ? "Lower_Walk" : "Lower_Run")
+                : lower
+              : undefined,
+            ["walk", "run"].includes(pose)
+              ? time % t.clips.get(pose === "walk" && t.combat ? "Lower_Walk" : "Lower_Run").duration
+              : time % 3,
+          );
+        }
+        const camera = {
+          front: [0, 1.3, -4.1],
+          back: [0, 1.3, 4.1],
+          side: [4.1, 1.3, 0],
+          oblique: [2.5, 1.8, -3.9],
+          far: [1.5, 3.6, 12.5],
+        }[view];
+        p.camera.position.set(...camera);
+        p.camera.lookAt(0, 0.99, 0);
+        p.renderer.render(p.scene, p.camera);
+      }
+      document.getElementById("status").textContent =
+        `${kind.toUpperCase()} · ${document.getElementById("pose").selectedOptions[0].text} / 同じカメラ・照明で比較`;
+    }
+    for (const id of ["kind", "pose", "view"])
+      document.getElementById(id).onchange = (e) => {
+        if (id === "kind") kind = e.target.value;
+        if (id === "pose") pose = e.target.value;
+        if (id === "view") view = e.target.value;
+        time = 0;
+        draw();
+      };
+    document.getElementById("play").onclick = () => {
+      playing = !playing;
+      document.getElementById("play").textContent = playing
+        ? "一時停止"
+        : "再生";
+    };
+    window.designReview = {
+      panels,
+      set: (values) => {
+        ({ kind = kind, pose = pose, view = view, time = 0 } = values);
+        playing = false;
+        for (const id of ["kind", "pose", "view"])
+          document.getElementById(id).value = { kind, pose, view }[id];
+        size();
+        draw();
+      },
+      play: () => (playing = true),
+    };
+    let last = performance.now();
+    function frame(now) {
+      if (playing) time += Math.min(0.05, (now - last) / 1000);
+      last = now;
+      draw();
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+    window.ready = true;
+  </script>
+</html>

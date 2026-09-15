@@ -5,6 +5,15 @@ export class Controls {
   input = { ...neutral(), cameraAim: true };
   enabled = false;
   scoped = false;
+  private mouseAim = false;
+  /** Visual readiness follows the existing aim gesture; never serialized. */
+  get aiming() {
+    return (
+      this.enabled &&
+      (this.mouseAim ||
+        [...this.touches.values()].some((t) => t.role === "look"))
+    );
+  }
   scopeAvailable = false;
   sensitivity = 1;
   fireSensitivity = 1;
@@ -34,6 +43,7 @@ export class Controls {
         seq: this.input.seq,
       };
       this.scoped = false;
+      this.mouseAim = false;
       el("move").querySelector("span")!.setAttribute("style", "");
     };
     window.addEventListener("blur", reset);
@@ -119,11 +129,16 @@ export class Controls {
         e.target === el("look")
       ) {
         this.input.fire = e.button === 0;
+        if (e.button === 2) this.mouseAim = true;
         if (e.button === 0) (e.target as HTMLElement).requestPointerLock?.();
       }
     });
     window.addEventListener("pointerup", (e) => {
       if (e.pointerType === "mouse") this.input.fire = false;
+      if (e.pointerType === "mouse" && e.button === 2) this.mouseAim = false;
+    });
+    window.addEventListener("pointercancel", () => {
+      this.mouseAim = false;
     });
     window.addEventListener("pointermove", (e) => {
       if (

@@ -123,12 +123,21 @@ export function poseSoldier(
   time: number,
   run: string,
   dt = 0,
+  visualAim = false,
 ) {
   const data = m.userData;
   if (data.trooper) {
     m.rotation.set(0, -yaw, 0);
     // Preserve the interpolated feet altitude.
-    (data.trooper as StandardTrooper).update(p, yaw, time, run, dt, m.position);
+    (data.trooper as StandardTrooper).update(
+      p,
+      yaw,
+      time,
+      run,
+      dt,
+      m.position,
+      visualAim,
+    );
     return;
   }
   const pivot = data.pivot as T.Group;
@@ -794,6 +803,7 @@ export class Renderer {
     predict?: { x: number; z: number; y?: number },
     animate = true,
     scoped = false,
+    readyAim = false,
   ) {
     const local = w?.players.find((p) => p.id === id);
     const localAim = w && local ? cameraShot(w, local, { yaw, pitch }) : null;
@@ -894,6 +904,7 @@ export class Renderer {
           w.time,
           w.run,
           animate ? dt : 0,
+          p.id === id && (scoped || readyAim),
         );
         m.visible = !(scoped && p.id === id);
         const gun = m.userData.gun as T.Group;

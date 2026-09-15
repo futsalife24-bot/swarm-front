@@ -1,0 +1,90 @@
+[
+  {
+    "base": "http://127.0.0.1:5314",
+    "width": 844,
+    "height": 390,
+    "ammo": "6 / 7",
+    "state": {
+      "trooper": {
+        "loaded": true,
+        "bones": 57
+      },
+      "player": {
+        "id": "solo",
+        "x": 0.05000000000000021,
+        "z": 34,
+        "yaw": 0.006382454868267773,
+        "pitch": 0.011325003078288248,
+        "hp": 160,
+        "down": 0,
+        "revive": 0,
+        "weapons": [
+          {
+            "id": "v2-starter-rifle",
+            "kind": "rifle",
+            "rarity": 0,
+            "power": 1,
+            "effect": "none",
+            "format": 2,
+            "variance": {
+              "power": 0,
+              "reload": 0,
+              "range": 0,
+              "rate": 0
+            },
+            "testData": false,
+            "acquired": 0
+          },
+          {
+            "id": "v2-starter-shotgun",
+            "kind": "shotgun",
+            "rarity": 0,
+            "power": 1,
+            "effect": "none",
+            "format": 2,
+            "variance": {
+              "power": 0,
+              "reload": 0,
+              "range": 0,
+              "rate": 0
+            },
+            "testData": false,
+            "acquired": 1
+          }
+        ],
+        "slot": 1,
+        "ammo": [
+          30,
+          6
+        ],
+        "reload": 0,
+        "cool": 0.2499999999999999,
+        "evade": 0,
+        "evadeCd": 0,
+        "swapCd": 0,
+        "kills": 0,
+        "connected": true,
+        "ack": 107,
+        "hurt": 0,
+        "safe": 5.349999999999989,
+        "y": 0,
+        "heavyHit": 0,
+        "reloadSlots": [
+          0,
+          0
+        ],
+        "swapDuration": 1,
+        "swapResume": 0
+      }
+    },
+    "errors": []
+  },
+  {
+    "base": "http://127.0.0.1:5367",
+    "width": 1280,
+    "height": 720,
+    "ammo": "6 / 7",
+    "state": null,
+    "errors": []
+  }
+]
