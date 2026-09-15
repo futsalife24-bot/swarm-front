@@ -1,0 +1,539 @@
+{
+  "results": {
+    "loops": [
+      {
+        "name": "Walk",
+        "position": 0,
+        "rotation": 0.0006874368165374631
+      },
+      {
+        "name": "Run",
+        "position": 0,
+        "rotation": 0.0006874368165374631
+      },
+      {
+        "name": "Walk_Rocket",
+        "position": 0,
+        "rotation": 0.0006233086771573875
+      },
+      {
+        "name": "Run_Rocket",
+        "position": 0,
+        "rotation": 0.0006233086771573875
+      }
+    ],
+    "runs": [
+      {
+        "kind": "rifle",
+        "legacy": true,
+        "maxGripError": 5.432386526432272e-7,
+        "maxFootLockError": 0,
+        "maxFrameFootStep": 0.1436175227073612,
+        "maxLengthChange": 0.000008086753136626879,
+        "finite": true,
+        "modes": [
+          {
+            "label": "idle",
+            "mode": "normal_Rifle_idle",
+            "lower": "Lower_Idle"
+          },
+          {
+            "label": "walk",
+            "mode": "normal_Rifle_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "run",
+            "mode": "normal_Rifle_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "walk",
+            "mode": "normal_Rifle_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "walk-aim",
+            "mode": "normal_Rifle_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "aim-walk",
+            "mode": "normal_Rifle_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "idle",
+            "mode": "normal_Rifle_idle",
+            "lower": "Lower_Idle"
+          },
+          {
+            "label": "aim",
+            "mode": "normal_Rifle_idle",
+            "lower": "Lower_Idle"
+          },
+          {
+            "label": "idle",
+            "mode": "normal_Rifle_idle",
+            "lower": "Lower_Idle"
+          },
+          {
+            "label": "run",
+            "mode": "normal_Rifle_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "idle",
+            "mode": "normal_Rifle_idle",
+            "lower": "Lower_Idle"
+          }
+        ],
+        "minBottom": 0.0006206583564810908,
+        "attachments": [
+          [
+            "BackWeaponSocket",
+            "RightHandWeaponSocket"
+          ],
+          [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          [
+            "BackWeaponSocket",
+            "RightHandWeaponSocket"
+          ],
+          [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ]
+        ]
+      },
+      {
+        "kind": "rifle",
+        "legacy": false,
+        "maxGripError": 0.000017373978984970938,
+        "maxFootLockError": 1.5622121213432755e-7,
+        "maxFrameFootStep": 0.16137913526450445,
+        "maxLengthChange": 9.148588081542286e-8,
+        "finite": true,
+        "modes": [
+          {
+            "label": "idle",
+            "mode": "normal_Rifle_idle_ready",
+            "lower": "Lower_Idle"
+          },
+          {
+            "label": "walk",
+            "mode": "normal_Rifle_Walk_ready",
+            "lower": "Lower_Walk"
+          },
+          {
+            "label": "run",
+            "mode": "normal_Rifle_Run_ready",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "walk",
+            "mode": "normal_Rifle_Walk_ready",
+            "lower": "Lower_Walk"
+          },
+          {
+            "label": "walk-aim",
+            "mode": "normal_Rifle_Walk_aim",
+            "lower": "Lower_Walk"
+          },
+          {
+            "label": "aim-walk",
+            "mode": "normal_Rifle_Walk_ready",
+            "lower": "Lower_Walk"
+          },
+          {
+            "label": "idle",
+            "mode": "normal_Rifle_idle_ready",
+            "lower": "Lower_Idle"
+          },
+          {
+            "label": "aim",
+            "mode": "normal_Rifle_idle_aim",
+            "lower": "Lower_Idle"
+          },
+          {
+            "label": "idle",
+            "mode": "normal_Rifle_idle_ready",
+            "lower": "Lower_Idle"
+          },
+          {
+            "label": "run",
+            "mode": "normal_Rifle_Run_ready",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "idle",
+            "mode": "normal_Rifle_idle_ready",
+            "lower": "Lower_Idle"
+          }
+        ],
+        "minBottom": 0.001999432794812378,
+        "attachments": [
+          [
+            "BackWeaponSocket",
+            "RightHandWeaponSocket"
+          ],
+          [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          [
+            "BackWeaponSocket",
+            "RightHandWeaponSocket"
+          ],
+          [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ]
+        ]
+      },
+      {
+        "kind": "shotgun",
+        "legacy": true,
+        "maxGripError": 5.432386526432272e-7,
+        "maxFootLockError": 0,
+        "maxFrameFootStep": 0.1436175227073612,
+        "maxLengthChange": 0.000008086753136626879,
+        "finite": true,
+        "modes": [
+          {
+            "label": "idle",
+            "mode": "normal_Shotgun_idle",
+            "lower": "Lower_Idle"
+          },
+          {
+            "label": "walk",
+            "mode": "normal_Shotgun_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "run",
+            "mode": "normal_Shotgun_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "walk",
+            "mode": "normal_Shotgun_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "walk-aim",
+            "mode": "normal_Shotgun_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "aim-walk",
+            "mode": "normal_Shotgun_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "idle",
+            "mode": "normal_Shotgun_idle",
+            "lower": "Lower_Idle"
+          },
+          {
+            "label": "aim",
+            "mode": "normal_Shotgun_idle",
+            "lower": "Lower_Idle"
+          },
+          {
+            "label": "idle",
+            "mode": "normal_Shotgun_idle",
+            "lower": "Lower_Idle"
+          },
+          {
+            "label": "run",
+            "mode": "normal_Shotgun_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "idle",
+            "mode": "normal_Shotgun_idle",
+            "lower": "Lower_Idle"
+          }
+        ],
+        "minBottom": 0.0006206583564810908,
+        "attachments": [
+          [
+            "BackWeaponSocket",
+            "RightHandWeaponSocket"
+          ],
+          [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          [
+            "BackWeaponSocket",
+            "RightHandWeaponSocket"
+          ],
+          [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ]
+        ]
+      },
+      {
+        "kind": "shotgun",
+        "legacy": false,
+        "maxGripError": 0.000017373978984970938,
+        "maxFootLockError": 1.5622121213432755e-7,
+        "maxFrameFootStep": 0.16137913526450445,
+        "maxLengthChange": 9.148588081542286e-8,
+        "finite": true,
+        "modes": [
+          {
+            "label": "idle",
+            "mode": "normal_Shotgun_idle_ready",
+            "lower": "Lower_Idle"
+          },
+          {
+            "label": "walk",
+            "mode": "normal_Shotgun_Walk_ready",
+            "lower": "Lower_Walk"
+          },
+          {
+            "label": "run",
+            "mode": "normal_Shotgun_Run_ready",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "walk",
+            "mode": "normal_Shotgun_Walk_ready",
+            "lower": "Lower_Walk"
+          },
+          {
+            "label": "walk-aim",
+            "mode": "normal_Shotgun_Walk_aim",
+            "lower": "Lower_Walk"
+          },
+          {
+            "label": "aim-walk",
+            "mode": "normal_Shotgun_Walk_ready",
+            "lower": "Lower_Walk"
+          },
+          {
+            "label": "idle",
+            "mode": "normal_Shotgun_idle_ready",
+            "lower": "Lower_Idle"
+          },
+          {
+            "label": "aim",
+            "mode": "normal_Shotgun_idle_aim",
+            "lower": "Lower_Idle"
+          },
+          {
+            "label": "idle",
+            "mode": "normal_Shotgun_idle_ready",
+            "lower": "Lower_Idle"
+          },
+          {
+            "label": "run",
+            "mode": "normal_Shotgun_Run_ready",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "idle",
+            "mode": "normal_Shotgun_idle_ready",
+            "lower": "Lower_Idle"
+          }
+        ],
+        "minBottom": 0.001999432794812378,
+        "attachments": [
+          [
+            "BackWeaponSocket",
+            "RightHandWeaponSocket"
+          ],
+          [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          [
+            "BackWeaponSocket",
+            "RightHandWeaponSocket"
+          ],
+          [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ]
+        ]
+      },
+      {
+        "kind": "rocket",
+        "legacy": true,
+        "maxGripError": 3.043576498780836e-7,
+        "maxFootLockError": 0,
+        "maxFrameFootStep": 0.14654077849383648,
+        "maxLengthChange": 0.000008043131638324486,
+        "finite": true,
+        "modes": [
+          {
+            "label": "idle",
+            "mode": "normal_Rocket_idle",
+            "lower": "Lower_Weapon_Idle_Rocket"
+          },
+          {
+            "label": "walk",
+            "mode": "normal_Rocket_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "run",
+            "mode": "normal_Rocket_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "walk",
+            "mode": "normal_Rocket_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "walk-aim",
+            "mode": "normal_Rocket_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "aim-walk",
+            "mode": "normal_Rocket_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "idle",
+            "mode": "normal_Rocket_idle",
+            "lower": "Lower_Weapon_Idle_Rocket"
+          },
+          {
+            "label": "aim",
+            "mode": "normal_Rocket_idle",
+            "lower": "Lower_Weapon_Idle_Rocket"
+          },
+          {
+            "label": "idle",
+            "mode": "normal_Rocket_idle",
+            "lower": "Lower_Weapon_Idle_Rocket"
+          },
+          {
+            "label": "run",
+            "mode": "normal_Rocket_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "idle",
+            "mode": "normal_Rocket_idle",
+            "lower": "Lower_Weapon_Idle_Rocket"
+          }
+        ],
+        "minBottom": 0.0006206583564810908,
+        "attachments": [
+          [
+            "BackWeaponSocket",
+            "RightHandWeaponSocket"
+          ],
+          [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          [
+            "BackWeaponSocket",
+            "RightHandWeaponSocket"
+          ],
+          [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ]
+        ]
+      },
+      {
+        "kind": "rocket",
+        "legacy": false,
+        "maxGripError": 5.465141760344787e-8,
+        "maxFootLockError": 1.5622121213432755e-7,
+        "maxFrameFootStep": 0.16503834118556562,
+        "maxLengthChange": 1.376244835316065e-7,
+        "finite": true,
+        "modes": [
+          {
+            "label": "idle",
+            "mode": "normal_Rocket_idle",
+            "lower": "Lower_Weapon_Idle_Rocket"
+          },
+          {
+            "label": "walk",
+            "mode": "normal_Rocket_Walk",
+            "lower": "Lower_Walk"
+          },
+          {
+            "label": "run",
+            "mode": "normal_Rocket_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "walk",
+            "mode": "normal_Rocket_Walk",
+            "lower": "Lower_Walk"
+          },
+          {
+            "label": "walk-aim",
+            "mode": "normal_Rocket_Walk",
+            "lower": "Lower_Walk"
+          },
+          {
+            "label": "aim-walk",
+            "mode": "normal_Rocket_Walk",
+            "lower": "Lower_Walk"
+          },
+          {
+            "label": "idle",
+            "mode": "normal_Rocket_idle",
+            "lower": "Lower_Weapon_Idle_Rocket"
+          },
+          {
+            "label": "aim",
+            "mode": "normal_Rocket_idle",
+            "lower": "Lower_Weapon_Idle_Rocket"
+          },
+          {
+            "label": "idle",
+            "mode": "normal_Rocket_idle",
+            "lower": "Lower_Weapon_Idle_Rocket"
+          },
+          {
+            "label": "run",
+            "mode": "normal_Rocket_Run",
+            "lower": "Lower_Run"
+          },
+          {
+            "label": "idle",
+            "mode": "normal_Rocket_idle",
+            "lower": "Lower_Weapon_Idle_Rocket"
+          }
+        ],
+        "minBottom": 0.001999680489198241,
+        "attachments": [
+          [
+            "BackWeaponSocket",
+            "RightHandWeaponSocket"
+          ],
+          [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          [
+            "BackWeaponSocket",
+            "RightHandWeaponSocket"
+          ],
+          [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ]
+        ]
+      }
+    ]
+  },
+  "errors": []
+}

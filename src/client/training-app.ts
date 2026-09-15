@@ -136,6 +136,21 @@ function frame(now: number) {
     undefined,
     active,
     controls.scoped,
+    controls.aiming,
   );
 }
 requestAnimationFrame(frame);
+if (import.meta.env.DEV)
+  Object.defineProperty(window, "__training", {
+    get: () => {
+      const trooper = view.players.get("training")?.userData.trooper;
+      return {
+        player: structuredClone(world.players[0]),
+        aiming: controls.aiming,
+        mode: trooper?.mode,
+        lower: trooper?.lowerMode,
+        aimProgress: trooper?.aimProgress,
+        loaded: !!trooper,
+      };
+    },
+  });

@@ -1,0 +1,14 @@
+{
+  "public/assets/characters/standard_trooper_v10.glb": {
+    "sha256": "60a9e694a19c510c7c8f6b4007600fd8e283a699c422dd143b3a860b3cfb0ec4",
+    "bytes": 9092432
+  },
+  "assets/blender/source/standard_trooper_v10.blend": {
+    "sha256": "25f3810900c2d53590b0b036784bedfed020b762cebfe6fe5c5bfb8ddbd797c3",
+    "bytes": 7941850
+  },
+  "docs/evidence/trooper-kling-v10/trooper-before-after.mp4": {
+    "sha256": "d090276a4bae94c695c96e6681778ec3b06152cd9250685bd1322381fb5c5ceb",
+    "bytes": 1206051
+  }
+}

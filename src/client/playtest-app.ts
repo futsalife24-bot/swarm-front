@@ -850,6 +850,7 @@ function frame(now: number) {
       undefined,
       active && (screen === "battle" || screen === "collection"),
       controls.scoped,
+      controls.aiming,
     );
   // A new spawn must exist in the scene before the camera freezes for its introduction.
   if (active && screen === "battle" && !encounterActive) encounter();

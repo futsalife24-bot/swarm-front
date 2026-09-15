@@ -1,0 +1,65 @@
+{
+  "source": "public/assets/characters/standard_trooper_v9.glb",
+  "sourceSha256": "58c9b3902de4eba2413523f598f7bf5efbda7589a0ff9d4bd6d12095307f79ba",
+  "fps": 60,
+  "specs": {
+    "Walk": {
+      "stride": 1.3,
+      "stance": 0.6,
+      "duration": 1,
+      "lift": 0.105,
+      "width": 0.36
+    },
+    "Run": {
+      "stride": 3.6,
+      "stance": 0.22,
+      "duration": 0.64,
+      "lift": 0.12,
+      "width": 0.36
+    }
+  },
+  "clips": [
+    {
+      "name": "Combat_Walk",
+      "duration": 1,
+      "frames": 61
+    },
+    {
+      "name": "Combat_Walk_Rocket",
+      "duration": 1,
+      "frames": 61
+    },
+    {
+      "name": "Combat_Run",
+      "duration": 0.64,
+      "frames": 39
+    },
+    {
+      "name": "Combat_Run_Rocket",
+      "duration": 0.64,
+      "frames": 39
+    },
+    {
+      "name": "Low_Ready_Rifle",
+      "duration": 3,
+      "frames": 181
+    },
+    {
+      "name": "Aim_Raise_Rifle",
+      "duration": 0.55,
+      "frames": 34
+    },
+    {
+      "name": "Low_Ready_Shotgun",
+      "duration": 3,
+      "frames": 181
+    },
+    {
+      "name": "Aim_Raise_Shotgun",
+      "duration": 0.55,
+      "frames": 34
+    }
+  ],
+  "maxIKClamp": 0,
+  "targetSha256": "60a9e694a19c510c7c8f6b4007600fd8e283a699c422dd143b3a860b3cfb0ec4"
+}

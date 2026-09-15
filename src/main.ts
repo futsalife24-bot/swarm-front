@@ -1707,6 +1707,7 @@ function updateFrame(now: number) {
     mode === "coop" ? predicted : undefined,
     screen === "battle" && !(paused && mode === "solo"),
     controls.scoped,
+    controls.aiming,
   );
   if (screen === "battle" && world)
     minimap.draw(world, myId, controls.input.yaw, now);

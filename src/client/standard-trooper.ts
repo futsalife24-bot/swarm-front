@@ -135,7 +135,7 @@ export function loadStandardTrooper() {
     const loader = new GLTFLoader(),
       base = `${import.meta.env.BASE_URL}assets/characters/`;
     const [character, rifle, shotgun, rocket] = await Promise.all([
-      loader.loadAsync(`${base}standard_trooper_v9.glb`),
+      loader.loadAsync(`${base}standard_trooper_v10.glb`),
       ...(["rifle", "shotgun", "rocket"] as const).map((k) =>
         loader.loadAsync(
           `${import.meta.env.BASE_URL}assets/weapons/realism-v2/${k}_0.glb`,
@@ -265,6 +265,10 @@ export class StandardTrooper {
   private selectedSlot = 0;
   private locomotion = 0;
   private runStride = TROOPER_RUN_STRIDE;
+  private walking = false;
+  private aimProgress = 0;
+  private readonly combat: boolean;
+  private contactLocks: { key: string; point: T.Vector3 }[] = [];
   private moveYaw = 0;
   private stopYaw = 0;
   private stopTurnTime = 0.18;
@@ -294,14 +298,24 @@ export class StandardTrooper {
     this.model = clone(assets.character.scene) as T.Group;
     this.model.name = "StandardTrooper_Player";
     this.mixer = new T.AnimationMixer(this.model);
+    this.combat = this.model.userData.trooperMotionVersion === 10;
     for (const authored of assets.character.animations) {
       const clip = authored.clone();
       clip.name = clip.name.replace(/^Trial_/, "");
       this.clips.set(clip.name, clip);
     }
+    if (this.combat) {
+      for (const name of ["Walk", "Run", "Walk_Rocket", "Run_Rocket"]) {
+        const clip = this.clips.get(`Combat_${name}`)!.clone();
+        clip.name = name;
+        this.clips.set(name, clip);
+      }
+      this.runStride = 3.6;
+    }
     const lower = /^(Root|Pelvis|UpperLeg_|LowerLeg_|Foot_|Toe_)/;
     for (const name of [
       "Idle",
+      ...(this.combat ? ["Walk"] : []),
       "Run",
       "Run_Backward",
       "Weapon_Idle_Rocket",
@@ -320,6 +334,9 @@ export class StandardTrooper {
     for (const [name, clip] of [...this.clips]) {
       if (
         name.startsWith("Run") ||
+        name.startsWith("Walk") ||
+        name.startsWith("Low_Ready_") ||
+        name.startsWith("Aim_Raise_") ||
         name.startsWith("Fire_") ||
         name.startsWith("Weapon_Idle_") ||
         name.startsWith("Switch_") ||
@@ -398,7 +415,7 @@ export class StandardTrooper {
     const adopted = this.clips.get("UAL_sprint");
     const runMotion =
       assets.runTrial ??
-      (adopted
+      (adopted && !this.combat
         ? {
             clip: adopted,
             stride: TROOPER_SPRINT_STRIDE,
@@ -482,6 +499,47 @@ export class StandardTrooper {
       );
       foot.updateWorldMatrix(false, true);
     }
+  }
+  /** World-space support during flat/heel/toe contact. Transition IK owns blends. */
+  private lockContacts(phase: number, walking: boolean, enabled: boolean) {
+    if (!enabled) {
+      this.contactLocks = [];
+      return;
+    }
+    const stance = walking ? 0.6 : 0.22;
+    const targets = this.feet.map((leg, i) => {
+      const q = (phase + (i === 0 ? 0.5 : 0)) % 1;
+      const p = leg.foot.getWorldPosition(new T.Vector3());
+      const rotation = leg.foot.getWorldQuaternion(new T.Quaternion());
+      if (q > stance) {
+        this.contactLocks[i] = { key: "swing", point: p.clone() };
+        return { p, q: rotation };
+      }
+      const key = `${walking}_${q < 0.075 ? "heel" : q > stance - 0.1 ? "toe" : "flat"}`;
+      // The lowest authored sole point is the rolling contact, not the ankle.
+      let offset = new T.Vector3(),
+        bottom = Infinity;
+      for (const point of leg.sole) {
+        const v = point.clone().applyQuaternion(rotation);
+        if (v.y < bottom) {
+          bottom = v.y;
+          offset = v;
+        }
+      }
+      const contact = p.clone().add(offset),
+        previous = this.contactLocks[i];
+      if (
+        !previous ||
+        previous.key !== key ||
+        previous.point.distanceTo(contact) > 0.18
+      )
+        this.contactLocks[i] = { key, point: contact.clone() };
+      const anchor = this.contactLocks[i].point;
+      p.x += anchor.x - contact.x;
+      p.z += anchor.z - contact.z;
+      return { p, q: rotation };
+    });
+    this.settleFeet(1, targets);
   }
   /** Cosmetic-only, per-player material instances. Textures and geometry stay shared. */
   setSkin(skin: TrooperSkin) {
@@ -616,6 +674,7 @@ export class StandardTrooper {
     run: string,
     dt: number,
     motion: { x: number; z: number } = p,
+    visualAim = false,
   ) {
     dt = Math.max(0, Math.min(0.1, dt));
     this.equip(p.weapons, p.slot);
@@ -661,16 +720,33 @@ export class StandardTrooper {
       this.stopYaw = 0;
       this.stopTurnTime = 0.18;
       this.locomotion = 0;
+      this.walking = false;
+      this.aimProgress = 0;
     }
+    if (this.combat && moving) {
+      const speed = distance / dt;
+      this.walking = this.walking ? speed < 3.0 : speed < 2.6;
+    }
+    const runClip = backward
+      ? "Run_Backward"
+      : this.combat && this.walking
+        ? "Walk"
+        : "Run";
     // Backpedal has its own forward-playing landing and push-off sequence.
     const runDuration = this.clips.get("Run")!.duration;
     if (moving && p.evade <= 0)
       this.locomotion =
         (this.locomotion +
-          (distance / (backward ? TROOPER_RUN_STRIDE : this.runStride)) *
+          (distance /
+            (backward
+              ? TROOPER_RUN_STRIDE
+              : runClip === "Walk"
+                ? 1.3
+                : this.runStride)) *
             runDuration) %
         runDuration;
-    const runClip = backward ? "Run_Backward" : "Run";
+    const locomotionTime =
+      (this.locomotion / runDuration) * this.clips.get(runClip)!.duration;
     this.shotTime += dt;
     this.heavyTime += dt;
     if (!fresh && p.cool > prev.cool + 0.025) this.shotTime = 0;
@@ -708,6 +784,16 @@ export class StandardTrooper {
     } else if (rolling)
       this.rollTime = Math.max(this.rollTime + dt, EVADE_DURATION - p.evade);
     const profile = TROOPER_PROFILES[p.weapons[p.slot].kind];
+    // Scope remains the existing camera control. Recent shots keep the weapon
+    // shouldered; this visual state never changes firing, input or movement rules.
+    if (this.combat) {
+      const wantsAim = visualAim || this.shotTime < 0.9;
+      this.aimProgress = T.MathUtils.clamp(
+        this.aimProgress + dt * (wantsAim ? 1 / 0.55 : -1 / 0.4),
+        0,
+        1,
+      );
+    }
     let mode = "",
       clip = "",
       at = 0,
@@ -758,7 +844,21 @@ export class StandardTrooper {
       clip = moving
         ? `Upper_${runClip}${profile === "Rocket" ? "_Rocket" : ""}`
         : `Upper_${firing ? "Fire_" : "Weapon_Idle_"}${profile}`;
-      at = moving ? this.locomotion : firing ? this.shotTime : time % 3;
+      at = moving ? locomotionTime : firing ? this.shotTime : time % 3;
+      if (this.combat && profile !== "Rocket") {
+        if (firing) {
+          clip = `Upper_Fire_${profile}`;
+          at = this.shotTime;
+          this.aimProgress = 1;
+        } else if (this.aimProgress > 0) {
+          clip = `Upper_Aim_Raise_${profile}`;
+          at = this.aimProgress * this.clips.get(clip)!.duration;
+        } else if (!moving) {
+          clip = `Upper_Low_Ready_${profile}`;
+          at = time % 3;
+        }
+        mode += `_${firing ? "fire" : this.aimProgress > 0 ? "aim" : "ready"}`;
+      }
       lower = `Lower_${moving ? runClip : profile === "Rocket" ? "Weapon_Idle_Rocket" : "Idle"}`;
     }
     const snapshot = () =>
@@ -769,7 +869,7 @@ export class StandardTrooper {
       }));
     const lowerMode = lower ?? mode;
     if (lowerMode !== this.lowerMode) {
-      const ground = /^Lower_(Run.*|Idle|Weapon_Idle_Rocket)$/;
+      const ground = /^Lower_(Run.*|Walk|Idle|Weapon_Idle_Rocket)$/;
       this.plantTransition =
         ground.test(this.lowerMode) && ground.test(lowerMode);
       this.lowerPreviousPose = snapshot();
@@ -778,9 +878,9 @@ export class StandardTrooper {
         leg.fromQ.copy(leg.lastQ);
       }
       this.lowerBlend = this.lowerMode && mode !== "roll" ? 0 : 1;
-      this.lowerBlendDuration = lower?.startsWith("Lower_Run")
+      this.lowerBlendDuration = /^Lower_(Run|Walk)/.test(lower ?? "")
         ? 0.1
-        : this.lowerMode.startsWith("Lower_Run") && lower?.includes("Idle")
+        : /^Lower_(Run|Walk)/.test(this.lowerMode) && lower?.includes("Idle")
           ? 0.18
           : 0.08;
       this.lowerMode = lowerMode;
@@ -796,12 +896,21 @@ export class StandardTrooper {
       clip,
       at,
       lower,
-      lower?.startsWith("Lower_Run")
-        ? this.locomotion
+      /^Lower_(Run|Walk)/.test(lower ?? "")
+        ? locomotionTime
         : lower === "Lower_Hit_Heavy"
           ? this.heavyTime
           : time % 3,
     );
+    // Capture the two grip frames before joint interpolation. Interpolating
+    // elbows independently otherwise lets the support hand leave the weapon.
+    const supportFrame =
+      this.combat && mode.startsWith("normal_") && p.reload <= 0
+        ? this.hand.matrixWorld
+            .clone()
+            .invert()
+            .multiply(this.model.getObjectByName("Hand_L")!.matrixWorld)
+        : undefined;
     // Keep the target ankle transforms before joint blending changes them.
     const targetFeet = this.feet.map((leg) => ({
       p: leg.foot.getWorldPosition(new T.Vector3()),
@@ -884,6 +993,76 @@ export class StandardTrooper {
     }
     this.model.rotation.y = rolling ? yaw - this.rollYaw : 0;
     this.model.updateMatrixWorld(true);
+    this.lockContacts(
+      this.locomotion / runDuration,
+      runClip === "Walk",
+      this.combat &&
+        moving &&
+        !backward &&
+        !rolling &&
+        p.hp > 0 &&
+        heavy <= 0 &&
+        this.lowerBlend >= 1 &&
+        /^Lower_(Run|Walk)$/.test(lower ?? ""),
+    );
+    if (supportFrame) {
+      const hand = this.model.getObjectByName("Hand_L") as T.Bone;
+      const upper = this.model.getObjectByName("UpperArm_L") as T.Bone;
+      const elbow = this.model.getObjectByName("LowerArm_L") as T.Bone;
+      const targetMatrix = this.hand.matrixWorld.clone().multiply(supportFrame);
+      const target = new T.Vector3().setFromMatrixPosition(targetMatrix);
+      const a = upper.getWorldPosition(new T.Vector3());
+      const b = elbow.getWorldPosition(new T.Vector3());
+      const c = hand.getWorldPosition(new T.Vector3());
+      const l1 = a.distanceTo(b),
+        l2 = b.distanceTo(c),
+        axis = target.clone().sub(a);
+      const length = T.MathUtils.clamp(
+        axis.length(),
+        Math.abs(l1 - l2) + 1e-5,
+        l1 + l2 - 1e-5,
+      );
+      axis.normalize();
+      const pole = b
+        .clone()
+        .sub(a)
+        .addScaledVector(axis, -b.clone().sub(a).dot(axis))
+        .normalize();
+      const along = (l1 * l1 - l2 * l2 + length * length) / (2 * length);
+      const bend = a
+        .clone()
+        .addScaledVector(axis, along)
+        .addScaledVector(pole, Math.sqrt(Math.max(0, l1 * l1 - along * along)));
+      const turn = (bone: T.Bone, from: T.Vector3, to: T.Vector3) => {
+        const q = new T.Quaternion()
+          .setFromUnitVectors(from.normalize(), to.normalize())
+          .multiply(bone.getWorldQuaternion(new T.Quaternion()));
+        bone.quaternion.copy(
+          bone
+            .parent!.getWorldQuaternion(new T.Quaternion())
+            .invert()
+            .multiply(q),
+        );
+        bone.updateWorldMatrix(false, true);
+      };
+      turn(upper, b.sub(a), bend.sub(a));
+      turn(
+        elbow,
+        hand
+          .getWorldPosition(new T.Vector3())
+          .sub(elbow.getWorldPosition(new T.Vector3())),
+        target.clone().sub(elbow.getWorldPosition(new T.Vector3())),
+      );
+      // Rotation only: retain fixed bone lengths even for unreachable transients.
+      const worldQ = new T.Quaternion().setFromRotationMatrix(targetMatrix);
+      hand.quaternion.copy(
+        hand
+          .parent!.getWorldQuaternion(new T.Quaternion())
+          .invert()
+          .multiply(worldQ),
+      );
+      hand.updateWorldMatrix(false, true);
+    }
     if (this.switchTime < TROOPER_SWITCH.duration)
       this.weapons.forEach((o, i) =>
         this.attach(

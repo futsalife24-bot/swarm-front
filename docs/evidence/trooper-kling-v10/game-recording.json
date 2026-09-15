@@ -1,0 +1,2023 @@
+[
+  {
+    "version": "before",
+    "kind": "rifle",
+    "stages": [
+      {
+        "label": "idle",
+        "time": 0,
+        "stats": "ライフル　32 / 32　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 16,
+            "yaw": -0.011427333960315698,
+            "pitch": -0.020274401767502014,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 57,
+            "hurt": 0,
+            "safe": 2.849999999999998,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rifle_idle",
+          "lower": "Lower_Idle",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "A-walk",
+        "time": 1.466,
+        "stats": "ライフル　32 / 32　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 14.239848205566405,
+            "yaw": -0.011128773761011122,
+            "pitch": -0.019744857250996894,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 87,
+            "hurt": 0,
+            "safe": 4.3499999999999925,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rifle_Run",
+          "lower": "Lower_Run",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "B-run",
+        "time": 3.442,
+        "stats": "ライフル　32 / 32　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 5.965147949218727,
+            "yaw": -0.009459246397286103,
+            "pitch": -0.016783455184054382,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 119,
+            "hurt": 0,
+            "safe": 5.949999999999987,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rifle_Run",
+          "lower": "Lower_Run",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "C-AR-aim",
+        "time": 4.926,
+        "stats": "ライフル　32 / 32　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 4.915147949218728,
+            "yaw": -0.009209339145075025,
+            "pitch": -0.01634013970683908,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 148,
+            "hurt": 0,
+            "safe": 7.399999999999982,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": true,
+          "mode": "normal_Rifle_idle",
+          "lower": "Lower_Idle",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "C-AR-release",
+        "time": 5.611,
+        "stats": "ライフル　32 / 32　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 4.915147949218728,
+            "yaw": -0.009209339145075025,
+            "pitch": -0.01634013970683908,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 162,
+            "hurt": 0,
+            "safe": 8.09999999999998,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rifle_idle",
+          "lower": "Lower_Idle",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "SG-equipped",
+        "time": 6.519,
+        "stats": "ショットガン　7 / 7　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 4.915147949218728,
+            "yaw": 0.006382454868267789,
+            "pitch": 0.011325003078288248,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 1,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 181,
+            "hurt": 0,
+            "safe": 9.049999999999994,
+            "y": 0,
+            "heavyHit": 0,
+            "swapResume": 0
+          },
+          "aiming": false,
+          "mode": "normal_Shotgun_idle",
+          "lower": "Lower_Idle",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "C-SG-aim",
+        "time": 7.41,
+        "stats": "ショットガン　7 / 7　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 4.915147949218728,
+            "yaw": 0.006382454868267789,
+            "pitch": 0.011325003078288248,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 1,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 198,
+            "hurt": 0,
+            "safe": 9.900000000000006,
+            "y": 0,
+            "heavyHit": 0,
+            "swapResume": 0
+          },
+          "aiming": true,
+          "mode": "normal_Shotgun_idle",
+          "lower": "Lower_Idle",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "C-SG-release",
+        "time": 8.105,
+        "stats": "ショットガン　7 / 7　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 4.915147949218728,
+            "yaw": 0.006382454868267789,
+            "pitch": 0.011325003078288248,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 1,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 212,
+            "hurt": 0,
+            "safe": 10.600000000000016,
+            "y": 0,
+            "heavyHit": 0,
+            "swapResume": 0
+          },
+          "aiming": false,
+          "mode": "normal_Shotgun_idle",
+          "lower": "Lower_Idle",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "D-run-aim",
+        "time": 11.188,
+        "stats": "ライフル　32 / 32　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": -6.083253417968768,
+            "yaw": -0.005820732800392455,
+            "pitch": -0.010328371727696356,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 273,
+            "hurt": 0,
+            "safe": 13.650000000000059,
+            "y": 0,
+            "heavyHit": 0,
+            "swapResume": 0
+          },
+          "aiming": true,
+          "mode": "normal_Rifle_Run",
+          "lower": "Lower_Run",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "fire",
+        "time": 12.209,
+        "stats": "ライフル　31 / 32　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": -7.133253417968767,
+            "yaw": -0.005399448356718942,
+            "pitch": -0.009580895095525664,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              31,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 294,
+            "hurt": 0,
+            "safe": 14.700000000000074,
+            "y": 0,
+            "heavyHit": 0,
+            "swapResume": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rifle_idle",
+          "lower": "Lower_Idle",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "reload",
+        "time": 12.595,
+        "stats": "ライフル　31 / 32　装填中",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": -7.133253417968767,
+            "yaw": -0.005399448356718942,
+            "pitch": -0.009580895095525664,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              31,
+              7
+            ],
+            "reload": 1.3999999999999997,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 302,
+            "hurt": 0,
+            "safe": 15.10000000000008,
+            "y": 0,
+            "heavyHit": 0,
+            "swapResume": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rifle_reload_idle",
+          "lower": "Lower_Idle",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "mobile-distance",
+        "time": 35.662,
+        "stats": "配置を読み込み中…",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 0,
+            "z": 16,
+            "yaw": 0,
+            "pitch": 0,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 0,
+            "hurt": 0,
+            "safe": 0,
+            "y": 0
+          },
+          "aiming": false,
+          "loaded": false
+        }
+      }
+    ],
+    "errors": [],
+    "video": "before-rifle-game.webm"
+  },
+  {
+    "version": "before",
+    "kind": "rocket",
+    "stages": [
+      {
+        "label": "idle",
+        "time": 0,
+        "stats": "ロケット　2 / 2　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 16,
+            "yaw": -0.011427333960315698,
+            "pitch": -0.020274401767502014,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rocket",
+                "kind": "rocket",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              2,
+              32
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 58,
+            "hurt": 0,
+            "safe": 2.8999999999999977,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rocket_idle",
+          "lower": "Lower_Weapon_Idle_Rocket",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "A-walk",
+        "time": 1.478,
+        "stats": "ロケット　2 / 2　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 14.221123291015624,
+            "yaw": -0.011125505307131116,
+            "pitch": -0.01973906005088253,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rocket",
+                "kind": "rocket",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              2,
+              32
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 87,
+            "hurt": 0,
+            "safe": 4.3499999999999925,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rocket_Run",
+          "lower": "Lower_Run",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "E-run",
+        "time": 3.006,
+        "stats": "ロケット　2 / 2　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 7.421323120117163,
+            "yaw": -0.009789863860975448,
+            "pitch": -0.017369932339861144,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rocket",
+                "kind": "rocket",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              2,
+              32
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 117,
+            "hurt": 0,
+            "safe": 5.849999999999987,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rocket_Run",
+          "lower": "Lower_Run",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "fire",
+        "time": 4.088,
+        "stats": "ロケット　1 / 2　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 5.671323120117165,
+            "yaw": -0.009390318157947265,
+            "pitch": -0.01666118275549822,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rocket",
+                "kind": "rocket",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              1,
+              32
+            ],
+            "reload": 0,
+            "cool": 0.9499999999999997,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 139,
+            "hurt": 0,
+            "safe": 6.949999999999983,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rocket_idle",
+          "lower": "Lower_Weapon_Idle_Rocket",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "reload",
+        "time": 4.511,
+        "stats": "ロケット　1 / 2　装填中",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 5.671323120117165,
+            "yaw": -0.009390318157947265,
+            "pitch": -0.01666118275549822,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rocket",
+                "kind": "rocket",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              1,
+              32
+            ],
+            "reload": 2.450000000000001,
+            "cool": 0.4999999999999994,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 148,
+            "hurt": 0,
+            "safe": 7.399999999999982,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rocket_reload_idle",
+          "lower": "Lower_Weapon_Idle_Rocket",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "mobile-distance",
+        "time": 23.535,
+        "stats": "ロケット　2 / 2　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 5.671323120117165,
+            "yaw": -0.009390318157947265,
+            "pitch": -0.01666118275549822,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rocket",
+                "kind": "rocket",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              2,
+              32
+            ],
+            "reload": -0.0499999999999986,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 512,
+            "hurt": 0,
+            "safe": 25.60000000000023,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rocket_idle",
+          "lower": "Lower_Weapon_Idle_Rocket",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      }
+    ],
+    "errors": [],
+    "video": "before-rocket-game.webm"
+  },
+  {
+    "version": "after",
+    "kind": "rifle",
+    "stages": [
+      {
+        "label": "idle",
+        "time": 0,
+        "stats": "ライフル　32 / 32　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 16,
+            "yaw": -0.011427333960315698,
+            "pitch": -0.020274401767502014,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 67,
+            "hurt": 0,
+            "safe": 3.349999999999996,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rifle_idle_ready",
+          "lower": "Lower_Idle",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "A-walk",
+        "time": 1.907,
+        "stats": "ライフル　32 / 32　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 14.18367346191406,
+            "yaw": -0.01111896239690686,
+            "pitch": -0.019727454999566917,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 104,
+            "hurt": 0,
+            "safe": 5.1999999999999895,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rifle_Walk_ready",
+          "lower": "Lower_Walk",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "B-run",
+        "time": 3.939,
+        "stats": "ライフル　32 / 32　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 6.384272949218726,
+            "yaw": -0.009556255496708658,
+            "pitch": -0.016955539518579657,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 139,
+            "hurt": 0,
+            "safe": 6.949999999999983,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rifle_Run_ready",
+          "lower": "Lower_Run",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "C-AR-aim",
+        "time": 5.361,
+        "stats": "ライフル　32 / 32　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 5.684272949218727,
+            "yaw": -0.009393372250529098,
+            "pitch": -0.016666600450268434,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 168,
+            "hurt": 0,
+            "safe": 8.399999999999984,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": true,
+          "mode": "normal_Rifle_idle_aim",
+          "lower": "Lower_Idle",
+          "aimProgress": 1,
+          "loaded": true
+        }
+      },
+      {
+        "label": "C-AR-release",
+        "time": 6.186,
+        "stats": "ライフル　32 / 32　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 5.684272949218727,
+            "yaw": -0.009393372250529098,
+            "pitch": -0.016666600450268434,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 184,
+            "hurt": 0,
+            "safe": 9.199999999999996,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rifle_idle_ready",
+          "lower": "Lower_Idle",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "SG-equipped",
+        "time": 7.07,
+        "stats": "ショットガン　7 / 7　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 5.684272949218727,
+            "yaw": 0.006382454868267789,
+            "pitch": 0.011325003078288248,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 1,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 202,
+            "hurt": 0,
+            "safe": 10.100000000000009,
+            "y": 0,
+            "heavyHit": 0,
+            "swapResume": 0
+          },
+          "aiming": false,
+          "mode": "normal_Shotgun_idle_ready",
+          "lower": "Lower_Idle",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "C-SG-aim",
+        "time": 7.985,
+        "stats": "ショットガン　7 / 7　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 5.684272949218727,
+            "yaw": 0.006382454868267789,
+            "pitch": 0.011325003078288248,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 1,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 220,
+            "hurt": 0,
+            "safe": 11.000000000000021,
+            "y": 0,
+            "heavyHit": 0,
+            "swapResume": 0
+          },
+          "aiming": true,
+          "mode": "normal_Shotgun_idle_aim",
+          "lower": "Lower_Idle",
+          "aimProgress": 1,
+          "loaded": true
+        }
+      },
+      {
+        "label": "C-SG-release",
+        "time": 8.673,
+        "stats": "ショットガン　7 / 7　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 5.684272949218727,
+            "yaw": 0.006382454868267789,
+            "pitch": 0.011325003078288248,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 1,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 234,
+            "hurt": 0,
+            "safe": 11.700000000000031,
+            "y": 0,
+            "heavyHit": 0,
+            "swapResume": 0
+          },
+          "aiming": false,
+          "mode": "normal_Shotgun_idle_ready",
+          "lower": "Lower_Idle",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "D-run-aim",
+        "time": 11.823,
+        "stats": "ライフル　32 / 32　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": -5.570502990722675,
+            "yaw": -0.006018699318209931,
+            "pitch": -0.010679615233525452,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 296,
+            "hurt": 0,
+            "safe": 14.800000000000075,
+            "y": 0,
+            "heavyHit": 0,
+            "swapResume": 0
+          },
+          "aiming": true,
+          "mode": "normal_Rifle_Run_aim",
+          "lower": "Lower_Run",
+          "aimProgress": 1,
+          "loaded": true
+        }
+      },
+      {
+        "label": "fire",
+        "time": 12.839,
+        "stats": "ライフル　30 / 32　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": -6.620502990722674,
+            "yaw": -0.005607913218689308,
+            "pitch": -0.009950771776150067,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              30,
+              7
+            ],
+            "reload": 0,
+            "cool": 0.03,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 317,
+            "hurt": 0,
+            "safe": 15.85000000000009,
+            "y": 0,
+            "heavyHit": 0,
+            "swapResume": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rifle_idle_fire",
+          "lower": "Lower_Idle",
+          "aimProgress": 1,
+          "loaded": true
+        }
+      },
+      {
+        "label": "reload",
+        "time": 13.256,
+        "stats": "ライフル　30 / 32　装填中",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": -6.620502990722674,
+            "yaw": -0.005607913218689308,
+            "pitch": -0.009950771776150067,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              30,
+              7
+            ],
+            "reload": 1.4499999999999997,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 325,
+            "hurt": 0,
+            "safe": 16.250000000000096,
+            "y": 0,
+            "heavyHit": 0,
+            "swapResume": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rifle_reload_idle",
+          "lower": "Lower_Idle",
+          "aimProgress": 1,
+          "loaded": true
+        }
+      },
+      {
+        "label": "mobile-distance",
+        "time": 29.185,
+        "stats": "ライフル　32 / 32　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": -6.620502990722674,
+            "yaw": -0.005607913218689308,
+            "pitch": -0.009950771776150067,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-shotgun",
+                "kind": "shotgun",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              32,
+              7
+            ],
+            "reload": -9.853229343548264e-16,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 630,
+            "hurt": 0,
+            "safe": 31.500000000000313,
+            "y": 0,
+            "heavyHit": 0,
+            "swapResume": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rifle_idle_ready",
+          "lower": "Lower_Idle",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      }
+    ],
+    "errors": [],
+    "video": "after-rifle-game.webm"
+  },
+  {
+    "version": "after",
+    "kind": "rocket",
+    "stages": [
+      {
+        "label": "idle",
+        "time": 0,
+        "stats": "ロケット　2 / 2　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 16,
+            "yaw": -0.011427333960315698,
+            "pitch": -0.020274401767502014,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rocket",
+                "kind": "rocket",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              2,
+              32
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 62,
+            "hurt": 0,
+            "safe": 3.099999999999997,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rocket_idle",
+          "lower": "Lower_Weapon_Idle_Rocket",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "A-walk",
+        "time": 1.539,
+        "stats": "ロケット　2 / 2　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 14.183673034667967,
+            "yaw": -0.011118962322216432,
+            "pitch": -0.0197274548670897,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rocket",
+                "kind": "rocket",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              2,
+              32
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 93,
+            "hurt": 0,
+            "safe": 4.6499999999999915,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rocket_Walk",
+          "lower": "Lower_Walk",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "E-run",
+        "time": 3.066,
+        "stats": "ロケット　2 / 2　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 7.033872863769506,
+            "yaw": -0.009703635289841271,
+            "pitch": -0.01721697414006289,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rocket",
+                "kind": "rocket",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              2,
+              32
+            ],
+            "reload": 0,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 123,
+            "hurt": 0,
+            "safe": 6.149999999999986,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rocket_Run",
+          "lower": "Lower_Run",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      },
+      {
+        "label": "fire",
+        "time": 4.108,
+        "stats": "ロケット　1 / 2　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 5.983872863769507,
+            "yaw": -0.009463613151673994,
+            "pitch": -0.01679120138969919,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rocket",
+                "kind": "rocket",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              1,
+              32
+            ],
+            "reload": 0,
+            "cool": 0.9499999999999997,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 143,
+            "hurt": 0,
+            "safe": 7.149999999999983,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rocket_idle",
+          "lower": "Lower_Weapon_Idle_Rocket",
+          "aimProgress": 0.4543636363636391,
+          "loaded": true
+        }
+      },
+      {
+        "label": "reload",
+        "time": 4.483,
+        "stats": "ロケット　1 / 2　装填中",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 5.983872863769507,
+            "yaw": -0.009463613151673994,
+            "pitch": -0.01679120138969919,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rocket",
+                "kind": "rocket",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              1,
+              32
+            ],
+            "reload": 2.500000000000001,
+            "cool": 0.5499999999999994,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 151,
+            "hurt": 0,
+            "safe": 7.549999999999981,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rocket_reload_idle",
+          "lower": "Lower_Weapon_Idle_Rocket",
+          "aimProgress": 1,
+          "loaded": true
+        }
+      },
+      {
+        "label": "mobile-distance",
+        "time": 16.895,
+        "stats": "ロケット　2 / 2　固定標的に射撃",
+        "state": {
+          "player": {
+            "id": "training",
+            "x": 5.599999999999997,
+            "z": 5.983872863769507,
+            "yaw": -0.009463613151673994,
+            "pitch": -0.01679120138969919,
+            "hp": 160,
+            "down": 0,
+            "revive": 0,
+            "weapons": [
+              {
+                "id": "starter-rocket",
+                "kind": "rocket",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              },
+              {
+                "id": "starter-rifle",
+                "kind": "rifle",
+                "rarity": 0,
+                "power": 1,
+                "effect": "none"
+              }
+            ],
+            "slot": 0,
+            "ammo": [
+              2,
+              32
+            ],
+            "reload": -0.0499999999999986,
+            "cool": 0,
+            "evade": 0,
+            "evadeCd": 0,
+            "swapCd": 0,
+            "kills": 0,
+            "connected": true,
+            "ack": 390,
+            "hurt": 0,
+            "safe": 19.500000000000142,
+            "y": 0,
+            "heavyHit": 0
+          },
+          "aiming": false,
+          "mode": "normal_Rocket_idle",
+          "lower": "Lower_Weapon_Idle_Rocket",
+          "aimProgress": 0,
+          "loaded": true
+        }
+      }
+    ],
+    "errors": [],
+    "video": "after-rocket-game.webm"
+  }
+]
