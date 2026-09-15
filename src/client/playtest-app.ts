@@ -17,6 +17,7 @@ import { encounterCamera } from "./encounter-camera";
 import { prepareBattle } from "./battle-loading";
 import { addPlayerNameSetting } from "./player-profile";
 import { enhanceGameSelects } from "./game-select";
+import { stagePickerLabel, renderStageOption } from "./stage-picker";
 import { Controls } from "./input";
 import { Sound } from "./audio";
 import { Minimap } from "./minimap";
@@ -1099,12 +1100,15 @@ function commit(next: ProgressSave, after: () => void = () => {}) {
   return true;
 }
 function setScreen(next: string) {
-  queueMicrotask(() =>
+  queueMicrotask(() => {
     enhanceGameSelects(
       ui,
-      "#pt-stage, #pt-filter, #pt-sort, #pt-difficulty, #pt-bulk-grade",
-    ),
-  );
+      "#pt-filter, #pt-sort, #pt-difficulty, #pt-bulk-grade",
+    );
+    enhanceGameSelects(ui, "#pt-stage", (option, button) =>
+      renderStageOption(save, option, button),
+    );
+  });
   if (document.pointerLockElement) document.exitPointerLock();
   if (next !== "gear") gearOrganizing = false;
   if (next !== "armory") armoryKind = null;
@@ -1327,7 +1331,7 @@ function gear() {
     p = soldier(save);
   header(
     "出撃準備",
-    `<div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 出撃先</span><button id="pt-mission-info">作戦詳細</button></div><select id="pt-stage" aria-label="ステージ">${[...STAGES.map((s) => s.id), 21].map((id) => `<option value="${id}" ${id === stage ? "selected" : ""}>${stageLabel(id)} ${id === 21 ? "街区奥部の調査" : esc(STAGES[id - 1].name)}</option>`).join("")}</select><div class="pt-difficulty"><select id="pt-difficulty" aria-label="難易度"><option value="normal">通常</option><option value="medium">中難易度</option></select><small>クリア ${victoryCoins(stage, difficulty)} コイン</small></div></section><section class="equipment-select"><div class="section-label"><span>02 入替先</span><small>一覧タップで変更</small></div><div class="loadout-slots">${p.equipped
+    `<div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 出撃先</span><button id="pt-mission-info">作戦詳細</button></div><select id="pt-stage" aria-label="ステージ">${[...STAGES.map((s) => s.id), 21].map((id) => `<option value="${id}" ${id === stage ? "selected" : ""}>${esc(stagePickerLabel(save, id))}</option>`).join("")}</select><div class="pt-difficulty"><select id="pt-difficulty" aria-label="難易度"><option value="normal">NORMAL</option><option value="medium">HARD</option><option value="expert" disabled>EXPERT（未解放）</option></select><small>クリア ${victoryCoins(stage, difficulty)} コイン</small></div></section><section class="equipment-select"><div class="section-label"><span>02 入替先</span><small>一覧タップで変更</small></div><div class="loadout-slots">${p.equipped
       .map((id, i) => {
         const w = save.inventory.find((w) => w.id === id)!;
         return `<button data-gear-slot="${i}" aria-pressed="${selectedGearSlot === i}"><span class="slot-number">0${i + 1}</span><span class="slot-info"><small class="pt-grade-${weaponTier(w)}">装備${i + 1} ${selectedGearSlot === i ? "選択中 · " : ""}${weaponGrade(w)}</small><b>${esc(WEAPONS[w.kind].name)}</b><strong>${esc(effectLabel(w))}</strong></span><i>詳細 ›</i></button>`;

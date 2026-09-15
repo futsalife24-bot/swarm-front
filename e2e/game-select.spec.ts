@@ -1,5 +1,67 @@
 import { expect, test } from "@playwright/test";
 
+test("stage picker masks locked names and shows each difficulty mission at landscape sizes", async ({
+  page,
+}, testInfo) => {
+  await page.goto("/");
+  if (await page.locator("#landscape-start").isVisible())
+    await page.locator("#landscape-start").click();
+  await page.locator("#solo").click();
+  await page.locator("#player-name").fill("星表示検証");
+  await page.locator("#player-name-form button[type=submit]").click();
+  await page.locator("#pt-confirm").click();
+  await page.locator('[data-game-select-for="pt-stage"]').click();
+  await expect(
+    page.locator('[data-option-index="1"] .stage-picker-name'),
+  ).toHaveText("ST2 ？？？");
+  await expect(page.locator('[data-option-index="0"] .is-locked')).toHaveCount(
+    2,
+  );
+  await page.keyboard.press("Escape");
+  await page.evaluate(async () => {
+    const path = "/src/client/progression-save.ts";
+    const { newSaveKey } = await import(path);
+    const key = newSaveKey("normal");
+    const save = JSON.parse(localStorage.getItem(key)!);
+    save.missions["1:normal"] = [true, false, true];
+    save.missions["1:medium"] = [true, true, false];
+    localStorage.setItem(key, JSON.stringify(save));
+  });
+  await page.reload();
+  if (await page.locator("#landscape-start").isVisible())
+    await page.locator("#landscape-start").click();
+  await page.locator("#solo").click();
+  for (const width of [667, 844, 1280]) {
+    await page.setViewportSize({ width, height: 390 });
+    await page.locator('[data-game-select-for="pt-stage"]').click();
+    const first = page.locator('[data-option-index="0"]');
+    await expect(first.locator(".is-achieved")).toHaveCount(4);
+    await expect(first.locator(".is-locked")).toHaveCount(1);
+    await expect(
+      page.locator('[data-option-index="1"] .stage-picker-name'),
+    ).not.toContainText("？？？");
+    await expect(
+      page.locator('[data-option-index="2"] .stage-picker-name'),
+    ).toHaveText("ST3 ？？？");
+    expect(await first.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBe(
+      true,
+    );
+    const name = await first.locator(".stage-picker-name").boundingBox();
+    const stars = await first.locator(".stage-picker-progress").boundingBox();
+    expect(name!.x + name!.width).toBeLessThanOrEqual(stars!.x);
+    const second = await page.locator('[data-option-index="1"]').boundingBox();
+    expect(second!.x).toBe((await first.boundingBox())!.x);
+    await page.screenshot({
+      path: testInfo.outputPath(`stage-stars-${width}.png`),
+    });
+    await page.keyboard.press("Escape");
+  }
+  await page.locator('[data-game-select-for="pt-stage"]').click();
+  await page.locator('[data-option-index="1"]').click();
+  await expect(page.locator("#pt-stage")).toHaveValue("2");
+  await expect(page.locator('[data-game-select-for="pt-stage"]')).toBeFocused();
+});
+
 test("normal sortie weapon filter keeps keyboard focus after actual screen redraw", async ({
   page,
 }, testInfo) => {

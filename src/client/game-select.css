@@ -38,6 +38,51 @@ body .game-select-dialog .game-select-options button {
   }
 }
 
+.game-select-dialog .game-select-options.game-select-stage-options {
+  grid-template-columns: 1fr;
+}
+body .game-select-dialog .game-select-stage-options button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 12px;
+}
+.stage-picker-name {
+  flex: 1;
+  min-width: 0;
+}
+.stage-picker-progress {
+  display: grid;
+  grid-template-columns: repeat(3, 58px);
+  gap: 8px;
+  flex-shrink: 0;
+}
+.stage-picker-difficulty {
+  display: grid;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.3;
+  color: inherit;
+}
+.stage-picker-stars {
+  font-size: 17px;
+  color: #717985;
+  letter-spacing: 1px;
+}
+.stage-picker-stars .is-achieved {
+  color: var(--gold);
+}
+.stage-picker-difficulty.is-locked {
+  color: #717985;
+  opacity: 0.55;
+}
+@media (max-width: 540px) {
+  .stage-picker-progress {
+    grid-template-columns: repeat(3, 48px);
+    gap: 4px;
+  }
+}
+
 @media (max-width: 700px) and (orientation: landscape) {
   body .gear-brief button.game-select-trigger {
     min-height: 36px;
