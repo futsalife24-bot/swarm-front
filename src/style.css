@@ -569,17 +569,17 @@ footer span {
   color: #e7f5d9;
   font-size: 12px;
 }
-#controls #scope[aria-pressed="true"] {
+#controls :is(#scope, #scope2)[aria-pressed="true"] {
   background: #b8edc5;
   color: #16362d;
   border-color: #b8edc5;
 }
-#scope {
+:is(#scope, #scope2) {
   font-size: 11px;
   padding: 0;
 }
 @media (pointer: fine) {
-  #controls #scope {
+  #controls :is(#scope, #scope2) {
     display: block;
   }
 }
@@ -1146,4 +1146,7 @@ footer span {
   .vitals small {
     font-size: 9px;
   }
+}
+body .layout-toolbar > div:has(#layout-scope-count) {
+  display: block;
 }

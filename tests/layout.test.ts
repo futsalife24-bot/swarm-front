@@ -81,3 +81,50 @@ it("inherits legacy opacity while saving each control independently", () => {
     expect(() => parseLayout(JSON.stringify(raw))).toThrow();
   }
 });
+
+it("migrates single-scope saves and keeps the second control opt-in", () => {
+  const legacy = JSON.parse(JSON.stringify(defaultLayout()));
+  delete legacy.secondScope;
+  delete legacy.buttons.scope2;
+  legacy.buttons.scope.x = 0.6;
+  const loaded = parseLayout(JSON.stringify(legacy));
+  expect(loaded.secondScope).toBe(false);
+  expect(loaded.buttons.scope.x).toBe(0.6);
+  expect(resolveLayout(loaded, 844, 390).some((r) => r.id === "scope2")).toBe(
+    false,
+  );
+  loaded.secondScope = true;
+  loaded.buttons.scope2 = { x: 0.3, y: 0.2, size: 1.2, opacity: 0.45 };
+  expect(parseLayout(JSON.stringify(loaded))).toEqual(loaded);
+  loaded.secondScope = false;
+  const disabled = parseLayout(JSON.stringify(loaded));
+  expect(disabled.buttons.scope2).toEqual(loaded.buttons.scope2);
+  expect(() =>
+    parseLayout(JSON.stringify({ ...loaded, secondScope: "true" })),
+  ).toThrow();
+});
+it("keeps both default scope controls separate across landscape sizes", () => {
+  const layout = defaultLayout();
+  layout.secondScope = true;
+  for (const [width, height] of [
+    [640, 280],
+    [740, 300],
+    [844, 320],
+    [844, 390],
+    [915, 412],
+    [1280, 720],
+  ]) {
+    const rects = resolveLayout(layout, width, height, {
+      left: 16,
+      right: 8,
+      top: 0,
+      bottom: 6,
+    });
+    expect(rects).toHaveLength(9);
+    expect(overlaps(rects)).toBe(false);
+  }
+  layout.buttons.scope2 = { ...layout.buttons.scope };
+  expect(overlaps(resolveLayout(layout, 844, 390))).toBe(true);
+  layout.secondScope = false;
+  expect(overlaps(resolveLayout(layout, 844, 390))).toBe(false);
+});

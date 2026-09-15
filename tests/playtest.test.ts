@@ -1,4 +1,5 @@
 import { it, expect } from "vitest";
+import { fresh as freshLegacySave } from "../src/client/save";
 import {
   makeWeapon,
   rollWeapon,
@@ -117,12 +118,18 @@ function fixture() {
 }
 it("backs up legacy verbatim, isolates normal/test, rejects invalid saves, and reports write failures", () => {
   const storage = memory();
-  storage.setItem("swarm-front-save-v1", "legacy-exact");
+  const original = JSON.stringify(freshLegacySave(), null, 2);
+  storage.setItem("swarm-front-save-v1", original);
   const n = initializeProgress("normal", storage);
-  expect(storage.getItem("swarm-front-save-v1-before-progression")).toBe(
-    "legacy-exact",
+  expect(storage.getItem("swarm-front-save-v1-before-shared-armory")).toBe(
+    original,
   );
-  expect(storage.getItem("swarm-front-save-v1")).toBe("legacy-exact");
+  expect(storage.getItem("swarm-front-save-v1")).toBe(original);
+  const corrupt = memory();
+  corrupt.setItem("swarm-front-save-v1", "legacy-exact");
+  expect(() => initializeProgress("normal", corrupt)).toThrow();
+  expect(corrupt.getItem("swarm-front-save-v1")).toBe("legacy-exact");
+  expect(corrupt.getItem("swarm-front-progression-v2-normal")).toBeNull();
   initializeProgress("test", storage);
   expect(loadProgress("normal", storage)).toEqual(n);
   expect(loadProgress("test", storage)!.unlocked).toEqual(SKILLS);

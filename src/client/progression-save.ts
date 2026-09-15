@@ -1,8 +1,8 @@
+import { assertSaveWriter } from "./save-writer";
 import {
   SKILLS,
   COSTS,
   CAPACITY,
-  YIELDS,
   ACCESSORY_NAMES,
   missionKey,
   victoryCoins,
@@ -11,14 +11,29 @@ import {
   weighted,
   type Skill,
   type NewWeapon,
+  type StoredWeapon,
+  validNewWeapon,
+  weaponYield,
   type Accessory,
   type AccessoryKind,
   type Difficulty,
 } from "../shared/progression";
-import { WEAPONS, type Kind } from "../shared/defs";
+import { WEAPONS, validWeapon, type Kind } from "../shared/defs";
+import { parseSave, fresh, SAVE_KEY, type Save } from "./save";
 export type SaveMode = "normal" | "test";
+export const legacyProgressKey = "swarm-front-progression-v2-normal";
 export const newSaveKey = (mode: SaveMode) =>
-  `swarm-front-progression-v2-${mode}`;
+  mode === "normal"
+    ? "swarm-front-shared-progress-v3"
+    : "swarm-front-progression-v2-test";
+export class SaveConflictError extends Error {
+  constructor(
+    message = "別の画面で保存が更新されました。最新の保存へ戦果を回復してください。",
+  ) {
+    super(message);
+    this.name = "SaveConflictError";
+  }
+}
 export interface Soldier {
   id: string;
   name: string;
@@ -46,8 +61,21 @@ export interface Receipt {
 export interface ProgressSave {
   version: 2;
   mode: SaveMode;
-  inventory: NewWeapon[];
-  pending: NewWeapon[];
+  inventory: StoredWeapon[];
+  pending: StoredWeapon[];
+  revision?: number;
+  armoryMigration?: 1;
+  coopPreferences?: Pick<
+    Save,
+    | "volume"
+    | "sensitivity"
+    | "fireSensitivity"
+    | "gyroEnabled"
+    | "gyroSensitivity"
+    | "quality"
+    | "mapRotates"
+    | "damageNumbers"
+  >;
   locks: string[];
   soldiers: Soldier[];
   selectedSoldier: string;
@@ -63,6 +91,7 @@ export interface ProgressSave {
   tutorials: string[];
   result?: Receipt;
   receipts: string[];
+  weaponReceipts?: { ids: string[]; runs: string[] };
   serial: number;
 }
 export const blankLevels = () => ({ hp: 0, aim: 0, move: 0, swap: 0 });
@@ -108,6 +137,24 @@ export function freshProgress(mode: SaveMode): ProgressSave {
 }
 export const allWeapons = (s: ProgressSave) =>
   [...s.inventory, ...s.pending].sort((a, b) => a.acquired - b.acquired);
+/** A result's weapons have already been banked, even before reward choice. */
+export function weaponReceiptSnapshot(s: ProgressSave) {
+  return {
+    ids: [
+      ...new Set([
+        ...(s.weaponReceipts?.ids ?? []),
+        ...allWeapons(s).map((w) => w.id),
+        ...(s.result?.weapons.map((w) => w.id) ?? []),
+      ]),
+    ],
+    runs: [
+      ...new Set([
+        ...(s.weaponReceipts?.runs ?? []),
+        ...(s.result ? [s.result.run] : []),
+      ]),
+    ],
+  };
+}
 export const soldier = (s: ProgressSave) =>
   s.soldiers.find((x) => x.id === s.selectedSoldier)!;
 export const spent = (levels: Record<Skill, number>) =>
@@ -121,6 +168,8 @@ export function validateProgress(s: ProgressSave) {
   const integer = (v: number) => Number.isSafeInteger(v) && v >= 0;
   if (
     !s ||
+    (s.revision !== undefined && !integer(s.revision)) ||
+    (s.armoryMigration !== undefined && s.armoryMigration !== 1) ||
     s.version !== 2 ||
     !["normal", "test"].includes(s.mode) ||
     ![s.materials, s.points, s.coins, s.powder, s.serial].every(integer) ||
@@ -139,6 +188,18 @@ export function validateProgress(s: ProgressSave) {
     !s.encounters
   )
     throw new Error("進行保存を読めません。上書きを停止しました");
+  if (
+    s.weaponReceipts &&
+    ![s.weaponReceipts.ids, s.weaponReceipts.runs].every(
+      (values) =>
+        Array.isArray(values) &&
+        values.every((id) => typeof id === "string") &&
+        new Set(values).size === values.length,
+    )
+  )
+    throw new Error("武器の受領履歴を読めません。上書きを停止しました");
+  if (s.coopPreferences)
+    parseSave(JSON.stringify({ ...fresh(), ...s.coopPreferences }));
   const weapons = allWeapons(s),
     ids = weapons.map((w) => w.id);
   if (
@@ -151,22 +212,12 @@ export function validateProgress(s: ProgressSave) {
     throw new Error("武器保存の上限・IDが不正です");
   for (const w of weapons) {
     if (
-      w.format !== 2 ||
+      !(w.format === 2 ? validNewWeapon(w) : validWeapon(w)) ||
       w.testData !== (s.mode === "test") ||
       !integer(w.acquired) ||
       typeof w.id !== "string"
     )
       throw new Error("武器保存の形式が不正です");
-    const expected = makeWeapon(
-      w.id,
-      w.kind,
-      w.rarity,
-      w.variance,
-      w.testData,
-      w.acquired,
-      w.effect,
-    );
-    if (expected.power !== w.power) throw new Error("武器性能が不正です");
   }
   if (
     s.locks.some((id) => !ids.includes(id)) ||
@@ -231,42 +282,203 @@ export function validateProgress(s: ProgressSave) {
 }
 export function loadProgress(
   mode: SaveMode,
-  storage: Pick<Storage, "getItem"> = localStorage,
+  storage: Pick<Storage, "getItem"> &
+    Partial<Pick<Storage, "setItem">> = localStorage,
 ): ProgressSave | null {
+  if (mode === "normal" && storage.setItem)
+    return migrateSharedArmory(storage as Pick<Storage, "getItem" | "setItem">);
   const raw = storage.getItem(newSaveKey(mode));
   if (raw === null) return null;
   const s = validateProgress(JSON.parse(raw));
   if (s.mode !== mode) throw new Error("保存モードが不一致です");
   return s;
 }
+
+export function coopPreferences(
+  save: Save,
+): NonNullable<ProgressSave["coopPreferences"]> {
+  return {
+    volume: save.volume,
+    sensitivity: save.sensitivity,
+    quality: save.quality,
+    fireSensitivity: save.fireSensitivity,
+    gyroEnabled: save.gyroEnabled,
+    gyroSensitivity: save.gyroSensitivity,
+    mapRotates: save.mapRotates,
+    damageNumbers: save.damageNumbers,
+  };
+}
+
+/** Retain every earlier migration snapshot, including failed-attempt snapshots. */
+function backupSource(
+  storage: Pick<Storage, "getItem" | "setItem">,
+  key: string,
+  raw: string,
+) {
+  for (let attempt = 0; ; attempt++) {
+    const candidate = attempt === 0 ? key : `${key}-${attempt}`;
+    const previous = storage.getItem(candidate);
+    if (previous === raw) return;
+    if (previous !== null) continue;
+    storage.setItem(candidate, raw);
+    if (storage.getItem(candidate) !== raw)
+      throw new Error("移行前の控えを保存できません。");
+    return;
+  }
+}
+
+/** A single successful normal-save write publishes the migration. Sources stay intact. */
+export function migrateSharedArmory(
+  storage: Pick<Storage, "getItem" | "setItem">,
+): ProgressSave | null {
+  const targetKey = newSaveKey("normal");
+  const published = storage.getItem(targetKey);
+  if (published !== null) {
+    const current = validateProgress(JSON.parse(published));
+    if (current.mode !== "normal") throw new Error("保存モードが不一致です");
+    return current;
+  }
+  assertSaveWriter(storage);
+  const key = legacyProgressKey,
+    raw = storage.getItem(key);
+  const existing = raw === null ? null : validateProgress(JSON.parse(raw));
+  if (existing && existing.mode !== "normal")
+    throw new Error("保存モードが不一致です");
+  if (existing?.armoryMigration === 1) {
+    // The previous shared release already merged v1: preserve its latest rewards.
+    const backupKey = `${key}-before-shared-v3`;
+    backupSource(storage, backupKey, raw!);
+    if (storage.getItem(key) !== raw || storage.getItem(targetKey) !== null)
+      throw new SaveConflictError(
+        "移行中に保存が更新されました。再読み込みしてください。",
+      );
+    const next = structuredClone(existing);
+    next.revision = 0;
+    persistProgress(next, storage);
+    return next;
+  }
+  const oldRaw = storage.getItem(SAVE_KEY);
+  if (!existing && oldRaw === null) return null;
+  const old = oldRaw === null ? null : parseSave(oldRaw);
+  if (
+    old &&
+    [...old.inventory, ...(old.pendingWeapons ?? [])].some(
+      (w) => "testData" in w && w.testData !== false,
+    )
+  )
+    throw new Error("管理者用武器が旧保存に含まれるため、移行を停止しました。");
+  const next = existing ? structuredClone(existing) : freshProgress("normal");
+  if (!existing && old) {
+    next.inventory = [];
+    next.pending = [];
+  }
+  if (old) {
+    const ids = new Set(allWeapons(next).map((w) => w.id));
+    const mapped = new Map<string, string>();
+    const incoming = [...old.inventory, ...(old.pendingWeapons ?? [])];
+    if (!existing)
+      incoming.sort(
+        (a, b) =>
+          Number(old.equipped.includes(b.id)) -
+          Number(old.equipped.includes(a.id)),
+      );
+    for (const w of incoming) {
+      let id = w.id,
+        suffix = 0;
+      while (ids.has(id)) id = `legacy-${w.id.slice(0, 80)}-${++suffix}`;
+      ids.add(id);
+      mapped.set(w.id, id);
+      bank(next, [
+        { ...structuredClone(w), id, acquired: next.serial++, testData: false },
+      ]);
+    }
+    next.locks = [
+      ...new Set([
+        ...next.locks,
+        ...(old.favorites ?? []).map((id) => mapped.get(id)!),
+      ]),
+    ];
+    if (!existing)
+      soldier(next).equipped = old.equipped.map((id) => mapped.get(id)!);
+    next.powder += old.powder ?? 0;
+    next.receipts = [...new Set([...next.receipts, ...old.receipts])];
+    next.coopPreferences = coopPreferences(old);
+  }
+  next.armoryMigration = 1;
+  validateProgress(next);
+  for (const [sourceKey, sourceRaw] of [
+    [key, raw],
+    [SAVE_KEY, oldRaw],
+  ] as const) {
+    if (sourceRaw === null) continue;
+    const backupKey = `${sourceKey}-before-shared-armory`;
+    backupSource(storage, backupKey, sourceRaw);
+  }
+  if (storage.getItem(key) !== raw || storage.getItem(SAVE_KEY) !== oldRaw)
+    throw new SaveConflictError(
+      "移行中に保存が更新されました。再読み込みしてください。",
+    );
+  if (storage.getItem(targetKey) !== null) throw new SaveConflictError();
+  next.revision = 0;
+  persistProgress(next, storage);
+  return next;
+}
 export function persistProgress(
   s: ProgressSave,
-  storage: Pick<Storage, "setItem"> = localStorage,
+  storage: Pick<Storage, "setItem"> &
+    Partial<Pick<Storage, "getItem">> = localStorage,
 ) {
+  assertSaveWriter(storage);
   validateProgress(s);
+  const raw = storage.getItem?.(newSaveKey(s.mode));
+  if (
+    s.mode === "normal" &&
+    storage.getItem &&
+    raw === null &&
+    (s.revision ?? 0) > 0
+  )
+    throw new SaveConflictError(
+      "保存が別の画面で削除されました。再読み込みしてください。",
+    );
+  const current =
+    s.mode === "normal" && raw ? validateProgress(JSON.parse(raw)) : null;
+  if (current) {
+    if ((current.revision ?? 0) !== (s.revision ?? 0))
+      throw new SaveConflictError();
+  }
+  const next = { ...s, revision: (s.revision ?? 0) + 1 };
+  const incomingReceipts = weaponReceiptSnapshot(s);
+  const previousReceipts = current
+    ? weaponReceiptSnapshot(current)
+    : { ids: [], runs: [] };
+  next.weaponReceipts = {
+    ids: [...new Set([...previousReceipts.ids, ...incomingReceipts.ids])],
+    runs: [...new Set([...previousReceipts.runs, ...incomingReceipts.runs])],
+  };
   try {
-    storage.setItem(newSaveKey(s.mode), JSON.stringify(s));
+    storage.setItem(newSaveKey(s.mode), JSON.stringify(next));
   } catch {
     throw new Error(
       "端末へ保存できません。「保存を再試行」してください。保存成功前に終了すると復元できない場合があります。",
     );
   }
+  s.revision = next.revision;
+  s.weaponReceipts = next.weaponReceipts;
 }
 export function initializeProgress(
   mode: SaveMode,
   storage: Pick<Storage, "getItem" | "setItem"> = localStorage,
 ) {
+  if (mode === "normal") {
+    const existing = migrateSharedArmory(storage);
+    if (existing) return existing;
+    const created = freshProgress(mode);
+    created.armoryMigration = 1;
+    persistProgress(created, storage);
+    return created;
+  }
   if (storage.getItem(newSaveKey(mode)) !== null)
     throw new Error("保存は既に存在します");
-  const old = storage.getItem("swarm-front-save-v1");
-  if (mode === "normal" && old !== null) {
-    const backup = "swarm-front-save-v1-before-progression";
-    if (storage.getItem(backup) === null) storage.setItem(backup, old);
-    if (storage.getItem(backup) !== old)
-      throw new Error(
-        "旧セーブの控えと現データが異なります。書き出して保管してください",
-      );
-  }
   const s = freshProgress(mode);
   persistProgress(s, storage);
   return s;
@@ -280,7 +492,7 @@ export function canSortie(s: ProgressSave, stage: number, d: Difficulty) {
     ? s.branch
     : stage === 1 || !!s.missions[missionKey(stage - 1, "normal")]?.[0];
 }
-export function bank(s: ProgressSave, items: NewWeapon[]) {
+export function bank(s: ProgressSave, items: StoredWeapon[]) {
   const ids = new Set(allWeapons(s).map((w) => w.id));
   for (const w of items) {
     if (ids.has(w.id)) continue;
@@ -292,6 +504,7 @@ export function bank(s: ProgressSave, items: NewWeapon[]) {
       s.inventory.push(w);
     else s.pending.push(w);
   }
+  s.weaponReceipts = weaponReceiptSnapshot(s);
 }
 export function refill(s: ProgressSave) {
   const waiting = [...s.pending].sort(
@@ -311,7 +524,8 @@ export function dismantle(s: ProgressSave, ids: string[]) {
     items.some((w) => weaponProtected(n, w.id))
   )
     throw new Error("登録装備・ロック品は解体できません");
-  n.powder += items.reduce((v, w) => v + YIELDS[w.rarity], 0);
+  n.weaponReceipts = weaponReceiptSnapshot(n);
+  n.powder += items.reduce((v, w) => v + weaponYield(w), 0);
   n.inventory = n.inventory.filter((w) => !unique.has(w.id));
   n.pending = n.pending.filter((w) => !unique.has(w.id));
   refill(n);
@@ -364,6 +578,7 @@ export function grantResult(
     key = missionKey(input.stage, input.difficulty),
     old = n.missions[key] ?? [false, false, false],
     first = input.win && !old[0];
+  n.weaponReceipts = weaponReceiptSnapshot(n);
   n.serial = Math.max(n.serial, ...input.weapons.map((w) => w.acquired + 1));
   const r: Receipt = {
     ...structuredClone(input),
@@ -397,6 +612,7 @@ export function grantResult(
   n.coins += r.coins + r.firstCoins;
   n.receipts.push(input.run);
   n.result = r;
+  n.weaponReceipts = weaponReceiptSnapshot(n);
   return n;
 }
 export function appendCollected(s: ProgressSave, items: NewWeapon[]) {

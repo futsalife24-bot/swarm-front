@@ -29,8 +29,8 @@ export function openDeveloperLogin(
     document.querySelector<HTMLDialogElement>("#developer-login");
   if (existing) return existing;
   const d = menuDialog(
-    "開発者モード",
-    '<p>固定パスワードを入力してください。通常の進行はそのまま残ります。</p><form id="developer-login-form"><label>パスワード<input id="developer-password" type="password" autocomplete="current-password" required maxlength="256"></label><p id="developer-login-note" role="status"></p><button id="developer-login-submit" type="submit">開発者モードへ</button></form>',
+    "管理者モード",
+    '<p>固定パスワードを入力してください。通常の進行はそのまま残ります。</p><form id="developer-login-form"><label>パスワード<input id="developer-password" type="password" autocomplete="current-password" required maxlength="256"></label><p id="developer-login-note" role="status"></p><button id="developer-login-submit" type="submit">管理者モードへ</button></form>',
     "DEVELOPER ACCESS",
   );
   d.id = "developer-login";
@@ -69,7 +69,7 @@ export function openDeveloperLogin(
         return;
       }
       sessionStorage.setItem(RETURN_KEY, returnTo);
-      location.assign(import.meta.env.BASE_URL + "?playtest=1&developer=1");
+      location.assign(import.meta.env.BASE_URL + "?developer=1");
     } catch (error) {
       note.textContent =
         error instanceof Error &&
@@ -85,12 +85,10 @@ export function openDeveloperLogin(
 }
 
 export function returnToNormal() {
-  const destination =
-    sessionStorage.getItem(RETURN_KEY) === "main" ? "" : "?playtest=1";
   sessionStorage.removeItem(RETURN_KEY);
   sessionStorage.removeItem("swarm-front-developer-retry");
   sessionStorage.setItem("swarm-front-playtest-mode", "normal");
-  location.replace(import.meta.env.BASE_URL + destination);
+  location.replace(import.meta.env.BASE_URL);
 }
 
 export async function exitDeveloperMode() {
@@ -107,7 +105,7 @@ export async function exitDeveloperMode() {
   } catch {
     menuDialog(
       "通常モードへ戻る",
-      "<p>通信できず、開発者モードの認証を終了できませんでした。通信を確認して、もう一度「通常モードへ戻る」を押してください。</p>",
+      "<p>通信できず、管理者モードの認証を終了できませんでした。通信を確認して、もう一度「通常モードへ戻る」を押してください。</p>",
     );
   }
 }

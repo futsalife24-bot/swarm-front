@@ -1,7 +1,11 @@
 import { LIMITS, STARTERS, validWeapon, type Weapon } from "../shared/defs";
+import { CAPACITY, weaponYield } from "../shared/progression";
 export const SAVE_KEY = "swarm-front-save-v1";
 export interface Save {
   version: 1;
+  sharedArmory?: boolean;
+  sharedRevision?: number;
+  protectedWeapons?: string[];
   inventory: Weapon[];
   equipped: string[];
   volume: number;
@@ -122,8 +126,9 @@ export function rewards(save: Save, run: string, items: Weapon[]) {
     // A family fills up long before the armoury does, and that is the point:
     // the choice it forces is between weapons you can actually compare.
     if (
-      next.inventory.length >= LIMITS.inventory ||
-      held(item.kind) >= LIMITS.perKind
+      next.inventory.length >=
+        (save.sharedArmory ? CAPACITY.total : LIMITS.inventory) ||
+      held(item.kind) >= (save.sharedArmory ? CAPACITY.perKind : LIMITS.perKind)
     )
       overflow.push(item);
     else {
@@ -162,13 +167,15 @@ export function dismantleWeapons(save: Save, ids: string[]): Save {
     throw new Error("分解対象の武器が見つかりません。");
   if (
     weapons.some(
-      (w) => save.equipped.includes(w.id) || save.favorites?.includes(w.id),
+      (w) =>
+        save.equipped.includes(w.id) ||
+        save.favorites?.includes(w.id) ||
+        save.protectedWeapons?.includes(w.id),
     )
   )
     throw new Error("装備中・お気に入りの武器は保護されています。");
   const powder =
-    (save.powder ?? 0) +
-    weapons.reduce((n, w) => n + POWDER_YIELDS[w.rarity], 0);
+    (save.powder ?? 0) + weapons.reduce((n, w) => n + weaponYield(w), 0);
   if (!Number.isSafeInteger(powder))
     throw new Error(`${POWDER_NAME}の所持上限を超えます。`);
   const next = structuredClone(save);
@@ -180,8 +187,10 @@ export function dismantleWeapons(save: Save, ids: string[]): Save {
   const waiting: Weapon[] = [];
   for (const w of next.pendingWeapons) {
     if (
-      next.inventory.length < LIMITS.inventory &&
-      next.inventory.filter((a) => a.kind === w.kind).length < LIMITS.perKind
+      next.inventory.length <
+        (save.sharedArmory ? CAPACITY.total : LIMITS.inventory) &&
+      next.inventory.filter((a) => a.kind === w.kind).length <
+        (save.sharedArmory ? CAPACITY.perKind : LIMITS.perKind)
     )
       next.inventory.push(w);
     else waiting.push(w);

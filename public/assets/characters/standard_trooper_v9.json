@@ -1,0 +1,55 @@
+{
+  "source": "public/assets/characters/standard_trooper_sprint_v8.glb",
+  "sourceSha256": "5621035c7405bad7b0fa1ea20231ce036a7b70fd07def7554de2a6ba70c96896",
+  "extraTriangles": 6232,
+  "changedClips": [
+    "Trial_Idle",
+    "Trial_Weapon_Idle_Rifle",
+    "Trial_Weapon_Idle_Shotgun",
+    "Trial_Weapon_Idle_Rocket"
+  ],
+  "preservedClips": [
+    "Trial_Switch_1_to_2",
+    "Trial_Switch_2_to_1",
+    "Trial_Dodge_Roll",
+    "Trial_Fire_Rifle",
+    "Trial_Fire_Rocket",
+    "Trial_Fire_Shotgun",
+    "Trial_Hit_Heavy",
+    "Trial_Run",
+    "Trial_Run_Backward",
+    "Trial_Run_Backward_Rocket",
+    "Trial_Run_Rocket",
+    "Trial_Reload_Rifle",
+    "Trial_Reload_Shotgun",
+    "Trial_Reload_Rocket",
+    "UAL_sprint"
+  ],
+  "stance": {
+    "rifle": {
+      "ankleWidth": 0.432,
+      "stagger": 0.19,
+      "toeOutDegrees": 7,
+      "frontWeightIntent": 0.55
+    },
+    "shotgun": {
+      "ankleWidth": 0.432,
+      "stagger": 0.19,
+      "toeOutDegrees": 7,
+      "frontWeightIntent": 0.55
+    },
+    "rocket": {
+      "ankleWidth": 0.47,
+      "stagger": 0.26,
+      "toeOutDegrees": 10,
+      "frontWeightIntent": 0.6
+    }
+  },
+  "maxGripPositionError": 4.8886402663527604e-9,
+  "preservedAnimationPayloads": true,
+  "unpackedBytes": 19873252,
+  "textureImages": 3,
+  "sha256": "58c9b3902de4eba2413523f598f7bf5efbda7589a0ff9d4bd6d12095307f79ba",
+  "bytes": 7343204,
+  "rigBones": 57
+}

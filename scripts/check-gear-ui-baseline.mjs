@@ -11,7 +11,7 @@ const results=[];
 try {
  let fixture;
  if(origin.includes('5347')){
-  const p=await browser.newPage();await p.goto(origin+'/?playtest=1');await p.locator('#solo').click();await p.locator('#pt-confirm').click();
+  const p=await browser.newPage();await p.goto(origin+'/');await p.locator('#solo').click();await p.locator('#player-name').fill('UI検証');await p.locator('#player-name-form button[type=submit]').click();await p.locator('#pt-confirm').click();
   fixture=await p.evaluate(async()=>{const m=await import('/src/client/progression-save.ts'),g=await import('/src/shared/progression.ts');const s=m.loadProgress('normal');const kinds=['rifle','shotgun','rocket'];for(let i=0;i<24;i++){const k=kinds[i%3],r=i%5;s.inventory.push(g.makeWeapon('ui-'+i,k,r,{power:20,reload:-10,range:20,rate:20},false,s.serial++,r?({rifle:'pierce',shotgun:'repel',rocket:'chain'})[k]:'none'));}return JSON.stringify(s);});
   fs.writeFileSync(out+'/fixture.json',fixture);await p.close();
  }else fixture=fs.readFileSync(out+'/fixture.json','utf8');
@@ -19,7 +19,7 @@ try {
   const p=await browser.newPage({viewport:{width,height},hasTouch:true,isMobile:true,serviceWorkers:'block'}),errors=[];
   p.on('pageerror',e=>errors.push(e.message));
   await p.addInitScript(raw=>{if(!localStorage.getItem('swarm-front-progression-v2-normal'))localStorage.setItem('swarm-front-progression-v2-normal',raw);},fixture);
-  await p.goto(origin+'/?playtest=1');await p.locator('#solo').click();
+  await p.goto(origin+'/');await p.locator('#solo').click();await p.locator('#player-name').fill('UI検証');await p.locator('#player-name-form button[type=submit]').click();
   for(const organizing of [false,true]){
    if(organizing)await p.locator('#pt-organize').click();
    const state=await p.evaluate(()=>{
@@ -31,6 +31,7 @@ try {
    });
    await p.screenshot({path:`${out}/${label}-${width}-${organizing?'organize':'normal'}.png`});
    results.push({width,height,organizing,...state});
+   fs.writeFileSync(out+'/'+label+'.json',JSON.stringify(results,null,2));
    assert.ok(state.titleTop>=state.frameTop+6);assert.ok(state.heading<=20);assert.ok(state.header<=52);assert.ok(state.footerClear);assert.ok(!state.overflow);
    assert.equal(state.checks,organizing?27:0);
    assert.ok(state.rows.every(r=>r.row===30&&r.nameFits&&!r.cellOverlap&&r.lockWidth===28&&r.lockRight<=r.listRight),JSON.stringify({width,organizing,...state}));
@@ -52,10 +53,9 @@ try {
   await p.locator('#pt-organize').click();assert.equal(await p.locator('[data-check]').count(),0);
   await p.locator('[data-lock]').first().click();assert.equal(await p.locator('[data-lock]').first().getAttribute('aria-pressed'),'true');
   await p.locator('[data-pinned] [data-detail]').click();await p.locator('.dialog-close').click();
-  await p.locator('#pt-filter').selectOption('shotgun');assert.ok((await p.locator('[data-row]').allTextContents()).every(t=>t.includes('SG-4')));
+  const shotgunIndex=await p.locator('#pt-filter').evaluate(s=>[...s.options].findIndex(o=>o.value==='shotgun'));await p.locator('[data-game-select-for=pt-filter]').click();await p.locator('dialog[open] [data-option-index]').nth(shotgunIndex).click();assert.ok((await p.locator('[data-row]').allTextContents()).every(t=>t.includes('SG-4')));
   assert.deepEqual(errors,[]);await p.close();
  }
  fs.writeFileSync(out+'/'+label+'.json',JSON.stringify(results,null,2));
  console.log(JSON.stringify(results.map(({width,organizing,heading,header,visible,rows})=>({width,organizing,heading,header,visible,horizontal:rows[0].scroll}))));
 }finally{await browser.close();}
-

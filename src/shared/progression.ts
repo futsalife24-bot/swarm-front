@@ -1,4 +1,11 @@
-import { WEAPONS, EFFECT_POOLS, type Kind, type Weapon } from "./defs";
+import {
+  WEAPONS,
+  EFFECT_POOLS,
+  EFFECTS,
+  RARITIES,
+  type Kind,
+  type Weapon,
+} from "./defs";
 import { STAGES, troopCount } from "./stages";
 
 export type Difficulty = "normal" | "medium";
@@ -29,6 +36,54 @@ export type NewWeapon = Weapon & {
   testData: boolean;
   acquired: number;
 };
+/** Original weapons retain their original combat formula and magazine rolls. */
+export type StoredWeapon =
+  | NewWeapon
+  | (Weapon & {
+      format?: never;
+      acquired: number;
+      testData: boolean;
+    });
+export const weaponGrade = (w: Weapon) =>
+  ("format" in w && w.format === 2 ? GRADES : RARITIES)[w.rarity];
+export const weaponTier = (w: Weapon) =>
+  "format" in w && w.format === 2 ? w.rarity : w.rarity + 1;
+export const weaponYield = (w: Weapon) =>
+  ("format" in w && w.format === 2 ? YIELDS : [1, 3, 10, 30])[w.rarity];
+
+/** Strict saved/network format validation; callers decide whether test data is allowed. */
+export function validNewWeapon(value: unknown): value is NewWeapon {
+  if (!value || typeof value !== "object") return false;
+  const w = value as NewWeapon;
+  return (
+    w.format === 2 &&
+    typeof w.id === "string" &&
+    /^[a-zA-Z0-9_-]{1,100}$/.test(w.id) &&
+    Object.hasOwn(WEAPONS, w.kind) &&
+    Number.isInteger(w.rarity) &&
+    w.rarity >= 0 &&
+    w.rarity <= 4 &&
+    typeof w.testData === "boolean" &&
+    Number.isSafeInteger(w.acquired) &&
+    w.acquired >= 0 &&
+    !!w.variance &&
+    typeof w.variance === "object" &&
+    Object.keys(w.variance).length === VARIANCE_KEYS.length &&
+    VARIANCE_KEYS.every(
+      (k) =>
+        Number.isInteger(w.variance[k]) &&
+        w.variance[k] >= -10 &&
+        w.variance[k] <= 20,
+    ) &&
+    w.power === 1.15 ** w.rarity * (1 + w.variance.power / 100) &&
+    w.rolls === undefined &&
+    Object.hasOwn(EFFECTS, w.effect) &&
+    (w.effect === "none" || w.rarity > 0) &&
+    (w.effect !== "pierce" || w.kind !== "rocket") &&
+    (w.effect !== "repel" || w.kind === "shotgun") &&
+    (w.effect !== "chain" || w.kind === "rocket")
+  );
+}
 export const MAGAZINES = {
   rifle: [32, 36, 40, 44, 48],
   shotgun: [7, 8, 9, 10, 11],

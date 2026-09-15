@@ -1,5 +1,6 @@
 import {
   arena,
+  ensureScopeControls,
   CONTROL_IDS,
   LABELS,
   defaultLayout,
@@ -16,10 +17,11 @@ export function openLayoutEditor(
   onExit: () => void,
   training?: { config: () => unknown; enabled?: boolean },
 ) {
+  ensureScopeControls();
   let draft = structuredClone(current),
     selected: ControlId = "fire";
   root.innerHTML =
-    '<section class="layout-editor"><header class="layout-toolbar"><div><b>操作ボタンの配置</b><small>ボタンをドラッグ · 上部は情報表示用</small></div><label>ボタン <select id="layout-selected">' +
+    '<section class="layout-editor"><header class="layout-toolbar"><div><label>スコープボタン <select id="layout-scope-count"><option value="1">1個</option><option value="2">2個</option></select></label></div><label>ボタン <select id="layout-selected">' +
     CONTROL_IDS.map(
       (id) => '<option value="' + id + '">' + LABELS[id] + "</option>",
     ).join("") +
@@ -39,9 +41,18 @@ export function openLayoutEditor(
     "</div></section>";
   const el = (id: string) => root.querySelector<HTMLElement>("#" + id)!;
   const choose = el("layout-selected") as HTMLSelectElement,
+    scopeCount = el("layout-scope-count") as HTMLSelectElement,
     size = el("layout-size") as HTMLInputElement,
     opacity = el("layout-opacity") as HTMLInputElement;
   const draw = () => {
+    scopeCount.value = draft.secondScope ? "2" : "1";
+    if (!draft.secondScope && selected === "scope2") selected = "scope";
+    choose.querySelector<HTMLOptionElement>(
+      'option[value="scope2"]',
+    )!.disabled = !draft.secondScope;
+    root.querySelector<HTMLElement>(
+      '[data-layout-button="scope2"]',
+    )!.style.display = "none";
     for (const r of resolveLayout(
       draft,
       innerWidth,
@@ -164,6 +175,11 @@ export function openLayoutEditor(
       draw();
     };
   });
+  scopeCount.onchange = () => {
+    draft.secondScope = scopeCount.value === "2";
+    if (draft.secondScope) selected = "scope2";
+    draw();
+  };
   choose.onchange = () => {
     selected = choose.value as ControlId;
     draw();

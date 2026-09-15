@@ -4,6 +4,9 @@ import {
   varianceClass,
   varianceMark,
   type NewWeapon,
+  type StoredWeapon,
+  weaponGrade,
+  weaponTier,
   type Variances,
 } from "../shared/progression";
 import { weaponProtected, type ProgressSave } from "./progression-save";
@@ -25,7 +28,7 @@ export const lockMarkup = (locked: boolean, detail = false) =>
 
 // A single list scrolls; sticky identity/lock cells keep every row aligned.
 export function gearWeaponRows(
-  items: NewWeapon[],
+  items: StoredWeapon[],
   save: ProgressSave,
   organizing: boolean,
   checked: Set<string>,
@@ -34,7 +37,7 @@ export function gearWeaponRows(
   const equipped = save.soldiers.find(
     (p) => p.id === save.selectedSoldier,
   )!.equipped;
-  const renderRow = (w: NewWeapon, pinned = false) => {
+  const renderRow = (w: StoredWeapon, pinned = false) => {
     const d = stats(w),
       slot = equipped.indexOf(w.id),
       pending = save.pending.some((item) => item.id === w.id),
@@ -49,7 +52,7 @@ export function gearWeaponRows(
       Number(d.range.toFixed(1)) + "m",
       (1 / d.interval).toFixed(1),
     ];
-    return `<div class="pt-weapon-row ${slot >= 0 ? "is-equipped" : ""} ${pinned ? "gear-pinned-row" : ""}" ${pinned ? "data-pinned" : "data-row"}="${esc(w.id)}" style="--weapon-tier:${tiers[w.rarity]}"><div class="pt-identity">${organizing && !pinned ? `<input type="checkbox" data-check="${esc(w.id)}" aria-label="${esc(d.name)}を解体対象に選択" ${checked.has(w.id) ? "checked" : ""} ${weaponProtected(save, w.id) ? "disabled" : ""}>` : ""}<button data-detail="${esc(w.id)}" aria-label="${esc(d.name)} ${GRADES[w.rarity]}${pending ? " 超過・整理待ち" : ""}${slot >= 0 ? " 装備" + (slot + 1) : ""} 詳細"><small class="gear-rarity pt-grade-${w.rarity}">${GRADES[w.rarity]}</small><b>${esc(WEAPONS[w.kind].name)}</b>${slot >= 0 ? `<span class="gear-equipped" title="装備${slot + 1}">E${slot + 1}</span>` : pending ? '<span class="gear-equipped" title="超過・整理待ち" aria-label="超過・整理待ち">!</span>' : ""}</button></div><div class="pt-stat-scroll"><div class="pt-stat-inner"><span class="gear-effect" title="${esc(label)}">${esc(shortEffect)}</span>${values.map((value, i) => `<span class="pt-var-${keys[i] === "mag" ? "base" : varianceClass(w.variance[keys[i] as keyof Variances])}">${value}<sup>${keys[i] === "mag" ? "" : varianceMark(w.variance[keys[i] as keyof Variances])}</sup></span>`).join("")}</div></div>${pinned ? `<button class="gear-pinned-label" data-pinned-detail="${esc(w.id)}">装備${selectedSlot! + 1}</button>` : `<button data-lock="${esc(w.id)}" aria-label="${esc(d.name)}のロック" aria-pressed="${save.locks.includes(w.id)}">${lockMarkup(save.locks.includes(w.id))}</button>`}</div>`;
+    return `<div class="pt-weapon-row ${slot >= 0 ? "is-equipped" : ""} ${pinned ? "gear-pinned-row" : ""}" ${pinned ? "data-pinned" : "data-row"}="${esc(w.id)}" style="--weapon-tier:${tiers[weaponTier(w)]}"><div class="pt-identity">${organizing && !pinned ? `<input type="checkbox" data-check="${esc(w.id)}" aria-label="${esc(d.name)}を解体対象に選択" ${checked.has(w.id) ? "checked" : ""} ${weaponProtected(save, w.id) ? "disabled" : ""}>` : ""}<button data-detail="${esc(w.id)}" aria-label="${esc(d.name)} ${weaponGrade(w)}${pending ? " 超過・整理待ち" : ""}${slot >= 0 ? " 装備" + (slot + 1) : ""} 詳細"><small class="gear-rarity pt-grade-${weaponTier(w)}">${weaponGrade(w)}</small><b>${esc(WEAPONS[w.kind].name)}</b>${slot >= 0 ? `<span class="gear-equipped" title="装備${slot + 1}">E${slot + 1}</span>` : pending ? '<span class="gear-equipped" title="超過・整理待ち" aria-label="超過・整理待ち">!</span>' : ""}</button></div><div class="pt-stat-scroll"><div class="pt-stat-inner"><span class="gear-effect" title="${esc(label)}">${esc(shortEffect)}</span>${values.map((value, i) => `<span class="pt-var-${keys[i] === "mag" ? "base" : varianceClass(w.format === 2 ? w.variance[keys[i] as keyof Variances] : 0)}">${value}<sup>${keys[i] === "mag" ? "" : varianceMark(w.format === 2 ? w.variance[keys[i] as keyof Variances] : 0)}</sup></span>`).join("")}</div></div>${pinned ? `<button class="gear-pinned-label" data-pinned-detail="${esc(w.id)}">装備${selectedSlot! + 1}</button>` : `<button data-lock="${esc(w.id)}" aria-label="${esc(d.name)}のロック" aria-pressed="${save.locks.includes(w.id)}">${lockMarkup(save.locks.includes(w.id))}</button>`}</div>`;
   };
   const pinned =
     selectedSlot === undefined

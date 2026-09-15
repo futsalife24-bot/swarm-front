@@ -28,10 +28,10 @@ export const TROOPER_RUN_STRIDE = 2.6;
 export const TROOPER_SPRINT_STRIDE = 5.21351158618927;
 export const TROOPER_SKINS = {
   standard: {
-    Armor: "#5b6469",
-    Ceramic: "#d1d7d8",
-    Cloth: "#394039",
-    Orange: "#f98f35",
+    Armor: "#526570",
+    Ceramic: "#9aa7a8",
+    Cloth: "#303f47",
+    Orange: "#65c5b3",
   },
   desert: {
     Armor: "#ad9870",
@@ -135,7 +135,7 @@ export function loadStandardTrooper() {
     const loader = new GLTFLoader(),
       base = `${import.meta.env.BASE_URL}assets/characters/`;
     const [character, rifle, shotgun, rocket] = await Promise.all([
-      loader.loadAsync(`${base}standard_trooper_sprint_v8.glb`),
+      loader.loadAsync(`${base}standard_trooper_v9.glb`),
       ...(["rifle", "shotgun", "rocket"] as const).map((k) =>
         loader.loadAsync(
           `${import.meta.env.BASE_URL}assets/weapons/realism-v2/${k}_0.glb`,
@@ -171,6 +171,10 @@ export function loadStandardTrooper() {
     const materials = new Map<T.Material, T.SkinnedMesh[]>();
     character.scene.traverse((o) => {
       if (o instanceof T.SkinnedMesh && !Array.isArray(o.material)) {
+        // Mission kit remains individually visible; do not batch it into the
+        // shared uniform or switching loadouts would show every class at once.
+        if (o.userData.loadoutVariant || o.parent?.userData.loadoutVariant)
+          return;
         const list = materials.get(o.material) ?? [];
         list.push(o);
         materials.set(o.material, list);
@@ -524,6 +528,16 @@ export class StandardTrooper {
     );
     this.selectedSlot = slot;
     this.switchTime = 10;
+    const variant = weapons.some((w) => w.kind === "rocket")
+      ? "rocket"
+      : weapons.some((w) => w.kind === "shotgun")
+        ? "shotgun"
+        : "rifle";
+    this.model.traverse((o) => {
+      if (o.userData.loadoutVariant)
+        o.visible = o.userData.loadoutVariant === variant;
+    });
+    this.model.userData.loadoutClass = variant;
     this.attachRest(slot);
   }
   private attach(o: T.Object3D, parent: T.Object3D) {
@@ -555,6 +569,24 @@ export class StandardTrooper {
       action.time = T.MathUtils.clamp(t, 0, clip.duration);
     }
     this.mixer.update(0);
+    if (
+      this.model.userData.trooperDesignVersion === 9 &&
+      /^Upper_(Fire_|Reload_|Switch_)/.test(name) &&
+      (lowerName === "Lower_Idle" || lowerName === "Lower_Weapon_Idle_Rocket")
+    ) {
+      // V9 stance moves the pelvis, while the retained action clips still use
+      // the V8 upper-body origin. Cancel only that offset to keep the old firing
+      // axis and holster route continuous with the new idle clips.
+      const pelvis = this.model.getObjectByName("Pelvis")!;
+      const delta =
+        lowerName === "Lower_Weapon_Idle_Rocket"
+          ? new T.Vector3(-0.047, 0.065, -0.026)
+          : new T.Vector3(-0.0216, 0.018, -0.0095);
+      delta
+        .applyQuaternion(pelvis.quaternion.clone().invert())
+        .divide(pelvis.scale);
+      this.model.getObjectByName("Spine")!.position.sub(delta);
+    }
     this.model.updateMatrixWorld(true);
   }
   sampleSwitch(from: number, time: number) {

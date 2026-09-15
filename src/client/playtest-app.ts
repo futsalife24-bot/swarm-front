@@ -6,6 +6,7 @@ import "./playtest.css";
 import "./gear-weapon-list.css";
 import { menuSamples } from "./menu-samples";
 import { homeMarkup } from "./home-screen";
+import { canInstallApp, installApp } from "./app-install";
 import { CHANGELOG } from "./changelog";
 import { hudMarkup, updateCooldowns } from "./hud";
 import { createPlaytestPreferences } from "./playtest-preferences";
@@ -13,7 +14,9 @@ import { openLayoutEditor } from "./layout-editor";
 import * as T from "three";
 import { Renderer } from "./render";
 import { encounterCamera } from "./encounter-camera";
-import { loadProgressionWeapons } from "./progression-weapons";
+import { prepareBattle } from "./battle-loading";
+import { addPlayerNameSetting } from "./player-profile";
+import { enhanceGameSelects } from "./game-select";
 import { Controls } from "./input";
 import { Sound } from "./audio";
 import { Minimap } from "./minimap";
@@ -22,6 +25,7 @@ import {
   parseLayout,
   LAYOUT_KEY,
   placeControls,
+  updateScopeButtons,
 } from "./layout";
 import { installLandscapeGuard } from "./landscape";
 import { installZoomGuard } from "./zoom-guard";
@@ -37,7 +41,7 @@ import {
   checkDeveloperSession,
   returnToNormal,
 } from "./developer-access";
-import { STAGES, MAPS, stageFor, mapFor, troopCount } from "../shared/stages";
+import { STAGES, stageFor, mapFor, troopCount } from "../shared/stages";
 import { WEAPONS, stats, effectLabel, type Kind } from "../shared/defs";
 import {
   createWorld,
@@ -74,6 +78,9 @@ import {
   varianceMark,
   makeWeapon,
   type NewWeapon,
+  type StoredWeapon,
+  weaponGrade,
+  weaponTier,
   type Difficulty,
   type Skill,
   type AccessoryKind,
@@ -81,6 +88,8 @@ import {
 } from "../shared/progression";
 import {
   loadProgress,
+  newSaveKey,
+  SaveConflictError,
   initializeProgress,
   persistProgress,
   validateProgress,
@@ -103,6 +112,7 @@ import {
   type ProgressSave,
   type SaveMode,
 } from "./progression-save";
+import { recoverUnsavedResult } from "./save-recovery";
 import { gearWeaponRows, lockMarkup } from "./gear-weapon-list";
 
 async function launch() {
@@ -149,50 +159,14 @@ async function launch() {
     $("pt-load-percent").textContent = `${n}%`;
   };
   try {
-    const asset = await import("./standard-trooper");
-    await asset.loadStandardTrooper();
-    await loadProgressionWeapons(actor.weapons);
-    progress(35);
-    await Promise.all([...view.structures.values()].map((s) => s.loading));
-    const kinds = new Set(
-      stageFor(world).waves.flatMap((w) => [
-        ...Object.keys(w.troops),
-        ...(w.bosses.length ? ["boss"] : []),
-      ]),
+    await prepareBattle(
+      view,
+      world,
+      "solo",
+      () => generation !== loadingGeneration || screen !== "loading",
+      progress,
     );
-    for (const kind of kinds) {
-      const error = view.structures.get(kind as "crawler")?.error;
-      if (error) throw new Error(error);
-    }
-    progress(65);
-    const mapIndex = stageFor(world).map;
-    view.mapAssets.select(mapIndex, true);
-    const began = performance.now();
-    while (generation === loadingGeneration) {
-      const map = view.mapAssets.status[mapIndex],
-        distant = view.mapAssets.distantStatus[mapIndex],
-        model = view.players.get("solo");
-      if (
-        map.state === "error" ||
-        distant.state === "error" ||
-        model?.userData.trooperError
-      )
-        throw new Error("兵士またはマップを読み込めません");
-      if (
-        map.state === "ready" &&
-        (MAPS[mapIndex].biome === "cave" || distant.state === "ready") &&
-        model?.userData.trooper
-      )
-        break;
-      if (performance.now() - began > 45000)
-        throw new Error("描画準備が時間内に完了しませんでした");
-      await new Promise<void>((r) => requestAnimationFrame(() => r()));
-    }
-    if (generation !== loadingGeneration) return;
-    progress(90);
-    await view.renderer.compileAsync(view.scene, view.camera);
-    view.renderer.render(view.scene, view.camera);
-    progress(100);
+    if (generation !== loadingGeneration || screen !== "loading") return;
     loadReady = true;
     $("pt-enter").hidden = false;
     bind("pt-enter", () => {
@@ -656,16 +630,16 @@ function editControlLayout(returnTo: () => void) {
   ui.querySelector('option[value="revive"]')!.textContent = "救急箱";
 }
 function settingsUI() {
-  let taps = 0;
   const d = dialog(
     "設定",
-    `<button id="pt-build-label">初期試遊版 v1</button><label>音量 <input id="pt-volume" type="range" min="0" max="1" step=".05" value="${sound.volume}"></label><label>描画 <select id="pt-quality"><option value="1">標準</option><option value="0.65">軽量</option></select></label><button id="pt-save-export">現在の保存を書き出す</button><div id="pt-test-entry" hidden><p>ローカルテスト用。通常進行と分離します。</p><label>ローカルパスワード <input id="pt-password" type="password"></label><button id="pt-test-switch">${mode === "normal" ? "テストセーブへ" : "通常セーブへ"}</button><p id="pt-password-note"></p></div>`,
+    `<label>音量 <input id="pt-volume" type="range" min="0" max="1" step=".05" value="${sound.volume}"></label><label>描画 <select id="pt-quality"><option value="1">標準</option><option value="0.65">軽量</option></select></label><button id="pt-save-export">現在の保存を書き出す</button>`,
   );
+  addPlayerNameSetting(d.querySelector<HTMLElement>(".menu-dialog-body")!);
   const developerEntry = document.createElement("button");
   developerEntry.id = "pt-developer-entry";
   developerEntry.textContent = developerMode
     ? "通常モードへ戻る"
-    : "開発者モード";
+    : "管理者モード";
   developerEntry.className = "settings-developer-entry";
   developerEntry.onclick = () => {
     d.close();
@@ -685,10 +659,6 @@ function settingsUI() {
     editControlLayout(returnTo);
   });
   d.querySelector(".menu-dialog-body")!.append(developerEntry);
-  d.querySelector("#pt-build-label")!.addEventListener("click", () => {
-    if (++taps >= 5 && testAvailable() && !developerMode)
-      (d.querySelector("#pt-test-entry") as HTMLElement).hidden = false;
-  });
   d.querySelector("#pt-volume")!.addEventListener(
     "input",
     (e) => (sound.volume = Number((e.target as HTMLInputElement).value)),
@@ -703,18 +673,6 @@ function settingsUI() {
       new Blob([JSON.stringify(save ?? null, null, 2)]),
       `swarm-front-${mode}.json`,
     );
-  d.querySelector<HTMLButtonElement>("#pt-test-switch")!.onclick = () => {
-    if (!testAvailable()) return;
-    const entered = (d.querySelector("#pt-password") as HTMLInputElement).value;
-    if (entered !== "swarm-local") {
-      d.querySelector("#pt-password-note")!.textContent =
-        "パスワードが違います";
-      return;
-    }
-    d.close();
-    world = null;
-    loadMode(mode === "normal" ? "test" : "normal");
-  };
 }
 function generator() {
   if (mode !== "test") return;
@@ -789,7 +747,7 @@ function download(blob: Blob, name: string) {
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
-async function shareWeapon(w: NewWeapon) {
+async function shareWeapon(w: StoredWeapon) {
   try {
     const { shareImage } = await import("./weapon-sharing");
     await shareImage(w);
@@ -806,7 +764,11 @@ function frame(now: number) {
   const active = !document.hidden && !paused && !modalCount && !saving;
   controls.enabled = active && (screen === "battle" || screen === "collection");
   controls.setScopeAvailable(controls.enabled && !!world?.players[0]?.hp);
-  $("scope").hidden = !controls.enabled;
+  updateScopeButtons(layout, {
+    visible: controls.enabled,
+    available: controls.scopeAvailable,
+    scoped: controls.scoped,
+  });
   $("scope-overlay").hidden = !controls.scoped;
   if (active && world && screen === "battle") {
     accumulator += dt;
@@ -957,7 +919,6 @@ const names: Record<string, string> = {
   boss: "FOUNDRY ZERO",
   worm: "FOUNDRY ZERO 連結炉",
 };
-const testAvailable = () => import.meta.env.DEV;
 const preferences = createPlaytestPreferences(controls, sound, view, minimap);
 installZoomGuard();
 installLandscapeGuard(() => pause());
@@ -1031,12 +992,89 @@ function confirmAction(title: string, content: string, action: () => void) {
     }
   };
 }
+const PENDING_RESULT_KEY = "swarm-front-pending-result-v3";
+function forgetPendingResult() {
+  try {
+    sessionStorage.removeItem(PENDING_RESULT_KEY);
+  } catch {
+    /* Replay is idempotent. */
+  }
+}
+function showSaveConflict(base: ProgressSave, pending: ProgressSave) {
+  saving = pending;
+  paused = true;
+  controls.enabled = false;
+  controls.reset();
+  const hasResult =
+    !!pending.result &&
+    JSON.stringify(base.result) !== JSON.stringify(pending.result);
+  const recovery = {
+    base: structuredClone(base),
+    pending: structuredClone(pending),
+  };
+  let retained = false;
+  if (hasResult) {
+    try {
+      sessionStorage.setItem(PENDING_RESULT_KEY, JSON.stringify(recovery));
+      retained = true;
+    } catch {
+      /* Keep the in-memory battle result and offer a downloadable copy. */
+    }
+  }
+  const d = dialog(
+    "保存データが更新されています",
+    `<div id="pt-save-conflict"><p role="status">${hasResult ? "未保存の戦果を、最新の武器庫へ重複しないよう反映します。" : "別の保存更新を検出しました。最新のデータを読み込み、操作をやり直せます。"}</p>${hasResult ? '<button id="pt-recover-result">戦果を最新の保存へ反映</button>' : '<button id="pt-reload-save">最新の保存で再開</button>'}<button id="pt-export-unsaved">未保存データの控えを書き出す</button>${hasResult && !retained ? "<p>このタブの控えを保存できませんでした。反映が済むまで画面を閉じず、先に控えを書き出してください。</p>" : ""}</div>`,
+  );
+  let completed = false;
+  d.querySelector<HTMLButtonElement>("#pt-export-unsaved")!.onclick = () =>
+    download(
+      new Blob([JSON.stringify(recovery)], { type: "application/json" }),
+      "swarm-front-unsaved-result.json",
+    );
+  const resume = () => {
+    try {
+      const latest = hasResult
+        ? recoverUnsavedResult(recovery.base, recovery.pending)
+        : loadProgress("normal");
+      if (!latest) throw new Error("最新の保存が見つかりません。");
+      if (hasResult) forgetPendingResult();
+      save = latest;
+      saving = undefined;
+      retryAfter = undefined;
+      paused = false;
+      completed = true;
+      d.close();
+      notice = hasResult
+        ? "未保存の戦果を反映しました。"
+        : "最新の保存を読み込みました。操作をやり直してください。";
+      home();
+    } catch (error) {
+      d.querySelector('[role="status"]')!.textContent = (
+        error as Error
+      ).message;
+    }
+  };
+  d.querySelector<HTMLButtonElement>(
+    hasResult ? "#pt-recover-result" : "#pt-reload-save",
+  )!.onclick = resume;
+  if (hasResult) {
+    d.querySelector(".dialog-close")?.remove();
+    d.addEventListener("cancel", (event) => event.preventDefault());
+  } else
+    d.addEventListener("close", () => {
+      if (!completed) resume();
+    });
+}
 function commit(next: ProgressSave, after: () => void = () => {}) {
   if (saving) return false;
   try {
     if (sampleMenus || developerMode) validateProgress(next);
     else persistProgress(next);
   } catch (e) {
+    if (e instanceof SaveConflictError) {
+      showSaveConflict(save, next);
+      return false;
+    }
     saving = next;
     retryAfter = after;
     controls.enabled = false;
@@ -1061,6 +1099,12 @@ function commit(next: ProgressSave, after: () => void = () => {}) {
   return true;
 }
 function setScreen(next: string) {
+  queueMicrotask(() =>
+    enhanceGameSelects(
+      ui,
+      "#pt-stage, #pt-filter, #pt-sort, #pt-difficulty, #pt-bulk-grade",
+    ),
+  );
   if (document.pointerLockElement) document.exitPointerLock();
   if (next !== "gear") gearOrganizing = false;
   if (next !== "armory") armoryKind = null;
@@ -1098,7 +1142,7 @@ function header(title: string, body: string, nav = true) {
             : "OPERATION RESULTS";
   const panel =
     screen === "gear" ? "gear" : screen === "result" ? "result" : "armory";
-  ui.innerHTML = `<section class="panel ${panel} menu-screen pt-screen"><header class="menu-header"><div><div class="eyebrow">${eyebrow}${developerMode ? " · 開発者モード" : mode === "test" ? " · TEST DATA" : ""}</div><h1>${esc(title)}</h1></div>${nav ? '<nav><button id="pt-gear">出撃準備</button><button id="pt-armory">武器庫</button><button id="pt-growth">育成</button><button id="pt-accessory">アクセサリ</button><button id="pt-home">タイトルへ</button></nav>' : ""}</header><p class="pt-status" role="status">${esc(notice)}</p>${body}</section>`;
+  ui.innerHTML = `<section class="panel ${panel} menu-screen pt-screen"><header class="menu-header"><div><div class="eyebrow">${eyebrow}${developerMode ? " · 管理者モード" : mode === "test" ? " · TEST DATA" : ""}</div><h1>${esc(title)}</h1></div>${nav ? '<nav><button id="pt-gear">出撃準備</button><button id="pt-armory">武器庫</button><button id="pt-growth">育成</button><button id="pt-accessory">アクセサリ</button><button id="pt-home">タイトルへ</button></nav>' : ""}</header><p class="pt-status" role="status">${esc(notice)}</p>${body}</section>`;
   bind("pt-home", home);
   if (sampleMenus && nav) {
     $("pt-home").textContent = "サンプル終了";
@@ -1138,7 +1182,18 @@ function loadMode(next: SaveMode) {
   mode = next;
   try {
     sessionStorage.setItem("swarm-front-playtest-mode", mode);
-    const found = loadProgress(mode);
+    let found = loadProgress(mode);
+    const journal =
+      mode === "normal" ? sessionStorage.getItem(PENDING_RESULT_KEY) : null;
+    if (journal) {
+      const { base, pending } = JSON.parse(journal) as {
+        base: ProgressSave;
+        pending: ProgressSave;
+      };
+      found = recoverUnsavedResult(base, pending);
+      forgetPendingResult();
+      notice = "未保存だった戦果を復元しました。";
+    }
     if (!found) {
       onboard();
       return;
@@ -1153,15 +1208,28 @@ function loadMode(next: SaveMode) {
     } else home();
   } catch (e) {
     setScreen("blocked");
-    ui.innerHTML = `<section class="pt-screen"><h1>保存を読めません</h1><p>${esc((e as Error).message)}</p><p>上書きは停止しています。</p><button id="pt-export">保存を書き出す</button></section>`;
+    let pendingJournal: string | null = null;
+    try {
+      pendingJournal = sessionStorage.getItem(PENDING_RESULT_KEY);
+    } catch {
+      /* Storage can be unavailable; keep the original error visible. */
+    }
+    ui.innerHTML = `<section class="pt-screen"><h1>保存を読めません</h1><p>${esc((e as Error).message)}</p><p>上書きは停止しています。</p><button id="pt-export">保存を書き出す</button>${pendingJournal ? '<p>未保存の戦果の控えが残っています。書き出して保管できます。保存できる状態になったら再試行してください。</p><button id="pt-export-unsaved">未保存の戦果を書き出す</button><button id="pt-retry-recovery">復元を再試行</button>' : ""}</section>`;
     bind("pt-export", () =>
       download(
-        new Blob([
-          localStorage.getItem(`swarm-front-progression-v2-${mode}`) ?? "",
-        ]),
+        new Blob([localStorage.getItem(newSaveKey(mode)) ?? ""]),
         `progression-${mode}.json`,
       ),
     );
+    if (pendingJournal) {
+      bind("pt-export-unsaved", () =>
+        download(
+          new Blob([pendingJournal!], { type: "application/json" }),
+          "unsaved-result.json",
+        ),
+      );
+      bind("pt-retry-recovery", () => loadMode(mode));
+    }
   }
 }
 function onboard() {
@@ -1181,13 +1249,15 @@ function showHome(initialized: boolean) {
     stage: STAGES[(stage === 21 ? 3 : stage) - 1],
     inventoryCount: initialized ? save.inventory.length : 0,
     pendingCount: initialized ? save.pending.length : 0,
+    install: canInstallApp(),
   });
+  if (canInstallApp()) bind("install", () => void installApp());
   const enter = (after: () => void) =>
     initialized
       ? after()
       : confirmAction(
           "新しい進行を開始",
-          "<p>旧セーブの控えを保存し、新しい武器・進行で開始します。旧データは元の保存先にも残ります。</p><p>実広告は準備中です。広告なしで報酬と再挑戦を利用できます。</p>",
+          "<p>所持武器は1人プレイと協力プレイで共通です。以前の武器は性能を保って引き継ぎ、元の保存データも控えとして残します。</p><p>実広告は準備中です。広告なしで報酬と再挑戦を利用できます。</p>",
           () => {
             save = initializeProgress(mode);
             after();
@@ -1210,8 +1280,8 @@ function showHome(initialized: boolean) {
   bind("home-settings", settingsUI);
   bind("coop", () => {
     location.href = location.hostname.endsWith(".trycloudflare.com")
-      ? "https://swarm-front.melosalife-24.workers.dev/"
-      : import.meta.env.BASE_URL;
+      ? "https://swarm-front.melosalife-24.workers.dev/?coop=1"
+      : import.meta.env.BASE_URL + "?coop=1";
   });
   bind("changelog", () =>
     dialog(
@@ -1229,7 +1299,7 @@ function showHome(initialized: boolean) {
   bind("pt-growth", () => enter(growth));
   if (mode === "test")
     ui.querySelector(".connection-dot")!.textContent = developerMode
-      ? "開発者モード · 全解放"
+      ? "管理者モード · 全解放"
       : "TEST DATA";
   if (developerMode) {
     ui.querySelector(".fine")!.textContent =
@@ -1260,7 +1330,7 @@ function gear() {
     `<div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 出撃先</span><button id="pt-mission-info">作戦詳細</button></div><select id="pt-stage" aria-label="ステージ">${[...STAGES.map((s) => s.id), 21].map((id) => `<option value="${id}" ${id === stage ? "selected" : ""}>${stageLabel(id)} ${id === 21 ? "街区奥部の調査" : esc(STAGES[id - 1].name)}</option>`).join("")}</select><div class="pt-difficulty"><select id="pt-difficulty" aria-label="難易度"><option value="normal">通常</option><option value="medium">中難易度</option></select><small>クリア ${victoryCoins(stage, difficulty)} コイン</small></div></section><section class="equipment-select"><div class="section-label"><span>02 入替先</span><small>一覧タップで変更</small></div><div class="loadout-slots">${p.equipped
       .map((id, i) => {
         const w = save.inventory.find((w) => w.id === id)!;
-        return `<button data-gear-slot="${i}" aria-pressed="${selectedGearSlot === i}"><span class="slot-number">0${i + 1}</span><span class="slot-info"><small class="pt-grade-${w.rarity}">装備${i + 1} ${selectedGearSlot === i ? "選択中 · " : ""}${GRADES[w.rarity]}</small><b>${esc(WEAPONS[w.kind].name)}</b><strong>${esc(effectLabel(w))}</strong></span><i>詳細 ›</i></button>`;
+        return `<button data-gear-slot="${i}" aria-pressed="${selectedGearSlot === i}"><span class="slot-number">0${i + 1}</span><span class="slot-info"><small class="pt-grade-${weaponTier(w)}">装備${i + 1} ${selectedGearSlot === i ? "選択中 · " : ""}${weaponGrade(w)}</small><b>${esc(WEAPONS[w.kind].name)}</b><strong>${esc(effectLabel(w))}</strong></span><i>詳細 ›</i></button>`;
       })
       .join(
         "",
@@ -1302,7 +1372,7 @@ function gear() {
   bindList("gear");
 }
 
-function metric(w: NewWeapon, key: string) {
+function metric(w: StoredWeapon, key: string) {
   const d = stats(w);
   return key === "power"
     ? d.damage.toFixed(0)
@@ -1314,7 +1384,7 @@ function metric(w: NewWeapon, key: string) {
           ? (1 / d.interval).toFixed(2)
           : String(d.mag);
 }
-function metricValue(w: NewWeapon, key: string) {
+function metricValue(w: StoredWeapon, key: string) {
   const d = stats(w);
   return key === "power"
     ? d.damage
@@ -1326,11 +1396,11 @@ function metricValue(w: NewWeapon, key: string) {
           ? 1 / d.interval
           : d.mag;
 }
-function metricDifference(w: NewWeapon, base: NewWeapon, key: string) {
+function metricDifference(w: StoredWeapon, base: StoredWeapon, key: string) {
   const delta = metricValue(w, key) - metricValue(base, key);
   return `${delta > 0 ? "+" : ""}${delta.toFixed(2)}`;
 }
-function weaponList(items: NewWeapon[], context: string) {
+function weaponList(items: StoredWeapon[], context: string) {
   const shown = items
     .filter((w) =>
       context === "armory"
@@ -1341,7 +1411,7 @@ function weaponList(items: NewWeapon[], context: string) {
       sort === "acquired"
         ? a.acquired - b.acquired
         : sort === "rarity"
-          ? b.rarity - a.rarity
+          ? weaponTier(b) - weaponTier(a)
           : sort === "reload"
             ? metricValue(a, sort) - metricValue(b, sort)
             : metricValue(b, sort) - metricValue(a, sort),
@@ -1488,9 +1558,10 @@ function bindList(context: string) {
             (context === "armory"
               ? w.kind === armoryKind
               : filter === "all" || w.kind === filter) &&
-            w.rarity <= grade &&
+            weaponTier(w) <= grade &&
             !weaponProtected(save, w.id) &&
-            (include || VARIANCE_KEYS.every((k) => w.variance[k] < 10)),
+            (include ||
+              VARIANCE_KEYS.every((k) => w.format === 2 && w.variance[k] < 10)),
         )
         .map((w) => w.id),
     );
@@ -1563,7 +1634,7 @@ function dismantleUI(ids: string[], redraw: () => void = armory) {
   const n = dismantle(save, ids);
   confirmAction(
     "武器を解体",
-    `<p>${items.length}丁 → 武装片 +${n.powder - save.powder}</p>${items.map((w) => `<p>${esc(WEAPONS[w.kind].name)} ${GRADES[w.rarity]}${w.rarity === 4 || VARIANCE_KEYS.some((k) => w.variance[k] === 20) ? " ⚠ LR／最大補正あり" : ""}</p>`).join("")}`,
+    `<p>${items.length}丁 → 武装片 +${n.powder - save.powder}</p>${items.map((w) => `<p>${esc(WEAPONS[w.kind].name)} ${weaponGrade(w)}${weaponTier(w) === 4 || VARIANCE_KEYS.some((k) => w.format === 2 && w.variance[k] === 20) ? " ⚠ LR／最大補正あり" : ""}</p>`).join("")}`,
     () =>
       commit(n, () => {
         checked.clear();
@@ -1593,9 +1664,9 @@ function equipWeapon(id: string, slot: number, after: () => void) {
     after();
   });
 }
-function detail(w: NewWeapon, context: string) {
+function detail(w: StoredWeapon, context: string) {
   const d = dialog(
-    `${WEAPONS[w.kind].name} / ${GRADES[w.rarity]}`,
+    `${WEAPONS[w.kind].name} / ${weaponGrade(w)}`,
     `<div id="pt-weapon-preview"></div><p>${esc(effectLabel(w))}</p><label>比較相手 <select id="pt-compare">${soldier(
       save,
     )
@@ -1622,7 +1693,7 @@ function detail(w: NewWeapon, context: string) {
       ]
         .map(
           ([k, t]) =>
-            `<tr><th>${t}</th><td class="pt-var-${k === "mag" ? "base" : varianceClass(w.variance[k as keyof Variances])}">${metric(w, k)}<sup>${k === "mag" ? "" : varianceMark(w.variance[k as keyof Variances])}</sup></td><td>${k === "mag" ? "固定" : `${w.variance[k as keyof Variances] >= 0 ? "+" : ""}${w.variance[k as keyof Variances]}%`}</td><td>${metricDifference(w, base, k)}</td></tr>`,
+            `<tr><th>${t}</th><td class="pt-var-${k === "mag" ? "base" : varianceClass(w.format === 2 ? w.variance[k as keyof Variances] : 0)}">${metric(w, k)}<sup>${k === "mag" ? "" : varianceMark(w.format === 2 ? w.variance[k as keyof Variances] : 0)}</sup></td><td>${w.format !== 2 ? "従来の性能を保持" : k === "mag" ? "固定" : `${(w.format === 2 ? w.variance[k as keyof Variances] : 0) >= 0 ? "+" : ""}${w.format === 2 ? w.variance[k as keyof Variances] : 0}%`}</td><td>${metricDifference(w, base, k)}</td></tr>`,
         )
         .join("")}</table>`;
   };
@@ -1808,13 +1879,10 @@ function accessories() {
   );
 }
 
-loadMode(
-  testAvailable() &&
-    !developerMode &&
-    sessionStorage.getItem("swarm-front-playtest-mode") === "test"
-    ? "test"
-    : "normal",
-);
+window.addEventListener("app-install-changed", () => {
+  if (screen === "home" || screen === "intro") showHome(screen === "home");
+});
+loadMode("normal");
 const unauthorizedDeveloper = developerRequested && !developerMode;
 const retryLaunch =
   sampleMenus || unauthorizedDeveloper
@@ -1875,6 +1943,14 @@ if (import.meta.env.DEV)
         fov: view.camera.fov,
       },
       loadReady,
+      mapAssets: view.mapAssets.status.map((state) => ({ ...state })),
+      trooper: (() => {
+        const model = view.players.get("solo");
+        const trooper = model?.userData.trooper;
+        return trooper
+          ? { loaded: true, bones: trooper.bones.length }
+          : { loaded: false, error: model?.userData.trooperError ?? null };
+      })(),
       input: { ...controls.input },
       renderedEnemies: Object.fromEntries(
         [...view.structures].map(([kind, visual]) => [

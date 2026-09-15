@@ -1,9 +1,10 @@
+import { weaponGrade } from "../shared/progression";
 import { stats, RARITIES, effectLabel, type Weapon } from "../shared/defs";
 import { rewards, type Save } from "./save";
 
 export function weaponDetails(w: Weapon) {
   const d = stats(w);
-  return `${RARITIES[w.rarity]} · ${d.name}\n威力 ${Math.round(d.damage)}${d.pellets > 1 ? ` × ${d.pellets}` : ""} · 装弾 ${d.mag} · 装填 ${d.reload.toFixed(2)}秒\n射程 ${Math.round(d.range)}m · 連射 ${(1 / d.interval).toFixed(1)}発/秒 · ${effectLabel(w)}`;
+  return `${weaponGrade(w)} · ${d.name}\n威力 ${Math.round(d.damage)}${d.pellets > 1 ? ` × ${d.pellets}` : ""} · 装弾 ${d.mag} · 装填 ${d.reload.toFixed(2)}秒\n射程 ${Math.round(d.range)}m · 連射 ${(1 / d.interval).toFixed(1)}発/秒 · ${effectLabel(w)}`;
 }
 export function canReplace(
   save: Save,

@@ -1,8 +1,16 @@
+import {
+  DEFAULT_PLAYER_NAME,
+  CHAT_HISTORY_LIMIT,
+  normalizePlayerName,
+  normalizeChatText,
+  type ChatMessage,
+} from "../src/shared/social";
 import { validStage } from "../src/shared/stages";
 import { developerAuth } from "./developer-auth";
 import { DurableObject } from "cloudflare:workers";
 import { creationAccess, turnstileAccess } from "./auth";
-import { LIMITS, validWeapon, type Weapon } from "../src/shared/defs";
+import { LIMITS, validBattleWeapon, type Weapon } from "../src/shared/defs";
+import type { NewWeapon } from "../src/shared/progression";
 import {
   addPlayer,
   createWorld,
@@ -14,6 +22,29 @@ import {
   type Input,
   type World,
 } from "../src/shared/game";
+const renderNumbers = new Set([
+  "x",
+  "y",
+  "z",
+  "yaw",
+  "pitch",
+  "tx",
+  "ty",
+  "tz",
+  "dx",
+  "dy",
+  "dz",
+  "fromX",
+  "fromZ",
+  "time",
+  "hp",
+  "cool",
+  "reload",
+  "safe",
+  "hurt",
+  "wind",
+]);
+
 interface Env {
   ROOMS: DurableObjectNamespace<Room>;
   GATE: DurableObjectNamespace<Gate>;
@@ -26,11 +57,15 @@ interface Env {
 interface Member {
   id: string;
   token: string;
+  name?: string;
+  chatAt?: number;
+  profileAt?: number;
   last: number;
   gone: number;
   weapons: Weapon[];
   edits?: number;
   ready?: boolean;
+  readyGeneration?: number;
 }
 interface Saved {
   created: number;
@@ -39,6 +74,8 @@ interface Saved {
   interrupted: boolean;
   paused?: boolean;
   stage?: number;
+  messages?: ChatMessage[];
+  preparationGeneration?: number;
 }
 const json = (body: unknown, status = 200) => Response.json(body, { status });
 const secret = () => crypto.randomUUID().replaceAll("-", "");
@@ -257,6 +294,14 @@ export class Room extends DurableObject<Env> {
       }
     });
   }
+  invalidatePreparation() {
+    this.saved.preparationGeneration =
+      (this.saved.preparationGeneration ?? 0) + 1;
+    for (const member of this.saved.members) {
+      member.ready = false;
+      member.readyGeneration = undefined;
+    }
+  }
   async persist() {
     await this.ctx.storage.put("room", this.saved);
   }
@@ -291,12 +336,25 @@ export class Room extends DurableObject<Env> {
   }
   send(ws: WebSocket, data: unknown) {
     try {
-      // Centimetre precision is sufficient for rendering; avoid transmitting long floats.
-      const payload = JSON.stringify(data, (key, value) =>
-        typeof value === "number" && key !== "power"
+      // Compact only rendering state. Weapon definitions (including nested rolls
+      // and variance) must stay exact: rounding a magazine roll can add a bullet.
+      const weaponValues = new WeakSet<object>();
+      const payload = JSON.stringify(data, function (key, value) {
+        const weaponValue = weaponValues.has(this);
+        if (value && typeof value === "object") {
+          if (
+            weaponValue ||
+            ("kind" in value && "rarity" in value && "power" in value)
+          )
+            weaponValues.add(value);
+          return value;
+        }
+        return !weaponValue &&
+          typeof value === "number" &&
+          renderNumbers.has(key)
           ? Math.round(value * 100) / 100
-          : value,
-      );
+          : value;
+      });
       if (new TextEncoder().encode(payload).length > 65536) {
         ws.close(4009, "状態データの上限");
         this.disconnected(ws);
@@ -399,6 +457,8 @@ export class Room extends DurableObject<Env> {
         };
         this.saved.members.push(member);
       }
+      member.name =
+        normalizePlayerName(m.name) || member.name || DEFAULT_PLAYER_NAME;
       member.last = now;
       member.gone = 0;
       s.id = member.id;
@@ -407,6 +467,7 @@ export class Room extends DurableObject<Env> {
       const p = this.saved.world?.players.find((p) => p.id === s.id);
       if (p) p.connected = true;
       this.saved.paused = false;
+      this.invalidatePreparation();
       await this.persist();
       await this.ctx.storage.setAlarm(
         Math.min(
@@ -419,13 +480,57 @@ export class Room extends DurableObject<Env> {
         ),
       );
       this.send(ws, { type: "welcome", id: member.id, token: member.token });
+      this.send(ws, {
+        type: "chatHistory",
+        messages: this.saved.messages ?? [],
+      });
       this.broadcast();
       if (this.saved.world?.phase === "battle") this.run();
       return;
     }
     const member = this.saved.members.find((p) => p.id === s.id)!;
     s.at = now;
-    if (m.type === "input") {
+    if (m.type === "profile") {
+      const name = normalizePlayerName(m.name);
+      if (!name || name === member.name || now - (member.profileAt ?? 0) < 1000)
+        return;
+      member.name = name;
+      member.profileAt = now;
+      await this.persist();
+      this.broadcast();
+    } else if (m.type === "chat") {
+      if (this.saved.world?.phase === "battle") {
+        this.send(ws, {
+          type: "notice",
+          reason: "チャットは出撃前のロビーで利用できます",
+        });
+        return;
+      }
+      const text = normalizeChatText(m.text);
+      if (!text) return;
+      if (now - (member.chatAt ?? 0) < 1000) {
+        this.send(ws, {
+          type: "notice",
+          reason: "少し待ってから送信してください",
+        });
+        return;
+      }
+      member.chatAt = now;
+      member.last = now;
+      const message: ChatMessage = {
+        id: secret(),
+        memberId: member.id,
+        name: member.name || DEFAULT_PLAYER_NAME,
+        text,
+        at: now,
+      };
+      this.saved.messages = [...(this.saved.messages ?? []), message].slice(
+        -CHAT_HISTORY_LIMIT,
+      );
+      await this.persist();
+      for (const [peer, identity] of this.sockets)
+        if (identity.id) this.send(peer, { type: "chat", message });
+    } else if (m.type === "input") {
       if (!validInput(m.input)) {
         this.error(ws, "入力値が不正です");
         return;
@@ -456,18 +561,27 @@ export class Room extends DurableObject<Env> {
       };
     } else if (m.type === "ready" || m.type === "stage") {
       // Completed runs retain their world; players must still ready for a rematch.
-      if (
-        this.saved.world &&
-        (m.type === "stage" || this.saved.world.phase === "battle")
-      )
-        return;
+      if (this.saved.world?.phase === "battle") return;
       if (m.type === "stage") {
         if (s.id !== this.saved.members.find((p) => !p.gone)?.id) return;
         if (!validStage(m.stage) || this.saved.stage === m.stage) return;
         this.saved.stage = m.stage;
+        this.invalidatePreparation();
       } else {
-        if (typeof m.ready !== "boolean" || member.ready === m.ready) return;
-        member.ready = m.ready && member.weapons.length === 2;
+        if (typeof m.ready !== "boolean") return;
+        // An old load completion must never approve a newer preparation, even
+        // when the stage changes A -> B -> A or another player changes gear.
+        if (m.preparationGeneration !== (this.saved.preparationGeneration ?? 0))
+          return;
+        const ready =
+          m.ready &&
+          member.weapons.length === 2 &&
+          m.stage === (this.saved.stage ?? 1);
+        if (member.ready === ready) return;
+        member.ready = ready;
+        member.readyGeneration = ready
+          ? this.saved.preparationGeneration
+          : undefined;
       }
       member.last = now;
       await this.persist();
@@ -477,7 +591,7 @@ export class Room extends DurableObject<Env> {
       if (
         !Array.isArray(m.weapons) ||
         m.weapons.length !== 2 ||
-        !m.weapons.every(validWeapon) ||
+        !m.weapons.every(validBattleWeapon) ||
         m.weapons[0].id === m.weapons[1].id
       ) {
         this.error(ws, "武器定義が不正です");
@@ -489,14 +603,24 @@ export class Room extends DurableObject<Env> {
       }
       member.edits = (member.edits ?? 0) + 1;
       member.last = now;
-      member.ready = m.ready !== false;
-      member.weapons = m.weapons.map((w: Weapon) => ({
+      // Equipment packets never acknowledge asset readiness. Every participant
+      // must load and acknowledge the resulting server generation separately.
+      this.invalidatePreparation();
+      member.weapons = m.weapons.map((w: Weapon | NewWeapon) => ({
         id: w.id,
         kind: w.kind,
         rarity: w.rarity,
         power: w.power,
         effect: w.effect,
         ...(w.rolls ? { rolls: { ...w.rolls } } : {}),
+        ...("format" in w
+          ? {
+              format: 2 as const,
+              variance: { ...w.variance },
+              testData: false,
+              acquired: w.acquired,
+            }
+          : {}),
       }));
       await this.persist();
       this.broadcast();
@@ -506,7 +630,12 @@ export class Room extends DurableObject<Env> {
         return;
       if (
         !present.length ||
-        present.some((p) => p.weapons.length !== 2 || p.ready === false)
+        present.some(
+          (p) =>
+            p.weapons.length !== 2 ||
+            p.ready !== true ||
+            p.readyGeneration !== (this.saved.preparationGeneration ?? 0),
+        )
       ) {
         this.send(ws, {
           type: "notice",
@@ -549,8 +678,12 @@ export class Room extends DurableObject<Env> {
       if (!s.id) continue;
       const members = this.saved.members.map((p) => ({
         id: p.id,
-        ready: p.weapons.length === 2 && p.ready !== false,
-        ...(!w ? { weapons: p.weapons } : {}),
+        name: p.name || DEFAULT_PLAYER_NAME,
+        ready:
+          p.weapons.length === 2 &&
+          p.ready === true &&
+          p.readyGeneration === (this.saved.preparationGeneration ?? 0),
+        ...(w?.phase !== "battle" ? { weapons: p.weapons } : {}),
         connected: !p.gone,
       }));
       if (w) {
@@ -565,9 +698,16 @@ export class Room extends DurableObject<Env> {
             drops: w.drops.filter((d) => d.owner === s.id),
           },
           members,
+          stage: this.saved.stage ?? 1,
+          preparationGeneration: this.saved.preparationGeneration ?? 0,
         });
       } else
-        this.send(ws, { type: "lobby", members, stage: this.saved.stage ?? 1 });
+        this.send(ws, {
+          type: "lobby",
+          members,
+          stage: this.saved.stage ?? 1,
+          preparationGeneration: this.saved.preparationGeneration ?? 0,
+        });
     }
     if (w) this.sentEvent = w.eventSerial;
   }
@@ -626,6 +766,7 @@ export class Room extends DurableObject<Env> {
     }
     this.ticks++;
     if (w.phase !== "battle") {
+      this.invalidatePreparation();
       this.stop();
       this.persisting = true;
       try {
@@ -655,6 +796,7 @@ export class Room extends DurableObject<Env> {
     if ([...this.sockets.values()].some((a) => a.id === s.id)) return;
     const m = this.saved.members.find((p) => p.id === s.id);
     if (m) m.gone = Date.now();
+    this.invalidatePreparation();
     delete this.inputs[s.id];
     const w = this.saved.world;
     const p = w?.players.find((p) => p.id === s.id);

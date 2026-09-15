@@ -1,4 +1,54 @@
-# 現在地: main集約完了（2026-09-15）
+# 現在地: 残るP2の受領履歴を修正、再判定へ（2026-09-15）
+
+独立監査HEAD `4d79723` では、旧版保存上書き・同時保存・通信精度の対応を確認された。残ったP2「通常受領後に解体した追加回収武器の復元による復活」を修正。通常受領を含む永続履歴を持ち、解体・別run・協力保存後も照合する。
+
+コードHEAD `a85e0bc11861111e3c5653ae15ddb73ca9ec29a5`、branch `codex/playability-coop-six`、[PR #6](https://github.com/futsalife24-bot/swarm-front/pull/6)。型・保存22単体・進行広告31単体、新規実Chrome3ケース・既存保存7ケース、両build・production dry-run成功。詳細と旧履歴欠損時の復元停止は [PLAYABILITY-REAUDIT-3.md](PLAYABILITY-REAUDIT-3.md)。
+
+**停止理由:** 今回の修正HEADの独立再判定と必要な承認が未受領。ユーザー指示でmain反映・公開は保留。mainは `0eab85d20dbe480d100e1cca27bc47da301a33cb` のまま。
+
+**再開条件:** [協力機能監査結果](https://chatgpt.com/c/6aa921dc-e0b8-83e8-ad74-a5a943c2b31f) の再判定と必要な承認を受領後、既存保護/CIを満たしてmain反映・公開・配信照合へ進む。以下は過去の対応履歴。
+
+# 現在地: 第2回監査の保存・通信指摘を修正、独立再監査へ（2026-09-15）
+
+指定6件・試遊区分廃止・ソロ協力の武器庫統一を保持。HEAD `d947dd8` の独立監査で前回3件は解消確認されたが、旧版の保存上書き、競合時の戦果消失、武器通信精度、厳密同時保存が必須修正となった。
+
+修正コードHEAD `2c02171b9e6170e36ee3789ef66d0f48d98c644b`、branch `codex/playability-coop-six`、[PR #6](https://github.com/futsalife24-bot/swarm-front/pull/6)。新保存キーへ隔離し、Web Locksで通常/協力の保存画面を1つに制限。競合戦果は最新保存へ重複なく復元し、控え書出しと容量不足からの再試行を用意。通信では武器の小数精度を保持する。詳細・仕様・証拠は [PLAYABILITY-REAUDIT-2.md](PLAYABILITY-REAUDIT-2.md)。
+
+型、保存18単体、進行/広告31単体、関連19単体、実Chrome保存7ケース、最終HEAD実Worker精度1件、選択/訓練E2E4件成功。ソロ/協力の武器共有と報酬往復、配布管理者2入口・12asset SHA成功。両build・production Worker dry-run成功。実スマホ・公開配信は未実施。旧版タブで移行後に新たに得た報酬は自動同期しない。
+
+**停止理由:** 修正HEADについて独立再監査と必要な承認が未受領。ユーザー指示でmain反映・公開は保留。mainは `0eab85d20dbe480d100e1cca27bc47da301a33cb` のまま。
+
+**再開条件:** [協力機能監査結果](https://chatgpt.com/c/6aa921dc-e0b8-83e8-ad74-a5a943c2b31f) へ修正差分とHEAD付き証拠を送り、再監査結果と必要な承認を受領後、保護/CIを満たしてmain反映・公開・配信照合へ進む。以下は過去の対応履歴として保持する。
+
+# 現在地: 監査3件修正・通常/協力の武器庫統一、独立再監査待ち（2026-09-15）
+
+指定ランキング1/2/3/5/8/10（ロード・2個スコープ・選択UI・名前・3列ロビー・チャット）を実装。追加指示で試遊版区分を廃止した。追加指示で通常ソロ・協力の武器庫を統一。旧v1と既存normalの武器は性能を保って一度だけ統合し、元データを控えとして保持する。管理者の進行・装備は一時状態で共通武器庫へ流入させない。名前・操作配置は各モード共通保存。
+
+保存ブランチ `codex/playability-coop-six`。開始HEADは先行PR #5の `12b4ae64cf749af7be41a5a3dd3ed4cd8e696e5d`、mainは `0eab85d20dbe480d100e1cca27bc47da301a33cb`。先行兵士成果を含む。[PR #6](https://github.com/futsalife24-bot/swarm-front/pull/6) をdraftで保存・push済み。初回実装HEADは `4230bb1`、初回監査HEADは `157df95`。今回の修正は同じブランチへ追加保存する。
+
+型・関連単体116件、実Worker通信13ケース（分割）、選択/訓練E2E4件、実Chromeで勝利/敗北→同じ部隊→再出撃、旧/新武器の通常・協力共有と報酬往復、武器一覧の開発/配布各8条件成功。配布管理者2経路で一時装備分離・名前/配置共通、12asset SHA一致。両build・production Worker dry-run成功。修正と追加仕様・証拠・限界は [PLAYABILITY-REAUDIT.md](PLAYABILITY-REAUDIT.md)。
+
+**監査結果:** HEAD `157df9549cbce64f936a120034f9ca4a6b985b59` の外部監査は要修正だった。P1サーバー準備世代、P2協力結果のロビー復帰、P2再描画後focusを修正し、追加の共通武器庫も実装・自己検証済み。修正HEADの独立再監査は未受領。
+
+**停止理由:** ユーザー指示によりmain反映・公開は保留。Codex内レビューを独立監査合格に代用しない。
+
+**再開条件:** PR #6の修正HEAD（追加の保存統合・通信変更を含む）についてChat独立再監査と必要な承認を受領後、保護/CIを満たしてmain反映・公開・配信照合へ進む。実スマホ受入と厳密同時の別タブ保存排他は未確認/未対応として記録。
+
+以下の兵士デザイン記録とそれ以前の履歴を保護する。次の作業はこのブランチ/PRの未反映成果を確認し、旧mainから取り落とさない。
+
+# 現在地: 兵士デザインv9を保存、Chat独立監査・公開承認待ち（2026-09-15）
+
+Image Aに沿う部隊装備・材質・待機姿勢を実装し、途中指示の骨盤/太腿/ポーチのスリム化も反映。[PR #5](https://github.com/futsalife24-bot/swarm-front/pull/5)、保存ブランチ `codex/trooper-design-refresh`。実装・証拠HEADは `5c9279b9586d8d1589ea0a287ce4e6b71b386c70`（この後続commitは現在地記録のみ）。開始base/mainは `0eab85d20dbe480d100e1cca27bc47da301a33cb`、最終fetchでも同じ。
+
+型・関連14単体・通常/Pages build・production Worker dry-run成功。合成315条件でソケット差4.3e-8m以下、57骨/15非待機clipのpayload保持、3クラス接地/反復切替、開発/配布の横画面2サイズで移動/射撃/装填/切替/回避復帰成功。GLB7.34MB・制服11draw、source/dist/dist-pages SHA一致。ユーザー許可のCodex内監査は指摘修正後「必須修正なし」。[調査・実装・比較画像・動画・残課題](TROOPER-DESIGN-V9.md)、[Codex内監査記録](TROOPER-DESIGN-V9-REVIEW.md)。
+
+**停止理由:** READMEに残る「本番公開・mergeは独立監査後の承認待ち」により、main反映とWorker公開は未実施。今回の監査エージェント許可をChat独立監査条件の解除とは解釈していない。
+
+**再開条件:** PR #5の最新HEADについてChat独立監査と必要な承認を受領後、既存の保護・CIを満たしてmain反映と既存Worker公開へ進む。先にこのブランチ/PRの未反映成果を確認する。原画と同等の写実品質・実機GPU負荷を合格扱いしていない。
+
+以下はmain集約と各機能の履歴。上記の未反映PRを解消するまで、新しい作業を旧mainから始めて成果を取り落とさない。
+
+# main集約完了（2026-09-15）
 
 正本: GitHub `futsalife24-bot/swarm-front` のmain。正規作業場所はこの `game/`。新しい開始・終了ルールは [WORKFLOW.md](WORKFLOW.md)。
 
