@@ -4,11 +4,19 @@ import { recoverUnsavedResult } from "../src/client/save-recovery";
 import { describe, expect, it } from "vitest";
 import { stats } from "../src/shared/defs";
 import { makeWeapon, validNewWeapon } from "../src/shared/progression";
-import { fresh, SAVE_KEY, bankRewards } from "../src/client/save";
+import {
+  fresh,
+  SAVE_KEY,
+  bankRewards,
+  dismantleWeapons,
+} from "../src/client/save";
 import {
   SaveConflictError,
   grantResult,
   appendCollected,
+  chooseReward,
+  prepareChoice,
+  dismantle,
   validateProgress,
   legacyProgressKey,
   allWeapons,
@@ -568,4 +576,132 @@ it("retries migration after quota then old-source edits without overwriting prio
       );
     }
   }
+});
+
+function collectionRecoveryFixture() {
+  const storage = memory();
+  loadSharedCoopSave(storage);
+  const base = grantResult(
+    loadProgress("normal", storage)!,
+    {
+      run: "receipt-run",
+      stage: 1,
+      difficulty: "normal",
+      win: true,
+      time: 10,
+      kills: 1,
+      missions: [true, false, false],
+      weapons: [],
+      collected: 0,
+    },
+    () => 0.5,
+  );
+  persistProgress(base, storage);
+  const x = roll("receipt-x"),
+    y = roll("receipt-y");
+  const pending = appendCollected(base, [x, y]);
+  let latest = chooseReward(
+    prepareChoice(appendCollected(base, [x]), () => 0.5),
+    false,
+  );
+  latest = dismantle(latest, [x.id]);
+  return { storage, base, pending, latest, x, y };
+}
+
+it.each([false, true])(
+  "does not resurrect normally received and dismantled collection rewards (later run: %s)",
+  (laterRun) => {
+    const fixture = collectionRecoveryFixture();
+    const { storage, base, pending, x, y } = fixture;
+    let { latest } = fixture;
+    if (laterRun)
+      latest = grantResult(
+        latest,
+        {
+          run: "later-run",
+          stage: 1,
+          difficulty: "normal",
+          win: false,
+          time: 1,
+          kills: 0,
+          missions: [false, false, false],
+          weapons: [],
+          collected: 0,
+        },
+        () => 0.5,
+      );
+    persistProgress(latest, storage);
+    const powder = latest.powder,
+      coins = latest.coins;
+    expect(latest.weaponReceipts!.ids).toContain(x.id);
+    let recovered = recoverUnsavedResult(base, pending, storage);
+    expect(allWeapons(recovered).some((w) => w.id === x.id)).toBe(false);
+    expect(allWeapons(recovered).filter((w) => w.id === y.id)).toHaveLength(1);
+    expect(recovered.powder).toBe(powder);
+    expect(recovered.coins).toBe(coins);
+    recovered = dismantle(recovered, [y.id]);
+    persistProgress(recovered, storage);
+    const dismantledPowder = recovered.powder;
+    const replay = chooseReward(
+      prepareChoice(pending, () => 0.5),
+      false,
+    );
+    // Different recovery identity: receipt history, not just exact replay detection, protects Y.
+    const again = recoverUnsavedResult(base, replay, storage);
+    expect(allWeapons(again).some((w) => [x.id, y.id].includes(w.id))).toBe(
+      false,
+    );
+    expect(again.powder).toBe(dismantledPowder);
+    const raw = storage.getItem(normalKey);
+    recoverUnsavedResult(base, replay, storage);
+    expect(storage.getItem(normalKey)).toBe(raw);
+  },
+);
+
+it("keeps weapon receipt history across co-op dismantling and a later result", () => {
+  const { storage, base, pending, x } = collectionRecoveryFixture();
+  const accepted = chooseReward(
+    prepareChoice(appendCollected(base, [x]), () => 0.5),
+    false,
+  );
+  persistProgress(accepted, storage);
+  const coop = dismantleWeapons(loadSharedCoopSave(storage), [x.id]);
+  persistSharedCoopSave(coop, storage);
+  const latest = grantResult(
+    loadProgress("normal", storage)!,
+    {
+      run: "after-coop",
+      stage: 1,
+      difficulty: "normal",
+      win: false,
+      time: 1,
+      kills: 0,
+      missions: [false, false, false],
+      weapons: [],
+      collected: 0,
+    },
+    () => 0.5,
+  );
+  persistProgress(latest, storage);
+  const recovered = recoverUnsavedResult(base, pending, storage);
+  expect(allWeapons(recovered).some((w) => w.id === x.id)).toBe(false);
+  expect(recovered.powder).toBe(coop.powder);
+});
+
+it("uses the retained result for pre-ledger saves and refuses unknowable historical recovery", () => {
+  const { storage, base, pending, latest, x, y } = collectionRecoveryFixture();
+  delete latest.weaponReceipts;
+  // Simulate the exact old format: bypass the new writer's automatic receipt retention.
+  storage.setItem(normalKey, JSON.stringify(latest));
+  const recovered = recoverUnsavedResult(base, pending, storage);
+  expect(allWeapons(recovered).some((w) => w.id === x.id)).toBe(false);
+  expect(allWeapons(recovered).filter((w) => w.id === y.id)).toHaveLength(1);
+  const historical = structuredClone(latest);
+  delete historical.result;
+  storage.setItem(normalKey, JSON.stringify(historical));
+  const raw = storage.getItem(normalKey);
+  expect(() => recoverUnsavedResult(base, pending, storage)).toThrow(
+    "古い受領履歴",
+  );
+  expect(storage.getItem(normalKey)).toBe(raw);
 });

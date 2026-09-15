@@ -91,6 +91,7 @@ export interface ProgressSave {
   tutorials: string[];
   result?: Receipt;
   receipts: string[];
+  weaponReceipts?: { ids: string[]; runs: string[] };
   serial: number;
 }
 export const blankLevels = () => ({ hp: 0, aim: 0, move: 0, swap: 0 });
@@ -136,6 +137,24 @@ export function freshProgress(mode: SaveMode): ProgressSave {
 }
 export const allWeapons = (s: ProgressSave) =>
   [...s.inventory, ...s.pending].sort((a, b) => a.acquired - b.acquired);
+/** A result's weapons have already been banked, even before reward choice. */
+export function weaponReceiptSnapshot(s: ProgressSave) {
+  return {
+    ids: [
+      ...new Set([
+        ...(s.weaponReceipts?.ids ?? []),
+        ...allWeapons(s).map((w) => w.id),
+        ...(s.result?.weapons.map((w) => w.id) ?? []),
+      ]),
+    ],
+    runs: [
+      ...new Set([
+        ...(s.weaponReceipts?.runs ?? []),
+        ...(s.result ? [s.result.run] : []),
+      ]),
+    ],
+  };
+}
 export const soldier = (s: ProgressSave) =>
   s.soldiers.find((x) => x.id === s.selectedSoldier)!;
 export const spent = (levels: Record<Skill, number>) =>
@@ -169,6 +188,16 @@ export function validateProgress(s: ProgressSave) {
     !s.encounters
   )
     throw new Error("進行保存を読めません。上書きを停止しました");
+  if (
+    s.weaponReceipts &&
+    ![s.weaponReceipts.ids, s.weaponReceipts.runs].every(
+      (values) =>
+        Array.isArray(values) &&
+        values.every((id) => typeof id === "string") &&
+        new Set(values).size === values.length,
+    )
+  )
+    throw new Error("武器の受領履歴を読めません。上書きを停止しました");
   if (s.coopPreferences)
     parseSave(JSON.stringify({ ...fresh(), ...s.coopPreferences }));
   const weapons = allWeapons(s),
@@ -411,12 +440,21 @@ export function persistProgress(
     throw new SaveConflictError(
       "保存が別の画面で削除されました。再読み込みしてください。",
     );
-  if (s.mode === "normal" && raw) {
-    const current = validateProgress(JSON.parse(raw));
+  const current =
+    s.mode === "normal" && raw ? validateProgress(JSON.parse(raw)) : null;
+  if (current) {
     if ((current.revision ?? 0) !== (s.revision ?? 0))
       throw new SaveConflictError();
   }
   const next = { ...s, revision: (s.revision ?? 0) + 1 };
+  const incomingReceipts = weaponReceiptSnapshot(s);
+  const previousReceipts = current
+    ? weaponReceiptSnapshot(current)
+    : { ids: [], runs: [] };
+  next.weaponReceipts = {
+    ids: [...new Set([...previousReceipts.ids, ...incomingReceipts.ids])],
+    runs: [...new Set([...previousReceipts.runs, ...incomingReceipts.runs])],
+  };
   try {
     storage.setItem(newSaveKey(s.mode), JSON.stringify(next));
   } catch {
@@ -425,6 +463,7 @@ export function persistProgress(
     );
   }
   s.revision = next.revision;
+  s.weaponReceipts = next.weaponReceipts;
 }
 export function initializeProgress(
   mode: SaveMode,
@@ -465,6 +504,7 @@ export function bank(s: ProgressSave, items: StoredWeapon[]) {
       s.inventory.push(w);
     else s.pending.push(w);
   }
+  s.weaponReceipts = weaponReceiptSnapshot(s);
 }
 export function refill(s: ProgressSave) {
   const waiting = [...s.pending].sort(
@@ -484,6 +524,7 @@ export function dismantle(s: ProgressSave, ids: string[]) {
     items.some((w) => weaponProtected(n, w.id))
   )
     throw new Error("登録装備・ロック品は解体できません");
+  n.weaponReceipts = weaponReceiptSnapshot(n);
   n.powder += items.reduce((v, w) => v + weaponYield(w), 0);
   n.inventory = n.inventory.filter((w) => !unique.has(w.id));
   n.pending = n.pending.filter((w) => !unique.has(w.id));
@@ -537,6 +578,7 @@ export function grantResult(
     key = missionKey(input.stage, input.difficulty),
     old = n.missions[key] ?? [false, false, false],
     first = input.win && !old[0];
+  n.weaponReceipts = weaponReceiptSnapshot(n);
   n.serial = Math.max(n.serial, ...input.weapons.map((w) => w.acquired + 1));
   const r: Receipt = {
     ...structuredClone(input),
@@ -570,6 +612,7 @@ export function grantResult(
   n.coins += r.coins + r.firstCoins;
   n.receipts.push(input.run);
   n.result = r;
+  n.weaponReceipts = weaponReceiptSnapshot(n);
   return n;
 }
 export function appendCollected(s: ProgressSave, items: NewWeapon[]) {
