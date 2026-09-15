@@ -1,7 +1,7 @@
 import { chromium } from "@playwright/test";
 import fs from "node:fs";
 import assert from "node:assert/strict";
-const dir = "dist-validation/trooper-kling";
+const dir = "dist-validation/restore-v9-run";
 fs.mkdirSync(dir, { recursive: true });
 const browser = await chromium.launch({
   channel: "chrome",
@@ -43,6 +43,77 @@ try {
         ),
       });
     }
+    const original = new StandardTrooper(designReview.panels[0].model.assets);
+    report.restoration = [];
+    for (const name of [
+      "Run",
+      "Run_Rocket",
+      "Upper_Run",
+      "Upper_Run_Rocket",
+      "Lower_Run",
+    ]) {
+      const encode = (c) => ({
+        duration: c.duration,
+        tracks: c.tracks.map((t) => ({
+          name: t.name,
+          times: [...t.times],
+          values: [...t.values],
+        })),
+      });
+      if (
+        JSON.stringify(encode(sampler.clips.get(name))) !==
+        JSON.stringify(encode(original.clips.get(name)))
+      )
+        throw Error("v9 clip mismatch: " + name);
+    }
+    if (sampler.runStride !== original.runStride)
+      throw Error("v9 stride mismatch");
+    for (const kind of ["rifle", "shotgun", "rocket"]) {
+      const make = (a) => {
+        const t = new StandardTrooper(a),
+          w = createWorld("restore", 7),
+          p = addPlayer(w, "p");
+        p.weapons[0].kind = kind;
+        return { t, p };
+      };
+      const old = make(designReview.panels[0].model.assets),
+        now = make(assets);
+      let error = 0;
+      for (let f = 0; f < 240; f++) {
+        for (const v of [old, now])
+          v.t.update(
+            v.p,
+            0,
+            f / 60,
+            "restore",
+            1 / 60,
+            { x: 0, z: (-7 * f) / 60 },
+            false,
+          );
+        if (f > 60)
+          for (let i = 0; i < now.t.bones.length; i++) {
+            const a = now.t.bones[i],
+              b = old.t.bones[i];
+            error = Math.max(
+              error,
+              a.position.distanceTo(b.position),
+              1 - Math.abs(a.quaternion.dot(b.quaternion)),
+            );
+          }
+        if (now.t.contactLocks.length)
+          throw Error("Run unexpectedly foot locked");
+      }
+      if (error > 1e-5)
+        throw Error("v9 run pose mismatch " + kind + ":" + error);
+      report.restoration.push({
+        kind,
+        maxPoseError: error,
+        stride: now.t.runStride,
+      });
+      old.t.dispose();
+      now.t.dispose();
+    }
+    original.dispose();
     sampler.dispose();
     for (const kind of ["rifle", "shotgun", "rocket"])
       for (const legacy of [true, false]) {
