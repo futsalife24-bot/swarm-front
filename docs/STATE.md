@@ -1,4 +1,16 @@
-# 現在地: main集約完了（2026-09-15）
+# 現在地: 兵士デザインv9を保存、Chat独立監査・公開承認待ち（2026-09-15）
+
+Image Aに沿う部隊装備・材質・待機姿勢を実装し、途中指示の骨盤/太腿/ポーチのスリム化も反映。[PR #5](https://github.com/futsalife24-bot/swarm-front/pull/5)、保存ブランチ `codex/trooper-design-refresh`。実装・証拠HEADは `5c9279b9586d8d1589ea0a287ce4e6b71b386c70`（この後続commitは現在地記録のみ）。開始base/mainは `0eab85d20dbe480d100e1cca27bc47da301a33cb`、最終fetchでも同じ。
+
+型・関連14単体・通常/Pages build・production Worker dry-run成功。合成315条件でソケット差4.3e-8m以下、57骨/15非待機clipのpayload保持、3クラス接地/反復切替、開発/配布の横画面2サイズで移動/射撃/装填/切替/回避復帰成功。GLB7.34MB・制服11draw、source/dist/dist-pages SHA一致。ユーザー許可のCodex内監査は指摘修正後「必須修正なし」。[調査・実装・比較画像・動画・残課題](TROOPER-DESIGN-V9.md)、[Codex内監査記録](TROOPER-DESIGN-V9-REVIEW.md)。
+
+**停止理由:** READMEに残る「本番公開・mergeは独立監査後の承認待ち」により、main反映とWorker公開は未実施。今回の監査エージェント許可をChat独立監査条件の解除とは解釈していない。
+
+**再開条件:** PR #5の最新HEADについてChat独立監査と必要な承認を受領後、既存の保護・CIを満たしてmain反映と既存Worker公開へ進む。先にこのブランチ/PRの未反映成果を確認する。原画と同等の写実品質・実機GPU負荷を合格扱いしていない。
+
+以下はmain集約と各機能の履歴。上記の未反映PRを解消するまで、新しい作業を旧mainから始めて成果を取り落とさない。
+
+# main集約完了（2026-09-15）
 
 正本: GitHub `futsalife24-bot/swarm-front` のmain。正規作業場所はこの `game/`。新しい開始・終了ルールは [WORKFLOW.md](WORKFLOW.md)。
 
