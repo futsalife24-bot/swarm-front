@@ -1,12 +1,12 @@
-# 現在地: main集約の独立監査待ち（2026-09-15）
+# 現在地: main集約の指摘修正済み・再監査待ち（2026-09-15）
 
 正本: GitHub `futsalife24-bot/swarm-front` のmain。正規作業場所はこの `game/`。新しい開始・終了ルールは [WORKFLOW.md](WORKFLOW.md)。
 
 集約PR: [#3（Draft・独立監査待ち）](https://github.com/futsalife24-bot/swarm-front/pull/3)。監査対象の最終HEADはPRと `git rev-parse HEAD` で照合する。監査資料は `dist-validation/main-consolidation-20260915/audit.zip`（ローカル保管）。
 
-保存先: `codex/main-consolidation-20260915`。検証済みコード/テストHEADは `01b0bfd7df3cc84bb01676b7be7ade7cf3e2bc10`、後続は文書とmainの履歴接続。mainはまだ `25d95e35ba1e5dfd9ad1ee088a5c72689c169fcd`。バックアップ・327件の単体/試遊・実通信7件・対象UI確認を完了。報酬1行表示と協力再出撃の既存不具合も修正済み。[集約記録・検証](MAIN-CONSOLIDATION-20260915.md)。
+保存先: `codex/main-consolidation-20260915`。初回監査対象 `d72871c` はST11〜20のロビー同期不具合で要修正。共通判定への修正と実Worker回帰テストを `1fb2395e408170c13c2b665953f13c6d7fb30a63` で保存・検証済み。後続は文書更新のみ。[指摘対応と再現・検証結果](MAIN-CONSOLIDATION-REAUDIT-20260915.md)。mainはまだ `25d95e35ba1e5dfd9ad1ee088a5c72689c169fcd`。初回のバックアップ・327件の単体/試遊・実通信7件・対象UI確認は[集約記録](MAIN-CONSOLIDATION-20260915.md)。旧audit.zipは初回監査対象版の資料として保管しており、今回の修正を含まない。
 
-停止理由: READMEに明示されたmerge前の独立監査が未完了。再開条件: 集約PRの対象HEADに対するChat監査結果を取得し、必要修正と承認条件を満たすこと。その後PRをmainへ反映し、ローカルmainを同期してSHA一致・cleanを確認する。
+停止理由: READMEに明示されたmerge前の独立監査で指摘を受け、修正後の再監査が未完了。再開条件: 集約PRの新HEADに対するChat再監査結果を取得し、必要修正と承認条件を満たすこと。その後PRをmainへ反映し、ローカルmainを同期してSHA一致・cleanを確認する。
 
 次のセッションはまずこの集約ブランチとPRを照合して継続する。反映完了前に旧mainから別の開発を始めない。旧 `codex/home-armory` を最新版として編集しない。既存Workerの再デプロイは今回行っていない。
 
