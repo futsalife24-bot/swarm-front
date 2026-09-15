@@ -2,6 +2,8 @@
 
 正本: GitHub `futsalife24-bot/swarm-front` のmain。正規作業場所はこの `game/`。新しい開始・終了ルールは [WORKFLOW.md](WORKFLOW.md)。
 
+集約PR: [#3（Draft・独立監査待ち）](https://github.com/futsalife24-bot/swarm-front/pull/3)。監査対象の最終HEADはPRと `git rev-parse HEAD` で照合する。監査資料は `dist-validation/main-consolidation-20260915/audit.zip`（ローカル保管）。
+
 保存先: `codex/main-consolidation-20260915`。検証済みコード/テストHEADは `01b0bfd7df3cc84bb01676b7be7ade7cf3e2bc10`、後続は文書とmainの履歴接続。mainはまだ `25d95e35ba1e5dfd9ad1ee088a5c72689c169fcd`。バックアップ・327件の単体/試遊・実通信7件・対象UI確認を完了。報酬1行表示と協力再出撃の既存不具合も修正済み。[集約記録・検証](MAIN-CONSOLIDATION-20260915.md)。
 
 停止理由: READMEに明示されたmerge前の独立監査が未完了。再開条件: 集約PRの対象HEADに対するChat監査結果を取得し、必要修正と承認条件を満たすこと。その後PRをmainへ反映し、ローカルmainを同期してSHA一致・cleanを確認する。
