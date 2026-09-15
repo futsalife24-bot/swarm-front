@@ -46,6 +46,8 @@
 
 ## 保存と公開の境界
 
+保存済みdraftは [PR #6](https://github.com/futsalife24-bot/swarm-front/pull/6)。実装/検証HEADは `4230bb1`、後続commitは保存記録のみ。
+
 今回の開始点は先行PR #5の `12b4ae64cf749af7be41a5a3dd3ed4cd8e696e5d`。GitHub mainは `0eab85d20dbe480d100e1cca27bc47da301a33cb`。未反映の兵士デザイン成果を保護して `codex/playability-coop-six` で作業した。
 
 READMEの独立監査条件に従い、Chat独立監査と必要な承認の受領までmain反映・既存Worker公開は保留。今回PRは先行兵士変更を含むため、先行分と今回差分を区別して監査する。公開版での受入・実スマホGPU/ソフトキーボード確認は未実施。

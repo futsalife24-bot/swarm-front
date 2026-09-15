@@ -2,7 +2,7 @@
 
 指定ランキング1/2/3/5/8/10（ロード・2個スコープ・選択UI・名前・3列ロビー・チャット）を実装。追加指示で試遊版区分を廃止し、ステージ進行と保存を通常ゲームへ引き継いだ。特別入口は認証済み管理者のみ。旧URLは通常入口へ、管理者変更は通常保存から分離する。
 
-保存ブランチ `codex/playability-coop-six`。開始HEADは先行PR #5の `12b4ae64cf749af7be41a5a3dd3ed4cd8e696e5d`、mainは `0eab85d20dbe480d100e1cca27bc47da301a33cb`。先行兵士成果を含む。今回PR/保存HEADは作成後に追記する。
+保存ブランチ `codex/playability-coop-six`。開始HEADは先行PR #5の `12b4ae64cf749af7be41a5a3dd3ed4cd8e696e5d`、mainは `0eab85d20dbe480d100e1cca27bc47da301a33cb`。先行兵士成果を含む。[PR #6](https://github.com/futsalife24-bot/swarm-front/pull/6) をdraftで保存・push済み。実装/検証HEADは `4230bb1`（後続commitは保存記録のみ）。
 
 型・関連単体25件・関連実通信7ケース・選択/訓練E2E2件成功。通常844/640の名前/picker/scope/出撃、ロード遅延/失敗3条件、協力3サイズと2画面チャット/再準備/出撃、配布候補の武器一覧8条件成功。管理者認証/保存分離/旧URL/ログアウトの2経路と配布12SHA一致。通常/Pages build・production Worker dry-run成功。詳細・証拠・残課題は [PLAYABILITY-SIX.md](PLAYABILITY-SIX.md)。
 
