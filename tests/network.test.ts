@@ -6,6 +6,7 @@ import { neutral } from "../src/shared/game";
 import { fresh, rewards } from "../src/client/save";
 import { writeFileSync } from "node:fs";
 import { pilot } from "./bot";
+import { Network } from "../src/client/network";
 const base = "http://127.0.0.1:8787";
 class Client {
   ws: WebSocket;
@@ -389,4 +390,235 @@ describe("real local workerd WebSocket authority", () => {
       "頻度",
     );
   });
+});
+
+describe("lobby social and asset readiness over real Workers", () => {
+  it("client blocks immediate chat repeats and clears readiness when equipment changes", async () => {
+    const code = await room();
+    const observer = await join(code);
+    const network = new Network(base);
+    network.equip = STARTERS.slice(0, 2);
+    network.playerName = "通信テスト";
+    try {
+      network.connect(code);
+      await observer.wait(
+        (m) =>
+          m.type === "lobby" &&
+          m.members.some((p: any) => p.name === "通信テスト"),
+      );
+      network.setAssetReady(true);
+      await observer.wait(
+        (m) =>
+          m.type === "lobby" &&
+          m.members.some((p: any) => p.id === network.id && p.ready),
+      );
+      network.equipment(STARTERS.slice(1, 3));
+      const equipment = await observer.wait(
+        (m) =>
+          m.type === "lobby" &&
+          m.members.some(
+            (p: any) =>
+              p.id === network.id && p.weapons[0]?.id === STARTERS[1].id,
+          ),
+      );
+      expect(
+        equipment.members.find((p: any) => p.id === network.id).ready,
+      ).toBe(false);
+      expect(network.assetReady).toBe(false);
+      expect(network.sendChat("最初の送信")).toBe(true);
+      expect(network.sendChat("連続送信")).toBe(false);
+      await observer.wait(
+        (m) => m.type === "chat" && m.message.text === "最初の送信",
+      );
+      await new Promise((resolve) => setTimeout(resolve, 1150));
+      expect(network.sendChat("次の送信")).toBe(true);
+      await observer.wait(
+        (m) => m.type === "chat" && m.message.text === "次の送信",
+      );
+      expect(observer.messages.filter((m) => m.type === "chat")).toHaveLength(
+        2,
+      );
+    } finally {
+      network.close();
+    }
+  });
+  it("changes stage after victory, shares rematch equipment and waits for renewed readiness", async () => {
+    const endpoint = "http://127.0.0.1:8789";
+    const code = await room(endpoint),
+      a = await join(code, "", endpoint),
+      b = await join(code, "", endpoint);
+    for (const client of [a, b])
+      client.send({
+        type: "equip",
+        weapons: STARTERS.slice(0, 2),
+        ready: true,
+        stage: 1,
+      });
+    await a.wait(
+      (m) => m.type === "lobby" && m.members.every((p: any) => p.ready),
+    );
+    const fixture = await fetch(`${endpoint}/fixtures/${code}/reward`, {
+      method: "POST",
+    });
+    expect(fixture.ok).toBe(true);
+    const prepared = await a.wait(
+      (m) => m.type === "state" && m.world.enemies[0]?.kind === "boss",
+    );
+    a.send({
+      type: "input",
+      input: { ...neutral(), fire: true, seq: 1, pitch: 0.15 },
+    });
+    const victory = await a.wait(
+      (m) =>
+        m.type === "state" &&
+        m.world.phase === "victory" &&
+        m.world.run === prepared.world.run,
+    );
+    expect(victory.members.every((p: any) => p.weapons.length === 2)).toBe(
+      true,
+    );
+    a.send({ type: "stage", stage: 2 });
+    const changed = await b.wait(
+      (m) =>
+        m.type === "state" &&
+        m.stage === 2 &&
+        m.members.every((p: any) => !p.ready),
+    );
+    expect(changed.world.phase).toBe("victory");
+    expect(changed.world.run).toBe(victory.world.run);
+    a.send({
+      type: "equip",
+      weapons: STARTERS.slice(1, 3),
+      ready: false,
+      stage: 2,
+    });
+    await b.wait(
+      (m) =>
+        m.type === "state" &&
+        m.stage === 2 &&
+        m.members.find((p: any) => p.id === a.id)?.weapons[0]?.id ===
+          STARTERS[1].id,
+    );
+    for (const client of [a, b])
+      client.send({ type: "ready", ready: true, stage: 1 });
+    a.send({ type: "start", stage: 2 });
+    await a.wait((m) => m.type === "notice" && m.reason.includes("準備"));
+    for (const client of [a, b])
+      client.send({ type: "ready", ready: true, stage: 2 });
+    await a.wait(
+      (m) =>
+        m.type === "state" &&
+        m.stage === 2 &&
+        m.members.every((p: any) => p.ready),
+    );
+    a.send({ type: "start", stage: 2 });
+    const rematch = await b.wait(
+      (m) =>
+        m.type === "state" &&
+        m.world.phase === "battle" &&
+        m.world.run !== victory.world.run,
+    );
+    expect(rematch.world.stage).toBe(2);
+    expect(rematch.world.players).toHaveLength(2);
+    expect(
+      rematch.world.players.find((p: any) => p.id === a.id).weapons[0].id,
+    ).toBe(STARTERS[1].id);
+  });
+  it("authenticates names and chat, limits spam, isolates rooms and gates changed stages", async () => {
+    const code = await room(),
+      a = await join(code),
+      b = await join(code);
+    const other = await join(await room());
+    a.send({ type: "profile", name: "  メロン\u0000隊長  " });
+    await b.wait(
+      (m) =>
+        m.type === "lobby" &&
+        m.members.some((p: any) => p.id === a.id && p.name === "メロン 隊長"),
+    );
+    a.send({
+      type: "chat",
+      text: "  よろしく\nお願いします  ",
+      memberId: b.id,
+      name: "偽名",
+      at: 0,
+    });
+    const chat = await b.wait((m) => m.type === "chat");
+    expect(chat.message).toMatchObject({
+      memberId: a.id,
+      name: "メロン 隊長",
+      text: "よろしく お願いします",
+    });
+    expect(chat.message.at).toBeGreaterThan(0);
+    a.send({ type: "chat", text: "連投" });
+    expect((await a.wait((m) => m.type === "notice")).reason).toContain(
+      "少し待って",
+    );
+    expect(other.messages.some((m) => m.type === "chat")).toBe(false);
+    a.send({
+      type: "equip",
+      weapons: STARTERS.slice(0, 2),
+      ready: true,
+      stage: 1,
+    });
+    b.send({
+      type: "equip",
+      weapons: STARTERS.slice(0, 2),
+      ready: true,
+      stage: 1,
+    });
+    await b.wait(
+      (m) => m.type === "lobby" && m.members.every((p: any) => p.ready),
+    );
+    a.send({ type: "stage", stage: 2 });
+    await b.wait(
+      (m) =>
+        m.type === "lobby" &&
+        m.stage === 2 &&
+        m.members.every((p: any) => !p.ready),
+    );
+    a.send({ type: "ready", ready: true, stage: 1 });
+    b.send({ type: "ready", ready: true, stage: 1 });
+    a.send({ type: "start", stage: 2 });
+    await a.wait((m) => m.type === "notice" && m.reason.includes("準備"));
+    a.send({ type: "ready", ready: true, stage: 2 });
+    b.send({ type: "ready", ready: true, stage: 2 });
+    await a.wait(
+      (m) =>
+        m.type === "lobby" &&
+        m.stage === 2 &&
+        m.members.every((p: any) => p.ready),
+    );
+    a.send({ type: "start", stage: 2 });
+    await a.wait((m) => m.type === "state");
+    a.send({ type: "chat", text: "戦闘中" });
+    await a.wait((m) => m.type === "notice" && m.reason.includes("ロビー"));
+    expect(b.messages.filter((m) => m.type === "chat")).toHaveLength(1);
+  });
+  it("retains only the newest 50 messages and synchronizes reconnect without identity leakage", async () => {
+    const code = await room(),
+      a = await join(code);
+    for (let i = 0; i < 51; i++) {
+      a.send({
+        type: "chat",
+        text: i === 50 ? "界".repeat(210) : `message ${i}`,
+      });
+      await a.wait(
+        (m) =>
+          m.type === "chat" &&
+          (i === 50
+            ? m.message.text === "界".repeat(200)
+            : m.message.text === `message ${i}`),
+      );
+      if (i < 50) await new Promise((r) => setTimeout(r, 1010));
+    }
+    const token = a.token;
+    a.close();
+    const back = await join(code, token);
+    const history = (await back.wait((m) => m.type === "chatHistory")).messages;
+    expect(history).toHaveLength(50);
+    expect(history[0].text).toBe("message 1");
+    expect(history.at(-1).text).toBe("界".repeat(200));
+    expect(history.every((m: any) => m.memberId === a.id)).toBe(true);
+    expect(JSON.stringify(history)).not.toContain(token);
+  }, 90000);
 });

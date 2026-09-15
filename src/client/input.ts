@@ -1,5 +1,6 @@
 import { angle, neutral, type Input } from "../shared/game";
 import { clampPitch, gyroDelta } from "../shared/aim";
+import { ensureScopeControls } from "./layout";
 export class Controls {
   input = { ...neutral(), cameraAim: true };
   enabled = false;
@@ -15,6 +16,7 @@ export class Controls {
   queued = new Set<string>();
   touches = new Map<number, { role: string; x: number; y: number }>();
   constructor() {
+    ensureScopeControls();
     const controls = document.querySelector("#controls")!;
     const el = (id: string) => document.getElementById(id)!;
     const reset = () => {
@@ -150,6 +152,7 @@ export class Controls {
           "dodge",
           "revive",
           "scope",
+          "scope2",
         ].includes(role)
       )
         return;
@@ -157,7 +160,7 @@ export class Controls {
       e.preventDefault();
       target.setPointerCapture(e.pointerId);
       this.touches.set(e.pointerId, { role, x: e.clientX, y: e.clientY });
-      if (role === "scope") this.toggleScope();
+      if (role === "scope" || role === "scope2") this.toggleScope();
       if (["reload", "swap", "dodge"].includes(role)) this.queued.add(role);
       this.refresh();
     });
@@ -198,9 +201,10 @@ export class Controls {
     this.reset = reset;
     // Secondary touches do not reliably generate click on mobile browsers.
     // Pointer presses toggle above; detail=0 preserves keyboard activation.
-    el("scope")?.addEventListener("click", (event) => {
-      if (event.detail === 0) this.toggleScope();
-    });
+    for (const id of ["scope", "scope2"])
+      el(id)?.addEventListener("click", (event) => {
+        if (event.detail === 0) this.toggleScope();
+      });
   }
   toggleScope() {
     if (this.enabled && this.scopeAvailable) this.scoped = !this.scoped;

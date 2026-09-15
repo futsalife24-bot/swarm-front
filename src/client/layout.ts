@@ -7,6 +7,7 @@ export const CONTROL_IDS = [
   "revive",
   "pause",
   "scope",
+  "scope2",
 ] as const;
 export type ControlId = (typeof CONTROL_IDS)[number];
 export const LABELS: Record<ControlId, string> = {
@@ -18,6 +19,7 @@ export const LABELS: Record<ControlId, string> = {
   revive: "蘇生",
   pause: "一時停止",
   scope: "スコープ",
+  scope2: "スコープ2",
 };
 export interface Placement {
   x: number;
@@ -28,6 +30,7 @@ export interface Placement {
 export interface Layout {
   version: 1;
   opacity: number;
+  secondScope: boolean;
   buttons: Record<ControlId, Placement>;
 }
 export const LAYOUT_KEY = "swarm-front-controls-v1";
@@ -35,6 +38,7 @@ export const HUD_HEIGHT = 88;
 export const defaultLayout = (): Layout => ({
   version: 1,
   opacity: 0.8,
+  secondScope: false,
   buttons: {
     move: { x: 0.12, y: 0.73, size: 1 },
     fire: { x: 0.9, y: 0.55, size: 1 },
@@ -44,6 +48,7 @@ export const defaultLayout = (): Layout => ({
     revive: { x: 0.64, y: 0.84, size: 1 },
     pause: { x: 0.5, y: 0.95, size: 0.7 },
     scope: { x: 0.77, y: 0.13, size: 1 },
+    scope2: { x: 0.27, y: 0.35, size: 1 },
   },
 });
 export function parseLayout(raw: string | null): Layout {
@@ -55,9 +60,13 @@ export function parseLayout(raw: string | null): Layout {
     v.buttons.pause = defaultLayout().buttons.pause;
   if (v?.buttons && !v.buttons.scope)
     v.buttons.scope = defaultLayout().buttons.scope;
+  if (v?.buttons && !v.buttons.scope2)
+    v.buttons.scope2 = defaultLayout().buttons.scope2;
+  if (v && v.secondScope === undefined) v.secondScope = false;
   if (
     !v ||
     v.version !== 1 ||
+    typeof v.secondScope !== "boolean" ||
     !Number.isFinite(v.opacity) ||
     v.opacity < 0.4 ||
     v.opacity > 1 ||
@@ -106,18 +115,25 @@ export function resolveLayout(
 ) {
   const a = arena(width, height, insets),
     scale = Math.max(0.85, Math.min(1.15, width / 900, height / 400));
-  return CONTROL_IDS.map((id) => {
-    const b = layout.buttons[id],
-      base = id === "move" ? 112 : id === "fire" ? 84 : 56;
-    const size = Math.min(
-      a.height,
-      a.width,
-      Math.max(44, base * b.size * scale),
-    );
-    const x = Math.max(size / 2, Math.min(a.width - size / 2, b.x * a.width)),
-      y = Math.max(size / 2, Math.min(a.height - size / 2, b.y * a.height));
-    return { id, left: a.left + x - size / 2, top: a.top + y - size / 2, size };
-  });
+  return CONTROL_IDS.filter((id) => id !== "scope2" || layout.secondScope).map(
+    (id) => {
+      const b = layout.buttons[id],
+        base = id === "move" ? 112 : id === "fire" ? 84 : 56;
+      const size = Math.min(
+        a.height,
+        a.width,
+        Math.max(44, base * b.size * scale),
+      );
+      const x = Math.max(size / 2, Math.min(a.width - size / 2, b.x * a.width)),
+        y = Math.max(size / 2, Math.min(a.height - size / 2, b.y * a.height));
+      return {
+        id,
+        left: a.left + x - size / 2,
+        top: a.top + y - size / 2,
+        size,
+      };
+    },
+  );
 }
 export function overlaps(rects: ReturnType<typeof resolveLayout>) {
   return rects.some((a, i) =>
@@ -143,12 +159,44 @@ export function readInsets(): Insets {
     bottom: read("bottom"),
   };
 }
+/** Reuse the existing control appearance in every game entry point. */
+export function ensureScopeControls() {
+  const primary = document.getElementById("scope");
+  if (!primary || document.getElementById("scope2")) return;
+  const secondary = primary.cloneNode(true) as HTMLButtonElement;
+  secondary.id = "scope2";
+  secondary.hidden = true;
+  secondary.setAttribute("aria-label", "スコープ2");
+  primary.after(secondary);
+}
+export function updateScopeButtons(
+  layout: Layout,
+  state: { visible: boolean; available: boolean; scoped: boolean },
+) {
+  ensureScopeControls();
+  for (const id of ["scope", "scope2"] as const) {
+    const button = document.getElementById(id) as HTMLButtonElement | null;
+    if (!button) continue;
+    button.hidden = !state.visible || (id === "scope2" && !layout.secondScope);
+    button.disabled = !state.available;
+    button.setAttribute("aria-pressed", String(state.scoped));
+    button.setAttribute(
+      "aria-label",
+      (id === "scope2" ? "スコープ2" : "スコープ") +
+        (state.scoped ? "を解除" : "を使用"),
+    );
+    button.textContent = state.scoped ? "解除" : "スコープ";
+  }
+}
 export function placeControls(layout: Layout) {
+  ensureScopeControls();
+  const secondary = document.getElementById("scope2");
+  if (secondary && !layout.secondScope) secondary.hidden = true;
   let rects = resolveLayout(layout, innerWidth, innerHeight, readInsets());
   const fallback = overlaps(rects);
   if (fallback)
     rects = resolveLayout(
-      defaultLayout(),
+      { ...defaultLayout(), secondScope: layout.secondScope },
       innerWidth,
       innerHeight,
       readInsets(),

@@ -1,0 +1,153 @@
+.lobby .lobby-workspace {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 10px;
+}
+.lobby .lobby-squad {
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 6px;
+  min-width: 0;
+}
+.lobby .squad-cards {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+}
+.lobby .squad-member {
+  padding: 6px 8px;
+  gap: 3px;
+}
+.lobby .member-heading {
+  gap: 2px 4px;
+}
+.lobby .member-heading b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lobby .member-heading small {
+  display: none;
+}
+.lobby .member-weapons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 8px;
+  font-size: 11px;
+}
+.lobby .member-weapons span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lobby .lobby-chat {
+  padding: 8px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 6px;
+  min-width: 0;
+  min-height: 0;
+  border-style: solid;
+}
+.lobby .lobby-chat h2 {
+  font-size: 16px;
+  margin: 0;
+}
+.lobby #chat-log {
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  list-style: none;
+  min-height: 0;
+  align-self: stretch;
+  font-size: 13px;
+}
+.lobby #chat-log li {
+  display: grid;
+  gap: 2px;
+  padding: 5px 0;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid #78939d33;
+}
+.lobby #chat-log b {
+  color: var(--mint);
+  font-size: 11px;
+}
+.lobby #chat-log span {
+  white-space: pre-wrap;
+  color: #e6eef0;
+}
+.lobby #chat-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 5px;
+}
+.lobby #chat-input {
+  grid-row: auto;
+  min-width: 0;
+  width: 100%;
+  min-height: 36px;
+  font-size: 16px;
+  padding: 6px;
+}
+.lobby #chat-form button {
+  padding: 6px 9px;
+  min-height: 36px;
+}
+.lobby #chat-status {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 11px;
+}
+.lobby #chat-status:empty {
+  display: none;
+}
+.battle-loading {
+  text-align: center;
+  max-width: 600px;
+}
+.battle-loading progress {
+  width: 100%;
+}
+#player-name-form {
+  display: grid;
+  gap: 10px;
+}
+#player-name-form input {
+  width: 100%;
+  min-width: 0;
+  font-size: 16px;
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  .lobby .lobby-workspace {
+    gap: 7px;
+  }
+  .lobby .lobby-mission {
+    padding: 8px;
+    gap: 5px;
+  }
+  .lobby .lobby-mission h2 {
+    font-size: 17px;
+  }
+  .lobby .lobby-mission > strong {
+    display: none;
+  }
+  .lobby .lobby-mission > p {
+    font-size: 11px;
+    margin: 0;
+  }
+  .lobby .member-number {
+    font-size: 11px;
+  }
+  .lobby .member-heading b {
+    font-size: 12px;
+  }
+  .lobby .member-status {
+    font-size: 10px;
+  }
+  .lobby .squad-heading h2 {
+    font-size: 15px;
+  }
+  .lobby .squad-heading small {
+    display: none;
+  }
+}

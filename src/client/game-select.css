@@ -1,0 +1,47 @@
+body button.game-select-trigger {
+  min-width: 0;
+  max-width: 100%;
+  padding: 8px 10px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font: inherit;
+}
+.mission-select > .game-select-trigger {
+  width: 100%;
+}
+body .game-select-dialog {
+  width: min(680px, calc(100vw - 32px));
+  max-height: calc(
+    100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+  );
+}
+.game-select-dialog .game-select-options {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+body .game-select-dialog .game-select-options button {
+  min-height: 44px;
+  padding: 9px 12px;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.game-select-dialog .game-select-options button[aria-pressed="true"] {
+  border-color: var(--gold);
+  box-shadow: inset 3px 0 var(--gold);
+}
+@media (max-width: 540px) {
+  .game-select-dialog .game-select-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) and (orientation: landscape) {
+  body .gear-brief button.game-select-trigger {
+    min-height: 36px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+}

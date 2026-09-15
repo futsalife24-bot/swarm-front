@@ -5,7 +5,12 @@ import "../menu-theme.css";
 import { Controls } from "./input";
 import { Renderer } from "./render";
 import { Sound } from "./audio";
-import { defaultLayout, parseLayout, placeControls } from "./layout";
+import {
+  defaultLayout,
+  parseLayout,
+  placeControls,
+  updateScopeButtons,
+} from "./layout";
 import {
   createTrainingWorld,
   resetTargets,
@@ -103,7 +108,11 @@ function frame(now: number) {
   const active = started && !paused && !document.hidden;
   controls.enabled = active;
   controls.setScopeAvailable(active);
-  $("scope").hidden = !started;
+  updateScopeButtons(layout, {
+    visible: started,
+    available: controls.scopeAvailable,
+    scoped: controls.scoped,
+  });
   $("scope-overlay").hidden = !controls.scoped;
   if (active) {
     accumulator += dt;

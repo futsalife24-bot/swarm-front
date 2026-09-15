@@ -1,9 +1,15 @@
+import { installPlayerProfile } from "./client/player-profile";
+import "./client/app-install";
 import {
   checkDeveloperSession,
   developerRequested,
 } from "./client/developer-access";
 
 async function boot() {
+  installPlayerProfile();
+  const url = new URL(location.href);
+  // Old shared links retain their progress, but no longer select a separate edition.
+  url.searchParams.delete("playtest");
   if (new URLSearchParams(location.search).get("training") === "1") {
     await import("./client/training-app");
     return;
@@ -11,19 +17,18 @@ async function boot() {
   if (developerRequested) {
     const allowed = await checkDeveloperSession();
     if (!allowed) {
-      const url = new URL(location.href);
       url.searchParams.delete("developer");
-      url.searchParams.set("playtest", "1");
-      history.replaceState(null, "", url);
     }
   }
+  history.replaceState(null, "", url);
   if (
-    new URLSearchParams(location.search).get("playtest") === "1" ||
-    new URLSearchParams(location.search).get("developer") === "1"
+    !developerRequested &&
+    (url.searchParams.get("coop") === "1" ||
+      /^[a-f0-9]{32}$/.test(url.hash.slice(1)))
   ) {
-    await import("./client/playtest-app");
-  } else {
     await import("./main");
+  } else {
+    await import("./client/playtest-app");
   }
 }
 void boot();

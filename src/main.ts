@@ -1,3 +1,8 @@
+import { prepareBattle } from "./client/battle-loading";
+import { playerName, addPlayerNameSetting } from "./client/player-profile";
+import { enhanceGameSelects, syncGameSelects } from "./client/game-select";
+import { updateScopeButtons } from "./client/layout";
+import "./client/coop-lobby.css";
 import { homeMarkup } from "./client/home-screen";
 import { openDeveloperLogin } from "./client/developer-access";
 import { STAGES, MAPS, mapFor, stageFor } from "./shared/stages";
@@ -127,6 +132,142 @@ let save: Save = fresh(),
   netFatal = false,
   predicted: { x: number; z: number; y?: number } | undefined;
 let turnstileToken = "";
+let loadingGeneration = 0;
+let lobbyPreview: World | null = null;
+let preparedKey = "";
+let preparingKey = "";
+let preparationMessage = "";
+window.addEventListener("player-name-changed", () =>
+  network?.setPlayerName(playerName()),
+);
+
+function renderLobbyChat() {
+  const log = document.getElementById("chat-log");
+  if (!log || !network) return;
+  const atBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 36;
+  const ids = new Set(
+    [...log.children].map((el) => (el as HTMLElement).dataset.id),
+  );
+  for (const message of network.messages) {
+    if (ids.has(message.id)) continue;
+    const row = document.createElement("li");
+    row.dataset.id = message.id;
+    const name = document.createElement("b");
+    name.textContent = message.name;
+    const text = document.createElement("span");
+    text.textContent = message.text;
+    row.append(name, text);
+    log.append(row);
+  }
+  while (log.children.length > 50) log.firstElementChild?.remove();
+  if (atBottom) log.scrollTop = log.scrollHeight;
+}
+
+async function prepareLobby() {
+  const connection = network;
+  if (
+    !connection?.id ||
+    !["lobby", "gear", "armory", "layout"].includes(screen)
+  )
+    return;
+  const members = connection.members.filter((m) => m.connected);
+  if (!members.length || members.some((m) => !m.weapons?.length)) return;
+  const currentKey = () =>
+    JSON.stringify([
+      connection.code,
+      connection.stage,
+      connection.members
+        .filter((m) => m.connected)
+        .map((m) => [m.id, m.weapons?.map((w) => [w.id, w.kind, w.rarity])]),
+      save.quality,
+    ]);
+  const key = currentKey();
+  if (key === preparedKey) {
+    if (!connection.assetReady) connection.setAssetReady(true);
+    return;
+  }
+  if (key === preparingKey) return;
+  const generation = ++loadingGeneration;
+  preparedKey = "";
+  preparingKey = key;
+  connection.setAssetReady(false);
+  lobbyPreview = createWorld("preview", 1, connection.stage);
+  for (const member of members)
+    addPlayer(lobbyPreview, member.id, member.weapons!);
+  const cancelled = () =>
+    generation !== loadingGeneration ||
+    currentKey() !== key ||
+    network !== connection ||
+    ["battle", "loading", "title", "error"].includes(screen);
+  try {
+    await prepareBattle(
+      view,
+      lobbyPreview,
+      connection.id,
+      cancelled,
+      (percent) => {
+        preparationMessage = `戦場を準備中 ${percent}%`;
+        const line = ui.querySelector(".lobby-actions .status");
+        if (line) line.textContent = preparationMessage;
+      },
+    );
+    if (cancelled()) return;
+    preparedKey = key;
+    preparingKey = "";
+    preparationMessage = "";
+    connection.setAssetReady(true);
+    if (screen === "lobby") lobby();
+  } catch (error) {
+    if (cancelled()) return;
+    preparingKey = "";
+    preparationMessage = (error as Error).message;
+    const line = ui.querySelector(".lobby-actions .status");
+    if (line) line.textContent = preparationMessage;
+    const retry = document.createElement("button");
+    retry.textContent = "再読み込みして再接続";
+    retry.onclick = () => location.reload();
+    ui.querySelector(".lobby-actions")?.append(retry);
+  } finally {
+    if (generation === loadingGeneration && preparingKey === key)
+      preparingKey = "";
+  }
+}
+
+async function loadBattle(soloStart: boolean) {
+  if (!world) return;
+  const generation = ++loadingGeneration;
+  const loadingWorld = world;
+  lobbyPreview = null;
+  preparingKey = "";
+  setScreen("loading");
+  ui.innerHTML =
+    '<section class="panel battle-loading"><h1>戦場を準備中</h1><progress max="100" value="0"></progress><p id="load-status" role="status">マップ・兵士・武器を読み込んでいます</p><button id="load-cancel">出撃を中止</button></section>';
+  $("load-cancel").onclick = () => {
+    network?.close();
+    network = undefined;
+    title();
+  };
+  const cancelled = () =>
+    generation !== loadingGeneration ||
+    screen !== "loading" ||
+    world?.run !== loadingWorld.run;
+  try {
+    await prepareBattle(view, loadingWorld, myId, cancelled, (percent) => {
+      ui.querySelector<HTMLProgressElement>("progress")!.value = percent;
+      $("load-status").textContent = `戦場を準備中 ${percent}%`;
+    });
+    if (cancelled()) return;
+    if (soloStart) start(loadingWorld);
+    battle();
+  } catch (error) {
+    if (cancelled()) return;
+    $("load-status").textContent = (error as Error).message;
+    const retry = document.createElement("button");
+    retry.textContent = "再読み込み";
+    retry.onclick = () => location.reload();
+    ui.firstElementChild?.append(retry);
+  }
+}
 // Which loadout slot the armoury is filling. Picking a weapon replaces this one.
 let activeSlot = 0;
 function defaultEndpoint() {
@@ -249,6 +390,12 @@ const weaponName = (w: Weapon) => WEAPONS[w.kind].name;
 const equipped = () =>
   save.equipped.map((id) => save.inventory.find((w) => w.id === id)!);
 function setScreen(name: string) {
+  queueMicrotask(() =>
+    enhanceGameSelects(
+      ui,
+      "#stage-select, #weapon-filter, #weapon-sort, #armory-filter, #armory-sort, #lobby-stage",
+    ),
+  );
   if (name !== screen)
     document
       .querySelectorAll<HTMLDialogElement>("dialog[open]")
@@ -268,43 +415,14 @@ function setScreen(name: string) {
   $("pause").hidden = name !== "battle";
 }
 function title() {
-  setScreen("title");
-  world = null;
-  const stage = STAGES[selectedStage - 1];
-  ui.innerHTML = homeMarkup({
-    stage,
-    inventoryCount: save.inventory.length,
-    pendingCount: save.pendingWeapons?.length,
-    install: !!installPrompt,
-    error: saveError,
-  });
-  $("open-armory").onclick = armory;
-  $("open-bestiary").onclick = () => openBestiary();
-  $("home-settings").onclick = () => openSettings(title);
-  $("solo").onclick = () => {
-    mode = "solo";
-    network?.close();
-    network = undefined;
-    status = "";
-    gear();
-  };
-  $("coop").onclick = () => {
-    mode = "coop";
-    status = "";
-    gear();
-  };
-  if (installPrompt)
-    $("install").onclick = async () => {
-      const prompt = installPrompt;
-      if (!prompt) return;
-      installPrompt = undefined;
-      await prompt.prompt();
-      await prompt.userChoice;
-      title();
-    };
-  if (saveError) $("export").onclick = exportSave;
-  $("changelog").onclick = showChangelog;
+  loadingGeneration++;
+  lobbyPreview = null;
+  preparedKey = "";
+  preparingKey = "";
+  network?.close();
+  location.assign(import.meta.env.BASE_URL);
 }
+
 function showChangelog() {
   menuDialog(
     "更新履歴",
@@ -584,6 +702,7 @@ function openSettings(back: () => void) {
     `<p class="settings-status" role="status">${esc(saveError || "変更はこの端末に自動保存されます。")}</p><div class="settings-content settings-columns"><p>PC: WASD移動 / クリック射撃・マウス照準 / R装填 / Q切替 / Space回避 / E長押し蘇生 / Escマウス解放</p><p>スマホ: 左スティック移動 / 右側ドラッグ照準 / 射撃ボタン長押し。味方3.5m以内で蘇生を2.5秒長押し。</p><label>視点感度 <input id="sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>射撃ボタンの視点感度 <input id="fire-sense" type="range" min="0.1" max="6" step="0.1" value="${save.fireSensitivity ?? save.sensitivity}"></label><label>ジャイロ <button id="gyro" type="button" role="switch" aria-label="ジャイロ" aria-checked="${save.gyroEnabled === true}">${save.gyroEnabled ? "オン" : "オフ"}</button><span id="gyro-status" role="status">端末を動かして照準。反応しない場合はオフ→オンで許可を確認。</span></label><label>ジャイロ感度 <input id="gyro-sense" type="range" min="0.1" max="6" step="0.1" value="${save.gyroSensitivity ?? 1}"></label><label>音量（0でミュート） <input id="volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準（精細な地形・質感）</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量（従来の描画）</option></select></label><label>ミニマップ <select id="map-rotate"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><label>ダメージ表示 <select id="damage-numbers"><option value="self" ${(save.damageNumbers ?? "self") === "self" ? "selected" : ""}>自分のみ</option><option value="all" ${save.damageNumbers === "all" ? "selected" : ""}>味方も表示</option><option value="off" ${save.damageNumbers === "off" ? "selected" : ""}>表示しない</option></select></label><p>道中の緑の戦利品は接近して回収。勝利時に確定、敗北・復帰できない切断では未確定品を失います。保存済みの武器は失いません。端末変更・ブラウザデータ削除で引き継げません。クラウド保存や完全な改ざん防止はありません。</p><button id="export">保存データを書き出す</button></div>`,
     "SYSTEM CONFIGURATION",
   );
+  addPlayerNameSetting(dialog.querySelector<HTMLElement>(".menu-dialog-body")!);
   const content = dialog.querySelector<HTMLElement>(".settings-content")!;
   const original = [...content.children];
   for (const key of ["preferences", "save"]) {
@@ -609,7 +728,7 @@ function openSettings(back: () => void) {
   const layoutButton = document.createElement("button");
   const developerButton = document.createElement("button");
   developerButton.id = "settings-developer";
-  developerButton.textContent = "開発者モード";
+  developerButton.textContent = "管理者モード";
   developerButton.className = "settings-developer-entry";
   developerButton.onclick = () => {
     dialog.close();
@@ -790,10 +909,9 @@ function solo() {
     selectedStage,
   );
   addPlayer(world, myId, equipped());
-  start(world);
   resultRun = "";
   controls.reset();
-  battle();
+  void loadBattle(true);
 }
 async function connect(create: boolean, restore = false) {
   const requestedStage = selectedStage;
@@ -818,6 +936,8 @@ async function connect(create: boolean, restore = false) {
     network?.close();
     network = new Network(endpoint.replace(/\/$/, ""));
     network.equip = equipped();
+    network.playerName = playerName();
+    network.onChat = renderLobbyChat;
     network.onStatus = (s, fatal) => {
       status = s;
       netFatal = fatal;
@@ -840,6 +960,8 @@ async function connect(create: boolean, restore = false) {
           `${STAGES[selectedStage - 1].brief}（${STAGES[selectedStage - 1].waves.length}波）`;
       }
       if (screen === "lobby") lobby();
+      else void prepareLobby();
+      syncGameSelects(ui);
     };
     network.onWorld = (w) => {
       try {
@@ -856,7 +978,8 @@ async function connect(create: boolean, restore = false) {
         w.phase === "battle" && !paused,
       );
       if (w.phase === "battle") {
-        if (screen !== "battle" && !netFatal) battle();
+        if (screen !== "battle" && screen !== "loading" && !netFatal)
+          void loadBattle(false);
         const p = w.players.find((p) => p.id === myId);
         if (p) {
           if (
@@ -907,6 +1030,12 @@ async function connect(create: boolean, restore = false) {
 }
 function lobby() {
   if (netFatal || ["battle", "stage-clear", "result"].includes(screen)) return;
+  const oldInput = document.getElementById(
+    "chat-input",
+  ) as HTMLInputElement | null;
+  const draft = oldInput?.value ?? "";
+  const focused = document.activeElement === oldInput;
+  const selection = oldInput?.selectionStart ?? draft.length;
   setScreen("lobby");
   const members = network?.members ?? [];
   const link = `${location.origin}${location.pathname}${location.search}#${network?.code ?? ""}`;
@@ -924,7 +1053,7 @@ function lobby() {
       const m = members[i];
       if (!m)
         return `<article class="squad-member empty"><span class="member-number">0${i + 1}</span><div><b>参加待ち</b><small>招待リンクから参加できます</small></div></article>`;
-      return `<article class="squad-member ${m.id === network?.id ? "self" : ""}"><div class="member-heading"><b><span class="member-number">0${i + 1}</span> ${m.id === network?.id ? "あなた" : `隊員 ${String(i + 1).padStart(2, "0")}`}</b><small>${m.id === host ? "HOST" : "MEMBER"}</small><span class="member-status ${m.connected && m.ready ? "is-ready" : "is-preparing"}">${!m.connected ? "切断中" : m.ready ? "準備完了" : "準備中…"}</span></div><div class="member-weapons">${[
+      return `<article class="squad-member ${m.id === network?.id ? "self" : ""}"><div class="member-heading"><b><span class="member-number">0${i + 1}</span> ${esc(m.name || `隊員 ${String(i + 1).padStart(2, "0")}`)}${m.id === network?.id ? "（あなた）" : ""}</b><small>${m.id === host ? "HOST" : "MEMBER"}</small><span class="member-status ${m.connected && m.ready ? "is-ready" : "is-preparing"}">${!m.connected ? "切断中" : m.ready ? "準備完了" : "準備中…"}</span></div><div class="member-weapons">${[
         0, 1,
       ]
         .map((slot) => {
@@ -935,7 +1064,30 @@ function lobby() {
     },
   ).join(
     "",
-  )}</div><aside class="lobby-chat" aria-label="チャット（仮）"><div><b>チャット（仮）</b><small>メッセージ機能は今後追加予定</small></div><input aria-label="チャット入力（未実装）" placeholder="メッセージを入力…" disabled></aside></section></div></section>`;
+  )}</div></section><section class="lobby-chat" aria-label="部隊チャット"><h2>チャット</h2><ol id="chat-log" role="log" aria-live="polite" aria-relevant="additions"></ol><form id="chat-form"><label class="sr-only" for="chat-input">メッセージ</label><input id="chat-input" maxlength="400" autocomplete="off" placeholder="メッセージを入力…" ${online ? "" : "disabled"}><button type="submit" ${online ? "" : "disabled"}>送信</button><p id="chat-status" role="status"></p></form></section></div></section>`;
+  const chatInput = $("chat-input") as HTMLInputElement;
+  chatInput.value = draft;
+  if (focused) {
+    chatInput.focus();
+    chatInput.setSelectionRange(selection, selection);
+  }
+  $("chat-form").onsubmit = (event) => {
+    event.preventDefault();
+    if (!chatInput.value.trim()) return;
+    if (Array.from(chatInput.value.trim()).length > 200) {
+      $("chat-status").textContent = "200文字以内で入力してください。";
+      return;
+    }
+    if (network?.sendChat(chatInput.value)) {
+      chatInput.value = "";
+      $("chat-status").textContent = "";
+    } else
+      $("chat-status").textContent =
+        "少し待ってから送信してください。接続中のロビーで送信できます。";
+  };
+  renderLobbyChat();
+  enhanceGameSelects(ui, "#lobby-stage");
+  void prepareLobby();
   $("leave-lobby").onclick = () => {
     network?.close();
     network = undefined;
@@ -975,6 +1127,7 @@ function lobby() {
   $("back").onclick = () => gear();
 }
 function battle() {
+  lobbyPreview = null;
   setScreen("battle");
   ui.innerHTML = "";
   status = mode === "solo" ? "SOLO" : "CO-OP";
@@ -1494,15 +1647,18 @@ function updateFrame(now: number) {
       currentPlayer.hp > 0 &&
       currentPlayer.swapCd <= 0,
   );
-  $("scope").hidden =
-    screen !== "battle" || !currentPlayer || currentPlayer.hp <= 0;
-  ($("scope") as HTMLButtonElement).disabled = !controls.scopeAvailable;
-  $("scope").setAttribute("aria-pressed", String(controls.scoped));
-  $("scope").textContent = controls.scoped ? "解除" : "スコープ";
+  updateScopeButtons(layout, {
+    visible: screen === "battle" && !!currentPlayer && currentPlayer.hp > 0,
+    available: controls.scopeAvailable,
+    scoped: controls.scoped,
+  });
   $("scope-overlay").hidden = !controls.scoped;
   sound.update(world, myId, controls.input.yaw, screen === "battle" && !paused);
   view.render(
-    world,
+    !["battle", "loading", "stage-clear", "result"].includes(screen) &&
+      lobbyPreview
+      ? lobbyPreview
+      : world,
     myId,
     dt,
     controls.input.yaw,
@@ -1559,7 +1715,11 @@ if ("serviceWorker" in navigator)
   void navigator.serviceWorker
     .register(`${import.meta.env.BASE_URL}sw.js`)
     .catch(() => {});
-if (inviteCode() || loadNetworkSession()) {
+if (
+  inviteCode() ||
+  loadNetworkSession() ||
+  new URLSearchParams(location.search).get("coop") === "1"
+) {
   mode = "coop";
   gear();
 } else title();

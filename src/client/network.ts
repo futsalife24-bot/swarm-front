@@ -1,8 +1,17 @@
+import {
+  DEFAULT_PLAYER_NAME,
+  CHAT_HISTORY_LIMIT,
+  normalizePlayerName,
+  normalizeChatText,
+  isChatMessage,
+  type ChatMessage,
+} from "../shared/social";
 import type { World, Input } from "../shared/game";
 import type { Weapon } from "../shared/defs";
 import { validStage } from "../shared/stages";
 export interface Member {
   id: string;
+  name?: string;
   ready: boolean;
   connected: boolean;
   weapons?: Weapon[];
@@ -48,6 +57,10 @@ export class Network {
   members: Member[] = [];
   stage = 1;
   preparing = false;
+  assetReady = false;
+  playerName = DEFAULT_PLAYER_NAME;
+  messages: ChatMessage[] = [];
+  onChat: () => void = () => {};
   onWorld: (w: World) => void = () => {};
   onLobby: () => void = () => {};
   onStatus: (s: string, fatal: boolean) => void = () => {};
@@ -78,6 +91,11 @@ export class Network {
     return (await res.json()).code as string;
   }
   connect(code: string, token = "") {
+    if (this.code !== code) {
+      this.messages = [];
+      this.members = [];
+      this.assetReady = false;
+    }
     this.code = code;
     this.token = token;
     this.closed = false;
@@ -96,6 +114,7 @@ export class Network {
     ws.onopen = () => {
       this.send({
         type: "hello",
+        name: this.playerName,
         ...(this.token ? { token: this.token } : {}),
       });
     };
@@ -163,16 +182,35 @@ export class Network {
         this.send({
           type: "equip",
           weapons: this.equip,
-          ready: !this.preparing,
+          ready: !this.preparing && this.assetReady,
+          stage: this.stage,
         });
         this.ready();
       } else if (m.type === "state") {
+        if (validStage(m.stage) && this.stage !== m.stage) {
+          this.stage = m.stage;
+          this.assetReady = false;
+        }
         this.members = m.members;
         this.onWorld(m.world);
       } else if (m.type === "lobby") {
-        if (validStage(m.stage)) this.stage = m.stage;
+        if (validStage(m.stage) && this.stage !== m.stage) {
+          this.stage = m.stage;
+          this.assetReady = false;
+        }
         this.members = m.members;
         this.onLobby();
+      } else if (m.type === "chatHistory" && Array.isArray(m.messages)) {
+        this.messages = m.messages
+          .filter(isChatMessage)
+          .slice(-CHAT_HISTORY_LIMIT);
+        this.onChat();
+      } else if (m.type === "chat" && isChatMessage(m.message)) {
+        if (!this.messages.some((entry) => entry.id === m.message.id))
+          this.messages = [...this.messages, m.message].slice(
+            -CHAT_HISTORY_LIMIT,
+          );
+        this.onChat();
       } else if (m.type === "error") {
         this.closed = true;
         try {
@@ -218,11 +256,48 @@ export class Network {
   }
   equipment(weapons: Weapon[]) {
     this.equip = weapons;
-    this.send({ type: "equip", weapons, ready: !this.preparing });
+    this.assetReady = false;
+    this.send({
+      type: "equip",
+      weapons,
+      ready: !this.preparing && this.assetReady,
+      stage: this.stage,
+    });
   }
   preparation(preparing: boolean) {
     this.preparing = preparing;
-    this.send({ type: "ready", ready: !preparing });
+    this.send({
+      type: "ready",
+      ready: !preparing && this.assetReady,
+      stage: this.stage,
+    });
+  }
+  setAssetReady(ready: boolean) {
+    this.assetReady = ready;
+    this.send({
+      type: "ready",
+      ready: ready && !this.preparing,
+      stage: this.stage,
+    });
+  }
+  setPlayerName(name: string) {
+    this.playerName = normalizePlayerName(name) || DEFAULT_PLAYER_NAME;
+    if (this.id) this.send({ type: "profile", name: this.playerName });
+  }
+  private chatSentAt = 0;
+  sendChat(text: string): boolean {
+    const normalized = normalizeChatText(text);
+    if (
+      !normalized ||
+      !this.id ||
+      this.closed ||
+      this.ws?.readyState !== 1 ||
+      Date.now() - this.chatSentAt < 1100
+    )
+      return false;
+    this.chatSentAt = Date.now();
+    this.send({ type: "chat", text: normalized });
+    return true;
   }
   close() {
     this.closed = true;

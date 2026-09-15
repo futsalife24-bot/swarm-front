@@ -6,6 +6,7 @@ import "./playtest.css";
 import "./gear-weapon-list.css";
 import { menuSamples } from "./menu-samples";
 import { homeMarkup } from "./home-screen";
+import { canInstallApp, installApp } from "./app-install";
 import { CHANGELOG } from "./changelog";
 import { hudMarkup, updateCooldowns } from "./hud";
 import { createPlaytestPreferences } from "./playtest-preferences";
@@ -13,7 +14,9 @@ import { openLayoutEditor } from "./layout-editor";
 import * as T from "three";
 import { Renderer } from "./render";
 import { encounterCamera } from "./encounter-camera";
-import { loadProgressionWeapons } from "./progression-weapons";
+import { prepareBattle } from "./battle-loading";
+import { addPlayerNameSetting } from "./player-profile";
+import { enhanceGameSelects } from "./game-select";
 import { Controls } from "./input";
 import { Sound } from "./audio";
 import { Minimap } from "./minimap";
@@ -22,6 +25,7 @@ import {
   parseLayout,
   LAYOUT_KEY,
   placeControls,
+  updateScopeButtons,
 } from "./layout";
 import { installLandscapeGuard } from "./landscape";
 import { installZoomGuard } from "./zoom-guard";
@@ -37,7 +41,7 @@ import {
   checkDeveloperSession,
   returnToNormal,
 } from "./developer-access";
-import { STAGES, MAPS, stageFor, mapFor, troopCount } from "../shared/stages";
+import { STAGES, stageFor, mapFor, troopCount } from "../shared/stages";
 import { WEAPONS, stats, effectLabel, type Kind } from "../shared/defs";
 import {
   createWorld,
@@ -149,50 +153,14 @@ async function launch() {
     $("pt-load-percent").textContent = `${n}%`;
   };
   try {
-    const asset = await import("./standard-trooper");
-    await asset.loadStandardTrooper();
-    await loadProgressionWeapons(actor.weapons);
-    progress(35);
-    await Promise.all([...view.structures.values()].map((s) => s.loading));
-    const kinds = new Set(
-      stageFor(world).waves.flatMap((w) => [
-        ...Object.keys(w.troops),
-        ...(w.bosses.length ? ["boss"] : []),
-      ]),
+    await prepareBattle(
+      view,
+      world,
+      "solo",
+      () => generation !== loadingGeneration || screen !== "loading",
+      progress,
     );
-    for (const kind of kinds) {
-      const error = view.structures.get(kind as "crawler")?.error;
-      if (error) throw new Error(error);
-    }
-    progress(65);
-    const mapIndex = stageFor(world).map;
-    view.mapAssets.select(mapIndex, true);
-    const began = performance.now();
-    while (generation === loadingGeneration) {
-      const map = view.mapAssets.status[mapIndex],
-        distant = view.mapAssets.distantStatus[mapIndex],
-        model = view.players.get("solo");
-      if (
-        map.state === "error" ||
-        distant.state === "error" ||
-        model?.userData.trooperError
-      )
-        throw new Error("兵士またはマップを読み込めません");
-      if (
-        map.state === "ready" &&
-        (MAPS[mapIndex].biome === "cave" || distant.state === "ready") &&
-        model?.userData.trooper
-      )
-        break;
-      if (performance.now() - began > 45000)
-        throw new Error("描画準備が時間内に完了しませんでした");
-      await new Promise<void>((r) => requestAnimationFrame(() => r()));
-    }
-    if (generation !== loadingGeneration) return;
-    progress(90);
-    await view.renderer.compileAsync(view.scene, view.camera);
-    view.renderer.render(view.scene, view.camera);
-    progress(100);
+    if (generation !== loadingGeneration || screen !== "loading") return;
     loadReady = true;
     $("pt-enter").hidden = false;
     bind("pt-enter", () => {
@@ -656,16 +624,16 @@ function editControlLayout(returnTo: () => void) {
   ui.querySelector('option[value="revive"]')!.textContent = "救急箱";
 }
 function settingsUI() {
-  let taps = 0;
   const d = dialog(
     "設定",
-    `<button id="pt-build-label">初期試遊版 v1</button><label>音量 <input id="pt-volume" type="range" min="0" max="1" step=".05" value="${sound.volume}"></label><label>描画 <select id="pt-quality"><option value="1">標準</option><option value="0.65">軽量</option></select></label><button id="pt-save-export">現在の保存を書き出す</button><div id="pt-test-entry" hidden><p>ローカルテスト用。通常進行と分離します。</p><label>ローカルパスワード <input id="pt-password" type="password"></label><button id="pt-test-switch">${mode === "normal" ? "テストセーブへ" : "通常セーブへ"}</button><p id="pt-password-note"></p></div>`,
+    `<label>音量 <input id="pt-volume" type="range" min="0" max="1" step=".05" value="${sound.volume}"></label><label>描画 <select id="pt-quality"><option value="1">標準</option><option value="0.65">軽量</option></select></label><button id="pt-save-export">現在の保存を書き出す</button>`,
   );
+  addPlayerNameSetting(d.querySelector<HTMLElement>(".menu-dialog-body")!);
   const developerEntry = document.createElement("button");
   developerEntry.id = "pt-developer-entry";
   developerEntry.textContent = developerMode
     ? "通常モードへ戻る"
-    : "開発者モード";
+    : "管理者モード";
   developerEntry.className = "settings-developer-entry";
   developerEntry.onclick = () => {
     d.close();
@@ -685,10 +653,6 @@ function settingsUI() {
     editControlLayout(returnTo);
   });
   d.querySelector(".menu-dialog-body")!.append(developerEntry);
-  d.querySelector("#pt-build-label")!.addEventListener("click", () => {
-    if (++taps >= 5 && testAvailable() && !developerMode)
-      (d.querySelector("#pt-test-entry") as HTMLElement).hidden = false;
-  });
   d.querySelector("#pt-volume")!.addEventListener(
     "input",
     (e) => (sound.volume = Number((e.target as HTMLInputElement).value)),
@@ -703,18 +667,6 @@ function settingsUI() {
       new Blob([JSON.stringify(save ?? null, null, 2)]),
       `swarm-front-${mode}.json`,
     );
-  d.querySelector<HTMLButtonElement>("#pt-test-switch")!.onclick = () => {
-    if (!testAvailable()) return;
-    const entered = (d.querySelector("#pt-password") as HTMLInputElement).value;
-    if (entered !== "swarm-local") {
-      d.querySelector("#pt-password-note")!.textContent =
-        "パスワードが違います";
-      return;
-    }
-    d.close();
-    world = null;
-    loadMode(mode === "normal" ? "test" : "normal");
-  };
 }
 function generator() {
   if (mode !== "test") return;
@@ -806,7 +758,11 @@ function frame(now: number) {
   const active = !document.hidden && !paused && !modalCount && !saving;
   controls.enabled = active && (screen === "battle" || screen === "collection");
   controls.setScopeAvailable(controls.enabled && !!world?.players[0]?.hp);
-  $("scope").hidden = !controls.enabled;
+  updateScopeButtons(layout, {
+    visible: controls.enabled,
+    available: controls.scopeAvailable,
+    scoped: controls.scoped,
+  });
   $("scope-overlay").hidden = !controls.scoped;
   if (active && world && screen === "battle") {
     accumulator += dt;
@@ -957,7 +913,6 @@ const names: Record<string, string> = {
   boss: "FOUNDRY ZERO",
   worm: "FOUNDRY ZERO 連結炉",
 };
-const testAvailable = () => import.meta.env.DEV;
 const preferences = createPlaytestPreferences(controls, sound, view, minimap);
 installZoomGuard();
 installLandscapeGuard(() => pause());
@@ -1061,6 +1016,12 @@ function commit(next: ProgressSave, after: () => void = () => {}) {
   return true;
 }
 function setScreen(next: string) {
+  queueMicrotask(() =>
+    enhanceGameSelects(
+      ui,
+      "#pt-stage, #pt-filter, #pt-sort, #pt-difficulty, #pt-bulk-grade",
+    ),
+  );
   if (document.pointerLockElement) document.exitPointerLock();
   if (next !== "gear") gearOrganizing = false;
   if (next !== "armory") armoryKind = null;
@@ -1098,7 +1059,7 @@ function header(title: string, body: string, nav = true) {
             : "OPERATION RESULTS";
   const panel =
     screen === "gear" ? "gear" : screen === "result" ? "result" : "armory";
-  ui.innerHTML = `<section class="panel ${panel} menu-screen pt-screen"><header class="menu-header"><div><div class="eyebrow">${eyebrow}${developerMode ? " · 開発者モード" : mode === "test" ? " · TEST DATA" : ""}</div><h1>${esc(title)}</h1></div>${nav ? '<nav><button id="pt-gear">出撃準備</button><button id="pt-armory">武器庫</button><button id="pt-growth">育成</button><button id="pt-accessory">アクセサリ</button><button id="pt-home">タイトルへ</button></nav>' : ""}</header><p class="pt-status" role="status">${esc(notice)}</p>${body}</section>`;
+  ui.innerHTML = `<section class="panel ${panel} menu-screen pt-screen"><header class="menu-header"><div><div class="eyebrow">${eyebrow}${developerMode ? " · 管理者モード" : mode === "test" ? " · TEST DATA" : ""}</div><h1>${esc(title)}</h1></div>${nav ? '<nav><button id="pt-gear">出撃準備</button><button id="pt-armory">武器庫</button><button id="pt-growth">育成</button><button id="pt-accessory">アクセサリ</button><button id="pt-home">タイトルへ</button></nav>' : ""}</header><p class="pt-status" role="status">${esc(notice)}</p>${body}</section>`;
   bind("pt-home", home);
   if (sampleMenus && nav) {
     $("pt-home").textContent = "サンプル終了";
@@ -1181,7 +1142,9 @@ function showHome(initialized: boolean) {
     stage: STAGES[(stage === 21 ? 3 : stage) - 1],
     inventoryCount: initialized ? save.inventory.length : 0,
     pendingCount: initialized ? save.pending.length : 0,
+    install: canInstallApp(),
   });
+  if (canInstallApp()) bind("install", () => void installApp());
   const enter = (after: () => void) =>
     initialized
       ? after()
@@ -1210,8 +1173,8 @@ function showHome(initialized: boolean) {
   bind("home-settings", settingsUI);
   bind("coop", () => {
     location.href = location.hostname.endsWith(".trycloudflare.com")
-      ? "https://swarm-front.melosalife-24.workers.dev/"
-      : import.meta.env.BASE_URL;
+      ? "https://swarm-front.melosalife-24.workers.dev/?coop=1"
+      : import.meta.env.BASE_URL + "?coop=1";
   });
   bind("changelog", () =>
     dialog(
@@ -1229,7 +1192,7 @@ function showHome(initialized: boolean) {
   bind("pt-growth", () => enter(growth));
   if (mode === "test")
     ui.querySelector(".connection-dot")!.textContent = developerMode
-      ? "開発者モード · 全解放"
+      ? "管理者モード · 全解放"
       : "TEST DATA";
   if (developerMode) {
     ui.querySelector(".fine")!.textContent =
@@ -1808,13 +1771,10 @@ function accessories() {
   );
 }
 
-loadMode(
-  testAvailable() &&
-    !developerMode &&
-    sessionStorage.getItem("swarm-front-playtest-mode") === "test"
-    ? "test"
-    : "normal",
-);
+window.addEventListener("app-install-changed", () => {
+  if (screen === "home" || screen === "intro") showHome(screen === "home");
+});
+loadMode("normal");
 const unauthorizedDeveloper = developerRequested && !developerMode;
 const retryLaunch =
   sampleMenus || unauthorizedDeveloper
@@ -1875,6 +1835,14 @@ if (import.meta.env.DEV)
         fov: view.camera.fov,
       },
       loadReady,
+      mapAssets: view.mapAssets.status.map((state) => ({ ...state })),
+      trooper: (() => {
+        const model = view.players.get("solo");
+        const trooper = model?.userData.trooper;
+        return trooper
+          ? { loaded: true, bones: trooper.bones.length }
+          : { loaded: false, error: model?.userData.trooperError ?? null };
+      })(),
       input: { ...controls.input },
       renderedEnemies: Object.fromEntries(
         [...view.structures].map(([kind, visual]) => [
