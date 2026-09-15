@@ -1,3 +1,11 @@
+# 現在地: ステージ選択の星表示をmain反映・公開済み（2026-09-15）
+
+[PR #8](https://github.com/futsalife24-bot/swarm-front/pull/8)のHEAD `c5bb24de95621d1fb3ac80ab955c91a9ec71fe10` に独立監査「合格・必須指摘なし」。ユーザーの「公開までやって」で反映・公開を承認され、既存保護を守って通常mergeした。公開ソース `dad42c16777566b2d5d8250d610151bb21e5184e` は監査合格HEADとtree差分0。
+
+未解放名「？？？」・ステージ1列・NORMAL/HARD/EXPERTの各3星を公開済み。EXPERTは現在未実装のため常時未解放表示。公開先 https://swarm-front.melosalife-24.workers.dev 、Worker Version `3b3eec16-9936-4101-899e-48584ac1cf5f`。公開7ファイルSHA一致・health成功、実Chromeの667/844/1280×390で伏せ字・解放・星・非重複・ステージ変更・focus復帰を確認、pageerror 0。実スマホ未確認。[詳細](STAGE-MISSION-STARS.md)。後続は公開記録のみ。
+
+今回の監査・承認・公開保留は解消。5分確認も停止済み。次回の監査はユーザー指定どおり通常のChatに新規チャットを作成し、Work/既存会話へ送らない。以下は過去の履歴。
+
 # 現在地: ステージ選択の星表示を実装・検証、独立監査待ち（2026-09-15）
 
 未解放名を「？？？」、ステージ枠を1列、右端へNORMAL/HARD/EXPERTのミッション3星を追加。未解放難易度は減光。既存normal/mediumをNORMAL/HARDへ対応し、未実装EXPERTは常時未解放。保存・戦闘条件の変更なし。

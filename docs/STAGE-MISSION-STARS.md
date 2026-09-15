@@ -25,3 +25,12 @@
 作業branch: `codex/stage-mission-stars`。
 README第9行の独立監査後承認条件を維持。今回のmain反映・Worker公開は未実施。
 独立監査ではPRのbaseからHEADまでの実差分を参照。保存/戦闘処理の変更はなく、`stage-picker.ts`の解放表示と既存保存の対応、ピッカー描画、横画面CSSが中心。
+
+## 公開完了
+
+- 独立監査は対象HEAD `c5bb24de95621d1fb3ac80ab955c91a9ec71fe10` に合格・必須指摘なし。672条件と型チェックを独立確認。画像の独立目視・実スマホは未実施。
+- ユーザー「公開までやって」により公開まで承認。[PR #8](https://github.com/futsalife24-bot/swarm-front/pull/8)を2026-09-15 23:32 JSTに通常merge。公開ソース `dad42c16777566b2d5d8250d610151bb21e5184e` と監査HEADはtree差分0。
+- production Worker dry-run成功後、既存Workerへ6更新assetを公開。Version `3b3eec16-9936-4101-899e-48584ac1cf5f`。
+- https://swarm-front.melosalife-24.workers.dev の更新6ファイルとsw.jsの計7ファイルで配信SHA256一致。api/healthは200・ok。
+- 公開実Chrome隔離profileの667/844/1280×390で伏せ字・3難易度の達成星・未解放減光・非重複・ステージ変更・focus復帰成功、pageerror 0。667px公開画像を目視確認。達成状態は検証用ブラウザ内の保存fixtureを使用。
+- 証拠: dist-validation/stage-stars-release/results.json、check.mjs、published-{667,844,1280}.png。実スマホ未確認。上記の監査・公開保留は解消済み。
