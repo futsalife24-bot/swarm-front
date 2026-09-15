@@ -1,5 +1,6 @@
 import type { World, Input } from "../shared/game";
 import type { Weapon } from "../shared/defs";
+import { validStage } from "../shared/stages";
 export interface Member {
   id: string;
   ready: boolean;
@@ -169,8 +170,7 @@ export class Network {
         this.members = m.members;
         this.onWorld(m.world);
       } else if (m.type === "lobby") {
-        if (Number.isInteger(m.stage) && m.stage >= 1 && m.stage <= 10)
-          this.stage = m.stage;
+        if (validStage(m.stage)) this.stage = m.stage;
         this.members = m.members;
         this.onLobby();
       } else if (m.type === "error") {
