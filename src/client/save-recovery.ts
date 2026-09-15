@@ -71,6 +71,11 @@ export function recoverUnsavedResult(
     next.branch = true;
   if (freshRun) {
     next.receipts.push(r.run);
+    const history = weaponReceiptSnapshot(next);
+    next.weaponReceipts = {
+      ids: history.ids,
+      runs: [...new Set([...history.runs, r.run])],
+    };
     next.coins += coins + firstCoins;
     if (r.win) {
       next.missions[key] = old.map((v, i) => v || r.missions[i]);

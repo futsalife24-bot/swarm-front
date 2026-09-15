@@ -410,6 +410,7 @@ it("recomputes first-clear rewards and preserves another pending run during reco
   expect(recovered.points).toBe(latest.points);
   expect(recovered.materials).toBe(latest.materials);
   expect(recovered.result).toEqual(latest.result);
+  expect(recovered.weaponReceipts!.runs).toContain("stale-first");
   expect(recovered.coins).toBe(latest.coins + pending.result!.coins);
   expect(allWeapons(recovered).some((w) => w.id === "stale-first-drop")).toBe(
     true,
