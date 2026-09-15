@@ -1,3 +1,15 @@
+# 現在地: main集約の独立監査待ち（2026-09-15）
+
+正本: GitHub `futsalife24-bot/swarm-front` のmain。正規作業場所はこの `game/`。新しい開始・終了ルールは [WORKFLOW.md](WORKFLOW.md)。
+
+保存先: `codex/main-consolidation-20260915`。検証済みコード/テストHEADは `01b0bfd7df3cc84bb01676b7be7ade7cf3e2bc10`、後続は文書とmainの履歴接続。mainはまだ `25d95e35ba1e5dfd9ad1ee088a5c72689c169fcd`。バックアップ・327件の単体/試遊・実通信7件・対象UI確認を完了。報酬1行表示と協力再出撃の既存不具合も修正済み。[集約記録・検証](MAIN-CONSOLIDATION-20260915.md)。
+
+停止理由: READMEに明示されたmerge前の独立監査が未完了。再開条件: 集約PRの対象HEADに対するChat監査結果を取得し、必要修正と承認条件を満たすこと。その後PRをmainへ反映し、ローカルmainを同期してSHA一致・cleanを確認する。
+
+次のセッションはまずこの集約ブランチとPRを照合して継続する。反映完了前に旧mainから別の開発を始めない。旧 `codex/home-armory` を最新版として編集しない。既存Workerの再デプロイは今回行っていない。
+
+以下は機能ごとの履歴。古い承認待ち・未コミット・branch/HEADは当時の記録であり、この先頭と実際のGitに優先しない。
+
 # 2026-09-15 会敵イベント中のHUD非表示（公開済み）
 
 会敵の停止開始から黒帯・ズーム・敵名表示まで戦闘HUD、操作、ミニマップ、装填表示、照準、ダメージ数字、スコープを非表示。閉じると復帰。型/両build/Worker dry-run、配布版2寸法で全4段階の非表示と復帰後の射撃/装填/一時停止成功。変更前162配信SHA一致後に既存Workerへ公開。Version 4d3a3fbd-52bb-44ae-9665-6058185f8e51。[記録](ENCOUNTER-HUD.md)。
