@@ -78,6 +78,9 @@ import {
   varianceMark,
   makeWeapon,
   type NewWeapon,
+  type StoredWeapon,
+  weaponGrade,
+  weaponTier,
   type Difficulty,
   type Skill,
   type AccessoryKind,
@@ -741,7 +744,7 @@ function download(blob: Blob, name: string) {
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
-async function shareWeapon(w: NewWeapon) {
+async function shareWeapon(w: StoredWeapon) {
   try {
     const { shareImage } = await import("./weapon-sharing");
     await shareImage(w);
@@ -1150,7 +1153,7 @@ function showHome(initialized: boolean) {
       ? after()
       : confirmAction(
           "新しい進行を開始",
-          "<p>旧セーブの控えを保存し、新しい武器・進行で開始します。旧データは元の保存先にも残ります。</p><p>実広告は準備中です。広告なしで報酬と再挑戦を利用できます。</p>",
+          "<p>所持武器は1人プレイと協力プレイで共通です。以前の武器は性能を保って引き継ぎ、元の保存データも控えとして残します。</p><p>実広告は準備中です。広告なしで報酬と再挑戦を利用できます。</p>",
           () => {
             save = initializeProgress(mode);
             after();
@@ -1223,7 +1226,7 @@ function gear() {
     `<div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 出撃先</span><button id="pt-mission-info">作戦詳細</button></div><select id="pt-stage" aria-label="ステージ">${[...STAGES.map((s) => s.id), 21].map((id) => `<option value="${id}" ${id === stage ? "selected" : ""}>${stageLabel(id)} ${id === 21 ? "街区奥部の調査" : esc(STAGES[id - 1].name)}</option>`).join("")}</select><div class="pt-difficulty"><select id="pt-difficulty" aria-label="難易度"><option value="normal">通常</option><option value="medium">中難易度</option></select><small>クリア ${victoryCoins(stage, difficulty)} コイン</small></div></section><section class="equipment-select"><div class="section-label"><span>02 入替先</span><small>一覧タップで変更</small></div><div class="loadout-slots">${p.equipped
       .map((id, i) => {
         const w = save.inventory.find((w) => w.id === id)!;
-        return `<button data-gear-slot="${i}" aria-pressed="${selectedGearSlot === i}"><span class="slot-number">0${i + 1}</span><span class="slot-info"><small class="pt-grade-${w.rarity}">装備${i + 1} ${selectedGearSlot === i ? "選択中 · " : ""}${GRADES[w.rarity]}</small><b>${esc(WEAPONS[w.kind].name)}</b><strong>${esc(effectLabel(w))}</strong></span><i>詳細 ›</i></button>`;
+        return `<button data-gear-slot="${i}" aria-pressed="${selectedGearSlot === i}"><span class="slot-number">0${i + 1}</span><span class="slot-info"><small class="pt-grade-${weaponTier(w)}">装備${i + 1} ${selectedGearSlot === i ? "選択中 · " : ""}${weaponGrade(w)}</small><b>${esc(WEAPONS[w.kind].name)}</b><strong>${esc(effectLabel(w))}</strong></span><i>詳細 ›</i></button>`;
       })
       .join(
         "",
@@ -1265,7 +1268,7 @@ function gear() {
   bindList("gear");
 }
 
-function metric(w: NewWeapon, key: string) {
+function metric(w: StoredWeapon, key: string) {
   const d = stats(w);
   return key === "power"
     ? d.damage.toFixed(0)
@@ -1277,7 +1280,7 @@ function metric(w: NewWeapon, key: string) {
           ? (1 / d.interval).toFixed(2)
           : String(d.mag);
 }
-function metricValue(w: NewWeapon, key: string) {
+function metricValue(w: StoredWeapon, key: string) {
   const d = stats(w);
   return key === "power"
     ? d.damage
@@ -1289,11 +1292,11 @@ function metricValue(w: NewWeapon, key: string) {
           ? 1 / d.interval
           : d.mag;
 }
-function metricDifference(w: NewWeapon, base: NewWeapon, key: string) {
+function metricDifference(w: StoredWeapon, base: StoredWeapon, key: string) {
   const delta = metricValue(w, key) - metricValue(base, key);
   return `${delta > 0 ? "+" : ""}${delta.toFixed(2)}`;
 }
-function weaponList(items: NewWeapon[], context: string) {
+function weaponList(items: StoredWeapon[], context: string) {
   const shown = items
     .filter((w) =>
       context === "armory"
@@ -1304,7 +1307,7 @@ function weaponList(items: NewWeapon[], context: string) {
       sort === "acquired"
         ? a.acquired - b.acquired
         : sort === "rarity"
-          ? b.rarity - a.rarity
+          ? weaponTier(b) - weaponTier(a)
           : sort === "reload"
             ? metricValue(a, sort) - metricValue(b, sort)
             : metricValue(b, sort) - metricValue(a, sort),
@@ -1451,9 +1454,10 @@ function bindList(context: string) {
             (context === "armory"
               ? w.kind === armoryKind
               : filter === "all" || w.kind === filter) &&
-            w.rarity <= grade &&
+            weaponTier(w) <= grade &&
             !weaponProtected(save, w.id) &&
-            (include || VARIANCE_KEYS.every((k) => w.variance[k] < 10)),
+            (include ||
+              VARIANCE_KEYS.every((k) => w.format === 2 && w.variance[k] < 10)),
         )
         .map((w) => w.id),
     );
@@ -1526,7 +1530,7 @@ function dismantleUI(ids: string[], redraw: () => void = armory) {
   const n = dismantle(save, ids);
   confirmAction(
     "武器を解体",
-    `<p>${items.length}丁 → 武装片 +${n.powder - save.powder}</p>${items.map((w) => `<p>${esc(WEAPONS[w.kind].name)} ${GRADES[w.rarity]}${w.rarity === 4 || VARIANCE_KEYS.some((k) => w.variance[k] === 20) ? " ⚠ LR／最大補正あり" : ""}</p>`).join("")}`,
+    `<p>${items.length}丁 → 武装片 +${n.powder - save.powder}</p>${items.map((w) => `<p>${esc(WEAPONS[w.kind].name)} ${weaponGrade(w)}${weaponTier(w) === 4 || VARIANCE_KEYS.some((k) => w.format === 2 && w.variance[k] === 20) ? " ⚠ LR／最大補正あり" : ""}</p>`).join("")}`,
     () =>
       commit(n, () => {
         checked.clear();
@@ -1556,9 +1560,9 @@ function equipWeapon(id: string, slot: number, after: () => void) {
     after();
   });
 }
-function detail(w: NewWeapon, context: string) {
+function detail(w: StoredWeapon, context: string) {
   const d = dialog(
-    `${WEAPONS[w.kind].name} / ${GRADES[w.rarity]}`,
+    `${WEAPONS[w.kind].name} / ${weaponGrade(w)}`,
     `<div id="pt-weapon-preview"></div><p>${esc(effectLabel(w))}</p><label>比較相手 <select id="pt-compare">${soldier(
       save,
     )
@@ -1585,7 +1589,7 @@ function detail(w: NewWeapon, context: string) {
       ]
         .map(
           ([k, t]) =>
-            `<tr><th>${t}</th><td class="pt-var-${k === "mag" ? "base" : varianceClass(w.variance[k as keyof Variances])}">${metric(w, k)}<sup>${k === "mag" ? "" : varianceMark(w.variance[k as keyof Variances])}</sup></td><td>${k === "mag" ? "固定" : `${w.variance[k as keyof Variances] >= 0 ? "+" : ""}${w.variance[k as keyof Variances]}%`}</td><td>${metricDifference(w, base, k)}</td></tr>`,
+            `<tr><th>${t}</th><td class="pt-var-${k === "mag" ? "base" : varianceClass(w.format === 2 ? w.variance[k as keyof Variances] : 0)}">${metric(w, k)}<sup>${k === "mag" ? "" : varianceMark(w.format === 2 ? w.variance[k as keyof Variances] : 0)}</sup></td><td>${w.format !== 2 ? "従来の性能を保持" : k === "mag" ? "固定" : `${(w.format === 2 ? w.variance[k as keyof Variances] : 0) >= 0 ? "+" : ""}${w.format === 2 ? w.variance[k as keyof Variances] : 0}%`}</td><td>${metricDifference(w, base, k)}</td></tr>`,
         )
         .join("")}</table>`;
   };

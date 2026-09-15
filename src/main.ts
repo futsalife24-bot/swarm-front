@@ -1,3 +1,15 @@
+import {
+  CAPACITY,
+  GRADES,
+  weaponGrade,
+  weaponYield,
+  weaponTier,
+  type NewWeapon,
+} from "./shared/progression";
+import {
+  loadSharedCoopSave,
+  persistSharedCoopSave,
+} from "./client/shared-armory";
 import { prepareBattle } from "./client/battle-loading";
 import { playerName, addPlayerNameSetting } from "./client/player-profile";
 import { enhanceGameSelects, syncGameSelects } from "./client/game-select";
@@ -39,10 +51,8 @@ import { openBestiary } from "./client/bestiary";
 import { CHANGELOG } from "./client/changelog";
 import {
   effectLabel,
-  LIMITS,
   WAVE_INTERVAL,
   MOVE_SPEED,
-  RARITIES,
   ROLL,
   LOWER_IS_BETTER,
   stats,
@@ -68,13 +78,9 @@ import { Sound } from "./client/audio";
 import { loadNetworkSession, Network } from "./client/network";
 import {
   fresh,
-  parseSave,
-  persist,
   bankRewards,
   dismantleWeapons,
   POWDER_NAME,
-  POWDER_YIELDS,
-  trimToKindCap,
   SAVE_KEY,
   type Save,
 } from "./client/save";
@@ -175,6 +181,7 @@ async function prepareLobby() {
   const currentKey = () =>
     JSON.stringify([
       connection.code,
+      connection.preparationGeneration,
       connection.stage,
       connection.members
         .filter((m) => m.connected)
@@ -182,8 +189,10 @@ async function prepareLobby() {
       save.quality,
     ]);
   const key = currentKey();
+  const preparationGeneration = connection.preparationGeneration;
   if (key === preparedKey) {
-    if (!connection.assetReady) connection.setAssetReady(true);
+    if (!connection.assetReady)
+      connection.setAssetReady(true, preparationGeneration);
     return;
   }
   if (key === preparingKey) return;
@@ -215,7 +224,7 @@ async function prepareLobby() {
     preparedKey = key;
     preparingKey = "";
     preparationMessage = "";
-    connection.setAssetReady(true);
+    connection.setAssetReady(true, preparationGeneration);
     if (screen === "lobby") lobby();
   } catch (error) {
     if (cancelled()) return;
@@ -337,7 +346,7 @@ async function mountTurnstile(endpoint: string) {
   }
 }
 try {
-  save = parseSave(localStorage.getItem(SAVE_KEY));
+  save = loadSharedCoopSave();
   // Armouries built under the old single cap are brought down to the per-family
   // one. Say what went, rather than letting the count quietly shrink.
   // Preserve old inventory verbatim. Progression initialization has an explicit
@@ -370,7 +379,7 @@ configured();
 function write(next: Save) {
   if (saveError) return false;
   try {
-    persist(next);
+    persistSharedCoopSave(next);
     save = next;
     return true;
   } catch (e) {
@@ -446,8 +455,8 @@ const kindTally = () =>
   (Object.keys(KIND_LABELS) as Weapon["kind"][])
     .map(
       (k) =>
-        `${KIND_LABELS[k]} ${heldOf(k).length}/${LIMITS.perKind}` +
-        (heldOf(k).length >= LIMITS.perKind ? "（満杯）" : ""),
+        `${KIND_LABELS[k]} ${heldOf(k).length}/${CAPACITY.perKind}` +
+        (heldOf(k).length >= CAPACITY.perKind ? "（満杯）" : ""),
     )
     .join(" · ");
 // `group` decides which tab shows this figure; the row stays one line either way.
@@ -470,6 +479,11 @@ function card(w: Weapon, lootOnly = false) {
   // Each figure is graded against its own roll band. Reload is inverted there,
   // so a fast reload and a big magazine both read as the good end.
   const grade = (key: Roll) => {
+    if ((w as NewWeapon).format === 2) {
+      if (key === "mag") return "";
+      const variance = (w as NewWeapon).variance[key];
+      return variance >= 10 ? "roll-high" : variance < 0 ? "roll-low" : "";
+    }
     const milli = Math.round((w.rolls?.[key] ?? 1) * ROLL.scale);
     let at = (milli - ROLL.min) / (ROLL.max - ROLL.min);
     if (LOWER_IS_BETTER.includes(key)) at = 1 - at;
@@ -493,7 +507,7 @@ function card(w: Weapon, lootOnly = false) {
     '" title="' +
     effectLabel(w) +
     '">' +
-    RARITIES[w.rarity] +
+    weaponGrade(w) +
     '</em></div><div class="weapon-figures">' +
     figure("effect", effectHelp(w.effect, w.kind), "特殊効果") +
     // One line of figures rather than three stacked blocks, so more of the
@@ -556,7 +570,8 @@ function gear() {
   );
   if (weaponSort === "power")
     shown.sort((a, b) => stats(b).damage - stats(a).damage);
-  if (weaponSort === "rarity") shown.sort((a, b) => b.rarity - a.rarity);
+  if (weaponSort === "rarity")
+    shown.sort((a, b) => weaponTier(b) - weaponTier(a));
   const invitation = mode === "coop" ? inviteCode() : "";
   const previous = mode === "coop" ? loadNetworkSession() : null;
   const resumable =
@@ -597,7 +612,7 @@ function gear() {
   ui.innerHTML = `<section class="panel gear menu-screen"><header class="menu-header"><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><div class="weapon-filters"><label><span class="sr-only">武器系統</span><select id="weapon-filter" aria-label="武器系統"><option value="all">全系統</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select></label><label><span class="sr-only">並び順</span><select id="weapon-sort" aria-label="武器の並び順"><option value="default">入手順</option><option value="rarity">レア度順</option><option value="power">1発の威力順</option></select></label><button id="kind-info" aria-label="武器系統の説明">系統ガイド ⓘ</button></div><nav><button id="gear-armory">${menuIcon("armory")}武器庫</button><button id="gear-settings">${menuIcon("settings")}設定・操作</button><button id="home">ホームへ</button></nav></header><div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 / 出撃先</span><button id="mission-info" aria-label="作戦詳細">作戦詳細 ⓘ</button></div><label class="sr-only" for="stage-select">ステージ</label><select id="stage-select">${stageOptions()}</select><p id="stage-brief" class="sr-only">${esc(STAGES[selectedStage - 1].brief)}</p></section><section class="equipment-select"><div class="section-label"><span>02 / 装備を選択</span><small>2 SLOTS</small></div><div class="loadout-slots">${equipped()
     .map(
       (w, i) =>
-        `<button type="button" data-pick="${i}" class="rarity${w.rarity} ${activeSlot === i ? "selected" : ""}" aria-pressed="${activeSlot === i}"><span class="slot-number">0${i + 1}</span><span><small>装備 ${i + 1} <em>${RARITIES[w.rarity]}</em></small><b>${weaponName(w)}</b><strong>${effectText(w.effect, w.kind)}</strong></span><i aria-hidden="true">${activeSlot === i ? "選択中" : "変更"}</i></button>`,
+        `<button type="button" data-pick="${i}" class="rarity${w.rarity} ${activeSlot === i ? "selected" : ""}" aria-pressed="${activeSlot === i}"><span class="slot-number">0${i + 1}</span><span><small>装備 ${i + 1} <em>${weaponGrade(w)}</em></small><b>${weaponName(w)}</b><strong>${effectText(w.effect, w.kind)}</strong></span><i aria-hidden="true">${activeSlot === i ? "選択中" : "変更"}</i></button>`,
     )
     .join(
       "",
@@ -890,7 +905,10 @@ function bindGyro(prefix: string, update: (next: Save) => boolean) {
 }
 
 function exportSave() {
-  const raw = localStorage.getItem(SAVE_KEY) ?? JSON.stringify(save);
+  const raw =
+    localStorage.getItem("swarm-front-progression-v2-normal") ??
+    localStorage.getItem(SAVE_KEY) ??
+    JSON.stringify(save);
   const url = URL.createObjectURL(
     new Blob([raw], { type: "application/json" }),
   );
@@ -995,7 +1013,7 @@ async function connect(create: boolean, restore = false) {
         }
       } else if (w.phase === "victory" || w.phase === "defeat") {
         if (resultRun !== w.run && !netFatal) finishMission();
-        if (screen === "lobby") lobby();
+        network!.onLobby();
       }
     };
     network.ready = () => {
@@ -1058,7 +1076,7 @@ function lobby() {
       ]
         .map((slot) => {
           const w = m.weapons?.[slot];
-          return `<span><small>${slot + 1}</small> ${w ? `${RARITIES[w.rarity]} · ${esc(weaponName(w))}` : "装備を確認中"}</span>`;
+          return `<span><small>${slot + 1}</small> ${w ? `${weaponGrade(w)} · ${esc(weaponName(w))}` : "装備を確認中"}</span>`;
         })
         .join("")}</div></article>`;
     },
@@ -1195,13 +1213,15 @@ function armory() {
     armorySelected = shown[0]?.id ?? "";
   const all = [...waiting, ...save.inventory];
   const isProtected = (w: Weapon) =>
-    save.equipped.includes(w.id) || !!save.favorites?.includes(w.id);
+    save.equipped.includes(w.id) ||
+    !!save.favorites?.includes(w.id) ||
+    !!save.protectedWeapons?.includes(w.id);
   for (const id of armoryChecked) {
     if (!all.some((w) => w.id === id && !isProtected(w)))
       armoryChecked.delete(id);
   }
   const checked = all.filter((w) => armoryChecked.has(w.id));
-  const yieldTotal = checked.reduce((n, w) => n + POWDER_YIELDS[w.rarity], 0);
+  const yieldTotal = checked.reduce((n, w) => n + weaponYield(w), 0);
   const selected = shown.find((w) => w.id === armorySelected);
   const state = (w: Weapon) => {
     const slot = save.equipped.indexOf(w.id);
@@ -1209,7 +1229,9 @@ function armory() {
   };
   const row = (w: Weapon, pending: boolean) => {
     const protectedWeapon =
-      save.equipped.includes(w.id) || save.favorites?.includes(w.id);
+      save.equipped.includes(w.id) ||
+      save.favorites?.includes(w.id) ||
+      save.protectedWeapons?.includes(w.id);
     const d = stats(w);
     const base = equipped().find((a) => a.kind === w.kind && a.id !== w.id);
     const bd = base ? stats(base) : null;
@@ -1241,7 +1263,7 @@ function armory() {
         false,
       ],
     ];
-    return `<div class="armory-detail-heading"><span class="armory-kind">${KIND_LABELS[w.kind]} · ${RARITIES[w.rarity]}</span>${kindHelp(w.kind)}<h2>${esc(WEAPONS[w.kind].name)}</h2><div class="armory-badges">${state(w)}</div></div><p class="armory-effect">特殊効果 ${effectHelp(w.effect, w.kind)}<button id="armory-compare-open">比較を拡大 ↗</button></p><div class="armory-detail-scroll" tabindex="0" aria-label="性能比較と保護の説明"><p class="armory-compare">${base ? `装備 ${save.equipped.indexOf(base.id) + 1} の同系統武器と比較` : save.equipped.includes(w.id) ? "現在装備している武器" : "同系統の装備なし"}</p><table class="armory-stats"><thead><tr><th>性能</th><th>選択中</th><th>装備との差</th></tr></thead><tbody>${metrics
+    return `<div class="armory-detail-heading"><span class="armory-kind">${KIND_LABELS[w.kind]} · ${weaponGrade(w)}</span>${kindHelp(w.kind)}<h2>${esc(WEAPONS[w.kind].name)}</h2><div class="armory-badges">${state(w)}</div></div><p class="armory-effect">特殊効果 ${effectHelp(w.effect, w.kind)}<button id="armory-compare-open">比較を拡大 ↗</button></p><div class="armory-detail-scroll" tabindex="0" aria-label="性能比較と保護の説明"><p class="armory-compare">${base ? `装備 ${save.equipped.indexOf(base.id) + 1} の同系統武器と比較` : save.equipped.includes(w.id) ? "現在装備している武器" : "同系統の装備なし"}</p><table class="armory-stats"><thead><tr><th>性能</th><th>選択中</th><th>装備との差</th></tr></thead><tbody>${metrics
       .map(([label, value, other, unit, digits, lower]) => {
         const delta =
           other === undefined ? null : Number((value - other).toFixed(digits));
@@ -1255,13 +1277,13 @@ function armory() {
       })
       .join(
         "",
-      )}</tbody></table><p class="armory-help">${protectedWeapon ? "装備中・お気に入りは分解から保護されます。" : `分解で${POWDER_NAME} +${POWDER_YIELDS[w.rarity]}。実行前に確認できます。`}${pending ? " 整理待ちは保存済み。空きができると入手順に収納します。" : ""}</p></div><div class="armory-detail-actions">${favoriteButton(w)}<button data-discard="${esc(w.id)}" ${protectedWeapon ? "disabled" : ""}>${protectedWeapon ? "保護中" : `分解（+${POWDER_YIELDS[w.rarity]}）`}</button></div>`;
+      )}</tbody></table><p class="armory-help">${protectedWeapon ? "登録装備・お気に入りは分解から保護されます。" : `分解で${POWDER_NAME} +${weaponYield(w)}。実行前に確認できます。`}${pending ? " 整理待ちは保存済み。空きができると入手順に収納します。" : ""}</p></div><div class="armory-detail-actions">${favoriteButton(w)}<button data-discard="${esc(w.id)}" ${protectedWeapon ? "disabled" : ""}>${protectedWeapon ? "保護中" : `分解（+${weaponYield(w)}）`}</button></div>`;
   };
   ui.innerHTML = `<section class="panel armory ${armoryOrganizing ? "organizing" : ""}"><header><div class="armory-title"><h1>武器庫 <small>${save.inventory.length}丁${waiting.length ? ` · 整理待ち ${waiting.length}` : ""}</small></h1><button id="armory-organize" aria-pressed="${armoryOrganizing}">${armoryOrganizing ? "整理を終了" : "整理モード"}</button><select id="armory-filter" aria-label="武器庫の絞り込み"><option value="all">全武器</option><option value="favorites">お気に入り</option><option value="pending">整理待ち</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select></div><nav aria-label="武器庫の移動"><button id="armory-home">ホームへ</button><button id="armory-gear">出撃準備へ</button></nav></header><div class="armory-toolbar"><span>${shown.length}丁を表示</span><small>${kindTally()}</small></div><div class="armory-powder"><span>${POWDER_NAME}：${save.powder ?? 0}</span>${armoryOrganizing ? `<button id="armory-dismantle" ${checked.length ? "" : "disabled"}>選択 ${checked.length}丁を分解（+${yieldTotal}）</button><small>装備中・お気に入りは保護</small>` : ""}</div><p class="status" role="status">${esc(saveError || status)}</p><div class="armory-workspace"><section class="armory-catalog" aria-label="武器一覧"><div class="armory-list" tabindex="0" aria-label="武器一覧。上下にスクロールできます"><div class="armory-list-head" aria-hidden="true"><span>武器 / 状態</span><span>特殊効果</span><span>威力</span><span>装弾</span><span title="装填時間（秒）">装填</span><span title="射程（m）">射程</span><span title="連射速度（発/秒）">連射</span></div>${
     shown
       .map((w) => {
         const d = stats(w);
-        return `<article>${armoryOrganizing ? `<label class="armory-check"><input type="checkbox" data-dismantle-check="${esc(w.id)}" aria-label="${esc(WEAPONS[w.kind].name)} ${RARITIES[w.rarity]}を分解対象にする" ${isProtected(w) ? "disabled" : ""} ${armoryChecked.has(w.id) ? "checked" : ""}></label>` : ""}<button class="armory-row rarity${w.rarity}" data-armory-select="${esc(w.id)}" aria-pressed="${w.id === armorySelected}"><span class="armory-identity"><strong>${esc(WEAPONS[w.kind].name)}</strong><span><em class="rarity-tag rarity${w.rarity}">${RARITIES[w.rarity]}</em>${state(w)}</span></span><span class="armory-row-effect ${w.effect === "none" ? "standard-effect" : ""}">${effectText(w.effect, w.kind)}</span><span data-label="威力">${Math.round(d.damage)}${d.pellets > 1 ? `<small> ×${d.pellets}</small>` : ""}</span><span data-label="装弾">${d.mag}</span><span data-label="装填 / 秒">${d.reload.toFixed(2)}</span><span data-label="射程 / m">${Math.round(d.range)}</span><span data-label="連射 / 秒">${(1 / d.interval).toFixed(1)}</span></button></article>`;
+        return `<article>${armoryOrganizing ? `<label class="armory-check"><input type="checkbox" data-dismantle-check="${esc(w.id)}" aria-label="${esc(WEAPONS[w.kind].name)} ${weaponGrade(w)}を分解対象にする" ${isProtected(w) ? "disabled" : ""} ${armoryChecked.has(w.id) ? "checked" : ""}></label>` : ""}<button class="armory-row rarity${w.rarity}" data-armory-select="${esc(w.id)}" aria-pressed="${w.id === armorySelected}"><span class="armory-identity"><strong>${esc(WEAPONS[w.kind].name)}</strong><span><em class="rarity-tag rarity${w.rarity}">${weaponGrade(w)}</em>${state(w)}</span></span><span class="armory-row-effect ${w.effect === "none" ? "standard-effect" : ""}">${effectText(w.effect, w.kind)}</span><span data-label="威力">${Math.round(d.damage)}${d.pellets > 1 ? `<small> ×${d.pellets}</small>` : ""}</span><span data-label="装弾">${d.mag}</span><span data-label="装填 / 秒">${d.reload.toFixed(2)}</span><span data-label="射程 / m">${Math.round(d.range)}</span><span data-label="連射 / 秒">${(1 / d.interval).toFixed(1)}</span></button></article>`;
       })
       .join("") ||
     '<p class="armory-empty">該当する武器はありません。<br>絞り込みを変更してください。</p>'
@@ -1308,14 +1330,14 @@ function armory() {
   );
   const dismantle = async (weapons: Weapon[]) => {
     if (!weapons.length || weapons.some(isProtected)) return;
-    const amount = weapons.reduce((n, w) => n + POWDER_YIELDS[w.rarity], 0);
-    const breakdown = RARITIES.map(
-      (label, rarity) =>
-        `${label}: ${weapons.filter((w) => w.rarity === rarity).length}丁`,
+    const amount = weapons.reduce((n, w) => n + weaponYield(w), 0);
+    const breakdown = GRADES.map(
+      (label) =>
+        `${label}: ${weapons.filter((w) => weaponGrade(w) === label).length}丁`,
     ).join(" / ");
     const review = menuDialog(
       "武器を分解しますか",
-      `<p>選択した <b>${weapons.length}丁</b>を分解し、<strong>${POWDER_NAME} +${amount}</strong>を獲得します。元には戻せません。</p><p>${breakdown}</p><ul class="dismantle-review">${weapons.map((w) => `<li><b>${RARITIES[w.rarity]} · ${weaponName(w)}</b><span>${esc(weaponDetails(w))}</span></li>`).join("")}</ul>`,
+      `<p>選択した <b>${weapons.length}丁</b>を分解し、<strong>${POWDER_NAME} +${amount}</strong>を獲得します。元には戻せません。</p><p>${breakdown}</p><ul class="dismantle-review">${weapons.map((w) => `<li><b>${weaponGrade(w)} · ${weaponName(w)}</b><span>${esc(weaponDetails(w))}</span></li>`).join("")}</ul>`,
       "ARSENAL / DISMANTLE",
     );
     const actions = document.createElement("div");
@@ -1393,7 +1415,12 @@ function armory() {
     b.onclick = () => {
       const id = b.dataset.discard!;
       const w = [...save.inventory, ...waiting].find((w) => w.id === id);
-      if (!w || save.equipped.includes(id) || save.favorites?.includes(id))
+      if (
+        !w ||
+        save.equipped.includes(id) ||
+        save.favorites?.includes(id) ||
+        save.protectedWeapons?.includes(id)
+      )
         return;
       dismantle([w]);
     };
@@ -1437,12 +1464,13 @@ function result() {
   const w = world;
   resultRun = w.run;
   setScreen("result");
+  const returnToSquad = mode === "coop" && Boolean(network?.id) && !netFatal;
   const items = w.rewards[myId] ?? [];
   let stored = w.phase !== "victory";
   if (w.phase === "victory") {
     stored = storeMissionRewards(w);
   }
-  ui.innerHTML = `<section class="panel result"><div class="result-summary"><div class="eyebrow">OPERATION ${String(stageFor(w).id).padStart(2, "0")} / ${mapFor(w).name}</div><h1>${w.phase === "victory" ? "MISSION CLEAR" : "MISSION FAILED"}</h1><p>${w.phase === "victory" ? "作戦を達成しました。戦利品を確認して、次の戦場へ。" : esc(w.reason || "部隊が全員ダウンしました")}</p><div class="stats"><div><span>作戦時間</span><b>${Math.floor(w.time / 60)}:${String(Math.floor(w.time % 60)).padStart(2, "0")}</b></div><div><span>撃破数</span><b>${w.totalKills}</b></div><div><span>回収武器</span><b>${items.length}</b></div></div><div class="result-actions"><button class="primary" id="regear">ホームへ戻る ↗</button><button id="retry-save" ${stored ? "hidden" : ""}>保存を再試行</button></div></div><section class="result-loot"><h2>${w.phase === "victory" ? "獲得武器" : "未確定戦利品は失われました"}</h2><p class="status" role="status">${esc(saveError || (w.phase === "victory" ? status : "保存済みの武器は保持されています。"))}</p><div class="loot-list loot-table" aria-label="獲得武器リスト"><div class="weapon-head"><span>武器</span><span>特殊効果</span><span>威力</span><span>装弾</span><span>装填</span><span>射程</span><span>連射</span><span title="お気に入り">☆</span></div>${items.map((item) => card(item, true)).join("")}</div></section></section>`;
+  ui.innerHTML = `<section class="panel result"><div class="result-summary"><div class="eyebrow">OPERATION ${String(stageFor(w).id).padStart(2, "0")} / ${mapFor(w).name}</div><h1>${w.phase === "victory" ? "MISSION CLEAR" : "MISSION FAILED"}</h1><p>${w.phase === "victory" ? "作戦を達成しました。戦利品を確認して、次の戦場へ。" : esc(w.reason || "部隊が全員ダウンしました")}</p><div class="stats"><div><span>作戦時間</span><b>${Math.floor(w.time / 60)}:${String(Math.floor(w.time % 60)).padStart(2, "0")}</b></div><div><span>撃破数</span><b>${w.totalKills}</b></div><div><span>回収武器</span><b>${items.length}</b></div></div><div class="result-actions"><button class="primary" id="regear">${returnToSquad ? "同じ部隊のロビーへ戻る ↗" : "ホームへ戻る ↗"}</button><button id="retry-save" ${stored ? "hidden" : ""}>保存を再試行</button></div></div><section class="result-loot"><h2>${w.phase === "victory" ? "獲得武器" : "未確定戦利品は失われました"}</h2><p class="status" role="status">${esc(saveError || (w.phase === "victory" ? status : "保存済みの武器は保持されています。"))}</p><div class="loot-list loot-table" aria-label="獲得武器リスト"><div class="weapon-head"><span>武器</span><span>特殊効果</span><span>威力</span><span>装弾</span><span>装填</span><span>射程</span><span>連射</span><span title="お気に入り">☆</span></div>${items.map((item) => card(item, true)).join("")}</div></section></section>`;
   $("regear").onclick = () => {
     if (!stored) {
       ui.querySelector(".status")!.textContent =
@@ -1450,7 +1478,19 @@ function result() {
       return;
     }
     status = "";
-    title();
+    if (returnToSquad && network && !netFatal) {
+      // Keep this socket and its tab-local resume identity for the next sortie.
+      // The completed run remains recorded so terminal snapshots cannot reopen results.
+      loadingGeneration++;
+      lobbyPreview = null;
+      preparedKey = "";
+      preparingKey = "";
+      predicted = undefined;
+      network.setAssetReady(false);
+      network.preparation(false);
+      setScreen("lobby");
+      lobby();
+    } else title();
   };
   $("retry-save").onclick = result;
   bindFavorites();

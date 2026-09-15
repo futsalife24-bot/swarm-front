@@ -9,7 +9,8 @@ import { validStage } from "../src/shared/stages";
 import { developerAuth } from "./developer-auth";
 import { DurableObject } from "cloudflare:workers";
 import { creationAccess, turnstileAccess } from "./auth";
-import { LIMITS, validWeapon, type Weapon } from "../src/shared/defs";
+import { LIMITS, validBattleWeapon, type Weapon } from "../src/shared/defs";
+import type { NewWeapon } from "../src/shared/progression";
 import {
   addPlayer,
   createWorld,
@@ -41,6 +42,7 @@ interface Member {
   weapons: Weapon[];
   edits?: number;
   ready?: boolean;
+  readyGeneration?: number;
 }
 interface Saved {
   created: number;
@@ -50,6 +52,7 @@ interface Saved {
   paused?: boolean;
   stage?: number;
   messages?: ChatMessage[];
+  preparationGeneration?: number;
 }
 const json = (body: unknown, status = 200) => Response.json(body, { status });
 const secret = () => crypto.randomUUID().replaceAll("-", "");
@@ -268,6 +271,14 @@ export class Room extends DurableObject<Env> {
       }
     });
   }
+  invalidatePreparation() {
+    this.saved.preparationGeneration =
+      (this.saved.preparationGeneration ?? 0) + 1;
+    for (const member of this.saved.members) {
+      member.ready = false;
+      member.readyGeneration = undefined;
+    }
+  }
   async persist() {
     await this.ctx.storage.put("room", this.saved);
   }
@@ -420,6 +431,7 @@ export class Room extends DurableObject<Env> {
       const p = this.saved.world?.players.find((p) => p.id === s.id);
       if (p) p.connected = true;
       this.saved.paused = false;
+      this.invalidatePreparation();
       await this.persist();
       await this.ctx.storage.setAlarm(
         Math.min(
@@ -518,13 +530,22 @@ export class Room extends DurableObject<Env> {
         if (s.id !== this.saved.members.find((p) => !p.gone)?.id) return;
         if (!validStage(m.stage) || this.saved.stage === m.stage) return;
         this.saved.stage = m.stage;
-        for (const p of this.saved.members) p.ready = false;
+        this.invalidatePreparation();
       } else {
-        if (typeof m.ready !== "boolean" || member.ready === m.ready) return;
-        member.ready =
+        if (typeof m.ready !== "boolean") return;
+        // An old load completion must never approve a newer preparation, even
+        // when the stage changes A -> B -> A or another player changes gear.
+        if (m.preparationGeneration !== (this.saved.preparationGeneration ?? 0))
+          return;
+        const ready =
           m.ready &&
           member.weapons.length === 2 &&
-          (m.stage === undefined || m.stage === (this.saved.stage ?? 1));
+          m.stage === (this.saved.stage ?? 1);
+        if (member.ready === ready) return;
+        member.ready = ready;
+        member.readyGeneration = ready
+          ? this.saved.preparationGeneration
+          : undefined;
       }
       member.last = now;
       await this.persist();
@@ -534,7 +555,7 @@ export class Room extends DurableObject<Env> {
       if (
         !Array.isArray(m.weapons) ||
         m.weapons.length !== 2 ||
-        !m.weapons.every(validWeapon) ||
+        !m.weapons.every(validBattleWeapon) ||
         m.weapons[0].id === m.weapons[1].id
       ) {
         this.error(ws, "武器定義が不正です");
@@ -546,16 +567,24 @@ export class Room extends DurableObject<Env> {
       }
       member.edits = (member.edits ?? 0) + 1;
       member.last = now;
-      member.ready =
-        m.ready !== false &&
-        (m.stage === undefined || m.stage === (this.saved.stage ?? 1));
-      member.weapons = m.weapons.map((w: Weapon) => ({
+      // Equipment packets never acknowledge asset readiness. Every participant
+      // must load and acknowledge the resulting server generation separately.
+      this.invalidatePreparation();
+      member.weapons = m.weapons.map((w: Weapon | NewWeapon) => ({
         id: w.id,
         kind: w.kind,
         rarity: w.rarity,
         power: w.power,
         effect: w.effect,
         ...(w.rolls ? { rolls: { ...w.rolls } } : {}),
+        ...("format" in w
+          ? {
+              format: 2 as const,
+              variance: { ...w.variance },
+              testData: false,
+              acquired: w.acquired,
+            }
+          : {}),
       }));
       await this.persist();
       this.broadcast();
@@ -565,7 +594,12 @@ export class Room extends DurableObject<Env> {
         return;
       if (
         !present.length ||
-        present.some((p) => p.weapons.length !== 2 || p.ready === false)
+        present.some(
+          (p) =>
+            p.weapons.length !== 2 ||
+            p.ready !== true ||
+            p.readyGeneration !== (this.saved.preparationGeneration ?? 0),
+        )
       ) {
         this.send(ws, {
           type: "notice",
@@ -609,7 +643,10 @@ export class Room extends DurableObject<Env> {
       const members = this.saved.members.map((p) => ({
         id: p.id,
         name: p.name || DEFAULT_PLAYER_NAME,
-        ready: p.weapons.length === 2 && p.ready !== false,
+        ready:
+          p.weapons.length === 2 &&
+          p.ready === true &&
+          p.readyGeneration === (this.saved.preparationGeneration ?? 0),
         ...(w?.phase !== "battle" ? { weapons: p.weapons } : {}),
         connected: !p.gone,
       }));
@@ -626,9 +663,15 @@ export class Room extends DurableObject<Env> {
           },
           members,
           stage: this.saved.stage ?? 1,
+          preparationGeneration: this.saved.preparationGeneration ?? 0,
         });
       } else
-        this.send(ws, { type: "lobby", members, stage: this.saved.stage ?? 1 });
+        this.send(ws, {
+          type: "lobby",
+          members,
+          stage: this.saved.stage ?? 1,
+          preparationGeneration: this.saved.preparationGeneration ?? 0,
+        });
     }
     if (w) this.sentEvent = w.eventSerial;
   }
@@ -687,6 +730,7 @@ export class Room extends DurableObject<Env> {
     }
     this.ticks++;
     if (w.phase !== "battle") {
+      this.invalidatePreparation();
       this.stop();
       this.persisting = true;
       try {
@@ -716,6 +760,7 @@ export class Room extends DurableObject<Env> {
     if ([...this.sockets.values()].some((a) => a.id === s.id)) return;
     const m = this.saved.members.find((p) => p.id === s.id);
     if (m) m.gone = Date.now();
+    this.invalidatePreparation();
     delete this.inputs[s.id];
     const w = this.saved.world;
     const p = w?.players.find((p) => p.id === s.id);

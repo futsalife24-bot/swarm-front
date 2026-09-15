@@ -66,6 +66,11 @@ try {
         JSON.parse(before["swarm-front-progression-v2-normal"]).mode,
         "normal",
       );
+      const normalBefore = JSON.parse(
+        before["swarm-front-progression-v2-normal"],
+      );
+      assert.equal(normalBefore.armoryMigration, 1);
+      assert.ok(normalBefore.revision >= 1);
       await page.locator("#home-settings").click();
       await page.locator("#pt-developer-entry").click();
       await page.locator("#developer-password").fill("wrong-password");
@@ -104,6 +109,14 @@ try {
           .getAttribute("aria-pressed"),
         "true",
       );
+      await page
+        .locator('[data-row="developer-rifle-0"] [data-detail]')
+        .click();
+      assert.equal(
+        await page.locator('[data-pinned="developer-rifle-0"]').count(),
+        1,
+      );
+      assert.deepEqual(await snapshot(page), before);
       await page.locator("#pt-settings").click();
       await page.locator("#edit-player-name").click();
       await page.locator("#player-name").fill("管理検証隊員");
@@ -146,6 +159,24 @@ try {
         ).authenticated,
         false,
       );
+      const normalAfter = JSON.parse(
+        (await snapshot(page))["swarm-front-progression-v2-normal"],
+      );
+      assert.deepEqual(normalAfter.inventory, normalBefore.inventory);
+      assert.deepEqual(normalAfter.soldiers, normalBefore.soldiers);
+      assert.ok(
+        normalAfter.inventory.every((w) => !w.id.startsWith("developer-")),
+      );
+      await page.locator("#home-settings").click();
+      await page.locator("#edit-player-name").click();
+      assert.equal(
+        await page.locator("#player-name").inputValue(),
+        "管理検証隊員",
+      );
+      await page.goto(base + "/");
+      await page.locator("#home-settings").click();
+      await page.locator("#pt-layout").click();
+      assert.equal(await page.locator("#layout-scope-count").inputValue(), "2");
       await page.goto(base + "/?developer=1");
       await page.locator("#developer-login").waitFor();
       assert.equal(await page.locator("#pt-developer-exit").count(), 0);
@@ -167,6 +198,9 @@ try {
         scope2: true,
         adminReloadReset: true,
         savesPreserved: true,
+        normalInventoryAndEquipmentUnchanged: true,
+        adminWeaponsNotPersisted: true,
+        nameAndLayoutSharedWithNormal: true,
         logoutRevoked: true,
         directDenied: true,
         coopRoute: true,

@@ -191,6 +191,8 @@ it("ignores malformed JSON and invalid message types without invoking UI callbac
       '{"type":"welcome"}',
       '{"type":"state","members":[]}',
       '{"type":"lobby","members":[null]}',
+      '{"type":"lobby","members":[],"preparationGeneration":-1}',
+      '{"type":"lobby","members":[]}',
       '{"type":"error","reason":7}',
     ]) {
       expect(() => socket.onmessage!({ data })).not.toThrow();
@@ -202,6 +204,7 @@ it("ignores malformed JSON and invalid message types without invoking UI callbac
     socket.onmessage!({
       data: JSON.stringify({
         type: "lobby",
+        preparationGeneration: 1,
         members: [{ id: "p", ready: true, connected: true }],
       }),
     });

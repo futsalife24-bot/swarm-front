@@ -6,8 +6,10 @@ import {
   VARIANCE_KEYS,
   varianceMark,
   type NewWeapon,
+  type StoredWeapon,
+  weaponGrade,
 } from "../shared/progression";
-async function sceneFor(w: NewWeapon, width: number, height: number) {
+async function sceneFor(w: StoredWeapon, width: number, height: number) {
   const renderer = new T.WebGLRenderer({
     antialias: true,
     alpha: false,
@@ -77,7 +79,7 @@ async function sceneFor(w: NewWeapon, width: number, height: number) {
     throw e;
   }
 }
-export async function previewWeapon(host: HTMLElement, w: NewWeapon) {
+export async function previewWeapon(host: HTMLElement, w: StoredWeapon) {
   const v = await sceneFor(w, Math.max(300, host.clientWidth), 170);
   if (!host.isConnected) {
     v.dispose();
@@ -87,7 +89,7 @@ export async function previewWeapon(host: HTMLElement, w: NewWeapon) {
   v.renderer.domElement.style.width = "100%";
   return v.dispose;
 }
-export async function weaponImage(w: NewWeapon) {
+export async function weaponImage(w: StoredWeapon) {
   const v = await sceneFor(w, 1200, 420),
     canvas = document.createElement("canvas");
   canvas.width = 1200;
@@ -99,7 +101,7 @@ export async function weaponImage(w: NewWeapon) {
   v.dispose();
   c.fillStyle = "#fff";
   c.font = "bold 34px sans-serif";
-  c.fillText(`${WEAPONS[w.kind].name} / ${GRADES[w.rarity]}`, 40, 52);
+  c.fillText(`${WEAPONS[w.kind].name} / ${weaponGrade(w)}`, 40, 52);
   c.font = "20px sans-serif";
   c.fillText("SWARM FRONT", 950, 52);
   if (w.testData) {
@@ -116,7 +118,7 @@ export async function weaponImage(w: NewWeapon) {
     labels = { power: "威力", reload: "装填", range: "射程", rate: "連射" };
   VARIANCE_KEYS.forEach((key, i) => {
     const y = 470 + i * 50,
-      n = w.variance[key];
+      n = w.format === 2 ? w.variance[key] : 0;
     c.fillStyle = "#c5d7e4";
     c.fillText(labels[key], 60, y);
     const markColor =
@@ -129,7 +131,10 @@ export async function weaponImage(w: NewWeapon) {
             : n < 20
               ? "#ffa348"
               : "#fa6852";
-    const value = `${values[key]}  (${n >= 0 ? "+" : ""}${n}%)`;
+    const value =
+      w.format === 2
+        ? `${values[key]}  (${n >= 0 ? "+" : ""}${n}%)`
+        : values[key];
     c.fillStyle = "#fff";
     c.fillText(value, 300, y);
     const x = 307 + c.measureText(value).width;
@@ -143,7 +148,7 @@ export async function weaponImage(w: NewWeapon) {
     c.restore();
   });
   c.fillStyle = "#fff";
-  c.fillText(`装弾 ${d.mag} 発（固定）`, 720, 470);
+  c.fillText(`装弾 ${d.mag} 発${w.format === 2 ? "（固定）" : ""}`, 720, 470);
   return new Promise<Blob>((resolve, reject) =>
     canvas.toBlob(
       (b) => (b ? resolve(b) : reject(new Error("共有画像を作成できません"))),
@@ -151,7 +156,7 @@ export async function weaponImage(w: NewWeapon) {
     ),
   );
 }
-export async function shareImage(w: NewWeapon) {
+export async function shareImage(w: StoredWeapon) {
   const blob = await weaponImage(w),
     file = new File([blob], `swarm-front-${w.id}.png`, { type: "image/png" }),
     // Canonical deployment recorded in README.md; local preview URLs must not escape into posts.
@@ -160,7 +165,7 @@ export async function shareImage(w: NewWeapon) {
         "https://swarm-front.melosalife-24.workers.dev/",
     );
   url.search = "?playtest=1";
-  const text = `${WEAPONS[w.kind].name} / ${GRADES[w.rarity]} — SWARM FRONT${w.testData ? " [TEST DATA]" : ""}\n${url}`;
+  const text = `${WEAPONS[w.kind].name} / ${weaponGrade(w)} — SWARM FRONT${w.testData ? " [TEST DATA]" : ""}\n${url}`;
   const dialog = document.createElement("dialog");
   dialog.className = "menu-dialog";
   const objectURL = URL.createObjectURL(blob);

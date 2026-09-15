@@ -58,6 +58,7 @@ export class Network {
   stage = 1;
   preparing = false;
   assetReady = false;
+  preparationGeneration = 0;
   playerName = DEFAULT_PLAYER_NAME;
   messages: ChatMessage[] = [];
   onChat: () => void = () => {};
@@ -96,6 +97,7 @@ export class Network {
       this.members = [];
       this.assetReady = false;
     }
+    this.assetReady = false;
     this.code = code;
     this.token = token;
     this.closed = false;
@@ -119,6 +121,7 @@ export class Network {
       });
     };
     ws.onmessage = (e) => {
+      if (this.ws !== ws) return;
       this.last = Date.now();
       let m;
       try {
@@ -132,7 +135,9 @@ export class Network {
           return;
         if (
           (m.type === "state" || m.type === "lobby") &&
-          (!Array.isArray(m.members) ||
+          (!Number.isSafeInteger(m.preparationGeneration) ||
+            m.preparationGeneration < 0 ||
+            !Array.isArray(m.members) ||
             !m.members.every(
               (p: Member) =>
                 p &&
@@ -157,6 +162,12 @@ export class Network {
           return;
       } catch {
         return;
+      }
+      if (m.type === "state" || m.type === "lobby") {
+        if (this.preparationGeneration !== m.preparationGeneration) {
+          this.preparationGeneration = m.preparationGeneration;
+          this.assetReady = false;
+        }
       }
       if (m.type === "welcome") {
         welcomed = true;
@@ -184,6 +195,7 @@ export class Network {
           weapons: this.equip,
           ready: !this.preparing && this.assetReady,
           stage: this.stage,
+          preparationGeneration: this.preparationGeneration,
         });
         this.ready();
       } else if (m.type === "state") {
@@ -223,7 +235,7 @@ export class Network {
     };
     ws.onclose = (e) => {
       clearTimeout(timeout);
-      if (this.closed) return;
+      if (this.closed || this.ws !== ws) return;
       if (e.code >= 4000) {
         this.closed = true;
         this.onStatus(
@@ -262,6 +274,7 @@ export class Network {
       weapons,
       ready: !this.preparing && this.assetReady,
       stage: this.stage,
+      preparationGeneration: this.preparationGeneration,
     });
   }
   preparation(preparing: boolean) {
@@ -270,14 +283,17 @@ export class Network {
       type: "ready",
       ready: !preparing && this.assetReady,
       stage: this.stage,
+      preparationGeneration: this.preparationGeneration,
     });
   }
-  setAssetReady(ready: boolean) {
+  setAssetReady(ready: boolean, generation = this.preparationGeneration) {
+    if (generation !== this.preparationGeneration) return;
     this.assetReady = ready;
     this.send({
       type: "ready",
       ready: ready && !this.preparing,
       stage: this.stage,
+      preparationGeneration: this.preparationGeneration,
     });
   }
   setPlayerName(name: string) {

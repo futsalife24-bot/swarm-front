@@ -9,6 +9,7 @@ import {
   start,
   spawn,
   hurtEnemy,
+  finish,
 } from "../src/shared/game";
 export { Gate };
 export class TestGate extends Gate {
@@ -38,6 +39,23 @@ export class TestRoom extends Room {
     }
     if (u.pathname === "/fixture") {
       this.stop();
+      if (
+        ["terminal-victory", "terminal-defeat"].includes(
+          u.searchParams.get("case") ?? "",
+        )
+      ) {
+        if (this.saved.world?.phase !== "battle")
+          return new Response("Active run required", { status: 409 });
+        // Shorten mission duration only; preserve the real room, players and run.
+        finish(
+          this.saved.world,
+          u.searchParams.get("case") === "terminal-victory",
+          "Local result-flow fixture",
+        );
+        await this.persist();
+        this.broadcast();
+        return Response.json({ ok: true });
+      }
       const w = createWorld("fixture-" + crypto.randomUUID(), 314);
       for (const m of this.saved.members) addPlayer(w, m.id, m.weapons);
       start(w);
@@ -152,7 +170,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(revive|reward|reward-overflow|load|freeze|enemies|structures|worm-split|foundry|trooper|snapshot)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(revive|reward|reward-overflow|load|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat)$/.exec(
         u.pathname,
       );
     if (match && req.method === "POST") {

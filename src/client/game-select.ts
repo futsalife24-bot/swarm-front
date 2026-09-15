@@ -131,8 +131,22 @@ function open(select: HTMLSelectElement, picker: Picker) {
     picker.dialog = undefined;
     picker.button.setAttribute("aria-expanded", "false");
     picker.button.removeAttribute("aria-controls");
-    if (picker.button.isConnected && !picker.button.disabled)
-      picker.button.focus({ preventScroll: true });
+    // A change handler can replace the whole menu and enhance its new select in
+    // a microtask. Resolve the live trigger after that render, not the old node.
+    requestAnimationFrame(() => {
+      if (document.querySelector("dialog[open]")) return;
+      const currentSelect = select.isConnected
+        ? select
+        : select.id
+          ? document.getElementById(select.id)
+          : null;
+      const button =
+        currentSelect instanceof HTMLSelectElement
+          ? pickers.get(currentSelect)?.button
+          : undefined;
+      if (button?.isConnected && !button.disabled)
+        button.focus({ preventScroll: true });
+    });
   });
 }
 

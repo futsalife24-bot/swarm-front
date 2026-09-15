@@ -1,7 +1,8 @@
 import { request as httpRequest } from "node:http";
 import { localCreationKey } from "./credentials";
 import { afterEach, describe, it, expect } from "vitest";
-import { STARTERS } from "../src/shared/defs";
+import { STARTERS, stats } from "../src/shared/defs";
+import { makeWeapon } from "../src/shared/progression";
 import { neutral } from "../src/shared/game";
 import { fresh, rewards } from "../src/client/save";
 import { writeFileSync } from "node:fs";
@@ -26,7 +27,11 @@ class Client {
       }
     };
   }
-  send(m: unknown) {
+  send(m: any) {
+    if (m.type === "ready" && m.preparationGeneration === undefined) {
+      const state = this.messages.findLast((value) => value.members);
+      m = { ...m, preparationGeneration: state?.preparationGeneration };
+    }
     this.ws.send(JSON.stringify(m));
   }
   async wait(predicate: (m: any) => boolean, timeout = 5000) {
@@ -173,6 +178,7 @@ describe("isolated real-Workers fixtures (not full-mission proof)", () => {
       b = await join(code, "", endpoint);
     a.send({ type: "equip", weapons: STARTERS.slice(0, 2) });
     b.send({ type: "equip", weapons: STARTERS.slice(0, 2) });
+    await readyAll([a, b]);
     await a.wait(
       (m) => m.type === "lobby" && m.members.every((p: any) => p.ready),
     );
@@ -297,6 +303,26 @@ async function room(endpoint = base) {
   expect(r.status).toBe(200);
   return (await r.json()).code as string;
 }
+async function readyAll(peers: Client[]) {
+  const state = await peers[0].wait(
+    (m) =>
+      m.members?.length === peers.length &&
+      m.members.every((p: any) => p.weapons?.length === 2),
+  );
+  const generation = state.preparationGeneration;
+  for (const client of peers)
+    client.send({
+      type: "ready",
+      ready: true,
+      stage: state.stage,
+      preparationGeneration: generation,
+    });
+  await peers[0].wait(
+    (m) =>
+      m.preparationGeneration === generation &&
+      m.members?.every((p: any) => p.ready),
+  );
+}
 async function join(code: string, token = "", endpoint = base) {
   const c = new Client(code, token, endpoint);
   clients.push(c);
@@ -321,6 +347,7 @@ describe("real local workerd WebSocket authority", () => {
       b = await join(code);
     a.send({ type: "equip", weapons: STARTERS.slice(0, 2) });
     b.send({ type: "equip", weapons: STARTERS.slice(0, 2) });
+    await readyAll([a, b]);
     await a.wait(
       (m) => m.type === "lobby" && m.members.every((p: any) => p.ready),
     );
@@ -393,6 +420,193 @@ describe("real local workerd WebSocket authority", () => {
 });
 
 describe("lobby social and asset readiness over real Workers", () => {
+  it("preserves normal v2 and legacy weapon stats across real cooperative transport and rejects invalid v2", async () => {
+    const code = await room(),
+      a = await join(code),
+      b = await join(code);
+    const weapons = [
+      makeWeapon(
+        "normal_lr_rifle",
+        "rifle",
+        4,
+        { power: 20, reload: -10, range: 19, rate: 5 },
+        false,
+        1,
+        "pierce",
+      ),
+      makeWeapon(
+        "normal_sr_rocket",
+        "rocket",
+        2,
+        { power: -10, reload: 20, range: 0, rate: 19 },
+        false,
+        2,
+        "chain",
+      ),
+    ];
+    a.send({ type: "equip", weapons });
+    b.send({ type: "equip", weapons: STARTERS.slice(0, 2) });
+    await readyAll([a, b]);
+    for (const peer of [a, b]) {
+      const state = await peer.wait((m) =>
+        m.members?.every((p: any) => p.ready),
+      );
+      const received = state.members.find((p: any) => p.id === a.id).weapons;
+      expect(received).toEqual(weapons);
+      expect(received.map(stats)).toEqual(weapons.map(stats));
+      expect(
+        state.members.find((p: any) => p.id === b.id).weapons.map(stats),
+      ).toEqual(STARTERS.slice(0, 2).map(stats));
+    }
+    a.send({ type: "start" });
+    const world = (await a.wait((m) => m.world?.phase === "battle")).world;
+    expect(world.players.find((p: any) => p.id === a.id).weapons).toEqual(
+      weapons,
+    );
+    expect(world.players.find((p: any) => p.id === a.id).ammo).toEqual(
+      weapons.map((w) => stats(w).mag),
+    );
+    for (const invalid of [
+      { ...weapons[0], testData: true },
+      { ...weapons[0], power: weapons[0].power + 1 },
+      { ...weapons[0], variance: { ...weapons[0].variance, rate: 21 } },
+      { ...STARTERS[0], testData: true },
+    ]) {
+      const client = await join(await room());
+      client.send({ type: "equip", weapons: [invalid, weapons[1]] });
+      expect((await client.wait((m) => m.type === "error")).reason).toContain(
+        "武器定義",
+      );
+    }
+    writeFileSync(
+      "dist-validation/evidence/shared-inventory-transport.json",
+      JSON.stringify(
+        {
+          transport: "real local workerd WebSocket",
+          clients: 2,
+          v2Rarities: [4, 2],
+          bothPeersPreserveWeaponsAndStats: true,
+          battlePreservesWeaponsAndAmmo: true,
+          legacyStatsPreserved: true,
+          adminV2Rejected: true,
+          invalidPowerRejected: true,
+          invalidVarianceRejected: true,
+          adminLegacyRejected: true,
+        },
+        null,
+        2,
+      ),
+    );
+  });
+
+  it("rejects stale readiness after ABA stage changes, peer equipment and reconnect", async () => {
+    const code = await room(),
+      a = await join(code),
+      b = await join(code);
+    for (const client of [a, b])
+      client.send({ type: "equip", weapons: STARTERS.slice(0, 2) });
+    await readyAll([a, b]);
+    const initial = a.messages.findLast((m) => m.members);
+    const generation = initial.preparationGeneration;
+    const acknowledge = (client: Client, revision: number, stage = 1) =>
+      client.send({
+        type: "ready",
+        ready: true,
+        stage,
+        preparationGeneration: revision,
+      });
+    const blocked = async (revision: number, peer = b) => {
+      acknowledge(a, revision);
+      acknowledge(peer, revision);
+      const before = a.messages.length;
+      a.send({ type: "start" });
+      await a.wait(
+        (m) =>
+          a.messages.indexOf(m) >= before &&
+          m.type === "notice" &&
+          m.reason.includes("準備"),
+      );
+      expect(a.messages.some((m) => m.world?.phase === "battle")).toBe(false);
+    };
+    a.send({ type: "stage", stage: 2 });
+    a.send({ type: "stage", stage: 1 });
+    const aba = await a.wait(
+      (m) => m.stage === 1 && m.preparationGeneration === generation + 2,
+    );
+    expect(aba.members.every((m: any) => !m.ready)).toBe(true);
+    await blocked(generation);
+    for (const c of [a, b]) acknowledge(c, aba.preparationGeneration);
+    await a.wait(
+      (m) =>
+        m.preparationGeneration === aba.preparationGeneration &&
+        m.members?.every((p: any) => p.ready),
+    );
+    b.send({
+      type: "equip",
+      weapons: STARTERS.slice(1, 3),
+      ready: true,
+      preparationGeneration: aba.preparationGeneration,
+    });
+    const equipment = await a.wait(
+      (m) => m.preparationGeneration === aba.preparationGeneration + 1,
+    );
+    expect(equipment.members.every((m: any) => !m.ready)).toBe(true);
+    await blocked(aba.preparationGeneration);
+    for (const c of [a, b]) acknowledge(c, equipment.preparationGeneration);
+    await a.wait(
+      (m) =>
+        m.preparationGeneration === equipment.preparationGeneration &&
+        m.members?.every((p: any) => p.ready),
+    );
+    b.close();
+    const disconnected = await a.wait(
+      (m) =>
+        m.preparationGeneration > equipment.preparationGeneration &&
+        m.members?.some((p: any) => !p.connected),
+    );
+    const back = await join(code, b.token);
+    const reconnected = await a.wait(
+      (m) =>
+        m.preparationGeneration > disconnected.preparationGeneration &&
+        m.members?.every((p: any) => p.connected),
+    );
+    expect(reconnected.members.every((m: any) => !m.ready)).toBe(true);
+    await blocked(equipment.preparationGeneration, back);
+    acknowledge(a, reconnected.preparationGeneration);
+    const before = a.messages.length;
+    a.send({ type: "start" });
+    await a.wait((m) => a.messages.indexOf(m) >= before && m.type === "notice");
+    acknowledge(back, reconnected.preparationGeneration);
+    await a.wait(
+      (m) =>
+        m.preparationGeneration === reconnected.preparationGeneration &&
+        m.members?.every((p: any) => p.ready),
+    );
+    a.send({ type: "start" });
+    const started = await back.wait((m) => m.world?.phase === "battle");
+    expect(started.world.players).toHaveLength(2);
+    writeFileSync(
+      "dist-validation/evidence/ready-generation.json",
+      JSON.stringify(
+        {
+          transport: "real local workerd WebSocket",
+          initial: generation,
+          aba: aba.preparationGeneration,
+          equipment: equipment.preparationGeneration,
+          disconnected: disconnected.preparationGeneration,
+          reconnected: reconnected.preparationGeneration,
+          staleABARejected: true,
+          stalePeerEquipmentRejected: true,
+          staleReconnectRejected: true,
+          allCurrentAcknowledgementsRequired: true,
+          startedPlayers: started.world.players.length,
+        },
+        null,
+        2,
+      ),
+    );
+  });
+
   it("client blocks immediate chat repeats and clears readiness when equipment changes", async () => {
     const code = await room();
     const observer = await join(code);
@@ -401,17 +615,23 @@ describe("lobby social and asset readiness over real Workers", () => {
     network.playerName = "通信テスト";
     try {
       network.connect(code);
-      await observer.wait(
+      const initialEquipment = await observer.wait(
         (m) =>
           m.type === "lobby" &&
-          m.members.some((p: any) => p.name === "通信テスト"),
+          m.members.some(
+            (p: any) => p.name === "通信テスト" && p.weapons?.length === 2,
+          ),
       );
+      await expect
+        .poll(() => network.preparationGeneration)
+        .toBe(initialEquipment.preparationGeneration);
       network.setAssetReady(true);
       await observer.wait(
         (m) =>
           m.type === "lobby" &&
           m.members.some((p: any) => p.id === network.id && p.ready),
       );
+      const loadedGeneration = network.preparationGeneration;
       network.equipment(STARTERS.slice(1, 3));
       const equipment = await observer.wait(
         (m) =>
@@ -424,6 +644,11 @@ describe("lobby social and asset readiness over real Workers", () => {
       expect(
         equipment.members.find((p: any) => p.id === network.id).ready,
       ).toBe(false);
+      await expect
+        .poll(() => network.preparationGeneration)
+        .toBe(equipment.preparationGeneration);
+      expect(network.preparationGeneration).toBeGreaterThan(loadedGeneration);
+      network.setAssetReady(true, loadedGeneration);
       expect(network.assetReady).toBe(false);
       expect(network.sendChat("最初の送信")).toBe(true);
       expect(network.sendChat("連続送信")).toBe(false);
@@ -454,6 +679,7 @@ describe("lobby social and asset readiness over real Workers", () => {
         ready: true,
         stage: 1,
       });
+    await readyAll([a, b]);
     await a.wait(
       (m) => m.type === "lobby" && m.members.every((p: any) => p.ready),
     );
@@ -566,6 +792,7 @@ describe("lobby social and asset readiness over real Workers", () => {
       ready: true,
       stage: 1,
     });
+    await readyAll([a, b]);
     await b.wait(
       (m) => m.type === "lobby" && m.members.every((p: any) => p.ready),
     );

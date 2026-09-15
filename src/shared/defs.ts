@@ -1,4 +1,4 @@
-import { newStats, type NewWeapon } from "./progression";
+import { newStats, validNewWeapon, type NewWeapon } from "./progression";
 export const EVADE_DURATION = 0.32;
 export const WEAPON_SWITCH_DURATION = 0.5;
 export const WEAPON_SWITCH_RESUME = 0.08;
@@ -232,4 +232,12 @@ export function validWeapon(w: unknown): w is Weapon {
     (v.effect !== "repel" || v.kind === "shotgun") &&
     (v.effect !== "chain" || v.kind === "rocket")
   );
+}
+
+// Cooperative battles accept normal inventory items in either saved format.
+// Admin/test items never cross the authoritative multiplayer boundary.
+export function validBattleWeapon(w: unknown): w is Weapon {
+  if (!w || typeof w !== "object" || ("testData" in w && w.testData !== false))
+    return false;
+  return "format" in w ? validNewWeapon(w) && !w.testData : validWeapon(w);
 }
