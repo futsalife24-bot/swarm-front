@@ -1,7 +1,11 @@
 import { menuDialog } from "./menu-ui";
 import "./game-select.css";
 
-type Picker = { button: HTMLButtonElement; dialog?: HTMLDialogElement };
+type Picker = {
+  button: HTMLButtonElement;
+  dialog?: HTMLDialogElement;
+  renderOption?: (option: HTMLOptionElement, button: HTMLButtonElement) => void;
+};
 const pickers = new WeakMap<HTMLSelectElement, Picker>();
 let nextId = 0;
 
@@ -63,6 +67,8 @@ function open(select: HTMLSelectElement, picker: Picker) {
     const button = document.createElement("button");
     button.type = "button";
     button.textContent = option.textContent;
+    picker.renderOption?.(option, button);
+    if (picker.renderOption) list.classList.add("game-select-stage-options");
     button.dataset.optionIndex = String(index);
     button.disabled =
       option.disabled ||
@@ -154,6 +160,7 @@ function open(select: HTMLSelectElement, picker: Picker) {
 export function enhanceGameSelects(
   root: ParentNode,
   selectors: string | readonly string[],
+  renderOption?: Picker["renderOption"],
 ) {
   const query = typeof selectors === "string" ? selectors : selectors.join(",");
   if (!query) return;
@@ -176,6 +183,7 @@ export function enhanceGameSelects(
       button.onclick = () => open(select, current);
       select.addEventListener("change", () => sync(select, current));
     }
+    picker.renderOption = renderOption;
     sync(select, picker);
   });
 }
