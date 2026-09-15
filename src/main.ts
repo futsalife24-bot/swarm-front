@@ -1,3 +1,4 @@
+import { newSaveKey } from "./client/progression-save";
 import {
   CAPACITY,
   GRADES,
@@ -906,7 +907,7 @@ function bindGyro(prefix: string, update: (next: Save) => boolean) {
 
 function exportSave() {
   const raw =
-    localStorage.getItem("swarm-front-progression-v2-normal") ??
+    localStorage.getItem(newSaveKey("normal")) ??
     localStorage.getItem(SAVE_KEY) ??
     JSON.stringify(save);
   const url = URL.createObjectURL(

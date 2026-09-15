@@ -22,6 +22,29 @@ import {
   type Input,
   type World,
 } from "../src/shared/game";
+const renderNumbers = new Set([
+  "x",
+  "y",
+  "z",
+  "yaw",
+  "pitch",
+  "tx",
+  "ty",
+  "tz",
+  "dx",
+  "dy",
+  "dz",
+  "fromX",
+  "fromZ",
+  "time",
+  "hp",
+  "cool",
+  "reload",
+  "safe",
+  "hurt",
+  "wind",
+]);
+
 interface Env {
   ROOMS: DurableObjectNamespace<Room>;
   GATE: DurableObjectNamespace<Gate>;
@@ -313,12 +336,25 @@ export class Room extends DurableObject<Env> {
   }
   send(ws: WebSocket, data: unknown) {
     try {
-      // Centimetre precision is sufficient for rendering; avoid transmitting long floats.
-      const payload = JSON.stringify(data, (key, value) =>
-        typeof value === "number" && key !== "power"
+      // Compact only rendering state. Weapon definitions (including nested rolls
+      // and variance) must stay exact: rounding a magazine roll can add a bullet.
+      const weaponValues = new WeakSet<object>();
+      const payload = JSON.stringify(data, function (key, value) {
+        const weaponValue = weaponValues.has(this);
+        if (value && typeof value === "object") {
+          if (
+            weaponValue ||
+            ("kind" in value && "rarity" in value && "power" in value)
+          )
+            weaponValues.add(value);
+          return value;
+        }
+        return !weaponValue &&
+          typeof value === "number" &&
+          renderNumbers.has(key)
           ? Math.round(value * 100) / 100
-          : value,
-      );
+          : value;
+      });
       if (new TextEncoder().encode(payload).length > 65536) {
         ws.close(4009, "状態データの上限");
         this.disconnected(ws);

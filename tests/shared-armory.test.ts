@@ -1,8 +1,16 @@
+import { execFileSync } from "node:child_process";
+import { transformSync } from "esbuild";
+import { recoverUnsavedResult } from "../src/client/save-recovery";
 import { describe, expect, it } from "vitest";
 import { stats } from "../src/shared/defs";
 import { makeWeapon, validNewWeapon } from "../src/shared/progression";
 import { fresh, SAVE_KEY, bankRewards } from "../src/client/save";
 import {
+  SaveConflictError,
+  grantResult,
+  appendCollected,
+  validateProgress,
+  legacyProgressKey,
   allWeapons,
   bank,
   freshProgress,
@@ -79,7 +87,7 @@ describe("shared normal and co-op armoury", () => {
     old.favorites = [old.inventory[0].id];
     const raw = JSON.stringify(normal);
     const storage = memory({
-      [normalKey]: raw,
+      [legacyProgressKey]: raw,
       [SAVE_KEY]: JSON.stringify(old),
     });
     const merged = loadProgress("normal", storage)!;
@@ -92,14 +100,16 @@ describe("shared normal and co-op armoury", () => {
     expect(merged.pending.some((w) => w.id.startsWith("legacy-"))).toBe(true);
     expect(merged.locks[0]).toMatch(/^legacy-/);
     expect(soldier(merged).equipped).toEqual(soldier(normal).equipped);
-    expect(storage.getItem(`${normalKey}-before-shared-armory`)).toBe(raw);
+    expect(storage.getItem(`${legacyProgressKey}-before-shared-armory`)).toBe(
+      raw,
+    );
   });
 
   it("leaves both source saves unchanged when either backup or final write fails", () => {
     for (const failKey of [`${SAVE_KEY}-before-shared-armory`, normalKey]) {
       const before = JSON.stringify(freshProgress("normal"));
       const old = JSON.stringify(fresh());
-      const base = memory({ [normalKey]: before, [SAVE_KEY]: old });
+      const base = memory({ [legacyProgressKey]: before, [SAVE_KEY]: old });
       const storage = {
         getItem: base.getItem,
         setItem: (key: string, value: string) => {
@@ -108,7 +118,8 @@ describe("shared normal and co-op armoury", () => {
         },
       };
       expect(() => loadSharedCoopSave(storage)).toThrow();
-      expect(storage.getItem(normalKey)).toBe(before);
+      expect(storage.getItem(legacyProgressKey)).toBe(before);
+      expect(storage.getItem(normalKey)).toBeNull();
       expect(storage.getItem(SAVE_KEY)).toBe(old);
       expect(loadSharedCoopSave(base).sharedArmory).toBe(true);
     }
@@ -233,4 +244,328 @@ describe("shared normal and co-op armoury", () => {
     expect(coop.protectedWeapons).not.toContain(previous);
     expect(coop.protectedWeapons).toContain(rifle.id);
   });
+});
+
+it("isolates v3 from the actual previous release writer and keeps its latest migrated rewards", () => {
+  const previous = freshProgress("normal");
+  previous.armoryMigration = 1;
+  previous.revision = 8;
+  bank(previous, [roll("latest-old-shared-reward")]);
+  const sourceRaw = JSON.stringify(previous);
+  const storage = memory({
+    [legacyProgressKey]: sourceRaw,
+    [SAVE_KEY]: JSON.stringify(fresh()),
+  });
+  const latest = loadProgress("normal", storage)!;
+  expect(
+    allWeapons(latest).some((w) => w.id === "latest-old-shared-reward"),
+  ).toBe(true);
+  bank(latest, [roll("new-v3-reward")]);
+  persistProgress(latest, storage);
+  const protectedRaw = storage.getItem(normalKey);
+  const source = execFileSync(
+    "git",
+    ["show", "d947dd8:src/client/progression-save.ts"],
+    { encoding: "utf8" },
+  );
+  const fn = source.slice(
+    source.indexOf("export function persistProgress("),
+    source.indexOf("export function initializeProgress("),
+  );
+  const javascript = transformSync(fn.replace("export function", "function"), {
+    loader: "ts",
+    target: "es2022",
+  }).code;
+  const oldPersist = new Function(
+    "validateProgress",
+    "newSaveKey",
+    `${javascript}; return persistProgress;`,
+  )(validateProgress, (mode: string) => `swarm-front-progression-v2-${mode}`);
+  previous.coins = 777;
+  oldPersist(previous, storage);
+  expect(JSON.parse(storage.getItem(legacyProgressKey)!).coins).toBe(777);
+  expect(storage.getItem(normalKey)).toBe(protectedRaw);
+  expect(loadProgress("normal", storage)).toEqual(latest);
+  expect(storage.getItem(`${legacyProgressKey}-before-shared-v3`)).toBe(
+    sourceRaw,
+  );
+});
+
+it("recovers only unsaved run rewards onto current equipment and does not double grant", () => {
+  const storage = memory();
+  loadSharedCoopSave(storage);
+  const base = loadProgress("normal", storage)!;
+  const pending = grantResult(
+    base,
+    {
+      run: "recover-run",
+      stage: 1,
+      difficulty: "normal",
+      win: true,
+      time: 20,
+      kills: 4,
+      missions: [true, true, false],
+      weapons: [roll("unsaved-win")],
+      collected: 0,
+    },
+    () => 0.5,
+  );
+  const latest = structuredClone(base);
+  latest.locks = [latest.inventory[0].id];
+  latest.coins = 100;
+  persistProgress(latest, storage);
+  expect(() => persistProgress(pending, storage)).toThrow(SaveConflictError);
+  const recovered = recoverUnsavedResult(base, pending, storage);
+  expect(recovered.locks).toEqual(latest.locks);
+  expect(recovered.coins).toBe(100 + pending.result!.coins);
+  expect(recovered.result!.choice).toBe("normal");
+  const saved = storage.getItem(normalKey);
+  expect(recoverUnsavedResult(base, pending, storage)).toEqual(recovered);
+  expect(storage.getItem(normalKey)).toBe(saved);
+  recovered.inventory = recovered.inventory.filter(
+    (w) => w.id !== "unsaved-win",
+  );
+  persistProgress(recovered, storage);
+  expect(
+    allWeapons(recoverUnsavedResult(base, pending, storage)).some(
+      (w) => w.id === "unsaved-win",
+    ),
+  ).toBe(false);
+});
+
+it("recovers a collection delta without resurrecting old dismantled rewards and retains quota retry", () => {
+  const storage = memory();
+  loadSharedCoopSave(storage);
+  let base = loadProgress("normal", storage)!;
+  base = grantResult(
+    base,
+    {
+      run: "collect-run",
+      stage: 1,
+      difficulty: "normal",
+      win: true,
+      time: 20,
+      kills: 4,
+      missions: [true, false, false],
+      weapons: [roll("old-drop")],
+      collected: 0,
+    },
+    () => 0.5,
+  );
+  persistProgress(base, storage);
+  const pending = appendCollected(base, [roll("new-drop")]);
+  const latest = structuredClone(base);
+  latest.result!.choice = "normal";
+  latest.inventory = latest.inventory.filter((w) => w.id !== "old-drop");
+  persistProgress(latest, storage);
+  const raw = storage.getItem(normalKey);
+  expect(() =>
+    recoverUnsavedResult(base, pending, {
+      getItem: storage.getItem,
+      setItem() {
+        throw new Error("quota");
+      },
+    }),
+  ).toThrow("端末へ保存");
+  expect(storage.getItem(normalKey)).toBe(raw);
+  const recovered = recoverUnsavedResult(base, pending, storage);
+  expect(allWeapons(recovered).some((w) => w.id === "old-drop")).toBe(false);
+  expect(allWeapons(recovered).some((w) => w.id === "new-drop")).toBe(true);
+  expect(recovered.coins).toBe(latest.coins);
+});
+
+it("recomputes first-clear rewards and preserves another pending run during recovery", () => {
+  const storage = memory();
+  loadSharedCoopSave(storage);
+  const base = loadProgress("normal", storage)!;
+  const input = {
+    stage: 1,
+    difficulty: "normal" as const,
+    win: true,
+    time: 20,
+    kills: 4,
+    missions: [true, false, false],
+    collected: 0,
+  };
+  const pending = grantResult(
+    base,
+    { ...input, run: "stale-first", weapons: [roll("stale-first-drop")] },
+    () => 0.5,
+  );
+  const latest = grantResult(
+    base,
+    { ...input, run: "current-first", weapons: [roll("current-first-drop")] },
+    () => 0.5,
+  );
+  persistProgress(latest, storage);
+  const recovered = recoverUnsavedResult(base, pending, storage);
+  expect(recovered.points).toBe(latest.points);
+  expect(recovered.materials).toBe(latest.materials);
+  expect(recovered.result).toEqual(latest.result);
+  expect(recovered.coins).toBe(latest.coins + pending.result!.coins);
+  expect(allWeapons(recovered).some((w) => w.id === "stale-first-drop")).toBe(
+    true,
+  );
+});
+
+it("recovers proportional defeat coins exactly once", () => {
+  const storage = memory();
+  loadSharedCoopSave(storage);
+  const base = loadProgress("normal", storage)!;
+  const pending = grantResult(
+    base,
+    {
+      run: "defeat-recovery",
+      stage: 2,
+      difficulty: "normal",
+      win: false,
+      time: 20,
+      kills: 4,
+      missions: [false, false, false],
+      weapons: [],
+      collected: 0,
+    },
+    () => 0.5,
+  );
+  // The actual defeat() path adds proportional coins after grantResult.
+  pending.coins += 17;
+  pending.result!.coins = 17;
+  const latest = structuredClone(base);
+  latest.coins = 100;
+  persistProgress(latest, storage);
+  const recovered = recoverUnsavedResult(base, pending, storage);
+  expect(recovered.coins).toBe(117);
+  expect(recovered.result!.coins).toBe(17);
+  expect(recovered.result!.firstCoins).toBe(0);
+  expect(recoverUnsavedResult(base, pending, storage).coins).toBe(117);
+});
+
+it("recovers the ST3 branch unlock made by victory", () => {
+  const storage = memory();
+  loadSharedCoopSave(storage);
+  const base = loadProgress("normal", storage)!;
+  const pending = grantResult(
+    base,
+    {
+      run: "branch-recovery",
+      stage: 3,
+      difficulty: "normal",
+      win: true,
+      time: 20,
+      kills: 4,
+      missions: [true, false, false],
+      weapons: [],
+      collected: 0,
+    },
+    () => 0.5,
+  );
+  pending.branch = true;
+  expect(recoverUnsavedResult(base, pending, storage).branch).toBe(true);
+});
+
+it("keeps concurrent collection weapons in the recovered result record", () => {
+  const storage = memory();
+  loadSharedCoopSave(storage);
+  let base = loadProgress("normal", storage)!;
+  base = grantResult(
+    base,
+    {
+      run: "parallel-collection",
+      stage: 1,
+      difficulty: "normal",
+      win: true,
+      time: 20,
+      kills: 4,
+      missions: [true, false, false],
+      weapons: [roll("initial-item")],
+      collected: 0,
+    },
+    () => 0.5,
+  );
+  persistProgress(base, storage);
+  const pending = appendCollected(base, [roll("pending-item")]);
+  const latest = appendCollected(base, [roll("concurrent-item")]);
+  persistProgress(latest, storage);
+  const recovered = recoverUnsavedResult(base, pending, storage);
+  expect(recovered.result!.collected).toBe(2);
+  expect(recovered.result!.weapons.map((w) => w.id).sort()).toEqual(
+    ["initial-item", "pending-item", "concurrent-item"].sort(),
+  );
+  expect(recovered.coins).toBe(latest.coins);
+});
+
+it("does not display or credit a duplicate ST21 first-clear bonus", () => {
+  const storage = memory();
+  loadSharedCoopSave(storage);
+  const base = loadProgress("normal", storage)!;
+  const pending = grantResult(
+    base,
+    {
+      run: "st21-stale",
+      stage: 21,
+      difficulty: "normal",
+      win: true,
+      time: 20,
+      kills: 4,
+      missions: [true, false, false],
+      weapons: [],
+      collected: 0,
+    },
+    () => 0.5,
+  );
+  expect(pending.result!.firstCoins).toBe(500);
+  const latest = structuredClone(base);
+  latest.missions["21:normal"] = [true, false, false];
+  latest.coins = 900;
+  persistProgress(latest, storage);
+  const recovered = recoverUnsavedResult(base, pending, storage);
+  expect(recovered.coins).toBe(900 + pending.result!.coins);
+  expect(recovered.result!.coins).toBe(pending.result!.coins);
+  expect(recovered.result!.firstCoins).toBe(0);
+  expect(recovered.result!.first).toBe(false);
+  expect(recovered.result!.weapons).toHaveLength(0);
+});
+
+it("retries migration after quota then old-source edits without overwriting prior backups", () => {
+  for (const alreadyShared of [false, true]) {
+    const previous = freshProgress("normal");
+    if (alreadyShared) previous.armoryMigration = 1;
+    const legacy = fresh();
+    const originalNormal = JSON.stringify(previous);
+    const originalLegacy = JSON.stringify(legacy);
+    const storage = memory({
+      [legacyProgressKey]: originalNormal,
+      [SAVE_KEY]: originalLegacy,
+    });
+    const quota = {
+      getItem: storage.getItem,
+      setItem(key: string, value: string) {
+        if (key === normalKey) throw new Error("quota");
+        storage.setItem(key, value);
+      },
+    };
+    expect(() => loadProgress("normal", quota)).toThrow();
+    previous.coins = 321;
+    legacy.powder = 17;
+    storage.setItem(legacyProgressKey, JSON.stringify(previous));
+    storage.setItem(SAVE_KEY, JSON.stringify(legacy));
+    const next = loadProgress("normal", storage)!;
+    expect(next.coins).toBe(321);
+    const suffix = alreadyShared ? "before-shared-v3" : "before-shared-armory";
+    expect(storage.getItem(`${legacyProgressKey}-${suffix}`)).toBe(
+      originalNormal,
+    );
+    expect(storage.getItem(`${legacyProgressKey}-${suffix}-1`)).toBe(
+      JSON.stringify(previous),
+    );
+    if (!alreadyShared) {
+      expect(next.powder).toBe(17);
+      expect(storage.getItem(`${SAVE_KEY}-before-shared-armory`)).toBe(
+        originalLegacy,
+      );
+      expect(storage.getItem(`${SAVE_KEY}-before-shared-armory-1`)).toBe(
+        JSON.stringify(legacy),
+      );
+    }
+  }
 });

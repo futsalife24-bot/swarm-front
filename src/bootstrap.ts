@@ -1,5 +1,6 @@
 import { installPlayerProfile } from "./client/player-profile";
 import "./client/app-install";
+import { startWithSaveWriter } from "./client/save-writer";
 import {
   checkDeveloperSession,
   developerRequested,
@@ -14,21 +15,26 @@ async function boot() {
     await import("./client/training-app");
     return;
   }
+  let allowed = false;
   if (developerRequested) {
-    const allowed = await checkDeveloperSession();
+    allowed = await checkDeveloperSession();
     if (!allowed) {
       url.searchParams.delete("developer");
     }
   }
   history.replaceState(null, "", url);
-  if (
-    !developerRequested &&
-    (url.searchParams.get("coop") === "1" ||
-      /^[a-f0-9]{32}$/.test(url.hash.slice(1)))
-  ) {
-    await import("./main");
-  } else {
-    await import("./client/playtest-app");
-  }
+  const launch = async () => {
+    if (
+      !developerRequested &&
+      (url.searchParams.get("coop") === "1" ||
+        /^[a-f0-9]{32}$/.test(url.hash.slice(1)))
+    ) {
+      await import("./main");
+    } else {
+      await import("./client/playtest-app");
+    }
+  };
+  if (allowed) await launch();
+  else startWithSaveWriter(launch);
 }
 void boot();

@@ -5,7 +5,9 @@ import { STARTERS, stats } from "../src/shared/defs";
 import { makeWeapon } from "../src/shared/progression";
 import { neutral } from "../src/shared/game";
 import { fresh, rewards } from "../src/client/save";
-import { writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { pilot } from "./bot";
 import { Network } from "../src/client/network";
 const base = "http://127.0.0.1:8787";
@@ -445,7 +447,27 @@ describe("lobby social and asset readiness over real Workers", () => {
       ),
     ];
     a.send({ type: "equip", weapons });
-    b.send({ type: "equip", weapons: STARTERS.slice(0, 2) });
+    const legacyWeapons = [
+      {
+        ...STARTERS[0],
+        id: "legacy-mag-boundary",
+        power: 1.109,
+        rolls: {
+          power: 1.109,
+          mag: 1.109,
+          range: 1.123,
+          reload: 0.987,
+          rate: 1.017,
+        },
+      },
+      {
+        ...STARTERS[1],
+        id: "legacy-three-decimals",
+        rolls: { mag: 1.071, range: 1.117 },
+      },
+    ];
+    expect(stats(legacyWeapons[0]).mag).toBe(35);
+    b.send({ type: "equip", weapons: legacyWeapons });
     await readyAll([a, b]);
     for (const peer of [a, b]) {
       const state = await peer.wait((m) =>
@@ -454,9 +476,11 @@ describe("lobby social and asset readiness over real Workers", () => {
       const received = state.members.find((p: any) => p.id === a.id).weapons;
       expect(received).toEqual(weapons);
       expect(received.map(stats)).toEqual(weapons.map(stats));
-      expect(
-        state.members.find((p: any) => p.id === b.id).weapons.map(stats),
-      ).toEqual(STARTERS.slice(0, 2).map(stats));
+      const legacyReceived = state.members.find(
+        (p: any) => p.id === b.id,
+      ).weapons;
+      expect(legacyReceived).toEqual(legacyWeapons);
+      expect(legacyReceived.map(stats)).toEqual(legacyWeapons.map(stats));
     }
     a.send({ type: "start" });
     const world = (await a.wait((m) => m.world?.phase === "battle")).world;
@@ -465,6 +489,49 @@ describe("lobby social and asset readiness over real Workers", () => {
     );
     expect(world.players.find((p: any) => p.id === a.id).ammo).toEqual(
       weapons.map((w) => stats(w).mag),
+    );
+    const legacyPlayer = world.players.find((p: any) => p.id === b.id);
+    expect(legacyPlayer.weapons).toEqual(legacyWeapons);
+    expect(legacyPlayer.weapons.map(stats)).toEqual(legacyWeapons.map(stats));
+    expect(legacyPlayer.ammo).toEqual(legacyWeapons.map((w) => stats(w).mag));
+
+    // The isolated Worker uses the production Room/serializer. Only terminal
+    // setup is shortened, with these exact equipment definitions seeded as loot.
+    const fixtureEndpoint = "http://127.0.0.1:8789";
+    const rewardCode = await room(fixtureEndpoint);
+    const recipient = await join(rewardCode, "", fixtureEndpoint);
+    recipient.send({ type: "equip", weapons: legacyWeapons });
+    await readyAll([recipient]);
+    recipient.send({ type: "start" });
+    await recipient.wait((m) => m.world?.phase === "battle");
+    const terminal = await fetch(
+      `${fixtureEndpoint}/fixtures/${rewardCode}/terminal-weapon-precision`,
+      { method: "POST" },
+    );
+    expect(terminal.status).toBe(200);
+    const result = await recipient.wait((m) => m.world?.phase === "victory");
+    const expectedRewards = legacyWeapons.map((weapon) => ({
+      ...weapon,
+      id: `${weapon.id}-reward`,
+    }));
+    const receivedRewards = result.world.rewards[recipient.id].filter(
+      (weapon: any) => weapon.id.endsWith("-reward"),
+    );
+    expect(receivedRewards).toEqual(expectedRewards);
+    expect(receivedRewards.map(stats)).toEqual(expectedRewards.map(stats));
+    const saved = rewards(fresh(), result.world.run, receivedRewards).save;
+    const savedWeapons = expectedRewards.map((weapon) =>
+      saved.inventory.find((item) => item.id === weapon.id)!,
+    );
+    expect(savedWeapons).toEqual(expectedRewards);
+    recipient.messages.length = 0;
+    recipient.send({ type: "equip", weapons: savedWeapons });
+    const reequip = await recipient.wait(
+      (m) => m.members?.[0]?.weapons?.[0]?.id === savedWeapons[0].id,
+    );
+    expect(reequip.members[0].weapons).toEqual(expectedRewards);
+    expect(reequip.members[0].weapons.map(stats)).toEqual(
+      expectedRewards.map(stats),
     );
     for (const invalid of [
       { ...weapons[0], testData: true },
@@ -478,16 +545,49 @@ describe("lobby social and asset readiness over real Workers", () => {
         "武器定義",
       );
     }
+    mkdirSync("dist-validation/evidence", { recursive: true });
     writeFileSync(
       "dist-validation/evidence/shared-inventory-transport.json",
       JSON.stringify(
         {
           transport: "real local workerd WebSocket",
+          source: {
+            head: execFileSync("git", ["rev-parse", "HEAD"], {
+              encoding: "utf8",
+            }).trim(),
+            dirty: execFileSync("git", ["status", "--porcelain"], {
+              encoding: "utf8",
+            }).trim(),
+            sha256: Object.fromEntries(
+              [
+                "server/worker.ts",
+                "server/testing.ts",
+                "tests/network.test.ts",
+              ].map((path) => [
+                path,
+                createHash("sha256").update(readFileSync(path)).digest("hex"),
+              ]),
+            ),
+          },
+          command:
+            'npx vitest run --config vitest.integration.config.ts -t "preserves normal v2 and legacy weapon stats"',
+          fixture: {
+            productionEndpoint: base,
+            rewardEndpoint: fixtureEndpoint,
+            name: "terminal-weapon-precision",
+            setup:
+              "Equipped three-decimal legacy weapons are copied to pending with reward IDs; production finish/Room.send/real WebSocket performs the result transport.",
+          },
           clients: 2,
           v2Rarities: [4, 2],
           bothPeersPreserveWeaponsAndStats: true,
           battlePreservesWeaponsAndAmmo: true,
           legacyStatsPreserved: true,
+          legacyWeapons,
+          legacyStats: legacyWeapons.map(stats),
+          legacyReceivedAmmo: legacyPlayer.ammo,
+          rewardReceived: receivedRewards,
+          rewardSavedAndReequippedWithoutPrecisionLoss: true,
           adminV2Rejected: true,
           invalidPowerRejected: true,
           invalidVarianceRejected: true,

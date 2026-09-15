@@ -2,6 +2,7 @@ import { validWeapon, type Weapon } from "../shared/defs";
 import { validNewWeapon, type StoredWeapon } from "../shared/progression";
 import { fresh, type Save } from "./save";
 import {
+  SaveConflictError,
   allWeapons,
   coopPreferences,
   initializeProgress,
@@ -55,9 +56,7 @@ export function persistSharedCoopSave(
     next.sharedRevision !== current.sharedRevision &&
     baselines.get(next.sharedRevision) !== fingerprint(current)
   )
-    throw new Error(
-      "別の画面で武器庫が更新されました。再読み込みしてから操作してください。",
-    );
+    throw new SaveConflictError();
   const known = new Map(allWeapons(s).map((w) => [w.id, w]));
   const store = (w: Weapon): StoredWeapon => {
     if ("format" in w) {

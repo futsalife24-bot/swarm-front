@@ -40,16 +40,27 @@ export class TestRoom extends Room {
     if (u.pathname === "/fixture") {
       this.stop();
       if (
-        ["terminal-victory", "terminal-defeat"].includes(
-          u.searchParams.get("case") ?? "",
-        )
+        [
+          "terminal-victory",
+          "terminal-defeat",
+          "terminal-weapon-precision",
+        ].includes(u.searchParams.get("case") ?? "")
       ) {
         if (this.saved.world?.phase !== "battle")
           return new Response("Active run required", { status: 409 });
+        if (u.searchParams.get("case") === "terminal-weapon-precision") {
+          // Transport regression fixture: known three-decimal equipment becomes
+          // loot without depending on a random roll or playing a whole mission.
+          for (const p of this.saved.world.players)
+            this.saved.world.pending[p.id] = p.weapons.map((weapon) => ({
+              ...structuredClone(weapon),
+              id: `${weapon.id}-reward`,
+            }));
+        }
         // Shorten mission duration only; preserve the real room, players and run.
         finish(
           this.saved.world,
-          u.searchParams.get("case") === "terminal-victory",
+          u.searchParams.get("case") !== "terminal-defeat",
           "Local result-flow fixture",
         );
         await this.persist();
@@ -170,7 +181,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(revive|reward|reward-overflow|load|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(revive|reward|reward-overflow|load|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision)$/.exec(
         u.pathname,
       );
     if (match && req.method === "POST") {

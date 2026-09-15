@@ -17,7 +17,7 @@ const snapshot = (page) =>
   page.evaluate(() =>
     Object.fromEntries(
       Object.keys(localStorage)
-        .filter((k) => /swarm-front.*(progression|save)/.test(k))
+        .filter((k) => /swarm-front.*(progress|save)/.test(k))
         .sort()
         .map((k) => [k, localStorage.getItem(k)]),
     ),
@@ -63,12 +63,10 @@ try {
       );
       const before = await snapshot(page);
       assert.equal(
-        JSON.parse(before["swarm-front-progression-v2-normal"]).mode,
+        JSON.parse(before["swarm-front-shared-progress-v3"]).mode,
         "normal",
       );
-      const normalBefore = JSON.parse(
-        before["swarm-front-progression-v2-normal"],
-      );
+      const normalBefore = JSON.parse(before["swarm-front-shared-progress-v3"]);
       assert.equal(normalBefore.armoryMigration, 1);
       assert.ok(normalBefore.revision >= 1);
       await page.locator("#home-settings").click();
@@ -160,7 +158,7 @@ try {
         false,
       );
       const normalAfter = JSON.parse(
-        (await snapshot(page))["swarm-front-progression-v2-normal"],
+        (await snapshot(page))["swarm-front-shared-progress-v3"],
       );
       assert.deepEqual(normalAfter.inventory, normalBefore.inventory);
       assert.deepEqual(normalAfter.soldiers, normalBefore.soldiers);

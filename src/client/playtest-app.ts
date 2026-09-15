@@ -88,6 +88,8 @@ import {
 } from "../shared/progression";
 import {
   loadProgress,
+  newSaveKey,
+  SaveConflictError,
   initializeProgress,
   persistProgress,
   validateProgress,
@@ -110,6 +112,7 @@ import {
   type ProgressSave,
   type SaveMode,
 } from "./progression-save";
+import { recoverUnsavedResult } from "./save-recovery";
 import { gearWeaponRows, lockMarkup } from "./gear-weapon-list";
 
 async function launch() {
@@ -989,12 +992,89 @@ function confirmAction(title: string, content: string, action: () => void) {
     }
   };
 }
+const PENDING_RESULT_KEY = "swarm-front-pending-result-v3";
+function forgetPendingResult() {
+  try {
+    sessionStorage.removeItem(PENDING_RESULT_KEY);
+  } catch {
+    /* Replay is idempotent. */
+  }
+}
+function showSaveConflict(base: ProgressSave, pending: ProgressSave) {
+  saving = pending;
+  paused = true;
+  controls.enabled = false;
+  controls.reset();
+  const hasResult =
+    !!pending.result &&
+    JSON.stringify(base.result) !== JSON.stringify(pending.result);
+  const recovery = {
+    base: structuredClone(base),
+    pending: structuredClone(pending),
+  };
+  let retained = false;
+  if (hasResult) {
+    try {
+      sessionStorage.setItem(PENDING_RESULT_KEY, JSON.stringify(recovery));
+      retained = true;
+    } catch {
+      /* Keep the in-memory battle result and offer a downloadable copy. */
+    }
+  }
+  const d = dialog(
+    "保存データが更新されています",
+    `<div id="pt-save-conflict"><p role="status">${hasResult ? "未保存の戦果を、最新の武器庫へ重複しないよう反映します。" : "別の保存更新を検出しました。最新のデータを読み込み、操作をやり直せます。"}</p>${hasResult ? '<button id="pt-recover-result">戦果を最新の保存へ反映</button>' : '<button id="pt-reload-save">最新の保存で再開</button>'}<button id="pt-export-unsaved">未保存データの控えを書き出す</button>${hasResult && !retained ? "<p>このタブの控えを保存できませんでした。反映が済むまで画面を閉じず、先に控えを書き出してください。</p>" : ""}</div>`,
+  );
+  let completed = false;
+  d.querySelector<HTMLButtonElement>("#pt-export-unsaved")!.onclick = () =>
+    download(
+      new Blob([JSON.stringify(recovery)], { type: "application/json" }),
+      "swarm-front-unsaved-result.json",
+    );
+  const resume = () => {
+    try {
+      const latest = hasResult
+        ? recoverUnsavedResult(recovery.base, recovery.pending)
+        : loadProgress("normal");
+      if (!latest) throw new Error("最新の保存が見つかりません。");
+      if (hasResult) forgetPendingResult();
+      save = latest;
+      saving = undefined;
+      retryAfter = undefined;
+      paused = false;
+      completed = true;
+      d.close();
+      notice = hasResult
+        ? "未保存の戦果を反映しました。"
+        : "最新の保存を読み込みました。操作をやり直してください。";
+      home();
+    } catch (error) {
+      d.querySelector('[role="status"]')!.textContent = (
+        error as Error
+      ).message;
+    }
+  };
+  d.querySelector<HTMLButtonElement>(
+    hasResult ? "#pt-recover-result" : "#pt-reload-save",
+  )!.onclick = resume;
+  if (hasResult) {
+    d.querySelector(".dialog-close")?.remove();
+    d.addEventListener("cancel", (event) => event.preventDefault());
+  } else
+    d.addEventListener("close", () => {
+      if (!completed) resume();
+    });
+}
 function commit(next: ProgressSave, after: () => void = () => {}) {
   if (saving) return false;
   try {
     if (sampleMenus || developerMode) validateProgress(next);
     else persistProgress(next);
   } catch (e) {
+    if (e instanceof SaveConflictError) {
+      showSaveConflict(save, next);
+      return false;
+    }
     saving = next;
     retryAfter = after;
     controls.enabled = false;
@@ -1102,7 +1182,18 @@ function loadMode(next: SaveMode) {
   mode = next;
   try {
     sessionStorage.setItem("swarm-front-playtest-mode", mode);
-    const found = loadProgress(mode);
+    let found = loadProgress(mode);
+    const journal =
+      mode === "normal" ? sessionStorage.getItem(PENDING_RESULT_KEY) : null;
+    if (journal) {
+      const { base, pending } = JSON.parse(journal) as {
+        base: ProgressSave;
+        pending: ProgressSave;
+      };
+      found = recoverUnsavedResult(base, pending);
+      forgetPendingResult();
+      notice = "未保存だった戦果を復元しました。";
+    }
     if (!found) {
       onboard();
       return;
@@ -1117,15 +1208,28 @@ function loadMode(next: SaveMode) {
     } else home();
   } catch (e) {
     setScreen("blocked");
-    ui.innerHTML = `<section class="pt-screen"><h1>保存を読めません</h1><p>${esc((e as Error).message)}</p><p>上書きは停止しています。</p><button id="pt-export">保存を書き出す</button></section>`;
+    let pendingJournal: string | null = null;
+    try {
+      pendingJournal = sessionStorage.getItem(PENDING_RESULT_KEY);
+    } catch {
+      /* Storage can be unavailable; keep the original error visible. */
+    }
+    ui.innerHTML = `<section class="pt-screen"><h1>保存を読めません</h1><p>${esc((e as Error).message)}</p><p>上書きは停止しています。</p><button id="pt-export">保存を書き出す</button>${pendingJournal ? '<p>未保存の戦果の控えが残っています。書き出して保管できます。保存できる状態になったら再試行してください。</p><button id="pt-export-unsaved">未保存の戦果を書き出す</button><button id="pt-retry-recovery">復元を再試行</button>' : ""}</section>`;
     bind("pt-export", () =>
       download(
-        new Blob([
-          localStorage.getItem(`swarm-front-progression-v2-${mode}`) ?? "",
-        ]),
+        new Blob([localStorage.getItem(newSaveKey(mode)) ?? ""]),
         `progression-${mode}.json`,
       ),
     );
+    if (pendingJournal) {
+      bind("pt-export-unsaved", () =>
+        download(
+          new Blob([pendingJournal!], { type: "application/json" }),
+          "unsaved-result.json",
+        ),
+      );
+      bind("pt-retry-recovery", () => loadMode(mode));
+    }
   }
 }
 function onboard() {

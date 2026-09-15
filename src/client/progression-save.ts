@@ -1,3 +1,4 @@
+import { assertSaveWriter } from "./save-writer";
 import {
   SKILLS,
   COSTS,
@@ -20,8 +21,19 @@ import {
 import { WEAPONS, validWeapon, type Kind } from "../shared/defs";
 import { parseSave, fresh, SAVE_KEY, type Save } from "./save";
 export type SaveMode = "normal" | "test";
+export const legacyProgressKey = "swarm-front-progression-v2-normal";
 export const newSaveKey = (mode: SaveMode) =>
-  `swarm-front-progression-v2-${mode}`;
+  mode === "normal"
+    ? "swarm-front-shared-progress-v3"
+    : "swarm-front-progression-v2-test";
+export class SaveConflictError extends Error {
+  constructor(
+    message = "別の画面で保存が更新されました。最新の保存へ戦果を回復してください。",
+  ) {
+    super(message);
+    this.name = "SaveConflictError";
+  }
+}
 export interface Soldier {
   id: string;
   name: string;
@@ -268,16 +280,54 @@ export function coopPreferences(
   };
 }
 
+/** Retain every earlier migration snapshot, including failed-attempt snapshots. */
+function backupSource(
+  storage: Pick<Storage, "getItem" | "setItem">,
+  key: string,
+  raw: string,
+) {
+  for (let attempt = 0; ; attempt++) {
+    const candidate = attempt === 0 ? key : `${key}-${attempt}`;
+    const previous = storage.getItem(candidate);
+    if (previous === raw) return;
+    if (previous !== null) continue;
+    storage.setItem(candidate, raw);
+    if (storage.getItem(candidate) !== raw)
+      throw new Error("移行前の控えを保存できません。");
+    return;
+  }
+}
+
 /** A single successful normal-save write publishes the migration. Sources stay intact. */
 export function migrateSharedArmory(
   storage: Pick<Storage, "getItem" | "setItem">,
 ): ProgressSave | null {
-  const key = newSaveKey("normal"),
+  const targetKey = newSaveKey("normal");
+  const published = storage.getItem(targetKey);
+  if (published !== null) {
+    const current = validateProgress(JSON.parse(published));
+    if (current.mode !== "normal") throw new Error("保存モードが不一致です");
+    return current;
+  }
+  assertSaveWriter(storage);
+  const key = legacyProgressKey,
     raw = storage.getItem(key);
   const existing = raw === null ? null : validateProgress(JSON.parse(raw));
   if (existing && existing.mode !== "normal")
     throw new Error("保存モードが不一致です");
-  if (existing?.armoryMigration === 1) return existing;
+  if (existing?.armoryMigration === 1) {
+    // The previous shared release already merged v1: preserve its latest rewards.
+    const backupKey = `${key}-before-shared-v3`;
+    backupSource(storage, backupKey, raw!);
+    if (storage.getItem(key) !== raw || storage.getItem(targetKey) !== null)
+      throw new SaveConflictError(
+        "移行中に保存が更新されました。再読み込みしてください。",
+      );
+    const next = structuredClone(existing);
+    next.revision = 0;
+    persistProgress(next, storage);
+    return next;
+  }
   const oldRaw = storage.getItem(SAVE_KEY);
   if (!existing && oldRaw === null) return null;
   const old = oldRaw === null ? null : parseSave(oldRaw);
@@ -333,15 +383,14 @@ export function migrateSharedArmory(
   ] as const) {
     if (sourceRaw === null) continue;
     const backupKey = `${sourceKey}-before-shared-armory`;
-    const backup = storage.getItem(backupKey);
-    if (backup !== null && backup !== sourceRaw)
-      throw new Error("移行前の控えと保存が異なります。上書きを停止しました。");
-    if (backup === null) storage.setItem(backupKey, sourceRaw);
-    if (storage.getItem(backupKey) !== sourceRaw)
-      throw new Error("移行前の控えを保存できません。");
+    backupSource(storage, backupKey, sourceRaw);
   }
   if (storage.getItem(key) !== raw || storage.getItem(SAVE_KEY) !== oldRaw)
-    throw new Error("移行中に保存が更新されました。再読み込みしてください。");
+    throw new SaveConflictError(
+      "移行中に保存が更新されました。再読み込みしてください。",
+    );
+  if (storage.getItem(targetKey) !== null) throw new SaveConflictError();
+  next.revision = 0;
   persistProgress(next, storage);
   return next;
 }
@@ -350,6 +399,7 @@ export function persistProgress(
   storage: Pick<Storage, "setItem"> &
     Partial<Pick<Storage, "getItem">> = localStorage,
 ) {
+  assertSaveWriter(storage);
   validateProgress(s);
   const raw = storage.getItem?.(newSaveKey(s.mode));
   if (
@@ -358,13 +408,13 @@ export function persistProgress(
     raw === null &&
     (s.revision ?? 0) > 0
   )
-    throw new Error("保存が別の画面で削除されました。再読み込みしてください。");
+    throw new SaveConflictError(
+      "保存が別の画面で削除されました。再読み込みしてください。",
+    );
   if (s.mode === "normal" && raw) {
     const current = validateProgress(JSON.parse(raw));
     if ((current.revision ?? 0) !== (s.revision ?? 0))
-      throw new Error(
-        "別の画面で保存が更新されました。再読み込みしてから操作してください。",
-      );
+      throw new SaveConflictError();
   }
   const next = { ...s, revision: (s.revision ?? 0) + 1 };
   try {
