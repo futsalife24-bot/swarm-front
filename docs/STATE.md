@@ -2,7 +2,7 @@
 
 未解放名を「？？？」、ステージ枠を1列、右端へNORMAL/HARD/EXPERTのミッション3星を追加。未解放難易度は減光。既存normal/mediumをNORMAL/HARDへ対応し、未実装EXPERTは常時未解放。保存・戦闘条件の変更なし。
 
-branch `codex/stage-mission-stars`、base/main `ca78e955d5a732b163f802f5ed38f451025cb9b1`。型・両build・実Chromeピッカー4件成功。横画面3幅を検証し667px画像を目視確認。[変更・証拠・未確認範囲](STAGE-MISSION-STARS.md)。PRとコードHEADは後続記録へ追記する。
+branch `codex/stage-mission-stars`、base/main `ca78e955d5a732b163f802f5ed38f451025cb9b1`。型・両build・実Chromeピッカー4件成功。横画面3幅を検証し667px画像を目視確認。[変更・証拠・未確認範囲](STAGE-MISSION-STARS.md)。[PR #8](https://github.com/futsalife24-bot/swarm-front/pull/8)、実装HEAD `75a64b0` をpush済み。後続はこの状態記録だけ。
 
 停止理由: README第9行の「本番公開・mergeは独立監査後の承認待ち」により、今回の独立監査・承認が必要。main反映と公開は未実施。
 再開条件: 今回のPR HEADに対する独立監査と承認を受領後、既存保護を満たしてmain反映・既存Worker公開・配信照合を行う。
