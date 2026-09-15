@@ -872,6 +872,7 @@ async function connect(create: boolean, restore = false) {
         }
       } else if (w.phase === "victory" || w.phase === "defeat") {
         if (resultRun !== w.run && !netFatal) finishMission();
+        if (screen === "lobby") lobby();
       }
     };
     network.ready = () => {

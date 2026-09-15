@@ -455,7 +455,12 @@ export class Room extends DurableObject<Env> {
         at: now,
       };
     } else if (m.type === "ready" || m.type === "stage") {
-      if (this.saved.world) return;
+      // Completed runs retain their world; players must still ready for a rematch.
+      if (
+        this.saved.world &&
+        (m.type === "stage" || this.saved.world.phase === "battle")
+      )
+        return;
       if (m.type === "stage") {
         if (s.id !== this.saved.members.find((p) => !p.gone)?.id) return;
         if (!validStage(m.stage) || this.saved.stage === m.stage) return;
