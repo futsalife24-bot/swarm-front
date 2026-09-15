@@ -1,0 +1,22 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "startAmmo": 32,
+    "firstAmmo": 31,
+    "secondStart": 7,
+    "secondAmmo": 6,
+    "debug": null,
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 720,
+    "startAmmo": 32,
+    "firstAmmo": 31,
+    "secondStart": 7,
+    "secondAmmo": 6,
+    "debug": null,
+    "errors": []
+  }
+]

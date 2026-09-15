@@ -1,0 +1,196 @@
+{
+  "result": {
+    "maxSocketError": 4.290280340558938e-8,
+    "mixes": [
+      {
+        "profile": "Rifle",
+        "clip": "Upper_Weapon_Idle_Rifle",
+        "maxError": 3.791569240023332e-8
+      },
+      {
+        "profile": "Rifle",
+        "clip": "Upper_Fire_Rifle",
+        "maxError": 2.6559390591250337e-8
+      },
+      {
+        "profile": "Rifle",
+        "clip": "Upper_Reload_Rifle",
+        "maxError": 2.4573481060769435e-8
+      },
+      {
+        "profile": "Rifle",
+        "clip": "Upper_Switch_1_to_2",
+        "maxError": 6.70616618518932e-9
+      },
+      {
+        "profile": "Rifle",
+        "clip": "Upper_Switch_2_to_1",
+        "maxError": 6.706166189247412e-9
+      },
+      {
+        "profile": "Shotgun",
+        "clip": "Upper_Weapon_Idle_Shotgun",
+        "maxError": 3.791569240023332e-8
+      },
+      {
+        "profile": "Shotgun",
+        "clip": "Upper_Fire_Shotgun",
+        "maxError": 1.863100779139579e-8
+      },
+      {
+        "profile": "Shotgun",
+        "clip": "Upper_Reload_Shotgun",
+        "maxError": 1.860782219844571e-8
+      },
+      {
+        "profile": "Shotgun",
+        "clip": "Upper_Switch_1_to_2",
+        "maxError": 6.70616618518932e-9
+      },
+      {
+        "profile": "Shotgun",
+        "clip": "Upper_Switch_2_to_1",
+        "maxError": 6.706166189247412e-9
+      },
+      {
+        "profile": "Rocket",
+        "clip": "Upper_Weapon_Idle_Rocket",
+        "maxError": 4.290280340558938e-8
+      },
+      {
+        "profile": "Rocket",
+        "clip": "Upper_Fire_Rocket",
+        "maxError": 1.5589762622469825e-8
+      },
+      {
+        "profile": "Rocket",
+        "clip": "Upper_Reload_Rocket",
+        "maxError": 2.033644098612822e-8
+      },
+      {
+        "profile": "Rocket",
+        "clip": "Upper_Switch_1_to_2",
+        "maxError": 2.9261196943770732e-9
+      },
+      {
+        "profile": "Rocket",
+        "clip": "Upper_Switch_2_to_1",
+        "maxError": 2.9261196842002842e-9
+      }
+    ],
+    "stances": [
+      {
+        "profile": "Rifle",
+        "soleMin": 0.0019999038692954108,
+        "soleMax": 0.0019999517136449485,
+        "maxWidthError": 1.0766189550981409e-8,
+        "rootVisible": true,
+        "loadoutClass": "rifle",
+        "active": []
+      },
+      {
+        "profile": "Shotgun",
+        "soleMin": 0.0019999038692954108,
+        "soleMax": 0.0019999517136449485,
+        "maxWidthError": 1.0766189550981409e-8,
+        "rootVisible": true,
+        "loadoutClass": "shotgun",
+        "active": [
+          "shotgun"
+        ]
+      },
+      {
+        "profile": "Rocket",
+        "soleMin": 0.0019998678861234687,
+        "soleMax": 0.0019999598744675218,
+        "maxWidthError": 1.5852140711203333e-8,
+        "rootVisible": true,
+        "loadoutClass": "rocket",
+        "active": [
+          "rocket",
+          "rocket"
+        ]
+      }
+    ],
+    "unchangedBoneError": 0,
+    "finite": true,
+    "modes": [
+      "normal_Rocket_idle",
+      "normal_Rocket_Run",
+      "roll",
+      "heavy",
+      "normal_Rifle_Run",
+      "normal_Rifle_idle",
+      "normal_Shotgun_Run",
+      "normal_Shotgun_idle"
+    ],
+    "visibleClasses": [
+      "rocket",
+      "rifle",
+      "shotgun"
+    ],
+    "budget": {
+      "uniformDraws": 11,
+      "uniformTriangles": 47596,
+      "sceneDraws": 27
+    },
+    "meshes": [
+      {
+        "name": "Trooper_Rubber",
+        "material": "Rubber",
+        "triangles": 8892
+      },
+      {
+        "name": "Trooper_Cloth",
+        "material": "Cloth",
+        "triangles": 496
+      },
+      {
+        "name": "Trooper_Metal",
+        "material": "Metal",
+        "triangles": 3896
+      },
+      {
+        "name": "Trooper_Ceramic",
+        "material": "Ceramic",
+        "triangles": 2244
+      },
+      {
+        "name": "Trooper_Study_Cloth",
+        "material": "Study_Cloth",
+        "triangles": 21868
+      },
+      {
+        "name": "Trooper_Study_Glove",
+        "material": "Study_Glove",
+        "triangles": 4560
+      },
+      {
+        "name": "Trooper_Armor",
+        "material": "Armor",
+        "triangles": 4484
+      },
+      {
+        "name": "Trooper_Webbing",
+        "material": "Webbing",
+        "triangles": 844
+      },
+      {
+        "name": "Trooper_ServiceMark",
+        "material": "ServiceMark",
+        "triangles": 4
+      },
+      {
+        "name": "Trooper_Teal",
+        "material": "Teal",
+        "triangles": 212
+      },
+      {
+        "name": "Trooper_Visor",
+        "material": "Visor",
+        "triangles": 96
+      }
+    ]
+  },
+  "errors": []
+}
