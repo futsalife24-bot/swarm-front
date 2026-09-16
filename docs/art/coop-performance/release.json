@@ -1,0 +1,78 @@
+{
+  "source": "af4a21721c59858974aa693a41e07d2c00756820",
+  "version": "5fcabe54-3f28-4215-9d83-8072801f58b9",
+  "assets": [
+    {
+      "path": "/index.html",
+      "sha256": "20faea4f6ff5ac6622db3ed3d876e290773e145b2c9ed37a8a9214ddb83abab4"
+    },
+    {
+      "path": "/sw.js",
+      "sha256": "157f181af27ea1672238cac1dc2dbbfbe8bcfda91cfc3b813ade3b07aad65f49"
+    },
+    {
+      "path": "/assets/index-CvaOuY87.js",
+      "sha256": "b17babcd0f7c4b05b0d58713f267ac11dd215bddfe5b33bb4d9ee01511e5e813"
+    },
+    {
+      "path": "/assets/main-CbAp1T39.js",
+      "sha256": "5f507088397bf8330cb138849d7fe9118b7e4af5a1a1f162da59b16be7e63395"
+    },
+    {
+      "path": "/assets/main-jvRmqF8U.css",
+      "sha256": "0d8b8ca912a88a22f771843f878cc1044c54cb5021051c9f4926d7904cc1b906"
+    },
+    {
+      "path": "/assets/minimap-BZHJ18gy.js",
+      "sha256": "7d00e43ac66984e9f7be77ccfe38bf6dc182ca4e0a66520e771230f555291fd2"
+    },
+    {
+      "path": "/assets/minimap-F72ce1la.css",
+      "sha256": "50a6bf586eb35b2aa6f7c61634b168d21ad5722b0a24de4a37c73d5e207643fa"
+    },
+    {
+      "path": "/assets/playtest-app-B_KMWN0g.css",
+      "sha256": "72920c3dc190f04f256ea38bf2d48d8018bf3ba2fdb32e554ab22af75bad88ce"
+    },
+    {
+      "path": "/assets/playtest-app-CJYfeb3h.js",
+      "sha256": "9828481c04a5e6f9bf8654c11a115e3391e29733c705b938763218d9c0d359c8"
+    },
+    {
+      "path": "/assets/training-app-CyeoXleT.js",
+      "sha256": "f98f581d7affcd79e143b90f6c9f7078f35a17aa3c8cbfff5282b21f238023dc"
+    },
+    {
+      "path": "/assets/weapon-sharing-AnMDXhRW.js",
+      "sha256": "d2e1b989f0ea5986ba5d1dd0760be9a5e5d4c431d5777c699475d9d8193daeda"
+    },
+    {
+      "path": "/assets/zoom-guard-Bk8Njxjo.css",
+      "sha256": "76dffb9201318b732baa55baaf1726814506d1393a1c8966efc2c20e689ef028"
+    },
+    {
+      "path": "/assets/zoom-guard-Bt4Y_MPx.js",
+      "sha256": "54f73d57029a13c0a85b8ff458e5fac8961301b40e48cfe4b9a17b2b766610ef"
+    }
+  ],
+  "layouts": [
+    {
+      "width": 667,
+      "overflow": false,
+      "diagnostics": "undefined",
+      "errors": []
+    },
+    {
+      "width": 844,
+      "overflow": false,
+      "diagnostics": "undefined",
+      "errors": []
+    },
+    {
+      "width": 1280,
+      "overflow": false,
+      "diagnostics": "undefined",
+      "errors": []
+    }
+  ]
+}

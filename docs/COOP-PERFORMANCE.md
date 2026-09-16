@@ -39,4 +39,17 @@ Windows実Chrome/D3D11、844×390を独立3コンテキスト、ローカルWork
 - 調査中に切断された中間測定 `resolution` は改善根拠から除外。頻度上限への入力集中を対策後、最終測定と部屋試験が成功。
 - 互換性試験の初回は負荷試験用環境の作成数上限429で失敗。制限を変えず別の隔離ローカル状態で再試験成功。クリア確認は初回SwiftShaderで350ms内に移動を観測できず、D3D11＋実際の座標変化待ちへ直して成功。
 
-実スマホ・遠隔3人・本番Turnstileを通した新規部屋作成は未確認。独立監査・main反映・本番公開は別途記録する。
+実スマホ・遠隔3人・本番Turnstileを通した新規部屋作成は未確認。
+
+## 独立監査と公開
+
+[PR #16](https://github.com/futsalife24-bot/swarm-front/pull/16) の実装HEAD `2802afc9f612eb5f8472070b88e66df256429899` は[通常Chatの独立監査](https://chatgpt.com/c/6aaa19ca-b83c-83ee-8092-baad9f206c09)で「合格・必須修正なし」。BASE→HEADの37ファイル差分とZIP実コード・検証証拠を監査し、中核6ファイルのGit blob一致も確認。監査側で依存パッケージ取得ができずテストの再実行は未実施であり、Codexのローカル検証と区別する。
+
+初回ZIP SHA256 `1bd29098af2b0862c654ed9d2a6485f9bbd018fcad16fd15554a0614fd3628dc`。同梱diffは末尾改行が欠けたため、監査はGitHub実差分を正として実施。修正版diffと入口ファイルの補足ZIP（`27c13675d13d802a66a3fa38560071780967021a48ab2770d25145857d999c04`）も同じChatへ添付したが、監査側では取得できず補足ZIP自体の再照合は未完了。元ZIPのコード・必要GLB/Blender原本は確認済み。この制約を含めて上記合格判定。
+
+通常merge後の公開ソースは `af4a21721c59858974aa693a41e07d2c00756820`。監査HEADとtree差分0。継承PR #15もGitHubでMERGEDとなり、二重デプロイは行っていない。
+
+公開先: https://swarm-front.melosalife-24.workers.dev
+Worker Version: `5fcabe54-3f28-4215-9d83-8072801f58b9`。
+公開13ファイルのSHA一致・health・部屋一覧API/no-store・667/844/1280×390で参加画面/無効ID/非はみ出し/開発用診断の非公開を確認。[配信・UI結果](art/coop-performance/release.json)。
+公開版844×390・1280×720で通常ソロ出撃・移動・射撃・装填・SG切替と弾消費も成功、pageerror 0。[通常戦闘結果](art/coop-performance/release-campaign.json)。

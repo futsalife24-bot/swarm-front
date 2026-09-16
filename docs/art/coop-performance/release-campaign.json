@@ -1,0 +1,18 @@
+[
+  {
+    "base": "https://swarm-front.melosalife-24.workers.dev",
+    "width": 844,
+    "height": 390,
+    "ammo": "6 / 7",
+    "state": null,
+    "errors": []
+  },
+  {
+    "base": "https://swarm-front.melosalife-24.workers.dev",
+    "width": 1280,
+    "height": 720,
+    "ammo": "6 / 7",
+    "state": null,
+    "errors": []
+  }
+]

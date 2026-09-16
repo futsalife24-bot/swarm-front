@@ -1,10 +1,10 @@
-# 現在地: 3人マルチ軽量化・部屋一覧/ID参加を統合、独立監査準備（2026-09-16）
+# 現在地: 3人マルチ軽量化・部屋一覧/ID参加をmain反映・公開済み（2026-09-16）
 
-branch `codex/coop-performance`、base/main `ce0c31d70c89ebb703adfd5a450ca44b067fd371`。PR #15のクリア表示・回復/武器ドロップを `fa659f6` から継承した統合タスク。#15を別途merge/deployしない。
+[PR #16](https://github.com/futsalife24-bot/swarm-front/pull/16) の実装HEAD `2802afc9f612eb5f8472070b88e66df256429899` に[独立監査](https://chatgpt.com/c/6aaa19ca-b83c-83ee-8092-baad9f206c09)「合格・必須修正なし」。通常merge後の公開ソース `af4a21721c59858974aa693a41e07d2c00756820` は監査HEADとtree差分0。PR #15のクリア表示・回復/武器ドロップも継承してmain反映済み。#15の別途merge/deployは不要。
 
 影・自動解像度・味方動作・演出再利用・通信共通化を実装。カタモンの参加構成を参照し、公開部屋一覧／8文字ID／公開・非公開作成を既存UIに追加。同PCの実Chrome3人同時射撃でフレームp95約84〜114ms→約34ms。型・関連88単体・実Worker武器互換性・両build・本番Worker dry-run・3人の一覧/ID/再接続・継承クリア/両回収の検証成功。[仕様・差分・証拠・未確認](COOP-PERFORMANCE.md)。
 
-未完了: 統合HEADのChat独立監査、main反映、Worker公開。既存README第9行の監査条件を維持。実スマホと遠隔回線は未確認。
+既存Worker https://swarm-front.melosalife-24.workers.dev に公開。Version `5fcabe54-3f28-4215-9d83-8072801f58b9`。公開13ファイルSHA一致・health・部屋一覧API・667/844/1280×390の参加画面確認成功。後続差分は監査・公開記録のみ。実スマホ・遠隔3人・本番Turnstile通過は未確認。監査側のテスト再実行不可等の証拠上の限界も上記詳細へ記録。
 
 以下は継承した作業と過去の公開記録。
 
