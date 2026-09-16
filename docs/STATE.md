@@ -1,3 +1,7 @@
+# 現在地: 特殊効果説明PR #30を独立監査中（2026-09-17）
+
+対象2091b9a26f3ed3a3d356823a7637c808315a2075、branch codex/effect-help。[監査Chat](https://chatgpt.com/c/6aab056e-2750-83ee-af1a-84e43782cc1e)へ差分・ソース・証拠ZIP送信済み。型・4幅UI・28操作条件・両build・production dry-run成功。[詳細](GEAR-EFFECT-HELP.md)。監査後main反映/公開へ進む。
+
 # 現在地: 特殊効果タップ説明を実装・自己検証済み（2026-09-17）
 
 branch codex/effect-help、base b070a10。4文字以内の効果ボタンから既存説明dialogを表示。型・4幅UI基準・2幅28条件の操作/保存不変確認成功。独立監査・main反映・公開準備中。[詳細](GEAR-EFFECT-HELP.md)。

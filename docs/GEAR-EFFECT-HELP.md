@@ -9,3 +9,7 @@ base: b070a10ba2c035d648d2833b991f65cb679cbbb9、branch: codex/effect-help。
 テストは先にcheck-gear-ui-baseline.mjsで生成する合成fixtureを使用。初期試行は不正なレア度fixtureと非同期close待ち不足で失敗し、テスト側を修正後に成功。
 証拠: dist-validation/gear-effect-help/、dist-validation/gear-pinned/。
 独立監査・main反映・既存Worker公開は準備中。
+
+## 保存・独立監査
+
+[PR #30](https://github.com/futsalife24-bot/swarm-front/pull/30)、対象2091b9a26f3ed3a3d356823a7637c808315a2075。通常/Pages build・production dry-run成功（dry-run初回はsandbox権限で失敗、昇格再実行成功）。[独立監査Chat](https://chatgpt.com/c/6aab056e-2750-83ee-af1a-84e43782cc1e)へgear-effect-audit.zip（差分・必要ソース・操作結果・画面証拠）を送信済み。結果確認中。
