@@ -1,3 +1,7 @@
+# 現在地: 消費アイテム共通枠を実装・自己検証済み（2026-09-16）
+
+branch codex/resource-frames、base b5ac631。4種の専用アイコン/名前/用途/数量を共通化。型・4幅武器UI・3幅27画面と所持数更新確認成功。[詳細](RESOURCE-FRAMES.md)。独立監査・main反映・公開準備中。
+
 # 現在地: 武器の能力印を復元・main反映・公開済み（2026-09-16）
 
 [PR #25](https://github.com/futsalife24-bot/swarm-front/pull/25)通常merge・独立監査合格済み。今回の明示承認を受け、ソース e78eb71cd06d9e205d2db7178c53b39b0c58a7ca を既存Workerへ公開。Version fa2f7a8b-ddb3-43d5-84c0-6785ee96abae。13配信ファイルSHA一致・health成功・公開iab一覧/詳細確認・errorログ0。旧武器の全5印はローカル2幅で検証済み。[詳細/限界](WEAPON-STAT-MARKS.md)。実スマホ未確認。公開保留は解消、後続差分は記録のみ。
