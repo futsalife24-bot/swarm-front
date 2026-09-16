@@ -1830,8 +1830,17 @@ body[data-screen="title"] footer {
   background: #0009;
 }
 .weapon-help-dialog h2 {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 8px;
   margin: 0 0 12px;
   font-size: 20px;
+}
+.weapon-help-dialog .weapon-help-target {
+  font-size: 12px;
+  font-weight: 400;
+  color: #bdd2da;
 }
 .weapon-help-dialog p {
   line-height: 1.7;
