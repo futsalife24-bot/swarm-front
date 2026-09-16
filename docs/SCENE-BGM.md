@@ -13,3 +13,9 @@
 - 音源は原本維持。ループ境界の完全シームレス化・実機スピーカーでの主観的音量/音質・iOS/Android実機は未確認。ブラウザの自動再生制限により最初の操作前は無音。
 
 監査・main反映・公開は後続記録を参照。
+
+## 追加検証とPWAキャッシュ
+
+ストリーミングMP3のHTTP 206をCache APIへ保存しないよう `public/sw.js` を最小修正。200応答のキャッシュ容量超過でも取得済み音源の再生を阻害しない。`scripts/check-bgm-cache.mjs` で206/200/容量エラー3条件成功。`scripts/check-bgm-built.mjs` で実配布ビルドのタイトル→レポート→基地→育成→準備、再読込後の音楽、実Service Worker制御下でRange 206/1024 bytes成功（pageerror 0）。初回育成説明を閉じる等、テスト導線修正後に成功。外部Turnstileのローカルnetwork deniedは既存環境制約でBGMには無関係。
+
+独立監査: https://chatgpt.com/c/6aaa8b4d-7f00-83ee-ab1a-c60f7cc85172 、PR #28。初回対象e1ff743、追加キャッシュ修正160ce20。最終合格待ち。
