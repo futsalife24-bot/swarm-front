@@ -1,3 +1,9 @@
+# 現在地: 7曲のシーンBGMをmain反映・公開済み（2026-09-16）
+
+[PR #28](https://github.com/futsalife24-bot/swarm-front/pull/28)通常merge。最終対象fd986f9は[独立監査](https://chatgpt.com/c/6aaa8b4d-7f00-83ee-ab1a-c60f7cc85172)合格・必須指摘なし。公開ソースcda3fcfa9f8c4f42391a10d172c37cf53d97b7b9、Version 35053832-8373-4982-9ba9-6c7642b75021。タイトル/基地/準備/協力ロビー/レポート/クリア/勝利戦果に提供7曲。音量連動・非表示停止・クリア1回→勝利曲・PWA部分取得を対応。
+
+型・戦闘音15単体・実Chrome7音源/遷移/ミュート・実Workerロビー→戦闘・3幅クリア回収・SW3条件・両build・merge後build/dry-run成功。公開20ファイル（7MP3含む）SHA一致・health成功、公開Chromeのタイトル/レポート/基地/育成/準備と再読込/SW取得成功。公開iabタイトル再生22秒進行・errorログ0。実スマホ/主観音質/完全ループ境界未確認。[詳細と証拠](SCENE-BGM.md)。後続は公開記録のみ。
+
 # 現在地: シーンBGM PR #28を独立監査中（2026-09-16）
 
 [PR #28](https://github.com/futsalife24-bot/swarm-front/pull/28)、初回対象e1ff743。[監査Chat](https://chatgpt.com/c/6aaa8b4d-7f00-83ee-ab1a-c60f7cc85172)へソース・原本7曲・差分・証拠ZIPを送信済み。追加160ce20でPWAの206応答/キャッシュ容量エラー対応、3条件と実配布版SW Range確認成功。追加差分の監査後main反映/公開へ進む。[詳細/限界](SCENE-BGM.md)。

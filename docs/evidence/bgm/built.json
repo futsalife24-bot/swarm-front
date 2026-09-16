@@ -1,0 +1,10 @@
+{
+  "origin": "http://127.0.0.1:5368",
+  "realUI": true,
+  "serviceWorker": {
+    "controlled": true,
+    "status": 206,
+    "bytes": 1024
+  },
+  "errors": []
+}

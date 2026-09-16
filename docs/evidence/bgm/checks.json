@@ -1,0 +1,77 @@
+{
+  "metadata": [
+    {
+      "name": "title",
+      "bytes": 3374244,
+      "duration": 143.6,
+      "channels": 2,
+      "sampleRate": 48000,
+      "rms": 0.15178830815513278,
+      "peak": 0.6515149474143982
+    },
+    {
+      "name": "base",
+      "bytes": 4643957,
+      "duration": 199.96,
+      "channels": 2,
+      "sampleRate": 48000,
+      "rms": 0.14728509106948331,
+      "peak": 0.6325445771217346
+    },
+    {
+      "name": "prepare",
+      "bytes": 2248347,
+      "duration": 95.88,
+      "channels": 2,
+      "sampleRate": 48000,
+      "rms": 0.13656981142394675,
+      "peak": 0.6654804348945618
+    },
+    {
+      "name": "lobby",
+      "bytes": 1394591,
+      "duration": 61.2,
+      "channels": 2,
+      "sampleRate": 48000,
+      "rms": 0.11854416200230962,
+      "peak": 0.5204439163208008
+    },
+    {
+      "name": "report",
+      "bytes": 3808185,
+      "duration": 172.8,
+      "channels": 2,
+      "sampleRate": 48000,
+      "rms": 0.12075338376570648,
+      "peak": 0.6235921382904053
+    },
+    {
+      "name": "clear",
+      "bytes": 206299,
+      "duration": 7.6,
+      "channels": 2,
+      "sampleRate": 48000,
+      "rms": 0.09789137702056214,
+      "peak": 0.625051736831665
+    },
+    {
+      "name": "victory",
+      "bytes": 1236162,
+      "duration": 51.92,
+      "channels": 2,
+      "sampleRate": 48000,
+      "rms": 0.11890019577931815,
+      "peak": 0.548923671245575
+    }
+  ],
+  "clearDuration": 7.6,
+  "singlePlayer": true,
+  "reportReturn": true,
+  "sameTrackContinuity": true,
+  "muteResume": true,
+  "simulatedVisibilityPauseResume": true,
+  "clearOnceThenVictory": true,
+  "defeatSilent": true,
+  "battleSilent": true,
+  "errors": []
+}

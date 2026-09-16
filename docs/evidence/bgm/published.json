@@ -1,0 +1,10 @@
+{
+  "origin": "https://swarm-front.melosalife-24.workers.dev",
+  "realUI": true,
+  "serviceWorker": {
+    "controlled": true,
+    "status": 200,
+    "bytes": 206299
+  },
+  "errors": []
+}

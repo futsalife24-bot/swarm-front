@@ -1,0 +1,109 @@
+{
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "f4a99ae852d6f9c0dd1cf6dd76278ee5358a3698545edbd947d4abc82e606ee0",
+      "bytes": 2298
+    },
+    {
+      "file": "sw.js",
+      "sha256": "d47eef972c605ab7cebe27e57e369f512e87544ba2e63a4730242e7dbb7daa7e",
+      "bytes": 2673
+    },
+    {
+      "file": "assets/index-CIzuwiFG.js",
+      "sha256": "ef8f8846e4082e85774db466ad56ed75644456dd9161e7a0e23b536d4009b684",
+      "bytes": 31672
+    },
+    {
+      "file": "assets/main-C1Ldsy-y.css",
+      "sha256": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1",
+      "bytes": 6219
+    },
+    {
+      "file": "assets/main-C8DqPJLW.js",
+      "sha256": "38fa61e86959e800f25738ffdfa4634fe936f68c57b9e37d5c303e8221f91ff6",
+      "bytes": 59097
+    },
+    {
+      "file": "assets/minimap-Clh1V6L1.css",
+      "sha256": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607",
+      "bytes": 3020
+    },
+    {
+      "file": "assets/minimap-DA53cynd.js",
+      "sha256": "95a294b544f3a2e413513181c4ce2f168f6b12106921f531d4cb4ac5287c75b2",
+      "bytes": 36937
+    },
+    {
+      "file": "assets/playtest-app-BWRMvubJ.js",
+      "sha256": "d1968635c52e832c8e62d7c14e28e54a1b9426327e806a643d23a23280dc1268",
+      "bytes": 96988
+    },
+    {
+      "file": "assets/playtest-app-CTXHIJiH.css",
+      "sha256": "28c1c1b472eaa9c70ac992ce9a8cce79b949284f467eb023c30c1f85705a3502",
+      "bytes": 24300
+    },
+    {
+      "file": "assets/training-app-BoC4Vc53.js",
+      "sha256": "20073cc578c4ff78fede4b96a337c26970da606baccf6f906ea4fa472acdcb81",
+      "bytes": 3678
+    },
+    {
+      "file": "assets/weapon-sharing-CWS5jpxb.js",
+      "sha256": "3dd3719564028cc0afc8faaef9728b5cd47cbd7e2d6b4f2934dd1a658aac2213",
+      "bytes": 4294
+    },
+    {
+      "file": "assets/zoom-guard-CHxnJsnA.css",
+      "sha256": "2d7b42cb8530e810fbe154a90624560911722bf7a8b1f29fa89e34d880d81121",
+      "bytes": 106450
+    },
+    {
+      "file": "assets/zoom-guard-OIwKMZMv.js",
+      "sha256": "6013d06e03255bf46c15b4c911c01e7aa39ea5774422facd9302ca8603681e7e",
+      "bytes": 813425
+    },
+    {
+      "file": "assets/audio/bgm-v1/title.mp3",
+      "sha256": "8f3498df9ac03c0e1021f5277f4ef77319f2515b60b4a9880dbbf5853ed63344",
+      "bytes": 3374244
+    },
+    {
+      "file": "assets/audio/bgm-v1/base.mp3",
+      "sha256": "dad86a8e7d350bca0003da86a94a16d302df6e02371ed7d047705271ff287047",
+      "bytes": 4643957
+    },
+    {
+      "file": "assets/audio/bgm-v1/prepare.mp3",
+      "sha256": "bacc5580e275a4ac06a7a0439a99ecbab8842ec18c8a4f6ac06f5b76031c0ec3",
+      "bytes": 2248347
+    },
+    {
+      "file": "assets/audio/bgm-v1/lobby.mp3",
+      "sha256": "23281e57eec4e6e3b3d1984744fa4615347a40855fa9e338ec6b67d1920588d4",
+      "bytes": 1394591
+    },
+    {
+      "file": "assets/audio/bgm-v1/report.mp3",
+      "sha256": "7a896f4b80119f641cc8ac9b6417fc909aa2e7513e6bb74f6a71eb439d5ee68a",
+      "bytes": 3808185
+    },
+    {
+      "file": "assets/audio/bgm-v1/clear.mp3",
+      "sha256": "0a3ea9bb641950a6ee10a6970bdfbc7cd8de2d34c681dc09b10e78b88b42b9fd",
+      "bytes": 206299
+    },
+    {
+      "file": "assets/audio/bgm-v1/victory.mp3",
+      "sha256": "496abe1a50cf33dd1c52f3ec4de6470d20b7a82b8e109d2f668f87a6e9eed79b",
+      "bytes": 1236162
+    }
+  ],
+  "health": {
+    "ok": true,
+    "transport": "websocket",
+    "authority": "durable-object"
+  }
+}

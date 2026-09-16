@@ -19,3 +19,11 @@
 ストリーミングMP3のHTTP 206をCache APIへ保存しないよう `public/sw.js` を最小修正。200応答のキャッシュ容量超過でも取得済み音源の再生を阻害しない。`scripts/check-bgm-cache.mjs` で206/200/容量エラー3条件成功。`scripts/check-bgm-built.mjs` で実配布ビルドのタイトル→レポート→基地→育成→準備、再読込後の音楽、実Service Worker制御下でRange 206/1024 bytes成功（pageerror 0）。初回育成説明を閉じる等、テスト導線修正後に成功。外部Turnstileのローカルnetwork deniedは既存環境制約でBGMには無関係。
 
 独立監査: https://chatgpt.com/c/6aaa8b4d-7f00-83ee-ab1a-c60f7cc85172 、PR #28。初回対象e1ff743、追加キャッシュ修正160ce20。最終合格待ち。
+
+## 独立監査・公開完了
+
+[監査Chat](https://chatgpt.com/c/6aaa8b4d-7f00-83ee-ab1a-c60f7cc85172)は初回e1ff743と最終fd986f9f12a36fa65ad890c98735be285f8944dcを合格、必須修正なしと判定。SWの206/200/put失敗/404/cache hitを監査側でも独立実行。任意指摘は既存200キャッシュに対するRange要求の追加試験（200全体返却はHTTP上許容）。実機/主観音質/シームレス境界は監査側も未確認。
+
+PR #28を通常mergeし、公開ソースcda3fcfa9f8c4f42391a10d172c37cf53d97b7b9から再build・dry-runして既存Workerへ公開。Version 35053832-8373-4982-9ba9-6c7642b75021。20配信ファイルのSHA-256一致（7MP3含む）、API health成功。公開Chromeの実UIでタイトル/レポート/基地/育成/準備と再読込を検証、Service Worker制御下Rangeは200完全応答206299 bytesで取得成功、pageerrorなし。公開iabでもtitle.mp3の143.6秒音源が22.9秒まで再生、errorログ0。主観試聴の確認とは区別。
+
+証拠を[docs/evidence/bgm](evidence/bgm)へ保存。源音7曲のSHAは[SCENE-BGM-SOURCES.json](SCENE-BGM-SOURCES.json)。公開記録以降の変更は文書/検証証拠だけ。
