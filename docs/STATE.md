@@ -1,3 +1,7 @@
+# 現在地: 対象武器見出しPR #31を独立監査中（2026-09-17）
+
+対象b4493ffd1e01718cd8d0fa04fa35086466b73be7。[監査Chat](https://chatgpt.com/c/6aab12af-b96c-83ee-9540-b1486e7f3566)へ資料送信済み。型・2幅28条件・両build・production dry-run成功。合格後main反映・公開へ進む。[詳細](EFFECT-TARGET-HEADING.md)。
+
 # 現在地: 効果説明の対象武器を見出しへ移動・自己検証済み（2026-09-17）
 
 branch codex/effect-target-heading、base a2d3eb4。効果名横に対象武器を表示、本文の対象武器説明を削除。型・2幅28条件の操作/見出し/本文/保存不変確認成功。独立監査・main反映・公開準備中。[詳細](EFFECT-TARGET-HEADING.md)。

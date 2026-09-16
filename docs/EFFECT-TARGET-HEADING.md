@@ -7,3 +7,7 @@ base a2d3eb41a1b11a98a0b51485628cbbf59cde8b95、branch codex/effect-target-headi
 
 検証: typecheck成功。既存check-gear-effect-help.mjsを拡張し、844/640幅×通常/整理×7種=28条件成功。全4効果で対象武器表記の正しさ・見出しと同じ行・横はみ出しなし・本文の重複削除・タップ/Enter・閉じる/Escape・フォーカス復帰・装備/整理選択/保存不変・pageerror 0。貫通/残弾装填/長文誘爆の画像を目視。証拠 dist-validation/effect-target-heading/。実スマホ未確認。
 独立Chat監査・main反映・公開準備中。
+
+## 保存・独立監査
+
+[PR #31](https://github.com/futsalife24-bot/swarm-front/pull/31)、対象b4493ffd1e01718cd8d0fa04fa35086466b73be7。通常/Pages build・production dry-run成功。[監査Chat](https://chatgpt.com/c/6aab12af-b96c-83ee-9540-b1486e7f3566)へeffect-target-audit.zip（対象差分・必要ソース・20画像・結果）を送信済み。監査結果確認中。
