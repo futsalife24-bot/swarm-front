@@ -1,0 +1,16 @@
+{
+  "url": "https://swarm-front.melosalife-24.workers.dev/",
+  "browser": "Codex iab",
+  "checks": {
+    "weaponList": true,
+    "detailSameGradeHeader": true,
+    "baselineZeroNoMarks": true,
+    "exact20Legend": true,
+    "errorLogs": []
+  },
+  "limitations": [
+    "公開ブラウザの所持武器は新形式補正0の初期3丁。旧/新補正の印はローカル20ケースと配信SHA一致で確認。",
+    "実スマホ未確認。"
+  ],
+  "independentAudit": "今回のユーザー明示指示により省略。資料未送信。"
+}

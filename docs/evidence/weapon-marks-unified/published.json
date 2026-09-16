@@ -1,0 +1,89 @@
+{
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "source": "a423630c99f08571505ebf6f298d25d3b42dc20f",
+  "version": "4fec9a05-9ede-4e20-a190-72e3fa5db739",
+  "assets": [
+    {
+      "path": "/index.html",
+      "bytes": 2298,
+      "sha256": "6d8bad43f7ede2c42fba0819fc7efc910c419ff94223090462e2aafcbb78f6dc",
+      "matches": true
+    },
+    {
+      "path": "/sw.js",
+      "bytes": 2673,
+      "sha256": "d47eef972c605ab7cebe27e57e369f512e87544ba2e63a4730242e7dbb7daa7e",
+      "matches": true
+    },
+    {
+      "path": "/assets/index-WyWrhPnV.js",
+      "bytes": 31672,
+      "sha256": "cced40c9d0100e20ecaf7ae9bc6f47e3383ea5d8061f293d79965d3bef95ebf8",
+      "matches": true
+    },
+    {
+      "path": "/assets/main-C1Ldsy-y.css",
+      "bytes": 6219,
+      "sha256": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1",
+      "matches": true
+    },
+    {
+      "path": "/assets/main-ClNtt9Ir.js",
+      "bytes": 59097,
+      "sha256": "e8d86e68f552b998cf00dbdd96743414901acd7e4210e51f6562c48cae182656",
+      "matches": true
+    },
+    {
+      "path": "/assets/minimap-Clh1V6L1.css",
+      "bytes": 3020,
+      "sha256": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607",
+      "matches": true
+    },
+    {
+      "path": "/assets/minimap-DU1mIDHl.js",
+      "bytes": 37025,
+      "sha256": "e1be1d10f87b38857848f3046ad960aab991732d249560f174ebd5cd3c05d526",
+      "matches": true
+    },
+    {
+      "path": "/assets/playtest-app-CTXHIJiH.css",
+      "bytes": 24300,
+      "sha256": "28c1c1b472eaa9c70ac992ce9a8cce79b949284f467eb023c30c1f85705a3502",
+      "matches": true
+    },
+    {
+      "path": "/assets/playtest-app-DGSF_hl_.js",
+      "bytes": 97129,
+      "sha256": "6157fed10d0c36f8650e863285bbc12713d25dc0f1551a78a1a486e982c0ff70",
+      "matches": true
+    },
+    {
+      "path": "/assets/training-app-C8cnKHj9.js",
+      "bytes": 3678,
+      "sha256": "1a66e7eb9893f67a234ac84c6be58336f5c66ca10799ac8d47bd7b77a80390d0",
+      "matches": true
+    },
+    {
+      "path": "/assets/weapon-sharing-DhtMdO9e.js",
+      "bytes": 4746,
+      "sha256": "bc54eb297d7f5eec0e540ecc6a0f2a71e88f7738c5756b96f8c09331760c36f0",
+      "matches": true
+    },
+    {
+      "path": "/assets/zoom-guard-CHxnJsnA.css",
+      "bytes": 106450,
+      "sha256": "2d7b42cb8530e810fbe154a90624560911722bf7a8b1f29fa89e34d880d81121",
+      "matches": true
+    },
+    {
+      "path": "/assets/zoom-guard-MtX7VkUd.js",
+      "bytes": 813548,
+      "sha256": "bdf631269a1014298ed87952b9d9b290040a1530791d7af79a17d2762863be85",
+      "matches": true
+    }
+  ],
+  "health": {
+    "status": 200,
+    "ok": true
+  }
+}

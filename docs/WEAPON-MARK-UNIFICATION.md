@@ -35,3 +35,7 @@ base: 0790ed9d807d08fc10b962c8aeb6bdfc4a8a6fc0、branch: codex/unify-weapon-mark
 ## 今回限定の監査省略指示
 
 ユーザー「いや、今回はこのまま公開して」により、今回のPR #29は独立Chat監査を省略して公開する明示指示を受領。監査資料は未送信であり、独立監査合格とは報告しない。通常merge・既存Worker公開・配信照合へ進む。将来の監査手順は変更しない。
+
+## main反映・公開完了
+
+PR #29通常merge済み。公開ソース a423630c99f08571505ebf6f298d25d3b42dc20f、Worker Version 4fec9a05-9ede-4e20-a190-72e3fa5db739。merge後build/production dry-run成功、既存Workerへ公開。13配信ファイルのSHA-256一致・API health成功。公開iabで一覧/詳細の同レア基準差、補正0無印、★+20%説明、errorログ0を確認。[配信証拠](evidence/weapon-marks-unified/published.json)・[ブラウザ確認/限界](evidence/weapon-marks-unified/browser.json)。独立監査は今回のユーザー明示指示により省略。後続は記録文書のみ。
