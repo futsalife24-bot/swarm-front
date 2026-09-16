@@ -1,3 +1,11 @@
+# 現在地: 基地メニューが独立監査合格、main反映・公開へ（2026-09-16）
+
+[PR #24](https://github.com/futsalife24-bot/swarm-front/pull/24)対象 `9b7f37bf5b324240a4ab8c5d3864743904d7ae3f` は[独立監査](https://chatgpt.com/c/6aaa5646-3e10-83ee-8069-885a3822a7d8)合格・必須指摘0件。[詳細・限界](BASE-MENU.md)。通常merge・既存Worker公開へ進める。後続差分は記録のみ。
+
+# 現在地: 基地メニューPR #24の独立監査を依頼済み（2026-09-16）
+
+[監査Chat](https://chatgpt.com/c/6aaa5646-3e10-83ee-8069-885a3822a7d8)へ対象 `9b7f37bf5b324240a4ab8c5d3864743904d7ae3f` のソース・差分・3幅画面/検証JSONを添付して送信済み。通常/Pages build、production dry-runも成功。結果確認後にmain反映・既存Worker公開を続行する。
+
 # 現在地: 基地4メニューを実装・自己検証済み（2026-09-16）
 
 branch codex/base-menu、base 32b1d19。タイトル基地→武器/アクセサリ/育成/工房（disabled・工事中）の4導線。型・通常build・3幅全導線・4幅武器UI基準成功。[詳細](BASE-MENU.md)。独立監査・main反映・公開準備中。
