@@ -22,7 +22,7 @@ branch `codex/lobby-id-pwa-invite`、base/main `cbb4b10aa435397fca996a044a0cceac
 
 参考: [Chrome navigation management](https://developer.chrome.com/docs/capabilities/pwa-navigation-management)、[Launch Handler API](https://developer.chrome.com/docs/web-platform/launch-handler/)。launch_handlerは外部リンク捕捉を強制する設定ではない。
 
-## 残作業
+## 実装時の残作業（後述の公開記録で解消）
 
 Chat独立監査・必要な承認後にmain反映と既存Worker公開。実機の自動切替は未確認。
 
@@ -43,3 +43,11 @@ Chat独立監査・必要な承認後にmain反映と既存Worker公開。実機
 ## 再監査合格
 
 ユーザーが修正ZIPと同PRの追加監査資料の送信を明示承認。通常Chatへ修正ZIPを添付して再監査し、`f81e143f6df27f24ff9dbb77c80c7ac9984fefde`を「合格・必須指摘0件」と判定。監査側でも対象TSをコンパイルし、取消時のsession/socket維持、承諾時のNetwork.close・旧session=null・B URL/reloadを独立追試。公開用dry-run成功。監査側の全Worker E2E/両build再実行不可・実スマホ未確認等の限界は継続。
+
+## main反映・公開完了
+
+PR #18を通常merge。公開ソース `eeb90fe5b70ddfe92abc6a5436e2bf5e56b15446` は監査合格の `f81e143` からdocs/STATE.md・docs/LOBBY-INVITE.mdだけの変更で機能コード同一。既存Worker https://swarm-front.melosalife-24.workers.dev に公開、Version `fbcc398c-db67-4320-b932-b8f4a79b73a8`。
+
+配信14ファイル（HTML、manifest、sw、全トップレベルJS/CSS）のSHA一致、/api/health成功。実Chromeで667/844/1280×390の協力入力欄、無効入力、表示範囲内を確認。pageerror 0。[配信・UI結果](evidence/lobby-invite/published.json)、[公開667px](evidence/lobby-invite/published-667.png)。公開環境のTurnstile通過・ロビー入室は未実施。ローカルWorker実通信と公開コード照合を証拠とし、本番入室成功とは扱わない。
+
+OSの外部リンク捕捉・実スマホ・ネイティブ共有の未確認は残る。コピー完了表示がヘッダー下端寄りという軽微な任意指摘も記録を維持。再監査・main反映・公開の保留は解消。公開記録の後続commitで実装を変更しない。

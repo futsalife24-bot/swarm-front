@@ -1,0 +1,91 @@
+{
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "version": "fbcc398c-db67-4320-b932-b8f4a79b73a8",
+  "source": "eeb90fe5b70ddfe92abc6a5436e2bf5e56b15446",
+  "assets": [
+    {
+      "path": "/index.html",
+      "sha256": "ac081825f5e6ecd7674a8815ebd0ae71542d6037a80d6b1dbfd7a12dead2d84d"
+    },
+    {
+      "path": "/manifest.webmanifest",
+      "sha256": "4ccb9648d0544cd62020e7004ea3cc7589d78596a0ff0c517dfec89fe561882b"
+    },
+    {
+      "path": "/sw.js",
+      "sha256": "157f181af27ea1672238cac1dc2dbbfbe8bcfda91cfc3b813ade3b07aad65f49"
+    },
+    {
+      "path": "/assets/index-CKJS1QGq.js",
+      "sha256": "36e34ab727980b420a90f32d26605bd633080976793004ede06d9aae14d0282a"
+    },
+    {
+      "path": "/assets/main-C1Ldsy-y.css",
+      "sha256": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1"
+    },
+    {
+      "path": "/assets/main-_qP2-QWT.js",
+      "sha256": "a7ea4e62c8075972b701f5dec5e372daa5c51e0603d5c62320b688911a3e8d5b"
+    },
+    {
+      "path": "/assets/minimap-DKxT_sJz.js",
+      "sha256": "326724449f20ba9856987bad02a1ad0bf0cf49945ff3049062981fbd7852fbd3"
+    },
+    {
+      "path": "/assets/minimap-F72ce1la.css",
+      "sha256": "50a6bf586eb35b2aa6f7c61634b168d21ad5722b0a24de4a37c73d5e207643fa"
+    },
+    {
+      "path": "/assets/playtest-app-B_KMWN0g.css",
+      "sha256": "72920c3dc190f04f256ea38bf2d48d8018bf3ba2fdb32e554ab22af75bad88ce"
+    },
+    {
+      "path": "/assets/playtest-app-DcvGqQXz.js",
+      "sha256": "bd788708c0161fae04f4f46a04a9ee74d3e294508e4113f988c4f322cfad68b5"
+    },
+    {
+      "path": "/assets/training-app-DHiQkC46.js",
+      "sha256": "de0c5cc13c29a7ea5ace442de99bdf0da403a1188cc50d74b33d770501d99def"
+    },
+    {
+      "path": "/assets/weapon-sharing-DK1ufWsE.js",
+      "sha256": "af4230da9f61cfcf9b30a5be44aa9584f06a479a89bc5c69e42c2a346b8ac590"
+    },
+    {
+      "path": "/assets/zoom-guard-B7KJNMVy.js",
+      "sha256": "90d67b07e51832ec93a3c61b01f38519896391d3d7f2c6156c2dea89acf58da2"
+    },
+    {
+      "path": "/assets/zoom-guard-Bk8Njxjo.css",
+      "sha256": "76dffb9201318b732baa55baaf1726814506d1393a1c8966efc2c20e689ef028"
+    }
+  ],
+  "ui": [
+    {
+      "width": 667,
+      "fit": {
+        "x": 10,
+        "right": 657,
+        "bottom": 380
+      }
+    },
+    {
+      "width": 844,
+      "fit": {
+        "x": 10,
+        "right": 834,
+        "bottom": 380
+      }
+    },
+    {
+      "width": 1280,
+      "fit": {
+        "x": 80,
+        "right": 1200,
+        "bottom": 380
+      }
+    }
+  ],
+  "errors": [],
+  "passed": true
+}
