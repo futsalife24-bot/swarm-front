@@ -3,7 +3,27 @@ export interface Release {
   date: string;
   items: string[];
 }
-export const CHANGELOG: Release[] = [
+declare const __AUTO_CHANGELOG__: Release[];
+const HISTORY: Release[] = [
+  {
+    date: "2026-09-16",
+    items: [
+      "協力プレイの部屋一覧・8文字の部屋IDでの参加・公開／非公開の部屋作成を追加しました。",
+      "部屋IDのコピーと招待共有を分離。招待URLの受け取りと、アプリ内へのURL貼り付けによる参加に対応しました。",
+      "協力プレイ中の描画・演出・通信処理を軽量化しました。",
+      "クリア時の暗幕を取り除き、回復・武器の回収ケースを3D表示に変更しました。",
+      "兵士の歩行と武器の構えを調整。走行は従来のv9の動きへ戻しました。",
+    ],
+  },
+  {
+    date: "2026-09-15",
+    items: [
+      "ステージ選択を1列に整理し、難易度ごとのミッション達成状況を星で表示。未解放ステージ名は「？？？」にしました。",
+      "ソロと協力プレイの武器庫を共通化し、名前・操作設定の保存、出撃準備、スコープ、ロビー・チャットを改善しました。",
+      "兵士の装備・材質・待機姿勢を更新しました。",
+      "敵との会敵演出中は操作ボタンや照準などを隠し、演出終了後に戻すようにしました。",
+    ],
+  },
   {
     date: "2026-09-15",
     items: [
@@ -116,3 +136,12 @@ export const CHANGELOG: Release[] = [
     ],
   },
 ];
+
+const releases = new Map<string, Set<string>>();
+for (const release of [...__AUTO_CHANGELOG__, ...HISTORY]) {
+  if (!releases.has(release.date)) releases.set(release.date, new Set());
+  for (const item of release.items) releases.get(release.date)!.add(item);
+}
+export const CHANGELOG: Release[] = [...releases]
+  .sort(([a], [b]) => b.localeCompare(a))
+  .map(([date, items]) => ({ date, items: [...items] }));
