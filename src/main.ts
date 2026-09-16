@@ -1093,7 +1093,7 @@ function lobby() {
   const online = network?.ws?.readyState === 1 && !network?.retry;
   const canStart =
     online && isHost && present.length > 0 && present.every((m) => m.ready);
-  ui.innerHTML = `<section class="panel lobby"><header class="lobby-header"><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力ロビー</h1></div><div class="lobby-share"><button id="share">招待リンクを共有</button><button id="copy" aria-label="招待リンクをコピー" title="招待リンクをコピー"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/></svg></button><span id="invite-feedback" role="status"></span></div><span>${present.length} / 4 人</span><button id="leave-lobby">退出</button></header><div class="lobby-workspace"><section class="lobby-mission" aria-label="出撃ステージ"><div class="eyebrow">OPERATION ${String(stage.id).padStart(2, "0")}</div><h2>${esc(MAPS[stage.map].name)}</h2><strong>${esc(stage.name)}</strong><label>ホストが選択<select id="lobby-stage" ${!online || !isHost ? "disabled" : ""}>${stageOptions()}</select></label><div class="mission-facts"><span>${stage.waves.length} WAVES</span><span>道中ドロップ ${Math.round(stage.dropRate * 100)}%</span></div><p>${esc(stage.brief)}</p><div class="lobby-actions"><p class="status" role="status">${!online ? esc(status) : canStart ? "全員の準備が整いました" : isHost ? "隊員の準備完了を待っています" : "ホストの出撃を待っています"}</p><button id="back">出撃準備・装備変更</button><button class="primary" id="begin" ${canStart ? "" : "disabled"}>全員で出撃 ↗</button></div></section><section class="lobby-squad" aria-label="参加メンバー"><div class="squad-heading"><h2>参加メンバー</h2><small>装備 / 状況</small></div><div class="squad-cards">${Array.from(
+  ui.innerHTML = `<section class="panel lobby"><header class="lobby-header"><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力ロビー</h1></div><div class="lobby-share"><button id="share">招待リンクを共有</button><span id="invite-feedback" role="status"></span></div><span>${present.length} / 4 人</span><button id="leave-lobby">退出</button></header><div class="lobby-workspace"><section class="lobby-mission" aria-label="出撃ステージ"><div class="eyebrow">OPERATION ${String(stage.id).padStart(2, "0")}</div><h2>${esc(MAPS[stage.map].name)}</h2><strong>${esc(stage.name)}</strong><label>ホストが選択<select id="lobby-stage" ${!online || !isHost ? "disabled" : ""}>${stageOptions()}</select></label><div class="mission-facts"><span>${stage.waves.length} WAVES</span><span>道中ドロップ ${Math.round(stage.dropRate * 100)}%</span></div><p>${esc(stage.brief)}</p><div class="lobby-actions"><p class="status" role="status">${!online ? esc(status) : canStart ? "全員の準備が整いました" : isHost ? "隊員の準備完了を待っています" : "ホストの出撃を待っています"}</p><button id="back">出撃準備・装備変更</button><button class="primary" id="begin" ${canStart ? "" : "disabled"}>全員で出撃 ↗</button></div></section><section class="lobby-squad" aria-label="参加メンバー"><div class="squad-heading"><h2>参加メンバー</h2><small>装備 / 状況</small></div><div class="squad-cards">${Array.from(
     { length: 4 },
     (_, i) => {
       const m = members[i];
@@ -1115,7 +1115,7 @@ function lobby() {
   if (network?.roomId)
     ui.querySelector(".lobby-header h1")!.insertAdjacentHTML(
       "afterend",
-      `<small>${esc(network.roomName)} · 部屋ID <code id="room-code">${esc(network.roomId)}</code></small>`,
+      `<div class="lobby-room"><small class="lobby-room-name">${esc(network.roomName)}</small><span class="lobby-room-id">部屋ID <code id="room-code">${esc(network.roomId)}</code><button id="copy" aria-label="部屋IDをコピー" title="部屋IDをコピー"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/></svg></button><span id="room-id-feedback" role="status"></span></span></div>`,
     );
   chatInput.value = draft;
   if (focused) {
@@ -1162,13 +1162,24 @@ function lobby() {
       window.prompt("招待リンクをコピーしてください", link);
     }
   };
-  $("copy").onclick = copyInvite;
+  const copyId = document.getElementById("copy");
+  if (copyId)
+    copyId.onclick = async () => {
+      const id = network?.roomId;
+      if (!id) return;
+      try {
+        await navigator.clipboard.writeText(id);
+        $("room-id-feedback").textContent = "IDをコピーしました";
+      } catch {
+        window.prompt("部屋IDをコピーしてください", id);
+      }
+    };
   $("share").onclick = async () => {
     if (!navigator.share) return copyInvite();
     try {
       await navigator.share({
         title: "SWARM FRONT 協力プレイ",
-        text: "このリンクを開いて部隊に参加してください。",
+        text: `部屋ID: ${network?.roomId ?? ""}。ホーム画面のアプリでは「協力プレイ」にIDまたは招待リンクを貼り付けて参加できます。`,
         url: link,
       });
     } catch (error) {

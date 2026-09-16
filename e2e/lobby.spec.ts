@@ -1,3 +1,4 @@
+import { copyInvite } from "./invite";
 import { test, expect } from "@playwright/test";
 import { localCreationKey } from "../tests/credentials";
 test("four-player lobby shares preparation, equipment and host stage without landscape scrolling", async ({
@@ -39,10 +40,7 @@ test("four-player lobby shares preparation, equipment and host stage without lan
     await a.getByRole("button", { name: "ルームを作る" }).click();
     await expect(a.locator(".is-ready")).toHaveCount(1);
     await contexts[0].grantPermissions(["clipboard-read", "clipboard-write"]);
-    await a
-      .getByRole("button", { name: "招待リンクをコピー", exact: true })
-      .click();
-    const invite = await a.evaluate(() => navigator.clipboard.readText());
+    const invite = await copyInvite(a);
     await expect(a.locator("#invite-feedback")).toHaveText("コピーしました");
     for (const p of pages.slice(1)) {
       await p.goto(invite);

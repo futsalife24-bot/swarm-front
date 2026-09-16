@@ -1,5 +1,6 @@
+import { parseRoomEntry } from "./room-invite";
 import { STAGES } from "../shared/stages";
-import { normalizeRoomId, type RoomListing } from "../shared/room-directory";
+import { type RoomListing } from "../shared/room-directory";
 
 const esc = (s: string) =>
   s.replace(
@@ -13,7 +14,7 @@ const esc = (s: string) =>
 export function roomBrowserMarkup(endpoint: string, status: string) {
   return `<section class="panel room-entry room-browser"><header><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力プレイ</h1></div><button id="home">タイトルへ</button></header>
   <div class="room-browser-columns"><section class="room-create"><h2>部屋を作る</h2><label>部屋名<input id="room-name" maxlength="24" value="協力部隊" autocomplete="off"></label><label>募集方法<select id="room-visibility"><option value="public">公開（部屋一覧に表示）</option><option value="private">ID・招待のみ</option></select></label><div id="turnstile-room-create" aria-label="ルーム作成の人間確認"></div><p id="turnstile-status" class="fine"></p><button class="primary" id="launch">部屋を作る ↗</button></section>
-  <section class="room-browse"><header><h2>部屋を探す</h2><button id="room-refresh">更新</button></header><form id="room-join-form"><label class="sr-only" for="room-id">部屋ID</label><input id="room-id" maxlength="32" placeholder="部屋ID 8文字" autocomplete="off" autocapitalize="characters"><button id="room-join" type="submit">IDで参加</button></form><p id="room-list-status" role="status">参加できる部屋を表示します。</p><div id="room-list" aria-label="公開部屋一覧"></div></section></div>
+  <section class="room-browse"><header><h2>部屋を探す</h2><button id="room-refresh">更新</button></header><form id="room-join-form"><label class="sr-only" for="room-id">部屋IDまたは招待リンク</label><input id="room-id" maxlength="2048" placeholder="部屋ID / 招待リンク" autocomplete="off" autocapitalize="off"><button id="room-join" type="submit">参加</button></form><p id="room-list-status" role="status">参加できる部屋を表示します。</p><div id="room-list" aria-label="公開部屋一覧"></div></section></div>
   <details class="coop-advanced"><summary>接続先を手動設定（開発用）</summary><div class="join"><input id="endpoint" aria-label="協力サーバー" value="${esc(endpoint)}"><input id="creation-key" type="password" aria-label="ローカル作成キー" placeholder="ローカル作成キー" autocomplete="off" maxlength="256"></div></details><p class="status" role="status">${esc(status)}</p></section>`;
 }
 
@@ -56,9 +57,10 @@ export function bindRoomBrowser(
     if (joining) return;
     revision++;
     refreshButton.disabled = false;
-    const id = normalizeRoomId(value);
-    if (!/^(?:[A-F0-9]{8}|[A-F0-9]{32})$/.test(id)) {
-      status.textContent = "部屋IDは8文字の英数字で入力してください。";
+    const id = parseRoomEntry(value, location.href);
+    if (!id) {
+      status.textContent =
+        "部屋ID（8文字）またはこのゲームの招待リンクを入力してください。";
       return;
     }
     joining = true;
