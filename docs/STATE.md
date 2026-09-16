@@ -1,3 +1,10 @@
+# 現在地: 能力印の復元はmain反映済み・公開承認待ち（2026-09-16）
+
+[PR #25](https://github.com/futsalife24-bot/swarm-front/pull/25)通常merge済み。main実装 a0a0e8c4ada219bab2c67cb893c0078b61bc21e6、監査対象5190f349は合格・必須指摘0件。型・単体2件・両build・4幅UI・2幅一覧/詳細・merge後build/dry-run成功。[詳細と証拠](WEAPON-STAT-MARKS.md)。
+
+停止理由: 自動承認レビューが既存Worker本番公開を「今回の依頼には公開の明示承認がない」と拒否。公開未実行。
+再開条件: 今回の修正を既存Workerへ公開する明示承認後、deploy・配信SHA/health・ブラウザ確認を完了する。後続は記録差分のみ。
+
 # 現在地: 武器能力印PR #25が独立監査合格（2026-09-16）
 
 対象5190f349cdcf4c4e38c50e22ea702c5df8cdbcbcは合格・必須指摘0件。[監査/詳細](WEAPON-STAT-MARKS.md)。後続差分は記録のみ。main反映・既存Worker公開へ進む。

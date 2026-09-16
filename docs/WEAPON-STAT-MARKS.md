@@ -11,3 +11,9 @@ base 7bf75c518f3607f44f9140116e89ebeca2c2e4e8、branch codex/restore-weapon-mark
 ## 独立監査
 
 [PR #25](https://github.com/futsalife24-bot/swarm-front/pull/25)、[監査Chat](https://chatgpt.com/c/6aaa686f-d668-83ee-83e9-a00c76843c26)。対象5190f349cdcf4c4e38c50e22ea702c5df8cdbcbcは合格・必須指摘0件。変更3ソースのGit blob一致、旧武器補正の独立計算、一覧の固定/通常行・二段▲を確認。任意指摘の詳細表スクロール画像不足は844/1280pxの追加PNGを同Chatへ送信し補足済み。限界: 監査環境で依存取得タイムアウトのためtypecheck/build/Playwright再実行未実施、実スマホ・共有画像対象外。commit後build・production dry-runも実装側で成功。
+
+## main反映・公開保留
+
+PR #25通常merge済み。mainソース a0a0e8c4ada219bab2c67cb893c0078b61bc21e6。merge後build・production dry-run成功。
+停止理由: 既存Workerへの本番deployを自動承認レビューが「今回の依頼に公開そのものの明示承認がない」と拒否。AGENTSの継続承認は確認済みだが拒否を迂回しない。公開コマンドは未実行、配信照合未実施。
+再開条件: ユーザーが今回の能力印修正を既存Worker swarm-front.melosalife-24.workers.dev へ公開することを明示承認したら、同main実装を公開し、dist-validation/weapon-marks/verify-published.mjsでSHA/health照合・実ブラウザ確認・公開記録まで完了する。後続差分は記録のみ。
