@@ -1325,7 +1325,7 @@ function gear() {
     ($("pt-start") as HTMLButtonElement).disabled = true;
     $("pt-start").textContent = "サンプル表示中";
     ui.querySelector(".gear-footer .status small")!.innerHTML =
-      `<span class="pt-var-low"><sup>${varianceMark(-10)}</sup> −10〜−1%</span> · <span class="pt-var-good"><sup>${varianceMark(10)}</sup> +1〜10%</span> · <span class="pt-var-great"><sup>${varianceMark(19)}</sup> +11〜19%</span> · <span class="pt-var-max"><sup>${varianceMark(20)}</sup> +20%</span>`;
+      `<span class="pt-var-low"><sup>${varianceMark(-10)}</sup> 0%未満</span> · <span class="pt-var-good"><sup>${varianceMark(10)}</sup> 0%超〜+10%</span> · <span class="pt-var-great"><sup>${varianceMark(19)}</sup> +10%超（+20%除く）</span> · <span class="pt-var-max"><sup>${varianceMark(20)}</sup> +20%</span>`;
   }
   bind("pt-mission-info", () =>
     dialog(
@@ -1695,7 +1695,7 @@ function detail(w: StoredWeapon, context: string) {
         a.id === (d.querySelector("#pt-compare") as HTMLSelectElement).value,
     )!;
     d.querySelector("#pt-comparison")!.innerHTML =
-      `<table><tr><th>性能</th><th>実数値</th><th>個体差</th><th>装備差分</th></tr>${[
+      `<table><tr><th>性能</th><th>実数値</th><th>同レア基準差</th><th>装備差分</th></tr>${[
         ["power", "威力"],
         ["mag", "装弾"],
         ["reload", "装填秒"],
@@ -1704,9 +1704,9 @@ function detail(w: StoredWeapon, context: string) {
       ]
         .map(
           ([k, t]) =>
-            `<tr><th>${t}</th><td class="pt-var-${varianceClass(weaponStatVariance(w, k as "mag" | keyof Variances))}">${metric(w, k)}<sup>${varianceMark(weaponStatVariance(w, k as "mag" | keyof Variances))}</sup></td><td>${w.format !== 2 ? "従来の性能を保持" : k === "mag" ? "固定" : `${(w.format === 2 ? w.variance[k as keyof Variances] : 0) >= 0 ? "+" : ""}${w.format === 2 ? w.variance[k as keyof Variances] : 0}%`}</td><td>${metricDifference(w, base, k)}</td></tr>`,
+            `<tr><th>${t}</th><td class="pt-var-${varianceClass(weaponStatVariance(w, k as "mag" | keyof Variances))}">${metric(w, k)}<sup>${varianceMark(weaponStatVariance(w, k as "mag" | keyof Variances))}</sup></td><td>${w.format === 2 && k === "mag" ? "固定" : `${w.format === 2 ? "" : "約"}${weaponStatVariance(w, k as "mag" | keyof Variances) >= 0 ? "+" : ""}${Number(weaponStatVariance(w, k as "mag" | keyof Variances).toFixed(3))}%`}</td><td>${metricDifference(w, base, k)}</td></tr>`,
         )
-        .join("")}</table>`;
+        .join("")}</table><p>印は同じ武器種・レア度の標準性能との差です。装填は速度換算、特殊効果は除外。★は+20%ちょうど。</p>`;
   };
   if (context === "gear")
     (d.querySelector("#pt-compare") as HTMLSelectElement).value =

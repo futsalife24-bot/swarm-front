@@ -244,17 +244,31 @@ export const varianceClass = (n: number) =>
       ? "base"
       : n <= 10
         ? "good"
-        : n < 20
-          ? "great"
-          : "max";
+        : n === 20
+          ? "max"
+          : "great";
 export const varianceMark = (n: number) =>
-  n < 0 ? "▼" : n === 0 ? "" : n <= 10 ? "▲" : n < 20 ? "▲\n▲" : "★";
+  n < 0 ? "▼" : n === 0 ? "" : n <= 10 ? "▲" : n === 20 ? "★" : "▲\n▲";
 
 /** Display only: legacy saves keep their combat values and original format. */
 export function weaponStatVariance(w: StoredWeapon, key: Roll): number {
   if (w.format === 2) return key === "mag" ? 0 : w.variance[key];
-  const multiplier = key === "power" ? w.power : (w.rolls?.[key] ?? 1);
-  // Legacy reload rolls scale duration, so shorter is favorable. Special
-  // effects are listed separately and must not be counted as an individual roll.
-  return Math.round((key === "reload" ? 1 - multiplier : multiplier - 1) * 1000) / 10;
+  // Both formats use the current zero-variance baseline for the displayed grade.
+  // Legacy rarity indices are offset by one (R starts at 0, rather than N).
+  const tier = weaponTier(w),
+    scale = 1.15 ** tier;
+  const roll = w.rolls?.[key] ?? 1;
+  const ratio =
+    key === "power"
+      ? w.power / scale
+      : key === "mag"
+        ? Math.max(1, Math.round(WEAPONS[w.kind].mag * roll)) /
+          MAGAZINES[w.kind][tier]
+        : key === "reload"
+          ? 1 / (roll * scale)
+          : roll / scale;
+  const percent = (ratio - 1) * 100;
+  // Remove arithmetic noise only, never round a nearby roll up to a star.
+  const integer = Math.round(percent);
+  return Math.abs(percent - integer) < 1e-9 ? integer : percent;
 }

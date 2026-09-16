@@ -1,3 +1,7 @@
+# 現在地: 武器能力印の基準を統一・自己検証済み（2026-09-16）
+
+branch codex/unify-weapon-marks、base 0790ed9。同武器種/同表示レア度の標準性能へ旧新形式を統一、★は+20%限定。全旧25,980条件と新全補正、型、単体27件、4幅UI、2幅20ケース一覧/詳細と共有画像成功。保存/実性能変更なし。独立監査・main反映・公開準備中。[詳細/限界](WEAPON-MARK-UNIFICATION.md)。
+
 # 現在地: 7曲のシーンBGMをmain反映・公開済み（2026-09-16）
 
 [PR #28](https://github.com/futsalife24-bot/swarm-front/pull/28)通常merge。最終対象fd986f9は[独立監査](https://chatgpt.com/c/6aaa8b4d-7f00-83ee-ab1a-c60f7cc85172)合格・必須指摘なし。公開ソースcda3fcfa9f8c4f42391a10d172c37cf53d97b7b9、Version 35053832-8373-4982-9ba9-6c7642b75021。タイトル/基地/準備/協力ロビー/レポート/クリア/勝利戦果に提供7曲。音量連動・非表示停止・クリア1回→勝利曲・PWA部分取得を対応。
