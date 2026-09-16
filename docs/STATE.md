@@ -1,9 +1,9 @@
 # 現在地: ロビーIDコピー・PWA招待を実装・検証、独立監査待ち（2026-09-16）
 
-branch `codex/lobby-id-pwa-invite`、base/main `cbb4b10aa435397fca996a044a0cceacd8310a40`。コピーを部屋ID横へ移してID専用化、招待共有を右へ離した。PWA起動URL受領とアプリ内URL貼付参加を追加。型・単体2件・両build・実Chrome/WorkerのID・URL参加と横画面3幅を検証。[差分・証拠・限界](LOBBY-INVITE.md)。OSによるPWA自動切替は実機未確認。
+[PR #18](https://github.com/futsalife24-bot/swarm-front/pull/18)、実装HEAD `bfe537005f5811a3757369c491e3ddb385412f1a`。branch `codex/lobby-id-pwa-invite`、base/main `cbb4b10aa435397fca996a044a0cceacd8310a40`。コピーを部屋ID横へ移してID専用化、招待共有を右へ離した。PWA起動URL受領とアプリ内URL貼付参加を追加。型・単体2件・両build・実Chrome/WorkerのID・URL参加と横画面3幅を検証。[差分・証拠・限界](LOBBY-INVITE.md)。OSによるPWA自動切替は実機未確認。
 
-停止理由: READMEのChat独立監査条件が未充足。main反映・公開は未実施。
-再開条件: 対象HEADの独立監査と必要な承認を受領し、既存保護を守ってmain反映・公開を行う。
+停止理由: READMEのChat独立監査条件が未充足。通常Chatへの監査ZIP添付を自動承認レビューが「非公開ソース等の具体的な送信承認なし」として拒否。WORKFLOWに既存許可の記載はあるが、迂回せずユーザーの明示承認待ち。main反映・公開は未実施。
+再開条件: `dist-validation/lobby-invite-audit.zip`（対象HEADのソース・差分・画面証拠、秘密情報除外）を通常Chatへ添付する明示承認後、独立監査と必要な承認を受領してmain反映・公開を行う。
 
 # 現在地: 3人マルチ軽量化・部屋一覧/ID参加をmain反映・公開済み（2026-09-16）
 

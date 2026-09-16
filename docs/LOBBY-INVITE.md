@@ -25,3 +25,5 @@ branch `codex/lobby-id-pwa-invite`、base/main `cbb4b10aa435397fca996a044a0cceac
 ## 残作業
 
 Chat独立監査・必要な承認後にmain反映と既存Worker公開。実機の自動切替は未確認。
+
+保存先: [PR #18](https://github.com/futsalife24-bot/swarm-front/pull/18)、実装HEAD `bfe537005f5811a3757369c491e3ddb385412f1a`。作成済みZIP `dist-validation/lobby-invite-audit.zip` は対象commitのsrc、manifest、関連E2E、テスト、検証スクリプト、画面証拠、差分を含む。Chat添付は自動承認レビューが非公開データの具体的送信承認不足として拒否したため未送信。明示承認待ち。後続commitはこの記録のみ。
