@@ -1414,8 +1414,12 @@ function armory() {
         )
       ) {
         armoryChecked.clear();
-        status = `${weapons.length}丁を分解し、${POWDER_NAME}を${amount}獲得しました。`;
+        status = `${weapons.length}丁を分解しました。`;
         armory();
+        ui.querySelector(".status")!.insertAdjacentHTML(
+          "beforeend",
+          resourceFrame("powder", amount, "gain"),
+        );
         (
           ui.querySelector<HTMLElement>(
             "[data-armory-select][aria-pressed='true']",
