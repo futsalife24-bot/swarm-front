@@ -1,3 +1,11 @@
+# 現在地: タイトルチュートリアルPR #27が独立監査合格（2026-09-16）
+
+対象ecf1aec20d9157e72d855a5d4cc47a8b05c38dc6は合格・必須指摘なし。[詳細/限界](TITLE-TUTORIAL.md)。後続は記録のみ。main反映・既存Worker公開へ進む。
+
+# 現在地: タイトルチュートリアルPR #27を独立監査中（2026-09-16）
+
+対象ecf1aec20d9157e72d855a5d4cc47a8b05c38dc6。[PR #27](https://github.com/futsalife24-bot/swarm-front/pull/27)、[監査Chat](https://chatgpt.com/c/6aaa7ff6-6bc0-83ee-bcbf-15c6ca137ac7)へ差分/ソース/3幅画像ZIP送信済み。通常/Pages build・production dry-run成功。合格後main反映・公開へ進む。[詳細](TITLE-TUTORIAL.md)。
+
 # 現在地: タイトルのチュートリアルを実装・自己検証済み（2026-09-16）
 
 branch codex/title-tutorial、base 83e0050。タイトルだけの入口と各ページ/システム/進め方の3タブ。型・通常build・3幅全タブ/操作/保存不変・4幅武器UI成功。[詳細](TITLE-TUTORIAL.md)。独立監査・main反映・公開準備中。
