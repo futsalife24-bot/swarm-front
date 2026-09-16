@@ -1128,16 +1128,18 @@ function header(title: string, body: string, nav = true) {
   const eyebrow =
     screen === "gear"
       ? "LOADOUT / SOLO"
-      : screen === "armory"
-        ? "ARSENAL"
-        : screen === "growth"
-          ? "PERSONNEL"
-          : screen === "accessories"
-            ? "EQUIPMENT"
-            : "OPERATION RESULTS";
+      : screen === "base"
+        ? "BASE"
+        : screen === "armory"
+          ? "ARSENAL"
+          : screen === "growth"
+            ? "PERSONNEL"
+            : screen === "accessories"
+              ? "EQUIPMENT"
+              : "OPERATION RESULTS";
   const panel =
     screen === "gear" ? "gear" : screen === "result" ? "result" : "armory";
-  ui.innerHTML = `<section class="panel ${panel} menu-screen pt-screen"><header class="menu-header"><div><div class="eyebrow">${eyebrow}${developerMode ? " · 管理者モード" : mode === "test" ? " · TEST DATA" : ""}</div><h1>${esc(title)}</h1></div>${nav ? '<nav><button id="pt-gear">出撃準備</button><button id="pt-armory">武器庫</button><button id="pt-growth">育成</button><button id="pt-accessory">アクセサリ</button><button id="pt-home">タイトルへ</button></nav>' : ""}</header><p class="pt-status" role="status">${esc(notice)}</p>${body}</section>`;
+  ui.innerHTML = `<section class="panel ${panel} menu-screen pt-screen"><header class="menu-header"><div><div class="eyebrow">${eyebrow}${developerMode ? " · 管理者モード" : mode === "test" ? " · TEST DATA" : ""}</div><h1>${esc(title)}</h1></div>${nav ? '<nav><button id="pt-gear">出撃準備</button><button id="pt-base">基地</button><button id="pt-home">タイトルへ</button></nav>' : ""}</header><p class="pt-status" role="status">${esc(notice)}</p>${body}</section>`;
   bind("pt-home", home);
   if (sampleMenus && nav) {
     $("pt-home").textContent = "サンプル終了";
@@ -1148,15 +1150,9 @@ function header(title: string, body: string, nav = true) {
     });
   }
   bind("pt-gear", gear);
-  bind("pt-armory", armory);
-  bind("pt-growth", growth);
-  bind("pt-accessory", accessories);
+  bind("pt-base", base);
   if (nav) {
     ui.querySelector("#pt-" + screen)?.remove();
-    if (screen === "gear") {
-      ui.querySelector("#pt-accessory")?.remove();
-      ui.querySelector("#pt-growth")?.remove();
-    }
     ui.querySelector(".menu-header nav")!.insertAdjacentHTML(
       "beforeend",
       '<button id="pt-settings">設定・操作</button>',
@@ -1259,7 +1255,7 @@ function showHome(initialized: boolean) {
           },
         );
   bind("solo", () => enter(gear));
-  bind("open-armory", () => enter(armory));
+  bind("open-armory", () => enter(base));
   if (developerMode)
     ui.querySelector(".home-utilities")!.insertAdjacentHTML(
       "beforeend",
@@ -1287,11 +1283,6 @@ function showHome(initialized: boolean) {
       ).join(""),
     ),
   );
-  ui.querySelector(".home-utilities")!.insertAdjacentHTML(
-    "beforeend",
-    '<button id="pt-growth">兵士・育成</button>',
-  );
-  bind("pt-growth", () => enter(growth));
   if (mode === "test")
     ui.querySelector(".connection-dot")!.textContent = developerMode
       ? "管理者モード · 全解放"
@@ -1608,12 +1599,27 @@ function toggleLock(id: string, after: () => void) {
     );
   else apply();
 }
+function base() {
+  setScreen("base");
+  header(
+    "基地",
+    `<div class="pt-base-menu">
+      <button id="pt-base-weapons"><strong>武器</strong><span>一覧・比較・整理</span><small>${allWeapons(save).length}丁を所持</small></button>
+      <button id="pt-base-accessories"><strong>アクセサリ</strong><span>作成・装備・合成</span><small>${save.accessories.length}個を所持</small></button>
+      <button id="pt-base-growth"><strong>育成</strong><span>兵士の能力を強化</span><small>兵士ごとの成長を管理</small></button>
+      <button id="pt-base-workshop" disabled aria-describedby="pt-workshop-note"><strong>工房</strong><span>工事中</span><small id="pt-workshop-note">武器のグレードアップ施設を準備中</small></button>
+    </div>`,
+  );
+  bind("pt-base-weapons", armory);
+  bind("pt-base-accessories", accessories);
+  bind("pt-base-growth", growth);
+}
 function armory() {
   setScreen("armory");
   if (!armoryKind) {
     checked.clear();
     header(
-      "武器庫",
+      "武器",
       `<div class="pt-armory-genres">${(Object.keys(weaponGenres) as Kind[]).map((kind) => `<button data-genre="${kind}"><strong>${weaponGenres[kind]}</strong><span>${allWeapons(save).filter((w) => w.kind === kind).length}丁</span><small>武器一覧へ ›</small></button>`).join("")}</div>`,
     );
     ui.querySelectorAll<HTMLButtonElement>("[data-genre]").forEach(

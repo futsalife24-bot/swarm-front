@@ -1,3 +1,7 @@
+# 現在地: 基地4メニューを実装・自己検証済み（2026-09-16）
+
+branch codex/base-menu、base 32b1d19。タイトル基地→武器/アクセサリ/育成/工房（disabled・工事中）の4導線。型・通常build・3幅全導線・4幅武器UI基準成功。[詳細](BASE-MENU.md)。独立監査・main反映・公開準備中。
+
 # 現在地: コンパクトなソート・絞り込みをmain反映・公開済み（2026-09-16）
 
 [PR #23](https://github.com/futsalife24-bot/swarm-front/pull/23)を通常merge。[独立Chat監査](https://chatgpt.com/c/6aaa5029-3db4-83ee-ae54-08d28735dbc8)で実装 `2fe1e96f9a7146b4093ea0ff53d994c0492cf924` 合格・必須指摘0件。公開ソース `a25814a88396869ba138eab9b99de0dae8577f62`、Worker Version `744ad0a2-7302-4b50-a2a4-bf9a8be15b1c`。ソートと絞り込みを1ボタンの小型パネルへ統合し、お気に入りソート・絞り込み追加。
