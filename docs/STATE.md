@@ -1,6 +1,6 @@
 # 現在地: クリア表示・回復/武器ドロップを実装、独立監査待ち（2026-09-16）
 
-branch `codex/clear-and-pickups`、base/main `ce0c31d70c89ebb703adfd5a450ca44b067fd371`。クリア暗幕・暗転を撤去し文字とボタンに限定。回復ケースと武器ケースをコード生成3Dへ変更。型・単体16件・両build・実Chrome横画面3幅で移動/両回収/結果ボタン成功。[差分・証拠・検証](CLEAR-PICKUPS.md)。
+[PR #15](https://github.com/futsalife24-bot/swarm-front/pull/15)、実装HEAD `0a60f2e`（後続は記録のみ）。branch `codex/clear-and-pickups`、base/main `ce0c31d70c89ebb703adfd5a450ca44b067fd371`。クリア暗幕・暗転を撤去し文字とボタンに限定。回復ケースと武器ケースをコード生成3Dへ変更。型・単体16件・両build・実Chrome横画面3幅で移動/両回収/結果ボタン成功。[差分・証拠・検証](CLEAR-PICKUPS.md)。
 
 停止理由: README第9行のChat独立監査条件が未充足。main反映・Worker公開は未実施。
 再開条件: 今回のPR HEADの独立監査と必要な承認を受領し、既存保護を守ってmain反映・公開・配信照合を行う。
@@ -661,4 +661,3 @@ EDFはミニマップが視点に追従して回転するためこの分担が�
 
 ## 2026-09-12 下向き移動のカメラ振動
 カメラ位置と注視点の補間基準を統一。原因・差分・修正前後の計測は docs/CAMERA-JITTER.md。
-
