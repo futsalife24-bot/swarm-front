@@ -55,15 +55,17 @@ export function kindSummary(kind: Kind | "all") {
 export function kindHelp(kind: Kind) {
   return `<button type="button" class="weapon-help-button kind-help" data-kind-help="${kind}" aria-label="${kinds[kind][0]}の説明" aria-haspopup="dialog">?</button>`;
 }
-export function effectHelp(effect: Effect, kind: Kind) {
+export function effectHelp(effect: Effect, kind: Kind, compact = false) {
   if (!isSpecialEffect(effect, kind))
     return '<span class="standard-effect" data-no-effect>ー</span>';
-  return `<button type="button" class="weapon-help-button effect-help" data-effect-help="${effect}" aria-label="${effects[effect][0]}の説明" aria-haspopup="dialog">${effectText(effect, kind)}<span aria-hidden="true"> ⓘ</span></button>`;
+  const label =
+    compact && effect === "reserve" ? "残数装填" : effectText(effect, kind);
+  return `<button type="button" class="weapon-help-button effect-help" data-effect-help="${effect}" aria-label="${label}の説明" aria-haspopup="dialog">${label}${compact ? "" : '<span aria-hidden="true"> ⓘ</span>'}</button>`;
 }
 
 export function effectText(effect: Effect, kind: Kind) {
   if (!isSpecialEffect(effect, kind)) return "ー";
-  if (effect === "pierce") return "貫通 ×3";
+  if (effect === "pierce") return "貫通×3";
   return effects[effect][0];
 }
 

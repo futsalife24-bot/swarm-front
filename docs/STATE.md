@@ -1,3 +1,7 @@
+# 現在地: 特殊効果タップ説明を実装・自己検証済み（2026-09-17）
+
+branch codex/effect-help、base b070a10。4文字以内の効果ボタンから既存説明dialogを表示。型・4幅UI基準・2幅28条件の操作/保存不変確認成功。独立監査・main反映・公開準備中。[詳細](GEAR-EFFECT-HELP.md)。
+
 # 現在地: 武器能力印の基準統一をmain反映・公開済み（2026-09-16）
 
 [PR #29](https://github.com/futsalife24-bot/swarm-front/pull/29)通常merge。ユーザー「今回はこのまま公開して」により今回限定で独立Chat監査省略（未送信）。公開ソース a423630c99f08571505ebf6f298d25d3b42dc20f、Version 4fec9a05-9ede-4e20-a190-72e3fa5db739。全武器の印を同レア標準比に統一、★は+20%ちょうど。保存/実性能変更なし。
