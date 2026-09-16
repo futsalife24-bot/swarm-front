@@ -1,4 +1,5 @@
-import { effectLabel, stats, WEAPONS } from "../shared/defs";
+import { stats, WEAPONS } from "../shared/defs";
+import { effectHelp } from "./weapon-help";
 import {
   varianceClass,
   varianceMark,
@@ -38,11 +39,7 @@ export function gearWeaponRows(
   const renderRow = (w: StoredWeapon, pinned = false) => {
     const d = stats(w),
       slot = equipped.indexOf(w.id),
-      pending = save.pending.some((item) => item.id === w.id),
-      label = effectLabel(w);
-    const shortEffect = label
-      .replace("貫通：最大3体", "貫通×3")
-      .replace("高速装填：20%短縮", "装填−20%");
+      pending = save.pending.some((item) => item.id === w.id);
     const values = [
       `${d.damage.toFixed(0)}${d.pellets > 1 ? "×" + d.pellets : ""}`,
       String(d.mag),
@@ -50,7 +47,7 @@ export function gearWeaponRows(
       Number(d.range.toFixed(1)) + "m",
       (1 / d.interval).toFixed(1),
     ];
-    return `<div class="pt-weapon-row ${slot >= 0 ? "is-equipped" : ""} ${pinned ? "gear-pinned-row" : ""}" ${pinned ? "data-pinned" : "data-row"}="${esc(w.id)}" style="--weapon-tier:${tiers[weaponTier(w)]}"><div class="pt-identity">${organizing && !pinned ? `<input type="checkbox" data-check="${esc(w.id)}" aria-label="${esc(d.name)}を解体対象に選択" ${checked.has(w.id) ? "checked" : ""} ${weaponProtected(save, w.id) ? "disabled" : ""}>` : ""}<button data-detail="${esc(w.id)}" aria-label="${esc(d.name)} ${weaponGrade(w)}${pending ? " 超過・整理待ち" : ""}${slot >= 0 ? " 装備" + (slot + 1) : ""} 詳細"><small class="gear-rarity pt-grade-${weaponTier(w)}">${weaponGrade(w)}</small><b>${esc(WEAPONS[w.kind].name)}</b>${slot >= 0 ? `<span class="gear-equipped" title="装備${slot + 1}">E${slot + 1}</span>` : pending ? '<span class="gear-equipped" title="超過・整理待ち" aria-label="超過・整理待ち">!</span>' : ""}</button></div><div class="pt-stat-scroll"><div class="pt-stat-inner"><span class="gear-effect" title="${esc(label)}">${esc(shortEffect)}</span>${values.map((value, i) => `<span class="pt-var-${varianceClass(weaponStatVariance(w, keys[i]))}">${value}<sup>${varianceMark(weaponStatVariance(w, keys[i]))}</sup></span>`).join("")}</div></div>${pinned ? `<button class="gear-pinned-label" data-pinned-detail="${esc(w.id)}">装備${selectedSlot! + 1}</button>` : `<button data-lock="${esc(w.id)}" aria-label="${esc(d.name)}のロック" aria-pressed="${save.locks.includes(w.id)}">${lockMarkup(save.locks.includes(w.id))}</button>`}</div>`;
+    return `<div class="pt-weapon-row ${slot >= 0 ? "is-equipped" : ""} ${pinned ? "gear-pinned-row" : ""}" ${pinned ? "data-pinned" : "data-row"}="${esc(w.id)}" style="--weapon-tier:${tiers[weaponTier(w)]}"><div class="pt-identity">${organizing && !pinned ? `<input type="checkbox" data-check="${esc(w.id)}" aria-label="${esc(d.name)}を解体対象に選択" ${checked.has(w.id) ? "checked" : ""} ${weaponProtected(save, w.id) ? "disabled" : ""}>` : ""}<button data-detail="${esc(w.id)}" aria-label="${esc(d.name)} ${weaponGrade(w)}${pending ? " 超過・整理待ち" : ""}${slot >= 0 ? " 装備" + (slot + 1) : ""} 詳細"><small class="gear-rarity pt-grade-${weaponTier(w)}">${weaponGrade(w)}</small><b>${esc(WEAPONS[w.kind].name)}</b>${slot >= 0 ? `<span class="gear-equipped" title="装備${slot + 1}">E${slot + 1}</span>` : pending ? '<span class="gear-equipped" title="超過・整理待ち" aria-label="超過・整理待ち">!</span>' : ""}</button></div><div class="pt-stat-scroll"><div class="pt-stat-inner"><span class="gear-effect">${effectHelp(w.effect, w.kind, true)}</span>${values.map((value, i) => `<span class="pt-var-${varianceClass(weaponStatVariance(w, keys[i]))}">${value}<sup>${varianceMark(weaponStatVariance(w, keys[i]))}</sup></span>`).join("")}</div></div>${pinned ? `<button class="gear-pinned-label" data-pinned-detail="${esc(w.id)}">装備${selectedSlot! + 1}</button>` : `<button data-lock="${esc(w.id)}" aria-label="${esc(d.name)}のロック" aria-pressed="${save.locks.includes(w.id)}">${lockMarkup(save.locks.includes(w.id))}</button>`}</div>`;
   };
   const pinned =
     selectedSlot === undefined

@@ -1,3 +1,15 @@
+# 現在地: 特殊効果説明PR #30が独立監査合格（2026-09-17）
+
+対象2091b9a26f3ed3a3d356823a7637c808315a2075は合格・必須指摘なし。追加は記録文書のみ。[詳細/監査Chat](GEAR-EFFECT-HELP.md)。main反映・既存Worker公開へ進む。
+
+# 現在地: 特殊効果説明PR #30を独立監査中（2026-09-17）
+
+対象2091b9a26f3ed3a3d356823a7637c808315a2075、branch codex/effect-help。[監査Chat](https://chatgpt.com/c/6aab056e-2750-83ee-af1a-84e43782cc1e)へ差分・ソース・証拠ZIP送信済み。型・4幅UI・28操作条件・両build・production dry-run成功。[詳細](GEAR-EFFECT-HELP.md)。監査後main反映/公開へ進む。
+
+# 現在地: 特殊効果タップ説明を実装・自己検証済み（2026-09-17）
+
+branch codex/effect-help、base b070a10。4文字以内の効果ボタンから既存説明dialogを表示。型・4幅UI基準・2幅28条件の操作/保存不変確認成功。独立監査・main反映・公開準備中。[詳細](GEAR-EFFECT-HELP.md)。
+
 # 現在地: 武器能力印の基準統一をmain反映・公開済み（2026-09-16）
 
 [PR #29](https://github.com/futsalife24-bot/swarm-front/pull/29)通常merge。ユーザー「今回はこのまま公開して」により今回限定で独立Chat監査省略（未送信）。公開ソース a423630c99f08571505ebf6f298d25d3b42dc20f、Version 4fec9a05-9ede-4e20-a190-72e3fa5db739。全武器の印を同レア標準比に統一、★は+20%ちょうど。保存/実性能変更なし。
