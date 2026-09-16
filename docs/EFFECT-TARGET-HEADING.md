@@ -15,3 +15,7 @@ base a2d3eb41a1b11a98a0b51485628cbbf59cde8b95、branch codex/effect-target-headi
 ## 独立監査合格
 
 対象b4493ffd1e01718cd8d0fa04fa35086466b73be7は合格・必須指摘なし。4種対応/本文数値と制約維持/20画像を確認。後続e990b98は監査記録文書のみ。任意提案の武器種help UIテスト追加は未実施（コード分岐は確認済み）。監査側ではbuild再実行/実スマホ未確認。main反映・公開へ進む。
+
+## main反映・公開完了
+
+PR #31通常merge。公開ソースa5073b0836b45f2b45fe00be40e4c6d9e486ae86、Worker Version 54284dd6-4541-4096-b9fd-d0356021a24f。merge後build/dry-run成功、配信12ファイルSHA-256一致・health ok。公開iabタイトル→出撃準備成功・errorログ0。公開保存は初期武器のみのため効果dialogはローカル合成保存で確認、実スマホ未確認。[操作結果](evidence/effect-target-heading/results.json)・[配信照合](evidence/effect-target-heading/published.json)。後続は公開記録のみ。

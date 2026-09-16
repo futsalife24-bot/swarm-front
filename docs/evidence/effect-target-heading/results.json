@@ -1,0 +1,30 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "organizing": false,
+    "cases": 7,
+    "saveUnchanged": true
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "organizing": true,
+    "cases": 7,
+    "saveUnchanged": true
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "organizing": false,
+    "cases": 7,
+    "saveUnchanged": true
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "organizing": true,
+    "cases": 7,
+    "saveUnchanged": true
+  }
+]

@@ -1,3 +1,9 @@
+# 現在地: 効果名横の対象武器表示をmain反映・公開済み（2026-09-17）
+
+[PR #31](https://github.com/futsalife24-bot/swarm-front/pull/31)通常merge。対象b4493ffは独立監査合格・必須指摘なし。公開ソースa5073b0836b45f2b45fe00be40e4c6d9e486ae86、Version 54284dd6-4541-4096-b9fd-d0356021a24f。効果名横に対象武器、本文の重複を削除。
+
+型・2幅28条件・両build・merge後build/dry-run成功、配信12ファイルSHA一致・health ok、公開iab出撃準備/errorログ0。4効果dialogはローカルで確認、実スマホ未確認。[詳細/証拠/限界](EFFECT-TARGET-HEADING.md)。後続は公開記録のみ。
+
 # 現在地: 対象武器見出しPR #31が独立監査合格（2026-09-17）
 
 対象b4493ffd1e01718cd8d0fa04fa35086466b73be7は合格・必須指摘なし。後続は記録文書のみ。[詳細/監査](EFFECT-TARGET-HEADING.md)。main反映・既存Worker公開へ進む。
