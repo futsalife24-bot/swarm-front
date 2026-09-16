@@ -1450,8 +1450,19 @@ function bindList(context: string) {
       checked.clear();
       gear();
     });
-  const redraw = () =>
+  const redraw = () => {
+    const menu = ui.querySelector<HTMLDetailsElement>(".pt-bulk-menu");
+    const grade = ui.querySelector<HTMLSelectElement>("#pt-bulk-grade")?.value;
+    const includeGood = ui.querySelector<HTMLInputElement>("#pt-include-good")?.checked;
+    const open = menu?.open ?? false;
     context === "result" ? result() : context === "gear" ? gear() : armory();
+    const nextMenu = ui.querySelector<HTMLDetailsElement>(".pt-bulk-menu");
+    if (nextMenu) nextMenu.open = open;
+    const nextGrade = ui.querySelector<HTMLSelectElement>("#pt-bulk-grade");
+    if (nextGrade && grade !== undefined) nextGrade.value = grade;
+    const nextIncludeGood = ui.querySelector<HTMLInputElement>("#pt-include-good");
+    if (nextIncludeGood) nextIncludeGood.checked = includeGood ?? false;
+  };
   ($("pt-filter") as HTMLSelectElement).value = filter;
   ($("pt-sort") as HTMLSelectElement).value = sort;
   $("pt-filter").onchange = () => {

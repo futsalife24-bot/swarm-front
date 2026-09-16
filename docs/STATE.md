@@ -1,3 +1,7 @@
+# 現在地: 一括操作パネル保持を実装・自己検証済み、独立監査準備中（2026-09-16）
+
+branch: codex/keep-bulk-menu-open、base: d5fbc9f。描き直し時の開閉状態と選択条件を維持。[変更・検証](BULK-MENU.md)。main反映・公開は監査後。
+
 # 現在地: 更新履歴自動化・監査経路固定をmain反映・公開済み（2026-09-16）
 
 [PR #20](https://github.com/futsalife24-bot/swarm-front/pull/20)を通常merge。対象 `5dbfa001521fdaa419faef3cf871898b8cfba04f` に[独立Chat監査](https://chatgpt.com/c/6aaa32e6-df78-83e9-b47d-f8d58a4ce8a9)「合格・必須指摘0件」。公開ソース `9afcaa7d3933296ffb696147e6fb1c1caf9715cb` は監査対象からAGENTS/docsだけの差分。merge本文のPlayer-Note保持・merge後mainのbuild成功。
@@ -711,3 +715,4 @@ EDFはミニマップが視点に追従して回転するためこの分担が�
 
 ## 2026-09-12 下向き移動のカメラ振動
 カメラ位置と注視点の補間基準を統一。原因・差分・修正前後の計測は docs/CAMERA-JITTER.md。
+
