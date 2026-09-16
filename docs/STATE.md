@@ -1,3 +1,7 @@
+# 現在地: 武器能力印PR #25を独立監査中（2026-09-16）
+
+対象 5190f349cdcf4c4e38c50e22ea702c5df8cdbcbc。[監査Chat](https://chatgpt.com/c/6aaa686f-d668-83ee-83e9-a00c76843c26)へソース/差分/画面証拠ZIPを送信済み。production dry-run成功。合格後main反映・公開する。
+
 # 現在地: 旧武器の能力印を復元・自己検証済み（2026-09-16）
 
 branch codex/restore-weapon-marks、base 7bf75c5。旧武器の個体補正から一覧/詳細の印を復元。保存/戦闘値変更なし。型・単体2件・両build・4幅UI基準・2幅対象画面成功。[詳細](WEAPON-STAT-MARKS.md)。独立監査・main反映・公開準備中。
