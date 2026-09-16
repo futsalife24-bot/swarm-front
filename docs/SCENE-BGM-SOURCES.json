@@ -1,0 +1,51 @@
+[
+  {
+    "file": "title.mp3",
+    "title": "スワフロ：タイトル「戦線の灯」.mp3",
+    "driveId": "1FsXTTLSewv97lCwRX6cImBi3hFJjEQcX",
+    "size": 3374244,
+    "sha256": "8f3498df9ac03c0e1021f5277f4ef77319f2515b60b4a9880dbbf5853ed63344"
+  },
+  {
+    "file": "base.mp3",
+    "title": "スワフロ：基地・武器庫・アクセサリ・育成「帰還した場所」.mp3",
+    "driveId": "1e1qTkhRMms0ZFVLVt1alWxvy9sp29DQR",
+    "size": 4643957,
+    "sha256": "dad86a8e7d350bca0003da86a94a16d302df6e02371ed7d047705271ff287047"
+  },
+  {
+    "file": "prepare.mp3",
+    "title": "スワフロ：ステージ選択・出撃準備「出撃待機」.mp3",
+    "driveId": "1ESl3ufQpU5cuHQhBELi8cyqtwG-k2g7s",
+    "size": 2248347,
+    "sha256": "bacc5580e275a4ac06a7a0439a99ecbab8842ec18c8a4f6ac06f5b76031c0ec3"
+  },
+  {
+    "file": "lobby.mp3",
+    "title": "スワフロ：協力ロビー「集結、次の戦場へ」.mp3",
+    "driveId": "1dP98wcQBewb2eZ2TScXPkJwofyOhPbfu",
+    "size": 1394591,
+    "sha256": "23281e57eec4e6e3b3d1984744fa4615347a40855fa9e338ec6b67d1920588d4"
+  },
+  {
+    "file": "report.mp3",
+    "title": "スワフロ：エネミーレポート「不完全な模倣」.mp3",
+    "driveId": "1s4V5-XeR-IiJm9odaSL_qOXvFiEfLzNm",
+    "size": 3808185,
+    "sha256": "7a896f4b80119f641cc8ac9b6417fc909aa2e7513e6bb74f6a71eb439d5ee68a"
+  },
+  {
+    "file": "clear.mp3",
+    "title": "スワフロ：ステージクリア短音「作戦完了」.mp3",
+    "driveId": "13XnC7hBF9AvlBKEL0DmVbqNCCxOEiG7d",
+    "size": 206299,
+    "sha256": "0a3ea9bb641950a6ee10a6970bdfbc7cd8de2d34c681dc09b10e78b88b42b9fd"
+  },
+  {
+    "file": "victory.mp3",
+    "title": "スワフロ：勝利リザルト・戦利品確認「次の戦場へ」.mp3",
+    "driveId": "1y3OWlqrFEC7uCQytQ86wLZkUqCVLmFbf",
+    "size": 1236162,
+    "sha256": "496abe1a50cf33dd1c52f3ec4de6470d20b7a82b8e109d2f668f87a6e9eed79b"
+  }
+]

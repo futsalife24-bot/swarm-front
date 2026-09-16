@@ -1,3 +1,4 @@
+import { backgroundMusic } from "./client/bgm";
 import { resourceFrame } from "./client/resource-frame";
 import { newSaveKey } from "./client/progression-save";
 import {
@@ -406,6 +407,7 @@ const weaponName = (w: Weapon) => WEAPONS[w.kind].name;
 const equipped = () =>
   save.equipped.map((id) => save.inventory.find((w) => w.id === id)!);
 function setScreen(name: string) {
+  backgroundMusic().setScreen(name, world?.phase === "victory");
   queueMicrotask(() =>
     enhanceGameSelects(
       ui,

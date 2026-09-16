@@ -1,3 +1,4 @@
+import { backgroundMusic } from "./bgm";
 import { CombatAudio } from "./combat-audio";
 import type { World } from "../shared/game";
 const LEVELS: Record<string, number> = {
@@ -57,6 +58,7 @@ export class Sound {
   }
   set volume(v: number) {
     this.level = Number.isFinite(v) ? Math.max(0, Math.min(1, v)) : 0;
+    backgroundMusic().volume = this.level;
     if (this.master && this.context)
       this.master.gain.setTargetAtTime(
         this.level,
@@ -100,6 +102,7 @@ export class Sound {
     return this.loading;
   }
   unlock() {
+    backgroundMusic().unlock();
     try {
       if (!this.context) {
         this.context = new AudioContext();
