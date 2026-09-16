@@ -15,30 +15,36 @@ const kinds: Record<Kind, [string, string]> = {
     "着弾地点の周囲を爆風で攻撃します。密集した敵に有効ですが、装弾数が少なく、装填の隙があります。建物に当たると、そこで爆発します。",
   ],
 };
-const effects: Record<Effect, [string, string]> = {
+const effects: Record<Effect, [string, string, string]> = {
   repel: [
     "撃退散弾",
-    "ショットガン専用。8m以内で命中した通常敵を最大3m押し戻します。1回の射撃につき各敵に1回だけ作用し、ボスや建物の向こうへは押し出せません。標準性能の貫通と併用できます。",
+    "8m以内で命中した通常敵を最大3m押し戻します。1回の射撃につき各敵に1回だけ作用し、ボスや建物の向こうへは押し出せません。標準性能の貫通と併用できます。",
+    "ショットガン",
   ],
   chain: [
     "誘爆弾頭",
-    "ロケット専用。直撃した通常敵をその爆風で倒すと、その敵の位置に半径3.5mの追加爆発が発生します。中心威力は武器威力の50%で、外側ほど低下します。壁で遮られ、追加爆発からの再誘爆はありません。壁・地面への着弾や、爆風だけで倒した敵、ボスの撃破では誘爆しません。",
+    "直撃した通常敵をその爆風で倒すと、その敵の位置に半径3.5mの追加爆発が発生します。中心威力は武器威力の50%で、外側ほど低下します。壁で遮られ、追加爆発からの再誘爆はありません。壁・地面への着弾や、爆風だけで倒した敵、ボスの撃破では誘爆しません。",
+    "ロケット",
   ],
   reserve: [
     "残弾装填",
-    "リロード開始時の残弾割合に応じて、装填時間を短縮します。短縮率は残弾割合の半分（上限50%）。半分残っていれば25%短縮、空なら短縮なしです。満タンではリロードできません。全武器種に付きます。性能欄の装填時間は、空から装填する場合の時間です。",
+    "リロード開始時の残弾割合に応じて、装填時間を短縮します。短縮率は残弾割合の半分（上限50%）。半分残っていれば25%短縮、空なら短縮なしです。満タンではリロードできません。性能欄の装填時間は、空から装填する場合の時間です。",
+    "全武器",
   ],
   none: [
     "標準仕様",
     "特殊効果は付いていません。武器種の基本能力と、表示されている性能で攻撃します。",
+    "全武器",
   ],
   pierce: [
     "貫通",
-    "アサルトライフル専用の特殊効果です。1発の弾が射線上の敵を最大3体まで貫通します。建物は貫通しません。",
+    "1発の弾が射線上の敵を最大3体まで貫通します。建物は貫通しません。",
+    "アサルトライフル",
   ],
   quick: [
     "高速装填",
     "装填時間を20%短縮します。一覧と詳細の装填時間には、この短縮がすでに反映されています。",
+    "全武器",
   ],
 };
 export function kindSummary(kind: Kind | "all") {
@@ -95,6 +101,12 @@ document.addEventListener(
     const title = document.createElement("h2");
     title.id = "weapon-help-title";
     title.textContent = entry[0];
+    if (trigger.dataset.effectHelp) {
+      const target = document.createElement("small");
+      target.className = "weapon-help-target";
+      target.textContent = `（対象武器：${effects[trigger.dataset.effectHelp as Effect][2]}）`;
+      title.append(target);
+    }
     const body = document.createElement("p");
     body.id = "weapon-help-body";
     body.textContent = entry[1];

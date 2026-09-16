@@ -1,3 +1,15 @@
+# 現在地: 対象武器見出しPR #31が独立監査合格（2026-09-17）
+
+対象b4493ffd1e01718cd8d0fa04fa35086466b73be7は合格・必須指摘なし。後続は記録文書のみ。[詳細/監査](EFFECT-TARGET-HEADING.md)。main反映・既存Worker公開へ進む。
+
+# 現在地: 対象武器見出しPR #31を独立監査中（2026-09-17）
+
+対象b4493ffd1e01718cd8d0fa04fa35086466b73be7。[監査Chat](https://chatgpt.com/c/6aab12af-b96c-83ee-9540-b1486e7f3566)へ資料送信済み。型・2幅28条件・両build・production dry-run成功。合格後main反映・公開へ進む。[詳細](EFFECT-TARGET-HEADING.md)。
+
+# 現在地: 効果説明の対象武器を見出しへ移動・自己検証済み（2026-09-17）
+
+branch codex/effect-target-heading、base a2d3eb4。効果名横に対象武器を表示、本文の対象武器説明を削除。型・2幅28条件の操作/見出し/本文/保存不変確認成功。独立監査・main反映・公開準備中。[詳細](EFFECT-TARGET-HEADING.md)。
+
 # 現在地: 特殊効果タップ説明をmain反映・公開済み（2026-09-17）
 
 [PR #30](https://github.com/futsalife24-bot/swarm-front/pull/30)通常merge。対象2091b9aは独立Chat監査合格・必須指摘なし。公開ソース906e3d690156b755b2bca3e37c6288378e83504b、Version f74c9e07-f561-46b0-907c-b2ba18620aca。効果を4文字以内のボタン化、タップで説明。保存/戦闘性能変更なし。

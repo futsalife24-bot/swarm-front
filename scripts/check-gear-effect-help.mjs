@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import assert from 'node:assert/strict';
 
 const origin = 'http://127.0.0.1:5347';
-const out = 'dist-validation/gear-effect-help';
+const out = process.env.EFFECT_HELP_OUT || 'dist-validation/gear-effect-help';
 fs.mkdirSync(out, { recursive: true });
 const fixture = JSON.parse(fs.readFileSync('dist-validation/gear-pinned/fixture.json', 'utf8'));
 const cases = [
@@ -43,9 +43,16 @@ try {
           await button.tap();
           const dialog = page.locator('.weapon-help-dialog[open]');
           assert.ok((await dialog.innerText()).includes(description));
+          const target = { pierce: 'アサルトライフル', reserve: '全武器', repel: 'ショットガン', chain: 'ロケット' }[effect];
+          assert.equal(await dialog.locator('h2 .weapon-help-target').innerText(), `（対象武器：${target}）`);
+          assert.ok(!/専用|全武器種に付きます|対象武器/.test(await dialog.locator('p').innerText()));
+          const titleBox = await dialog.locator('h2').boundingBox();
+          const targetBox = await dialog.locator('.weapon-help-target').boundingBox();
+          assert.ok(targetBox.y < titleBox.y + 25, 'target stays beside effect name');
+          assert.ok(targetBox.x + targetBox.width <= titleBox.x + titleBox.width + 1);
           const box = await dialog.boundingBox();
           assert.ok(box.x >= 0 && box.y >= 0 && box.x + box.width <= width && box.y + box.height <= height);
-          if (effect === 'reserve') await page.screenshot({ path: `${out}/${width}-${organizing}-dialog.png` });
+          await page.screenshot({ path: `${out}/${width}-${organizing}-${effect}-dialog.png` });
           await dialog.getByRole('button', { name: '閉じる', exact: true }).click();
           await page.locator('.weapon-help-dialog').waitFor({ state: 'detached' });
           assert.equal(await page.locator('.weapon-help-dialog').count(), 0);
