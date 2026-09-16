@@ -5,6 +5,7 @@
   "lang": "ja",
   "start_url": "./",
   "scope": "./",
+  "launch_handler": { "client_mode": "focus-existing" },
   "display": "fullscreen",
   "orientation": "landscape",
   "background_color": "#0c1820",

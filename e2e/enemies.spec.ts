@@ -1,3 +1,4 @@
+import { copyInvite } from "./invite";
 import { test, expect } from "@playwright/test";
 import { localCreationKey } from "../tests/credentials";
 test("new enemies and articulated boss arrive on two real clients", async ({
@@ -31,10 +32,7 @@ test("new enemies and articulated boss arrive on two real clients", async ({
     expect((await creation).status()).toBe(200);
     await expect(a.locator("#lobby-stage")).toBeVisible();
     await ca.grantPermissions(["clipboard-read", "clipboard-write"]);
-    await a
-      .getByRole("button", { name: "招待リンクをコピー", exact: true })
-      .click();
-    const invite = await a.evaluate(() => navigator.clipboard.readText()),
+    const invite = await copyInvite(a),
       code = invite.split("#")[1];
     await b.goto(invite);
     await b.locator(".coop-advanced summary").click();

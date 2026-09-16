@@ -1,0 +1,119 @@
+{
+  "results": [
+    {
+      "width": 667,
+      "bounds": {
+        "id": {
+          "x": 126.9375,
+          "y": 65.296875,
+          "right": 174.9375,
+          "bottom": 77.296875
+        },
+        "copy": {
+          "x": 179.9375,
+          "y": 53.296875,
+          "right": 215.9375,
+          "bottom": 89.296875
+        },
+        "share": {
+          "x": 233.9375,
+          "y": 39.640625,
+          "right": 344.25,
+          "bottom": 73.640625
+        },
+        "title": {
+          "x": 25,
+          "y": 24,
+          "right": 215.9375,
+          "bottom": 89.296875
+        },
+        "exit": {
+          "x": 592,
+          "y": 39.640625,
+          "right": 642,
+          "bottom": 73.640625
+        }
+      }
+    },
+    {
+      "width": 844,
+      "bounds": {
+        "id": {
+          "x": 126.9375,
+          "y": 65.296875,
+          "right": 174.9375,
+          "bottom": 77.296875
+        },
+        "copy": {
+          "x": 179.9375,
+          "y": 53.296875,
+          "right": 215.9375,
+          "bottom": 89.296875
+        },
+        "share": {
+          "x": 241.9375,
+          "y": 39.640625,
+          "right": 352.25,
+          "bottom": 73.640625
+        },
+        "title": {
+          "x": 25,
+          "y": 24,
+          "right": 215.9375,
+          "bottom": 89.296875
+        },
+        "exit": {
+          "x": 769,
+          "y": 39.640625,
+          "right": 819,
+          "bottom": 73.640625
+        }
+      }
+    },
+    {
+      "width": 1280,
+      "bounds": {
+        "id": {
+          "x": 126.9375,
+          "y": 65.296875,
+          "right": 174.9375,
+          "bottom": 77.296875
+        },
+        "copy": {
+          "x": 179.9375,
+          "y": 53.296875,
+          "right": 215.9375,
+          "bottom": 89.296875
+        },
+        "share": {
+          "x": 241.9375,
+          "y": 39.640625,
+          "right": 352.25,
+          "bottom": 73.640625
+        },
+        "title": {
+          "x": 25,
+          "y": 24,
+          "right": 215.9375,
+          "bottom": 89.296875
+        },
+        "exit": {
+          "x": 1205,
+          "y": 39.640625,
+          "right": 1255,
+          "bottom": 73.640625
+        }
+      }
+    },
+    {
+      "activeRoomLaunch": "cancel retains session; accept closes socket and clears old resume"
+    }
+  ],
+  "errors": [],
+  "copyId": true,
+  "shareFallback": true,
+  "realLinkJoin": true,
+  "realIdJoin": true,
+  "simulatedLaunchAcceptCancel": true,
+  "osLinkCapture": "not tested"
+}

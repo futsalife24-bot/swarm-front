@@ -1,3 +1,4 @@
+import { copyInvite } from "./invite";
 import { test, expect } from "@playwright/test";
 import { localCreationKey } from "../tests/credentials";
 import { STARTERS } from "../src/shared/defs";
@@ -116,10 +117,7 @@ test("host stage reaches both clients over real Workers", async ({
     await a.getByRole("button", { name: "ルームを作る" }).click();
     await expect(a.locator(".is-ready")).toHaveCount(1);
     await ca.grantPermissions(["clipboard-read", "clipboard-write"]);
-    await a
-      .getByRole("button", { name: "招待リンクをコピー", exact: true })
-      .click();
-    const invite = await a.evaluate(() => navigator.clipboard.readText());
+    const invite = await copyInvite(a);
     await b.goto(invite);
     await b.locator(".coop-advanced summary").click();
     await b.locator("#endpoint").fill("http://127.0.0.1:8917");
@@ -193,10 +191,7 @@ test("four players load the enlarged nest over real Workers", async ({
     await a.getByRole("button", { name: "ルームを作る" }).click();
     await expect(a.locator(".is-ready")).toHaveCount(1);
     await ca.grantPermissions(["clipboard-read", "clipboard-write"]);
-    await a
-      .getByRole("button", { name: "招待リンクをコピー", exact: true })
-      .click();
-    const invite = await a.evaluate(() => navigator.clipboard.readText());
+    const invite = await copyInvite(a);
     for (const page of [b, c, d]) {
       await page.goto(invite);
       await page.locator(".coop-advanced summary").click();

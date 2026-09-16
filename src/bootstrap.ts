@@ -1,5 +1,6 @@
 import { installPlayerProfile } from "./client/player-profile";
 import "./client/app-install";
+import { installInviteLaunch } from "./client/invite-launch";
 import { startWithSaveWriter } from "./client/save-writer";
 import {
   checkDeveloperSession,
@@ -7,6 +8,7 @@ import {
 } from "./client/developer-access";
 
 async function boot() {
+  installInviteLaunch();
   installPlayerProfile();
   const url = new URL(location.href);
   // Old shared links retain their progress, but no longer select a separate edition.

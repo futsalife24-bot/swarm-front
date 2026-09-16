@@ -1,3 +1,4 @@
+import { copyInvite } from "./invite";
 import { test, expect } from "@playwright/test";
 import { localCreationKey } from "../tests/credentials";
 test("real Worker result, overflow rewards and rematch retain accessible menus", async ({
@@ -19,10 +20,7 @@ test("real Worker result, overflow rewards and rematch retain accessible menus",
     await page.locator("#creation-key").fill(localCreationKey());
     await page.locator("#launch").click();
     await expect(page.locator(".is-ready")).toHaveCount(1);
-    await page.locator("#copy").click();
-    const code = (
-      await page.evaluate(() => navigator.clipboard.readText())
-    ).split("#")[1];
+    const code = (await copyInvite(page)).split("#")[1];
     expect(
       (
         await request.post(

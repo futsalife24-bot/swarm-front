@@ -1,3 +1,9 @@
+# 現在地: ロビーIDコピー・PWA招待を実装・検証、独立監査待ち（2026-09-16）
+
+[PR #18](https://github.com/futsalife24-bot/swarm-front/pull/18)、修正HEAD `f81e143f6df27f24ff9dbb77c80c7ac9984fefde`（初回実装 `bfe537005f5811a3757369c491e3ddb385412f1a`）。branch `codex/lobby-id-pwa-invite`、base/main `cbb4b10aa435397fca996a044a0cceacd8310a40`。コピーを部屋ID横へ移してID専用化、招待共有を右へ離した。PWA起動URL受領とアプリ内URL貼付参加を追加。型・単体2件・両build・実Chrome/WorkerのID・URL参加と横画面3幅を検証。[差分・証拠・限界](LOBBY-INVITE.md)。OSによるPWA自動切替は実機未確認。
+
+[再監査](https://chatgpt.com/c/6aaa2662-7970-83ee-a606-0e752aaf19d5)は修正HEAD `f81e143f6df27f24ff9dbb77c80c7ac9984fefde`に「合格・必須指摘0件」。ZIP再送の承認待ちは解消。main反映・公開・配信照合へ進む段階（まだ公開済みとは扱わない）。
+
 # 現在地: 3人マルチ軽量化・部屋一覧/ID参加をmain反映・公開済み（2026-09-16）
 
 [PR #16](https://github.com/futsalife24-bot/swarm-front/pull/16) の実装HEAD `2802afc9f612eb5f8472070b88e66df256429899` に[独立監査](https://chatgpt.com/c/6aaa19ca-b83c-83ee-8092-baad9f206c09)「合格・必須修正なし」。通常merge後の公開ソース `af4a21721c59858974aa693a41e07d2c00756820` は監査HEADとtree差分0。PR #15のクリア表示・回復/武器ドロップも継承してmain反映済み。#15の別途merge/deployは不要。
