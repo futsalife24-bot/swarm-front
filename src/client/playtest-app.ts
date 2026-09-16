@@ -1,3 +1,4 @@
+import { backgroundMusic } from "./bgm";
 import "../style.css";
 import "../mobile-ui.css";
 import "../menu-ui.css";
@@ -401,7 +402,6 @@ function victory() {
         );
       else endCollection();
     });
-    victoryJingle();
   });
 }
 function endCollection() {
@@ -566,26 +566,6 @@ function encounter() {
     });
     break;
   }
-}
-function victoryJingle() {
-  const ctx = sound.context;
-  if (!ctx) return;
-  const gain = ctx.createGain();
-  gain.gain.value = 0.08 * sound.volume;
-  gain.connect(ctx.destination);
-  [261.63, 329.63, 392, 523.25].forEach((hz, i) => {
-    const osc = ctx.createOscillator(),
-      env = ctx.createGain(),
-      at = ctx.currentTime + i * 0.22;
-    osc.frequency.value = hz;
-    env.gain.setValueAtTime(0, at);
-    env.gain.linearRampToValueAtTime(0.5, at + 0.03);
-    env.gain.exponentialRampToValueAtTime(0.001, at + 1);
-    osc.connect(env);
-    env.connect(gain);
-    osc.start(at);
-    osc.stop(at + 1);
-  });
 }
 function openDeveloperEntry() {
   if (developerMode) {
@@ -1094,6 +1074,7 @@ function commit(next: ProgressSave, after: () => void = () => {}) {
   return true;
 }
 function setScreen(next: string) {
+  backgroundMusic().setScreen(next, save?.result?.win === true);
   queueMicrotask(() => {
     enhanceGameSelects(
       ui,

@@ -1,3 +1,7 @@
+# 現在地: 7曲のシーンBGMを実装・自己検証済み（2026-09-16）
+
+branch codex/scene-bgm、base 2d37bff。提供MP3原本を7場面へ接続。型・戦闘音15単体・実Chrome再生/ミュート/勝敗・実Worker協力ロビー→戦闘停止成功。独立監査・main反映・公開準備中。[詳細/限界](SCENE-BGM.md)。
+
 # 現在地: タイトルのチュートリアルをmain反映・公開済み（2026-09-16）
 
 [PR #27](https://github.com/futsalife24-bot/swarm-front/pull/27)通常merge・独立監査合格（必須指摘なし）。公開ソースc0042edcb04f3729944afd911a8613c95f7cc055、Version 14055e2d-adb9-4b3a-8ec2-8baa90fb3ecb。タイトルだけの入口、各ページ/システム/進め方の3タブ。型・3幅全タブ/操作/保存不変・4幅武器UI・両build・dry-run成功。公開13ファイルSHA一致・health成功、iab全タブ/閉じる/フォーカス復帰・errorログ0。[詳細/限界](TITLE-TUTORIAL.md)。実スマホ/PWAインストールボタン併存状態未確認。後続は記録のみ。

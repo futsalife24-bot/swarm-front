@@ -1,3 +1,4 @@
+import { backgroundMusic } from "./bgm";
 import { showModalAfterFullscreen } from "./landscape";
 import { ENEMIES } from "../shared/defs";
 import "./bestiary.css";
@@ -82,6 +83,7 @@ export function openBestiary(
     )}</nav><section class="report-detail" aria-label="選択した敵の解説"><div class="specimen"><div class="specimen-label eyebrow">3D SPECIMEN</div><div class="enemy-viewport"></div><p class="viewer-hint">ドラッグで回転 · ピンチ / ホイールで拡大</p></div><article class="enemy-description" tabindex="0" aria-label="敵の解説。上下にスクロールできます" aria-live="polite"></article></section></div>`;
   document.body.append(dialog);
   showModalAfterFullscreen(dialog);
+  backgroundMusic().setReport(true);
   let viewer: ReturnType<typeof createEnemyViewer> | undefined;
   const viewport = dialog.querySelector<HTMLElement>(".enemy-viewport")!;
   const playback = document.createElement("div");
@@ -212,6 +214,7 @@ export function openBestiary(
     playbackObserver.disconnect();
     viewer?.dispose();
     dialog.remove();
+    backgroundMusic().setReport(false);
     options.onClose?.();
   });
   select("crawler");
