@@ -1,3 +1,14 @@
+# 現在地: 更新履歴の自動生成を実装・検証、独立監査待ち（2026-09-16）
+
+[PR #20](https://github.com/futsalife24-bot/swarm-front/pull/20)、branch `codex/automatic-changelog`、実装HEAD `91ee49f`、base/main `766b99836c147301a1f320035150715b5318159e`。Viteの起動・全ビルドでGitのfirst-parent差分から日本語履歴を生成し、日付（JST）ごとに統合。文書/テストのみは除外、任意のPlayer-Noteがなければ変更分野の文言を自動追加。9/15〜16の公開済み変更も補完した。
+
+型チェック、実Git fixture（merge/文書除外/重複/JST/Player-Note/履歴不足時の失敗）、実装commit後の通常/Pages build成功。配布版を実Chrome 667/844/1280×390で検証し、自動項目・補完項目・日付一意・開閉・横溢れなし・pageerror 0。667px画像を目視確認。証拠は `dist-validation/automatic-changelog/`。ビルドにGit履歴が必要、未commit変更は対象外、既定説明は変更分野の要約。詳細な機能説明は任意のPlayer-Noteを使う。[運用](WORKFLOW.md)。
+
+停止理由: README第9行のChat独立監査条件が未充足。main反映・Worker公開は未実施。
+再開条件: PR #20の対象HEADの独立監査と必要な承認後、保護を守ってmain反映し、merge後HEADから再ビルド・既存Worker公開・配信照合を行う。merge本文にPlayer-Noteを残すと具体的な説明を引き継げる。
+
+以下は前回公開と過去の記録。
+
 # 現在地: ロビーIDコピー・PWA招待をmain反映・公開済み（2026-09-16）
 
 [PR #18](https://github.com/futsalife24-bot/swarm-front/pull/18)を通常merge。修正HEAD `f81e143f6df27f24ff9dbb77c80c7ac9984fefde`に[再監査](https://chatgpt.com/c/6aaa2662-7970-83ee-a606-0e752aaf19d5)「合格・必須指摘0件」。公開ソース `eeb90fe5b70ddfe92abc6a5436e2bf5e56b15446` は監査HEADから記録文書2ファイルだけの差分。
