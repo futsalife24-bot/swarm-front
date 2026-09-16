@@ -18,3 +18,9 @@ branch: codex/compact-weapon-filters
 [PR #23](https://github.com/futsalife24-bot/swarm-front/pull/23)。実装SHA `2fe1e96f9a7146b4093ea0ff53d994c0492cf924`。commit後通常/Pages buildとproduction Worker dry-runも成功。初回dry-runはsandbox参照権限で失敗、承認済み通常権限で成功。
 
 監査ZIPはdist-validation/compact-filters/compact-filters-audit.zip（対象SHAのソース、差分、4幅UI証拠、検証記録）。iab新規通常ChatへのZIP添付は自動承認レビュー拒否で未送信。「具体的payloadの送信承認がない」が理由。今回ZIPのChatGPT送信の明示承認を待つ。独立監査・main反映・公開は未実施。
+
+## 独立監査合格
+
+2026-09-16ユーザー「聞かずに監査に送って」を受け、同ZIPの通常新規Chat送信成功。前回送信拒否は解消。[監査Chat](https://chatgpt.com/c/6aaa5029-3db4-83ee-ae54-08d28735dbc8)で実装SHA `2fe1e96f9a7146b4093ea0ff53d994c0492cf924` は合格・必須指摘0件。
+
+監査側はGitHub実差分、添付ソースの正規化Git blob一致、12枚UI証拠、locks対応、選択解除/表示条件/保護条件、Chromiumで同DOMパターンのdetails排他・フォーカス復元/Escapeを独立確認。任意提案: 一括選択除外はレア度上限と表示条件を分離したfixture、選択解除は先に複数選択して検証する。コード自体は明示的条件があり必須指摘とせず。検証限界: 監査環境で依存取得不可によりtypecheck/build/Pages/dry-run再実行不可、実スマホ・武器庫/戦果の監査側実画面なし。実装担当のiab武器庫確認は前記。

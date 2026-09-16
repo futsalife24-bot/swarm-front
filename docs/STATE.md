@@ -1,3 +1,11 @@
+# 現在地: PR #23が独立監査合格、main反映・公開へ（2026-09-16）
+
+[独立Chat監査](https://chatgpt.com/c/6aaa5029-3db4-83ee-ae54-08d28735dbc8): 対象 `2fe1e96f9a7146b4093ea0ff53d994c0492cf924`、合格・必須指摘0件。ZIP/実装Git blob一致、4幅画像、DOM排他とフォーカス復元を独立確認。任意: 一括選択除外/選択解除のテスト条件をより強くする提案。監査環境で全build再実行・実スマホ・戦果画像確認は未実施。[詳細](COMPACT-WEAPON-FILTERS.md)。後続差分は記録文書のみ。PR #23の通常mergeと既存Worker公開を進める。
+
+# 現在地: PR #23の独立監査を依頼済み（2026-09-16）
+
+ユーザー「聞かずに監査に送って」により今回ZIPの送信承認を受領。iab新規通常Chatへcompact-filters-audit.zipを添付・送信完了。[独立監査](https://chatgpt.com/c/6aaa5029-3db4-83ee-ae54-08d28735dbc8)で確認中。監査対象 `2fe1e96f9a7146b4093ea0ff53d994c0492cf924`。送信承認待ちは解消。合格後にPR #23の通常merge・既存Worker公開・配信確認まで続行する。
+
 # 現在地: コンパクトなソート・絞り込みを保存済み、監査資料送信の承認待ち（2026-09-16）
 
 [PR #23](https://github.com/futsalife24-bot/swarm-front/pull/23)、branch `codex/compact-weapon-filters`、実装/監査対象 `2fe1e96f9a7146b4093ea0ff53d994c0492cf924`、base `c98c0fa328140ebcfb9ded7b2a3694a7d5c076a5`。ソート・武器種/レア度/お気に入り絞り込みを幅280pxの1パネルに統合。型・通常/Pages build・4幅UI基準とお気に入り/絞り込み/整理テスト・Worker production dry-run成功。[詳細](COMPACT-WEAPON-FILTERS.md)。実スマホ未確認。
