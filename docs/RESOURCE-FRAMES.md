@@ -5,3 +5,7 @@
 自己検証: typecheck成功。既存武器UI基準4幅（1280/915/844/640）成功。scripts/check-resource-frames.mjsで667/844/1280×390、9画面ずつ27枚、9桁の所持数、画面/枠の横溢れなし、作成で武装片10減少、解放で素材1減少、初回報酬の3種表示、pageerror 0を確認。667戦果/育成、844アクセサリ画像目視済み。検証scriptは先にcheck-gear-ui-baseline.mjsでfixture生成しlocalhost:5347のdevを使用。実スマホ・協力側旧武器庫の実画面は未確認。
 
 base b5ac63110c0402812332566e27552cb74a8686c2、branch codex/resource-frames。証拠 dist-validation/resource-frames/ と dist-validation/gear-pinned/。独立監査・main反映・公開準備中。
+
+## 独立監査
+
+対象9c58d9708082f6e668cdf50d492b46411fe8f3bc。[PR #26](https://github.com/futsalife24-bot/swarm-front/pull/26)、[監査Chat](https://chatgpt.com/c/6aaa76b1-ed38-83ee-91f2-5b37a03ab2a0)にresource-frames-audit.zip（約4.5MB）を送信済み。commit後の通常/Pages build・production dry-run成功。
