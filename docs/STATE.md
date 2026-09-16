@@ -1,3 +1,7 @@
+# 現在地: タイトルのチュートリアルをmain反映・公開済み（2026-09-16）
+
+[PR #27](https://github.com/futsalife24-bot/swarm-front/pull/27)通常merge・独立監査合格（必須指摘なし）。公開ソースc0042edcb04f3729944afd911a8613c95f7cc055、Version 14055e2d-adb9-4b3a-8ec2-8baa90fb3ecb。タイトルだけの入口、各ページ/システム/進め方の3タブ。型・3幅全タブ/操作/保存不変・4幅武器UI・両build・dry-run成功。公開13ファイルSHA一致・health成功、iab全タブ/閉じる/フォーカス復帰・errorログ0。[詳細/限界](TITLE-TUTORIAL.md)。実スマホ/PWAインストールボタン併存状態未確認。後続は記録のみ。
+
 # 現在地: タイトルチュートリアルPR #27が独立監査合格（2026-09-16）
 
 対象ecf1aec20d9157e72d855a5d4cc47a8b05c38dc6は合格・必須指摘なし。[詳細/限界](TITLE-TUTORIAL.md)。後続は記録のみ。main反映・既存Worker公開へ進む。

@@ -10,3 +10,7 @@ branch: codex/title-tutorial
 ## 独立監査
 
 [PR #27](https://github.com/futsalife24-bot/swarm-front/pull/27)、[監査Chat](https://chatgpt.com/c/6aaa7ff6-6bc0-83ee-bcbf-15c6ca137ac7)。対象ecf1aec20d9157e72d855a5d4cc47a8b05c38dc6は合格・必須指摘なし。GitHub base/head、変更blobと逆適用旧blob、3幅全タブ画像、タイトル限定・保存無変更・キーボード/フォーカス実装を独立確認。任意: 内容量によるモーダル高さ/位置変化を抑える改善。今回は要件を満たすため維持。監査側の限界: 実スマホ/PWAインストールボタン併存状態未確認、依存導入タイムアウトで全build/typecheck再実行不可。新規TS単体チェック/検証スクリプト構文確認は成功。実装担当のcommit後通常/Pages build・production dry-runは成功。後続変更は記録のみ。
+
+## 公開完了
+
+PR #27を通常merge。公開ソースc0042edcb04f3729944afd911a8613c95f7cc055、Worker Version 14055e2d-adb9-4b3a-8ec2-8baa90fb3ecb。merge後mainでbuild・production dry-run成功。既存Workerへ公開し[13配信ファイルSHA一致・health成功](evidence/title-tutorial/published.json)。公開iabでタイトル入口、全3タブの本文と選択状態、閉じる→タイトル/入口フォーカス復帰を確認。取得errorログ0。実スマホ/PWAインストールボタン併存状態は未確認。後続変更は公開記録のみ。

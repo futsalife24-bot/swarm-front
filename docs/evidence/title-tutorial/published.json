@@ -1,0 +1,61 @@
+{
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "source": "c0042edcb04f3729944afd911a8613c95f7cc055",
+  "version": "14055e2d-adb9-4b3a-8ec2-8baa90fb3ecb",
+  "assets": [
+    {
+      "file": "index.html",
+      "sha256": "56707f7ddd49f1833dee58c291a3a4f3ad42306c3feb67ef7d6d0830e82a79a0"
+    },
+    {
+      "file": "sw.js",
+      "sha256": "157f181af27ea1672238cac1dc2dbbfbe8bcfda91cfc3b813ade3b07aad65f49"
+    },
+    {
+      "file": "assets/index-BE4EsLrW.js",
+      "sha256": "53aadc7c5fc91d5c52b80d94a13029d1542cca42333186de8c883d2655907df7"
+    },
+    {
+      "file": "assets/main-C1Ldsy-y.css",
+      "sha256": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1"
+    },
+    {
+      "file": "assets/main-Dqn0hslF.js",
+      "sha256": "a2d2cc66b480b74619a00b6bbed0f2c22591b075e47170062f28adeee0dcd142"
+    },
+    {
+      "file": "assets/minimap-BDGnRMch.js",
+      "sha256": "e87330a56025cb4c1cb6c594e08c95c75eaec0ed2c4fbc585629d1bdd1a2fcc9"
+    },
+    {
+      "file": "assets/minimap-Clh1V6L1.css",
+      "sha256": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607"
+    },
+    {
+      "file": "assets/playtest-app-4ANLBz8b.js",
+      "sha256": "de16d88137cda0b282cdad872f2efdf9fbe5aefc318b467c8f2da9bdeb82d8fa"
+    },
+    {
+      "file": "assets/playtest-app-CTXHIJiH.css",
+      "sha256": "28c1c1b472eaa9c70ac992ce9a8cce79b949284f467eb023c30c1f85705a3502"
+    },
+    {
+      "file": "assets/training-app-CkDLaHgp.js",
+      "sha256": "7d378e5982a75086119b1f58f3b94d2c9cafb667bf40cde0c1d0fbc3d1d7228d"
+    },
+    {
+      "file": "assets/weapon-sharing-C5Vrmf9N.js",
+      "sha256": "acac1e8e8d0d59c38b4781f29506e73980fe108eca56a3e444606d027cf88a17"
+    },
+    {
+      "file": "assets/zoom-guard-C5BZAD7O.js",
+      "sha256": "a356e3f316b7e66ba95767dda166c6bb6b39c507dc16ceaa31d3797ea3280e42"
+    },
+    {
+      "file": "assets/zoom-guard-CHxnJsnA.css",
+      "sha256": "2d7b42cb8530e810fbe154a90624560911722bf7a8b1f29fa89e34d880d81121"
+    }
+  ],
+  "health": true,
+  "date": "2026-09-16T11:49:48.532Z"
+}
