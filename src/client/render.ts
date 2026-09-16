@@ -1,3 +1,4 @@
+import { dropGeometry } from "./drop-design";
 import { enemySize } from "../shared/enemy-size";
 import { dropAt } from "../shared/solo-progression";
 import { groundHeight } from "../shared/terrain";
@@ -265,6 +266,7 @@ export class Renderer {
   particles: T.InstancedMesh;
   projectiles: T.InstancedMesh;
   drops: T.InstancedMesh;
+  healDrops: T.InstancedMesh;
   rings: T.InstancedMesh;
   private terrainWarnings = new TerrainWarnings();
   aimWarnings: T.InstancedMesh;
@@ -514,14 +516,24 @@ export class Renderer {
       100,
     );
     this.drops = new T.InstancedMesh(
-      new T.OctahedronGeometry(0.55),
+      dropGeometry(false),
       new T.MeshStandardMaterial({
-        color: 0x69efcb,
-        emissive: 0x2d957e,
-        emissiveIntensity: 1,
+        color: 0xffffff,
+        vertexColors: true,
+        emissive: 0x243d43,
+        emissiveIntensity: 0.45,
+        roughness: 0.65,
+        metalness: 0.25,
       }),
       24,
     );
+    this.healDrops = new T.InstancedMesh(
+      dropGeometry(true),
+      this.drops.material,
+      24,
+    );
+    this.healDrops.count = this.drops.count = 0;
+    this.scene.add(this.healDrops);
     this.rings = new T.InstancedMesh(
       new T.RingGeometry(0.9, 1, 192, 4),
       new T.MeshBasicMaterial({
@@ -1323,34 +1335,36 @@ export class Renderer {
       syncDynamicInstances(this.projectiles);
       if (this.projectiles.instanceColor)
         this.projectiles.instanceColor.needsUpdate = true;
-      w.drops
-        .filter((d) => d.owner === id)
-        .forEach((d, i) => {
-          const pos = w.solo ? dropAt(w, d) : { x: d.x, z: d.z, jump: 0 };
-          this.instance(
-            this.drops,
-            i,
-            pos.x,
-            groundHeight(pos.x, pos.z, activeMap.blocks) +
-              1 +
-              pos.jump +
-              Math.sin(w.time * 3) * 0.2,
-            pos.z,
-            1,
-            1,
-            1,
-            0,
-            w.time,
-          );
-          if (w.solo)
-            this.drops.setColorAt(
-              i,
-              new T.Color(d.type === "heal" ? 0xff5d67 : 0x69efcb),
-            );
-        });
-      this.drops.count = w.drops.filter((d) => d.owner === id).length;
+      let weaponCount = 0,
+        healCount = 0;
+      for (const d of w.drops.filter((d) => d.owner === id)) {
+        const mesh = d.type === "heal" ? this.healDrops : this.drops;
+        const i = d.type === "heal" ? healCount++ : weaponCount++;
+        if (i >= mesh.instanceMatrix.count) continue;
+        const pos = w.solo ? dropAt(w, d) : { x: d.x, z: d.z, jump: 0 };
+        this.instance(
+          mesh,
+          i,
+          pos.x,
+          groundHeight(pos.x, pos.z, activeMap.blocks) +
+            1 +
+            pos.jump +
+            Math.sin(w.time * 3) * 0.12,
+          pos.z,
+          1,
+          1,
+          1,
+          0,
+          w.time * 0.7,
+        );
+      }
+      this.drops.count = Math.min(weaponCount, this.drops.instanceMatrix.count);
+      this.healDrops.count = Math.min(
+        healCount,
+        this.healDrops.instanceMatrix.count,
+      );
       syncDynamicInstances(this.drops);
-      if (this.drops.instanceColor) this.drops.instanceColor.needsUpdate = true;
+      syncDynamicInstances(this.healDrops);
       for (const e of w.events.filter((e) => e.id > this.lastEvent)) {
         this.lastEvent = Math.max(this.lastEvent, e.id);
         this.combat.event(e);
@@ -1418,6 +1432,7 @@ export class Renderer {
       this.aimWarnings.count =
         this.houndWarnings.count =
         this.rings.count =
+        this.healDrops.count =
         this.drops.count =
         this.projectiles.count =
           0;

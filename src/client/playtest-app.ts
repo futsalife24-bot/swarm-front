@@ -383,7 +383,7 @@ function victory() {
     setScreen("collection");
     ui.classList.add("pt-clear");
     ui.innerHTML =
-      '<div class="pt-clear-title">STAGE CLEAR<small>残ったケースを回収できます</small></div><button id="pt-end-collection">結果へ</button>';
+      '<div class="pt-clear-title">STAGE CLEAR<small>残ったアイテムを回収できます</small></div><button id="pt-end-collection">結果へ</button>';
     $("controls").hidden = false;
     hud.hidden = false;
     $("minimap").hidden = false;
@@ -398,9 +398,6 @@ function victory() {
         );
       else endCollection();
     });
-    const fade = document.createElement("div");
-    fade.className = "pt-fade";
-    document.body.append(fade);
     victoryJingle();
   });
 }
@@ -792,11 +789,6 @@ function frame(now: number) {
       commit(
         appendCollected(save, world.pending.solo.slice(before) as NewWeapon[]),
       );
-    const fade = document.querySelector<HTMLElement>(".pt-fade");
-    if (fade)
-      fade.style.opacity = String(
-        Math.max(0, (world.solo!.collection - 7) / 3),
-      );
     if (world.solo!.collection >= 10 && !saving) endCollection();
   } else accumulator = 0;
   if (world && ["battle", "collection"].includes(screen)) {
@@ -873,10 +865,6 @@ const ui = $("ui"),
   minimap = new Minimap();
 document.body.classList.add("playtest");
 void document.fonts.load('700 32px "Rajdhani"').catch(() => {});
-view.drops.geometry.dispose();
-view.drops.geometry = new T.BoxGeometry(0.9, 0.65, 0.7);
-(view.drops.material as T.MeshStandardMaterial).color.set(0xffffff);
-(view.drops.material as T.MeshStandardMaterial).emissive.set(0x142024);
 let mode: SaveMode = "normal",
   save!: ProgressSave,
   world: World | null = null,

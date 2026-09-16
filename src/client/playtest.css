@@ -525,18 +525,20 @@ sup {
   background: #345e4e;
   color: white;
 }
-.pt-clear {
+body.playtest #ui.pt-clear {
+  background: transparent !important;
+  backdrop-filter: none;
   pointer-events: none !important;
   z-index: 20 !important;
 }
 .pt-clear-title {
   position: absolute;
   left: 50%;
-  top: 25%;
+  top: max(68px, 17%);
   transform: translateX(-50%);
-  font-size: 42px;
+  font-size: 26px;
   color: #f6db95;
-  letter-spacing: 5px;
+  letter-spacing: 3px;
   white-space: nowrap;
   text-shadow: 0 2px 8px #000;
 }
@@ -549,8 +551,10 @@ sup {
 }
 .pt-clear > button {
   position: absolute;
-  bottom: 15%;
-  left: 45%;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  min-height: 44px;
   pointer-events: auto;
 }
 .pt-fade {
@@ -756,7 +760,7 @@ body.playtest .pt-cutscene .menu-dialog-body {
     gap: 5px;
   }
   .pt-clear-title {
-    font-size: 30px;
+    font-size: 24px;
   }
   .pt-loading {
     gap: 7px;
