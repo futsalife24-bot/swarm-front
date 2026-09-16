@@ -22,3 +22,12 @@
 
 base: 0790ed9d807d08fc10b962c8aeb6bdfc4a8a6fc0、branch: codex/unify-weapon-marks。
 独立監査・main反映・公開準備中。
+
+## 保存・監査送信承認待ち
+
+[PR #29](https://github.com/futsalife24-bot/swarm-front/pull/29)、実装HEAD b676b364c0e71e424c0a1cc85dd88623e36944ed。通常/Pages build成功。production dry-runは初回sandbox権限で失敗、昇格実行で成功。本番変更なし。
+
+監査資料: dist-validation/weapon-marks-audit.zip（対象差分・必要ソース・検証証拠）。iabの新規通常Chatで標準filechooser添付を試みたが、自動承認レビューが「非公開ソース/差分/証拠の具体的payloadとChatGPT宛先の承認不足」として拒否。未送信・独立監査未実施。
+
+停止理由: 監査ZIPのChatGPT通常Chat送信が自動承認レビューに拒否されたため、今回の具体的送信承認待ち。main反映/本番公開は未実施。
+再開条件: 同ZIPを独立監査目的でChatGPTの新しい通常Chatへ送る承認後、監査・必要修正/再監査・main反映・既存Worker公開・配信確認を続行する。実装後の変更は記録文書のみ。
