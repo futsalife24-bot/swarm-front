@@ -1,0 +1,7 @@
+{
+  "url": "https://swarm-front.melosalife-24.workers.dev/",
+  "browser": "Codex in-app browser",
+  "checks": ["reload after deployment", "title to loadout", "4 no-effect cells render dash", "tap no-effect does not open dialog or change UI"],
+  "errorLogs": [],
+  "limitations": "Published browser has starter weapons only; four effect dialogs verified in local Chrome touch fixtures, not on published save or real smartphone."
+}

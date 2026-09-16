@@ -17,3 +17,7 @@ base: b070a10ba2c035d648d2833b991f65cb679cbbb9、branch: codex/effect-help。
 ## 独立監査合格
 
 同Chatで対象2091b9a26f3ed3a3d356823a7637c808315a2075は合格・必須指摘なし。追加0fd2adaはdocs 2ファイルのみで実装不変も監査側確認。8画像/コード/テスト確認済み、監査側でbuild再実行と実スマホ確認は未実施。任意の実機/WebKit追加確認は未実施。main反映/公開へ進む。
+
+## main反映・公開完了
+
+PR #30通常merge。公開ソース906e3d690156b755b2bca3e37c6288378e83504b、Worker Version f74c9e07-f561-46b0-907c-b2ba18620aca。merge後build/dry-run成功。12配信ファイルのSHA-256一致・health ok。公開iabでタイトル→出撃準備、4つの効果なしセル表示・タップでdialog/画面変化なし・errorログ0。公開ブラウザには初期武器のみのため4種の効果dialogはローカル合成データで検証済み、公開保存上と実スマホでは未確認。[操作結果](evidence/gear-effect-help/results.json)・[配信照合](evidence/gear-effect-help/published.json)・[公開ブラウザ](evidence/gear-effect-help/browser.json)。後続は記録文書のみ。

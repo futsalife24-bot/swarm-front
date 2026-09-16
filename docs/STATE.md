@@ -1,3 +1,9 @@
+# 現在地: 特殊効果タップ説明をmain反映・公開済み（2026-09-17）
+
+[PR #30](https://github.com/futsalife24-bot/swarm-front/pull/30)通常merge。対象2091b9aは独立Chat監査合格・必須指摘なし。公開ソース906e3d690156b755b2bca3e37c6288378e83504b、Version f74c9e07-f561-46b0-907c-b2ba18620aca。効果を4文字以内のボタン化、タップで説明。保存/戦闘性能変更なし。
+
+型・4幅UI・2幅28条件・両build・merge後build/dry-run成功。配信12ファイルSHA一致・health成功。公開iabは初期武器のみ、効果なし表示/誤操作防止/errorログ0確認。4種dialogはローカル確認、実スマホ未確認。[詳細/証拠/限界](GEAR-EFFECT-HELP.md)。後続は公開記録のみ。
+
 # 現在地: 特殊効果説明PR #30が独立監査合格（2026-09-17）
 
 対象2091b9a26f3ed3a3d356823a7637c808315a2075は合格・必須指摘なし。追加は記録文書のみ。[詳細/監査Chat](GEAR-EFFECT-HELP.md)。main反映・既存Worker公開へ進む。

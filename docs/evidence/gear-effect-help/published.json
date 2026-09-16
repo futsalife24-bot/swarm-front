@@ -1,0 +1,59 @@
+{
+  "date": "2026-09-16T21:20:33.663Z",
+  "origin": "https://swarm-front.melosalife-24.workers.dev",
+  "assets": [
+    {
+      "path": "/index.html",
+      "sha256": "a3e123ea5b64ef22c31dd72fc199b97ac50e7d58a76f9336f9dc84e276b439cd"
+    },
+    {
+      "path": "/assets/index-CYIpVqbT.js",
+      "sha256": "ddece5f773cc2cdb448e8a720b7b30db2bd4f8a6d50c88f0b422d3d2c29df2b3"
+    },
+    {
+      "path": "/assets/main-C1Ldsy-y.css",
+      "sha256": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1"
+    },
+    {
+      "path": "/assets/main-DhWe51cz.js",
+      "sha256": "52a2e5d752e35f97b1748eb1188106a61ee252b4325318e1eab85f92a351bfed"
+    },
+    {
+      "path": "/assets/playtest-app-Dc498tEC.css",
+      "sha256": "cb1f42333c53138843cbb98103edcb57e0cc4608b03517c63f38bbc9a78f98ac"
+    },
+    {
+      "path": "/assets/playtest-app-DjQIULHu.js",
+      "sha256": "62b93181aba1b0523977eb04c5279220aa5ff603bbe7b18679ae2b15ee04af9f"
+    },
+    {
+      "path": "/assets/training-app-BnZwJ2Hl.js",
+      "sha256": "06945ef7eb29c20b620e7762a396abdab8d7fa3832415d876aefac4a59d16ab4"
+    },
+    {
+      "path": "/assets/weapon-help-Clh1V6L1.css",
+      "sha256": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607"
+    },
+    {
+      "path": "/assets/weapon-help-DEtOn9pJ.js",
+      "sha256": "988fc89fa97e0be80e5299eb3b04a952c7f126d49aa537bfc2ebcd775504cadd"
+    },
+    {
+      "path": "/assets/weapon-sharing-DsrDdewx.js",
+      "sha256": "76af190897276e138dbc2158b204bf1c2589aa030528d919c1542f85abdd5e7e"
+    },
+    {
+      "path": "/assets/zoom-guard-Cg9wdpLm.js",
+      "sha256": "6edb9c55c76da2b3f752524c0625478bd8a874b6f4d3198d973db4e35fa9c1b5"
+    },
+    {
+      "path": "/assets/zoom-guard-CHxnJsnA.css",
+      "sha256": "2d7b42cb8530e810fbe154a90624560911722bf7a8b1f29fa89e34d880d81121"
+    }
+  ],
+  "health": {
+    "ok": true,
+    "transport": "websocket",
+    "authority": "durable-object"
+  }
+}
