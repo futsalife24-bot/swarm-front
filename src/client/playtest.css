@@ -790,3 +790,33 @@ body.playtest .pt-cutscene .menu-dialog-body {
 .pt-view-options legend { margin-bottom: 4px; font-size: 12px; }
 body .pt-view-options button { min-height: 30px; padding: 4px 8px; }
 .pt-view-options button[aria-pressed="true"] { background: #36564d; border-color: #d5ba76; }
+
+.pt-base-menu {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+.playtest #ui .pt-base-menu button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  min-height: 100px;
+  text-align: left;
+}
+.pt-base-menu strong { font-size: clamp(18px, 2.5vw, 28px); }
+.pt-base-menu small { color: var(--menu-muted); font-size: 11px; }
+.playtest #ui .pt-base-menu button:disabled {
+  opacity: 0.6;
+  filter: grayscale(1);
+  cursor: not-allowed;
+}
+@media (max-height: 450px) {
+  .pt-base-menu { gap: 8px; }
+  .playtest #ui .pt-base-menu button { padding: 10px 14px; gap: 5px; }
+}
