@@ -12,3 +12,9 @@ branch: codex/base-menu
 ## 独立監査
 
 [PR #24](https://github.com/futsalife24-bot/swarm-front/pull/24)、[監査Chat](https://chatgpt.com/c/6aaa5646-3e10-83ee-8069-885a3822a7d8)。対象 `9b7f37bf5b324240a4ab8c5d3864743904d7ae3f` は合格・必須指摘0件。ソースblob/差分一致、3幅PNG、4導線、工房disabled/工事中、保存/戦闘差分なしを独立確認。任意: 内部ID open-armoryの将来名称整理（既存CSS接続維持のため今回変更なし）。限界: 実スマホ、監査環境のbuild一式再実行は未確認。PNGはcommit前（後続は整形/自動履歴生成）。型・commit後通常/Pages build・production dry-run成功は実装担当の検証結果。公開は合格後に実行。
+
+## 公開完了
+
+PR #24を通常merge。公開ソース `3a35d37831160fb5ca0de64025970436c9cd8d0f` は監査対象から記録文書のみの差分。merge後mainでbuild・production dry-run成功。既存Worker https://swarm-front.melosalife-24.workers.dev へ公開、Version `9d3e7eda-3bed-4edd-87ef-4c770f156a92`。
+
+[配信照合](evidence/base-menu/published.json): HTML/sw/JS/CSS計13ファイルSHA256一致、health正常。公開iab844×390でタイトル基地、基地4カード、工房disabled/工事中、武器へ移動→基地へ復帰を確認。errorログ0。アクセサリ/育成を含む全導線は配布版ローカル3幅で検証済み。実スマホ未確認。後続は公開記録のみ。
