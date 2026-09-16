@@ -1,8 +1,10 @@
-# 現在地: ロビーIDコピー・PWA招待を実装・検証、独立監査待ち（2026-09-16）
+# 現在地: ロビーIDコピー・PWA招待をmain反映・公開済み（2026-09-16）
 
-[PR #18](https://github.com/futsalife24-bot/swarm-front/pull/18)、修正HEAD `f81e143f6df27f24ff9dbb77c80c7ac9984fefde`（初回実装 `bfe537005f5811a3757369c491e3ddb385412f1a`）。branch `codex/lobby-id-pwa-invite`、base/main `cbb4b10aa435397fca996a044a0cceacd8310a40`。コピーを部屋ID横へ移してID専用化、招待共有を右へ離した。PWA起動URL受領とアプリ内URL貼付参加を追加。型・単体2件・両build・実Chrome/WorkerのID・URL参加と横画面3幅を検証。[差分・証拠・限界](LOBBY-INVITE.md)。OSによるPWA自動切替は実機未確認。
+[PR #18](https://github.com/futsalife24-bot/swarm-front/pull/18)を通常merge。修正HEAD `f81e143f6df27f24ff9dbb77c80c7ac9984fefde`に[再監査](https://chatgpt.com/c/6aaa2662-7970-83ee-a606-0e752aaf19d5)「合格・必須指摘0件」。公開ソース `eeb90fe5b70ddfe92abc6a5436e2bf5e56b15446` は監査HEADから記録文書2ファイルだけの差分。
 
-[再監査](https://chatgpt.com/c/6aaa2662-7970-83ee-a606-0e752aaf19d5)は修正HEAD `f81e143f6df27f24ff9dbb77c80c7ac9984fefde`に「合格・必須指摘0件」。ZIP再送の承認待ちは解消。main反映・公開・配信照合へ進む段階（まだ公開済みとは扱わない）。
+コピーアイコンをID横へ移して部屋ID専用にし、招待共有ボタンを右へ離した。PWA招待URL受領と協力画面へのURL貼付参加を追加。承諾時は旧接続・復帰情報を破棄、取消時は維持。型・単体2件・両build・dry-run・実Chrome/WorkerのID/URL入室と招待承諾/取消/タイトル復帰を確認。[詳細・証拠](LOBBY-INVITE.md)。
+
+既存Worker https://swarm-front.melosalife-24.workers.dev に公開。Version `fbcc398c-db67-4320-b932-b8f4a79b73a8`。公開14ファイルSHA一致・health・667/844/1280×390の参加欄/無効入力/表示範囲を確認、pageerror 0。OSによるPWA自動起動・実スマホ・ネイティブ共有は未確認。非対応端末はホーム画面のアプリ内へIDまたは招待URLを貼り付けて参加可能。ZIP送信/再監査待ちは解消。後続は公開記録のみ。
 
 # 現在地: 3人マルチ軽量化・部屋一覧/ID参加をmain反映・公開済み（2026-09-16）
 
