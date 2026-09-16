@@ -39,3 +39,7 @@ Chat独立監査・必要な承認後にmain反映と既存Worker公開。実機
 再検証: typecheck・招待単体2件・通常/Pages build成功。実Chrome/WorkerでA入室→B招待取消（旧接続情報維持）→B招待承諾（B参加前に旧session=null、Aの接続人数減少）→「タイトルへ」→「協力プレイ」で旧部屋の復帰表示が出ず部屋一覧へ進むことを確認。従来のID/URL入室・3幅チェックも同スクリプトで成功、pageerror 0。結果JSONは今回の再実行へ更新。OS実PWAリンク捕捉は未確認のまま。
 
 修正HEAD: `f81e143f6df27f24ff9dbb77c80c7ac9984fefde`。修正ZIP `dist-validation/lobby-invite-reaudit.zip` を作成（修正対象ソースと関係するshared、追試スクリプト・結果、8e802c5→修正HEADの全差分）。同じ監査Chatへ添付を試みたが、自動承認レビューが初回ZIPと異なるファイルの具体的送信承認不足として拒否。修正資料は未送信・明示承認待ち。元の要修正判定を合格扱いせず、main反映・公開は保留。
+
+## 再監査合格
+
+ユーザーが修正ZIPと同PRの追加監査資料の送信を明示承認。通常Chatへ修正ZIPを添付して再監査し、`f81e143f6df27f24ff9dbb77c80c7ac9984fefde`を「合格・必須指摘0件」と判定。監査側でも対象TSをコンパイルし、取消時のsession/socket維持、承諾時のNetwork.close・旧session=null・B URL/reloadを独立追試。公開用dry-run成功。監査側の全Worker E2E/両build再実行不可・実スマホ未確認等の限界は継続。

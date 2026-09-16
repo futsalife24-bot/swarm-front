@@ -2,8 +2,7 @@
 
 [PR #18](https://github.com/futsalife24-bot/swarm-front/pull/18)、修正HEAD `f81e143f6df27f24ff9dbb77c80c7ac9984fefde`（初回実装 `bfe537005f5811a3757369c491e3ddb385412f1a`）。branch `codex/lobby-id-pwa-invite`、base/main `cbb4b10aa435397fca996a044a0cceacd8310a40`。コピーを部屋ID横へ移してID専用化、招待共有を右へ離した。PWA起動URL受領とアプリ内URL貼付参加を追加。型・単体2件・両build・実Chrome/WorkerのID・URL参加と横画面3幅を検証。[差分・証拠・限界](LOBBY-INVITE.md)。OSによるPWA自動切替は実機未確認。
 
-停止理由: [初回独立監査](https://chatgpt.com/c/6aaa2662-7970-83ee-a606-0e752aaf19d5)で招待承諾時の旧ルーム復帰情報残存が必須1件。共通削除・通常退出への連携を修正し、実通信で取消/承諾/タイトル復帰の追加追試成功。修正HEADの再監査待ち。修正ZIPの再送は自動承認レビューが「初回ZIPのみ承認済み、修正後の別ファイルへの具体的承認なし」と拒否。main反映・公開は未実施。
-再開条件: 修正ZIP `dist-validation/lobby-invite-reaudit.zip`（同PRの修正ソース・差分・追加追試）を同じ監査Chatへ送信する具体的承認を受領後、再監査と必要な承認を経てmain反映・公開。初回ZIPの送信は完了済み。
+[再監査](https://chatgpt.com/c/6aaa2662-7970-83ee-a606-0e752aaf19d5)は修正HEAD `f81e143f6df27f24ff9dbb77c80c7ac9984fefde`に「合格・必須指摘0件」。ZIP再送の承認待ちは解消。main反映・公開・配信照合へ進む段階（まだ公開済みとは扱わない）。
 
 # 現在地: 3人マルチ軽量化・部屋一覧/ID参加をmain反映・公開済み（2026-09-16）
 
