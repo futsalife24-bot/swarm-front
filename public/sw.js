@@ -65,7 +65,14 @@ self.addEventListener("fetch", (event) => {
       (cached) =>
         cached ??
         fetch(request).then(async (response) => {
-          if (response.ok) (await caches.open(CACHE)).put(request, response.clone());
+          // Streaming audio may return 206; Cache API rejects partial responses.
+          if (response.status === 200) {
+            try {
+              await (await caches.open(CACHE)).put(request, response.clone());
+            } catch {
+              // Quota/storage failures must not block an available audio stream.
+            }
+          }
           return response;
         }),
     ),
