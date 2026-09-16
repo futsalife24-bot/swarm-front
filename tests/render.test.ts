@@ -38,6 +38,25 @@ it("uses a short moving bullet, bounds the blast ring and releases finished effe
   expect(scene.children).toHaveLength(0);
 });
 
+it("reuses expired visual effects and releases pooled materials when clearing", () => {
+  const scene = new T.Scene(),
+    fx = new CombatEffects(scene);
+  fx.add("smoke", 0, 0, 0, 1, 0.1, 0x123456);
+  const material = fx.items[0].mesh.material;
+  let disposed = 0;
+  material.addEventListener("dispose", () => disposed++);
+  fx.update(1);
+  expect(disposed).toBe(0);
+  expect(scene.children).toHaveLength(0);
+  fx.add("smoke", 2, 3, 4, 2, 1, 0xabcdef);
+  expect(fx.items[0].mesh.material).toBe(material);
+  expect(material.opacity).toBe(1);
+  expect(material.color.getHex()).toBe(0xabcdef);
+  fx.update(2);
+  fx.clear();
+  expect(disposed).toBe(1);
+});
+
 it("rolls along displacement and restores the pose after evade or down", () => {
   const model = soldier(0xcaa25f);
   const p = { x: 0, z: 0, hp: 160, evade: 0 } as Player;

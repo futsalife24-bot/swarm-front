@@ -1,0 +1,11 @@
+{
+  "sizes": [
+    844,
+    1280,
+    667
+  ],
+  "movement": true,
+  "healAndWeaponCollected": true,
+  "resultButton": true,
+  "errors": []
+}

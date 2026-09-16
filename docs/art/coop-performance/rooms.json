@@ -1,0 +1,38 @@
+{
+  "passed": [
+    "public creation UI",
+    "8-character ID",
+    "list join",
+    "lowercase ID join",
+    "invalid ID",
+    "escaped room names",
+    "private hidden but ID resolvable",
+    "battle hidden",
+    "same-run reload with full equipment",
+    "victory and same-room return"
+  ],
+  "layout": [
+    {
+      "overflow": false,
+      "joinBottom": 181,
+      "createBottom": 258,
+      "width": 667,
+      "height": 390
+    },
+    {
+      "overflow": false,
+      "joinBottom": 185,
+      "createBottom": 262,
+      "width": 844,
+      "height": 390
+    },
+    {
+      "overflow": false,
+      "joinBottom": 185,
+      "createBottom": 262,
+      "width": 1280,
+      "height": 390
+    }
+  ],
+  "errors": []
+}

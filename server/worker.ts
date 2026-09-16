@@ -22,28 +22,14 @@ import {
   type Input,
   type World,
 } from "../src/shared/game";
-const renderNumbers = new Set([
-  "x",
-  "y",
-  "z",
-  "yaw",
-  "pitch",
-  "tx",
-  "ty",
-  "tz",
-  "dx",
-  "dy",
-  "dz",
-  "fromX",
-  "fromZ",
-  "time",
-  "hp",
-  "cool",
-  "reload",
-  "safe",
-  "hurt",
-  "wind",
-]);
+import { encodeState, prepareState } from "../src/shared/state-wire";
+import {
+  roomOptions,
+  normalizeRoomId,
+  visibleRooms,
+  type DirectoryEntry,
+  type RoomOptions,
+} from "../src/shared/room-directory";
 
 interface Env {
   ROOMS: DurableObjectNamespace<Room>;
@@ -68,6 +54,7 @@ interface Member {
   readyGeneration?: number;
 }
 interface Saved {
+  directory?: RoomOptions & { code: string; roomId: string };
   created: number;
   members: Member[];
   world: World | null;
@@ -119,7 +106,23 @@ export default {
       res = env.TURNSTILE_SITE_KEY
         ? json({ siteKey: env.TURNSTILE_SITE_KEY })
         : json({ error: "ルーム作成の準備中です" }, 503);
-    else if (path === "/rooms" && req.method === "POST") {
+    else if (
+      req.method === "GET" &&
+      (path === "/rooms" || /^\/rooms\/[A-Fa-f0-9]{8}$/.test(path))
+    ) {
+      res = await env.GATE.get(env.GATE.idFromName("admission")).fetch(
+        new Request(
+          path === "/rooms"
+            ? "https://internal/list"
+            : `https://internal/resolve?id=${path.split("/")[2]}`,
+          {
+            headers: {
+              "X-Client": req.headers.get("CF-Connecting-IP") ?? "local",
+            },
+          },
+        ),
+      );
+    } else if (path === "/rooms" && req.method === "POST") {
       const local = ["localhost", "127.0.0.1", "[::1]"].includes(u.hostname);
       const access = local
         ? await creationAccess(
@@ -144,9 +147,28 @@ export default {
           access,
         );
       } else {
+        const invalidOptions = (error: string, status: number) => {
+          const response = json({ error }, status);
+          if (origin)
+            response.headers.set("Access-Control-Allow-Origin", origin);
+          response.headers.set("Vary", "Origin");
+          response.headers.set("Cache-Control", "no-store");
+          return response;
+        };
+        const raw = await req.text();
+        if (raw.length > 512)
+          return invalidOptions("部屋設定が長すぎます", 413);
+        let options: RoomOptions;
+        try {
+          options = roomOptions(raw ? JSON.parse(raw) : {});
+        } catch {
+          return invalidOptions("部屋設定を確認してください", 400);
+        }
         const gate = env.GATE.get(env.GATE.idFromName("admission"));
         const allowed = await gate.fetch(
           new Request("https://internal/create", {
+            method: "POST",
+            body: JSON.stringify(options),
             headers: {
               "X-Client": req.headers.get("CF-Connecting-IP") ?? "local",
             },
@@ -154,11 +176,17 @@ export default {
         );
         if (!allowed.ok) res = allowed;
         else {
-          const { code } = (await allowed.json()) as { code: string };
+          const { code, roomId } = (await allowed.json()) as {
+            code: string;
+            roomId: string;
+          };
           await env.ROOMS.get(env.ROOMS.idFromName(code)).fetch(
-            new Request("https://internal/init", { method: "POST" }),
+            new Request("https://internal/init", {
+              method: "POST",
+              body: JSON.stringify({ ...options, code, roomId }),
+            }),
           );
-          res = json({ code });
+          res = json({ code, roomId });
         }
       }
     } else if (
@@ -182,6 +210,7 @@ export default {
     } else res = json({ error: "見つかりません" }, 404);
     if (res.status === 101) return res;
     const out = new Response(res.body, res);
+    if (path.startsWith("/rooms")) out.headers.set("Cache-Control", "no-store");
     if (origin) out.headers.set("Access-Control-Allow-Origin", origin);
     out.headers.set("Vary", "Origin");
     return out;
@@ -189,6 +218,7 @@ export default {
 } satisfies ExportedHandler<Env>;
 // One bounded admission object: persistent daily cap, per-address creation/connection windows.
 export class Gate extends DurableObject<Env> {
+  private directoryQueries = new Map<string, { at: number; count: number }>();
   async fetch(req: Request) {
     if (new URL(req.url).pathname.startsWith("/api/developer/"))
       return this.ctx.blockConcurrencyWhile(() =>
@@ -199,6 +229,59 @@ export class Gate extends DurableObject<Env> {
   private async admit(req: Request) {
     const now = Date.now(),
       day = Math.floor(now / 86400000);
+    const url = new URL(req.url);
+    if (["/list", "/resolve", "/directory"].includes(url.pathname)) {
+      if (url.pathname !== "/directory") {
+        for (const [key, entry] of this.directoryQueries)
+          if (now - entry.at >= 60000) this.directoryQueries.delete(key);
+        const key = req.headers.get("X-Client") ?? "local";
+        if (
+          !this.directoryQueries.has(key) &&
+          this.directoryQueries.size >= 1000
+        )
+          return json({ error: "受付が混雑しています" }, 429);
+        const query = this.directoryQueries.get(key) ?? { at: now, count: 0 };
+        this.directoryQueries.set(key, query);
+        if (++query.count > 30)
+          return json(
+            { error: "少し待ってから部屋一覧を更新してください" },
+            429,
+          );
+      }
+      const directory =
+        (await this.ctx.storage.get<Record<string, DirectoryEntry>>(
+          "directory",
+        )) ?? {};
+      if (url.pathname === "/list")
+        return json({ rooms: visibleRooms(Object.values(directory), now) });
+      if (url.pathname === "/resolve") {
+        const id = normalizeRoomId(url.searchParams.get("id") ?? "");
+        const entry = Object.values(directory).find(
+          (e) => e.roomId === id && e.expires > now,
+        );
+        return entry
+          ? json({ code: entry.code })
+          : json({ error: "部屋が見つからないか、有効期限切れです" }, 404);
+      }
+      const update = (await req.json()) as {
+        code: string;
+        players: number;
+        stage: number;
+        phase: string;
+        updated: number;
+      };
+      const entry = directory[update.code];
+      if (entry && entry.expires > now && update.updated > entry.updated) {
+        Object.assign(entry, {
+          players: update.players,
+          stage: update.stage,
+          phase: update.phase,
+          updated: update.updated,
+        });
+        await this.ctx.storage.put("directory", directory);
+      }
+      return json({ ok: true });
+    }
     const state = (await this.ctx.storage.get<{
       day: number;
       total: number;
@@ -242,10 +325,32 @@ export class Gate extends DurableObject<Env> {
         429,
       );
     let code: string | undefined;
+    let roomId: string | undefined;
     if (create) {
       c.c++;
       state.total++;
-      code = secret();
+      const directory =
+        (await this.ctx.storage.get<Record<string, DirectoryEntry>>(
+          "directory",
+        )) ?? {};
+      for (const [key, entry] of Object.entries(directory))
+        if (entry.expires <= now) delete directory[key];
+      do {
+        code = secret();
+        roomId = code.slice(0, 8).toUpperCase();
+      } while (Object.values(directory).some((e) => e.roomId === roomId));
+      const options = roomOptions(await req.json());
+      directory[code] = {
+        ...options,
+        code,
+        roomId,
+        expires: now + LIMITS.roomMs,
+        updated: now,
+        phase: "lobby",
+        players: 0,
+        stage: 1,
+      };
+      await this.ctx.storage.put("directory", directory);
       rooms[code] = now + LIMITS.roomMs;
     } else {
       c.j++;
@@ -253,17 +358,57 @@ export class Gate extends DurableObject<Env> {
     }
     await this.ctx.storage.put("gate", state);
     await this.ctx.storage.setAlarm(now + 86400000);
-    return json({ ok: true, ...(code ? { code } : {}) });
+    return json({ ok: true, ...(code ? { code, roomId } : {}) });
   }
   async alarm() {
     await this.ctx.storage.deleteAll();
   }
 }
 export class Room extends DurableObject<Env> {
+  private directorySignature = "";
+  private directoryAt = 0;
+  private publishDirectory() {
+    const entry = this.saved.directory;
+    if (!entry) return;
+    const state = {
+      code: entry.code,
+      players: this.saved.members.filter((m) => !m.gone).length,
+      stage: this.saved.stage ?? 1,
+      phase: this.saved.world?.phase === "battle" ? "battle" : "lobby",
+    };
+    const signature = JSON.stringify(state),
+      now = Date.now();
+    if (signature === this.directorySignature && now - this.directoryAt < 30000)
+      return;
+    this.directorySignature = signature;
+    this.directoryAt = Math.max(now, this.directoryAt + 1);
+    const updated = this.directoryAt;
+    this.ctx.waitUntil(
+      this.env.GATE.get(this.env.GATE.idFromName("admission"))
+        .fetch(
+          new Request("https://internal/directory", {
+            method: "POST",
+            body: JSON.stringify({ ...state, updated }),
+          }),
+        )
+        .then(() => {})
+        .catch(() => {
+          this.directorySignature = "";
+        }),
+    );
+  }
   saved: Saved = { created: 0, members: [], world: null, interrupted: false };
   sockets = new Map<
     WebSocket,
-    { id: string; at: number; count: number; window: number; seq: number }
+    {
+      id: string;
+      at: number;
+      count: number;
+      window: number;
+      seq: number;
+      equipmentCache?: boolean;
+      equipmentKey?: string;
+    }
   >();
   inputs: Record<string, { i: Input; at: number }> = {};
   timer: ReturnType<typeof setInterval> | undefined;
@@ -308,6 +453,15 @@ export class Room extends DurableObject<Env> {
   async fetch(req: Request) {
     if (new URL(req.url).pathname === "/init") {
       this.saved.created = Date.now();
+      const init = (await req.json()) as RoomOptions & {
+        code: string;
+        roomId: string;
+      };
+      this.saved.directory = {
+        ...roomOptions(init),
+        code: init.code,
+        roomId: init.roomId,
+      };
       await this.persist();
       await this.ctx.storage.setAlarm(this.saved.created + LIMITS.idleMs);
       return json({ ok: true });
@@ -335,32 +489,17 @@ export class Room extends DurableObject<Env> {
     return new Response(null, { status: 101, webSocket: client });
   }
   send(ws: WebSocket, data: unknown) {
+    return this.sendEncoded(ws, encodeState(data));
+  }
+  private sendEncoded(ws: WebSocket, payload: string) {
     try {
-      // Compact only rendering state. Weapon definitions (including nested rolls
-      // and variance) must stay exact: rounding a magazine roll can add a bullet.
-      const weaponValues = new WeakSet<object>();
-      const payload = JSON.stringify(data, function (key, value) {
-        const weaponValue = weaponValues.has(this);
-        if (value && typeof value === "object") {
-          if (
-            weaponValue ||
-            ("kind" in value && "rarity" in value && "power" in value)
-          )
-            weaponValues.add(value);
-          return value;
-        }
-        return !weaponValue &&
-          typeof value === "number" &&
-          renderNumbers.has(key)
-          ? Math.round(value * 100) / 100
-          : value;
-      });
       if (new TextEncoder().encode(payload).length > 65536) {
         ws.close(4009, "状態データの上限");
         this.disconnected(ws);
         return;
       }
       ws.send(payload);
+      return true;
     } catch {
       this.disconnected(ws);
     }
@@ -462,6 +601,7 @@ export class Room extends DurableObject<Env> {
       member.last = now;
       member.gone = 0;
       s.id = member.id;
+      s.equipmentCache = m.equipmentCache === 1;
       s.at = now;
       ws.serializeAttachment({ id: s.id });
       const p = this.saved.world?.players.find((p) => p.id === s.id);
@@ -479,7 +619,14 @@ export class Room extends DurableObject<Env> {
               : this.saved.created + LIMITS.idleMs,
         ),
       );
-      this.send(ws, { type: "welcome", id: member.id, token: member.token });
+      this.send(ws, {
+        type: "welcome",
+        inputAck: true,
+        id: member.id,
+        token: member.token,
+        roomId: this.saved.directory?.roomId,
+        roomName: this.saved.directory?.name,
+      });
       this.send(ws, {
         type: "chatHistory",
         messages: this.saved.messages ?? [],
@@ -665,6 +812,7 @@ export class Room extends DurableObject<Env> {
       this.run();
     } else if (m.type === "ping") {
       this.send(ws, { type: "pong" });
+      this.publishDirectory();
     } else if (m.type === "leave") {
       ws.close(1000, "退出");
       this.disconnected(ws);
@@ -673,41 +821,34 @@ export class Room extends DurableObject<Env> {
     }
   }
   broadcast() {
+    this.publishDirectory();
     const w = this.saved.world;
+    const members = this.saved.members.map((p) => ({
+      id: p.id,
+      name: p.name || DEFAULT_PLAYER_NAME,
+      ready:
+        p.weapons.length === 2 &&
+        p.ready === true &&
+        p.readyGeneration === (this.saved.preparationGeneration ?? 0),
+      ...(w?.phase !== "battle" ? { weapons: p.weapons } : {}),
+      connected: !p.gone,
+    }));
+    const metadata = {
+      members,
+      stage: this.saved.stage ?? 1,
+      preparationGeneration: this.saved.preparationGeneration ?? 0,
+    };
+    const state = w ? prepareState(w, this.sentEvent, metadata) : undefined;
     for (const [ws, s] of this.sockets) {
       if (!s.id) continue;
-      const members = this.saved.members.map((p) => ({
-        id: p.id,
-        name: p.name || DEFAULT_PLAYER_NAME,
-        ready:
-          p.weapons.length === 2 &&
-          p.ready === true &&
-          p.readyGeneration === (this.saved.preparationGeneration ?? 0),
-        ...(w?.phase !== "battle" ? { weapons: p.weapons } : {}),
-        connected: !p.gone,
-      }));
       if (w) {
-        this.send(ws, {
-          type: "state",
-          world: {
-            ...w,
-            seed: 0,
-            events: w.events.filter((e) => e.id > this.sentEvent),
-            pending: { [s.id]: w.pending[s.id] ?? [] },
-            rewards: { [s.id]: w.rewards[s.id] ?? [] },
-            drops: w.drops.filter((d) => d.owner === s.id),
-          },
-          members,
-          stage: this.saved.stage ?? 1,
-          preparationGeneration: this.saved.preparationGeneration ?? 0,
-        });
-      } else
-        this.send(ws, {
-          type: "lobby",
-          members,
-          stage: this.saved.stage ?? 1,
-          preparationGeneration: this.saved.preparationGeneration ?? 0,
-        });
+        const cached =
+          !!s.equipmentCache &&
+          w.phase === "battle" &&
+          s.equipmentKey === state!.equipmentKey;
+        if (this.sendEncoded(ws, state!.packet(s.id, cached, s.seq)))
+          s.equipmentKey = state!.equipmentKey;
+      } else this.send(ws, { type: "lobby", ...metadata });
     }
     if (w) this.sentEvent = w.eventSerial;
   }
@@ -833,6 +974,8 @@ export class Room extends DurableObject<Env> {
       return;
     }
     this.stop();
+    for (const m of this.saved.members) m.gone = now;
+    this.publishDirectory();
     for (const ws of this.ctx.getWebSockets())
       ws.close(4002, "ルームの有効期限が切れました");
     this.sockets.clear();

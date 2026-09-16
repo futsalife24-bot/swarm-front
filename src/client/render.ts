@@ -1,3 +1,4 @@
+import { dropGeometry } from "./drop-design";
 import { enemySize } from "../shared/enemy-size";
 import { dropAt } from "../shared/solo-progression";
 import { groundHeight } from "../shared/terrain";
@@ -9,6 +10,7 @@ import {
   type StructureInput,
 } from "./structure-motion";
 import { loadStandardTrooper, StandardTrooper } from "./standard-trooper";
+import { AdaptiveQuality } from "./adaptive-quality";
 import type { StructureVisualKind } from "./structure-motion";
 import { CombatEffects } from "./combat-effects";
 import { EnemySpawnEffects } from "./enemy-spawn-effects";
@@ -265,6 +267,7 @@ export class Renderer {
   particles: T.InstancedMesh;
   projectiles: T.InstancedMesh;
   drops: T.InstancedMesh;
+  healDrops: T.InstancedMesh;
   rings: T.InstancedMesh;
   private terrainWarnings = new TerrainWarnings();
   aimWarnings: T.InstancedMesh;
@@ -282,6 +285,7 @@ export class Renderer {
   >();
   fps = 60;
   quality = 1;
+  readonly adaptiveQuality = new AdaptiveQuality();
   drawCalls = 0;
   cameraAnchor = { x: 0, z: 0 };
   onSound: (type: string) => void = () => {};
@@ -309,9 +313,10 @@ export class Renderer {
   // Anchored to the world point, so turning the camera does not slide the
   // numbers off the enemy that earned them.
   drawDamage(dt: number) {
-    const canvas = this.renderer.domElement,
-      w = canvas.clientWidth,
-      h = canvas.clientHeight;
+    if (!this.floaters.length) return;
+    // resize() owns the full-window canvas; avoid forcing layout after HUD writes.
+    const w = this.viewportWidth,
+      h = this.viewportHeight;
     for (let i = this.floaters.length - 1; i >= 0; i--) {
       const f = this.floaters[i];
       f.life -= dt;
@@ -354,7 +359,7 @@ export class Renderer {
     const sun = new T.DirectionalLight(0xffeddb, 3);
     sun.position.set(-65, 110, -50);
     sun.castShadow = true;
-    sun.shadow.mapSize.set(2048, 2048);
+    sun.shadow.mapSize.set(1024, 1024);
     Object.assign(sun.shadow.camera, {
       left: -145,
       right: 145,
@@ -514,14 +519,24 @@ export class Renderer {
       100,
     );
     this.drops = new T.InstancedMesh(
-      new T.OctahedronGeometry(0.55),
+      dropGeometry(false),
       new T.MeshStandardMaterial({
-        color: 0x69efcb,
-        emissive: 0x2d957e,
-        emissiveIntensity: 1,
+        color: 0xffffff,
+        vertexColors: true,
+        emissive: 0x243d43,
+        emissiveIntensity: 0.45,
+        roughness: 0.65,
+        metalness: 0.25,
       }),
       24,
     );
+    this.healDrops = new T.InstancedMesh(
+      dropGeometry(true),
+      this.drops.material,
+      24,
+    );
+    this.healDrops.count = this.drops.count = 0;
+    this.scene.add(this.healDrops);
     this.rings = new T.InstancedMesh(
       new T.RingGeometry(0.9, 1, 192, 4),
       new T.MeshBasicMaterial({
@@ -706,11 +721,19 @@ export class Renderer {
     mesh.setMatrixAt(i, this.dummy.matrix);
   }
   resize() {
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5) * this.quality);
+    this.viewportWidth = innerWidth;
+    this.viewportHeight = innerHeight;
+    this.renderer.setPixelRatio(
+      Math.min(devicePixelRatio, 1.5) *
+        this.quality *
+        this.adaptiveQuality.scale,
+    );
     this.renderer.setSize(innerWidth, innerHeight);
     this.camera.aspect = innerWidth / innerHeight;
     this.camera.updateProjectionMatrix();
   }
+  private viewportWidth = innerWidth;
+  private viewportHeight = innerHeight;
   private clearFoundryWorms() {
     for (const state of this.foundryWorms.values()) state.view?.dispose();
     // A late async result sees its state is no longer in the map and disposes itself.
@@ -806,6 +829,11 @@ export class Renderer {
     readyAim = false,
   ) {
     const local = w?.players.find((p) => p.id === id);
+    if (this.adaptiveQuality.update(dt, animate && !!local && !document.hidden))
+      this.resize();
+    this.combat.detail = this.quality * this.adaptiveQuality.scale;
+    this.combat.budget = this.combat.detail < 0.9 ? 120 : 180;
+    if (local) this.combat.origin.set(local.x, local.y ?? 0, local.z);
     const localAim = w && local ? cameraShot(w, local, { yaw, pitch }) : null;
     scoped = scoped && !!local && local.hp > 0 && local.swapCd <= 0;
     const fov = scoped ? SCOPE_FOV : NORMAL_FOV;
@@ -897,15 +925,42 @@ export class Renderer {
           ),
           1 - Math.exp(-dt * 18),
         );
-        poseSoldier(
-          m,
-          p.id === id && localAim ? { ...p, pitch: localAim.pitch } : p,
-          p.id === id && localAim ? localAim.yaw : p.yaw,
-          w.time,
+        const cadence =
+          p.id === id
+            ? 0
+            : local && Math.hypot(p.x - local.x, p.z - local.z) > 25
+              ? 1 / 15
+              : 1 / 30;
+        const state = [
           w.run,
-          animate ? dt : 0,
-          p.id === id && (scoped || readyAim),
-        );
+          p.hp <= 0,
+          p.slot,
+          p.reload > 0,
+          p.evade > 0,
+          p.swapCd > 0,
+        ].join(":");
+        m.userData.poseElapsed =
+          (m.userData.poseElapsed ?? 0) + (animate ? dt : 0);
+        const updatePose =
+          !animate ||
+          m.userData.poseState !== state ||
+          p.cool > (m.userData.poseCool ?? 0) + 0.025 ||
+          m.userData.poseElapsed + 1e-6 >= cadence;
+        m.rotation.set(0, -p.yaw, 0);
+        if (updatePose) {
+          poseSoldier(
+            m,
+            p.id === id && localAim ? { ...p, pitch: localAim.pitch } : p,
+            p.id === id && localAim ? localAim.yaw : p.yaw,
+            w.time,
+            w.run,
+            animate ? m.userData.poseElapsed : 0,
+            p.id === id && (scoped || readyAim),
+          );
+          m.userData.poseElapsed = 0;
+          m.userData.poseState = state;
+          m.userData.poseCool = p.cool;
+        }
         m.visible = !(scoped && p.id === id);
         const gun = m.userData.gun as T.Group;
         if (!m.userData.trooper)
@@ -1323,34 +1378,36 @@ export class Renderer {
       syncDynamicInstances(this.projectiles);
       if (this.projectiles.instanceColor)
         this.projectiles.instanceColor.needsUpdate = true;
-      w.drops
-        .filter((d) => d.owner === id)
-        .forEach((d, i) => {
-          const pos = w.solo ? dropAt(w, d) : { x: d.x, z: d.z, jump: 0 };
-          this.instance(
-            this.drops,
-            i,
-            pos.x,
-            groundHeight(pos.x, pos.z, activeMap.blocks) +
-              1 +
-              pos.jump +
-              Math.sin(w.time * 3) * 0.2,
-            pos.z,
-            1,
-            1,
-            1,
-            0,
-            w.time,
-          );
-          if (w.solo)
-            this.drops.setColorAt(
-              i,
-              new T.Color(d.type === "heal" ? 0xff5d67 : 0x69efcb),
-            );
-        });
-      this.drops.count = w.drops.filter((d) => d.owner === id).length;
+      let weaponCount = 0,
+        healCount = 0;
+      for (const d of w.drops.filter((d) => d.owner === id)) {
+        const mesh = d.type === "heal" ? this.healDrops : this.drops;
+        const i = d.type === "heal" ? healCount++ : weaponCount++;
+        if (i >= mesh.instanceMatrix.count) continue;
+        const pos = w.solo ? dropAt(w, d) : { x: d.x, z: d.z, jump: 0 };
+        this.instance(
+          mesh,
+          i,
+          pos.x,
+          groundHeight(pos.x, pos.z, activeMap.blocks) +
+            1 +
+            pos.jump +
+            Math.sin(w.time * 3) * 0.12,
+          pos.z,
+          1,
+          1,
+          1,
+          0,
+          w.time * 0.7,
+        );
+      }
+      this.drops.count = Math.min(weaponCount, this.drops.instanceMatrix.count);
+      this.healDrops.count = Math.min(
+        healCount,
+        this.healDrops.instanceMatrix.count,
+      );
       syncDynamicInstances(this.drops);
-      if (this.drops.instanceColor) this.drops.instanceColor.needsUpdate = true;
+      syncDynamicInstances(this.healDrops);
       for (const e of w.events.filter((e) => e.id > this.lastEvent)) {
         this.lastEvent = Math.max(this.lastEvent, e.id);
         this.combat.event(e);
@@ -1418,6 +1475,7 @@ export class Renderer {
       this.aimWarnings.count =
         this.houndWarnings.count =
         this.rings.count =
+        this.healDrops.count =
         this.drops.count =
         this.projectiles.count =
           0;
