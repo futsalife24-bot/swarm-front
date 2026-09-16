@@ -1,3 +1,7 @@
+# 現在地: 武器能力印PR #25が独立監査合格（2026-09-16）
+
+対象5190f349cdcf4c4e38c50e22ea702c5df8cdbcbcは合格・必須指摘0件。[監査/詳細](WEAPON-STAT-MARKS.md)。後続差分は記録のみ。main反映・既存Worker公開へ進む。
+
 # 現在地: 武器能力印PR #25を独立監査中（2026-09-16）
 
 対象 5190f349cdcf4c4e38c50e22ea702c5df8cdbcbc。[監査Chat](https://chatgpt.com/c/6aaa686f-d668-83ee-83e9-a00c76843c26)へソース/差分/画面証拠ZIPを送信済み。production dry-run成功。合格後main反映・公開する。
