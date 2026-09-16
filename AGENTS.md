@@ -14,6 +14,8 @@
 - 新規セッションはAGENTS・WORKFLOW・STATEと今回の関連文書だけで再開できるようにする。過去会話の再掲を要求しない。履歴文書の古いbranch/HEAD/承認待ちは現行状態に優先しない。
 
 ## ゲーム実装の既存ルール
+独立監査・公開時は `docs/skills/swarm-front-audit-release/SKILL.md` を読む。監査経路はアプリ内ブラウザ（iab）の通常Chatに固定し、Chrome拡張・Work・ネイティブ操作へ無断で切り替えない。
+
 戦闘ルールは src/shared、描画と入力は src/client、権威サーバーは server。通信をモックに置き換えて完成扱いしない。
 マップの小物は、その場所の用途・既存構造との接続・地形と素材に整合するものだけ配置する。段差や障害物の数を増やすための共通階段・箱・台の散布は禁止。既存の窓や開口部へ入口を重ねて後から理由を付けない。自然マップの高低差は自然地形で表現する。変更時は対象マップだけでなく共通生成が作用する全マップを確認する。
 コマンド: npm ci / npm run dev / npm run server / npm run typecheck / npm test / npm run test:e2e / npm run build / npm run build:pages / npm run server:build。
