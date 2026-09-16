@@ -1,3 +1,7 @@
+# 現在地: ソート・絞り込みのコンパクト化を自己検証済み（2026-09-16）
+
+branch: codex/compact-weapon-filters、base: c98c0fa。共通武器一覧にソート・武器種/レア度/お気に入り絞り込みを統合。お気に入り順追加。型・4幅UI基準/操作テスト成功。[詳細](COMPACT-WEAPON-FILTERS.md)。独立監査・main反映・公開準備中。
+
 # 現在地: 武器一括操作のパネル保持をmain反映・公開済み（2026-09-16）
 
 [PR #22](https://github.com/futsalife24-bot/swarm-front/pull/22)を通常merge。対象 `7e2e5a72a0a20d39ef9df48987aaefa3f6946a4c` は[独立Chat監査](https://chatgpt.com/c/6aaa452e-3750-83ee-9c90-80b010325494)「合格・必須指摘0件」。公開ソース `4c7ecf9429d6ce72225677f9a2cf8ff6ec171aea`、Worker Version `d2d84eaa-7445-4f73-8f15-bd083134bce9`。一括選択等の再描画でもパネル開閉状態・レア度・当たり補正条件を維持。

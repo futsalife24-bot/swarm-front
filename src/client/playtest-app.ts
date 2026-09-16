@@ -894,6 +894,8 @@ const weaponGenres: Record<Kind, string> = {
 };
 let filter = "all",
   sort = "acquired",
+  rarityFilter = "all",
+  favoritesOnly = false,
   checked = new Set<string>(),
   listScroll = 0,
   perfScroll = 0,
@@ -1092,7 +1094,7 @@ function setScreen(next: string) {
   queueMicrotask(() => {
     enhanceGameSelects(
       ui,
-      "#pt-filter, #pt-sort, #pt-difficulty, #pt-bulk-grade",
+      "#pt-difficulty, #pt-bulk-grade",
     );
     enhanceGameSelects(ui, "#pt-stage", (option, button) =>
       renderStageOption(save, option, button),
@@ -1400,8 +1402,12 @@ function weaponList(items: StoredWeapon[], context: string) {
         ? w.kind === armoryKind
         : filter === "all" || w.kind === filter,
     )
+    .filter((w) => rarityFilter === "all" || weaponTier(w) === Number(rarityFilter))
+    .filter((w) => !favoritesOnly || save.locks.includes(w.id))
     .sort((a, b) =>
-      sort === "acquired"
+      sort === "favorites"
+        ? Number(save.locks.includes(b.id)) - Number(save.locks.includes(a.id)) || a.acquired - b.acquired
+        : sort === "acquired"
         ? a.acquired - b.acquired
         : sort === "rarity"
           ? weaponTier(b) - weaponTier(a)
@@ -1409,28 +1415,15 @@ function weaponList(items: StoredWeapon[], context: string) {
             ? metricValue(a, sort) - metricValue(b, sort)
             : metricValue(b, sort) - metricValue(a, sort),
     );
-  const toolbar = `<div class="pt-list-tools"><label><select id="pt-filter" aria-label="武器種"><option value="all">全武器</option>${Object.keys(
-    WEAPONS,
-  )
-    .map(
-      (k) =>
-        `<option value="${k}">${esc(WEAPONS[k as Kind].name.split(" ")[0])}</option>`,
-    )
-    .join(
-      "",
-    )}</select></label><label><select id="pt-sort" aria-label="並び順">${[
-    ["acquired", "入手順"],
-    ["rarity", "レア度"],
-    ["power", "威力"],
-    ["mag", "装弾"],
-    ["reload", "装填"],
-    ["range", "射程"],
-    ["rate", "連射"],
-  ]
-    .map(([v, t]) => `<option value="${v}">${t}</option>`)
-    .join(
-      "",
-    )}</select></label><span>${shown.length}丁</span>${context === "gear" ? `<button id="pt-organize" aria-pressed="${gearOrganizing}">${gearOrganizing ? "整理終了" : "整理"}</button>` : ""}${context === "armory" || (context === "gear" && gearOrganizing) ? `<details class="pt-bulk-menu"><summary>${context === "gear" ? "一括操作" : "整理"}</summary><div class="pt-bulk-options"><label><select id="pt-bulk-grade" aria-label="一括選択のレア度">${GRADES.map((r, i) => `<option value="${i}">${r}以下</option>`).join("")}</select></label><label><input type="checkbox" id="pt-include-good">当たり補正も含める</label><button id="pt-bulk-select">一括選択</button><button id="pt-dismantle">選択を解体 (${checked.size})</button></div></details>` : ""}</div>`;
+  const choices = (key: string, values: string[][], selected: string) =>
+    values.map(([value, label]) => `<button type="button" data-list-choice="${key}" data-value="${value}" aria-pressed="${value === selected}">${label}</button>`).join("");
+  const toolbar = `<div class="pt-list-tools">${context === "armory" ? '<button id="pt-genres">‹ ジャンル</button>' : ""}<details class="pt-view-menu" name="weapon-tools"><summary>ソート・絞り込み</summary><div class="pt-view-options"><fieldset><legend>並び順</legend>${choices("sort", [
+    ["acquired", "入手順"], ["favorites", "お気に入り"], ["rarity", "レア度"], ["power", "威力"],
+    ["mag", "装弾"], ["reload", "装填"], ["range", "射程"], ["rate", "連射"],
+  ], sort)}</fieldset><fieldset><legend>武器種</legend>${choices("kind", [
+    ...(context === "armory" ? [] : [["all", "全武器"]]),
+    ...Object.entries(weaponGenres),
+  ], context === "armory" ? armoryKind! : filter)}</fieldset><fieldset><legend>レア度</legend>${choices("rarity", [["all", "すべて"], ...GRADES.map((g, i) => [String(i), g])], rarityFilter)}</fieldset><fieldset><legend>お気に入り（ロック）</legend>${choices("favorites", [["all", "すべて"], ["only", "お気に入りのみ"]], favoritesOnly ? "only" : "all")}</fieldset><button type="button" id="pt-view-close">閉じる</button></div></details><span>${shown.length}丁</span>${context === "gear" ? `<button id="pt-organize" aria-pressed="${gearOrganizing}">${gearOrganizing ? "整理終了" : "整理"}</button>` : ""}${context === "armory" || (context === "gear" && gearOrganizing) ? `<details class="pt-bulk-menu" name="weapon-tools"><summary>${context === "gear" ? "一括操作" : "整理"}</summary><div class="pt-bulk-options"><label><select id="pt-bulk-grade" aria-label="一括選択のレア度">${GRADES.map((r, i) => `<option value="${i}">${r}以下</option>`).join("")}</select></label><label><input type="checkbox" id="pt-include-good">当たり補正も含める</label><button id="pt-bulk-select">一括選択</button><button id="pt-dismantle">選択を解体 (${checked.size})</button></div></details>` : ""}</div>`;
   return (
     toolbar +
     gearWeaponRows(
@@ -1455,24 +1448,47 @@ function bindList(context: string) {
     const grade = ui.querySelector<HTMLSelectElement>("#pt-bulk-grade")?.value;
     const includeGood = ui.querySelector<HTMLInputElement>("#pt-include-good")?.checked;
     const open = menu?.open ?? false;
+    const viewOpen = ui.querySelector<HTMLDetailsElement>(".pt-view-menu")?.open ?? false;
+    const focused = document.activeElement as HTMLElement | null;
+    const choice = focused?.dataset.listChoice;
+    const value = focused?.dataset.value;
     context === "result" ? result() : context === "gear" ? gear() : armory();
     const nextMenu = ui.querySelector<HTMLDetailsElement>(".pt-bulk-menu");
     if (nextMenu) nextMenu.open = open;
+    const nextView = ui.querySelector<HTMLDetailsElement>(".pt-view-menu");
+    if (nextView) nextView.open = viewOpen;
+    if (choice) ui.querySelector<HTMLButtonElement>(`[data-list-choice="${choice}"][data-value="${value}"]`)?.focus();
     const nextGrade = ui.querySelector<HTMLSelectElement>("#pt-bulk-grade");
     if (nextGrade && grade !== undefined) nextGrade.value = grade;
     const nextIncludeGood = ui.querySelector<HTMLInputElement>("#pt-include-good");
     if (nextIncludeGood) nextIncludeGood.checked = includeGood ?? false;
   };
-  ($("pt-filter") as HTMLSelectElement).value = filter;
-  ($("pt-sort") as HTMLSelectElement).value = sort;
-  $("pt-filter").onchange = () => {
-    filter = ($("pt-filter") as HTMLSelectElement).value;
-    redraw();
+  const viewMenu = ui.querySelector<HTMLDetailsElement>(".pt-view-menu")!;
+  bind("pt-view-close", () => {
+    viewMenu.open = false;
+    viewMenu.querySelector<HTMLElement>("summary")!.focus();
+  });
+  viewMenu.onkeydown = (event) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      event.stopPropagation();
+      viewMenu.open = false;
+      viewMenu.querySelector<HTMLElement>("summary")!.focus();
+    }
   };
-  $("pt-sort").onchange = () => {
-    sort = ($("pt-sort") as HTMLSelectElement).value;
-    redraw();
-  };
+  ui.querySelectorAll<HTMLButtonElement>("[data-list-choice]").forEach((button) => {
+    button.onclick = () => {
+      const value = button.dataset.value!;
+      if (button.dataset.listChoice === "sort") sort = value;
+      else if (button.dataset.listChoice === "rarity") rarityFilter = value;
+      else if (button.dataset.listChoice === "favorites") favoritesOnly = value === "only";
+      else if (context === "armory") armoryKind = value as Kind;
+      else filter = value;
+      if (button.dataset.listChoice !== "sort") checked.clear();
+      listScroll = 0;
+      redraw();
+    };
+  });
   const list = ui.querySelector<HTMLElement>(".pt-weapon-list")!;
   list.scrollTop = listScroll;
   list.scrollLeft = perfScroll;
@@ -1540,6 +1556,7 @@ function bindList(context: string) {
             const action = document.getElementById("pt-dismantle");
             if (action) action.textContent = `選択を解体 (${checked.size})`;
           }
+          if (favoritesOnly || sort === "favorites") redraw();
         });
       }),
   );
@@ -1562,6 +1579,8 @@ function bindList(context: string) {
             (context === "armory"
               ? w.kind === armoryKind
               : filter === "all" || w.kind === filter) &&
+            (rarityFilter === "all" || weaponTier(w) === Number(rarityFilter)) &&
+            (!favoritesOnly || save.locks.includes(w.id)) &&
             weaponTier(w) <= grade &&
             !weaponProtected(save, w.id) &&
             (include ||
@@ -1623,10 +1642,7 @@ function armory() {
     ui.querySelector(".menu-header nav"),
   );
   bindList("armory");
-  const genreBack = document.createElement("button");
-  genreBack.id = "pt-genres";
-  genreBack.textContent = "‹ ジャンル";
-  $("pt-filter").closest("label")!.replaceWith(genreBack);
+  const genreBack = $("pt-genres");
   genreBack.onclick = () => {
     armoryKind = null;
     armory();
