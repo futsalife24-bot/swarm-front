@@ -1,3 +1,18 @@
+# 現在地: 武器能力印PR #29・今回の明示指示により監査省略で公開へ（2026-09-16）
+
+ユーザー「いや、今回はこのまま公開して」により、今回は独立Chat監査を省略し、検証済みPR #29の通常merge・既存Worker公開を実行する。監査資料は未送信、監査合格とは扱わない。必須CI・ブランチ保護・配信確認は維持。[詳細](WEAPON-MARK-UNIFICATION.md)。
+
+# 現在地: 武器能力印PR #29・監査資料送信の承認待ち（2026-09-16）
+
+[PR #29](https://github.com/futsalife24-bot/swarm-front/pull/29)、branch codex/unify-weapon-marks、実装 b676b364c0e71e424c0a1cc85dd88623e36944ed。型/単体27/全旧25,980条件/新全補正/4幅UI/2幅20ケース/共有画像/両build/production dry-run成功。保存・実性能変更なし。[詳細・監査資料](WEAPON-MARK-UNIFICATION.md)。
+
+停止理由: 自動承認レビューが非公開コードを含むweapon-marks-audit.zipの新しい通常Chatへの添付を「具体的資料と宛先の承認不足」として拒否。未送信、独立監査/main反映/公開は未完了。
+再開条件: 今回のZIPをChatGPT通常Chatへ独立監査目的で送る明示承認後、監査合格・main反映・既存Worker公開まで続行。追加変更は記録のみ。
+
+# 現在地: 武器能力印の基準を統一・自己検証済み（2026-09-16）
+
+branch codex/unify-weapon-marks、base 0790ed9。同武器種/同表示レア度の標準性能へ旧新形式を統一、★は+20%限定。全旧25,980条件と新全補正、型、単体27件、4幅UI、2幅20ケース一覧/詳細と共有画像成功。保存/実性能変更なし。独立監査・main反映・公開準備中。[詳細/限界](WEAPON-MARK-UNIFICATION.md)。
+
 # 現在地: 7曲のシーンBGMをmain反映・公開済み（2026-09-16）
 
 [PR #28](https://github.com/futsalife24-bot/swarm-front/pull/28)通常merge。最終対象fd986f9は[独立監査](https://chatgpt.com/c/6aaa8b4d-7f00-83ee-ab1a-c60f7cc85172)合格・必須指摘なし。公開ソースcda3fcfa9f8c4f42391a10d172c37cf53d97b7b9、Version 35053832-8373-4982-9ba9-6c7642b75021。タイトル/基地/準備/協力ロビー/レポート/クリア/勝利戦果に提供7曲。音量連動・非表示停止・クリア1回→勝利曲・PWA部分取得を対応。

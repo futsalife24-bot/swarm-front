@@ -5,6 +5,8 @@ import {
   GRADES,
   VARIANCE_KEYS,
   varianceMark,
+  varianceClass,
+  weaponStatVariance,
   type NewWeapon,
   type StoredWeapon,
   weaponGrade,
@@ -118,23 +120,17 @@ export async function weaponImage(w: StoredWeapon) {
     labels = { power: "威力", reload: "装填", range: "射程", rate: "連射" };
   VARIANCE_KEYS.forEach((key, i) => {
     const y = 470 + i * 50,
-      n = w.format === 2 ? w.variance[key] : 0;
+      n = weaponStatVariance(w, key);
     c.fillStyle = "#c5d7e4";
     c.fillText(labels[key], 60, y);
-    const markColor =
-      n < 0
-        ? "#89d6f2"
-        : n === 0
-          ? "#fff"
-          : n <= 10
-            ? "#f5dc66"
-            : n < 20
-              ? "#ffa348"
-              : "#fa6852";
-    const value =
-      w.format === 2
-        ? `${values[key]}  (${n >= 0 ? "+" : ""}${n}%)`
-        : values[key];
+    const markColor = {
+      low: "#89d6f2",
+      base: "#fff",
+      good: "#f5dc66",
+      great: "#ffa348",
+      max: "#fa6852",
+    }[varianceClass(n)];
+    const value = `${values[key]}  (${w.format === 2 ? "" : "約"}${n >= 0 ? "+" : ""}${Number(n.toFixed(3))}%)`;
     c.fillStyle = "#fff";
     c.fillText(value, 300, y);
     const x = 307 + c.measureText(value).width;
@@ -148,7 +144,28 @@ export async function weaponImage(w: StoredWeapon) {
     c.restore();
   });
   c.fillStyle = "#fff";
-  c.fillText(`装弾 ${d.mag} 発${w.format === 2 ? "（固定）" : ""}`, 720, 470);
+  const magazineText = `装弾 ${d.mag} 発${w.format === 2 ? "（固定）" : ""}`;
+  c.fillText(magazineText, 720, 470);
+  const magazineMarkX = 727 + c.measureText(magazineText).width;
+  const magVariance = weaponStatVariance(w, "mag");
+  c.fillStyle = {
+    low: "#89d6f2",
+    base: "#fff",
+    good: "#f5dc66",
+    great: "#ffa348",
+    max: "#fa6852",
+  }[varianceClass(magVariance)];
+  c.font = magVariance === 20 ? "20px sans-serif" : "12px sans-serif";
+  varianceMark(magVariance)
+    .split("\n")
+    .forEach((mark, i) => c.fillText(mark, magazineMarkX, 468 + i * 9));
+  c.fillStyle = "#c5d7e4";
+  c.font = "18px sans-serif";
+  c.fillText(
+    "印：同武器種・同レア標準比（装填は速度換算・特殊効果を除く）／ ★ +20%",
+    40,
+    700,
+  );
   return new Promise<Blob>((resolve, reject) =>
     canvas.toBlob(
       (b) => (b ? resolve(b) : reject(new Error("共有画像を作成できません"))),
