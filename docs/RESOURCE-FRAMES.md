@@ -11,3 +11,7 @@ base b5ac63110c0402812332566e27552cb74a8686c2、branch codex/resource-frames。�
 対象9c58d9708082f6e668cdf50d492b46411fe8f3bc。[PR #26](https://github.com/futsalife24-bot/swarm-front/pull/26)、[監査Chat](https://chatgpt.com/c/6aaa76b1-ed38-83ee-91f2-5b37a03ab2a0)にresource-frames-audit.zip（約4.5MB）を送信済み。commit後の通常/Pages build・production dry-run成功。
 
 再監査対象081e20f5080254bb37ebc475d5d41edbd30a651aは合格・必須指摘なし。初回指摘（旧/協力武器庫の分解成功通知の平文）を共通枠へ修正。再監査でGitHub実差分一致を確認。任意の育成ポイント分母は所持枠重複/横幅を避け維持。監査環境で依存取得できずbuild等再実行なし。追加成功通知の実画像は未確認、前回27画面と共通renderer/DOM限定を根拠に合格。
+
+## main反映・公開完了
+
+PR #26を通常merge。公開ソースc73b49d18a5e41e087032e9af5ce6ae2b76622bd、Worker Version 59f899ce-d778-4b85-ab05-2bb72cc6c0d4。merge後build/dry-run成功。[配信証拠](evidence/resource-frames/published.json): 13ファイルSHA一致・health成功。公開iabで基地の4所持枠（0表示）・アクセサリの所持/通常10・指定30武装片消費枠を目視確認、errorログ0。実スマホ/旧協力武器庫の実画面は未確認。後続差分は公開記録のみ。
