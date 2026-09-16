@@ -1,3 +1,10 @@
+# 現在地: コンパクトなソート・絞り込みを保存済み、監査資料送信の承認待ち（2026-09-16）
+
+[PR #23](https://github.com/futsalife24-bot/swarm-front/pull/23)、branch `codex/compact-weapon-filters`、実装/監査対象 `2fe1e96f9a7146b4093ea0ff53d994c0492cf924`、base `c98c0fa328140ebcfb9ded7b2a3694a7d5c076a5`。ソート・武器種/レア度/お気に入り絞り込みを幅280pxの1パネルに統合。型・通常/Pages build・4幅UI基準とお気に入り/絞り込み/整理テスト・Worker production dry-run成功。[詳細](COMPACT-WEAPON-FILTERS.md)。実スマホ未確認。
+
+停止理由: iabの新規通常Chatで `compact-filters-audit.zip` をfilechooser添付した際、自動承認レビューが「具体的payloadのChatGPTへの送信承認がない」と拒否。送信未実施。既存継続承認は確認済みだが回避・再試行しない。main反映・公開は未実施。
+再開条件: 今回の差分・必要ソース・UI証拠ZIP（dist-validation/compact-filters/compact-filters-audit.zip、約2.6MB）をChatGPTの新規通常Chatへ独立監査目的で送る明示承認後、同ZIPを添付して監査・必要修正・通常merge・既存Worker公開・配信確認。後続commitは停止記録のみなので対象実装SHAは上記。
+
 # 現在地: ソート・絞り込みのコンパクト化を自己検証済み（2026-09-16）
 
 branch: codex/compact-weapon-filters、base: c98c0fa。共通武器一覧にソート・武器種/レア度/お気に入り絞り込みを統合。お気に入り順追加。型・4幅UI基準/操作テスト成功。[詳細](COMPACT-WEAPON-FILTERS.md)。独立監査・main反映・公開準備中。
