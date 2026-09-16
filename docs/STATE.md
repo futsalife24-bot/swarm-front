@@ -1,3 +1,7 @@
+# 現在地: タイトルのチュートリアルを実装・自己検証済み（2026-09-16）
+
+branch codex/title-tutorial、base 83e0050。タイトルだけの入口と各ページ/システム/進め方の3タブ。型・通常build・3幅全タブ/操作/保存不変・4幅武器UI成功。[詳細](TITLE-TUTORIAL.md)。独立監査・main反映・公開準備中。
+
 # 現在地: 消費アイテム共通枠をmain反映・公開済み（2026-09-16）
 
 [PR #26](https://github.com/futsalife24-bot/swarm-front/pull/26)通常merge、対象081e20f独立再監査合格・必須指摘なし。公開ソースc73b49d18a5e41e087032e9af5ce6ae2b76622bd、Version 59f899ce-d778-4b85-ab05-2bb72cc6c0d4。4種の専用アイコン/名称/用途/数量を所持・報酬・消費で統一。型・4幅武器UI・3幅27画面・build/dry-run成功。公開13ファイルSHA一致・health成功・iab基地/アクセサリ表示とerrorログ0。[詳細/限界](RESOURCE-FRAMES.md)。実スマホ/旧協力武器庫実画面は未確認。後続変更は記録のみ。
