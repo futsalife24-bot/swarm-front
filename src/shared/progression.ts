@@ -5,6 +5,7 @@ import {
   RARITIES,
   type Kind,
   type Weapon,
+  type Roll,
 } from "./defs";
 import { STAGES, troopCount } from "./stages";
 
@@ -248,3 +249,12 @@ export const varianceClass = (n: number) =>
           : "max";
 export const varianceMark = (n: number) =>
   n < 0 ? "▼" : n === 0 ? "" : n <= 10 ? "▲" : n < 20 ? "▲\n▲" : "★";
+
+/** Display only: legacy saves keep their combat values and original format. */
+export function weaponStatVariance(w: StoredWeapon, key: Roll): number {
+  if (w.format === 2) return key === "mag" ? 0 : w.variance[key];
+  const multiplier = key === "power" ? w.power : (w.rolls?.[key] ?? 1);
+  // Legacy reload rolls scale duration, so shorter is favorable. Special
+  // effects are listed separately and must not be counted as an individual roll.
+  return Math.round((key === "reload" ? 1 - multiplier : multiplier - 1) * 1000) / 10;
+}

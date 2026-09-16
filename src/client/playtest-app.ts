@@ -77,6 +77,7 @@ import {
   missionKey,
   varianceClass,
   varianceMark,
+  weaponStatVariance,
   makeWeapon,
   type NewWeapon,
   type StoredWeapon,
@@ -1719,7 +1720,7 @@ function detail(w: StoredWeapon, context: string) {
       ]
         .map(
           ([k, t]) =>
-            `<tr><th>${t}</th><td class="pt-var-${k === "mag" ? "base" : varianceClass(w.format === 2 ? w.variance[k as keyof Variances] : 0)}">${metric(w, k)}<sup>${k === "mag" ? "" : varianceMark(w.format === 2 ? w.variance[k as keyof Variances] : 0)}</sup></td><td>${w.format !== 2 ? "従来の性能を保持" : k === "mag" ? "固定" : `${(w.format === 2 ? w.variance[k as keyof Variances] : 0) >= 0 ? "+" : ""}${w.format === 2 ? w.variance[k as keyof Variances] : 0}%`}</td><td>${metricDifference(w, base, k)}</td></tr>`,
+            `<tr><th>${t}</th><td class="pt-var-${varianceClass(weaponStatVariance(w, k as "mag" | keyof Variances))}">${metric(w, k)}<sup>${varianceMark(weaponStatVariance(w, k as "mag" | keyof Variances))}</sup></td><td>${w.format !== 2 ? "従来の性能を保持" : k === "mag" ? "固定" : `${(w.format === 2 ? w.variance[k as keyof Variances] : 0) >= 0 ? "+" : ""}${w.format === 2 ? w.variance[k as keyof Variances] : 0}%`}</td><td>${metricDifference(w, base, k)}</td></tr>`,
         )
         .join("")}</table>`;
   };

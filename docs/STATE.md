@@ -1,3 +1,7 @@
+# 現在地: 旧武器の能力印を復元・自己検証済み（2026-09-16）
+
+branch codex/restore-weapon-marks、base 7bf75c5。旧武器の個体補正から一覧/詳細の印を復元。保存/戦闘値変更なし。型・単体2件・両build・4幅UI基準・2幅対象画面成功。[詳細](WEAPON-STAT-MARKS.md)。独立監査・main反映・公開準備中。
+
 # 現在地: 基地4メニューをmain反映・公開済み（2026-09-16）
 
 [PR #24](https://github.com/futsalife24-bot/swarm-front/pull/24)を通常merge。実装 `9b7f37bf5b324240a4ab8c5d3864743904d7ae3f` は[独立Chat監査](https://chatgpt.com/c/6aaa5646-3e10-83ee-8069-885a3822a7d8)合格・必須指摘0件。公開ソース `3a35d37831160fb5ca0de64025970436c9cd8d0f`、Worker Version `9d3e7eda-3bed-4edd-87ef-4c770f156a92`。タイトル基地→武器/アクセサリ/育成/工房の4導線、工房はdisabled・工事中。
