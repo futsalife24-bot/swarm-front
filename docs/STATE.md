@@ -1,3 +1,13 @@
+# 現在地: 更新履歴自動化・監査経路固定をmain反映・公開済み（2026-09-16）
+
+[PR #20](https://github.com/futsalife24-bot/swarm-front/pull/20)を通常merge。対象 `5dbfa001521fdaa419faef3cf871898b8cfba04f` に[独立Chat監査](https://chatgpt.com/c/6aaa32e6-df78-83e9-b47d-f8d58a4ce8a9)「合格・必須指摘0件」。公開ソース `9afcaa7d3933296ffb696147e6fb1c1caf9715cb` は監査対象からAGENTS/docsだけの差分。merge本文のPlayer-Note保持・merge後mainのbuild成功。
+
+既存Worker https://swarm-front.melosalife-24.workers.dev へ公開。Version `9c87ad0b-5b21-4bda-8adf-c0341a327492`。配信14ファイルSHA一致・health成功。公開iabで更新履歴の自動項目、9/15〜16補完、日付統合、開閉を確認、取得したブラウザerrorログ0件。公開前Chrome3幅も成功。実スマホは未確認。[詳細・監査限界・証拠](AUTOMATIC-CHANGELOG.md)。
+
+監査手順はスキル `swarm-front-audit-release` に固定し個人用へも配置・形式検証/ハッシュ一致済み。AGENTS/WORKFLOWから参照。iab→通常新規Chat→ZIP添付→独立監査→必要修正/再監査→main反映→公開確認。Chrome設定変更は不要で、承認済みの2ZIPをiabで送信できた。監査・添付・公開の保留は解消。後続変更は公開記録のみ。
+
+以下は過去の経過。
+
 # 現在地: 監査から公開までの自動進行を承認済み、PR #20はブラウザ操作障害（2026-09-16）
 
 ユーザー「今後は自動で監査まで済ませて公開して」により、独立Chat監査依頼・指摘修正/再監査・通常merge・既存Worker公開・配信確認まで継続承認。AGENTS/WORKFLOW/READMEを更新、記録HEAD `5dbfa001521fdaa419faef3cf871898b8cfba04f`。追加の通常公開承認は不要。独立監査・保護・CIは維持する。

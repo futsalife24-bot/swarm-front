@@ -1,0 +1,67 @@
+{
+  "source": "9afcaa7d3933296ffb696147e6fb1c1caf9715cb",
+  "version": "9c87ad0b-5b21-4bda-8adf-c0341a327492",
+  "results": [
+    {
+      "path": "index.html",
+      "sha256": "291e8691dd3bcc192032a9cf9463e1bc2b491869ee1f86b2f6ad997eb5cb9c1e"
+    },
+    {
+      "path": "sw.js",
+      "sha256": "157f181af27ea1672238cac1dc2dbbfbe8bcfda91cfc3b813ade3b07aad65f49"
+    },
+    {
+      "path": "manifest.webmanifest",
+      "sha256": "4ccb9648d0544cd62020e7004ea3cc7589d78596a0ff0c517dfec89fe561882b"
+    },
+    {
+      "path": "assets/index-DqpSGRLI.js",
+      "sha256": "249de46ea604ca395ea4b425f367333f91fc7619db8992adc22f3c45133725c8"
+    },
+    {
+      "path": "assets/main-C1Ldsy-y.css",
+      "sha256": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1"
+    },
+    {
+      "path": "assets/main-pBN8zc_j.js",
+      "sha256": "6c9692d8f6c482a189e76ae4128e47ad189499285d725ee834a8e29f4cf717d2"
+    },
+    {
+      "path": "assets/minimap-BWoypnhQ.js",
+      "sha256": "acd1c9fcc1086992445f2335d1e651d637b7f2753afa35bf0406a72c33384a63"
+    },
+    {
+      "path": "assets/minimap-F72ce1la.css",
+      "sha256": "50a6bf586eb35b2aa6f7c61634b168d21ad5722b0a24de4a37c73d5e207643fa"
+    },
+    {
+      "path": "assets/playtest-app-3ppDiRHY.js",
+      "sha256": "f0cc03671e583314ea9a4d904c8a839d25ea2739f116207b69586f63f9f97afb"
+    },
+    {
+      "path": "assets/playtest-app-B_KMWN0g.css",
+      "sha256": "72920c3dc190f04f256ea38bf2d48d8018bf3ba2fdb32e554ab22af75bad88ce"
+    },
+    {
+      "path": "assets/training-app-D-wVHQoU.js",
+      "sha256": "678b8e184d89466d6e3848db248bfa5240b8f853ff7017a211684759df10e9a4"
+    },
+    {
+      "path": "assets/weapon-sharing-DEjl3exZ.js",
+      "sha256": "68ff83f0271d3acb0eef3181b2a9fdbefd1145dadb56a8415bf5262b37b0b3f6"
+    },
+    {
+      "path": "assets/zoom-guard-Bk8Njxjo.css",
+      "sha256": "76dffb9201318b732baa55baaf1726814506d1393a1c8966efc2c20e689ef028"
+    },
+    {
+      "path": "assets/zoom-guard-DpB0jyYp.js",
+      "sha256": "47cacd6ed2a9f781ff76f4f1fa5db9caa7b88f04b79dbf3821b18d782d1497ff"
+    }
+  ],
+  "health": {
+    "ok": true,
+    "transport": "websocket",
+    "authority": "durable-object"
+  }
+}
