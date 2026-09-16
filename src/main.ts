@@ -1,3 +1,4 @@
+import { resourceFrame } from "./client/resource-frame";
 import { newSaveKey } from "./client/progression-save";
 import {
   CAPACITY,
@@ -1325,9 +1326,9 @@ function armory() {
       })
       .join(
         "",
-      )}</tbody></table><p class="armory-help">${protectedWeapon ? "登録装備・お気に入りは分解から保護されます。" : `分解で${POWDER_NAME} +${weaponYield(w)}。実行前に確認できます。`}${pending ? " 整理待ちは保存済み。空きができると入手順に収納します。" : ""}</p></div><div class="armory-detail-actions">${favoriteButton(w)}<button data-discard="${esc(w.id)}" ${protectedWeapon ? "disabled" : ""}>${protectedWeapon ? "保護中" : `分解（+${weaponYield(w)}）`}</button></div>`;
+      )}</tbody></table><p class="armory-help">${protectedWeapon ? "登録装備・お気に入りは分解から保護されます。" : `分解で${resourceFrame("powder", weaponYield(w), "gain")}。実行前に確認できます。`}${pending ? " 整理待ちは保存済み。空きができると入手順に収納します。" : ""}</p></div><div class="armory-detail-actions">${favoriteButton(w)}<button data-discard="${esc(w.id)}" ${protectedWeapon ? "disabled" : ""}>${protectedWeapon ? "保護中" : `分解 ${resourceFrame("powder", weaponYield(w), "gain")}`}</button></div>`;
   };
-  ui.innerHTML = `<section class="panel armory ${armoryOrganizing ? "organizing" : ""}"><header><div class="armory-title"><h1>武器庫 <small>${save.inventory.length}丁${waiting.length ? ` · 整理待ち ${waiting.length}` : ""}</small></h1><button id="armory-organize" aria-pressed="${armoryOrganizing}">${armoryOrganizing ? "整理を終了" : "整理モード"}</button><select id="armory-filter" aria-label="武器庫の絞り込み"><option value="all">全武器</option><option value="favorites">お気に入り</option><option value="pending">整理待ち</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select></div><nav aria-label="武器庫の移動"><button id="armory-home">ホームへ</button><button id="armory-gear">出撃準備へ</button></nav></header><div class="armory-toolbar"><span>${shown.length}丁を表示</span><small>${kindTally()}</small></div><div class="armory-powder"><span>${POWDER_NAME}：${save.powder ?? 0}</span>${armoryOrganizing ? `<button id="armory-dismantle" ${checked.length ? "" : "disabled"}>選択 ${checked.length}丁を分解（+${yieldTotal}）</button><small>装備中・お気に入りは保護</small>` : ""}</div><p class="status" role="status">${esc(saveError || status)}</p><div class="armory-workspace"><section class="armory-catalog" aria-label="武器一覧"><div class="armory-list" tabindex="0" aria-label="武器一覧。上下にスクロールできます"><div class="armory-list-head" aria-hidden="true"><span>武器 / 状態</span><span>特殊効果</span><span>威力</span><span>装弾</span><span title="装填時間（秒）">装填</span><span title="射程（m）">射程</span><span title="連射速度（発/秒）">連射</span></div>${
+  ui.innerHTML = `<section class="panel armory ${armoryOrganizing ? "organizing" : ""}"><header><div class="armory-title"><h1>武器庫 <small>${save.inventory.length}丁${waiting.length ? ` · 整理待ち ${waiting.length}` : ""}</small></h1><button id="armory-organize" aria-pressed="${armoryOrganizing}">${armoryOrganizing ? "整理を終了" : "整理モード"}</button><select id="armory-filter" aria-label="武器庫の絞り込み"><option value="all">全武器</option><option value="favorites">お気に入り</option><option value="pending">整理待ち</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select></div><nav aria-label="武器庫の移動"><button id="armory-home">ホームへ</button><button id="armory-gear">出撃準備へ</button></nav></header><div class="armory-toolbar"><span>${shown.length}丁を表示</span><small>${kindTally()}</small></div><div class="armory-powder">${resourceFrame("powder", save.powder ?? 0)}${armoryOrganizing ? `<button id="armory-dismantle" ${checked.length ? "" : "disabled"}>選択 ${checked.length}丁を分解 ${resourceFrame("powder", yieldTotal, "gain")}</button><small>装備中・お気に入りは保護</small>` : ""}</div><p class="status" role="status">${esc(saveError || status)}</p><div class="armory-workspace"><section class="armory-catalog" aria-label="武器一覧"><div class="armory-list" tabindex="0" aria-label="武器一覧。上下にスクロールできます"><div class="armory-list-head" aria-hidden="true"><span>武器 / 状態</span><span>特殊効果</span><span>威力</span><span>装弾</span><span title="装填時間（秒）">装填</span><span title="射程（m）">射程</span><span title="連射速度（発/秒）">連射</span></div>${
     shown
       .map((w) => {
         const d = stats(w);
@@ -1385,7 +1386,7 @@ function armory() {
     ).join(" / ");
     const review = menuDialog(
       "武器を分解しますか",
-      `<p>選択した <b>${weapons.length}丁</b>を分解し、<strong>${POWDER_NAME} +${amount}</strong>を獲得します。元には戻せません。</p><p>${breakdown}</p><ul class="dismantle-review">${weapons.map((w) => `<li><b>${weaponGrade(w)} · ${weaponName(w)}</b><span>${esc(weaponDetails(w))}</span></li>`).join("")}</ul>`,
+      `<p>選択した <b>${weapons.length}丁</b>を分解し、${resourceFrame("powder", amount, "gain")}を獲得します。元には戻せません。</p><p>${breakdown}</p><ul class="dismantle-review">${weapons.map((w) => `<li><b>${weaponGrade(w)} · ${weaponName(w)}</b><span>${esc(weaponDetails(w))}</span></li>`).join("")}</ul>`,
       "ARSENAL / DISMANTLE",
     );
     const actions = document.createElement("div");
@@ -1413,8 +1414,12 @@ function armory() {
         )
       ) {
         armoryChecked.clear();
-        status = `${weapons.length}丁を分解し、${POWDER_NAME}を${amount}獲得しました。`;
+        status = `${weapons.length}丁を分解しました。`;
         armory();
+        ui.querySelector(".status")!.insertAdjacentHTML(
+          "beforeend",
+          resourceFrame("powder", amount, "gain"),
+        );
         (
           ui.querySelector<HTMLElement>(
             "[data-armory-select][aria-pressed='true']",

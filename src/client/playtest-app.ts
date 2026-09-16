@@ -4,6 +4,7 @@ import "../menu-ui.css";
 import "../menu-theme.css";
 import "./playtest.css";
 import "./gear-weapon-list.css";
+import { resourceFrame, resourceWallet } from "./resource-frame";
 import { menuSamples } from "./menu-samples";
 import { homeMarkup } from "./home-screen";
 import { canInstallApp, installApp } from "./app-install";
@@ -415,7 +416,7 @@ function choice() {
   const r = save.result!;
   header(
     "報酬を選択",
-    `<div class="pt-intro"><h2>通常武器 ${r.weapons.length}個 · ${r.coins + r.firstCoins}コイン</h2><p>広告なしでも通常分を受け取れます。通常分は保存済みです。</p><p>広告成功で武器 ${r.collected + 2}個を追加抽選・毎回コイン +${r.coins}。初回限定報酬は対象外です。</p><button id="pt-normal-reward" class="primary">広告なしで受け取る</button><button id="pt-ad-reward" ${mode === "test" ? "" : "disabled"}>${mode === "test" ? "テスト広告で追加報酬" : "広告は準備中"}</button></div>`,
+    `<div class="pt-intro"><h2>通常武器 ${r.weapons.length}個 · ${resourceFrame("coins", r.coins + r.firstCoins, "gain")}</h2><p>広告なしでも通常分を受け取れます。通常分は保存済みです。</p><p>広告成功で武器 ${r.collected + 2}個を追加抽選・毎回 ${resourceFrame("coins", r.coins, "gain")}。初回限定報酬は対象外です。</p><button id="pt-normal-reward" class="primary">広告なしで受け取る</button><button id="pt-ad-reward" ${mode === "test" ? "" : "disabled"}>${mode === "test" ? "テスト広告で追加報酬" : "広告は準備中"}</button></div>`,
     false,
   );
   bind("pt-normal-reward", () => commit(chooseReward(save, false), result));
@@ -427,7 +428,7 @@ function result() {
   world = null;
   header(
     r.win ? "戦果" : "敗北",
-    `<div class="pt-result"><aside><div class="pt-summary"><span>${Math.floor(r.time)}秒</span><span>${r.kills}撃破</span><span>+${r.coins * (r.choice === "ad" ? 2 : 1) + r.firstCoins}コイン</span></div><p>${stageLabel(r.stage)} ${r.difficulty === "normal" ? "通常" : "中難易度"}</p><p>${r.missions.map((v, i) => `${i + 1}${v ? "✓" : "○"}`).join("　")}</p>${r.first ? `<p>初達成 ${r.stage === 21 ? "500コイン＋武器3個" : `3ポイント${r.stage <= 4 && r.difficulty === "normal" ? "・解放素材1個" : ""}`}</p>` : ""}<button id="pt-result-home">ホームへ</button><button id="pt-result-retry">出撃準備へ</button></aside><section>${weaponList(r.weapons, "result")}</section></div>`,
+    `<div class="pt-result"><aside><div class="pt-summary"><span>${Math.floor(r.time)}秒</span><span>${r.kills}撃破</span>${resourceFrame("coins", r.coins * (r.choice === "ad" ? 2 : 1) + r.firstCoins, "gain")}</div><p>${stageLabel(r.stage)} ${r.difficulty === "normal" ? "通常" : "中難易度"}</p><p>${r.missions.map((v, i) => `${i + 1}${v ? "✓" : "○"}`).join("　")}</p>${r.first ? `<p>初達成 ${r.stage === 21 ? `${resourceFrame("coins", 500, "gain")}＋武器3個` : `${resourceFrame("points", 3, "gain")}${r.stage <= 4 && r.difficulty === "normal" ? resourceFrame("materials", 1, "gain") : ""}`}</p>` : ""}<button id="pt-result-home">ホームへ</button><button id="pt-result-retry">出撃準備へ</button></aside><section>${weaponList(r.weapons, "result")}</section></div>`,
     false,
   );
   bindList("result");
@@ -1140,7 +1141,7 @@ function header(title: string, body: string, nav = true) {
               : "OPERATION RESULTS";
   const panel =
     screen === "gear" ? "gear" : screen === "result" ? "result" : "armory";
-  ui.innerHTML = `<section class="panel ${panel} menu-screen pt-screen"><header class="menu-header"><div><div class="eyebrow">${eyebrow}${developerMode ? " · 管理者モード" : mode === "test" ? " · TEST DATA" : ""}</div><h1>${esc(title)}</h1></div>${nav ? '<nav><button id="pt-gear">出撃準備</button><button id="pt-base">基地</button><button id="pt-home">タイトルへ</button></nav>' : ""}</header><p class="pt-status" role="status">${esc(notice)}</p>${body}</section>`;
+  ui.innerHTML = `<section class="panel ${panel} menu-screen pt-screen"><header class="menu-header"><div><div class="eyebrow">${eyebrow}${developerMode ? " · 管理者モード" : mode === "test" ? " · TEST DATA" : ""}</div><h1>${esc(title)}</h1></div>${nav ? '<nav><button id="pt-gear">出撃準備</button><button id="pt-base">基地</button><button id="pt-home">タイトルへ</button></nav>' : ""}</header><p class="pt-status" role="status">${esc(notice)}</p>${["base", "armory", "growth", "accessories"].includes(screen) ? resourceWallet(save) : ""}${body}</section>`;
   bind("pt-home", home);
   if (sampleMenus && nav) {
     $("pt-home").textContent = "サンプル終了";
@@ -1314,7 +1315,7 @@ function gear() {
     p = soldier(save);
   header(
     "出撃準備",
-    `<div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 出撃先</span><button id="pt-mission-info">作戦詳細</button></div><select id="pt-stage" aria-label="ステージ">${[...STAGES.map((s) => s.id), 21].map((id) => `<option value="${id}" ${id === stage ? "selected" : ""}>${esc(stagePickerLabel(save, id))}</option>`).join("")}</select><div class="pt-difficulty"><select id="pt-difficulty" aria-label="難易度"><option value="normal">NORMAL</option><option value="medium">HARD</option><option value="expert" disabled>EXPERT（未解放）</option></select><small>クリア ${victoryCoins(stage, difficulty)} コイン</small></div></section><section class="equipment-select"><div class="section-label"><span>02 入替先</span><small>一覧タップで変更</small></div><div class="loadout-slots">${p.equipped
+    `<div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 出撃先</span><button id="pt-mission-info">作戦詳細</button></div><select id="pt-stage" aria-label="ステージ">${[...STAGES.map((s) => s.id), 21].map((id) => `<option value="${id}" ${id === stage ? "selected" : ""}>${esc(stagePickerLabel(save, id))}</option>`).join("")}</select><div class="pt-difficulty"><select id="pt-difficulty" aria-label="難易度"><option value="normal">NORMAL</option><option value="medium">HARD</option><option value="expert" disabled>EXPERT（未解放）</option></select><small>クリア ${resourceFrame("coins", victoryCoins(stage, difficulty), "gain")}</small></div></section><section class="equipment-select"><div class="section-label"><span>02 入替先</span><small>一覧タップで変更</small></div><div class="loadout-slots">${p.equipped
       .map((id, i) => {
         const w = save.inventory.find((w) => w.id === id)!;
         return `<button data-gear-slot="${i}" aria-pressed="${selectedGearSlot === i}"><span class="slot-number">0${i + 1}</span><span class="slot-info"><small class="pt-grade-${weaponTier(w)}">装備${i + 1} ${selectedGearSlot === i ? "選択中 · " : ""}${weaponGrade(w)}</small><b>${esc(WEAPONS[w.kind].name)}</b><strong>${esc(effectLabel(w))}</strong></span><i>詳細 ›</i></button>`;
@@ -1641,7 +1642,7 @@ function armory() {
   );
   header(
     weaponGenres[armoryKind],
-    `<p class="pt-armory-summary">${save.coins} コイン · ${save.powder} 武装片 · 通常 ${save.inventory.length}丁 / 超過 ${save.pending.length}丁 · 武器種ごと16丁、全体160丁</p>${weaponList(allWeapons(save), "armory")}`,
+    `<p class="pt-armory-summary">通常 ${save.inventory.length}丁 / 超過 ${save.pending.length}丁 · 武器種ごと16丁、全体160丁</p>${weaponList(allWeapons(save), "armory")}`,
   );
   const toolbar = ui.querySelector(".pt-list-tools")!;
   ui.querySelector(".menu-header")!.insertBefore(
@@ -1661,7 +1662,7 @@ function dismantleUI(ids: string[], redraw: () => void = armory) {
   const n = dismantle(save, ids);
   confirmAction(
     "武器を解体",
-    `<p>${items.length}丁 → 武装片 +${n.powder - save.powder}</p>${items.map((w) => `<p>${esc(WEAPONS[w.kind].name)} ${weaponGrade(w)}${weaponTier(w) === 4 || VARIANCE_KEYS.some((k) => w.format === 2 && w.variance[k] === 20) ? " ⚠ LR／最大補正あり" : ""}</p>`).join("")}`,
+    `<p>${items.length}丁 → ${resourceFrame("powder", n.powder - save.powder, "gain")}</p>${items.map((w) => `<p>${esc(WEAPONS[w.kind].name)} ${weaponGrade(w)}${weaponTier(w) === 4 || VARIANCE_KEYS.some((k) => w.format === 2 && w.variance[k] === 20) ? " ⚠ LR／最大補正あり" : ""}</p>`).join("")}`,
     () =>
       commit(n, () => {
         checked.clear();
@@ -1761,7 +1762,7 @@ function growth() {
   const p = soldier(save);
   header(
     "兵士の育成",
-    `<p>${esc(p.name)} · ポイント ${spent(p.levels)} / ${save.points} · 解放素材 ${save.materials} · 配分を戻す確定は500コイン</p><div class="pt-growth">${SKILLS.map((k) => `<label>${SKILL_NAMES[k]} ${save.unlocked.includes(k) ? `<select data-level="${k}">${COSTS.map((cost, i) => `<option value="${i}" ${p.levels[k] === i ? "selected" : ""}>Lv${i} (${cost}pt)</option>`).join("")}</select>` : `<button data-unlock="${k}" ${save.materials ? "" : "disabled"}>素材1個で解放</button>`}</label>`).join("")}<p id="pt-point-preview">使用 ${spent(p.levels)} / ${save.points}</p><button id="pt-allocate">配分を確定</button><button id="pt-growth-cancel">編集をキャンセル</button></div>`,
+    `<p>${esc(p.name)} · ${resourceFrame("points", spent(p.levels), "used")} · 配分を戻す確定 ${resourceFrame("coins", 500, "cost")}</p><div class="pt-growth">${SKILLS.map((k) => `<label>${SKILL_NAMES[k]} ${save.unlocked.includes(k) ? `<select data-level="${k}">${COSTS.map((cost, i) => `<option value="${i}" ${p.levels[k] === i ? "selected" : ""}>Lv${i} (${cost}pt)</option>`).join("")}</select>` : `<button data-unlock="${k}" ${save.materials ? "" : "disabled"}>解放 ${resourceFrame("materials", 1, "cost")}</button>`}</label>`).join("")}<p id="pt-point-preview">${resourceFrame("points", spent(p.levels), "used")} / ${save.points}</p><button id="pt-allocate">配分を確定</button><button id="pt-growth-cancel">編集をキャンセル</button></div>`,
   );
   ui.querySelectorAll<HTMLButtonElement>("[data-unlock]").forEach(
     (b) =>
@@ -1777,15 +1778,15 @@ function growth() {
   };
   ui.querySelectorAll("[data-level]").forEach((e) =>
     e.addEventListener("change", () => {
-      $("pt-point-preview").textContent =
-        `使用 ${spent(levels())} / ${save.points}`;
+      $("pt-point-preview").innerHTML =
+        `${resourceFrame("points", spent(levels()), "used")} / ${save.points}`;
     }),
   );
   bind("pt-allocate", () => {
     const v = levels(),
       n = allocate(save, p.id, v);
     if (SKILLS.some((k) => v[k] < p.levels[k]))
-      confirmAction("配分を振り直す", "<p>500コインを使用します。</p>", () =>
+      confirmAction("配分を振り直す", `<p>${resourceFrame("coins", 500, "cost")}を使用します。</p>`, () =>
         commit(n, growth),
       );
     else commit(n, growth);
@@ -1826,13 +1827,13 @@ function accessories() {
   setScreen("accessories");
   header(
     "アクセサリ",
-    `<div class="pt-brief"><button id="pt-craft">通常作成 10武装片</button><select id="pt-accessory-kind">${Object.entries(
+    `<div class="pt-brief"><button id="pt-craft">通常作成 ${resourceFrame("powder", 10, "cost")}</button><select id="pt-accessory-kind">${Object.entries(
       ACCESSORY_NAMES,
     )
       .map(([k, v]) => `<option value="${k}">${v}</option>`)
       .join(
         "",
-      )}</select><button id="pt-target-craft">指定作成 30武装片</button><button id="pt-synthesis">一括合成</button><button id="pt-accessory-off">装備を外す</button></div><div class="pt-accessories">${save.accessories.map((a) => `<div><span>${ACCESSORY_NAMES[a.kind]} R${a.rarity} ${save.soldiers.some((p) => p.accessory === a.id) ? "登録装備" : ""}</span><button data-accessory-equip="${a.id}">装備</button><button data-accessory-lock="${a.id}">${a.locked ? "🔒解除" : "🔓ロック"}</button><button data-accessory-delete="${a.id}" ${accessoryProtected(save, a.id) ? "disabled" : ""}>解体 +${a.rarity}</button></div>`).join("")}</div>`,
+      )}</select><button id="pt-target-craft">指定作成 ${resourceFrame("powder", 30, "cost")}</button><button id="pt-synthesis">一括合成</button><button id="pt-accessory-off">装備を外す</button></div><div class="pt-accessories">${save.accessories.map((a) => `<div><span>${ACCESSORY_NAMES[a.kind]} R${a.rarity} ${save.soldiers.some((p) => p.accessory === a.id) ? "登録装備" : ""}</span><button data-accessory-equip="${a.id}">装備</button><button data-accessory-lock="${a.id}">${a.locked ? "🔒解除" : "🔓ロック"}</button><button data-accessory-delete="${a.id}" ${accessoryProtected(save, a.id) ? "disabled" : ""}>解体 ${resourceFrame("powder", a.rarity, "gain")}</button></div>`).join("")}</div>`,
   );
   bind("pt-craft", () => commit(createAccessory(save), accessories));
   bind("pt-target-craft", () =>
@@ -1894,7 +1895,7 @@ function accessories() {
         if (accessoryProtected(save, a.id)) return;
         confirmAction(
           "アクセサリ解体",
-          `<p>${ACCESSORY_NAMES[a.kind]} R${a.rarity} → 武装片 +${a.rarity}</p>`,
+          `<p>${ACCESSORY_NAMES[a.kind]} R${a.rarity} → ${resourceFrame("powder", a.rarity, "gain")}</p>`,
           () => {
             const n = structuredClone(save);
             n.accessories = n.accessories.filter((x) => x.id !== a.id);

@@ -1,3 +1,15 @@
+# 現在地: 消費アイテム共通枠PR #26が独立監査合格（2026-09-16）
+
+対象081e20f5080254bb37ebc475d5d41edbd30a651aは合格・必須指摘なし。[詳細/限界](RESOURCE-FRAMES.md)。後続は記録のみ。main反映・既存Worker公開へ進む。
+
+# 現在地: 消費アイテム共通枠PR #26を独立監査中（2026-09-16）
+
+対象9c58d9708082f6e668cdf50d492b46411fe8f3bc。[PR #26](https://github.com/futsalife24-bot/swarm-front/pull/26)、[監査Chat](https://chatgpt.com/c/6aaa76b1-ed38-83ee-91f2-5b37a03ab2a0)へ差分/必要ソース/27画面ZIP送信済み。通常/Pages build・production dry-run成功。[詳細](RESOURCE-FRAMES.md)。合格後main反映・公開へ進む。
+
+# 現在地: 消費アイテム共通枠を実装・自己検証済み（2026-09-16）
+
+branch codex/resource-frames、base b5ac631。4種の専用アイコン/名前/用途/数量を共通化。型・4幅武器UI・3幅27画面と所持数更新確認成功。[詳細](RESOURCE-FRAMES.md)。独立監査・main反映・公開準備中。
+
 # 現在地: 武器の能力印を復元・main反映・公開済み（2026-09-16）
 
 [PR #25](https://github.com/futsalife24-bot/swarm-front/pull/25)通常merge・独立監査合格済み。今回の明示承認を受け、ソース e78eb71cd06d9e205d2db7178c53b39b0c58a7ca を既存Workerへ公開。Version fa2f7a8b-ddb3-43d5-84c0-6785ee96abae。13配信ファイルSHA一致・health成功・公開iab一覧/詳細確認・errorログ0。旧武器の全5印はローカル2幅で検証済み。[詳細/限界](WEAPON-STAT-MARKS.md)。実スマホ未確認。公開保留は解消、後続差分は記録のみ。
