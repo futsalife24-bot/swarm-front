@@ -288,7 +288,45 @@ body[data-screen="title"]
 }
 .home-utilities {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
+}
+
+.tutorial-tabs {
+  display: flex;
+  flex: none;
+  gap: 8px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--menu-edge);
+}
+.tutorial-tabs button {
+  flex: 1;
+  min-height: 38px;
+  padding: 6px 10px;
+}
+.tutorial-tabs button[aria-selected="true"] {
+  background: #285449;
+  border-color: #b0e6d4;
+  color: #fff;
+}
+.tutorial-entries {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 20px;
+}
+.tutorial-entries h3 {
+  margin: 0 0 4px;
+  font-size: 14px;
+  color: #b0e6d4;
+}
+.tutorial-guide .tutorial-entries p {
+  margin: 0;
+  font-size: 13px;
+}
+@media (max-width: 540px) {
+  .tutorial-entries {
+    grid-template-columns: 1fr;
+  }
 }
 .home-utilities button {
   flex: 1;

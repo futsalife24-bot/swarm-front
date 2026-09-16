@@ -7,6 +7,7 @@ import "./gear-weapon-list.css";
 import { resourceFrame, resourceWallet } from "./resource-frame";
 import { menuSamples } from "./menu-samples";
 import { homeMarkup } from "./home-screen";
+import { openTutorialGuide } from "./tutorial-guide";
 import { canInstallApp, installApp } from "./app-install";
 import { CHANGELOG } from "./changelog";
 import { hudMarkup, updateCooldowns } from "./hud";
@@ -1271,6 +1272,7 @@ function showHome(initialized: boolean) {
     });
   bind("open-bestiary", () => enter(report));
   bind("home-settings", settingsUI);
+  bind("home-tutorial", () => openTutorialGuide(dialog));
   bind("coop", () => {
     location.href = location.hostname.endsWith(".trycloudflare.com")
       ? "https://swarm-front.melosalife-24.workers.dev/?coop=1"
