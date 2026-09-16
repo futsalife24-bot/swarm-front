@@ -120,6 +120,47 @@ try {
   await guest.locator("#room-join").click();
   await guest.locator("#room-code").waitFor();
   assert.equal(await guest.locator("#room-code").textContent(), id);
+  const nextRoom = await fetch(`${endpoint}/rooms`, {
+    method: "POST",
+    headers: { "X-Room-Creation-Key": key },
+  });
+  assert.ok(nextRoom.ok);
+  const nextInvite = `${origin}/#${(await nextRoom.json()).code}`;
+  const priorSession = await guest.evaluate(() =>
+    sessionStorage.getItem("swarm-front-session"),
+  );
+  assert.ok(priorSession);
+  guest.once("dialog", (d) => d.dismiss());
+  await guest.evaluate(
+    (url) => window.deliverLaunch({ targetURL: url }),
+    nextInvite,
+  );
+  assert.equal(
+    await guest.evaluate(() => sessionStorage.getItem("swarm-front-session")),
+    priorSession,
+  );
+  assert.equal(await guest.locator("#room-code").textContent(), id);
+  guest.once("dialog", (d) => d.accept());
+  await guest
+    .evaluate((url) => window.deliverLaunch({ targetURL: url }), nextInvite)
+    .catch((e) => {
+      if (!e.message.includes("context was destroyed")) throw e;
+    });
+  await guest.getByRole("button", { name: "招待ルームに参加" }).waitFor();
+  assert.equal(
+    await guest.evaluate(() => sessionStorage.getItem("swarm-front-session")),
+    null,
+  );
+  await host.waitForFunction(() =>
+    document.querySelector(".lobby-header")?.textContent?.includes("1 / 4 人"),
+  );
+  await guest.locator("#home").click();
+  await guest.getByRole("button", { name: "協力プレイ", exact: true }).click();
+  await guest.locator("#room-id").waitFor();
+  results.push({
+    activeRoomLaunch:
+      "cancel retains session; accept closes socket and clears old resume",
+  });
   assert.deepEqual(errors, []);
   fs.writeFileSync(
     `${out}/results.json`,

@@ -104,6 +104,9 @@
           "bottom": 73.640625
         }
       }
+    },
+    {
+      "activeRoomLaunch": "cancel retains session; accept closes socket and clears old resume"
     }
   ],
   "errors": [],

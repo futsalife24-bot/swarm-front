@@ -2,7 +2,7 @@
 
 [PR #18](https://github.com/futsalife24-bot/swarm-front/pull/18)、実装HEAD `bfe537005f5811a3757369c491e3ddb385412f1a`。branch `codex/lobby-id-pwa-invite`、base/main `cbb4b10aa435397fca996a044a0cceacd8310a40`。コピーを部屋ID横へ移してID専用化、招待共有を右へ離した。PWA起動URL受領とアプリ内URL貼付参加を追加。型・単体2件・両build・実Chrome/WorkerのID・URL参加と横画面3幅を検証。[差分・証拠・限界](LOBBY-INVITE.md)。OSによるPWA自動切替は実機未確認。
 
-停止理由: READMEのChat独立監査条件が未充足。ユーザーの明示承認を受け、対象ZIPを[通常Chat](https://chatgpt.com/c/6aaa2662-7970-83ee-a606-0e752aaf19d5)へ添付して監査依頼済み。main反映・公開は判定待ち。
+停止理由: [初回独立監査](https://chatgpt.com/c/6aaa2662-7970-83ee-a606-0e752aaf19d5)で招待承諾時の旧ルーム復帰情報残存が必須1件。共通削除・通常退出への連携を修正し、実通信で取消/承諾/タイトル復帰の追加追試成功。修正HEADの再監査待ち。main反映・公開は未実施。
 再開条件: 対象HEADの独立監査と必要な承認を受領してmain反映・公開を行う。ZIP送信の承認待ちは解消。
 
 # 現在地: 3人マルチ軽量化・部屋一覧/ID参加をmain反映・公開済み（2026-09-16）

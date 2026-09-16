@@ -1,4 +1,5 @@
 import { parseRoomEntry } from "./room-invite";
+import { clearNetworkSession } from "./network";
 
 // Supported browsers deliver app links without discarding an ongoing game.
 // OS link capture preferences still decide whether an external link opens the app.
@@ -20,6 +21,8 @@ export function installInviteLaunch() {
       )
     )
       return;
+    window.dispatchEvent(new Event("swarm-invite-leave"));
+    clearNetworkSession();
     const url = new URL(location.href);
     url.search = "?coop=1";
     url.hash = code.toLowerCase();

@@ -25,6 +25,13 @@ export interface NetworkSession {
   token: string;
 }
 export const NETWORK_SESSION_KEY = "swarm-front-session";
+export function clearNetworkSession() {
+  try {
+    sessionStorage.removeItem(NETWORK_SESSION_KEY);
+  } catch {
+    // Navigation/socket cleanup still works when storage is unavailable.
+  }
+}
 export function loadNetworkSession(
   storage: Pick<Storage, "getItem" | "removeItem"> = sessionStorage,
 ): NetworkSession | null {
@@ -371,10 +378,6 @@ export class Network {
     this.closed = true;
     clearInterval(this.timer);
     this.ws?.close(1000, "退出");
-    try {
-      sessionStorage.removeItem(NETWORK_SESSION_KEY);
-    } catch {
-      // The socket is still closed when browser storage is unavailable.
-    }
+    clearNetworkSession();
   }
 }

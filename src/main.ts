@@ -145,6 +145,10 @@ let lobbyPreview: World | null = null;
 let preparedKey = "";
 let preparingKey = "";
 let preparationMessage = "";
+window.addEventListener("swarm-invite-leave", () => {
+  network?.close();
+  network = undefined;
+});
 window.addEventListener("player-name-changed", () =>
   network?.setPlayerName(playerName()),
 );

@@ -29,3 +29,11 @@ Chat独立監査・必要な承認後にmain反映と既存Worker公開。実機
 保存先: [PR #18](https://github.com/futsalife24-bot/swarm-front/pull/18)、実装HEAD `bfe537005f5811a3757369c491e3ddb385412f1a`。作成済みZIP `dist-validation/lobby-invite-audit.zip` は対象commitのsrc、manifest、関連E2E、テスト、検証スクリプト、画面証拠、差分を含む。Chat添付は自動承認レビューが非公開データの具体的送信承認不足として拒否したため未送信。明示承認待ち。後続commitはこの記録のみ。
 
 2026-09-16 ユーザー「はい」でZIPの通常Chat送信を明示承認。添付・監査依頼の送信を確認済み。[独立監査Chat](https://chatgpt.com/c/6aaa2662-7970-83ee-a606-0e752aaf19d5)。公開Worker dry-runも成功（実公開なし）。
+
+## 独立監査1件の修正
+
+初回監査は「要修正・必須1件」。招待B承諾時に旧ルームAのsessionStorageが残る問題を独立再現。IDコピー、共有、URL検証、3幅UIは合格。コピー完了表示のヘッダー下端への近さは軽微・任意として残す。
+
+`clearNetworkSession()`を通常退出と招待承諾で共用。承諾後のイベントで現在のNetwork.close()を呼び、復帰情報を削除してからreloadする。取消時はどちらも行わない。vitestの明示includeに新規テストを追加（追加前の標準コマンドでは対象外だったため是正）。
+
+再検証: typecheck・招待単体2件・通常/Pages build成功。実Chrome/WorkerでA入室→B招待取消（旧接続情報維持）→B招待承諾（B参加前に旧session=null、Aの接続人数減少）→「タイトルへ」→「協力プレイ」で旧部屋の復帰表示が出ず部屋一覧へ進むことを確認。従来のID/URL入室・3幅チェックも同スクリプトで成功、pageerror 0。結果JSONは今回の再実行へ更新。OS実PWAリンク捕捉は未確認のまま。
