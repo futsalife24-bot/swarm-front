@@ -1,3 +1,9 @@
+# 現在地: 武器一括操作のパネル保持をmain反映・公開済み（2026-09-16）
+
+[PR #22](https://github.com/futsalife24-bot/swarm-front/pull/22)を通常merge。対象 `7e2e5a72a0a20d39ef9df48987aaefa3f6946a4c` は[独立Chat監査](https://chatgpt.com/c/6aaa452e-3750-83ee-9c90-80b010325494)「合格・必須指摘0件」。公開ソース `4c7ecf9429d6ce72225677f9a2cf8ff6ec171aea`、Worker Version `d2d84eaa-7445-4f73-8f15-bd083134bce9`。一括選択等の再描画でもパネル開閉状態・レア度・当たり補正条件を維持。
+
+型・通常/Pages build・4幅UI基準・Worker dry-run成功。公開14ファイルSHA一致・health成功。公開iabで一括選択2回後もパネル/条件保持・手動開閉・errorログ0を確認。実スマホ未確認。iab解体確定の追加確認は自動承認レビュー拒否のため未実施。[詳細・検証限界](BULK-MENU.md)。後続変更は記録のみ。
+
 # 現在地: 一括操作パネル保持を実装・自己検証済み、独立監査準備中（2026-09-16）
 
 branch: codex/keep-bulk-menu-open、base: d5fbc9f。描き直し時の開閉状態と選択条件を維持。[変更・検証](BULK-MENU.md)。main反映・公開は監査後。
@@ -715,4 +721,3 @@ EDFはミニマップが視点に追従して回転するためこの分担が�
 
 ## 2026-09-12 下向き移動のカメラ振動
 カメラ位置と注視点の補間基準を統一。原因・差分・修正前後の計測は docs/CAMERA-JITTER.md。
-

@@ -1,0 +1,63 @@
+{
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "assets": [
+    {
+      "path": "/index.html",
+      "sha256": "d59a6d080c7683141b2f78015758ee64deba569de0fce4e3efafce3496ba404d"
+    },
+    {
+      "path": "/sw.js",
+      "sha256": "157f181af27ea1672238cac1dc2dbbfbe8bcfda91cfc3b813ade3b07aad65f49"
+    },
+    {
+      "path": "/manifest.webmanifest",
+      "sha256": "4ccb9648d0544cd62020e7004ea3cc7589d78596a0ff0c517dfec89fe561882b"
+    },
+    {
+      "path": "/assets/index-Bk7AcH9K.js",
+      "sha256": "ad2e9a494a198c3b63e88c077b7ed91ef4b9d6635f8d860b6add4d8c717c5f55"
+    },
+    {
+      "path": "/assets/main-C1Ldsy-y.css",
+      "sha256": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1"
+    },
+    {
+      "path": "/assets/main-y1JOUVEf.js",
+      "sha256": "37c9c06d8cd39679a5e7142a86b437184e996a0739c4592d91d7ba9e7016187c"
+    },
+    {
+      "path": "/assets/minimap-F72ce1la.css",
+      "sha256": "50a6bf586eb35b2aa6f7c61634b168d21ad5722b0a24de4a37c73d5e207643fa"
+    },
+    {
+      "path": "/assets/minimap-PGWrRnn3.js",
+      "sha256": "ebb4c86e3a81bc460e49bdb9fecf56503eb1ae75e3898ebf6ca6693437a940b9"
+    },
+    {
+      "path": "/assets/playtest-app-B_KMWN0g.css",
+      "sha256": "72920c3dc190f04f256ea38bf2d48d8018bf3ba2fdb32e554ab22af75bad88ce"
+    },
+    {
+      "path": "/assets/playtest-app-vDncFO_4.js",
+      "sha256": "8a5dfdd9c9d25a708dc21c1b032fac3084c78c17899dd571db6b5ec52722c4b6"
+    },
+    {
+      "path": "/assets/training-app-Bk2-x0lt.js",
+      "sha256": "31ef7bf005cf7a28bbba0835569fa412e1945d73b4c10ffccbf99bfdba4daf20"
+    },
+    {
+      "path": "/assets/weapon-sharing-BqRxoHnb.js",
+      "sha256": "5b714d48b406e28ff3f2c865ed4fe52488461e5d7d6fe63006a41fc44f66d44d"
+    },
+    {
+      "path": "/assets/zoom-guard-B1NNEVTq.js",
+      "sha256": "a52c6791d731e9893acc5503082a519f86c81132ce6619e81e46d9aef8efd18a"
+    },
+    {
+      "path": "/assets/zoom-guard-Bk8Njxjo.css",
+      "sha256": "76dffb9201318b732baa55baaf1726814506d1393a1c8966efc2c20e689ef028"
+    }
+  ],
+  "health": true,
+  "date": "2026-09-16T07:33:43.175Z"
+}
