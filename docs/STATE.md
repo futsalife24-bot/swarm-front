@@ -1,3 +1,7 @@
+# 現在地: 武器能力印PR #29・今回の明示指示により監査省略で公開へ（2026-09-16）
+
+ユーザー「いや、今回はこのまま公開して」により、今回は独立Chat監査を省略し、検証済みPR #29の通常merge・既存Worker公開を実行する。監査資料は未送信、監査合格とは扱わない。必須CI・ブランチ保護・配信確認は維持。[詳細](WEAPON-MARK-UNIFICATION.md)。
+
 # 現在地: 武器能力印PR #29・監査資料送信の承認待ち（2026-09-16）
 
 [PR #29](https://github.com/futsalife24-bot/swarm-front/pull/29)、branch codex/unify-weapon-marks、実装 b676b364c0e71e424c0a1cc85dd88623e36944ed。型/単体27/全旧25,980条件/新全補正/4幅UI/2幅20ケース/共有画像/両build/production dry-run成功。保存・実性能変更なし。[詳細・監査資料](WEAPON-MARK-UNIFICATION.md)。
