@@ -1,3 +1,14 @@
+# 現在地: 監査から公開までの自動進行を承認済み、PR #20はブラウザ操作障害（2026-09-16）
+
+ユーザー「今後は自動で監査まで済ませて公開して」により、独立Chat監査依頼・指摘修正/再監査・通常merge・既存Worker公開・配信確認まで継続承認。AGENTS/WORKFLOW/READMEを更新、記録HEAD `5dbfa001521fdaa419faef3cf871898b8cfba04f`。追加の通常公開承認は不要。独立監査・保護・CIは維持する。
+
+PR #20の実装 `91ee49f` の自己検証は前節記載どおり成功。最新監査対象は `5dbfa001521fdaa419faef3cf871898b8cfba04f`（実装以降は文書変更のみ）。通常Chatへの監査依頼は未送信。監査用ソースZIPとUI証拠ZIPを `dist-validation/automatic-changelog/` に保存する。
+
+停止理由: cua_replは起動時に `windows sandbox failed: helper_unknown_error: apply deny-read ACLs`。代替Computer UseはChrome起動まで成功したが、現在のブラウザURLを十分な確度で判定できないためツール側がこのターンの操作を停止。回避せず独立監査・main反映・公開は未実施。
+再開条件: ブラウザ操作ツール復旧後、通常の新規Chatへ対象SHA付き資料を送信して独立監査し、必要な修正と再監査を経て、合格した変更を追加確認なしでmain反映・再ビルド・既存Worker公開・配信確認する。
+
+以下は前回の状態記録。過去の「承認待ち」は上記継続承認で解消、未取得なのは独立監査結果。
+
 # 現在地: 更新履歴の自動生成を実装・検証、独立監査待ち（2026-09-16）
 
 [PR #20](https://github.com/futsalife24-bot/swarm-front/pull/20)、branch `codex/automatic-changelog`、実装HEAD `91ee49f`、base/main `766b99836c147301a1f320035150715b5318159e`。Viteの起動・全ビルドでGitのfirst-parent差分から日本語履歴を生成し、日付（JST）ごとに統合。文書/テストのみは除外、任意のPlayer-Noteがなければ変更分野の文言を自動追加。9/15〜16の公開済み変更も補完した。
