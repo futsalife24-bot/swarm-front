@@ -24,3 +24,9 @@ branch: codex/compact-weapon-filters
 2026-09-16ユーザー「聞かずに監査に送って」を受け、同ZIPの通常新規Chat送信成功。前回送信拒否は解消。[監査Chat](https://chatgpt.com/c/6aaa5029-3db4-83ee-ae54-08d28735dbc8)で実装SHA `2fe1e96f9a7146b4093ea0ff53d994c0492cf924` は合格・必須指摘0件。
 
 監査側はGitHub実差分、添付ソースの正規化Git blob一致、12枚UI証拠、locks対応、選択解除/表示条件/保護条件、Chromiumで同DOMパターンのdetails排他・フォーカス復元/Escapeを独立確認。任意提案: 一括選択除外はレア度上限と表示条件を分離したfixture、選択解除は先に複数選択して検証する。コード自体は明示的条件があり必須指摘とせず。検証限界: 監査環境で依存取得不可によりtypecheck/build/Pages/dry-run再実行不可、実スマホ・武器庫/戦果の監査側実画面なし。実装担当のiab武器庫確認は前記。
+
+## main反映・公開完了
+
+PR #23を通常merge。公開ソース `a25814a88396869ba138eab9b99de0dae8577f62` は監査対象から記録文書のみの差分。merge後mainでbuildとproduction dry-run成功。既存Worker https://swarm-front.melosalife-24.workers.dev に公開、Version `744ad0a2-7302-4b50-a2a4-bf9a8be15b1c`。
+
+[公開配信照合](evidence/compact-filters/published.json): index/sw/配布JS・CSS計13ファイルのSHA256一致、health 200/ok。公開iab844×390の武器庫でコンパクトパネル目視、お気に入りソート・のみ絞り込み（0件）、すべてへ戻すと1件復帰、閉じる操作、errorログ0件。表示条件は入手順/すべてに戻した。実スマホ未確認、公開ユーザー武器のロック変更・解体は行っていない。後続変更は公開記録のみ。

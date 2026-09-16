@@ -1,3 +1,9 @@
+# 現在地: コンパクトなソート・絞り込みをmain反映・公開済み（2026-09-16）
+
+[PR #23](https://github.com/futsalife24-bot/swarm-front/pull/23)を通常merge。[独立Chat監査](https://chatgpt.com/c/6aaa5029-3db4-83ee-ae54-08d28735dbc8)で実装 `2fe1e96f9a7146b4093ea0ff53d994c0492cf924` 合格・必須指摘0件。公開ソース `a25814a88396869ba138eab9b99de0dae8577f62`、Worker Version `744ad0a2-7302-4b50-a2a4-bf9a8be15b1c`。ソートと絞り込みを1ボタンの小型パネルへ統合し、お気に入りソート・絞り込み追加。
+
+型・通常/Pages build・4幅UI基準/操作・merge後build/dry-run成功。公開13ファイルSHA一致・health成功。公開iab844×390で武器庫パネル、お気に入り順/のみ、0件→復帰、手動開閉を確認、errorログ0。[詳細・検証限界](COMPACT-WEAPON-FILTERS.md)。実スマホ未確認。基地名称/施設構成は未実装。監査送信承認待ちは解消、後続変更は公開記録のみ。
+
 # 現在地: PR #23が独立監査合格、main反映・公開へ（2026-09-16）
 
 [独立Chat監査](https://chatgpt.com/c/6aaa5029-3db4-83ee-ae54-08d28735dbc8): 対象 `2fe1e96f9a7146b4093ea0ff53d994c0492cf924`、合格・必須指摘0件。ZIP/実装Git blob一致、4幅画像、DOM排他とフォーカス復元を独立確認。任意: 一括選択除外/選択解除のテスト条件をより強くする提案。監査環境で全build再実行・実スマホ・戦果画像確認は未実施。[詳細](COMPACT-WEAPON-FILTERS.md)。後続差分は記録文書のみ。PR #23の通常mergeと既存Worker公開を進める。
