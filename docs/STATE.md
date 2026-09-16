@@ -1,3 +1,22 @@
+# 現在地: PR #23が独立監査合格、main反映・公開へ（2026-09-16）
+
+[独立Chat監査](https://chatgpt.com/c/6aaa5029-3db4-83ee-ae54-08d28735dbc8): 対象 `2fe1e96f9a7146b4093ea0ff53d994c0492cf924`、合格・必須指摘0件。ZIP/実装Git blob一致、4幅画像、DOM排他とフォーカス復元を独立確認。任意: 一括選択除外/選択解除のテスト条件をより強くする提案。監査環境で全build再実行・実スマホ・戦果画像確認は未実施。[詳細](COMPACT-WEAPON-FILTERS.md)。後続差分は記録文書のみ。PR #23の通常mergeと既存Worker公開を進める。
+
+# 現在地: PR #23の独立監査を依頼済み（2026-09-16）
+
+ユーザー「聞かずに監査に送って」により今回ZIPの送信承認を受領。iab新規通常Chatへcompact-filters-audit.zipを添付・送信完了。[独立監査](https://chatgpt.com/c/6aaa5029-3db4-83ee-ae54-08d28735dbc8)で確認中。監査対象 `2fe1e96f9a7146b4093ea0ff53d994c0492cf924`。送信承認待ちは解消。合格後にPR #23の通常merge・既存Worker公開・配信確認まで続行する。
+
+# 現在地: コンパクトなソート・絞り込みを保存済み、監査資料送信の承認待ち（2026-09-16）
+
+[PR #23](https://github.com/futsalife24-bot/swarm-front/pull/23)、branch `codex/compact-weapon-filters`、実装/監査対象 `2fe1e96f9a7146b4093ea0ff53d994c0492cf924`、base `c98c0fa328140ebcfb9ded7b2a3694a7d5c076a5`。ソート・武器種/レア度/お気に入り絞り込みを幅280pxの1パネルに統合。型・通常/Pages build・4幅UI基準とお気に入り/絞り込み/整理テスト・Worker production dry-run成功。[詳細](COMPACT-WEAPON-FILTERS.md)。実スマホ未確認。
+
+停止理由: iabの新規通常Chatで `compact-filters-audit.zip` をfilechooser添付した際、自動承認レビューが「具体的payloadのChatGPTへの送信承認がない」と拒否。送信未実施。既存継続承認は確認済みだが回避・再試行しない。main反映・公開は未実施。
+再開条件: 今回の差分・必要ソース・UI証拠ZIP（dist-validation/compact-filters/compact-filters-audit.zip、約2.6MB）をChatGPTの新規通常Chatへ独立監査目的で送る明示承認後、同ZIPを添付して監査・必要修正・通常merge・既存Worker公開・配信確認。後続commitは停止記録のみなので対象実装SHAは上記。
+
+# 現在地: ソート・絞り込みのコンパクト化を自己検証済み（2026-09-16）
+
+branch: codex/compact-weapon-filters、base: c98c0fa。共通武器一覧にソート・武器種/レア度/お気に入り絞り込みを統合。お気に入り順追加。型・4幅UI基準/操作テスト成功。[詳細](COMPACT-WEAPON-FILTERS.md)。独立監査・main反映・公開準備中。
+
 # 現在地: 武器一括操作のパネル保持をmain反映・公開済み（2026-09-16）
 
 [PR #22](https://github.com/futsalife24-bot/swarm-front/pull/22)を通常merge。対象 `7e2e5a72a0a20d39ef9df48987aaefa3f6946a4c` は[独立Chat監査](https://chatgpt.com/c/6aaa452e-3750-83ee-9c90-80b010325494)「合格・必須指摘0件」。公開ソース `4c7ecf9429d6ce72225677f9a2cf8ff6ec171aea`、Worker Version `d2d84eaa-7445-4f73-8f15-bd083134bce9`。一括選択等の再描画でもパネル開閉状態・レア度・当たり補正条件を維持。
