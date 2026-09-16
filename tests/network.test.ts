@@ -10,7 +10,7 @@ import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { pilot } from "./bot";
 import { Network } from "../src/client/network";
-const base = "http://127.0.0.1:8787";
+const base = process.env.SWARM_TEST_ENDPOINT || "http://127.0.0.1:8787";
 class Client {
   ws: WebSocket;
   messages: any[] = [];
@@ -497,7 +497,8 @@ describe("lobby social and asset readiness over real Workers", () => {
 
     // The isolated Worker uses the production Room/serializer. Only terminal
     // setup is shortened, with these exact equipment definitions seeded as loot.
-    const fixtureEndpoint = "http://127.0.0.1:8789";
+    const fixtureEndpoint =
+      process.env.SWARM_FIXTURE_ENDPOINT || "http://127.0.0.1:8789";
     const rewardCode = await room(fixtureEndpoint);
     const recipient = await join(rewardCode, "", fixtureEndpoint);
     recipient.send({ type: "equip", weapons: legacyWeapons });

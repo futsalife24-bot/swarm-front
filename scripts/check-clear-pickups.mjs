@@ -1,7 +1,7 @@
 import { chromium } from '@playwright/test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-const browser = await chromium.launch({channel:'chrome', args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+const browser = await chromium.launch({channel:'chrome', args:['--use-angle=d3d11']});
 const page = await browser.newPage({viewport:{width:844,height:390},serviceWorkers:'block'});
 const errors=[];
 page.on('pageerror', e=>errors.push(e.message));
@@ -10,7 +10,7 @@ await page.route(/\/src\/client\/playtest-app.ts(?:\?.*)?$/,async route=>{
  await route.fulfill({response,body:(await response.text())+`\nwindow.clearFixture=()=>{const p=world.players[0]; world.enemies=[]; world.phase='victory';world.rewards.solo=[];world.drops=[{id:'visual-heal',type:'heal',owner:'solo',x:p.x-2,z:p.z-3,weapon:p.weapons[0]},{id:'visual-weapon',type:'weapon',owner:'solo',x:p.x+2,z:p.z-3,weapon:p.weapons[0]}]; victory();}; window.pickupFixture=()=>{const p=world.players[0];p.hp=80;world.drops.forEach(d=>{d.x=p.x;d.z=p.z;});};`});
 });
 try {
- await page.goto('http://127.0.0.1:5347/');
+ await page.goto(process.env.CLEAR_ORIGIN || 'http://127.0.0.1:5347/');
  if(await page.locator('#landscape-start').isVisible())await page.locator('#landscape-start').click();
  await page.locator('#solo').click();
  if(await page.locator('#player-name').isVisible()){await page.locator('#player-name').fill('回収テスト');await page.locator('#player-name-form button[type=submit]').click();}
@@ -33,7 +33,9 @@ try {
   await page.screenshot({path:`dist-validation/clear-pickups/clear-${width}.png`});
  }
  const before=await page.evaluate(()=>window.__playtest.world.players[0].z);
- await page.keyboard.down('KeyW');await page.waitForTimeout(350);await page.keyboard.up('KeyW');
+ await page.keyboard.down('KeyW');
+ try {await page.waitForFunction(z=>window.__playtest.world.players[0].z!==z,before,{timeout:3000});}
+ finally {await page.keyboard.up('KeyW');}
  const after=await page.evaluate(()=>window.__playtest.world.players[0].z);
  assert.notEqual(before,after);
  await page.evaluate(()=>window.pickupFixture());await page.waitForTimeout(250);

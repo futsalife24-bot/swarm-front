@@ -1,0 +1,283 @@
+{
+  "label": "baseline",
+  "environment": "Windows Chrome D3D11, 844x390 x3, local Worker, 40-enemy fixture, 15s simultaneous fire",
+  "clients": [
+    {
+      "frames": 511,
+      "frameMedian": 17.099999999998545,
+      "frameP95": 100.09999999999854,
+      "messages": 99,
+      "meanBytes": 14103.050505050505,
+      "gapP95": 217.78949999999895,
+      "run": "fixture-68271d0c-cf7b-403d-945b-0087ee8099da"
+    },
+    {
+      "frames": 558,
+      "frameMedian": 17,
+      "frameP95": 83.70000000000073,
+      "messages": 97,
+      "meanBytes": 14122.711340206186,
+      "gapP95": 217.72230000000127,
+      "run": "fixture-68271d0c-cf7b-403d-945b-0087ee8099da"
+    },
+    {
+      "frames": 549,
+      "frameMedian": 17,
+      "frameP95": 113.90000000000146,
+      "messages": 97,
+      "meanBytes": 14122.711340206186,
+      "gapP95": 231.6405999999988,
+      "run": "fixture-68271d0c-cf7b-403d-945b-0087ee8099da"
+    }
+  ],
+  "samples": [
+    {
+      "fps": 44.792827850838584,
+      "drawCalls": 100,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "firing": true
+    },
+    {
+      "fps": 41.90575734089376,
+      "drawCalls": 102,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "firing": true
+    },
+    {
+      "fps": 46.95225725492267,
+      "drawCalls": 98,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "firing": true
+    },
+    {
+      "fps": 46.475801982356565,
+      "drawCalls": 102,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "firing": true
+    },
+    {
+      "fps": 47.31836446561633,
+      "drawCalls": 98,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "firing": true
+    },
+    {
+      "fps": 41.72854689672781,
+      "drawCalls": 97,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "firing": true
+    },
+    {
+      "fps": 44.43812842956888,
+      "drawCalls": 99,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "firing": true
+    },
+    {
+      "fps": 44.45907865780743,
+      "drawCalls": 106,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "firing": true
+    },
+    {
+      "fps": 38.17532318902683,
+      "drawCalls": 108,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "firing": true
+    },
+    {
+      "fps": 42.86353835216067,
+      "drawCalls": 175,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "firing": true
+    },
+    {
+      "fps": 39.05903015499398,
+      "drawCalls": 236,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "firing": true
+    },
+    {
+      "fps": 38.49478848843355,
+      "drawCalls": 129,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "firing": true
+    },
+    {
+      "fps": 47.96923038976991,
+      "drawCalls": 136,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "firing": true
+    },
+    {
+      "fps": 48.325560119466786,
+      "drawCalls": 127,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "firing": true
+    },
+    {
+      "fps": 49.81876092690063,
+      "drawCalls": 127,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "firing": true
+    }
+  ],
+  "hot": [
+    {
+      "name": "(idle)",
+      "url": "",
+      "hits": 2320
+    },
+    {
+      "name": "getProgramInfoLog",
+      "url": "",
+      "hits": 1671
+    },
+    {
+      "name": "getShaderInfoLog",
+      "url": "",
+      "hits": 730
+    },
+    {
+      "name": "getProgramInfoLog",
+      "url": "",
+      "hits": 177
+    },
+    {
+      "name": "(program)",
+      "url": "",
+      "hits": 149
+    },
+    {
+      "name": "getProgramParameter",
+      "url": "",
+      "hits": 110
+    },
+    {
+      "name": "drawDamage",
+      "url": "/src/client/render.ts",
+      "hits": 98
+    },
+    {
+      "name": "getShaderInfoLog",
+      "url": "",
+      "hits": 54
+    },
+    {
+      "name": "setProgram",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 32
+    },
+    {
+      "name": "WebGLRenderer.renderBufferDirect",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 30
+    },
+    {
+      "name": "_getValue_toArray",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 30
+    },
+    {
+      "name": "getParameters",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 24
+    },
+    {
+      "name": "texSubImage2D",
+      "url": "",
+      "hits": 24
+    },
+    {
+      "name": "render",
+      "url": "/src/client/render.ts",
+      "hits": 22
+    },
+    {
+      "name": "getProgram",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 21
+    },
+    {
+      "name": "updateFrame",
+      "url": "/src/main.ts",
+      "hits": 20
+    },
+    {
+      "name": "renderObject",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 16
+    },
+    {
+      "name": "(garbage collector)",
+      "url": "",
+      "hits": 14
+    },
+    {
+      "name": "upload",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 12
+    },
+    {
+      "name": "setValue",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 12
+    },
+    {
+      "name": "renderObjects",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 11
+    },
+    {
+      "name": "cloneUniforms",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 11
+    },
+    {
+      "name": "copyArray",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 11
+    },
+    {
+      "name": "multiplyMatrices",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 11
+    },
+    {
+      "name": "multiplyMatrices",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 11
+    }
+  ],
+  "errors": []
+}

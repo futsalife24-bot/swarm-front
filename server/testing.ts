@@ -154,7 +154,9 @@ export class TestRoom extends Room {
         spawn(w, "spider", 4, 5);
         spawn(w, "hornet", 0, -1);
         spawn(w, "boss", 0, -15, "worm");
-      } else if (u.searchParams.get("case") === "load") {
+      } else if (
+        ["load", "performance"].includes(u.searchParams.get("case") ?? "")
+      ) {
         for (let n = 0; n < 40; n++)
           spawn(
             w,
@@ -162,6 +164,10 @@ export class TestRoom extends Room {
             ((n % 8) - 4) * 2,
             -15 - Math.floor(n / 8) * 3,
           );
+        if (u.searchParams.get("case") === "performance") {
+          for (const p of w.players) p.hp = 100000;
+          for (const e of w.enemies) e.hp = e.maxHp = 100000;
+        }
       }
       this.saved.world = w;
       this.inputs = {};
@@ -181,7 +187,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(revive|reward|reward-overflow|load|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision)$/.exec(
         u.pathname,
       );
     if (match && req.method === "POST") {

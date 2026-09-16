@@ -1,0 +1,394 @@
+{
+  "label": "verified",
+  "environment": "Windows Chrome D3D11, 844x390 x3, local Worker, 40-enemy fixture, 15s simultaneous fire",
+  "clients": [
+    {
+      "frames": 638,
+      "frameMedian": 16.799999999999272,
+      "frameP95": 33.60000000000218,
+      "messages": 132,
+      "meanBytes": 13489.598484848484,
+      "gapP95": 166.25380000000223,
+      "run": "fixture-124470b4-8311-40a9-b900-785d472aec90",
+      "performance": {
+        "resolutionScale": 0.65,
+        "pixelRatio": 0.65,
+        "triangles": 948752,
+        "effects": 109
+      },
+      "firing": true
+    },
+    {
+      "frames": 675,
+      "frameMedian": 16.799999999999272,
+      "frameP95": 33.5,
+      "messages": 128,
+      "meanBytes": 13513.8359375,
+      "gapP95": 165.3012000000017,
+      "run": "fixture-124470b4-8311-40a9-b900-785d472aec90",
+      "performance": {
+        "resolutionScale": 0.65,
+        "pixelRatio": 0.65,
+        "triangles": 939196,
+        "effects": 105
+      },
+      "firing": true
+    },
+    {
+      "frames": 681,
+      "frameMedian": 16.799999999999272,
+      "frameP95": 33.5,
+      "messages": 128,
+      "meanBytes": 13513.828125,
+      "gapP95": 162.392399999997,
+      "run": "fixture-124470b4-8311-40a9-b900-785d472aec90",
+      "performance": {
+        "resolutionScale": 0.65,
+        "pixelRatio": 0.65,
+        "triangles": 947030,
+        "effects": 88
+      },
+      "firing": true
+    }
+  ],
+  "samples": [
+    {
+      "fps": 46.75556983473222,
+      "drawCalls": 100,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "quality": {
+        "resolutionScale": 0.9,
+        "pixelRatio": 0.9,
+        "triangles": 924260,
+        "effects": 4
+      },
+      "firing": true
+    },
+    {
+      "fps": 51.329063644999295,
+      "drawCalls": 102,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "quality": {
+        "resolutionScale": 0.8,
+        "pixelRatio": 0.8,
+        "triangles": 924264,
+        "effects": 6
+      },
+      "firing": true
+    },
+    {
+      "fps": 48.502579333357836,
+      "drawCalls": 98,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "quality": {
+        "resolutionScale": 0.8,
+        "pixelRatio": 0.8,
+        "triangles": 924160,
+        "effects": 2
+      },
+      "firing": true
+    },
+    {
+      "fps": 53.214894889243595,
+      "drawCalls": 98,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "quality": {
+        "resolutionScale": 0.8,
+        "pixelRatio": 0.8,
+        "triangles": 924160,
+        "effects": 2
+      },
+      "firing": true
+    },
+    {
+      "fps": 52.174268510749236,
+      "drawCalls": 102,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "quality": {
+        "resolutionScale": 0.8,
+        "pixelRatio": 0.8,
+        "triangles": 924250,
+        "effects": 5
+      },
+      "firing": true
+    },
+    {
+      "fps": 44.47532816782161,
+      "drawCalls": 101,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "quality": {
+        "resolutionScale": 0.8,
+        "pixelRatio": 0.8,
+        "triangles": 924356,
+        "effects": 3
+      },
+      "firing": true
+    },
+    {
+      "fps": 44.88326480892823,
+      "drawCalls": 108,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "quality": {
+        "resolutionScale": 0.8,
+        "pixelRatio": 0.8,
+        "triangles": 924828,
+        "effects": 10
+      },
+      "firing": true
+    },
+    {
+      "fps": 45.554667677065304,
+      "drawCalls": 108,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "quality": {
+        "resolutionScale": 0.7,
+        "pixelRatio": 0.7,
+        "triangles": 925070,
+        "effects": 10
+      },
+      "firing": true
+    },
+    {
+      "fps": 41.561916571428476,
+      "drawCalls": 184,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "quality": {
+        "resolutionScale": 0.7,
+        "pixelRatio": 0.7,
+        "triangles": 937396,
+        "effects": 82
+      },
+      "firing": true
+    },
+    {
+      "fps": 46.06154784594098,
+      "drawCalls": 202,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "quality": {
+        "resolutionScale": 0.65,
+        "pixelRatio": 0.65,
+        "triangles": 939572,
+        "effects": 99
+      },
+      "firing": true
+    },
+    {
+      "fps": 45.71665365047844,
+      "drawCalls": 211,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "quality": {
+        "resolutionScale": 0.65,
+        "pixelRatio": 0.65,
+        "triangles": 948706,
+        "effects": 107
+      },
+      "firing": true
+    },
+    {
+      "fps": 48.650995444918976,
+      "drawCalls": 187,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "quality": {
+        "resolutionScale": 0.65,
+        "pixelRatio": 0.65,
+        "triangles": 942624,
+        "effects": 84
+      },
+      "firing": true
+    },
+    {
+      "fps": 47.26891214948179,
+      "drawCalls": 207,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "quality": {
+        "resolutionScale": 0.65,
+        "pixelRatio": 0.65,
+        "triangles": 948918,
+        "effects": 103
+      },
+      "firing": true
+    },
+    {
+      "fps": 50.19210515554966,
+      "drawCalls": 196,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "quality": {
+        "resolutionScale": 0.65,
+        "pixelRatio": 0.65,
+        "triangles": 942922,
+        "effects": 93
+      },
+      "firing": true
+    },
+    {
+      "fps": 47.54357746085901,
+      "drawCalls": 199,
+      "players": 3,
+      "enemies": 40,
+      "phase": "battle",
+      "quality": {
+        "resolutionScale": 0.65,
+        "pixelRatio": 0.65,
+        "triangles": 957250,
+        "effects": 95
+      },
+      "firing": true
+    }
+  ],
+  "hot": [
+    {
+      "name": "(idle)",
+      "url": "",
+      "hits": 3970
+    },
+    {
+      "name": "(program)",
+      "url": "",
+      "hits": 372
+    },
+    {
+      "name": "WebGLRenderer.setSize",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 187
+    },
+    {
+      "name": "getProgramInfoLog",
+      "url": "",
+      "hits": 145
+    },
+    {
+      "name": "WebGLRenderer.renderBufferDirect",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 63
+    },
+    {
+      "name": "render",
+      "url": "/src/client/render.ts?t=1789530844815",
+      "hits": 53
+    },
+    {
+      "name": "getParameters",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 50
+    },
+    {
+      "name": "texSubImage2D",
+      "url": "",
+      "hits": 45
+    },
+    {
+      "name": "setProgram",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 41
+    },
+    {
+      "name": "fit",
+      "url": "/src/client/minimap.ts",
+      "hits": 40
+    },
+    {
+      "name": "updateFrame",
+      "url": "/src/main.ts?t=1789531753929",
+      "hits": 39
+    },
+    {
+      "name": "getProgram",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 36
+    },
+    {
+      "name": "getShaderInfoLog",
+      "url": "",
+      "hits": 29
+    },
+    {
+      "name": "_getValue_toArray",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 29
+    },
+    {
+      "name": "refreshUniformsCommon",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 28
+    },
+    {
+      "name": "onBeforeRender",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 28
+    },
+    {
+      "name": "refreshFogUniforms",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 27
+    },
+    {
+      "name": "multiplyMatrices",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 27
+    },
+    {
+      "name": "renderObject",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 26
+    },
+    {
+      "name": "upload",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 25
+    },
+    {
+      "name": "bindVertexArray",
+      "url": "",
+      "hits": 22
+    },
+    {
+      "name": "needsUpdate",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 22
+    },
+    {
+      "name": "multiplyMatrices",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 21
+    },
+    {
+      "name": "updateMatrixWorld",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 19
+    },
+    {
+      "name": "_deactivateAction",
+      "url": "/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=b2393174",
+      "hits": 19
+    }
+  ],
+  "errors": []
+}

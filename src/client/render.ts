@@ -10,6 +10,7 @@ import {
   type StructureInput,
 } from "./structure-motion";
 import { loadStandardTrooper, StandardTrooper } from "./standard-trooper";
+import { AdaptiveQuality } from "./adaptive-quality";
 import type { StructureVisualKind } from "./structure-motion";
 import { CombatEffects } from "./combat-effects";
 import { EnemySpawnEffects } from "./enemy-spawn-effects";
@@ -284,6 +285,7 @@ export class Renderer {
   >();
   fps = 60;
   quality = 1;
+  readonly adaptiveQuality = new AdaptiveQuality();
   drawCalls = 0;
   cameraAnchor = { x: 0, z: 0 };
   onSound: (type: string) => void = () => {};
@@ -311,9 +313,10 @@ export class Renderer {
   // Anchored to the world point, so turning the camera does not slide the
   // numbers off the enemy that earned them.
   drawDamage(dt: number) {
-    const canvas = this.renderer.domElement,
-      w = canvas.clientWidth,
-      h = canvas.clientHeight;
+    if (!this.floaters.length) return;
+    // resize() owns the full-window canvas; avoid forcing layout after HUD writes.
+    const w = this.viewportWidth,
+      h = this.viewportHeight;
     for (let i = this.floaters.length - 1; i >= 0; i--) {
       const f = this.floaters[i];
       f.life -= dt;
@@ -356,7 +359,7 @@ export class Renderer {
     const sun = new T.DirectionalLight(0xffeddb, 3);
     sun.position.set(-65, 110, -50);
     sun.castShadow = true;
-    sun.shadow.mapSize.set(2048, 2048);
+    sun.shadow.mapSize.set(1024, 1024);
     Object.assign(sun.shadow.camera, {
       left: -145,
       right: 145,
@@ -718,11 +721,19 @@ export class Renderer {
     mesh.setMatrixAt(i, this.dummy.matrix);
   }
   resize() {
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5) * this.quality);
+    this.viewportWidth = innerWidth;
+    this.viewportHeight = innerHeight;
+    this.renderer.setPixelRatio(
+      Math.min(devicePixelRatio, 1.5) *
+        this.quality *
+        this.adaptiveQuality.scale,
+    );
     this.renderer.setSize(innerWidth, innerHeight);
     this.camera.aspect = innerWidth / innerHeight;
     this.camera.updateProjectionMatrix();
   }
+  private viewportWidth = innerWidth;
+  private viewportHeight = innerHeight;
   private clearFoundryWorms() {
     for (const state of this.foundryWorms.values()) state.view?.dispose();
     // A late async result sees its state is no longer in the map and disposes itself.
@@ -818,6 +829,11 @@ export class Renderer {
     readyAim = false,
   ) {
     const local = w?.players.find((p) => p.id === id);
+    if (this.adaptiveQuality.update(dt, animate && !!local && !document.hidden))
+      this.resize();
+    this.combat.detail = this.quality * this.adaptiveQuality.scale;
+    this.combat.budget = this.combat.detail < 0.9 ? 120 : 180;
+    if (local) this.combat.origin.set(local.x, local.y ?? 0, local.z);
     const localAim = w && local ? cameraShot(w, local, { yaw, pitch }) : null;
     scoped = scoped && !!local && local.hp > 0 && local.swapCd <= 0;
     const fov = scoped ? SCOPE_FOV : NORMAL_FOV;
@@ -909,15 +925,42 @@ export class Renderer {
           ),
           1 - Math.exp(-dt * 18),
         );
-        poseSoldier(
-          m,
-          p.id === id && localAim ? { ...p, pitch: localAim.pitch } : p,
-          p.id === id && localAim ? localAim.yaw : p.yaw,
-          w.time,
+        const cadence =
+          p.id === id
+            ? 0
+            : local && Math.hypot(p.x - local.x, p.z - local.z) > 25
+              ? 1 / 15
+              : 1 / 30;
+        const state = [
           w.run,
-          animate ? dt : 0,
-          p.id === id && (scoped || readyAim),
-        );
+          p.hp <= 0,
+          p.slot,
+          p.reload > 0,
+          p.evade > 0,
+          p.swapCd > 0,
+        ].join(":");
+        m.userData.poseElapsed =
+          (m.userData.poseElapsed ?? 0) + (animate ? dt : 0);
+        const updatePose =
+          !animate ||
+          m.userData.poseState !== state ||
+          p.cool > (m.userData.poseCool ?? 0) + 0.025 ||
+          m.userData.poseElapsed + 1e-6 >= cadence;
+        m.rotation.set(0, -p.yaw, 0);
+        if (updatePose) {
+          poseSoldier(
+            m,
+            p.id === id && localAim ? { ...p, pitch: localAim.pitch } : p,
+            p.id === id && localAim ? localAim.yaw : p.yaw,
+            w.time,
+            w.run,
+            animate ? m.userData.poseElapsed : 0,
+            p.id === id && (scoped || readyAim),
+          );
+          m.userData.poseElapsed = 0;
+          m.userData.poseState = state;
+          m.userData.poseCool = p.cool;
+        }
         m.visible = !(scoped && p.id === id);
         const gun = m.userData.gun as T.Group;
         if (!m.userData.trooper)

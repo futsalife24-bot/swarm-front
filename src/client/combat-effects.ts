@@ -44,6 +44,10 @@ type Effect = {
 /** Short-lived, bounded visual effects; combat damage remains in shared/game. */
 export class CombatEffects {
   items: Effect[] = [];
+  private spare: Effect[] = [];
+  budget = 180;
+  detail = 1;
+  origin = new T.Vector3();
   trailTime = 0;
   constructor(private scene: T.Scene) {}
   add(
@@ -56,31 +60,39 @@ export class CombatEffects {
     color: number,
     velocity = new T.Vector3(),
   ) {
-    if (this.items.length >= 180) return;
+    if (this.items.length >= this.budget) return;
     const flat = kind === "ring";
     const soft =
       kind === "fire" ||
       kind === "smoke" ||
       kind === "flash" ||
       kind === "billow";
-    const mesh = new T.Mesh(
-      soft
-        ? cloud
-        : flat
-          ? ring
-          : kind === "shell"
-            ? blastSphere
-            : kind === "bullet"
-              ? slug
-              : sphere,
-      new T.MeshBasicMaterial({
-        color,
-        transparent: true,
-        depthWrite: false,
-        map: soft ? cloudTexture : null,
-        side: flat ? T.DoubleSide : T.FrontSide,
-      }),
-    );
+    const spareIndex = this.spare.findIndex((e) => e.kind === kind);
+    const reused =
+      spareIndex < 0 ? undefined : this.spare.splice(spareIndex, 1)[0];
+    const mesh =
+      reused?.mesh ??
+      new T.Mesh(
+        soft
+          ? cloud
+          : flat
+            ? ring
+            : kind === "shell"
+              ? blastSphere
+              : kind === "bullet"
+                ? slug
+                : sphere,
+        new T.MeshBasicMaterial({
+          color,
+          transparent: true,
+          depthWrite: false,
+          map: soft ? cloudTexture : null,
+          side: flat ? T.DoubleSide : T.FrontSide,
+        }),
+      );
+    mesh.material.color.setHex(color);
+    mesh.material.opacity = 1;
+    mesh.quaternion.identity();
     mesh.position.set(x, y, z);
     mesh.scale.setScalar(size);
     if (kind === "shell") mesh.material.opacity = 0.075;
@@ -91,7 +103,16 @@ export class CombatEffects {
         velocity.clone().normalize(),
       );
     this.scene.add(mesh);
-    this.items.push({ mesh, age: 0, duration, size, velocity, kind });
+    this.items.push(
+      Object.assign(reused ?? {}, {
+        mesh,
+        age: 0,
+        duration,
+        size,
+        velocity,
+        kind,
+      }),
+    );
   }
   event(e: Event) {
     if (e.type === "shot") {
@@ -137,8 +158,13 @@ export class CombatEffects {
       // Evenly distribute fire over the above-ground spherical cap, including its crown.
       // Velocity stores the final offset for these expanding billows.
       const bottom = Math.max(-1, -e.y / radius);
-      for (let i = 0; i < 36; i++) {
-        const up = bottom + ((1 - bottom) * (i + 0.5)) / 36;
+      const count =
+        this.detail < 1 ||
+        this.origin.distanceToSquared(new T.Vector3(e.x, e.y, e.z)) > 625
+          ? 18
+          : 36;
+      for (let i = 0; i < count; i++) {
+        const up = bottom + ((1 - bottom) * (i + 0.5)) / count;
         const angle = i * Math.PI * (3 - Math.sqrt(5));
         const horizontal = Math.sqrt(1 - up * up);
         this.add(
@@ -156,8 +182,9 @@ export class CombatEffects {
           ).multiplyScalar(radius * 0.84),
         );
       }
-      for (let i = 0; i < 12; i++) {
-        const angle = (i * Math.PI * 2) / 12;
+      const sparks = count === 18 ? 6 : 12;
+      for (let i = 0; i < sparks; i++) {
+        const angle = (i * Math.PI * 2) / sparks;
         const speed = radius * (0.6 + Math.random() * 0.4);
         this.add(
           "fire",
@@ -272,17 +299,20 @@ export class CombatEffects {
         (1 - t);
       if (t === 1) {
         this.scene.remove(e.mesh);
-        e.mesh.material.dispose();
+        // Keep GPU programs/materials warm during sustained multi-player fire.
+        if (this.spare.length < 180) this.spare.push(e);
+        else e.mesh.material.dispose();
       }
     }
     this.items = this.items.filter((e) => e.age < e.duration);
   }
   clear() {
-    for (const e of this.items) {
+    for (const e of [...this.items, ...this.spare]) {
       this.scene.remove(e.mesh);
       e.mesh.material.dispose();
     }
     this.items = [];
+    this.spare = [];
     this.trailTime = 0;
   }
 }

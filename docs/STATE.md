@@ -1,3 +1,13 @@
+# 現在地: 3人マルチ軽量化・部屋一覧/ID参加を統合、独立監査準備（2026-09-16）
+
+branch `codex/coop-performance`、base/main `ce0c31d70c89ebb703adfd5a450ca44b067fd371`。PR #15のクリア表示・回復/武器ドロップを `fa659f6` から継承した統合タスク。#15を別途merge/deployしない。
+
+影・自動解像度・味方動作・演出再利用・通信共通化を実装。カタモンの参加構成を参照し、公開部屋一覧／8文字ID／公開・非公開作成を既存UIに追加。同PCの実Chrome3人同時射撃でフレームp95約84〜114ms→約34ms。型・関連88単体・実Worker武器互換性・両build・本番Worker dry-run・3人の一覧/ID/再接続・継承クリア/両回収の検証成功。[仕様・差分・証拠・未確認](COOP-PERFORMANCE.md)。
+
+未完了: 統合HEADのChat独立監査、main反映、Worker公開。既存README第9行の監査条件を維持。実スマホと遠隔回線は未確認。
+
+以下は継承した作業と過去の公開記録。
+
 # 現在地: クリア表示・回復/武器ドロップを実装、独立監査待ち（2026-09-16）
 
 [PR #15](https://github.com/futsalife24-bot/swarm-front/pull/15)、実装HEAD `0a60f2e`（後続は記録のみ）。branch `codex/clear-and-pickups`、base/main `ce0c31d70c89ebb703adfd5a450ca44b067fd371`。クリア暗幕・暗転を撤去し文字とボタンに限定。回復ケースと武器ケースをコード生成3Dへ変更。型・単体16件・両build・実Chrome横画面3幅で移動/両回収/結果ボタン成功。[差分・証拠・検証](CLEAR-PICKUPS.md)。

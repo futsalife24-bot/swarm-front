@@ -9,6 +9,8 @@ import {
 import type { World, Input } from "../shared/game";
 import type { Weapon } from "../shared/defs";
 import { validStage } from "../shared/stages";
+import { EquipmentCache } from "../shared/state-wire";
+import type { RoomOptions } from "../shared/room-directory";
 export interface Member {
   id: string;
   name?: string;
@@ -51,6 +53,8 @@ export class Network {
   id = "";
   token = "";
   code = "";
+  roomId = "";
+  roomName = "";
   retry = 0;
   closed = false;
   last = 0;
@@ -68,6 +72,10 @@ export class Network {
   ready: () => void = () => {};
   timer: ReturnType<typeof setInterval>;
   equip: Weapon[] = [];
+  private inputAt = -Infinity;
+  private pendingInput: Input | undefined;
+  private usesInputAck = false;
+  private inFlightInputs: number[] = [];
   constructor(public endpoint: string) {
     this.timer = setInterval(() => {
       if (this.ws?.readyState === 1 && this.id) this.send({ type: "ping" });
@@ -75,13 +83,18 @@ export class Network {
         this.ws.close();
     }, 5000);
   }
-  async create(turnstileToken: string, localCreationKey = "") {
+  async create(
+    turnstileToken: string,
+    localCreationKey = "",
+    options?: RoomOptions,
+  ) {
     const headers: Record<string, string> = {};
     if (turnstileToken) headers["X-Turnstile-Token"] = turnstileToken;
     if (localCreationKey) headers["X-Room-Creation-Key"] = localCreationKey;
     const res = await fetch(`${this.endpoint}/rooms`, {
       method: "POST",
       headers,
+      body: options ? JSON.stringify(options) : undefined,
       redirect: "error",
       signal: AbortSignal.timeout(7000),
     });
@@ -106,6 +119,11 @@ export class Network {
       `${this.endpoint.replace(/^http/, "ws")}/rooms/${code}`,
     );
     this.ws = ws;
+    this.inputAt = -Infinity;
+    this.pendingInput = undefined;
+    this.usesInputAck = false;
+    this.inFlightInputs = [];
+    const equipmentCache = new EquipmentCache();
     let welcomed = false;
     const timeout = setTimeout(() => {
       if (!welcomed) {
@@ -116,6 +134,7 @@ export class Network {
     ws.onopen = () => {
       this.send({
         type: "hello",
+        equipmentCache: 1,
         name: this.playerName,
         ...(this.token ? { token: this.token } : {}),
       });
@@ -163,6 +182,13 @@ export class Network {
       } catch {
         return;
       }
+      if (
+        m.type === "state" &&
+        !equipmentCache.restore(m.world, m.equipmentCached === true)
+      ) {
+        ws.close(); // A fresh connection always starts with complete equipment.
+        return;
+      }
       if (m.type === "state" || m.type === "lobby") {
         if (this.preparationGeneration !== m.preparationGeneration) {
           this.preparationGeneration = m.preparationGeneration;
@@ -173,6 +199,9 @@ export class Network {
         welcomed = true;
         clearTimeout(timeout);
         this.id = m.id;
+        this.usesInputAck = m.inputAck === true;
+        this.roomId = typeof m.roomId === "string" ? m.roomId : "";
+        this.roomName = typeof m.roomName === "string" ? m.roomName : "";
         this.token = m.token;
         this.retry = 0;
         // Keep identity in this tab across reloads. Never put the token in URLs or logs.
@@ -199,6 +228,10 @@ export class Network {
         });
         this.ready();
       } else if (m.type === "state") {
+        if (this.usesInputAck && Number.isSafeInteger(m.inputAck))
+          this.inFlightInputs = this.inFlightInputs.filter(
+            (seq) => seq > m.inputAck,
+          );
         if (validStage(m.stage) && this.stage !== m.stage) {
           this.stage = m.stage;
           this.assetReady = false;
@@ -264,7 +297,26 @@ export class Network {
     if (this.ws?.readyState === 1) this.ws.send(JSON.stringify(value));
   }
   input(input: Input) {
-    this.send({ type: "input", input });
+    if (this.ws?.readyState !== 1) return;
+    const pending = this.pendingInput;
+    this.pendingInput = {
+      ...input,
+      reload: input.reload || !!pending?.reload,
+      swap: input.swap || !!pending?.swap,
+      dodge: input.dodge || !!pending?.dodge,
+    };
+    const now = performance.now();
+    // Rendering stalls must not produce a burst of catch-up packets. Keep taps.
+    if (
+      now - this.inputAt < 50 ||
+      this.ws.bufferedAmount > 4096 ||
+      (this.usesInputAck && this.inFlightInputs.length >= 4)
+    )
+      return;
+    this.send({ type: "input", input: this.pendingInput });
+    if (this.usesInputAck) this.inFlightInputs.push(this.pendingInput.seq);
+    this.inputAt = now;
+    this.pendingInput = undefined;
   }
   equipment(weapons: Weapon[]) {
     this.equip = weapons;

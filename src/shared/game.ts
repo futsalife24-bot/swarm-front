@@ -1582,6 +1582,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
               Number(a.part === 0) - Number(b.part === 0) || a.part - b.part,
           )) {
             const d = Math.hypot(b.x - q.x, b.z - q.z, b.y - q.y);
+            if (d >= 6.5) continue;
             const clear =
               d < 0.01 ||
               wallDistance(
@@ -1595,8 +1596,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
                 mapFor(w).blocks,
               ) >=
                 d - 0.01;
-            if (d < 6.5 && clear)
-              hurtEnemy(w, e, q.damage * (1 - d / 9), q.owner, b.part);
+            if (clear) hurtEnemy(w, e, q.damage * (1 - d / 9), q.owner, b.part);
           }
         }
         // Only the directly hit, defeated normal enemy can trigger one burst.

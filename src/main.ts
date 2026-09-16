@@ -16,6 +16,7 @@ import { playerName, addPlayerNameSetting } from "./client/player-profile";
 import { enhanceGameSelects, syncGameSelects } from "./client/game-select";
 import { updateScopeButtons } from "./client/layout";
 import "./client/coop-lobby.css";
+import { roomBrowserMarkup, bindRoomBrowser } from "./client/room-browser";
 import { homeMarkup } from "./client/home-screen";
 import { openDeveloperLogin } from "./client/developer-access";
 import { STAGES, MAPS, mapFor, stageFor } from "./shared/stages";
@@ -593,6 +594,24 @@ function gear() {
       ? `<div class="coop-entry"><b>${resumable ? "進行中の部隊があります" : invitation ? "招待を受け取りました" : "友人と遊ぶ"}</b><p>${resumable ? "30秒以内なら同じ隊員・戦闘状態へ復帰できます。" : invitation ? "下の「招待ルームに参加」を押してください。" : "人間確認の後に「ルームを作る」を押すと、すぐ招待リンクを送れます。"}</p></div>${!resumable && !invitation ? '<div id="turnstile-room-create" class="turnstile-room-create" aria-label="ルーム作成の人間確認"></div><p id="turnstile-status" class="fine">人間確認が終わるまで、ルーム作成はできません。</p>' : ""}<details class="coop-advanced"><summary>接続先を手動設定（開発用）</summary><div class="join"><input id="endpoint" aria-label="協力サーバー" value="${esc(endpoint)}"><input id="creation-key" type="password" aria-label="ローカル作成キー" placeholder="ローカル作成キー" autocomplete="off" maxlength="256"></div></details>`
       : "";
   if (mode === "coop" && !network?.id) {
+    if (!resumable && !invitation) {
+      ui.innerHTML = roomBrowserMarkup(endpoint, saveError || status);
+      $("home").onclick = () => {
+        network?.close();
+        network = undefined;
+        title();
+      };
+      ($("launch") as HTMLButtonElement).disabled = !!saveError;
+      $("launch").onclick = () => void connect(true, false);
+      bindRoomBrowser(ui.firstElementChild as HTMLElement, (code) =>
+        connect(false, false, code),
+      );
+      if (import.meta.env.PROD) {
+        ($("launch") as HTMLButtonElement).disabled = true;
+        void mountTurnstile(endpoint);
+      }
+      return;
+    }
     ui.innerHTML = `<section class="panel room-entry"><header><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力プレイ</h1></div><button id="home">タイトルへ</button></header>${coopEntry}<p>武器の変更とステージ選択は、入室後のロビーで行えます。</p><p class="status" role="status">${esc(saveError || status)}</p><button class="primary" id="launch" ${saveError ? "disabled" : ""}>${launchLabel}</button></section>`;
     $("home").onclick = () => {
       network?.close();
@@ -932,13 +951,13 @@ function solo() {
   controls.reset();
   void loadBattle(true);
 }
-async function connect(create: boolean, restore = false) {
+async function connect(create: boolean, restore = false, joinCode?: string) {
   const requestedStage = selectedStage;
   status = "接続中…";
   const previous = restore ? loadNetworkSession() : null;
   const endpoint =
     previous?.endpoint ?? ($("endpoint") as HTMLInputElement).value.trim();
-  let code = previous?.code ?? inviteCode();
+  let code = joinCode ?? previous?.code ?? inviteCode();
   const token = previous?.token ?? "";
   try {
     const url = new URL(endpoint);
@@ -1022,17 +1041,25 @@ async function connect(create: boolean, restore = false) {
       myId = network!.id;
     };
     if (create) {
+      const options = {
+        name:
+          document.querySelector<HTMLInputElement>("#room-name")?.value ??
+          "協力部隊",
+        listed:
+          document.querySelector<HTMLSelectElement>("#room-visibility")
+            ?.value === "public",
+      };
       const local = ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname);
       if (local) {
         const field = $("creation-key") as HTMLInputElement;
         const key = field.value;
         field.value = "";
-        code = await network.create("", key);
+        code = await network.create("", key, options);
       } else {
         if (!turnstileToken) throw new Error("人間確認を完了してください");
         const proof = turnstileToken;
         turnstileToken = "";
-        code = await network.create(proof);
+        code = await network.create(proof, "", options);
       }
     }
     if (!/^[a-f0-9]{32}$/.test(code))
@@ -1085,6 +1112,11 @@ function lobby() {
     "",
   )}</div></section><section class="lobby-chat" aria-label="部隊チャット"><h2>チャット</h2><ol id="chat-log" role="log" aria-live="polite" aria-relevant="additions"></ol><form id="chat-form"><label class="sr-only" for="chat-input">メッセージ</label><input id="chat-input" maxlength="400" autocomplete="off" placeholder="メッセージを入力…" ${online ? "" : "disabled"}><button type="submit" ${online ? "" : "disabled"}>送信</button><p id="chat-status" role="status"></p></form></section></div></section>`;
   const chatInput = $("chat-input") as HTMLInputElement;
+  if (network?.roomId)
+    ui.querySelector(".lobby-header h1")!.insertAdjacentHTML(
+      "afterend",
+      `<small>${esc(network.roomName)} · 部屋ID <code id="room-code">${esc(network.roomId)}</code></small>`,
+    );
   chatInput.value = draft;
   if (focused) {
     chatInput.focus();
@@ -1780,6 +1812,12 @@ if (import.meta.env.DEV)
       fps: view.fps,
       drawCalls: view.drawCalls,
       frameMs: [...view.frames],
+      performance: {
+        resolutionScale: view.adaptiveQuality.scale,
+        pixelRatio: view.renderer.getPixelRatio(),
+        triangles: view.renderer.info.render.triangles,
+        effects: view.combat.items.length,
+      },
       renderedLocal: (() => {
         const player = view.players.get(myId);
         return player ? { x: player.position.x, z: player.position.z } : null;

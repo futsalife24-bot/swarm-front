@@ -69,7 +69,7 @@ export function installPlayerProfile() {
       const button =
         event.target instanceof Element
           ? event.target.closest<HTMLButtonElement>(
-              "#solo, #coop, #launch, #pt-start",
+              "#solo, #coop, #launch, #pt-start, #room-join, [data-room-join]",
             )
           : null;
       if (!button || button.disabled || playerName()) return;
