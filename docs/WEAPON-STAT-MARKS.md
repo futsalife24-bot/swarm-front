@@ -17,3 +17,8 @@ base 7bf75c518f3607f44f9140116e89ebeca2c2e4e8、branch codex/restore-weapon-mark
 PR #25通常merge済み。mainソース a0a0e8c4ada219bab2c67cb893c0078b61bc21e6。merge後build・production dry-run成功。
 停止理由: 既存Workerへの本番deployを自動承認レビューが「今回の依頼に公開そのものの明示承認がない」と拒否。AGENTSの継続承認は確認済みだが拒否を迂回しない。公開コマンドは未実行、配信照合未実施。
 再開条件: ユーザーが今回の能力印修正を既存Worker swarm-front.melosalife-24.workers.dev へ公開することを明示承認したら、同main実装を公開し、dist-validation/weapon-marks/verify-published.mjsでSHA/health照合・実ブラウザ確認・公開記録まで完了する。後続差分は記録のみ。
+
+## 公開完了（2026-09-16）
+
+ユーザー「承認する」により今回の既存Worker公開を明示承認。公開ソース e78eb71cd06d9e205d2db7178c53b39b0c58a7ca は監査対象から記録文書のみの差分。既存Workerへ公開、Version fa2f7a8b-ddb3-43d5-84c0-6785ee96abae。
+[配信証拠](evidence/weapon-marks/published.json): HTML/sw/JS/CSS 13ファイルSHA一致・health成功。公開iabで出撃準備と詳細表を確認、errorログ0。公開ブラウザの所持武器は補正0の新形式3丁で、旧武器の印は前述ローカルfixtureの2幅確認と配信ソース一致で検証。実スマホ未確認。公開保留は解消。後続変更は記録のみ。

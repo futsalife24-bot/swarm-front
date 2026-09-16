@@ -1,3 +1,7 @@
+# 現在地: 武器の能力印を復元・main反映・公開済み（2026-09-16）
+
+[PR #25](https://github.com/futsalife24-bot/swarm-front/pull/25)通常merge・独立監査合格済み。今回の明示承認を受け、ソース e78eb71cd06d9e205d2db7178c53b39b0c58a7ca を既存Workerへ公開。Version fa2f7a8b-ddb3-43d5-84c0-6785ee96abae。13配信ファイルSHA一致・health成功・公開iab一覧/詳細確認・errorログ0。旧武器の全5印はローカル2幅で検証済み。[詳細/限界](WEAPON-STAT-MARKS.md)。実スマホ未確認。公開保留は解消、後続差分は記録のみ。
+
 # 現在地: 能力印の復元はmain反映済み・公開承認待ち（2026-09-16）
 
 [PR #25](https://github.com/futsalife24-bot/swarm-front/pull/25)通常merge済み。main実装 a0a0e8c4ada219bab2c67cb893c0078b61bc21e6、監査対象5190f349は合格・必須指摘0件。型・単体2件・両build・4幅UI・2幅一覧/詳細・merge後build/dry-run成功。[詳細と証拠](WEAPON-STAT-MARKS.md)。
