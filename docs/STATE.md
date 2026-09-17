@@ -1,3 +1,10 @@
+# 現在地: PR33・日替わり防衛案内修正、監査ZIP送信の承認待ち（2026-09-17）
+
+[PR33](https://github.com/futsalife24-bot/swarm-front/pull/33)、branch `codex/daily-defense-stale-notice`、base `ac478f58af664d8f385252cef69b1d25dfc59953`、監査対象 `6bf55901aa6a4c7cf3814e293d2fd2031352b3b1`。参加条件の再確認成功で古いnotice/表示を消去する5行の修正。型・防衛7単体・実Chrome/ローカルWorkerで未接続→UI有効化→勝利画面の旧案内なし、勝利/報酬のクラウド保存、新しい挑戦済みエラー表示を確認。buildとproduction dry-run成功。証拠 `docs/evidence/daily-notice/`、再現 `scripts/check-daily-notice.mjs`。実スマホ/ユーザー本人の保存内容は未確認。
+
+停止理由: 自動承認レビューが `dist-validation/daily-notice-audit-6bf5590.zip`（対象HEADのソース・関連テスト・画像/検証証拠、秘密情報なし）の `https://chatgpt.com/` 新規通常Chatへのアップロードを「具体的payloadと宛先の明示承認が確認できない」と拒否。添付・依頼は未完了。独立監査/main反映/公開は未完了。継続承認からの推定で回避していない。
+再開条件: ユーザーが上記ZIPを通常ChatGPTへ独立監査目的で送信することを明示承認後、iab通常Chatへ添付・監査依頼→指摘対応→合格後PR33通常merge・既存Worker公開・配信照合。後続commitはこの状態記録のみ。
+
 # 現在地: 日替わり防衛の古いクラウド案内を修正・監査準備（2026-09-17）
 
 branch `codex/daily-defense-stale-notice`、base `ac478f58af664d8f385252cef69b1d25dfc59953`。参加条件の再確認成功で過去の案内を消去。型・防衛7単体・実Chrome/ローカルWorkerで未接続→UI有効化→勝利→クラウド報酬保存、新規エラー表示を確認。実機の保存内容は未確認。独立監査/main反映/公開は未完了。証拠: `docs/evidence/daily-notice/`。
