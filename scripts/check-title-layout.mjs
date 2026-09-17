@@ -18,8 +18,26 @@ try {
     [667, 375],
     [640, 360],
     [568, 320],
+    [667, 400],
+    [667, 401],
   ]) {
     await page.setViewportSize({ width, height });
+    const frame = await page.locator(".home-command").evaluate((el) => {
+      const r = el.getBoundingClientRect(),
+        heading = el.querySelector(".command-heading"),
+        h = heading.getBoundingClientRect();
+      return {
+        top: r.top,
+        bottom: r.bottom,
+        inside: r.top >= 0 && r.bottom <= innerHeight,
+        headingHidden: getComputedStyle(heading).display === "none",
+        headingInside: h.top >= 0 && h.bottom <= innerHeight,
+      };
+    });
+    assert.ok(
+      frame.inside && (frame.headingHidden || frame.headingInside),
+      JSON.stringify({ width, height, frame }),
+    );
     const geometry = await page.evaluate(() =>
       [...document.querySelectorAll(".home-command button")].map((b) => {
         const r = b.getBoundingClientRect(),
@@ -63,8 +81,10 @@ try {
         .every((b) => b.lines === 1 && b.height >= 38),
       JSON.stringify(geometry),
     );
-    await page.screenshot({ path: `${out}/title-${width}.png` });
-    results.push({ width, height, geometry });
+    await page.screenshot({
+      path: `${out}/title-${width}${width === 667 && height !== 375 ? "-" + height : ""}.png`,
+    });
+    results.push({ width, height, frame, geometry });
   }
   await page.setViewportSize({ width: 844, height: 390 });
   // Optional PWA entry and the longest campaign label use the shared renderer.

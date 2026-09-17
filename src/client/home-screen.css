@@ -112,10 +112,12 @@ body[data-screen="title"] #ui button:focus-visible {
     display: none;
   }
 }
-@media (orientation: landscape) and (max-height: 360px) {
+@media (orientation: landscape) and (max-height: 400px) {
   body[data-screen="title"] #ui .command-heading {
     display: none;
   }
+}
+@media (orientation: landscape) and (max-height: 360px) {
   body[data-screen="title"] #ui .title-actions {
     margin-top: 0;
     gap: 5px;
