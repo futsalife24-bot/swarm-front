@@ -10,7 +10,8 @@
     "conflict fence",
     "explicit restore",
     "weekly reward",
-    "delete cloud only"
+    "delete cloud only",
+    "delete and recreate preserves weekly progress and prevents duplicate reward"
   ],
   "errors": []
 }

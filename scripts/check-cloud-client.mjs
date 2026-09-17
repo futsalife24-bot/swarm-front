@@ -204,6 +204,24 @@ try {
   await a.evaluate(async () => {
     await (await import("/src/client/cloud-save.ts")).deleteCloudSave();
   });
+  const recreated = await a.evaluate(async () => {
+    const c = await import("/src/client/cloud-save.ts"),
+      s = await import("/src/client/progression-save.ts");
+    const before = s.loadProgress("normal");
+    const code = await c.createCloudSave();
+    const local = s.loadProgress("normal");
+    const claimedAgain = await c.claimCloudWeekly("campaign-3");
+    await c.deleteCloudSave();
+    return {
+      before: before.weekly,
+      local: local.weekly,
+      remote: claimedAgain.save.weekly,
+      coins: claimedAgain.save.coins,
+    };
+  });
+  assert.deepEqual(recreated.local, recreated.before);
+  assert.deepEqual(recreated.remote, recreated.before);
+  assert.equal(recreated.coins, finalSave.coins);
   assert.deepEqual(errors, []);
   fs.writeFileSync(
     out + "/checks.json",
@@ -221,6 +239,7 @@ try {
           "explicit restore",
           "weekly reward",
           "delete cloud only",
+          "delete and recreate preserves weekly progress and prevents duplicate reward",
         ],
         errors,
       },

@@ -3,6 +3,7 @@ import { beginDefense, type DefenseSave } from "../src/shared/daily-rewards";
 import {
   recordWeekly,
   claimWeekly,
+  WEEKLY_MISSIONS,
   type WeeklyProgress,
 } from "../src/shared/weekly-missions";
 
@@ -129,7 +130,36 @@ export async function playerVault(
         ))
     )
       return cloudReply({ error: "週間実績の形式が不正です" }, 400);
-    let initial = { ...body.save, weekly: undefined } as {
+    const weekly = body.save.weekly as WeeklyProgress | undefined;
+    const week = japanWeek(now);
+    if (
+      weekly !== undefined &&
+      (!weekly ||
+        typeof weekly !== "object" ||
+        !/^\d{4}-\d{2}-\d{2}$/.test(weekly.week) ||
+        weekly.week > week ||
+        ![weekly.campaign, weekly.defense, weekly.claimed].every(
+          (items) =>
+            Array.isArray(items) &&
+            items.every((id) => typeof id === "string") &&
+            new Set(items).size === items.length,
+        ) ||
+        weekly.campaign.length > 10 ||
+        weekly.defense.length > 3 ||
+        weekly.claimed.some(
+          (id) => !WEEKLY_MISSIONS.some((mission) => mission.id === id),
+        ))
+    )
+      return cloudReply(
+        { error: "週間ミッションの記録と日付を確認してください" },
+        400,
+      );
+    // Recreating a cloud backup must retain this week's progress and claims.
+    // Only old weeks expire; queued offline wins are merged below exactly once.
+    let initial = {
+      ...body.save,
+      weekly: weekly?.week === week ? weekly : undefined,
+    } as {
       coins: number;
       weekly?: WeeklyProgress;
     } & Record<string, unknown>;

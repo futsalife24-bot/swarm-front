@@ -35,6 +35,80 @@ function fixture() {
   return { values, storage, request, initialize };
 }
 describe("player vault", () => {
+  it("preserves claimed rewards when a cloud backup is deleted and recreated", async () => {
+    const f = fixture(),
+      save = freshProgress("normal");
+    save.receipts = ["win-1", "win-2", "win-3"];
+    save.weeklyPending = [...save.receipts];
+    await f.initialize(save);
+    const claimed = (await (
+      await playerVault(
+        f.request("weekly", { id: "campaign-3", version: 1 }),
+        f.storage,
+        false,
+        now,
+      )
+    ).json()) as any;
+    await playerVault(f.request("delete", {}), f.storage, false, now);
+    const recreated = (await (await f.initialize(claimed.save)).json()) as any;
+    expect(recreated.save.weekly).toEqual(claimed.save.weekly);
+    const repeated = (await (
+      await playerVault(
+        f.request("weekly", { id: "campaign-3", version: 1 }),
+        f.storage,
+        false,
+        now,
+      )
+    ).json()) as any;
+    expect(repeated.save.coins).toBe(save.coins + 150);
+    expect(repeated.save.weekly.claimed).toEqual(["campaign-3"]);
+  });
+  it("retains partial same-week progress and merges queued wins without duplication", async () => {
+    const f = fixture(),
+      save = freshProgress("normal");
+    save.weekly = {
+      week: "2026-09-14",
+      campaign: ["win-1", "win-2"],
+      defense: ["defense-1"],
+      claimed: [],
+    };
+    const partial = (await (await f.initialize(save)).json()) as any;
+    expect(partial.save.weekly).toEqual(save.weekly);
+    await playerVault(f.request("delete", {}), f.storage, false, now);
+    save.receipts = ["win-2", "win-3"];
+    save.weeklyPending = [...save.receipts];
+    const merged = (await (await f.initialize(save)).json()) as any;
+    expect(merged.save.weekly.campaign).toEqual(["win-1", "win-2", "win-3"]);
+    expect(merged.save.weekly.defense).toEqual(["defense-1"]);
+    expect(merged.save.weeklyPending).toEqual([]);
+  });
+  it("expires past weeks and rejects future or malformed weekly records on creation", async () => {
+    const save = freshProgress("normal");
+    save.weekly = {
+      week: "2026-09-07",
+      campaign: ["old-1"],
+      defense: [],
+      claimed: ["campaign-3"],
+    };
+    save.receipts = ["new-1"];
+    save.weeklyPending = ["new-1"];
+    const past = (await (await fixture().initialize(save)).json()) as any;
+    expect(past.save.weekly).toEqual({
+      week: "2026-09-14",
+      campaign: ["new-1"],
+      defense: [],
+      claimed: [],
+    });
+    save.weekly.week = "2026-09-21";
+    expect((await fixture().initialize(save)).status).toBe(400);
+    save.weekly = {
+      week: "2026-09-14",
+      campaign: null,
+      defense: [],
+      claimed: [],
+    } as any;
+    expect((await fixture().initialize(save)).status).toBe(400);
+  });
   it("does not acknowledge a lost save response across a later server reward", async () => {
     const f = fixture();
     await f.initialize();
