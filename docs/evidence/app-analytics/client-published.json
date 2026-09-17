@@ -1,0 +1,34 @@
+[
+  {
+    "app": "lmfdb",
+    "path": "ux/index.html",
+    "status": 200,
+    "matches": true,
+    "sha256": "8b983f4d666c5048dbf82c80f83a5960e5f6f8c70961c6e3454b663f2b6b770d",
+    "source": "d063d1503ca581ccc990d29a8805feed92d2b9df"
+  },
+  {
+    "app": "lmfdb",
+    "path": "ux/sw.js",
+    "status": 200,
+    "matches": true,
+    "sha256": "22e622fff33801a4866545968e72f5207959975d09f326cbaadb2241843dfd60",
+    "source": "d063d1503ca581ccc990d29a8805feed92d2b9df"
+  },
+  {
+    "app": "katamon",
+    "path": "index.html",
+    "status": 200,
+    "matches": true,
+    "sha256": "c39f52b6518cc9b8bc56fcb7f53c9cff54ec3450ef9114b6f0cd43132e6e7018",
+    "source": "73a0e2f712ae8592f82ba0417af5360cbd05e8cf"
+  },
+  {
+    "app": "katamon",
+    "path": "sw.js",
+    "status": 200,
+    "matches": true,
+    "sha256": "e5f00995ccd2ea7308190bb4f0df97102b228e030e0d2eaaa9a482645bc04f64",
+    "source": "73a0e2f712ae8592f82ba0417af5360cbd05e8cf"
+  }
+]

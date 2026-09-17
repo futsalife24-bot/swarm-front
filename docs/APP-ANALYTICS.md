@@ -52,3 +52,12 @@ Cloudflare Workers plans画面でFree / Current planを確認。課金・契約�
 まよいはSites source mainへ099c74cc3b7078d7c0c8bd2a17e72c2734e708c9をpushし、標準パッケージからv9（appgprj_6aab43de9f348191b16094c69e2e657f~appgver_2cc2927e81cc8191855aa850c21357fc）を保存。未deploy、access custom維持。
 
 自動承認レビューがPR35 mergeを明示承認不足で拒否し、ユーザーへ対象3PRの通常mergeと4アプリ公開の一括承認を依頼した。main更新/本番公開は未実施。本番adminはログイン画面まで確認、既存セッションなし。認証後の本番数値は未確認。
+
+## 本番公開（ユーザー明示承認後）
+
+- Swarm PR35: main e002d362d322a7b0416ee3265aef8034a4b9a120。merge後ビルド/dry-run成功、既存Worker ca3abee2-441c-468b-b108-5cec3d414b64へ公開。12配信assetsとadmin HTMLがソース一致。api/health正常、未認証apps401、各collectorの正規Origin OPTIONS204。人工イベントは本番へ送っていない。
+- LMF PR5: main d063d1503ca581ccc990d29a8805feed92d2b9df。Pages run35208072204成功、ux/index.htmlとux/sw.jsの配信SHAがソース一致。iabで1239件の能力一覧を表示、error0。
+- カタモンPR401: master73a0e2f712ae8592f82ba0417af5360cbd05e8cf。事前CI全6件成功（実registry Emulator含む）。Pages run35208079491成功、index.html/sw.jsの配信SHAがソース一致。iabで起動画面の描画、error0。
+- まよい: source099c74cc3b7078d7c0c8bd2a17e72c2734e708c9 / Sites v9。deployment appgdep_6aabba019b148191b225c05ce6656e38 succeeded。既存URL https://mossline-bastion.melosalife-24.chatgpt.site、公開前後のaccess_policy一致（custom）。
+
+証拠: docs/evidence/app-analytics/published.json、client-published.json。元作業場所の別作業/未保存差分は未変更。管理画面は本番ログイン画面まで確認、error0。既存開発者セッションがないため本番の認証後数値は未確認（実ローカルWorker/SQLiteで検証済み）。物理スマホは未検証。新規3アプリの過去アクセスは遡って復元しない。

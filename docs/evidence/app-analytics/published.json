@@ -1,0 +1,93 @@
+{
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "source": "e002d362d322a7b0416ee3265aef8034a4b9a120",
+  "version": "ca3abee2-441c-468b-b108-5cec3d414b64",
+  "date": "2026-09-17T09:58:51.286Z",
+  "assets": [
+    {
+      "path": "index.html",
+      "sha256": "ac607e56fd7a5ffe476770aac54155e7cbaa7d66e92bcf6fb60b7e17f6a64fd6",
+      "matches": true
+    },
+    {
+      "path": "assets/index-DIw_VnmM.js",
+      "sha256": "914ef4ff06f20db3dc4aa9cd9ac5d4908c7a23ec6dc38e76281dcb6baf426960",
+      "matches": true
+    },
+    {
+      "path": "assets/main-C1Ldsy-y.css",
+      "sha256": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1",
+      "matches": true
+    },
+    {
+      "path": "assets/main-D7_i3dWf.js",
+      "sha256": "28d5b95678371ec399f12f83c103b7eeedabebaf9e6c8093ad40aa9f7bfb60a2",
+      "matches": true
+    },
+    {
+      "path": "assets/playtest-app-D7EB9PzU.js",
+      "sha256": "6a8ba03fc7f322d554172295cc13fce0f2301c5c14c7ef762a918c6bbfb1b10e",
+      "matches": true
+    },
+    {
+      "path": "assets/playtest-app-Dy4ehDQn.css",
+      "sha256": "2eee15f749a6e3c22a3f910af71a490de291dd22bf05524550ba4499871d0209",
+      "matches": true
+    },
+    {
+      "path": "assets/training-app-CGvmIVOB.js",
+      "sha256": "88db7903ef18b9c01e219a2e310856f1029094c87df109107d5e20abe4303465",
+      "matches": true
+    },
+    {
+      "path": "assets/weapon-help-Clh1V6L1.css",
+      "sha256": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607",
+      "matches": true
+    },
+    {
+      "path": "assets/weapon-help-D-Oj43gh.js",
+      "sha256": "d9f5a9580fb99a6194c1c27ea9d4228883552c460e0c06964a0f426a63000992",
+      "matches": true
+    },
+    {
+      "path": "assets/weapon-sharing-BTajhXht.js",
+      "sha256": "2b131c9f8a170439f97092cfdc9c75507f36634d2baa74f57abc1e26ea01dfca",
+      "matches": true
+    },
+    {
+      "path": "assets/zoom-guard-BYiDpNS5.css",
+      "sha256": "f0556f4cdf5c5c4ff6457bc78b91a3b4b58fd1b921209102915a8c0b18551d10",
+      "matches": true
+    },
+    {
+      "path": "assets/zoom-guard-CSPyz7jg.js",
+      "sha256": "56ce4d9f2b1f9896ed9accbe8be685a5469c92d58ac704d959d2b3f3f2622739",
+      "matches": true
+    }
+  ],
+  "health": {
+    "ok": true,
+    "transport": "websocket",
+    "authority": "durable-object"
+  },
+  "unauthenticated": 401,
+  "admin": {
+    "status": 200,
+    "sha256": "0099604eedea02b8d580b4df8c9cb8849b74461cbe595e3fd2a178e857189b70",
+    "matches": true
+  },
+  "preflight": [
+    {
+      "id": "lmfdb",
+      "status": 204
+    },
+    {
+      "id": "katamon",
+      "status": 204
+    },
+    {
+      "id": "mayoi",
+      "status": 204
+    }
+  ]
+}
