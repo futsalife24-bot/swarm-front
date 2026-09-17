@@ -48,6 +48,7 @@ export async function prepareBattle(
   await wait(
     Promise.all([
       loadStandardTrooper(),
+      ...(world.defense ? [view.defenseVisual.load()] : []),
       loadProgressionWeapons(world.players.flatMap((p) => p.weapons)),
     ]),
   );
@@ -63,7 +64,10 @@ export async function prepareBattle(
     }
   }
   progress(55);
-  const mapIndex = stageFor(world).map;
+  const mapIndex = stageFor(world).map + (world.defense ? MAPS.length + 1 : 0);
+  // A failed daily map download must be retryable without spending participation.
+  if (world.defense && view.mapAssets.status[mapIndex].state === "error")
+    view.mapAssets.status[mapIndex] = { state: "idle", error: "" };
   while (true) {
     check();
     view.render(world, id, 0, 0, 0, undefined, false);
@@ -81,7 +85,9 @@ export async function prepareBattle(
       );
     if (
       map.state === "ready" &&
-      (MAPS[mapIndex].biome === "cave" || distant.state === "ready") &&
+      (world.defense ||
+        MAPS[mapIndex].biome === "cave" ||
+        distant.state === "ready") &&
       models.every((m) => m?.userData.trooper)
     )
       break;

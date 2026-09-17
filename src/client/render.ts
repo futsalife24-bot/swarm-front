@@ -1,4 +1,5 @@
 import { dropGeometry } from "./drop-design";
+import { DefenseVisual } from "./defense-visual";
 import { enemySize } from "../shared/enemy-size";
 import { dropAt } from "../shared/solo-progression";
 import { groundHeight } from "../shared/terrain";
@@ -14,7 +15,7 @@ import { AdaptiveQuality } from "./adaptive-quality";
 import type { StructureVisualKind } from "./structure-motion";
 import { CombatEffects } from "./combat-effects";
 import { EnemySpawnEffects } from "./enemy-spawn-effects";
-import { MAPS, mapFor } from "../shared/stages";
+import { MAPS, DEFENSE_MAPS, mapFor } from "../shared/stages";
 import * as T from "three";
 import { enemyGeometry, mechanizeMaterial } from "./enemy-model";
 import { ENEMIES, EVADE_DURATION } from "../shared/defs";
@@ -263,6 +264,7 @@ export class Renderer {
   foundryLasers!: T.InstancedMesh;
   foundryLaserGlow!: T.InstancedMesh;
   players = new Map<string, T.Group>();
+  readonly defenseVisual: DefenseVisual;
   dummy = new T.Object3D();
   particles: T.InstancedMesh;
   projectiles: T.InstancedMesh;
@@ -373,6 +375,7 @@ export class Renderer {
     sun.shadow.normalBias = 0.12;
     sun.shadow.autoUpdate = false;
     this.scene.add(sun, this.caveLamp);
+    this.defenseVisual = new DefenseVisual(this.scene);
     this.mapAssets = new MapAssets(this.scene);
     for (const kind of Object.keys(ENEMIES) as Enemy["kind"][]) {
       const mesh = new T.InstancedMesh(
@@ -844,7 +847,11 @@ export class Renderer {
     const activeMap = mapFor(w ?? {});
     this.terrainWarnings.select(activeMap.blocks);
     this.mapAssets.select(
-      w?.training ? MAPS.length : MAPS.indexOf(activeMap),
+      w?.defense
+        ? MAPS.length + 1 + DEFENSE_MAPS.indexOf(activeMap)
+        : w?.training
+          ? MAPS.length
+          : MAPS.indexOf(activeMap),
       !!w && w.phase !== "lobby",
     );
     const underground = activeMap.biome === "cave";
@@ -895,6 +902,7 @@ export class Renderer {
         }
     } else this.clearFoundryWorms();
     this.foundryWarnings.count = 0;
+    this.defenseVisual.update(w, dt);
     const active = new Set(w?.players.map((p) => p.id));
     for (const [key, m] of this.players)
       if (!active.has(key)) {
@@ -1453,6 +1461,7 @@ export class Renderer {
           visualAim.target.y,
           visualAim.target.z,
         );
+        this.defenseVisual.camera(w, this.camera);
       }
     } else {
       this.run = "";

@@ -1,0 +1,12 @@
+{
+  "pass": true,
+  "checks": [
+    "assets ready before admission",
+    "failed Blender model download preserves admission and retries",
+    "guarantee banked before combat",
+    "armory target initialized",
+    "reload retains guarantee",
+    "no daily battle replay"
+  ],
+  "errors": []
+}

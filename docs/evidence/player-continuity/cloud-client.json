@@ -1,0 +1,17 @@
+{
+  "pass": true,
+  "checks": [
+    "same code returns newer progress",
+    "second device restore",
+    "offline event queue acknowledgement",
+    "pre-cloud wins credited during account creation",
+    "repeated stale local adoption cannot erase weekly reward",
+    "stale local adoption cannot erase daily guarantee or collected drop",
+    "conflict fence",
+    "explicit restore",
+    "weekly reward",
+    "delete cloud only",
+    "delete and recreate preserves weekly progress and prevents duplicate reward"
+  ],
+  "errors": []
+}

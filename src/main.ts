@@ -1,4 +1,6 @@
 import { backgroundMusic } from "./client/bgm";
+import { installCloudSync } from "./client/cloud-save";
+installCloudSync();
 import { resourceFrame } from "./client/resource-frame";
 import { newSaveKey } from "./client/progression-save";
 import {

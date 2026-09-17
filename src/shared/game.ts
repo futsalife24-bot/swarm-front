@@ -1,4 +1,10 @@
 import { enemySize, enemySpeedFactor, spawnSize } from "./enemy-size";
+import {
+  defenseTarget,
+  defenseSpawn,
+  finishDefenseTick,
+  type DailyDefense,
+} from "./daily-defense";
 import { settings, rollWeapon, type NewWeapon } from "./progression";
 import {
   maxHp,
@@ -132,6 +138,7 @@ export interface Player {
   safe: number;
 }
 export interface Enemy extends WormNode {
+  defenseAggroUntil?: number;
   size?: number; // Fixed at spawn and replicated in authoritative snapshots.
   foundryTriggered?: boolean;
   foundrySource?: number;
@@ -214,6 +221,7 @@ export interface Drop {
   weapon: Weapon;
 }
 export interface World {
+  defense?: DailyDefense;
   training?: boolean;
   solo?: SoloProgression;
   foundrySpawns?: FoundrySpawnBatch[];
@@ -308,7 +316,7 @@ export function start(w: World) {
   w.scale = 1 + 0.55 * (w.players.length - 1);
   w.wave = 1;
   w.waveAt = 0;
-  beginWave(w);
+  if (!w.defense) beginWave(w);
 }
 export function random(w: World) {
   w.seed = (Math.imul(w.seed, 1664525) + 1013904223) >>> 0;
@@ -653,6 +661,11 @@ function beginWave(w: World) {
   }
 }
 function hurtPlayer(w: World, p: Player, damage: number, heavy = false) {
+  if (w.defense && p === w.defense.armory) {
+    p.hp = Math.max(0, p.hp - damage * stageFor(w).damage);
+    p.hurt = 0.2;
+    return;
+  }
   if (p.hp <= 0 || p.evade > 0 || (w.solo?.invincible ?? 0) > 0) return;
   p.hp = Math.max(0, p.hp - damage * stageFor(w).damage);
   if (heavy) p.heavyHit = HEAVY_HIT_DURATION;
@@ -724,6 +737,7 @@ export function hurtEnemy(
   weapon?: Event["weapon"],
 ) {
   if (e.hp <= 0) return;
+  if (w.defense && owner === w.players[0]?.id) e.defenseAggroUntil = w.time + 4;
   e.active = true;
   let impact = { x: e.x, y: eye(e), z: e.z };
   if (e.segments) {
@@ -1195,7 +1209,20 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     }
   }
   const living = w.players.filter((p) => p.hp > 0 && p.connected);
+  if (w.defense)
+    for (const p of living) {
+      const distance = Math.hypot(p.x, p.z);
+      // Blender vault including its corners plus the soldier's body clearance.
+      if (distance < 1.95) {
+        p.x = distance > 0 ? (p.x / distance) * 1.95 : 1.95;
+        p.z = distance > 0 ? (p.z / distance) * 1.95 : 0;
+      }
+    }
   if (!living.length) {
+    if (w.defense) {
+      finishDefenseTick(w);
+      return;
+    }
     if (w.solo) {
       endSoloTick(w);
       return;
@@ -1206,7 +1233,8 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   const plan = stageFor(w);
   const wave = plan.waves[w.wave - 1];
   if (!wave) return;
-  if (w.solo) soloSpawnAndProgress(w);
+  if (w.defense) defenseSpawn(w);
+  else if (w.solo) soloSpawnAndProgress(w);
   else if (!w.training) {
     if (
       w.spawned < troopCount(wave) &&
@@ -1262,13 +1290,16 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       beginWave(w);
     }
   }
+  if (w.defense) living.push(w.defense.armory);
   for (const e of w.enemies) {
     if (e.hp <= 0) continue;
     e.hurt = Math.max(0, e.hurt - dt);
     if (w.training) continue;
-    const t = selectStructureTarget(e, living, (p) =>
-      visible(e, p, mapFor(w).blocks),
-    );
+    const t = w.defense
+      ? defenseTarget(w, e, w.players)
+      : selectStructureTarget(e, living, (p) =>
+          visible(e, p, mapFor(w).blocks),
+        );
     // An earlier enemy can down the last target in this same tick.
     if (!t) continue;
     if (e.wind <= 0) e.targetId = t.id;
@@ -1646,7 +1677,8 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   w.projectiles = w.projectiles.filter((q) => q.life > 0);
   w.enemies = w.enemies.filter((e) => e.hp > 0);
   flushFoundrySpawns(w);
-  if (w.solo) endSoloTick(w);
+  if (w.defense) finishDefenseTick(w);
+  else if (w.solo) endSoloTick(w);
   else if (!w.training && w.time > 600)
     finish(w, false, "作戦時間の上限（10分）に達しました");
 }

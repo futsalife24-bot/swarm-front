@@ -23,6 +23,7 @@ export interface NetworkSession {
   endpoint: string;
   code: string;
   token: string;
+  expiresAt?: number;
 }
 export const NETWORK_SESSION_KEY = "swarm-front-session";
 export function clearNetworkSession() {
@@ -31,10 +32,25 @@ export function clearNetworkSession() {
   } catch {
     // Navigation/socket cleanup still works when storage is unavailable.
   }
+  try {
+    localStorage.removeItem(NETWORK_SESSION_KEY);
+  } catch {
+    /* Keep cleanup best-effort. */
+  }
 }
 export function loadNetworkSession(
-  storage: Pick<Storage, "getItem" | "removeItem"> = sessionStorage,
+  storage?: Pick<Storage, "getItem" | "removeItem">,
 ): NetworkSession | null {
+  if (!storage) {
+    try {
+      const inTab = loadNetworkSession(sessionStorage);
+      if (inTab) return inTab;
+      const saved = loadNetworkSession(localStorage);
+      return saved?.expiresAt ? saved : null;
+    } catch {
+      return null;
+    }
+  }
   try {
     const value = JSON.parse(storage.getItem(NETWORK_SESSION_KEY) ?? "null");
     if (
@@ -42,7 +58,9 @@ export function loadNetworkSession(
       typeof value.endpoint !== "string" ||
       !/^https?:\/\/[^\s]+$/.test(value.endpoint) ||
       !/^[a-f0-9]{32}$/.test(value.code) ||
-      !/^[a-f0-9]{32}$/.test(value.token)
+      !/^[a-f0-9]{32}$/.test(value.token) ||
+      (value.expiresAt !== undefined &&
+        (!Number.isFinite(value.expiresAt) || value.expiresAt <= Date.now()))
     )
       throw new Error("invalid session");
     return value as NetworkSession;
@@ -213,15 +231,15 @@ export class Network {
         this.retry = 0;
         // Keep identity in this tab across reloads. Never put the token in URLs or logs.
         try {
-          sessionStorage.setItem(
-            NETWORK_SESSION_KEY,
-            JSON.stringify({
-              version: 1,
-              endpoint: this.endpoint,
-              code: this.code,
-              token: this.token,
-            } satisfies NetworkSession),
-          );
+          const stored = JSON.stringify({
+            version: 1,
+            endpoint: this.endpoint,
+            code: this.code,
+            token: this.token,
+            expiresAt: Date.now() + 60 * 60 * 1000,
+          } satisfies NetworkSession);
+          sessionStorage.setItem(NETWORK_SESSION_KEY, stored);
+          localStorage.setItem(NETWORK_SESSION_KEY, stored);
         } catch {
           // A blocked/full session store must not break the live connection.
         }
@@ -266,7 +284,7 @@ export class Network {
       } else if (m.type === "error") {
         this.closed = true;
         try {
-          sessionStorage.removeItem(NETWORK_SESSION_KEY);
+          clearNetworkSession();
         } catch {
           // The fatal server response is still shown when storage is unavailable.
         }

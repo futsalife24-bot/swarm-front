@@ -83,6 +83,12 @@ export function persistSharedCoopSave(
   updated.locks = [...(next.favorites ?? [])];
   updated.powder = next.powder ?? 0;
   updated.receipts = [...next.receipts];
+  updated.weeklyPending = [
+    ...new Set([
+      ...(s.weeklyPending ?? []),
+      ...next.receipts.filter((id) => !s.receipts.includes(id)),
+    ]),
+  ].slice(-128);
   updated.coopPreferences = coopPreferences(next);
   validateProgress(updated);
   persistProgress(updated, storage);

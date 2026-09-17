@@ -390,8 +390,16 @@ export function stageFor(w: {
     dropRate: 0.05,
   };
 }
-export function mapFor(w: { stage?: number; training?: boolean }) {
-  return w.training ? TRAINING_MAP : MAPS[stageFor(w).map];
+export function mapFor(w: {
+  stage?: number;
+  training?: boolean;
+  defense?: unknown;
+}) {
+  return w.defense
+    ? DEFENSE_MAPS[stageFor(w).map]
+    : w.training
+      ? TRAINING_MAP
+      : MAPS[stageFor(w).map];
 }
 
 /** Flat dedicated range, intentionally outside the campaign and terrain generation. */
@@ -408,3 +416,18 @@ export const TRAINING_MAP: ArenaMap = {
     { x: 0, z: 24, w: 50, d: 2, h: 3 },
   ],
 };
+
+/** Dedicated flat defense yard; campaign terrain and collisions remain unchanged. */
+export const DEFENSE_MAPS: ArenaMap[] = MAPS.map((source) => ({
+  name: "武器庫防衛拠点",
+  biome: source.biome,
+  ground: source.ground,
+  color: source.color,
+  sky: source.sky,
+  blocks: [
+    { x: -48, z: 0, w: 2, d: 98, h: 4 },
+    { x: 48, z: 0, w: 2, d: 98, h: 4 },
+    { x: 0, z: -48, w: 94, d: 2, h: 4 },
+    { x: 0, z: 48, w: 94, d: 2, h: 4 },
+  ],
+}));

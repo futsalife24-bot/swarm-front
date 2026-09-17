@@ -1,0 +1,14 @@
+{
+  "pass": true,
+  "transport": "real local Worker and SQLite Durable Object",
+  "checks": [
+    "credential isolation",
+    "latest backup",
+    "idempotent retry",
+    "stale device conflict",
+    "daily atomic guarantee",
+    "once per day",
+    "cross-origin rejection",
+    "cloud deletion"
+  ]
+}

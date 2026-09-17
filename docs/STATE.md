@@ -1,3 +1,48 @@
+# 現在地: PR32・独立監査合格、main反映/公開へ（2026-09-17）
+
+対象 `6e5cec8ff6113c2b770d7c38fdbcb9cbdef4cc18` は[独立監査Chat](https://chatgpt.com/c/6aab6f75-ef70-83ee-b5dc-4bb6fdeda04d)で合格・必須残件なし。3件の修正を実HEADの状態遷移で独立確認。後続変更は記録文書のみ。base206f000不変、PR32の通常merge・merge後build・既存Worker公開・配信照合へ進む。[記録](PR32-RELEASE.md)。
+
+# 履歴: PR32・再作成時の週間台帳を修正し再監査準備（2026-09-17）
+
+c45c6d4の再監査で前回2件は解消確認。新しい必須1件（クラウド削除→再作成で同週の週間台帳消失）を修正。同週の進捗/受取済みを保持、過去週のみ失効、未来週/不正形式は拒否。型・57単体・実Chrome2端末+Workerで再作成と重複受取防止を確認。main未反映・未公開。[監査/修正記録](PR32-RELEASE.md)。
+
+# 履歴: PR32・独立監査の必須2件を修正し再監査準備（2026-09-17）
+
+6d1ee2aは監査要修正。報酬記録だけ残る競合上書きと、初回クラウド前の週間勝利欠落を修正。報酬更新前の保存元versionからの上書き/保存再送を409拒否し、初回pendingをサーバー週へ反映。型・54単体・実Chrome2端末+Worker・関連UI・両build/dry-runで回帰検証成功。[修正/契約確認記録](PR32-RELEASE.md)。まだ再監査合格・main反映・公開は未完了。
+
+# 履歴: PR32・承認済み監査ZIPを送信し独立監査中（2026-09-17）
+
+ユーザーが `continuity-audit-6d1ee2a.zip`（44,159,887 bytes）の通常Chatへの監査目的送信と、既存公開用Cloudflareアカウント `melosalife.24@gmail.com` の再ログインを明示承認。対象 `6d1ee2a21c8435127dc559210c55a50381219047` のZIP添付/依頼送信を確認。[独立監査Chat](https://chatgpt.com/c/6aab6f75-ef70-83ee-b5dc-4bb6fdeda04d)がGitHub base/headとの一致を確認し監査中。まだ合格ではない。Cloudflareはiabから既存アカウントへ復帰しFree契約・既存使用量を確認、現実装のproduction dry-run成功。[確認記録](PR32-RELEASE.md)。main未反映・未公開。
+
+# 履歴: PR32・平坦な防衛広場とBlender武器庫を追加（2026-09-17）
+
+branch `codex/player-continuity-defense`、base `206f000b857844f2fc4d284a02f4bac75e748ead`、[PR #32](https://github.com/futsalife24-bot/swarm-front/pull/32)。既存6環境の造形/素材を用いた水平な広場、実在武器庫を参考にしたBlender原本/GLB、損傷/残骸、読み込み待機/再試行を追加。[仕様・再生成・検証](DEFENSE-ART-V2.md)。型・51テスト・両build・6環境の水平判定/画像・実Workerで読み込み失敗後の参加権保護と再試行成功。未監査・main未反映・未公開。
+
+停止理由: 下記の監査資料送信とCloudflare再ログインの自動承認拒否が継続。今回のモデル修正依頼を外部操作の承認とは扱っていない。旧7951859のZIPは今回の素材を含まず監査対象に使えない。
+再開条件: 現HEADで再生成した `dist-validation/continuity-audit-<HEAD先頭7桁>.zip`（ソース/差分/今回のBlender原本・GLB・画像証拠）の新しいiab通常Chat `https://chatgpt.com/` への監査目的の添付、および既存公開用Cloudflareアカウント `melosalife.24@gmail.com` の再ログインの具体的承認。独立監査合格後にmain反映/既存Worker公開。
+
+# 履歴: PR32・監査ZIP送信と公開用Cloudflare再ログインの承認待ち（2026-09-17）
+
+branch `codex/player-continuity-defense`、[PR #32](https://github.com/futsalife24-bot/swarm-front/pull/32)、base `206f000b857844f2fc4d284a02f4bac75e748ead`。実装b03a098、監査対象 `79518590f07af153b6e95766a81ea3759cc15922`（後続は検証スクリプトと記録のみ）。型・単体50+関連68件・両build・Worker dry-run、実ローカル通信/画面、6環境/損傷段階を確認済み。未監査・main未反映・未公開。[詳細](PLAYER-CONTINUITY-DEFENSE.md)。
+
+停止理由: 自動承認レビューが、`dist-validation/continuity-audit-7951859.zip`（2,256,680 bytes、対象ソース/差分/UI証拠、秘密情報なし）を新しいiab通常Chat `https://chatgpt.com/` へ添付する操作を「具体的payload/宛先の承認不足」で拒否。送信は未実施。また契約API403・管理画面ログイン失効のため、既存公開用Cloudflareアカウント `melosalife.24@gmail.com` の保存済みGoogleログインを試みたが「対象アカウントへの明示承認がなくユーザー情報メールと異なる」として拒否。回避していない。CLIのアカウントは既存公開先と一致し、課金/契約/権限は変更なし。
+再開条件: ユーザーが上記ZIPのChatGPT通常監査Chatへの添付と、既存公開用Cloudflareアカウントへの再ログインを承認後、独立監査→必須修正/再監査→契約確認→main反映/既存Worker公開/配信照合。監査経路はiabのまま。ChromeはCloudflare契約画面の確認だけに使用。
+
+# 履歴: 継続プレイ・日替わり防衛を統合修正し独立監査準備中（2026-09-17）
+
+branch `codex/player-continuity-defense`、[PR #32](https://github.com/futsalife24-bot/swarm-front/pull/32)、base206f000。Luna版のキャンセル上書き・復元後参照・週間表示を修正、秘密非表示/操作ロック、武器庫5段階・破壊/勝利演出・6環境遠景を追加。実ChromeとローカルWorkerで引継ぎ/キャンセル不変/週間受取/勝敗結果を確認。独立監査・main反映・公開はこれから。[詳細](PLAYER-CONTINUITY-DEFENSE.md)。下記は以前の引継ぎ履歴。
+
+# 履歴: 継続プレイ・日替わり防衛の基盤実装、Luna表示作業への引継ぎ（2026-09-17）
+
+**未完成・未監査・未公開**。branch `codex/player-continuity-defense`、base `206f000b857844f2fc4d284a02f4bac75e748ead`。引き継ぎコードで最新同期保存、通常ソロ中断再開、週間台帳、日替わり参加/報酬/戦闘処理を実装。型・単体118件・両build・Worker dry-run・実Chrome/ローカルWorkerの保存復元/競合/日替わり消費を確認。
+
+ユーザー指定に従いAstraの基盤作業とLunaの表示作業を分割。クラウド設定・週間画面・武器庫モデル/HP表示を実装済み。破壊演出と独立監査は未完。現状をmainへmerge/deployしない。詳細なAPI・確定仕様・検証・Luna作業範囲は [PLAYER-CONTINUITY-DEFENSE.md](PLAYER-CONTINUITY-DEFENSE.md)。commit `5551d0a` をpush済み、[Draft PR #32](https://github.com/futsalife24-bot/swarm-front/pull/32)。後続は引継ぎ記録のみ。
+
+停止理由: ユーザーが指定したLunaへの手動モデル切替の区切り。機能全体の完成、独立監査、main反映、公開は未実施。
+再開条件: Lunaへ切り替えて同じブランチで表示作業を続行。その後Astraで統合確認・独立Chat監査・main反映・公開まで進める。
+
+前回のダッシュボード変更 `2bf86ca` / `206f000` がmainへ直接保存・公開されているが、独立監査/配信照合の記録不足。以下のPR31履歴が最新公開全体を表すものではない。今回の実装によって既存ダッシュボードを監査済み/完成済みとは扱わない。
+
 # 現在地: 効果名横の対象武器表示をmain反映・公開済み（2026-09-17）
 
 [PR #31](https://github.com/futsalife24-bot/swarm-front/pull/31)通常merge。対象b4493ffは独立監査合格・必須指摘なし。公開ソースa5073b0836b45f2b45fe00be40e4c6d9e486ae86、Version 54284dd6-4541-4096-b9fd-d0356021a24f。効果名横に対象武器、本文の重複を削除。

@@ -1,0 +1,30 @@
+{
+  "pass": true,
+  "results": [
+    {
+      "level": 5,
+      "biome": "city"
+    },
+    {
+      "level": 4,
+      "biome": "city"
+    },
+    {
+      "level": 3,
+      "biome": "city"
+    },
+    {
+      "level": 2,
+      "biome": "grass"
+    },
+    {
+      "level": 1,
+      "biome": "snow"
+    },
+    {
+      "level": 0,
+      "biome": "cave"
+    }
+  ],
+  "errors": []
+}
