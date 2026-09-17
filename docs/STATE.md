@@ -2,7 +2,7 @@
 
 **未完成・未監査・未公開**。branch `codex/player-continuity-defense`、base `206f000b857844f2fc4d284a02f4bac75e748ead`。引き継ぎコードで最新同期保存、通常ソロ中断再開、週間台帳、日替わり参加/報酬/戦闘処理を実装。型・単体118件・両build・Worker dry-run・実Chrome/ローカルWorkerの保存復元/競合/日替わり消費を確認。
 
-ユーザー指定に従いAstraの基盤作業とLunaの表示作業を分割。次はユーザーがLunaへ切り替えた後、クラウド設定・週間画面・武器庫の表示/損傷演出を実装する。武器庫は論理標的のみで見えるモデルは未実装。現状をmainへmerge/deployしない。詳細なAPI・確定仕様・検証・Luna作業範囲は [PLAYER-CONTINUITY-DEFENSE.md](PLAYER-CONTINUITY-DEFENSE.md)。基盤commit `7b1c2e3` をpush済み、[Draft PR #32](https://github.com/futsalife24-bot/swarm-front/pull/32)。後続は引継ぎ記録のみ。
+ユーザー指定に従いAstraの基盤作業とLunaの表示作業を分割。クラウド設定・週間画面・武器庫モデル/HP表示を実装済み。破壊演出と独立監査は未完。現状をmainへmerge/deployしない。詳細なAPI・確定仕様・検証・Luna作業範囲は [PLAYER-CONTINUITY-DEFENSE.md](PLAYER-CONTINUITY-DEFENSE.md)。commit `5551d0a` をpush済み、[Draft PR #32](https://github.com/futsalife24-bot/swarm-front/pull/32)。後続は引継ぎ記録のみ。
 
 停止理由: ユーザーが指定したLunaへの手動モデル切替の区切り。機能全体の完成、独立監査、main反映、公開は未実施。
 再開条件: Lunaへ切り替えて同じブランチで表示作業を続行。その後Astraで統合確認・独立Chat監査・main反映・公開まで進める。
