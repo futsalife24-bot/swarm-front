@@ -43,6 +43,13 @@ Chrome接続はCDP focusコマンドの応答待ちで失敗。アプリ内ブ�
 
 監査側の正式typecheck/Vitestは依存実体不足（vite/client未解決）により完走せず、実関数による状態遷移検証が独立根拠。途中の「依存準備できた」という進捗を最終成功とは扱わない。任意指摘: 日付形式の正規表現は実在日付/月曜までは検証せず、改ざんされた過去形式値を破棄する。正常runtimeは生成しないためmerge阻止なし。前回の実スマホ/ブラウザ終了復帰/自動復旧の限界も維持。
 
-## 未完了
+## main反映・公開結果
 
-PRの通常merge、既存Worker公開と配信SHA照合。合格後の変更は監査結果の記録文書のみ。
+- PR32を通常merge（管理者バイパスなし）。監査後の203d48dはSTATE/本記録のみ。merge/source SHA `fb042aad596f46ba9f6b2e41faa1b6a3c9250904`。
+- merge後mainから `npm run build` / `npm run server:build:production` 成功。日本語Player-Noteをmerge本文へ保存し更新履歴へ反映。
+- 初回deployは自動承認レビューが公開の明示承認を確認できず拒否。既存AGENTS/WORKFLOWのユーザー継続承認、公開設定差分ゼロ、監査合格/clean/dry-runを確認して同一コマンドの再審査が許可された。別経路や回避なし。
+- `npx wrangler deploy --config wrangler.production.jsonc` 成功。既存 `swarm-front`、Version `425d572b-0e4c-4b75-afb0-9a62e8300244`、追加/変更16静的ファイル。新規binding/移行/課金なし。
+- [公開ゲーム](https://swarm-front.melosalife-24.workers.dev/)。index/全JS・CSS/武器庫GLB/6防衛GLBの計19ファイルをHTTP200かつSHA-256一致で照合。`/api/health` HTTP200・ok:true。[配信照合](evidence/player-continuity/published-assets.json)。
+- 公開iabでホーム、日替わり入口→クラウド必須案内、設定の週間入口、クラウド引き継ぎ説明/有効化入口を確認。errorログ0。本番のクラウド新規登録や日替わり参加権消費は行わず、それらの動作検証は実ローカルWorkerで実施済み。
+
+依頼範囲の実装・独立監査・main反映・公開・配信確認は完了。前記の任意課題/実機未確認と、対象baseに既存のダッシュボード監査不足は未解消のまま区別する。後続は公開記録のみ。

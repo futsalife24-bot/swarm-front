@@ -1,0 +1,127 @@
+{
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "source": "fb042aad596f46ba9f6b2e41faa1b6a3c9250904",
+  "workerVersion": "425d572b-0e4c-4b75-afb0-9a62e8300244",
+  "date": "2026-09-17T05:32:31.302Z",
+  "assets": [
+    {
+      "path": "/index.html",
+      "bytes": 2298,
+      "sha256": "27b6b61817cc04b0b64bb4c0d541974bb14abf67fc41b5bcd9b6ebf19fc5f0bc",
+      "matches": true
+    },
+    {
+      "path": "/assets/index-CgVsSMzB.js",
+      "bytes": 32664,
+      "sha256": "48a4da95bc9db636999cde1d89b68cd11a57fe0380164ec09f7ac1b083dfc803",
+      "matches": true
+    },
+    {
+      "path": "/assets/main-BPMLKnEu.js",
+      "bytes": 54611,
+      "sha256": "6c1ddb935978229f33cc21e8ec49095071ab5ad50e5f385913f92764ef7ca16f",
+      "matches": true
+    },
+    {
+      "path": "/assets/main-C1Ldsy-y.css",
+      "bytes": 6219,
+      "sha256": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1",
+      "matches": true
+    },
+    {
+      "path": "/assets/playtest-app-2QzGcX_a.css",
+      "bytes": 25363,
+      "sha256": "6864007bdb8363438e17632aa6b8796724a8952671639efe4526da84c29185c2",
+      "matches": true
+    },
+    {
+      "path": "/assets/playtest-app-BU89SIZ9.js",
+      "bytes": 109029,
+      "sha256": "005c9492677c36de773a5bf670dcb16df8d08312cd629c2922958a7ccff87589",
+      "matches": true
+    },
+    {
+      "path": "/assets/training-app-CD_j5YAh.js",
+      "bytes": 3678,
+      "sha256": "1c46ee652fbff40967ae59bace5257c1c04f1b42d65e20cd055e8349fa859d5d",
+      "matches": true
+    },
+    {
+      "path": "/assets/weapon-help-BmUYkOQw.js",
+      "bytes": 52361,
+      "sha256": "c84ec6582f4ff21bf1ea8379a2be1c42b1ccaf57cafbcb388e7304d9d17d3f04",
+      "matches": true
+    },
+    {
+      "path": "/assets/weapon-help-Clh1V6L1.css",
+      "bytes": 3020,
+      "sha256": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607",
+      "matches": true
+    },
+    {
+      "path": "/assets/weapon-sharing-Df1KAD37.js",
+      "bytes": 4741,
+      "sha256": "e54483255cbeb03d653b8f65c865e9e67aca760f116963401dc62c43e0eb1bf1",
+      "matches": true
+    },
+    {
+      "path": "/assets/zoom-guard-BYiDpNS5.css",
+      "bytes": 106596,
+      "sha256": "f0556f4cdf5c5c4ff6457bc78b91a3b4b58fd1b921209102915a8c0b18551d10",
+      "matches": true
+    },
+    {
+      "path": "/assets/zoom-guard-ZHLeulJ_.js",
+      "bytes": 817640,
+      "sha256": "1f21a23eccecc45e9a3e4f7a91031064f43cffa3d2cf7c310d40cbadc1ce2f95",
+      "matches": true
+    },
+    {
+      "path": "/assets/maps/armory_v2.glb",
+      "bytes": 569292,
+      "sha256": "4d28ed92ac0c3308708550e93240e0f99211eee4e5bd4b3208f9323fbf8aea0b",
+      "matches": true
+    },
+    {
+      "path": "/assets/maps/defense_0_v2.glb",
+      "bytes": 11593464,
+      "sha256": "25b9e532dcf717e74a995af4587c480117d29160f919b2bf66f718981000727e",
+      "matches": true
+    },
+    {
+      "path": "/assets/maps/defense_1_v2.glb",
+      "bytes": 1186916,
+      "sha256": "351ac7992cf053274055a7edf66d136781a078caa4f7070431741173a1fea884",
+      "matches": true
+    },
+    {
+      "path": "/assets/maps/defense_2_v2.glb",
+      "bytes": 7676928,
+      "sha256": "4043e1fe003a70800e4827cca683389cf5e0b6efdc3fce12a8f7f39d2d0d8a55",
+      "matches": true
+    },
+    {
+      "path": "/assets/maps/defense_3_v2.glb",
+      "bytes": 10919460,
+      "sha256": "6b0c0473151095a7c79896b790a98d0e2481c34b30435b9073ef2750b766324a",
+      "matches": true
+    },
+    {
+      "path": "/assets/maps/defense_4_v2.glb",
+      "bytes": 3414664,
+      "sha256": "074c54eb82a3741d4e01e529fa43acd4a732537f4e2c16fe3e2e23a15d0e603d",
+      "matches": true
+    },
+    {
+      "path": "/assets/maps/defense_5_v2.glb",
+      "bytes": 163876,
+      "sha256": "2ddd93c4b9d1f9e5108f078aa7c89da88ff33f5257663208a4f335a507878dd2",
+      "matches": true
+    }
+  ],
+  "health": {
+    "status": 200,
+    "ok": true
+  },
+  "passed": true
+}
