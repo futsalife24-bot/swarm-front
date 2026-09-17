@@ -1,6 +1,10 @@
+# 現在地: PR36・省電力30/60fps切替が独立監査合格（2026-09-17）
+
+対象 `e330e7ab69883d14aa7d3abf28d6f3a8a0035b6a` は[独立監査](https://chatgpt.com/c/6aabbd83-8dec-83ee-be3f-20d3106a89c0)合格・必須0件。型・45単体・実Chrome/Worker・両build成功。Free契約/使用量を確認。後続は記録のみ。[詳細・限界](FRAME-RATE.md)。通常merge・既存Worker公開・配信確認へ進む。
+
 # 現在地: PR36・独立監査中、最新mainを統合（2026-09-17）
 
-[PR36](https://github.com/futsalife24-bot/swarm-front/pull/36)、初回監査対象c3cc359。実装完了後にmainへPR35管理集計が追加されたため、base `4a31aed9ac0202c7dbd3f23f250a216b51770d36` を取り込み。競合はSTATE先頭のみ、双方の記録を保持。描画/設定ソースに交差なし。統合後チェックと監査対象の更新を続行。[詳細](FRAME-RATE.md)。
+[PR36](https://github.com/futsalife24-bot/swarm-front/pull/36)、初回監査対象c3cc359。実装完了後にmainへPR35管理集計が追加されたため、base `4a31aed9ac0202c7dbd3f23f250a216b51770d36` を取り込み。競合はSTATE先頭のみ、双方の記録を保持。描画/設定ソースに交差なし。統合後の型・45単体・両build成功。対象e330e7aのZIP添付・監査更新依頼済み。[監査Chat](https://chatgpt.com/c/6aabbd83-8dec-83ee-be3f-20d3106a89c0)。[詳細](FRAME-RATE.md)。
 
 # 現在地: 省電力30/60fps切替を実装・自己検証済み（2026-09-17）
 

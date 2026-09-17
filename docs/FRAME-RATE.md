@@ -7,7 +7,7 @@
 ソロ設定は既存端末環境設定、協力設定は既存coopPreferencesに保存し、従来どおり別管理。訓練は起動元の設定を継承。未指定保存の互換性を維持し、30/60以外の保存値は拒否する。設定保存失敗時は従来値と表示を維持。武器/報酬/戦闘ルール、サーバー/API、公開設定の変更なし。
 
 検証:
-- typecheck成功。FramePacer/AdaptiveQuality/共有保存/訓練/協力性能の5ファイル40単体成功。30/60/90/120/144Hzで描画数とアニメーション時間、設定切替・停止・旧保存・異常値・協力保存再読込を確認。
+- typecheck成功。FramePacer/AdaptiveQuality/共有保存/訓練/協力性能の初回5ファイル40単体成功（最終統合後は管理集計を含む6ファイル45単体成功）。30/60/90/120/144Hzで描画数とアニメーション時間、設定切替・停止・旧保存・異常値・協力保存再読込を確認。
 - `scripts/check-frame-rate.mjs`: 実Chrome、1280×582/844×390/667×375で設定の画面内表示、横溢れなし、30/60の実WebGL描画上限、再読込、保存失敗時復元、訓練反映。実ローカルWorkerとの協力入室→設定→再読込復帰→戦闘で30fpsのまま2.2秒待機に対しサーバー時間1.9秒進行。pageerrorなし。
 - `scripts/check-frame-rate-solo.mjs`: 初遭遇既読の検証保存で30fps通常ソロ戦闘・移動入力・時計進行、一時停止中の時計停止、設定変更による既存進行不変を確認。pageerrorなし。初回測定は初遭遇画面による正規の一時停止が入り、fixtureを既読へ修正。戦闘速度は変更していない。
 - 通常/Pagesビルド、production Worker dry-run成功。既存の大きいchunk警告あり。差分チェック成功。
@@ -15,3 +15,15 @@
 証拠は `docs/evidence/frame-rate/`。初回ローカルWorkerが起動表示後も応答せず、8799ポートと専用ローカル保存領域で再起動し成功。テスト専用Workerは本番へ公開しない。
 
 限界: PC Chromeの計測であり、Android/iPhoneの実機fps・発熱・電池消費の改善量は未確認。30/60は描画の上限であり到達保証ではない。エネミーレポートの独立3Dビューア/動画には本設定を適用していない。既存レイアウトのスクロールを維持。独立監査・main反映・既存Worker公開はこれから。
+
+## 最新main統合と独立監査
+
+[PR36](https://github.com/futsalife24-bot/swarm-front/pull/36)。初回対象c3cc359を通常Chatへ添付/依頼後、mainにPR35の管理集計変更が入ったため統合。新base `4a31aed9ac0202c7dbd3f23f250a216b51770d36`、最終監査対象 `e330e7ab69883d14aa7d3abf28d6f3a8a0035b6a`。競合はSTATEだけで双方を保持し、描画/設定ソースの追加変更なし。統合後の型・関連6ファイル45単体・両build成功。
+
+[独立監査Chat](https://chatgpt.com/c/6aabbd83-8dec-83ee-be3f-20d3106a89c0)へ初回ZIPと更新ZIP `frame-rate-audit-e330e7a.zip`（1,213,539 bytes）を送信済み。後続記録文書は監査対象実装を変更しない。GitHub pushの初回自動承認拒否は、clean/commit済みと既存継続承認を確認して同一操作を再審査し許可。現在PRはMERGEABLE、必須チェック一覧は空。監査合格/merge/公開はこれから。
+
+## 独立監査合格
+
+最終対象e330e7aは上記Chatで合格・必須0件。GitHubの最終BASE/HEAD/mergeableとclient実装不変を独立照合。FramePacer/AdaptiveQualityの実ソースを依存不要で直接実行し30/60/75/90/120/144Hzでも正常。更新ZIPは監査側のファイル一覧に露出しなかったため、初回ZIPとGitHub最終HEADを突合して判定。正式typecheck/Vitest/build/Worker dry-runの独立再実行は依存取得タイムアウト・vite/client不足で未完走。自己検証との区別を維持する。
+
+任意指摘: 検証件数表記は45件へ更新。初遭遇専用の実ブラウザfps測定、実スマホでの電力/温度測定は将来課題で非ブロッキング。HUD/ミニマップ/入力/通信のrAFは維持し、すべての処理を30Hz化する変更ではない。Free契約と既存使用量は公開直前にiabで確認（evidence/frame-rate/preflight.json）。
