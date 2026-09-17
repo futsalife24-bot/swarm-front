@@ -1212,9 +1212,10 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   if (w.defense)
     for (const p of living) {
       const distance = Math.hypot(p.x, p.z);
-      if (distance < 1.6) {
-        p.x = distance > 0 ? (p.x / distance) * 1.6 : 1.6;
-        p.z = distance > 0 ? (p.z / distance) * 1.6 : 0;
+      // Blender vault including its corners plus the soldier's body clearance.
+      if (distance < 1.95) {
+        p.x = distance > 0 ? (p.x / distance) * 1.95 : 1.95;
+        p.z = distance > 0 ? (p.z / distance) * 1.95 : 0;
       }
     }
   if (!living.length) {

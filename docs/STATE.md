@@ -1,4 +1,11 @@
-# 現在地: PR32・監査ZIP送信と公開用Cloudflare再ログインの承認待ち（2026-09-17）
+# 現在地: PR32・平坦な防衛広場とBlender武器庫を追加（2026-09-17）
+
+branch `codex/player-continuity-defense`、base `206f000b857844f2fc4d284a02f4bac75e748ead`、[PR #32](https://github.com/futsalife24-bot/swarm-front/pull/32)。既存6環境の造形/素材を用いた水平な広場、実在武器庫を参考にしたBlender原本/GLB、損傷/残骸、読み込み待機/再試行を追加。[仕様・再生成・検証](DEFENSE-ART-V2.md)。型・51テスト・両build・6環境の水平判定/画像・実Workerで読み込み失敗後の参加権保護と再試行成功。未監査・main未反映・未公開。
+
+停止理由: 下記の監査資料送信とCloudflare再ログインの自動承認拒否が継続。今回のモデル修正依頼を外部操作の承認とは扱っていない。旧7951859のZIPは今回の素材を含まず監査対象に使えない。
+再開条件: 現HEADで再生成した `dist-validation/continuity-audit-<HEAD先頭7桁>.zip`（ソース/差分/今回のBlender原本・GLB・画像証拠）の新しいiab通常Chat `https://chatgpt.com/` への監査目的の添付、および既存公開用Cloudflareアカウント `melosalife.24@gmail.com` の再ログインの具体的承認。独立監査合格後にmain反映/既存Worker公開。
+
+# 履歴: PR32・監査ZIP送信と公開用Cloudflare再ログインの承認待ち（2026-09-17）
 
 branch `codex/player-continuity-defense`、[PR #32](https://github.com/futsalife24-bot/swarm-front/pull/32)、base `206f000b857844f2fc4d284a02f4bac75e748ead`。実装b03a098、監査対象 `79518590f07af153b6e95766a81ea3759cc15922`（後続は検証スクリプトと記録のみ）。型・単体50+関連68件・両build・Worker dry-run、実ローカル通信/画面、6環境/損傷段階を確認済み。未監査・main未反映・未公開。[詳細](PLAYER-CONTINUITY-DEFENSE.md)。
 

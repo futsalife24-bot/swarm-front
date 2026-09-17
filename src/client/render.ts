@@ -264,7 +264,7 @@ export class Renderer {
   foundryLasers!: T.InstancedMesh;
   foundryLaserGlow!: T.InstancedMesh;
   players = new Map<string, T.Group>();
-  private defenseVisual: DefenseVisual;
+  readonly defenseVisual: DefenseVisual;
   dummy = new T.Object3D();
   particles: T.InstancedMesh;
   projectiles: T.InstancedMesh;

@@ -38,8 +38,17 @@ try {
     await (await import("/src/client/cloud-save.ts")).createCloudSave();
   });
   await p.locator("#pt-home").click();
+  // A failed model transfer must leave today's admission untouched and be retryable.
+  await p.route("**/assets/maps/armory_v2.glb", (route) => route.abort());
   await p.locator("#pt-daily-defense").click();
   await p.locator("#pt-defense-prepare").click();
+  await p.locator("#pt-load-retry").waitFor({ state: "visible" });
+  assert.equal(
+    await p.evaluate(() => window.__playtest.save.dailyDefense ?? null),
+    null,
+  );
+  await p.unroute("**/assets/maps/armory_v2.glb");
+  await p.locator("#pt-load-retry").click();
   await p.locator("#pt-enter").waitFor({ state: "visible" });
   assert.equal(
     await p.evaluate(() => window.__playtest.save.dailyDefense ?? null),
@@ -71,6 +80,7 @@ try {
   assert.equal(begun.ledger.state, "active");
   assert.equal(begun.count, 4);
   assert.equal(begun.armory, 2000);
+  await p.screenshot({ path: out + "/blender-armory-battle.png" });
   await p.reload();
   await p.waitForFunction(
     () => window.__playtest?.save?.dailyDefense?.state === "interrupted",
@@ -93,6 +103,7 @@ try {
         pass: true,
         checks: [
           "assets ready before admission",
+          "failed Blender model download preserves admission and retries",
           "guarantee banked before combat",
           "armory target initialized",
           "reload retains guarantee",

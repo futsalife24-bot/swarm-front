@@ -35,6 +35,20 @@ function battle() {
   return w;
 }
 describe("daily defense", () => {
+  it("keeps soldiers outside the authored vault footprint, including a centered spawn", () => {
+    for (const [x, z] of [
+      [0, 0],
+      [1, 1],
+      [-1, -1],
+    ]) {
+      const w = battle();
+      Object.assign(w.players[0], { x, z });
+      step(w, { solo: neutral() });
+      expect(Math.hypot(w.players[0].x, w.players[0].z)).toBeGreaterThanOrEqual(
+        1.949,
+      );
+    }
+  });
   it("changes attention per enemy and returns to the armory outside its leash", () => {
     const w = battle();
     const a = spawn(w, "crawler", 20, 0)!,

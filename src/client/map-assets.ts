@@ -6,7 +6,6 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { MAPS, TRAINING_MAP, DEFENSE_MAPS } from "../shared/stages";
 import { caveScene } from "./cave-scene";
 import { trainingMapScene } from "./training-map";
-import { defenseYard } from "./defense-yard";
 const VIEW_MAPS = [...MAPS, TRAINING_MAP, ...DEFENSE_MAPS];
 function disposeMap(group: T.Object3D) {
   const textures = new Set<T.Texture>(),
@@ -89,7 +88,6 @@ export class MapAssets {
         boxes.setMatrixAt(j, matrix);
       });
       g.add(boxes);
-      if (DEFENSE_MAPS.includes(map)) defenseYard(g, map);
     }
   }
   select(index: number, load = true, distantVisible = true) {
@@ -115,8 +113,36 @@ export class MapAssets {
       return;
     }
     if (DEFENSE_MAPS.includes(VIEW_MAPS[index])) {
-      this.status[index].state = "ready";
       this.distantStatus[index].state = "ready";
+      if (!load || this.status[index].state !== "idle") return;
+      this.status[index].state = "loading";
+      const variant = index - MAPS.length - 1;
+      this.loader
+        .loadAsync(
+          `${import.meta.env.BASE_URL}assets/maps/defense_${variant}_v2.glb`,
+        )
+        .then(({ scene }) => {
+          if (this.selected !== index) {
+            disposeMap(scene);
+            this.status[index] = { state: "idle", error: "" };
+            return;
+          }
+          scene.traverse((o) => {
+            if (o instanceof T.Mesh) {
+              const distant = o.name.startsWith("DISTANT_");
+              o.castShadow = !distant && !o.name.startsWith("PLAZA_FLAT");
+              o.receiveShadow = true;
+              if (distant) o.raycast = () => {};
+            }
+          });
+          disposeMap(this.groups[index]);
+          this.groups[index].add(scene);
+          this.status[index].state = "ready";
+          this.shadowDirty = true;
+        })
+        .catch((e) => {
+          this.status[index] = { state: "error", error: String(e) };
+        });
       return;
     }
     if (!load) return;
