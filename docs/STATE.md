@@ -1,4 +1,8 @@
-# 現在地: PR34・週間ボタンと数値通知が独立監査合格（2026-09-17）
+# 現在地: PR34・週間ボタンと数値通知をmain反映・公開済み（2026-09-17）
+
+[PR34](https://github.com/futsalife24-bot/swarm-front/pull/34)通常merge。対象8f6ade6は独立監査合格・必須なし。公開ソース `f657c08cfc6012c88df60f319c155b7a00ae074e`、Version `95136c0e-2d0a-4e4e-8b84-0b788319a3e2`。週間ミッションをタイトルへ移動、達成済み未受取件数を右上へ表示。型/両build/実Chrome+Worker受取/3幅画像成功。公開12ファイルSHA一致・health正常・iab週間入口と画面確認/error0。[記録・限界](WEEKLY-TITLE.md)。後続は公開記録のみ。
+
+# 履歴: PR34・週間ボタンと数値通知が独立監査合格（2026-09-17）
 
 対象8f6ade6は独立監査合格・必須なし。後続は記録のみ。[監査/検証/限界](WEEKLY-TITLE.md)。通常merge・既存Worker公開へ進む。
 
