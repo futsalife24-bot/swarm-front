@@ -2,6 +2,7 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     include: [
+      "tests/app-analytics.test.ts",
       "tests/weapon-stat-marks.test.ts",
       "tests/room-invite.test.ts",
       "tests/coop-performance.test.ts",

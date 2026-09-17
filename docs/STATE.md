@@ -1,6 +1,29 @@
+# 現在地: PR36・独立監査中、最新mainを統合（2026-09-17）
+
+[PR36](https://github.com/futsalife24-bot/swarm-front/pull/36)、初回監査対象c3cc359。実装完了後にmainへPR35管理集計が追加されたため、base `4a31aed9ac0202c7dbd3f23f250a216b51770d36` を取り込み。競合はSTATE先頭のみ、双方の記録を保持。描画/設定ソースに交差なし。統合後チェックと監査対象の更新を続行。[詳細](FRAME-RATE.md)。
+
 # 現在地: 省電力30/60fps切替を実装・自己検証済み（2026-09-17）
 
 branch `codex/power-saving-fps`、base `07f7ebfe39e374c5693e9d9c31ae72b7cb2ba607`。設定保存・ソロ/協力/訓練/初遭遇の描画上限と自動画質基準を追加。型・40単体・実Chrome3幅/保存失敗/再読込/訓練/ソロ停止・実Worker協力戦闘・両build・production dry-run成功。[仕様・証拠・限界](FRAME-RATE.md)。実機の電池/発熱は未確認。独立監査・main反映・公開はこれから。
+
+# 現在地: 4アプリ共通管理をmain反映・本番公開済み（2026-09-17）
+
+ユーザーの明示承認後、PR35/LMF PR5/カタモンPR401を通常merge。Swarm公開ソースe002d362d322a7b0416ee3265aef8034a4b9a120、Worker Version ca3abee2-441c-468b-b108-5cec3d414b64。LMF main d063d1503ca581ccc990d29a8805feed92d2b9df、カタモンmaster 73a0e2f712ae8592f82ba0417af5360cbd05e8cfはPages公開成功。まよいSites v9(099c74cc)公開成功、access custom不変。独立監査/全PR CI合格。配信ファイル照合・health・認証保護成功。詳細と検証限界は[公開記録](APP-ANALYTICS.md)。
+
+# 現在地: 4アプリ共通管理の独立監査合格・本番反映承認待ち（2026-09-17）
+
+Swarm実装309f2403dd6ea5910cfa2e37a1fc8f2cf0f75143、LMF82393276、カタモン67d84403、まよい099c74ccは独立監査合格・必須なし。[記録](APP-ANALYTICS.md)。後続Swarm b762497は記録のみ。PR35はready、PR5/401はdraft、未merge・未公開。まよいSites v9保存済み・未公開。
+
+停止理由: 自動承認レビューがPR35のmainマージを「mergeの明示承認がない」と拒否。3件の通常mergeおよび既存Worker/Pages/Sites公開についてユーザーへ一括承認を依頼済み。回避していない。
+再開条件: 上記操作の明示承認とカタモン残CI成功を確認後、通常merge→共通Worker公開→各アプリ公開→配信確認。既存料金プラン・閲覧権限は維持。
+
+# 現在地: 4アプリ共通管理を実装・自己検証、独立監査準備（2026-09-17）
+
+branch `codex/multi-app-analytics`、base `4519967845932fa7cc05df4dc71562c473549dc9`。許可されたworkspace内コピーで作業（元gameの別作業を保護）。管理画面を縦4カード化、既存Swarm保存維持、LMF/カタモン/まよいの個別計測を追加。型・集計/認証10テスト・実Chrome+Worker/SQLite・3画面幅と期間/失敗/ログアウト確認済み。各アプリ関連チェック成功。独立監査/merge/公開前。[仕様と検証](APP-ANALYTICS.md)。
+
+# 統合記録
+
+main `07f7ebfe39e374c5693e9d9c31ae72b7cb2ba607`（PR34の週間ミッションUI）を取り込み。競合はSTATE先頭だけで両方の記録を保持。今回の管理/計測ソースに交差なし。
 
 # 現在地: PR34・週間ボタンと数値通知をmain反映・公開済み（2026-09-17）
 
