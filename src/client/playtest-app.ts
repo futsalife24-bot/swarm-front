@@ -848,9 +848,16 @@ function cloudSettingsUI() {
   d.querySelector<HTMLButtonElement>("#pt-cloud-copy")?.addEventListener(
     "click",
     () =>
-      void navigator.clipboard
-        ?.writeText(code!)
-        .then(() => message("引き継ぎコードをコピーしました。")),
+      void (async () => {
+        try {
+          if (!navigator.clipboard)
+            throw Error("この端末ではコピー機能を利用できません。");
+          await navigator.clipboard.writeText(code!);
+          message("引き継ぎコードをコピーしました。");
+        } catch (e) {
+          message((e as Error).message);
+        }
+      })(),
   );
   d.querySelector<HTMLButtonElement>("#pt-cloud-restore")?.addEventListener(
     "click",
