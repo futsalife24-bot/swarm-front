@@ -1,3 +1,7 @@
+# 現在地: PR33・日替わり防衛の古い案内をmain反映・公開済み（2026-09-17）
+
+[PR33](https://github.com/futsalife24-bot/swarm-front/pull/33)通常merge、対象6bf5590は独立監査合格・必須なし。公開ソース `06e51468b968ceb065a646d5e8f97989bdfe2dd2`、Worker Version `391c17e7-fdb8-433b-b063-fef830dd4040`。クラウド有効化後もリザルトへ残る古い案内を修正。型/7単体/実Chrome+Workerの同じ操作順・報酬保存/両build成功。公開12ファイルSHA一致・health正常。公開iabは別タブ保存保護でゲーム内UI未確認、error0。保護維持、実機/本人保存未確認。[記録と限界](PR33-RELEASE.md)。後続は公開記録のみ。
+
 # 現在地: PR33・独立監査合格、main反映/公開へ（2026-09-17）
 
 対象6bf5590は合格・必須指摘なし。後続は記録のみ。[監査/検証/限界](PR33-RELEASE.md)。PR33通常merge・既存Worker公開へ進む。

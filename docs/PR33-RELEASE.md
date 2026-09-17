@@ -19,3 +19,11 @@ base `ac478f58af664d8f385252cef69b1d25dfc59953`、実装/監査対象 `6bf55901a
 ## 独立監査結果
 
 対象6bf55901aa6a4c7cf3814e293d2fd2031352b3b1は合格・必須指摘なし。GitHub差分とZIPのコード経路、画像、実通信構成、後続文書のみを独立確認。監査環境のnpm ciはタイムアウトし型/Vitest/Chrome再実行不能。任意: 将来別用途の重要通知を共有noticeに載せる場合は通知元別消去も検討。現状では問題なし。
+
+## main反映・公開結果
+
+PR33通常merge済み、公開ソース `06e51468b968ceb065a646d5e8f97989bdfe2dd2`。merge後build/production dry-run成功。既存Worker公開成功、Version `391c17e7-fdb8-433b-b063-fef830dd4040`、8静的ファイル更新。index/全JS・CSSの12ファイルをHTTP200・SHA256一致で確認、health正常。[照合結果](evidence/daily-notice/published.json)。
+
+main merge初回は自動承認レビューが明示承認不足として拒否。AGENTS 3/7行とWORKFLOWにあるユーザーの継続承認を読み取り確認し、根拠付きで同一の通常mergeを再審査し許可された。管理者バイパス/保護回避なし。
+
+公開iabは「別のタブでゲームを開いています」の保存保護が表示され、通常の再開ボタンを1回試しても保護継続。ゲーム内画面の再確認は未実施で、保護を解除/迂回していない。errorログ0。今回の操作順と報酬保存は前記のローカル実Chrome/Workerで確認済み。実機/本人の保存データの確認は未実施。後続は公開記録のみ。

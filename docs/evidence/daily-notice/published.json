@@ -1,0 +1,23 @@
+{
+  "source": "06e51468b968ceb065a646d5e8f97989bdfe2dd2",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "hashes": {
+    "index.html": "45c73a9e7a670a6b77c1498475c5a5258ecbe8d5b14e909a69fde060256e5865",
+    "assets/index-CBYo3ZSC.js": "0c80ef5d66a6db9efbd316ecabbcbe5f7c9fe5a884fa4e8c8cc77990dbf8bc14",
+    "assets/main-BjG0OfZk.js": "9d04d2ac3c64a0972ea2abb9f23ef7f5989759174499c1be00c9e84ee0af4910",
+    "assets/main-C1Ldsy-y.css": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1",
+    "assets/playtest-app-2QzGcX_a.css": "6864007bdb8363438e17632aa6b8796724a8952671639efe4526da84c29185c2",
+    "assets/playtest-app-BrtcEcIe.js": "23f3639b56a3f89c79628285a0f514196c009819948aebf3a1a18aca521e1ecd",
+    "assets/training-app-DHYm5iJq.js": "290d25d61aa2c9b65023c18de0315cae9e4676bfb3da50413bde4d67fc238e81",
+    "assets/weapon-help-Clh1V6L1.css": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607",
+    "assets/weapon-help-HBY46_Qd.js": "39cf371c56ee8c2a8583bf0ca66735e1ba464191e53829cf91c002672b7ba4e3",
+    "assets/weapon-sharing-54GCi_fU.js": "3a9d171a3422662a22af999a99aacd5b5078e11a8c369e4792c9ba702c91bef9",
+    "assets/zoom-guard-BYiDpNS5.css": "f0556f4cdf5c5c4ff6457bc78b91a3b4b58fd1b921209102915a8c0b18551d10",
+    "assets/zoom-guard-RWz-EHAI.js": "1926a483bf04c4348db07a1f051763603d2220a28e3e9cb4222de7c35b511e34"
+  },
+  "health": {
+    "ok": true,
+    "transport": "websocket",
+    "authority": "durable-object"
+  }
+}
