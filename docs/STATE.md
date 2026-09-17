@@ -1,3 +1,10 @@
+# 現在地: PR37・タイトル改善を実装、監査ZIP送信の承認待ち（2026-09-17）
+
+[PR37](https://github.com/futsalife24-bot/swarm-front/pull/37)、branch `codex/title-command-layout`、base `6d48ea818be46649e1712a59a24b8f3f2b1611e9`、実装/監査対象 `e747dc55ada9b401e4ee65de2fd8ca85fdc3e98d`。小ボタン2列/1行、チャレンジ分離、補助枠の強弱、次作戦名、生成背景を追加。型・両build・実Chrome6サイズ/通知/ダイアログ/出撃準備/最狭PWA追加表示が成功。画像と詳細は [TITLE-LAYOUT.md](TITLE-LAYOUT.md)。main未反映・未公開。後続は記録文書のみ。
+
+停止理由: 自動承認レビューが `dist-validation/title-audit-e747dc5.zip`（6,347,884 bytes、非公開ソース・差分・生成素材・検証画像）を `https://chatgpt.com/` 新規通常Chatへ添付する操作を「今回の具体的資料と送信先の明示承認がない」と拒否。添付/監査依頼は未完了。回避していない。
+再開条件: ユーザーが上記ZIPを通常ChatGPTへ独立監査目的で送ることを明示承認後、iab通常Chatへ添付/依頼→必要修正/再監査→合格後PR37通常merge・既存Worker公開・配信確認。公開直前にFree契約/使用量確認。実スマホは未確認。
+
 # 現在地: PR36・省電力30/60fps切替をmain反映・公開済み（2026-09-17）
 
 [PR36](https://github.com/futsalife24-bot/swarm-front/pull/36)通常merge。対象e330e7aは独立監査合格・必須0。公開ソース 956548613cc9eb7f1237ba11081413bc8c42e0d1、Worker Version 385ae051-35cd-4a0c-beb7-428136fe4168。設定から30/60fpsを選択・保存、ソロ/協力/訓練へ反映。型・45単体・実Chrome3幅/実Worker/ソロ停止・両build成功。公開12ファイルSHA一致・health正常・一時Chromeで30/60切替/再読込/error0。iabの別タブ保存保護は維持。[詳細・限界](FRAME-RATE.md)。実スマホの発熱/電池は未測定。後続は公開記録のみ。
