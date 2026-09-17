@@ -32,3 +32,15 @@
 独立監査対象に4リポジトリの差分・必要ソースとUI/検証証拠を含める。必須指摘を解消後、共通Worker→各アプリの計測追加の順で公開する。既存データの移行なし。停止/切り戻しは各アプリの計測スニペットを戻せば送信停止、共通画面を戻しても既存Swarm計測は継続。
 
 現時点は実装・自己検証済み、独立監査・merge・公開前。
+
+## 監査・公開準備
+
+初回監査資料 `four-app-analytics-audit.zip`（1,415,412 bytes）を [独立監査Chat](https://chatgpt.com/c/6aabae8f-e334-83ee-a511-616a73bc9c7a) へ添付・依頼済み。対象Swarm 380dd117680ed7d75ed68fc16681e8dd60a5a424、LMF 82393276346905f066d4ab6abdbdab51f6263779、katamon 8f56e732bddc83782530c2fa6afd7d191641061a、mayoi 099c74cc3b7078d7c0c8bd2a17e72c2734e708c9。PRはSwarm #35、LMF #5、katamon #401。
+
+後続main 07f7ebfe39e374c5693e9d9c31ae72b7cb2ba607をmergeした対象309f2403dd6ea5910cfa2e37a1fc8f2cf0f75143は管理/計測ソース不変。競合はSTATE先頭のみ、両履歴保持。統合後型・build・production dry-run成功。統合版ZIPを再監査へ渡す予定。
+
+カタモンCIのPR側root regressionで未変更の希少CPUテストのランダムrunIdに対応するvectorが見つからず失敗（gear-cpu-integration.test.js:1001）。同一HEADのpush側は同チェック成功。実装/テスト/制限を変えず失敗ジョブのみ1回再実行中。
+
+2026-09-17 18時台、既存CloudflareアカウントのWorkers一覧でWorker1件、当日39/100,000 requests、月内406 requests/CPU447msを確認。集計遅延や将来負荷は保証しない。
+
+Cloudflare Workers plans画面でFree / Current planを確認。課金・契約・binding変更なし。
