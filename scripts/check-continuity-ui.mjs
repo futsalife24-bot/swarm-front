@@ -97,7 +97,6 @@ try {
     await (await import("/src/client/cloud-save.ts")).syncCloud();
   });
   const coins = JSON.parse(await raw(b)).coins;
-  await b.locator("#home-settings").click();
   await b.locator("#pt-weekly-missions").click();
   await b.locator('[data-weekly-id="campaign-3"]:enabled').click();
   await b.waitForFunction(

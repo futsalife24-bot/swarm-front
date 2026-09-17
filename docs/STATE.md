@@ -1,4 +1,8 @@
-# 現在地: PR33・日替わり防衛の古い案内をmain反映・公開済み（2026-09-17）
+# 現在地: 週間ミッションのタイトル移動・数値通知を自己検証済み（2026-09-17）
+
+branch `codex/weekly-title-badge`、base4519967。設定の週間入口をタイトルへ移動、未受取の達成件数を右上へ表示。型/両build、実Chrome+Workerの3→2→1→0受取、3幅の表示を確認。[詳細](WEEKLY-TITLE.md)。独立監査・main反映・公開はこれから。
+
+# 履歴: PR33・日替わり防衛の古い案内をmain反映・公開済み（2026-09-17）
 
 [PR33](https://github.com/futsalife24-bot/swarm-front/pull/33)通常merge、対象6bf5590は独立監査合格・必須なし。公開ソース `06e51468b968ceb065a646d5e8f97989bdfe2dd2`、Worker Version `391c17e7-fdb8-433b-b063-fef830dd4040`。クラウド有効化後もリザルトへ残る古い案内を修正。型/7単体/実Chrome+Workerの同じ操作順・報酬保存/両build成功。公開12ファイルSHA一致・health正常。公開iabは別タブ保存保護でゲーム内UI未確認、error0。保護維持、実機/本人保存未確認。[記録と限界](PR33-RELEASE.md)。後続は公開記録のみ。
 
