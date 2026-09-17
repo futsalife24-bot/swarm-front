@@ -1,3 +1,22 @@
+# 現在地: PR33・独立監査合格、main反映/公開へ（2026-09-17）
+
+対象6bf5590は合格・必須指摘なし。後続は記録のみ。[監査/検証/限界](PR33-RELEASE.md)。PR33通常merge・既存Worker公開へ進む。
+
+# 現在地: PR33・承認済みZIPを送信し独立監査中（2026-09-17）
+
+ユーザーが今回の `daily-notice-audit-6bf5590.zip` を通常ChatGPTへ独立監査目的で送信することを明示承認。添付/依頼送信済み。[監査Chat](https://chatgpt.com/c/6aab826d-8b1c-83ee-af15-3f9ee156d5fb)。対象 `6bf55901aa6a4c7cf3814e293d2fd2031352b3b1`、base ac478f5、後続は状態文書のみ。監査合格/main反映/公開はこれから。
+
+# 現在地: PR33・日替わり防衛案内修正、監査ZIP送信の承認待ち（2026-09-17）
+
+[PR33](https://github.com/futsalife24-bot/swarm-front/pull/33)、branch `codex/daily-defense-stale-notice`、base `ac478f58af664d8f385252cef69b1d25dfc59953`、監査対象 `6bf55901aa6a4c7cf3814e293d2fd2031352b3b1`。参加条件の再確認成功で古いnotice/表示を消去する5行の修正。型・防衛7単体・実Chrome/ローカルWorkerで未接続→UI有効化→勝利画面の旧案内なし、勝利/報酬のクラウド保存、新しい挑戦済みエラー表示を確認。buildとproduction dry-run成功。証拠 `docs/evidence/daily-notice/`、再現 `scripts/check-daily-notice.mjs`。実スマホ/ユーザー本人の保存内容は未確認。
+
+停止理由: 自動承認レビューが `dist-validation/daily-notice-audit-6bf5590.zip`（対象HEADのソース・関連テスト・画像/検証証拠、秘密情報なし）の `https://chatgpt.com/` 新規通常Chatへのアップロードを「具体的payloadと宛先の明示承認が確認できない」と拒否。添付・依頼は未完了。独立監査/main反映/公開は未完了。継続承認からの推定で回避していない。
+再開条件: ユーザーが上記ZIPを通常ChatGPTへ独立監査目的で送信することを明示承認後、iab通常Chatへ添付・監査依頼→指摘対応→合格後PR33通常merge・既存Worker公開・配信照合。後続commitはこの状態記録のみ。
+
+# 現在地: 日替わり防衛の古いクラウド案内を修正・監査準備（2026-09-17）
+
+branch `codex/daily-defense-stale-notice`、base `ac478f58af664d8f385252cef69b1d25dfc59953`。参加条件の再確認成功で過去の案内を消去。型・防衛7単体・実Chrome/ローカルWorkerで未接続→UI有効化→勝利→クラウド報酬保存、新規エラー表示を確認。実機の保存内容は未確認。独立監査/main反映/公開は未完了。証拠: `docs/evidence/daily-notice/`。
+
 # 現在地: PR32・継続プレイ/日替わり防衛をmain反映・公開済み（2026-09-17）
 
 [PR32](https://github.com/futsalife24-bot/swarm-front/pull/32)を通常merge。独立監査対象6e5cec8は合格・必須残件なし。公開ソース `fb042aad596f46ba9f6b2e41faa1b6a3c9250904`、Worker Version `425d572b-0e4c-4b75-afb0-9a62e8300244`。最新進行の引き継ぎ、ソロ中断再開、週間ミッション、水平な6広場とBlender武器庫による日替わり防衛を公開。

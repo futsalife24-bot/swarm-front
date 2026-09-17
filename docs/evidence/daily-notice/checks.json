@@ -1,0 +1,9 @@
+{
+  "pass": true,
+  "checks": [
+    "unconnected error → UI cloud enable → admission → victory without stale notice",
+    "victory and bonus persisted to actual local Worker",
+    "new admission failure remains visible"
+  ],
+  "errors": []
+}
