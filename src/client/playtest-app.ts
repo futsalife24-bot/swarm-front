@@ -118,10 +118,12 @@ import {
   type SaveMode,
 } from "./progression-save";
 import { recoverUnsavedResult } from "./save-recovery";
+import { track } from "./analytics";
 import { gearWeaponRows, lockMarkup } from "./gear-weapon-list";
 
 async function launch() {
   if (sampleMenus || !canSortie(save, stage, difficulty)) return;
+  track("sortie");
   const generation = ++loadingGeneration;
   loadReady = false;
   paused = false;
@@ -358,6 +360,7 @@ function defeat() {
 }
 function victory() {
   if (!world || screen !== "battle") return;
+  track("clear");
   const w = world,
     s = w.solo!,
     missions = [

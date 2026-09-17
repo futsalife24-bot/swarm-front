@@ -2,12 +2,14 @@ import { installPlayerProfile } from "./client/player-profile";
 import "./client/app-install";
 import { installInviteLaunch } from "./client/invite-launch";
 import { startWithSaveWriter } from "./client/save-writer";
+import { track } from "./client/analytics";
 import {
   checkDeveloperSession,
   developerRequested,
 } from "./client/developer-access";
 
 async function boot() {
+  track("view");
   installInviteLaunch();
   installPlayerProfile();
   const url = new URL(location.href);

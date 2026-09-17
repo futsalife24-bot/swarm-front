@@ -156,3 +156,11 @@ export async function developerAuth(
     cookie(req, newToken, LIFE / 1000),
   );
 }
+
+export async function developerSessionValid(req: Request, storage: DurableObjectStorage) {
+  const token = req.headers.get("Cookie")?.split(";").map((s) => s.trim()).find((s) => s.startsWith(COOKIE + "="))?.slice(COOKIE.length + 1) ?? "";
+  if (!/^[a-f0-9]{64}$/.test(token)) return false;
+  const state = await storage.get<State>("developer-auth");
+  const expiry = state?.sessions[await digest(token)];
+  return typeof expiry === "number" && expiry > Date.now();
+}

@@ -66,6 +66,7 @@ interface Saved {
 }
 const json = (body: unknown, status = 200) => Response.json(body, { status });
 const secret = () => crypto.randomUUID().replaceAll("-", "");
+const adminPage = `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SWARM FRONT 管理</title><style>body{font:16px system-ui;background:#0c1820;color:#e8f1f2;max-width:900px;margin:2rem auto;padding:0 1rem}button,input{font:inherit;padding:.6rem;margin:.3rem}main{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem}.card{background:#17303a;border-radius:10px;padding:1rem}.bar{height:16px;background:#43c6ac;margin:4px 0;border-radius:4px}.muted{color:#9db4b8}</style><h1>SWARM FRONT 管理</h1><section id="login"><p>開発者パスワード</p><input id="pw" type="password"><button id="go">ログイン</button><p id="msg"></p></section><section id="app" hidden><p class="muted" id="range"></p><main id="cards"></main><h2>日別アクセス</h2><div id="chart"></div><button id="out">ログアウト</button></section><script>(async()=>{const $=id=>document.getElementById(id),j=async(u,o)=>{const r=await fetch(u,{credentials:'same-origin',...o});return [r,await r.json().catch(()=>({}))]};async function load(){const[r,d]=await j('/api/developer/analytics');if(!r.ok){$('msg').textContent=d.error||'ログインしてください';return} $('login').hidden=true;$('app').hidden=false;$('range').textContent='計測開始: '+new Date(d.startedAt).toLocaleDateString('ja-JP')+' / 更新: '+new Date(d.updatedAt).toLocaleString('ja-JP');const labels={views:'アクセス',visitors:'訪問ブラウザ',sorties:'出撃',clears:'クリア'};$('cards').innerHTML=Object.entries(labels).map(([k,v])=>'<div class="card"><div>'+v+'</div><strong>'+d.totals[k]+'</strong></div>').join('');const max=Math.max(1,...d.days.map(x=>x.views));$('chart').innerHTML=d.days.slice(-30).map(x=>'<div title="'+x.date+' '+x.views+'件">'+x.date.slice(5)+' <span class="bar" style="display:inline-block;width:'+Math.round(x.views/max*70)+'%"></span> '+x.views+'</div>').join('')} $('go').onclick=async()=>{const[r,d]=await j('/api/developer/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:$('pw').value})});if(r.ok)load();else $('msg').textContent=d.error||'認証に失敗しました'};$('out').onclick=async()=>{await j('/api/developer/logout',{method:'POST'});location.reload()};load()})()</script>`;
 export default {
   async fetch(req: Request, env: Env) {
     const u = new URL(req.url);
@@ -92,7 +93,19 @@ export default {
     const path = u.pathname.startsWith("/api/")
       ? u.pathname.slice(4)
       : u.pathname;
-    if (path.startsWith("/developer/"))
+    if (u.pathname === "/admin/" || u.pathname === "/admin")
+      return new Response(adminPage, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });
+    if (path === "/analytics/event" && req.method === "POST") {
+      const gate = env.GATE.get(env.GATE.idFromName("analytics"));
+      res = await gate.fetch(new Request("https://internal/analytics-event", req));
+    } else if (path === "/developer/analytics" && req.method === "GET") {
+      const auth = await env.GATE.get(env.GATE.idFromName("developer-access")).fetch(new Request("https://internal/api/developer/session", { headers: req.headers }));
+      if (!auth.ok || !((await auth.json()) as { authenticated?: boolean }).authenticated) res = json({ error: "認証が必要です" }, 401);
+      else {
+      const gate = env.GATE.get(env.GATE.idFromName("analytics"));
+      res = await gate.fetch(new Request("https://internal/analytics-read", { headers: { "X-Developer-Verified": "1" } }));
+      }
+    } else if (path.startsWith("/developer/"))
       res = await env.GATE.get(env.GATE.idFromName("developer-access")).fetch(
         req,
       );
@@ -220,11 +233,27 @@ export default {
 export class Gate extends DurableObject<Env> {
   private directoryQueries = new Map<string, { at: number; count: number }>();
   async fetch(req: Request) {
+    const internal = new URL(req.url).pathname;
+    if (internal === "/analytics-event" || internal === "/analytics-read")
+      return this.ctx.blockConcurrencyWhile(() => this.analytics(req, internal));
     if (new URL(req.url).pathname.startsWith("/api/developer/"))
       return this.ctx.blockConcurrencyWhile(() =>
         developerAuth(req, this.ctx.storage, this.env.DEVELOPER_PASSWORD_HASH),
       );
     return this.ctx.blockConcurrencyWhile(() => this.admit(req));
+  }
+  private async analytics(req: Request, path: string) {
+    const now = Date.now();
+    type Day = { date: string; views: number; visitors: number; sorties: number; clears: number; ids: string[] };
+    const days = (await this.ctx.storage.get<Day[]>("analytics-days")) ?? [];
+    const day = new Date(now).toLocaleDateString("sv-SE", { timeZone: "Asia/Tokyo" });
+    let d = days.find((x) => x.date === day); if (!d) { d = { date: day, views: 0, visitors: 0, sorties: 0, clears: 0, ids: [] }; days.push(d); }
+    if (path === "/analytics-read") {
+      if (req.headers.get("X-Developer-Verified") !== "1") return json({ error: "認証が必要です" }, 401);
+      const totals = days.reduce((a,x)=>({views:a.views+x.views,visitors:a.visitors+x.visitors,sorties:a.sorties+x.sorties,clears:a.clears+x.clears}),{views:0,visitors:0,sorties:0,clears:0});
+      return json({ startedAt: days.length ? Date.parse(days[0].date + "T00:00:00+09:00") : now, updatedAt: now, totals, days: days.map(({ids,...x})=>x) });
+    }
+    try { const b = await req.json() as { kind?: string; visitor?: string }; if (!b || !["view","sortie","clear"].includes(b.kind ?? "")) return json({ ok: false }, 400); if (b.kind === "view") d.views++; if (b.kind === "sortie") d.sorties++; if (b.kind === "clear") d.clears++; if (typeof b.visitor === "string" && /^[a-zA-Z0-9_-]{8,64}$/.test(b.visitor) && !d.ids.includes(b.visitor)) { d.ids.push(b.visitor); d.visitors++; if (d.ids.length > 50000) d.ids = d.ids.slice(-50000); } while (days.length > 365) days.shift(); await this.ctx.storage.put("analytics-days", days); return json({ ok: true }); } catch { return json({ ok: false }, 400); }
   }
   private async admit(req: Request) {
     const now = Date.now(),
@@ -983,3 +1012,4 @@ export class Room extends DurableObject<Env> {
     this.saved = { created: 0, members: [], world: null, interrupted: false };
   }
 }
+
