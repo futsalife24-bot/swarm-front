@@ -7,6 +7,7 @@ export default defineConfig({
       "tests/room-invite.test.ts",
       "tests/coop-performance.test.ts",
       "tests/adaptive-quality.test.ts",
+      "tests/frame-pacer.test.ts",
       "tests/state-wire.test.ts",
       "tests/room-directory.test.ts",
       "tests/shared-armory.test.ts",

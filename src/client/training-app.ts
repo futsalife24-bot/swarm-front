@@ -91,6 +91,7 @@ window.addEventListener("message", (event) => {
   controls.gyroSensitivity = preferences.gyroSensitivity ?? 1;
   sound.volume = preferences.volume;
   view.quality = preferences.quality;
+  view.frameRate = preferences.frameRate === 30 ? 30 : 60;
   view.mapAssets.setQuality(preferences.quality);
   view.damageNumbers = preferences.damageNumbers ?? "self";
   view.resize();

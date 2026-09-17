@@ -12,6 +12,7 @@ import {
 } from "./structure-motion";
 import { loadStandardTrooper, StandardTrooper } from "./standard-trooper";
 import { AdaptiveQuality } from "./adaptive-quality";
+import { FramePacer } from "./frame-pacer";
 import type { StructureVisualKind } from "./structure-motion";
 import { CombatEffects } from "./combat-effects";
 import { EnemySpawnEffects } from "./enemy-spawn-effects";
@@ -287,6 +288,8 @@ export class Renderer {
   >();
   fps = 60;
   quality = 1;
+  frameRate: 30 | 60 = 60;
+  private framePacer = new FramePacer();
   readonly adaptiveQuality = new AdaptiveQuality();
   drawCalls = 0;
   cameraAnchor = { x: 0, z: 0 };
@@ -831,8 +834,15 @@ export class Renderer {
     scoped = false,
     readyAim = false,
   ) {
+    if (document.hidden) {
+      this.framePacer.reset();
+      return;
+    }
+    const renderDt = this.framePacer.next(dt, this.frameRate);
+    if (renderDt === null) return;
+    dt = renderDt;
     const local = w?.players.find((p) => p.id === id);
-    if (this.adaptiveQuality.update(dt, animate && !!local && !document.hidden))
+    if (this.adaptiveQuality.update(dt, animate && !!local, this.frameRate))
       this.resize();
     this.combat.detail = this.quality * this.adaptiveQuality.scale;
     this.combat.budget = this.combat.detail < 0.9 ? 120 : 180;
@@ -1542,5 +1552,6 @@ export class Renderer {
     this.spawnEffects.update(w, dt, animate, this.camera);
     this.renderer.render(this.scene, this.camera);
     this.drawCalls = this.renderer.info.render.calls;
+    return true;
   }
 }

@@ -14,6 +14,7 @@ export interface Save {
   gyroEnabled?: boolean;
   gyroSensitivity?: number;
   quality: number;
+  frameRate?: 30 | 60;
   receipts: string[];
   pendingWeapons?: Weapon[];
   favorites?: string[];
@@ -29,6 +30,7 @@ export const fresh = (): Save => ({
   volume: 0.35,
   sensitivity: 1,
   quality: 1,
+  frameRate: 60,
   receipts: [],
   mapRotates: false,
   damageNumbers: "self",
@@ -78,6 +80,7 @@ export function parseSave(raw: string | null): Save {
         v.gyroSensitivity > 6)) ||
     !["boolean", "undefined"].includes(typeof v.gyroEnabled) ||
     ![0.65, 1].includes(v.quality) ||
+    ![undefined, 30, 60].includes(v.frameRate) ||
     !["boolean", "undefined"].includes(typeof v.mapRotates) ||
     ![undefined, "self", "all", "off"].includes(v.damageNumbers)
   )

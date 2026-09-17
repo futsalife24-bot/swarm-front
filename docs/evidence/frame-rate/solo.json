@@ -1,0 +1,15 @@
+{
+  "savedProgressUnchanged": true,
+  "frameRate": 30,
+  "start": {
+    "time": 3.049999999999997,
+    "wall": 12873.5
+  },
+  "end": {
+    "time": 5.1999999999999895,
+    "wall": 15005.200000017881,
+    "modal": 0
+  },
+  "pauseFrozen": true,
+  "errors": []
+}

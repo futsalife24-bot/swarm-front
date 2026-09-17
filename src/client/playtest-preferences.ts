@@ -13,6 +13,7 @@ type Preferences = Pick<
   | "gyroEnabled"
   | "gyroSensitivity"
   | "quality"
+  | "frameRate"
   | "mapRotates"
   | "damageNumbers"
 >;
@@ -23,6 +24,7 @@ const pick = (s: Save): Preferences => ({
   gyroEnabled: s.gyroEnabled ?? false,
   gyroSensitivity: s.gyroSensitivity ?? 1,
   quality: s.quality,
+  frameRate: s.frameRate ?? 60,
   mapRotates: s.mapRotates ?? false,
   damageNumbers: s.damageNumbers ?? "self",
 });
@@ -49,6 +51,7 @@ export function createPlaytestPreferences(
     controls.gyroSensitivity = value.gyroSensitivity ?? 1;
     sound.volume = value.volume;
     view.quality = value.quality;
+    view.frameRate = value.frameRate ?? 60;
     view.mapAssets.setQuality(value.quality);
     view.damageNumbers = value.damageNumbers ?? "self";
     minimap.rotates = value.mapRotates === true;
@@ -68,7 +71,7 @@ export function createPlaytestPreferences(
         step = 0.1,
       ) =>
         `<label class="setting-row"><span class="setting-name">${label}</span><span class="setting-control"><input data-preference="${key}" aria-label="${label}" type="range" min="${min}" max="${max}" step="${step}" value="${value[key]}"><output>${value[key]}</output></span></label>`;
-      body.innerHTML = `<p class="settings-status" role="status"></p><div class="settings-content settings-columns"><section id="settings-preferences" aria-labelledby="preferences-heading"><h3 id="preferences-heading">環境設定</h3>${range("sensitivity", "視点感度")}${range("fireSensitivity", "射撃ボタンの視点感度")}<label class="setting-row"><span class="setting-name">ジャイロ</span><span class="setting-control"><button id="pt-gyro" role="switch" aria-checked="${value.gyroEnabled}">${value.gyroEnabled ? "オン" : "オフ"}</button></span></label>${range("gyroSensitivity", "ジャイロ感度")}${range("volume", "音量（0でミュート）", 0, 1, 0.05)}<label class="setting-row"><span class="setting-name">描画品質</span><span class="setting-control"><select data-preference="quality"><option value="1">標準</option><option value="0.65">軽量</option></select></span></label><label class="setting-row"><span class="setting-name">ミニマップ</span><span class="setting-control"><select data-preference="mapRotates"><option value="false">北を上に固定</option><option value="true">視点に合わせて回す</option></select></span></label><label class="setting-row"><span class="setting-name">ダメージ表示</span><span class="setting-control"><select data-preference="damageNumbers"><option value="self">自分のみ</option><option value="all">味方も表示</option><option value="off">表示しない</option></select></span></label><button id="pt-layout">操作ボタンの配置</button></section><section id="settings-save" aria-labelledby="save-heading"><h3 id="save-heading">保存データ</h3></section></div>`;
+      body.innerHTML = `<p class="settings-status" role="status"></p><div class="settings-content settings-columns"><section id="settings-preferences" aria-labelledby="preferences-heading"><h3 id="preferences-heading">環境設定</h3>${range("sensitivity", "視点感度")}${range("fireSensitivity", "射撃ボタンの視点感度")}<label class="setting-row"><span class="setting-name">ジャイロ</span><span class="setting-control"><button id="pt-gyro" role="switch" aria-checked="${value.gyroEnabled}">${value.gyroEnabled ? "オン" : "オフ"}</button></span></label>${range("gyroSensitivity", "ジャイロ感度")}${range("volume", "音量（0でミュート）", 0, 1, 0.05)}<label class="setting-row"><span class="setting-name">描画品質</span><span class="setting-control"><select data-preference="quality"><option value="1">標準</option><option value="0.65">軽量</option></select></span></label><label class="setting-row"><span class="setting-name">描画上限</span><span class="setting-control"><select data-preference="frameRate" aria-label="描画上限"><option value="60">60fps（なめらか）</option><option value="30">30fps（省電力）</option></select></span></label><label class="setting-row"><span class="setting-name">ミニマップ</span><span class="setting-control"><select data-preference="mapRotates"><option value="false">北を上に固定</option><option value="true">視点に合わせて回す</option></select></span></label><label class="setting-row"><span class="setting-name">ダメージ表示</span><span class="setting-control"><select data-preference="damageNumbers"><option value="self">自分のみ</option><option value="all">味方も表示</option><option value="off">表示しない</option></select></span></label><button id="pt-layout">操作ボタンの配置</button></section><section id="settings-save" aria-labelledby="save-heading"><h3 id="save-heading">保存データ</h3></section></div>`;
       const status = d.querySelector(".settings-status")!;
       status.textContent = loadError || "変更はこの端末に自動保存されます。";
       const savePanel = d.querySelector("#settings-save")!;
