@@ -61,3 +61,5 @@ Cloudflare Workers plans画面でFree / Current planを確認。課金・契約�
 - まよい: source099c74cc3b7078d7c0c8bd2a17e72c2734e708c9 / Sites v9。deployment appgdep_6aabba019b148191b225c05ce6656e38 succeeded。既存URL https://mossline-bastion.melosalife-24.chatgpt.site、公開前後のaccess_policy一致（custom）。
 
 証拠: docs/evidence/app-analytics/published.json、client-published.json。元作業場所の別作業/未保存差分は未変更。管理画面は本番ログイン画面まで確認、error0。既存開発者セッションがないため本番の認証後数値は未確認（実ローカルWorker/SQLiteで検証済み）。物理スマホは未検証。新規3アプリの過去アクセスは遡って復元しない。
+
+まよいの公開後ログイン画面を確認。既存アカウント選択は、指示書の登録メールとの相違を理由に自動承認レビューが拒否したため実行していない。ユーザーへアカウント確認を依頼済み。別経路の認証で迂回せず、ログイン後画面は未検証として残す。サイト公開・閲覧範囲維持はSitesの成功応答で確認済み。
