@@ -71,6 +71,10 @@ export function recoverUnsavedResult(
     next.branch = true;
   if (freshRun) {
     next.receipts.push(r.run);
+    if (r.win)
+      next.weeklyPending = [
+        ...new Set([...(next.weeklyPending ?? []), r.run]),
+      ].slice(-128);
     const history = weaponReceiptSnapshot(next);
     next.weaponReceipts = {
       ids: history.ids,

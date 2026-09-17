@@ -63,7 +63,7 @@ export async function prepareBattle(
     }
   }
   progress(55);
-  const mapIndex = stageFor(world).map;
+  const mapIndex = stageFor(world).map + (world.defense ? MAPS.length + 1 : 0);
   while (true) {
     check();
     view.render(world, id, 0, 0, 0, undefined, false);
@@ -81,7 +81,9 @@ export async function prepareBattle(
       );
     if (
       map.state === "ready" &&
-      (MAPS[mapIndex].biome === "cave" || distant.state === "ready") &&
+      (world.defense ||
+        MAPS[mapIndex].biome === "cave" ||
+        distant.state === "ready") &&
       models.every((m) => m?.userData.trooper)
     )
       break;

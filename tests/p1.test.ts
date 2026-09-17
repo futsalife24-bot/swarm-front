@@ -47,6 +47,44 @@ it("accepts only a versioned same-tab reconnect session", () => {
   expect(loadNetworkSession(storage)).toBeNull();
   expect(values.has(NETWORK_SESSION_KEY)).toBe(false);
 });
+it("expires persisted reconnect credentials and only falls back to bounded local sessions", () => {
+  const storage = () => {
+    const values = new Map<string, string>();
+    return {
+      getItem: (key: string) => values.get(key) ?? null,
+      setItem: (key: string, value: string) => void values.set(key, value),
+      removeItem: (key: string) => void values.delete(key),
+    };
+  };
+  const tab = storage(),
+    local = storage();
+  const valid = {
+    version: 1,
+    endpoint: "https://play.example/api",
+    code: "a".repeat(32),
+    token: "b".repeat(32),
+    expiresAt: Date.now() + 60000,
+  };
+  vi.stubGlobal("sessionStorage", tab);
+  vi.stubGlobal("localStorage", local);
+  try {
+    local.setItem(NETWORK_SESSION_KEY, JSON.stringify(valid));
+    expect(loadNetworkSession()).toEqual(valid);
+    local.setItem(
+      NETWORK_SESSION_KEY,
+      JSON.stringify({ ...valid, expiresAt: Date.now() - 1 }),
+    );
+    expect(loadNetworkSession()).toBeNull();
+    expect(local.getItem(NETWORK_SESSION_KEY)).toBeNull();
+    local.setItem(
+      NETWORK_SESSION_KEY,
+      JSON.stringify({ ...valid, expiresAt: undefined }),
+    );
+    expect(loadNetworkSession()).toBeNull();
+  } finally {
+    vi.unstubAllGlobals();
+  }
+});
 it("disconnected combat state and individual pickups freeze for ten seconds", () => {
   const { w, p } = fixture();
   Object.assign(p, {

@@ -3,6 +3,7 @@ import "./client/app-install";
 import { installInviteLaunch } from "./client/invite-launch";
 import { startWithSaveWriter } from "./client/save-writer";
 import { track } from "./client/analytics";
+import { loadNetworkSession } from "./client/network";
 import {
   checkDeveloperSession,
   developerRequested,
@@ -31,6 +32,7 @@ async function boot() {
     if (
       !developerRequested &&
       (url.searchParams.get("coop") === "1" ||
+        !!loadNetworkSession() ||
         /^[a-f0-9]{32}$/.test(url.hash.slice(1)))
     ) {
       await import("./main");

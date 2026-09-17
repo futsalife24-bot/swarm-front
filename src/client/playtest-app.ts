@@ -118,12 +118,31 @@ import {
   type SaveMode,
 } from "./progression-save";
 import { recoverUnsavedResult } from "./save-recovery";
+import {
+  readBattleCheckpoint,
+  writeBattleCheckpoint,
+  clearBattleCheckpoint,
+  type BattleCheckpoint,
+} from "./battle-checkpoint";
 import { track } from "./analytics";
+import {
+  installCloudSync,
+  admitDailyDefense,
+  inspectCloud,
+  transferCode,
+  syncCloud,
+} from "./cloud-save";
+import { initDailyDefense } from "../shared/daily-defense";
+import {
+  defenseStage,
+  collectDefense,
+  settleDefense,
+} from "../shared/daily-rewards";
 import { gearWeaponRows, lockMarkup } from "./gear-weapon-list";
 
-async function launch() {
+async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
   if (sampleMenus || !canSortie(save, stage, difficulty)) return;
-  track("sortie");
+  if (!resume) track("sortie");
   const generation = ++loadingGeneration;
   loadReady = false;
   paused = false;
@@ -149,6 +168,8 @@ async function launch() {
     p.equipped.map((id) => save.inventory.find((w) => w.id === id)!),
   );
   actor.hp = maxHp(world);
+  if (daily) initDailyDefense(world, daily.day);
+  if (resume) world = structuredClone(resume.world);
   const tips = [
     "救急箱・広告復活なしでも、自動回復と回復ドロップは使えます。",
     "街区には、本筋とは違う道があるかもしれません。",
@@ -177,14 +198,35 @@ async function launch() {
     loadReady = true;
     $("pt-enter").hidden = false;
     bind("pt-enter", () => {
-      if (!loadReady || generation !== loadingGeneration) return;
-      start(world!);
-      battleUI();
-      tutorial(
-        "combat",
-        "戦闘の基本",
-        "移動しながら照準を合わせて射撃。PCはWASD／マウス、R装填・Q切替・Space回避。救急箱はHまたはボタンで全快します。使用すると今回のミッション③は未達成になります。使う必要はありません。",
-      );
+      void (async () => {
+        if (!loadReady || generation !== loadingGeneration) return;
+        if (daily) {
+          loadReady = false;
+          try {
+            const granted = await admitDailyDefense(world!.run, daily.day);
+            save = loadProgress("normal")!;
+            world!.defense!.day = granted.daily!.day;
+            world!.solo!.acquired = save.serial;
+          } catch (error) {
+            loadReady = true;
+            $("pt-load-error").textContent = (error as Error).message;
+            return;
+          }
+        }
+        if (!resume) start(world!);
+        controls.input.yaw = world!.players[0].yaw;
+        controls.input.pitch = world!.players[0].pitch;
+        accumulator = 0;
+        previous = performance.now();
+        battleUI();
+        checkpointNow();
+        if (!resume && !daily)
+          tutorial(
+            "combat",
+            "戦闘の基本",
+            "移動しながら照準を合わせて射撃。PCはWASD／マウス、R装填・Q切替・Space回避。救急箱はHまたはボタンで全快します。使用すると今回のミッション③は未達成になります。使う必要はありません。",
+          );
+      })();
     });
   } catch (error) {
     if (generation !== loadingGeneration) return;
@@ -192,6 +234,14 @@ async function launch() {
     $("pt-load-error").innerHTML =
       `<p>${esc((error as Error).message)}</p><button id="pt-load-retry">再試行</button><button id="pt-load-home">ホームへ戻る</button>`;
     bind("pt-load-retry", () => {
+      if (resume) {
+        void launch(resume);
+        return;
+      }
+      if (daily) {
+        void launch(undefined, daily);
+        return;
+      }
       sessionStorage.setItem(
         retryKey,
         JSON.stringify({ mode, stage, difficulty }),
@@ -231,6 +281,7 @@ function pause() {
   if (!["battle", "collection"].includes(screen) || paused) return;
   paused = true;
   controls.reset();
+  checkpointNow();
   const d = dialog(
     "一時停止",
     '<button id="pt-resume">タップで再開</button><button id="pt-pause-layout">操作ボタンの配置</button><button id="pt-retire">リタイア</button>',
@@ -274,6 +325,7 @@ function pause() {
 }
 function defeatChoice() {
   if (screen === "down") return;
+  discardCheckpoint();
   setScreen("down");
   header(
     "ダウン",
@@ -326,6 +378,13 @@ async function requestAd(benefit: "revive" | "reward") {
 }
 function defeat() {
   if (!world) return;
+  if (world.defense) {
+    world.phase = "defeat";
+    world.reason = "防衛作戦をリタイアしました";
+    finishDaily(true);
+    return;
+  }
+  discardCheckpoint();
   finish(world, false, "リタイア／敗北確定");
   const s = world.solo!,
     planned = stageFor(world).waves.reduce(
@@ -360,6 +419,10 @@ function defeat() {
 }
 function victory() {
   if (!world || screen !== "battle") return;
+  if (world.defense) {
+    finishDaily();
+    return;
+  }
   track("clear");
   const w = world,
     s = w.solo!,
@@ -406,6 +469,66 @@ function victory() {
       else endCollection();
     });
   });
+}
+async function openDailyDefense() {
+  if (developerMode) {
+    message("日替わり防衛は通常プレイで利用してください。");
+    return;
+  }
+  try {
+    await syncCloud();
+    const code = transferCode();
+    if (!code)
+      throw Error(
+        "日替わり防衛にはクラウド保存が必要です。設定から有効にしてください。",
+      );
+    const remote = await inspectCloud(code);
+    if (remote.daily?.day === remote.day)
+      throw Error("今日の防衛作戦は挑戦済みです。日本時間0時に更新されます。");
+    const d = dialog(
+      "日替わり武器庫防衛",
+      '<p>3分間、中央の武器庫を守ってください。1日1回、再挑戦・広告復活はありません。開始時の保証武器と回収済み戦利品は敗北しても残ります。</p><p>読み込み後の「タップで戦場へ」で挑戦権を使います。</p><button id="pt-defense-prepare">現在の装備で準備</button>',
+    );
+    d.querySelector<HTMLButtonElement>("#pt-defense-prepare")!.onclick = () => {
+      if (save.pending.length || save.result?.choice === "pending") {
+        message("武器庫の整理と戦果の受取りを完了してください。");
+        return;
+      }
+      stage = defenseStage(save);
+      difficulty = "normal";
+      d.close();
+      void launch(undefined, { day: remote.day });
+    };
+  } catch (error) {
+    message((error as Error).message);
+  }
+}
+function finishDaily(interrupted = false) {
+  if (!world?.defense || screen !== "battle") return;
+  const w = world,
+    d = w.defense!;
+  const outcome = interrupted
+    ? "interrupted"
+    : w.phase === "victory"
+      ? "victory"
+      : "defeat";
+  const collected = collectDefense(save, w.run, w.pending.solo as NewWeapon[]);
+  commit(
+    settleDefense(collected, w.run, outcome, d.armory.hp, d.maxHp, () =>
+      random(w),
+    ),
+    () => {
+      setScreen("daily-result");
+      const ledger = save.dailyDefense!;
+      header(
+        outcome === "victory" ? "武器庫防衛成功" : "武器庫防衛終了",
+        `<p>${esc(w.reason)}</p><p>保証武器1個・道中${ledger.collected.length}個・追加${ledger.bonus}個</p><p>${outcome === "defeat" ? "武装片5個を獲得しました。" : outcome === "interrupted" ? "中断による追加報酬はありません。" : "武器庫を守り抜きました。"}</p><button id="pt-daily-home">ホームへ戻る</button>`,
+        false,
+      );
+      bind("pt-daily-home", home);
+      void syncCloud();
+    },
+  );
 }
 function endCollection() {
   if (!save.result) return;
@@ -766,7 +889,15 @@ function frame(now: number) {
       step(world, { solo: input });
       accumulator -= 0.05;
     }
-    if (world.phase === "victory") victory();
+    if (world.defense) {
+      const ledger = save.dailyDefense;
+      const fresh = (world.pending.solo as NewWeapon[]).filter(
+        (w) => !ledger?.collected.includes(w.id),
+      );
+      if (fresh.length && !commit(collectDefense(save, world.run, fresh)))
+        return;
+      if (world.phase === "victory" || world.phase === "defeat") finishDaily();
+    } else if (world.phase === "victory") victory();
     else if (world.players[0].hp <= 0) defeatChoice();
   } else if (active && world && screen === "collection") {
     const before = world.pending.solo.length;
@@ -796,9 +927,11 @@ function frame(now: number) {
         .filter(Boolean)
         .join(" · "),
       maxHp(world),
-      s.waveCompleteAt !== null && Number.isFinite(warn)
-        ? `次波まで ${Math.max(0, Math.ceil(warn))}秒`
-        : undefined,
+      world.defense
+        ? `防衛 ${Math.max(0, Math.ceil(world.defense.duration - world.time))}秒 · 武器庫 ${Math.ceil(world.defense.armory.hp)} / ${world.defense.maxHp}`
+        : s.waveCompleteAt !== null && Number.isFinite(warn)
+          ? `次波まで ${Math.max(0, Math.ceil(warn))}秒`
+          : undefined,
     );
     updateCooldowns(world, "solo", true);
     const med = $("revive") as HTMLButtonElement;
@@ -1073,16 +1206,15 @@ function commit(next: ProgressSave, after: () => void = () => {}) {
     return false;
   }
   save = next;
+  if (world && next.receipts.includes(world.run)) discardCheckpoint();
   after();
+  checkpointNow();
   return true;
 }
 function setScreen(next: string) {
   backgroundMusic().setScreen(next, save?.result?.win === true);
   queueMicrotask(() => {
-    enhanceGameSelects(
-      ui,
-      "#pt-difficulty, #pt-bulk-grade",
-    );
+    enhanceGameSelects(ui, "#pt-difficulty, #pt-bulk-grade");
     enhanceGameSelects(ui, "#pt-stage", (option, button) =>
       renderStageOption(save, option, button),
     );
@@ -1177,6 +1309,23 @@ function loadMode(next: SaveMode) {
       return;
     }
     save = found;
+    if (save.dailyDefense?.state === "active") {
+      const interrupted = settleDefense(
+        save,
+        save.dailyDefense.run,
+        "interrupted",
+        0,
+        1,
+        Math.random,
+      );
+      if (
+        !commit(interrupted, () => {
+          notice =
+            "中断した防衛作戦の保証武器と保存済み戦利品を保持しています。";
+        })
+      )
+        return;
+    }
     if (save.result?.choice === "pending") {
       if (!save.result.collectionDone) {
         commit(prepareChoice(save, Math.random), choice);
@@ -1242,6 +1391,17 @@ function showHome(initialized: boolean) {
           },
         );
   bind("solo", () => enter(gear));
+  if (!developerMode) {
+    ui.querySelector(".home-utilities")!.insertAdjacentHTML(
+      "beforeend",
+      '<button id="pt-daily-defense">日替わり防衛</button>',
+    );
+    bind("pt-daily-defense", () =>
+      enter(() => {
+        void openDailyDefense();
+      }),
+    );
+  }
   bind("open-armory", () => enter(base));
   if (developerMode)
     ui.querySelector(".home-utilities")!.insertAdjacentHTML(
@@ -1381,28 +1541,57 @@ function weaponList(items: StoredWeapon[], context: string) {
         ? w.kind === armoryKind
         : filter === "all" || w.kind === filter,
     )
-    .filter((w) => rarityFilter === "all" || weaponTier(w) === Number(rarityFilter))
+    .filter(
+      (w) => rarityFilter === "all" || weaponTier(w) === Number(rarityFilter),
+    )
     .filter((w) => !favoritesOnly || save.locks.includes(w.id))
     .sort((a, b) =>
       sort === "favorites"
-        ? Number(save.locks.includes(b.id)) - Number(save.locks.includes(a.id)) || a.acquired - b.acquired
+        ? Number(save.locks.includes(b.id)) -
+            Number(save.locks.includes(a.id)) || a.acquired - b.acquired
         : sort === "acquired"
-        ? a.acquired - b.acquired
-        : sort === "rarity"
-          ? weaponTier(b) - weaponTier(a)
-          : sort === "reload"
-            ? metricValue(a, sort) - metricValue(b, sort)
-            : metricValue(b, sort) - metricValue(a, sort),
+          ? a.acquired - b.acquired
+          : sort === "rarity"
+            ? weaponTier(b) - weaponTier(a)
+            : sort === "reload"
+              ? metricValue(a, sort) - metricValue(b, sort)
+              : metricValue(b, sort) - metricValue(a, sort),
     );
   const choices = (key: string, values: string[][], selected: string) =>
-    values.map(([value, label]) => `<button type="button" data-list-choice="${key}" data-value="${value}" aria-pressed="${value === selected}">${label}</button>`).join("");
-  const toolbar = `<div class="pt-list-tools">${context === "armory" ? '<button id="pt-genres">‹ ジャンル</button>' : ""}<details class="pt-view-menu" name="weapon-tools"><summary>ソート・絞り込み</summary><div class="pt-view-options"><fieldset><legend>並び順</legend>${choices("sort", [
-    ["acquired", "入手順"], ["favorites", "お気に入り"], ["rarity", "レア度"], ["power", "威力"],
-    ["mag", "装弾"], ["reload", "装填"], ["range", "射程"], ["rate", "連射"],
-  ], sort)}</fieldset><fieldset><legend>武器種</legend>${choices("kind", [
-    ...(context === "armory" ? [] : [["all", "全武器"]]),
-    ...Object.entries(weaponGenres),
-  ], context === "armory" ? armoryKind! : filter)}</fieldset><fieldset><legend>レア度</legend>${choices("rarity", [["all", "すべて"], ...GRADES.map((g, i) => [String(i), g])], rarityFilter)}</fieldset><fieldset><legend>お気に入り（ロック）</legend>${choices("favorites", [["all", "すべて"], ["only", "お気に入りのみ"]], favoritesOnly ? "only" : "all")}</fieldset><button type="button" id="pt-view-close">閉じる</button></div></details><span>${shown.length}丁</span>${context === "gear" ? `<button id="pt-organize" aria-pressed="${gearOrganizing}">${gearOrganizing ? "整理終了" : "整理"}</button>` : ""}${context === "armory" || (context === "gear" && gearOrganizing) ? `<details class="pt-bulk-menu" name="weapon-tools"><summary>${context === "gear" ? "一括操作" : "整理"}</summary><div class="pt-bulk-options"><label><select id="pt-bulk-grade" aria-label="一括選択のレア度">${GRADES.map((r, i) => `<option value="${i}">${r}以下</option>`).join("")}</select></label><label><input type="checkbox" id="pt-include-good">当たり補正も含める</label><button id="pt-bulk-select">一括選択</button><button id="pt-dismantle">選択を解体 (${checked.size})</button></div></details>` : ""}</div>`;
+    values
+      .map(
+        ([value, label]) =>
+          `<button type="button" data-list-choice="${key}" data-value="${value}" aria-pressed="${value === selected}">${label}</button>`,
+      )
+      .join("");
+  const toolbar = `<div class="pt-list-tools">${context === "armory" ? '<button id="pt-genres">‹ ジャンル</button>' : ""}<details class="pt-view-menu" name="weapon-tools"><summary>ソート・絞り込み</summary><div class="pt-view-options"><fieldset><legend>並び順</legend>${choices(
+    "sort",
+    [
+      ["acquired", "入手順"],
+      ["favorites", "お気に入り"],
+      ["rarity", "レア度"],
+      ["power", "威力"],
+      ["mag", "装弾"],
+      ["reload", "装填"],
+      ["range", "射程"],
+      ["rate", "連射"],
+    ],
+    sort,
+  )}</fieldset><fieldset><legend>武器種</legend>${choices(
+    "kind",
+    [
+      ...(context === "armory" ? [] : [["all", "全武器"]]),
+      ...Object.entries(weaponGenres),
+    ],
+    context === "armory" ? armoryKind! : filter,
+  )}</fieldset><fieldset><legend>レア度</legend>${choices("rarity", [["all", "すべて"], ...GRADES.map((g, i) => [String(i), g])], rarityFilter)}</fieldset><fieldset><legend>お気に入り（ロック）</legend>${choices(
+    "favorites",
+    [
+      ["all", "すべて"],
+      ["only", "お気に入りのみ"],
+    ],
+    favoritesOnly ? "only" : "all",
+  )}</fieldset><button type="button" id="pt-view-close">閉じる</button></div></details><span>${shown.length}丁</span>${context === "gear" ? `<button id="pt-organize" aria-pressed="${gearOrganizing}">${gearOrganizing ? "整理終了" : "整理"}</button>` : ""}${context === "armory" || (context === "gear" && gearOrganizing) ? `<details class="pt-bulk-menu" name="weapon-tools"><summary>${context === "gear" ? "一括操作" : "整理"}</summary><div class="pt-bulk-options"><label><select id="pt-bulk-grade" aria-label="一括選択のレア度">${GRADES.map((r, i) => `<option value="${i}">${r}以下</option>`).join("")}</select></label><label><input type="checkbox" id="pt-include-good">当たり補正も含める</label><button id="pt-bulk-select">一括選択</button><button id="pt-dismantle">選択を解体 (${checked.size})</button></div></details>` : ""}</div>`;
   return (
     toolbar +
     gearWeaponRows(
@@ -1425,9 +1614,11 @@ function bindList(context: string) {
   const redraw = () => {
     const menu = ui.querySelector<HTMLDetailsElement>(".pt-bulk-menu");
     const grade = ui.querySelector<HTMLSelectElement>("#pt-bulk-grade")?.value;
-    const includeGood = ui.querySelector<HTMLInputElement>("#pt-include-good")?.checked;
+    const includeGood =
+      ui.querySelector<HTMLInputElement>("#pt-include-good")?.checked;
     const open = menu?.open ?? false;
-    const viewOpen = ui.querySelector<HTMLDetailsElement>(".pt-view-menu")?.open ?? false;
+    const viewOpen =
+      ui.querySelector<HTMLDetailsElement>(".pt-view-menu")?.open ?? false;
     const focused = document.activeElement as HTMLElement | null;
     const choice = focused?.dataset.listChoice;
     const value = focused?.dataset.value;
@@ -1436,10 +1627,14 @@ function bindList(context: string) {
     if (nextMenu) nextMenu.open = open;
     const nextView = ui.querySelector<HTMLDetailsElement>(".pt-view-menu");
     if (nextView) nextView.open = viewOpen;
-    if (choice) ui.querySelector<HTMLButtonElement>(`[data-list-choice="${choice}"][data-value="${value}"]`)?.focus();
+    if (choice)
+      ui.querySelector<HTMLButtonElement>(
+        `[data-list-choice="${choice}"][data-value="${value}"]`,
+      )?.focus();
     const nextGrade = ui.querySelector<HTMLSelectElement>("#pt-bulk-grade");
     if (nextGrade && grade !== undefined) nextGrade.value = grade;
-    const nextIncludeGood = ui.querySelector<HTMLInputElement>("#pt-include-good");
+    const nextIncludeGood =
+      ui.querySelector<HTMLInputElement>("#pt-include-good");
     if (nextIncludeGood) nextIncludeGood.checked = includeGood ?? false;
   };
   const viewMenu = ui.querySelector<HTMLDetailsElement>(".pt-view-menu")!;
@@ -1455,19 +1650,22 @@ function bindList(context: string) {
       viewMenu.querySelector<HTMLElement>("summary")!.focus();
     }
   };
-  ui.querySelectorAll<HTMLButtonElement>("[data-list-choice]").forEach((button) => {
-    button.onclick = () => {
-      const value = button.dataset.value!;
-      if (button.dataset.listChoice === "sort") sort = value;
-      else if (button.dataset.listChoice === "rarity") rarityFilter = value;
-      else if (button.dataset.listChoice === "favorites") favoritesOnly = value === "only";
-      else if (context === "armory") armoryKind = value as Kind;
-      else filter = value;
-      if (button.dataset.listChoice !== "sort") checked.clear();
-      listScroll = 0;
-      redraw();
-    };
-  });
+  ui.querySelectorAll<HTMLButtonElement>("[data-list-choice]").forEach(
+    (button) => {
+      button.onclick = () => {
+        const value = button.dataset.value!;
+        if (button.dataset.listChoice === "sort") sort = value;
+        else if (button.dataset.listChoice === "rarity") rarityFilter = value;
+        else if (button.dataset.listChoice === "favorites")
+          favoritesOnly = value === "only";
+        else if (context === "armory") armoryKind = value as Kind;
+        else filter = value;
+        if (button.dataset.listChoice !== "sort") checked.clear();
+        listScroll = 0;
+        redraw();
+      };
+    },
+  );
   const list = ui.querySelector<HTMLElement>(".pt-weapon-list")!;
   list.scrollTop = listScroll;
   list.scrollLeft = perfScroll;
@@ -1558,7 +1756,8 @@ function bindList(context: string) {
             (context === "armory"
               ? w.kind === armoryKind
               : filter === "all" || w.kind === filter) &&
-            (rarityFilter === "all" || weaponTier(w) === Number(rarityFilter)) &&
+            (rarityFilter === "all" ||
+              weaponTier(w) === Number(rarityFilter)) &&
             (!favoritesOnly || save.locks.includes(w.id)) &&
             weaponTier(w) <= grade &&
             !weaponProtected(save, w.id) &&
@@ -1709,7 +1908,9 @@ function detail(w: StoredWeapon, context: string) {
           ([k, t]) =>
             `<tr><th>${t}</th><td class="pt-var-${varianceClass(weaponStatVariance(w, k as "mag" | keyof Variances))}">${metric(w, k)}<sup>${varianceMark(weaponStatVariance(w, k as "mag" | keyof Variances))}</sup></td><td>${w.format === 2 && k === "mag" ? "固定" : `${w.format === 2 ? "" : "約"}${weaponStatVariance(w, k as "mag" | keyof Variances) >= 0 ? "+" : ""}${Number(weaponStatVariance(w, k as "mag" | keyof Variances).toFixed(3))}%`}</td><td>${metricDifference(w, base, k)}</td></tr>`,
         )
-        .join("")}</table><p>印は同じ武器種・レア度の標準性能との差です。装填は速度換算、特殊効果は除外。★は+20%ちょうど。</p>`;
+        .join(
+          "",
+        )}</table><p>印は同じ武器種・レア度の標準性能との差です。装填は速度換算、特殊効果は除外。★は+20%ちょうど。</p>`;
   };
   if (context === "gear")
     (d.querySelector("#pt-compare") as HTMLSelectElement).value =
@@ -1772,8 +1973,10 @@ function growth() {
     const v = levels(),
       n = allocate(save, p.id, v);
     if (SKILLS.some((k) => v[k] < p.levels[k]))
-      confirmAction("配分を振り直す", `<p>${resourceFrame("coins", 500, "cost")}を使用します。</p>`, () =>
-        commit(n, growth),
+      confirmAction(
+        "配分を振り直す",
+        `<p>${resourceFrame("coins", 500, "cost")}を使用します。</p>`,
+        () => commit(n, growth),
       );
     else commit(n, growth);
   });
@@ -1897,6 +2100,82 @@ window.addEventListener("app-install-changed", () => {
   if (screen === "home" || screen === "intro") showHome(screen === "home");
 });
 loadMode("normal");
+if (!developerMode) {
+  installCloudSync();
+  window.addEventListener("swarm-cloud-progress", () => {
+    if (mode !== "normal" || saving) return;
+    try {
+      const latest = loadProgress("normal");
+      if (latest) {
+        save = latest;
+        checkpointNow();
+      }
+    } catch {
+      /* The ordinary save-conflict path preserves unresolved local work. */
+    }
+  });
+}
+let checkpointAt = 0;
+let checkpointErrorShown = false;
+function discardCheckpoint() {
+  if (developerMode || mode !== "normal") return;
+  try {
+    clearBattleCheckpoint();
+  } catch {
+    /* A result receipt also prevents replay. */
+  }
+}
+function checkpointNow() {
+  if (
+    developerMode ||
+    mode !== "normal" ||
+    saving ||
+    !world ||
+    screen !== "battle"
+  )
+    return;
+  try {
+    writeBattleCheckpoint(world, save);
+    checkpointAt = performance.now();
+  } catch {
+    if (!checkpointErrorShown) {
+      checkpointErrorShown = true;
+      notice = "戦闘の中断保存ができません。進行保存は保持しています。";
+      if (!document.hidden) message(notice);
+    }
+  }
+}
+// Persist periodically as mobile operating systems may terminate without pagehide.
+setInterval(() => {
+  if (performance.now() - checkpointAt >= 5000) checkpointNow();
+}, 5000);
+window.addEventListener("pagehide", checkpointNow, { capture: true });
+if (!developerMode && save && screen === "home") {
+  try {
+    const checkpoint = readBattleCheckpoint(save);
+    if (checkpoint) {
+      const d = dialog(
+        "中断した作戦",
+        `<p>${stageLabel(checkpoint.world.solo!.stage)}・${Math.floor(checkpoint.world.time)}秒時点から再開できます。直前の最大約5秒は戻る場合があります。</p><button id="pt-resume-battle">作戦を再開</button><button id="pt-discard-battle">中断した作戦を終了</button>`,
+      );
+      d.querySelector(".dialog-close")?.remove();
+      d.addEventListener("cancel", (e) => e.preventDefault());
+      d.querySelector<HTMLButtonElement>("#pt-resume-battle")!.onclick = () => {
+        stage = checkpoint.world.solo!.stage;
+        difficulty = checkpoint.world.solo!.difficulty;
+        d.close();
+        void launch(checkpoint);
+      };
+      d.querySelector<HTMLButtonElement>("#pt-discard-battle")!.onclick =
+        () => {
+          discardCheckpoint();
+          d.close();
+        };
+    }
+  } catch (error) {
+    message((error as Error).message);
+  }
+}
 const unauthorizedDeveloper = developerRequested && !developerMode;
 const retryLaunch =
   sampleMenus || unauthorizedDeveloper

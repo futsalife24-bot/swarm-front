@@ -1,4 +1,9 @@
 import { assertSaveWriter } from "./save-writer";
+import type { DefenseLedger } from "../shared/daily-rewards";
+import {
+  WEEKLY_MISSIONS,
+  type WeeklyProgress,
+} from "../shared/weekly-missions";
 import {
   SKILLS,
   COSTS,
@@ -59,6 +64,9 @@ export interface Receipt {
   collectionDone: boolean;
 }
 export interface ProgressSave {
+  weekly?: WeeklyProgress;
+  weeklyPending?: string[];
+  dailyDefense?: DefenseLedger;
   version: 2;
   mode: SaveMode;
   inventory: StoredWeapon[];
@@ -166,6 +174,49 @@ export const accessoryProtected = (s: ProgressSave, id: string) =>
   s.soldiers.some((p) => p.accessory === id);
 export function validateProgress(s: ProgressSave) {
   const integer = (v: number) => Number.isSafeInteger(v) && v >= 0;
+  if (
+    s?.weeklyPending &&
+    (!Array.isArray(s.weeklyPending) ||
+      s.weeklyPending.length > 128 ||
+      s.weeklyPending.some(
+        (id) => typeof id !== "string" || !s.receipts.includes(id),
+      ))
+  )
+    throw Error("週間実績の保存を読めません。上書きを停止しました");
+  if (s?.weekly) {
+    const w = s.weekly;
+    if (
+      !/^\d{4}-\d{2}-\d{2}$/.test(w.week) ||
+      ![w.campaign, w.defense, w.claimed].every(
+        (a) =>
+          Array.isArray(a) &&
+          a.every((v) => typeof v === "string") &&
+          new Set(a).size === a.length,
+      ) ||
+      w.campaign.length > 10 ||
+      w.defense.length > 3 ||
+      w.claimed.some((id) => !WEEKLY_MISSIONS.some((m) => m.id === id))
+    )
+      throw Error("週間ミッション保存を読めません。上書きを停止しました");
+  }
+  if (s?.dailyDefense) {
+    const d = s.dailyDefense;
+    if (
+      !/^\d{4}-\d{2}-\d{2}$/.test(d.day) ||
+      typeof d.run !== "string" ||
+      !integer(d.stage) ||
+      d.stage < 1 ||
+      d.stage > 20 ||
+      !["active", "victory", "defeat", "interrupted"].includes(d.state) ||
+      !integer(d.bonus) ||
+      d.bonus > 5 ||
+      !Array.isArray(d.collected) ||
+      !d.collected.every(
+        (id) => typeof id === "string" && id.startsWith(`${d.run}-drop-`),
+      )
+    )
+      throw Error("防衛作戦の保存を読めません。上書きを停止しました");
+  }
   if (
     !s ||
     (s.revision !== undefined && !integer(s.revision)) ||
@@ -464,6 +515,8 @@ export function persistProgress(
   }
   s.revision = next.revision;
   s.weaponReceipts = next.weaponReceipts;
+  if (typeof window !== "undefined" && storage === window.localStorage)
+    window.dispatchEvent(new Event("swarm-progress-saved"));
 }
 export function initializeProgress(
   mode: SaveMode,
@@ -611,6 +664,10 @@ export function grantResult(
   }
   n.coins += r.coins + r.firstCoins;
   n.receipts.push(input.run);
+  if (input.win && n.mode === "normal")
+    n.weeklyPending = [
+      ...new Set([...(n.weeklyPending ?? []), input.run]),
+    ].slice(-128);
   n.result = r;
   n.weaponReceipts = weaponReceiptSnapshot(n);
   return n;

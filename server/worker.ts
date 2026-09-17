@@ -7,6 +7,15 @@ import {
 } from "../src/shared/social";
 import { validStage } from "../src/shared/stages";
 import { developerAuth } from "./developer-auth";
+import {
+  playerVault,
+  sqlVaultStorage,
+  cloudAdmission,
+  cloudRateLimit,
+  cloudBody,
+  cloudReply,
+  validCloudSave,
+} from "./player-vault";
 import { DurableObject } from "cloudflare:workers";
 import { creationAccess, turnstileAccess } from "./auth";
 import { LIMITS, validBattleWeapon, type Weapon } from "../src/shared/defs";
@@ -93,17 +102,121 @@ export default {
     const path = u.pathname.startsWith("/api/")
       ? u.pathname.slice(4)
       : u.pathname;
+    if (u.pathname.startsWith("/api/cloud/")) {
+      if (
+        req.method !== "GET" &&
+        (req.method !== "POST" || origin !== u.origin)
+      )
+        return cloudReply({ error: "接続元と操作を確認してください" }, 403);
+      try {
+        if (path === "/cloud/create" && req.method === "POST") {
+          const allowed = await env.GATE.get(
+            env.GATE.idFromName("cloud-admission"),
+          ).fetch(
+            new Request("https://internal/cloud-admission", {
+              headers: {
+                "CF-Connecting-IP":
+                  req.headers.get("CF-Connecting-IP") ?? "local",
+              },
+            }),
+          );
+          if (!allowed.ok) return allowed;
+          const body = await cloudBody(req);
+          if (!validCloudSave(body.save))
+            return cloudReply({ error: "通常プレイの保存が必要です" }, 400);
+          const id = secret(),
+            token = secret() + secret();
+          const result = await env.GATE.get(
+            env.GATE.idFromName("cloud/" + id),
+          ).fetch(
+            new Request("https://internal/cloud-initialize", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+              },
+              body: JSON.stringify(body),
+            }),
+          );
+          if (!result.ok) return result;
+          return cloudReply({
+            ...((await result.json()) as object),
+            code: `SF1-${id}-${token}`,
+          });
+        }
+        const match =
+          /^\/cloud\/([a-f0-9]{32})\/(save|daily|weekly|delete)$/.exec(path);
+        if (!match || (req.method === "GET" && match[2] !== "save"))
+          return cloudReply({ error: "見つかりません" }, 404);
+        const admission = await env.GATE.get(
+          env.GATE.idFromName("cloud-admission"),
+        ).fetch(
+          new Request("https://internal/cloud-rate", {
+            headers: {
+              "CF-Connecting-IP":
+                req.headers.get("CF-Connecting-IP") ?? "local",
+            },
+          }),
+        );
+        if (!admission.ok) return admission;
+        const payload =
+          req.method === "POST"
+            ? JSON.stringify(await cloudBody(req))
+            : undefined;
+        return await env.GATE.get(
+          env.GATE.idFromName("cloud/" + match[1]),
+        ).fetch(
+          new Request("https://internal/cloud/" + match[2], {
+            method: req.method,
+            headers: {
+              Authorization: req.headers.get("Authorization") ?? "",
+              "Content-Type": "application/json",
+            },
+            ...(payload === undefined ? {} : { body: payload }),
+          }),
+        );
+      } catch {
+        return cloudReply(
+          {
+            error:
+              "クラウド保存を処理できません。通信・保存容量を確認してください",
+          },
+          400,
+        );
+      }
+    }
     if (u.pathname === "/admin/" || u.pathname === "/admin")
-      return new Response(adminPage, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });
+      return new Response(adminPage, {
+        headers: {
+          "Content-Type": "text/html; charset=utf-8",
+          "Cache-Control": "no-store",
+        },
+      });
     if (path === "/analytics/event" && req.method === "POST") {
       const gate = env.GATE.get(env.GATE.idFromName("analytics"));
-      res = await gate.fetch(new Request("https://internal/analytics-event", req));
+      res = await gate.fetch(
+        new Request("https://internal/analytics-event", req),
+      );
     } else if (path === "/developer/analytics" && req.method === "GET") {
-      const auth = await env.GATE.get(env.GATE.idFromName("developer-access")).fetch(new Request("https://internal/api/developer/session", { headers: req.headers }));
-      if (!auth.ok || !((await auth.json()) as { authenticated?: boolean }).authenticated) res = json({ error: "認証が必要です" }, 401);
+      const auth = await env.GATE.get(
+        env.GATE.idFromName("developer-access"),
+      ).fetch(
+        new Request("https://internal/api/developer/session", {
+          headers: req.headers,
+        }),
+      );
+      if (
+        !auth.ok ||
+        !((await auth.json()) as { authenticated?: boolean }).authenticated
+      )
+        res = json({ error: "認証が必要です" }, 401);
       else {
-      const gate = env.GATE.get(env.GATE.idFromName("analytics"));
-      res = await gate.fetch(new Request("https://internal/analytics-read", { headers: { "X-Developer-Verified": "1" } }));
+        const gate = env.GATE.get(env.GATE.idFromName("analytics"));
+        res = await gate.fetch(
+          new Request("https://internal/analytics-read", {
+            headers: { "X-Developer-Verified": "1" },
+          }),
+        );
       }
     } else if (path.startsWith("/developer/"))
       res = await env.GATE.get(env.GATE.idFromName("developer-access")).fetch(
@@ -234,8 +347,26 @@ export class Gate extends DurableObject<Env> {
   private directoryQueries = new Map<string, { at: number; count: number }>();
   async fetch(req: Request) {
     const internal = new URL(req.url).pathname;
+    if (internal === "/cloud-admission")
+      return this.ctx.blockConcurrencyWhile(() =>
+        cloudAdmission(req, this.ctx.storage),
+      );
+    if (internal === "/cloud-rate")
+      return this.ctx.blockConcurrencyWhile(() =>
+        cloudRateLimit(req, this.ctx.storage),
+      );
+    if (internal === "/cloud-initialize" || internal.startsWith("/cloud/"))
+      return this.ctx.blockConcurrencyWhile(() =>
+        playerVault(
+          req,
+          sqlVaultStorage(this.ctx.storage),
+          internal === "/cloud-initialize",
+        ),
+      );
     if (internal === "/analytics-event" || internal === "/analytics-read")
-      return this.ctx.blockConcurrencyWhile(() => this.analytics(req, internal));
+      return this.ctx.blockConcurrencyWhile(() =>
+        this.analytics(req, internal),
+      );
     if (new URL(req.url).pathname.startsWith("/api/developer/"))
       return this.ctx.blockConcurrencyWhile(() =>
         developerAuth(req, this.ctx.storage, this.env.DEVELOPER_PASSWORD_HASH),
@@ -244,16 +375,66 @@ export class Gate extends DurableObject<Env> {
   }
   private async analytics(req: Request, path: string) {
     const now = Date.now();
-    type Day = { date: string; views: number; visitors: number; sorties: number; clears: number; ids: string[] };
+    type Day = {
+      date: string;
+      views: number;
+      visitors: number;
+      sorties: number;
+      clears: number;
+      ids: string[];
+    };
     const days = (await this.ctx.storage.get<Day[]>("analytics-days")) ?? [];
-    const day = new Date(now).toLocaleDateString("sv-SE", { timeZone: "Asia/Tokyo" });
-    let d = days.find((x) => x.date === day); if (!d) { d = { date: day, views: 0, visitors: 0, sorties: 0, clears: 0, ids: [] }; days.push(d); }
-    if (path === "/analytics-read") {
-      if (req.headers.get("X-Developer-Verified") !== "1") return json({ error: "認証が必要です" }, 401);
-      const totals = days.reduce((a,x)=>({views:a.views+x.views,visitors:a.visitors+x.visitors,sorties:a.sorties+x.sorties,clears:a.clears+x.clears}),{views:0,visitors:0,sorties:0,clears:0});
-      return json({ startedAt: days.length ? Date.parse(days[0].date + "T00:00:00+09:00") : now, updatedAt: now, totals, days: days.map(({ids,...x})=>x) });
+    const day = new Date(now).toLocaleDateString("sv-SE", {
+      timeZone: "Asia/Tokyo",
+    });
+    let d = days.find((x) => x.date === day);
+    if (!d) {
+      d = { date: day, views: 0, visitors: 0, sorties: 0, clears: 0, ids: [] };
+      days.push(d);
     }
-    try { const b = await req.json() as { kind?: string; visitor?: string }; if (!b || !["view","sortie","clear"].includes(b.kind ?? "")) return json({ ok: false }, 400); if (b.kind === "view") d.views++; if (b.kind === "sortie") d.sorties++; if (b.kind === "clear") d.clears++; if (typeof b.visitor === "string" && /^[a-zA-Z0-9_-]{8,64}$/.test(b.visitor) && !d.ids.includes(b.visitor)) { d.ids.push(b.visitor); d.visitors++; if (d.ids.length > 50000) d.ids = d.ids.slice(-50000); } while (days.length > 365) days.shift(); await this.ctx.storage.put("analytics-days", days); return json({ ok: true }); } catch { return json({ ok: false }, 400); }
+    if (path === "/analytics-read") {
+      if (req.headers.get("X-Developer-Verified") !== "1")
+        return json({ error: "認証が必要です" }, 401);
+      const totals = days.reduce(
+        (a, x) => ({
+          views: a.views + x.views,
+          visitors: a.visitors + x.visitors,
+          sorties: a.sorties + x.sorties,
+          clears: a.clears + x.clears,
+        }),
+        { views: 0, visitors: 0, sorties: 0, clears: 0 },
+      );
+      return json({
+        startedAt: days.length
+          ? Date.parse(days[0].date + "T00:00:00+09:00")
+          : now,
+        updatedAt: now,
+        totals,
+        days: days.map(({ ids, ...x }) => x),
+      });
+    }
+    try {
+      const b = (await req.json()) as { kind?: string; visitor?: string };
+      if (!b || !["view", "sortie", "clear"].includes(b.kind ?? ""))
+        return json({ ok: false }, 400);
+      if (b.kind === "view") d.views++;
+      if (b.kind === "sortie") d.sorties++;
+      if (b.kind === "clear") d.clears++;
+      if (
+        typeof b.visitor === "string" &&
+        /^[a-zA-Z0-9_-]{8,64}$/.test(b.visitor) &&
+        !d.ids.includes(b.visitor)
+      ) {
+        d.ids.push(b.visitor);
+        d.visitors++;
+        if (d.ids.length > 50000) d.ids = d.ids.slice(-50000);
+      }
+      while (days.length > 365) days.shift();
+      await this.ctx.storage.put("analytics-days", days);
+      return json({ ok: true });
+    } catch {
+      return json({ ok: false }, 400);
+    }
   }
   private async admit(req: Request) {
     const now = Date.now(),
@@ -1012,4 +1193,3 @@ export class Room extends DurableObject<Env> {
     this.saved = { created: 0, members: [], world: null, interrupted: false };
   }
 }
-

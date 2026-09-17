@@ -3,10 +3,10 @@ import { addMapDetail, weatherMapMaterials } from "./map-detail";
 import { softenNaturalNormals } from "./map-surfaces";
 import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { MAPS, TRAINING_MAP } from "../shared/stages";
+import { MAPS, TRAINING_MAP, DEFENSE_MAPS } from "../shared/stages";
 import { caveScene } from "./cave-scene";
 import { trainingMapScene } from "./training-map";
-const VIEW_MAPS = [...MAPS, TRAINING_MAP];
+const VIEW_MAPS = [...MAPS, TRAINING_MAP, ...DEFENSE_MAPS];
 function disposeMap(group: T.Object3D) {
   const textures = new Set<T.Texture>(),
     materials = new Set<T.Material>();
@@ -68,7 +68,7 @@ export class MapAssets {
       g.add(trainingMapScene());
       return;
     }
-    if (map.biome !== "cave") {
+    if (map.biome !== "cave" || DEFENSE_MAPS.includes(map)) {
       const floor = new T.Mesh(
         new T.PlaneGeometry(420, 440, 210, 220),
         new T.MeshStandardMaterial({ color: map.ground }),
@@ -110,6 +110,11 @@ export class MapAssets {
     if (!this.groups[index].children.length) this.fallback(index);
     if (VIEW_MAPS[index] === TRAINING_MAP) {
       this.status[index].state = "ready";
+      return;
+    }
+    if (DEFENSE_MAPS.includes(VIEW_MAPS[index])) {
+      this.status[index].state = "ready";
+      this.distantStatus[index].state = "ready";
       return;
     }
     if (!load) return;
