@@ -11,7 +11,13 @@ for (const file of files) {
 }
 for (const dir of ["continuity-ui", "continuity-ui-win", "cloud-client", "cloud-vault", "daily-defense", "battle-checkpoint"]) {
   const source = `dist-validation/${dir}`;
-  if (fs.existsSync(source)) fs.cpSync(source, path.join(root, "evidence", dir), { recursive: true });
+  if (fs.existsSync(source)) {
+    const destination = path.join(root, "evidence", dir);
+    fs.mkdirSync(destination, { recursive: true });
+    for (const file of fs.readdirSync(source)) {
+      if (fs.statSync(path.join(source, file)).isFile()) fs.copyFileSync(path.join(source, file), path.join(destination, file));
+    }
+  }
 }
 fs.writeFileSync(path.join(root, "changes.patch"), execFileSync("git", ["diff", "--binary", base, head], { encoding: "utf8", maxBuffer: 10_000_000 }));
 fs.writeFileSync(path.join(root, "AUDIT.txt"), `Swarm Front PR32\nBASE ${base}\nHEAD ${head}\nUncommitted: ${git("status", "--porcelain")}\nEvidence: real Chrome and local Worker SQLite, no API mock. Victory/defeat UI uses DEV-only terminal-condition fixture, not balance testing. Typecheck, playtest 50 + affected core 68 tests, build, build:pages, production dry-run passed. DEV test entry excluded from production JS. No new GLB/images/audio; armory/environment are procedural Three.js, source included. Real mobile, full 3-minute balance, browser-closed co-op reconnect not tested. Prior base dashboard direct-main changes not independently audited; this PR does not certify them. See docs/PLAYER-CONTINUITY-DEFENSE.md.\n`);
