@@ -1,3 +1,10 @@
+# 現在地: PR37・監査必須1件を修正、再監査ZIP送信の承認待ち（2026-09-17）
+
+[PR37](https://github.com/futsalife24-bot/swarm-front/pull/37)、branch `codex/title-command-layout`、base6d48ea8、修正対象 `f87740a7998fdcdc9746608b3a94ac46182c3de1`。初回e747dc5の[独立監査](https://chatgpt.com/c/6aabdd4d-2610-83e9-9ff8-8e6edd83bddd)は必須1件（667×375で右上見出しクリップ）。高さ400px以下で見出しを省略し、メニュー全体/表示中見出しの境界チェックを追加。8条件の実Chrome/型/両build成功。修正はcommit/push済み。再監査合格/main反映/公開は未完了。[詳細](TITLE-LAYOUT.md)。
+
+停止理由: 自動承認レビューが `dist-validation/title-reaudit-f87740a.zip`（3,826,663 bytes、修正CSS・差分・検証スクリプト・更新画像/記録）を同じ通常ChatGPT監査Chatへ添付する操作を「初回ZIPとは別の具体的payloadへの承認がない」と拒否。添付/再監査依頼未完了。迂回していない。
+再開条件: ユーザーが上記修正版ZIPを上記通常Chatへ再監査目的で送ることを明示承認後、添付/再監査→必須なし確認→PR37通常merge・既存Worker公開・配信照合。初回ZIPへの承認は取得済み。Free契約/利用量はpreflight.jsonに確認記録あり。後続は記録のみ。
+
 # 現在地: PR37・承認済み監査資料を送信し独立監査中（2026-09-17）
 
 ユーザーが今回の `title-audit-e747dc5.zip`（6,347,884 bytes）を通常ChatGPTへ独立監査目的で送ることを明示承認。添付/依頼送信成功。[監査Chat](https://chatgpt.com/c/6aabdd4d-2610-83e9-9ff8-8e6edd83bddd)。対象e747dc55ada9b401e4ee65de2fd8ca85fdc3e98d、後続は記録のみ。PR37はMERGEABLE、base6d48ea8不変。型/両build/Worker dry-run/6サイズ実Chrome成功。監査合格/main反映/公開はこれから。[詳細](TITLE-LAYOUT.md)。
