@@ -81,6 +81,7 @@ export interface ProgressSave {
     | "gyroEnabled"
     | "gyroSensitivity"
     | "quality"
+    | "frameRate"
     | "mapRotates"
     | "damageNumbers"
   >;
@@ -352,6 +353,7 @@ export function coopPreferences(
     volume: save.volume,
     sensitivity: save.sensitivity,
     quality: save.quality,
+    frameRate: save.frameRate ?? 60,
     fireSensitivity: save.fireSensitivity,
     gyroEnabled: save.gyroEnabled,
     gyroSensitivity: save.gyroSensitivity,

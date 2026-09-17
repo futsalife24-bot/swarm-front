@@ -1,0 +1,83 @@
+{
+  "results": [
+    {
+      "width": 1280,
+      "height": 582,
+      "layout": {
+        "x": 415.859375,
+        "right": 828.171875,
+        "y": 472.5,
+        "bottom": 510.5,
+        "overflow": false
+      },
+      "samples": [
+        {
+          "fps": 30,
+          "seconds": 2.1009000000059603,
+          "draws": 63
+        },
+        {
+          "fps": 60,
+          "seconds": 2.105100000023842,
+          "draws": 123
+        }
+      ],
+      "persisted": true,
+      "storageFailureProtected": true
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "layout": {
+        "x": 258.53125,
+        "right": 555.09375,
+        "y": 205.5,
+        "bottom": 243.5,
+        "overflow": false
+      },
+      "samples": [
+        {
+          "fps": 30,
+          "seconds": 2.1005999999940395,
+          "draws": 43
+        },
+        {
+          "fps": 60,
+          "seconds": 2.114600000023842,
+          "draws": 95
+        }
+      ],
+      "persisted": true,
+      "storageFailureProtected": true
+    },
+    {
+      "width": 667,
+      "height": 375,
+      "layout": {
+        "x": 205.734375,
+        "right": 428.984375,
+        "y": 198.5,
+        "bottom": 236.5,
+        "overflow": false
+      },
+      "samples": [
+        {
+          "fps": 30,
+          "seconds": 2.1015,
+          "draws": 63
+        },
+        {
+          "fps": 60,
+          "seconds": 2.100199999988079,
+          "draws": 92
+        }
+      ],
+      "persisted": true,
+      "storageFailureProtected": true
+    }
+  ],
+  "coopPersisted": true,
+  "coopTimeDelta": 1.9,
+  "trainingApplied": true,
+  "errors": []
+}

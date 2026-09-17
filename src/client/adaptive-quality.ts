@@ -4,7 +4,7 @@ export class AdaptiveQuality {
   private elapsed = 0;
   private frames = 0;
   private recovery = 0;
-  update(dt: number, active: boolean): boolean {
+  update(dt: number, active: boolean, targetFps = 60): boolean {
     if (!active || !Number.isFinite(dt) || dt <= 0 || dt > 0.15) {
       this.elapsed = this.frames = this.recovery = 0;
       return false;
@@ -15,10 +15,10 @@ export class AdaptiveQuality {
     const fps = this.frames / this.elapsed;
     this.elapsed = this.frames = 0;
     const previous = this.scale;
-    if (fps < 42) {
+    if (fps < targetFps * 0.7) {
       this.scale = Math.max(0.65, Math.round((this.scale - 0.1) * 100) / 100);
       this.recovery = 0;
-    } else if (fps > 55) {
+    } else if (fps > targetFps * (55 / 60)) {
       if (++this.recovery >= 4) {
         this.scale = Math.min(1, Math.round((this.scale + 0.05) * 100) / 100);
         this.recovery = 0;

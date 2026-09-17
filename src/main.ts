@@ -379,6 +379,7 @@ function configured() {
   controls.gyroSensitivity = save.gyroSensitivity ?? 1;
   sound.volume = save.volume;
   view.quality = save.quality;
+  view.frameRate = save.frameRate ?? 60;
   view.mapAssets.setQuality(save.quality);
   minimap.rotates = save.mapRotates === true;
   view.damageNumbers = save.damageNumbers ?? "self";
@@ -743,7 +744,7 @@ function gear() {
 function openSettings(back: () => void) {
   const dialog = menuDialog(
     "設定・操作",
-    `<p class="settings-status" role="status">${esc(saveError || "変更はこの端末に自動保存されます。")}</p><div class="settings-content settings-columns"><p>PC: WASD移動 / クリック射撃・マウス照準 / R装填 / Q切替 / Space回避 / E長押し蘇生 / Escマウス解放</p><p>スマホ: 左スティック移動 / 右側ドラッグ照準 / 射撃ボタン長押し。味方3.5m以内で蘇生を2.5秒長押し。</p><label>視点感度 <input id="sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>射撃ボタンの視点感度 <input id="fire-sense" type="range" min="0.1" max="6" step="0.1" value="${save.fireSensitivity ?? save.sensitivity}"></label><label>ジャイロ <button id="gyro" type="button" role="switch" aria-label="ジャイロ" aria-checked="${save.gyroEnabled === true}">${save.gyroEnabled ? "オン" : "オフ"}</button><span id="gyro-status" role="status">端末を動かして照準。反応しない場合はオフ→オンで許可を確認。</span></label><label>ジャイロ感度 <input id="gyro-sense" type="range" min="0.1" max="6" step="0.1" value="${save.gyroSensitivity ?? 1}"></label><label>音量（0でミュート） <input id="volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準（精細な地形・質感）</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量（従来の描画）</option></select></label><label>ミニマップ <select id="map-rotate"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><label>ダメージ表示 <select id="damage-numbers"><option value="self" ${(save.damageNumbers ?? "self") === "self" ? "selected" : ""}>自分のみ</option><option value="all" ${save.damageNumbers === "all" ? "selected" : ""}>味方も表示</option><option value="off" ${save.damageNumbers === "off" ? "selected" : ""}>表示しない</option></select></label><p>道中の緑の戦利品は接近して回収。勝利時に確定、敗北・復帰できない切断では未確定品を失います。保存済みの武器は失いません。端末変更・ブラウザデータ削除で引き継げません。クラウド保存や完全な改ざん防止はありません。</p><button id="export">保存データを書き出す</button></div>`,
+    `<p class="settings-status" role="status">${esc(saveError || "変更はこの端末に自動保存されます。")}</p><div class="settings-content settings-columns"><p>PC: WASD移動 / クリック射撃・マウス照準 / R装填 / Q切替 / Space回避 / E長押し蘇生 / Escマウス解放</p><p>スマホ: 左スティック移動 / 右側ドラッグ照準 / 射撃ボタン長押し。味方3.5m以内で蘇生を2.5秒長押し。</p><label>視点感度 <input id="sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>射撃ボタンの視点感度 <input id="fire-sense" type="range" min="0.1" max="6" step="0.1" value="${save.fireSensitivity ?? save.sensitivity}"></label><label>ジャイロ <button id="gyro" type="button" role="switch" aria-label="ジャイロ" aria-checked="${save.gyroEnabled === true}">${save.gyroEnabled ? "オン" : "オフ"}</button><span id="gyro-status" role="status">端末を動かして照準。反応しない場合はオフ→オンで許可を確認。</span></label><label>ジャイロ感度 <input id="gyro-sense" type="range" min="0.1" max="6" step="0.1" value="${save.gyroSensitivity ?? 1}"></label><label>音量（0でミュート） <input id="volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準（精細な地形・質感）</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量（従来の描画）</option></select></label><label>描画上限 <select id="frame-rate"><option value="60" ${(save.frameRate ?? 60) === 60 ? "selected" : ""}>60fps（なめらか）</option><option value="30" ${save.frameRate === 30 ? "selected" : ""}>30fps（省電力）</option></select></label><label>ミニマップ <select id="map-rotate"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><label>ダメージ表示 <select id="damage-numbers"><option value="self" ${(save.damageNumbers ?? "self") === "self" ? "selected" : ""}>自分のみ</option><option value="all" ${save.damageNumbers === "all" ? "selected" : ""}>味方も表示</option><option value="off" ${save.damageNumbers === "off" ? "selected" : ""}>表示しない</option></select></label><p>道中の緑の戦利品は接近して回収。勝利時に確定、敗北・復帰できない切断では未確定品を失います。保存済みの武器は失いません。端末変更・ブラウザデータ削除で引き継げません。クラウド保存や完全な改ざん防止はありません。</p><button id="export">保存データを書き出す</button></div>`,
     "SYSTEM CONFIGURATION",
   );
   addPlayerNameSetting(dialog.querySelector<HTMLElement>(".menu-dialog-body")!);
@@ -825,6 +826,11 @@ function openSettings(back: () => void) {
     const input = $("quality") as HTMLSelectElement;
     if (!update({ ...save, quality: Number(input.value) }))
       input.value = String(save.quality);
+  };
+  $("frame-rate").onchange = () => {
+    const input = $("frame-rate") as HTMLSelectElement;
+    if (!update({ ...save, frameRate: input.value === "30" ? 30 : 60 }))
+      input.value = String(save.frameRate ?? 60);
   };
   $("map-rotate").onchange = () => {
     const input = $("map-rotate") as HTMLSelectElement;

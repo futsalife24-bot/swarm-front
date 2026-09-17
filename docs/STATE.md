@@ -1,3 +1,7 @@
+# 現在地: 省電力30/60fps切替を実装・自己検証済み（2026-09-17）
+
+branch `codex/power-saving-fps`、base `07f7ebfe39e374c5693e9d9c31ae72b7cb2ba607`。設定保存・ソロ/協力/訓練/初遭遇の描画上限と自動画質基準を追加。型・40単体・実Chrome3幅/保存失敗/再読込/訓練/ソロ停止・実Worker協力戦闘・両build・production dry-run成功。[仕様・証拠・限界](FRAME-RATE.md)。実機の電池/発熱は未確認。独立監査・main反映・公開はこれから。
+
 # 現在地: PR34・週間ボタンと数値通知をmain反映・公開済み（2026-09-17）
 
 [PR34](https://github.com/futsalife24-bot/swarm-front/pull/34)通常merge。対象8f6ade6は独立監査合格・必須なし。公開ソース `f657c08cfc6012c88df60f319c155b7a00ae074e`、Version `95136c0e-2d0a-4e4e-8b84-0b788319a3e2`。週間ミッションをタイトルへ移動、達成済み未受取件数を右上へ表示。型/両build/実Chrome+Worker受取/3幅画像成功。公開12ファイルSHA一致・health正常・iab週間入口と画面確認/error0。[記録・限界](WEEKLY-TITLE.md)。後続は公開記録のみ。

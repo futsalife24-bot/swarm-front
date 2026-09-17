@@ -13,6 +13,7 @@ import { canInstallApp, installApp } from "./app-install";
 import { CHANGELOG } from "./changelog";
 import { hudMarkup, updateCooldowns } from "./hud";
 import { createPlaytestPreferences } from "./playtest-preferences";
+import { FramePacer } from "./frame-pacer";
 import { openLayoutEditor } from "./layout-editor";
 import * as T from "three";
 import { Renderer } from "./render";
@@ -663,6 +664,7 @@ function encounter() {
         animation = 0;
       let idle: ReturnType<Renderer["encounterIdle"]>,
         idleTime = 0;
+      const introPacer = new FramePacer();
       const animate = (now: number) => {
         if (!d.open) return;
         const delta = document.hidden ? 0 : Math.min(now - previous, 50);
@@ -695,7 +697,8 @@ function encounter() {
           } else idleTime += delta / 1000;
           idle?.update(idleTime);
         }
-        view.renderer.render(view.scene, view.camera);
+        if (!document.hidden && introPacer.next(delta / 1000, view.frameRate) !== null)
+          view.renderer.render(view.scene, view.camera);
         animation = requestAnimationFrame(animate);
       };
       d.dataset.phase = "freeze";
@@ -1012,7 +1015,7 @@ function frame(now: number) {
     controls.input.yaw,
     active && screen === "battle",
   );
-  if (!encounterActive)
+  const rendered = !encounterActive &&
     view.render(
       world,
       "solo",
@@ -1025,7 +1028,7 @@ function frame(now: number) {
       controls.aiming,
     );
   // A new spawn must exist in the scene before the camera freezes for its introduction.
-  if (active && screen === "battle" && !encounterActive) encounter();
+  if (rendered && active && screen === "battle" && !encounterActive) encounter();
 }
 
 const $ = (id: string) => document.getElementById(id)!;

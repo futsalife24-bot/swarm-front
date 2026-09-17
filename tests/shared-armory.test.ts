@@ -53,6 +53,15 @@ const roll = (id: string) =>
   );
 
 describe("shared normal and co-op armoury", () => {
+  it("retains the frame-rate preference across shared-save reloads", () => {
+    const storage = memory();
+    for (const frameRate of [30, 60] as const) {
+      const save = loadSharedCoopSave(storage);
+      save.frameRate = frameRate;
+      persistSharedCoopSave(save, storage);
+      expect(loadSharedCoopSave(storage).frameRate).toBe(frameRate);
+    }
+  });
   it("imports legacy verbatim in combat stats, equipment, locks and preferences once", () => {
     const old = fresh();
     old.inventory[0] = {
