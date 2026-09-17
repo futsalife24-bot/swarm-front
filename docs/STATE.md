@@ -1,3 +1,7 @@
+# 現在地: PR36・省電力30/60fps切替をmain反映・公開済み（2026-09-17）
+
+[PR36](https://github.com/futsalife24-bot/swarm-front/pull/36)通常merge。対象e330e7aは独立監査合格・必須0。公開ソース 956548613cc9eb7f1237ba11081413bc8c42e0d1、Worker Version 385ae051-35cd-4a0c-beb7-428136fe4168。設定から30/60fpsを選択・保存、ソロ/協力/訓練へ反映。型・45単体・実Chrome3幅/実Worker/ソロ停止・両build成功。公開12ファイルSHA一致・health正常・一時Chromeで30/60切替/再読込/error0。iabの別タブ保存保護は維持。[詳細・限界](FRAME-RATE.md)。実スマホの発熱/電池は未測定。後続は公開記録のみ。
+
 # 現在地: PR36・省電力30/60fps切替が独立監査合格（2026-09-17）
 
 対象 `e330e7ab69883d14aa7d3abf28d6f3a8a0035b6a` は[独立監査](https://chatgpt.com/c/6aabbd83-8dec-83ee-be3f-20d3106a89c0)合格・必須0件。型・45単体・実Chrome/Worker・両build成功。Free契約/使用量を確認。後続は記録のみ。[詳細・限界](FRAME-RATE.md)。通常merge・既存Worker公開・配信確認へ進む。

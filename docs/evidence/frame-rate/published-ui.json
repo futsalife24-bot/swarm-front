@@ -1,0 +1,16 @@
+{
+  "date": "2026-09-17T10:31:50.369Z",
+  "browser": "isolated temporary Chrome profile",
+  "checks": [
+    "default 60",
+    "select 30",
+    "reload retains 30",
+    "select 60"
+  ],
+  "viewport": {
+    "width": 844,
+    "height": 390
+  },
+  "existingUserStorageAccessed": false,
+  "errors": []
+}

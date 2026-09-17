@@ -1,0 +1,69 @@
+{
+  "date": "2026-09-17T10:30:19.959Z",
+  "source": "956548613cc9eb7f1237ba11081413bc8c42e0d1",
+  "version": "385ae051-35cd-4a0c-beb7-428136fe4168",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "health": 200,
+  "assets": [
+    {
+      "path": "/index.html",
+      "bytes": 2298,
+      "sha256": "c64e4ff29ff2b8e2425510f453f9065bc5eaf80b531b106b8c878b310c04032a"
+    },
+    {
+      "path": "/assets/index-D5Bq1pix.js",
+      "bytes": 32664,
+      "sha256": "a450b4cbf7b04a4db6999d1bf49159dc3799efbc7f64b6f5d32d6f4466b30551"
+    },
+    {
+      "path": "/assets/main-C1Ldsy-y.css",
+      "bytes": 6219,
+      "sha256": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1"
+    },
+    {
+      "path": "/assets/main-C8LDZVE2.js",
+      "bytes": 55004,
+      "sha256": "6598fb74a90b872abf2db85f0d58f6befb9a44d31aa910aafcb73adfa7100bb8"
+    },
+    {
+      "path": "/assets/playtest-app-Dy4ehDQn.css",
+      "bytes": 25850,
+      "sha256": "2eee15f749a6e3c22a3f910af71a490de291dd22bf05524550ba4499871d0209"
+    },
+    {
+      "path": "/assets/playtest-app-trvP8qr8.js",
+      "bytes": 110359,
+      "sha256": "f4329035a0813b5bcb6231ed3838c7a295ade02746ba41bf4dfe549f08c9780b"
+    },
+    {
+      "path": "/assets/training-app-CZaHSN7F.js",
+      "bytes": 3714,
+      "sha256": "d0dbfd7b48b652aef1c6b574ecfa4456782b6732049e836a172322eb64e521e3"
+    },
+    {
+      "path": "/assets/weapon-help-B4NbIzKy.js",
+      "bytes": 52920,
+      "sha256": "8922fdc888e456018ebfa9b73897306544016c7ab11238b45c3488987ca35d8a"
+    },
+    {
+      "path": "/assets/weapon-help-Clh1V6L1.css",
+      "bytes": 3020,
+      "sha256": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607"
+    },
+    {
+      "path": "/assets/weapon-sharing-CTfsYRAT.js",
+      "bytes": 4746,
+      "sha256": "57dfcb9af041e9ce304c5d7db1b001c3bb4956d51a740de63b17b404cfe0c123"
+    },
+    {
+      "path": "/assets/zoom-guard-BYiDpNS5.css",
+      "bytes": 106596,
+      "sha256": "f0556f4cdf5c5c4ff6457bc78b91a3b4b58fd1b921209102915a8c0b18551d10"
+    },
+    {
+      "path": "/assets/zoom-guard-D7SsjIO6.js",
+      "bytes": 818236,
+      "sha256": "a58d8fbd70d6b7f80584fe86ee80425ba2edefa4ff0edcb6c3be127e24a07d5d"
+    }
+  ]
+}

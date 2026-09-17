@@ -27,3 +27,11 @@
 最終対象e330e7aは上記Chatで合格・必須0件。GitHubの最終BASE/HEAD/mergeableとclient実装不変を独立照合。FramePacer/AdaptiveQualityの実ソースを依存不要で直接実行し30/60/75/90/120/144Hzでも正常。更新ZIPは監査側のファイル一覧に露出しなかったため、初回ZIPとGitHub最終HEADを突合して判定。正式typecheck/Vitest/build/Worker dry-runの独立再実行は依存取得タイムアウト・vite/client不足で未完走。自己検証との区別を維持する。
 
 任意指摘: 検証件数表記は45件へ更新。初遭遇専用の実ブラウザfps測定、実スマホでの電力/温度測定は将来課題で非ブロッキング。HUD/ミニマップ/入力/通信のrAFは維持し、すべての処理を30Hz化する変更ではない。Free契約と既存使用量は公開直前にiabで確認（evidence/frame-rate/preflight.json）。
+
+## main反映・公開完了
+
+PR36を通常merge、公開ソース 956548613cc9eb7f1237ba11081413bc8c42e0d1。merge後buildとproduction dry-run成功、既存Worker Version 385ae051-35cd-4a0c-beb7-428136fe4168へ公開。index/全JS・CSS計12ファイルのSHA256一致、health 200/okを確認（published.json）。公開版を使い捨てChromeプロファイルで開き、初期60→30→再読込30保持→60の操作と844×390画像・pageerror0を確認（published-ui.json / published-settings.png）。ユーザー本人の進行・保存・既存タブへはアクセスしない。
+
+iab公開画面は別タブ保存保護を表示。既存の再開ボタン操作は自動承認レビューが進行競合リスクとして拒否し、実行せず維持。安全な代替として既存ブラウザへ接続しない新規の一時Chromeプロファイルを用いる操作を別途承認レビューで許可され、公開操作確認を完了。保護の解除・既存タブの終了・同じ保存領域への操作はしていない。
+
+実装・独立監査・main反映・公開・配信/UI照合まで完了。実スマホの消費電力/温度と初遭遇専用fps測定は前記限界のまま。後続は公開記録のみ。
