@@ -486,6 +486,11 @@ async function openDailyDefense() {
     const remote = await inspectCloud(code);
     if (remote.daily?.day === remote.day)
       throw Error("今日の防衛作戦は挑戦済みです。日本時間0時に更新されます。");
+    // A successful retry resolves the previous admission error, including the
+    // cloud-required notice shown before cloud saving was enabled.
+    notice = "";
+    const status = ui.querySelector(".pt-status");
+    if (status) status.textContent = "";
     const d = dialog(
       "日替わり武器庫防衛",
       '<p>3分間、中央の武器庫を守ってください。1日1回、再挑戦・広告復活はありません。開始時の保証武器と回収済み戦利品は敗北しても残ります。</p><p>読み込み後の「タップで戦場へ」で挑戦権を使います。</p><button id="pt-defense-prepare">現在の装備で準備</button>',

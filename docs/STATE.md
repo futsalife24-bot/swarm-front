@@ -1,3 +1,7 @@
+# 現在地: 日替わり防衛の古いクラウド案内を修正・監査準備（2026-09-17）
+
+branch `codex/daily-defense-stale-notice`、base `ac478f58af664d8f385252cef69b1d25dfc59953`。参加条件の再確認成功で過去の案内を消去。型・防衛7単体・実Chrome/ローカルWorkerで未接続→UI有効化→勝利→クラウド報酬保存、新規エラー表示を確認。実機の保存内容は未確認。独立監査/main反映/公開は未完了。証拠: `docs/evidence/daily-notice/`。
+
 # 現在地: PR32・継続プレイ/日替わり防衛をmain反映・公開済み（2026-09-17）
 
 [PR32](https://github.com/futsalife24-bot/swarm-front/pull/32)を通常merge。独立監査対象6e5cec8は合格・必須残件なし。公開ソース `fb042aad596f46ba9f6b2e41faa1b6a3c9250904`、Worker Version `425d572b-0e4c-4b75-afb0-9a62e8300244`。最新進行の引き継ぎ、ソロ中断再開、週間ミッション、水平な6広場とBlender武器庫による日替わり防衛を公開。
