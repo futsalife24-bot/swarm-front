@@ -1,4 +1,12 @@
-# 現在地: PR32・平坦な防衛広場とBlender武器庫を追加（2026-09-17）
+# 現在地: PR32・独立監査の必須2件を修正し再監査準備（2026-09-17）
+
+6d1ee2aは監査要修正。報酬記録だけ残る競合上書きと、初回クラウド前の週間勝利欠落を修正。報酬更新前の保存元versionからの上書き/保存再送を409拒否し、初回pendingをサーバー週へ反映。型・54単体・実Chrome2端末+Worker・関連UI・両build/dry-runで回帰検証成功。[修正/契約確認記録](PR32-RELEASE.md)。まだ再監査合格・main反映・公開は未完了。
+
+# 履歴: PR32・承認済み監査ZIPを送信し独立監査中（2026-09-17）
+
+ユーザーが `continuity-audit-6d1ee2a.zip`（44,159,887 bytes）の通常Chatへの監査目的送信と、既存公開用Cloudflareアカウント `melosalife.24@gmail.com` の再ログインを明示承認。対象 `6d1ee2a21c8435127dc559210c55a50381219047` のZIP添付/依頼送信を確認。[独立監査Chat](https://chatgpt.com/c/6aab6f75-ef70-83ee-b5dc-4bb6fdeda04d)がGitHub base/headとの一致を確認し監査中。まだ合格ではない。Cloudflareはiabから既存アカウントへ復帰しFree契約・既存使用量を確認、現実装のproduction dry-run成功。[確認記録](PR32-RELEASE.md)。main未反映・未公開。
+
+# 履歴: PR32・平坦な防衛広場とBlender武器庫を追加（2026-09-17）
 
 branch `codex/player-continuity-defense`、base `206f000b857844f2fc4d284a02f4bac75e748ead`、[PR #32](https://github.com/futsalife24-bot/swarm-front/pull/32)。既存6環境の造形/素材を用いた水平な広場、実在武器庫を参考にしたBlender原本/GLB、損傷/残骸、読み込み待機/再試行を追加。[仕様・再生成・検証](DEFENSE-ART-V2.md)。型・51テスト・両build・6環境の水平判定/画像・実Workerで読み込み失敗後の参加権保護と再試行成功。未監査・main未反映・未公開。
 

@@ -35,8 +35,21 @@ try {
   const code = await a.evaluate(async () => {
     const save = await import("/src/client/progression-save.ts");
     save.initializeProgress("normal");
+    const local = save.loadProgress("normal");
+    local.receipts = ["offline-1", "offline-2", "offline-3"];
+    local.weeklyPending = [...local.receipts];
+    save.persistProgress(local);
     return (await import("/src/client/cloud-save.ts")).createCloudSave();
   });
+  assert.equal(
+    await a.evaluate(async () => {
+      const s = (await import("/src/client/progression-save.ts")).loadProgress(
+        "normal",
+      );
+      return s.weekly.campaign.length;
+    }),
+    3,
+  );
   const coins = await a.evaluate(async () => {
     const save = await import("/src/client/progression-save.ts"),
       cloud = await import("/src/client/cloud-save.ts");
@@ -95,6 +108,99 @@ try {
   }, code);
   assert.equal(restored.coins, coins + 15 + 150);
   assert.deepEqual(restored.claimed, ["campaign-3"]);
+  // Device B has not observed the 150-coin grant. Explicit local adoption must
+  // fail on every retry and leave cloud coins/claimed coherent.
+  for (let retry = 0; retry < 2; retry++) {
+    assert.equal(
+      await b.evaluate(async (code) => {
+        const cloud = await import("/src/client/cloud-save.ts");
+        const remote = await cloud.inspectCloud(code);
+        try {
+          await cloud.keepLocalAfterConflict(remote.version);
+          return "unexpected overwrite";
+        } catch (error) {
+          return error.message.includes("報酬を守る")
+            ? "protected"
+            : error.message;
+        }
+      }, code),
+      "protected",
+    );
+  }
+  assert.equal(
+    await a.evaluate(
+      async (code) =>
+        (await (await import("/src/client/cloud-save.ts")).inspectCloud(code))
+          .save.coins,
+      code,
+    ),
+    restored.coins,
+  );
+  await b.evaluate(async (code) => {
+    const c = await import("/src/client/cloud-save.ts"),
+      s = await import("/src/client/progression-save.ts");
+    c.restoreCloud(
+      code,
+      await c.inspectCloud(code),
+      localStorage.getItem(s.newSaveKey("normal")),
+    );
+  }, code);
+  const daily = await a.evaluate(async (code) => {
+    const c = await import("/src/client/cloud-save.ts"),
+      remote = await c.inspectCloud(code);
+    return c.admitDailyDefense(crypto.randomUUID(), remote.day);
+  }, code);
+  const protectedAdoption = async () =>
+    b.evaluate(async (code) => {
+      const c = await import("/src/client/cloud-save.ts"),
+        remote = await c.inspectCloud(code);
+      try {
+        await c.keepLocalAfterConflict(remote.version);
+        return false;
+      } catch {
+        return c.cloudStatus().status === "conflict";
+      }
+    }, code);
+  assert.equal(await protectedAdoption(), true);
+  await b.evaluate(async (code) => {
+    const c = await import("/src/client/cloud-save.ts"),
+      s = await import("/src/client/progression-save.ts");
+    c.restoreCloud(
+      code,
+      await c.inspectCloud(code),
+      localStorage.getItem(s.newSaveKey("normal")),
+    );
+  }, code);
+  await a.evaluate(async () => {
+    const c = await import("/src/client/cloud-save.ts"),
+      s = await import("/src/client/progression-save.ts"),
+      r = await import("/src/shared/daily-rewards.ts"),
+      p = await import("/src/shared/progression.ts");
+    const local = s.loadProgress("normal"),
+      run = local.dailyDefense.run;
+    s.persistProgress(
+      r.collectDefense(local, run, [
+        p.rollWeapon(
+          run + "-drop-1",
+          1,
+          "normal",
+          false,
+          local.serial,
+          () => 0.1,
+        ),
+      ]),
+    );
+    await c.syncCloud();
+  });
+  assert.equal(await protectedAdoption(), true);
+  const finalSave = await a.evaluate(
+    async (code) =>
+      (await (await import("/src/client/cloud-save.ts")).inspectCloud(code))
+        .save,
+    code,
+  );
+  assert.equal(finalSave.inventory.length, daily.save.inventory.length + 1);
+  assert.equal(finalSave.coins, restored.coins);
   await a.evaluate(async () => {
     await (await import("/src/client/cloud-save.ts")).deleteCloudSave();
   });
@@ -108,6 +214,9 @@ try {
           "same code returns newer progress",
           "second device restore",
           "offline event queue acknowledgement",
+          "pre-cloud wins credited during account creation",
+          "repeated stale local adoption cannot erase weekly reward",
+          "stale local adoption cannot erase daily guarantee or collected drop",
           "conflict fence",
           "explicit restore",
           "weekly reward",

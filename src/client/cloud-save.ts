@@ -13,11 +13,13 @@ const BACKUP = "swarm-front-before-cloud-restore-v1";
 interface Pending {
   mutation: string;
   version: number;
+  basisVersion: number;
   save: ProgressSave;
 }
 interface Link {
   code: string;
   version: number;
+  basisVersion?: number;
   synced: string;
   blocked?: boolean;
   pending?: Pending;
@@ -38,6 +40,7 @@ let status: CloudState = "unlinked",
   installed = false;
 let syncPromise: Promise<void> | undefined;
 let updatedAt = 0;
+let lastError = "";
 export function cloudStatus() {
   return { status, updatedAt };
 }
@@ -85,6 +88,7 @@ async function call(
   });
   const data = await response.json();
   if (!response.ok) {
+    lastError = data.error ?? "クラウドに接続できません。";
     if (response.status === 409) announce("conflict");
     throw Object.assign(Error(data.error ?? "クラウドに接続できません。"), {
       status: response.status,
@@ -121,13 +125,38 @@ export async function createCloudSave() {
   const data = await response.json();
   if (!response.ok) throw Error(data.error ?? "クラウド保存を作成できません。");
   parseCode(data.code);
+  validateProgress(data.save);
   writeLink({
     code: data.code,
     version: data.version,
     synced: JSON.stringify(save),
   });
+  // Initialize credits queued wins on server time. Merge only that acknowledgement
+  // so progress made while the create request was in flight is not overwritten.
+  const latest = loadProgress("normal");
+  if (latest) {
+    const unchanged = JSON.stringify(latest) === JSON.stringify(save);
+    const acknowledged = new Set(save.weeklyPending ?? []);
+    latest.weekly = data.save.weekly;
+    latest.weeklyPending = (latest.weeklyPending ?? []).filter(
+      (run) => !acknowledged.has(run),
+    );
+    persistProgress(latest);
+    const link = readLink()!;
+    link.synced = JSON.stringify(
+      unchanged
+        ? latest
+        : { ...save, weekly: data.save.weekly, weeklyPending: [] },
+    );
+    writeLink(link);
+    window.dispatchEvent(new Event("swarm-cloud-progress"));
+  }
   updatedAt = data.updatedAt;
-  announce("saved");
+  announce(
+    JSON.stringify(loadProgress("normal")) === readLink()!.synced
+      ? "saved"
+      : "pending",
+  );
   return data.code as string;
 }
 export function syncCloud(): Promise<void> {
@@ -158,6 +187,7 @@ async function performCloudSync() {
     link.pending ??= {
       mutation: crypto.randomUUID(),
       version: link.version,
+      basisVersion: link.basisVersion ?? link.version,
       save,
     };
     writeLink(link); // Retry the exact mutation after an ambiguous network failure.
@@ -191,6 +221,7 @@ async function performCloudSync() {
     // Preserve newer local edits for the next sync rather than marking them uploaded.
     link.synced = JSON.stringify(unchanged ? latest : link.pending.save);
     link.version = data.version;
+    link.basisVersion = undefined;
     link.pending = undefined;
     writeLink(link);
     updatedAt = data.updatedAt;
@@ -243,12 +274,15 @@ export async function keepLocalAfterConflict(expectedVersion: number) {
   const link = readLink();
   if (!link) throw Error("クラウド保存がありません。");
   // A further remote change still produces a conflict; never fetch-and-overwrite blindly.
+  link.basisVersion ??= link.version;
   link.version = expectedVersion;
   link.blocked = false;
   link.pending = undefined;
   link.synced = "";
   writeLink(link);
   await syncCloud();
+  if (status === "conflict")
+    throw Error(lastError || "保存を比較し直してください。");
 }
 export async function deleteCloudSave() {
   if (busy) throw Error("同期が終わってから再試行してください。");

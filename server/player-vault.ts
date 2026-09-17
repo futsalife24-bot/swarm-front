@@ -67,6 +67,7 @@ interface Vault {
   updatedAt: number;
   save: Record<string, unknown>;
   lastMutation: string;
+  protectedVersion?: number;
   daily?: { day: string; run: string; startedAt: number };
 }
 interface VaultStorage {
@@ -116,11 +117,30 @@ export async function playerVault(
     const body = await cloudBody(req);
     if (!validCloudSave(body.save))
       return cloudReply({ error: "通常プレイの保存が必要です" }, 400);
+    const pending = body.save.weeklyPending;
+    if (
+      pending !== undefined &&
+      (!Array.isArray(pending) ||
+        pending.length > 128 ||
+        !pending.every(
+          (id) =>
+            typeof id === "string" &&
+            (body.save as Record<string, unknown[]>).receipts.includes(id),
+        ))
+    )
+      return cloudReply({ error: "週間実績の形式が不正です" }, 400);
+    let initial = { ...body.save, weekly: undefined } as {
+      coins: number;
+      weekly?: WeeklyProgress;
+    } & Record<string, unknown>;
+    for (const run of (pending ?? []) as string[])
+      initial = recordWeekly(initial, "campaign", run, now);
+    initial.weeklyPending = [];
     state = {
       credential,
       version: 1,
       updatedAt: now,
-      save: body.save,
+      save: initial,
       lastMutation: "",
     };
     await storage.put("vault", state);
@@ -191,6 +211,7 @@ export async function playerVault(
     ) as unknown as Record<string, unknown>;
     state.daily = { day: japanDay(now), run: body.run, startedAt: now };
     state.version++;
+    state.protectedVersion = state.version;
     state.updatedAt = now;
     await storage.put("vault", state);
     return result();
@@ -209,6 +230,7 @@ export async function playerVault(
       now,
     );
     state.version++;
+    state.protectedVersion = state.version;
     state.updatedAt = now;
     await storage.put("vault", state);
     return result();
@@ -220,7 +242,20 @@ export async function playerVault(
     !/^[a-f0-9-]{36}$/.test(body.mutation)
   )
     return cloudReply({ error: "保存形式が不正です" }, 400);
-  if (state.lastMutation === body.mutation) return result();
+  if (state.lastMutation === body.mutation) {
+    // A later daily/weekly grant can advance the vault without replacing this ID.
+    // Never acknowledge the old payload as if it contained that newer reward.
+    if (state.version !== Number(body.version) + 1)
+      return cloudReply(
+        {
+          error:
+            "保存後に別端末の報酬が更新されました。保存を比較してください。",
+          conflict: true,
+        },
+        409,
+      );
+    return result();
+  }
   if (!Number.isSafeInteger(body.version) || body.version !== state.version)
     return cloudReply(
       {
@@ -228,6 +263,22 @@ export async function playerVault(
         conflict: true,
         version: state.version,
         updatedAt: state.updatedAt,
+      },
+      409,
+    );
+  // Conflict resolution may change the CAS version, but must retain the version
+  // on which this device's progress was based. Reject rollback across a reward.
+  if (
+    (state.protectedVersion ?? 0) > 0 &&
+    (!Number.isSafeInteger(body.basisVersion) ||
+      Number(body.basisVersion) < state.protectedVersion! ||
+      Number(body.basisVersion) > state.version)
+  )
+    return cloudReply(
+      {
+        error:
+          "別端末で防衛・週間報酬が更新されています。報酬を守るため上書きできません。保存を比較してクラウドを採用してください。",
+        conflict: true,
       },
       409,
     );
@@ -251,8 +302,13 @@ export async function playerVault(
       incoming = recordWeekly(incoming, "campaign", run, now);
   }
   incoming.weeklyPending = [];
+  const defenseChanged =
+    state.daily &&
+    JSON.stringify(state.save.dailyDefense) !==
+      JSON.stringify(incoming.dailyDefense);
   state.save = incoming;
   state.version++;
+  if (defenseChanged) state.protectedVersion = state.version;
   state.updatedAt = now;
   state.lastMutation = body.mutation;
   // Keep the admission separate from uploaded progress, so a save rollback cannot

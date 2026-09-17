@@ -5,6 +5,8 @@ import {
   cloudRateLimit,
 } from "../server/player-vault";
 import { freshProgress } from "../src/client/progression-save";
+import { collectDefense, settleDefense } from "../src/shared/daily-rewards";
+import { rollWeapon } from "../src/shared/progression";
 const token = "a".repeat(64),
   now = Date.parse("2026-09-17T00:00:00Z");
 function fixture() {
@@ -28,16 +30,214 @@ function fixture() {
       },
       ...(body === undefined ? {} : { body: JSON.stringify(body) }),
     });
-  const initialize = () =>
-    playerVault(
-      request("initialize", { save: freshProgress("normal") }),
-      storage,
-      true,
-      now,
-    );
+  const initialize = (save = freshProgress("normal")) =>
+    playerVault(request("initialize", { save }), storage, true, now);
   return { values, storage, request, initialize };
 }
 describe("player vault", () => {
+  it("does not acknowledge a lost save response across a later server reward", async () => {
+    const f = fixture();
+    await f.initialize();
+    const body = {
+      save: freshProgress("normal"),
+      version: 1,
+      basisVersion: 1,
+      mutation: crypto.randomUUID(),
+    };
+    expect(
+      (await playerVault(f.request("save", body), f.storage, false, now))
+        .status,
+    ).toBe(200);
+    await playerVault(
+      f.request("daily", {
+        day: "2026-09-17",
+        run: "lost-response-daily-001",
+        version: 2,
+      }),
+      f.storage,
+      false,
+      now,
+    );
+    expect(
+      (await playerVault(f.request("save", body), f.storage, false, now))
+        .status,
+    ).toBe(409);
+    const remote = (await (
+      await playerVault(f.request("save"), f.storage, false, now)
+    ).json()) as any;
+    expect(remote.save.inventory.length).toBe(4);
+  });
+  it("credits pre-cloud wins at initialization and never credits them twice", async () => {
+    const f = fixture(),
+      save = freshProgress("normal");
+    save.receipts = ["offline-1", "offline-2", "offline-3"];
+    save.weeklyPending = [...save.receipts];
+    const created = (await (await f.initialize(save)).json()) as any;
+    expect(created.save.weekly.campaign).toEqual(save.receipts);
+    expect(created.save.weeklyPending).toEqual([]);
+    const synced = (await (
+      await playerVault(
+        f.request("save", {
+          save,
+          version: 1,
+          basisVersion: 1,
+          mutation: crypto.randomUUID(),
+        }),
+        f.storage,
+        false,
+        now,
+      )
+    ).json()) as any;
+    expect(synced.save.weekly.campaign).toEqual(save.receipts);
+    const claimed = (await (
+      await playerVault(
+        f.request("weekly", { id: "campaign-3", version: 2 }),
+        f.storage,
+        false,
+        now,
+      )
+    ).json()) as any;
+    expect(claimed.save.coins).toBe(save.coins + 150);
+    // A stale device explicitly adopts local progress against the inspected version.
+    const rejected = await playerVault(
+      f.request("save", {
+        save,
+        version: claimed.version,
+        basisVersion: 2,
+        mutation: crypto.randomUUID(),
+      }),
+      f.storage,
+      false,
+      now,
+    );
+    expect(rejected.status).toBe(409);
+    const remote = (await (
+      await playerVault(f.request("save"), f.storage, false, now)
+    ).json()) as any;
+    expect(remote.save.coins).toBe(save.coins + 150);
+    expect(remote.save.weekly.claimed).toEqual(["campaign-3"]);
+    // Spending after receipt is legal and must not recreate the coins.
+    remote.save.coins -= 100;
+    const spent = await playerVault(
+      f.request("save", {
+        save: remote.save,
+        version: remote.version,
+        basisVersion: remote.version,
+        mutation: crypto.randomUUID(),
+      }),
+      f.storage,
+      false,
+      now,
+    );
+    expect(spent.status).toBe(200);
+    expect(((await spent.json()) as any).save.coins).toBe(save.coins + 50);
+  });
+  it("rejects rollback across daily guarantee, collected drops and settlement", async () => {
+    const f = fixture(),
+      before = freshProgress("normal");
+    await f.initialize(before);
+    const run = "daily-vault-protected-001";
+    const admitted = (await (
+      await playerVault(
+        f.request("daily", { run, day: "2026-09-17", version: 1 }),
+        f.storage,
+        false,
+        now,
+      )
+    ).json()) as any;
+    for (const basisVersion of [undefined, 1]) {
+      const rejected = await playerVault(
+        f.request("save", {
+          save: before,
+          version: 2,
+          basisVersion,
+          mutation: crypto.randomUUID(),
+        }),
+        f.storage,
+        false,
+        now,
+      );
+      expect(rejected.status).toBe(409);
+    }
+    const dropped = collectDefense(admitted.save, run, [
+      rollWeapon(
+        run + "-drop-1",
+        1,
+        "normal",
+        false,
+        admitted.save.serial,
+        () => 0.1,
+      ),
+    ]);
+    const collected = (await (
+      await playerVault(
+        f.request("save", {
+          save: dropped,
+          version: 2,
+          basisVersion: 2,
+          mutation: crypto.randomUUID(),
+        }),
+        f.storage,
+        false,
+        now,
+      )
+    ).json()) as any;
+    expect(collected.save.inventory.length).toBe(before.inventory.length + 2);
+    const rollback = await playerVault(
+      f.request("save", {
+        save: admitted.save,
+        version: 3,
+        basisVersion: 2,
+        mutation: crypto.randomUUID(),
+      }),
+      f.storage,
+      false,
+      now,
+    );
+    expect(rollback.status).toBe(409);
+    const settled = settleDefense(
+      collected.save,
+      run,
+      "defeat",
+      0,
+      2000,
+      () => 0.1,
+    );
+    const result = (await (
+      await playerVault(
+        f.request("save", {
+          save: settled,
+          version: 3,
+          basisVersion: 3,
+          mutation: crypto.randomUUID(),
+        }),
+        f.storage,
+        false,
+        now,
+      )
+    ).json()) as any;
+    expect(result.save.powder).toBe(5);
+    expect(
+      (
+        await playerVault(
+          f.request("save", {
+            save: collected.save,
+            version: 4,
+            basisVersion: 3,
+            mutation: crypto.randomUUID(),
+          }),
+          f.storage,
+          false,
+          now,
+        )
+      ).status,
+    ).toBe(409);
+    const remote = (await (
+      await playerVault(f.request("save"), f.storage, false, now)
+    ).json()) as any;
+    expect(remote.save).toEqual(result.save);
+    expect(remote.daily.run).toBe(run);
+  });
   it("stores only a digest of the key and rejects incorrect credentials", async () => {
     const f = fixture();
     await f.initialize();
