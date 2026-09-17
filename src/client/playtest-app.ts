@@ -131,7 +131,14 @@ import {
   inspectCloud,
   transferCode,
   syncCloud,
+  createCloudSave,
+  restoreCloud,
+  deleteCloudSave,
+  keepLocalAfterConflict,
+  claimCloudWeekly,
+  cloudStatus,
 } from "./cloud-save";
+import { WEEKLY_MISSIONS } from "../shared/weekly-missions";
 import { initDailyDefense } from "../shared/daily-defense";
 import {
   defenseStage,
@@ -780,6 +787,143 @@ function settingsUI() {
       new Blob([JSON.stringify(save ?? null, null, 2)]),
       `swarm-front-${mode}.json`,
     );
+  if (!developerMode) {
+    const cloud = document.createElement("button");
+    cloud.id = "pt-cloud-settings";
+    cloud.textContent = "クラウド引き継ぎ";
+    d.querySelector("#pt-save-export")!.after(cloud);
+    cloud.onclick = () => {
+      d.close();
+      cloudSettingsUI();
+    };
+    const weekly = document.createElement("button");
+    weekly.id = "pt-weekly-missions";
+    weekly.textContent = "週間ミッション";
+    cloud.after(weekly);
+    weekly.onclick = () => {
+      d.close();
+      weeklyMissionsUI();
+    };
+  }
+}
+
+function cloudSettingsUI() {
+  const code = transferCode();
+  const state = cloudStatus();
+  const d = dialog(
+    "クラウド引き継ぎ",
+    `<p>同じコードで、最後に同期した最新の通常プレイを別端末へ引き継げます。コードを失うと復旧できないため、安全な場所に保管してください。</p><p id="pt-cloud-state">状態: ${esc(state.status)}${state.updatedAt ? ` · ${new Date(state.updatedAt).toLocaleString("ja-JP")}` : ""}</p>${code ? `<label>引き継ぎコード<input id="pt-cloud-code" value="${esc(code)}" readonly></label><button id="pt-cloud-copy">コードをコピー</button><button id="pt-cloud-restore">別端末の保存を確認</button><button id="pt-cloud-delete">クラウド保存を削除</button>` : `<button id="pt-cloud-create" class="primary">クラウド保存を有効にする</button><label>別端末のコード<input id="pt-cloud-input" autocomplete="off" spellcheck="false"></label><button id="pt-cloud-connect">コードから復元</button>`}<p class="fine">クラウド削除はクラウド上の保存だけを削除し、この端末の進行は残します。通信中は操作を繰り返さないでください。</p>`,
+  );
+  const stateNode = d.querySelector<HTMLElement>("#pt-cloud-state");
+  const refresh = () => {
+    const s = cloudStatus();
+    if (stateNode)
+      stateNode.textContent = `状態: ${s.status}${s.updatedAt ? ` · ${new Date(s.updatedAt).toLocaleString("ja-JP")}` : ""}`;
+  };
+  const onStatus = () => refresh();
+  window.addEventListener("swarm-cloud-status", onStatus);
+  d.addEventListener(
+    "close",
+    () => window.removeEventListener("swarm-cloud-status", onStatus),
+    { once: true },
+  );
+  const run = async (action: () => Promise<void>) => {
+    try {
+      await action();
+      refresh();
+    } catch (e) {
+      message((e as Error).message);
+    }
+  };
+  d.querySelector<HTMLButtonElement>("#pt-cloud-create")?.addEventListener(
+    "click",
+    () =>
+      void run(async () => {
+        const created = await createCloudSave();
+        d.close();
+        cloudSettingsUI();
+        void created;
+      }),
+  );
+  d.querySelector<HTMLButtonElement>("#pt-cloud-copy")?.addEventListener(
+    "click",
+    () =>
+      void navigator.clipboard
+        ?.writeText(code!)
+        .then(() => message("引き継ぎコードをコピーしました。")),
+  );
+  d.querySelector<HTMLButtonElement>("#pt-cloud-restore")?.addEventListener(
+    "click",
+    () =>
+      void run(async () => {
+        const remote = await inspectCloud(code!);
+        const expected = localStorage.getItem(newSaveKey("normal"));
+        const choice = confirm(
+          `クラウド保存を確認しました。\n更新: ${new Date(remote.updatedAt).toLocaleString("ja-JP")}\n武器: ${remote.save.inventory.length}丁\nOKでクラウドを端末へ復元します。キャンセルで端末を保持します。`,
+        );
+        if (choice) restoreCloud(code!, remote, expected);
+        else await keepLocalAfterConflict(remote.version);
+        d.close();
+      }),
+  );
+  d.querySelector<HTMLButtonElement>("#pt-cloud-connect")?.addEventListener(
+    "click",
+    () =>
+      void run(async () => {
+        const input = d
+          .querySelector<HTMLInputElement>("#pt-cloud-input")!
+          .value.trim();
+        const remote = await inspectCloud(input);
+        const expected = localStorage.getItem(newSaveKey("normal"));
+        if (
+          !confirm(
+            `この保存を端末へ復元しますか？\n更新: ${new Date(remote.updatedAt).toLocaleString("ja-JP")}\n武器: ${remote.save.inventory.length}丁`,
+          )
+        )
+          return;
+        restoreCloud(input, remote, expected);
+        d.close();
+      }),
+  );
+  d.querySelector<HTMLButtonElement>("#pt-cloud-delete")?.addEventListener(
+    "click",
+    () =>
+      void run(async () => {
+        if (
+          !confirm("クラウド上の保存を削除しますか？この端末の進行は残ります。")
+        )
+          return;
+        await deleteCloudSave();
+        d.close();
+      }),
+  );
+}
+
+function weeklyMissionsUI() {
+  const weekly = save.weekly;
+  const code = transferCode();
+  const rows = WEEKLY_MISSIONS.map((m) => {
+    const count = weekly?.[m.kind as "campaign" | "defense"]?.length ?? 0;
+    const claimed = weekly?.claimed.includes(m.id) ?? false;
+    return `<div class="release-entry"><strong>${esc(m.label)}</strong><span>${Math.min(count, m.target)} / ${m.target} · ${m.coins}コイン</span><button data-weekly-id="${esc(m.id)}" ${!code || claimed || count < m.target ? "disabled" : ""}>${claimed ? "受取済み" : "報酬を受け取る"}</button></div>`;
+  }).join("");
+  const d = dialog(
+    "週間ミッション",
+    `<p>月曜の日本時間0時に更新されます。</p><div id="pt-weekly-list">${rows}</div>${!code ? "<p>クラウド引き継ぎを有効にすると、報酬を受け取れます。</p>" : ""}`,
+  );
+  d.querySelectorAll<HTMLButtonElement>("[data-weekly-id]").forEach(
+    (button) =>
+      (button.onclick = () =>
+        void (async () => {
+          try {
+            await claimCloudWeekly(button.dataset.weeklyId!);
+            d.close();
+            weeklyMissionsUI();
+          } catch (e) {
+            message((e as Error).message);
+          }
+        })()),
+  );
 }
 function generator() {
   if (mode !== "test") return;

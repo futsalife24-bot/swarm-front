@@ -263,6 +263,7 @@ export class Renderer {
   foundryLasers!: T.InstancedMesh;
   foundryLaserGlow!: T.InstancedMesh;
   players = new Map<string, T.Group>();
+  private armoryVisual?: T.Group;
   dummy = new T.Object3D();
   particles: T.InstancedMesh;
   projectiles: T.InstancedMesh;
@@ -373,6 +374,23 @@ export class Renderer {
     sun.shadow.normalBias = 0.12;
     sun.shadow.autoUpdate = false;
     this.scene.add(sun, this.caveLamp);
+    const armory = new T.Group();
+    const body = new T.Mesh(
+      new T.BoxGeometry(3.2, 2.2, 3.2),
+      new T.MeshStandardMaterial({ color: 0x9a6b42, roughness: 0.65 }),
+    );
+    body.position.y = 1.1;
+    const roof = new T.Mesh(
+      new T.ConeGeometry(2.35, 1.2, 6),
+      new T.MeshStandardMaterial({ color: 0xd7aa58, roughness: 0.7 }),
+    );
+    roof.position.y = 2.8;
+    armory.add(body, roof);
+    armory.userData.body = body;
+    armory.userData.roof = roof;
+    armory.visible = false;
+    this.armoryVisual = armory;
+    this.scene.add(armory);
     this.mapAssets = new MapAssets(this.scene);
     for (const kind of Object.keys(ENEMIES) as Enemy["kind"][]) {
       const mesh = new T.InstancedMesh(
@@ -899,6 +917,33 @@ export class Renderer {
         }
     } else this.clearFoundryWorms();
     this.foundryWarnings.count = 0;
+    if (this.armoryVisual) {
+      const defense = w?.defense;
+      this.armoryVisual.visible = !!defense;
+      if (defense) {
+        this.armoryVisual.position.set(defense.armory.x, 0, defense.armory.z);
+        const ratio = T.MathUtils.clamp(
+          defense.armory.hp / defense.maxHp,
+          0,
+          1,
+        );
+        const body = this.armoryVisual.userData.body as T.Mesh;
+        const roof = this.armoryVisual.userData.roof as T.Mesh;
+        (body.material as T.MeshStandardMaterial).color.setHex(
+          ratio > 0 ? (ratio < 0.2 ? 0x7d3030 : 0x9a6b42) : 0x241b1b,
+        );
+        (roof.material as T.MeshStandardMaterial).color.setHex(
+          ratio > 0 ? (ratio < 0.2 ? 0xb34a32 : 0xd7aa58) : 0x2b2222,
+        );
+        body.scale.setScalar(0.92 + ratio * 0.08);
+        roof.rotation.y += animate ? dt * 0.25 : 0;
+        if (w.phase !== "battle") {
+          this.armoryVisual.scale.setScalar(
+            1 + Math.min(0.25, Math.max(0, w.time - defense.duration) * 0.12),
+          );
+        } else this.armoryVisual.scale.setScalar(1);
+      } else this.armoryVisual.scale.setScalar(1);
+    }
     const active = new Set(w?.players.map((p) => p.id));
     for (const [key, m] of this.players)
       if (!active.has(key)) {
