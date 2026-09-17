@@ -6,4 +6,6 @@
 
 検証: 型チェック・標準/Pagesビルド成功。`scripts/check-weekly-title.mjs` は実Chrome+ローカルWorker/SQLiteで3件達成fixtureから報酬をUI受取し3→2→1→0、合計800コイン、0件/旧週非表示、設定入口削除を確認。1280/844/640×390のボタン/通知の画面内配置・クリック可能性・画像を確認。実機未確認。通常UIの既存継続テストも新しい入口へ更新。
 
-証拠: `docs/evidence/weekly-title/`。独立監査・main反映・公開はこれから。
+証拠: `docs/evidence/weekly-title/`。[PR34](https://github.com/futsalife24-bot/swarm-front/pull/34)、base `4519967845932fa7cc05df4dc71562c473549dc9`、対象 `8f6ade66567cae12992b8912553569bbbc5ebdc9`。[独立監査Chat](https://chatgpt.com/c/6aabaaa2-4520-83e9-9499-7702edd9f13f)へ `weekly-title-audit-8f6ade6.zip`（1,098,258 bytes、ソース/差分/画面証拠）を添付・依頼送信済み。main反映・公開はこれから。
+
+独立監査は対象8f6ade6で合格・必須指摘なし。GitHub blob一致、実差分、通知算出/更新イベントと既存サーバー受取の分離、3幅画像を確認。MJS構文・TS独立構文解析は成功、監査環境の依存取得未完了により正式型/build/Worker E2Eの独立再実行は未完走。任意提案はaria-labelの遷移と時計による月曜跨ぎの自動検証追加。実装の修正要求なし。後続は監査記録文書のみ。
