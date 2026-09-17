@@ -824,6 +824,10 @@ body .pt-view-options button { min-height: 30px; padding: 4px 8px; }
 .continuity-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .continuity-comparison section { border: 1px solid var(--menu-line); padding: 8px; }
 .weekly-row { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--menu-line); }
+.home-utilities .weekly-title-button { position: relative; padding-right: 24px; }
+.weekly-notification { position: absolute; top: 2px; right: 2px; display: grid; place-items: center; min-width: 20px; height: 20px; padding: 0 4px; border: 2px solid #10252e; border-radius: 999px; background: #d74337; color: #fff; font-size: 11px; font-weight: 800; line-height: 1; pointer-events: none; }
+.weekly-notification[hidden] { display: none; }
+@media (max-width: 900px) { .home-utilities { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 #pt-code-panel input, #pt-cloud-input { width: 100%; box-sizing: border-box; }
 .menu-dialog [data-feedback] { color: #ffd599; min-height: 1em; }
 @media (max-width: 650px) { .weekly-row { gap: 6px; font-size: 12px; } }

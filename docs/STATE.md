@@ -2,7 +2,23 @@
 
 branch `codex/multi-app-analytics`、base `4519967845932fa7cc05df4dc71562c473549dc9`。許可されたworkspace内コピーで作業（元gameの別作業を保護）。管理画面を縦4カード化、既存Swarm保存維持、LMF/カタモン/まよいの個別計測を追加。型・集計/認証10テスト・実Chrome+Worker/SQLite・3画面幅と期間/失敗/ログアウト確認済み。各アプリ関連チェック成功。独立監査/merge/公開前。[仕様と検証](APP-ANALYTICS.md)。
 
-# 現在地: PR33・日替わり防衛の古い案内をmain反映・公開済み（2026-09-17）
+# 統合記録
+
+main `07f7ebfe39e374c5693e9d9c31ae72b7cb2ba607`（PR34の週間ミッションUI）を取り込み。競合はSTATE先頭だけで両方の記録を保持。今回の管理/計測ソースに交差なし。
+
+# 現在地: PR34・週間ボタンと数値通知をmain反映・公開済み（2026-09-17）
+
+[PR34](https://github.com/futsalife24-bot/swarm-front/pull/34)通常merge。対象8f6ade6は独立監査合格・必須なし。公開ソース `f657c08cfc6012c88df60f319c155b7a00ae074e`、Version `95136c0e-2d0a-4e4e-8b84-0b788319a3e2`。週間ミッションをタイトルへ移動、達成済み未受取件数を右上へ表示。型/両build/実Chrome+Worker受取/3幅画像成功。公開12ファイルSHA一致・health正常・iab週間入口と画面確認/error0。[記録・限界](WEEKLY-TITLE.md)。後続は公開記録のみ。
+
+# 履歴: PR34・週間ボタンと数値通知が独立監査合格（2026-09-17）
+
+対象8f6ade6は独立監査合格・必須なし。後続は記録のみ。[監査/検証/限界](WEEKLY-TITLE.md)。通常merge・既存Worker公開へ進む。
+
+# 履歴: 週間ミッションのタイトル移動・数値通知を自己検証済み（2026-09-17）
+
+branch `codex/weekly-title-badge`、base4519967。設定の週間入口をタイトルへ移動、未受取の達成件数を右上へ表示。型/両build、実Chrome+Workerの3→2→1→0受取、3幅の表示を確認。[詳細](WEEKLY-TITLE.md)。独立監査・main反映・公開はこれから。
+
+# 履歴: PR33・日替わり防衛の古い案内をmain反映・公開済み（2026-09-17）
 
 [PR33](https://github.com/futsalife24-bot/swarm-front/pull/33)通常merge、対象6bf5590は独立監査合格・必須なし。公開ソース `06e51468b968ceb065a646d5e8f97989bdfe2dd2`、Worker Version `391c17e7-fdb8-433b-b063-fef830dd4040`。クラウド有効化後もリザルトへ残る古い案内を修正。型/7単体/実Chrome+Workerの同じ操作順・報酬保存/両build成功。公開12ファイルSHA一致・health正常。公開iabは別タブ保存保護でゲーム内UI未確認、error0。保護維持、実機/本人保存未確認。[記録と限界](PR33-RELEASE.md)。後続は公開記録のみ。
 

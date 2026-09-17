@@ -1,0 +1,72 @@
+{
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "source": "f657c08cfc6012c88df60f319c155b7a00ae074e",
+  "version": "95136c0e-2d0a-4e4e-8b84-0b788319a3e2",
+  "date": "2026-09-17T09:06:17.518Z",
+  "assets": [
+    {
+      "path": "/index.html",
+      "sha256": "ab454b52ab36f8b29c342f3e8f21bd2bca25b122ae1dee12a9b5c04b1dfc2721",
+      "matches": true
+    },
+    {
+      "path": "/assets/index-D4iTXhUV.js",
+      "sha256": "8b09451b8f1e537e61a8e641e91f5d686115e8936048263a59aa4c7cb36c8487",
+      "matches": true
+    },
+    {
+      "path": "/assets/main-C1Ldsy-y.css",
+      "sha256": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1",
+      "matches": true
+    },
+    {
+      "path": "/assets/main-_4I5ho73.js",
+      "sha256": "75fd8eddab35a80081ab6e818a76809578a6c558f07c1918c9d13a992b66b837",
+      "matches": true
+    },
+    {
+      "path": "/assets/playtest-app-C4bXWFzu.js",
+      "sha256": "9eda3f9d289e2cfc408ec7dc23fee5c9f88bd6dd8faf80b904891c54a2fc6ca5",
+      "matches": true
+    },
+    {
+      "path": "/assets/playtest-app-Dy4ehDQn.css",
+      "sha256": "2eee15f749a6e3c22a3f910af71a490de291dd22bf05524550ba4499871d0209",
+      "matches": true
+    },
+    {
+      "path": "/assets/training-app-Bc2g9Bw4.js",
+      "sha256": "aee4b5b753c1562710a8016aae95434bb4133ecf100c6a5b9d1a059e069c114e",
+      "matches": true
+    },
+    {
+      "path": "/assets/weapon-help-Clh1V6L1.css",
+      "sha256": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607",
+      "matches": true
+    },
+    {
+      "path": "/assets/weapon-help-zELhaS4V.js",
+      "sha256": "d19b759db56882a4c9ace343c9fbef9a87df112d3cab39c73a505a96b6394a7d",
+      "matches": true
+    },
+    {
+      "path": "/assets/weapon-sharing-OLTTA1HW.js",
+      "sha256": "fdb3b02cae1ec0811fb3e5c052267f6ec7c3fb06caea6e4455d2eeaaf064d398",
+      "matches": true
+    },
+    {
+      "path": "/assets/zoom-guard-BYiDpNS5.css",
+      "sha256": "f0556f4cdf5c5c4ff6457bc78b91a3b4b58fd1b921209102915a8c0b18551d10",
+      "matches": true
+    },
+    {
+      "path": "/assets/zoom-guard-BZxexfFH.js",
+      "sha256": "2aedca756aa7c35cc1cf8b43f24eca9f656a250ee998e0297f77c2155e0351b3",
+      "matches": true
+    }
+  ],
+  "health": {
+    "ok": true,
+    "status": 200
+  }
+}

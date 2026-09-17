@@ -133,6 +133,8 @@ import {
   syncCloud,
 } from "./cloud-save";
 import { openCloudSettings, openWeeklyMissions } from "./continuity-ui";
+import { WEEKLY_MISSIONS } from "../shared/weekly-missions";
+import { japanWeek } from "../shared/calendar";
 import { initDailyDefense } from "../shared/daily-defense";
 import {
   defenseStage,
@@ -809,14 +811,6 @@ function settingsUI() {
       d.close();
       cloudSettingsUI();
     };
-    const weekly = document.createElement("button");
-    weekly.id = "pt-weekly-missions";
-    weekly.textContent = "週間ミッション";
-    cloud.after(weekly);
-    weekly.onclick = () => {
-      d.close();
-      weeklyMissionsUI();
-    };
   }
 }
 
@@ -830,6 +824,23 @@ function weeklyMissionsUI() {
     save = loadProgress("normal")!;
     home();
   });
+}
+function updateWeeklyBadge() {
+  const button = ui.querySelector<HTMLButtonElement>("#pt-weekly-missions");
+  if (!button) return;
+  // This is a local display hint; rewards still use the server's week and ledger.
+  let count = 0;
+  try {
+    const weekly = loadProgress("normal")?.weekly;
+    if (weekly?.week === japanWeek(Date.now()))
+      count = WEEKLY_MISSIONS.filter(
+        (mission) => weekly[mission.kind].length >= mission.target && !weekly.claimed.includes(mission.id),
+      ).length;
+  } catch { /* Keep the title usable when save recovery is required. */ }
+  const badge = button.querySelector<HTMLElement>(".weekly-notification")!;
+  badge.textContent = String(count);
+  badge.hidden = count === 0;
+  button.setAttribute("aria-label", count ? `週間ミッション、受取可能な報酬${count}件` : "週間ミッション");
 }
 function generator() {
   if (mode !== "test") return;
@@ -1444,13 +1455,15 @@ function showHome(initialized: boolean) {
   if (!developerMode) {
     ui.querySelector(".home-utilities")!.insertAdjacentHTML(
       "beforeend",
-      '<button id="pt-daily-defense">日替わり防衛</button>',
+      '<button id="pt-daily-defense">日替わり防衛</button><button id="pt-weekly-missions" class="weekly-title-button">週間ミッション<span class="weekly-notification" aria-hidden="true" hidden></span></button>',
     );
     bind("pt-daily-defense", () =>
       enter(() => {
         void openDailyDefense();
       }),
     );
+    bind("pt-weekly-missions", weeklyMissionsUI);
+    updateWeeklyBadge();
   }
   bind("open-armory", () => enter(base));
   if (developerMode)
@@ -2152,6 +2165,10 @@ window.addEventListener("app-install-changed", () => {
 loadMode("normal");
 if (!developerMode) {
   installCloudSync();
+  window.addEventListener("swarm-progress-saved", updateWeeklyBadge);
+  window.addEventListener("swarm-cloud-progress", updateWeeklyBadge);
+  document.addEventListener("visibilitychange", updateWeeklyBadge);
+  setInterval(updateWeeklyBadge, 60000);
   window.addEventListener("swarm-cloud-progress", () => {
     if (mode !== "normal" || saving) return;
     try {
