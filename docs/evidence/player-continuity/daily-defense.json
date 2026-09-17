@@ -1,0 +1,11 @@
+{
+  "pass": true,
+  "checks": [
+    "assets ready before admission",
+    "guarantee banked before combat",
+    "armory target initialized",
+    "reload retains guarantee",
+    "no daily battle replay"
+  ],
+  "errors": []
+}

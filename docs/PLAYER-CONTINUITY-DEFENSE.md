@@ -65,6 +65,9 @@ Luna版のキャンセルで端末データをクラウドへ送る問題、復�
 
 ## 検証と残課題
 
+- `scripts/check-defense-environments.mjs`: 専用6環境とHP5段階+破壊状態を実WebGLで描画、エラー0。`dist-validation/defense-environments/` に証拠。production JSにDEV終了fixtureが含まれないことを検索確認。最後のUI検証中にformatterのHMRで中断した実行は不合格として扱い、編集終了後に再実行して成功。
+- 独立監査資料 `dist-validation/continuity-audit-7951859.zip` は作成済みだが、自動承認レビューが通常Chatへの送信を承認不足として拒否し未送信。ユーザーへ具体的ZIP/宛先の承認を依頼済み。契約API403、ブラウザの既存公開用アカウント再ログインも明示承認不足として拒否。公開・main反映は実施していない。過去のFree確認を今回の現状確認済みとして扱わない。
+
 - 型チェック成功。playtest構成50件、関連p1/shared-armory/game 68件成功（2026-09-17）。
 - `npm run build` / `build:pages` / `server:build:production` 成功。500KB超chunk警告あり。公開用ビルドではなく途中のローカル検証。
 - `scripts/check-battle-checkpoint.mjs`: 実Chromeで戦闘→一時停止→reload→再開時のworldと進行一致。証拠 `dist-validation/battle-checkpoint/`。

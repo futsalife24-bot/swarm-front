@@ -1,0 +1,13 @@
+{
+  "pass": true,
+  "checks": [
+    "same code returns newer progress",
+    "second device restore",
+    "offline event queue acknowledgement",
+    "conflict fence",
+    "explicit restore",
+    "weekly reward",
+    "delete cloud only"
+  ],
+  "errors": []
+}

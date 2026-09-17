@@ -1,0 +1,12 @@
+{
+  "pass": true,
+  "checks": [
+    "secret hidden by default and UI creation",
+    "cancel changes neither local nor cloud",
+    "UI restore initializes in-memory save on empty device",
+    "weekly UI reward and in-memory update",
+    "defeat with powder cinematic and reward result",
+    "explicit cloud deletion retains device save"
+  ],
+  "errors": []
+}

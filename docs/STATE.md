@@ -1,4 +1,11 @@
-# 現在地: 継続プレイ・日替わり防衛を統合修正し独立監査準備中（2026-09-17）
+# 現在地: PR32・監査ZIP送信と公開用Cloudflare再ログインの承認待ち（2026-09-17）
+
+branch `codex/player-continuity-defense`、[PR #32](https://github.com/futsalife24-bot/swarm-front/pull/32)、base `206f000b857844f2fc4d284a02f4bac75e748ead`。実装b03a098、監査対象 `79518590f07af153b6e95766a81ea3759cc15922`（後続は検証スクリプトと記録のみ）。型・単体50+関連68件・両build・Worker dry-run、実ローカル通信/画面、6環境/損傷段階を確認済み。未監査・main未反映・未公開。[詳細](PLAYER-CONTINUITY-DEFENSE.md)。
+
+停止理由: 自動承認レビューが、`dist-validation/continuity-audit-7951859.zip`（2,256,680 bytes、対象ソース/差分/UI証拠、秘密情報なし）を新しいiab通常Chat `https://chatgpt.com/` へ添付する操作を「具体的payload/宛先の承認不足」で拒否。送信は未実施。また契約API403・管理画面ログイン失効のため、既存公開用Cloudflareアカウント `melosalife.24@gmail.com` の保存済みGoogleログインを試みたが「対象アカウントへの明示承認がなくユーザー情報メールと異なる」として拒否。回避していない。CLIのアカウントは既存公開先と一致し、課金/契約/権限は変更なし。
+再開条件: ユーザーが上記ZIPのChatGPT通常監査Chatへの添付と、既存公開用Cloudflareアカウントへの再ログインを承認後、独立監査→必須修正/再監査→契約確認→main反映/既存Worker公開/配信照合。監査経路はiabのまま。ChromeはCloudflare契約画面の確認だけに使用。
+
+# 履歴: 継続プレイ・日替わり防衛を統合修正し独立監査準備中（2026-09-17）
 
 branch `codex/player-continuity-defense`、[PR #32](https://github.com/futsalife24-bot/swarm-front/pull/32)、base206f000。Luna版のキャンセル上書き・復元後参照・週間表示を修正、秘密非表示/操作ロック、武器庫5段階・破壊/勝利演出・6環境遠景を追加。実ChromeとローカルWorkerで引継ぎ/キャンセル不変/週間受取/勝敗結果を確認。独立監査・main反映・公開はこれから。[詳細](PLAYER-CONTINUITY-DEFENSE.md)。下記は以前の引継ぎ履歴。
 
