@@ -1,3 +1,7 @@
+# 現在地: PR37・承認済み監査資料を送信し独立監査中（2026-09-17）
+
+ユーザーが今回の `title-audit-e747dc5.zip`（6,347,884 bytes）を通常ChatGPTへ独立監査目的で送ることを明示承認。添付/依頼送信成功。[監査Chat](https://chatgpt.com/c/6aabdd4d-2610-83e9-9ff8-8e6edd83bddd)。対象e747dc55ada9b401e4ee65de2fd8ca85fdc3e98d、後続は記録のみ。PR37はMERGEABLE、base6d48ea8不変。型/両build/Worker dry-run/6サイズ実Chrome成功。監査合格/main反映/公開はこれから。[詳細](TITLE-LAYOUT.md)。
+
 # 現在地: PR37・タイトル改善を実装、監査ZIP送信の承認待ち（2026-09-17）
 
 [PR37](https://github.com/futsalife24-bot/swarm-front/pull/37)、branch `codex/title-command-layout`、base `6d48ea818be46649e1712a59a24b8f3f2b1611e9`、実装/監査対象 `e747dc55ada9b401e4ee65de2fd8ca85fdc3e98d`。小ボタン2列/1行、チャレンジ分離、補助枠の強弱、次作戦名、生成背景を追加。型・両build・実Chrome6サイズ/通知/ダイアログ/出撃準備/最狭PWA追加表示が成功。画像と詳細は [TITLE-LAYOUT.md](TITLE-LAYOUT.md)。main未反映・未公開。後続は記録文書のみ。

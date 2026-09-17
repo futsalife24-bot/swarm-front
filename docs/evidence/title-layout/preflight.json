@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-09-17T12:33:44.4781340Z",
+  "source": "Cloudflare dashboard read-only via iab",
+  "accountMatchesExistingWorker": true,
+  "workersPlan": "Free",
+  "workersRequestsToday": 77,
+  "workersDailyLimit": 100000,
+  "durableObjects": {
+    "requests": 94,
+    "durationGBSeconds": 0.35,
+    "sqlStoredDisplay": "167.94 kB",
+    "sqlRowsRead": 123,
+    "sqlRowsWritten": 107,
+    "errors": 0
+  },
+  "newBindings": false,
+  "migrationsChanged": false
+}

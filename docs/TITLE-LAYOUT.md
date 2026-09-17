@@ -19,3 +19,7 @@ base `6d48ea818be46649e1712a59a24b8f3f2b1611e9`、branch `codex/title-command-la
 
 監査ZIP `dist-validation/title-audit-e747dc5.zip`（6,347,884 bytes）の通常ChatGPTへの添付は自動承認レビューが具体的payload/宛先の承認不足として拒否。資料に非公開ソース・差分・関連テスト・生成PNG・UI証拠を含む。依存キャッシュ・認証設定・.envは含まない。送信は未実施で、独立監査/main反映/公開は未完了。継続承認から推測して別経路へ送信しない。今回のZIPの監査目的送信についてユーザー承認後に再開。
 production Worker dry-run成功。初回はsandboxの親ディレクトリ/ログ書込制限で失敗し、許可された権限で同じdry-runを実行して成功。公開操作は未実施。
+
+## 監査再開
+
+ユーザーが上記ZIP送信を明示承認。通常Chatへ添付/依頼送信し、[独立監査](https://chatgpt.com/c/6aabdd4d-2610-83e9-9ff8-8e6edd83bddd)がZIPとGitHubのbase/head/後続文書のみを確認して監査中。公開直前のFree契約・既存使用量をiabで確認（preflight.json）。
