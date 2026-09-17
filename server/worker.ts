@@ -1,3 +1,12 @@
+import { adminPage } from "./admin-page";
+import {
+  APPS,
+  summary,
+  appAnalytics,
+  expireAppAnalytics,
+  readEvent,
+  type Day,
+} from "./app-analytics";
 import {
   DEFAULT_PLAYER_NAME,
   CHAT_HISTORY_LIMIT,
@@ -75,10 +84,60 @@ interface Saved {
 }
 const json = (body: unknown, status = 200) => Response.json(body, { status });
 const secret = () => crypto.randomUUID().replaceAll("-", "");
-const adminPage = `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SWARM FRONT 管理</title><style>body{font:16px system-ui;background:#0c1820;color:#e8f1f2;max-width:900px;margin:2rem auto;padding:0 1rem}button,input{font:inherit;padding:.6rem;margin:.3rem}main{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem}.card{background:#17303a;border-radius:10px;padding:1rem}.bar{height:16px;background:#43c6ac;margin:4px 0;border-radius:4px}.muted{color:#9db4b8}</style><h1>SWARM FRONT 管理</h1><section id="login"><p>開発者パスワード</p><input id="pw" type="password"><button id="go">ログイン</button><p id="msg"></p></section><section id="app" hidden><p class="muted" id="range"></p><main id="cards"></main><h2>日別アクセス</h2><div id="chart"></div><button id="out">ログアウト</button></section><script>(async()=>{const $=id=>document.getElementById(id),j=async(u,o)=>{const r=await fetch(u,{credentials:'same-origin',...o});return [r,await r.json().catch(()=>({}))]};async function load(){const[r,d]=await j('/api/developer/analytics');if(!r.ok){$('msg').textContent=d.error||'ログインしてください';return} $('login').hidden=true;$('app').hidden=false;$('range').textContent='計測開始: '+new Date(d.startedAt).toLocaleDateString('ja-JP')+' / 更新: '+new Date(d.updatedAt).toLocaleString('ja-JP');const labels={views:'アクセス',visitors:'訪問ブラウザ',sorties:'出撃',clears:'クリア'};$('cards').innerHTML=Object.entries(labels).map(([k,v])=>'<div class="card"><div>'+v+'</div><strong>'+d.totals[k]+'</strong></div>').join('');const max=Math.max(1,...d.days.map(x=>x.views));$('chart').innerHTML=d.days.slice(-30).map(x=>'<div title="'+x.date+' '+x.views+'件">'+x.date.slice(5)+' <span class="bar" style="display:inline-block;width:'+Math.round(x.views/max*70)+'%"></span> '+x.views+'</div>').join('')} $('go').onclick=async()=>{const[r,d]=await j('/api/developer/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:$('pw').value})});if(r.ok)load();else $('msg').textContent=d.error||'認証に失敗しました'};$('out').onclick=async()=>{await j('/api/developer/logout',{method:'POST'});location.reload()};load()})()</script>`;
 export default {
   async fetch(req: Request, env: Env) {
     const u = new URL(req.url);
+    // Separate collection CORS: this never opens authentication or gameplay APIs.
+    const collect = /^\/api\/analytics\/collect\/(lmfdb|katamon|mayoi)$/.exec(
+      u.pathname,
+    );
+    if (collect) {
+      const app = APPS.find((a) => a.id === collect[1]);
+      const from = req.headers.get("Origin");
+      if (!app?.url || from !== new URL(app.url).origin)
+        return json({ error: "接続元が許可されていません" }, 403);
+      const headers = {
+        "Access-Control-Allow-Origin": from,
+        Vary: "Origin",
+        "Cache-Control": "no-store",
+      };
+      if (req.method === "OPTIONS")
+        return new Response(null, {
+          status: 204,
+          headers: {
+            ...headers,
+            "Access-Control-Allow-Methods": "POST",
+            "Access-Control-Allow-Headers": "Content-Type",
+          },
+        });
+      if (req.method !== "POST")
+        return new Response(null, { status: 405, headers });
+      try {
+        const body = await readEvent(req);
+        const gate = env.GATE.get(
+          env.GATE.idFromName("app-analytics/" + app.id),
+        );
+        const response = await gate.fetch(
+          new Request("https://internal/app-analytics-event", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Client": req.headers.get("CF-Connecting-IP") ?? "local",
+            },
+            body: JSON.stringify(body),
+          }),
+        );
+        return new Response(response.body, {
+          status: response.status,
+          headers: { ...headers, "Content-Type": "application/json" },
+        });
+      } catch {
+        return Response.json(
+          { error: "計測できませんでした" },
+          { status: 400, headers },
+        );
+      }
+    }
     // The deployed app and its API share one Worker origin.  Local development
     // still uses the explicitly configured Vite origins.
     const allowedOrigins = (env.ALLOWED_ORIGINS ?? "")
@@ -197,7 +256,10 @@ export default {
       res = await gate.fetch(
         new Request("https://internal/analytics-event", req),
       );
-    } else if (path === "/developer/analytics" && req.method === "GET") {
+    } else if (
+      (path === "/developer/analytics" || path === "/developer/apps") &&
+      req.method === "GET"
+    ) {
       const auth = await env.GATE.get(
         env.GATE.idFromName("developer-access"),
       ).fetch(
@@ -210,7 +272,46 @@ export default {
         !((await auth.json()) as { authenticated?: boolean }).authenticated
       )
         res = json({ error: "認証が必要です" }, 401);
-      else {
+      else if (path === "/developer/apps") {
+        const period = Number(u.searchParams.get("days") ?? "7");
+        if (![1, 7, 30].includes(period))
+          return json({ error: "期間が正しくありません" }, 400);
+        const now = Date.now();
+        const apps = await Promise.all(
+          APPS.map(async (app) => {
+            if (!app.url) return { ...app, status: "unconfigured" };
+            try {
+              const legacy = app.id === "swarm-front";
+              const gate = env.GATE.get(
+                env.GATE.idFromName(
+                  legacy ? "analytics" : "app-analytics/" + app.id,
+                ),
+              );
+              const r = await gate.fetch(
+                new Request(
+                  "https://internal/" +
+                    (legacy ? "analytics-read" : "app-analytics-read"),
+                  { headers: { "X-Developer-Verified": "1" } },
+                ),
+              );
+              if (!r.ok) throw Error("read");
+              const data = (await r.json()) as { days: Day[] };
+              const recorded = data.days.filter(
+                (d) => d.views > 0 || d.sorties > 0 || d.clears > 0,
+              );
+              return {
+                ...app,
+                status: recorded.length ? "active" : "pending",
+                firstDate: recorded[0]?.date ?? null,
+                ...summary(data.days, period, now),
+              };
+            } catch {
+              return { ...app, status: "error" };
+            }
+          }),
+        );
+        res = json({ apps, updatedAt: now, period });
+      } else {
         const gate = env.GATE.get(env.GATE.idFromName("analytics"));
         res = await gate.fetch(
           new Request("https://internal/analytics-read", {
@@ -336,7 +437,8 @@ export default {
     } else res = json({ error: "見つかりません" }, 404);
     if (res.status === 101) return res;
     const out = new Response(res.body, res);
-    if (path.startsWith("/rooms")) out.headers.set("Cache-Control", "no-store");
+    if (path.startsWith("/rooms") || path.startsWith("/developer/"))
+      out.headers.set("Cache-Control", "no-store");
     if (origin) out.headers.set("Access-Control-Allow-Origin", origin);
     out.headers.set("Vary", "Origin");
     return out;
@@ -344,9 +446,32 @@ export default {
 } satisfies ExportedHandler<Env>;
 // One bounded admission object: persistent daily cap, per-address creation/connection windows.
 export class Gate extends DurableObject<Env> {
+  private analyticsClients = new Map<string, { at: number; count: number }>();
   private directoryQueries = new Map<string, { at: number; count: number }>();
   async fetch(req: Request) {
     const internal = new URL(req.url).pathname;
+    if (
+      internal === "/app-analytics-read" ||
+      internal === "/app-analytics-event"
+    ) {
+      if (internal === "/app-analytics-event") {
+        const now = Date.now(),
+          key = req.headers.get("X-Client") ?? "local";
+        for (const [id, entry] of this.analyticsClients)
+          if (now - entry.at >= 60000) this.analyticsClients.delete(id);
+        let entry = this.analyticsClients.get(key);
+        if (!entry) {
+          if (this.analyticsClients.size >= 1000)
+            return json({ ok: false }, 429);
+          entry = { at: now, count: 0 };
+          this.analyticsClients.set(key, entry);
+        }
+        if (++entry.count > 60) return json({ ok: false }, 429);
+      }
+      return this.ctx.blockConcurrencyWhile(() =>
+        appAnalytics(req, this.ctx.storage),
+      );
+    }
     if (internal === "/cloud-admission")
       return this.ctx.blockConcurrencyWhile(() =>
         cloudAdmission(req, this.ctx.storage),
@@ -571,6 +696,16 @@ export class Gate extends DurableObject<Env> {
     return json({ ok: true, ...(code ? { code, roomId } : {}) });
   }
   async alarm() {
+    if (
+      this.ctx.storage.sql
+        .exec(
+          "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'app_days'",
+        )
+        .toArray().length
+    ) {
+      await expireAppAnalytics(this.ctx.storage);
+      return;
+    }
     await this.ctx.storage.deleteAll();
   }
 }
