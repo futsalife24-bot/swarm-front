@@ -1,0 +1,139 @@
+/* Title-only hierarchy. Labels stay intact; available height controls decoration. */
+body[data-screen="title"][data-screen] #ui:has(.home-command):not(:empty) {
+  background:
+    linear-gradient(90deg, #09151b38, #0b1a22b8 70%),
+    url("/assets/ui/title-atmosphere-v1.png") center / cover no-repeat,
+    #0c1920;
+}
+body[data-screen="title"] #ui .home-challenges,
+body[data-screen="title"] #ui .home-utilities {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+body[data-screen="title"] #ui .home-challenges:empty {
+  display: none;
+}
+body[data-screen="title"] #ui .home-challenges {
+  margin-bottom: 10px;
+}
+body[data-screen="title"] #ui :is(.home-challenges, .home-utilities) button {
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+body[data-screen="title"] #ui .home-challenges button {
+  border-color: #9c977666;
+  border-left: 3px solid #c7b788;
+  background: linear-gradient(110deg, #343d38, #1b3034);
+  color: #eee4c9;
+  box-shadow: inset 0 1px #e5d3a21c;
+}
+body[data-screen="title"] #ui .home-challenges button:hover {
+  background: linear-gradient(110deg, #485248, #2b4445);
+  border-color: #e1cea0;
+}
+body[data-screen="title"] #ui .home-challenges .weekly-title-button {
+  padding-right: 26px;
+}
+body[data-screen="title"] #ui .home-utilities button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #102128b3;
+  border: 1px solid #68878155;
+  box-shadow: none;
+  color: #b7cac7;
+  clip-path: none;
+  border-radius: 3px;
+}
+body[data-screen="title"] #ui .home-utilities button:hover {
+  background: #253d41;
+  color: #ecf5ef;
+  border-color: #9bc7b9;
+}
+body[data-screen="title"] #ui .home-utilities .menu-icon {
+  flex: none;
+}
+body[data-screen="title"] #ui .home-utilities #install {
+  grid-column: 1 / -1;
+}
+body[data-screen="title"] #ui .title-actions .home-next-stage {
+  display: block;
+  font-size: 12px;
+  line-height: 1.4;
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+}
+body[data-screen="title"] #ui button:focus-visible {
+  outline: 2px solid #f4d59b;
+  outline-offset: -4px;
+}
+@media (orientation: landscape) and (max-height: 450px) {
+  body[data-screen="title"] #ui .title-actions button {
+    min-height: 58px;
+    padding: 8px 12px;
+  }
+  body[data-screen="title"]
+    #ui
+    .title-actions
+    :is(#open-armory, #open-bestiary) {
+    min-height: 50px;
+    padding: 7px 8px;
+  }
+  body[data-screen="title"] #ui .home-challenges {
+    margin-bottom: 6px;
+  }
+  body[data-screen="title"] #ui :is(.home-challenges, .home-utilities) {
+    gap: 6px;
+  }
+  body[data-screen="title"] #ui :is(.home-challenges, .home-utilities) button {
+    min-height: 38px;
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+  body[data-screen="title"] #ui .title-actions .home-next-stage {
+    font-size: 11px;
+  }
+}
+@media (orientation: landscape) and (max-width: 740px) {
+  body[data-screen="title"] #ui {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 3vw;
+  }
+  body[data-screen="title"]
+    #ui
+    .title-actions
+    :is(#open-armory, #open-bestiary)
+    .menu-icon {
+    display: none;
+  }
+}
+@media (orientation: landscape) and (max-height: 360px) {
+  body[data-screen="title"] #ui .command-heading {
+    display: none;
+  }
+  body[data-screen="title"] #ui .title-actions {
+    margin-top: 0;
+    gap: 5px;
+  }
+  body[data-screen="title"] #ui .title-actions button {
+    min-height: 44px;
+    padding-block: 5px;
+  }
+  body[data-screen="title"]
+    #ui
+    .title-actions
+    :is(#open-armory, #open-bestiary) {
+    min-height: 42px;
+  }
+  body[data-screen="title"] #ui .title-actions small {
+    display: none;
+  }
+  body[data-screen="title"] #ui .home-command .fine {
+    display: none;
+  }
+}

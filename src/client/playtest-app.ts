@@ -1456,7 +1456,7 @@ function showHome(initialized: boolean) {
         );
   bind("solo", () => enter(gear));
   if (!developerMode) {
-    ui.querySelector(".home-utilities")!.insertAdjacentHTML(
+    ui.querySelector(".home-challenges")!.insertAdjacentHTML(
       "beforeend",
       '<button id="pt-daily-defense">日替わり防衛</button><button id="pt-weekly-missions" class="weekly-title-button">週間ミッション<span class="weekly-notification" aria-hidden="true" hidden></span></button>',
     );
