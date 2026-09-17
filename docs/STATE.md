@@ -1,4 +1,8 @@
-# 現在地: 継続プレイ・日替わり防衛の基盤実装、Luna表示作業への引継ぎ（2026-09-17）
+# 現在地: 継続プレイ・日替わり防衛を統合修正し独立監査準備中（2026-09-17）
+
+branch `codex/player-continuity-defense`、[PR #32](https://github.com/futsalife24-bot/swarm-front/pull/32)、base206f000。Luna版のキャンセル上書き・復元後参照・週間表示を修正、秘密非表示/操作ロック、武器庫5段階・破壊/勝利演出・6環境遠景を追加。実ChromeとローカルWorkerで引継ぎ/キャンセル不変/週間受取/勝敗結果を確認。独立監査・main反映・公開はこれから。[詳細](PLAYER-CONTINUITY-DEFENSE.md)。下記は以前の引継ぎ履歴。
+
+# 履歴: 継続プレイ・日替わり防衛の基盤実装、Luna表示作業への引継ぎ（2026-09-17）
 
 **未完成・未監査・未公開**。branch `codex/player-continuity-defense`、base `206f000b857844f2fc4d284a02f4bac75e748ead`。引き継ぎコードで最新同期保存、通常ソロ中断再開、週間台帳、日替わり参加/報酬/戦闘処理を実装。型・単体118件・両build・Worker dry-run・実Chrome/ローカルWorkerの保存復元/競合/日替わり消費を確認。
 

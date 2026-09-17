@@ -6,6 +6,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { MAPS, TRAINING_MAP, DEFENSE_MAPS } from "../shared/stages";
 import { caveScene } from "./cave-scene";
 import { trainingMapScene } from "./training-map";
+import { defenseYard } from "./defense-yard";
 const VIEW_MAPS = [...MAPS, TRAINING_MAP, ...DEFENSE_MAPS];
 function disposeMap(group: T.Object3D) {
   const textures = new Set<T.Texture>(),
@@ -88,6 +89,7 @@ export class MapAssets {
         boxes.setMatrixAt(j, matrix);
       });
       g.add(boxes);
+      if (DEFENSE_MAPS.includes(map)) defenseYard(g, map);
     }
   }
   select(index: number, load = true, distantVisible = true) {
