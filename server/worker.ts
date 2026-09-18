@@ -1,4 +1,4 @@
-import { adminPage } from "./admin-page";
+import { adminManifest, adminPage } from "./admin-page";
 import {
   APPS,
   summary,
@@ -244,6 +244,13 @@ export default {
         );
       }
     }
+    if (u.pathname === "/admin/manifest.webmanifest")
+      return new Response(adminManifest, {
+        headers: {
+          "Content-Type": "application/manifest+json; charset=utf-8",
+          "Cache-Control": "no-cache",
+        },
+      });
     if (u.pathname === "/admin/" || u.pathname === "/admin")
       return new Response(adminPage, {
         headers: {

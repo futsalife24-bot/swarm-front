@@ -13,3 +13,7 @@
 独立監査: Swarm 8b29fffa7e694e97de2816c290366b55bf5faf1f、LMF 7f735758a72b883ed4b3985d069b8a01b15c1f58、カタモン aa6b95938e7e7d1e625e8aa02f463bba653d5a90、まよい e2fbb2316fa21664a20b562e5a991b2017bdb00d の4対象が合格、必須指摘0。任意指摘はLMF旧Service Workerキャッシュの整理と、Swarm旧BASEへのロールバック互換性。管理者データ蓄積後に旧BASEへ戻すと認証済み旧APIにadmin.onlyIdsが含まれる可能性があるため、障害時は現行のID除去を保った前進修正を用いる。現行APIにID露出はない。監査の所在とサービス内部識別子はGitHubへ追記せずローカルの作業記録で保管。
 
 Swarm PR38を通常mergeし、公開ソース9ce36508742e7445cc90e7f397d2f538f19ec350からbuild/dry-run/既存Worker公開に成功。管理HTMLと入口JSの配信SHA一致、health正常、未認証管理API401、許可originの計測OPTIONS204、実ブラウザのログイン画面を確認。本番認証後の実数値・物理端末は未確認（ローカル認証済みUIの切替は検証済み）。
+
+追加対応: 管理画面に専用PWAマニフェストを追加。`id`、`start_url`、`scope`をすべて `/admin/` に固定し、`display: standalone`・縦画面で起動する。これにより、同一ドメインのスワフロ本体PWA（`/`）とインストール先を分離する。管理画面HTMLは専用マニフェストを参照し、Workerは `/admin/manifest.webmanifest` を明示配信する。
+
+監査指摘への修正: 本体Service Workerの静的対象判定から `/admin`（末尾スラッシュなし）と `/admin/` 配下を除外し、管理画面のナビゲーションが本体ルートのオフラインキャッシュへ混ざらないようにした。専用PWAはネットワークから管理画面を取得し、ゲーム本体のキャッシュ境界を維持する。関連テストはService Workerを実行し、3つの管理URLで `respondWith` が呼ばれないことを確認する。

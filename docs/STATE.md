@@ -1,4 +1,6 @@
-# 現在地: 管理者アクセス除外を独立監査合格・main反映・公開済み（2026-09-18）
+# 現在地: 管理画面専用PWAを実装・検証中（2026-09-18）
+
+main 4db4a82から `codex/admin-pwa`。管理画面に `/admin/` 専用manifest（start_url/scope/id、standalone、portrait）を追加し、同一ドメインのスワフロPWAが起動する問題を修正。独立監査で判明した本体Service Workerの `/admin` と `/admin/` キャッシュ混入も除外修正し、境界を実行する関連11テストに補強。型、build、Worker production dry-run成功。最新修正版を同じ監査Chatへ提出し、再判定待ち。
 
 branch codex/admin-analytics-filter、base20c839b450bd55781d942be5b84ba237e0c53bca、監査head8b29fffa7e694e97de2816c290366b55bf5faf1f、PR38通常merge。4アプリのブラウザ登録と集計切替は独立監査合格・必須0。公開ソース9ce36508742e7445cc90e7f397d2f538f19ec350から既存Workerへ公開。型/実SQLite/実ブラウザ+Worker/merge後build/dry-run成功、配信一致/health/認証保護正常。[記録・検証限界・ロールバック注意](ADMIN-ANALYTICS.md)。監査URL・サービス内部IDはローカル作業記録に保持。後続は記録文書のみ。
 
