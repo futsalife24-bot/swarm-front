@@ -72,7 +72,8 @@
   font-size: 12px;
 }
 .pt-difficulty {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   justify-content: space-between;
   gap: 6px;
@@ -81,6 +82,14 @@
 }
 .pt-difficulty select {
   padding: 4px;
+  width: 100%;
+  min-width: 0;
+}
+.pt-difficulty > small {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  white-space: nowrap;
 }
 .pt-screen .gear-footer .status small {
   display: block;
@@ -100,6 +109,10 @@
 }
 .pt-screen .pt-growth {
   max-width: none;
+}
+.pt-screen .pt-growth label,
+.pt-screen .pt-personnel label {
+  margin: 0;
 }
 .pt-growth label {
   background: #0b182480;
@@ -491,6 +504,22 @@ sup {
 }
 .pt-accessories > div > span {
   margin-right: auto;
+}
+.pt-screen:has(.pt-accessories) .pt-brief {
+  gap: 6px;
+}
+.pt-screen:has(.pt-accessories) .pt-brief button,
+.pt-screen:has(.pt-accessories) .pt-brief select {
+  font-size: 12px;
+  min-height: 32px;
+  padding: 4px 6px;
+}
+.pt-accessories > div > button {
+  flex: none;
+  white-space: nowrap;
+  min-height: 32px;
+  padding: 4px 8px;
+  font-size: 14px;
 }
 .pt-loading {
   position: absolute;

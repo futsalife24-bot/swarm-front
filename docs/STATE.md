@@ -1,3 +1,7 @@
+# 現在地: アイテム短縮・表示崩れ修正を自己検証（2026-09-18）
+
+branch codex/compact-resource-layout、base153fb725。アイコン＋数値、難易度と報酬の重複解消、アクセサリ操作と育成余白を圧縮。型/57単体/5サイズ関連画面/武器一覧4サイズの検証成功。独立監査・main反映・公開へ進行中。[詳細](COMPACT-RESOURCES.md)。
+
 # 現在地: 表示文言整理をmain反映・公開確認済み（2026-09-18）
 
 [PR42](https://github.com/futsalife24-bot/swarm-front/pull/42)を通常merge。独立再監査727f8f3合格・必須0、後続は文書のみ。広告関連表示を一時非表示にし、通常受取・敗北確定を維持。型/関連57単体/2サイズ14画面/両build/merge後dry-run成功。最新公開ソースc7e7669、Worker Version 60fbf8ad-400e-460e-bacc-1765e794be7c（同時進行PR44を含む）で13配信SHA一致・広告文言なし・health正常・公開UI3画面/pageerror0。[詳細と限界](HIDDEN-COPY.md)。実機/実SDKは未確認。後続は公開記録のみ。
