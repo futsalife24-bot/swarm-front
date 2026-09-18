@@ -1,0 +1,625 @@
+{
+  "pass": true,
+  "results": [
+    {
+      "width": 1280,
+      "height": 582,
+      "frame": {
+        "top": 80.75,
+        "bottom": 461.234375,
+        "inside": true,
+        "headingHidden": false,
+        "headingInside": true
+      },
+      "geometry": [
+        {
+          "id": "solo",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 78.1875
+        },
+        {
+          "id": "coop",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 65
+        },
+        {
+          "id": "open-armory",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 62
+        },
+        {
+          "id": "open-bestiary",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 62
+        },
+        {
+          "id": "pt-daily-defense",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 44
+        },
+        {
+          "id": "pt-weekly-missions",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 44
+        },
+        {
+          "id": "home-tutorial",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 44
+        },
+        {
+          "id": "home-settings",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 44
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "frame": {
+        "top": 153.65625,
+        "bottom": 706.34375,
+        "inside": true,
+        "headingHidden": false,
+        "headingInside": true
+      },
+      "geometry": [
+        {
+          "id": "solo",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 112
+        },
+        {
+          "id": "coop",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 112
+        },
+        {
+          "id": "open-armory",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 112
+        },
+        {
+          "id": "open-bestiary",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 112
+        },
+        {
+          "id": "pt-daily-defense",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 44
+        },
+        {
+          "id": "pt-weekly-missions",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 44
+        },
+        {
+          "id": "home-tutorial",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 44
+        },
+        {
+          "id": "home-settings",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 44
+        }
+      ]
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "frame": {
+        "top": 16.953125,
+        "bottom": 333.03125,
+        "inside": true,
+        "headingHidden": true,
+        "headingInside": true
+      },
+      "geometry": [
+        {
+          "id": "solo",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 72.78125
+        },
+        {
+          "id": "coop",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 58
+        },
+        {
+          "id": "open-armory",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 50
+        },
+        {
+          "id": "open-bestiary",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 50
+        },
+        {
+          "id": "pt-daily-defense",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        },
+        {
+          "id": "pt-weekly-missions",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        },
+        {
+          "id": "home-tutorial",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        },
+        {
+          "id": "home-settings",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        }
+      ]
+    },
+    {
+      "width": 667,
+      "height": 375,
+      "frame": {
+        "top": 3.46875,
+        "bottom": 319.546875,
+        "inside": true,
+        "headingHidden": true,
+        "headingInside": true
+      },
+      "geometry": [
+        {
+          "id": "solo",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 72.78125
+        },
+        {
+          "id": "coop",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 58
+        },
+        {
+          "id": "open-armory",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 50
+        },
+        {
+          "id": "open-bestiary",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 50
+        },
+        {
+          "id": "pt-daily-defense",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        },
+        {
+          "id": "pt-weekly-missions",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        },
+        {
+          "id": "home-tutorial",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        },
+        {
+          "id": "home-settings",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        }
+      ]
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "frame": {
+        "top": 34.8125,
+        "bottom": 274,
+        "inside": true,
+        "headingHidden": true,
+        "headingInside": true
+      },
+      "geometry": [
+        {
+          "id": "solo",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 53.1875
+        },
+        {
+          "id": "coop",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 44
+        },
+        {
+          "id": "open-armory",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 42
+        },
+        {
+          "id": "open-bestiary",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 42
+        },
+        {
+          "id": "pt-daily-defense",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        },
+        {
+          "id": "pt-weekly-missions",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        },
+        {
+          "id": "home-tutorial",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        },
+        {
+          "id": "home-settings",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        }
+      ]
+    },
+    {
+      "width": 568,
+      "height": 320,
+      "frame": {
+        "top": 15.890625,
+        "bottom": 255.078125,
+        "inside": true,
+        "headingHidden": true,
+        "headingInside": true
+      },
+      "geometry": [
+        {
+          "id": "solo",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 53.1875
+        },
+        {
+          "id": "coop",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 44
+        },
+        {
+          "id": "open-armory",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 42
+        },
+        {
+          "id": "open-bestiary",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 42
+        },
+        {
+          "id": "pt-daily-defense",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        },
+        {
+          "id": "pt-weekly-missions",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        },
+        {
+          "id": "home-tutorial",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        },
+        {
+          "id": "home-settings",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        }
+      ]
+    },
+    {
+      "width": 667,
+      "height": 400,
+      "frame": {
+        "top": 15.96875,
+        "bottom": 332.046875,
+        "inside": true,
+        "headingHidden": true,
+        "headingInside": true
+      },
+      "geometry": [
+        {
+          "id": "solo",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 72.78125
+        },
+        {
+          "id": "coop",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 58
+        },
+        {
+          "id": "open-armory",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 50
+        },
+        {
+          "id": "open-bestiary",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 50
+        },
+        {
+          "id": "pt-daily-defense",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        },
+        {
+          "id": "pt-weekly-missions",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        },
+        {
+          "id": "home-tutorial",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        },
+        {
+          "id": "home-settings",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        }
+      ]
+    },
+    {
+      "width": 667,
+      "height": 401,
+      "frame": {
+        "top": 4.46875,
+        "bottom": 344.546875,
+        "inside": true,
+        "headingHidden": false,
+        "headingInside": true
+      },
+      "geometry": [
+        {
+          "id": "solo",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 72.78125
+        },
+        {
+          "id": "coop",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 58
+        },
+        {
+          "id": "open-armory",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 50
+        },
+        {
+          "id": "open-bestiary",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 0,
+          "height": 50
+        },
+        {
+          "id": "pt-daily-defense",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        },
+        {
+          "id": "pt-weekly-missions",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        },
+        {
+          "id": "home-tutorial",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        },
+        {
+          "id": "home-settings",
+          "inside": true,
+          "reachable": true,
+          "overflow": false,
+          "lines": 1,
+          "height": 38
+        }
+      ]
+    }
+  ],
+  "badge": 3,
+  "dialogs": true,
+  "solo": true,
+  "errors": []
+}

@@ -1,3 +1,34 @@
+# 現在地: PR37・独立再監査合格、今回の公開操作の承認待ち（2026-09-18）
+
+[PR37](https://github.com/futsalife24-bot/swarm-front/pull/37)、branch `codex/title-command-layout`、base `6d48ea818be46649e1712a59a24b8f3f2b1611e9`。最終対象 `f87740a7998fdcdc9746608b3a94ac46182c3de1` は[独立再監査](https://chatgpt.com/c/6aabdd4d-2610-83e9-9ff8-8e6edd83bddd)合格・必須残件0。修正CSS/検証スクリプトのGitHub一致、667×375/400/401画像、メニュー全体境界の8条件を確認。後続は記録のみ。型/両build/実Chrome確認済み、PRはMERGEABLE・必須チェック一覧空。main未反映・未公開。[詳細](TITLE-LAYOUT.md)。
+
+停止理由: 自動承認レビューが本日のCloudflare認証済み契約ダッシュボードへのread-onlyアクセスを「今回の公開自体が明示承認されていない」として拒否。別経路で回避せず、公開に必要な一連の操作をまとめてユーザーへ明示承認依頼。
+再開条件: PR37の通常merge、既存公開アカウントmelosalife.24@gmail.comのFree契約/使用量閲覧、既存swarm-front Workerへのデプロイと配信/UI確認を明示承認後に実行。料金プラン/権限/公開先は変更しない。承認不要の実装・修正・自己検証・独立監査は完了。前日のpreflight記録はあるが本日分は未確認。
+
+# 現在地: PR37・承認済み修正版を再監査中（2026-09-18）
+
+ユーザーが `title-reaudit-f87740a.zip`（3,826,663 bytes）を同じ通常Chatへ送ることを明示承認。添付/再監査依頼成功。[監査Chat](https://chatgpt.com/c/6aabdd4d-2610-83e9-9ff8-8e6edd83bddd)、対象f87740a7998fdcdc9746608b3a94ac46182c3de1。PR37 base6d48ea8不変・MERGEABLE・必須チェック一覧空、後続は記録のみ。再監査の判定は未確定。
+
+公開前のCloudflare Free契約/使用量の再確認は自動承認レビューが「公開自体の明示承認がない」として認証済みダッシュボードへのアクセスを拒否。別経路で回避していない。前日確認記録あり。監査を確定した後、今回の公開に必要な契約/使用量閲覧・通常merge・既存Worker公開についてまとめて明示承認を求める。
+
+# 現在地: PR37・監査必須1件を修正、再監査ZIP送信の承認待ち（2026-09-17）
+
+[PR37](https://github.com/futsalife24-bot/swarm-front/pull/37)、branch `codex/title-command-layout`、base6d48ea8、修正対象 `f87740a7998fdcdc9746608b3a94ac46182c3de1`。初回e747dc5の[独立監査](https://chatgpt.com/c/6aabdd4d-2610-83e9-9ff8-8e6edd83bddd)は必須1件（667×375で右上見出しクリップ）。高さ400px以下で見出しを省略し、メニュー全体/表示中見出しの境界チェックを追加。8条件の実Chrome/型/両build成功。修正はcommit/push済み。再監査合格/main反映/公開は未完了。[詳細](TITLE-LAYOUT.md)。
+
+停止理由: 自動承認レビューが `dist-validation/title-reaudit-f87740a.zip`（3,826,663 bytes、修正CSS・差分・検証スクリプト・更新画像/記録）を同じ通常ChatGPT監査Chatへ添付する操作を「初回ZIPとは別の具体的payloadへの承認がない」と拒否。添付/再監査依頼未完了。迂回していない。
+再開条件: ユーザーが上記修正版ZIPを上記通常Chatへ再監査目的で送ることを明示承認後、添付/再監査→必須なし確認→PR37通常merge・既存Worker公開・配信照合。初回ZIPへの承認は取得済み。Free契約/利用量はpreflight.jsonに確認記録あり。後続は記録のみ。
+
+# 現在地: PR37・承認済み監査資料を送信し独立監査中（2026-09-17）
+
+ユーザーが今回の `title-audit-e747dc5.zip`（6,347,884 bytes）を通常ChatGPTへ独立監査目的で送ることを明示承認。添付/依頼送信成功。[監査Chat](https://chatgpt.com/c/6aabdd4d-2610-83e9-9ff8-8e6edd83bddd)。対象e747dc55ada9b401e4ee65de2fd8ca85fdc3e98d、後続は記録のみ。PR37はMERGEABLE、base6d48ea8不変。型/両build/Worker dry-run/6サイズ実Chrome成功。監査合格/main反映/公開はこれから。[詳細](TITLE-LAYOUT.md)。
+
+# 現在地: PR37・タイトル改善を実装、監査ZIP送信の承認待ち（2026-09-17）
+
+[PR37](https://github.com/futsalife24-bot/swarm-front/pull/37)、branch `codex/title-command-layout`、base `6d48ea818be46649e1712a59a24b8f3f2b1611e9`、実装/監査対象 `e747dc55ada9b401e4ee65de2fd8ca85fdc3e98d`。小ボタン2列/1行、チャレンジ分離、補助枠の強弱、次作戦名、生成背景を追加。型・両build・実Chrome6サイズ/通知/ダイアログ/出撃準備/最狭PWA追加表示が成功。画像と詳細は [TITLE-LAYOUT.md](TITLE-LAYOUT.md)。main未反映・未公開。後続は記録文書のみ。
+
+停止理由: 自動承認レビューが `dist-validation/title-audit-e747dc5.zip`（6,347,884 bytes、非公開ソース・差分・生成素材・検証画像）を `https://chatgpt.com/` 新規通常Chatへ添付する操作を「今回の具体的資料と送信先の明示承認がない」と拒否。添付/監査依頼は未完了。回避していない。
+再開条件: ユーザーが上記ZIPを通常ChatGPTへ独立監査目的で送ることを明示承認後、iab通常Chatへ添付/依頼→必要修正/再監査→合格後PR37通常merge・既存Worker公開・配信確認。公開直前にFree契約/使用量確認。実スマホは未確認。
+
 # 現在地: PR36・省電力30/60fps切替をmain反映・公開済み（2026-09-17）
 
 [PR36](https://github.com/futsalife24-bot/swarm-front/pull/36)通常merge。対象e330e7aは独立監査合格・必須0。公開ソース 956548613cc9eb7f1237ba11081413bc8c42e0d1、Worker Version 385ae051-35cd-4a0c-beb7-428136fe4168。設定から30/60fpsを選択・保存、ソロ/協力/訓練へ反映。型・45単体・実Chrome3幅/実Worker/ソロ停止・両build成功。公開12ファイルSHA一致・health正常・一時Chromeで30/60切替/再読込/error0。iabの別タブ保存保護は維持。[詳細・限界](FRAME-RATE.md)。実スマホの発熱/電池は未測定。後続は公開記録のみ。
