@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import vm from "node:vm";
 import { developerAuth } from "../server/developer-auth";
 import { adminManifest, adminPage } from "../server/admin-page";
+import adminProxy from "../server/admin-proxy";
 const origin = "https://game.example";
 const password = "test-only-random-developer-password";
 const hash = async (value: string) =>
@@ -74,6 +75,34 @@ describe("developer authentication", () => {
         respondWith: () => { intercepted = true; },
       });
       expect(intercepted, path).toBe(false);
+    }
+  });
+
+  it("proxies admin requests to the backend origin without widening the app", async () => {
+    const upstream = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValue(new Response("ok", { status: 200 }));
+    try {
+      const response = await adminProxy.fetch(
+        new Request("https://swarm-front-admin.example/api/developer/login", {
+          method: "POST",
+          headers: {
+            Origin: "https://swarm-front-admin.example",
+            Cookie: "swarm_developer=test",
+            Referer: "https://swarm-front-admin.example/admin/",
+          },
+          body: "{}",
+        }),
+        { BACKEND_ORIGIN: "https://backend.example" },
+      );
+      expect(response.status).toBe(200);
+      const [target, init] = upstream.mock.calls[0] as [Request, RequestInit];
+      expect(String(target)).toBe("https://backend.example/api/developer/login");
+      expect((init.headers as Headers).get("Origin")).toBe("https://backend.example");
+      expect((init.headers as Headers).get("Referer")).toBeNull();
+      expect(await adminProxy.fetch(new Request("https://swarm-front-admin.example/"), {})).toMatchObject({ status: 404 });
+    } finally {
+      upstream.mockRestore();
     }
   });
 
