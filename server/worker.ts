@@ -277,6 +277,9 @@ export default {
         if (![1, 7, 30].includes(period))
           return json({ error: "期間が正しくありません" }, 400);
         const now = Date.now();
+        const excludeAdmin = u.searchParams.get("excludeAdmin") ?? "0";
+        if (!["0", "1"].includes(excludeAdmin))
+          return json({ error: "集計対象が正しくありません" }, 400);
         const apps = await Promise.all(
           APPS.map(async (app) => {
             if (!app.url) return { ...app, status: "unconfigured" };
@@ -290,7 +293,9 @@ export default {
               const r = await gate.fetch(
                 new Request(
                   "https://internal/" +
-                    (legacy ? "analytics-read" : "app-analytics-read"),
+                    (legacy ? "analytics-read" : "app-analytics-read") +
+                    "?excludeAdmin=" +
+                    excludeAdmin,
                   { headers: { "X-Developer-Verified": "1" } },
                 ),
               );
@@ -301,7 +306,7 @@ export default {
               );
               return {
                 ...app,
-                status: recorded.length ? "active" : "pending",
+                status: data.days.length ? "active" : "pending",
                 firstDate: recorded[0]?.date ?? null,
                 ...summary(data.days, period, now),
               };
@@ -310,7 +315,12 @@ export default {
             }
           }),
         );
-        res = json({ apps, updatedAt: now, period });
+        res = json({
+          apps,
+          updatedAt: now,
+          period,
+          excludeAdmin: excludeAdmin === "1",
+        });
       } else {
         const gate = env.GATE.get(env.GATE.idFromName("analytics"));
         res = await gate.fetch(
@@ -507,6 +517,12 @@ export class Gate extends DurableObject<Env> {
       sorties: number;
       clears: number;
       ids: string[];
+      admin?: {
+        views: number;
+        sorties: number;
+        clears: number;
+        onlyIds: string[];
+      };
     };
     const days = (await this.ctx.storage.get<Day[]>("analytics-days")) ?? [];
     const day = new Date(now).toLocaleDateString("sv-SE", {
@@ -535,13 +551,35 @@ export class Gate extends DurableObject<Env> {
           : now,
         updatedAt: now,
         totals,
-        days: days.map(({ ids, ...x }) => x),
+        days: days.map(({ ids, admin, ...x }) =>
+          new URL(req.url).searchParams.get("excludeAdmin") === "1" && admin
+            ? {
+                ...x,
+                views: x.views - admin.views,
+                sorties: x.sorties - admin.sorties,
+                clears: x.clears - admin.clears,
+                visitors: x.visitors - admin.onlyIds.length,
+              }
+            : x,
+        ),
       });
     }
     try {
-      const b = (await req.json()) as { kind?: string; visitor?: string };
+      const b = (await req.json()) as {
+        kind?: string;
+        visitor?: string;
+        admin?: boolean;
+      };
+      if (b?.admin !== undefined && typeof b.admin !== "boolean")
+        return json({ ok: false }, 400);
       if (!b || !["view", "sortie", "clear"].includes(b.kind ?? ""))
         return json({ ok: false }, 400);
+      if (b.admin) {
+        d.admin ??= { views: 0, sorties: 0, clears: 0, onlyIds: [] };
+        if (b.kind === "view") d.admin.views++;
+        if (b.kind === "sortie") d.admin.sorties++;
+        if (b.kind === "clear") d.admin.clears++;
+      }
       if (b.kind === "view") d.views++;
       if (b.kind === "sortie") d.sorties++;
       if (b.kind === "clear") d.clears++;
@@ -551,9 +589,12 @@ export class Gate extends DurableObject<Env> {
         !d.ids.includes(b.visitor)
       ) {
         d.ids.push(b.visitor);
+        if (b.admin) d.admin!.onlyIds.push(b.visitor);
         d.visitors++;
         if (d.ids.length > 50000) d.ids = d.ids.slice(-50000);
       }
+      if (!b.admin && b.visitor && d.admin)
+        d.admin.onlyIds = d.admin.onlyIds.filter((id) => id !== b.visitor);
       while (days.length > 365) days.shift();
       await this.ctx.storage.put("analytics-days", days);
       return json({ ok: true });

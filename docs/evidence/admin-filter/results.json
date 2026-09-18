@@ -1,0 +1,12 @@
+{
+  "passed": [
+    "Unauthenticated read, foreign-origin admin access, foreign collector origin, oversized body and wrong method rejected",
+    "Real four-app include/exclude admin counts, mixed-day visitor dedup, UI selector and registration links",
+    "Real local Worker/SQLite persistence, daily browser dedup, anonymous views, app isolation, legacy Swarm data and no identity disclosure",
+    "320/390/768 widths without horizontal overflow; 1/7/30 day selection and details",
+    "Failed refresh clears stale data; retry succeeds; logout revokes access; no browser JS errors",
+    "Exact LMF/katamon/mayoi client scripts: page counting, stable browser ID, developer/opt-out exclusion, no cookies/referrer, failed collection nonfatal (all traffic intercepted locally)"
+  ],
+  "physicalDevice": false,
+  "production": false
+}
