@@ -11,3 +11,9 @@ base: 153fb725aa17e43782805d98cb6de0db47730214 / branch: codex/compact-resource-
 
 実装 e728edae110ce36c52a840573d932aa97332dca0、PR46。5サイズ50画面（通常/ハード切替含む）成功、両buildとproduction dry-run成功。dry-runはsandboxのツール親ディレクトリ参照制約で初回失敗し、許可されたsandbox外実行で成功。main153fb725不変、MERGEABLE/必須チェック一覧空。
 監査ZIP compact-review-e728eda.zip（10,753,886 bytes、SHA256 F598473153AB1098F53446479D65D704971281DCBDD896F6755DC62938CDC5E7）の通常Chatへの添付は自動承認レビューが具体的payloadの送信承認不足で拒否。独立監査・main反映・公開は未完了。承認後は同ZIP添付から再開する。
+
+
+## 独立監査合格・公開承認待ち
+
+ユーザーがZIP送信を明示承認後、同ZIPを通常Chatへ添付成功。[監査](https://chatgpt.com/c/6aad29d2-62a4-83ee-9ac7-28bb3e518daf)はe728eda合格・必須0。主要4ファイルのGit blob/ZIP SHA/50画像とJSON/武器4サイズを独立確認。任意1件: ZIPのdiffからSTATEが欠落（GitHubで作業記録4行のみと確認し影響なし）。監査側は依存/Worker不足で型・57単体・build/dry-runを独立再実行できず、client型再実行もvite/client不足で停止。こちらの実行成功は自己検証として区別する。
+公開準備のCloudflare契約/使用量閲覧は自動承認レビューが今回の明示承認不足として拒否。PR通常merge/既存アカウント契約・使用量閲覧/既存Worker公開/配信確認を一括確認し、返答待ち。main反映・公開未実施。
