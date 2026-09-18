@@ -1,3 +1,7 @@
+# 現在地: 表示文言の整理・自己検証済み（2026-09-18）
+
+branch `codex/hide-ad-copy`、base `a8db310`。広告関連の表示を一時非表示にし、通常報酬/敗北操作を維持。型・関連57単体・実Chrome2サイズ14画面を確認。[詳細](HIDDEN-COPY.md)。独立監査・main反映・公開へ進行中。
+
 # 現在地: 管理画面専用PWAをmain反映・本番公開済み（2026-09-18）
 
 main 4db4a82からPR39を通常merge。管理画面に `/admin/` 専用manifest（start_url/scope/id、standalone、portrait）を追加し、同一ドメインのスワフロPWAが起動する問題を修正。独立監査はfe2b4dbで合格・必須0。本体Service Workerの `/admin` と `/admin/` キャッシュ混入も除外し、境界を実行する関連11テストに補強。main 816e4c2、Worker Version 1217d8ab-de78-49e1-af45-c74ff049529dで本番公開済み。公開manifest/管理HTML参照/healthを確認。Android/iOSの実インストール操作は未確認。
