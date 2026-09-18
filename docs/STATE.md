@@ -1,6 +1,6 @@
-# 現在地: 管理者アクセス除外を実装・自己検証済み（2026-09-18）
+# 現在地: 管理者アクセス除外を独立監査合格・main反映・公開済み（2026-09-18）
 
-branch codex/admin-analytics-filter、base20c839b450bd55781d942be5b84ba237e0c53bca。4アプリのブラウザ登録と集計切替。型/実SQLite/実ブラウザ+Workerの検証成功。[記録](ADMIN-ANALYTICS.md)。独立監査・公開前。
+branch codex/admin-analytics-filter、base20c839b450bd55781d942be5b84ba237e0c53bca、監査head8b29fffa7e694e97de2816c290366b55bf5faf1f、PR38通常merge。4アプリのブラウザ登録と集計切替は独立監査合格・必須0。公開ソース9ce36508742e7445cc90e7f397d2f538f19ec350から既存Workerへ公開。型/実SQLite/実ブラウザ+Worker/merge後build/dry-run成功、配信一致/health/認証保護正常。[記録・検証限界・ロールバック注意](ADMIN-ANALYTICS.md)。監査URL・サービス内部IDはローカル作業記録に保持。後続は記録文書のみ。
 
 # 現在地: PR37・タイトル改善をmain反映・公開済み（2026-09-18）
 

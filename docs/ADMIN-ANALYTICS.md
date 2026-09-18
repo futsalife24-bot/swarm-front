@@ -8,4 +8,8 @@
 
 検証: 型、集計/認証10テスト（実SQLite/旧イベント互換/分類変更/保持/不正型）、実Chrome+ローカルWorker4アプリの合計・除外・混在日のユニーク・登録解除・320/390/768幅・期間・失敗/再試行/ログアウト成功。送信先はすべてローカルへ差し替え。LMF check.sh全5項目、カタモン版2+shell3+seat20、まよい30項目成功。物理端末・本番ログイン後の数値は未検証。
 
-再現: scripts/check-admin-filter.mjs（既存local wrangler8794、テスト専用password設定）。証拠: docs/evidence/admin-filter/。各アプリの機能/保存形式は不変、PWA版を更新。独立監査・公開前。
+再現: scripts/check-admin-filter.mjs（既存local wrangler8794、テスト専用password設定）。証拠: docs/evidence/admin-filter/。各アプリの機能/保存形式は不変、PWA版を更新。
+
+独立監査: Swarm 8b29fffa7e694e97de2816c290366b55bf5faf1f、LMF 7f735758a72b883ed4b3985d069b8a01b15c1f58、カタモン aa6b95938e7e7d1e625e8aa02f463bba653d5a90、まよい e2fbb2316fa21664a20b562e5a991b2017bdb00d の4対象が合格、必須指摘0。任意指摘はLMF旧Service Workerキャッシュの整理と、Swarm旧BASEへのロールバック互換性。管理者データ蓄積後に旧BASEへ戻すと認証済み旧APIにadmin.onlyIdsが含まれる可能性があるため、障害時は現行のID除去を保った前進修正を用いる。現行APIにID露出はない。監査の所在とサービス内部識別子はGitHubへ追記せずローカルの作業記録で保管。
+
+Swarm PR38を通常mergeし、公開ソース9ce36508742e7445cc90e7f397d2f538f19ec350からbuild/dry-run/既存Worker公開に成功。管理HTMLと入口JSの配信SHA一致、health正常、未認証管理API401、許可originの計測OPTIONS204、実ブラウザのログイン画面を確認。本番認証後の実数値・物理端末は未確認（ローカル認証済みUIの切替は検証済み）。
