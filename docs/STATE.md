@@ -1,3 +1,7 @@
+# 現在地: 表示文言の整理・自己検証済み（2026-09-18）
+
+branch `codex/hide-ad-copy`、base `a8db310`。広告関連の表示を一時非表示にし、通常報酬/敗北操作を維持。型・関連57単体・実Chrome2サイズ14画面を確認。[詳細](HIDDEN-COPY.md)。初回b551793・統合後727f8f3は独立監査合格・必須0。後続main更新は管理公開の記録2文書のみで、双方のSTATEを保持。実装は監査対象と同一。main反映・既存ゲームWorker公開へ進行中。
+
 # 現在地: 管理画面専用originを本番公開済み（2026-09-18）
 
 PR41を独立監査合格・必須修正0で通常merge。`swarm-front-admin` を `https://swarm-front-admin.melosalife-24.workers.dev` へ公開し、`/admin/`、専用manifest、health、ルート404を確認。`server/admin-proxy.ts` はOrigin検証と `global_fetch_strictly_public` 設定で既存Workerへ安全に中継する。既存Worker・Durable Object・データは変更しない。Worker Version `d8c46273-1e05-4eb7-a88c-1e042f7c6c08`。

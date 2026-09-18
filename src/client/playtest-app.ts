@@ -36,6 +36,7 @@ import { installLandscapeGuard } from "./landscape";
 import { installZoomGuard } from "./zoom-guard";
 import { menuDialog } from "./menu-ui";
 import { RewardedAdSession, type AdOutcome } from "./rewarded-ad";
+
 import { openBestiary } from "./bestiary";
 import { developerProgress } from "./developer-mode";
 import {
@@ -144,6 +145,9 @@ import {
 } from "../shared/daily-rewards";
 import { gearWeaponRows, lockMarkup } from "./gear-weapon-list";
 
+// Keep the future ad UI private, including in developer mode, until launch.
+const SHOW_AD_UI = false;
+
 async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
   if (sampleMenus || !canSortie(save, stage, difficulty)) return;
   if (!resume) track("sortie");
@@ -175,13 +179,13 @@ async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
   if (daily) initDailyDefense(world, daily.day);
   if (resume) world = structuredClone(resume.world);
   const tips = [
-    "救急箱・広告復活なしでも、自動回復と回復ドロップは使えます。",
+    "自動回復と回復ドロップを活用しましょう。",
     "街区には、本筋とは違う道があるかもしれません。",
     "装備中の武器とロックした武器は解体から保護されます。",
     "自動回復は最大HPの半分まで。回復品は満タンなら残ります。",
   ];
   ui.innerHTML =
-    '<section class="pt-loading"><h1>戦場を準備中</h1><progress id="pt-progress" max="100" value="0"></progress><b id="pt-load-percent">0%</b><p>救急箱・広告復活なしでも、自動回復と回復ドロップは使えます。</p><p>街区には、本筋とは違う道があるかもしれません。</p><button id="pt-enter" hidden>タップで戦場へ</button><div id="pt-load-error"></div></section>';
+    '<section class="pt-loading"><h1>戦場を準備中</h1><progress id="pt-progress" max="100" value="0"></progress><b id="pt-load-percent">0%</b><p>自動回復と回復ドロップを活用しましょう。</p><p>街区には、本筋とは違う道があるかもしれません。</p><button id="pt-enter" hidden>タップで戦場へ</button><div id="pt-load-error"></div></section>';
   ui.querySelector(".pt-loading p")!.textContent =
     tips[Math.floor(Math.random() * tips.length)];
   ui.querySelectorAll(".pt-loading p")[1]?.remove();
@@ -333,14 +337,14 @@ function defeatChoice() {
   setScreen("down");
   header(
     "ダウン",
-    `<div class="pt-intro"><p>復活成功時はHP50%・2秒無敵。戦況・残弾・救急箱は維持されます。ミッション③は復活後も未達成です。</p><button id="pt-revive" ${mode === "test" && !world!.solo!.revived ? "" : "disabled"}>${mode === "test" ? "テスト広告で復活" : "広告は準備中"}</button><button id="pt-defeat">敗北を確定</button><p id="pt-ad-note"></p></div>`,
+    `<div class="pt-intro">${SHOW_AD_UI ? `<p>復活成功時はHP50%・2秒無敵。戦況・残弾・救急箱は維持されます。ミッション③は復活後も未達成です。</p><button id="pt-revive" ${mode === "test" && !world!.solo!.revived ? "" : "disabled"}>${mode === "test" ? "テスト広告で復活" : "広告は準備中"}</button>` : ""}<button id="pt-defeat">敗北を確定</button><p id="pt-ad-note"></p></div>`,
     false,
   );
   bind("pt-defeat", defeat);
   bind("pt-revive", () => void requestAd("revive"));
 }
 async function requestAd(benefit: "revive" | "reward") {
-  if (mode !== "test") return;
+  if (!SHOW_AD_UI || mode !== "test") return;
   const outcome = await adSession.request({
     kind: "development",
     show: (notify) => {
@@ -496,7 +500,7 @@ async function openDailyDefense() {
     if (status) status.textContent = "";
     const d = dialog(
       "日替わり武器庫防衛",
-      '<p>3分間、中央の武器庫を守ってください。1日1回、再挑戦・広告復活はありません。開始時の保証武器と回収済み戦利品は敗北しても残ります。</p><p>読み込み後の「タップで戦場へ」で挑戦権を使います。</p><button id="pt-defense-prepare">現在の装備で準備</button>',
+      '<p>3分間、中央の武器庫を守ってください。1日1回、再挑戦はできません。開始時の保証武器と回収済み戦利品は敗北しても残ります。</p><p>読み込み後の「タップで戦場へ」で挑戦権を使います。</p><button id="pt-defense-prepare">現在の装備で準備</button>',
     );
     d.querySelector<HTMLButtonElement>("#pt-defense-prepare")!.onclick = () => {
       if (save.pending.length || save.result?.choice === "pending") {
@@ -565,8 +569,8 @@ function choice() {
   world = null;
   const r = save.result!;
   header(
-    "報酬を選択",
-    `<div class="pt-intro"><h2>通常武器 ${r.weapons.length}個 · ${resourceFrame("coins", r.coins + r.firstCoins, "gain")}</h2><p>広告なしでも通常分を受け取れます。通常分は保存済みです。</p><p>広告成功で武器 ${r.collected + 2}個を追加抽選・毎回 ${resourceFrame("coins", r.coins, "gain")}。初回限定報酬は対象外です。</p><button id="pt-normal-reward" class="primary">広告なしで受け取る</button><button id="pt-ad-reward" ${mode === "test" ? "" : "disabled"}>${mode === "test" ? "テスト広告で追加報酬" : "広告は準備中"}</button></div>`,
+    "報酬を受け取る",
+    `<div class="pt-intro"><h2>通常武器 ${r.weapons.length}個 · ${resourceFrame("coins", r.coins + r.firstCoins, "gain")}</h2><p>報酬は保存済みです。</p>${SHOW_AD_UI ? `<p>広告成功で武器 ${r.collected + 2}個を追加抽選・毎回 ${resourceFrame("coins", r.coins, "gain")}。初回限定報酬は対象外です。</p>` : ""}<button id="pt-normal-reward" class="primary">受け取る</button>${SHOW_AD_UI ? `<button id="pt-ad-reward" ${mode === "test" ? "" : "disabled"}>${mode === "test" ? "テスト広告で追加報酬" : "広告は準備中"}</button>` : ""}</div>`,
     false,
   );
   bind("pt-normal-reward", () => commit(chooseReward(save, false), result));
@@ -697,7 +701,10 @@ function encounter() {
           } else idleTime += delta / 1000;
           idle?.update(idleTime);
         }
-        if (!document.hidden && introPacer.next(delta / 1000, view.frameRate) !== null)
+        if (
+          !document.hidden &&
+          introPacer.next(delta / 1000, view.frameRate) !== null
+        )
           view.renderer.render(view.scene, view.camera);
         animation = requestAnimationFrame(animate);
       };
@@ -837,13 +844,20 @@ function updateWeeklyBadge() {
     const weekly = loadProgress("normal")?.weekly;
     if (weekly?.week === japanWeek(Date.now()))
       count = WEEKLY_MISSIONS.filter(
-        (mission) => weekly[mission.kind].length >= mission.target && !weekly.claimed.includes(mission.id),
+        (mission) =>
+          weekly[mission.kind].length >= mission.target &&
+          !weekly.claimed.includes(mission.id),
       ).length;
-  } catch { /* Keep the title usable when save recovery is required. */ }
+  } catch {
+    /* Keep the title usable when save recovery is required. */
+  }
   const badge = button.querySelector<HTMLElement>(".weekly-notification")!;
   badge.textContent = String(count);
   badge.hidden = count === 0;
-  button.setAttribute("aria-label", count ? `週間ミッション、受取可能な報酬${count}件` : "週間ミッション");
+  button.setAttribute(
+    "aria-label",
+    count ? `週間ミッション、受取可能な報酬${count}件` : "週間ミッション",
+  );
 }
 function generator() {
   if (mode !== "test") return;
@@ -1015,7 +1029,8 @@ function frame(now: number) {
     controls.input.yaw,
     active && screen === "battle",
   );
-  const rendered = !encounterActive &&
+  const rendered =
+    !encounterActive &&
     view.render(
       world,
       "solo",
@@ -1028,7 +1043,8 @@ function frame(now: number) {
       controls.aiming,
     );
   // A new spawn must exist in the scene before the camera freezes for its introduction.
-  if (rendered && active && screen === "battle" && !encounterActive) encounter();
+  if (rendered && active && screen === "battle" && !encounterActive)
+    encounter();
 }
 
 const $ = (id: string) => document.getElementById(id)!;
@@ -1448,7 +1464,7 @@ function showHome(initialized: boolean) {
       ? after()
       : confirmAction(
           "新しい進行を開始",
-          "<p>所持武器は1人プレイと協力プレイで共通です。以前の武器は性能を保って引き継ぎ、元の保存データも控えとして残します。</p><p>実広告は準備中です。広告なしで報酬と再挑戦を利用できます。</p>",
+          "<p>所持武器は1人プレイと協力プレイで共通です。以前の武器は性能を保って引き継ぎ、元の保存データも控えとして残します。</p>",
           () => {
             save = initializeProgress(mode);
             after();
@@ -1534,7 +1550,7 @@ function gear() {
       })
       .join(
         "",
-      )}</div></section></aside><section class="gear-arsenal"><div class="slot-hint"><b>所持武器</b><span>タップで比較・装備変更</span></div>${weaponList(allWeapons(save), "gear")}</section></div><footer class="gear-footer"><p class="status">${!ready ? (save.pending.length ? "所持上限を超えています。武器庫で整理してください。" : "通常ステージのクリアで解放されます。") : esc(p.name)}<small>${m.map((v, i) => `${v ? "✓" : "○"} ${["クリア", cfg.timeLimit + "秒以内", "救急箱・広告復活なし"][i]}`).join(" · ")}</small></p><button id="pt-start" class="primary" ${ready ? "" : "disabled"}>ソロ出撃 ↗</button></footer>`,
+      )}</div></section></aside><section class="gear-arsenal"><div class="slot-hint"><b>所持武器</b><span>タップで比較・装備変更</span></div>${weaponList(allWeapons(save), "gear")}</section></div><footer class="gear-footer"><p class="status">${!ready ? (save.pending.length ? "所持上限を超えています。武器庫で整理してください。" : "通常ステージのクリアで解放されます。") : esc(p.name)}<small>${m.map((v, i) => `${v ? "✓" : "○"} ${["クリア", cfg.timeLimit + "秒以内", "救急箱・復活なし"][i]}`).join(" · ")}</small></p><button id="pt-start" class="primary" ${ready ? "" : "disabled"}>ソロ出撃 ↗</button></footer>`,
   );
   // Use the existing header toolbar slot; keep the arsenal available for rows.
   const toolbar = ui.querySelector(".pt-list-tools")!;
@@ -1559,7 +1575,7 @@ function gear() {
   bind("pt-mission-info", () =>
     dialog(
       "作戦詳細",
-      `<p>${esc(STAGES[(stage === 21 ? 3 : stage) - 1].brief)}</p>${stage === 3 ? `<p>${BRANCH_HINT}</p>` : ""}<ol>${["クリア", cfg.timeLimit + "秒以内にクリア", "救急箱・広告復活なしでクリア"].map((t, i) => `<li>${m[i] ? "達成済み" : "未達成"} · ${t}</li>`).join("")}</ol>`,
+      `<p>${esc(STAGES[(stage === 21 ? 3 : stage) - 1].brief)}</p>${stage === 3 ? `<p>${BRANCH_HINT}</p>` : ""}<ol>${["クリア", cfg.timeLimit + "秒以内にクリア", "救急箱・復活なしでクリア"].map((t, i) => `<li>${m[i] ? "達成済み" : "未達成"} · ${t}</li>`).join("")}</ol>`,
     ),
   );
   ui.querySelectorAll<HTMLButtonElement>("[data-gear-slot]").forEach(

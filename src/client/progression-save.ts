@@ -709,7 +709,7 @@ export function chooseReward(s: ProgressSave, ad: boolean) {
     r = n.result;
   if (!r || r.choice !== "pending") return s;
   if (!r.collectionDone) throw new Error("回収が完了していません");
-  if (ad && s.mode !== "test") throw new Error("広告は準備中です");
+  if (ad && s.mode !== "test") throw new Error("追加報酬は現在利用できません");
   r.choice = ad ? "ad" : "normal";
   if (ad) {
     bank(n, r.bonus);

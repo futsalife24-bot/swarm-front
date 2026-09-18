@@ -216,7 +216,7 @@ it("retains rewards through pending choice and reload; notifications cannot rero
       prepareChoice(win(freshProgress("normal")), () => 0.1),
       true,
     ),
-  ).toThrow("準備中");
+  ).toThrow("追加報酬は現在利用できません");
 });
 it("overflow blocks sortie, all registered gear/locks survive, refill prioritizes locks without reordering acquisition", () => {
   let s = freshProgress("normal");
