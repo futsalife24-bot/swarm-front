@@ -17,3 +17,9 @@ base: 153fb725aa17e43782805d98cb6de0db47730214 / branch: codex/compact-resource-
 
 ユーザーがZIP送信を明示承認後、同ZIPを通常Chatへ添付成功。[監査](https://chatgpt.com/c/6aad29d2-62a4-83ee-9ac7-28bb3e518daf)はe728eda合格・必須0。主要4ファイルのGit blob/ZIP SHA/50画像とJSON/武器4サイズを独立確認。任意1件: ZIPのdiffからSTATEが欠落（GitHubで作業記録4行のみと確認し影響なし）。監査側は依存/Worker不足で型・57単体・build/dry-runを独立再実行できず、client型再実行もvite/client不足で停止。こちらの実行成功は自己検証として区別する。
 公開準備のCloudflare契約/使用量閲覧は自動承認レビューが今回の明示承認不足として拒否。PR通常merge/既存アカウント契約・使用量閲覧/既存Worker公開/配信確認を一括確認し、返答待ち。main反映・公開未実施。
+
+
+## main反映・公開確認（2026-09-18）
+
+ユーザーが通常merge、既存アカウント契約/使用量閲覧、既存Worker公開/配信確認を明示承認。PR46を通常merge、公開ソース5da683a0bdcf1a416e974aab4b999b82a4d7ad28。merge後buildとproduction dry-run成功。既存Worker Version 94a71bb3-5701-4224-a1c6-8f046c84a7b2を公開し、HTML/sw/JS/CSS 13ファイルSHA一致、health正常を確認。Free契約と当日Workers205件、DO166件/0.332GB秒/208.9kB/読取797/書込59をread-only確認。
+公開iab: 844×390出撃準備の難易度と報酬非重複、難易度幅84.94px、武器一覧横はみ出し0。640×360アクセサリで所持4種/操作列とも1行、横はみ出しなし、消費−10/−30を確認。ブラウザerror0。公開画面は既存0個所持の保存で閲覧のみ、24個fixtureと残高操作はローカル検証。実機/読み上げ未確認。証拠dist-validation/resource-frames/{preflight,published,published-ui}.json。後続は公開記録のみ。

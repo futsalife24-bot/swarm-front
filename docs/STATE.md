@@ -1,3 +1,7 @@
+# 現在地: PR46・アイテム表示短縮をmain反映・公開済み（2026-09-18）
+
+[PR46](https://github.com/futsalife24-bot/swarm-front/pull/46)通常merge。独立監査e728eda合格・必須0、後続は記録のみ。アイコン＋数値、獲得＋/消費−、難易度と報酬の重複解消、アクセサリ/育成の不要余白を削減。型/57単体/5サイズ50画面/武器一覧4サイズ/両build成功。公開ソース `5da683a0bdcf1a416e974aab4b999b82a4d7ad28`、Worker Version `94a71bb3-5701-4224-a1c6-8f046c84a7b2`。merge後build/dry-run、13配信SHA一致、health正常、公開iab844×390出撃準備/640×360アクセサリの非重複・1行表示・error0確認。[詳細・検証限界](COMPACT-RESOURCES.md)。実機/読み上げ未確認。ユーザーの公開操作承認取得済みで旧停止理由は解消。後続は公開記録のみ。
+
 # 現在地: PR46・独立監査合格、公開操作の承認待ち（2026-09-18）
 
 [PR46](https://github.com/futsalife24-bot/swarm-front/pull/46)、branch `codex/compact-resource-layout`、base153fb725、対象 `e728edae110ce36c52a840573d932aa97332dca0` は[独立監査](https://chatgpt.com/c/6aad29d2-62a4-83ee-9ac7-28bb3e518daf)合格・必須修正0。後続は記録文書のみ。型/57単体/5サイズ50画面/武器一覧4サイズ通常・整理/両build/production dry-run成功。main未反映・未公開。[詳細](COMPACT-RESOURCES.md)。
