@@ -15,3 +15,5 @@
 Swarm PR38を通常mergeし、公開ソース9ce36508742e7445cc90e7f397d2f538f19ec350からbuild/dry-run/既存Worker公開に成功。管理HTMLと入口JSの配信SHA一致、health正常、未認証管理API401、許可originの計測OPTIONS204、実ブラウザのログイン画面を確認。本番認証後の実数値・物理端末は未確認（ローカル認証済みUIの切替は検証済み）。
 
 追加対応: 管理画面に専用PWAマニフェストを追加。`id`、`start_url`、`scope`をすべて `/admin/` に固定し、`display: standalone`・縦画面で起動する。これにより、同一ドメインのスワフロ本体PWA（`/`）とインストール先を分離する。管理画面HTMLは専用マニフェストを参照し、Workerは `/admin/manifest.webmanifest` を明示配信する。
+
+監査指摘への修正: 本体Service Workerの静的対象判定から `/admin/` を除外し、管理画面のナビゲーションが本体ルートのオフラインキャッシュへ混ざらないようにした。専用PWAはネットワークから管理画面を取得し、ゲーム本体のキャッシュ境界を維持する。

@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
+import { readFileSync } from "node:fs";
 import { developerAuth } from "../server/developer-auth";
 import { adminManifest, adminPage } from "../server/admin-page";
 const origin = "https://game.example";
@@ -48,6 +49,9 @@ describe("developer authentication", () => {
     expect(manifest.display).toBe("standalone");
     expect(manifest.orientation).toBe("portrait");
     expect(adminPage).toContain('rel="manifest" href="/admin/manifest.webmanifest"');
+    expect(readFileSync("public/sw.js", "utf8")).toContain(
+      "!url.pathname.startsWith(adminUrl.pathname)",
+    );
   });
 
   it("requires configuration and denies URL-only access", async () => {
