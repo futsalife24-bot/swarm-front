@@ -1,5 +1,23 @@
+export const adminManifest = JSON.stringify({
+  id: "/admin/",
+  name: "アプリ管理",
+  short_name: "アプリ管理",
+  description: "4つのアプリのアクセス状況を管理する画面",
+  lang: "ja",
+  start_url: "/admin/",
+  scope: "/admin/",
+  display: "standalone",
+  orientation: "portrait",
+  background_color: "#0c1820",
+  theme_color: "#0c1820",
+  icons: [
+    { src: "/icon-swarm-v3-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+    { src: "/icon-swarm-v3-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+  ],
+});
+
 export const adminPage = String.raw`<!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><title>アプリ管理</title>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#0c1820"><link rel="manifest" href="/admin/manifest.webmanifest"><title>アプリ管理</title>
 <style>
 :root{color-scheme:dark;font-family:system-ui,-apple-system,sans-serif;background:#0c1820;color:#e8f1f2}*{box-sizing:border-box}body{max-width:720px;margin:auto;padding:24px 16px calc(24px + env(safe-area-inset-bottom))}h1{font-size:26px;margin:0}h2{font-size:20px;margin:0}p{line-height:1.65}.muted,small{color:#a8c0cb}button,input,select{font:inherit;min-height:44px;border-radius:10px;border:1px solid #466373;background:#17303a;color:inherit;padding:10px 13px}button{cursor:pointer}button:disabled{opacity:.55;cursor:wait}button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #70ead1;outline-offset:3px}a{color:#81ead6;text-underline-offset:4px}header,.tools,.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.tools{flex-wrap:wrap;margin:22px 0 10px}.tools label{display:flex;align-items:center;gap:8px}.card{background:#17303a;border:1px solid #2e4b59;border-radius:16px;padding:18px;margin:14px 0}.tag{white-space:nowrap;font-size:12px;border:1px solid #4c6a74;border-radius:30px;padding:5px 9px;color:#b5d6da}.tag.ok{color:#89efca;border-color:#447f71}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}.metric strong{font-size:30px;display:block;line-height:1.3;font-variant-numeric:tabular-nums}.metric span{font-size:13px;color:#b6ccd5}.spark{display:flex;align-items:flex-end;gap:3px;height:55px;margin:16px 0 4px}.spark i{display:block;flex:1;background:#53c7b0;border-radius:3px 3px 0 0;min-width:0}.dates{display:flex;justify-content:space-between;font-size:12px;color:#a8c0cb}.detail-row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #31505c;font-size:14px}summary{cursor:pointer;padding:13px 0;min-height:44px}details p{font-size:14px}#msg{color:#ffd397;min-height:1.5em}#login{margin-top:32px}#login label{display:block;margin-bottom:8px}#pw{width:100%;margin:0 0 12px}#login button{width:100%;background:#276757}.note{font-size:13px}.empty{padding:10px 0;color:#bdd0d8}.card-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}.card-foot a{padding:8px 0;font-size:14px}.card-foot small{font-size:12px}#updated{font-size:13px}#cards[aria-busy=true]{opacity:.65}@media(max-width:360px){body{padding:18px 12px}.card{padding:14px}.card-head{gap:6px}h2{font-size:18px}.metric strong{font-size:27px}}
 </style></head><body><header><div><p class="muted" style="margin:0 0 6px;font-size:12px;letter-spacing:.12em">MY APPS</p><h1>アプリ管理</h1></div><button id="out" hidden>ログアウト</button></header>

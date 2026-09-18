@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { developerAuth } from "../server/developer-auth";
+import { adminManifest, adminPage } from "../server/admin-page";
 const origin = "https://game.example";
 const password = "test-only-random-developer-password";
 const hash = async (value: string) =>
@@ -39,6 +40,16 @@ function fixture() {
 }
 afterEach(() => vi.useRealTimers());
 describe("developer authentication", () => {
+  it("defines a separate portrait PWA identity for the admin page", () => {
+    const manifest = JSON.parse(adminManifest) as Record<string, unknown>;
+    expect(manifest.id).toBe("/admin/");
+    expect(manifest.start_url).toBe("/admin/");
+    expect(manifest.scope).toBe("/admin/");
+    expect(manifest.display).toBe("standalone");
+    expect(manifest.orientation).toBe("portrait");
+    expect(adminPage).toContain('rel="manifest" href="/admin/manifest.webmanifest"');
+  });
+
   it("requires configuration and denies URL-only access", async () => {
     const f = fixture();
     expect(
