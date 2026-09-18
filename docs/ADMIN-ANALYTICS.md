@@ -20,4 +20,4 @@ Swarm PR38を通常mergeし、公開ソース9ce36508742e7445cc90e7f397d2f538f19
 
 独立監査はfe2b4dbで合格・必須指摘0。PR39を通常mergeし、main 816e4c2から既存Workerへ公開した。公開 `/admin/` は専用manifestを参照し、manifestのHTTP応答・起動先・縦画面設定、Worker health、管理画面ログイン表示を確認済み。実機のインストール操作とオフライン挙動は未確認。
 
-同一originの既存スワフロPWAがChromeのインストール対象を先取りするため、管理画面専用の別originを追加する。`server/admin-proxy.ts` は `/admin/`、管理API、health、PWAアイコンだけを既存Workerへ中継し、ゲーム本体のパスは404にする。新しい `wrangler.admin-production.jsonc` のWorker名は `swarm-front-admin`、公開先は `swarm-front-admin.melosalife-24.workers.dev`。既存Worker・Durable Object・データは変更しない。
+同一originの既存スワフロPWAがChromeのインストール対象を先取りするため、管理画面専用の別originを追加した。公開URLは `https://swarm-front-admin.melosalife-24.workers.dev/admin/`。`server/admin-proxy.ts` は `/admin/`、管理API、health、PWAアイコンだけを既存Workerへ中継し、ゲーム本体のパスは404にする。受信Originを検証し、Worker間fetchは `global_fetch_strictly_public` で有効化している。独立監査は対象HEAD `ccfa25fe5532d23a9cab24e453ebde5acf05bfca` と証拠ZIPの整合性を確認して合格。既存Worker・Durable Object・データは変更しない。
