@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "swarm-front-admin",
+  "main": "server/admin-proxy.ts",
+  "compatibility_date": "2026-09-06",
+  "workers_dev": true,
+  "send_metrics": false,
+  "compatibility_flags": ["global_fetch_strictly_public"],
+  "vars": {
+    "BACKEND_ORIGIN": "https://swarm-front.melosalife-24.workers.dev",
+  },
+}
