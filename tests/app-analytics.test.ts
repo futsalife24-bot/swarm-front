@@ -68,9 +68,54 @@ describe("app analytics", () => {
         await appAnalytics(read(), storage, now + 86400000)
       ).json()) as { days: Day[] };
       expect(next.days[1].visitors).toBe(1);
+      const adminEvent = (visitor: string, admin: boolean) =>
+        new Request("https://internal/app-analytics-event", {
+          method: "POST",
+          body: JSON.stringify({ visitor, admin }),
+        });
+      const excludedRead = () =>
+        new Request("https://internal/app-analytics-read?excludeAdmin=1", {
+          headers: { "X-Developer-Verified": "1" },
+        });
+      const b = "b".repeat(32);
+      await appAnalytics(adminEvent(b, true), storage, now + 86400000);
+      await appAnalytics(adminEvent(b, true), storage, now + 86400000);
+      let filtered = (await (
+        await appAnalytics(excludedRead(), storage, now + 86400000)
+      ).json()) as { days: Day[] };
+      expect(filtered.days[1]).toEqual(day("2026-09-18", 1, 1));
+      const all = (await (
+        await appAnalytics(read(), storage, now + 86400000)
+      ).json()) as { days: Day[] };
+      expect(all.days[1]).toEqual(day("2026-09-18", 3, 2));
+      // Unregistering during the day adds a public view and visitor without double counting total visitors.
+      await appAnalytics(adminEvent(b, false), storage, now + 86400000);
+      await appAnalytics(
+        adminEvent("a".repeat(32), true),
+        storage,
+        now + 86400000,
+      );
+      filtered = (await (
+        await appAnalytics(excludedRead(), storage, now + 86400000)
+      ).json()) as { days: Day[] };
+      expect(filtered.days[1]).toEqual(day("2026-09-18", 2, 2));
+      // A legacy visitor who later registers keeps their pre-registration visit in public counts.
+      expect(filtered.days[0]).toEqual(day("2026-09-17", 3, 1));
+      expect(JSON.stringify(filtered)).not.toContain(b);
+      expect(
+        (
+          await appAnalytics(
+            new Request("https://internal/app-analytics-read?excludeAdmin=1"),
+            storage,
+            now,
+          )
+        ).status,
+      ).toBe(401);
       await expireAppAnalytics(storage, now + 366 * 86400000);
       expect(db.prepare("SELECT * FROM app_days").all()).toEqual([]);
       expect(db.prepare("SELECT * FROM app_visitors").all()).toEqual([]);
+      expect(db.prepare("SELECT * FROM app_admin_days").all()).toEqual([]);
+      expect(db.prepare("SELECT * FROM app_admin_only").all()).toEqual([]);
     } finally {
       db.close();
     }
@@ -123,6 +168,7 @@ describe("app analytics", () => {
       "[]",
       '{"visitor":"anonymous"}',
       "x".repeat(513),
+      JSON.stringify({ visitor: "a".repeat(32), admin: "true" }),
     ])
       await expect(readEvent(request(body))).rejects.toThrow();
   });

@@ -1,3 +1,7 @@
+# 現在地: 管理者アクセス除外を実装・自己検証済み（2026-09-18）
+
+branch codex/admin-analytics-filter、base20c839b450bd55781d942be5b84ba237e0c53bca。4アプリのブラウザ登録と集計切替。型/実SQLite/実ブラウザ+Workerの検証成功。[記録](ADMIN-ANALYTICS.md)。独立監査・公開前。
+
 # 現在地: PR37・タイトル改善をmain反映・公開済み（2026-09-18）
 
 [PR37](https://github.com/futsalife24-bot/swarm-front/pull/37)通常merge。最終対象f87740aは独立再監査合格・必須0。公開ソース `dcd3a2547065f19b785103b172101908798d605e`、Worker Version `8d2516f4-873b-4a4f-b2b4-b79d18f62c28`。小ボタン2列/1行、チャレンジ分離、補助機能の強弱、次の作戦名、生成背景を公開。8条件Chrome/型/両build、merge後build/dry-run成功。配信13ファイルSHA一致・health正常・使い捨てChromeで公開タイトルと3ダイアログ/pageerror0。[記録・素材・検証限界](TITLE-LAYOUT.md)。実スマホ/PWAイベントは未確認。後続は公開記録のみ。

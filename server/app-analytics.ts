@@ -95,6 +95,7 @@ export async function readEvent(req: Request) {
   }
   const b = JSON.parse(new TextDecoder().decode(bytes)) as {
     visitor?: unknown;
+    admin?: unknown;
   };
   if (!b || typeof b !== "object" || Array.isArray(b)) throw new Error("body");
   if (
@@ -102,7 +103,12 @@ export async function readEvent(req: Request) {
     (typeof b.visitor !== "string" || !/^[a-f0-9]{32}$/.test(b.visitor))
   )
     throw new Error("visitor");
-  return { visitor: b.visitor as string | null };
+  if (b.admin !== undefined && typeof b.admin !== "boolean")
+    throw new Error("admin");
+  return {
+    visitor: b.visitor as string | null,
+    ...(b.admin === undefined ? {} : { admin: b.admin }),
+  };
 }
 
 // New applications have separate objects; the existing Swarm Front analytics object is unchanged.
@@ -118,13 +124,22 @@ export async function appAnalytics(
   sql.exec(
     "CREATE TABLE IF NOT EXISTS app_visitors (date TEXT NOT NULL, id TEXT NOT NULL, PRIMARY KEY(date,id))",
   );
+  sql.exec(
+    "CREATE TABLE IF NOT EXISTS app_admin_days (date TEXT PRIMARY KEY, views INTEGER NOT NULL)",
+  );
+  sql.exec(
+    "CREATE TABLE IF NOT EXISTS app_admin_only (date TEXT NOT NULL, id TEXT NOT NULL, PRIMARY KEY(date,id))",
+  );
   const today = jstDate(now),
     cutoff = dateOffset(today, -364);
   sql.exec("DELETE FROM app_days WHERE date < ?", cutoff);
   sql.exec("DELETE FROM app_visitors WHERE date < ?", cutoff);
+  sql.exec("DELETE FROM app_admin_days WHERE date < ?", cutoff);
+  sql.exec("DELETE FROM app_admin_only WHERE date < ?", cutoff);
   if (new URL(req.url).pathname === "/app-analytics-read") {
     if (req.headers.get("X-Developer-Verified") !== "1")
       return Response.json({ error: "認証が必要です" }, { status: 401 });
+    const exclude = new URL(req.url).searchParams.get("excludeAdmin") === "1";
     const days = sql
       .exec<{ date: string; views: number; visitors: number; updated: number }>(
         "SELECT * FROM app_days ORDER BY date",
@@ -133,15 +148,33 @@ export async function appAnalytics(
     return Response.json({
       days: days.map((d) => ({
         date: d.date,
-        views: d.views,
-        visitors: d.visitors,
+        views:
+          d.views -
+          (exclude
+            ? (sql
+                .exec<{ views: number }>(
+                  "SELECT views FROM app_admin_days WHERE date = ?",
+                  d.date,
+                )
+                .toArray()[0]?.views ?? 0)
+            : 0),
+        visitors:
+          d.visitors -
+          (exclude
+            ? sql
+                .exec<{ n: number }>(
+                  "SELECT COUNT(*) AS n FROM app_admin_only WHERE date = ?",
+                  d.date,
+                )
+                .toArray()[0].n
+            : 0),
         sorties: 0,
         clears: 0,
       })),
       lastEventAt: days.at(-1)?.updated ?? null,
     });
   }
-  const { visitor } = await readEvent(req);
+  const { visitor, admin = false } = await readEvent(req);
   const current = sql
     .exec<{ views: number }>("SELECT views FROM app_days WHERE date = ?", today)
     .toArray()[0];
@@ -165,8 +198,25 @@ export async function appAnalytics(
           visitor,
         );
         fresh = 1;
+        if (admin)
+          sql.exec(
+            "INSERT INTO app_admin_only(date,id) VALUES (?,?)",
+            today,
+            visitor,
+          );
       }
     }
+    if (visitor && !admin)
+      sql.exec(
+        "DELETE FROM app_admin_only WHERE date = ? AND id = ?",
+        today,
+        visitor,
+      );
+    if (admin)
+      sql.exec(
+        "INSERT INTO app_admin_days(date,views) VALUES (?,1) ON CONFLICT(date) DO UPDATE SET views=views+1",
+        today,
+      );
     sql.exec(
       "INSERT INTO app_days(date,views,visitors,updated) VALUES (?,1,?,?) ON CONFLICT(date) DO UPDATE SET views=views+1, visitors=visitors+excluded.visitors, updated=excluded.updated",
       today,
@@ -187,6 +237,18 @@ export async function expireAppAnalytics(
   const cutoff = dateOffset(jstDate(now), -364);
   storage.sql.exec("DELETE FROM app_days WHERE date < ?", cutoff);
   storage.sql.exec("DELETE FROM app_visitors WHERE date < ?", cutoff);
+  // A pre-upgrade object may not have these tables until its next request.
+  for (const table of ["app_admin_days", "app_admin_only"]) {
+    if (
+      storage.sql
+        .exec(
+          "SELECT name FROM sqlite_master WHERE type='table' AND name = ?",
+          table,
+        )
+        .toArray().length
+    )
+      storage.sql.exec(`DELETE FROM ${table} WHERE date < ?`, cutoff);
+  }
   if (storage.sql.exec("SELECT 1 FROM app_days LIMIT 1").toArray().length)
     await storage.setAlarm(now + 86400000);
 }
