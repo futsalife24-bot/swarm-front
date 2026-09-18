@@ -6,3 +6,8 @@ base: 153fb725aa17e43782805d98cb6de0db47730214 / branch: codex/compact-resource-
 自己検証: 型チェック・関連57単体成功。check-resource-frames.mjsは640×360/667×375/844×390/915×412/1280×582で、9桁所持数、24アクセサリ、所持欄1行、作成操作1行、難易度/報酬の非重複、横はみ出し、作成/解放の実残高、報酬受取を確認。画像/JSONはdist-validation/resource-frames/。check-gear-ui-baseline.mjsは4サイズ通常/整理、844px以上の全性能横スクロールなし、狭幅の固定名前/ロック/見出し同期と操作を確認。小幅640pxの武器性能横スクロールは従来仕様として維持。
 
 実Chromeで画像を確認。640×360の育成は最初の表示2項目から4項目へ改善。実スマホ・スクリーンリーダー読み上げは未確認。独立監査/main反映/公開は後続。
+
+## 保存・監査準備
+
+実装 e728edae110ce36c52a840573d932aa97332dca0、PR46。5サイズ50画面（通常/ハード切替含む）成功、両buildとproduction dry-run成功。dry-runはsandboxのツール親ディレクトリ参照制約で初回失敗し、許可されたsandbox外実行で成功。main153fb725不変、MERGEABLE/必須チェック一覧空。
+監査ZIP compact-review-e728eda.zip（10,753,886 bytes、SHA256 F598473153AB1098F53446479D65D704971281DCBDD896F6755DC62938CDC5E7）の通常Chatへの添付は自動承認レビューが具体的payloadの送信承認不足で拒否。独立監査・main反映・公開は未完了。承認後は同ZIP添付から再開する。

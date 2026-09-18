@@ -1,3 +1,10 @@
+# 現在地: PR46・アイテム短縮を保存、監査ZIP送信の承認待ち（2026-09-18）
+
+[PR46](https://github.com/futsalife24-bot/swarm-front/pull/46)、branch `codex/compact-resource-layout`、base `153fb725aa17e43782805d98cb6de0db47730214`、実装/監査対象 `e728edae110ce36c52a840573d932aa97332dca0`。型/57単体/5サイズ50画面/武器一覧4サイズ通常・整理/両build/本番dry-run成功。PRはMERGEABLE・チェック一覧空。main未反映・未公開。[詳細](COMPACT-RESOURCES.md)。後続は停止・検証記録のみ。
+
+停止理由: 自動承認レビューが通常ChatGPTへ `dist-validation/compact-review-e728eda.zip`（10,753,886 bytes、対象ソース・実差分・50画面と武器一覧の検証証拠）を添付する操作を「具体的payloadの非公開ソース外部送信承認がない」と拒否。継続承認記録はあるが回避していない。添付・監査依頼は未完了。
+再開条件: 上記ZIPを通常ChatGPTの新規Chat（https://chatgpt.com/）へ独立監査目的で送信するユーザーの明示承認。SHA256 `F598473153AB1098F53446479D65D704971281DCBDD896F6755DC62938CDC5E7`。承認後は添付/監査→必須修正/再監査→合格後通常merge・既存Worker公開・配信確認。ZIPは今回必要なソース/差分/証拠のみで、認証値や対象外データは含めない。実機/読み上げ未確認。
+
 # 現在地: アイテム短縮・表示崩れ修正を自己検証（2026-09-18）
 
 branch codex/compact-resource-layout、base153fb725。アイコン＋数値、難易度と報酬の重複解消、アクセサリ操作と育成余白を圧縮。型/57単体/5サイズ関連画面/武器一覧4サイズの検証成功。独立監査・main反映・公開へ進行中。[詳細](COMPACT-RESOURCES.md)。
