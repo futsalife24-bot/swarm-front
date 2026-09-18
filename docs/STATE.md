@@ -1,3 +1,9 @@
+# 現在地: PR37・タイトル改善をmain反映・公開済み（2026-09-18）
+
+[PR37](https://github.com/futsalife24-bot/swarm-front/pull/37)通常merge。最終対象f87740aは独立再監査合格・必須0。公開ソース `dcd3a2547065f19b785103b172101908798d605e`、Worker Version `8d2516f4-873b-4a4f-b2b4-b79d18f62c28`。小ボタン2列/1行、チャレンジ分離、補助機能の強弱、次の作戦名、生成背景を公開。8条件Chrome/型/両build、merge後build/dry-run成功。配信13ファイルSHA一致・health正常・使い捨てChromeで公開タイトルと3ダイアログ/pageerror0。[記録・素材・検証限界](TITLE-LAYOUT.md)。実スマホ/PWAイベントは未確認。後続は公開記録のみ。
+
+ユーザーが今回の通常merge・契約/使用量閲覧・既存Worker公開を明示承認し、同範囲の今後の継続承認をAGENTSへ記録。自動承認レビューの設定/判断、Hooks/CI/権限制御は変更しない。
+
 # 現在地: PR37・独立再監査合格、今回の公開操作の承認待ち（2026-09-18）
 
 [PR37](https://github.com/futsalife24-bot/swarm-front/pull/37)、branch `codex/title-command-layout`、base `6d48ea818be46649e1712a59a24b8f3f2b1611e9`。最終対象 `f87740a7998fdcdc9746608b3a94ac46182c3de1` は[独立再監査](https://chatgpt.com/c/6aabdd4d-2610-83e9-9ff8-8e6edd83bddd)合格・必須残件0。修正CSS/検証スクリプトのGitHub一致、667×375/400/401画像、メニュー全体境界の8条件を確認。後続は記録のみ。型/両build/実Chrome確認済み、PRはMERGEABLE・必須チェック一覧空。main未反映・未公開。[詳細](TITLE-LAYOUT.md)。

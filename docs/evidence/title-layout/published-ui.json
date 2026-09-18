@@ -1,0 +1,36 @@
+{
+  "date": "2026-09-18T01:04:13.343Z",
+  "disposableContext": true,
+  "layout": {
+    "background": "linear-gradient(90deg, rgba(9, 21, 27, 0.22), rgba(11, 26, 34, 0.72) 70%), url(\"https://swarm-front.melosalife-24.workers.dev/assets/ui/title-atmosphere-v1.png\"), none",
+    "stage": "次の作戦 · 前哨掃討",
+    "buttons": [
+      {
+        "id": "pt-daily-defense",
+        "inside": true,
+        "nowrap": true,
+        "overflow": false
+      },
+      {
+        "id": "pt-weekly-missions",
+        "inside": true,
+        "nowrap": true,
+        "overflow": false
+      },
+      {
+        "id": "home-tutorial",
+        "inside": true,
+        "nowrap": true,
+        "overflow": false
+      },
+      {
+        "id": "home-settings",
+        "inside": true,
+        "nowrap": true,
+        "overflow": false
+      }
+    ]
+  },
+  "dialogs": true,
+  "errors": []
+}

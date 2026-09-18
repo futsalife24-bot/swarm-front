@@ -1,0 +1,74 @@
+{
+  "date": "2026-09-18T01:04:06.742Z",
+  "source": "dcd3a2547065f19b785103b172101908798d605e",
+  "version": "8d2516f4-873b-4a4f-b2b4-b79d18f62c28",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "health": 200,
+  "assets": [
+    {
+      "path": "/index.html",
+      "bytes": 2298,
+      "sha256": "9cf4975e24c63c859f55590220f1d31e05d1856173a10e07f5347c744f920a2a"
+    },
+    {
+      "path": "/assets/index-CN-djHqm.js",
+      "bytes": 32664,
+      "sha256": "151394a894ee480811c616eeaf3a596146a87533490fdec4893e7a7b97c74dfa"
+    },
+    {
+      "path": "/assets/main-C1Ldsy-y.css",
+      "bytes": 6219,
+      "sha256": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1"
+    },
+    {
+      "path": "/assets/main-CZ42fMiy.js",
+      "bytes": 55004,
+      "sha256": "f67ce6307968997c0baebf4227c2aa60928453169cfa41cf4503cba462f5f7e3"
+    },
+    {
+      "path": "/assets/playtest-app-B-gkuJei.css",
+      "bytes": 29004,
+      "sha256": "540860968c531ba8eb3a09f8062995770cef9e9366f70aecbecad2c33846b25f"
+    },
+    {
+      "path": "/assets/playtest-app-hsNKVNB-.js",
+      "bytes": 110496,
+      "sha256": "0e56a05dbb6f7178e92a228f296827a6f19a3d1c6c03e4437100bf0e0e880377"
+    },
+    {
+      "path": "/assets/training-app-BLvEBXbx.js",
+      "bytes": 3714,
+      "sha256": "dc90f958aadfbb95f2dc160528e21a29edf7382ed6a9077faea351b01c950cdb"
+    },
+    {
+      "path": "/assets/weapon-help-CKU2a2eI.js",
+      "bytes": 53072,
+      "sha256": "009b36e39ecffec6414af99e671a288ef041cdffdea0361a96ad398020d50d98"
+    },
+    {
+      "path": "/assets/weapon-help-Clh1V6L1.css",
+      "bytes": 3020,
+      "sha256": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607"
+    },
+    {
+      "path": "/assets/weapon-sharing-BQWXgAUF.js",
+      "bytes": 4746,
+      "sha256": "334d46f82a10fad4316e209a545403a56679059c9b7b1048e19d66d13c0605e7"
+    },
+    {
+      "path": "/assets/zoom-guard-BYiDpNS5.css",
+      "bytes": 106596,
+      "sha256": "f0556f4cdf5c5c4ff6457bc78b91a3b4b58fd1b921209102915a8c0b18551d10"
+    },
+    {
+      "path": "/assets/zoom-guard-PW2YcBJK.js",
+      "bytes": 818236,
+      "sha256": "bf5b7eac278276c459b51dacfe92bb7d3f42b9b35c981ce9e5e015a948a1a095"
+    },
+    {
+      "path": "/assets/ui/title-atmosphere-v1.png",
+      "bytes": 1813295,
+      "sha256": "9d8f3639f04927d1cad543d059b71c3a3c268ef6aa84e896dba08b2496e7189e"
+    }
+  ]
+}
