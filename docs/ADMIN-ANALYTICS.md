@@ -19,3 +19,5 @@ Swarm PR38を通常mergeし、公開ソース9ce36508742e7445cc90e7f397d2f538f19
 監査指摘への修正: 本体Service Workerの静的対象判定から `/admin`（末尾スラッシュなし）と `/admin/` 配下を除外し、管理画面のナビゲーションが本体ルートのオフラインキャッシュへ混ざらないようにした。専用PWAはネットワークから管理画面を取得し、ゲーム本体のキャッシュ境界を維持する。関連テストはService Workerを実行し、3つの管理URLで `respondWith` が呼ばれないことを確認する。
 
 独立監査はfe2b4dbで合格・必須指摘0。PR39を通常mergeし、main 816e4c2から既存Workerへ公開した。公開 `/admin/` は専用manifestを参照し、manifestのHTTP応答・起動先・縦画面設定、Worker health、管理画面ログイン表示を確認済み。実機のインストール操作とオフライン挙動は未確認。
+
+同一originの既存スワフロPWAがChromeのインストール対象を先取りするため、管理画面専用の別originを追加する。`server/admin-proxy.ts` は `/admin/`、管理API、health、PWAアイコンだけを既存Workerへ中継し、ゲーム本体のパスは404にする。新しい `wrangler.admin-production.jsonc` のWorker名は `swarm-front-admin`、公開先は `swarm-front-admin.melosalife-24.workers.dev`。既存Worker・Durable Object・データは変更しない。

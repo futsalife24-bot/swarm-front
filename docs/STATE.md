@@ -1,10 +1,10 @@
 # 現在地: 表示文言の整理・自己検証済み（2026-09-18）
 
-branch `codex/hide-ad-copy`、base `a8db310`。広告関連の表示を一時非表示にし、通常報酬/敗北操作を維持。型・関連57単体・実Chrome2サイズ14画面を確認。[詳細](HIDDEN-COPY.md)。独立監査・main反映・公開へ進行中。
+branch `codex/hide-ad-copy`、base `a8db310`。広告関連の表示を一時非表示にし、通常報酬/敗北操作を維持。型・関連57単体・実Chrome2サイズ14画面を確認。[詳細](HIDDEN-COPY.md)。初回b551793は独立監査合格・必須0。mainの管理用別origin変更を統合（競合は本STATEのみ）。再確認・main反映・既存ゲームWorker公開へ進行中。
 
-# 現在地: 管理画面専用PWAをmain反映・本番公開済み（2026-09-18）
+# 現在地: 管理画面専用originを実装・監査準備中（2026-09-18）
 
-main 4db4a82からPR39を通常merge。管理画面に `/admin/` 専用manifest（start_url/scope/id、standalone、portrait）を追加し、同一ドメインのスワフロPWAが起動する問題を修正。独立監査はfe2b4dbで合格・必須0。本体Service Workerの `/admin` と `/admin/` キャッシュ混入も除外し、境界を実行する関連11テストに補強。main 816e4c2、Worker Version 1217d8ab-de78-49e1-af45-c74ff049529dで本番公開済み。公開manifest/管理HTML参照/healthを確認。Android/iOSの実インストール操作は未確認。
+main 4db4a82からPR39を通常merge。管理画面に `/admin/` 専用manifestを追加したが、Chromeが同一originの既存スワフロPWAを優先するため、別originの管理用プロキシWorkerを追加実装。`server/admin-proxy.ts`、`wrangler.admin-production.jsonc`、関連テスト12件、型、admin Worker dry-run成功。独立監査・PR・新Worker公開待ち。
 
 branch codex/admin-analytics-filter、base20c839b450bd55781d942be5b84ba237e0c53bca、監査head8b29fffa7e694e97de2816c290366b55bf5faf1f、PR38通常merge。4アプリのブラウザ登録と集計切替は独立監査合格・必須0。公開ソース9ce36508742e7445cc90e7f397d2f538f19ec350から既存Workerへ公開。型/実SQLite/実ブラウザ+Worker/merge後build/dry-run成功、配信一致/health/認証保護正常。[記録・検証限界・ロールバック注意](ADMIN-ANALYTICS.md)。監査URL・サービス内部IDはローカル作業記録に保持。後続は記録文書のみ。
 
