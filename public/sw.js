@@ -2,9 +2,11 @@ const CACHE = "swarm-front-shell-v1";
 const scope = new URL(self.registration.scope);
 const appUrl = new URL("./", scope);
 const adminUrl = new URL("admin/", scope);
+const adminPath = new URL("admin", scope).pathname;
 const isAppAsset = (url) =>
   url.origin === scope.origin &&
   url.pathname.startsWith(scope.pathname) &&
+  url.pathname !== adminPath &&
   !url.pathname.startsWith(adminUrl.pathname) &&
   !url.pathname.startsWith(new URL("api/", scope).pathname);
 

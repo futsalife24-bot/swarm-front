@@ -52,6 +52,9 @@ describe("developer authentication", () => {
     expect(readFileSync("public/sw.js", "utf8")).toContain(
       "!url.pathname.startsWith(adminUrl.pathname)",
     );
+    expect(readFileSync("public/sw.js", "utf8")).toContain(
+      "url.pathname !== adminPath",
+    );
   });
 
   it("requires configuration and denies URL-only access", async () => {
