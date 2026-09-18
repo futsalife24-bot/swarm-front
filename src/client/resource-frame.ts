@@ -30,7 +30,9 @@ export function resourceFrame(
     purpose
   ];
   const number = Math.max(0, Math.trunc(amount)).toLocaleString("ja-JP");
-  return `<span class="resource-frame resource-${kind}" data-resource="${kind}" data-purpose="${purpose}"><svg class="resource-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">${item.icon}</svg><span class="resource-name">${item.name}</span><span class="resource-purpose">${label}</span><strong class="resource-amount">${purpose === "gain" ? "+" : ""}${number}</strong></span>`;
+  const description = `${item.name} ${label} ${number}`;
+  const sign = purpose === "gain" ? "+" : purpose === "cost" ? "−" : "";
+  return `<span class="resource-frame resource-${kind}" data-resource="${kind}" data-purpose="${purpose}" role="img" aria-label="${description}" title="${description}"><svg class="resource-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">${item.icon}</svg>${purpose === "used" ? `<span class="resource-purpose">${label}</span>` : ""}<strong class="resource-amount">${sign}${number}</strong></span>`;
 }
 
 export function resourceWallet(save: Record<ResourceKind, number>): string {

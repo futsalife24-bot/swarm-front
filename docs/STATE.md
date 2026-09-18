@@ -1,3 +1,27 @@
+# 現在地: PR46・独立監査合格、公開操作の承認待ち（2026-09-18）
+
+[PR46](https://github.com/futsalife24-bot/swarm-front/pull/46)、branch `codex/compact-resource-layout`、base153fb725、対象 `e728edae110ce36c52a840573d932aa97332dca0` は[独立監査](https://chatgpt.com/c/6aad29d2-62a4-83ee-9ac7-28bb3e518daf)合格・必須修正0。後続は記録文書のみ。型/57単体/5サイズ50画面/武器一覧4サイズ通常・整理/両build/production dry-run成功。main未反映・未公開。[詳細](COMPACT-RESOURCES.md)。
+
+停止理由: 自動承認レビューが既存Cloudflareの契約/使用量ページへのread-onlyアクセスを「今回のUI依頼では承認されていない」と拒否。継続承認記録はあるが回避せず、通常merge・契約/使用量閲覧・既存Worker公開・配信確認についてユーザーへ一括確認中。監査ZIPの送信は個別承認済みで、添付/監査は完了。
+再開条件: PR46通常merge、melosalife.24@gmail.comの既存Cloudflare契約/使用量閲覧、既存swarm-front Worker公開/配信UI確認の明示承認。契約・権限・公開先は変更しない。承認後はFree/使用量確認、最新main/PR条件再確認、合格実装の通常merge、merge後build/dry-run、公開、配信SHA/health/UI確認を実施。
+
+# 現在地: PR46・承認済みZIPで独立監査中（2026-09-18）
+
+ユーザーがcompact-review-e728eda.zipの送信を明示承認。添付/監査依頼成功。[監査Chat](https://chatgpt.com/c/6aad29d2-62a4-83ee-9ac7-28bb3e518daf)、対象e728edae110ce36c52a840573d932aa97332dca0。公開準備の型/57単体/50画面/武器一覧/両build/production dry-runは成功。
+
+Cloudflare契約/使用量ページへのread-onlyアクセスを自動承認レビューが「今回のUI依頼では承認されていない」と拒否。回避せず、PR46通常merge・既存melosalife.24@gmail.comの契約/使用量閲覧・既存swarm-front Worker公開/配信確認を一括確認中。ZIP送信の承認は取得済み。独立監査の確定を待つ。
+
+# 現在地: PR46・アイテム短縮を保存、監査ZIP送信の承認待ち（2026-09-18）
+
+[PR46](https://github.com/futsalife24-bot/swarm-front/pull/46)、branch `codex/compact-resource-layout`、base `153fb725aa17e43782805d98cb6de0db47730214`、実装/監査対象 `e728edae110ce36c52a840573d932aa97332dca0`。型/57単体/5サイズ50画面/武器一覧4サイズ通常・整理/両build/本番dry-run成功。PRはMERGEABLE・チェック一覧空。main未反映・未公開。[詳細](COMPACT-RESOURCES.md)。後続は停止・検証記録のみ。
+
+停止理由: 自動承認レビューが通常ChatGPTへ `dist-validation/compact-review-e728eda.zip`（10,753,886 bytes、対象ソース・実差分・50画面と武器一覧の検証証拠）を添付する操作を「具体的payloadの非公開ソース外部送信承認がない」と拒否。継続承認記録はあるが回避していない。添付・監査依頼は未完了。
+再開条件: 上記ZIPを通常ChatGPTの新規Chat（https://chatgpt.com/）へ独立監査目的で送信するユーザーの明示承認。SHA256 `F598473153AB1098F53446479D65D704971281DCBDD896F6755DC62938CDC5E7`。承認後は添付/監査→必須修正/再監査→合格後通常merge・既存Worker公開・配信確認。ZIPは今回必要なソース/差分/証拠のみで、認証値や対象外データは含めない。実機/読み上げ未確認。
+
+# 現在地: アイテム短縮・表示崩れ修正を自己検証（2026-09-18）
+
+branch codex/compact-resource-layout、base153fb725。アイコン＋数値、難易度と報酬の重複解消、アクセサリ操作と育成余白を圧縮。型/57単体/5サイズ関連画面/武器一覧4サイズの検証成功。独立監査・main反映・公開へ進行中。[詳細](COMPACT-RESOURCES.md)。
+
 # 現在地: 表示文言整理をmain反映・公開確認済み（2026-09-18）
 
 [PR42](https://github.com/futsalife24-bot/swarm-front/pull/42)を通常merge。独立再監査727f8f3合格・必須0、後続は文書のみ。広告関連表示を一時非表示にし、通常受取・敗北確定を維持。型/関連57単体/2サイズ14画面/両build/merge後dry-run成功。最新公開ソースc7e7669、Worker Version 60fbf8ad-400e-460e-bacc-1765e794be7c（同時進行PR44を含む）で13配信SHA一致・広告文言なし・health正常・公開UI3画面/pageerror0。[詳細と限界](HIDDEN-COPY.md)。実機/実SDKは未確認。後続は公開記録のみ。
