@@ -1,3 +1,7 @@
+# 現在地: 表示文言整理をmain反映・公開確認済み（2026-09-18）
+
+[PR42](https://github.com/futsalife24-bot/swarm-front/pull/42)を通常merge。独立再監査727f8f3合格・必須0、後続は文書のみ。広告関連表示を一時非表示にし、通常受取・敗北確定を維持。型/関連57単体/2サイズ14画面/両build/merge後dry-run成功。最新公開ソースc7e7669、Worker Version 60fbf8ad-400e-460e-bacc-1765e794be7c（同時進行PR44を含む）で13配信SHA一致・広告文言なし・health正常・公開UI3画面/pageerror0。[詳細と限界](HIDDEN-COPY.md)。実機/実SDKは未確認。後続は公開記録のみ。
+
 # 現在地: 表示文言の整理・自己検証済み（2026-09-18）
 
 branch `codex/hide-ad-copy`、base `a8db310`。広告関連の表示を一時非表示にし、通常報酬/敗北操作を維持。型・関連57単体・実Chrome2サイズ14画面を確認。[詳細](HIDDEN-COPY.md)。初回b551793・統合後727f8f3は独立監査合格・必須0。後続main更新は管理公開の記録2文書のみで、双方のSTATEを保持。実装は監査対象と同一。main反映・既存ゲームWorker公開へ進行中。
