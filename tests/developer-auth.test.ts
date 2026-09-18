@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { readFileSync } from "node:fs";
+import vm from "node:vm";
 import { developerAuth } from "../server/developer-auth";
 import { adminManifest, adminPage } from "../server/admin-page";
 const origin = "https://game.example";
@@ -52,9 +53,28 @@ describe("developer authentication", () => {
     expect(readFileSync("public/sw.js", "utf8")).toContain(
       "!url.pathname.startsWith(adminUrl.pathname)",
     );
-    expect(readFileSync("public/sw.js", "utf8")).toContain(
-      "url.pathname !== adminPath",
-    );
+    const handlers = new Map<string, (event: any) => void>();
+    vm.runInNewContext(readFileSync("public/sw.js", "utf8"), {
+      URL,
+      self: {
+        registration: { scope: "https://swarm-front.example/" },
+        addEventListener: (name: string, handler: (event: any) => void) =>
+          handlers.set(name, handler),
+      },
+      caches: {},
+      fetch: () => Promise.resolve(),
+      Response: { error: () => ({}) },
+    });
+    const fetchHandler = handlers.get("fetch");
+    expect(fetchHandler).toBeDefined();
+    for (const path of ["/admin", "/admin/", "/admin/manifest.webmanifest"] ) {
+      let intercepted = false;
+      fetchHandler!({
+        request: { method: "GET", url: "https://swarm-front.example" + path, mode: "navigate" },
+        respondWith: () => { intercepted = true; },
+      });
+      expect(intercepted, path).toBe(false);
+    }
   });
 
   it("requires configuration and denies URL-only access", async () => {
