@@ -17,3 +17,5 @@ Swarm PR38を通常mergeし、公開ソース9ce36508742e7445cc90e7f397d2f538f19
 追加対応: 管理画面に専用PWAマニフェストを追加。`id`、`start_url`、`scope`をすべて `/admin/` に固定し、`display: standalone`・縦画面で起動する。これにより、同一ドメインのスワフロ本体PWA（`/`）とインストール先を分離する。管理画面HTMLは専用マニフェストを参照し、Workerは `/admin/manifest.webmanifest` を明示配信する。
 
 監査指摘への修正: 本体Service Workerの静的対象判定から `/admin`（末尾スラッシュなし）と `/admin/` 配下を除外し、管理画面のナビゲーションが本体ルートのオフラインキャッシュへ混ざらないようにした。専用PWAはネットワークから管理画面を取得し、ゲーム本体のキャッシュ境界を維持する。関連テストはService Workerを実行し、3つの管理URLで `respondWith` が呼ばれないことを確認する。
+
+独立監査はfe2b4dbで合格・必須指摘0。PR39を通常mergeし、main 816e4c2から既存Workerへ公開した。公開 `/admin/` は専用manifestを参照し、manifestのHTTP応答・起動先・縦画面設定、Worker health、管理画面ログイン表示を確認済み。実機のインストール操作とオフライン挙動は未確認。
