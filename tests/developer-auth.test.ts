@@ -100,6 +100,16 @@ describe("developer authentication", () => {
       expect(String(target)).toBe("https://backend.example/api/developer/login");
       expect((init.headers as Headers).get("Origin")).toBe("https://backend.example");
       expect((init.headers as Headers).get("Referer")).toBeNull();
+      await expect(
+        adminProxy.fetch(
+          new Request("https://swarm-front-admin.example/api/developer/login", {
+            method: "POST",
+            headers: { Origin: "https://evil.example" },
+            body: "{}",
+          }),
+          { BACKEND_ORIGIN: "https://backend.example" },
+        ),
+      ).resolves.toMatchObject({ status: 403 });
       expect(await adminProxy.fetch(new Request("https://swarm-front-admin.example/"), {})).toMatchObject({ status: 404 });
     } finally {
       upstream.mockRestore();

@@ -19,6 +19,10 @@ export default {
       /\/$/,
       "",
     );
+    const requestOrigin = incoming.origin;
+    const suppliedOrigin = req.headers.get("Origin");
+    if (suppliedOrigin && suppliedOrigin !== requestOrigin)
+      return new Response("Forbidden", { status: 403 });
     const target = new URL(backendOrigin + incoming.pathname + incoming.search);
     const headers = new Headers(req.headers);
     headers.delete("Host");
