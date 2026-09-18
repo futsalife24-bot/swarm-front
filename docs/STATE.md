@@ -1,6 +1,6 @@
-# 現在地: 管理画面専用originを実装・監査準備中（2026-09-18）
+# 現在地: 管理画面専用originを本番公開済み（2026-09-18）
 
-main 4db4a82からPR39を通常merge。管理画面に `/admin/` 専用manifestを追加したが、Chromeが同一originの既存スワフロPWAを優先するため、別originの管理用プロキシWorkerを追加実装。`server/admin-proxy.ts`、`wrangler.admin-production.jsonc`、関連テスト12件、型、admin Worker dry-run成功。独立監査・PR・新Worker公開待ち。
+PR41を独立監査合格・必須修正0で通常merge。`swarm-front-admin` を `https://swarm-front-admin.melosalife-24.workers.dev` へ公開し、`/admin/`、専用manifest、health、ルート404を確認。`server/admin-proxy.ts` はOrigin検証と `global_fetch_strictly_public` 設定で既存Workerへ安全に中継する。既存Worker・Durable Object・データは変更しない。Worker Version `d8c46273-1e05-4eb7-a88c-1e042f7c6c08`。
 
 branch codex/admin-analytics-filter、base20c839b450bd55781d942be5b84ba237e0c53bca、監査head8b29fffa7e694e97de2816c290366b55bf5faf1f、PR38通常merge。4アプリのブラウザ登録と集計切替は独立監査合格・必須0。公開ソース9ce36508742e7445cc90e7f397d2f538f19ec350から既存Workerへ公開。型/実SQLite/実ブラウザ+Worker/merge後build/dry-run成功、配信一致/health/認証保護正常。[記録・検証限界・ロールバック注意](ADMIN-ANALYTICS.md)。監査URL・サービス内部IDはローカル作業記録に保持。後続は記録文書のみ。
 
