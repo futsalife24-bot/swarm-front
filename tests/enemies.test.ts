@@ -559,6 +559,23 @@ it("flankers still reach targets across city buildings", () => {
   }
 });
 
+it("weavers and frontal pursuers escape the audited building and attack", () => {
+  for (const [kind, id] of [
+    ["crawler", 7],
+    ["ant", 7],
+    ["ant", 8],
+  ] as const) {
+    const { w, p } = field();
+    p.x = -62;
+    p.z = -86;
+    p.hp = 1e6;
+    spawn(w, kind, -62, -54);
+    Object.assign(w.enemies[0], { id, size: 1, active: true });
+    for (let i = 0; i < 2400 && p.hp === 1e6; i++) step(w, { p: neutral() });
+    expect(p.hp, `${kind}/${id}`).toBeLessThan(1e6);
+  }
+});
+
 it("spider never walks between jumps and favors flanking more than other enemies", () => {
   const { w, p } = field();
   spawn(w, "spider", 0, -8);
