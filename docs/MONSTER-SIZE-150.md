@@ -16,3 +16,7 @@ Durable Objects当日: Requests2、0.041GB-sec、SQL204.8kB、読取9/書込3、
 ## 独立監査合格
 
 通常Chatの対象ce32074は合格・必須0。後続ca63d13は記録のみで実装同一と監査側も確認。共有TSの独立コンパイル/能力値/スポーン/20ステージ移動検証。Vitest一式は監査環境の依存導入タイムアウトで未再実行。任意注意: 地形移動用半径は従来の固定値を維持しており、stage6 spiderの壁張り付きで拡大後の射撃hit sphereが壁へ重なる（従来から個体差を移動半径に反映しない設計）。物理クリアランス変更は別範囲。実機/全通し/旧client混在は未確認。
+
+## main反映・公開済み
+
+PR47を通常merge。公開ソース c3151ed9e93ec782a90b12fc7a7e79ca939ec68f、Worker Version 47c10c34-7e4c-434a-a297-a80ac6a30be6。merge後build/production dry-run成功、既存swarm-frontへ公開。HTML/sw/JS/CSS13ファイルSHA一致・health正常（dist-validation/enemy-size/published-150.json）。公開iabで出撃準備→設定→操作配置→試し撃ち→開始を操作し、拡大標的と兵士の描画・訓練HUDを目視確認、ブラウザerrorログ0。能力値の不変は単体/監査、個体差ごとの描画倍率はローカル20ステージ検証で確認。後続は公開記録のみ。

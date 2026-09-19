@@ -1,3 +1,7 @@
+# 現在地: PR47・全モンスター1.5倍をmain反映・公開済み（2026-09-19）
+
+[PR47](https://github.com/futsalife24-bot/swarm-front/pull/47)通常merge。独立監査ce32074合格・必須0、後続は記録のみ。個体差を保ち体/射撃当たり判定/胴体間隔を1.5倍、能力値は維持。型/162関連単体/20ステージ描画/実Worker2接続/両build成功。公開ソース c3151ed9e93ec782a90b12fc7a7e79ca939ec68f、Worker Version 47c10c34-7e4c-434a-a297-a80ac6a30be6。merge後build/dry-run、13配信SHA一致・health正常・公開iab訓練標的描画/error0。[詳細・既存テスト1件失敗・壁移動判定の注意](MONSTER-SIZE-150.md)。実機/全通し/旧client混在は未確認。
+
 # 現在地: PR47・全モンスター1.5倍が独立監査合格（2026-09-19）
 
 [PR47](https://github.com/futsalife24-bot/swarm-front/pull/47)、対象ce32074は[独立監査](https://chatgpt.com/c/6aadde07-faa0-83ee-aa64-f32cf605ae01)合格・必須0。後続は記録のみ。型/162関連単体/20ステージ描画/実Worker2接続/両build/production dry-run成功。Free/使用量確認済み。main反映・既存Worker公開へ進行中。[詳細・既存テスト失敗・壁接触の注意](MONSTER-SIZE-150.md)。
