@@ -1,5 +1,10 @@
 import { adminManifest, adminPage } from "./admin-page";
 import {
+  exportProjectAnalytics,
+  forwardAnalytics,
+  legacyEvent,
+} from "./project-hub";
+import {
   APPS,
   summary,
   appAnalytics,
@@ -57,6 +62,8 @@ interface Env {
   TURNSTILE_SECRET_KEY?: string;
   TURNSTILE_SITE_KEY?: string;
   DEVELOPER_PASSWORD_HASH?: string;
+  PROJECT_HUB?: Fetcher;
+  PROJECT_HUB_EXPORT_KEY?: string;
 }
 interface Member {
   id: string;
@@ -87,6 +94,8 @@ const secret = () => crypto.randomUUID().replaceAll("-", "");
 export default {
   async fetch(req: Request, env: Env) {
     const u = new URL(req.url);
+    if (u.pathname === "/api/project-hub/export")
+      return exportProjectAnalytics(req, env.GATE, env.PROJECT_HUB_EXPORT_KEY);
     // Separate collection CORS: this never opens authentication or gameplay APIs.
     const collect = /^\/api\/analytics\/collect\/(lmfdb|katamon|mayoi)$/.exec(
       u.pathname,
@@ -114,6 +123,18 @@ export default {
         return new Response(null, { status: 405, headers });
       try {
         const body = await readEvent(req);
+        if (env.PROJECT_HUB) {
+          const response = await forwardAnalytics(
+            env.PROJECT_HUB,
+            req,
+            app.id,
+            body,
+          );
+          return new Response(response.body, {
+            status: response.status,
+            headers: { ...headers, "Content-Type": "application/json" },
+          });
+        }
         const gate = env.GATE.get(
           env.GATE.idFromName("app-analytics/" + app.id),
         );
@@ -252,13 +273,30 @@ export default {
         },
       });
     if (u.pathname === "/admin/" || u.pathname === "/admin")
-      return new Response(adminPage, {
-        headers: {
-          "Content-Type": "text/html; charset=utf-8",
-          "Cache-Control": "no-store",
-        },
-      });
+      return env.PROJECT_HUB
+        ? Response.redirect(
+            "https://project-hub.melosalife-24.workers.dev/",
+            302,
+          )
+        : new Response(adminPage, {
+            headers: {
+              "Content-Type": "text/html; charset=utf-8",
+              "Cache-Control": "no-store",
+            },
+          });
     if (path === "/analytics/event" && req.method === "POST") {
+      if (env.PROJECT_HUB) {
+        try {
+          return await forwardAnalytics(
+            env.PROJECT_HUB,
+            req,
+            "swarm-front",
+            await legacyEvent(req),
+          );
+        } catch {
+          return json({ ok: false }, 400);
+        }
+      }
       const gate = env.GATE.get(env.GATE.idFromName("analytics"));
       res = await gate.fetch(
         new Request("https://internal/analytics-event", req),

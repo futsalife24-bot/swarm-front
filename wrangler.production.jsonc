@@ -5,6 +5,7 @@
   "compatibility_date": "2026-09-06",
   "workers_dev": true,
   "send_metrics": false,
+  "services": [{ "binding": "PROJECT_HUB", "service": "project-hub" }],
   "vars": {
     "TURNSTILE_SITE_KEY": "0x4AAAAAAEqP4GMKnl-xNQKK",
   },
