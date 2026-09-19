@@ -32,3 +32,5 @@ src/shared/enemy-motion.tsで視線が遮られる場合、または移動半径
 再監査対象100114263447801464e1269ffb5fbe7de6286e83。同じ通常Chatへpursuit-reaudit-1001142.zip（SHA256 1BFD8B9C40D331E80F9AD55FD69623F57738361361BA734958DA2672FC721FBF）を添付・送信済み。初回は指摘の途中報告後に最終判定本文が表示されず、他の必須残件を含めた新対象の最終判定を求めた。後続は記録のみ。
 
 初回監査は再読込後に「要修正・必須1件」と確定。最終再現配置stage1 seed11、player(-62,-86)/enemy(-62,-54)、crawler id7・ant id7/8（size1）の3条件も実攻撃到達テストへ追加し、修正版で120秒以内の被弾成功。旧headは監査側600秒攻撃なし。初回追加依頼時のInternal Server Errorにより修正版メッセージは再読込後に消えていたため、確定後に修正版ZIPを再添付して再監査する。ランタイムは1001142から変更なし。
+
+確定版再監査: 552da472644ff65c4fa65fe03b0783c40ca65ee5、pursuit-reaudit-final.zip SHA256 57CCE395C92D51BBE7DFBFC17C345774904DBC5BCA8FFF3A32206A6A5B950133を初回判定確定後に同じChatへ添付・送信成功。後続は記録のみ。
