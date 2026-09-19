@@ -1,3 +1,7 @@
+# 現在地: PR47・全モンスター1.5倍が独立監査合格（2026-09-19）
+
+[PR47](https://github.com/futsalife24-bot/swarm-front/pull/47)、対象ce32074は[独立監査](https://chatgpt.com/c/6aadde07-faa0-83ee-aa64-f32cf605ae01)合格・必須0。後続は記録のみ。型/162関連単体/20ステージ描画/実Worker2接続/両build/production dry-run成功。Free/使用量確認済み。main反映・既存Worker公開へ進行中。[詳細・既存テスト失敗・壁接触の注意](MONSTER-SIZE-150.md)。
+
 # 現在地: 全モンスターのサイズ1.5倍・自己検証済み（2026-09-19）
 
 branch codex/monster-size-150、base4d92ce4。個体差を維持し体/当たり判定/胴体間隔を1.5倍、戦闘能力は維持。型・162関連単体・20ステージ描画・実Worker2接続・両build成功。既存の更新履歴テスト1件は設定不足で失敗、詳細は[記録](MONSTER-SIZE-150.md)。独立監査/main反映/公開へ進行中。

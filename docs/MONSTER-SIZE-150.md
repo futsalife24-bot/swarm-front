@@ -12,3 +12,7 @@ branch: codex/monster-size-150 / base: 4d92ce4956bb768c7154727cda5036a1630541ce�
 
 実装/監査対象 ce32074d00a691cea9aa389b0f3e2f6d71f43eb8、[PR47](https://github.com/futsalife24-bot/swarm-front/pull/47)。ZIP monster-size-audit-ce32074.zip（1,714,677 bytes、SHA256 03EF4D287CDC27BBDA30C7CF080A0186676E037C004A75EB3CADB1F0D089551B）を[通常Chat](https://chatgpt.com/c/6aadde07-faa0-83ee-aa64-f32cf605ae01)へ添付・送信済み。production dry-runも成功。Free Current plan、Workers当日2/100,000確認。判定待ち。
 Durable Objects当日: Requests2、0.041GB-sec、SQL204.8kB、読取9/書込3、エラー0。既存無料枠内。
+
+## 独立監査合格
+
+通常Chatの対象ce32074は合格・必須0。後続ca63d13は記録のみで実装同一と監査側も確認。共有TSの独立コンパイル/能力値/スポーン/20ステージ移動検証。Vitest一式は監査環境の依存導入タイムアウトで未再実行。任意注意: 地形移動用半径は従来の固定値を維持しており、stage6 spiderの壁張り付きで拡大後の射撃hit sphereが壁へ重なる（従来から個体差を移動半径に反映しない設計）。物理クリアランス変更は別範囲。実機/全通し/旧client混在は未確認。
