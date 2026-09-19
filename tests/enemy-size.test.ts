@@ -11,11 +11,32 @@ import { ENEMIES } from "../src/shared/defs";
 import { STAGES } from "../src/shared/stages";
 import {
   enemySize,
+  enemyStatSize,
   enemySpeedFactor,
   spawnSize,
 } from "../src/shared/enemy-size";
 import { wormSpeed, wormNodes, moveWorm } from "../src/shared/worm";
 import { foundryLaserOrigin } from "../src/shared/foundry-defs";
+
+it("enlarges every authored individual by 1.5 without changing combat factors", () => {
+  const original = [
+    1, 0.85, 1.15, 0.95, 1.3, 0.8, 1.05, 1.5, 0.9, 1.1, 1, 1.2, 0.95, 1.4, 1,
+    1.15, 0.9, 1.05, 0.85, 1.2, 1, 0.95, 1.75, 1.1, 0.8, 1.05, 1.3, 0.9, 1, 1.2,
+    0.95, 2,
+  ];
+  for (const kind of Object.keys(ENEMIES)) {
+    for (const worm of [false, true]) {
+      original.forEach((factor, slot) => {
+        const previous = kind === "boss" && !worm ? 2 : factor;
+        const enemy = { size: spawnSize(kind, worm, slot) };
+        expect(enemySize(enemy)).toBeCloseTo(previous * 1.5);
+        expect(enemyStatSize(enemy)).toBe(previous);
+        expect(enemySpeedFactor(enemy)).toBe(previous <= 1 ? 1.5 : 1);
+      });
+    }
+  }
+  expect(enemySize({})).toBe(1.5);
+});
 
 it.each(STAGES)(
   "stage $id keeps the same size roster across seeds, unrelated serials and snapshots",
@@ -32,7 +53,9 @@ it.each(STAGES)(
       const ea = spawn(a, kind, 0, 0, form)!,
         eb = spawn(b, kind, 0, 0, form)!;
       expect(ea.size).toBe(eb.size);
-      expect(ea.maxHp).toBeCloseTo(ENEMIES[kind].hp * stage.hp * enemySize(ea));
+      expect(ea.maxHp).toBeCloseTo(
+        ENEMIES[kind].hp * stage.hp * enemyStatSize(ea),
+      );
       expect(enemyBodies(ea)[0].radius).toBeCloseTo(
         ENEMIES[kind].radius * enemySize(ea),
       );
@@ -65,7 +88,7 @@ it.each([0.8, 1, 2])(
     )!;
     const e = spawn(w, "boss", 0, 0, "worm")!;
     expect(e.size).toBe(size);
-    expect(e.segments![6].trailOffset).toBeCloseTo(7 * 3.2 * size);
+    expect(e.segments![6].trailOffset).toBeCloseTo(7 * 3.2 * size * 1.5);
     expect(wormSpeed(e)).toBeCloseTo(4.2 * (size <= 1 ? 1.5 : 1));
     for (const [i, node] of wormNodes(e).entries()) {
       node.acidAt = 0;
@@ -75,7 +98,7 @@ it.each([0.8, 1, 2])(
     expect(w.projectiles).toHaveLength(8);
     w.projectiles.forEach((q, i) => {
       expect(q.damage).toBeCloseTo(10 * size);
-      const origin = foundryLaserOrigin(wormNodes(e)[i], i, size);
+      const origin = foundryLaserOrigin(wormNodes(e)[i], i, size * 1.5);
       expect(q.x).toBeCloseTo(origin.x);
       expect(q.y).toBeCloseTo(origin.y);
     });

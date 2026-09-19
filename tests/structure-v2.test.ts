@@ -19,7 +19,7 @@ import { specialMotion } from "../src/shared/enemy-motion";
 import { ENEMIES } from "../src/shared/defs";
 import { troopCount, stageFor, troopAt } from "../src/shared/stages";
 import { enemyGeometry } from "../src/client/enemy-model";
-import { enemySize } from "../src/shared/enemy-size";
+import { enemyStatSize } from "../src/shared/enemy-size";
 
 function field(kind: Enemy["kind"] = "crawler", count = 4, stage = 1) {
   const w = createWorld("structure", 123, stage);
@@ -112,7 +112,7 @@ it("PRISM snapshots and retreats below 16m without changing damage", () => {
   while (e.wind > 0) step(w, {});
   expect({ x: e.tx, z: e.tz }).toEqual(aim);
   expect(w.projectiles[0].damage).toBeCloseTo(
-    ENEMIES.spitter.damage * enemySize(e),
+    ENEMIES.spitter.damage * enemyStatSize(e),
   );
 });
 it("HOUND shockwave hits forward after .45 seconds, not behind or outside range", () => {
@@ -128,7 +128,7 @@ it("HOUND shockwave hits forward after .45 seconds, not behind or outside range"
   const hp = w.players.map((p) => p.hp);
   while (e.wind > 0) step(w, {});
   expect(w.players[0].hp).toBeCloseTo(
-    hp[0] - ENEMIES.crawler.damage * enemySize(e),
+    hp[0] - ENEMIES.crawler.damage * enemyStatSize(e),
   );
   expect(w.players.slice(1).map((p) => p.hp)).toEqual(hp.slice(1));
 });
@@ -238,7 +238,7 @@ it("RAY shoots vertically down at speed 19 and hits the stationary player", () =
   expect(q.dz).toBe(0);
   expect(q.dy).toBe(-19);
   for (let i = 0; i < 15; i++) step(w, {});
-  expect(p.hp).toBeCloseTo(hp - ENEMIES.hornet.damage * enemySize(e));
+  expect(p.hp).toBeCloseTo(hp - ENEMIES.hornet.damage * enemyStatSize(e));
 });
 it("RAY near-vertical shots have finite normalized 3D speed", () => {
   const { w, e, p } = field("hornet", 1);
@@ -276,7 +276,7 @@ it("FOUNDRY scores only players reachable by its damage rule", () => {
   expect({ x: e.tx, z: e.tz }).toEqual({ x: 0, z: 18 });
   const hp = w.players.map((p) => p.hp);
   while (e.wind > 0) step(w, {});
-  expect(w.players[0].hp).toBeCloseTo(hp[0] - 40 * enemySize(e));
+  expect(w.players[0].hp).toBeCloseTo(hp[0] - 40 * enemyStatSize(e));
   expect(w.players.slice(1).map((p) => p.hp)).toEqual(hp.slice(1));
 });
 it("linked foundry targets a real member when the cluster centre is empty", async () => {

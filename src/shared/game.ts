@@ -1,4 +1,9 @@
-import { enemySize, enemySpeedFactor, spawnSize } from "./enemy-size";
+import {
+  enemySize,
+  enemyStatSize,
+  enemySpeedFactor,
+  spawnSize,
+} from "./enemy-size";
 import {
   defenseTarget,
   defenseSpawn,
@@ -1311,7 +1316,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       def = {
         ...ENEMIES[e.kind],
         speed: ENEMIES[e.kind].speed * enemySpeedFactor(e),
-        damage: ENEMIES[e.kind].damage * enemySize(e),
+        damage: ENEMIES[e.kind].damage * enemyStatSize(e),
       };
     if (e.active === false) {
       if (
@@ -1359,7 +1364,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
               visible(e, p, mapFor(w).blocks)
             )
               hurtPlayer(w, p, def.damage, true);
-          e.cool = 3 * enemySize(e);
+          e.cool = 3 * enemyStatSize(e);
         } else if (
           e.kind === "spitter" ||
           (e.kind === "ant" && d > 2.5) ||
