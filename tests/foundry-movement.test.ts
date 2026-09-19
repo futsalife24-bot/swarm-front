@@ -1,4 +1,8 @@
-import { enemySize, enemySpeedFactor } from "../src/shared/enemy-size";
+import {
+  enemySize,
+  enemyStatSize,
+  enemySpeedFactor,
+} from "../src/shared/enemy-size";
 import { supportHeight } from "../src/shared/terrain";
 import { expect, it } from "vitest";
 import {
@@ -249,11 +253,11 @@ it("each unit warns then emits a straight 60m/s, 100m laser from its model socke
   for (const [part, q] of w.projectiles.entries()) {
     expect(q.style).toBe("laser");
     expect(q.gravity).toBe(0);
-    expect(q.damage).toBe(10 * enemySize(e));
+    expect(q.damage).toBe(10 * enemyStatSize(e));
     expect(Math.hypot(q.dx, q.dy, q.dz)).toBeCloseTo(FOUNDRY_LASER_SPEED, 9);
     expect(q.life * FOUNDRY_LASER_SPEED).toBeCloseTo(FOUNDRY_LASER_RANGE, 9);
     expect({ x: q.x, y: q.y, z: q.z }).toEqual(
-      foundryLaserOrigin(wormNodes(e)[part], part, e.size),
+      foundryLaserOrigin(wormNodes(e)[part], part, enemySize(e)),
     );
     const flight =
       Math.hypot(target.x - q.x, target.y - q.y, target.z - q.z) /
@@ -262,7 +266,7 @@ it("each unit warns then emits a straight 60m/s, 100m laser from its model socke
     expect(q.y + q.dy * flight).toBeCloseTo(target.y, 8);
     expect(q.z + q.dz * flight).toBeCloseTo(target.z, 8);
     expect(wormNodes(e)[part].acidAt).toBeCloseTo(
-      w.time + 4.8 * Math.max(1, enemySize(e)),
+      w.time + 4.8 * Math.max(1, enemyStatSize(e)),
       8,
     );
   }
@@ -306,7 +310,7 @@ it("entering muzzle range immediately before an old fire time still gets a full 
   e.partHp = e.hp = 100;
   e.heading = 0;
   e.acidAt = 0.8;
-  const origin = foundryLaserOrigin(e, 0, e.size);
+  const origin = foundryLaserOrigin(e, 0, enemySize(e));
   p.x = origin.x;
   p.z = origin.z + 100.1;
   moveWorm(w, e, 0);
@@ -346,7 +350,7 @@ it("target eligibility uses the 100m three-dimensional distance from the muzzle"
   e.partHp = e.hp = 100;
   e.heading = Math.PI;
   e.acidAt = 0.8;
-  const origin = foundryLaserOrigin(e, 0, e.size);
+  const origin = foundryLaserOrigin(e, 0, enemySize(e));
   p.x = origin.x;
   p.z = origin.z + 100.01;
   // The target is closer than 100m to the root, but outside the muzzle's range.

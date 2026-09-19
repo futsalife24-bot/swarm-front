@@ -1,4 +1,4 @@
-import { spawnSize } from "./enemy-size";
+import { enemySize, spawnSize } from "./enemy-size";
 import { settings } from "./progression";
 import { groundHeight } from "./terrain";
 import { ENEMIES, LIMITS } from "./defs";
@@ -47,7 +47,7 @@ export function cutPendingFoundrySpawn(w: World, e: Enemy, part: number) {
 }
 
 function spawnPoint(w: World, batch: FoundrySpawnBatch, kind: TroopKind) {
-  const size = spawnSize(kind, false, w.enemyOrdinal ?? 0);
+  const size = enemySize({ size: spawnSize(kind, false, w.enemyOrdinal ?? 0) });
   const def = { ...ENEMIES[kind], radius: ENEMIES[kind].radius * size },
     blocks = mapFor(w).blocks;
   const bodies = w.enemies.filter((e) => e.hp > 0).flatMap(enemyBodies);

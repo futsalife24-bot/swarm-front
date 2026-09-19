@@ -65,7 +65,7 @@ try {
         .map((e) => {
           view.enemies.get(e.kind).getMatrixAt(0, matrix);
           matrix.decompose(p, q, scale);
-          return { kind: e.kind, want: e.size, actual: scale.x };
+          return { kind: e.kind, want: e.size * 1.5, actual: scale.x };
         });
       const worm = [...view.foundryWorms.values()].find((s) => s.view).view;
       const head = worm.units[0];
@@ -81,7 +81,7 @@ try {
     }, stage);
     for (const e of row.enemies)
       assert.ok(Math.abs(e.want - e.actual) < 1e-5, JSON.stringify(e));
-    assert.equal(row.wormScale, 2);
+    assert.equal(row.wormScale, 3);
     assert.ok(row.headError < 1e-5, JSON.stringify(row));
     rows.push(row);
     if ([4, 6].includes(stage))

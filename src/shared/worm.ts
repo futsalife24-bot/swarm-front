@@ -1,4 +1,4 @@
-import { enemySize, enemySpeedFactor } from "./enemy-size";
+import { enemySize, enemyStatSize, enemySpeedFactor } from "./enemy-size";
 import { supportHeight } from "./terrain";
 import type { Enemy, Player, World } from "./game";
 import { mapFor } from "./stages";
@@ -322,7 +322,13 @@ function moveLeader(
   }
 }
 
-function fireLaser(w: World, node: WormNode, part: number, size: number) {
+function fireLaser(
+  w: World,
+  node: WormNode,
+  part: number,
+  size: number,
+  statSize: number,
+) {
   node.acidAt ??= w.time + FOUNDRY_LASER_WARNING + part * 0.23;
   if (w.time >= node.acidAt - FOUNDRY_LASER_WARNING && !node.pulseAim) {
     const origin = foundryLaserOrigin(node, part, size);
@@ -346,7 +352,7 @@ function fireLaser(w: World, node: WormNode, part: number, size: number) {
   if (w.time < node.acidAt) return;
   const target = node.pulseAim;
   node.pulseAim = undefined;
-  node.acidAt = w.time + FOUNDRY_LASER_INTERVAL * Math.max(1, size);
+  node.acidAt = w.time + FOUNDRY_LASER_INTERVAL * Math.max(1, statSize);
   if (!target || w.projectiles.length >= 100) return;
   const origin = foundryLaserOrigin(node, part, size),
     direction = foundryLaserDirection(origin, target);
@@ -359,7 +365,7 @@ function fireLaser(w: World, node: WormNode, part: number, size: number) {
     gravity: 0,
     life: FOUNDRY_LASER_RANGE / FOUNDRY_LASER_SPEED,
     owner: "enemy",
-    damage: FOUNDRY_LASER_DAMAGE * size,
+    damage: FOUNDRY_LASER_DAMAGE * statSize,
     rocket: false,
     style: "laser",
   });
@@ -417,7 +423,7 @@ export function moveWorm(w: World, e: Enemy, dt: number) {
       node.y = supportHeight(node.x, node.z, mapFor(w).blocks);
       node.trailOwner = parts[0];
       node.trailOffset = offset * FOUNDRY_UNIT_PITCH * enemySize(e);
-      fireLaser(w, node, part, enemySize(e));
+      fireLaser(w, node, part, enemySize(e), enemyStatSize(e));
     }
   }
 }
