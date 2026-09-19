@@ -1,3 +1,18 @@
+# 現在地: PR48・多彩な接近と壁際修正が独立監査合格（2026-09-19）
+
+対象552da47は[通常Chat](https://chatgpt.com/c/6aae461d-dfe0-83e8-a2a8-387d9826b46f)で合格・必須0。壁越し退行解消、型/関連単体/実iab/実Worker2接続/両build成功。Free/使用量確認済み。後続は記録のみ。[詳細・限界](VARIED-PURSUIT.md)。main反映・既存Worker公開へ進む。
+
+# 現在地: PR48・壁越し追跡の9配置を修正し再監査中（2026-09-19）
+
+対象552da472644ff65c4fa65fe03b0783c40ca65ee5、base fcf37f1。[同じ通常Chat](https://chatgpt.com/c/6aae461d-dfe0-83e8-a2a8-387d9826b46f)へpursuit-reaudit-final.zipを添付・送信済み。初回監査は必須1件。修正版で9配置の実攻撃到達成功、型/関連84単体再検証/実iab/実Worker2接続/build/production dry-run成功。[詳細](VARIED-PURSUIT.md)。一時的な監査サービスエラーは再読込で復旧。Free/使用量確認済み。再監査合格/main反映/公開は未完了。後続は記録のみ。
+
+# 現在地: PR48・モンスターの多彩な接近を独立監査中（2026-09-19）
+
+[PR48](https://github.com/futsalife24-bot/swarm-front/pull/48)、対象d343f85。[通常Chat](https://chatgpt.com/c/6aae461d-dfe0-83e8-a2a8-387d9826b46f)へ必要ソース/実差分/実iab証拠ZIPを送信済み。型/関連114単体/実Worker2接続/両build/production dry-run成功。既存更新履歴テスト1件失敗は[詳細](VARIED-PURSUIT.md)。判定待ち、main未反映・未公開。後続は記録のみ。
+
+# 現在地: モンスターの回り込み・蛇行を自己検証（2026-09-19）
+
+branch codex/varied-monster-pursuit、base fcf37f1。左右回り込み/蛇行/正面寄りを混在、近距離で攻撃へ収束。洞窟・飛行敵固有旋回は維持。型/関連114単体/実iab軌跡と描画/実Worker2接続/両build成功。既存更新履歴テスト1失敗は今回と無関係。[詳細・検証限界](VARIED-PURSUIT.md)。独立監査・main反映・既存Worker公開へ進行中。
 # 現在地: PR47・全モンスター1.5倍をmain反映・公開済み（2026-09-19）
 
 [PR47](https://github.com/futsalife24-bot/swarm-front/pull/47)通常merge。独立監査ce32074合格・必須0、後続は記録のみ。個体差を保ち体/射撃当たり判定/胴体間隔を1.5倍、能力値は維持。型/162関連単体/20ステージ描画/実Worker2接続/両build成功。公開ソース c3151ed9e93ec782a90b12fc7a7e79ca939ec68f、Worker Version 47c10c34-7e4c-434a-a297-a80ac6a30be6。merge後build/dry-run、13配信SHA一致・health正常・公開iab訓練標的描画/error0。[詳細・既存テスト1件失敗・壁移動判定の注意](MONSTER-SIZE-150.md)。実機/全通し/旧client混在は未確認。

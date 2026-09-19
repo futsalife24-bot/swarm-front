@@ -495,6 +495,87 @@ it("dormant guards prevent wave completion until defeated", () => {
   expect(w.enemies.some((e) => e.active === false)).toBe(true);
 });
 
+it("flankers keep opposite sides, weavers change sides, and all close in", () => {
+  const { w, p } = field();
+  spawn(w, "ant", 0, -20);
+  const e = w.enemies[0];
+  const signs = new Map<number, Set<number>>();
+  for (const id of [6, 9, 7, 8]) {
+    signs.set(id, new Set());
+    e.id = id;
+    for (let i = 0; i < 160; i++) {
+      w.time = i / 20;
+      const direction = pursuitDirection(w, e, p);
+      signs.get(id)!.add(Math.sign(direction.x));
+      expect(direction.z).toBeGreaterThan(0.4);
+      expect(Math.hypot(direction.x, direction.z)).toBeCloseTo(1);
+    }
+  }
+  expect([...signs.get(6)!]).toEqual([-1]);
+  expect([...signs.get(9)!]).toEqual([1]);
+  expect(signs.get(7)!.has(-1) && signs.get(7)!.has(1)).toBe(true);
+  // A curved approach must reach melee range instead of circling forever.
+  for (const id of [6, 9, 7, 8]) {
+    e.id = id;
+    e.x = 0;
+    e.z = -20;
+    for (let i = 0; i < 600 && Math.hypot(e.x, e.z) > 2.1; i++) {
+      w.time = i / 20;
+      const direction = pursuitDirection(w, e, p);
+      e.x += (direction.x * ENEMIES.ant.speed) / 20;
+      e.z += (direction.z * ENEMIES.ant.speed) / 20;
+    }
+    expect(Math.hypot(e.x, e.z)).toBeLessThanOrEqual(2.1);
+  }
+});
+
+it("flankers still reach targets across city buildings", () => {
+  for (const [ex, ez, px, pz] of [
+    [80, -60, 0, 0],
+    [80, -60, 0, 40],
+    [-80, -90, 20, 0],
+    [-80, -60, 20, 0],
+    [-80, -30, 20, 0],
+    [-80, 0, 20, 0],
+  ]) {
+    const { w, p } = field();
+    p.x = px;
+    p.z = pz;
+    p.hp = 1e6;
+    spawn(w, "crawler", ex, ez);
+    const e = w.enemies[0];
+    Object.assign(e, { id: 6, size: 1, active: true });
+    let reached = false;
+    for (let i = 0; i < 2400; i++) {
+      step(w, { p: neutral() });
+      if (p.hp < 1e6) {
+        reached = true;
+        break;
+      }
+    }
+    expect(reached, JSON.stringify({ ex, ez, px, pz, x: e.x, z: e.z })).toBe(
+      true,
+    );
+  }
+});
+
+it("weavers and frontal pursuers escape the audited building and attack", () => {
+  for (const [kind, id] of [
+    ["crawler", 7],
+    ["ant", 7],
+    ["ant", 8],
+  ] as const) {
+    const { w, p } = field();
+    p.x = -62;
+    p.z = -86;
+    p.hp = 1e6;
+    spawn(w, kind, -62, -54);
+    Object.assign(w.enemies[0], { id, size: 1, active: true });
+    for (let i = 0; i < 2400 && p.hp === 1e6; i++) step(w, { p: neutral() });
+    expect(p.hp, `${kind}/${id}`).toBeLessThan(1e6);
+  }
+});
+
 it("spider never walks between jumps and favors flanking more than other enemies", () => {
   const { w, p } = field();
   spawn(w, "spider", 0, -8);
@@ -512,13 +593,14 @@ it("spider never walks between jumps and favors flanking more than other enemies
     w.time = i * 2;
     e.z = -20;
     e.steerUntil = 0;
-    pursuitDirection(w, e, p);
-    spider += Math.abs(e.steerAngle!);
+    e.id = i + 1;
+    const spiderDirection = pursuitDirection(w, e, p);
+    spider += Math.abs(Math.atan2(spiderDirection.x, spiderDirection.z));
     const a = { ...e, kind: "ant" as const, steerUntil: 0 };
-    pursuitDirection(w, a, p);
-    ant += Math.abs(a.steerAngle!);
+    const antDirection = pursuitDirection(w, a, p);
+    ant += Math.abs(Math.atan2(antDirection.x, antDirection.z));
   }
-  expect(spider).toBeGreaterThan(ant * 2);
+  expect(spider).toBeGreaterThan(ant * 1.5);
 });
 it("wall perching rejects corners and keeps each of four faces supported", () => {
   const { w, p } = field();
