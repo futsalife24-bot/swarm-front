@@ -16,3 +16,7 @@ branch codex/varied-monster-pursuit / base fcf37f151858aa2fc7ebdee420f36b0ba4302
 - npm run build / npm run server:build 成功。Workerはsandboxのログ/親フォルダー読取制限後、許可された通常実行で成功。
 
 未確認: 実スマホ、全ステージ通しプレイ、動く標的に対する全個体の追い切り。横移動により直進より到達時間は長くなる。独立監査/main反映/公開は後続。
+
+## 独立監査を依頼
+
+[PR48](https://github.com/futsalife24-bot/swarm-front/pull/48)、対象d343f85fb5cd9a9809c3b14de2fdc8ef25b397ba。通常Chat https://chatgpt.com/c/6aae461d-dfe0-83e8-a2a8-387d9826b46f にZIP添付・監査依頼送信済み。pursuit-audit-d343f85.zip: 311480 bytes、SHA256 F3B75837E29D41F2088DF715322D025D052EE0092C472E020746361982659807。commit後build/production dry-runも成功。PR MERGEABLE、チェック一覧空。合格判定/main反映/公開は待機中。

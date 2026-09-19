@@ -1,3 +1,7 @@
+# 現在地: PR48・モンスターの多彩な接近を独立監査中（2026-09-19）
+
+[PR48](https://github.com/futsalife24-bot/swarm-front/pull/48)、対象d343f85。[通常Chat](https://chatgpt.com/c/6aae461d-dfe0-83e8-a2a8-387d9826b46f)へ必要ソース/実差分/実iab証拠ZIPを送信済み。型/関連114単体/実Worker2接続/両build/production dry-run成功。既存更新履歴テスト1件失敗は[詳細](VARIED-PURSUIT.md)。判定待ち、main未反映・未公開。後続は記録のみ。
+
 # 現在地: モンスターの回り込み・蛇行を自己検証（2026-09-19）
 
 branch codex/varied-monster-pursuit、base fcf37f1。左右回り込み/蛇行/正面寄りを混在、近距離で攻撃へ収束。洞窟・飛行敵固有旋回は維持。型/関連114単体/実iab軌跡と描画/実Worker2接続/両build成功。既存更新履歴テスト1失敗は今回と無関係。[詳細・検証限界](VARIED-PURSUIT.md)。独立監査・main反映・既存Worker公開へ進行中。
@@ -1105,4 +1109,3 @@ EDFはミニマップが視点に追従して回転するためこの分担が�
 
 ## 2026-09-12 下向き移動のカメラ振動
 カメラ位置と注視点の補間基準を統一。原因・差分・修正前後の計測は docs/CAMERA-JITTER.md。
-
