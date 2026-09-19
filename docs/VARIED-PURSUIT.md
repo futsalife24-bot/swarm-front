@@ -38,3 +38,7 @@ src/shared/enemy-motion.tsで視線が遮られる場合、または移動半径
 ## 独立再監査合格
 
 対象552da472644ff65c4fa65fe03b0783c40ca65ee5は同じ通常Chatで合格・必須残件0件。F1解消。監査側で11条件の実被弾120秒以内、切替4932条件、開放地48条件、洞窟/飛行/連結ボス比較、snapshot再実行、fixture座標再現を独立確認。後続bf7af86は記録2文書のみ。監査側はTS5.8.3で共有ソースを独立コンパイル、プロジェクト単体/build/実Worker/Rendererは再実行せず提出証拠確認。任意注意: 全地形の到達を保証する新経路探索ではなく、追加視線判定の多数敵時の実スマホ負荷は未測定。
+
+## main反映・公開済み
+
+[PR48](https://github.com/futsalife24-bot/swarm-front/pull/48)通常merge。公開ソース121321c1425f3c8e0fc677f7cfdda61ef9bb7400、Worker Version 7f76dd89-a219-4347-a1cd-39aefb3b539a。merge後build/production dry-run成功、既存swarm-frontへ公開。HTML/sw/JS/CSS13配信ファイルSHA一致・health正常。公開iabでソロ出撃→戦場読込→敵紹介→実戦HUD/兵士/敵/地形描画・一時停止を確認しerror0。証拠dist-validation/pursuit/{published.json,published-battle.png,published-ui.txt,audit-final.txt}。実機/多数敵時の性能/全ステージ通し/全移動標的は未確認。後続は公開記録のみ。

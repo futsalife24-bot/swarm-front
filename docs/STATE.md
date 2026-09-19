@@ -1,3 +1,7 @@
+# 現在地: PR48・モンスターの多彩な接近をmain反映・公開済み（2026-09-19）
+
+[PR48](https://github.com/futsalife24-bot/swarm-front/pull/48)通常merge。独立再監査552da47合格・必須0。左右回り込み/蛇行/正面寄りを混在し、近距離で攻撃へ収束。壁際の追跡退行は9配置の実被弾で修正確認。型/関連単体/実iab/実Worker2接続/両build成功。公開ソース121321c1425f3c8e0fc677f7cfdda61ef9bb7400、Worker Version 7f76dd89-a219-4347-a1cd-39aefb3b539a。merge後build/dry-run・13配信SHA一致・health正常・公開iabソロ実戦描画/error0。[詳細・既存更新履歴テスト1件失敗・検証限界](VARIED-PURSUIT.md)。実機/多数敵時の性能/全通しは未確認。後続は公開記録のみ。
+
 # 現在地: PR48・多彩な接近と壁際修正が独立監査合格（2026-09-19）
 
 対象552da47は[通常Chat](https://chatgpt.com/c/6aae461d-dfe0-83e8-a2a8-387d9826b46f)で合格・必須0。壁越し退行解消、型/関連単体/実iab/実Worker2接続/両build成功。Free/使用量確認済み。後続は記録のみ。[詳細・限界](VARIED-PURSUIT.md)。main反映・既存Worker公開へ進む。
