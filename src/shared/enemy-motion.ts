@@ -43,14 +43,31 @@ export function pursuitDirection(w: World, e: Enemy, t: Player) {
   const dx = t.x - e.x,
     dz = t.z - e.z;
   const distance = Math.hypot(dx, dz);
+  // Keep a side for the whole approach rather than rerolling a flank each second.
+  // ID/time are authoritative, so this adds no random draws or network state.
+  const side = e.id % 2 === 0 ? 1 : -1;
+  const phase = w.time * 1.6 + e.id * 2.399963;
+  const style = e.id % 3;
+  const approach =
+    e.kind === "hornet"
+      ? (e.steerAngle ?? 0)
+      : e.kind === "spider"
+        ? side * (1.05 + Math.sin(phase * 0.6) * 0.2)
+        : e.kind === "boss"
+          ? side * (0.4 + Math.sin(phase * 0.35) * 0.12)
+          : style === 0
+            ? side * (0.95 + Math.sin(phase * 0.45) * 0.15)
+            : style === 1
+              ? Math.sin(phase) * 0.85
+              : (e.steerAngle ?? 0) * 0.35;
   const angle =
-    (e.steerAngle ?? 0) *
+    approach *
     Math.min(
       1,
       Math.max(
         0,
         (distance - (e.kind === "spider" ? 1 : 3)) /
-          (e.kind === "spider" ? 4 : 9),
+          (e.kind === "spider" ? 4 : e.kind === "hornet" ? 9 : 6),
       ),
     );
   const length = Math.max(0.001, distance);

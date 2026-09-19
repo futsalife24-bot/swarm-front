@@ -1,3 +1,6 @@
+# 現在地: モンスターの回り込み・蛇行を自己検証（2026-09-19）
+
+branch codex/varied-monster-pursuit、base fcf37f1。左右回り込み/蛇行/正面寄りを混在、近距離で攻撃へ収束。洞窟・飛行敵固有旋回は維持。型/関連114単体/実iab軌跡と描画/実Worker2接続/両build成功。既存更新履歴テスト1失敗は今回と無関係。[詳細・検証限界](VARIED-PURSUIT.md)。独立監査・main反映・既存Worker公開へ進行中。
 # 現在地: PR47・全モンスター1.5倍をmain反映・公開済み（2026-09-19）
 
 [PR47](https://github.com/futsalife24-bot/swarm-front/pull/47)通常merge。独立監査ce32074合格・必須0、後続は記録のみ。個体差を保ち体/射撃当たり判定/胴体間隔を1.5倍、能力値は維持。型/162関連単体/20ステージ描画/実Worker2接続/両build成功。公開ソース c3151ed9e93ec782a90b12fc7a7e79ca939ec68f、Worker Version 47c10c34-7e4c-434a-a297-a80ac6a30be6。merge後build/dry-run、13配信SHA一致・health正常・公開iab訓練標的描画/error0。[詳細・既存テスト1件失敗・壁移動判定の注意](MONSTER-SIZE-150.md)。実機/全通し/旧client混在は未確認。
@@ -1102,3 +1105,4 @@ EDFはミニマップが視点に追従して回転するためこの分担が�
 
 ## 2026-09-12 下向き移動のカメラ振動
 カメラ位置と注視点の補間基準を統一。原因・差分・修正前後の計測は docs/CAMERA-JITTER.md。
+

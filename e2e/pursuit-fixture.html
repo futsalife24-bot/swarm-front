@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" />
+  <title>Monster pursuit verification</title>
+  <style>
+    body {
+      margin: 0;
+      background: #172128;
+      color: white;
+      font: 16px sans-serif;
+      overflow: hidden;
+    }
+    #scene {
+      width: 100vw !important;
+      height: 100vh !important;
+      display: block;
+    }
+    #trail {
+      background: #22313a;
+      position: fixed;
+      left: 0;
+      bottom: 0;
+    }
+    #status {
+      white-space: pre-wrap;
+      position: fixed;
+      right: 0;
+      top: 30px;
+      background: #172128dd;
+      font-size: 12px;
+    }
+    #advance {
+      position: fixed;
+      right: 0;
+      top: 0;
+    }
+  </style>
+  <canvas id="scene"></canvas>
+  <div id="damage"></div>
+  <canvas id="trail" width="450" height="210"></canvas>
+  <button id="advance">3秒進める</button>
+  <pre id="status"></pre>
+  <script type="module">
+    import { Renderer } from "/src/client/render.ts";
+    import * as g from "/src/shared/game.ts";
+    const w = g.createWorld("pursuit-qa", 11, 4);
+    const p = g.addPlayer(w, "p");
+    g.start(w);
+    w.enemies = [];
+    w.nextSpawn = 1e9;
+    p.x = 0;
+    p.z = 0;
+    p.hp = 1e6;
+    const ids = [6, 9, 7, 8];
+    ids.forEach((id, i) => {
+      g.spawn(w, "ant", -6 + i * 4, -24);
+      Object.assign(w.enemies.at(-1), { id, active: true });
+    });
+    const paths = w.enemies.map((e) => [[e.x, e.z]]);
+    const view = new Renderer(document.querySelector("#scene"));
+    const colors = ["#ffae64", "#71e4ff", "#eb93ef", "#9fe68c"];
+    function report() {
+      const ctx = document.querySelector("#trail").getContext("2d");
+      ctx.clearRect(0, 0, 450, 210);
+      ctx.fillStyle = "white";
+      ctx.fillText("左右の回り込み / 蛇行 / 正面寄り（実stepの軌跡）", 10, 16);
+      paths.forEach((path, i) => {
+        ctx.strokeStyle = colors[i];
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        path.forEach(([x, z], j) =>
+          j
+            ? ctx.lineTo(225 + x * 7, 195 + z * 7)
+            : ctx.moveTo(225 + x * 7, 195 + z * 7),
+        );
+        ctx.stroke();
+      });
+      ctx.fillStyle = "white";
+      ctx.fillRect(222, 192, 6, 6);
+      document.querySelector("#status").textContent = JSON.stringify(
+        {
+          time: w.time,
+          enemies: w.enemies.map((e) => ({
+            id: e.id,
+            x: +e.x.toFixed(2),
+            z: +e.z.toFixed(2),
+            active: e.active,
+          })),
+        },
+        null,
+        2,
+      );
+    }
+    document.querySelector("#advance").onclick = () => {
+      for (let i = 0; i < 60; i++) {
+        g.step(w, { p: g.neutral() });
+        w.enemies.forEach((e, j) => paths[j].push([e.x, e.z]));
+      }
+      report();
+    };
+    report();
+    function frame() {
+      view.render(w, "p", 0.016, 0, 0);
+      requestAnimationFrame(frame);
+    }
+    frame();
+  </script>
+</html>
