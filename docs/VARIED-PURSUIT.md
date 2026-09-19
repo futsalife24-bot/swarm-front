@@ -20,3 +20,11 @@ branch codex/varied-monster-pursuit / base fcf37f151858aa2fc7ebdee420f36b0ba4302
 ## 独立監査を依頼
 
 [PR48](https://github.com/futsalife24-bot/swarm-front/pull/48)、対象d343f85fb5cd9a9809c3b14de2fdc8ef25b397ba。通常Chat https://chatgpt.com/c/6aae461d-dfe0-83e8-a2a8-387d9826b46f にZIP添付・監査依頼送信済み。pursuit-audit-d343f85.zip: 311480 bytes、SHA256 F3B75837E29D41F2088DF715322D025D052EE0092C472E020746361982659807。commit後build/production dry-runも成功。PR MERGEABLE、チェック一覧空。合格判定/main反映/公開は待機中。
+
+## 監査指摘への修正
+
+初回対象d343f85について監査がstage1建物越しの停滞を再現。crawler id6/size1の(80,-60)→(0,0)/(0,40)、(-80,-90/-60/-30/0)→(20,0)では、固定側の回り込みが壁へ押し続ける。
+
+src/shared/enemy-motion.tsで視線が遮られる場合、または移動半径+1.5mの余裕で障害物に近い場合は既存の時変操舵/距離減衰へ戻す。洞窟の経路探索を優先したまま、開けた場所だけ新軌道を適用。テストは上記6配置で実stepを進め、距離だけでなく実際のプレイヤー被弾を120秒以内に要求し成功。
+
+修正版自己検証: enemies/hornet/maps/gameの82件成功、追加の6配置回帰1件成功。型/build/production dry-run/実Worker2接続成功。iab再確認で6秒と12秒の軌跡/位置は初回と同一、全4体が距離2m未満へ到達、error0。証拠dist-validation/pursuit/fixed-*。Free Current plan、Workers当日73/100000、DO78req/0.205GB-sec/200.7kB/353read/31write/error0確認済み。

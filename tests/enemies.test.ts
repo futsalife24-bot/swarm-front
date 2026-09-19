@@ -529,6 +529,36 @@ it("flankers keep opposite sides, weavers change sides, and all close in", () =>
   }
 });
 
+it("flankers still reach targets across city buildings", () => {
+  for (const [ex, ez, px, pz] of [
+    [80, -60, 0, 0],
+    [80, -60, 0, 40],
+    [-80, -90, 20, 0],
+    [-80, -60, 20, 0],
+    [-80, -30, 20, 0],
+    [-80, 0, 20, 0],
+  ]) {
+    const { w, p } = field();
+    p.x = px;
+    p.z = pz;
+    p.hp = 1e6;
+    spawn(w, "crawler", ex, ez);
+    const e = w.enemies[0];
+    Object.assign(e, { id: 6, size: 1, active: true });
+    let reached = false;
+    for (let i = 0; i < 2400; i++) {
+      step(w, { p: neutral() });
+      if (p.hp < 1e6) {
+        reached = true;
+        break;
+      }
+    }
+    expect(reached, JSON.stringify({ ex, ez, px, pz, x: e.x, z: e.z })).toBe(
+      true,
+    );
+  }
+});
+
 it("spider never walks between jumps and favors flanking more than other enemies", () => {
   const { w, p } = field();
   spawn(w, "spider", 0, -8);
