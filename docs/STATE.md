@@ -1,3 +1,14 @@
+# 現在地: PR49を保存、独立監査ZIP送信の承認待ち（2026-09-19）
+
+[PR49](https://github.com/futsalife24-bot/swarm-front/pull/49)、branch codex/independent-project-hub、base d8173c733dda3af236348eb374f086a60179542d、監査対象1b345078b07c917ae4328aa6d8543d5b8ef938d6。関連16テスト/型/両build/対象commitからproduction dry-run成功。後続は記録のみ。main未反映・未公開。
+
+停止理由: 自動承認レビューが project-hub/evidence/independent-hub-review.zip（2,898,775 bytes、SHA256 24b3e96d75a92e7c5be6b7d566267e74fcbb773f5790b585deae00580dfac8ce）の通常ChatGPTへの添付を具体的payload承認不足で拒否。ユーザーへ対象ZIP/宛先/目的を明示して確認中。送信未実施。
+再開条件: 同ZIPの通常ChatGPTへの添付・独立監査依頼の明示承認。独立監査→Hub先行公開→本PR通常mergeと既存Worker公開→日次集計移行照合→4アプリ配信確認。旧保存・ゲームデータを削除しない。全体記録は別project-hub/STATE.md。
+
+# 現在地: 独立プロジェクト管理へ集計の切替を準備（2026-09-19）
+
+ユーザーが新規project-hub Worker/repo、4アプリ集計移行と計測先変更、独立監査を承認。branch codex/independent-project-hub、base d8173c733dda3af236348eb374f086a60179542d。専用Bearer付きの日次集計エクスポート（訪問IDなし）、旧collector互換中継、旧admin案内、ゲームclientの独立collectorへの変更。関連16テスト/型/両build成功。独立監査・main反映・公開・移行は未実施。管理Hubを先に公開してからservice bindingを反映する。新しい管理UIは別repo。メールは未接続。後続記録はproject-hub/STATE.md。
+
 # 現在地: PR48・モンスターの多彩な接近をmain反映・公開済み（2026-09-19）
 
 [PR48](https://github.com/futsalife24-bot/swarm-front/pull/48)通常merge。独立再監査552da47合格・必須0。左右回り込み/蛇行/正面寄りを混在し、近距離で攻撃へ収束。壁際の追跡退行は9配置の実被弾で修正確認。型/関連単体/実iab/実Worker2接続/両build成功。公開ソース121321c1425f3c8e0fc677f7cfdda61ef9bb7400、Worker Version 7f76dd89-a219-4347-a1cd-39aefb3b539a。merge後build/dry-run・13配信SHA一致・health正常・公開iabソロ実戦描画/error0。[詳細・既存更新履歴テスト1件失敗・検証限界](VARIED-PURSUIT.md)。実機/多数敵時の性能/全通しは未確認。後続は公開記録のみ。
