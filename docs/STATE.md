@@ -1,3 +1,7 @@
+# 現在地: PR48・壁越し追跡を修正し再監査中（2026-09-19）
+
+対象100114263447801464e1269ffb5fbe7de6286e83、base fcf37f1。[同じ通常Chat](https://chatgpt.com/c/6aae461d-dfe0-83e8-a2a8-387d9826b46f)へ修正差分/必要ソース/再検証証拠ZIPを送信。初回で見つかった建物越し停滞を修正し6配置の実攻撃到達テスト成功、型/関連83単体再検証/実iab/実Worker2接続/build/production dry-run成功。[詳細](VARIED-PURSUIT.md)。Free/使用量確認済み。再監査合格/main反映/公開は未完了。後続は記録のみ。
+
 # 現在地: PR48・モンスターの多彩な接近を独立監査中（2026-09-19）
 
 [PR48](https://github.com/futsalife24-bot/swarm-front/pull/48)、対象d343f85。[通常Chat](https://chatgpt.com/c/6aae461d-dfe0-83e8-a2a8-387d9826b46f)へ必要ソース/実差分/実iab証拠ZIPを送信済み。型/関連114単体/実Worker2接続/両build/production dry-run成功。既存更新履歴テスト1件失敗は[詳細](VARIED-PURSUIT.md)。判定待ち、main未反映・未公開。後続は記録のみ。

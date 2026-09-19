@@ -28,3 +28,5 @@ branch codex/varied-monster-pursuit / base fcf37f151858aa2fc7ebdee420f36b0ba4302
 src/shared/enemy-motion.tsで視線が遮られる場合、または移動半径+1.5mの余裕で障害物に近い場合は既存の時変操舵/距離減衰へ戻す。洞窟の経路探索を優先したまま、開けた場所だけ新軌道を適用。テストは上記6配置で実stepを進め、距離だけでなく実際のプレイヤー被弾を120秒以内に要求し成功。
 
 修正版自己検証: enemies/hornet/maps/gameの82件成功、追加の6配置回帰1件成功。型/build/production dry-run/実Worker2接続成功。iab再確認で6秒と12秒の軌跡/位置は初回と同一、全4体が距離2m未満へ到達、error0。証拠dist-validation/pursuit/fixed-*。Free Current plan、Workers当日73/100000、DO78req/0.205GB-sec/200.7kB/353read/31write/error0確認済み。
+
+再監査対象100114263447801464e1269ffb5fbe7de6286e83。同じ通常Chatへpursuit-reaudit-1001142.zip（SHA256 1BFD8B9C40D331E80F9AD55FD69623F57738361361BA734958DA2672FC721FBF）を添付・送信済み。初回は指摘の途中報告後に最終判定本文が表示されず、他の必須残件を含めた新対象の最終判定を求めた。後続は記録のみ。
