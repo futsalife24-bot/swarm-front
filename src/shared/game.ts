@@ -1124,6 +1124,39 @@ export function fire(w: World, p: Player, i: Input) {
 export function angle(n: number) {
   return Math.atan2(Math.sin(n), Math.cos(n));
 }
+export function playerVerticalStep(
+  p: Player,
+  i: Input,
+  blocks: typeof BLOCKS,
+  dt: number,
+) {
+  // Older local checkpoints may place feet below newly authored terrain.
+  p.y = Math.max(p.y ?? 0, groundHeight(p.x, p.z, blocks));
+  if (blocks !== CAVE_BLOCKS && blocked(p.x, p.z, 0.55, p.y, blocks))
+    p.y = supportHeight(p.x, p.z, blocks, Infinity, 0.55);
+  const feet = p.y;
+  const onGround =
+    Math.abs(feet - supportHeight(p.x, p.z, blocks, feet, 0.55)) < 0.001;
+  if (i.jump && !p.jumpHeld && onGround && !(p.verticalSpeed ?? 0))
+    p.verticalSpeed = 8;
+  p.jumpHeld = !!i.jump;
+  const airborne = !!p.verticalSpeed || !onGround;
+  if (airborne) {
+    const velocity = p.verticalSpeed ?? 0;
+    p.verticalSpeed = velocity - 20 * dt;
+    let nextY = feet + velocity * dt - 10 * dt * dt;
+    if (blocks === CAVE_BLOCKS && nextY > caveCeiling(p.x, p.z) - 1.8) {
+      nextY = Math.max(feet, caveCeiling(p.x, p.z) - 1.8);
+      p.verticalSpeed = Math.min(0, p.verticalSpeed);
+    }
+    const landing = landingHeight(p.x, p.z, feet, nextY, blocks);
+    if (landing !== undefined) {
+      p.y = landing;
+      p.verticalSpeed = 0;
+    } else p.y = nextY;
+  }
+  return airborne;
+}
 export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   if (w.phase !== "battle") return;
   if (!w.players.some((p) => p.connected)) return;
@@ -1194,32 +1227,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       p.evade = EVADE_DURATION;
       p.evadeCd = 2.2;
     }
-    const blocks = mapFor(w).blocks;
-    // Older local checkpoints may place feet below newly authored terrain.
-    p.y = Math.max(p.y ?? 0, groundHeight(p.x, p.z, blocks));
-    if (blocks !== CAVE_BLOCKS && blocked(p.x, p.z, 0.55, p.y, blocks))
-      p.y = supportHeight(p.x, p.z, blocks, Infinity, 0.55);
-    const feet = p.y;
-    const onGround =
-      Math.abs(feet - supportHeight(p.x, p.z, blocks, feet, 0.55)) < 0.001;
-    if (i.jump && !p.jumpHeld && onGround && !(p.verticalSpeed ?? 0))
-      p.verticalSpeed = 8;
-    p.jumpHeld = !!i.jump;
-    const airborne = !!p.verticalSpeed || !onGround;
-    if (airborne) {
-      const velocity = p.verticalSpeed ?? 0;
-      p.verticalSpeed = velocity - 20 * dt;
-      let nextY = feet + velocity * dt - 10 * dt * dt;
-      if (blocks === CAVE_BLOCKS && nextY > caveCeiling(p.x, p.z) - 1.8) {
-        nextY = Math.max(feet, caveCeiling(p.x, p.z) - 1.8);
-        p.verticalSpeed = Math.min(0, p.verticalSpeed);
-      }
-      const landing = landingHeight(p.x, p.z, feet, nextY, blocks);
-      if (landing !== undefined) {
-        p.y = landing;
-        p.verticalSpeed = 0;
-      } else p.y = nextY;
-    }
+    const airborne = playerVerticalStep(p, i, mapFor(w).blocks, dt);
     const norm = Math.max(1, Math.hypot(i.mx, i.mz)),
       speed =
         p.evade > 0
@@ -1353,6 +1361,16 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   if (w.defense) living.push(w.defense.armory);
   for (const e of w.enemies) {
     if (e.hp <= 0) continue;
+    // Repair pre-relief checkpoint heights before targeting or movement.
+    // This also covers dormant enemies and segmented chains.
+    for (const node of wormNodes(e)) {
+      const floor = groundHeight(node.x, node.z, mapFor(w).blocks);
+      if (node.y < floor) {
+        if (node === e && e.jumpFrom !== undefined)
+          e.jumpFrom += floor - node.y;
+        node.y = floor;
+      }
+    }
     e.hurt = Math.max(0, e.hurt - dt);
     if (w.training) continue;
     const t = w.defense

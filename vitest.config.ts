@@ -29,6 +29,7 @@ export default defineConfig({
       "tests/enemy-report-motion.test.ts",
       "tests/maps.test.ts",
       "tests/terrain.test.ts",
+      "tests/jump-audit-regressions.test.ts",
       "tests/scenery-boundary.test.ts",
       "tests/structure-v2.test.ts",
       "tests/enemies.test.ts",

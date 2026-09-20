@@ -35,3 +35,9 @@
 iab復旧後、対象7ee5d9dのZIPを通常Chatへ添付し独立監査を依頼。[監査Chat](https://chatgpt.com/c/6aafaa2f-a6f0-83e8-9efe-9e8d15baba4e)。上記の未依頼・ブラウザ障害は過去状態。
 
 Cloudflare既存アカウントを実ダッシュボードで確認: Workers Free / Current plan。直近24h Workers invocations 841、Worker errors 0。9月20日DO Usage: requests768、duration4.46GB-sec、SQL storage475.14kB、read6.35k、written421、KV0。既存project-hub_Analyticsのerrors52は公開前から表示されており、本変更との関係なし（原因調査は今回対象外）。契約・公開先変更なし。
+
+## 独立監査の指摘修正
+
+7ee5d9dの独立判定は要修正（P1旧中断の地中敵、P2蜘蛛の地中perch、P2勝利後の浮遊）。敵と分節の足元を地形より低ければ移動前に復元、蜘蛛の壁高を地面/岩基部から計算、戦闘と回収でplayerVerticalStepを共有して修正。協力予測も水平のみとしサーバーの鉛直座標を保持する。任意P3（旧カスタム配置に追加ボタンが重なった場合の既定配置表示）は保存破壊がないため現状維持し、既存の配置編集で調整可能。
+
+型成功。地形23件成功。新規回帰10件を含む敵・移動49件成功、中断保存4件成功。蜘蛛テストの初回2件は「草原に相対高さ5m超の岩がある」というfixture誤りで、実在する隆起岩の壁際を使う形へ修正して成功。先行監査・GLB・UI証拠は上記と同じ、修正は再監査前。

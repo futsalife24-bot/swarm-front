@@ -1,3 +1,4 @@
+import { predictPlayerMove } from "./client/player-prediction";
 import { backgroundMusic } from "./client/bgm";
 import { installCloudSync } from "./client/cloud-save";
 installCloudSync();
@@ -70,7 +71,6 @@ import {
 import {
   addPlayer,
   createWorld,
-  move,
   neutral,
   start,
   step,
@@ -1709,7 +1709,7 @@ function updateFrame(now: number) {
           const n = Math.max(1, Math.hypot(input.mx, input.mz)),
             distance =
               (p.evade > 0 ? MOVE_SPEED.dodge : MOVE_SPEED.walk) * 0.05;
-          move(
+          predictPlayerMove(
             predicted,
             ((input.mx * Math.cos(input.yaw) + input.mz * Math.sin(input.yaw)) /
               n) *
@@ -1717,7 +1717,6 @@ function updateFrame(now: number) {
             ((input.mx * Math.sin(input.yaw) - input.mz * Math.cos(input.yaw)) /
               n) *
               distance,
-            0.55,
             mapFor(world).blocks,
           );
         }
