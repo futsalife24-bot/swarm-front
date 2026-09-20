@@ -1,0 +1,105 @@
+{
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "rows": [
+    {
+      "path": "/index.html",
+      "sha256": "97c89406d721377a4537bdedcc3502bdb02ee566a3a0c19d496dcea936df5f65",
+      "bytes": 3646
+    },
+    {
+      "path": "/assets/index-CPbai1ZT.css",
+      "sha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "bytes": 259
+    },
+    {
+      "path": "/assets/index-DUADh-K5.js",
+      "sha256": "e1d04375506ad90a9a9846336f2f21f1d20d4f10357a5d8dd1354d4b5cd983c6",
+      "bytes": 35527
+    },
+    {
+      "path": "/assets/main-BURfQQ2a.js",
+      "sha256": "5bb829e924bf9bbd04b749b4b4919eb013ea5c441618112cf89ac03d821147b5",
+      "bytes": 55096
+    },
+    {
+      "path": "/assets/main-C1Ldsy-y.css",
+      "sha256": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1",
+      "bytes": 6219
+    },
+    {
+      "path": "/assets/playtest-app-9K0niJR9.js",
+      "sha256": "516efbc13801d856b01a485c24942b7c93224078a60a4be3c1afec1bc64ad966",
+      "bytes": 108985
+    },
+    {
+      "path": "/assets/playtest-app-vS6yno4Y.css",
+      "sha256": "7b097133cb0341a68690761c5eeb927ffbcfe531b07e936d3331d52d826f88fd",
+      "bytes": 29519
+    },
+    {
+      "path": "/assets/training-app-CU-mA3MG.js",
+      "sha256": "60abf8e5afceeb8a8c62a4b77331ace4b7516e6bdd05f29c3d13adc8928e70c4",
+      "bytes": 3714
+    },
+    {
+      "path": "/assets/weapon-help-Ccqp9M0q.js",
+      "sha256": "86a5726dc0486bc2ead83e36a0935c633eb0dee5681a5de1bd3895547b934cc1",
+      "bytes": 54435
+    },
+    {
+      "path": "/assets/weapon-help-Clh1V6L1.css",
+      "sha256": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607",
+      "bytes": 3020
+    },
+    {
+      "path": "/assets/weapon-sharing-kvlVudAi.js",
+      "sha256": "2be24b8236a6224ac64146a4eea4724ef25bc49e19e79b85327a7067b6648a6d",
+      "bytes": 4741
+    },
+    {
+      "path": "/assets/zoom-guard-BlWIjgJb.css",
+      "sha256": "312dac5ac1021181509d5929954f24b9ace9c26b38ebb667dbfa662d6c13f27c",
+      "bytes": 107417
+    },
+    {
+      "path": "/assets/zoom-guard-DfrDY_YU.js",
+      "sha256": "e36b2b444aa83533b5a50d32d521f9f3eed5fee1a791fe866d0300657f8aa655",
+      "bytes": 824499
+    },
+    {
+      "path": "/assets/maps/map_0_v1.glb",
+      "sha256": "8a6ba3e36b72ae1ce92a337c799846c0a1b6f4b4d54e92ecf6a7ba5aaab377a1",
+      "bytes": 14594828
+    },
+    {
+      "path": "/assets/maps/map_1_v1.glb",
+      "sha256": "251c43e3cbbfe9dc7d432a0b17679f648a83ec7b922bd1bf588b3e9635871831",
+      "bytes": 2847392
+    },
+    {
+      "path": "/assets/maps/map_2_v1.glb",
+      "sha256": "7c4f9f25f711f0c622bcd4de62fb3ade2a9736af2d1efc007a5b2ea68c066b45",
+      "bytes": 9863852
+    },
+    {
+      "path": "/assets/maps/map_3_v1.glb",
+      "sha256": "3c2160ed5863904643e85868239e0ce983cf60dc03fa8b39f2189d29daa73585",
+      "bytes": 15210828
+    },
+    {
+      "path": "/assets/maps/map_4_v1.glb",
+      "sha256": "3a41c93e273f9abbcb1dea562f38fe52d0d735f6e881384fc03d680b15490716",
+      "bytes": 2328652
+    },
+    {
+      "path": "/assets/maps/map_5_v1.glb",
+      "sha256": "9be55d7216157cfef39c89b9f373c96462b558ab1bb45c91db64ee6171610405",
+      "bytes": 4857828
+    }
+  ],
+  "health": {
+    "ok": true,
+    "transport": "websocket",
+    "authority": "durable-object"
+  }
+}
