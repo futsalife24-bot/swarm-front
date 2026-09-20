@@ -1,3 +1,6 @@
+# 現在地: PR54の必須3件を修正し再監査中（2026-09-20）
+
+対象 `ed8bbafe5b2f36498f9cd3d03ce227af59c64f91`。旧中断の敵埋没・蜘蛛perch・勝利後の浮遊を修正し、協力予測の高さ保持も対応。型/地形23件/関連49件/中断保存4件/build/production dry-run成功。同じ[監査Chat](https://chatgpt.com/c/6aafaa2f-a6f0-83e8-9efe-9e8d15baba4e)へ修正ZIPを添付・再監査依頼済み。ZIP `dist-validation/jump-maps/jump-maps-reaudit-ed8bbaf.zip`、SHA256 `F11064EF5482CF75E4BEFC99E30E8988ED9887943F63A15620673B511C195087`。判定待ち、main未反映・未公開。無料プラン/既存利用量は実ダッシュボードで確認済み。別作業4ファイル保護。詳細 [JUMP-ELEVATED-MAPS.md](JUMP-ELEVATED-MAPS.md)。
 # 現在地: PR54の独立監査を送信済み、公開準備中（2026-09-20）
 
 iab復旧。対象7ee5d9dの監査ZIPを通常Chatへ添付・送信し、実差分監査の回答待ち。[監査Chat](https://chatgpt.com/c/6aafaa2f-a6f0-83e8-9efe-9e8d15baba4e)。PR54 head0bcf10fは記録文書のみ追加。ユーザーの「公開して」により公開作業を再開。最新PRはMERGEABLE・チェックなし。合格確認後に通常merge・既存Worker公開・配信確認する。別作業の4ファイルは保護。
