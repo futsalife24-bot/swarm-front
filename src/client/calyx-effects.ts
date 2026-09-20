@@ -37,7 +37,7 @@ export class CalyxEffects {
   private warnings = new T.InstancedMesh(
     this.marks.geometry,
     this.marks.material,
-    6000,
+    12000, // Solo permits 120 actors; each full Slam warning uses 96 instances.
   );
   private cells = new Map<
     number,
@@ -74,7 +74,7 @@ export class CalyxEffects {
       active = new Set<number>();
     let markBatch = this.marks;
     const mark = (x: number, y: number, z: number, size: number) => {
-      if (markBatch.count >= 6000) return;
+      if (markBatch.count >= markBatch.instanceMatrix.count) return;
       this.dummy.position.set(x, y + 0.035, z);
       this.dummy.rotation.set(-Math.PI / 2, 0, 0);
       this.dummy.scale.setScalar(size);

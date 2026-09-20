@@ -86,7 +86,7 @@ it("retains every slam warning at the supported enemy and cloud limits", () => {
     born: 0,
     damage: 4,
   }));
-  w.enemies = Array.from({ length: 40 }, (_, i) => ({
+  w.enemies = Array.from({ length: 120 }, (_, i) => ({
     ...e,
     id: i + 1,
     x: -90 + (i % 10) * 18,
