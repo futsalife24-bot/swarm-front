@@ -1,3 +1,6 @@
+# 現在地: LINE共有画像・説明文を修正し独立監査中（2026-09-20）
+
+PR53、branch codex/line-share-image（share-image-fix worktree）、base b322d62、実装e4bd633。ユーザー指定の横長1280×720画像と「SWARM FRONT — 仲間と戦う3D協力アクション。」を静的OGPに設定。build/dry-run・画像原本一致・ローカル配信/12assets・実画像表示成功。通常ChatへZIP送信済み、最終判定待ち。game側の別作業は保護。[詳細・監査URL・検証限界](LINE-SHARE.md)。main反映と公開は未完了。
 # 現在地: ドローン撮影をmain反映・公開・確認済み（2026-09-20）
 
 PR51/PR52を通常merge。兵士操作を維持し、`?drone=1&clean=1`で上空追従・自動周回、ポーズから高さ/角度/距離/速度を調整。独立Chat再監査はカメラ6200491・CSS5441fedとも合格/必須0。公開ソース5b5da2ee22c330e5b4422ccc342fabf0f86cc687、Worker Version70338c28-cadf-48e3-83f8-9407d95bc289。最新mainのbuild/dry-run、配信14SHA一致、health成功。カメラ型/関連44件成功、実Chrome844×390/667×375のローカル比較・production preview成功。公開667×375でも通常/真上/自動周回、設定の1行表示・スクロールなし、周回角18→29度、エラー0を確認。初回公開CSS競合はPR52で解消。全件テストはドローン変更で再実行せず（先行clean時の既存失敗3件を記録済み）、実スマホ等は未検証。敵出現ルールは変えず、四方配置は静止QAのみ。詳細・証拠は [DRONE-CAPTURE.md](DRONE-CAPTURE.md)。後続は公開記録のみ。
