@@ -48,3 +48,5 @@ da1c6e1の判定は要修正。F1(P2): 真上計算用の水平camera.upが共�
 修正後は型・関連44件成功。四方向の初遭遇姿勢/撮影復帰4件、速度保持1件、方角連続5件を追加。通常時の判定・UI・main接続は変更なし。初回監査側は依存取得不可で型/34テスト/buildの独立再実行は未実施、実コード切出し・数値/ブラウザハーネスと添付証拠で判定した。
 
 `node scripts/check-drone-encounter.mjs` 成功。実Chrome667×375で実Renderer/Three.js/encounterCameraを用い、四方向の演出終点の水平と、真上45度の撮影視点への復帰を確認。right.yの絶対値は最大約2.8e-17、up.yは約0.984、復帰の位置/回転差0、World不変、pageerror0。5画像＋JSONは [encounter証拠](evidence/drone-capture/encounter/)。静止QAから演出カメラを直接動かす検証で、実戦での自動初遭遇トリガーは未検証。撮影スクリプトの初回復帰画像はdt=0でフレーム間引きに遭い、最終実行で描画実行=trueも確認して差し替えた。
+
+修正・再監査対象 `6200491f406c8c99342bf2dbc08eb4c227946423`。同HEADからbuild/dry-run成功。同じChatへdrone-fix-audit.zip（1,275,253 bytes、SHA256 78ebd62fad480b6c53cc5ae2e3601afd2db537d9235179fc863434a0f380131a）を添付し、F1/N1/N2の再監査依頼済み。判定待ち、main未反映・未公開。
