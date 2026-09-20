@@ -3,6 +3,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { leaperReportClip } from "./leaper-report-clip";
 import { enemyIdleClip } from "./enemy-idle-clip";
 import { enemyWindupClip } from "./enemy-windup-clip";
+import { trsPalette, TRS_PALETTE_GLSL } from "./motion-trs";
 
 export type HoundClip = "Idle" | "Locomotion" | "Lunge" | "Slam" | "PollenShot";
 type ClipRange = { start: number; steps: number; duration: number };
@@ -10,6 +11,10 @@ export type HoundMotionAsset = {
   model: T.Group;
   clips: T.AnimationClip[];
   atlas: T.DataTexture;
+  trsAtlas?: T.DataTexture;
+  trsParents?: number[];
+  trsInverseBind?: T.Matrix4[];
+  trsPrefix?: T.Matrix4;
   ranges: Record<HoundClip, ClipRange>;
   meshes: T.SkinnedMesh[];
   bones: number;
@@ -97,6 +102,8 @@ export function loadEnemyMotion(
         rows += steps + 1;
       }
       const data = new Float32Array(rows * bones * 16),
+        localData =
+          name === "calyx" ? new Float32Array(data.length) : undefined,
         mixer = new T.AnimationMixer(model);
       const offset = new T.Matrix4(),
         final = new T.Matrix4();
@@ -119,6 +126,13 @@ export function loadEnemyMotion(
               .multiply(offset)
               .multiply(meshes[0].bindMatrix);
             final.toArray(data, ((range.start + f) * bones + b) * 16);
+            if (localData) {
+              const bone = skeleton.bones[b];
+              (skeleton.bones.includes(bone.parent as T.Bone)
+                ? bone.matrix
+                : bone.matrixWorld
+              ).toArray(localData, ((range.start + f) * bones + b) * 16);
+            }
           }
         }
       }
@@ -134,7 +148,41 @@ export function loadEnemyMotion(
       atlas.minFilter = atlas.magFilter = T.NearestFilter;
       atlas.generateMipmaps = false;
       atlas.needsUpdate = true;
-      return { model, clips, atlas, ranges, meshes, bones };
+      let trsAtlas: T.DataTexture | undefined;
+      if (name === "calyx") {
+        trsAtlas = new T.DataTexture(
+          trsPalette(localData!),
+          bones * 4,
+          rows,
+          T.RGBAFormat,
+          T.FloatType,
+        );
+        trsAtlas.minFilter = trsAtlas.magFilter = T.NearestFilter;
+        trsAtlas.generateMipmaps = false;
+        trsAtlas.needsUpdate = true;
+      }
+      return {
+        model,
+        clips,
+        atlas,
+        trsAtlas,
+        ranges,
+        meshes,
+        bones,
+        trsParents: trsAtlas
+          ? skeleton.bones.map((b) =>
+              skeleton.bones.indexOf(b.parent as T.Bone),
+            )
+          : undefined,
+        trsInverseBind: trsAtlas
+          ? skeleton.boneInverses.map((m) =>
+              m.clone().multiply(meshes[0].bindMatrix),
+            )
+          : undefined,
+        trsPrefix: trsAtlas
+          ? meshes[0].matrixWorld.clone().multiply(meshes[0].bindMatrixInverse)
+          : undefined,
+      };
     })
     .catch((error) => {
       cached.delete(key);
@@ -175,10 +223,15 @@ export class HoundMotionBatch {
       geometry.setAttribute("houndBlend", this.blend);
       const material = (source.material as T.MeshStandardMaterial).clone();
       material.onBeforeCompile = (shader) => {
-        shader.uniforms.houndPalette = { value: asset.atlas };
+        shader.uniforms.houndPalette = { value: asset.trsAtlas ?? asset.atlas };
         shader.uniforms.houndPaletteSize = {
           value: new T.Vector2(asset.bones * 4, asset.atlas.image.height),
         };
+        if (asset.trsAtlas) {
+          shader.uniforms.houndParents = { value: asset.trsParents };
+          shader.uniforms.houndInverseBind = { value: asset.trsInverseBind };
+          shader.uniforms.houndSkinPrefix = { value: asset.trsPrefix };
+        }
         shader.vertexShader = shader.vertexShader.replace(
           "#include <common>",
           `#include <common>
@@ -189,6 +242,10 @@ attribute vec3 houndPoseB;
 attribute float houndBlend;
 uniform sampler2D houndPalette;
 uniform vec2 houndPaletteSize;
+${
+  asset.trsAtlas
+    ? TRS_PALETTE_GLSL
+    : `
 mat4 houndBone(float bone,float row) {
   vec2 uv=vec2(bone*4.0+.5,row+.5)/houndPaletteSize;
   vec2 dx=vec2(1.0/houndPaletteSize.x,0.0);
@@ -199,6 +256,8 @@ mat4 houndMatrix(float bone) {
   if(houndBlend>.9999) return houndPose(bone,houndPoseB);
   if(houndBlend<.0001) return houndPose(bone,houndPoseA);
   return houndPose(bone,houndPoseA)*(1.0-houndBlend)+houndPose(bone,houndPoseB)*houndBlend;
+}
+`
 }
 `,
         );
@@ -217,7 +276,10 @@ objectNormal=mat3(houndSkin)*objectNormal;
           "vec3 transformed=(houndSkin*vec4(position,1.0)).xyz;",
         );
       };
-      material.customProgramCacheKey = () => "hound-motion-palette-v1";
+      material.customProgramCacheKey = () =>
+        asset.trsAtlas
+          ? "calyx-motion-local-trs-v1"
+          : "hound-motion-palette-v1";
       const part = new T.InstancedMesh(geometry, material, capacity);
       part.name = source.name;
       part.count = 0;

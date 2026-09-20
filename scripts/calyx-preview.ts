@@ -66,6 +66,13 @@ for (const key of ["dome-outside", "dome-inside", "dome-expired"]) {
   };
 }
 const errors: string[] = [];
+document.getElementById("transition-pose")!.onclick = () => {
+  reset("slam");
+  mode = "transition";
+  w.time = 1.175;
+  w.enemies[0].calyx = { kind: "Slam", started: 1, fired: false, yaw: 0 };
+  paused = true;
+};
 window.addEventListener("error", (e) => errors.push(e.message));
 function frame(now: number) {
   const dt = Math.min(0.05, (now - before) / 1000);
@@ -77,9 +84,19 @@ function frame(now: number) {
     mode === "walk" && enemy
       ? Math.atan2(enemy.x - player.x, player.z - enemy.z)
       : 0;
-  renderer.render(w, "viewer", dt, yaw, -0.08, undefined, !paused);
   const structures = (renderer as any).structures as Map<string, any>,
     asset = structures.get("calyx");
+  if (mode === "transition" && asset?.batch)
+    asset.controller.states.set(enemy.id, {
+      clip: "Slam",
+      time: 0.175,
+      from: "Locomotion",
+      fromTime: 3,
+      blend: 0.175,
+      wind: 0,
+      cool: 0,
+    });
+  renderer.render(w, "viewer", dt, yaw, -0.08, undefined, !paused);
   document.getElementById("status")!.textContent = JSON.stringify(
     {
       mode,
@@ -103,6 +120,7 @@ function frame(now: number) {
       fogFar: +(renderer.scene.fog as any)?.far.toFixed(1),
       model: asset?.batch ? "GPU GLB loaded" : asset?.error || "loading",
       bones: asset?.batch?.asset.bones,
+      rotationBlend: asset?.batch?.asset.trsAtlas ? "quaternion" : "matrix",
       clips: asset?.batch?.asset.clips.map((c: any) => c.name),
       errors,
     },

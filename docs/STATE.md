@@ -1,6 +1,7 @@
-# 現在地: CALYX v5の斜めコマ円運動・灰緑赤茶・花粉ドームを独立監査中（2026-09-20）
+# 現在地: CALYX v5の監査指摘・動作遷移の潰れを修正（2026-09-20）
 
-branch codex/calyx-rounded-redesign / worktree ../calyx-integration / PR58。最新指定の45度傾斜した蕾の自転＋ターゲット兵士中心の円運動、灰緑に赤茶の斑、半径13.5mの花粉ドームと内側の薄霧を実装。実GLB全フレーム・交差・傾き・根接地、関連22件、両型、本番build/dry-run、実Worker2接続、実IABの円運動/打撃/花粉/霧回復成功。追加45件成功・changelog既知1失敗。旧61d8fb6の監査は仕様変更で停止し流用しない。[同じ通常Chat](https://chatgpt.com/c/6aafd926-90a0-83ee-a297-65a7f91d005d)へd5e427ca44171546dfc2dddba7cb04cae11fe752の実原本・GLB・動画・ソース・差分ZIP（CALYX-v5-d5e427c.zip）を提出済み。独立判定待ち。main反映/公開未完了。[詳細](CALYX-REDESIGN.md)。
+branch codex/calyx-rounded-redesign / worktree ../calyx-integration / PR58。d5e427cの独立監査は必須P2が1件（回転移動から攻撃/待機への行列補間で約95%圧縮）。CALYX専用のローカルTRS＋球面補間＋親子階層合成へ修正。実GLBは同一64719fde。実GPU549ケース×16骨を標準AnimationMixerと照合して誤差0.00001032未満、det約1。実ゲームの50%混合も確認。関連29件・client型成功。[同じ通常Chat](https://chatgpt.com/c/6aafd926-90a0-83ee-a297-65a7f91d005d)へ修正差分を再提出する。任意P3の距離補正中の根先滑りは記録済み。main反映/公開未完了。[詳細](CALYX-REDESIGN.md)。
+
 # 現在地: CALYX PR55をmain反映・公開、公開UIの保存保護解除待ち（2026-09-20）
 
 最終ded4fdbの独立Chat監査合格・必須0。PR55通常merge、公開ソース `46167df67b79379d3c5401429dd102e24f342ce2`、Worker Version `4da37f8a-8b09-4eb5-8e44-716e9c0fbcff`。作戦7波2に2体、前方打撃/広域花粉弾、図鑑・実GLB・同期を公開。main build/dry-run、配信13SHA/health成功。最新mainとの関連103件・最終15件、実Worker2接続、ローカル実iabのモデル/打撃/花粉/屋上予兆を確認。[詳細/監査URL](CALYX.md)、証拠docs/evidence/calyx/。
@@ -1249,3 +1250,4 @@ EDFはミニマップが視点に追従して回転するためこの分担が�
 
 ## 2026-09-12 下向き移動のカメラ振動
 カメラ位置と注視点の補間基準を統一。原因・差分・修正前後の計測は docs/CAMERA-JITTER.md。
+
