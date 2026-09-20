@@ -1,3 +1,7 @@
+# 現在地: CALYX旧モデルキャッシュ修正を監査中（2026-09-21）
+
+ユーザーのエネミーレポート未更新報告を調査。public/sw.jsのcache-firstと同一GLB URL更新の組合せで旧モデルが残る。CALYXだけURLへrev=64719fde1175e427を追加。PR60、対象c9be3452f5c47ffeb88567494b8406e0e2d568c8、base b0ac242。型/関連7件/build成功、実sw.jsのVM旧キャッシュ再現と実レポートUIの新版取得を確認。通常監査Chat https://chatgpt.com/c/6aafd926-90a0-83ee-a297-65a7f91d005d へCALYX-c9be345-cache-fix.zip送信済み。main/公開未反映。既存公開UIは保存保護が残り、自動承認レビューが再開クリックを拒否。保護回避なし。
+
 # 現在地: CALYX v5をmain反映・公開、公開UIのみ保存保護で未確認（2026-09-21）
 
 ユーザーが最新版デザイン採用とmain反映/公開を明示承認。独立Chat監査8a20c31は合格・必須0、PR58通常merge済み。公開ソースa0f0088f1aa6b938c5573ef32e1536927760dc05、Worker Version c815fa75-5fa9-4c21-9f47-3a1c94e7df2a。merge後main build/dry-run、配信13SHA/health成功。斜め45度コマ自転・兵士中心周回、灰緑/赤茶斑・曲線根、半径13.5m花粉ドーム/霧。関連31件/型、実GPU549静的+63連続、実Worker2接続成功。任意P3の半径補正中の根先滑りは継続。

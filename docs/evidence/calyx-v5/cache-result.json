@@ -1,0 +1,7 @@
+{
+  "pass": true,
+  "oldUrl": "old-model",
+  "versionedUrl": "new-model",
+  "networkFetches": 1,
+  "method": "actual public/sw.js fetch handler in isolated VM with seeded old Cache API response"
+}
