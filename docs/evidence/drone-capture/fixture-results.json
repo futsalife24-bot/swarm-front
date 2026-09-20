@@ -1,0 +1,120 @@
+{
+  "results": [
+    {
+      "width": 844,
+      "height": 390,
+      "mode": "normal",
+      "camera": [
+        0.7626543156513365,
+        2.8533178945641704,
+        4.957253051733686
+      ],
+      "quaternion": [
+        -0.019340137907488033,
+        0.010904397921541542,
+        0.00021094456293071457,
+        0.999753473949493
+      ],
+      "unchanged": true,
+      "enemies": 24,
+      "playerVisible": true
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "mode": "oblique",
+      "camera": [
+        0,
+        32,
+        24
+      ],
+      "quaternion": [
+        -0.440355996330573,
+        0,
+        0,
+        0.8978232545973112
+      ],
+      "unchanged": true,
+      "enemies": 24,
+      "playerVisible": true
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "mode": "top",
+      "camera": [
+        0,
+        48,
+        0
+      ],
+      "quaternion": [
+        -0.7071067811865475,
+        0,
+        0,
+        0.7071067811865476
+      ],
+      "unchanged": true,
+      "enemies": 24,
+      "playerVisible": true
+    },
+    {
+      "width": 667,
+      "height": 375,
+      "mode": "normal",
+      "camera": [
+        0.7626543156513365,
+        2.8533178945641704,
+        4.957253051733686
+      ],
+      "quaternion": [
+        -0.019340137907488033,
+        0.010904397921541542,
+        0.00021094456293071457,
+        0.999753473949493
+      ],
+      "unchanged": true,
+      "enemies": 24,
+      "playerVisible": true
+    },
+    {
+      "width": 667,
+      "height": 375,
+      "mode": "oblique",
+      "camera": [
+        0,
+        32,
+        24
+      ],
+      "quaternion": [
+        -0.440355996330573,
+        0,
+        0,
+        0.8978232545973112
+      ],
+      "unchanged": true,
+      "enemies": 24,
+      "playerVisible": true
+    },
+    {
+      "width": 667,
+      "height": 375,
+      "mode": "top",
+      "camera": [
+        0,
+        48,
+        0
+      ],
+      "quaternion": [
+        -0.7071067811865475,
+        0,
+        0,
+        0.7071067811865476
+      ],
+      "unchanged": true,
+      "enemies": 24,
+      "playerVisible": true
+    }
+  ],
+  "errors": [],
+  "note": "Deliberately staged ring for camera QA; does not alter actual enemy spawn rules."
+}

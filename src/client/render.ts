@@ -1,3 +1,5 @@
+import { DroneCamera } from "./drone-camera";
+import "./drone-camera.css";
 import { cleanCapture } from "./clean-capture";
 import { dropGeometry } from "./drop-design";
 import { DefenseVisual } from "./defense-visual";
@@ -253,6 +255,7 @@ export class Renderer {
   private houndVisualInputs: import("./hound-motion").HoundVisualInput[] = [];
   scene = new T.Scene();
   camera = new T.PerspectiveCamera(NORMAL_FOV, 1, 0.1, 1200);
+  readonly drone = DroneCamera.fromLocation();
   renderer: T.WebGLRenderer;
   enemies = new Map<string, T.InstancedMesh>();
   bossBody!: T.InstancedMesh;
@@ -851,6 +854,13 @@ export class Renderer {
     this.combat.detail = this.quality * this.adaptiveQuality.scale;
     this.combat.budget = this.combat.detail < 0.9 ? 120 : 180;
     if (local) this.combat.origin.set(local.x, local.y ?? 0, local.z);
+    const droneActive =
+      !!this.drone?.enabled && !!local && w?.phase === "battle";
+    if (this.drone) {
+      this.drone.active = droneActive && animate;
+      this.camera.up.set(0, 1, 0);
+    }
+    if (droneActive) scoped = false;
     const localAim = w && local ? cameraShot(w, local, { yaw, pitch }) : null;
     scoped = scoped && !!local && local.hp > 0 && local.swapCd <= 0;
     const fov = scoped ? SCOPE_FOV : NORMAL_FOV;
@@ -1476,6 +1486,7 @@ export class Renderer {
           visualAim.target.z,
         );
         this.defenseVisual.camera(w, this.camera);
+        if (droneActive) this.drone!.apply(this.camera, pos, dt, animate);
       }
     } else {
       this.run = "";

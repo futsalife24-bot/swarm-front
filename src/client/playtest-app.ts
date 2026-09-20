@@ -294,6 +294,7 @@ function pause() {
     "一時停止",
     '<button id="pt-resume">タップで再開</button><button id="pt-pause-layout">操作ボタンの配置</button><button id="pt-retire">リタイア</button>',
   );
+  view.drone?.mount(d.querySelector<HTMLElement>(".menu-dialog-body")!);
   d.querySelector<HTMLButtonElement>("#pt-pause-layout")!.onclick = () => {
     const previousScreen = screen;
     const collectionNodes =

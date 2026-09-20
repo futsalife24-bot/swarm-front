@@ -1,0 +1,55 @@
+{
+  "results": [
+    {
+      "heading": 0,
+      "rightY": 1.734723475976807e-18,
+      "upY": 0.9839831464427258,
+      "sharedUp": [
+        0,
+        1,
+        0
+      ],
+      "worldUnchanged": true
+    },
+    {
+      "heading": 90,
+      "rightY": 0,
+      "upY": 0.9839831464427258,
+      "sharedUp": [
+        0,
+        1,
+        0
+      ],
+      "worldUnchanged": true
+    },
+    {
+      "heading": 180,
+      "rightY": 0,
+      "upY": 0.9839831464427258,
+      "sharedUp": [
+        0,
+        1,
+        0
+      ],
+      "worldUnchanged": true
+    },
+    {
+      "heading": 270,
+      "rightY": 2.7755575615628914e-17,
+      "upY": 0.9839831464427258,
+      "sharedUp": [
+        0,
+        1,
+        0
+      ],
+      "worldUnchanged": true
+    }
+  ],
+  "restored": {
+    "rendered": true,
+    "angle": 0,
+    "distance": 0
+  },
+  "errors": [],
+  "note": "Static QA world rendered with real Renderer, Three.js and encounterCamera; not the automatic gameplay trigger."
+}
