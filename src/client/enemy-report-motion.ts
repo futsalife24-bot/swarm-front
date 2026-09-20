@@ -2,6 +2,7 @@ import * as T from "three";
 import type { Enemy } from "../shared/game";
 import type { HoundClip } from "./hound-motion";
 import { STRUCTURE_TIMING } from "../shared/structure-timing";
+import { CALYX, calyxMuzzle } from "../shared/calyx";
 import {
   FOUNDRY_LASER_WARNING,
   foundryLaserOrigin,
@@ -134,13 +135,16 @@ export class ReportEffects {
         this.ring.position.set(0, 0.06, -0.5 - age * 3);
       } else {
         if (age > 1.2) return;
-        const bolt = this.bolts[0];
+        const bolt = this.bolts[0],
+          origin = calyxMuzzle({ x: 0, y: 0, z: 0 }, Math.PI),
+          flight = 1.2,
+          dy = (0.04 - origin.y) / flight + 0.5 * CALYX.gravity * flight;
         bolt.visible = true;
         bolt.scale.setScalar(2);
         bolt.position.set(
           0,
-          1.21 + 2 * age - 2.5 * age * age,
-          -0.105 - age * 3,
+          origin.y + dy * age - 0.5 * CALYX.gravity * age * age,
+          origin.z + ((-8 - origin.z) / flight) * age,
         );
       }
       return;

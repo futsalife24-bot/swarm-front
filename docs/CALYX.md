@@ -31,3 +31,6 @@
 全体テスト: 398成功、既知の失敗2件と読込失敗1件（aimの旧半径期待値、changelogのビルド注入変数、weapon-helpのdocument）。今回の関連テストと区別。新規攻撃の端末間実プレイ・長時間スマホ負荷は未確認。
 
 ゲーム統合の[独立監査Chat](https://chatgpt.com/c/6aafb0a5-5e78-83ee-ba6a-153fd9d3545a)へ50fcec2のZIPを送信済み。待機中に高所の花粉表示（supportHeightへ）、図鑑Slamの誤った弾表示、初遭遇演出のCALYX名登録漏れを修正。名前表を全Enemy型を要求する型へ変更し、同種の登録漏れを型検査で検出する。修正版を同じChatへ提出。main反映・公開は未完了。
+
+## 独立監査の修正（2026-09-20）
+50fcec2は必須P2が2件（図鑑Slamの汎用弾、40体+16雲で予兆枠不足）。CALYX専用の打撃/放物線表示へ分岐し、共有発射点・重力を利用。花粉と打撃予兆のInstancedMesh枠を分離した。任意指摘の高所表示と兵器庫の重複ダメージも修正。初遭遇名も登録。関連14件、client/Worker型、本番build/dry-run、実Worker2接続成功。実iab図鑑の攻撃表示・console error 0。再監査待ち、main/公開未完了。

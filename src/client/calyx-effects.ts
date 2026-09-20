@@ -33,6 +33,12 @@ export class CalyxEffects {
     }),
     6000,
   );
+  // Attack warnings have their own budget: persistent clouds must never crowd them out.
+  private warnings = new T.InstancedMesh(
+    this.marks.geometry,
+    this.marks.material,
+    6000,
+  );
   private cells = new Map<
     number,
     { x: number; y: number; z: number; distance: number }[]
@@ -47,11 +53,14 @@ export class CalyxEffects {
       );
     };
     this.root.name = "CALYX_POLLEN";
-    this.root.add(this.mist, this.marks);
-    this.mist.frustumCulled = this.marks.frustumCulled = false;
+    this.root.add(this.mist, this.marks, this.warnings);
+    this.mist.frustumCulled =
+      this.marks.frustumCulled =
+      this.warnings.frustumCulled =
+        false;
   }
   update(w?: World | null) {
-    this.mistCount = this.marks.count = 0;
+    this.mistCount = this.marks.count = this.warnings.count = 0;
     this.mist.geometry.setDrawRange(0, 0);
     if (!w || w.phase !== "battle") {
       this.cells.clear();
@@ -63,13 +72,14 @@ export class CalyxEffects {
     }
     const blocks = mapFor(w).blocks,
       active = new Set<number>();
+    let markBatch = this.marks;
     const mark = (x: number, y: number, z: number, size: number) => {
-      if (this.marks.count >= 6000) return;
+      if (markBatch.count >= 6000) return;
       this.dummy.position.set(x, y + 0.035, z);
       this.dummy.rotation.set(-Math.PI / 2, 0, 0);
       this.dummy.scale.setScalar(size);
       this.dummy.updateMatrix();
-      this.marks.setMatrixAt(this.marks.count++, this.dummy.matrix);
+      markBatch.setMatrixAt(markBatch.count++, this.dummy.matrix);
     };
     for (const c of w.pollen ?? []) {
       active.add(c.id);
@@ -104,6 +114,7 @@ export class CalyxEffects {
     }
     for (const id of this.cells.keys())
       if (!active.has(id)) this.cells.delete(id);
+    markBatch = this.warnings;
     for (const e of w.enemies) {
       const a = e.calyx;
       if (!a) continue;
@@ -134,5 +145,6 @@ export class CalyxEffects {
     this.mist.geometry.setDrawRange(0, this.mistCount);
     this.mist.geometry.attributes.position.needsUpdate = true;
     this.marks.instanceMatrix.needsUpdate = true;
+    this.warnings.instanceMatrix.needsUpdate = true;
   }
 }

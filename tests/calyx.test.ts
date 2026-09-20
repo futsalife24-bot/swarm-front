@@ -23,6 +23,9 @@ import { createHash } from "node:crypto";
 import { CalyxEffects } from "../src/client/calyx-effects";
 import { ReportEffects } from "../src/client/enemy-report-motion";
 import { mapFor } from "../src/shared/stages";
+import { initDailyDefense } from "../src/shared/daily-defense";
+import { initSolo } from "../src/shared/solo-progression";
+import { blankLevels } from "../src/client/progression-save";
 import * as T from "three";
 
 it("shows pollen on an elevated support and does not show a projectile for a report slam", () => {
@@ -72,6 +75,61 @@ function setup() {
   w.enemies = [e];
   return { w, p, e };
 }
+it("retains every slam warning at the supported enemy and cloud limits", () => {
+  const { w, e } = setup();
+  w.time = 2;
+  w.pollen = Array.from({ length: 16 }, (_, i) => ({
+    id: 100 + i,
+    x: 0,
+    y: 0.03,
+    z: 0,
+    born: 0,
+    damage: 4,
+  }));
+  w.enemies = Array.from({ length: 40 }, (_, i) => ({
+    ...e,
+    id: i + 1,
+    x: -90 + (i % 10) * 18,
+    z: 35 + Math.floor(i / 10) * 12,
+    calyx: { kind: "Slam" as const, started: 1.5, fired: false, yaw: 0 },
+  }));
+  const fx = new CalyxEffects();
+  fx.update(w);
+  const batches = fx.root.children.filter(
+    (o) => o instanceof T.InstancedMesh,
+  ) as T.InstancedMesh[];
+  for (const actor of w.enemies) {
+    let near = 0;
+    for (const batch of batches) {
+      const matrices = batch.instanceMatrix.array;
+      for (let i = 0; i < batch.count; i++)
+        if (
+          Math.hypot(
+            matrices[i * 16 + 12] - actor.x,
+            matrices[i * 16 + 14] - actor.z,
+          ) <= 4.1
+        )
+          near++;
+    }
+    expect(near).toBeGreaterThan(0);
+  }
+});
+it("does not damage the defense armory twice when already in the target list", () => {
+  const { w, e } = setup();
+  initSolo(w, 1, "normal", false, blankLevels());
+  initDailyDefense(w, "2026-09-20");
+  w.phase = "battle";
+  const armory = w.defense!.armory;
+  Object.assign(armory, { x: 0, y: 0, z: 2 });
+  const hp = armory.hp;
+  w.time = 1;
+  e.calyx = { kind: "Slam", started: 0, fired: false, yaw: 0 };
+  stepCalyx(w, e, armory, [armory], 0.05);
+  expect(hp - armory.hp).toBe(24);
+  w.pollen = [{ id: 50, x: 0, y: 0.03, z: 2, born: 0, damage: 4 }];
+  stepPollen(w, [armory], 0.05);
+  expect(hp - armory.hp).toBe(28);
+});
 it("locks a forward slam, hits once at 1s and holds still through recovery", () => {
   const { w, p, e } = setup(),
     back = addPlayer(w, "b");

@@ -95,7 +95,7 @@ export function stepPollen(w: World, living: Player[], dt: number) {
     return;
   }
   const clouds = w.pollen ?? [];
-  const targets = w.defense ? [...living, w.defense.armory] : living;
+  const targets = calyxTargets(w, living);
   // One common clock: differently-aged overlapping clouds never stack their ticks.
   for (
     let tick = Math.floor((w.time - dt + 1e-8) / CALYX.tick) + 1;
@@ -161,7 +161,7 @@ export function advancePollen(w: World, q: Projectile, dt: number) {
   }
 }
 /** Socket near the forward pollen sac; GLB local -Z is forward. */
-export function calyxMuzzle(e: Enemy, yaw: number) {
+export function calyxMuzzle(e: Pick<Enemy, "x" | "y" | "z">, yaw: number) {
   const forward = 0.16 * Math.cos(0.18) - 0.29 * Math.sin(0.18),
     height = 0.9 + 0.16 * Math.sin(0.18) + 0.29 * Math.cos(0.18);
   return {
@@ -169,6 +169,10 @@ export function calyxMuzzle(e: Enemy, yaw: number) {
     y: e.y + height,
     z: e.z + Math.cos(yaw) * forward,
   };
+}
+function calyxTargets(w: World, living: Player[]) {
+  const armory = w.defense?.armory;
+  return armory && !living.includes(armory) ? [...living, armory] : living;
 }
 export function stepCalyx(
   w: World,
@@ -197,7 +201,7 @@ export function stepCalyx(
           tz: e.tz,
           radius: CALYX.slamRange,
         });
-        for (const p of w.defense ? [...living, w.defense.armory] : living) {
+        for (const p of calyxTargets(w, living)) {
           const dx = p.x - e.x,
             dz = p.z - e.z,
             d = Math.hypot(dx, dz);
