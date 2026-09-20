@@ -8,7 +8,7 @@ import { enemySize } from "../shared/enemy-size";
 import { dropAt } from "../shared/solo-progression";
 import { groundHeight } from "../shared/terrain";
 import { TerrainWarnings } from "./terrain-warnings";
-import { MapAssets } from "./map-assets";
+import { MapAssets, VIEW_MAPS } from "./map-assets";
 import {
   StructureMotion,
   STRUCTURE_ASSETS,
@@ -875,11 +875,7 @@ export class Renderer {
     const activeMap = mapFor(w ?? {});
     this.terrainWarnings.select(activeMap.blocks);
     this.mapAssets.select(
-      w?.defense
-        ? MAPS.length + 1 + DEFENSE_MAPS.indexOf(activeMap)
-        : w?.training
-          ? MAPS.length
-          : MAPS.indexOf(activeMap),
+      VIEW_MAPS.indexOf(activeMap),
       !!w && w.phase !== "lobby",
     );
     const underground = activeMap.biome === "cave";

@@ -11,6 +11,36 @@ PR55、branch `codex/calyx-integration`、実装監査対象`50fcec24697ebc5b2a3
 # 現在地: CALYXゲーム統合を検証・監査準備中（2026-09-20）
 
 branch `codex/calyx-integration`、worktree `../calyx-integration`、base `7b3e4df`。game側のジャンプ/設定作業を保護して分離。単体候補v2 GLBを同一バイトで採用し、前方打撃と放物線の花粉弾・広範囲継続ダメージをsharedに実装。作戦7第2波2体。関連51件/型、実iab表示、ローカル実Worker2接続の同一状態・ダメージ確認済み。全体既知3失敗は[詳細](CALYX.md)。ゲーム統合監査/main反映/公開は未完了。
+# 現在地: PR54・ジャンプと固定高台ルートをmain反映・公開確認済み（2026-09-20）
+
+PR54通常merge、公開ソース `5ded5fa06ff5e1f7da800c3019544445703ce474`、Worker Version `e4d8113e-7734-444e-b667-48321906006a`。ジャンプ/F、洞窟以外の固定追加版、草原斜面・雪山窪地・街区高層化を公開。監査指摘の中断復帰/蜘蛛/勝利後着地/分節旧経路を修正し、対象1d1c06aの独立Chat合格・必須0。型/関連74件・分節45件（重複あり）/中断4件、実Worker2接続、先行全20作戦・11マップ・3画面サイズ成功。main build/dry-run、公開19SHA/health、実iabのF・ボタン上昇/着地・エラーログ0確認。詳細・監査URL・残る確認範囲は [JUMP-ELEVATED-MAPS.md](JUMP-ELEVATED-MAPS.md)。別作業 `.gitignore`/`AGENTS.md`/`package.json`/`CLAUDE.md` を保護しているためgame全体はcleanではない。mainは既存share-image-fix worktreeで同期、後続は公開記録のみ。
+# 現在地: PR54・分節敵の旧経路復帰を修正し再監査中（2026-09-20）
+
+対象 `1d1c06ac4faa994fb560b65bf5271fa403a12ec0`。活動中の分節敵だけ残ったF1/P2を、安全な地上への位置・履歴再構築で修正。旧経路停止の修正前再現あり。作戦18/20の中断→休眠→実再活動・切断HP保持と全地域の通常分節移動を含む45/45、型/build/production dry-run成功。同じ[監査Chat](https://chatgpt.com/c/6aafaa2f-a6f0-83e8-9efe-9e8d15baba4e)へZIP送信済み、判定待ち。`dist-validation/jump-maps/jump-maps-worm-reaudit.zip` SHA256 `15A53E2481D83FF74CC0BE114F3D27DEAFBE47FC745211B6DD29EA1042DEAD4E`。main未反映・未公開。別作業4ファイル保護。
+# 現在地: PR54・建物内復帰も修正し最終再監査中（2026-09-20）
+
+最終対象 `61448a63542b40898f6c147402b34c9cc85ac5b9`。ゲーム実装0b849a8、後続は検証fixture/証拠/文書。必須F1の追加ビル/保守棟内の敵・分節救出を追加し、型・関連74/74成功、実装からbuild/dry-run成功。前回必須F2/F3・協力予測は独立確認済み。同じ[監査Chat](https://chatgpt.com/c/6aafaa2f-a6f0-83e8-9efe-9e8d15baba4e)へ最終ZIPを送信済み、判定待ち。`dist-validation/jump-maps/jump-maps-final-reaudit.zip` SHA256 `49B91826D5E87FBD0B54C4D0CAEF5D6571F661343EADFB9367BC045E52E109DF`。main未反映・未公開。詳細 [JUMP-ELEVATED-MAPS.md](JUMP-ELEVATED-MAPS.md)。別作業4ファイルは保護。
+# 現在地: PR54の必須3件を修正し再監査中（2026-09-20）
+
+対象 `ed8bbafe5b2f36498f9cd3d03ce227af59c64f91`。旧中断の敵埋没・蜘蛛perch・勝利後の浮遊を修正し、協力予測の高さ保持も対応。型/地形23件/関連49件/中断保存4件/build/production dry-run成功。同じ[監査Chat](https://chatgpt.com/c/6aafaa2f-a6f0-83e8-9efe-9e8d15baba4e)へ修正ZIPを添付・再監査依頼済み。ZIP `dist-validation/jump-maps/jump-maps-reaudit-ed8bbaf.zip`、SHA256 `F11064EF5482CF75E4BEFC99E30E8988ED9887943F63A15620673B511C195087`。判定待ち、main未反映・未公開。無料プラン/既存利用量は実ダッシュボードで確認済み。別作業4ファイル保護。詳細 [JUMP-ELEVATED-MAPS.md](JUMP-ELEVATED-MAPS.md)。
+# 現在地: PR54の独立監査を送信済み、公開準備中（2026-09-20）
+
+iab復旧。対象7ee5d9dの監査ZIPを通常Chatへ添付・送信し、実差分監査の回答待ち。[監査Chat](https://chatgpt.com/c/6aafaa2f-a6f0-83e8-9efe-9e8d15baba4e)。PR54 head0bcf10fは記録文書のみ追加。ユーザーの「公開して」により公開作業を再開。最新PRはMERGEABLE・チェックなし。合格確認後に通常merge・既存Worker公開・配信確認する。別作業の4ファイルは保護。
+# 現在地: PR54・ジャンプと高台ルートを保存、独立監査の接続復旧待ち（2026-09-20）
+
+[draft PR54](https://github.com/futsalife24-bot/swarm-front/pull/54)、branch `codex/jump-elevated-maps`。実装08bf674へ最新mainのLINE共有変更7b3e4dfを統合し、対象 `7ee5d9d16b0051ef21644e050e615ef5a183b72f`。競合はSTATEの追記のみで双方保持、ゲームソースは08bf674と同一。統合後build/production dry-run成功。ジャンプ/F・固定追加版・3地域の外階段・自然地形・高層ビル8棟、全20作戦を含む76件＋最終地形23件（重複あり）・実Worker2接続・11マップ描画・3サイズキー/タッチ/着地成功。既存射撃1失敗はbaseで再現。自己検証証拠をPRの `docs/evidence/jump-maps/` に保存。Jevはmissing_keyで未判定/API0。[詳細](JUMP-ELEVATED-MAPS.md)。後続は記録文書のみ。
+
+監査ZIP `dist-validation/jump-maps/jump-maps-audit-7ee5d9d.zip`（21,351,646 bytes、SHA256 `6623C705F02000443904B7CD9ED4F30A98346D1ECEBC7C69756CABF39418CCE8`）。対象ソース/実差分/既存GLB/検証証拠を含み、秘密ファイル等を除外確認。旧08bf674 ZIPは履歴用、再開時は7ee5d9d版を使う。
+
+停止理由: このタスクのiabはkernel assetsのパス不存在（os error 3）で初期化できず、reset後と別タスク成功記録後の再確認でも再現。独立監査未依頼、main未反映・未公開。
+再開条件: iab復旧後、上記ZIPを通常Chatへ送信して独立監査・必要修正・通常merge・既存Worker公開・配信確認。継続承認は有効。別作業の `.gitignore`/`AGENTS.md`/`package.json`/`CLAUDE.md` 差分を保護しており、作業ツリー全体はcleanではない。
+
+# 現在地: ジャンプ・固定高台ルートの自己検証済み、独立監査ブラウザ復旧待ち（2026-09-20）
+
+branch `codex/jump-elevated-maps`、base `b322d62d91b622df5402c583a1f9668238a65aa3`。ジャンプボタン/Fキー、ステージ3・7・8・12・14・17〜20へ固定する追加版、草原の山腹斜面・雪山の窪地・街区8棟高層化。通常/追加の選択UIなし。型、全20作戦を含む再検証76件、最終地形23件（重複あり）、11マップ実描画、3サイズのキー/タッチ/着地、実Worker2接続同期が成功。既存射撃テスト1失敗はbaseでも同一再現。Jev固定needs_context/live missing_key・API0、未判定。詳細・証拠は [JUMP-ELEVATED-MAPS.md](JUMP-ELEVATED-MAPS.md)。実装commit後のビルド・PR・監査ZIPの情報は後続記録へ。別作業の `.gitignore`/`AGENTS.md`/`package.json`/`CLAUDE.md` は保護。
+
+停止理由: 独立監査用iabがkernel assetsのパス不存在（os error 3）で初期化できず、reset後も再現。監査未依頼、main未反映・未公開。
+再開条件: iab復旧後、保存する対象SHA/ZIPを通常Chatへ送って独立監査・必要修正・通常merge・既存Worker公開・配信確認。監査・公開の既存継続承認は有効で、再承認は不要。
 
 # 現在地: LINE共有画像・説明文をmain反映・公開確認済み（2026-09-20）
 

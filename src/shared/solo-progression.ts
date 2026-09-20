@@ -16,6 +16,7 @@ import { pendingFoundryCount } from "./foundry-spawning";
 import {
   spawn,
   move,
+  playerVerticalStep,
   blocked,
   random,
   finish,
@@ -265,6 +266,7 @@ export function collectionStep(w: World, i: Input, dt: number) {
   const p = w.players[0];
   w.solo.collection = Math.min(10, w.solo.collection + dt);
   if (p.hp <= 0) return;
+  const airborne = playerVerticalStep(p, i, mapFor(w).blocks, dt);
   const norm = Math.max(1, Math.hypot(i.mx, i.mz)),
     speed = MOVE_SPEED.walk * (1 + 0.03 * w.solo.levels.move);
   move(
@@ -273,6 +275,8 @@ export function collectionStep(w: World, i: Input, dt: number) {
     ((i.mx * Math.sin(i.yaw) - i.mz * Math.cos(i.yaw)) / norm) * speed * dt,
     0.55,
     mapFor(w).blocks,
+    airborne,
+    true,
   );
   p.yaw = i.yaw;
   p.pitch = i.pitch;

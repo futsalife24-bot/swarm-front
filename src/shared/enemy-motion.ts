@@ -3,6 +3,7 @@ import { CAVE_BLOCKS, caveWaypoint } from "./cave";
 import type { Enemy, Player, World } from "./game";
 import { blocked, roofHeight, visible } from "./game";
 import { ENEMIES } from "./defs";
+import { groundHeight } from "./terrain";
 import { mapFor } from "./stages";
 
 // Per-enemy random sequence keeps loot randomness independent from steering.
@@ -135,17 +136,18 @@ export function specialMotion(w: World, e: Enemy, t: Player, dt: number) {
     const x = Math.max(b.x - b.w / 2, Math.min(b.x + b.w / 2, e.x));
     const z = Math.max(b.z - b.d / 2, Math.min(b.z + b.d / 2, e.z));
     const d = Math.hypot(x - e.x, z - e.z);
+    const base = Math.max(b.terrainBase ?? 0, groundHeight(e.x, e.z, blocks));
     if (
       ((Math.abs(e.x - b.x) > b.w / 2 && Math.abs(e.z - b.z) < b.d / 2 - 2.5) ||
         (Math.abs(e.z - b.z) > b.d / 2 &&
           Math.abs(e.x - b.x) < b.w / 2 - 2.5)) &&
-      b.h > 5 &&
+      b.h - base > 5 &&
       d < def.radius + 0.8 &&
       d >= def.radius &&
       (e.jump ?? 0) === 0 &&
       e.wallCooldown === 0
     ) {
-      e.y = Math.min(b.h - 2.5, 4);
+      e.y = Math.min(b.h - 2.5, base + 4);
       e.x = x + ((e.x - x) / d) * (def.radius + 0.01);
       e.z = z + ((e.z - z) / d) * (def.radius + 0.01);
       e.wallYaw = Math.atan2(x - e.x, -(z - e.z));

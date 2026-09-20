@@ -1,6 +1,7 @@
 import type { Renderer } from "./render";
 import type { World } from "../shared/game";
-import { MAPS, stageFor } from "../shared/stages";
+import { mapFor, stageFor } from "../shared/stages";
+import { VIEW_MAPS } from "./map-assets";
 import { loadStandardTrooper } from "./standard-trooper";
 import { loadProgressionWeapons } from "./progression-weapons";
 
@@ -64,7 +65,7 @@ export async function prepareBattle(
     }
   }
   progress(55);
-  const mapIndex = stageFor(world).map + (world.defense ? MAPS.length + 1 : 0);
+  const mapIndex = VIEW_MAPS.indexOf(mapFor(world));
   // A failed daily map download must be retryable without spending participation.
   if (world.defense && view.mapAssets.status[mapIndex].state === "error")
     view.mapAssets.status[mapIndex] = { state: "idle", error: "" };
@@ -86,7 +87,7 @@ export async function prepareBattle(
     if (
       map.state === "ready" &&
       (world.defense ||
-        MAPS[mapIndex].biome === "cave" ||
+        mapFor(world).biome === "cave" ||
         distant.state === "ready") &&
       models.every((m) => m?.userData.trooper)
     )

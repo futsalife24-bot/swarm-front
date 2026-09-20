@@ -1,5 +1,6 @@
 // Base city geometry is independent of weapon/progression initialization.
 export interface Block {
+  terrainBase?: number;
   x: number;
   z: number;
   w: number;

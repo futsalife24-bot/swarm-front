@@ -21,7 +21,11 @@ const smooth = (v: number) => {
 };
 
 /** Fixed, metre-space ridgelines. Buildings retain their original foundations. */
-export function registerTerrain(blocks: Block[], index: number) {
+export function registerTerrain(
+  blocks: Block[],
+  index: number,
+  elevated = false,
+) {
   const ridges = [
     [
       [-5, -42, 22, 35, 2.8],
@@ -54,14 +58,24 @@ export function registerTerrain(blocks: Block[], index: number) {
       [0, 30, 20, 27, 1.25],
     ],
   ][index];
+  const naturalHeight = (x: number, z: number) => {
+    let h =
+      index === 3
+        ? 17 * smooth((52 - x + z * 0.16) / 140)
+        : 15 * smooth((Math.hypot(x / 88, z / 100) - 0.18) / 0.85);
+    if (elevated)
+      h += 5 * smooth((30 - Math.hypot(x + 30, (z + 28) * 0.8)) / 18);
+    return h;
+  };
+  const natural = index === 3 || index === 4;
   const heights = new Float32Array(NX * NZ);
   for (let iz = 0; iz < NZ; iz++)
     for (let ix = 0; ix < NX; ix++) {
       const x = ix - ARENA_X,
         z = iz - ARENA_Z;
-      let h = 0;
+      let h = natural ? naturalHeight(x, z) : 0;
       // Intact paved districts have no authored root damage or collapsed roads.
-      for (const [cx, cz, rx, rz, peak] of index < 3 ? [] : ridges) {
+      for (const [cx, cz, rx, rz, peak] of index === 5 ? ridges : []) {
         // Elliptical, long crests with two traversable shoulders, not noise bumps.
         const d = Math.hypot((x - cx) / rx, (z - cz) / rz);
         h = Math.max(h, peak * smooth(1 - d));
@@ -72,18 +86,27 @@ export function registerTerrain(blocks: Block[], index: number) {
           Math.max(0, Math.abs(x - b.x) - b.w / 2),
           Math.max(0, Math.abs(z - b.z) - b.d / 2),
         );
-        foundation = Math.min(foundation, smooth((d - 2) / 10));
+        if (natural) {
+          const blend = smooth(d / 10);
+          h = h * blend + naturalHeight(b.x, b.z) * (1 - blend);
+        } else foundation = Math.min(foundation, smooth((d - 2) / 10));
       }
       h *=
         foundation *
         smooth((ARENA_X - Math.abs(x)) / 8) *
         smooth((ARENA_Z - Math.abs(z)) / 8);
       // Keep the entry, coop spawn and a broad centre lane accessible.
-      h *= 0.55 + 0.45 * smooth(Math.abs(x) / 8);
+      if (index === 5) h *= 0.55 + 0.45 * smooth(Math.abs(x) / 8);
       heights[iz * NX + ix] = h;
     }
   const terrain: Terrain = { heights, props: [] };
   terrains.set(blocks, terrain);
+  if (natural)
+    for (const b of blocks) {
+      const base = groundHeight(b.x, b.z, blocks);
+      b.h += base - (b.terrainBase ?? 0);
+      b.terrainBase = base;
+    }
   // No generic prop placement. Relief comes from the ground itself; any future
   // props must belong to an authored location and its environment.
 }
@@ -180,7 +203,7 @@ export function markerAbove(enemy: { y: number }, player?: { y?: number }) {
   return enemy.y > (player?.y ?? 0) + 0.05;
 }
 
-/** Swept descending feet contact for the next jump task. Upward motion cannot
+/** Swept descending feet contact. Upward motion cannot
  * land on a roof; a downward sweep stops on the highest crossed top surface. */
 export function landingHeight(
   x: number,

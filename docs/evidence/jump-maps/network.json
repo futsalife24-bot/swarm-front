@@ -1,0 +1,10 @@
+{
+  "pass": true,
+  "realWorker": true,
+  "clients": 2,
+  "stage": 3,
+  "queuedJumpSurvivesNeutralPacket": true,
+  "peerMatches": true,
+  "landed": true,
+  "feet": 0.7
+}

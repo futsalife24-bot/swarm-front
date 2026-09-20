@@ -233,7 +233,7 @@ async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
           tutorial(
             "combat",
             "戦闘の基本",
-            "移動しながら照準を合わせて射撃。PCはWASD／マウス、R装填・Q切替・Space回避。救急箱はHまたはボタンで全快します。使用すると今回のミッション③は未達成になります。使う必要はありません。",
+            "移動しながら照準を合わせて射撃。PCはWASD／マウス、R装填・Q切替・Space回避・Fジャンプ。救急箱はHまたはボタンで全快します。使用すると今回のミッション③は未達成になります。使う必要はありません。",
           );
       })();
     });
@@ -1022,7 +1022,7 @@ function frame(now: number) {
       s.medkit ? "救急箱で全快" : "救急箱 使用済み",
     );
     hud.querySelector(".pc-help")!.textContent =
-      "WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · H 救急箱";
+      "WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · F ジャンプ · H 救急箱";
     minimap.draw(world, "solo", controls.input.yaw, now);
   }
   sound.update(

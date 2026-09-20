@@ -209,6 +209,6 @@ export function hudMarkup(
         p.revive +
         '" max="2.5"></progress></div>'
       : rescueMarkup(w, id)) +
-    '<div class="pc-help">WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · E 蘇生</div>'
+    '<div class="pc-help">WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · F ジャンプ · E 蘇生</div>'
   );
 }
