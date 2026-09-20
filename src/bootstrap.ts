@@ -1,3 +1,6 @@
+import { installCleanCapture } from "./client/clean-capture";
+import "./client/clean-capture.css";
+installCleanCapture();
 import { installPlayerProfile } from "./client/player-profile";
 import "./client/app-install";
 import { installInviteLaunch } from "./client/invite-launch";

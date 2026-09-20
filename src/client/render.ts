@@ -1,3 +1,4 @@
+import { cleanCapture } from "./clean-capture";
 import { dropGeometry } from "./drop-design";
 import { DefenseVisual } from "./defense-visual";
 import { enemySize } from "../shared/enemy-size";
@@ -575,6 +576,9 @@ export class Renderer {
       }),
       120,
     );
+    this.aimWarnings.visible = !cleanCapture.enabled;
+    this.rings.visible = !cleanCapture.enabled;
+    this.houndWarnings.visible = !cleanCapture.enabled;
     this.aimWarnings.count = 0;
     this.scene.add(this.aimWarnings);
     this.houndWarnings.count = 0;
