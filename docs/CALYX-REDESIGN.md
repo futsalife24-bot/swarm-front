@@ -66,3 +66,5 @@ CALYXの遷移開始時に保存したfromTimeを固定し、切替先の攻撃�
 ユーザーの明示採用/公開承認後、PR58を通常merge。公開ソースa0f0088f1aa6b938c5573ef32e1536927760dc05、Worker Version c815fa75-5fa9-4c21-9f47-3a1c94e7df2a。merge後main buildとproduction dry-run成功。配信13ファイルのSHA一致、health200。証拠release-verification.json。公開UIは保存保護が継続し、自動承認レビューが通常再開を拒否。public-ui-blocked.png。ユーザーの他画面終了/通常再開後の実画面確認のみ未完了。保護回避は行わない。
 
 2026-09-21追加: 旧GLBがservice workerの同一URLキャッシュに残る問題を修正。CALYXのURLのみrev=64719fde1175e427を追加。c9be345の独立監査合格・必須0。実sw.jsのVM検証、client型/関連7件/build、実レポート描画成功。公開UI保存保護は未解決。
+
+キャッシュ修正公開: PR60、source e16e6d3930d1d1ef34dea4da0c9df3919a35c063、Worker d775cae9-8cd3-42e1-a963-7dfab2bbdce0。main build/dry-run/配信13SHA/health成功。開きっぱなしの旧JSには効かず再起動が必要。公開UI保存保護は依然未解決で操作未確認。
