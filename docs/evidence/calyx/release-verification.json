@@ -1,0 +1,60 @@
+{
+  "time": "2026-09-20T11:47:38.829Z",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "pass": true,
+  "health": "{\"ok\":true,\"transport\":\"websocket\",\"authority\":\"durable-object\"}",
+  "files": [
+    {
+      "path": "/assets/index-CPbai1ZT.css",
+      "sha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9"
+    },
+    {
+      "path": "/assets/index-L1vl6cyu.js",
+      "sha256": "40515c0438760e0dc4088eeb7aa91ee0073af8276e3c32f20a20911886ca3da7"
+    },
+    {
+      "path": "/assets/main-C1Ldsy-y.css",
+      "sha256": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1"
+    },
+    {
+      "path": "/assets/main-Cu7T3QBi.js",
+      "sha256": "5f482318dc20eac3386ab4c940d0e5e3fb495e015c804e5e8ca342eea86c7b79"
+    },
+    {
+      "path": "/assets/playtest-app-vS6yno4Y.css",
+      "sha256": "7b097133cb0341a68690761c5eeb927ffbcfe531b07e936d3331d52d826f88fd"
+    },
+    {
+      "path": "/assets/playtest-app-xeaGQHFE.js",
+      "sha256": "ca28774dd4aad8505c034631c0a1b00c783a2a8694e2ed769916c19471f3a4f9"
+    },
+    {
+      "path": "/assets/training-app-CYA1Y4Qh.js",
+      "sha256": "09b94c2111412fac7266462d57594cbf317247ea464d5ba8aede2768fdf0de19"
+    },
+    {
+      "path": "/assets/weapon-help-Clh1V6L1.css",
+      "sha256": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607"
+    },
+    {
+      "path": "/assets/weapon-help-jvV3pWJc.js",
+      "sha256": "03a97111fdba840d106726d7355971feff09e46cb173188c05d0861bb9d97988"
+    },
+    {
+      "path": "/assets/weapon-sharing-z2-h_uNW.js",
+      "sha256": "8294efe31952bff534a0ec91f281cae433b0d0f1cba8ecc5447bbc230472cf24"
+    },
+    {
+      "path": "/assets/zoom-guard-BlWIjgJb.css",
+      "sha256": "312dac5ac1021181509d5929954f24b9ace9c26b38ebb667dbfa662d6c13f27c"
+    },
+    {
+      "path": "/assets/zoom-guard-CjB68UvS.js",
+      "sha256": "72e9dec7c68d128353f3a7660863564da6696f9765544f7a29eb045cffc65908"
+    },
+    {
+      "path": "/assets/enemies/calyx_motion_v1.glb",
+      "sha256": "ef8d7944603d409fff242895c0f2fda56e00ace5b7c052e130fc707b53b39083"
+    }
+  ]
+}

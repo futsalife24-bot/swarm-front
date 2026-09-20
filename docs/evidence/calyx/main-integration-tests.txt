@@ -1,0 +1,9 @@
+
+ RUN  v5.0.0 C:/Users/futsa/OneDrive/ドキュメント/ChatGPT/スワフロ/calyx-integration
+
+
+ Test Files  8 passed (8)
+      Tests  103 passed (103)
+   Start at  20:14:10
+   Duration  121.92s (tests 93%, import 6%, transform 1%)
+
