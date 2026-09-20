@@ -111,6 +111,60 @@ export async function readEvent(req: Request) {
   };
 }
 
+/** Migration-only read. No schema creation, expiry, alarms, or visitor mutations. */
+export async function exportAppAnalytics(
+  req: Request,
+  storage: DurableObjectStorage,
+  now = Date.now(),
+) {
+  if (req.headers.get("X-Developer-Verified") !== "1")
+    return Response.json({ error: "認証が必要です" }, { status: 401 });
+  const sql = storage.sql;
+  const tables = new Set(
+    sql
+      .exec<{ name: string }>(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name IN ('app_days','app_admin_days','app_admin_only')",
+      )
+      .toArray()
+      .map((row) => row.name),
+  );
+  if (!tables.has("app_days")) return Response.json({ days: [] });
+  const exclude = new URL(req.url).searchParams.get("excludeAdmin") === "1";
+  const days = sql
+    .exec<{ date: string; views: number; visitors: number }>(
+      "SELECT date,views,visitors FROM app_days WHERE date >= ? ORDER BY date",
+      dateOffset(jstDate(now), -364),
+    )
+    .toArray();
+  return Response.json({
+    days: days.map((d) => ({
+      date: d.date,
+      views:
+        d.views -
+        (exclude && tables.has("app_admin_days")
+          ? (sql
+              .exec<{ views: number }>(
+                "SELECT views FROM app_admin_days WHERE date=?",
+                d.date,
+              )
+              .toArray()[0]?.views ?? 0)
+          : 0),
+      visitors:
+        d.visitors -
+        (exclude && tables.has("app_admin_only")
+          ? sql
+              .exec<{ n: number }>(
+                "SELECT COUNT(*) AS n FROM app_admin_only WHERE date=?",
+                d.date,
+              )
+              .toArray()[0].n
+          : 0),
+      sorties: 0,
+      clears: 0,
+    })),
+  });
+}
+
 // New applications have separate objects; the existing Swarm Front analytics object is unchanged.
 export async function appAnalytics(
   req: Request,

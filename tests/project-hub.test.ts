@@ -1,4 +1,6 @@
 import { describe, it, expect } from "vitest";
+import { DatabaseSync } from "node:sqlite";
+import { appAnalytics, exportAppAnalytics } from "../server/app-analytics";
 import {
   exportProjectAnalytics,
   forwardAnalytics,
@@ -6,6 +8,113 @@ import {
 } from "../server/project-hub";
 describe("independent project analytics", () => {
   const key = "a".repeat(64);
+  it("migration export leaves expired visitor rows, counters and alarms unchanged", async () => {
+    const db = new DatabaseSync(":memory:");
+    let alarm: number | null = null;
+    let readOnly = false;
+    const storage = {
+      sql: {
+        exec: (query: string, ...args: (string | number)[]) => {
+          if (readOnly) expect(query.trim().startsWith("SELECT ")).toBe(true);
+          const rows = db.prepare(query).all(...args);
+          return { toArray: () => rows };
+        },
+      },
+      transactionSync: (fn: () => void) => fn(),
+      getAlarm: async () => alarm,
+      setAlarm: async (value: number) => {
+        alarm = value;
+      },
+    } as unknown as DurableObjectStorage;
+    try {
+      await appAnalytics(
+        new Request("https://internal/app-analytics-event", {
+          method: "POST",
+          body: JSON.stringify({ visitor: "a".repeat(32), admin: true }),
+        }),
+        storage,
+      );
+      const oldDate = new Date(Date.now() - 400 * 86400000)
+        .toISOString()
+        .slice(0, 10);
+      db.prepare("INSERT INTO app_days VALUES (?,7,1,0)").run(oldDate);
+      db.prepare("INSERT INTO app_admin_days VALUES (?,7)").run(oldDate);
+      db.prepare("INSERT INTO app_visitors VALUES (?,?)").run(
+        oldDate,
+        "b".repeat(32),
+      );
+      db.prepare("INSERT INTO app_admin_only VALUES (?,?)").run(
+        oldDate,
+        "b".repeat(32),
+      );
+      const snapshot = () =>
+        JSON.stringify([
+          ...[
+            "app_days",
+            "app_admin_days",
+            "app_visitors",
+            "app_admin_only",
+          ].map((table) =>
+            db.prepare(`SELECT * FROM ${table} ORDER BY date`).all(),
+          ),
+          alarm,
+        ]);
+      const before = snapshot();
+      let readCalls = 0;
+      const gate = {
+        idFromName: (name: string) => name,
+        get: (id: string) => ({
+          fetch: async (req: Request) => {
+            readCalls++;
+            if (id === "analytics") return Response.json({ days: [] });
+            expect(new URL(req.url).pathname).toBe("/app-analytics-export");
+            return exportAppAnalytics(req, storage);
+          },
+        }),
+      } as unknown as DurableObjectNamespace;
+      expect(
+        (
+          await exportProjectAnalytics(
+            new Request("https://game/api/project-hub/export"),
+            gate,
+            key,
+          )
+        ).status,
+      ).toBe(401);
+      expect(readCalls).toBe(0);
+      readOnly = true;
+      const r = await exportProjectAnalytics(
+        new Request("https://game/api/project-hub/export", {
+          headers: { Authorization: "Bearer " + key },
+        }),
+        gate,
+        key,
+      );
+      expect(r.status).toBe(200);
+      const result = (await r.json()) as {
+        apps: {
+          id: string;
+          all: { views: number }[];
+          excluded: { views: number }[];
+        }[];
+      };
+      for (const app of result.apps.filter((a) => a.id !== "swarm-front")) {
+        expect(app.all).toHaveLength(1);
+        expect(app.all[0].views).toBe(1);
+        expect(app.excluded[0].views).toBe(0);
+      }
+      expect(JSON.stringify(result)).not.toContain("a".repeat(32));
+      expect(JSON.stringify(result)).not.toContain("b".repeat(32));
+      expect(snapshot()).toBe(before);
+      expect(
+        db
+          .prepare("SELECT COUNT(*) n FROM app_visitors WHERE date=?")
+          .get(oldDate)?.n,
+      ).toBe(1);
+    } finally {
+      db.close();
+    }
+  });
   it("denies missing or incorrect export authorization", async () => {
     const gate = {} as DurableObjectNamespace;
     expect(

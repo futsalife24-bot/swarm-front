@@ -8,6 +8,7 @@ import {
   APPS,
   summary,
   appAnalytics,
+  exportAppAnalytics,
   expireAppAnalytics,
   readEvent,
   type Day,
@@ -505,6 +506,10 @@ export class Gate extends DurableObject<Env> {
   private directoryQueries = new Map<string, { at: number; count: number }>();
   async fetch(req: Request) {
     const internal = new URL(req.url).pathname;
+    if (internal === "/app-analytics-export")
+      return this.ctx.blockConcurrencyWhile(() =>
+        exportAppAnalytics(req, this.ctx.storage),
+      );
     if (
       internal === "/app-analytics-read" ||
       internal === "/app-analytics-event"

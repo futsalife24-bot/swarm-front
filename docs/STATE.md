@@ -1,3 +1,7 @@
+# 現在地: PR49監査F3を修正し再監査へ（2026-09-20）
+
+[同じ監査Chat](https://chatgpt.com/c/6aaf3460-4148-83ee-bd18-e844f7c19555)で必須3件。gameのF3は移行exportが通常readの期限切れ整理を呼ぶ問題。専用SELECT-only経路を追加し、旧個別ID/4テーブル/alarm不変を実SQLiteで検証。関連既存12＋export5件成功、型成功。HubのF1/F2も修正済み、全体再監査へ。未公開・未移行。別作業設定は保護。
+
 # 現在地: PR49監査送信済み、iab接続復旧待ち（2026-09-20）
 
 具体的ZIP送信をユーザーが承認し、通常Chat https://chatgpt.com/c/6aaf3460-4148-83ee-bd18-e844f7c19555 へ同一ZIP添付・監査依頼成功。対象1b345078b07c917ae4328aa6d8543d5b8ef938d6、後続は記録のみ。PR49 main未反映・未公開。別作業の .gitignore/AGENTS.md/package.json/CLAUDE.md 差分は保護。

@@ -63,7 +63,7 @@ export async function exportProjectAnalytics(
         const r = await stub.fetch(
           new Request(
             "https://internal/" +
-              (legacy ? "analytics-read" : "app-analytics-read") +
+              (legacy ? "analytics-read" : "app-analytics-export") +
               "?excludeAdmin=" +
               (exclude ? "1" : "0"),
             { headers: { "X-Developer-Verified": "1" } },
