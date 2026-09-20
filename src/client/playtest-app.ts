@@ -59,6 +59,7 @@ import {
   eye,
   rayVisible,
   type World,
+  type Enemy,
 } from "../shared/game";
 import {
   initSolo,
@@ -1102,7 +1103,8 @@ let filter = "all",
   encounterActive = false,
   loadReady = false;
 const adSession = new RewardedAdSession();
-const names: Record<string, string> = {
+const names: Record<Enemy["kind"] | "worm", string> = {
+  calyx: "CALYX",
   crawler: "PLEAT",
   ant: "HOUND / VOLLEY",
   spider: "HOUND / LEAPER",
