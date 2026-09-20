@@ -5,6 +5,12 @@ branch `codex/jump-elevated-maps`、base `b322d62d91b622df5402c583a1f9668238a65a
 停止理由: 独立監査用iabがkernel assetsのパス不存在（os error 3）で初期化できず、reset後も再現。監査未依頼、main未反映・未公開。
 再開条件: iab復旧後、保存する対象SHA/ZIPを通常Chatへ送って独立監査・必要修正・通常merge・既存Worker公開・配信確認。監査・公開の既存継続承認は有効で、再承認は不要。
 
+# 現在地: LINE共有画像・説明文をmain反映・公開確認済み（2026-09-20）
+
+PR53通常merge。ユーザー最終指定の横長1280×720画像と「SWARM FRONT — 仲間と戦う3D協力アクション。」をOGP/Twitterへ設定。独立監査e4bd633合格・必須0。公開ソースf846e07、Worker Version d07241f8-45b2-49f4-84b3-a4328a8f619b。main build/dry-run・公開2URLのHTML/画像原本SHA/12assets一致・health200・実iab画像目視成功。LINE実機と送信済みカード更新は未検証。共有URLは https://swarm-front.melosalife-24.workers.dev/?share=20260920 。[詳細](LINE-SHARE.md)。gameの別タスク差分を保護し、share-image-fixでmain同期。後続は公開記録のみ。
+# 現在地: LINE共有画像・説明文を修正し独立監査中（2026-09-20）
+
+PR53、branch codex/line-share-image（share-image-fix worktree）、base b322d62、実装e4bd633。ユーザー指定の横長1280×720画像と「SWARM FRONT — 仲間と戦う3D協力アクション。」を静的OGPに設定。build/dry-run・画像原本一致・ローカル配信/12assets・実画像表示成功。通常ChatへZIP送信済み、最終判定待ち。game側の別作業は保護。[詳細・監査URL・検証限界](LINE-SHARE.md)。main反映と公開は未完了。
 # 現在地: ドローン撮影をmain反映・公開・確認済み（2026-09-20）
 
 PR51/PR52を通常merge。兵士操作を維持し、`?drone=1&clean=1`で上空追従・自動周回、ポーズから高さ/角度/距離/速度を調整。独立Chat再監査はカメラ6200491・CSS5441fedとも合格/必須0。公開ソース5b5da2ee22c330e5b4422ccc342fabf0f86cc687、Worker Version70338c28-cadf-48e3-83f8-9407d95bc289。最新mainのbuild/dry-run、配信14SHA一致、health成功。カメラ型/関連44件成功、実Chrome844×390/667×375のローカル比較・production preview成功。公開667×375でも通常/真上/自動周回、設定の1行表示・スクロールなし、周回角18→29度、エラー0を確認。初回公開CSS競合はPR52で解消。全件テストはドローン変更で再実行せず（先行clean時の既存失敗3件を記録済み）、実スマホ等は未検証。敵出現ルールは変えず、四方配置は静止QAのみ。詳細・証拠は [DRONE-CAPTURE.md](DRONE-CAPTURE.md)。後続は公開記録のみ。
