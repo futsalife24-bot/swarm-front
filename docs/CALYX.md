@@ -14,9 +14,9 @@
 
 ## 素材と再生成
 
-- 配信: `public/assets/enemies/calyx_motion_v1.glb`（候補v2と同一バイト）。SHA256 `ef8d7944603d409fff242895c0f2fda56e00ace5b7c052e130fc707b53b39083`。
+- 配信: `public/assets/enemies/calyx_motion_v1.glb`（丸い蕾・曲線根の改修v3。詳細 [改修記録](CALYX-REDESIGN.md)）。SHA256 `86c12822e8e9ad6ebf88b876a8d88413bd6d9c5faaf4d9b658f2985d0270be72`。
 - 原本/ソース: `assets/blender/calyx/calyx.blend`, `build_calyx.py`, `phase1_common.py`。Blender 5.2で`blender --background --python assets/blender/calyx/build_calyx.py`。出力は同ディレクトリ。再生成は元ファイルを更新するため、比較時は別ディレクトリへコピーして実行。
-- 30,710三角形、16骨、5マテリアル。Idle 4s / Locomotion 2s / Slam 2.2s / PollenShot 2.8s。GLB -Z前方、Y上。ゲーム側で既存種のIdle/Lungeへ置換しない。
+- 13,990三角形、16骨、5マテリアル。Idle 4s / Locomotion 2s / Slam 2.2s / PollenShot 2.8s。GLB -Z前方、Y上。ゲーム側で既存種のIdle/Lungeへ置換しない。
 - 発射点は前方花粉嚢中心 `(0,.16,1.19)` をBodyの1.6秒時点の傾き0.18rad、支点高さ0.9で変換した位置。
 - [単体候補の独立監査](https://chatgpt.com/c/6aaf8a96-33ac-83e8-b14d-9c7dd842aeef)は候補v2の造形/動作に限定。ゲーム統合の監査を代替しない。
 

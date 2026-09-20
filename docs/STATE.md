@@ -1,3 +1,7 @@
+# 現在地: CALYXの丸い赤茶の蕾・関節のない根脚へ改修（2026-09-20）
+
+branch codex/calyx-rounded-redesign / worktree ../calyx-integration。普段は前花弁を閉じた蕾へ収め、開花後に打撃。最新指定の3本の完全曲線根を連続変形で制作。実GLB再読込、全動作の接地/ループ/交差、関節回転0、実GPU描画、関連19件、両型チェック成功。独立Chat監査・main反映・公開は未完了。詳細 [CALYX-REDESIGN](CALYX-REDESIGN.md)。ゲーム本体gameの別作業差分を保護。
+
 # 現在地: CALYX PR55をmain反映・公開、公開UIの保存保護解除待ち（2026-09-20）
 
 最終ded4fdbの独立Chat監査合格・必須0。PR55通常merge、公開ソース `46167df67b79379d3c5401429dd102e24f342ce2`、Worker Version `4da37f8a-8b09-4eb5-8e44-716e9c0fbcff`。作戦7波2に2体、前方打撃/広域花粉弾、図鑑・実GLB・同期を公開。main build/dry-run、配信13SHA/health成功。最新mainとの関連103件・最終15件、実Worker2接続、ローカル実iabのモデル/打撃/花粉/屋上予兆を確認。[詳細/監査URL](CALYX.md)、証拠docs/evidence/calyx/。

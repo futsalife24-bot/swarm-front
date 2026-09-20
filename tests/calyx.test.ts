@@ -308,10 +308,10 @@ it("plays both authored attacks from snapshot time and distance-driven walking",
   expect(reportPose("calyx", "attack", 1).clip).toBe("Slam");
   expect(reportPose("calyx", "attack", 4.6).clip).toBe("PollenShot");
 });
-it("ships the independently audited GLB unchanged with four clips and 16 bones", () => {
+it("ships the pinned CALYX GLB with four clips and 16 bones", () => {
   const bytes = readFileSync("public/assets/enemies/calyx_motion_v1.glb");
   expect(createHash("sha256").update(bytes).digest("hex")).toBe(
-    "ef8d7944603d409fff242895c0f2fda56e00ace5b7c052e130fc707b53b39083",
+    "86c12822e8e9ad6ebf88b876a8d88413bd6d9c5faaf4d9b658f2985d0270be72",
   );
   const gltf = JSON.parse(
     bytes.subarray(20, 20 + bytes.readUInt32LE(12)).toString(),
