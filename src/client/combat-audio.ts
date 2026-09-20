@@ -3,6 +3,7 @@ import { stats } from "../shared/defs";
 
 /** Provisional AR hit palette, based on the visible surface of each enemy. */
 const AR_HITS: Record<Enemy["kind"], string> = {
+  calyx: "impactShell",
   crawler: "impactShell", // PLEAT: dry layered shell — HIT-05.
   ant: "impactShell", // HOUND / VOLLEY.
   spider: "impactShell", // HOUND / LEAPER.

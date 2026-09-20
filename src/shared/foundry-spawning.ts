@@ -2,7 +2,7 @@ import { enemySize, spawnSize } from "./enemy-size";
 import { settings } from "./progression";
 import { groundHeight } from "./terrain";
 import { ENEMIES, LIMITS } from "./defs";
-import { mapFor, type TroopKind } from "./stages";
+import { mapFor, stageFor, type TroopKind } from "./stages";
 import {
   blocked,
   enemyBodies,
@@ -47,7 +47,10 @@ export function cutPendingFoundrySpawn(w: World, e: Enemy, part: number) {
 }
 
 function spawnPoint(w: World, batch: FoundrySpawnBatch, kind: TroopKind) {
-  const size = enemySize({ size: spawnSize(kind, false, w.enemyOrdinal ?? 0) });
+  const size = enemySize({
+    kind,
+    size: spawnSize(kind, false, w.enemyOrdinal ?? 0),
+  });
   const def = { ...ENEMIES[kind], radius: ENEMIES[kind].radius * size },
     blocks = mapFor(w).blocks;
   const bodies = w.enemies.filter((e) => e.hp > 0).flatMap(enemyBodies);
@@ -84,7 +87,9 @@ export function pendingFoundryCount(w: World) {
 // No live boss object is required: the queue survives its final body being
 // destroyed, snapshots, the 40-enemy cap, and an temporarily empty map roster.
 export function flushFoundrySpawns(w: World) {
-  const allowed = [...new Set(mapFor(w).foundryAllowed ?? [])];
+  const allowed = [...new Set(mapFor(w).foundryAllowed ?? [])].filter(
+    (kind) => kind !== "calyx" || stageFor(w).id >= 7,
+  );
   for (const batch of w.foundrySpawns ?? []) {
     if (!batch.kinds) {
       if (!allowed.length) continue;

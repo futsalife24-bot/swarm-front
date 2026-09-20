@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" /><title>CALYX ゲーム統合検証</title
+  ><style>
+    body {
+      margin: 0;
+      background: #172026;
+      color: #fff;
+      font: 15px sans-serif;
+    }
+    canvas {
+      display: block;
+    }
+    aside {
+      position: fixed;
+      left: 12px;
+      top: 12px;
+      max-width: 420px;
+      background: #172026df;
+      padding: 12px;
+    }
+    button {
+      padding: 8px;
+      margin: 3px;
+    }
+    pre {
+      white-space: pre-wrap;
+      font-size: 11px;
+      max-height: 210px;
+      overflow: auto;
+    }</style
+  ><canvas></canvas>
+  <aside>
+    CALYX / ゲームの描画・権威シミュレーション（初期配置のみ検証用）
+    <div>
+      <button id="shot">花粉弾</button><button id="slam">前方打撃</button
+      ><button id="walk">歩行</button><button id="load">同時8体</button
+      ><button id="shot-pose">発射直前</button
+      ><button id="slam-pose">打撃瞬間</button
+      ><button id="cloud-pose">花粉展開</button
+      ><button id="pause">一時停止</button>
+    </div>
+    <pre id="status">読込中</pre>
+  </aside>
+  <script type="module" src="./calyx-preview.ts"></script>
+</html>

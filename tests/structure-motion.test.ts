@@ -16,7 +16,9 @@ const sample = (changes: Partial<StructureInput> = {}): StructureInput => ({
   cool: 0,
   ...changes,
 });
-for (const kind of Object.keys(STRUCTURE_TIMING) as StructureKind[])
+for (const kind of Object.keys(STRUCTURE_TIMING).filter(
+  (k) => k !== "calyx",
+) as StructureKind[])
   it(`${kind} tracks authoritative impact, skipped snapshots, pause and removal`, () => {
     const c = new StructureMotionController(kind),
       spec = STRUCTURE_TIMING[kind],

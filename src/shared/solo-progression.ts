@@ -81,6 +81,8 @@ export function initSolo(
   };
 }
 export function soloBeginWave(w: World) {
+  w.pollen = [];
+  w.projectiles = w.projectiles.filter((q) => q.style !== "pollen");
   w.spawned = 0;
   w.solo!.bossSpawned = 0;
   w.solo!.waveCompleteAt = null;

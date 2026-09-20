@@ -72,7 +72,12 @@ export class TestRoom extends Room {
       start(w);
       w.nextSpawn = 1e9;
       w.enemies = [];
-      if (u.searchParams.get("case") === "trooper") {
+      if (u.searchParams.get("case") === "calyx") {
+        for (const p of w.players)
+          Object.assign(p, { x: 0, y: 0, z: 12, hp: 10000 });
+        const e = spawn(w, "calyx", 0, 0)!;
+        Object.assign(e, { active: true, cool: 0 });
+      } else if (u.searchParams.get("case") === "trooper") {
         w.players.forEach((p, i) => {
           p.x = i * 1.5;
           p.z = 0;
@@ -187,7 +192,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(calyx|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision)$/.exec(
         u.pathname,
       );
     if (match && req.method === "POST") {

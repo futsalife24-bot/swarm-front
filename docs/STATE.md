@@ -1,3 +1,19 @@
+# 現在地: CALYX PR55、最新main統合を追加監査中（2026-09-20）
+
+CALYX `d299164` は独立監査合格・必須0。merge直前にPR54/56がmainへ入り競合したため、新base `6e49e7cc51a0e462e8d207566a8155889acbdc5a` を統合した。対象 `33c38d742261b9cef324e6b6f1210b156c7e0c2f`。競合はSTATE追記両方保持、stagesの高台定義を保持しcalyx型・作戦7波2追加を維持。CALYX戦闘/描画/GLB本体はd299164と同一。統合関連103件、両型、build/dry-run、実Worker2接続、実iab打撃/花粉成功。`CALYX-33c38d7-main-integration.zip` を[同じ監査Chat](https://chatgpt.com/c/6aafb0a5-5e78-83ee-ba6a-153fd9d3545a)へ追加送信済み。main/公開未完了。結果確認後に通常merge→既存Worker公開→配信/UI確認。
+# 現在地: CALYX PR55、ソロ120体の予兆容量を最終再監査中（2026-09-20）
+
+実装監査対象 `d2991640207ee8bee9158add35a81632c0879f2f`、branch `codex/calyx-integration`。前回ffa7913の残必須F2はソロ120体での予兆容量不足のみ。他の必須/任意は解消確認済み。予兆12000枠とバッファ実容量の判定、settings由来の人数テストに修正。関連14件/client型/build成功。`CALYX-d299164-capacity.zip` を[同じ監査Chat](https://chatgpt.com/c/6aafb0a5-5e78-83ee-ba6a-153fd9d3545a)へ送信済み。最終判定待ち、main/公開未完了。
+# 現在地: CALYX PR55、必須2件を修正し再監査中（2026-09-20）
+
+branch `codex/calyx-integration` / worktree `../calyx-integration`、再監査対象 `ffa7913b2a63d664ffaab5ce0b25863460124102`、base `7b3e4df`。元50fcec2の独立監査はP2必須2件（図鑑Slamの飛翔弾・描画上限で予兆欠落）。双方と任意2件（高所表示・兵器庫二重ダメージ）、初遭遇名を修正。関連14件/型/build/dry-run/実Worker2接続成功。[同じ監査Chat](https://chatgpt.com/c/6aafb0a5-5e78-83ee-ba6a-153fd9d3545a)へ `CALYX-ffa7913-audit-fix.zip` を添付送信済み。合格判定待ち。main反映/公開は未完了。次は結果確認→必要修正→通常merge/公開。[詳細](CALYX.md)。
+# 現在地: CALYX PR55を独立Chat監査中（2026-09-20）
+
+PR55、branch `codex/calyx-integration`、実装監査対象`50fcec24697ebc5b2a32d435e1425d0fac3d226e`。関連58件/型/build/本番dry-run・実iab・実Worker2接続成功。[監査Chat](https://chatgpt.com/c/6aafb0a5-5e78-83ee-ba6a-153fd9d3545a)へ原本/GLB/ソース/画像/通信証拠ZIPを添付・送信済み。待機中の自己点検で、高い足場上の雲描画と図鑑Slamの誤った弾エフェクトを修正し、追加回帰テスト成功。修正を同じ監査Chatへ提出する。main反映/公開は未完了。詳細[CALYX](CALYX.md)。
+
+# 現在地: CALYXゲーム統合を検証・監査準備中（2026-09-20）
+
+branch `codex/calyx-integration`、worktree `../calyx-integration`、base `7b3e4df`。game側のジャンプ/設定作業を保護して分離。単体候補v2 GLBを同一バイトで採用し、前方打撃と放物線の花粉弾・広範囲継続ダメージをsharedに実装。作戦7第2波2体。関連51件/型、実iab表示、ローカル実Worker2接続の同一状態・ダメージ確認済み。全体既知3失敗は[詳細](CALYX.md)。ゲーム統合監査/main反映/公開は未完了。
 # 現在地: PR54・ジャンプと固定高台ルートをmain反映・公開確認済み（2026-09-20）
 
 PR54通常merge、公開ソース `5ded5fa06ff5e1f7da800c3019544445703ce474`、Worker Version `e4d8113e-7734-444e-b667-48321906006a`。ジャンプ/F、洞窟以外の固定追加版、草原斜面・雪山窪地・街区高層化を公開。監査指摘の中断復帰/蜘蛛/勝利後着地/分節旧経路を修正し、対象1d1c06aの独立Chat合格・必須0。型/関連74件・分節45件（重複あり）/中断4件、実Worker2接続、先行全20作戦・11マップ・3画面サイズ成功。main build/dry-run、公開19SHA/health、実iabのF・ボタン上昇/着地・エラーログ0確認。詳細・監査URL・残る確認範囲は [JUMP-ELEVATED-MAPS.md](JUMP-ELEVATED-MAPS.md)。別作業 `.gitignore`/`AGENTS.md`/`package.json`/`CLAUDE.md` を保護しているためgame全体はcleanではない。mainは既存share-image-fix worktreeで同期、後続は公開記録のみ。

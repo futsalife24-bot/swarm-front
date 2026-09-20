@@ -1,3 +1,4 @@
+import { CalyxEffects } from "./calyx-effects";
 import { DroneCamera } from "./drone-camera";
 import "./drone-camera.css";
 import { cleanCapture } from "./clean-capture";
@@ -249,6 +250,7 @@ export class Renderer {
   }
 
   readonly structures = new Map<StructureVisualKind, StructureMotion>();
+  private calyxEffects = new CalyxEffects();
   private structureInputs = new Map<StructureVisualKind, StructureInput[]>();
   enemyGlbDebug = new Map<string, import("./enemy-glb-debug").EnemyGlbDebug>();
   houndDebug?: import("./hound-glb-debug").HoundGlbDebug;
@@ -591,10 +593,12 @@ export class Renderer {
       this.drops,
       this.rings,
       this.houndWarnings,
+      this.calyxEffects.root,
     );
     this.resize();
     for (const kind of Object.keys(STRUCTURE_ASSETS) as StructureVisualKind[]) {
       const query = {
+        calyx: "debugCalyxGlb",
         crawler: "debugHoundGlb",
         ant: "debugHoundGlb",
         spider: "debugHoundGlb",
@@ -923,6 +927,7 @@ export class Renderer {
     } else this.clearFoundryWorms();
     this.foundryWarnings.count = 0;
     this.defenseVisual.update(w, dt);
+    this.calyxEffects.update(w);
     const active = new Set(w?.players.map((p) => p.id));
     for (const [key, m] of this.players)
       if (!active.has(key)) {
@@ -1077,6 +1082,8 @@ export class Renderer {
           if (inputs && !e.segments)
             inputs.push({
               slot: n,
+              calyx: e.calyx,
+              worldTime: w.time,
               id: e.id,
               moving:
                 moving &&
@@ -1164,6 +1171,7 @@ export class Renderer {
                   (p) => p.id === e.targetId && p.hp > 0 && p.connected,
                 );
           const ya =
+            (e.calyx ? Math.PI - e.calyx.yaw : undefined) ??
             crawlerAttackYaw ??
             (e.segments && e.heading !== undefined
               ? Math.PI - e.heading
@@ -1314,7 +1322,7 @@ export class Renderer {
               Math.atan2(dx, dz),
             );
             this.aimWarnings.setColorAt(ai++, color);
-          } else if (e.wind > 0) {
+          } else if (e.wind > 0 && e.kind !== "calyx") {
             const rad = e.kind === "boss" ? 7 : e.kind === "spitter" ? 2 : 2.5;
             this.instance(
               this.rings,
@@ -1397,7 +1405,13 @@ export class Renderer {
         this.projectiles.setColorAt(
           i,
           new T.Color(
-            q.rocket ? 0xffbc77 : q.owner === "enemy" ? 0x65edff : 0xa5e568,
+            q.style === "pollen"
+              ? 0xc3a443
+              : q.rocket
+                ? 0xffbc77
+                : q.owner === "enemy"
+                  ? 0x65edff
+                  : 0xa5e568,
           ),
         );
       });

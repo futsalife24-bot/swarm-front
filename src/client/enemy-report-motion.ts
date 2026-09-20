@@ -2,6 +2,7 @@ import * as T from "three";
 import type { Enemy } from "../shared/game";
 import type { HoundClip } from "./hound-motion";
 import { STRUCTURE_TIMING } from "../shared/structure-timing";
+import { CALYX, calyxMuzzle } from "../shared/calyx";
 import {
   FOUNDRY_LASER_WARNING,
   foundryLaserOrigin,
@@ -15,6 +16,28 @@ export function reportPose(
   mode: ReportMotion,
   time: number,
 ) {
+  if (kind === "calyx") {
+    const cycle = time % 6.6,
+      shot = cycle >= 3,
+      sample = shot ? cycle - 3 : cycle;
+    const clip: HoundClip =
+      mode === "move"
+        ? "Locomotion"
+        : mode === "idle"
+          ? "Idle"
+          : sample < (shot ? 2.8 : 2.2)
+            ? shot
+              ? "PollenShot"
+              : "Slam"
+            : "Idle";
+    return {
+      clip,
+      sample: mode === "attack" ? sample : time,
+      height: 0,
+      impact: shot ? 1.6 : 1,
+      cycle: sample,
+    };
+  }
   const base =
     STRUCTURE_TIMING[kind === "ant" || kind === "spider" ? "crawler" : kind];
   const spec = kind === "ant" ? { ...base, impact: 0.8, duration: 1.55 } : base;
@@ -102,6 +125,30 @@ export class ReportEffects {
     const pose = reportPose(kind, mode, time);
     const age = pose.cycle - pose.impact;
     this.material.opacity = 0.8;
+    this.material.color.setHex(kind === "calyx" ? 0xcbb957 : 0x7aeaff);
+    if (kind === "calyx") {
+      if (age < 0) return;
+      if (time % 6.6 < 3) {
+        if (age > 0.3) return;
+        this.ring.visible = true;
+        this.ring.scale.setScalar(0.15 + age * 4);
+        this.ring.position.set(0, 0.06, -0.5 - age * 3);
+      } else {
+        if (age > 1.2) return;
+        const bolt = this.bolts[0],
+          origin = calyxMuzzle({ x: 0, y: 0, z: 0 }, Math.PI),
+          flight = 1.2,
+          dy = (0.04 - origin.y) / flight + 0.5 * CALYX.gravity * flight;
+        bolt.visible = true;
+        bolt.scale.setScalar(2);
+        bolt.position.set(
+          0,
+          origin.y + dy * age - 0.5 * CALYX.gravity * age * age,
+          origin.z + ((-8 - origin.z) / flight) * age,
+        );
+      }
+      return;
+    }
     if (worm) {
       const phase = time % 3.2;
       const e = reportWorm(mode, time);

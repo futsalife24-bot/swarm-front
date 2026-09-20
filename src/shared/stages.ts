@@ -150,7 +150,8 @@ export const ELEVATED_MAPS: ArenaMap[] = MAPS.map((source, index) => {
   return map;
 });
 
-export type TroopKind = "crawler" | "ant" | "spider" | "spitter" | "hornet";
+export type TroopKind =
+  "calyx" | "crawler" | "ant" | "spider" | "spitter" | "hornet";
 export type BossForm = "crown" | "worm";
 export interface Wave {
   troops: Partial<Record<TroopKind, number>>;
@@ -226,7 +227,7 @@ const plans = [
     brief: "ボスなしの4連戦。各波で優先目標を切り替える。",
     waves: [
       wave({ ant: 26 }, [], 0.65),
-      wave({ crawler: 8, spider: 20 }, [], 0.7),
+      wave({ crawler: 8, spider: 20, calyx: 2 }, [], 0.7),
       wave({ spitter: 12, hornet: 12 }, [], 0.75),
       wave({ crawler: 10, ant: 10, spider: 8, hornet: 6 }, [], 0.65),
     ],

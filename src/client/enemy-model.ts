@@ -6,6 +6,7 @@ import type { Enemy } from "../shared/game";
 export function enemyGeometry(kind: Enemy["kind"], segment = false) {
   const pieces: T.BufferGeometry[] = [];
   const shell = {
+    calyx: 0x77755b,
     ant: 0x9e6550,
     spider: 0x696e91,
     crawler: 0x557984,
@@ -126,7 +127,17 @@ export function enemyGeometry(kind: Enemy["kind"], segment = false) {
       gait,
     );
   }
-  if (kind === "crawler" || kind === "ant" || kind === "spider") {
+  if (kind === "calyx") {
+    oval(shell, 0, 1.5, 0, 0.6, 0.8, 0.6);
+    for (let i = 0; i < 5; i++) {
+      const a = (i * Math.PI * 2) / 5;
+      oval(shell, Math.sin(a) * 0.35, 1.5, Math.cos(a) * 0.35, 0.24, 0.8, 0.24);
+    }
+    for (let i = 0; i < 3; i++) {
+      const a = (i * Math.PI * 2) / 3;
+      oval(dark, Math.sin(a) * 0.65, 0.4, Math.cos(a) * 0.65, 0.15, 0.4, 0.15);
+    }
+  } else if (kind === "crawler" || kind === "ant" || kind === "spider") {
     // HOUND: mammalian crouch + wader-like long forelimbs, five legs,
     // no skull, a vertical shoulder ring and disconnected spine plates.
     for (const side of [-1, 1]) {

@@ -1,3 +1,4 @@
+import { stepCalyx, stepPollen, advancePollen } from "./calyx";
 import {
   enemySize,
   enemyStatSize,
@@ -154,6 +155,8 @@ export interface Player {
   safe: number;
 }
 export interface Enemy extends WormNode {
+  calyx?: import("./calyx").CalyxAttack;
+  pollenReadyAt?: number;
   defenseAggroUntil?: number;
   size?: number; // Fixed at spawn and replicated in authoritative snapshots.
   foundryTriggered?: boolean;
@@ -192,7 +195,7 @@ export interface Enemy extends WormNode {
   hurt: number;
 }
 export interface Projectile {
-  style?: "stake" | "laser";
+  style?: "stake" | "laser" | "pollen";
   id: number;
   x: number;
   z: number;
@@ -210,7 +213,15 @@ export interface Projectile {
 }
 export interface Event {
   id: number;
-  type: "shot" | "hit" | "burst" | "kill" | "down" | "revive" | "acid";
+  type:
+    | "shot"
+    | "hit"
+    | "burst"
+    | "kill"
+    | "down"
+    | "revive"
+    | "acid"
+    | "calyxSlam";
   // Damage dealt, on hit and kill events, for the floating numbers.
   amount?: number;
   radius?: number;
@@ -237,6 +248,7 @@ export interface Drop {
   weapon: Weapon;
 }
 export interface World {
+  pollen?: import("./calyx").PollenCloud[];
   defense?: DailyDefense;
   training?: boolean;
   solo?: SoloProgression;
@@ -656,6 +668,8 @@ function waveSizeSlot(w: World, offset: number) {
 }
 // Separated boss entries and immediate escorts, all counted in this wave.
 function beginWave(w: World) {
+  w.pollen = [];
+  w.projectiles = w.projectiles.filter((q) => q.style !== "pollen");
   if (w.solo) {
     soloBeginWave(w);
     return;
@@ -683,7 +697,7 @@ function beginWave(w: World) {
     w.spawned++;
   }
 }
-function hurtPlayer(w: World, p: Player, damage: number, heavy = false) {
+export function hurtPlayer(w: World, p: Player, damage: number, heavy = false) {
   if (w.defense && p === w.defense.armory) {
     p.hp = Math.max(0, p.hp - damage * stageFor(w).damage);
     p.hurt = 0.2;
@@ -827,6 +841,7 @@ export function finish(w: World, win: boolean, reason = "") {
     w.pending = Object.fromEntries(w.players.map((p) => [p.id, []]));
   }
   w.projectiles = [];
+  w.pollen = [];
 }
 // Where a shot has to pass to hit: the unit's own centre, lifted by how high it floats.
 export const eye = (e: Enemy) => e.y + ENEMIES[e.kind].aim * enemySize(e);
@@ -1410,6 +1425,10 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
         continue;
       e.active = true;
     }
+    if (e.kind === "calyx") {
+      stepCalyx(w, e, t, living, dt);
+      continue;
+    }
     if (e.segments) {
       moveWorm(w, e, dt);
       continue;
@@ -1646,6 +1665,10 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     }
   }
   for (const q of w.projectiles) {
+    if (q.style === "pollen") {
+      advancePollen(w, q, dt);
+      continue;
+    }
     if (q.style === "laser") {
       advanceFoundryLaser(w, q, living, dt);
       continue;
@@ -1762,6 +1785,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   }
   w.projectiles = w.projectiles.filter((q) => q.life > 0);
   w.enemies = w.enemies.filter((e) => e.hp > 0);
+  stepPollen(w, living, dt);
   flushFoundrySpawns(w);
   if (w.defense) finishDefenseTick(w);
   else if (w.solo) endSoloTick(w);
