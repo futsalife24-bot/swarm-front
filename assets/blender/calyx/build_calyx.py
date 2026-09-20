@@ -11,7 +11,7 @@ random.seed(24)
 root=c.setup('calyx')
 scene=bpy.context.scene
 scene.render.fps=30
-materials=[c.mat('bark',(.24,.045,.033),0,.78),c.mat('bark_light',(.35,.082,.046),0,.78),c.mat('ivory',(.62,.46,.27),0,.8),c.mat('veins',(.20,.055,.035),0,.82),c.mat('pollen',(.42,.25,.045),0,.92)]
+materials=[c.mat('bark',(.083,.097,.075),0,.92),c.mat('bark_light',(.16,.155,.12),0,.92),c.mat('ivory',(.48,.42,.29),0,.9),c.mat('veins',(.055,.064,.042),0,.94),c.mat('pollen',(.42,.25,.045),0,.92)]
 objects=[];bones={};soft_weights={}
 def tag(o,bone):
     o['part']=bone;objects.append(o);return o
@@ -97,7 +97,7 @@ for i in range(5):
     for j in range(7):
         b=j*math.tau/7
         orb('dry_pollen_grain',(loc[0]+.07*math.sin(b),loc[1]+.065*math.cos(b),1.22+.06*math.sin(j*2)),(.022,.022,.029),4,'Body',1)
-legs={}
+legs={};root_tips={}
 for name,hip,foot in [('FL',(-.16,-.06,.86),(-.88,.02,.075)),('FR',(.16,-.06,.86),(.88,.02,.075)),('Rear',(0,-.17,.86),(0,-.77,.075))]:
     hip=Vector(hip);foot=Vector(foot);rad=Vector((foot.x,foot.y,0)).normalized()
     # A single cubic root: no knee, ankle, segmented joint or rigid hinge.
@@ -108,7 +108,7 @@ for name,hip,foot in [('FL',(-.16,-.06,.86),(-.88,.02,.075)),('FR',(.16,-.06,.86
     middle=curve(.5);legs[name]=(hip,middle,foot,rad)
     bone(name+'_upper',hip,curve(.33),'Root')
     bone(name+'_lower',curve(.33),curve(.67),'Root')
-    bone(name+'_foot',foot,foot+Vector((0,.15,0)),'Root')
+    bone(name+'_foot',tip,tip+Vector((0,.15,0)),'Root');root_tips[name]=tip.copy()
     pts=[curve(i/48) for i in range(49)]
     radii=[.070*(1-i/48)**.8+.009 for i in range(49)]
     o=tube(name+'_continuous_root',pts,radii,3,name+'_upper',12)
@@ -145,7 +145,16 @@ for poly in skin.data.polygons:
         x,y,z=skin.data.vertices[skin.data.loops[li].vertex_index].co
         noise=math.sin(x*81+math.sin(z*39))*math.sin(y*73+z*61);broad=math.sin(x*14+y*11+z*19)
         grain=math.sin(z*143+x*17+y*21)*math.sin(x*61+y*73)
-        shade=.94+.025*noise+.055*broad+.015*grain;colors.data[li].color=(*[base[i]*max(.25,shade) for i in range(3)],1)
+        shade=.94+.025*noise+.055*broad+.015*grain
+        # Original grey-green bark remains dominant; restrained earthy rust patches.
+        material_name=skin.data.materials[poly.material_index].name
+        pigment=list(base[:3])
+        if material_name.endswith('_bark') or material_name.endswith('_veins'):
+            marble=math.sin(x*5.1+1.8*math.sin(z*3.3+y*2.7))+.6*math.sin(y*4.7-z*3)
+            blend=max(0,min(1,(marble-.12)/1.18));blend=blend*blend*(3-2*blend)*.58
+            rust=(.145,.068,.040) if material_name.endswith('_bark') else (.10,.048,.029)
+            pigment=[pigment[i]*(1-blend)+rust[i]*blend for i in range(3)]
+        colors.data[li].color=(*[pigment[i]*shade for i in range(3)],1)
 for m in materials:
     attr=m.node_tree.nodes.new('ShaderNodeVertexColor');attr.layer_name='BarkPigment'
     m.node_tree.links.new(attr.outputs['Color'],m.node_tree.nodes.get('Principled BSDF').inputs['Base Color'])
@@ -163,7 +172,7 @@ for v in skin.data.vertices:
 def pose(mode,t):
     tilt=0;opening=0;slam=0;bob=0
     if mode=='Idle':bob=.008*math.sin(t*math.tau/4)
-    if mode=='Locomotion':bob=.015*math.sin(t*math.tau*3/2)
+    if mode=='Locomotion':tilt=-math.pi/4;bob=.50
     if mode=='Slam':
         charge=smooth((t-.12)/.43);hit=smooth((t-.68)/.32);recover=smooth((t-1.12)/1.08)
         opening=.62*charge*(1-recover);slam=(-.42*charge-2.12*hit)*(1-recover);bob=-.025*hit*(1-recover)
@@ -171,6 +180,7 @@ def pose(mode,t):
         charge=smooth(t/1.25);recover=smooth((t-1.65)/1.15)
         tilt=.18*charge*(1-recover);opening=.90*charge*(1-recover)
     B=Matrix.Translation((0,0,bob))@around(Vector((0,0,.9)),Quaternion((1,0,0),tilt))
+    if mode=='Locomotion':B=B@around(Vector((0,0,.9)),Quaternion((0,0,1),t*math.tau/6))
     rig.pose.bones['Root'].matrix=rest['Root'];rig.pose.bones['Body'].matrix=B@rest['Body'];bpy.context.view_layer.update()
     for name,(r,side,p) in petals.items():
         ang=-opening if name!='P1' else (slam if mode=='Slam' else -opening)
@@ -188,10 +198,20 @@ def pose(mode,t):
     for index,(name,(h,k,f,rad)) in enumerate(legs.items()):
         hip=B@h;foot=f.copy();planted=True
         if mode=='Locomotion':
-            phase=(t/2+index/3)%1;travel=.65*2*2/3
-            if phase<2/3:foot.y+=travel*(.5-phase/(2/3))
+            desired={'FL':-math.pi/3,'FR':math.pi/3,'Rear':math.pi}[name]
+            angle=math.atan2(f.x,f.y)
+            G=B@around(Vector((0,0,.9)),Quaternion((0,0,1),angle-desired))
+            phase=((t*math.tau/6-desired+math.pi/3)%math.tau)/math.tau
+            travel=.65*2
+            if phase<1/3:target=Vector((travel*(.5-phase*3),.6,.026))
             else:
-                u=(phase-2/3)*3;foot.y+=travel*(-.5+smooth(u));foot.z+=.16*math.sin(math.pi*u)**2;planted=False
+                u=(phase-1/3)*1.5
+                target=Vector((travel*(-.5+smooth(u)),.6-1.65*math.sin(math.pi*u),.026+.5*math.sin(math.pi*u)**2));planted=False
+            correction=target-G@root_tips[name]
+            for part,weight in [('upper',0),('lower',.5),('foot',1)]:
+                rig.pose.bones[name+'_'+part].matrix=Matrix.Translation(correction*weight)@G@rest[name+'_'+part]
+            contacts.append(dict(t=t,leg=name,planted=planted,foot=list(target)))
+            continue
         # Smooth polynomial displacement over the entire root. No joint rotations.
         hd=hip-h;fd=foot-f
         sway=rad*(.035*math.sin(t*math.tau/2+index*math.tau/3)) if mode=='Locomotion' else Vector((0,0,0))
@@ -200,7 +220,7 @@ def pose(mode,t):
         rig.pose.bones[name+'_foot'].matrix=Matrix.Translation(fd)@rest[name+'_foot']
         if mode=='Locomotion':contacts.append(dict(t=t,leg=name,planted=planted,foot=list(foot)))
     bpy.context.view_layer.update()
-rig.animation_data_create();durations={'Idle':4,'Locomotion':2,'Slam':2.2,'PollenShot':2.8}
+rig.animation_data_create();durations={'Idle':4,'Locomotion':6,'Slam':2.2,'PollenShot':2.8}
 for name,duration in durations.items():
     action=bpy.data.actions.new(name);rig.animation_data.action=action
     for frame in range(round(duration*30)+1):

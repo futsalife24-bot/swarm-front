@@ -20,7 +20,7 @@ for o in skins:
         if len(names)==1 and next(iter(names)) in triangles:triangles[next(iter(names))].append(tuple(t.vertices))
     topology.append((o,triangles))
 findings=[]
-for clip,duration in [('Idle',4),('Locomotion',2),('Slam',2.2),('PollenShot',2.8)]:
+for clip,duration in [('Idle',4),('Locomotion',6),('Slam',2.2),('PollenShot',2.8)]:
     for track in rig.animation_data.nla_tracks:track.mute=track.name!=clip
     for frame in range(0,round(duration*30)+1):
         scene.frame_set(1+frame);bpy.context.view_layer.update();trees={}
@@ -39,3 +39,4 @@ for clip,duration in [('Idle',4),('Locomotion',2),('Slam',2.2),('PollenShot',2.8
         if hits:findings.append(dict(clip=clip,t=frame/30,pairs=hits))
 report=dict(sha256=hashlib.sha256((P/'calyx.glb').read_bytes()).hexdigest(),method='GLB reimport; Blender BVHTree triangle intersection at every authored 30fps frame. Includes each entire blended root, petal veins and hinges. Body attachments excluded. Not continuous collision.',findings=findings)
 (P/'intersections.json').write_text(json.dumps(report,indent=2));print(json.dumps(report))
+assert not findings, 'Unexpected petal/root intersections; see intersections.json'

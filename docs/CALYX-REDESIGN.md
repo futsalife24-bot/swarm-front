@@ -1,48 +1,36 @@
-# CALYX — rounded bud and continuous roots (2026-09-20)
+# CALYX v5 — 曲線の根・斜めコマの円運動・花粉ドーム
 
-Latest user specification: reduce the grotesque bark/limb appearance; store the
-front petal while closed, enlarge the resting bud, open before striking, use a
-slightly reddish palette. Follow-up explicitly removes human-like knee/ankle
-joints and requires three completely curved roots.
+2026-09-20。branch `codex/calyx-rounded-redesign`、worktree `../calyx-integration`。
+base `ed42e62f4d86ceef9fb4a438fc83d47b41c777fe`。
+[PR58](https://github.com/futsalife24-bot/swarm-front/pull/58)。
 
-The new model uses five flush outer petals, a larger rounded terracotta bud,
-sparse ribs, warm ivory interiors, and three smooth tapered cubic roots. The
-roots deform through continuous polynomial translation over their entire length;
-no root handle rotates. The internal upper/lower/foot names remain compatible
-with the existing 16-bone renderer. Original v2 remains in Git history and
-the standalone `../prototypes/calyx/v2/` directory.
+## 最新のユーザー指定と実装
 
-No changes to combat rules, projectile origin, timings, stage placement, network
-state or saves. Bestiary text now describes opening before striking and the new
-silhouette. Runtime filename remains `calyx_motion_v1.glb`.
+- 非ボス中型。通常の蕾を大きく丸くし、前花弁は収納。開いてから振り下ろす。
+- 三本の根は関節なしの連続曲線。根全体へ多項式ウェイトを配り、各根の三つの制御骨を相対回転させない。
+- 初期の灰緑・枯れ木色を主体に、控えめな赤茶の斑を追加。全体をピンクにした旧候補は採用しない。
+- 蕾をターゲット兵士へ45度傾け、斜めコマのように6秒で一回転。三本の根が順に接地。
+- 通常戦闘では生存・接続中の兵士を保持し、その周囲を移動。通常の距離目安14m、速度0.65m/s。遠近差は緩やかに補正し、障害物で止まる時は既存の経路探索へ戻る。兵士の死亡・切断後は再選択。防衛戦の兵器庫選択は既存の防衛ルールを使用。
+- 攻撃中は止まり、既存の打撃・花粉発射を行う。打撃1s、発射1.6sのタイミングは維持。
+- 花粉は半径9→13.5m（1.5倍）の上半球。地面/支持面から1秒で展開し8秒持続。0.5秒ごと4ダメージ、複数雲で加算しない既存ルールを維持。
+- 描画は半透明のドーム＋空中の花粉粒子。壁遮蔽を共有判定し、カメラが内側にある間は薄い黄土色の霧。退出・消滅後は通常の視界へ戻る。
 
-## Candidate and validation
+## 実物・検証
 
-- Base: ed42e62f4d86ceef9fb4a438fc83d47b41c777fe.
-- Branch: codex/calyx-rounded-redesign in existing calyx-integration worktree.
-- GLB SHA256: 86c12822e8e9ad6ebf88b876a8d88413bd6d9c5faaf4d9b658f2985d0270be72.
-- 584,404 bytes, 13,990 triangles, 16 bones, five materials, four existing clips.
-- Blender native reopen and GLB reimport succeeded. All authored 30fps frames
-  checked: finite deformations, no floor penetration, exact clip return loops.
-- Root handle rotation max 0 radians; skinned root-tip world stance slip below
-  0.000001m at nominal 0.65m/s. Contact tip rests about 1.5cm above ground.
-- P1 lowest point at impact 1.0s: 0.015m. Petal/petal and petal/whole-root
-  triangle intersection checks find no intersections in sampled frames.
-- Zero degenerate triangles; normalized weights. Tests calyx + structure-motion:
-  19/19. Client and Worker type checks passed.
-- IAB current GPU game renderer loads all four clips/16 bones. At Slam 1s the
-  player loses 24 HP; at pollen cloud time 5s the player has lost 20 HP and one
-  cloud is present. Browser fixture uses existing shared simulation and renderer.
-- Evidence and exact hashes: `docs/evidence/calyx-v3/`. Reproduction scripts:
-  `assets/blender/calyx/`. Standalone actual-GLB preview and recorded motion:
-  `../prototypes/calyx/v3/` (local artifacts, not production URLs).
-- Meloso Judge was invoked from canonical game root as required. Fixed check
-  needs_context; live not_run/no_new_eligible_selected_change, API calls 0.
-  It inspected that root's separate worktree, not this candidate: no CALYX
-  approval is inferred from it.
+- GLB SHA256 `64719fde1175e4270dae7b142ef2880145a3d76d690806de3a2f8a491d1b21ce`。
+- 629,024 bytes / 13,990三角形 / 16骨 / 5材質。Idle4s、Locomotion6s、Slam2.2s、PollenShot2.8s。
+- Blender原本の別プロセス再開・GLB再読込成功。全30fpsフレームの有限座標、地面貫通、ループ、根接地を検査。
+- 蕾の傾き44.99999〜45.00003度。根制御骨の相対回転0。公称横移動を含む根先の接地ずれは0.000001m未満。回転ループ誤差0.000001m未満。
+- 打撃1秒の前花弁最低点0.015m。全フレームの花弁/花弁、花弁/根の三角形交差なし。退化三角形なし、ウェイト正規化成功。
+- CALYX/動作関連22テスト、client/Worker型チェック、本番build/Worker dry-run成功。追加のstructure-v2/terrainは45成功・既知のchangelog注入変数未定義1失敗。変更による回帰とは区別。
+- 実ローカルWorkerへ2接続し同一tickの雲・敵・HP一致、両者9996HPを確認。
+- 実IABのGPU再生は16骨/4動作、打撃24ダメージ、5秒時点の花粉累計20ダメージ。円運動25.9秒で兵士との距離14.004m。花粉内fog far90、消滅後950に復帰。UIエラーなし。
+- 実GLBのブラウザ動画を保存し、MP4変換・デコードと抽出画像を確認。全編のネイティブ動画プレーヤー再生は未確認。
+- 証拠 `docs/evidence/calyx-v5/`。原本/再生成ソース `assets/blender/calyx/`。単体HTML・動画・多面画像 `../prototypes/calyx/v5/`。v2〜v4は比較用に保存。
+- canonical gameのMeloso Judge実行済み。固定needs_context、live not_run/no_new_eligible_selected_change、API0。別worktreeが対象だったため、この候補への承認とは扱わない。
 
-Limits: sampled rather than continuous collision; intentional Body attachments
-excluded from pairwise collision checks. User aesthetic acceptance is not
-inferred. Independent Chat audit, main merge and publication are pending.
+限界: 交差検査は離散30fpsで、意図したBody接続は除外。根接地の数値検査は直線の公称横移動を加算したもので、曲線軌道に伴う向きの変化は含まない。ドーム境界の壁沿い表示は32×16分割メッシュによる近似。実スマホ性能、長時間負荷、ユーザーによる見た目承認は未確認。
 
-Independent audit sent with exact target 61d8fb63f8df3a7cb7f86859a35bdbb8b5a75957 and CALYX-v3-61d8fb6.zip: https://chatgpt.com/c/6aafd926-90a0-83ee-a297-65a7f91d005d . PR58: https://github.com/futsalife24-bot/swarm-front/pull/58 . Production build passed. Audit verdict pending.
+## 独立監査・公開
+
+[通常Chat](https://chatgpt.com/c/6aafd926-90a0-83ee-a297-65a7f91d005d)の旧対象61d8fb6は、その後の色・花粉・移動仕様変更により停止操作を行ったが、最終回答の合格・必須0を後から確認。旧対象の判定は新版へ流用しない。任意指摘の交差検出時の失敗終了・床許容1mmと打撃接触0〜3cmの明示条件は検証スクリプトへ反映。最新版の資料を同じChatへ再提出する。main反映・公開は未完了。

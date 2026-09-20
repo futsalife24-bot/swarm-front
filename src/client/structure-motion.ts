@@ -74,7 +74,7 @@ export class StructureMotionController {
           : s.time + (desired === "Locomotion" ? e.distance / 0.65 : dt);
         s.blend = e.calyx ? Math.max(s.blend + dt, s.time) : s.blend + dt;
         s.fromTime += dt;
-        batch.setPose(i, s.clip, s.time, s.from, s.fromTime, s.blend / 0.12);
+        batch.setPose(i, s.clip, s.time, s.from, s.fromTime, s.blend / 0.35);
         return;
       }
       const fired =

@@ -1,0 +1,14 @@
+- complementary:
+  - text: CALYX / ゲームの描画・権威シミュレーション（初期配置のみ検証用）
+  - button "花粉弾"
+  - button "前方打撃"
+  - button "歩行" [active]
+  - button "同時8体"
+  - button "発射直前"
+  - button "打撃瞬間"
+  - button "花粉展開"
+  - button "一時停止"
+  - button "ドーム外側"
+  - button "ドーム内側"
+  - button "霧の消滅後"
+  - generic: "{ \"mode\": \"walk\", \"time\": 70.2, \"hp\": 10000, \"orbit\": { \"x\": 1.633, \"z\": 27.908, \"distance\": 14.004, \"heading\": -3.026251977806612 }, \"projectiles\": 0, \"clouds\": 0, \"fogFar\": 950, \"model\": \"GPU GLB loaded\", \"bones\": 16, \"clips\": [ \"Idle\", \"Locomotion\", \"Slam\", \"PollenShot\" ], \"errors\": [] }"

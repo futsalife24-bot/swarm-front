@@ -1,0 +1,41 @@
+{
+  "glb_sha256": "64719fde1175e4270dae7b142ef2880145a3d76d690806de3a2f8a491d1b21ce",
+  "native_reopened": {
+    "bones": 16
+  },
+  "glb_reimport": true,
+  "bones": 16,
+  "bounds": [
+    [
+      -1.080501675605774,
+      -0.9704935550689697,
+      0.01470180694013834
+    ],
+    [
+      1.0805027484893799,
+      0.7874335050582886,
+      2.299999952316284
+    ]
+  ],
+  "clip_min_z": {
+    "Idle": 0.014535135589540005,
+    "Locomotion": 0.017879396677017212,
+    "Slam": 0.01386632677167654,
+    "PollenShot": 0.013661457225680351
+  },
+  "max_stance_world_slip_m": 2.259335588266903e-07,
+  "loop_vertex_error": {
+    "Idle": 0.0,
+    "Locomotion": 5.960464477539062e-07,
+    "Slam": 0.0,
+    "PollenShot": 0.0
+  },
+  "checks": "Every authored 30fps frame; finite vertices, floor clearance, loops, root tips plus nominal +X lateral travel at 0.65m/s. Relative rotation between handles on each root (not global body spin). Circular world-path curvature and continuous collision are separate integration concerns.",
+  "slam_p1_min_z_at_1s": 0.0149993896484375,
+  "root_joint_rotation_max_rad": 0,
+  "max_stance_root_tip_world_slip_m": 3.9266927743168617e-07,
+  "locomotion_bud_tilt_degrees": [
+    44.999991321228684,
+    45.00002995860614
+  ]
+}

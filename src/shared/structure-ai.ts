@@ -11,6 +11,10 @@ export function selectStructureTarget(
   const living = players
     .filter((p) => p.hp > 0 && p.connected)
     .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+  if (e.kind === "calyx") {
+    const locked = living.find((p) => p.id === e.targetId);
+    if (locked) return locked;
+  }
   let pool = living;
   if (e.kind === "spitter") {
     const ranged = living.filter((p) => distance(e, p) >= 16 && visible(p));

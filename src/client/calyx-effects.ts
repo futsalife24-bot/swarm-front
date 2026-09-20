@@ -1,6 +1,6 @@
 import * as T from "three";
-import type { World } from "../shared/game";
-import { CALYX, pollenContains, pollenRadius } from "../shared/calyx";
+import { wallDistance, type World } from "../shared/game";
+import { CALYX, pollenPointContains, pollenRadius } from "../shared/calyx";
 import { mapFor } from "../shared/stages";
 import { supportHeight } from "../shared/terrain";
 
@@ -15,9 +15,9 @@ export class CalyxEffects {
     ),
     new T.PointsMaterial({
       color: 0xcbb957,
-      size: 1.9,
+      size: 2.6,
       transparent: true,
-      opacity: 0.3,
+      opacity: 0.2,
       depthWrite: false,
     }),
   );
@@ -41,8 +41,29 @@ export class CalyxEffects {
   );
   private cells = new Map<
     number,
-    { x: number; y: number; z: number; distance: number }[]
+    {
+      mist: { x: number; y: number; z: number; distance: number }[];
+      dome: T.Mesh<T.SphereGeometry, T.MeshBasicMaterial>;
+      reach: Float32Array;
+    }
   >();
+  private domeTemplate = new T.SphereGeometry(
+    1,
+    32,
+    16,
+    0,
+    Math.PI * 2,
+    0,
+    Math.PI / 2,
+  );
+  private domeMaterial = new T.MeshBasicMaterial({
+    color: 0xc4b465,
+    transparent: true,
+    opacity: 0.085,
+    depthWrite: false,
+    side: T.DoubleSide,
+  });
+  private domes = new T.Group();
   private dummy = new T.Object3D();
   private run = "";
   constructor() {
@@ -53,21 +74,39 @@ export class CalyxEffects {
       );
     };
     this.root.name = "CALYX_POLLEN";
-    this.root.add(this.mist, this.marks, this.warnings);
+    this.domes.name = "POLLEN_DOMES";
+    this.root.add(this.mist, this.marks, this.warnings, this.domes);
     this.mist.frustumCulled =
       this.marks.frustumCulled =
       this.warnings.frustumCulled =
         false;
   }
+  private clear() {
+    for (const c of this.cells.values()) c.dome.geometry.dispose();
+    this.cells.clear();
+    this.domes.clear();
+  }
+  /** Local camera haze only, no persistent blindness or stacking. */
+  haze(w: World | null | undefined, p: T.Vector3) {
+    if (!w || w.phase !== "battle") return 0;
+    let strength = 0;
+    for (const c of w.pollen ?? []) {
+      if (!pollenPointContains(c, p, w.time, mapFor(w).blocks)) continue;
+      const r = pollenRadius(c, w.time),
+        d = Math.hypot(p.x - c.x, p.y - c.y, p.z - c.z);
+      strength = Math.max(strength, Math.min(1, (r - d) / 2));
+    }
+    return strength;
+  }
   update(w?: World | null) {
     this.mistCount = this.marks.count = this.warnings.count = 0;
     this.mist.geometry.setDrawRange(0, 0);
     if (!w || w.phase !== "battle") {
-      this.cells.clear();
+      this.clear();
       return;
     }
     if (this.run !== w.run) {
-      this.cells.clear();
+      this.clear();
       this.run = w.run;
     }
     const blocks = mapFor(w).blocks,
@@ -85,35 +124,73 @@ export class CalyxEffects {
       active.add(c.id);
       let cells = this.cells.get(c.id);
       if (!cells) {
-        cells = [];
-        for (let x = -9; x <= 9; x += 1.2)
-          for (let z = -9; z <= 9; z += 1.2) {
-            const p = {
-              x: c.x + x,
-              z: c.z + z,
-              y: supportHeight(c.x + x, c.z + z, blocks, c.y),
+        const mist: { x: number; y: number; z: number; distance: number }[] =
+          [];
+        // Deterministic 3D samples throughout the hemisphere: 288 x 16 < 6000.
+        for (let i = 0; i < 288; i++) {
+          const y = (i + 0.5) / 288,
+            angle = i * 2.399963229728653,
+            radial = Math.sqrt(1 - y * y),
+            distance =
+              CALYX.radius * Math.cbrt((((i * 137) % 288) + 0.5) / 288),
+            p = {
+              x: c.x + Math.cos(angle) * radial * distance,
+              y: c.y + y * distance,
+              z: c.z + Math.sin(angle) * radial * distance,
             };
-            if (pollenContains(c, p, c.born + 1, blocks))
-              cells.push({ ...p, distance: Math.hypot(x, z) });
-          }
+          if (pollenPointContains(c, p, c.born + CALYX.growth, blocks))
+            mist.push({ ...p, distance });
+        }
+        const dome = new T.Mesh(this.domeTemplate.clone(), this.domeMaterial);
+        dome.position.set(c.x, c.y, c.z);
+        dome.frustumCulled = false;
+        const directions = this.domeTemplate.attributes.position,
+          reach = new Float32Array(directions.count);
+        for (let i = 0; i < reach.length; i++)
+          reach[i] = Math.max(
+            0,
+            wallDistance(
+              c.x,
+              c.y + 0.08,
+              c.z,
+              directions.getX(i),
+              directions.getY(i),
+              directions.getZ(i),
+              CALYX.radius,
+              blocks,
+            ) - 0.025,
+          );
+        this.domes.add(dome);
+        cells = { mist, dome, reach };
         this.cells.set(c.id, cells);
       }
       const radius = pollenRadius(c, w.time);
-      for (const p of cells) {
-        if (p.distance > radius || this.mistCount >= 6000) continue;
-        mark(p.x, p.y, p.z, 0.58);
-        this.mistPositions.set(
-          [
-            p.x + 0.15 * Math.sin(p.z * 9),
-            p.y + 0.65 + 0.16 * Math.sin(w.time * 2 + p.x),
-            p.z + 0.15 * Math.cos(p.x * 9),
-          ],
-          this.mistCount++ * 3,
+      const positions = cells.dome.geometry.attributes.position,
+        directions = this.domeTemplate.attributes.position;
+      cells.dome.visible = radius > 0;
+      for (let i = 0; i < positions.count; i++) {
+        const r = Math.min(radius, cells.reach[i]);
+        positions.setXYZ(
+          i,
+          directions.getX(i) * r,
+          directions.getY(i) * r,
+          directions.getZ(i) * r,
         );
+      }
+      positions.needsUpdate = true;
+      // The hemisphere and suspended mist show the hazard volume; no floor-dot carpet.
+      for (const p of cells.mist) {
+        if (p.distance > radius || this.mistCount >= 6000) continue;
+        this.mistPositions.set([p.x, p.y, p.z], this.mistCount++ * 3);
       }
     }
     for (const id of this.cells.keys())
-      if (!active.has(id)) this.cells.delete(id);
+      if (!active.has(id)) {
+        const old = this.cells.get(id)!;
+        old.dome.geometry.dispose();
+        this.domes.remove(old.dome);
+        this.cells.delete(id);
+      }
     markBatch = this.warnings;
     for (const e of w.enemies) {
       const a = e.calyx;
