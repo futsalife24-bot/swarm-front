@@ -73,8 +73,9 @@ export class StructureMotionController {
           ? Math.max(0, (e.worldTime ?? 0) - e.calyx.started)
           : s.time + (desired === "Locomotion" ? e.distance / 0.65 : dt);
         s.blend = e.calyx ? Math.max(s.blend + dt, s.time) : s.blend + dt;
-        s.fromTime += dt;
-        batch.setPose(i, s.clip, s.time, s.from, s.fromTime, s.blend / 0.12);
+        // Freeze the outgoing spin: crossing 180° mid-fade would flip the
+        // shortest quaternion arc and make the intermediate pose jump.
+        batch.setPose(i, s.clip, s.time, s.from, s.fromTime, s.blend / 0.35);
         return;
       }
       const fired =

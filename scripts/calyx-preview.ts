@@ -18,7 +18,12 @@ function reset(value: string) {
   w.wave = 1;
   w.nextSpawn = 1e9;
   const p = addPlayer(w, "viewer");
-  Object.assign(p, { x: 0, y: 0, z: mode === "slam" ? 2 : 12, hp: 10000 });
+  Object.assign(p, {
+    x: 0,
+    y: 0,
+    z: mode === "slam" ? 2 : mode === "walk" ? 14 : 12,
+    hp: 10000,
+  });
   for (let i = 0; i < (mode === "load" ? 8 : 1); i++) {
     const e = spawn(
       w,
@@ -46,25 +51,76 @@ for (const [id, mode, time] of [
   };
 }
 reset("shot");
+for (const key of ["dome-outside", "dome-inside", "dome-expired"]) {
+  document.getElementById(key)!.onclick = () => {
+    reset("walk");
+    mode = key;
+    w.time = key === "dome-expired" ? 9 : 2;
+    Object.assign(w.players[0], {
+      x: 0,
+      z: key === "dome-outside" ? 30 : 0,
+      y: 0,
+    });
+    w.pollen = [{ id: 123, x: 0, y: 0.03, z: 0, born: 0, damage: 4 }];
+    paused = true;
+  };
+}
 const errors: string[] = [];
+document.getElementById("transition-pose")!.onclick = () => {
+  reset("slam");
+  mode = "transition";
+  w.time = 1.175;
+  w.enemies[0].calyx = { kind: "Slam", started: 1, fired: false, yaw: 0 };
+  paused = true;
+};
 window.addEventListener("error", (e) => errors.push(e.message));
 function frame(now: number) {
   const dt = Math.min(0.05, (now - before) / 1000);
   before = now;
   if (!paused) step(w, { viewer: neutral() }, dt);
-  renderer.render(w, "viewer", dt, 0, -0.08, undefined, !paused);
+  const enemy = w.enemies[0],
+    player = w.players[0];
+  const yaw =
+    mode === "walk" && enemy
+      ? Math.atan2(enemy.x - player.x, player.z - enemy.z)
+      : 0;
   const structures = (renderer as any).structures as Map<string, any>,
     asset = structures.get("calyx");
+  if (mode === "transition" && asset?.batch)
+    asset.controller.states.set(enemy.id, {
+      clip: "Slam",
+      time: 0.175,
+      from: "Locomotion",
+      fromTime: 3,
+      blend: 0.175,
+      wind: 0,
+      cool: 0,
+    });
+  renderer.render(w, "viewer", dt, yaw, -0.08, undefined, !paused);
   document.getElementById("status")!.textContent = JSON.stringify(
     {
       mode,
       time: +w.time.toFixed(2),
       hp: w.players[0].hp,
+      orbit:
+        mode === "walk" && enemy
+          ? {
+              x: +enemy.x.toFixed(3),
+              z: +enemy.z.toFixed(3),
+              distance: +Math.hypot(
+                enemy.x - player.x,
+                enemy.z - player.z,
+              ).toFixed(3),
+              heading: enemy.heading,
+            }
+          : undefined,
       attack: w.enemies[0]?.calyx,
       projectiles: w.projectiles.length,
       clouds: w.pollen?.length ?? 0,
+      fogFar: +(renderer.scene.fog as any)?.far.toFixed(1),
       model: asset?.batch ? "GPU GLB loaded" : asset?.error || "loading",
       bones: asset?.batch?.asset.bones,
+      rotationBlend: asset?.batch?.asset.trsAtlas ? "quaternion" : "matrix",
       clips: asset?.batch?.asset.clips.map((c: any) => c.name),
       errors,
     },

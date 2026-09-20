@@ -10,19 +10,20 @@ import {
   type World,
 } from "./game";
 import { mapFor } from "./stages";
-import { groundHeight } from "./terrain";
+import { groundHeight, supportHeight } from "./terrain";
 import { pursuitDirection } from "./enemy-motion";
 import type { Block } from "./map-blocks";
 
 export const CALYX = {
   speed: 0.65,
+  orbitRadius: 14,
   slamRange: 4,
   slamWind: 1,
   slamDuration: 2.2,
   shotWind: 1.6,
   shotDuration: 2.8,
   shotCooldown: 12,
-  radius: 9,
+  radius: 13.5,
   growth: 1,
   lifetime: 8,
   tick: 0.5,
@@ -51,20 +52,16 @@ export function pollenRadius(c: PollenCloud, time: number) {
     : CALYX.radius *
         Math.min(1, age / CALYX.growth, (CALYX.lifetime - age) / 0.5);
 }
-/** Same geometry predicate for authoritative harm and the visible cloud cells. */
-export function pollenContains(
+/** Upper hemisphere, clipped by solid terrain/walls; shared by damage and visuals. */
+export function pollenPointContains(
   c: PollenCloud,
-  p: { x: number; y?: number; z: number },
+  p: { x: number; y: number; z: number },
   time: number,
   blocks: Block[],
 ) {
   const radius = pollenRadius(c, time),
-    y = (p.y ?? 0) + 0.9;
-  if (
-    !radius ||
-    Math.hypot(p.x - c.x, p.z - c.z) > radius ||
-    Math.abs(y - c.y) > 2.5
-  )
+    y = p.y;
+  if (!radius || y < c.y || Math.hypot(p.x - c.x, y - c.y, p.z - c.z) > radius)
     return false;
   const dy = y - (c.y + 0.08),
     dx = p.x - c.x,
@@ -84,6 +81,15 @@ export function pollenContains(
     ) >=
       length - 0.005
   );
+}
+/** Player exposure is sampled at torso height, consistently on client and Worker. */
+export function pollenContains(
+  c: PollenCloud,
+  p: { x: number; y?: number; z: number },
+  time: number,
+  blocks: Block[],
+) {
+  return pollenPointContains(c, { ...p, y: (p.y ?? 0) + 0.9 }, time, blocks);
 }
 export function clearPollen(w: World) {
   w.pollen = [];
@@ -152,7 +158,7 @@ export function advancePollen(w: World, q: Projectile, dt: number) {
         clouds.push({
           id: ++w.serial,
           x: q.x,
-          y: q.y,
+          y: supportHeight(q.x, q.z, mapFor(w).blocks, q.y) + 0.03,
           z: q.z,
           born: w.time - dt + elapsed,
           damage: q.damage,
@@ -247,6 +253,7 @@ export function stepCalyx(
     return;
   }
   e.cool = Math.max(0, e.cool - dt);
+  e.heading = Math.atan2(target.x - e.x, target.z - e.z);
   const distance = Math.hypot(target.x - e.x, target.z - e.z),
     clear = visible(e, target, blocks);
   const shot =
@@ -265,14 +272,32 @@ export function stepCalyx(
     e.wind = kind === "Slam" ? CALYX.slamWind : CALYX.shotWind;
     return;
   }
-  if (distance > 2.8) {
-    const direction = pursuitDirection(w, e, target);
-    move(
-      e,
-      direction.x * CALYX.speed * dt,
-      direction.z * CALYX.speed * dt,
-      0.9,
-      blocks,
+  if (distance > 0.01) {
+    const inward = {
+      x: (target.x - e.x) / distance,
+      z: (target.z - e.z) / distance,
+    };
+    const correction = Math.max(
+      -0.55,
+      Math.min(0.8, (distance - CALYX.orbitRadius) / 8),
     );
+    let dx = -inward.z + inward.x * correction,
+      dz = inward.x + inward.z * correction;
+    const norm = Math.hypot(dx, dz);
+    dx /= norm;
+    dz /= norm;
+    const beforeX = e.x,
+      beforeZ = e.z;
+    move(e, dx * CALYX.speed * dt, dz * CALYX.speed * dt, 0.9, blocks);
+    if (Math.hypot(e.x - beforeX, e.z - beforeZ) < CALYX.speed * dt * 0.15) {
+      const direction = pursuitDirection(w, e, target);
+      move(
+        e,
+        direction.x * CALYX.speed * dt,
+        direction.z * CALYX.speed * dt,
+        0.9,
+        blocks,
+      );
+    }
   }
 }

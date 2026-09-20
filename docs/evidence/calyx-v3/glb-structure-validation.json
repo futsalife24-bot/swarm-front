@@ -1,0 +1,20 @@
+{
+  "sha256": "86c12822e8e9ad6ebf88b876a8d88413bd6d9c5faaf4d9b658f2985d0270be72",
+  "triangles": 13990,
+  "degenerate": 0,
+  "maxWeightError": 5.4016709327697754e-8,
+  "vertexColorOnAllPrimitives": true,
+  "petals": [
+    "P1",
+    "P2",
+    "P3",
+    "P4",
+    "P5"
+  ],
+  "clips": [
+    "Idle",
+    "Locomotion",
+    "Slam",
+    "PollenShot"
+  ]
+}

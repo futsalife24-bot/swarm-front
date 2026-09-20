@@ -12,6 +12,7 @@ import {
   stepPollen,
   advancePollen,
   pollenContains,
+  pollenPointContains,
   pollenRadius,
 } from "../src/shared/calyx";
 import { StructureMotionController } from "../src/client/structure-motion";
@@ -27,6 +28,7 @@ import { initDailyDefense } from "../src/shared/daily-defense";
 import { initSolo } from "../src/shared/solo-progression";
 import { blankLevels } from "../src/client/progression-save";
 import { settings } from "../src/shared/progression";
+import { selectStructureTarget } from "../src/shared/structure-ai";
 import * as T from "three";
 
 it("shows pollen on an elevated support and does not show a projectile for a report slam", () => {
@@ -76,6 +78,34 @@ function setup() {
   w.enemies = [e];
   return { w, p, e };
 }
+it("orbits the selected soldier tangentially while facing the centre", () => {
+  const { w, p, e } = setup();
+  p.z = CALYX.orbitRadius;
+  e.cool = 999;
+  e.pollenReadyAt = 999;
+  for (let i = 0; i < 20; i++) {
+    w.time += 0.05;
+    stepCalyx(w, e, p, [p], 0.05);
+  }
+  expect(e.x).toBeLessThan(-0.6);
+  expect(Math.hypot(p.x - e.x, p.z - e.z)).toBeCloseTo(CALYX.orbitRadius, 1);
+  expect(e.heading).toBeCloseTo(Math.atan2(p.x - e.x, p.z - e.z), 2);
+  expect(e.calyx).toBeUndefined();
+  e.calyx = { kind: "Slam", started: w.time, fired: false, yaw: e.heading! };
+  const x = e.x,
+    z = e.z;
+  stepCalyx(w, e, p, [p], 0.05);
+  expect([e.x, e.z]).toEqual([x, z]);
+});
+it("keeps the orbit centre on its living target and retargets after disconnection", () => {
+  const { w, p, e } = setup();
+  const other = addPlayer(w, "b");
+  Object.assign(other, { x: 0, z: 0.5 });
+  e.targetId = p.id;
+  expect(selectStructureTarget(e, w.players, () => true)).toBe(p);
+  p.connected = false;
+  expect(selectStructureTarget(e, w.players, () => true)).toBe(other);
+});
 it("places elevated slam warnings and impact marks on the attacker's support", () => {
   const { w, e } = setup();
   const roof = mapFor(w).blocks[0];
@@ -202,19 +232,59 @@ it("fires a ballistic sac at the stored position, not a moving target, with a 12
   expect(w.pollen).toHaveLength(1);
   expect(w.pollen![0].z).toBeCloseTo(12, 0);
 });
-it("expands to 9m, excludes walls and other floors, and expires at 8s", () => {
+it("expands to a 13.5m hemisphere, clips walls and lower floors, and expires at 8s", () => {
   const c = { id: 1, x: 0, y: 0.03, z: 0, born: 0, damage: 4 };
-  expect(pollenRadius(c, 0.5)).toBe(4.5);
-  expect(pollenRadius(c, 1)).toBe(9);
+  expect(pollenRadius(c, 0.5)).toBe(6.75);
+  expect(pollenRadius(c, 1)).toBe(13.5);
   expect(pollenRadius(c, 8)).toBe(0);
   expect(pollenContains(c, { x: 5, y: 0, z: 0 }, 1, [])).toBe(true);
-  expect(pollenContains(c, { x: 5, y: 3, z: 0 }, 1, [])).toBe(false);
+  expect(pollenContains(c, { x: 5, y: 3, z: 0 }, 1, [])).toBe(true);
+  expect(pollenContains(c, { x: 10, y: 10, z: 0 }, 1, [])).toBe(false);
+  expect(pollenContains(c, { x: 0, y: 13, z: 0 }, 1, [])).toBe(false);
+  expect(pollenPointContains(c, { x: 0, y: -0.1, z: 0 }, 1, [])).toBe(false);
+  expect(pollenContains({ ...c, y: 6.03 }, { x: 0, y: 0, z: 0 }, 1, [])).toBe(
+    false,
+  );
   expect(
     pollenContains(c, { x: 5, y: 0, z: 0 }, 1, [
       { x: 2, z: 0, w: 1, d: 8, h: 5 },
     ]),
   ).toBe(false);
-  expect(pollenContains(c, { x: 9.1, y: 0, z: 0 }, 1, [])).toBe(false);
+  expect(pollenContains(c, { x: 12, y: 0, z: 0 }, 1, [])).toBe(true);
+  expect(pollenContains(c, { x: 13.6, y: 0, z: 0 }, 1, [])).toBe(false);
+});
+it("renders an upper dome and volume mist, and clears haze outside or after battle", () => {
+  const { w } = setup();
+  w.time = 1;
+  w.pollen = [{ id: 1, x: 0, y: 0.03, z: 0, born: 0, damage: 4 }];
+  const fx = new CalyxEffects();
+  fx.update(w);
+  const domes = fx.root.getObjectByName("POLLEN_DOMES")!;
+  expect(domes.children).toHaveLength(1);
+  const mesh = domes.children[0] as T.Mesh;
+  const pos = mesh.geometry.attributes.position;
+  expect(
+    Math.max(...Array.from({ length: pos.count }, (_, i) => pos.getY(i))),
+  ).toBeCloseTo(13.5, 1);
+  expect(
+    Math.min(...Array.from({ length: pos.count }, (_, i) => pos.getY(i))),
+  ).toBeGreaterThanOrEqual(0);
+  expect(fx.haze(w, new T.Vector3(0, 2, 0))).toBe(1);
+  expect(fx.haze(w, new T.Vector3(14, 2, 0))).toBe(0);
+  const mist = fx.root.children.find((o) => o instanceof T.Points) as T.Points;
+  expect(mist.geometry.drawRange.count).toBeGreaterThan(0);
+  const mp = mist.geometry.attributes.position;
+  expect(
+    Math.max(
+      ...Array.from({ length: mist.geometry.drawRange.count }, (_, i) =>
+        mp.getY(i),
+      ),
+    ),
+  ).toBeGreaterThan(8);
+  w.phase = "ended";
+  fx.update(w);
+  expect(domes.children).toHaveLength(0);
+  expect(fx.haze(w, new T.Vector3(0, 2, 0))).toBe(0);
 });
 it("nonstacking damage is invariant to tick subdivision and respects leaving and dodge", () => {
   const simulate = (dt: number) => {
@@ -308,10 +378,10 @@ it("plays both authored attacks from snapshot time and distance-driven walking",
   expect(reportPose("calyx", "attack", 1).clip).toBe("Slam");
   expect(reportPose("calyx", "attack", 4.6).clip).toBe("PollenShot");
 });
-it("ships the independently audited GLB unchanged with four clips and 16 bones", () => {
+it("ships the pinned CALYX GLB with four clips and 16 bones", () => {
   const bytes = readFileSync("public/assets/enemies/calyx_motion_v1.glb");
   expect(createHash("sha256").update(bytes).digest("hex")).toBe(
-    "ef8d7944603d409fff242895c0f2fda56e00ace5b7c052e130fc707b53b39083",
+    "64719fde1175e4270dae7b142ef2880145a3d76d690806de3a2f8a491d1b21ce",
   );
   const gltf = JSON.parse(
     bytes.subarray(20, 20 + bytes.readUInt32LE(12)).toString(),

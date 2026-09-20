@@ -11,8 +11,8 @@ random.seed(24)
 root=c.setup('calyx')
 scene=bpy.context.scene
 scene.render.fps=30
-materials=[c.mat('bark',(.083,.097,.075),0,.96),c.mat('bark_light',(.16,.155,.12),0,.96),c.mat('ivory',(.48,.42,.29),0,.9),c.mat('veins',(.035,.043,.027),0,.98),c.mat('pollen',(.42,.25,.045),0,.92)]
-objects=[];bones={}
+materials=[c.mat('bark',(.083,.097,.075),0,.92),c.mat('bark_light',(.16,.155,.12),0,.92),c.mat('ivory',(.48,.42,.29),0,.9),c.mat('veins',(.055,.064,.042),0,.94),c.mat('pollen',(.42,.25,.045),0,.92)]
+objects=[];bones={};soft_weights={}
 def tag(o,bone):
     o['part']=bone;objects.append(o);return o
 def mesh(name,v,f,mat,bone):return tag(c.mesh(name,v,f,materials[mat]),bone)
@@ -21,14 +21,14 @@ def orb(name,p,s,mat,bone,sub=2):
     for f in o.data.polygons:f.use_smooth=True
     return o
 def tube(name,pts,rads,mat,bone,sides=8):
-    pts=list(map(Vector,pts));v=[];f=[]
+    pts=list(map(Vector,pts));v=[];f=[];previous_a=None
     for i,p in enumerate(pts):
         d=(pts[min(i+1,len(pts)-1)]-pts[max(0,i-1)]).normalized()
-        a=d.cross(Vector((0,0,1)))
+        a=(previous_a-d*previous_a.dot(d)) if previous_a is not None else d.cross(Vector((0,0,1)))
         if a.length<.01:a=d.cross(Vector((0,1,0)))
-        a.normalize();b=d.cross(a).normalized()
+        a.normalize();previous_a=a.copy();b=d.cross(a).normalized()
         for j in range(sides):
-            t=j*math.tau/sides;r=rads[i]*(1+.06*math.sin(j*3+i))
+            t=j*math.tau/sides;r=rads[i]*(1+.008*math.sin(j*3+i))
             v.append(p+r*(math.cos(t)*a+math.sin(t)*b))
     for i in range(len(pts)-1):
         for j in range(sides):
@@ -40,12 +40,12 @@ def tube(name,pts,rads,mat,bone,sides=8):
 def bone(name,head,tail,parent=None):bones[name]=(Vector(head),Vector(tail),parent)
 bone('Root',(0,0,0),(0,0,.25))
 bone('Body',(0,0,.9),(0,0,1.3),'Root')
-orb('flower_base',(0,0,1.02),(.28,.28,.23),0,'Body')
+orb('flower_base',(0,0,1.02),(.37,.37,.23),0,'Body')
 tube('stem',[(0,0,.73),(0,0,.94),(0,0,1.12)],[.19,.24,.25],0,'Body',12)
 # Single inner bud: an enclosed core, distinct from the five moving outer petals.
 core_v=[(0,0,1.09)];core_f=[];rings=18;segments=24
 for i in range(1,rings):
-    t=i/rings;radius=.385*math.sin(math.pi*t)**.8*(1-.12*t)
+    t=i/rings;radius=.45*math.sin(math.pi*t)**.8*(1-.12*t)
     for j in range(segments):
         angle=j*math.tau/segments;rr=radius*(1+.025*math.sin(angle*7+t*5))
         core_v.append((rr*math.sin(angle),rr*math.cos(angle),1.09+1.16*t))
@@ -58,26 +58,17 @@ for j in range(segments):
 core=mesh('central_inner_bud',core_v,core_f,0,'Body')
 for face in core.data.polygons:face.use_smooth=True
 petals={}
-for number,angle in [(1,0),(2,-45),(3,-135),(4,135),(5,45)]:
+for number,angle in [(1,0),(2,-72),(3,-144),(4,144),(5,72)]:
     a=math.radians(angle);r=Vector((math.sin(a),math.cos(a),0));side=Vector((math.cos(a),-math.sin(a),0))
-    pivot=r*(.67 if number==1 else .45)+Vector((0,0,1.42 if number==1 else 1.28));name='P'+str(number)
+    pivot=r*.19+Vector((0,0,1.04));name='P'+str(number)
     bone(name,pivot,pivot+Vector((0,0,.25)),'Body');petals[name]=(r,side,pivot)
     def surface(t,u,inner=False):
-        if number==1:
-            radial=.67+.25*math.sin(math.pi*t*.8);z=1.42-1.14*t
-            width=.26*math.sin(math.pi*t)**.75+.005
-        else:
-            radial=.01+.21*(1-t)+.52*math.sin(math.pi*t)**.82
-            z=1.18+1.12*t
-            width=.405*math.sin(math.pi*t)**.70+.007
-        # Convex dry leaf, with a central rib. Thickness survives GLB export.
-        radial+=.025*(1-u*u)*math.sin(math.pi*t)
-        if not inner:radial+=.007*math.sin(t*97+u*23)*math.sin(u*83+t*13)*math.sin(math.pi*t)
-        if inner:radial-=(.035+.09*math.sin(math.pi*t)) if number==1 else .035
-        if number!=1:
-            theta=u*(.71*math.sin(math.pi*t)**.10+.025)
-            return (r*math.cos(theta)+side*math.sin(theta))*max(.003,radial)+Vector((0,0,z))
-        return r*radial+side*(u*width)+Vector((0,0,z))
+        radial=.012+.18*(1-t)+.66*math.sin(math.pi*t)**.72
+        z=1.04+1.26*t
+        radial+=.015*(1-u*u)*math.sin(math.pi*t)
+        if inner:radial-=.028
+        theta=u*.625
+        return (r*math.cos(theta)+side*math.sin(theta))*max(.003,radial)+Vector((0,0,z))
     verts=[];faces=[];N=20;W=12
     for inner in [False,True]:
         for i in range(N+1):
@@ -94,28 +85,11 @@ for number,angle in [(1,0),(2,-45),(3,-135),(4,135),(5,45)]:
     o=mesh(name+'_shell',verts,faces,0,name);o.data.materials.append(materials[2]);o.data.materials.append(materials[1])
     for i,f in enumerate(o.data.polygons):
         f.material_index=1 if N*W<=i<2*N*W else 0;f.use_smooth=True
-    # Raised longitudinal and branching veins, actual geometry instead of Blender-only shaders.
-    for u in [-.68,-.34,0,.34,.68]:
-        pts=[surface(.06+.88*i/15,u+.016*math.sin(i*1.7+u*9))+r*.009 for i in range(16)]
-        tube(name+'_vein',pts,[.006*(math.sin(math.pi*i/15)*.6+.4) for i in range(16)],1,name,5)
-    for k in range(7):
-        t=.16+k*.095
-        for s in [-1,1]:
-            pts=[surface(t+.12*j/5,s*.70*j/5)+r*.009 for j in range(6)]
-            tube(name+'_branch',pts,[.005]*6,3,name,4)
-    tube(name+'_hinge',[pivot, surface(.06,0)],[.075,.06],0,name,10)
-    tube(name+'_socket',[r*.15+Vector((0,0,1.03)),pivot],[.075,.065],0,'Body',9)
-    for j in range(19):
-        u=-.9+j*.10;t0=.09+random.random()*.15;t1=.75+random.random()*.18
-        pts=[surface(t0+(t1-t0)*k/19,u+.018*math.sin(k*.8+j))+r*.007 for k in range(20)]
-        tube(name+'_bark_fissure',pts,[.0025+random.random()*.002 for k in range(20)],3,name,3)
-    for j in range(24):
-        t=.15+random.random()*.66;u=-.72+random.random()*1.44
-        dt=.035+random.random()*.045;du=.07+random.random()*.10
-        outline=[(t-dt,u-du*.3),(t-dt*.6,u+du*.7),(t+dt*.4,u+du),(t+dt,u-du*.2),(t+dt*.4,u-du)]
-        patch=[surface(tt,uu)+r*(.012+random.random()*.009) for tt,uu in outline]
-        patch.append(surface(t,u)+r*.026)
-        mesh(name+'_bark_scale',patch,[(i,(i+1)%5,5) for i in range(5)],1 if j%3==0 else 0,name)
+    # Sparse botanical ribs keep the broad petal silhouette clean.
+    for u in [-.50,0,.50]:
+        pts=[surface(.08+.84*i/18,u)+r*.004 for i in range(19)]
+        tube(name+'_vein',pts,[.0035]*19,1,name,5)
+    tube(name+'_hinge',[pivot,surface(.06,0)],[.055,.045],0,name,10)
 for i in range(5):
     a=i*math.tau/5
     loc=(math.sin(a)*.16,math.cos(a)*.16,1.19)
@@ -123,29 +97,27 @@ for i in range(5):
     for j in range(7):
         b=j*math.tau/7
         orb('dry_pollen_grain',(loc[0]+.07*math.sin(b),loc[1]+.065*math.cos(b),1.22+.06*math.sin(j*2)),(.022,.022,.029),4,'Body',1)
-legs={}
-for name,hip,foot in [('FL',(-.24,.20,.94),(-.79,.43,.075)),('FR',(.24,.20,.94),(.79,.43,.075)),('Rear',(0,-.25,.94),(0,-.77,.075))]:
+legs={};root_tips={}
+for name,hip,foot in [('FL',(-.16,-.06,.86),(-.88,.02,.075)),('FR',(.16,-.06,.86),(.88,.02,.075)),('Rear',(0,-.17,.86),(0,-.77,.075))]:
     hip=Vector(hip);foot=Vector(foot);rad=Vector((foot.x,foot.y,0)).normalized()
-    def knee_at(h,f):
-        d=f-h;length=d.length;mid=(h+f)/2
-        bend=rad-d.normalized()*rad.dot(d.normalized());bend.normalize()
-        return mid+bend*math.sqrt(max(0,.70**2-(length/2)**2))
-    knee=knee_at(hip,foot);legs[name]=(hip,knee,foot,rad)
-    bone(name+'_upper',hip,knee,'Root');bone(name+'_lower',knee,foot,'Root');bone(name+'_foot',foot,foot+Vector((0,.15,0)),'Root')
-    for part,a,b,r0,r1 in [('upper',hip,knee,.115,.085),('lower',knee,foot,.082,.055)]:
-        bn=name+'_'+part;pts=[a.lerp(b,i/6)+rad*(.035*math.sin(i/6*math.pi)) for i in range(7)]
-        radii=[(r0+(r1-r0)*i/6)*(1+.12*math.sin(i*2.7+len(name))) for i in range(7)]
-        tube(bn,pts,radii,0,bn,12)
-        axis=(b-a).normalized();cross=axis.cross(rad).normalized()
-        for angle in [0,1.2,2.5,3.7,5.1]:
-            surface_dir=rad*math.cos(angle)+cross*math.sin(angle)
-            tube(bn+'_grain',[p+surface_dir*radii[i]*.92 for i,p in enumerate(pts)],[.009+.004*math.sin(i*2)**2 for i in range(7)],1,bn,5)
-        orb(bn+'_burl',a.lerp(b,.32)+rad*r0*.55,(r0*.72,r0*.7,r0*.9),0,bn)
-    orb(name+'_joint',knee,(.10,.10,.10),0,name+'_lower')
-    orb(name+'_sole',foot,(.10,.14,.075),0,name+'_foot')
-    for j in [-1,0,1]:
-        end=foot+Vector((j*.085,.13,.0));end.z=.03
-        tube(name+'_root_toe',[foot,foot.lerp(end,.55)+Vector((0,0,.02)),end],[.042,.034,.018],0,name+'_foot',7)
+    # A single cubic root: no knee, ankle, segmented joint or rigid hinge.
+    tip=foot+rad*.20;tip.z=.026
+    p1=hip+rad*.62+Vector((0,0,-.26))
+    p2=tip-rad*.22;p2.z=.026
+    def curve(t):return hip*(1-t)**3+p1*(3*(1-t)**2*t)+p2*(3*(1-t)*t*t)+tip*t**3
+    middle=curve(.5);legs[name]=(hip,middle,foot,rad)
+    bone(name+'_upper',hip,curve(.33),'Root')
+    bone(name+'_lower',curve(.33),curve(.67),'Root')
+    bone(name+'_foot',tip,tip+Vector((0,.15,0)),'Root');root_tips[name]=tip.copy()
+    pts=[curve(i/48) for i in range(49)]
+    radii=[.070*(1-i/48)**.8+.009 for i in range(49)]
+    o=tube(name+'_continuous_root',pts,radii,3,name+'_upper',12)
+    weights=[]
+    for i in range(len(pts)):
+        t=i/48
+        w={name+'_upper':(1-t)**2,name+'_lower':2*t*(1-t),name+'_foot':t*t}
+        weights.extend([w]*12)
+    soft_weights[o.name]=weights
 
 # Rigid articulation retains semantic groups after material batching.
 arm=bpy.data.armatures.new('CALYX_rig');rig=bpy.data.objects.new('CALYX_rig',arm);bpy.context.collection.objects.link(rig);rig.parent=root
@@ -155,7 +127,12 @@ for name,(h,t,parent) in bones.items():
     if parent:b.parent=arm.edit_bones[parent]
 bpy.ops.object.mode_set(mode='OBJECT');rest={b.name:b.matrix_local.copy() for b in arm.bones}
 for o in objects:
-    o.vertex_groups.new(name=o['part']).add(list(range(len(o.data.vertices))),1,'REPLACE')
+    if o.name in soft_weights:
+        groups={n:o.vertex_groups.new(name=n) for n in bones}
+        for i,weights in enumerate(soft_weights[o.name]):
+            for n,w in weights.items():
+                if w>0:groups[n].add([i],w,'REPLACE')
+    else:o.vertex_groups.new(name=o['part']).add(list(range(len(o.data.vertices))),1,'REPLACE')
     o.parent=rig;mod=o.modifiers.new('skin','ARMATURE');mod.object=rig
 bpy.ops.object.select_all(action='DESELECT')
 for o in objects:o.select_set(True)
@@ -168,7 +145,16 @@ for poly in skin.data.polygons:
         x,y,z=skin.data.vertices[skin.data.loops[li].vertex_index].co
         noise=math.sin(x*81+math.sin(z*39))*math.sin(y*73+z*61);broad=math.sin(x*14+y*11+z*19)
         grain=math.sin(z*143+x*17+y*21)*math.sin(x*61+y*73)
-        shade=.73+.20*noise+.13*broad+.12*grain;colors.data[li].color=(*[base[i]*max(.25,shade) for i in range(3)],1)
+        shade=.94+.025*noise+.055*broad+.015*grain
+        # Original grey-green bark remains dominant; restrained earthy rust patches.
+        material_name=skin.data.materials[poly.material_index].name
+        pigment=list(base[:3])
+        if material_name.endswith('_bark') or material_name.endswith('_veins'):
+            marble=math.sin(x*5.1+1.8*math.sin(z*3.3+y*2.7))+.6*math.sin(y*4.7-z*3)
+            blend=max(0,min(1,(marble-.12)/1.18));blend=blend*blend*(3-2*blend)*.58
+            rust=(.145,.068,.040) if material_name.endswith('_bark') else (.10,.048,.029)
+            pigment=[pigment[i]*(1-blend)+rust[i]*blend for i in range(3)]
+        colors.data[li].color=(*[pigment[i]*shade for i in range(3)],1)
 for m in materials:
     attr=m.node_tree.nodes.new('ShaderNodeVertexColor');attr.layer_name='BarkPigment'
     m.node_tree.links.new(attr.outputs['Color'],m.node_tree.nodes.get('Principled BSDF').inputs['Base Color'])
@@ -186,17 +172,18 @@ for v in skin.data.vertices:
 def pose(mode,t):
     tilt=0;opening=0;slam=0;bob=0
     if mode=='Idle':bob=.008*math.sin(t*math.tau/4)
-    if mode=='Locomotion':bob=.015*math.sin(t*math.tau*3/2)
+    if mode=='Locomotion':tilt=-math.pi/4;bob=.50
     if mode=='Slam':
-        charge=smooth((t-.45)/.30);hit=smooth((t-.75)/.25);recover=smooth((t-1.08)/1.12)
-        tilt=.035*charge*(1-hit)*(1-recover);opening=0;slam=.85*charge*(1-hit)*(1-recover);bob=-.28*hit*(1-recover)
+        charge=smooth((t-.12)/.43);hit=smooth((t-.68)/.32);recover=smooth((t-1.12)/1.08)
+        opening=.62*charge*(1-recover);slam=(-.42*charge-2.12*hit)*(1-recover);bob=-.025*hit*(1-recover)
     if mode=='PollenShot':
         charge=smooth(t/1.25);recover=smooth((t-1.65)/1.15)
         tilt=.18*charge*(1-recover);opening=.90*charge*(1-recover)
     B=Matrix.Translation((0,0,bob))@around(Vector((0,0,.9)),Quaternion((1,0,0),tilt))
+    if mode=='Locomotion':B=B@around(Vector((0,0,.9)),Quaternion((0,0,1),t*math.tau/6))
     rig.pose.bones['Root'].matrix=rest['Root'];rig.pose.bones['Body'].matrix=B@rest['Body'];bpy.context.view_layer.update()
     for name,(r,side,p) in petals.items():
-        ang=-opening if name!='P1' else (slam if mode=='Slam' else opening*.9)
+        ang=-opening if name!='P1' else (slam if mode=='Slam' else -opening)
         rig.pose.bones[name].matrix=B@around(p,Quaternion(side,ang))@rest[name]
     if mode=='Slam':
         bpy.context.view_layer.update()
@@ -211,19 +198,29 @@ def pose(mode,t):
     for index,(name,(h,k,f,rad)) in enumerate(legs.items()):
         hip=B@h;foot=f.copy();planted=True
         if mode=='Locomotion':
-            phase=(t/2+index/3)%1;travel=.65*2*2/3
-            if phase<2/3:foot.y+=travel*(.5-phase/(2/3))
+            desired={'FL':-math.pi/3,'FR':math.pi/3,'Rear':math.pi}[name]
+            angle=math.atan2(f.x,f.y)
+            G=B@around(Vector((0,0,.9)),Quaternion((0,0,1),angle-desired))
+            phase=((t*math.tau/6-desired+math.pi/3)%math.tau)/math.tau
+            travel=.65*2
+            if phase<1/3:target=Vector((travel*(.5-phase*3),.6,.026))
             else:
-                u=(phase-2/3)*3;foot.y+=travel*(-.5+smooth(u));foot.z+=.16*math.sin(math.pi*u)**2;planted=False
-        d=foot-hip;direction=d.normalized();bend=rad-direction*rad.dot(direction);bend.normalize()
-        assert d.length<1.4,(mode,t,name,d.length)
-        knee=(hip+foot)/2+bend*math.sqrt(.70**2-(d.length/2)**2)
-        rig.pose.bones[name+'_upper'].matrix=align(name+'_upper',hip,knee)
-        rig.pose.bones[name+'_lower'].matrix=align(name+'_lower',knee,foot)
-        rig.pose.bones[name+'_foot'].matrix=Matrix.Translation(foot-f)@rest[name+'_foot']
+                u=(phase-1/3)*1.5
+                target=Vector((travel*(-.5+smooth(u)),.6-1.65*math.sin(math.pi*u),.026+.5*math.sin(math.pi*u)**2));planted=False
+            correction=target-G@root_tips[name]
+            for part,weight in [('upper',0),('lower',.5),('foot',1)]:
+                rig.pose.bones[name+'_'+part].matrix=Matrix.Translation(correction*weight)@G@rest[name+'_'+part]
+            contacts.append(dict(t=t,leg=name,planted=planted,foot=list(target)))
+            continue
+        # Smooth polynomial displacement over the entire root. No joint rotations.
+        hd=hip-h;fd=foot-f
+        sway=rad*(.035*math.sin(t*math.tau/2+index*math.tau/3)) if mode=='Locomotion' else Vector((0,0,0))
+        rig.pose.bones[name+'_upper'].matrix=Matrix.Translation(hd)@rest[name+'_upper']
+        rig.pose.bones[name+'_lower'].matrix=Matrix.Translation((hd+fd)*.5+sway)@rest[name+'_lower']
+        rig.pose.bones[name+'_foot'].matrix=Matrix.Translation(fd)@rest[name+'_foot']
         if mode=='Locomotion':contacts.append(dict(t=t,leg=name,planted=planted,foot=list(foot)))
     bpy.context.view_layer.update()
-rig.animation_data_create();durations={'Idle':4,'Locomotion':2,'Slam':2.2,'PollenShot':2.8}
+rig.animation_data_create();durations={'Idle':4,'Locomotion':6,'Slam':2.2,'PollenShot':2.8}
 for name,duration in durations.items():
     action=bpy.data.actions.new(name);rig.animation_data.action=action
     for frame in range(round(duration*30)+1):

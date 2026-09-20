@@ -1172,6 +1172,9 @@ export class Renderer {
                 );
           const ya =
             (e.calyx ? Math.PI - e.calyx.yaw : undefined) ??
+            (e.kind === "calyx" && e.heading !== undefined
+              ? Math.PI - e.heading
+              : undefined) ??
             crawlerAttackYaw ??
             (e.segments && e.heading !== undefined
               ? Math.PI - e.heading
@@ -1575,6 +1578,13 @@ export class Renderer {
         this.crawlerAim.delete(id);
     }
     this.spawnEffects.update(w, dt, animate, this.camera);
+    const pollenHaze = this.calyxEffects.haze(w, this.camera.position);
+    if (pollenHaze > 0) {
+      const fog = this.scene.fog as T.Fog;
+      fog.near = T.MathUtils.lerp(fog.near, Math.min(fog.near, 6), pollenHaze);
+      fog.far = T.MathUtils.lerp(fog.far, Math.min(fog.far, 90), pollenHaze);
+      fog.color.lerp(new T.Color(0xb8ad78), pollenHaze * 0.2);
+    }
     this.renderer.render(this.scene, this.camera);
     this.drawCalls = this.renderer.info.render.calls;
     return true;
