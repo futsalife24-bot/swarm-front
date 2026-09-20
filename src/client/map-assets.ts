@@ -3,10 +3,56 @@ import { addMapDetail, weatherMapMaterials } from "./map-detail";
 import { softenNaturalNormals } from "./map-surfaces";
 import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { MAPS, TRAINING_MAP, DEFENSE_MAPS } from "../shared/stages";
+import {
+  MAPS,
+  TRAINING_MAP,
+  DEFENSE_MAPS,
+  ELEVATED_MAPS,
+  CITY_TOWERS,
+  type ArenaMap,
+} from "../shared/stages";
+import { terrainProps } from "../shared/terrain";
 import { caveScene } from "./cave-scene";
 import { trainingMapScene } from "./training-map";
-const VIEW_MAPS = [...MAPS, TRAINING_MAP, ...DEFENSE_MAPS];
+export const VIEW_MAPS = [
+  ...MAPS,
+  TRAINING_MAP,
+  ...DEFENSE_MAPS,
+  ...ELEVATED_MAPS,
+];
+function addElevatedStructures(scene: T.Object3D, map: ArenaMap) {
+  const box = (
+    x: number,
+    y: number,
+    z: number,
+    w: number,
+    h: number,
+    d: number,
+    color: number,
+  ) => {
+    const mesh = new T.Mesh(
+      new T.BoxGeometry(w, h, d),
+      new T.MeshStandardMaterial({ color, roughness: 0.78 }),
+    );
+    mesh.position.set(x, y, z);
+    mesh.castShadow = mesh.receiveShadow = true;
+    scene.add(mesh);
+  };
+  const index = map.assetIndex ?? MAPS.indexOf(map);
+  const additions = index === 0 ? CITY_TOWERS : [];
+  for (const b of [
+    ...additions,
+    ...(map.elevated && map.biome === "city" ? map.blocks.slice(-2) : []),
+  ]) {
+    box(b.x, b.h / 2, b.z, b.w, b.h, b.d, map.color);
+    // Recessed dark glazing between concrete floor bands.
+    for (let y = 2; y < b.h - 1; y += 3) {
+      box(b.x, y, b.z, b.w + 0.04, 1.25, b.d + 0.04, 0x263c49);
+    }
+  }
+  for (const b of terrainProps(map.blocks))
+    box(b.x, b.base + b.h / 2, b.z, b.w, b.h, b.d, 0x79848a);
+}
 function disposeMap(group: T.Object3D) {
   const textures = new Set<T.Texture>(),
     materials = new Set<T.Material>();
@@ -91,6 +137,7 @@ export class MapAssets {
     }
   }
   select(index: number, load = true, distantVisible = true) {
+    const assetIndex = VIEW_MAPS[index].assetIndex ?? index;
     if (this.selected !== index) {
       if (this.selected >= 0) {
         // GPU memory is bounded by the active map, including both detail levels.
@@ -154,7 +201,7 @@ export class MapAssets {
       this.distantStatus[index].state = "loading";
       this.loader
         .loadAsync(
-          `${import.meta.env.BASE_URL}assets/maps/distant_${index}_v1.glb`,
+          `${import.meta.env.BASE_URL}assets/maps/distant_${assetIndex}_v1.glb`,
         )
         .then(({ scene }) => {
           scene.traverse((o) => {
@@ -180,7 +227,9 @@ export class MapAssets {
     }
     this.status[index].state = "loading";
     this.loader
-      .loadAsync(`${import.meta.env.BASE_URL}assets/maps/map_${index}_v1.glb`)
+      .loadAsync(
+        `${import.meta.env.BASE_URL}assets/maps/map_${assetIndex}_v1.glb`,
+      )
       .then(({ scene }) => {
         if (this.selected !== index) {
           disposeMap(scene);
@@ -188,9 +237,10 @@ export class MapAssets {
           return;
         }
         liftMap(scene, VIEW_MAPS[index], this.detailed);
-        if (index === 3 || index === 4) softenNaturalNormals(scene);
+        if (assetIndex === 3 || assetIndex === 4) softenNaturalNormals(scene);
+        addElevatedStructures(scene, VIEW_MAPS[index]);
         addMapDetail(scene, this.detailed);
-        weatherMapMaterials(scene, index, this.detailed);
+        weatherMapMaterials(scene, assetIndex, this.detailed);
         scene.userData.detailed = this.detailed;
         let meshes = 0;
         scene.traverse((o) => {

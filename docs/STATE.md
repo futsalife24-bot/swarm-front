@@ -1,3 +1,10 @@
+# 現在地: ジャンプ・固定高台ルートの自己検証済み、独立監査ブラウザ復旧待ち（2026-09-20）
+
+branch `codex/jump-elevated-maps`、base `b322d62d91b622df5402c583a1f9668238a65aa3`。ジャンプボタン/Fキー、ステージ3・7・8・12・14・17〜20へ固定する追加版、草原の山腹斜面・雪山の窪地・街区8棟高層化。通常/追加の選択UIなし。型、全20作戦を含む再検証76件、最終地形23件（重複あり）、11マップ実描画、3サイズのキー/タッチ/着地、実Worker2接続同期が成功。既存射撃テスト1失敗はbaseでも同一再現。Jev固定needs_context/live missing_key・API0、未判定。詳細・証拠は [JUMP-ELEVATED-MAPS.md](JUMP-ELEVATED-MAPS.md)。実装commit後のビルド・PR・監査ZIPの情報は後続記録へ。別作業の `.gitignore`/`AGENTS.md`/`package.json`/`CLAUDE.md` は保護。
+
+停止理由: 独立監査用iabがkernel assetsのパス不存在（os error 3）で初期化できず、reset後も再現。監査未依頼、main未反映・未公開。
+再開条件: iab復旧後、保存する対象SHA/ZIPを通常Chatへ送って独立監査・必要修正・通常merge・既存Worker公開・配信確認。監査・公開の既存継続承認は有効で、再承認は不要。
+
 # 現在地: ドローン撮影をmain反映・公開・確認済み（2026-09-20）
 
 PR51/PR52を通常merge。兵士操作を維持し、`?drone=1&clean=1`で上空追従・自動周回、ポーズから高さ/角度/距離/速度を調整。独立Chat再監査はカメラ6200491・CSS5441fedとも合格/必須0。公開ソース5b5da2ee22c330e5b4422ccc342fabf0f86cc687、Worker Version70338c28-cadf-48e3-83f8-9407d95bc289。最新mainのbuild/dry-run、配信14SHA一致、health成功。カメラ型/関連44件成功、実Chrome844×390/667×375のローカル比較・production preview成功。公開667×375でも通常/真上/自動周回、設定の1行表示・スクロールなし、周回角18→29度、エラー0を確認。初回公開CSS競合はPR52で解消。全件テストはドローン変更で再実行せず（先行clean時の既存失敗3件を記録済み）、実スマホ等は未検証。敵出現ルールは変えず、四方配置は静止QAのみ。詳細・証拠は [DRONE-CAPTURE.md](DRONE-CAPTURE.md)。後続は公開記録のみ。

@@ -106,6 +106,7 @@ export class Controls {
           "KeyQ",
           "KeyE",
           "KeyZ",
+          "KeyF",
         ].includes(e.code)
       )
         e.preventDefault();
@@ -113,10 +114,12 @@ export class Controls {
       if (!e.repeat) {
         if (e.code === "KeyZ") this.toggleScope();
         const action = (
-          { KeyR: "reload", KeyQ: "swap", Space: "dodge" } as Record<
-            string,
-            string
-          >
+          {
+            KeyR: "reload",
+            KeyQ: "swap",
+            Space: "dodge",
+            KeyF: "jump",
+          } as Record<string, string>
         )[e.code];
         if (action) this.queued.add(action);
       }
@@ -165,6 +168,7 @@ export class Controls {
           "reload",
           "swap",
           "dodge",
+          "jump",
           "revive",
           "scope",
           "scope2",
@@ -176,7 +180,8 @@ export class Controls {
       target.setPointerCapture(e.pointerId);
       this.touches.set(e.pointerId, { role, x: e.clientX, y: e.clientY });
       if (role === "scope" || role === "scope2") this.toggleScope();
-      if (["reload", "swap", "dodge"].includes(role)) this.queued.add(role);
+      if (["reload", "swap", "dodge", "jump"].includes(role))
+        this.queued.add(role);
       this.refresh();
     });
     controls.addEventListener("pointermove", (ev) => {
@@ -268,6 +273,7 @@ export class Controls {
     i.swap = this.queued.has("swap");
     if (i.swap) this.scoped = false;
     i.dodge = this.queued.has("dodge");
+    i.jump = this.queued.has("jump");
     this.queued.clear();
     i.revive ||= this.keys.has("KeyE");
     i.seq = ++this.input.seq;

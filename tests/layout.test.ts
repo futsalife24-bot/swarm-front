@@ -120,7 +120,7 @@ it("keeps both default scope controls separate across landscape sizes", () => {
       top: 0,
       bottom: 6,
     });
-    expect(rects).toHaveLength(9);
+    expect(rects).toHaveLength(10);
     expect(overlaps(rects)).toBe(false);
   }
   layout.buttons.scope2 = { ...layout.buttons.scope };
