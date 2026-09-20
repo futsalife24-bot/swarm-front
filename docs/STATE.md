@@ -1,3 +1,9 @@
+# 現在地: CALYX PR55をmain反映・公開、公開UIの保存保護解除待ち（2026-09-20）
+
+最終ded4fdbの独立Chat監査合格・必須0。PR55通常merge、公開ソース `46167df67b79379d3c5401429dd102e24f342ce2`、Worker Version `4da37f8a-8b09-4eb5-8e44-716e9c0fbcff`。作戦7波2に2体、前方打撃/広域花粉弾、図鑑・実GLB・同期を公開。main build/dry-run、配信13SHA/health成功。最新mainとの関連103件・最終15件、実Worker2接続、ローカル実iabのモデル/打撃/花粉/屋上予兆を確認。[詳細/監査URL](CALYX.md)、証拠docs/evidence/calyx/。
+
+停止理由: 公開実画面は「別のタブでゲームを開いています」の保存保護が通常再開操作でも継続。操作可能なiab一覧に他の公開タブはなく、別画面は閉じていない。ユーザーに終了確認を依頼済み。公開UIの確認だけ未完了。
+再開条件: 他のSWARM FRONT画面を閉じた後、公開URLで通常の「このタブで再開」→ゲーム開始から実画面/エラー確認し、記録を更新する。公開は既に完了しており再deployは不要。
 # 現在地: CALYX PR55、最新main統合を追加監査中（2026-09-20）
 
 CALYX `d299164` は独立監査合格・必須0。merge直前にPR54/56がmainへ入り競合したため、新base `6e49e7cc51a0e462e8d207566a8155889acbdc5a` を統合した。対象 `33c38d742261b9cef324e6b6f1210b156c7e0c2f`。競合はSTATE追記両方保持、stagesの高台定義を保持しcalyx型・作戦7波2追加を維持。CALYX戦闘/描画/GLB本体はd299164と同一。統合関連103件、両型、build/dry-run、実Worker2接続、実iab打撃/花粉成功。`CALYX-33c38d7-main-integration.zip` を[同じ監査Chat](https://chatgpt.com/c/6aafb0a5-5e78-83ee-ba6a-153fd9d3545a)へ追加送信済み。main/公開未完了。結果確認後に通常merge→既存Worker公開→配信/UI確認。
