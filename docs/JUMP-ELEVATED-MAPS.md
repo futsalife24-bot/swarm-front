@@ -13,6 +13,8 @@
 
 作業ブランチ `codex/jump-elevated-maps`、base `b322d62`。独立監査前。
 
+実装08bf674、最新main 7b3e4df統合後の監査対象 `7ee5d9d16b0051ef21644e050e615ef5a183b72f`、[draft PR54](https://github.com/futsalife24-bot/swarm-front/pull/54)。ゲームソースは実装時と同一。統合後のクライアントbuild・本番Worker dry-run成功。main未反映・未公開。ZIPのパス/ハッシュと再開条件はSTATE先頭に記録。後続commitは記録文書のみ。
+
 - 型チェック成功。全20ステージ攻略を含む作戦・敵移動・地形の再検証76件成功、最終地形23件成功（20件は重複）。マップ・配置・通信・敵生成などの関連テストも成功。既存射撃1件の失敗は下記で区別。ビルド結果はSTATEへ記録。
 - ジャンプ保持・空中再入力・着地・旧入力・同じ入力での決定性、3地域の階段〜屋上〜落下、全地域の固定割当、自然高台への徒歩到達、中断データ補正を検証。
 - 実ローカルWorker＋WebSocket2接続で、ジャンプ直後のニュートラル入力でもジャンプが消えず、両接続の足元高さが一致し、着地することを確認。`scripts/check-jump-network.mjs`、`dist-validation/jump-maps/network.json`。

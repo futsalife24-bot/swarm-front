@@ -1,3 +1,12 @@
+# 現在地: PR54・ジャンプと高台ルートを保存、独立監査の接続復旧待ち（2026-09-20）
+
+[draft PR54](https://github.com/futsalife24-bot/swarm-front/pull/54)、branch `codex/jump-elevated-maps`。実装08bf674へ最新mainのLINE共有変更7b3e4dfを統合し、対象 `7ee5d9d16b0051ef21644e050e615ef5a183b72f`。競合はSTATEの追記のみで双方保持、ゲームソースは08bf674と同一。統合後build/production dry-run成功。ジャンプ/F・固定追加版・3地域の外階段・自然地形・高層ビル8棟、全20作戦を含む76件＋最終地形23件（重複あり）・実Worker2接続・11マップ描画・3サイズキー/タッチ/着地成功。既存射撃1失敗はbaseで再現。自己検証証拠をPRの `docs/evidence/jump-maps/` に保存。Jevはmissing_keyで未判定/API0。[詳細](JUMP-ELEVATED-MAPS.md)。後続は記録文書のみ。
+
+監査ZIP `dist-validation/jump-maps/jump-maps-audit-7ee5d9d.zip`（21,351,646 bytes、SHA256 `6623C705F02000443904B7CD9ED4F30A98346D1ECEBC7C69756CABF39418CCE8`）。対象ソース/実差分/既存GLB/検証証拠を含み、秘密ファイル等を除外確認。旧08bf674 ZIPは履歴用、再開時は7ee5d9d版を使う。
+
+停止理由: このタスクのiabはkernel assetsのパス不存在（os error 3）で初期化できず、reset後と別タスク成功記録後の再確認でも再現。独立監査未依頼、main未反映・未公開。
+再開条件: iab復旧後、上記ZIPを通常Chatへ送信して独立監査・必要修正・通常merge・既存Worker公開・配信確認。継続承認は有効。別作業の `.gitignore`/`AGENTS.md`/`package.json`/`CLAUDE.md` 差分を保護しており、作業ツリー全体はcleanではない。
+
 # 現在地: ジャンプ・固定高台ルートの自己検証済み、独立監査ブラウザ復旧待ち（2026-09-20）
 
 branch `codex/jump-elevated-maps`、base `b322d62d91b622df5402c583a1f9668238a65aa3`。ジャンプボタン/Fキー、ステージ3・7・8・12・14・17〜20へ固定する追加版、草原の山腹斜面・雪山の窪地・街区8棟高層化。通常/追加の選択UIなし。型、全20作戦を含む再検証76件、最終地形23件（重複あり）、11マップ実描画、3サイズのキー/タッチ/着地、実Worker2接続同期が成功。既存射撃テスト1失敗はbaseでも同一再現。Jev固定needs_context/live missing_key・API0、未判定。詳細・証拠は [JUMP-ELEVATED-MAPS.md](JUMP-ELEVATED-MAPS.md)。実装commit後のビルド・PR・監査ZIPの情報は後続記録へ。別作業の `.gitignore`/`AGENTS.md`/`package.json`/`CLAUDE.md` は保護。
