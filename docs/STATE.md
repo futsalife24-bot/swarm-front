@@ -1,8 +1,8 @@
-# 現在地: CALYX v5の独立監査合格、main反映は承認待ち（2026-09-21）
+# 現在地: CALYX v5をmain反映・公開、公開UIのみ保存保護で未確認（2026-09-21）
 
-対象8a20c31f2b5b26225b43ac0c2072e5245bb21d8b、通常Chatの再監査は合格・必須0。PR58、branch codex/calyx-rounded-redesign。自己検証31件/型/build、GPU549静的+63連続フレーム成功。任意P3の根滑りは継続。
-停止理由: 自動承認レビューがPR58のmergeを「見た目承認と公開UI確認が未取得」として拒否。公開UIの通常再開も別タブ保存保護が残るため拒否。
-再開条件: ユーザーの最新版デザイン採用・main反映/公開、および保存保護画面の通常再開への明示承認を受け、同じ通常経路を再試行する。保護回避はしない。監査結果全文docs/evidence/calyx-v5/audit-8a20c31.txt。監査Chat https://chatgpt.com/c/6aafd926-90a0-83ee-a297-65a7f91d005d 。[詳細](CALYX-REDESIGN.md)。
+ユーザーが最新版デザイン採用とmain反映/公開を明示承認。独立Chat監査8a20c31は合格・必須0、PR58通常merge済み。公開ソースa0f0088f1aa6b938c5573ef32e1536927760dc05、Worker Version c815fa75-5fa9-4c21-9f47-3a1c94e7df2a。merge後main build/dry-run、配信13SHA/health成功。斜め45度コマ自転・兵士中心周回、灰緑/赤茶斑・曲線根、半径13.5m花粉ドーム/霧。関連31件/型、実GPU549静的+63連続、実Worker2接続成功。任意P3の半径補正中の根先滑りは継続。
+停止理由: 公開UIは別タブ保存保護が残り、通常再開を自動承認レビューが前提未確認として拒否。保護回避はしていない。公開実画面の操作確認のみ未完了。
+再開条件: ユーザー側で他のSWARM FRONT画面を閉じ、公開URLの通常「このタブで再開」で保護が消えた後、実画面/エラーを確認する。公開は完了しており再deploy不要。証拠docs/evidence/calyx-v5/。[詳細](CALYX-REDESIGN.md)。
 
 # 現在地: CALYX PR55をmain反映・公開、公開UIの保存保護解除待ち（2026-09-20）
 
