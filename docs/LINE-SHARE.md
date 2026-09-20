@@ -9,3 +9,4 @@
 - Judge入口は正規game側で実行、固定needs_context/live not_run（missing_key、API呼出0）。別worktreeの今回差分を判定した証拠ではない。独立監査の代替にしない。
 - LINE実機・送信済みカードの更新は未検証。公開後は?share=20260920の新規共有を案内。
 - 既存game作業ツリーに別タスクの未コミット変更があるため保護し、share-image-fix worktreeで分離。
+`n独立監査結果: e4bd633に合格・必須指摘なし。添付と対象commitの画像/HTML照合、画像復号/1280×720/SHA一致。buildと原本/dist一致は報告扱い、LINE実機未検証。後続a20e0d7は文書のみ。
