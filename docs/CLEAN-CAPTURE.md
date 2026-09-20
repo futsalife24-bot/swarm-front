@@ -47,3 +47,7 @@
 保存先: [draft PR50](https://github.com/futsalife24-bot/swarm-front/pull/50)、実装 `3f40bf3`、監査対象 `e2b4c36e9e60ee2b8c6d59182e6b0f2920e6823f`。監査ZIPは `dist-validation/clean-capture/clean-capture-audit.zip`、SHA256 `473e3ecb32befd8cf69accea13528ca8f326df84c1161e95c6036a21ca5b3756`。後続commitは保存先/状態記録のみ。
 
 公開再開確認: `npm run server:build:production` 成功（dry-runのみ、アップロードなし）。PR50はMERGEABLEでbase/headの変更なし。iabを再初期化してもos error 3が継続。独立監査未依頼のためmain反映/公開は未実施。
+
+## 今回限りの監査省略指示（2026-09-20）
+
+ユーザーが「今回監査はスキップして進めて」と明示したため、PR50は独立Chat監査を行わず通常merge・既存Worker公開へ進める。監査済み/合格とは記録しない。恒久的な監査ルール、ブランチ保護、CIを変更しない。上記の監査待ち記録は経緯として保持する。
