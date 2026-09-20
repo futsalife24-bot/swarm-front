@@ -1,3 +1,6 @@
+# 現在地: CALYX PR55、最新main統合を追加監査中（2026-09-20）
+
+CALYX `d299164` は独立監査合格・必須0。merge直前にPR54/56がmainへ入り競合したため、新base `6e49e7cc51a0e462e8d207566a8155889acbdc5a` を統合した。対象 `33c38d742261b9cef324e6b6f1210b156c7e0c2f`。競合はSTATE追記両方保持、stagesの高台定義を保持しcalyx型・作戦7波2追加を維持。CALYX戦闘/描画/GLB本体はd299164と同一。統合関連103件、両型、build/dry-run、実Worker2接続、実iab打撃/花粉成功。`CALYX-33c38d7-main-integration.zip` を[同じ監査Chat](https://chatgpt.com/c/6aafb0a5-5e78-83ee-ba6a-153fd9d3545a)へ追加送信済み。main/公開未完了。結果確認後に通常merge→既存Worker公開→配信/UI確認。
 # 現在地: CALYX PR55、ソロ120体の予兆容量を最終再監査中（2026-09-20）
 
 実装監査対象 `d2991640207ee8bee9158add35a81632c0879f2f`、branch `codex/calyx-integration`。前回ffa7913の残必須F2はソロ120体での予兆容量不足のみ。他の必須/任意は解消確認済み。予兆12000枠とバッファ実容量の判定、settings由来の人数テストに修正。関連14件/client型/build成功。`CALYX-d299164-capacity.zip` を[同じ監査Chat](https://chatgpt.com/c/6aafb0a5-5e78-83ee-ba6a-153fd9d3545a)へ送信済み。最終判定待ち、main/公開未完了。
