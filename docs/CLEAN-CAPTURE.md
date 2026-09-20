@@ -38,16 +38,30 @@
 | 844×390 | [画像](evidence/clean-capture/844-normal.png) | [画像](evidence/clean-capture/844-clean.png) | [画像](evidence/clean-capture/844-off.png) | [画像](evidence/clean-capture/844-clean-pause.png) |
 | 667×375 | [画像](evidence/clean-capture/667-normal.png) | [画像](evidence/clean-capture/667-clean.png) | [画像](evidence/clean-capture/667-off.png) | [画像](evidence/clean-capture/667-clean-pause.png) |
 
-## 限界・残作業
+## 検証限界と監査の経緯
 
 実ChromeはWindows上のヘッドレスChrome + SwiftShader。実スマホ・GPU性能・長時間撮影・全ステージ・協力の実通信・訓練入口は今回未検証。比較画像はST1開始直後の別々の実戦であり、同一フレームのピクセル一致やPV v7の再撮影ではない。曳光線の濃度/offと爆発維持は単体テストで検証し、画像から射撃中の品質まで合格とはしていない。通常時のレイアウト/入力/保存コードは変更せず、通常DOM表示の回帰をChromeでも確認した。
 
-独立監査は未依頼。指定経路のiabが `failed to write kernel assets: 指定されたパスが見つかりません。 (os error 3)` で初期化失敗し、js kernel reset後も同じエラー。別ブラウザや自己レビューで代替しない。復旧後に対象SHAの監査ZIPを通常Chatへ添付し、独立監査→必要修正→main反映→既存Worker公開・配信確認を再開する。現時点でmain未反映・未公開。
+公開前の経緯: 独立監査は未依頼。指定経路のiabが `failed to write kernel assets: 指定されたパスが見つかりません。 (os error 3)` で初期化失敗し、js kernel reset後も同じエラー。別ブラウザや自己レビューで代替しない。復旧後に対象SHAの監査ZIPを通常Chatへ添付し、独立監査→必要修正→main反映→既存Worker公開・配信確認を再開する。その時点ではmain未反映・未公開。
 
-保存先: [draft PR50](https://github.com/futsalife24-bot/swarm-front/pull/50)、実装 `3f40bf3`、監査対象 `e2b4c36e9e60ee2b8c6d59182e6b0f2920e6823f`。監査ZIPは `dist-validation/clean-capture/clean-capture-audit.zip`、SHA256 `473e3ecb32befd8cf69accea13528ca8f326df84c1161e95c6036a21ca5b3756`。後続commitは保存先/状態記録のみ。
+保存先: [PR50](https://github.com/futsalife24-bot/swarm-front/pull/50)、実装 `3f40bf3`、監査対象 `e2b4c36e9e60ee2b8c6d59182e6b0f2920e6823f`。監査ZIPは `dist-validation/clean-capture/clean-capture-audit.zip`、SHA256 `473e3ecb32befd8cf69accea13528ca8f326df84c1161e95c6036a21ca5b3756`。後続commitは保存先/状態記録のみ。
 
 公開再開確認: `npm run server:build:production` 成功（dry-runのみ、アップロードなし）。PR50はMERGEABLEでbase/headの変更なし。iabを再初期化してもos error 3が継続。独立監査未依頼のためmain反映/公開は未実施。
 
 ## 今回限りの監査省略指示（2026-09-20）
 
 ユーザーが「今回監査はスキップして進めて」と明示したため、PR50は独立Chat監査を行わず通常merge・既存Worker公開へ進める。監査済み/合格とは記録しない。恒久的な監査ルール、ブランチ保護、CIを変更しない。上記の監査待ち記録は経緯として保持する。
+
+## 公開完了（2026-09-20）
+
+ユーザーの今回限りの監査省略指示に従い、[PR50](https://github.com/futsalife24-bot/swarm-front/pull/50) を通常merge。独立監査は未実施であり、合格扱いしていない。
+
+- 公開ソース: `cba40a737fe9758915f5d37f1d454f2bdb6fdd9d`。
+- Worker Version: `d8675285-3a47-4b71-b970-00aedabc2585`。
+- URL: https://swarm-front.melosalife-24.workers.dev/?clean=1
+- merge後mainのbuild/production dry-run成功。既存swarm-front Workerのみ更新。契約/公開先/権限/サーバーの保存仕様を変更していない。
+- HTML・Service Worker・JS・CSSの14配信ファイルがビルドとSHA256一致。`/api/health` はok、websocket/durable-object正常応答。[配信記録](evidence/clean-capture/published/delivery.json)。
+- 公開実Chrome 667×375、タッチエミュレーションの通常/cleanで実戦画面・ポーズ操作・pageerror0を確認。[結果](evidence/clean-capture/published/results.json)、[通常画像](evidence/clean-capture/published/667-normal.png)、[撮影画像](evidence/clean-capture/published/667-clean.png)、[ポーズ](evidence/clean-capture/published/667-clean-pause.png)。初回cleanは戦場読込で120秒タイムアウト、通信を記録したcleanのみの再試行では成功。初回失敗を隠していない。公開off/844幅は再実行せず、同一配信コードのローカル6条件を根拠とする。
+- Cloudflare preflight: 既存Wranglerアカウントを照合し、公式GraphQLで当日Workers 11 requests / 0 errors / 17 subrequestsを確認。契約一覧APIは403で当日契約を再確認できず、直近のFree確認記録を参照した。Workers account-settingsは取得成功（standard）。この値単独をFree契約の証明とは扱わない。契約情報の当日再確認、DO使用量の当日再測定は未完了の確認限界として残す。新規契約・課金変更は行っていない。
+
+公開後のcommitは本節・STATE・公開証拠の記録のみ。公開済みコードは上記ソースSHAで固定。実スマホ・長時間録画・協力実通信・射撃中のPV品質は引き続き未確認。
