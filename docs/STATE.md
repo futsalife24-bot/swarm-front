@@ -1,3 +1,7 @@
+# 現在地: CALYX PR55を独立Chat監査中（2026-09-20）
+
+PR55、branch `codex/calyx-integration`、実装監査対象`50fcec24697ebc5b2a32d435e1425d0fac3d226e`。関連58件/型/build/本番dry-run・実iab・実Worker2接続成功。[監査Chat](https://chatgpt.com/c/6aafb0a5-5e78-83ee-ba6a-153fd9d3545a)へ原本/GLB/ソース/画像/通信証拠ZIPを添付・送信済み。待機中の自己点検で、高い足場上の雲描画と図鑑Slamの誤った弾エフェクトを修正し、追加回帰テスト成功。修正を同じ監査Chatへ提出する。main反映/公開は未完了。詳細[CALYX](CALYX.md)。
+
 # 現在地: CALYXゲーム統合を検証・監査準備中（2026-09-20）
 
 branch `codex/calyx-integration`、worktree `../calyx-integration`、base `7b3e4df`。game側のジャンプ/設定作業を保護して分離。単体候補v2 GLBを同一バイトで採用し、前方打撃と放物線の花粉弾・広範囲継続ダメージをsharedに実装。作戦7第2波2体。関連51件/型、実iab表示、ローカル実Worker2接続の同一状態・ダメージ確認済み。全体既知3失敗は[詳細](CALYX.md)。ゲーム統合監査/main反映/公開は未完了。

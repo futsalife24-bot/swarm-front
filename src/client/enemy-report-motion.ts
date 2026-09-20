@@ -124,6 +124,27 @@ export class ReportEffects {
     const pose = reportPose(kind, mode, time);
     const age = pose.cycle - pose.impact;
     this.material.opacity = 0.8;
+    this.material.color.setHex(kind === "calyx" ? 0xcbb957 : 0x7aeaff);
+    if (kind === "calyx") {
+      if (age < 0) return;
+      if (time % 6.6 < 3) {
+        if (age > 0.3) return;
+        this.ring.visible = true;
+        this.ring.scale.setScalar(0.15 + age * 4);
+        this.ring.position.set(0, 0.06, -0.5 - age * 3);
+      } else {
+        if (age > 1.2) return;
+        const bolt = this.bolts[0];
+        bolt.visible = true;
+        bolt.scale.setScalar(2);
+        bolt.position.set(
+          0,
+          1.21 + 2 * age - 2.5 * age * age,
+          -0.105 - age * 3,
+        );
+      }
+      return;
+    }
     if (worm) {
       const phase = time % 3.2;
       const e = reportWorm(mode, time);

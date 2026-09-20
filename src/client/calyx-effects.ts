@@ -2,7 +2,7 @@ import * as T from "three";
 import type { World } from "../shared/game";
 import { CALYX, pollenContains, pollenRadius } from "../shared/calyx";
 import { mapFor } from "../shared/stages";
-import { groundHeight } from "../shared/terrain";
+import { groundHeight, supportHeight } from "../shared/terrain";
 
 /** Bounded instances; wall clipping is cached per stationary cloud, not raycast every frame. */
 export class CalyxEffects {
@@ -81,7 +81,7 @@ export class CalyxEffects {
             const p = {
               x: c.x + x,
               z: c.z + z,
-              y: groundHeight(c.x + x, c.z + z, blocks),
+              y: supportHeight(c.x + x, c.z + z, blocks, c.y),
             };
             if (pollenContains(c, p, c.born + 1, blocks))
               cells.push({ ...p, distance: Math.hypot(x, z) });

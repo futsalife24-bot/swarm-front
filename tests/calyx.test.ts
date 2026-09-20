@@ -20,6 +20,33 @@ import { prepareState } from "../src/shared/state-wire";
 import { STAGES } from "../src/shared/stages";
 import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
+import { CalyxEffects } from "../src/client/calyx-effects";
+import { ReportEffects } from "../src/client/enemy-report-motion";
+import { mapFor } from "../src/shared/stages";
+import * as T from "three";
+
+it("shows pollen on an elevated support and does not show a projectile for a report slam", () => {
+  const { w } = setup(),
+    roof = mapFor(w).blocks[0];
+  w.time = 1;
+  w.pollen = [
+    { id: 1, x: roof.x, y: roof.h + 0.03, z: roof.z, born: 0, damage: 4 },
+  ];
+  const effects = new CalyxEffects();
+  effects.update(w);
+  const mist = effects.root.children.find(
+    (o) => o instanceof T.Points,
+  ) as T.Points;
+  expect(mist.geometry.drawRange.count).toBeGreaterThan(0);
+  expect(mist.geometry.attributes.position.getY(0)).toBeGreaterThan(roof.h);
+  const report = new ReportEffects();
+  report.update("calyx", false, "attack", 1.1);
+  expect(report.root.children[0].visible).toBe(true);
+  expect(report.root.children.slice(1).every((o) => !o.visible)).toBe(true);
+  report.update("calyx", false, "attack", 4.7);
+  expect(report.root.children[1].visible).toBe(true);
+  report.dispose();
+});
 
 function setup() {
   const w = createWorld("calyx", 1, 1);
