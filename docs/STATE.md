@@ -1,6 +1,8 @@
-# 現在地: CALYX旧モデルキャッシュ修正を監査中（2026-09-21）
+# 現在地: CALYX旧モデルキャッシュ修正をmain反映・公開（2026-09-21）
 
-ユーザーのエネミーレポート未更新報告を調査。public/sw.jsのcache-firstと同一GLB URL更新の組合せで旧モデルが残る。CALYXだけURLへrev=64719fde1175e427を追加。PR60、対象c9be3452f5c47ffeb88567494b8406e0e2d568c8、base b0ac242。型/関連7件/build成功、実sw.jsのVM旧キャッシュ再現と実レポートUIの新版取得を確認。通常監査Chat https://chatgpt.com/c/6aafd926-90a0-83ee-a297-65a7f91d005d へCALYX-c9be345-cache-fix.zip送信済み。main/公開未反映。既存公開UIは保存保護が残り、自動承認レビューが再開クリックを拒否。保護回避なし。
+PR60通常merge、監査対象c9be345は合格・必須0。公開ソースe16e6d3930d1d1ef34dea4da0c9df3919a35c063、Worker Version d775cae9-8cd3-42e1-a963-7dfab2bbdce0。CALYX URLにモデル版を付け旧キャッシュと分離。client型/関連7件、main build/dry-run、配信13SHA/health成功。版付きGLB公開取得も64719fde一致。実レポート本体のローカルUIで新版URL・モデル・説明を確認。ゲーム再起動で新JSを読み込む必要がある。
+停止理由: 公開UIは保存保護が残り、ユーザーの他画面終了申告後も自動承認レビューが通常再開を拒否。公開画面操作のみ未確認。
+再開条件: ユーザーの公開画面で保存保護を通常解除後、レポートの表示を確認する。再deployは不要。証拠docs/evidence/calyx-v5/cache-release-verification.json、report-updated.png。[詳細](CALYX-REDESIGN.md)。
 
 # 現在地: CALYX v5をmain反映・公開、公開UIのみ保存保護で未確認（2026-09-21）
 
