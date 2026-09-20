@@ -1,3 +1,6 @@
+# 現在地: PR54・ジャンプと固定高台ルートをmain反映・公開確認済み（2026-09-20）
+
+PR54通常merge、公開ソース `5ded5fa06ff5e1f7da800c3019544445703ce474`、Worker Version `e4d8113e-7734-444e-b667-48321906006a`。ジャンプ/F、洞窟以外の固定追加版、草原斜面・雪山窪地・街区高層化を公開。監査指摘の中断復帰/蜘蛛/勝利後着地/分節旧経路を修正し、対象1d1c06aの独立Chat合格・必須0。型/関連74件・分節45件（重複あり）/中断4件、実Worker2接続、先行全20作戦・11マップ・3画面サイズ成功。main build/dry-run、公開19SHA/health、実iabのF・ボタン上昇/着地・エラーログ0確認。詳細・監査URL・残る確認範囲は [JUMP-ELEVATED-MAPS.md](JUMP-ELEVATED-MAPS.md)。別作業 `.gitignore`/`AGENTS.md`/`package.json`/`CLAUDE.md` を保護しているためgame全体はcleanではない。mainは既存share-image-fix worktreeで同期、後続は公開記録のみ。
 # 現在地: PR54・分節敵の旧経路復帰を修正し再監査中（2026-09-20）
 
 対象 `1d1c06ac4faa994fb560b65bf5271fa403a12ec0`。活動中の分節敵だけ残ったF1/P2を、安全な地上への位置・履歴再構築で修正。旧経路停止の修正前再現あり。作戦18/20の中断→休眠→実再活動・切断HP保持と全地域の通常分節移動を含む45/45、型/build/production dry-run成功。同じ[監査Chat](https://chatgpt.com/c/6aafaa2f-a6f0-83e8-9efe-9e8d15baba4e)へZIP送信済み、判定待ち。`dist-validation/jump-maps/jump-maps-worm-reaudit.zip` SHA256 `15A53E2481D83FF74CC0BE114F3D27DEAFBE47FC745211B6DD29EA1042DEAD4E`。main未反映・未公開。別作業4ファイル保護。

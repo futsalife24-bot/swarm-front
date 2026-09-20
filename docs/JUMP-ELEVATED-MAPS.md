@@ -1,3 +1,10 @@
+# 公開済み（2026-09-20）
+
+[PR54](https://github.com/futsalife24-bot/swarm-front/pull/54)を通常mergeし、ソース `5ded5fa06ff5e1f7da800c3019544445703ce474` を既存Workerへ公開。Version `e4d8113e-7734-444e-b667-48321906006a`。[公開URL](https://swarm-front.melosalife-24.workers.dev/)。mainからのbuild/dry-run成功。公開HTML・全JS/CSS・6マップGLBの19点SHA一致、health成功。公開iabの訓練画面でFキー/ジャンプボタンの上昇と着地を目視し、エラーログ0。既存の中断保存は再開/破棄せず保持。
+
+独立監査は `1d1c06ac4faa994fb560b65bf5271fa403a12ec0` 合格・必須0。[監査Chat](https://chatgpt.com/c/6aafaa2f-a6f0-83e8-9efe-9e8d15baba4e)。旧保存の作戦18/20で再配置後10秒の頭部移動44.66m、独立8条件でHP/切断保持・生存節通行可能・反復救出なし。全20作戦20,000tickで修正前後の通常敵/弾状態一致・不要な再配置0、単一不正分節54条件も成功（以上は監査側の実コード直接実行。公式テスト/build/実Workerの独立再実行ではない）。後続は記録のみ、merge時のsrc/server差分なし。
+
+任意P3の旧カスタム配置フォールバック、実スマートフォン性能・長時間・旧クライアント混在は残る確認範囲。自己検証と過去の指摘・修正履歴は以下。公開証拠は `docs/evidence/jump-maps/published-assets.json`、実画面は公開作業の会話内に記録。
 # ジャンプとステージ固定の高台ルート（2026-09-20）
 
 ## 仕様
