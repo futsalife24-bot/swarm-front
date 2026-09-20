@@ -1,6 +1,6 @@
 # 現在地: PR51公開済み、公開ビルドの撮影設定CSSを追加修正中（2026-09-20）
 
-PR51は再監査6200491合格・必須0からmain389fea1へ通常merge、Worker Version3ab09625-3ee2-47df-ac13-e9e16366d54cで公開。14配信SHA一致・health成功。ただし公開Chrome画像で撮影設定の縦折れを発見。既存ラベルCSSと同じ詳細度で公開時の読み込み順に負ける問題を、撮影パネルの3セレクターだけで修正中。branch codex/drone-capture-layout、base389fea1。production previewの回帰確認で旧ビルドの失敗を再現。カメラruntime/通常レイアウトは変更しない。追加検証・監査・再公開は未完了。詳細 [DRONE-CAPTURE.md](DRONE-CAPTURE.md)。
+PR51は再監査6200491合格・必須0からmain389fea1へ通常merge、Worker Version3ab09625-3ee2-47df-ac13-e9e16366d54cで公開。14配信SHA一致・health成功。ただし公開Chrome画像で撮影設定の縦折れを発見。既存ラベルCSSと同じ詳細度で公開時の読み込み順に負ける問題を、撮影パネルの3セレクターだけで修正中。branch codex/drone-capture-layout、base389fea1。production previewの回帰確認で旧ビルドの失敗を再現。カメラruntime/通常レイアウトは変更しない。修正555e18cからproduction build/preview実Chrome2サイズで4ラベルgrid/1行・スクロールなし・エラー0を確認済み。監査・再公開は未完了。詳細 [DRONE-CAPTURE.md](DRONE-CAPTURE.md)。
 
 # 現在地: PR51ドローン撮影、監査F1を修正・再監査準備（2026-09-20）
 

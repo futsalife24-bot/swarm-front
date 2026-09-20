@@ -57,3 +57,5 @@ da1c6e1の判定は要修正。F1(P2): 真上計算用の水平camera.upが共�
 再監査6200491は合格・必須0（N1/N2も解消）。PR51をmainへ通常mergeし、公開ソース389fea190ef0bf105a598417dc6b1e4612077730、Worker Version3ab09625-3ee2-47df-ac13-e9e16366d54cで公開。14配信SHA一致・health成功。公開Chromeの通常/真上撮影/ポーズ再開は動作したが、画像の目視で撮影パネルのラベルが縦折れしスクロールが発生していると発見。画面全体合格とはしない。
 
 原因は`.playtest .menu-dialog label`と撮影行指定の詳細度が同じで、公開バンドルでは既存inline-flexが後勝ちすること。撮影パネル内の3セレクターだけ詳細度を上げ、既存テーマを変更しない。`scripts/check-drone-build.mjs`で実production buildをpreviewし、旧ビルドがgrid期待に対しflexになる失敗を再現。修正後の2サイズ検証・再監査・再公開は進行中。初回公開の不具合画像と配信証拠は [first-release](evidence/drone-capture/first-release/)。
+
+CSS修正555e18cの保存済みHEADからbuild成功、`node scripts/check-drone-build.mjs` 成功。844×390 / 667×375とも4行がgrid、見出し高22.75px、本文高/scrollHeightが268pxで一致、再開・pageerror0。画像2枚と結果は [build-layout](evidence/drone-capture/build-layout/)。再監査・再公開は未完了。

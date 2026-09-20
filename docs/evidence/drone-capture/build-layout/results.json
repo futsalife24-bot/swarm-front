@@ -1,0 +1,65 @@
+{
+  "results": [
+    {
+      "width": 844,
+      "height": 390,
+      "rows": [
+        {
+          "text": "高さ",
+          "display": "grid",
+          "textHeight": 22.75
+        },
+        {
+          "text": "水平距離",
+          "display": "grid",
+          "textHeight": 22.75
+        },
+        {
+          "text": "向き",
+          "display": "grid",
+          "textHeight": 22.75
+        },
+        {
+          "text": "自動周回",
+          "display": "grid",
+          "textHeight": 22.75
+        }
+      ],
+      "panel": {
+        "height": 268,
+        "scroll": 268
+      }
+    },
+    {
+      "width": 667,
+      "height": 375,
+      "rows": [
+        {
+          "text": "高さ",
+          "display": "grid",
+          "textHeight": 22.75
+        },
+        {
+          "text": "水平距離",
+          "display": "grid",
+          "textHeight": 22.75
+        },
+        {
+          "text": "向き",
+          "display": "grid",
+          "textHeight": 22.75
+        },
+        {
+          "text": "自動周回",
+          "display": "grid",
+          "textHeight": 22.75
+        }
+      ],
+      "panel": {
+        "height": 268,
+        "scroll": 268
+      }
+    }
+  ],
+  "errors": []
+}
