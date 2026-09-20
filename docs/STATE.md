@@ -1,3 +1,6 @@
+# 現在地: PR54の独立監査を送信済み、公開準備中（2026-09-20）
+
+iab復旧。対象7ee5d9dの監査ZIPを通常Chatへ添付・送信し、実差分監査の回答待ち。[監査Chat](https://chatgpt.com/c/6aafaa2f-a6f0-83e8-9efe-9e8d15baba4e)。PR54 head0bcf10fは記録文書のみ追加。ユーザーの「公開して」により公開作業を再開。最新PRはMERGEABLE・チェックなし。合格確認後に通常merge・既存Worker公開・配信確認する。別作業の4ファイルは保護。
 # 現在地: PR54・ジャンプと高台ルートを保存、独立監査の接続復旧待ち（2026-09-20）
 
 [draft PR54](https://github.com/futsalife24-bot/swarm-front/pull/54)、branch `codex/jump-elevated-maps`。実装08bf674へ最新mainのLINE共有変更7b3e4dfを統合し、対象 `7ee5d9d16b0051ef21644e050e615ef5a183b72f`。競合はSTATEの追記のみで双方保持、ゲームソースは08bf674と同一。統合後build/production dry-run成功。ジャンプ/F・固定追加版・3地域の外階段・自然地形・高層ビル8棟、全20作戦を含む76件＋最終地形23件（重複あり）・実Worker2接続・11マップ描画・3サイズキー/タッチ/着地成功。既存射撃1失敗はbaseで再現。自己検証証拠をPRの `docs/evidence/jump-maps/` に保存。Jevはmissing_keyで未判定/API0。[詳細](JUMP-ELEVATED-MAPS.md)。後続は記録文書のみ。

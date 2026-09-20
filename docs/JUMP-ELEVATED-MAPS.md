@@ -29,3 +29,9 @@
 独立監査・main反映・公開は未完了。アプリ内ブラウザiabは `failed to write kernel assets / os error 3` で初期化できず、reset後も再現。別ブラウザへの無断切替や監査省略はしない。復旧後に対象SHAと監査ZIPを通常Chatへ送信し、指摘修正・通常merge・既存Worker公開・配信確認を進める。
 
 実スマートフォンの性能、長時間プレイ、旧公開クライアントとの混在は未検証。既存ローカルの `.gitignore`、`AGENTS.md`、`package.json`、`CLAUDE.md` の別作業差分を保護する。
+
+## 公開再開（2026-09-20）
+
+iab復旧後、対象7ee5d9dのZIPを通常Chatへ添付し独立監査を依頼。[監査Chat](https://chatgpt.com/c/6aafaa2f-a6f0-83e8-9efe-9e8d15baba4e)。上記の未依頼・ブラウザ障害は過去状態。
+
+Cloudflare既存アカウントを実ダッシュボードで確認: Workers Free / Current plan。直近24h Workers invocations 841、Worker errors 0。9月20日DO Usage: requests768、duration4.46GB-sec、SQL storage475.14kB、read6.35k、written421、KV0。既存project-hub_Analyticsのerrors52は公開前から表示されており、本変更との関係なし（原因調査は今回対象外）。契約・公開先変更なし。
