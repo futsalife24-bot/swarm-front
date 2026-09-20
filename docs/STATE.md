@@ -1,3 +1,7 @@
+# 現在地: ドローン撮影をmain反映・公開・確認済み（2026-09-20）
+
+PR51/PR52を通常merge。兵士操作を維持し、`?drone=1&clean=1`で上空追従・自動周回、ポーズから高さ/角度/距離/速度を調整。独立Chat再監査はカメラ6200491・CSS5441fedとも合格/必須0。公開ソース5b5da2ee22c330e5b4422ccc342fabf0f86cc687、Worker Version70338c28-cadf-48e3-83f8-9407d95bc289。最新mainのbuild/dry-run、配信14SHA一致、health成功。カメラ型/関連44件成功、実Chrome844×390/667×375のローカル比較・production preview成功。公開667×375でも通常/真上/自動周回、設定の1行表示・スクロールなし、周回角18→29度、エラー0を確認。初回公開CSS競合はPR52で解消。全件テストはドローン変更で再実行せず（先行clean時の既存失敗3件を記録済み）、実スマホ等は未検証。敵出現ルールは変えず、四方配置は静止QAのみ。詳細・証拠は [DRONE-CAPTURE.md](DRONE-CAPTURE.md)。後続は公開記録のみ。
+
 # 現在地: PR51公開済み、公開ビルドの撮影設定CSSを追加修正中（2026-09-20）
 
 PR51は再監査6200491合格・必須0からmain389fea1へ通常merge、Worker Version3ab09625-3ee2-47df-ac13-e9e16366d54cで公開。14配信SHA一致・health成功。ただし公開Chrome画像で撮影設定の縦折れを発見。既存ラベルCSSと同じ詳細度で公開時の読み込み順に負ける問題を、撮影パネルの3セレクターだけで修正中。branch codex/drone-capture-layout、base389fea1。production previewの回帰確認で旧ビルドの失敗を再現。カメラruntime/通常レイアウトは変更しない。修正555e18cからproduction build/preview実Chrome2サイズで4ラベルgrid/1行・スクロールなし・エラー0を確認済み。監査・再公開は未完了。詳細 [DRONE-CAPTURE.md](DRONE-CAPTURE.md)。

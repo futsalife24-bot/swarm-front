@@ -1,0 +1,78 @@
+{
+  "source": "5b5da2ee22c330e5b4422ccc342fabf0f86cc687",
+  "version": "70338c28-cadf-48e3-83f8-9407d95bc289",
+  "results": [
+    {
+      "mode": "normal",
+      "width": 667,
+      "height": 375,
+      "hud": "visible",
+      "layout": null,
+      "startYaw": null,
+      "endYaw": null,
+      "errors": []
+    },
+    {
+      "mode": "drone",
+      "width": 667,
+      "height": 375,
+      "hud": "hidden",
+      "layout": {
+        "height": 268,
+        "scroll": 268,
+        "labels": [
+          {
+            "display": "grid",
+            "textHeight": 22.75
+          },
+          {
+            "display": "grid",
+            "textHeight": 22.75
+          },
+          {
+            "display": "grid",
+            "textHeight": 22.75
+          },
+          {
+            "display": "grid",
+            "textHeight": 22.75
+          }
+        ]
+      },
+      "startYaw": null,
+      "endYaw": null,
+      "errors": []
+    },
+    {
+      "mode": "orbit",
+      "width": 667,
+      "height": 375,
+      "hud": "hidden",
+      "layout": {
+        "height": 268,
+        "scroll": 268,
+        "labels": [
+          {
+            "display": "grid",
+            "textHeight": 22.75
+          },
+          {
+            "display": "grid",
+            "textHeight": 22.75
+          },
+          {
+            "display": "grid",
+            "textHeight": 22.75
+          },
+          {
+            "display": "grid",
+            "textHeight": 22.75
+          }
+        ]
+      },
+      "startYaw": 18,
+      "endYaw": 29,
+      "errors": []
+    }
+  ]
+}

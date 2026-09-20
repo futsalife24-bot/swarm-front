@@ -1,5 +1,7 @@
 # ドローン撮影カメラ
 
+**公開済み（2026-09-20）**。兵士を操作し、カメラが追従して自動周回する。最終公開・検証結果は末尾。
+
 兵士を中心に上空から追従・周回する、URL限定の撮影カメラ。敵出現、戦闘、通信、保存、スコアは変更しない。自由に別地点を飛ぶカメラではなく、兵士を注視する。
 
 ## 使い方
@@ -34,7 +36,7 @@
 
 実スマホ、全マップ、協力の実通信、長時間動画、GPU性能は未検証。洞窟や建物の屋根が上空視点を遮る場合がある（世界の描画は消さない）。敵の出現方向は既存ルールのままなので、四方から必ず同時に押し寄せる演出には別の撮影シナリオが必要。兵士の無敵化・自動戦闘・動画録画/出力は含まない。
 
-## 監査・公開の現在地
+## 監査・公開の経過（以下は当時の記録）
 
 [PR51](https://github.com/futsalife24-bot/swarm-front/pull/51)、実装abc9b2a、最新main記録統合後の監査対象 `da1c6e157fc5f39385b14e50e63e04343e4bcb84`。当該HEADから `npm run build` / `npm run server:build:production` 成功（既存の大チャンク警告）。
 
@@ -59,3 +61,14 @@ da1c6e1の判定は要修正。F1(P2): 真上計算用の水平camera.upが共�
 原因は`.playtest .menu-dialog label`と撮影行指定の詳細度が同じで、公開バンドルでは既存inline-flexが後勝ちすること。撮影パネル内の3セレクターだけ詳細度を上げ、既存テーマを変更しない。`scripts/check-drone-build.mjs`で実production buildをpreviewし、旧ビルドがgrid期待に対しflexになる失敗を再現。修正後の2サイズ検証・再監査・再公開は進行中。初回公開の不具合画像と配信証拠は [first-release](evidence/drone-capture/first-release/)。
 
 CSS修正555e18cの保存済みHEADからbuild成功、`node scripts/check-drone-build.mjs` 成功。844×390 / 667×375とも4行がgrid、見出し高22.75px、本文高/scrollHeightが268pxで一致、再開・pageerror0。画像2枚と結果は [build-layout](evidence/drone-capture/build-layout/)。再監査・再公開は未完了。
+
+
+## 最終公開結果（2026-09-20）
+
+[PR51](https://github.com/futsalife24-bot/swarm-front/pull/51) と [CSS修正PR52](https://github.com/futsalife24-bot/swarm-front/pull/52) はmainへ反映済み。[同じ通常Chat](https://chatgpt.com/c/6aaf4a36-b818-83ee-b355-b6f30b4ba8a5) の独立再監査で、カメラ修正6200491とCSS修正5441fed6f5c4f3a2a274407bf9f26a09eb0b8e61はいずれも合格・必須0。CSS監査は既存CSSと再構成したポーズDOMで2サイズ×3読み込み順×新旧×パネル有無の24条件を確認し、旧版の崩れと修正版の解消を確認。監査側でゲーム全体のbuild/実戦/実スマホの再実行はしていない。
+
+最終公開ソース `5b5da2ee22c330e5b4422ccc342fabf0f86cc687`、既存Worker Version `70338c28-cadf-48e3-83f8-9407d95bc289`。同ソースのbuildとproduction dry-run成功後に公開。14ファイル（HTML/SW/JS/CSS）の配信SHAがローカル成果物と一致し、healthはok / websocket / durable-object。後続commitはこの記録と証拠のみ。
+
+公開URLの実Chrome667×375で通常・真上・自動周回の3モードを通常ソロから操作し、全てpageerror 0。通常はHUD表示・撮影パネルなし。撮影2モードはHUD非表示、4設定ラベルがgridかつ1行、本文高とscrollHeightが268pxで一致。自動周回はポーズ前後で角度18→29度に進むことと再開を確認。公開画像7枚、結果JSON、配信照合は [最終公開証拠](evidence/drone-capture/published/)。兵士の周囲に群れがいる構図の比較は前述の静止QA証拠であり、この公開起動直後の画像だけでは四方の群れを実証しない。
+
+最終カメラ実装でtypecheckと関連44件/5ファイル成功。その後はCSS限定修正で、production preview実Chrome844×390 / 667×375と最新mainのbuild/dry-runを実施した。全件npm testはドローン変更では再実行せず、先行clean作業の既存失敗3件は未解消。実スマホ・協力実通信・全マップ・長時間録画・実戦の自動初遭遇トリガーは未検証。通常プレイの敵出現・戦闘・保存・スコアの処理は変更しない。

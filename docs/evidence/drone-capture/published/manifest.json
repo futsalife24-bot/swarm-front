@@ -1,0 +1,69 @@
+{
+  "source": "5b5da2ee22c330e5b4422ccc342fabf0f86cc687",
+  "version": "70338c28-cadf-48e3-83f8-9407d95bc289",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "verifiedAt": "2026-09-20T03:41:11.831Z",
+  "files": [
+    {
+      "name": "index.html",
+      "sha256": "a6c7a2462e93d1cf364fdcafc8453662dfbbb2ba56f4d55de6d552560888e17a"
+    },
+    {
+      "name": "sw.js",
+      "sha256": "7f0600edebc9648cbc15737e2fda5254496fc455ffc87161cd60b84f2b8ef35d"
+    },
+    {
+      "name": "assets/index-BDzvDPoQ.js",
+      "sha256": "25d84ba014b267c670b12f9dd5cb51834d378c5db02c107a01267cabe66b8932"
+    },
+    {
+      "name": "assets/index-CPbai1ZT.css",
+      "sha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9"
+    },
+    {
+      "name": "assets/main-BIiNGB2n.js",
+      "sha256": "ad1b996c0b379df025ac33be648f973f18769bb7193c3dff803ad035897a837a"
+    },
+    {
+      "name": "assets/main-C1Ldsy-y.css",
+      "sha256": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1"
+    },
+    {
+      "name": "assets/playtest-app-C5jSCpYM.js",
+      "sha256": "8d9d97dc371a88fdf6dbaa45b4c8c6246799db105739a04d1292122f3fa24dd0"
+    },
+    {
+      "name": "assets/playtest-app-vS6yno4Y.css",
+      "sha256": "7b097133cb0341a68690761c5eeb927ffbcfe531b07e936d3331d52d826f88fd"
+    },
+    {
+      "name": "assets/training-app-Biw7AFZ2.js",
+      "sha256": "48d242ab91278b39ce1a0949aa68f1c0a478c53fa3397bea71c683998d06ff71"
+    },
+    {
+      "name": "assets/weapon-help-Clh1V6L1.css",
+      "sha256": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607"
+    },
+    {
+      "name": "assets/weapon-help-CUGqY61F.js",
+      "sha256": "29373ffba224df7e0dd54f30822c0b35368c6d521ccdb92f6a2ae3f6eb7aa958"
+    },
+    {
+      "name": "assets/weapon-sharing-qVMO74Hi.js",
+      "sha256": "64f6b9ebaf446f3597d0ae1ccc34464f17e19e2bcde3907b4ace3999afd89ca2"
+    },
+    {
+      "name": "assets/zoom-guard-BcwCObqS.css",
+      "sha256": "bd290a6d2dcfacb180aa11dd996248519a633c1d91d998f54c3c0b17b104b04e"
+    },
+    {
+      "name": "assets/zoom-guard-DY4IgaZn.js",
+      "sha256": "2f6929ad604378bb50053f8320c7624d005f81f6db120b0456d784de5681618e"
+    }
+  ],
+  "health": {
+    "ok": true,
+    "transport": "websocket",
+    "authority": "durable-object"
+  }
+}
