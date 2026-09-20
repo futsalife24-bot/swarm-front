@@ -125,3 +125,92 @@ it("coop prediction preserves authoritative height near landing and across roof 
   expect(q.x).toBeCloseTo(1.9);
   expect(q.y).toBe(3.6);
 });
+
+it.each([1, 3, 8, 12])(
+  "rescues checkpoint enemies inside newly added structures on stage %i",
+  (stage) => {
+    const w = createWorld("old-building-checkpoint", 17, stage),
+      progress = freshProgress("normal");
+    initSolo(w, stage, "normal", false, blankLevels());
+    const p = addPlayer(w, "solo");
+    w.phase = "battle";
+    w.wave = 1;
+    w.nextSpawn = 1e9;
+    const blocks = mapFor(w).blocks;
+    const b = blocks.find(
+      (b) => b.x === (stage === 1 ? 83 : 82) && b.z === (stage === 1 ? -40 : 0),
+    )!;
+    expect(b).toBeDefined();
+    spawn(w, "ant", 0, 0);
+    const e = w.enemies[0];
+    Object.assign(e, { x: b.x, z: b.z, y: 0, cool: 100 });
+    p.x = b.x - 24;
+    p.z = b.z;
+    p.y = 0;
+    const values = new Map<string, string>();
+    const storage = {
+      getItem: (k: string) => values.get(k) ?? null,
+      setItem: (k: string, v: string) => {
+        values.set(k, v);
+      },
+      removeItem: (k: string) => {
+        values.delete(k);
+      },
+    };
+    expect(writeBattleCheckpoint(w, progress, storage)).toBe(true);
+    const copy = readBattleCheckpoint(progress, storage)!.world;
+    step(copy, {});
+    const after = copy.enemies.find((a) => a.id === e.id)!;
+    expect(blocked(after.x, after.z, ENEMIES.ant.radius, after.y, blocks)).toBe(
+      false,
+    );
+    for (let n = 0; n < 200; n++) step(copy, {});
+    expect(Math.hypot(after.x - e.x, after.z - e.z)).toBeGreaterThan(1);
+    expect(after.hp).toBeGreaterThan(0);
+  },
+);
+
+it("rescues dormant enemies and segmented bodies from a new building", () => {
+  const w = createWorld("old-chain", 17, 3),
+    p = addPlayer(w, "p");
+  w.phase = "battle";
+  w.wave = 1;
+  w.nextSpawn = 1e9;
+  p.x = 0;
+  p.z = 60;
+  spawn(w, "boss", 0, 0, "worm");
+  const e = w.enemies[0];
+  e.active = false;
+  e.x = 82;
+  e.z = 0;
+  e.y = 0;
+  for (const n of e.segments!) {
+    n.x = 82;
+    n.z = 0;
+    n.y = 0;
+  }
+  step(w, {});
+  for (const n of [e, ...e.segments!])
+    expect(blocked(n.x, n.z, ENEMIES.boss.radius, n.y, mapFor(w).blocks)).toBe(
+      false,
+    );
+});
+
+it("does not lift a normally colliding ground enemy onto a nearby roof", () => {
+  const w = createWorld("wall-clearance", 17, 3);
+  addPlayer(w, "p");
+  w.phase = "battle";
+  w.wave = 1;
+  w.nextSpawn = 1e9;
+  const b = mapFor(w).blocks.find((b) => b.x === 82 && b.z === 0)!;
+  spawn(w, "ant", 0, 0);
+  const e = w.enemies[0];
+  Object.assign(e, {
+    x: b.x - b.w / 2 - ENEMIES.ant.radius * 0.8,
+    z: 0,
+    y: 0,
+    active: false,
+  });
+  step(w, {});
+  expect(e.y).toBe(0);
+});

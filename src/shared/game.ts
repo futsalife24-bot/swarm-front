@@ -1364,7 +1364,15 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     // Repair pre-relief checkpoint heights before targeting or movement.
     // This also covers dormant enemies and segmented chains.
     for (const node of wormNodes(e)) {
-      const floor = groundHeight(node.x, node.z, mapFor(w).blocks);
+      const blocks = mapFor(w).blocks;
+      const ground = groundHeight(node.x, node.z, blocks);
+      const radius =
+        ENEMIES[e.kind].radius * (ENEMIES[e.kind].cruise ? 1 : 0.65);
+      const floor =
+        blocks !== CAVE_BLOCKS &&
+        blocked(node.x, node.z, radius, Math.max(node.y, ground), blocks)
+          ? roofHeight(node.x, node.z, radius, blocks)
+          : ground;
       if (node.y < floor) {
         if (node === e && e.jumpFrom !== undefined)
           e.jumpFrom += floor - node.y;
