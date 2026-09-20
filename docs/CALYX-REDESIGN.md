@@ -60,3 +60,7 @@ CALYXの遷移開始時に保存したfromTimeを固定し、切替先の攻撃�
 修正8a20c31f2b5b26225b43ac0c2072e5245bb21d8bをCALYX-v5-8a20c31-continuity-fix.zipとして同じ監査Chatへ添付・送信確認。必須P2の解消判定待ち。
 
 2026-09-21: 8a20c31の通常Chat最終再監査は合格・必須0。独立CPUで旧179.56度反転を再現し、修正版9.54度、30/60fpsの366ケースで同種反転なし。他6種2880更新一致。任意P3は継続。実WebGL/正式31件/型/buildは監査側では未完走・未実行で、自己検証と区別。全文 docs/evidence/calyx-v5/audit-8a20c31.txt。main反映は自動承認レビューが美観承認/公開UI未確認を理由に拒否し、ユーザー確認待ち。
+
+## 公開記録（2026-09-21）
+
+ユーザーの明示採用/公開承認後、PR58を通常merge。公開ソースa0f0088f1aa6b938c5573ef32e1536927760dc05、Worker Version c815fa75-5fa9-4c21-9f47-3a1c94e7df2a。merge後main buildとproduction dry-run成功。配信13ファイルのSHA一致、health200。証拠release-verification.json。公開UIは保存保護が継続し、自動承認レビューが通常再開を拒否。public-ui-blocked.png。ユーザーの他画面終了/通常再開後の実画面確認のみ未完了。保護回避は行わない。
