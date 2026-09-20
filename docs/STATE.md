@@ -1,3 +1,6 @@
+# 現在地: PR54・建物内復帰も修正し最終再監査中（2026-09-20）
+
+最終対象 `61448a63542b40898f6c147402b34c9cc85ac5b9`。ゲーム実装0b849a8、後続は検証fixture/証拠/文書。必須F1の追加ビル/保守棟内の敵・分節救出を追加し、型・関連74/74成功、実装からbuild/dry-run成功。前回必須F2/F3・協力予測は独立確認済み。同じ[監査Chat](https://chatgpt.com/c/6aafaa2f-a6f0-83e8-9efe-9e8d15baba4e)へ最終ZIPを送信済み、判定待ち。`dist-validation/jump-maps/jump-maps-final-reaudit.zip` SHA256 `49B91826D5E87FBD0B54C4D0CAEF5D6571F661343EADFB9367BC045E52E109DF`。main未反映・未公開。詳細 [JUMP-ELEVATED-MAPS.md](JUMP-ELEVATED-MAPS.md)。別作業4ファイルは保護。
 # 現在地: PR54の必須3件を修正し再監査中（2026-09-20）
 
 対象 `ed8bbafe5b2f36498f9cd3d03ce227af59c64f91`。旧中断の敵埋没・蜘蛛perch・勝利後の浮遊を修正し、協力予測の高さ保持も対応。型/地形23件/関連49件/中断保存4件/build/production dry-run成功。同じ[監査Chat](https://chatgpt.com/c/6aafaa2f-a6f0-83e8-9efe-9e8d15baba4e)へ修正ZIPを添付・再監査依頼済み。ZIP `dist-validation/jump-maps/jump-maps-reaudit-ed8bbaf.zip`、SHA256 `F11064EF5482CF75E4BEFC99E30E8988ED9887943F63A15620673B511C195087`。判定待ち、main未反映・未公開。無料プラン/既存利用量は実ダッシュボードで確認済み。別作業4ファイル保護。詳細 [JUMP-ELEVATED-MAPS.md](JUMP-ELEVATED-MAPS.md)。
