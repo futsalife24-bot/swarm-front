@@ -18,6 +18,7 @@ import {
 import {
   foundryDistance,
   foundryGroundLine,
+  foundryGroundClear,
   foundryPath,
   foundryPatrol,
   foundrySafePoint,
@@ -376,7 +377,14 @@ export function moveWorm(w: World, e: Enemy, dt: number) {
   if (!e.segments || e.hp <= 0) return;
   const nodes = wormNodes(e),
     chains = wormChains(e);
-  if (nodes.every((node) => node.trailOwner === undefined))
+  // Restored pre-relief trails can begin inside an added building. Ground
+  // navigation cannot leave that point by changing y: rebuild a legal body
+  // placement and its history, preserving all health and severed-part state.
+  if (
+    nodes.every((node) => node.trailOwner === undefined) ||
+    (mapFor(w).biome !== "cave" &&
+      nodes.some((node) => !foundryGroundClear(mapFor(w), node)))
+  )
     placeWormOnGround(w, e);
   // Promote all new leaders before moving or releasing any old history.
   for (const parts of chains) {

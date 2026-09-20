@@ -1,3 +1,4 @@
+import { initWorm } from "../src/shared/worm";
 import { expect, it } from "vitest";
 import {
   addPlayer,
@@ -214,3 +215,96 @@ it("does not lift a normally colliding ground enemy onto a nearby roof", () => {
   step(w, {});
   expect(e.y).toBe(0);
 });
+
+it("resumes an active saved worm whose ground trail crosses an added annex", () => {
+  const w = createWorld("old-worm-trail", 17, 3);
+  const p = addPlayer(w, "p");
+  w.phase = "battle";
+  w.wave = 1;
+  w.nextSpawn = 1e9;
+  p.x = 60;
+  p.z = -40;
+  spawn(w, "boss", 0, 0, "worm");
+  const e = w.enemies[0];
+  e.active = true;
+  const nodes = [e, ...e.segments!];
+  for (const [i, n] of nodes.entries()) {
+    n.x = 82;
+    n.z = -i * 3.2;
+    n.y = 0;
+    n.trailOwner = 0;
+    n.trailOffset = i * 3.2;
+    n.groundPath = undefined;
+    n.groundGoal = undefined;
+  }
+  e.trail = [
+    { x: 82, z: -35 },
+    { x: 82, z: 0 },
+  ];
+  const original = { x: e.x, z: e.z };
+  for (let n = 0; n < 100; n++) step(w, {});
+  expect(Math.hypot(e.x - original.x, e.z - original.z)).toBeGreaterThan(1);
+});
+
+it.each([18, 20])(
+  "a dormant checkpoint worm resumes legal ground motion on stage %i",
+  (stage) => {
+    const w = createWorld("old-dormant-chain", 17, stage),
+      progress = freshProgress("normal");
+    initSolo(w, stage, "normal", false, blankLevels());
+    const p = addPlayer(w, "solo");
+    w.phase = "battle";
+    w.wave = 1;
+    w.nextSpawn = 1e9;
+    p.x = 0;
+    p.z = 60;
+    spawn(w, "boss", 0, 0, "worm");
+    const e = w.enemies[0];
+    e.active = false;
+    const nodes = [e, ...e.segments!];
+    for (const [i, n] of nodes.entries()) {
+      n.x = 82;
+      n.z = -i * 3.2;
+      n.y = 0;
+      n.trailOwner = 0;
+      n.trailOffset = i * 3.2;
+      n.groundPath = undefined;
+      n.groundGoal = undefined;
+    }
+    e.trail = [
+      { x: 82, z: -35 },
+      { x: 82, z: 0 },
+    ];
+    initWorm(e);
+    e.segments![3].partHp = 0;
+    const partsBefore = nodes.map((n) => n.partHp);
+    const values = new Map<string, string>();
+    const storage = {
+      getItem: (k: string) => values.get(k) ?? null,
+      setItem: (k: string, v: string) => {
+        values.set(k, v);
+      },
+      removeItem: (k: string) => {
+        values.delete(k);
+      },
+    };
+    expect(writeBattleCheckpoint(w, progress, storage)).toBe(true);
+    const copy = readBattleCheckpoint(progress, storage)!.world;
+    step(copy, {});
+    const restored = copy.enemies.find((n) => n.id === e.id)!;
+    expect(restored.active).toBe(false);
+    copy.players[0].x = 65;
+    copy.players[0].z = 0;
+    copy.players[0].y = 0;
+    step(copy, {});
+    expect(restored.active).toBe(true);
+    const recovered = { x: restored.x, z: restored.z };
+    for (let n = 0; n < 100; n++) step(copy, {});
+    expect(
+      Math.hypot(restored.x - recovered.x, restored.z - recovered.z),
+    ).toBeGreaterThan(1);
+    expect([restored, ...restored.segments!].map((n) => n.partHp)).toEqual(
+      partsBefore,
+    );
+  },
+);
