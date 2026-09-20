@@ -1,3 +1,9 @@
+# 現在地: PR49 main反映・公開・独立管理への日次集計移行済み（2026-09-20）
+
+独立再監査6a2fee0合格・必須0、既存PR50を保持して統合後25関連テスト/型・merge後両build/dryrun成功。[PR49](https://github.com/futsalife24-bot/swarm-front/pull/49) 通常merge。公開ソース3f93a25bcc19952180b4a034688bc2e67551c8e9、Worker Version20673200-afb6-4f63-a447-78fb91258d70（後続でexport secret追加）。13配信SHA一致/health200/旧admin302新Hub案内。旧4アプリ日次集計を専用read-only exportし、Hubでdryrun/取込/ハッシュ/日数/30日値照合成功。ゲーム保存・旧個別IDを削除しない。
+
+管理URL https://project-hub.melosalife-24.workers.dev/ 。全体の詳細は別repo project-hub/RELEASE-20260920.md / STATE.md。4アプリ配信済み。3公開URLの5分監視開始は自動承認レビューが対象の具体的承認不足で拒否、ユーザーへ確認中。メール送信元未設定。今回と無関係なJudge接続のローカル4ファイルは保護、今回commitには含めない。後続は公開記録のみ。
+
 # 現在地: PR49独立再監査合格、最新mainを統合（2026-09-20）
 
 監査Chat https://chatgpt.com/c/6aaf3460-4148-83ee-bd18-e844f7c19555 で6a2fee07238629c17a965f0ba18946c3608e3478が合格・必須0。Hubも合格して先行公開/認証/配信4SHA一致済み。その間にmainへ入ったPR50（撮影モード、c9956c4）を統合。競合はSTATE追記とvitest一覧の追加のみで双方保持。今回の監査対象runtimeは不変、撮影モードを巻き戻さない。集計/認証/撮影25テスト・型成功。PR49通常merge・既存Worker公開・集計移行へ。別作業のローカルJudge接続設定は未コミットのまま保護。
