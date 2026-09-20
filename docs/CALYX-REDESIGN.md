@@ -44,3 +44,5 @@ silhouette. Runtime filename remains `calyx_motion_v1.glb`.
 Limits: sampled rather than continuous collision; intentional Body attachments
 excluded from pairwise collision checks. User aesthetic acceptance is not
 inferred. Independent Chat audit, main merge and publication are pending.
+
+Independent audit sent with exact target 61d8fb63f8df3a7cb7f86859a35bdbb8b5a75957 and CALYX-v3-61d8fb6.zip: https://chatgpt.com/c/6aafd926-90a0-83ee-a297-65a7f91d005d . PR58: https://github.com/futsalife24-bot/swarm-front/pull/58 . Production build passed. Audit verdict pending.
