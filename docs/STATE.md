@@ -2,6 +2,8 @@
 
 branch `codex/clean-capture`、base `d8173c733dda3af236348eb374f086a60179542d`。`?clean=1` でHUD/ミニマップ/操作表示/予告マーカーを隠し、曳光線25%（`&tracers=off` で非表示）。ポーズ・入力・世界の描画・保存仕様を維持。main.tsは変更なし。型/関連27単体成功、実Chrome2サイズ×3条件で戦闘/ポーズ12画像・pageerror0。全体テスト366成功、既存の2テスト失敗/1スイート読込失敗は変更前mainでも再現。[仕様・検証・証拠・限界](CLEAN-CAPTURE.md)。実機/実協力通信は未検証。実装 `3f40bf3`、監査対象 `e2b4c36e9e60ee2b8c6d59182e6b0f2920e6823f`（後続は記録のみ）、[draft PR50](https://github.com/futsalife24-bot/swarm-front/pull/50) にpush済み。build成功。監査資料 `dist-validation/clean-capture/clean-capture-audit.zip`（SHA256 `473e3ecb32befd8cf69accea13528ca8f326df84c1161e95c6036a21ca5b3756`、2497300 bytes）。
 
+公開再開の確認: ユーザーの「公開までやって」を受けて再開。fetch後もPR50のbase/headは不変、MERGEABLE、チェック一覧空。監査ZIPのSHA256一致。`npm run server:build:production` 成功（アップロードなし）。iabを再resetしても同じ初期化エラーで、独立監査は開始できていない。公開承認の再取得は不要。
+
 停止理由: 独立監査用iabがkernel assetsのパス不存在（os error 3）で初期化できず、reset後も再現。監査未依頼・main未反映・未公開。
 再開条件: iab復旧後、保存した対象SHAの監査資料を通常Chatへ添付し、独立監査・必要修正・通常merge・既存Worker公開と配信確認を行う。
 

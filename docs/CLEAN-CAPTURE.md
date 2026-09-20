@@ -45,3 +45,5 @@
 独立監査は未依頼。指定経路のiabが `failed to write kernel assets: 指定されたパスが見つかりません。 (os error 3)` で初期化失敗し、js kernel reset後も同じエラー。別ブラウザや自己レビューで代替しない。復旧後に対象SHAの監査ZIPを通常Chatへ添付し、独立監査→必要修正→main反映→既存Worker公開・配信確認を再開する。現時点でmain未反映・未公開。
 
 保存先: [draft PR50](https://github.com/futsalife24-bot/swarm-front/pull/50)、実装 `3f40bf3`、監査対象 `e2b4c36e9e60ee2b8c6d59182e6b0f2920e6823f`。監査ZIPは `dist-validation/clean-capture/clean-capture-audit.zip`、SHA256 `473e3ecb32befd8cf69accea13528ca8f326df84c1161e95c6036a21ca5b3756`。後続commitは保存先/状態記録のみ。
+
+公開再開確認: `npm run server:build:production` 成功（dry-runのみ、アップロードなし）。PR50はMERGEABLEでbase/headの変更なし。iabを再初期化してもos error 3が継続。独立監査未依頼のためmain反映/公開は未実施。
