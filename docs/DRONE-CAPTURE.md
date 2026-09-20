@@ -34,4 +34,8 @@
 
 実スマホ、全マップ、協力の実通信、長時間動画、GPU性能は未検証。洞窟や建物の屋根が上空視点を遮る場合がある（世界の描画は消さない）。敵の出現方向は既存ルールのままなので、四方から必ず同時に押し寄せる演出には別の撮影シナリオが必要。兵士の無敵化・自動戦闘・動画録画/出力は含まない。
 
-公開・独立監査は準備中。main反映/公開済みとは扱わない。
+## 監査・公開の現在地
+
+[PR51](https://github.com/futsalife24-bot/swarm-front/pull/51)、実装abc9b2a、最新main記録統合後の監査対象 `da1c6e157fc5f39385b14e50e63e04343e4bcb84`。当該HEADから `npm run build` / `npm run server:build:production` 成功（既存の大チャンク警告）。
+
+[通常Chat監査](https://chatgpt.com/c/6aaf4a36-b818-83ee-b355-b6f30b4ba8a5) へ必要ソース/差分/撮影証拠ZIPを直接添付・依頼済み。ZIP: dist-validation/drone-capture/drone-audit.zip、6,848,868 bytes、SHA256 fb8b37b64b941f991b2676a0c5560ef3fca993be8134ba56765dedda24879226。初回送信ボタンは反応せず、再読み込みは一度自動承認レビューが下書き喪失懸念で拒否。本文保存と元ZIP整合性確認後の再読み込みが許可され、再添付とEnter送信に成功（Chat添付名drone-audit(1).zip）。監査判定/main反映/公開は未完了。後続は記録のみ。
