@@ -206,7 +206,7 @@ it("does not lift a normally colliding ground enemy onto a nearby roof", () => {
   spawn(w, "ant", 0, 0);
   const e = w.enemies[0];
   Object.assign(e, {
-    x: b.x - b.w / 2 - ENEMIES.ant.radius * 0.8,
+    x: b.x + b.w / 2 + ENEMIES.ant.radius * 0.8,
     z: 0,
     y: 0,
     active: false,
