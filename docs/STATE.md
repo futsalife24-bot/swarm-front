@@ -1,3 +1,6 @@
+# 現在地: PR54・分節敵の旧経路復帰を修正し再監査中（2026-09-20）
+
+対象 `1d1c06ac4faa994fb560b65bf5271fa403a12ec0`。活動中の分節敵だけ残ったF1/P2を、安全な地上への位置・履歴再構築で修正。旧経路停止の修正前再現あり。作戦18/20の中断→休眠→実再活動・切断HP保持と全地域の通常分節移動を含む45/45、型/build/production dry-run成功。同じ[監査Chat](https://chatgpt.com/c/6aafaa2f-a6f0-83e8-9efe-9e8d15baba4e)へZIP送信済み、判定待ち。`dist-validation/jump-maps/jump-maps-worm-reaudit.zip` SHA256 `15A53E2481D83FF74CC0BE114F3D27DEAFBE47FC745211B6DD29EA1042DEAD4E`。main未反映・未公開。別作業4ファイル保護。
 # 現在地: PR54・建物内復帰も修正し最終再監査中（2026-09-20）
 
 最終対象 `61448a63542b40898f6c147402b34c9cc85ac5b9`。ゲーム実装0b849a8、後続は検証fixture/証拠/文書。必須F1の追加ビル/保守棟内の敵・分節救出を追加し、型・関連74/74成功、実装からbuild/dry-run成功。前回必須F2/F3・協力予測は独立確認済み。同じ[監査Chat](https://chatgpt.com/c/6aafaa2f-a6f0-83e8-9efe-9e8d15baba4e)へ最終ZIPを送信済み、判定待ち。`dist-validation/jump-maps/jump-maps-final-reaudit.zip` SHA256 `49B91826D5E87FBD0B54C4D0CAEF5D6571F661343EADFB9367BC045E52E109DF`。main未反映・未公開。詳細 [JUMP-ELEVATED-MAPS.md](JUMP-ELEVATED-MAPS.md)。別作業4ファイルは保護。
