@@ -1,3 +1,28 @@
+# 現在地: PR49独立再監査合格、最新mainを統合（2026-09-20）
+
+監査Chat https://chatgpt.com/c/6aaf3460-4148-83ee-bd18-e844f7c19555 で6a2fee07238629c17a965f0ba18946c3608e3478が合格・必須0。Hubも合格して先行公開/認証/配信4SHA一致済み。その間にmainへ入ったPR50（撮影モード、c9956c4）を統合。競合はSTATE追記とvitest一覧の追加のみで双方保持。今回の監査対象runtimeは不変、撮影モードを巻き戻さない。集計/認証/撮影25テスト・型成功。PR49通常merge・既存Worker公開・集計移行へ。別作業のローカルJudge接続設定は未コミットのまま保護。
+
+# 現在地: PR49監査F3を修正し再監査へ（2026-09-20）
+
+[同じ監査Chat](https://chatgpt.com/c/6aaf3460-4148-83ee-bd18-e844f7c19555)で必須3件。gameのF3は移行exportが通常readの期限切れ整理を呼ぶ問題。専用SELECT-only経路を追加し、旧個別ID/4テーブル/alarm不変を実SQLiteで検証。関連既存12＋export5件成功、型成功。HubのF1/F2も修正済み、全体再監査へ。未公開・未移行。別作業設定は保護。
+
+# 現在地: PR49監査送信済み、iab接続復旧待ち（2026-09-20）
+
+具体的ZIP送信をユーザーが承認し、通常Chat https://chatgpt.com/c/6aaf3460-4148-83ee-bd18-e844f7c19555 へ同一ZIP添付・監査依頼成功。対象1b345078b07c917ae4328aa6d8543d5b8ef938d6、後続は記録のみ。PR49 main未反映・未公開。別作業の .gitignore/AGENTS.md/package.json/CLAUDE.md 差分は保護。
+
+停止理由: 監査会話のDOM読取・同タブreloadがCDPタイムアウト、同じ会話の新規タブもwebview attach timeout。最終判定未取得。監査側の途中進捗を合格扱いしていない。
+再開条件: iab接続復旧後、上記の同じ監査Chatから判定取得。送信承認は取得済みで再確認不要。必須修正/再監査→Hub先行公開→PR49通常merge/既存Worker公開→日次集計移行・各アプリ配信確認。全体詳細はproject-hub/STATE.md。
+
+# 現在地: PR49を保存、独立監査ZIP送信の承認待ち（2026-09-19）
+
+[PR49](https://github.com/futsalife24-bot/swarm-front/pull/49)、branch codex/independent-project-hub、base d8173c733dda3af236348eb374f086a60179542d、監査対象1b345078b07c917ae4328aa6d8543d5b8ef938d6。関連16テスト/型/両build/対象commitからproduction dry-run成功。後続は記録のみ。main未反映・未公開。
+
+停止理由: 自動承認レビューが project-hub/evidence/independent-hub-review.zip（2,898,775 bytes、SHA256 24b3e96d75a92e7c5be6b7d566267e74fcbb773f5790b585deae00580dfac8ce）の通常ChatGPTへの添付を具体的payload承認不足で拒否。ユーザーへ対象ZIP/宛先/目的を明示して確認中。送信未実施。
+再開条件: 同ZIPの通常ChatGPTへの添付・独立監査依頼の明示承認。独立監査→Hub先行公開→本PR通常mergeと既存Worker公開→日次集計移行照合→4アプリ配信確認。旧保存・ゲームデータを削除しない。全体記録は別project-hub/STATE.md。
+
+# 現在地: 独立プロジェクト管理へ集計の切替を準備（2026-09-19）
+
+ユーザーが新規project-hub Worker/repo、4アプリ集計移行と計測先変更、独立監査を承認。branch codex/independent-project-hub、base d8173c733dda3af236348eb374f086a60179542d。専用Bearer付きの日次集計エクスポート（訪問IDなし）、旧collector互換中継、旧admin案内、ゲームclientの独立collectorへの変更。関連16テスト/型/両build成功。独立監査・main反映・公開・移行は未実施。管理Hubを先に公開してからservice bindingを反映する。新しい管理UIは別repo。メールは未接続。後続記録はproject-hub/STATE.md。
 # 現在地: PR50・PV撮影クリーンモードをmain反映・公開済み（2026-09-20）
 
 ユーザーの「今回監査はスキップして進めて」に従い、独立Chat監査は今回限り省略（未実施・合格扱いなし）。[PR50](https://github.com/futsalife24-bot/swarm-front/pull/50) を通常merge。公開ソース `cba40a737fe9758915f5d37f1d454f2bdb6fdd9d`、Worker Version `d8675285-3a47-4b71-b970-00aedabc2585`。`?clean=1` でHUD/操作表示/補助マーカー非表示・曳光線25%、`&tracers=off` で曳光線非表示。ポーズは維持。main.ts/戦闘/保存コードは無変更。

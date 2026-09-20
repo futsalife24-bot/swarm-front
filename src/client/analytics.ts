@@ -54,10 +54,14 @@ const visitor = (() => {
 })();
 export function track(kind: "view" | "sortie" | "clear") {
   if (new URLSearchParams(location.search).get("developer") === "1") return;
-  void fetch("/api/analytics/event", {
-    method: "POST",
-    keepalive: true,
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ kind, visitor, admin: isAnalyticsAdmin() }),
-  }).catch(() => {});
+  void fetch(
+    "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+    {
+      method: "POST",
+      keepalive: true,
+      credentials: "omit",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ kind, visitor, admin: isAnalyticsAdmin() }),
+    },
+  ).catch(() => {});
 }
