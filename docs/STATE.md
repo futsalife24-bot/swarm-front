@@ -1,3 +1,6 @@
+# 現在地: CALYX PR55、ソロ120体の予兆容量を最終再監査中（2026-09-20）
+
+実装監査対象 `d2991640207ee8bee9158add35a81632c0879f2f`、branch `codex/calyx-integration`。前回ffa7913の残必須F2はソロ120体での予兆容量不足のみ。他の必須/任意は解消確認済み。予兆12000枠とバッファ実容量の判定、settings由来の人数テストに修正。関連14件/client型/build成功。`CALYX-d299164-capacity.zip` を[同じ監査Chat](https://chatgpt.com/c/6aafb0a5-5e78-83ee-ba6a-153fd9d3545a)へ送信済み。最終判定待ち、main/公開未完了。
 # 現在地: CALYX PR55、必須2件を修正し再監査中（2026-09-20）
 
 branch `codex/calyx-integration` / worktree `../calyx-integration`、再監査対象 `ffa7913b2a63d664ffaab5ce0b25863460124102`、base `7b3e4df`。元50fcec2の独立監査はP2必須2件（図鑑Slamの飛翔弾・描画上限で予兆欠落）。双方と任意2件（高所表示・兵器庫二重ダメージ）、初遭遇名を修正。関連14件/型/build/dry-run/実Worker2接続成功。[同じ監査Chat](https://chatgpt.com/c/6aafb0a5-5e78-83ee-ba6a-153fd9d3545a)へ `CALYX-ffa7913-audit-fix.zip` を添付送信済み。合格判定待ち。main反映/公開は未完了。次は結果確認→必要修正→通常merge/公開。[詳細](CALYX.md)。
