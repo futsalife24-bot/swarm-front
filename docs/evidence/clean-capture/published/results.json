@@ -1,0 +1,82 @@
+[
+  {
+    "width": 667,
+    "height": 375,
+    "name": "normal",
+    "hud": {
+      "hidden": false,
+      "visibility": "visible",
+      "opacity": "1",
+      "display": "block"
+    },
+    "minimap": {
+      "hidden": false,
+      "visibility": "visible",
+      "opacity": "1",
+      "display": "block"
+    },
+    "fire": {
+      "hidden": false,
+      "visibility": "visible",
+      "opacity": "0.8",
+      "display": "flex"
+    },
+    "move": {
+      "hidden": false,
+      "visibility": "visible",
+      "opacity": "0.8",
+      "display": "flex"
+    },
+    "pause": {
+      "hidden": false,
+      "visibility": "visible",
+      "opacity": "0.8",
+      "display": "block"
+    },
+    "hudText": "HP160 / 160ST 1 · WAVE 1 / 21 体 · 0 撃破 · 0:00AR-9 リーフ · 1/2残弾32 / 32未確定 0 · +WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · H 救急箱",
+    "flag": null,
+    "controls": null,
+    "errors": [],
+    "pauseVerified": true
+  },
+  {
+    "width": 667,
+    "height": 375,
+    "name": "clean",
+    "hud": {
+      "hidden": false,
+      "visibility": "hidden",
+      "opacity": "1",
+      "display": "block"
+    },
+    "minimap": {
+      "hidden": false,
+      "visibility": "hidden",
+      "opacity": "1",
+      "display": "block"
+    },
+    "fire": {
+      "hidden": false,
+      "visibility": "visible",
+      "opacity": "0",
+      "display": "flex"
+    },
+    "move": {
+      "hidden": false,
+      "visibility": "visible",
+      "opacity": "0",
+      "display": "flex"
+    },
+    "pause": {
+      "hidden": false,
+      "visibility": "visible",
+      "opacity": "0.8",
+      "display": "block"
+    },
+    "hudText": "HP160 / 160ST 1 · WAVE 1 / 21 体 · 0 撃破 · 0:00AR-9 リーフ · 1/2残弾32 / 32未確定 0 · +WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · H 救急箱",
+    "flag": "true",
+    "controls": null,
+    "errors": [],
+    "pauseVerified": true
+  }
+]

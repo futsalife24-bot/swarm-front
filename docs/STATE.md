@@ -1,3 +1,7 @@
+# 現在地: PR49独立再監査合格、最新mainを統合（2026-09-20）
+
+監査Chat https://chatgpt.com/c/6aaf3460-4148-83ee-bd18-e844f7c19555 で6a2fee07238629c17a965f0ba18946c3608e3478が合格・必須0。Hubも合格して先行公開/認証/配信4SHA一致済み。その間にmainへ入ったPR50（撮影モード、c9956c4）を統合。競合はSTATE追記とvitest一覧の追加のみで双方保持。今回の監査対象runtimeは不変、撮影モードを巻き戻さない。集計/認証/撮影25テスト・型成功。PR49通常merge・既存Worker公開・集計移行へ。別作業のローカルJudge接続設定は未コミットのまま保護。
+
 # 現在地: PR49監査F3を修正し再監査へ（2026-09-20）
 
 [同じ監査Chat](https://chatgpt.com/c/6aaf3460-4148-83ee-bd18-e844f7c19555)で必須3件。gameのF3は移行exportが通常readの期限切れ整理を呼ぶ問題。専用SELECT-only経路を追加し、旧個別ID/4テーブル/alarm不変を実SQLiteで検証。関連既存12＋export5件成功、型成功。HubのF1/F2も修正済み、全体再監査へ。未公開・未移行。別作業設定は保護。
@@ -19,6 +23,24 @@
 # 現在地: 独立プロジェクト管理へ集計の切替を準備（2026-09-19）
 
 ユーザーが新規project-hub Worker/repo、4アプリ集計移行と計測先変更、独立監査を承認。branch codex/independent-project-hub、base d8173c733dda3af236348eb374f086a60179542d。専用Bearer付きの日次集計エクスポート（訪問IDなし）、旧collector互換中継、旧admin案内、ゲームclientの独立collectorへの変更。関連16テスト/型/両build成功。独立監査・main反映・公開・移行は未実施。管理Hubを先に公開してからservice bindingを反映する。新しい管理UIは別repo。メールは未接続。後続記録はproject-hub/STATE.md。
+# 現在地: PR50・PV撮影クリーンモードをmain反映・公開済み（2026-09-20）
+
+ユーザーの「今回監査はスキップして進めて」に従い、独立Chat監査は今回限り省略（未実施・合格扱いなし）。[PR50](https://github.com/futsalife24-bot/swarm-front/pull/50) を通常merge。公開ソース `cba40a737fe9758915f5d37f1d454f2bdb6fdd9d`、Worker Version `d8675285-3a47-4b71-b970-00aedabc2585`。`?clean=1` でHUD/操作表示/補助マーカー非表示・曳光線25%、`&tracers=off` で曳光線非表示。ポーズは維持。main.ts/戦闘/保存コードは無変更。
+
+型/関連27単体成功、全体366成功（既存2テスト失敗/1スイート読込失敗はbaseでも再現）。ローカル実Chrome2サイズ×3条件、merge後build/dry-run、公開14配信SHA一致/health成功。公開実Chrome667×375の通常/clean・ポーズ・pageerror0を確認。clean初回ロード120秒timeout後、再試行成功。実スマホ/実協力通信/長時間撮影は未確認。当日Workers使用量はAPI確認、契約一覧API403のため直近Free記録を参照し当日契約/DO使用量は未再確認。契約・権限・公開先の変更なし。[仕様・証拠・限界](CLEAN-CAPTURE.md)。後続は公開記録のみ。
+
+# 現在地: PR50・今回限りの監査省略指示を受け、公開へ進行中（2026-09-20）
+
+ユーザーが「今回監査はスキップして進めて」と明示。PR50の独立Chat監査を今回限りで省略し、通常merge・既存Worker公開・配信確認を行う。監査済み/監査合格とは扱わず、恒久ルールやブランチ保護/CIは変更しない。実装3f40bf3、差分は不変。型/build/dry-run成功、関連27件/全体366件成功、既存3失敗はbaseでも再現済み。[仕様・証拠・限界](CLEAN-CAPTURE.md)。公開結果は後続で記録する。
+
+# 現在地: PV撮影クリーンモードを実装、独立監査ツールの復旧待ち（2026-09-20）
+
+branch `codex/clean-capture`、base `d8173c733dda3af236348eb374f086a60179542d`。`?clean=1` でHUD/ミニマップ/操作表示/予告マーカーを隠し、曳光線25%（`&tracers=off` で非表示）。ポーズ・入力・世界の描画・保存仕様を維持。main.tsは変更なし。型/関連27単体成功、実Chrome2サイズ×3条件で戦闘/ポーズ12画像・pageerror0。全体テスト366成功、既存の2テスト失敗/1スイート読込失敗は変更前mainでも再現。[仕様・検証・証拠・限界](CLEAN-CAPTURE.md)。実機/実協力通信は未検証。実装 `3f40bf3`、監査対象 `e2b4c36e9e60ee2b8c6d59182e6b0f2920e6823f`（後続は記録のみ）、[draft PR50](https://github.com/futsalife24-bot/swarm-front/pull/50) にpush済み。build成功。監査資料 `dist-validation/clean-capture/clean-capture-audit.zip`（SHA256 `473e3ecb32befd8cf69accea13528ca8f326df84c1161e95c6036a21ca5b3756`、2497300 bytes）。
+
+公開再開の確認: ユーザーの「公開までやって」を受けて再開。fetch後もPR50のbase/headは不変、MERGEABLE、チェック一覧空。監査ZIPのSHA256一致。`npm run server:build:production` 成功（アップロードなし）。iabを再resetしても同じ初期化エラーで、独立監査は開始できていない。公開承認の再取得は不要。
+
+停止理由: 独立監査用iabがkernel assetsのパス不存在（os error 3）で初期化できず、reset後も再現。監査未依頼・main未反映・未公開。
+再開条件: iab復旧後、保存した対象SHAの監査資料を通常Chatへ添付し、独立監査・必要修正・通常merge・既存Worker公開と配信確認を行う。
 
 # 現在地: PR48・モンスターの多彩な接近をmain反映・公開済み（2026-09-19）
 
