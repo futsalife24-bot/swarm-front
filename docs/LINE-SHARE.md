@@ -9,4 +9,7 @@
 - Judge入口は正規game側で実行、固定needs_context/live not_run（missing_key、API呼出0）。別worktreeの今回差分を判定した証拠ではない。独立監査の代替にしない。
 - LINE実機・送信済みカードの更新は未検証。公開後は?share=20260920の新規共有を案内。
 - 既存game作業ツリーに別タスクの未コミット変更があるため保護し、share-image-fix worktreeで分離。
-`n独立監査結果: e4bd633に合格・必須指摘なし。添付と対象commitの画像/HTML照合、画像復号/1280×720/SHA一致。buildと原本/dist一致は報告扱い、LINE実機未検証。後続a20e0d7は文書のみ。
+
+独立監査結果: e4bd633に合格・必須指摘なし。添付と対象commitの画像/HTML照合、画像復号/1280×720/SHA一致。buildと原本/dist一致は報告扱い、LINE実機未検証。後続a20e0d7は文書のみ。
+
+公開結果: PR53通常merge、公開ソース f846e07c9d88af5a757f1eff7918d3dbb8b2b1db、Worker Version d07241f8-45b2-49f4-84b3-a4328a8f619b。mainからbuild/dry-run成功。公開root/?share=20260920のHTML一致、画像200/image/jpeg/原本SHA一致、JS/CSS12件一致、health200。公開iabで1280×720画像目視一致。LINE実機/既存カード更新のみ未検証。

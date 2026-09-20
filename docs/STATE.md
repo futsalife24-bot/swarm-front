@@ -1,3 +1,6 @@
+# 現在地: LINE共有画像・説明文をmain反映・公開確認済み（2026-09-20）
+
+PR53通常merge。ユーザー最終指定の横長1280×720画像と「SWARM FRONT — 仲間と戦う3D協力アクション。」をOGP/Twitterへ設定。独立監査e4bd633合格・必須0。公開ソースf846e07、Worker Version d07241f8-45b2-49f4-84b3-a4328a8f619b。main build/dry-run・公開2URLのHTML/画像原本SHA/12assets一致・health200・実iab画像目視成功。LINE実機と送信済みカード更新は未検証。共有URLは https://swarm-front.melosalife-24.workers.dev/?share=20260920 。[詳細](LINE-SHARE.md)。gameの別タスク差分を保護し、share-image-fixでmain同期。後続は公開記録のみ。
 # 現在地: LINE共有画像・説明文を修正し独立監査中（2026-09-20）
 
 PR53、branch codex/line-share-image（share-image-fix worktree）、base b322d62、実装e4bd633。ユーザー指定の横長1280×720画像と「SWARM FRONT — 仲間と戦う3D協力アクション。」を静的OGPに設定。build/dry-run・画像原本一致・ローカル配信/12assets・実画像表示成功。通常ChatへZIP送信済み、最終判定待ち。game側の別作業は保護。[詳細・監査URL・検証限界](LINE-SHARE.md)。main反映と公開は未完了。
