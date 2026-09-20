@@ -2,6 +2,7 @@ export const CONTROL_IDS = [
   "move",
   "fire",
   "dodge",
+  "jump",
   "reload",
   "swap",
   "revive",
@@ -14,6 +15,7 @@ export const LABELS: Record<ControlId, string> = {
   move: "移動",
   fire: "射撃",
   dodge: "回避",
+  jump: "ジャンプ",
   reload: "装填",
   swap: "切替",
   revive: "蘇生",
@@ -43,6 +45,7 @@ export const defaultLayout = (): Layout => ({
     move: { x: 0.12, y: 0.73, size: 1 },
     fire: { x: 0.9, y: 0.55, size: 1 },
     dodge: { x: 0.77, y: 0.86, size: 1 },
+    jump: { x: 0.64, y: 0.43, size: 1 },
     reload: { x: 0.77, y: 0.43, size: 1 },
     swap: { x: 0.92, y: 0.13, size: 1 },
     revive: { x: 0.64, y: 0.84, size: 1 },
@@ -54,6 +57,8 @@ export const defaultLayout = (): Layout => ({
 export function parseLayout(raw: string | null): Layout {
   if (raw === null) return defaultLayout();
   const v = JSON.parse(raw) as Layout;
+  if (v?.buttons && !v.buttons.jump)
+    v.buttons.jump = defaultLayout().buttons.jump;
   // `pause` arrived after the first layouts were saved. Fill it in rather than
   // rejecting an arrangement the player already tuned.
   if (v?.buttons && !v.buttons.pause)
@@ -161,6 +166,16 @@ export function readInsets(): Insets {
 }
 /** Reuse the existing control appearance in every game entry point. */
 export function ensureScopeControls() {
+  if (!document.getElementById("jump")) {
+    const dodge = document.getElementById("dodge");
+    if (dodge) {
+      const jump = dodge.cloneNode(false) as HTMLButtonElement;
+      jump.id = "jump";
+      jump.textContent = "ジャンプ";
+      jump.setAttribute("aria-label", "ジャンプ（F）");
+      dodge.after(jump);
+    }
+  }
   const primary = document.getElementById("scope");
   if (!primary || document.getElementById("scope2")) return;
   const secondary = primary.cloneNode(true) as HTMLButtonElement;

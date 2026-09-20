@@ -483,6 +483,12 @@ body[data-screen="title"] footer {
   overflow: visible;
   isolation: isolate;
 }
+#controls #jump {
+  padding: 0;
+  font-size: 11px;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
 #controls button span,
 #controls button small {
   pointer-events: none;

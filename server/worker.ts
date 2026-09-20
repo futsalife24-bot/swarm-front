@@ -1127,6 +1127,7 @@ export class Room extends DurableObject<Env> {
         m.input.fire ||
         m.input.revive ||
         m.input.dodge ||
+        m.input.jump ||
         m.input.swap ||
         m.input.reload ||
         Math.abs(m.input.yaw - (previous?.yaw ?? 0)) > 0.01
@@ -1138,6 +1139,7 @@ export class Room extends DurableObject<Env> {
           ...m.input,
           swap: m.input.swap || previous?.swap || false,
           dodge: m.input.dodge || previous?.dodge || false,
+          jump: m.input.jump || previous?.jump || false,
           reload: m.input.reload || previous?.reload || false,
         },
         at: now,
@@ -1339,6 +1341,7 @@ export class Room extends DurableObject<Env> {
     for (const v of Object.values(this.inputs)) {
       v.i.swap = false;
       v.i.dodge = false;
+      v.i.jump = false;
       v.i.reload = false;
     }
     this.ticks++;

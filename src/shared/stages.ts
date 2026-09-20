@@ -1,9 +1,11 @@
-import { registerTerrain } from "./terrain";
+import { registerTerrain, terrainProps } from "./terrain";
 import { CAVE_BLOCKS } from "./cave";
 import { MAP_SCALE } from "./arena";
 import { BLOCKS, type Block } from "./map-blocks";
 
 export interface ArenaMap {
+  assetIndex?: number;
+  elevated?: boolean;
   foundryAllowed?: TroopKind[];
   name: string;
   color: number;
@@ -93,7 +95,60 @@ for (const map of MAPS) {
     }));
 }
 
+export const CITY_TOWERS: Block[] = [-1, 1].flatMap((side) =>
+  [-72, -40, 40, 72].map((z, i) => ({
+    x: side * 83,
+    z,
+    w: 14,
+    d: 18,
+    h: 28 + ((i + (side > 0 ? 1 : 0)) % 3) * 7,
+  })),
+);
+MAPS[0].blocks.push(...CITY_TOWERS);
 MAPS.forEach((map, index) => registerTerrain(map.blocks, index));
+
+/** Separate versions preserve stage ids, waves, rewards and existing saves. */
+export const ELEVATED_MAPS: ArenaMap[] = MAPS.map((source, index) => {
+  if (source.biome === "cave") return source;
+  const map: ArenaMap = {
+    ...source,
+    name: source.name + "・高台ルート",
+    assetIndex: index,
+    elevated: true,
+    blocks: source.blocks.map((b) => ({ ...b })),
+  };
+  if (source.biome === "city") {
+    // Two inspection annexes on the outer service lanes, each with a roof stair.
+    for (const side of [-1, 1])
+      map.blocks.push({ x: side * 82, z: 0, w: 10, d: 16, h: 3.6 });
+  }
+  registerTerrain(map.blocks, index, true);
+  if (source.biome === "city") {
+    for (const side of [-1, 1]) {
+      const props = terrainProps(map.blocks);
+      for (let step = 1; step <= 12; step++)
+        props.push({
+          x: side * 74.5,
+          z: 8 - step,
+          w: 5,
+          d: 1,
+          h: step * 0.3,
+          base: 0,
+          style: "slab",
+        });
+      props.push({
+        x: side * 74.5,
+        z: -6,
+        w: 5,
+        d: 4,
+        h: 3.6,
+        base: 0,
+        style: "slab",
+      });
+    }
+  }
+  return map;
+});
 
 export type TroopKind = "crawler" | "ant" | "spider" | "spitter" | "hornet";
 export type BossForm = "crown" | "worm";
@@ -348,6 +403,7 @@ export function troopAt(w: Wave, index: number): TroopKind {
 }
 export const STAGES = plans.map((plan, i) => ({
   ...plan,
+  elevated: [3, 7, 8, 12, 14, 17, 18, 19, 20].includes(i + 1),
   id: i + 1,
   hp: 1 + i * 0.025,
   damage: 1 + i * 0.02,
@@ -368,6 +424,9 @@ for (const [mapId, map] of MAPS.entries())
       ),
     ),
   ];
+ELEVATED_MAPS.forEach((map, index) => {
+  map.foundryAllowed = MAPS[index].foundryAllowed;
+});
 export function validStage(id: unknown): id is number {
   return (
     typeof id === "number" &&
@@ -399,7 +458,7 @@ export function mapFor(w: {
     ? DEFENSE_MAPS[stageFor(w).map]
     : w.training
       ? TRAINING_MAP
-      : MAPS[stageFor(w).map];
+      : (stageFor(w).elevated ? ELEVATED_MAPS : MAPS)[stageFor(w).map];
 }
 
 /** Flat dedicated range, intentionally outside the campaign and terrain generation. */

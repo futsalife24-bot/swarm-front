@@ -24,6 +24,7 @@ import {
 } from "./solo-progression";
 import {
   groundHeight,
+  landingHeight,
   supportHeight,
   terrainProps,
   terrainBlocked,
@@ -48,7 +49,13 @@ import {
   placeWormOnGround,
   type WormNode,
 } from "./worm";
-import { CAVE_BLOCKS, CAVE_NODES, caveBlocked, caveRay } from "./cave";
+import {
+  CAVE_BLOCKS,
+  CAVE_NODES,
+  caveBlocked,
+  caveRay,
+  caveCeiling,
+} from "./cave";
 import {
   mapFor,
   stageFor,
@@ -95,6 +102,7 @@ export interface Input {
   fire: boolean;
   reload: boolean;
   dodge: boolean;
+  jump?: boolean;
   swap: boolean;
   revive: boolean;
   seq: number;
@@ -109,11 +117,14 @@ export const neutral = (): Input => ({
   fire: false,
   reload: false,
   dodge: false,
+  jump: false,
   swap: false,
   revive: false,
   seq: 0,
 });
 export interface Player {
+  verticalSpeed?: number;
+  jumpHeld?: boolean;
   reloadSlots?: number[];
   y?: number; // Authoritative feet altitude; absent legacy snapshots mean zero.
   id: string;
@@ -428,6 +439,7 @@ export function move(
   r = 0.55,
   blocks = BLOCKS,
   airborne = false,
+  fallFromEdges = false,
 ) {
   // Substeps prevent dodge/knockback from tunnelling through narrow props.
   const steps = Math.max(1, Math.ceil(Math.hypot(dx, dz) / 0.2));
@@ -439,9 +451,15 @@ export function move(
       const nx = p.x + (axis === "x" ? dx / steps : 0),
         nz = p.z + (axis === "z" ? dz / steps : 0);
       const floor = supportHeight(nx, nz, blocks, y, r);
-      const nextY = grounded ? floor : y;
+      const nextY =
+        grounded && !(fallFromEdges && y - floor > WALK_STEP) ? floor : y;
       if (
         nextY + 1e-6 >= groundHeight(nx, nz, blocks) &&
+        !(
+          fallFromEdges &&
+          blocks === CAVE_BLOCKS &&
+          nextY + 1.8 > caveCeiling(nx, nz)
+        ) &&
         (!grounded || floor - y <= WALK_STEP) &&
         !blocked(nx, nz, r, nextY, blocks)
       ) {
@@ -1106,6 +1124,39 @@ export function fire(w: World, p: Player, i: Input) {
 export function angle(n: number) {
   return Math.atan2(Math.sin(n), Math.cos(n));
 }
+export function playerVerticalStep(
+  p: Player,
+  i: Input,
+  blocks: typeof BLOCKS,
+  dt: number,
+) {
+  // Older local checkpoints may place feet below newly authored terrain.
+  p.y = Math.max(p.y ?? 0, groundHeight(p.x, p.z, blocks));
+  if (blocks !== CAVE_BLOCKS && blocked(p.x, p.z, 0.55, p.y, blocks))
+    p.y = supportHeight(p.x, p.z, blocks, Infinity, 0.55);
+  const feet = p.y;
+  const onGround =
+    Math.abs(feet - supportHeight(p.x, p.z, blocks, feet, 0.55)) < 0.001;
+  if (i.jump && !p.jumpHeld && onGround && !(p.verticalSpeed ?? 0))
+    p.verticalSpeed = 8;
+  p.jumpHeld = !!i.jump;
+  const airborne = !!p.verticalSpeed || !onGround;
+  if (airborne) {
+    const velocity = p.verticalSpeed ?? 0;
+    p.verticalSpeed = velocity - 20 * dt;
+    let nextY = feet + velocity * dt - 10 * dt * dt;
+    if (blocks === CAVE_BLOCKS && nextY > caveCeiling(p.x, p.z) - 1.8) {
+      nextY = Math.max(feet, caveCeiling(p.x, p.z) - 1.8);
+      p.verticalSpeed = Math.min(0, p.verticalSpeed);
+    }
+    const landing = landingHeight(p.x, p.z, feet, nextY, blocks);
+    if (landing !== undefined) {
+      p.y = landing;
+      p.verticalSpeed = 0;
+    } else p.y = nextY;
+  }
+  return airborne;
+}
 export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   if (w.phase !== "battle") return;
   if (!w.players.some((p) => p.connected)) return;
@@ -1130,6 +1181,15 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       p.swapResume = Math.max(0, p.swapResume! - dt);
     else if (!wasEvading) p.swapCd = Math.max(0, p.swapCd - dt);
     if (p.hp <= 0) {
+      // A soldier downed in midair still falls to a support surface.
+      const blocks = mapFor(w).blocks;
+      const from = Math.max(p.y ?? 0, groundHeight(p.x, p.z, blocks));
+      const velocity = Math.min(0, p.verticalSpeed ?? 0);
+      const to = from + velocity * dt - 10 * dt * dt;
+      const landing = landingHeight(p.x, p.z, from, to, blocks);
+      p.y = landing ?? to;
+      p.verticalSpeed = landing === undefined ? velocity - 20 * dt : 0;
+      p.jumpHeld = false;
       continue;
     }
     p.safe += dt;
@@ -1167,6 +1227,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       p.evade = EVADE_DURATION;
       p.evadeCd = 2.2;
     }
+    const airborne = playerVerticalStep(p, i, mapFor(w).blocks, dt);
     const norm = Math.max(1, Math.hypot(i.mx, i.mz)),
       speed =
         p.evade > 0
@@ -1178,6 +1239,8 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       ((i.mx * Math.sin(i.yaw) - i.mz * Math.cos(i.yaw)) / norm) * speed * dt,
       0.55,
       mapFor(w).blocks,
+      airborne,
+      true,
     );
     if (i.fire) fire(w, p, i);
     if (i.cameraAim) {
@@ -1298,6 +1361,24 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   if (w.defense) living.push(w.defense.armory);
   for (const e of w.enemies) {
     if (e.hp <= 0) continue;
+    // Repair pre-relief checkpoint heights before targeting or movement.
+    // This also covers dormant enemies and segmented chains.
+    for (const node of wormNodes(e)) {
+      const blocks = mapFor(w).blocks;
+      const ground = groundHeight(node.x, node.z, blocks);
+      const radius =
+        ENEMIES[e.kind].radius * (ENEMIES[e.kind].cruise ? 1 : 0.65);
+      const floor =
+        blocks !== CAVE_BLOCKS &&
+        blocked(node.x, node.z, radius, Math.max(node.y, ground), blocks)
+          ? roofHeight(node.x, node.z, radius, blocks)
+          : ground;
+      if (node.y < floor) {
+        if (node === e && e.jumpFrom !== undefined)
+          e.jumpFrom += floor - node.y;
+        node.y = floor;
+      }
+    }
     e.hurt = Math.max(0, e.hurt - dt);
     if (w.training) continue;
     const t = w.defense
@@ -1700,6 +1781,7 @@ export function validInput(v: unknown): v is Input {
     i.pitch >= -0.8 &&
     i.pitch <= MAX_PITCH &&
     (i.cameraAim === undefined || typeof i.cameraAim === "boolean") &&
+    (i.jump === undefined || typeof i.jump === "boolean") &&
     Number.isSafeInteger(i.seq) &&
     i.seq >= 0 &&
     ["fire", "reload", "dodge", "swap", "revive"].every(

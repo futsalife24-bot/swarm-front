@@ -1,0 +1,51 @@
+{
+  "results": [
+    {
+      "stage": 3,
+      "map": "灰明の街区・高台ルート",
+      "blocks": 30,
+      "camera": [
+        0,
+        85,
+        73
+      ]
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "keyboard": true,
+      "touch": true,
+      "button": {
+        "x": 511.65625,
+        "y": 188.15625,
+        "width": 52.5,
+        "height": 52.5
+      }
+    },
+    {
+      "width": 667,
+      "height": 375,
+      "keyboard": true,
+      "touch": true,
+      "button": {
+        "x": 400.828125,
+        "y": 184.15625,
+        "width": 47.59375,
+        "height": 47.59375
+      }
+    },
+    {
+      "width": 640,
+      "height": 280,
+      "keyboard": true,
+      "touch": true,
+      "button": {
+        "x": 383.546875,
+        "y": 143.3125,
+        "width": 47.59375,
+        "height": 47.59375
+      }
+    }
+  ],
+  "errors": []
+}

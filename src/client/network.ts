@@ -329,6 +329,7 @@ export class Network {
       reload: input.reload || !!pending?.reload,
       swap: input.swap || !!pending?.swap,
       dodge: input.dodge || !!pending?.dodge,
+      jump: input.jump || !!pending?.jump,
     };
     const now = performance.now();
     // Rendering stalls must not produce a burst of catch-up packets. Keep taps.
