@@ -26,6 +26,7 @@ import { mapFor } from "../src/shared/stages";
 import { initDailyDefense } from "../src/shared/daily-defense";
 import { initSolo } from "../src/shared/solo-progression";
 import { blankLevels } from "../src/client/progression-save";
+import { settings } from "../src/shared/progression";
 import * as T from "three";
 
 it("shows pollen on an elevated support and does not show a projectile for a report slam", () => {
@@ -86,7 +87,7 @@ it("retains every slam warning at the supported enemy and cloud limits", () => {
     born: 0,
     damage: 4,
   }));
-  w.enemies = Array.from({ length: 120 }, (_, i) => ({
+  w.enemies = Array.from({ length: settings(7, "normal").enemyCap }, (_, i) => ({
     ...e,
     id: i + 1,
     x: -90 + (i % 10) * 18,
