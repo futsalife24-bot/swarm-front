@@ -10,6 +10,12 @@ const entries: Record<
   keyof typeof ENEMIES,
   [string, EnemyType, string, string]
 > = {
+  calyx: [
+    "CALYX",
+    "生物型",
+    "前の花弁を地面へ打ち付け、花粉嚢を投げ放ちます。破裂した花粉は広がり、しばらく空間に残ります。",
+    "閉じた蕾を三本の根脚が運びます。乾いた五枚の花弁の奥に、黄土色の花粉嚢が隠れています。",
+  ],
   ant: [
     "HOUND / VOLLEY",
     "異構型",
@@ -65,7 +71,7 @@ export function openBestiary(
   const dialog = document.createElement("dialog");
   dialog.className = "bestiary";
   dialog.setAttribute("aria-labelledby", "bestiary-title");
-  dialog.innerHTML = `<header><div><div class="eyebrow">ANOMALOUS STRUCTURES</div><h2 id="bestiary-title">エネミーレポート</h2></div><button type="button" id="report-close" autofocus>タイトルへ戻る</button></header><div class="report-layout"><nav class="enemy-list" aria-label="敵の一覧"><p class="report-scroll-guide">6種の敵 · 一覧は上下にスクロール ↕</p>${Object.entries(
+  dialog.innerHTML = `<header><div><div class="eyebrow">ANOMALOUS STRUCTURES</div><h2 id="bestiary-title">エネミーレポート</h2></div><button type="button" id="report-close" autofocus>タイトルへ戻る</button></header><div class="report-layout"><nav class="enemy-list" aria-label="敵の一覧"><p class="report-scroll-guide">${Object.keys(ENEMIES).length}種の敵 · 一覧は上下にスクロール ↕</p>${Object.entries(
     entries,
   )
     .map(([key, [knownName, knownRole]], index) => {
@@ -171,8 +177,10 @@ export function openBestiary(
     film.type = "button";
     film.className = "report-film-open";
     film.textContent = "会敵ムービー";
-    film.onclick = () => showEncounterFilm(worm ? "worm" : key, dialog);
-    article.querySelector("h3")!.after(film);
+    film.onclick = () => {
+      if (key !== "calyx") showEncounterFilm(worm ? "worm" : key, dialog);
+    };
+    if (key !== "calyx") article.querySelector("h3")!.after(film);
     if (state !== "solo") {
       article.querySelector(".eyebrow")!.textContent =
         state === "coop" ? "協力で姿を確認" : "未遭遇";

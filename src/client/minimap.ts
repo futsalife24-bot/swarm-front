@@ -12,6 +12,7 @@ const COLORS = {
   ground: "#0d1c25e6",
   block: "#28414d",
   edge: "#4d7b88",
+  calyx: "#cab858",
   crawler: "#ff8b6b",
   spitter: "#ffd479",
   boss: "#ff5f8f",

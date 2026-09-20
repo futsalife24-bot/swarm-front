@@ -4,7 +4,7 @@ import { leaperReportClip } from "./leaper-report-clip";
 import { enemyIdleClip } from "./enemy-idle-clip";
 import { enemyWindupClip } from "./enemy-windup-clip";
 
-export type HoundClip = "Idle" | "Locomotion" | "Lunge";
+export type HoundClip = "Idle" | "Locomotion" | "Lunge" | "Slam" | "PollenShot";
 type ClipRange = { start: number; steps: number; duration: number };
 export type HoundMotionAsset = {
   model: T.Group;
@@ -21,7 +21,8 @@ export function loadHoundMotion(): Promise<HoundMotionAsset> {
   return loadEnemyMotion("hound");
 }
 export function loadEnemyMotion(
-  name: "hound" | "leaper" | "pleat" | "prism" | "ray" | "foundry_zero",
+  name:
+    "hound" | "leaper" | "pleat" | "prism" | "ray" | "foundry_zero" | "calyx",
   report = false,
 ): Promise<HoundMotionAsset> {
   const key = name + (report ? "_report" : "");
@@ -36,28 +37,33 @@ export function loadEnemyMotion(
       model.traverse((o) => {
         if (o instanceof T.SkinnedMesh) meshes.push(o);
       });
+      const clipNames: HoundClip[] =
+        name === "calyx"
+          ? ["Idle", "Locomotion", "Slam", "PollenShot"]
+          : ["Idle", "Locomotion", "Lunge"];
       const attack = clips.find((c) => c.name === "Attack");
       if (attack) attack.name = "Lunge";
       if (
-        meshes.length !== (name === "foundry_zero" ? 5 : 4) ||
-        !(["Idle", "Locomotion", "Lunge"] as const).every((n) =>
-          clips.some((c) => c.name === n),
-        )
+        meshes.length !==
+          (name === "foundry_zero" || name === "calyx" ? 5 : 4) ||
+        !clipNames.every((n) => clips.some((c) => c.name === n))
       )
         throw new Error("Invalid enemy motion asset");
       const skeleton = meshes[0].skeleton,
         bones = skeleton.bones.length;
-      clips.splice(
-        clips.findIndex((c) => c.name === "Idle"),
-        1,
-        enemyIdleClip(model, skeleton.bones, name),
-      );
-      const lungeIndex = clips.findIndex((c) => c.name === "Lunge");
-      clips.splice(
-        lungeIndex,
-        1,
-        enemyWindupClip(model, skeleton.bones, name, clips[lungeIndex]),
-      );
+      if (name !== "calyx") {
+        clips.splice(
+          clips.findIndex((c) => c.name === "Idle"),
+          1,
+          enemyIdleClip(model, skeleton.bones, name),
+        );
+        const lungeIndex = clips.findIndex((c) => c.name === "Lunge");
+        clips.splice(
+          lungeIndex,
+          1,
+          enemyWindupClip(model, skeleton.bones, name, clips[lungeIndex]),
+        );
+      }
       if (name === "leaper" && report)
         clips.splice(
           clips.findIndex((c) => c.name === "Locomotion"),
@@ -67,6 +73,7 @@ export function loadEnemyMotion(
       if (
         bones !==
           {
+            calyx: 16,
             hound: 20,
             leaper: 20,
             pleat: 20,
@@ -83,7 +90,7 @@ export function loadEnemyMotion(
         throw new Error("Unexpected enemy skin binding");
       const ranges = {} as Record<HoundClip, ClipRange>;
       let rows = 0;
-      for (const name of ["Idle", "Locomotion", "Lunge"] as const) {
+      for (const name of clipNames) {
         const duration = clips.find((c) => c.name === name)!.duration,
           steps = Math.round(duration * 60);
         ranges[name] = { start: rows, steps, duration };
@@ -93,7 +100,7 @@ export function loadEnemyMotion(
         mixer = new T.AnimationMixer(model);
       const offset = new T.Matrix4(),
         final = new T.Matrix4();
-      for (const name of ["Idle", "Locomotion", "Lunge"] as const) {
+      for (const name of clipNames) {
         mixer.stopAllAction();
         const action = mixer.clipAction(clips.find((c) => c.name === name)!);
         action.reset().setLoop(T.LoopOnce, 1);
@@ -233,7 +240,7 @@ objectNormal=mat3(houndSkin)*objectNormal;
   ) {
     const r = this.asset.ranges[clip];
     const t =
-      clip === "Lunge"
+      clip === "Lunge" || clip === "Slam" || clip === "PollenShot"
         ? T.MathUtils.clamp(time, 0, r.duration)
         : ((time % r.duration) + r.duration) % r.duration;
     const frame = Math.min(r.steps, t * 60),

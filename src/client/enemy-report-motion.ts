@@ -15,6 +15,28 @@ export function reportPose(
   mode: ReportMotion,
   time: number,
 ) {
+  if (kind === "calyx") {
+    const cycle = time % 6.6,
+      shot = cycle >= 3,
+      sample = shot ? cycle - 3 : cycle;
+    const clip: HoundClip =
+      mode === "move"
+        ? "Locomotion"
+        : mode === "idle"
+          ? "Idle"
+          : sample < (shot ? 2.8 : 2.2)
+            ? shot
+              ? "PollenShot"
+              : "Slam"
+            : "Idle";
+    return {
+      clip,
+      sample: mode === "attack" ? sample : time,
+      height: 0,
+      impact: shot ? 1.6 : 1,
+      cycle: sample,
+    };
+  }
   const base =
     STRUCTURE_TIMING[kind === "ant" || kind === "spider" ? "crawler" : kind];
   const spec = kind === "ant" ? { ...base, impact: 0.8, duration: 1.55 } : base;

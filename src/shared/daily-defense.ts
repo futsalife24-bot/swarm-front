@@ -59,6 +59,7 @@ export function finishDefenseTick(w: World) {
   const defeat = d.armory.hp <= 0 || w.players[0].hp <= 0;
   if (!defeat && w.time < d.duration) return;
   w.phase = defeat ? "defeat" : "victory";
+  w.pollen = [];
   w.reason =
     d.armory.hp <= 0
       ? "武器庫が破壊されました"

@@ -1,3 +1,7 @@
+# 現在地: CALYXゲーム統合を検証・監査準備中（2026-09-20）
+
+branch `codex/calyx-integration`、worktree `../calyx-integration`、base `7b3e4df`。game側のジャンプ/設定作業を保護して分離。単体候補v2 GLBを同一バイトで採用し、前方打撃と放物線の花粉弾・広範囲継続ダメージをsharedに実装。作戦7第2波2体。関連51件/型、実iab表示、ローカル実Worker2接続の同一状態・ダメージ確認済み。全体既知3失敗は[詳細](CALYX.md)。ゲーム統合監査/main反映/公開は未完了。
+
 # 現在地: LINE共有画像・説明文をmain反映・公開確認済み（2026-09-20）
 
 PR53通常merge。ユーザー最終指定の横長1280×720画像と「SWARM FRONT — 仲間と戦う3D協力アクション。」をOGP/Twitterへ設定。独立監査e4bd633合格・必須0。公開ソースf846e07、Worker Version d07241f8-45b2-49f4-84b3-a4328a8f619b。main build/dry-run・公開2URLのHTML/画像原本SHA/12assets一致・health200・実iab画像目視成功。LINE実機と送信済みカード更新は未検証。共有URLは https://swarm-front.melosalife-24.workers.dev/?share=20260920 。[詳細](LINE-SHARE.md)。gameの別タスク差分を保護し、share-image-fixでmain同期。後続は公開記録のみ。

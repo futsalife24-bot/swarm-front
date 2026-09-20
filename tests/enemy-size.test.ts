@@ -27,9 +27,12 @@ it("enlarges every authored individual by 1.5 without changing combat factors", 
   for (const kind of Object.keys(ENEMIES)) {
     for (const worm of [false, true]) {
       original.forEach((factor, slot) => {
-        const previous = kind === "boss" && !worm ? 2 : factor;
-        const enemy = { size: spawnSize(kind, worm, slot) };
-        expect(enemySize(enemy)).toBeCloseTo(previous * 1.5);
+        const previous =
+          kind === "calyx" ? 1 : kind === "boss" && !worm ? 2 : factor;
+        const enemy = { kind, size: spawnSize(kind, worm, slot) };
+        expect(enemySize(enemy)).toBeCloseTo(
+          previous * (kind === "calyx" ? 1 : 1.5),
+        );
         expect(enemyStatSize(enemy)).toBe(previous);
         expect(enemySpeedFactor(enemy)).toBe(previous <= 1 ? 1.5 : 1);
       });

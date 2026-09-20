@@ -7,6 +7,7 @@ import {
 } from "./hound-motion";
 import { STRUCTURE_TIMING } from "../shared/structure-timing";
 export const STRUCTURE_ASSETS = {
+  calyx: "calyx",
   crawler: "pleat",
   ant: "hound",
   spider: "leaper",
@@ -15,7 +16,11 @@ export const STRUCTURE_ASSETS = {
   boss: "foundry_zero",
 } as const;
 export type StructureVisualKind = keyof typeof STRUCTURE_ASSETS;
-export type StructureInput = HoundVisualInput & { slot: number };
+export type StructureInput = HoundVisualInput & {
+  slot: number;
+  calyx?: import("../shared/calyx").CalyxAttack;
+  worldTime?: number;
+};
 type State = {
   clip: HoundClip;
   time: number;
@@ -53,6 +58,24 @@ export class StructureMotionController {
           cool: e.cool,
         };
         this.states.set(e.id, s);
+      }
+      if (this.kind === "calyx") {
+        const desired: HoundClip =
+          e.calyx?.kind ?? (e.moving ? "Locomotion" : "Idle");
+        if (desired !== s.clip) {
+          s.from = s.clip;
+          s.fromTime = s.time;
+          s.clip = desired;
+          s.time = 0;
+          s.blend = 0;
+        }
+        s.time = e.calyx
+          ? Math.max(0, (e.worldTime ?? 0) - e.calyx.started)
+          : s.time + (desired === "Locomotion" ? e.distance / 0.65 : dt);
+        s.blend = e.calyx ? Math.max(s.blend + dt, s.time) : s.blend + dt;
+        s.fromTime += dt;
+        batch.setPose(i, s.clip, s.time, s.from, s.fromTime, s.blend / 0.12);
+        return;
       }
       const fired =
         e.wind <= 0 &&

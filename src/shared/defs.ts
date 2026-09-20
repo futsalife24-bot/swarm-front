@@ -68,6 +68,7 @@ export const WEAPONS = {
 // own base. `cruise` is how high that base floats; ground units keep it at 0, so
 // their hit boxes are unchanged.
 export const ENEMIES = {
+  calyx: { hp: 360, speed: 0.65, radius: 0.9, damage: 24, aim: 1.4, cruise: 0 },
   ant: { hp: 85, speed: 4.1, radius: 1.25, damage: 8, aim: 1.2, cruise: 0 },
   spider: { hp: 95, speed: 4.8, radius: 1.5, damage: 15, aim: 1, cruise: 0 },
   crawler: {
