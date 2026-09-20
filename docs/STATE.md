@@ -1,3 +1,10 @@
+# 現在地: PR49監査送信済み、iab接続復旧待ち（2026-09-20）
+
+具体的ZIP送信をユーザーが承認し、通常Chat https://chatgpt.com/c/6aaf3460-4148-83ee-bd18-e844f7c19555 へ同一ZIP添付・監査依頼成功。対象1b345078b07c917ae4328aa6d8543d5b8ef938d6、後続は記録のみ。PR49 main未反映・未公開。別作業の .gitignore/AGENTS.md/package.json/CLAUDE.md 差分は保護。
+
+停止理由: 監査会話のDOM読取・同タブreloadがCDPタイムアウト、同じ会話の新規タブもwebview attach timeout。最終判定未取得。監査側の途中進捗を合格扱いしていない。
+再開条件: iab接続復旧後、上記の同じ監査Chatから判定取得。送信承認は取得済みで再確認不要。必須修正/再監査→Hub先行公開→PR49通常merge/既存Worker公開→日次集計移行・各アプリ配信確認。全体詳細はproject-hub/STATE.md。
+
 # 現在地: PR49を保存、独立監査ZIP送信の承認待ち（2026-09-19）
 
 [PR49](https://github.com/futsalife24-bot/swarm-front/pull/49)、branch codex/independent-project-hub、base d8173c733dda3af236348eb374f086a60179542d、監査対象1b345078b07c917ae4328aa6d8543d5b8ef938d6。関連16テスト/型/両build/対象commitからproduction dry-run成功。後続は記録のみ。main未反映・未公開。
