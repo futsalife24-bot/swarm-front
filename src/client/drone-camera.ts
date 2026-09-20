@@ -27,6 +27,7 @@ export class DroneCamera {
   active = false;
   readonly keys = new Set<string>();
   private previousRadius = 24;
+  private previousSpeed = 8;
   constructor(public settings: DroneSettings = { ...DRONE_DEFAULTS }) {}
   static fromLocation(
     search = typeof location === "undefined" ? "" : location.search,
@@ -64,13 +65,18 @@ export class DroneCamera {
         return;
       event.preventDefault();
       this.keys.add(event.code);
-      if (!event.repeat && event.code === "KeyB")
-        this.settings.speed = this.settings.speed ? 0 : 8;
+      if (!event.repeat && event.code === "KeyB") this.toggleOrbit();
       if (!event.repeat && event.code === "KeyV") this.topDown();
     });
     window.addEventListener("keyup", (event) => this.keys.delete(event.code));
     window.addEventListener("blur", () => this.keys.clear());
     document.addEventListener("visibilitychange", () => this.keys.clear());
+  }
+  toggleOrbit() {
+    if (this.settings.speed !== 0) {
+      this.previousSpeed = this.settings.speed;
+      this.settings.speed = 0;
+    } else this.settings.speed = this.previousSpeed;
   }
   topDown() {
     if (this.settings.radius > 0) {
@@ -105,9 +111,12 @@ export class DroneCamera {
       focus.z + Math.cos(yaw) * s.radius,
     );
     // A horizontal up vector makes a true top-down shot stable (no pole singularity).
-    if (s.radius < 0.001) camera.up.set(Math.sin(yaw), 0, -Math.cos(yaw));
+    if (s.radius < 0.001) camera.up.set(-Math.sin(yaw), 0, -Math.cos(yaw));
     else camera.up.set(0, 1, 0);
     camera.lookAt(focus.x, (focus.y ?? 0) + 1, focus.z);
+    // lookAt has captured the orientation in the quaternion. Keep the shared
+    // camera safe to clone for world-upright encounter cinematics.
+    camera.up.set(0, 1, 0);
   }
   mount(root: HTMLElement) {
     const panel = document.createElement("details");

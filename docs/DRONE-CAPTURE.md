@@ -39,3 +39,12 @@
 [PR51](https://github.com/futsalife24-bot/swarm-front/pull/51)、実装abc9b2a、最新main記録統合後の監査対象 `da1c6e157fc5f39385b14e50e63e04343e4bcb84`。当該HEADから `npm run build` / `npm run server:build:production` 成功（既存の大チャンク警告）。
 
 [通常Chat監査](https://chatgpt.com/c/6aaf4a36-b818-83ee-b355-b6f30b4ba8a5) へ必要ソース/差分/撮影証拠ZIPを直接添付・依頼済み。ZIP: dist-validation/drone-capture/drone-audit.zip、6,848,868 bytes、SHA256 fb8b37b64b941f991b2676a0c5560ef3fca993be8134ba56765dedda24879226。初回送信ボタンは反応せず、再読み込みは一度自動承認レビューが下書き喪失懸念で拒否。本文保存と元ZIP整合性確認後の再読み込みが許可され、再添付とEnter送信に成功（Chat添付名drone-audit(1).zip）。監査判定/main反映/公開は未完了。後続は記録のみ。
+
+
+### 初回監査の修正
+
+da1c6e1の判定は要修正。F1(P2): 真上計算用の水平camera.upが共有カメラに残り、初遭遇演出のcloneへ漏れる。新規の実Three.js＋既存encounterCameraの四方向回帰テストで修正前4件失敗を再現。lookAtで姿勢確定後にcamera.upを世界の上(0,1,0)へ戻し、既存演出には撮影用の補助軸を渡さない。任意N1はBで直前の周回速度/符号を復元、N2は真上の上方向X符号を修正し、斜めからの方角連続性を維持。
+
+修正後は型・関連44件成功。四方向の初遭遇姿勢/撮影復帰4件、速度保持1件、方角連続5件を追加。通常時の判定・UI・main接続は変更なし。初回監査側は依存取得不可で型/34テスト/buildの独立再実行は未実施、実コード切出し・数値/ブラウザハーネスと添付証拠で判定した。
+
+`node scripts/check-drone-encounter.mjs` 成功。実Chrome667×375で実Renderer/Three.js/encounterCameraを用い、四方向の演出終点の水平と、真上45度の撮影視点への復帰を確認。right.yの絶対値は最大約2.8e-17、up.yは約0.984、復帰の位置/回転差0、World不変、pageerror0。5画像＋JSONは [encounter証拠](evidence/drone-capture/encounter/)。静止QAから演出カメラを直接動かす検証で、実戦での自動初遭遇トリガーは未検証。撮影スクリプトの初回復帰画像はdt=0でフレーム間引きに遭い、最終実行で描画実行=trueも確認して差し替えた。

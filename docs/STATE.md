@@ -1,3 +1,7 @@
+# 現在地: PR51ドローン撮影、監査F1を修正・再監査準備（2026-09-20）
+
+[監査Chat](https://chatgpt.com/c/6aaf4a36-b818-83ee-b355-b6f30b4ba8a5) のda1c6e1判定は要修正1件。真上用の補助軸が初遭遇カメラへ漏れるF1を回帰テストで再現し、姿勢計算後に世界の上へ戻す修正。任意の周回速度保持・方角連続も対応。型/関連44件成功、実Chrome667×375の四方向演出/真上復帰・World不変・エラー0も成功。再監査準備中。main未反映・未公開。詳細 [DRONE-CAPTURE.md](DRONE-CAPTURE.md)。
+
 # 現在地: ドローン撮影カメラを実装・検証、公開準備中（2026-09-20）
 
 branch `codex/drone-capture`、base `3f93a25bcc19952180b4a034688bc2e67551c8e9`。`?drone=1&clean=1` で兵士を上空から追従/周回。真上、高さ/距離/向き/速度、通常カメラ復帰を既存ポーズ内から調整。戦闘/保存/敵出現は無変更。型/関連34件成功、実Chrome2サイズの構図とソロのキー/ポーズ操作成功。24体円状配置は静止QA用。[PR51](https://github.com/futsalife24-bot/swarm-front/pull/51)、監査対象da1c6e157fc5f39385b14e50e63e04343e4bcb84からbuild/dry-run成功。[通常Chat](https://chatgpt.com/c/6aaf4a36-b818-83ee-b355-b6f30b4ba8a5)へZIP添付・依頼済み、判定待ち。main反映/公開は未完了。詳細 [DRONE-CAPTURE.md](DRONE-CAPTURE.md)。

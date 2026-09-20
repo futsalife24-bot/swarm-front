@@ -1,5 +1,6 @@
 import { expect, it } from "vitest";
 import * as T from "three";
+import { encounterCamera } from "../src/client/encounter-camera";
 import {
   DroneCamera,
   droneSettings,
@@ -49,7 +50,7 @@ it("keeps top-down orientation finite and restores the slanted view", () => {
   drone.apply(camera, { x: 0, z: 0 }, 0, true);
   expect(camera.position.toArray()).toEqual([0, 32, 0]);
   expect(camera.quaternion.toArray().every(Number.isFinite)).toBe(true);
-  expect(camera.up.y).toBe(0);
+  expect(camera.up.toArray()).toEqual([0, 1, 0]);
   drone.topDown();
   drone.apply(camera, { x: 0, z: 0 }, 0, true);
   expect(camera.position.z).toBe(24);
@@ -77,3 +78,62 @@ it("leaves the ordinary camera untouched when disabled", () => {
   drone.apply(camera, { x: 70, z: 80 }, 0.1, true);
   expect(camera.toJSON()).toEqual(before);
 });
+
+it.each([0, Math.PI / 2, Math.PI, -Math.PI / 2])(
+  "keeps first-encounter shots upright after top-down at heading %s and returns to drone",
+  (yaw) => {
+    const drone = new DroneCamera({
+      ...DRONE_DEFAULTS,
+      radius: 0,
+      height: 48,
+      speed: 0,
+    });
+    const camera = new T.PerspectiveCamera(65, 16 / 9, 0.1, 1200);
+    const soldier = { x: 0, y: 0, z: 0 };
+    drone.apply(camera, soldier, 0, false);
+    const before = camera.clone();
+    const focus = new T.Vector3(4, 2, -5);
+    const front = new T.Vector3(Math.sin(yaw), 0, Math.cos(yaw));
+    const sample = encounterCamera(camera.clone(), focus, front, 10);
+    expect(sample(0).quaternion.angleTo(before.quaternion)).toBeLessThan(1e-7);
+    for (const progress of [0.25, 0.5, 1]) {
+      const pose = sample(progress);
+      const up = new T.Vector3(0, 1, 0).applyQuaternion(pose.quaternion);
+      const right = new T.Vector3(1, 0, 0).applyQuaternion(pose.quaternion);
+      expect(up.y).toBeGreaterThan(0);
+      expect(Math.abs(right.y)).toBeLessThan(1e-7);
+    }
+    camera.position.copy(sample(1).position);
+    camera.quaternion.copy(sample(1).quaternion);
+    drone.apply(camera, soldier, 0, false);
+    expect(camera.position.toArray()).toEqual(before.position.toArray());
+    expect(camera.quaternion.angleTo(before.quaternion)).toBeLessThan(1e-7);
+  },
+);
+
+it("resumes the chosen orbit speed and direction", () => {
+  const drone = new DroneCamera({ ...DRONE_DEFAULTS, speed: -12 });
+  drone.toggleOrbit();
+  expect(drone.settings.speed).toBe(0);
+  drone.toggleOrbit();
+  expect(drone.settings.speed).toBe(-12);
+});
+it.each([-90, -45, 45, 90, 180])(
+  "preserves compass orientation when switching to top-down at yaw %s",
+  (yaw) => {
+    const drone = new DroneCamera({
+      ...DRONE_DEFAULTS,
+      height: 48,
+      radius: 0.001,
+      yaw,
+      speed: 0,
+    });
+    const camera = new T.PerspectiveCamera();
+    drone.apply(camera, { x: 0, z: 0 }, 0, false);
+    const before = camera.quaternion.clone();
+    drone.topDown();
+    drone.apply(camera, { x: 0, z: 0 }, 0, false);
+    expect(camera.quaternion.angleTo(before)).toBeLessThan(0.0001);
+    expect(camera.up.toArray()).toEqual([0, 1, 0]);
+  },
+);
