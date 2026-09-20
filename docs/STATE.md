@@ -1,7 +1,6 @@
-# 現在地: CALYX v5の監査指摘・動作遷移の潰れを修正（2026-09-20）
+# 現在地: CALYX v5の遷移中の180度反転を修正（2026-09-20）
 
-branch codex/calyx-rounded-redesign / worktree ../calyx-integration / PR58。d5e427cの独立監査は必須P2が1件（回転移動から攻撃/待機への行列補間で約95%圧縮）。CALYX専用のローカルTRS＋球面補間＋親子階層合成へ修正。実GLBは同一64719fde。実GPU549ケース×16骨を標準AnimationMixerと照合して誤差0.00001032未満、det約1。実ゲームの50%混合も確認。関連29件・client型成功。[同じ通常Chat](https://chatgpt.com/c/6aafd926-90a0-83ee-a297-65a7f91d005d)へ3df62dea81512ea8c4556c41182080d59e5f4615の修正ZIPを再提出済み。最終判定待ち。任意P3の距離補正中の根先滑りは記録済み。main反映/公開未完了。[詳細](CALYX-REDESIGN.md)。
-
+branch codex/calyx-rounded-redesign / worktree ../calyx-integration / PR58。3df62deの再監査は圧縮解消済み・必須P2が1件（fromTime更新により最短回転経路が反転）。CALYXのみ切替開始時の移行元姿勢を固定して修正。実GPU549静的ケース＋実コントローラーの63連続フレームで最大隣接回転約9.54度、31関連テスト・client型成功。実GLB64719fdeは不変。[同じ通常Chat](https://chatgpt.com/c/6aafd926-90a0-83ee-a297-65a7f91d005d)へ修正差分を再提出する。任意P3の距離補正中の根先滑りは記録済み。main反映/公開未完了。[詳細](CALYX-REDESIGN.md)。
 # 現在地: CALYX PR55をmain反映・公開、公開UIの保存保護解除待ち（2026-09-20）
 
 最終ded4fdbの独立Chat監査合格・必須0。PR55通常merge、公開ソース `46167df67b79379d3c5401429dd102e24f342ce2`、Worker Version `4da37f8a-8b09-4eb5-8e44-716e9c0fbcff`。作戦7波2に2体、前方打撃/広域花粉弾、図鑑・実GLB・同期を公開。main build/dry-run、配信13SHA/health成功。最新mainとの関連103件・最終15件、実Worker2接続、ローカル実iabのモデル/打撃/花粉/屋上予兆を確認。[詳細/監査URL](CALYX.md)、証拠docs/evidence/calyx/。

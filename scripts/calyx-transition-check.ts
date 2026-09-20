@@ -1,6 +1,7 @@
 import * as T from "three";
 import { loadEnemyMotion, type HoundClip } from "../src/client/hound-motion";
 import { TRS_PALETTE_GLSL } from "../src/client/motion-trs";
+import { StructureMotionController } from "../src/client/structure-motion";
 
 async function check() {
   const asset = await loadEnemyMotion("calyx"),
@@ -101,11 +102,71 @@ void main(){float pixel=floor(gl_FragCoord.x);mat4 m=houndMatrix(floor(pixel/4.0
         }
         cases++;
       }
+  let continuousFrames = 0,
+    maxFrameAngle = 0;
+  const drawRotations = () => {
+    renderer.setRenderTarget(target);
+    renderer.render(scene, camera);
+    renderer.readRenderTargetPixels(target, 0, 0, asset.bones * 4, 1, pixels);
+    return Array.from({ length: asset.bones }, (_, i) =>
+      new T.Quaternion()
+        .setFromRotationMatrix(new T.Matrix4().fromArray(pixels, i * 16))
+        .normalize(),
+    );
+  };
+  for (const clip of ["Idle", "Slam", "PollenShot"] as const) {
+    const controller = new StructureMotionController("calyx"),
+      input = {
+        slot: 0,
+        id: 1,
+        moving: true,
+        distance: 0.65 / 60,
+        wind: 0,
+        cool: 0,
+      };
+    for (let frame = 0; frame < 170; frame++)
+      controller.update({ setPose() {} }, [input], 1 / 60);
+    uniforms.houndPoseB.value.copy(pose("Locomotion", 170 / 60));
+    uniforms.houndBlend.value = 1;
+    let prior = drawRotations();
+    for (let frame = 1; frame <= 21; frame++) {
+      controller.update(
+        {
+          setPose(_slot, to, time, from, fromTime, blend) {
+            uniforms.houndPoseA.value.copy(pose(from!, fromTime!));
+            uniforms.houndPoseB.value.copy(pose(to, time));
+            uniforms.houndBlend.value = Math.min(1, blend!);
+          },
+        },
+        [
+          {
+            ...input,
+            moving: false,
+            distance: 0,
+            worldTime: frame / 60,
+            calyx:
+              clip === "Idle"
+                ? undefined
+                : { kind: clip, started: 0, fired: false, yaw: 0 },
+          },
+        ],
+        1 / 60,
+      );
+      const current = drawRotations();
+      current.forEach(
+        (q, i) =>
+          (maxFrameAngle = Math.max(maxFrameAngle, prior[i].angleTo(q))),
+      );
+      prior = current;
+      continuousFrames++;
+    }
+  }
   const pass =
     Number.isFinite(maxError) &&
     maxError < 0.0001 &&
     minDet > 0.999 &&
-    maxDet < 1.001;
+    maxDet < 1.001 &&
+    maxFrameAngle < 0.35;
   document.querySelector("#result")!.textContent = JSON.stringify(
     {
       pass,
@@ -114,6 +175,8 @@ void main(){float pixel=floor(gl_FragCoord.x);mat4 m=houndMatrix(floor(pixel/4.0
       maxError,
       minDet,
       maxDet,
+      continuousFrames,
+      maxFrameAngle,
       method:
         "Actual WebGL local-TRS shader vs independent standard Three.js AnimationMixer including bone hierarchy and inverse bind; locomotion phases across full turn to Idle/Slam/PollenShot, 25/50/75% blends",
     },
