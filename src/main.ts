@@ -1637,6 +1637,7 @@ function openPause(confirming = false) {
     return ok;
   });
   alignSettings(menu.querySelector(".pause-card")!);
+  view.drone?.mount(menu.querySelector<HTMLElement>(".pause-settings")!);
   bindAimRanges("pause-", (next) => {
     const ok = write(next);
     if (ok) configured();

@@ -1,0 +1,49 @@
+.drone-tools {
+  margin-top: 8px;
+  border-top: 1px solid #81b5bc55;
+  padding-top: 4px;
+}
+.drone-tools summary {
+  cursor: pointer;
+  padding: 4px 0;
+}
+.drone-tools .drone-ranges {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px 16px;
+}
+.drone-tools .drone-ranges label {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px;
+  margin: 0;
+}
+.drone-tools .drone-ranges input {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-width: 0;
+}
+.drone-tools output {
+  grid-column: 2;
+  grid-row: 1;
+  font-variant-numeric: tabular-nums;
+}
+.drone-tools p {
+  font-size: 12px;
+  margin: 4px 0;
+}
+
+.drone-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.drone-actions label {
+  margin: 0;
+}
+@media (max-width: 540px) {
+  .drone-tools .drone-ranges {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
