@@ -46,3 +46,5 @@ CALYXだけ、各骨のローカル位置/回転/大きさを別パレットへ�
 実WebGLの同一補間関数と標準Three.js AnimationMixer（実GLB・親子階層・逆バインド含む）を549ケース×16骨で比較。最大行列要素誤差0.00001032未満、det0.9999987〜1.0000004。ゲームGPUでもLocomotion3秒→Slam0.175秒の50%姿勢を確認し、蕾/花弁の形状を保持。証拠gpu-transition-validation.json、game-transition-fixed.png。再現用UIはscripts/calyx-transition-check.html。
 
 任意P3として、通常周回の根先滑り最大約5.4cm、距離補正中の2秒接地区間は最大約85.7cmとの独立計測を記録。現状の公称横歩行と半径補正の差による接地感の制約。今回の必須修正と区別し、完全な動的接地補正は未実装。
+
+修正3df62dea81512ea8c4556c41182080d59e5f4615をCALYX-v5-3df62de-transition-fix.zipとして同じ監査Chatへ送信済み。判定待ち。

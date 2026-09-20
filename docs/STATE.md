@@ -1,6 +1,6 @@
 # 現在地: CALYX v5の監査指摘・動作遷移の潰れを修正（2026-09-20）
 
-branch codex/calyx-rounded-redesign / worktree ../calyx-integration / PR58。d5e427cの独立監査は必須P2が1件（回転移動から攻撃/待機への行列補間で約95%圧縮）。CALYX専用のローカルTRS＋球面補間＋親子階層合成へ修正。実GLBは同一64719fde。実GPU549ケース×16骨を標準AnimationMixerと照合して誤差0.00001032未満、det約1。実ゲームの50%混合も確認。関連29件・client型成功。[同じ通常Chat](https://chatgpt.com/c/6aafd926-90a0-83ee-a297-65a7f91d005d)へ修正差分を再提出する。任意P3の距離補正中の根先滑りは記録済み。main反映/公開未完了。[詳細](CALYX-REDESIGN.md)。
+branch codex/calyx-rounded-redesign / worktree ../calyx-integration / PR58。d5e427cの独立監査は必須P2が1件（回転移動から攻撃/待機への行列補間で約95%圧縮）。CALYX専用のローカルTRS＋球面補間＋親子階層合成へ修正。実GLBは同一64719fde。実GPU549ケース×16骨を標準AnimationMixerと照合して誤差0.00001032未満、det約1。実ゲームの50%混合も確認。関連29件・client型成功。[同じ通常Chat](https://chatgpt.com/c/6aafd926-90a0-83ee-a297-65a7f91d005d)へ3df62dea81512ea8c4556c41182080d59e5f4615の修正ZIPを再提出済み。最終判定待ち。任意P3の距離補正中の根先滑りは記録済み。main反映/公開未完了。[詳細](CALYX-REDESIGN.md)。
 
 # 現在地: CALYX PR55をmain反映・公開、公開UIの保存保護解除待ち（2026-09-20）
 
@@ -1250,4 +1250,3 @@ EDFはミニマップが視点に追従して回転するためこの分担が�
 
 ## 2026-09-12 下向き移動のカメラ振動
 カメラ位置と注視点の補間基準を統一。原因・差分・修正前後の計測は docs/CAMERA-JITTER.md。
-
