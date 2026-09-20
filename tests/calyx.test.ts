@@ -76,6 +76,29 @@ function setup() {
   w.enemies = [e];
   return { w, p, e };
 }
+it("places elevated slam warnings and impact marks on the attacker's support", () => {
+  const { w, e } = setup();
+  const roof = mapFor(w).blocks[0];
+  Object.assign(e, { x: roof.x, z: roof.z, y: roof.h });
+  const fx = new CalyxEffects();
+  for (const fired of [false, true]) {
+    w.time = fired ? 1.1 : 0.5;
+    e.calyx = { kind: "Slam", started: 0, fired, yaw: 0 };
+    fx.update(w);
+    const batches = fx.root.children.filter(
+      (o) => o instanceof T.InstancedMesh,
+    ) as T.InstancedMesh[];
+    let elevated = 0;
+    for (const batch of batches)
+      for (let i = 0; i < batch.count; i++)
+        if (
+          Math.abs(batch.instanceMatrix.array[i * 16 + 13] - roof.h - 0.035) <
+          0.001
+        )
+          elevated++;
+    expect(elevated).toBeGreaterThan(0);
+  }
+});
 it("retains every slam warning at the supported enemy and cloud limits", () => {
   const { w, e } = setup();
   w.time = 2;
@@ -87,13 +110,16 @@ it("retains every slam warning at the supported enemy and cloud limits", () => {
     born: 0,
     damage: 4,
   }));
-  w.enemies = Array.from({ length: settings(7, "normal").enemyCap }, (_, i) => ({
-    ...e,
-    id: i + 1,
-    x: -90 + (i % 10) * 18,
-    z: 35 + Math.floor(i / 10) * 12,
-    calyx: { kind: "Slam" as const, started: 1.5, fired: false, yaw: 0 },
-  }));
+  w.enemies = Array.from(
+    { length: settings(7, "normal").enemyCap },
+    (_, i) => ({
+      ...e,
+      id: i + 1,
+      x: -90 + (i % 10) * 18,
+      z: 35 + Math.floor(i / 10) * 12,
+      calyx: { kind: "Slam" as const, started: 1.5, fired: false, yaw: 0 },
+    }),
+  );
   const fx = new CalyxEffects();
   fx.update(w);
   const batches = fx.root.children.filter(
