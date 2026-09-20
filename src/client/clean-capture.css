@@ -1,0 +1,11 @@
+/* Presentation only: preserve touch hit areas and every input handler. */
+html[data-clean-capture="true"] #hud,
+html[data-clean-capture="true"] #minimap,
+html[data-clean-capture="true"] #damage,
+html[data-clean-capture="true"] #scope-overlay {
+  visibility: hidden !important;
+}
+html[data-clean-capture="true"] #controls > :not(#pause) {
+  opacity: 0 !important;
+}
+/* The existing pause button/menu and separate layout preview remain available. */

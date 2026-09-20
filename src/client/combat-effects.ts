@@ -1,3 +1,4 @@
+import { cleanCapture } from "./clean-capture";
 import * as T from "three";
 import type { Event, Projectile } from "../shared/game";
 
@@ -32,6 +33,7 @@ type Effect = {
   velocity: T.Vector3;
   kind:
     | "bullet"
+    | "trail"
     | "flash"
     | "fire"
     | "smoke"
@@ -49,7 +51,10 @@ export class CombatEffects {
   detail = 1;
   origin = new T.Vector3();
   trailTime = 0;
-  constructor(private scene: T.Scene) {}
+  constructor(
+    private scene: T.Scene,
+    private capture = cleanCapture,
+  ) {}
   add(
     kind: Effect["kind"],
     x: number,
@@ -60,6 +65,11 @@ export class CombatEffects {
     color: number,
     velocity = new T.Vector3(),
   ) {
+    if (
+      (kind === "bullet" || kind === "trail") &&
+      this.capture.tracerOpacity === 0
+    )
+      return;
     if (this.items.length >= this.budget) return;
     const flat = kind === "ring";
     const soft =
@@ -91,7 +101,8 @@ export class CombatEffects {
         }),
       );
     mesh.material.color.setHex(color);
-    mesh.material.opacity = 1;
+    mesh.material.opacity =
+      kind === "bullet" || kind === "trail" ? this.capture.tracerOpacity : 1;
     mesh.quaternion.identity();
     mesh.position.set(x, y, z);
     mesh.scale.setScalar(size);
@@ -244,7 +255,7 @@ export class CombatEffects {
     this.trailTime = 0;
     for (const q of projectiles) {
       this.add(
-        q.rocket ? "smoke" : "spark",
+        q.rocket ? "smoke" : this.capture.enabled ? "trail" : "spark",
         q.x,
         q.y,
         q.z,
@@ -296,7 +307,10 @@ export class CombatEffects {
             : e.kind === "smoke"
               ? 0.42
               : 1) *
-        (1 - t);
+        (1 - t) *
+        (e.kind === "bullet" || e.kind === "trail"
+          ? this.capture.tracerOpacity
+          : 1);
       if (t === 1) {
         this.scene.remove(e.mesh);
         // Keep GPU programs/materials warm during sustained multi-player fire.

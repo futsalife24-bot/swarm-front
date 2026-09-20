@@ -1,3 +1,10 @@
+# 現在地: PV撮影クリーンモードを実装、独立監査ツールの復旧待ち（2026-09-20）
+
+branch `codex/clean-capture`、base `d8173c733dda3af236348eb374f086a60179542d`。`?clean=1` でHUD/ミニマップ/操作表示/予告マーカーを隠し、曳光線25%（`&tracers=off` で非表示）。ポーズ・入力・世界の描画・保存仕様を維持。main.tsは変更なし。型/関連27単体成功、実Chrome2サイズ×3条件で戦闘/ポーズ12画像・pageerror0。全体テスト366成功、既存の2テスト失敗/1スイート読込失敗は変更前mainでも再現。[仕様・検証・証拠・限界](CLEAN-CAPTURE.md)。実機/実協力通信は未検証。commit/PR/監査資料の所在は保存後に追記する。
+
+停止理由: 独立監査用iabがkernel assetsのパス不存在（os error 3）で初期化できず、reset後も再現。監査未依頼・main未反映・未公開。
+再開条件: iab復旧後、保存した対象SHAの監査資料を通常Chatへ添付し、独立監査・必要修正・通常merge・既存Worker公開と配信確認を行う。
+
 # 現在地: PR48・モンスターの多彩な接近をmain反映・公開済み（2026-09-19）
 
 [PR48](https://github.com/futsalife24-bot/swarm-front/pull/48)通常merge。独立再監査552da47合格・必須0。左右回り込み/蛇行/正面寄りを混在し、近距離で攻撃へ収束。壁際の追跡退行は9配置の実被弾で修正確認。型/関連単体/実iab/実Worker2接続/両build成功。公開ソース121321c1425f3c8e0fc677f7cfdda61ef9bb7400、Worker Version 7f76dd89-a219-4347-a1cd-39aefb3b539a。merge後build/dry-run・13配信SHA一致・health正常・公開iabソロ実戦描画/error0。[詳細・既存更新履歴テスト1件失敗・検証限界](VARIED-PURSUIT.md)。実機/多数敵時の性能/全通しは未確認。後続は公開記録のみ。
