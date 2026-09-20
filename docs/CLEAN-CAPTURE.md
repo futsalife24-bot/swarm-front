@@ -23,6 +23,7 @@
 ## 検証
 
 - `npm run typecheck`: 成功。
+- `npm run build`: 保存済み実装commit `3f40bf3` から成功。既存の500kB超チャンク警告あり。
 - 新規 `tests/clean-capture.test.ts` 8件: 成功。フラグ無し/不正値/qa・perfとの通常動作、HUD要素の維持、通常曳光線、25%/off、爆発と銃口エフェクトの維持を確認。
 - 関連 `clean-capture/render/layout/rescue` 合計27件: 成功。
 - `npm test`: 最終実行は366成功・2テスト失敗・1スイート読込失敗（36ファイル中33成功、3失敗）。失敗3件は変更前mainのソースからも同じエラーで再現した。
