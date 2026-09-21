@@ -1,0 +1,89 @@
+{
+  "source": "27a08ab5deaae4e27d0a30ced27be78df056b1e4",
+  "url": "https://swarm-front.melosalife-24.workers.dev",
+  "at": "2026-09-21T07:31:30.560Z",
+  "files": [
+    {
+      "file": "index.html",
+      "local": "9b89c67bd968dd7999fbf9a36e2e3a8160edf9ca521d1786c8818af8435ee855",
+      "remote": "9b89c67bd968dd7999fbf9a36e2e3a8160edf9ca521d1786c8818af8435ee855",
+      "match": true
+    },
+    {
+      "file": "assets/index-Cgh3JGNN.js",
+      "local": "1aa94fa2b67ebe5cc54b065715019973d3cddcc41d94079e45547d95c64ff4a3",
+      "remote": "1aa94fa2b67ebe5cc54b065715019973d3cddcc41d94079e45547d95c64ff4a3",
+      "match": true
+    },
+    {
+      "file": "assets/index-CPbai1ZT.css",
+      "local": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "remote": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "match": true
+    },
+    {
+      "file": "assets/main-C1Ldsy-y.css",
+      "local": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1",
+      "remote": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1",
+      "match": true
+    },
+    {
+      "file": "assets/main-CxH56DzD.js",
+      "local": "1985441a4d0c4f53c89ae3dd05b17fc305c769fed82d20b0b4d11e53b3b39598",
+      "remote": "1985441a4d0c4f53c89ae3dd05b17fc305c769fed82d20b0b4d11e53b3b39598",
+      "match": true
+    },
+    {
+      "file": "assets/playtest-app-C2tZpCuP.js",
+      "local": "66c7221932815c33bcaca0fb2d7350fc4645e81f46afb96bdf38e3a032f8cf6a",
+      "remote": "66c7221932815c33bcaca0fb2d7350fc4645e81f46afb96bdf38e3a032f8cf6a",
+      "match": true
+    },
+    {
+      "file": "assets/playtest-app-ZIk2Sftq.css",
+      "local": "f4e6ac01d672fbbe716e72d58bd5816f9de706fa3eaa81a41567972bb3f4491c",
+      "remote": "f4e6ac01d672fbbe716e72d58bd5816f9de706fa3eaa81a41567972bb3f4491c",
+      "match": true
+    },
+    {
+      "file": "assets/training-app-B-kK2aSr.js",
+      "local": "5554794d98d9f49cf7c0e2c26c1f0ffaf815c1b5d117a12cdde27b4bcd930227",
+      "remote": "5554794d98d9f49cf7c0e2c26c1f0ffaf815c1b5d117a12cdde27b4bcd930227",
+      "match": true
+    },
+    {
+      "file": "assets/weapon-help-Clh1V6L1.css",
+      "local": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607",
+      "remote": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607",
+      "match": true
+    },
+    {
+      "file": "assets/weapon-help-Dzx1R7Zl.js",
+      "local": "f6d4cd29f08c96355327e90b2e1d2e991dde78b487a31962efb29e0a1f6daeb7",
+      "remote": "f6d4cd29f08c96355327e90b2e1d2e991dde78b487a31962efb29e0a1f6daeb7",
+      "match": true
+    },
+    {
+      "file": "assets/weapon-sharing-B_b0Y8mP.js",
+      "local": "429a384902b807be1cf68b31a24dba80632039fd5471bf89de9e5196c03764f7",
+      "remote": "429a384902b807be1cf68b31a24dba80632039fd5471bf89de9e5196c03764f7",
+      "match": true
+    },
+    {
+      "file": "assets/zoom-guard-BlWIjgJb.css",
+      "local": "312dac5ac1021181509d5929954f24b9ace9c26b38ebb667dbfa662d6c13f27c",
+      "remote": "312dac5ac1021181509d5929954f24b9ace9c26b38ebb667dbfa662d6c13f27c",
+      "match": true
+    },
+    {
+      "file": "assets/zoom-guard-DXXlpMaZ.js",
+      "local": "2002cf84a7884ef0ae7dc55f125871573c19ea85d6fc46afe585648c5187dfe1",
+      "remote": "2002cf84a7884ef0ae7dc55f125871573c19ea85d6fc46afe585648c5187dfe1",
+      "match": true
+    }
+  ],
+  "health": {
+    "status": 200,
+    "body": "{\"ok\":true,\"transport\":\"websocket\",\"authority\":\"durable-object\"}"
+  }
+}
