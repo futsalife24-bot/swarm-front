@@ -1,3 +1,7 @@
+# 現在地: PR72の承認済み監査ZIPを送信、独立監査中（2026-09-21）
+
+ユーザーが今回ZIPの通常ChatGPTへの送信を明示承認。同一SHA256を照合して[通常Chat](https://chatgpt.com/c/6ab0f325-03a8-83e8-b1cd-29ced57787c4)へ添付・依頼済み、解析開始を確認。対象 `962674c3dbf4746db92bf064a3f435f37e0d23f1`、後続は記録のみ。PR72競合なし・チェック一覧空・mainはbaseから変更なし。監査判定→通常merge→既存Worker公開/配信確認を継続。[詳細](WEAPON-RARITY-GLOW.md)。別作業4ファイル保護。
+
 # 現在地: 武器発光PR72を保存、監査ZIP送信の承認待ち（2026-09-21）
 
 branch `codex/weapon-rarity-glow`、base `4d77be91a827601dd8afebb4425e4a04a191ee5f`、実装/監査対象 `962674c3dbf4746db92bf064a3f435f37e0d23f1`。[PR72](https://github.com/futsalife24-bot/swarm-front/pull/72)。型/関連4件/実GLB15組合せ・両装備色・明暗・持替え・破棄/build/dry-run成功。実iabローカル戦闘描画確認、HMR接続エラーと実スマホ未確認を記録。[詳細・ZIP照合](WEAPON-RARITY-GLOW.md)。別作業4ファイル保護、後続は記録のみ。
