@@ -1,5 +1,7 @@
 import {
   WEAPONS,
+  FAMILIES,
+  FAMILY_KINDS,
   EFFECT_POOLS,
   EFFECTS,
   RARITIES,
@@ -80,15 +82,28 @@ export function validNewWeapon(value: unknown): value is NewWeapon {
     w.rolls === undefined &&
     Object.hasOwn(EFFECTS, w.effect) &&
     (w.effect === "none" || w.rarity > 0) &&
-    (w.effect !== "pierce" || w.kind !== "rocket") &&
-    (w.effect !== "repel" || w.kind === "shotgun") &&
-    (w.effect !== "chain" || w.kind === "rocket")
+    // Pierce stays family-gated so legacy shotgun-pierce saves still load;
+    // repel and chain are simply whatever that weapon can actually roll.
+    (w.effect !== "pierce" ||
+      !["rocket", "grenade"].includes(WEAPONS[w.kind].family)) &&
+    (w.effect !== "repel" || EFFECT_POOLS[w.kind].includes("repel")) &&
+    (w.effect !== "chain" || EFFECT_POOLS[w.kind].includes("chain"))
   );
 }
-export const MAGAZINES = {
+// Magazine is the one figure a grade raises outright rather than rolling.
+export const MAGAZINES: Record<Kind, number[]> = {
   rifle: [32, 36, 40, 44, 48],
+  smg: [45, 50, 55, 60, 66],
   shotgun: [7, 8, 9, 10, 11],
+  slug: [6, 7, 7, 8, 9],
   rocket: [2, 2, 3, 3, 4],
+  heavy: [1, 1, 2, 2, 2],
+  sniper: [6, 7, 8, 9, 10],
+  grenade: [5, 6, 6, 7, 8],
+  sticky: [4, 4, 5, 5, 6],
+  laser: [120, 132, 144, 156, 170],
+  kick: [3, 3, 4, 4, 5],
+  medic: [5, 6, 6, 7, 8],
 };
 export const ACCESSORY_NAMES = {
   pickup: "回収距離",
@@ -212,9 +227,11 @@ export function rollWeapon(
   acquired: number,
   rng: () => number,
 ): NewWeapon {
-  const kind = (["rifle", "shotgun", "rocket"] as Kind[])[
-    Math.floor(rng() * 3)
-  ];
+  // Family first, weapon second: adding a family must not halve how often any
+  // existing one is seen, only split that family's own share.
+  const family = FAMILIES[Math.floor(rng() * FAMILIES.length)];
+  const pool = FAMILY_KINDS[family];
+  const kind: Kind = pool[Math.floor(rng() * pool.length)];
   const rarity = weighted(rarityWeights(stage, d), rng);
   const variance = Object.fromEntries(
     VARIANCE_KEYS.map((k) => [k, rollVariance(rng)]),

@@ -7,6 +7,9 @@ import {
   ROLL,
   ROLLS,
   WEAPONS,
+  KINDS,
+  FAMILIES,
+  familyOf,
   quality,
   stats,
   LR_QUALITY,
@@ -134,7 +137,18 @@ describe("authoritative combat", () => {
     expect(items.slice(0, 1793).every(validWeapon)).toBe(true);
     expect(items.every(validWeapon)).toBe(true);
     expect(new Set(items.map((w) => w.id)).size).toBe(100000);
-    expect(new Set(items.map((w) => w.kind)).size).toBe(3);
+    expect(new Set(items.map((w) => w.kind)).size).toBe(KINDS.length);
+    expect(new Set(items.map((w) => familyOf(w.kind))).size).toBe(
+      FAMILIES.length,
+    );
+    // Families are drawn evenly and a family's own weapons split its share, so
+    // adding a family must not change how often any existing family is seen.
+    for (const family of FAMILIES) {
+      const share =
+        items.filter((w) => familyOf(w.kind) === family).length / items.length;
+      expect(share).toBeGreaterThan(1 / FAMILIES.length - 0.02);
+      expect(share).toBeLessThan(1 / FAMILIES.length + 0.02);
+    }
     // Four tiers now: R, SR, SSR, and the LR an SSR is promoted into.
     expect(new Set(items.map((w) => w.rarity))).toEqual(new Set([0, 1, 2, 3]));
     expect(items.some((w) => w.effect === "pierce")).toBe(true);

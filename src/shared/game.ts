@@ -94,6 +94,11 @@ import {
   WEAPON_SWITCH_DURATION,
   WEAPON_SWITCH_RESUME,
   HEAVY_HIT_DURATION,
+  FAMILIES,
+  FAMILY_KINDS,
+  HEAL_RADIUS,
+  type Family,
+  type Kind,
   type Weapon,
 } from "./defs";
 export interface Input {
@@ -222,11 +227,13 @@ export interface Event {
     | "down"
     | "revive"
     | "acid"
+    | "heal"
     | "calyxSlam";
   // Damage dealt, on hit and kill events, for the floating numbers.
   amount?: number;
   radius?: number;
-  weapon?: "rifle" | "shotgun" | "rocket";
+  // The family, not the kind: a derivative reuses its family's sound and tracer.
+  weapon?: Family;
   // Preserve hit material even when the target dies before the next snapshot.
   enemyKind?: Enemy["kind"];
   x: number;
@@ -361,9 +368,9 @@ export function loot(w: World): Weapon {
       w.solo.acquired++,
       () => random(w),
     );
-  const kind = (["rifle", "shotgun", "rocket"] as const)[
-    Math.floor(random(w) * 3)
-  ];
+  const family = FAMILIES[Math.floor(random(w) * FAMILIES.length)];
+  const kindPool = FAMILY_KINDS[family];
+  const kind: Kind = kindPool[Math.floor(random(w) * kindPool.length)];
   // Roll the five figures first; the tier is then a reading of how they landed
   // rather than a bag that was drawn before anything was known.
   const rolls: Partial<Record<(typeof ROLLS)[number], number>> = {};
@@ -875,9 +882,13 @@ export const enemyBodies = (e: Enemy) =>
 // Every enemy is slower than a walking player, so backing away while firing was
 // free. Distance now costs damage: holding ground is worth something.
 export function falloff(kind: Weapon["kind"], distance: number) {
-  if (kind === "shotgun") return Math.max(0.3, 1 - distance / 35);
-  if (kind === "rifle")
+  const profile = WEAPONS[kind].falloff;
+  if (profile === "shotgun") return Math.max(0.3, 1 - distance / 35);
+  if (profile === "rifle")
     return Math.max(0.45, 1 - Math.max(0, distance - 22) / 55);
+  // Bullet hoses trade reach for rate: they start losing damage almost at once.
+  if (profile === "smg")
+    return Math.max(0.4, 1 - Math.max(0, distance - 12) / 40);
   return 1;
 }
 // The renderer and authority use the same shoulder camera and sight ray.
@@ -986,9 +997,102 @@ export function cameraShot(
     direction: { x: dx / length, y: dy / length, z: dz / length },
   };
 }
+// Support fire scans teammates instead of enemies. It always emits an event,
+// even when it restores nothing, because a support weapon that connects
+// silently is indistinguishable from one that is broken -- the exact fault
+// that made revive feel unimplemented.
+//
+// It fires a spread, and each pellet that lands restores its own share. That is
+// what makes the weapon usable: one thin ray cannot be put on a teammate who is
+// moving, on a touchscreen, at range. Healing is summed per teammate and
+// reported once, so a shot produces one number rather than seven.
+function healShot(
+  w: World,
+  p: Player,
+  yaw: number,
+  pitch: number,
+  def: { damage: number; range: number; pellets: number; spread: number },
+  family: Family,
+  targets: number,
+) {
+  const eyeY = (p.y ?? 0) + 1.5,
+    cap = maxHp(w),
+    restored = new Map<Player, number>();
+  for (let j = 0; j < def.pellets; j++) {
+    const ya = yaw + (random(w) - 0.5) * def.spread * 2,
+      pi = pitch + (random(w) - 0.5) * def.spread;
+    const dx = Math.sin(ya) * Math.cos(pi),
+      dz = -Math.cos(ya) * Math.cos(pi),
+      dy = Math.sin(pi);
+    let range = wallDistance(
+      p.x,
+      eyeY,
+      p.z,
+      dx,
+      dy,
+      dz,
+      def.range,
+      mapFor(w).blocks,
+    );
+    const hits = w.players
+      .filter((a) => a.id !== p.id && a.hp > 0)
+      .map((a) => {
+        const ay = (a.y ?? 0) + 1.2,
+          along = (a.x - p.x) * dx + (a.z - p.z) * dz + (ay - eyeY) * dy;
+        return {
+          a,
+          along,
+          distance: Math.hypot(
+            a.x - p.x - dx * along,
+            a.z - p.z - dz * along,
+            ay - eyeY - dy * along,
+          ),
+        };
+      })
+      .filter((h) => h.along > 0 && h.along < range && h.distance < HEAL_RADIUS)
+      .sort((a, b) => a.along - b.along)
+      .slice(0, targets);
+    for (const h of hits) {
+      const before = h.a.hp;
+      h.a.hp = Math.min(cap, h.a.hp + def.damage);
+      restored.set(h.a, (restored.get(h.a) ?? 0) + (h.a.hp - before));
+    }
+    if (hits.length) range = hits[hits.length - 1].along;
+    event(w, {
+      type: "shot",
+      weapon: family,
+      x: p.x,
+      z: p.z,
+      y: eyeY,
+      tx: p.x + dx * range,
+      tz: p.z + dz * range,
+      ty: eyeY + dy * range,
+      owner: p.id,
+    });
+  }
+  for (const [a, amount] of restored)
+    event(w, {
+      type: "heal",
+      amount: Math.round(amount),
+      x: a.x,
+      y: (a.y ?? 0) + 1.4,
+      z: a.z,
+      owner: p.id,
+    });
+}
 export function fire(w: World, p: Player, i: Input) {
   const weapon = p.weapons[p.slot],
-    def = stats(weapon);
+    def = stats(weapon),
+    // The unrolled table entry: what the weapon *is*, before any roll scales it.
+    shape: {
+      family: Family;
+      pierce: number;
+      speed?: number;
+      gravity?: number;
+      recoil?: number;
+      heal?: boolean;
+    } = WEAPONS[weapon.kind],
+    family = shape.family;
   if (p.reload > 0 || p.cool > 0 || p.swapCd > 0 || p.ammo[p.slot] <= 0) return;
   p.ammo[p.slot]--;
   p.cool = def.interval;
@@ -998,6 +1102,18 @@ export function fire(w: World, p: Player, i: Input) {
     const shot = cameraShot(w, p, i);
     yaw = shot.yaw;
     pitch = shot.pitch;
+  }
+  if (shape.heal) {
+    healShot(
+      w,
+      p,
+      yaw,
+      pitch,
+      def,
+      family,
+      shape.pierce > 1 || weapon.effect === "pierce" ? 3 : 1,
+    );
+    return;
   }
   // A small cone only bends an explicitly fired shot toward a visible enemy.
   const candidates = (i.cameraAim && !w.solo ? [] : w.enemies)
@@ -1034,25 +1150,29 @@ export function fire(w: World, p: Player, i: Input) {
     const dx = Math.sin(ya) * Math.cos(pi),
       dz = -Math.cos(ya) * Math.cos(pi),
       dy = Math.sin(pi);
-    if (weapon.kind === "rocket") {
+    if (shape.speed) {
+      const speed = shape.speed;
       if (w.projectiles.length < 100)
         w.projectiles.push({
           id: ++w.serial,
           x: p.x,
           z: p.z,
           y: (p.y ?? 0) + 1.5,
-          dx: dx * 28,
-          dz: dz * 28,
-          dy: dy * 28,
-          life: def.range / 28,
+          dx: dx * speed,
+          dz: dz * speed,
+          dy: dy * speed,
+          // An arcing round is pulled down, so it needs longer in the air than
+          // its range divided by its speed to reach that range at all.
+          life: (def.range / speed) * (shape.gravity ? 2.2 : 1),
           owner: p.id,
           damage: def.damage,
           rocket: true,
           chain: weapon.effect === "chain",
+          ...(shape.gravity ? { gravity: shape.gravity } : {}),
         });
       event(w, {
         type: "shot",
-        weapon: weapon.kind,
+        weapon: family,
         x: p.x,
         y: (p.y ?? 0) + 1.5,
         z: p.z,
@@ -1100,10 +1220,7 @@ export function fire(w: World, p: Player, i: Input) {
       .filter((h): h is NonNullable<typeof h> => !!h)
       .filter((h) => h.along > 0 && h.along < range && h.distance < h.radius)
       .sort((a, b) => a.along - b.along)
-      .slice(
-        0,
-        weapon.kind === "shotgun" || weapon.effect === "pierce" ? 3 : 1,
-      );
+      .slice(0, shape.pierce > 1 || weapon.effect === "pierce" ? 3 : 1);
     for (const h of hits) {
       hurtEnemy(
         w,
@@ -1111,10 +1228,10 @@ export function fire(w: World, p: Player, i: Input) {
         def.damage * falloff(weapon.kind, h.along),
         p.id,
         h.part,
-        weapon.kind,
+        family,
       );
       if (
-        weapon.kind === "shotgun" &&
+        family === "shotgun" &&
         weapon.effect === "repel" &&
         h.e.kind !== "boss" &&
         Math.hypot(h.e.x - p.x, eye(h.e) - ((p.y ?? 0) + 1.5), h.e.z - p.z) <= 8
@@ -1125,7 +1242,7 @@ export function fire(w: World, p: Player, i: Input) {
     event(w, {
       type: "shot",
       enemyKind: hits[0]?.e.kind,
-      weapon: weapon.kind,
+      weapon: family,
       x: p.x,
       z: p.z,
       y: (p.y ?? 0) + 1.5,
@@ -1135,6 +1252,14 @@ export function fire(w: World, p: Player, i: Input) {
       owner: p.id,
     });
   }
+  if (shape.recoil)
+    move(
+      p,
+      -Math.sin(yaw) * shape.recoil,
+      Math.cos(yaw) * shape.recoil,
+      0.55,
+      mapFor(w).blocks,
+    );
   // Apply after all pellets, once per enemy per shot; do not push through walls.
   for (const e of repelled) {
     if (e.hp <= 0) continue;

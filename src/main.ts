@@ -65,6 +65,10 @@ import {
   stats,
   type Roll,
   WEAPONS,
+  FAMILIES,
+  FAMILY_NAMES,
+  familyOf,
+  type Family,
   type Weapon,
   type Kind,
 } from "./shared/defs";
@@ -455,22 +459,22 @@ function showChangelog() {
   );
 }
 
-const KIND_LABELS: Record<Weapon["kind"], string> = {
-  rifle: "ライフル",
-  shotgun: "ショットガン",
-  rocket: "ロケット",
-};
-const heldOf = (kind: Weapon["kind"]) =>
-  save.inventory.filter((w) => w.kind === kind);
+// Filters and caps work on the family, not the individual weapon: six rows a
+// player can read, and the same cap the save layer enforces.
+const KIND_LABELS = FAMILY_NAMES;
+const familyOptions = () =>
+  FAMILIES.map((f) => `<option value="${f}">${FAMILY_NAMES[f]}</option>`).join(
+    "",
+  );
+const heldOf = (family: Family) =>
+  save.inventory.filter((w) => familyOf(w.kind) === family);
 // Counts per family, because that is the cap the player now runs into.
 const kindTally = () =>
-  (Object.keys(KIND_LABELS) as Weapon["kind"][])
-    .map(
-      (k) =>
-        `${KIND_LABELS[k]} ${heldOf(k).length}/${CAPACITY.perKind}` +
-        (heldOf(k).length >= CAPACITY.perKind ? "（満杯）" : ""),
-    )
-    .join(" · ");
+  FAMILIES.map(
+    (k) =>
+      `${KIND_LABELS[k]} ${heldOf(k).length}/${CAPACITY.perKind}` +
+      (heldOf(k).length >= CAPACITY.perKind ? "（満杯）" : ""),
+  ).join(" · ");
 // `group` decides which tab shows this figure; the row stays one line either way.
 const figure = (group: string, value: string, label: string, cls = "") =>
   '<span data-stat="' +
@@ -578,7 +582,7 @@ function gear() {
   world = null;
   predicted = undefined;
   const shown = save.inventory.filter(
-    (w) => weaponFilter === "all" || w.kind === weaponFilter,
+    (w) => weaponFilter === "all" || familyOf(w.kind) === weaponFilter,
   );
   if (weaponSort === "power")
     shown.sort((a, b) => stats(b).damage - stats(a).damage);
@@ -639,7 +643,7 @@ function gear() {
     return;
   }
 
-  ui.innerHTML = `<section class="panel gear menu-screen"><header class="menu-header"><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><div class="weapon-filters"><label><span class="sr-only">武器系統</span><select id="weapon-filter" aria-label="武器系統"><option value="all">全系統</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select></label><label><span class="sr-only">並び順</span><select id="weapon-sort" aria-label="武器の並び順"><option value="default">入手順</option><option value="rarity">レア度順</option><option value="power">1発の威力順</option></select></label><button id="kind-info" aria-label="武器系統の説明">系統ガイド ⓘ</button></div><nav><button id="gear-armory">${menuIcon("armory")}武器庫</button><button id="gear-settings">${menuIcon("settings")}設定・操作</button><button id="home">ホームへ</button></nav></header><div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 / 出撃先</span><button id="mission-info" aria-label="作戦詳細">作戦詳細 ⓘ</button></div><label class="sr-only" for="stage-select">ステージ</label><select id="stage-select">${stageOptions()}</select><p id="stage-brief" class="sr-only">${esc(STAGES[selectedStage - 1].brief)}</p></section><section class="equipment-select"><div class="section-label"><span>02 / 装備を選択</span><small>2 SLOTS</small></div><div class="loadout-slots">${equipped()
+  ui.innerHTML = `<section class="panel gear menu-screen"><header class="menu-header"><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><div class="weapon-filters"><label><span class="sr-only">武器系統</span><select id="weapon-filter" aria-label="武器系統"><option value="all">全系統</option>${familyOptions()}</select></label><label><span class="sr-only">並び順</span><select id="weapon-sort" aria-label="武器の並び順"><option value="default">入手順</option><option value="rarity">レア度順</option><option value="power">1発の威力順</option></select></label><button id="kind-info" aria-label="武器系統の説明">系統ガイド ⓘ</button></div><nav><button id="gear-armory">${menuIcon("armory")}武器庫</button><button id="gear-settings">${menuIcon("settings")}設定・操作</button><button id="home">ホームへ</button></nav></header><div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 / 出撃先</span><button id="mission-info" aria-label="作戦詳細">作戦詳細 ⓘ</button></div><label class="sr-only" for="stage-select">ステージ</label><select id="stage-select">${stageOptions()}</select><p id="stage-brief" class="sr-only">${esc(STAGES[selectedStage - 1].brief)}</p></section><section class="equipment-select"><div class="section-label"><span>02 / 装備を選択</span><small>2 SLOTS</small></div><div class="loadout-slots">${equipped()
     .map(
       (w, i) =>
         `<button type="button" data-pick="${i}" class="rarity${w.rarity} ${activeSlot === i ? "selected" : ""}" aria-pressed="${activeSlot === i}"><span class="slot-number">0${i + 1}</span><span><small>装備 ${i + 1} <em>${weaponGrade(w)}</em></small><b>${weaponName(w)}</b><strong>${effectText(w.effect, w.kind)}</strong></span><i aria-hidden="true">${activeSlot === i ? "選択中" : "変更"}</i></button>`,
@@ -1266,7 +1270,7 @@ function armory() {
         ? save.favorites?.includes(w.id)
         : armoryFilter === "pending"
           ? waiting.some((a) => a.id === w.id)
-          : w.kind === armoryFilter),
+          : familyOf(w.kind) === armoryFilter),
   );
   if (!shown.some((w) => w.id === armorySelected))
     armorySelected = shown[0]?.id ?? "";
@@ -1322,7 +1326,7 @@ function armory() {
         false,
       ],
     ];
-    return `<div class="armory-detail-heading"><span class="armory-kind">${KIND_LABELS[w.kind]} · ${weaponGrade(w)}</span>${kindHelp(w.kind)}<h2>${esc(WEAPONS[w.kind].name)}</h2><div class="armory-badges">${state(w)}</div></div><p class="armory-effect">特殊効果 ${effectHelp(w.effect, w.kind)}<button id="armory-compare-open">比較を拡大 ↗</button></p><div class="armory-detail-scroll" tabindex="0" aria-label="性能比較と保護の説明"><p class="armory-compare">${base ? `装備 ${save.equipped.indexOf(base.id) + 1} の同系統武器と比較` : save.equipped.includes(w.id) ? "現在装備している武器" : "同系統の装備なし"}</p><table class="armory-stats"><thead><tr><th>性能</th><th>選択中</th><th>装備との差</th></tr></thead><tbody>${metrics
+    return `<div class="armory-detail-heading"><span class="armory-kind">${KIND_LABELS[familyOf(w.kind)]} · ${weaponGrade(w)}</span>${kindHelp(w.kind)}<h2>${esc(WEAPONS[w.kind].name)}</h2><div class="armory-badges">${state(w)}</div></div><p class="armory-effect">特殊効果 ${effectHelp(w.effect, w.kind)}<button id="armory-compare-open">比較を拡大 ↗</button></p><div class="armory-detail-scroll" tabindex="0" aria-label="性能比較と保護の説明"><p class="armory-compare">${base ? `装備 ${save.equipped.indexOf(base.id) + 1} の同系統武器と比較` : save.equipped.includes(w.id) ? "現在装備している武器" : "同系統の装備なし"}</p><table class="armory-stats"><thead><tr><th>性能</th><th>選択中</th><th>装備との差</th></tr></thead><tbody>${metrics
       .map(([label, value, other, unit, digits, lower]) => {
         const delta =
           other === undefined ? null : Number((value - other).toFixed(digits));
@@ -1338,7 +1342,7 @@ function armory() {
         "",
       )}</tbody></table><p class="armory-help">${protectedWeapon ? "登録装備・お気に入りは分解から保護されます。" : `分解で${resourceFrame("powder", weaponYield(w), "gain")}。実行前に確認できます。`}${pending ? " 整理待ちは保存済み。空きができると入手順に収納します。" : ""}</p></div><div class="armory-detail-actions">${favoriteButton(w)}<button data-discard="${esc(w.id)}" ${protectedWeapon ? "disabled" : ""}>${protectedWeapon ? "保護中" : `分解 ${resourceFrame("powder", weaponYield(w), "gain")}`}</button></div>`;
   };
-  ui.innerHTML = `<section class="panel armory ${armoryOrganizing ? "organizing" : ""}"><header><div class="armory-title"><h1>武器庫 <small>${save.inventory.length}丁${waiting.length ? ` · 整理待ち ${waiting.length}` : ""}</small></h1><button id="armory-organize" aria-pressed="${armoryOrganizing}">${armoryOrganizing ? "整理を終了" : "整理モード"}</button><select id="armory-filter" aria-label="武器庫の絞り込み"><option value="all">全武器</option><option value="favorites">お気に入り</option><option value="pending">整理待ち</option><option value="rifle">ライフル</option><option value="shotgun">ショットガン</option><option value="rocket">ロケット</option></select></div><nav aria-label="武器庫の移動"><button id="armory-home">ホームへ</button><button id="armory-gear">出撃準備へ</button></nav></header><div class="armory-toolbar"><span>${shown.length}丁を表示</span><small>${kindTally()}</small></div><div class="armory-powder">${resourceFrame("powder", save.powder ?? 0)}${armoryOrganizing ? `<button id="armory-dismantle" ${checked.length ? "" : "disabled"}>選択 ${checked.length}丁を分解 ${resourceFrame("powder", yieldTotal, "gain")}</button><small>装備中・お気に入りは保護</small>` : ""}</div><p class="status" role="status">${esc(saveError || status)}</p><div class="armory-workspace"><section class="armory-catalog" aria-label="武器一覧"><div class="armory-list" tabindex="0" aria-label="武器一覧。上下にスクロールできます"><div class="armory-list-head" aria-hidden="true"><span>武器 / 状態</span><span>特殊効果</span><span>威力</span><span>装弾</span><span title="装填時間（秒）">装填</span><span title="射程（m）">射程</span><span title="連射速度（発/秒）">連射</span></div>${
+  ui.innerHTML = `<section class="panel armory ${armoryOrganizing ? "organizing" : ""}"><header><div class="armory-title"><h1>武器庫 <small>${save.inventory.length}丁${waiting.length ? ` · 整理待ち ${waiting.length}` : ""}</small></h1><button id="armory-organize" aria-pressed="${armoryOrganizing}">${armoryOrganizing ? "整理を終了" : "整理モード"}</button><select id="armory-filter" aria-label="武器庫の絞り込み"><option value="all">全武器</option><option value="favorites">お気に入り</option><option value="pending">整理待ち</option>${familyOptions()}</select></div><nav aria-label="武器庫の移動"><button id="armory-home">ホームへ</button><button id="armory-gear">出撃準備へ</button></nav></header><div class="armory-toolbar"><span>${shown.length}丁を表示</span><small>${kindTally()}</small></div><div class="armory-powder">${resourceFrame("powder", save.powder ?? 0)}${armoryOrganizing ? `<button id="armory-dismantle" ${checked.length ? "" : "disabled"}>選択 ${checked.length}丁を分解 ${resourceFrame("powder", yieldTotal, "gain")}</button><small>装備中・お気に入りは保護</small>` : ""}</div><p class="status" role="status">${esc(saveError || status)}</p><div class="armory-workspace"><section class="armory-catalog" aria-label="武器一覧"><div class="armory-list" tabindex="0" aria-label="武器一覧。上下にスクロールできます"><div class="armory-list-head" aria-hidden="true"><span>武器 / 状態</span><span>特殊効果</span><span>威力</span><span>装弾</span><span title="装填時間（秒）">装填</span><span title="射程（m）">射程</span><span title="連射速度（発/秒）">連射</span></div>${
     shown
       .map((w) => {
         const d = stats(w);

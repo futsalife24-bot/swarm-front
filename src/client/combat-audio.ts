@@ -1,5 +1,17 @@
 import type { Enemy, World } from "../shared/game";
-import { stats } from "../shared/defs";
+import { familyOf, stats, type Family } from "../shared/defs";
+
+// No new clips ship with the derivative families, so each one borrows the
+// report closest to it. Explosive families are handled as bursts, not impacts.
+const SHOT_SOUND: Record<Family, string> = {
+  rifle: "rifle",
+  shotgun: "shotgun",
+  rocket: "rocket",
+  sniper: "rifle",
+  grenade: "rocket",
+  special: "rifle",
+};
+const EXPLOSIVE: Family[] = ["rocket", "grenade"];
 
 /** Provisional AR hit palette, based on the visible surface of each enemy. */
 const AR_HITS: Record<Enemy["kind"], string> = {
@@ -50,15 +62,15 @@ export class CombatAudio {
       if (e.type === "shot") {
         const key = `${e.owner}:${e.weapon}`;
         if (!shots.has(key)) {
-          cues.push({ ...e, type: e.weapon ?? "rifle", key });
+          cues.push({ ...e, type: SHOT_SOUND[e.weapon ?? "rifle"], key });
           shots.add(key);
         }
         const p = w.players.find((p) => p.id === e.owner);
-        const weapon = p?.weapons.find((v) => v.kind === e.weapon);
+        const weapon = p?.weapons.find((v) => familyOf(v.kind) === e.weapon);
         if (
           weapon &&
           !(e.weapon === "rifle" && e.enemyKind) &&
-          e.weapon !== "rocket" &&
+          !EXPLOSIVE.includes(e.weapon as Family) &&
           e.tx !== undefined &&
           e.tz !== undefined &&
           Math.hypot(e.tx - e.x, e.tz - e.z, (e.ty ?? e.y) - e.y) <
@@ -74,15 +86,17 @@ export class CombatAudio {
         cues.push({
           ...e,
           type:
-            e.type === "hit"
-              ? e.weapon === "rifle" && e.enemyKind
-                ? (AR_HITS[e.enemyKind] ?? "impact")
-                : "impact"
-              : e.type === "burst" && e.weapon === "rocket"
-                ? "rocketBurst"
-                : e.type === "burst" && !e.owner && (e.radius ?? 7) < 2
-                  ? "melee"
-                  : e.type,
+            e.type === "heal"
+              ? "revive"
+              : e.type === "hit"
+                ? e.weapon === "rifle" && e.enemyKind
+                  ? (AR_HITS[e.enemyKind] ?? "impact")
+                  : "impact"
+                : e.type === "burst" && EXPLOSIVE.includes(e.weapon as Family)
+                  ? "rocketBurst"
+                  : e.type === "burst" && !e.owner && (e.radius ?? 7) < 2
+                    ? "melee"
+                    : e.type,
           key: e.type === "hit" ? `impact:${e.owner}` : undefined,
         });
     }

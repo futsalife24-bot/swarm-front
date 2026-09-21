@@ -16,7 +16,7 @@ import {
   resetTargets,
   stepTraining,
 } from "../shared/training";
-import { stats, STARTERS, type Weapon } from "../shared/defs";
+import { WEAPONS, stats, STARTERS, type Weapon } from "../shared/defs";
 import { fresh, type Save } from "./save";
 import { updateCooldowns } from "./hud";
 import { installZoomGuard } from "./zoom-guard";
@@ -125,7 +125,7 @@ function frame(now: number) {
   const p = world.players[0];
   if (started)
     $("training-stats").textContent =
-      `${{ rifle: "ライフル", shotgun: "ショットガン", rocket: "ロケット" }[p.weapons[p.slot].kind]}　${p.ammo[p.slot]} / ${stats(p.weapons[p.slot]).mag}　${p.reload > 0 ? "装填中" : "固定標的に射撃"}`;
+      `${WEAPONS[p.weapons[p.slot].kind].name}　${p.ammo[p.slot]} / ${stats(p.weapons[p.slot]).mag}　${p.reload > 0 ? "装填中" : "固定標的に射撃"}`;
   updateCooldowns(world, "training", true);
   sound.update(world, "training", controls.input.yaw, active);
   view.render(

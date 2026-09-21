@@ -53,7 +53,15 @@ import {
   returnToNormal,
 } from "./developer-access";
 import { STAGES, stageFor, mapFor, troopCount } from "../shared/stages";
-import { WEAPONS, stats, effectLabel, type Kind } from "../shared/defs";
+import {
+  WEAPONS,
+  FAMILY_NAMES,
+  familyOf,
+  stats,
+  effectLabel,
+  type Family,
+  type Kind,
+} from "../shared/defs";
 import {
   createWorld,
   addPlayer,
@@ -1091,12 +1099,8 @@ const sampleMenus =
   new URLSearchParams(location.search).get("menuSample") === "1";
 let gearOrganizing = false;
 let selectedGearSlot = 0;
-let armoryKind: Kind | null = null;
-const weaponGenres: Record<Kind, string> = {
-  rifle: "ライフル",
-  shotgun: "ショットガン",
-  rocket: "ロケット",
-};
+let armoryKind: Family | null = null;
+const weaponGenres: Record<Family, string> = FAMILY_NAMES;
 let filter = "all",
   sort = "acquired",
   rarityFilter = "all",
@@ -1629,8 +1633,8 @@ function weaponList(items: StoredWeapon[], context: string) {
   const shown = items
     .filter((w) =>
       context === "armory"
-        ? w.kind === armoryKind
-        : filter === "all" || w.kind === filter,
+        ? familyOf(w.kind) === armoryKind
+        : filter === "all" || familyOf(w.kind) === filter,
     )
     .filter(
       (w) => rarityFilter === "all" || weaponTier(w) === Number(rarityFilter),
@@ -1749,7 +1753,7 @@ function bindList(context: string) {
         else if (button.dataset.listChoice === "rarity") rarityFilter = value;
         else if (button.dataset.listChoice === "favorites")
           favoritesOnly = value === "only";
-        else if (context === "armory") armoryKind = value as Kind;
+        else if (context === "armory") armoryKind = value as Family;
         else filter = value;
         if (button.dataset.listChoice !== "sort") checked.clear();
         listScroll = 0;
@@ -1845,8 +1849,8 @@ function bindList(context: string) {
         .filter(
           (w) =>
             (context === "armory"
-              ? w.kind === armoryKind
-              : filter === "all" || w.kind === filter) &&
+              ? familyOf(w.kind) === armoryKind
+              : filter === "all" || familyOf(w.kind) === filter) &&
             (rarityFilter === "all" ||
               weaponTier(w) === Number(rarityFilter)) &&
             (!favoritesOnly || save.locks.includes(w.id)) &&
@@ -1898,12 +1902,12 @@ function armory() {
     checked.clear();
     header(
       "武器",
-      `<div class="pt-armory-genres">${(Object.keys(weaponGenres) as Kind[]).map((kind) => `<button data-genre="${kind}"><strong>${weaponGenres[kind]}</strong><span>${allWeapons(save).filter((w) => w.kind === kind).length}丁</span><small>武器一覧へ ›</small></button>`).join("")}</div>`,
+      `<div class="pt-armory-genres">${(Object.keys(weaponGenres) as Family[]).map((family) => `<button data-genre="${family}"><strong>${weaponGenres[family]}</strong><span>${allWeapons(save).filter((w) => familyOf(w.kind) === family).length}丁</span><small>武器一覧へ ›</small></button>`).join("")}</div>`,
     );
     ui.querySelectorAll<HTMLButtonElement>("[data-genre]").forEach(
       (b) =>
         (b.onclick = () => {
-          armoryKind = b.dataset.genre as Kind;
+          armoryKind = b.dataset.genre as Family;
           listScroll = perfScroll = 0;
           armory();
         }),
@@ -1918,7 +1922,7 @@ function armory() {
   );
   header(
     weaponGenres[armoryKind],
-    `<p class="pt-armory-summary">通常 ${save.inventory.length}丁 / 超過 ${save.pending.length}丁 · 武器種ごと16丁、全体160丁</p>${weaponList(allWeapons(save), "armory")}`,
+    `<p class="pt-armory-summary">通常 ${save.inventory.length}丁 / 超過 ${save.pending.length}丁 · 系統ごと16丁、全体160丁</p>${weaponList(allWeapons(save), "armory")}`,
   );
   const toolbar = ui.querySelector(".pt-list-tools")!;
   ui.querySelector(".menu-header")!.insertBefore(
