@@ -20,7 +20,7 @@ export class WeaponRarityGlow {
           vec4 p = modelViewMatrix * vec4(position, 1.0);
           vec3 n = normalize(normalMatrix * normal);
           // World-sized shell keeps distant weapons from becoming bright blobs.
-          p.xyz += n * 0.008;
+          p.xyz += n * 0.018;
           gl_Position = projectionMatrix * p;
         }
       `,
