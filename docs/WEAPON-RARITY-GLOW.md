@@ -35,3 +35,10 @@
 
 ## 最終独立監査
 同じ監査Chatでbf0a9d3は合格、F1解消・必須P0/P1/P2なし。全15GLB同位置法線不一致0、EGL3種×3角度で欠け解消、武器GLB全件バイト一致。実コード+代替オブジェクトの試験で専用geometry1050個各1回破棄・元geometry/材質破棄0。監査は簡略材質EGLと代替オブジェクトであり実Three.js/GPU解放を再実行したものではない。任意P3: 外周との画素対応の自動回帰、実GPU資源推移。実スマホ/多人数長時間未確認。
+
+## main反映と公開境界
+- PR72通常merge済み、source/main: 5e8d7fc4f94fafb6db30a1b21c13a7b0f8b472f4。
+- 既存clean main worktree share-image-fixへff同期し、merge後build/production dry-run成功。distは同sourceから生成済み。
+- 自動承認レビューが本番deployを「本番デプロイ自体の明示承認がない」と拒否。実行されていない。
+- 本番URL: https://swarm-front.melosalife-24.workers.dev 、既存wrangler.production.jsonc。新規サービス/契約変更なし。
+- 本番公開の明示承認後にdeploy→dist-validation/weapon-glow/verify-published.mjsでmain worktreeのdistと配信ハッシュ/healthを照合→iab公開UI確認。既存公開セーブ/中断状態は保護。
