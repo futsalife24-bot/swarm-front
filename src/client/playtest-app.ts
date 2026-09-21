@@ -5,7 +5,7 @@ import "../menu-ui.css";
 import "../menu-theme.css";
 import "./playtest.css";
 import "./gear-weapon-list.css";
-import { growthMarkup, bindGrowthUI } from "./growth-ui";
+import { growthMarkup, bindGrowthUI, growthConfirmation } from "./growth-ui";
 import {
   resourceFrame,
   resourceWallet,
@@ -1189,6 +1189,7 @@ function confirmAction(title: string, content: string, action: () => void) {
       message((e as Error).message);
     }
   };
+  return d;
 }
 const PENDING_RESULT_KEY = "swarm-front-pending-result-v3";
 function forgetPendingResult() {
@@ -2060,15 +2061,21 @@ function growth() {
     }),
   );
   bind("pt-allocate", () => {
-    const v = levels(),
-      n = allocate(save, p.id, v);
-    if (SKILLS.some((k) => v[k] < p.levels[k]))
-      confirmAction(
-        "配分を振り直す",
-        `<p>${resourceFrame("coins", 500, "cost")}を使用します。</p>`,
-        () => commit(n, growth),
-      );
-    else commit(n, growth);
+    const v = levels();
+    if (!SKILLS.some((k) => v[k] !== p.levels[k])) return;
+    const n = allocate(save, p.id, v);
+    const d = confirmAction(
+      "育成内容の確認",
+      growthConfirmation(p.levels, v),
+      () => commit(n, growth),
+    );
+    const actions = document.createElement("footer");
+    actions.className = "growth-confirm-actions";
+    actions.append(
+      d.querySelector("#pt-cancel")!,
+      d.querySelector("#pt-confirm")!,
+    );
+    d.append(actions);
   });
   bindGrowthUI(ui, p.levels, save.points, save.coins);
   bind("pt-growth-cancel", growth);

@@ -1,7 +1,7 @@
 import { chromium } from "@playwright/test";
 import fs from "node:fs";
 import assert from "node:assert/strict";
-const out = "dist-validation/growth-accessory";
+const out = "dist-validation/growth-confirmation";
 fs.mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({ channel: "chrome" });
 const results = [];
@@ -115,6 +115,9 @@ try {
     await p.locator("#pt-base-growth").click();
     await wallet();
     await shot("growth");
+    assert.equal(await p.locator("#pt-allocate").isDisabled(), true);
+    const buttonSize = await p.locator("#pt-allocate").boundingBox();
+    assert.ok(buttonSize.height >= 48 && buttonSize.width >= 180);
     await p.locator(".radar-hp").click();
     await p.locator('[data-growth-panel="hp"]:visible').waitFor();
     await p.locator('[data-growth-skill="hp"][data-growth-level="2"]').click();
@@ -134,7 +137,48 @@ try {
     await shot("growth-focus");
     await p.locator(".growth-detail:visible .growth-back").click();
     assert.equal(await p.locator(".growth-overview").isVisible(), true);
+    const stored = () =>
+      p.evaluate(() =>
+        JSON.parse(localStorage.getItem("swarm-front-shared-progress-v3")),
+      );
+    const before = await stored();
     await p.locator("#pt-allocate").click();
+    assert.equal(await p.locator(".growth-changes li").count(), 2);
+    assert.match(
+      await p.locator('[data-growth-change="hp"]').innerText(),
+      /160 HP.*→.*192 HP/s,
+    );
+    assert.match(
+      await p.locator('[data-growth-change="aim"]').innerText(),
+      /補助角度 \+0%.*→.*補助角度 \+4%/s,
+    );
+    assert.equal(await p.locator('[data-growth-change="move"]').count(), 0);
+    assert.deepEqual(await stored(), before);
+    await shot("growth-confirm");
+    const confirmBounds = await p.locator("#pt-confirm").boundingBox();
+    const modalBody = await p
+      .locator("dialog[open] .menu-dialog-body")
+      .boundingBox();
+    const modalFooter = await p
+      .locator(".growth-confirm-actions")
+      .boundingBox();
+    assert.ok(modalBody.y + modalBody.height <= modalFooter.y);
+    assert.ok(
+      confirmBounds.y + confirmBounds.height <= height &&
+        confirmBounds.height >= 48,
+    );
+    await p.locator("#pt-cancel").click();
+    assert.deepEqual(await stored(), before);
+    assert.equal(await p.locator('[data-level="hp"]').inputValue(), "2");
+    await p.locator("#pt-allocate").click();
+    await p.keyboard.press("Escape");
+    assert.deepEqual(await stored(), before);
+    await p.locator("#pt-allocate").click();
+    await p.locator("#pt-confirm").click();
+    assert.equal((await stored()).soldiers[0].levels.hp, 2);
+    assert.equal((await stored()).soldiers[0].levels.aim, 1);
+    assert.equal((await stored()).coins, before.coins);
+    assert.equal(await p.locator("#pt-allocate").isDisabled(), true);
     assert.equal(await p.locator(".radar-hp strong").innerText(), "Lv2");
     await p.locator(".radar-hp").click();
     await p.locator('[data-growth-skill="hp"][data-growth-level="0"]').click();
@@ -151,6 +195,13 @@ try {
     await p.locator(".radar-hp").click();
     await p.locator('[data-growth-skill="hp"][data-growth-level="0"]').click();
     await p.locator("#pt-allocate").click();
+    assert.equal(await p.locator(".growth-changes li").count(), 1);
+    assert.match(
+      await p.locator('[data-growth-change="hp"]').innerText(),
+      /192 HP.*→.*160 HP/s,
+    );
+    assert.match(await p.locator(".growth-refund-cost").innerText(), /500/);
+    assert.equal((await stored()).coins, 4255);
     await p.locator("#pt-confirm").click();
     assert.equal(
       await p

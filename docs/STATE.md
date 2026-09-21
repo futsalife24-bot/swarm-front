@@ -1,3 +1,17 @@
+# 現在地: PR70の独立監査を依頼済み（2026-09-21）
+
+今回ZIPの送信をユーザーが明示承認。同一ハッシュの資料を[通常Chat](https://chatgpt.com/c/6ab0d728-851c-83ee-8b16-8a87e16f17a5)へ添付・送信し、監査開始を確認。対象 `ec1c5bc99fec725f04c691371d106e38d9f86845`、後続は記録のみ。PR70競合なし、mainはbaseから変更なし。監査判定→通常merge→既存Worker公開/配信確認を継続。別作業4ファイル保護。
+# 現在地: 育成確認UIをPR70へ保存、今回ZIP送信の承認待ち（2026-09-21）
+
+branch `codex/growth-confirmation`、base `546b063`、実装/監査対象 `ec1c5bc99fec725f04c691371d106e38d9f86845`、[PR70](https://github.com/futsalife24-bot/swarm-front/pull/70)。型/関連13件/3横画面の確認・実保存・キャンセル/baseline8ケース/build/dry-run成功。[詳細・ZIPハッシュ](GROWTH-CONFIRMATION.md)。後続は記録のみ、別作業4ファイル保護。
+
+停止理由: 自動承認レビューが、前回別ZIPの承認は新payloadには適用できないとして、565KBの `growth-confirm-ec1c5bc-audit.zip` を通常ChatGPTへ送る操作を拒否。監査未依頼、main未反映、未公開。
+再開条件: 今回ZIPの通常ChatGPT新規Chatへの送信をユーザーが明示承認。ハッシュ照合→独立監査/修正→通常merge/既存Worker公開/配信確認。承認質問提示済み。
+
+# 現在地: 育成確定を大きくし、変更前後の確認ポップを自己検証（2026-09-21）
+
+branch `codex/growth-confirmation`、base `546b063`。高さ48pxの主ボタン、変更能力だけのLv/性能前後、確認後のみ保存、振り直し費用表示。型/関連13件/3横画面の確認・保存・キャンセル・500コイン検証成功。独立監査/main/公開は準備中。[詳細](GROWTH-CONFIRMATION.md)。別作業4ファイル保護。
+
 # 現在地: 育成レーダー・アクセサリ・素材説明をmain反映・公開（2026-09-21）
 
 PR68通常merge、独立監査fff0e44合格・必須0。公開source `cd8e2c6b60188dac25cf1492ecc31514067634c5`、Worker Version `1de6c762-4256-452e-a36d-5317c237fe0f`。型/経済13件/3横画面UI/武器一覧8ケース/実iab/build/dry-run成功、配信13SHA一致・health200。公開UIは既存ST1・13秒の中断メニューを正常表示・error0、保存保護のため育成画面への遷移は未実施。実スマホと任意P3の詳細スクロール位置保持は残る。[詳細](GROWTH-ACCESSORY-UI.md)。別作業4ファイル保護、後続は公開記録のみ。
