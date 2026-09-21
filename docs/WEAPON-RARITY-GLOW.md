@@ -8,3 +8,11 @@
 - 別作業 .gitignore / AGENTS.md / package.json / CLAUDE.md は保存状態を維持し今回commitに含めない。
 - 独立Chat監査・main反映・本番公開は未完了。
 - 追加確認: production dry-run成功。実iabでローカル戦闘到達/描画確認。iabのVite HMR WebSocket接続エラーあり（専用実GLB検証ではconsole/page error 0）。会敵ムービーが開始したためiabでの持替え確認は未完了、専用実GLB検証で確認済み。
+
+## 監査再開情報
+- PR: https://github.com/futsalife24-bot/swarm-front/pull/72
+- 実装/監査対象: 962674c3dbf4746db92bf064a3f435f37e0d23f1。後続は記録のみ。
+- ZIP: dist-validation/weapon-glow/weapon-glow-962674c-audit.zip (5,881,134 bytes)
+- SHA256: F1B2F1A335B1C4A69075F960DB4A09D5DAAC40D54922002563078ADA2BCB1BF9
+- 内容: 対象SHAの変更差分・必要な描画/共通ソース・検証スクリプト・武器15GLB/兵士GLB・実描画画像・検証JSON。認証情報や個人セーブは含まない。
+- 自動承認レビューが通常ChatGPTへの具体的ZIP送信承認不足で添付を拒否。送信未完了・監査未依頼。承認後に同一ハッシュを確認して通常Chatへ添付・独立監査依頼する。まだChat URLはない。

@@ -1,3 +1,10 @@
+# 現在地: 武器発光PR72を保存、監査ZIP送信の承認待ち（2026-09-21）
+
+branch `codex/weapon-rarity-glow`、base `4d77be91a827601dd8afebb4425e4a04a191ee5f`、実装/監査対象 `962674c3dbf4746db92bf064a3f435f37e0d23f1`。[PR72](https://github.com/futsalife24-bot/swarm-front/pull/72)。型/関連4件/実GLB15組合せ・両装備色・明暗・持替え・破棄/build/dry-run成功。実iabローカル戦闘描画確認、HMR接続エラーと実スマホ未確認を記録。[詳細・ZIP照合](WEAPON-RARITY-GLOW.md)。別作業4ファイル保護、後続は記録のみ。
+
+停止理由: 自動承認レビューがソース・実GLB・検証画像を含む今回ZIP（5,881,134 bytes）の通常ChatGPTへの送信を、具体的payload/宛先への明示承認不足で拒否。監査未依頼、main未反映、未公開。
+再開条件: `dist-validation/weapon-glow/weapon-glow-962674c-audit.zip` を通常ChatGPT新規Chatへ独立監査目的で送信することをユーザーが明示承認。SHA256照合→独立監査/必要修正→通常merge/既存Worker公開/配信確認。
+
 # 現在地: 武器のレア度発光を自己検証、独立監査準備（2026-09-21）
 
 branch codex/weapon-rarity-glow、base 4d77be9。手持ち/背中それぞれの全輪郭にレア色・4秒明滅。型/関連4件/実GLB15組合せ・両装備・明暗・持替え・破棄/build成功。独立監査/main/公開は未完了。[詳細](WEAPON-RARITY-GLOW.md)。別作業4ファイル保護。
