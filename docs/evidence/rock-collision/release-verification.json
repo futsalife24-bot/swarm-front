@@ -1,0 +1,89 @@
+{
+  "source": "a4ca5528912a429ba23fcc27a95ad88c43fe0a5b",
+  "url": "https://swarm-front.melosalife-24.workers.dev",
+  "at": "2026-09-21T04:31:27.758Z",
+  "files": [
+    {
+      "file": "index.html",
+      "local": "13dfb8ba88f872744d4e92a1d4a7d3641a73473c9ec83be92196fbe12cc2ffc8",
+      "remote": "13dfb8ba88f872744d4e92a1d4a7d3641a73473c9ec83be92196fbe12cc2ffc8",
+      "match": true
+    },
+    {
+      "file": "assets/index-CPbai1ZT.css",
+      "local": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "remote": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "match": true
+    },
+    {
+      "file": "assets/index-DTWS0kMo.js",
+      "local": "c20a9683f3930b78f458c7b8e96aa544d393a9e28f10cee28e333bb625567708",
+      "remote": "c20a9683f3930b78f458c7b8e96aa544d393a9e28f10cee28e333bb625567708",
+      "match": true
+    },
+    {
+      "file": "assets/main-BmU0IROL.js",
+      "local": "162af67a6dfc8d46a555fbfe681a29c681b4aa9354b111089d14402094bda375",
+      "remote": "162af67a6dfc8d46a555fbfe681a29c681b4aa9354b111089d14402094bda375",
+      "match": true
+    },
+    {
+      "file": "assets/main-C1Ldsy-y.css",
+      "local": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1",
+      "remote": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1",
+      "match": true
+    },
+    {
+      "file": "assets/playtest-app-DaWKqJfy.js",
+      "local": "5e9a8ca0dd91ef071f5e923e9614c936f8111e1becf12263d8c43a3047a9f8fe",
+      "remote": "5e9a8ca0dd91ef071f5e923e9614c936f8111e1becf12263d8c43a3047a9f8fe",
+      "match": true
+    },
+    {
+      "file": "assets/playtest-app-vS6yno4Y.css",
+      "local": "7b097133cb0341a68690761c5eeb927ffbcfe531b07e936d3331d52d826f88fd",
+      "remote": "7b097133cb0341a68690761c5eeb927ffbcfe531b07e936d3331d52d826f88fd",
+      "match": true
+    },
+    {
+      "file": "assets/training-app-BwFL3ZF4.js",
+      "local": "f992a8b76c86acbc40eb4e5135348bd6c9d40a2b5af318bd53a2bf4789c5ea9a",
+      "remote": "f992a8b76c86acbc40eb4e5135348bd6c9d40a2b5af318bd53a2bf4789c5ea9a",
+      "match": true
+    },
+    {
+      "file": "assets/weapon-help-Clh1V6L1.css",
+      "local": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607",
+      "remote": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607",
+      "match": true
+    },
+    {
+      "file": "assets/weapon-help-D__sff1M.js",
+      "local": "ab8dd6512f4759c31e7470c9894d15c9177bdf08dc82ffff7ff8f28857c9ae08",
+      "remote": "ab8dd6512f4759c31e7470c9894d15c9177bdf08dc82ffff7ff8f28857c9ae08",
+      "match": true
+    },
+    {
+      "file": "assets/weapon-sharing-DczoJ3Lm.js",
+      "local": "11d68716c6e846a002498d787343f84783aab4baf220cca3b9bf8056eee45dad",
+      "remote": "11d68716c6e846a002498d787343f84783aab4baf220cca3b9bf8056eee45dad",
+      "match": true
+    },
+    {
+      "file": "assets/zoom-guard-BlWIjgJb.css",
+      "local": "312dac5ac1021181509d5929954f24b9ace9c26b38ebb667dbfa662d6c13f27c",
+      "remote": "312dac5ac1021181509d5929954f24b9ace9c26b38ebb667dbfa662d6c13f27c",
+      "match": true
+    },
+    {
+      "file": "assets/zoom-guard-BOZGIx-Q.js",
+      "local": "ed62a3d57ca22ccc6fb315c947e85095e553ccc15525714b517db4417ce99a88",
+      "remote": "ed62a3d57ca22ccc6fb315c947e85095e553ccc15525714b517db4417ce99a88",
+      "match": true
+    }
+  ],
+  "health": {
+    "status": 200,
+    "body": "<!doctype html>\n<html lang=\"ja\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta\n      name=\"viewport\"\n      content=\"width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover\"\n    />\n    <meta name=\"theme-color\" content=\"#0c1820\" />\n    <meta name=\"mobile-web-app-capable\" content=\"yes\" />\n    <meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />\n    <meta\n      name=\"apple-mobile-web-app-status-bar-style\"\n      content=\"black-translucent\"\n    />\n    <link rel=\"manifest\" href=\"/manifest.webmanifest\" />\n    <link rel=\"icon\" href=\"/icon-swarm-v3-64.png\" type=\"image/png\" sizes=\"64x64\" />\n    <link rel=\"apple-touch-icon\" href=\"/icon-swarm-v3-180.png\" sizes=\"180x180\" />\n    <title>SWARM FRONT</title>\n    <meta name=\"description\" content=\"SWARM FRONT — 仲間と戦う3D協力アクション。\" />\n    <meta property=\"og:type\" content=\"website\" />\n    <meta property=\"og:site_name\" content=\"SWARM FRONT\" />\n    <meta property=\"og:title\" content=\"SWARM FRONT\" />\n    <meta property=\"og:description\" content=\"SWARM FRONT — 仲間と戦う3D協力アクション。\" />\n    <meta property=\"og:url\" content=\"https://swarm-front.melosalife-24.workers.dev/\" />\n    <meta property=\"og:image\" content=\"https://swarm-front.melosalife-24.workers.dev/share-swarm-front-20260920.jpg\" />\n    <meta property=\"og:image:type\" content=\"image/jpeg\" />\n    <meta property=\"og:image:width\" content=\"1280\" />\n    <meta property=\"og:image:height\" content=\"720\" />\n    <meta property=\"og:image:alt\" content=\"SWARM FRONTのロゴと青緑色の戦場\" />\n    <meta name=\"twitter:card\" content=\"summary_large_image\" />\n    <meta name=\"twitter:title\" content=\"SWARM FRONT\" />\n    <meta name=\"twitter:description\" content=\"SWARM FRONT — 仲間と戦う3D協力アクション。\" />\n    <meta name=\"twitter:image\" content=\"https://swarm-front.melosalife-24.workers.dev/share-swarm-front-20260920.jpg\" />\n    <meta name=\"twitter:image:alt\" content=\"SWARM FRONTのロゴと青緑色の戦場\" />\n    <script type=\"module\" crossorigin src=\"/assets/index-DTWS0kMo.js\"></script>\n    <link rel=\"stylesheet\" crossorigin href=\"/assets/index-CPbai1ZT.css\">\n  </head>\n  <body>\n    <canvas id=\"world\" aria-label=\"三人称3D戦場\"></canvas>\n    <main id=\"ui\"></main>\n    <div id=\"hud\" hidden></div>\n    <canvas id=\"minimap\" aria-label=\"戦場のミニマップ\" hidden></canvas>\n    <div id=\"damage\" aria-hidden=\"true\"></div>\n    <div id=\"scope-overlay\" aria-hidden=\"true\" hidden><span>2×</span></div>\n    <button id=\"pause\" aria-label=\"一時停止メニュー\" hidden>| |</button>\n    <div id=\"pause-menu\" role=\"dialog\" aria-label=\"一時停止\" hidden></div>\n    <div id=\"controls\" hidden>\n      <div id=\"move\" aria-label=\"移動スティック\"><span></span></div>\n      <div id=\"look\" aria-label=\"視点操作\"></div>\n      <button id=\"fire\">射撃</button><button id=\"dodge\">回避</button\n      ><button id=\"reload\">装填</button><button id=\"swap\">切替</button\n      ><button id=\"revive\">蘇生</button>\n      <button\n        id=\"scope\"\n        type=\"button\"\n        aria-label=\"スコープ\"\n        aria-pressed=\"false\"\n        hidden\n      >\n        スコープ\n      </button>\n    </div>\n    <div id=\"portrait\" role=\"dialog\" aria-modal=\"true\" aria-label=\"ゲーム開始\">\n      <strong>SWARM FRONT</strong>\n      <button id=\"landscape-start\" type=\"button\">ゲームを開始</button>\n      <small id=\"landscape-status\" role=\"status\"></small>\n    </div>\n    <script\n      src=\"https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit\"\n      async\n      defer\n    ></script>\n  </body>\n</html>\n\n"
+  }
+}

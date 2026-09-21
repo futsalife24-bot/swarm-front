@@ -1,3 +1,7 @@
+# 現在地: 岩の射線・乗り上がりと着地後移動をmain反映・公開（2026-09-21）
+
+PR66通常merge、独立再監査6151c91は合格・必須0。公開source a4ca5528912a429ba23fcc27a95ad88c43fe0a5b、Worker Version 3edc3904-34c6-4f94-acc2-806798085d3b。型/関連テスト/前後回帰/実GLB8700射線/実登頂/実Worker2接続/main build/dry-run成功、配信13SHA一致・health200。公開UIは中断ST1の再開メニューを正常表示・console error0、保存保護のため作戦を進めていない。実スマホ/多数敵長時間/岩上2接続は未確認。[詳細](ROCK-COLLISION.md)。別作業4ファイル保護、後続は公開記録のみ。
+
 # 現在地: PR66・修正版6151c91の独立再監査中（2026-09-21）
 
 必須P2・2件を修正し、同じ[監査Chat](https://chatgpt.com/c/6ab0a700-e9a0-83ee-b8aa-53873299fff0)へ修正版ZIP送信済み。対象6151c91bcc456a816edf376e3f5e1a939cf8f9db、base5e55f50不変。型/関連93件/13回帰前後比較/build/dry-run/実GLB8700射線・登頂成功。独立最終判定→main→既存Worker公開は未完了。[詳細](ROCK-COLLISION.md)。別作業4ファイル保護。
