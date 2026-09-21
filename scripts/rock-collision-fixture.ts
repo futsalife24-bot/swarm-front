@@ -6,6 +6,7 @@ import { supportHeight } from "../src/shared/terrain";
 import * as g from "../src/shared/game";
 import { Renderer } from "../src/client/render";
 import { prepareBattle } from "../src/client/battle-loading";
+import { ARENA_X, ARENA_Z } from "../src/shared/arena";
 
 const output = document.querySelector("#result")!;
 const results: unknown[] = [];
@@ -19,27 +20,107 @@ try {
     scene.updateMatrixWorld(true);
     let samples = 0,
       maxError = 0;
-    for (const b of map.blocks)
+    let worst: unknown;
+    for (const b of map.blocks) {
+      const points: number[][] = [];
       for (const fx of [-0.45, -0.3, -0.1, 0, 0.1, 0.3, 0.45])
-        for (const fz of [-0.45, -0.3, -0.1, 0, 0.1, 0.3, 0.45]) {
-          const x = b.x + b.w * fx,
-            z = b.z + b.d * fz,
-            y = b.h + 5;
-          const ray = new T.Raycaster(
-            new T.Vector3(x, y, z),
-            new T.Vector3(0, -1, 0),
+        for (const fz of [-0.45, -0.3, -0.1, 0, 0.1, 0.3, 0.45])
+          points.push([b.x + b.w * fx, b.z + b.d * fz]);
+      const ring = [
+        [-1, -1],
+        [0, -1],
+        [1, -1],
+        [1, 0],
+        [1, 1],
+        [0, 1],
+        [-1, 1],
+        [-1, 0],
+      ].map(([sx, sz], i) => {
+        const scale = 0.35 * (1 + 0.1 * Math.sin(i * 4 + 10 + b.x));
+        return [b.x + ((sx * b.w) / 2) * scale, b.z + ((sz * b.d) / 2) * scale];
+      });
+      for (let i = 0; i < 8; i++) {
+        const a = ring[i],
+          c = ring[(i + 1) % 8],
+          dx = c[0] - a[0],
+          dz = c[1] - a[1],
+          length = Math.hypot(dx, dz);
+        for (const t of [0.25, 0.5, 0.75])
+          for (const offset of [-0.05, -0.025, 0.025, 0.05])
+            points.push([
+              a[0] + dx * t + (dz / length) * offset,
+              a[1] + dz * t - (dx / length) * offset,
+            ]);
+      }
+      for (const [x, z] of points) {
+        const y = b.h + 5;
+        const ray = new T.Raycaster(
+          new T.Vector3(x, y, z),
+          new T.Vector3(0, -1, 0),
+        );
+        const hit = ray.intersectObject(scene, true)[0];
+        if (!hit) throw Error("No GLB surface");
+        const collision = g.wallDistance(x, y, z, 0, -1, 0, 100, map.blocks);
+        maxError = Math.max(
+          maxError,
+          Math.abs(collision - hit.distance),
+          Math.abs(supportHeight(x, z, map.blocks) - hit.point.y),
+        );
+        for (const direction of [
+          new T.Vector3(0.2, -1, 0.1),
+          new T.Vector3(-0.15, -1, 0.2),
+        ]) {
+          direction.normalize();
+          const origin = new T.Vector3(x, b.h, z).addScaledVector(
+            direction,
+            -6,
           );
-          const hit = ray.intersectObject(scene, true)[0];
-          if (!hit) throw Error("No GLB surface");
-          const collision = g.wallDistance(x, y, z, 0, -1, 0, 100, map.blocks);
-          maxError = Math.max(
-            maxError,
-            Math.abs(collision - hit.distance),
-            Math.abs(supportHeight(x, z, map.blocks) - hit.point.y),
+          ray.set(origin, direction);
+          // Distant scenery and decorative trees are deliberately non-solid.
+          // Compare inside the playable arena and omit those decorations.
+          const limit = Math.min(
+            100,
+            (Math.sign(direction.x) * ARENA_X - origin.x) / direction.x,
+            (Math.sign(direction.z) * ARENA_Z - origin.z) / direction.z,
           );
-          samples++;
+          ray.far = limit;
+          const oblique = ray
+            .intersectObject(scene, true)
+            .find((hit) => !["foliage", "tree_bark"].includes(hit.object.name));
+          const contact = g.wallDistance(
+            origin.x,
+            origin.y,
+            origin.z,
+            direction.x,
+            direction.y,
+            direction.z,
+            limit,
+            map.blocks,
+          );
+          const error = Math.abs(contact - (oblique?.distance ?? limit));
+          if (error > maxError)
+            worst = {
+              x,
+              z,
+              origin: origin.toArray(),
+              direction: direction.toArray(),
+              contact,
+              visual: oblique?.distance ?? limit,
+              object: oblique?.object.name,
+              point: oblique?.point.toArray(),
+            };
+          maxError = Math.max(maxError, error);
         }
-    results.push({ map: map.name, samples, maxError });
+        samples++;
+      }
+    }
+    results.push({
+      map: map.name,
+      samples,
+      rays: samples * 3,
+      maxError,
+      worst,
+    });
     if (maxError > 0.025)
       throw Error("Rendered rock mismatch: " + JSON.stringify(results));
     scene.traverse((o) => {

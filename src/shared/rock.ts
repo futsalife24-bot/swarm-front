@@ -42,8 +42,35 @@ export function registerRock(
         [a, c, vertices[(j + 1) * 8 + i]],
       );
     }
-  for (let i = 1; i < 7; i++)
-    triangles.push([vertices[40], vertices[40 + i], vertices[41 + i]]);
+  // The irregular top ring can be concave. A fan from its first vertex spills
+  // outside the polygon, creating invisible ledges and blocking clear shots.
+  const top = vertices.slice(40);
+  while (top.length > 3) {
+    const ear = top.findIndex((b, i) => {
+      const a = top[(i + top.length - 1) % top.length];
+      const c = top[(i + 1) % top.length];
+      const cross =
+        (b[0] - a[0]) * (c[2] - b[2]) - (b[2] - a[2]) * (c[0] - b[0]);
+      return (
+        cross > 1e-10 &&
+        !top.some(
+          (p) =>
+            p !== a &&
+            p !== b &&
+            p !== c &&
+            heightOnTriangle(p[0], p[2], [a, b, c]) !== undefined,
+        )
+      );
+    });
+    if (ear < 0) throw new Error("Invalid authored rock top polygon");
+    triangles.push([
+      top[(ear + top.length - 1) % top.length],
+      top[ear],
+      top[(ear + 1) % top.length],
+    ]);
+    top.splice(ear, 1);
+  }
+  triangles.push(top as Triangle);
   surfaces.set(b, triangles);
 }
 

@@ -1,0 +1,9 @@
+
+ RUN  v5.0.0 C:/Users/futsa/OneDrive/ドキュメント/ChatGPT/スワフロ/game
+
+
+ Test Files  2 passed (2)
+      Tests  13 passed | 61 skipped (74)
+   Start at  13:06:53
+   Duration  2.86s (import 56%, tests 24%, transform 20%, worker 1%)
+

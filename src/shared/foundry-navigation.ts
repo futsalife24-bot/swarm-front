@@ -1,4 +1,5 @@
 import { terrainProps, groundHeight } from "./terrain";
+import { isRock } from "./rock";
 import { ARENA_X, ARENA_Z } from "./arena";
 import { CAVE_EDGES, CAVE_NODES, caveLine, caveWaypoint } from "./cave";
 import { blocked } from "./game";
@@ -18,6 +19,18 @@ export const foundryDistance = (a: FoundryPoint, b: FoundryPoint) =>
   Math.hypot(a.x - b.x, a.z - b.z);
 
 export function foundryGroundClear(map: ArenaMap, p: FoundryPoint) {
+  // Segmented bodies use the expanded footprint in foundryGroundLine. Keep
+  // endpoint/safe-target tests consistent with those links even though player
+  // feet and projectiles now follow the rock's actual sloping surface.
+  if (
+    map.blocks.some(
+      (b) =>
+        isRock(b) &&
+        Math.abs(p.x - b.x) < b.w / 2 + FOUNDRY_NAV_RADIUS &&
+        Math.abs(p.z - b.z) < b.d / 2 + FOUNDRY_NAV_RADIUS,
+    )
+  )
+    return false;
   return !blocked(
     p.x,
     p.z,

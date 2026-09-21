@@ -1,0 +1,124 @@
+
+ RUN  v5.0.0 C:/Users/futsa/OneDrive/ドキュメント/ChatGPT/スワフロ/game
+
+ ❯ tests/foundry-movement.test.ts (34 tests | 8 failed | 26 skipped) 340ms
+   × 風渡る草原 rock-edge goals project to reachable segmented-body clearance 11ms
+   × 風渡る草原・高台ルート rock-edge goals project to reachable segmented-body clearance 1ms
+   × 白嶺の雪峡 rock-edge goals project to reachable segmented-body clearance 1ms
+   × 白嶺の雪峡・高台ルート rock-edge goals project to reachable segmented-body clearance 1ms
+   × segmented enemy keeps pursuing a player beside map 3 rock 57ms
+   × segmented enemy keeps pursuing a player beside map 4 rock 76ms
+   × audit P2: actual severing keeps pursuing the rock-edge soldier in stage 7 74ms
+   × audit P2: actual severing keeps pursuing the rock-edge soldier in stage 13 118ms
+ ❯ tests/terrain.test.ts (40 tests | 5 failed | 35 skipped) 30ms
+   × audit P2: snow rock notch matches GLB at (-65.5,-10) 9ms
+   × 風渡る草原 concave rock tops never extend outside the authored ring 11ms
+   × 風渡る草原・高台ルート concave rock tops never extend outside the authored ring 6ms
+   × 白嶺の雪峡 concave rock tops never extend outside the authored ring 1ms
+   × 白嶺の雪峡・高台ルート concave rock tops never extend outside the authored ring 1ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 13 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/foundry-movement.test.ts > 風渡る草原 rock-edge goals project to reachable segmented-body clearance
+ FAIL  tests/foundry-movement.test.ts > 風渡る草原・高台ルート rock-edge goals project to reachable segmented-body clearance
+ FAIL  tests/foundry-movement.test.ts > 白嶺の雪峡 rock-edge goals project to reachable segmented-body clearance
+ FAIL  tests/foundry-movement.test.ts > 白嶺の雪峡・高台ルート rock-edge goals project to reachable segmented-body clearance
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/foundry-movement.test.ts:47:47
+     45|       const target = { x: b.x + side * (b.w / 2 + 1), z: b.z };
+     46|       const start = { x: b.x + side * (b.w / 2 + 12), z: b.z };
+     47|       expect(foundryGroundClear(map, target)).toBe(false);
+       |                                               ^
+     48|       const goal = foundrySafePoint(map, target),
+     49|         path = foundryPath(map, start, target);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/13]⎯
+
+ FAIL  tests/foundry-movement.test.ts > segmented enemy keeps pursuing a player beside map 3 rock
+ FAIL  tests/foundry-movement.test.ts > segmented enemy keeps pursuing a player beside map 4 rock
+AssertionError: expected 0 to be greater than 1
+ ❯ tests/foundry-movement.test.ts:83:39
+     81|       w.projectiles = [];
+     82|     }
+     83|     expect(foundryDistance(start, e)).toBeGreaterThan(1);
+       |                                       ^
+     84|     expect(foundryDistance(e, p)).toBeLessThan(before - 1);
+     85|     expect(wormNodes(e).every((n) => foundryGroundClear(map, n))).toBe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/13]⎯
+
+ FAIL  tests/foundry-movement.test.ts > audit P2: actual severing keeps pursuing the rock-edge soldier in stage 7
+ FAIL  tests/foundry-movement.test.ts > audit P2: actual severing keeps pursuing the rock-edge soldier in stage 13
+AssertionError: expected 0 to be greater than 5
+ ❯ tests/foundry-movement.test.ts:126:40
+    124|       w.projectiles = [];
+    125|     }
+    126|     expect(foundryDistance(before, e)).toBeGreaterThan(5);
+       |                                        ^
+    127|     expect(wormNodes(e).every((n) => foundryGroundClear(map, n))).toBe…
+    128|   },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/13]⎯
+
+ FAIL  tests/terrain.test.ts > audit P2: snow rock notch matches GLB at (-65.5,-10)
+AssertionError: expected 24.120049476623535 to be close to 23.067818, received difference is 1.052231476623536, but expected 0.000005
+ ❯ tests/terrain.test.ts:35:39
+     33|     z = -10,
+     34|     glb = 23.067818;
+     35|   expect(supportHeight(x, z, blocks)).toBeCloseTo(glb, 5);
+       |                                       ^
+     36|   expect(landingHeight(x, z, 30, 20, blocks)).toBeCloseTo(glb, 5);
+     37|   expect(wallDistance(x, 30, z, 0, -1, 0, 20, blocks)).toBeCloseTo(30 …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/13]⎯
+
+ FAIL  tests/terrain.test.ts > 風渡る草原 concave rock tops never extend outside the authored ring
+AssertionError: expected 15.322595596313477 to be less than 15.322595496313477
+ ❯ tests/terrain.test.ts:78:26
+     76|           const h = rockHeight(b, x, z);
+     77|           if (inside(x, z)) expect(h).toBeCloseTo(b.h, 4);
+     78|           else expect(h).toBeLessThan(b.h - 1e-7);
+       |                          ^
+     79|         }
+     80|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/13]⎯
+
+ FAIL  tests/terrain.test.ts > 風渡る草原・高台ルート concave rock tops never extend outside the authored ring
+AssertionError: expected 15.864632606506348 to be less than 15.864632506506348
+ ❯ tests/terrain.test.ts:78:26
+     76|           const h = rockHeight(b, x, z);
+     77|           if (inside(x, z)) expect(h).toBeCloseTo(b.h, 4);
+     78|           else expect(h).toBeLessThan(b.h - 1e-7);
+       |                          ^
+     79|         }
+     80|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/13]⎯
+
+ FAIL  tests/terrain.test.ts > 白嶺の雪峡 concave rock tops never extend outside the authored ring
+ FAIL  tests/terrain.test.ts > 白嶺の雪峡・高台ルート concave rock tops never extend outside the authored ring
+AssertionError: expected 38 to be less than 37.9999999
+ ❯ tests/terrain.test.ts:78:26
+     76|           const h = rockHeight(b, x, z);
+     77|           if (inside(x, z)) expect(h).toBeCloseTo(b.h, 4);
+     78|           else expect(h).toBeLessThan(b.h - 1e-7);
+       |                          ^
+     79|         }
+     80|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/13]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  13 failed | 61 skipped (74)
+   Start at  13:02:29
+   Duration  2.74s (import 64%, transform 19%, tests 16%, worker 1%)
+

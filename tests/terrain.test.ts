@@ -27,6 +27,60 @@ import { type Block, STARTERS } from "../src/shared/defs";
 import * as T from "three";
 import { rockHeight } from "../src/shared/rock";
 
+it("audit P2: snow rock notch matches GLB at (-65.5,-10)", () => {
+  const blocks = MAPS[4].blocks,
+    x = -65.5,
+    z = -10,
+    glb = 23.067818;
+  expect(supportHeight(x, z, blocks)).toBeCloseTo(glb, 5);
+  expect(landingHeight(x, z, 30, 20, blocks)).toBeCloseTo(glb, 5);
+  expect(wallDistance(x, 30, z, 0, -1, 0, 20, blocks)).toBeCloseTo(30 - glb, 5);
+});
+
+it.each([MAPS[3], ELEVATED_MAPS[3], MAPS[4], ELEVATED_MAPS[4]])(
+  "$name concave rock tops never extend outside the authored ring",
+  (map) => {
+    const ring = [
+      [-1, -1],
+      [0, -1],
+      [1, -1],
+      [1, 0],
+      [1, 1],
+      [0, 1],
+      [-1, 1],
+      [-1, 0],
+    ];
+    for (const b of map.blocks) {
+      const points = ring.map(([sx, sz], i) => {
+        const scale = 0.35 * (1 + 0.1 * Math.sin(i * 4 + 10 + b.x));
+        return [b.x + ((sx * b.w) / 2) * scale, b.z + ((sz * b.d) / 2) * scale];
+      });
+      // Independent odd/even polygon containment, not the triangulation under test.
+      const inside = (x: number, z: number) => {
+        let result = false;
+        for (let i = 0, j = 7; i < 8; j = i++) {
+          const a = points[i],
+            c = points[j];
+          if (
+            a[1] > z !== c[1] > z &&
+            x < ((c[0] - a[0]) * (z - a[1])) / (c[1] - a[1]) + a[0]
+          )
+            result = !result;
+        }
+        return result;
+      };
+      for (let i = 0; i < 41; i++)
+        for (let j = 0; j < 41; j++) {
+          const x = b.x + b.w * ((i + 0.31) / 41 - 0.5) * 0.41,
+            z = b.z + b.d * ((j + 0.27) / 41 - 0.5) * 0.41;
+          const h = rockHeight(b, x, z);
+          if (inside(x, z)) expect(h).toBeCloseTo(b.h, 4);
+          else expect(h).toBeLessThan(b.h - 1e-7);
+        }
+    }
+  },
+);
+
 it("rifle damages a target past the rock shoulder, but solid rock still stops it", () => {
   for (const shoulder of [true, false]) {
     const w = createWorld("rock-shot", 42, 7),
