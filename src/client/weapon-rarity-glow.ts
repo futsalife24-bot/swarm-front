@@ -4,6 +4,31 @@ import type { Weapon } from "../shared/defs";
 
 const COLORS = [0x92aaa6, 0x83d8b0, 0x7cbdf4, 0xd5a4f4, 0xffd472];
 
+/** Weld extrusion directions across hard-normal/UV seams, only on the owned shell. */
+export function outlineGeometry(source: T.BufferGeometry) {
+  const geometry = source.clone();
+  const positions = geometry.getAttribute("position");
+  const normals = geometry.getAttribute("normal");
+  const groups = new Map<string, { indices: number[]; normal: T.Vector3 }>();
+  for (let i = 0; i < positions.count; i++) {
+    const key = `${positions.getX(i)},${positions.getY(i)},${positions.getZ(i)}`;
+    let group = groups.get(key);
+    if (!group) {
+      group = { indices: [], normal: new T.Vector3() };
+      groups.set(key, group);
+    }
+    group.indices.push(i);
+    group.normal.add(new T.Vector3().fromBufferAttribute(normals, i));
+  }
+  for (const { indices, normal } of groups.values()) {
+    if (normal.lengthSq() < 1e-12)
+      normal.fromBufferAttribute(normals, indices[0]);
+    normal.normalize();
+    for (const i of indices) normals.setXYZ(i, normal.x, normal.y, normal.z);
+  }
+  return geometry;
+}
+
 /** Per-equipped-weapon outline; authored geometry/materials remain shared and untouched. */
 export class WeaponRarityGlow {
   private material: T.ShaderMaterial;
@@ -44,7 +69,7 @@ export class WeaponRarityGlow {
       if (o instanceof T.Mesh) meshes.push(o);
     });
     for (const mesh of meshes) {
-      const shell = new T.Mesh(mesh.geometry, this.material);
+      const shell = new T.Mesh(outlineGeometry(mesh.geometry), this.material);
       shell.name = "WeaponRarityGlow";
       shell.raycast = () => {};
       mesh.add(shell);
@@ -59,7 +84,10 @@ export class WeaponRarityGlow {
   }
 
   dispose() {
-    for (const shell of this.shells) shell.removeFromParent();
+    for (const shell of this.shells) {
+      shell.removeFromParent();
+      shell.geometry.dispose();
+    }
     this.shells.length = 0;
     this.material.dispose();
   }
