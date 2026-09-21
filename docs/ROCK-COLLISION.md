@@ -15,3 +15,10 @@ Judge: posttestで実行済み。固定needs_context、Jev not_run/missing_key�
 限界: 実スマホ操作、長時間・多数敵時の負荷、全作戦の通しプレイは未確認。岩の支持は地面と同じ足元中心の高さ。ジャンプ高度自体は既存1.6mを維持し、岩の斜面から登る。
 
 独立Chat監査・main反映・公開は準備中。別作業 `.gitignore`/`AGENTS.md`/`package.json`/`CLAUDE.md` は保護して今回commitへ含めない。
+
+## 監査送信の承認待ち
+PR66: https://github.com/futsalife24-bot/swarm-front/pull/66 。実装・監査対象 `4bd4dc37e393c6bc456c3ee7fd5091b2448e1f51`。同commitのclient buildとproduction Worker dry-run成功。
+資料 `dist-validation/rock-collision/rock-4bd4dc3-audit.zip`、7,012,574 bytes、SHA256 `53E8F194E73B817E294EE8F1F23FD2FEB8DB93B0CFEEEA671C9A0105896ADD96`。対象commitのsrc/server/tests、差分、必要設定、岩生成器と既存GLB2点、検証証拠を含む。秘密・無関係なローカル設定は含めない。
+
+停止理由: 自動承認レビューが上記ZIPの通常ChatGPT新規Chat（https://chatgpt.com/）へのアップロードを、具体的payloadと宛先への明示承認不足として拒否。未送信・監査未依頼・main未反映・未公開。
+再開条件: 上記ZIPの同送信先への添付についてユーザーの明示承認。内容/ハッシュ照合後、同ZIP添付→独立監査→必須修正/再監査→通常merge→既存Worker公開/配信確認。後続commitは状態記録のみ。

@@ -1,3 +1,10 @@
+# 現在地: PR66・岩と着地移動の修正を保存、監査ZIP送信の承認待ち（2026-09-21）
+
+branch `codex/rock-jump-collision`、base5e55f50、実装/監査対象 `4bd4dc37e393c6bc456c3ee7fd5091b2448e1f51`、[PR66](https://github.com/futsalife24-bot/swarm-front/pull/66)。型/関連133件/実GLB4マップ980地点/実iab登頂/実Worker2接続/build/production dry-run成功。詳細・ZIPハッシュ・既存aim1失敗は [ROCK-COLLISION.md](ROCK-COLLISION.md)。別作業4ファイル保護。後続は記録のみ。
+
+停止理由: 自動承認レビューが7,012,574 bytesの `dist-validation/rock-collision/rock-4bd4dc3-audit.zip` を通常ChatGPT新規Chatへ送る操作を、具体的payload/宛先の明示承認不足で拒否。監査未依頼・main未反映・未公開。
+再開条件: 同ZIPの通常ChatGPTへの送信をユーザーが明示承認。ZIP照合→独立監査/必要修正→通常merge/既存Worker公開/配信確認。承認質問を提示済み。
+
 # 現在地: 岩の射線・乗り上がりと着地後移動を修正、監査準備（2026-09-21）
 
 branch codex/rock-jump-collision、base5e55f50。岩の実形状を射撃/支持/着地へ共有、下降速度残留を解除。型・関連133件、実GLB4マップ980地点、実iab登頂、実Worker2接続成功。baseで5回帰再現、aim既存1失敗を分離。独立監査/main/公開は未完了。[詳細](ROCK-COLLISION.md)。別作業4ファイル保護。
