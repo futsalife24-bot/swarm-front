@@ -29,3 +29,12 @@
 
 ## main反映・公開承認待ち
 PR70通常merge済み、source 27a08ab5deaae4e27d0a30ced27be78df056b1e4。merge後build/dry-run成功。既存Workerへのdeployは自動承認レビューが具体的な本番公開承認不足として拒否し、未実行。ユーザーへこのsource/既存公開URLの更新を特定した承認質問を提示。配信SHA/health/公開UI確認はdeploy後に実施。
+
+## 公開完了
+ユーザーが27a08ab版の既存本番デプロイを明示承認。既存設定で公開成功。
+- URL: https://swarm-front.melosalife-24.workers.dev
+- 公開source: 27a08ab5deaae4e27d0a30ced27be78df056b1e4
+- Worker Version: 04f8ef89-338d-4666-a3ed-ba8c13697a2d
+- 配信13ファイルSHA一致、health200: evidence/growth-confirmation/release-verification.json
+- 公開iabで中断した作戦（ST1・13秒）とタイトル正常表示、console error0。実保存を保護し再開/終了操作はせず、確認タブを閉じた。新UIの操作は合成保存のローカル3サイズで確認済み。実スマホ未確認。
+- 公開ビルドは27a08abから作成。9f17714以降は記録のみ、実装変更なし。別作業の.gitignore/AGENTS.md/package.json/CLAUDE.mdを保護。

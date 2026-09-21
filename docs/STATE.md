@@ -1,3 +1,6 @@
+# 現在地: 育成確認UIをmain反映・本番公開完了（2026-09-21）
+
+PR70通常merge。公開source `27a08ab5deaae4e27d0a30ced27be78df056b1e4`、Worker Version `04f8ef89-338d-4666-a3ed-ba8c13697a2d`。ユーザーが具体的な本番デプロイを明示承認し実施。独立監査ec1c5bc合格・必須P0-P2なし。型/経済13/3サイズUI/武器8/build/dry-run成功、配信13SHA一致・health200。公開iabは既存ST1・13秒の中断メニュー正常表示・error0。保存保護のため再開/終了せず確認タブを閉じた。実スマホは未確認、任意P3費用表示位置は残る。[詳細](GROWTH-CONFIRMATION.md)。後続は公開記録のみ。別作業4ファイル保護。
 # 現在地: PR70監査合格・main反映、本番デプロイ承認待ち（2026-09-21）
 
 [PR70](https://github.com/futsalife24-bot/swarm-front/pull/70)を通常merge。main/source `27a08ab5deaae4e27d0a30ced27be78df056b1e4`。独立監査ec1c5bc合格・必須P0-P2なし。型/経済13/3サイズUI/武器8/build/dry-run成功。後続は記録のみ。別作業4ファイル保護。
