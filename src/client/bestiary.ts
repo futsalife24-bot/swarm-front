@@ -178,9 +178,9 @@ export function openBestiary(
     film.className = "report-film-open";
     film.textContent = "会敵ムービー";
     film.onclick = () => {
-      if (key !== "calyx") showEncounterFilm(worm ? "worm" : key, dialog);
+      showEncounterFilm(worm ? "worm" : key, dialog);
     };
-    if (key !== "calyx") article.querySelector("h3")!.after(film);
+    article.querySelector("h3")!.after(film);
     if (state !== "solo") {
       article.querySelector(".eyebrow")!.textContent =
         state === "coop" ? "協力で姿を確認" : "未遭遇";
