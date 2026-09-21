@@ -17,3 +17,6 @@ GLB SHA256 `d1a7573d5976e28492be14e8fbe25c880ea93ed96946c7859c8c3f558089d9ad`。
 PR64 / 対象53669a9489dfd8da8fde24f2f74988e0be76b8f5のbuild/dry-run成功。実IABの追加GPU遷移549ケース成功（gpu-transitions.json）。[独立監査](https://chatgpt.com/c/6ab08a55-d3cc-83ee-adb8-ce3fe2524355)へCALYX-53669a9-audit.zip送信済み。SHA256 3F6522828B8B88F7EBC90337306DEFE1369929F61923CCCA812D57EE54E6F401。判定待ち。
 
 独立監査53669a9は合格・必須0。監査側16項目/GLB454フレーム独立計算成功。任意: 根同士の交差検査追加（交差検出ではない）。Free契約を実IABで確認、9/21 DO使用量43 requests/0.757GB-s/SQL read369 write34。後続7161d7d以降は記録のみ。
+
+## 公開結果
+PR64通常merge。公開source 91a2d379636d6d0e24897641c9c5b754936ad985、Worker Version 18ae92fc-b370-4294-99b5-bb934e0de0a8。main build/dry-run成功、公開14ファイルのSHA一致・health成功（release-verification.json）。公開IABは保存保護画面のため操作未確認。保護解除/データ変更は行っていない。ローカル実描画は検証済み。後続は記録のみ。

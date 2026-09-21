@@ -1,0 +1,64 @@
+{
+  "time": "2026-09-21T01:50:08.044Z",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "pass": true,
+  "health": "{\"ok\":true,\"transport\":\"websocket\",\"authority\":\"durable-object\"}",
+  "files": [
+    {
+      "path": "/assets/index-BVq-RA5L.js",
+      "sha256": "49e605c0a180c536c30c0b31cc70b0066b2de2b9b386aa212426ea7584cc9937"
+    },
+    {
+      "path": "/assets/index-CPbai1ZT.css",
+      "sha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9"
+    },
+    {
+      "path": "/assets/main-C1Ldsy-y.css",
+      "sha256": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1"
+    },
+    {
+      "path": "/assets/main-CydxlLGn.js",
+      "sha256": "581a0679c4fb48ead2f08ede03acb44a79278ed95bcc31b148989b540426963f"
+    },
+    {
+      "path": "/assets/playtest-app-CbD_WOU-.js",
+      "sha256": "3ca4e80dbaa0912ed39cdbff717e29dbf8bef02abd3c54ce2d7b2294cff7ec25"
+    },
+    {
+      "path": "/assets/playtest-app-vS6yno4Y.css",
+      "sha256": "7b097133cb0341a68690761c5eeb927ffbcfe531b07e936d3331d52d826f88fd"
+    },
+    {
+      "path": "/assets/training-app-DRsrztdX.js",
+      "sha256": "83821a955bacef5ef87447bd2616086b072381cb2a50d735cc0424fea6661e7c"
+    },
+    {
+      "path": "/assets/weapon-help-BFO4LoMw.js",
+      "sha256": "6c4e30f075073bb713e0d42c378a9faf8b187e7dcb31b3ecc4521e087f790f81"
+    },
+    {
+      "path": "/assets/weapon-help-Clh1V6L1.css",
+      "sha256": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607"
+    },
+    {
+      "path": "/assets/weapon-sharing-Cni1MdlO.js",
+      "sha256": "7cafcb0f7d43db9798f4bc13f9595569efed2f42f0b6bc7535cf9fe8a8159245"
+    },
+    {
+      "path": "/assets/zoom-guard-BlWIjgJb.css",
+      "sha256": "312dac5ac1021181509d5929954f24b9ace9c26b38ebb667dbfa662d6c13f27c"
+    },
+    {
+      "path": "/assets/zoom-guard-CT_71Az_.js",
+      "sha256": "953aec01473d67e1aa8833935e7e6c3debec5d29471fd52ebe49354dfa04b88b"
+    },
+    {
+      "path": "/assets/enemies/calyx_motion_v1.glb",
+      "sha256": "d1a7573d5976e28492be14e8fbe25c880ea93ed96946c7859c8c3f558089d9ad"
+    },
+    {
+      "path": "/assets/encounters/report-v2/calyx-v5.mp4",
+      "sha256": "57e99494a0f097a7e92e6acb17e1f78daea0435970199722215cad23d4ab7cf7"
+    }
+  ]
+}
