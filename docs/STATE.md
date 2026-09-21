@@ -1,3 +1,7 @@
+# 現在地: 武器レア度発光をmain反映・本番公開完了（2026-09-21）
+
+PR72通常merge・再監査bf0a9d3合格、必須P0-P2なし。公開source `5e8d7fc4f94fafb6db30a1b21c13a7b0f8b472f4`、Worker Version `a2f362c3-e190-4244-b1f5-757c21436f76`。ユーザーが具体的本番deployを明示承認。型/関連4件/実15組合せ/全15GLB継ぎ目・原本不変・geometry破棄/9視点/build/dry-run成功。配信13SHA一致・health200。公開iabは既存ST1・13秒の中断メニュー正常、error0。セーブ保護のため再開/終了は行わず確認タブを閉じた。実スマホ/多人数長時間/公開実戦の発光操作は未確認。任意P3は画素境界の自動回帰・実GPU資源推移。[詳細](WEAPON-RARITY-GLOW.md)。後続は公開記録のみ、別作業4ファイル保護。
+
 # 現在地: PR72監査合格・main反映、本番デプロイ承認待ち（2026-09-21）
 
 [PR72](https://github.com/futsalife24-bot/swarm-front/pull/72)通常merge。main/source `5e8d7fc4f94fafb6db30a1b21c13a7b0f8b472f4`。独立再監査bf0a9d3合格・必須P0-P2なし。型/関連4/実15組合せ/全15GLB継ぎ目・原本不変・geometry破棄/9視点前後成功。クリーンな既存main worktree share-image-fixも同期しmerge後build/dry-run成功。[詳細](WEAPON-RARITY-GLOW.md)。gameの別作業4ファイル保護。後続は記録のみ。
