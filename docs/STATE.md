@@ -1,3 +1,7 @@
+# 現在地: PR72修正版の独立監査合格、main反映準備（2026-09-21）
+
+対象 bf0a9d3fe235d35e5a0ea6ece8cc2714efc51553 は[再監査](https://chatgpt.com/c/6ab0f325-03a8-83e8-b1cd-29ced57787c4)合格、必須P0-P2なし。全15GLB同位置法線不一致0、独立EGL3種×3角度で欠け解消。専用geometry1050個の破棄/元不変を代替オブジェクトで独立確認。実GPU長時間は未確認。後続は記録のみ。[詳細](WEAPON-RARITY-GLOW.md)。main反映/公開はこれから。
+
 # 現在地: PR72修正版bf0a9d3の再監査を依頼済み（2026-09-21）
 
 ユーザーが修正版ZIPの送信を明示承認。同一SHA256を照合し、同じ[監査Chat](https://chatgpt.com/c/6ab0f325-03a8-83e8-b1cd-29ced57787c4)へ添付・送信済み。対象 bf0a9d3fe235d35e5a0ea6ece8cc2714efc51553、後続は記録のみ。F1輪郭欠けと追加geometry所有/破棄を再監査中。合格後main/公開へ続行。[詳細](WEAPON-RARITY-GLOW.md)。別作業4ファイル保護。
