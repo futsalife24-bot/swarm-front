@@ -17,3 +17,13 @@
 
 ## 公開状態
 独立監査・main反映・公開は準備中。後続へ監査SHA/PR/公開Versionを記録する。
+
+## 保存・監査送信待ち
+- 実装・監査対象: `fff0e44`（完全SHAは下記監査資料manifest）。[PR68](https://github.com/futsalife24-bot/swarm-front/pull/68)。後続は証拠/記録のみ。
+- build成功、production dry-runは通常sandboxの読取り/ログ書込制限後、権限付き再実行で成功。
+- 武器一覧baseline: 1280/915/844/640の通常・整理8ケース成功。844以上の性能横スクロール0、640は既存の補助横スクロール。
+- UI操作は3サイズとも成功。4画面共通素材ポップとフォーカス復帰、育成領域スクロール欠けなし、アクセサリ4件以上を確認。代表画面とJSONは `docs/evidence/growth-accessory/`。
+- ZIP `dist-validation/growth-accessory/growth-fff0e44-audit.zip`、2,463,057 bytes、SHA256 `646EA2C502972B3CF6C729D66616AC5DA0758E83E4D07D6B6B029B74940DA92F`。対象commitの23ソース/関連資料、差分、3サイズ9画面、結果JSONを含む。秘密情報・実ユーザー保存データ・対象外素材は含まない。
+
+停止理由: 自動承認レビューが、この具体的payload/宛先の明示承認不足として、非公開UIソース差分・画面証拠ZIPの通常ChatGPT新規Chatへのアップロードを拒否。添付・監査依頼は未完了。main反映・公開も未完了。
+再開条件: ユーザーが上記ZIPの通常ChatGPT（chatgpt.com）への送信を明示承認。ハッシュ照合→通常新規Chatへ添付/独立監査→必須修正/再監査→通常merge→既存Worker公開/配信確認。同内容の承認質問を提示済み。

@@ -1,0 +1,74 @@
+[
+  {
+    "width": 640,
+    "height": 360,
+    "name": "accessories",
+    "overflow": false,
+    "footer": 0,
+    "rows": 4
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "name": "growth",
+    "overflow": false,
+    "footer": 337,
+    "rows": 0
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "name": "growth-focus",
+    "overflow": false,
+    "footer": 337,
+    "rows": 0
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "name": "accessories",
+    "overflow": false,
+    "footer": 0,
+    "rows": 4
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "name": "growth",
+    "overflow": false,
+    "footer": 367,
+    "rows": 0
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "name": "growth-focus",
+    "overflow": false,
+    "footer": 367,
+    "rows": 0
+  },
+  {
+    "width": 1280,
+    "height": 582,
+    "name": "accessories",
+    "overflow": false,
+    "footer": 0,
+    "rows": 7
+  },
+  {
+    "width": 1280,
+    "height": 582,
+    "name": "growth",
+    "overflow": false,
+    "footer": 559,
+    "rows": 0
+  },
+  {
+    "width": 1280,
+    "height": 582,
+    "name": "growth-focus",
+    "overflow": false,
+    "footer": 559,
+    "rows": 0
+  }
+]

@@ -1,3 +1,10 @@
+# 現在地: 育成/アクセサリUIをPR68へ保存、監査ZIP送信の承認待ち（2026-09-21）
+
+branch `codex/growth-accessory-ui`、base `b424046`、実装/監査対象 `fff0e44`、[PR68](https://github.com/futsalife24-bot/swarm-front/pull/68)。型/経済13件/3横画面UI/武器一覧baseline8ケース/実iab/build/production dry-run成功。別作業4ファイル保護。後続は証拠・記録のみ。[詳細とZIPハッシュ](GROWTH-ACCESSORY-UI.md)。
+
+停止理由: 自動承認レビューが具体的payloadと宛先の明示承認不足として、約2.46MBの `growth-fff0e44-audit.zip` を通常ChatGPT新規Chatへ添付する操作を拒否。監査未依頼、main未反映、未公開。
+再開条件: 上記ZIPの通常ChatGPTへの送信をユーザーが明示承認。ハッシュ照合→独立監査/必要修正→通常merge/既存Worker公開/配信確認。承認質問を提示済み。
+
 # 現在地: 育成レーダー・素材ポップ・アクセサリUIを自己検証（2026-09-21）
 
 branch `codex/growth-accessory-ui`、base `b424046`。4軸レーダーと詳細育成、共通素材説明、効果付きアクセサリ一覧を実装。型/関連13件/3横画面の配分・解放・装備・保護を確認。独立監査/main/公開は準備中。[詳細](GROWTH-ACCESSORY-UI.md)。別作業4ファイル保護。
