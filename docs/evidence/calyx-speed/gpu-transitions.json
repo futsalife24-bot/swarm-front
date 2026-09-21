@@ -1,0 +1,1 @@
+{"pass":true,"cases":549,"bones":16,"maxError":0.000010311603546142578,"minDet":0.9999987019862664,"maxDet":1.0000003695352189,"continuousFrames":63,"maxFrameAngle":0.16653300093092413,"method":"Actual IAB WebGL local-TRS shader versus standard Three.js AnimationMixer; existing calyx-transition-check.html"}
