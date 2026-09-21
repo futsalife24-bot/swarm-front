@@ -41,3 +41,10 @@ PR66: https://github.com/futsalife24-bot/swarm-front/pull/66 。実装・監査�
 
 ## 独立再監査合格
 通常Chatの最終判定は対象6151c91「合格・必須0」。前回P2・2件解消、独立GLB16,740射線で最大岩誤差0.034mm/1mm超0件、2,640経路成功。詳細 `audit-6151c91.txt`。独立テストはNode assert代替191件中190成功・既存aim1失敗、通常Vitest/実IAB/実Worker/build等は独立再実行外。任意P3の岩上2接続・実スマホ・多数敵長時間は未確認。merge/公開へ進む。後続差分は記録文書のみ。
+
+## main反映・公開完了
+[PR66](https://github.com/futsalife24-bot/swarm-front/pull/66) を通常merge。公開ソース `a4ca5528912a429ba23fcc27a95ad88c43fe0a5b`、Worker Version `3edc3904-34c6-4f94-acc2-806798085d3b`。merge後mainからclient build/production dry-run成功、既存Workerへ公開。HTML/全JS/CSSの13SHA一致、health200。証拠 `release-verification.json`。
+
+公開実IABは中断ST1・13秒の再開メニューを表示し、console error0。ユーザーの保存済み作戦を変更しないため、公開版の戦闘再開は未実施。`public-menu.png`。修正挙動はローカルの実Renderer/共有コード/実Worker通信で確認済み。実スマホ・多数敵長時間・自然岩上での2接続着地確認は残る任意P3。既存aim1失敗は今回の回帰ではない。
+
+最終実装: `src/shared/rock.ts`（実岩表面）、`terrain.ts`（支持/着地）、`game.ts`（射線/移動/接地速度）、`foundry-navigation.ts`（分節敵の余白整合）、`src/client/map-assets.ts`（fallback形状）。作業branch `codex/rock-jump-collision`、base `5e55f509cf4299914089ce20ce2742543653837d`、監査head `6151c91bcc456a816edf376e3f5e1a939cf8f9db`。後続は記録のみ。別作業4ファイルの未コミット差分は保護したまま。
