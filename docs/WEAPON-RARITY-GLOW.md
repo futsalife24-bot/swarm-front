@@ -22,3 +22,12 @@
 - 初回962674cは要修正。ハード法線の同位置頂点が別方向に膨張し、銃口/レールの輪郭に隙間。監査は実GLBの独立EGL描画で再現。遮蔽・材質所有・破棄・旧レア度には必須指摘なし。
 - outlineGeometryで元geometryをcloneし、同位置頂点の平均法線を発光専用geometryだけに設定。形状・元法線・材質は維持。専用geometryを各シェルが所有し、装備交換/兵士破棄でdispose。
 - 18mm/裏面/加算/深度/4秒周期は維持。型成功、既存15組合せ再成功。追加scripts/check-weapon-outline-regression.mjsは全15GLBの修正前法線不一致を再現し、修正後同位置法線不一致0・原本不変・専用geometry全件dispose/原本dispose0を確認。3種×監査指定/反対/正面の9固定視点で前後描画し目視確認。証拠outline-regression.json/png。
+
+## 修正版再監査の再開
+- 修正対象: bf0a9d3fe235d35e5a0ea6ece8cc2714efc51553、base不変。後続は記録のみ。
+- 型/関連4テスト/既存実GLB15組合せ/追加全15GLB・9視点/build成功。
+- ZIP: dist-validation/weapon-glow/weapon-glow-bf0a9d3-audit.zip (6,049,755 bytes)
+- SHA256: A394D36DCA7A169CD6EBEF078A81E4CE0E37B64BADCF1C6BE7ED1C9F3FAB47CD
+- F1-fix.patch・最新ソース・既存必要GLB・回帰スクリプト/結果JSON/比較画像を同梱。
+- 自動承認レビューが「前回とは別payloadで具体的承認がない」と再添付を拒否。未送信。ユーザー承認後、同じ監査Chatへ送信する。
+- 再監査依頼はF1と影響（同位置法線統一・形状所有と破棄）から開始。既存18mm/裏面/深度/4秒周期は不変。原本不変と全15GLBの同位置法線不一致0、監査指定/反対/正面9視点の実Three.js描画を再確認してもらう。
