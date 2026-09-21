@@ -1,3 +1,18 @@
+# 現在地: PR68の独立監査を依頼済み（2026-09-21）
+
+ユーザーが具体的ZIPの通常ChatGPT送信を明示承認。同一ハッシュの監査ZIPを[通常Chat](https://chatgpt.com/c/6ab0c42e-d3dc-83e8-92b5-0315773423d8)へ添付・送信し、展開開始を確認。実装/監査対象 `fff0e444781396da45a05b05dbd70608c2a5a1f7`、後続は証拠/記録のみ。型/関連13件/3サイズUI/baseline8ケース/build/dry-run成功。監査判定→main→既存Worker公開は進行中。[詳細](GROWTH-ACCESSORY-UI.md)。別作業4ファイル保護。
+
+# 現在地: 育成/アクセサリUIをPR68へ保存、監査ZIP送信の承認待ち（2026-09-21）
+
+branch `codex/growth-accessory-ui`、base `b424046`、実装/監査対象 `fff0e44`、[PR68](https://github.com/futsalife24-bot/swarm-front/pull/68)。型/経済13件/3横画面UI/武器一覧baseline8ケース/実iab/build/production dry-run成功。別作業4ファイル保護。後続は証拠・記録のみ。[詳細とZIPハッシュ](GROWTH-ACCESSORY-UI.md)。
+
+停止理由: 自動承認レビューが具体的payloadと宛先の明示承認不足として、約2.46MBの `growth-fff0e44-audit.zip` を通常ChatGPT新規Chatへ添付する操作を拒否。監査未依頼、main未反映、未公開。
+再開条件: 上記ZIPの通常ChatGPTへの送信をユーザーが明示承認。ハッシュ照合→独立監査/必要修正→通常merge/既存Worker公開/配信確認。承認質問を提示済み。
+
+# 現在地: 育成レーダー・素材ポップ・アクセサリUIを自己検証（2026-09-21）
+
+branch `codex/growth-accessory-ui`、base `b424046`。4軸レーダーと詳細育成、共通素材説明、効果付きアクセサリ一覧を実装。型/関連13件/3横画面の配分・解放・装備・保護を確認。独立監査/main/公開は準備中。[詳細](GROWTH-ACCESSORY-UI.md)。別作業4ファイル保護。
+
 # 現在地: 岩の射線・乗り上がりと着地後移動をmain反映・公開（2026-09-21）
 
 PR66通常merge、独立再監査6151c91は合格・必須0。公開source a4ca5528912a429ba23fcc27a95ad88c43fe0a5b、Worker Version 3edc3904-34c6-4f94-acc2-806798085d3b。型/関連テスト/前後回帰/実GLB8700射線/実登頂/実Worker2接続/main build/dry-run成功、配信13SHA一致・health200。公開UIは中断ST1の再開メニューを正常表示・console error0、保存保護のため作戦を進めていない。実スマホ/多数敵長時間/岩上2接続は未確認。[詳細](ROCK-COLLISION.md)。別作業4ファイル保護、後続は公開記録のみ。

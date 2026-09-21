@@ -20,6 +20,31 @@ const resources = {
 } as const;
 
 export type ResourceKind = keyof typeof resources;
+const resourceHelp: Record<ResourceKind, string> = {
+  coins:
+    "作戦のクリア報酬で獲得します。兵士の育成で配分を戻して確定するときに500コインを使います。",
+  powder:
+    "武器やアクセサリの解体で獲得します。アクセサリの通常作成に10個、種類を指定した作成に30個使います。",
+  materials:
+    "通常ST1〜4の初クリアで獲得します。育成項目を1つ解放するのに1個使います。",
+  points:
+    "各作戦・難易度の初クリアで獲得します。兵士ごとに能力へ配分できます。レベルごとの表示は累計必要ポイントです。",
+};
+
+/** Wallet buttons share the game's modal lifecycle, including input suspension. */
+export function bindResourceHelp(
+  root: HTMLElement,
+  open: (title: string, body: string) => void,
+) {
+  root
+    .querySelectorAll<HTMLButtonElement>("[data-resource-help]")
+    .forEach((button) => {
+      button.onclick = () => {
+        const kind = button.dataset.resourceHelp as ResourceKind;
+        open(resources[kind].name, `<p>${resourceHelp[kind]}</p>`);
+      };
+    });
+}
 export function resourceFrame(
   kind: ResourceKind,
   amount: number,
@@ -36,5 +61,5 @@ export function resourceFrame(
 }
 
 export function resourceWallet(save: Record<ResourceKind, number>): string {
-  return `<div class="resource-wallet" aria-label="所持アイテム">${(Object.keys(resources) as ResourceKind[]).map((kind) => resourceFrame(kind, save[kind])).join("")}</div>`;
+  return `<div class="resource-wallet" aria-label="所持アイテム">${(Object.keys(resources) as ResourceKind[]).map((kind) => `<button type="button" class="resource-help" data-resource-help="${kind}" aria-label="${resources[kind].name}の説明・所持${save[kind]}">${resourceFrame(kind, save[kind])}<span class="resource-help-mark" aria-hidden="true">i</span></button>`).join("")}</div>`;
 }
