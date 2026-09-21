@@ -35,3 +35,6 @@ PR66: https://github.com/futsalife24-bot/swarm-front/pull/66 。実装・監査�
 修正版再監査・main反映・公開は未完了。Free契約を実IAB再確認（9/21 DO requests96/duration1.56GB-sec/SQL read860/write66）。
 
 追加実IAB検証完了: 4マップ2900地点・8700射線成功。岩そのものの最大誤差0.00001743m（合格基準0.001m）。既存地形の1.5cm下側判定と描画補間による斜め射線差は最大0.0307793mとして別記し、地面のみ0.05m基準。非衝突装飾と区域外を除く。岩頂上で足元15.8646326065m、下降速度0を再確認。証拠 `browser-reaudit.json`。ゲーム実装はd6081a7から不変、後続は検証器/証拠のみ。
+
+## 修正版の再監査依頼済み
+対象 `6151c91bcc456a816edf376e3f5e1a939cf8f9db`、base不変。通常Chatは上記同一URL。補足ZIP `rock-6151c91-reaudit.zip`、29,234 bytes、SHA256 `7B58B06727A91350C1718E8B7F6F3E535D68D637A5DC2D2254DE6B9DC9926CA3`。初回ZIPの不変依存/GLBと修正差分・ソース・証拠で再監査を依頼し、送信完了と思考開始を実IAB確認。未merge/未公開。後続は記録のみ。
