@@ -1,3 +1,7 @@
+# 現在地: CALYX移動・回転3倍を自己検証（2026-09-21）
+
+branch codex/calyx-speed-three、base 9d201a7。移動1.95m/s・回転2秒/周、根を外へ広げる。攻撃時刻は維持。型/関連22件/実Worker2接続/実IAB/Blender再読込と接地・交差検査成功。独立監査・main反映・公開は未完了。[詳細](CALYX-SPEED.md)。
+
 # 現在地: CALYX会敵ムービーをmain反映・公開（2026-09-21）
 
 PR62通常merge、監査44f4923合格・必須0。公開source cae0ff3428e99db2dc0c222090a997b3d5ed5c6f、Worker Version e9789dd1-e21d-4788-8ace-a6772ab639bb。CALYXの会敵ボタン除外を解除し、実ゲーム描画の約10秒MP4を登録。型/build/dry-run、動画を含む配信14SHA/health成功。実ローカルレポートから最後まで再生、公開MP4も実IABでended=true/9.966667秒/error=null。公開ゲーム全体の保存保護は以前から残り、公開レポート内操作は未確認。今回の会敵ムービー登録/公開/実動画再生は完了。[詳細](CALYX-FILM.md)。

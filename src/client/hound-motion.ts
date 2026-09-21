@@ -35,7 +35,7 @@ export function loadEnemyMotion(
   const request = new GLTFLoader()
     .loadAsync(
       // The service worker caches by URL. Change the revision when CALYX bytes change.
-      `${import.meta.env.BASE_URL}assets/enemies/${name}_motion_${name === "pleat" ? "v5" : name === "leaper" ? "v2" : "v1"}.glb${name === "calyx" ? "?rev=64719fde1175e427" : ""}`,
+      `${import.meta.env.BASE_URL}assets/enemies/${name}_motion_${name === "pleat" ? "v5" : name === "leaper" ? "v2" : "v1"}.glb${name === "calyx" ? "?rev=d1a7573d5976e284" : ""}`,
     )
     .then(({ scene: model, animations: clips }) => {
       model.updateMatrixWorld(true);

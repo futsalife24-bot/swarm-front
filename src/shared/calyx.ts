@@ -15,7 +15,7 @@ import { pursuitDirection } from "./enemy-motion";
 import type { Block } from "./map-blocks";
 
 export const CALYX = {
-  speed: 0.65,
+  speed: 0.65 * 3,
   orbitRadius: 14,
   slamRange: 4,
   slamWind: 1,
@@ -299,5 +299,6 @@ export function stepCalyx(
         blocks,
       );
     }
+    e.heading = Math.atan2(target.x - e.x, target.z - e.z);
   }
 }

@@ -1,4 +1,9 @@
-# CALYX v5
+# CALYX v6
+
+Runtime locomotion now travels at 1.95m/s and samples the authored clip at 3x
+speed (one turn per 2s). Authored clip time and the 0.65m/s contact contract
+below remain unchanged. Roots bow outward during locomotion; planted tips
+retain their contact track. Idle and attack timing remain unchanged.
 
 Rounded grey-green bud with restrained rust-brown marbling, five outer petals,
 one core, three smooth curved roots. The front petal stays flush while closed

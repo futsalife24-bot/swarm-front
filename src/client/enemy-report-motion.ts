@@ -32,7 +32,7 @@ export function reportPose(
             : "Idle";
     return {
       clip,
-      sample: mode === "attack" ? sample : time,
+      sample: mode === "attack" ? sample : mode === "move" ? time * 3 : time,
       height: 0,
       impact: shot ? 1.6 : 1,
       cycle: sample,

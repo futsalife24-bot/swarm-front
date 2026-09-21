@@ -207,9 +207,15 @@ def pose(mode,t):
             else:
                 u=(phase-1/3)*1.5
                 target=Vector((travel*(-.5+smooth(u)),.6-1.65*math.sin(math.pi*u),.026+.5*math.sin(math.pi*u)**2));planted=False
+            # Outward bow under the faster spin. Keep planted tips fixed;
+            # free tips spread smoothly, returning before the next contact.
+            outward=G.to_3x3()@rad;outward.z=0;outward.normalize()
+            airborne=0 if planted else math.sin(math.pi*u)**2
+            target+=outward*(.45*airborne)
             correction=target-G@root_tips[name]
             for part,weight in [('upper',0),('lower',.5),('foot',1)]:
-                rig.pose.bones[name+'_'+part].matrix=Matrix.Translation(correction*weight)@G@rest[name+'_'+part]
+                bow=outward*(.30 if part=='lower' else 0)
+                rig.pose.bones[name+'_'+part].matrix=Matrix.Translation(correction*weight+bow)@G@rest[name+'_'+part]
             contacts.append(dict(t=t,leg=name,planted=planted,foot=list(target)))
             continue
         # Smooth polynomial displacement over the entire root. No joint rotations.

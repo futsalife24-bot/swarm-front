@@ -87,7 +87,8 @@ it("orbits the selected soldier tangentially while facing the centre", () => {
     w.time += 0.05;
     stepCalyx(w, e, p, [p], 0.05);
   }
-  expect(e.x).toBeLessThan(-0.6);
+  expect(e.x).toBeLessThan(-1.9);
+  expect(e.x).toBeGreaterThan(-2);
   expect(Math.hypot(p.x - e.x, p.z - e.z)).toBeCloseTo(CALYX.orbitRadius, 1);
   expect(e.heading).toBeCloseTo(Math.atan2(p.x - e.x, p.z - e.z), 2);
   expect(e.calyx).toBeUndefined();
@@ -371,17 +372,18 @@ it("plays both authored attacks from snapshot time and distance-driven walking",
   }
   c.update(
     b,
-    [{ slot: 0, id: 1, moving: true, distance: 0.65, wind: 0, cool: 0 }],
+    [{ slot: 0, id: 1, moving: true, distance: 1.95, wind: 0, cool: 0 }],
     0.016,
   );
-  expect(c.states.get(1)?.time).toBe(1);
+  expect(c.states.get(1)?.time).toBeCloseTo(3);
+  expect(reportPose("calyx", "move", 1).sample).toBe(3);
   expect(reportPose("calyx", "attack", 1).clip).toBe("Slam");
   expect(reportPose("calyx", "attack", 4.6).clip).toBe("PollenShot");
 });
 it("ships the pinned CALYX GLB with four clips and 16 bones", () => {
   const bytes = readFileSync("public/assets/enemies/calyx_motion_v1.glb");
   expect(createHash("sha256").update(bytes).digest("hex")).toBe(
-    "64719fde1175e4270dae7b142ef2880145a3d76d690806de3a2f8a491d1b21ce",
+    "d1a7573d5976e28492be14e8fbe25c880ea93ed96946c7859c8c3f558089d9ad",
   );
   const gltf = JSON.parse(
     bytes.subarray(20, 20 + bytes.readUInt32LE(12)).toString(),
