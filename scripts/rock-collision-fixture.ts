@@ -19,7 +19,8 @@ try {
     liftMap(scene, map);
     scene.updateMatrixWorld(true);
     let samples = 0,
-      maxError = 0;
+      maxError = 0,
+      maxRockError = 0;
     let worst: unknown;
     for (const b of map.blocks) {
       const points: number[][] = [];
@@ -66,6 +67,11 @@ try {
           Math.abs(collision - hit.distance),
           Math.abs(supportHeight(x, z, map.blocks) - hit.point.y),
         );
+        if (!["meadow_ground", "granular_snow"].includes(hit.object.name))
+          maxRockError = Math.max(
+            maxRockError,
+            Math.abs(collision - hit.distance),
+          );
         for (const direction of [
           new T.Vector3(0.2, -1, 0.1),
           new T.Vector3(-0.15, -1, 0.2),
@@ -98,6 +104,11 @@ try {
             map.blocks,
           );
           const error = Math.abs(contact - (oblique?.distance ?? limit));
+          if (
+            oblique &&
+            !["meadow_ground", "granular_snow"].includes(oblique.object.name)
+          )
+            maxRockError = Math.max(maxRockError, error);
           if (error > maxError)
             worst = {
               x,
@@ -119,9 +130,13 @@ try {
       samples,
       rays: samples * 3,
       maxError,
+      maxRockError,
       worst,
     });
-    if (maxError > 0.025)
+    // Terrain uses the existing 1.5cm under-surface threshold and mesh
+    // interpolation; an oblique ray can amplify its distance error.
+    // Keep the rock tolerance separate so terrain cannot hide a rock defect.
+    if (maxRockError > 0.001 || maxError > 0.05)
       throw Error("Rendered rock mismatch: " + JSON.stringify(results));
     scene.traverse((o) => {
       if (o instanceof T.Mesh) {
