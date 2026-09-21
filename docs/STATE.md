@@ -1,3 +1,15 @@
+# 現在地: 武器ネオンPR75の独立監査合格（2026-09-21）
+
+対象93cabd224747b82b5d04f6fb370df0b9473b1326は[通常Chat](https://chatgpt.com/c/6ab114f9-a904-83ee-858a-439423d5a864)合格、必須P0-P2なし。後続は記録のみ。main反映・公開へ進行。[詳細](WEAPON-NEON.md)。別作業4ファイル保護。
+
+# 現在地: 武器ネオンPR75を独立監査へ送信済み（2026-09-21）
+
+対象93cabd224747b82b5d04f6fb370df0b9473b1326、branch codex/weapon-neon-outline、base56b0f88。build/dry-run成功。[通常Chat監査](https://chatgpt.com/c/6ab114f9-a904-83ee-858a-439423d5a864)の回答待ち。資料・検証は[詳細](WEAPON-NEON.md)。main反映・公開は未完了。後続は記録のみ、別作業4ファイル保護。
+
+# 現在地: 武器の外周ネオンラインを自己検証（2026-09-21）
+
+branch codex/weapon-neon-outline、base56b0f88。ギラつく部品単位の加算シェルを、大きな外周の滑らかなネオン芯+薄いにじみに変更。レア色/4秒明滅/デザイン維持。型/関連4/実15組合せ/閉ループ・資源破棄/9視点確認成功。main/公開は未完了。[詳細](WEAPON-NEON.md)。別作業4ファイル保護。
+
 # 現在地: 武器レア度発光をmain反映・本番公開完了（2026-09-21）
 
 PR72通常merge・再監査bf0a9d3合格、必須P0-P2なし。公開source `5e8d7fc4f94fafb6db30a1b21c13a7b0f8b472f4`、Worker Version `a2f362c3-e190-4244-b1f5-757c21436f76`。ユーザーが具体的本番deployを明示承認。型/関連4件/実15組合せ/全15GLB継ぎ目・原本不変・geometry破棄/9視点/build/dry-run成功。配信13SHA一致・health200。公開iabは既存ST1・13秒の中断メニュー正常、error0。セーブ保護のため再開/終了は行わず確認タブを閉じた。実スマホ/多人数長時間/公開実戦の発光操作は未確認。任意P3は画素境界の自動回帰・実GPU資源推移。[詳細](WEAPON-RARITY-GLOW.md)。後続は公開記録のみ、別作業4ファイル保護。

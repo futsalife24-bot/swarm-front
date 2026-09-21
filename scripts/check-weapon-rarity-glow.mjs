@@ -20,7 +20,7 @@ try {
       body: "<html><body></body></html>",
     }),
   );
-  await page.goto("http://127.0.0.1:5347/glow-check");
+  await page.goto("http://127.0.0.1:5419/glow-check");
   const result = await page.evaluate(async () => {
     const T = await import("/node_modules/three/build/three.module.js");
     const { StandardTrooper, loadStandardTrooper } =
@@ -71,11 +71,16 @@ try {
         const shells = v.weapons.map((w) => {
           const a = [];
           w.traverse((o) => {
-            if (o.name === "WeaponRarityGlow") a.push(o);
+            if (o.name === "WeaponNeonCore") a.push(o);
           });
           return a;
         });
-        const bright = shells.map((a) => a[0].material.uniforms.strength.value);
+        const bright = shells.map(
+          (a) =>
+            a[0].material.color.r +
+            a[0].material.color.g +
+            a[0].material.color.b,
+        );
         renderer.render(scene, camera);
         const pixels = renderer.domElement.toDataURL();
         v.update(p, 0, 3, "glow", 0);
@@ -85,11 +90,14 @@ try {
           kind,
           grade,
           counts: shells.map((a) => a.length),
-          colors: shells.map((a) =>
-            a[0].material.uniforms.glowColor.value.getHexString(),
-          ),
+          colors: v.weaponGlows.map((glow) => glow.color.getHexString()),
           bright,
-          dim: shells.map((a) => a[0].material.uniforms.strength.value),
+          dim: shells.map(
+            (a) =>
+              a[0].material.color.r +
+              a[0].material.color.g +
+              a[0].material.color.b,
+          ),
           changed: pixels !== dim,
           parents: v.weapons.map((w) => w.parent.name),
           calls: renderer.info.render.calls,
@@ -109,7 +117,7 @@ try {
     const swapped = v.weapons.map((w) => w.parent.name);
     const geometry = v.weapons[0].children[0];
     let disposed = 0;
-    v.weaponGlows[0].material.addEventListener("dispose", () => disposed++);
+    v.weaponGlows[0].core.addEventListener("dispose", () => disposed++);
     v.dispose();
     renderer.dispose();
     return { records, swapped, disposed, colors };
