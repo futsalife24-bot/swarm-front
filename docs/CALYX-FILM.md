@@ -10,3 +10,5 @@ CALYXだけ会敵ムービーボタンから除外され、動画も登録され
 - 限界: 公開ゲームの保存保護は解除できておらず、レポート操作は保存を使わないローカル入口で実本体を検証。スマホ実機の動画再生は未検証。
 - 独立監査: 対象44f4923aec6ffe199719696351236f1a8923381c、PR62。[通常Chat](https://chatgpt.com/c/6aafd926-90a0-83ee-a297-65a7f91d005d)へ実動画/差分/ソースを提出済み。判定待ち。
 独立監査44f4923は合格・必須0・新規任意0。実動画全299フレーム/15抽出コマ、32URL条件、未遭遇/協力のみ非表示とソロ表示、実コードによるネイティブ再生/シーク/再試行/Blob解放を独立確認。監査ブラウザは通信/3D/BGM等を代替し、公開実環境の確認とは区別。全文docs/evidence/calyx-film/audit-44f4923.txt。
+
+公開完了: PR62通常merge。source cae0ff3428e99db2dc0c222090a997b3d5ed5c6f、Worker Version e9789dd1-e21d-4788-8ace-a6772ab639bb。main build/dry-run成功。動画を含む14配信ファイルのSHA一致/health200。公開MP4を実IABで開きended=true、time=duration=9.966667、readyState4、error=null。公開ゲーム保存保護は前件から残り、レポート内の操作はローカル実本体で確認したもの。

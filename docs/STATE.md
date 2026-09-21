@@ -1,6 +1,6 @@
-# 現在地: CALYX会敵ムービーを追加、独立監査中（2026-09-21）
+# 現在地: CALYX会敵ムービーをmain反映・公開（2026-09-21）
 
-PR62、branch codex/calyx-encounter-film、対象44f4923aec6ffe199719696351236f1a8923381c。CALYXだけ除外されていた会敵ボタンを有効にし、作戦7/最新版GLBの実Rendererによる9.9667秒のMP4を登録。型/build、299フレーム全デコード、実ローカルレポートでended/errorなしを確認。通常Chat https://chatgpt.com/c/6aafd926-90a0-83ee-a297-65a7f91d005d へCALYX-44f4923-film.zip送信済み。main/公開未反映。
+PR62通常merge、監査44f4923合格・必須0。公開source cae0ff3428e99db2dc0c222090a997b3d5ed5c6f、Worker Version e9789dd1-e21d-4788-8ace-a6772ab639bb。CALYXの会敵ボタン除外を解除し、実ゲーム描画の約10秒MP4を登録。型/build/dry-run、動画を含む配信14SHA/health成功。実ローカルレポートから最後まで再生、公開MP4も実IABでended=true/9.966667秒/error=null。公開ゲーム全体の保存保護は以前から残り、公開レポート内操作は未確認。今回の会敵ムービー登録/公開/実動画再生は完了。[詳細](CALYX-FILM.md)。
 
 # 現在地: CALYX旧モデルキャッシュ修正をmain反映・公開（2026-09-21）
 
