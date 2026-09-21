@@ -5,7 +5,12 @@ import "../menu-ui.css";
 import "../menu-theme.css";
 import "./playtest.css";
 import "./gear-weapon-list.css";
-import { resourceFrame, resourceWallet } from "./resource-frame";
+import { growthMarkup, bindGrowthUI } from "./growth-ui";
+import {
+  resourceFrame,
+  resourceWallet,
+  bindResourceHelp,
+} from "./resource-frame";
 import { menuSamples } from "./menu-samples";
 import { homeMarkup } from "./home-screen";
 import { openTutorialGuide } from "./tutorial-guide";
@@ -70,12 +75,11 @@ import {
 } from "../shared/solo-progression";
 import {
   SKILLS,
-  SKILL_NAMES,
-  COSTS,
   GRADES,
   YIELDS,
   VARIANCE_KEYS,
   ACCESSORY_NAMES,
+  ACCESSORY_VALUES,
   BRANCH_HINT,
   settings,
   victoryCoins,
@@ -1342,6 +1346,7 @@ function header(title: string, body: string, nav = true) {
   const panel =
     screen === "gear" ? "gear" : screen === "result" ? "result" : "armory";
   ui.innerHTML = `<section class="panel ${panel} menu-screen pt-screen"><header class="menu-header"><div><div class="eyebrow">${eyebrow}${developerMode ? " · 管理者モード" : mode === "test" ? " · TEST DATA" : ""}</div><h1>${esc(title)}</h1></div>${nav ? '<nav><button id="pt-gear">出撃準備</button><button id="pt-base">基地</button><button id="pt-home">タイトルへ</button></nav>' : ""}</header><p class="pt-status" role="status">${esc(notice)}</p>${["base", "armory", "growth", "accessories"].includes(screen) ? resourceWallet(save) : ""}${body}</section>`;
+  bindResourceHelp(ui, dialog);
   bind("pt-home", home);
   if (sampleMenus && nav) {
     $("pt-home").textContent = "サンプル終了";
@@ -2034,7 +2039,7 @@ function growth() {
   const p = soldier(save);
   header(
     "兵士の育成",
-    `<p>${esc(p.name)} · ${resourceFrame("points", spent(p.levels), "used")} · 配分を戻す確定 ${resourceFrame("coins", 500, "cost")}</p><div class="pt-growth">${SKILLS.map((k) => `<label>${SKILL_NAMES[k]} ${save.unlocked.includes(k) ? `<select data-level="${k}">${COSTS.map((cost, i) => `<option value="${i}" ${p.levels[k] === i ? "selected" : ""}>Lv${i} (${cost}pt)</option>`).join("")}</select>` : `<button data-unlock="${k}" ${save.materials ? "" : "disabled"}>解放 ${resourceFrame("materials", 1, "cost")}</button>`}</label>`).join("")}<p id="pt-point-preview">${resourceFrame("points", spent(p.levels), "used")} / ${save.points}</p><button id="pt-allocate">配分を確定</button><button id="pt-growth-cancel">編集をキャンセル</button></div>`,
+    `<div class="pt-growth">${growthMarkup(p.levels, save.unlocked, save.materials)}<p id="pt-point-preview" aria-live="polite">${resourceFrame("points", spent(p.levels), "used")} / ${save.points}</p><button id="pt-allocate">配分を確定</button><button id="pt-growth-cancel">編集をキャンセル</button></div>`,
   );
   ui.querySelectorAll<HTMLButtonElement>("[data-unlock]").forEach(
     (b) =>
@@ -2065,6 +2070,7 @@ function growth() {
       );
     else commit(n, growth);
   });
+  bindGrowthUI(ui, p.levels, save.points, save.coins);
   bind("pt-growth-cancel", growth);
   const growthFooter = document.createElement("footer");
   growthFooter.className = "gear-footer pt-growth-footer";
@@ -2074,6 +2080,9 @@ function growth() {
   ui.querySelector(".pt-growth")!.insertAdjacentHTML(
     "beforebegin",
     `<div class="pt-personnel"><label>登録兵士 <select id="pt-soldier">${save.soldiers.map((p) => `<option value="${esc(p.id)}" ${p.id === save.selectedSoldier ? "selected" : ""}>${esc(p.name)}</option>`).join("")}</select></label><button id="pt-register">兵士を登録</button>${mode === "test" ? '<button id="pt-generator">テスト品を指定生成</button>' : ""}</div>`,
+  );
+  ui.querySelector(".pt-personnel")!.prepend(
+    ui.querySelector(".resource-wallet")!,
   );
   bind("pt-register", () => {
     const n = structuredClone(save);
@@ -2092,6 +2101,14 @@ function growth() {
   };
   bind("pt-generator", generator);
 }
+function accessoryEffect(kind: AccessoryKind, rarity: number) {
+  const v = ACCESSORY_VALUES[kind][rarity];
+  return kind === "pickup"
+    ? `回収範囲 ×${v}`
+    : kind === "healing"
+      ? `最大HPの${Math.round(v * 100)}%回復`
+      : `被弾後 ${v}秒で回復開始`;
+}
 function accessories() {
   tutorial(
     "accessories",
@@ -2107,7 +2124,25 @@ function accessories() {
       .map(([k, v]) => `<option value="${k}">${v}</option>`)
       .join(
         "",
-      )}</select><button id="pt-target-craft">指定作成 ${resourceFrame("powder", 30, "cost")}</button><button id="pt-synthesis">一括合成</button><button id="pt-accessory-off">装備を外す</button></div><div class="pt-accessories">${save.accessories.map((a) => `<div><span>${ACCESSORY_NAMES[a.kind]} R${a.rarity} ${save.soldiers.some((p) => p.accessory === a.id) ? "登録装備" : ""}</span><button data-accessory-equip="${a.id}">装備</button><button data-accessory-lock="${a.id}">${a.locked ? "🔒解除" : "🔓ロック"}</button><button data-accessory-delete="${a.id}" ${accessoryProtected(save, a.id) ? "disabled" : ""}>解体 ${resourceFrame("powder", a.rarity, "gain")}</button></div>`).join("")}</div>`,
+      )}</select><button id="pt-target-craft">指定作成 ${resourceFrame("powder", 30, "cost")}</button><button id="pt-synthesis">一括合成</button><button id="pt-accessory-off">装備を外す</button></div><div class="pt-accessories">${save.accessories.map((a) => `<div class="accessory-row ${soldier(save).accessory === a.id ? "is-equipped" : ""}" data-rarity="${a.rarity}"><span class="accessory-grade">R${a.rarity}</span><button class="accessory-info" data-accessory-info="${a.id}"><strong>${ACCESSORY_NAMES[a.kind]}</strong><small>${accessoryEffect(a.kind, a.rarity)} · ${soldier(save).accessory === a.id ? "装備中" : save.soldiers.some((p) => p.accessory === a.id) ? "他の兵士に登録" : "詳細を見る"}</small></button><button data-accessory-equip="${a.id}" ${soldier(save).accessory === a.id ? "disabled" : ""}>${soldier(save).accessory === a.id ? "装備中" : "装備"}</button><button data-accessory-lock="${a.id}">${a.locked ? "🔒解除" : "🔓ロック"}</button><button data-accessory-delete="${a.id}" ${accessoryProtected(save, a.id) ? "disabled" : ""}>解体 ${resourceFrame("powder", a.rarity, "gain")}</button></div>`).join("")}</div>`,
+  );
+  ui.querySelectorAll<HTMLButtonElement>("[data-accessory-info]").forEach(
+    (button) =>
+      (button.onclick = () => {
+        const a = save.accessories.find(
+          (item) => item.id === button.dataset.accessoryInfo,
+        )!;
+        const explanation = {
+          pickup: "地面に落ちたアイテムを回収できる距離を広げます。",
+          healing: "回復アイテムを拾ったときの回復量を増やします。",
+          recovery:
+            "ダメージを受けてから自動回復が始まるまでの時間を短縮します。",
+        };
+        dialog(
+          `${ACCESSORY_NAMES[a.kind]} R${a.rarity}`,
+          `<p>${explanation[a.kind]}</p><p class="accessory-effect">${accessoryEffect(a.kind, a.rarity)}</p><p>${a.locked ? "ロック中。解体・一括合成から保護されています。" : "兵士に登録した装備は、解体・一括合成から保護されます。"}</p>`,
+        );
+      }),
   );
   bind("pt-craft", () => commit(createAccessory(save), accessories));
   bind("pt-target-craft", () =>
