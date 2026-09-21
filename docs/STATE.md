@@ -14,7 +14,11 @@ typecheck（client/worker）成功、全件477中474成功。失敗3件（aim/st
 
 ⚠️ ローカル検証中、**サービスワーカーが古いバンドルを返して変更が反映されていないのに検証済みと誤認しかけた**。`navigator.serviceWorker.getRegistrations()` の解除と `caches` 削除が必要。
 
-**未実施: 独立Chat監査・main反映・公開。** 実プレイ未実施のため手触り/難易度曲線は未評価。実スマホ・実協力通信も未検証。新系統のモデルと発砲音は既存アセットの流用（レーザーらしさはCodex側でBlender/SE調整予定）。詳細・限界は [WEAPON-FAMILIES.md](WEAPON-FAMILIES.md)。
+**独立監査を依頼済み・判定待ち（2026-09-21）。** 監査Chat https://chatgpt.com/c/6ab13de7-c55c-83e8-be6d-f9dda9c268bd 、対象 `a4c0bfdb5a16a3835863f180a427a8b620e1bd36`、資料 `dist-validation/weapon-families-audit.zip`（606,975 bytes / SHA256 `1205ac186e2649334ddb64c25414ff2fd45c532a99e5c93f5f9786b0711f2e8a`。diff・変更21ファイル全文・AGENTS/WORKFLOW/設計文書・検証ログ・UI証拠）。重点確認7点（セーブ互換／`Event.weapon` の kind→family 追随漏れ／権威サーバー上の heal の安全性／recoil 移動の悪用／4人同時射撃時のイベント量と `messageBytes`／乱数ストリーム変化／武器庫上限の family 移行）を明示して依頼。回答待ちであって未依頼ではない。判定未取得の段階で合格扱いにしない。
+
+⚠️ **経路変更あり。** `docs/skills/swarm-front-audit-release/SKILL.md` が指定するアプリ内ブラウザ（iab）は ChatGPT 未ログインかつ添付手段がなく使用不可だったため、**ユーザーの明示承認を得てChrome拡張経由で送信**した。認証操作は一切していない（既存ログインセッションを使用）。
+
+**未実施: main反映・公開。** 実プレイ未実施のため手触り/難易度曲線は未評価。実スマホ・実協力通信も未検証。新系統のモデルと発砲音は既存アセットの流用（レーザーらしさはCodex側でBlender/SE調整予定）。詳細・限界は [WEAPON-FAMILIES.md](WEAPON-FAMILIES.md)。
 
 # 現在地: ドローン撮影をmain反映・公開・確認済み（2026-09-20）
 
