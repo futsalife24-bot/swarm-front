@@ -14,7 +14,9 @@
 
 検証: typecheck（client/worker）成功、全件486中483成功（失敗3件と読込失敗1件は base `694a601` でも同一の既存事象）。`tests/weapon-families.test.ts` は **23件**へ拡充し、**5件の指摘すべてに回帰ガード**を追加。build / server:build dry-run 成功。`check-gear-ui-baseline.mjs` は前回と同一値で回帰なし。実ブラウザで12丁のモデル読込を確認。
 
-**未実施: 再監査・main反映・公開。** 実プレイ・Android実機・実協力通信は引き続き未検証。
+**再監査を依頼済み・判定待ち（2026-09-22）。** 同じ[監査Chat](https://chatgpt.com/c/6ab13de7-c55c-83e8-be6d-f9dda9c268bd) へ対象 `7ba0b75dd692625f542cd696655ea1c42fc9a33d` を送信。資料 `dist-validation/weapon-families-fix-audit.zip`（392,208 bytes / SHA256 `076a5efb85b58678b1566f949606c23b83ba3c8ee016fc630d9e98d64be1d914`）。前回対象 `a4c0bfd` からの差分を審査対象として明示し、**F5によるライフルの連射変更（6.7→7.7発/秒）の妥当性も判定に含めるよう依頼**した。回答待ちであって未依頼ではない。
+
+**未実施: main反映・公開。** 実プレイ・Android実機・実協力通信・全地形での反動移動・F5修正後の最大スナップショットサイズは引き続き未検証。
 
 # 現在地: 武器を6系統12丁へ拡張、監査・公開は未実施（2026-09-21）
 
