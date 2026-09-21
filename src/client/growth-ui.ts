@@ -21,6 +21,17 @@ const value = (skill: Skill, level: number) =>
     move: `移動速度 +${level * 3}%`,
     swap: `${SWAP_TIMES[level]} 秒`,
   })[skill];
+
+export function growthConfirmation(
+  before: Record<Skill, number>,
+  after: Record<Skill, number>,
+) {
+  const changed = SKILLS.filter((k) => before[k] !== after[k]);
+  const total = (levels: Record<Skill, number>) =>
+    SKILLS.reduce((n, k) => n + COSTS[levels[k]], 0);
+  const refund = changed.some((k) => after[k] < before[k]);
+  return `<div class="growth-confirmation"><ul class="growth-changes">${changed.map((k) => `<li data-growth-change="${k}" class="${after[k] < before[k] ? "is-reduced" : ""}"><div><strong>${SKILL_NAMES[k]}</strong><small>Lv${before[k]} → Lv${after[k]}</small></div><p><span>${value(k, before[k])}</span><span aria-hidden="true"> → </span><strong>${value(k, after[k])}</strong></p></li>`).join("")}</ul><p class="growth-point-change">使用ポイント：${total(before)} → <strong>${total(after)}pt</strong></p>${refund ? `<p class="growth-refund-cost">振り直し費用 ${resourceFrame("coins", 500, "cost")}</p>` : ""}</div>`;
+}
 const axes: Record<Skill, [number, number]> = {
   hp: [0, -1],
   aim: [1, 0],
@@ -134,7 +145,10 @@ export function bindGrowthUI(
       );
     const apply = root.querySelector<HTMLButtonElement>("#pt-allocate")!;
     const refund = SKILLS.some((k) => draft[k] < saved[k]);
-    apply.disabled = total > budget || (refund && coins < 500);
+    apply.disabled =
+      !SKILLS.some((k) => draft[k] !== saved[k]) ||
+      total > budget ||
+      (refund && coins < 500);
     apply.textContent =
       total > budget
         ? `ポイント不足（${total - budget}pt）`

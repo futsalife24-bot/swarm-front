@@ -53,6 +53,123 @@
 .pt-accessories .accessory-row {
   margin-bottom: 2px;
 }
+
+.playtest #ui .pt-growth-footer #pt-allocate,
+.menu-dialog:has(.growth-confirmation) #pt-confirm {
+  min-height: 48px;
+  min-width: 190px;
+  padding: 10px 20px;
+  font-size: 17px;
+  font-weight: 800;
+  color: #11261c;
+  border: 1px solid #d7f5b3;
+  background: linear-gradient(135deg, #d5ed9b, #8fd9ad);
+  box-shadow:
+    0 0 18px #b5e89c30,
+    inset 0 1px #efffd2;
+}
+.playtest #ui .pt-growth-footer #pt-allocate:disabled {
+  opacity: 0.45;
+  box-shadow: none;
+}
+.playtest #ui .pt-growth-footer #pt-allocate:not(:disabled):hover,
+.menu-dialog:has(.growth-confirmation) #pt-confirm:hover {
+  filter: brightness(1.12);
+}
+.playtest #ui .pt-growth-footer #pt-allocate:focus-visible,
+.menu-dialog:has(.growth-confirmation) #pt-confirm:focus-visible {
+  outline: 2px solid #efffd2;
+  outline-offset: 3px;
+}
+.growth-changes {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+.growth-changes li {
+  padding: 10px 12px;
+  margin: 6px 0;
+  border: 1px solid #74968566;
+  border-left: 3px solid #a9e3b4;
+  background: #69917a18;
+}
+.growth-changes li > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.growth-changes small {
+  color: #adc1b5;
+}
+.growth-changes li p {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 5px 0 0;
+  font-size: 18px;
+}
+.growth-changes li p > strong {
+  color: #bdeaa3;
+}
+.growth-changes .is-reduced {
+  border-left-color: #e1bd81;
+}
+.growth-changes .is-reduced p > strong {
+  color: #e1bd81;
+}
+.growth-point-change,
+.growth-refund-cost {
+  color: #d4e0d9;
+}
+.menu-dialog > .growth-confirm-actions {
+  position: static;
+  inset: auto;
+  transform: none;
+  width: auto;
+  margin: 0;
+  text-align: left;
+  flex: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-top: 1px solid #74968566;
+  background: #11222b;
+}
+.menu-dialog .growth-changes li p {
+  margin: 4px 0 0;
+  line-height: 1.35;
+}
+@media (max-height: 430px) {
+  .menu-dialog:has(.growth-confirmation) > header {
+    padding: 10px 16px;
+  }
+  .menu-dialog:has(.growth-confirmation) .menu-dialog-body {
+    padding: 10px 16px;
+  }
+  .menu-dialog .growth-confirmation > p {
+    margin: 0 0 8px;
+  }
+  .pt-screen .growth-radar,
+  .pt-screen .growth-radar > svg {
+    min-height: 0;
+  }
+  .playtest #ui .pt-growth-footer #pt-allocate {
+    min-width: 180px;
+    font-size: 15px;
+    padding: 8px 12px;
+  }
+  .growth-changes li {
+    padding: 6px 10px;
+    margin: 4px 0;
+  }
+  .growth-changes li p {
+    font-size: 16px;
+  }
+}
 .growth-radar {
   position: relative;
   min-height: 220px;
