@@ -26,3 +26,6 @@
 
 ## 独立監査合格
 対象ec1c5bc、必須P0-P2なし。独立抽出テスト3サイズ39シナリオ群/配分15,552組合せ成功。任意P3は640x360で4項目変更時に費用がスクロール下方へ隠れる点。模擬保存など監査限界は evidence/growth-confirmation/independent-audit.md に記録。後続は文書のみ。
+
+## main反映・公開承認待ち
+PR70通常merge済み、source 27a08ab5deaae4e27d0a30ced27be78df056b1e4。merge後build/dry-run成功。既存Workerへのdeployは自動承認レビューが具体的な本番公開承認不足として拒否し、未実行。ユーザーへこのsource/既存公開URLの更新を特定した承認質問を提示。配信SHA/health/公開UI確認はdeploy後に実施。

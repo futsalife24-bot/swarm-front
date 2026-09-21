@@ -1,3 +1,9 @@
+# 現在地: PR70監査合格・main反映、本番デプロイ承認待ち（2026-09-21）
+
+[PR70](https://github.com/futsalife24-bot/swarm-front/pull/70)を通常merge。main/source `27a08ab5deaae4e27d0a30ced27be78df056b1e4`。独立監査ec1c5bc合格・必須P0-P2なし。型/経済13/3サイズUI/武器8/build/dry-run成功。後続は記録のみ。別作業4ファイル保護。
+
+停止理由: 自動承認レビューが既存Workerの本番deployを拒否。実装・監査・main反映の承認を本番公開へ拡張できず、具体的公開承認を確認できないとの理由。deploy未実行、公開は前版のまま。
+再開条件: main source 27a08abを既存 https://swarm-front.melosalife-24.workers.dev へ本番deployすることをユーザーが明示承認。承認質問提示済み。既存wrangler.production.jsoncでdeploy→配信SHA/health/UI確認→公開記録をmainへ反映。新規サービス/課金変更なし。
 # 現在地: PR70の独立監査を依頼済み（2026-09-21）
 
 今回ZIPの送信をユーザーが明示承認。同一ハッシュの資料を[通常Chat](https://chatgpt.com/c/6ab0d728-851c-83ee-8b16-8a87e16f17a5)へ添付・送信し、監査開始を確認。対象 `ec1c5bc99fec725f04c691371d106e38d9f86845`、後続は記録のみ。PR70競合なし、mainはbaseから変更なし。監査判定→通常merge→既存Worker公開/配信確認を継続。別作業4ファイル保護。
