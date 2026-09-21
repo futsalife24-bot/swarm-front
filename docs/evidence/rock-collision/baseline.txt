@@ -1,0 +1,87 @@
+
+ RUN  v5.0.0 C:/Users/futsa/OneDrive/ドキュメント/ChatGPT/スワフロ/game
+
+ ❯ tests/aim.test.ts (10 tests | 1 failed | 9 skipped) 17ms
+   ❯ camera-aligned authoritative shots (6)
+     × sends accurate rockets through the center target at near/far and elevated angles 14ms
+ ❯ tests/terrain.test.ts (35 tests | 5 failed | 27 skipped) 33ms
+   × rifle damages a target past the rock shoulder, but solid rock still stops it 13ms
+   × 風渡る草原 low rocks can be climbed and jumped onto 3ms
+   × 風渡る草原・高台ルート low rocks can be climbed and jumped onto 2ms
+   × landing on map 3 clears downward velocity and preserves diagonal uphill speed 1ms
+   × landing on map 4 clears downward velocity and preserves diagonal uphill speed 1ms
+
+ Test Files  2 failed (2)
+      Tests  6 failed | 3 passed | 36 skipped (45)
+   Start at  12:15:35
+   Duration  3.43s (import 64%, transform 33%, tests 2%, worker 1%)
+
+    Isolate  2 workers spawned · ~643ms startup each (spawn + environment, per file)
+             at least ~643ms faster with isolate: false — reuses workers across files instead of one per file
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/aim.test.ts > camera-aligned authoritative shots > sends accurate rockets through the center target at near/far and elevated angles
+AssertionError: expected 1.8750000000000022 to be close to 1.25, received difference is 0.6250000000000022, but expected 5e-7
+ ❯ tests/aim.test.ts:127:32
+    125|           shot.target.z - e.z,
+    126|         );
+    127|         expect(targetDistance).toBeCloseTo(1.25, 6);
+       |                                ^
+    128|       }
+    129|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  tests/terrain.test.ts > rifle damages a target past the rock shoulder, but solid rock still stops it
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/terrain.test.ts:45:23
+     43|     const hp = e.hp;
+     44|     fire(w, p, { ...neutral(), yaw: Math.PI });
+     45|     expect(e.hp < hp).toBe(shoulder);
+       |                       ^
+     46|   }
+     47| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  tests/terrain.test.ts > 風渡る草原 low rocks can be climbed and jumped onto
+ FAIL  tests/terrain.test.ts > 風渡る草原・高台ルート low rocks can be climbed and jumped onto
+AssertionError: expected -57.599999999999994 to be close to -48, received difference is 9.599999999999994, but expected 0.00005
+ ❯ tests/terrain.test.ts:143:25
+    141|         if (n > 5 && !air) landed = true;
+    142|       }
+    143|       expect(soldier.x).toBeCloseTo(b.x, 4);
+       |                         ^
+    144|       expect(soldier.y).toBeCloseTo(b.h, 4);
+    145|       expect(landed).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  tests/terrain.test.ts > landing on map 3 clears downward velocity and preserves diagonal uphill speed
+ FAIL  tests/terrain.test.ts > landing on map 4 clears downward velocity and preserves diagonal uphill speed
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/terrain.test.ts:168:19
+    166|     for (let n = 0; n < 40; n++) {
+    167|       const air = playerVerticalStep(p, neutral(), map.blocks, 0.05);
+    168|       expect(air).toBe(false);
+       |                   ^
+    169|       expect(p.verticalSpeed).toBe(0);
+    170|       const x = p.x,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯

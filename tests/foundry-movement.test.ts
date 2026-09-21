@@ -15,7 +15,7 @@ import {
   start,
   step,
 } from "../src/shared/game";
-import { MAPS, STAGES, mapFor } from "../src/shared/stages";
+import { MAPS, ELEVATED_MAPS, STAGES, mapFor } from "../src/shared/stages";
 import {
   moveWorm,
   placeWormOnGround,
@@ -33,7 +33,58 @@ import {
   foundryGroundClear,
   foundryPatrol,
   foundrySafePoint,
+  foundryPath,
+  foundryGroundLine,
 } from "../src/shared/foundry-navigation";
+
+it.each([MAPS[3], ELEVATED_MAPS[3], MAPS[4], ELEVATED_MAPS[4]])(
+  "$name rock-edge goals project to reachable segmented-body clearance",
+  (map) => {
+    for (const b of map.blocks) {
+      const side = b.x < 0 ? 1 : -1;
+      const target = { x: b.x + side * (b.w / 2 + 1), z: b.z };
+      const start = { x: b.x + side * (b.w / 2 + 12), z: b.z };
+      expect(foundryGroundClear(map, target)).toBe(false);
+      const goal = foundrySafePoint(map, target),
+        path = foundryPath(map, start, target);
+      expect(foundryGroundClear(map, goal)).toBe(true);
+      expect(path.length).toBeGreaterThan(0);
+      let previous = start;
+      for (const point of path) {
+        expect(foundryGroundLine(map, previous, point)).toBe(true);
+        previous = point;
+      }
+      expect(foundryDistance(previous, goal)).toBeLessThan(0.001);
+    }
+  },
+);
+
+it.each([3, 4])(
+  "segmented enemy keeps pursuing a player beside map %i rock",
+  (index) => {
+    const { w, p, e } = field(index),
+      map = mapFor(w),
+      b = map.blocks[0],
+      side = b.x < 0 ? 1 : -1;
+    p.x = b.x + side * (b.w / 2 + 1);
+    p.z = b.z;
+    p.y = supportHeight(p.x, p.z, map.blocks);
+    e.x = b.x + side * (b.w / 2 + 12);
+    e.z = b.z;
+    placeWormOnGround(w, e);
+    e.fractured = true;
+    const start = { x: e.x, z: e.z },
+      before = foundryDistance(e, p);
+    for (let i = 0; i < 200; i++) {
+      w.time += 0.05;
+      moveWorm(w, e, 0.05);
+      w.projectiles = [];
+    }
+    expect(foundryDistance(start, e)).toBeGreaterThan(1);
+    expect(foundryDistance(e, p)).toBeLessThan(before - 1);
+    expect(wormNodes(e).every((n) => foundryGroundClear(map, n))).toBe(true);
+  },
+);
 
 function field(map = 0) {
   const stage = STAGES.find((s) => s.map === map)!.id;
@@ -47,6 +98,35 @@ function field(map = 0) {
   placeWormOnGround(w, e);
   return { w, p, e };
 }
+
+it.each([7, 13])(
+  "audit P2: actual severing keeps pursuing the rock-edge soldier in stage %i",
+  (stage) => {
+    const w = createWorld("audit-worm", 11, stage),
+      p = addPlayer(w, "p");
+    start(w);
+    w.enemies = [];
+    w.nextSpawn = 1e9;
+    const map = mapFor(w),
+      b = map.blocks[0];
+    p.x = b.x + b.w / 2 + 1;
+    p.z = b.z;
+    p.y = supportHeight(p.x, p.z, map.blocks);
+    spawn(w, "boss", 0, -35, "worm");
+    const e = w.enemies[0];
+    placeWormOnGround(w, e);
+    hurtEnemy(w, e, 1e6, p.id, 4);
+    expect(e.fractured).toBe(true);
+    const before = { x: e.x, z: e.z };
+    for (let n = 0; n < 200; n++) {
+      w.time += 0.05;
+      moveWorm(w, e, 0.05);
+      w.projectiles = [];
+    }
+    expect(foundryDistance(before, e)).toBeGreaterThan(5);
+    expect(wormNodes(e).every((n) => foundryGroundClear(map, n))).toBe(true);
+  },
+);
 
 it("initial roaming and cuts do not fold a connected chain back onto itself", () => {
   const { w, p, e } = field(3);

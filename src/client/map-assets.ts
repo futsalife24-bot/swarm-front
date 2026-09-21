@@ -1,4 +1,5 @@
 import { liftMap } from "./terrain-view";
+import { isRock, rockTriangles } from "../shared/rock";
 import { addMapDetail, weatherMapMaterials } from "./map-detail";
 import { softenNaturalNormals } from "./map-surfaces";
 import * as T from "three";
@@ -125,15 +126,34 @@ export class MapAssets {
       const boxes = new T.InstancedMesh(
         new T.BoxGeometry(1, 1, 1),
         new T.MeshStandardMaterial({ color: map.color }),
-        map.blocks.length,
+        map.blocks.filter((b) => !isRock(b)).length,
       );
       const matrix = new T.Matrix4();
-      map.blocks.forEach((b, j) => {
-        matrix.makeScale(b.w, b.h, b.d);
-        matrix.setPosition(b.x, b.h / 2, b.z);
-        boxes.setMatrixAt(j, matrix);
-      });
+      map.blocks
+        .filter((b) => !isRock(b))
+        .forEach((b, j) => {
+          matrix.makeScale(b.w, b.h, b.d);
+          matrix.setPosition(b.x, b.h / 2, b.z);
+          boxes.setMatrixAt(j, matrix);
+        });
       g.add(boxes);
+      for (const b of map.blocks.filter(isRock)) {
+        const geometry = new T.BufferGeometry();
+        geometry.setAttribute(
+          "position",
+          new T.Float32BufferAttribute(rockTriangles(b).flat(2), 3),
+        );
+        geometry.computeVertexNormals();
+        g.add(
+          new T.Mesh(
+            geometry,
+            new T.MeshStandardMaterial({
+              color: map.color,
+              side: T.DoubleSide,
+            }),
+          ),
+        );
+      }
     }
   }
   select(index: number, load = true, distantVisible = true) {

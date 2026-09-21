@@ -1,4 +1,5 @@
 import { stepCalyx, stepPollen, advancePollen } from "./calyx";
+import { isRock, rockHeight, rockRay } from "./rock";
 import {
   enemySize,
   enemyStatSize,
@@ -419,7 +420,11 @@ export function loot(w: World): Weapon {
 export function roofHeight(x: number, z: number, r = 0.55, blocks = BLOCKS) {
   let best = supportHeight(x, z, blocks, Infinity, r);
   for (const b of blocks)
-    if (Math.abs(x - b.x) < b.w / 2 + r && Math.abs(z - b.z) < b.d / 2 + r)
+    if (
+      !isRock(b) &&
+      Math.abs(x - b.x) < b.w / 2 + r &&
+      Math.abs(z - b.z) < b.d / 2 + r
+    )
       best = Math.max(best, b.h);
   return best;
 }
@@ -436,11 +441,12 @@ export function blocked(
   return (
     Math.abs(x) > ARENA_X - r ||
     Math.abs(z) > ARENA_Z - r ||
-    blocks.some(
-      (b) =>
-        b.h > y &&
-        Math.abs(x - b.x) < b.w / 2 + r &&
-        Math.abs(z - b.z) < b.d / 2 + r,
+    blocks.some((b) =>
+      isRock(b)
+        ? rockHeight(b, x, z) > y + 1e-6
+        : b.h > y &&
+          Math.abs(x - b.x) < b.w / 2 + r &&
+          Math.abs(z - b.z) < b.d / 2 + r,
     )
   );
 }
@@ -497,6 +503,10 @@ export function wallDistance(
   if (blocks === CAVE_BLOCKS)
     best = Math.min(best, caveRay(x, y, z, dx, dy, dz, max));
   for (const b of [...blocks, ...terrainProps(blocks)]) {
+    if (isRock(b)) {
+      best = rockRay(b, x, y, z, dx, dy, dz, best);
+      continue;
+    }
     let lo = 0,
       hi = best;
     for (const [o, d, min, maxv] of [
@@ -1152,6 +1162,10 @@ export function playerVerticalStep(
   const feet = p.y;
   const onGround =
     Math.abs(feet - supportHeight(p.x, p.z, blocks, feet, 0.55)) < 0.001;
+  // Ground snapping (including a slope reached during descent) ends falling.
+  // Otherwise a negative velocity keeps every following move airborne, blocking
+  // its uphill axis and making diagonal movement stick after landing.
+  if (onGround && (p.verticalSpeed ?? 0) < 0) p.verticalSpeed = 0;
   if (i.jump && !p.jumpHeld && onGround && !(p.verticalSpeed ?? 0))
     p.verticalSpeed = 8;
   p.jumpHeld = !!i.jump;
@@ -1168,6 +1182,7 @@ export function playerVerticalStep(
     if (landing !== undefined) {
       p.y = landing;
       p.verticalSpeed = 0;
+      return false;
     } else p.y = nextY;
   }
   return airborne;

@@ -1,3 +1,26 @@
+# 現在地: PR66・修正版6151c91の独立再監査中（2026-09-21）
+
+必須P2・2件を修正し、同じ[監査Chat](https://chatgpt.com/c/6ab0a700-e9a0-83ee-b8aa-53873299fff0)へ修正版ZIP送信済み。対象6151c91bcc456a816edf376e3f5e1a939cf8f9db、base5e55f50不変。型/関連93件/13回帰前後比較/build/dry-run/実GLB8700射線・登頂成功。独立最終判定→main→既存Worker公開は未完了。[詳細](ROCK-COLLISION.md)。別作業4ファイル保護。
+
+# 現在地: PR66・独立監査の必須2件を修正、再監査準備（2026-09-21）
+
+岩上面の凹輪郭と分節敵の岩際追跡を修正。監査指定3再現を含む93関連成功、追加13回帰は修正前全失敗/修正後全成功。型と実GLB2900地点成功。斜め射線追加照合・修正版再監査・公開は進行中。[詳細](ROCK-COLLISION.md)。別作業4ファイル保護。
+
+# 現在地: PR66・承認済み監査ZIPを送信、独立判定待ち（2026-09-21）
+
+ユーザーが具体的ZIP/通常ChatGPT宛の送信を明示承認。同一ハッシュの `rock-4bd4dc3-audit.zip` を [監査Chat](https://chatgpt.com/c/6ab0a700-e9a0-83ee-b8aa-53873299fff0) へ添付・依頼済み。対象4bd4dc37e393c6bc456c3ee7fd5091b2448e1f51、後続は記録のみ。PR66のbaseは5e55f50で不変、merge可能/チェック一覧空。型/関連133件/実描画/実通信/build/dry-run成功、未公開。[詳細](ROCK-COLLISION.md)。別作業4ファイル保護。
+
+# 現在地: PR66・岩と着地移動の修正を保存、監査ZIP送信の承認待ち（2026-09-21）
+
+branch `codex/rock-jump-collision`、base5e55f50、実装/監査対象 `4bd4dc37e393c6bc456c3ee7fd5091b2448e1f51`、[PR66](https://github.com/futsalife24-bot/swarm-front/pull/66)。型/関連133件/実GLB4マップ980地点/実iab登頂/実Worker2接続/build/production dry-run成功。詳細・ZIPハッシュ・既存aim1失敗は [ROCK-COLLISION.md](ROCK-COLLISION.md)。別作業4ファイル保護。後続は記録のみ。
+
+停止理由: 自動承認レビューが7,012,574 bytesの `dist-validation/rock-collision/rock-4bd4dc3-audit.zip` を通常ChatGPT新規Chatへ送る操作を、具体的payload/宛先の明示承認不足で拒否。監査未依頼・main未反映・未公開。
+再開条件: 同ZIPの通常ChatGPTへの送信をユーザーが明示承認。ZIP照合→独立監査/必要修正→通常merge/既存Worker公開/配信確認。承認質問を提示済み。
+
+# 現在地: 岩の射線・乗り上がりと着地後移動を修正、監査準備（2026-09-21）
+
+branch codex/rock-jump-collision、base5e55f50。岩の実形状を射撃/支持/着地へ共有、下降速度残留を解除。型・関連133件、実GLB4マップ980地点、実iab登頂、実Worker2接続成功。baseで5回帰再現、aim既存1失敗を分離。独立監査/main/公開は未完了。[詳細](ROCK-COLLISION.md)。別作業4ファイル保護。
+
 # 現在地: CALYX移動・回転3倍をmain反映・公開（2026-09-21）
 
 PR64通常merge、独立監査53669a9合格・必須0。公開ソース91a2d379636d6d0e24897641c9c5b754936ad985、Worker Version 18ae92fc-b370-4294-99b5-bb934e0de0a8。移動1.95m/s・回転2秒/周・根の外向き変形。型/関連22件/実Worker2接続/Blender/実IAB/遷移549ケース成功、main build/dry-run・配信14SHA/health成功。公開UIは他タブ保存保護のため操作未確認。gameの別作業差分は保護し、既存main worktreeを同期。後続は記録のみ。[詳細](CALYX-SPEED.md)。
