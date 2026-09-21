@@ -1,3 +1,10 @@
+# 現在地: PR72監査合格・main反映、本番デプロイ承認待ち（2026-09-21）
+
+[PR72](https://github.com/futsalife24-bot/swarm-front/pull/72)通常merge。main/source `5e8d7fc4f94fafb6db30a1b21c13a7b0f8b472f4`。独立再監査bf0a9d3合格・必須P0-P2なし。型/関連4/実15組合せ/全15GLB継ぎ目・原本不変・geometry破棄/9視点前後成功。クリーンな既存main worktree share-image-fixも同期しmerge後build/dry-run成功。[詳細](WEAPON-RARITY-GLOW.md)。gameの別作業4ファイル保護。後続は記録のみ。
+
+停止理由: 自動承認レビューが既存swarm-front Workerへの本番deployを「ユーザーが本番デプロイ自体を明示承認した証拠がない」として拒否。deployは未実行、公開は前版のまま。
+再開条件: main source 5e8d7fcの武器発光を既存 https://swarm-front.melosalife-24.workers.dev へ本番deployすることをユーザーが明示承認。share-image-fixのビルド済みdistとソースを照合し、既存wrangler.production.jsoncでdeploy→配信SHA/health/UI確認→公開記録をmain反映。新規サービス/契約変更なし。
+
 # 現在地: PR72修正版の独立監査合格、main反映準備（2026-09-21）
 
 対象 bf0a9d3fe235d35e5a0ea6ece8cc2714efc51553 は[再監査](https://chatgpt.com/c/6ab0f325-03a8-83e8-b1cd-29ced57787c4)合格、必須P0-P2なし。全15GLB同位置法線不一致0、独立EGL3種×3角度で欠け解消。専用geometry1050個の破棄/元不変を代替オブジェクトで独立確認。実GPU長時間は未確認。後続は記録のみ。[詳細](WEAPON-RARITY-GLOW.md)。main反映/公開はこれから。
