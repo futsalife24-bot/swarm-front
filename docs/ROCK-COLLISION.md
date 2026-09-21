@@ -38,3 +38,6 @@ PR66: https://github.com/futsalife24-bot/swarm-front/pull/66 。実装・監査�
 
 ## 修正版の再監査依頼済み
 対象 `6151c91bcc456a816edf376e3f5e1a939cf8f9db`、base不変。通常Chatは上記同一URL。補足ZIP `rock-6151c91-reaudit.zip`、29,234 bytes、SHA256 `7B58B06727A91350C1718E8B7F6F3E535D68D637A5DC2D2254DE6B9DC9926CA3`。初回ZIPの不変依存/GLBと修正差分・ソース・証拠で再監査を依頼し、送信完了と思考開始を実IAB確認。未merge/未公開。後続は記録のみ。
+
+## 独立再監査合格
+通常Chatの最終判定は対象6151c91「合格・必須0」。前回P2・2件解消、独立GLB16,740射線で最大岩誤差0.034mm/1mm超0件、2,640経路成功。詳細 `audit-6151c91.txt`。独立テストはNode assert代替191件中190成功・既存aim1失敗、通常Vitest/実IAB/実Worker/build等は独立再実行外。任意P3の岩上2接続・実スマホ・多数敵長時間は未確認。merge/公開へ進む。後続差分は記録文書のみ。
