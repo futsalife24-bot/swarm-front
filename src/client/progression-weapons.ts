@@ -1,10 +1,12 @@
 import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import type { Weapon } from "../shared/defs";
+import { modelOf, type Weapon } from "../shared/defs";
 import type { NewWeapon } from "../shared/progression";
 const models = new Map<string, T.Group>(),
   pending = new Map<string, Promise<void>>();
-const key = (w: Weapon) => `${w.kind}_${w.rarity}`;
+// Keyed by the model a weapon is drawn with, not by the weapon: a kind without
+// its own GLB borrows the silhouette closest to how it is actually held.
+const key = (w: Weapon) => `${modelOf(w.kind)}_${w.rarity}`;
 export function progressionWeaponModel(w: Weapon) {
   return (w as NewWeapon).format === 2 ? models.get(key(w)) : undefined;
 }

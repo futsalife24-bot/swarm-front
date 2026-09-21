@@ -1,5 +1,5 @@
 import type { Enemy, World } from "../shared/game";
-import { familyOf, stats, type Family } from "../shared/defs";
+import { type Family } from "../shared/defs";
 
 // No new clips ship with the derivative families, so each one borrows the
 // report closest to it. Explosive families are handled as bursts, not impacts.
@@ -65,16 +65,15 @@ export class CombatAudio {
           cues.push({ ...e, type: SHOT_SOUND[e.weapon ?? "rifle"], key });
           shots.add(key);
         }
-        const p = w.players.find((p) => p.id === e.owner);
-        const weapon = p?.weapons.find((v) => familyOf(v.kind) === e.weapon);
+        // The authority reports whether the round stopped on something. Working
+        // it out here from the shooter's loadout picked the wrong gun whenever
+        // two of the same family were equipped.
         if (
-          weapon &&
+          e.stopped &&
           !(e.weapon === "rifle" && e.enemyKind) &&
           !EXPLOSIVE.includes(e.weapon as Family) &&
           e.tx !== undefined &&
-          e.tz !== undefined &&
-          Math.hypot(e.tx - e.x, e.tz - e.z, (e.ty ?? e.y) - e.y) <
-            stats(weapon).range - 0.1
+          e.tz !== undefined
         )
           cues.push({
             type: "impact",

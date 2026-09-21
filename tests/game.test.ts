@@ -54,8 +54,13 @@ describe("authoritative combat", () => {
     spawn(w, "boss", 0, -20);
     const i = { ...neutral(), fire: true };
     for (let n = 0; n < 20; n++) step(w, { p: i });
-    expect(p.ammo[0]).toBe(25);
-    expect(w.enemies[0].maxHp - w.enemies[0].hp).toBeCloseTo(7 * 24);
+    // Eight, not seven. The cooldown used to be reset to a whole interval on
+    // every shot, which rounded every weapon up to the 50ms tick: the rifle's
+    // 0.13s became 0.15s and it fired at 6.7 rounds a second while its own
+    // stat line claimed 7.7. The remainder is carried now, so the cadence is
+    // the one the weapon advertises.
+    expect(p.ammo[0]).toBe(24);
+    expect(w.enemies[0].maxHp - w.enemies[0].hp).toBeCloseTo(8 * 24);
   });
   it("blocks bullets and aim assistance through a building", () => {
     const { w, p } = fixture();

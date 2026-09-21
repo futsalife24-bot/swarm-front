@@ -6,7 +6,7 @@ import { weaponTier } from "../shared/progression";
 import { clone } from "three/addons/utils/SkeletonUtils.js";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import type { Player } from "../shared/game";
-import { familyOf, type Family } from "../shared/defs";
+import { modelOf, type ModelKind } from "../shared/defs";
 import {
   EVADE_DURATION,
   WEAPON_SWITCH_DURATION,
@@ -16,13 +16,10 @@ import {
 
 // Keyed by family: a derivative holds and reloads like the weapon it came from,
 // so it reuses that family's rig, model and animation set rather than new art.
-export const TROOPER_PROFILES: Record<Family, string> = {
+export const TROOPER_PROFILES: Record<ModelKind, string> = {
   rifle: "Rifle",
   shotgun: "Shotgun",
   rocket: "Rocket",
-  sniper: "Rifle",
-  grenade: "Rocket",
-  special: "Rifle",
 };
 export const TROOPER_SWITCH = {
   duration: WEAPON_SWITCH_DURATION,
@@ -90,7 +87,7 @@ export const TROOPER_BONES = [
 ] as const;
 type Assets = {
   character: GLTF;
-  weapons: Record<Family, T.Group>;
+  weapons: Record<ModelKind, T.Group>;
   runTrial?: { clip: T.AnimationClip; stride: number; name: string };
 };
 let loading: Promise<Assets> | undefined;
@@ -228,11 +225,6 @@ export function loadStandardTrooper() {
         rifle: rifle.scene,
         shotgun: shotgun.scene,
         rocket: rocket.scene,
-        // Until each family has its own model, a derivative family borrows the
-        // silhouette closest to how it is actually held.
-        sniper: rifle.scene,
-        grenade: rocket.scene,
-        special: rifle.scene,
       },
     };
     if (import.meta.env.DEV) {
@@ -611,7 +603,7 @@ export class StandardTrooper {
     weapons.forEach((w) =>
       this.weapons.push(
         (
-          progressionWeaponModel(w) ?? this.assets.weapons[familyOf(w.kind)]
+          progressionWeaponModel(w) ?? this.assets.weapons[modelOf(w.kind)]
         ).clone(true),
       ),
     );
@@ -626,8 +618,8 @@ export class StandardTrooper {
     this.switchTime = 10;
     // The body variant follows the bulkiest family carried, so a grenadier
     // stands like a rocket trooper and a marksman like a rifleman.
-    const carried = weapons.map((w) => familyOf(w.kind));
-    const variant = carried.some((f) => f === "rocket" || f === "grenade")
+    const carried = weapons.map((w) => modelOf(w.kind));
+    const variant = carried.includes("rocket")
       ? "rocket"
       : carried.includes("shotgun")
         ? "shotgun"
@@ -825,7 +817,7 @@ export class StandardTrooper {
       this.rollYaw = distance > 0.00001 ? Math.atan2(dx, -dz) : yaw;
     } else if (rolling)
       this.rollTime = Math.max(this.rollTime + dt, EVADE_DURATION - p.evade);
-    const profile = TROOPER_PROFILES[familyOf(p.weapons[p.slot].kind)];
+    const profile = TROOPER_PROFILES[modelOf(p.weapons[p.slot].kind)];
     // Scope remains the existing camera control. Recent shots keep the weapon
     // shouldered; this visual state never changes firing, input or movement rules.
     if (this.combat) {

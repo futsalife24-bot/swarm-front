@@ -23,7 +23,7 @@ import { EnemySpawnEffects } from "./enemy-spawn-effects";
 import { MAPS, DEFENSE_MAPS, mapFor } from "../shared/stages";
 import * as T from "three";
 import { enemyGeometry, mechanizeMaterial } from "./enemy-model";
-import { ENEMIES, EVADE_DURATION, familyOf, zoomOf } from "../shared/defs";
+import { ENEMIES, EVADE_DURATION, modelOf, zoomOf } from "../shared/defs";
 import { NORMAL_FOV, SCOPE_FOV, scopeFov } from "../shared/aim";
 import { aimCamera, cameraShot } from "../shared/game";
 import { FoundryWormView, FOUNDRY_WORM_ASSET } from "./foundry-worm";
@@ -1009,9 +1009,9 @@ export class Renderer {
         const gun = m.userData.gun as T.Group;
         if (!m.userData.trooper)
           gun.scale.setScalar(
-            { rocket: 1.7, grenade: 1.5, shotgun: 1.2, sniper: 1.15 }[
-              familyOf(p.weapons[p.slot].kind) as string
-            ] ?? 1,
+            { rocket: 1.7, shotgun: 1.2, rifle: 1 }[
+              modelOf(p.weapons[p.slot].kind)
+            ],
           );
       }
       this.houndVisualInputs.length = 0;

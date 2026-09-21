@@ -216,6 +216,10 @@ export interface Projectile {
   // Captured when fired, so switching weapons cannot change an airborne rocket.
   chain?: boolean;
   gravity?: number;
+  // Absent on rounds from before weapons had their own blast; those read as the
+  // original rocket's 6.5m and report as rocket.
+  radius?: number;
+  family?: Family;
 }
 export interface Event {
   id: number;
@@ -231,6 +235,10 @@ export interface Event {
     | "calyxSlam";
   // Damage dealt, on hit and kill events, for the floating numbers.
   amount?: number;
+  // On a shot: the round ended on a wall or a body rather than running out of
+  // range. Carried here because two weapons of the same family can be equipped
+  // at once, and the family alone cannot say which one fired.
+  stopped?: boolean;
   radius?: number;
   // The family, not the kind: a derivative reuses its family's sound and tracer.
   weapon?: Family;
@@ -1035,7 +1043,7 @@ function healShot(
       mapFor(w).blocks,
     );
     const hits = w.players
-      .filter((a) => a.id !== p.id && a.hp > 0)
+      .filter((a) => a.id !== p.id && a.hp > 0 && a.connected)
       .map((a) => {
         const ay = (a.y ?? 0) + 1.2,
           along = (a.x - p.x) * dx + (a.z - p.z) * dz + (ay - eyeY) * dy;
@@ -1080,7 +1088,7 @@ function healShot(
       owner: p.id,
     });
 }
-export function fire(w: World, p: Player, i: Input) {
+export function fire(w: World, p: Player, i: Input, airborne = false) {
   const weapon = p.weapons[p.slot],
     def = stats(weapon),
     // The unrolled table entry: what the weapon *is*, before any roll scales it.
@@ -1095,7 +1103,9 @@ export function fire(w: World, p: Player, i: Input) {
     family = shape.family;
   if (p.reload > 0 || p.cool > 0 || p.swapCd > 0 || p.ammo[p.slot] <= 0) return;
   p.ammo[p.slot]--;
-  p.cool = def.interval;
+  // Accumulated, not assigned: the leftover past this shot carries into the
+  // next one, which is what lets a weapon faster than the tick keep its rate.
+  p.cool += def.interval;
   let yaw = i.yaw,
     pitch = i.pitch;
   if (i.cameraAim) {
@@ -1168,6 +1178,8 @@ export function fire(w: World, p: Player, i: Input) {
           damage: def.damage,
           rocket: true,
           chain: weapon.effect === "chain",
+          radius: def.radius,
+          family,
           ...(shape.gravity ? { gravity: shape.gravity } : {}),
         });
       event(w, {
@@ -1231,7 +1243,7 @@ export function fire(w: World, p: Player, i: Input) {
         family,
       );
       if (
-        family === "shotgun" &&
+        EFFECT_POOLS[weapon.kind].includes("repel") &&
         weapon.effect === "repel" &&
         h.e.kind !== "boss" &&
         Math.hypot(h.e.x - p.x, eye(h.e) - ((p.y ?? 0) + 1.5), h.e.z - p.z) <= 8
@@ -1243,6 +1255,7 @@ export function fire(w: World, p: Player, i: Input) {
       type: "shot",
       enemyKind: hits[0]?.e.kind,
       weapon: family,
+      stopped: range < def.range - 0.1,
       x: p.x,
       z: p.z,
       y: (p.y ?? 0) + 1.5,
@@ -1259,6 +1272,10 @@ export function fire(w: World, p: Player, i: Input) {
       Math.cos(yaw) * shape.recoil,
       0.55,
       mapFor(w).blocks,
+      // The same flags ordinary movement uses, so being blasted off a ledge
+      // behaves like walking off one instead of snapping to the floor.
+      airborne,
+      true,
     );
   // Apply after all pellets, once per enemy per shot; do not push through walls.
   for (const e of repelled) {
@@ -1325,7 +1342,12 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     p.yaw = i.yaw;
     p.pitch = i.pitch;
     p.hurt = Math.max(0, p.hurt - dt);
-    p.cool = Math.max(0, p.cool - dt);
+    // The authoritative tick is 50ms. Assigning a full interval on every shot
+    // quantised every weapon to that tick, so anything faster than 20 shots a
+    // second was silently capped and its rate roll did nothing. While the
+    // trigger is held the remainder is carried, bounded by one tick so that
+    // releasing and re-pressing cannot bank a burst.
+    p.cool = i.fire ? Math.max(-dt, p.cool - dt) : Math.max(0, p.cool - dt);
     p.evadeCd = Math.max(0, p.evadeCd - dt);
     const wasEvading = p.evade > 0;
     p.evade = Math.max(0, p.evade - dt);
@@ -1397,7 +1419,19 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       airborne,
       true,
     );
-    if (i.fire) fire(w, p, i);
+    if (i.fire)
+      // A weapon faster than the tick fires more than once here. The cap is a
+      // guard against a pathological interval, not an intended rate limit.
+      for (let shots = 0; shots < 8 && p.cool <= 0; shots++) {
+        const ammo = p.ammo[p.slot];
+        fire(w, p, i, airborne);
+        // Reload, weapon switch or an empty magazine stopped it. Clear the debt
+        // so it cannot be spent as a burst the moment firing becomes possible.
+        if (p.ammo[p.slot] === ammo) {
+          p.cool = Math.max(0, p.cool);
+          break;
+        }
+      }
     if (i.cameraAim) {
       const shot = cameraShot(w, p, i);
       p.yaw = shot.yaw;
@@ -1847,10 +1881,18 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
         : undefined;
       hit ||= !!direct;
       if (hit) {
+        // Rounds fired before weapons carried their own blast read as the
+        // original rocket, so its numbers stay exactly what they were.
+        const blast = q.radius ?? 6.5,
+          blastFamily = q.family ?? "rocket",
+          // The original reached zero at 9m for a 6.5m blast; keeping that
+          // proportion means a bigger blast never turns damage negative.
+          reach = (blast * 9) / 6.5,
+          chainBlast = (blast * 3.5) / 6.5;
         event(w, {
           type: "burst",
-          radius: 6.5,
-          weapon: "rocket",
+          radius: blast,
+          weapon: blastFamily,
           x: q.x,
           z: q.z,
           y: q.y,
@@ -1862,7 +1904,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
               Number(a.part === 0) - Number(b.part === 0) || a.part - b.part,
           )) {
             const d = Math.hypot(b.x - q.x, b.z - q.z, b.y - q.y);
-            if (d >= 6.5) continue;
+            if (d >= blast) continue;
             const clear =
               d < 0.01 ||
               wallDistance(
@@ -1876,7 +1918,8 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
                 mapFor(w).blocks,
               ) >=
                 d - 0.01;
-            if (clear) hurtEnemy(w, e, q.damage * (1 - d / 9), q.owner, b.part);
+            if (clear)
+              hurtEnemy(w, e, q.damage * (1 - d / reach), q.owner, b.part);
           }
         }
         // Only the directly hit, defeated normal enemy can trigger one burst.
@@ -1890,8 +1933,8 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
         ) {
           event(w, {
             type: "burst",
-            radius: 3.5,
-            weapon: "rocket",
+            radius: chainBlast,
+            weapon: blastFamily,
             x: direct.x,
             z: direct.z,
             y: eye(direct),
@@ -1903,8 +1946,17 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
               e.z - direct.z,
               eye(e) - eye(direct),
             );
-            if (e.hp > 0 && d < 3.5 && visible(direct, e, mapFor(w).blocks))
-              hurtEnemy(w, e, q.damage * 0.5 * (1 - d / 7), q.owner);
+            if (
+              e.hp > 0 &&
+              d < chainBlast &&
+              visible(direct, e, mapFor(w).blocks)
+            )
+              hurtEnemy(
+                w,
+                e,
+                q.damage * 0.5 * (1 - d / (chainBlast * 2)),
+                q.owner,
+              );
           }
         }
       }

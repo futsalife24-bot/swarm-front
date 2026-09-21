@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { existsSync } from "node:fs";
 import {
   WEAPONS,
   KINDS,
@@ -6,18 +7,21 @@ import {
   EFFECT_POOLS,
   STARTERS,
   familyOf,
+  modelOf,
   zoomOf,
   isSpecialEffect,
   validWeapon,
   type Kind,
 } from "../src/shared/defs";
-import { MAGAZINES, CAPACITY } from "../src/shared/progression";
+import { MAGAZINES, CAPACITY, makeWeapon } from "../src/shared/progression";
 import {
   createWorld,
   addPlayer,
   start,
   neutral,
   fire,
+  step,
+  spawn,
   falloff,
 } from "../src/shared/game";
 
@@ -128,6 +132,51 @@ describe("weapon families", () => {
         r.w.projectiles[0].dz,
       ),
     ).toBeCloseTo(28, 6);
+  });
+
+  it("gives every explosive its own blast instead of the rocket's", () => {
+    for (const kind of ["rocket", "heavy", "grenade", "sticky"] as Kind[]) {
+      const { w, p } = shooter(kind);
+      fire(w, p, { ...neutral(), fire: true });
+      const round = w.projectiles[0];
+      // Carried on the round, like chain, so switching weapons mid-flight
+      // cannot change what is already in the air.
+      expect(round.radius).toBe(WEAPONS[kind].radius);
+      expect(round.family).toBe(familyOf(kind));
+    }
+  });
+
+  it("reports the blast it actually used when a round goes off", () => {
+    for (const kind of ["rocket", "heavy", "grenade", "sticky"] as Kind[]) {
+      const { w, p } = shooter(kind);
+      p.x = 0;
+      p.z = 0;
+      spawn(w, "ant", 0, -10);
+      w.events.length = 0;
+      fire(w, p, { ...neutral(), fire: true, yaw: 0, pitch: 0 });
+      for (
+        let tick = 0;
+        tick < 30 && !w.events.some((e) => e.type === "burst");
+        tick++
+      )
+        step(w, { p: { ...neutral(), yaw: 0 } });
+      const burst = w.events.find((e) => e.type === "burst");
+      expect(burst, `${kind} never detonated`).toBeTruthy();
+      expect(burst!.radius).toBeCloseTo(WEAPONS[kind].radius, 6);
+      expect(burst!.weapon).toBe(familyOf(kind));
+    }
+  });
+
+  it("never turns blast damage negative at the edge of a large radius", () => {
+    // The original curve reached zero at 9m for a 6.5m blast. Widening the
+    // radius without widening that reach would have paid damage backwards.
+    for (const kind of ["rocket", "heavy", "grenade", "sticky"] as Kind[]) {
+      const blast = WEAPONS[kind].radius,
+        reach = (blast * 9) / 6.5;
+      expect(1 - blast / reach).toBeGreaterThan(0);
+    }
+    // And the original rocket's numbers are untouched.
+    expect((6.5 * 9) / 6.5).toBe(9);
   });
 
   it("does not fire a projectile for hitscan families", () => {
@@ -255,6 +304,114 @@ describe("weapon families", () => {
       expect(p.x).toBe(0);
       expect(p.z).toBe(0);
     }
+  });
+
+  // The authoritative loop runs at 50ms. Before the cadence fix every weapon
+  // was quantised to that tick, so anything quicker than 20 shots a second was
+  // capped and its rate roll did nothing at all.
+  function shotsPerSecond(kind: Kind, rate = 0) {
+    const w = createWorld(`rate-${kind}-${rate}`, 5),
+      p = addPlayer(w, "p");
+    start(w);
+    w.nextSpawn = 1e9;
+    w.enemies.length = 0;
+    p.weapons[p.slot] = makeWeapon(
+      `rate-${kind}`,
+      kind,
+      0,
+      { power: 0, reload: 0, range: 0, rate },
+      false,
+      0,
+    );
+    // Enough rounds that no reload interrupts the measurement.
+    p.ammo[p.slot] = 100000;
+    p.cool = 0;
+    const before = p.ammo[p.slot];
+    for (let tick = 0; tick < 20; tick++)
+      step(w, { p: { ...neutral(), fire: true } });
+    return before - p.ammo[p.slot];
+  }
+
+  it("fires every weapon at the rate its own numbers claim", () => {
+    for (const kind of KINDS) {
+      const wanted = 1 / WEAPONS[kind].interval;
+      const measured = shotsPerSecond(kind);
+      // One shot of slack for where the second falls between intervals.
+      expect(Math.abs(measured - wanted)).toBeLessThanOrEqual(1);
+    }
+  });
+
+  it("lets a weapon quicker than the tick exceed twenty shots a second", () => {
+    // The beam's whole identity is continuous fire; capped at the tick it was
+    // a different weapon from the one its numbers describe.
+    expect(1 / WEAPONS.laser.interval).toBeGreaterThan(20);
+    expect(shotsPerSecond("laser")).toBeGreaterThan(20);
+  });
+
+  it("makes the rate roll change the rate of a weapon quicker than the tick", () => {
+    // This is the part a cap hides: two beams of different quality fired
+    // identically, so the figure on the weapon was not a real figure.
+    expect(shotsPerSecond("laser", 20)).toBeGreaterThan(
+      shotsPerSecond("laser"),
+    );
+  });
+
+  it("resolves every weapon to a model file that is actually shipped", () => {
+    // The model request is what the battle loader waits on. A kind pointing at
+    // a GLB that does not exist fails the whole preparation, and in co-op it
+    // fails it for everyone in the room, so this is checked against the disk
+    // rather than against the mapping table alone.
+    const dir = "public/assets/weapons/realism-v2";
+    for (const kind of KINDS)
+      for (let grade = 0; grade < 5; grade++)
+        expect(
+          existsSync(`${dir}/${modelOf(kind)}_${grade}.glb`),
+          `${kind} grade ${grade} -> ${modelOf(kind)}_${grade}.glb`,
+        ).toBe(true);
+  });
+
+  it("fires repel from the weapon that is allowed to roll it", () => {
+    // The kickback blast is not a shotgun, but its pool offers repel, so it
+    // has to actually push. Gating the effect on the family silently gave it
+    // an effect that could be equipped and never fired.
+    const pushed = (kind: Kind, effect: "repel" | "none") => {
+      const { w, p } = shooter(kind);
+      p.x = 0;
+      p.z = 0;
+      p.weapons[p.slot] = { ...p.weapons[p.slot], rarity: 1, effect };
+      spawn(w, "ant", 0, -4);
+      const target = w.enemies[0];
+      target.hp = 1000;
+      const from = target.z;
+      fire(w, p, { ...neutral(), fire: true, yaw: 0, pitch: 0 });
+      return Math.abs(target.z - from);
+    };
+    expect(pushed("kick", "repel")).toBeGreaterThan(0.5);
+    expect(pushed("shotgun", "repel")).toBeGreaterThan(0.5);
+    // Without the effect the same weapon leaves the target where it stood.
+    expect(pushed("kick", "none")).toBeLessThan(0.01);
+  });
+
+  it("says on the shot whether the round stopped, so audio needs no lookup", () => {
+    // Two weapons of the same family can be carried at once, and the family
+    // alone cannot say which one fired. The authority reports it instead.
+    const { w, p } = shooter("rifle");
+    p.x = 0;
+    p.z = 0;
+    spawn(w, "ant", 0, -10);
+    w.events.length = 0;
+    fire(w, p, { ...neutral(), fire: true, yaw: 0, pitch: 0 });
+    expect(w.events.find((e) => e.type === "shot")?.stopped).toBe(true);
+
+    // Fired into open sky the round runs out of range and stops on nothing,
+    // which is the case that must not produce an impact sound.
+    const open = shooter("rifle");
+    open.p.x = 0;
+    open.p.z = 0;
+    open.w.enemies.length = 0;
+    open.w.events.length = 0;
+    fire(open.w, open.p, { ...neutral(), fire: true, yaw: 0, pitch: 0.9 });
+    expect(open.w.events.find((e) => e.type === "shot")?.stopped).toBe(false);
   });
 
   it("caps the armoury per family, not per weapon", () => {
