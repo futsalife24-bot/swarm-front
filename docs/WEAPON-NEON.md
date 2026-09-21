@@ -11,3 +11,4 @@
 
 - 監査対象93cabd224747b82b5d04f6fb370df0b9473b1326、PR75。ZIP neon-93cabd2-audit.zip（5,942,566 bytes、SHA256 2859C969C3D7FE9804EC05973430D781B8383311FC1BF299469D8926BEAFE3B3）を通常Chatへ送信済み。監査URL: https://chatgpt.com/c/6ab114f9-a904-83ee-858a-439423d5a864 。後続変更は記録のみ。
 - 独立監査合格、必須P0-P2なし。任意P3: 本体FOV65/AAなしで移動・カメラ回転/固定姿勢の明暗確認、実端末・複数兵士の生成/フレーム/GPU資源推移。監査側は代替Nodeハーネス4/4、正式WebGL/型/build/dry-run未再実行。追加自己確認AAなし15組合せ成功・画像目視、実戦移動条件全体の保証ではない。
+- 公開完了: PR75通常merge、source 1f80fa61717aa4855cccd6aeac576cfe0f650341。cleanな既存main worktree share-image-fixでbuild/dry-run後deploy成功。Worker Version abb54537-fec3-4c6b-baca-677a7662324e。https://swarm-front.melosalife-24.workers.dev の配信13SHA一致・health200、iab中断画面正常/error0。既存ST1・13秒のセーブ保護で再開/破棄せず。証拠 dist-validation/weapon-neon/published.json。後続は記録のみ。
