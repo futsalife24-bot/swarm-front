@@ -1,0 +1,5 @@
+Cloudflare契約/利用確認（2026-09-21、実iab、read-only）
+既存Melosalife.24@gmail.comアカウントのWorkers plansでFree/$0/Current planを確認。
+DO Usage 9/21: Requests179、Duration2.52GB-sec、SQL storage475.14kB、SQL read1.56k/write107、KV0。
+ホームLast24h Worker invocations940、Workers errors0。別サービスproject-hub_AnalyticsのDO errors11は表示上既存、今回のUI変更前でswarm-front_Gate/Roomは0。
+契約・権限・上限設定の変更なし。

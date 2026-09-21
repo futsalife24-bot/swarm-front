@@ -34,3 +34,8 @@
 対象fff0e444781396da45a05b05dbd70608c2a5a1f7は通常Chatで合格・必須P0/P1/P2すべて0。監査側の隔離ブラウザ37項目成功、配分3888ケースでUI/allocate不一致0。報告 `docs/evidence/growth-accessory/audit-fff0e44.txt`。
 任意P3: 640×360で詳細を手動で下までスクロールした後の別軸選択ではスクロール位置が残る。操作は可能。実スマホ/本番保存競合/クラウド同期は独立監査外。実装は監査対象から変更せず通常merge/公開へ進む。
 Free契約と既存利用を実iab確認（9/21 DO179 requests、2.52GB-sec、SQL read1.56k/write107）。契約/設定変更なし。
+
+## main反映・公開
+PR68通常merge、公開ソース `cd8e2c6b60188dac25cf1492ecc31514067634c5`、Worker Version `1de6c762-4256-452e-a36d-5317c237fe0f`。merge後build/production dry-run成功、既存swarm-front Workerへ公開、配信HTML/JS/CSS13SHA一致、health200。`docs/evidence/growth-accessory/release-verification.json`。
+mainを保持する既存share-image-fixは同じgame/.gitを共通管理するclean worktreeと読取り確認後にff同期。自動承認レビューの初回拒否は別プロジェクトとの誤認を読取り証拠で解消し、権限回避なしで通常同期済み。別作業4ファイルは保護。
+公開実iabは既存の「中断した作戦（ST1・13秒）」再開メニューを正常表示、console error0。保存中の作戦を進めたり終了したりせず保護したため、公開アカウントで育成/アクセサリ画面を開く操作は未実施。同一配信コードの3サイズUI操作はローカルで検証済み。
