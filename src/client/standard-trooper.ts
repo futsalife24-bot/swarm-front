@@ -1,6 +1,8 @@
 import * as T from "three";
 import { GLTFLoader, type GLTF } from "three/addons/loaders/GLTFLoader.js";
 import { progressionWeaponModel } from "./progression-weapons";
+import { WeaponRarityGlow } from "./weapon-rarity-glow";
+import { weaponTier } from "../shared/progression";
 import { clone } from "three/addons/utils/SkeletonUtils.js";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import type { Player } from "../shared/game";
@@ -248,6 +250,7 @@ export class StandardTrooper {
     T.MeshStandardMaterial
   >();
   private weaponIds: string[] = [];
+  private weaponGlows: WeaponRarityGlow[] = [];
   private prior?: {
     x: number;
     z: number;
@@ -586,10 +589,13 @@ export class StandardTrooper {
     if (
       weapons.every(
         (w, i) =>
-          this.weaponIds[i] === w.id + (progressionWeaponModel(w)?.uuid ?? ""),
+          this.weaponIds[i] ===
+          `${w.id}:${w.kind}:${weaponTier(w)}:${progressionWeaponModel(w)?.uuid ?? ""}`,
       )
     )
       return;
+    for (const glow of this.weaponGlows) glow.dispose();
+    this.weaponGlows.length = 0;
     for (const o of this.weapons) o.removeFromParent();
     this.weapons.length = 0;
     weapons.forEach((w) =>
@@ -598,7 +604,11 @@ export class StandardTrooper {
       ),
     );
     this.weaponIds = weapons.map(
-      (w) => w.id + (progressionWeaponModel(w)?.uuid ?? ""),
+      (w) =>
+        `${w.id}:${w.kind}:${weaponTier(w)}:${progressionWeaponModel(w)?.uuid ?? ""}`,
+    );
+    this.weaponGlows = this.weapons.map(
+      (root, i) => new WeaponRarityGlow(root, weapons[i]),
     );
     this.selectedSlot = slot;
     this.switchTime = 10;
@@ -694,6 +704,7 @@ export class StandardTrooper {
   ) {
     dt = Math.max(0, Math.min(0.1, dt));
     this.equip(p.weapons, p.slot);
+    for (const glow of this.weaponGlows) glow.update(time);
     const prev = this.prior,
       fresh = !prev || prev.run !== run;
     if (fresh) {
@@ -1106,6 +1117,8 @@ export class StandardTrooper {
     };
   }
   dispose() {
+    for (const glow of this.weaponGlows) glow.dispose();
+    this.weaponGlows.length = 0;
     this.mixer.stopAllAction();
     this.mixer.uncacheRoot(this.model);
     this.model.removeFromParent();

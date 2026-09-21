@@ -1,3 +1,37 @@
+# 現在地: PR72修正版の独立監査合格、main反映準備（2026-09-21）
+
+対象 bf0a9d3fe235d35e5a0ea6ece8cc2714efc51553 は[再監査](https://chatgpt.com/c/6ab0f325-03a8-83e8-b1cd-29ced57787c4)合格、必須P0-P2なし。全15GLB同位置法線不一致0、独立EGL3種×3角度で欠け解消。専用geometry1050個の破棄/元不変を代替オブジェクトで独立確認。実GPU長時間は未確認。後続は記録のみ。[詳細](WEAPON-RARITY-GLOW.md)。main反映/公開はこれから。
+
+# 現在地: PR72修正版bf0a9d3の再監査を依頼済み（2026-09-21）
+
+ユーザーが修正版ZIPの送信を明示承認。同一SHA256を照合し、同じ[監査Chat](https://chatgpt.com/c/6ab0f325-03a8-83e8-b1cd-29ced57787c4)へ添付・送信済み。対象 bf0a9d3fe235d35e5a0ea6ece8cc2714efc51553、後続は記録のみ。F1輪郭欠けと追加geometry所有/破棄を再監査中。合格後main/公開へ続行。[詳細](WEAPON-RARITY-GLOW.md)。別作業4ファイル保護。
+
+# 現在地: PR72の輪郭欠け修正版を保存、再監査ZIP送信承認待ち（2026-09-21）
+
+branch `codex/weapon-rarity-glow`、base `4d77be91a827601dd8afebb4425e4a04a191ee5f`、修正/再監査対象 `bf0a9d3fe235d35e5a0ea6ece8cc2714efc51553`、PR72。初回監査962674cはF1/P2（ハード法線の輪郭欠け）。専用clone形状の同位置法線を統一し修正。型/関連4件/実15組合せ/全15GLBの修正前再現・修正後不一致0・原本不変/所有geometry全破棄/9視点前後描画/build成功。後続は記録のみ、別作業4ファイル保護。[詳細](WEAPON-RARITY-GLOW.md)。
+
+停止理由: 自動承認レビューが修正版 `weapon-glow-bf0a9d3-audit.zip`（6,049,755 bytes）の同じ通常監査Chatへの添付を拒否。前回承認ZIPとは別payloadなので具体的送信承認が必要との判定。修正版は未送信・再監査未依頼、main未反映・未公開。
+再開条件: 修正版ZIPを https://chatgpt.com/c/6ab0f325-03a8-83e8-b1cd-29ced57787c4 へ再監査のため送信することをユーザーが明示承認。SHA256照合→同じChatでF1と影響を再監査→合格後通常merge/既存Worker公開/配信確認。
+
+# 現在地: PR72監査F1/P2の輪郭欠けを修正、再監査準備（2026-09-21）
+
+同位置頂点の発光専用法線を統一し全周の隙間を解消。全15GLBで修正前再現/修正後不一致0・原本不変・全geometry破棄、9視点実描画確認。型/既存15組合せ成功。再監査/main/公開は未完了。[詳細](WEAPON-RARITY-GLOW.md)。別作業4ファイル保護。
+
+# 現在地: PR72の承認済み監査ZIPを送信、独立監査中（2026-09-21）
+
+ユーザーが今回ZIPの通常ChatGPTへの送信を明示承認。同一SHA256を照合して[通常Chat](https://chatgpt.com/c/6ab0f325-03a8-83e8-b1cd-29ced57787c4)へ添付・依頼済み、解析開始を確認。対象 `962674c3dbf4746db92bf064a3f435f37e0d23f1`、後続は記録のみ。PR72競合なし・チェック一覧空・mainはbaseから変更なし。監査判定→通常merge→既存Worker公開/配信確認を継続。[詳細](WEAPON-RARITY-GLOW.md)。別作業4ファイル保護。
+
+# 現在地: 武器発光PR72を保存、監査ZIP送信の承認待ち（2026-09-21）
+
+branch `codex/weapon-rarity-glow`、base `4d77be91a827601dd8afebb4425e4a04a191ee5f`、実装/監査対象 `962674c3dbf4746db92bf064a3f435f37e0d23f1`。[PR72](https://github.com/futsalife24-bot/swarm-front/pull/72)。型/関連4件/実GLB15組合せ・両装備色・明暗・持替え・破棄/build/dry-run成功。実iabローカル戦闘描画確認、HMR接続エラーと実スマホ未確認を記録。[詳細・ZIP照合](WEAPON-RARITY-GLOW.md)。別作業4ファイル保護、後続は記録のみ。
+
+停止理由: 自動承認レビューがソース・実GLB・検証画像を含む今回ZIP（5,881,134 bytes）の通常ChatGPTへの送信を、具体的payload/宛先への明示承認不足で拒否。監査未依頼、main未反映、未公開。
+再開条件: `dist-validation/weapon-glow/weapon-glow-962674c-audit.zip` を通常ChatGPT新規Chatへ独立監査目的で送信することをユーザーが明示承認。SHA256照合→独立監査/必要修正→通常merge/既存Worker公開/配信確認。
+
+# 現在地: 武器のレア度発光を自己検証、独立監査準備（2026-09-21）
+
+branch codex/weapon-rarity-glow、base 4d77be9。手持ち/背中それぞれの全輪郭にレア色・4秒明滅。型/関連4件/実GLB15組合せ・両装備・明暗・持替え・破棄/build成功。独立監査/main/公開は未完了。[詳細](WEAPON-RARITY-GLOW.md)。別作業4ファイル保護。
+
 # 現在地: 育成確認UIをmain反映・本番公開完了（2026-09-21）
 
 PR70通常merge。公開source `27a08ab5deaae4e27d0a30ced27be78df056b1e4`、Worker Version `04f8ef89-338d-4666-a3ed-ba8c13697a2d`。ユーザーが具体的な本番デプロイを明示承認し実施。独立監査ec1c5bc合格・必須P0-P2なし。型/経済13/3サイズUI/武器8/build/dry-run成功、配信13SHA一致・health200。公開iabは既存ST1・13秒の中断メニュー正常表示・error0。保存保護のため再開/終了せず確認タブを閉じた。実スマホは未確認、任意P3費用表示位置は残る。[詳細](GROWTH-CONFIRMATION.md)。後続は公開記録のみ。別作業4ファイル保護。
