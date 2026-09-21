@@ -1,3 +1,7 @@
+# 現在地: PR72修正版bf0a9d3の再監査を依頼済み（2026-09-21）
+
+ユーザーが修正版ZIPの送信を明示承認。同一SHA256を照合し、同じ[監査Chat](https://chatgpt.com/c/6ab0f325-03a8-83e8-b1cd-29ced57787c4)へ添付・送信済み。対象 bf0a9d3fe235d35e5a0ea6ece8cc2714efc51553、後続は記録のみ。F1輪郭欠けと追加geometry所有/破棄を再監査中。合格後main/公開へ続行。[詳細](WEAPON-RARITY-GLOW.md)。別作業4ファイル保護。
+
 # 現在地: PR72の輪郭欠け修正版を保存、再監査ZIP送信承認待ち（2026-09-21）
 
 branch `codex/weapon-rarity-glow`、base `4d77be91a827601dd8afebb4425e4a04a191ee5f`、修正/再監査対象 `bf0a9d3fe235d35e5a0ea6ece8cc2714efc51553`、PR72。初回監査962674cはF1/P2（ハード法線の輪郭欠け）。専用clone形状の同位置法線を統一し修正。型/関連4件/実15組合せ/全15GLBの修正前再現・修正後不一致0・原本不変/所有geometry全破棄/9視点前後描画/build成功。後続は記録のみ、別作業4ファイル保護。[詳細](WEAPON-RARITY-GLOW.md)。
