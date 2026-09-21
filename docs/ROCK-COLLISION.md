@@ -22,3 +22,5 @@ PR66: https://github.com/futsalife24-bot/swarm-front/pull/66 。実装・監査�
 
 停止理由: 自動承認レビューが上記ZIPの通常ChatGPT新規Chat（https://chatgpt.com/）へのアップロードを、具体的payloadと宛先への明示承認不足として拒否。未送信・監査未依頼・main未反映・未公開。
 再開条件: 上記ZIPの同送信先への添付についてユーザーの明示承認。内容/ハッシュ照合後、同ZIP添付→独立監査→必須修正/再監査→通常merge→既存Worker公開/配信確認。後続commitは状態記録のみ。
+
+ユーザーの具体的な送信承認後、同一ハッシュのZIPを通常Chat https://chatgpt.com/c/6ab0a700-e9a0-83ee-b8aa-53873299fff0 へ添付・監査依頼済み。旧送信承認待ちは解消。独立判定待ち。

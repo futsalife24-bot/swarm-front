@@ -1,3 +1,7 @@
+# 現在地: PR66・承認済み監査ZIPを送信、独立判定待ち（2026-09-21）
+
+ユーザーが具体的ZIP/通常ChatGPT宛の送信を明示承認。同一ハッシュの `rock-4bd4dc3-audit.zip` を [監査Chat](https://chatgpt.com/c/6ab0a700-e9a0-83ee-b8aa-53873299fff0) へ添付・依頼済み。対象4bd4dc37e393c6bc456c3ee7fd5091b2448e1f51、後続は記録のみ。PR66のbaseは5e55f50で不変、merge可能/チェック一覧空。型/関連133件/実描画/実通信/build/dry-run成功、未公開。[詳細](ROCK-COLLISION.md)。別作業4ファイル保護。
+
 # 現在地: PR66・岩と着地移動の修正を保存、監査ZIP送信の承認待ち（2026-09-21）
 
 branch `codex/rock-jump-collision`、base5e55f50、実装/監査対象 `4bd4dc37e393c6bc456c3ee7fd5091b2448e1f51`、[PR66](https://github.com/futsalife24-bot/swarm-front/pull/66)。型/関連133件/実GLB4マップ980地点/実iab登頂/実Worker2接続/build/production dry-run成功。詳細・ZIPハッシュ・既存aim1失敗は [ROCK-COLLISION.md](ROCK-COLLISION.md)。別作業4ファイル保護。後続は記録のみ。
