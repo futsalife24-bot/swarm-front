@@ -13,3 +13,10 @@
 - 代表画面とJSON: `docs/evidence/growth-confirmation/`。
 - Meloso: 固定needs_context/live not_run(missing_key)/API0。posttestで実行、重複なし。
 - 実スマホは未確認。公開/独立監査は準備中。
+
+## 保存・監査送信待ち
+[PR70](https://github.com/futsalife24-bot/swarm-front/pull/70)、実装/監査対象 `ec1c5bc99fec725f04c691371d106e38d9f86845`。build/production dry-runと武器一覧baseline4サイズ通常・整理8ケースも成功。後続は記録のみ。
+監査ZIP `dist-validation/growth-confirmation/growth-confirm-ec1c5bc-audit.zip`、565,113 bytes、SHA256 `0FB25D9E083C36231835825F39517BBAAED9531C4016F16F02E3AA50E361094A`。対象commitから取得した必要ソース/差分、合成データの3画面と検証JSONのみ。ユーザー保存データ・秘密情報・無関係な資料なし。
+
+停止理由: 自動承認レビューが、新しい非公開ソース差分・画面証拠ZIPの通常ChatGPTへの送信について、前回別ZIPへの承認を拡張できないとして拒否。監査未依頼、main未反映、未公開。
+再開条件: ユーザーがこのZIPの通常ChatGPT（chatgpt.com）新規Chatへの送信を明示承認。ハッシュ照合→独立監査/必要修正→通常merge/既存Worker公開/配信確認。具体的な承認質問は提示済み。

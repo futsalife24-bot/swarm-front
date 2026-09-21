@@ -1,3 +1,10 @@
+# 現在地: 育成確認UIをPR70へ保存、今回ZIP送信の承認待ち（2026-09-21）
+
+branch `codex/growth-confirmation`、base `546b063`、実装/監査対象 `ec1c5bc99fec725f04c691371d106e38d9f86845`、[PR70](https://github.com/futsalife24-bot/swarm-front/pull/70)。型/関連13件/3横画面の確認・実保存・キャンセル/baseline8ケース/build/dry-run成功。[詳細・ZIPハッシュ](GROWTH-CONFIRMATION.md)。後続は記録のみ、別作業4ファイル保護。
+
+停止理由: 自動承認レビューが、前回別ZIPの承認は新payloadには適用できないとして、565KBの `growth-confirm-ec1c5bc-audit.zip` を通常ChatGPTへ送る操作を拒否。監査未依頼、main未反映、未公開。
+再開条件: 今回ZIPの通常ChatGPT新規Chatへの送信をユーザーが明示承認。ハッシュ照合→独立監査/修正→通常merge/既存Worker公開/配信確認。承認質問提示済み。
+
 # 現在地: 育成確定を大きくし、変更前後の確認ポップを自己検証（2026-09-21）
 
 branch `codex/growth-confirmation`、base `546b063`。高さ48pxの主ボタン、変更能力だけのLv/性能前後、確認後のみ保存、振り直し費用表示。型/関連13件/3横画面の確認・保存・キャンセル・500コイン検証成功。独立監査/main/公開は準備中。[詳細](GROWTH-CONFIRMATION.md)。別作業4ファイル保護。
