@@ -11,6 +11,9 @@ import {
   neutral,
   step,
   validInput,
+  playerVerticalStep,
+  spawn,
+  eye,
 } from "../src/shared/game";
 import {
   groundHeight,
@@ -22,6 +25,156 @@ import {
 } from "../src/shared/terrain";
 import { type Block, STARTERS } from "../src/shared/defs";
 import * as T from "three";
+import { rockHeight } from "../src/shared/rock";
+
+it("rifle damages a target past the rock shoulder, but solid rock still stops it", () => {
+  for (const shoulder of [true, false]) {
+    const w = createWorld("rock-shot", 42, 7),
+      p = addPlayer(w, "p", [STARTERS[0], STARTERS[1]]);
+    const map = mapFor(w),
+      b = map.blocks[0],
+      rayY = b.h - 0.1;
+    p.x = b.x + (shoulder ? b.w * 0.45 : 0);
+    p.z = b.z - b.d * 0.7;
+    p.y = rayY - 1.5;
+    spawn(w, "crawler", p.x, b.z + b.d * 0.7);
+    const e = w.enemies[0];
+    e.y = rayY - (eye(e) - e.y);
+    const hp = e.hp;
+    fire(w, p, { ...neutral(), yaw: Math.PI });
+    expect(e.hp < hp).toBe(shoulder);
+  }
+});
+
+it.each([0.016, 0.05, 0.1])(
+  "diagonal jump resumes full uphill movement after landing at dt=%s",
+  (dt) => {
+    const map = MAPS[3],
+      w = createWorld("diagonal", 42, 7),
+      p = addPlayer(w, "p");
+    p.x = 0;
+    p.z = 0;
+    p.y = supportHeight(0, 0, map.blocks);
+    let peak = 0;
+    for (let n = 0; n < Math.ceil(3 / dt); n++) {
+      const air = playerVerticalStep(
+        p,
+        { ...neutral(), jump: n === 0 },
+        map.blocks,
+        dt,
+      );
+      const x = p.x,
+        z = p.z;
+      move(p, -4 * dt, 4 * dt, 0.55, map.blocks, air, true);
+      peak = Math.max(peak, p.y! - supportHeight(p.x, p.z, map.blocks));
+      if (n * dt > 2) {
+        expect(air).toBe(false);
+        expect(p.verticalSpeed).toBe(0);
+        expect(Math.hypot(p.x - x, p.z - z)).toBeCloseTo(
+          Math.hypot(4 * dt, 4 * dt),
+          6,
+        );
+      }
+    }
+    expect(peak).toBeGreaterThan(1);
+  },
+);
+
+it.each([MAPS[3], ELEVATED_MAPS[3], MAPS[4], ELEVATED_MAPS[4]])(
+  "$name rock shoulders do not have invisible box walls",
+  (map) => {
+    for (const b of map.blocks) {
+      const x = b.x + b.w * 0.45,
+        z = b.z;
+      const h = rockHeight(b, x, z);
+      expect(h).toBeLessThan(b.h - 0.2);
+      expect(blocked(x, z, 0.55, h + 0.1, map.blocks)).toBe(false);
+      expect(supportHeight(x, z, map.blocks)).toBeCloseTo(h, 5);
+      expect(landingHeight(x, z, b.h + 1, h - 0.1, map.blocks)).toBeCloseTo(
+        h,
+        5,
+      );
+      expect(
+        wallDistance(x, b.h + 2, z, 0, -1, 0, 100, map.blocks),
+      ).toBeCloseTo(b.h + 2 - h, 5);
+      // This line crosses the old box corner, above the actual shoulder.
+      expect(
+        wallDistance(x, b.h - 0.1, b.z - b.d, 0, 0, 1, b.d * 2, map.blocks),
+      ).toBeCloseTo(b.d * 2);
+      expect(
+        wallDistance(b.x, b.h - 0.1, b.z - b.d, 0, 0, 1, b.d * 2, map.blocks),
+      ).toBeLessThan(b.d * 2);
+    }
+  },
+);
+
+it.each([MAPS[3], ELEVATED_MAPS[3]])(
+  "$name low rocks can be climbed and jumped onto",
+  (map) => {
+    for (const b of map.blocks) {
+      const w = createWorld("rock-jump", 22, 7),
+        soldier = addPlayer(w, "p");
+      Object.assign(soldier, {
+        x: b.x - b.w / 2 - 0.8,
+        z: b.z,
+        y: supportHeight(b.x - b.w / 2 - 0.8, b.z, map.blocks),
+      });
+      let peak = soldier.y!,
+        landed = false;
+      for (let n = 0; n < 200; n++) {
+        const air = playerVerticalStep(
+          soldier,
+          { ...neutral(), jump: n < 150 && n % 24 === 0 },
+          map.blocks,
+          0.05,
+        );
+        move(
+          soldier,
+          Math.max(0, Math.min(0.1, b.x - soldier.x)),
+          0,
+          0.55,
+          map.blocks,
+          air,
+          true,
+        );
+        peak = Math.max(peak, soldier.y!);
+        if (n > 5 && !air) landed = true;
+      }
+      expect(soldier.x).toBeCloseTo(b.x, 4);
+      expect(soldier.y).toBeCloseTo(b.h, 4);
+      expect(landed).toBe(true);
+      expect(peak).toBeGreaterThan(b.terrainBase! + 1);
+      expect(soldier.y).toBeCloseTo(
+        supportHeight(soldier.x, soldier.z, map.blocks),
+        4,
+      );
+    }
+  },
+);
+
+it.each([3, 4])(
+  "landing on map %i clears downward velocity and preserves diagonal uphill speed",
+  (index) => {
+    const map = MAPS[index],
+      w = createWorld("slope", 22, 7),
+      p = addPlayer(w, "p");
+    p.x = 0;
+    p.z = 0;
+    p.y = groundHeight(0, 0, map.blocks) - 0.01;
+    p.verticalSpeed = -4;
+    let distance = 0;
+    for (let n = 0; n < 40; n++) {
+      const air = playerVerticalStep(p, neutral(), map.blocks, 0.05);
+      expect(air).toBe(false);
+      expect(p.verticalSpeed).toBe(0);
+      const x = p.x,
+        z = p.z;
+      move(p, -0.1, 0.1, 0.55, map.blocks, air, true);
+      distance += Math.hypot(p.x - x, p.z - z);
+    }
+    expect(distance).toBeCloseTo(40 * Math.hypot(0.1, 0.1), 5);
+  },
+);
 import { subdivideMapGeometry, addMapDetail } from "../src/client/map-detail";
 
 it("jumps once per press, rejects midair jumps, lands, and preserves wire determinism", () => {

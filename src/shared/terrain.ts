@@ -1,5 +1,6 @@
 import type { Block } from "./defs";
 import { ARENA_X, ARENA_Z } from "./arena";
+import { isRock, registerRock, rockHeight } from "./rock";
 
 export const WALK_STEP = 0.36;
 export const TERRAIN_CELL = 1;
@@ -106,6 +107,7 @@ export function registerTerrain(
       const base = groundHeight(b.x, b.z, blocks);
       b.h += base - (b.terrainBase ?? 0);
       b.terrainBase = base;
+      registerRock(b, (x, z) => groundHeight(x, z, blocks));
     }
   // No generic prop placement. Relief comes from the ground itself; any future
   // props must belong to an authored location and its environment.
@@ -148,7 +150,8 @@ export function supportHeight(
     )
       h = Math.max(h, b.base + b.h);
   for (const b of blocks)
-    if (
+    if (isRock(b)) h = Math.max(h, rockHeight(b, x, z));
+    else if (
       Math.abs(x - b.x) < b.w / 2 + r &&
       Math.abs(z - b.z) < b.d / 2 + r &&
       b.h <= feet + WALK_STEP + 1e-6
@@ -216,7 +219,8 @@ export function landingHeight(
   if (toY > fromY) return undefined;
   const surfaces = [groundHeight(x, z, blocks)];
   for (const b of [...blocks, ...terrainProps(blocks)])
-    if (Math.abs(x - b.x) < b.w / 2 + r && Math.abs(z - b.z) < b.d / 2 + r)
+    if (isRock(b)) surfaces.push(rockHeight(b, x, z));
+    else if (Math.abs(x - b.x) < b.w / 2 + r && Math.abs(z - b.z) < b.d / 2 + r)
       surfaces.push(b.h + ("base" in b ? Number(b.base) : 0));
   return surfaces
     .filter((y) => y <= fromY + 1e-6 && y >= toY - 1e-6)

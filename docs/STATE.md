@@ -1,3 +1,7 @@
+# 現在地: 岩の射線・乗り上がりと着地後移動を修正、監査準備（2026-09-21）
+
+branch codex/rock-jump-collision、base5e55f50。岩の実形状を射撃/支持/着地へ共有、下降速度残留を解除。型・関連133件、実GLB4マップ980地点、実iab登頂、実Worker2接続成功。baseで5回帰再現、aim既存1失敗を分離。独立監査/main/公開は未完了。[詳細](ROCK-COLLISION.md)。別作業4ファイル保護。
+
 # 現在地: CALYX移動・回転3倍をmain反映・公開（2026-09-21）
 
 PR64通常merge、独立監査53669a9合格・必須0。公開ソース91a2d379636d6d0e24897641c9c5b754936ad985、Worker Version 18ae92fc-b370-4294-99b5-bb934e0de0a8。移動1.95m/s・回転2秒/周・根の外向き変形。型/関連22件/実Worker2接続/Blender/実IAB/遷移549ケース成功、main build/dry-run・配信14SHA/health成功。公開UIは他タブ保存保護のため操作未確認。gameの別作業差分は保護し、既存main worktreeを同期。後続は記録のみ。[詳細](CALYX-SPEED.md)。
