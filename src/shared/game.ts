@@ -596,7 +596,14 @@ export function visible(
 }
 export function event(w: World, e: Omit<Event, "id">) {
   w.events.push({ ...e, id: ++w.eventSerial });
-  if (w.events.length > 80) w.events.shift();
+  // When the buffer is full the damage numbers give way. Every other event
+  // drives a sound or an effect with no second route to the client: drop the
+  // blast and the explosion is silent and invisible even though the damage
+  // landed. A hit that is dropped costs one number on screen.
+  while (w.events.length > LIMITS.events) {
+    const spare = w.events.findIndex((v) => v.type === "hit");
+    w.events.splice(spare < 0 ? 0 : spare, 1);
+  }
 }
 export function spawn(
   w: World,

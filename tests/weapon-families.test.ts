@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { existsSync } from "node:fs";
 import {
   WEAPONS,
+  LIMITS,
   KINDS,
   FAMILIES,
   EFFECT_POOLS,
@@ -14,6 +15,7 @@ import {
   type Kind,
 } from "../src/shared/defs";
 import { MAGAZINES, CAPACITY, makeWeapon } from "../src/shared/progression";
+import { prepareState } from "../src/shared/state-wire";
 import {
   createWorld,
   addPlayer,
@@ -22,6 +24,7 @@ import {
   fire,
   step,
   spawn,
+  event,
   falloff,
 } from "../src/shared/game";
 
@@ -309,8 +312,8 @@ describe("weapon families", () => {
   // The authoritative loop runs at 50ms. Before the cadence fix every weapon
   // was quantised to that tick, so anything quicker than 20 shots a second was
   // capped and its rate roll did nothing at all.
-  function shotsPerSecond(kind: Kind, rate = 0) {
-    const w = createWorld(`rate-${kind}-${rate}`, 5),
+  function shotsPerSecond(kind: Kind, rate = 0, grade = 0, seconds = 1) {
+    const w = createWorld(`rate-${kind}-${rate}-${grade}`, 5),
       p = addPlayer(w, "p");
     start(w);
     w.nextSpawn = 1e9;
@@ -318,7 +321,7 @@ describe("weapon families", () => {
     p.weapons[p.slot] = makeWeapon(
       `rate-${kind}`,
       kind,
-      0,
+      grade,
       { power: 0, reload: 0, range: 0, rate },
       false,
       0,
@@ -327,9 +330,9 @@ describe("weapon families", () => {
     p.ammo[p.slot] = 100000;
     p.cool = 0;
     const before = p.ammo[p.slot];
-    for (let tick = 0; tick < 20; tick++)
+    for (let tick = 0; tick < seconds * 20; tick++)
       step(w, { p: { ...neutral(), fire: true } });
-    return before - p.ammo[p.slot];
+    return (before - p.ammo[p.slot]) / seconds;
   }
 
   it("fires every weapon at the rate its own numbers claim", () => {
@@ -339,6 +342,29 @@ describe("weapon families", () => {
       // One shot of slack for where the second falls between intervals.
       expect(Math.abs(measured - wanted)).toBeLessThanOrEqual(1);
     }
+  });
+
+  it("holds the claimed rate across grades and rate rolls, not just at base", () => {
+    // The cadence fix is not confined to weapons whose base interval misses a
+    // tick boundary: grade and the rate roll shorten every interval, so a
+    // weapon that lined up at base stops lining up once it is upgraded.
+    // Ten seconds, because a slow weapon fires once or twice in one and the
+    // comparison would be meaningless at that resolution.
+    const seconds = 10;
+    for (const kind of KINDS)
+      for (const grade of [0, 2, 4])
+        for (const roll of [0, 20]) {
+          const interval =
+            WEAPONS[kind].interval / (1.15 ** grade * (1 + roll / 100));
+          const wanted = seconds / interval,
+            measured = shotsPerSecond(kind, roll, grade, seconds) * seconds;
+          // Within one shot, since where the window falls between intervals
+          // costs or gains exactly that, or 2% once a weapon fires hundreds.
+          expect(
+            Math.abs(measured - wanted),
+            `${kind} grade ${grade} roll ${roll}: ${measured} vs ${wanted.toFixed(2)}`,
+          ).toBeLessThanOrEqual(Math.max(1, wanted * 0.02));
+        }
   });
 
   it("lets a weapon quicker than the tick exceed twenty shots a second", () => {
@@ -412,6 +438,80 @@ describe("weapon families", () => {
     open.w.events.length = 0;
     fire(open.w, open.p, { ...neutral(), fire: true, yaw: 0, pitch: 0.9 });
     expect(open.w.events.find((e) => e.type === "shot")?.stopped).toBe(false);
+  });
+
+  it("keeps the blast when one explosion floods the event buffer", () => {
+    // A wide blast over a crowd produces one burst and then a hit and a kill
+    // for every body. Dropping the oldest event first threw the burst away
+    // before it was ever sent, so the explosion made no sound and drew nothing
+    // while the damage still landed.
+    const { w, p } = shooter("heavy");
+    p.x = 0;
+    p.z = 0;
+    for (let n = 0; n < LIMITS.enemies; n++)
+      spawn(w, "ant", -3 + (n % 8) * 0.8, -10 + Math.floor(n / 8) * 0.8);
+    for (const e of w.enemies) e.hp = 1;
+    w.events.length = 0;
+    fire(w, p, { ...neutral(), fire: true, yaw: 0, pitch: 0 });
+    for (let tick = 0; tick < 30; tick++)
+      step(w, { p: { ...neutral(), yaw: 0 } });
+    expect(w.events.some((e) => e.type === "burst")).toBe(true);
+    expect(w.events.length).toBeLessThanOrEqual(LIMITS.events);
+  });
+
+  it("drops damage numbers rather than sounds when the buffer overflows", () => {
+    const w = createWorld("overflow", 9);
+    addPlayer(w, "p");
+    start(w);
+    w.nextSpawn = 1e9;
+    w.enemies.length = 0;
+    w.events.length = 0;
+    // Far more than the buffer holds, interleaved the way a blast produces them.
+    for (let n = 0; n < LIMITS.events * 2; n++) {
+      event(w, { type: "hit", amount: 1, x: 0, y: 0, z: 0, owner: "p" });
+      if (n % 20 === 0)
+        event(w, { type: "burst", radius: 6.5, x: 0, y: 0, z: 0, owner: "p" });
+      if (n % 25 === 0)
+        event(w, { type: "kill", x: 0, y: 0, z: 0, owner: "p" });
+    }
+    const kept = w.events;
+    expect(kept.length).toBeLessThanOrEqual(LIMITS.events);
+    // Every sound-bearing event survives; only the numbers were given up.
+    expect(kept.filter((e) => e.type === "burst")).toHaveLength(
+      Math.ceil((LIMITS.events * 2) / 20),
+    );
+    expect(kept.filter((e) => e.type === "kill")).toHaveLength(
+      Math.ceil((LIMITS.events * 2) / 25),
+    );
+  });
+
+  it("stays inside the broadcast size limit with the buffer full", () => {
+    // A state payload over 65,536 bytes does not degrade, it disconnects the
+    // player, so the buffer's ceiling has to be checked in bytes and not only
+    // in events.
+    const w = createWorld("packet", 11);
+    addPlayer(w, "p");
+    start(w);
+    for (let n = 0; n < LIMITS.enemies; n++) spawn(w, "ant", n % 10, -(n % 7));
+    w.events.length = 0;
+    for (let n = 0; n < LIMITS.events * 2; n++)
+      event(w, {
+        type: "hit",
+        amount: 9999,
+        weapon: "rocket",
+        enemyKind: "ant",
+        x: 123.456,
+        y: 123.456,
+        z: 123.456,
+        owner: "player-with-a-long-identifier",
+      });
+    const bytes = new TextEncoder().encode(
+      prepareState(w, -1, {}).packet("p"),
+    ).length;
+    // Measured at 29,210 bytes for a full buffer, 40 enemies and deliberately
+    // long field values. The margin is asserted rather than the hard ceiling,
+    // so a change that doubles the payload fails here instead of in the wild.
+    expect(bytes).toBeLessThan(45000);
   });
 
   it("caps the armoury per family, not per weapon", () => {

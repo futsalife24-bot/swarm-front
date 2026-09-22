@@ -457,6 +457,12 @@ export const LIMITS = {
   inputHz: 20,
   snapshotHz: 10,
   messageBytes: 2048,
+  // Events must survive a whole broadcast interval: anything dropped from the
+  // buffer is never sent, because prepareState() can only forward what is still
+  // in it. One wide blast over a crowd, or a beam firing several times in a
+  // tick, produces a hundred at once. Raising this without limit is not free
+  // either -- a state payload over 65,536 bytes disconnects the player.
+  events: 160,
   reconnectMs: 30000,
   roomMs: 3600000,
   idleMs: 180000,
