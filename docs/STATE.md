@@ -1,3 +1,7 @@
+# 現在地: HARROW PR78を独立Chat監査へ送信済み（2026-09-22）
+
+[PR78](https://github.com/futsalife24-bot/swarm-front/pull/78)、監査対象 `0120db6e6e226b354e8be4f5d83da0b734a06893`、base `402dcece262cbf265da3912e21d95ada891b9821`。資料 `dist-validation/harrow/HARROW-audit-0120db6.zip`（12,281,354 bytes）を [通常Chat](https://chatgpt.com/c/6ab26169-d12c-83e8-84b1-1b91731a8856) へ添付・送信済み、回答待ち。実装と自己検証は下記/詳細記録。main反映・公開未完了。後続差分は監査記録のみ。別作業差分を保護。
+
 # 現在地: HARROW・通常25面・15-Aの実装と自己検証（2026-09-22）
 
 branch `codex/harrow-stages-25`、base `402dcece262cbf265da3912e21d95ada891b9821`。HARROWを15-A/ST20/ST25へ追加。左右5発ずつの上向きミサイル、翼接地1回転、滑空ダイブ、空中会敵・最大34.5m・蓄積怯み落下、全体の波調整と旧3-A保存ID互換を実装。v6原本/再生成器/11クリップを保存。関連152件、両型、build/dry-run、最新3作戦×2難易度6勝、受入11件、実Worker2人11項目成功。実Rendererの攻撃/落下、作戦一覧25面+15-Aを確認。Judgeは未判定/API0。独立Chat監査・main反映・公開は後続。詳細は [HARROW統合記録](HARROW-INTEGRATION.md)。別作業の設定4ファイル・敗北導線記録を保護。
