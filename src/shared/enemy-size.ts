@@ -7,9 +7,10 @@ const SIZES = [
 // Keep the authored individual factor for combat stats and snapshots.
 export const enemyStatSize = (enemy: { size?: number }) => enemy.size ?? 1;
 export const enemySize = (enemy: { size?: number; kind?: string }) =>
-  enemyStatSize(enemy) * (enemy.kind === "calyx" ? 1 : 1.5);
+  enemyStatSize(enemy) *
+  (enemy.kind === "harrow" ? 0.65 : enemy.kind === "calyx" ? 1 : 1.5);
 export function spawnSize(kind: string, worm: boolean, ordinal: number) {
-  return kind === "calyx"
+  return kind === "calyx" || kind === "harrow"
     ? 1
     : kind === "boss" && !worm
       ? 2

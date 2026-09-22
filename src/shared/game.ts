@@ -1,4 +1,10 @@
 import { stepCalyx, stepPollen, advancePollen } from "./calyx";
+import {
+  HARROW,
+  stepHarrow,
+  stepHarrowMissiles,
+  staggerHarrow,
+} from "./harrow";
 import { isRock, rockHeight, rockRay } from "./rock";
 import {
   enemySize,
@@ -75,6 +81,8 @@ import {
 import {
   BLOCKS,
   ENEMIES,
+  RAY_MIN_FLIGHT_HEIGHT,
+  RAY_MAX_FLIGHT_HEIGHT,
   LIMITS,
   STARTERS,
   WEAPONS,
@@ -156,6 +164,10 @@ export interface Player {
   safe: number;
 }
 export interface Enemy extends WormNode {
+  harrow?: import("./harrow").HarrowAttack;
+  harrowAirborne?: boolean;
+  harrowSwitchAt?: number;
+  harrowAirDamage?: number;
   calyx?: import("./calyx").CalyxAttack;
   pollenReadyAt?: number;
   defenseAggroUntil?: number;
@@ -249,6 +261,7 @@ export interface Drop {
   weapon: Weapon;
 }
 export interface World {
+  harrowMissiles?: import("./harrow").HarrowMissile[];
   pollen?: import("./calyx").PollenCloud[];
   defense?: DailyDefense;
   training?: boolean;
@@ -598,6 +611,7 @@ export function spawn(
       : LIMITS.enemies)
   )
     return;
+  if (kind === "boss" && form === "harrow") kind = "harrow";
   const ordinal = w.enemyOrdinal ?? 0;
   const size = spawnSize(kind, form === "worm", sizeSlot ?? ordinal);
   const a = random(w) * Math.PI * 2;
@@ -663,6 +677,12 @@ export function spawn(
       : {}),
   };
   if (enemy.segments) placeWormOnGround(w, enemy);
+  if (kind === "harrow") {
+    enemy.y += HARROW.flightHeight;
+    enemy.harrowAirborne = true;
+    enemy.harrowAirDamage = 0;
+    enemy.harrowSwitchAt = w.time + HARROW.airDuration;
+  }
   w.enemyOrdinal = ordinal + 1;
   w.enemies.push(enemy);
   return enemy;
@@ -808,6 +828,7 @@ export function hurtEnemy(
     }
     e.hp = wormNodes(e).reduce((sum, n) => sum + Math.max(0, n.partHp ?? 0), 0);
   } else e.hp -= damage;
+  staggerHarrow(w, e, damage);
   e.hurt = 0.15;
   event(w, {
     type: "hit",
@@ -852,6 +873,7 @@ export function finish(w: World, win: boolean, reason = "") {
   }
   w.projectiles = [];
   w.pollen = [];
+  w.harrowMissiles = [];
 }
 // Where a shot has to pass to hit: the unit's own centre, lifted by how high it floats.
 export const eye = (e: Enemy) => e.y + ENEMIES[e.kind].aim * enemySize(e);
@@ -1117,6 +1139,7 @@ export function fire(w: World, p: Player, i: Input) {
         weapon.kind === "shotgun" &&
         weapon.effect === "repel" &&
         h.e.kind !== "boss" &&
+        h.e.kind !== "harrow" &&
         Math.hypot(h.e.x - p.x, eye(h.e) - ((p.y ?? 0) + 1.5), h.e.z - p.z) <= 8
       )
         repelled.add(h.e);
@@ -1440,6 +1463,10 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
         continue;
       e.active = true;
     }
+    if (e.kind === "harrow") {
+      stepHarrow(w, e, t, living, dt);
+      continue;
+    }
     if (e.kind === "calyx") {
       stepCalyx(w, e, t, living, dt);
       continue;
@@ -1632,7 +1659,9 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
           Math.imul(e.id + 31, 374761393) ^ Math.imul(cycle + 7, 668265263);
         flightSeed = Math.imul(flightSeed ^ (flightSeed >>> 13), 1274126177);
         const choice = ((flightSeed ^ (flightSeed >>> 16)) >>> 0) / 4294967296;
-        e.flightHeight = 4.5 + choice * 7;
+        e.flightHeight =
+          RAY_MIN_FLIGHT_HEIGHT +
+          choice * (RAY_MAX_FLIGHT_HEIGHT - RAY_MIN_FLIGHT_HEIGHT);
         e.flightUntil = w.time + 3.5;
       }
       let want = Math.max(
@@ -1761,6 +1790,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
           direct &&
           direct.hp <= 0 &&
           direct.kind !== "boss" &&
+          direct.kind !== "harrow" &&
           w.phase === "battle"
         ) {
           event(w, {
@@ -1801,6 +1831,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   w.projectiles = w.projectiles.filter((q) => q.life > 0);
   w.enemies = w.enemies.filter((e) => e.hp > 0);
   stepPollen(w, living, dt);
+  stepHarrowMissiles(w, living, dt);
   flushFoundrySpawns(w);
   if (w.defense) finishDefenseTick(w);
   else if (w.solo) endSoloTick(w);

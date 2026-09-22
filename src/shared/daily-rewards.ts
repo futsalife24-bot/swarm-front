@@ -6,6 +6,7 @@ import {
   type NewWeapon,
 } from "./progression";
 import { defenseBonus } from "./daily-defense";
+import { CAMPAIGN_COUNT, normalSaveId } from "./campaign";
 export interface DefenseLedger {
   day: string;
   run: string;
@@ -25,8 +26,8 @@ export interface DefenseSave {
 }
 export function defenseStage(save: DefenseSave) {
   let stage = 1;
-  for (let n = 1; n <= 20; n++)
-    if (save.missions[`${n}:normal`]?.[0]) stage = n;
+  for (let n = 1; n <= CAMPAIGN_COUNT; n++)
+    if (save.missions[`${normalSaveId(n)}:normal`]?.[0]) stage = n;
   return stage;
 }
 function bank(save: DefenseSave, weapon: StoredWeapon) {
@@ -64,7 +65,7 @@ export function beginDefense<T extends DefenseSave>(
     next,
     rollWeapon(
       `${run}-daily-guarantee`,
-      stage,
+      normalSaveId(stage),
       "normal",
       save.mode === "test",
       next.serial++,
@@ -116,7 +117,7 @@ export function settleDefense<T extends DefenseSave>(
         next,
         rollWeapon(
           `${run}-daily-bonus-${i}`,
-          ledger.stage,
+          normalSaveId(ledger.stage),
           "normal",
           save.mode === "test",
           next.serial++,

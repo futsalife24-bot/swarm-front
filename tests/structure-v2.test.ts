@@ -1,4 +1,6 @@
-import { expect, it } from "vitest";
+import { expect, it, vi } from "vitest";
+import { fileURLToPath } from "node:url";
+import { generateChangelog } from "../scripts/automatic-changelog.mjs";
 import {
   addPlayer,
   createWorld,
@@ -323,8 +325,18 @@ it("energy impacts and trails leave no liquid residue and expire promptly", asyn
   expect(effects.items[0].mesh.material.color.getHex()).toBe(0x65edff);
 });
 it("current changelog contains no legacy creature descriptions", async () => {
-  const { CHANGELOG } = await import("../src/client/changelog");
-  expect(JSON.stringify(CHANGELOG)).not.toMatch(
-    /巨大ミミズ|アリの巣|蜂|蟻|蜘蛛|甲虫|噛みつき|酸/,
+  // Vite injects this value during builds; exercise the same generated releases in Vitest.
+  vi.stubGlobal(
+    "__AUTO_CHANGELOG__",
+    generateChangelog(fileURLToPath(new URL("..", import.meta.url))),
   );
-});
+  try {
+    const { CHANGELOG } = await import("../src/client/changelog");
+    expect(JSON.stringify(CHANGELOG)).not.toMatch(
+      /巨大ミミズ|アリの巣|蜂|蟻|蜘蛛|甲虫|噛みつき|酸/,
+    );
+  } finally {
+    vi.unstubAllGlobals();
+  }
+  // This integration assertion walks real Git history, including on slower Windows workspaces.
+}, 90000);

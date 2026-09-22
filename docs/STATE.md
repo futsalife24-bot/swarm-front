@@ -1,3 +1,7 @@
+# 現在地: HARROW・通常25面・15-Aの実装と自己検証（2026-09-22）
+
+branch `codex/harrow-stages-25`、base `402dcece262cbf265da3912e21d95ada891b9821`。HARROWを15-A/ST20/ST25へ追加。左右5発ずつの上向きミサイル、翼接地1回転、滑空ダイブ、空中会敵・最大34.5m・蓄積怯み落下、全体の波調整と旧3-A保存ID互換を実装。v6原本/再生成器/11クリップを保存。関連152件、両型、build/dry-run、最新3作戦×2難易度6勝、受入11件、実Worker2人11項目成功。実Rendererの攻撃/落下、作戦一覧25面+15-Aを確認。Judgeは未判定/API0。独立Chat監査・main反映・公開は後続。詳細は [HARROW統合記録](HARROW-INTEGRATION.md)。別作業の設定4ファイル・敗北導線記録を保護。
+
 # 現在地: 武器ネオンラインをmain反映・公開完了（2026-09-21）
 
 PR75通常merge、独立監査93cabd2合格・必須P0-P2なし。公開source 1f80fa61717aa4855cccd6aeac576cfe0f650341、Worker Version abb54537-fec3-4c6b-baca-677a7662324e。型/関連4件/15組合せ/全GLB閉ループ・原本不変・所有資源破棄/9視点/build/dry-run成功。AAなし追加15組合せも成功。配信13SHA一致・health200。公開iabは既存ST1・13秒の中断画面正常、error0。既存セーブの再開/破棄はせず保護。実スマホ/多人数長時間/実戦移動時のちらつきは未確認。後続は公開記録のみ。[詳細](WEAPON-NEON.md)。別作業4ファイル保護。

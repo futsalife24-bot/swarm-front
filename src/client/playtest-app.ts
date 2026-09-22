@@ -1,4 +1,10 @@
 import { backgroundMusic } from "./bgm";
+import {
+  normalSaveId,
+  campaignNumber,
+  SOLO_STAGE_IDS,
+  validSoloStage,
+} from "../shared/campaign";
 import "../style.css";
 import "../mobile-ui.css";
 import "../menu-ui.css";
@@ -52,7 +58,7 @@ import {
   checkDeveloperSession,
   returnToNormal,
 } from "./developer-access";
-import { STAGES, stageFor, mapFor, troopCount } from "../shared/stages";
+import { stageFor, mapFor, troopCount } from "../shared/stages";
 import { WEAPONS, stats, effectLabel, type Kind } from "../shared/defs";
 import {
   createWorld,
@@ -164,7 +170,7 @@ async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
   world = createWorld(
     crypto.randomUUID(),
     crypto.getRandomValues(new Uint32Array(1))[0],
-    stage === 21 ? 3 : stage,
+    campaignNumber(stage),
   );
   initSolo(
     world,
@@ -513,7 +519,7 @@ async function openDailyDefense() {
         message("武器庫の整理と戦果の受取りを完了してください。");
         return;
       }
-      stage = defenseStage(save);
+      stage = normalSaveId(defenseStage(save));
       difficulty = "normal";
       d.close();
       void launch(undefined, { day: remote.day });
@@ -660,8 +666,10 @@ function encounter() {
         oldQuaternion = view.camera.quaternion.clone(),
         oldFov = view.camera.fov;
       const distance =
-        Math.max(6, (e.size ?? 1) * (e.kind === "boss" ? 12 : 5)) *
-        (e.segments ? 1 : 1.35);
+        Math.max(
+          6,
+          (e.size ?? 1) * (e.kind === "boss" || e.kind === "harrow" ? 12 : 5),
+        ) * (e.segments ? 1 : 1.35);
       const cameraPose = encounterCamera(
         view.camera.clone(),
         pos,
@@ -1108,6 +1116,7 @@ let filter = "all",
   loadReady = false;
 const adSession = new RewardedAdSession();
 const names: Record<Enemy["kind"] | "worm", string> = {
+  harrow: "HARROW",
   calyx: "CALYX",
   crawler: "PLEAT",
   ant: "HOUND / VOLLEY",
@@ -1462,7 +1471,10 @@ function showHome(initialized: boolean) {
   world = null;
   setScreen(initialized ? "home" : "intro");
   ui.innerHTML = homeMarkup({
-    stage: STAGES[(stage === 21 ? 3 : stage) - 1],
+    stage: stageFor({
+      stage: campaignNumber(stage),
+      solo: { stage, difficulty },
+    }),
     inventoryCount: initialized ? save.inventory.length : 0,
     pendingCount: initialized ? save.pending.length : 0,
     install: canInstallApp(),
@@ -1552,7 +1564,7 @@ function gear() {
     p = soldier(save);
   header(
     "出撃準備",
-    `<div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 出撃先</span><button id="pt-mission-info">作戦詳細</button></div><select id="pt-stage" aria-label="ステージ">${[...STAGES.map((s) => s.id), 21].map((id) => `<option value="${id}" ${id === stage ? "selected" : ""}>${esc(stagePickerLabel(save, id))}</option>`).join("")}</select><div class="pt-difficulty"><select id="pt-difficulty" aria-label="難易度"><option value="normal">通常</option><option value="medium">ハード</option><option value="expert" disabled>EXPERT（未解放）</option></select><small title="クリア報酬">${resourceFrame("coins", victoryCoins(stage, difficulty), "gain")}</small></div></section><section class="equipment-select"><div class="section-label"><span>02 入替先</span><small>一覧タップで変更</small></div><div class="loadout-slots">${p.equipped
+    `<div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 出撃先</span><button id="pt-mission-info">作戦詳細</button></div><select id="pt-stage" aria-label="ステージ">${SOLO_STAGE_IDS.map((id) => `<option value="${id}" ${id === stage ? "selected" : ""}>${esc(stagePickerLabel(save, id))}</option>`).join("")}</select><div class="pt-difficulty"><select id="pt-difficulty" aria-label="難易度"><option value="normal">通常</option><option value="medium">ハード</option><option value="expert" disabled>EXPERT（未解放）</option></select><small title="クリア報酬">${resourceFrame("coins", victoryCoins(stage, difficulty), "gain")}</small></div></section><section class="equipment-select"><div class="section-label"><span>02 入替先</span><small>一覧タップで変更</small></div><div class="loadout-slots">${p.equipped
       .map((id, i) => {
         const w = save.inventory.find((w) => w.id === id)!;
         return `<button data-gear-slot="${i}" aria-pressed="${selectedGearSlot === i}"><span class="slot-number">0${i + 1}</span><span class="slot-info"><small class="pt-grade-${weaponTier(w)}">装備${i + 1} ${selectedGearSlot === i ? "選択中 · " : ""}${weaponGrade(w)}</small><b>${esc(WEAPONS[w.kind].name)}</b><strong>${esc(effectLabel(w))}</strong></span><i>詳細 ›</i></button>`;
@@ -1584,7 +1596,7 @@ function gear() {
   bind("pt-mission-info", () =>
     dialog(
       "作戦詳細",
-      `<p>${esc(STAGES[(stage === 21 ? 3 : stage) - 1].brief)}</p>${stage === 3 ? `<p>${BRANCH_HINT}</p>` : ""}<ol>${["クリア", cfg.timeLimit + "秒以内にクリア", "救急箱・復活なしでクリア"].map((t, i) => `<li>${m[i] ? "達成済み" : "未達成"} · ${t}</li>`).join("")}</ol>`,
+      `<p>${esc(stageFor({ stage: campaignNumber(stage), solo: { stage, difficulty } }).brief)}</p>${stage === 3 ? `<p>${BRANCH_HINT}</p>` : ""}<ol>${["クリア", cfg.timeLimit + "秒以内にクリア", "救急箱・復活なしでクリア"].map((t, i) => `<li>${m[i] ? "達成済み" : "未達成"} · ${t}</li>`).join("")}</ol>`,
     ),
   );
   ui.querySelectorAll<HTMLButtonElement>("[data-gear-slot]").forEach(
@@ -2320,7 +2332,7 @@ if (retryLaunch && save && save.result?.choice !== "pending") {
       retry.mode === mode &&
       Number.isInteger(retry.stage) &&
       retry.stage >= 1 &&
-      retry.stage <= 21 &&
+      validSoloStage(retry.stage) &&
       ["normal", "medium"].includes(retry.difficulty)
     ) {
       stage = retry.stage;

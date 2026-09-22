@@ -67,7 +67,17 @@ export const WEAPONS = {
 // `aim` is the body centre used by bullets and aim assist, measured from the unit's
 // own base. `cruise` is how high that base floats; ground units keep it at 0, so
 // their hit boxes are unchanged.
+export const RAY_MIN_FLIGHT_HEIGHT = 4.5;
+export const RAY_MAX_FLIGHT_HEIGHT = 11.5;
 export const ENEMIES = {
+  harrow: {
+    hp: 5200,
+    speed: 0.64,
+    radius: 3.4,
+    damage: 34,
+    aim: 4.2,
+    cruise: 0,
+  },
   calyx: { hp: 360, speed: 0.65, radius: 0.9, damage: 24, aim: 1.4, cruise: 0 },
   ant: { hp: 85, speed: 4.1, radius: 1.25, damage: 8, aim: 1.2, cruise: 0 },
   spider: { hp: 95, speed: 4.8, radius: 1.5, damage: 15, aim: 1, cruise: 0 },

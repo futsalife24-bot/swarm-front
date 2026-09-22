@@ -2,6 +2,9 @@
 // They shorten setup of downed/result states; they are not evidence of full-mission balance.
 import { stageFor, troopCount } from "../src/shared/stages";
 import { STARTERS } from "../src/shared/defs";
+import { HARROW } from "../src/shared/harrow";
+import { groundHeight } from "../src/shared/terrain";
+import { mapFor } from "../src/shared/stages";
 import production, { Room, Gate } from "./worker";
 import {
   addPlayer,
@@ -72,7 +75,54 @@ export class TestRoom extends Room {
       start(w);
       w.nextSpawn = 1e9;
       w.enemies = [];
-      if (u.searchParams.get("case") === "calyx") {
+      if (
+        ["harrow", "harrow-spin", "harrow-dive", "harrow-stagger"].includes(
+          u.searchParams.get("case") ?? "",
+        )
+      ) {
+        const fixture = u.searchParams.get("case");
+        const blocks = mapFor(w).blocks;
+        for (const p of w.players)
+          Object.assign(p, {
+            x: 0,
+            y: groundHeight(0, 12, blocks),
+            z: 12,
+            hp: 10000,
+            safe: 0,
+          });
+        const e = spawn(w, "harrow", 0, -10)!;
+        Object.assign(e, {
+          active: true,
+          cool: 0,
+          heading: 0,
+          hp: 100000,
+          maxHp: 100000,
+        });
+        // Reproducible AI choice only; real room ticks create and resolve missiles.
+        w.seed = 1000;
+        if (fixture === "harrow-spin") {
+          e.z = 9;
+          e.y = groundHeight(0, 9, blocks);
+          e.harrowAirborne = false;
+          e.harrowSwitchAt = HARROW.groundDuration;
+        } else if (fixture === "harrow-dive") {
+          e.harrow = {
+            kind: "Glide",
+            started: w.time,
+            fired: false,
+            yaw: 0,
+            from: { x: e.x, y: e.y, z: e.z },
+            to: { x: 0, y: groundHeight(0, 12, blocks), z: 12 },
+          };
+        } else if (fixture === "harrow-stagger") {
+          hurtEnemy(
+            w,
+            e,
+            e.maxHp * HARROW.staggerFraction + 1,
+            w.players[0].id,
+          );
+        }
+      } else if (u.searchParams.get("case") === "calyx") {
         for (const p of w.players)
           Object.assign(p, { x: 0, y: 0, z: 12, hp: 10000 });
         const e = spawn(w, "calyx", 0, 0)!;
@@ -192,7 +242,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(calyx|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|calyx|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision)$/.exec(
         u.pathname,
       );
     if (match && req.method === "POST") {

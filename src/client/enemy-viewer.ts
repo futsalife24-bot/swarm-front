@@ -2,6 +2,7 @@ import * as T from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { enemyGeometry } from "./enemy-model";
 import type { Enemy } from "../shared/game";
+import { HARROW, harrowMissilePosition } from "../shared/harrow";
 import { loadEnemyMotion, HoundMotionBatch } from "./hound-motion";
 import { STRUCTURE_ASSETS } from "./structure-motion";
 import type { StructureVisualKind } from "./structure-motion";
@@ -10,6 +11,7 @@ import {
   ReportEffects,
   reportPose,
   reportWorm,
+  reportHarrowMissiles,
   type ReportMotion,
 } from "./enemy-report-motion";
 
@@ -55,8 +57,28 @@ export function createEnemyViewer(host: HTMLElement) {
   const restBounds = new T.Box3();
   function fitSpecimen() {
     const bounds = restBounds.clone();
+    if (kind === "harrow" && mode === "attack") {
+      bounds.union(
+        restBounds
+          .clone()
+          .translate(new T.Vector3(0, HARROW.flightHeight / HARROW.scale, 0)),
+      );
+      for (const missile of reportHarrowMissiles()) {
+        for (let step = 0; step <= 20; step++) {
+          const p = harrowMissilePosition(
+            missile,
+            missile.launch + ((missile.impact - missile.launch) * step) / 20,
+          );
+          bounds.expandByPoint(
+            new T.Vector3(p.x, p.y, p.z).multiplyScalar(1 / HARROW.scale),
+          );
+        }
+      }
+    }
     model.position.copy(bounds.getCenter(new T.Vector3()).negate());
-    radius = bounds.getBoundingSphere(new T.Sphere()).radius;
+    radius =
+      bounds.getBoundingSphere(new T.Sphere()).radius *
+      (kind === "harrow" ? 1.25 : 1);
   }
   function animatePose() {
     if (motion) {
@@ -244,6 +266,10 @@ export function createEnemyViewer(host: HTMLElement) {
       last = 0;
       host.dataset.motion = mode;
       if (foundry) foundry.root.position.z = 0;
+      if (kind === "harrow" && motion) {
+        fitSpecimen();
+        reset();
+      }
       animatePose();
       render();
     },

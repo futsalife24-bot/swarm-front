@@ -9,10 +9,9 @@ import {
 } from "../src/shared/progression";
 import { blankLevels } from "../src/client/progression-save";
 import { pilot } from "./bot";
+import { SOLO_STAGE_IDS, campaignNumber } from "../src/shared/campaign";
 const targets =
-  process.env.PLAYTEST_ALL === "1"
-    ? Array.from({ length: 21 }, (_, i) => i + 1)
-    : [1, 2, 3, 21];
+  process.env.PLAYTEST_ALL === "1" ? SOLO_STAGE_IDS : [1, 2, 3, 21, 20, 26, 27];
 const records: unknown[] = [];
 it.each(
   targets.flatMap((stage) =>
@@ -22,10 +21,10 @@ it.each(
   const w = createWorld(
       `clear-${stage}-${difficulty}`,
       814,
-      stage === 21 ? 3 : stage,
+      campaignNumber(stage),
     ),
     levels = blankLevels();
-  const earned = (stage === 21 ? 3 : stage) - 1;
+  const earned = campaignNumber(stage) - 1;
   levels.hp = earned >= 15 ? 4 : earned >= 5 ? 2 : earned >= 1 ? 1 : 0;
   levels.move = earned >= 6 ? 2 : earned >= 2 ? 1 : 0;
   initSolo(w, stage, difficulty, false, levels);

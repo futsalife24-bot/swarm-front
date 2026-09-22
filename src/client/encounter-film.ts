@@ -13,6 +13,10 @@ export const encounterFilms = {
 } as const;
 export type EncounterFilm = keyof typeof encounterFilms;
 
+export function hasEncounterFilm(key: string): key is EncounterFilm {
+  return Object.hasOwn(encounterFilms, key);
+}
+
 /** Movies are fetched only when requested, not when the report or game opens. */
 export function showEncounterFilm(
   key: EncounterFilm,

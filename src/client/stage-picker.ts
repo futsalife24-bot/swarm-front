@@ -1,14 +1,10 @@
 import { STAGES } from "../shared/stages";
 import { missionKey, stageLabel } from "../shared/progression";
 import type { ProgressSave } from "./progression-save";
+import { BRANCH_15, campaignNumber, soloUnlocked } from "../shared/campaign";
 
 function unlocked(save: ProgressSave, stage: number) {
-  return (
-    save.mode === "test" ||
-    (stage === 21
-      ? save.branch
-      : stage === 1 || !!save.missions[missionKey(stage - 1, "normal")]?.[0])
-  );
+  return soloUnlocked(save, stage);
 }
 
 export function stagePickerLabel(save: ProgressSave, stage: number) {
@@ -16,7 +12,9 @@ export function stagePickerLabel(save: ProgressSave, stage: number) {
     unlocked(save, stage)
       ? stage === 21
         ? "街区奥部の調査"
-        : STAGES[stage - 1].name
+        : stage === BRANCH_15
+          ? "異翼の痕跡"
+          : STAGES[campaignNumber(stage) - 1].name
       : "？？？"
   }`;
 }

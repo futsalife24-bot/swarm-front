@@ -1,11 +1,25 @@
 import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { leaperReportClip } from "./leaper-report-clip";
 import { enemyIdleClip } from "./enemy-idle-clip";
 import { enemyWindupClip } from "./enemy-windup-clip";
 import { trsPalette, TRS_PALETTE_GLSL } from "./motion-trs";
 
-export type HoundClip = "Idle" | "Locomotion" | "Lunge" | "Slam" | "PollenShot";
+export type HoundClip =
+  | "Idle"
+  | "Locomotion"
+  | "Lunge"
+  | "Slam"
+  | "PollenShot"
+  | "Threat"
+  | "Spin"
+  | "Takeoff"
+  | "Flight"
+  | "Glide"
+  | "Dive"
+  | "Land"
+  | "StaggerFall";
 type ClipRange = { start: number; steps: number; duration: number };
 export type HoundMotionAsset = {
   model: T.Group;
@@ -27,7 +41,14 @@ export function loadHoundMotion(): Promise<HoundMotionAsset> {
 }
 export function loadEnemyMotion(
   name:
-    "hound" | "leaper" | "pleat" | "prism" | "ray" | "foundry_zero" | "calyx",
+    | "hound"
+    | "leaper"
+    | "pleat"
+    | "prism"
+    | "ray"
+    | "foundry_zero"
+    | "calyx"
+    | "harrow",
   report = false,
 ): Promise<HoundMotionAsset> {
   const key = name + (report ? "_report" : "");
@@ -35,29 +56,49 @@ export function loadEnemyMotion(
   const request = new GLTFLoader()
     .loadAsync(
       // The service worker caches by URL. Change the revision when CALYX bytes change.
-      `${import.meta.env.BASE_URL}assets/enemies/${name}_motion_${name === "pleat" ? "v5" : name === "leaper" ? "v2" : "v1"}.glb${name === "calyx" ? "?rev=d1a7573d5976e284" : ""}`,
+      `${import.meta.env.BASE_URL}assets/enemies/${name}_motion_${name === "harrow" ? "v6" : name === "pleat" ? "v5" : name === "leaper" ? "v2" : "v1"}.glb${name === "harrow" ? "?rev=0f640a7552d08f41" : name === "calyx" ? "?rev=d1a7573d5976e284" : ""}`,
     )
     .then(({ scene: model, animations: clips }) => {
+      // HARROW's authored forward is -X; production models face local -Z.
+      if (name === "harrow") model.rotation.y = -Math.PI / 2;
       model.updateMatrixWorld(true);
       const meshes: T.SkinnedMesh[] = [];
       model.traverse((o) => {
         if (o instanceof T.SkinnedMesh) meshes.push(o);
       });
       const clipNames: HoundClip[] =
-        name === "calyx"
-          ? ["Idle", "Locomotion", "Slam", "PollenShot"]
-          : ["Idle", "Locomotion", "Lunge"];
+        name === "harrow"
+          ? [
+              "Idle",
+              "Locomotion",
+              "Lunge",
+              "Threat",
+              "Spin",
+              "Takeoff",
+              "Flight",
+              "Glide",
+              "Dive",
+              "StaggerFall",
+              "Land",
+            ]
+          : name === "calyx"
+            ? ["Idle", "Locomotion", "Slam", "PollenShot"]
+            : ["Idle", "Locomotion", "Lunge"];
       const attack = clips.find((c) => c.name === "Attack");
       if (attack) attack.name = "Lunge";
       if (
         meshes.length !==
-          (name === "foundry_zero" || name === "calyx" ? 5 : 4) ||
+          (name === "harrow"
+            ? 186
+            : name === "foundry_zero" || name === "calyx"
+              ? 5
+              : 4) ||
         !clipNames.every((n) => clips.some((c) => c.name === n))
       )
         throw new Error("Invalid enemy motion asset");
       const skeleton = meshes[0].skeleton,
         bones = skeleton.bones.length;
-      if (name !== "calyx") {
+      if (name !== "calyx" && name !== "harrow") {
         clips.splice(
           clips.findIndex((c) => c.name === "Idle"),
           1,
@@ -79,6 +120,7 @@ export function loadEnemyMotion(
       if (
         bones !==
           {
+            harrow: 39,
             calyx: 16,
             hound: 20,
             leaper: 20,
@@ -162,13 +204,35 @@ export function loadEnemyMotion(
         trsAtlas.generateMipmaps = false;
         trsAtlas.needsUpdate = true;
       }
+      // Identical skin bindings permit material batches without changing vertices,
+      // weights or authored animation. Keep the source scene intact for inspection.
+      let drawMeshes = meshes;
+      if (name === "harrow") {
+        const groups = new Map<T.Material, T.SkinnedMesh[]>();
+        for (const mesh of meshes) {
+          if (Array.isArray(mesh.material))
+            throw new Error("Unexpected HARROW material array");
+          const group = groups.get(mesh.material) ?? [];
+          group.push(mesh);
+          groups.set(mesh.material, group);
+        }
+        drawMeshes = [...groups].map(([material, group]) => {
+          const geometry = mergeGeometries(group.map((mesh) => mesh.geometry));
+          if (!geometry) throw new Error("HARROW geometry batch mismatch");
+          const mesh = new T.SkinnedMesh(geometry, material);
+          mesh.name = `HARROW / ${material.name}`;
+          mesh.bind(skeleton, meshes[0].bindMatrix);
+          mesh.matrixWorld.copy(meshes[0].matrixWorld);
+          return mesh;
+        });
+      }
       return {
         model,
         clips,
         atlas,
         trsAtlas,
         ranges,
-        meshes,
+        meshes: drawMeshes,
         bones,
         trsParents: trsAtlas
           ? skeleton.bones.map((b) =>
@@ -302,10 +366,9 @@ objectNormal=mat3(houndSkin)*objectNormal;
     time: number,
   ) {
     const r = this.asset.ranges[clip];
-    const t =
-      clip === "Lunge" || clip === "Slam" || clip === "PollenShot"
-        ? T.MathUtils.clamp(time, 0, r.duration)
-        : ((time % r.duration) + r.duration) % r.duration;
+    const t = !["Idle", "Locomotion", "Flight"].includes(clip)
+      ? T.MathUtils.clamp(time, 0, r.duration)
+      : ((time % r.duration) + r.duration) % r.duration;
     const frame = Math.min(r.steps, t * 60),
       a = Math.floor(frame),
       b = Math.min(r.steps, a + 1);

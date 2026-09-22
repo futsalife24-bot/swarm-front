@@ -38,7 +38,7 @@ export function pursuitDirection(w: World, e: Enemy, t: Player) {
     e.steerAngle =
       e.kind === "spider"
         ? Math.sign(turn || 1) * (0.65 + Math.abs(turn) * 0.8)
-        : turn * (e.kind === "boss" ? 0.35 : 0.85);
+        : turn * (e.kind === "boss" || e.kind === "harrow" ? 0.35 : 0.85);
     e.steerUntil = w.time + 0.65 + value(53) * 0.95;
   }
   const dx = t.x - e.x,
@@ -66,7 +66,7 @@ export function pursuitDirection(w: World, e: Enemy, t: Player) {
     ? (e.steerAngle ?? 0)
     : e.kind === "spider"
       ? side * (1.05 + Math.sin(phase * 0.6) * 0.2)
-      : e.kind === "boss"
+      : e.kind === "boss" || e.kind === "harrow"
         ? side * (0.4 + Math.sin(phase * 0.35) * 0.12)
         : style === 0
           ? side * (0.95 + Math.sin(phase * 0.45) * 0.15)

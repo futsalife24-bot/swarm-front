@@ -18,7 +18,7 @@ import {
 import { wormSpeed, wormNodes, moveWorm } from "../src/shared/worm";
 import { foundryLaserOrigin } from "../src/shared/foundry-defs";
 
-it("enlarges every authored individual by 1.5 without changing combat factors", () => {
+it("preserves combat factors while applying authored species display scales", () => {
   const original = [
     1, 0.85, 1.15, 0.95, 1.3, 0.8, 1.05, 1.5, 0.9, 1.1, 1, 1.2, 0.95, 1.4, 1,
     1.15, 0.9, 1.05, 0.85, 1.2, 1, 0.95, 1.75, 1.1, 0.8, 1.05, 1.3, 0.9, 1, 1.2,
@@ -28,10 +28,14 @@ it("enlarges every authored individual by 1.5 without changing combat factors", 
     for (const worm of [false, true]) {
       original.forEach((factor, slot) => {
         const previous =
-          kind === "calyx" ? 1 : kind === "boss" && !worm ? 2 : factor;
+          kind === "calyx" || kind === "harrow"
+            ? 1
+            : kind === "boss" && !worm
+              ? 2
+              : factor;
         const enemy = { kind, size: spawnSize(kind, worm, slot) };
         expect(enemySize(enemy)).toBeCloseTo(
-          previous * (kind === "calyx" ? 1 : 1.5),
+          previous * (kind === "harrow" ? 0.65 : kind === "calyx" ? 1 : 1.5),
         );
         expect(enemyStatSize(enemy)).toBe(previous);
         expect(enemySpeedFactor(enemy)).toBe(previous <= 1 ? 1.5 : 1);
@@ -51,7 +55,10 @@ it.each(STAGES)(
       a.enemies = [];
       b.enemies = [];
       b.serial += n * 13;
-      const kind = (Object.keys(ENEMIES) as (keyof typeof ENEMIES)[])[n % 6];
+      // Fixed-size specimens must not replace a variable-size roster slot when new species are registered.
+      const kind = (
+        ["ant", "spider", "crawler", "spitter", "hornet", "boss"] as const
+      )[n % 6];
       const form = kind === "boss" ? "worm" : "crown";
       const ea = spawn(a, kind, 0, 0, form)!,
         eb = spawn(b, kind, 0, 0, form)!;

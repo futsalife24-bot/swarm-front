@@ -17,7 +17,7 @@ const sample = (changes: Partial<StructureInput> = {}): StructureInput => ({
   ...changes,
 });
 for (const kind of Object.keys(STRUCTURE_TIMING).filter(
-  (k) => k !== "calyx",
+  (k) => k !== "calyx" && k !== "harrow",
 ) as StructureKind[])
   it(`${kind} tracks authoritative impact, skipped snapshots, pause and removal`, () => {
     const c = new StructureMotionController(kind),
@@ -40,6 +40,56 @@ for (const kind of Object.keys(STRUCTURE_TIMING).filter(
     c.update(b, [sample({ cool: spec.cooldown - 0.1 })], 0.016);
     expect(c.states.get(7)?.time).toBe(spec.impact);
   });
+it("HARROW applies snapshot age to spin and fall, completes skipped blends and freezes paused poses", () => {
+  const controller = new StructureMotionController("harrow");
+  const poses: unknown[][] = [];
+  const batch = {
+    setPose(...args: unknown[]) {
+      poses.push(args);
+    },
+  };
+  controller.update(
+    batch,
+    [sample({ harrowAirborne: true, worldTime: 10 })],
+    0.016,
+  );
+  expect(controller.states.get(7)?.clip).toBe("Flight");
+  const spin = sample({
+    worldTime: 12,
+    harrow: { kind: "Spin", started: 10, fired: true, yaw: 0 },
+  });
+  const original = JSON.stringify(spin);
+  controller.update(batch, [spin], 0);
+  expect(controller.states.get(7)).toMatchObject({
+    clip: "Spin",
+    time: 2,
+    from: "Flight",
+  });
+  expect(poses.at(-1)![5]).toBeGreaterThanOrEqual(1);
+  const paused = { ...controller.states.get(7)! };
+  controller.update(batch, [spin], 0);
+  expect(controller.states.get(7)).toEqual(paused);
+  expect(JSON.stringify(spin)).toBe(original);
+  controller.update(
+    batch,
+    [
+      sample({
+        worldTime: 14.75,
+        harrowAirborne: true,
+        harrow: { kind: "StaggerFall", started: 14, fired: false, yaw: 0 },
+      }),
+    ],
+    0,
+  );
+  expect(controller.states.get(7)).toMatchObject({
+    clip: "StaggerFall",
+    time: 0.75,
+    from: "Spin",
+  });
+  expect(poses.at(-1)![5]).toBeGreaterThanOrEqual(1);
+  controller.update(batch, [], 0);
+  expect(controller.states.size).toBe(0);
+});
 it("cancels aborted wind-up and never interprets spawn cooldown as a hit", () => {
   const c = new StructureMotionController("boss"),
     b = { setPose() {} };

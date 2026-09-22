@@ -6,6 +6,7 @@ import type { Enemy } from "../shared/game";
 export function enemyGeometry(kind: Enemy["kind"], segment = false) {
   const pieces: T.BufferGeometry[] = [];
   const shell = {
+    harrow: 0x537478,
     calyx: 0x77755b,
     ant: 0x9e6550,
     spider: 0x696e91,

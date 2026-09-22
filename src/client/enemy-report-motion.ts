@@ -4,11 +4,129 @@ import type { HoundClip } from "./hound-motion";
 import { STRUCTURE_TIMING } from "../shared/structure-timing";
 import { CALYX, calyxMuzzle } from "../shared/calyx";
 import {
+  HARROW,
+  harrowMissileOrigins,
+  type HarrowMissile,
+} from "../shared/harrow";
+import { HarrowEffects } from "./harrow-effects";
+import {
   FOUNDRY_LASER_WARNING,
   foundryLaserOrigin,
 } from "../shared/foundry-defs";
 
 export type ReportMotion = "idle" | "move" | "attack";
+
+const reportFlightHeight = HARROW.flightHeight / HARROW.scale;
+export const HARROW_REPORT_SEQUENCE: {
+  clip: HoundClip;
+  duration: number;
+  from?: number;
+  to?: number;
+  threat?: boolean;
+}[] = [
+  { clip: "Spin", duration: HARROW.spinDuration },
+  { clip: "Idle", duration: 0.8 },
+  {
+    clip: "Threat",
+    duration: Math.max(
+      HARROW.threatDuration,
+      HARROW.markerLead + HARROW.missileFlight,
+    ),
+    threat: true,
+  },
+  { clip: "Idle", duration: 0.8 },
+  {
+    clip: "Takeoff",
+    duration: HARROW.takeoffDuration,
+    from: 0,
+    to: reportFlightHeight,
+  },
+  {
+    clip: "Flight",
+    duration: 2.4,
+    from: reportFlightHeight,
+    to: reportFlightHeight,
+  },
+  {
+    clip: "Glide",
+    duration: HARROW.glideDuration,
+    from: reportFlightHeight,
+    to: reportFlightHeight,
+  },
+  {
+    clip: "Dive",
+    duration: HARROW.diveDuration,
+    from: reportFlightHeight,
+    to: 0,
+  },
+  { clip: "Land", duration: HARROW.landDuration },
+  { clip: "Idle", duration: 0.8 },
+  {
+    clip: "Takeoff",
+    duration: HARROW.takeoffDuration,
+    from: 0,
+    to: reportFlightHeight,
+  },
+  {
+    clip: "Flight",
+    duration: 2.4,
+    from: reportFlightHeight,
+    to: reportFlightHeight,
+  },
+  {
+    clip: "StaggerFall",
+    duration: HARROW.staggerFallDuration,
+    from: reportFlightHeight,
+    to: 0,
+  },
+  { clip: "Land", duration: HARROW.landDuration },
+  { clip: "Idle", duration: 0.8 },
+];
+function reportHarrowPhase(time: number) {
+  let sample =
+    time %
+    HARROW_REPORT_SEQUENCE.reduce((sum, phase) => sum + phase.duration, 0);
+  for (const phase of HARROW_REPORT_SEQUENCE) {
+    if (sample < phase.duration)
+      return {
+        ...phase,
+        sample,
+        clip:
+          phase.threat && sample >= HARROW.threatDuration
+            ? ("Idle" as HoundClip)
+            : phase.clip,
+        height:
+          (phase.from ?? 0) +
+          (((phase.to ?? 0) - (phase.from ?? 0)) * sample) / phase.duration,
+      };
+    sample -= phase.duration;
+  }
+  return {
+    clip: "Idle" as HoundClip,
+    duration: 0.8,
+    sample: 0,
+    height: 0,
+    threat: false,
+  };
+}
+
+/** Fixed specimen targets let the viewer observe ten missiles without a live World. */
+export function reportHarrowMissiles(): HarrowMissile[] {
+  const origins = harrowMissileOrigins({ x: 0, y: 0, z: 0 }, Math.PI);
+  return Array.from({ length: 10 }, (_, i) => {
+    const angle = (i * Math.PI * 2) / 10;
+    return {
+      id: i + 1,
+      owner: 1,
+      origin: origins[i],
+      target: { x: Math.sin(angle) * 4, y: 0, z: -7 + Math.cos(angle) * 3 },
+      launch: HARROW.markerLead,
+      impact: HARROW.markerLead + HARROW.missileFlight,
+      damage: HARROW.missileDamage,
+      radius: HARROW.missileRadius,
+    };
+  });
+}
 
 /** Isolated inspection timeline. Does not receive or mutate the active World. */
 export function reportPose(
@@ -16,6 +134,21 @@ export function reportPose(
   mode: ReportMotion,
   time: number,
 ) {
+  if (kind === "harrow") {
+    const phase = reportHarrowPhase(time);
+    return {
+      clip:
+        mode === "attack"
+          ? phase.clip
+          : mode === "move"
+            ? ("Locomotion" as HoundClip)
+            : ("Idle" as HoundClip),
+      sample: mode === "attack" ? phase.sample : time,
+      height: mode === "attack" ? phase.height : 0,
+      impact: phase.threat ? HARROW.markerLead : HARROW.spinWind,
+      cycle: phase.sample,
+    };
+  }
   if (kind === "calyx") {
     const cycle = time % 6.6,
       shot = cycle >= 3,
@@ -97,6 +230,8 @@ export function reportWorm(mode: ReportMotion, time: number): Enemy {
 /** Compact visual effects indicate the direction and kind of the observed attack. */
 export class ReportEffects {
   readonly root = new T.Group();
+  private readonly harrow = new HarrowEffects();
+  private readonly harrowMissiles = reportHarrowMissiles();
   private material = new T.MeshBasicMaterial({
     color: 0x7aeaff,
     transparent: true,
@@ -117,12 +252,54 @@ export class ReportEffects {
   );
   constructor() {
     this.ring.rotation.x = Math.PI / 2;
-    this.root.add(this.ring, ...this.bolts, ...this.beams);
+    // Report models use authored units, while combat uses HARROW.scale.
+    this.harrow.root.scale.setScalar(1 / HARROW.scale);
+    this.root.add(this.ring, ...this.bolts, ...this.beams, this.harrow.root);
   }
   update(kind: Enemy["kind"], worm: boolean, mode: ReportMotion, time: number) {
     this.root.children.forEach((o) => (o.visible = false));
+    this.harrow.update(null);
     if (mode !== "attack") return;
     const pose = reportPose(kind, mode, time);
+    if (kind === "harrow") {
+      const phase = reportHarrowPhase(time);
+      this.harrow.root.visible = true;
+      const attack =
+        phase.clip === "Spin" || phase.clip === "Glide" || phase.clip === "Dive"
+          ? phase.clip
+          : undefined;
+      const enemies: Enemy[] = attack
+        ? [
+            {
+              id: 1,
+              kind: "harrow",
+              x: 0,
+              y: phase.height * HARROW.scale,
+              z: 0,
+              hp: 100,
+              maxHp: 100,
+              cool: 0,
+              wind: 0,
+              hurt: 0,
+              tx: 0,
+              tz: 0,
+              harrow: {
+                kind: attack,
+                started: 0,
+                fired: false,
+                yaw: Math.PI,
+                to: { x: 0, y: 0, z: 0 },
+              },
+            },
+          ]
+        : [];
+      this.harrow.update({
+        time: phase.sample,
+        harrowMissiles: phase.threat ? this.harrowMissiles : [],
+        enemies,
+      });
+      return;
+    }
     const age = pose.cycle - pose.impact;
     this.material.opacity = 0.8;
     this.material.color.setHex(kind === "calyx" ? 0xcbb957 : 0x7aeaff);
@@ -205,6 +382,7 @@ export class ReportEffects {
     mesh.scale.set(width, a.distanceTo(b), width);
   }
   dispose() {
+    this.harrow.dispose();
     this.root.children.forEach((o) => (o as T.Mesh).geometry.dispose());
     this.material.dispose();
     this.root.removeFromParent();

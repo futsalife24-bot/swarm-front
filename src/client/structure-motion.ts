@@ -7,6 +7,7 @@ import {
 } from "./hound-motion";
 import { STRUCTURE_TIMING } from "../shared/structure-timing";
 export const STRUCTURE_ASSETS = {
+  harrow: "harrow",
   calyx: "calyx",
   crawler: "pleat",
   ant: "hound",
@@ -19,6 +20,8 @@ export type StructureVisualKind = keyof typeof STRUCTURE_ASSETS;
 export type StructureInput = HoundVisualInput & {
   slot: number;
   calyx?: import("../shared/calyx").CalyxAttack;
+  harrow?: import("../shared/harrow").HarrowAttack;
+  harrowAirborne?: boolean;
   worldTime?: number;
 };
 type State = {
@@ -58,6 +61,38 @@ export class StructureMotionController {
           cool: e.cool,
         };
         this.states.set(e.id, s);
+      }
+      if (this.kind === "harrow") {
+        const desired: HoundClip =
+          e.harrow?.kind ??
+          (e.harrowAirborne ? "Flight" : e.moving ? "Locomotion" : "Idle");
+        if (desired !== s.clip) {
+          s.from = s.clip;
+          s.fromTime = s.time;
+          s.clip = desired;
+          s.time = 0;
+          s.blend = 0;
+        }
+        s.time = e.harrow
+          ? Math.max(0, (e.worldTime ?? 0) - e.harrow.started)
+          : s.time +
+            (desired === "Locomotion" ? e.distance / (0.16 * 0.65) : dt);
+        s.blend = e.harrow ? Math.max(s.blend + dt, s.time) : s.blend + dt;
+        const blendTime =
+          desired === "Land"
+            ? 0.35
+            : desired === "Flight" || desired === "Glide"
+              ? 0.24
+              : 0.15;
+        batch.setPose(
+          i,
+          s.clip,
+          s.time,
+          s.from,
+          s.fromTime,
+          s.blend / blendTime,
+        );
+        return;
       }
       if (this.kind === "calyx") {
         const desired: HoundClip =

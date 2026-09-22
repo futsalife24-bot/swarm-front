@@ -1,4 +1,9 @@
 import { assertSaveWriter } from "./save-writer";
+import {
+  CAMPAIGN_COUNT,
+  validSoloStage,
+  soloUnlocked,
+} from "../shared/campaign";
 import type { DefenseLedger } from "../shared/daily-rewards";
 import {
   WEEKLY_MISSIONS,
@@ -207,7 +212,7 @@ export function validateProgress(s: ProgressSave) {
       typeof d.run !== "string" ||
       !integer(d.stage) ||
       d.stage < 1 ||
-      d.stage > 20 ||
+      d.stage > CAMPAIGN_COUNT ||
       !["active", "victory", "defeat", "interrupted"].includes(d.state) ||
       !integer(d.bonus) ||
       d.bonus > 5 ||
@@ -307,7 +312,7 @@ export function validateProgress(s: ProgressSave) {
       throw new Error("アクセサリ保存が不正です");
   for (const [key, m] of Object.entries(s.missions))
     if (
-      !/^(?:[1-9]|1[0-9]|20|21):(normal|medium)$/.test(key) ||
+      !/^(?:[1-9]|1[0-9]|2[0-7]):(normal|medium)$/.test(key) ||
       !Array.isArray(m) ||
       m.length !== 3 ||
       m.some((v) => typeof v !== "boolean")
@@ -540,12 +545,10 @@ export function initializeProgress(
 }
 export function canSortie(s: ProgressSave, stage: number, d: Difficulty) {
   if (s.pending.length || s.result?.choice === "pending") return false;
-  if (!Number.isInteger(stage) || stage < 1 || stage > 21) return false;
+  if (!validSoloStage(stage)) return false;
   if (s.mode === "test") return true;
   if (d === "medium") return !!s.missions[missionKey(stage, "normal")]?.[0];
-  return stage === 21
-    ? s.branch
-    : stage === 1 || !!s.missions[missionKey(stage - 1, "normal")]?.[0];
+  return soloUnlocked(s, stage);
 }
 export function bank(s: ProgressSave, items: StoredWeapon[]) {
   const ids = new Set(allWeapons(s).map((w) => w.id));
