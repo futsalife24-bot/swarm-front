@@ -10,18 +10,17 @@
 
 検証: typecheck（client/worker）成功、全件490中487成功（失敗3件と読込失敗1件は base `694a601` でも同一の既存事象）。`tests/weapon-families.test.ts` は **27件**へ拡充し、R1の回帰ガード3件（爆発が埋もれない／消えるのはダメージ数字だけ／満杯でも送信サイズが上限内）と、**12丁×3グレード×2バリアンス＝72通りの連射速度検証**を追加。build / server:build dry-run 成功。
 
-**停止中: 再々監査の送信が未完了（2026-09-23）。**
+**再々監査を依頼済み・判定待ち（2026-09-23）。**
 
 - 対象SHA `e01d2cfa09347db206f98757e440fe1030cc72ed`（push済み、作業ツリーclean）
 - PR [#76](https://github.com/futsalife24-bot/swarm-front/pull/76)
 - 監査Chat https://chatgpt.com/c/6ab13de7-c55c-83e8-be6d-f9dda9c268bd
-- 資料 `dist-validation/weapon-families-r1-audit.zip`（195,034 bytes / SHA256 `4f8ab574425c9c87f43701457ff43f93a6704e0788c6c9041e42abed70dd2b03`）
+- 資料 `dist-validation/weapon-families-r1-audit.zip`（195,034 bytes / SHA256 `4f8ab574425c9c87f43701457ff43f93a6704e0788c6c9041e42abed70dd2b03`）。Chat上の表示名は自動改名で `weapon-families-r1-audit(2).zip` だが同一ファイル
+- 本文 `dist-validation/weapon-families-r1-reaudit-message.md` をそのまま送信
 
-**停止理由:** 送信本文の入力中にChatGPTがログアウト状態へ遷移し、監査Chatではなくルートへ飛ばされた。添付も外れ、メッセージは**送信されていない**（監査Chatに新規投稿なし。入力欄は空にして復帰済み）。再読込するとアカウント選択画面が出て、該当アカウントを選んでも「ログイン中…」のまま30秒以上完了しない。パスワード入力を伴う認証はこちらでは行わない。
+経緯: 09-22 はChatGPTのログアウトで未送信。09-23 はユーザー承認のうえChrome拡張で送信。**Chromeで監査Chatのタブが裏にあると凍結・差し替えされ（タブIDが変わり応答しなくなる）、添付が外れる。**前回の「Chrome blocked the extension」もこれが原因とみられる。タブを手前に出してもらうと解消した。
 
-**再開条件:** ユーザー側でChatGPTのログインを回復してもらう。その後、同じ監査Chatへ上記ZIPを添付して再々監査を依頼する（本文は作成済み・内容は下記の修正記録どおり）。
-
-**未実施: 再々監査・main反映・公開。** 実プレイ・Android実機・実協力通信・全地形での反動移動は引き続き未検証。
+**未実施: 判定取得・main反映・公開。** main反映前に origin/main（+8コミット、STATEのみ重複）の取り込みと、並行PR #78 の状況確認が必要。 実プレイ・Android実機・実協力通信・全地形での反動移動は引き続き未検証。
 
 # 現在地: 監査の必須5件を修正、再監査へ（2026-09-22）
 
