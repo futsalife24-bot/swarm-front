@@ -1,3 +1,8 @@
+# 現在地: HARROW修正版の再監査を送信済み（2026-09-24 07:56 JST）
+
+同じ [監査Chat](https://chatgpt.com/c/6ab26169-d12c-83e8-84b1-1b91731a8856) へ対象 `30737b43ea58a7e385b852205448109e297aea2f`、base `21468bba58c9bc5f222f481ef0ce8b859f1a160d` のZIPと依頼本文を送信済み。会話上のユーザーメッセージ・添付名・「Proが思考中です」を確認。Enter操作はtimeoutを返したが送信は成立しており、重複送信していない。
+
+資料 `dist-validation/harrow/HARROW-reaudit-30737b4.zip`（12,139,342 bytes、SHA256 `e5a073271001eff37c916afe89bfa344e61d7bd4c94a74ebda16559eb795afb6`）。F1〜F3の修正・回帰・武器12丁統合影響・未検証範囲を明記。対象後のb24561eと本記録は文書のみ。下記の添付障害は解消。現在は独立判定待ち、main反映・公開未完了。次は回答を取得し、必須指摘があれば修正・再監査、合格後に通常mergeと既存Worker公開へ進む。
 # 現在地: HARROW再監査資料完成・添付操作障害で未送信（2026-09-24）
 
 HEAD `30737b43ea58a7e385b852205448109e297aea2f` をPR78へpush済み。F1/F2/F3修正済み、checkpoint16件・HARROW17件・両型・F3後client build成功。ZIP `dist-validation/harrow/HARROW-reaudit-30737b4.zip`（12,139,342 bytes、SHA256 `e5a073271001eff37c916afe89bfa344e61d7bd4c94a74ebda16559eb795afb6`）、送信本文 `dist-validation/harrow/reaudit-message.md`。
