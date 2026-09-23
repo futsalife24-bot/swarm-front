@@ -218,6 +218,69 @@ it("first spawn is airborne at three RAY maximum flight heights and alternates t
   expect(e.y).toBeCloseTo(HARROW.flightHeight);
 });
 
+it.each(["spawn", "takeoff"] as const)(
+  "%s grace never attacks a nearby target in the air and spins only after landing",
+  (entry) => {
+    const w = createWorld("harrow-close-grace", 723, 20);
+    w.training = true;
+    w.phase = "battle";
+    const p = addPlayer(w, "solo");
+    Object.assign(p, { x: 0, y: 0, z: 0, safe: 0 });
+    const e = spawn(w, "boss", 0, 0, "harrow")!;
+    e.heading = 0;
+    e.cool = 0;
+    if (entry === "takeoff") {
+      e.harrowAirborne = false;
+      e.y = 0;
+      e.harrowSwitchAt = w.time;
+      stepHarrow(w, e, p, [p], 0.05);
+      expect(e.harrow?.kind).toBe("Takeoff");
+      w.time = HARROW.takeoffDuration;
+      stepHarrow(w, e, p, [p], 0.05);
+    }
+    const airborneAt = w.time;
+    for (let tick = 0; tick < 40; tick++) {
+      w.time = airborneAt + tick * 0.05;
+      stepHarrow(w, e, p, [p], 0.05);
+      expect(e.harrowAirborne).toBe(true);
+      expect(e.harrow).toBeUndefined();
+      expect(e.y).toBeCloseTo(HARROW.flightHeight);
+      expect(w.harrowMissiles ?? []).toHaveLength(0);
+    }
+    expect(e.cool).toBe(0);
+    w.time = airborneAt + 2;
+    stepHarrow(w, e, p, [p], 0.05);
+    expect(e.harrow?.kind).toBe("Land");
+    for (let tick = 1; tick <= 20; tick++) {
+      w.time = airborneAt + 2 + tick * 0.05;
+      stepHarrow(w, e, p, [p], 0.05);
+      expect(e.harrow?.kind).not.toBe("Spin");
+    }
+    expect(e.harrowAirborne).toBe(false);
+    expect(e.y).toBeCloseTo(0);
+    // Let the real landing cooldown expire, without manually enabling the attack.
+    for (let tick = 1; tick <= 31 && e.harrow?.kind !== "Spin"; tick++) {
+      w.time = airborneAt + 3 + tick * 0.05;
+      stepHarrow(w, e, p, [p], 0.05);
+    }
+    expect(e.harrow?.kind).toBe("Spin");
+    expect(e.harrowAirborne).toBe(false);
+  },
+);
+
+it("retains ranged Threat during airborne grace when the target is outside the spin radius", () => {
+  const { w, p, e } = fixture();
+  e.harrow = undefined;
+  e.y = HARROW.flightHeight;
+  e.cool = 0;
+  e.heading = 0;
+  p.x = e.x;
+  p.z = e.z + HARROW.spinRadius + 1;
+  stepHarrow(w, e, p, [p], 0.05);
+  expect(e.harrow?.kind).toBe("Threat");
+  expect(w.harrowMissiles).toHaveLength(10);
+});
+
 it("lands for a target directly below, then performs exactly one ground rotation and one hit", () => {
   const { w, p, e } = fixture();
   p.x = e.x;
