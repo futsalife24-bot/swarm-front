@@ -3,6 +3,7 @@ export default defineConfig({
   test: {
     include: [
       "tests/harrow.test.ts",
+      "tests/harrow-weapons.test.ts",
       "tests/harrow-effects.test.ts",
       "tests/calyx.test.ts",
       "tests/motion-trs.test.ts",
