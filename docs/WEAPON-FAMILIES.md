@@ -216,6 +216,14 @@ R1の修正で元の2条件（レーザー83件・メテオ81件）は全件送�
 
 サイズテストは本番と同じ形のメタデータを渡し、`JSON.parse()` 成功と160件の搭載を確認する形に直した（空のメタデータではJSONとして不正な文字列でもバイト数検査だけ通っていた）。実測 **29,331バイト**。
 
+## main統合と公開（2026-09-23〜24）
+
+4回目の監査（`5347afa`）合格後、最新main（武器のレア度発光・ネオン、PR74/75/77）を統合した際、`src/client/weapon-rarity-glow.ts` がネオンの輪郭を元の3丁分しか持たず、新しい武器の装備で例外が出る不整合を発見。`modelOf(kind)` で3つのモデル輪郭へ対応付けて修正し、5回目の監査（`1b6e77d`）で合格・必須0。
+
+- main: [PR76](https://github.com/futsalife24-bot/swarm-front/pull/76) merge `f62d5f29bfa814914bb630e5dacf58de2b4117d9`
+- 公開: 既存Worker `swarm-front`、Worker Version `396a80bd-44a9-439a-bf41-f2aae48cfec8`
+- 配信照合: 公開対象191ファイルのSHA256がdistと全一致、`/api/health` 200
+
 ## 検証
 
 - `npm run typecheck`（client / worker 両方）: 成功
