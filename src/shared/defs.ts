@@ -3,14 +3,57 @@ export const EVADE_DURATION = 0.32;
 export const WEAPON_SWITCH_DURATION = 0.5;
 export const WEAPON_SWITCH_RESUME = 0.08;
 export const HEAVY_HIT_DURATION = 1.2;
-export type Kind = "rifle" | "shotgun" | "rocket";
+// A family is what a weapon *is* mechanically; a kind is one weapon in it. The
+// three original kinds keep their own names as kind strings so every save made
+// before families existed still loads and fights identically.
+export const FAMILIES = [
+  "rifle",
+  "shotgun",
+  "rocket",
+  "sniper",
+  "grenade",
+  "special",
+] as const;
+export type Family = (typeof FAMILIES)[number];
+export const FAMILY_NAMES: Record<Family, string> = {
+  rifle: "ライフル",
+  shotgun: "ショットガン",
+  rocket: "ロケット",
+  sniper: "スナイパー",
+  grenade: "グレネード",
+  // Deliberately a slot, not a mechanic: it holds whatever does not belong to
+  // one of the five shooting families, and it can hold more than two.
+  special: "特殊",
+};
+export type Kind =
+  | "rifle"
+  | "smg"
+  | "shotgun"
+  | "slug"
+  | "rocket"
+  | "heavy"
+  | "sniper"
+  | "grenade"
+  | "sticky"
+  | "laser"
+  | "kick"
+  | "medic";
 export type Effect =
   "none" | "pierce" | "quick" | "reserve" | "repel" | "chain";
 // One flat pool per kind; legacy quick and shotgun pierce remain loadable.
 export const EFFECT_POOLS: Record<Kind, readonly Effect[]> = {
   rifle: ["reserve", "pierce"],
+  smg: ["reserve", "pierce"],
   shotgun: ["reserve", "repel"],
+  slug: ["reserve", "repel"],
   rocket: ["reserve", "chain"],
+  heavy: ["reserve", "chain"],
+  sniper: ["reserve", "pierce"],
+  grenade: ["reserve", "chain"],
+  sticky: ["reserve", "chain"],
+  laser: ["reserve", "pierce"],
+  kick: ["reserve", "repel"],
+  medic: ["reserve", "pierce"],
 };
 // Every figure a weapon shows is rolled, not just damage. With one rolled stat
 // a single best weapon dominated its whole family and the other seven slots
@@ -29,9 +72,15 @@ export interface Weapon {
   // Absent on weapons saved before rolls existed; those read as base values.
   rolls?: Partial<Record<Roll, number>>;
 }
+// `family` is the mechanic; `falloff` picks the distance curve; `pierce` is how
+// many bodies one shot passes through before any special effect is considered.
+// `speed`/`gravity` make the shot a projectile, `zoom` a scoped weapon, and
+// `beam` draws the tracer as a continuous lance instead of a bullet streak.
+// The three original kinds keep their exact pre-family numbers.
 export const WEAPONS = {
   rifle: {
     name: "AR-9 リーフ",
+    family: "rifle",
     damage: 24,
     interval: 0.13,
     mag: 32,
@@ -40,9 +89,26 @@ export const WEAPONS = {
     pellets: 1,
     spread: 0.008,
     radius: 0,
+    falloff: "rifle",
+    pierce: 1,
+  },
+  smg: {
+    name: "SMG-3 ワスプ",
+    family: "rifle",
+    damage: 13,
+    interval: 0.07,
+    mag: 45,
+    reload: 1.5,
+    range: 38,
+    pellets: 1,
+    spread: 0.022,
+    radius: 0,
+    falloff: "smg",
+    pierce: 1,
   },
   shotgun: {
     name: "SG-4 ブレイカー",
+    family: "shotgun",
     damage: 19,
     interval: 0.8,
     mag: 7,
@@ -51,9 +117,26 @@ export const WEAPONS = {
     pellets: 8,
     spread: 0.1,
     radius: 0,
+    falloff: "shotgun",
+    pierce: 3,
+  },
+  slug: {
+    name: "SG-7 スパイク",
+    family: "shotgun",
+    damage: 110,
+    interval: 0.85,
+    mag: 6,
+    reload: 2.2,
+    range: 45,
+    pellets: 1,
+    spread: 0.012,
+    radius: 0,
+    falloff: "rifle",
+    pierce: 3,
   },
   rocket: {
     name: "RL-2 コメット",
+    family: "rocket",
     damage: 170,
     interval: 1.15,
     mag: 2,
@@ -62,8 +145,174 @@ export const WEAPONS = {
     pellets: 1,
     spread: 0,
     radius: 6.5,
+    falloff: "none",
+    pierce: 1,
+    speed: 28,
+  },
+  heavy: {
+    name: "RL-9 メテオ",
+    family: "rocket",
+    damage: 430,
+    interval: 1.7,
+    mag: 1,
+    reload: 4,
+    range: 80,
+    pellets: 1,
+    spread: 0,
+    radius: 11,
+    falloff: "none",
+    pierce: 1,
+    speed: 20,
+  },
+  sniper: {
+    name: "SR-1 ソーン",
+    family: "sniper",
+    damage: 165,
+    interval: 1.05,
+    mag: 6,
+    reload: 2.4,
+    range: 140,
+    pellets: 1,
+    spread: 0,
+    radius: 0,
+    falloff: "none",
+    pierce: 1,
+    zoom: 2.4,
+  },
+  grenade: {
+    name: "GL-6 ホロウ",
+    family: "grenade",
+    damage: 90,
+    interval: 0.6,
+    mag: 5,
+    reload: 2.6,
+    range: 55,
+    pellets: 1,
+    spread: 0.006,
+    radius: 5,
+    falloff: "none",
+    pierce: 1,
+    speed: 24,
+    gravity: 14,
+  },
+  sticky: {
+    name: "ST-3 リンバー",
+    family: "grenade",
+    damage: 135,
+    interval: 0.8,
+    mag: 4,
+    reload: 2.9,
+    range: 50,
+    pellets: 1,
+    spread: 0.006,
+    radius: 4.2,
+    falloff: "none",
+    pierce: 1,
+    speed: 22,
+    gravity: 16,
+  },
+  // The other way to hold a long lane: no magnification and a fraction of the
+  // damage per tick, but it pierces three bodies and never stops firing, so a
+  // line of advancing enemies is cleared rather than picked off one at a time.
+  laser: {
+    name: "LZ-2 グリム",
+    family: "sniper",
+    damage: 8,
+    interval: 0.045,
+    mag: 120,
+    reload: 3,
+    range: 95,
+    pellets: 1,
+    spread: 0,
+    radius: 0,
+    falloff: "none",
+    pierce: 3,
+    beam: true,
+    zoom: 1.6,
+  },
+  // Fires backwards as much as forwards: the shot is the escape. `recoil` is
+  // how far it throws the shooter, applied through the same stepped move() the
+  // shotgun's repel uses, so it cannot push anyone through a wall.
+  kick: {
+    name: "KB-6 ケストレル",
+    family: "special",
+    damage: 34,
+    interval: 0.9,
+    mag: 3,
+    reload: 2.4,
+    range: 14,
+    pellets: 5,
+    spread: 0.09,
+    radius: 0,
+    falloff: "shotgun",
+    pierce: 1,
+    recoil: 9,
+  },
+  // `heal` retargets the shot at teammates. The figure in `damage` is the
+  // amount restored per pellet, so grade and variance scale healing exactly as
+  // they scale damage and nothing in the progression system needs a second path.
+  // It is a spread rather than a single ray on purpose: hitting a moving
+  // teammate with one thin line, on a phone, is not a thing anyone can do.
+  // The cone is kept moderate deliberately -- widening it past the size of a
+  // teammate makes the weapon worse at range, not better, because the shot
+  // then spreads around them. Forgiveness comes from the cone giving partial
+  // credit for imperfect aim, and from HEAL_RADIUS below.
+  medic: {
+    name: "MD-4 ブルーム",
+    family: "special",
+    damage: 9,
+    interval: 1.1,
+    mag: 5,
+    reload: 2.6,
+    range: 45,
+    pellets: 7,
+    spread: 0.05,
+    radius: 0,
+    falloff: "none",
+    pierce: 1,
+    heal: true,
   },
 } as const;
+export const familyOf = (kind: Kind): Family => WEAPONS[kind].family;
+// Which shipped model a weapon is drawn with. Only the three original kinds
+// have GLBs (`<name>_<grade>.glb`), so every kind must resolve to one of them
+// or its model request 404s and the battle never finishes loading. This is the
+// silhouette a weapon is held with, which is not always its family: the
+// kickback blast is a special-family weapon shaped like a shotgun.
+export type ModelKind = "rifle" | "shotgun" | "rocket";
+export const MODEL_OF: Record<Kind, ModelKind> = {
+  rifle: "rifle",
+  smg: "rifle",
+  shotgun: "shotgun",
+  slug: "shotgun",
+  rocket: "rocket",
+  heavy: "rocket",
+  sniper: "rifle",
+  grenade: "rocket",
+  sticky: "rocket",
+  laser: "rifle",
+  kick: "shotgun",
+  medic: "rifle",
+};
+export const modelOf = (kind: Kind): ModelKind => MODEL_OF[kind];
+// Support fire is checked against a deliberately generous cylinder. A teammate
+// is a moving, friendly target that the player is trying to help, so the cost
+// of being slightly off should be a smaller heal, never a wasted round.
+export const HEAL_RADIUS = 1.8;
+// Only scoped weapons carry a magnification; everything else keeps the 2x the
+// scope button has always given.
+export const zoomOf = (kind: Kind): number =>
+  "zoom" in WEAPONS[kind] ? (WEAPONS[kind] as { zoom: number }).zoom : 2;
+export const KINDS = Object.keys(WEAPONS) as Kind[];
+// Drop rolls pick a family first and the weapon inside it second, so adding a
+// family never halves how often any existing one is seen.
+export const FAMILY_KINDS: Record<Family, readonly Kind[]> = FAMILIES.reduce(
+  (all, family) => ({
+    ...all,
+    [family]: KINDS.filter((kind) => WEAPONS[kind].family === family),
+  }),
+  {} as Record<Family, readonly Kind[]>,
+);
 // `aim` is the body centre used by bullets and aim assist, measured from the unit's
 // own base. `cruise` is how high that base floats; ground units keep it at 0, so
 // their hit boxes are unchanged.
@@ -184,9 +433,11 @@ export function isSpecialEffect(effect: Effect, kind: Kind) {
   return (
     effect !== "none" &&
     effect !== "quick" &&
-    !(kind === "shotgun" && effect === "pierce")
+    // Pierce is not a special effect on a weapon that already pierces as standard.
+    !(effect === "pierce" && WEAPONS[kind].pierce > 1)
   );
 }
+// Deliberately still the three originals. New families are found, not issued.
 export const STARTERS: Weapon[] = (
   ["rifle", "shotgun", "rocket"] as Kind[]
 ).map((kind) => ({
@@ -206,6 +457,13 @@ export const LIMITS = {
   inputHz: 20,
   snapshotHz: 10,
   messageBytes: 2048,
+  // Undelivered events only: delivered ones are retired (retireEvents), so this
+  // bounds one broadcast interval. Anything dropped is never sent, because
+  // prepareState() can only forward what is still in the buffer. One wide
+  // blast over a crowd, or a beam firing several times in a tick, produces a
+  // hundred at once. Raising this without limit is not free either -- a state
+  // payload over 65,536 bytes disconnects the player.
+  events: 160,
   reconnectMs: 30000,
   roomMs: 3600000,
   idleMs: 180000,
@@ -229,9 +487,12 @@ export function validWeapon(w: unknown): w is Weapon {
         ))) &&
     Object.hasOwn(EFFECTS, v.effect) &&
     (v.effect === "none" || v.rarity > 0) &&
-    (v.effect !== "pierce" || v.kind !== "rocket") &&
-    (v.effect !== "repel" || v.kind === "shotgun") &&
-    (v.effect !== "chain" || v.kind === "rocket")
+    // Pierce stays family-gated so legacy shotgun-pierce saves still load;
+    // repel and chain are simply whatever that weapon can actually roll.
+    (v.effect !== "pierce" ||
+      !["rocket", "grenade"].includes(WEAPONS[v.kind].family)) &&
+    (v.effect !== "repel" || EFFECT_POOLS[v.kind].includes("repel")) &&
+    (v.effect !== "chain" || EFFECT_POOLS[v.kind].includes("chain"))
   );
 }
 

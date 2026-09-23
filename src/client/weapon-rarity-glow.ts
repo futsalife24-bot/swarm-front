@@ -1,13 +1,19 @@
 import * as T from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { weaponTier } from "../shared/progression";
-import type { Weapon, Kind } from "../shared/defs";
+import {
+  modelOf,
+  type Weapon,
+  type Kind,
+  type ModelKind,
+} from "../shared/defs";
 
 const COLORS = [0x92aaa6, 0x83d8b0, 0x7cbdf4, 0xd5a4f4, 0xffd472];
 // Authored in the Blender source basis: forward, height, half-width (metres).
 // Trace the major silhouette, not screws, rail teeth or overlapping mesh edges.
 type Point = [number, number, number];
-const PROFILES: Record<Kind, Point[]> = {
+// One trace per shipped model: every kind is drawn with one of these three.
+const PROFILES: Record<ModelKind, Point[]> = {
   rifle: [
     [-0.34, 0.076, 0.034],
     [-0.25, 0.096, 0.034],
@@ -88,7 +94,7 @@ const PROFILES: Record<Kind, Point[]> = {
 export function neonGeometry(kind: Kind, radius: number) {
   const tubes: T.BufferGeometry[] = [];
   for (const side of [-1, 1]) {
-    const points = PROFILES[kind].map(
+    const points = PROFILES[modelOf(kind)].map(
       ([forward, up, width]) => new T.Vector3(side * width, up, -forward),
     );
     const path = new T.CurvePath<T.Vector3>();

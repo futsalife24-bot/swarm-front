@@ -23,7 +23,13 @@ import {
   type AccessoryKind,
   type Difficulty,
 } from "../shared/progression";
-import { WEAPONS, validWeapon, type Kind } from "../shared/defs";
+import {
+  WEAPONS,
+  FAMILIES,
+  familyOf,
+  validWeapon,
+  type Kind,
+} from "../shared/defs";
 import { parseSave, fresh, SAVE_KEY, type Save } from "./save";
 export type SaveMode = "normal" | "test";
 export const legacyProgressKey = "swarm-front-progression-v2-normal";
@@ -257,8 +263,10 @@ export function validateProgress(s: ProgressSave) {
   if (
     new Set(ids).size !== ids.length ||
     s.inventory.length > CAPACITY.total ||
-    Object.keys(WEAPONS).some(
-      (k) => s.inventory.filter((w) => w.kind === k).length > CAPACITY.perKind,
+    FAMILIES.some(
+      (f) =>
+        s.inventory.filter((w) => familyOf(w.kind) === f).length >
+        CAPACITY.perKind,
     )
   )
     throw new Error("武器保存の上限・IDが不正です");
@@ -554,7 +562,8 @@ export function bank(s: ProgressSave, items: StoredWeapon[]) {
     ids.add(w.id);
     if (
       s.inventory.length < CAPACITY.total &&
-      s.inventory.filter((a) => a.kind === w.kind).length < CAPACITY.perKind
+      s.inventory.filter((a) => familyOf(a.kind) === familyOf(w.kind)).length <
+        CAPACITY.perKind
     )
       s.inventory.push(w);
     else s.pending.push(w);

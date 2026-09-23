@@ -7,6 +7,9 @@ import {
   ROLL,
   ROLLS,
   WEAPONS,
+  KINDS,
+  FAMILIES,
+  familyOf,
   quality,
   stats,
   LR_QUALITY,
@@ -51,8 +54,13 @@ describe("authoritative combat", () => {
     spawn(w, "boss", 0, -20);
     const i = { ...neutral(), fire: true };
     for (let n = 0; n < 20; n++) step(w, { p: i });
-    expect(p.ammo[0]).toBe(25);
-    expect(w.enemies[0].maxHp - w.enemies[0].hp).toBeCloseTo(7 * 24);
+    // Eight, not seven. The cooldown used to be reset to a whole interval on
+    // every shot, which rounded every weapon up to the 50ms tick: the rifle's
+    // 0.13s became 0.15s and it fired at 6.7 rounds a second while its own
+    // stat line claimed 7.7. The remainder is carried now, so the cadence is
+    // the one the weapon advertises.
+    expect(p.ammo[0]).toBe(24);
+    expect(w.enemies[0].maxHp - w.enemies[0].hp).toBeCloseTo(8 * 24);
   });
   it("blocks bullets and aim assistance through a building", () => {
     const { w, p } = fixture();
@@ -134,7 +142,18 @@ describe("authoritative combat", () => {
     expect(items.slice(0, 1793).every(validWeapon)).toBe(true);
     expect(items.every(validWeapon)).toBe(true);
     expect(new Set(items.map((w) => w.id)).size).toBe(100000);
-    expect(new Set(items.map((w) => w.kind)).size).toBe(3);
+    expect(new Set(items.map((w) => w.kind)).size).toBe(KINDS.length);
+    expect(new Set(items.map((w) => familyOf(w.kind))).size).toBe(
+      FAMILIES.length,
+    );
+    // Families are drawn evenly and a family's own weapons split its share, so
+    // adding a family must not change how often any existing family is seen.
+    for (const family of FAMILIES) {
+      const share =
+        items.filter((w) => familyOf(w.kind) === family).length / items.length;
+      expect(share).toBeGreaterThan(1 / FAMILIES.length - 0.02);
+      expect(share).toBeLessThan(1 / FAMILIES.length + 0.02);
+    }
     // Four tiers now: R, SR, SSR, and the LR an SSR is promoted into.
     expect(new Set(items.map((w) => w.rarity))).toEqual(new Set([0, 1, 2, 3]));
     expect(items.some((w) => w.effect === "pierce")).toBe(true);

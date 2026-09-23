@@ -1,4 +1,10 @@
-import { LIMITS, STARTERS, validWeapon, type Weapon } from "../shared/defs";
+import {
+  LIMITS,
+  STARTERS,
+  familyOf,
+  validWeapon,
+  type Weapon,
+} from "../shared/defs";
 import { CAPACITY, weaponYield } from "../shared/progression";
 export const SAVE_KEY = "swarm-front-save-v1";
 export interface Save {
@@ -94,8 +100,8 @@ export function parseSave(raw: string | null): Save {
 export function trimToKindCap(save: Save) {
   const keep = new Set<string>();
   const removed: Weapon[] = [];
-  for (const kind of new Set(save.inventory.map((w) => w.kind))) {
-    const family = save.inventory.filter((w) => w.kind === kind);
+  for (const name of new Set(save.inventory.map((w) => familyOf(w.kind)))) {
+    const family = save.inventory.filter((w) => familyOf(w.kind) === name);
     const ranked = [...family].sort(
       (a, b) =>
         Number(save.equipped.includes(b.id)) -
@@ -122,7 +128,7 @@ export function rewards(save: Save, run: string, items: Weapon[]) {
   const ids = new Set(next.inventory.map((w) => w.id));
   const overflow: Weapon[] = [];
   const held = (kind: Weapon["kind"]) =>
-    next.inventory.filter((w) => w.kind === kind).length;
+    next.inventory.filter((w) => familyOf(w.kind) === familyOf(kind)).length;
   for (const item of items) {
     if (!validWeapon(item)) throw new Error("報酬が不正です");
     if (ids.has(item.id)) continue;
@@ -192,8 +198,8 @@ export function dismantleWeapons(save: Save, ids: string[]): Save {
     if (
       next.inventory.length <
         (save.sharedArmory ? CAPACITY.total : LIMITS.inventory) &&
-      next.inventory.filter((a) => a.kind === w.kind).length <
-        (save.sharedArmory ? CAPACITY.perKind : LIMITS.perKind)
+      next.inventory.filter((a) => familyOf(a.kind) === familyOf(w.kind))
+        .length < (save.sharedArmory ? CAPACITY.perKind : LIMITS.perKind)
     )
       next.inventory.push(w);
     else waiting.push(w);

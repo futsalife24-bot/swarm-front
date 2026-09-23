@@ -23,8 +23,8 @@ import { EnemySpawnEffects } from "./enemy-spawn-effects";
 import { MAPS, DEFENSE_MAPS, mapFor } from "../shared/stages";
 import * as T from "three";
 import { enemyGeometry, mechanizeMaterial } from "./enemy-model";
-import { ENEMIES, EVADE_DURATION } from "../shared/defs";
-import { NORMAL_FOV, SCOPE_FOV } from "../shared/aim";
+import { ENEMIES, EVADE_DURATION, modelOf, zoomOf } from "../shared/defs";
+import { NORMAL_FOV, SCOPE_FOV, scopeFov } from "../shared/aim";
 import { aimCamera, cameraShot } from "../shared/game";
 import { FoundryWormView, FOUNDRY_WORM_ASSET } from "./foundry-worm";
 import {
@@ -287,6 +287,10 @@ export class Renderer {
   spawnEffects = new EnemySpawnEffects(this.scene);
   lastEvent = 0;
   run = "";
+  /** Last event id drawn from this run; 0 for any other run. */
+  consumed(run: string) {
+    return run === this.run ? this.lastEvent : 0;
+  }
   visual = new Map<string, T.Vector3>();
   private crawlerAim = new Map<
     number,
@@ -313,11 +317,19 @@ export class Renderer {
     life: number;
   }[] = [];
   spare: HTMLElement[] = [];
-  showDamage(x: number, y: number, z: number, amount: number, mine: boolean) {
+  showDamage(
+    x: number,
+    y: number,
+    z: number,
+    amount: number,
+    mine: boolean,
+    heal = false,
+  ) {
     if (this.floaters.length >= 28) return;
     const el = this.spare.pop() ?? document.createElement("span");
-    el.textContent = String(amount);
-    el.className = "damage-number" + (mine ? "" : " ally");
+    el.textContent = (heal ? "+" : "") + String(amount);
+    el.className =
+      "damage-number" + (mine ? "" : " ally") + (heal ? " heal" : "");
     this.damageLayer.append(el);
     this.floaters.push({ el, x, y, z, life: 0.75 });
   }
@@ -867,7 +879,10 @@ export class Renderer {
     if (droneActive) scoped = false;
     const localAim = w && local ? cameraShot(w, local, { yaw, pitch }) : null;
     scoped = scoped && !!local && local.hp > 0 && local.swapCd <= 0;
-    const fov = scoped ? SCOPE_FOV : NORMAL_FOV;
+    const held = local?.weapons[local.slot];
+    const fov = scoped
+      ? scopeFov(held ? zoomOf(held.kind) : undefined)
+      : NORMAL_FOV;
     if (this.camera.fov !== fov) {
       this.camera.fov = fov;
       this.camera.updateProjectionMatrix();
@@ -998,11 +1013,9 @@ export class Renderer {
         const gun = m.userData.gun as T.Group;
         if (!m.userData.trooper)
           gun.scale.setScalar(
-            p.weapons[p.slot].kind === "rocket"
-              ? 1.7
-              : p.weapons[p.slot].kind === "shotgun"
-                ? 1.2
-                : 1,
+            { rocket: 1.7, shotgun: 1.2, rifle: 1 }[
+              modelOf(p.weapons[p.slot].kind)
+            ],
           );
       }
       this.houndVisualInputs.length = 0;
@@ -1471,6 +1484,10 @@ export class Renderer {
           if (mine || this.damageNumbers === "all")
             this.showDamage(e.x, e.y, e.z, e.amount, mine);
         }
+        // Healing is never hidden by the damage-number setting: it is the only
+        // confirmation the support player gets that the shot did anything.
+        if (e.type === "heal" && e.amount)
+          this.showDamage(e.x, e.y, e.z, e.amount, e.owner === id, true);
         if (e.owner === id || e.type === "down") this.onSound(e.type);
       }
       const p = w.players.find((p) => p.id === id);

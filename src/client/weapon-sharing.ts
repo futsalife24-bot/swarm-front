@@ -1,6 +1,6 @@
 import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { WEAPONS, stats } from "../shared/defs";
+import { WEAPONS, modelOf, stats } from "../shared/defs";
 import {
   GRADES,
   VARIANCE_KEYS,
@@ -27,7 +27,7 @@ async function sceneFor(w: StoredWeapon, width: number, height: number) {
   scene.add(light);
   try {
     const gltf = await new GLTFLoader().loadAsync(
-      `${import.meta.env.BASE_URL}assets/weapons/realism-v2/${w.kind}_${w.rarity}.glb`,
+      `${import.meta.env.BASE_URL}assets/weapons/realism-v2/${modelOf(w.kind)}_${w.rarity}.glb`,
     );
     const box = new T.Box3().setFromObject(gltf.scene),
       center = box.getCenter(new T.Vector3()),

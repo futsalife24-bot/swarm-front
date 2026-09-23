@@ -40,6 +40,7 @@ import {
   createWorld,
   finish,
   neutral,
+  retireEvents,
   start,
   step,
   validInput,
@@ -1288,7 +1289,11 @@ export class Room extends DurableObject<Env> {
           s.equipmentKey = state!.equipmentKey;
       } else this.send(ws, { type: "lobby", ...metadata });
     }
-    if (w) this.sentEvent = w.eventSerial;
+    if (w) {
+      this.sentEvent = w.eventSerial;
+      // Sent events only take up room the next tick's events need.
+      retireEvents(w, this.sentEvent);
+    }
   }
   run() {
     if (this.timer) return;
