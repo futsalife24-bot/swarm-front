@@ -17,6 +17,7 @@ import {
   stepTraining,
 } from "../shared/training";
 import { WEAPONS, stats, STARTERS, type Weapon } from "../shared/defs";
+import { retireEvents } from "../shared/game";
 import { fresh, type Save } from "./save";
 import { updateCooldowns } from "./hud";
 import { installZoomGuard } from "./zoom-guard";
@@ -138,6 +139,10 @@ function frame(now: number) {
     active,
     controls.scoped,
     controls.aiming,
+  );
+  retireEvents(
+    world,
+    Math.min(view.consumed(world.run), sound.consumed(world.run)),
   );
 }
 requestAnimationFrame(frame);

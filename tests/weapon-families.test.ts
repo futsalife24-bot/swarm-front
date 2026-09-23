@@ -26,7 +26,9 @@ import {
   spawn,
   event,
   falloff,
+  retireEvents,
 } from "../src/shared/game";
+import { CombatAudio } from "../src/client/combat-audio";
 
 // The three kinds that existed before families did. Their numbers are load-
 // bearing for every save already on a player's device, so they are asserted
@@ -462,6 +464,7 @@ describe("weapon families", () => {
   it("drops damage numbers rather than sounds when the buffer overflows", () => {
     const w = createWorld("overflow", 9);
     addPlayer(w, "p");
+    addPlayer(w, "q");
     start(w);
     w.nextSpawn = 1e9;
     w.enemies.length = 0;
@@ -474,6 +477,10 @@ describe("weapon families", () => {
       if (n % 25 === 0)
         event(w, { type: "kill", x: 0, y: 0, z: 0, owner: "p" });
     }
+    // A second shooter's only hit is the one thing carrying its impact sound.
+    event(w, { type: "hit", amount: 1, x: 0, y: 0, z: 0, owner: "q" });
+    for (let n = 0; n < 40; n++)
+      event(w, { type: "hit", amount: 1, x: 0, y: 0, z: 0, owner: "p" });
     const kept = w.events;
     expect(kept.length).toBeLessThanOrEqual(LIMITS.events);
     // Every sound-bearing event survives; only the numbers were given up.
@@ -483,6 +490,70 @@ describe("weapon families", () => {
     expect(kept.filter((e) => e.type === "kill")).toHaveLength(
       Math.ceil((LIMITS.events * 2) / 25),
     );
+    // The impact sound is keyed per shooter, so each shooter keeps a hit.
+    expect(kept.some((e) => e.type === "hit" && e.owner === "q")).toBe(true);
+    expect(kept.some((e) => e.type === "hit" && e.owner === "p")).toBe(true);
+  });
+
+  it("still sends a hit after the buffer has once been filled and delivered", () => {
+    // The host sends every 100 ms. Before retiring, 160 delivered shots sat in
+    // the buffer for good and every later hit was dropped on arrival: the
+    // enemy lost health but no number or impact sound ever reached a client.
+    const { w, p } = shooter("rifle");
+    p.x = 0;
+    p.z = 0;
+    let sent = 0;
+    const broadcast = () => {
+      const packet = prepareState(w, sent, { members: [] }).packet("p");
+      sent = w.eventSerial;
+      retireEvents(w, sent);
+      return JSON.parse(packet).world.events as { type: string }[];
+    };
+    const sky = { ...neutral(), fire: true, yaw: 0, pitch: 0.9 };
+    const first = w.eventSerial;
+    for (let tick = 0; w.eventSerial - first < LIMITS.events; tick++) {
+      p.ammo[p.slot] = 32;
+      p.reload = 0;
+      step(w, { p: sky });
+      if (tick % 2) broadcast();
+    }
+    broadcast();
+    expect(w.events).toHaveLength(0);
+
+    spawn(w, "ant", 0, -4);
+    w.enemies[0].hp = 1e6;
+    p.ammo[p.slot] = 32;
+    p.cool = 0;
+    step(w, { p: { ...neutral(), fire: true, yaw: 0, pitch: 0 } });
+    expect(broadcast().some((e) => e.type === "hit")).toBe(true);
+  });
+
+  it("retires in solo only what the sound has taken", () => {
+    // Solo has no host: the loop retires what its consumers have taken. The
+    // audio cursor is per run, so a stale tracker never retires a new run.
+    const { w, p } = shooter("rifle");
+    p.x = 0;
+    p.z = 0;
+    const audio = new CombatAudio();
+    audio.collect(w);
+    const sky = { ...neutral(), fire: true, yaw: 0, pitch: 0.9 };
+    for (let tick = 0; tick < 80; tick++) {
+      p.ammo[p.slot] = 32;
+      p.reload = 0;
+      step(w, { p: sky });
+      audio.collect(w);
+      retireEvents(w, audio.consumed(w.run));
+    }
+    expect(w.events).toHaveLength(0);
+    expect(new CombatAudio().consumed(w.run)).toBe(0);
+
+    spawn(w, "ant", 0, -4);
+    w.enemies[0].hp = 1e6;
+    p.ammo[p.slot] = 32;
+    p.cool = 0;
+    step(w, { p: { ...neutral(), fire: true, yaw: 0, pitch: 0 } });
+    const cues = audio.collect(w).map((c) => c.type);
+    expect(cues).toContain("impactShell");
   });
 
   it("stays inside the broadcast size limit with the buffer full", () => {
@@ -505,10 +576,22 @@ describe("weapon families", () => {
         z: 123.456,
         owner: "player-with-a-long-identifier",
       });
-    const bytes = new TextEncoder().encode(
-      prepareState(w, -1, {}).packet("p"),
-    ).length;
-    // Measured at 29,210 bytes for a full buffer, 40 enemies and deliberately
+    // Metadata shaped like the Worker's. An empty object produced a packet
+    // that was not even valid JSON, so the byte count proved less than it said.
+    const packet = prepareState(w, -1, {
+      members: [
+        {
+          id: "p",
+          name: "player-with-a-long-name",
+          ready: true,
+          connected: true,
+        },
+      ],
+      stage: 1,
+      preparationGeneration: 0,
+    }).packet("p");
+    expect(JSON.parse(packet).world.events).toHaveLength(LIMITS.events);
+    const bytes = new TextEncoder().encode(packet).length; // Measured at 29,210 bytes for a full buffer, 40 enemies and deliberately
     // long field values. The margin is asserted rather than the hard ceiling,
     // so a change that doubles the payload fails here instead of in the wild.
     expect(bytes).toBeLessThan(45000);

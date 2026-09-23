@@ -287,6 +287,10 @@ export class Renderer {
   spawnEffects = new EnemySpawnEffects(this.scene);
   lastEvent = 0;
   run = "";
+  /** Last event id drawn from this run; 0 for any other run. */
+  consumed(run: string) {
+    return run === this.run ? this.lastEvent : 0;
+  }
   visual = new Map<string, T.Vector3>();
   private crawlerAim = new Map<
     number,

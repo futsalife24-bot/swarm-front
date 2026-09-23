@@ -44,6 +44,10 @@ export class CombatAudio {
     { wind: number; cool: number; jump: number; lunge: number }
   >();
   private projectiles = new Set<number>();
+  /** Last event id taken from this run; 0 for any other run. */
+  consumed(run: string) {
+    return run === this.run ? this.event : 0;
+  }
   collect(w: World, active = true): Cue[] {
     const fresh = this.run !== w.run;
     if (fresh) {

@@ -596,14 +596,32 @@ export function visible(
 }
 export function event(w: World, e: Omit<Event, "id">) {
   w.events.push({ ...e, id: ++w.eventSerial });
-  // When the buffer is full the damage numbers give way. Every other event
-  // drives a sound or an effect with no second route to the client: drop the
-  // blast and the explosion is silent and invisible even though the damage
-  // landed. A hit that is dropped costs one number on screen.
+  // The buffer holds only what has not been delivered yet: the host and the
+  // solo loop retire everything their consumers have taken (retireEvents).
+  // Overflow therefore means one delivery interval produced more than the
+  // buffer holds, and what gives way first is a hit that another hit from the
+  // same shooter still covers. That costs one damage number and no sound: the
+  // impact sound is keyed per shooter, so the later hit still plays it.
   while (w.events.length > LIMITS.events) {
-    const spare = w.events.findIndex((v) => v.type === "hit");
+    let spare = -1;
+    const later = new Set<string | undefined>();
+    for (let i = w.events.length - 1; i >= 0; i--) {
+      const v = w.events[i];
+      if (v.type !== "hit") continue;
+      if (later.has(v.owner)) spare = i;
+      later.add(v.owner);
+    }
+    // Nothing redundant left: more than LIMITS.events distinct sounds and
+    // effects in one interval. The oldest goes, because a payload over the
+    // socket limit disconnects the player, which loses everything.
     w.events.splice(spare < 0 ? 0 : spare, 1);
   }
+}
+/** Drops events every consumer has taken. Without this, delivered events
+ * filled the buffer and each new hit was dropped the moment it arrived. */
+export function retireEvents(w: World, delivered: number) {
+  if (w.events.length && w.events[0].id <= delivered)
+    w.events = w.events.filter((e) => e.id > delivered);
 }
 export function spawn(
   w: World,

@@ -76,6 +76,7 @@ import {
   addPlayer,
   createWorld,
   neutral,
+  retireEvents,
   start,
   step,
   type World,
@@ -1775,6 +1776,13 @@ function updateFrame(now: number) {
     controls.scoped,
     controls.aiming,
   );
+  // Solo has no host to retire sent events: drop what both the picture and
+  // the sound have taken, so the buffer only holds what is still owed.
+  if (mode === "solo" && screen === "battle" && world)
+    retireEvents(
+      world,
+      Math.min(view.consumed(world.run), sound.consumed(world.run)),
+    );
   if (screen === "battle" && world)
     minimap.draw(world, myId, controls.input.yaw, now);
 }

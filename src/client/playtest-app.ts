@@ -71,6 +71,7 @@ import {
   random,
   eye,
   rayVisible,
+  retireEvents,
   type World,
   type Enemy,
 } from "../shared/game";
@@ -1055,6 +1056,13 @@ function frame(now: number) {
       active && (screen === "battle" || screen === "collection"),
       controls.scoped,
       controls.aiming,
+    );
+  // Only what both the picture and the sound have taken is retired, so an
+  // introduction that skips drawing keeps its events for the next frame.
+  if (world)
+    retireEvents(
+      world,
+      Math.min(view.consumed(world.run), sound.consumed(world.run)),
     );
   // A new spawn must exist in the scene before the camera freezes for its introduction.
   if (rendered && active && screen === "battle" && !encounterActive)
