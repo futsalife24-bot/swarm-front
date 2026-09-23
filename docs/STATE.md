@@ -1,3 +1,6 @@
+# 現在地: iab復旧・HARROW初回監査3件を修正、再監査準備（2026-09-24）
+
+初回0120db6の判定は要修正、F1/P1旧中断進行不能・F2/P2空中Spin・F3/P2岩上追跡で沈む。F1/F2既修正に加え `efcaef1` でF3と監査実例の回帰追加。HARROW17件・checkpoint16件・両型成功。任意O1の被弾中心球とO2実スマホ未測定も記録。iabは対象タスクへnavigateして接続復旧し、同じ監査Chatへ修正版ZIPを送信予定。main反映・公開は判定後。詳細は [HARROW記録](HARROW-INTEGRATION.md)。下記の未接続記録は過去時点。
 # 現在地: HARROWと最新武器12丁の統合・再監査待ち（2026-09-24）
 
 [PR78](https://github.com/futsalife24-bot/swarm-front/pull/78)。統合実装HEAD `5190ddfd8e24d06e8ef07968bc0837b729f6fb1c`、最新main/base `21468bba58c9bc5f222f481ef0ce8b859f1a160d`。作業場所は `../harrow-integration`、branch `codex/harrow-main-integration`。元の `game/` の別作業差分（設定・Claude・敗北導線）は保護し取り込んでいない。PRの既存branchへfast-forwardで保存する。

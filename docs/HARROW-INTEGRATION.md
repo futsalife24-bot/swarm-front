@@ -140,3 +140,10 @@ v6素材・採用SHA・4画像・実loader数値検証、検証専用Rendererで
 - 実ローカルWorker＋WebSocket2接続11項目成功。client本番build成功（chunk警告あり）、production Worker dry-run成功235.73KiB/gzip64.39KiB、公開なし。最初のdry-runはclient build終了前でdistなしだったため、完了後に再実行して成功。
 - 証拠: `dist-validation/harrow/integrated-{types,related,campaign,stages,network,build,dry-run}.log`、`network.json`、`dist-validation/playtest-v1/clear-sweep.json`。
 - 独立監査はiab未接続で継続不可。初回の最終判定・修正版判定は未取得。再監査資料を保存し、接続復旧後に同じChatへ送信する。main反映・公開は未完了。
+## 2026-09-24 初回監査結果取得・必須3件修正
+
+iabは対象タスクへのnavigateで復旧。初回0120db6の独立判定は要修正（F1/P1旧中断進行不能、F2/P2空中Spin、F3/P2岩着地後の追跡で地面へ沈む）。F1/F2は40c2443までに修正済み。F3は `efcaef1` で地上追跡のmove支持高さを保持し、飛行時だけ高度補正へ変更。
+
+F1の監査再現値ST7 wave1 spawned23、ST20 wave4 spawned108を実read/hurtEnemy/step経路で回帰に追加しcheckpoint16件成功。F3は実ST20岩4m・倉庫屋上6mのLand→追跡→停止→Spin完了と縁の降下を追加しHARROW17件成功、client/worker型成功。実ブラウザの岩上表示は未確認。素材は変更なし。任意O1は現状の被弾中心球（原点上2.73m・半径2.21m）が全身形状追従ではないと記録。任意O2の実スマホ負荷は未測定。
+
+修正版は同じ監査Chatへ送信する。以前のiab未接続という停止理由は解消。合格判定・main反映・公開はまだ未完了。
