@@ -1,5 +1,17 @@
 import type { Enemy, World } from "../shared/game";
-import { stats } from "../shared/defs";
+import { type Family } from "../shared/defs";
+
+// No new clips ship with the derivative families, so each one borrows the
+// report closest to it. Explosive families are handled as bursts, not impacts.
+const SHOT_SOUND: Record<Family, string> = {
+  rifle: "rifle",
+  shotgun: "shotgun",
+  rocket: "rocket",
+  sniper: "rifle",
+  grenade: "rocket",
+  special: "rifle",
+};
+const EXPLOSIVE: Family[] = ["rocket", "grenade"];
 
 /** Provisional AR hit palette, based on the visible surface of each enemy. */
 const AR_HITS: Record<Enemy["kind"], string> = {
@@ -33,6 +45,10 @@ export class CombatAudio {
     { wind: number; cool: number; jump: number; lunge: number }
   >();
   private projectiles = new Set<number>();
+  /** Last event id taken from this run; 0 for any other run. */
+  consumed(run: string) {
+    return run === this.run ? this.event : 0;
+  }
   collect(w: World, active = true): Cue[] {
     const fresh = this.run !== w.run;
     if (fresh) {
@@ -51,19 +67,18 @@ export class CombatAudio {
       if (e.type === "shot") {
         const key = `${e.owner}:${e.weapon}`;
         if (!shots.has(key)) {
-          cues.push({ ...e, type: e.weapon ?? "rifle", key });
+          cues.push({ ...e, type: SHOT_SOUND[e.weapon ?? "rifle"], key });
           shots.add(key);
         }
-        const p = w.players.find((p) => p.id === e.owner);
-        const weapon = p?.weapons.find((v) => v.kind === e.weapon);
+        // The authority reports whether the round stopped on something. Working
+        // it out here from the shooter's loadout picked the wrong gun whenever
+        // two of the same family were equipped.
         if (
-          weapon &&
+          e.stopped &&
           !(e.weapon === "rifle" && e.enemyKind) &&
-          e.weapon !== "rocket" &&
+          !EXPLOSIVE.includes(e.weapon as Family) &&
           e.tx !== undefined &&
-          e.tz !== undefined &&
-          Math.hypot(e.tx - e.x, e.tz - e.z, (e.ty ?? e.y) - e.y) <
-            stats(weapon).range - 0.1
+          e.tz !== undefined
         )
           cues.push({
             type: "impact",
@@ -75,15 +90,17 @@ export class CombatAudio {
         cues.push({
           ...e,
           type:
-            e.type === "hit"
-              ? e.weapon === "rifle" && e.enemyKind
-                ? (AR_HITS[e.enemyKind] ?? "impact")
-                : "impact"
-              : e.type === "burst" && e.weapon === "rocket"
-                ? "rocketBurst"
-                : e.type === "burst" && !e.owner && (e.radius ?? 7) < 2
-                  ? "melee"
-                  : e.type,
+            e.type === "heal"
+              ? "revive"
+              : e.type === "hit"
+                ? e.weapon === "rifle" && e.enemyKind
+                  ? (AR_HITS[e.enemyKind] ?? "impact")
+                  : "impact"
+                : e.type === "burst" && EXPLOSIVE.includes(e.weapon as Family)
+                  ? "rocketBurst"
+                  : e.type === "burst" && !e.owner && (e.radius ?? 7) < 2
+                    ? "melee"
+                    : e.type,
           key: e.type === "hit" ? `impact:${e.owner}` : undefined,
         });
     }

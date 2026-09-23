@@ -160,6 +160,9 @@ export class Sound {
       this.menuVoices.delete(voice);
     }
   }
+  consumed(run: string) {
+    return this.tracker.consumed(run);
+  }
   update(
     w: World | null | undefined,
     id: string,

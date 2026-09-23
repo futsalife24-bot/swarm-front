@@ -1,8 +1,12 @@
 export const MIN_PITCH = -0.65;
 export const MAX_PITCH = (80 * Math.PI) / 180;
 export const NORMAL_FOV = 65;
-export const SCOPE_FOV =
-  (2 * Math.atan(Math.tan((NORMAL_FOV * Math.PI) / 360) / 2) * 180) / Math.PI;
+// Magnification, expressed as the field of view it leaves. Scoped weapons carry
+// their own factor; everything else keeps the original 2x.
+export const scopeFov = (zoom = 2) =>
+  (2 * Math.atan(Math.tan((NORMAL_FOV * Math.PI) / 360) / zoom) * 180) /
+  Math.PI;
+export const SCOPE_FOV = scopeFov(2);
 export const clampPitch = (pitch: number) =>
   Math.max(MIN_PITCH, Math.min(MAX_PITCH, pitch));
 

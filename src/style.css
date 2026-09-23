@@ -814,6 +814,13 @@ footer span {
   font-weight: 600;
   color: #9fd8de;
 }
+/* Restored health, shown to whoever fired the support weapon. */
+.damage-number.heal,
+.damage-number.ally.heal {
+  font-size: 17px;
+  font-weight: 800;
+  color: #8ef0a8;
+}
 #pause {
   position: fixed;
   z-index: 4;

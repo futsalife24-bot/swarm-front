@@ -5,6 +5,7 @@ import {
   type StoredWeapon,
   type NewWeapon,
 } from "./progression";
+import { familyOf } from "./defs";
 import { defenseBonus } from "./daily-defense";
 import { CAMPAIGN_COUNT, normalSaveId } from "./campaign";
 export interface DefenseLedger {
@@ -33,8 +34,8 @@ export function defenseStage(save: DefenseSave) {
 function bank(save: DefenseSave, weapon: StoredWeapon) {
   if (
     save.inventory.length < CAPACITY.total &&
-    save.inventory.filter((w) => w.kind === weapon.kind).length <
-      CAPACITY.perKind
+    save.inventory.filter((w) => familyOf(w.kind) === familyOf(weapon.kind))
+      .length < CAPACITY.perKind
   )
     save.inventory.push(weapon);
   else save.pending.push(weapon);
