@@ -10,7 +10,9 @@
 
 **統合で見つかった不整合を修正（要再監査）:** main側の `src/client/weapon-rarity-glow.ts` が武器ネオンの輪郭を `Record<Kind, …>` の3丁分だけ持っていた。12丁化後は型エラーになり、実行時も新しい武器を装備した瞬間に `PROFILES[kind]` が `undefined` で落ちる。武器モデルと同じく `modelOf(kind)` で3つの輪郭へ対応付けた（ネオンの形状・色・明滅は不変）。回帰テスト「12丁すべてでネオンが作れる」を追加。統合後: typecheck成功、全件493中490成功（既存3失敗＋読込失敗1スイートは同一）、build / server:build / server:build:production 成功。
 
-**未実施: 統合差分の再監査・main反映・公開。** 並行PR #78（HARROW 25面化）は未mergeで、共通ファイル（`game.ts` / `defs.ts` / `render.ts` / `combat-audio.ts` / `playtest-app.ts`）は#78側で本PR反映後の取り込みが必要。
+**5回目の監査を依頼済み・判定待ち（2026-09-23）。** 同じ監査Chatへ merge commit `1b6e77d22b189e831c5a058dba0843d775fa3990` を送信。資料 `dist-validation/weapon-families-merge-audit.zip`（162,131 bytes / SHA256 `c9e32dbf73022d03b4a73ca07618e1587f68237d5cdd7ad907708772309a6ffc`）、本文 `dist-validation/weapon-families-merge-reaudit-message.md`。実ブラウザでの12丁ネオン描画は未確認（形状生成は単体テストのみ）。
+
+**未実施: 判定取得・main反映・公開。** 本番公開（既存Workerへのdeploy）は前回PR72で自動承認レビューに止められた経緯があるため、公開直前にユーザーの明示承認を取る。 並行PR #78（HARROW 25面化）は未mergeで、共通ファイル（`game.ts` / `defs.ts` / `render.ts` / `combat-audio.ts` / `playtest-app.ts`）は#78側で本PR反映後の取り込みが必要。
 
 # 現在地: 再々監査の必須1件（R1-R）を修正、4回目の監査へ（2026-09-23）
 
