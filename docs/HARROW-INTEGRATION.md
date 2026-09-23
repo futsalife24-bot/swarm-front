@@ -129,3 +129,14 @@ HPと攻撃倍率は既存の `1 + (ST-1)×0.025` / `1 + (ST-1)×0.02` を維持
 v6素材・採用SHA・4画像・実loader数値検証、検証専用Rendererでの実ブラウザ確認、権威Worker 2接続、型・関連152件・build・production dry-run、および回転半径8.7m反映後のソロ6戦・受入11件・実通信11チェックまで自己検証済み。Judgeは未判定。
 
 残る工程は、対象差分と証拠の保存・commit、通常Chat独立監査と必要修正、main反映、commit後の公開用build、既存Worker公開・配信確認。人操作・実スマホ・長時間の多人数操作を検証済みとはしない。現在地の正本は `docs/STATE.md` と主担当の作業記録を参照する。
+
+## 2026-09-24 最新mainとの統合と互換性修正
+
+- base `21468bba58c9bc5f222f481ef0ce8b859f1a160d`、実装 `5190ddfd8e24d06e8ef07968bc0837b729f6fb1c`。別worktree `../harrow-integration` で武器12丁を統合し、元の未保存作業は保護。STATEは最新mainの全文を維持。
+- 空中近接時の2秒猶予中はSpin選択へ進ませず、接地後に回転する。登場・離陸・遠距離攻撃を回帰確認。
+- checkpoint v2は保存時のStagePlanを固定。v1は旧20面の編成を復元し、旧ST18の第4波・ST20の第3波以降と目標時間、旧3-A、難易度補正を維持。実時間で生存敵がいる状態から次波へ進むテストを含む。敵を消して残波を確認する別ケースは合成進行試験であり実戦勝利ではない。
+- client/worker型成功、関連12ファイル157件成功。追加37件は12武器の地上/低空への実射撃、最大高度への遠距離5武器、レーザー蓄積落下、回復/repel/chain除外。grenade/stickyは既存弾道上の到達高度を超えるため低空で検証。
+- 最新統合コードで27作戦×2難易度54戦全勝＋checkpoint14件（合計68件）、通常25面全勝を含むstages35件成功。botと合法装備による結果で、体感難易度を保証しない。
+- 実ローカルWorker＋WebSocket2接続11項目成功。client本番build成功（chunk警告あり）、production Worker dry-run成功235.73KiB/gzip64.39KiB、公開なし。最初のdry-runはclient build終了前でdistなしだったため、完了後に再実行して成功。
+- 証拠: `dist-validation/harrow/integrated-{types,related,campaign,stages,network,build,dry-run}.log`、`network.json`、`dist-validation/playtest-v1/clear-sweep.json`。
+- 独立監査はiab未接続で継続不可。初回の最終判定・修正版判定は未取得。再監査資料を保存し、接続復旧後に同じChatへ送信する。main反映・公開は未完了。

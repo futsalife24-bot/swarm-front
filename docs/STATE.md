@@ -1,3 +1,11 @@
+# 現在地: HARROWと最新武器12丁の統合・再監査待ち（2026-09-24）
+
+[PR78](https://github.com/futsalife24-bot/swarm-front/pull/78)。統合実装HEAD `5190ddfd8e24d06e8ef07968bc0837b729f6fb1c`、最新main/base `21468bba58c9bc5f222f481ef0ce8b859f1a160d`。作業場所は `../harrow-integration`、branch `codex/harrow-main-integration`。元の `game/` の別作業差分（設定・Claude・敗北導線）は保護し取り込んでいない。PRの既存branchへfast-forwardで保存する。
+
+最新mainの武器12丁を統合。登場/離陸直後に空中Spinへ入る不具合、旧ST18/ST20中断データの波・目標時間が新編成へ置き換わる互換性を修正。型2種、関連157件（武器×HARROW37含む）、54作戦全勝＋中断14件、通常25面全勝を含むステージ35件、実Worker2接続11項目、build/production dry-run成功。証拠は `dist-validation/harrow/integrated-*.log`、詳細は [HARROW記録](HARROW-INTEGRATION.md)。人の実操作・スマホ・長時間多人数は未検証。
+
+停止理由: アプリ内ブラウザが未接続（cua inventoryはapps/browsersとも空、監査Chatを開く要求はqueued）で、初回監査の最終判定取得と修正版再監査ができない。初回監査Chatは https://chatgpt.com/c/6ab26169-d12c-83e8-84b1-1b91731a8856 。main反映・公開は未完了。
+再開条件: このタスクでiabが利用可能になったら同じ監査Chatの判定を取得し、修正版ZIPを送信。必須指摘を解消して合格後、通常merge・既存Worker公開・配信確認へ進む。自己検証を独立監査合格とは扱わない。
 # 現在地: HARROW PR78を独立Chat監査へ送信済み（2026-09-22）
 
 [PR78](https://github.com/futsalife24-bot/swarm-front/pull/78)、監査対象 `0120db6e6e226b354e8be4f5d83da0b734a06893`、base `402dcece262cbf265da3912e21d95ada891b9821`。資料 `dist-validation/harrow/HARROW-audit-0120db6.zip`（12,281,354 bytes）を [通常Chat](https://chatgpt.com/c/6ab26169-d12c-83e8-84b1-1b91731a8856) へ添付・送信済み、回答待ち。実装と自己検証は下記/詳細記録。main反映・公開未完了。後続差分は監査記録のみ。別作業差分を保護。
