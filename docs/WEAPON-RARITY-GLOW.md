@@ -42,3 +42,11 @@
 - 自動承認レビューが本番deployを「本番デプロイ自体の明示承認がない」と拒否。実行されていない。
 - 本番URL: https://swarm-front.melosalife-24.workers.dev 、既存wrangler.production.jsonc。新規サービス/契約変更なし。
 - 本番公開の明示承認後にdeploy→dist-validation/weapon-glow/verify-published.mjsでmain worktreeのdistと配信ハッシュ/healthを照合→iab公開UI確認。既存公開セーブ/中断状態は保護。
+
+## 本番公開完了
+- ユーザーが具体的本番公開を『はい』と明示承認。既存Workerへdeploy成功。
+- 公開source: 5e8d7fc4f94fafb6db30a1b21c13a7b0f8b472f4（後続694a601は記録のみ）。
+- Worker Version: a2f362c3-e190-4244-b1f5-757c21436f76。
+- 配信直後の最初のindex.html照合は不一致。再取得で同一本文を確認し、切替完了後の全13ファイルSHA一致・health200/ok=trueを検証。証拠dist-validation/weapon-glow/published.json。
+- 実iabの公開画面は中断した作戦/ST1・13秒の再開メニュー正常表示、console error0。既存セーブ保護のため再開/終了操作はせずタブを閉じた。公開実戦内の発光操作は未確認、ローカル実GLBと実戦描画確認済み。
+- 任意P3（画素境界の自動回帰/実GPU資源推移）と実スマホ/多人数長時間は残る。依頼の実装・必要検証・独立監査・main反映・既存Worker公開/配信照合は完了。

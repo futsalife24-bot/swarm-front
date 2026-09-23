@@ -1,3 +1,17 @@
+# 現在地: 武器6系統12丁（PR76）4回目の監査合格・最新mainを統合（2026-09-23）
+
+[監査Chat](https://chatgpt.com/c/6ab13de7-c55c-83e8-be6d-f9dda9c268bd) の `5347afa` 判定は **合格・必須0**。R1-R（送信済みイベントが容量を占め新しい命中通知・命中音が消える）の解消を、協力の4人配送・ソロ3入口の実フレーム関数・以前の過密条件（レーザー83/83件・メテオ81/81件）まで独立確認された。以後の変更は記録と最新mainの統合のみ。
+
+任意指摘（P3、未対応・後続候補）:
+- A1 「溢れても命中音は失わない」は「射手ごとの代表通知を残す」までの意味。同じ射手でも位置が違えば聞こえ方が変わり、他射手の85m超の音源は再生対象外なので、過負荷の間引きで近い方が消えると音が0回になりうる（161件直接投入の合成試験。実ステージでの発生は不明）
+- A2 退役を呼ぶ接続順序（Workerの全員送信後・ソロの描画と音の最小値）を製品側の回帰テストに固定すると再発防止になる（テストは `retireEvents()` を直接呼んでいる）
+
+**最新mainの統合:** origin/main（PR74/75/77、武器のレア度発光・ネオン。コードの重なりなし）をmerge。衝突は `docs/STATE.md` のみ。**このPRの最初のコミット `a4c0bfd` が09-20〜21の記録約43節（PR54〜PR72）を誤って削除していた**ので、本PRの4節＋mainのSTATE全文で解消し、消えていた記録を復元した。
+
+**統合で見つかった不整合を修正（要再監査）:** main側の `src/client/weapon-rarity-glow.ts` が武器ネオンの輪郭を `Record<Kind, …>` の3丁分だけ持っていた。12丁化後は型エラーになり、実行時も新しい武器を装備した瞬間に `PROFILES[kind]` が `undefined` で落ちる。武器モデルと同じく `modelOf(kind)` で3つの輪郭へ対応付けた（ネオンの形状・色・明滅は不変）。回帰テスト「12丁すべてでネオンが作れる」を追加。統合後: typecheck成功、全件493中490成功（既存3失敗＋読込失敗1スイートは同一）、build / server:build / server:build:production 成功。
+
+**未実施: 統合差分の再監査・main反映・公開。** 並行PR #78（HARROW 25面化）は未mergeで、共通ファイル（`game.ts` / `defs.ts` / `render.ts` / `combat-audio.ts` / `playtest-app.ts`）は#78側で本PR反映後の取り込みが必要。
+
 # 現在地: 再々監査の必須1件（R1-R）を修正、4回目の監査へ（2026-09-23）
 
 [監査Chat](https://chatgpt.com/c/6ab13de7-c55c-83e8-be6d-f9dda9c268bd) の `e01d2cf` 判定は **要修正・必須1件（P2）**。R1の元の2条件（レーザー83件・メテオ81件）は全件送信を確認されたが、**削除方式そのものの欠陥**を指摘された。実コードで裏取りし事実と確認して修正した。
@@ -78,6 +92,219 @@ typecheck（client/worker）成功、全件477中474成功。失敗3件（aim/st
 
 **未実施: main反映・公開。** 実プレイ未実施のため手触り/難易度曲線は未評価。実スマホ・実協力通信も未検証。新系統のモデルと発砲音は既存アセットの流用（レーザーらしさはCodex側でBlender/SE調整予定）。詳細・限界は [WEAPON-FAMILIES.md](WEAPON-FAMILIES.md)。
 
+# 現在地: 武器ネオンラインをmain反映・公開完了（2026-09-21）
+
+PR75通常merge、独立監査93cabd2合格・必須P0-P2なし。公開source 1f80fa61717aa4855cccd6aeac576cfe0f650341、Worker Version abb54537-fec3-4c6b-baca-677a7662324e。型/関連4件/15組合せ/全GLB閉ループ・原本不変・所有資源破棄/9視点/build/dry-run成功。AAなし追加15組合せも成功。配信13SHA一致・health200。公開iabは既存ST1・13秒の中断画面正常、error0。既存セーブの再開/破棄はせず保護。実スマホ/多人数長時間/実戦移動時のちらつきは未確認。後続は公開記録のみ。[詳細](WEAPON-NEON.md)。別作業4ファイル保護。
+
+# 現在地: 武器ネオンPR75の独立監査合格（2026-09-21）
+
+対象93cabd224747b82b5d04f6fb370df0b9473b1326は[通常Chat](https://chatgpt.com/c/6ab114f9-a904-83ee-858a-439423d5a864)合格、必須P0-P2なし。後続は記録のみ。main反映・公開へ進行。[詳細](WEAPON-NEON.md)。別作業4ファイル保護。
+
+# 現在地: 武器ネオンPR75を独立監査へ送信済み（2026-09-21）
+
+対象93cabd224747b82b5d04f6fb370df0b9473b1326、branch codex/weapon-neon-outline、base56b0f88。build/dry-run成功。[通常Chat監査](https://chatgpt.com/c/6ab114f9-a904-83ee-858a-439423d5a864)の回答待ち。資料・検証は[詳細](WEAPON-NEON.md)。main反映・公開は未完了。後続は記録のみ、別作業4ファイル保護。
+
+# 現在地: 武器の外周ネオンラインを自己検証（2026-09-21）
+
+branch codex/weapon-neon-outline、base56b0f88。ギラつく部品単位の加算シェルを、大きな外周の滑らかなネオン芯+薄いにじみに変更。レア色/4秒明滅/デザイン維持。型/関連4/実15組合せ/閉ループ・資源破棄/9視点確認成功。main/公開は未完了。[詳細](WEAPON-NEON.md)。別作業4ファイル保護。
+
+# 現在地: 武器レア度発光をmain反映・本番公開完了（2026-09-21）
+
+PR72通常merge・再監査bf0a9d3合格、必須P0-P2なし。公開source `5e8d7fc4f94fafb6db30a1b21c13a7b0f8b472f4`、Worker Version `a2f362c3-e190-4244-b1f5-757c21436f76`。ユーザーが具体的本番deployを明示承認。型/関連4件/実15組合せ/全15GLB継ぎ目・原本不変・geometry破棄/9視点/build/dry-run成功。配信13SHA一致・health200。公開iabは既存ST1・13秒の中断メニュー正常、error0。セーブ保護のため再開/終了は行わず確認タブを閉じた。実スマホ/多人数長時間/公開実戦の発光操作は未確認。任意P3は画素境界の自動回帰・実GPU資源推移。[詳細](WEAPON-RARITY-GLOW.md)。後続は公開記録のみ、別作業4ファイル保護。
+
+# 現在地: PR72監査合格・main反映、本番デプロイ承認待ち（2026-09-21）
+
+[PR72](https://github.com/futsalife24-bot/swarm-front/pull/72)通常merge。main/source `5e8d7fc4f94fafb6db30a1b21c13a7b0f8b472f4`。独立再監査bf0a9d3合格・必須P0-P2なし。型/関連4/実15組合せ/全15GLB継ぎ目・原本不変・geometry破棄/9視点前後成功。クリーンな既存main worktree share-image-fixも同期しmerge後build/dry-run成功。[詳細](WEAPON-RARITY-GLOW.md)。gameの別作業4ファイル保護。後続は記録のみ。
+
+停止理由: 自動承認レビューが既存swarm-front Workerへの本番deployを「ユーザーが本番デプロイ自体を明示承認した証拠がない」として拒否。deployは未実行、公開は前版のまま。
+再開条件: main source 5e8d7fcの武器発光を既存 https://swarm-front.melosalife-24.workers.dev へ本番deployすることをユーザーが明示承認。share-image-fixのビルド済みdistとソースを照合し、既存wrangler.production.jsoncでdeploy→配信SHA/health/UI確認→公開記録をmain反映。新規サービス/契約変更なし。
+
+# 現在地: PR72修正版の独立監査合格、main反映準備（2026-09-21）
+
+対象 bf0a9d3fe235d35e5a0ea6ece8cc2714efc51553 は[再監査](https://chatgpt.com/c/6ab0f325-03a8-83e8-b1cd-29ced57787c4)合格、必須P0-P2なし。全15GLB同位置法線不一致0、独立EGL3種×3角度で欠け解消。専用geometry1050個の破棄/元不変を代替オブジェクトで独立確認。実GPU長時間は未確認。後続は記録のみ。[詳細](WEAPON-RARITY-GLOW.md)。main反映/公開はこれから。
+
+# 現在地: PR72修正版bf0a9d3の再監査を依頼済み（2026-09-21）
+
+ユーザーが修正版ZIPの送信を明示承認。同一SHA256を照合し、同じ[監査Chat](https://chatgpt.com/c/6ab0f325-03a8-83e8-b1cd-29ced57787c4)へ添付・送信済み。対象 bf0a9d3fe235d35e5a0ea6ece8cc2714efc51553、後続は記録のみ。F1輪郭欠けと追加geometry所有/破棄を再監査中。合格後main/公開へ続行。[詳細](WEAPON-RARITY-GLOW.md)。別作業4ファイル保護。
+
+# 現在地: PR72の輪郭欠け修正版を保存、再監査ZIP送信承認待ち（2026-09-21）
+
+branch `codex/weapon-rarity-glow`、base `4d77be91a827601dd8afebb4425e4a04a191ee5f`、修正/再監査対象 `bf0a9d3fe235d35e5a0ea6ece8cc2714efc51553`、PR72。初回監査962674cはF1/P2（ハード法線の輪郭欠け）。専用clone形状の同位置法線を統一し修正。型/関連4件/実15組合せ/全15GLBの修正前再現・修正後不一致0・原本不変/所有geometry全破棄/9視点前後描画/build成功。後続は記録のみ、別作業4ファイル保護。[詳細](WEAPON-RARITY-GLOW.md)。
+
+停止理由: 自動承認レビューが修正版 `weapon-glow-bf0a9d3-audit.zip`（6,049,755 bytes）の同じ通常監査Chatへの添付を拒否。前回承認ZIPとは別payloadなので具体的送信承認が必要との判定。修正版は未送信・再監査未依頼、main未反映・未公開。
+再開条件: 修正版ZIPを https://chatgpt.com/c/6ab0f325-03a8-83e8-b1cd-29ced57787c4 へ再監査のため送信することをユーザーが明示承認。SHA256照合→同じChatでF1と影響を再監査→合格後通常merge/既存Worker公開/配信確認。
+
+# 現在地: PR72監査F1/P2の輪郭欠けを修正、再監査準備（2026-09-21）
+
+同位置頂点の発光専用法線を統一し全周の隙間を解消。全15GLBで修正前再現/修正後不一致0・原本不変・全geometry破棄、9視点実描画確認。型/既存15組合せ成功。再監査/main/公開は未完了。[詳細](WEAPON-RARITY-GLOW.md)。別作業4ファイル保護。
+
+# 現在地: PR72の承認済み監査ZIPを送信、独立監査中（2026-09-21）
+
+ユーザーが今回ZIPの通常ChatGPTへの送信を明示承認。同一SHA256を照合して[通常Chat](https://chatgpt.com/c/6ab0f325-03a8-83e8-b1cd-29ced57787c4)へ添付・依頼済み、解析開始を確認。対象 `962674c3dbf4746db92bf064a3f435f37e0d23f1`、後続は記録のみ。PR72競合なし・チェック一覧空・mainはbaseから変更なし。監査判定→通常merge→既存Worker公開/配信確認を継続。[詳細](WEAPON-RARITY-GLOW.md)。別作業4ファイル保護。
+
+# 現在地: 武器発光PR72を保存、監査ZIP送信の承認待ち（2026-09-21）
+
+branch `codex/weapon-rarity-glow`、base `4d77be91a827601dd8afebb4425e4a04a191ee5f`、実装/監査対象 `962674c3dbf4746db92bf064a3f435f37e0d23f1`。[PR72](https://github.com/futsalife24-bot/swarm-front/pull/72)。型/関連4件/実GLB15組合せ・両装備色・明暗・持替え・破棄/build/dry-run成功。実iabローカル戦闘描画確認、HMR接続エラーと実スマホ未確認を記録。[詳細・ZIP照合](WEAPON-RARITY-GLOW.md)。別作業4ファイル保護、後続は記録のみ。
+
+停止理由: 自動承認レビューがソース・実GLB・検証画像を含む今回ZIP（5,881,134 bytes）の通常ChatGPTへの送信を、具体的payload/宛先への明示承認不足で拒否。監査未依頼、main未反映、未公開。
+再開条件: `dist-validation/weapon-glow/weapon-glow-962674c-audit.zip` を通常ChatGPT新規Chatへ独立監査目的で送信することをユーザーが明示承認。SHA256照合→独立監査/必要修正→通常merge/既存Worker公開/配信確認。
+
+# 現在地: 武器のレア度発光を自己検証、独立監査準備（2026-09-21）
+
+branch codex/weapon-rarity-glow、base 4d77be9。手持ち/背中それぞれの全輪郭にレア色・4秒明滅。型/関連4件/実GLB15組合せ・両装備・明暗・持替え・破棄/build成功。独立監査/main/公開は未完了。[詳細](WEAPON-RARITY-GLOW.md)。別作業4ファイル保護。
+
+# 現在地: 育成確認UIをmain反映・本番公開完了（2026-09-21）
+
+PR70通常merge。公開source `27a08ab5deaae4e27d0a30ced27be78df056b1e4`、Worker Version `04f8ef89-338d-4666-a3ed-ba8c13697a2d`。ユーザーが具体的な本番デプロイを明示承認し実施。独立監査ec1c5bc合格・必須P0-P2なし。型/経済13/3サイズUI/武器8/build/dry-run成功、配信13SHA一致・health200。公開iabは既存ST1・13秒の中断メニュー正常表示・error0。保存保護のため再開/終了せず確認タブを閉じた。実スマホは未確認、任意P3費用表示位置は残る。[詳細](GROWTH-CONFIRMATION.md)。後続は公開記録のみ。別作業4ファイル保護。
+# 現在地: PR70監査合格・main反映、本番デプロイ承認待ち（2026-09-21）
+
+[PR70](https://github.com/futsalife24-bot/swarm-front/pull/70)を通常merge。main/source `27a08ab5deaae4e27d0a30ced27be78df056b1e4`。独立監査ec1c5bc合格・必須P0-P2なし。型/経済13/3サイズUI/武器8/build/dry-run成功。後続は記録のみ。別作業4ファイル保護。
+
+停止理由: 自動承認レビューが既存Workerの本番deployを拒否。実装・監査・main反映の承認を本番公開へ拡張できず、具体的公開承認を確認できないとの理由。deploy未実行、公開は前版のまま。
+再開条件: main source 27a08abを既存 https://swarm-front.melosalife-24.workers.dev へ本番deployすることをユーザーが明示承認。承認質問提示済み。既存wrangler.production.jsoncでdeploy→配信SHA/health/UI確認→公開記録をmainへ反映。新規サービス/課金変更なし。
+# 現在地: PR70の独立監査を依頼済み（2026-09-21）
+
+今回ZIPの送信をユーザーが明示承認。同一ハッシュの資料を[通常Chat](https://chatgpt.com/c/6ab0d728-851c-83ee-8b16-8a87e16f17a5)へ添付・送信し、監査開始を確認。対象 `ec1c5bc99fec725f04c691371d106e38d9f86845`、後続は記録のみ。PR70競合なし、mainはbaseから変更なし。監査判定→通常merge→既存Worker公開/配信確認を継続。別作業4ファイル保護。
+# 現在地: 育成確認UIをPR70へ保存、今回ZIP送信の承認待ち（2026-09-21）
+
+branch `codex/growth-confirmation`、base `546b063`、実装/監査対象 `ec1c5bc99fec725f04c691371d106e38d9f86845`、[PR70](https://github.com/futsalife24-bot/swarm-front/pull/70)。型/関連13件/3横画面の確認・実保存・キャンセル/baseline8ケース/build/dry-run成功。[詳細・ZIPハッシュ](GROWTH-CONFIRMATION.md)。後続は記録のみ、別作業4ファイル保護。
+
+停止理由: 自動承認レビューが、前回別ZIPの承認は新payloadには適用できないとして、565KBの `growth-confirm-ec1c5bc-audit.zip` を通常ChatGPTへ送る操作を拒否。監査未依頼、main未反映、未公開。
+再開条件: 今回ZIPの通常ChatGPT新規Chatへの送信をユーザーが明示承認。ハッシュ照合→独立監査/修正→通常merge/既存Worker公開/配信確認。承認質問提示済み。
+
+# 現在地: 育成確定を大きくし、変更前後の確認ポップを自己検証（2026-09-21）
+
+branch `codex/growth-confirmation`、base `546b063`。高さ48pxの主ボタン、変更能力だけのLv/性能前後、確認後のみ保存、振り直し費用表示。型/関連13件/3横画面の確認・保存・キャンセル・500コイン検証成功。独立監査/main/公開は準備中。[詳細](GROWTH-CONFIRMATION.md)。別作業4ファイル保護。
+
+# 現在地: 育成レーダー・アクセサリ・素材説明をmain反映・公開（2026-09-21）
+
+PR68通常merge、独立監査fff0e44合格・必須0。公開source `cd8e2c6b60188dac25cf1492ecc31514067634c5`、Worker Version `1de6c762-4256-452e-a36d-5317c237fe0f`。型/経済13件/3横画面UI/武器一覧8ケース/実iab/build/dry-run成功、配信13SHA一致・health200。公開UIは既存ST1・13秒の中断メニューを正常表示・error0、保存保護のため育成画面への遷移は未実施。実スマホと任意P3の詳細スクロール位置保持は残る。[詳細](GROWTH-ACCESSORY-UI.md)。別作業4ファイル保護、後続は公開記録のみ。
+
+# 現在地: PR68の独立監査を依頼済み（2026-09-21）
+
+ユーザーが具体的ZIPの通常ChatGPT送信を明示承認。同一ハッシュの監査ZIPを[通常Chat](https://chatgpt.com/c/6ab0c42e-d3dc-83e8-92b5-0315773423d8)へ添付・送信し、展開開始を確認。実装/監査対象 `fff0e444781396da45a05b05dbd70608c2a5a1f7`、後続は証拠/記録のみ。型/関連13件/3サイズUI/baseline8ケース/build/dry-run成功。監査判定→main→既存Worker公開は進行中。[詳細](GROWTH-ACCESSORY-UI.md)。別作業4ファイル保護。
+
+# 現在地: 育成/アクセサリUIをPR68へ保存、監査ZIP送信の承認待ち（2026-09-21）
+
+branch `codex/growth-accessory-ui`、base `b424046`、実装/監査対象 `fff0e44`、[PR68](https://github.com/futsalife24-bot/swarm-front/pull/68)。型/経済13件/3横画面UI/武器一覧baseline8ケース/実iab/build/production dry-run成功。別作業4ファイル保護。後続は証拠・記録のみ。[詳細とZIPハッシュ](GROWTH-ACCESSORY-UI.md)。
+
+停止理由: 自動承認レビューが具体的payloadと宛先の明示承認不足として、約2.46MBの `growth-fff0e44-audit.zip` を通常ChatGPT新規Chatへ添付する操作を拒否。監査未依頼、main未反映、未公開。
+再開条件: 上記ZIPの通常ChatGPTへの送信をユーザーが明示承認。ハッシュ照合→独立監査/必要修正→通常merge/既存Worker公開/配信確認。承認質問を提示済み。
+
+# 現在地: 育成レーダー・素材ポップ・アクセサリUIを自己検証（2026-09-21）
+
+branch `codex/growth-accessory-ui`、base `b424046`。4軸レーダーと詳細育成、共通素材説明、効果付きアクセサリ一覧を実装。型/関連13件/3横画面の配分・解放・装備・保護を確認。独立監査/main/公開は準備中。[詳細](GROWTH-ACCESSORY-UI.md)。別作業4ファイル保護。
+
+# 現在地: 岩の射線・乗り上がりと着地後移動をmain反映・公開（2026-09-21）
+
+PR66通常merge、独立再監査6151c91は合格・必須0。公開source a4ca5528912a429ba23fcc27a95ad88c43fe0a5b、Worker Version 3edc3904-34c6-4f94-acc2-806798085d3b。型/関連テスト/前後回帰/実GLB8700射線/実登頂/実Worker2接続/main build/dry-run成功、配信13SHA一致・health200。公開UIは中断ST1の再開メニューを正常表示・console error0、保存保護のため作戦を進めていない。実スマホ/多数敵長時間/岩上2接続は未確認。[詳細](ROCK-COLLISION.md)。別作業4ファイル保護、後続は公開記録のみ。
+
+# 現在地: PR66・修正版6151c91の独立再監査中（2026-09-21）
+
+必須P2・2件を修正し、同じ[監査Chat](https://chatgpt.com/c/6ab0a700-e9a0-83ee-b8aa-53873299fff0)へ修正版ZIP送信済み。対象6151c91bcc456a816edf376e3f5e1a939cf8f9db、base5e55f50不変。型/関連93件/13回帰前後比較/build/dry-run/実GLB8700射線・登頂成功。独立最終判定→main→既存Worker公開は未完了。[詳細](ROCK-COLLISION.md)。別作業4ファイル保護。
+
+# 現在地: PR66・独立監査の必須2件を修正、再監査準備（2026-09-21）
+
+岩上面の凹輪郭と分節敵の岩際追跡を修正。監査指定3再現を含む93関連成功、追加13回帰は修正前全失敗/修正後全成功。型と実GLB2900地点成功。斜め射線追加照合・修正版再監査・公開は進行中。[詳細](ROCK-COLLISION.md)。別作業4ファイル保護。
+
+# 現在地: PR66・承認済み監査ZIPを送信、独立判定待ち（2026-09-21）
+
+ユーザーが具体的ZIP/通常ChatGPT宛の送信を明示承認。同一ハッシュの `rock-4bd4dc3-audit.zip` を [監査Chat](https://chatgpt.com/c/6ab0a700-e9a0-83ee-b8aa-53873299fff0) へ添付・依頼済み。対象4bd4dc37e393c6bc456c3ee7fd5091b2448e1f51、後続は記録のみ。PR66のbaseは5e55f50で不変、merge可能/チェック一覧空。型/関連133件/実描画/実通信/build/dry-run成功、未公開。[詳細](ROCK-COLLISION.md)。別作業4ファイル保護。
+
+# 現在地: PR66・岩と着地移動の修正を保存、監査ZIP送信の承認待ち（2026-09-21）
+
+branch `codex/rock-jump-collision`、base5e55f50、実装/監査対象 `4bd4dc37e393c6bc456c3ee7fd5091b2448e1f51`、[PR66](https://github.com/futsalife24-bot/swarm-front/pull/66)。型/関連133件/実GLB4マップ980地点/実iab登頂/実Worker2接続/build/production dry-run成功。詳細・ZIPハッシュ・既存aim1失敗は [ROCK-COLLISION.md](ROCK-COLLISION.md)。別作業4ファイル保護。後続は記録のみ。
+
+停止理由: 自動承認レビューが7,012,574 bytesの `dist-validation/rock-collision/rock-4bd4dc3-audit.zip` を通常ChatGPT新規Chatへ送る操作を、具体的payload/宛先の明示承認不足で拒否。監査未依頼・main未反映・未公開。
+再開条件: 同ZIPの通常ChatGPTへの送信をユーザーが明示承認。ZIP照合→独立監査/必要修正→通常merge/既存Worker公開/配信確認。承認質問を提示済み。
+
+# 現在地: 岩の射線・乗り上がりと着地後移動を修正、監査準備（2026-09-21）
+
+branch codex/rock-jump-collision、base5e55f50。岩の実形状を射撃/支持/着地へ共有、下降速度残留を解除。型・関連133件、実GLB4マップ980地点、実iab登頂、実Worker2接続成功。baseで5回帰再現、aim既存1失敗を分離。独立監査/main/公開は未完了。[詳細](ROCK-COLLISION.md)。別作業4ファイル保護。
+
+# 現在地: CALYX移動・回転3倍をmain反映・公開（2026-09-21）
+
+PR64通常merge、独立監査53669a9合格・必須0。公開ソース91a2d379636d6d0e24897641c9c5b754936ad985、Worker Version 18ae92fc-b370-4294-99b5-bb934e0de0a8。移動1.95m/s・回転2秒/周・根の外向き変形。型/関連22件/実Worker2接続/Blender/実IAB/遷移549ケース成功、main build/dry-run・配信14SHA/health成功。公開UIは他タブ保存保護のため操作未確認。gameの別作業差分は保護し、既存main worktreeを同期。後続は記録のみ。[詳細](CALYX-SPEED.md)。
+
+# 現在地: CALYX移動・回転3倍を自己検証（2026-09-21）
+
+branch codex/calyx-speed-three、base 9d201a7。移動1.95m/s・回転2秒/周、根を外へ広げる。攻撃時刻は維持。型/関連22件/実Worker2接続/実IAB/Blender再読込と接地・交差検査成功。独立監査・main反映・公開は未完了。[詳細](CALYX-SPEED.md)。
+
+# 現在地: CALYX会敵ムービーをmain反映・公開（2026-09-21）
+
+PR62通常merge、監査44f4923合格・必須0。公開source cae0ff3428e99db2dc0c222090a997b3d5ed5c6f、Worker Version e9789dd1-e21d-4788-8ace-a6772ab639bb。CALYXの会敵ボタン除外を解除し、実ゲーム描画の約10秒MP4を登録。型/build/dry-run、動画を含む配信14SHA/health成功。実ローカルレポートから最後まで再生、公開MP4も実IABでended=true/9.966667秒/error=null。公開ゲーム全体の保存保護は以前から残り、公開レポート内操作は未確認。今回の会敵ムービー登録/公開/実動画再生は完了。[詳細](CALYX-FILM.md)。
+
+# 現在地: CALYX旧モデルキャッシュ修正をmain反映・公開（2026-09-21）
+
+PR60通常merge、監査対象c9be345は合格・必須0。公開ソースe16e6d3930d1d1ef34dea4da0c9df3919a35c063、Worker Version d775cae9-8cd3-42e1-a963-7dfab2bbdce0。CALYX URLにモデル版を付け旧キャッシュと分離。client型/関連7件、main build/dry-run、配信13SHA/health成功。版付きGLB公開取得も64719fde一致。実レポート本体のローカルUIで新版URL・モデル・説明を確認。ゲーム再起動で新JSを読み込む必要がある。
+停止理由: 公開UIは保存保護が残り、ユーザーの他画面終了申告後も自動承認レビューが通常再開を拒否。公開画面操作のみ未確認。
+再開条件: ユーザーの公開画面で保存保護を通常解除後、レポートの表示を確認する。再deployは不要。証拠docs/evidence/calyx-v5/cache-release-verification.json、report-updated.png。[詳細](CALYX-REDESIGN.md)。
+
+# 現在地: CALYX v5をmain反映・公開、公開UIのみ保存保護で未確認（2026-09-21）
+
+ユーザーが最新版デザイン採用とmain反映/公開を明示承認。独立Chat監査8a20c31は合格・必須0、PR58通常merge済み。公開ソースa0f0088f1aa6b938c5573ef32e1536927760dc05、Worker Version c815fa75-5fa9-4c21-9f47-3a1c94e7df2a。merge後main build/dry-run、配信13SHA/health成功。斜め45度コマ自転・兵士中心周回、灰緑/赤茶斑・曲線根、半径13.5m花粉ドーム/霧。関連31件/型、実GPU549静的+63連続、実Worker2接続成功。任意P3の半径補正中の根先滑りは継続。
+停止理由: 公開UIは別タブ保存保護が残り、通常再開を自動承認レビューが前提未確認として拒否。保護回避はしていない。公開実画面の操作確認のみ未完了。
+再開条件: ユーザー側で他のSWARM FRONT画面を閉じ、公開URLの通常「このタブで再開」で保護が消えた後、実画面/エラーを確認する。公開は完了しており再deploy不要。証拠docs/evidence/calyx-v5/。[詳細](CALYX-REDESIGN.md)。
+
+# 現在地: CALYX PR55をmain反映・公開、公開UIの保存保護解除待ち（2026-09-20）
+
+最終ded4fdbの独立Chat監査合格・必須0。PR55通常merge、公開ソース `46167df67b79379d3c5401429dd102e24f342ce2`、Worker Version `4da37f8a-8b09-4eb5-8e44-716e9c0fbcff`。作戦7波2に2体、前方打撃/広域花粉弾、図鑑・実GLB・同期を公開。main build/dry-run、配信13SHA/health成功。最新mainとの関連103件・最終15件、実Worker2接続、ローカル実iabのモデル/打撃/花粉/屋上予兆を確認。[詳細/監査URL](CALYX.md)、証拠docs/evidence/calyx/。
+
+停止理由: 公開実画面は「別のタブでゲームを開いています」の保存保護が通常再開操作でも継続。操作可能なiab一覧に他の公開タブはなく、別画面は閉じていない。ユーザーに終了確認を依頼済み。公開UIの確認だけ未完了。
+再開条件: 他のSWARM FRONT画面を閉じた後、公開URLで通常の「このタブで再開」→ゲーム開始から実画面/エラー確認し、記録を更新する。公開は既に完了しており再deployは不要。
+# 現在地: CALYX PR55、最新main統合を追加監査中（2026-09-20）
+
+CALYX `d299164` は独立監査合格・必須0。merge直前にPR54/56がmainへ入り競合したため、新base `6e49e7cc51a0e462e8d207566a8155889acbdc5a` を統合した。対象 `33c38d742261b9cef324e6b6f1210b156c7e0c2f`。競合はSTATE追記両方保持、stagesの高台定義を保持しcalyx型・作戦7波2追加を維持。CALYX戦闘/描画/GLB本体はd299164と同一。統合関連103件、両型、build/dry-run、実Worker2接続、実iab打撃/花粉成功。`CALYX-33c38d7-main-integration.zip` を[同じ監査Chat](https://chatgpt.com/c/6aafb0a5-5e78-83ee-ba6a-153fd9d3545a)へ追加送信済み。main/公開未完了。結果確認後に通常merge→既存Worker公開→配信/UI確認。
+# 現在地: CALYX PR55、ソロ120体の予兆容量を最終再監査中（2026-09-20）
+
+実装監査対象 `d2991640207ee8bee9158add35a81632c0879f2f`、branch `codex/calyx-integration`。前回ffa7913の残必須F2はソロ120体での予兆容量不足のみ。他の必須/任意は解消確認済み。予兆12000枠とバッファ実容量の判定、settings由来の人数テストに修正。関連14件/client型/build成功。`CALYX-d299164-capacity.zip` を[同じ監査Chat](https://chatgpt.com/c/6aafb0a5-5e78-83ee-ba6a-153fd9d3545a)へ送信済み。最終判定待ち、main/公開未完了。
+# 現在地: CALYX PR55、必須2件を修正し再監査中（2026-09-20）
+
+branch `codex/calyx-integration` / worktree `../calyx-integration`、再監査対象 `ffa7913b2a63d664ffaab5ce0b25863460124102`、base `7b3e4df`。元50fcec2の独立監査はP2必須2件（図鑑Slamの飛翔弾・描画上限で予兆欠落）。双方と任意2件（高所表示・兵器庫二重ダメージ）、初遭遇名を修正。関連14件/型/build/dry-run/実Worker2接続成功。[同じ監査Chat](https://chatgpt.com/c/6aafb0a5-5e78-83ee-ba6a-153fd9d3545a)へ `CALYX-ffa7913-audit-fix.zip` を添付送信済み。合格判定待ち。main反映/公開は未完了。次は結果確認→必要修正→通常merge/公開。[詳細](CALYX.md)。
+# 現在地: CALYX PR55を独立Chat監査中（2026-09-20）
+
+PR55、branch `codex/calyx-integration`、実装監査対象`50fcec24697ebc5b2a32d435e1425d0fac3d226e`。関連58件/型/build/本番dry-run・実iab・実Worker2接続成功。[監査Chat](https://chatgpt.com/c/6aafb0a5-5e78-83ee-ba6a-153fd9d3545a)へ原本/GLB/ソース/画像/通信証拠ZIPを添付・送信済み。待機中の自己点検で、高い足場上の雲描画と図鑑Slamの誤った弾エフェクトを修正し、追加回帰テスト成功。修正を同じ監査Chatへ提出する。main反映/公開は未完了。詳細[CALYX](CALYX.md)。
+
+# 現在地: CALYXゲーム統合を検証・監査準備中（2026-09-20）
+
+branch `codex/calyx-integration`、worktree `../calyx-integration`、base `7b3e4df`。game側のジャンプ/設定作業を保護して分離。単体候補v2 GLBを同一バイトで採用し、前方打撃と放物線の花粉弾・広範囲継続ダメージをsharedに実装。作戦7第2波2体。関連51件/型、実iab表示、ローカル実Worker2接続の同一状態・ダメージ確認済み。全体既知3失敗は[詳細](CALYX.md)。ゲーム統合監査/main反映/公開は未完了。
+# 現在地: PR54・ジャンプと固定高台ルートをmain反映・公開確認済み（2026-09-20）
+
+PR54通常merge、公開ソース `5ded5fa06ff5e1f7da800c3019544445703ce474`、Worker Version `e4d8113e-7734-444e-b667-48321906006a`。ジャンプ/F、洞窟以外の固定追加版、草原斜面・雪山窪地・街区高層化を公開。監査指摘の中断復帰/蜘蛛/勝利後着地/分節旧経路を修正し、対象1d1c06aの独立Chat合格・必須0。型/関連74件・分節45件（重複あり）/中断4件、実Worker2接続、先行全20作戦・11マップ・3画面サイズ成功。main build/dry-run、公開19SHA/health、実iabのF・ボタン上昇/着地・エラーログ0確認。詳細・監査URL・残る確認範囲は [JUMP-ELEVATED-MAPS.md](JUMP-ELEVATED-MAPS.md)。別作業 `.gitignore`/`AGENTS.md`/`package.json`/`CLAUDE.md` を保護しているためgame全体はcleanではない。mainは既存share-image-fix worktreeで同期、後続は公開記録のみ。
+# 現在地: PR54・分節敵の旧経路復帰を修正し再監査中（2026-09-20）
+
+対象 `1d1c06ac4faa994fb560b65bf5271fa403a12ec0`。活動中の分節敵だけ残ったF1/P2を、安全な地上への位置・履歴再構築で修正。旧経路停止の修正前再現あり。作戦18/20の中断→休眠→実再活動・切断HP保持と全地域の通常分節移動を含む45/45、型/build/production dry-run成功。同じ[監査Chat](https://chatgpt.com/c/6aafaa2f-a6f0-83e8-9efe-9e8d15baba4e)へZIP送信済み、判定待ち。`dist-validation/jump-maps/jump-maps-worm-reaudit.zip` SHA256 `15A53E2481D83FF74CC0BE114F3D27DEAFBE47FC745211B6DD29EA1042DEAD4E`。main未反映・未公開。別作業4ファイル保護。
+# 現在地: PR54・建物内復帰も修正し最終再監査中（2026-09-20）
+
+最終対象 `61448a63542b40898f6c147402b34c9cc85ac5b9`。ゲーム実装0b849a8、後続は検証fixture/証拠/文書。必須F1の追加ビル/保守棟内の敵・分節救出を追加し、型・関連74/74成功、実装からbuild/dry-run成功。前回必須F2/F3・協力予測は独立確認済み。同じ[監査Chat](https://chatgpt.com/c/6aafaa2f-a6f0-83e8-9efe-9e8d15baba4e)へ最終ZIPを送信済み、判定待ち。`dist-validation/jump-maps/jump-maps-final-reaudit.zip` SHA256 `49B91826D5E87FBD0B54C4D0CAEF5D6571F661343EADFB9367BC045E52E109DF`。main未反映・未公開。詳細 [JUMP-ELEVATED-MAPS.md](JUMP-ELEVATED-MAPS.md)。別作業4ファイルは保護。
+# 現在地: PR54の必須3件を修正し再監査中（2026-09-20）
+
+対象 `ed8bbafe5b2f36498f9cd3d03ce227af59c64f91`。旧中断の敵埋没・蜘蛛perch・勝利後の浮遊を修正し、協力予測の高さ保持も対応。型/地形23件/関連49件/中断保存4件/build/production dry-run成功。同じ[監査Chat](https://chatgpt.com/c/6aafaa2f-a6f0-83e8-9efe-9e8d15baba4e)へ修正ZIPを添付・再監査依頼済み。ZIP `dist-validation/jump-maps/jump-maps-reaudit-ed8bbaf.zip`、SHA256 `F11064EF5482CF75E4BEFC99E30E8988ED9887943F63A15620673B511C195087`。判定待ち、main未反映・未公開。無料プラン/既存利用量は実ダッシュボードで確認済み。別作業4ファイル保護。詳細 [JUMP-ELEVATED-MAPS.md](JUMP-ELEVATED-MAPS.md)。
+# 現在地: PR54の独立監査を送信済み、公開準備中（2026-09-20）
+
+iab復旧。対象7ee5d9dの監査ZIPを通常Chatへ添付・送信し、実差分監査の回答待ち。[監査Chat](https://chatgpt.com/c/6aafaa2f-a6f0-83e8-9efe-9e8d15baba4e)。PR54 head0bcf10fは記録文書のみ追加。ユーザーの「公開して」により公開作業を再開。最新PRはMERGEABLE・チェックなし。合格確認後に通常merge・既存Worker公開・配信確認する。別作業の4ファイルは保護。
+# 現在地: PR54・ジャンプと高台ルートを保存、独立監査の接続復旧待ち（2026-09-20）
+
+[draft PR54](https://github.com/futsalife24-bot/swarm-front/pull/54)、branch `codex/jump-elevated-maps`。実装08bf674へ最新mainのLINE共有変更7b3e4dfを統合し、対象 `7ee5d9d16b0051ef21644e050e615ef5a183b72f`。競合はSTATEの追記のみで双方保持、ゲームソースは08bf674と同一。統合後build/production dry-run成功。ジャンプ/F・固定追加版・3地域の外階段・自然地形・高層ビル8棟、全20作戦を含む76件＋最終地形23件（重複あり）・実Worker2接続・11マップ描画・3サイズキー/タッチ/着地成功。既存射撃1失敗はbaseで再現。自己検証証拠をPRの `docs/evidence/jump-maps/` に保存。Jevはmissing_keyで未判定/API0。[詳細](JUMP-ELEVATED-MAPS.md)。後続は記録文書のみ。
+
+監査ZIP `dist-validation/jump-maps/jump-maps-audit-7ee5d9d.zip`（21,351,646 bytes、SHA256 `6623C705F02000443904B7CD9ED4F30A98346D1ECEBC7C69756CABF39418CCE8`）。対象ソース/実差分/既存GLB/検証証拠を含み、秘密ファイル等を除外確認。旧08bf674 ZIPは履歴用、再開時は7ee5d9d版を使う。
+
+停止理由: このタスクのiabはkernel assetsのパス不存在（os error 3）で初期化できず、reset後と別タスク成功記録後の再確認でも再現。独立監査未依頼、main未反映・未公開。
+再開条件: iab復旧後、上記ZIPを通常Chatへ送信して独立監査・必要修正・通常merge・既存Worker公開・配信確認。継続承認は有効。別作業の `.gitignore`/`AGENTS.md`/`package.json`/`CLAUDE.md` 差分を保護しており、作業ツリー全体はcleanではない。
+
+# 現在地: ジャンプ・固定高台ルートの自己検証済み、独立監査ブラウザ復旧待ち（2026-09-20）
+
+branch `codex/jump-elevated-maps`、base `b322d62d91b622df5402c583a1f9668238a65aa3`。ジャンプボタン/Fキー、ステージ3・7・8・12・14・17〜20へ固定する追加版、草原の山腹斜面・雪山の窪地・街区8棟高層化。通常/追加の選択UIなし。型、全20作戦を含む再検証76件、最終地形23件（重複あり）、11マップ実描画、3サイズのキー/タッチ/着地、実Worker2接続同期が成功。既存射撃テスト1失敗はbaseでも同一再現。Jev固定needs_context/live missing_key・API0、未判定。詳細・証拠は [JUMP-ELEVATED-MAPS.md](JUMP-ELEVATED-MAPS.md)。実装commit後のビルド・PR・監査ZIPの情報は後続記録へ。別作業の `.gitignore`/`AGENTS.md`/`package.json`/`CLAUDE.md` は保護。
+
+停止理由: 独立監査用iabがkernel assetsのパス不存在（os error 3）で初期化できず、reset後も再現。監査未依頼、main未反映・未公開。
+再開条件: iab復旧後、保存する対象SHA/ZIPを通常Chatへ送って独立監査・必要修正・通常merge・既存Worker公開・配信確認。監査・公開の既存継続承認は有効で、再承認は不要。
+
+# 現在地: LINE共有画像・説明文をmain反映・公開確認済み（2026-09-20）
+
+PR53通常merge。ユーザー最終指定の横長1280×720画像と「SWARM FRONT — 仲間と戦う3D協力アクション。」をOGP/Twitterへ設定。独立監査e4bd633合格・必須0。公開ソースf846e07、Worker Version d07241f8-45b2-49f4-84b3-a4328a8f619b。main build/dry-run・公開2URLのHTML/画像原本SHA/12assets一致・health200・実iab画像目視成功。LINE実機と送信済みカード更新は未検証。共有URLは https://swarm-front.melosalife-24.workers.dev/?share=20260920 。[詳細](LINE-SHARE.md)。gameの別タスク差分を保護し、share-image-fixでmain同期。後続は公開記録のみ。
+# 現在地: LINE共有画像・説明文を修正し独立監査中（2026-09-20）
+
+PR53、branch codex/line-share-image（share-image-fix worktree）、base b322d62、実装e4bd633。ユーザー指定の横長1280×720画像と「SWARM FRONT — 仲間と戦う3D協力アクション。」を静的OGPに設定。build/dry-run・画像原本一致・ローカル配信/12assets・実画像表示成功。通常ChatへZIP送信済み、最終判定待ち。game側の別作業は保護。[詳細・監査URL・検証限界](LINE-SHARE.md)。main反映と公開は未完了。
 # 現在地: ドローン撮影をmain反映・公開・確認済み（2026-09-20）
 
 PR51/PR52を通常merge。兵士操作を維持し、`?drone=1&clean=1`で上空追従・自動周回、ポーズから高さ/角度/距離/速度を調整。独立Chat再監査はカメラ6200491・CSS5441fedとも合格/必須0。公開ソース5b5da2ee22c330e5b4422ccc342fabf0f86cc687、Worker Version70338c28-cadf-48e3-83f8-9407d95bc289。最新mainのbuild/dry-run、配信14SHA一致、health成功。カメラ型/関連44件成功、実Chrome844×390/667×375のローカル比較・production preview成功。公開667×375でも通常/真上/自動周回、設定の1行表示・スクロールなし、周回角18→29度、エラー0を確認。初回公開CSS競合はPR52で解消。全件テストはドローン変更で再実行せず（先行clean時の既存失敗3件を記録済み）、実スマホ等は未検証。敵出現ルールは変えず、四方配置は静止QAのみ。詳細・証拠は [DRONE-CAPTURE.md](DRONE-CAPTURE.md)。後続は公開記録のみ。

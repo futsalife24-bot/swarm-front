@@ -29,6 +29,7 @@ import {
   retireEvents,
 } from "../src/shared/game";
 import { CombatAudio } from "../src/client/combat-audio";
+import { neonGeometry } from "../src/client/weapon-rarity-glow";
 
 // The three kinds that existed before families did. Their numbers are load-
 // bearing for every save already on a player's device, so they are asserted
@@ -396,6 +397,16 @@ describe("weapon families", () => {
           existsSync(`${dir}/${modelOf(kind)}_${grade}.glb`),
           `${kind} grade ${grade} -> ${modelOf(kind)}_${grade}.glb`,
         ).toBe(true);
+  });
+
+  it("draws the rarity neon on every kind, borrowing its model's outline", () => {
+    // The neon trim arrived alongside the new kinds and traced only the three
+    // original models by kind, so equipping any new weapon threw here.
+    for (const kind of KINDS) {
+      const g = neonGeometry(kind, 0.0035);
+      expect(g.getAttribute("position").count, kind).toBeGreaterThan(0);
+      g.dispose();
+    }
   });
 
   it("fires repel from the weapon that is allowed to roll it", () => {
