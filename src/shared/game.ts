@@ -261,6 +261,7 @@ export interface Drop {
   weapon: Weapon;
 }
 export interface World {
+  campaignPlan?: import("./stages").StagePlan;
   harrowMissiles?: import("./harrow").HarrowMissile[];
   pollen?: import("./calyx").PollenCloud[];
   defense?: DailyDefense;

@@ -440,6 +440,8 @@ export const HARROW_BRANCH = {
   brief: "草原の奥部で観測されたHARROWを調査する。",
   waves: [wave({ crawler: 12, spitter: 6 }), wave({}, ["harrow"], 1.2)],
 };
+/** Final, difficulty-adjusted roster pinned by a suspended solo campaign. */
+export type StagePlan = (typeof STAGES)[number];
 // Explicit per-map permission lists, derived only from that map's existing
 // normal-enemy rosters. Bosses can never recursively fabricate more bosses.
 for (const [mapId, map] of MAPS.entries())
@@ -468,7 +470,9 @@ export function validStage(id: unknown): id is number {
 export function stageFor(w: {
   stage?: number;
   solo?: { stage: number; difficulty: "normal" | "medium" };
+  campaignPlan?: StagePlan;
 }) {
+  if (w.campaignPlan) return w.campaignPlan;
   const base =
     w.solo?.stage === BRANCH_15
       ? HARROW_BRANCH
@@ -484,6 +488,7 @@ export function stageFor(w: {
 }
 export function mapFor(w: {
   stage?: number;
+  campaignPlan?: StagePlan;
   training?: boolean;
   defense?: unknown;
 }) {
