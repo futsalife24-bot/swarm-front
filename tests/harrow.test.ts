@@ -15,7 +15,8 @@ import {
   staggerHarrow,
 } from "../src/shared/harrow";
 import { RAY_MAX_FLIGHT_HEIGHT } from "../src/shared/defs";
-import { TRAINING_MAP, stageFor } from "../src/shared/stages";
+import { TRAINING_MAP, stageFor, mapFor } from "../src/shared/stages";
+import { supportHeight, groundHeight } from "../src/shared/terrain";
 import { prepareState } from "../src/shared/state-wire";
 import { freshProgress } from "../src/client/progression-save";
 import { initSolo } from "../src/shared/solo-progression";
@@ -371,4 +372,87 @@ it("airborne accumulated damage triggers StaggerFall, cancels pending missiles a
   stepHarrow(w, e, p, [p], 0.05);
   expect(e.harrow).toBeUndefined();
   expect(e.harrowAirDamage).toBe(0);
+});
+
+it.each([
+  { name: "ST20 rock", map: 3, x: 50, z: -24, height: 4 },
+  { name: "warehouse roof", map: 1, x: -58, z: -64, height: 6 },
+])(
+  "keeps $name support through landing, pursuit, stopping and a full spin",
+  ({ map, x, z, height }) => {
+    const w = createWorld("harrow-support", 723, 20);
+    w.phase = "battle";
+    // ST20 uses map 3. The roof case exercises the same movement on a city map.
+    if (map !== 3) w.campaignPlan = { ...stageFor(w), map };
+    const blocks = mapFor(w).blocks;
+    const p = addPlayer(w, "solo");
+    Object.assign(p, { x, z: z + 12, y: height, safe: 0 });
+    const e = spawn(w, "boss", x, z, "harrow")!;
+    Object.assign(e, {
+      x,
+      z,
+      y: height + HARROW.flightHeight,
+      heading: 0,
+      harrowSwitchAt: 0,
+    });
+    expect(supportHeight(x, z, blocks, e.y)).toBe(height);
+    expect(groundHeight(x, z, blocks)).toBe(0);
+    stepHarrow(w, e, p, [p], 0.05);
+    expect(e.harrow?.kind).toBe("Land");
+    w.time += HARROW.landDuration;
+    stepHarrow(w, e, p, [p], 0.05);
+    expect(e.y).toBe(height);
+    w.time += 0.25;
+    stepHarrow(w, e, p, [p], 0.25);
+    expect(e.z).toBeGreaterThan(z);
+    expect(e.y).toBe(height);
+    p.z = e.z + 2;
+    const stopped = { x: e.x, y: e.y, z: e.z };
+    for (let i = 0; i < 26 && !e.harrow; i++) {
+      w.time += 0.05;
+      stepHarrow(w, e, p, [p], 0.05);
+      expect({ x: e.x, y: e.y, z: e.z }).toEqual(stopped);
+    }
+    expect(e.harrow?.kind).toBe("Spin");
+    for (let i = 0; i < 73; i++) {
+      w.time += 0.05;
+      stepHarrow(w, e, p, [p], 0.05);
+      expect({ x: e.x, y: e.y, z: e.z }).toEqual(stopped);
+    }
+    expect(e.harrow).toBeUndefined();
+  },
+);
+
+it("ground pursuit steps off a roof edge while airborne pursuit retains flight altitude", () => {
+  const w = createWorld("harrow-roof-edge", 723, 20);
+  w.phase = "battle";
+  w.campaignPlan = { ...stageFor(w), map: 1 };
+  const blocks = mapFor(w).blocks;
+  const p = addPlayer(w, "solo");
+  const radius = 3.4 * HARROW.scale;
+  const x = -58 + 9 + radius - 0.01;
+  Object.assign(p, { x: x + 12, z: -64, y: 0 });
+  const e = spawn(w, "boss", x, -64, "harrow")!;
+  Object.assign(e, {
+    x,
+    z: -64,
+    y: 6,
+    harrowAirborne: false,
+    harrowSwitchAt: 100,
+    cool: 10,
+  });
+  expect(supportHeight(e.x, e.z, blocks, e.y, radius)).toBe(6);
+  stepHarrow(w, e, p, [p], 0.1);
+  expect(e.x).toBeGreaterThan(x);
+  expect(e.y).toBe(0);
+  Object.assign(e, {
+    x: -58,
+    z: -64,
+    y: HARROW.flightHeight,
+    harrowAirborne: true,
+    cool: 10,
+  });
+  p.x = e.x + 12;
+  stepHarrow(w, e, p, [p], 0.1);
+  expect(e.y).toBe(HARROW.flightHeight);
 });

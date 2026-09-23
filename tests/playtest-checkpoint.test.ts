@@ -6,6 +6,7 @@ import {
   step,
   neutral,
   spawn,
+  hurtEnemy,
   type World,
 } from "../src/shared/game";
 import { initSolo, soloSpawnAndProgress } from "../src/shared/solo-progression";
@@ -84,6 +85,38 @@ function finishRemainingWaves(world: World) {
   expect(world.phase).toBe("victory");
 }
 describe("battle checkpoint", () => {
+  it.each([
+    [7, 1, 23],
+    [20, 4, 108],
+  ])(
+    "resumes audit F1 legacy ST%d wave %d after %d troops and the last living enemy",
+    (stage, wave, spawned) => {
+      const f = fixture(stage);
+      f.world.wave = wave;
+      f.world.spawned = spawned;
+      f.world.enemies = [];
+      f.world.solo!.bossSpawned = 0;
+      const survivor = spawn(f.world, "ant", 40, 40)!;
+      legacySave(f);
+      const resumed = readBattleCheckpoint(f.progress, f.storage)!.world;
+      expect(
+        resumed.enemies.find((e) => e.id === survivor.id)?.hp,
+      ).toBeGreaterThan(0);
+      hurtEnemy(resumed, resumed.enemies[0], resumed.enemies[0].hp + 1, "solo");
+      for (
+        let i = 0;
+        i < 600 && resumed.phase === "battle" && resumed.wave === wave;
+        i++
+      ) {
+        step(resumed, { solo: neutral() });
+        // State-controlled audit reproduction, not a full combat victory.
+        for (const e of resumed.enemies.filter((e) => e.hp > 0))
+          hurtEnemy(resumed, e, e.hp + 1, "solo");
+      }
+      if (stage === 20) expect(resumed.phase).toBe("victory");
+      else expect(resumed.wave).toBeGreaterThan(wave);
+    },
+  );
   it("restores deterministic combat without advancing elapsed time", () => {
     const f = fixture();
     for (let n = 0; n < 30; n++) step(f.world, { solo: neutral() });

@@ -464,9 +464,9 @@ export function stepHarrow(
       3.4 * HARROW.scale,
       blocks,
     );
-    e.y =
-      groundHeight(e.x, e.z, blocks) +
-      (e.harrowAirborne ? HARROW.flightHeight : 0);
+    // Ground pursuit keeps move()'s rock/roof support, including platform edges.
+    if (e.harrowAirborne)
+      e.y = groundHeight(e.x, e.z, blocks) + HARROW.flightHeight;
   }
 }
 export function staggerHarrow(w: World, e: Enemy, damage: number) {
