@@ -457,7 +457,7 @@ function victory() {
     s = w.solo!,
     missions = [
       true,
-      w.time <= settings(s.stage, s.difficulty).timeLimit,
+      w.time <= settings(s.stage, s.difficulty, w.campaignPlan).timeLimit,
       s.medkit && !s.revived,
     ],
     items = w.rewards.solo as NewWeapon[];
@@ -1012,7 +1012,7 @@ function frame(now: number) {
   if (world && ["battle", "collection"].includes(screen)) {
     const p = world.players[0],
       s = world.solo!,
-      cfg = settings(s.stage, s.difficulty),
+      cfg = settings(s.stage, s.difficulty, world.campaignPlan),
       warn =
         s.waveCompleteAt !== null && world.wave < stageFor(world).waves.length
           ? cfg.waveWait[world.wave - 1] - (world.time - s.waveCompleteAt)

@@ -9,7 +9,7 @@ import {
   type Weapon,
   type Roll,
 } from "./defs";
-import { STAGES, HARROW_BRANCH, troopCount } from "./stages";
+import { STAGES, HARROW_BRANCH, troopCount, type StagePlan } from "./stages";
 import { BRANCH_15, campaignNumber } from "./campaign";
 
 export type Difficulty = "normal" | "medium";
@@ -128,9 +128,14 @@ export const BRANCH_POINT = { x: 0, z: -36, radius: 6 };
 export const BRANCH_HINT =
   "ST3の北側、街区中央の通りを奥まで調査して生還する。";
 // Implementer provisional settings; accepted economy/skill values are above.
-export const settings = (stage: number, difficulty: Difficulty) => {
+export const settings = (
+  stage: number,
+  difficulty: Difficulty,
+  campaignPlan?: StagePlan,
+) => {
   const base =
-    stage === BRANCH_15 ? HARROW_BRANCH : STAGES[campaignNumber(stage) - 1];
+    campaignPlan ??
+    (stage === BRANCH_15 ? HARROW_BRANCH : STAGES[campaignNumber(stage) - 1]);
   const troops = base.waves.reduce(
     (n, w) => n + troopCount(w) + w.bosses.length * 28,
     0,

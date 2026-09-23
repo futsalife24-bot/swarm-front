@@ -92,7 +92,7 @@ export function soloSpawnAndProgress(w: World) {
   const s = w.solo!,
     plan = stageFor(w),
     wave = plan.waves[w.wave - 1],
-    cfg = settings(s.stage, s.difficulty);
+    cfg = settings(s.stage, s.difficulty, w.campaignPlan);
   if (!wave) return;
   const capacity = () =>
     w.enemies.filter((e) => e.hp > 0).length < cfg.enemyCap;

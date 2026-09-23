@@ -416,6 +416,9 @@ export function stepHarrow(
     transition("Takeoff", { x: e.x, z: e.z, y: e.y + HARROW.flightHeight });
     return;
   }
+  // A nearby target must wait for landing, including the two-second airborne grace.
+  // Do not choose the ground-only Spin (or a ranged attack) while hovering above it.
+  if (e.harrowAirborne && distance <= HARROW.spinRadius) return;
   // Bounded turn rate keeps the large wings from snapping across the arena.
   const old = e.heading ?? yaw;
   const turn = Math.atan2(Math.sin(yaw - old), Math.cos(yaw - old));
