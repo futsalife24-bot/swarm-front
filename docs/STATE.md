@@ -1,3 +1,9 @@
+# 現在地: HARROW再監査資料完成・添付操作障害で未送信（2026-09-24）
+
+HEAD `30737b43ea58a7e385b852205448109e297aea2f` をPR78へpush済み。F1/F2/F3修正済み、checkpoint16件・HARROW17件・両型・F3後client build成功。ZIP `dist-validation/harrow/HARROW-reaudit-30737b4.zip`（12,139,342 bytes、SHA256 `e5a073271001eff37c916afe89bfa344e61d7bd4c94a74ebda16559eb795afb6`）、送信本文 `dist-validation/harrow/reaudit-message.md`。
+
+停止理由: iab接続と初回監査本文取得は復旧したが、添付操作でInput.dispatchMouseEvent/Runtime.evaluateが繰り返しtimeoutし、filechooser取得不能。別タブ・操作セッション初期化・キーボード・AX/座標操作でも復旧せず、修正版は未送信。承認拒否ではなく操作系障害。
+再開条件: iabの添付操作が復旧、またはユーザーが同じ監査Chatへ上記ZIPと本文を送信したら判定取得へ。監査Chat https://chatgpt.com/c/6ab26169-d12c-83e8-84b1-1b91731a8856 。main反映・公開未完了。別作業差分は保護。
 # 現在地: iab復旧・HARROW初回監査3件を修正、再監査準備（2026-09-24）
 
 初回0120db6の判定は要修正、F1/P1旧中断進行不能・F2/P2空中Spin・F3/P2岩上追跡で沈む。F1/F2既修正に加え `efcaef1` でF3と監査実例の回帰追加。HARROW17件・checkpoint16件・両型成功。任意O1の被弾中心球とO2実スマホ未測定も記録。iabは対象タスクへnavigateして接続復旧し、同じ監査Chatへ修正版ZIPを送信予定。main反映・公開は判定後。詳細は [HARROW記録](HARROW-INTEGRATION.md)。下記の未接続記録は過去時点。
