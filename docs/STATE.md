@@ -8,7 +8,9 @@
 
 検証: typecheck成功、全件492中489成功（既存3失敗＋読込失敗1スイートはbaseと同一）。`weapon-families.test.ts` 29件、R1-Rの回帰ガード2件は退役を無効化すると落ちることを確認。build / server:build dry-run 成功。
 
-**未実施: 4回目の監査・main反映・公開。** main反映前に origin/main（+8コミット、STATEのみ重複）の取り込みと、並行PR #78 の確認が必要。実プレイ・Android実機・実協力通信・全地形での反動移動・実通信の最大パケットは引き続き未検証。
+**4回目の監査を依頼済み・判定待ち（2026-09-23）。** 同じ監査Chatへ対象 `5347afa59ab2214b243740ce7642819d51341f1d` を送信。資料 `dist-validation/weapon-families-r1r-audit.zip`（277,901 bytes / SHA256 `d1a5019e0b8805dd7771c49b780c72b1f1a6cc18673553e3dbea0003c51c1014`）、本文 `dist-validation/weapon-families-r1r-reaudit-message.md`。
+
+**未実施: 判定取得・main反映・公開。** main反映前に origin/main（+8コミット、STATEのみ重複）の取り込みと、並行PR #78 の確認が必要。実プレイ・Android実機・実協力通信・全地形での反動移動・実通信の最大パケットは引き続き未検証。
 
 # 現在地: 再監査の必須1件を修正、再々監査へ（2026-09-22）
 
