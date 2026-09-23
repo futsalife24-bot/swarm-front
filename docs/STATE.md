@@ -10,7 +10,9 @@
 
 **統合で見つかった不整合を修正（要再監査）:** main側の `src/client/weapon-rarity-glow.ts` が武器ネオンの輪郭を `Record<Kind, …>` の3丁分だけ持っていた。12丁化後は型エラーになり、実行時も新しい武器を装備した瞬間に `PROFILES[kind]` が `undefined` で落ちる。武器モデルと同じく `modelOf(kind)` で3つの輪郭へ対応付けた（ネオンの形状・色・明滅は不変）。回帰テスト「12丁すべてでネオンが作れる」を追加。統合後: typecheck成功、全件493中490成功（既存3失敗＋読込失敗1スイートは同一）、build / server:build / server:build:production 成功。
 
-**5回目の監査を依頼済み・判定待ち（2026-09-23）。** 同じ監査Chatへ merge commit `1b6e77d22b189e831c5a058dba0843d775fa3990` を送信。資料 `dist-validation/weapon-families-merge-audit.zip`（162,131 bytes / SHA256 `c9e32dbf73022d03b4a73ca07618e1587f68237d5cdd7ad907708772309a6ffc`）、本文 `dist-validation/weapon-families-merge-reaudit-message.md`。実ブラウザでの12丁ネオン描画は未確認（形状生成は単体テストのみ）。
+**5回目の監査 合格・必須0（2026-09-23）。** 対象 `1b6e77d` の統合不整合の解消を確認（修正前は新9丁すべてで例外を再現、修正後は12丁×2半径で対応モデルと生成入力が完全一致、`StandardTrooper.equip()` 144通りの2丁組合せで対応・破棄を確認。Three.js本体・WebGL描画は監査側も未検証）。STATEの復元でmain側の記録に追加削除・改変なしも確認。前回合格から変わった実行時ファイルはネオン処理1本のみ。任意P3: 追加テストを「対応モデルとの形状一致・halo側」まで固定するとよい（現状は頂点が存在する確認のみ）。A1・A2は未対応P3として持ち越し。以後の変更は記録のみ。
+
+（以下は送信時の記録）5回目の監査を依頼。 同じ監査Chatへ merge commit `1b6e77d22b189e831c5a058dba0843d775fa3990` を送信。資料 `dist-validation/weapon-families-merge-audit.zip`（162,131 bytes / SHA256 `c9e32dbf73022d03b4a73ca07618e1587f68237d5cdd7ad907708772309a6ffc`）、本文 `dist-validation/weapon-families-merge-reaudit-message.md`。実ブラウザでの12丁ネオン描画は未確認（形状生成は単体テストのみ）。
 
 **未実施: 判定取得・main反映・公開。** 本番公開（既存Workerへのdeploy）は前回PR72で自動承認レビューに止められた経緯があるため、公開直前にユーザーの明示承認を取る。 並行PR #78（HARROW 25面化）は未mergeで、共通ファイル（`game.ts` / `defs.ts` / `render.ts` / `combat-audio.ts` / `playtest-app.ts`）は#78側で本PR反映後の取り込みが必要。
 
