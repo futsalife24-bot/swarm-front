@@ -1,3 +1,9 @@
+# 現在地: 武器6系統12丁（PR76）をmain反映・本番公開完了（2026-09-24）
+
+[PR76](https://github.com/futsalife24-bot/swarm-front/pull/76)通常merge、main `f62d5f29bfa814914bb630e5dacf58de2b4117d9`。独立監査は5回（初回必須5→R1→R1-R→合格→main統合後も合格・必須0）。ユーザーが本番deployを明示承認。merge後mainから build:production / server:build:production 成功、既存Worker `swarm-front` へdeploy、Worker Version `396a80bd-44a9-439a-bf41-f2aae48cfec8`。https://swarm-front.melosalife-24.workers.dev の配信: 公開対象191ファイルのSHA256がローカルdistと全一致（`.assetsignore` と除外指定の6 GLBは対象外）、`/api/health` 200。内蔵ブラウザを `?analytics_admin=1` で管理者登録済み（アクセス集計から区別）。
+
+未検証: 実プレイ（手触り・12丁の体感バランス）、公開環境での実戦・12丁のネオン目視、Android実機、実DO/WebSocketでの4人同時動作、全地形での反動移動、実通信の最大パケット。任意P3（未対応）: A1「命中音を失わない」表現の限定、A2 退役の接続順序を製品テストへ固定、ネオンのテストを対応モデルとの形状一致まで固定。並行PR #78（HARROW 25面化）は共通ファイルがあり、最新mainの取り込みが必要。[詳細](WEAPON-FAMILIES.md)。
+
 # 現在地: 武器6系統12丁（PR76）4回目の監査合格・最新mainを統合（2026-09-23）
 
 [監査Chat](https://chatgpt.com/c/6ab13de7-c55c-83e8-be6d-f9dda9c268bd) の `5347afa` 判定は **合格・必須0**。R1-R（送信済みイベントが容量を占め新しい命中通知・命中音が消える）の解消を、協力の4人配送・ソロ3入口の実フレーム関数・以前の過密条件（レーザー83/83件・メテオ81/81件）まで独立確認された。以後の変更は記録と最新mainの統合のみ。
