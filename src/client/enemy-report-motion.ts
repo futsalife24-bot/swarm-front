@@ -49,6 +49,13 @@ export const HARROW_REPORT_SEQUENCE: {
     to: reportFlightHeight,
   },
   {
+    clip: "AirThreat",
+    duration: HARROW.threatDuration,
+    from: reportFlightHeight,
+    to: reportFlightHeight,
+    threat: true,
+  },
+  {
     clip: "Glide",
     duration: HARROW.glideDuration,
     from: reportFlightHeight,
@@ -112,8 +119,16 @@ function reportHarrowPhase(time: number) {
 }
 
 /** Fixed specimen targets let the viewer observe ten missiles without a live World. */
-export function reportHarrowMissiles(): HarrowMissile[] {
-  const origins = harrowMissileOrigins({ x: 0, y: 0, z: 0 }, Math.PI);
+export function reportHarrowMissiles(airborne = false): HarrowMissile[] {
+  const origins = harrowMissileOrigins(
+    {
+      x: 0,
+      y: airborne ? HARROW.flightHeight : 0,
+      z: 0,
+      harrowAirborne: airborne,
+    },
+    Math.PI,
+  );
   return Array.from({ length: 10 }, (_, i) => {
     const angle = (i * Math.PI * 2) / 10;
     return {
@@ -233,6 +248,7 @@ export class ReportEffects {
   readonly root = new T.Group();
   private readonly harrow = new HarrowEffects();
   private readonly harrowMissiles = reportHarrowMissiles();
+  private readonly harrowAirMissiles = reportHarrowMissiles(true);
   private material = new T.MeshBasicMaterial({
     color: 0x7aeaff,
     transparent: true,
@@ -296,7 +312,11 @@ export class ReportEffects {
         : [];
       this.harrow.update({
         time: phase.sample,
-        harrowMissiles: phase.threat ? this.harrowMissiles : [],
+        harrowMissiles: phase.threat
+          ? phase.clip === "AirThreat"
+            ? this.harrowAirMissiles
+            : this.harrowMissiles
+          : [],
         enemies,
       });
       return;

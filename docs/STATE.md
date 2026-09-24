@@ -1,3 +1,10 @@
+# 現在地: HARROW v8統合・再監査準備（2026-09-24）
+
+PR81、branch `codex/harrow-presence-motion`、base `413c9ea7b2a879f4797dcf71bbfd8d965e3fd35a`、作業場所 `../harrow-integration`。二足立ち風の空中姿勢・AirThreat・鋭いDive、最強ボスの耐久/攻撃力、地形に沿う赤予告へ更新。3倍体格/会敵修正を継承。
+
+v7独立監査は必須P2が2件（旧保存の実行状態と連鎖爆風）。checkpoint v3の安全移行と連鎖体表距離を修正。関連213件、checkpoint32+campaign定義6件、3作戦×2難度全勝、実Worker2接続11項目、両型が成功。最終原本/GLB全12動作、実会敵と地形描画、最終動画を確認。詳細と倉庫屋上の既存不一致は [v8記録](HARROW-V8.md)。
+
+次はcommit後build/dry-run、同じ通常Chatへ修正版ZIPを送信し独立再監査、合格後通常main反映・既存Worker公開。まだ未公開。元game別作業は保護。
 # 現在地: HARROW v7を独立監査へ送信済み（2026-09-24）
 
 [PR81](https://github.com/futsalife24-bot/swarm-front/pull/81)。対象 `4da040d10709ab3dd5ba067250e18bf0815f675d`、base `413c9ea7b2a879f4797dcf71bbfd8d965e3fd35a`、branch `codex/harrow-presence-motion`。変更後production build/Worker dry-runも成功。

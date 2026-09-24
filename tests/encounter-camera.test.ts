@@ -60,11 +60,11 @@ describe("first encounter camera", () => {
       shot.updateMatrixWorld();
       expect(focus.clone().project(shot).x).toBeCloseTo(0);
       expect(focus.clone().project(shot).y).toBeCloseTo(0);
-      // Complete v7 Flight envelope sampled at 10 Hz, rounded outwards.
+      // Complete v8 Flight envelope sampled at 10 Hz, rounded outwards.
       // Coordinates relative to eye(e), before the actor's runtime scale.
-      for (const x of [-11.78, 11.78])
-        for (const y of [0.33 - 4.2, 8.92 - 4.2])
-          for (const z of [-5.77, 8.64]) {
+      for (const x of [-12.46, 12.46])
+        for (const y of [-2.22 - 4.2, 10.65 - 4.2])
+          for (const z of [-2.99, 10]) {
             const corner = new T.Vector3(x, y, z)
               .multiplyScalar(HARROW.scale)
               .add(focus)

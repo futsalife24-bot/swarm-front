@@ -12,12 +12,13 @@ import {
 
 // Uses the production renderer, model adapter and frozen-contact visual clock.
 // No save/profile or combat state is advanced by this recording fixture.
+performance.setResourceTimingBufferSize(2000);
 const status = document.querySelector("#status")!,
   button = document.querySelector<HTMLButtonElement>("#record")!,
   film = document.querySelector<HTMLCanvasElement>("#film")!,
   ctx = film.getContext("2d")!,
   view = new Renderer(document.querySelector<HTMLCanvasElement>("#world")!);
-const world = createWorld("harrow-film-v7", 1, 20);
+const world = createWorld("harrow-film-v8", 1, 20);
 world.phase = "battle";
 world.nextSpawn = 1e9;
 world.spawned = 9999;
@@ -51,14 +52,22 @@ async function prepare() {
   const flight = batch.asset.clips.find((clip) => clip.name === "Flight")!;
   if (flight.duration < 4.1 || HARROW.scale < 1.9)
     throw Error(
-      "HARROW v7 / 3x runtime model is required; refusing to record v6",
+      "HARROW v8 / 3x runtime model is required; refusing to record v6",
     );
   const glbUrl = performance
     .getEntriesByType("resource")
     .find((entry) =>
-      /\/harrow_motion_v7\.glb(?:[?#]|$)/.test(entry.name),
+      /\/harrow_motion_v8\.glb(?:[?#]|$)/.test(entry.name),
     )?.name;
-  if (!glbUrl) throw Error("Loaded HARROW v7 resource is not identifiable");
+  if (!glbUrl)
+    throw Error(
+      "Loaded HARROW v8 resource is not identifiable: " +
+        performance
+          .getEntriesByType("resource")
+          .filter((entry) => entry.name.includes("harrow"))
+          .map((entry) => entry.name)
+          .join(", "),
+    );
   const resource = await fetch(glbUrl);
   if (!resource.ok) throw Error("Cannot verify loaded HARROW asset");
   const glbSha256 = Array.from(
@@ -100,7 +109,7 @@ async function prepare() {
   button.disabled = false;
   status.textContent = JSON.stringify({
     ready: true,
-    version: "v7",
+    version: "v8",
     stage: 20,
     height: enemy.y,
     scale: HARROW.scale,
@@ -130,7 +139,7 @@ async function prepare() {
           worldFrozen: JSON.stringify(world) === frozen,
           errors,
           stage: 20,
-          version: "v7",
+          version: "v8",
           duration: 14,
           height: enemy.y,
           scale: HARROW.scale,

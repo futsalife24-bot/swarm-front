@@ -2013,15 +2013,19 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
               e.z - direct.z,
               eye(e) - eye(direct),
             );
+            const blastDistance =
+              e.kind === "harrow"
+                ? Math.max(0, d - enemyBodies(e)[0].radius)
+                : d;
             if (
               e.hp > 0 &&
-              d < chainBlast &&
+              blastDistance < chainBlast &&
               visible(direct, e, mapFor(w).blocks)
             )
               hurtEnemy(
                 w,
                 e,
-                q.damage * 0.5 * (1 - d / (chainBlast * 2)),
+                q.damage * 0.5 * (1 - blastDistance / (chainBlast * 2)),
                 q.owner,
               );
           }

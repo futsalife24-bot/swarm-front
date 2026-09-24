@@ -662,10 +662,11 @@ function encounter() {
       )
     )
       continue;
-    encounterActive = true;
     const n = structuredClone(save);
     n.encounters[key] = "solo";
     commit(n, () => {
+      // A save conflict opens its own dialog without starting a cutscene.
+      encounterActive = true;
       const d = dialog(
         `新たなANOMALYを確認：${names[key]}`,
         '<p>エネミーレポートに記録しました。</p><button id="pt-intro-skip">スキップして戦闘へ</button>',

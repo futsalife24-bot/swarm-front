@@ -20,7 +20,7 @@ export function encounterVisible(
 
 /** The large wings need a central, wider shot rather than the ordinary close-up. */
 export function harrowEncounterDistance(aspect: number) {
-  return Math.max(29, 45 / Math.max(1, aspect)) * HARROW.scale;
+  return Math.max(38, 60 / Math.max(1, aspect)) * HARROW.scale;
 }
 
 /** Orbit the frozen specimen instead of crossing its body on a rear-to-front shot. */

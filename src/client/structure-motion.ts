@@ -65,7 +65,9 @@ export class StructureMotionController {
       }
       if (this.kind === "harrow") {
         const desired: HoundClip =
-          e.harrow?.kind ??
+          (e.harrow?.kind === "Threat" && e.harrowAirborne
+            ? "AirThreat"
+            : e.harrow?.kind) ??
           (e.harrowAirborne ? "Flight" : e.moving ? "Locomotion" : "Idle");
         if (desired !== s.clip) {
           s.from = s.clip;

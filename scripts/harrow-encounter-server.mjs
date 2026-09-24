@@ -2,11 +2,26 @@ import { createServer } from "vite";
 import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
 
 const server = await createServer({
-  server: { host: "127.0.0.1", port: 5199, strictPort: true },
+  server: { host: "127.0.0.1", port: 5200, strictPort: true, hmr: false },
   plugins: [
     {
       name: "harrow-film-receiver",
       transform(code, id) {
+        // The isolated recording origin must load current Vite modules, not
+        // retain development URLs in the production offline asset cache.
+        if (
+          id
+            .split("?")[0]
+            .replaceAll("\\", "/")
+            .endsWith("/src/client/app-install.ts")
+        )
+          return {
+            code: code.replace(
+              'if ("serviceWorker" in navigator)',
+              "if (false)",
+            ),
+            map: null,
+          };
         if (
           !id
             .split("?")[0]
@@ -30,7 +45,7 @@ const server = await createServer({
           try {
             metadata = JSON.parse(req.headers["x-harrow-metadata"] ?? "");
             if (
-              metadata.version !== "v7" ||
+              metadata.version !== "v8" ||
               !/^[a-f0-9]{64}$/.test(metadata.glbSha256)
             )
               throw Error("Invalid recording metadata");
@@ -47,13 +62,13 @@ const server = await createServer({
             else chunks.push(chunk);
           });
           req.on("end", () => {
-            mkdirSync("dist-validation/harrow/film-v7", { recursive: true });
+            mkdirSync("dist-validation/harrow/film-v8", { recursive: true });
             writeFileSync(
-              "dist-validation/harrow/film-v7/harrow.webm",
+              "dist-validation/harrow/film-v8/harrow.webm",
               Buffer.concat(chunks),
             );
             writeFileSync(
-              "dist-validation/harrow/film-v7/recording.json",
+              "dist-validation/harrow/film-v8/recording.json",
               JSON.stringify(metadata, null, 2),
             );
             res.end("saved");
@@ -64,4 +79,4 @@ const server = await createServer({
   ],
 });
 await server.listen();
-console.log("http://127.0.0.1:5199/scripts/harrow-encounter.html");
+console.log("http://127.0.0.1:5200/scripts/harrow-encounter.html");

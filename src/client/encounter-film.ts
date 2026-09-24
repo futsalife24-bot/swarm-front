@@ -35,7 +35,7 @@ export function showEncounterFilm(
   d.querySelector("h2")!.id = "report-film-title";
   d.setAttribute("aria-labelledby", "report-film-title");
   const file =
-    key === "harrow" ? "harrow-v7" : key === "calyx" ? "calyx-v5" : key;
+    key === "harrow" ? "harrow-v8" : key === "calyx" ? "calyx-v5" : key;
   const source = `${import.meta.env.BASE_URL}assets/encounters/report-v2/${file}.mp4`;
   video.dataset.source = source;
   let request: AbortController | undefined;

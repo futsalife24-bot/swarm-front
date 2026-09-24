@@ -5,11 +5,11 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 
 const ffmpeg = path.resolve(process.argv[2] ?? "../pv/edit/ffmpeg.exe");
-const directory = "dist-validation/harrow/film-v7";
+const directory = "dist-validation/harrow/film-v8";
 const input = `${directory}/harrow.webm`;
-const output = "public/assets/encounters/report-v2/harrow-v7.mp4";
-const glb = "public/assets/enemies/harrow_motion_v7.glb";
-assert.ok(fs.existsSync(glb), "HARROW v7 is required");
+const output = "public/assets/encounters/report-v2/harrow-v8.mp4";
+const glb = "public/assets/enemies/harrow_motion_v8.glb";
+assert.ok(fs.existsSync(glb), "HARROW v8 is required");
 const run = (args) => {
   const result = spawnSync(ffmpeg, args, {
     encoding: "utf8",
@@ -110,7 +110,7 @@ for (const [label, time] of [
     `${directory}/${label}.png`,
   ]);
 const result = {
-  version: "harrow-v7",
+  version: "harrow-v8",
   source: input,
   sourceSha256: hash(input),
   glb,

@@ -27,10 +27,10 @@ export const HARROW = {
   threatWind: 3.5,
   threatDuration: 7,
   shotRange: 100,
-  cooldown: 3.5,
-  missileFlight: 3,
+  cooldown: 1.8,
+  missileFlight: 1.8,
   markerLead: 3.5,
-  missileDamage: 22,
+  missileDamage: 36,
   missileRadius: 2.5,
   maxMissiles: 40,
   spinWind: 1.4,
@@ -38,18 +38,18 @@ export const HARROW = {
   spinTurn: 3.5,
   // v7's ground-level wing sweep (vertices below 2m), rounded from 21.193m.
   spinRadius: 21.2,
-  spinDamage: 34,
+  spinDamage: 84,
   takeoffDuration: 3.5,
   flightHeight: RAY_MAX_FLIGHT_HEIGHT * 3,
   groundDuration: 12,
   airDuration: 14,
   glideDuration: 2.1,
-  diveDuration: 1.4,
+  diveDuration: 0.9,
   landDuration: 1.75,
-  diveChance: 0.3,
+  diveChance: 0.45,
   diveRange: 60,
   diveRadius: 12,
-  diveDamage: 44,
+  diveDamage: 92,
   staggerFraction: 0.12,
   staggerFallDuration: 2.625,
 } as const;
@@ -110,18 +110,26 @@ export function harrowPoint(
     z: e.z + Math.cos(yaw) * forward - Math.sin(yaw) * side,
   };
 }
-/** v7 red warhead tips at Threat 3.50s, measured from the exported skin. */
+/** v8 red warhead tips at Threat/AirThreat 3.50s, measured from the exported skin. */
 export function harrowMissileOrigins(
-  e: Pick<Enemy, "x" | "y" | "z">,
+  e: Pick<Enemy, "x" | "y" | "z" | "harrowAirborne">,
   yaw: number,
 ): Point[] {
-  const left = [
-    [-5.619758, 6.446827, -2.32226],
-    [-6.107112, 6.085182, -2.509989],
-    [-6.006242, 6.967652, -2.32226],
-    [-6.493595, 6.606007, -2.509989],
-    [-6.056677, 6.526417, -2.416125],
-  ];
+  const left = e.harrowAirborne
+    ? [
+        [-6.35393, 7.861266, 0.264011],
+        [-6.743596, 7.705794, -0.212991],
+        [-6.856803, 8.099505, 0.597161],
+        [-7.246469, 7.944033, 0.120159],
+        [-6.8002, 7.902649, 0.192085],
+      ]
+    : [
+        [-5.619758, 6.446827, -2.32226],
+        [-6.107112, 6.085182, -2.509989],
+        [-6.006242, 6.967652, -2.32226],
+        [-6.493595, 6.606007, -2.509989],
+        [-6.056677, 6.526417, -2.416125],
+      ];
   return [1, -1].flatMap((sign) =>
     left.map(([x, y, z]) => harrowPoint(e, yaw, -z, x * sign, y)),
   );
@@ -362,7 +370,7 @@ export function stepHarrow(
           w.time +
           (e.harrowAirborne ? HARROW.airDuration : HARROW.groundDuration);
         e.harrow = undefined;
-        e.cool = a.kind === "Land" ? 1.5 : 0.5;
+        e.cool = a.kind === "Land" ? 1 : 0.5;
       }
       return;
     }

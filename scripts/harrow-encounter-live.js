@@ -3,7 +3,7 @@
 // boundary with a temporary TEST DATA profile; it never unlocks developer mode.
 if (
   location.hostname === "127.0.0.1" &&
-  location.port === "5199" &&
+  location.port === "5200" &&
   new URLSearchParams(location.search).get("harrow-contact-test") === "1"
 ) {
   const fixturePanel = document.createElement("aside");

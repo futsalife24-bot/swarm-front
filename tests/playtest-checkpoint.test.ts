@@ -34,6 +34,15 @@ import {
   writeBattleCheckpoint,
   readBattleCheckpoint,
 } from "../src/client/battle-checkpoint";
+import {
+  HARROW,
+  harrowMissilePosition,
+  queueHarrowMissiles,
+  stepHarrowMissiles,
+  type HarrowAttack,
+} from "../src/shared/harrow";
+import { enemySize } from "../src/shared/enemy-size";
+import { supportHeight } from "../src/shared/terrain";
 
 function fixture(stage = 1, difficulty: "normal" | "medium" = "normal") {
   const values = new Map<string, string>();
@@ -54,12 +63,13 @@ function fixture(stage = 1, difficulty: "normal" | "medium" = "normal") {
   return { storage, progress, world };
 }
 
-// Encode the historical v1 on-disk envelope, without relying on the v2 writer.
-function legacySave(f: ReturnType<typeof fixture>) {
+// Encode historical on-disk envelopes without relying on the current writer.
+function legacySave(f: ReturnType<typeof fixture>, version: 1 | 2 = 1) {
   const world = JSON.parse(JSON.stringify(f.world)) as World;
-  delete world.campaignPlan;
+  if (version === 1) delete world.campaignPlan;
+  else world.campaignPlan = structuredClone(stageFor(f.world));
   const body = JSON.stringify({
-    version: 1,
+    version,
     savedAt: 123,
     progress: JSON.stringify(f.progress),
     world,
@@ -212,7 +222,7 @@ describe("battle checkpoint", () => {
     expect(stageFor(resumed).damage).toBeCloseTo(1.04 * 1.15);
     expect(writeBattleCheckpoint(resumed, f.progress, f.storage)).toBe(true);
     const again = readBattleCheckpoint(f.progress, f.storage)!;
-    expect(again.version).toBe(2);
+    expect(again.version).toBe(3);
     expect(stageFor(again.world)).toEqual(stageFor(resumed));
   });
   it.each([
@@ -251,7 +261,7 @@ describe("battle checkpoint", () => {
         expected = JSON.parse(JSON.stringify(stageFor(f.world)));
       expect(writeBattleCheckpoint(f.world, f.progress, f.storage)).toBe(true);
       const checkpoint = readBattleCheckpoint(f.progress, f.storage)!;
-      expect(checkpoint.version).toBe(2);
+      expect(checkpoint.version).toBe(3);
       expect(stageFor(checkpoint.world)).toEqual(expected);
       expect(checkpoint.world.campaignPlan).not.toBe(f.world.campaignPlan);
       expect(f.world.campaignPlan!.waves).not.toBe(
@@ -284,4 +294,261 @@ describe("battle checkpoint", () => {
       live.waves[0].interval = interval;
     }
   });
+
+  it.each([
+    ["Spin", 1.1, false],
+    ["Threat", 1, true],
+    ["Threat", 2.1, true],
+    ["Takeoff", 1.5, true],
+    ["Glide", 0.8, true],
+    ["Dive", 0.6, true],
+    ["Land", 0.7, true],
+    ["StaggerFall", 1.1, true],
+    [undefined, 0, true],
+  ] as const)(
+    "migrates published v6 %s checkpoints without a stale impact, position jump or lost progress",
+    (kind, age, airborne) => {
+      const f = fixture(normalSaveId(25), "medium");
+      const w = f.world;
+      w.time = 100;
+      w.wave = stageFor(w).waves.length;
+      w.spawned = troopCount(stageFor(w).waves[w.wave - 1]);
+      w.solo!.bossSpawned = 1;
+      w.nextSpawn = 1e9;
+      w.enemies = [];
+      const p = w.players[0];
+      Object.assign(p, { x: 0, z: 0, safe: 0 });
+      p.y = supportHeight(p.x, p.z, mapFor(w).blocks);
+      const e = spawn(w, "harrow", 0, 0)!;
+      // Historical v6: size is its stat factor (1), not its old visual scale .65.
+      const maxHp = 5200 * stageFor(w).hp;
+      Object.assign(e, {
+        size: 1,
+        hp: maxHp * 0.6,
+        maxHp,
+        y: p.y + (kind === "Takeoff" ? 29.109375 : airborne ? 17 : 0),
+        cool: 0,
+        heading: 0.7,
+        harrowAirborne: airborne,
+        harrowAirDamage: 234,
+        harrowSwitchAt: w.time + 1,
+        harrow: kind
+          ? {
+              kind,
+              started: w.time - age,
+              fired: kind === "Spin" || kind === "Threat",
+              yaw: 0,
+              from: { x: -5, y: p.y + 34.5, z: -6 },
+              to: { x: p.x, y: p.y, z: p.z },
+              hitIds: kind === "Spin" ? ["solo"] : undefined,
+            }
+          : undefined,
+      });
+      const other = spawn(w, "ant", 60, 60)!;
+      other.active = false;
+      const missile = {
+        id: ++w.serial,
+        owner: e.id,
+        origin: { x: -2, y: p.y + 35, z: -1 },
+        target: { x: p.x + 60, y: p.y, z: p.z + 60 },
+        launch: w.time - 2.99,
+        impact: w.time + 0.01,
+        damage: 22,
+        radius: 2.5,
+      };
+      // A launched missile, a pending warning, and an orphan from a dead owner.
+      w.harrowMissiles = [
+        missile,
+        {
+          ...missile,
+          id: ++w.serial,
+          target: { x: p.x, y: p.y, z: p.z },
+          launch: w.time + 1,
+          impact: w.time + 4,
+        },
+        { ...missile, id: ++w.serial, owner: -1 },
+      ];
+      const before = structuredClone(w);
+      const progressBefore = JSON.stringify(f.progress);
+      legacySave(f, 2);
+      const rawBefore = f.storage.getItem(BATTLE_CHECKPOINT_KEY);
+      const checkpoint = readBattleCheckpoint(f.progress, f.storage)!;
+      const resumed = checkpoint.world;
+      const harrow = resumed.enemies.find((enemy) => enemy.id === e.id)!;
+      expect(checkpoint.version).toBe(3);
+      expect(resumed.harrowMissiles).toEqual([
+        before.harrowMissiles![0],
+        before.harrowMissiles![2],
+      ]);
+      expect([harrow.x, harrow.y, harrow.z]).toEqual([e.x, e.y, e.z]);
+      expect([harrow.hp, harrow.maxHp, harrow.harrowAirDamage]).toEqual([
+        e.hp,
+        e.maxHp,
+        e.harrowAirDamage,
+      ]);
+      expect(enemySize(harrow)).toBe(HARROW.scale);
+      expect(resumed.players).toEqual(before.players);
+      expect(resumed.enemies.find((enemy) => enemy.id === other.id)).toEqual(
+        other,
+      );
+      for (const key of [
+        "time",
+        "seed",
+        "serial",
+        "run",
+        "wave",
+        "spawned",
+        "solo",
+        "projectiles",
+        "pending",
+        "rewards",
+        "drops",
+        "events",
+      ] as const)
+        expect(resumed[key]).toEqual(before[key]);
+      expect(resumed.campaignPlan).toEqual(stageFor(before));
+      expect(JSON.stringify(f.progress)).toBe(progressBefore);
+      expect(f.storage.getItem(BATTLE_CHECKPOINT_KEY)).toBe(rawBefore);
+      if (kind === "Spin" || kind === "Threat" || !kind) {
+        expect(harrow.harrow).toBeUndefined();
+        expect(harrow.cool).toBeGreaterThanOrEqual(HARROW.threatWind);
+      } else {
+        expect(harrow.harrow!.kind).toBe(
+          kind === "StaggerFall" ? "StaggerFall" : "Land",
+        );
+        expect(harrow.harrow!.started).toBe(resumed.time);
+        expect(harrow.harrow!.from).toEqual({ x: e.x, y: e.y, z: e.z });
+        expect(harrow.harrow!.to).toEqual({ x: e.x, y: p.y, z: e.z });
+      }
+      // Real ticks with the player beneath the enlarged body: no inherited
+      // pending missile, Spin or Dive may deal damage during migration recovery.
+      const hp = p.hp;
+      for (let tick = 0; tick < (kind === "Spin" ? 96 : 60); tick++) {
+        step(resumed, { solo: neutral() });
+        expect(resumed.players[0].hp).toBe(hp);
+        if (tick === 0 && kind === "Takeoff")
+          expect(Math.abs(harrow.y - e.y)).toBeLessThan(0.1);
+      }
+      if (kind === "Spin") {
+        // The previous Spin had already resolved this player's contact. It is
+        // gone, and only a newly announced Spin may create a fresh hit list.
+        expect(harrow.harrow!.kind).toBe("Spin");
+        expect(harrow.harrow!.started).toBeGreaterThanOrEqual(
+          before.time + HARROW.threatWind - 1e-8,
+        );
+        expect(harrow.harrow!.hitIds).toBeUndefined();
+        const announcedAt = harrow.harrow!.started;
+        for (let tick = 0; tick < 10 && resumed.players[0].hp === hp; tick++)
+          step(resumed, { solo: neutral() });
+        expect(resumed.time - announcedAt).toBeGreaterThanOrEqual(
+          HARROW.spinWind,
+        );
+        expect(resumed.players[0].hp).toBeCloseTo(
+          hp - HARROW.spinDamage * stageFor(resumed).damage,
+        );
+        expect(harrow.harrow!.hitIds).toEqual(["solo"]);
+      }
+      expect(JSON.stringify(f.progress)).toBe(progressBefore);
+      expect(f.storage.getItem(BATTLE_CHECKPOINT_KEY)).toBe(rawBefore);
+    },
+  );
+
+  it("keeps an already-launched v6 missile's path and old impact damage exactly once", () => {
+    const f = fixture(normalSaveId(20));
+    const w = f.world;
+    w.time = 100;
+    w.enemies = [];
+    const p = w.players[0];
+    Object.assign(p, { x: 0, z: 0, safe: 0 });
+    p.y = supportHeight(p.x, p.z, mapFor(w).blocks);
+    const e = spawn(w, "harrow", 0, 0)!;
+    e.harrow = { kind: "Threat", started: 97, fired: true, yaw: 0 };
+    const missile = {
+      id: ++w.serial,
+      owner: e.id,
+      origin: { x: 0, y: p.y + 34.5, z: 0 },
+      target: { x: p.x, y: p.y, z: p.z },
+      launch: 99,
+      impact: 102,
+      damage: 22,
+      radius: 2.5,
+    };
+    w.harrowMissiles = [missile];
+    legacySave(f, 2);
+    const resumed = readBattleCheckpoint(f.progress, f.storage)!.world;
+    expect(resumed.harrowMissiles).toEqual([missile]);
+    for (const time of [100, 100.5, 101, 102])
+      expect(harrowMissilePosition(resumed.harrowMissiles![0], time)).toEqual(
+        harrowMissilePosition(missile, time),
+      );
+    const hp = resumed.players[0].hp;
+    resumed.time = 102;
+    stepHarrowMissiles(resumed, resumed.players, 0.05);
+    expect(resumed.players[0].hp).toBeCloseTo(
+      hp - 22 * stageFor(resumed).damage,
+    );
+    expect(resumed.harrowMissiles).toEqual([]);
+    stepHarrowMissiles(resumed, resumed.players, 0.05);
+    expect(resumed.players[0].hp).toBeCloseTo(
+      hp - 22 * stageFor(resumed).damage,
+    );
+  });
+
+  it("migrates once, then preserves new HARROW attacks, missiles and earned damage on v3 round trips", () => {
+    const f = fixture(normalSaveId(20));
+    f.world.enemies = [];
+    const e = spawn(f.world, "harrow", 0, 0)!;
+    e.maxHp = 5200 * stageFor(f.world).hp;
+    e.hp = e.maxHp * 0.4;
+    legacySave(f, 2);
+    const migrated = readBattleCheckpoint(f.progress, f.storage)!.world;
+    const enemy = migrated.enemies[0];
+    enemy.harrow = {
+      kind: "Threat",
+      started: migrated.time,
+      fired: false,
+      yaw: 0,
+    };
+    queueHarrowMissiles(migrated, enemy, migrated.players);
+    expect(migrated.harrowMissiles).toHaveLength(10);
+    expect(migrated.harrowMissiles![0].damage).toBe(HARROW.missileDamage);
+    expect(
+      migrated.harrowMissiles![0].impact - migrated.harrowMissiles![0].launch,
+    ).toBeCloseTo(HARROW.missileFlight);
+    expect(writeBattleCheckpoint(migrated, f.progress, f.storage)).toBe(true);
+    const reread = readBattleCheckpoint(f.progress, f.storage)!;
+    expect(reread.version).toBe(3);
+    expect(reread.world).toEqual(JSON.parse(JSON.stringify(migrated)));
+    expect(reread.world.enemies[0].hp).toBe(e.hp);
+    expect(reread.world.enemies[0].maxHp).toBe(e.maxHp);
+  });
+
+  it.each([
+    "Spin",
+    "Threat",
+    "Glide",
+    "Dive",
+    "StaggerFall",
+  ] as HarrowAttack["kind"][])(
+    "does not apply legacy recovery to a current v3 %s checkpoint",
+    (kind) => {
+      const f = fixture(normalSaveId(20));
+      f.world.enemies = [];
+      const e = spawn(f.world, "harrow", 0, 0)!;
+      e.harrow = {
+        kind,
+        started: f.world.time - 0.3,
+        fired: false,
+        yaw: 0,
+        from: { x: e.x, y: e.y, z: e.z },
+        to: { x: 4, y: 0, z: 8 },
+        hitIds: ["solo"],
+      };
+      queueHarrowMissiles(f.world, e, f.world.players);
+      writeBattleCheckpoint(f.world, f.progress, f.storage);
+      expect(readBattleCheckpoint(f.progress, f.storage)!.world).toEqual(
+        JSON.parse(JSON.stringify(f.world)),
+      );
+    },
+  );
 });

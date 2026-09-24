@@ -62,6 +62,66 @@ function shoot(f: ReturnType<typeof fixture>) {
 }
 
 describe("HARROW with all twelve weapon kinds", () => {
+  it.each(
+    (["rocket", "heavy", "grenade", "sticky"] as const).flatMap((kind) =>
+      (["overlap", "outside", "wall"] as const).map((mode) => ({ kind, mode })),
+    ),
+  )(
+    "$kind secondary chain blast respects HARROW's surface: $mode",
+    ({ kind, mode }) => {
+      const blocked = mode === "wall";
+      const losses: number[] = [];
+      for (const chain of [false, true]) {
+        const { w, p, e } = fixture(kind, 4);
+        fire(w, p, { ...neutral(), fire: true });
+        const chainRadius = (w.projectiles[0].radius! * 3.5) / 6.5;
+        const body = enemyBodies(e)[0];
+        const direct = spawn(
+          w,
+          "ant",
+          body.x + body.radius + chainRadius * (mode === "outside" ? 1.2 : 0.5),
+          body.z,
+        )!;
+        direct.y += body.y - eye(direct);
+        direct.hp = 1;
+        direct.cool = 999;
+        Object.assign(w.projectiles[0], {
+          x: direct.x,
+          y: eye(direct),
+          z: direct.z,
+          dx: 0.001,
+          dy: 0,
+          dz: 0,
+          gravity: 0,
+          life: 2,
+          chain,
+        });
+        const wall = {
+          x: body.x + 2,
+          z: body.z,
+          w: 0.2,
+          d: 8,
+          h: 30,
+        };
+        if (blocked) TRAINING_MAP.blocks.push(wall);
+        try {
+          const hp = e.hp;
+          step(w, { p: neutral() });
+          expect(direct.hp).toBeLessThanOrEqual(0);
+          expect(
+            w.events.filter((event) => event.type === "burst" && event.weapon),
+          ).toHaveLength(chain ? 2 : 1);
+          losses.push(hp - e.hp);
+        } finally {
+          if (blocked)
+            TRAINING_MAP.blocks.splice(TRAINING_MAP.blocks.indexOf(wall), 1);
+        }
+      }
+      if (blocked) expect(losses).toEqual([0, 0]);
+      else if (mode === "outside") expect(losses[1]).toBeCloseTo(losses[0]);
+      else expect(losses[1]).toBeGreaterThan(losses[0]);
+    },
+  );
   it.each(["rocket", "heavy", "grenade", "sticky"] as const)(
     "%s splash reaches HARROW's surface, falls off, and stops outside its radius",
     (kind) => {

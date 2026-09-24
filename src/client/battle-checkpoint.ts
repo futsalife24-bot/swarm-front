@@ -3,12 +3,13 @@ import type { ProgressSave } from "./progression-save";
 import { assertSaveWriter } from "./save-writer";
 import { MAPS, stageFor, type StagePlan } from "../shared/stages";
 import { legacyCampaignPlan } from "../shared/legacy-campaign";
+import { migrateLegacyHarrowCheckpoint } from "./harrow-checkpoint-migration";
 
 export const BATTLE_CHECKPOINT_KEY = "swarm-front-battle-checkpoint-v1";
 const LIMIT = 2_000_000;
 type Store = Pick<Storage, "getItem" | "setItem" | "removeItem">;
 export interface BattleCheckpoint {
-  version: 1 | 2;
+  version: 1 | 2 | 3;
   savedAt: number;
   progress: string;
   world: World;
@@ -91,7 +92,7 @@ export function writeBattleCheckpoint(
   if (!finiteTree(world)) throw Error("戦闘の中断保存に不正な数値があります。");
   world.campaignPlan = JSON.parse(JSON.stringify(stageFor(world))) as StagePlan;
   const checkpoint: BattleCheckpoint = {
-    version: 2,
+    version: 3,
     savedAt: now,
     progress: JSON.stringify(progress),
     world,
@@ -121,7 +122,7 @@ export function readBattleCheckpoint(
   const value = JSON.parse(envelope.body) as BattleCheckpoint;
   const w = value.world;
   if (
-    (value.version !== 1 && value.version !== 2) ||
+    (value.version !== 1 && value.version !== 2 && value.version !== 3) ||
     w?.defense ||
     !w?.solo ||
     w.solo.test ||
@@ -155,6 +156,10 @@ export function readBattleCheckpoint(
     throw Error(
       "この中断保存の編成を復元できません。通常の進行保存は保持しています。",
     );
+  if (value.version < 3) {
+    migrateLegacyHarrowCheckpoint(w);
+    value.version = 3;
+  }
   return value;
 }
 export function clearBattleCheckpoint(storage: Store = localStorage) {

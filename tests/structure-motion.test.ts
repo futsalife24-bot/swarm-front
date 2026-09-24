@@ -114,6 +114,66 @@ it("HARROW travels 2.688 metres per slow 4.2-second stride without advancing whi
   controller.update(batch, [sample({ moving: true, distance: 0 })], 0);
   expect(controller.states.get(7)?.time).toBe(before);
 });
+it("HARROW keeps airborne and grounded missile poses separate at the authoritative 3.5-second release", () => {
+  const controller = new StructureMotionController("harrow");
+  const poses: unknown[][] = [];
+  const batch = {
+    setPose(...args: unknown[]) {
+      poses.push(args);
+    },
+  };
+  controller.update(
+    batch,
+    [sample({ harrowAirborne: true }), sample({ id: 8, slot: 1 })],
+    0.1,
+  );
+  const inputs = [true, false].map((airborne, index) =>
+    sample({
+      id: 7 + index,
+      slot: index,
+      harrowAirborne: airborne,
+      worldTime: 103.5,
+      // Both network snapshots still carry the same authoritative action.
+      harrow: { kind: "Threat", started: 100, fired: true, yaw: 0 },
+    }),
+  );
+  const original = JSON.stringify(inputs);
+  // A skipped snapshot/pause must seek to the release, not start a fresh clip.
+  controller.update(batch, inputs, 0);
+  expect(controller.states.get(7)).toMatchObject({
+    clip: "AirThreat",
+    from: "Flight",
+    time: 3.5,
+  });
+  expect(controller.states.get(8)).toMatchObject({
+    clip: "Threat",
+    from: "Idle",
+    time: 3.5,
+  });
+  expect(poses.slice(-2).map((pose) => pose.slice(0, 3))).toEqual([
+    [0, "AirThreat", 3.5],
+    [1, "Threat", 3.5],
+  ]);
+  expect(poses.slice(-2).every((pose) => Number(pose[5]) >= 1)).toBe(true);
+  const paused = [...controller.states.values()].map((state) => ({ ...state }));
+  controller.update(batch, inputs, 0);
+  expect([...controller.states.values()]).toEqual(paused);
+  expect(JSON.stringify(inputs)).toBe(original);
+
+  controller.update(
+    batch,
+    [sample({ harrowAirborne: true }), sample({ id: 8, slot: 1 })],
+    0.016,
+  );
+  expect(controller.states.get(7)).toMatchObject({
+    clip: "Flight",
+    from: "AirThreat",
+  });
+  expect(controller.states.get(8)).toMatchObject({
+    clip: "Idle",
+    from: "Threat",
+  });
+});
 it("LEAPER has its own model while VOLLEY and both attack timings are preserved", async () => {
   const { STRUCTURE_ASSETS } = await import("../src/client/structure-motion");
   for (const kind of ["ant", "spider"] as const) {
