@@ -1,3 +1,11 @@
+# 現在地: HARROW F3差分再監査を送信済み（2026-09-24）
+
+[PR81](https://github.com/futsalife24-bot/swarm-front/pull/81)、対象 `f3bc6e5f5212472d217debd2a5c60c49f9516fe3`、base `413c9ea7b2a879f4797dcf71bbfd8d965e3fd35a`。branch `codex/harrow-presence-motion`、変更commit後のproduction build/Worker dry-run成功、main不変/mergeableを確認。以降のcommitは記録のみ。
+
+同じ [通常Chat](https://chatgpt.com/c/6ab4e649-ee10-83e8-80db-d78515281bd3) へF3修正差分・実Renderer新旧画像・関連証拠ZIPを送信し、添付/対象SHAのユーザーメッセージとPro思考中を確認。`dist-validation/harrow-v8/HARROW-marker-reaudit-f3bc6e5.zip`、8,942,230 bytes、SHA256 `9adcbc3162b4159b1fe5aa71788148f3356506593d072bd4d7e9a09acdf587f2`。GLB/動画/攻撃/保存は前回v8から不変。
+
+独立判定待ち、未merge/未公開。合格後は通常main反映・既存Worker公開・配信照合を続ける。必須指摘は修正と同じChatへの再監査。元gameの別作業を保護。[詳細と限界](HARROW-V8.md)。
+
 # 現在地: HARROW v8の残るF3を修正・差分再監査準備（2026-09-24）
 
 PR81、branch `codex/harrow-presence-motion`、base `413c9ea7b2a879f4797dcf71bbfd8d965e3fd35a`。v8対象fad580bの独立監査で旧保存F1・連鎖爆風F2・保存競合の解消を確認、残る必須はP2/F3（赤円の三角形内部が岩/斜面に埋没）。
