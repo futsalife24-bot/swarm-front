@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HARROW 地形マーカー検証</title>
+  <style>
+    body {
+      margin: 0;
+      background: #111b25;
+      color: #eef;
+      font: 14px system-ui;
+    }
+    canvas {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+    #panel {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      max-width: 580px;
+      padding: 12px;
+      background: #111d29e8;
+      border-radius: 8px;
+    }
+    button {
+      padding: 7px 11px;
+      margin: 2px;
+      cursor: pointer;
+    }
+    p {
+      margin: 5px 0;
+    }
+    pre {
+      margin: 8px 0 0;
+      max-height: 180px;
+      overflow: auto;
+      font-size: 12px;
+    }
+  </style>
+  <canvas></canvas>
+  <div id="damage" style="display: none"></div>
+  <div id="panel">
+    <p>実ゲーム地形 × HARROW赤マーカー（ドラッグで回転・ホイールで拡縮）</p>
+    <div>
+      <button data-site="slope">草原斜面</button
+      ><button data-site="rock">雪の岩</button
+      ><button data-site="ridge">雪岩稜線（境界含む）</button
+      ><button data-site="innerRidge">雪岩稜線（全円が場内）</button
+      ><button data-site="audit">監査反例 ST25</button
+      ><button data-site="roof">倉庫屋上</button
+      ><button data-site="flat">平地</button>
+    </div>
+    <div>
+      <button id="oblique">斜め上</button><button id="top">真上</button
+      ><button id="low">低い視点</button><button id="orbit">自動回転</button>
+    </div>
+    <div>
+      <button id="warning">着弾前</button><button id="flight">飛行中</button
+      ><button id="impact">着弾後</button
+      ><button id="capacity">50発→40個上限</button>
+    </div>
+    <button id="surface-check">表示面を照合</button>
+    <button id="comparison">旧リングへ切替</button>
+    <button id="save-evidence">比較画像を保存</button><span id="saved"></span>
+    <pre id="surface"></pre>
+    <pre id="status">loading</pre>
+    <pre id="errors"></pre>
+  </div>
+  <script type="module" src="/scripts/harrow-marker-preview.ts"></script>
+</html>

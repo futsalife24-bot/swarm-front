@@ -1,17 +1,13 @@
 import * as T from "three";
 import type { World } from "../shared/game";
 import { HARROW, harrowMissilePosition } from "../shared/harrow";
+import { mapFor } from "../shared/stages";
+import { TerrainProjectedMarkers } from "./terrain-projected-marker";
 
 /** Shared combat/report view; authoritative missiles remain read-only. */
 export class HarrowEffects {
   readonly root = new T.Group();
   private readonly capacity = 40;
-  private readonly markerGeometry = new T.TorusGeometry(
-    1,
-    0.055,
-    5,
-    48,
-  ).rotateX(Math.PI / 2);
   private readonly bodyGeometry = new T.ConeGeometry(0.11, 0.65, 6);
   private readonly tailGeometry = new T.ConeGeometry(0.1, 0.65, 5)
     .rotateZ(Math.PI)
@@ -21,6 +17,7 @@ export class HarrowEffects {
     transparent: true,
     opacity: 0.85,
     depthWrite: false,
+    side: T.DoubleSide,
   });
   private readonly bodyMaterial = new T.MeshBasicMaterial({ color: 0xffa552 });
   private readonly tailMaterial = new T.MeshBasicMaterial({
@@ -29,8 +26,7 @@ export class HarrowEffects {
     opacity: 0.85,
     depthWrite: false,
   });
-  private readonly markers = new T.InstancedMesh(
-    this.markerGeometry,
+  private readonly markers = new TerrainProjectedMarkers(
     this.markerMaterial,
     this.capacity,
   );
@@ -44,8 +40,7 @@ export class HarrowEffects {
     this.tailMaterial,
     this.capacity,
   );
-  private readonly warnings = new T.InstancedMesh(
-    this.markerGeometry,
+  private readonly warnings = new TerrainProjectedMarkers(
     this.markerMaterial,
     this.capacity,
   );
@@ -55,24 +50,33 @@ export class HarrowEffects {
   private readonly direction = new T.Vector3();
   private readonly up = new T.Vector3(0, 1, 0);
   private readonly unit = new T.Vector3(1, 1, 1);
-  private readonly scale = new T.Vector3();
   constructor() {
     for (const mesh of [this.markers, this.bodies, this.tails, this.warnings]) {
       mesh.count = 0;
       mesh.frustumCulled = false;
-      mesh.instanceMatrix.setUsage(T.DynamicDrawUsage);
+      if (mesh instanceof T.InstancedMesh)
+        mesh.instanceMatrix.setUsage(T.DynamicDrawUsage);
     }
     this.root.add(this.markers, this.bodies, this.tails, this.warnings);
   }
   update(
     w:
       | (Pick<World, "time" | "harrowMissiles"> &
-          Partial<Pick<World, "enemies">>)
+          Partial<
+            Pick<
+              World,
+              "enemies" | "stage" | "campaignPlan" | "training" | "defense"
+            >
+          >)
       | null,
   ) {
     let markers = 0,
       bodies = 0,
       warnings = 0;
+    const blocks =
+      w && (w.stage !== undefined || w.training || w.campaignPlan || w.defense)
+        ? mapFor(w).blocks
+        : undefined;
     if (w)
       for (const enemy of w.enemies ?? []) {
         const attack = enemy.harrow;
@@ -89,25 +93,13 @@ export class HarrowEffects {
           (attack.kind === "Glide" || attack.kind === "Dive") && attack.to;
         if (!spin && !dive) continue;
         const point = dive || enemy;
-        this.position.set(point.x, point.y + 0.06, point.z);
         const radius = spin ? HARROW.spinRadius : HARROW.diveRadius;
-        this.scale.set(radius, 1, radius);
-        this.rotation.identity();
-        this.matrix.compose(this.position, this.rotation, this.scale);
-        this.warnings.setMatrixAt(warnings++, this.matrix);
+        this.warnings.setRing(warnings++, point, radius, blocks);
       }
     if (w)
       for (const missile of w.harrowMissiles ?? []) {
         if (w.time >= missile.impact || markers >= this.capacity) continue;
-        this.position.set(
-          missile.target.x,
-          missile.target.y + 0.06,
-          missile.target.z,
-        );
-        this.scale.set(missile.radius, 1, missile.radius);
-        this.rotation.identity();
-        this.matrix.compose(this.position, this.rotation, this.scale);
-        this.markers.setMatrixAt(markers++, this.matrix);
+        this.markers.setRing(markers++, missile.target, missile.radius, blocks);
         if (w.time < missile.launch) continue;
         const p = harrowMissilePosition(missile, w.time);
         const next = harrowMissilePosition(
@@ -124,20 +116,16 @@ export class HarrowEffects {
         this.bodies.setMatrixAt(bodies, this.matrix);
         this.tails.setMatrixAt(bodies++, this.matrix);
       }
-    this.markers.count = markers;
+    this.markers.setCount(markers);
     this.bodies.count = this.tails.count = bodies;
-    this.warnings.count = warnings;
-    for (const mesh of [this.markers, this.bodies, this.tails, this.warnings])
+    this.warnings.setCount(warnings);
+    for (const mesh of [this.bodies, this.tails])
       mesh.instanceMatrix.needsUpdate = true;
   }
   dispose() {
     for (const mesh of [this.markers, this.bodies, this.tails, this.warnings])
       mesh.dispose();
-    for (const geometry of [
-      this.markerGeometry,
-      this.bodyGeometry,
-      this.tailGeometry,
-    ])
+    for (const geometry of [this.bodyGeometry, this.tailGeometry])
       geometry.dispose();
     for (const material of [
       this.markerMaterial,

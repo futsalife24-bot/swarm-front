@@ -4,12 +4,14 @@ import {
   addPlayer,
   createWorld,
   eye,
+  enemyBodies,
   fire,
   neutral,
   spawn,
   step,
 } from "../src/shared/game";
 import { HARROW } from "../src/shared/harrow";
+import { TRAINING_MAP } from "../src/shared/stages";
 
 function fixture(kind: Kind, height: number) {
   const w = createWorld(`harrow-weapon-${kind}`, 723, 20);
@@ -60,6 +62,124 @@ function shoot(f: ReturnType<typeof fixture>) {
 }
 
 describe("HARROW with all twelve weapon kinds", () => {
+  it.each(
+    (["rocket", "heavy", "grenade", "sticky"] as const).flatMap((kind) =>
+      (["overlap", "outside", "wall"] as const).map((mode) => ({ kind, mode })),
+    ),
+  )(
+    "$kind secondary chain blast respects HARROW's surface: $mode",
+    ({ kind, mode }) => {
+      const blocked = mode === "wall";
+      const losses: number[] = [];
+      for (const chain of [false, true]) {
+        const { w, p, e } = fixture(kind, 4);
+        fire(w, p, { ...neutral(), fire: true });
+        const chainRadius = (w.projectiles[0].radius! * 3.5) / 6.5;
+        const body = enemyBodies(e)[0];
+        const direct = spawn(
+          w,
+          "ant",
+          body.x + body.radius + chainRadius * (mode === "outside" ? 1.2 : 0.5),
+          body.z,
+        )!;
+        direct.y += body.y - eye(direct);
+        direct.hp = 1;
+        direct.cool = 999;
+        Object.assign(w.projectiles[0], {
+          x: direct.x,
+          y: eye(direct),
+          z: direct.z,
+          dx: 0.001,
+          dy: 0,
+          dz: 0,
+          gravity: 0,
+          life: 2,
+          chain,
+        });
+        const wall = {
+          x: body.x + 2,
+          z: body.z,
+          w: 0.2,
+          d: 8,
+          h: 30,
+        };
+        if (blocked) TRAINING_MAP.blocks.push(wall);
+        try {
+          const hp = e.hp;
+          step(w, { p: neutral() });
+          expect(direct.hp).toBeLessThanOrEqual(0);
+          expect(
+            w.events.filter((event) => event.type === "burst" && event.weapon),
+          ).toHaveLength(chain ? 2 : 1);
+          losses.push(hp - e.hp);
+        } finally {
+          if (blocked)
+            TRAINING_MAP.blocks.splice(TRAINING_MAP.blocks.indexOf(wall), 1);
+        }
+      }
+      if (blocked) expect(losses).toEqual([0, 0]);
+      else if (mode === "outside") expect(losses[1]).toBeCloseTo(losses[0]);
+      else expect(losses[1]).toBeGreaterThan(losses[0]);
+    },
+  );
+  it.each(["rocket", "heavy", "grenade", "sticky"] as const)(
+    "%s splash reaches HARROW's surface, falls off, and stops outside its radius",
+    (kind) => {
+      const damages: number[] = [];
+      for (const fraction of [0.1, 0.8, 1.1]) {
+        const { w, p, e } = fixture(kind, 4);
+        fire(w, p, { ...neutral(), fire: true });
+        const q = w.projectiles[0];
+        const body = enemyBodies(e)[0];
+        // Expire a real weapon round outside the hit sphere: this must be
+        // splash overlap, not a special case that awards direct-hit damage.
+        Object.assign(q, {
+          x: e.x + body.radius + q.radius! * fraction,
+          y: body.y,
+          z: e.z,
+          dx: 0.01,
+          dy: 0,
+          dz: 0,
+          gravity: 0,
+          life: 0,
+        });
+        const hp = e.hp;
+        step(w, { p: neutral() });
+        damages.push(hp - e.hp);
+      }
+      expect(damages[0]).toBeGreaterThan(damages[1]);
+      expect(damages[1]).toBeGreaterThan(0);
+      expect(damages[2]).toBe(0);
+    },
+  );
+
+  it("HARROW's surface blast overlap still respects a wall", () => {
+    const { w, p, e } = fixture("grenade", 4);
+    fire(w, p, { ...neutral(), fire: true });
+    const q = w.projectiles[0],
+      body = enemyBodies(e)[0];
+    Object.assign(q, {
+      x: e.x + body.radius + 1,
+      y: body.y,
+      z: e.z,
+      dx: 0.01,
+      dy: 0,
+      dz: 0,
+      gravity: 0,
+      life: 0,
+    });
+    const wall = { x: e.x + body.radius + 0.5, z: e.z, w: 0.2, d: 8, h: 30 };
+    TRAINING_MAP.blocks.push(wall);
+    try {
+      const hp = e.hp;
+      step(w, { p: neutral() });
+      expect(w.events.some((event) => event.type === "burst")).toBe(true);
+      expect(e.hp).toBe(hp);
+    } finally {
+      TRAINING_MAP.blocks.splice(TRAINING_MAP.blocks.indexOf(wall), 1);
+    }
+  });
+
   for (const height of [0, 4])
     for (const kind of KINDS) {
       it(`${kind} ${height ? "airborne" : "grounded"}: routes actual hits through boss damage`, () => {

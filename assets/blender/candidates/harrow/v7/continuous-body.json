@@ -1,0 +1,10 @@
+{
+  "core_vertices": 3904,
+  "core_faces": 3842,
+  "core_connected_components": 1,
+  "nonmanifold_core_edges": 0,
+  "rows": 61,
+  "single_blender_object": "Unified neck + torso",
+  "weights": "Continuous Torso to Neck chain transition; decorations share sampled surface and row weights.",
+  "note": "Scales and ventral armor are surface shells in the same object; the skin core is one closed connected mesh."
+}

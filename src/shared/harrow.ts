@@ -14,39 +14,44 @@ import { mapFor } from "./stages";
 import { groundHeight, supportHeight } from "./terrain";
 import { ARENA_X, ARENA_Z } from "./arena";
 import { RAY_MAX_FLIGHT_HEIGHT } from "./defs";
+import {
+  HARROW_SCALE,
+  HARROW_MOVE_SPEED,
+  HARROW_WALK_AUTHORED_SPEED,
+} from "./harrow-motion";
 
 export const HARROW = {
-  scale: 0.65,
-  speed: 0.64,
-  walkAuthoredSpeed: 0.16,
-  threatWind: 2,
-  threatDuration: 4,
+  scale: HARROW_SCALE,
+  speed: HARROW_MOVE_SPEED,
+  walkAuthoredSpeed: HARROW_WALK_AUTHORED_SPEED,
+  threatWind: 3.5,
+  threatDuration: 7,
   shotRange: 100,
-  cooldown: 3.5,
-  missileFlight: 3,
-  markerLead: 2,
-  missileDamage: 22,
+  cooldown: 1.8,
+  missileFlight: 1.8,
+  markerLead: 3.5,
+  missileDamage: 36,
   missileRadius: 2.5,
   maxMissiles: 40,
-  spinWind: 0.8,
-  spinDuration: 3.6,
-  spinTurn: 2,
-  // v6 low wing vertices reach 8.654 m at runtime scale.
-  spinRadius: 8.7,
-  spinDamage: 34,
-  takeoffDuration: 2,
+  spinWind: 1.4,
+  spinDuration: 6.3,
+  spinTurn: 3.5,
+  // v7's ground-level wing sweep (vertices below 2m), rounded from 21.193m.
+  spinRadius: 21.2,
+  spinDamage: 84,
+  takeoffDuration: 3.5,
   flightHeight: RAY_MAX_FLIGHT_HEIGHT * 3,
   groundDuration: 12,
   airDuration: 14,
-  glideDuration: 1.2,
-  diveDuration: 0.8,
-  landDuration: 1,
-  diveChance: 0.3,
+  glideDuration: 2.1,
+  diveDuration: 0.9,
+  landDuration: 1.75,
+  diveChance: 0.45,
   diveRange: 60,
-  diveRadius: 4,
-  diveDamage: 44,
+  diveRadius: 12,
+  diveDamage: 92,
   staggerFraction: 0.12,
-  staggerFallDuration: 1.5,
+  staggerFallDuration: 2.625,
 } as const;
 type Point = { x: number; y: number; z: number };
 export interface HarrowMissile {
@@ -105,18 +110,26 @@ export function harrowPoint(
     z: e.z + Math.cos(yaw) * forward - Math.sin(yaw) * side,
   };
 }
-/** v6 red warhead tips at Threat 2.00s, measured from the exported skin. */
+/** v8 red warhead tips at Threat/AirThreat 3.50s, measured from the exported skin. */
 export function harrowMissileOrigins(
-  e: Pick<Enemy, "x" | "y" | "z">,
+  e: Pick<Enemy, "x" | "y" | "z" | "harrowAirborne">,
   yaw: number,
 ): Point[] {
-  const left = [
-    [-5.742242, 6.335937, -2.386685],
-    [-6.238946, 5.967353, -2.531508],
-    [-6.128726, 6.856762, -2.386685],
-    [-6.62543, 6.488178, -2.531508],
-    [-6.183836, 6.412058, -2.459097],
-  ];
+  const left = e.harrowAirborne
+    ? [
+        [-6.35393, 7.861266, 0.264011],
+        [-6.743596, 7.705794, -0.212991],
+        [-6.856803, 8.099505, 0.597161],
+        [-7.246469, 7.944033, 0.120159],
+        [-6.8002, 7.902649, 0.192085],
+      ]
+    : [
+        [-5.619758, 6.446827, -2.32226],
+        [-6.107112, 6.085182, -2.509989],
+        [-6.006242, 6.967652, -2.32226],
+        [-6.493595, 6.606007, -2.509989],
+        [-6.056677, 6.526417, -2.416125],
+      ];
   return [1, -1].flatMap((sign) =>
     left.map(([x, y, z]) => harrowPoint(e, yaw, -z, x * sign, y)),
   );
@@ -357,7 +370,7 @@ export function stepHarrow(
           w.time +
           (e.harrowAirborne ? HARROW.airDuration : HARROW.groundDuration);
         e.harrow = undefined;
-        e.cool = a.kind === "Land" ? 1.5 : 0.5;
+        e.cool = a.kind === "Land" ? 1 : 0.5;
       }
       return;
     }

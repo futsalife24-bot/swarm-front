@@ -1,3 +1,4 @@
+import { HARROW_SCALE } from "./harrow-motion";
 /** Authored repeating roster: independent of run seed, stage, shots and loot. */
 const SIZES = [
   1, 0.85, 1.15, 0.95, 1.3, 0.8, 1.05, 1.5, 0.9, 1.1, 1, 1.2, 0.95, 1.4, 1,
@@ -8,7 +9,7 @@ const SIZES = [
 export const enemyStatSize = (enemy: { size?: number }) => enemy.size ?? 1;
 export const enemySize = (enemy: { size?: number; kind?: string }) =>
   enemyStatSize(enemy) *
-  (enemy.kind === "harrow" ? 0.65 : enemy.kind === "calyx" ? 1 : 1.5);
+  (enemy.kind === "harrow" ? HARROW_SCALE : enemy.kind === "calyx" ? 1 : 1.5);
 export function spawnSize(kind: string, worm: boolean, ordinal: number) {
   return kind === "calyx" || kind === "harrow"
     ? 1

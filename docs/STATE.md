@@ -1,3 +1,47 @@
+# 現在地: HARROW F3差分再監査を送信済み（2026-09-24）
+
+[PR81](https://github.com/futsalife24-bot/swarm-front/pull/81)、対象 `f3bc6e5f5212472d217debd2a5c60c49f9516fe3`、base `413c9ea7b2a879f4797dcf71bbfd8d965e3fd35a`。branch `codex/harrow-presence-motion`、変更commit後のproduction build/Worker dry-run成功、main不変/mergeableを確認。以降のcommitは記録のみ。
+
+同じ [通常Chat](https://chatgpt.com/c/6ab4e649-ee10-83e8-80db-d78515281bd3) へF3修正差分・実Renderer新旧画像・関連証拠ZIPを送信し、添付/対象SHAのユーザーメッセージとPro思考中を確認。`dist-validation/harrow-v8/HARROW-marker-reaudit-f3bc6e5.zip`、8,942,230 bytes、SHA256 `9adcbc3162b4159b1fe5aa71788148f3356506593d072bd4d7e9a09acdf587f2`。GLB/動画/攻撃/保存は前回v8から不変。
+
+独立判定待ち、未merge/未公開。合格後は通常main反映・既存Worker公開・配信照合を続ける。必須指摘は修正と同じChatへの再監査。元gameの別作業を保護。[詳細と限界](HARROW-V8.md)。
+
+# 現在地: HARROW v8の残るF3を修正・差分再監査準備（2026-09-24）
+
+PR81、branch `codex/harrow-presence-motion`、base `413c9ea7b2a879f4797dcf71bbfd8d965e3fd35a`。v8対象fad580bの独立監査で旧保存F1・連鎖爆風F2・保存競合の解消を確認、残る必須はP2/F3（赤円の三角形内部が岩/斜面に埋没）。
+
+地形三角形へのクリップへ修正。関連18件・両型・fixture型成功、実Rendererの同位置比較で旧10/72埋没→新0/72、草原/雪岩/平地・40個上限・着弾後消去も確認。GLB/動画/攻撃/保存は前回から不変。詳細とメモリ/初回生成時間の限界は [v8記録](HARROW-V8.md)。
+
+次は修正commit後build/dry-run、同じ通常ChatへF3差分ZIP再監査、合格後通常merge・既存Worker公開。未merge/未公開。元gameの別作業を保護。
+
+# 現在地: HARROW v8の独立再監査を送信済み（2026-09-24）
+
+[PR81](https://github.com/futsalife24-bot/swarm-front/pull/81)、対象 `fad580b8a15484cbf4fc24e168e7eee5d1b79b78`、base `413c9ea7b2a879f4797dcf71bbfd8d965e3fd35a`。branch `codex/harrow-presence-motion`。対象commit後production build/Worker dry-run成功、main不変・PR mergeableを確認。
+
+同じ [通常Chat監査](https://chatgpt.com/c/6ab4e649-ee10-83e8-80db-d78515281bd3) へv7 F1/F2修正と追加v8仕様のZIPを添付し送信。ユーザーメッセージ/添付/Pro思考中を確認。資料 `dist-validation/harrow-v8/HARROW-v8-audit-fad580b.zip`、30,957,663 bytes、SHA256 `0eb937e4d6f574fc87087b1d28ea3014ba9ba54d2295be36866867451143fb72`。最終映像も実レポートで13.966667秒まで完走、errorなし。AirThreat10発/滑空/急降下を実Rendererで確認。
+
+独立判定待ち、未merge/未公開。以降は記録のみ。必須指摘は同じChatへ修正再監査し、合格後は通常main反映・既存Worker公開・配信/UI照合へ。元game別作業を保護。[実装/検証/限界](HARROW-V8.md)。
+# 現在地: HARROW v8統合・再監査準備（2026-09-24）
+
+PR81、branch `codex/harrow-presence-motion`、base `413c9ea7b2a879f4797dcf71bbfd8d965e3fd35a`、作業場所 `../harrow-integration`。二足立ち風の空中姿勢・AirThreat・鋭いDive、最強ボスの耐久/攻撃力、地形に沿う赤予告へ更新。3倍体格/会敵修正を継承。
+
+v7独立監査は必須P2が2件（旧保存の実行状態と連鎖爆風）。checkpoint v3の安全移行と連鎖体表距離を修正。関連213件、checkpoint32+campaign定義6件、3作戦×2難度全勝、実Worker2接続11項目、両型が成功。最終原本/GLB全12動作、実会敵と地形描画、最終動画を確認。詳細と倉庫屋上の既存不一致は [v8記録](HARROW-V8.md)。
+
+次はcommit後build/dry-run、同じ通常Chatへ修正版ZIPを送信し独立再監査、合格後通常main反映・既存Worker公開。まだ未公開。元game別作業は保護。
+# 現在地: HARROW v7を独立監査へ送信済み（2026-09-24）
+
+[PR81](https://github.com/futsalife24-bot/swarm-front/pull/81)。対象 `4da040d10709ab3dd5ba067250e18bf0815f675d`、base `413c9ea7b2a879f4797dcf71bbfd8d965e3fd35a`、branch `codex/harrow-presence-motion`。変更後production build/Worker dry-runも成功。
+
+[通常Chat監査](https://chatgpt.com/c/6ab4e649-ee10-83e8-80db-d78515281bd3)へ原本/GLB/動画/差分/検証ZIPを添付し送信。ユーザーメッセージ・添付とPro思考中を確認。資料 `dist-validation/harrow-v7/HARROW-v7-audit-4da040d.zip`、25,626,983 bytes、SHA256 `f433be12cc17246ec9426afaf9be70c196bdd542514fc199de9bdeb457450743`。以降は記録のみ。
+
+独立判定待ち。必須指摘があれば修正・再監査、合格後は通常main反映と既存Worker公開・配信/UI確認へ。まだ未公開。元gameの別作業は保護。[変更と証拠](HARROW-PRESENCE.md)。
+# 現在地: HARROW v7・3倍体格/ゆったり動作/会敵修正を検証（2026-09-24）
+
+branch `codex/harrow-presence-motion`、base `413c9ea7b2a879f4797dcf71bbfd8d965e3fd35a`、作業場所 `../harrow-integration`。縮尺0.65→1.95、高度34.5m/巡航0.64m/s維持。全11動作1.75倍、歩幅と羽ばたきを拡大し実速と接地を整合。画面外上空でもHARROW初会敵を開始、全景カメラ/上黒帯名表示/レポート動画を追加。拡大で発生する爆発弾の無傷不具合も修正。
+
+関連184件、3作戦×2難易度6戦、実Worker2接続11項目、両型、保存した原本/GLBの再読込と全クリップ検査が成功。実ブラウザで地面向き初会敵・停止状態と保存維持・レポート動画再生を確認。GLB `af5152de...`、MP4 `118790bc...`。詳細と検証限界は [HARROW v7記録](HARROW-PRESENCE.md)。元gameの別作業を保護。
+
+次はcommit後のbuild/dry-run、通常Chat独立監査、通常main反映・既存Worker公開。現時点では未公開。
 # 現在地: HARROW・通常25面・15-Aをmain反映・公開完了（2026-09-24）
 
 [PR78](https://github.com/futsalife24-bot/swarm-front/pull/78)を通常merge、公開ソースmain `5e743d32dcb23d9771db23fdfaebc90cc2e85e68`。独立再監査は `30737b4` 合格・必須0、以降は記録のみ。merge後mainからclient build・production Worker dry-run成功、既存Worker `swarm-front` へ公開。Worker Version `0b3ca67f-4b3e-412b-b8cf-68ba7ccb6244`。

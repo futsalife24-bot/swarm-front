@@ -2,6 +2,7 @@ import { MOVE_SPEED } from "../src/shared/defs";
 import { CAVE_BLOCKS, caveWaypoint } from "../src/shared/cave";
 import { mapFor } from "../src/shared/stages";
 import { foundryPath } from "../src/shared/foundry-navigation";
+import { HARROW } from "../src/shared/harrow";
 import {
   neutral,
   visible,
@@ -183,6 +184,71 @@ export function pilot(w: World, id: string): Input {
   if (d > 25) {
     vx += (e.x - p.x) * 0.4;
     vz += (e.z - p.z) * 0.4;
+  }
+  // HARROW exposes fixed red circles before impact. React to their displayed
+  // positions/radii, rather than the normal enemy's three-metre melee cue.
+  // These are ordinary legal movement/dodge inputs; combat state stays untouched.
+  const harrowWarnings: {
+    x: number;
+    z: number;
+    radius: number;
+    until: number;
+  }[] = [];
+  for (const enemy of w.enemies) {
+    if (enemy.kind !== "harrow" || enemy.hp <= 0 || !enemy.harrow) continue;
+    const attack = enemy.harrow;
+    if (attack.kind === "Spin") {
+      harrowWarnings.push({
+        x: enemy.x,
+        z: enemy.z,
+        radius: HARROW.spinRadius,
+        until: attack.started + HARROW.spinWind - w.time,
+      });
+    } else if (
+      (attack.kind === "Glide" || attack.kind === "Dive") &&
+      attack.to
+    ) {
+      harrowWarnings.push({
+        ...attack.to,
+        radius: HARROW.diveRadius,
+        until:
+          attack.started +
+          (attack.kind === "Glide"
+            ? HARROW.glideDuration + HARROW.diveDuration
+            : HARROW.diveDuration) -
+          w.time,
+      });
+    }
+  }
+  for (const missile of w.harrowMissiles ?? [])
+    if (missile.impact > w.time)
+      harrowWarnings.push({
+        ...missile.target,
+        radius: missile.radius,
+        until: missile.impact - w.time,
+      });
+  let warningX = 0,
+    warningZ = 0;
+  for (const warning of harrowWarnings) {
+    const dx = p.x - warning.x,
+      dz = p.z - warning.z;
+    const distance = Math.hypot(dx, dz),
+      escape = warning.radius + 1 - distance;
+    if (escape <= 0) continue;
+    const weight = escape / Math.max(0.25, warning.until);
+    warningX += (distance > 0.01 ? dx / distance : 1) * weight;
+    warningZ += (distance > 0.01 ? dz / distance : 0) * weight;
+    // A dodge can buy the extra travel needed for a large ground sweep.
+    imminent ||=
+      escape >
+      MOVE_SPEED.walk *
+        (1 + 0.03 * (w.solo?.levels.move ?? 0)) *
+        Math.max(0, warning.until);
+  }
+  if (Math.hypot(warningX, warningZ) > 0.01) {
+    // Do not pull back into an active red circle to maintain the usual lane.
+    vx = warningX;
+    vz = warningZ;
   }
   const norm = Math.max(1, Math.hypot(vx, vz));
   vx /= norm;

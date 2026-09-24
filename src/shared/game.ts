@@ -1959,7 +1959,12 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
               Number(a.part === 0) - Number(b.part === 0) || a.part - b.part,
           )) {
             const d = Math.hypot(b.x - q.x, b.z - q.z, b.y - q.y);
-            if (d >= blast) continue;
+            // HARROW's enlarged body can exceed a weapon's entire blast radius.
+            // Measure its blast overlap at the same surface used for direct hits.
+            // Keep the existing distance curve for every other enemy.
+            const blastDistance =
+              e.kind === "harrow" ? Math.max(0, d - b.radius) : d;
+            if (blastDistance >= blast) continue;
             const clear =
               d < 0.01 ||
               wallDistance(
@@ -1974,7 +1979,13 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
               ) >=
                 d - 0.01;
             if (clear)
-              hurtEnemy(w, e, q.damage * (1 - d / reach), q.owner, b.part);
+              hurtEnemy(
+                w,
+                e,
+                q.damage * (1 - blastDistance / reach),
+                q.owner,
+                b.part,
+              );
           }
         }
         // Only the directly hit, defeated normal enemy can trigger one burst.
@@ -2002,15 +2013,19 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
               e.z - direct.z,
               eye(e) - eye(direct),
             );
+            const blastDistance =
+              e.kind === "harrow"
+                ? Math.max(0, d - enemyBodies(e)[0].radius)
+                : d;
             if (
               e.hp > 0 &&
-              d < chainBlast &&
+              blastDistance < chainBlast &&
               visible(direct, e, mapFor(w).blocks)
             )
               hurtEnemy(
                 w,
                 e,
-                q.damage * 0.5 * (1 - d / (chainBlast * 2)),
+                q.damage * 0.5 * (1 - blastDistance / (chainBlast * 2)),
                 q.owner,
               );
           }

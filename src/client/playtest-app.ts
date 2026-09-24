@@ -28,7 +28,11 @@ import { FramePacer } from "./frame-pacer";
 import { openLayoutEditor } from "./layout-editor";
 import * as T from "three";
 import { Renderer } from "./render";
-import { encounterCamera } from "./encounter-camera";
+import {
+  encounterCamera,
+  encounterVisible,
+  harrowEncounterDistance,
+} from "./encounter-camera";
 import { prepareBattle } from "./battle-loading";
 import { addPlayerNameSetting } from "./player-profile";
 import { enhanceGameSelects } from "./game-select";
@@ -623,6 +627,8 @@ function report() {
 }
 function encounter() {
   if (!world || encounterActive || modalCount) return;
+  const soldier = world.players.find((p) => p.id === "solo");
+  if (!soldier || soldier.hp <= 0) return;
   for (const e of world.enemies) {
     const key = e.segments ? "worm" : e.kind;
     if (save.encounters[key] === "solo") continue;
@@ -640,30 +646,33 @@ function encounter() {
     const pos = new T.Vector3(e.x, eye(e), e.z),
       projected = pos.clone().project(view.camera);
     if (
-      projected.z < 0 ||
-      projected.z > 1 ||
-      Math.abs(projected.x) > 1 ||
-      Math.abs(projected.y) > 1 ||
-      !rayVisible(
-        e,
-        {
-          x: view.camera.position.x,
-          y: view.camera.position.y - 1.2,
-          z: view.camera.position.z,
-        },
-        mapFor(world).blocks,
+      !encounterVisible(
+        e.kind,
+        projected,
+        Math.hypot(e.x - soldier.x, e.z - soldier.z),
+        rayVisible(
+          e,
+          {
+            x: view.camera.position.x,
+            y: view.camera.position.y - 1.2,
+            z: view.camera.position.z,
+          },
+          mapFor(world).blocks,
+        ),
       )
     )
       continue;
-    encounterActive = true;
     const n = structuredClone(save);
     n.encounters[key] = "solo";
     commit(n, () => {
+      // A save conflict opens its own dialog without starting a cutscene.
+      encounterActive = true;
       const d = dialog(
         `新たなANOMALYを確認：${names[key]}`,
         '<p>エネミーレポートに記録しました。</p><button id="pt-intro-skip">スキップして戦闘へ</button>',
       );
       d.classList.add("pt-cutscene");
+      d.dataset.enemy = key;
       const title = d.querySelector("h2")!;
       const [family, variant] = names[key].split(" / ");
       title.innerHTML =
@@ -675,15 +684,16 @@ function encounter() {
         oldQuaternion = view.camera.quaternion.clone(),
         oldFov = view.camera.fov;
       const distance =
-        Math.max(
-          6,
-          (e.size ?? 1) * (e.kind === "boss" || e.kind === "harrow" ? 12 : 5),
-        ) * (e.segments ? 1 : 1.35);
+        e.kind === "harrow"
+          ? harrowEncounterDistance(view.camera.aspect)
+          : Math.max(6, (e.size ?? 1) * (e.kind === "boss" ? 12 : 5)) *
+            (e.segments ? 1 : 1.35);
       const cameraPose = encounterCamera(
         view.camera.clone(),
         pos,
         view.encounterFront(e),
         distance,
+        e.kind === "harrow" ? 0 : 0.14,
       );
       // Keep the rendered world frozen; only the camera moves after the bars enter.
       let elapsed = 0,

@@ -4,6 +4,8 @@ import {
   createWorld,
   spawn,
   hurtEnemy,
+  neutral,
+  step,
   type World,
 } from "../src/shared/game";
 import {
@@ -25,7 +27,7 @@ import {
   writeBattleCheckpoint,
 } from "../src/client/battle-checkpoint";
 import { developerProgress } from "../src/client/developer-mode";
-import { SOLO_STAGE_IDS } from "../src/shared/campaign";
+import { SOLO_STAGE_IDS, normalSaveId } from "../src/shared/campaign";
 
 function fixture() {
   const w = createWorld("harrow-missiles", 723, 20);
@@ -43,6 +45,30 @@ function fixture() {
   return { w, p, e };
 }
 
+/** Real solo tick/input path, retaining the campaign map and damage multiplier. */
+function combatFixture(stage: number, difficulty: "normal" | "medium") {
+  const w = createWorld("harrow-live-combat", 723, stage);
+  const progress = freshProgress("normal");
+  initSolo(
+    w,
+    normalSaveId(stage),
+    difficulty,
+    false,
+    progress.soldiers[0].levels,
+  );
+  w.phase = "battle";
+  w.wave = stageFor(w).waves.length;
+  // Isolate the single boss's hit; the six mission sweep verifies its escorts.
+  w.spawned = 9999;
+  w.nextSpawn = 1e9;
+  w.solo!.bossSpawned = stageFor(w).waves[w.wave - 1].bosses.length;
+  const p = addPlayer(w, "solo");
+  Object.assign(p, { x: 0, z: 0, hp: 160, safe: 0 });
+  p.y = supportHeight(p.x, p.z, mapFor(w).blocks);
+  const e = spawn(w, "harrow", p.x, p.z)!;
+  return { w, p, e };
+}
+
 it("launches five missiles from each wing upward toward fixed, preannounced targets", () => {
   const { w, p, e } = fixture();
   queueHarrowMissiles(w, e, [p]);
@@ -51,7 +77,9 @@ it("launches five missiles from each wing upward toward fixed, preannounced targ
   expect(missiles.filter((m) => m.origin.x < e.x)).toHaveLength(5);
   expect(missiles.filter((m) => m.origin.x > e.x)).toHaveLength(5);
   expect(new Set(missiles.map((m) => m.id)).size).toBe(10);
-  expect(missiles.every((m) => m.launch - w.time >= 2)).toBe(true);
+  expect(missiles.every((m) => m.launch - w.time === HARROW.threatWind)).toBe(
+    true,
+  );
   const targets = structuredClone(missiles.map((m) => m.target));
   p.x = 15;
   p.z = -4;
@@ -252,7 +280,7 @@ it.each(["spawn", "takeoff"] as const)(
     w.time = airborneAt + 2;
     stepHarrow(w, e, p, [p], 0.05);
     expect(e.harrow?.kind).toBe("Land");
-    for (let tick = 1; tick <= 20; tick++) {
+    for (let tick = 1; tick <= Math.ceil(HARROW.landDuration / 0.05); tick++) {
       w.time = airborneAt + 2 + tick * 0.05;
       stepHarrow(w, e, p, [p], 0.05);
       expect(e.harrow?.kind).not.toBe("Spin");
@@ -261,7 +289,7 @@ it.each(["spawn", "takeoff"] as const)(
     expect(e.y).toBeCloseTo(0);
     // Let the real landing cooldown expire, without manually enabling the attack.
     for (let tick = 1; tick <= 31 && e.harrow?.kind !== "Spin"; tick++) {
-      w.time = airborneAt + 3 + tick * 0.05;
+      w.time = airborneAt + 2 + HARROW.landDuration + tick * 0.05;
       stepHarrow(w, e, p, [p], 0.05);
     }
     expect(e.harrow?.kind).toBe("Spin");
@@ -314,8 +342,62 @@ it("lands for a target directly below, then performs exactly one ground rotation
   expect(p.hp).toBeCloseTo(hp - HARROW.spinDamage * stageFor(w).damage);
 });
 
-it("airborne ranged attacks choose glide dives near 30 percent and retain the committed dive target", () => {
+it.each([true, false])(
+  "a real dodge input (%s) resolves one spin contact without later repeat damage",
+  (dodge) => {
+    const { w, p, e } = combatFixture(20, "normal");
+    e.y = p.y;
+    e.harrowAirborne = false;
+    e.harrowSwitchAt = 100;
+    e.harrow = { kind: "Spin", started: 0, fired: false, yaw: 0 };
+    const hitAt = Math.round(HARROW.spinWind / 0.05);
+    for (let tick = 1; tick < hitAt; tick++) {
+      step(w, { solo: neutral() });
+      expect(p.hp).toBe(160);
+    }
+    step(w, { solo: { ...neutral(), dodge, mx: dodge ? 1 : 0 } });
+    expect(p.evade > 0).toBe(dodge);
+    expect(e.harrow?.hitIds).toEqual([p.id]);
+    const afterContact = p.hp;
+    expect(afterContact).toBeCloseTo(dodge ? 160 : 44.08, 6);
+    // Remain within the warning circle after invulnerability expires; walking
+    // out of the area must not be what makes this regression pass.
+    while (w.time <= HARROW.spinWind + HARROW.spinTurn + 0.05) {
+      step(w, { solo: neutral() });
+      expect(Math.hypot(p.x - e.x, p.z - e.z)).toBeLessThan(HARROW.spinRadius);
+      expect(p.hp).toBe(afterContact);
+    }
+    expect(p.evade).toBe(0);
+    expect(e.harrow?.hitIds).toEqual([p.id]);
+  },
+);
+
+it("an unupgraded 160 HP soldier survives one ST25 medium dive through real ticks", () => {
+  const { w, p, e } = combatFixture(25, "medium");
+  const target = { x: p.x, y: p.y, z: p.z };
+  e.harrow = {
+    kind: "Dive",
+    started: 0,
+    fired: false,
+    yaw: 0,
+    from: { x: e.x, y: e.y, z: e.z },
+    to: target,
+  };
+  for (let tick = 0; tick < Math.ceil(HARROW.diveDuration / 0.05) + 1; tick++)
+    step(w, { solo: neutral() });
+  expect(e.harrow?.kind).toBe("Land");
+  expect(p.hp).toBeCloseTo(3.416, 6);
+  expect(p.hp).toBeGreaterThan(0);
+  expect(p.down).toBe(0);
+  expect(w.phase).toBe("battle");
+  for (let tick = 0; tick < 8; tick++) step(w, { solo: neutral() });
+  expect(p.hp).toBeCloseTo(3.416, 6);
+});
+
+it("airborne ranged attacks choose glide dives near 45 percent and retain the committed dive target", () => {
   const { w, p, e } = fixture();
+  // Keep the target inside the firing yard's north wall at z=23.
+  p.z = e.z + HARROW.spinRadius + 5;
   let dives = 0;
   for (let i = 0; i < 1000; i++) {
     e.harrow = undefined;
@@ -328,8 +410,8 @@ it("airborne ranged attacks choose glide dives near 30 percent and retain the co
     stepHarrow(w, e, p, [p], 0.05);
     if (e.harrow?.kind === "Glide") dives++;
   }
-  expect(dives).toBeGreaterThan(240);
-  expect(dives).toBeLessThan(360);
+  expect(dives).toBeGreaterThan(390);
+  expect(dives).toBeLessThan(510);
   const committed = { x: p.x, y: 0, z: p.z };
   e.harrow = {
     kind: "Glide",
@@ -344,7 +426,8 @@ it("airborne ranged attacks choose glide dives near 30 percent and retain the co
   stepHarrow(w, e, p, [p], 0.05);
   expect(e.harrow?.kind).toBe("Dive");
   expect(e.harrow?.to).toEqual(committed);
-  w.time += HARROW.diveDuration;
+  // Sample just past the boundary: 3.0 - 2.1 is slightly below 0.9 in binary.
+  w.time += HARROW.diveDuration + 1e-8;
   stepHarrow(w, e, p, [p], 0.05);
   expect(e.harrow?.kind).toBe("Land");
   expect({ x: e.x, y: e.y, z: e.z }).toEqual(committed);
@@ -414,7 +497,7 @@ it.each([
       expect({ x: e.x, y: e.y, z: e.z }).toEqual(stopped);
     }
     expect(e.harrow?.kind).toBe("Spin");
-    for (let i = 0; i < 73; i++) {
+    for (let i = 0; i < Math.ceil(HARROW.spinDuration / 0.05) + 1; i++) {
       w.time += 0.05;
       stepHarrow(w, e, p, [p], 0.05);
       expect({ x: e.x, y: e.y, z: e.z }).toEqual(stopped);
@@ -430,8 +513,9 @@ it("ground pursuit steps off a roof edge while airborne pursuit retains flight a
   const blocks = mapFor(w).blocks;
   const p = addPlayer(w, "solo");
   const radius = 3.4 * HARROW.scale;
-  const x = -58 + 9 + radius - 0.01;
-  Object.assign(p, { x: x + 12, z: -64, y: 0 });
+  // Use the outer edge: the enlarged footprint can bridge the two inner roofs.
+  const x = -58 - 9 - radius + 0.01;
+  Object.assign(p, { x: x - 12, z: -64, y: 0 });
   const e = spawn(w, "boss", x, -64, "harrow")!;
   Object.assign(e, {
     x,
@@ -443,7 +527,7 @@ it("ground pursuit steps off a roof edge while airborne pursuit retains flight a
   });
   expect(supportHeight(e.x, e.z, blocks, e.y, radius)).toBe(6);
   stepHarrow(w, e, p, [p], 0.1);
-  expect(e.x).toBeGreaterThan(x);
+  expect(e.x).toBeLessThan(x);
   expect(e.y).toBe(0);
   Object.assign(e, {
     x: -58,
@@ -452,7 +536,7 @@ it("ground pursuit steps off a roof edge while airborne pursuit retains flight a
     harrowAirborne: true,
     cool: 10,
   });
-  p.x = e.x + 12;
+  p.x = e.x - HARROW.spinRadius - 5;
   stepHarrow(w, e, p, [p], 0.1);
   expect(e.y).toBe(HARROW.flightHeight);
 });
