@@ -1,3 +1,10 @@
+# 現在地: HARROW v8の独立再監査を送信済み（2026-09-24）
+
+[PR81](https://github.com/futsalife24-bot/swarm-front/pull/81)、対象 `fad580b8a15484cbf4fc24e168e7eee5d1b79b78`、base `413c9ea7b2a879f4797dcf71bbfd8d965e3fd35a`。branch `codex/harrow-presence-motion`。対象commit後production build/Worker dry-run成功、main不変・PR mergeableを確認。
+
+同じ [通常Chat監査](https://chatgpt.com/c/6ab4e649-ee10-83e8-80db-d78515281bd3) へv7 F1/F2修正と追加v8仕様のZIPを添付し送信。ユーザーメッセージ/添付/Pro思考中を確認。資料 `dist-validation/harrow-v8/HARROW-v8-audit-fad580b.zip`、30,957,663 bytes、SHA256 `0eb937e4d6f574fc87087b1d28ea3014ba9ba54d2295be36866867451143fb72`。最終映像も実レポートで13.966667秒まで完走、errorなし。AirThreat10発/滑空/急降下を実Rendererで確認。
+
+独立判定待ち、未merge/未公開。以降は記録のみ。必須指摘は同じChatへ修正再監査し、合格後は通常main反映・既存Worker公開・配信/UI照合へ。元game別作業を保護。[実装/検証/限界](HARROW-V8.md)。
 # 現在地: HARROW v8統合・再監査準備（2026-09-24）
 
 PR81、branch `codex/harrow-presence-motion`、base `413c9ea7b2a879f4797dcf71bbfd8d965e3fd35a`、作業場所 `../harrow-integration`。二足立ち風の空中姿勢・AirThreat・鋭いDive、最強ボスの耐久/攻撃力、地形に沿う赤予告へ更新。3倍体格/会敵修正を継承。
