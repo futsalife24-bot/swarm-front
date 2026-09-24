@@ -6,6 +6,7 @@ import {
   step,
   neutral,
   hurtEnemy,
+  eye,
 } from "../src/shared/game";
 import { HARROW } from "../src/shared/harrow";
 import { groundHeight } from "../src/shared/terrain";
@@ -26,7 +27,12 @@ function reset(value: string) {
   Object.assign(p, {
     x: 0,
     y: 0,
-    z: mode === "encounter" || mode === "missile" ? 60 : 24,
+    z:
+      mode === "encounter" || mode === "missile"
+        ? 60
+        : mode === "walk"
+          ? 45
+          : 24,
     hp: 10000,
   });
   p.y = groundHeight(p.x, p.z, mapFor(w).blocks);
@@ -35,6 +41,11 @@ function reset(value: string) {
   // Freeze campaign spawning, leaving ordinary authority movement/attacks active.
   w.spawned = 9999;
   if (mode === "missile") e.cool = 0;
+  if (mode === "walk") {
+    e.y = groundHeight(0, 0, mapFor(w).blocks);
+    e.harrowAirborne = false;
+    e.harrowSwitchAt = 1e9;
+  }
   if (mode === "spin") {
     e.y = groundHeight(0, 0, mapFor(w).blocks);
     e.harrowAirborne = false;
@@ -73,10 +84,7 @@ function frame(now: number) {
   const pitch = e
     ? Math.min(
         1.05,
-        Math.atan2(
-          e.y + 2.7 - (p.y ?? 0) - 1,
-          Math.hypot(e.x - p.x, e.z - p.z),
-        ),
+        Math.atan2(eye(e) - (p.y ?? 0) - 1, Math.hypot(e.x - p.x, e.z - p.z)),
       )
     : 0;
   renderer.render(
@@ -95,6 +103,8 @@ function frame(now: number) {
       time: +w.time.toFixed(2),
       hp: w.players[0].hp,
       height: e?.y,
+      scale: HARROW.scale,
+      movementSpeed: HARROW.speed,
       attack: e?.harrow?.kind,
       missiles: w.harrowMissiles?.length ?? 0,
       model: model?.batch ? "GLB loaded" : model?.error || "loading",

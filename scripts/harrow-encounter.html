@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" />
+  <title>HARROW 会敵映像収録</title>
+  <style>
+    body {
+      margin: 0;
+      background: #08131d;
+      color: white;
+      font: 14px sans-serif;
+    }
+    #world {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+      width: 1280px;
+      height: 720px;
+    }
+    #film {
+      display: block;
+      width: min(100vw, 1280px);
+    }
+    button {
+      padding: 12px;
+    }
+    pre {
+      white-space: pre-wrap;
+    }
+  </style>
+  <canvas id="world"></canvas>
+  <canvas id="film" width="1280" height="720"></canvas>
+  <div id="damage" hidden></div>
+  <button id="record" disabled>14秒の会敵映像を収録</button>
+  <pre id="status">読み込み中</pre>
+  <script type="module" src="./harrow-encounter.ts"></script>
+</html>

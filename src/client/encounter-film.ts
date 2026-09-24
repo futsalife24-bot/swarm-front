@@ -2,6 +2,7 @@ import { menuDialog } from "./menu-ui";
 import "./encounter-film.css";
 
 export const encounterFilms = {
+  harrow: "HARROW",
   calyx: "CALYX",
   crawler: "PLEAT",
   ant: "HOUND / VOLLEY",
@@ -33,7 +34,9 @@ export function showEncounterFilm(
   const retry = d.querySelector<HTMLButtonElement>(".film-retry")!;
   d.querySelector("h2")!.id = "report-film-title";
   d.setAttribute("aria-labelledby", "report-film-title");
-  const source = `${import.meta.env.BASE_URL}assets/encounters/report-v2/${key === "calyx" ? "calyx-v5" : key}.mp4`;
+  const file =
+    key === "harrow" ? "harrow-v7" : key === "calyx" ? "calyx-v5" : key;
+  const source = `${import.meta.env.BASE_URL}assets/encounters/report-v2/${file}.mp4`;
   video.dataset.source = source;
   let request: AbortController | undefined;
   let objectUrl: string | undefined;

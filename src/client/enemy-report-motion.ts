@@ -9,6 +9,7 @@ import {
   type HarrowMissile,
 } from "../shared/harrow";
 import { HarrowEffects } from "./harrow-effects";
+import { HARROW_FLIGHT_CYCLE } from "../shared/harrow-motion";
 import {
   FOUNDRY_LASER_WARNING,
   foundryLaserOrigin,
@@ -43,7 +44,7 @@ export const HARROW_REPORT_SEQUENCE: {
   },
   {
     clip: "Flight",
-    duration: 2.4,
+    duration: HARROW_FLIGHT_CYCLE,
     from: reportFlightHeight,
     to: reportFlightHeight,
   },
@@ -69,7 +70,7 @@ export const HARROW_REPORT_SEQUENCE: {
   },
   {
     clip: "Flight",
-    duration: 2.4,
+    duration: HARROW_FLIGHT_CYCLE,
     from: reportFlightHeight,
     to: reportFlightHeight,
   },

@@ -1,4 +1,27 @@
 import * as T from "three";
+import { HARROW } from "../shared/harrow";
+
+/** An airborne boss can announce contact before the player looks above the HUD. */
+export function encounterVisible(
+  kind: string,
+  projected: Readonly<T.Vector3>,
+  horizontalDistance: number,
+  clearLine: boolean,
+) {
+  if (!clearLine) return false;
+  if (kind === "harrow") return horizontalDistance <= 120;
+  return (
+    projected.z >= 0 &&
+    projected.z <= 1 &&
+    Math.abs(projected.x) <= 1 &&
+    Math.abs(projected.y) <= 1
+  );
+}
+
+/** The large wings need a central, wider shot rather than the ordinary close-up. */
+export function harrowEncounterDistance(aspect: number) {
+  return Math.max(29, 45 / Math.max(1, aspect)) * HARROW.scale;
+}
 
 /** Orbit the frozen specimen instead of crossing its body on a rear-to-front shot. */
 export function encounterCamera(
@@ -6,6 +29,7 @@ export function encounterCamera(
   focus: T.Vector3,
   front: T.Vector3,
   distance: number,
+  horizontalOffset = 0.14,
 ) {
   const start = camera.position.clone().sub(focus);
   const initialRotation = camera.quaternion.clone();
@@ -40,7 +64,7 @@ export function encounterCamera(
     );
     pose.lookAt(focus);
     right.set(1, 0, 0).applyQuaternion(pose.quaternion);
-    aim.copy(focus).addScaledVector(right, -distance * 0.14 * t);
+    aim.copy(focus).addScaledVector(right, -distance * horizontalOffset * t);
     pose.lookAt(aim);
     pose.quaternion.slerpQuaternions(
       initialRotation,

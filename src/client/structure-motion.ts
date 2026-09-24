@@ -6,6 +6,7 @@ import {
   type HoundVisualInput,
 } from "./hound-motion";
 import { STRUCTURE_TIMING } from "../shared/structure-timing";
+import { HARROW_MOVE_SPEED } from "../shared/harrow-motion";
 export const STRUCTURE_ASSETS = {
   harrow: "harrow",
   calyx: "calyx",
@@ -76,7 +77,7 @@ export class StructureMotionController {
         s.time = e.harrow
           ? Math.max(0, (e.worldTime ?? 0) - e.harrow.started)
           : s.time +
-            (desired === "Locomotion" ? e.distance / (0.16 * 0.65) : dt);
+            (desired === "Locomotion" ? e.distance / HARROW_MOVE_SPEED : dt);
         s.blend = e.harrow ? Math.max(s.blend + dt, s.time) : s.blend + dt;
         const blendTime =
           desired === "Land"

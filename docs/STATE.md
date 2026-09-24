@@ -1,3 +1,10 @@
+# 現在地: HARROW v7・3倍体格/ゆったり動作/会敵修正を検証（2026-09-24）
+
+branch `codex/harrow-presence-motion`、base `413c9ea7b2a879f4797dcf71bbfd8d965e3fd35a`、作業場所 `../harrow-integration`。縮尺0.65→1.95、高度34.5m/巡航0.64m/s維持。全11動作1.75倍、歩幅と羽ばたきを拡大し実速と接地を整合。画面外上空でもHARROW初会敵を開始、全景カメラ/上黒帯名表示/レポート動画を追加。拡大で発生する爆発弾の無傷不具合も修正。
+
+関連184件、3作戦×2難易度6戦、実Worker2接続11項目、両型、保存した原本/GLBの再読込と全クリップ検査が成功。実ブラウザで地面向き初会敵・停止状態と保存維持・レポート動画再生を確認。GLB `af5152de...`、MP4 `118790bc...`。詳細と検証限界は [HARROW v7記録](HARROW-PRESENCE.md)。元gameの別作業を保護。
+
+次はcommit後のbuild/dry-run、通常Chat独立監査、通常main反映・既存Worker公開。現時点では未公開。
 # 現在地: HARROW・通常25面・15-Aをmain反映・公開完了（2026-09-24）
 
 [PR78](https://github.com/futsalife24-bot/swarm-front/pull/78)を通常merge、公開ソースmain `5e743d32dcb23d9771db23fdfaebc90cc2e85e68`。独立再監査は `30737b4` 合格・必須0、以降は記録のみ。merge後mainからclient build・production Worker dry-run成功、既存Worker `swarm-front` へ公開。Worker Version `0b3ca67f-4b3e-412b-b8cf-68ba7ccb6244`。

@@ -51,7 +51,9 @@ it("launches five missiles from each wing upward toward fixed, preannounced targ
   expect(missiles.filter((m) => m.origin.x < e.x)).toHaveLength(5);
   expect(missiles.filter((m) => m.origin.x > e.x)).toHaveLength(5);
   expect(new Set(missiles.map((m) => m.id)).size).toBe(10);
-  expect(missiles.every((m) => m.launch - w.time >= 2)).toBe(true);
+  expect(missiles.every((m) => m.launch - w.time === HARROW.threatWind)).toBe(
+    true,
+  );
   const targets = structuredClone(missiles.map((m) => m.target));
   p.x = 15;
   p.z = -4;
@@ -252,7 +254,7 @@ it.each(["spawn", "takeoff"] as const)(
     w.time = airborneAt + 2;
     stepHarrow(w, e, p, [p], 0.05);
     expect(e.harrow?.kind).toBe("Land");
-    for (let tick = 1; tick <= 20; tick++) {
+    for (let tick = 1; tick <= Math.ceil(HARROW.landDuration / 0.05); tick++) {
       w.time = airborneAt + 2 + tick * 0.05;
       stepHarrow(w, e, p, [p], 0.05);
       expect(e.harrow?.kind).not.toBe("Spin");
@@ -261,7 +263,7 @@ it.each(["spawn", "takeoff"] as const)(
     expect(e.y).toBeCloseTo(0);
     // Let the real landing cooldown expire, without manually enabling the attack.
     for (let tick = 1; tick <= 31 && e.harrow?.kind !== "Spin"; tick++) {
-      w.time = airborneAt + 3 + tick * 0.05;
+      w.time = airborneAt + 2 + HARROW.landDuration + tick * 0.05;
       stepHarrow(w, e, p, [p], 0.05);
     }
     expect(e.harrow?.kind).toBe("Spin");
@@ -316,6 +318,8 @@ it("lands for a target directly below, then performs exactly one ground rotation
 
 it("airborne ranged attacks choose glide dives near 30 percent and retain the committed dive target", () => {
   const { w, p, e } = fixture();
+  // Keep the target inside the firing yard's north wall at z=23.
+  p.z = e.z + HARROW.spinRadius + 5;
   let dives = 0;
   for (let i = 0; i < 1000; i++) {
     e.harrow = undefined;
@@ -414,7 +418,7 @@ it.each([
       expect({ x: e.x, y: e.y, z: e.z }).toEqual(stopped);
     }
     expect(e.harrow?.kind).toBe("Spin");
-    for (let i = 0; i < 73; i++) {
+    for (let i = 0; i < Math.ceil(HARROW.spinDuration / 0.05) + 1; i++) {
       w.time += 0.05;
       stepHarrow(w, e, p, [p], 0.05);
       expect({ x: e.x, y: e.y, z: e.z }).toEqual(stopped);
@@ -430,8 +434,9 @@ it("ground pursuit steps off a roof edge while airborne pursuit retains flight a
   const blocks = mapFor(w).blocks;
   const p = addPlayer(w, "solo");
   const radius = 3.4 * HARROW.scale;
-  const x = -58 + 9 + radius - 0.01;
-  Object.assign(p, { x: x + 12, z: -64, y: 0 });
+  // Use the outer edge: the enlarged footprint can bridge the two inner roofs.
+  const x = -58 - 9 - radius + 0.01;
+  Object.assign(p, { x: x - 12, z: -64, y: 0 });
   const e = spawn(w, "boss", x, -64, "harrow")!;
   Object.assign(e, {
     x,
@@ -443,7 +448,7 @@ it("ground pursuit steps off a roof edge while airborne pursuit retains flight a
   });
   expect(supportHeight(e.x, e.z, blocks, e.y, radius)).toBe(6);
   stepHarrow(w, e, p, [p], 0.1);
-  expect(e.x).toBeGreaterThan(x);
+  expect(e.x).toBeLessThan(x);
   expect(e.y).toBe(0);
   Object.assign(e, {
     x: -58,
@@ -452,7 +457,7 @@ it("ground pursuit steps off a roof edge while airborne pursuit retains flight a
     harrowAirborne: true,
     cool: 10,
   });
-  p.x = e.x + 12;
+  p.x = e.x - HARROW.spinRadius - 5;
   stepHarrow(w, e, p, [p], 0.1);
   expect(e.y).toBe(HARROW.flightHeight);
 });

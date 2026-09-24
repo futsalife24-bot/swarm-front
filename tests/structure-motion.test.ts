@@ -99,6 +99,21 @@ it("cancels aborted wind-up and never interprets spawn cooldown as a hit", () =>
   c.update(b, [sample()], 0.016);
   expect(c.states.get(7)?.clip).toBe("Idle");
 });
+it("HARROW travels 2.688 metres per slow 4.2-second stride without advancing while stopped", () => {
+  const controller = new StructureMotionController("harrow");
+  const batch = { setPose() {} };
+  for (let frame = 0; frame < 84; frame++)
+    controller.update(
+      batch,
+      [sample({ moving: true, distance: 0.64 * 0.05 })],
+      0.05,
+    );
+  expect(controller.states.get(7)).toMatchObject({ clip: "Locomotion" });
+  expect(controller.states.get(7)?.time).toBeCloseTo(4.2);
+  const before = controller.states.get(7)?.time;
+  controller.update(batch, [sample({ moving: true, distance: 0 })], 0);
+  expect(controller.states.get(7)?.time).toBe(before);
+});
 it("LEAPER has its own model while VOLLEY and both attack timings are preserved", async () => {
   const { STRUCTURE_ASSETS } = await import("../src/client/structure-motion");
   for (const kind of ["ant", "spider"] as const) {

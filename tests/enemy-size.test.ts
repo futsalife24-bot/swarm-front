@@ -35,7 +35,7 @@ it("preserves combat factors while applying authored species display scales", ()
               : factor;
         const enemy = { kind, size: spawnSize(kind, worm, slot) };
         expect(enemySize(enemy)).toBeCloseTo(
-          previous * (kind === "harrow" ? 0.65 : kind === "calyx" ? 1 : 1.5),
+          previous * (kind === "harrow" ? 1.95 : kind === "calyx" ? 1 : 1.5),
         );
         expect(enemyStatSize(enemy)).toBe(previous);
         expect(enemySpeedFactor(enemy)).toBe(previous <= 1 ? 1.5 : 1);

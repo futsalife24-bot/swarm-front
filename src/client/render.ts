@@ -228,14 +228,16 @@ export class Renderer {
       Array.from(a.array.slice(index * a.itemSize, (index + 1) * a.itemSize)),
     );
     const state = motion!.controller.states.get(enemy.id);
-    const phase = state?.clip === "Idle" ? state.time : 0;
+    const clip =
+      enemy.kind === "harrow" && enemy.harrowAirborne ? "Flight" : "Idle";
+    const phase = state?.clip === clip ? state.time : 0;
     return {
       update: (time: number) => {
         batch.setPose(
           index,
-          "Idle",
+          clip,
           phase + time,
-          state?.clip ?? "Idle",
+          state?.clip ?? clip,
           state?.time ?? 0,
           Math.min(1, time / 0.25),
         );
