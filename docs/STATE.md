@@ -1,3 +1,13 @@
+# 現在地: HARROW v8をmain反映・公開完了（2026-09-24）
+
+[PR81](https://github.com/futsalife24-bot/swarm-front/pull/81) を通常merge。公開ソースmain `43fc19ced4a3f97135a869720af6aa15d57c7a26`、Worker Version `56781189-582f-4755-bc3c-a3ab5d2d2d64`。3倍体格・高度/巡航維持、二足立ち風Flight/AirThreat、大きな羽ばたき、強化攻撃、初会敵/動画、旧保存互換と地形面に沿う赤予告を公開。
+
+[通常Chat独立監査](https://chatgpt.com/c/6ab4e649-ee10-83e8-80db-d78515281bd3) の対象 `f3bc6e5f5212472d217debd2a5c60c49f9516fe3` はF3差分再監査合格、必須P0/P1/P2なし。前回F1/F2・保存競合の解消を継承。最終監査は実差分・242ファイルhash・比較PNG/JSONの確認で、Vitest/実Rendererの独立再実行ではない。以後は記録のみ。
+
+merge後mainからproduction build/Worker dry-run成功、既存Workerへ公開。https://swarm-front.melosalife-24.workers.dev の配信196ファイルは全件ローカルdistとSHA256一致、health200/ok。公開ブラウザ起動・console error0、既存ST1中断13秒の再開表示を確認し、再開/破棄は行っていない。
+
+証拠: `../harrow-integration/dist-validation/harrow-v8/release-{build,dry-run,deploy,delivery}.log` と `release-delivery.json`。実描画比較は同配下 `marker-reaudit`。実スマホ/GPU負荷・人操作難度・長時間多人数は未確認。倉庫の既存見た目8m/支持面6mの問題は別件として残る。[検証/限界](HARROW-V8.md)。元gameのClaude/設定/敗北導線差分は保護。cleanなmainは `../share-image-fix`、今回の作業場所 `../harrow-integration`。
+
 # 現在地: HARROW F3差分再監査を送信済み（2026-09-24）
 
 [PR81](https://github.com/futsalife24-bot/swarm-front/pull/81)、対象 `f3bc6e5f5212472d217debd2a5c60c49f9516fe3`、base `413c9ea7b2a879f4797dcf71bbfd8d965e3fd35a`。branch `codex/harrow-presence-motion`、変更commit後のproduction build/Worker dry-run成功、main不変/mergeableを確認。以降のcommitは記録のみ。
