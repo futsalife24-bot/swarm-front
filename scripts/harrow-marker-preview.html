@@ -40,11 +40,15 @@
     }
   </style>
   <canvas></canvas>
+  <div id="damage" style="display: none"></div>
   <div id="panel">
     <p>実ゲーム地形 × HARROW赤マーカー（ドラッグで回転・ホイールで拡縮）</p>
     <div>
       <button data-site="slope">草原斜面</button
       ><button data-site="rock">雪の岩</button
+      ><button data-site="ridge">雪岩稜線（境界含む）</button
+      ><button data-site="innerRidge">雪岩稜線（全円が場内）</button
+      ><button data-site="audit">監査反例 ST25</button
       ><button data-site="roof">倉庫屋上</button
       ><button data-site="flat">平地</button>
     </div>
@@ -58,6 +62,8 @@
       ><button id="capacity">50発→40個上限</button>
     </div>
     <button id="surface-check">表示面を照合</button>
+    <button id="comparison">旧リングへ切替</button>
+    <button id="save-evidence">比較画像を保存</button><span id="saved"></span>
     <pre id="surface"></pre>
     <pre id="status">loading</pre>
     <pre id="errors"></pre>

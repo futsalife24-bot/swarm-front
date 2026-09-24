@@ -1,3 +1,11 @@
+# 現在地: HARROW v8の残るF3を修正・差分再監査準備（2026-09-24）
+
+PR81、branch `codex/harrow-presence-motion`、base `413c9ea7b2a879f4797dcf71bbfd8d965e3fd35a`。v8対象fad580bの独立監査で旧保存F1・連鎖爆風F2・保存競合の解消を確認、残る必須はP2/F3（赤円の三角形内部が岩/斜面に埋没）。
+
+地形三角形へのクリップへ修正。関連18件・両型・fixture型成功、実Rendererの同位置比較で旧10/72埋没→新0/72、草原/雪岩/平地・40個上限・着弾後消去も確認。GLB/動画/攻撃/保存は前回から不変。詳細とメモリ/初回生成時間の限界は [v8記録](HARROW-V8.md)。
+
+次は修正commit後build/dry-run、同じ通常ChatへF3差分ZIP再監査、合格後通常merge・既存Worker公開。未merge/未公開。元gameの別作業を保護。
+
 # 現在地: HARROW v8の独立再監査を送信済み（2026-09-24）
 
 [PR81](https://github.com/futsalife24-bot/swarm-front/pull/81)、対象 `fad580b8a15484cbf4fc24e168e7eee5d1b79b78`、base `413c9ea7b2a879f4797dcf71bbfd8d965e3fd35a`。branch `codex/harrow-presence-motion`。対象commit後production build/Worker dry-run成功、main不変・PR mergeableを確認。

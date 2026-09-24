@@ -39,6 +39,49 @@ const server = await createServer({
         };
       },
       configureServer(server) {
+        server.middlewares.use("/__harrow-marker", (req, res, next) => {
+          if (req.method !== "POST") return next();
+          const name = req.headers["x-harrow-marker-name"];
+          let metadata;
+          try {
+            if (typeof name !== "string" || !/^[a-z-]{1,48}$/.test(name))
+              throw Error("Invalid marker name");
+            metadata = JSON.parse(
+              decodeURIComponent(req.headers["x-harrow-metadata"] ?? ""),
+            );
+          } catch {
+            res.statusCode = 400;
+            res.end("Invalid marker metadata");
+            return;
+          }
+          let bytes = 0;
+          const chunks = [];
+          req.on("data", (chunk) => {
+            bytes += chunk.length;
+            if (bytes > 8000000) req.destroy();
+            else chunks.push(chunk);
+          });
+          req.on("end", () => {
+            const png = Buffer.concat(chunks);
+            if (
+              !png
+                .subarray(0, 8)
+                .equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))
+            ) {
+              res.statusCode = 400;
+              res.end("PNG required");
+              return;
+            }
+            const directory = "dist-validation/harrow-v8/marker-reaudit";
+            mkdirSync(directory, { recursive: true });
+            writeFileSync(`${directory}/${name}.png`, png);
+            writeFileSync(
+              `${directory}/${name}.json`,
+              JSON.stringify(metadata, null, 2),
+            );
+            res.end("saved");
+          });
+        });
         server.middlewares.use("/__harrow-film", (req, res, next) => {
           if (req.method !== "POST") return next();
           let metadata;
