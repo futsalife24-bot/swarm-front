@@ -9,6 +9,7 @@ import {
   eye,
 } from "../src/shared/game";
 import { HARROW } from "../src/shared/harrow";
+import { harrowSpinRotation } from "../src/shared/harrow-motion";
 import { groundHeight } from "../src/shared/terrain";
 import { mapFor } from "../src/shared/stages";
 const renderer = new Renderer(document.querySelector("canvas")!);
@@ -17,6 +18,69 @@ let w: ReturnType<typeof createWorld>,
   before = performance.now(),
   mode = "encounter",
   groundCamera = false;
+let overview = true,
+  recording = false;
+const canvas = document.querySelector("canvas")!;
+const saveStatus = document.getElementById("saved")!;
+async function save(blob: Blob, kind: "image" | "video", name: string) {
+  const response = await fetch("/__harrow-spin", {
+    method: "POST",
+    headers: {
+      "Content-Type": blob.type,
+      "x-harrow-kind": kind,
+      "x-harrow-name": name,
+      "x-harrow-metadata": encodeURIComponent(
+        JSON.stringify({
+          overview,
+          status: JSON.parse(document.getElementById("status")!.textContent!),
+        }),
+      ),
+    },
+    body: blob,
+  });
+  saveStatus.textContent = JSON.stringify(await response.json());
+}
+function seekSpin(target: number) {
+  reset("spin");
+  while (w.time < target - 1e-9)
+    step(w, { viewer: neutral() }, Math.min(0.025, target - w.time));
+  paused = true;
+}
+document
+  .querySelectorAll<HTMLButtonElement>("[data-time]")
+  .forEach(
+    (button) => (button.onclick = () => seekSpin(Number(button.dataset.time))),
+  );
+document.getElementById("overview")!.onclick = () => (overview = !overview);
+document.getElementById("capture")!.onclick = () => {
+  draw(0);
+  canvas.toBlob((blob) => {
+    if (blob)
+      void save(blob, "image", `spin-${w.time.toFixed(3).replace(".", "-")}`);
+  }, "image/png");
+};
+document.getElementById("record")!.onclick = () => {
+  if (recording) return;
+  reset("spin");
+  recording = true;
+  const stream = canvas.captureStream(30),
+    recorder = new MediaRecorder(stream, { mimeType: "video/webm" });
+  const chunks: Blob[] = [];
+  recorder.ondataavailable = (e) => {
+    if (e.data.size) chunks.push(e.data);
+  };
+  recorder.onstop = () => {
+    for (const track of stream.getTracks()) track.stop();
+    void save(new Blob(chunks, { type: "video/webm" }), "video", "spin-cycle");
+  };
+  recorder.start();
+  stopRecording = () => {
+    recorder.stop();
+    recording = false;
+    paused = true;
+  };
+};
+let stopRecording: (() => void) | undefined;
 function reset(value: string) {
   mode = value;
   w = createWorld(`harrow-${performance.now()}`, 1, 20);
@@ -75,10 +139,7 @@ document.getElementById("advance")!.onclick = () => {
   for (let i = 0; i < 10; i++) step(w, { viewer: neutral() }, 0.05);
 };
 reset("encounter");
-function frame(now: number) {
-  const dt = Math.min(0.05, (now - before) / 1000);
-  before = now;
-  if (!paused) step(w, { viewer: neutral() }, dt);
+function draw(dt: number) {
   const e = w.enemies.find((e) => e.kind === "harrow");
   const p = w.players[0];
   const pitch = e
@@ -96,6 +157,11 @@ function frame(now: number) {
     undefined,
     !paused,
   );
+  if (overview && e) {
+    renderer.camera.position.set(e.x + 43, e.y + 48, e.z + 52);
+    renderer.camera.lookAt(e.x, e.y + 1, e.z);
+    renderer.renderer.render(renderer.scene, renderer.camera);
+  }
   const model = renderer.structures.get("harrow");
   document.getElementById("status")!.textContent = JSON.stringify(
     {
@@ -106,8 +172,21 @@ function frame(now: number) {
       scale: HARROW.scale,
       movementSpeed: HARROW.speed,
       attack: e?.harrow?.kind,
+      spinRotation:
+        e?.harrow?.kind === "Spin"
+          ? harrowSpinRotation(w.time - e.harrow.started)
+          : null,
+      overview,
+      paused,
+      recording,
       missiles: w.harrowMissiles?.length ?? 0,
       model: model?.batch ? "GLB loaded" : model?.error || "loading",
+      assetURL:
+        performance
+          .getEntriesByType("resource")
+          .map((entry) => entry.name)
+          .filter((name) => name.includes("harrow_motion_"))
+          .at(-1) ?? null,
       clips: model?.batch?.asset.clips.map((c) => c.name),
       drawBatches: model?.batch?.parts.length,
       pose: e ? model?.controller.states.get(e.id) : undefined,
@@ -118,6 +197,13 @@ function frame(now: number) {
     null,
     2,
   );
+}
+function frame(now: number) {
+  const dt = Math.min(0.05, (now - before) / 1000);
+  before = now;
+  if (!paused) step(w, { viewer: neutral() }, dt);
+  draw(dt);
+  if (recording && w.time >= 3.2) stopRecording?.();
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);

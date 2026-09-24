@@ -1,3 +1,8 @@
+# 現在地: HARROW地上回転v9の独立監査合格・公開準備（2026-09-24）
+
+branch `codex/harrow-spin-impact`、base `a6973ed3197d305f67f1c426f08d41c97dc1539b`、作業場所 `../harrow-integration`。ユーザー指定動画2〜6秒のボスを参考に、地上回転を低い溜め・翼と脚の接地・約1秒の薙ぎ払い・制動へ改修。半径28mと地表風圧、途中Spin保存のv4移行を追加。元gameの既存差分は保護。
+
+[PR83](https://github.com/futsalife24-bot/swarm-front/pull/83)、監査対象 `8b96d4777c696553335b3b6558f6a438c25639d2`。自己検証・最終動画を含む `HARROW-spin-v9-audit-8b96d47.zip`（42,568,706 bytes、SHA256 `2d3e8393552845bff5b11ff4c8eeb20e48480c930a9a522c7c08bc0854c41843`）の [通常Chat監査](https://chatgpt.com/c/6ab5145c-b0e0-83ee-840b-852ff91f0f49) は「合格・必須修正なし」、P0/P1/P2なし。独立Node136件/3,318 assertions、GLB121フレーム、地形108条件を確認。標準Vitest/実GPU/実Workerの監査側再実行ではない。任意事項はスマホ初回負荷と図鑑粉塵粒径。以降は記録差分のみ。main反映・Worker公開は未完了。詳細は [HARROW-SPIN-V9](HARROW-SPIN-V9.md)。直前公開は下記v8。
 # 現在地: HARROW v8をmain反映・公開完了（2026-09-24）
 
 [PR81](https://github.com/futsalife24-bot/swarm-front/pull/81) を通常merge。公開ソースmain `43fc19ced4a3f97135a869720af6aa15d57c7a26`、Worker Version `56781189-582f-4755-bc3c-a3ab5d2d2d64`。3倍体格・高度/巡航維持、二足立ち風Flight/AirThreat、大きな羽ばたき、強化攻撃、初会敵/動画、旧保存互換と地形面に沿う赤予告を公開。

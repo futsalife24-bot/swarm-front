@@ -37,7 +37,7 @@
     style="position: fixed; inset: 0; pointer-events: none"
   ></div>
   <aside>
-    HARROW · 実ゲーム描画 / 保存なし
+    HARROW · 実ゲーム描画
     <div>
       <button data-mode="walk">ゆっくり歩行</button
       ><button data-mode="encounter">空中会敵</button
@@ -49,6 +49,19 @@
       ><button id="advance">0.5秒進める</button
       ><button id="camera">地面を見る</button>
     </div>
+    <div>
+      回転時刻: <button data-time="0">0</button
+      ><button data-time="0.6">0.6</button>
+      <button data-time="1.15">1.15</button><button data-time="1.4">1.4</button>
+      <button data-time="1.675">1.675</button
+      ><button data-time="1.95">1.95</button>
+      <button data-time="2.2">2.2</button><button data-time="2.6">2.6</button
+      ><button data-time="3">3</button>
+    </div>
+    <button id="overview">俯瞰切替</button
+    ><button id="capture">静止画像を保存</button
+    ><button id="record">回転を録画</button>
+    <pre id="saved"></pre>
     <pre id="status">読込中</pre>
   </aside>
   <script type="module" src="./harrow-preview.ts"></script>

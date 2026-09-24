@@ -57,7 +57,7 @@ export function loadEnemyMotion(
   const request = new GLTFLoader()
     .loadAsync(
       // The service worker caches by URL. Change the revision when CALYX bytes change.
-      `${import.meta.env.BASE_URL}assets/enemies/${name}_motion_${name === "harrow" ? "v8" : name === "pleat" ? "v5" : name === "leaper" ? "v2" : "v1"}.glb${name === "harrow" ? "?rev=c9a8e1c0ce27bd74" : name === "calyx" ? "?rev=d1a7573d5976e284" : ""}`,
+      `${import.meta.env.BASE_URL}assets/enemies/${name}_motion_${name === "harrow" ? "v9" : name === "pleat" ? "v5" : name === "leaper" ? "v2" : "v1"}.glb${name === "harrow" ? "?rev=637073973b04a78d" : name === "calyx" ? "?rev=d1a7573d5976e284" : ""}`,
     )
     .then(({ scene: model, animations: clips }) => {
       // HARROW's authored forward is -X; production models face local -Z.

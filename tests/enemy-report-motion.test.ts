@@ -164,12 +164,17 @@ it("observes ten upward missiles and clears them when leaving attack playback", 
     )!;
     expect(group.visible).toBe(true);
     expect(
-      group.children.map((child) => (child as T.InstancedMesh).count),
+      group.children
+        .filter((child) => !(child instanceof T.Group))
+        .map((child) => (child as T.InstancedMesh).count),
     ).toEqual([10, 10, 10, 0]);
+    expect(group.getObjectByName("HARROW_SPIN_PRESSURE")?.visible).toBe(false);
     effects.update("harrow", false, "idle", start + 0.1);
     expect(group.visible).toBe(false);
     expect(
-      group.children.map((child) => (child as T.InstancedMesh).count),
+      group.children
+        .filter((child) => !(child instanceof T.Group))
+        .map((child) => (child as T.InstancedMesh).count),
     ).toEqual([0, 0, 0, 0]);
   } finally {
     effects.dispose();

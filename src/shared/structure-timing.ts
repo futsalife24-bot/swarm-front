@@ -1,6 +1,12 @@
+import { HARROW_SPIN_TIMING } from "./harrow-motion";
 /** Shared attack timing: authoritative wind-up ends at the authored impact pose. */
 export const STRUCTURE_TIMING = {
-  harrow: { wind: 1.4, impact: 1.4, duration: 6.3, cooldown: 1.8 },
+  harrow: {
+    wind: HARROW_SPIN_TIMING.wind,
+    impact: HARROW_SPIN_TIMING.wind,
+    duration: HARROW_SPIN_TIMING.duration,
+    cooldown: 1.8,
+  },
   calyx: { wind: 1, impact: 1, duration: 2.2, cooldown: 2.7 },
   crawler: { wind: 0.45, impact: 0.45, duration: 1.2, cooldown: 1.2 },
   spitter: { wind: 0.8, impact: 0.8, duration: 1.6, cooldown: 2.7 },

@@ -3,6 +3,7 @@ import type { World } from "../shared/game";
 import { HARROW, harrowMissilePosition } from "../shared/harrow";
 import { mapFor } from "../shared/stages";
 import { TerrainProjectedMarkers } from "./terrain-projected-marker";
+import { HarrowSpinEffects } from "./harrow-spin-effects";
 
 /** Shared combat/report view; authoritative missiles remain read-only. */
 export class HarrowEffects {
@@ -50,6 +51,7 @@ export class HarrowEffects {
   private readonly direction = new T.Vector3();
   private readonly up = new T.Vector3(0, 1, 0);
   private readonly unit = new T.Vector3(1, 1, 1);
+  private readonly spin = new HarrowSpinEffects();
   constructor() {
     for (const mesh of [this.markers, this.bodies, this.tails, this.warnings]) {
       mesh.count = 0;
@@ -58,6 +60,7 @@ export class HarrowEffects {
         mesh.instanceMatrix.setUsage(T.DynamicDrawUsage);
     }
     this.root.add(this.markers, this.bodies, this.tails, this.warnings);
+    this.root.add(this.spin.root);
   }
   update(
     w:
@@ -77,6 +80,7 @@ export class HarrowEffects {
       w && (w.stage !== undefined || w.training || w.campaignPlan || w.defense)
         ? mapFor(w).blocks
         : undefined;
+    this.spin.update(w?.time ?? 0, w?.enemies ?? [], blocks);
     if (w)
       for (const enemy of w.enemies ?? []) {
         const attack = enemy.harrow;
@@ -123,6 +127,7 @@ export class HarrowEffects {
       mesh.instanceMatrix.needsUpdate = true;
   }
   dispose() {
+    this.spin.dispose();
     for (const mesh of [this.markers, this.bodies, this.tails, this.warnings])
       mesh.dispose();
     for (const geometry of [this.bodyGeometry, this.tailGeometry])
