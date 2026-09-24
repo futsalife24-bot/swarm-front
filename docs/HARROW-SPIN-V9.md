@@ -36,4 +36,8 @@
 
 任意O1は実スマホでの初回/途中復帰の負荷計測。任意O2は図鑑で粉塵位置だけがroot縮尺に従い、名目粒径が縮まない点（clamp非適用域で模型比約1.95倍）。風圧帯・判定には影響せず非ブロッキング。今回の未確認事項として残す。
 
-main反映、既存Worker公開は準備中。
+[PR83](https://github.com/futsalife24-bot/swarm-front/pull/83) を通常mergeし、main `438249d43834fb449e7807c1ba7754f6294b3cfb` からproduction buildとWorker dry-run成功後、既存Workerへ公開。Worker Version `56b45cc3-3f70-4cde-b082-9ba7cf5b85a7`。
+
+https://swarm-front.melosalife-24.workers.dev の配信197ファイルは全件ローカルdistとSHA256一致、health200/ok。公開ブラウザは `/assets/index-DvYLflZK.js` で起動、console error0。既存ST1中断13秒の再開表示を確認し、再開/破棄はしていない。公開サイトで実戦した検証ではなく、v9動作は前記ローカル実Rendererで確認済み。
+
+証拠は `dist-validation/harrow-v9/release-{build,dry-run,deploy,delivery}.log`、`release-delivery.json`。元gameのClaude/設定/敗北導線差分は引き続き保護。公開後のcommitは記録文書のみ。
