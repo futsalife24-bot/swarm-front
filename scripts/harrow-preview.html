@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" /><title>HARROW 実戦検証</title>
+  <style>
+    body {
+      margin: 0;
+      background: #152026;
+      color: white;
+      font: 14px sans-serif;
+    }
+    canvas {
+      display: block;
+    }
+    aside {
+      position: fixed;
+      left: 8px;
+      top: 8px;
+      background: #10202fdd;
+      padding: 8px;
+      max-width: 440px;
+    }
+    button {
+      padding: 8px;
+      margin: 2px;
+    }
+    pre {
+      font-size: 11px;
+      white-space: pre-wrap;
+      max-height: 190px;
+      overflow: auto;
+    }
+  </style>
+  <canvas></canvas>
+  <div
+    id="damage"
+    aria-hidden="true"
+    style="position: fixed; inset: 0; pointer-events: none"
+  ></div>
+  <aside>
+    HARROW · 実ゲーム描画 / 保存なし
+    <div>
+      <button data-mode="encounter">空中会敵</button
+      ><button data-mode="missile">ミサイル</button
+      ><button data-mode="spin">翼接地回転</button
+      ><button data-mode="dive">滑空ダイブ</button
+      ><button data-mode="fall">怯み落下</button
+      ><button id="pause">一時停止</button
+      ><button id="advance">0.5秒進める</button
+      ><button id="camera">地面を見る</button>
+    </div>
+    <pre id="status">読込中</pre>
+  </aside>
+  <script type="module" src="./harrow-preview.ts"></script>
+</html>

@@ -3,13 +3,19 @@ import { showModalAfterFullscreen } from "./landscape";
 import { ENEMIES } from "../shared/defs";
 import "./bestiary.css";
 import { createEnemyViewer } from "./enemy-viewer";
-import { showEncounterFilm } from "./encounter-film";
+import { hasEncounterFilm, showEncounterFilm } from "./encounter-film";
 
 type EnemyType = "生物型" | "異構型" | "機構型";
 const entries: Record<
   keyof typeof ENEMIES,
   [string, EnemyType, string, string]
 > = {
+  harrow: [
+    "HARROW",
+    "異構型",
+    "両翼を地面につけ、身体をその場で横に一回転させます。翼を広げると左右の翼爪からミサイルを上空へ放ち、隊員の足元と周囲の地面に赤い印が浮かびます。ミサイルは弾道を曲げてその地点へ降り注ぎます。飛び上がった後、隊員へ滑空し、身体を傾けて急降下する姿も観察されています。",
+    "長い首から胴体へ連なる鱗の被覆と、喉から腹を覆う装甲。細い後脚で歩き、支柱で組まれた翼を広げて高く飛び上がります。地上と空中を行き来し、飛行中に大きく損傷すると体勢を崩して落下します。",
+  ],
   calyx: [
     "CALYX",
     "生物型",
@@ -177,10 +183,11 @@ export function openBestiary(
     film.type = "button";
     film.className = "report-film-open";
     film.textContent = "会敵ムービー";
-    film.onclick = () => {
-      showEncounterFilm(worm ? "worm" : key, dialog);
-    };
-    article.querySelector("h3")!.after(film);
+    const filmKey = worm ? "worm" : key;
+    if (hasEncounterFilm(filmKey)) {
+      film.onclick = () => showEncounterFilm(filmKey, dialog);
+      article.querySelector("h3")!.after(film);
+    }
     if (state !== "solo") {
       article.querySelector(".eyebrow")!.textContent =
         state === "coop" ? "協力で姿を確認" : "未遭遇";

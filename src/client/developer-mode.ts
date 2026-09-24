@@ -1,4 +1,5 @@
 import { WEAPONS, type Kind } from "../shared/defs";
+import { SOLO_STAGE_IDS } from "../shared/campaign";
 import {
   ACCESSORY_NAMES,
   GRADES,
@@ -31,7 +32,7 @@ export function developerProgress() {
   save.coins = save.powder = 999999;
   save.materials = 99;
   save.branch = true;
-  for (let stage = 1; stage <= 21; stage++)
+  for (const stage of SOLO_STAGE_IDS)
     for (const difficulty of ["normal", "medium"] as const)
       save.missions[missionKey(stage, difficulty)] = [true, true, true];
   for (const kind of [
@@ -42,6 +43,7 @@ export function developerProgress() {
     "hornet",
     "boss",
     "worm",
+    "harrow",
   ])
     save.encounters[kind] = "solo";
   for (const kind of Object.keys(ACCESSORY_NAMES) as AccessoryKind[])

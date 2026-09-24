@@ -16,6 +16,7 @@ const COLORS = {
   crawler: "#ff8b6b",
   spitter: "#ffd479",
   boss: "#ff5f8f",
+  harrow: "#ff5f8f",
   hornet: "#ffb347",
   ant: "#df7844",
   spider: "#bf99ff",
@@ -183,7 +184,7 @@ export class Minimap {
         else this.dot(sx, sy, 2.5, COLORS.boss);
       }
       if (e.partHp === 0) continue;
-      const r = e.kind === "boss" ? 4 : 1.6,
+      const r = e.kind === "boss" || e.kind === "harrow" ? 4 : 1.6,
         [x, y] = enemyAt(
           e.x,
           e.z,

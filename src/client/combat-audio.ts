@@ -15,6 +15,7 @@ const EXPLOSIVE: Family[] = ["rocket", "grenade"];
 
 /** Provisional AR hit palette, based on the visible surface of each enemy. */
 const AR_HITS: Record<Enemy["kind"], string> = {
+  harrow: "impactShell", // HARROW: scales and ventral armor.
   calyx: "impactShell",
   crawler: "impactShell", // PLEAT: dry layered shell — HIT-05.
   ant: "impactShell", // HOUND / VOLLEY.
@@ -143,7 +144,7 @@ export class CombatAudio {
         const push = (type: string) =>
           cues.push({ type, x: e.x, z: e.z, key: `${type}:${e.id}` });
         if (e.wind > 0 && prev.wind <= 0)
-          push(e.kind === "boss" ? "charge" : "warning");
+          push(e.kind === "boss" || e.kind === "harrow" ? "charge" : "warning");
         if (
           e.cool > prev.cool &&
           prev.wind > 0 &&

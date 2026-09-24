@@ -1,12 +1,14 @@
 import type { World } from "../shared/game";
 import type { ProgressSave } from "./progression-save";
 import { assertSaveWriter } from "./save-writer";
+import { MAPS, stageFor, type StagePlan } from "../shared/stages";
+import { legacyCampaignPlan } from "../shared/legacy-campaign";
 
 export const BATTLE_CHECKPOINT_KEY = "swarm-front-battle-checkpoint-v1";
 const LIMIT = 2_000_000;
 type Store = Pick<Storage, "getItem" | "setItem" | "removeItem">;
 export interface BattleCheckpoint {
-  version: 1;
+  version: 1 | 2;
   savedAt: number;
   progress: string;
   world: World;
@@ -25,6 +27,48 @@ function finiteTree(value: unknown, depth = 0): boolean {
   if (value && typeof value === "object")
     return Object.values(value).every((v) => finiteTree(v, depth + 1));
   return true;
+}
+function validPlan(plan: StagePlan | undefined): plan is StagePlan {
+  return (
+    !!plan &&
+    Number.isInteger(plan.id) &&
+    plan.id > 0 &&
+    Number.isInteger(plan.map) &&
+    plan.map >= 0 &&
+    plan.map < MAPS.length &&
+    typeof plan.elevated === "boolean" &&
+    typeof plan.name === "string" &&
+    typeof plan.brief === "string" &&
+    [plan.hp, plan.damage, plan.lootExponent].every(
+      (n) => typeof n === "number" && n > 0,
+    ) &&
+    typeof plan.dropRate === "number" &&
+    plan.dropRate >= 0 &&
+    plan.dropRate <= 1 &&
+    Array.isArray(plan.waves) &&
+    plan.waves.length > 0 &&
+    plan.waves.every(
+      (w) =>
+        !!w &&
+        typeof w.interval === "number" &&
+        w.interval > 0 &&
+        Number.isInteger(w.guards) &&
+        w.guards >= 0 &&
+        Array.isArray(w.bosses) &&
+        w.bosses.every((b) => ["crown", "worm", "harrow"].includes(b)) &&
+        !!w.troops &&
+        typeof w.troops === "object" &&
+        !Array.isArray(w.troops) &&
+        Object.entries(w.troops).every(
+          ([kind, count]) =>
+            ["crawler", "ant", "spider", "spitter", "hornet", "calyx"].includes(
+              kind,
+            ) &&
+            Number.isInteger(count) &&
+            count >= 0,
+        ),
+    )
+  );
 }
 export function writeBattleCheckpoint(
   world: World,
@@ -45,8 +89,9 @@ export function writeBattleCheckpoint(
   )
     return false;
   if (!finiteTree(world)) throw Error("戦闘の中断保存に不正な数値があります。");
+  world.campaignPlan = JSON.parse(JSON.stringify(stageFor(world))) as StagePlan;
   const checkpoint: BattleCheckpoint = {
-    version: 1,
+    version: 2,
     savedAt: now,
     progress: JSON.stringify(progress),
     world,
@@ -76,7 +121,7 @@ export function readBattleCheckpoint(
   const value = JSON.parse(envelope.body) as BattleCheckpoint;
   const w = value.world;
   if (
-    value.version !== 1 ||
+    (value.version !== 1 && value.version !== 2) ||
     w?.defense ||
     !w?.solo ||
     w.solo.test ||
@@ -97,6 +142,19 @@ export function readBattleCheckpoint(
     progress.receipts.includes(w.run)
   )
     return null;
+  // v1 has no pinned roster. Restore the exact pre-expansion plan, including map
+  // and difficulty multipliers, before any combat step can inspect its wave.
+  if (value.version === 1 && !w.campaignPlan)
+    w.campaignPlan = legacyCampaignPlan(w);
+  if (
+    !validPlan(w.campaignPlan) ||
+    !Number.isInteger(w.wave) ||
+    w.wave < 1 ||
+    w.wave > w.campaignPlan.waves.length
+  )
+    throw Error(
+      "この中断保存の編成を復元できません。通常の進行保存は保持しています。",
+    );
   return value;
 }
 export function clearBattleCheckpoint(storage: Store = localStorage) {

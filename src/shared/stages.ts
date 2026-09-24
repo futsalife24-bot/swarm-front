@@ -2,6 +2,7 @@ import { registerTerrain, terrainProps } from "./terrain";
 import { CAVE_BLOCKS } from "./cave";
 import { MAP_SCALE } from "./arena";
 import { BLOCKS, type Block } from "./map-blocks";
+import { BRANCH_15 } from "./campaign";
 
 export interface ArenaMap {
   assetIndex?: number;
@@ -152,7 +153,7 @@ export const ELEVATED_MAPS: ArenaMap[] = MAPS.map((source, index) => {
 
 export type TroopKind =
   "calyx" | "crawler" | "ant" | "spider" | "spitter" | "hornet";
-export type BossForm = "crown" | "worm";
+export type BossForm = "crown" | "worm" | "harrow";
 export interface Wave {
   troops: Partial<Record<TroopKind, number>>;
   bosses: BossForm[];
@@ -226,8 +227,8 @@ const plans = [
     map: 3,
     brief: "ボスなしの4連戦。各波で優先目標を切り替える。",
     waves: [
-      wave({ ant: 26 }, [], 0.65),
-      wave({ crawler: 8, spider: 20, calyx: 2 }, [], 0.7),
+      wave({ ant: 22 }, [], 0.75),
+      wave({ crawler: 8, spider: 16, calyx: 2 }, [], 0.8),
       wave({ spitter: 12, hornet: 12 }, [], 0.75),
       wave({ crawler: 10, ant: 10, spider: 8, hornet: 6 }, [], 0.65),
     ],
@@ -238,7 +239,7 @@ const plans = [
     brief: "開始直後にFOUNDRY ZERO。撃破後にも掃討戦が続く。",
     waves: [
       wave({ crawler: 12, hornet: 8 }, ["crown"], 1.1),
-      wave({ ant: 18, spider: 14, spitter: 10 }, [], 0.7),
+      wave({ ant: 16, spider: 12, spitter: 8 }, [], 0.8),
       wave({ ant: 16, hornet: 12 }, [], 0.65),
     ],
   },
@@ -247,8 +248,8 @@ const plans = [
     map: 1,
     brief: "空中のRAYと遠距離のエネルギー弾を同時に処理。",
     waves: [
-      wave({ spider: 14, hornet: 20 }, [], 0.75),
-      wave({ spitter: 16, hornet: 18 }, [], 0.75),
+      wave({ spider: 12, hornet: 16 }, [], 0.85),
+      wave({ spitter: 12, hornet: 16 }, [], 0.85),
       wave({ ant: 18, spitter: 10, hornet: 12 }, ["crown"], 0.95),
     ],
   },
@@ -259,7 +260,7 @@ const plans = [
     waves: [
       wave({ ant: 22, spider: 14 }, [], 0.7),
       wave({ crawler: 16, spitter: 10 }, ["worm"], 1),
-      wave({ ant: 20, spider: 16, hornet: 14 }, [], 0.65),
+      wave({ ant: 18, spider: 14, hornet: 12 }, [], 0.75),
     ],
   },
   {
@@ -268,7 +269,7 @@ const plans = [
     brief: "FOUNDRY ZERO2体が初めて同時出現。片側から崩す。",
     waves: [
       wave({ crawler: 18, ant: 16, hornet: 10 }, [], 0.7),
-      wave({ ant: 18, spitter: 10 }, ["crown", "crown"], 1.1),
+      wave({ ant: 14, spitter: 8 }, ["crown", "crown"], 1.2),
     ],
   },
   {
@@ -276,15 +277,11 @@ const plans = [
     map: 2,
     brief: "ボスなしの大群戦。短い5波で位置取りを試す。",
     waves: [
-      wave({ ant: 34 }, [], 0.55),
-      wave({ crawler: 10, spider: 26 }, [], 0.6),
+      wave({ ant: 28 }, [], 0.7),
+      wave({ crawler: 10, spider: 20 }, [], 0.75),
       wave({ ant: 14, hornet: 22 }, [], 0.65),
       wave({ crawler: 16, spitter: 20 }, [], 0.65),
-      wave(
-        { crawler: 10, ant: 16, spider: 12, spitter: 10, hornet: 10 },
-        [],
-        0.5,
-      ),
+      wave({ crawler: 8, ant: 12, spider: 10, spitter: 8, hornet: 8 }, [], 0.7),
     ],
   },
   {
@@ -293,7 +290,7 @@ const plans = [
     brief: "通常型と連結炉型が同時出現。間に挟まれない。",
     waves: [
       wave({ spider: 20, spitter: 10, hornet: 16 }, [], 0.7),
-      wave({ ant: 20, hornet: 12 }, ["crown", "worm"], 1),
+      wave({ ant: 16, hornet: 8 }, ["crown", "worm"], 1.15),
       wave({ ant: 22, spitter: 14, hornet: 14 }, [], 0.6),
     ],
   },
@@ -302,91 +299,115 @@ const plans = [
     map: 4,
     brief: "開幕から2体と護衛。撃破後も空陸の追撃が続く。",
     waves: [
-      wave({ crawler: 16, spitter: 10 }, ["crown", "worm"], 1.15),
+      wave({ crawler: 12, spitter: 8 }, ["crown", "worm"], 1.2),
       wave({ spider: 20, hornet: 24 }, [], 0.6),
-      wave({ crawler: 18, ant: 20, spitter: 16, hornet: 12 }, [], 0.55),
+      wave({ crawler: 14, ant: 16, spitter: 12, hornet: 10 }, [], 0.75),
     ],
   },
   {
-    name: "連続重装襲撃",
-    map: 2,
-    brief: "3波すべてにボスと護衛。回復区間を活用。",
-    waves: [
-      wave({ ant: 20, hornet: 12 }, ["crown"], 0.85),
-      wave({ spider: 20, spitter: 12 }, ["worm"], 0.85),
-      wave({ crawler: 16, hornet: 14 }, ["crown", "crown"], 0.9),
-    ],
-  },
-  {
-    name: "双頭地底戦",
-    map: 5,
-    brief: "連結炉2体と遠距離護衛。射線と退路を維持。",
-    waves: [
-      wave({ spider: 20, spitter: 14, hornet: 18 }, [], 0.6),
-      wave({ spitter: 18, hornet: 16 }, ["worm", "worm"], 0.9),
-      wave({ crawler: 20, ant: 24, spider: 18, hornet: 12 }, [], 0.5),
-    ],
-  },
-  {
-    name: "三冠包囲",
+    name: "重装迎撃線",
     map: 3,
-    brief: "3体同時の包囲戦。集中攻撃でボスの数を減らす。",
+    brief: "地上混成を突破し、連結炉を迎撃。クリアで15-Aを解放。",
     waves: [
-      wave({ ant: 24, spider: 18, hornet: 14 }, [], 0.55),
-      wave(
-        { crawler: 18, spitter: 14, hornet: 10 },
-        ["crown", "worm", "crown"],
-        0.9,
-      ),
+      wave({ ant: 18, spider: 12, calyx: 2 }),
+      wave({ spitter: 10, hornet: 8 }, ["worm"], 1),
     ],
   },
   {
-    name: "炉心消耗戦",
+    name: "晶脈突破",
+    map: 5,
+    brief: "地底の射線を確保し、連結炉と護衛を突破。",
+    waves: [
+      wave({ spider: 18, spitter: 12 }),
+      wave({ crawler: 16, hornet: 12 }),
+      wave({ spitter: 10 }, ["worm"], 1),
+    ],
+  },
+  {
+    name: "草原の双炉",
+    map: 3,
+    brief: "広い草原で二つの形成炉を迎撃。",
+    waves: [
+      wave({ ant: 20, hornet: 12, calyx: 2 }),
+      wave({ crawler: 14, spitter: 8 }, ["crown", "worm"], 1.1),
+    ],
+  },
+  {
+    name: "炉心突破戦",
     map: 2,
-    brief: "5波の長期戦。重装・空陸混成・双頭を連続突破。",
+    brief: "異なる護衛構成を突破し、最奥の形成炉へ。",
     waves: [
-      wave({ ant: 20, spider: 16 }, ["worm"], 0.85),
-      wave({ spitter: 16, hornet: 24 }, [], 0.55),
-      wave({ crawler: 16, hornet: 12 }, ["crown", "crown"], 0.85),
-      wave({ ant: 28, spider: 20, spitter: 12 }, [], 0.5),
-      wave({ ant: 18, hornet: 14 }, ["worm", "worm"], 0.85),
+      wave({ ant: 22, spider: 14 }),
+      wave({ spitter: 10, hornet: 10 }, [], 0.9),
+      wave({ crawler: 12, calyx: 1 }, ["crown"], 1.1),
     ],
   },
   {
-    name: "王群急襲",
+    name: "雪峡の封鎖線",
     map: 4,
-    brief: "開幕3体から再増援。ボス撃破後の大群まで油断禁物。",
+    brief: "空陸混成の封鎖線を崩し、二つの炉を迎撃。",
     waves: [
-      wave({ crawler: 16, hornet: 12 }, ["crown", "worm", "crown"], 1),
-      wave({ spider: 20, spitter: 16, hornet: 12 }, ["worm", "crown"], 0.8),
-      wave(
-        { crawler: 20, ant: 28, spider: 20, spitter: 18, hornet: 18 },
-        [],
-        0.45,
-      ),
+      wave({ spider: 20, hornet: 16, calyx: 2 }),
+      wave({ ant: 18, spitter: 10 }, ["worm", "crown"], 1.1),
     ],
   },
   {
-    name: "中枢総力戦",
-    map: 2,
-    brief: "開幕双頭・大群・三冠・最後の混成掃討で総仕上げ。",
+    name: "異翼の来襲",
+    map: 3,
+    brief: "草原に現れた大型個体HARROWを迎撃。",
     waves: [
-      wave({ ant: 20, hornet: 14 }, ["worm", "crown"], 0.85),
-      wave(
-        { crawler: 20, ant: 24, spider: 20, spitter: 16, hornet: 16 },
-        [],
-        0.45,
-      ),
-      wave(
-        { spider: 18, spitter: 14, hornet: 14 },
-        ["worm", "crown", "worm"],
-        0.75,
-      ),
-      wave(
-        { crawler: 22, ant: 28, spider: 22, spitter: 18, hornet: 18 },
-        [],
-        0.4,
-      ),
+      wave({ crawler: 18, hornet: 10, calyx: 2 }),
+      wave({ ant: 12, spitter: 6 }, ["harrow"], 1.1),
+    ],
+  },
+
+  {
+    name: "残響の街区",
+    map: 0,
+    brief: "分散した群れを短い三波で掃討。",
+    waves: [
+      wave({ crawler: 22, ant: 16 }),
+      wave({ spider: 18, spitter: 14 }),
+      wave({ hornet: 18, ant: 12, calyx: 3 }),
+    ],
+  },
+  {
+    name: "蒼鉄再侵攻",
+    map: 2,
+    brief: "護衛の増援を突破して双炉へ。",
+    waves: [
+      wave({ ant: 22, spitter: 12, calyx: 2 }),
+      wave({ spider: 14, hornet: 10 }, ["crown", "worm"], 1.1),
+    ],
+  },
+  {
+    name: "白嶺の反攻",
+    map: 4,
+    brief: "空中群と地上群が交互に押し寄せる。",
+    waves: [
+      wave({ hornet: 22, spitter: 10 }),
+      wave({ ant: 24, spider: 18, calyx: 3 }),
+      wave({ crawler: 16, hornet: 12 }, ["worm"], 1),
+    ],
+  },
+  {
+    name: "最後の形成炉",
+    map: 3,
+    brief: "前衛を崩し、最後の双炉を突破する。",
+    waves: [
+      wave({ crawler: 20, spider: 16, calyx: 3 }),
+      wave({ ant: 18, spitter: 12 }),
+      wave({ hornet: 12, spitter: 8 }, ["worm", "crown"], 1.1),
+    ],
+  },
+  {
+    name: "異翼の決戦",
+    map: 3,
+    brief: "混成群の奥でHARROWとの最終戦に挑む。",
+    waves: [
+      wave({ ant: 20, spider: 16, calyx: 3 }),
+      wave({ hornet: 16, spitter: 12 }),
+      wave({ crawler: 16, spitter: 8 }, ["harrow"], 1.1),
     ],
   },
 ];
@@ -408,9 +429,19 @@ export const STAGES = plans.map((plan, i) => ({
   id: i + 1,
   hp: 1 + i * 0.025,
   damage: 1 + i * 0.02,
-  dropRate: 0.04 + i * (0.09 / 19),
-  lootExponent: 1.25 - i * (0.63 / 19),
+  dropRate: 0.04 + Math.min(i, 19) * (0.09 / 19),
+  lootExponent: 1.25 - Math.min(i, 19) * (0.63 / 19),
 }));
+export const HARROW_BRANCH = {
+  ...STAGES[14],
+  name: "異翼の痕跡",
+  map: 3,
+  elevated: false,
+  brief: "草原の奥部で観測されたHARROWを調査する。",
+  waves: [wave({ crawler: 12, spitter: 6 }), wave({}, ["harrow"], 1.2)],
+};
+/** Final, difficulty-adjusted roster pinned by a suspended solo campaign. */
+export type StagePlan = (typeof STAGES)[number];
 // Explicit per-map permission lists, derived only from that map's existing
 // normal-enemy rosters. Bosses can never recursively fabricate more bosses.
 for (const [mapId, map] of MAPS.entries())
@@ -439,8 +470,13 @@ export function validStage(id: unknown): id is number {
 export function stageFor(w: {
   stage?: number;
   solo?: { stage: number; difficulty: "normal" | "medium" };
+  campaignPlan?: StagePlan;
 }) {
-  const base = STAGES[validStage(w.stage) ? w.stage - 1 : 0];
+  if (w.campaignPlan) return w.campaignPlan;
+  const base =
+    w.solo?.stage === BRANCH_15
+      ? HARROW_BRANCH
+      : STAGES[validStage(w.stage) ? w.stage - 1 : 0];
   if (!w.solo) return base;
   return {
     ...base,
@@ -452,6 +488,7 @@ export function stageFor(w: {
 }
 export function mapFor(w: {
   stage?: number;
+  campaignPlan?: StagePlan;
   training?: boolean;
   defense?: unknown;
 }) {

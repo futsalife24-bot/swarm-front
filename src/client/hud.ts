@@ -122,7 +122,9 @@ export function hudMarkup(
 ) {
   const p = w.players.find((p) => p.id === id)!;
   const def = stats(p.weapons[p.slot]),
-    bosses = w.enemies.filter((e) => e.kind === "boss" && e.hp > 0),
+    bosses = w.enemies.filter(
+      (e) => (e.kind === "boss" || e.kind === "harrow") && e.hp > 0,
+    ),
     boss = bosses[0];
   const next =
     waveStatus ??

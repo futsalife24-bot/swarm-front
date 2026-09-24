@@ -1,3 +1,4 @@
+import { normalSaveId } from "../src/shared/campaign";
 import { it, expect } from "vitest";
 import { fresh as freshLegacySave } from "../src/client/save";
 import {
@@ -144,10 +145,10 @@ it("backs up legacy verbatim, isolates normal/test, rejects invalid saves, and r
   bad.coins = NaN;
   expect(() => validateProgress(bad)).toThrow();
 });
-it("unlocks sequential stages and first rewards once across all 42 mission sets", () => {
+it("unlocks sequential stages and first rewards once across all 54 mission sets", () => {
   let s = freshProgress("normal");
   expect(canSortie(s, 2, "normal")).toBe(false);
-  for (let stage = 1; stage <= 20; stage++)
+  for (const stage of Array.from({ length: 25 }, (_, i) => normalSaveId(i + 1)))
     for (const difficulty of ["normal", "medium"] as const) {
       expect(canSortie(s, stage, difficulty)).toBe(true);
       s = ready(win(s, stage, difficulty));
@@ -161,7 +162,7 @@ it("unlocks sequential stages and first rewards once across all 42 mission sets"
           .map((w) => w.id),
       );
       expect(s.points).toBe(
-        (stage - 1) * 6 + (difficulty === "normal" ? 3 : 6),
+        Math.min(120, (stage - 1) * 6 + (difficulty === "normal" ? 3 : 6)),
       );
     }
   expect(s.points).toBe(120);
@@ -175,7 +176,9 @@ it("unlocks sequential stages and first rewards once across all 42 mission sets"
   expect(s.points).toBe(120);
   expect(canSortie(s, 21, "medium")).toBe(true);
   s = ready(win(s, 21, "medium"));
-  expect(Object.values(s.missions).flat().filter(Boolean)).toHaveLength(126);
+  s = ready(win(s, 27, "normal"));
+  s = ready(win(s, 27, "medium"));
+  expect(Object.values(s.missions).flat().filter(Boolean)).toHaveLength(162);
   expect(s.points).toBe(120);
 });
 it("retains rewards through pending choice and reload; notifications cannot reroll or duplicate bonuses", () => {

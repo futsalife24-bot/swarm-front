@@ -9,7 +9,8 @@ import {
   type Weapon,
   type Roll,
 } from "./defs";
-import { STAGES, troopCount } from "./stages";
+import { STAGES, HARROW_BRANCH, troopCount, type StagePlan } from "./stages";
+import { BRANCH_15, campaignNumber } from "./campaign";
 
 export type Difficulty = "normal" | "medium";
 export type Skill = "hp" | "aim" | "move" | "swap";
@@ -127,8 +128,14 @@ export const BRANCH_POINT = { x: 0, z: -36, radius: 6 };
 export const BRANCH_HINT =
   "ST3の北側、街区中央の通りを奥まで調査して生還する。";
 // Implementer provisional settings; accepted economy/skill values are above.
-export const settings = (stage: number, difficulty: Difficulty) => {
-  const base = STAGES[(stage === 21 ? 3 : stage) - 1];
+export const settings = (
+  stage: number,
+  difficulty: Difficulty,
+  campaignPlan?: StagePlan,
+) => {
+  const base =
+    campaignPlan ??
+    (stage === BRANCH_15 ? HARROW_BRANCH : STAGES[campaignNumber(stage) - 1]);
   const troops = base.waves.reduce(
     (n, w) => n + troopCount(w) + w.bosses.length * 28,
     0,
@@ -146,12 +153,17 @@ export const settings = (stage: number, difficulty: Difficulty) => {
 export const missionKey = (stage: number, difficulty: Difficulty) =>
   `${stage}:${difficulty}`;
 export const stageLabel = (stage: number) =>
-  stage === 21 ? "3-A" : `ST${stage}`;
+  stage === 21
+    ? "3-A"
+    : stage === BRANCH_15
+      ? "15-A"
+      : `ST${campaignNumber(stage)}`;
 export const victoryCoins = (stage: number, d: Difficulty) =>
-  (100 + 20 * ((stage === 21 ? 3 : stage) - 1)) * (d === "medium" ? 1.5 : 1);
+  (100 + 20 * (campaignNumber(stage) - 1)) * (d === "medium" ? 1.5 : 1);
 export function rarityWeights(stage: number, d: Difficulty) {
   if (stage === 21)
     return d === "normal" ? [0.75, 0.25, 0, 0, 0] : [0, 0.65, 0.35, 0, 0];
+  stage = campaignNumber(stage);
   if (d === "normal")
     return stage <= 5
       ? [0.8, 0.2, 0, 0, 0]

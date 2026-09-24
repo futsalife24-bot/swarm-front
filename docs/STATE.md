@@ -1,3 +1,40 @@
+# 現在地: HARROW再監査合格・必須0（2026-09-24）
+
+[独立監査Chat](https://chatgpt.com/c/6ab26169-d12c-83e8-84b1-1b91731a8856) の対象 `30737b43ea58a7e385b852205448109e297aea2f`、base `21468bba58c9bc5f222f481ef0ce8b859f1a160d` は合格。F1旧保存進行不能、F2空中Spin、F3岩上追跡沈下の解消を独立再現、残る必須P0/P1/P2なし。旧42通りの計画/設定/地形、武器12丁維持を確認。HARROW17・武器37・中断16・campaign6・経済2・54戦・stages35の計167件はTypeScript5.8.3+Node assertアダプターで成功（ネイティブVitestではない）。差分依存の部分型成功。
+
+任意事項: O1被弾中心球で全身追従ではない（文書化確認済み）、O2実スマホ・岩上実描画・人操作・長時間多人数は未確認、O3旧中断のボス追加生成候補は現行mapのfoundryAllowedを参照し旧map2/4にCALYXが加わる（進行不能なし、必須ではない）。旧保存の生成規則すべてを完全固定したとは扱わない。独立側はnative Vitest/全体型/build/dry-run/実Worker/Blender再生成を再実行していない。
+
+最新mainは指定baseから変化なし。監査対象以降はSTATEの記録のみ。通常mergeと既存Worker公開・配信確認へ進む。公開済みとはまだ扱わない。
+# 現在地: HARROW修正版の再監査を送信済み（2026-09-24 07:56 JST）
+
+同じ [監査Chat](https://chatgpt.com/c/6ab26169-d12c-83e8-84b1-1b91731a8856) へ対象 `30737b43ea58a7e385b852205448109e297aea2f`、base `21468bba58c9bc5f222f481ef0ce8b859f1a160d` のZIPと依頼本文を送信済み。会話上のユーザーメッセージ・添付名・「Proが思考中です」を確認。Enter操作はtimeoutを返したが送信は成立しており、重複送信していない。
+
+資料 `dist-validation/harrow/HARROW-reaudit-30737b4.zip`（12,139,342 bytes、SHA256 `e5a073271001eff37c916afe89bfa344e61d7bd4c94a74ebda16559eb795afb6`）。F1〜F3の修正・回帰・武器12丁統合影響・未検証範囲を明記。対象後のb24561eと本記録は文書のみ。下記の添付障害は解消。現在は独立判定待ち、main反映・公開未完了。次は回答を取得し、必須指摘があれば修正・再監査、合格後に通常mergeと既存Worker公開へ進む。
+# 現在地: HARROW再監査資料完成・添付操作障害で未送信（2026-09-24）
+
+HEAD `30737b43ea58a7e385b852205448109e297aea2f` をPR78へpush済み。F1/F2/F3修正済み、checkpoint16件・HARROW17件・両型・F3後client build成功。ZIP `dist-validation/harrow/HARROW-reaudit-30737b4.zip`（12,139,342 bytes、SHA256 `e5a073271001eff37c916afe89bfa344e61d7bd4c94a74ebda16559eb795afb6`）、送信本文 `dist-validation/harrow/reaudit-message.md`。
+
+停止理由: iab接続と初回監査本文取得は復旧したが、添付操作でInput.dispatchMouseEvent/Runtime.evaluateが繰り返しtimeoutし、filechooser取得不能。別タブ・操作セッション初期化・キーボード・AX/座標操作でも復旧せず、修正版は未送信。承認拒否ではなく操作系障害。
+再開条件: iabの添付操作が復旧、またはユーザーが同じ監査Chatへ上記ZIPと本文を送信したら判定取得へ。監査Chat https://chatgpt.com/c/6ab26169-d12c-83e8-84b1-1b91731a8856 。main反映・公開未完了。別作業差分は保護。
+# 現在地: iab復旧・HARROW初回監査3件を修正、再監査準備（2026-09-24）
+
+初回0120db6の判定は要修正、F1/P1旧中断進行不能・F2/P2空中Spin・F3/P2岩上追跡で沈む。F1/F2既修正に加え `efcaef1` でF3と監査実例の回帰追加。HARROW17件・checkpoint16件・両型成功。任意O1の被弾中心球とO2実スマホ未測定も記録。iabは対象タスクへnavigateして接続復旧し、同じ監査Chatへ修正版ZIPを送信予定。main反映・公開は判定後。詳細は [HARROW記録](HARROW-INTEGRATION.md)。下記の未接続記録は過去時点。
+# 現在地: HARROWと最新武器12丁の統合・再監査待ち（2026-09-24）
+
+[PR78](https://github.com/futsalife24-bot/swarm-front/pull/78)。統合実装HEAD `5190ddfd8e24d06e8ef07968bc0837b729f6fb1c`、最新main/base `21468bba58c9bc5f222f481ef0ce8b859f1a160d`。作業場所は `../harrow-integration`、branch `codex/harrow-main-integration`。元の `game/` の別作業差分（設定・Claude・敗北導線）は保護し取り込んでいない。PRの既存branchへfast-forwardで保存する。
+
+最新mainの武器12丁を統合。登場/離陸直後に空中Spinへ入る不具合、旧ST18/ST20中断データの波・目標時間が新編成へ置き換わる互換性を修正。型2種、関連157件（武器×HARROW37含む）、54作戦全勝＋中断14件、通常25面全勝を含むステージ35件、実Worker2接続11項目、build/production dry-run成功。証拠は `dist-validation/harrow/integrated-*.log`、詳細は [HARROW記録](HARROW-INTEGRATION.md)。人の実操作・スマホ・長時間多人数は未検証。
+
+停止理由: アプリ内ブラウザが未接続（cua inventoryはapps/browsersとも空、監査Chatを開く要求はqueued）で、初回監査の最終判定取得と修正版再監査ができない。初回監査Chatは https://chatgpt.com/c/6ab26169-d12c-83e8-84b1-1b91731a8856 。main反映・公開は未完了。
+再開条件: このタスクでiabが利用可能になったら同じ監査Chatの判定を取得し、修正版ZIPを送信。必須指摘を解消して合格後、通常merge・既存Worker公開・配信確認へ進む。自己検証を独立監査合格とは扱わない。
+# 現在地: HARROW PR78を独立Chat監査へ送信済み（2026-09-22）
+
+[PR78](https://github.com/futsalife24-bot/swarm-front/pull/78)、監査対象 `0120db6e6e226b354e8be4f5d83da0b734a06893`、base `402dcece262cbf265da3912e21d95ada891b9821`。資料 `dist-validation/harrow/HARROW-audit-0120db6.zip`（12,281,354 bytes）を [通常Chat](https://chatgpt.com/c/6ab26169-d12c-83e8-84b1-1b91731a8856) へ添付・送信済み、回答待ち。実装と自己検証は下記/詳細記録。main反映・公開未完了。後続差分は監査記録のみ。別作業差分を保護。
+
+# 現在地: HARROW・通常25面・15-Aの実装と自己検証（2026-09-22）
+
+branch `codex/harrow-stages-25`、base `402dcece262cbf265da3912e21d95ada891b9821`。HARROWを15-A/ST20/ST25へ追加。左右5発ずつの上向きミサイル、翼接地1回転、滑空ダイブ、空中会敵・最大34.5m・蓄積怯み落下、全体の波調整と旧3-A保存ID互換を実装。v6原本/再生成器/11クリップを保存。関連152件、両型、build/dry-run、最新3作戦×2難易度6勝、受入11件、実Worker2人11項目成功。実Rendererの攻撃/落下、作戦一覧25面+15-Aを確認。Judgeは未判定/API0。独立Chat監査・main反映・公開は後続。詳細は [HARROW統合記録](HARROW-INTEGRATION.md)。別作業の設定4ファイル・敗北導線記録を保護。
+
 # 現在地: 武器6系統12丁（PR76）をmain反映・本番公開完了（2026-09-24）
 
 [PR76](https://github.com/futsalife24-bot/swarm-front/pull/76)通常merge、main `f62d5f29bfa814914bb630e5dacf58de2b4117d9`。独立監査は5回（初回必須5→R1→R1-R→合格→main統合後も合格・必須0）。ユーザーが本番deployを明示承認。merge後mainから build:production / server:build:production 成功、既存Worker `swarm-front` へdeploy、Worker Version `396a80bd-44a9-439a-bf41-f2aae48cfec8`。https://swarm-front.melosalife-24.workers.dev の配信: 公開対象191ファイルのSHA256がローカルdistと全一致（`.assetsignore` と除外指定の6 GLBは対象外）、`/api/health` 200。内蔵ブラウザを `?analytics_admin=1` で管理者登録済み（アクセス集計から区別）。
