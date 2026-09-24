@@ -1,3 +1,10 @@
+# 現在地: HARROW v7を独立監査へ送信済み（2026-09-24）
+
+[PR81](https://github.com/futsalife24-bot/swarm-front/pull/81)。対象 `4da040d10709ab3dd5ba067250e18bf0815f675d`、base `413c9ea7b2a879f4797dcf71bbfd8d965e3fd35a`、branch `codex/harrow-presence-motion`。変更後production build/Worker dry-runも成功。
+
+[通常Chat監査](https://chatgpt.com/c/6ab4e649-ee10-83e8-80db-d78515281bd3)へ原本/GLB/動画/差分/検証ZIPを添付し送信。ユーザーメッセージ・添付とPro思考中を確認。資料 `dist-validation/harrow-v7/HARROW-v7-audit-4da040d.zip`、25,626,983 bytes、SHA256 `f433be12cc17246ec9426afaf9be70c196bdd542514fc199de9bdeb457450743`。以降は記録のみ。
+
+独立判定待ち。必須指摘があれば修正・再監査、合格後は通常main反映と既存Worker公開・配信/UI確認へ。まだ未公開。元gameの別作業は保護。[変更と証拠](HARROW-PRESENCE.md)。
 # 現在地: HARROW v7・3倍体格/ゆったり動作/会敵修正を検証（2026-09-24）
 
 branch `codex/harrow-presence-motion`、base `413c9ea7b2a879f4797dcf71bbfd8d965e3fd35a`、作業場所 `../harrow-integration`。縮尺0.65→1.95、高度34.5m/巡航0.64m/s維持。全11動作1.75倍、歩幅と羽ばたきを拡大し実速と接地を整合。画面外上空でもHARROW初会敵を開始、全景カメラ/上黒帯名表示/レポート動画を追加。拡大で発生する爆発弾の無傷不具合も修正。
