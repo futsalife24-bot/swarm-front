@@ -6,7 +6,7 @@ import { HARROW, harrowMissileOrigins } from "../src/shared/harrow";
 import { HARROW_FLIGHT_CYCLE } from "../src/shared/harrow-motion";
 
 async function model() {
-  const bytes = readFileSync("public/assets/enemies/harrow_motion_v8.glb");
+  const bytes = readFileSync("public/assets/enemies/harrow_motion_v9.glb");
   return new GLTFLoader().parseAsync(
     bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength),
     "",
@@ -31,6 +31,73 @@ it("the shipped HARROW clips finish at their authoritative attack transitions", 
     expect(
       asset.animations.find((clip) => clip.name === name)?.duration,
     ).toBeCloseTo(duration, 5);
+});
+
+it("plants both articulated wings before the authoritative single sweep while keeping root motion external", async () => {
+  const asset = await model();
+  asset.scene.rotation.y = -Math.PI / 2;
+  const mixer = new T.AnimationMixer(asset.scene);
+  const clip = asset.animations.find((a) => a.name === "Spin")!;
+  const action = mixer.clipAction(clip).setLoop(T.LoopOnce, 1);
+  action.clampWhenFinished = true;
+  action.play();
+  const root = asset.scene.getObjectByName("Root")!;
+  const torso = asset.scene.getObjectByName("Torso")!;
+  mixer.setTime(0);
+  asset.scene.updateMatrixWorld(true);
+  const rootRest = root.matrix.clone(),
+    torsoRest = torso.matrix.clone();
+  mixer.setTime(0.8);
+  asset.scene.updateMatrixWorld(true);
+  expect(
+    Math.max(
+      ...torso.matrix.elements.map((v, i) =>
+        Math.abs(v - torsoRest.elements[i]),
+      ),
+    ),
+  ).toBeGreaterThan(0.1);
+  for (const time of [
+    HARROW.spinWind,
+    HARROW.spinWind + HARROW.spinTurn / 2,
+    HARROW.spinWind + HARROW.spinTurn,
+  ]) {
+    mixer.setTime(time);
+    asset.scene.updateMatrixWorld(true);
+    expect(root.matrix.elements).toEqual(rootRest.elements);
+    const wings = {
+      L: { min: Infinity, radius: 0 },
+      R: { min: Infinity, radius: 0 },
+    };
+    asset.scene.traverse((object) => {
+      const mesh = object as T.SkinnedMesh;
+      if (!mesh.isSkinnedMesh || !mesh.name.startsWith("Wing")) return;
+      mesh.skeleton.update();
+      const side = mesh.name.split("__")[0].endsWith("L") ? "L" : "R";
+      const wing = wings[side];
+      for (let i = 0; i < mesh.geometry.attributes.position.count; i++) {
+        const p = mesh
+          .getVertexPosition(i, new T.Vector3())
+          .applyMatrix4(mesh.matrixWorld)
+          .multiplyScalar(HARROW.scale);
+        wing.min = Math.min(wing.min, p.y);
+        if (p.y < 2) wing.radius = Math.max(wing.radius, Math.hypot(p.x, p.z));
+      }
+    });
+    for (const wing of Object.values(wings)) {
+      expect(wing.min).toBeGreaterThan(-0.004);
+      expect(wing.min).toBeLessThan(0.1);
+      expect(wing.radius).toBeGreaterThanOrEqual(21.2);
+    }
+  }
+  mixer.setTime(clip.duration);
+  asset.scene.updateMatrixWorld(true);
+  expect(
+    Math.max(
+      ...torso.matrix.elements.map((v, i) =>
+        Math.abs(v - torsoRest.elements[i]),
+      ),
+    ),
+  ).toBeLessThan(0.0001);
 });
 
 it.each([false, true])(

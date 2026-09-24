@@ -3,6 +3,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { enemyGeometry } from "./enemy-model";
 import type { Enemy } from "../shared/game";
 import { HARROW, harrowMissilePosition } from "../shared/harrow";
+import { harrowSpinRotation } from "../shared/harrow-motion";
 import { loadEnemyMotion, HoundMotionBatch } from "./hound-motion";
 import { STRUCTURE_ASSETS } from "./structure-motion";
 import type { StructureVisualKind } from "./structure-motion";
@@ -84,7 +85,14 @@ export function createEnemyViewer(host: HTMLElement) {
     if (motion) {
       const pose = reportPose(kind, mode, time);
       motion.setPose(0, pose.clip, pose.sample);
-      motion.setTransform(0, transform.makeTranslation(0, pose.height, 0));
+      // Combat uses heading - PI. The report's base heading is PI.
+      transform.makeRotationY(
+        kind === "harrow" && pose.clip === "Spin"
+          ? harrowSpinRotation(pose.sample)
+          : 0,
+      );
+      transform.setPosition(0, pose.height, 0);
+      motion.setTransform(0, transform);
       motion.finish(1);
     }
     if (foundry) {

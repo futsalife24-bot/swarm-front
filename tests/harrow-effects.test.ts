@@ -1,6 +1,11 @@
 import { it, expect, vi } from "vitest";
 import * as T from "three";
 import { HarrowEffects } from "../src/client/harrow-effects";
+import { HarrowSpinEffects } from "../src/client/harrow-spin-effects";
+import {
+  HARROW_SPIN_TIMING,
+  harrowSpinRotation,
+} from "../src/shared/harrow-motion";
 import type { HarrowMissile } from "../src/shared/harrow";
 import { HARROW } from "../src/shared/harrow";
 import type { Enemy } from "../src/shared/game";
@@ -103,9 +108,95 @@ const missile: HarrowMissile = {
   damage: 22,
   radius: 2.5,
 };
+
+it("prepares spin pressure during warning, sweeps once without rebuilding terrain, and fades during braking", () => {
+  const view = new HarrowSpinEffects();
+  const enemy = {
+    id: 1,
+    kind: "harrow",
+    hp: 10,
+    x: 4,
+    y: 0,
+    z: -35,
+    harrow: { kind: "Spin", started: 0, yaw: 0.7, fired: false },
+  } as Enemy;
+  const blocks = MAPS[3].blocks;
+  enemy.y = supportHeight(enemy.x, enemy.z, blocks);
+  const snapshot = JSON.stringify(enemy);
+  try {
+    view.update(0, [enemy], blocks);
+    expect(view.root.visible).toBe(false);
+    expect(view.bands.ringInfo(0)).toBeDefined();
+    view.update(0.6, [enemy], blocks);
+    expect(view.bands.ringInfo(1)).toBeDefined();
+    const positions = view.bands.geometry.getAttribute(
+      "position",
+    ) as T.BufferAttribute;
+    const version = positions.version;
+    const count = view.bands.geometry.drawRange.count;
+    view.update(HARROW_SPIN_TIMING.wind, [enemy], blocks);
+    expect(view.root.visible).toBe(true);
+    expect(view.centers[0].w).toBe(1);
+    expect(view.bands.ringInfo(1)!.radius).toBeCloseTo(HARROW.spinRadius);
+    for (const age of [1.4, 1.675, 1.95, 2.2, 2.6]) {
+      view.update(age, [enemy], blocks);
+      expect(view.centers[0].z).toBeCloseTo(0.7 + harrowSpinRotation(age));
+      expect(positions.version).toBe(version);
+      expect(view.bands.geometry.drawRange.count).toBe(count);
+    }
+    expect(view.centers[0].w).toBeCloseTo(0.5);
+    expect(view.bands.material.depthTest).toBe(true);
+    expect(view.dust.material.depthTest).toBe(true);
+    expect(JSON.stringify(enemy)).toBe(snapshot);
+    view.update(3, [enemy], blocks);
+    expect(view.root.visible).toBe(false);
+    expect(view.bands.geometry.drawRange.count).toBe(0);
+    expect(view.dust.geometry.drawRange.count).toBe(0);
+  } finally {
+    view.dispose();
+  }
+});
+
+it("bounds simultaneous spin pressure and dust, supports report-floor snapshots, and releases its resources", () => {
+  const view = new HarrowSpinEffects();
+  const enemies = Array.from(
+    { length: 8 },
+    (_, id) =>
+      ({
+        id,
+        kind: "harrow",
+        hp: 10,
+        x: 0,
+        y: 3,
+        z: 0,
+        harrow: { kind: "Spin", started: 0, yaw: 0, fired: false },
+      }) as Enemy,
+  );
+  const disposals = [
+    view.bands.geometry,
+    view.bands.material,
+    view.dust.geometry,
+    view.dust.material,
+  ].map((resource) => vi.spyOn(resource, "dispose"));
+  view.update(1.15, enemies);
+  expect(view.bands.count).toBe(8);
+  expect(view.dust.geometry.drawRange.count).toBe(256);
+  expect(view.bands.geometry.getAttribute("position").getY(0)).toBeCloseTo(
+    3.12,
+  );
+  const bytes = view.bands.geometry.getAttribute("position").array.byteLength;
+  for (const enemy of enemies) enemy.hp = 0;
+  view.update(1.2, enemies);
+  expect(view.root.visible).toBe(false);
+  expect(view.bands.geometry.getAttribute("position").array.byteLength).toBe(
+    bytes,
+  );
+  view.dispose();
+  for (const dispose of disposals) expect(dispose).toHaveBeenCalledOnce();
+});
 it("shows target rings before launch, missiles after launch and removes both at impact", () => {
   const view = new HarrowEffects();
-  const meshes = view.root.children as T.InstancedMesh[];
+  const meshes = view.root.children.slice(0, 4) as T.InstancedMesh[];
   const matrix = new T.Matrix4();
   try {
     view.update({ time: 1, harrowMissiles: [missile] });
@@ -240,7 +331,17 @@ it("clips face interiors over every campaign grass/snow rock instead of bridging
             view.setCount(1);
             const info = view.ringInfo(0)!;
             maximum = Math.max(maximum, info.triangles);
-            expect(info.widthFactor).toBe(1);
+            expect(info.widthFactor).toBeGreaterThanOrEqual(0.5);
+            // The fixed pool may narrow a 28m strip, but its circumference
+            // must remain visible on every campaign ridge.
+            for (let sample = 0; sample < 36; sample++) {
+              const angle = (sample / 36) * Math.PI * 2;
+              const x = point.x + Math.cos(angle) * radius;
+              const z = point.z + Math.sin(angle) * radius;
+              expect(markerTop(view, x, z)).toBeGreaterThan(
+                supportHeight(x, z, map.blocks, point.y) + 0.1,
+              );
+            }
             const p = view.geometry.getAttribute("position");
             for (let triangle = 0; triangle < info.triangles; triangle++)
               for (let a = 1; a < 5; a++)
@@ -294,7 +395,7 @@ it("stays within the production pool for all map variants and all three attack r
           view.setCount(1);
           expect(view.ringInfo(0)!.triangles).toBeGreaterThan(0);
           expect(view.ringInfo(0)!.triangles).toBeLessThanOrEqual(4096);
-          expect(view.ringInfo(0)!.widthFactor).toBe(1);
+          expect(view.ringInfo(0)!.widthFactor).toBeGreaterThanOrEqual(0.5);
           cases++;
         }
     expect(cases).toBe(72);
@@ -313,7 +414,7 @@ it("the upper rock patch covers Float32 boundary edges and keeps the full outlin
     y: supportHeight(-91.2, -77.54, blocks),
   };
   try {
-    view.setRing(0, point, HARROW.spinRadius, blocks);
+    view.setRing(0, point, 21.2, blocks);
     view.setCount(1);
     for (const [x, z] of [
       [-72.16715545654297, -85.83406524658203],
@@ -324,8 +425,8 @@ it("the upper rock patch covers Float32 boundary edges and keeps the full outlin
       );
     for (let sample = 0; sample < 360; sample++) {
       const angle = (sample / 360) * Math.PI * 2;
-      const x = point.x + Math.cos(angle) * HARROW.spinRadius;
-      const z = point.z + Math.sin(angle) * HARROW.spinRadius;
+      const x = point.x + Math.cos(angle) * 21.2;
+      const z = point.z + Math.sin(angle) * 21.2;
       expect(markerTop(view, x, z)).toBeGreaterThan(
         supportHeight(x, z, blocks, point.y) + 0.1,
       );
@@ -339,7 +440,7 @@ it("the upper rock patch covers Float32 boundary edges and keeps the full outlin
 it("covers the independent ST25 Spin counterexample where the former wide faces cut through rock", () => {
   const point = { x: -68.972786, y: 15.317685, z: -51.436221 };
   const blocks = MAPS[3].blocks,
-    radius = HARROW.spinRadius;
+    radius = 21.2;
   const view = new TerrainProjectedMarkers(new T.MeshBasicMaterial(), 1);
   let buriedOldFaces = 0,
     worstOldBurial = 0;
@@ -378,7 +479,7 @@ it("covers the independent ST25 Spin counterexample where the former wide faces 
     }
     expect(buriedOldFaces).toBeGreaterThan(50);
     expect(worstOldBurial).toBeGreaterThan(0.3);
-    expect(view.ringInfo(0)!.widthFactor).toBe(1);
+    expect(view.ringInfo(0)!.widthFactor).toBeGreaterThanOrEqual(0.5);
   } finally {
     view.dispose();
     view.material.dispose();
@@ -390,14 +491,14 @@ it("a constrained tessellation budget keeps a complete clipped outline instead o
   const blocks = MAPS[3].blocks;
   const point = { x: 4, z: -35, y: supportHeight(4, -35, blocks) };
   try {
-    view.setRing(0, point, HARROW.spinRadius, blocks);
+    view.setRing(0, point, 21.2, blocks);
     view.setCount(1);
     expect(view.ringInfo(0)!.widthFactor).toBe(0.5);
     expect(view.ringInfo(0)!.triangles).toBeLessThanOrEqual(2048);
     for (let sample = 0; sample < 360; sample++) {
       const angle = (sample / 360) * Math.PI * 2;
-      const x = point.x + Math.cos(angle) * HARROW.spinRadius,
-        z = point.z + Math.sin(angle) * HARROW.spinRadius;
+      const x = point.x + Math.cos(angle) * 21.2,
+        z = point.z + Math.sin(angle) * 21.2;
       expect(markerTop(view, x, z)).toBeGreaterThan(
         supportHeight(x, z, blocks, point.y) + 0.1,
       );
@@ -411,7 +512,7 @@ it("a constrained tessellation budget keeps a complete clipped outline instead o
 
 it("caps instance storage at forty, clears absent worlds and disposes owned resources", () => {
   const view = new HarrowEffects();
-  const meshes = view.root.children as T.InstancedMesh[];
+  const meshes = view.root.children.slice(0, 4) as T.InstancedMesh[];
   const disposals = meshes.flatMap((mesh) => [
     vi.spyOn(mesh, "dispose"),
     vi.spyOn(mesh.geometry, "dispose"),

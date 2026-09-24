@@ -59,3 +59,24 @@ export function migrateLegacyHarrowCheckpoint(world: World) {
       (missile) => missile.launch <= world.time,
     );
 }
+
+/**
+ * Published v3 checkpoints use the slower 6.3-second Spin. Reinterpreting its
+ * saved age with the faster, wider turn would jump the heading and could damage
+ * a player while the saved attack was still warning. Retire only that attack;
+ * preserve the exact position/heading and let a new warning precede the next hit.
+ * Other attacks, queued/flying missiles, HP and all progression stay untouched.
+ */
+export function migrateHarrowSpinCheckpoint(world: World) {
+  for (const enemy of world.enemies) {
+    if (
+      enemy.kind !== "harrow" ||
+      enemy.hp <= 0 ||
+      enemy.harrow?.kind !== "Spin"
+    )
+      continue;
+    enemy.harrow = undefined;
+    enemy.wind = 0;
+    enemy.cool = Math.max(enemy.cool, HARROW.threatWind);
+  }
+}

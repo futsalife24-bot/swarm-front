@@ -18,7 +18,7 @@ const status = document.querySelector("#status")!,
   film = document.querySelector<HTMLCanvasElement>("#film")!,
   ctx = film.getContext("2d")!,
   view = new Renderer(document.querySelector<HTMLCanvasElement>("#world")!);
-const world = createWorld("harrow-film-v8", 1, 20);
+const world = createWorld("harrow-film-v9", 1, 20);
 world.phase = "battle";
 world.nextSpawn = 1e9;
 world.spawned = 9999;
@@ -52,16 +52,16 @@ async function prepare() {
   const flight = batch.asset.clips.find((clip) => clip.name === "Flight")!;
   if (flight.duration < 4.1 || HARROW.scale < 1.9)
     throw Error(
-      "HARROW v8 / 3x runtime model is required; refusing to record v6",
+      "HARROW v9 / 3x runtime model is required; refusing to record v6",
     );
   const glbUrl = performance
     .getEntriesByType("resource")
     .find((entry) =>
-      /\/harrow_motion_v8\.glb(?:[?#]|$)/.test(entry.name),
+      /\/harrow_motion_v9\.glb(?:[?#]|$)/.test(entry.name),
     )?.name;
   if (!glbUrl)
     throw Error(
-      "Loaded HARROW v8 resource is not identifiable: " +
+      "Loaded HARROW v9 resource is not identifiable: " +
         performance
           .getEntriesByType("resource")
           .filter((entry) => entry.name.includes("harrow"))
@@ -109,7 +109,7 @@ async function prepare() {
   button.disabled = false;
   status.textContent = JSON.stringify({
     ready: true,
-    version: "v8",
+    version: "v9",
     stage: 20,
     height: enemy.y,
     scale: HARROW.scale,
@@ -139,7 +139,7 @@ async function prepare() {
           worldFrozen: JSON.stringify(world) === frozen,
           errors,
           stage: 20,
-          version: "v8",
+          version: "v9",
           duration: 14,
           height: enemy.y,
           scale: HARROW.scale,

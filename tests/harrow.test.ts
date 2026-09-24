@@ -304,7 +304,7 @@ it("retains ranged Threat during airborne grace when the target is outside the s
   e.cool = 0;
   e.heading = 0;
   p.x = e.x;
-  p.z = e.z + HARROW.spinRadius + 1;
+  p.z = e.z + HARROW.spinTriggerRadius + 1;
   stepHarrow(w, e, p, [p], 0.05);
   expect(e.harrow?.kind).toBe("Threat");
   expect(w.harrowMissiles).toHaveLength(10);
@@ -372,6 +372,109 @@ it.each([true, false])(
   },
 );
 
+it("accelerates and brakes through exactly one stationary Spin within 1.05 seconds", () => {
+  const { w, p, e } = fixture();
+  e.harrow = { kind: "Spin", started: 0, fired: false, yaw: 0.4 };
+  e.harrowAirborne = false;
+  p.z = e.z + HARROW.spinRadius + 2;
+  const at = { x: e.x, y: e.y, z: e.z };
+  for (const [fraction, turn] of [
+    [0, 0],
+    [0.25, 0.15625],
+    [0.5, 0.5],
+    [0.75, 0.84375],
+    [1, 1],
+  ]) {
+    w.time = HARROW.spinWind + HARROW.spinTurn * fraction;
+    stepHarrow(w, e, p, [p], 0.05);
+    expect(e.heading).toBeCloseTo(0.4 + Math.PI * 2 * turn);
+    expect({ x: e.x, y: e.y, z: e.z }).toEqual(at);
+  }
+  w.time = HARROW.spinDuration - 0.01;
+  stepHarrow(w, e, p, [p], 0.05);
+  expect(e.heading).toBeCloseTo(0.4 + Math.PI * 2);
+  w.time = HARROW.spinDuration;
+  stepHarrow(w, e, p, [p], 0.05);
+  expect(e.harrow).toBeUndefined();
+  expect(e.cool).toBe(HARROW.cooldown);
+});
+
+it.each([
+  [21.3, true],
+  [28, true],
+  [28.01, false],
+] as const)(
+  "the pressure reaches %sm (%s) at the warning boundary and hits only once",
+  (distance, hits) => {
+    const { w, p, e } = fixture();
+    e.harrow = { kind: "Spin", started: 0, fired: false, yaw: 0 };
+    e.harrowAirborne = false;
+    p.x = e.x;
+    p.z = e.z + distance;
+    const hp = p.hp;
+    w.time = HARROW.spinWind - 0.001;
+    stepHarrow(w, e, p, [p], 0.05);
+    expect(p.hp).toBe(hp);
+    w.time = HARROW.spinWind;
+    stepHarrow(w, e, p, [p], 0.05);
+    const expected = hp - (hits ? HARROW.spinDamage * stageFor(w).damage : 0);
+    expect(p.hp).toBeCloseTo(expected);
+    w.time += HARROW.spinTurn * 0.8;
+    stepHarrow(w, e, p, [p], 0.05);
+    expect(p.hp).toBeCloseTo(expected);
+    expect(e.harrow.hitIds).toEqual(hits ? [p.id] : []);
+  },
+);
+
+it("the expanded Spin remains blocked by walls and cannot hit after its active interval", () => {
+  const { w, p, e } = fixture();
+  e.harrow = { kind: "Spin", started: 0, fired: false, yaw: 0 };
+  e.harrowAirborne = false;
+  p.x = e.x;
+  p.z = e.z + 25;
+  const wall = { x: 0, z: 0, w: 4, d: 0.5, h: 5 };
+  TRAINING_MAP.blocks.push(wall);
+  const hp = p.hp;
+  try {
+    w.time = HARROW.spinWind + 0.1;
+    stepHarrow(w, e, p, [p], 0.05);
+    expect(p.hp).toBe(hp);
+    expect(e.harrow.hitIds).toEqual([]);
+  } finally {
+    TRAINING_MAP.blocks.splice(TRAINING_MAP.blocks.indexOf(wall), 1);
+  }
+  w.time = HARROW.spinWind + HARROW.spinTurn;
+  stepHarrow(w, e, p, [p], 0.05);
+  expect(p.hp).toBe(hp);
+  w.time += 0.025;
+  stepHarrow(w, e, p, [p], 0.05);
+  expect(p.hp).toBe(hp);
+});
+
+it("28m pressure reach does not expand the old 21.2m ground or airborne close-attack choice", () => {
+  const { w, p, e } = fixture();
+  const distance = 22;
+  p.x = e.x;
+  p.z = e.z + distance;
+  e.harrow = undefined;
+  e.heading = 0;
+  e.cool = 0;
+  e.harrowAirborne = false;
+  e.harrowSwitchAt = 100;
+  stepHarrow(w, e, p, [p], 0.05);
+  expect(e.harrow?.kind).toBe("Threat");
+  e.harrow = undefined;
+  e.harrowAirborne = true;
+  e.y = HARROW.flightHeight;
+  e.harrowSwitchAt = HARROW.airDuration;
+  e.cool = 100;
+  w.time = 3;
+  stepHarrow(w, e, p, [p], 0.05);
+  expect(e.harrow).toBeUndefined();
+  expect(e.harrowAirborne).toBe(true);
+  expect(e.y).toBe(HARROW.flightHeight);
+});
+
 it("an unupgraded 160 HP soldier survives one ST25 medium dive through real ticks", () => {
   const { w, p, e } = combatFixture(25, "medium");
   const target = { x: p.x, y: p.y, z: p.z };
@@ -397,7 +500,7 @@ it("an unupgraded 160 HP soldier survives one ST25 medium dive through real tick
 it("airborne ranged attacks choose glide dives near 45 percent and retain the committed dive target", () => {
   const { w, p, e } = fixture();
   // Keep the target inside the firing yard's north wall at z=23.
-  p.z = e.z + HARROW.spinRadius + 5;
+  p.z = e.z + HARROW.spinTriggerRadius + 5;
   let dives = 0;
   for (let i = 0; i < 1000; i++) {
     e.harrow = undefined;
@@ -536,7 +639,7 @@ it("ground pursuit steps off a roof edge while airborne pursuit retains flight a
     harrowAirborne: true,
     cool: 10,
   });
-  p.x = e.x - HARROW.spinRadius - 5;
+  p.x = e.x - HARROW.spinTriggerRadius - 5;
   stepHarrow(w, e, p, [p], 0.1);
   expect(e.y).toBe(HARROW.flightHeight);
 });

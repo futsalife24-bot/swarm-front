@@ -39,6 +39,52 @@ const server = await createServer({
         };
       },
       configureServer(server) {
+        server.middlewares.use("/__harrow-spin", (req, res, next) => {
+          if (req.method !== "POST") return next();
+          const kind = req.headers["x-harrow-kind"];
+          const name = req.headers["x-harrow-name"] ?? "spin";
+          let metadata;
+          try {
+            if (
+              (kind !== "video" && kind !== "image") ||
+              typeof name !== "string" ||
+              !/^[a-z0-9-]{1,48}$/.test(name)
+            )
+              throw Error("Invalid recording");
+            metadata = JSON.parse(
+              decodeURIComponent(req.headers["x-harrow-metadata"] ?? "{}"),
+            );
+          } catch {
+            res.statusCode = 400;
+            res.end("Invalid recording metadata");
+            return;
+          }
+          let bytes = 0;
+          const chunks = [];
+          req.on("data", (chunk) => {
+            bytes += chunk.length;
+            if (bytes > 80000000) req.destroy();
+            else chunks.push(chunk);
+          });
+          req.on("end", () => {
+            const data = Buffer.concat(chunks);
+            const signature =
+              kind === "image"
+                ? Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])
+                : Buffer.from([0x1a, 0x45, 0xdf, 0xa3]);
+            if (!data.subarray(0, signature.length).equals(signature)) {
+              res.statusCode = 400;
+              res.end("Unexpected media format");
+              return;
+            }
+            const path = `dist-validation/harrow-v9/ui-${name}`;
+            mkdirSync("dist-validation/harrow-v9", { recursive: true });
+            writeFileSync(`${path}.${kind === "image" ? "png" : "webm"}`, data);
+            writeFileSync(`${path}.json`, JSON.stringify(metadata, null, 2));
+            res.setHeader("Content-Type", "application/json");
+            res.end(JSON.stringify({ saved: true, path }));
+          });
+        });
         server.middlewares.use("/__harrow-marker", (req, res, next) => {
           if (req.method !== "POST") return next();
           const name = req.headers["x-harrow-marker-name"];
@@ -88,7 +134,7 @@ const server = await createServer({
           try {
             metadata = JSON.parse(req.headers["x-harrow-metadata"] ?? "");
             if (
-              metadata.version !== "v8" ||
+              metadata.version !== "v9" ||
               !/^[a-f0-9]{64}$/.test(metadata.glbSha256)
             )
               throw Error("Invalid recording metadata");
@@ -105,13 +151,13 @@ const server = await createServer({
             else chunks.push(chunk);
           });
           req.on("end", () => {
-            mkdirSync("dist-validation/harrow/film-v8", { recursive: true });
+            mkdirSync("dist-validation/harrow/film-v9", { recursive: true });
             writeFileSync(
-              "dist-validation/harrow/film-v8/harrow.webm",
+              "dist-validation/harrow/film-v9/harrow.webm",
               Buffer.concat(chunks),
             );
             writeFileSync(
-              "dist-validation/harrow/film-v8/recording.json",
+              "dist-validation/harrow/film-v9/recording.json",
               JSON.stringify(metadata, null, 2),
             );
             res.end("saved");

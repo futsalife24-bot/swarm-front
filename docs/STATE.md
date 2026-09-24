@@ -1,3 +1,8 @@
+# 現在地: HARROW地上回転v9の仕上げ（2026-09-24）
+
+branch `codex/harrow-spin-impact`、base `a6973ed3197d305f67f1c426f08d41c97dc1539b`、作業場所 `../harrow-integration`。ユーザー指定動画2〜6秒のボスを参考に、地上回転を低い溜め・翼と脚の接地・約1秒の薙ぎ払い・制動へ改修。半径28mと地表風圧、途中Spin保存のv4移行を追加。元gameの既存差分は保護。
+
+自己検証と最終映像の確認中。独立Chat監査・main反映・Worker公開はまだ未完了。詳細は [HARROW-SPIN-V9](HARROW-SPIN-V9.md)。直前公開は下記v8。
 # 現在地: HARROW v8をmain反映・公開完了（2026-09-24）
 
 [PR81](https://github.com/futsalife24-bot/swarm-front/pull/81) を通常merge。公開ソースmain `43fc19ced4a3f97135a869720af6aa15d57c7a26`、Worker Version `56781189-582f-4755-bc3c-a3ab5d2d2d64`。3倍体格・高度/巡航維持、二足立ち風Flight/AirThreat、大きな羽ばたき、強化攻撃、初会敵/動画、旧保存互換と地形面に沿う赤予告を公開。

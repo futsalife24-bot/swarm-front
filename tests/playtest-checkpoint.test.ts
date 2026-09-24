@@ -64,7 +64,7 @@ function fixture(stage = 1, difficulty: "normal" | "medium" = "normal") {
 }
 
 // Encode historical on-disk envelopes without relying on the current writer.
-function legacySave(f: ReturnType<typeof fixture>, version: 1 | 2 = 1) {
+function legacySave(f: ReturnType<typeof fixture>, version: 1 | 2 | 3 = 1) {
   const world = JSON.parse(JSON.stringify(f.world)) as World;
   if (version === 1) delete world.campaignPlan;
   else world.campaignPlan = structuredClone(stageFor(f.world));
@@ -222,7 +222,7 @@ describe("battle checkpoint", () => {
     expect(stageFor(resumed).damage).toBeCloseTo(1.04 * 1.15);
     expect(writeBattleCheckpoint(resumed, f.progress, f.storage)).toBe(true);
     const again = readBattleCheckpoint(f.progress, f.storage)!;
-    expect(again.version).toBe(3);
+    expect(again.version).toBe(4);
     expect(stageFor(again.world)).toEqual(stageFor(resumed));
   });
   it.each([
@@ -261,7 +261,7 @@ describe("battle checkpoint", () => {
         expected = JSON.parse(JSON.stringify(stageFor(f.world)));
       expect(writeBattleCheckpoint(f.world, f.progress, f.storage)).toBe(true);
       const checkpoint = readBattleCheckpoint(f.progress, f.storage)!;
-      expect(checkpoint.version).toBe(3);
+      expect(checkpoint.version).toBe(4);
       expect(stageFor(checkpoint.world)).toEqual(expected);
       expect(checkpoint.world.campaignPlan).not.toBe(f.world.campaignPlan);
       expect(f.world.campaignPlan!.waves).not.toBe(
@@ -375,7 +375,7 @@ describe("battle checkpoint", () => {
       const checkpoint = readBattleCheckpoint(f.progress, f.storage)!;
       const resumed = checkpoint.world;
       const harrow = resumed.enemies.find((enemy) => enemy.id === e.id)!;
-      expect(checkpoint.version).toBe(3);
+      expect(checkpoint.version).toBe(4);
       expect(resumed.harrowMissiles).toEqual([
         before.harrowMissiles![0],
         before.harrowMissiles![2],
@@ -423,7 +423,11 @@ describe("battle checkpoint", () => {
       // Real ticks with the player beneath the enlarged body: no inherited
       // pending missile, Spin or Dive may deal damage during migration recovery.
       const hp = p.hp;
-      for (let tick = 0; tick < (kind === "Spin" ? 96 : 60); tick++) {
+      const recoveryTicks =
+        kind === "Spin"
+          ? Math.floor((HARROW.threatWind + HARROW.spinWind) / 0.05) - 2
+          : 60;
+      for (let tick = 0; tick < recoveryTicks; tick++) {
         step(resumed, { solo: neutral() });
         expect(resumed.players[0].hp).toBe(hp);
         if (tick === 0 && kind === "Takeoff")
@@ -494,7 +498,7 @@ describe("battle checkpoint", () => {
     );
   });
 
-  it("migrates once, then preserves new HARROW attacks, missiles and earned damage on v3 round trips", () => {
+  it("migrates once, then preserves new HARROW attacks, missiles and earned damage on v4 round trips", () => {
     const f = fixture(normalSaveId(20));
     f.world.enemies = [];
     const e = spawn(f.world, "harrow", 0, 0)!;
@@ -517,7 +521,7 @@ describe("battle checkpoint", () => {
     ).toBeCloseTo(HARROW.missileFlight);
     expect(writeBattleCheckpoint(migrated, f.progress, f.storage)).toBe(true);
     const reread = readBattleCheckpoint(f.progress, f.storage)!;
-    expect(reread.version).toBe(3);
+    expect(reread.version).toBe(4);
     expect(reread.world).toEqual(JSON.parse(JSON.stringify(migrated)));
     expect(reread.world.enemies[0].hp).toBe(e.hp);
     expect(reread.world.enemies[0].maxHp).toBe(e.maxHp);
@@ -530,7 +534,7 @@ describe("battle checkpoint", () => {
     "Dive",
     "StaggerFall",
   ] as HarrowAttack["kind"][])(
-    "does not apply legacy recovery to a current v3 %s checkpoint",
+    "does not apply legacy recovery to a current v4 %s checkpoint",
     (kind) => {
       const f = fixture(normalSaveId(20));
       f.world.enemies = [];
@@ -548,6 +552,125 @@ describe("battle checkpoint", () => {
       writeBattleCheckpoint(f.world, f.progress, f.storage);
       expect(readBattleCheckpoint(f.progress, f.storage)!.world).toEqual(
         JSON.parse(JSON.stringify(f.world)),
+      );
+    },
+  );
+
+  it.each([
+    [0.4, false],
+    [1.2, false],
+    [2, false],
+    [2, true],
+    [5.9, true],
+  ] as const)(
+    "retires a v3 Spin saved at %ss (prior hit %s) without heading jumps or immediate damage",
+    (age, previouslyHit) => {
+      const f = fixture(normalSaveId(25), "medium");
+      const w = f.world;
+      w.time = 100;
+      w.wave = stageFor(w).waves.length;
+      w.spawned = troopCount(stageFor(w).waves[w.wave - 1]);
+      w.solo!.bossSpawned = 1;
+      w.nextSpawn = 1e9;
+      w.enemies = [];
+      const p = w.players[0];
+      Object.assign(p, { x: 0, z: 0, safe: 0 });
+      p.y = supportHeight(0, 0, mapFor(w).blocks);
+      const e = spawn(w, "harrow", 0, 0)!;
+      const oldHeading =
+        0.4 + Math.PI * 2 * Math.max(0, Math.min(1, (age - 1.4) / 3.5));
+      Object.assign(e, {
+        hp: e.maxHp * 0.6,
+        y: p.y,
+        heading: oldHeading,
+        cool: 0,
+        wind: Math.max(0, 1.4 - age),
+        harrowAirborne: false,
+        harrowSwitchAt: w.time + 10,
+        harrow: {
+          kind: "Spin",
+          started: w.time - age,
+          yaw: 0.4,
+          fired: age >= 1.4,
+          hitIds: previouslyHit ? [p.id] : [],
+        },
+      });
+      queueHarrowMissiles(w, e, [p]);
+      for (const missile of w.harrowMissiles!) {
+        missile.target = { x: 60, y: p.y, z: 60 };
+        if (missile.id % 2) missile.launch = w.time - 0.2;
+      }
+      legacySave(f, 3);
+      const raw = f.storage.getItem(BATTLE_CHECKPOINT_KEY);
+      const progress = JSON.stringify(f.progress);
+      const checkpoint = readBattleCheckpoint(f.progress, f.storage)!;
+      const resumed = checkpoint.world;
+      const enemy = resumed.enemies[0];
+      const expected = JSON.parse(JSON.stringify(w)) as World;
+      expected.campaignPlan = structuredClone(stageFor(w));
+      delete expected.enemies[0].harrow;
+      expected.enemies[0].wind = 0;
+      expected.enemies[0].cool = HARROW.threatWind;
+      expect(checkpoint.version).toBe(4);
+      expect(JSON.parse(JSON.stringify(resumed))).toEqual(expected);
+      expect(enemy.heading).toBe(oldHeading);
+      const hp = p.hp;
+      const safeTicks =
+        Math.floor((HARROW.threatWind + HARROW.spinWind) / 0.05) - 2;
+      for (let tick = 0; tick < safeTicks; tick++) {
+        const heading = enemy.heading!;
+        step(resumed, { solo: neutral() });
+        expect(resumed.players[0].hp).toBe(hp);
+        // Ordinary steering is bounded; no old started/yaw formula can snap it.
+        expect(Math.abs(enemy.heading! - heading)).toBeLessThanOrEqual(
+          0.65 * 0.05 + 1e-8,
+        );
+      }
+      expect(enemy.harrow?.kind).toBe("Spin");
+      expect(enemy.harrow!.started).toBeGreaterThanOrEqual(
+        100 + HARROW.threatWind - 1e-8,
+      );
+      expect(JSON.stringify(f.progress)).toBe(progress);
+      expect(f.storage.getItem(BATTLE_CHECKPOINT_KEY)).toBe(raw);
+    },
+  );
+
+  it.each([
+    undefined,
+    "Threat",
+    "Takeoff",
+    "Glide",
+    "Dive",
+    "Land",
+    "StaggerFall",
+  ] as const)(
+    "preserves every non-Spin v3 state (%s), including pending and flying missiles",
+    (kind) => {
+      const f = fixture(normalSaveId(20));
+      const w = f.world;
+      w.time = 100;
+      w.enemies = [];
+      const e = spawn(w, "harrow", 0, 0)!;
+      if (kind)
+        e.harrow = {
+          kind,
+          started: 99.5,
+          fired: false,
+          yaw: 0.7,
+          from: { x: e.x, y: e.y, z: e.z },
+          to: { x: 4, y: 0, z: 8 },
+        };
+      // Preserve pending volleys even when the current attack is not Threat.
+      const attack = e.harrow;
+      e.harrow = { kind: "Threat", started: 99.5, fired: false, yaw: 0.7 };
+      queueHarrowMissiles(w, e, w.players);
+      e.harrow = attack;
+      w.harrowMissiles![0].launch = 99;
+      legacySave(f, 3);
+      const expected = JSON.parse(JSON.stringify(w)) as World;
+      expected.campaignPlan = structuredClone(stageFor(w));
+      expect(readBattleCheckpoint(f.progress, f.storage)!.world).toEqual(
+        expected,
       );
     },
   );

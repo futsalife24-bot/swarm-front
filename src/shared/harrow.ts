@@ -18,6 +18,8 @@ import {
   HARROW_SCALE,
   HARROW_MOVE_SPEED,
   HARROW_WALK_AUTHORED_SPEED,
+  HARROW_SPIN_TIMING,
+  harrowSpinRotation,
 } from "./harrow-motion";
 
 export const HARROW = {
@@ -33,11 +35,13 @@ export const HARROW = {
   missileDamage: 36,
   missileRadius: 2.5,
   maxMissiles: 40,
-  spinWind: 1.4,
-  spinDuration: 6.3,
-  spinTurn: 3.5,
-  // v7's ground-level wing sweep (vertices below 2m), rounded from 21.193m.
-  spinRadius: 21.2,
+  spinWind: HARROW_SPIN_TIMING.wind,
+  spinDuration: HARROW_SPIN_TIMING.duration,
+  spinTurn: HARROW_SPIN_TIMING.turn,
+  // Grounded wings sweep outward; the visible pressure reaches the 28m boundary.
+  spinRadius: 28,
+  // More reach must not change when HARROW lands or chooses its close attack.
+  spinTriggerRadius: 21.2,
   spinDamage: 84,
   takeoffDuration: 3.5,
   flightHeight: RAY_MAX_FLIGHT_HEIGHT * 3,
@@ -378,15 +382,8 @@ export function stepHarrow(
     e.heading = a.yaw;
     e.wind = Math.max(0, wind - age);
     if (a.kind === "Spin") {
-      e.heading =
-        a.yaw +
-        Math.PI *
-          2 *
-          Math.max(0, Math.min(1, (age - HARROW.spinWind) / HARROW.spinTurn));
-      if (
-        age >= HARROW.spinWind &&
-        age - dt <= HARROW.spinWind + HARROW.spinTurn
-      )
+      e.heading = a.yaw + harrowSpinRotation(age);
+      if (age >= HARROW.spinWind && age < HARROW.spinWind + HARROW.spinTurn)
         hitPlayers(
           { x: e.x, y: e.y + 0.9, z: e.z },
           HARROW.spinRadius,
@@ -414,7 +411,7 @@ export function stepHarrow(
   e.harrowSwitchAt ??= w.time + HARROW.groundDuration;
   if (
     e.harrowAirborne &&
-    ((distance <= HARROW.spinRadius &&
+    ((distance <= HARROW.spinTriggerRadius &&
       w.time >= e.harrowSwitchAt - HARROW.airDuration + 2) ||
       w.time >= e.harrowSwitchAt)
   ) {
@@ -431,7 +428,7 @@ export function stepHarrow(
   }
   // A nearby target must wait for landing, including the two-second airborne grace.
   // Do not choose the ground-only Spin (or a ranged attack) while hovering above it.
-  if (e.harrowAirborne && distance <= HARROW.spinRadius) return;
+  if (e.harrowAirborne && distance <= HARROW.spinTriggerRadius) return;
   // Bounded turn rate keeps the large wings from snapping across the arena.
   const old = e.heading ?? yaw;
   const turn = Math.atan2(Math.sin(yaw - old), Math.cos(yaw - old));
@@ -459,7 +456,7 @@ export function stepHarrow(
       return;
     }
     e.harrow = {
-      kind: distance <= HARROW.spinRadius ? "Spin" : "Threat",
+      kind: distance <= HARROW.spinTriggerRadius ? "Spin" : "Threat",
       started: w.time,
       fired: false,
       yaw: e.heading,
