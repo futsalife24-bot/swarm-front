@@ -1,3 +1,10 @@
+# 現在地: HARROW・通常25面・15-Aをmain反映・公開完了（2026-09-24）
+
+[PR78](https://github.com/futsalife24-bot/swarm-front/pull/78)を通常merge、公開ソースmain `5e743d32dcb23d9771db23fdfaebc90cc2e85e68`。独立再監査は `30737b4` 合格・必須0、以降は記録のみ。merge後mainからclient build・production Worker dry-run成功、既存Worker `swarm-front` へ公開。Worker Version `0b3ca67f-4b3e-412b-b8cf-68ba7ccb6244`。
+
+https://swarm-front.melosalife-24.workers.dev の配信対象192ファイル（HARROW v6含む）のSHA256は全件ローカルdistと一致。除外は.assetsignore本体と既存指定6GLB。health 200/ok、公開ブラウザ起動・console error0、既存ST1中断13秒の再開画面を確認しセーブは変更していない。公開での実戦・実スマホ・岩上の目視・長時間多人数は未検証。初回Renderer確認/実Worker11項目と独立ロジック167件は下記の条件を維持し、全面実機検証とはしない。
+
+証拠: `../harrow-integration/dist-validation/harrow/release-{build,dry-run,deploy,delivery}.log`、`release-delivery.json`。主作業場所 `../harrow-integration`、正本GitHub https://github.com/futsalife24-bot/swarm-front 。元gameのClaude/設定/敗北導線差分は保護したまま。cleanなmainは `../share-image-fix` に同期。任意O1〜O3と監査限界は次節に記録。
 # 現在地: HARROW再監査合格・必須0（2026-09-24）
 
 [独立監査Chat](https://chatgpt.com/c/6ab26169-d12c-83e8-84b1-1b91731a8856) の対象 `30737b43ea58a7e385b852205448109e297aea2f`、base `21468bba58c9bc5f222f481ef0ce8b859f1a160d` は合格。F1旧保存進行不能、F2空中Spin、F3岩上追跡沈下の解消を独立再現、残る必須P0/P1/P2なし。旧42通りの計画/設定/地形、武器12丁維持を確認。HARROW17・武器37・中断16・campaign6・経済2・54戦・stages35の計167件はTypeScript5.8.3+Node assertアダプターで成功（ネイティブVitestではない）。差分依存の部分型成功。
