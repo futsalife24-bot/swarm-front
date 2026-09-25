@@ -26,7 +26,7 @@ for version in ('v9','v10'):
   o=bpy.data.objects.new(name,d);scene.collection.objects.link(o);o.location=pos;o.rotation_euler=(Vector((0,0,4))-o.location).to_track_quat('-Z','Y').to_euler()
  d=bpy.data.cameras.new('comparison');d.type='ORTHO';cam=bpy.data.objects.new('comparison',d);scene.collection.objects.link(cam);scene.camera=cam
  views=[('body-side','Idle',0,(0,-20,3),(0,0,3),6.8),('body-front','Idle',0,(-16,-13,7),(-.5,0,3),7.8)]
- if version=='v10':views += [('flight','Flight',2.2,(-15,-24,13),(1,0,5),27),('flight-opposite','Flight',5.5,(-15,-24,13),(1,0,5),27),('back','Idle',0,(20,10,8),(1,0,4),24),('hero','Idle',0,(-15,-24,13),(1,0,4.5),24)]
+ if version=='v10':views += [('flight','Flight',2.2,(-15,-24,13),(1,0,5),27),('flight-opposite','Flight',5.5,(-15,-24,13),(1,0,5),27),('air-threat-before','AirThreat',2.8,(-15,-24,13),(1,0,5),27),('air-threat-launch','AirThreat',3.5,(-15,-24,13),(1,0,5),27),('air-threat-after','AirThreat',4.5,(-15,-24,13),(1,0,5),27),('back','Idle',0,(20,10,8),(1,0,4),24),('hero','Idle',0,(-15,-24,13),(1,0,4.5),24)]
  for name,clip,time,pos,target,scale in views:
   rig.animation_data_create();rig.animation_data.action=bpy.data.actions[clip];rig.animation_data.action_slot=rig.animation_data.action.slots[0]
   for tr in rig.animation_data.nla_tracks:tr.mute=True

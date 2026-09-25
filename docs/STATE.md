@@ -1,6 +1,6 @@
 # 現在地: HARROW v10をゲームへ採用し公開準備中（2026-09-25）
 
-main `78616fc83b345ed0a75ca924050d596f1d018a9c` から branch `codex/harrow-v10-release` を `../share-image-fix` で作成。HARROW実行時GLBをv10へ切替え、Flightを16.8秒へ整合。AirThreatの発射姿勢を補正して10発射先端と権威座標を維持。関連115件・型・Blender原本/GLB全12動作・変更境界検査・production build/Worker dry-run成功。PR86は実装 `b715df40dbf151ffeb622170ff9e11b326f75b7e`、MERGEABLE・checks空。ユーザーが監査ZIPの通常Chat送信を個別承認し、[監査Chat](https://chatgpt.com/c/6ab5db72-3bdc-83ee-ba12-7e5322df4432) へ添付・依頼済み。独立判定待ち。main反映・既存Worker公開は未完了。[詳細](HARROW-V10-RELEASE.md)。元 `game/` の既存差分は保護。
+main `78616fc83b345ed0a75ca924050d596f1d018a9c` から branch `codex/harrow-v10-release` を `../share-image-fix` で作成。HARROW実行時GLBをv10へ切替え、Flightを16.8秒へ整合。初回実装 `b715df40dbf151ffeb622170ff9e11b326f75b7e` の[通常Chat独立監査](https://chatgpt.com/c/6ab5db72-3bdc-83ee-ba12-7e5322df4432) は **FAIL／F1 P1**：AirThreatの発射姿勢ブレンドが範囲外で翼を急回転させる。発射原点は一致していたが公開不可。局所クランプとBlender原本/GLB再生成、25ms全区間の回転・Launcher頂点移動検証を追加。修正版SHA `460b71eb6840b25e2565fbcc23d4cdcfac5710643965fdd11fe83dd4c5ba7cf5`、上翼最大2.430度/25ms、Launcher最大0.773m/25ms。関連Vitest119件・型・Blender全12動作・変更境界・production build/Worker dry-run成功。修正版の限定再監査待ち。main反映・既存Worker公開は未完了。[詳細](HARROW-V10-RELEASE.md)。元 `game/` の既存差分は保護。
 
 # 履歴: HARROWドラゴン胴体v10の単体候補を検証（2026-09-25）
 

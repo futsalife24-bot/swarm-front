@@ -106,6 +106,59 @@ const report = {
   clips: [],
   sockets: [],
 };
+// A launch-pose blend can be finite and align perfectly at 3.5 s while
+// tearing the wing between adjacent exported keys. Inspect the full clip.
+const airThreat = animations.find((clip) => clip.name === "AirThreat");
+const wingBones = ["Wing_upperL", "Wing_upperR"].map((name) => {
+  const bone = skeleton.bones.find((item) => item.name === name);
+  assert.ok(bone, `${name} exists`);
+  return bone;
+});
+const priorWingRotations = wingBones.map(() => new T.Quaternion());
+const launchers = meshes.filter((mesh) => mesh.name.startsWith("Launcher"));
+const priorLauncherVertices = launchers.map(
+  (mesh) => new Float32Array(mesh.geometry.attributes.position.count * 3),
+);
+let maxAirThreatStepDegrees = 0;
+let maxAirThreatLauncherStep = 0;
+for (let frame = 0; frame <= Math.round(airThreat.duration * 40); frame++) {
+  setPose(airThreat, frame / 40);
+  for (let side = 0; side < wingBones.length; side++) {
+    const rotation = wingBones[side].getWorldQuaternion(new T.Quaternion());
+    if (frame > 0)
+      maxAirThreatStepDegrees = Math.max(
+        maxAirThreatStepDegrees,
+        T.MathUtils.radToDeg(rotation.angleTo(priorWingRotations[side])),
+      );
+    priorWingRotations[side].copy(rotation);
+  }
+  for (let part = 0; part < launchers.length; part++) {
+    const mesh = launchers[part];
+    const previous = priorLauncherVertices[part];
+    mesh.skeleton.update();
+    for (let vertex = 0; vertex < mesh.geometry.attributes.position.count; vertex++) {
+      p.fromBufferAttribute(mesh.geometry.attributes.position, vertex);
+      mesh.applyBoneTransform(vertex, p).applyMatrix4(mesh.matrixWorld);
+      const offset = vertex * 3;
+      if (frame > 0)
+        maxAirThreatLauncherStep = Math.max(
+          maxAirThreatLauncherStep,
+          Math.hypot(
+            p.x - previous[offset],
+            p.y - previous[offset + 1],
+            p.z - previous[offset + 2],
+          ) * 1.95,
+        );
+      previous[offset] = p.x;
+      previous[offset + 1] = p.y;
+      previous[offset + 2] = p.z;
+    }
+  }
+}
+assert.ok(maxAirThreatStepDegrees < 5, `AirThreat wing jumps ${maxAirThreatStepDegrees.toFixed(3)} degrees in 25 ms`);
+assert.ok(maxAirThreatLauncherStep < 1.5, `AirThreat launcher jumps ${maxAirThreatLauncherStep.toFixed(3)} m in 25 ms`);
+report.airThreatMaxWingStepDegrees = maxAirThreatStepDegrees;
+report.airThreatMaxLauncherStepMeters = maxAirThreatLauncherStep;
 for (const clip of animations) {
   const union = new T.Box3();
   let minimumY = Infinity,
