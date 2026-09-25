@@ -1,9 +1,6 @@
 # 現在地: HARROW v10をゲームへ採用し公開準備中（2026-09-25）
 
-main `78616fc83b345ed0a75ca924050d596f1d018a9c` から branch `codex/harrow-v10-release` を `../share-image-fix` で作成。HARROW実行時GLBをv10へ切替え、Flightを16.8秒へ整合。AirThreatの発射姿勢を補正して10発射先端と権威座標を維持。関連115件・型・Blender原本/GLB全12動作・変更境界検査・production build/Worker dry-run成功。PR86は実装 `b715df40dbf151ffeb622170ff9e11b326f75b7e`、MERGEABLE・checks空。通常Chatへ28,245,718 bytesの監査ZIPを添付する操作は、自動承認レビューが具体的資料と宛先の明示承認不足として拒否。添付・独立監査・main反映・既存Worker公開は未完了。[詳細](HARROW-V10-RELEASE.md)。元 `game/` の既存差分は保護。
-
-停止理由: 自動承認レビューが `dist-validation/harrow-v10-release/HARROW-v10-release-b715df4-audit.zip`（SHA256 `0cfdf270dc2d849b2558aff7803f8159ce3203b5ae30bfb3156a2053b8919870`、非公開ソース・GLB・Blender原本・画像・検証資料）の新規通常Chat `https://chatgpt.com/` への監査目的アップロードを、具体的payload/宛先の明示承認不足として拒否。迂回していない。
-再開条件: このZIPを `https://chatgpt.com/` の新規通常Chatへ独立監査目的で添付・送信することをユーザーが具体的に承認。監査で必須指摘がなくなればPR86を通常mergeし、既存Workerへ公開・配信確認する。
+main `78616fc83b345ed0a75ca924050d596f1d018a9c` から branch `codex/harrow-v10-release` を `../share-image-fix` で作成。HARROW実行時GLBをv10へ切替え、Flightを16.8秒へ整合。AirThreatの発射姿勢を補正して10発射先端と権威座標を維持。関連115件・型・Blender原本/GLB全12動作・変更境界検査・production build/Worker dry-run成功。PR86は実装 `b715df40dbf151ffeb622170ff9e11b326f75b7e`、MERGEABLE・checks空。ユーザーが監査ZIPの通常Chat送信を個別承認し、[監査Chat](https://chatgpt.com/c/6ab5db72-3bdc-83ee-ba12-7e5322df4432) へ添付・依頼済み。独立判定待ち。main反映・既存Worker公開は未完了。[詳細](HARROW-V10-RELEASE.md)。元 `game/` の既存差分は保護。
 
 # 履歴: HARROWドラゴン胴体v10の単体候補を検証（2026-09-25）
 
