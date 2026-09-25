@@ -12,7 +12,8 @@
 - オフラインHTMLは新旧GLBとThree.jsを埋込。HTTPで同一HTMLを表示し、WebGL実再生と動画保存を確認。ローカルfile://としての起動は未確認。サーバー版は `node assets/blender/candidates/harrow/v10/make_review.mjs --serve`、`http://127.0.0.1:5200/`。
 - `flight.webm` をブラウザで読み戻し、再生・1920×945・約16.43秒の動画を確認。全フレームの衝突を動画目視だけで保証しない。
 - プレビューTSは `tsc --ignoreConfig --noEmit --target ES2022 --module ESNext --moduleResolution bundler --skipLibCheck scripts/harrow-v10-preview.ts` 成功。
-- 最終プレビュー `56da5e1` ではSkinnedMeshの誤カリングと地上姿勢の近景カメラを修正。HTML再生成後、Flight→Idleの頭部・胴体表示とFlight全身表示を実ブラウザで確認。モデル本体は不変。
+- プレビュー `56da5e1` ではSkinnedMeshの誤カリングと地上姿勢の近景カメラを修正。HTML再生成後、Flight→Idleの頭部・胴体表示とFlight全身表示を実ブラウザで確認。
+- 独立監査F1/P2の版切替競合を、最新request IDだけがsceneを更新する仕組みで修正。`harrow-v10-load-gate.test.mjs` はv9→v10とv10→v9の両方向で逆順完了を強制し、最後の選択と再生時間が一致してPASS。再生成HTMLの実ブラウザでも両方向を確認し、v10は16.8秒、v9は4.2秒、console error/warnなし。モデル本体は不変。
 - 試作段階のTakeoffに地面貫通を検出し、最終版では元のTakeoffを保持。試作時の鱗の突出を低くし、腹鱗の分割継ぎ目を解消。
 - このworktreeに `.meloso-judge/run.cjs` は未導入。Judgeは未判定・通信なし。モデル候補のみのため無関係なゲーム全件テスト/ビルドは行っていない。
 
