@@ -1,3 +1,7 @@
+# 現在地: CALYXエネミーレポート攻撃文を観察文へ修正（2026-09-25）
+
+`codex/calyx-report-copy`、base `144372b8fdd8463d1bea2181bff09ce219b910f7`。`src/client/bestiary.ts` のCALYX攻撃説明1件から半径・ダメージ表現を除き、前花弁の打撃と花粉嚢の着弾・ドーム状の拡散を定性的に記述。別作業中の正規 `game/` は編集せず専用worktreeで実施。型チェック・本番build・844×390実ブラウザの本文表示と解説/一覧スクロールを確認。Judge入口はこのworktreeに存在せず未判定。独立Chat監査・main反映・公開は未完了。
+
 # 現在地: HARROW v10をmain反映・既存Workerへ公開完了（2026-09-25）
 
 main `78616fc83b345ed0a75ca924050d596f1d018a9c` から branch `codex/harrow-v10-release` を `../share-image-fix` で作成。HARROW実行時GLBをドラゴン胴体・胴体コア浮遊・左右不規則翼のv10へ切替え、Flightを16.8秒へ整合。初回[通常Chat監査](https://chatgpt.com/c/6ab5db72-3bdc-83ee-ba12-7e5322df4432) のF1/P1を局所修正し、Blender原本/GLB再生成とAirThreat全区間の回転・Launcher頂点移動検査を追加。修正実装 `c1cefef8955af03ef73c41922a2be0bba265feec`、採用GLB SHA `460b71eb6840b25e2565fbcc23d4cdcfac5710643965fdd11fe83dd4c5ba7cf5`。関連Vitest119件・型・Blender全12動作・変更境界・production build/Worker dry-run成功。限定再監査は **PASS／P0・P1・P2各0件**。 [PR86](https://github.com/futsalife24-bot/swarm-front/pull/86) 通常merge、公開ソースmain `4e707332ee3bbef6366fde5182fa38e50aea6561`、既存Worker Version `278c9c63-2adb-4cd9-bf69-0659d0eac5b0`。公開`/api/health`は200/ok、更新9ファイルの配信SHAはdistと一致、iab公開画面はconsole warn/error 0。中断済みST1保存には触れず、HARROW実戦・実スマホ性能は未確認。[詳細](HARROW-V10-RELEASE.md)。元 `game/` の既存差分は保護。
