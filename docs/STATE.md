@@ -1,6 +1,6 @@
 # 現在地: HARROWドラゴン胴体v10の単体候補を検証（2026-09-25）
 
-branch `codex/harrow-dragon-torso`、base `d3c0e431cd4841d010d6099a5d6000ff5496578d`、制作場所 `../harrow-integration`。黄色い胴体を深い胸郭・絞った腹・腰へのつながりへ変更。胴体コアによる安定浮遊と左右別の不規則な翼動作を表現。原本/GLB/再生成器/新旧比較プレビュー/動画を保存。全12動作の原本・GLB再読込、60Hz骨/10Hz全頂点、183非胴体メッシュ一致、10既存動作保持、TS確認成功。独立確認とmain保存は進行中。ゲーム差し替え・公開は今回未実施。元gameの既存差分は保護。[設計](../assets/blender/candidates/harrow/v10/DESIGN.md)・[検証](../assets/blender/candidates/harrow/v10/VALIDATION.md)。
+branch `codex/harrow-dragon-torso`、base `d3c0e431cd4841d010d6099a5d6000ff5496578d`、制作場所 `../harrow-integration`。黄色い胴体を深い胸郭・絞った腹・腰へのつながりへ変更。胴体コアによる安定浮遊と左右別の不規則な翼動作を表現。原本/GLB/再生成器/新旧比較プレビュー/動画を保存。全12動作の原本・GLB再読込、60Hz骨/10Hz全頂点、183非胴体メッシュ一致、10既存動作保持、TS確認成功。[PR85](https://github.com/futsalife24-bot/swarm-front/pull/85)、最終実装 `56da5e1117db90ceb978634cb007c1be9736603e`。独立確認は[通常Chat](https://chatgpt.com/c/6ab5bf74-6c1c-83ee-a04d-fcc517f9a5c6)へ送信済みだが、サーバー/Reactエラー後の再試行で最終判定未取得。main保存は未完了。停止理由: 必須独立監査の最終判定を取得できていない。再開条件: 同じChatの結果とプレビュー2行の追加差分への判定を確認し、合格後PR85を通常merge。[監査記録](../assets/blender/candidates/harrow/v10/AUDIT.md)。ゲーム差し替え・公開は今回未実施。元gameの既存差分は保護。[設計](../assets/blender/candidates/harrow/v10/DESIGN.md)・[検証](../assets/blender/candidates/harrow/v10/VALIDATION.md)。
 # 現在地: HARROW地上回転v9をmain反映・公開完了（2026-09-24）
 
 [PR83](https://github.com/futsalife24-bot/swarm-front/pull/83) を通常merge、公開ソースmain `438249d43834fb449e7807c1ba7754f6294b3cfb`、Worker Version `56b45cc3-3f70-4cde-b082-9ba7cf5b85a7`。動画2〜6秒のボスを参考に、低い溜め・翼と脚の支持・1.05秒の薙ぎ払い・制動へ改修。半径28mの地表風圧/予告円、旧v3途中Spinの安全移行を公開。
@@ -1618,3 +1618,4 @@ EDFはミニマップが視点に追従して回転するためこの分担が�
 
 ## 2026-09-12 下向き移動のカメラ振動
 カメラ位置と注視点の補間基準を統一。原因・差分・修正前後の計測は docs/CAMERA-JITTER.md。
+
