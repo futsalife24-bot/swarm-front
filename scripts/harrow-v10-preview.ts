@@ -16,12 +16,12 @@ async function load(){
  status.textContent='読込中';
  const gltf=await new GLTFLoader().loadAsync(`/assets/blender/candidates/harrow/${version.value}/harrow.glb`);
  if(model){scene.remove(model);model.traverse(o=>{if(o instanceof T.Mesh){o.geometry.dispose();for(const m of Array.isArray(o.material)?o.material:[o.material])m.dispose();}});}
- model=gltf.scene;scene.add(model);clips=gltf.animations;mixer=new T.AnimationMixer(model);choose();
+ model=gltf.scene;model.traverse(o=>{if(o instanceof T.SkinnedMesh)o.frustumCulled=false;});scene.add(model);clips=gltf.animations;mixer=new T.AnimationMixer(model);choose();
 }
 function choose(){const c=clips.find(c=>c.name===clip.value)!;mixer.stopAllAction();mixer.clipAction(c).play();time=0;seek.max=String(c.duration);}
 version.onchange=()=>void load();clip.onchange=choose;
 document.querySelector<HTMLButtonElement>('#play')!.onclick=e=>{paused=!paused;(e.target as HTMLElement).textContent=paused?'再生':'一時停止';};
-document.querySelector<HTMLButtonElement>('#body')!.onclick=()=>{controls.target.set(-.6,5,0);camera.position.set(-4,6,9);controls.update();};
+document.querySelector<HTMLButtonElement>('#body')!.onclick=()=>{const y=['Flight','AirThreat','Takeoff'].includes(clip.value)?5:3;controls.target.set(-.6,y,0);camera.position.set(-4,y+1.2,11);controls.update();};
 document.querySelector<HTMLButtonElement>('#full')!.onclick=()=>{controls.target.set(0,5,0);camera.position.set(-19,11,24);controls.update();};
 seek.oninput=()=>{time=Number(seek.value);paused=true;document.querySelector('#play')!.textContent='再生';};
 function draw(now:number){requestAnimationFrame(draw);const dt=Math.min(.05,(now-last)/1000);last=now;if(mixer){if(!paused)time=(time+dt)%Number(seek.max);mixer.setTime(time);seek.value=String(time);status.textContent=`${version.value} · ${clip.value} · ${time.toFixed(2)}秒`;}
