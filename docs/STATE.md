@@ -1,3 +1,6 @@
+# 現在地: HARROWドラゴン胴体v10の単体候補を検証（2026-09-25）
+
+branch `codex/harrow-dragon-torso`、base `d3c0e431cd4841d010d6099a5d6000ff5496578d`、制作場所 `../harrow-integration`。黄色い胴体を深い胸郭・絞った腹・腰へのつながりへ変更。胴体コアによる安定浮遊と左右別の不規則な翼動作を表現。原本/GLB/再生成器/新旧比較プレビュー/動画を保存。全12動作の原本・GLB再読込、60Hz骨/10Hz全頂点、183非胴体メッシュ一致、10既存動作保持、TS確認成功。[PR85](https://github.com/futsalife24-bot/swarm-front/pull/85)、最終実装 `486697581c354f8b9c1165c1e6522733365d8244`。比較プレビューの非同期読込競合を修正し、両方向の逆順完了テストと実WebGLを確認。[通常Chat独立監査](https://chatgpt.com/c/6ab5bf74-6c1c-83ee-a04d-fcc517f9a5c6) は3D本体を合格、限定再監査で独立テスト24件全通過、P0/P1/P2なし、F1解消、候補ソースとしてmain保存可。以降は記録差分のみ。ゲーム差し替え・公開は今回未実施。元gameの既存差分は保護。[監査記録](../assets/blender/candidates/harrow/v10/AUDIT.md)・[設計](../assets/blender/candidates/harrow/v10/DESIGN.md)・[検証](../assets/blender/candidates/harrow/v10/VALIDATION.md)。
 # 現在地: HARROW地上回転v9をmain反映・公開完了（2026-09-24）
 
 [PR83](https://github.com/futsalife24-bot/swarm-front/pull/83) を通常merge、公開ソースmain `438249d43834fb449e7807c1ba7754f6294b3cfb`、Worker Version `56b45cc3-3f70-4cde-b082-9ba7cf5b85a7`。動画2〜6秒のボスを参考に、低い溜め・翼と脚の支持・1.05秒の薙ぎ払い・制動へ改修。半径28mの地表風圧/予告円、旧v3途中Spinの安全移行を公開。
