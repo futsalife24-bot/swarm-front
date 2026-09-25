@@ -1,6 +1,6 @@
 # 現在地: CALYXエネミーレポート攻撃文を観察文へ修正（2026-09-25）
 
-`codex/calyx-report-copy`、base `144372b8fdd8463d1bea2181bff09ce219b910f7`。`src/client/bestiary.ts` のCALYX攻撃説明1件から半径・ダメージ表現を除き、前花弁の打撃と花粉嚢の着弾・ドーム状の拡散を定性的に記述。別作業中の正規 `game/` は編集せず専用worktreeで実施。型チェック・本番build・844×390実ブラウザの本文表示と解説/一覧スクロールを確認。Judge入口はこのworktreeに存在せず未判定。独立Chat監査・main反映・公開は未完了。
+`codex/calyx-report-copy`、base `144372b8fdd8463d1bea2181bff09ce219b910f7`、[PR87](https://github.com/futsalife24-bot/swarm-front/pull/87)。`src/client/bestiary.ts` のCALYX攻撃説明1件から半径・ダメージ表現を除き、前花弁と花粉弾の攻撃を定性的に記述。別作業中の正規 `game/` は編集せず専用worktreeで実施。初回[通常Chat独立監査](https://chatgpt.com/c/6ab632eb-25b4-83e8-a4af-826b03808b9f) は `82689c1` にF1/P2（発射器官の花粉嚢と花粉弾の混同）1件、任意P3（両攻撃の文分け）1件。両方を文言修正し、同Chatへの再監査準備中。型チェック・本番build・844×390実ブラウザの本文表示と解説/一覧スクロールを確認。Judge入口はこのworktreeに存在せず未判定。main反映・公開は未完了。
 
 # 現在地: HARROW v10をmain反映・既存Workerへ公開完了（2026-09-25）
 
