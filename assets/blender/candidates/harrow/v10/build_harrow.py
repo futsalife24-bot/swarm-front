@@ -206,6 +206,12 @@ for name in legs:
 # Analytic matrices with deterministic FABRIK limb solve, baked at 30 fps.
 def around(point,axis,angle):return Matrix.Translation(point)@Matrix.Rotation(angle,4,axis)@Matrix.Translation(-point)
 def smooth(a):return a*a*(3-2*a)
+def air_threat_launch_lock(t):
+ rise=max(0.,min(1.,(t-2.9)/.6));fall=max(0.,min(1.,(4.1-t)/.6))
+ return smooth(rise)*smooth(fall)
+assert all(0.<=air_threat_launch_lock(i/100)<=1. for i in range(701))
+assert all(air_threat_launch_lock(t)==0. for t in (0.,2.9,4.1,7.))
+assert abs(air_threat_launch_lock(3.5)-1.)<1e-12
 def bump(u,a,b,c):
  if u<a or u>c:return 0
  return smooth((u-a)/(b-a)) if u<b else 1-smooth((u-b)/(c-b))
@@ -340,6 +346,11 @@ def pose(clip,t):
    spread=-amplitude*wave+.30*attack-.24*anticipation-.38*threat
    if air:
     independent=flap if clip=='Takeoff' else imitation_flap('.L' if sign<0 else '.R',t,durations[clip],clip=='Flight')
+    if clip=='AirThreat':
+     # Both warhead banks must meet the authoritative launch sockets at 3.5s.
+     # Keep independent mimic strokes outside a smooth firing-pose interval.
+     launch_lock=air_threat_launch_lock(t)
+     independent=independent*(1-launch_lock)+flap*launch_lock
     spread=(-.30+independent)*air if clip in ('Flight','AirThreat','Takeoff') else (-.36+.12*sin(pi*u))*air if clip=='Land' else (-.30+.38)*hover-.36*(1-hover)
     if clip=='AirThreat':spread-=.08*threat
     if clip=='StaggerFall':spread=-.40+.32*sin(pi*u)
