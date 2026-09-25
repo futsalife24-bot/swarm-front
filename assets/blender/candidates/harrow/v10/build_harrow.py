@@ -340,6 +340,11 @@ def pose(clip,t):
    spread=-amplitude*wave+.30*attack-.24*anticipation-.38*threat
    if air:
     independent=flap if clip=='Takeoff' else imitation_flap('.L' if sign<0 else '.R',t,durations[clip],clip=='Flight')
+    if clip=='AirThreat':
+     # Both warhead banks must meet the authoritative launch sockets at 3.5s.
+     # Keep independent mimic strokes outside a smooth firing-pose interval.
+     launch_lock=smooth((t-2.9)/.6)*smooth((4.1-t)/.6)
+     independent=independent*(1-launch_lock)+flap*launch_lock
     spread=(-.30+independent)*air if clip in ('Flight','AirThreat','Takeoff') else (-.36+.12*sin(pi*u))*air if clip=='Land' else (-.30+.38)*hover-.36*(1-hover)
     if clip=='AirThreat':spread-=.08*threat
     if clip=='StaggerFall':spread=-.40+.32*sin(pi*u)

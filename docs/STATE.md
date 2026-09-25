@@ -1,4 +1,8 @@
-# 現在地: HARROWドラゴン胴体v10の単体候補を検証（2026-09-25）
+# 現在地: HARROW v10をゲームへ採用し公開準備中（2026-09-25）
+
+main `78616fc83b345ed0a75ca924050d596f1d018a9c` から branch `codex/harrow-v10-release` を `../share-image-fix` で作成。HARROW実行時GLBをv10へ切替え、Flightを16.8秒へ整合。AirThreatの発射姿勢を補正して10発射先端と権威座標を維持。関連115件・型・Blender原本/GLB全12動作・変更境界検査成功。独立監査/main反映/既存Worker公開は進行中。[詳細](HARROW-V10-RELEASE.md)。元 `game/` の既存差分は保護。
+
+# 履歴: HARROWドラゴン胴体v10の単体候補を検証（2026-09-25）
 
 branch `codex/harrow-dragon-torso`、base `d3c0e431cd4841d010d6099a5d6000ff5496578d`、制作場所 `../harrow-integration`。黄色い胴体を深い胸郭・絞った腹・腰へのつながりへ変更。胴体コアによる安定浮遊と左右別の不規則な翼動作を表現。原本/GLB/再生成器/新旧比較プレビュー/動画を保存。全12動作の原本・GLB再読込、60Hz骨/10Hz全頂点、183非胴体メッシュ一致、10既存動作保持、TS確認成功。[PR85](https://github.com/futsalife24-bot/swarm-front/pull/85)、最終実装 `486697581c354f8b9c1165c1e6522733365d8244`。比較プレビューの非同期読込競合を修正し、両方向の逆順完了テストと実WebGLを確認。[通常Chat独立監査](https://chatgpt.com/c/6ab5bf74-6c1c-83ee-a04d-fcc517f9a5c6) は3D本体を合格、限定再監査で独立テスト24件全通過、P0/P1/P2なし、F1解消、候補ソースとしてmain保存可。以降は記録差分のみ。ゲーム差し替え・公開は今回未実施。元gameの既存差分は保護。[監査記録](../assets/blender/candidates/harrow/v10/AUDIT.md)・[設計](../assets/blender/candidates/harrow/v10/DESIGN.md)・[検証](../assets/blender/candidates/harrow/v10/VALIDATION.md)。
 # 現在地: HARROW地上回転v9をmain反映・公開完了（2026-09-24）
