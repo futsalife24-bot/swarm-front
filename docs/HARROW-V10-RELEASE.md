@@ -15,7 +15,10 @@
 - 型チェック成功。HARROWモデル・攻撃・図鑑・描画状態の関連Vitest 6ファイル115件成功。特に地上/空中それぞれ10基の弾頭先端と権威側発射原点が一致。
 - `verify_change.mjs`: 胴体以外183メッシュと、Flight/AirThreat以外10動作をv9から維持。Flight左右7/5周期・胴体固定を確認。
 - Blender 5.2.1 LTSの別プロセスで保存原本と採用GLBを再読込し、全12動作が成功。
-- 実配布ビルド・実GPU・独立監査・Worker公開の結果は、実施後に追記する。
+- production build・Worker dry-run成功。配布ビルドをローカルiabブラウザで起動し、タイトルと図鑑の表示、console error/warn 0を確認。未遭遇図鑑のためHARROW個体そのものの実GPU再生は未確認。上記のBlender描画8枚は採用GLBのSHAと対応。
+- 既存の `npm run test:offline` はローカルpreview起動後も「ソロ出撃」ボタンを待ってタイムアウト。現UIでは「ソロで出撃準備」まで表示でき、次画面の旧ラベル前提による停止。HARROW描画・オフライン通信の成功と扱わない。
+- [PR86](https://github.com/futsalife24-bot/swarm-front/pull/86) はhead `b715df40dbf151ffeb622170ff9e11b326f75b7e`、baseは上記main、MERGEABLE・checks空。監査資料 `dist-validation/harrow-v10-release/HARROW-v10-release-b715df4-audit.zip` は28,245,718 bytes、SHA256 `0cfdf270dc2d849b2558aff7803f8159ce3203b5ae30bfb3156a2053b8919870`。非公開ソース・v9/v10 GLB・v10原本・画像・差分・検証記録を含む。
+- 通常Chatへの添付は自動承認レビューが「今回の具体的payloadと宛先の明示承認がない」と拒否。添付・監査依頼は未完了。再承認なしに別経路で送らない。独立監査合格・main反映・Worker公開は未完了。
 
 ## 制約
 
