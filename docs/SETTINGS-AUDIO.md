@@ -22,3 +22,5 @@ GitHub https://github.com/futsalife24-bot/swarm-front 、作業場所 `../share-
 branch `codex/settings-audio-layout`、base `97926835baefe1fa8fa41df079360114a3e4061d`。元gameのdirty/未追跡7件は編集せず保護。実モデルID/effort未確認、切替/サブエージェント使用なし。
 
 実スマホ・Safari/iOSの音量制約・長時間多人数・主観的SE音響は未確認。監査・main反映・既存Worker公開はこれから。
+
+実装commit e36c7deb5985bc3a3e82864c67294d9e1019cbad後のproduction build・Worker dry-run成功。PR93: https://github.com/futsalife24-bot/swarm-front/pull/93 。最終の百分率表示画像は settings-latest-667.png。以降は記録のみ。
