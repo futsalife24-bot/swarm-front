@@ -1,3 +1,11 @@
+# 現在地: 出撃マップ6曲をSunoから取得・実装・自己検証（2026-09-26）
+
+限定再監査はHEAD `7a9d31d8aa5d4eb79a5ef5363109e9e03f03194b` でPASS、必須P0/P1/P2各0件。[最終報告](evidence/map-bgm/audit-7a9d31d.txt)。以降は記録文書のみ。main反映・既存Worker公開へ続ける。
+
+[PR89](https://github.com/futsalife24-bot/swarm-front/pull/89)、初回実装 `66fb41d0b7e1bb7805553bcaebe618b210d5b8de`。[通常Chat監査](https://chatgpt.com/c/6ab739e8-5018-83e9-a65f-ca0fff0ed08e) の必須P2/F1（回収中の配置編集復帰で戦闘曲へ切替）を `ddbe6dedf9a36b7a562b659bdf2844dd7cda05d5` で修正。反例は修正前失敗→修正後成功、関連28件・型・build・実Audioと実ソロUIの戦闘/clear/victory往復が成功。初期worldのみ専用fixture。最新main `3d69619` の保存テスト追加は通常mergeで保護。再監査・main・公開は未完了。以降は証拠・検証fixture・記録のみ。
+
+branch `codex/map-bgm-suno`、base `782543709a7479fdeabd9114df48d47bc95a3f1d`、作業場所 `../share-image-fix`。6マップを識別するSunoタイトル/スタイルを記録し、既存3曲+新規3曲を原本MP3で追加。新規生成3回・30クレジット。ソロ/協力は実worldのマップ曲を再生。型・関連26件・6音源全デコード・実ブラウザ6曲/切替・実ソロ出撃・実ローカルWorker協力出撃・production build/dry-run成功。独立Chat監査・main反映・公開は進行中。元gameの別差分は保護。[詳細](MAP-BGM.md)。
+
 # 現在地: 保存・更新・再開の回帰基準をmain反映完了（2026-09-26）
 
 branch `codex/save-regression-baseline`、base `782543709a7479fdeabd9114df48d47bc95a3f1d`、統合検証済み実装 `6c3e859fdb520638758642e87cff80ca2252e4bf`、checkpoint修正 `cc6b45c0b6f2b2155fddc211b1d364da3bd9d8b1`、[PR88](https://github.com/futsalife24-bot/swarm-front/pull/88)。既存保存テストの対応表、旧保存固定fixture3種、専用単体147件、実Chrome21ケース/シナリオの入口を整備。追加互換8件を含む単体155件、cleanな6c3e859で実ブラウザ21ケース（245.18秒）、型・差分/書式が成功。保存処理/ゲーム本体は不変。既存dirty7件は開始/終了SHA256一致で保護。

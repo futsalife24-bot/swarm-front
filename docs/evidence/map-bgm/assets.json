@@ -1,0 +1,71 @@
+{
+  "pass": true,
+  "files": [
+    {
+      "map": 0,
+      "file": "public/assets/audio/bgm-v1/map-0.mp3",
+      "songId": "9802ce4c-67d0-414a-999b-53a09130bacc",
+      "bytes": 4323720,
+      "sha256": "0240d7d06615392aaab02f36fb4b0e60b9b53aaba2848fe4eac0014d92b7e72e",
+      "durationSeconds": 183.98,
+      "meanDb": -16.5,
+      "peakDb": -4.3,
+      "fullDecodePassed": true
+    },
+    {
+      "map": 1,
+      "file": "public/assets/audio/bgm-v1/map-1.mp3",
+      "songId": "e3278dc4-ae32-47e9-966d-27a4e97f6927",
+      "bytes": 2290162,
+      "sha256": "01da3c8c4e38604cd29140ea0225696c632dbab39de9e1d6d8902fc31e072735",
+      "durationSeconds": 93.62,
+      "meanDb": -17.1,
+      "peakDb": -4,
+      "fullDecodePassed": true
+    },
+    {
+      "map": 2,
+      "file": "public/assets/audio/bgm-v1/map-2.mp3",
+      "songId": "a006268e-e89e-4247-af56-aa1f0abd7aaf",
+      "bytes": 4412117,
+      "sha256": "c4dad5e7d3bb71764c5880cb6422de6757000d7cac065d2f79fdd57a87d14565",
+      "durationSeconds": 184.27,
+      "meanDb": -16.7,
+      "peakDb": -3.2,
+      "fullDecodePassed": true
+    },
+    {
+      "map": 3,
+      "file": "public/assets/audio/bgm-v1/map-3.mp3",
+      "songId": "7d8d31ad-b464-4155-9553-48537972d14b",
+      "bytes": 3449488,
+      "sha256": "877a591cdae66f947cecdfe1b884bbeb4424740bf58e70ceb0aecc7672d24584",
+      "durationSeconds": 146.4,
+      "meanDb": -17.9,
+      "peakDb": -3.9,
+      "fullDecodePassed": true
+    },
+    {
+      "map": 4,
+      "file": "public/assets/audio/bgm-v1/map-4.mp3",
+      "songId": "c28e278d-37d6-41b5-8c1d-59c36935cf10",
+      "bytes": 3267529,
+      "sha256": "fc2a107a20f1205e2fb23cb65f3cc09e918e6ef3170ed11e7884ddf60da41ec0",
+      "durationSeconds": 139.63,
+      "meanDb": -17.4,
+      "peakDb": -3.9,
+      "fullDecodePassed": true
+    },
+    {
+      "map": 5,
+      "file": "public/assets/audio/bgm-v1/map-5.mp3",
+      "songId": "534ec56c-6d94-4570-83c8-e362d2f7c44a",
+      "bytes": 3844903,
+      "sha256": "a399dd67078b661535704dc31991659b95c6a65223d3a8bc73bb157f3702bf41",
+      "durationSeconds": 164.82999999999998,
+      "meanDb": -16.6,
+      "peakDb": -4.3,
+      "fullDecodePassed": true
+    }
+  ]
+}

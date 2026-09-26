@@ -18,6 +18,6 @@ try{
  await page.screenshot({path:'dist-validation/bgm/coop-lobby.png'});
  await page.locator('#begin:not(:disabled)').click();
  await page.waitForFunction(()=>window.__swarm?.screen==='battle',null,{timeout:90000});
- assert.equal(await page.locator('audio[data-bgm]').evaluate(a=>a.paused&&!a.getAttribute('src')),true);
- assert.deepEqual(errors,[]);fs.writeFileSync('dist-validation/bgm/coop.json',JSON.stringify({realWorker:true,lobbyPlayed:true,battleStopped:true,errors},null,2));console.log('PASS real Worker: prepare -> lobby -> battle, BGM stopped, no errors');
+ await page.waitForFunction(()=>{const a=document.querySelector('audio[data-bgm]');return a?.dataset.track==='map-0'&&!a.paused&&a.currentTime>0&&a.loop});
+ assert.deepEqual(errors,[]);fs.writeFileSync('dist-validation/bgm/coop.json',JSON.stringify({realWorker:true,lobbyPlayed:true,battleTrack:'map-0',errors},null,2));console.log('PASS real Worker: prepare -> lobby -> battle, map-0 plays, no errors');
 }finally{await browser.close();}

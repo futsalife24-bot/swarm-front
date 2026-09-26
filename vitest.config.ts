@@ -25,6 +25,8 @@ export default defineConfig({
       "tests/developer-auth.test.ts",
       "tests/encounter-camera.test.ts",
       "tests/audio.test.ts",
+      "tests/bgm.test.ts",
+      "tests/bgm-layout-return.test.ts",
       "tests/enemy-size.test.ts",
       "tests/foundry-generation.test.ts",
       "tests/foundry-movement.test.ts",

@@ -1,0 +1,47 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><title>マップBGM検証</title>
+<style>body{font:16px sans-serif;background:#14212b;color:#e7f0f4;margin:24px}button{padding:12px;margin:5px}pre{white-space:pre-wrap}h1{font-size:24px}</style>
+<h1>マップBGM・実音源検証</h1><p>実ゲームの音楽制御とMP3を使用。戦闘worldは検証用です。実通信・実戦画面の検証とは別です。</p>
+<button id="run">全6曲と切替を検証</button><div id="tracks"></div><pre id="status">未実行</pre>
+<script type="module">
+import { backgroundMusic, MAP_MUSIC } from '/src/client/bgm.ts';
+import { MAPS, STAGES } from '/src/shared/stages.ts';
+const bgm = backgroundMusic(), status = document.querySelector('#status');
+const states = () => {
+ const a = document.querySelector('audio[data-bgm]');
+ return {track:a.dataset.track,paused:a.paused,currentTime:a.currentTime,duration:a.duration,loop:a.loop,muted:a.muted,volume:a.volume,error:a.error?.code??null,players:document.querySelectorAll('audio[data-bgm]').length};
+};
+const sleep = ms => new Promise(r=>setTimeout(r,ms));
+async function playing(track) {
+ const until=Date.now()+20000;
+ while(Date.now()<until){ const a=states();if(a.track===track&&!a.paused&&a.currentTime>0&&a.duration>0&&a.error===null)return a;await sleep(100); }
+ throw Error('Playback timeout '+track+' '+JSON.stringify(states()));
+}
+for (let map=0;map<MAPS.length;map++) {
+ const button=document.createElement('button');button.textContent=MAPS[map].name;
+ button.onclick=()=>{bgm.setScreen('battle',false,{campaignPlan:STAGES.find(s=>s.map===map)});status.textContent=JSON.stringify(states(),null,2);};document.querySelector('#tracks').append(button);
+}
+document.querySelector('#run').onclick=async()=>{
+ const result={pass:false,scope:'real Audio + real BGM controller; fixture worlds, no network simulation',tracks:[],checks:[]};
+ try {
+  for(let map=0;map<MAPS.length;map++){
+   status.textContent='確認中: '+MAPS[map].name;
+   const world={campaignPlan:STAGES.find(s=>s.map===map)};
+   bgm.setScreen('battle',false,world);const state=await playing(MAP_MUSIC[map]);
+   if(!state.loop||state.players!==1)throw Error('Loop/player count');
+   bgm.setScreen('battle',false,world);await sleep(150);
+   if(states().currentTime<state.currentTime)throw Error('Unwanted restart');
+   result.tracks.push({map,name:MAPS[map].name,...states()});
+  }
+  bgm.volume=0;if(!states().paused||!states().muted)throw Error('Mute');bgm.volume=.35;await playing('map-5');result.checks.push('mute and resume');
+  bgm.setReport(true);await playing('report');bgm.setReport(false);await playing('map-5');result.checks.push('report returns to map');
+  bgm.setScreen('stage-clear',true);await playing('clear');bgm.setScreen('result',true);if(states().track!=='clear')throw Error('Clear truncated');await playing('victory');result.checks.push('clear then victory');
+  bgm.setScreen('layout');const victoryBefore=states().currentTime;bgm.setScreen('collection',true);await sleep(150);if(states().track!=='victory'||states().currentTime<victoryBefore)throw Error('Victory interrupted by layout return');result.checks.push('collection layout return preserves finished clear/victory');
+  bgm.setScreen('battle',false,{stage:1});await playing('map-0');bgm.setScreen('collection',true);await playing('clear');const clearBefore=states().currentTime;bgm.setScreen('layout');bgm.setScreen('collection',true);await sleep(150);if(states().track!=='clear'||states().currentTime<clearBefore)throw Error('Clear restarted by layout return');result.checks.push('collection layout return preserves in-progress clear');
+  bgm.setScreen('result',false);if(!states().paused||states().track)throw Error('Defeat music');
+  bgm.setScreen('battle',false,{stage:1,training:true});if(states().track)throw Error('Training');result.checks.push('defeat and training silent');
+  bgm.setScreen('lobby');await playing('lobby');bgm.setScreen('battle',false,{stage:13});await playing('map-4');result.checks.push('lobby to map');
+  result.pass=true;
+ } catch(e){result.error=String(e);}
+ status.textContent=JSON.stringify(result,null,2);
+};
+</script></html>

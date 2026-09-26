@@ -1,0 +1,27 @@
+{
+  "origin": "http://127.0.0.1:5376",
+  "endpoint": "http://127.0.0.1:8797",
+  "actualUI": true,
+  "realWorker": true,
+  "clients": 1,
+  "stage": 1,
+  "lobbyPlayed": true,
+  "defeatAudio": [
+    {
+      "paused": true,
+      "src": null,
+      "track": null
+    }
+  ],
+  "audio": [
+    {
+      "currentTime": 0.231829,
+      "duration": 183.96,
+      "error": null,
+      "loop": true,
+      "paused": false,
+      "track": "map-0"
+    }
+  ],
+  "logs": []
+}

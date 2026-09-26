@@ -415,7 +415,7 @@ const weaponName = (w: Weapon) => WEAPONS[w.kind].name;
 const equipped = () =>
   save.equipped.map((id) => save.inventory.find((w) => w.id === id)!);
 function setScreen(name: string) {
-  backgroundMusic().setScreen(name, world?.phase === "victory");
+  backgroundMusic().setScreen(name, world?.phase === "victory", world);
   queueMicrotask(() =>
     enhanceGameSelects(
       ui,
