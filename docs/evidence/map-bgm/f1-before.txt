@@ -1,0 +1,36 @@
+
+ RUN  v5.0.0 C:/Users/futsa/OneDrive/ドキュメント/ChatGPT/スワフロ/share-image-fix
+
+ ❯ tests/bgm-layout-return.test.ts (2 tests | 1 failed) 14ms
+   ❯ solo layout return screen routing (2)
+     × restores collection without briefly routing through a different music screen 10ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/bgm-layout-return.test.ts > solo layout return screen routing > restores collection without briefly routing through a different music screen
+AssertionError: expected [ 'battle' ] to deeply equal [ 'collection' ]
+
+- Expected
++ Received
+
+  [
+-   "collection",
++   "battle",
+  ]
+
+ ❯ tests/bgm-layout-return.test.ts:70:22
+     68|       expect(context.screen).toBe("layout");
+     69|       returnFromLayout!();
+     70|       expect(routed).toEqual([original]);
+       |                      ^
+     71|       expect(context.screen).toBe(original);
+     72|       expect(context.paused).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  12:35:31
+   Duration  300ms (import 53%, transform 30%, tests 12%, worker 4%)
+

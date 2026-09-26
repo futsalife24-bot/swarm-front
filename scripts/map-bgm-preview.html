@@ -35,6 +35,8 @@ document.querySelector('#run').onclick=async()=>{
   bgm.volume=0;if(!states().paused||!states().muted)throw Error('Mute');bgm.volume=.35;await playing('map-5');result.checks.push('mute and resume');
   bgm.setReport(true);await playing('report');bgm.setReport(false);await playing('map-5');result.checks.push('report returns to map');
   bgm.setScreen('stage-clear',true);await playing('clear');bgm.setScreen('result',true);if(states().track!=='clear')throw Error('Clear truncated');await playing('victory');result.checks.push('clear then victory');
+  bgm.setScreen('layout');const victoryBefore=states().currentTime;bgm.setScreen('collection',true);await sleep(150);if(states().track!=='victory'||states().currentTime<victoryBefore)throw Error('Victory interrupted by layout return');result.checks.push('collection layout return preserves finished clear/victory');
+  bgm.setScreen('battle',false,{stage:1});await playing('map-0');bgm.setScreen('collection',true);await playing('clear');const clearBefore=states().currentTime;bgm.setScreen('layout');bgm.setScreen('collection',true);await sleep(150);if(states().track!=='clear'||states().currentTime<clearBefore)throw Error('Clear restarted by layout return');result.checks.push('collection layout return preserves in-progress clear');
   bgm.setScreen('result',false);if(!states().paused||states().track)throw Error('Defeat music');
   bgm.setScreen('battle',false,{stage:1,training:true});if(states().track)throw Error('Training');result.checks.push('defeat and training silent');
   bgm.setScreen('lobby');await playing('lobby');bgm.setScreen('battle',false,{stage:13});await playing('map-4');result.checks.push('lobby to map');

@@ -299,8 +299,8 @@ function tutorial(id: string, title: string, body: string) {
       d.close();
   });
 }
-function battleUI() {
-  setScreen("battle");
+function battleUI(next: "battle" | "collection" = "battle") {
+  setScreen(next);
   ui.hidden = true;
   hud.hidden = false;
   $("controls").hidden = false;
@@ -326,10 +326,8 @@ function pause() {
     const collectionFade = document.querySelector(".pt-fade");
     d.close();
     editControlLayout(() => {
-      battleUI();
+      battleUI(previousScreen === "collection" ? "collection" : "battle");
       if (previousScreen === "collection") {
-        screen = "collection";
-        document.body.dataset.screen = "stage-clear";
         ui.replaceChildren(...collectionNodes);
         ui.classList.add("pt-clear");
         ui.hidden = false;

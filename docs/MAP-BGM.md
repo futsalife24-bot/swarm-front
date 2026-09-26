@@ -23,6 +23,8 @@ base `782543709a7479fdeabd9114df48d47bc95a3f1d`。元 `game/` の別作業差分
 
 ## 実装
 
+コピー用のタイトル・スタイル全文は [MAP-BGM-PROMPTS.md](MAP-BGM-PROMPTS.md)。
+
 `src/client/bgm.ts` の `musicForBattle` が `stageFor(world).map` から曲を選ぶ。ソロ・協力それぞれの画面切替から実際のworldを渡し、保存済みcampaignPlan・高台ルート・日替わり防衛も同じ地図の曲を使う。訓練、world不在、不明なmapは無音。
 既存のAudio要素1個で再生し、同曲の再描画では先頭へ戻さない。音量は既存設定の0.55倍、非表示時停止・操作での再生許可・クリア曲から勝利曲・敗北時停止を維持。全曲全長リピートで、サンプル単位のシームレス編集はしていない。戦闘ルール・通信契約・保存形式・メニュー表示の変更なし。
 
@@ -40,6 +42,16 @@ base `782543709a7479fdeabd9114df48d47bc95a3f1d`。元 `game/` の別作業差分
 主観的な全曲試聴、実スマホの音量挙動、多人数長時間、曲末のつながりの聴感評価は未確認。ファイルを解析していない箇所を試聴済みとは扱わない。
 
 ## 公開状態
+
+監査中にmainが `3d69619270963f25597faa69df20ab95edc0f7e7` へ更新（PR88の保存テスト・文書のみ）。通常merge `3ee55ac3f670944eea7d81456059ac4bfb703f45` で取り込み、STATEの競合は両記録を保持。統合時点のsrc/server/publicのtreeは初回監査対象と完全一致、型/関連26件を再確認。
+
+### 初回監査F1の修正
+
+回収中の一時停止→操作ボタン配置→復帰で `battleUI()` が戦闘BGMを選び、その後screen/DOMだけ回収へ戻す経路を修正。`battleUI(next)` に復帰先を渡し、回収曲→勝利曲の既存ガードを通したまま回収画面へ直接復帰する。画面・保存・戦闘ルールの仕様変更なし。
+
+`tests/bgm-layout-return.test.ts` は実ソースのbattleUI/pause関数と配置復帰callbackを抽出して隔離Node VMで実行（DOM等はスタブ）。BGMクラスを代用しての実音声試験ではなく、誤った中間画面を選ばない境界テスト。初回ソース66fb41dでは回収ケースが失敗、修正版では2件とも成功。関連合計28件、型/対象TS書式も成功。ブラウザfixtureにもclear再生中と勝利曲移行後のlayout→collection継続確認を追加。
+
+実iabの新しいローカルorigin `127.0.0.1:5378` で6曲と全切替が成功し、追加2条件の曲・時間継続を確認。[修正後結果](evidence/map-bgm/browser-controls-f1.json)。旧origin5376では追加項目のない旧モジュールが読み込まれたため、その結果を修正版の証拠には採用しない。実ゲームで勝利までプレイして配置画面へ往復する全行程は未再実行。
 
 実装 `66fb41d0b7e1bb7805553bcaebe618b210d5b8de` を [PR89](https://github.com/futsalife24-bot/swarm-front/pull/89) へpush。
 [通常Chat独立監査](https://chatgpt.com/c/6ab739e8-5018-83e9-a65f-ca0fff0ed08e) に、39,468,215 bytesの `dist-validation/map-bgm/map-bgm-audit-66fb41d.zip` を添付・送信して監査開始を確認。ZIP SHA256 `a7b17f719bfe225f7915cbf0ee2cc72aa8281d3ed77f990c6ebd8e7231b08a45`。画面のモデル表示はPro（詳細IDは未確認）。独立結果→必要修正→main反映→既存Worker公開へ続ける。
