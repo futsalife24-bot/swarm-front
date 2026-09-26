@@ -1,8 +1,6 @@
 .settings-media {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 8px;
+  flex-direction: column;
 }
 .settings-media button {
   flex: 1;

@@ -6,6 +6,10 @@
 
 [PR92](https://github.com/futsalife24-bot/swarm-front/pull/92)、監査資料対象 `f470d3da0555ad0c0fd84e6669e56cae54e28dc6`。通常Chatへの監査ZIP添付が自動承認レビューに2回拒否された。公開repoであることと継続承認を確認したが、レビューは今回の資料/送信先の明示承認を要求。送信確認を経て監査依頼へ進めた。merge/公開は未実施。ZIPは `dist-validation/first-ten-minutes/audit-f470d3d.zip`、SHA256 `1360b961eeff4a3a73c927a39d8a1c9623e6fdffe508ab744304c85493d10a8d`。ユーザーの今回の送信許可を受領し、同ZIPを通常Chatへ添付・監査依頼済み。[監査Chat](https://chatgpt.com/c/6ab765f3-df10-83e8-8d19-cdda8008ecef)で判定待ち。必要修正・通常merge・既存Worker公開/確認へ続く。以降の文書記録は実装を変更しない。
 
+# 現在地: 設定の右メニュー集約とBGM/SE調整、監査PASS・公開準備（2026-09-26）
+
+branch `codex/settings-audio-layout`、base `97926835baefe1fa8fa41df079360114a3e4061d`、作業場所 `../share-image-fix`。サウンドテスト/PVを右側へ移動、プレイヤー名を文字＋小さい変更ボタンへ分離、左に全体/BGM/SE音量。旧保存の音量を維持しソロ/協力/練習へ適用。型・関連66件、実ソロ/ローカルWorker協力で独立ミュート・reload保存・名前変更・844×390/667×375・右PV入口が成功。確定実装e36c7de後のproduction build/dry-run成功。[PR93](https://github.com/futsalife24-bot/swarm-front/pull/93)、対象 `e8766b0ccd21a532f5247529c9f156f09982180f` の[通常Chat監査](https://chatgpt.com/c/6ab7618b-641c-83e8-8a2e-a9e581356613)はPASS、必須P0/P1/P2各0件。独立45ケース群と提出66件は区別。main反映/公開はこれから。元gameの別差分を保護。[詳細・証拠](SETTINGS-AUDIO.md)。
+
 # 現在地: 設定のサウンドテスト・PVをmain反映・公開完了（2026-09-26）
 
 [PR90](https://github.com/futsalife24-bot/swarm-front/pull/90)を通常merge。公開ソースmain `23856512fc80e9e4a13e16f31495c47ab24729a4`、既存Worker Version `2e3f6c96-e872-4586-84ac-c2130e86fadb`。ソロ/協力の設定先頭に全13曲のサウンドテストと最新30秒PV再生を追加。BGM停止/同位置復帰、試聴専用音量、読込中終了、非表示停止に対応。

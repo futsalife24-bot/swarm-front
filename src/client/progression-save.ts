@@ -87,6 +87,8 @@ export interface ProgressSave {
   coopPreferences?: Pick<
     Save,
     | "volume"
+    | "bgmVolume"
+    | "seVolume"
     | "sensitivity"
     | "fireSensitivity"
     | "gyroEnabled"
@@ -364,6 +366,8 @@ export function coopPreferences(
 ): NonNullable<ProgressSave["coopPreferences"]> {
   return {
     volume: save.volume,
+    bgmVolume: save.bgmVolume,
+    seVolume: save.seVolume,
     sensitivity: save.sensitivity,
     quality: save.quality,
     frameRate: save.frameRate ?? 60,

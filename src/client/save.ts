@@ -15,6 +15,8 @@ export interface Save {
   inventory: Weapon[];
   equipped: string[];
   volume: number;
+  bgmVolume?: number;
+  seVolume?: number;
   sensitivity: number;
   fireSensitivity?: number;
   gyroEnabled?: boolean;
@@ -73,6 +75,11 @@ export function parseSave(raw: string | null): Save {
     !Number.isFinite(v.volume) ||
     v.volume < 0 ||
     v.volume > 1 ||
+    [v.bgmVolume, v.seVolume].some(
+      (level) =>
+        level !== undefined &&
+        (!Number.isFinite(level) || level < 0 || level > 1),
+    ) ||
     !Number.isFinite(v.sensitivity) ||
     v.sensitivity < 0.1 ||
     v.sensitivity > 6 ||

@@ -1,0 +1,61 @@
+[
+  {
+    "bgm": "0",
+    "case": "bgm-zero",
+    "muted": true,
+    "paused": true,
+    "se": "1"
+  },
+  {
+    "bgm": "0",
+    "case": "bgm-zero-reloaded",
+    "muted": true,
+    "paused": true,
+    "se": "1"
+  },
+  {
+    "bgm": "1",
+    "case": "se-zero",
+    "muted": false,
+    "paused": false,
+    "se": "0"
+  },
+  {
+    "bgm": "1",
+    "case": "se-zero-reloaded",
+    "paused": false,
+    "se": "0"
+  },
+  {
+    "bgm": "0.5",
+    "button": "変更",
+    "case": "layout-844",
+    "leftHeight": 201,
+    "name": "プレイヤー名：設定確認設定確認設定確認設定確認設定確認",
+    "rightMedia": true,
+    "se": "1",
+    "size": [
+      844,
+      390
+    ],
+    "topMedia": false
+  },
+  {
+    "bgmPaused": true,
+    "case": "preview-half-bgm",
+    "level": "0.175",
+    "step": "any"
+  },
+  {
+    "bodyOverflow": 0,
+    "buttonWidth": 52,
+    "case": "layout-667",
+    "leftHeight": 186,
+    "name": "プレイヤー名：設定確認設定確認設定確認設定確認設定確認",
+    "overflow": 0,
+    "size": [
+      667,
+      375
+    ]
+  }
+]
