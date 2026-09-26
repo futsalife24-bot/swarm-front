@@ -48,3 +48,15 @@ AAC圧縮パケットSHA256（元/配信用とも同一）: 9eac2653b49dbb8dccd3
 追加の実ブラウザ再現: サウンド/PV×全画面fulfilled/rejectedの4条件で、ロード開始直後の親closeはrequest1/abort1・子0・BGM再開。[計測](evidence/media-menu/fullscreen-final.json)。素材ロード完了後の親closeも4条件で、Blob作成1/解放1、dialogに付いたobserver4/切断4、子0・BGM再開。[計測](evidence/media-menu/fullscreen-loaded.json)。全observer集計の追加1個はdialog外なので、dialog対象の4個を別集計した。127.0.0.1側の検証ページの古いモジュールキャッシュを検出し、最新計測フィールドを確認できたlocalhostの新規オリジンで成功/失敗の決着状態まで測定し直した。
 
 任意指摘O1（親子一括close後のfocusがbody）は保留。O2の初期画像は、settings-844.pngがホーム、settings-667.pngがPV終端、coop-settings-667.pngが装備という遷移直前のフレームだった。これらを設定ダイアログ表示の証拠と扱わず、DOM観測・最終試聴/PV画像と区別する。
+
+設定画面の最終画像は [settings-final-667.png](evidence/media-menu/settings-final-667.png)。production previewの667×375で設定の2項目が表示されたフレームを目視照合した。
+
+f38fad494af38b18b9f7e2975a3586edd3137a0fの再監査資料reaudit.zip（429,182 bytes）を同じ通常Chatへ送信済み。送信は最初に自動承認レビューで承認根拠不足として拒否されたが、正規game/AGENTS.mdの明示的な通常Chatへの初回・修正版ZIP送信継続承認と資料範囲を確認し、同じ経路の再試行が許可された。
+
+## 最終独立監査
+
+同じ[通常Chat](https://chatgpt.com/c/6ab74d13-d1cc-83ee-8e40-ee02bdcdc5dc)の限定再監査は `f38fad494af38b18b9f7e2975a3586edd3137a0f` でPASS。必須P0/P1/P2各0件、F1解消。[報告](evidence/media-menu/audit-f38fad4.txt)。以降の監査記録・画像追加は製品コード不変。
+
+監査側は独自20ロジックテスト、限定TS5.8.3型、実Chromiumネイティブdialogで旧4条件の再現、修正後12条件（fetch待ち/データ待ち/ロード完了）、通常終了6条件、BGM状態4条件を検証。素材と全画面Promiseの一部制御を含む共通コンポーネントfixtureであり、実スマホ/本番HTTP/全体40テスト・指定版型/buildの独立再実行ではない。
+
+O1は任意で保留、O2は文書訂正を監査側確認。追加O3/P3は親子のnative closeを同一処理内で呼ぶとclose通知/共通observer切断が重複しうる保守上の注意。media dispose/BGM release/Blob解放は一回で、残存や再オープン不能はないため必須外。現行の冪等cleanupを維持する。
