@@ -190,6 +190,45 @@ it("LEAPER has its own model while VOLLEY and both attack timings are preserved"
     expect(c.states.get(7)?.time).toBe(0.45);
   }
 });
+it("LEAPER plays Leap from authoritative jump progress, then resumes ground clips; VOLLEY ignores it", () => {
+  const poses: unknown[][] = [];
+  const b = {
+    setPose(...args: unknown[]) {
+      poses.push(args);
+    },
+  };
+  const c = new StructureMotionController("spider");
+  c.update(b, [sample()], 0.016);
+  expect(c.states.get(7)?.clip).toBe("Idle");
+  for (const leap of [0, 0.25, 0.5, 1]) {
+    const input = sample({ leap, moving: true, distance: 0.3 });
+    const before = JSON.stringify(input);
+    c.update(b, [input], 0.016);
+    expect(c.states.get(7)).toMatchObject({ clip: "Leap", time: leap * 0.9 });
+    expect(JSON.stringify(input)).toBe(before);
+  }
+  // Snapshot pause keeps the pose; landing hands back to the ground clips.
+  const paused = { ...c.states.get(7)! };
+  c.update(b, [sample({ leap: 1 })], 0);
+  expect(c.states.get(7)).toMatchObject({ clip: "Leap", time: paused.time });
+  c.update(b, [sample({ moving: true, distance: 0.36 })], 0.016);
+  expect(c.states.get(7)).toMatchObject({ clip: "Locomotion", from: "Leap" });
+  expect(c.states.get(7)?.time).toBeCloseTo(0.4);
+  c.update(b, [sample({ wind: 0.45 })], 0.016);
+  expect(c.states.get(7)).toMatchObject({ clip: "Lunge", time: 0 });
+  c.update(b, [sample()], 0.016);
+  c.update(b, [sample({ leap: 0.5 }), sample({ id: 8, slot: 1 })], 0.016);
+  expect(c.states.get(7)?.clip).toBe("Leap");
+  expect(c.states.get(8)?.clip).toBe("Idle");
+  c.update(b, [sample({ id: 8, slot: 1 })], 0.016);
+  expect(c.states.has(7)).toBe(false);
+
+  const volley = new StructureMotionController("ant");
+  volley.update(b, [sample({ leap: 0.5 })], 0.016);
+  expect(volley.states.get(7)?.clip).toBe("Idle");
+  volley.update(b, [sample({ leap: 0.5, wind: 0.4 })], 0.016);
+  expect(volley.states.get(7)).toMatchObject({ clip: "Lunge", time: 0.225 });
+});
 it("PLEAT keeps distance-driven gait independently of its asset name", () => {
   const c = new StructureMotionController("crawler"),
     poses: unknown[][] = [];

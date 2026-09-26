@@ -331,6 +331,11 @@ def build_leaper_motion():
                 else:
                     local += V((0, -0.3, -0.05)) * push * (1 - tuck)
                 target = Bm @ local
+                # Take-off and touch-down happen on the ground (the game lifts the body only
+                # in between): keep the toe contacts at or above the ground plane there.
+                ground_weight = max(push, reach)
+                if ground_weight > 0:
+                    target.z = max(target.z, toe0.z * ground_weight + target.z * (1 - ground_weight))
             l1, l2 = (knee0 - hip0).length, (toe0 - knee0).length
             plane = (toe0 - hip0).cross(knee0 - hip0).normalized()
             knee, actual = ik(hip, target, Bm.to_3x3() @ plane, l1, l2)
