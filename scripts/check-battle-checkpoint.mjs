@@ -73,8 +73,27 @@ try {
     const prepared = await p.evaluate(() => window.__playtest.world);
     assert.deepEqual(prepared, before.world);
     await p.locator("#pt-enter").click();
+    await p.waitForFunction(
+      (previousTime) => window.__playtest.world.time > previousTime + 0.1,
+      before.world.time,
+    );
     await p.locator("#pause").click();
     const resumed = await p.evaluate(() => window.__playtest);
+    const persisted = await p.evaluate(
+      (k) => JSON.parse(JSON.parse(localStorage.getItem(k)).body),
+      key,
+    );
+    assert.equal(resumed.paused, true);
+    assert.deepEqual(persisted.world, resumed.world);
+    assert.equal(persisted.progress, JSON.stringify(resumed.save));
+    assert(
+      persisted.savedAt > before.savedAt,
+      "Each pause must refresh the checkpoint",
+    );
+    assert(
+      persisted.world.time > before.world.time,
+      "Each resume must persist new combat progress",
+    );
     assert.equal(resumed.world.run, before.world.run);
     assert(
       resumed.world.time >= before.world.time &&
@@ -86,6 +105,7 @@ try {
       run: before.world.run,
       savedTime: before.world.time,
       resumedTime: resumed.world.time,
+      persistedTime: persisted.world.time,
       wave: before.world.wave,
       enemies: before.world.enemies.length,
     });
