@@ -73,10 +73,20 @@ npm run test:save:browser
 
 最終の統合実行は `2026-09-26T02-28-30-039Z`、対象commit `6c3e859fdb520638758642e87cff80ca2252e4bf` のclean状態で全21ケース/シナリオ成功。実測245.18秒、内訳は競合91.39秒、固定fixture71.67秒、分解済み報酬21.21秒、途中再開44.36秒（合計との差はVite起動等）。実行中の159ファイルのSHA不変を照合した。先行した単体147件のテスト/fixture/config内容はこのcommitでも同一。追加互換8件と合わせて関連単体155件が成功した。[機械可読記録](evidence/save-regression/20260926.json)。
 
-独立監査は [通常Chat](https://chatgpt.com/c/6ab72f35-0dc8-83ee-ab05-ece436487714) に上記SHAを送信済み。ZIPは `save-regression-audit-6c3e859.zip`、957,341 bytes、SHA256 `16164965650c7a0588457d02700dcb6b290ea60026a0bcda130ca2bea17dc5bb`。提出時点では回答待ち、未merge。以降の記録更新をテスト実装の追加変更と混同しない。
+初回独立監査は [通常Chat](https://chatgpt.com/c/6ab72f35-0dc8-83ee-ab05-ece436487714) に上記SHAを送信。ZIPは `save-regression-audit-6c3e859.zip`、957,341 bytes、SHA256 `16164965650c7a0588457d02700dcb6b290ea60026a0bcda130ca2bea17dc5bb`。判定は必須P2が1件（下記checkpoint更新停止の見逃し）、P0/P1なし。固定fixture・実行入口の作り直しやruntime変更は要求されていない。
+
+監査側は添付203ファイル・実行時159ファイルのハッシュを照合し、隔離Node/Mapで保存境界・故障条件と実行入口の失敗判定を独立確認した。固定依存を取得できない環境のため、標準Vitest155件・型・実Chrome21ケースを独立再実行した判定ではない。GitHub上のGitオブジェクトとの独立照合も未実施。任意指摘はfixture来歴ログ/書出し原本の同梱補強と証拠索引の明確化。`checkpoint-final.log` は修正前timeoutの記録で、最終成功はUTC時刻別出力と機械可読記録を参照する。
+
+### checkpoint更新停止の検出を追加
+
+監査中の反証確認で、最初のcheckpoint保存後に更新が止まっても、毎回その古いWorldへ戻るだけで再開検査が通る余地を確認した。`cc6b45c0b6f2b2155fddc211b1d364da3bd9d8b1` はテストだけの20行追加。各再開後に実時間を進め、pause後の実localStorageのWorld/進行が実行中状態と一致し、保存時刻・戦闘時刻が前回より進むことを検査する。
+
+隔離ブラウザで初回保存後のcheckpoint `setItem` だけを落とす反例を使用し、修正前は誤って成功（exit0、49.26秒）、修正後は状態不一致のassertionで失敗（期待exit1、53.34秒）、改変なしの実保存では成功（exit0、101.28秒）。失敗を成功扱いするテストではなく、検査が回帰を検出できることの証拠。3回の保存時刻は戦闘時刻0.90→1.25→1.60秒に対応し、各実状態と一致した。[反例と差分再検証](evidence/save-regression/checkpoint-refresh-20260926.json)。変更のない他のテスト/ゲームソースは再実行していない。
+
+監査依頼文の「敵3体」は先行18ケース実行の値を取り違えた説明で、機械証拠を訂正していない。cleanな21ケース実行では1/1/1体、上記修正版の再開直前は1/1/2体。保証は非空の敵状態の保存一致であり、3体固定の検証ではない。
 
 未対象/未確認: Service Workerキャッシュを伴う実配信更新、Android/iOS実機、別端末/クラウド復元、ブラウザやOSの強制終了、OSレベルの容量不足、全過去版×全フィールドの組合せ、悪意ある再checksum済み任意データ、全ステージの実ブラウザ通し勝利。協力戦闘・防衛/訓練の途中checkpointは通常ソロと同じ対応を約束しない。報酬までのブラウザ試験では残敵/編成完了と報酬入力を合成しており、実戦難易度の証明ではない。
 
-Service WorkerはPlaywrightで明示的にblock。今回のconsoleにはその警告とWebGL/テクスチャ関連の出力があり、console errorゼロとは報告しない。保存アサーションと未捕捉pageerrorを判定する。映像品質や端末性能の合格を意味しない。
+Service WorkerはPlaywrightで明示的にblock。今回のconsoleにはその警告とWebGL/テクスチャ関連の出力があり、console errorゼロとは報告しない。保存アサーションと未捕捉pageerrorを判定する。映像品質や端末性能の合格を意味しない。pauseを含む経路の成功だけで、約5秒間隔の定期保存とpagehide単独のトリガーそれぞれの成功までは断定しない。
 
 実行担当モデルID・reasoning effortは取得できず未確認。モデル切替・利用料金の測定は行っていない。
