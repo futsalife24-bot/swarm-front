@@ -21,6 +21,12 @@
 GitHub https://github.com/futsalife24-bot/swarm-front 、作業場所 `../share-image-fix`。
 branch `codex/settings-audio-layout`、base `97926835baefe1fa8fa41df079360114a3e4061d`。元gameのdirty/未追跡7件は編集せず保護。実モデルID/effort未確認、切替/サブエージェント使用なし。
 
-実スマホ・Safari/iOSの音量制約・長時間多人数・主観的SE音響は未確認。監査・main反映・既存Worker公開はこれから。
+実スマホ・Safari/iOSの音量制約・長時間多人数・主観的SE音響は未確認。通常Chat監査はPASS、main反映・既存Worker公開を進める。
 
 実装commit e36c7deb5985bc3a3e82864c67294d9e1019cbad後のproduction build・Worker dry-run成功。PR93: https://github.com/futsalife24-bot/swarm-front/pull/93 。最終の百分率表示画像は settings-latest-667.png。以降は記録のみ。
+
+## 独立監査
+
+対象 e8766b0ccd21a532f5247529c9f156f09982180f は [通常Chat](https://chatgpt.com/c/6ab7618b-641c-83e8-8a2e-a9e581356613) でPASS、必須P0/P1/P2各0件。報告は `evidence/settings-audio/audit-e8766b0.txt`。独立検査45ケース群はコンポーネント/代替Storage等による検証で、提出66件・実Worker・型/buildの独立再実行ではない。任意O1（協力pauseで保存失敗文が出ない既存挙動）は保留。
+
+O2の証拠対応: `coop.json` はBGM0/SE0.65の保存・再読込ケース。`coop-667.png` はその後SEを0.60に動かしたレイアウト撮影で、0.65の再読込証拠には使わない。撮影後はBGM/SEとも1へ復元して退出。確定build実画面の確認は `built-ui.json`。
