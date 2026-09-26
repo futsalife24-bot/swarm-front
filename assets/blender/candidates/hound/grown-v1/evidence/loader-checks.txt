@@ -1,3 +1,5 @@
+# 履歴: Leap追加前・3クリップ時点の初期候補の記録（2026-09-26午前）。最終LEAPER v3の検証ではない。
+# 現行の検証: docs/evidence/leaper-grown-v1/checks.json（node scripts/check-leaper-grown.mjs）
 hound_motion_v1.glb {"meshes":4,"bones":20,"clips":["Idle","Locomotion","Lunge"],"sameBinding":true,"boneNames":"same as current","ground":{"Idle":{"lowestVertex":0,"highestFrameMin":0,"nonFinite":0},"Locomotion":{"lowestVertex":0,"highestFrameMin":0,"nonFinite":0},"Lunge":{"lowestVertex":0,"highestFrameMin":0,"nonFinite":0}}}
 leaper_motion_v2.glb {"meshes":4,"bones":20,"clips":["Idle","Locomotion","Lunge"],"sameBinding":true,"boneNames":"same as current","ground":{"Idle":{"lowestVertex":0,"highestFrameMin":0,"nonFinite":0},"Locomotion":{"lowestVertex":0,"highestFrameMin":0,"nonFinite":0},"Lunge":{"lowestVertex":0,"highestFrameMin":0,"nonFinite":0}}}
 volley_grown_v1.glb {"meshes":4,"bones":20,"clips":["Idle","Locomotion","Lunge"],"sameBinding":true,"boneNames":"same as current","ground":{"Idle":{"lowestVertex":0,"highestFrameMin":0,"nonFinite":0},"Locomotion":{"lowestVertex":0,"highestFrameMin":0.001,"nonFinite":0},"Lunge":{"lowestVertex":0,"highestFrameMin":0,"nonFinite":0}}}
