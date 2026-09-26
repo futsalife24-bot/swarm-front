@@ -52,4 +52,17 @@ npm run test:save:browser
 
 ## 検証・反映状況
 
-作業中。最終の実行結果、対象SHA、独立監査、merge、公開をここへ追記する。実行担当の正確なモデルID・reasoning effortは未確認であり、切替は報告しない。隔離worktreeに `.meloso-judge/run.cjs` はなく、Judgeは未導入・未判定。
+開始後に既存PR90がmainへ反映されたため、最新main `97926835baefe1fa8fa41df079360114a3e4061d` を競合なしで取り込んだ。実装commit `6e20fd8`、統合後の検証対象はcleanな `803858ef155c5da2f2864317f243b7ee9e495777`。以下はこの統合版で実行した結果であり、以前の成功記録の転用ではない。後続は証拠・文書のみ。
+
+- 型チェック（client/Worker）、保存単体10ファイル147件、変更ファイルの書式・diff check成功。
+- 実マウスで修正前のlock残留/クリック不能を再現。修正後は初遭遇とpauseのlock解除・通常クリックでの再開が成功。pauseボタンはフォーカス後Enterで起動。初回検証のEscape1回はブラウザ側に消費されpauseへ届かなかったため、検証手順を修正した。
+- 844×390・640×360の新規導線、同時タッチ/cancel、戻る、合成勝利後の報酬装備、reload/再出撃、CSS安全領域エミュレーションが成功。全体は2026-09-26T05:46台〜05:48台UTCの記録。
+- 初期装備のST1通常入力による自動攻略は53.7秒（ゲーム内時間）・32撃破。初勝利→報酬装備→reload→再出撃が成功。HP・敵・時間・報酬の書換えなし。自動操縦の速さを初見プレイヤーの所要時間へ一般化しない。
+- `npm run test:save:browser`: cleanな803858eで21ケース/シナリオ成功、202.15秒。競合7、固定fixture等10、分解済み報酬3、途中再開1（3回更新・再開）。実行中のソースhash/HEAD不変。
+- `scripts/check-gear-ui-baseline.mjs`: 1280×582、915×412、844×390、640×360の通常/整理8組成功。30px行・20px見出し維持。844以上は横スクロール0、狭幅は名前/ロック固定・見出し同期。完全表示行数11/6/6/5。
+- production/Pagesビルドとproduction Worker dry-run成功。dry-run初回はサンドボックスの親ディレクトリ読取制限で失敗し、同コマンドを通常権限で再実行して成功。500kB超チャンクの既存警告は残る。
+- 新規導線の未捕捉pageerrorは0。保存ブラウザ群にはService Worker遮断、WebGL、texture読込のconsole出力があり、全console errorゼロとは扱わない。
+
+[機械可読検証](evidence/first-ten-minutes/validation.json)。比較画像: [戦闘説明・前](evidence/first-ten-minutes/before-guide-640.png) / [後](evidence/first-ten-minutes/after-guide-640.png)、[装備・前](evidence/first-ten-minutes/before-gear-844.png) / [後](evidence/first-ten-minutes/after-gear-844.png)、[戦果・前](evidence/first-ten-minutes/before-result-640.png) / [後](evidence/first-ten-minutes/after-result-640.png)。
+
+独立監査・merge・公開はこの時点で未完了。人間の初見確認0人、Android/iOS実機・物理safe area・Service Workerを伴う配信更新・初心者の難易度/理解度は未確認。実行担当の正確なモデルID・reasoning effortは未確認であり、切替は報告しない。隔離worktreeに `.meloso-judge/run.cjs` はなく、Judgeは未導入・未判定。元gameの別作業7ファイルは確認時からのSHA256一致で保護。

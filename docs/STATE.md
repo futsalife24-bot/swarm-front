@@ -1,3 +1,9 @@
+# 現在地: 初出撃〜再出撃の3つの詰まりを修正・自己検証完了（2026-09-26）
+
+`codex/first-ten-minutes`、開始base `c46f2484d39c7e9a2308c505ab4356ccd9be211b`。既存PR90反映後のmain `97926835baefe1fa8fa41df079360114a3e4061d` を取り込み、cleanな `803858ef155c5da2f2864317f243b7ee9e495777` で再検証。PC初遭遇dialogのPointer Lock残留、初回の操作/勝利条件の説明、戦果→装備変更→再出撃の案内を修正。runtimeはplaytest-app.tsの10行差分のみ。
+
+型・保存147件・実Chrome保存21シナリオ・844/640初回導線・実マウス反例/修正確認・通常入力の初勝利/報酬装備/再出撃・装備4幅×2状態・production/Pages/Worker dry-run成功。独立監査・main反映・公開は後続。人間の初見確認0人、実機とSW更新は未確認。作業場所 `../first-ten-minutes/`。元gameのdirty7件を保護。[再現・証拠・未確認](FIRST-TEN-MINUTES.md)。
+
 # 現在地: 設定のサウンドテスト・PVをmain反映・公開完了（2026-09-26）
 
 [PR90](https://github.com/futsalife24-bot/swarm-front/pull/90)を通常merge。公開ソースmain `23856512fc80e9e4a13e16f31495c47ab24729a4`、既存Worker Version `2e3f6c96-e872-4586-84ac-c2130e86fadb`。ソロ/協力の設定先頭に全13曲のサウンドテストと最新30秒PV再生を追加。BGM停止/同位置復帰、試聴専用音量、読込中終了、非表示停止に対応。
