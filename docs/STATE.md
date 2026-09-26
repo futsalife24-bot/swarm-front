@@ -1,3 +1,9 @@
+# 現在地: 保存・更新・再開の回帰基準を検証（2026-09-26）
+
+branch `codex/save-regression-baseline`、base `782543709a7479fdeabd9114df48d47bc95a3f1d`、統合検証済み実装 `6c3e859fdb520638758642e87cff80ca2252e4bf`、checkpoint修正 `cc6b45c0b6f2b2155fddc211b1d364da3bd9d8b1`、[PR88](https://github.com/futsalife24-bot/swarm-front/pull/88)。既存保存テストの対応表、旧保存固定fixture3種、専用単体147件、実Chrome21ケース/シナリオの入口を整備。追加互換8件を含む単体155件、cleanな6c3e859で実ブラウザ21ケース（245.18秒）、型・差分/書式が成功。保存処理/ゲーム本体は不変。既存dirty7件は開始/終了SHA256一致で保護。
+
+[通常Chat監査](https://chatgpt.com/c/6ab72f35-0dc8-83ee-ab05-ece436487714)の必須P2/F1はcheckpoint更新停止をテストが見逃す点。cc6b45cで20行のassertionを追加し、実Chrome反例で修正前exit0→修正後exit1、正常保存ではexit0（3回更新・再開・報酬）を確認。再監査ZIP `dist-validation/save-regression/save-regression-reaudit-cc6b45c.zip`、18,231 bytes、SHA256 `7effc7c30a96905f7a2318e76d1f070c82af1d04f0e6bdc928646e51b2f7066e`。ユーザー承認後の限定再監査はcc6b45cでPASS、必須P0/P1/P2各0件。監査側は隔離Map/合成pageで比較12条件を確認し、実Chrome/正規テストの再実行ではない。任意P3の2回取得に関する説明は訂正済み。以降は証拠・記録文書のみで、通常merge準備済み。配信runtime不変で再デプロイ対象なし。[対応表・証拠・限界](SAVE-REGRESSION.md)。
+
 # 現在地: CALYXエネミーレポート攻撃文をmain反映・既存Workerへ公開（2026-09-25）
 
 `codex/calyx-report-copy`、base `144372b8fdd8463d1bea2181bff09ce219b910f7`、実装修正 `a1d95cdd088c051fbbaa36f0734e871b6ec14c08`。[PR87](https://github.com/futsalife24-bot/swarm-front/pull/87) 通常merge、公開ソースmain `01482e141d6aec0398740e37d3ba42b44170c74e`、既存Worker Version `4b722def-e81c-45bb-8d4b-240a6acc6e38`。`src/client/bestiary.ts` のCALYX攻撃説明1件を、数値・攻略手順のない前花弁と花粉弾の観察文へ修正。初回[通常Chat独立監査](https://chatgpt.com/c/6ab632eb-25b4-83e8-a4af-826b03808b9f) はF1/P2（花粉嚢と花粉弾の混同）1件、任意P3（両攻撃の文分け）1件。修正版の限定再監査はPASS・必須0。型チェック・main本番build・production dry-run、844×390実ブラウザで最終文言と解説/一覧スクロール成功。配信更新8ファイルはmain buildとSHA一致、`/api/health`はok。公開iabは別タブ保存保護を表示したため、既存プレイを保護して再開せず、公開レポート本文の画面操作は未確認。Judge入口は作業worktreeになく未判定。別作業中の正規 `game/` は編集せず保護。

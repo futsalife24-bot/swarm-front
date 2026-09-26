@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "inventory": [
+    {
+      "id": "starter-rifle",
+      "kind": "rifle",
+      "rarity": 1,
+      "power": 1.123,
+      "effect": "quick",
+      "rolls": {
+        "mag": 1.125,
+        "reload": 0.85,
+        "range": 1.25,
+        "rate": 0.8
+      }
+    },
+    {
+      "id": "starter-shotgun",
+      "kind": "shotgun",
+      "rarity": 0,
+      "power": 1,
+      "effect": "none"
+    },
+    {
+      "id": "starter-rocket",
+      "kind": "rocket",
+      "rarity": 0,
+      "power": 1,
+      "effect": "none"
+    }
+  ],
+  "equipped": [
+    "starter-rifle",
+    "starter-shotgun"
+  ],
+  "volume": 0.72,
+  "sensitivity": 1,
+  "quality": 1,
+  "receipts": [
+    "fixture-old-win"
+  ],
+  "mapRotates": false,
+  "damageNumbers": "self",
+  "favorites": [
+    "starter-rifle"
+  ],
+  "powder": 40
+}

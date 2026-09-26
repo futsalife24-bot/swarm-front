@@ -5,7 +5,7 @@ import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
 
 const origin = process.argv[2] || "http://127.0.0.1:5186";
-const out = "dist-validation/audit-round3/recovery-receipts";
+const out = process.argv[3] ?? "dist-validation/audit-round3/recovery-receipts";
 const key = "swarm-front-shared-progress-v3";
 const journalKey = "swarm-front-pending-result-v3";
 const sha = (value) => createHash("sha256").update(value).digest("hex");

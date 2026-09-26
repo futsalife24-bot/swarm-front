@@ -14,6 +14,8 @@
     "server:build": "wrangler deploy --dry-run --outdir dist-worker",
     "server:build:production": "wrangler deploy --dry-run --config wrangler.production.jsonc --outdir dist-worker-production",
     "test": "vitest run",
+    "test:save": "vitest run --config=vitest.save.config.ts",
+    "test:save:browser": "node scripts/run-save-regression.mjs",
     "test:integration": "vitest run --config=vitest.integration.config.ts",
     "test:offline": "node scripts/check-offline.mjs",
     "format:check": "prettier --check src server tests e2e *.ts *.json *.jsonc",

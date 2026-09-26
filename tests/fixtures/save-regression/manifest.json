@@ -1,0 +1,26 @@
+[
+  {
+    "name": "inventory-v1",
+    "sourceCommit": "157df9549cbce64f936a120034f9ca4a6b985b59",
+    "sourceModule": "src/client/save.ts",
+    "sha256": "cd810e105908f2f768bacee7ee326705a473e7cfcc66fa21fb1f58eb60471b54",
+    "sourceKey": "swarm-front-save-v1",
+    "backupSuffix": "-before-shared-armory"
+  },
+  {
+    "name": "progress-v2",
+    "sourceCommit": "157df9549cbce64f936a120034f9ca4a6b985b59",
+    "sourceModule": "src/client/progression-save.ts",
+    "sha256": "79ef074b033f3efceea60fe573ebd8fad1e7427593e2ea8cef16c117b0a35133",
+    "sourceKey": "swarm-front-progression-v2-normal",
+    "backupSuffix": "-before-shared-armory"
+  },
+  {
+    "name": "shared-v2",
+    "sourceCommit": "d947dd86190bddc019da12de9e00e12649e31088",
+    "sourceModule": "src/client/progression-save.ts",
+    "sha256": "cb432110999e8ceb61735b97dafcad4b1dd53bbb4c7c857abb23028d121eac72",
+    "sourceKey": "swarm-front-progression-v2-normal",
+    "backupSuffix": "-before-shared-v3"
+  }
+]
