@@ -66,3 +66,13 @@ npm run test:save:browser
 [機械可読検証](evidence/first-ten-minutes/validation.json)。比較画像: [戦闘説明・前](evidence/first-ten-minutes/before-guide-640.png) / [後](evidence/first-ten-minutes/after-guide-640.png)、[装備・前](evidence/first-ten-minutes/before-gear-844.png) / [後](evidence/first-ten-minutes/after-gear-844.png)、[戦果・前](evidence/first-ten-minutes/before-result-640.png) / [後](evidence/first-ten-minutes/after-result-640.png)。
 
 独立監査・merge・公開はこの時点で未完了。人間の初見確認0人、Android/iOS実機・物理safe area・Service Workerを伴う配信更新・初心者の難易度/理解度は未確認。実行担当の正確なモデルID・reasoning effortは未確認であり、切替は報告しない。隔離worktreeに `.meloso-judge/run.cjs` はなく、Judgeは未導入・未判定。元gameの別作業7ファイルは確認時からのSHA256一致で保護。
+
+## 保存先と再開条件
+
+[PR92](https://github.com/futsalife24-bot/swarm-front/pull/92)へcommit/push済み。branch `codex/first-ten-minutes`、base `97926835baefe1fa8fa41df079360114a3e4061d`、監査資料の対象HEAD `f470d3da0555ad0c0fd84e6669e56cae54e28dc6`。この節を含む後続の変更は記録文書だけ。
+
+監査ZIP（400ファイル、15,944,963 bytes）は隔離worktreeの `dist-validation/first-ten-minutes/audit-f470d3d.zip` に保存。SHA256: `1360b961eeff4a3a73c927a39d8a1c9623e6fdffe508ab744304c85493d10a8d`。必要ソース・差分・比較画像・隔離テスト結果・ファイルhashを含み、実セーブ・秘密情報・無関係な資料は含めない。既存の大容量モデル/音声は変更対象外として省略したため、完全なブラウザ再実行にはリポジトリの素材も必要。
+
+通常ChatGPTへのZIP添付を自動承認レビューが拒否した。GitHubのpublic属性、ZIP内容、AGENTSの継続承認を確認して同じ正規経路を再試行したが、明確なユーザー承認が必要として再拒否。別経路での送信は行っていない。監査未依頼・未合格、main未反映・未公開。今回のZIPを通常ChatGPTへ送信する許可をユーザーへ確認中。
+
+再開時は保存ZIPのhashを照合し、送信許可後に通常Chatの独立監査を実施する。合格後の最新main/PRチェック、通常merge、merge HEADからのbuild、既存Worker公開、配信hash/health/新規隔離ブラウザ確認は未実施の残作業。公開確認用の準備スクリプトは `dist-validation/check-first-published.mjs` に保存済みで、まだ実行していない。人間の初見テストが0人の間は総合完了と扱わない。
