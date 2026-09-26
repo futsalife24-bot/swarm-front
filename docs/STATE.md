@@ -1,6 +1,6 @@
-# 現在地: 設定にサウンドテスト・PVを追加、独立監査準備中（2026-09-26）
+# 現在地: 設定にサウンドテスト・PVを追加、独立監査中（2026-09-26）
 
-branch `codex/media-menu`、base `c46f2484d39c7e9a2308c505ab4356ccd9be211b`、作業場所 `../share-image-fix`。ソロ/協力の設定に全13曲の試聴と最新PV v10の再生を追加。BGM一時停止/同位置復帰、音量、読込中破棄、非表示停止を検証。型・関連37件、全曲実再生、実ローカルWorker協力、844×390/667×375のUI、PV全長デコードが成功。公開前の必須通常Chat監査とmain反映はこれから。[詳細・証拠](MEDIA-MENU.md)。元gameの別差分を保護。
+branch `codex/media-menu`、base `c46f2484d39c7e9a2308c505ab4356ccd9be211b`、作業場所 `../share-image-fix`。ソロ/協力の設定に全13曲の試聴と最新PV v10の再生を追加。BGM一時停止/同位置復帰、音量、読込中破棄、非表示停止を検証。型・関連37件、全曲実再生、実ローカルWorker協力、844×390/667×375のUI、PV全長デコードが成功。[PR90](https://github.com/futsalife24-bot/swarm-front/pull/90)、監査対象 `07e4b6ed5335db3e0ce491546d47048987e88d68`。[通常Chat監査](https://chatgpt.com/c/6ab74d13-d1cc-83ee-8e40-ee02bdcdc5dc)へZIPを添付済み、回答待ち。main反映はこれから。[詳細・証拠](MEDIA-MENU.md)。元gameの別差分を保護。
 # 現在地: 出撃マップ6曲のSuno BGMをmain反映・公開完了（2026-09-26）
 
 [PR89](https://github.com/futsalife24-bot/swarm-front/pull/89) を通常merge。公開ソースmain `3a50101136589aff053a15596aa02ea9dfe8310e`、既存Worker Version `3cd719ab-9651-4781-9e70-3c53d24aa383`。6マップ名入りのタイトル/スタイルを記録し、既存3候補+新規3曲（生成3回・30クレジット）の原本MP3を追加。ソロ/協力で実worldに合わせて選曲。

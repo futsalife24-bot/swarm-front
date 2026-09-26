@@ -27,6 +27,7 @@ export default defineConfig({
       "tests/audio.test.ts",
       "tests/bgm.test.ts",
       "tests/media-playback.test.ts",
+      "tests/media-dialog.test.ts",
       "tests/bgm-layout-return.test.ts",
       "tests/enemy-size.test.ts",
       "tests/foundry-generation.test.ts",

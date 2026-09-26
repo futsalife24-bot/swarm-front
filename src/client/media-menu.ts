@@ -1,5 +1,5 @@
 import { backgroundMusic, type MusicTrack } from "./bgm";
-import { menuDialog } from "./menu-ui";
+import { closeMenuDialog, menuDialog } from "./menu-ui";
 import { MediaPlayback } from "./media-playback";
 import "./media-menu.css";
 
@@ -68,7 +68,7 @@ export function mountMediaMenu(owner: HTMLDialogElement, volume: () => number) {
     d.querySelector<HTMLButtonElement>("[data-pause]")!.onclick = () =>
       playback.pause();
     d.querySelector<HTMLButtonElement>("[data-reload]")!.onclick = () => load();
-    const ownerClosed = () => d.close();
+    const ownerClosed = () => closeMenuDialog(d);
     owner.addEventListener("close", ownerClosed, { once: true });
     d.addEventListener(
       "close",

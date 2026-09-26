@@ -32,3 +32,13 @@
 - 独立監査・main反映・公開: 検証後、既存の通常Chat監査・既存Worker公開手順で実施し記録を追記する。
 
 AAC圧縮パケットSHA256（元/配信用とも同一）: 9eac2653b49dbb8dccd36c40b76e1ea7c0c953cf4b5e4d89257af576a4d6e619。
+
+## 全画面待機中の親close修正
+
+通常Chat監査中に報告された終了処理漏れを、実ネイティブdialogでも再現した。showModalAfterFullscreenの待機中は`open=false`で、ネイティブ`close()`がイベントを発生させない。親設定の終了後に子が表示され、BGM停止権・fetch/Blob/observerが残る。
+
+`closeMenuDialog`で、接続中かつ未表示の場合も既存closeリスナーを実行し、nodeを外して遅延showを取り消す。表示済みの通常close/Escは既存のネイティブ経路を維持。media側の親closeだけが新ヘルパーを使う。再生仕様・PV素材・音量処理は不変。
+
+型チェック、関連40件成功。`scripts/media-dialog-preview.html`はローカル検証専用で、全画面要求のPromiseだけを遅延させる。実menuDialog/mountMediaMenu/BackgroundMusic/MediaPlaybackを使い、親close前後とPromise解決後を確認。旧07e4b6eのmedia-menu.ts（importのみ実srcへリベース）ではサウンド/PVとも子1個残存・解決後open1個・BGM停止。修正版では両方とも解決前後の子0個・BGM再開。[反例/修正の数値](evidence/media-menu/fullscreen-regression.json)。テストのtouch/fullscreen遅延模擬であり実スマホ検証とはしない。
+
+監査待ちの追加自己検証: production bundleの667×375でBGM/PV正常、clearは7.6秒で停止。ミュート設定を引き継ぎ、試聴音量変更後も元設定0を維持。[公開用ビルド](evidence/media-menu/built-ui.json)・[音量](evidence/media-menu/mute.json)・[ネイティブシーク](evidence/media-menu/seek.json)。

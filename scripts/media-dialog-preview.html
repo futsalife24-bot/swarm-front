@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ja">
+<meta charset="utf-8">
+<title>Media dialog lifecycle regression</title>
+<style>body { font: 16px sans-serif; background:#18252c; color:white; } button,a { margin:8px; padding:10px; } dialog { background:#20343d; color:white; width:600px; } video { max-height:120px; } pre { white-space:pre-wrap; }</style>
+<h1>全画面待機中の親close</h1>
+<p>検証専用。全画面要求のPromiseだけを遅らせ、実際のdialogと製品の終了処理を使います。</p>
+<button id="start">設定を開く</button><button id="resolve">全画面待ちを解決</button><button id="check">状態を記録</button>
+<a href="?before=1">修正前</a><a href="?">修正後</a>
+<div id="portrait" hidden><button id="landscape-start">開始</button><span id="landscape-status"></span></div>
+<pre id="status"></pre>
+<script type="module">
+import { menuDialog } from '/src/client/menu-ui.ts';
+import { backgroundMusic } from '/src/client/bgm.ts';
+import { installLandscapeGuard } from '/src/client/landscape.ts';
+const before = new URL(location.href).searchParams.has('before');
+const { mountMediaMenu } = await import(before ? '/dist-validation/media-menu/media-menu-before.ts' : '/src/client/media-menu.ts');
+let resolveRequest;
+let installed = false;
+let pendingCount = 0;
+const bgm = backgroundMusic();
+bgm.setScreen('title');
+const status = document.querySelector('#status');
+const snapshot = () => {
+  const a = document.querySelector('audio[data-bgm]');
+  status.textContent = JSON.stringify({ before, pendingCount, dialogs:document.querySelectorAll('dialog').length, previews:document.querySelectorAll('.media-dialog').length, openPreviews:document.querySelectorAll('.media-dialog[open]').length, bgmPaused:a.paused, bgmTrack:a.dataset.track }, null, 2);
+};
+document.querySelector('#start').onclick = () => {
+  const owner = menuDialog('親設定', '');
+  mountMediaMenu(owner, () => .35);
+  for (const button of owner.querySelectorAll('.settings-media button')) {
+    // Same timing as a scene transition/room disconnect while showing the child.
+    button.addEventListener('click', () => { owner.close(); setTimeout(snapshot, 30); });
+  }
+  if (!installed) {
+    installed = true;
+    Object.defineProperty(navigator, 'maxTouchPoints', { configurable:true, value:1 });
+    document.documentElement.requestFullscreen = () => {
+      pendingCount++;
+      return new Promise(resolve => { resolveRequest = resolve; });
+    };
+    installLandscapeGuard(() => {});
+  }
+};
+document.querySelector('#resolve').onclick = () => { resolveRequest?.(); setTimeout(snapshot, 30); };
+document.querySelector('#check').onclick = snapshot;
+snapshot();
+</script>
+</html>
