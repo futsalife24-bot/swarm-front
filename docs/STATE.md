@@ -6,9 +6,9 @@
 
 [PR92](https://github.com/futsalife24-bot/swarm-front/pull/92)、監査資料対象 `f470d3da0555ad0c0fd84e6669e56cae54e28dc6`。通常Chatへの監査ZIP添付が自動承認レビューに2回拒否された。公開repoであることと継続承認を確認したが、レビューは今回の資料/送信先の明示承認を要求。送信確認を経て監査依頼へ進めた。merge/公開は未実施。ZIPは `dist-validation/first-ten-minutes/audit-f470d3d.zip`、SHA256 `1360b961eeff4a3a73c927a39d8a1c9623e6fdffe508ab744304c85493d10a8d`。ユーザーの今回の送信許可を受領し、同ZIPを通常Chatへ添付・監査依頼済み。[監査Chat](https://chatgpt.com/c/6ab765f3-df10-83e8-8d19-cdda8008ecef)で判定待ち。必要修正・通常merge・既存Worker公開/確認へ続く。以降の文書記録は実装を変更しない。
 
-# 現在地: 設定の右メニュー集約とBGM/SE調整、監査PASS・公開準備（2026-09-26）
+# 現在地: 設定の右メニュー集約とBGM/SE調整、main反映・公開完了（2026-09-26）
 
-branch `codex/settings-audio-layout`、base `97926835baefe1fa8fa41df079360114a3e4061d`、作業場所 `../share-image-fix`。サウンドテスト/PVを右側へ移動、プレイヤー名を文字＋小さい変更ボタンへ分離、左に全体/BGM/SE音量。旧保存の音量を維持しソロ/協力/練習へ適用。型・関連66件、実ソロ/ローカルWorker協力で独立ミュート・reload保存・名前変更・844×390/667×375・右PV入口が成功。確定実装e36c7de後のproduction build/dry-run成功。[PR93](https://github.com/futsalife24-bot/swarm-front/pull/93)、対象 `e8766b0ccd21a532f5247529c9f156f09982180f` の[通常Chat監査](https://chatgpt.com/c/6ab7618b-641c-83e8-8a2e-a9e581356613)はPASS、必須P0/P1/P2各0件。独立45ケース群と提出66件は区別。main反映/公開はこれから。元gameの別差分を保護。[詳細・証拠](SETTINGS-AUDIO.md)。
+branch `codex/settings-audio-layout`、base `97926835baefe1fa8fa41df079360114a3e4061d`、作業場所 `../share-image-fix`。サウンドテスト/PVを右側へ移動、プレイヤー名を文字＋小さい変更ボタンへ分離、左に全体/BGM/SE音量。旧保存の音量を維持しソロ/協力/練習へ適用。型・関連66件、実ソロ/ローカルWorker協力で独立ミュート・reload保存・名前変更・844×390/667×375・右PV入口が成功。確定実装e36c7de後のproduction build/dry-run成功。[PR93](https://github.com/futsalife24-bot/swarm-front/pull/93)、対象 `e8766b0ccd21a532f5247529c9f156f09982180f` の[通常Chat監査](https://chatgpt.com/c/6ab7618b-641c-83e8-8a2e-a9e581356613)はPASS、必須P0/P1/P2各0件。独立45ケース群と提出66件は区別。PR93を通常merge、公開ソースmain ade0ae4956073772a912405c21d7c2fb8f0872f0、Worker Version efbb08b7-5935-447a-bcbf-44d971651fb0。merge後build/dry-run、公開SHA/health、公開設定UI・音量0保存/復元を確認。現在main。元gameの別差分を保護。[詳細・証拠](SETTINGS-AUDIO.md)。
 
 # 現在地: 設定のサウンドテスト・PVをmain反映・公開完了（2026-09-26）
 
@@ -288,7 +288,7 @@ PR72通常merge・再監査bf0a9d3合格、必須P0-P2なし。公開source `5e8
 
 # 現在地: PR72修正版の独立監査合格、main反映準備（2026-09-21）
 
-対象 bf0a9d3fe235d35e5a0ea6ece8cc2714efc51553 は[再監査](https://chatgpt.com/c/6ab0f325-03a8-83e8-b1cd-29ced57787c4)合格、必須P0-P2なし。全15GLB同位置法線不一致0、独立EGL3種×3角度で欠け解消。専用geometry1050個の破棄/元不変を代替オブジェクトで独立確認。実GPU長時間は未確認。後続は記録のみ。[詳細](WEAPON-RARITY-GLOW.md)。main反映/公開はこれから。
+対象 bf0a9d3fe235d35e5a0ea6ece8cc2714efc51553 は[再監査](https://chatgpt.com/c/6ab0f325-03a8-83e8-b1cd-29ced57787c4)合格、必須P0-P2なし。全15GLB同位置法線不一致0、独立EGL3種×3角度で欠け解消。専用geometry1050個の破棄/元不変を代替オブジェクトで独立確認。実GPU長時間は未確認。後続は記録のみ。[詳細](WEAPON-RARITY-GLOW.md)。PR93を通常merge、公開ソースmain ade0ae4956073772a912405c21d7c2fb8f0872f0、Worker Version efbb08b7-5935-447a-bcbf-44d971651fb0。merge後build/dry-run、公開SHA/health、公開設定UI・音量0保存/復元を確認。現在main。
 
 # 現在地: PR72修正版bf0a9d3の再監査を依頼済み（2026-09-21）
 
@@ -639,7 +639,7 @@ branch codex/admin-analytics-filter、base20c839b450bd55781d942be5b84ba237e0c53b
 
 # 現在地: PR37・承認済み監査資料を送信し独立監査中（2026-09-17）
 
-ユーザーが今回の `title-audit-e747dc5.zip`（6,347,884 bytes）を通常ChatGPTへ独立監査目的で送ることを明示承認。添付/依頼送信成功。[監査Chat](https://chatgpt.com/c/6aabdd4d-2610-83e9-9ff8-8e6edd83bddd)。対象e747dc55ada9b401e4ee65de2fd8ca85fdc3e98d、後続は記録のみ。PR37はMERGEABLE、base6d48ea8不変。型/両build/Worker dry-run/6サイズ実Chrome成功。監査合格/main反映/公開はこれから。[詳細](TITLE-LAYOUT.md)。
+ユーザーが今回の `title-audit-e747dc5.zip`（6,347,884 bytes）を通常ChatGPTへ独立監査目的で送ることを明示承認。添付/依頼送信成功。[監査Chat](https://chatgpt.com/c/6aabdd4d-2610-83e9-9ff8-8e6edd83bddd)。対象e747dc55ada9b401e4ee65de2fd8ca85fdc3e98d、後続は記録のみ。PR37はMERGEABLE、base6d48ea8不変。型/両build/Worker dry-run/6サイズ実Chrome成功。監査合格/PR93を通常merge、公開ソースmain ade0ae4956073772a912405c21d7c2fb8f0872f0、Worker Version efbb08b7-5935-447a-bcbf-44d971651fb0。merge後build/dry-run、公開SHA/health、公開設定UI・音量0保存/復元を確認。現在main。[詳細](TITLE-LAYOUT.md)。
 
 # 現在地: PR37・タイトル改善を実装、監査ZIP送信の承認待ち（2026-09-17）
 
@@ -705,7 +705,7 @@ branch `codex/weekly-title-badge`、base4519967。設定の週間入口をタイ
 
 # 現在地: PR33・承認済みZIPを送信し独立監査中（2026-09-17）
 
-ユーザーが今回の `daily-notice-audit-6bf5590.zip` を通常ChatGPTへ独立監査目的で送信することを明示承認。添付/依頼送信済み。[監査Chat](https://chatgpt.com/c/6aab826d-8b1c-83ee-af15-3f9ee156d5fb)。対象 `6bf55901aa6a4c7cf3814e293d2fd2031352b3b1`、base ac478f5、後続は状態文書のみ。監査合格/main反映/公開はこれから。
+ユーザーが今回の `daily-notice-audit-6bf5590.zip` を通常ChatGPTへ独立監査目的で送信することを明示承認。添付/依頼送信済み。[監査Chat](https://chatgpt.com/c/6aab826d-8b1c-83ee-af15-3f9ee156d5fb)。対象 `6bf55901aa6a4c7cf3814e293d2fd2031352b3b1`、base ac478f5、後続は状態文書のみ。監査合格/PR93を通常merge、公開ソースmain ade0ae4956073772a912405c21d7c2fb8f0872f0、Worker Version efbb08b7-5935-447a-bcbf-44d971651fb0。merge後build/dry-run、公開SHA/health、公開設定UI・音量0保存/復元を確認。現在main。
 
 # 現在地: PR33・日替わり防衛案内修正、監査ZIP送信の承認待ち（2026-09-17）
 

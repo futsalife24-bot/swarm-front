@@ -21,7 +21,7 @@
 GitHub https://github.com/futsalife24-bot/swarm-front 、作業場所 `../share-image-fix`。
 branch `codex/settings-audio-layout`、base `97926835baefe1fa8fa41df079360114a3e4061d`。元gameのdirty/未追跡7件は編集せず保護。実モデルID/effort未確認、切替/サブエージェント使用なし。
 
-実スマホ・Safari/iOSの音量制約・長時間多人数・主観的SE音響は未確認。通常Chat監査はPASS、main反映・既存Worker公開を進める。
+実スマホ・Safari/iOSの音量制約・長時間多人数・主観的SE音響は未確認。通常Chat監査PASS後、main反映・既存Worker公開完了。
 
 実装commit e36c7deb5985bc3a3e82864c67294d9e1019cbad後のproduction build・Worker dry-run成功。PR93: https://github.com/futsalife24-bot/swarm-front/pull/93 。最終の百分率表示画像は settings-latest-667.png。以降は記録のみ。
 
@@ -30,3 +30,9 @@ branch `codex/settings-audio-layout`、base `97926835baefe1fa8fa41df079360114a3e
 対象 e8766b0ccd21a532f5247529c9f156f09982180f は [通常Chat](https://chatgpt.com/c/6ab7618b-641c-83e8-8a2e-a9e581356613) でPASS、必須P0/P1/P2各0件。報告は `evidence/settings-audio/audit-e8766b0.txt`。独立検査45ケース群はコンポーネント/代替Storage等による検証で、提出66件・実Worker・型/buildの独立再実行ではない。任意O1（協力pauseで保存失敗文が出ない既存挙動）は保留。
 
 O2の証拠対応: `coop.json` はBGM0/SE0.65の保存・再読込ケース。`coop-667.png` はその後SEを0.60に動かしたレイアウト撮影で、0.65の再読込証拠には使わない。撮影後はBGM/SEとも1へ復元して退出。確定build実画面の確認は `built-ui.json`。
+
+## 公開完了
+
+PR93通常merge、公開ソース main `ade0ae4956073772a912405c21d7c2fb8f0872f0`、既存Worker Version `efbb08b7-5935-447a-bcbf-44d971651fb0`。merge後production build/dry-run成功。公開ファイルSHA一致、health200/ok、Range全量200で内容一致。公開Chrome設定で右media/通常名と変更/左全体BGMSE、音量0保存とBGM停止、元の全体0.35・個別1/1への復元を確認。public-ui.json/public-settings.pngに記録。
+
+自動承認レビューの最初のmerge申請は明示承認の根拠不足で拒否。正本game/AGENTS.md 4–8行の継続承認を読み、同じ通常mergeを根拠付きで再申請して許可された。迂回なし。制限内dry-runは親ディレクトリへのアクセス拒否で失敗、ソース実在確認後に許可された通常権限で成功。元gameの別差分は不変。現作業場所に.meloso-judge入口は未導入で、追加インストール・有料代替は行わない。
