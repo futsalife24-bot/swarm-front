@@ -246,6 +246,137 @@ else:
         add(op.strip('hackle_glow', [base + d * (length * u) + V((0, -.02 - .18 * u * u * length, .0)) for u in (.12, .35, .6, .82)],
                      .010, .012), 'ring_emission', f'spine_{i}')
     
+# ---------------------------------------------------------------- LEAPER motion
+# VOLLEY keeps the shared trot. LEAPER gets its own in-place clips (visual only):
+#   Locomotion  bounding gait: the three hind legs push together, fronts land together,
+#               body pitches with each bound, hackles lie back. Same 0.8 s cycle and
+#               foot travel as the trot, so the game's 0.72 m-per-cycle playback still
+#               matches ground speed without sliding.
+#   Leap        0.9 s airborne pose for the authoritative jump (push-off, tuck, reach).
+def smooth(x):
+    x = max(0.0, min(1.0, x))
+    return x * x * (3 - 2 * x)
+
+
+def build_leaper_motion():
+    from mathutils import Quaternion
+    rest = {b.name: b.matrix_local.copy() for b in rig.data.bones}
+    names = ['front_L', 'front_R', 'rear_A', 'rear_B', 'rear_C']
+    legs = {n: (head(n + '_upper'), head(n + '_lower'), head(n + '_toe')) for n in names}
+    body0 = head('body')
+
+    def xform(name, a, b):
+        bone = rig.data.bones[name]
+        q = (bone.tail_local - bone.head_local).rotation_difference(b - a)
+        out = q.to_matrix().to_4x4() @ rest[name]
+        out.translation = a
+        return out
+
+    def around(centre, shift=V((0, 0, 0)), rot=Quaternion()):
+        return Matrix.Translation(centre + shift) @ rot.to_matrix().to_4x4() @ Matrix.Translation(-centre)
+
+    def ik(hip, target, plane, l1, l2):
+        delta = target - hip
+        dist = max(abs(l1 - l2) + 1e-4, min(l1 + l2 - 1e-5, delta.length))
+        axis = delta.normalized()
+        bend = plane.cross(axis)
+        if bend.length < 1e-5:
+            bend = axis.cross(X)
+        bend.normalize()
+        a = (l1 * l1 - l2 * l2 + dist * dist) / (2 * dist)
+        return hip + axis * a + bend * math.sqrt(max(0.0, l1 * l1 - a * a)), hip + axis * dist
+
+    def pose(mode, t):
+        if mode == 'Locomotion':
+            ph = t / 0.8 * math.tau
+            shift = V((0, 0.05 * math.sin(ph + 1.2), -0.13 + 0.075 * math.sin(ph)))
+            pitch = 0.11 * math.sin(ph + math.pi / 2)
+            hackle = -0.38 + 0.08 * math.sin(ph * 2)
+        else:  # Leap
+            f = t / 0.9
+            tuck = smooth(f / 0.25) * (1 - smooth((f - 0.62) / 0.25))
+            reach = smooth((f - 0.58) / 0.32)
+            push = 1 - smooth(f / 0.2)
+            shift = V((0, 0, 0.06 * tuck))
+            pitch = 0.24 * push * (1 - tuck) + 0.1 * tuck - 0.16 * reach
+            hackle = -0.65 * tuck + 0.25 * reach
+        Bm = around(body0, shift, Quaternion(X, pitch))
+        rig.pose.bones['body'].matrix = Bm @ rest['body']
+        bpy.context.view_layer.update()
+        for i, n in enumerate(names):
+            hip0, knee0, toe0 = legs[n]
+            front = i < 2
+            hip = Bm @ hip0
+            if mode == 'Locomotion':
+                # Bound: fronts together, hind three together half a cycle later.
+                p = (t / 0.8 + (0.0, 0.05, 0.5, 0.54, 0.52)[i]) % 1
+                duty, travel = (0.5, 0.36) if front else (0.44, 0.3168)
+                target = toe0.copy()
+                if p < duty:
+                    off = travel * (0.5 - p / duty)
+                    lift = 0.0
+                else:
+                    g = (p - duty) / (1 - duty)
+                    off = travel * (-0.5 + smooth(g))
+                    lift = (0.26 if front else 0.21) * math.sin(math.pi * g) ** 2
+                target.y += off - (0.15 if front else -0.08)
+                target.z += lift
+            else:
+                # Airborne: targets ride with the body; fold toward the hip, then reach.
+                local = toe0.copy()
+                local += (hip0 - toe0) * ((0.55 if front else 0.5) * tuck)
+                local.z += 0.1 * tuck if front else 0.0
+                if front:
+                    local += V((0, 0.28, -0.04)) * reach
+                else:
+                    local += V((0, -0.3, -0.05)) * push * (1 - tuck)
+                target = Bm @ local
+            l1, l2 = (knee0 - hip0).length, (toe0 - knee0).length
+            plane = (toe0 - hip0).cross(knee0 - hip0).normalized()
+            knee, actual = ik(hip, target, Bm.to_3x3() @ plane, l1, l2)
+            rig.pose.bones[n + '_upper'].matrix = xform(n + '_upper', hip, knee)
+            bpy.context.view_layer.update()
+            rig.pose.bones[n + '_lower'].matrix = xform(n + '_lower', knee, actual)
+            bpy.context.view_layer.update()
+            rig.pose.bones[n + '_toe'].matrix = Matrix.Translation(actual - toe0) @ rest[n + '_toe']
+            bpy.context.view_layer.update()
+        rig.pose.bones['ring'].matrix = Bm @ rest['ring']
+        for k in range(1, 4):
+            c = head(f'spine_{k}')
+            lag = -hackle * (0.8 + 0.15 * k)  # +X rotation tips the spines backward (-Y)
+            rig.pose.bones[f'spine_{k}'].matrix = Bm @ around(c, V((0, 0, 0.02 * k * hackle)), Quaternion(X, lag)) @ rest[f'spine_{k}']
+        bpy.context.view_layer.update()
+
+    scene = bpy.context.scene
+    scene.render.fps = 60
+    ad = rig.animation_data
+    for name, duration in (('Locomotion', 0.8), ('Leap', 0.9)):
+        old = ad.nla_tracks.get(name)
+        if old:
+            ad.nla_tracks.remove(old)
+        action = bpy.data.actions.new('LEAPER_' + name)
+        ad.action = action
+        for frame in range(round(duration * 60) + 1):
+            scene.frame_set(frame)
+            pose(name, frame / 60)
+            for pb in rig.pose.bones:
+                pb.keyframe_insert('location', frame=frame, group=pb.name)
+                pb.keyframe_insert('rotation_quaternion', frame=frame, group=pb.name)
+                pb.keyframe_insert('scale', frame=frame, group=pb.name)
+        action.use_fake_user = True
+        track = ad.nla_tracks.new()
+        track.name = name
+        track.strips.new(name, 0, action)
+        track.mute = True
+    ad.action = None
+    for pb in rig.pose.bones:
+        pb.matrix_basis = Matrix.Identity(4)
+    bpy.context.view_layer.update()
+
+
+if L:
+    build_leaper_motion()
+
 # ---------------------------------------------------------------- batch, UV, export
 for role, obj in target.items():
     op.join(obj, parts[role])
@@ -280,7 +411,7 @@ report = {
     'clips': sorted(a['name'] for a in gltf['animations']), 'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest(),
     'rest_min_z_blender': round(ground, 5),
 }
-assert report['meshes'] == 4 and report['bones'] == 20 and report['clips'] == ['Idle', 'Locomotion', 'Lunge']
+assert report['meshes'] == 4 and report['bones'] == 20 and report['clips'] == (['Idle', 'Leap', 'Locomotion', 'Lunge'] if L else ['Idle', 'Locomotion', 'Lunge'])
 assert report['triangles'] < 14000
 bpy.ops.object.select_all(action='SELECT'); bpy.ops.object.delete(use_global=False)
 bpy.ops.import_scene.gltf(filepath=str(glb))

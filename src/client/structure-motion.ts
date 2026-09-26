@@ -17,12 +17,16 @@ export const STRUCTURE_ASSETS = {
   hornet: "ray",
   boss: "foundry_zero",
 } as const;
+/** Length of the LEAPER Leap clip; matches the authoritative 0.9 s jump. */
+const LEAP_SECONDS = 0.9;
 export type StructureVisualKind = keyof typeof STRUCTURE_ASSETS;
 export type StructureInput = HoundVisualInput & {
   slot: number;
   calyx?: import("../shared/calyx").CalyxAttack;
   harrow?: import("../shared/harrow").HarrowAttack;
   harrowAirborne?: boolean;
+  /** LEAPER jump progress 0..1 while the authoritative jump is active (visual only). */
+  leap?: number;
   worldTime?: number;
 };
 type State = {
@@ -122,8 +126,10 @@ export class StructureMotionController {
         ((s.wind > 0 && e.cool > s.cool) || e.cool > s.cool + 0.4);
       const recovering =
         s.clip === "Lunge" && s.time >= spec.impact && s.time < spec.duration;
-      const desired: HoundClip =
-        e.wind > 0 || fired || recovering
+      const leaping = this.kind === "spider" && e.leap !== undefined;
+      const desired: HoundClip = leaping
+        ? "Leap"
+        : e.wind > 0 || fired || recovering
           ? "Lunge"
           : e.moving
             ? "Locomotion"
@@ -134,6 +140,15 @@ export class StructureMotionController {
         s.clip = desired;
         s.time = 0;
         s.blend = 0;
+      }
+      if (leaping) {
+        s.time = e.leap! * LEAP_SECONDS;
+        s.blend += dt;
+        s.fromTime += dt;
+        s.wind = e.wind;
+        s.cool = e.cool;
+        batch.setPose(i, s.clip, s.time, s.from, s.fromTime, s.blend / 0.08);
+        return;
       }
       if (e.wind > 0)
         s.time = T.MathUtils.clamp(

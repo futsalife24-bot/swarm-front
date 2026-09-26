@@ -1114,6 +1114,10 @@ export class Renderer {
               wind: e.wind,
               cool: e.cool,
               distance: Math.hypot(v.x - previousHoundX, v.z - previousHoundZ),
+              leap:
+                e.kind === "spider" && (e.jump ?? 0) > 0
+                  ? Math.min(1, e.jump! / 0.9)
+                  : undefined,
             });
           if ((e.perch ?? 0) > 0) v.set(e.x, e.y, e.z);
           else if (e.kind !== "hornet" && !(e.jump ?? 0)) v.y = e.y;

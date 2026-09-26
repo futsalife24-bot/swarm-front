@@ -131,7 +131,31 @@ export function enemyIdleClip(
               0.075 * Math.sin(phase * 2 + (n.endsWith("rear") ? 1 : 0)),
             ),
           );
-      } else if (species === "hound" || species === "leaper") {
+      } else if (species === "leaper") {
+        // Coiled and scanning: the body sweeps side to side over planted feet,
+        // and the hackles bristle forward in short bursts, fanning apart.
+        if (n === "body") {
+          b.quaternion.premultiply(
+            turn.setFromAxisAngle(axisY, 0.13 * Math.sin(phase)),
+          );
+          b.quaternion.multiply(
+            turn.setFromAxisAngle(
+              new T.Vector3(1, 0, 0),
+              0.05 * Math.sin(phase * 2),
+            ),
+          );
+        }
+        if (n.startsWith("spine_")) {
+          const i = Number(n.slice(6)),
+            bristle = Math.max(0, Math.sin(phase * 2 - i * 0.35)) ** 4;
+          b.position.y += 0.05 * bristle;
+          b.quaternion.multiply(
+            turn.setFromEuler(
+              euler.set(0.45 * bristle, (i - 2) * 0.3 * bristle, 0),
+            ),
+          );
+        }
+      } else if (species === "hound") {
         if (n.startsWith("spine_")) {
           const i = Number(n.slice(6)),
             wave = phase * 2 - i * 0.7;

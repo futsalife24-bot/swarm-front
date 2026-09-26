@@ -16,11 +16,12 @@
   "images": 9,
   "clips": [
     "Idle",
+    "Leap",
     "Locomotion",
     "Lunge"
   ],
-  "bytes": 3770256,
-  "sha256": "c1931f865a87a2de4d6377eddcfb35d3aa5b45bd2b523cb3f2cbb24bd17040ac",
+  "bytes": 3802608,
+  "sha256": "d59f79201f8b02a489084b5a96845276458e32c85868c832c90653961083fa59",
   "rest_min_z_blender": 0.0,
   "reimport": "PASS"
 }
