@@ -1,5 +1,7 @@
 # 現在地: 出撃マップ6曲をSunoから取得・実装・自己検証（2026-09-26）
 
+[PR89](https://github.com/futsalife24-bot/swarm-front/pull/89)、実装 `66fb41d0b7e1bb7805553bcaebe618b210d5b8de`。[通常Chat監査](https://chatgpt.com/c/6ab739e8-5018-83e9-a65f-ca0fff0ed08e) へ対象SHAの39.5MB ZIPを添付・送信済み、独立判定待ち。main・公開は未完了。以降の差分は記録のみ。
+
 branch `codex/map-bgm-suno`、base `782543709a7479fdeabd9114df48d47bc95a3f1d`、作業場所 `../share-image-fix`。6マップを識別するSunoタイトル/スタイルを記録し、既存3曲+新規3曲を原本MP3で追加。新規生成3回・30クレジット。ソロ/協力は実worldのマップ曲を再生。型・関連26件・6音源全デコード・実ブラウザ6曲/切替・実ソロ出撃・実ローカルWorker協力出撃・production build/dry-run成功。独立Chat監査・main反映・公開は進行中。元gameの別差分は保護。[詳細](MAP-BGM.md)。
 
 # 現在地: CALYXエネミーレポート攻撃文をmain反映・既存Workerへ公開（2026-09-25）

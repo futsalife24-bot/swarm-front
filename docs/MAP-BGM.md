@@ -41,4 +41,5 @@ base `782543709a7479fdeabd9114df48d47bc95a3f1d`。元 `game/` の別作業差分
 
 ## 公開状態
 
-独立Chat監査・main反映・既存Worker公開はこれから実施する。
+実装 `66fb41d0b7e1bb7805553bcaebe618b210d5b8de` を [PR89](https://github.com/futsalife24-bot/swarm-front/pull/89) へpush。
+[通常Chat独立監査](https://chatgpt.com/c/6ab739e8-5018-83e9-a65f-ca0fff0ed08e) に、39,468,215 bytesの `dist-validation/map-bgm/map-bgm-audit-66fb41d.zip` を添付・送信して監査開始を確認。ZIP SHA256 `a7b17f719bfe225f7915cbf0ee2cc72aa8281d3ed77f990c6ebd8e7231b08a45`。画面のモデル表示はPro（詳細IDは未確認）。独立結果→必要修正→main反映→既存Worker公開へ続ける。
