@@ -1,0 +1,23 @@
+{
+  "state": "Awaiting manual",
+  "base": "7827b9c07886efbad50c2bee3bf17a940b79a1fd",
+  "dateJST": "2026-09-27",
+  "runtimeChanged": false,
+  "physicalAndroidRuns": 0,
+  "device": null,
+  "android": null,
+  "browser": null,
+  "before": null,
+  "after": null,
+  "bottlenecks": [],
+  "checks": {"typecheck": 0, "testSave": {"exit": 0, "passed": 147}, "build": 0, "workerDryRun": 0, "diffCheck": 0},
+  "failuresAndResolution": [
+    "Two initial PC export waits timed out during encounter modal. QA now waits for active enemies and closes ordinary encounter UI before export. Final export/reload passed.",
+    "Initial fixture changed rarity alone and validation rejected weapon format. Uses existing makeWeapon factory now; creation and overwrite refusal passed.",
+    "Initial Worker dry-run blocked by sandbox filesystem access. Elevated local dry-run passed; no deployment."
+  ],
+  "notRun": ["Android cases A/B/C/D", "before/after", "GC profile", "CPU/GPU load", "temperature/battery", "probe overhead", "test:save:browser", "independent Chat audit", "merge", "deploy"],
+  "modelId": "unconfirmed",
+  "reasoningEffort": "unconfirmed",
+  "subagents": 0
+}

@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "checks": [
+    "isolated fixture creation using save writer lock",
+    "27 stage unlocks",
+    "rank 4 existing weapons",
+    "A/B/C stage names match",
+    "existing save rejected without mutation"
+  ],
+  "stages": {
+    "a": "前哨掃討",
+    "b": "白嶺の反攻",
+    "c": "異翼の痕跡"
+  }
+}
