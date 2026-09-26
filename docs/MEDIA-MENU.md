@@ -42,3 +42,9 @@ AAC圧縮パケットSHA256（元/配信用とも同一）: 9eac2653b49dbb8dccd3
 型チェック、関連40件成功。`scripts/media-dialog-preview.html`はローカル検証専用で、全画面要求のPromiseだけを遅延させる。実menuDialog/mountMediaMenu/BackgroundMusic/MediaPlaybackを使い、親close前後とPromise解決後を確認。旧07e4b6eのmedia-menu.ts（importのみ実srcへリベース）ではサウンド/PVとも子1個残存・解決後open1個・BGM停止。修正版では両方とも解決前後の子0個・BGM再開。[反例/修正の数値](evidence/media-menu/fullscreen-regression.json)。テストのtouch/fullscreen遅延模擬であり実スマホ検証とはしない。
 
 監査待ちの追加自己検証: production bundleの667×375でBGM/PV正常、clearは7.6秒で停止。ミュート設定を引き継ぎ、試聴音量変更後も元設定0を維持。[公開用ビルド](evidence/media-menu/built-ui.json)・[音量](evidence/media-menu/mute.json)・[ネイティブシーク](evidence/media-menu/seek.json)。
+
+初回独立監査は07e4b6eを要修正（P0=0/P1=0/P2=1、F1）と判定。[報告全文](evidence/media-menu/audit-07e4b6e.txt)。F1の製品修正は `b7513d83342e1a149fbb931b9839c69b6f720c66`。
+
+追加の実ブラウザ再現: サウンド/PV×全画面fulfilled/rejectedの4条件で、ロード開始直後の親closeはrequest1/abort1・子0・BGM再開。[計測](evidence/media-menu/fullscreen-final.json)。素材ロード完了後の親closeも4条件で、Blob作成1/解放1、dialogに付いたobserver4/切断4、子0・BGM再開。[計測](evidence/media-menu/fullscreen-loaded.json)。全observer集計の追加1個はdialog外なので、dialog対象の4個を別集計した。127.0.0.1側の検証ページの古いモジュールキャッシュを検出し、最新計測フィールドを確認できたlocalhostの新規オリジンで成功/失敗の決着状態まで測定し直した。
+
+任意指摘O1（親子一括close後のfocusがbody）は保留。O2の初期画像は、settings-844.pngがホーム、settings-667.pngがPV終端、coop-settings-667.pngが装備という遷移直前のフレームだった。これらを設定ダイアログ表示の証拠と扱わず、DOM観測・最終試聴/PV画像と区別する。
