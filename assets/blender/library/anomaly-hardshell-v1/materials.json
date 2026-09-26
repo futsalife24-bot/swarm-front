@@ -1,0 +1,31 @@
+{
+  "source": {
+    "flat": "public/assets/enemies/hound_motion_v1.glb (HOUND / VOLLEY, untextured factors)",
+    "textured": "public/assets/enemies/leaper_motion_v2.glb (HOUND / LEAPER, 512px baked maps)",
+    "extracted": "2026-09-26"
+  },
+  "uv_scale": 0.85,
+  "roles": {
+    "shell": {
+      "gltf_name": "HOUND_shell",
+      "flat": { "base_color": [0.055, 0.075, 0.085], "metallic": 0.5, "roughness": 0.65 },
+      "textured": { "albedo": "shell_albedo", "roughness": "shell_roughness", "normal": "shell_normal", "normal_strength": 0.65, "metallic": 0.52 }
+    },
+    "spine": {
+      "gltf_name": "HOUND_spine",
+      "flat": { "base_color": [0.48, 0.55, 0.57], "metallic": 0.35, "roughness": 0.65 },
+      "textured": { "albedo": "spine_albedo", "roughness": "spine_roughness", "normal": "spine_normal", "normal_strength": 0.65, "metallic": 0.36 }
+    },
+    "edge_metal": {
+      "gltf_name": "HOUND_edge_metal",
+      "flat": { "base_color": [0.22, 0.29, 0.32], "metallic": 0.65, "roughness": 0.65 },
+      "textured": { "albedo": "edge_metal_albedo", "roughness": "edge_metal_roughness", "normal": "edge_metal_normal", "normal_strength": 0.65, "metallic": 0.7 }
+    },
+    "ring_emission": {
+      "gltf_name": "HOUND_ring_emission",
+      "flat": { "base_color": [0.03, 0.78, 0.94], "metallic": 0.0, "roughness": 0.65 },
+      "emission_color": [0.03, 0.78, 0.94],
+      "emission_strength": 0.65
+    }
+  }
+}
