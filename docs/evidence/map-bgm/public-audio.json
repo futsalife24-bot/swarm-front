@@ -1,0 +1,13 @@
+{
+  "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/bgm-v1/map-0.mp3",
+  "observed": [
+    {
+      "duration": 183.96,
+      "error": null,
+      "paused": false,
+      "ready": 4,
+      "src": "https://swarm-front.melosalife-24.workers.dev/assets/audio/bgm-v1/map-0.mp3",
+      "time": 57.02628
+    }
+  ]
+}

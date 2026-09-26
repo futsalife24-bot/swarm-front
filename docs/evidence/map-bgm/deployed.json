@@ -1,0 +1,213 @@
+{
+  "at": "2026-09-26T04:07:34.571Z",
+  "sourceSha": "3a50101136589aff053a15596aa02ea9dfe8310e",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 3646,
+      "contentType": "text/html",
+      "sha256": "ae1f2dc47d1f0b20fed2ee77b40338392c62225945abb94b7567d966612f7e53",
+      "expectedSha256": "ae1f2dc47d1f0b20fed2ee77b40338392c62225945abb94b7567d966612f7e53",
+      "pass": true
+    },
+    {
+      "path": "assets/audio/bgm-v1/README.md",
+      "status": 200,
+      "bytes": 1992,
+      "contentType": "text/markdown",
+      "sha256": "ed985b48bdf44a6e2d11ab5c2eb72647b59ffd2714ea7cf3bd712b7fa4c9e5d2",
+      "expectedSha256": "ed985b48bdf44a6e2d11ab5c2eb72647b59ffd2714ea7cf3bd712b7fa4c9e5d2",
+      "pass": true
+    },
+    {
+      "path": "assets/index-CPbai1ZT.css",
+      "status": 200,
+      "bytes": 259,
+      "contentType": "text/css",
+      "sha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "expectedSha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "pass": true
+    },
+    {
+      "path": "assets/index-DQOaouRL.js",
+      "status": 200,
+      "bytes": 38568,
+      "contentType": "text/javascript",
+      "sha256": "39c3db004c864816440657a4e1f24f8b365474a365d3abd8940cfd0e8dcf4a46",
+      "expectedSha256": "39c3db004c864816440657a4e1f24f8b365474a365d3abd8940cfd0e8dcf4a46",
+      "pass": true
+    },
+    {
+      "path": "assets/main-C1Ldsy-y.css",
+      "status": 200,
+      "bytes": 6219,
+      "contentType": "text/css",
+      "sha256": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1",
+      "expectedSha256": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1",
+      "pass": true
+    },
+    {
+      "path": "assets/main-Db7iT9dY.js",
+      "status": 200,
+      "bytes": 54962,
+      "contentType": "text/javascript",
+      "sha256": "0e74e07d90b6708527a216b87d2218557828ac5bdbbd06ff199ebc034be3cc73",
+      "expectedSha256": "0e74e07d90b6708527a216b87d2218557828ac5bdbbd06ff199ebc034be3cc73",
+      "pass": true
+    },
+    {
+      "path": "assets/playtest-app-Cav6dg_L.js",
+      "status": 200,
+      "bytes": 121236,
+      "contentType": "text/javascript",
+      "sha256": "8257fb89aa253cc2387024e6ffbef846cb1aefb38daf47e9f7dec44a7d6e72d5",
+      "expectedSha256": "8257fb89aa253cc2387024e6ffbef846cb1aefb38daf47e9f7dec44a7d6e72d5",
+      "pass": true
+    },
+    {
+      "path": "assets/playtest-app-Nc4GVS_8.css",
+      "status": 200,
+      "bytes": 38677,
+      "contentType": "text/css",
+      "sha256": "f2b74c243345ef51e3be89add258827b5f0746b4d88f27d6503b858c6731e03e",
+      "expectedSha256": "f2b74c243345ef51e3be89add258827b5f0746b4d88f27d6503b858c6731e03e",
+      "pass": true
+    },
+    {
+      "path": "assets/training-app-Dk6-oiAZ.js",
+      "status": 200,
+      "bytes": 3714,
+      "contentType": "text/javascript",
+      "sha256": "42f4ea27dafac63f7bebd106cd586e621c8352597454621dac965bbbe456344e",
+      "expectedSha256": "42f4ea27dafac63f7bebd106cd586e621c8352597454621dac965bbbe456344e",
+      "pass": true
+    },
+    {
+      "path": "assets/weapon-help-Clh1V6L1.css",
+      "status": 200,
+      "bytes": 3020,
+      "contentType": "text/css",
+      "sha256": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607",
+      "expectedSha256": "ab9c7a7dcdae27cfae1e577cd48491dae5282276d076fe3cf18cccbec0543607",
+      "pass": true
+    },
+    {
+      "path": "assets/weapon-help-NaMXeKe3.js",
+      "status": 200,
+      "bytes": 73051,
+      "contentType": "text/javascript",
+      "sha256": "38ce29c6bb46872bb2c127c215d1fb3b8a1045741aa8ef2e30fce117983ac198",
+      "expectedSha256": "38ce29c6bb46872bb2c127c215d1fb3b8a1045741aa8ef2e30fce117983ac198",
+      "pass": true
+    },
+    {
+      "path": "assets/weapon-sharing-JE0VMhUe.js",
+      "status": 200,
+      "bytes": 4757,
+      "contentType": "text/javascript",
+      "sha256": "4cce60216eaa790661b437f4016e86a1ad7f1ac164be4316271bb231ebf126fc",
+      "expectedSha256": "4cce60216eaa790661b437f4016e86a1ad7f1ac164be4316271bb231ebf126fc",
+      "pass": true
+    },
+    {
+      "path": "assets/zoom-guard-B9UkKTeI.css",
+      "status": 200,
+      "bytes": 107507,
+      "contentType": "text/css",
+      "sha256": "3610040aac03ada22f80502d0e56aa3ea9d8797a8eb84a7c089d92defba85c98",
+      "expectedSha256": "3610040aac03ada22f80502d0e56aa3ea9d8797a8eb84a7c089d92defba85c98",
+      "pass": true
+    },
+    {
+      "path": "assets/zoom-guard-CP9WNiOj.js",
+      "status": 200,
+      "bytes": 880637,
+      "contentType": "text/javascript",
+      "sha256": "4dbc71713e707032994da788d5d0f267e2908d0dc28b7c62aaac7a2d1bfff6b2",
+      "expectedSha256": "4dbc71713e707032994da788d5d0f267e2908d0dc28b7c62aaac7a2d1bfff6b2",
+      "pass": true
+    },
+    {
+      "path": "assets/audio/bgm-v1/map-0.mp3",
+      "status": 200,
+      "bytes": 4323720,
+      "contentType": "audio/mpeg",
+      "sha256": "0240d7d06615392aaab02f36fb4b0e60b9b53aaba2848fe4eac0014d92b7e72e",
+      "expectedSha256": "0240d7d06615392aaab02f36fb4b0e60b9b53aaba2848fe4eac0014d92b7e72e",
+      "pass": true
+    },
+    {
+      "path": "assets/audio/bgm-v1/map-1.mp3",
+      "status": 200,
+      "bytes": 2290162,
+      "contentType": "audio/mpeg",
+      "sha256": "01da3c8c4e38604cd29140ea0225696c632dbab39de9e1d6d8902fc31e072735",
+      "expectedSha256": "01da3c8c4e38604cd29140ea0225696c632dbab39de9e1d6d8902fc31e072735",
+      "pass": true
+    },
+    {
+      "path": "assets/audio/bgm-v1/map-2.mp3",
+      "status": 200,
+      "bytes": 4412117,
+      "contentType": "audio/mpeg",
+      "sha256": "c4dad5e7d3bb71764c5880cb6422de6757000d7cac065d2f79fdd57a87d14565",
+      "expectedSha256": "c4dad5e7d3bb71764c5880cb6422de6757000d7cac065d2f79fdd57a87d14565",
+      "pass": true
+    },
+    {
+      "path": "assets/audio/bgm-v1/map-3.mp3",
+      "status": 200,
+      "bytes": 3449488,
+      "contentType": "audio/mpeg",
+      "sha256": "877a591cdae66f947cecdfe1b884bbeb4424740bf58e70ceb0aecc7672d24584",
+      "expectedSha256": "877a591cdae66f947cecdfe1b884bbeb4424740bf58e70ceb0aecc7672d24584",
+      "pass": true
+    },
+    {
+      "path": "assets/audio/bgm-v1/map-4.mp3",
+      "status": 200,
+      "bytes": 3267529,
+      "contentType": "audio/mpeg",
+      "sha256": "fc2a107a20f1205e2fb23cb65f3cc09e918e6ef3170ed11e7884ddf60da41ec0",
+      "expectedSha256": "fc2a107a20f1205e2fb23cb65f3cc09e918e6ef3170ed11e7884ddf60da41ec0",
+      "pass": true
+    },
+    {
+      "path": "assets/audio/bgm-v1/map-5.mp3",
+      "status": 200,
+      "bytes": 3844903,
+      "contentType": "audio/mpeg",
+      "sha256": "a399dd67078b661535704dc31991659b95c6a65223d3a8bc73bb157f3702bf41",
+      "expectedSha256": "a399dd67078b661535704dc31991659b95c6a65223d3a8bc73bb157f3702bf41",
+      "pass": true
+    }
+  ],
+  "health": {
+    "status": 200,
+    "body": {
+      "ok": true,
+      "transport": "websocket",
+      "authority": "durable-object"
+    }
+  },
+  "range": {
+    "name": "map-0",
+    "status": 200,
+    "bytes": 4323720,
+    "contentRange": null,
+    "partialSupported": false,
+    "valid": true,
+    "existingTrackBaseline": {
+      "name": "title",
+      "status": 200,
+      "bytes": 3374244,
+      "contentRange": null,
+      "partialSupported": false,
+      "valid": true
+    },
+    "note": "Both existing title and new map audio return the complete file with 200 to Range requests; 206 support is not claimed."
+  },
+  "pass": true
+}

@@ -43,6 +43,10 @@ base `782543709a7479fdeabd9114df48d47bc95a3f1d`。元 `game/` の別作業差分
 
 ## 公開状態
 
+[PR89](https://github.com/futsalife24-bot/swarm-front/pull/89) を通常mergeし、公開ソースmain `3a50101136589aff053a15596aa02ea9dfe8310e` からproduction build/dry-runを完了して既存Workerへ公開。Version `3cd719ab-9651-4781-9e70-3c53d24aa383`、公開先 https://swarm-front.melosalife-24.workers.dev/ 。15更新ファイルをアップロードし、6MP3/HTML/JS/CSS/音源READMEの20ファイルはdistとSHA256一致、health200/ok。[配信証拠](evidence/map-bgm/deployed.json)。Range要求は新map-0/既存titleとも全量200応答で完全一致、206部分取得対応は主張しない。最初の検証器は206を必須にして失敗したため、既存曲との比較で既存挙動と確認し、200全量または206部分の厳密なバイト一致を判定するようにした。Workerや配信設定は変更していない。
+
+公開実ブラウザでは既存の中断作戦を表示し、再開/破棄せず保護、console warn/errorなし。[画面](evidence/map-bgm/public-ui.png)。配信MP3の直接URLでも57.03秒まで再生、duration183.96秒・readyState4・errorなし。[音声再生](evidence/map-bgm/public-audio.json)。公開先の実戦は既存セーブを保護して未実施で、実ソロ/協力の出撃検証は前述のローカル環境で実施。記録更新後もゲーム実行コード/素材は監査対象と同一。
+
 監査中にmainが `3d69619270963f25597faa69df20ab95edc0f7e7` へ更新（PR88の保存テスト・文書のみ）。通常merge `3ee55ac3f670944eea7d81456059ac4bfb703f45` で取り込み、STATEの競合は両記録を保持。統合時点のsrc/server/publicのtreeは初回監査対象と完全一致、型/関連26件を再確認。
 
 ### 初回監査F1の修正
@@ -62,4 +66,4 @@ base `782543709a7479fdeabd9114df48d47bc95a3f1d`。元 `game/` の別作業差分
 限定再監査は対象7a9d31dで **PASS、必須P0/P1/P2各0件**。[最終報告](evidence/map-bgm/audit-7a9d31d.txt)。独立側は実配置エディタ/実Audioで保存・キャンセルとclear自然終了を含む7条件、旧反例、互換ハーネス28件、選曲199条件、6曲SHA一致を確認。正式Vitest/型/完全な3Dアプリの独立再実行ではない。回収のPNG2枚は同じ一時停止表示で同一SHAのため、異なる時点の音声証拠には数えず、時間継続の根拠はJSONと独立Audio確認。以降の追加差分は監査/公開記録のみ。
 
 実装 `66fb41d0b7e1bb7805553bcaebe618b210d5b8de` を [PR89](https://github.com/futsalife24-bot/swarm-front/pull/89) へpush。
-[通常Chat独立監査](https://chatgpt.com/c/6ab739e8-5018-83e9-a65f-ca0fff0ed08e) に、39,468,215 bytesの `dist-validation/map-bgm/map-bgm-audit-66fb41d.zip` を添付・送信して監査開始を確認。ZIP SHA256 `a7b17f719bfe225f7915cbf0ee2cc72aa8281d3ed77f990c6ebd8e7231b08a45`。画面のモデル表示はPro（詳細IDは未確認）。独立結果→必要修正→main反映→既存Worker公開へ続ける。
+[通常Chat独立監査](https://chatgpt.com/c/6ab739e8-5018-83e9-a65f-ca0fff0ed08e) の初回添付は、39,468,215 bytesの `dist-validation/map-bgm/map-bgm-audit-66fb41d.zip`。ZIP SHA256 `a7b17f719bfe225f7915cbf0ee2cc72aa8281d3ed77f990c6ebd8e7231b08a45`。画面のモデル表示はPro（詳細IDは未確認）。上記の必要修正・限定再監査・main反映・既存Worker公開を完了。

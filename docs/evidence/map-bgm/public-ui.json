@@ -1,0 +1,10 @@
+{
+  "sourceSha": "3a50101136589aff053a15596aa02ea9dfe8310e",
+  "url": "https://swarm-front.melosalife-24.workers.dev/",
+  "status": "Existing interrupted ST1 save shown; not resumed or discarded",
+  "scripts": [
+    "/assets/index-DQOaouRL.js",
+    "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+  ],
+  "logs": []
+}

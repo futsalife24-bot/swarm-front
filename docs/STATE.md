@@ -1,10 +1,10 @@
-# 現在地: 出撃マップ6曲をSunoから取得・実装・自己検証（2026-09-26）
+# 現在地: 出撃マップ6曲のSuno BGMをmain反映・公開完了（2026-09-26）
 
-限定再監査はHEAD `7a9d31d8aa5d4eb79a5ef5363109e9e03f03194b` でPASS、必須P0/P1/P2各0件。[最終報告](evidence/map-bgm/audit-7a9d31d.txt)。以降は記録文書のみ。main反映・既存Worker公開へ続ける。
+[PR89](https://github.com/futsalife24-bot/swarm-front/pull/89) を通常merge。公開ソースmain `3a50101136589aff053a15596aa02ea9dfe8310e`、既存Worker Version `3cd719ab-9651-4781-9e70-3c53d24aa383`。6マップ名入りのタイトル/スタイルを記録し、既存3候補+新規3曲（生成3回・30クレジット）の原本MP3を追加。ソロ/協力で実worldに合わせて選曲。
 
-[PR89](https://github.com/futsalife24-bot/swarm-front/pull/89)、初回実装 `66fb41d0b7e1bb7805553bcaebe618b210d5b8de`。[通常Chat監査](https://chatgpt.com/c/6ab739e8-5018-83e9-a65f-ca0fff0ed08e) の必須P2/F1（回収中の配置編集復帰で戦闘曲へ切替）を `ddbe6dedf9a36b7a562b659bdf2844dd7cda05d5` で修正。反例は修正前失敗→修正後成功、関連28件・型・build・実Audioと実ソロUIの戦闘/clear/victory往復が成功。初期worldのみ専用fixture。最新main `3d69619` の保存テスト追加は通常mergeで保護。再監査・main・公開は未完了。以降は証拠・検証fixture・記録のみ。
+[通常Chat監査](https://chatgpt.com/c/6ab739e8-5018-83e9-a65f-ca0fff0ed08e) のF1/P2を `ddbe6dedf9a36b7a562b659bdf2844dd7cda05d5` で修正し、回収中の配置復帰でclear/victoryを維持。反例と関連28件・型・実Audio・実ソロ/ローカルWorker協力・実ソロ回収UIの往復が成功（回収の初期worldのみ専用fixture）。再監査は `7a9d31d8aa5d4eb79a5ef5363109e9e03f03194b` でPASS、必須P0/P1/P2各0件。[最終報告](evidence/map-bgm/audit-7a9d31d.txt)。
 
-branch `codex/map-bgm-suno`、base `782543709a7479fdeabd9114df48d47bc95a3f1d`、作業場所 `../share-image-fix`。6マップを識別するSunoタイトル/スタイルを記録し、既存3曲+新規3曲を原本MP3で追加。新規生成3回・30クレジット。ソロ/協力は実worldのマップ曲を再生。型・関連26件・6音源全デコード・実ブラウザ6曲/切替・実ソロ出撃・実ローカルWorker協力出撃・production build/dry-run成功。独立Chat監査・main反映・公開は進行中。元gameの別差分は保護。[詳細](MAP-BGM.md)。
+merge後mainのproduction build/dry-run、公開20ファイルのSHA一致、health200/okが成功。公開MP3を実ブラウザで57秒再生、音声エラーなし。公開UIは既存中断セーブを保護して再開せず、console warn/errorなし。Rangeは既存曲・新曲とも全量200応答で、206対応は未確認ではなく未提供の観測。実スマホ/多人数長時間/主観的全曲試聴、任意O1/O2は残る。制作branch `codex/map-bgm-suno`、base `782543709a7479fdeabd9114df48d47bc95a3f1d`、現在main、作業場所 `../share-image-fix`。元gameの別差分を保護。[詳細](MAP-BGM.md)・[入力プロンプト](MAP-BGM-PROMPTS.md)。
 
 # 現在地: 保存・更新・再開の回帰基準をmain反映完了（2026-09-26）
 
