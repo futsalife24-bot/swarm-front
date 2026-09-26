@@ -1,6 +1,6 @@
 # 現在地: 保存・更新・再開の回帰基準を検証（2026-09-26）
 
-branch `codex/save-regression-baseline`、base `782543709a7479fdeabd9114df48d47bc95a3f1d`。既存保存テストの対応表、旧保存固定fixture3種、専用単体147件、実Chrome21ケース/シナリオの実行入口を整備。単体・実ブラウザ18ケース・型チェック成功後、分解済み報酬3ケースを入口へ追加して最終実行中。保存処理/ゲーム本体は変更なし。既存dirty作業を保護して独立コピーで実施。詳細・コマンド・証拠・限界は [SAVE-REGRESSION.md](SAVE-REGRESSION.md)。指定の独立Chat監査とmain反映はこれから。配信runtimeの変更はないため再デプロイ対象なし。
+branch `codex/save-regression-baseline`、base `782543709a7479fdeabd9114df48d47bc95a3f1d`、実装 `6c3e859fdb520638758642e87cff80ca2252e4bf`、[PR88](https://github.com/futsalife24-bot/swarm-front/pull/88)。既存保存テストの対応表、旧保存固定fixture3種、専用単体147件、実Chrome21ケース/シナリオの実行入口を整備。追加互換8件を含む単体155件、最終clean commitの実ブラウザ21ケース（245.18秒）、型・差分/書式が成功。保存処理/ゲーム本体は不変。既存dirty7件は開始/終了SHA256一致で保護。[通常Chat監査](https://chatgpt.com/c/6ab72f35-0dc8-83ee-ab05-ece436487714)へ差分/必要ソース/証拠ZIPを送信済み、回答待ち。main反映は未完了。配信runtime不変で再デプロイ対象なし。[対応表・証拠・限界](SAVE-REGRESSION.md)。
 
 # 現在地: CALYXエネミーレポート攻撃文をmain反映・既存Workerへ公開（2026-09-25）
 
