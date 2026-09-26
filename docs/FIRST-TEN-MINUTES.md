@@ -100,3 +100,13 @@ PR93のmain `ade0ae4956073772a912405c21d7c2fb8f0872f0` を取り込み、STATE�
 ## 限定再監査PASS（2026-09-26）
 
 追加資料と同じ監査の必要差分/検証資料の送信許可を受領し、統合ZIPの添付・限定再監査が完了。対象c909c381ad1a904cf9b789230d3fc085b13e3f88、main a889eaf3ac43ae390e9e176448e7f4d84f1f2c52、文書/証拠追加HEAD31eae35030ad0ead7497e1b9951db0b0a78ffcdfでPASS。F1/P2解消、残る必須P0/P1/P2各0件。[再監査回答](evidence/first-ten-minutes/audit-c909c38.txt)。独立側はnative dialog最小環境11検証群・音量/保存境界6検証群を成功。標準保存147件等の独立再実行ではない。任意O1/O3、実機/物理safe area/SW更新、人間初見0人の未確認は維持する。今回の記録追加はruntime/テストを変更しない。
+
+## 通常merge・公開確認完了（2026-09-26）
+
+PR92を通常merge。最終base a889eaf3ac43ae390e9e176448e7f4d84f1f2c52、PR HEAD 4063da45e4df30f748eb5d88158ff66d5186e03c、公開ソースmain de2e0a76f022a8f6783fd82746e7d91c6f949fc7。既存Worker Version f50677a9-8755-4fc9-87a5-1221a2afefe1。[公開先](https://swarm-front.melosalife-24.workers.dev)。merge後ソースのproduction build（1.61秒）・Worker dryrun・通常デプロイが成功。
+
+配信15ファイルのSHA256がローカルbuildと一致、healthは200/ok。公開先を新規一時Chrome contextで844×390/640×360確認し、装備入替先案内・844の初回説明・実マウスPointer Lock取得から初遭遇の解除/再開・本番診断API非公開を確認。pageerrorは各0。実ユーザープロファイル/セーブは使用せず、Service Workerは遮断した。[公開証拠JSON](evidence/first-ten-minutes/release.json)、[844説明](evidence/first-ten-minutes/published-844-guide.png)、[640装備](evidence/first-ten-minutes/published-640-gear.png)。
+
+この公開記録は文書/証拠のみで、runtime/テストは監査対象から不変。再デプロイ対象なし。記録branchはcodex/first-ten-minutes-release-record。別worktreeがlocal mainを使用中のため、最後は本作業の隔離checkoutをorigin/mainへdetached同期し、別作業のmainは変更しない。
+
+状態はAwaiting manual。人間の初見テストは0人・未実施で、T2総合Doneではない。前述の匿名記録手順で人間の操作/理解/詰まりを確認するまで保留。実機/物理safe area/SW更新、任意O1/O3も未確認・保留。元gameの別作業7ファイルは開始時hashと一致。後続タスクは対象外。

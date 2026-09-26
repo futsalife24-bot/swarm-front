@@ -1,3 +1,9 @@
+# 現在地: 初見10分の3修正を公開済み・人間初見確認待ち（2026-09-26）
+
+PR92通常merge、通常Chat限定再監査PASS（必須P0/P1/P2各0）。公開ソースmain `de2e0a76f022a8f6783fd82746e7d91c6f949fc7`、Worker Version `f50677a9-8755-4fc9-87a5-1221a2afefe1`。merge後build/dryrun、配信15ファイルSHA一致/health200、公開844×390/640×360の隔離ブラウザ確認が成功。型・保存147・音量5・保存ブラウザ21・初勝利/報酬装備/reload/再出撃・装備8条件は今回の統合版で検証済み。
+
+Awaiting manual: 人間初見0人、実機/物理safe area/SW更新は未確認。自動操縦を人間成功と扱わず、総合Doneにしない。記録のみのbranch `codex/first-ten-minutes-release-record`、隔離作業場所 `../first-ten-minutes`。他worktreeのlocal mainと元gameのdirty7件を保護し、本checkoutは最後にorigin/mainへdetached同期。[詳細・今回の公開証拠](FIRST-TEN-MINUTES.md)。以下は経過記録。
+
 # 現在地: 初出撃3修正の統合版監査PASS・公開準備（2026-09-26）
 
 [PR92](https://github.com/futsalife24-bot/swarm-front/pull/92)、branch `codex/first-ten-minutes`、作業場所 `../first-ten-minutes/`。初遭遇dialogのPointer Lock、初回操作/勝利条件、戦果→装備変更→再出撃を修正。最新main `a889eaf3ac43ae390e9e176448e7f4d84f1f2c52` を取り込み、runtimeはmainに対してplaytest-app.tsの追加6行/削除4行のみ。
