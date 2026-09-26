@@ -30,7 +30,16 @@ export async function install(meta) {
   }
   const inputTypes = ['pointerdown', 'pointermove', 'pointerup', 'keydown'];
   function visibility() {
-    if (recording) push('events', { t: performance.now() - started, visibility: document.visibilityState });
+    if (recording) {
+      previous = null;
+      push('events', { t: performance.now() - started, visibility: document.visibilityState });
+    }
+  }
+  function dialogToggle(e) {
+    if (recording && e.target instanceof HTMLDialogElement) {
+      previous = null;
+      push('events', { t: performance.now() - started, dialog: e.newState });
+    }
   }
   function observe(type) {
     if (!PerformanceObserver.supportedEntryTypes.includes(type)) return;
@@ -105,6 +114,7 @@ export async function install(meta) {
     observers = [];
     for (const type of inputTypes) document.removeEventListener(type, input, true);
     document.removeEventListener('visibilitychange', visibility);
+    document.removeEventListener('toggle', dialogToggle, true);
     if (Renderer.prototype.render === wrapped) Renderer.prototype.render = original;
     output.textContent = `停止 ${Math.round(report.elapsedMs / 1000)}秒 / JSON保存`;
     return report;
@@ -126,6 +136,7 @@ export async function install(meta) {
     Renderer.prototype.render = wrapped;
     for (const type of inputTypes) document.addEventListener(type, input, { capture: true, passive: true });
     document.addEventListener('visibilitychange', visibility);
+    document.addEventListener('toggle', dialogToggle, true);
     observe('longtask'); observe('long-animation-frame');
     output.textContent = '記録中';
     statusTimer = setInterval(() => { output.textContent = `${Math.floor((performance.now() - started) / 1000)}秒`; }, 1000);
