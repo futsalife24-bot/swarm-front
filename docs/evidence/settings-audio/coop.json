@@ -1,0 +1,24 @@
+[
+  {
+    "bgm": "0",
+    "bgmPaused": true,
+    "case": "coop-saved",
+    "nameInRight": true,
+    "rightMedia": true,
+    "se": "0.65",
+    "status": "設定を保存しました。"
+  },
+  {
+    "bgm": "0",
+    "case": "coop-reloaded-new-room",
+    "muted": true,
+    "nameInRight": true,
+    "paused": true,
+    "se": "0.65"
+  },
+  {
+    "case": "right-pv",
+    "duration": 30,
+    "error": null
+  }
+]

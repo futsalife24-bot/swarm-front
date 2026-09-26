@@ -830,7 +830,11 @@ function settingsUI() {
     editControlLayout(returnTo);
   });
   d.querySelector(".menu-dialog-body")!.append(developerEntry);
-  mountMediaMenu(d, () => sound.volume);
+  mountMediaMenu(
+    d,
+    () => sound.volume,
+    () => sound.musicVolume,
+  );
   d.querySelector("#pt-volume")!.addEventListener(
     "input",
     (e) => (sound.volume = Number((e.target as HTMLInputElement).value)),

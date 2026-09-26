@@ -2606,6 +2606,22 @@ body .settings-columns #settings-save button {
 body .settings-columns #settings-save p {
   margin-bottom: 10px;
 }
+body .settings-columns .player-name-setting {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+body .settings-columns .player-name-setting span {
+  overflow-wrap: anywhere;
+}
+body .settings-columns #settings-save .player-name-setting button {
+  width: auto;
+  min-width: 52px;
+  margin: 0;
+  flex: none;
+}
 body .settings-columns #settings-preferences .setting-row {
   grid-template-columns: minmax(145px, 0.9fr) minmax(0, 1.25fr);
   gap: 2px 12px;

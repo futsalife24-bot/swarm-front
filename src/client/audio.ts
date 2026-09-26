@@ -40,10 +40,14 @@ const AR_HIT = `${import.meta.env.BASE_URL}assets/audio/ar-hit-v1/`;
 const isImpact = (type: string) =>
   type === "impact" ||
   ["impactShell", "impactHard", "impactSoft"].includes(type);
+const clampVolume = (v: number) =>
+  Number.isFinite(v) ? Math.max(0, Math.min(1, v)) : 0;
 export class Sound {
   context: AudioContext | undefined;
   private master?: GainNode;
   private level = 0.35;
+  private musicLevel = 1;
+  private effectsLevel = 1;
   private buffers = new Map<string, AudioBuffer>();
   private bytes = new Map<string, ArrayBuffer>();
   private loading?: Promise<void>;
@@ -57,15 +61,30 @@ export class Sound {
     return this.level;
   }
   set volume(v: number) {
-    this.level = Number.isFinite(v) ? Math.max(0, Math.min(1, v)) : 0;
-    backgroundMusic().volume = this.level;
+    this.level = clampVolume(v);
+    this.syncVolumes();
+  }
+  get musicVolume() {
+    return this.level * this.musicLevel;
+  }
+  get effectsVolume() {
+    return this.level * this.effectsLevel;
+  }
+  setVolumes(volume: number, bgm = 1, se = 1) {
+    this.level = clampVolume(volume);
+    this.musicLevel = clampVolume(bgm);
+    this.effectsLevel = clampVolume(se);
+    this.syncVolumes();
+  }
+  private syncVolumes() {
+    backgroundMusic().volume = this.musicVolume;
     if (this.master && this.context)
       this.master.gain.setTargetAtTime(
-        this.level,
+        this.effectsVolume,
         this.context.currentTime,
         0.015,
       );
-    if (this.level === 0) this.stop();
+    if (this.effectsVolume === 0) this.stop();
   }
   constructor() {
     void this.preload();
@@ -107,7 +126,7 @@ export class Sound {
       if (!this.context) {
         this.context = new AudioContext();
         this.master = this.context.createGain();
-        this.master.gain.value = this.volume;
+        this.master.gain.value = this.effectsVolume;
         const compressor = this.context.createDynamicsCompressor();
         compressor.threshold.value = -12;
         compressor.knee.value = 12;
@@ -207,7 +226,7 @@ export class Sound {
     if (
       !c ||
       c.state !== "running" ||
-      this.volume <= 0 ||
+      this.effectsVolume <= 0 ||
       document.hidden ||
       !(type in LEVELS)
     )

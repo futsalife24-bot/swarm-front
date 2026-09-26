@@ -1,3 +1,7 @@
+# 現在地: 設定の右メニュー集約とBGM/SE調整を実装、監査準備（2026-09-26）
+
+branch `codex/settings-audio-layout`、base `97926835baefe1fa8fa41df079360114a3e4061d`、作業場所 `../share-image-fix`。サウンドテスト/PVを右側へ移動、プレイヤー名を文字＋小さい変更ボタンへ分離、左に全体/BGM/SE音量。旧保存の音量を維持しソロ/協力/練習へ適用。型・関連66件、実ソロ/ローカルWorker協力で独立ミュート・reload保存・名前変更・844×390/667×375・右PV入口が成功。main反映/公開はこれから。元gameの別差分を保護。[詳細・証拠](SETTINGS-AUDIO.md)。
+
 # 現在地: 設定のサウンドテスト・PVをmain反映・公開完了（2026-09-26）
 
 [PR90](https://github.com/futsalife24-bot/swarm-front/pull/90)を通常merge。公開ソースmain `23856512fc80e9e4a13e16f31495c47ab24729a4`、既存Worker Version `2e3f6c96-e872-4586-84ac-c2130e86fadb`。ソロ/協力の設定先頭に全13曲のサウンドテストと最新30秒PV再生を追加。BGM停止/同位置復帰、試聴専用音量、読込中終了、非表示停止に対応。
