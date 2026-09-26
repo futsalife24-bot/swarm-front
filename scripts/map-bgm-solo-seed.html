@@ -1,0 +1,33 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><title>回収BGMの実画面検証準備</title>
+<div id="ui"></div><script type="module">
+import { startWithSaveWriter } from '/src/client/save-writer.ts';
+import { initializeProgress, persistProgress, soldier } from '/src/client/progression-save.ts';
+import { writeBattleCheckpoint } from '/src/client/battle-checkpoint.ts';
+import { createWorld, addPlayer, start } from '/src/shared/game.ts';
+import { initSolo } from '/src/shared/solo-progression.ts';
+import { stageFor, troopCount } from '/src/shared/stages.ts';
+const marker='swarm-bgm-owned-test-origin';
+if(location.hostname!=='127.0.0.1')throw Error('Local fixture only');
+startWithSaveWriter(async()=>{
+ document.querySelector('#ui').innerHTML='<h1>実ゲームの回収BGM検証</h1><p>専用ローカルoriginのみ。通常のソロ画面を使い、開始worldだけ固定fixtureにします。既存データのある未管理originには書き込みません。</p><button id="battle">戦闘の中断保存を作成</button><button id="collection">勝利直前の中断保存を作成</button><pre id="status"></pre>';
+ async function seed(collection){
+  if(!localStorage.getItem(marker)&&localStorage.length)throw Error('Refusing an origin with existing data');
+  localStorage.setItem(marker,'1');
+  const save=initializeProgress('normal');
+  if(save.result?.choice==='pending')throw Error('Finish the fixture result before reseeding');
+  save.tutorials=[...new Set([...save.tutorials,'combat'])];persistProgress(save);
+  const p=soldier(save),world=createWorld(crypto.randomUUID(),123,1);
+  initSolo(world,1,'normal',false,p.levels);world.solo.acquired=save.serial;
+  addPlayer(world,'solo',p.equipped.map(id=>save.inventory.find(w=>w.id===id)));start(world);
+  if(collection){
+   const plan=stageFor(world);world.wave=plan.waves.length;
+   world.enemies=[];world.spawned=troopCount(plan.waves[world.wave-1]);
+   world.solo.bossSpawned=plan.waves[world.wave-1].bosses.length;
+  }
+  if(!writeBattleCheckpoint(world,save))throw Error('Checkpoint rejected');
+  document.querySelector('#status').textContent='準備完了。通常ゲームを開きます。';location.assign('/');
+ }
+ document.querySelector('#battle').onclick=()=>seed(false).catch(e=>document.querySelector('#status').textContent=String(e));
+ document.querySelector('#collection').onclick=()=>seed(true).catch(e=>document.querySelector('#status').textContent=String(e));
+});
+</script></html>

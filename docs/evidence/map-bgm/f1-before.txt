@@ -33,4 +33,3 @@ AssertionError: expected [ 'battle' ] to deeply equal [ 'collection' ]
       Tests  1 failed | 1 passed (2)
    Start at  12:35:31
    Duration  300ms (import 53%, transform 30%, tests 12%, worker 4%)
-

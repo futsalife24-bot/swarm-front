@@ -51,7 +51,11 @@ base `782543709a7479fdeabd9114df48d47bc95a3f1d`。元 `game/` の別作業差分
 
 `tests/bgm-layout-return.test.ts` は実ソースのbattleUI/pause関数と配置復帰callbackを抽出して隔離Node VMで実行（DOM等はスタブ）。BGMクラスを代用しての実音声試験ではなく、誤った中間画面を選ばない境界テスト。初回ソース66fb41dでは回収ケースが失敗、修正版では2件とも成功。関連合計28件、型/対象TS書式も成功。ブラウザfixtureにもclear再生中と勝利曲移行後のlayout→collection継続確認を追加。
 
-実iabの新しいローカルorigin `127.0.0.1:5378` で6曲と全切替が成功し、追加2条件の曲・時間継続を確認。[修正後結果](evidence/map-bgm/browser-controls-f1.json)。旧origin5376では追加項目のない旧モジュールが読み込まれたため、その結果を修正版の証拠には採用しない。実ゲームで勝利までプレイして配置画面へ往復する全行程は未再実行。
+実iabの新しいローカルorigin `127.0.0.1:5378` で6曲と全切替が成功し、追加2条件の曲・時間継続を確認。[修正後結果](evidence/map-bgm/browser-controls-f1.json)。旧origin5376では追加項目のない旧モジュールが読み込まれたため、その結果を修正版の証拠には採用しない。
+
+さらに `127.0.0.1:5380` の実ソロゲームで、一時停止→配置編集→キャンセルを操作。通常戦闘のmap-0が12.38→26.88秒で継続、回収画面のclearが0.39→配置中0.97→復帰後1.48秒で継続し自然終了でvictoryへ移行、victory中の往復でも同じ曲・Audio1個を維持した（45.65→自然ループ3.38→4.36秒）。音声/console errorなし。[実画面の記録](evidence/map-bgm/solo-collection-f1.json)。開始時のworldだけ `scripts/map-bgm-solo-seed.html` で専用ローカルoriginに用意した正規checkpointで、回収ケースは最終waveの敵を消化済みにした合成入力。以降は実アプリ・実3D・実保存・実配置UI・実Audio。通常の戦闘を手動で勝利した証拠ではなく、実UIの復帰と音楽の検証として扱う。保存writerや認証の迂回はなし。
+
+初回監査の最終結果はP0/P1各0、必須P2/F1が1件、任意P3が2件。[全文](evidence/map-bgm/audit-66fb41d.txt)。任意事項は同一JSタスク内で再生pending→同曲へ戻す合成ケース、測定スクリプトが期待SHA検証ではなく記録更新も行う点。初回の13曲独立全デコードと6曲SHA一致は成功。今回のF1修正範囲は変えず、両任意事項は未対応として残す。
 
 実装 `66fb41d0b7e1bb7805553bcaebe618b210d5b8de` を [PR89](https://github.com/futsalife24-bot/swarm-front/pull/89) へpush。
 [通常Chat独立監査](https://chatgpt.com/c/6ab739e8-5018-83e9-a65f-ca0fff0ed08e) に、39,468,215 bytesの `dist-validation/map-bgm/map-bgm-audit-66fb41d.zip` を添付・送信して監査開始を確認。ZIP SHA256 `a7b17f719bfe225f7915cbf0ee2cc72aa8281d3ed77f990c6ebd8e7231b08a45`。画面のモデル表示はPro（詳細IDは未確認）。独立結果→必要修正→main反映→既存Worker公開へ続ける。
