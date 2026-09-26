@@ -1,3 +1,11 @@
+# 現在地: 初出撃3修正の統合版監査PASS・公開準備（2026-09-26）
+
+[PR92](https://github.com/futsalife24-bot/swarm-front/pull/92)、branch `codex/first-ten-minutes`、作業場所 `../first-ten-minutes/`。初遭遇dialogのPointer Lock、初回操作/勝利条件、戦果→装備変更→再出撃を修正。最新main `a889eaf3ac43ae390e9e176448e7f4d84f1f2c52` を取り込み、runtimeはmainに対してplaytest-app.tsの追加6行/削除4行のみ。
+
+[通常Chatの限定再監査](https://chatgpt.com/c/6ab765f3-df10-83e8-8d19-cdda8008ecef)は対象 `c909c381ad1a904cf9b789230d3fc085b13e3f88`、文書/証拠追加HEAD `31eae35030ad0ead7497e1b9951db0b0a78ffcdf` でPASS。F1/P2のmain統合指摘は解消、残る必須P0/P1/P2各0件。独立検証はdialog最小環境11群と音量/保存境界6群、提出標準テストの再実行とは区別。
+
+cleanな895d831で型・保存147・音量5・保存ブラウザ21（189.48秒）・844/640導線・trustedマウス・自動勝利51.4ゲーム秒/報酬装備/reload/再出撃・装備8条件・production/Pages/Worker dryrun成功。以降は文書/証拠のみ。通常merge・既存Worker公開/配信確認はこれから。元gameの別作業7ファイルを保護。人間初見0人、実機/物理safe area/SW更新は未確認。任意O1/O3は保留、O2は文書補足。[詳細・証拠](FIRST-TEN-MINUTES.md)。
+
 # 現在地: 設定の右メニュー集約とBGM/SE調整、main反映・公開完了（2026-09-26）
 
 branch `codex/settings-audio-layout`、base `97926835baefe1fa8fa41df079360114a3e4061d`、作業場所 `../share-image-fix`。サウンドテスト/PVを右側へ移動、プレイヤー名を文字＋小さい変更ボタンへ分離、左に全体/BGM/SE音量。旧保存の音量を維持しソロ/協力/練習へ適用。型・関連66件、実ソロ/ローカルWorker協力で独立ミュート・reload保存・名前変更・844×390/667×375・右PV入口が成功。確定実装e36c7de後のproduction build/dry-run成功。[PR93](https://github.com/futsalife24-bot/swarm-front/pull/93)、対象 `e8766b0ccd21a532f5247529c9f156f09982180f` の[通常Chat監査](https://chatgpt.com/c/6ab7618b-641c-83e8-8a2e-a9e581356613)はPASS、必須P0/P1/P2各0件。独立45ケース群と提出66件は区別。PR93を通常merge、公開ソースmain ade0ae4956073772a912405c21d7c2fb8f0872f0、Worker Version efbb08b7-5935-447a-bcbf-44d971651fb0。merge後build/dry-run、公開SHA/health、公開設定UI・音量0保存/復元を確認。現在main。元gameの別差分を保護。[詳細・証拠](SETTINGS-AUDIO.md)。
