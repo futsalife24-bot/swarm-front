@@ -1,0 +1,71 @@
+{
+  "proof": {
+    "head": "cc6b45c0b6f2b2155fddc211b1d364da3bd9d8b1",
+    "currentScriptSha256": "1d4226a7e0aacad3007a3fac92f8c338efb1078a9008f5054b779deeb56bee5b",
+    "startedAt": "2026-09-26T02:41:25.379Z",
+    "cases": [
+      {
+        "name": "before-dropped-writes",
+        "exit": 0,
+        "expectedExit": 0,
+        "seconds": 49.2601828
+      },
+      {
+        "name": "after-dropped-writes",
+        "exit": 1,
+        "expectedExit": 1,
+        "seconds": 53.343245800000005
+      },
+      {
+        "name": "after-real-writes",
+        "exit": 0,
+        "expectedExit": 0,
+        "seconds": 101.2816064
+      }
+    ],
+    "passed": true,
+    "fixture": "Negative cases drop ONLY checkpoint setItem calls after the first saved battle, in new isolated browser contexts. This is a fault-injection proof of the test, not successful persistence evidence.",
+    "finishedAt": "2026-09-26T02:45:03.67Z"
+  },
+  "checkpoint": {
+    "pass": true,
+    "finishedAt": "2026-09-26T02:45:02.823Z",
+    "origin": "http://127.0.0.1:64960",
+    "cycles": [
+      {
+        "cycle": 1,
+        "run": "20af7469-4a46-4ea1-9a5e-08c291889225",
+        "savedTime": 0.65,
+        "resumedTime": 0.9000000000000002,
+        "persistedTime": 0.9000000000000002,
+        "wave": 1,
+        "enemies": 1
+      },
+      {
+        "cycle": 2,
+        "run": "20af7469-4a46-4ea1-9a5e-08c291889225",
+        "savedTime": 0.9000000000000002,
+        "resumedTime": 1.2500000000000004,
+        "persistedTime": 1.2500000000000004,
+        "wave": 1,
+        "enemies": 1
+      },
+      {
+        "cycle": 3,
+        "run": "20af7469-4a46-4ea1-9a5e-08c291889225",
+        "savedTime": 1.2500000000000004,
+        "resumedTime": 1.6000000000000008,
+        "persistedTime": 1.6000000000000008,
+        "wave": 1,
+        "enemies": 2
+      }
+    ],
+    "reward": {
+      "run": "20af7469-4a46-4ea1-9a5e-08c291889225",
+      "id": "regression-resumed-reward",
+      "duplicatePrevented": true,
+      "fixture": "Synthetic remaining roster completion and reward; real checkpoint/UI reload and production persistence functions."
+    },
+    "errors": []
+  }
+}

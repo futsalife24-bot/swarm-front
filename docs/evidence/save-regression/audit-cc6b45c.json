@@ -1,0 +1,30 @@
+{
+  "date": "2026-09-26",
+  "auditUrl": "https://chatgpt.com/c/6ab72f35-0dc8-83ee-ab05-ece436487714",
+  "base": "782543709a7479fdeabd9114df48d47bc95a3f1d",
+  "auditedTestHead": "cc6b45c0b6f2b2155fddc211b1d364da3bd9d8b1",
+  "verdict": "PASS",
+  "requiredFindings": { "P0": 0, "P1": 0, "P2": 0 },
+  "resolvedFinding": "F1: stale initial checkpoint could pass repeated resume checks",
+  "archive": {
+    "name": "save-regression-reaudit-cc6b45c.zip",
+    "bytes": 18231,
+    "sha256": "7effc7c30a96905f7a2318e76d1f070c82af1d04f0e6bdc928646e51b2f7066e"
+  },
+  "auditorExecuted": "12 expected-result checks using extracted comparisons, inherited runtime, isolated Map storage and synthetic page operations; not 12 additional project unit/browser tests",
+  "auditorVerified": [
+    "Archive size/hash and 20-line patch",
+    "Script hash agrees with run evidence",
+    "Negative failure maps to persisted World comparison, not timeout",
+    "Real-write evidence advances persisted time across all three cycles",
+    "Corrected enemy counts agree with recorded JSON"
+  ],
+  "optionalFindings": [
+    "O1/P3: implementation uses two evaluate calls after pause; documentation corrected",
+    "O2/P3: disposable probe could match a more specific assertion than AssertionError; actual failure source was independently verified"
+  ],
+  "auditorDidNotRerun": ["Chrome", "155 project unit tests", "21 browser cases", "typecheck", "build"],
+  "auditorDidNotVerify": ["Git commit trees", "Later documentation-only commits", "Production deployment", "Service Worker update", "Physical devices", "OS crash durability", "Real cloud", "Periodic-save trigger alone", "pagehide trigger alone", "Full real-combat victory"],
+  "modelId": "unconfirmed",
+  "reasoningEffort": "unconfirmed"
+}

@@ -1,0 +1,133 @@
+{
+  "version": 2,
+  "mode": "normal",
+  "inventory": [
+    {
+      "id": "v2-starter-rifle",
+      "kind": "rifle",
+      "rarity": 0,
+      "power": 1,
+      "effect": "none",
+      "format": 2,
+      "variance": {
+        "power": 0,
+        "reload": 0,
+        "range": 0,
+        "rate": 0
+      },
+      "testData": false,
+      "acquired": 0
+    },
+    {
+      "id": "v2-starter-shotgun",
+      "kind": "shotgun",
+      "rarity": 0,
+      "power": 1,
+      "effect": "none",
+      "format": 2,
+      "variance": {
+        "power": 0,
+        "reload": 0,
+        "range": 0,
+        "rate": 0
+      },
+      "testData": false,
+      "acquired": 1
+    },
+    {
+      "id": "v2-starter-rocket",
+      "kind": "rocket",
+      "rarity": 0,
+      "power": 1,
+      "effect": "none",
+      "format": 2,
+      "variance": {
+        "power": 0,
+        "reload": 0,
+        "range": 0,
+        "rate": 0
+      },
+      "testData": false,
+      "acquired": 2
+    }
+  ],
+  "pending": [],
+  "locks": [
+    "v2-starter-rifle"
+  ],
+  "soldiers": [
+    {
+      "id": "standard",
+      "name": "STANDARD TROOPER",
+      "levels": {
+        "hp": 2,
+        "aim": 0,
+        "move": 0,
+        "swap": 0
+      },
+      "equipped": [
+        "v2-starter-rifle",
+        "v2-starter-shotgun"
+      ],
+      "accessory": "fixture-pickup"
+    },
+    {
+      "id": "fixture-reserve",
+      "name": "REGRESSION RESERVE",
+      "levels": {
+        "hp": 1,
+        "aim": 1,
+        "move": 0,
+        "swap": 0
+      },
+      "equipped": [
+        "v2-starter-rocket",
+        "v2-starter-shotgun"
+      ],
+      "accessory": "fixture-pickup"
+    }
+  ],
+  "selectedSoldier": "fixture-reserve",
+  "unlocked": [
+    "hp",
+    "aim"
+  ],
+  "materials": 2,
+  "points": 18,
+  "coins": 137,
+  "powder": 29,
+  "accessories": [
+    {
+      "id": "fixture-pickup",
+      "kind": "pickup",
+      "rarity": 3,
+      "locked": true,
+      "testData": false
+    }
+  ],
+  "missions": {
+    "1:normal": [
+      true,
+      true,
+      false
+    ],
+    "2:normal": [
+      true,
+      false,
+      false
+    ]
+  },
+  "branch": false,
+  "encounters": {
+    "ant": "solo"
+  },
+  "tutorials": [
+    "movement"
+  ],
+  "receipts": [
+    "fixture-old-win"
+  ],
+  "serial": 3,
+  "armoryMigration": 1,
+  "revision": 8
+}
