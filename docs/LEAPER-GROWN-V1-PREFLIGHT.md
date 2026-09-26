@@ -96,3 +96,18 @@ F1への対応。再監査の対象はこの節以降のコミット。
 - 検証実行：clean HEAD `a0cf797151ae8ad28ec0404ee126fee4ae30efec` で `node scripts/check-leaper-grown.mjs` が合格。結果は `docs/evidence/leaper-grown-v1/checks.json`、段階ごとの静止画7枚、`renderer-sequence.mp4`（6.2秒・186フレーム）。型チェック・build・`tests/structure-motion.test.ts`＋`tests/motion-trs.test.ts` 13件成功。
 - 出荷GLB SHA-256：`7a57499b4e7ab82c9fe23155f6731d95213a4fb29835eaecf905e9cd939c38e3`（候補GLBと同一、`validation.json` と一致）。
 - 未確認のまま：協力2クライアント表示、スマホ実機性能、胸の発光器官の見え方（ユーザー判断）。
+
+## 再監査・最終判定（2026-09-26）
+
+- 再監査（対象 `e699f6d`）：新規必須0。F1のコード・証拠整備を確認、実物未確認のため保留。
+- 実物ZIP `PR91-audit-e699f6d.zip`（README＋30ファイル、各SHA-256記載）を同じ監査Chatへ添付。
+- **最終判定：PASS。F1解消。P0＝0／P1＝0／P2＝0。対象HEAD `e699f6d93997cfcbb6b34c225b32b49a20fce733`。**
+  - 30ファイルのサイズ・SHA-256一致。出荷GLBを実バイトから再計算し `7a57499b4e7ab82c9fe23155f6731d95213a4fb29835eaecf905e9cd939c38e3` と一致。4 mesh・20骨・材質4種・4クリップ、v2と骨名・順序・逆バインド行列一致、埋込み画像9枚一致。
+  - Leapは離陸≈0m・終了＋0.04935m。理想跳躍高度を加えた217時点で最下点≈0m。
+  - 造形：箱型ロボットからの脱却PASS、VOLLEYとの識別PASS、禁止表現PASS（表示範囲。撃破場面は未確認）。
+- 任意改善・注記（必須ではない）
+  - 胸の発光器官は正面で単眼・レンズを連想させる。側面・斜めでは頭のない胴の器官として読める。単眼の連想を避けるなら真円を分割した発光スリット等へ。
+  - 検証動画の「攻撃（impact）」区間（約1.967〜2.733秒）はログ上Idle。攻撃成立・Lunge後半の回復姿勢は動画では未確認（撮影スクリプトの範囲の問題）。
+  - 着地時（4.000→4.033秒）に胴が一段下がる。既存Rendererの跳躍中高さ補間の仕様で、PR91では未変更。
+- 監査側の検証限界：実Renderer再撮影、Blender再生成、全Vitest・build、協力2クライアント、スマホFPS・発熱は独立再実行していない。
+- PASS後、最新main `869dfff` をPRブランチへmerge（競合はSTATE.mdのみ、PR91の変更ファイルとの重なりなし）。merge後HEAD `93f3016` で型チェック・build・全Vitest（既存の失敗4件以外638件成功）、`check-leaper-grown.mjs`（同一値で合格）を実行。以後の差分は記録文書のみ。
