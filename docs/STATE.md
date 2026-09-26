@@ -1,3 +1,6 @@
+# 現在地: T3 Android性能の診断準備、実機待ち（2026-09-27）
+
+状態 **Awaiting manual**。base `7827b9c07886efbad50c2bee3bf17a940b79a1fd`、branch `codex/android-performance-t3`、作業場所 `../share-image-fix`。既存4ケース・固定条件/未確定項目、ローカル専用の診断/JSON解析/合成試験データを整備。本体src/server/public不変。型・保存147件・build・Worker dry-run、PC実描画の記録/保存/再読込/解除と既存試験保存の上書き拒否が成功。物理Android接続0・実測0、性能改善なし、独立監査/merge/公開なし。端末情報と実機操作を待つ。正規gameのdirty7件と他worktreeを保護。測定/再開/失敗と限界/次セッション文は [ANDROID-PERFORMANCE.md](ANDROID-PERFORMANCE.md)。T2の人間初見待ちはT3の依存条件ではない。
 # 現在地: LEAPER成長殻モデル、PR91通常merge・既存Worker公開と表示確認完了（2026-09-26）
 
 [PR91](https://github.com/futsalife24-bot/swarm-front/pull/91)を通常merge。merge SHA・公開ソースは `fba1edcb48a4440395ddb40c5e8439246f6614d1`、Worker Versionは `adda1ebc-4868-4629-a005-c64f0820b8ad`。指定のPlayer-Noteをmerge本文に保持し、管理者バイパスなし。merge後のproduction buildと既存設定のWorker dry-runが成功。公開URLの `/assets/enemies/leaper_motion_v3.glb` はHTTP 200・3,802,608 bytes・SHA-256 `7a57499b4e7ab82c9fe23155f6731d95213a4fb29835eaecf905e9cd939c38e3` でソースと一致。`/api/health` はHTTP 200・`{"ok":true,"transport":"websocket","authority":"durable-object"}`。
