@@ -1,0 +1,55 @@
+{
+  "musicBefore": {
+    "paused": false,
+    "src": "http://127.0.0.1:5196/assets/audio/bgm-v1/title.mp3",
+    "time": 18.246114,
+    "track": "title"
+  },
+  "soundObservation": [
+    {
+      "duration": 143.6,
+      "error": null,
+      "paused": true,
+      "time": 18.449626,
+      "track": "title"
+    },
+    {
+      "duration": 164.8,
+      "error": null,
+      "paused": false,
+      "time": 0.019083,
+      "track": "map-5"
+    }
+  ],
+  "pvObservation": {
+    "bgm": {
+      "paused": true,
+      "time": 44.904559
+    },
+    "pv": {
+      "duration": 30,
+      "error": null,
+      "height": 1080,
+      "paused": false,
+      "time": 19.906073,
+      "width": 1920
+    }
+  },
+  "checks": [
+    {
+      "case": "final-pv-844",
+      "duration": 30,
+      "error": null,
+      "height": 390,
+      "scroll": 0,
+      "time": 20.202863,
+      "width": 844
+    },
+    {
+      "case": "final-pv-667",
+      "height": 375,
+      "scroll": 0,
+      "width": 667
+    }
+  ]
+}

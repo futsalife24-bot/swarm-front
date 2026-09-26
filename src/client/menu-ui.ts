@@ -1,4 +1,14 @@
 import { showModalAfterFullscreen } from "./landscape";
+
+/** A dialog awaiting fullscreen has no native close event until it is open. */
+export function closeMenuDialog(dialog: HTMLDialogElement) {
+  if (!dialog.isConnected) return;
+  if (dialog.open) dialog.close();
+  else dialog.dispatchEvent(new Event("close"));
+  // menuDialog's close listener removes the node, cancels its queued show,
+  // disconnects observers and runs the caller's normal resource cleanup.
+}
+
 /** Shared, native modal: Escape, focus containment and return focus are browser managed. */
 export function menuDialog(
   title: string,

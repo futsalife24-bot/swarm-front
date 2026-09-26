@@ -1,0 +1,106 @@
+[
+  {
+    "bgmPaused": true,
+    "duration": 143.6,
+    "error": null,
+    "paused": false,
+    "time": 0.110848,
+    "track": "title"
+  },
+  {
+    "bgmPaused": true,
+    "duration": 199.96,
+    "error": null,
+    "paused": false,
+    "time": 0.094592,
+    "track": "base"
+  },
+  {
+    "bgmPaused": true,
+    "duration": 95.88,
+    "error": null,
+    "paused": false,
+    "time": 0.102856,
+    "track": "prepare"
+  },
+  {
+    "bgmPaused": true,
+    "duration": 61.2,
+    "error": null,
+    "paused": false,
+    "time": 0.088422,
+    "track": "lobby"
+  },
+  {
+    "bgmPaused": true,
+    "duration": 172.8,
+    "error": null,
+    "paused": false,
+    "time": 0.097997,
+    "track": "report"
+  },
+  {
+    "bgmPaused": true,
+    "duration": 7.6,
+    "error": null,
+    "paused": false,
+    "time": 0.110759,
+    "track": "clear"
+  },
+  {
+    "bgmPaused": true,
+    "duration": 51.92,
+    "error": null,
+    "paused": false,
+    "time": 0.089661,
+    "track": "victory"
+  },
+  {
+    "bgmPaused": true,
+    "duration": 183.96,
+    "error": null,
+    "paused": false,
+    "time": 0.100765,
+    "track": "map-0"
+  },
+  {
+    "bgmPaused": true,
+    "duration": 93.6,
+    "error": null,
+    "paused": false,
+    "time": 0.091592,
+    "track": "map-1"
+  },
+  {
+    "bgmPaused": true,
+    "duration": 184.24,
+    "error": null,
+    "paused": false,
+    "time": 0.09928,
+    "track": "map-2"
+  },
+  {
+    "bgmPaused": true,
+    "duration": 146.36,
+    "error": null,
+    "paused": false,
+    "time": 0.104135,
+    "track": "map-3"
+  },
+  {
+    "bgmPaused": true,
+    "duration": 139.6,
+    "error": null,
+    "paused": false,
+    "time": 0.085472,
+    "track": "map-4"
+  },
+  {
+    "bgmPaused": true,
+    "duration": 164.8,
+    "error": null,
+    "paused": false,
+    "time": 0.104186,
+    "track": "map-5"
+  }
+]

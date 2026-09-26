@@ -1,0 +1,13 @@
+[
+  {
+    "case": "inherits-game-mute",
+    "control": "0",
+    "muted": true
+  },
+  {
+    "bgmMuted": true,
+    "bgmPaused": true,
+    "case": "preview-volume-not-saved",
+    "gameVolume": "0"
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "bodyOverflow": 0,
+    "case": "built-sound-667",
+    "duration": 7.6,
+    "error": null,
+    "height": 375,
+    "paused": false,
+    "track": "clear",
+    "width": 667
+  },
+  {
+    "case": "built-clear-ended",
+    "ended": true,
+    "paused": true,
+    "time": 7.6,
+    "track": "clear"
+  },
+  {
+    "bodyOverflow": 0,
+    "case": "built-pv-667",
+    "duration": 30,
+    "error": null,
+    "height": 375,
+    "paused": false,
+    "time": 0.203655,
+    "width": 667
+  }
+]
