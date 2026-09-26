@@ -7,7 +7,7 @@ import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
 
 const origin = process.argv[2] || "http://127.0.0.1:5186";
-const out = "dist-validation/audit-round2/save-safety";
+const out = process.argv[3] ?? "dist-validation/audit-round2/save-safety";
 const key = "swarm-front-shared-progress-v3";
 const legacyKey = "swarm-front-progression-v2-normal";
 const git = (...args) => execFileSync("git", args, { encoding: "utf8" }).trim();

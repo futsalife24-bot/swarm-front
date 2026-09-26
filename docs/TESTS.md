@@ -1,5 +1,9 @@
 # テスト記録
 
+## 保存・更新・再開の現行入口（2026-09-26）
+
+`npm run test:save` / `npm run test:save:browser`。対応表・固定旧保存fixture・実行条件・今回の結果・未対象は [SAVE-REGRESSION.md](SAVE-REGRESSION.md)。以下の過去成功記録とは区別する。
+
 ## E2Eが起動待ちで止まるとき（2026-09-07）
 
 **残っている `workerd.exe` を止めても直らない。親から止めること。**

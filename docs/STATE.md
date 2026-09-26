@@ -1,3 +1,7 @@
+# 現在地: 保存・更新・再開の回帰基準を検証（2026-09-26）
+
+branch `codex/save-regression-baseline`、base `782543709a7479fdeabd9114df48d47bc95a3f1d`。既存保存テストの対応表、旧保存固定fixture3種、専用単体147件、実Chrome21ケース/シナリオの実行入口を整備。単体・実ブラウザ18ケース・型チェック成功後、分解済み報酬3ケースを入口へ追加して最終実行中。保存処理/ゲーム本体は変更なし。既存dirty作業を保護して独立コピーで実施。詳細・コマンド・証拠・限界は [SAVE-REGRESSION.md](SAVE-REGRESSION.md)。指定の独立Chat監査とmain反映はこれから。配信runtimeの変更はないため再デプロイ対象なし。
+
 # 現在地: CALYXエネミーレポート攻撃文をmain反映・既存Workerへ公開（2026-09-25）
 
 `codex/calyx-report-copy`、base `144372b8fdd8463d1bea2181bff09ce219b910f7`、実装修正 `a1d95cdd088c051fbbaa36f0734e871b6ec14c08`。[PR87](https://github.com/futsalife24-bot/swarm-front/pull/87) 通常merge、公開ソースmain `01482e141d6aec0398740e37d3ba42b44170c74e`、既存Worker Version `4b722def-e81c-45bb-8d4b-240a6acc6e38`。`src/client/bestiary.ts` のCALYX攻撃説明1件を、数値・攻略手順のない前花弁と花粉弾の観察文へ修正。初回[通常Chat独立監査](https://chatgpt.com/c/6ab632eb-25b4-83e8-a4af-826b03808b9f) はF1/P2（花粉嚢と花粉弾の混同）1件、任意P3（両攻撃の文分け）1件。修正版の限定再監査はPASS・必須0。型チェック・main本番build・production dry-run、844×390実ブラウザで最終文言と解説/一覧スクロール成功。配信更新8ファイルはmain buildとSHA一致、`/api/health`はok。公開iabは別タブ保存保護を表示したため、既存プレイを保護して再開せず、公開レポート本文の画面操作は未確認。Judge入口は作業worktreeになく未判定。別作業中の正規 `game/` は編集せず保護。
