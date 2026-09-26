@@ -1,4 +1,5 @@
 import { backgroundMusic } from "./bgm";
+import { mountMediaMenu } from "./media-menu";
 import {
   normalSaveId,
   campaignNumber,
@@ -829,6 +830,7 @@ function settingsUI() {
     editControlLayout(returnTo);
   });
   d.querySelector(".menu-dialog-body")!.append(developerEntry);
+  mountMediaMenu(d, () => sound.volume);
   d.querySelector("#pt-volume")!.addEventListener(
     "input",
     (e) => (sound.volume = Number((e.target as HTMLInputElement).value)),

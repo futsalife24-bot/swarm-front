@@ -1,0 +1,80 @@
+[
+  {
+    "before": true,
+    "pendingCount": 1,
+    "dialogs": 1,
+    "previews": 1,
+    "openPreviews": 0,
+    "bgmPaused": true,
+    "bgmTrack": "title"
+  },
+  {
+    "before": true,
+    "pendingCount": 1,
+    "dialogs": 1,
+    "previews": 1,
+    "openPreviews": 1,
+    "bgmPaused": true,
+    "bgmTrack": "title"
+  },
+  {
+    "case": "fixed-sound-before-resolve",
+    "before": false,
+    "pendingCount": 1,
+    "dialogs": 0,
+    "previews": 0,
+    "openPreviews": 0,
+    "bgmPaused": false,
+    "bgmTrack": "title"
+  },
+  {
+    "case": "fixed-sound-resolved",
+    "before": false,
+    "pendingCount": 1,
+    "dialogs": 0,
+    "previews": 0,
+    "openPreviews": 0,
+    "bgmPaused": false,
+    "bgmTrack": "title"
+  },
+  {
+    "case": "old-pv-pending",
+    "before": true,
+    "pendingCount": 1,
+    "dialogs": 1,
+    "previews": 1,
+    "openPreviews": 0,
+    "bgmPaused": true,
+    "bgmTrack": "title"
+  },
+  {
+    "case": "old-pv-resolved",
+    "before": true,
+    "pendingCount": 1,
+    "dialogs": 1,
+    "previews": 1,
+    "openPreviews": 1,
+    "bgmPaused": true,
+    "bgmTrack": "title"
+  },
+  {
+    "case": "fixed-pv-pending",
+    "before": false,
+    "pendingCount": 1,
+    "dialogs": 0,
+    "previews": 0,
+    "openPreviews": 0,
+    "bgmPaused": false,
+    "bgmTrack": "title"
+  },
+  {
+    "case": "fixed-pv-resolved",
+    "before": false,
+    "pendingCount": 1,
+    "dialogs": 0,
+    "previews": 0,
+    "openPreviews": 0,
+    "bgmPaused": false,
+    "bgmTrack": "title"
+  }
+]

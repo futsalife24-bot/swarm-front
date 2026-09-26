@@ -1,0 +1,17 @@
+
+> swarm-front@0.1.0 server:build:production
+> wrangler deploy --dry-run --config wrangler.production.jsonc --outdir dist-worker-production
+
+
+ ⛅️ wrangler 4.129.0 (update available 4.141.0)
+───────────────────────────────────────────────
+✨ Read 233 files from the assets directory C:\Users\futsa\OneDrive\ドキュメント\ChatGPT\スワフロ\share-image-fix\dist
+Total Upload: 237.02 KiB / gzip: 64.77 KiB
+Your Worker has access to the following bindings:
+Binding                                                  Resource
+env.ROOMS (Room)                                         Durable Object
+env.GATE (Gate)                                          Durable Object
+env.PROJECT_HUB (project-hub)                            Worker
+env.TURNSTILE_SITE_KEY ("0x4AAAAAAEqP4GMKnl-xNQKK")      Environment Variable
+
+--dry-run: exiting now.

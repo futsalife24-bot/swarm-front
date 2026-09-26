@@ -1,0 +1,39 @@
+{
+  "url": "https://swarm-front.melosalife-24.workers.dev/",
+  "sound": {
+    "bgmPaused": true,
+    "currentTime": 27.875989,
+    "duration": 164.8,
+    "error": null,
+    "paused": false,
+    "selection": "晶脈の地底巣 / 晶脈の鼓動",
+    "trackCount": 13
+  },
+  "soundClose": {
+    "bgmPaused": false,
+    "children": 0
+  },
+  "pv": {
+    "bgmPaused": true,
+    "currentTime": 25.223088,
+    "duration": 30,
+    "ended": false,
+    "error": null,
+    "height": 1080,
+    "paused": false,
+    "width": 1920
+  },
+  "pvEnd": {
+    "currentTime": 30,
+    "duration": 30,
+    "ended": true,
+    "error": null,
+    "paused": true
+  },
+  "pvClose": {
+    "bgmPaused": false,
+    "children": 0,
+    "volume": "0.35"
+  },
+  "logs": []
+}

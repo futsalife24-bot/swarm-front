@@ -1,3 +1,10 @@
+# 現在地: 設定のサウンドテスト・PVをmain反映・公開完了（2026-09-26）
+
+[PR90](https://github.com/futsalife24-bot/swarm-front/pull/90)を通常merge。公開ソースmain `23856512fc80e9e4a13e16f31495c47ab24729a4`、既存Worker Version `2e3f6c96-e872-4586-84ac-c2130e86fadb`。ソロ/協力の設定先頭に全13曲のサウンドテストと最新30秒PV再生を追加。BGM停止/同位置復帰、試聴専用音量、読込中終了、非表示停止に対応。
+
+[通常Chat監査](https://chatgpt.com/c/6ab74d13-d1cc-83ee-8e40-ee02bdcdc5dc)のF1/P2を `b7513d83342e1a149fbb931b9839c69b6f720c66` で修正。対象 `f38fad494af38b18b9f7e2975a3586edd3137a0f` の限定再監査はPASS、必須P0/P1/P2各0件。以降は記録のみ。型・関連40件・実13曲・実ローカルWorker協力・844×390/667×375・ネイティブdialog反例/資源解放・PV全長デコードが成功。
+
+merge後production build/dry-run成功。公開15ファイルのSHA一致、health200/ok、公開設定から地底巣BGM27秒とPV30秒完走・終了後BGM復帰・音量0.35維持、console warn/error0を確認。Rangeは全量200で内容一致。実スマホ/主観的全曲試聴/長時間多人数と任意O1/O3は未確認・保留。制作branch `codex/media-menu`、base `c46f2484d39c7e9a2308c505ab4356ccd9be211b`、現在main、作業場所 `../share-image-fix`。元gameの別差分を保護。[詳細・証拠](MEDIA-MENU.md)。
 # 現在地: 出撃マップ6曲のSuno BGMをmain反映・公開完了（2026-09-26）
 
 [PR89](https://github.com/futsalife24-bot/swarm-front/pull/89) を通常merge。公開ソースmain `3a50101136589aff053a15596aa02ea9dfe8310e`、既存Worker Version `3cd719ab-9651-4781-9e70-3c53d24aa383`。6マップ名入りのタイトル/スタイルを記録し、既存3候補+新規3曲（生成3回・30クレジット）の原本MP3を追加。ソロ/協力で実worldに合わせて選曲。

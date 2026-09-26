@@ -1,0 +1,36 @@
+
+> swarm-front@0.1.0 build:production
+> vite build
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 149 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                           3.64 kB │ gzip:   1.31 kB
+dist/assets/index-CPbai1ZT.css            0.25 kB │ gzip:   0.13 kB
+dist/assets/weapon-help-18XKKQBT.css      4.44 kB │ gzip:   1.44 kB
+dist/assets/main-C1Ldsy-y.css             6.21 kB │ gzip:   1.88 kB
+dist/assets/playtest-app-Nc4GVS_8.css    38.67 kB │ gzip:   8.50 kB
+dist/assets/zoom-guard-B9UkKTeI.css     107.50 kB │ gzip:  22.03 kB
+dist/assets/training-app-snXKjjnW.js      3.71 kB │ gzip:   1.91 kB
+dist/assets/weapon-sharing-_obqJa0n.js    4.75 kB │ gzip:   2.54 kB
+dist/assets/index-DSqJgqnK.js            38.56 kB │ gzip:  16.03 kB
+dist/assets/main-JyKiNCs7.js             54.99 kB │ gzip:  19.02 kB
+dist/assets/weapon-help-8yrLmIlV.js      77.97 kB │ gzip:  29.32 kB
+dist/assets/playtest-app-BWYZvRtx.js    121.26 kB │ gzip:  42.72 kB
+dist/assets/zoom-guard-4QQeNUgH.js      880.83 kB │ gzip: 245.56 kB
+
+✓ built in 4.11s
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[PLUGIN_TIMINGS] Plugin hooks ran for 3.3s of this 4.1s build (80%).
+The slowest hooks, timed inside each callback (the wait before a callback starts is excluded, the time it awaits is included):
+  - vite:prepare-out-dir renderStart (58%, 2.4s, 1 call)
+Additional hook time came from the hooks below and from hooks under 1s.
+1 hook is listed without a time. Its calls overlapped, so the time inside one call includes work from other calls. To find its cost, profile the build with `node --cpu-prof`:
+  - vite:css transform (17 calls)
+See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.

@@ -1,0 +1,36 @@
+
+ ⛅️ wrangler 4.129.0
+────────────────────
+🌀 Building list of assets...
+✨ Read 233 files from the assets directory C:\Users\futsa\OneDrive\ドキュメント\ChatGPT\スワフロ\share-image-fix\dist
+🌀 Starting asset upload...
+🌀 Found 11 new or modified static assets to upload. Proceeding with upload...
++ /assets/video/README.md
++ /assets/weapon-help-18XKKQBT.css
++ /assets/main-DE0GWpCc.js
++ /assets/zoom-guard-DTs7khAh.js
++ /index.html
++ /assets/weapon-sharing-ec7OxdDc.js
++ /assets/weapon-help-ZD7--duH.js
++ /assets/video/swarm-front-pv-v10.mp4
++ /assets/training-app-El6_P6aU.js
++ /assets/index-CgLBDbap.js
++ /assets/playtest-app-BwbZxCWx.js
+Uploaded 3 of 11 assets
+Uploaded 7 of 11 assets
+Uploaded 11 of 11 assets
+✨ Success! Uploaded 11 files (195 already uploaded) (8.51 sec)
+
+Total Upload: 237.02 KiB / gzip: 64.77 KiB
+Worker Startup Time: 492 ms
+Your Worker has access to the following bindings:
+Binding                                                  Resource
+env.ROOMS (Room)                                         Durable Object
+env.GATE (Gate)                                          Durable Object
+env.PROJECT_HUB (project-hub)                            Worker
+env.TURNSTILE_SITE_KEY ("0x4AAAAAAEqP4GMKnl-xNQKK")      Environment Variable
+
+Uploaded swarm-front (15.30 sec)
+Deployed swarm-front triggers (0.67 sec)
+  https://swarm-front.melosalife-24.workers.dev
+Current Version ID: 2e3f6c96-e872-4586-84ac-c2130e86fadb
