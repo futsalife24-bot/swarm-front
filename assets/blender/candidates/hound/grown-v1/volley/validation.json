@@ -1,0 +1,26 @@
+{
+  "kind": "volley",
+  "source": "assets\\blender\\source\\hound_motion_v1.blend",
+  "source_sha256": "765b8731f1582d2f42364a748cfe37f958073c63c7d332192269fa2ac1a919f3",
+  "library": "assets\\blender\\library\\anomaly-hardshell-v1",
+  "blender": "5.2.1 LTS",
+  "triangles": 12560,
+  "meshes": 4,
+  "materials": [
+    "HOUND_edge_metal",
+    "HOUND_ring_emission",
+    "HOUND_shell",
+    "HOUND_spine"
+  ],
+  "bones": 20,
+  "images": 9,
+  "clips": [
+    "Idle",
+    "Locomotion",
+    "Lunge"
+  ],
+  "bytes": 3763664,
+  "sha256": "f34cf7834616e558226f48c4bb348ff9d1106ce26e2c2729150eae4c04c65cd6",
+  "rest_min_z_blender": 0.0,
+  "reimport": "PASS"
+}

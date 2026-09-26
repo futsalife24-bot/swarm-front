@@ -135,7 +135,22 @@ export function enemyWindupClip(
             b.quaternion.multiply(
               turn.setFromEuler(angles.set(-0.22 * pressure, 0, 0)),
             );
-        } else if (species === "hound" || species === "leaper") {
+        } else if (species === "leaper") {
+          // Pounce coil: hind end sinks, chest lifts, hackles stand and fan out.
+          if (n === "body")
+            b.quaternion.multiply(
+              turn.setFromEuler(angles.set(-0.2 * pressure, 0, 0)),
+            );
+          if (n.startsWith("spine_")) {
+            const i = Number(n.slice(6));
+            b.position.y += 0.1 * pressure;
+            b.quaternion.multiply(
+              turn.setFromEuler(
+                angles.set(0.75 * pressure, (i - 2) * 0.45 * pressure, 0),
+              ),
+            );
+          }
+        } else if (species === "hound") {
           if (n.startsWith("spine_")) {
             const i = Number(n.slice(6));
             b.position.y += (0.18 + i * 0.04) * pressure;

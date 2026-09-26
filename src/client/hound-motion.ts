@@ -10,6 +10,7 @@ export type HoundClip =
   | "Idle"
   | "Locomotion"
   | "Lunge"
+  | "Leap"
   | "Slam"
   | "PollenShot"
   | "Threat"
@@ -57,7 +58,7 @@ export function loadEnemyMotion(
   const request = new GLTFLoader()
     .loadAsync(
       // The service worker caches by URL. Version HARROW's path with its asset.
-      `${import.meta.env.BASE_URL}assets/enemies/${name}_motion_${name === "harrow" ? "v10" : name === "pleat" ? "v5" : name === "leaper" ? "v2" : "v1"}.glb${name === "calyx" ? "?rev=d1a7573d5976e284" : ""}`,
+      `${import.meta.env.BASE_URL}assets/enemies/${name}_motion_${name === "harrow" ? "v10" : name === "pleat" ? "v5" : name === "leaper" ? "v3" : "v1"}.glb${name === "calyx" ? "?rev=d1a7573d5976e284" : ""}`,
     )
     .then(({ scene: model, animations: clips }) => {
       // HARROW's authored forward is -X; production models face local -Z.
@@ -85,7 +86,9 @@ export function loadEnemyMotion(
             ]
           : name === "calyx"
             ? ["Idle", "Locomotion", "Slam", "PollenShot"]
-            : ["Idle", "Locomotion", "Lunge"];
+            : name === "leaper"
+              ? ["Idle", "Locomotion", "Lunge", "Leap"]
+              : ["Idle", "Locomotion", "Lunge"];
       const attack = clips.find((c) => c.name === "Attack");
       if (attack) attack.name = "Lunge";
       if (

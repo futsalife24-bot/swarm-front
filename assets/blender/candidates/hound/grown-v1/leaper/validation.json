@@ -1,0 +1,27 @@
+{
+  "kind": "leaper",
+  "source": "assets\\blender\\source\\hound_motion_v1.blend",
+  "source_sha256": "765b8731f1582d2f42364a748cfe37f958073c63c7d332192269fa2ac1a919f3",
+  "library": "assets\\blender\\library\\anomaly-hardshell-v1",
+  "blender": "5.2.1 LTS",
+  "triangles": 12716,
+  "meshes": 4,
+  "materials": [
+    "HOUND_edge_metal",
+    "HOUND_ring_emission",
+    "HOUND_shell",
+    "HOUND_spine"
+  ],
+  "bones": 20,
+  "images": 9,
+  "clips": [
+    "Idle",
+    "Leap",
+    "Locomotion",
+    "Lunge"
+  ],
+  "bytes": 3802608,
+  "sha256": "7a57499b4e7ab82c9fe23155f6731d95213a4fb29835eaecf905e9cd939c38e3",
+  "rest_min_z_blender": 0.0,
+  "reimport": "PASS"
+}
