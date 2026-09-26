@@ -29,7 +29,7 @@
 - 作業場所: `スワフロ/share-image-fix`（既存のclean worktreeを再利用）。元の`game`は別作業のdirty状態を保護。
 - branch: `codex/media-menu`、base: `c46f2484d39c7e9a2308c505ab4356ccd9be211b`。
 - モデル実行ID・effort: 未確認。モデル切替・サブエージェント使用なし。
-- 独立監査・main反映・公開: 検証後、既存の通常Chat監査・既存Worker公開手順で実施し記録を追記する。
+- 独立監査・main反映・公開: 完了。対象SHA・判定・配信確認は末尾の記録を参照。
 
 AAC圧縮パケットSHA256（元/配信用とも同一）: 9eac2653b49dbb8dccd36c40b76e1ea7c0c953cf4b5e4d89257af576a4d6e619。
 
@@ -60,3 +60,15 @@ f38fad494af38b18b9f7e2975a3586edd3137a0fの再監査資料reaudit.zip（429,182 
 監査側は独自20ロジックテスト、限定TS5.8.3型、実Chromiumネイティブdialogで旧4条件の再現、修正後12条件（fetch待ち/データ待ち/ロード完了）、通常終了6条件、BGM状態4条件を検証。素材と全画面Promiseの一部制御を含む共通コンポーネントfixtureであり、実スマホ/本番HTTP/全体40テスト・指定版型/buildの独立再実行ではない。
 
 O1は任意で保留、O2は文書訂正を監査側確認。追加O3/P3は親子のnative closeを同一処理内で呼ぶとclose通知/共通observer切断が重複しうる保守上の注意。media dispose/BGM release/Blob解放は一回で、残存や再オープン不能はないため必須外。現行の冪等cleanupを維持する。
+
+## main反映・公開確認
+
+[PR90](https://github.com/futsalife24-bot/swarm-front/pull/90)を通常merge、公開ソースmain `23856512fc80e9e4a13e16f31495c47ab24729a4`。そのHEADからproduction buildと既存Worker dry-runを実行し成功。既知の500KB超chunk警告のみ。既存Worker Version `2e3f6c96-e872-4586-84ac-c2130e86fadb`、公開先 https://swarm-front.melosalife-24.workers.dev/ 。新規サービス/契約/移行なし。
+
+公開index・JS/CSS・PV/素材記録の15ファイルはdistとSHA256一致、health200/ok。[配信照合](evidence/media-menu/deployed.json)。PV Range要求は全量200（12,940,023 bytes）で内容一致。プレイヤーは全量Blobからシークするため206を前提にしない。
+
+公開Chromeの設定から全13曲一覧と「晶脈の地底巣 / 晶脈の鼓動」27.875989秒/164.8秒の進行、PV1920×1080/30秒の自然完走を確認。errorなし、背景BGMは試聴中pause・終了後再開、子0・元音量0.35、console warn/errorなし。[公開UI数値](evidence/media-menu/public-ui.json)・[公開設定画像](evidence/media-menu/public-settings-detail.png)・[公開PV画像](evidence/media-menu/public-pv.png)。公開ブラウザは設定画面を成果として保持。作業用サーバー/一時タブ/viewport指定は解除。
+
+変更の役割: src/client/media-menu.ts/cssとmedia-playback.tsが共通試聴/PV画面・取得/終了処理、bgm.tsが一時停止所有権、menu-ui.tsが未表示dialog終了、playtest-app.tsとmain.tsがソロ/協力の設定入口。public/assets/videoが実行時PV、testsとscripts/media-dialog-preview.htmlが回帰検証、docsが仕様/監査/公開証拠。
+
+監査合格後のc4c67a4は記録・画像のみ。公開後のmain追記も記録・証拠のみで、再デプロイ対象の製品差分はない。
