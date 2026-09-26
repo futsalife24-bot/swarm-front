@@ -57,5 +57,9 @@ base `782543709a7479fdeabd9114df48d47bc95a3f1d`。元 `game/` の別作業差分
 
 初回監査の最終結果はP0/P1各0、必須P2/F1が1件、任意P3が2件。[全文](evidence/map-bgm/audit-66fb41d.txt)。任意事項は同一JSタスク内で再生pending→同曲へ戻す合成ケース、測定スクリプトが期待SHA検証ではなく記録更新も行う点。初回の13曲独立全デコードと6曲SHA一致は成功。今回のF1修正範囲は変えず、両任意事項は未対応として残す。
 
+実行コード修正 `ddbe6dedf9a36b7a562b659bdf2844dd7cda05d5` と実UI証拠/fixture追加後のHEAD `7a9d31d8aa5d4eb79a5ef5363109e9e03f03194b` を限定再監査へ送信済み。添付 `dist-validation/map-bgm/map-bgm-f1-final.zip` は205,351 bytes、SHA256 `4b949a2207d5c7e27b13e6e78479bfe57e27223bddb79bfc30e3b643af98cc9d`。初回資料へ追加する差分資料で、6MP3は初回ZIPから不変。
+
+限定再監査は対象7a9d31dで **PASS、必須P0/P1/P2各0件**。[最終報告](evidence/map-bgm/audit-7a9d31d.txt)。独立側は実配置エディタ/実Audioで保存・キャンセルとclear自然終了を含む7条件、旧反例、互換ハーネス28件、選曲199条件、6曲SHA一致を確認。正式Vitest/型/完全な3Dアプリの独立再実行ではない。回収のPNG2枚は同じ一時停止表示で同一SHAのため、異なる時点の音声証拠には数えず、時間継続の根拠はJSONと独立Audio確認。以降の追加差分は監査/公開記録のみ。
+
 実装 `66fb41d0b7e1bb7805553bcaebe618b210d5b8de` を [PR89](https://github.com/futsalife24-bot/swarm-front/pull/89) へpush。
 [通常Chat独立監査](https://chatgpt.com/c/6ab739e8-5018-83e9-a65f-ca0fff0ed08e) に、39,468,215 bytesの `dist-validation/map-bgm/map-bgm-audit-66fb41d.zip` を添付・送信して監査開始を確認。ZIP SHA256 `a7b17f719bfe225f7915cbf0ee2cc72aa8281d3ed77f990c6ebd8e7231b08a45`。画面のモデル表示はPro（詳細IDは未確認）。独立結果→必要修正→main反映→既存Worker公開へ続ける。
