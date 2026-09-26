@@ -1,3 +1,7 @@
+# 現在地: LEAPER成長殻モデル＋専用モーション、監査待ち（2026-09-26）
+
+branch `claude/hound-leaper-redesign`（Claude Codeで作業、base origin/main `9792683`）。ユーザー決定：**VOLLEY（ant）は旧デザイン続投**、**LEAPER（spider）は成長殻の新モデルへ切替**、2体を動き（見た目のみ）で差別化。LEAPER読込を `leaper_motion_v3.glb` へ変更（v2は残置）。新規クリップ `Leap`（0.9秒、権威側 `jump` 進行度で再生）、跳ねる走り方の `Locomotion`（0.8秒・0.72m契約維持）、`enemy-idle-clip.ts` / `enemy-windup-clip.ts` にLEAPER専用分岐。HP・速度・跳躍・攻撃時刻・通信は不変。協力の参加者側は `jump` 非同期のため従来どおり移動再生（既存制約）。HOUND/LEAPERの材質と部品生成器を `assets/blender/library/anomaly-hardshell-v1/` へ切り出し（他ANOMALYで再利用可）。検証：型チェック・client build・motion系12件成功、読込条件（4 mesh/20骨/骨名一致/bind一致/4クリップ）と全クリップ接地0.000m、実Rendererで待機/予備動作/跳躍/移動を撮影確認。全体Vitestの既存失敗4件（aim/maps/stages/weapon-stat-marks）は未変更のorigin/main `7825437` でも同じく失敗。独立監査・merge・公開は未実施。[設計・検証](../assets/blender/candidates/hound/grown-v1/DESIGN.md)。
+
 # 現在地: 設定のサウンドテスト・PVをmain反映・公開完了（2026-09-26）
 
 [PR90](https://github.com/futsalife24-bot/swarm-front/pull/90)を通常merge。公開ソースmain `23856512fc80e9e4a13e16f31495c47ab24729a4`、既存Worker Version `2e3f6c96-e872-4586-84ac-c2130e86fadb`。ソロ/協力の設定先頭に全13曲のサウンドテストと最新30秒PV再生を追加。BGM停止/同位置復帰、試聴専用音量、読込中終了、非表示停止に対応。
