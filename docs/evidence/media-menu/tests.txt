@@ -1,0 +1,12 @@
+
+ RUN  v5.0.0 C:/Users/futsa/OneDrive/ドキュメント/ChatGPT/スワフロ/share-image-fix
+
+
+ Test Files  4 passed (4)
+      Tests  37 passed (37)
+   Start at  13:36:15
+   Duration  4.83s (import 78%, transform 17%, tests 4%, worker 1%)
+
+    Isolate  4 workers spawned · ~273ms startup each (spawn + environment, per file)
+             at least ~820ms faster with isolate: false — reuses workers across files instead of one per file
+

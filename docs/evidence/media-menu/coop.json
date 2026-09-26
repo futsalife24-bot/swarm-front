@@ -1,0 +1,39 @@
+[
+  [
+    {
+      "ended": false,
+      "error": null,
+      "paused": true,
+      "time": 16.735203,
+      "track": "prepare"
+    },
+    {
+      "ended": true,
+      "error": null,
+      "paused": true,
+      "time": 7.6,
+      "track": "clear"
+    }
+  ],
+  {
+    "case": "escape-close-completed",
+    "focus": "サウンドテスト",
+    "paused": false,
+    "players": 1,
+    "time": 17.048491,
+    "track": "prepare"
+  },
+  {
+    "case": "coop-pv",
+    "duration": 30,
+    "error": null,
+    "paused": false,
+    "time": 0.23288
+  },
+  {
+    "case": "pv-close-completed",
+    "paused": false,
+    "players": 1,
+    "track": "prepare"
+  }
+]

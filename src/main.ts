@@ -1,5 +1,6 @@
 import { predictPlayerMove } from "./client/player-prediction";
 import { backgroundMusic } from "./client/bgm";
+import { mountMediaMenu } from "./client/media-menu";
 import { installCloudSync } from "./client/cloud-save";
 installCloudSync();
 import { resourceFrame } from "./client/resource-frame";
@@ -825,6 +826,7 @@ function openSettings(back: () => void) {
     return ok;
   };
   alignSettings(dialog.querySelector("#settings-preferences")!);
+  mountMediaMenu(dialog, () => sound.volume);
   bindAimRanges("", update);
   bindGyro("", update);
   $("quality").onchange = () => {

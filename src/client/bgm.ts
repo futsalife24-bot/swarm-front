@@ -52,6 +52,8 @@ export class BackgroundMusic {
   private unlocked = false;
   private level = 0.35;
   private pending = false;
+  private suspensions = new Set<symbol>();
+  private revision = 0;
   constructor() {
     this.player = new Audio();
     this.player.preload = "none";
@@ -102,7 +104,21 @@ export class BackgroundMusic {
     this.report = open;
     this.sync();
   }
+  /** Pause without replacing the scene or losing its playback position. */
+  suspend() {
+    const token = Symbol();
+    this.suspensions.add(token);
+    this.sync();
+    return () => {
+      if (this.suspensions.delete(token)) this.sync();
+    };
+  }
   private sync() {
+    const revision = ++this.revision;
+    if (this.suspensions.size) {
+      this.player.pause();
+      return;
+    }
     const wanted = this.report ? "report" : this.scene;
     // Let the supplied clear cue finish even if the result screen opens first.
     const finishCue =
@@ -131,7 +147,6 @@ export class BackgroundMusic {
     }
     if (this.player.paused && !this.pending) {
       this.pending = true;
-      const requested = this.current;
       void this.player
         .play()
         .catch(() => {
@@ -139,7 +154,7 @@ export class BackgroundMusic {
         })
         .finally(() => {
           this.pending = false;
-          if (requested !== this.current) this.sync();
+          if (revision !== this.revision) this.sync();
         });
     }
   }
