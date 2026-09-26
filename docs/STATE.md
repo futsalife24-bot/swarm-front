@@ -1,10 +1,10 @@
-# 現在地: 初出撃〜再出撃を自己検証・PR92保存、監査資料送信の承認待ち（2026-09-26）
+# 現在地: 初出撃〜再出撃を自己検証・PR92保存、通常Chatの独立監査中（2026-09-26）
 
 `codex/first-ten-minutes`、開始base `c46f2484d39c7e9a2308c505ab4356ccd9be211b`。既存PR90反映後のmain `97926835baefe1fa8fa41df079360114a3e4061d` を取り込み、cleanな `803858ef155c5da2f2864317f243b7ee9e495777` で再検証。PC初遭遇dialogのPointer Lock残留、初回の操作/勝利条件の説明、戦果→装備変更→再出撃の案内を修正。runtimeはplaytest-app.tsの10行差分のみ。
 
 型・保存147件・実Chrome保存21シナリオ・844/640初回導線・実マウス反例/修正確認・通常入力の初勝利/報酬装備/再出撃・装備4幅×2状態・production/Pages/Worker dry-run成功。独立監査・main反映・公開は後続。人間の初見確認0人、実機とSW更新は未確認。作業場所 `../first-ten-minutes/`。元gameのdirty7件を保護。[再現・証拠・未確認](FIRST-TEN-MINUTES.md)。
 
-[PR92](https://github.com/futsalife24-bot/swarm-front/pull/92)、監査資料対象 `f470d3da0555ad0c0fd84e6669e56cae54e28dc6`。通常Chatへの監査ZIP添付が自動承認レビューに2回拒否された。公開repoであることと継続承認を確認したが、レビューは今回の資料/送信先の明示承認を要求。監査は未依頼・未合格、merge/公開も未実施。ユーザーへ資料送信だけを確認中。ZIPは `dist-validation/first-ten-minutes/audit-f470d3d.zip`、SHA256 `1360b961eeff4a3a73c927a39d8a1c9623e6fdffe508ab744304c85493d10a8d`。送信許可後は同ZIPで通常Chat監査を行い、必要修正・通常merge・既存Worker公開/確認へ再開。以降の文書記録は実装を変更しない。
+[PR92](https://github.com/futsalife24-bot/swarm-front/pull/92)、監査資料対象 `f470d3da0555ad0c0fd84e6669e56cae54e28dc6`。通常Chatへの監査ZIP添付が自動承認レビューに2回拒否された。公開repoであることと継続承認を確認したが、レビューは今回の資料/送信先の明示承認を要求。送信確認を経て監査依頼へ進めた。merge/公開は未実施。ZIPは `dist-validation/first-ten-minutes/audit-f470d3d.zip`、SHA256 `1360b961eeff4a3a73c927a39d8a1c9623e6fdffe508ab744304c85493d10a8d`。ユーザーの今回の送信許可を受領し、同ZIPを通常Chatへ添付・監査依頼済み。[監査Chat](https://chatgpt.com/c/6ab765f3-df10-83e8-8d19-cdda8008ecef)で判定待ち。必要修正・通常merge・既存Worker公開/確認へ続く。以降の文書記録は実装を変更しない。
 
 # 現在地: 設定のサウンドテスト・PVをmain反映・公開完了（2026-09-26）
 

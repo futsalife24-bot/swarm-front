@@ -76,3 +76,5 @@ npm run test:save:browser
 通常ChatGPTへのZIP添付を自動承認レビューが拒否した。GitHubのpublic属性、ZIP内容、AGENTSの継続承認を確認して同じ正規経路を再試行したが、明確なユーザー承認が必要として再拒否。別経路での送信は行っていない。監査未依頼・未合格、main未反映・未公開。今回のZIPを通常ChatGPTへ送信する許可をユーザーへ確認中。
 
 再開時は保存ZIPのhashを照合し、送信許可後に通常Chatの独立監査を実施する。合格後の最新main/PRチェック、通常merge、merge HEADからのbuild、既存Worker公開、配信hash/health/新規隔離ブラウザ確認は未実施の残作業。公開確認用の準備スクリプトは `dist-validation/check-first-published.mjs` に保存済みで、まだ実行していない。人間の初見テストが0人の間は総合完了と扱わない。
+
+2026-09-26追記: ユーザーから今回のZIPの通常ChatGPT送信許可を受領。hash一致後に添付と依頼送信が成功。[独立監査Chat](https://chatgpt.com/c/6ab765f3-df10-83e8-8d19-cdda8008ecef)で判定中。監査時UIはPro、正確なモデルID/effortは未確認。最新origin/mainは9792683のまま。
