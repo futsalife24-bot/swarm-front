@@ -78,3 +78,21 @@ npm run test:save:browser
 再開時は保存ZIPのhashを照合し、送信許可後に通常Chatの独立監査を実施する。合格後の最新main/PRチェック、通常merge、merge HEADからのbuild、既存Worker公開、配信hash/health/新規隔離ブラウザ確認は未実施の残作業。公開確認用の準備スクリプトは `dist-validation/check-first-published.mjs` に保存済みで、まだ実行していない。人間の初見テストが0人の間は総合完了と扱わない。
 
 2026-09-26追記: ユーザーから今回のZIPの通常ChatGPT送信許可を受領。hash一致後に添付と依頼送信が成功。[独立監査Chat](https://chatgpt.com/c/6ab765f3-df10-83e8-8d19-cdda8008ecef)で判定中。監査時UIはPro、正確なモデルID/effortは未確認。最新origin/mainは9792683のまま。
+
+## 初回監査と最新main統合（2026-09-26）
+
+初回監査は対象f470d3dの実装PASS、必須実装不具合P0/P1/P2各0件。ただし監査中にPR93がmainへ入り、文書先頭が競合したため、統合・公開ゲートF1/P2が1件。通常merge/公開はこの時点ではFAIL。[監査回答全文](evidence/first-ten-minutes/audit-f470d3d.txt)。監査側の独立実行は抽出dialog等の最小環境11検証群であり、提出した保存147件等の再実行ではない。
+
+PR93のmain `ade0ae4956073772a912405c21d7c2fb8f0872f0` を取り込み、STATEの双方の記録を保持して文書競合を解消。runtime競合はなかった。cleanな `895d8313cd690de17a3df49d46f16859fa06eba4` で以下を新たに実行した。
+
+- client/Worker型、保存単体147件、追加設定の音量5件が成功。
+- 保存ブラウザ21シナリオが189.48秒で成功。実行中のHEAD/ソース不変。
+- 初遭遇/ポーズの実マウスlock解除、844×390/640×360の新規導線・touch/cancel・戻る・報酬装備/reload/再出撃が成功。
+- 初期装備ST1の自動操縦による勝利51.4ゲーム秒・32撃破・HP160から報酬装備/reload/再出撃まで成功。pilotはDOMイベント経由の通常入力ハンドラを使い、全イベントがtrustedではない。別スクリプトのPointer Lock検証はtrustedなブラウザマウスを使用。両者も人間テストとは区別する。
+- 装備4幅×2状態、production/Pages buildとWorker dryrunが成功。既存のchunk/WebGL/blocked-SW警告は残る。
+
+その後はmainの公開記録 `a889eaf3ac43ae390e9e176448e7f4d84f1f2c52` の文書・証拠だけを取り込み、統合対象 `c909c381ad1a904cf9b789230d3fc085b13e3f88` をpush。895d831からruntime/テストは不変。[統合検証JSON](evidence/first-ten-minutes/integration-validation.json)、[説明](evidence/first-ten-minutes/integrated-guide-640.png)、[装備](evidence/first-ten-minutes/integrated-gear-844.png)、[戦果](evidence/first-ten-minutes/integrated-result-640.png)。既存mainの公開ログには末尾空白があるが、今回のmainに対する差分チェックは成功。
+
+追加ZIP `dist-validation/first-ten-minutes/integration-c909c38.zip` は10,648,050 bytes、342ファイル、SHA256 `c59264dc84069bd95fcc8f3e0efe2e63ba08df108c3d1998a786436c35aa78b2`。最新mainとの統合差分・対象ソース・上記の新規検証を含む。通常Chatへの追加添付は、自動承認レビューが初回ZIPと別の資料として明示許可を要求したため未送信。追加送信の回答待ちであり、F1は担当側対応済み・独立再判定待ち。merge/今回の公開は未実施。
+
+任意指摘O1（整理モードの案内文）、O3（lock取得途中の競合を最小環境で観測、本体の通常経路では未再現）は今回の必須指摘に数えず保留。O2の再現手順補足: `--baseline` は期待結果/出力先の切替のみで、旧ソースへは切り替わらない。修正前の検証は初期base `c46f2484d39c7e9a2308c505ab4356ccd9be211b` の隔離worktreeへ検証スクリプトだけをコピーし、必要依存を配置して実行する。最新版のままbaselineを実行して旧不具合の再現成功と扱わない。実セーブを使わず、保存されたSHAと実ソースhashを照合する。

@@ -1,0 +1,2571 @@
+{
+  "testedHead": "895d8313cd690de17a3df49d46f16859fa06eba4",
+  "base": "a889eaf3ac43ae390e9e176448e7f4d84f1f2c52",
+  "auditTarget": "c909c381ad1a904cf9b789230d3fc085b13e3f88",
+  "humanParticipants": 0,
+  "save": {
+    "passed": true,
+    "head": "895d8313cd690de17a3df49d46f16859fa06eba4",
+    "status": "",
+    "seconds": 189.4765337,
+    "startedAt": "2026-09-26T06:41:36.015Z",
+    "finishedAt": "2026-09-26T06:44:45.489Z",
+    "commands": [
+      {
+        "script": "scripts/check-save-safety.mjs",
+        "exit": 0,
+        "seconds": 56.44510090000001,
+        "log": "dist-validation/save-regression/2026-09-26T06-41-36-013Z/safety.log"
+      },
+      {
+        "script": "scripts/check-save-fixtures.mjs",
+        "exit": 0,
+        "seconds": 53.2883217,
+        "log": "dist-validation/save-regression/2026-09-26T06-41-36-013Z/fixtures.log"
+      },
+      {
+        "script": "scripts/check-recovery-receipts.mjs",
+        "exit": 0,
+        "seconds": 20.567220599999985,
+        "log": "dist-validation/save-regression/2026-09-26T06-41-36-013Z/receipts.log"
+      },
+      {
+        "script": "scripts/check-battle-checkpoint.mjs",
+        "exit": 0,
+        "seconds": 44.5098565,
+        "log": "dist-validation/save-regression/2026-09-26T06-41-36-013Z/checkpoint.log"
+      }
+    ],
+    "scenarioCount": 21
+  },
+  "unit": {
+    "save": 147,
+    "settingsAudio": 5
+  },
+  "ui": {
+    "phase": "after",
+    "startedAt": "2026-09-26T06:45:50.749Z",
+    "head": "895d8313cd690de17a3df49d46f16859fa06eba4",
+    "sourceHash": "2ab1a5a191c8edeb890142d281edd53d2e9fc7f37474419049558b5879df870a",
+    "humanParticipants": 0,
+    "victory": "Synthetic result through real persistence; not a combat or human comprehension test.",
+    "cases": [
+      {
+        "width": 844,
+        "height": 390,
+        "screens": [
+          "title",
+          "initialize",
+          "gear",
+          "mission",
+          "combat-guide",
+          "battle",
+          "pause",
+          "reward",
+          "result",
+          "equipped",
+          "safe-insets",
+          "redeployed"
+        ],
+        "touch": true,
+        "back": true,
+        "safeInsetEmulation": true,
+        "equipPersisted": true,
+        "rewardCount": 1,
+        "pageErrors": [],
+        "layout": {
+          "overflow": false,
+          "horizontal": 0,
+          "rowHeights": [
+            30,
+            30,
+            30,
+            30
+          ],
+          "start": {
+            "x": 664,
+            "y": 329,
+            "right": 819,
+            "bottom": 367,
+            "height": 38
+          }
+        }
+      },
+      {
+        "width": 640,
+        "height": 360,
+        "screens": [
+          "title",
+          "initialize",
+          "gear",
+          "mission",
+          "combat-guide",
+          "battle",
+          "pause",
+          "reward",
+          "result",
+          "equipped",
+          "scrolled",
+          "safe-insets",
+          "redeployed"
+        ],
+        "touch": true,
+        "back": true,
+        "safeInsetEmulation": true,
+        "equipPersisted": true,
+        "rewardCount": 1,
+        "pageErrors": [],
+        "layout": {
+          "overflow": false,
+          "horizontal": 135,
+          "rowHeights": [
+            30,
+            30,
+            30,
+            30
+          ],
+          "start": {
+            "x": 500,
+            "y": 299,
+            "right": 615,
+            "bottom": 337,
+            "height": 38
+          }
+        }
+      }
+    ],
+    "passed": true,
+    "finishedAt": "2026-09-26T06:47:02.959Z"
+  },
+  "pointer": {
+    "startedAt": "2026-09-26T06:45:24.435Z",
+    "baseline": false,
+    "passed": true,
+    "lockAcquired": true,
+    "lockInDialog": null,
+    "clicked": true,
+    "pauseResume": true,
+    "finishedAt": "2026-09-26T06:45:49.573Z"
+  },
+  "victory": {
+    "startedAt": "2026-09-26T06:47:03.998Z",
+    "head": "895d8313cd690de17a3df49d46f16859fa06eba4",
+    "humanParticipants": 0,
+    "fixture": false,
+    "defaultEquipment": true,
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "samples": [
+      {
+        "screen": "battle",
+        "time": 0.2,
+        "hp": 160,
+        "kills": 0,
+        "wave": 1,
+        "phase": "battle",
+        "paused": false,
+        "modalCount": 0,
+        "encounter": false,
+        "hidden": false
+      },
+      {
+        "screen": "battle",
+        "time": 12.35000000000004,
+        "hp": 160,
+        "kills": 7,
+        "wave": 1,
+        "phase": "battle",
+        "paused": false,
+        "modalCount": 0,
+        "encounter": false,
+        "hidden": false
+      },
+      {
+        "screen": "battle",
+        "time": 25.70000000000023,
+        "hp": 160,
+        "kills": 13,
+        "wave": 2,
+        "phase": "battle",
+        "paused": false,
+        "modalCount": 0,
+        "encounter": false,
+        "hidden": false
+      },
+      {
+        "screen": "battle",
+        "time": 40.79999999999982,
+        "hp": 160,
+        "kills": 27,
+        "wave": 2,
+        "phase": "battle",
+        "paused": false,
+        "modalCount": 0,
+        "encounter": false,
+        "hidden": false
+      }
+    ],
+    "passed": true,
+    "victory": {
+      "screen": "collection",
+      "time": 51.39999999999922,
+      "hp": 160,
+      "kills": 32,
+      "wave": 2,
+      "phase": "victory",
+      "paused": false,
+      "modalCount": 0,
+      "encounter": false,
+      "hidden": false
+    },
+    "equippedReward": "fa0e70ef-4c5f-4861-857b-3b7c4bb571f9-38",
+    "pageErrors": [],
+    "finishedAt": "2026-09-26T06:48:53.524Z"
+  },
+  "gear": [
+    {
+      "width": 1280,
+      "height": 582,
+      "organizing": false,
+      "titleTop": 26.046875,
+      "frameTop": 10,
+      "heading": 20,
+      "header": 41,
+      "rows": [
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        }
+      ],
+      "visible": 11,
+      "footerClear": true,
+      "checks": 0,
+      "overflow": false
+    },
+    {
+      "width": 1280,
+      "height": 582,
+      "organizing": true,
+      "titleTop": 26.046875,
+      "frameTop": 10,
+      "heading": 20,
+      "header": 41,
+      "rows": [
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 1254,
+          "listRight": 1255,
+          "cellOverlap": false
+        }
+      ],
+      "visible": 11,
+      "footerClear": true,
+      "checks": 27,
+      "overflow": false
+    },
+    {
+      "width": 915,
+      "height": 412,
+      "organizing": false,
+      "titleTop": 28.421875,
+      "frameTop": 10,
+      "heading": 20,
+      "header": 39,
+      "rows": [
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        }
+      ],
+      "visible": 6,
+      "footerClear": true,
+      "checks": 0,
+      "overflow": false
+    },
+    {
+      "width": 915,
+      "height": 412,
+      "organizing": true,
+      "titleTop": 28.421875,
+      "frameTop": 10,
+      "heading": 20,
+      "header": 39,
+      "rows": [
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 889,
+          "listRight": 890,
+          "cellOverlap": false
+        }
+      ],
+      "visible": 6,
+      "footerClear": true,
+      "checks": 27,
+      "overflow": false
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "organizing": false,
+      "titleTop": 29.328125,
+      "frameTop": 10,
+      "heading": 20,
+      "header": 39,
+      "rows": [
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        }
+      ],
+      "visible": 6,
+      "footerClear": true,
+      "checks": 0,
+      "overflow": false
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "organizing": true,
+      "titleTop": 29.328125,
+      "frameTop": 10,
+      "heading": 20,
+      "header": 39,
+      "rows": [
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 0,
+          "lockWidth": 28,
+          "lockRight": 818,
+          "listRight": 819,
+          "cellOverlap": false
+        }
+      ],
+      "visible": 6,
+      "footerClear": true,
+      "checks": 27,
+      "overflow": false
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "organizing": false,
+      "titleTop": 29.65625,
+      "frameTop": 10,
+      "heading": 20,
+      "header": 39,
+      "rows": [
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 135,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        }
+      ],
+      "visible": 5,
+      "footerClear": true,
+      "checks": 0,
+      "overflow": false
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "organizing": true,
+      "titleTop": 29.65625,
+      "frameTop": 10,
+      "heading": 20,
+      "header": 39,
+      "rows": [
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": true,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        },
+        {
+          "row": 30,
+          "visible": false,
+          "nameFits": true,
+          "scroll": 155,
+          "lockWidth": 28,
+          "lockRight": 615,
+          "listRight": 615,
+          "cellOverlap": false
+        }
+      ],
+      "visible": 5,
+      "footerClear": true,
+      "checks": 27,
+      "overflow": false
+    }
+  ],
+  "builds": {
+    "production": true,
+    "pages": true,
+    "workerDryRun": true
+  },
+  "logs": [
+    {
+      "name": "settings-integration-audio-unit.log",
+      "bytes": 250,
+      "sha256": "58fc90e4e925c8a3529b8a3b0f1c03773add242e81c530ed7249019b5ca83f4b"
+    },
+    {
+      "name": "settings-integration-build.log",
+      "bytes": 1517,
+      "sha256": "59a4447816b8733b548dfbf52cdeb3482f18c78ff4b0725831a7aab3f34b9ede"
+    },
+    {
+      "name": "settings-integration-gear.log",
+      "bytes": 1051,
+      "sha256": "703e3dba252976e79f991181f8453ec8b09ecde1124ca6aaa9335af74f4f5d9b"
+    },
+    {
+      "name": "settings-integration-pages.log",
+      "bytes": 1631,
+      "sha256": "e949edb12714595cb61ce98215df023d9b7b5badd276c6f5349954fc0205db6e"
+    },
+    {
+      "name": "settings-integration-pointer.log",
+      "bytes": 1118,
+      "sha256": "781bfbe66c1065fb57a16a4c91a87088c5211eae8552bcfb9c4a1daec4cb8b7b"
+    },
+    {
+      "name": "settings-integration-save-browser.log",
+      "bytes": 7408,
+      "sha256": "3f11b01aa63952d8d0702e7109fe8728ea7492845487265a6e2fa438898a648e"
+    },
+    {
+      "name": "settings-integration-save-unit.log",
+      "bytes": 540,
+      "sha256": "ca94d42aad9190a1cfa9ba0d9622bab25f2a05d98d75ca08abc79edbe5a66001"
+    },
+    {
+      "name": "settings-integration-typecheck.log",
+      "bytes": 90,
+      "sha256": "2a3cecd9a5b890521cf83e8f3569d517890e9ac6b980f39f5e23a7aa2f1632bc"
+    },
+    {
+      "name": "settings-integration-ui.log",
+      "bytes": 1543,
+      "sha256": "1d0a652a89bcb0748f87816aadf220f7af42bdbe87b83ac0c4f7c0d7bcc9cd5f"
+    },
+    {
+      "name": "settings-integration-victory.log",
+      "bytes": 2438,
+      "sha256": "c95d7efa67e63b3e36961f24bc3768f774d2e4e7567e46d8cbea9d4c98a2b3bd"
+    },
+    {
+      "name": "settings-integration-worker.log",
+      "bytes": 1023,
+      "sha256": "9510d317746969198cc6136a4fc6a5ba603d1140c7598d343126b4e3efbad69a"
+    }
+  ]
+}

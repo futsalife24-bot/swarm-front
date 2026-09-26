@@ -1,10 +1,12 @@
-# 現在地: 初出撃〜再出撃を自己検証・PR92保存、通常Chatの独立監査中（2026-09-26）
+# 現在地: 初出撃3修正は監査PASS、最新main統合版の追加資料送信待ち（2026-09-26）
 
-`codex/first-ten-minutes`、開始base `c46f2484d39c7e9a2308c505ab4356ccd9be211b`。既存PR90反映後のmain `97926835baefe1fa8fa41df079360114a3e4061d` を取り込み、cleanな `803858ef155c5da2f2864317f243b7ee9e495777` で再検証。PC初遭遇dialogのPointer Lock残留、初回の操作/勝利条件の説明、戦果→装備変更→再出撃の案内を修正。runtimeはplaytest-app.tsの10行差分のみ。
+[PR92](https://github.com/futsalife24-bot/swarm-front/pull/92)、branch `codex/first-ten-minutes`、作業場所 `../first-ten-minutes/`。初遭遇dialogのPointer Lock、初回の操作/勝利条件、戦果→装備変更→再出撃を修正。開始base `c46f2484d39c7e9a2308c505ab4356ccd9be211b`、最新main `a889eaf3ac43ae390e9e176448e7f4d84f1f2c52` を取り込み、統合対象 `c909c381ad1a904cf9b789230d3fc085b13e3f88` をpush済み。runtimeは最新mainに対しplaytest-app.tsの10行のみ。
 
-型・保存147件・実Chrome保存21シナリオ・844/640初回導線・実マウス反例/修正確認・通常入力の初勝利/報酬装備/再出撃・装備4幅×2状態・production/Pages/Worker dry-run成功。独立監査・main反映・公開は後続。人間の初見確認0人、実機とSW更新は未確認。作業場所 `../first-ten-minutes/`。元gameのdirty7件を保護。[再現・証拠・未確認](FIRST-TEN-MINUTES.md)。
+[通常Chat監査](https://chatgpt.com/c/6ab765f3-df10-83e8-8d19-cdda8008ecef)はf470d3dのコードPASS・必須実装不具合0件。ただしF1/P2「mainの文書競合解消と統合版確認」によりmerge/公開は未合格。双方の記録を保持して競合を解消済み。cleanな `895d8313cd690de17a3df49d46f16859fa06eba4` で型・保存147・音量5・保存ブラウザ21（189.48秒）・844/640導線・実マウス・初勝利51.4秒/報酬装備/reload/再出撃・装備4幅×2状態・production/Pages/Worker dryrunが成功。c909c38は公開記録の取り込みのみで実装不変。
 
-[PR92](https://github.com/futsalife24-bot/swarm-front/pull/92)、監査資料対象 `f470d3da0555ad0c0fd84e6669e56cae54e28dc6`。通常Chatへの監査ZIP添付が自動承認レビューに2回拒否された。公開repoであることと継続承認を確認したが、レビューは今回の資料/送信先の明示承認を要求。送信確認を経て監査依頼へ進めた。merge/公開は未実施。ZIPは `dist-validation/first-ten-minutes/audit-f470d3d.zip`、SHA256 `1360b961eeff4a3a73c927a39d8a1c9623e6fdffe508ab744304c85493d10a8d`。ユーザーの今回の送信許可を受領し、同ZIPを通常Chatへ添付・監査依頼済み。[監査Chat](https://chatgpt.com/c/6ab765f3-df10-83e8-8d19-cdda8008ecef)で判定待ち。必要修正・通常merge・既存Worker公開/確認へ続く。以降の文書記録は実装を変更しない。
+同じ監査Chatへ送る統合資料 `dist-validation/first-ten-minutes/integration-c909c38.zip`（10,648,050 bytes、SHA256 `c59264dc84069bd95fcc8f3e0efe2e63ba08df108c3d1998a786436c35aa78b2`）を準備したが、自動承認レビューは「初回ZIPへの許可は新しい資料に及ばない」として追加添付を拒否。ユーザーへ追加送信を確認中。追加ZIPは未送信、再監査・通常merge・今回の公開は未完了。送信許可後はこのZIPでF1の限定再監査→通常merge→既存Worker公開/配信確認へ再開。元gameの別作業7ファイルは保護。
+
+人間の初見確認0人、実機/物理safe area/SW更新は未確認。任意O1整理モード案内、O3取得途中lockの実ゲーム未再現懸念は保留。O2 baselineの旧ソース配置手順は文書補足。[詳細・証拠](FIRST-TEN-MINUTES.md)。後続は文書と証拠のみ。
 
 # 現在地: 設定の右メニュー集約とBGM/SE調整、main反映・公開完了（2026-09-26）
 
