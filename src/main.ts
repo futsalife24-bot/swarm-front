@@ -383,7 +383,7 @@ function configured() {
   controls.fireSensitivity = save.fireSensitivity ?? save.sensitivity;
   controls.gyroEnabled = save.gyroEnabled === true;
   controls.gyroSensitivity = save.gyroSensitivity ?? 1;
-  sound.volume = save.volume;
+  sound.setVolumes(save.volume, save.bgmVolume, save.seVolume);
   view.quality = save.quality;
   view.frameRate = save.frameRate ?? 60;
   view.mapAssets.setQuality(save.quality);
@@ -750,10 +750,9 @@ function gear() {
 function openSettings(back: () => void) {
   const dialog = menuDialog(
     "設定・操作",
-    `<p class="settings-status" role="status">${esc(saveError || "変更はこの端末に自動保存されます。")}</p><div class="settings-content settings-columns"><p>PC: WASD移動 / クリック射撃・マウス照準 / R装填 / Q切替 / Space回避 / E長押し蘇生 / Escマウス解放</p><p>スマホ: 左スティック移動 / 右側ドラッグ照準 / 射撃ボタン長押し。味方3.5m以内で蘇生を2.5秒長押し。</p><label>視点感度 <input id="sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>射撃ボタンの視点感度 <input id="fire-sense" type="range" min="0.1" max="6" step="0.1" value="${save.fireSensitivity ?? save.sensitivity}"></label><label>ジャイロ <button id="gyro" type="button" role="switch" aria-label="ジャイロ" aria-checked="${save.gyroEnabled === true}">${save.gyroEnabled ? "オン" : "オフ"}</button><span id="gyro-status" role="status">端末を動かして照準。反応しない場合はオフ→オンで許可を確認。</span></label><label>ジャイロ感度 <input id="gyro-sense" type="range" min="0.1" max="6" step="0.1" value="${save.gyroSensitivity ?? 1}"></label><label>音量（0でミュート） <input id="volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準（精細な地形・質感）</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量（従来の描画）</option></select></label><label>描画上限 <select id="frame-rate"><option value="60" ${(save.frameRate ?? 60) === 60 ? "selected" : ""}>60fps（なめらか）</option><option value="30" ${save.frameRate === 30 ? "selected" : ""}>30fps（省電力）</option></select></label><label>ミニマップ <select id="map-rotate"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><label>ダメージ表示 <select id="damage-numbers"><option value="self" ${(save.damageNumbers ?? "self") === "self" ? "selected" : ""}>自分のみ</option><option value="all" ${save.damageNumbers === "all" ? "selected" : ""}>味方も表示</option><option value="off" ${save.damageNumbers === "off" ? "selected" : ""}>表示しない</option></select></label><p>道中の緑の戦利品は接近して回収。勝利時に確定、敗北・復帰できない切断では未確定品を失います。保存済みの武器は失いません。端末変更・ブラウザデータ削除で引き継げません。クラウド保存や完全な改ざん防止はありません。</p><button id="export">保存データを書き出す</button></div>`,
+    `<p class="settings-status" role="status">${esc(saveError || "変更はこの端末に自動保存されます。")}</p><div class="settings-content settings-columns"><p>PC: WASD移動 / クリック射撃・マウス照準 / R装填 / Q切替 / Space回避 / E長押し蘇生 / Escマウス解放</p><p>スマホ: 左スティック移動 / 右側ドラッグ照準 / 射撃ボタン長押し。味方3.5m以内で蘇生を2.5秒長押し。</p><label>視点感度 <input id="sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>射撃ボタンの視点感度 <input id="fire-sense" type="range" min="0.1" max="6" step="0.1" value="${save.fireSensitivity ?? save.sensitivity}"></label><label>ジャイロ <button id="gyro" type="button" role="switch" aria-label="ジャイロ" aria-checked="${save.gyroEnabled === true}">${save.gyroEnabled ? "オン" : "オフ"}</button><span id="gyro-status" role="status">端末を動かして照準。反応しない場合はオフ→オンで許可を確認。</span></label><label>ジャイロ感度 <input id="gyro-sense" type="range" min="0.1" max="6" step="0.1" value="${save.gyroSensitivity ?? 1}"></label><label>全体音量 <input id="volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>BGM音量 <input id="bgm-volume" type="range" min="0" max="1" step="0.05" value="${save.bgmVolume ?? 1}"></label><label>SE音量 <input id="se-volume" type="range" min="0" max="1" step="0.05" value="${save.seVolume ?? 1}"></label><label>描画品質 <select id="quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準（精細な地形・質感）</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量（従来の描画）</option></select></label><label>描画上限 <select id="frame-rate"><option value="60" ${(save.frameRate ?? 60) === 60 ? "selected" : ""}>60fps（なめらか）</option><option value="30" ${save.frameRate === 30 ? "selected" : ""}>30fps（省電力）</option></select></label><label>ミニマップ <select id="map-rotate"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><label>ダメージ表示 <select id="damage-numbers"><option value="self" ${(save.damageNumbers ?? "self") === "self" ? "selected" : ""}>自分のみ</option><option value="all" ${save.damageNumbers === "all" ? "selected" : ""}>味方も表示</option><option value="off" ${save.damageNumbers === "off" ? "selected" : ""}>表示しない</option></select></label><p>道中の緑の戦利品は接近して回収。勝利時に確定、敗北・復帰できない切断では未確定品を失います。保存済みの武器は失いません。端末変更・ブラウザデータ削除で引き継げません。クラウド保存や完全な改ざん防止はありません。</p><button id="export">保存データを書き出す</button></div>`,
     "SYSTEM CONFIGURATION",
   );
-  addPlayerNameSetting(dialog.querySelector<HTMLElement>(".menu-dialog-body")!);
   const content = dialog.querySelector<HTMLElement>(".settings-content")!;
   const original = [...content.children];
   for (const key of ["preferences", "save"]) {
@@ -761,9 +760,9 @@ function openSettings(back: () => void) {
     panel.id = "settings-" + key;
     panel.setAttribute(
       "aria-label",
-      key === "preferences" ? "環境設定" : "保存データ",
+      key === "preferences" ? "環境設定" : "メニュー",
     );
-    panel.innerHTML = `<h3>${key === "preferences" ? "環境設定" : "保存データ"}</h3>`;
+    panel.innerHTML = `<h3>${key === "preferences" ? "環境設定" : "メニュー"}</h3>`;
     content.append(panel);
   }
   original.slice(0, 2).forEach((el) => el.remove());
@@ -776,6 +775,7 @@ function openSettings(back: () => void) {
         )!
         .append(el),
     );
+  addPlayerNameSetting(dialog.querySelector<HTMLElement>("#settings-save")!);
   const layoutButton = document.createElement("button");
   const developerButton = document.createElement("button");
   developerButton.id = "settings-developer";
@@ -826,7 +826,11 @@ function openSettings(back: () => void) {
     return ok;
   };
   alignSettings(dialog.querySelector("#settings-preferences")!);
-  mountMediaMenu(dialog, () => sound.volume);
+  mountMediaMenu(
+    dialog,
+    () => sound.volume,
+    () => sound.musicVolume,
+  );
   bindAimRanges("", update);
   bindGyro("", update);
   $("quality").onchange = () => {
@@ -892,19 +896,20 @@ function bindAimRanges(prefix: string, update: (next: Save) => boolean) {
     ["fire-sense", "fireSensitivity"],
     ["gyro-sense", "gyroSensitivity"],
     ["volume", "volume"],
+    ["bgm-volume", "bgmVolume"],
+    ["se-volume", "seVolume"],
   ] as const) {
     const input = $(prefix + id) as HTMLInputElement;
     const output = document.createElement("output");
     output.htmlFor = input.id;
     input.after(output);
     const value = () =>
-      (output.textContent =
-        id === "volume"
-          ? `${Math.round(Number(input.value) * 100)}%`
-          : Number(input.value).toFixed(1));
+      (output.textContent = id.endsWith("volume")
+        ? `${Math.round(Number(input.value) * 100)}%`
+        : Number(input.value).toFixed(1));
     value();
     input.oninput = () => {
-      if (id === "volume") sound.unlock();
+      if (id.endsWith("volume")) sound.unlock();
       if (
         !update({
           ...save,
@@ -913,7 +918,12 @@ function bindAimRanges(prefix: string, update: (next: Save) => boolean) {
         })
       )
         input.value = String(
-          save[key] ?? (key === "gyroSensitivity" ? 1 : save.sensitivity),
+          save[key] ??
+            (key === "gyroSensitivity" ||
+            key === "bgmVolume" ||
+            key === "seVolume"
+              ? 1
+              : save.sensitivity),
         );
       value();
     };
@@ -1601,7 +1611,7 @@ function openPause(confirming = false) {
   menu.hidden = false;
   menu.innerHTML = confirming
     ? `<div class="pause-card"><h2>作戦を離脱しますか</h2><p>${pending ? `未確定の戦利品 <b>${pending} 件</b>を失います。` : "未確定の戦利品はありません。"}確定済みの武器は残ります。</p>${mode === "coop" ? '<p class="warn">部隊は作戦を続けます。あなたは戻れません。</p>' : ""}<div class="pause-actions"><button id="pause-back">やめる</button><button class="danger" id="pause-quit">離脱する</button></div></div>`
-    : `<div class="pause-card"><h2>一時停止</h2>${mode === "coop" ? '<p class="warn">協力プレイは止まりません。この間も戦闘は進み、被弾します。</p>' : "<p>ソロなので戦闘は止まっています。</p>"}<label>視点感度 <input id="pause-sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>射撃ボタンの視点感度 <input id="pause-fire-sense" type="range" min="0.1" max="6" step="0.1" value="${save.fireSensitivity ?? save.sensitivity}"></label><label>ジャイロ <button id="pause-gyro" type="button" role="switch" aria-label="ジャイロ" aria-checked="${save.gyroEnabled === true}">${save.gyroEnabled ? "オン" : "オフ"}</button><span id="pause-gyro-status" role="status">端末を動かして照準。反応しない場合はオフ→オンで許可を確認。</span></label><label>ジャイロ感度 <input id="pause-gyro-sense" type="range" min="0.1" max="6" step="0.1" value="${save.gyroSensitivity ?? 1}"></label><label>音量 <input id="pause-volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>描画品質 <select id="pause-quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準（精細な地形・質感）</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量（従来の描画）</option></select></label><label>ミニマップ <select id="pause-map"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><label>ダメージ表示 <select id="pause-damage"><option value="self" ${(save.damageNumbers ?? "self") === "self" ? "selected" : ""}>自分のみ</option><option value="all" ${save.damageNumbers === "all" ? "selected" : ""}>味方も表示</option><option value="off" ${save.damageNumbers === "off" ? "selected" : ""}>表示しない</option></select></label><div class="pause-actions"><button class="primary" id="pause-resume">戦闘に戻る</button><button id="pause-layout">操作ボタンの配置</button><button id="pause-leave">作戦離脱…</button></div></div>`;
+    : `<div class="pause-card"><h2>一時停止</h2>${mode === "coop" ? '<p class="warn">協力プレイは止まりません。この間も戦闘は進み、被弾します。</p>' : "<p>ソロなので戦闘は止まっています。</p>"}<label>視点感度 <input id="pause-sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>射撃ボタンの視点感度 <input id="pause-fire-sense" type="range" min="0.1" max="6" step="0.1" value="${save.fireSensitivity ?? save.sensitivity}"></label><label>ジャイロ <button id="pause-gyro" type="button" role="switch" aria-label="ジャイロ" aria-checked="${save.gyroEnabled === true}">${save.gyroEnabled ? "オン" : "オフ"}</button><span id="pause-gyro-status" role="status">端末を動かして照準。反応しない場合はオフ→オンで許可を確認。</span></label><label>ジャイロ感度 <input id="pause-gyro-sense" type="range" min="0.1" max="6" step="0.1" value="${save.gyroSensitivity ?? 1}"></label><label>全体音量 <input id="pause-volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>BGM音量 <input id="pause-bgm-volume" type="range" min="0" max="1" step="0.05" value="${save.bgmVolume ?? 1}"></label><label>SE音量 <input id="pause-se-volume" type="range" min="0" max="1" step="0.05" value="${save.seVolume ?? 1}"></label><label>描画品質 <select id="pause-quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準（精細な地形・質感）</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量（従来の描画）</option></select></label><label>ミニマップ <select id="pause-map"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><label>ダメージ表示 <select id="pause-damage"><option value="self" ${(save.damageNumbers ?? "self") === "self" ? "selected" : ""}>自分のみ</option><option value="all" ${save.damageNumbers === "all" ? "selected" : ""}>味方も表示</option><option value="off" ${save.damageNumbers === "off" ? "selected" : ""}>表示しない</option></select></label><div class="pause-actions"><button class="primary" id="pause-resume">戦闘に戻る</button><button id="pause-layout">操作ボタンの配置</button><button id="pause-leave">作戦離脱…</button></div></div>`;
   if (confirming) {
     $("pause-back").onclick = () => openPause(false);
     $("pause-quit").onclick = retreat;
