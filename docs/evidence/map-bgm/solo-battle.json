@@ -1,0 +1,16 @@
+{
+  "origin": "http://127.0.0.1:5376",
+  "actualUI": true,
+  "stage": 1,
+  "audio": [
+    {
+      "currentTime": 28.077655,
+      "duration": 183.96,
+      "error": null,
+      "loop": true,
+      "paused": false,
+      "track": "map-0"
+    }
+  ],
+  "logs": []
+}

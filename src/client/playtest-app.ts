@@ -1331,7 +1331,7 @@ function commit(next: ProgressSave, after: () => void = () => {}) {
   return true;
 }
 function setScreen(next: string) {
-  backgroundMusic().setScreen(next, save?.result?.win === true);
+  backgroundMusic().setScreen(next, save?.result?.win === true, world);
   queueMicrotask(() => {
     enhanceGameSelects(ui, "#pt-difficulty, #pt-bulk-grade");
     enhanceGameSelects(ui, "#pt-stage", (option, button) =>

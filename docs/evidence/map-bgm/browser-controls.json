@@ -1,0 +1,91 @@
+{
+  "pass": true,
+  "scope": "real Audio + real BGM controller; fixture worlds, no network simulation",
+  "tracks": [
+    {
+      "map": 0,
+      "name": "灰明の街区",
+      "track": "map-0",
+      "paused": false,
+      "currentTime": 0.189638,
+      "duration": 183.96,
+      "loop": true,
+      "muted": false,
+      "volume": 0.1925,
+      "error": null,
+      "players": 1
+    },
+    {
+      "map": 1,
+      "name": "薄暮の倉庫地区",
+      "track": "map-1",
+      "paused": false,
+      "currentTime": 0.13329,
+      "duration": 93.6,
+      "loop": true,
+      "muted": false,
+      "volume": 0.1925,
+      "error": null,
+      "players": 1
+    },
+    {
+      "map": 2,
+      "name": "蒼鉄の工業区",
+      "track": "map-2",
+      "paused": false,
+      "currentTime": 0.157991,
+      "duration": 184.24,
+      "loop": true,
+      "muted": false,
+      "volume": 0.1925,
+      "error": null,
+      "players": 1
+    },
+    {
+      "map": 3,
+      "name": "風渡る草原",
+      "track": "map-3",
+      "paused": false,
+      "currentTime": 0.200178,
+      "duration": 146.36,
+      "loop": true,
+      "muted": false,
+      "volume": 0.1925,
+      "error": null,
+      "players": 1
+    },
+    {
+      "map": 4,
+      "name": "白嶺の雪峡",
+      "track": "map-4",
+      "paused": false,
+      "currentTime": 0.156812,
+      "duration": 139.6,
+      "loop": true,
+      "muted": false,
+      "volume": 0.1925,
+      "error": null,
+      "players": 1
+    },
+    {
+      "map": 5,
+      "name": "晶脈の地底巣",
+      "track": "map-5",
+      "paused": false,
+      "currentTime": 0.143268,
+      "duration": 164.8,
+      "loop": true,
+      "muted": false,
+      "volume": 0.1925,
+      "error": null,
+      "players": 1
+    }
+  ],
+  "checks": [
+    "mute and resume",
+    "report returns to map",
+    "clear then victory",
+    "defeat and training silent",
+    "lobby to map"
+  ]
+}

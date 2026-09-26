@@ -1,10 +1,37 @@
+import { stageFor } from "../shared/stages";
+
+export const MAP_MUSIC = [
+  "map-0",
+  "map-1",
+  "map-2",
+  "map-3",
+  "map-4",
+  "map-5",
+] as const;
 export type MusicTrack =
-  "title" | "base" | "prepare" | "lobby" | "report" | "clear" | "victory";
+  | "title"
+  | "base"
+  | "prepare"
+  | "lobby"
+  | "report"
+  | "clear"
+  | "victory"
+  | (typeof MAP_MUSIC)[number];
+
+type MusicWorld = Parameters<typeof stageFor>[0] & { training?: boolean };
+
+/** Use the active plan, including resumed campaigns, rather than a menu selection. */
+export function musicForBattle(world?: MusicWorld | null): MusicTrack | null {
+  if (!world || world.training) return null;
+  return MAP_MUSIC[stageFor(world).map] ?? null;
+}
 
 export function musicForScreen(
   screen: string,
   victory = false,
+  world?: MusicWorld | null,
 ): MusicTrack | null | undefined {
+  if (screen === "battle") return musicForBattle(world);
   if (["loading", "layout"].includes(screen)) return undefined;
   if (["title", "home", "intro"].includes(screen)) return "title";
   if (["base", "armory", "growth", "accessories"].includes(screen))
@@ -63,8 +90,8 @@ export class BackgroundMusic {
     this.unlocked = true;
     this.sync();
   }
-  setScreen(screen: string, victory = false) {
-    const next = musicForScreen(screen, victory);
+  setScreen(screen: string, victory = false, world?: MusicWorld | null) {
+    const next = musicForScreen(screen, victory, world);
     if (next === undefined || next === this.scene) return;
     // Collection may be redrawn after its one-shot has already finished.
     if (next === "clear" && this.scene === "victory") return;
