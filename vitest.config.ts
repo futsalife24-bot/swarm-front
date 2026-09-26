@@ -25,6 +25,7 @@ export default defineConfig({
       "tests/developer-auth.test.ts",
       "tests/encounter-camera.test.ts",
       "tests/audio.test.ts",
+      "tests/settings-audio.test.ts",
       "tests/bgm.test.ts",
       "tests/media-playback.test.ts",
       "tests/media-dialog.test.ts",

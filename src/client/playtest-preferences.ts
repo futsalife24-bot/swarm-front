@@ -8,6 +8,8 @@ const KEY = "swarm-front-playtest-preferences-v1";
 type Preferences = Pick<
   Save,
   | "volume"
+  | "bgmVolume"
+  | "seVolume"
   | "sensitivity"
   | "fireSensitivity"
   | "gyroEnabled"
@@ -19,6 +21,8 @@ type Preferences = Pick<
 >;
 const pick = (s: Save): Preferences => ({
   volume: s.volume,
+  bgmVolume: s.bgmVolume ?? 1,
+  seVolume: s.seVolume ?? 1,
   sensitivity: s.sensitivity,
   fireSensitivity: s.fireSensitivity ?? s.sensitivity,
   gyroEnabled: s.gyroEnabled ?? false,
@@ -49,7 +53,7 @@ export function createPlaytestPreferences(
     controls.fireSensitivity = value.fireSensitivity ?? value.sensitivity;
     controls.gyroEnabled = value.gyroEnabled === true;
     controls.gyroSensitivity = value.gyroSensitivity ?? 1;
-    sound.volume = value.volume;
+    sound.setVolumes(value.volume, value.bgmVolume, value.seVolume);
     view.quality = value.quality;
     view.frameRate = value.frameRate ?? 60;
     view.mapAssets.setQuality(value.quality);
@@ -63,6 +67,10 @@ export function createPlaytestPreferences(
     mount(d: HTMLDialogElement, editLayout: () => void) {
       const body = d.querySelector(".menu-dialog-body")!;
       const existing = [...body.children];
+      const displayValue = (key: keyof Preferences, level: unknown) =>
+        ["volume", "bgmVolume", "seVolume"].includes(key)
+          ? `${Math.round(Number(level) * 100)}%`
+          : String(level);
       const range = (
         key: keyof Preferences,
         label: string,
@@ -70,8 +78,8 @@ export function createPlaytestPreferences(
         max = 6,
         step = 0.1,
       ) =>
-        `<label class="setting-row"><span class="setting-name">${label}</span><span class="setting-control"><input data-preference="${key}" aria-label="${label}" type="range" min="${min}" max="${max}" step="${step}" value="${value[key]}"><output>${value[key]}</output></span></label>`;
-      body.innerHTML = `<p class="settings-status" role="status"></p><div class="settings-content settings-columns"><section id="settings-preferences" aria-labelledby="preferences-heading"><h3 id="preferences-heading">環境設定</h3>${range("sensitivity", "視点感度")}${range("fireSensitivity", "射撃ボタンの視点感度")}<label class="setting-row"><span class="setting-name">ジャイロ</span><span class="setting-control"><button id="pt-gyro" role="switch" aria-checked="${value.gyroEnabled}">${value.gyroEnabled ? "オン" : "オフ"}</button></span></label>${range("gyroSensitivity", "ジャイロ感度")}${range("volume", "音量（0でミュート）", 0, 1, 0.05)}<label class="setting-row"><span class="setting-name">描画品質</span><span class="setting-control"><select data-preference="quality"><option value="1">標準</option><option value="0.65">軽量</option></select></span></label><label class="setting-row"><span class="setting-name">描画上限</span><span class="setting-control"><select data-preference="frameRate" aria-label="描画上限"><option value="60">60fps（なめらか）</option><option value="30">30fps（省電力）</option></select></span></label><label class="setting-row"><span class="setting-name">ミニマップ</span><span class="setting-control"><select data-preference="mapRotates"><option value="false">北を上に固定</option><option value="true">視点に合わせて回す</option></select></span></label><label class="setting-row"><span class="setting-name">ダメージ表示</span><span class="setting-control"><select data-preference="damageNumbers"><option value="self">自分のみ</option><option value="all">味方も表示</option><option value="off">表示しない</option></select></span></label><button id="pt-layout">操作ボタンの配置</button></section><section id="settings-save" aria-labelledby="save-heading"><h3 id="save-heading">保存データ</h3></section></div>`;
+        `<label class="setting-row"><span class="setting-name">${label}</span><span class="setting-control"><input data-preference="${key}" aria-label="${label}" type="range" min="${min}" max="${max}" step="${step}" value="${value[key]}"><output>${displayValue(key, value[key])}</output></span></label>`;
+      body.innerHTML = `<p class="settings-status" role="status"></p><div class="settings-content settings-columns"><section id="settings-preferences" aria-labelledby="preferences-heading"><h3 id="preferences-heading">環境設定</h3>${range("sensitivity", "視点感度")}${range("fireSensitivity", "射撃ボタンの視点感度")}<label class="setting-row"><span class="setting-name">ジャイロ</span><span class="setting-control"><button id="pt-gyro" role="switch" aria-checked="${value.gyroEnabled}">${value.gyroEnabled ? "オン" : "オフ"}</button></span></label>${range("gyroSensitivity", "ジャイロ感度")}${range("volume", "全体音量", 0, 1, 0.05)}${range("bgmVolume", "BGM音量", 0, 1, 0.05)}${range("seVolume", "SE音量", 0, 1, 0.05)}<label class="setting-row"><span class="setting-name">描画品質</span><span class="setting-control"><select data-preference="quality"><option value="1">標準</option><option value="0.65">軽量</option></select></span></label><label class="setting-row"><span class="setting-name">描画上限</span><span class="setting-control"><select data-preference="frameRate" aria-label="描画上限"><option value="60">60fps（なめらか）</option><option value="30">30fps（省電力）</option></select></span></label><label class="setting-row"><span class="setting-name">ミニマップ</span><span class="setting-control"><select data-preference="mapRotates"><option value="false">北を上に固定</option><option value="true">視点に合わせて回す</option></select></span></label><label class="setting-row"><span class="setting-name">ダメージ表示</span><span class="setting-control"><select data-preference="damageNumbers"><option value="self">自分のみ</option><option value="all">味方も表示</option><option value="off">表示しない</option></select></span></label><button id="pt-layout">操作ボタンの配置</button></section><section id="settings-save" aria-labelledby="save-heading"><h3 id="save-heading">メニュー</h3></section></div>`;
       const status = d.querySelector(".settings-status")!;
       status.textContent = loadError || "変更はこの端末に自動保存されます。";
       const savePanel = d.querySelector("#settings-save")!;
@@ -109,7 +117,7 @@ export function createPlaytestPreferences(
                 : Number(el.value);
           if (!update({ ...value, [key]: next })) el.value = String(value[key]);
           const output = el.parentElement?.querySelector("output");
-          if (output) output.textContent = el.value;
+          if (output) output.textContent = displayValue(key, el.value);
         });
       });
       const gyro = d.querySelector<HTMLButtonElement>("#pt-gyro")!;

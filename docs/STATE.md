@@ -2,6 +2,24 @@
 
 branch `claude/hound-leaper-redesign`（[PR91](https://github.com/futsalife24-bot/swarm-front/pull/91)、Claude Codeで作業）。ユーザー決定：VOLLEY（ant）は旧デザイン続投、LEAPER（spider）は成長殻 `leaper_motion_v3.glb` へ切替、動き（見た目のみ）で差別化。初回の限定監査（[停止記録](LEAPER-GROWN-V1-PREFLIGHT.md)）は要修正、F1/P2＝最終v3（4クリップ）に対応した検証証拠の不足。対応：Leap離陸時に足先が0.225m沈む問題を生成器で修正（離陸/着地は地面以上）、最終GLBを再生成して差替え（SHA-256 `7a57499b…c38e3`）、`tests/structure-motion.test.ts` にLeap経路のテスト追加、再現用 `scripts/check-leaper-grown.mjs` を追加。clean HEAD `a0cf797151ae8ad28ec0404ee126fee4ae30efec` で実行し合格：出荷/候補GLB・blend・生成器のSHA-256とgit blobを対応付け、テクスチャ9枚がv2/v3の埋込み画像と実バイト一致、ゲームのローダーで4クリップ（手続き生成Idle/Lunge含む）を全頂点サンプリングし接地・有限値・ループ継ぎ目を確認、実Rendererで待機→予備動作→跳躍→着地→移動を186フレーム駆動し遷移と動画を保存（[証拠](evidence/leaper-grown-v1/)）。型チェック・build・motion系13件成功。HP・速度・跳躍・攻撃時刻・通信は不変。未実施：同じ監査Chatでの再監査・merge・公開、協力2クライアント表示、スマホ実機性能、胸の発光器官の見え方のユーザー判断。[設計・検証](../assets/blender/candidates/hound/grown-v1/DESIGN.md)。
 
+# 現在地: 初見10分の3修正を公開済み・人間初見確認待ち（2026-09-26）
+
+PR92通常merge、通常Chat限定再監査PASS（必須P0/P1/P2各0）。公開ソースmain `de2e0a76f022a8f6783fd82746e7d91c6f949fc7`、Worker Version `f50677a9-8755-4fc9-87a5-1221a2afefe1`。merge後build/dryrun、配信15ファイルSHA一致/health200、公開844×390/640×360の隔離ブラウザ確認が成功。型・保存147・音量5・保存ブラウザ21・初勝利/報酬装備/reload/再出撃・装備8条件は今回の統合版で検証済み。
+
+Awaiting manual: 人間初見0人、実機/物理safe area/SW更新は未確認。自動操縦を人間成功と扱わず、総合Doneにしない。記録のみのbranch `codex/first-ten-minutes-release-record`、隔離作業場所 `../first-ten-minutes`。他worktreeのlocal mainと元gameのdirty7件を保護し、本checkoutは最後にorigin/mainへdetached同期。[詳細・今回の公開証拠](FIRST-TEN-MINUTES.md)。以下は経過記録。
+
+# 現在地: 初出撃3修正の統合版監査PASS・公開準備（2026-09-26）
+
+[PR92](https://github.com/futsalife24-bot/swarm-front/pull/92)、branch `codex/first-ten-minutes`、作業場所 `../first-ten-minutes/`。初遭遇dialogのPointer Lock、初回操作/勝利条件、戦果→装備変更→再出撃を修正。最新main `a889eaf3ac43ae390e9e176448e7f4d84f1f2c52` を取り込み、runtimeはmainに対してplaytest-app.tsの追加6行/削除4行のみ。
+
+[通常Chatの限定再監査](https://chatgpt.com/c/6ab765f3-df10-83e8-8d19-cdda8008ecef)は対象 `c909c381ad1a904cf9b789230d3fc085b13e3f88`、文書/証拠追加HEAD `31eae35030ad0ead7497e1b9951db0b0a78ffcdf` でPASS。F1/P2のmain統合指摘は解消、残る必須P0/P1/P2各0件。独立検証はdialog最小環境11群と音量/保存境界6群、提出標準テストの再実行とは区別。
+
+cleanな895d831で型・保存147・音量5・保存ブラウザ21（189.48秒）・844/640導線・trustedマウス・自動勝利51.4ゲーム秒/報酬装備/reload/再出撃・装備8条件・production/Pages/Worker dryrun成功。以降は文書/証拠のみ。通常merge・既存Worker公開/配信確認はこれから。元gameの別作業7ファイルを保護。人間初見0人、実機/物理safe area/SW更新は未確認。任意O1/O3は保留、O2は文書補足。[詳細・証拠](FIRST-TEN-MINUTES.md)。
+
+# 現在地: 設定の右メニュー集約とBGM/SE調整、main反映・公開完了（2026-09-26）
+
+branch `codex/settings-audio-layout`、base `97926835baefe1fa8fa41df079360114a3e4061d`、作業場所 `../share-image-fix`。サウンドテスト/PVを右側へ移動、プレイヤー名を文字＋小さい変更ボタンへ分離、左に全体/BGM/SE音量。旧保存の音量を維持しソロ/協力/練習へ適用。型・関連66件、実ソロ/ローカルWorker協力で独立ミュート・reload保存・名前変更・844×390/667×375・右PV入口が成功。確定実装e36c7de後のproduction build/dry-run成功。[PR93](https://github.com/futsalife24-bot/swarm-front/pull/93)、対象 `e8766b0ccd21a532f5247529c9f156f09982180f` の[通常Chat監査](https://chatgpt.com/c/6ab7618b-641c-83e8-8a2e-a9e581356613)はPASS、必須P0/P1/P2各0件。独立45ケース群と提出66件は区別。PR93を通常merge、公開ソースmain ade0ae4956073772a912405c21d7c2fb8f0872f0、Worker Version efbb08b7-5935-447a-bcbf-44d971651fb0。merge後build/dry-run、公開SHA/health、公開設定UI・音量0保存/復元を確認。現在main。元gameの別差分を保護。[詳細・証拠](SETTINGS-AUDIO.md)。
+
 # 現在地: 設定のサウンドテスト・PVをmain反映・公開完了（2026-09-26）
 
 [PR90](https://github.com/futsalife24-bot/swarm-front/pull/90)を通常merge。公開ソースmain `23856512fc80e9e4a13e16f31495c47ab24729a4`、既存Worker Version `2e3f6c96-e872-4586-84ac-c2130e86fadb`。ソロ/協力の設定先頭に全13曲のサウンドテストと最新30秒PV再生を追加。BGM停止/同位置復帰、試聴専用音量、読込中終了、非表示停止に対応。
@@ -280,7 +298,7 @@ PR72通常merge・再監査bf0a9d3合格、必須P0-P2なし。公開source `5e8
 
 # 現在地: PR72修正版の独立監査合格、main反映準備（2026-09-21）
 
-対象 bf0a9d3fe235d35e5a0ea6ece8cc2714efc51553 は[再監査](https://chatgpt.com/c/6ab0f325-03a8-83e8-b1cd-29ced57787c4)合格、必須P0-P2なし。全15GLB同位置法線不一致0、独立EGL3種×3角度で欠け解消。専用geometry1050個の破棄/元不変を代替オブジェクトで独立確認。実GPU長時間は未確認。後続は記録のみ。[詳細](WEAPON-RARITY-GLOW.md)。main反映/公開はこれから。
+対象 bf0a9d3fe235d35e5a0ea6ece8cc2714efc51553 は[再監査](https://chatgpt.com/c/6ab0f325-03a8-83e8-b1cd-29ced57787c4)合格、必須P0-P2なし。全15GLB同位置法線不一致0、独立EGL3種×3角度で欠け解消。専用geometry1050個の破棄/元不変を代替オブジェクトで独立確認。実GPU長時間は未確認。後続は記録のみ。[詳細](WEAPON-RARITY-GLOW.md)。PR93を通常merge、公開ソースmain ade0ae4956073772a912405c21d7c2fb8f0872f0、Worker Version efbb08b7-5935-447a-bcbf-44d971651fb0。merge後build/dry-run、公開SHA/health、公開設定UI・音量0保存/復元を確認。現在main。
 
 # 現在地: PR72修正版bf0a9d3の再監査を依頼済み（2026-09-21）
 
@@ -631,7 +649,7 @@ branch codex/admin-analytics-filter、base20c839b450bd55781d942be5b84ba237e0c53b
 
 # 現在地: PR37・承認済み監査資料を送信し独立監査中（2026-09-17）
 
-ユーザーが今回の `title-audit-e747dc5.zip`（6,347,884 bytes）を通常ChatGPTへ独立監査目的で送ることを明示承認。添付/依頼送信成功。[監査Chat](https://chatgpt.com/c/6aabdd4d-2610-83e9-9ff8-8e6edd83bddd)。対象e747dc55ada9b401e4ee65de2fd8ca85fdc3e98d、後続は記録のみ。PR37はMERGEABLE、base6d48ea8不変。型/両build/Worker dry-run/6サイズ実Chrome成功。監査合格/main反映/公開はこれから。[詳細](TITLE-LAYOUT.md)。
+ユーザーが今回の `title-audit-e747dc5.zip`（6,347,884 bytes）を通常ChatGPTへ独立監査目的で送ることを明示承認。添付/依頼送信成功。[監査Chat](https://chatgpt.com/c/6aabdd4d-2610-83e9-9ff8-8e6edd83bddd)。対象e747dc55ada9b401e4ee65de2fd8ca85fdc3e98d、後続は記録のみ。PR37はMERGEABLE、base6d48ea8不変。型/両build/Worker dry-run/6サイズ実Chrome成功。監査合格/PR93を通常merge、公開ソースmain ade0ae4956073772a912405c21d7c2fb8f0872f0、Worker Version efbb08b7-5935-447a-bcbf-44d971651fb0。merge後build/dry-run、公開SHA/health、公開設定UI・音量0保存/復元を確認。現在main。[詳細](TITLE-LAYOUT.md)。
 
 # 現在地: PR37・タイトル改善を実装、監査ZIP送信の承認待ち（2026-09-17）
 
@@ -697,7 +715,7 @@ branch `codex/weekly-title-badge`、base4519967。設定の週間入口をタイ
 
 # 現在地: PR33・承認済みZIPを送信し独立監査中（2026-09-17）
 
-ユーザーが今回の `daily-notice-audit-6bf5590.zip` を通常ChatGPTへ独立監査目的で送信することを明示承認。添付/依頼送信済み。[監査Chat](https://chatgpt.com/c/6aab826d-8b1c-83ee-af15-3f9ee156d5fb)。対象 `6bf55901aa6a4c7cf3814e293d2fd2031352b3b1`、base ac478f5、後続は状態文書のみ。監査合格/main反映/公開はこれから。
+ユーザーが今回の `daily-notice-audit-6bf5590.zip` を通常ChatGPTへ独立監査目的で送信することを明示承認。添付/依頼送信済み。[監査Chat](https://chatgpt.com/c/6aab826d-8b1c-83ee-af15-3f9ee156d5fb)。対象 `6bf55901aa6a4c7cf3814e293d2fd2031352b3b1`、base ac478f5、後続は状態文書のみ。監査合格/PR93を通常merge、公開ソースmain ade0ae4956073772a912405c21d7c2fb8f0872f0、Worker Version efbb08b7-5935-447a-bcbf-44d971651fb0。merge後build/dry-run、公開SHA/health、公開設定UI・音量0保存/復元を確認。現在main。
 
 # 現在地: PR33・日替わり防衛案内修正、監査ZIP送信の承認待ち（2026-09-17）
 

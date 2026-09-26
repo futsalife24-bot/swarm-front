@@ -90,7 +90,11 @@ window.addEventListener("message", (event) => {
     preferences.fireSensitivity ?? preferences.sensitivity;
   controls.gyroEnabled = preferences.gyroEnabled === true;
   controls.gyroSensitivity = preferences.gyroSensitivity ?? 1;
-  sound.volume = preferences.volume;
+  sound.setVolumes(
+    preferences.volume,
+    preferences.bgmVolume,
+    preferences.seVolume,
+  );
   view.quality = preferences.quality;
   view.frameRate = preferences.frameRate === 30 ? 30 : 60;
   view.mapAssets.setQuality(preferences.quality);

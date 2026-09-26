@@ -1,0 +1,13 @@
+{
+  "bgm": "0",
+  "bodyOverflow": 0,
+  "changeButton": "変更",
+  "muted": true,
+  "nameText": "プレイヤー名：未登録",
+  "rightButtons": [
+    "サウンドテスト",
+    "PVを見る"
+  ],
+  "se": "0",
+  "url": "http://127.0.0.1:5198/"
+}

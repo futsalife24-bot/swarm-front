@@ -21,19 +21,26 @@ export const SOUND_TEST_TRACKS: readonly { id: MusicTrack; label: string }[] = [
 export const PV_SOURCE = "assets/video/swarm-front-pv-v10.mp4";
 
 /** Both clients share the same settings entries and media lifetime. */
-export function mountMediaMenu(owner: HTMLDialogElement, volume: () => number) {
+export function mountMediaMenu(
+  owner: HTMLDialogElement,
+  volume: () => number,
+  musicVolume: () => number = volume,
+) {
   const entries = document.createElement("nav");
   entries.className = "settings-media";
   entries.setAttribute("aria-label", "音楽・映像");
   entries.innerHTML =
     '<button type="button" data-sound-test>サウンドテスト</button><button type="button" data-pv>PVを見る</button>';
-  owner.querySelector(".menu-dialog-body")!.prepend(entries);
+  const panel = owner.querySelector("#settings-save");
+  const name = panel?.querySelector(".player-name-setting");
+  if (name) name.after(entries);
+  else (panel ?? owner.querySelector(".menu-dialog-body"))!.append(entries);
   let active: HTMLDialogElement | undefined;
   const open = (video: boolean) => {
     if (active) return;
     const d = menuDialog(
       video ? "SWARM FRONT PV" : "サウンドテスト",
-      `${video ? '<video controls playsinline preload="none" aria-label="SWARM FRONT PV"></video>' : `<label class="sound-test-select">BGM / 全${SOUND_TEST_TRACKS.length}曲<select aria-label="試聴するBGM">${SOUND_TEST_TRACKS.map((track) => `<option value="${track.id}">${track.label}</option>`).join("")}</select></label><audio controls preload="none" aria-label="BGM試聴"></audio>`}<div class="media-actions"><button type="button" data-play>再生</button><button type="button" data-pause>一時停止</button><button type="button" data-reload>再読み込み</button><label>試聴音量<input type="range" min="0" max="1" step="0.05" aria-label="試聴音量"></label></div><p class="media-status" role="status"></p><p class="media-note">音量はこの画面だけに適用されます。閉じるとゲームのBGMに戻ります。</p>`,
+      `${video ? '<video controls playsinline preload="none" aria-label="SWARM FRONT PV"></video>' : `<label class="sound-test-select">BGM / 全${SOUND_TEST_TRACKS.length}曲<select aria-label="試聴するBGM">${SOUND_TEST_TRACKS.map((track) => `<option value="${track.id}">${track.label}</option>`).join("")}</select></label><audio controls preload="none" aria-label="BGM試聴"></audio>`}<div class="media-actions"><button type="button" data-play>再生</button><button type="button" data-pause>一時停止</button><button type="button" data-reload>再読み込み</button><label>試聴音量<input type="range" min="0" max="1" step="any" aria-label="試聴音量"></label></div><p class="media-status" role="status"></p><p class="media-note">音量はこの画面だけに適用されます。閉じるとゲームのBGMに戻ります。</p>`,
       video ? "PROMOTION VIDEO / 30 SEC" : "MUSIC PLAYER",
     );
     active = d;
@@ -44,7 +51,7 @@ export function mountMediaMenu(owner: HTMLDialogElement, volume: () => number) {
     const release = backgroundMusic().suspend();
     const media = d.querySelector<HTMLMediaElement>("audio,video")!;
     const level = d.querySelector<HTMLInputElement>('input[type="range"]')!;
-    level.value = String(volume());
+    level.value = String(video ? volume() : musicVolume());
     const applyVolume = () => {
       media.volume = Number(level.value) * (video ? 1 : 0.55);
       media.muted = Number(level.value) === 0;

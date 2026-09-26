@@ -83,15 +83,23 @@ export function installPlayerProfile() {
   );
 }
 export function addPlayerNameSetting(root: HTMLElement) {
+  const row = document.createElement("div");
+  row.className = "player-name-setting";
+  const name = document.createElement("span");
   const button = document.createElement("button");
   button.type = "button";
   button.id = "edit-player-name";
+  button.textContent = "変更";
+  button.setAttribute("aria-label", "プレイヤー名を変更");
   const refresh = () => {
-    button.textContent = `プレイヤー名：${playerName() || "未登録"} · 変更`;
+    name.textContent = `プレイヤー名：${playerName() || "未登録"}`;
   };
   refresh();
   button.onclick = () => {
     void editPlayerName().then(refresh);
   };
-  root.prepend(button);
+  row.append(name, button);
+  const heading = root.querySelector(":scope > h3");
+  if (heading) heading.after(row);
+  else root.prepend(row);
 }

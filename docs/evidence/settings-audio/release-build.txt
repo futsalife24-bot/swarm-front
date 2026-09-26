@@ -1,0 +1,29 @@
+
+> swarm-front@0.1.0 build:production
+> vite build
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 149 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                           3.64 kB │ gzip:   1.31 kB
+dist/assets/index-CPbai1ZT.css            0.25 kB │ gzip:   0.13 kB
+dist/assets/weapon-help-BU42rxxn.css      4.42 kB │ gzip:   1.44 kB
+dist/assets/main-C1Ldsy-y.css             6.21 kB │ gzip:   1.88 kB
+dist/assets/playtest-app-Nc4GVS_8.css    38.67 kB │ gzip:   8.50 kB
+dist/assets/zoom-guard-Ds-WcwRj.css     107.83 kB │ gzip:  22.08 kB
+dist/assets/training-app-CQ5MDibE.js      3.74 kB │ gzip:   1.92 kB
+dist/assets/weapon-sharing-Bqlwbx22.js    4.75 kB │ gzip:   2.53 kB
+dist/assets/index-BjE2hG8v.js            38.90 kB │ gzip:  16.12 kB
+dist/assets/main-Bxs0RXoe.js             55.58 kB │ gzip:  19.12 kB
+dist/assets/weapon-help-Yr4SKb4Y.js      78.33 kB │ gzip:  29.48 kB
+dist/assets/playtest-app-DfaO7wcN.js    121.52 kB │ gzip:  42.81 kB
+dist/assets/zoom-guard-BidecB1s.js      881.24 kB │ gzip: 245.66 kB
+
+✓ built in 1.88s
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.

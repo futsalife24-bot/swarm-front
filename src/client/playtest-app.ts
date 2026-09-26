@@ -257,7 +257,7 @@ async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
           tutorial(
             "combat",
             "戦闘の基本",
-            "移動しながら照準を合わせて射撃。PCはWASD／マウス、R装填・Q切替・Space回避・Fジャンプ。救急箱はHまたはボタンで全快します。使用すると今回のミッション③は未達成になります。使う必要はありません。",
+            "全WAVEの敵を倒せばクリア。タッチ：左スティックで移動、右側ドラッグで照準、射撃を長押し。PC：WASDで移動、右ドラッグで照準、左クリック長押しで射撃。時間・救急箱なしは追加目標です。",
           );
       })();
     });
@@ -606,7 +606,7 @@ function result() {
   world = null;
   header(
     r.win ? "戦果" : "敗北",
-    `<div class="pt-result"><aside><div class="pt-summary"><span>${Math.floor(r.time)}秒</span><span>${r.kills}撃破</span>${resourceFrame("coins", r.coins * (r.choice === "ad" ? 2 : 1) + r.firstCoins, "gain")}</div><p>${stageLabel(r.stage)} ${r.difficulty === "normal" ? "通常" : "中難易度"}</p><p>${r.missions.map((v, i) => `${i + 1}${v ? "✓" : "○"}`).join("　")}</p>${r.first ? `<p>初達成 ${r.stage === 21 ? `${resourceFrame("coins", 500, "gain")}＋武器3個` : `${resourceFrame("points", 3, "gain")}${r.stage <= 4 && r.difficulty === "normal" ? resourceFrame("materials", 1, "gain") : ""}`}</p>` : ""}<button id="pt-result-home">ホームへ</button><button id="pt-result-retry">出撃準備へ</button></aside><section>${weaponList(r.weapons, "result")}</section></div>`,
+    `<div class="pt-result"><aside><div class="pt-summary"><span>${Math.floor(r.time)}秒</span><span>${r.kills}撃破</span>${resourceFrame("coins", r.coins * (r.choice === "ad" ? 2 : 1) + r.firstCoins, "gain")}</div><p>${stageLabel(r.stage)} ${r.difficulty === "normal" ? "通常" : "中難易度"}</p><p>${r.missions.map((v, i) => `${i + 1}${v ? "✓" : "○"}`).join("　")}</p>${r.first ? `<p>初達成 ${r.stage === 21 ? `${resourceFrame("coins", 500, "gain")}＋武器3個` : `${resourceFrame("points", 3, "gain")}${r.stage <= 4 && r.difficulty === "normal" ? resourceFrame("materials", 1, "gain") : ""}`}</p>` : ""}<button id="pt-result-retry" class="primary">装備変更・再出撃</button><button id="pt-result-home">ホームへ</button></aside><section>${weaponList(r.weapons, "result")}</section></div>`,
     false,
   );
   bindList("result");
@@ -830,7 +830,11 @@ function settingsUI() {
     editControlLayout(returnTo);
   });
   d.querySelector(".menu-dialog-body")!.append(developerEntry);
-  mountMediaMenu(d, () => sound.volume);
+  mountMediaMenu(
+    d,
+    () => sound.volume,
+    () => sound.musicVolume,
+  );
   d.querySelector("#pt-volume")!.addEventListener(
     "input",
     (e) => (sound.volume = Number((e.target as HTMLInputElement).value)),
@@ -1199,6 +1203,8 @@ function message(text: string) {
 function dialog(title: string, content: string) {
   modalCount++;
   controls.enabled = false;
+  // Native dialogs need a free pointer, including first encounters while firing.
+  if (document.pointerLockElement) document.exitPointerLock();
   const d = menuDialog(esc(title), content, "SWARM FRONT");
   d.addEventListener("close", () => {
     modalCount--;
@@ -1589,11 +1595,11 @@ function gear() {
     `<div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 出撃先</span><button id="pt-mission-info">作戦詳細</button></div><select id="pt-stage" aria-label="ステージ">${SOLO_STAGE_IDS.map((id) => `<option value="${id}" ${id === stage ? "selected" : ""}>${esc(stagePickerLabel(save, id))}</option>`).join("")}</select><div class="pt-difficulty"><select id="pt-difficulty" aria-label="難易度"><option value="normal">通常</option><option value="medium">ハード</option><option value="expert" disabled>EXPERT（未解放）</option></select><small title="クリア報酬">${resourceFrame("coins", victoryCoins(stage, difficulty), "gain")}</small></div></section><section class="equipment-select"><div class="section-label"><span>02 入替先</span><small>一覧タップで変更</small></div><div class="loadout-slots">${p.equipped
       .map((id, i) => {
         const w = save.inventory.find((w) => w.id === id)!;
-        return `<button data-gear-slot="${i}" aria-pressed="${selectedGearSlot === i}"><span class="slot-number">0${i + 1}</span><span class="slot-info"><small class="pt-grade-${weaponTier(w)}">装備${i + 1} ${selectedGearSlot === i ? "選択中 · " : ""}${weaponGrade(w)}</small><b>${esc(WEAPONS[w.kind].name)}</b><strong>${esc(effectLabel(w))}</strong></span><i>詳細 ›</i></button>`;
+        return `<button data-gear-slot="${i}" aria-pressed="${selectedGearSlot === i}"><span class="slot-number">0${i + 1}</span><span class="slot-info"><small class="pt-grade-${weaponTier(w)}">装備${i + 1} ${selectedGearSlot === i ? "選択中 · " : ""}${weaponGrade(w)}</small><b>${esc(WEAPONS[w.kind].name)}</b><strong>${esc(effectLabel(w))}</strong></span><i>入替先 ›</i></button>`;
       })
       .join(
         "",
-      )}</div></section></aside><section class="gear-arsenal"><div class="slot-hint"><b>所持武器</b><span>タップで比較・装備変更</span></div>${weaponList(allWeapons(save), "gear")}</section></div><footer class="gear-footer"><p class="status">${!ready ? (save.pending.length ? "所持上限を超えています。武器庫で整理してください。" : "通常ステージのクリアで解放されます。") : esc(p.name)}<small>${m.map((v, i) => `${v ? "✓" : "○"} ${["クリア", cfg.timeLimit + "秒以内", "救急箱・復活なし"][i]}`).join(" · ")}</small></p><button id="pt-start" class="primary" ${ready ? "" : "disabled"}>ソロ出撃 ↗</button></footer>`,
+      )}</div></section></aside><section class="gear-arsenal"><div class="slot-hint"><b>所持武器</b><span>タップで比較・装備変更</span></div>${weaponList(allWeapons(save), "gear")}</section></div><footer class="gear-footer"><p class="status">${!ready ? (save.pending.length ? "所持上限を超えています。武器庫で整理してください。" : "通常ステージのクリアで解放されます。") : `装備${selectedGearSlot + 1}を選択中 · 一覧タップで入替`}<small>${m.map((v, i) => `${v ? "✓" : "○"} ${["クリア", cfg.timeLimit + "秒以内", "救急箱・復活なし"][i]}`).join(" · ")}</small></p><button id="pt-start" class="primary" ${ready ? "" : "disabled"}>ソロ出撃 ↗</button></footer>`,
   );
   // Use the existing header toolbar slot; keep the arsenal available for rows.
   const toolbar = ui.querySelector(".pt-list-tools")!;

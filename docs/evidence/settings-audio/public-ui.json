@@ -1,0 +1,49 @@
+{
+  "muted": {
+    "bgm": [
+      {
+        "muted": true,
+        "paused": true
+      }
+    ],
+    "rightMedia": true,
+    "sliders": [
+      {
+        "name": "視点感度",
+        "value": "1"
+      },
+      {
+        "name": "射撃ボタンの視点感度",
+        "value": "1"
+      },
+      {
+        "name": "ジャイロ感度",
+        "value": "1"
+      },
+      {
+        "name": "全体音量",
+        "value": "0.35"
+      },
+      {
+        "name": "BGM音量",
+        "value": "0"
+      },
+      {
+        "name": "SE音量",
+        "value": "0"
+      },
+      {
+        "name": null,
+        "value": "0.35"
+      }
+    ],
+    "topMedia": false,
+    "xOverflow": 0
+  },
+  "restored": {
+    "master": 0.35,
+    "bgm": 1,
+    "se": 1
+  },
+  "errors": []
+}
