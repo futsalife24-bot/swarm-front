@@ -85,3 +85,14 @@ GitHubの完全差分一覧では、変更はclient 5ファイル、素材・生
 6. 公開後にSTATE先頭をmerge SHA・公開ソースSHA・Worker Version・配信確認で更新し記録をmainへ反映する。
 
 本ChatではSTATEの既存本文を置換していない。停止記録は本書とPRコメントに保存し、再開するworktreeでSTATE先頭から本書を参照すること。新規サービス・課金・権限変更・削除・force-pushは行っていない。
+
+## 実装側の対応（2026-09-26、Claude Code）
+
+F1への対応。再監査の対象はこの節以降のコミット。
+
+- `a8c234a`：Leapの離陸・着地で足先を地面以上に保つよう生成器を修正（初版は離陸時に0.225m沈んでいた）。最終GLBを再生成し `public/assets/enemies/leaper_motion_v3.glb` を差替え。`tests/structure-motion.test.ts` にLeap経路の単体テスト、再現用 `scripts/check-leaper-grown.mjs` と `scripts/leaper-evidence-page.ts` を追加。
+- `d08f14c`：検証記録に作業ツリーのSHA-256に加えgit blob IDを記録（Windowsの改行変換でテキストのバイト列が変わるため）。
+- 最初の文書修正コミット：`DESIGN.md` を最終v3の説明・検証と初期候補の履歴に分離。`evidence/loader-checks.txt` に旧候補の記録であることを明記。
+- 検証実行：clean HEAD `a0cf797151ae8ad28ec0404ee126fee4ae30efec` で `node scripts/check-leaper-grown.mjs` が合格。結果は `docs/evidence/leaper-grown-v1/checks.json`、段階ごとの静止画7枚、`renderer-sequence.mp4`（6.2秒・186フレーム）。型チェック・build・`tests/structure-motion.test.ts`＋`tests/motion-trs.test.ts` 13件成功。
+- 出荷GLB SHA-256：`7a57499b4e7ab82c9fe23155f6731d95213a4fb29835eaecf905e9cd939c38e3`（候補GLBと同一、`validation.json` と一致）。
+- 未確認のまま：協力2クライアント表示、スマホ実機性能、胸の発光器官の見え方（ユーザー判断）。
