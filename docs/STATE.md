@@ -1,8 +1,10 @@
-# 現在地: LEAPER成長殻モデル、PR91通常merge・既存Worker公開（2026-09-26）
+# 現在地: LEAPER成長殻モデル、PR91通常merge・既存Worker公開と表示確認完了（2026-09-26）
 
 [PR91](https://github.com/futsalife24-bot/swarm-front/pull/91)を通常merge。merge SHA・公開ソースは `fba1edcb48a4440395ddb40c5e8439246f6614d1`、Worker Versionは `adda1ebc-4868-4629-a005-c64f0820b8ad`。指定のPlayer-Noteをmerge本文に保持し、管理者バイパスなし。merge後のproduction buildと既存設定のWorker dry-runが成功。公開URLの `/assets/enemies/leaper_motion_v3.glb` はHTTP 200・3,802,608 bytes・SHA-256 `7a57499b4e7ab82c9fe23155f6731d95213a4fb29835eaecf905e9cd939c38e3` でソースと一致。`/api/health` はHTTP 200・`{"ok":true,"transport":"websocket","authority":"durable-object"}`。
 
-公開画面でのLEAPER表示は未確認。IABは保存書込ロックで開始できず、ユーザーがChrome使用を明示承認した後、Chromeで公開版ホーム・エネミーレポート・ST1戦闘を確認した。ユーザー承認の「新しい進行を開始」を確定し、検証用名 `ReleaseQA` を登録。新しい進行ではLEAPERはレポートで未遭遇、登場するST2（第2波）は未解放。ST1の通常プレイは敗北し、LEAPERには未到達。敗北確定は自動承認レビューが保存状態更新を理由に拒否したため実施せず、検証タブを閉じた。中断作戦の再開案内が次回表示される可能性がある。ST1をクリアしてST2第2波でLEAPERに遭遇した後、レポートまたは実戦で成長殻モデルが表示され、青い輪と細い脚の簡易モデルへ代替されないことを確認する。協力参加者の跳躍アニメーション、スマホ実機FPS・発熱、監査の任意改善は下記の既知課題のまま。[詳細・最終PASS](LEAPER-GROWN-V1-PREFLIGHT.md)。
+公開版のLEAPER表示はユーザー提供のAndroid実機スクリーンショット [public-android-report.jpg](evidence/leaper-grown-v1/public-android-report.jpg) で確認。画像SHA-256 `08ad1967a3400440726c11cfc516faf3e776e1d5cca89a532392996b6036cadf`。エネミーレポートで04「HOUND / LEAPER」が選択され、3D SPECIMEN欄に殻に覆われた胴体・棘・太い脚・青い発光器官のある新モデルが表示される。青い輪と細い脚の読込失敗時の簡易モデルではない。これは静止画による見た目の確認で、公開版の動き・スマホFPS/発熱の測定ではない。
+
+PC側の経過：IABは保存書込ロックで開始できず、ユーザーがChrome使用を明示承認した後、Chromeで公開版ホーム・エネミーレポート・ST1戦闘を確認。ユーザー承認の「新しい進行を開始」を確定し、検証用名 `ReleaseQA` を登録。PC側の新しい進行ではLEAPERは未遭遇でST2は未解放。ST1の通常プレイは敗北。敗北確定は自動承認レビューが保存状態更新を理由に拒否したため実施せず、検証タブを閉じた。中断作戦の再開案内が次回表示される可能性がある。協力参加者の跳躍アニメーションと監査の任意改善は下記の既知課題のまま。[詳細・最終PASS](LEAPER-GROWN-V1-PREFLIGHT.md)。
 
 **独立監査 最終PASS（対象HEAD `e699f6d93997cfcbb6b34c225b32b49a20fce733`、P0/P1/P2＝0、F1解消）。** 監査は実物ZIP（30ファイル、出荷GLB SHA-256 `7a57499b…c38e3` を実バイトで再計算一致）で造形正本第1・2節の適合（箱型からの脱却・VOLLEYとの識別・禁止表現なし）を確認。任意改善・残課題：胸の発光器官は正面で単眼を連想させる（必須ではない、分割スリット化は任意）、検証動画の「攻撃」区間は実際はIdle（撮影スクリプトの範囲の問題）、着地時に胴が一段下がるのは既存Rendererの高さ補間（PR91で未変更）。PASS後に最新main `869dfff` をmerge（競合はSTATE.mdのみ、PR91の変更ファイルとの重なりなし）→ merge後HEAD `93f3016` で型チェック・build・全Vitest（既存4件以外638件成功）・`check-leaper-grown.mjs` 再実行（同一値で合格）。詳細は[監査記録](LEAPER-GROWN-V1-PREFLIGHT.md)。
 
