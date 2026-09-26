@@ -46,7 +46,13 @@ const files = [
 const provenance = {
   head: execSync("git rev-parse HEAD").toString().trim(),
   dirty: execSync("git status --short -- public src assets/blender/candidates/hound assets/blender/library").toString().trim(),
-  files: Object.fromEntries(files.map((f) => [f, { bytes: fs.statSync(f).size, sha256: sha(f) }])),
+  // sha256 is of the working-tree bytes; gitBlob identifies the committed content
+  // (text files may differ only by CRLF normalisation on Windows checkouts).
+  files: Object.fromEntries(files.map((f) => [f, {
+    bytes: fs.statSync(f).size,
+    sha256: sha(f),
+    gitBlob: execSync(`git rev-parse HEAD:${f}`).toString().trim(),
+  }])),
   validationJson: JSON.parse(fs.readFileSync(`${C}/leaper/validation.json`, "utf8")),
 };
 assert.equal(provenance.files[files[0]].sha256, provenance.files[files[1]].sha256, "public v3 != candidate GLB");
