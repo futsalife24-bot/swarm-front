@@ -93,6 +93,8 @@ npm run test:save:browser
 
 任意P3は、上記2回取得の説明修正（本文で対応）と、使い捨て負例probeの期待AssertionErrorをさらに限定する余地。今回は監査が失敗箇所を実際のWorld比較行へ照合し、timeoutや別assertionによる偽成功ではないと確認した。監査側のChrome/155単体/21ブラウザ全体/型/buildの再実行、Git commit tree照合は未実施。後続の証拠・記録文書まで別途監査合格したとの主張はしない。[判定記録](evidence/save-regression/audit-cc6b45c.json)。
 
+[PR88](https://github.com/futsalife24-bot/swarm-front/pull/88)は2026-09-26に通常mergeし、main `a4f3241fe36be5f561c8a7398f77294a68ea043e` へ反映した。合格テストSHA以降は証拠・記録文書のみ。保存runtimeと配信物は変更しておらず、再デプロイは実施していない。
+
 未対象/未確認: Service Workerキャッシュを伴う実配信更新、Android/iOS実機、別端末/クラウド復元、ブラウザやOSの強制終了、OSレベルの容量不足、全過去版×全フィールドの組合せ、悪意ある再checksum済み任意データ、全ステージの実ブラウザ通し勝利。協力戦闘・防衛/訓練の途中checkpointは通常ソロと同じ対応を約束しない。報酬までのブラウザ試験では残敵/編成完了と報酬入力を合成しており、実戦難易度の証明ではない。
 
 Service WorkerはPlaywrightで明示的にblock。今回のconsoleにはその警告とWebGL/テクスチャ関連の出力があり、console errorゼロとは報告しない。保存アサーションと未捕捉pageerrorを判定する。映像品質や端末性能の合格を意味しない。pauseを含む経路の成功だけで、約5秒間隔の定期保存とpagehide単独のトリガーそれぞれの成功までは断定しない。
