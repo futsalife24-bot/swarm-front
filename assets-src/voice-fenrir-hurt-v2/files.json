@@ -1,0 +1,10 @@
+{
+  "seconds": 1.84,
+  "peak": 0.526031494140625,
+  "clippedSamples": 0,
+  "pcmSha256": "f92a7c9e79056166d5baed5deeea6fa5e64593ad5df6bd8bbc14ef8dc8cec241",
+  "bytes": 88364,
+  "sourceSha256": "75547b5c8da5d8aca90dd80e160316d30e0586679e2c8c0d6d3b2719b1343dca",
+  "shippedSha256": "5d866e994770c63290b21eae98353d7a675b07df4857db8df9e0451f6e313bfe",
+  "oldShippedSha256": "84065c78671bc066a172621c128e63b8c2fb1c00fa729a4f80a69cdef202e29a"
+}

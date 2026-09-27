@@ -99,7 +99,7 @@ describe("Fenrir battle variations", () => {
     w.time = 4;
     p.hp--;
     rng.mockReturnValueOnce(0).mockReturnValueOnce(0.8);
-    expect(collect()).toBe("hurt-alt");
+    expect(collect()).toBe("hurt-alt-v2");
   });
   it("only considers own shots after two silent seconds, never each bullet", () => {
     const { w, collect } = fixture();
