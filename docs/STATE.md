@@ -1,3 +1,7 @@
+# 現在地: T7の固定条件比較・独立監査PASS、runtime調整なし（2026-09-27）
+
+branch `codex/balance-t7`、base `7827b9c07886efbad50c2bee3bf17a940b79a1fd`、専用作業場所 `../balance-t7`。[PR99](https://github.com/futsalife24-bot/swarm-front/pull/99)で全12種×5条件×3seed、支援・射撃場・全育成/アクセサリ/作戦仕様の比較を保存。威力等の調整は見送り、GL/STの射程値と平地飛距離の不一致は別仕様判断。型・関連84・保存147・保存ブラウザ21成功。[通常Chat](https://chatgpt.com/c/6ab86f52-4ff4-83ee-8d0f-ff8622d9e4a4)の必須P2-01（計測botの入力境界）を修正し全試行を再計測。対象 `ea071151ee76a2040afa26e770b5966bbde0d48c` の限定再監査PASS、必須P0/P1/P2各0。独立189試行の全指標一致、678,674tickの違反0、正負反例・死亡終了・StagePlan一致を確認。以降は監査記録文書のみ。merge前fetchでmainはbaseのまま、T5由来の変更なし。実際のmerge結果はPR99と[Issue14](https://github.com/futsalife24-bot/project-hub/issues/14)を正とする。runtime不変で再公開対象なし。人間/物理Android・medium通し・全効果組合せは未確認。[条件・全結果・限界](BALANCE-T7.md)。元gameの別作業差分と他worktreeを保護。
+
 # 現在地: LEAPER成長殻モデル、PR91通常merge・既存Worker公開と表示確認完了（2026-09-26）
 
 [PR91](https://github.com/futsalife24-bot/swarm-front/pull/91)を通常merge。merge SHA・公開ソースは `fba1edcb48a4440395ddb40c5e8439246f6614d1`、Worker Versionは `adda1ebc-4868-4629-a005-c64f0820b8ad`。指定のPlayer-Noteをmerge本文に保持し、管理者バイパスなし。merge後のproduction buildと既存設定のWorker dry-runが成功。公開URLの `/assets/enemies/leaper_motion_v3.glb` はHTTP 200・3,802,608 bytes・SHA-256 `7a57499b4e7ab82c9fe23155f6731d95213a4fb29835eaecf905e9cd939c38e3` でソースと一致。`/api/health` はHTTP 200・`{"ok":true,"transport":"websocket","authority":"durable-object"}`。

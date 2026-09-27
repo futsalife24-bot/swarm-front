@@ -1,0 +1,1401 @@
+{
+  "numericTolerance": 1e-9,
+  "trials": 180,
+  "changed": 50,
+  "changes": [
+    {
+      "condition": "early",
+      "kind": "shotgun",
+      "seed": 723,
+      "fields": {
+        "damageEventSum": {
+          "before": 4291,
+          "after": 4290
+        },
+        "damagePerRound": {
+          "before": 25.541666666666668,
+          "after": 25.535714285714285
+        }
+      }
+    },
+    {
+      "condition": "early",
+      "kind": "sticky",
+      "seed": 814,
+      "fields": {
+        "damageEventSum": {
+          "before": 5751,
+          "after": 5747
+        },
+        "damagePerRound": {
+          "before": 62.51086956521739,
+          "after": 62.46739130434783
+        }
+      }
+    },
+    {
+      "condition": "early",
+      "kind": "medic",
+      "seed": 20260927,
+      "fields": {
+        "hp": {
+          "before": 87.325,
+          "after": 80
+        },
+        "netDamageTaken": {
+          "before": 72.675,
+          "after": 85.67999999999999
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "rifle",
+      "seed": 814,
+      "fields": {
+        "seconds": {
+          "before": 185.10000000000784,
+          "after": 184.65000000000774
+        },
+        "clearTime": {
+          "before": 185.10000000000784,
+          "after": 184.65000000000774
+        },
+        "hp": {
+          "before": 183.976,
+          "after": 192
+        },
+        "damageEventSum": {
+          "before": 21114,
+          "after": 21089
+        },
+        "netDamageTaken": {
+          "before": 17.464,
+          "after": 9.439999999999998
+        },
+        "rounds": {
+          "before": 868,
+          "after": 870
+        },
+        "hitEvents": {
+          "before": 842,
+          "after": 841
+        },
+        "damagePerRound": {
+          "before": 24.32488479262673,
+          "after": 24.24022988505747
+        },
+        "killsPerMinute": {
+          "before": 36.95299837925289,
+          "after": 37.04305442729333
+        },
+        "bossTTK": {
+          "before": 114.00000000000401,
+          "after": 113.90000000000398
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "rifle",
+      "seed": 20260927,
+      "fields": {
+        "seconds": {
+          "before": 177.4500000000061,
+          "after": 173.15000000000512
+        },
+        "clearTime": {
+          "before": 177.4500000000061,
+          "after": 173.15000000000512
+        },
+        "damageEventSum": {
+          "before": 21029,
+          "after": 21070
+        },
+        "rounds": {
+          "before": 930,
+          "after": 911
+        },
+        "hitEvents": {
+          "before": 861,
+          "after": 845
+        },
+        "damagePerRound": {
+          "before": 22.61182795698925,
+          "after": 23.12843029637761
+        },
+        "killsPerMinute": {
+          "before": 38.207945900252284,
+          "after": 39.156800462025984
+        },
+        "bossTTK": {
+          "before": 68.64999999999611,
+          "after": 68.19999999999612
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "smg",
+      "seed": 814,
+      "fields": {
+        "seconds": {
+          "before": 198.20000000001082,
+          "after": 198.30000000001084
+        },
+        "clearTime": {
+          "before": 198.20000000001082,
+          "after": 198.30000000001084
+        },
+        "damageEventSum": {
+          "before": 20170,
+          "after": 20189
+        },
+        "damagePerRound": {
+          "before": 10.543648719289076,
+          "after": 10.553580763199164
+        },
+        "killsPerMinute": {
+          "before": 34.51059535822213,
+          "after": 34.49319213312973
+        },
+        "bossTTK": {
+          "before": 136.15000000000936,
+          "after": 136.8000000000095
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "smg",
+      "seed": 20260927,
+      "fields": {
+        "seconds": {
+          "before": 180.5500000000068,
+          "after": 180.85000000000687
+        },
+        "clearTime": {
+          "before": 180.5500000000068,
+          "after": 180.85000000000687
+        },
+        "damageEventSum": {
+          "before": 20417,
+          "after": 20422
+        },
+        "rounds": {
+          "before": 1762,
+          "after": 1761
+        },
+        "damagePerRound": {
+          "before": 11.587400681044269,
+          "after": 11.596819988642817
+        },
+        "killsPerMinute": {
+          "before": 37.88424259207833,
+          "after": 37.82139894940415
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "shotgun",
+      "seed": 723,
+      "fields": {
+        "phase": {
+          "before": "battle",
+          "after": "victory"
+        },
+        "seconds": {
+          "before": 240.00000000002032,
+          "after": 231.1500000000183
+        },
+        "clearTime": {
+          "before": null,
+          "after": 231.1500000000183
+        },
+        "kills": {
+          "before": 111,
+          "after": 112
+        },
+        "damageEventSum": {
+          "before": 20050,
+          "after": 20041
+        },
+        "rounds": {
+          "before": 271,
+          "after": 262
+        },
+        "hitEvents": {
+          "before": 1709,
+          "after": 1695
+        },
+        "damagePerRound": {
+          "before": 73.98523985239852,
+          "after": 76.49236641221374
+        },
+        "killsPerMinute": {
+          "before": 27.749999999997648,
+          "after": 29.0720311486025
+        },
+        "bossTTK": {
+          "before": 185.1500000000208,
+          "after": 175.9000000000187
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "shotgun",
+      "seed": 20260927,
+      "fields": {
+        "kills": {
+          "before": 110,
+          "after": 111
+        },
+        "damageEventSum": {
+          "before": 16063,
+          "after": 16291
+        },
+        "hitEvents": {
+          "before": 1425,
+          "after": 1444
+        },
+        "damagePerRound": {
+          "before": 66.92916666666666,
+          "after": 67.87916666666666
+        },
+        "killsPerMinute": {
+          "before": 27.49999999999767,
+          "after": 27.749999999997648
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "slug",
+      "seed": 723,
+      "fields": {
+        "seconds": {
+          "before": 202.75000000001185,
+          "after": 200.55000000001135
+        },
+        "clearTime": {
+          "before": 202.75000000001185,
+          "after": 200.55000000001135
+        },
+        "damageEventSum": {
+          "before": 24950,
+          "after": 24922
+        },
+        "rounds": {
+          "before": 197,
+          "after": 196
+        },
+        "hitEvents": {
+          "before": 221,
+          "after": 220
+        },
+        "damagePerRound": {
+          "before": 126.6497461928934,
+          "after": 127.15306122448979
+        },
+        "killsPerMinute": {
+          "before": 33.736128236742786,
+          "after": 34.10620792819553
+        },
+        "bossTTK": {
+          "before": 143.35000000001142,
+          "after": 142.60000000001125
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "slug",
+      "seed": 20260927,
+      "fields": {
+        "seconds": {
+          "before": 171.45000000000474,
+          "after": 175.40000000000563
+        },
+        "clearTime": {
+          "before": 171.45000000000474,
+          "after": 175.40000000000563
+        },
+        "hp": {
+          "before": 163.09,
+          "after": 182.56
+        },
+        "damageEventSum": {
+          "before": 24693,
+          "after": 24958
+        },
+        "netDamageTaken": {
+          "before": 28.909999999999997,
+          "after": 22.656000000000006
+        },
+        "rounds": {
+          "before": 177,
+          "after": 179
+        },
+        "hitEvents": {
+          "before": 209,
+          "after": 211
+        },
+        "damagePerRound": {
+          "before": 139.5084745762712,
+          "after": 139.43016759776538
+        },
+        "killsPerMinute": {
+          "before": 39.54505686789042,
+          "after": 38.654503990876755
+        },
+        "bossTTK": {
+          "before": 64.34999999999636,
+          "after": 65.79999999999626
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "rocket",
+      "seed": 814,
+      "fields": {
+        "damageEventSum": {
+          "before": 24427,
+          "after": 24457
+        },
+        "hitEvents": {
+          "before": 201,
+          "after": 203
+        },
+        "damagePerRound": {
+          "before": 175.73381294964028,
+          "after": 175.9496402877698
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "rocket",
+      "seed": 723,
+      "fields": {
+        "hp": {
+          "before": 137.88800000000003,
+          "after": 126.68700000000004
+        },
+        "damageEventSum": {
+          "before": 24489,
+          "after": 23011
+        },
+        "netDamageTaken": {
+          "before": 92.51199999999997,
+          "after": 65.31299999999996
+        },
+        "rounds": {
+          "before": 130,
+          "after": 135
+        },
+        "hitEvents": {
+          "before": 202,
+          "after": 181
+        },
+        "damagePerRound": {
+          "before": 188.37692307692308,
+          "after": 170.45185185185184
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "rocket",
+      "seed": 20260927,
+      "fields": {
+        "damageEventSum": {
+          "before": 22428,
+          "after": 22431
+        },
+        "damagePerRound": {
+          "before": 160.2,
+          "after": 160.22142857142856
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "heavy",
+      "seed": 814,
+      "fields": {
+        "seconds": {
+          "before": 198.6000000000109,
+          "after": 205.00000000001236
+        },
+        "clearTime": {
+          "before": 198.6000000000109,
+          "after": 205.00000000001236
+        },
+        "hp": {
+          "before": 162.01,
+          "after": 96
+        },
+        "damageEventSum": {
+          "before": 43350,
+          "after": 44589
+        },
+        "netDamageTaken": {
+          "before": 106.79,
+          "after": 105.846
+        },
+        "rounds": {
+          "before": 55,
+          "after": 58
+        },
+        "damagePerRound": {
+          "before": 788.1818181818181,
+          "after": 768.7758620689655
+        },
+        "killsPerMinute": {
+          "before": 34.44108761329116,
+          "after": 33.36585365853457
+        },
+        "bossTTK": {
+          "before": 81.49999999999915,
+          "after": 80.94999999999902
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "heavy",
+      "seed": 20260927,
+      "fields": {
+        "seconds": {
+          "before": 200.25000000001128,
+          "after": 204.20000000001218
+        },
+        "clearTime": {
+          "before": 200.25000000001128,
+          "after": 204.20000000001218
+        },
+        "damageEventSum": {
+          "before": 43490,
+          "after": 43478
+        },
+        "rounds": {
+          "before": 57,
+          "after": 58
+        },
+        "hitEvents": {
+          "before": 135,
+          "after": 136
+        },
+        "damagePerRound": {
+          "before": 762.9824561403509,
+          "after": 749.6206896551724
+        },
+        "killsPerMinute": {
+          "before": 32.05992509363115,
+          "after": 31.43976493633505
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "sniper",
+      "seed": 723,
+      "fields": {
+        "seconds": {
+          "before": 187.9500000000085,
+          "after": 183.80000000000754
+        },
+        "clearTime": {
+          "before": 187.9500000000085,
+          "after": 183.80000000000754
+        },
+        "hp": {
+          "before": 101.13999999999999,
+          "after": 192
+        },
+        "netDamageTaken": {
+          "before": 90.86000000000001,
+          "after": 66.13899999999998
+        },
+        "rounds": {
+          "before": 164,
+          "after": 161
+        },
+        "damagePerRound": {
+          "before": 176.3780487804878,
+          "after": 179.66459627329192
+        },
+        "killsPerMinute": {
+          "before": 36.392657621706256,
+          "after": 37.2143634385186
+        },
+        "bossTTK": {
+          "before": 66.7999999999962,
+          "after": 74.39999999999577
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "sniper",
+      "seed": 20260927,
+      "fields": {
+        "seconds": {
+          "before": 196.60000000001045,
+          "after": 197.00000000001054
+        },
+        "clearTime": {
+          "before": 196.60000000001045,
+          "after": 197.00000000001054
+        },
+        "hp": {
+          "before": 175.008,
+          "after": 192
+        },
+        "netDamageTaken": {
+          "before": 16.99199999999999,
+          "after": 0
+        },
+        "killsPerMinute": {
+          "before": 33.26551373346721,
+          "after": 33.197969543145426
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "grenade",
+      "seed": 814,
+      "fields": {
+        "hp": {
+          "before": 192,
+          "after": 111.51499999999999
+        },
+        "damageEventSum": {
+          "before": 17596,
+          "after": 17407
+        },
+        "netDamageTaken": {
+          "before": 66.55199999999999,
+          "after": 118.88500000000002
+        },
+        "rounds": {
+          "before": 276,
+          "after": 282
+        },
+        "hitEvents": {
+          "before": 256,
+          "after": 259
+        },
+        "damagePerRound": {
+          "before": 63.7536231884058,
+          "after": 61.726950354609926
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "grenade",
+      "seed": 723,
+      "fields": {
+        "hp": {
+          "before": 192,
+          "after": 153.65
+        },
+        "damageEventSum": {
+          "before": 16658,
+          "after": 17447
+        },
+        "netDamageTaken": {
+          "before": 27.966000000000008,
+          "after": 66.316
+        },
+        "rounds": {
+          "before": 270,
+          "after": 273
+        },
+        "hitEvents": {
+          "before": 242,
+          "after": 254
+        },
+        "damagePerRound": {
+          "before": 61.696296296296296,
+          "after": 63.908424908424905
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "grenade",
+      "seed": 20260927,
+      "fields": {
+        "hp": {
+          "before": 152.51999999999998,
+          "after": 135.528
+        },
+        "damageEventSum": {
+          "before": 17237,
+          "after": 17176
+        },
+        "netDamageTaken": {
+          "before": 77.88000000000002,
+          "after": 94.87200000000001
+        },
+        "rounds": {
+          "before": 269,
+          "after": 264
+        },
+        "hitEvents": {
+          "before": 249,
+          "after": 246
+        },
+        "damagePerRound": {
+          "before": 64.07806691449814,
+          "after": 65.06060606060606
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "sticky",
+      "seed": 814,
+      "fields": {
+        "hp": {
+          "before": 192,
+          "after": 179.728
+        },
+        "damageEventSum": {
+          "before": 17728,
+          "after": 17293
+        },
+        "netDamageTaken": {
+          "before": 68.44000000000003,
+          "after": 45.78399999999999
+        },
+        "rounds": {
+          "before": 204,
+          "after": 200
+        },
+        "hitEvents": {
+          "before": 173,
+          "after": 178
+        },
+        "damagePerRound": {
+          "before": 86.90196078431373,
+          "after": 86.465
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "sticky",
+      "seed": 723,
+      "fields": {
+        "hp": {
+          "before": 96,
+          "after": 192
+        },
+        "damageEventSum": {
+          "before": 18067,
+          "after": 17258
+        },
+        "netDamageTaken": {
+          "before": 133.898,
+          "after": 0
+        },
+        "hitEvents": {
+          "before": 186,
+          "after": 177
+        },
+        "damagePerRound": {
+          "before": 91.24747474747475,
+          "after": 87.16161616161617
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "sticky",
+      "seed": 20260927,
+      "fields": {
+        "hp": {
+          "before": 164.034,
+          "after": 148.694
+        },
+        "damageEventSum": {
+          "before": 18182,
+          "after": 18169
+        },
+        "netDamageTaken": {
+          "before": 55.34200000000001,
+          "after": 70.68200000000002
+        },
+        "damagePerRound": {
+          "before": 92.29441624365482,
+          "after": 92.22842639593908
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "laser",
+      "seed": 723,
+      "fields": {
+        "seconds": {
+          "before": 168.95000000000417,
+          "after": 172.55000000000499
+        },
+        "clearTime": {
+          "before": 168.95000000000417,
+          "after": 172.55000000000499
+        },
+        "hp": {
+          "before": 163.68,
+          "after": 192
+        },
+        "netDamageTaken": {
+          "before": 28.319999999999993,
+          "after": 9.439999999999998
+        },
+        "rounds": {
+          "before": 1841,
+          "after": 1834
+        },
+        "damagePerRound": {
+          "before": 10.457360130363933,
+          "after": 10.497273718647765
+        },
+        "killsPerMinute": {
+          "before": 39.41994672980074,
+          "after": 38.5975079687036
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "kick",
+      "seed": 814,
+      "fields": {
+        "hp": {
+          "before": 149.266,
+          "after": 116.067
+        },
+        "damageEventSum": {
+          "before": 13071,
+          "after": 13561
+        },
+        "netDamageTaken": {
+          "before": 119.534,
+          "after": 106.49500000000002
+        },
+        "hitEvents": {
+          "before": 468,
+          "after": 483
+        },
+        "damagePerRound": {
+          "before": 69.15873015873017,
+          "after": 71.75132275132275
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "kick",
+      "seed": 723,
+      "fields": {
+        "hp": {
+          "before": 127.32700000000003,
+          "after": 110.226
+        },
+        "kills": {
+          "before": 104,
+          "after": 101
+        },
+        "damageEventSum": {
+          "before": 13983,
+          "after": 14506
+        },
+        "netDamageTaken": {
+          "before": 148.739,
+          "after": 143.96
+        },
+        "hitEvents": {
+          "before": 499,
+          "after": 517
+        },
+        "damagePerRound": {
+          "before": 73.98412698412699,
+          "after": 76.75132275132275
+        },
+        "killsPerMinute": {
+          "before": 25.9999999999978,
+          "after": 25.24999999999786
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "kick",
+      "seed": 20260927,
+      "fields": {
+        "damageEventSum": {
+          "before": 13803,
+          "after": 13943
+        },
+        "netDamageTaken": {
+          "before": 109.917,
+          "after": 134.22500000000002
+        },
+        "hitEvents": {
+          "before": 478,
+          "after": 489
+        },
+        "damagePerRound": {
+          "before": 70.78461538461538,
+          "after": 71.50256410256411
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "medic",
+      "seed": 814,
+      "fields": {
+        "phase": {
+          "before": "defeat",
+          "after": "battle"
+        },
+        "seconds": {
+          "before": 217.70000000001525,
+          "after": 240.00000000002032
+        },
+        "hp": {
+          "before": 0,
+          "after": 25.753000000001055
+        },
+        "survival": {
+          "before": false,
+          "after": true
+        },
+        "netDamageTaken": {
+          "before": 269.841,
+          "after": 204.69799999999998
+        },
+        "rounds": {
+          "before": 184,
+          "after": 203
+        }
+      }
+    },
+    {
+      "condition": "middle",
+      "kind": "medic",
+      "seed": 723,
+      "fields": {
+        "seconds": {
+          "before": 193.15000000000967,
+          "after": 194.75000000001003
+        },
+        "netDamageTaken": {
+          "before": 209.51600000000005,
+          "after": 224.91500000000005
+        },
+        "rounds": {
+          "before": 162,
+          "after": 163
+        }
+      }
+    },
+    {
+      "condition": "late",
+      "kind": "slug",
+      "seed": 20260927,
+      "fields": {
+        "seconds": {
+          "before": 177.8500000000062,
+          "after": 177.4000000000061
+        },
+        "clearTime": {
+          "before": 177.8500000000062,
+          "after": 177.4000000000061
+        },
+        "damageEventSum": {
+          "before": 32469,
+          "after": 32477
+        },
+        "damagePerRound": {
+          "before": 148.26027397260273,
+          "after": 148.29680365296804
+        },
+        "killsPerMinute": {
+          "before": 37.7846499859419,
+          "after": 37.8804960541137
+        },
+        "bossTTK": {
+          "before": 61.50000000000753,
+          "after": 60.850000000007384
+        }
+      }
+    },
+    {
+      "condition": "late",
+      "kind": "rocket",
+      "seed": 723,
+      "fields": {
+        "hp": {
+          "before": 208,
+          "after": 78.7600000000004
+        },
+        "kills": {
+          "before": 105,
+          "after": 108
+        },
+        "damageEventSum": {
+          "before": 29102,
+          "after": 32131
+        },
+        "netDamageTaken": {
+          "before": 57.59999999999991,
+          "after": 195.6899999999997
+        },
+        "hitEvents": {
+          "before": 189,
+          "after": 213
+        },
+        "damagePerRound": {
+          "before": 122.79324894514768,
+          "after": 135.57383966244726
+        },
+        "killsPerMinute": {
+          "before": 20.999999999997623,
+          "after": 21.599999999997557
+        }
+      }
+    },
+    {
+      "condition": "late",
+      "kind": "heavy",
+      "seed": 814,
+      "fields": {
+        "seconds": {
+          "before": 193.55000000000976,
+          "after": 202.1000000000117
+        },
+        "clearTime": {
+          "before": 193.55000000000976,
+          "after": 202.1000000000117
+        },
+        "damageEventSum": {
+          "before": 53572,
+          "after": 53726
+        },
+        "rounds": {
+          "before": 88,
+          "after": 92
+        },
+        "damagePerRound": {
+          "before": 608.7727272727273,
+          "after": 583.9782608695652
+        },
+        "killsPerMinute": {
+          "before": 34.71971066907601,
+          "after": 33.250865907964425
+        }
+      }
+    },
+    {
+      "condition": "late",
+      "kind": "kick",
+      "seed": 814,
+      "fields": {
+        "phase": {
+          "before": "battle",
+          "after": "defeat"
+        },
+        "seconds": {
+          "before": 300.00000000003394,
+          "after": 235.00000000001918
+        },
+        "hp": {
+          "before": 106.56,
+          "after": 0
+        },
+        "survival": {
+          "before": true,
+          "after": false
+        },
+        "kills": {
+          "before": 101,
+          "after": 102
+        },
+        "damageEventSum": {
+          "before": 16802,
+          "after": 16871
+        },
+        "netDamageTaken": {
+          "before": 293.3219999999998,
+          "after": 322.77199999999965
+        },
+        "rounds": {
+          "before": 292,
+          "after": 222
+        },
+        "hitEvents": {
+          "before": 566,
+          "after": 567
+        },
+        "damagePerRound": {
+          "before": 57.54109589041096,
+          "after": 75.99549549549549
+        },
+        "killsPerMinute": {
+          "before": 20.199999999997715,
+          "after": 26.042553191487233
+        }
+      }
+    },
+    {
+      "condition": "late",
+      "kind": "kick",
+      "seed": 723,
+      "fields": {
+        "hp": {
+          "before": 192.00000000000009,
+          "after": 175.6
+        },
+        "damageEventSum": {
+          "before": 16074,
+          "after": 15684
+        },
+        "netDamageTaken": {
+          "before": 104.83199999999988,
+          "after": 79.63199999999998
+        },
+        "rounds": {
+          "before": 260,
+          "after": 231
+        },
+        "hitEvents": {
+          "before": 529,
+          "after": 509
+        },
+        "damagePerRound": {
+          "before": 61.823076923076925,
+          "after": 67.8961038961039
+        }
+      }
+    },
+    {
+      "condition": "late",
+      "kind": "kick",
+      "seed": 20260927,
+      "fields": {
+        "hp": {
+          "before": 104,
+          "after": 33.859999999999886
+        },
+        "damageEventSum": {
+          "before": 16361,
+          "after": 16008
+        },
+        "netDamageTaken": {
+          "before": 223.27199999999993,
+          "after": 202.60199999999998
+        },
+        "rounds": {
+          "before": 275,
+          "after": 272
+        },
+        "hitEvents": {
+          "before": 534,
+          "after": 523
+        },
+        "damagePerRound": {
+          "before": 59.49454545454545,
+          "after": 58.85294117647059
+        }
+      }
+    },
+    {
+      "condition": "late",
+      "kind": "medic",
+      "seed": 814,
+      "fields": {
+        "phase": {
+          "before": "battle",
+          "after": "defeat"
+        },
+        "seconds": {
+          "before": 300.00000000003394,
+          "after": 156.00000000000122
+        },
+        "hp": {
+          "before": 104,
+          "after": 0
+        },
+        "survival": {
+          "before": true,
+          "after": false
+        },
+        "netDamageTaken": {
+          "before": 329.46000000000004,
+          "after": 235.14999999999972
+        },
+        "rounds": {
+          "before": 289,
+          "after": 150
+        }
+      }
+    },
+    {
+      "condition": "late",
+      "kind": "medic",
+      "seed": 723,
+      "fields": {
+        "seconds": {
+          "before": 223.30000000001652,
+          "after": 180.25000000000674
+        },
+        "netDamageTaken": {
+          "before": 285.7339999999996,
+          "after": 213.58400000000006
+        },
+        "rounds": {
+          "before": 217,
+          "after": 175
+        }
+      }
+    },
+    {
+      "condition": "late",
+      "kind": "medic",
+      "seed": 20260927,
+      "fields": {
+        "seconds": {
+          "before": 156.95000000000144,
+          "after": 234.250000000019
+        },
+        "netDamageTaken": {
+          "before": 211,
+          "after": 342.06800000000015
+        },
+        "rounds": {
+          "before": 153,
+          "after": 228
+        }
+      }
+    },
+    {
+      "condition": "boss",
+      "kind": "kick",
+      "seed": 814,
+      "fields": {
+        "hp": {
+          "before": 48.54000000000103,
+          "after": 145.92000000000002
+        },
+        "kills": {
+          "before": 18,
+          "after": 17
+        },
+        "damageEventSum": {
+          "before": 2402,
+          "after": 2618
+        },
+        "netDamageTaken": {
+          "before": 368.03999999999996,
+          "after": 46.079999999999984
+        },
+        "rounds": {
+          "before": 248,
+          "after": 280
+        },
+        "hitEvents": {
+          "before": 92,
+          "after": 99
+        },
+        "damagePerRound": {
+          "before": 9.685483870967742,
+          "after": 9.35
+        },
+        "killsPerMinute": {
+          "before": 3.599999999999593,
+          "after": 3.3999999999996158
+        }
+      }
+    },
+    {
+      "condition": "holdout",
+      "kind": "shotgun",
+      "seed": 723,
+      "fields": {
+        "hp": {
+          "before": 56.79199999999993,
+          "after": 64.14199999999985
+        }
+      }
+    },
+    {
+      "condition": "holdout",
+      "kind": "rocket",
+      "seed": 814,
+      "fields": {
+        "damageEventSum": {
+          "before": 15039,
+          "after": 15097
+        },
+        "damagePerRound": {
+          "before": 104.4375,
+          "after": 104.84027777777777
+        }
+      }
+    },
+    {
+      "condition": "holdout",
+      "kind": "grenade",
+      "seed": 814,
+      "fields": {
+        "damageEventSum": {
+          "before": 11703,
+          "after": 11699
+        },
+        "damagePerRound": {
+          "before": 39.9419795221843,
+          "after": 39.9283276450512
+        }
+      }
+    },
+    {
+      "condition": "holdout",
+      "kind": "sticky",
+      "seed": 814,
+      "fields": {
+        "damageEventSum": {
+          "before": 12868,
+          "after": 12872
+        },
+        "damagePerRound": {
+          "before": 63.389162561576356,
+          "after": 63.40886699507389
+        }
+      }
+    },
+    {
+      "condition": "holdout",
+      "kind": "kick",
+      "seed": 814,
+      "fields": {
+        "damageEventSum": {
+          "before": 11356,
+          "after": 11342
+        },
+        "damagePerRound": {
+          "before": 58.235897435897435,
+          "after": 58.16410256410256
+        }
+      }
+    },
+    {
+      "condition": "holdout",
+      "kind": "kick",
+      "seed": 723,
+      "fields": {
+        "damageEventSum": {
+          "before": 12006,
+          "after": 12007
+        },
+        "hitEvents": {
+          "before": 446,
+          "after": 444
+        },
+        "damagePerRound": {
+          "before": 61.88659793814433,
+          "after": 61.891752577319586
+        }
+      }
+    },
+    {
+      "condition": "holdout",
+      "kind": "kick",
+      "seed": 20260927,
+      "fields": {
+        "damageEventSum": {
+          "before": 10579,
+          "after": 10555
+        },
+        "hitEvents": {
+          "before": 392,
+          "after": 391
+        },
+        "damagePerRound": {
+          "before": 54.53092783505155,
+          "after": 54.40721649484536
+        }
+      }
+    },
+    {
+      "condition": "holdout",
+      "kind": "medic",
+      "seed": 814,
+      "fields": {
+        "phase": {
+          "before": "battle",
+          "after": "defeat"
+        },
+        "seconds": {
+          "before": 240.00000000002032,
+          "after": 189.00000000000873
+        },
+        "hp": {
+          "before": 74.80000000000015,
+          "after": 0
+        },
+        "survival": {
+          "before": true,
+          "after": false
+        },
+        "netDamageTaken": {
+          "before": 155.61000000000004,
+          "after": 219.65
+        },
+        "rounds": {
+          "before": 204,
+          "after": 161
+        }
+      }
+    },
+    {
+      "condition": "holdout",
+      "kind": "medic",
+      "seed": 723,
+      "fields": {
+        "hp": {
+          "before": 141.8,
+          "after": 176
+        },
+        "netDamageTaken": {
+          "before": 34.19999999999999,
+          "after": 0
+        }
+      }
+    },
+    {
+      "condition": "holdout",
+      "kind": "medic",
+      "seed": 20260927,
+      "fields": {
+        "hp": {
+          "before": 82.7830000000011,
+          "after": 88
+        },
+        "netDamageTaken": {
+          "before": 152.83800000000002,
+          "after": 114.17100000000002
+        }
+      }
+    }
+  ]
+}

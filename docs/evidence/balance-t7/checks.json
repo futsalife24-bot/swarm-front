@@ -1,0 +1,89 @@
+{
+  "base": "7827b9c07886efbad50c2bee3bf17a940b79a1fd",
+  "runtimeChanged": false,
+  "checks": [
+    {
+      "seconds": 786.21,
+      "command": "main measurement",
+      "passed": true
+    },
+    {
+      "cases": 24,
+      "command": "fixture replay",
+      "seconds": 64.28,
+      "passed": true
+    },
+    {
+      "passed": true,
+      "command": "support measurement"
+    },
+    {
+      "passed": true,
+      "command": "npm run typecheck"
+    },
+    {
+      "command": "weapon-families + harrow-weapons",
+      "tests": 84,
+      "passed": true
+    },
+    {
+      "command": "npm run test:save",
+      "tests": 147,
+      "passed": true
+    },
+    {
+      "cases": 21,
+      "command": "npm run test:save:browser",
+      "seconds": 292.617,
+      "passed": true
+    },
+    {
+      "command": "standalone harness tsc",
+      "reason": "@types/node absent; no dependency changes",
+      "passed": false
+    },
+    {
+      "passed": true,
+      "seconds": 548.8,
+      "command": "final constrained full measurement + 24 replay"
+    },
+    {
+      "passed": true,
+      "cases": 23,
+      "seconds": 90.05,
+      "command": "terminal correction"
+    },
+    {
+      "passed": true,
+      "cases": 5,
+      "command": "actual solo StagePlan metadata"
+    },
+    {
+      "passed": true,
+      "seconds": 1.77,
+      "command": "audit counterexample positive"
+    },
+    {
+      "passed": true,
+      "expectedExit": 1,
+      "seconds": 1.53,
+      "command": "audit counterexample clamp removed"
+    }
+  ],
+  "hashes": {
+    "scripts/measure-balance.test.ts": "6F012D92B2D88819E0E5DC8D9CA7754683B7A6684069E43ADA0CA89D4A116DA7",
+    "scripts/measure-balance-support.test.ts": "1873B48A640C54474ECB66E970F0787D43511FA7DF2C612EA08FBCA90B72B2F7",
+    "scripts/summarize-balance.mjs": "EAF4BD2B74C6BC19596B64FDDDD25D626A23A1A567338A8076FEAFACAA156DCA",
+    "vitest.balance.config.ts": "98BCBFEB558190E153772B2F8480A4262B0A08274E5EDB914E9D48B3A52CE73E",
+    "docs/evidence/balance-t7/baseline.json": "70C92EAE93FA0BEC67CC0312094AB632C4846D21C0278F496FEE81F57E465DB7",
+    "docs/evidence/balance-t7/support.json": "892A4C9CAE463D7045B91C6C77A6CC5B0DC3E46659C5BC6A668F9528EEE4B4CF"
+  },
+  "limitations": [
+    "no human play",
+    "no physical Android",
+    "no medium campaign simulation",
+    "no full effect Cartesian product"
+  ],
+  "modelId": "unconfirmed",
+  "reasoningEffort": "unconfirmed"
+}

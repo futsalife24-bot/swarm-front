@@ -1,0 +1,7 @@
+{
+  "negativeExit": 1,
+  "expectedFailure": "Invalid pilot input: early/sticky/814",
+  "restored": true,
+  "sourceHash": "6F012D92B2D88819E0E5DC8D9CA7754683B7A6684069E43ADA0CA89D4A116DA7",
+  "positiveSeconds": 1.77
+}
