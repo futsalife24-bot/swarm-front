@@ -64,6 +64,8 @@ export class Sound {
   private tracker = new CombatAudio();
   private soldier = new SoldierVoice();
   private speech?: AudioBufferSourceNode;
+  private speechRun = "";
+  private speechOwner = "";
   private active = false;
   get volume() {
     return this.level;
@@ -141,6 +143,9 @@ export class Sound {
     try {
       if (!this.context) {
         this.context = new AudioContext();
+        this.context.onstatechange = () => {
+          if (this.context?.state !== "running") this.resetSpeech();
+        };
         this.master = this.context.createGain();
         this.master.gain.value = this.effectsVolume;
         const compressor = this.context.createDynamicsCompressor();
@@ -157,8 +162,10 @@ export class Sound {
           .connect(headroom)
           .connect(this.context.destination);
       }
-      if (this.context.state !== "running")
+      if (this.context.state !== "running") {
+        this.resetSpeech();
         void this.context.resume().catch(() => {});
+      }
       void this.load();
     } catch {
       /* Gameplay also works where Web Audio is unavailable. */
@@ -188,13 +195,19 @@ export class Sound {
     return this.decoding;
   }
   stop(combatOnly = false) {
-    this.speech = undefined;
+    this.resetSpeech();
     for (const voice of this.voices) {
       if (combatOnly && this.menuVoices.has(voice)) continue;
       voice.stop();
       this.voices.delete(voice);
       this.menuVoices.delete(voice);
     }
+  }
+  /** Cancel speech immediately; the next snapshot is only a new baseline. */
+  resetSpeech() {
+    this.speech?.stop();
+    this.speech = undefined;
+    this.soldier = new SoldierVoice();
   }
   consumed(run: string) {
     return this.tracker.consumed(run);
@@ -210,20 +223,30 @@ export class Sound {
     this.active = active;
     if (!w) {
       this.tracker = new CombatAudio();
-      this.soldier = new SoldierVoice();
-      this.speech?.stop();
-      this.speech = undefined;
+      this.resetSpeech();
       return;
     }
     const p = w.players.find((p) => p.id === id);
-    if (!p || p.hp <= 0 || !p.connected) {
-      this.speech?.stop();
-      this.speech = undefined;
+    if (this.speechRun !== w.run || this.speechOwner !== id) {
+      this.resetSpeech();
+      this.speechRun = w.run;
+      this.speechOwner = id;
+    }
+    if (
+      !active ||
+      !p ||
+      p.hp <= 0 ||
+      !p.connected ||
+      this.context?.state !== "running"
+    ) {
+      this.resetSpeech();
     }
     const line = this.soldier.collect(
       w,
       id,
       active &&
+        !!p?.connected &&
+        p.hp > 0 &&
         this.effectsVolume > 0 &&
         this.context?.state === "running" &&
         SOLDIER_VOICES.every((v) => this.buffers.has(`voice:${v.id}`)),
@@ -268,10 +291,8 @@ export class Sound {
     gain.gain.value = 0.95;
     source.connect(gain).connect(this.master);
     this.speech = source;
-    this.voices.add(source);
     source.onended = () => {
       if (this.speech === source) this.speech = undefined;
-      this.voices.delete(source);
       source.disconnect();
       gain.disconnect();
     };

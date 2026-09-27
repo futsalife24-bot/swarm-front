@@ -26,6 +26,7 @@ export default defineConfig({
       "tests/encounter-camera.test.ts",
       "tests/audio.test.ts",
       "tests/soldier-voice.test.ts",
+      "tests/soldier-playback.test.ts",
       "tests/settings-audio.test.ts",
       "tests/bgm.test.ts",
       "tests/media-playback.test.ts",

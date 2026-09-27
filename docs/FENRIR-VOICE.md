@@ -29,3 +29,9 @@ public/assets/audio/voice-fenrir-v1に5本。assets-src/voice-fenrir-v1に原本
 ## 独立監査
 
 PR103 / 実装HEAD e3c391846486d3467483e38be60a1460f62da724。source.zip（1,170,541 bytes）を通常Chatへ添付・送信し展開開始を確認。監査Chat: https://chatgpt.com/c/6ab8fa97-e29c-83ee-8e98-a719e1af5a50 。必須判定待ち。Worker dry-runも権限制約を解消して成功済み。
+
+## 監査再現に対する修正
+
+初回監査の途中報告で復帰/再接続/AudioContext中断後の旧発声残存と多数SEによる警告停止を確認。ボイスをSE用32音プールから分離し、stop/resetSpeechで即停止と基準状態リセット。AudioContext statechange・unlock時の中断・非表示・run/owner変更・死亡/切断/ミュートを処理。Networkの接続ごとのfirstStateをonWorldへ渡し、古いworldを描画していても初回受信時に基準を取り直す。プロトコル/サーバー/認証変更なし。読み込み中のonWorldで戦闘ボイスを鳴らさない。
+
+再生回帰8件と接続境界1件を追加し、関連合計53件成功（52件実行後、接続境界追加を含む12件成功）。型/build成功。最終指摘との照合と独立再監査は未完了。
