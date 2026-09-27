@@ -308,6 +308,60 @@ it("isolates v3 from the actual previous release writer and keeps its latest mig
   );
 });
 
+it.each([true, false])(
+  "notifies only a new recovered victory after successful persistence (win=%s)",
+  (win) => {
+    const storage = memory();
+    loadSharedCoopSave(storage);
+    const base = loadProgress("normal", storage)!;
+    const pending = grantResult(
+      base,
+      {
+        run: "behavior-recovered",
+        stage: 1,
+        difficulty: "normal",
+        win,
+        time: 20,
+        kills: 4,
+        missions: [win, false, false],
+        weapons: [],
+        collected: 0,
+      },
+      () => 0.5,
+    );
+    const notices: string[] = [];
+    const observe = () => {
+      notices.push(storage.getItem(normalKey)!);
+      throw Error("analytics observer unavailable");
+    };
+    expect(() =>
+      recoverUnsavedResult(
+        base,
+        pending,
+        {
+          getItem: storage.getItem,
+          setItem() {
+            throw Error("quota");
+          },
+        },
+        observe,
+      ),
+    ).toThrow();
+    expect(notices).toHaveLength(0);
+    const recovered = recoverUnsavedResult(base, pending, storage, observe);
+    expect(recovered.receipts).toContain("behavior-recovered");
+    expect(notices).toHaveLength(win ? 1 : 0);
+    if (win)
+      expect(JSON.parse(notices[0]).receipts).toContain("behavior-recovered");
+    recoverUnsavedResult(base, pending, storage, observe);
+    const settled = structuredClone(pending);
+    settled.result!.choice = "normal";
+    settled.result!.collectionDone = true;
+    recoverUnsavedResult(base, settled, storage, observe);
+    expect(notices).toHaveLength(win ? 1 : 0);
+  },
+);
+
 it("recovers only unsaved run rewards onto current equipment and does not double grant", () => {
   const storage = memory();
   loadSharedCoopSave(storage);

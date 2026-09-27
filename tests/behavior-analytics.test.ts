@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
 import {
+  initializeProgress,
+  grantResult,
+} from "../src/client/progression-save";
+import { recoverUnsavedResult } from "../src/client/save-recovery";
+import {
   createBehaviorAnalytics,
   behaviorKey,
 } from "../src/client/behavior-analytics";
@@ -96,6 +101,44 @@ describe("daily behavior payload", () => {
         f.sent.every((p) => JSON.stringify(p) === JSON.stringify(f.sent[0])),
       ).toBe(true);
     });
+  it("uses the recovery-save day after midnight and never recounts an accepted journal next day", async () => {
+    const f = fixture(),
+      storage = f.deps.storage();
+    const base = initializeProgress("normal", storage);
+    const pending = grantResult(
+      base,
+      {
+        run: "midnight-recovery",
+        stage: 1,
+        difficulty: "normal",
+        win: true,
+        time: 20,
+        kills: 4,
+        missions: [true, false, false],
+        weapons: [],
+        collected: 0,
+      },
+      () => 0.5,
+    );
+    const recovered = () => {
+      void f.client.record("victory");
+    };
+    f.advance(60000);
+    recoverUnsavedResult(base, pending, storage, recovered);
+    await f.client.record("sortie");
+    expect(
+      f.sent.filter((p) => p.event === "first_victory").map((p) => p.day),
+    ).toEqual(["2026-09-28"]);
+    expect(
+      f.sent.filter((p) => p.event === "sortie_again").map((p) => p.day),
+    ).toEqual(["2026-09-28"]);
+    f.advance(86400000);
+    recoverUnsavedResult(base, pending, storage, recovered);
+    await f.client.record("sortie");
+    expect(
+      f.sent.filter((p) => p.day === "2026-09-29").map((p) => p.event),
+    ).toEqual(["sortie_start"]);
+  });
   it("does not send with broken storage, malformed state or denied locks", async () => {
     const f = fixture();
     f.values.set(behaviorKey, '{"bad":true}');

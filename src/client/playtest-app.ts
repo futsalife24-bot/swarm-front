@@ -174,8 +174,13 @@ import { gearWeaponRows, lockMarkup } from "./gear-weapon-list";
 // Keep the future ad UI private, including in developer mode, until launch.
 const SHOW_AD_UI = false;
 let behaviorStart: { run: string; day: string } | undefined;
-const behaviorDay = () => new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10);
-const behaviorAllowed = () => !developerRequested && !developerMode && !sampleMenus && mode === "normal";
+const behaviorDay = () =>
+  new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10);
+const behaviorAllowed = () =>
+  !developerRequested && !developerMode && !sampleMenus && mode === "normal";
+const behaviorRecoveredVictory = () => {
+  if (behaviorAllowed()) recordBehavior("victory");
+};
 
 async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
   if (sampleMenus || !canSortie(save, stage, difficulty)) return;
@@ -256,7 +261,8 @@ async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
         controls.input.pitch = world!.players[0].pitch;
         accumulator = 0;
         previous = performance.now();
-        if (!resume && !daily && behaviorAllowed()) behaviorStart = { run: world!.run, day: behaviorDay() };
+        if (!resume && !daily && behaviorAllowed())
+          behaviorStart = { run: world!.run, day: behaviorDay() };
         battleUI();
         checkpointNow();
         if (!resume && !daily)
@@ -462,7 +468,8 @@ function victory() {
     return;
   }
   track("clear");
-  const newBehaviorVictory = behaviorAllowed() && !save.receipts.includes(world.run);
+  const newBehaviorVictory =
+    behaviorAllowed() && !save.receipts.includes(world.run);
   const w = world,
     s = w.solo!,
     missions = [
@@ -607,6 +614,7 @@ function choice() {
   );
   bind("pt-normal-reward", () => commit(chooseReward(save, false), result));
   bind("pt-ad-reward", () => void requestAd("reward"));
+  if (behaviorAllowed()) recordBehavior("visit");
 }
 function result() {
   setScreen("result");
@@ -620,6 +628,7 @@ function result() {
   bindList("result");
   bind("pt-result-home", home);
   bind("pt-result-retry", gear);
+  if (behaviorAllowed()) recordBehavior("visit");
 }
 function report() {
   modalCount++;
@@ -1278,7 +1287,12 @@ function showSaveConflict(base: ProgressSave, pending: ProgressSave) {
   const resume = () => {
     try {
       const latest = hasResult
-        ? recoverUnsavedResult(recovery.base, recovery.pending)
+        ? recoverUnsavedResult(
+            recovery.base,
+            recovery.pending,
+            localStorage,
+            behaviorRecoveredVictory,
+          )
         : loadProgress("normal");
       if (!latest) throw new Error("最新の保存が見つかりません。");
       if (hasResult) forgetPendingResult();
@@ -1434,7 +1448,12 @@ function loadMode(next: SaveMode) {
         base: ProgressSave;
         pending: ProgressSave;
       };
-      found = recoverUnsavedResult(base, pending);
+      found = recoverUnsavedResult(
+        base,
+        pending,
+        localStorage,
+        behaviorRecoveredVictory,
+      );
       forgetPendingResult();
       notice = "未保存だった戦果を復元しました。";
     }
@@ -2277,7 +2296,6 @@ window.addEventListener("app-install-changed", () => {
   if (screen === "home" || screen === "intro") showHome(screen === "home");
 });
 loadMode("normal");
-if (behaviorAllowed() && ["result", "choice"].includes(screen)) recordBehavior("visit");
 if (!developerMode) {
   installCloudSync();
   window.addEventListener("swarm-progress-saved", updateWeeklyBadge);
@@ -2320,7 +2338,10 @@ function checkpointNow() {
     const checkpointSaved = writeBattleCheckpoint(world, save);
     checkpointAt = performance.now();
     if (checkpointSaved && behaviorStart?.run === world.run) {
-      const eligible = behaviorAllowed() && !world.defense && behaviorStart.day === behaviorDay();
+      const eligible =
+        behaviorAllowed() &&
+        !world.defense &&
+        behaviorStart.day === behaviorDay();
       behaviorStart = undefined;
       if (eligible) recordBehavior("sortie");
     }
