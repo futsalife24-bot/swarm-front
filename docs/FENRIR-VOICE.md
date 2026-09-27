@@ -24,7 +24,7 @@ public/assets/audio/voice-fenrir-v1に5本。assets-src/voice-fenrir-v1に原本
 - 音の主観的な聴感・物理Androidでの戦闘中の聞き取りは未評価。協力の実通信は今回変更なし、今回の新規実通信テストは未実施。
 - .meloso-judge/run.cjsはこのworktreeに未導入。自動取得・代替有料判定は行わず未判定。
 
-独立監査・main反映・公開は後続。追加36本、別声の切替はIssue102で保留。
+独立監査・main反映・公開は完了（末尾参照）。以下の監査待ち記述は経過記録。追加36本、別声の切替はIssue102で保留。
 
 ## 独立監査
 
@@ -43,3 +43,12 @@ PR103 / 実装HEAD e3c391846486d3467483e38be60a1460f62da724。source.zip（1,170
 ## 独立再監査 PASS
 
 対象843e7390ffaf597d4175721ba6b47cbb138ba9b3。通常ChatでF1〜F4すべて解消、必須P0/P1/P2各0。独立の隔離ブラウザ25件成功、限定型成功。native AudioContext中断後の旧サンプル0、32/40SEでの警告保護、6/10/20秒維持と新run/ownerリセット、実Networkハンドラ＋mainコールバック初回抑制を確認。音声素材不変。監査記録: docs/evidence/fenrir-voice/audit-final.txt。自己検証も関連57件を最終版で一括実行成功。
+
+## 公開完了（2026-09-27）
+
+PR103を通常merge。公開ソースはmain `30e520c5651eeb36c73bb9f5171eaa670322864a`、既存Worker Versionは `466c57c7-7ec6-4920-8f6b-fb072f928ee5`。公開URL: https://swarm-front.melosalife-24.workers.dev 。merge後のproduction build・Worker dry-run成功。公開記録の後続commitは文書/証拠のみで再公開しない。
+
+- index・JS/CSS・音声5本の計18ファイルはHTTP200、ローカルbuildとSHA256一致。healthは200、ok=true。詳細: [release.json](evidence/fenrir-voice/release.json)。
+- 公開された警告WAVはIABで2.24秒を完走、ended=true/error=null。[再生記録](evidence/fenrir-voice/public-playback.json)。
+- 公開ゲームには既存の中断作戦案内があり、再開/終了は操作していない。[公開画面](evidence/fenrir-voice/public-resume.png)。公開サウンドテスト画面からの再生操作は未確認。ローカル実ゲームの[サウンドテスト画面](evidence/fenrir-voice/sound-test.png)と5本のデコード/再生開始を確認済み。
+- 物理Androidでの聴感、今回の新規協力実通信確認、未導入Judgeの判定は未実施。3声切替と追加36本の制作は[Issue102](https://github.com/futsalife24-bot/swarm-front/issues/102)の後続範囲。
