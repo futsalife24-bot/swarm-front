@@ -1,0 +1,48 @@
+{
+  "base": "df3b0c2670997300bd264d68b139b50b659abab4",
+  "runtimeHead": "1538c5842b4d4f65a542be5f48680ba5433c2c72",
+  "typecheck": "passed",
+  "relatedUnitTests": 16,
+  "saveUnitTests": 149,
+  "saveBrowserScenarios": 21,
+  "saveBrowserStartedAt": "2026-09-27T03:18:19.071Z",
+  "saveBrowserFinishedAt": "2026-09-27T03:21:38.639Z",
+  "saveBrowserCommands": [
+    {
+      "script": "scripts/check-save-safety.mjs",
+      "exit": 0,
+      "seconds": 60.377474199999995
+    },
+    {
+      "script": "scripts/check-save-fixtures.mjs",
+      "exit": 0,
+      "seconds": 57.35911219999999
+    },
+    {
+      "script": "scripts/check-recovery-receipts.mjs",
+      "exit": 0,
+      "seconds": 21.504049200000008
+    },
+    {
+      "script": "scripts/check-battle-checkpoint.mjs",
+      "exit": 0,
+      "seconds": 43.560482699999994
+    }
+  ],
+  "runtimeSha256": {
+    "src/client/playtest-app.ts": "ec6f594623679d1f405af1093a9af523886ce1fc3052d2306db94e3ef2856baa",
+    "src/client/save-recovery.ts": "bff0ed437a00fdffafbb336223332e2c16ba2f87c1958ce76025023d7ad81d95",
+    "src/client/behavior-analytics.ts": "9f6076e1b83bcdba1b01e9ca33eb4ac566e3515533f071dd8479f69295c7472a"
+  },
+  "productionBuild": "passed",
+  "productionWorkerDryRun": "passed",
+  "productionBehaviorStorageCollectorAndTestHookAbsent": true,
+  "integrationEvidence": "https://github.com/futsalife24-bot/project-hub/tree/codex/t5-behavior-analytics/docs/verification/t5-integration",
+  "productionTestEvents": 0,
+  "limits": [
+    "synthetic battle completion; not a human clear",
+    "physical Android and production traffic untested",
+    "initial browser startup timeout cause unknown; subsequent full runs passed",
+    "independent audit is recorded separately"
+  ]
+}

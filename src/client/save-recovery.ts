@@ -14,6 +14,7 @@ export function recoverUnsavedResult(
   base: ProgressSave,
   pending: ProgressSave,
   storage: Pick<Storage, "getItem" | "setItem"> = localStorage,
+  onNewVictorySaved?: () => void,
 ): ProgressSave {
   validateProgress(base);
   validateProgress(pending);
@@ -125,5 +126,12 @@ export function recoverUnsavedResult(
   }
   next.receipts.push(recoveryId);
   persistProgress(next, storage);
+  if (freshRun && r.win) {
+    try {
+      onNewVictorySaved?.();
+    } catch {
+      /* Observers must not turn successful recovery into a game/save failure. */
+    }
+  }
   return next;
 }
