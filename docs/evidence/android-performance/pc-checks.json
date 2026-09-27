@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "platform": "PC Chrome, not Android",
+  "checks": [
+    "quantiles",
+    "active interval filtering",
+    "no probe save writes",
+    "timer stop",
+    "render hook restored",
+    "real renderer counters",
+    "no player name export",
+    "JSON download/reload",
+    "analysis",
+    "dispose",
+    "no pageerrors"
+  ],
+  "frames": 56,
+  "samples": 1
+}

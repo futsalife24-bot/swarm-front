@@ -1,0 +1,35 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Android測定・専用試験データ</title>
+<style>body{background:#10202e;color:white;font:18px sans-serif;margin:24px}button,a{padding:14px;display:inline-block;color:inherit}button{background:#305060}</style>
+<h1>Android測定準備</h1>
+<p>localhost:5193専用。既存の保存があれば上書きせず停止します。</p>
+<p>実セーブは移しません。既存の全作戦を解放した合成試験データ、既存レア度4のライフルとショットガン、育成0・アクセサリなしを用意します。</p>
+<div id="ui"><button id="prepare">専用試験データを作成</button></div><pre id="status"></pre>
+<script type="module">
+const status = document.querySelector('#status');
+document.querySelector('#prepare').onclick = async () => {
+  try {
+    if (location.hostname !== 'localhost' || location.port !== '5193') throw Error('localhost:5193専用です');
+    const exists = () => Object.keys(localStorage).some(k => k.startsWith('swarm-front'));
+    if (exists()) throw Error('既存データあり。削除・上書きせず、Codexへ連絡してください');
+    const { startWithSaveWriter } = await import('/src/client/save-writer.ts');
+    const { freshProgress, persistProgress } = await import('/src/client/progression-save.ts');
+    const { SOLO_STAGE_IDS } = await import('/src/shared/campaign.ts');
+    const { makeWeapon } = await import('/src/shared/progression.ts');
+    startWithSaveWriter(async () => {
+      try {
+        if (exists()) throw Error('既存データあり。上書き停止');
+        const save = freshProgress('normal');
+        save.inventory = save.inventory.map((weapon, i) => makeWeapon(weapon.id, weapon.kind, 4,
+          { power: 0, reload: 0, range: 0, rate: 0 }, false, i));
+        for (const id of SOLO_STAGE_IDS) save.missions[`${id}:normal`] = [true, true, true];
+        save.branch = true;
+        save.coopPreferences = { quality: 1, frameRate: 60 };
+        persistProgress(save);
+        status.textContent = '試験データ作成済み。初回説明は通常通り表示されます。';
+        const a = document.createElement('a'); a.href = '/'; a.textContent = 'ゲームを開く'; document.body.append(a);
+      } catch (error) { status.textContent = error.message; }
+    });
+  } catch (error) { status.textContent = error.message; }
+};
+</script>
