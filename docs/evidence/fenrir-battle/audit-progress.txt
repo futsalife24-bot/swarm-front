@@ -1,0 +1,76 @@
+- link "コンテンツへスキップ":
+  - /url: "#_R_7suktdbjtccged79l75_"
+- complementary:
+  - navigation "サイドバーを表示する":
+    - button "サイドバーを表示する"
+    - button "サイドバーを表示する":
+    - button "新しいチャット":
+      - generic: 新しいチャット
+    - button "検索":
+      - generic: 検索
+    - button "ピン留め":
+      - generic: ピン留め
+    - button "最近の項目":
+      - generic: 最近の項目
+    - button "ライブラリ":
+      - generic: ライブラリ
+    - button "プロフィールメニューを開く"
+- main:
+  - button "共有" [disabled]:
+    - text: 共有
+  - button "その他":
+  - heading "あなたの発言:" [level=4]
+  - button "source(2).zip"
+  - generic "source(2).zip"
+  - generic: ファイル
+  - paragraph:
+    - text: スワフロPR105の限定独立監査をお願いします。対象HEAD 9954105005eb097c9d67ef9452be0fac358df3e3、base deab32886de99501d9ff6b02c5727df1afbe8dbd。添付source.zip SHA256 D83FAFB064DCFCC2CFB0FBC497E50D862A5E7BF0FCC4F99512EA03F4EBD5C0E2、1,561,061 bytes。ZIPに差分change.patch、HEAD.txt、必要なsrc/server/tests、出荷11WAV、新規6WAV原本/生成条件/ハッシュ、実UI証拠を収録。PRリンク
+    - link "https://github.com/futsalife24-bot/swarm-front/pull/105":
+      - /url: https://github.com/futsalife24-bot/swarm-front/pull/105
+      - generic: https://github.com/futsalife24-bot/swarm-front/pull/105
+    - text: "。 ユーザーが採用したFenrirの6台詞（次WAVE2・被弾2・射撃2）の追加です。既存5台詞・再接続/休止/SEからの保護実装は前PRで監査済み。今回は差分のsoldier-voice.ts、media-menu.ts、新規音声/テストと必要な接続箇所に限定してください。次WAVE25%、被弾30%（短いぐっ75%）、射撃は2秒以上shotが無い後のshotで15%。抽選間隔は被弾4秒/射撃12秒、既存共通6秒/警告10秒。優先:大型→wave→被弾→reload→援護→射撃。同時上位イベントが無発声なら下位再抽選しない。抑制イベントは後に再生しない。初回/復帰/新run/所有者変更・死亡・非戦闘・ミュート・連続被弾/連射を確認してください。WAVE/射撃は前回と交互、被弾は短い反応多め。 自己検証: client/worker型、関連66件、production build成功。実シミュレーションのwave進行/shot含む。IABサウンドテストで新規6本全て完走/errorなし、11台詞表示。WAVはPCM16 mono24kHz、原本byteRateだけ訂正、PCM不変。物理Android聴感/新規協力実通信は未確認、Judge入口未導入。 実物を展開して自己検証を鵜呑みにせず必要な限定再現を行い、合格/要修正・対象完全SHA・必須P0/P1/P2の箇所/再現・任意改善・検証限界を明記してください。全体の過去機能の再監査や無関係な改善は対象外です。"
+  - generic: …
+  - button "展開":
+    - generic: 展開
+  - button "メッセージをコピーする":
+  - button "プロンプトを共有":
+  - button "思考中" [expanded]
+  - text: 思考中
+  - generic: 思考中
+  - paragraph: ZIPのハッシュ・対象SHA・差分を照合し、6台詞追加に限定して抽選、優先順位、抑制・復帰と境界条件を提出テストとは独立に再現確認します。
+  - paragraph: ファイル内容を確認した
+  - paragraph: 車両音声パッチのアーカイブと関連コードを監査
+  - paragraph: 整理して動作条件を確認しました
+  - paragraph: 検証方法を整備した
+  - paragraph: Soldier Voice実装と関連証拠・テスト・依存関係を監査
+  - paragraph: 依存関係の独立インストールを検証した
+  - paragraph: タイムアウト時のプロセス実行を検証した
+  - paragraph: PR105は指定HEAD/base一致・未mergeで、新規6WAVも原本とPCM完全一致し変更はbyteRateのみでした。依存取得はDNSで停止したため、標準テストとは分けて独立ハーネスで検証します。
+  - paragraph: 依存関係のインストール結果を確認した
+  - paragraph: テスト範囲を絞り込んだ
+  - paragraph: GitHubコミット差分とメタデータを検証した
+  - paragraph: 検証パッチの整合性と型をチェックした
+  - paragraph: GitHubパッチで最新変更を比較した
+  - paragraph: 監査実装とテスト構成を確認しコンパイル・独立テストを実施
+  - paragraph: 計算したWAV互換性と音声比較結果
+  - paragraph: 音声と画像を検証しPR105ブラウザ監査環境を確認
+  - paragraph: 確認したsoldier-voice.ts内容とメディアメニュー実装
+  - paragraph: 実音源Sound更新再生統合テストを実施
+  - paragraph: 検証した変更差分と音声判定テスト
+  - paragraph: 独立90ケースと実ブラウザ再生まで通過し、必須修正は未検出です。2秒ちょうどの射撃間隔で丸め誤差により抽選を見送る境界挙動のみ、任意改善候補として記録します。
+  - paragraph: 作成した監査証跡と再実行用ZIP
+  - button:
+  - heading "最新の回答" [level=4]
+  - status
+  - button "ファイルなどを追加":
+  - textbox "ChatGPT に聞く" [active]:
+    - paragraph: ChatGPT に聞く
+  - button "ChatGPT モデルを選択":
+    - generic: Pro
+  - button "音声入力" [disabled]:
+  - button "停止":
+  - generic: ChatGPT は間違えることがあります。重要な情報は確認してください。
+- status
+- status
+- status
+- status

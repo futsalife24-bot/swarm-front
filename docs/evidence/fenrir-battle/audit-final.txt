@@ -1,0 +1,222 @@
+- link "コンテンツへスキップ":
+  - /url: "#_R_7suktdbjtccged79l75_"
+- complementary:
+  - navigation "サイドバーを表示する":
+    - button "サイドバーを表示する"
+    - button "サイドバーを表示する":
+    - button "新しいチャット":
+      - generic: 新しいチャット
+    - button "検索":
+      - generic: 検索
+    - button "ピン留め":
+      - generic: ピン留め
+    - button "最近の項目":
+      - generic: 最近の項目
+    - button "ライブラリ":
+      - generic: ライブラリ
+    - button "プロフィールメニューを開く"
+- main:
+  - button "共有":
+    - text: 共有
+  - button "その他":
+  - heading "あなたの発言:" [level=4]
+  - button "source(2).zip"
+  - generic "source(2).zip"
+  - generic: ファイル
+  - paragraph:
+    - text: スワフロPR105の限定独立監査をお願いします。対象HEAD 9954105005eb097c9d67ef9452be0fac358df3e3、base deab32886de99501d9ff6b02c5727df1afbe8dbd。添付source.zip SHA256 D83FAFB064DCFCC2CFB0FBC497E50D862A5E7BF0FCC4F99512EA03F4EBD5C0E2、1,561,061 bytes。ZIPに差分change.patch、HEAD.txt、必要なsrc/server/tests、出荷11WAV、新規6WAV原本/生成条件/ハッシュ、実UI証拠を収録。PRリンク
+    - link "https://github.com/futsalife24-bot/swarm-front/pull/105":
+      - /url: https://github.com/futsalife24-bot/swarm-front/pull/105
+      - generic: https://github.com/futsalife24-bot/swarm-front/pull/105
+    - text: "。 ユーザーが採用したFenrirの6台詞（次WAVE2・被弾2・射撃2）の追加です。既存5台詞・再接続/休止/SEからの保護実装は前PRで監査済み。今回は差分のsoldier-voice.ts、media-menu.ts、新規音声/テストと必要な接続箇所に限定してください。次WAVE25%、被弾30%（短いぐっ75%）、射撃は2秒以上shotが無い後のshotで15%。抽選間隔は被弾4秒/射撃12秒、既存共通6秒/警告10秒。優先:大型→wave→被弾→reload→援護→射撃。同時上位イベントが無発声なら下位再抽選しない。抑制イベントは後に再生しない。初回/復帰/新run/所有者変更・死亡・非戦闘・ミュート・連続被弾/連射を確認してください。WAVE/射撃は前回と交互、被弾は短い反応多め。 自己検証: client/worker型、関連66件、production build成功。実シミュレーションのwave進行/shot含む。IABサウンドテストで新規6本全て完走/errorなし、11台詞表示。WAVはPCM16 mono24kHz、原本byteRateだけ訂正、PCM不変。物理Android聴感/新規協力実通信は未確認、Judge入口未導入。 実物を展開して自己検証を鵜呑みにせず必要な限定再現を行い、合格/要修正・対象完全SHA・必須P0/P1/P2の箇所/再現・任意改善・検証限界を明記してください。全体の過去機能の再監査や無関係な改善は対象外です。"
+  - generic: …
+  - button "展開":
+    - generic: 展開
+  - button "メッセージをコピーする":
+  - button "プロンプトを共有":
+  - button "メッセージを編集":
+  - button "19m 50s考えました"
+  - generic: 19m 50s考えました
+  - heading "ChatGPT の発言:" [level=4]
+  - heading "判定：合格（限定独立監査）" [level=1]
+  - paragraph:
+    - strong: 必須指摘：P0＝0件／P1＝0件／P2＝0件。任意改善：P3＝1件。
+  - paragraph:
+    - text: 指定差分について、
+    - strong: merge・既存Worker公開を止める必須不具合は確認されませんでした。
+    - text: ただし、以下の独立検証範囲での判定であり、未実行の標準ビルドや物理Androidまで確認済みとは扱っていません。
+  - heading "1. 対象・資料の照合" [level=2]
+  - table:
+    - rowgroup:
+      - row "項目 確認結果":
+        - columnheader "項目"
+        - columnheader "確認結果"
+    - rowgroup:
+      - row "対象HEAD 9954105005eb097c9d67ef9452be0fac358df3e3":
+        - cell "対象HEAD"
+        - cell "9954105005eb097c9d67ef9452be0fac358df3e3"
+      - row "base deab32886de99501d9ff6b02c5727df1afbe8dbd":
+        - cell "base"
+        - cell "deab32886de99501d9ff6b02c5727df1afbe8dbd"
+      - row "ZIPサイズ 1,561,061 bytes：一致":
+        - cell "ZIPサイズ"
+        - cell "1,561,061 bytes：一致":
+          - strong: 1,561,061 bytes：一致
+      - row "ZIP SHA-256 D83FAFB064DCFCC2CFB0FBC497E50D862A5E7BF0FCC4F99512EA03F4EBD5C0E2：一致":
+        - cell "ZIP SHA-256"
+        - cell "D83FAFB064DCFCC2CFB0FBC497E50D862A5E7BF0FCC4F99512EA03F4EBD5C0E2：一致":
+          - strong: D83FAFB064DCFCC2CFB0FBC497E50D862A5E7BF0FCC4F99512EA03F4EBD5C0E2：一致
+  - button "表をコピー":
+  - button "表を展開":
+  - paragraph:
+    - text: ZIPを実際に展開し、変更された3コードファイルについて、差分のHEAD側Git blob IDと実ファイルを照合しました。監査用コピーで差分を逆適用したbase側も一致しています。監査終了時点で、
+    - strong: ZIP原本257ファイルはすべて不変
+    - text: でした。
+  - paragraph: GitHubでも開始時のPR105のHEAD・baseが依頼値と一致していることを確認しています。
+  - heading "2. 独立実行した検証" [level=2]
+  - paragraph: 提出者の「関連66件成功」とは別に、実ソースを使って以下を実行しました。再現コードと実測ログは末尾の証拠ZIPに収録しています。
+  - table:
+    - rowgroup:
+      - row "検証 独立実行結果":
+        - columnheader "検証"
+        - columnheader "独立実行結果"
+    - rowgroup:
+      - row "抽選・状態遷移の独立ハーネス 62／62成功。確率境界、個別・共通間隔、優先順位、持ち越し防止、初回・復帰・新run・所有者変更など":
+        - cell "抽選・状態遷移の独立ハーネス"
+        - cell "62／62成功。確率境界、個別・共通間隔、優先順位、持ち越し防止、初回・復帰・新run・所有者変更など":
+          - strong: 62／62成功
+          - text: 。確率境界、個別・共通間隔、優先順位、持ち越し防止、初回・復帰・新run・所有者変更など
+      - row "ブラウザーの実Web Audioによる停止・保護 33／33成功。新規3場面それぞれの停止・復帰条件と、多数SEによるボイス保護":
+        - cell "ブラウザーの実Web Audioによる停止・保護"
+        - cell "33／33成功。新規3場面それぞれの停止・復帰条件と、多数SEによるボイス保護":
+          - strong: 33／33成功
+          - text: 。新規3場面それぞれの停止・復帰条件と、多数SEによるボイス保護
+      - row "実サウンドテストUIの隔離実行 11台詞の表示・選択を確認。新規6本すべて通常速度で完走、errorなし":
+        - cell "実サウンドテストUIの隔離実行"
+        - cell "11台詞の表示・選択を確認。新規6本すべて通常速度で完走、errorなし":
+          - strong: 11台詞の表示・選択を確認。新規6本すべて通常速度で完走、errorなし
+      - row "WAVデコード 出荷11本すべてをブラウザーのWeb Audioでデコード成功":
+        - cell "WAVデコード"
+        - cell "出荷11本すべてをブラウザーのWeb Audioでデコード成功":
+          - text: 出荷
+          - strong: 11本すべて
+          - text: をブラウザーのWeb Audioでデコード成功
+      - row "WAV原本・出荷版比較 新規6本の原本／出荷版／PCMハッシュが記録と一致。PCMは全件バイト一致":
+        - cell "WAV原本・出荷版比較"
+        - cell "新規6本の原本／出荷版／PCMハッシュが記録と一致。PCMは全件バイト一致":
+          - text: 新規6本の原本／出荷版／PCMハッシュが記録と一致。
+          - strong: PCMは全件バイト一致
+      - row "限定型確認 監査環境のTypeScript 5.8.3で対象モジュールと必要な依存をstrict／noEmit検査し成功":
+        - cell "限定型確認"
+        - cell "監査環境のTypeScript 5.8.3で対象モジュールと必要な依存をstrict／noEmit検査し成功"
+  - button "表をコピー":
+  - button "表を展開":
+  - heading "抽選・優先順位・抑制" [level=3]
+  - paragraph: 次の点を確認しました。
+  - list:
+    - strong: 抽選と間隔
+    - text: ：WAVE25%、被弾30%、被弾成功時の短い反応75%、射撃15%の境界。被弾4秒・射撃12秒、共通6秒・警告10秒。WAVE／射撃の交互選択と休止後の選択履歴保持。
+    - strong: 同時イベント
+    - text: ：大型→WAVE→被弾→reload→援護→射撃の順序。上位抽選が外れても下位を再抽選せず、抑制イベントを後から鳴らさないこと。
+    - strong: 状態境界
+    - text: ：初回、休止・復帰、非戦闘、死亡・蘇生、切断済み所有者、新run、所有者変更。連続被弾・60秒連射、古いevent IDや他人のshotも確認。
+  - paragraph: 該当処理は固定HEADの soldier-voice.ts と照合しています。射撃の「2秒ちょうど」には、後述する任意改善が残ります。
+  - paragraph:
+    - text: 実シミュレーションのstepを使ったWAVE進行・shot生成・リロード遷移も再現しました。また、監査用JSコピーに意図的な誤りを入れる負例検査を行い、「WAVE確率変更」「短い被弾の比率変更」「全shotを撃ち始め扱い」の
+    - strong: 3種類すべてをテストが検出
+    - text: しました。製品ソースには変更を加えていません。
+  - heading "音声・UI" [level=3]
+  - paragraph:
+    - text: 新規6本は、実 mountMediaMenu／MediaPlayback を使用した隔離ブラウザーハーネスで選択し、通常速度で全件完走しました。
+    - strong: これはブラウザー上の再生完了確認であり、人耳による聴感確認ではありません。
+  - paragraph:
+    - text: WAVは全11本がPCM16・mono・24kHzで整合。新規6本について、原本からの変更は
+    - strong: byteRateの96,000→48,000のみ
+    - text: でした。PCM不変、RIFF長・ハッシュ一致、飽和サンプル0を独立計算で確認しています。
+  - heading "3. 必須指摘" [level=2]
+  - paragraph:
+    - strong: P0・P1・P2ともに0件です。必須修正箇所・必須反例はありません。
+  - heading "4. 任意改善 O1／P3：射撃の「2秒ちょうど」で抽選を見送る場合がある" [level=2]
+  - paragraph:
+    - strong: 箇所：src/client/soldier-voice.ts:86
+  - generic: TypeScript
+  - button "行の折り返しを有効にする":
+  - button "コピーする":
+  - code: const firingStarted = shot && w.time - this.lastShot >= 2;
+  - paragraph: 実stepを dt=0.05 で進め、30tick目にshot、その40tick後に次のshotを発生させると、次の値になりました。
+  - table:
+    - rowgroup:
+      - row "項目 実測値":
+        - columnheader "項目"
+        - columnheader "実測値"
+    - rowgroup:
+      - row "前のshot時刻 1.5000000000000007":
+        - cell "前のshot時刻"
+        - cell "1.5000000000000007"
+      - row "次のshot時刻 3.4999999999999956":
+        - cell "次のshot時刻"
+        - cell "3.4999999999999956"
+      - row "差 1.999999999999995":
+        - cell "差"
+        - cell "1.999999999999995"
+  - button "表をコピー":
+  - button "表を展開":
+  - paragraph:
+    - text: 名目上は40tick＝2秒ですが、浮動小数点の丸めで比較が不成立になります。
+    - strong: 乱数を必ず当選する値に固定しても、射撃の抽選自体が行われない
+    - text: ことを再現しました。
+  - paragraph: 最小改善は、ごく小さい許容誤差を比較に加え、39／40／41tickの境界回帰テストを用意することです。
+  - paragraph:
+    - text: 今回は、
+    - strong: 境界上の音声抽選機会が一部欠ける影響に限定され、連呼・遅延再生・ゲーム進行・保存への影響は確認されない
+    - text: ため、公開を止める必須P2ではなく任意P3と判定しました。
+  - heading "5. 検証限界・提出者申告との区別" [level=2]
+  - paragraph:
+    - strong: 提出者の「関連66件・client／worker型・production build成功」を、こちらの独立追試成功としては扱っていません。
+    - text: npm ci が依存取得のDNSエラー EAI_AGAIN で失敗したため、標準のVitest・全体型確認・production buildは再実行できませんでした。独立成功は、上記62ケース・33ケース・音声／UI検証・限定型確認です。
+  - paragraph:
+    - text: ブラウザー検証はLinux Chromiumの隔離環境で、音声取得部分を添付WAVと同一バイト列を返すオフライン処理に置き換えています。DOM・HTMLAudio・Web Audioは実物ですが、
+    - strong: ゲーム全体の起動・実HTTP配信・PWAキャッシュの検証ではありません。
+  - paragraph: 物理Android、主観的な発音・音色・音量バランス、新規協力プレイの実通信、Judge評価も未確認です。再接続は既存の呼出し境界を制御して再現したもので、実WebSocket通信試験とは区別しています。
+  - heading "6. 監査中のPR HEAD更新について" [level=2]
+  - paragraph: 終了時のPR105は未mergeのまま、HEADが次へ進んでいました。
+  - paragraph: db8417ad88c03d2e49cabeb1f275330e7c798fc9
+  - paragraph:
+    - text: 実コミット差分を取得したところ、監査対象SHAを親とする1コミットで、変更は
+    - strong: docs/FENRIR-BATTLE-LINES.md と docs/STATE.md の監査引継ぎ記録のみ
+    - text: でした。コード・テスト・音声の変更はありません。本判定の実行対象は、依頼された
+    - strong: 9954105005eb097c9d67ef9452be0fac358df3e3
+    - text: のままです。
+  - paragraph: 修正・commit・merge・公開操作は行っていません。
+  - paragraph:
+    - strong: 成果物：
+    - button "PR105-independent-audit.md のプレビューを開く":
+      - text: 監査報告書
+    - text: ／
+    - button "PR105-independent-evidence-9954105.zip をダウンロード":
+      - text: 独立検証ログ・再現コード一式
+  - button "PR105-independent-audit.md のプレビューを開く"
+  - generic "PR105-independent-audit.md"
+  - generic: ドキュメント
+  - button "ファイルをダウンロード":
+  - button "コピーする":
+  - button "共有":
+  - button "読み上げ":
+  - button "回答を再生成":
+  - button "その他のアクション":
+  - button "ソース":
+  - button:
+  - heading "最新の回答" [level=4]
+  - status
+  - button "ファイルなどを追加":
+  - textbox "ChatGPT に聞く" [active]:
+    - paragraph: ChatGPT に聞く
+  - button "ChatGPT モデルを選択":
+    - generic: Pro
+  - button "音声入力":
+  - button "音声会話を開始":
+  - generic: ChatGPT は間違えることがあります。重要な情報は確認してください。
+- status
+- status
+- status
+- status: 回答が完了しました

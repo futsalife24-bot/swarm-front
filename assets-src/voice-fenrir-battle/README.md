@@ -1,0 +1,1 @@
+Gemini AI Studio / gemini-3.8-flash-tts / Fenrir. Generated 2026-09-27. Six user-approved Japanese fictional soldier lines; no voice cloning. See generation.json for exact prompts and files.json for hashes/PCM metrics. Shipped WAVs are in public/assets/audio/voice-fenrir-v1; only byteRate header is corrected, PCM unchanged.

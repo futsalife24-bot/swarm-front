@@ -22,6 +22,148 @@ function fixture(random = () => 0) {
   collect();
   return { w, p, collect, voice };
 }
+function shot(w: ReturnType<typeof createWorld>, owner = "p") {
+  w.events.push({
+    id: (w.events.at(-1)?.id ?? 0) + 1,
+    type: "shot",
+    owner,
+    x: 0,
+    y: 1,
+    z: 0,
+  });
+}
+describe("Fenrir battle variations", () => {
+  it("observes real simulation wave advancement and shot events", () => {
+    const wave = fixture();
+    wave.w.spawned = 10000;
+    wave.w.time = 20;
+    wave.w.waveClearAt = 0;
+    step(wave.w, { p: neutral() });
+    expect(wave.w.wave).toBe(2);
+    expect(wave.collect()).toBe("wave");
+    const fire = fixture();
+    fire.w.time = 3;
+    step(fire.w, { p: { ...neutral(), fire: true } });
+    expect(
+      fire.w.events.some((e) => e.type === "shot" && e.owner === fire.p.id),
+    ).toBe(true);
+    expect(fire.collect()).toBe("fire");
+  });
+  it("speaks only on a later wave transition, alternates, and never queues it", () => {
+    const { w, collect } = fixture();
+    w.wave++;
+    expect(collect()).toBe("wave");
+    w.wave++;
+    expect(collect()).toBeUndefined();
+    w.time += 7;
+    expect(collect()).toBeUndefined();
+    w.wave++;
+    expect(collect()).toBe("wave-alt");
+  });
+  it("allows silent waves and suppresses restored waves", () => {
+    const rng = vi.fn(() => 0.25),
+      { w, collect, voice } = fixture(rng);
+    w.wave++;
+    expect(collect()).toBeUndefined();
+    expect(collect()).toBeUndefined();
+    expect(rng).toHaveBeenCalledTimes(1);
+    voice.suspend();
+    w.wave++;
+    expect(collect()).toBeUndefined();
+    expect(rng).toHaveBeenCalledTimes(1);
+  });
+  it("voices own nonfatal damage, not healing, another player, or death", () => {
+    const { w, p, collect } = fixture();
+    const ally = addPlayer(w, "ally");
+    ally.hp--;
+    expect(collect()).toBeUndefined();
+    p.hp--;
+    expect(collect()).toBe("hurt");
+    w.time += 7;
+    p.hp++;
+    expect(collect()).toBeUndefined();
+    p.hp = 0;
+    expect(collect()).toBeUndefined();
+  });
+  it("weights the longer hurt line and limits silent damage lotteries across suspension", () => {
+    const rng = vi.fn(() => 0.9),
+      { w, p, collect, voice } = fixture(rng);
+    p.hp--;
+    collect();
+    voice.suspend();
+    collect();
+    w.time = 1;
+    p.hp--;
+    collect();
+    expect(rng).toHaveBeenCalledTimes(1);
+    w.time = 4;
+    p.hp--;
+    rng.mockReturnValueOnce(0).mockReturnValueOnce(0.8);
+    expect(collect()).toBe("hurt-alt");
+  });
+  it("only considers own shots after two silent seconds, never each bullet", () => {
+    const { w, collect } = fixture();
+    w.time = 3;
+    shot(w, "ally");
+    expect(collect()).toBeUndefined();
+    shot(w);
+    expect(collect()).toBe("fire");
+    for (let t = 4; t < 20; t++) {
+      w.time = t;
+      shot(w);
+      expect(collect()).toBeUndefined();
+    }
+    w.time = 22;
+    shot(w);
+    expect(collect()).toBe("fire-alt");
+  });
+  it("retains twelve-second firing lottery gate across pause and consumes suppressed bursts", () => {
+    const rng = vi.fn(() => 0.9),
+      { w, collect, voice } = fixture(rng);
+    w.time = 3;
+    shot(w);
+    collect();
+    voice.suspend();
+    collect();
+    w.time = 6;
+    shot(w);
+    collect();
+    expect(rng).toHaveBeenCalledTimes(1);
+    w.time = 15;
+    shot(w);
+    collect();
+    expect(rng).toHaveBeenCalledTimes(2);
+  });
+  it("gives large warnings priority over wave, damage and firing together", () => {
+    const { w, p, collect } = fixture();
+    w.time = 3;
+    w.wave++;
+    p.hp--;
+    shot(w);
+    spawn(w, "boss", p.x, p.z + 5);
+    expect(collect()).toBe("warning");
+    w.time = 14;
+    expect(collect()).toBeUndefined();
+  });
+  it("suppresses inactive transitions and resets timers for a genuinely new run", () => {
+    const { w, p, collect } = fixture();
+    w.time = 3;
+    shot(w);
+    expect(collect()).toBe("fire");
+    w.time = 4;
+    w.wave++;
+    p.hp--;
+    shot(w);
+    collect(false);
+    expect(collect()).toBeUndefined();
+    w.run = "new-run";
+    w.time = 0;
+    collect();
+    w.time = 3;
+    shot(w);
+    expect(collect()).toBe("fire");
+  });
+});
 describe("default soldier callouts", () => {
   it("uses an actual reload transition, never completion or a held reload", () => {
     const { w, p, collect } = fixture();

@@ -1,0 +1,44 @@
+[
+  {
+    "clip": "wave",
+    "currentTime": 1.52,
+    "duration": 1.52,
+    "ended": true,
+    "error": null
+  },
+  {
+    "clip": "wave-alt",
+    "currentTime": 2,
+    "duration": 2,
+    "ended": true,
+    "error": null
+  },
+  {
+    "clip": "hurt",
+    "currentTime": 1.08,
+    "duration": 1.08,
+    "ended": true,
+    "error": null
+  },
+  {
+    "clip": "hurt-alt",
+    "currentTime": 1.76,
+    "duration": 1.76,
+    "ended": true,
+    "error": null
+  },
+  {
+    "clip": "fire",
+    "currentTime": 1.2,
+    "duration": 1.2,
+    "ended": true,
+    "error": null
+  },
+  {
+    "clip": "fire-alt",
+    "currentTime": 1.44,
+    "duration": 1.44,
+    "ended": true,
+    "error": null
+  }
+]
