@@ -1,5 +1,6 @@
 {
   "state": "Awaiting manual",
+  "manualDecision": "User explicitly skipped physical Android measurements for this session on 2026-09-27; resume only on request",
   "base": "7827b9c07886efbad50c2bee3bf17a940b79a1fd",
   "dateJST": "2026-09-27",
   "runtimeChanged": false,
