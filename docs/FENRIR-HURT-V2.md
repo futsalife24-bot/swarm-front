@@ -8,3 +8,4 @@ PCM16 mono24kHz、1.84秒、88,364 bytes、飽和0。byteRateのみ原本96000�
 
 base a929c42261df0ffc4f82b6141aea6fc643dd1cfe、branch codex/fenrir-hurt-timbre、既存balance-t7。GitHub https://github.com/futsalife24-bot/swarm-front 。元gameの別作業差分は保護。独立監査/公開はこれから。
 PR107、対象48fcbd51048440d48cba113106e1992fdc5b9622。型・関連30件・確定commit後build/dry-run成功。IABの実サウンドテストで新ID選択/1.84秒完走/errorなし。前回と同じ監査Chat https://chatgpt.com/c/6ab90e59-3c40-83ee-8ba2-2c60ad5f19f3 へ限定ZIP送信済み。
+`n限定再監査PASS（対象48fcbd51048440d48cba113106e1992fdc5b9622）、必須P0/P1/P2各0。独立被弾4ケースと新WAVのメモリ内通常速度再生成功。標準30件/全体型/UI追試・聴感判定とは区別。証拠docs/evidence/fenrir-hurt-v2/audit-final.txt。監査後は記録文書のみ。
