@@ -1,5 +1,11 @@
 import { backgroundMusic } from "./bgm";
 import { CombatAudio } from "./combat-audio";
+import {
+  SoldierVoice,
+  SOLDIER_VOICES,
+  SOLDIER_PATH,
+  type SoldierClip,
+} from "./soldier-voice";
 import type { World } from "../shared/game";
 const LEVELS: Record<string, number> = {
   rifle: 0.62,
@@ -56,6 +62,8 @@ export class Sound {
   private voices = new Set<AudioBufferSourceNode>();
   private menuVoices = new Set<AudioBufferSourceNode>();
   private tracker = new CombatAudio();
+  private soldier = new SoldierVoice();
+  private speech?: AudioBufferSourceNode;
   private active = false;
   get volume() {
     return this.level;
@@ -89,25 +97,33 @@ export class Sound {
   constructor() {
     void this.preload();
     document.addEventListener("visibilitychange", () => {
-      if (document.hidden) this.stop();
+      if (document.hidden) {
+        this.stop();
+        this.soldier = new SoldierVoice();
+      }
     });
   }
   preload() {
     if (this.loading) return this.loading;
     this.loading = Promise.all(
-      Object.keys(LEVELS).map(async (key) => {
+      [
+        ...Object.keys(LEVELS),
+        ...SOLDIER_VOICES.map((v) => `voice:${v.id}`),
+      ].map(async (key) => {
         if (this.bytes.has(key)) return;
         try {
           const r = await fetch(
-            (key !== "impact" && isImpact(key)
-              ? AR_HIT
-              : key === "rocketBurst"
-                ? ROCKET_FINAL
-                : ["rifle", "shotgun"].includes(key)
-                  ? SELECTED
-                  : BASE) +
-              key +
-              ".wav",
+            key.startsWith("voice:")
+              ? `${import.meta.env.BASE_URL}${SOLDIER_PATH}${key.slice(6)}.wav`
+              : (key !== "impact" && isImpact(key)
+                  ? AR_HIT
+                  : key === "rocketBurst"
+                    ? ROCKET_FINAL
+                    : ["rifle", "shotgun"].includes(key)
+                      ? SELECTED
+                      : BASE) +
+                  key +
+                  ".wav",
           );
           if (!r.ok) throw Error(String(r.status));
           this.bytes.set(key, await r.arrayBuffer());
@@ -172,6 +188,7 @@ export class Sound {
     return this.decoding;
   }
   stop(combatOnly = false) {
+    this.speech = undefined;
     for (const voice of this.voices) {
       if (combatOnly && this.menuVoices.has(voice)) continue;
       voice.stop();
@@ -193,9 +210,25 @@ export class Sound {
     this.active = active;
     if (!w) {
       this.tracker = new CombatAudio();
+      this.soldier = new SoldierVoice();
+      this.speech?.stop();
+      this.speech = undefined;
       return;
     }
     const p = w.players.find((p) => p.id === id);
+    if (!p || p.hp <= 0 || !p.connected) {
+      this.speech?.stop();
+      this.speech = undefined;
+    }
+    const line = this.soldier.collect(
+      w,
+      id,
+      active &&
+        this.effectsVolume > 0 &&
+        this.context?.state === "running" &&
+        SOLDIER_VOICES.every((v) => this.buffers.has(`voice:${v.id}`)),
+    );
+    if (line) this.speak(line);
     for (const cue of this.tracker.collect(w, active)) {
       if (!p) continue;
       const dx = (cue.x ?? p.x) - p.x,
@@ -220,6 +253,29 @@ export class Sound {
           );
       this.play(cue.type, gain, pan, cue.key);
     }
+  }
+  private speak(clip: SoldierClip) {
+    const c = this.context,
+      buffer = this.buffers.get(`voice:${clip}`);
+    if (!c || !buffer || !this.master) return;
+    if (this.speech) {
+      if (clip !== "warning") return;
+      this.speech.stop();
+    }
+    const source = c.createBufferSource(),
+      gain = c.createGain();
+    source.buffer = buffer;
+    gain.gain.value = 0.95;
+    source.connect(gain).connect(this.master);
+    this.speech = source;
+    this.voices.add(source);
+    source.onended = () => {
+      if (this.speech === source) this.speech = undefined;
+      this.voices.delete(source);
+      source.disconnect();
+      gain.disconnect();
+    };
+    source.start();
   }
   play(type: string, gain = 1, pan = 0, key = type, delay = 0) {
     const c = this.context;

@@ -2,6 +2,7 @@ import { backgroundMusic, type MusicTrack } from "./bgm";
 import { closeMenuDialog, menuDialog } from "./menu-ui";
 import { MediaPlayback } from "./media-playback";
 import "./media-menu.css";
+import { SOLDIER_VOICES, SOLDIER_PATH } from "./soldier-voice";
 
 export const SOUND_TEST_TRACKS: readonly { id: MusicTrack; label: string }[] = [
   { id: "title", label: "タイトル / 戦線の灯" },
@@ -40,8 +41,8 @@ export function mountMediaMenu(
     if (active) return;
     const d = menuDialog(
       video ? "SWARM FRONT PV" : "サウンドテスト",
-      `${video ? '<video controls playsinline preload="none" aria-label="SWARM FRONT PV"></video>' : `<label class="sound-test-select">BGM / 全${SOUND_TEST_TRACKS.length}曲<select aria-label="試聴するBGM">${SOUND_TEST_TRACKS.map((track) => `<option value="${track.id}">${track.label}</option>`).join("")}</select></label><audio controls preload="none" aria-label="BGM試聴"></audio>`}<div class="media-actions"><button type="button" data-play>再生</button><button type="button" data-pause>一時停止</button><button type="button" data-reload>再読み込み</button><label>試聴音量<input type="range" min="0" max="1" step="any" aria-label="試聴音量"></label></div><p class="media-status" role="status"></p><p class="media-note">音量はこの画面だけに適用されます。閉じるとゲームのBGMに戻ります。</p>`,
-      video ? "PROMOTION VIDEO / 30 SEC" : "MUSIC PLAYER",
+      `${video ? '<video controls playsinline preload="none" aria-label="SWARM FRONT PV"></video>' : `<label class="sound-test-select">BGM / 全${SOUND_TEST_TRACKS.length}曲・兵士ボイス / 5台詞<select aria-label="試聴する音声"><optgroup label="BGM">${SOUND_TEST_TRACKS.map((track) => `<option value="${track.id}">${track.label}</option>`).join("")}</optgroup><optgroup label="兵士ボイス">${SOLDIER_VOICES.map((clip) => `<option value="voice:${clip.id}">${clip.label}</option>`).join("")}</optgroup></select></label><audio controls preload="none" aria-label="音声試聴"></audio>`}<div class="media-actions"><button type="button" data-play>再生</button><button type="button" data-pause>一時停止</button><button type="button" data-reload>再読み込み</button><label>試聴音量<input type="range" min="0" max="1" step="any" aria-label="試聴音量"></label></div><p class="media-status" role="status"></p><p class="media-note">音量はこの画面だけに適用されます。閉じるとゲームのBGMに戻ります。</p>`,
+      video ? "PROMOTION VIDEO / 30 SEC" : "SOUND PLAYER",
     );
     active = d;
     d.classList.add("media-dialog");
@@ -64,12 +65,19 @@ export function mountMediaMenu(
     });
     const selection = d.querySelector<HTMLSelectElement>("select");
     const source = () =>
-      `${import.meta.env.BASE_URL}${video ? PV_SOURCE : `assets/audio/bgm-v1/${selection!.value}.mp3`}`;
+      `${import.meta.env.BASE_URL}${video ? PV_SOURCE : selection!.value.startsWith("voice:") ? `${SOLDIER_PATH}${selection!.value.slice(6)}.wav` : `assets/audio/bgm-v1/${selection!.value}.mp3`}`;
     const load = (autoplay = false) => {
       media.dataset.track = video ? "pv-v10" : selection!.value;
       void playback.load(source(), autoplay);
     };
-    if (selection) selection.onchange = () => load(true);
+    if (selection)
+      selection.onchange = () => {
+        level.value = String(
+          selection.value.startsWith("voice:") ? volume() : musicVolume(),
+        );
+        applyVolume();
+        load(true);
+      };
     d.querySelector<HTMLButtonElement>("[data-play]")!.onclick = () =>
       playback.play();
     d.querySelector<HTMLButtonElement>("[data-pause]")!.onclick = () =>
