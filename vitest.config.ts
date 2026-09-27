@@ -12,6 +12,7 @@ export default defineConfig({
       "tests/project-hub.test.ts",
       "tests/clean-capture.test.ts",
       "tests/app-analytics.test.ts",
+      "tests/behavior-analytics.test.ts",
       "tests/weapon-stat-marks.test.ts",
       "tests/room-invite.test.ts",
       "tests/coop-performance.test.ts",

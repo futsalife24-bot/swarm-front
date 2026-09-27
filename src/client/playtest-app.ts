@@ -152,6 +152,7 @@ import {
   type BattleCheckpoint,
 } from "./battle-checkpoint";
 import { track } from "./analytics";
+import { recordBehavior } from "./behavior-analytics";
 import {
   installCloudSync,
   admitDailyDefense,
@@ -172,9 +173,13 @@ import { gearWeaponRows, lockMarkup } from "./gear-weapon-list";
 
 // Keep the future ad UI private, including in developer mode, until launch.
 const SHOW_AD_UI = false;
+let behaviorStart: { run: string; day: string } | undefined;
+const behaviorDay = () => new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10);
+const behaviorAllowed = () => !developerRequested && !developerMode && !sampleMenus && mode === "normal";
 
 async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
   if (sampleMenus || !canSortie(save, stage, difficulty)) return;
+  behaviorStart = undefined;
   if (!resume) track("sortie");
   const generation = ++loadingGeneration;
   loadReady = false;
@@ -251,6 +256,7 @@ async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
         controls.input.pitch = world!.players[0].pitch;
         accumulator = 0;
         previous = performance.now();
+        if (!resume && !daily && behaviorAllowed()) behaviorStart = { run: world!.run, day: behaviorDay() };
         battleUI();
         checkpointNow();
         if (!resume && !daily)
@@ -456,6 +462,7 @@ function victory() {
     return;
   }
   track("clear");
+  const newBehaviorVictory = behaviorAllowed() && !save.receipts.includes(world.run);
   const w = world,
     s = w.solo!,
     missions = [
@@ -482,6 +489,7 @@ function victory() {
   n.serial = Math.max(n.serial, ...items.map((w) => w.acquired + 1));
   if (s.stage === 3 && s.branchReached) n.branch = true;
   commit(n, () => {
+    if (newBehaviorVictory) recordBehavior("victory");
     setScreen("collection");
     ui.classList.add("pt-clear");
     ui.innerHTML =
@@ -1497,6 +1505,7 @@ function home() {
 }
 function showHome(initialized: boolean) {
   world = null;
+  behaviorStart = undefined;
   setScreen(initialized ? "home" : "intro");
   ui.innerHTML = homeMarkup({
     stage: stageFor({
@@ -1577,6 +1586,7 @@ function showHome(initialized: boolean) {
       void exitDeveloperMode();
     });
   }
+  if (behaviorAllowed()) recordBehavior("visit");
 }
 
 function gear() {
@@ -2267,6 +2277,7 @@ window.addEventListener("app-install-changed", () => {
   if (screen === "home" || screen === "intro") showHome(screen === "home");
 });
 loadMode("normal");
+if (behaviorAllowed() && ["result", "choice"].includes(screen)) recordBehavior("visit");
 if (!developerMode) {
   installCloudSync();
   window.addEventListener("swarm-progress-saved", updateWeeklyBadge);
@@ -2308,6 +2319,11 @@ function checkpointNow() {
   try {
     writeBattleCheckpoint(world, save);
     checkpointAt = performance.now();
+    if (behaviorStart?.run === world.run) {
+      const eligible = behaviorAllowed() && !world.defense && behaviorStart.day === behaviorDay();
+      behaviorStart = undefined;
+      if (eligible) recordBehavior("sortie");
+    }
   } catch {
     if (!checkpointErrorShown) {
       checkpointErrorShown = true;
