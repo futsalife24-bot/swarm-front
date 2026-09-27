@@ -1,0 +1,62 @@
+{
+  "base": "7827b9c07886efbad50c2bee3bf17a940b79a1fd",
+  "runtimeChanged": false,
+  "checks": [
+    {
+      "seconds": 786.21,
+      "command": "main measurement",
+      "passed": true
+    },
+    {
+      "cases": 24,
+      "command": "fixture replay",
+      "seconds": 64.28,
+      "passed": true
+    },
+    {
+      "passed": true,
+      "command": "support measurement"
+    },
+    {
+      "passed": true,
+      "command": "npm run typecheck"
+    },
+    {
+      "command": "weapon-families + harrow-weapons",
+      "tests": 84,
+      "passed": true
+    },
+    {
+      "command": "npm run test:save",
+      "tests": 147,
+      "passed": true
+    },
+    {
+      "cases": 21,
+      "command": "npm run test:save:browser",
+      "seconds": 292.617,
+      "passed": true
+    },
+    {
+      "command": "standalone harness tsc",
+      "reason": "@types/node absent; no dependency changes",
+      "passed": false
+    }
+  ],
+  "hashes": {
+    "scripts/measure-balance.test.ts": "CB57164BF84BB1933A51E22C7C08276B0A24758C6EE97BD282C3A792C0D01C67",
+    "scripts/measure-balance-support.test.ts": "1873B48A640C54474ECB66E970F0787D43511FA7DF2C612EA08FBCA90B72B2F7",
+    "scripts/summarize-balance.mjs": "77B3367B2D534FB6AD2DE6251CB060F1696B53205400C5081A925E8F5D3169C7",
+    "vitest.balance.config.ts": "98BCBFEB558190E153772B2F8480A4262B0A08274E5EDB914E9D48B3A52CE73E",
+    "docs/evidence/balance-t7/baseline.json": "36E5CAC0D9CCDC5E5E12DCA72D818C292B20FBC4E7F924CF07D8E0E9208E9DBE",
+    "docs/evidence/balance-t7/support.json": "892A4C9CAE463D7045B91C6C77A6CC5B0DC3E46659C5BC6A668F9528EEE4B4CF"
+  },
+  "limitations": [
+    "no human play",
+    "no physical Android",
+    "no medium campaign simulation",
+    "no full effect Cartesian product"
+  ],
+  "modelId": "unconfirmed",
+  "reasoningEffort": "unconfirmed"
+}

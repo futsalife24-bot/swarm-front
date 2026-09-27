@@ -1,0 +1,962 @@
+[
+  {
+    "kind": "rifle",
+    "conditions": [
+      {
+        "condition": "early",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 66.69999999999835,
+        "killMean": 44,
+        "damagePerRound": 16.506364081709567,
+        "netDamageTaken": 0,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "middle",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 179.76666666667327,
+        "killMean": 113.66666666666667,
+        "damagePerRound": 23.41599034258722,
+        "netDamageTaken": 5.821333333333333,
+        "bossTTKs": [
+          114.00000000000401,
+          75.04999999999575,
+          68.64999999999611
+        ]
+      },
+      {
+        "condition": "late",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 157.21666666666817,
+        "killMean": 112,
+        "damagePerRound": 25.39099875443145,
+        "netDamageTaken": 95.03999999999995,
+        "bossTTKs": [
+          50.350000000001,
+          50.30000000000318,
+          46.60000000000318
+        ]
+      },
+      {
+        "condition": "boss",
+        "trials": 3,
+        "wins": 2,
+        "alive": 2,
+        "clearMean": 85.44999999999729,
+        "killMean": 18.666666666666668,
+        "damagePerRound": 24.323965246243304,
+        "netDamageTaken": 139.51999999999998,
+        "bossTTKs": [
+          57.549999999997084,
+          61.349999999997024,
+          null
+        ]
+      },
+      {
+        "condition": "holdout",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 143.89999999999847,
+        "killMean": 85,
+        "damagePerRound": 23.771286421911423,
+        "netDamageTaken": 0,
+        "bossTTKs": [
+          86.24999999999724,
+          86.04999999999725,
+          75.44999999999786
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "smg",
+    "conditions": [
+      {
+        "condition": "early",
+        "trials": 3,
+        "wins": 1,
+        "alive": 3,
+        "clearMean": 93.9499999999968,
+        "killMean": 41.666666666666664,
+        "damagePerRound": 3.585407079111276,
+        "netDamageTaken": 0,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "middle",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 188.25000000000855,
+        "killMean": 111.66666666666667,
+        "damagePerRound": 11.032716977271258,
+        "netDamageTaken": 14.946666666666667,
+        "bossTTKs": [
+          136.15000000000936,
+          100.45000000000101,
+          71.69999999999592
+        ]
+      },
+      {
+        "condition": "late",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 190.28333333334237,
+        "killMean": 112,
+        "damagePerRound": 11.046427962564598,
+        "netDamageTaken": 198.66999999999982,
+        "bossTTKs": [
+          55.90000000000751,
+          51.45000000000738,
+          68.80000000001408
+        ]
+      },
+      {
+        "condition": "boss",
+        "trials": 3,
+        "wins": 1,
+        "alive": 1,
+        "clearMean": 112.04999999999578,
+        "killMean": 18.333333333333332,
+        "damagePerRound": 9.426592990407647,
+        "netDamageTaken": 171.51999999999998,
+        "bossTTKs": [
+          null,
+          null,
+          83.5999999999955
+        ]
+      },
+      {
+        "condition": "holdout",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 175.55000000000567,
+        "killMean": 85,
+        "damagePerRound": 10.113959536143168,
+        "netDamageTaken": 0,
+        "bossTTKs": [
+          115.59999999999557,
+          116.29999999999553,
+          118.34999999999542
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "shotgun",
+    "conditions": [
+      {
+        "condition": "early",
+        "trials": 3,
+        "wins": 0,
+        "alive": 3,
+        "clearMean": null,
+        "killMean": 42.333333333333336,
+        "damagePerRound": 25.10044351073763,
+        "netDamageTaken": 0,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "middle",
+        "trials": 3,
+        "wins": 1,
+        "alive": 3,
+        "clearMean": 194.1500000000099,
+        "killMean": 109.66666666666667,
+        "damagePerRound": 78.41057140379097,
+        "netDamageTaken": 28.162666666666656,
+        "bossTTKs": [
+          130.45000000000945,
+          185.1500000000208,
+          null
+        ]
+      },
+      {
+        "condition": "late",
+        "trials": 3,
+        "wins": 0,
+        "alive": 2,
+        "clearMean": null,
+        "killMean": 94.66666666666667,
+        "damagePerRound": 45.854948594079026,
+        "netDamageTaken": 213.03133333333312,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "boss",
+        "trials": 3,
+        "wins": 0,
+        "alive": 0,
+        "clearMean": null,
+        "killMean": 18,
+        "damagePerRound": 54.51351888015174,
+        "netDamageTaken": 239.35999999999999,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "holdout",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 209.00000000001327,
+        "killMean": 85,
+        "damagePerRound": 78.57916120473085,
+        "netDamageTaken": 50.19800000000001,
+        "bossTTKs": [
+          177.050000000006,
+          205.90000000001257,
+          191.15000000000921
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "slug",
+    "conditions": [
+      {
+        "condition": "early",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 82.2833333333308,
+        "killMean": 44,
+        "damagePerRound": 88.18373015873016,
+        "netDamageTaken": 0,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "middle",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 184.08333333334096,
+        "killMean": 113.66666666666667,
+        "damagePerRound": 135.09768407661292,
+        "netDamageTaken": 29.5,
+        "bossTTKs": [
+          89.89999999999782,
+          143.35000000001142,
+          64.34999999999636
+        ]
+      },
+      {
+        "condition": "late",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 181.30000000000697,
+        "killMean": 112,
+        "damagePerRound": 147.4438550879647,
+        "netDamageTaken": 116.49399999999991,
+        "bossTTKs": [
+          65.85000000000962,
+          63.9500000000087,
+          61.50000000000753
+        ]
+      },
+      {
+        "condition": "boss",
+        "trials": 3,
+        "wins": 1,
+        "alive": 1,
+        "clearMean": 109.29999999999593,
+        "killMean": 18.333333333333332,
+        "damagePerRound": 112.79100410786457,
+        "netDamageTaken": 171.51999999999998,
+        "bossTTKs": [
+          null,
+          79.59999999999565,
+          null
+        ]
+      },
+      {
+        "condition": "holdout",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 174.48333333333878,
+        "killMean": 85,
+        "damagePerRound": 123.64132764963917,
+        "netDamageTaken": 6.840000000000003,
+        "bossTTKs": [
+          108.199999999996,
+          122.89999999999516,
+          123.49999999999513
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "rocket",
+    "conditions": [
+      {
+        "condition": "early",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 143.68333333333177,
+        "killMean": 44,
+        "damagePerRound": 99.18691158691159,
+        "netDamageTaken": 0,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "middle",
+        "trials": 3,
+        "wins": 0,
+        "alive": 3,
+        "clearMean": null,
+        "killMean": 101.33333333333333,
+        "damagePerRound": 174.77024534218776,
+        "netDamageTaken": 91.25333333333333,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "late",
+        "trials": 3,
+        "wins": 0,
+        "alive": 3,
+        "clearMean": null,
+        "killMean": 105,
+        "damagePerRound": 118.17462744894458,
+        "netDamageTaken": 140.87799999999984,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "boss",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 126.34999999999555,
+        "killMean": 19,
+        "damagePerRound": 158.7628059622442,
+        "netDamageTaken": 107.52,
+        "bossTTKs": [
+          82.9999999999969,
+          77.14999999999577,
+          74.94999999999575
+        ]
+      },
+      {
+        "condition": "holdout",
+        "trials": 3,
+        "wins": 0,
+        "alive": 3,
+        "clearMean": null,
+        "killMean": 83,
+        "damagePerRound": 104.21051864801865,
+        "netDamageTaken": 59.73599999999999,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "heavy",
+    "conditions": [
+      {
+        "condition": "early",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 148.2666666666661,
+        "killMean": 44,
+        "damagePerRound": 421.0627723311547,
+        "netDamageTaken": 0,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "middle",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 200.50000000001134,
+        "killMean": 111.66666666666667,
+        "damagePerRound": 782.0313662945242,
+        "netDamageTaken": 72.39299999999999,
+        "bossTTKs": [
+          81.49999999999915,
+          105.85000000000383,
+          88.45000000000115
+        ]
+      },
+      {
+        "condition": "late",
+        "trials": 3,
+        "wins": 2,
+        "alive": 3,
+        "clearMean": 237.30000000001968,
+        "killMean": 111.33333333333333,
+        "damagePerRound": 488.6697684124154,
+        "netDamageTaken": 174.42799999999988,
+        "bossTTKs": [
+          46.10000000000926,
+          null,
+          112.80000000002562
+        ]
+      },
+      {
+        "condition": "boss",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 111.91666666666254,
+        "killMean": 19,
+        "damagePerRound": 395.5211570039157,
+        "netDamageTaken": 71.67999999999999,
+        "bossTTKs": [
+          54.99999999999688,
+          70.54999999999623,
+          48.69999999999724
+        ]
+      },
+      {
+        "condition": "holdout",
+        "trials": 3,
+        "wins": 0,
+        "alive": 3,
+        "clearMean": null,
+        "killMean": 84,
+        "damagePerRound": 409.3823529411765,
+        "netDamageTaken": 30.590000000000003,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "sniper",
+    "conditions": [
+      {
+        "condition": "early",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 68.39999999999826,
+        "killMean": 44,
+        "damagePerRound": 165,
+        "netDamageTaken": 0,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "middle",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 200.40000000001132,
+        "killMean": 112.33333333333333,
+        "damagePerRound": 177.75574208988846,
+        "netDamageTaken": 92.05966666666666,
+        "bossTTKs": [
+          166.55000000001573,
+          66.7999999999962,
+          107.25000000000244
+        ]
+      },
+      {
+        "condition": "late",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 173.2833333333385,
+        "killMean": 112,
+        "damagePerRound": 210.07390320819263,
+        "netDamageTaken": 90.1899999999999,
+        "bossTTKs": [
+          66.95000000000475,
+          66.95000000000671,
+          63.80000000000419
+        ]
+      },
+      {
+        "condition": "boss",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 76.26666666666448,
+        "killMean": 19,
+        "damagePerRound": 218,
+        "netDamageTaken": 107.52,
+        "bossTTKs": [
+          51.349999999997635,
+          51.34999999999759,
+          51.29999999999755
+        ]
+      },
+      {
+        "condition": "holdout",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 161.3166666666691,
+        "killMean": 85,
+        "damagePerRound": 189.10798122065728,
+        "netDamageTaken": 33.592000000000006,
+        "bossTTKs": [
+          112.39999999999576,
+          85.69999999999727,
+          90.649999999997
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "grenade",
+    "conditions": [
+      {
+        "condition": "early",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 153.0833333333339,
+        "killMean": 44,
+        "damagePerRound": 40.22158335491668,
+        "netDamageTaken": 3.2640000000000007,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "middle",
+        "trials": 3,
+        "wins": 0,
+        "alive": 3,
+        "clearMean": null,
+        "killMean": 106,
+        "damagePerRound": 63.17599546640008,
+        "netDamageTaken": 57.46600000000001,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "late",
+        "trials": 3,
+        "wins": 0,
+        "alive": 3,
+        "clearMean": null,
+        "killMean": 102.33333333333333,
+        "damagePerRound": 50.31399007496568,
+        "netDamageTaken": 241.3359999999997,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "boss",
+        "trials": 3,
+        "wins": 0,
+        "alive": 0,
+        "clearMean": null,
+        "killMean": 18,
+        "damagePerRound": 50.877646271784535,
+        "netDamageTaken": 208.64,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "holdout",
+        "trials": 3,
+        "wins": 0,
+        "alive": 3,
+        "clearMean": null,
+        "killMean": 83.33333333333333,
+        "damagePerRound": 40.18203276537688,
+        "netDamageTaken": 26.239000000000004,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "sticky",
+    "conditions": [
+      {
+        "condition": "early",
+        "trials": 3,
+        "wins": 1,
+        "alive": 3,
+        "clearMean": 121.74999999999523,
+        "killMean": 43.333333333333336,
+        "damagePerRound": 51.3599344629156,
+        "netDamageTaken": 0,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "middle",
+        "trials": 3,
+        "wins": 0,
+        "alive": 3,
+        "clearMean": null,
+        "killMean": 106,
+        "damagePerRound": 90.14795059181444,
+        "netDamageTaken": 85.89333333333336,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "late",
+        "trials": 3,
+        "wins": 0,
+        "alive": 2,
+        "clearMean": null,
+        "killMean": 103.33333333333333,
+        "damagePerRound": 73.53360569322574,
+        "netDamageTaken": 287.4746666666664,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "boss",
+        "trials": 3,
+        "wins": 1,
+        "alive": 1,
+        "clearMean": 220.45000000001588,
+        "killMean": 18.333333333333332,
+        "damagePerRound": 53.94475530711574,
+        "netDamageTaken": 171.51999999999998,
+        "bossTTKs": [
+          null,
+          null,
+          162.15000000001706
+        ]
+      },
+      {
+        "condition": "holdout",
+        "trials": 3,
+        "wins": 0,
+        "alive": 3,
+        "clearMean": null,
+        "killMean": 82.33333333333333,
+        "damagePerRound": 60.85048911050716,
+        "netDamageTaken": 36.93600000000001,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "laser",
+    "conditions": [
+      {
+        "condition": "early",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 60.949999999998674,
+        "killMean": 44,
+        "damagePerRound": 9.07208503159316,
+        "netDamageTaken": 0,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "middle",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 170.78333333333794,
+        "killMean": 111.66666666666667,
+        "damagePerRound": 10.013930187785908,
+        "netDamageTaken": 27.140000000000004,
+        "bossTTKs": [
+          99.44999999999897,
+          95.29999999999683,
+          103.09999999999877
+        ]
+      },
+      {
+        "condition": "late",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 142.58333333333152,
+        "killMean": 112,
+        "damagePerRound": 12.454652146341408,
+        "netDamageTaken": 29.087999999999965,
+        "bossTTKs": [
+          51.19999999999898,
+          48.94999999999794,
+          45.79999999999838
+        ]
+      },
+      {
+        "condition": "boss",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 83.11666666666409,
+        "killMean": 19,
+        "damagePerRound": 11.257748463572739,
+        "netDamageTaken": 35.839999999999996,
+        "bossTTKs": [
+          62.199999999997075,
+          60.099999999996996,
+          56.59999999999759
+        ]
+      },
+      {
+        "condition": "holdout",
+        "trials": 3,
+        "wins": 3,
+        "alive": 3,
+        "clearMean": 138.31666666666388,
+        "killMean": 85,
+        "damagePerRound": 9.828888234492482,
+        "netDamageTaken": 0,
+        "bossTTKs": [
+          80.69999999999756,
+          82.39999999999746,
+          87.34999999999718
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "kick",
+    "conditions": [
+      {
+        "condition": "early",
+        "trials": 3,
+        "wins": 1,
+        "alive": 3,
+        "clearMean": 136.9499999999969,
+        "killMean": 41.666666666666664,
+        "damagePerRound": 39.03503202602179,
+        "netDamageTaken": 5.304000000000002,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "middle",
+        "trials": 3,
+        "wins": 0,
+        "alive": 3,
+        "clearMean": null,
+        "killMean": 103,
+        "damagePerRound": 71.30915750915752,
+        "netDamageTaken": 126.06333333333335,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "late",
+        "trials": 3,
+        "wins": 0,
+        "alive": 3,
+        "clearMean": null,
+        "killMean": 102.33333333333333,
+        "damagePerRound": 59.61957275601111,
+        "netDamageTaken": 207.14199999999985,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "boss",
+        "trials": 3,
+        "wins": 0,
+        "alive": 3,
+        "clearMean": null,
+        "killMean": 16,
+        "damagePerRound": 8.427237935837075,
+        "netDamageTaken": 138.04,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "holdout",
+        "trials": 3,
+        "wins": 0,
+        "alive": 3,
+        "clearMean": null,
+        "killMean": 84,
+        "damagePerRound": 58.21780773636444,
+        "netDamageTaken": 31.540000000000006,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "medic",
+    "conditions": [
+      {
+        "condition": "early",
+        "trials": 3,
+        "wins": 0,
+        "alive": 3,
+        "clearMean": null,
+        "killMean": 0,
+        "damagePerRound": 0,
+        "netDamageTaken": 27.624999999999996,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "middle",
+        "trials": 3,
+        "wins": 0,
+        "alive": 0,
+        "clearMean": null,
+        "killMean": 0,
+        "damagePerRound": 0,
+        "netDamageTaken": 234.68566666666698,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "late",
+        "trials": 3,
+        "wins": 0,
+        "alive": 1,
+        "clearMean": null,
+        "killMean": 0,
+        "damagePerRound": 0,
+        "netDamageTaken": 275.39799999999985,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "boss",
+        "trials": 3,
+        "wins": 0,
+        "alive": 0,
+        "clearMean": null,
+        "killMean": 0,
+        "damagePerRound": 0,
+        "netDamageTaken": 196.99000000000004,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "condition": "holdout",
+        "trials": 3,
+        "wins": 0,
+        "alive": 3,
+        "clearMean": null,
+        "killMean": 0,
+        "damagePerRound": 0,
+        "netDamageTaken": 114.21600000000001,
+        "bossTTKs": [
+          null,
+          null,
+          null
+        ]
+      }
+    ]
+  }
+]

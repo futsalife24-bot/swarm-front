@@ -1,0 +1,4324 @@
+{
+  "healing": [
+    {
+      "seed": 814,
+      "distance": 6,
+      "offset": 0,
+      "healed": 63
+    },
+    {
+      "seed": 814,
+      "distance": 6,
+      "offset": 0.04,
+      "healed": 63
+    },
+    {
+      "seed": 814,
+      "distance": 6,
+      "offset": 0.09,
+      "healed": 63
+    },
+    {
+      "seed": 814,
+      "distance": 20,
+      "offset": 0,
+      "healed": 63
+    },
+    {
+      "seed": 814,
+      "distance": 20,
+      "offset": 0.04,
+      "healed": 63
+    },
+    {
+      "seed": 814,
+      "distance": 20,
+      "offset": 0.09,
+      "healed": 27
+    },
+    {
+      "seed": 814,
+      "distance": 45,
+      "offset": 0,
+      "healed": 45
+    },
+    {
+      "seed": 814,
+      "distance": 45,
+      "offset": 0.04,
+      "healed": 27
+    },
+    {
+      "seed": 814,
+      "distance": 45,
+      "offset": 0.09,
+      "healed": 0
+    },
+    {
+      "seed": 723,
+      "distance": 6,
+      "offset": 0,
+      "healed": 63
+    },
+    {
+      "seed": 723,
+      "distance": 6,
+      "offset": 0.04,
+      "healed": 63
+    },
+    {
+      "seed": 723,
+      "distance": 6,
+      "offset": 0.09,
+      "healed": 63
+    },
+    {
+      "seed": 723,
+      "distance": 20,
+      "offset": 0,
+      "healed": 63
+    },
+    {
+      "seed": 723,
+      "distance": 20,
+      "offset": 0.04,
+      "healed": 54
+    },
+    {
+      "seed": 723,
+      "distance": 20,
+      "offset": 0.09,
+      "healed": 18
+    },
+    {
+      "seed": 723,
+      "distance": 45,
+      "offset": 0,
+      "healed": 45
+    },
+    {
+      "seed": 723,
+      "distance": 45,
+      "offset": 0.04,
+      "healed": 18
+    },
+    {
+      "seed": 723,
+      "distance": 45,
+      "offset": 0.09,
+      "healed": 0
+    },
+    {
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0,
+      "healed": 63
+    },
+    {
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0.04,
+      "healed": 63
+    },
+    {
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0.09,
+      "healed": 63
+    },
+    {
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0,
+      "healed": 63
+    },
+    {
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0.04,
+      "healed": 63
+    },
+    {
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0.09,
+      "healed": 36
+    },
+    {
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0,
+      "healed": 54
+    },
+    {
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0.04,
+      "healed": 27
+    },
+    {
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0.09,
+      "healed": 0
+    }
+  ],
+  "accuracy": [
+    {
+      "kind": "rifle",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0,
+      "damage": 24
+    },
+    {
+      "kind": "rifle",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 24
+    },
+    {
+      "kind": "rifle",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 24
+    },
+    {
+      "kind": "rifle",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0,
+      "damage": 24
+    },
+    {
+      "kind": "rifle",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 24
+    },
+    {
+      "kind": "rifle",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 24
+    },
+    {
+      "kind": "rifle",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0,
+      "damage": 13.963526537943835
+    },
+    {
+      "kind": "rifle",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 13.963526537943835
+    },
+    {
+      "kind": "rifle",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0,
+      "damage": 24
+    },
+    {
+      "kind": "rifle",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 24
+    },
+    {
+      "kind": "rifle",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 24
+    },
+    {
+      "kind": "rifle",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0,
+      "damage": 24
+    },
+    {
+      "kind": "rifle",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 24
+    },
+    {
+      "kind": "rifle",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0,
+      "damage": 13.963535333485197
+    },
+    {
+      "kind": "rifle",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 13.963535333485197
+    },
+    {
+      "kind": "rifle",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0,
+      "damage": 24
+    },
+    {
+      "kind": "rifle",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 24
+    },
+    {
+      "kind": "rifle",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 24
+    },
+    {
+      "kind": "rifle",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0,
+      "damage": 24
+    },
+    {
+      "kind": "rifle",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 24
+    },
+    {
+      "kind": "rifle",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 24
+    },
+    {
+      "kind": "rifle",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0,
+      "damage": 13.963524586115454
+    },
+    {
+      "kind": "rifle",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 13.963524586115454
+    },
+    {
+      "kind": "rifle",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "rifle",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0,
+      "damage": 13
+    },
+    {
+      "kind": "smg",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 13
+    },
+    {
+      "kind": "smg",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 13
+    },
+    {
+      "kind": "smg",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0,
+      "damage": 10.400086082710914
+    },
+    {
+      "kind": "smg",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 10.400086082710914
+    },
+    {
+      "kind": "smg",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 10.417957116431353
+    },
+    {
+      "kind": "smg",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0,
+      "damage": 13
+    },
+    {
+      "kind": "smg",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 13
+    },
+    {
+      "kind": "smg",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 13
+    },
+    {
+      "kind": "smg",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0,
+      "damage": 10.400108153848123
+    },
+    {
+      "kind": "smg",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 10.400108153848123
+    },
+    {
+      "kind": "smg",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0,
+      "damage": 13
+    },
+    {
+      "kind": "smg",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 13
+    },
+    {
+      "kind": "smg",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 13
+    },
+    {
+      "kind": "smg",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0,
+      "damage": 10.400081224475798
+    },
+    {
+      "kind": "smg",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 10.400081224475798
+    },
+    {
+      "kind": "smg",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 10.417173284462478
+    },
+    {
+      "kind": "smg",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "smg",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0,
+      "damage": 125.96547922087484
+    },
+    {
+      "kind": "shotgun",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 125.96547922087484
+    },
+    {
+      "kind": "shotgun",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 126.0715545484054
+    },
+    {
+      "kind": "shotgun",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0,
+      "damage": 65.31714953351548
+    },
+    {
+      "kind": "shotgun",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 65.31714953351548
+    },
+    {
+      "kind": "shotgun",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 32.61263932485599
+    },
+    {
+      "kind": "shotgun",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0,
+      "damage": 125.98300404888323
+    },
+    {
+      "kind": "shotgun",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 125.98300404888323
+    },
+    {
+      "kind": "shotgun",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 126.12579151173486
+    },
+    {
+      "kind": "shotgun",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0,
+      "damage": 57.17053977587784
+    },
+    {
+      "kind": "shotgun",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 57.17053977587784
+    },
+    {
+      "kind": "shotgun",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 32.63631416417047
+    },
+    {
+      "kind": "shotgun",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0,
+      "damage": 125.98248425471866
+    },
+    {
+      "kind": "shotgun",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 125.98248425471866
+    },
+    {
+      "kind": "shotgun",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 126.01122528013912
+    },
+    {
+      "kind": "shotgun",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0,
+      "damage": 48.984010814572684
+    },
+    {
+      "kind": "shotgun",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 48.984010814572684
+    },
+    {
+      "kind": "shotgun",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 40.744724727632274
+    },
+    {
+      "kind": "shotgun",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "shotgun",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0,
+      "damage": 110
+    },
+    {
+      "kind": "slug",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 110
+    },
+    {
+      "kind": "slug",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 110
+    },
+    {
+      "kind": "slug",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0,
+      "damage": 110
+    },
+    {
+      "kind": "slug",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 110
+    },
+    {
+      "kind": "slug",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 110
+    },
+    {
+      "kind": "slug",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0,
+      "damage": 64.00136735420165
+    },
+    {
+      "kind": "slug",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 64.04502770298495
+    },
+    {
+      "kind": "slug",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0,
+      "damage": 110
+    },
+    {
+      "kind": "slug",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 110
+    },
+    {
+      "kind": "slug",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 110
+    },
+    {
+      "kind": "slug",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0,
+      "damage": 110
+    },
+    {
+      "kind": "slug",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 110
+    },
+    {
+      "kind": "slug",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0,
+      "damage": 64.00145809237802
+    },
+    {
+      "kind": "slug",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0,
+      "damage": 110
+    },
+    {
+      "kind": "slug",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 110
+    },
+    {
+      "kind": "slug",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 110
+    },
+    {
+      "kind": "slug",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0,
+      "damage": 110
+    },
+    {
+      "kind": "slug",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 110
+    },
+    {
+      "kind": "slug",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 110
+    },
+    {
+      "kind": "slug",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0,
+      "damage": 64.00134724981945
+    },
+    {
+      "kind": "slug",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 64.04238592739239
+    },
+    {
+      "kind": "slug",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "slug",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 165
+    },
+    {
+      "kind": "sniper",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "sniper",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 8
+    },
+    {
+      "kind": "laser",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "laser",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0,
+      "damage": 140.87388152061794
+    },
+    {
+      "kind": "kick",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 140.87388152061794
+    },
+    {
+      "kind": "kick",
+      "seed": 814,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 140.9443949493907
+    },
+    {
+      "kind": "kick",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 814,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 814,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 814,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 814,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0,
+      "damage": 140.8899922160599
+    },
+    {
+      "kind": "kick",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 140.8899922160599
+    },
+    {
+      "kind": "kick",
+      "seed": 723,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 141.07673625172902
+    },
+    {
+      "kind": "kick",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 723,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 723,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 723,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 723,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0,
+      "damage": 140.8788610154861
+    },
+    {
+      "kind": "kick",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0.04,
+      "damage": 140.8788610154861
+    },
+    {
+      "kind": "kick",
+      "seed": 20260927,
+      "distance": 6,
+      "offset": 0.09,
+      "damage": 140.9152297519886
+    },
+    {
+      "kind": "kick",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 20260927,
+      "distance": 20,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 20260927,
+      "distance": 45,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 20260927,
+      "distance": 90,
+      "offset": 0.09,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0.04,
+      "damage": 0
+    },
+    {
+      "kind": "kick",
+      "seed": 20260927,
+      "distance": 130,
+      "offset": 0.09,
+      "damage": 0
+    }
+  ],
+  "growth": [
+    {
+      "skill": "hp",
+      "level": 0,
+      "points": 0,
+      "incrementalCost": 0,
+      "hp": 160,
+      "moveMultiplier": 1,
+      "aimCone": 0.065,
+      "switchSeconds": 1,
+      "firstWins": 0
+    },
+    {
+      "skill": "hp",
+      "level": 1,
+      "points": 3,
+      "incrementalCost": 3,
+      "hp": 176,
+      "moveMultiplier": 1,
+      "aimCone": 0.065,
+      "switchSeconds": 1,
+      "firstWins": 1
+    },
+    {
+      "skill": "hp",
+      "level": 2,
+      "points": 15,
+      "incrementalCost": 12,
+      "hp": 192,
+      "moveMultiplier": 1,
+      "aimCone": 0.065,
+      "switchSeconds": 1,
+      "firstWins": 5
+    },
+    {
+      "skill": "hp",
+      "level": 3,
+      "points": 40,
+      "incrementalCost": 25,
+      "hp": 208,
+      "moveMultiplier": 1,
+      "aimCone": 0.065,
+      "switchSeconds": 1,
+      "firstWins": 14
+    },
+    {
+      "skill": "hp",
+      "level": 4,
+      "points": 75,
+      "incrementalCost": 35,
+      "hp": 224,
+      "moveMultiplier": 1,
+      "aimCone": 0.065,
+      "switchSeconds": 1,
+      "firstWins": 25
+    },
+    {
+      "skill": "hp",
+      "level": 5,
+      "points": 120,
+      "incrementalCost": 45,
+      "hp": 240,
+      "moveMultiplier": 1,
+      "aimCone": 0.065,
+      "switchSeconds": 1,
+      "firstWins": 40
+    },
+    {
+      "skill": "aim",
+      "level": 0,
+      "points": 0,
+      "incrementalCost": 0,
+      "hp": 160,
+      "moveMultiplier": 1,
+      "aimCone": 0.065,
+      "switchSeconds": 1,
+      "firstWins": 0
+    },
+    {
+      "skill": "aim",
+      "level": 1,
+      "points": 3,
+      "incrementalCost": 3,
+      "hp": 160,
+      "moveMultiplier": 1,
+      "aimCone": 0.06760000000000001,
+      "switchSeconds": 1,
+      "firstWins": 1
+    },
+    {
+      "skill": "aim",
+      "level": 2,
+      "points": 15,
+      "incrementalCost": 12,
+      "hp": 160,
+      "moveMultiplier": 1,
+      "aimCone": 0.07020000000000001,
+      "switchSeconds": 1,
+      "firstWins": 5
+    },
+    {
+      "skill": "aim",
+      "level": 3,
+      "points": 40,
+      "incrementalCost": 25,
+      "hp": 160,
+      "moveMultiplier": 1,
+      "aimCone": 0.0728,
+      "switchSeconds": 1,
+      "firstWins": 14
+    },
+    {
+      "skill": "aim",
+      "level": 4,
+      "points": 75,
+      "incrementalCost": 35,
+      "hp": 160,
+      "moveMultiplier": 1,
+      "aimCone": 0.0754,
+      "switchSeconds": 1,
+      "firstWins": 25
+    },
+    {
+      "skill": "aim",
+      "level": 5,
+      "points": 120,
+      "incrementalCost": 45,
+      "hp": 160,
+      "moveMultiplier": 1,
+      "aimCone": 0.078,
+      "switchSeconds": 1,
+      "firstWins": 40
+    },
+    {
+      "skill": "move",
+      "level": 0,
+      "points": 0,
+      "incrementalCost": 0,
+      "hp": 160,
+      "moveMultiplier": 1,
+      "aimCone": 0.065,
+      "switchSeconds": 1,
+      "firstWins": 0
+    },
+    {
+      "skill": "move",
+      "level": 1,
+      "points": 3,
+      "incrementalCost": 3,
+      "hp": 160,
+      "moveMultiplier": 1.03,
+      "aimCone": 0.065,
+      "switchSeconds": 1,
+      "firstWins": 1
+    },
+    {
+      "skill": "move",
+      "level": 2,
+      "points": 15,
+      "incrementalCost": 12,
+      "hp": 160,
+      "moveMultiplier": 1.06,
+      "aimCone": 0.065,
+      "switchSeconds": 1,
+      "firstWins": 5
+    },
+    {
+      "skill": "move",
+      "level": 3,
+      "points": 40,
+      "incrementalCost": 25,
+      "hp": 160,
+      "moveMultiplier": 1.09,
+      "aimCone": 0.065,
+      "switchSeconds": 1,
+      "firstWins": 14
+    },
+    {
+      "skill": "move",
+      "level": 4,
+      "points": 75,
+      "incrementalCost": 35,
+      "hp": 160,
+      "moveMultiplier": 1.12,
+      "aimCone": 0.065,
+      "switchSeconds": 1,
+      "firstWins": 25
+    },
+    {
+      "skill": "move",
+      "level": 5,
+      "points": 120,
+      "incrementalCost": 45,
+      "hp": 160,
+      "moveMultiplier": 1.15,
+      "aimCone": 0.065,
+      "switchSeconds": 1,
+      "firstWins": 40
+    },
+    {
+      "skill": "swap",
+      "level": 0,
+      "points": 0,
+      "incrementalCost": 0,
+      "hp": 160,
+      "moveMultiplier": 1,
+      "aimCone": 0.065,
+      "switchSeconds": 1,
+      "firstWins": 0
+    },
+    {
+      "skill": "swap",
+      "level": 1,
+      "points": 3,
+      "incrementalCost": 3,
+      "hp": 160,
+      "moveMultiplier": 1,
+      "aimCone": 0.065,
+      "switchSeconds": 0.85,
+      "firstWins": 1
+    },
+    {
+      "skill": "swap",
+      "level": 2,
+      "points": 15,
+      "incrementalCost": 12,
+      "hp": 160,
+      "moveMultiplier": 1,
+      "aimCone": 0.065,
+      "switchSeconds": 0.7,
+      "firstWins": 5
+    },
+    {
+      "skill": "swap",
+      "level": 3,
+      "points": 40,
+      "incrementalCost": 25,
+      "hp": 160,
+      "moveMultiplier": 1,
+      "aimCone": 0.065,
+      "switchSeconds": 0.55,
+      "firstWins": 14
+    },
+    {
+      "skill": "swap",
+      "level": 4,
+      "points": 75,
+      "incrementalCost": 35,
+      "hp": 160,
+      "moveMultiplier": 1,
+      "aimCone": 0.065,
+      "switchSeconds": 0.45,
+      "firstWins": 25
+    },
+    {
+      "skill": "swap",
+      "level": 5,
+      "points": 120,
+      "incrementalCost": 45,
+      "hp": 160,
+      "moveMultiplier": 1,
+      "aimCone": 0.065,
+      "switchSeconds": 0.35,
+      "firstWins": 40
+    }
+  ],
+  "accessories": [
+    {
+      "kind": "pickup",
+      "rarity": 1,
+      "pickupRadius": 3.3000000000000003,
+      "recoveryWait": 5,
+      "healFraction": 0.2,
+      "rank1SynthesisUnits": 1
+    },
+    {
+      "kind": "pickup",
+      "rarity": 2,
+      "pickupRadius": 3.5999999999999996,
+      "recoveryWait": 5,
+      "healFraction": 0.2,
+      "rank1SynthesisUnits": 2
+    },
+    {
+      "kind": "pickup",
+      "rarity": 3,
+      "pickupRadius": 3.9000000000000004,
+      "recoveryWait": 5,
+      "healFraction": 0.2,
+      "rank1SynthesisUnits": 6
+    },
+    {
+      "kind": "pickup",
+      "rarity": 4,
+      "pickupRadius": 4.199999999999999,
+      "recoveryWait": 5,
+      "healFraction": 0.2,
+      "rank1SynthesisUnits": 24
+    },
+    {
+      "kind": "pickup",
+      "rarity": 5,
+      "pickupRadius": 4.5,
+      "recoveryWait": 5,
+      "healFraction": 0.2,
+      "rank1SynthesisUnits": 120
+    },
+    {
+      "kind": "pickup",
+      "rarity": 6,
+      "pickupRadius": 5.25,
+      "recoveryWait": 5,
+      "healFraction": 0.2,
+      "rank1SynthesisUnits": 720
+    },
+    {
+      "kind": "healing",
+      "rarity": 1,
+      "pickupRadius": 3,
+      "recoveryWait": 5,
+      "healFraction": 0.21,
+      "rank1SynthesisUnits": 1
+    },
+    {
+      "kind": "healing",
+      "rarity": 2,
+      "pickupRadius": 3,
+      "recoveryWait": 5,
+      "healFraction": 0.22,
+      "rank1SynthesisUnits": 2
+    },
+    {
+      "kind": "healing",
+      "rarity": 3,
+      "pickupRadius": 3,
+      "recoveryWait": 5,
+      "healFraction": 0.23,
+      "rank1SynthesisUnits": 6
+    },
+    {
+      "kind": "healing",
+      "rarity": 4,
+      "pickupRadius": 3,
+      "recoveryWait": 5,
+      "healFraction": 0.24,
+      "rank1SynthesisUnits": 24
+    },
+    {
+      "kind": "healing",
+      "rarity": 5,
+      "pickupRadius": 3,
+      "recoveryWait": 5,
+      "healFraction": 0.25,
+      "rank1SynthesisUnits": 120
+    },
+    {
+      "kind": "healing",
+      "rarity": 6,
+      "pickupRadius": 3,
+      "recoveryWait": 5,
+      "healFraction": 0.3,
+      "rank1SynthesisUnits": 720
+    },
+    {
+      "kind": "recovery",
+      "rarity": 1,
+      "pickupRadius": 3,
+      "recoveryWait": 4.8,
+      "healFraction": 0.2,
+      "rank1SynthesisUnits": 1
+    },
+    {
+      "kind": "recovery",
+      "rarity": 2,
+      "pickupRadius": 3,
+      "recoveryWait": 4.6,
+      "healFraction": 0.2,
+      "rank1SynthesisUnits": 2
+    },
+    {
+      "kind": "recovery",
+      "rarity": 3,
+      "pickupRadius": 3,
+      "recoveryWait": 4.4,
+      "healFraction": 0.2,
+      "rank1SynthesisUnits": 6
+    },
+    {
+      "kind": "recovery",
+      "rarity": 4,
+      "pickupRadius": 3,
+      "recoveryWait": 4.2,
+      "healFraction": 0.2,
+      "rank1SynthesisUnits": 24
+    },
+    {
+      "kind": "recovery",
+      "rarity": 5,
+      "pickupRadius": 3,
+      "recoveryWait": 4,
+      "healFraction": 0.2,
+      "rank1SynthesisUnits": 120
+    },
+    {
+      "kind": "recovery",
+      "rarity": 6,
+      "pickupRadius": 3,
+      "recoveryWait": 3,
+      "healFraction": 0.2,
+      "rank1SynthesisUnits": 720
+    }
+  ],
+  "stages": [
+    {
+      "stage": 1,
+      "name": "前哨掃討",
+      "hp": 1,
+      "damage": 1,
+      "waves": [
+        {
+          "troops": {
+            "crawler": 12
+          },
+          "bosses": [],
+          "interval": 0.9,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "crawler": 12,
+            "ant": 8
+          },
+          "bosses": [],
+          "interval": 0.8,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.25,
+      "mediumDamage": 1.15
+    },
+    {
+      "stage": 2,
+      "name": "跳躍する影",
+      "hp": 1.025,
+      "damage": 1.02,
+      "waves": [
+        {
+          "troops": {
+            "crawler": 10,
+            "ant": 12
+          },
+          "bosses": [],
+          "interval": 0.8,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "ant": 12,
+            "spider": 10
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.28125,
+      "mediumDamage": 1.1729999999999998
+    },
+    {
+      "stage": 3,
+      "name": "エネルギー弾の交差点",
+      "hp": 1.05,
+      "damage": 1.04,
+      "waves": [
+        {
+          "troops": {
+            "crawler": 14,
+            "spitter": 6
+          },
+          "bosses": [],
+          "interval": 0.8,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "ant": 12,
+            "spider": 10,
+            "spitter": 8
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "crawler": 12,
+            "ant": 12
+          },
+          "bosses": [],
+          "interval": 0.7,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.3125,
+      "mediumDamage": 1.196
+    },
+    {
+      "stage": 4,
+      "name": "形成炉迎撃",
+      "hp": 1.075,
+      "damage": 1.06,
+      "waves": [
+        {
+          "troops": {
+            "crawler": 16,
+            "ant": 12
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "crawler": 12,
+            "ant": 8
+          },
+          "bosses": [
+            "crown"
+          ],
+          "interval": 1.3,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.34375,
+      "mediumDamage": 1.2189999999999999
+    },
+    {
+      "stage": 5,
+      "name": "倉庫上空",
+      "hp": 1.1,
+      "damage": 1.08,
+      "waves": [
+        {
+          "troops": {
+            "crawler": 12,
+            "hornet": 8
+          },
+          "bosses": [],
+          "interval": 0.8,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "ant": 16,
+            "hornet": 12
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "spider": 14,
+            "spitter": 10,
+            "hornet": 8
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.375,
+      "mediumDamage": 1.242
+    },
+    {
+      "stage": 6,
+      "name": "装甲回廊",
+      "hp": 1.125,
+      "damage": 1.1,
+      "waves": [
+        {
+          "troops": {
+            "crawler": 18,
+            "spider": 14
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "ant": 16,
+            "spitter": 8
+          },
+          "bosses": [
+            "worm"
+          ],
+          "interval": 1.2,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.40625,
+      "mediumDamage": 1.265
+    },
+    {
+      "stage": 7,
+      "name": "物流争奪",
+      "hp": 1.15,
+      "damage": 1.12,
+      "waves": [
+        {
+          "troops": {
+            "ant": 22
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "crawler": 8,
+            "spider": 16,
+            "calyx": 2
+          },
+          "bosses": [],
+          "interval": 0.8,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "spitter": 12,
+            "hornet": 12
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "crawler": 10,
+            "ant": 10,
+            "spider": 8,
+            "hornet": 6
+          },
+          "bosses": [],
+          "interval": 0.65,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.4375,
+      "mediumDamage": 1.288
+    },
+    {
+      "stage": 8,
+      "name": "開幕の王",
+      "hp": 1.175,
+      "damage": 1.1400000000000001,
+      "waves": [
+        {
+          "troops": {
+            "crawler": 12,
+            "hornet": 8
+          },
+          "bosses": [
+            "crown"
+          ],
+          "interval": 1.1,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "ant": 16,
+            "spider": 12,
+            "spitter": 8
+          },
+          "bosses": [],
+          "interval": 0.8,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "ant": 16,
+            "hornet": 12
+          },
+          "bosses": [],
+          "interval": 0.65,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.46875,
+      "mediumDamage": 1.311
+    },
+    {
+      "stage": 9,
+      "name": "空域封鎖",
+      "hp": 1.2,
+      "damage": 1.16,
+      "waves": [
+        {
+          "troops": {
+            "spider": 12,
+            "hornet": 16
+          },
+          "bosses": [],
+          "interval": 0.85,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "spitter": 12,
+            "hornet": 16
+          },
+          "bosses": [],
+          "interval": 0.85,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "ant": 18,
+            "spitter": 10,
+            "hornet": 12
+          },
+          "bosses": [
+            "crown"
+          ],
+          "interval": 0.95,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.5,
+      "mediumDamage": 1.3339999999999999
+    },
+    {
+      "stage": 10,
+      "name": "地底の反攻",
+      "hp": 1.225,
+      "damage": 1.18,
+      "waves": [
+        {
+          "troops": {
+            "ant": 22,
+            "spider": 14
+          },
+          "bosses": [],
+          "interval": 0.7,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "crawler": 16,
+            "spitter": 10
+          },
+          "bosses": [
+            "worm"
+          ],
+          "interval": 1,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "ant": 18,
+            "spider": 14,
+            "hornet": 12
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.53125,
+      "mediumDamage": 1.3569999999999998
+    },
+    {
+      "stage": 11,
+      "name": "双冠の門",
+      "hp": 1.25,
+      "damage": 1.2,
+      "waves": [
+        {
+          "troops": {
+            "crawler": 18,
+            "ant": 16,
+            "hornet": 10
+          },
+          "bosses": [],
+          "interval": 0.7,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "ant": 14,
+            "spitter": 8
+          },
+          "bosses": [
+            "crown",
+            "crown"
+          ],
+          "interval": 1.2,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.5625,
+      "mediumDamage": 1.38
+    },
+    {
+      "stage": 12,
+      "name": "工業区奔流",
+      "hp": 1.275,
+      "damage": 1.22,
+      "waves": [
+        {
+          "troops": {
+            "ant": 28
+          },
+          "bosses": [],
+          "interval": 0.7,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "crawler": 10,
+            "spider": 20
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "ant": 14,
+            "hornet": 22
+          },
+          "bosses": [],
+          "interval": 0.65,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "crawler": 16,
+            "spitter": 20
+          },
+          "bosses": [],
+          "interval": 0.65,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "crawler": 8,
+            "ant": 12,
+            "spider": 10,
+            "spitter": 8,
+            "hornet": 8
+          },
+          "bosses": [],
+          "interval": 0.7,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.59375,
+      "mediumDamage": 1.4029999999999998
+    },
+    {
+      "stage": 13,
+      "name": "異形共闘",
+      "hp": 1.3,
+      "damage": 1.24,
+      "waves": [
+        {
+          "troops": {
+            "spider": 20,
+            "spitter": 10,
+            "hornet": 16
+          },
+          "bosses": [],
+          "interval": 0.7,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "ant": 16,
+            "hornet": 8
+          },
+          "bosses": [
+            "crown",
+            "worm"
+          ],
+          "interval": 1.15,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "ant": 22,
+            "spitter": 14,
+            "hornet": 14
+          },
+          "bosses": [],
+          "interval": 0.6,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.625,
+      "mediumDamage": 1.426
+    },
+    {
+      "stage": 14,
+      "name": "王の待ち伏せ",
+      "hp": 1.325,
+      "damage": 1.26,
+      "waves": [
+        {
+          "troops": {
+            "crawler": 12,
+            "spitter": 8
+          },
+          "bosses": [
+            "crown",
+            "worm"
+          ],
+          "interval": 1.2,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "spider": 20,
+            "hornet": 24
+          },
+          "bosses": [],
+          "interval": 0.6,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "crawler": 14,
+            "ant": 16,
+            "spitter": 12,
+            "hornet": 10
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.65625,
+      "mediumDamage": 1.4489999999999998
+    },
+    {
+      "stage": 15,
+      "name": "重装迎撃線",
+      "hp": 1.35,
+      "damage": 1.28,
+      "waves": [
+        {
+          "troops": {
+            "ant": 18,
+            "spider": 12,
+            "calyx": 2
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "spitter": 10,
+            "hornet": 8
+          },
+          "bosses": [
+            "worm"
+          ],
+          "interval": 1,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.6875,
+      "mediumDamage": 1.472
+    },
+    {
+      "stage": 16,
+      "name": "晶脈突破",
+      "hp": 1.375,
+      "damage": 1.3,
+      "waves": [
+        {
+          "troops": {
+            "spider": 18,
+            "spitter": 12
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "crawler": 16,
+            "hornet": 12
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "spitter": 10
+          },
+          "bosses": [
+            "worm"
+          ],
+          "interval": 1,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.71875,
+      "mediumDamage": 1.4949999999999999
+    },
+    {
+      "stage": 17,
+      "name": "草原の双炉",
+      "hp": 1.4,
+      "damage": 1.32,
+      "waves": [
+        {
+          "troops": {
+            "ant": 20,
+            "hornet": 12,
+            "calyx": 2
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "crawler": 14,
+            "spitter": 8
+          },
+          "bosses": [
+            "crown",
+            "worm"
+          ],
+          "interval": 1.1,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.75,
+      "mediumDamage": 1.518
+    },
+    {
+      "stage": 18,
+      "name": "炉心突破戦",
+      "hp": 1.425,
+      "damage": 1.34,
+      "waves": [
+        {
+          "troops": {
+            "ant": 22,
+            "spider": 14
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "spitter": 10,
+            "hornet": 10
+          },
+          "bosses": [],
+          "interval": 0.9,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "crawler": 12,
+            "calyx": 1
+          },
+          "bosses": [
+            "crown"
+          ],
+          "interval": 1.1,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.78125,
+      "mediumDamage": 1.541
+    },
+    {
+      "stage": 19,
+      "name": "雪峡の封鎖線",
+      "hp": 1.45,
+      "damage": 1.3599999999999999,
+      "waves": [
+        {
+          "troops": {
+            "spider": 20,
+            "hornet": 16,
+            "calyx": 2
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "ant": 18,
+            "spitter": 10
+          },
+          "bosses": [
+            "worm",
+            "crown"
+          ],
+          "interval": 1.1,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.8125,
+      "mediumDamage": 1.5639999999999998
+    },
+    {
+      "stage": 20,
+      "name": "異翼の来襲",
+      "hp": 1.475,
+      "damage": 1.38,
+      "waves": [
+        {
+          "troops": {
+            "crawler": 18,
+            "hornet": 10,
+            "calyx": 2
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "ant": 12,
+            "spitter": 6
+          },
+          "bosses": [
+            "harrow"
+          ],
+          "interval": 1.1,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.84375,
+      "mediumDamage": 1.5869999999999997
+    },
+    {
+      "stage": 21,
+      "name": "残響の街区",
+      "hp": 1.5,
+      "damage": 1.4,
+      "waves": [
+        {
+          "troops": {
+            "crawler": 22,
+            "ant": 16
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "spider": 18,
+            "spitter": 14
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "hornet": 18,
+            "ant": 12,
+            "calyx": 3
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.875,
+      "mediumDamage": 1.6099999999999999
+    },
+    {
+      "stage": 22,
+      "name": "蒼鉄再侵攻",
+      "hp": 1.525,
+      "damage": 1.42,
+      "waves": [
+        {
+          "troops": {
+            "ant": 22,
+            "spitter": 12,
+            "calyx": 2
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "spider": 14,
+            "hornet": 10
+          },
+          "bosses": [
+            "crown",
+            "worm"
+          ],
+          "interval": 1.1,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.90625,
+      "mediumDamage": 1.6329999999999998
+    },
+    {
+      "stage": 23,
+      "name": "白嶺の反攻",
+      "hp": 1.55,
+      "damage": 1.44,
+      "waves": [
+        {
+          "troops": {
+            "hornet": 22,
+            "spitter": 10
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "ant": 24,
+            "spider": 18,
+            "calyx": 3
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "crawler": 16,
+            "hornet": 12
+          },
+          "bosses": [
+            "worm"
+          ],
+          "interval": 1,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.9375,
+      "mediumDamage": 1.656
+    },
+    {
+      "stage": 24,
+      "name": "最後の形成炉",
+      "hp": 1.5750000000000002,
+      "damage": 1.46,
+      "waves": [
+        {
+          "troops": {
+            "crawler": 20,
+            "spider": 16,
+            "calyx": 3
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "ant": 18,
+            "spitter": 12
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "hornet": 12,
+            "spitter": 8
+          },
+          "bosses": [
+            "worm",
+            "crown"
+          ],
+          "interval": 1.1,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.9687500000000002,
+      "mediumDamage": 1.6789999999999998
+    },
+    {
+      "stage": 25,
+      "name": "異翼の決戦",
+      "hp": 1.6,
+      "damage": 1.48,
+      "waves": [
+        {
+          "troops": {
+            "ant": 20,
+            "spider": 16,
+            "calyx": 3
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "hornet": 16,
+            "spitter": 12
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "crawler": 16,
+            "spitter": 8
+          },
+          "bosses": [
+            "harrow"
+          ],
+          "interval": 1.1,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 2,
+      "mediumDamage": 1.702
+    },
+    {
+      "stage": "15-A",
+      "name": "異翼の痕跡",
+      "hp": 1.35,
+      "damage": 1.28,
+      "waves": [
+        {
+          "troops": {
+            "crawler": 12,
+            "spitter": 6
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {},
+          "bosses": [
+            "harrow"
+          ],
+          "interval": 1.2,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.6875,
+      "mediumDamage": 1.472
+    },
+    {
+      "stage": "3-A",
+      "name": "エネルギー弾の交差点",
+      "hp": 1.05,
+      "damage": 1.04,
+      "waves": [
+        {
+          "troops": {
+            "crawler": 14,
+            "spitter": 6
+          },
+          "bosses": [],
+          "interval": 0.8,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "ant": 12,
+            "spider": 10,
+            "spitter": 8
+          },
+          "bosses": [],
+          "interval": 0.75,
+          "guards": 3
+        },
+        {
+          "troops": {
+            "crawler": 12,
+            "ant": 12
+          },
+          "bosses": [],
+          "interval": 0.7,
+          "guards": 3
+        }
+      ],
+      "mediumHp": 1.3125,
+      "mediumDamage": 1.196
+    }
+  ],
+  "ballistics": [
+    {
+      "kind": "grenade",
+      "seed": 814,
+      "rarity": 0,
+      "rangeVariance": -10,
+      "displayedRange": 49.5,
+      "initialLife": 4.5375000000000005,
+      "impactDistance": 43.19718108173354
+    },
+    {
+      "kind": "grenade",
+      "seed": 814,
+      "rarity": 0,
+      "rangeVariance": 0,
+      "displayedRange": 55,
+      "initialLife": 5.041666666666667,
+      "impactDistance": 43.19718108173354
+    },
+    {
+      "kind": "grenade",
+      "seed": 814,
+      "rarity": 0,
+      "rangeVariance": 20,
+      "displayedRange": 66,
+      "initialLife": 6.050000000000001,
+      "impactDistance": 43.19718108173354
+    },
+    {
+      "kind": "grenade",
+      "seed": 814,
+      "rarity": 2,
+      "rangeVariance": -10,
+      "displayedRange": 65.46374999999999,
+      "initialLife": 6.00084375,
+      "impactDistance": 43.19718108173354
+    },
+    {
+      "kind": "grenade",
+      "seed": 814,
+      "rarity": 2,
+      "rangeVariance": 0,
+      "displayedRange": 72.73749999999998,
+      "initialLife": 6.667604166666665,
+      "impactDistance": 43.19718108173354
+    },
+    {
+      "kind": "grenade",
+      "seed": 814,
+      "rarity": 2,
+      "rangeVariance": 20,
+      "displayedRange": 87.28499999999998,
+      "initialLife": 8.001125,
+      "impactDistance": 43.19718108173354
+    },
+    {
+      "kind": "grenade",
+      "seed": 814,
+      "rarity": 4,
+      "rangeVariance": -10,
+      "displayedRange": 86.57580937499996,
+      "initialLife": 7.936115859374997,
+      "impactDistance": 43.19718108173354
+    },
+    {
+      "kind": "grenade",
+      "seed": 814,
+      "rarity": 4,
+      "rangeVariance": 0,
+      "displayedRange": 96.19534374999996,
+      "initialLife": 8.817906510416664,
+      "impactDistance": 43.19718108173354
+    },
+    {
+      "kind": "grenade",
+      "seed": 814,
+      "rarity": 4,
+      "rangeVariance": 20,
+      "displayedRange": 115.43441249999995,
+      "initialLife": 10.581487812499995,
+      "impactDistance": 43.19718108173354
+    },
+    {
+      "kind": "grenade",
+      "seed": 723,
+      "rarity": 0,
+      "rangeVariance": -10,
+      "displayedRange": 49.5,
+      "initialLife": 4.5375000000000005,
+      "impactDistance": 43.29292512775684
+    },
+    {
+      "kind": "grenade",
+      "seed": 723,
+      "rarity": 0,
+      "rangeVariance": 0,
+      "displayedRange": 55,
+      "initialLife": 5.041666666666667,
+      "impactDistance": 43.29292512775684
+    },
+    {
+      "kind": "grenade",
+      "seed": 723,
+      "rarity": 0,
+      "rangeVariance": 20,
+      "displayedRange": 66,
+      "initialLife": 6.050000000000001,
+      "impactDistance": 43.29292512775684
+    },
+    {
+      "kind": "grenade",
+      "seed": 723,
+      "rarity": 2,
+      "rangeVariance": -10,
+      "displayedRange": 65.46374999999999,
+      "initialLife": 6.00084375,
+      "impactDistance": 43.29292512775684
+    },
+    {
+      "kind": "grenade",
+      "seed": 723,
+      "rarity": 2,
+      "rangeVariance": 0,
+      "displayedRange": 72.73749999999998,
+      "initialLife": 6.667604166666665,
+      "impactDistance": 43.29292512775684
+    },
+    {
+      "kind": "grenade",
+      "seed": 723,
+      "rarity": 2,
+      "rangeVariance": 20,
+      "displayedRange": 87.28499999999998,
+      "initialLife": 8.001125,
+      "impactDistance": 43.29292512775684
+    },
+    {
+      "kind": "grenade",
+      "seed": 723,
+      "rarity": 4,
+      "rangeVariance": -10,
+      "displayedRange": 86.57580937499996,
+      "initialLife": 7.936115859374997,
+      "impactDistance": 43.29292512775684
+    },
+    {
+      "kind": "grenade",
+      "seed": 723,
+      "rarity": 4,
+      "rangeVariance": 0,
+      "displayedRange": 96.19534374999996,
+      "initialLife": 8.817906510416664,
+      "impactDistance": 43.29292512775684
+    },
+    {
+      "kind": "grenade",
+      "seed": 723,
+      "rarity": 4,
+      "rangeVariance": 20,
+      "displayedRange": 115.43441249999995,
+      "initialLife": 10.581487812499995,
+      "impactDistance": 43.29292512775684
+    },
+    {
+      "kind": "grenade",
+      "seed": 20260927,
+      "rarity": 0,
+      "rangeVariance": -10,
+      "displayedRange": 49.5,
+      "initialLife": 4.5375000000000005,
+      "impactDistance": 43.260554870711
+    },
+    {
+      "kind": "grenade",
+      "seed": 20260927,
+      "rarity": 0,
+      "rangeVariance": 0,
+      "displayedRange": 55,
+      "initialLife": 5.041666666666667,
+      "impactDistance": 43.260554870711
+    },
+    {
+      "kind": "grenade",
+      "seed": 20260927,
+      "rarity": 0,
+      "rangeVariance": 20,
+      "displayedRange": 66,
+      "initialLife": 6.050000000000001,
+      "impactDistance": 43.260554870711
+    },
+    {
+      "kind": "grenade",
+      "seed": 20260927,
+      "rarity": 2,
+      "rangeVariance": -10,
+      "displayedRange": 65.46374999999999,
+      "initialLife": 6.00084375,
+      "impactDistance": 43.260554870711
+    },
+    {
+      "kind": "grenade",
+      "seed": 20260927,
+      "rarity": 2,
+      "rangeVariance": 0,
+      "displayedRange": 72.73749999999998,
+      "initialLife": 6.667604166666665,
+      "impactDistance": 43.260554870711
+    },
+    {
+      "kind": "grenade",
+      "seed": 20260927,
+      "rarity": 2,
+      "rangeVariance": 20,
+      "displayedRange": 87.28499999999998,
+      "initialLife": 8.001125,
+      "impactDistance": 43.260554870711
+    },
+    {
+      "kind": "grenade",
+      "seed": 20260927,
+      "rarity": 4,
+      "rangeVariance": -10,
+      "displayedRange": 86.57580937499996,
+      "initialLife": 7.936115859374997,
+      "impactDistance": 43.260554870711
+    },
+    {
+      "kind": "grenade",
+      "seed": 20260927,
+      "rarity": 4,
+      "rangeVariance": 0,
+      "displayedRange": 96.19534374999996,
+      "initialLife": 8.817906510416664,
+      "impactDistance": 43.260554870711
+    },
+    {
+      "kind": "grenade",
+      "seed": 20260927,
+      "rarity": 4,
+      "rangeVariance": 20,
+      "displayedRange": 115.43441249999995,
+      "initialLife": 10.581487812499995,
+      "impactDistance": 43.260554870711
+    },
+    {
+      "kind": "sticky",
+      "seed": 814,
+      "rarity": 0,
+      "rangeVariance": -10,
+      "displayedRange": 45,
+      "initialLife": 4.5,
+      "impactDistance": 31.833216777551986
+    },
+    {
+      "kind": "sticky",
+      "seed": 814,
+      "rarity": 0,
+      "rangeVariance": 0,
+      "displayedRange": 50,
+      "initialLife": 5.000000000000001,
+      "impactDistance": 31.833216777551986
+    },
+    {
+      "kind": "sticky",
+      "seed": 814,
+      "rarity": 0,
+      "rangeVariance": 20,
+      "displayedRange": 60,
+      "initialLife": 6,
+      "impactDistance": 31.833216777551986
+    },
+    {
+      "kind": "sticky",
+      "seed": 814,
+      "rarity": 2,
+      "rangeVariance": -10,
+      "displayedRange": 59.51249999999999,
+      "initialLife": 5.951249999999999,
+      "impactDistance": 31.833216777551986
+    },
+    {
+      "kind": "sticky",
+      "seed": 814,
+      "rarity": 2,
+      "rangeVariance": 0,
+      "displayedRange": 66.12499999999999,
+      "initialLife": 6.612499999999999,
+      "impactDistance": 31.833216777551986
+    },
+    {
+      "kind": "sticky",
+      "seed": 814,
+      "rarity": 2,
+      "rangeVariance": 20,
+      "displayedRange": 79.34999999999998,
+      "initialLife": 7.934999999999999,
+      "impactDistance": 31.833216777551986
+    },
+    {
+      "kind": "sticky",
+      "seed": 814,
+      "rarity": 4,
+      "rangeVariance": -10,
+      "displayedRange": 78.70528124999997,
+      "initialLife": 7.870528124999998,
+      "impactDistance": 31.833216777551986
+    },
+    {
+      "kind": "sticky",
+      "seed": 814,
+      "rarity": 4,
+      "rangeVariance": 0,
+      "displayedRange": 87.45031249999997,
+      "initialLife": 8.745031249999997,
+      "impactDistance": 31.833216777551986
+    },
+    {
+      "kind": "sticky",
+      "seed": 814,
+      "rarity": 4,
+      "rangeVariance": 20,
+      "displayedRange": 104.94037499999996,
+      "initialLife": 10.494037499999996,
+      "impactDistance": 31.833216777551986
+    },
+    {
+      "kind": "sticky",
+      "seed": 723,
+      "rarity": 0,
+      "rangeVariance": -10,
+      "displayedRange": 45,
+      "initialLife": 4.5,
+      "impactDistance": 31.90377325591237
+    },
+    {
+      "kind": "sticky",
+      "seed": 723,
+      "rarity": 0,
+      "rangeVariance": 0,
+      "displayedRange": 50,
+      "initialLife": 5.000000000000001,
+      "impactDistance": 31.90377325591237
+    },
+    {
+      "kind": "sticky",
+      "seed": 723,
+      "rarity": 0,
+      "rangeVariance": 20,
+      "displayedRange": 60,
+      "initialLife": 6,
+      "impactDistance": 31.90377325591237
+    },
+    {
+      "kind": "sticky",
+      "seed": 723,
+      "rarity": 2,
+      "rangeVariance": -10,
+      "displayedRange": 59.51249999999999,
+      "initialLife": 5.951249999999999,
+      "impactDistance": 31.90377325591237
+    },
+    {
+      "kind": "sticky",
+      "seed": 723,
+      "rarity": 2,
+      "rangeVariance": 0,
+      "displayedRange": 66.12499999999999,
+      "initialLife": 6.612499999999999,
+      "impactDistance": 31.90377325591237
+    },
+    {
+      "kind": "sticky",
+      "seed": 723,
+      "rarity": 2,
+      "rangeVariance": 20,
+      "displayedRange": 79.34999999999998,
+      "initialLife": 7.934999999999999,
+      "impactDistance": 31.90377325591237
+    },
+    {
+      "kind": "sticky",
+      "seed": 723,
+      "rarity": 4,
+      "rangeVariance": -10,
+      "displayedRange": 78.70528124999997,
+      "initialLife": 7.870528124999998,
+      "impactDistance": 31.90377325591237
+    },
+    {
+      "kind": "sticky",
+      "seed": 723,
+      "rarity": 4,
+      "rangeVariance": 0,
+      "displayedRange": 87.45031249999997,
+      "initialLife": 8.745031249999997,
+      "impactDistance": 31.90377325591237
+    },
+    {
+      "kind": "sticky",
+      "seed": 723,
+      "rarity": 4,
+      "rangeVariance": 20,
+      "displayedRange": 104.94037499999996,
+      "initialLife": 10.494037499999996,
+      "impactDistance": 31.90377325591237
+    },
+    {
+      "kind": "sticky",
+      "seed": 20260927,
+      "rarity": 0,
+      "rangeVariance": -10,
+      "displayedRange": 45,
+      "initialLife": 4.5,
+      "impactDistance": 31.87991870374289
+    },
+    {
+      "kind": "sticky",
+      "seed": 20260927,
+      "rarity": 0,
+      "rangeVariance": 0,
+      "displayedRange": 50,
+      "initialLife": 5.000000000000001,
+      "impactDistance": 31.87991870374289
+    },
+    {
+      "kind": "sticky",
+      "seed": 20260927,
+      "rarity": 0,
+      "rangeVariance": 20,
+      "displayedRange": 60,
+      "initialLife": 6,
+      "impactDistance": 31.87991870374289
+    },
+    {
+      "kind": "sticky",
+      "seed": 20260927,
+      "rarity": 2,
+      "rangeVariance": -10,
+      "displayedRange": 59.51249999999999,
+      "initialLife": 5.951249999999999,
+      "impactDistance": 31.87991870374289
+    },
+    {
+      "kind": "sticky",
+      "seed": 20260927,
+      "rarity": 2,
+      "rangeVariance": 0,
+      "displayedRange": 66.12499999999999,
+      "initialLife": 6.612499999999999,
+      "impactDistance": 31.87991870374289
+    },
+    {
+      "kind": "sticky",
+      "seed": 20260927,
+      "rarity": 2,
+      "rangeVariance": 20,
+      "displayedRange": 79.34999999999998,
+      "initialLife": 7.934999999999999,
+      "impactDistance": 31.87991870374289
+    },
+    {
+      "kind": "sticky",
+      "seed": 20260927,
+      "rarity": 4,
+      "rangeVariance": -10,
+      "displayedRange": 78.70528124999997,
+      "initialLife": 7.870528124999998,
+      "impactDistance": 31.87991870374289
+    },
+    {
+      "kind": "sticky",
+      "seed": 20260927,
+      "rarity": 4,
+      "rangeVariance": 0,
+      "displayedRange": 87.45031249999997,
+      "initialLife": 8.745031249999997,
+      "impactDistance": 31.87991870374289
+    },
+    {
+      "kind": "sticky",
+      "seed": 20260927,
+      "rarity": 4,
+      "rangeVariance": 20,
+      "displayedRange": 104.94037499999996,
+      "initialLife": 10.494037499999996,
+      "impactDistance": 31.87991870374289
+    }
+  ],
+  "accessoryOperations": [
+    {
+      "kind": "none",
+      "rarity": 0,
+      "pickupAt3_1": false,
+      "healed": 32,
+      "recoveryStarted": 5.04999999999999,
+      "hpAt7s": 25.999999999999943
+    },
+    {
+      "kind": "pickup",
+      "rarity": 1,
+      "pickupAt3_1": true,
+      "healed": 32,
+      "recoveryStarted": 5.04999999999999,
+      "hpAt7s": 25.999999999999943
+    },
+    {
+      "kind": "pickup",
+      "rarity": 6,
+      "pickupAt3_1": true,
+      "healed": 32,
+      "recoveryStarted": 5.04999999999999,
+      "hpAt7s": 25.999999999999943
+    },
+    {
+      "kind": "healing",
+      "rarity": 1,
+      "pickupAt3_1": false,
+      "healed": 33.6,
+      "recoveryStarted": 5.04999999999999,
+      "hpAt7s": 25.999999999999943
+    },
+    {
+      "kind": "healing",
+      "rarity": 6,
+      "pickupAt3_1": false,
+      "healed": 48,
+      "recoveryStarted": 5.04999999999999,
+      "hpAt7s": 25.999999999999943
+    },
+    {
+      "kind": "recovery",
+      "rarity": 1,
+      "pickupAt3_1": false,
+      "healed": 32,
+      "recoveryStarted": 4.849999999999991,
+      "hpAt7s": 26.599999999999937
+    },
+    {
+      "kind": "recovery",
+      "rarity": 6,
+      "pickupAt3_1": false,
+      "healed": 32,
+      "recoveryStarted": 3.049999999999997,
+      "hpAt7s": 31.999999999999886
+    }
+  ]
+}
