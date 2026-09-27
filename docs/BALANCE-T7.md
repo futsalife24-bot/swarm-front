@@ -105,3 +105,11 @@ before/afterのruntimeは同じbase SHAのまま（`src/`、`server/`、`public/
 独立監査で指摘されたStagePlan記録は、raw STAGESではなく実際のstageFor({stage,solo})から作成するよう修正。5条件すべてdropRateだけが記録上不一致だった（実ソロは0.05）。[記録の訂正](evidence/balance-t7/plan-correction.json)。戦闘計測は最初からinitSolo＋実stageForで実行しており、実行時の敵/ドロップ仕様を変更したものではない。再計測後のJSONを実モジュールで投影し、今後のハーネス生成も同じ式へ合わせた。
 
 初回・最終実行時ソースhashと最終保存ファイルhashは別の記録。最終実行中HEADはbe34beaでハーネス修正は未commitだったため、[実行時hash](evidence/balance-t7/final-run-sources.json)をソース証拠とする。最後のStagePlan投影の1行は測定後のメタデータ修正で、戦闘入力や指標の再修正ではない。
+
+### 初回独立監査と必須修正
+
+[通常Chat](https://chatgpt.com/c/6ab86f52-4ff4-83ee-8d0f-ff8622d9e4a4)の初回be34bea判定は要修正、P0/P1=0、必須P2-01が1件（通常照準範囲外のbot入力）。監査は最小反例ST2/ST-3/seed814、約70.95秒のpitch=-1.51697を特定。上記の入力制限と189試行の再計測で対応し、専用の回帰検査も追加した。UI角度境界とvalidInputを毎tick検査し、正例成功（1.77秒）、clampだけを一時的に外す負例では該当条件のInvalid pilot inputでexit1（1.53秒）。原本はhash一致で復元。[反例証拠](evidence/balance-t7/input-counterexample.json)。
+
+監査側は初回180+9作戦、828射、補助データ、24再現と集計を独立再生成して提出値との一致を確認。ただしNode22/TS5の一時変換＋assertアダプターであり、標準Vitest・型・保存ブラウザの独立実行とは違う。保存は記録と添付内34/162ソースhash確認まで（残る128と個別ログはZIP外）。入手可能条件、役割整理、GL/STの射程反証、runtime調整を見送る判断を支持。
+
+任意O2の実StagePlan記録は対応済み。O3のseed集合・全試行数検査も集計に追加。O1の既存期待値と新規出力の完全分離は保留（通常全実行の24再現は同一実行内の決定性確認。今回の旧期待値との一致は単独-t実行と独立監査で別途確認）。新しい期待値を過去の不変値と呼ばない。

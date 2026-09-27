@@ -6,9 +6,11 @@ const s=JSON.parse(fs.readFileSync(root+'support.json','utf8'));
 const mean=a=>a.reduce((x,y)=>x+y,0)/a.length;
 const n=x=>Number.isFinite(x)?x.toFixed(1):'—';
 const kinds=[...new Set(b.catalog.map(x=>x.kind))];
+if(b.results.length!==b.conditions.length*kinds.length*b.seeds.length)throw Error('Trial matrix size mismatch');
 const summary=kinds.map(kind=>({kind,conditions:b.conditions.map(c=>{
   const r=b.results.filter(x=>x.kind===kind&&x.condition===c.id), wins=r.filter(x=>x.clearTime!==null);
   if(r.length!==b.seeds.length)throw Error('Missing or duplicate trials');
+  if(new Set(r.map(x=>x.seed)).size!==b.seeds.length||b.seeds.some(seed=>!r.some(x=>x.seed===seed)))throw Error('Seed set mismatch');
   return {condition:c.id,trials:r.length,wins:wins.length,alive:r.filter(x=>x.survival).length,clearMean:wins.length?mean(wins.map(x=>x.clearTime)):null,killMean:mean(r.map(x=>x.kills)),damagePerRound:mean(r.map(x=>x.damagePerRound)),netDamageTaken:mean(r.map(x=>x.netDamageTaken)),bossTTKs:r.map(x=>x.bossTTK)};
 })}));
 const rows=['# 全候補の機械集計','','勝利数/3、括弧内は勝利試行だけの平均秒。打切りを除いた平均なので勝利数の異なる武器間で単純比較しない。人間の勝率ではない。', '', '| 武器 | 初級 | 中級 | 終盤 | 15-A | 別ST8 |','| --- | --- | --- | --- | --- | --- |'];

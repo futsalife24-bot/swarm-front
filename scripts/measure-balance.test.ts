@@ -4,7 +4,7 @@ import { execFileSync } from "node:child_process";
 import { KINDS, WEAPONS, stats, ENEMIES, type Kind } from "../src/shared/defs";
 import { makeWeapon, rarityWeights, settings, COSTS, ACCESSORY_VALUES, SWAP_TIMES, type Skill } from "../src/shared/progression";
 import { createWorld, addPlayer, start, step, fire, neutral, spawn, eye, enemyBodies, angle, validInput, type World, type Enemy } from "../src/shared/game";
-import { clampPitch } from "../src/shared/aim";
+import { clampPitch, MIN_PITCH, MAX_PITCH } from "../src/shared/aim";
 import { initSolo, maxHp } from "../src/shared/solo-progression";
 import { stageFor, STAGES, HARROW_BRANCH } from "../src/shared/stages";
 import { normalSaveId, campaignNumber } from "../src/shared/campaign";
@@ -58,7 +58,8 @@ function mission(c: typeof conditions[number], kind: Kind, seed: number, accesso
     const boundedYaw = angle(input.yaw);
     if (boundedPitch !== input.pitch || boundedYaw !== input.yaw) inputClamps++;
     input.pitch = boundedPitch; input.yaw = boundedYaw;
-    if (!validInput(input)) throw new Error(`Invalid pilot input: ${c.id}/${kind}/${seed}`);
+    if (!validInput(input) || input.pitch < MIN_PITCH || input.pitch > MAX_PITCH)
+      throw new Error(`Invalid pilot input: ${c.id}/${kind}/${seed}`);
     const hp = p.hp;
     w.events = [];
     step(w, { p: input });
@@ -137,3 +138,12 @@ it("replays rifle fixtures with distinct inventory IDs",()=>{
   }
   writeFileSync("docs/evidence/balance-t7/fixture-replay.json",JSON.stringify({replayed,passed:true,reason:"Distinct IDs for two separately attainable equal-stat rifles; all recorded combat metrics exactly equal."},null,2)+"\n");
 },900000);
+
+it("regresses ST2 sticky seed814 against the recorded constrained trial",()=>{
+  // Independent audit's counterexample: the old pilot fired below the UI's
+  // minimum pitch at about 70.95s. mission checks every tick against both the
+  // UI bounds and protocol validity; removing the constraint fails this run.
+  const b=JSON.parse(readFileSync("docs/evidence/balance-t7/baseline.json","utf8"));
+  const expected=b.results.find((r:any)=>r.condition==="early"&&r.kind==="sticky"&&r.seed===814);
+  expect(mission(conditions[0],"sticky",814)).toEqual(expected);
+});
