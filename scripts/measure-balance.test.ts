@@ -131,4 +131,3 @@ it("replays rifle fixtures with distinct inventory IDs",()=>{
   }
   writeFileSync("docs/evidence/balance-t7/fixture-replay.json",JSON.stringify({replayed,passed:true,reason:"Distinct IDs for two separately attainable equal-stat rifles; all recorded combat metrics exactly equal."},null,2)+"\n");
 },900000);
-

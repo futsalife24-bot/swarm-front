@@ -93,4 +93,3 @@ before/afterのruntimeは同じbase SHAのまま（`src/`、`server/`、`public/
 独立監査・PR・merge状況は下記の作業記録に追記する。自己レビューと計測は独立監査の代用ではない。人間の役割プレイ・Android操作は未確認のため総合的な人間向け調整完了とはしない。
 
 試験fixtureの自己レビューでARの2枠が同一IDだったため、2個の入手可能な同性能品として別IDへ修正した。影響するAR15作戦＋アクセサリ9作戦を再実行し、記録した全指標が完全一致（64.28秒）。[再計測](evidence/balance-t7/fixture-replay.json)。最終ハーネスはID重複をassertで拒否する。主計測時のソースhashと最終のhashは検証記録で区別する。
-
