@@ -91,7 +91,7 @@ export class Network {
   playerName = DEFAULT_PLAYER_NAME;
   messages: ChatMessage[] = [];
   onChat: () => void = () => {};
-  onWorld: (w: World) => void = () => {};
+  onWorld: (w: World, firstState: boolean) => void = () => {};
   onLobby: () => void = () => {};
   onStatus: (s: string, fatal: boolean) => void = () => {};
   ready: () => void = () => {};
@@ -150,6 +150,7 @@ export class Network {
     this.inFlightInputs = [];
     const equipmentCache = new EquipmentCache();
     let welcomed = false;
+    let firstState = true;
     const timeout = setTimeout(() => {
       if (!welcomed) {
         ws.close();
@@ -262,7 +263,8 @@ export class Network {
           this.assetReady = false;
         }
         this.members = m.members;
-        this.onWorld(m.world);
+        this.onWorld(m.world, firstState);
+        firstState = false;
       } else if (m.type === "lobby") {
         if (validStage(m.stage) && this.stage !== m.stage) {
           this.stage = m.stage;

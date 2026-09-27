@@ -1,0 +1,32 @@
+[
+  {
+    "file": "cover.wav",
+    "bytes": 55724,
+    "sha256": "ce71d9c42ddcd22d14e473b71872055a6898ddf74f566f4345e0c3328e5c4a0c",
+    "seconds": 1.16
+  },
+  {
+    "file": "empty.wav",
+    "bytes": 109484,
+    "sha256": "c78350963ecc8998e303c1d0d400bf7b062a98b59490fdd1445d1639f0b9e5f5",
+    "seconds": 2.28
+  },
+  {
+    "file": "reload-alt.wav",
+    "bytes": 53804,
+    "sha256": "7dacb9ebdb794c03429e8eb6879504c1673f7dfde804fffe80bbc1a458dfd02d",
+    "seconds": 1.12
+  },
+  {
+    "file": "reload.wav",
+    "bytes": 53804,
+    "sha256": "6704c61bffe48ff3e6366f951837dcc1ddc20c61a2cf1e86ed74ef080f899c63",
+    "seconds": 1.12
+  },
+  {
+    "file": "warning.wav",
+    "bytes": 107564,
+    "sha256": "28c198d63e2f928e452422b598ae74ab44e113f0d1cda610964e640318d4bfa1",
+    "seconds": 2.24
+  }
+]

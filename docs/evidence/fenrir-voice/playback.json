@@ -1,0 +1,30 @@
+[
+  {
+    "line": "装填中！",
+    "currentTime": 0.033427,
+    "duration": 1.12,
+    "ended": false,
+    "error": null
+  },
+  {
+    "line": "リロード！",
+    "currentTime": 0.040321,
+    "duration": 1.12,
+    "ended": false,
+    "error": null
+  },
+  {
+    "line": "くっ、弾切れだ！",
+    "currentTime": 0.038119,
+    "duration": 2.28,
+    "ended": false,
+    "error": null
+  },
+  {
+    "line": "援護する！",
+    "currentTime": 0.057683,
+    "duration": 1.16,
+    "ended": false,
+    "error": null
+  }
+]

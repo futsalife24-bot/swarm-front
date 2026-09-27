@@ -6,6 +6,65 @@ import {
   EquipmentCache,
 } from "../src/shared/state-wire";
 import { Network } from "../src/client/network";
+import { SoldierVoice } from "../src/client/soldier-voice";
+
+it("marks the first restored state on every connection, suppressing old reload speech", () => {
+  class Socket {
+    readyState = 1;
+    send = vi.fn();
+    onmessage?: (e: { data: string }) => void;
+    message(value: unknown) {
+      this.onmessage?.({ data: JSON.stringify(value) });
+    }
+  }
+  vi.stubGlobal("WebSocket", Socket);
+  const network = new Network("http://localhost");
+  const w = createWorld("resume-voice"),
+    p = addPlayer(w, "a");
+  start(w);
+  w.enemies = [];
+  let voice = new SoldierVoice(() => 0);
+  const lines: unknown[] = [],
+    boundaries: boolean[] = [];
+  network.onWorld = (world, first) => {
+    boundaries.push(first);
+    if (first) voice = new SoldierVoice(() => 0);
+    lines.push(voice.collect(world, "a", true));
+  };
+  const connect = () => {
+    network.connect("test");
+    const socket = network.ws as unknown as Socket;
+    socket.message({ type: "welcome", id: "a", token: "test" });
+    return socket;
+  };
+  const state = (ws: Socket) =>
+    ws.message({
+      type: "state",
+      world: w,
+      members: [],
+      preparationGeneration: 0,
+    });
+  try {
+    let ws = connect();
+    state(ws);
+    state(ws);
+    p.reload = 1;
+    w.time += 20;
+    ws = connect();
+    state(ws);
+    state(ws);
+    p.reload = 0;
+    state(ws);
+    p.reload = 1;
+    state(ws);
+    expect(boundaries).toEqual([true, false, true, false, false, false]);
+    expect(lines.slice(0, -1).every((v) => v === undefined)).toBe(true);
+    expect(lines.at(-1)).toBe("reload");
+  } finally {
+    clearInterval(network.timer);
+    vi.unstubAllGlobals();
+  }
+});
 
 it("shares encoding but isolates loot and preserves exact nested weapon values", () => {
   const w = createWorld("wire");

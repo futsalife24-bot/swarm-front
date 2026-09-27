@@ -1009,6 +1009,7 @@ async function connect(create: boolean, restore = false, joinCode?: string) {
     network.playerName = playerName();
     network.onChat = renderLobbyChat;
     network.onStatus = (s, fatal) => {
+      if (fatal || network!.retry > 0) sound.resetSpeech();
       status = s;
       netFatal = fatal;
       if (fatal) {
@@ -1033,7 +1034,8 @@ async function connect(create: boolean, restore = false, joinCode?: string) {
       else void prepareLobby();
       syncGameSelects(ui);
     };
-    network.onWorld = (w) => {
+    network.onWorld = (w, firstState) => {
+      if (firstState) sound.resetSpeech();
       try {
         recordCoopEncounters(w);
       } catch {
@@ -1045,7 +1047,7 @@ async function connect(create: boolean, restore = false, joinCode?: string) {
         w,
         myId,
         controls.input.yaw,
-        w.phase === "battle" && !paused,
+        w.phase === "battle" && screen === "battle" && !paused,
       );
       if (w.phase === "battle") {
         if (screen !== "battle" && screen !== "loading" && !netFatal)

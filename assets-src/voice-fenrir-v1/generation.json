@@ -1,0 +1,20 @@
+[
+  {
+    "file": "rookie-empty.wav",
+    "voice": "Fenrir",
+    "line": "くっ、弾切れだ！",
+    "style": "日本語の若い成人兵士。張りのある胸声で戦闘中の仲間へ短く力強く報告する。勢いと気迫を持ち、言葉の頭と語尾を明瞭に。弾切れの台詞では一瞬の悔しさから緊迫した報告へ。息漏れや弱々しさはなく自然な発声。Energetic projected chest voice, crisp forceful battle callout.",
+    "model": "gemini-3.8-flash-tts",
+    "generatedAt": "2026-09-27T10:49:44.108Z",
+    "seconds": 2.28
+  },
+  {
+    "file": "rookie-reload-alt.wav",
+    "voice": "Fenrir",
+    "line": "リロード！",
+    "style": "日本語の若い成人兵士。張りのある胸声で戦闘中の仲間へ短く力強く報告する。勢いと気迫を持ち、言葉の頭と語尾を明瞭に。弾切れの台詞では一瞬の悔しさから緊迫した報告へ。息漏れや弱々しさはなく自然な発声。Energetic projected chest voice, crisp forceful battle callout.",
+    "model": "gemini-3.8-flash-tts",
+    "generatedAt": "2026-09-27T10:50:08.379Z",
+    "seconds": 1.12
+  }
+]
