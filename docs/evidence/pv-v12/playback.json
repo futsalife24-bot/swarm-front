@@ -1,0 +1,10 @@
+{
+  "date": "2026-09-27",
+  "method": "Chrome (Playwright, channel chrome) on the local Vite dev server. Minimal page under dist-validation mounts the real mountMediaMenu; clicks PVを見る then 再生; seeks to 27.2s; waits for ended.",
+  "source": "assets/video/swarm-front-pv-v12.mp4",
+  "requested": ["/assets/video/swarm-front-pv-v12.mp4"],
+  "at6s": { "track": "pv-v12", "duration": 30, "videoWidth": 1920, "videoHeight": 1080, "error": null },
+  "end": { "ended": true, "currentTime": 30, "error": null },
+  "http404": [],
+  "note": "First run logged two 404 console errors; a rerun that records every 404 response found none, and no /assets/video/ request failed in either run."
+}

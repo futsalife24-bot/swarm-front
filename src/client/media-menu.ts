@@ -18,7 +18,7 @@ export const SOUND_TEST_TRACKS: readonly { id: MusicTrack; label: string }[] = [
   { id: "map-4", label: "白嶺の雪峡 / 凍てつく戦線" },
   { id: "map-5", label: "晶脈の地底巣 / 晶脈の鼓動" },
 ];
-export const PV_SOURCE = "assets/video/swarm-front-pv-v10.mp4";
+export const PV_SOURCE = "assets/video/swarm-front-pv-v12.mp4";
 
 /** Both clients share the same settings entries and media lifetime. */
 export function mountMediaMenu(
@@ -66,7 +66,7 @@ export function mountMediaMenu(
     const source = () =>
       `${import.meta.env.BASE_URL}${video ? PV_SOURCE : `assets/audio/bgm-v1/${selection!.value}.mp3`}`;
     const load = (autoplay = false) => {
-      media.dataset.track = video ? "pv-v10" : selection!.value;
+      media.dataset.track = video ? "pv-v12" : selection!.value;
       void playback.load(source(), autoplay);
     };
     if (selection) selection.onchange = () => load(true);

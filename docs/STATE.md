@@ -1,3 +1,7 @@
+# 現在地: ゲーム内PVをv12へ差し替え、PR作成・独立監査前（2026-09-27）
+
+branch `claude/pv-v12`（Claude Codeで作業）、base `df3b0c2`（最新main）、専用作業場所 `../pv-v12-adopt`。ユーザーがPV v12を正式採用し、設定の「PVを見る」をv12へ切替えるよう指示。変更は `src/client/media-menu.ts` の `PV_SOURCE` と `data-track` を `pv-v12` にし、`public/assets/video/swarm-front-pv-v12.mp4`（13,855,793 bytes、v10と同じ変換設定）と動画READMEを更新しただけ。旧 `swarm-front-pv-v10.mp4` は削除せず残す（参照なし）。原本・制作手順は `スワフロ/pv/README-v11.md`・`README-v12.md`。型チェック・media関連12件・production build成功（既知の500KB超チャンク警告のみ）。実Chromeで本物の `mountMediaMenu` から再生し、v12のみ取得、1920×1080・30秒の自然終了、エラーなしを確認（[証拠](evidence/pv-v12/playback.json)）。未実施：通常Chatの独立監査、merge、既存Worker公開と配信確認、実スマホ。v12はLEAPER刷新（9/26）後の新規撮影カットにだけ新LEAPERが小さく映る。LEAPERの見せ場カットはユーザー判断で入れていない。
+
 # 現在地: T7の固定条件比較・独立監査PASS、runtime調整なし（2026-09-27）
 
 branch `codex/balance-t7`、base `7827b9c07886efbad50c2bee3bf17a940b79a1fd`、専用作業場所 `../balance-t7`。[PR99](https://github.com/futsalife24-bot/swarm-front/pull/99)で全12種×5条件×3seed、支援・射撃場・全育成/アクセサリ/作戦仕様の比較を保存。威力等の調整は見送り、GL/STの射程値と平地飛距離の不一致は別仕様判断。型・関連84・保存147・保存ブラウザ21成功。[通常Chat](https://chatgpt.com/c/6ab86f52-4ff4-83ee-8d0f-ff8622d9e4a4)の必須P2-01（計測botの入力境界）を修正し全試行を再計測。対象 `ea071151ee76a2040afa26e770b5966bbde0d48c` の限定再監査PASS、必須P0/P1/P2各0。独立189試行の全指標一致、678,674tickの違反0、正負反例・死亡終了・StagePlan一致を確認。以降は監査記録文書のみ。merge前fetchでmainはbaseのまま、T5由来の変更なし。実際のmerge結果はPR99と[Issue14](https://github.com/futsalife24-bot/project-hub/issues/14)を正とする。runtime不変で再公開対象なし。人間/物理Android・medium通し・全効果組合せは未確認。[条件・全結果・限界](BALANCE-T7.md)。元gameの別作業差分と他worktreeを保護。
