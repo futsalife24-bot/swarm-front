@@ -1,3 +1,7 @@
+# 現在地: Fenrirの次WAVE・被弾・射撃6台詞、生成・実装・自己検証済み（2026-09-27）
+
+branch codex/fenrir-battle-lines、base deab32886de99501d9ff6b02c5727df1afbe8dbd、既存balance-t7で作業。Gemini/Fenrirで採用済み6台詞を生成し、低確率・間隔制限つきイベント発声とサウンドテスト計11本へ追加。型・関連66件成功、IAB試聴6本全て完走/errorなし。独立監査・main反映・公開はこれから。[仕様・素材・検証](FENRIR-BATTLE-LINES.md)。元gameの別作業差分は保護。
+
 # 現在地: Fenrirデフォルト兵士ボイス、main反映・公開完了（2026-09-27）
 
 [PR103](https://github.com/futsalife24-bot/swarm-front/pull/103)を通常merge。公開ソースmain `30e520c5651eeb36c73bb9f5171eaa670322864a`、Worker Version `466c57c7-7ec6-4920-8f6b-fb072f928ee5`。生成済みFenrir5本を導入し、リロード3候補/無発声40%・大型接近・倒れた味方付近の援護、既存サウンドテストへ追加。声の切替設定なし。型・関連57件・production build/Worker dry-run成功。実装HEAD `843e7390ffaf597d4175721ba6b47cbb138ba9b3` の通常Chat限定再監査PASS、必須P0/P1/P2各0、独立ブラウザ25件成功。復帰/再接続時の旧発声抑制、間隔維持、多数SEからの警告保護を含む。

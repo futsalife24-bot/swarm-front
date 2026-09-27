@@ -1,0 +1,37 @@
+{
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Fenrir",
+  "generatedDate": "2026-09-27",
+  "lines": [
+    [
+      "wave",
+      "次が来るぞ！",
+      "日本語の若い成人兵士。張りのある胸声、勢いと気迫。次の敵群へ身構えながら仲間へ短く力強く呼びかける。切迫感と前向きな闘志、語頭から鋭く語尾まで明瞭に言い切る。ナレーションではなく戦場の自然な叫び。弱々しい息漏れや間延びは避ける。Energetic projected chest voice, crisp forceful battle callout."
+    ],
+    [
+      "wave-alt",
+      "よし、迎え撃つ！",
+      "日本語の若い成人兵士。張りのある胸声、勢いと気迫。次の敵群へ身構えながら仲間へ短く力強く呼びかける。切迫感と前向きな闘志、語頭から鋭く語尾まで明瞭に言い切る。ナレーションではなく戦場の自然な叫び。弱々しい息漏れや間延びは避ける。Energetic projected chest voice, crisp forceful battle callout."
+    ],
+    [
+      "hurt",
+      "ぐっ！",
+      "日本語の若い成人兵士。被弾した瞬間、痛みをこらえて腹に力を入れる短い反応。張りのある胸声で鋭く一息、悔しさと闘志は失わない。「ぐっ！」は極めて短い自然な痛みのうめき。「ちっ、やるな！」は舌打ちの苛立ちから相手への強気の反応。弱々しく泣かず、引き伸ばさず、ナレーションにしない。Short forceful impact reaction, energetic young adult soldier."
+    ],
+    [
+      "hurt-alt",
+      "ちっ、やるな！",
+      "日本語の若い成人兵士。被弾した瞬間、痛みをこらえて腹に力を入れる短い反応。張りのある胸声で鋭く一息、悔しさと闘志は失わない。「ぐっ！」は極めて短い自然な痛みのうめき。「ちっ、やるな！」は舌打ちの苛立ちから相手への強気の反応。弱々しく泣かず、引き伸ばさず、ナレーションにしない。Short forceful impact reaction, energetic young adult soldier."
+    ],
+    [
+      "fire",
+      "くらえっ！",
+      "日本語の若い成人兵士。張りのある胸声で、射撃を始める瞬間の短く力強い戦闘の叫び。前へ出る気迫、勢いと闘志、少し感情が乗る。語頭から鋭く、語尾を伸ばさず力強く言い切る。弱々しい息漏れ、ナレーション、笑いは避ける。Energetic young adult soldier, projected chest voice, short forceful attack shout."
+    ],
+    [
+      "fire-alt",
+      "押し返すぞ！",
+      "日本語の若い成人兵士。張りのある胸声で、射撃を始める瞬間の短く力強い戦闘の叫び。前へ出る気迫、勢いと闘志、少し感情が乗る。語頭から鋭く、語尾を伸ばさず力強く言い切る。弱々しい息漏れ、ナレーション、笑いは避ける。Energetic young adult soldier, projected chest voice, short forceful attack shout."
+    ]
+  ]
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "wave",
+    "line": "次が来るぞ！",
+    "bytes": 73004,
+    "seconds": 1.52,
+    "peak": 0.627227783203125,
+    "rms": 0.10106186174440336,
+    "clippedSamples": 0,
+    "sourceSha256": "22a9d355de365140ac3dbf9169b18f2c5140f1439f7dc1ff19e365237eade322",
+    "shippedSha256": "c3070fd972521d6042464c5aa1031d9133395963a5a18c4f0ccff1949a7669a9",
+    "pcmSha256": "08799439680a2c7cd14fedc686867ff229e047b6fc5cc02310fca0cfd04b6f6d"
+  },
+  {
+    "id": "wave-alt",
+    "line": "よし、迎え撃つ！",
+    "bytes": 96044,
+    "seconds": 2,
+    "peak": 0.598388671875,
+    "rms": 0.09008979833475286,
+    "clippedSamples": 0,
+    "sourceSha256": "12f3bd925c932bf3ba616596d26543efc2169ce96eceba1f4405ca9176f5cef2",
+    "shippedSha256": "443074450cb7a44047ee051176113de5900ed8aaffa904c3f30a3d89461297fc",
+    "pcmSha256": "e29d5e12c09de370317d56c72152a0eb9e342dc679b6dfbf7d00ee63ec13f0f3"
+  },
+  {
+    "id": "hurt",
+    "line": "ぐっ！",
+    "bytes": 51884,
+    "seconds": 1.08,
+    "peak": 0.502655029296875,
+    "rms": 0.041842492926003054,
+    "clippedSamples": 0,
+    "sourceSha256": "438fc1c8d65346401e28b3704c51c19f1c24b2d451da45bdf739d0bd210b78af",
+    "shippedSha256": "e2a4b8edead003efc6fa807e125fa873f5710c308cb38097419dfaa244032f68",
+    "pcmSha256": "3d410542b0b8f75c0987b074a46a96bb687f1f28b700117f51553759002a1994"
+  },
+  {
+    "id": "hurt-alt",
+    "line": "ちっ、やるな！",
+    "bytes": 84524,
+    "seconds": 1.76,
+    "peak": 0.75531005859375,
+    "rms": 0.10227092338881508,
+    "clippedSamples": 0,
+    "sourceSha256": "712fa7757835e768fd0109f909e773e0a6b402faf44ac68d3844e88de776aec2",
+    "shippedSha256": "84065c78671bc066a172621c128e63b8c2fb1c00fa729a4f80a69cdef202e29a",
+    "pcmSha256": "7ec24cc95a3b41dc296145c867418959846a4a73e3082e938ad501257b6a7855"
+  },
+  {
+    "id": "fire",
+    "line": "くらえっ！",
+    "bytes": 57644,
+    "seconds": 1.2,
+    "peak": 0.822662353515625,
+    "rms": 0.10037628199090265,
+    "clippedSamples": 0,
+    "sourceSha256": "c86783af96116809baa6eedc0ebcd9ab101e159c66cb610dd94b0bb808beb153",
+    "shippedSha256": "aab0388e9ec004c7d9a5e07c3c964d3ba0d0e6018e6b9647f3fab09c99e21ea9",
+    "pcmSha256": "84caeb01fc27eae27546adf0401c1e3fdc2eac92862ae0c75f90f2bf625c120c"
+  },
+  {
+    "id": "fire-alt",
+    "line": "押し返すぞ！",
+    "bytes": 69164,
+    "seconds": 1.44,
+    "peak": 0.805877685546875,
+    "rms": 0.07911882129243383,
+    "clippedSamples": 0,
+    "sourceSha256": "e7243c1ca2d865903bdab664ac6c631f128f7696f7842fbc2bed61cb54b0345a",
+    "shippedSha256": "bd0d980a53370dcd999b11e69d1c72e4a74a2e4d2a9bd6d99954d1b4525aeaf9",
+    "pcmSha256": "1be9601b11c22663102b5c94f0110a358f2ddf990189ff024a4050e0c795ec3a"
+  }
+]
