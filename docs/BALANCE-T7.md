@@ -113,3 +113,13 @@ before/afterのruntimeは同じbase SHAのまま（`src/`、`server/`、`public/
 監査側は初回180+9作戦、828射、補助データ、24再現と集計を独立再生成して提出値との一致を確認。ただしNode22/TS5の一時変換＋assertアダプターであり、標準Vitest・型・保存ブラウザの独立実行とは違う。保存は記録と添付内34/162ソースhash確認まで（残る128と個別ログはZIP外）。入手可能条件、役割整理、GL/STの射程反証、runtime調整を見送る判断を支持。
 
 任意O2の実StagePlan記録は対応済み。O3のseed集合・全試行数検査も集計に追加。O1の既存期待値と新規出力の完全分離は保留（通常全実行の24再現は同一実行内の決定性確認。今回の旧期待値との一致は単独-t実行と独立監査で別途確認）。新しい期待値を過去の不変値と呼ばない。
+
+### 最終独立監査・反映範囲
+
+2026-09-27、対象HEAD `ea071151ee76a2040afa26e770b5966bbde0d48c` の限定再監査はPASS、P0/P1/P2各0。ZIPは271,250 bytes、SHA256 `10488f6db3a0e24272a120539bcc097ea601a628a41680e5759ef05b0b0fd90f`。[通常Chatの判定](https://chatgpt.com/c/6ab86f52-4ff4-83ee-8d0f-ff8622d9e4a4)。
+
+監査側は凍結した提出値を上書きせず、180作戦＋アクセサリ9の全指標を独立再現。678,674tickで違反入力の到達0、死亡25試行はすべて最初のHP0で終了、正負反例と人工境界11件が成功。実StagePlan5条件一致、集計2ファイルと入力訂正差分はbyte一致。50/180の指標差・分類差5、アクセサリの数値差6/9（分類不変）も一致した。最終hash6/6、実行manifest35件と後追加行を戻したハーネスhashの対応を確認。O2/O3解消、O1は任意のまま保留。
+
+独立実行はNode22.16.0/TypeScript5.8.3の一時変換＋Node assertであり、標準Vitest・型・関連84・保存147・Chrome保存21は再実行していない。不変の432＋396射は初回監査から同一性確認して引継ぎ。Vite SSRの当時の実行自体、人間/物理Android/medium通し/全特殊効果は未確認。監査のPASSを総合バランス完了と扱わない。
+
+監査後の差分はこの記録とSTATEのみ。merge前fetchでorigin/mainはbase `7827b9c07886efbad50c2bee3bf17a940b79a1fd` のまま、T5由来のswarm-front変更なし。T5 worktree・project-hub runtime・行動イベントは変更せず、T5データを待たなかった。通常mergeの実施結果は[PR99](https://github.com/futsalife24-bot/swarm-front/pull/99)と[Issue14](https://github.com/futsalife24-bot/project-hub/issues/14)へ記録する。runtime/素材/依存不変なのでWorker再公開なし。実行モデルID/effortは取得できず未確認。
