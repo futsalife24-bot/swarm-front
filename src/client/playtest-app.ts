@@ -2317,9 +2317,9 @@ function checkpointNow() {
   )
     return;
   try {
-    writeBattleCheckpoint(world, save);
+    const checkpointSaved = writeBattleCheckpoint(world, save);
     checkpointAt = performance.now();
-    if (behaviorStart?.run === world.run) {
+    if (checkpointSaved && behaviorStart?.run === world.run) {
       const eligible = behaviorAllowed() && !world.defense && behaviorStart.day === behaviorDay();
       behaviorStart = undefined;
       if (eligible) recordBehavior("sortie");
