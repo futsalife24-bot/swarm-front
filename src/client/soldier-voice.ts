@@ -9,7 +9,7 @@ export const SOLDIER_VOICES = [
   { id: "wave", label: "次が来るぞ！" },
   { id: "wave-alt", label: "よし、迎え撃つ！" },
   { id: "hurt", label: "ぐっ！" },
-  { id: "hurt-alt", label: "ちっ、やるな！" },
+  { id: "hurt-alt-v2", label: "ちっ、やるな！" },
   { id: "fire", label: "くらえっ！" },
   { id: "fire-alt", label: "押し返すぞ！" },
 ] as const;
@@ -124,7 +124,7 @@ export class SoldierVoice {
       this.lastWave = clip;
     } else if (hurt) {
       if (this.random() >= 0.3) return;
-      clip = this.random() < 0.75 ? "hurt" : "hurt-alt";
+      clip = this.random() < 0.75 ? "hurt" : "hurt-alt-v2";
     } else if (p.slot === prev.slot && prev.reload <= 0 && p.reload > 0) {
       if (this.random() >= 0.6) return;
       const choices: SoldierClip[] = ["reload", "reload-alt"];

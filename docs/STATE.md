@@ -1,3 +1,7 @@
+# 現在地: Fenrirの被弾1台詞を男性の胸声指定で再生成（2026-09-27）
+
+ユーザーの声質指摘により「ちっ、やるな！」だけGemini/Fenrirで再生成。新規hurt-alt-v2.wavへ参照を切替え、旧キャッシュを回避。台詞/確率/間隔/他音声は不変。base a929c42261df0ffc4f82b6141aea6fc643dd1cfe、branch codex/fenrir-hurt-timbre、既存balance-t7。型・関連30件成功。主観的な声質評価はユーザー試聴待ち、独立監査/公開は未完了。[詳細](FENRIR-HURT-V2.md)。
+
 # 現在地: Fenrir追加6台詞、PR105通常merge・公開完了（2026-09-27）
 
 [PR105](https://github.com/futsalife24-bot/swarm-front/pull/105)を通常merge、公開ソースmain acde32c19abd6f4630aa3fe16987781a77b244c1、Worker Version 035ab654-a50a-4a22-a254-74606ed97f72。Fenrirの次WAVE・被弾・射撃各2本を生成・実装し、サウンドテスト全11台詞。型・関連66件・merge後production build/dry-run成功。対象9954105005eb097c9d67ef9452be0fac358df3e3の[独立監査](https://chatgpt.com/c/6ab90e59-3c40-83ee-8ba2-2c60ad5f19f3)PASS、必須P0/P1/P2各0。独立62ケース/実Web Audio33ケース成功、標準66件追試とは区別。

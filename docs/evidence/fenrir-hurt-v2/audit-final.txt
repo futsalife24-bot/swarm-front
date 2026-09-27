@@ -1,0 +1,60 @@
+  - heading "合格（PR107・限定再監査）" [level=2]
+  - paragraph:
+    - strong: 対象SHA：48fcbd51048440d48cba113106e1992fdc5b9622
+    - strong: 必須指摘：P0＝0件／P1＝0件／P2＝0件。
+  - paragraph: ZIPのSHA-256は指定値と一致。GitHubの固定対象・親baseと添付差分を照合しました。
+  - heading "独立確認" [level=3]
+  - table:
+    - rowgroup:
+      - row "対象 結果":
+        - columnheader "対象"
+        - columnheader "結果"
+    - rowgroup:
+      - row "コード・参照 soldier-voice.ts:12,127 のID置換2行とテスト期待値1行のみ。被弾分岐4ケース成功。カタログ11件を維持し、抽選結果・音声URLとも新IDで整合。":
+        - cell "コード・参照"
+        - cell "soldier-voice.ts:12,127 のID置換2行とテスト期待値1行のみ。被弾分岐4ケース成功。カタログ11件を維持し、抽選結果・音声URLとも新IDで整合。":
+          - text: soldier-voice.ts:12,127 のID置換2行とテスト期待値1行のみ。
+          - strong: 被弾分岐4ケース成功
+          - text: 。カタログ11件を維持し、抽選結果・音声URLとも新IDで整合。
+      - row "新WAV PCM16・mono・24kHz、1.84秒。原本・新旧出荷WAVのハッシュ一致。原本との差はbyteRate訂正のみで、PCMは完全一致、飽和0。":
+        - cell "新WAV"
+        - cell "PCM16・mono・24kHz、1.84秒。原本・新旧出荷WAVのハッシュ一致。原本との差はbyteRate訂正のみで、PCMは完全一致、飽和0。":
+          - strong: PCM16・mono・24kHz、1.84秒
+          - text: 。原本・新旧出荷WAVのハッシュ一致。原本との差はbyteRate訂正のみで、
+          - strong: PCMは完全一致、飽和0
+          - text: 。
+      - row "機械的再生 Chromiumのメモリ内デコード・通常速度再生で完走、エラーなし。提出された実UI証拠とは別の確認です。":
+        - cell "機械的再生"
+        - cell "Chromiumのメモリ内デコード・通常速度再生で完走、エラーなし。提出された実UI証拠とは別の確認です。"
+  - button "表をコピー":
+  - button "表を展開":
+  - heading "限界" [level=3]
+  - paragraph:
+    - text: 関連30件・全体型確認・実ゲームUIは再実行していません。ローカルHTTP接続は環境制限で拒否されたため、独立再生はメモリ内に限定しています。
+    - strong: 男性声・音色一致はユーザー試聴待ちであり、聴感合格ではありません。
+  - paragraph: PRの後続コミットは文書追記のみと確認済みです。判定対象は上記SHAのまま、修正・merge・公開操作は行っていません。
+  - button "コピーする":
+  - button "共有":
+  - button "読み上げ":
+  - button "回答を再生成":
+  - button "その他のアクション":
+  - complementary "この個性は気に入りましたか？":
+    - generic: この個性は気に入りましたか？
+    - button "はい":
+    - button "いいえ":
+    - button "評価プロンプトを閉じる":
+  - button "一番下までスクロール":
+  - heading "最新の回答" [level=4]
+  - status
+  - button "ファイルなどを追加":
+  - textbox "ChatGPT に聞く":
+    - paragraph: ChatGPT に聞く
+  - button "ChatGPT モデルを選択":
+    - generic: Pro
+  - button "音声入力":
+  - button "音声会話を開始":
+  - generic: ChatGPT は間違えることがあります。重要な情報は確認してください。
+- status
+- status
+- status
+- status: 回答が完了しました
