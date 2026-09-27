@@ -22,3 +22,8 @@
 対象9954105005eb097c9d67ef9452be0fac358df3e3。必須P0/P1/P2各0、任意P3は1。独立ハーネス62件、native Web Audio停止/保護33件、全11WAVデコード、新規6本サウンドテスト完走、限定strict型成功。標準依存取得はDNS障害で、提出66件/全体型/buildの独立再実行ではない。Linux Chromiumの隔離ハーネスでHTTP取得を同一WAVバイトに置換し、DOM/HTMLAudio/Web Audioは実物。物理Android・聴感・新規実通信・PWA配信は監査対象外。全文はdocs/evidence/fenrir-battle/audit-final.txt。
 
 任意O1/P3: 実stepの40tick=2秒ちょうどで浮動小数点差が1.999999999999995となり射撃抽選を見送る場合がある。連呼/遅延/ゲーム進行/保存への影響はなく公開阻害なし。許容誤差と39/40/41tickの回帰は後続候補、今回は合格した実装を維持。
+## 公開完了
+
+PR105通常merge、公開ソースmain acde32c19abd6f4630aa3fe16987781a77b244c1、Worker Version 035ab654-a50a-4a22-a254-74606ed97f72。merge後production build/dry-run成功。https://swarm-front.melosalife-24.workers.dev へ既存設定で公開。
+
+[配信検証](evidence/fenrir-battle/release.json): index・JS/CSS・全11WAVの24ファイルHTTP200/SHA一致、health200/ok=true。[公開音声再生](evidence/fenrir-battle/public-playback.json): wave-altが2秒完走/errorなし。公開ゲームを再読込し既存ST1・13秒の中断作戦案内を確認、セーブの再開/破棄は未操作。公開サウンドテスト導線は未操作だが、ローカル実UIで追加6本を全件完走確認済み。以降の公開記録commitは文書/証拠のみで再deployしない。
