@@ -19,4 +19,10 @@ ZIP同一性・収録301ファイルのhash一致・base/HEADのdiff blob照合�
 
 監査側のnpm ciはDNS障害、Chromium初回接続はERR_BLOCKED_BY_ADMINISTRATORで拒否。独立の実ブラウザ検証は0件、workerd/全型/全テスト/build/dry-runは再実行していない。主担当の実ブラウザ/Worker証拠とは区別。物理Android/人間/本番/インフラログ・alarm保証は未確認。主担当の合成勝利・初回保存ブラウザtimeout原因未確定も引き継ぐ。
 
-最終修正SHAへの限定再監査結果は次の節へ記録する。初回の要修正をPASS扱いしない。merge/公開/本番有効化は実施しない。
+## 最終限定再監査: PASS
+
+ゲーム **1538c5842b4d4f65a542be5f48680ba5433c2c72**、Hub **711edf5bbfadfd6a5923596884a76c143072dc36** に限定してPASS、必須P0=0/P1=0/P2=0。F1/F2解消、O1修正/O2文書化を確認。「非本番実装のmerge準備可能」であり、本番有効化・公開の承認を含まない。
+
+独立ゲーム30条件・送信module9条件が成功。同じ確認を初回SHAへ戻した対照ではF1競合/F1journal/F2/O1の4条件すべてで旧不具合を検出。保存ブラウザ証拠163ファイル（runtime3ファイルを含む）と今回ソースが一致し、初回の計測module照合不足も解消。Hub本体24ファイルは初回と同一で、初回の確認を引き継ぎ再実行件数にはしない。実ブラウザ独立実行0など上記の限界は継承。
+
+追補ZIP `../t5-audit/t5-fixes-1538c58-711edf5.zip`、SHA256 `7b522959599010a8aeeb3b870751fe0ddcbf2b7e2e59ac87b2edad6eed7bbef8`。[主担当の最終自己検証記録](verification/t5/self-check.json) は監査判定と区別する。監査後の変更は記録文書・証拠のみ。merge/公開/本番有効化は実施せず、本番送信0。
