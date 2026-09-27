@@ -1,6 +1,8 @@
-# 現在地: Fenrirの次WAVE・被弾・射撃6台詞、生成・実装・自己検証済み（2026-09-27）
+# 現在地: Fenrir追加6台詞、PR105通常merge・公開完了（2026-09-27）
 
-branch codex/fenrir-battle-lines、base deab32886de99501d9ff6b02c5727df1afbe8dbd、既存balance-t7で作業。Gemini/Fenrirで採用済み6台詞を生成し、低確率・間隔制限つきイベント発声とサウンドテスト計11本へ追加。型・関連66件成功、IAB試聴6本全て完走/errorなし。[PR105](https://github.com/futsalife24-bot/swarm-front/pull/105)、対象9954105005eb097c9d67ef9452be0fac358df3e3を[通常Chat監査](https://chatgpt.com/c/6ab90e59-3c40-83ee-8ba2-2c60ad5f19f3)へZIP送信済み、判定待ち。確定commit後build/dry-run成功。main反映・公開は未完了。[仕様・素材・検証](FENRIR-BATTLE-LINES.md)。元gameの別作業差分は保護。
+[PR105](https://github.com/futsalife24-bot/swarm-front/pull/105)を通常merge、公開ソースmain acde32c19abd6f4630aa3fe16987781a77b244c1、Worker Version 035ab654-a50a-4a22-a254-74606ed97f72。Fenrirの次WAVE・被弾・射撃各2本を生成・実装し、サウンドテスト全11台詞。型・関連66件・merge後production build/dry-run成功。対象9954105005eb097c9d67ef9452be0fac358df3e3の[独立監査](https://chatgpt.com/c/6ab90e59-3c40-83ee-8ba2-2c60ad5f19f3)PASS、必須P0/P1/P2各0。独立62ケース/実Web Audio33ケース成功、標準66件追試とは区別。
+
+公開24ファイル（音声11本含む）はHTTP200・buildとSHA一致、health正常。公開wave-alt.wavは2秒完走/errorなし。公開ゲームの既存中断作戦は再開/破棄せず、公開サウンドテストUIは未操作。ローカル実UIで11台詞表示・追加6本の完走を確認。物理Android・聴感・新規協力実通信・未導入Judgeは未確認。任意P3（射撃間隔2秒ちょうどの丸め誤差）は後続候補。[仕様・素材・検証・公開記録](FENRIR-BATTLE-LINES.md)。base deab32886de99501d9ff6b02c5727df1afbe8dbd、作業場所は既存balance-t7。元gameの別作業差分は保護。
 
 # 現在地: Fenrirデフォルト兵士ボイス、main反映・公開完了（2026-09-27）
 
