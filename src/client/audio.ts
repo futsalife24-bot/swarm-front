@@ -101,7 +101,6 @@ export class Sound {
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
         this.stop();
-        this.soldier = new SoldierVoice();
       }
     });
   }
@@ -207,7 +206,7 @@ export class Sound {
   resetSpeech() {
     this.speech?.stop();
     this.speech = undefined;
-    this.soldier = new SoldierVoice();
+    this.soldier.suspend();
   }
   consumed(run: string) {
     return this.tracker.consumed(run);

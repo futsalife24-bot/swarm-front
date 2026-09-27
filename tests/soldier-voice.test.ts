@@ -20,7 +20,7 @@ function fixture(random = () => 0) {
   const collect = (active = true) =>
     voice.collect(JSON.parse(JSON.stringify(w)), p.id, active);
   collect();
-  return { w, p, collect };
+  return { w, p, collect, voice };
 }
 describe("default soldier callouts", () => {
   it("uses an actual reload transition, never completion or a held reload", () => {
@@ -121,4 +121,53 @@ describe("default soldier callouts", () => {
     w.run = "new";
     expect(v.collect(w, p.id, true)).toBeUndefined();
   });
+});
+
+it("preserves the last reload choice and six-second gate after rebaseline", () => {
+  const { w, p, collect, voice } = fixture();
+  p.reload = 1;
+  expect(collect()).toBe("reload");
+  voice.suspend();
+  p.reload = 0;
+  collect();
+  w.time = 2.05;
+  p.reload = 1;
+  expect(collect()).toBeUndefined();
+  p.reload = 0;
+  collect();
+  w.time = 7;
+  p.reload = 1;
+  expect(collect()).toBe("reload-alt");
+});
+it("preserves warning ten-second gate across rebaseline", () => {
+  const { w, p, collect, voice } = fixture();
+  spawn(w, "boss", p.x, p.z + 5);
+  expect(collect()).toBe("warning");
+  voice.suspend();
+  collect();
+  w.time = 5;
+  spawn(w, "boss", p.x, p.z + 6);
+  expect(collect()).toBeUndefined();
+  w.time = 11;
+  spawn(w, "boss", p.x, p.z + 7);
+  expect(collect()).toBe("warning");
+});
+it("preserves the silent cover lottery twenty-second gate across rebaseline", () => {
+  const rng = vi.fn(() => 0.9),
+    { w, p, collect, voice } = fixture(rng);
+  const ally = addPlayer(w, "ally");
+  ally.hp = 0;
+  ally.x = p.x;
+  ally.z = p.z;
+  for (let id = 1; id <= 3; id++) {
+    w.time = id === 3 ? 21 : id;
+    w.events.push({ id, type: "shot", owner: p.id, x: p.x, z: p.z, y: 1 });
+    collect();
+    if (id === 1) {
+      voice.suspend();
+      collect();
+    }
+    if (id === 2) expect(rng).toHaveBeenCalledTimes(1);
+  }
+  expect(rng).toHaveBeenCalledTimes(2);
 });

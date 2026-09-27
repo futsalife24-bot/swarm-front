@@ -23,6 +23,11 @@ export class SoldierVoice {
   private lastReload?: SoldierClip;
   constructor(private random = Math.random) {}
 
+  /** Rebaseline after interruptions without erasing same-run rate limits. */
+  suspend() {
+    this.active = false;
+  }
+
   collect(w: World, id: string, active: boolean): SoldierClip | undefined {
     const fresh = this.run !== w.run || this.owner !== id;
     if (fresh) {

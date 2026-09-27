@@ -160,3 +160,24 @@ it("resets at the first reconnect snapshot even if old-world frames ran in betwe
   update();
   expect(speech()).toHaveLength(1);
 });
+
+it("preserves reload interval and last phrase across visibility changes", () => {
+  const { w, p, update, sound, speech } = fixture();
+  p.reload = 1;
+  update();
+  // Simulate a completed utterance, then an interruption with the same run.
+  (speech()[0] as unknown as { onended: () => void }).onended();
+  sound.resetSpeech();
+  p.reload = 0;
+  update();
+  w.time = 2.05;
+  p.reload = 1;
+  update();
+  expect(speech()).toHaveLength(1);
+  p.reload = 0;
+  update();
+  w.time = 7;
+  p.reload = 1;
+  update();
+  expect(speech()).toHaveLength(2);
+});
