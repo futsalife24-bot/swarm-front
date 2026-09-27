@@ -7,3 +7,4 @@
 PCM16 mono24kHz、1.84秒、88,364 bytes、飽和0。byteRateのみ原本96000から48000へ整合化、PCM不変。出荷SHA256 5d866e994770c63290b21eae98353d7a675b07df4857db8df9e0451f6e313bfe。音色一致の最終的な主観評価はユーザー試聴待ち。Codex実行モデルID/effortは未確認。Judge入口は既存worktree未導入。
 
 base a929c42261df0ffc4f82b6141aea6fc643dd1cfe、branch codex/fenrir-hurt-timbre、既存balance-t7。GitHub https://github.com/futsalife24-bot/swarm-front 。元gameの別作業差分は保護。独立監査/公開はこれから。
+PR107、対象48fcbd51048440d48cba113106e1992fdc5b9622。型・関連30件・確定commit後build/dry-run成功。IABの実サウンドテストで新ID選択/1.84秒完走/errorなし。前回と同じ監査Chat https://chatgpt.com/c/6ab90e59-3c40-83ee-8ba2-2c60ad5f19f3 へ限定ZIP送信済み。
