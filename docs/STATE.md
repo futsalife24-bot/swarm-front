@@ -1,6 +1,6 @@
 # 現在地: Fenrirをデフォルト兵士ボイスとして実装・自己検証（2026-09-27）
 
-branch `codex/fenrir-default-voice`、base `df3b0c2670997300bd264d68b139b50b659abab4`、既存のcleanな `../balance-t7` を再利用。生成済みFenrir5本を導入し、リロード3候補/無発声40%・大型接近・倒れた味方付近の援護を追加。切替設定なし。既存音量/サウンドテストに統合。型・音声関連41件・build成功、IAB試聴で警告2.24秒完走/errorなし、残4本decode/再生開始を確認。独立監査/main/公開は未完了。[詳細](FENRIR-VOICE.md)。元gameと他worktreeは保護。
+branch `codex/fenrir-default-voice`、base `df3b0c2670997300bd264d68b139b50b659abab4`、既存のcleanな `../balance-t7` を再利用。生成済みFenrir5本を導入し、リロード3候補/無発声40%・大型接近・倒れた味方付近の援護を追加。切替設定なし。既存音量/サウンドテストに統合。型・音声関連41件・build成功、IAB試聴で警告2.24秒完走/errorなし、残4本decode/再生開始を確認。[PR103](https://github.com/futsalife24-bot/swarm-front/pull/103)、実装HEAD `e3c391846486d3467483e38be60a1460f62da724`。通常ChatへZIP添付・送信済み、独立判定待ち。監査: https://chatgpt.com/c/6ab8fa97-e29c-83ee-8e98-a719e1af5a50 。main/公開は未完了。[詳細](FENRIR-VOICE.md)。元gameと他worktreeは保護。
 
 # 現在地: T7の固定条件比較・独立監査PASS、runtime調整なし（2026-09-27）
 

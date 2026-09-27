@@ -25,3 +25,7 @@ public/assets/audio/voice-fenrir-v1に5本。assets-src/voice-fenrir-v1に原本
 - .meloso-judge/run.cjsはこのworktreeに未導入。自動取得・代替有料判定は行わず未判定。
 
 独立監査・main反映・公開は後続。追加36本、別声の切替はIssue102で保留。
+
+## 独立監査
+
+PR103 / 実装HEAD e3c391846486d3467483e38be60a1460f62da724。source.zip（1,170,541 bytes）を通常Chatへ添付・送信し展開開始を確認。監査Chat: https://chatgpt.com/c/6ab8fa97-e29c-83ee-8e98-a719e1af5a50 。必須判定待ち。Worker dry-runも権限制約を解消して成功済み。
