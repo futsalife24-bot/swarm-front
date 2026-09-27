@@ -1,0 +1,189 @@
+{
+  "source": "30965b94a5645f2fbde02ca13764b3e0590f3648",
+  "version": "06fb5551-71b4-4513-ac44-82897d7dca17",
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 3646,
+      "sha256": "a96c14ac0dbc6073df15ff2c35f3ec84891fc3df51d64cc611ee7b49ea01d93d",
+      "matches": true
+    },
+    {
+      "path": "assets/index-CPbai1ZT.css",
+      "status": 200,
+      "bytes": 259,
+      "sha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "matches": true
+    },
+    {
+      "path": "assets/index-DOnITSIF.js",
+      "status": 200,
+      "bytes": 38913,
+      "sha256": "527558d3ed38ddd995e73af85d0fc126ac2223d1f60935c1982f104f987a025c",
+      "matches": true
+    },
+    {
+      "path": "assets/main-C1Ldsy-y.css",
+      "status": 200,
+      "bytes": 6219,
+      "sha256": "ec7e50bfb8cee740d5dbceef38606e296a79da4961aaae999aca78ec1657dfa1",
+      "matches": true
+    },
+    {
+      "path": "assets/main-DSN2Ik-3.js",
+      "status": 200,
+      "bytes": 55649,
+      "sha256": "165697d14af96053aee61dfd2f0632fc2bacb054385f306a19154a0005692b05",
+      "matches": true
+    },
+    {
+      "path": "assets/playtest-app-Bm2X8zdX.js",
+      "status": 200,
+      "bytes": 121636,
+      "sha256": "1e8c58c7861f5e0c2ac341ba317e722bfc53ba4fae7fe7cdc52ddc2def657cf0",
+      "matches": true
+    },
+    {
+      "path": "assets/playtest-app-Nc4GVS_8.css",
+      "status": 200,
+      "bytes": 38677,
+      "sha256": "f2b74c243345ef51e3be89add258827b5f0746b4d88f27d6503b858c6731e03e",
+      "matches": true
+    },
+    {
+      "path": "assets/training-app-BmRuJG7U.js",
+      "status": 200,
+      "bytes": 3742,
+      "sha256": "ebac9ea8edcda9036e4517fec102047d49124df9ee9af74a1852d0826b376a08",
+      "matches": true
+    },
+    {
+      "path": "assets/weapon-help-6QKwcAbR.js",
+      "status": 200,
+      "bytes": 79407,
+      "sha256": "16964319fdebd1c968fc5f90a3d4d6dbaedd92066e6d7847be06c353c13cf0e6",
+      "matches": true
+    },
+    {
+      "path": "assets/weapon-help-BU42rxxn.css",
+      "status": 200,
+      "bytes": 4428,
+      "sha256": "08ac9310eca64f8fefe5ac6387d3c330695f4b2396cf752d11abf795eca6fd7c",
+      "matches": true
+    },
+    {
+      "path": "assets/weapon-sharing-DZUMRN6M.js",
+      "status": 200,
+      "bytes": 4757,
+      "sha256": "a81e8531739b9df328c2bc41ff9792124d2edb83595f00dbbbd20ad2eed796e2",
+      "matches": true
+    },
+    {
+      "path": "assets/zoom-guard-BXbW3twO.js",
+      "status": 200,
+      "bytes": 885957,
+      "sha256": "bad9065d93c34ef136e0ebf53ab81110cabad072093db9ecf0a5c4e2c8d36c98",
+      "matches": true
+    },
+    {
+      "path": "assets/zoom-guard-Ds-WcwRj.css",
+      "status": 200,
+      "bytes": 107833,
+      "sha256": "36ff067e92dbbc9539335ee74d9eb936f9738580e91556cef387d14b6802ee47",
+      "matches": true
+    },
+    {
+      "path": "assets/audio/voice-fenrir-v1/cover.wav",
+      "status": 200,
+      "bytes": 55724,
+      "sha256": "ce71d9c42ddcd22d14e473b71872055a6898ddf74f566f4345e0c3328e5c4a0c",
+      "matches": true
+    },
+    {
+      "path": "assets/audio/voice-fenrir-v1/empty.wav",
+      "status": 200,
+      "bytes": 109484,
+      "sha256": "c78350963ecc8998e303c1d0d400bf7b062a98b59490fdd1445d1639f0b9e5f5",
+      "matches": true
+    },
+    {
+      "path": "assets/audio/voice-fenrir-v1/fire-alt.wav",
+      "status": 200,
+      "bytes": 69164,
+      "sha256": "bd0d980a53370dcd999b11e69d1c72e4a74a2e4d2a9bd6d99954d1b4525aeaf9",
+      "matches": true
+    },
+    {
+      "path": "assets/audio/voice-fenrir-v1/fire.wav",
+      "status": 200,
+      "bytes": 57644,
+      "sha256": "aab0388e9ec004c7d9a5e07c3c964d3ba0d0e6018e6b9647f3fab09c99e21ea9",
+      "matches": true
+    },
+    {
+      "path": "assets/audio/voice-fenrir-v1/hurt-alt-v2.wav",
+      "status": 200,
+      "bytes": 88364,
+      "sha256": "5d866e994770c63290b21eae98353d7a675b07df4857db8df9e0451f6e313bfe",
+      "matches": true
+    },
+    {
+      "path": "assets/audio/voice-fenrir-v1/hurt-alt.wav",
+      "status": 200,
+      "bytes": 84524,
+      "sha256": "84065c78671bc066a172621c128e63b8c2fb1c00fa729a4f80a69cdef202e29a",
+      "matches": true
+    },
+    {
+      "path": "assets/audio/voice-fenrir-v1/hurt.wav",
+      "status": 200,
+      "bytes": 51884,
+      "sha256": "e2a4b8edead003efc6fa807e125fa873f5710c308cb38097419dfaa244032f68",
+      "matches": true
+    },
+    {
+      "path": "assets/audio/voice-fenrir-v1/reload-alt.wav",
+      "status": 200,
+      "bytes": 53804,
+      "sha256": "7dacb9ebdb794c03429e8eb6879504c1673f7dfde804fffe80bbc1a458dfd02d",
+      "matches": true
+    },
+    {
+      "path": "assets/audio/voice-fenrir-v1/reload.wav",
+      "status": 200,
+      "bytes": 53804,
+      "sha256": "6704c61bffe48ff3e6366f951837dcc1ddc20c61a2cf1e86ed74ef080f899c63",
+      "matches": true
+    },
+    {
+      "path": "assets/audio/voice-fenrir-v1/warning.wav",
+      "status": 200,
+      "bytes": 107564,
+      "sha256": "28c198d63e2f928e452422b598ae74ab44e113f0d1cda610964e640318d4bfa1",
+      "matches": true
+    },
+    {
+      "path": "assets/audio/voice-fenrir-v1/wave-alt.wav",
+      "status": 200,
+      "bytes": 96044,
+      "sha256": "443074450cb7a44047ee051176113de5900ed8aaffa904c3f30a3d89461297fc",
+      "matches": true
+    },
+    {
+      "path": "assets/audio/voice-fenrir-v1/wave.wav",
+      "status": 200,
+      "bytes": 73004,
+      "sha256": "c3070fd972521d6042464c5aa1031d9133395963a5a18c4f0ccff1949a7669a9",
+      "matches": true
+    }
+  ],
+  "health": {
+    "status": 200,
+    "body": {
+      "ok": true,
+      "transport": "websocket",
+      "authority": "durable-object"
+    }
+  }
+}
