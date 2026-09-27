@@ -28,4 +28,19 @@ for(const kind of kinds)for(const distance of [6,20,45,90,130])for(const offset 
 rows.push('','全レア度60性能、stage全編成、育成24点、アクセサリ18点、各試行はJSONを参照。総合順位は付けない。');
 fs.writeFileSync(root+'SUMMARY.md',rows.join('\n')+'\n');
 fs.writeFileSync(root+'summary.json',JSON.stringify(summary,null,2)+'\n');
+if(fs.existsSync(root+'before-input-constraints.json')) {
+  const before=JSON.parse(fs.readFileSync(root+'before-input-constraints.json','utf8'));
+  const changes=[];
+  for(const after of b.results) {
+    const old=before.results.find(r=>r.condition===after.condition&&r.kind===after.kind&&r.seed===after.seed);
+    if(!old)throw Error('Comparison trial missing');
+    const fields={};
+    for(const key of Object.keys(old)) {
+      const a=old[key],z=after[key];
+      if(typeof a==='number'&&typeof z==='number'?Math.abs(a-z)>1e-9:a!==z)fields[key]={before:a,after:z};
+    }
+    if(Object.keys(fields).length)changes.push({condition:after.condition,kind:after.kind,seed:after.seed,fields});
+  }
+  fs.writeFileSync(root+'input-constraints-comparison.json',JSON.stringify({numericTolerance:1e-9,trials:b.results.length,changed:changes.length,changes},null,2)+'\n');
+}
 console.log(JSON.stringify({source:b.source,missions:b.results.length,accessoryTrials:b.accessories.length,rangeShots:b.ranges.length,enemyShots:b.affinities.length,healingShots:s.healing.length,accuracyShots:s.accuracy.length,sha256:crypto.createHash('sha256').update(fs.readFileSync(root+'baseline.json')).digest('hex')}));

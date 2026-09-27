@@ -3,7 +3,8 @@ import { mkdirSync, writeFileSync, appendFileSync, readFileSync } from "node:fs"
 import { execFileSync } from "node:child_process";
 import { KINDS, WEAPONS, stats, ENEMIES, type Kind } from "../src/shared/defs";
 import { makeWeapon, rarityWeights, settings, COSTS, ACCESSORY_VALUES, SWAP_TIMES, type Skill } from "../src/shared/progression";
-import { createWorld, addPlayer, start, step, fire, neutral, spawn, eye, enemyBodies, type World, type Enemy } from "../src/shared/game";
+import { createWorld, addPlayer, start, step, fire, neutral, spawn, eye, enemyBodies, angle, validInput, type World, type Enemy } from "../src/shared/game";
+import { clampPitch } from "../src/shared/aim";
 import { initSolo, maxHp } from "../src/shared/solo-progression";
 import { stageFor, STAGES, HARROW_BRANCH } from "../src/shared/stages";
 import { normalSaveId, campaignNumber } from "../src/shared/campaign";
@@ -42,8 +43,8 @@ function mission(c: typeof conditions[number], kind: Kind, seed: number, accesso
   expect(new Set(p.weapons.map(a=>a.id)).size).toBe(2);
   p.hp = maxHp(w);
   start(w);
-  let damage = 0, taken = 0, shots = 0, hitEvents = 0, bossFirst: number | null = null, bossLast: number | null = null;
-  for (let tick = 0; tick < c.seconds * 20 && w.phase === "battle"; tick++) {
+  let damage = 0, taken = 0, shots = 0, hitEvents = 0, inputClamps = 0, bossFirst: number | null = null, bossLast: number | null = null;
+  for (let tick = 0; tick < c.seconds * 20 && w.phase === "battle" && p.hp > 0; tick++) {
     const input = pilot(w, "p");
     // Keep the candidate slot fixed. The second legal slot is carried but unused.
     input.swap = false;
@@ -53,6 +54,11 @@ function mission(c: typeof conditions[number], kind: Kind, seed: number, accesso
       const target = w.enemies.filter(e => e.hp > 0).sort((a,b) => Math.abs(Math.atan2(a.x-p.x,-(a.z-p.z))-input.yaw)-Math.abs(Math.atan2(b.x-p.x,-(b.z-p.z))-input.yaw))[0];
       if (target) input.pitch = aim(w, kind, target).pitch;
     }
+    const boundedPitch = clampPitch(input.pitch);
+    const boundedYaw = angle(input.yaw);
+    if (boundedPitch !== input.pitch || boundedYaw !== input.yaw) inputClamps++;
+    input.pitch = boundedPitch; input.yaw = boundedYaw;
+    if (!validInput(input)) throw new Error(`Invalid pilot input: ${c.id}/${kind}/${seed}`);
     const hp = p.hp;
     w.events = [];
     step(w, { p: input });
@@ -64,7 +70,7 @@ function mission(c: typeof conditions[number], kind: Kind, seed: number, accesso
     if (w.enemies.some(e => ["boss","harrow","worm"].includes(e.kind))) bossFirst ??= w.time;
     if (bossFirst !== null && !w.enemies.some(e => ["boss","harrow","worm"].includes(e.kind) && e.hp > 0)) bossLast ??= w.time;
   }
-  return { condition: c.id, kind, seed, accessory: accessory ?? "none", phase: w.phase, seconds: w.time, clearTime: w.phase === "victory" ? w.time : null, hp: p.hp, survival: p.hp > 0, kills: w.totalKills, damageEventSum: damage, netDamageTaken: taken, rounds: shots, hitEvents, damagePerRound: shots ? damage/shots : 0, killsPerMinute: w.totalKills/w.time*60, bossTTK: bossFirst !== null && bossLast !== null ? bossLast-bossFirst : null };
+  return { condition: c.id, kind, seed, accessory: accessory ?? "none", phase: p.hp <= 0 ? "defeat" : w.phase, seconds: w.time, clearTime: w.phase === "victory" && p.hp > 0 ? w.time : null, hp: p.hp, survival: p.hp > 0, kills: w.totalKills, damageEventSum: damage, netDamageTaken: taken, rounds: shots, hitEvents, inputClamps, damagePerRound: shots ? damage/shots : 0, killsPerMinute: w.totalKills/w.time*60, bossTTK: bossFirst !== null && bossLast !== null ? bossLast-bossFirst : null };
 }
 
 // Controlled single-round collision assay, NOT a campaign or survival trial.
@@ -112,7 +118,7 @@ it("records deterministic role comparisons without changing runtime", () => {
   const affinities = KINDS.flatMap(kind=>seeds.flatMap(seed=>(Object.keys(ENEMIES) as (keyof typeof ENEMIES)[]).filter(k=>!["boss","harrow"].includes(k)).map(enemy=>rangeAssay(kind,seed,20,false,enemy))));
   expect(mission(conditions[0],"rifle",seeds[0])).toEqual(results[0]);
   expect(results.every(r=>Number.isFinite(r.damageEventSum)&&Number.isFinite(r.seconds))).toBe(true);
-  const out={ source:execFileSync("git",["rev-parse","HEAD"],{encoding:"utf8"}).trim(), seeds, conditions:conditions.map(c=>({...c,hp:160*(1+0.1*c.skills.hp),skills:c.skills,accessory:"none",weaponLevel:"not implemented",variance:zero,effect:"none",difficulty:"normal",plan: c.stage===27 ? HARROW_BRANCH : STAGES[campaignNumber(c.stage)-1],targetTime:c.seconds})),catalog,results,accessories,ranges,affinities,progression:{costs:COSTS,accessoryValues:ACCESSORY_VALUES,swapTimes:SWAP_TIMES},elapsedMs:performance.now()-begin };
+  const out={ source:execFileSync("git",["rev-parse","HEAD"],{encoding:"utf8"}).trim(), seeds, conditions:conditions.map(c=>({...c,hp:160*(1+0.1*c.skills.hp),skills:c.skills,accessory:"none",weaponLevel:"not implemented",variance:zero,effect:"none",difficulty:"normal",plan: stageFor({stage:campaignNumber(c.stage),solo:{stage:c.stage,difficulty:"normal"}}),targetTime:c.seconds})),catalog,results,accessories,ranges,affinities,progression:{costs:COSTS,accessoryValues:ACCESSORY_VALUES,swapTimes:SWAP_TIMES},elapsedMs:performance.now()-begin };
   mkdirSync("docs/evidence/balance-t7",{recursive:true});
   writeFileSync("docs/evidence/balance-t7/baseline.json",JSON.stringify(out,null,2)+"\n");
 },900000);

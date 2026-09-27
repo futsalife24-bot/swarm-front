@@ -1,0 +1,45 @@
+{
+  "changes": [
+    {
+      "condition": "early",
+      "fields": [
+        "dropRate"
+      ],
+      "oldDropRate": 0.04473684210526316,
+      "actualDropRate": 0.05
+    },
+    {
+      "condition": "middle",
+      "fields": [
+        "dropRate"
+      ],
+      "oldDropRate": 0.08263157894736842,
+      "actualDropRate": 0.05
+    },
+    {
+      "condition": "late",
+      "fields": [
+        "dropRate"
+      ],
+      "oldDropRate": 0.13,
+      "actualDropRate": 0.05
+    },
+    {
+      "condition": "boss",
+      "fields": [
+        "dropRate"
+      ],
+      "oldDropRate": 0.1063157894736842,
+      "actualDropRate": 0.05
+    },
+    {
+      "condition": "holdout",
+      "fields": [
+        "dropRate"
+      ],
+      "oldDropRate": 0.0731578947368421,
+      "actualDropRate": 0.05
+    }
+  ],
+  "scope": "Metadata only; mission() already used initSolo and production stageFor throughout."
+}

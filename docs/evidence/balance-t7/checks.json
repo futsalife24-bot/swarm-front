@@ -41,14 +41,30 @@
       "command": "standalone harness tsc",
       "reason": "@types/node absent; no dependency changes",
       "passed": false
+    },
+    {
+      "passed": true,
+      "seconds": 548.8,
+      "command": "final constrained full measurement + 24 replay"
+    },
+    {
+      "passed": true,
+      "cases": 23,
+      "seconds": 90.05,
+      "command": "terminal correction"
+    },
+    {
+      "passed": true,
+      "cases": 5,
+      "command": "actual solo StagePlan metadata"
     }
   ],
   "hashes": {
-    "scripts/measure-balance.test.ts": "27FD59FA7033951E030930D775DF0F781690B12F5230F50D96DC1737E2E20B1A",
+    "scripts/measure-balance.test.ts": "BB10811A9CC837347CA6974BFF5D0BEF86C7CEAC148139A0415C7F54E5A6FA73",
     "scripts/measure-balance-support.test.ts": "1873B48A640C54474ECB66E970F0787D43511FA7DF2C612EA08FBCA90B72B2F7",
-    "scripts/summarize-balance.mjs": "77B3367B2D534FB6AD2DE6251CB060F1696B53205400C5081A925E8F5D3169C7",
+    "scripts/summarize-balance.mjs": "771EEDE900FDACBFA38A5007A8967B3801D7CE5FFFAD440426630FA010B79FD3",
     "vitest.balance.config.ts": "98BCBFEB558190E153772B2F8480A4262B0A08274E5EDB914E9D48B3A52CE73E",
-    "docs/evidence/balance-t7/baseline.json": "36E5CAC0D9CCDC5E5E12DCA72D818C292B20FBC4E7F924CF07D8E0E9208E9DBE",
+    "docs/evidence/balance-t7/baseline.json": "70C92EAE93FA0BEC67CC0312094AB632C4846D21C0278F496FEE81F57E465DB7",
     "docs/evidence/balance-t7/support.json": "892A4C9CAE463D7045B91C6C77A6CC5B0DC3E46659C5BC6A668F9528EEE4B4CF"
   },
   "limitations": [

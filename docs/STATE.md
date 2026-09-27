@@ -1,6 +1,6 @@
-# 現在地: 武器・育成の固定条件比較を保存、runtime調整なし・独立監査準備（2026-09-27）
+# 現在地: 武器・育成の固定条件比較を保存、runtime調整なし・独立監査へ提出・試験境界を補強中（2026-09-27）
 
-branch `codex/balance-t7`、base `7827b9c07886efbad50c2bee3bf17a940b79a1fd`、専用作業場所 `../balance-t7`。全12種×5条件×3seed、支援・射撃場・全育成/アクセサリ/作戦仕様を比較。今回の威力等の調整は見送り、GL/STの射程値と平地飛距離の不一致は別仕様判断。型・関連84・保存147・保存ブラウザ21成功。人間/Android未確認。独立監査・main反映は継続中、runtime不変なので再公開対象なし。[条件・全結果・限界](BALANCE-T7.md)。元gameの別作業差分と他worktreeを保護。
+branch `codex/balance-t7`、base `7827b9c07886efbad50c2bee3bf17a940b79a1fd`、専用作業場所 `../balance-t7`。全12種×5条件×3seed、支援・射撃場・全育成/アクセサリ/作戦仕様を比較。今回の威力等の調整は見送り、GL/STの射程値と平地飛距離の不一致は別仕様判断。型・関連84・保存147・保存ブラウザ21成功。人間/Android未確認。[PR99](https://github.com/futsalife24-bot/swarm-front/pull/99)のbe34beaを[通常Chat](https://chatgpt.com/c/6ab86f52-4ff4-83ee-8d0f-ff8622d9e4a4)へZIP提出済み。監査中に死亡時終了/実クライアント角度制限を試験側へ追加し再計測中。独立監査・main反映は継続中、runtime不変なので再公開対象なし。[条件・全結果・限界](BALANCE-T7.md)。元gameの別作業差分と他worktreeを保護。
 
 # 現在地: LEAPER成長殻モデル、PR91通常merge・既存Worker公開と表示確認完了（2026-09-26）
 
