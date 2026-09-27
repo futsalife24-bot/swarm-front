@@ -1,3 +1,11 @@
+# 現在地: T5ゲームイベント連携を非本番検証、独立監査中（2026-09-27）
+
+base `df3b0c2670997300bd264d68b139b50b659abab4`、実装HEAD `98275bdea1ce8cff42323e809796a03d1f033653`、branch `codex/t5-game-events`、作業場所 `../behavior-t5`。[PR100](https://github.com/futsalife24-bot/swarm-front/pull/100) Draft。通常ソロの表示/新規checkpoint成功/勝利報酬保存成功/同日勝利後の新規出撃を4イベントへ接続。計測はDEVの明示loopbackだけ、本番bundleに新計測storageキー/collector/テストhookが含まれないことを確認。武器・育成・難易度・保存形式は不変。
+
+型/関連15/保存147/保存ブラウザ21/build/production Worker dry-run/diff --check成功。ゲーム→隔離Hub→SQLite→管理画面、重複/reload/戻る/再開/拒否/切断/timeout/実Hub停止と保存失敗後の再試行を確認。勝利はテスト専用合成終了、実機/人間初見/自然流入は未確認。初回保存ブラウザ起動timeoutと再実行成功の限界は[詳細](BEHAVIOR-ANALYTICS.md)に記録。
+
+[通常Chat独立監査](https://chatgpt.com/c/6ab88518-6aac-83ee-be14-43a18266c34a)へHub HEAD `91b471bc358798e5875ffe3775ca22c66dd567d7` と上記ゲームSHAの資料送付済み、回答待ち（PASSとは扱わない）。ZIP `../t5-audit/t5-integration-audit-98275bd-91b471b.zip`、SHA256 `6fe32bea6e8ab7b03d7d88e98b789da210d265ce9d528da12b05d32fd6fcadc7`。今回merge/公開/本番有効化は行わず、本番送信0。元gameのdirty7件とT7等のworktreeを保護。以下は過去の経過。
+
 # 現在地: T7の固定条件比較・独立監査PASS、runtime調整なし（2026-09-27）
 
 branch `codex/balance-t7`、base `7827b9c07886efbad50c2bee3bf17a940b79a1fd`、専用作業場所 `../balance-t7`。[PR99](https://github.com/futsalife24-bot/swarm-front/pull/99)で全12種×5条件×3seed、支援・射撃場・全育成/アクセサリ/作戦仕様の比較を保存。威力等の調整は見送り、GL/STの射程値と平地飛距離の不一致は別仕様判断。型・関連84・保存147・保存ブラウザ21成功。[通常Chat](https://chatgpt.com/c/6ab86f52-4ff4-83ee-8d0f-ff8622d9e4a4)の必須P2-01（計測botの入力境界）を修正し全試行を再計測。対象 `ea071151ee76a2040afa26e770b5966bbde0d48c` の限定再監査PASS、必須P0/P1/P2各0。独立189試行の全指標一致、678,674tickの違反0、正負反例・死亡終了・StagePlan一致を確認。以降は監査記録文書のみ。merge前fetchでmainはbaseのまま、T5由来の変更なし。実際のmerge結果はPR99と[Issue14](https://github.com/futsalife24-bot/project-hub/issues/14)を正とする。runtime不変で再公開対象なし。人間/物理Android・medium通し・全効果組合せは未確認。[条件・全結果・限界](BALANCE-T7.md)。元gameの別作業差分と他worktreeを保護。
