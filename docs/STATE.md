@@ -1,4 +1,10 @@
-# 現在地: T5ゲームイベント連携を非本番検証、独立監査中（2026-09-27）
+# 現在地: T5の必須P2二件を修正、限定再監査中（2026-09-27）
+
+現在の実装対象は `1538c5842b4d4f65a542be5f48680ba5433c2c72` / PR100、Hubは `711edf5bbfadfd6a5923596884a76c143072dc36` / PR16。baseは下記から不変。初回独立監査はP0=0/P1=0/P2=2（復旧後の勝利/再出撃、遅延保存後のvisit欠測）。両方と任意checkpoint false防御を修正。型/関連16/保存149/保存ブラウザ21/実統合/build・dry-run成功。変更runtime3ファイルのhashが最終保存ブラウザ記録と一致。
+
+[同じ通常Chat](https://chatgpt.com/c/6ab88518-6aac-83ee-be14-43a18266c34a)へ限定再監査を依頼済み、最終判定待ち。[監査記録](BEHAVIOR-AUDIT.md)。追補 `../t5-audit/t5-fixes-1538c58-711edf5.zip`、SHA256 `7b522959599010a8aeeb3b870751fe0ddcbf2b7e2e59ac87b2edad6eed7bbef8`。未merge/未公開/本番計測無効・送信0を維持。以降は記録文書のみ。
+
+# 経過: T5ゲームイベント連携を非本番検証、初回独立監査へ（2026-09-27）
 
 base `df3b0c2670997300bd264d68b139b50b659abab4`、実装HEAD `98275bdea1ce8cff42323e809796a03d1f033653`、branch `codex/t5-game-events`、作業場所 `../behavior-t5`。[PR100](https://github.com/futsalife24-bot/swarm-front/pull/100) Draft。通常ソロの表示/新規checkpoint成功/勝利報酬保存成功/同日勝利後の新規出撃を4イベントへ接続。計測はDEVの明示loopbackだけ、本番bundleに新計測storageキー/collector/テストhookが含まれないことを確認。武器・育成・難易度・保存形式は不変。
 
