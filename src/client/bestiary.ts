@@ -7,7 +7,7 @@ import { hasEncounterFilm, showEncounterFilm } from "./encounter-film";
 
 type EnemyType = "生物型" | "異構型" | "機構型";
 const entries: Record<
-  keyof typeof ENEMIES,
+  keyof typeof ENEMIES | "worm",
   [string, EnemyType, string, string]
 > = {
   harrow: [
@@ -58,12 +58,12 @@ const entries: Record<
     "隊員の集まる場所へ予兆が広がり、周囲を攻撃します。損傷すると周囲の物質からPRISMを形成し、前脚と上体を高く持ち上げ、踏み下ろしと同時に攻撃します。",
     "壁・レール・リングからなる移動工場。大きな支持脚で身体を支え、隊員の集まる場所へ向きを変えます。",
   ],
-};
-const foundryWormReport = {
-  attack:
+  worm: [
+    "CATENA",
+    "機構型",
     "頭部と各節の発光器官が隊員へ向き、光を集めてから細いレーザーを放ちます。頭部を失うと、そのとき頭部側につながっていた残存節と同じ数の個体が現れます。現れる種類はマップによって異なります。",
-  movement:
     "ミミズのようにうねり、多数の脚で地面を這う機械型の巨体。ひとつの頭部に七つの胴節がつながり、広い範囲を移動します。胴節が壊れるとその位置で分離し、両側の鎖が加速して隊員を追います。",
+  ],
 };
 
 export function openBestiary(
@@ -77,7 +77,7 @@ export function openBestiary(
   const dialog = document.createElement("dialog");
   dialog.className = "bestiary";
   dialog.setAttribute("aria-labelledby", "bestiary-title");
-  dialog.innerHTML = `<header><div><div class="eyebrow">ANOMALOUS STRUCTURES</div><h2 id="bestiary-title">エネミーレポート</h2></div><button type="button" id="report-close" autofocus>タイトルへ戻る</button></header><div class="report-layout"><nav class="enemy-list" aria-label="敵の一覧"><p class="report-scroll-guide">${Object.keys(ENEMIES).length}種の敵 · 一覧は上下にスクロール ↕</p>${Object.entries(
+  dialog.innerHTML = `<header><div><div class="eyebrow">ANOMALOUS STRUCTURES</div><h2 id="bestiary-title">エネミーレポート</h2></div><button type="button" id="report-close" autofocus>タイトルへ戻る</button></header><div class="report-layout"><nav class="enemy-list" aria-label="敵の一覧"><p class="report-scroll-guide">${Object.keys(entries).length}種の敵 · 一覧は上下にスクロール ↕</p>${Object.entries(
     entries,
   )
     .map(([key, [knownName, knownRole]], index) => {
@@ -164,11 +164,10 @@ export function openBestiary(
     viewport.style.filter =
       access(worm ? "worm" : key) === "coop" ? "brightness(0)" : "";
   };
-  function select(key: keyof typeof ENEMIES, worm = false) {
+  function select(key: keyof typeof entries) {
+    const worm = key === "worm";
     const [name, role, attack, movement] = entries[key];
-    const state = access(worm ? "worm" : key);
-    const copy =
-      worm && key === "boss" ? foundryWormReport : { attack, movement };
+    const state = access(key);
     dialog
       .querySelectorAll<HTMLButtonElement>("[data-enemy]")
       .forEach((button) =>
@@ -177,13 +176,13 @@ export function openBestiary(
           String(button.dataset.enemy === key),
         ),
       );
-    article.innerHTML = `<div class="eyebrow">${role}</div><h3>${name}</h3>${key === "boss" ? `<div class="specimen-forms"><button type="button" data-worm="false" aria-pressed="${!worm}">通常型</button><button type="button" data-worm="true" aria-pressed="${worm}">連結炉形態</button></div>` : ""}<p class="report-scroll-guide">解説の続きは上下にスクロール ↕</p><h4>攻撃方法</h4><p>${copy.attack}</p><h4>移動方法</h4><p>${copy.movement}</p>`;
+    article.innerHTML = `<div class="eyebrow">${role}</div><h3>${name}</h3><p class="report-scroll-guide">解説の続きは上下にスクロール ↕</p><h4>攻撃方法</h4><p>${attack}</p><h4>移動方法</h4><p>${movement}</p>`;
     article.scrollTop = 0;
     const film = document.createElement("button");
     film.type = "button";
     film.className = "report-film-open";
     film.textContent = "会敵ムービー";
-    const filmKey = worm ? "worm" : key;
+    const filmKey = key;
     if (hasEncounterFilm(filmKey)) {
       film.onclick = () => showEncounterFilm(filmKey, dialog);
       article.querySelector("h3")!.after(film);
@@ -203,25 +202,14 @@ export function openBestiary(
           : "まだ遭遇していません。";
       article.append(note);
     }
-    showModel(key, worm, !!state);
-    article.querySelectorAll<HTMLButtonElement>("[data-worm]").forEach(
-      (button) =>
-        (button.onclick = () => {
-          select(key, button.dataset.worm === "true");
-          article
-            .querySelector<HTMLButtonElement>(
-              `[data-worm="${button.dataset.worm}"]`,
-            )
-            ?.focus({ preventScroll: true });
-        }),
-    );
+    showModel(worm ? "boss" : key, worm, !!state);
   }
   dialog
     .querySelectorAll<HTMLButtonElement>("[data-enemy]")
     .forEach(
       (button) =>
         (button.onclick = () =>
-          select(button.dataset.enemy as keyof typeof ENEMIES)),
+          select(button.dataset.enemy as keyof typeof entries)),
     );
   dialog.querySelector<HTMLButtonElement>("#report-close")!.onclick = () =>
     dialog.close();

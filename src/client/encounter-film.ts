@@ -10,7 +10,7 @@ export const encounterFilms = {
   spitter: "PRISM",
   hornet: "RAY",
   boss: "FOUNDRY ZERO",
-  worm: "FOUNDRY ZERO 連結炉",
+  worm: "CATENA",
 } as const;
 export type EncounterFilm = keyof typeof encounterFilms;
 

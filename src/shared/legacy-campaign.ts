@@ -180,7 +180,7 @@ const LEGACY_STAGES: StagePlan[] = [
   {
     name: "装甲回廊",
     map: 1,
-    brief: "連結炉が初登場。長い胴体と護衛をまとめて狙う。",
+    brief: "CATENAが初登場。長い胴体と護衛をまとめて狙う。",
     waves: [
       {
         troops: {
@@ -344,7 +344,7 @@ const LEGACY_STAGES: StagePlan[] = [
   {
     name: "地底の反攻",
     map: 5,
-    brief: "中盤の連結炉を越え、最後は雑魚の増援を掃討。",
+    brief: "中盤のCATENAを越え、最後は雑魚の増援を掃討。",
     waves: [
       {
         troops: {
@@ -477,7 +477,7 @@ const LEGACY_STAGES: StagePlan[] = [
   {
     name: "異形共闘",
     map: 4,
-    brief: "通常型と連結炉型が同時出現。間に挟まれない。",
+    brief: "FOUNDRY ZEROとCATENAが同時出現。間に挟まれない。",
     waves: [
       {
         troops: {
@@ -601,7 +601,7 @@ const LEGACY_STAGES: StagePlan[] = [
   {
     name: "双頭地底戦",
     map: 5,
-    brief: "連結炉2体と遠距離護衛。射線と退路を維持。",
+    brief: "CATENA2体と遠距離護衛。射線と退路を維持。",
     waves: [
       {
         troops: {

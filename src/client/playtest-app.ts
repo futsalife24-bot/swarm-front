@@ -674,10 +674,7 @@ function encounter() {
       d.dataset.enemy = key;
       const title = d.querySelector("h2")!;
       const [family, variant] = names[key].split(" / ");
-      title.innerHTML =
-        key === "worm"
-          ? 'FOUNDRY ZERO<span class="pt-intro-variant">連結炉</span>'
-          : `${esc(family)}${variant ? `<span class="pt-intro-variant">${esc(variant)}</span>` : ""}`;
+      title.innerHTML = `${esc(family)}${variant ? `<span class="pt-intro-variant">${esc(variant)}</span>` : ""}`;
       d.querySelector(".eyebrow")!.textContent = "ANOMALY // FIRST CONTACT";
       const oldPosition = view.camera.position.clone(),
         oldQuaternion = view.camera.quaternion.clone(),
@@ -1150,7 +1147,7 @@ const names: Record<Enemy["kind"] | "worm", string> = {
   spitter: "PRISM",
   hornet: "RAY",
   boss: "FOUNDRY ZERO",
-  worm: "FOUNDRY ZERO 連結炉",
+  worm: "CATENA",
 };
 const preferences = createPlaytestPreferences(controls, sound, view, minimap);
 installZoomGuard();

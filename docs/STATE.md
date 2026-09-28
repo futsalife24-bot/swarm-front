@@ -1,3 +1,7 @@
+# 現在地: ボス名称分離・独立監査ツール待ち（2026-09-28）
+
+移動工場はFOUNDRY ZERO、多脚・連節個体はCATENA（カテナ）へ名称分離。エネミーレポートは独立2項目、初遭遇/ムービー/作戦説明を統一。内部キーと素材・戦闘・保存は維持。branch `codex/boss-distinct-names`、base `a8d7b86ac5243f851795310627eb6c3546d5fc76`、作業場所 `C:/Users/futsa/orca/workspaces/game/lugworm`。型・関連40件・保存境界15件・実Chrome24ケース成功。ST25攻略1失敗はbaseでも同一結果。停止理由: 指定のiab/cua監査ツールが本セッションにないため独立監査・main反映・公開は未実施。再開条件: iab通常Chatで独立監査後、通常mergeと既存Worker公開。[PR109](https://github.com/futsalife24-bot/swarm-front/pull/109) draftへpush済み。実装HEAD `fdd7332e491ba46bfbb5e3e619a59cc74fe0bab4`、commit後production build成功。監査ZIPを保存（未送信）。詳細・検証・証拠は [BOSS-NAMES.md](BOSS-NAMES.md)。
+
 # 現在地: Fenrir「ちっ、やるな！」声質修正・公開完了（2026-09-27）
 
 [PR107](https://github.com/futsalife24-bot/swarm-front/pull/107)通常merge。男性の低めの胸声を指定し同じGemini/Fenrirで1本再生成、新URL hurt-alt-v2.wavへ切替。台詞/確率/間隔/他10本は不変。公開ソースmain 30965b94a5645f2fbde02ca13764b3e0590f3648、Worker Version 06fb5551-71b4-4513-ac44-82897d7dca17。型・関連30件・merge後production build/dry-run成功。対象48fcbd51048440d48cba113106e1992fdc5b9622の限定再監査PASS、必須P0/P1/P2各0。公開25ファイルHTTP200・SHA一致、health正常、新WAV1.84秒完走/errorなし。主観的声質はユーザー試聴待ち、物理Android/新規協力実通信/Judge未確認。[詳細・証拠](FENRIR-HURT-V2.md)。base a929c42261df0ffc4f82b6141aea6fc643dd1cfe、作業branch codex/fenrir-hurt-timbre、既存balance-t7。元gameの別作業差分は保護。
