@@ -1,6 +1,6 @@
 # 現在地: ボス名称分離・独立監査ツール待ち（2026-09-28）
 
-移動工場はFOUNDRY ZERO、多脚・連節個体はCATENA（カテナ）へ名称分離。エネミーレポートは独立2項目、初遭遇/ムービー/作戦説明を統一。内部キーと素材・戦闘・保存は維持。branch `codex/boss-distinct-names`、base `a8d7b86ac5243f851795310627eb6c3546d5fc76`、作業場所 `C:/Users/futsa/orca/workspaces/game/lugworm`。型・関連40件・保存境界15件・実Chrome24ケース成功。ST25攻略1失敗はbaseでも同一結果。停止理由: 指定のiab/cua監査ツールが本セッションにないため独立監査・main反映・公開は未実施。再開条件: iab通常Chatで独立監査後、通常mergeと既存Worker公開。詳細・検証・証拠は [BOSS-NAMES.md](BOSS-NAMES.md)。
+移動工場はFOUNDRY ZERO、多脚・連節個体はCATENA（カテナ）へ名称分離。エネミーレポートは独立2項目、初遭遇/ムービー/作戦説明を統一。内部キーと素材・戦闘・保存は維持。branch `codex/boss-distinct-names`、base `a8d7b86ac5243f851795310627eb6c3546d5fc76`、作業場所 `C:/Users/futsa/orca/workspaces/game/lugworm`。型・関連40件・保存境界15件・実Chrome24ケース成功。ST25攻略1失敗はbaseでも同一結果。停止理由: 指定のiab/cua監査ツールが本セッションにないため独立監査・main反映・公開は未実施。再開条件: iab通常Chatで独立監査後、通常mergeと既存Worker公開。[PR109](https://github.com/futsalife24-bot/swarm-front/pull/109) draftへpush済み。実装HEAD `fdd7332e491ba46bfbb5e3e619a59cc74fe0bab4`、commit後production build成功。監査ZIPを保存（未送信）。詳細・検証・証拠は [BOSS-NAMES.md](BOSS-NAMES.md)。
 
 # 現在地: Fenrir「ちっ、やるな！」声質修正・公開完了（2026-09-27）
 

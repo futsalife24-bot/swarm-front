@@ -29,3 +29,12 @@ base: a8d7b86ac5243f851795310627eb6c3546d5fc76
 再開条件：iabで通常Chatへ監査資料を添付できる環境で、独立監査→必要修正→通常merge→既存Worker公開・配信確認を行う。
 
 実行モデルID・reasoning effort：実設定を取得できないため未確認。切替は行っていない。
+
+## 保存結果
+
+- PR: https://github.com/futsalife24-bot/swarm-front/pull/109 （draft、監査未送信）
+- 実装・検証対象HEAD: fdd7332e491ba46bfbb5e3e619a59cc74fe0bab4
+- commit後 npm run build：成功（大きなchunk警告あり）。
+- 監査資料: dist-validation/boss-names/audit-fdd7332.zip / 1508365 bytes / SHA-256 5b9f6860a7433b93ce7bd0f2e5c71dc61d5ba1128d5bf5654afb062ede564131
+- ZIPは当該SHAのソース、差分、検証ログ、UI証拠、未送信の監査依頼本文を含む。変更なしのGLB/動画は未収録で、添付のみの3D再実行不可を明記。
+- 以降はこの結果・再開場所の文書記録のみ。main反映・公開は未実施。
