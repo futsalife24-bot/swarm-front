@@ -216,7 +216,7 @@ const plans = [
   {
     name: "装甲回廊",
     map: 1,
-    brief: "連結炉が初登場。長い胴体と護衛をまとめて狙う。",
+    brief: "CATENAが初登場。長い胴体と護衛をまとめて狙う。",
     waves: [
       wave({ crawler: 18, spider: 14 }, [], 0.75),
       wave({ ant: 16, spitter: 8 }, ["worm"], 1.2),
@@ -256,7 +256,7 @@ const plans = [
   {
     name: "地底の反攻",
     map: 5,
-    brief: "中盤の連結炉を越え、最後は雑魚の増援を掃討。",
+    brief: "中盤のCATENAを越え、最後は雑魚の増援を掃討。",
     waves: [
       wave({ ant: 22, spider: 14 }, [], 0.7),
       wave({ crawler: 16, spitter: 10 }, ["worm"], 1),
@@ -287,7 +287,7 @@ const plans = [
   {
     name: "異形共闘",
     map: 4,
-    brief: "通常型と連結炉型が同時出現。間に挟まれない。",
+    brief: "FOUNDRY ZEROとCATENAが同時出現。間に挟まれない。",
     waves: [
       wave({ spider: 20, spitter: 10, hornet: 16 }, [], 0.7),
       wave({ ant: 16, hornet: 8 }, ["crown", "worm"], 1.15),
@@ -307,7 +307,7 @@ const plans = [
   {
     name: "重装迎撃線",
     map: 3,
-    brief: "地上混成を突破し、連結炉を迎撃。クリアで15-Aを解放。",
+    brief: "地上混成を突破し、CATENAを迎撃。クリアで15-Aを解放。",
     waves: [
       wave({ ant: 18, spider: 12, calyx: 2 }),
       wave({ spitter: 10, hornet: 8 }, ["worm"], 1),
@@ -316,7 +316,7 @@ const plans = [
   {
     name: "晶脈突破",
     map: 5,
-    brief: "地底の射線を確保し、連結炉と護衛を突破。",
+    brief: "地底の射線を確保し、CATENAと護衛を突破。",
     waves: [
       wave({ spider: 18, spitter: 12 }),
       wave({ crawler: 16, hornet: 12 }),
