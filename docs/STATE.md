@@ -1,9 +1,9 @@
-# 現在地: リビルド共同設計のたたき台を準備、Opus送信承認待ち（2026-09-29）
+# 現在地: リビルド設計案を整理、OpusのOAuth認証復旧待ち（2026-09-29）
 
-branch `codex/rebuild-joint-design-20260929`、base `a8d7b86ac5243f851795310627eb6c3546d5fc76`。既存cleanなbalance-t7作業場所を再利用し、「大群TPS×3択成長」の設計たたき台・Opus依頼文・検証計画を作成。コード/セーブ/公開環境の変更なし、game/の別作業差分は保護。Opus 5.5は送信前に自動承認レビューで拒否され、共同設計は未完了。[入口・具体的送信対象・再開手順](design/rebuild-20260929/README.md)。main未反映。
+branch `codex/rebuild-joint-design-20260929`、base `a8d7b86ac5243f851795310627eb6c3546d5fc76`、作業場所balance-t7。「大群TPS×3択成長」のCodex設計案v0.1と共同依頼文を保存。ユーザーが2文書送信を明示承認し、同一ハッシュを照合後にOpus 5.5/high指定で実行したが、Claude CodeはOAuth認証無効（401）で終了。Opus回答は未取得、共同設計は未完了。コード/セーブ/公開環境の変更なし、game/の別作業差分は保護。[入口・設計案・実行証拠](design/rebuild-20260929/README.md)。main未反映。
 
-停止理由: 内部設計・技術制約・リポジトリ情報を含む2文書をAnthropicへ送る具体的承認がないとして自動承認レビューが拒否。
-再開条件: CODEX-DRAFT.mdとOPUS-BRIEF.mdをClaude Code経由のOpus 5.5へ共同設計目的で送信するユーザーの明示承認。質問提示済み。Opus応答は未取得で、使用モデルの実行確認も未了。
+停止理由: Claude CodeのOAuthアクセス認証がAPI側で無効と判定された。既存Proログインの状態表示と実リクエスト成功は異なる。
+再開条件: Claude Codeへ既存アカウントで正規に再ログイン。同じCODEX-DRAFT.mdとOPUS-BRIEF.mdの送信は承認済みで取り直さない。Opus回答取得・反論の統合を再開する。
 
 # 現在地: Fenrir「ちっ、やるな！」声質修正・公開完了（2026-09-27）
 
