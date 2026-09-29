@@ -23,6 +23,7 @@ export default defineConfig({
       "tests/social.test.ts",
       "tests/training.test.ts",
       "tests/developer-auth.test.ts",
+      "tests/briefing-cache.test.ts",
       "tests/encounter-camera.test.ts",
       "tests/audio.test.ts",
       "tests/soldier-voice.test.ts",

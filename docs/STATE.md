@@ -1,3 +1,7 @@
+# 現在地: プレゼンのスマホ公開ページ完成・最終監査合格（PR112、2026-09-29）
+
+ユーザー追加依頼「出先スマホで見れるように」。既存Workerの `/briefing/` で28ページの要点/解説を読む静的ページを作成。branch `codex/presentation-mobile`、base `fcd466209c1a89331e45d358b9d2ac1776838986`、当初対象 `7e91107a7d114ff38b46e3f95f0f66027e343bb2`（閲覧UI合格）、最終対象 `666fd85c078bea965ed14e5f489ca6f31ed95a4d`、作業場所balance-t7。[PR112](https://github.com/futsalife24-bot/swarm-front/pull/112)。390幅の28ページ巡回/320幅操作/844横持ち/production build/Worker dry-run成功。同じ[通常監査Chat](https://chatgpt.com/c/6abb409f-2e28-83e9-89a2-1459af653272)へ今回の閲覧/配信差分は合格。追加したSWのbriefing除外4行・回帰テスト2件も最終対象SHAで合格、必須P0/P1/P2各0件。既存管理系と合わせ9件成功、再build/dry-run成功。[詳細](presentations/rebuild-20260929/MOBILE.md)。ゲームロジック・設定・セーブへの変更なし。SWの資料経路除外を追加。main反映・公開・配信確認は後続。
+
 # 現在地: 大型アップデートの28枚プレゼン完成・文書監査合格（PR111、2026-09-29）
 
 [プレゼン入口](presentations/rebuild-20260929/README.md)。変更・追加、3択/進化、期待/達成/爽快感、既存/更新後の魅力、防衛/協力/UI、試作順を説明する全28枚と詳細ノート。PPTXとオフラインHTMLを収録。branch `codex/rebuild-presentation-20260929`、base `d98ae079e14e5d9b7cb05dbd02290b0f90b11870`、対象HEAD `318cb9a213fa4e50ba583cb2bd7a4f81a086d202`。保存先[PR111](https://github.com/futsalife24-bot/swarm-front/pull/111)、作業場所balance-t7。通常Chatへ対象ZIPを添付して[独立文書監査](https://chatgpt.com/c/6abb409f-2e28-83e9-89a2-1459af653272)で対象HEADが合格、必須P0/P1/P2各0件。監査後は記録文書のみ追記。[監査記録](presentations/rebuild-20260929/AUDIT.md)。ゲーム実装/セーブ/本番配信変更なし。表示の確認範囲とOffice未確認の限界はREADMEへ明記。
