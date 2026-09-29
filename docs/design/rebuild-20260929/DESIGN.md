@@ -104,7 +104,8 @@ P1は拠点なし生存＋ボス。P2は同じ地形・カード・敵役割で�
 |---|---|---|
 |RunConfig|ルール版、地形、難易度、人数、敵編成、XP閾値|サーバー決定、公開|
 |RunPublicState|フェーズ、時計、共有XP、確定構成/revision、進化|サーバー決定、全員|
-|RunPrivateState|RNG、本人の候補、世代、再抽選残数、既定候補|サーバー保持、本人のみ|
+|RunServerState|抽選seed/RNG内部状態|サーバー専用、本人を含めクライアントへ送信しない|
+|RunPrivateState|本人の候補、世代、再抽選残数、既定候補|サーバー保持、必要項目を本人のみへ|
 |UpgradeCatalog|対応条件、効果、上限、説明、進化条件|バージョン一致|
 |RewardReceipt|将来のrun/player/受領状態|試作は付与なし。接続前に冪等性検証|
 
