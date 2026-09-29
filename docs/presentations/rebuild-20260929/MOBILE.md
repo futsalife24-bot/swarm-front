@@ -35,3 +35,11 @@
 通常Chat https://chatgpt.com/c/6abb409f-2e28-83e9-89a2-1459af653272 に対象ZIPを添付。UI対象7e91107a7d114ff38b46e3f95f0f66027e343bb2で合格、SW保護を含む最終対象666fd85c078bea965ed14e5f489ca6f31ed95a4dでも合格。必須P0/P1/P2各0件、通常merge・既存Worker公開可。最終応答はMOBILE-AUDIT.txt。
 
 修正版SWが有効な場合の保護を検証。既存インストール済みSWの更新タイミング・物理スマホは未確認。監査後の変更は結果記録のみ。
+
+## 公開完了（2026-09-29）
+
+- PR112を通常merge。公開ソースmain: feaa7cd84178bae872922a2f7669c5a7d4d6eab1。
+- merge後production build / Worker dry-run成功。既存Worker Version: fe9f40d9-6f21-4e7b-a3f3-5222c9b3e60d。
+- 資料HTML2本・WebP5枚・SW・ゲーム入口/JS/CSSの計11ファイルがHTTP200、公開用distとSHA256一致。health HTTP200/ok。MOBILE-RELEASE.jsonに証拠。
+- 公開URLを実ブラウザで確認。390×844で横はみ出しなし、画像/解説表示、目次と前後移動、JS error 0。元スライドの9枚目も実URLで表示成功。assets/mobile-public-390.pngに公開画面。
+- 物理スマホ・既存SW更新タイミングは未確認のまま。公開完了後の追加差分はこの記録と証拠のみで、配信コードは変更なし。

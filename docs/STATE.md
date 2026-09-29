@@ -1,6 +1,6 @@
-# 現在地: プレゼンのスマホ公開ページ完成・最終監査合格（PR112、2026-09-29）
+# 現在地: プレゼンのスマホ公開完了（PR112、2026-09-29）
 
-ユーザー追加依頼「出先スマホで見れるように」。既存Workerの `/briefing/` で28ページの要点/解説を読む静的ページを作成。branch `codex/presentation-mobile`、base `fcd466209c1a89331e45d358b9d2ac1776838986`、当初対象 `7e91107a7d114ff38b46e3f95f0f66027e343bb2`（閲覧UI合格）、最終対象 `666fd85c078bea965ed14e5f489ca6f31ed95a4d`、作業場所balance-t7。[PR112](https://github.com/futsalife24-bot/swarm-front/pull/112)。390幅の28ページ巡回/320幅操作/844横持ち/production build/Worker dry-run成功。同じ[通常監査Chat](https://chatgpt.com/c/6abb409f-2e28-83e9-89a2-1459af653272)へ今回の閲覧/配信差分は合格。追加したSWのbriefing除外4行・回帰テスト2件も最終対象SHAで合格、必須P0/P1/P2各0件。既存管理系と合わせ9件成功、再build/dry-run成功。[詳細](presentations/rebuild-20260929/MOBILE.md)。ゲームロジック・設定・セーブへの変更なし。SWの資料経路除外を追加。main反映・公開・配信確認は後続。
+ユーザー追加依頼「出先スマホで見れるように」。既存Workerの `/briefing/` で28ページの要点/解説を読む静的ページを作成。branch `codex/presentation-mobile`、base `fcd466209c1a89331e45d358b9d2ac1776838986`、当初対象 `7e91107a7d114ff38b46e3f95f0f66027e343bb2`（閲覧UI合格）、最終対象 `666fd85c078bea965ed14e5f489ca6f31ed95a4d`、作業場所balance-t7。[PR112](https://github.com/futsalife24-bot/swarm-front/pull/112)。390幅の28ページ巡回/320幅操作/844横持ち/production build/Worker dry-run成功。同じ[通常監査Chat](https://chatgpt.com/c/6abb409f-2e28-83e9-89a2-1459af653272)へ今回の閲覧/配信差分は合格。追加したSWのbriefing除外4行・回帰テスト2件も最終対象SHAで合格、必須P0/P1/P2各0件。既存管理系と合わせ9件成功、再build/dry-run成功。[詳細](presentations/rebuild-20260929/MOBILE.md)。ゲームロジック・設定・セーブへの変更なし。SWの資料経路除外を追加。PR112通常merge、公開ソースmain feaa7cd84178bae872922a2f7669c5a7d4d6eab1、Worker Version fe9f40d9-6f21-4e7b-a3f3-5222c9b3e60d。公開11ファイルHTTP200/SHA一致、health正常、公開ページ390幅/目次/前後/元スライド表示成功、JS error 0。公開URL: https://swarm-front.melosalife-24.workers.dev/briefing/ 。物理スマホ・既存SW更新タイミングは未確認。
 
 # 現在地: 大型アップデートの28枚プレゼン完成・文書監査合格（PR111、2026-09-29）
 
