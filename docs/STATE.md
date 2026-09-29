@@ -1,3 +1,7 @@
+# 現在地: 大型アップデートの28枚プレゼン完成・文書監査合格（PR111、2026-09-29）
+
+[プレゼン入口](presentations/rebuild-20260929/README.md)。変更・追加、3択/進化、期待/達成/爽快感、既存/更新後の魅力、防衛/協力/UI、試作順を説明する全28枚と詳細ノート。PPTXとオフラインHTMLを収録。branch `codex/rebuild-presentation-20260929`、base `d98ae079e14e5d9b7cb05dbd02290b0f90b11870`、対象HEAD `318cb9a213fa4e50ba583cb2bd7a4f81a086d202`。保存先[PR111](https://github.com/futsalife24-bot/swarm-front/pull/111)、作業場所balance-t7。通常Chatへ対象ZIPを添付して[独立文書監査](https://chatgpt.com/c/6abb409f-2e28-83e9-89a2-1459af653272)で対象HEADが合格、必須P0/P1/P2各0件。監査後は記録文書のみ追記。[監査記録](presentations/rebuild-20260929/AUDIT.md)。ゲーム実装/セーブ/本番配信変更なし。表示の確認範囲とOffice未確認の限界はREADMEへ明記。
+
 # 現在地: Opus共同設計v1完成・文書監査合格（PR110、2026-09-29）
 
 PR110 / branch `codex/rebuild-joint-design-20260929`、base `a8d7b86ac5243f851795310627eb6c3546d5fc76`、作業場所balance-t7。具体的承認後に2文書をClaudeへ添付、Opus 5.5/高のUIで3往復し共同推奨を取得。[設計v1](design/rebuild-20260929/DESIGN.md)は7分戦闘目標/最大7取得/3枚で自動進化/行動起点の連鎖/防衛A/B。候補列挙1系統410状態・3系統7,357状態と文書リンクを確認。ゲーム実装/試遊/公開は未実施、game/の既存差分は保護。独立Chat監査は8057cc34f799c4a8c9ca3b949e1d1151d2a41afdに対し合格、必須指摘0件、任意3件も修正/再監査済み。[監査記録](design/rebuild-20260929/AUDIT.md)。監査後は記録のみ追記し設計変更なし。保存/反映先[PR110](https://github.com/futsalife24-bot/swarm-front/pull/110)。次の工程は試作の仕様承認とP1a実装であり、今回の設計依頼には含めない。[実行記録](design/rebuild-20260929/COLLABORATION-RECORD.md)。
