@@ -32,6 +32,8 @@ GitHub: https://github.com/futsalife24-bot/swarm-front
 
 branch: `codex/rebuild-joint-design-20260929`
 
+保存先: [Draft PR110](https://github.com/futsalife24-bot/swarm-front/pull/110)。共同検討が未完了のためDraft、main未反映。
+
 base: `a8d7b86ac5243f851795310627eb6c3546d5fc76`（2026-09-29 fetch後のorigin/main）
 
 既存game/の作業ブランチと未保存差分、他worktreeは変更していない。ゲーム本体・セーブ・公開環境は変更なし。文書のみのため実行テスト/ビルドは対象外。リンク・内容・差分を確認する。

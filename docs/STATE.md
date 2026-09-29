@@ -5,6 +5,8 @@ branch `codex/rebuild-joint-design-20260929`、base `a8d7b86ac5243f851795310627e
 停止理由: Claude CodeのOAuthアクセス認証がAPI側で無効と判定された。既存Proログインの状態表示と実リクエスト成功は異なる。
 再開条件: Claude Codeへ既存アカウントで正規に再ログイン。同じCODEX-DRAFT.mdとOPUS-BRIEF.mdの送信は承認済みで取り直さない。Opus回答取得・反論の統合を再開する。
 
+保存先: [Draft PR110](https://github.com/futsalife24-bot/swarm-front/pull/110)。設計本文/障害記録HEAD `841c1eae5c414eb94b00d564274412ab0fff10bf`、後続はこのPRリンクの記録のみ。文書リンク・承認payload不変・diff確認済み。
+
 # 現在地: Fenrir「ちっ、やるな！」声質修正・公開完了（2026-09-27）
 
 [PR107](https://github.com/futsalife24-bot/swarm-front/pull/107)通常merge。男性の低めの胸声を指定し同じGemini/Fenrirで1本再生成、新URL hurt-alt-v2.wavへ切替。台詞/確率/間隔/他10本は不変。公開ソースmain 30965b94a5645f2fbde02ca13764b3e0590f3648、Worker Version 06fb5551-71b4-4513-ac44-82897d7dca17。型・関連30件・merge後production build/dry-run成功。対象48fcbd51048440d48cba113106e1992fdc5b9622の限定再監査PASS、必須P0/P1/P2各0。公開25ファイルHTTP200・SHA一致、health正常、新WAV1.84秒完走/errorなし。主観的声質はユーザー試聴待ち、物理Android/新規協力実通信/Judge未確認。[詳細・証拠](FENRIR-HURT-V2.md)。base a929c42261df0ffc4f82b6141aea6fc643dd1cfe、作業branch codex/fenrir-hurt-timbre、既存balance-t7。元gameの別作業差分は保護。
