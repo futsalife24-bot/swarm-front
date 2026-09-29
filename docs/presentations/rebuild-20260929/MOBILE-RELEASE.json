@@ -1,0 +1,73 @@
+{
+  "date": "2026-09-29T05:21:47.936Z",
+  "site": "https://swarm-front.melosalife-24.workers.dev",
+  "assets": [
+    {
+      "url": "/",
+      "status": 200,
+      "bytes": 3646,
+      "sha256": "19bb95993e7ac681de71c89f52be40c59bff22cb0d2c013ae5fe3d011de2e91d"
+    },
+    {
+      "url": "/sw.js",
+      "status": 200,
+      "bytes": 3043,
+      "sha256": "ebf77e0f766e85b2e2fd584285d439f44a074d3932de725c67ab7329b5dd60b4"
+    },
+    {
+      "url": "/briefing/",
+      "status": 200,
+      "bytes": 59139,
+      "sha256": "c727868b6a291da432efcf21e48a2cfb35ceae5b1cd136c4c18427d0476c46bc"
+    },
+    {
+      "url": "/briefing/slides.html",
+      "status": 200,
+      "bytes": 5351501,
+      "sha256": "9b6e9fedf6a3a15134d4634b5c5c46a6648da831a41bcfd2aa3add0ab07d63a5"
+    },
+    {
+      "url": "/briefing/assets/update-concept.webp",
+      "status": 200,
+      "bytes": 195858,
+      "sha256": "a9d0382296ccf689b041f7588c26a9ba1d0a67afe2b7b223118d48eb74eb1be3"
+    },
+    {
+      "url": "/briefing/assets/trooper.webp",
+      "status": 200,
+      "bytes": 30144,
+      "sha256": "210c0b982980f094ce7abff802f5d51f104f3013f17eb3d91b49e874973dbac8"
+    },
+    {
+      "url": "/briefing/assets/calyx.webp",
+      "status": 200,
+      "bytes": 9560,
+      "sha256": "64612bb1bf7eac1e2d3451fbcaed611815b6b233dbf1c79b423549b7f620aeec"
+    },
+    {
+      "url": "/briefing/assets/battle.webp",
+      "status": 200,
+      "bytes": 25080,
+      "sha256": "eb33ebb0b729e2d9cb8e2b5054eff6ac14a4385c55cc4ebe8a951222b88fcf77"
+    },
+    {
+      "url": "/briefing/assets/title.webp",
+      "status": 200,
+      "bytes": 24618,
+      "sha256": "c432e4c798452ed2f536f77c4d4c9eaabee71eac57ad7fe99fb4c72d36a7daf0"
+    },
+    {
+      "url": "/assets/index-DQ_uc2s-.js",
+      "status": 200,
+      "bytes": 38913,
+      "sha256": "68772f6315fd0d4d3038265540948756a87a54e6fc651d6046d594aa5f3c69ad"
+    },
+    {
+      "url": "/assets/index-CPbai1ZT.css",
+      "status": 200,
+      "bytes": 259,
+      "sha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9"
+    }
+  ],
+  "health": 200
+}
