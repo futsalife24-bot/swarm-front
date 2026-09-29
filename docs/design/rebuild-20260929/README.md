@@ -1,50 +1,36 @@
 # SWARM FRONT リビルド共同設計
 
-2026-09-29。状態: **ブラウザClaudeへログインしOpus 5.5/高を選択済み。2文書の添付が自動承認レビューで拒否され、具体的文言のユーザー承認待ち。共同設計は未完了。**
+2026-09-29。**Opusとの3往復を終え、共同推奨v1を統合済み。** 実装/試遊はまだ行っていない。main反映前の文書監査へ進む。
 
-最新の再開先はChromeのClaude新規チャット。CLI再ログインでは追加OAuth同意が拒否され、追加権限を付与せず通常Claudeの既存ログインを使用した。CODEX-DRAFT.mdとOPUS-BRIEF.mdは以前の「はい」で送信承認を得ているが、ブラウザ添付は同一SHAの証拠を添えても「信頼できるユーザー発言にファイルと宛先が明示されていない」と再拒否。送信方法を変えて迂回していない。現在はアップロード未実施。
+- [共同設計 v1](DESIGN.md): 推奨する遊び、3択、3構成、協力、日替わり防衛、制作順。
+- [採否と試遊条件](DECISIONS-AND-TESTS.md): なぜ変えたか、未検証事項、実装前に残る製品判断。
+- [Opusの最終回答](OPUS-RESPONSE.md): 共同推奨の原文。独立監査ではない。
+- [実行記録](COLLABORATION-RECORD.md): 送信承認・ハッシュ・モデル確認範囲・3往復の経緯。
+- [列挙検証](verify-design.py): 抽象的な候補数/保証枠の検証。戦闘/面白さのテストではない。
+- 検討前の資料: [承認済みたたき台](CODEX-DRAFT.md)、[依頼文](OPUS-BRIEF.md)、[Codex単独v0.1](CODEX-V0.1.md)。いずれも現在の推奨仕様と混同しない。
 
-再開条件: ユーザーが「CODEX-DRAFT.mdとOPUS-BRIEF.mdをclaude.aiのOpus 5.5へアップロードして共同設計に使用することを承認する」と明示。具体的な選択肢を提示済み。OAuth権限の追加承認は求めず、ログイン済みブラウザで同じ2文書を使う。
+結論は「狙った一発を起点に群れを崩す、約7分のTPS」。最大7回の3択、同系統3枚で自動進化、3枚目の候補保証。最初は爆発1系統の試作、次に3系統、防衛比較、協力の順で進める。
 
-## 入口
+## 検証と限界
 
-- [読める形に整理した設計案 v0.1](DESIGN.md): 操作、成長、協力、保存、試作の推奨案。Codex案であり共同合意版ではない。
-- [設計たたき台](CODEX-DRAFT.md): 体験の柱、1プレイ、3択、3構成、既存資産、技術境界。
-- [Opusへの共同設計依頼](OPUS-BRIEF.md): 批判・対案・再検討を依頼する範囲。
-- [論点と検証計画](DECISIONS-AND-TESTS.md): 主担当が整理した対立点、仮時系列、試作の判定条件。
-- [共同作業の実行記録](COLLABORATION-RECORD.md): 承認済みpayloadのハッシュ、実行指定と確認できた障害。
+verify-design.pyは1系統410状態/1,239遷移、3系統7,357状態/33,267遷移を確認。7取得までの候補はそれぞれ最少3種/6種、保証枠は3枠以内、進化最大1/2。ローカル文書リンクを確認。ゲームの楽しさ、戦闘、通信、UI、実機性能は未検証。
 
-ユーザーが希望する「地球防衛軍×ヴァンサバ」は、大群へ対抗する操作感とラン内成長という体験の方向。固有の素材や名称を複製する設計ではない。
+主担当Codexの実行モデルID/effortは未確認。共同担当はClaudeのUIでOpus 5.5/高を確認し、回答完了を観測。応答APIのモデルIDと実使用量は未取得。CLIの指定claude-opus-5-5/highは以前の失敗試行であり、成功の証拠にしない。
 
-## これまでの共同作業の記録（最新状態は冒頭）
-
-- 主担当: Codex。実行モデルID/effortは取得できず未確認。
-- 共同担当として指定: Claude Opus 5.5。CLI 2.1.114の起動と既存Pro認証状態の表示を確認したが、実リクエストでは認証が失敗した。
-- 実行指定: `claude-opus-5-5` / high。これは呼出し指定であり実行済みモデルの証拠ではない。
-- 最初の自動承認レビュー拒否は、ユーザーの「はい」による2文書送信の明示承認で解消。
-- 承認後に同一ハッシュのCODEX-DRAFT.mdとOPUS-BRIEF.mdをCLIへ渡して実行。終了コード1、`OAuth access token is invalid`（401）。モデル回答/使用量は取得できず、推論が実行されたとは扱わない。別モデル/API課金経路への代替なし。
-- 承認対象はこの2文書のみ。内部仕様要約・技術制約・既存リポジトリURLを含み、認証情報・個人情報・セーブデータ・ソースコード全文は含めない。DESIGN.md等の追加文書は送っていない。
-- 停止理由: Claude Codeの既存OAuth認証がAPI側で無効と判定された。ログイン状態の表示だけでは利用可能性を確認できなかった。
-- 再開条件: 既存Claudeアカウントへ正規のClaude Code再ログインを完了する。同じ2文書の送信承認を取り直さず、ハッシュ照合後に再開。
-- 復旧後: 第1提案を取得→Codexが対案/整合性を検討→必要な追加送信範囲の承認を確認→共同案と未決事項を統合。共同検討を独立リリース監査の代わりにしない。
-
-## 現在の保存先
+## 保存先
 
 GitHub: https://github.com/futsalife24-bot/swarm-front
 
-文書作業: `C:/Users/futsa/OneDrive/ドキュメント/ChatGPT/スワフロ/balance-t7`
+作業場所: C:/Users/futsa/OneDrive/ドキュメント/ChatGPT/スワフロ/balance-t7
 
-branch: `codex/rebuild-joint-design-20260929`
+branch: codex/rebuild-joint-design-20260929 / [PR110](https://github.com/futsalife24-bot/swarm-front/pull/110)
 
-保存先: [Draft PR110](https://github.com/futsalife24-bot/swarm-front/pull/110)。共同検討が未完了のためDraft、main未反映。
+base: a8d7b86ac5243f851795310627eb6c3546d5fc76
 
-base: `a8d7b86ac5243f851795310627eb6c3546d5fc76`（2026-09-29 fetch後のorigin/main）
+ゲーム本体/セーブ/公開環境は変更なし。game/の既存差分は保護。文書変更に無関係なゲーム全件テストやビルドは行わない。
 
-既存game/の作業ブランチと未保存差分、他worktreeは変更していない。ゲーム本体・セーブ・公開環境は変更なし。文書のみのため実行テスト/ビルドは対象外。リンク・内容・差分を確認する。
+## 参照
 
-## 参考資料
-
-- [地球防衛軍6 公式](https://www.d3p.co.jp/edf6/en/): 参照する体験の背景。
-- [Vampire Survivors 公式ストア](https://store.steampowered.com/app/1794680/Vampire_Survivors/): 選択とラン内成長の参照。
-- [Opus 5.5 公式モデル仕様](https://platform.claude.com/docs/en/models/opus-5-5/overview): モデルIDを照合。ベンチマークや価格をゲーム設計の根拠にしない。
-- 既存仕様の一次資料: `src/shared/daily-defense.ts`, `src/shared/daily-rewards.ts`, `src/shared/defs.ts`, `docs/BALANCE-T7.md`, `docs/PLAYER-CONTINUITY-DEFENSE.md`（上記base）。
+- [共同設計チャット](https://claude.ai/chat/e43fc9c7-8b0f-43ad-bc25-fbebd3bc78ba)
+- [地球防衛軍6公式](https://www.d3p.co.jp/edf6/en/)と[Vampire Survivors公式ストア](https://store.steampowered.com/app/1794680/Vampire_Survivors/): 大群への対抗と出撃内成長という体験の参考。固有素材/名称は複製しない。
+- 既存仕様: base時点のsrc/shared/daily-defense.ts、daily-rewards.ts、defs.ts、docs/BALANCE-T7.md、docs/PLAYER-CONTINUITY-DEFENSE.md。
