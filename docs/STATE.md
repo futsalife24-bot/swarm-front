@@ -1,3 +1,10 @@
+# 現在地: リビルド共同設計のたたき台を準備、Opus送信承認待ち（2026-09-29）
+
+branch `codex/rebuild-joint-design-20260929`、base `a8d7b86ac5243f851795310627eb6c3546d5fc76`。既存cleanなbalance-t7作業場所を再利用し、「大群TPS×3択成長」の設計たたき台・Opus依頼文・検証計画を作成。コード/セーブ/公開環境の変更なし、game/の別作業差分は保護。Opus 5.5は送信前に自動承認レビューで拒否され、共同設計は未完了。[入口・具体的送信対象・再開手順](design/rebuild-20260929/README.md)。main未反映。
+
+停止理由: 内部設計・技術制約・リポジトリ情報を含む2文書をAnthropicへ送る具体的承認がないとして自動承認レビューが拒否。
+再開条件: CODEX-DRAFT.mdとOPUS-BRIEF.mdをClaude Code経由のOpus 5.5へ共同設計目的で送信するユーザーの明示承認。質問提示済み。Opus応答は未取得で、使用モデルの実行確認も未了。
+
 # 現在地: Fenrir「ちっ、やるな！」声質修正・公開完了（2026-09-27）
 
 [PR107](https://github.com/futsalife24-bot/swarm-front/pull/107)通常merge。男性の低めの胸声を指定し同じGemini/Fenrirで1本再生成、新URL hurt-alt-v2.wavへ切替。台詞/確率/間隔/他10本は不変。公開ソースmain 30965b94a5645f2fbde02ca13764b3e0590f3648、Worker Version 06fb5551-71b4-4513-ac44-82897d7dca17。型・関連30件・merge後production build/dry-run成功。対象48fcbd51048440d48cba113106e1992fdc5b9622の限定再監査PASS、必須P0/P1/P2各0。公開25ファイルHTTP200・SHA一致、health正常、新WAV1.84秒完走/errorなし。主観的声質はユーザー試聴待ち、物理Android/新規協力実通信/Judge未確認。[詳細・証拠](FENRIR-HURT-V2.md)。base a929c42261df0ffc4f82b6141aea6fc643dd1cfe、作業branch codex/fenrir-hurt-timbre、既存balance-t7。元gameの別作業差分は保護。
