@@ -1,0 +1,38 @@
+[
+  {
+    "file": "public/assets/audio/voice-fenrir-v1/dodge.wav",
+    "bytes": 21678,
+    "sha256": "afbc7019df3236ae2bb9fc4fc665d2ccab78333b728cea427df00ebe3f06cb05",
+    "matchesApprovedPreview": true
+  },
+  {
+    "file": "public/assets/audio/voice-fenrir-v1/rescued.wav",
+    "bytes": 37554,
+    "sha256": "490ec4c7918ea420b9f034a76a85f6c4ea70dfbb9aa843e04182ce3d045b7728",
+    "matchesApprovedPreview": true
+  },
+  {
+    "file": "public/assets/audio/voice-fenrir-v1/rescued-alt.wav",
+    "bytes": 49202,
+    "sha256": "02f14c85a0f2faccdb8a0bad3456632cc76ed0e1d423385679e06c2bdd485471",
+    "matchesApprovedPreview": true
+  },
+  {
+    "file": "public/assets/audio/voice-fenrir-v1/danger.wav",
+    "bytes": 67486,
+    "sha256": "431c2f7360229e4c50dd1bef41c302a78ae235fcf09e3fea5dc50ba7d8c208ab",
+    "matchesApprovedPreview": true
+  },
+  {
+    "file": "public/assets/audio/voice-fenrir-v1/danger-alt.wav",
+    "bytes": 75652,
+    "sha256": "428443d09e2d70d934273bfd67211b12cc558f3d1f8d3c5460f6801750130088",
+    "matchesApprovedPreview": true
+  },
+  {
+    "file": "public/assets/audio/voice-fenrir-v1/start.wav",
+    "bytes": 53062,
+    "sha256": "bda1d65158cef2e5a9a41097e3897dae758425f6f0d1405dd31032bad0d047f9",
+    "matchesApprovedPreview": true
+  }
+]

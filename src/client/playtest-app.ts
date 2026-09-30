@@ -252,6 +252,7 @@ async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
         accumulator = 0;
         previous = performance.now();
         battleUI();
+        if (!resume) sound.battleStarted(world!, "solo");
         checkpointNow();
         if (!resume && !daily)
           tutorial(

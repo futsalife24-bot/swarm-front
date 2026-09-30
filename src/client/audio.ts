@@ -203,10 +203,13 @@ export class Sound {
     }
   }
   /** Cancel speech immediately; the next snapshot is only a new baseline. */
-  resetSpeech() {
+  resetSpeech(rebaseline = true) {
     this.speech?.stop();
     this.speech = undefined;
-    this.soldier.suspend();
+    if (rebaseline) this.soldier.suspend();
+  }
+  battleStarted(w: World, id: string) {
+    this.update(w, id, 0, true, true);
   }
   consumed(run: string) {
     return this.tracker.consumed(run);
@@ -216,6 +219,7 @@ export class Sound {
     id: string,
     yaw: number,
     active: boolean,
+    battleStart = false,
   ) {
     active &&= !document.hidden;
     if (!active && this.active) this.stop(true);
@@ -231,24 +235,20 @@ export class Sound {
       this.speechRun = w.run;
       this.speechOwner = id;
     }
-    if (
-      !active ||
-      !p ||
-      p.hp <= 0 ||
-      !p.connected ||
-      this.context?.state !== "running"
-    ) {
+    if (!active || !p || !p.connected || this.context?.state !== "running") {
       this.resetSpeech();
     }
+    // Keep observing a downed soldier so a genuine rescue transition survives.
+    if (p && p.hp <= 0) this.resetSpeech(false);
     const line = this.soldier.collect(
       w,
       id,
       active &&
         !!p?.connected &&
-        p.hp > 0 &&
         this.effectsVolume > 0 &&
         this.context?.state === "running" &&
         SOLDIER_VOICES.every((v) => this.buffers.has(`voice:${v.id}`)),
+      battleStart,
     );
     if (line) this.speak(line);
     for (const cue of this.tracker.collect(w, active)) {

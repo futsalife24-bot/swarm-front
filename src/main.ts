@@ -258,10 +258,12 @@ async function prepareLobby() {
   }
 }
 
-async function loadBattle(soloStart: boolean) {
+let voiceSortieGeneration = 0;
+async function loadBattle(soloStart: boolean, newCoopSortie = false) {
   if (!world) return;
   const generation = ++loadingGeneration;
   const loadingWorld = world;
+  const voiceGeneration = voiceSortieGeneration;
   lobbyPreview = null;
   preparingKey = "";
   setScreen("loading");
@@ -284,6 +286,11 @@ async function loadBattle(soloStart: boolean) {
     if (cancelled()) return;
     if (soloStart) start(loadingWorld);
     battle();
+    if (
+      soloStart ||
+      (newCoopSortie && voiceGeneration === voiceSortieGeneration)
+    )
+      sound.battleStarted(world!, myId);
   } catch (error) {
     if (cancelled()) return;
     $("load-status").textContent = (error as Error).message;
@@ -1007,9 +1014,14 @@ async function connect(create: boolean, restore = false, joinCode?: string) {
     network = new Network(endpoint.replace(/\/$/, ""));
     network.equip = equipped();
     network.playerName = playerName();
+    let awaitingSortie = false;
     network.onChat = renderLobbyChat;
     network.onStatus = (s, fatal) => {
-      if (fatal || network!.retry > 0) sound.resetSpeech();
+      if (fatal || network!.retry > 0) {
+        voiceSortieGeneration++;
+        awaitingSortie = false;
+        sound.resetSpeech();
+      }
       status = s;
       netFatal = fatal;
       if (fatal) {
@@ -1024,6 +1036,7 @@ async function connect(create: boolean, restore = false, joinCode?: string) {
       } else if (screen === "lobby") lobby();
     };
     network.onLobby = () => {
+      awaitingSortie = true;
       selectedStage = network!.stage;
       if (screen === "gear") {
         ($("stage-select") as HTMLSelectElement).value = String(selectedStage);
@@ -1035,6 +1048,8 @@ async function connect(create: boolean, restore = false, joinCode?: string) {
       syncGameSelects(ui);
     };
     network.onWorld = (w, firstState) => {
+      const newCoopSortie = awaitingSortie && w.phase === "battle";
+      awaitingSortie = false;
       if (firstState) sound.resetSpeech();
       try {
         recordCoopEncounters(w);
@@ -1051,7 +1066,7 @@ async function connect(create: boolean, restore = false, joinCode?: string) {
       );
       if (w.phase === "battle") {
         if (screen !== "battle" && screen !== "loading" && !netFatal)
-          void loadBattle(false);
+          void loadBattle(false, newCoopSortie);
         const p = w.players.find((p) => p.id === myId);
         if (p) {
           if (

@@ -181,3 +181,36 @@ it("preserves reload interval and last phrase across visibility changes", () => 
   update();
   expect(speech()).toHaveLength(2);
 });
+
+it("cancels speech on down, but preserves observation for the rescue line", () => {
+  const { w, p, update, speech } = fixture();
+  p.reload = 1;
+  update();
+  const old = speech()[0];
+  p.hp = 0;
+  update();
+  expect(old.stop).toHaveBeenCalled();
+  w.time = 7;
+  update();
+  p.hp = 90;
+  w.events.push({ id: 1, type: "revive", owner: p.id, x: p.x, z: p.z, y: 1 });
+  update();
+  expect(speech()).toHaveLength(2);
+  update();
+  expect(speech()).toHaveLength(2);
+});
+
+it("plays an explicit sortie once, never on load, mute recovery or a repeated start call", () => {
+  for (const muted of [false, true]) {
+    const { w, p, sound, speech } = fixture();
+    expect(speech()).toHaveLength(0);
+    if (muted) sound.volume = 0;
+    sound.battleStarted(w, p.id);
+    expect(speech()).toHaveLength(muted ? 0 : 1);
+    sound.resetSpeech();
+    sound.volume = 0.35;
+    w.time = 20;
+    sound.battleStarted(w, p.id);
+    expect(speech()).toHaveLength(muted ? 0 : 1);
+  }
+});
