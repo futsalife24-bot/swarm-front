@@ -1,3 +1,21 @@
+# 現在地: PR114の監査送信は承認済み・ChatGPT送信障害（2026-09-30）
+
+ユーザー「承認」で今回ZIP送信の具体的承認を取得。SHA256 406C1AA4347DDFC993EC3EBDF47779D2610B9892F368E4D22F7AD80756E68A39一致を確認し通常Chatへ添付成功。送信時Unknown error、画面の再試行→同じZIP再添付→再送でも同じエラー。監査の受信・回答は未確認。許可不足は解消済みで同じ資料の承認を取り直さない。
+
+実装1bc554e70ac26eb37032a275e1ba48482f46c4e1、base 4520c57ede444d44b8699753645f36ce479b72bf、branch codex/fenrir-six-callouts、作業場所balance-t7。[PR114](https://github.com/futsalife24-bot/swarm-front/pull/114)はOPEN/MERGEABLE、check一覧空、最新mainはbaseと同一。実装・検証は前記どおり、今回コード変更なし。詳細[記録](FENRIR-ACTING.md)。
+
+停止理由: 指定経路の通常ChatGPTが監査依頼の送信を2回ともUnknown errorで終了。独立監査結果がないためmain反映/本番公開は未実行。
+再開条件: iab通常Chatで添付付き送信が復旧した後、承認済み同一ZIPを送信して監査→必要修正→通常merge→既存Worker公開/配信確認。現在タブ22を保持。local-chatgptの仮URLだけが生成され、正常なサーバー側監査Chat URLは未取得。新たな許可確認ではなくサービス復旧待ち。
+# 現在地: Fenrir6台詞はPR114保存済み・監査ZIP送信承認待ち（2026-09-30）
+
+branch codex/fenrir-six-callouts、実装HEAD 1bc554e70ac26eb37032a275e1ba48482f46c4e1、base 4520c57ede444d44b8699753645f36ce479b72bf、作業場所balance-t7。型・関連107件・6採用SHA一致・実IAB17台詞表示/追加6本完走・production build/Worker dry-run成功。[PR114](https://github.com/futsalife24-bot/swarm-front/pull/114)、[詳細](FENRIR-ACTING.md)。後続差分は記録のみ。gameの別作業差分は保護。
+
+停止理由: 自動承認レビューが今回監査ZIP（1,831,640 bytes）のChatGPT通常新規Chatへの添付を、非公開ソースの具体的送信承認不足として拒否。未添付・監査未依頼・main未反映・本番未公開。
+再開条件: fenrir-acting-1bc554e-audit.zipの通常ChatGPTへの独立監査目的の送信許可。許可後、詳細記録のSHA256照合→添付/監査/必要修正→通常merge/既存Worker公開/配信確認。確認提示済み。
+# 現在地: Fenrir採用6台詞の組み込み・自己検証（2026-09-30）
+
+branch codex/fenrir-six-callouts、base 4520c57、作業場所balance-t7。回避/被救助/ピンチ/開始の6台詞を採用試聴版そのままで追加、サウンドテスト17台詞。発声確率/無発声/共通間隔/低HP再許可/開始と再開の区別を実装。型・関連107件・採用6SHA一致・実IAB6本完走成功。独立監査/main/公開は進行中。詳細: [Fenrir演技ボイス](FENRIR-ACTING.md)。gameの別作業差分は保護。
+
 # 現在地: プレゼンのスマホ公開完了（PR112、2026-09-29）
 
 ユーザー追加依頼「出先スマホで見れるように」。既存Workerの `/briefing/` で28ページの要点/解説を読む静的ページを作成。branch `codex/presentation-mobile`、base `fcd466209c1a89331e45d358b9d2ac1776838986`、当初対象 `7e91107a7d114ff38b46e3f95f0f66027e343bb2`（閲覧UI合格）、最終対象 `666fd85c078bea965ed14e5f489ca6f31ed95a4d`、作業場所balance-t7。[PR112](https://github.com/futsalife24-bot/swarm-front/pull/112)。390幅の28ページ巡回/320幅操作/844横持ち/production build/Worker dry-run成功。同じ[通常監査Chat](https://chatgpt.com/c/6abb409f-2e28-83e9-89a2-1459af653272)へ今回の閲覧/配信差分は合格。追加したSWのbriefing除外4行・回帰テスト2件も最終対象SHAで合格、必須P0/P1/P2各0件。既存管理系と合わせ9件成功、再build/dry-run成功。[詳細](presentations/rebuild-20260929/MOBILE.md)。ゲームロジック・設定・セーブへの変更なし。SWの資料経路除外を追加。PR112通常merge、公開ソースmain feaa7cd84178bae872922a2f7669c5a7d4d6eab1、Worker Version fe9f40d9-6f21-4e7b-a3f3-5222c9b3e60d。公開11ファイルHTTP200/SHA一致、health正常、公開ページ390幅/目次/前後/元スライド表示成功、JS error 0。公開URL: https://swarm-front.melosalife-24.workers.dev/briefing/ 。物理スマホ・既存SW更新タイミングは未確認。

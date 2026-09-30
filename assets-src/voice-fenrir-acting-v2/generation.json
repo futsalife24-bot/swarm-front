@@ -1,0 +1,79 @@
+{
+  "revision": 2,
+  "reason": "User rejected breathy dodge and preparatory breaths on other five lines. Regenerate with immediate lexical onset.",
+  "referenceVideo": "https://www.youtube.com/watch?v=G_dPRcof2Ks",
+  "clips": [
+    {
+      "id": "dodge",
+      "line": "ほっ！",
+      "direction": "軽いステップで素早くかわす、軽快で余裕のある一拍の掛け声。最初から明瞭な「ほ」の母音を伴って、軽く「ほっ！」と一度だけ発声し、すぐ短く切る。力みや苦痛は表現しない。短い声を一回だけ、リズムよく。",
+      "acting": "軽いステップに合わせ、明瞭な「ほっ！」を一拍。",
+      "model": "gemini-3.8-flash-tts",
+      "voice": "Fenrir",
+      "style": "日本語の若い成人男性兵士。Fenrirの低めで芯の太い男性の地声を保つ。音声は台詞の最初の文字から始め、書かれた台詞だけを発声する。冒頭や末尾に吸気音、吐息、ため息、喘ぎ、うめき、口音、追加の掛け声を入れない。感情は言葉の抑揚・強弱・テンポで表現する。Start directly with the first spoken syllable. Exact dialogue only; no preparatory breath or non-speech sounds.\n軽いステップで素早くかわす、軽快で余裕のある一拍の掛け声。最初から明瞭な「ほ」の母音を伴って、軽く「ほっ！」と一度だけ発声し、すぐ短く切る。力みや苦痛は表現しない。短い声を一回だけ、リズムよく。",
+      "generatedAt": "2026-09-30T07:34:27.266Z",
+      "sourceFile": "dodge-source.wav",
+      "bytes": 36524
+    },
+    {
+      "id": "rescued",
+      "line": "ありがとう！",
+      "direction": "最初の「あ」から即座に話し始める。仲間へ向けた率直な感謝を、明るい張りのある男性の地声で短く力強く届ける。語尾は落ち着いた低さで締める。",
+      "acting": "「あ」から即発声。感謝を短く力強く。",
+      "model": "gemini-3.8-flash-tts",
+      "voice": "Fenrir",
+      "style": "日本語の若い成人男性兵士。Fenrirの低めで芯の太い男性の地声を保つ。音声は台詞の最初の文字から始め、書かれた台詞だけを発声する。冒頭や末尾に吸気音、吐息、ため息、喘ぎ、うめき、口音、追加の掛け声を入れない。感情は言葉の抑揚・強弱・テンポで表現する。Start directly with the first spoken syllable. Exact dialogue only; no preparatory breath or non-speech sounds.\n最初の「あ」から即座に話し始める。仲間へ向けた率直な感謝を、明るい張りのある男性の地声で短く力強く届ける。語尾は落ち着いた低さで締める。",
+      "generatedAt": "2026-09-30T07:36:08.806Z",
+      "sourceFile": "rescued-source.wav",
+      "bytes": 69164
+    },
+    {
+      "id": "rescued-alt",
+      "line": "助かったよ！",
+      "direction": "最初の「た」から即座に話し始める。仲間へ安堵と親しみを込めた自然な感謝。「助かった」に素直な喜び、「よ」に元気と戦意を乗せる。歯切れよく簡潔に言い切る。",
+      "acting": "「た」から即発声。安堵と戦意を言葉に。",
+      "model": "gemini-3.8-flash-tts",
+      "voice": "Fenrir",
+      "style": "日本語の若い成人男性兵士。Fenrirの低めで芯の太い男性の地声を保つ。音声は台詞の最初の文字から始め、書かれた台詞だけを発声する。冒頭や末尾に吸気音、吐息、ため息、喘ぎ、うめき、口音、追加の掛け声を入れない。感情は言葉の抑揚・強弱・テンポで表現する。Start directly with the first spoken syllable. Exact dialogue only; no preparatory breath or non-speech sounds.\n最初の「た」から即座に話し始める。仲間へ安堵と親しみを込めた自然な感謝。「助かった」に素直な喜び、「よ」に元気と戦意を乗せる。歯切れよく簡潔に言い切る。",
+      "generatedAt": "2026-09-30T07:36:54.931Z",
+      "sourceFile": "rescued-alt-source.wav",
+      "bytes": 74924
+    },
+    {
+      "id": "danger",
+      "line": "まだやれる！",
+      "direction": "最初の「ま」から即座に話し始める。追い込まれても強気な闘志を保ち、「まだ」に決意、「やれる！」に力を乗せて短く押し切る。地声で男らしく断固とした語尾。",
+      "acting": "「ま」から即発声。強気な闘志で言い切る。",
+      "model": "gemini-3.8-flash-tts",
+      "voice": "Fenrir",
+      "style": "日本語の若い成人男性兵士。Fenrirの低めで芯の太い男性の地声を保つ。音声は台詞の最初の文字から始め、書かれた台詞だけを発声する。冒頭や末尾に吸気音、吐息、ため息、喘ぎ、うめき、口音、追加の掛け声を入れない。感情は言葉の抑揚・強弱・テンポで表現する。Start directly with the first spoken syllable. Exact dialogue only; no preparatory breath or non-speech sounds.\n最初の「ま」から即座に話し始める。追い込まれても強気な闘志を保ち、「まだ」に決意、「やれる！」に力を乗せて短く押し切る。地声で男らしく断固とした語尾。",
+      "generatedAt": "2026-09-30T07:37:33.937Z",
+      "sourceFile": "danger-source.wav",
+      "bytes": 80684
+    },
+    {
+      "id": "danger-alt",
+      "line": "まずいな……！",
+      "direction": "最初の「ま」から即座に話し始める。危険を察した冷静な緊張を、低く引き締まった男性の地声で簡潔に表す。「まずい」を明瞭に、「な」は短く抑えて下げる。三点リーダーを長く引き延ばさない。",
+      "acting": "「ま」から即発声。危機感を低く簡潔に。",
+      "model": "gemini-3.8-flash-tts",
+      "voice": "Fenrir",
+      "style": "日本語の若い成人男性兵士。Fenrirの低めで芯の太い男性の地声を保つ。音声は台詞の最初の文字から始め、書かれた台詞だけを発声する。冒頭や末尾に吸気音、吐息、ため息、喘ぎ、うめき、口音、追加の掛け声を入れない。感情は言葉の抑揚・強弱・テンポで表現する。Start directly with the first spoken syllable. Exact dialogue only; no preparatory breath or non-speech sounds.\n最初の「ま」から即座に話し始める。危険を察した冷静な緊張を、低く引き締まった男性の地声で簡潔に表す。「まずい」を明瞭に、「な」は短く抑えて下げる。三点リーダーを長く引き延ばさない。",
+      "generatedAt": "2026-09-30T07:38:07.696Z",
+      "sourceFile": "danger-alt-source.wav",
+      "bytes": 86444
+    },
+    {
+      "id": "start",
+      "line": "よし、行こう！",
+      "direction": "最初の「よ」から即座に話し始める。「よし」で覚悟を決め、読点で軽く区切って「行こう！」を仲間へ力強く届ける。歯切れよく前向きな男性の号令。語句の間に呼吸音を挟まない。",
+      "acting": "「よ」から即発声。覚悟から前進の号令へ。",
+      "model": "gemini-3.8-flash-tts",
+      "voice": "Fenrir",
+      "style": "日本語の若い成人男性兵士。Fenrirの低めで芯の太い男性の地声を保つ。音声は台詞の最初の文字から始め、書かれた台詞だけを発声する。冒頭や末尾に吸気音、吐息、ため息、喘ぎ、うめき、口音、追加の掛け声を入れない。感情は言葉の抑揚・強弱・テンポで表現する。Start directly with the first spoken syllable. Exact dialogue only; no preparatory breath or non-speech sounds.\n最初の「よ」から即座に話し始める。「よし」で覚悟を決め、読点で軽く区切って「行こう！」を仲間へ力強く届ける。歯切れよく前向きな男性の号令。語句の間に呼吸音を挟まない。",
+      "generatedAt": "2026-09-30T07:38:49.253Z",
+      "sourceFile": "start-source.wav",
+      "bytes": 74924
+    }
+  ]
+}

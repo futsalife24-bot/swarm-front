@@ -1511,7 +1511,13 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       p.hp = 90;
       p.down = 0;
       p.revive = 0;
-      event(w, { type: "revive", x: p.x, z: p.z, y: (p.y ?? 0) + 1 });
+      event(w, {
+        type: "revive",
+        owner: p.id,
+        x: p.x,
+        z: p.z,
+        y: (p.y ?? 0) + 1,
+      });
     }
   }
   const living = w.players.filter((p) => p.hp > 0 && p.connected);

@@ -9,6 +9,7 @@ import {
   neutral,
 } from "../src/shared/game";
 import { STARTERS } from "../src/shared/defs";
+import { maxHp, initSolo } from "../src/shared/solo-progression";
 
 function fixture(random = () => 0) {
   const w = createWorld("voice");
@@ -32,6 +33,152 @@ function shot(w: ReturnType<typeof createWorld>, owner = "p") {
     z: 0,
   });
 }
+function rescueEvent(w: ReturnType<typeof createWorld>, owner = "p") {
+  w.events.push({
+    id: (w.events.at(-1)?.id ?? 0) + 1,
+    type: "revive",
+    owner,
+    x: 0,
+    z: 0,
+    y: 1,
+  });
+}
+describe("accepted acting clips", () => {
+  it("voices a real dodge onset once, permits silence, and keeps its lottery gate after suspension", () => {
+    const rng = vi.fn(() => 0.9);
+    const { w, p, collect, voice } = fixture(rng);
+    step(w, { p: { ...neutral(), dodge: true } });
+    expect(p.evade).toBeGreaterThan(0);
+    expect(collect()).toBeUndefined();
+    collect();
+    voice.suspend();
+    collect();
+    p.evade = 0;
+    collect();
+    w.time = 3;
+    p.evade = 0.3;
+    collect();
+    expect(rng).toHaveBeenCalledTimes(1);
+    p.evade = 0;
+    collect();
+    w.time = 7;
+    p.evade = 0.3;
+    rng.mockReturnValue(0);
+    expect(collect()).toBe("dodge");
+    expect(collect()).toBeUndefined();
+  });
+  it("voices actual rescue completion and alternates, never generic healing or another soldier's rescue", () => {
+    const { w, p, collect } = fixture();
+    const ally = addPlayer(w, "ally");
+    ally.x = p.x;
+    ally.z = p.z;
+    p.hp = 0;
+    p.down = 40;
+    collect();
+    for (let i = 0; i < 52; i++)
+      step(w, { ally: { ...neutral(), revive: true } });
+    expect(p.hp).toBeGreaterThan(0);
+    expect(w.events.some((e) => e.type === "revive" && e.owner === p.id)).toBe(
+      true,
+    );
+    expect(collect()).toBe("rescued");
+    expect(collect()).toBeUndefined();
+    w.time += 7;
+    p.hp = 0;
+    collect();
+    p.hp = 90;
+    rescueEvent(w, "ally");
+    expect(collect()).toBeUndefined();
+    p.hp = 0;
+    collect();
+    p.hp = 90;
+    rescueEvent(w);
+    expect(collect()).toBe("rescued-alt");
+  });
+  it("consumes silent or interrupted rescues without replaying", () => {
+    for (const mode of ["silent", "muted", "resumed"] as const) {
+      const { w, p, collect, voice } = fixture(() => 0.8);
+      p.hp = 0;
+      collect();
+      p.hp = 90;
+      rescueEvent(w);
+      if (mode === "resumed") voice.suspend();
+      expect(collect(mode !== "muted")).toBeUndefined();
+      w.time += 7;
+      expect(collect()).toBeUndefined();
+    }
+  });
+  it("uses upgraded max HP and rearms danger only after >40% healing plus a 30 second gate", () => {
+    const { w, p, collect } = fixture();
+    initSolo(w, 1, "normal", false, {
+      hp: 5,
+      move: 0,
+      reload: 0,
+      damage: 0,
+    } as Parameters<typeof initSolo>[4]);
+    p.hp = maxHp(w);
+    collect();
+    p.hp = maxHp(w) * 0.25;
+    expect(collect()).toBe("danger");
+    w.time = 7;
+    expect(collect()).toBeUndefined();
+    p.hp = maxHp(w) * 0.4;
+    collect();
+    p.hp = maxHp(w) * 0.25;
+    expect(collect()).not.toMatch(/^danger/);
+    p.hp = maxHp(w) * 0.5;
+    collect();
+    w.time = 15;
+    p.hp = maxHp(w) * 0.25;
+    expect(collect()).toBeUndefined();
+    p.hp = maxHp(w) * 0.5;
+    collect();
+    w.time = 31;
+    p.hp = maxHp(w) * 0.25;
+    expect(collect()).toBe("danger-alt");
+  });
+  it("keeps a silent danger crossing silent and does not retry on low-HP frames or replay after pause", () => {
+    const rng = vi.fn(() => 0.25),
+      { w, p, collect, voice } = fixture(rng);
+    p.hp = 40;
+    expect(collect()).toBeUndefined();
+    expect(rng).toHaveBeenCalledTimes(1);
+    w.time = 40;
+    expect(collect()).toBeUndefined();
+    p.hp = 160;
+    collect();
+    voice.suspend();
+    p.hp = 30;
+    expect(collect()).toBeUndefined();
+    expect(collect()).toBeUndefined();
+    expect(rng).toHaveBeenCalledTimes(1);
+  });
+  it("requires an explicit sortie, consumes it once even when muted, and suppresses WAVE1", () => {
+    const { w, p } = fixture();
+    for (const active of [true, false]) {
+      const voice = new SoldierVoice(() => 0);
+      expect(voice.collect(w, p.id, active, true)).toBe(
+        active ? "start" : undefined,
+      );
+      expect(voice.collect(w, p.id, true, true)).toBeUndefined();
+      voice.suspend();
+      w.time = 20;
+      expect(voice.collect(w, p.id, true)).toBeUndefined();
+      expect(voice.collect(w, p.id, true, true)).toBeUndefined();
+    }
+    const silent = new SoldierVoice(() => 0.35);
+    expect(silent.collect(w, p.id, true, true)).toBeUndefined();
+  });
+  it("gives warnings priority over new low-HP/dodge events and never queues suppressed lines", () => {
+    const { w, p, collect } = fixture();
+    p.hp = 40;
+    p.evade = 0.3;
+    spawn(w, "boss", p.x, p.z + 5);
+    expect(collect()).toBe("warning");
+    w.time = 11;
+    expect(collect()).toBeUndefined();
+  });
+});
 describe("Fenrir battle variations", () => {
   it("observes real simulation wave advancement and shot events", () => {
     const wave = fixture();
