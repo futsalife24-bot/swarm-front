@@ -1,3 +1,9 @@
+# 現在地: Fenrir6台詞はPR114保存済み・監査ZIP送信承認待ち（2026-09-30）
+
+branch codex/fenrir-six-callouts、実装HEAD 1bc554e70ac26eb37032a275e1ba48482f46c4e1、base 4520c57ede444d44b8699753645f36ce479b72bf、作業場所balance-t7。型・関連107件・6採用SHA一致・実IAB17台詞表示/追加6本完走・production build/Worker dry-run成功。[PR114](https://github.com/futsalife24-bot/swarm-front/pull/114)、[詳細](FENRIR-ACTING.md)。後続差分は記録のみ。gameの別作業差分は保護。
+
+停止理由: 自動承認レビューが今回監査ZIP（1,831,640 bytes）のChatGPT通常新規Chatへの添付を、非公開ソースの具体的送信承認不足として拒否。未添付・監査未依頼・main未反映・本番未公開。
+再開条件: fenrir-acting-1bc554e-audit.zipの通常ChatGPTへの独立監査目的の送信許可。許可後、詳細記録のSHA256照合→添付/監査/必要修正→通常merge/既存Worker公開/配信確認。確認提示済み。
 # 現在地: Fenrir採用6台詞の組み込み・自己検証（2026-09-30）
 
 branch codex/fenrir-six-callouts、base 4520c57、作業場所balance-t7。回避/被救助/ピンチ/開始の6台詞を採用試聴版そのままで追加、サウンドテスト17台詞。発声確率/無発声/共通間隔/低HP再許可/開始と再開の区別を実装。型・関連107件・採用6SHA一致・実IAB6本完走成功。独立監査/main/公開は進行中。詳細: [Fenrir演技ボイス](FENRIR-ACTING.md)。gameの別作業差分は保護。

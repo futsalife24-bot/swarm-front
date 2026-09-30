@@ -30,3 +30,12 @@ Soundはダウン時の発声を即停止する一方、状態観測は継続し
 - 物理Androidでの戦闘中の聴感と今回の協力実通信確認は未実施。単体テストを実通信試験とは扱わない。
 
 独立Chat監査・main反映・本番公開は未完了。後続の証拠をこの文書へ追記する。
+
+## 監査ZIP送信の承認待ち
+
+PR114: https://github.com/futsalife24-bot/swarm-front/pull/114
+実装HEAD: 1bc554e70ac26eb37032a275e1ba48482f46c4e1 / base: 4520c57ede444d44b8699753645f36ce479b72bf 。差分はcommit/push済み。production build、Worker dry-runも成功（既存chunkサイズ警告のみ）。
+資料: dist-validation/fenrir-acting/fenrir-acting-1bc554e-audit.zip、1,831,640 bytes、SHA256 406C1AA4347DDFC993EC3EBDF47779D2610B9892F368E4D22F7AD80756E68A39 。変更ソースと依存、採用音声、生成指示/manifest、差分、107件テスト・型・build/dry-run結果、UI証拠を収録。秘密情報・個人情報・セーブは含めていない。通常Chat/Proを画面で確認しfilechooserで添付を試みたが、実行前に自動承認レビューが拒否。未添付・未送信・監査未依頼。
+
+停止理由: 自動承認レビューが、非公開ソースを含む今回ZIPのChatGPT通常新規Chatへの具体的な送信承認が不足と判定。プロジェクトの継続承認だけで送信できると扱わず、経路の迂回もしない。
+再開条件: ユーザーが今回ZIPをChatGPT通常新規Chatへ独立監査目的で送信することを明示承認。上記SHA256を照合して添付→監査結果/必須修正→通常merge→既存Worker公開と配信確認。送信確認を提示済み。main/本番は変更していない。
