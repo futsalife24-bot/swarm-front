@@ -39,3 +39,12 @@ PR114: https://github.com/futsalife24-bot/swarm-front/pull/114
 
 停止理由: 自動承認レビューが、非公開ソースを含む今回ZIPのChatGPT通常新規Chatへの具体的な送信承認が不足と判定。プロジェクトの継続承認だけで送信できると扱わず、経路の迂回もしない。
 再開条件: ユーザーが今回ZIPをChatGPT通常新規Chatへ独立監査目的で送信することを明示承認。上記SHA256を照合して添付→監査結果/必須修正→通常merge→既存Worker公開と配信確認。送信確認を提示済み。main/本番は変更していない。
+
+## 具体的送信承認取得後のChatGPT障害
+
+2026-09-30、ユーザー「承認」。記録された同一SHA256のZIP添付は成功し、自動承認レビューの拒否は解消。通常Chatの送信後にUnknown errorが表示され、画面の再試行で入力へ戻ったため同じZIPを再添付して再送したが、同じUnknown errorが再発。監査回答なし。実装・素材は不変、PR114はMERGEABLE、mainはbaseのまま。通常Chat/iab以外へ切り替えたり、自己レビューで監査を代替したりしない。
+
+証拠: [送信エラー画面](evidence/fenrir-acting/audit-send-error.png)。通常Chatのタブ22を保持。最後の仮URLは https://chatgpt.com/c/local-chatgpt%3Addaa656d-ecfd-4025-b55d-c394638ba5f9 （ローカル未同期表示であり、監査のサーバー受信成功を表さない）。ログに別の計測リクエスト403も見られたが、送信エラーとの因果関係は未確定。
+
+停止理由: ChatGPTの添付付き監査依頼送信が2回ともUnknown errorとなり、監査が進められない。
+再開条件: 指定の通常Chat送信が復旧したら、承認済み同一ZIPで監査を再開。承認は再要求しない。必須監査合格後main反映と既存Worker公開を行う。

@@ -1,3 +1,11 @@
+# 現在地: PR114の監査送信は承認済み・ChatGPT送信障害（2026-09-30）
+
+ユーザー「承認」で今回ZIP送信の具体的承認を取得。SHA256 406C1AA4347DDFC993EC3EBDF47779D2610B9892F368E4D22F7AD80756E68A39一致を確認し通常Chatへ添付成功。送信時Unknown error、画面の再試行→同じZIP再添付→再送でも同じエラー。監査の受信・回答は未確認。許可不足は解消済みで同じ資料の承認を取り直さない。
+
+実装1bc554e70ac26eb37032a275e1ba48482f46c4e1、base 4520c57ede444d44b8699753645f36ce479b72bf、branch codex/fenrir-six-callouts、作業場所balance-t7。[PR114](https://github.com/futsalife24-bot/swarm-front/pull/114)はOPEN/MERGEABLE、check一覧空、最新mainはbaseと同一。実装・検証は前記どおり、今回コード変更なし。詳細[記録](FENRIR-ACTING.md)。
+
+停止理由: 指定経路の通常ChatGPTが監査依頼の送信を2回ともUnknown errorで終了。独立監査結果がないためmain反映/本番公開は未実行。
+再開条件: iab通常Chatで添付付き送信が復旧した後、承認済み同一ZIPを送信して監査→必要修正→通常merge→既存Worker公開/配信確認。現在タブ22を保持。local-chatgptの仮URLだけが生成され、正常なサーバー側監査Chat URLは未取得。新たな許可確認ではなくサービス復旧待ち。
 # 現在地: Fenrir6台詞はPR114保存済み・監査ZIP送信承認待ち（2026-09-30）
 
 branch codex/fenrir-six-callouts、実装HEAD 1bc554e70ac26eb37032a275e1ba48482f46c4e1、base 4520c57ede444d44b8699753645f36ce479b72bf、作業場所balance-t7。型・関連107件・6採用SHA一致・実IAB17台詞表示/追加6本完走・production build/Worker dry-run成功。[PR114](https://github.com/futsalife24-bot/swarm-front/pull/114)、[詳細](FENRIR-ACTING.md)。後続差分は記録のみ。gameの別作業差分は保護。
