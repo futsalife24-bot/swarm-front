@@ -1,0 +1,257 @@
+/* Extends the existing landscape game theme; scoped to the parallel P1a entry. */
+.rebuild-p1a #ui {
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: max(12px, env(safe-area-inset-top))
+    max(16px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom))
+    max(16px, env(safe-area-inset-left));
+  background: #071923a6;
+}
+.rebuild-p1a #ui:empty {
+  display: none;
+}
+.rebuild-p1a .rebuild-panel {
+  display: block;
+  width: min(950px, 100%);
+  max-height: 100%;
+  overflow: auto;
+  padding: 18px 22px;
+}
+.rebuild-panel header,
+.rebuild-panel footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.rebuild-panel h1 {
+  font-size: 25px;
+  margin: 3px 0;
+}
+.rebuild-panel p {
+  margin: 10px 0;
+  line-height: 1.5;
+}
+.rebuild-panel footer {
+  position: static;
+  padding-top: 8px;
+  letter-spacing: 0;
+  margin-top: 12px;
+  font-size: 13px;
+}
+.rebuild-panel footer small,
+.rebuild-help {
+  color: #b4c5cc;
+  font-size: 12px;
+}
+.rebuild-pick-count {
+  flex-shrink: 0;
+  text-align: right;
+  font-size: 17px;
+}
+.rebuild-pick-count small {
+  font-size: 12px;
+  color: #b4c5cc;
+}
+.rebuild-panel .rebuild-evolution {
+  font-size: 13px;
+  color: var(--gold);
+}
+.rebuild-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.rebuild-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  padding: 13px 14px;
+  min-height: 148px;
+  line-height: 1.5;
+}
+.rebuild-card-kind {
+  font-size: 11px;
+  color: var(--mint);
+}
+.rebuild-card strong {
+  font-size: 22px;
+}
+.rebuild-card > span:nth-last-child(2) {
+  font-size: 13px;
+  font-weight: 400;
+}
+.rebuild-card b {
+  margin-top: auto;
+  font-size: 12px;
+  color: var(--gold);
+}
+.rebuild-help {
+  margin-bottom: 0 !important;
+}
+.rebuild-hud-rail {
+  display: grid;
+  grid-template-columns: minmax(125px, 0.8fr) minmax(180px, 1.3fr) minmax(
+      160px,
+      1fr
+    );
+  padding: 10px 16px;
+  gap: 14px;
+  background: linear-gradient(#061923e8, #0619238a, transparent);
+}
+.rebuild-hud-rail > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.rebuild-hud-rail > div:nth-child(2) {
+  text-align: center;
+}
+.rebuild-hud-rail > div:last-child {
+  text-align: right;
+}
+.rebuild-hud-rail b {
+  font-size: 17px;
+}
+.rebuild-hud-rail span {
+  font-size: 12px;
+  color: #d6e4e7;
+}
+.rebuild-resume-cue {
+  text-align: center;
+  color: var(--mint);
+  font-size: 34px;
+  text-shadow: 0 2px 12px #000;
+}
+.rebuild-resume-cue small {
+  color: #fff;
+  font-size: 14px;
+}
+.rebuild-p1a #rebuild-notice {
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ffcf7f;
+  background: #102633de;
+  padding: 8px 15px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 21;
+  white-space: nowrap;
+  font-size: 16px;
+}
+.rebuild-boss {
+  position: absolute;
+  top: 72px;
+  left: 30%;
+  width: 40%;
+  font-size: 12px;
+  text-align: center;
+}
+.rebuild-boss progress {
+  display: block;
+  width: 100%;
+  height: 8px;
+  accent-color: #efbe78;
+}
+.rebuild-chain {
+  position: absolute;
+  left: 50%;
+  top: 65%;
+  transform: translateX(-50%);
+  font-size: 16px;
+  color: #ffd492;
+  text-shadow: 0 2px 4px #000;
+}
+.rebuild-result {
+  display: flex;
+  gap: 20px;
+  padding: 12px 0;
+  color: var(--mint);
+}
+.rebuild-measurements {
+  font-size: 13px;
+}
+.rebuild-measurements summary {
+  cursor: pointer;
+  padding: 8px 0;
+}
+.rebuild-measurements dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 7px 15px;
+  margin: 8px 0;
+}
+.rebuild-measurements dd {
+  margin: 0;
+}
+@media (max-height: 420px) {
+  .rebuild-p1a #ui {
+    padding: 8px 12px;
+  }
+  .rebuild-p1a .rebuild-panel {
+    padding: 11px 15px;
+  }
+  .rebuild-panel h1 {
+    font-size: 21px;
+  }
+  .rebuild-panel p {
+    margin: 7px 0;
+  }
+  .rebuild-card {
+    min-height: 133px;
+    padding: 9px 11px;
+    gap: 5px;
+  }
+  .rebuild-card strong {
+    font-size: 19px;
+  }
+  .rebuild-panel footer {
+    margin-top: 9px;
+  }
+  .rebuild-panel footer button {
+    padding: 10px 15px;
+  }
+  .rebuild-hud-rail {
+    padding: 7px 12px;
+    gap: 8px;
+  }
+}
+@media (max-width: 700px) {
+  .rebuild-card {
+    padding: 8px 9px;
+  }
+  .rebuild-card > span:nth-last-child(2) {
+    font-size: 12px;
+  }
+  .rebuild-cards {
+    gap: 7px;
+  }
+  .rebuild-panel .rebuild-evolution {
+    font-size: 12px;
+  }
+  .rebuild-hud-rail {
+    grid-template-columns: 1fr 1.1fr 1fr;
+  }
+  .rebuild-hud-rail b {
+    font-size: 14px;
+  }
+  .rebuild-hud-rail span {
+    font-size: 11px;
+  }
+}
+@media (orientation: portrait) {
+  .rebuild-selection::before {
+    content: "横向きにすると3枚のカードを比較しやすくなります";
+    display: block;
+    color: var(--gold);
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  .rebuild-cards {
+    grid-template-columns: 1fr;
+  }
+}

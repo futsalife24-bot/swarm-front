@@ -1,3 +1,9 @@
+import {
+  rebuildManualHit,
+  recordRebuildKill,
+  type RebuildCombatState,
+  type RebuildAttribution,
+} from "./rebuild-combat";
 import { stepCalyx, stepPollen, advancePollen } from "./calyx";
 import {
   HARROW,
@@ -234,6 +240,7 @@ export interface Projectile {
   family?: Family;
 }
 export interface Event {
+  rebuild?: RebuildAttribution;
   id: number;
   type:
     | "shot"
@@ -276,6 +283,8 @@ export interface Drop {
   weapon: Weapon;
 }
 export interface World {
+  /** Public, temporary P1a combat data only; private offers live outside World. */
+  rebuild?: RebuildCombatState;
   campaignPlan?: import("./stages").StagePlan;
   harrowMissiles?: import("./harrow").HarrowMissile[];
   pollen?: import("./calyx").PollenCloud[];
@@ -374,7 +383,7 @@ export function start(w: World) {
   w.scale = 1 + 0.55 * (w.players.length - 1);
   w.wave = 1;
   w.waveAt = 0;
-  if (!w.defense) beginWave(w);
+  if (!w.defense && !w.rebuild) beginWave(w);
 }
 export function random(w: World) {
   w.seed = (Math.imul(w.seed, 1664525) + 1013904223) >>> 0;
@@ -843,6 +852,7 @@ export function hurtEnemy(
   owner: string,
   part = 0,
   weapon?: Event["weapon"],
+  attribution?: RebuildAttribution,
 ) {
   if (e.hp <= 0) return;
   if (w.defense && owner === w.players[0]?.id) e.defenseAggroUntil = w.time + 4;
@@ -878,6 +888,7 @@ export function hurtEnemy(
     ...impact,
     owner,
     amount: Math.round(damage),
+    ...(attribution ? { rebuild: attribution } : {}),
   });
   if (e.hp <= 0) {
     if (w.solo && e.foundrySource === undefined) w.solo.plannedKills++;
@@ -885,8 +896,14 @@ export function hurtEnemy(
     w.waveKills++;
     const p = w.players.find((p) => p.id === owner);
     if (p) p.kills++;
-    event(w, { type: "kill", ...impact, owner });
-    if (w.solo) soloDrop(w, e);
+    event(w, {
+      type: "kill",
+      ...impact,
+      owner,
+      ...(attribution ? { rebuild: attribution } : {}),
+    });
+    if (w.rebuild) recordRebuildKill(w, e, attribution);
+    else if (w.solo) soloDrop(w, e);
     else if (random(w) < stageFor(w).dropRate && w.drops.length < 24)
       for (const p of w.players) {
         if (w.drops.length >= 24) break;
@@ -905,7 +922,11 @@ export function finish(w: World, win: boolean, reason = "") {
   if (w.phase !== "battle") return;
   w.phase = win ? "victory" : "defeat";
   w.reason = reason;
-  if (win)
+  if (w.rebuild) {
+    w.pending = Object.fromEntries(w.players.map((p) => [p.id, []]));
+    w.rewards = {};
+    w.drops = [];
+  } else if (win)
     for (const p of w.players) {
       w.rewards[p.id] = [...w.pending[p.id], loot(w), loot(w)];
     }
@@ -1201,6 +1222,7 @@ export function fire(w: World, p: Player, i: Input, airborne = false) {
       candidates[0].d,
     );
   }
+  const rebuildShot = w.rebuild ? ++w.rebuild.shotSerial : 0;
   const repelled = new Set<Enemy>();
   for (let j = 0; j < def.pellets; j++) {
     const ya = yaw + (random(w) - 0.5) * def.spread * 2,
@@ -1282,14 +1304,25 @@ export function fire(w: World, p: Player, i: Input, airborne = false) {
       .sort((a, b) => a.along - b.along)
       .slice(0, shape.pierce > 1 || weapon.effect === "pierce" ? 3 : 1);
     for (const h of hits) {
-      hurtEnemy(
-        w,
-        h.e,
-        def.damage * falloff(weapon.kind, h.along),
-        p.id,
-        h.part,
-        family,
-      );
+      if (w.rebuild)
+        rebuildManualHit(
+          w,
+          h.e,
+          def.damage * falloff(weapon.kind, h.along),
+          p.id,
+          rebuildShot,
+          h.part,
+          family,
+        );
+      else
+        hurtEnemy(
+          w,
+          h.e,
+          def.damage * falloff(weapon.kind, h.along),
+          p.id,
+          h.part,
+          family,
+        );
       if (
         EFFECT_POOLS[weapon.kind].includes("repel") &&
         weapon.effect === "repel" &&
@@ -1541,7 +1574,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   if (!wave) return;
   if (w.defense) defenseSpawn(w);
   else if (w.solo) soloSpawnAndProgress(w);
-  else if (!w.training) {
+  else if (!w.training && !w.rebuild) {
     if (
       w.spawned < troopCount(wave) &&
       pendingFoundryCount(w) === 0 &&
@@ -2053,7 +2086,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   flushFoundrySpawns(w);
   if (w.defense) finishDefenseTick(w);
   else if (w.solo) endSoloTick(w);
-  else if (!w.training && w.time > 600)
+  else if (!w.training && !w.rebuild && w.time > 600)
     finish(w, false, "作戦時間の上限（10分）に達しました");
 }
 export function validInput(v: unknown): v is Input {
