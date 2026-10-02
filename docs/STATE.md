@@ -1,13 +1,15 @@
-# 現在地: 旧版保護と大改装版の実装・自己検証、独立監査のログイン待ち（2026-10-02）
+# 現在地: 旧版保護と大改装版の実装・自己検証、承認済みGoogle認証の本人入力待ち（2026-10-02）
 
-実装の保存・push済み対象SHA: `ae445c123fe7cde37aeb09c288a3aceb51cee0d2`。この対象から再build/dry-run成功。GitHub Actionsの対象PR実行は返却0件（CI合格という意味ではない）。監査ZIP: `../.task-tools/swarm-front-rebuild-ae445c1-audit.zip`、83,578,585 byte、SHA256 `C30DC0B0AEA45F5E7BCA9ED5E5D77E2A0BDF685DDF0CA1B6548DA7D8C026FE83`。ソース・依存・必要な既存モデル/音声・生成画像・証拠の794ファイルは全て対象SHAのblob一致。差分/manifest/依頼本文を同梱。[パッケージ記録](evidence/rebuild-p1a/front-20261002/audit-package.json)・[監査依頼](REBUILD-PLAYABLE-AUDIT.md)。この後の変更は監査待ちの記録のみで、実装変更なし。ZIPの初回送信は未実施。IABタブ5を認証画面で保持し、Google方式・本人の既存アカウントのログイン承認だけを質問済み。
+実装の保存・push済み対象SHA: `ae445c123fe7cde37aeb09c288a3aceb51cee0d2`。この対象から再build/dry-run成功。GitHub Actionsの対象PR実行は返却0件（CI合格という意味ではない）。監査ZIP: `../.task-tools/swarm-front-rebuild-ae445c1-audit.zip`、83,578,585 byte、SHA256 `C30DC0B0AEA45F5E7BCA9ED5E5D77E2A0BDF685DDF0CA1B6548DA7D8C026FE83`。ソース・依存・必要な既存モデル/音声・生成画像・証拠の794ファイルは全て対象SHAのblob一致。差分/manifest/依頼本文を同梱。[パッケージ記録](evidence/rebuild-p1a/front-20261002/audit-package.json)・[監査依頼](REBUILD-PLAYABLE-AUDIT.md)。この後の変更は監査待ちの記録のみで、実装変更なし。ZIPの初回送信は未実施。IABタブ5は承認済みGoogle認証の本人入力画面で保持。
 
 ユーザー「旧版へ戻れるよう保護し、大改装版で遊びたい」、追加「推奨で」。新モード内の武器標準化と旧版から分離した進行を採用。branch `codex/rebuild-p1a-cloud-20261001`、開始HEAD `32af37c4d025def599ec5d85158ee285c5dfe697`、[PR115](https://github.com/futsalife24-bot/swarm-front/pull/115)。旧版main `4520c57ede444d44b8699753645f36ce479b72bf` を `preserved/pre-rebuild-20261002` と主要10ファイルのblob表で保護、GitHubへpush済み。旧入口 `/` と既存セーブ・所持品は維持。作業場所 `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a`。
 
 新入口 `/front.html`（配信は `/front` に正規化する場合あり）に3系統9枚＋補強3種・最大2進化、標準3武器2枠、迎撃/防衛/日替わり、最大4人協力、独立した功績・初期候補解放を実装。生成アイコン12枚、短い日本語3択、順次表示、旧版へ戻る導線。背面の協力画面で追加隊員の準備が止まる不具合を修正。新16件・実通信3件・新実ブラウザ3件・旧試作画面1件・P1a120件・保存147件・SW2件・型/ビルド/dry-run成功。旧関連81成功/既存Stage25の1失敗を区別。改変なし自動試遊9回は全回7取得/進化、7成功（約6分38秒〜7分2秒）/2敗北。楽しさ・人間の勝率・物理Androidは未確認。[仕様](REBUILD-PLAYABLE.md)・[検証](REBUILD-PLAYABLE-VALIDATION.md)。主担当1体、実行モデル/effort未確認・切替なし。
 
-停止理由: 独立監査前のIAB通常Chatが未ログイン。前回の自動承認レビューが「Googleで続行」を、方式/アカウント選択の具体承認不足として拒否した。監査ZIP送信・監査合格後の通常merge/既存Worker公開は継続承認済みだが、Google方式の認証は未承認。監査・main反映・本番公開は未実施。制限を迂回していない。
-再開条件: 最新保存コミットの監査ZIPを固定したうえで、本人の既存GoogleアカウントによるChatGPTへの通常ログインを具体的に承認する。ログイン確認後、同ZIPを新規通常Chatへ直接添付して監査、必須修正/再監査、main反映、既存Worker公開、配信照合へ進む。本人操作でIABへログイン済みになった場合も同じ監査を再開する。
+2026-10-02の追加「承認する」でGoogle方式・本人の既存ChatGPTアカウントによるログインを具体的に承認済み。「Googleで続行」は成功し、IABタブ5でGoogleのメールアドレス入力画面へ遷移。保存されたアカウント候補がなく、本人のログイン入力を依頼して画面を表示した。承認を取り直す状態ではない。PR115は競合なし（mergeable=true）・draft、head `7acdd1c4baf5da4cff4eb51bee5c3dc11b224057` のcommit statusは0件（CI合格ではない）。既存公開設定による `wrangler whoami` は未ログイン、ネットワーク障害なし。認証値・アカウント実値はGitへ保存していない。
+
+停止理由: IABのGoogle認証に本人の入力が必要で、ChatGPTへ未ログイン。監査ZIPは未送信、独立監査・main反映・本番公開は未実施。公開CLIのCloudflare認証も未ログイン。固定監査経路と必須独立判定を維持している。
+再開条件: 表示中のIABで既存ChatGPTアカウントのGoogleログインを本人が完了する。認証確認後、固定ZIPを新規通常Chatへ直接添付し、独立監査・必須修正/再監査・main反映へ進む。既存Cloudflare公開アカウントの認証復旧後、既存Worker公開・配信照合を実施する。追加のログイン方式承認は不要。
 
 # 履歴: プレゼンのスマホ公開完了（PR112、2026-09-29）
 
