@@ -31,10 +31,97 @@ async function ready(page: Page) {
 
 async function start(page: Page) {
   await ready(page);
-  await page.getByTestId("rebuild-card-blast-core").click();
-  await expect(page.locator(".rebuild-resume-cue")).toBeVisible();
+  await safeResume(page, () =>
+    page.getByTestId("rebuild-card-blast-core").click(),
+  );
   await expect(page.locator("#controls")).toBeVisible({ timeout: 10000 });
   await expect(page.getByTestId("rebuild-hud")).toContainText("取得 1/7");
+}
+
+// Observe real DOM changes from the trusted click to enabled controls. Several
+// cross-process assertions plus a fixed sleep can outlast the one-second cue.
+async function safeResume(
+  page: Page,
+  action: () => Promise<void>,
+  freezeHud = false,
+) {
+  const readySignal = `P1a DOM observer ready ${Date.now()}-${Math.random()}`;
+  const armed = page.waitForEvent("console", {
+    predicate: (message) => message.text() === readySignal,
+    timeout: 65000,
+  });
+  const observed = page.evaluate(
+    ({ freeze, signal }) =>
+      new Promise<{
+        elapsed: number;
+        cue: boolean;
+        controlsHeld: boolean;
+        clockHeld: boolean;
+        hudHeld: boolean;
+      }>((resolve, reject) => {
+        const controls = document.querySelector<HTMLElement>("#controls")!;
+        const hud = document.querySelector<HTMLElement>("#hud")!;
+        const time = () =>
+          document.querySelector('[data-testid="rebuild-time"]')?.textContent;
+        const beforeTime = time(),
+          beforeHud = hud.textContent;
+        let clickedAt: number | null = null,
+          cue = false;
+        let controlsHeld = true,
+          clockHeld = true,
+          hudHeld = true;
+        const cleanup = () => {
+          observer.disconnect();
+          clearTimeout(timeout);
+          document.removeEventListener("click", clicked, true);
+        };
+        const sample = () => {
+          if (clickedAt === null) return;
+          if (document.querySelector(".rebuild-resume-cue")) {
+            cue = true;
+            controlsHeld &&= controls.hidden === true;
+            clockHeld &&= time() === beforeTime;
+            hudHeld &&= !freeze || hud.textContent === beforeHud;
+          } else if (cue && !controls.hidden) {
+            const elapsed = performance.now() - clickedAt;
+            cleanup();
+            resolve({ elapsed, cue, controlsHeld, clockHeld, hudHeld });
+          }
+        };
+        const clicked = () => {
+          if (clickedAt === null) clickedAt = performance.now();
+        };
+        const observer = new MutationObserver(sample);
+        observer.observe(document.querySelector("#ui")!, {
+          childList: true,
+          subtree: true,
+        });
+        observer.observe(controls, {
+          attributes: true,
+          attributeFilter: ["hidden"],
+        });
+        observer.observe(hud, { childList: true, subtree: true });
+        document.addEventListener("click", clicked, true);
+        const timeout = setTimeout(() => {
+          cleanup();
+          reject(
+            new Error(
+              `Safe resume was not observed: clicked=${clickedAt !== null}, cue=${cue}, controlsHidden=${controls.hidden}`,
+            ),
+          );
+        }, 65000);
+        console.debug(signal);
+      }),
+    { freeze: freezeHud, signal: readySignal },
+  );
+  await armed;
+  await action();
+  const result = await observed;
+  expect(result.cue).toBe(true);
+  expect(result.elapsed).toBeGreaterThanOrEqual(950);
+  expect(result.controlsHeld).toBe(true);
+  expect(result.clockHeld).toBe(true);
+  expect(result.hudHeld).toBe(true);
 }
 
 function clockSeconds(text: string | null) {
@@ -117,20 +204,13 @@ test("loading stays noninteractive and repeated selection retains the one-second
   ).toBeVisible({ timeout: 65000 });
   const card = await page.getByTestId("rebuild-card-blast-core").boundingBox();
   expect(card).not.toBeNull();
-  const selectedAt = Date.now();
-  await page.mouse.click(
-    card!.x + card!.width / 2,
-    card!.y + card!.height / 2,
-    { clickCount: 3, delay: 25 },
+  await safeResume(page, () =>
+    page.mouse.click(card!.x + card!.width / 2, card!.y + card!.height / 2, {
+      clickCount: 3,
+      delay: 25,
+    }),
   );
-  await expect(page.locator(".rebuild-resume-cue")).toBeVisible();
-  await expect(page.locator("#controls")).toBeHidden();
-  await expect(page.getByTestId("rebuild-time")).toHaveText("0:00");
-  await page.waitForTimeout(450);
-  await expect(page.locator(".rebuild-resume-cue")).toBeVisible();
-  await expect(page.locator("#controls")).toBeHidden();
   await expect(page.locator("#controls")).toBeVisible({ timeout: 10000 });
-  expect(Date.now() - selectedAt).toBeGreaterThanOrEqual(900);
   await expect(page.getByTestId("rebuild-hud")).toContainText("取得 1/7");
   await expect(page.getByTestId("rebuild-ammo")).toHaveText("AR 1 · 32 / 32");
   await expect
@@ -148,7 +228,8 @@ test("pause freezes visible state and discards held fire, scope and queued keys"
   await start(page);
   await page.keyboard.press("KeyZ");
   await expect(page.locator("#scope-overlay")).toBeVisible();
-  const fire = await page.locator("#fire").boundingBox();
+  // Desktop hides touch fire buttons; use the real mouse aim/fire surface.
+  const fire = await page.locator("#look").boundingBox();
   expect(fire).not.toBeNull();
   await page.keyboard.down("KeyW");
   await page.mouse.move(fire!.x + fire!.width / 2, fire!.y + fire!.height / 2);
@@ -170,13 +251,12 @@ test("pause freezes visible state and discards held fire, scope and queued keys"
   await page.keyboard.press("KeyQ");
   await page.keyboard.press("KeyR");
   await page.waitForTimeout(1200);
-  await expect(page.getByTestId("rebuild-hud")).toHaveText(heldHud);
+  await expect(page.getByTestId("rebuild-hud")).toHaveText(heldHud, {
+    useInnerText: true,
+  });
   // Resume with the keyboard while fire and W remain physically held.
   await page.getByRole("button", { name: "再開", exact: true }).focus();
-  await page.keyboard.press("Enter");
-  await expect(page.locator(".rebuild-resume-cue")).toBeVisible();
-  await page.waitForTimeout(400);
-  await expect(page.getByTestId("rebuild-hud")).toHaveText(heldHud);
+  await safeResume(page, () => page.keyboard.press("Enter"), true);
   await expect(page.locator("#controls")).toBeVisible({ timeout: 10000 });
   // Repeating an already-held key produces a real repeat keydown through Playwright.
   await page.keyboard.down("KeyW");
@@ -194,42 +274,46 @@ test("pause freezes visible state and discards held fire, scope and queued keys"
   await expect(page.getByTestId("rebuild-position")).toHaveText(
     stoppedPosition,
   );
-  const pausedAgain = await page.getByTestId("rebuild-hud").innerText();
-  await page.getByRole("button", { name: "再開", exact: true }).dblclick();
-  await expect(page.locator(".rebuild-resume-cue")).toBeVisible();
-  await expect(page.getByTestId("rebuild-hud")).toHaveText(pausedAgain);
+  await safeResume(
+    page,
+    () => page.getByRole("button", { name: "再開", exact: true }).dblclick(),
+    true,
+  );
   await expect(page.locator("#controls")).toBeVisible({ timeout: 10000 });
 });
 
-test("pause recenters a dragged movement stick before explicit resume", async ({
-  page,
-}) => {
-  await start(page);
-  const stick = await page.locator("#move").boundingBox();
-  expect(stick).not.toBeNull();
-  const center = {
-    x: stick!.x + stick!.width / 2,
-    y: stick!.y + stick!.height / 2,
-  };
-  await page.mouse.move(center.x, center.y);
-  await page.mouse.down();
-  await page.mouse.move(center.x + 35, center.y - 20, { steps: 3 });
-  await expect(page.locator("#move > span")).toHaveAttribute(
-    "style",
-    /translate\(35px,-20px\)/,
-  );
-  await page.keyboard.press("Escape");
-  await expect(
-    page.getByRole("heading", { name: "一時停止", exact: true }),
-  ).toBeVisible();
-  await expect(page.locator("#move > span")).toHaveAttribute("style", "");
-  await page.getByRole("button", { name: "再開", exact: true }).focus();
-  await page.keyboard.press("Enter");
-  await expect(page.locator("#controls")).toBeVisible({ timeout: 10000 });
-  // A continued old drag must not restore a discarded touch/input gesture.
-  await page.mouse.move(center.x + 45, center.y - 25);
-  await expect(page.locator("#move > span")).toHaveAttribute("style", "");
-  await page.mouse.up();
+test.describe("touch controls", () => {
+  test.use({ hasTouch: true });
+  test("pause recenters a dragged movement stick before explicit resume", async ({
+    page,
+  }) => {
+    await start(page);
+    const stick = await page.locator("#move").boundingBox();
+    expect(stick).not.toBeNull();
+    const center = {
+      x: stick!.x + stick!.width / 2,
+      y: stick!.y + stick!.height / 2,
+    };
+    await page.mouse.move(center.x, center.y);
+    await page.mouse.down();
+    await page.mouse.move(center.x + 35, center.y - 20, { steps: 3 });
+    await expect(page.locator("#move > span")).toHaveAttribute(
+      "style",
+      /translate\(35px,-20px\)/,
+    );
+    await page.keyboard.press("Escape");
+    await expect(
+      page.getByRole("heading", { name: "一時停止", exact: true }),
+    ).toBeVisible();
+    await expect(page.locator("#move > span")).toHaveAttribute("style", "");
+    await page.getByRole("button", { name: "再開", exact: true }).focus();
+    await page.keyboard.press("Enter");
+    await expect(page.locator("#controls")).toBeVisible({ timeout: 10000 });
+    // A continued old drag must not restore a discarded touch/input gesture.
+    await page.mouse.move(center.x + 45, center.y - 25);
+    await expect(page.locator("#move > span")).toHaveAttribute("style", "");
+    await page.mouse.up();
+  });
 });
 
 test("a real background tab pauses combat until explicit resume", async ({
@@ -258,13 +342,18 @@ test("a real background tab pauses combat until explicit resume", async ({
   ).toBeVisible();
   const stopped = await page.getByTestId("rebuild-hud").innerText();
   await page.waitForTimeout(1200);
-  await expect(page.getByTestId("rebuild-hud")).toHaveText(stopped);
+  await expect(page.getByTestId("rebuild-hud")).toHaveText(stopped, {
+    useInnerText: true,
+  });
   await page.bringToFront();
   await expect(
     page.getByRole("heading", { name: "一時停止", exact: true }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "再開", exact: true }).click();
-  await expect(page.locator(".rebuild-resume-cue")).toBeVisible();
+  await safeResume(
+    page,
+    () => page.getByRole("button", { name: "再開", exact: true }).click(),
+    true,
+  );
   await expect(page.locator("#controls")).toBeVisible({ timeout: 10000 });
   await otherTab.close();
 });

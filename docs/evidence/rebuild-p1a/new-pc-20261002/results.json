@@ -1,0 +1,140 @@
+{
+  "date": "2026-10-02",
+  "implementationBase": "88eb6c9273f6a4a784ade4ac77bb8b37b3e81e9d",
+  "mode": "Windows Chrome, default GPU, headless; touch case hasTouch=true",
+  "unitRebuild": {
+    "passed": 120,
+    "durationSeconds": 8.22
+  },
+  "unitSave": {
+    "passed": 147,
+    "durationSeconds": 36.47
+  },
+  "typecheck": "passed",
+  "e2eTypecheck": "passed",
+  "buildRebuild": "passed",
+  "buildNormal": "passed",
+  "workerProductionDryRun": "passed after authorized retry of filesystem-limited first attempt",
+  "aggregateTests": "not rerun; historical exact-base failures documented separately",
+  "runs": [
+    {
+      "name": "full-intermediate",
+      "stats": {
+        "startTime": "2026-10-02T03:07:08.012Z",
+        "duration": 299014.11199999996,
+        "expected": 4,
+        "skipped": 1,
+        "unexpected": 2,
+        "flaky": 0
+      },
+      "cases": [
+        {
+          "title": "initial cards fit one horizontal row at 844x390",
+          "status": "passed",
+          "durationMs": 39590,
+          "annotations": [],
+          "error": []
+        },
+        {
+          "title": "initial cards fit one horizontal row at 640x360",
+          "status": "passed",
+          "durationMs": 17759,
+          "annotations": [],
+          "error": []
+        },
+        {
+          "title": "loading stays noninteractive and repeated selection retains the one-second safe resume",
+          "status": "failed",
+          "durationMs": 27266,
+          "annotations": [],
+          "error": [
+            "Error: page.evaluate: Error: Safe resume was not observed\n    at eval (eval at evaluate (:311:30), <anonymous>:58:14)\n    at eval (eval at evaluate (:311:30), <anonymous>:58:14)\n    at safeResume (C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\e2e\\rebuild-p1a.spec.ts:48:25)\n    a"
+          ]
+        },
+        {
+          "title": "pause freezes visible state and discards held fire, scope and queued keys",
+          "status": "failed",
+          "durationMs": 54024,
+          "annotations": [],
+          "error": [
+            "Error: page.evaluate: Error: Safe resume was not observed\n    at eval (eval at evaluate (:311:30), <anonymous>:58:14)\n    at eval (eval at evaluate (:311:30), <anonymous>:58:14)\n    at safeResume (C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\e2e\\rebuild-p1a.spec.ts:48:25)\n    a"
+          ]
+        },
+        {
+          "title": "a real background tab pauses combat until explicit resume",
+          "status": "skipped",
+          "durationMs": 17281,
+          "annotations": [
+            {
+              "type": "limitation",
+              "description": "Headless Chromium kept document.hidden=false after another tab was foregrounded; real tab visibility lifecycle requires a headed/browser-device check."
+            },
+            {
+              "type": "skip",
+              "description": "This Chromium runner does not background tabs",
+              "location": {
+                "file": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\e2e\\rebuild-p1a.spec.ts",
+                "line": 327,
+                "column": 10
+              }
+            }
+          ],
+          "error": []
+        },
+        {
+          "title": "pause recenters a dragged movement stick before explicit resume",
+          "status": "passed",
+          "durationMs": 47707,
+          "annotations": [],
+          "error": []
+        },
+        {
+          "title": "retry and reload start fresh without writing or migrating existing saves",
+          "status": "passed",
+          "durationMs": 36709,
+          "annotations": [],
+          "error": []
+        }
+      ]
+    },
+    {
+      "name": "affected-final",
+      "stats": {
+        "startTime": "2026-10-02T03:12:41.540Z",
+        "duration": 116492.875,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cases": [
+        {
+          "title": "loading stays noninteractive and repeated selection retains the one-second safe resume",
+          "status": "passed",
+          "durationMs": 45279,
+          "annotations": [],
+          "error": []
+        },
+        {
+          "title": "pause freezes visible state and discards held fire, scope and queued keys",
+          "status": "passed",
+          "durationMs": 24849,
+          "annotations": [],
+          "error": []
+        }
+      ]
+    }
+  ],
+  "summary": "Six cases verified across two runs (four intermediate passes plus two final affected passes); actual background tab lifecycle skipped. No physical Android, human playtest or independent audit.",
+  "testSha256LF": "dd6a937b2efc66416eadd01f4f9c101d4112710179618395cc9e9fc8e181d568",
+  "screenshots": [
+    {
+      "path": "selection-844x390.png",
+      "sha256": "a84cd36f012c7049a80a5813210547fdc31710a59bfb026e85642b29da417045"
+    },
+    {
+      "path": "selection-640x360.png",
+      "sha256": "b2766b7d58fa44f3db3738bda2c22fe0b4df9d913c1b5e9e35513a037d2b7c08"
+    }
+  ]
+}

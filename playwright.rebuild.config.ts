@@ -12,7 +12,10 @@ export default defineConfig({
       ...(process.env.CHROMIUM_PATH
         ? { executablePath: process.env.CHROMIUM_PATH }
         : { channel: "chrome" }),
-      args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
+      args:
+        process.env.SWARM_SOFTWARE_GL === "1"
+          ? ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"]
+          : [],
     },
     screenshot: "only-on-failure",
   },
