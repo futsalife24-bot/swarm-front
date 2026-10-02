@@ -137,10 +137,47 @@ for (const viewport of [
     page,
   }, testInfo) => {
     await page.setViewportSize(viewport);
+    const reduceMotion = viewport.width === 640;
+    await page.emulateMedia({
+      reducedMotion: reduceMotion ? "reduce" : "no-preference",
+    });
     await ready(page);
+    await expect(page.locator("#rebuild-reroll")).toHaveCount(0);
     await expect(
-      page.getByRole("button", { name: "再抽選 残り2" }),
-    ).toBeDisabled();
+      page.locator(
+        ".rebuild-selection footer, .rebuild-selection .rebuild-help",
+      ),
+    ).toHaveCount(0);
+    await expect
+      .poll(() =>
+        page
+          .locator(".rebuild-card-icon")
+          .evaluateAll((icons) =>
+            icons.every(
+              (icon) =>
+                (icon as HTMLImageElement).complete &&
+                (icon as HTMLImageElement).naturalWidth === 256,
+            ),
+          ),
+      )
+      .toBe(true);
+    const animations = await page
+      .locator(".rebuild-card")
+      .evaluateAll((cards) =>
+        cards.map((card) => ({
+          name: getComputedStyle(card).animationName,
+          delay: getComputedStyle(card).animationDelay,
+        })),
+      );
+    expect(animations.map((animation) => animation.name)).toEqual(
+      Array(3).fill(reduceMotion ? "none" : "rebuild-card-enter"),
+    );
+    if (!reduceMotion)
+      expect(animations.map((animation) => animation.delay)).toEqual([
+        "0s",
+        "0.07s",
+        "0.14s",
+      ]);
     await expect(page.locator("#controls")).toBeHidden();
     const rectangles = await page
       .locator(".rebuild-card")
@@ -406,15 +443,11 @@ test.describe("legacy save isolation", () => {
     await expect(
       page.getByRole("heading", { name: "最初の強化を選択" }),
     ).toBeVisible();
-    await expect(page.locator(".rebuild-pick-count")).toContainText(
-      "取得 0 / 7",
-    );
+    await expect(page.locator(".rebuild-pick-count")).toContainText("0/7");
     await expect(page.getByTestId("rebuild-time")).toHaveText("0:00");
     await expect(page.getByTestId("rebuild-ammo")).toHaveText("AR 1 · 32 / 32");
     await expect(page.getByTestId("rebuild-xp")).toContainText("XP 0");
-    await expect(
-      page.getByRole("button", { name: "再抽選 残り2" }),
-    ).toBeDisabled();
+    await expect(page.locator("#rebuild-reroll")).toHaveCount(0);
     await page.waitForTimeout(350);
     await page.getByTestId("rebuild-card-fuse").click();
     await expect(page.locator("#controls")).toBeVisible({ timeout: 10000 });
@@ -423,9 +456,7 @@ test.describe("legacy save isolation", () => {
     await expect(
       page.getByRole("heading", { name: "最初の強化を選択" }),
     ).toBeVisible({ timeout: 65000 });
-    await expect(page.locator(".rebuild-pick-count")).toContainText(
-      "取得 0 / 7",
-    );
+    await expect(page.locator(".rebuild-pick-count")).toContainText("0/7");
     await expect(page.getByTestId("rebuild-time")).toHaveText("0:00");
     await expect(page.getByTestId("rebuild-xp")).toContainText("XP 0");
     await expect(page.locator(".rebuild-card")).toHaveCount(3);

@@ -66,11 +66,74 @@
 .rebuild-card {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  text-align: left;
-  padding: 13px 14px;
-  min-height: 148px;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  padding: 16px;
+  min-height: 250px;
   line-height: 1.5;
+  animation: rebuild-card-enter 380ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition:
+    border-color 150ms,
+    box-shadow 150ms;
+}
+.rebuild-card:nth-child(2) {
+  animation-delay: 70ms;
+}
+.rebuild-card:nth-child(3) {
+  animation-delay: 140ms;
+}
+.rebuild-card:hover,
+.rebuild-card:focus-visible {
+  border-color: var(--gold);
+  box-shadow: inset 0 0 24px #efbe7818;
+}
+.rebuild-card-icon {
+  display: block;
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 8px #0006);
+}
+.rebuild-p1a .rebuild-selection {
+  padding: 18px 20px 20px;
+}
+.rebuild-selection header {
+  margin-bottom: 14px;
+}
+.rebuild-selection-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.rebuild-selection .rebuild-pick-count {
+  font-size: 13px;
+  color: #b4c5cc;
+}
+.rebuild-selection #rebuild-reroll {
+  min-height: 44px;
+  padding: 8px 12px;
+  font-size: 12px;
+}
+.rebuild-p1a:has(.rebuild-selection) #hud,
+.rebuild-p1a:has(.rebuild-selection) #pause {
+  visibility: hidden;
+}
+@keyframes rebuild-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rebuild-card {
+    animation: none;
+    transition: none;
+  }
 }
 .rebuild-card-kind {
   font-size: 11px;
@@ -79,9 +142,11 @@
 .rebuild-card strong {
   font-size: 22px;
 }
-.rebuild-card > span:nth-last-child(2) {
+.rebuild-card-description {
   font-size: 13px;
   font-weight: 400;
+  color: #d6e4e7;
+  max-width: 24em;
 }
 .rebuild-card b {
   margin-top: auto;
@@ -202,9 +267,13 @@
     margin: 7px 0;
   }
   .rebuild-card {
-    min-height: 133px;
-    padding: 9px 11px;
+    min-height: 218px;
+    padding: 12px 11px;
     gap: 5px;
+  }
+  .rebuild-card-icon {
+    width: 82px;
+    height: 82px;
   }
   .rebuild-card strong {
     font-size: 19px;
@@ -224,7 +293,7 @@
   .rebuild-card {
     padding: 8px 9px;
   }
-  .rebuild-card > span:nth-last-child(2) {
+  .rebuild-card-description {
     font-size: 12px;
   }
   .rebuild-cards {

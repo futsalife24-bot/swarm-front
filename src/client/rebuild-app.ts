@@ -58,6 +58,14 @@ const esc = (value: string) =>
         c
       ]!,
   );
+const upgradeCopy: Record<RebuildUpgradeId, string> = {
+  "blast-core": "射撃で撃破すると、周囲を爆破。",
+  fuse: "命中で印を付け、次の命中で起爆。",
+  "compressed-charge": "同じ敵に3回命中で爆破。重なる爆発は範囲拡大。",
+  armor: "最大HP +5%。増えた分を回復。",
+  reload: "装填時間 −5%。",
+  magazine: "弾倉 +10%相当（切り上げ・最低1発）。",
+};
 function clearInput() {
   controls.enabled = false;
   controls.reset();
@@ -148,16 +156,14 @@ function paintOverlay() {
     const family = REBUILD_EXPLOSION_UPGRADES.filter(
       (id) => run.upgrades.levels[id],
     ).length;
-    ui.innerHTML = `<section class="pause-card rebuild-panel rebuild-selection"><header><div><div class="eyebrow">SWARM FRONT · P1a · 報酬・保存なし</div><h1>${offer.kind === "initial" ? "最初の強化を選択" : "補給 · 強化を選択"}</h1></div><span class="rebuild-pick-count">取得 ${run.upgrades.picks} / 7<br><small>残り取得権 ${run.upgrades.rightsGranted - run.upgrades.rightsSpent}</small></span></header>
-    <p class="rebuild-evolution">${run.upgrades.evolved ? "連鎖崩落 発動中" : `爆発カード ${family} / 3 で自動進化「連鎖崩落」`} · 手動で印を起爆すると近くの印へ深度2まで伝播</p>
+    ui.innerHTML = `<section class="pause-card rebuild-panel rebuild-selection" aria-labelledby="rebuild-selection-title"><header><h1 id="rebuild-selection-title">${offer.kind === "initial" ? "最初の強化を選択" : "補給 · 強化を選択"}</h1><div class="rebuild-selection-actions"><span class="rebuild-evolution">${run.upgrades.evolved ? "連鎖崩落" : `爆発 ${family}/3`}</span><span class="rebuild-pick-count">${run.upgrades.picks}/7</span>${offer.kind === "additional" ? `<button id="rebuild-reroll" ${!canRerollRebuildUpgrade(run.upgrades) ? "disabled" : ""}>再抽選 残り${run.upgrades.rerollsRemaining}</button>` : ""}</div></header>
     <div class="rebuild-cards">${offer.cardIds
       .map((id) => {
         const def = REBUILD_UPGRADE_CATALOG[id];
-        return `<button class="rebuild-card" data-card="${id}" data-testid="rebuild-card-${id}"><span class="rebuild-card-kind">${def.family === "explosion" ? "爆発 · 進化条件" : `汎用 · ${run.upgrades.levels[id] + 1} / 4`}${id === offer.defaultCardId ? " · 既定" : ""}</span><strong>${def.name}</strong><span>${def.description}</span><b>これを選ぶ</b></button>`;
+        return `<button class="rebuild-card" data-card="${id}" data-testid="rebuild-card-${id}" aria-label="${def.name}: ${esc(def.description)}"><img class="rebuild-card-icon" src="${import.meta.env.BASE_URL}rebuild/upgrades/${id}.png" alt="" width="96" height="96" draggable="false"><span class="rebuild-card-kind">${def.family === "explosion" ? "爆発" : `強化 ${run.upgrades.levels[id] + 1}/4`}</span><strong>${def.name}</strong><span class="rebuild-card-description">${upgradeCopy[id]}</span></button>`;
       })
       .join("")}</div>
-    <footer><span>戦闘完全停止 · 時間制限なし<br><small>AR 2枠・基礎性能固定 / XPは近距離・補給時に回収</small></span><button id="rebuild-reroll" ${!canRerollRebuildUpgrade(run.upgrades) ? "disabled" : ""}>再抽選 残り${run.upgrades.rerollsRemaining}</button></footer>
-    ${offer.kind === "initial" ? '<p class="rebuild-help">WASD: 移動 / 左クリック: 射撃 / 右ドラッグ: 照準 / R: 装填 / Q: 切替 / Space: 回避 / Esc: 停止<br>タッチ: 左スティック移動・右側ドラッグ照準・射撃ボタン</p>' : `<p class="rebuild-help">取得済み: ${buildSummary()}</p>`}</section>`;
+    </section>`;
     ui.querySelectorAll<HTMLButtonElement>("[data-card]").forEach((button) => {
       const displayedOffer = offer.id;
       button.onclick = () => {
@@ -182,13 +188,15 @@ function paintOverlay() {
         paintOverlay();
       };
     });
-    $("rebuild-reroll").onclick = () => {
-      if (performance.now() < actionLockUntil) return;
-      if (rerollRebuildRunOffer(run)) {
-        actionLockUntil = performance.now() + 300;
-        paintOverlay();
-      } else notice("新しい候補組がありません · 回数は消費しません", 3);
-    };
+    const rerollButton = document.getElementById("rebuild-reroll");
+    if (rerollButton)
+      rerollButton.onclick = () => {
+        if (performance.now() < actionLockUntil) return;
+        if (rerollRebuildRunOffer(run)) {
+          actionLockUntil = performance.now() + 300;
+          paintOverlay();
+        } else notice("新しい候補組がありません · 回数は消費しません", 3);
+      };
   } else if (run.phase === "victory" || run.phase === "defeat") {
     ui.innerHTML = `<section class="pause-card rebuild-panel"><header><div><div class="eyebrow">SWARM FRONT · P1a</div><h1>${run.phase === "victory" ? "大型撃破" : "任務終了"}</h1></div><button id="rebuild-retry" class="primary">もう一度試す</button></header><p>${run.status}</p><div class="rebuild-result"><b>戦闘 ${formatRebuildTime(run.world.time)}</b><b>最大 ${run.world.rebuild!.maxChain}連鎖</b><b>${run.upgrades.evolved ? "連鎖崩落に進化" : "未進化"}</b></div><p>構成: ${buildSummary()}</p><p>報酬なし · 既存武器・セーブへの変更なし</p>${measurements()}<p class="rebuild-help">狙う最初の敵を変える理由があったか、1分で強化の違いが分かったかを試してください</p></section>`;
     $("rebuild-retry").onclick = retry;
