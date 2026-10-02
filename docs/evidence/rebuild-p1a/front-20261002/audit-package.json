@@ -1,0 +1,11 @@
+{
+  "target": "ae445c123fe7cde37aeb09c288a3aceb51cee0d2",
+  "base": "4520c57ede444d44b8699753645f36ce479b72bf",
+  "path": "../.task-tools/swarm-front-rebuild-ae445c1-audit.zip",
+  "files": 794,
+  "sourceBytes": 141218580.0,
+  "zipBytes": 83578585,
+  "sha256": "C30DC0B0AEA45F5E7BCA9ED5E5D77E2A0BDF685DDF0CA1B6548DA7D8C026FE83",
+  "sourceBlobMatches": 794,
+  "omittedAssets": 98
+}

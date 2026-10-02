@@ -1,5 +1,7 @@
 # 現在地: 旧版保護と大改装版の実装・自己検証、独立監査のログイン待ち（2026-10-02）
 
+実装の保存・push済み対象SHA: `ae445c123fe7cde37aeb09c288a3aceb51cee0d2`。この対象から再build/dry-run成功。GitHub Actionsの対象PR実行は返却0件（CI合格という意味ではない）。監査ZIP: `../.task-tools/swarm-front-rebuild-ae445c1-audit.zip`、83,578,585 byte、SHA256 `C30DC0B0AEA45F5E7BCA9ED5E5D77E2A0BDF685DDF0CA1B6548DA7D8C026FE83`。ソース・依存・必要な既存モデル/音声・生成画像・証拠の794ファイルは全て対象SHAのblob一致。差分/manifest/依頼本文を同梱。[パッケージ記録](evidence/rebuild-p1a/front-20261002/audit-package.json)・[監査依頼](REBUILD-PLAYABLE-AUDIT.md)。この後の変更は監査待ちの記録のみで、実装変更なし。ZIPの初回送信は未実施。IABタブ5を認証画面で保持し、Google方式・本人の既存アカウントのログイン承認だけを質問済み。
+
 ユーザー「旧版へ戻れるよう保護し、大改装版で遊びたい」、追加「推奨で」。新モード内の武器標準化と旧版から分離した進行を採用。branch `codex/rebuild-p1a-cloud-20261001`、開始HEAD `32af37c4d025def599ec5d85158ee285c5dfe697`、[PR115](https://github.com/futsalife24-bot/swarm-front/pull/115)。旧版main `4520c57ede444d44b8699753645f36ce479b72bf` を `preserved/pre-rebuild-20261002` と主要10ファイルのblob表で保護、GitHubへpush済み。旧入口 `/` と既存セーブ・所持品は維持。作業場所 `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a`。
 
 新入口 `/front.html`（配信は `/front` に正規化する場合あり）に3系統9枚＋補強3種・最大2進化、標準3武器2枠、迎撃/防衛/日替わり、最大4人協力、独立した功績・初期候補解放を実装。生成アイコン12枚、短い日本語3択、順次表示、旧版へ戻る導線。背面の協力画面で追加隊員の準備が止まる不具合を修正。新16件・実通信3件・新実ブラウザ3件・旧試作画面1件・P1a120件・保存147件・SW2件・型/ビルド/dry-run成功。旧関連81成功/既存Stage25の1失敗を区別。改変なし自動試遊9回は全回7取得/進化、7成功（約6分38秒〜7分2秒）/2敗北。楽しさ・人間の勝率・物理Androidは未確認。[仕様](REBUILD-PLAYABLE.md)・[検証](REBUILD-PLAYABLE-VALIDATION.md)。主担当1体、実行モデル/effort未確認・切替なし。
