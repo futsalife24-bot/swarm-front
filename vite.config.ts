@@ -13,5 +13,13 @@ export default defineConfig({
     strictPort: true,
     fs: { deny: ["**/.dev.vars*", "**/.env*", "**/*.{crt,pem}", "**/.git/**"] },
   },
-  build: { target: "es2022" },
+  build: {
+    target: "es2022",
+    rollupOptions: {
+      input: {
+        legacy: fileURLToPath(new URL("./index.html", import.meta.url)),
+        front: fileURLToPath(new URL("./front.html", import.meta.url)),
+      },
+    },
+  },
 });

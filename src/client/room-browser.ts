@@ -21,6 +21,7 @@ export function roomBrowserMarkup(endpoint: string, status: string) {
 export function bindRoomBrowser(
   root: HTMLElement,
   join: (code: string) => Promise<void>,
+  ruleset?: "front-v1",
 ) {
   const field = root.querySelector<HTMLInputElement>("#endpoint")!;
   const status = root.querySelector<HTMLElement>("#room-list-status")!;
@@ -43,7 +44,7 @@ export function bindRoomBrowser(
     return url.href.replace(/\/$/, "");
   };
   async function request(path: string) {
-    const response = await fetch(endpoint() + path, {
+    const response = await fetch(endpoint() + path + (ruleset ? "?ruleset="+ruleset : ""), {
       signal: AbortSignal.timeout(7000),
       redirect: "error",
       cache: "no-store",

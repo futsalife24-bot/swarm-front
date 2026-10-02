@@ -1,5 +1,16 @@
 import { adminManifest, adminPage } from "./admin-page";
 import {
+  createFrontRun,
+  stepFrontRun,
+  chooseFrontUpgrade,
+  rerollFrontRunOffer,
+  getFrontRunView,
+  frontTemporaryWeapons,
+  frontDailySeed,
+  type FrontRun,
+  type FrontWeaponKind,
+} from "../src/shared/front-run";
+import {
   exportProjectAnalytics,
   forwardAnalytics,
   legacyEvent,
@@ -90,6 +101,7 @@ interface Saved {
   stage?: number;
   messages?: ChatMessage[];
   preparationGeneration?: number;
+  frontRun?: FrontRun;
 }
 const json = (body: unknown, status = 200) => Response.json(body, { status });
 const secret = () => crypto.randomUUID().replaceAll("-", "");
@@ -397,8 +409,8 @@ export default {
       res = await env.GATE.get(env.GATE.idFromName("admission")).fetch(
         new Request(
           path === "/rooms"
-            ? "https://internal/list"
-            : `https://internal/resolve?id=${path.split("/")[2]}`,
+            ? `https://internal/list${u.searchParams.get("ruleset") === "front-v1" ? "?ruleset=front-v1" : ""}`
+            : `https://internal/resolve?id=${path.split("/")[2]}${u.searchParams.get("ruleset") === "front-v1" ? "&ruleset=front-v1" : ""}`,
           {
             headers: {
               "X-Client": req.headers.get("CF-Connecting-IP") ?? "local",
@@ -680,11 +692,25 @@ export class Gate extends DurableObject<Env> {
           "directory",
         )) ?? {};
       if (url.pathname === "/list")
-        return json({ rooms: visibleRooms(Object.values(directory), now) });
+        return json({
+          rooms: visibleRooms(
+            Object.values(directory),
+            now,
+            url.searchParams.get("ruleset") === "front-v1"
+              ? "front-v1"
+              : undefined,
+          ),
+        });
       if (url.pathname === "/resolve") {
         const id = normalizeRoomId(url.searchParams.get("id") ?? "");
         const entry = Object.values(directory).find(
-          (e) => e.roomId === id && e.expires > now,
+          (e) =>
+            e.roomId === id &&
+            e.expires > now &&
+            e.ruleset ===
+              (url.searchParams.get("ruleset") === "front-v1"
+                ? "front-v1"
+                : undefined),
         );
         return entry
           ? json({ code: entry.code })
@@ -858,9 +884,11 @@ export class Room extends DurableObject<Env> {
       const saved = await ctx.storage.get<Saved>("room");
       if (saved) {
         this.saved = saved;
+        if (saved.frontRun && saved.world) saved.frontRun.world = saved.world;
         if (saved.world?.phase === "battle" && !saved.paused) {
           this.saved.interrupted = true;
           this.saved.world = null;
+          this.saved.frontRun = undefined;
           await this.persist();
         }
       }
@@ -899,12 +927,21 @@ export class Room extends DurableObject<Env> {
         code: init.code,
         roomId: init.roomId,
       };
+      if (this.saved.directory.mode === "daily")
+        this.saved.stage =
+          (frontDailySeed(new Date().toISOString().slice(0, 10)) % 3) + 1;
       await this.persist();
       await this.ctx.storage.setAlarm(this.saved.created + LIMITS.idleMs);
       return json({ ok: true });
     }
     if (!this.saved.created || Date.now() - this.saved.created > LIMITS.roomMs)
       return json({ error: "ルームの有効期限が切れました" }, 410);
+    if (
+      (new URL(req.url).searchParams.get("ruleset") === "front-v1"
+        ? "front-v1"
+        : undefined) !== this.saved.directory?.ruleset
+    )
+      return json({ error: "旧版と改装版の部屋は別です" }, 409);
     if (this.sockets.size >= 8) return json({ error: "接続上限です" }, 429);
     const pair = new WebSocketPair();
     const [client, server] = Object.values(pair);
@@ -1043,6 +1080,8 @@ export class Room extends DurableObject<Env> {
       ws.serializeAttachment({ id: s.id });
       const p = this.saved.world?.players.find((p) => p.id === s.id);
       if (p) p.connected = true;
+      if (this.saved.frontRun)
+        stepFrontRun(this.saved.frontRun, {}, 0.05, now / 1000);
       this.saved.paused = false;
       this.invalidatePreparation();
       await this.persist();
@@ -1063,6 +1102,12 @@ export class Room extends DurableObject<Env> {
         token: member.token,
         roomId: this.saved.directory?.roomId,
         roomName: this.saved.directory?.name,
+        ...(this.saved.directory?.ruleset
+          ? {
+              ruleset: this.saved.directory.ruleset,
+              mode: this.saved.directory.mode,
+            }
+          : {}),
       });
       this.send(ws, {
         type: "chatHistory",
@@ -1121,6 +1166,14 @@ export class Room extends DurableObject<Env> {
       }
       if (m.input.seq <= s.seq) return;
       s.seq = m.input.seq;
+      if (
+        this.saved.frontRun &&
+        (this.saved.frontRun.phase === "selection" ||
+          now / 1000 < this.saved.frontRun.resumeUntil)
+      ) {
+        delete this.inputs[s.id];
+        return;
+      }
       const previous = this.inputs[s.id]?.i;
       if (
         m.input.mx ||
@@ -1145,10 +1198,24 @@ export class Room extends DurableObject<Env> {
         },
         at: now,
       };
+    } else if (m.type === "frontChoose" || m.type === "frontReroll") {
+      const run = this.saved.frontRun;
+      if (!run || !m.request || typeof m.request !== "object") return;
+      const changed =
+        m.type === "frontChoose"
+          ? chooseFrontUpgrade(run, s.id, m.request, now / 1000)
+          : rerollFrontRunOffer(run, s.id, m.request, now / 1000);
+      if (changed) {
+        member.last = now;
+        this.inputs = {};
+        await this.persist();
+        this.broadcast();
+      }
     } else if (m.type === "ready" || m.type === "stage") {
       // Completed runs retain their world; players must still ready for a rematch.
       if (this.saved.world?.phase === "battle") return;
       if (m.type === "stage") {
+        if (this.saved.directory?.ruleset === "front-v1") return;
         if (s.id !== this.saved.members.find((p) => !p.gone)?.id) return;
         if (!validStage(m.stage) || this.saved.stage === m.stage) return;
         this.saved.stage = m.stage;
@@ -1188,6 +1255,16 @@ export class Room extends DurableObject<Env> {
         return;
       }
       member.edits = (member.edits ?? 0) + 1;
+      if (
+        this.saved.directory?.ruleset === "front-v1" &&
+        (m.weapons.some(
+          (w: Weapon) => !["rifle", "shotgun", "smg"].includes(w.kind),
+        ) ||
+          m.weapons[0].kind === m.weapons[1].kind)
+      ) {
+        this.error(ws, "異なる支給武器を2つ選んでください");
+        return;
+      }
       member.last = now;
       // Equipment packets never acknowledge asset readiness. Every participant
       // must load and acknowledge the resulting server generation separately.
@@ -1208,6 +1285,12 @@ export class Room extends DurableObject<Env> {
             }
           : {}),
       }));
+      if (this.saved.directory?.ruleset === "front-v1")
+        member.weapons = frontTemporaryWeapons(
+          "front-lobby",
+          s.id,
+          member.weapons.map((w) => w.kind as FrontWeaponKind),
+        );
       await this.persist();
       this.broadcast();
     } else if (m.type === "start") {
@@ -1233,14 +1316,33 @@ export class Room extends DurableObject<Env> {
         this.error(ws, "ステージが不正です");
         return;
       }
-      const world = createWorld(
-        secret(),
-        crypto.getRandomValues(new Uint32Array(1))[0],
-        this.saved.stage ?? m.stage ?? 1,
-      );
-      for (const p of present) addPlayer(world, p.id, p.weapons);
+      let world: World;
+      if (this.saved.directory?.ruleset === "front-v1") {
+        const run = createFrontRun(
+          {
+            runId: secret(),
+            seed: crypto.getRandomValues(new Uint32Array(1))[0],
+            mode: this.saved.directory.mode,
+            players: present.map((p) => ({
+              id: p.id,
+              weapons: p.weapons.map((w) => w.kind as FrontWeaponKind),
+            })),
+          },
+          now / 1000,
+        );
+        this.saved.frontRun = run;
+        world = run.world;
+      } else {
+        world = createWorld(
+          secret(),
+          crypto.getRandomValues(new Uint32Array(1))[0],
+          this.saved.stage ?? m.stage ?? 1,
+        );
+        for (const p of present) addPlayer(world, p.id, p.weapons);
+        for (const p of present) p.last = now;
+        start(world);
+      }
       for (const p of present) p.last = now;
-      start(world);
       this.saved.world = world;
       this.saved.paused = false;
       this.sentEvent = 0;
@@ -1276,6 +1378,12 @@ export class Room extends DurableObject<Env> {
       members,
       stage: this.saved.stage ?? 1,
       preparationGeneration: this.saved.preparationGeneration ?? 0,
+      ...(this.saved.directory?.ruleset
+        ? {
+            ruleset: this.saved.directory.ruleset,
+            mode: this.saved.directory.mode,
+          }
+        : {}),
     };
     const state = w ? prepareState(w, this.sentEvent, metadata) : undefined;
     for (const [ws, s] of this.sockets) {
@@ -1285,8 +1393,16 @@ export class Room extends DurableObject<Env> {
           !!s.equipmentCache &&
           w.phase === "battle" &&
           s.equipmentKey === state!.equipmentKey;
-        if (this.sendEncoded(ws, state!.packet(s.id, cached, s.seq)))
-          s.equipmentKey = state!.equipmentKey;
+        const packet = state!.packet(s.id, cached, s.seq);
+        const payload =
+          this.saved.frontRun && this.saved.frontRun.upgrades[s.id]
+            ? encodeState({
+                ...JSON.parse(packet),
+                frontView: getFrontRunView(this.saved.frontRun, s.id),
+                serverNow: Date.now() / 1000,
+              })
+            : packet;
+        if (this.sendEncoded(ws, payload)) s.equipmentKey = state!.equipmentKey;
       } else this.send(ws, { type: "lobby", ...metadata });
     }
     if (w) {
@@ -1342,7 +1458,13 @@ export class Room extends DurableObject<Env> {
         now - v.at < 250 ? v.i : neutral(),
       ]),
     );
-    step(w, active);
+    if (this.saved.frontRun) {
+      const phase = this.saved.frontRun.phase;
+      stepFrontRun(this.saved.frontRun, active, 0.05, now / 1000);
+      if (phase !== this.saved.frontRun.phase) this.inputs = {};
+      if (w.phase !== "battle" && this.saved.frontRun.phase !== w.phase)
+        this.saved.frontRun.phase = w.phase as "victory" | "defeat";
+    } else step(w, active);
     for (const v of Object.values(this.inputs)) {
       v.i.swap = false;
       v.i.dodge = false;

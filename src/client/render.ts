@@ -862,12 +862,13 @@ export class Renderer {
     animate = true,
     scoped = false,
     readyAim = false,
+    draw = true,
   ) {
-    if (document.hidden) {
+    if (draw && document.hidden) {
       this.framePacer.reset();
       return;
     }
-    const renderDt = this.framePacer.next(dt, this.frameRate);
+    const renderDt = draw ? this.framePacer.next(dt, this.frameRate) : dt;
     if (renderDt === null) return;
     dt = renderDt;
     const local = w?.players.find((p) => p.id === id);
@@ -1616,7 +1617,7 @@ export class Renderer {
       fog.far = T.MathUtils.lerp(fog.far, Math.min(fog.far, 90), pollenHaze);
       fog.color.lerp(new T.Color(0xb8ad78), pollenHaze * 0.2);
     }
-    this.renderer.render(this.scene, this.camera);
+    if (draw) this.renderer.render(this.scene, this.camera);
     this.drawCalls = this.renderer.info.render.calls;
     return true;
   }

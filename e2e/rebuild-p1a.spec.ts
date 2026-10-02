@@ -179,6 +179,15 @@ for (const viewport of [
         "0.14s",
       ]);
     await expect(page.locator("#controls")).toBeHidden();
+    await page
+      .locator(".rebuild-card")
+      .evaluateAll((cards) =>
+        Promise.all(
+          cards.flatMap((card) =>
+            card.getAnimations().map((animation) => animation.finished),
+          ),
+        ),
+      );
     const rectangles = await page
       .locator(".rebuild-card")
       .evaluateAll((cards) =>

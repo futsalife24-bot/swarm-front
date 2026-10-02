@@ -1,4 +1,13 @@
-# 現在地: プレゼンのスマホ公開完了（PR112、2026-09-29）
+# 現在地: 旧版保護と大改装版の実装・自己検証、独立監査のログイン待ち（2026-10-02）
+
+ユーザー「旧版へ戻れるよう保護し、大改装版で遊びたい」、追加「推奨で」。新モード内の武器標準化と旧版から分離した進行を採用。branch `codex/rebuild-p1a-cloud-20261001`、開始HEAD `32af37c4d025def599ec5d85158ee285c5dfe697`、[PR115](https://github.com/futsalife24-bot/swarm-front/pull/115)。旧版main `4520c57ede444d44b8699753645f36ce479b72bf` を `preserved/pre-rebuild-20261002` と主要10ファイルのblob表で保護、GitHubへpush済み。旧入口 `/` と既存セーブ・所持品は維持。作業場所 `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a`。
+
+新入口 `/front.html`（配信は `/front` に正規化する場合あり）に3系統9枚＋補強3種・最大2進化、標準3武器2枠、迎撃/防衛/日替わり、最大4人協力、独立した功績・初期候補解放を実装。生成アイコン12枚、短い日本語3択、順次表示、旧版へ戻る導線。背面の協力画面で追加隊員の準備が止まる不具合を修正。新16件・実通信3件・新実ブラウザ3件・旧試作画面1件・P1a120件・保存147件・SW2件・型/ビルド/dry-run成功。旧関連81成功/既存Stage25の1失敗を区別。改変なし自動試遊9回は全回7取得/進化、7成功（約6分38秒〜7分2秒）/2敗北。楽しさ・人間の勝率・物理Androidは未確認。[仕様](REBUILD-PLAYABLE.md)・[検証](REBUILD-PLAYABLE-VALIDATION.md)。主担当1体、実行モデル/effort未確認・切替なし。
+
+停止理由: 独立監査前のIAB通常Chatが未ログイン。前回の自動承認レビューが「Googleで続行」を、方式/アカウント選択の具体承認不足として拒否した。監査ZIP送信・監査合格後の通常merge/既存Worker公開は継続承認済みだが、Google方式の認証は未承認。監査・main反映・本番公開は未実施。制限を迂回していない。
+再開条件: 最新保存コミットの監査ZIPを固定したうえで、本人の既存GoogleアカウントによるChatGPTへの通常ログインを具体的に承認する。ログイン確認後、同ZIPを新規通常Chatへ直接添付して監査、必須修正/再監査、main反映、既存Worker公開、配信照合へ進む。本人操作でIABへログイン済みになった場合も同じ監査を再開する。
+
+# 履歴: プレゼンのスマホ公開完了（PR112、2026-09-29）
 
 ユーザー追加依頼「出先スマホで見れるように」。既存Workerの `/briefing/` で28ページの要点/解説を読む静的ページを作成。branch `codex/presentation-mobile`、base `fcd466209c1a89331e45d358b9d2ac1776838986`、当初対象 `7e91107a7d114ff38b46e3f95f0f66027e343bb2`（閲覧UI合格）、最終対象 `666fd85c078bea965ed14e5f489ca6f31ed95a4d`、作業場所balance-t7。[PR112](https://github.com/futsalife24-bot/swarm-front/pull/112)。390幅の28ページ巡回/320幅操作/844横持ち/production build/Worker dry-run成功。同じ[通常監査Chat](https://chatgpt.com/c/6abb409f-2e28-83e9-89a2-1459af653272)へ今回の閲覧/配信差分は合格。追加したSWのbriefing除外4行・回帰テスト2件も最終対象SHAで合格、必須P0/P1/P2各0件。既存管理系と合わせ9件成功、再build/dry-run成功。[詳細](presentations/rebuild-20260929/MOBILE.md)。ゲームロジック・設定・セーブへの変更なし。SWの資料経路除外を追加。PR112通常merge、公開ソースmain feaa7cd84178bae872922a2f7669c5a7d4d6eab1、Worker Version fe9f40d9-6f21-4e7b-a3f3-5222c9b3e60d。公開11ファイルHTTP200/SHA一致、health正常、公開ページ390幅/目次/前後/元スライド表示成功、JS error 0。公開URL: https://swarm-front.melosalife-24.workers.dev/briefing/ 。物理スマホ・既存SW更新タイミングは未確認。
 

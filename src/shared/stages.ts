@@ -491,8 +491,9 @@ export function mapFor(w: {
   campaignPlan?: StagePlan;
   training?: boolean;
   defense?: unknown;
+  front?: unknown;
 }) {
-  return w.defense
+  return w.defense || w.front
     ? DEFENSE_MAPS[stageFor(w).map]
     : w.training
       ? TRAINING_MAP

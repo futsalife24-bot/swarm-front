@@ -1,4 +1,13 @@
 import {
+  beginFrontShot,
+  frontManualHit,
+  frontDodgeEnded,
+  frontReloadStarted,
+  tickFrontEffects,
+  recordFrontKill,
+  type FrontBattleState,
+} from "./front-combat";
+import {
   rebuildManualHit,
   recordRebuildKill,
   type RebuildCombatState,
@@ -285,6 +294,7 @@ export interface Drop {
 export interface World {
   /** Public, temporary P1a combat data only; private offers live outside World. */
   rebuild?: RebuildCombatState;
+  front?: FrontBattleState;
   campaignPlan?: import("./stages").StagePlan;
   harrowMissiles?: import("./harrow").HarrowMissile[];
   pollen?: import("./calyx").PollenCloud[];
@@ -383,7 +393,7 @@ export function start(w: World) {
   w.scale = 1 + 0.55 * (w.players.length - 1);
   w.wave = 1;
   w.waveAt = 0;
-  if (!w.defense && !w.rebuild) beginWave(w);
+  if (!w.defense && !w.rebuild && !w.front) beginWave(w);
 }
 export function random(w: World) {
   w.seed = (Math.imul(w.seed, 1664525) + 1013904223) >>> 0;
@@ -855,7 +865,8 @@ export function hurtEnemy(
   attribution?: RebuildAttribution,
 ) {
   if (e.hp <= 0) return;
-  if (w.defense && owner === w.players[0]?.id) e.defenseAggroUntil = w.time + 4;
+  if (w.defense && (w.front || owner === w.players[0]?.id))
+    e.defenseAggroUntil = w.time + 4;
   e.active = true;
   let impact = { x: e.x, y: eye(e), z: e.z };
   if (e.segments) {
@@ -902,7 +913,8 @@ export function hurtEnemy(
       owner,
       ...(attribution ? { rebuild: attribution } : {}),
     });
-    if (w.rebuild) recordRebuildKill(w, e, attribution);
+    if (w.front) recordFrontKill(w, e, owner);
+    else if (w.rebuild) recordRebuildKill(w, e, attribution);
     else if (w.solo) soloDrop(w, e);
     else if (random(w) < stageFor(w).dropRate && w.drops.length < 24)
       for (const p of w.players) {
@@ -922,7 +934,7 @@ export function finish(w: World, win: boolean, reason = "") {
   if (w.phase !== "battle") return;
   w.phase = win ? "victory" : "defeat";
   w.reason = reason;
-  if (w.rebuild) {
+  if (w.rebuild || w.front) {
     w.pending = Object.fromEntries(w.players.map((p) => [p.id, []]));
     w.rewards = {};
     w.drops = [];
@@ -1223,6 +1235,7 @@ export function fire(w: World, p: Player, i: Input, airborne = false) {
     );
   }
   const rebuildShot = w.rebuild ? ++w.rebuild.shotSerial : 0;
+  const frontShot = w.front ? beginFrontShot(w, p) : null;
   const repelled = new Set<Enemy>();
   for (let j = 0; j < def.pellets; j++) {
     const ya = yaw + (random(w) - 0.5) * def.spread * 2,
@@ -1302,9 +1315,23 @@ export function fire(w: World, p: Player, i: Input, airborne = false) {
       .filter((h): h is NonNullable<typeof h> => !!h)
       .filter((h) => h.along > 0 && h.along < range && h.distance < h.radius)
       .sort((a, b) => a.along - b.along)
-      .slice(0, shape.pierce > 1 || weapon.effect === "pierce" ? 3 : 1);
+      .slice(
+        0,
+        (shape.pierce > 1 || weapon.effect === "pierce" ? 3 : 1) +
+          (frontShot?.extraPierce ?? 0),
+      );
     for (const h of hits) {
-      if (w.rebuild)
+      if (frontShot)
+        frontManualHit(
+          w,
+          h.e,
+          def.damage * falloff(weapon.kind, h.along) * frontShot.damageFactor,
+          p.id,
+          frontShot.id,
+          h.part,
+          family,
+        );
+      else if (w.rebuild)
         rebuildManualHit(
           w,
           h.e,
@@ -1416,6 +1443,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   if (!w.players.some((p) => p.connected)) return;
   dt = Math.min(0.1, Math.max(0, dt));
   w.time += dt;
+  if (w.front) tickFrontEffects(w);
   if (w.solo) w.solo.invincible = Math.max(0, w.solo.invincible - dt);
   for (const p of w.players) {
     if (!p.connected) continue;
@@ -1452,8 +1480,9 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       continue;
     }
     p.safe += dt;
-    if (p.safe > recoveryWait(w) && p.hp < maxHp(w) * (w.solo ? 0.5 : 1))
-      p.hp = Math.min(maxHp(w) * (w.solo ? 0.5 : 1), p.hp + dt * 3);
+    const hpCap = w.front?.players[p.id]?.maxHp ?? maxHp(w);
+    if (p.safe > recoveryWait(w) && p.hp < hpCap * (w.solo ? 0.5 : 1))
+      p.hp = Math.min(hpCap * (w.solo ? 0.5 : 1), p.hp + dt * 3);
     if (w.solo && p.reloadSlots)
       for (let slot = 0; slot < 2; slot++)
         if (slot !== p.slot && p.reloadSlots[slot] > 0) {
@@ -1481,7 +1510,9 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       p.reload <= 0 &&
       p.ammo[p.slot] < stats(p.weapons[p.slot]).mag
     )
-      p.reload = reloadDuration(p.weapons[p.slot], p.ammo[p.slot]);
+      p.reload =
+        reloadDuration(p.weapons[p.slot], p.ammo[p.slot]) *
+        (w.front ? frontReloadStarted(w, p) : 1);
     if (i.dodge && p.evadeCd <= 0) {
       p.evade = EVADE_DURATION;
       p.evadeCd = 2.2;
@@ -1501,6 +1532,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       airborne,
       true,
     );
+    if (w.front && wasEvading && p.evade <= 0) frontDodgeEnded(w, p);
     if (i.fire)
       // A weapon faster than the tick fires more than once here. The cap is a
       // guard against a pathological interval, not an intended rate limit.
@@ -1558,7 +1590,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       }
     }
   if (!living.length) {
-    if (w.defense) {
+    if (w.defense && !w.front) {
       finishDefenseTick(w);
       return;
     }
@@ -1572,7 +1604,9 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   const plan = stageFor(w);
   const wave = plan.waves[w.wave - 1];
   if (!wave) return;
-  if (w.defense) defenseSpawn(w);
+  if (w.front) {
+    /* 改装版の出現予定は front-run が管理する。 */
+  } else if (w.defense) defenseSpawn(w);
   else if (w.solo) soloSpawnAndProgress(w);
   else if (!w.training && !w.rebuild) {
     if (
@@ -2084,7 +2118,9 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   stepPollen(w, living, dt);
   stepHarrowMissiles(w, living, dt);
   flushFoundrySpawns(w);
-  if (w.defense) finishDefenseTick(w);
+  if (w.front) {
+    /* 改装版の任務終了は front-run が管理する。 */
+  } else if (w.defense) finishDefenseTick(w);
   else if (w.solo) endSoloTick(w);
   else if (!w.training && !w.rebuild && w.time > 600)
     finish(w, false, "作戦時間の上限（10分）に達しました");

@@ -1,6 +1,8 @@
 export interface RoomOptions {
   name: string;
   listed: boolean;
+  ruleset?: "front-v1";
+  mode?: "survival" | "defense" | "daily";
 }
 export interface RoomListing {
   roomId: string;
@@ -9,6 +11,8 @@ export interface RoomListing {
   players: number;
 }
 export interface DirectoryEntry extends RoomListing {
+  ruleset?: "front-v1";
+  mode?: "survival" | "defense" | "daily";
   code: string;
   listed: boolean;
   expires: number;
@@ -26,7 +30,19 @@ export function roomOptions(value: unknown): RoomOptions {
           .slice(0, 24)
           .join("")
       : "";
-  return { name: name || "協力部隊", listed: v.listed === true };
+  return {
+    name: name || "協力部隊",
+    listed: v.listed === true,
+    ...(v.ruleset === "front-v1"
+      ? {
+          ruleset: "front-v1" as const,
+          mode:
+            v.mode === "defense" || v.mode === "daily"
+              ? v.mode
+              : ("survival" as const),
+        }
+      : {}),
+  };
 }
 export function normalizeRoomId(value: string) {
   return value.normalize("NFKC").trim().toUpperCase();
@@ -34,11 +50,13 @@ export function normalizeRoomId(value: string) {
 export function visibleRooms(
   entries: DirectoryEntry[],
   now: number,
+  ruleset?: "front-v1",
 ): RoomListing[] {
   return entries
     .filter(
       (e) =>
         e.listed &&
+        e.ruleset === ruleset &&
         e.expires > now &&
         now - e.updated < 90000 &&
         e.phase === "lobby" &&

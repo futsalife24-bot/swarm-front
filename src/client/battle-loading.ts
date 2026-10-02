@@ -14,11 +14,12 @@ export async function prepareBattle(
   progress: (value: number) => void = () => {},
 ) {
   const began = performance.now();
+  let pending = "素材";
   const check = () => {
     if (cancelled()) throw new Error("準備を中止しました");
     if (performance.now() - began > 60000)
       throw new Error(
-        "読み込みに時間がかかっています。通信を確認して再試行してください。",
+        `読み込みに時間がかかっています（${pending}）。通信を確認して再試行してください。`,
       );
   };
   const wait = async (promise: Promise<unknown>) => {
@@ -71,11 +72,20 @@ export async function prepareBattle(
     view.mapAssets.status[mapIndex] = { state: "idle", error: "" };
   while (true) {
     check();
-    view.render(world, id, 0, 0, 0, undefined, false);
+    // Actor preparation must continue in background tabs, without drawing every frame.
+    view.render(world, id, 0, 0, 0, undefined, false, false, false, false);
     view.mapAssets.select(mapIndex, true);
     const map = view.mapAssets.status[mapIndex],
       distant = view.mapAssets.distantStatus[mapIndex];
     const models = world.players.map((p) => view.players.get(p.id));
+    pending =
+      map.state !== "ready"
+        ? "マップ"
+        : !world.defense &&
+            mapFor(world).biome !== "cave" &&
+            distant.state !== "ready"
+          ? "遠景"
+          : `兵士 ${models.filter((m) => m?.userData.trooper).length}/${models.length}`;
     if (
       map.state === "error" ||
       distant.state === "error" ||
@@ -95,6 +105,7 @@ export async function prepareBattle(
     await new Promise<void>((r) => requestAnimationFrame(() => r()));
   }
   progress(85);
+  pending = "描画の準備";
   await wait(view.renderer.compileAsync(view.scene, view.camera));
   check();
   view.renderer.render(view.scene, view.camera);

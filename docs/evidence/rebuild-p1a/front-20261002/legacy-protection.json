@@ -1,0 +1,62 @@
+[
+  {
+    "path": "index.html",
+    "expected": "5320d56f5d1e5fe0e1c5872bbbffabdf55a2e481",
+    "actual": "5320d56f5d1e5fe0e1c5872bbbffabdf55a2e481",
+    "matched": true
+  },
+  {
+    "path": "src/bootstrap.ts",
+    "expected": "594abc751ea6b64ae7a9aaeaf9b0efd9b7d416dd",
+    "actual": "594abc751ea6b64ae7a9aaeaf9b0efd9b7d416dd",
+    "matched": true
+  },
+  {
+    "path": "src/main.ts",
+    "expected": "a6331311f8e0d0bc6a8e6d36702d0b0e7f85950f",
+    "actual": "a6331311f8e0d0bc6a8e6d36702d0b0e7f85950f",
+    "matched": true
+  },
+  {
+    "path": "src/client/save.ts",
+    "expected": "03d9ccb3d69514c3e50b4962a4f057223bb2f4c8",
+    "actual": "03d9ccb3d69514c3e50b4962a4f057223bb2f4c8",
+    "matched": true
+  },
+  {
+    "path": "src/client/save-writer.ts",
+    "expected": "c4657e82d16b8726b7325b323e75369e75a7d774",
+    "actual": "c4657e82d16b8726b7325b323e75369e75a7d774",
+    "matched": true
+  },
+  {
+    "path": "src/client/save-recovery.ts",
+    "expected": "98cc09664251a09fa5bec3c4358a8b0d06987490",
+    "actual": "98cc09664251a09fa5bec3c4358a8b0d06987490",
+    "matched": true
+  },
+  {
+    "path": "src/client/progression-save.ts",
+    "expected": "bb04c560f300fda861e4a61a0c7b666d1fe422b6",
+    "actual": "bb04c560f300fda861e4a61a0c7b666d1fe422b6",
+    "matched": true
+  },
+  {
+    "path": "src/client/cloud-save.ts",
+    "expected": "53c16a4b07e3e1360950809fb5681ddefdc24e69",
+    "actual": "53c16a4b07e3e1360950809fb5681ddefdc24e69",
+    "matched": true
+  },
+  {
+    "path": "src/shared/daily-rewards.ts",
+    "expected": "7ca77dde84097cb446abf5bbdf45df6ac9d8001d",
+    "actual": "7ca77dde84097cb446abf5bbdf45df6ac9d8001d",
+    "matched": true
+  },
+  {
+    "path": "src/shared/progression.ts",
+    "expected": "9de5dae04351d940d46aad2ea906a20f73dd0a1b",
+    "actual": "9de5dae04351d940d46aad2ea906a20f73dd0a1b",
+    "matched": true
+  }
+]
