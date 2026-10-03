@@ -58,21 +58,71 @@ for (const viewport of [
     expect(
       await prep.evaluate((el) => el.scrollHeight <= el.clientHeight + 1),
     ).toBe(true);
-    const bounds = await page.locator(".front-weapon-row").evaluateAll((rows) =>
-      rows.map((el) => {
-        const r = el.getBoundingClientRect();
-        return { right: r.right, bottom: r.bottom };
-      }),
-    );
+    await page.locator('[data-front-slot="1"]').click();
+    await page.locator('.front-weapon-row [data-weapon="smg"]').last().click();
+    await expect(page.locator('[data-front-slot="1"]')).toContainText("SMG-3");
+    await page.locator('[data-front-slot="0"]').click();
+    await page.locator('.front-weapon-row [data-weapon="smg"]').last().click();
+    await expect(page.locator('[data-front-slot="0"]')).toContainText("SMG-3");
+    await expect(page.locator('[data-front-slot="1"]')).toContainText("AR-9");
+    await expect(
+      page.getByRole("combobox", { name: "爆発", exact: true }),
+    ).toHaveValue("fuse");
+    // 元の装備に戻して、既存の戦闘・強化検証を続行。
+    await page
+      .locator('.front-weapon-row [data-weapon="rifle"]')
+      .last()
+      .click();
+    await page.locator('[data-front-slot="1"]').click();
+    await page
+      .locator('.front-weapon-row [data-weapon="shotgun"]')
+      .last()
+      .click();
+    const layout = await page.locator(".front-weapon-table").evaluate((el) => {
+      const r = el.getBoundingClientRect();
+      const rows = [...el.querySelectorAll(".front-weapon-row")];
+      return {
+        x: r.x,
+        right: r.right,
+        bottom: r.bottom,
+        scroll: el.scrollWidth - el.clientWidth,
+        heights: rows.map((row) => row.getBoundingClientRect().height),
+      };
+    });
+    expect(layout.right).toBeLessThanOrEqual(viewport.width);
+    expect(layout.bottom).toBeLessThanOrEqual(viewport.height);
+    expect(layout.heights).toEqual([30, 30, 30]);
+    if (viewport.width >= 844) expect(layout.scroll).toBeLessThanOrEqual(1);
+    const fixed = await page
+      .locator(".front-weapon-row .gear-pinned-label")
+      .first()
+      .boundingBox();
+    await page
+      .locator(".front-weapon-table")
+      .evaluate((el) => (el.scrollLeft = 500));
     expect(
-      bounds.every(
-        (r) => r.right <= viewport.width && r.bottom <= viewport.height,
-      ),
-    ).toBe(true);
+      (await page
+        .locator(".front-weapon-row .gear-pinned-label")
+        .first()
+        .boundingBox())!.x,
+    ).toBe(fixed!.x);
+    const offsets = await page
+      .locator(".front-weapon-table .pt-stat-inner")
+      .evaluateAll((es) => es.map((el) => el.getBoundingClientRect().x));
+    expect(offsets.every((x) => Math.abs(x - offsets[0]) < 1)).toBe(true);
+    await page
+      .locator(".front-weapon-table")
+      .evaluate((el) => (el.scrollLeft = 0));
     await page.screenshot({
       path: `${evidence}/prep-${viewport.width}x${viewport.height}.png`,
     });
     await page.getByRole("button", { name: "出撃", exact: true }).click();
+    await expect(
+      page.getByRole("progressbar", { name: "準備の進捗" }),
+    ).toBeVisible();
+    await page.screenshot({
+      path: `${evidence}/loading-${viewport.width}x${viewport.height}.png`,
+    });
     await expect(
       page.getByRole("heading", { name: "強化を選べ", exact: true }),
     ).toBeVisible({ timeout: 65000 });

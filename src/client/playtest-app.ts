@@ -1,3 +1,4 @@
+import { battleLoadingMarkup } from "./loading-screen";
 import { backgroundMusic } from "./bgm";
 import { mountMediaMenu } from "./media-menu";
 import {
@@ -209,11 +210,9 @@ async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
     "装備中の武器とロックした武器は解体から保護されます。",
     "自動回復は最大HPの半分まで。回復品は満タンなら残ります。",
   ];
-  ui.innerHTML =
-    '<section class="pt-loading"><h1>戦場を準備中</h1><progress id="pt-progress" max="100" value="0"></progress><b id="pt-load-percent">0%</b><p>自動回復と回復ドロップを活用しましょう。</p><p>街区には、本筋とは違う道があるかもしれません。</p><button id="pt-enter" hidden>タップで戦場へ</button><div id="pt-load-error"></div></section>';
+  ui.innerHTML = battleLoadingMarkup(true);
   ui.querySelector(".pt-loading p")!.textContent =
     tips[Math.floor(Math.random() * tips.length)];
-  ui.querySelectorAll(".pt-loading p")[1]?.remove();
   const progress = (n: number) => {
     if (generation !== loadingGeneration) return;
     ($("pt-progress") as HTMLProgressElement).value = n;
