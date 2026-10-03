@@ -1,3 +1,9 @@
+# 現在地: 出撃準備・読み込みの旧版UI統一を公開（2026-10-03）
+
+[改装版](https://swarm-front.melosalife-24.workers.dev/front)の出撃準備を従来の枠・左装備枠・右武器一覧へ、読み込みを共通の進捗バーへ統一。独立監査合格、必須指摘なし。PR125通常merge、公開ソース `e8892893e28d69e1a48752857aa9399057d1d914`、Worker `118ff1e3-f96d-4d7f-a876-d240469a51c0`。
+
+型・実UI4件・旧版武器一覧8表示と操作・HUD比較2件・build/dry-run成功。health200・配信37件全一致、公開実画面の装備入替→読み込み→3択→戦闘/一時停止→メニュー復帰とエラー0を確認。[公開記録](FRONT-PREP-LEGACY-RELEASE.md)。公開記録だけを通常PRでmainへ保存する。
+
 # 現在地: 出撃準備UIの独立監査合格、公開へ（2026-10-03）
 
 固定対象 `b1bf510ba8bbb61e74d61df0b1da2f386169c48a` の[通常Chat監査](https://chatgpt.com/c/6ac0dbf4-da6c-83ee-b7c4-64eabba1c4ed)は合格、P0/P1/P2なし。[確定全文](evidence/front-prep-legacy-20261003/audit-final.txt)。初回通信中断後に同Chatで再確認し、最終全文・3分12秒の完了表示・コピー/再生成操作・停止消失を確認。末尾に通信エラー表示は併記。725件SHA照合済み、監査側の試験再実行はなし。監査後は記録のみ。PR125通常統合・既存Worker公開へ進む。
