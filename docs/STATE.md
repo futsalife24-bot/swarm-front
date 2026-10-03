@@ -1,3 +1,7 @@
+# 現在地: 監査側通信エラー後、同Chatで限定再確認中（2026-10-03）
+
+対象 `9117cc35c958035abf01d1b38740af937ca7f279` の初回監査で最終合格/必須0の本文が一度表示されたが、同時にサービスエラーが表示され、再読込で判定本文が消えた。保存済みの確定判定として扱わず、同じ[通常Chat](https://chatgpt.com/c/6ac0ae95-daa4-83ee-9305-b65677985716)・同じ添付・同じSHAで今回HUD差分に絞った再確認を1回依頼し、送信と回答開始を確認。コード差分なし、以降は記録のみ。確定報告を待ち、合格後に通常merge/公開する。PR119、自己検証と公開準備は完了。
+
 # 現在地: 従来HUD継承の独立監査を送信済み（2026-10-03）
 
 [PR119](https://github.com/futsalife24-bot/swarm-front/pull/119)、固定対象 `9117cc35c958035abf01d1b38740af937ca7f279`、base `4f289fef938300dbdd6dbba6a3e7b453a058051d`。アプリ内ブラウザの新規[通常Chat](https://chatgpt.com/c/6ac0ae95-daa4-83ee-9305-b65677985716)へZIP直接添付、送信と回答開始を確認。798ファイル全blob一致、82,339,147 bytes。[資料](evidence/front-hud-20261003/audit-package.json)・[変更と検証](FRONT-COMBAT-HUD.md)。この後は記録のみ。独立判定を待ち、合格後に通常merge・既存Worker公開・配信/UI確認へ進む。
