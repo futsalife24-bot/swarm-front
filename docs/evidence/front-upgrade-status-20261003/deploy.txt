@@ -1,0 +1,38 @@
+
+ ⛅️ wrangler 4.129.0
+────────────────────
+🌀 Building list of assets...
+✨ Read 280 files from the assets directory C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\dist
+🌀 Starting asset upload...
+🌀 Found 13 new or modified static assets to upload. Proceeding with upload...
++ /front.html
++ /assets/zoom-guard-C77Ns-7n.js
++ /assets/front-sUEC1H67.css
++ /assets/main-qQVzfYPc.js
++ /assets/hud-BoSymSW5.js
++ /index.html
++ /assets/weapon-sharing-BXqAWB2X.js
++ /assets/legacy-Bl2_0uw3.js
++ /assets/weapon-help-B7Qf2PCb.js
++ /assets/training-app-D8ItIl5D.js
++ /assets/minimap-D-Wgrije.js
++ /assets/front-C3TL4xVh.js
++ /assets/playtest-app-BhvlHR25.js
+Uploaded 4 of 13 assets
+Uploaded 8 of 13 assets
+Uploaded 13 of 13 assets
+✨ Success! Uploaded 13 files (235 already uploaded) (1.77 sec)
+
+Total Upload: 289.61 KiB / gzip: 76.84 KiB
+Worker Startup Time: 281 ms
+Your Worker has access to the following bindings:
+Binding                                                  Resource                  
+env.ROOMS (Room)                                         Durable Object            
+env.GATE (Gate)                                          Durable Object            
+env.PROJECT_HUB (project-hub)                            Worker                    
+env.TURNSTILE_SITE_KEY ("0x4AAAAAAEqP4GMKnl-xNQKK")      Environment Variable      
+
+Uploaded swarm-front (11.43 sec)
+Deployed swarm-front triggers (0.86 sec)
+  https://swarm-front.melosalife-24.workers.dev
+Current Version ID: 3b06c5d7-3e6b-4d14-8a46-40befb074326

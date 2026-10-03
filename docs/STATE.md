@@ -1,3 +1,9 @@
+# 現在地: 強化見出し・戦闘中/一時停止中の取得状況を公開（2026-10-03）
+
+[改装版](https://swarm-front.melosalife-24.workers.dev/front)へ「強化を選べ」の短い見出し演出、小アイコン、名前/段階/効果/進化の詳細を公開。従来HUDと即復帰を維持。PR123通常merge、公開ソース `226074ac46c0bab6e54da3443b6a721d10ecc0f7`、Worker Version `3b06c5d7-3e6b-4d14-8a46-40befb074326`。
+
+装甲補強の生存条件の説明を修正し、同Chatの `c2af40c2522aeda6ed62e35187beb78de2a79bf4` 限定再監査合格、必須指摘なし。型・表示単体4・実UI4・タッチHUD比較2成功。公開main build/dry-run成功、health200・配信37ファイル全一致。公開UIで見出し/戦闘中アイコン/一時停止詳細/メニュー復帰、実行エラー0。[公開記録と証拠](FRONT-UPGRADE-STATUS-RELEASE.md)。公開後は文書/証拠だけを通常PRで保存。
+
 # 現在地: 強化表示の修正版が独立再監査合格、公開へ（2026-10-03）
 
 対象 `c2af40c2522aeda6ed62e35187beb78de2a79bf4` の[同Chat限定再監査](https://chatgpt.com/c/6ac0cafa-6284-83ee-a646-a20f333c3781)は合格、P0/P1/P2なし。装甲補強の生存条件を説明へ明記し必須P2を解消。[確定判定](evidence/front-upgrade-status-20261003/audit-final.txt)。回答完了表示とコピー/再生成操作を確認。以降は記録のみ。PR123通常統合・既存Worker公開/配信/UI確認へ続行。
