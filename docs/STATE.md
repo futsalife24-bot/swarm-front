@@ -1,3 +1,15 @@
+# 現在地: 3択テンポ修正版の独立監査合格、通常統合・公開へ（2026-10-03）
+
+対象 `ce154997a6dd46f0eceaebd360ab0e19f8825ff4` の[通常Chat](https://chatgpt.com/c/6ac0bc1f-4878-83ee-af08-3c2555c82e04)監査は合格、必須P0/P1/P2なし。[完結した判定本文](evidence/front-choice-20261003/audit-final.txt)を保存。全本文の出力とコピー/再生成操作、応答停止操作消失の完了状態を確認。末尾にUI通信エラーが併記されたためChat側永続保存は未確認とし、完結した独立判定本文をGit証拠へ保存して採用。監査後は記録のみ。PR121の通常merge・既存Worker公開・配信/UI確認へ続行。
+
+# 現在地: 3択テンポ修正版の独立監査を送信済み（2026-10-03）
+
+[PR121](https://github.com/futsalife24-bot/swarm-front/pull/121)、固定対象 `ce154997a6dd46f0eceaebd360ab0e19f8825ff4`、base `307d3769f2b45f3d4886733a95fbcbe03323e9df`。新規[通常Chat](https://chatgpt.com/c/6ac0bc1f-4878-83ee-af08-3c2555c82e04)へ監査ZIP直接添付・送信・回答開始を確認。695ファイル全blob一致、11,981,609 bytes。[パッケージ記録](evidence/front-choice-20261003/audit-package.json)。[変更と実測](FRONT-CHOICE-TEMPO.md)。以降は記録のみ。確定判定後に必要修正/通常merge・既存Worker公開・配信/UI確認へ続行。
+
+# 現在地: 3択の中央コンパクト表示・即時再開を実装、自己検証済み（2026-10-03）
+
+[変更と実測](FRONT-CHOICE-TEMPO.md)。3択を中央の約184px高さへ縮小、選択カードの200ms演出だけで戦闘復帰し、「まもなく再開」を撤去。旧版/従来HUDを維持。branch `codex/front-choice-tempo-20261003`、base `307d3769f2b45f3d4886733a95fbcbe03323e9df`。型・単体23・実Worker通信3・実UI4成功。操作復帰実測230〜267ms。公開build・固定SHA通常Chat監査・通常merge・既存Worker公開へ続行。
+
 # 現在地: 従来の出撃UI/HUD継承版を公開（2026-10-03）
 
 [改装版](https://swarm-front.melosalife-24.workers.dev/front)に従来の共通HUDとミニマップを反映済み。HPバー・残弾/装填・被弾/蘇生・大型HPを戻し、操作ボタンは従来の配置、経験値/強化は短い補助表示。旧版と既存セーブ・敵4倍/HP半分・空中XP回収・戦闘中設定・3択画像/アニメーションを維持。

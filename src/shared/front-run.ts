@@ -51,7 +51,7 @@ export const FRONT_RUN_CONFIG = {
   spawnWarning: 1.5,
   minSpawnDistance: 16,
   selectionSeconds: 15,
-  resumeSeconds: 1,
+  resumeSeconds: 0.2,
 } as const;
 export interface FrontRunOptions {
   runId: string;
@@ -230,7 +230,7 @@ function openOwed(run: FrontRun, id: string) {
 function resume(run: FrontRun, now: number) {
   run.phase = run.finalResupplyDone ? "boss" : "combat";
   run.selectionDeadline = null;
-  run.resumeUntil = now + 1;
+  run.resumeUntil = now + FRONT_RUN_CONFIG.resumeSeconds;
 }
 export function chooseFrontUpgrade(
   run: FrontRun,

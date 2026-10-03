@@ -1,0 +1,18 @@
+{
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "panel": {
+    "x": 310,
+    "y": 268,
+    "width": 660,
+    "height": 184
+  },
+  "transition": {
+    "elapsed": 267.09999999403954,
+    "picked": "front-card-pick",
+    "disabled": 3,
+    "cue": false
+  }
+}

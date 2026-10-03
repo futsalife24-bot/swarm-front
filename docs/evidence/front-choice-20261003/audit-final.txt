@@ -1,0 +1,18 @@
+独立監査 最終報告
+
+結論：合格
+対象SHA：ce154997a6dd46f0eceaebd360ab0e19f8825ff4
+base：307d3769f2b45f3d4886733a95fbcbe03323e9df
+
+必須 P0 / P1 / P2：なし。
+
+変更3実装ファイルと直接依存を反例側から確認しました。front-app.tsは選択後200msだけ元DOMを保持し全3ボタンを無効化、ソロ進行も停止。連続候補は演出終了後に最新offerへ遷移します。pause/非表示では演出状態を破棄し、退出・接続致命傷・victory/defeatも表示を取り違えません。front-run.tsは全員選択・共通15秒期限・期限自動選択・requestId/revision/offer検証を維持し、resume境界を0.2秒へ短縮。Worker側もselection/resumeUntil中の入力を破棄するため、早着入力の抜け道は確認できませんでした。CSSは.front-game .rebuild-selection中心の限定指定で、旧入口・従来HUDへの波及も認めません。
+
+独立確認では、MANIFEST収録695ファイルのSHA-256/Git blobを全件再計算して一致、changes.patchのtarget側blobと逆適用整合も確認しました。ログ、実測JSON、1280/844/640画像、協力設定/結果画像も確認し、230～267ms・中央配置・reduced-motion・旧保存維持の証拠は整合しています。
+
+任意改善：高遅延協力時は200ms後、権威応答前の旧offerが一瞬再表示され得るため、将来はoffer更新まで再送信だけ抑止するとUXがさらに堅いです。サーバー側はstale/duplicateを拒否するため現状は必須修正ではありません。また1280/844の証拠PNGは入場アニメ途中なので、全3枚静止後の画像も残すと監査証拠が見やすくなります。
+
+限界：依存キャッシュ非収録のため、型・単体23・実Worker3・実UI4・build/dry-runは今回は再実行せず、収録ログを検証しました。実機Android、ジャイロ、97体FPS、人間の体感も未検証です。
+
+Hmm...something seems to have gone wrong.
+再試行

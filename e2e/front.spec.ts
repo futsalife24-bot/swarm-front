@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { fresh, SAVE_KEY } from "../src/client/save";
 import {
   emptyFrontProgress,
@@ -32,6 +32,7 @@ test.use({
   },
 });
 for (const viewport of [
+  { width: 1280, height: 720 },
   { width: 844, height: 390 },
   { width: 640, height: 360 },
 ])
@@ -111,7 +112,73 @@ for (const viewport of [
     await page.screenshot({
       path: `${evidence}/selection-${viewport.width}x${viewport.height}.png`,
     });
+    const panel = await page.locator(".rebuild-selection").evaluate((el) => {
+      const r = el.getBoundingClientRect();
+      return { x: r.x, y: r.y, width: r.width, height: r.height };
+    });
+    expect(panel.width).toBeLessThanOrEqual(viewport.width * 0.85);
+    expect(panel.height).toBeLessThan(viewport.height * 0.65);
+    expect(
+      Math.abs(panel.x + panel.width / 2 - viewport.width / 2),
+    ).toBeLessThan(2);
+    expect(
+      Math.abs(panel.y + panel.height / 2 - viewport.height / 2),
+    ).toBeLessThan(2);
+    expect(
+      await page
+        .locator("#ui")
+        .evaluate((el) => getComputedStyle(el).backgroundColor),
+    ).toBe("rgba(0, 0, 0, 0)");
+    const transition = page.evaluate(
+      () =>
+        new Promise<{
+          elapsed: number;
+          picked: string;
+          disabled: number;
+          cue: boolean;
+        }>((resolve) => {
+          const ui = document.getElementById("ui")!;
+          ui.addEventListener(
+            "click",
+            () => {
+              const started = performance.now();
+              let picked = "",
+                disabled = 0,
+                cue = false;
+              const observe = () => {
+                cue ||= ui.textContent?.includes("まもなく再開") ?? false;
+                const card = ui.querySelector(".is-picked");
+                if (card) {
+                  picked = getComputedStyle(card).animationName;
+                  disabled = ui.querySelectorAll("[data-card]:disabled").length;
+                }
+                const elapsed = performance.now() - started;
+                if (
+                  !document.getElementById("controls")!.hidden ||
+                  elapsed > 2000
+                )
+                  resolve({ elapsed, picked, disabled, cue });
+                else requestAnimationFrame(observe);
+              };
+              requestAnimationFrame(observe);
+            },
+            { once: true, capture: true },
+          );
+        }),
+    );
     await page.getByRole("button", { name: /^導火：/ }).click();
+    const selected = await transition;
+    expect(selected.elapsed).toBeLessThan(700);
+    expect(selected.picked).toBe(
+      viewport.width === 640 ? "none" : "front-card-pick",
+    );
+    expect(selected.disabled).toBe(3);
+    expect(selected.cue).toBe(false);
+    writeFileSync(
+      `${evidence}/choice-${viewport.width}.json`,
+      JSON.stringify({ viewport, panel, transition: selected }, null, 2) + "\n",
+    );
+    await expect(page.getByText("強化 1/7", { exact: true })).toBeVisible();
     await expect(page.locator("#controls")).toBeVisible({ timeout: 10000 });
     await page.keyboard.press("Escape");
     await expect(

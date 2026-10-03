@@ -1,0 +1,24 @@
+
+> swarm-front@0.1.0 test:front:e2e
+> playwright test --config playwright.front.config.ts
+
+[WebServer] (node:29404) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:26452) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 17:21:35 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision
+[WebServer] (209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
+[WebServer] (210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
+[WebServer] (209,37-61): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
+[WebServer] (210,82-106): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
+  ok 1 e2e\front.spec.ts:39:3 › 横画面 1280：初期候補・3択・再開・旧版保護 (10.5s)
+  ok 2 e2e\front.spec.ts:39:3 › 横画面 844：初期候補・3択・再開・旧版保護 (3.9s)
+  ok 3 e2e\front.spec.ts:39:3 › 横画面 640：初期候補・3択・再開・旧版保護 (3.9s)
+[WebServer] 17:22:00 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (196,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)
+[WebServer] 17:22:01 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (179,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)
+  ok 4 e2e\front.spec.ts:205:1 › 実ブラウザ2人：準備・共同選択・独立報酬・再読込 (14.0s)
+
+  4 passed (47.9s)

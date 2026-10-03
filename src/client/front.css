@@ -206,3 +206,118 @@ body.front-game #ui .front-prep label {
     padding: 10px 18px;
   }
 }
+
+/* 強化は中央の3枚だけ。従来の戦闘UIや他の入口には適用しない。 */
+.front-game #ui:has(.rebuild-selection),
+.front-game #ui:has(.rebuild-resume-cue) {
+  background: transparent;
+}
+.front-game .rebuild-resume-cue {
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background: #102633f2;
+}
+.front-game .rebuild-selection.rebuild-panel {
+  width: min(660px, 84vw);
+  padding: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+.front-game .rebuild-selection header {
+  justify-content: flex-end;
+  margin: 0 0 6px;
+}
+.front-game .rebuild-selection header:has(.rebuild-selection-actions:empty) {
+  margin: 0;
+}
+.front-game .rebuild-selection h1 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.front-game .rebuild-selection-actions {
+  gap: 8px;
+  font-size: 12px;
+}
+.front-game .rebuild-selection #rebuild-reroll {
+  min-height: 32px;
+  padding: 5px 9px;
+}
+.front-game .rebuild-selection .rebuild-cards {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.front-game .rebuild-selection::before {
+  content: none;
+}
+.front-game .rebuild-selection .rebuild-card {
+  min-height: 184px;
+  padding: 12px 10px;
+  gap: 5px;
+  background: #102633f2;
+}
+.front-game .rebuild-selection .rebuild-card-icon {
+  width: 68px;
+  height: 68px;
+}
+.front-game .rebuild-selection .rebuild-card strong {
+  font-size: 18px;
+}
+.front-game .rebuild-selection .rebuild-card-description {
+  font-size: 12px;
+  line-height: 1.4;
+}
+.front-game .rebuild-selection.is-choosing .rebuild-card {
+  animation-delay: 0s;
+  animation-duration: var(--choice-feedback-ms);
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+  pointer-events: none;
+}
+.front-game .rebuild-selection.is-choosing .is-picked {
+  animation-name: front-card-pick;
+  opacity: 1;
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.front-game .rebuild-selection.is-choosing .is-dismissed {
+  animation-name: front-card-dismiss;
+}
+@keyframes front-card-pick {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 #efbe7800;
+  }
+  55% {
+    transform: scale(1.04);
+    box-shadow: 0 0 24px #efbe7855;
+  }
+  100% {
+    transform: scale(1.02);
+    box-shadow: 0 0 12px #efbe7833;
+  }
+}
+@keyframes front-card-dismiss {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .front-game .rebuild-selection.is-choosing .rebuild-card {
+    animation: none;
+  }
+  .front-game .rebuild-selection.is-choosing .is-dismissed {
+    opacity: 0;
+  }
+}
