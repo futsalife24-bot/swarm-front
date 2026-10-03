@@ -1,0 +1,223 @@
+heading 結論：要修正, Value: 1
+								38 text 結論：
+								39 text 要修正
+							40 text 監査対象:
+							41 text ae445c123fe7cde37aeb09c288a3aceb51cee0d2
+							42 text 基準main:
+							43 text 4520c57ede444d44b8699753645f36ce479b72bf
+							44 text PR:
+							45 text  #115
+							46 text 必須指摘:
+							47 text P0 0件 / P1 0件 / P2 1件
+							48 text 旧版保存の保護、候補生成、協力の権威状態、報酬分離など主要部分はかなり堅いです。ただし「背面タブでも協力準備が進む」という修正に、実ブラウザで再現する穴が1件ありました。ここだけ直して再監査が妥当です。
+							49 heading F1 / P2：背面タブの準備処理が requestAnimationFrame で停止する, Value: 2
+								50 text F1 / P2：背面タブの準備処理が  requestAnimationFrame  で停止する
+							51 text 箇所
+							52 content list
+								53 container
+									54 AXListMarker • 
+									55 text src/client/battle-loading.ts:45-47
+								56 container
+									57 AXListMarker • 
+									58 text src/client/battle-loading.ts:73-106
+								59 container
+									60 AXListMarker • 
+									61 text 呼出元  src/client/front-app.ts:530-597
+								62 container
+									63 AXListMarker • 
+									64 text src/client/render.ts:855-872
+							65 text Renderer.render(..., draw=false)  は  document.hidden  でも処理するよう直されています。そこ自体は正しいです。 しかし  prepareBattle()  は、
+							66 container
+								67 text TypeScript
+								68 checkbox Description: 行の折り返しを有効にする, Value: 0
+								69 button コピーする
+							70 text await new Promise<void>((r) => requestAnimationFrame(() => r()));
+							71 text で次の準備処理へ進んでいます。さらに開始直後も2回のrAF待ちです。
+							72 heading 独立再現, Value: 3
+								73 text 独立再現
+							74 text こちらで 
+							75 text headed Chromium 144 + Xvfb
+							76 text  を使い、実タブを前面→背面へ切り替えて確認しました。
+							77 table
+								78 row
+									79 cell
+										80 text 状態
+									81 cell
+										82 text document.hidden
+									83 cell
+										84 text rAFカウンタ
+								85 row
+									86 cell
+										87 text 前面
+									88 cell
+										89 text false
+									90 cell
+										91 text 61
+								92 row
+									93 cell
+										94 text 別タブを前面化して1秒後
+									95 cell
+										96 text true
+									97 cell
+										98 text 61
+								99 row
+									100 cell
+										101 text さらに3秒後
+									102 cell
+										103 text true
+									104 cell
+										105 text 61
+								106 row
+									107 cell
+										108 text 元タブへ復帰
+									109 cell
+										110 text false
+									111 cell
+										112 text 92
+							113 container
+								114 button 表をコピー
+								115 pop up button (collapsed) Description: 表を展開, Secondary Actions: Expand
+							116 text 背面の4秒間、rAFは
+							117 text 1回も進みませんでした
+							118 text 。 したがって協力ロビーで準備中のタブを背面へ回すと、モデル/マップ確認ループがそこで止まり、 assetReady  が立たず、他プレイヤーも「出撃」できない条件が残ります。60秒のタイムアウト判定もrAFの先にあるため、背面中はタイムアウト処理自体が走りません。
+							119 text 最小修正案:
+							120 text  初期2回のrAF待ちと105行目を、背面時にも進むタイマー付きyieldへ変更します。例えば  requestAnimationFrame  と  setTimeout(50～100ms)  のraceにし、どちらかで必ず次ループへ進める形です。 Renderer  側の  draw=false  修正はそのまま維持して問題ありません。 回帰試験は「別BrowserContextを2個」ではなく、
+							121 container
+								122 text 同一実ブラウザ内で  document.hidden === true  を確認したタブ
+							123 text で準備完了することを条件にするのが安全です。現行E2Eは別contextなので、この反例を踏めていません。
+							124 heading それ以外の重点監査, Value: 2
+								125 text それ以外の重点監査
+							126 table
+								127 row
+									128 cell
+										129 text 項目
+									130 cell
+										131 text 独立確認
+								132 row
+									133 cell
+										134 text 監査ZIP
+									135 cell
+										136 text SHA256  c30dc0b...c026fe83 。MANIFESTの
+										137 text 794ファイルを全件再計算し、bytes / SHA256 / Git blob すべて一致、誤差0件
+								138 row
+									139 cell
+										140 text 旧版保護
+									141 cell
+										142 text GitHub上でbase/target双方の旧主要10ファイルを直接取得。 index.html 、save/cloud-save/daily-rewards/progression等 
+										143 text 10/10 blob一致
+								144 row
+									145 cell
+										146 text 候補全経路
+									147 cell
+										148 text 実  front-upgrades.ts  を独立実行。中間状態5,367、候補組185,502を探索、最終状態5,277、
+										149 text 候補枯渇0
+								150 row
+									151 cell
+										152 text 進化
+									153 cell
+										154 text 最大2系統を確認。なお7取得で必ず2進化ではなく最小0で、これはDESIGNの「最大2進化・分散選択では保証しない」と一致
+								155 row
+									156 cell
+										157 text 3枚目保証
+									158 cell
+										159 text 2枚取得済み系統の残り1枚が全候補に残ることを全探索で確認
+								160 row
+									161 cell
+										162 text 古い/二重要求
+									163 cell
+										164 text 実コードで二重= duplicate-request 、旧revision= stale-revision 。二重適用なし
+								165 row
+									166 cell
+										167 text 15秒停止
+									168 cell
+										169 text 2人実状態で15秒まで戦闘時計0、期限で自動確定、さらに
+										170 text 1秒間0のまま
+										171 text 、その後進行を確認
+								172 row
+									173 cell
+										174 text 最終補給
+									175 cell
+										176 text 345秒でXP→6権利確定→全選択。確定後にXPを増やしても新権利0
+								177 row
+									178 cell
+										179 text 大型予兆
+									180 cell
+										181 text 最終選択後1秒再開を経て、ボス予兆1.5秒を確認
+								182 row
+									183 cell
+										184 text 非公開状態
+									185 cell
+										186 text クライアントviewに  rngState  /  processedRequestIds  /  seenCombinations  なし
+								187 row
+									188 cell
+										189 text 武器標準化
+									190 cell
+										191 text サーバー側でもAR/SG/SMG・異種2枠へ制限し、元武器power/rollを引き継がない構造を確認
+								192 row
+									193 cell
+										194 text 旧/新部屋混在
+									195 cell
+										196 text ruleset=front-v1  をDirectory・WebSocket双方で照合。混在接続は409
+								197 row
+									198 cell
+										199 text 新進行
+									200 cell
+										201 text swarm-front-rebuild-v1  のみ。旧save/daily ledgerへの書込み経路なし
+								202 row
+									203 cell
+										204 text 報酬
+									205 cell
+										206 text 同run二重0、日替わり同日2回目0、513件目の履歴整理後も重複防止。破損JSONでは
+										207 text 既存値を上書きせず保存拒否
+								208 row
+									209 cell
+										210 text SW
+									211 cell
+										212 text /front.html 、 /front 、旧試作入口を旧ナビゲーションキャッシュ対象外にしていることをコード確認
+								213 row
+									214 cell
+										215 text PR後続
+									216 cell
+										217 text 現在PR HEADは  d1dce7b...  ですが、 ae445c1  以降5コミットは 
+										218 text docs/evidenceのみ
+										219 text 。実装差分なし
+							220 container
+								221 button 表をコピー
+								222 pop up button (collapsed) Description: 表を展開, Secondary Actions: Expand
+							223 heading 任意指摘, Value: 3
+								224 text 任意指摘
+							225 text 新しい「日替わり」は  new Date().toISOString()  なので 
+							226 text UTC基準、つまり日本では午前9時に切替
+							227 text です。旧側にはJST基準処理もあります。内部整合性や二重受取問題はありませんが、「日本時間の日替わり」を意図するなら統一した方が自然です。現設計にタイムゾーン指定がないため必須指摘にはしていません。
+							228 heading 監査の限界, Value: 2
+								229 text 監査の限界
+							230 text こちらでは依存を新規取得できず、 npm ci  が npm registry のDNS  EAI_AGAIN  で失敗したため、提出されたVitest/Playwright/Worker一式を
+							231 text 独立再実行したとは扱っていません
+							232 text 。代わりに依存不要な実TSコードを直接実行して候補全探索・状態遷移・保存処理を検証し、GitHubの固定SHAとも独立照合しました。 物理Android、GPU負荷、人間の楽しさ・難易度、実ネットワーク越し4人プレイ、本番Cloudflareへのdeploy、旧SWから本番更新する瞬間は未検証です。
+							233 text 現時点ではF1/P2だけがmerge前の必須修正です。
+							234 text  保存破壊・旧版上書き・権威協力の致命的破綻・報酬二重取得に相当するP0/P1反例は見つかりませんでした。
+							235 button コピーする
+								236 image
+							237 button 共有
+							238 checkbox Description: 読み上げ, Value: 0
+							239 pop up button (collapsed) Description: 回答を再生成, ID: radix-_r_3mu_, Secondary Actions: Expand
+							240 button バージョンを表示
+							241 pop up button (collapsed) Description: その他のアクション, ID: radix-_r_3n4_, Secondary Actions: Expand
+							242 text Hmm...something seems to have gone wrong.
+							243 button 再試行
+						244 text ChatGPT は間違えることがあります。重要な情報は確認してください。
+						245 container
+							246 button 一番下までスクロール
+							247 heading 最新の応答, Value: 4
+								248 text 最新の応答
+							249 container
+								250 button (collapsed) Description: ファイルなどを追加, Secondary Actions: Expand
+								251 text entry area (settable) Description: ChatGPT に聞く, Value: 
+
+									252 container
+										253 text ChatGPT に聞く
+								254 pop up button (collapsed) Description: ChatGPT モデルを選択, ID: radix-_r_22m_, Secondary Actions: Expand
+								255 button 音声入力
+								256 button 音声会話を開始
+
+The focused UI element is 0 AXWebArea 独立監査依頼, URL: chatgpt.com/c/6ac069d4-ba90-83ec-b522-18d3c42a88da

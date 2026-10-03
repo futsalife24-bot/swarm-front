@@ -5,6 +5,19 @@ import { VIEW_MAPS } from "./map-assets";
 import { loadStandardTrooper } from "./standard-trooper";
 import { loadProgressionWeapons } from "./progression-weapons";
 
+// Background tabs can suspend animation frames. Keep preparation and its deadline alive.
+const nextPreparationFrame = () =>
+  new Promise<void>((resolve) => {
+    let frame: number;
+    const finish = () => {
+      clearTimeout(timer);
+      cancelAnimationFrame(frame);
+      resolve();
+    };
+    const timer = setTimeout(finish, 80);
+    frame = requestAnimationFrame(finish);
+  });
+
 /** Covers downloads, actor attachment and the first GPU compile, with one deadline. */
 export async function prepareBattle(
   view: Renderer,
@@ -42,9 +55,8 @@ export async function prepareBattle(
     if (error) throw error;
   };
   // Paint the loading screen before synchronous geometry/material work.
-  await new Promise<void>((resolve) =>
-    requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
-  );
+  await nextPreparationFrame();
+  await nextPreparationFrame();
   check();
   progress(5);
   await wait(
@@ -102,7 +114,7 @@ export async function prepareBattle(
       models.every((m) => m?.userData.trooper)
     )
       break;
-    await new Promise<void>((r) => requestAnimationFrame(() => r()));
+    await nextPreparationFrame();
   }
   progress(85);
   pending = "描画の準備";

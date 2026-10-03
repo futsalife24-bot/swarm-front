@@ -1,0 +1,34 @@
+{
+  "baseline": "ae445c123fe7cde37aeb09c288a3aceb51cee0d2",
+  "main": "4520c57ede444d44b8699753645f36ce479b72bf",
+  "sourceChanged": [
+    "src/client/battle-loading.ts"
+  ],
+  "hiddenBrowser": {
+    "passed": 1,
+    "seconds": 27.7,
+    "measurement": "hidden-ready.json"
+  },
+  "frontUi": {
+    "passed": 3,
+    "seconds": 48.8
+  },
+  "oldPrototypeUi": {
+    "passed": 6,
+    "skipped": 1,
+    "secondsApprox": 90
+  },
+  "clientTypes": "成功",
+  "format": "成功",
+  "diffCheck": "成功",
+  "build": "未実施",
+  "independentReaudit": "未依頼",
+  "limits": [
+    "物理Android未確認",
+    "人間の難易度未確認",
+    "本番SW更新未確認"
+  ],
+  "model": "未確認",
+  "reasoningEffort": "未確認",
+  "modelChanged": false
+}
