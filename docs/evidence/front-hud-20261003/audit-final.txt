@@ -1,0 +1,13 @@
+独立監査 最終報告
+
+結論：合格
+対象SHA：9117cc35c958035abf01d1b38740af937ca7f279
+base：4f289fef938300dbdd6dbba6a3e7b453a058051d
+
+変更範囲と収録証拠を独立照合しました。MANIFESTの対象/baseを確認し、front.html、front-app.ts、hud.ts、minimap.ts等のGit blob・SHA256も再計算して一致しています。
+
+必須P0/P1/P2：なし。 hudMarkup は追加labelsが任意引数のため旧版既定呼出しを維持し、改装版ではHP/最大HP、残弾・装填、被弾、DOWN、蘇生、大型HPを既存共通HUDへ接続しています。追加4文言はすべて esc() 経由でHTMLエスケープ済みです。Minimapは戦闘中表示、3択・勝敗終了時は非表示、戦闘中設定画面では従来同様背景に維持されます。
+
+844/640比較JSONでは中央の文言幅に伴う .mission-line 幅以外、主要9要素の座標・寸法と全10要素のスタイルが旧版一致。PNGでも狭幅の重なりは確認できません。旧SAVE_KEYへの新規書込み経路もありません。
+
+検証限界： 添付環境に依存物がないため型・Vitest14件・Playwright・Worker試験は再実行せず、収録PASSログとの照合のみです。物理Android、ジャイロ、97体FPSも未確認です。

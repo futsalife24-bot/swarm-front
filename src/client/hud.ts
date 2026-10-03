@@ -119,6 +119,7 @@ export function hudMarkup(
   status: string,
   hpMax = 160,
   waveStatus?: string,
+  labels?: { mission: string; detail: string; weapon: string; help: string },
 ) {
   const p = w.players.find((p) => p.id === id)!;
   const def = stats(p.weapons[p.slot]),
@@ -157,22 +158,25 @@ export function hudMarkup(
       )
       .join("") +
     '</div></div><div class="mission-hud"><div class="mission-line"><b>' +
-    "ST " +
-    stageFor(w).id +
-    " · " +
-    ("WAVE " +
-      w.wave +
-      " / " +
-      stageFor(w).waves.length +
-      (boss ? " · ボス " + bosses.length + "体" : "")) +
+    (labels
+      ? esc(labels.mission)
+      : "ST " +
+        stageFor(w).id +
+        " · WAVE " +
+        w.wave +
+        " / " +
+        stageFor(w).waves.length +
+        (boss ? " · ボス " + bosses.length + "体" : "")) +
     // The pause control lives outside this markup: everything here is replaced
     // ten times a second, which drops taps that land mid-rewrite.
     "</b></div><small>" +
-    next +
-    " · " +
-    Math.floor(w.time / 60) +
-    ":" +
-    String(Math.floor(w.time % 60)).padStart(2, "0") +
+    (labels
+      ? esc(labels.detail)
+      : next +
+        " · " +
+        Math.floor(w.time / 60) +
+        ":" +
+        String(Math.floor(w.time % 60)).padStart(2, "0")) +
     "</small>" +
     (boss
       ? '<div class="boss-meter"><i style="width:' +
@@ -193,10 +197,10 @@ export function hudMarkup(
     (p.reload > 0 ? p.reload.toFixed(1) : p.ammo[p.slot]) +
     " <small>" +
     (p.reload > 0 ? "秒" : "/ " + def.mag) +
-    "</small></b></div><small>未確定 " +
-    (w.pending[id] ?? []).length +
-    " · " +
-    esc(status) +
+    "</small></b></div><small>" +
+    (labels
+      ? esc(labels.weapon)
+      : "未確定 " + (w.pending[id] ?? []).length + " · " + esc(status)) +
     '</small></div></div><div class="crosshair ' +
     (p.hurt > 0 ? "hurt" : "") +
     '">+</div>' +
@@ -211,6 +215,10 @@ export function hudMarkup(
         p.revive +
         '" max="2.5"></progress></div>'
       : rescueMarkup(w, id)) +
-    '<div class="pc-help">WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · F ジャンプ · E 蘇生</div>'
+    '<div class="pc-help">' +
+    (labels
+      ? esc(labels.help)
+      : "WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · F ジャンプ · E 蘇生") +
+    "</div>"
   );
 }

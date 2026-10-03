@@ -1,0 +1,267 @@
+{
+  "legacy": {
+    ".vitals": {
+      "box": {
+        "x": 12,
+        "y": 8,
+        "w": 155,
+        "h": 45.1875
+      },
+      "font": "16px",
+      "color": "rgb(227, 237, 238)",
+      "background": "linear-gradient(90deg, rgba(9, 29, 43, 0.85), rgba(9, 29, 43, 0))",
+      "border": "0px",
+      "visible": true
+    },
+    ".weapon-hud": {
+      "box": {
+        "x": 458,
+        "y": 8,
+        "w": 170,
+        "h": 62.296875
+      },
+      "font": "16px",
+      "color": "rgb(227, 237, 238)",
+      "background": "linear-gradient(270deg, rgba(9, 29, 43, 0.85), rgba(9, 29, 43, 0))",
+      "border": "0px",
+      "visible": true
+    },
+    ".mission-line": {
+      "box": {
+        "x": 260.09375,
+        "y": 8,
+        "w": 119.8125,
+        "h": 31.1875
+      },
+      "font": "16px",
+      "color": "rgb(227, 237, 238)",
+      "background": "none",
+      "border": "0px 0px 16px 16px",
+      "visible": true
+    },
+    ".crosshair": {
+      "box": {
+        "x": 311,
+        "y": 171,
+        "w": 18,
+        "h": 18
+      },
+      "font": "0px",
+      "color": "rgb(231, 245, 217)",
+      "background": "none",
+      "border": "0px",
+      "visible": true
+    },
+    "#minimap": {
+      "box": {
+        "x": 12,
+        "y": 96,
+        "w": 96,
+        "h": 106
+      },
+      "font": "16px",
+      "color": "rgb(227, 237, 238)",
+      "background": "none",
+      "border": "0px",
+      "visible": true
+    },
+    "#move": {
+      "box": {
+        "x": 35.265625,
+        "y": 233.109375,
+        "w": 95.1875,
+        "h": 95.1875
+      },
+      "font": "16px",
+      "color": "rgb(227, 237, 238)",
+      "background": "none",
+      "border": "50%",
+      "visible": true
+    },
+    "#fire": {
+      "box": {
+        "x": 533.890625,
+        "y": 197.5,
+        "w": 71.390625,
+        "h": 71.390625
+      },
+      "font": "17px",
+      "color": "rgb(237, 244, 242)",
+      "background": "none",
+      "border": "50%",
+      "visible": true
+    },
+    "#dodge": {
+      "box": {
+        "x": 464.671875,
+        "y": 291.234375,
+        "w": 47.59375,
+        "h": 47.59375
+      },
+      "font": "12px",
+      "color": "rgb(237, 244, 242)",
+      "background": "none",
+      "border": "50%",
+      "visible": true
+    },
+    "#swap": {
+      "box": {
+        "x": 558.265625,
+        "y": 98.515625,
+        "w": 47.59375,
+        "h": 47.59375
+      },
+      "font": "12px",
+      "color": "rgb(237, 244, 242)",
+      "background": "none",
+      "border": "50%",
+      "visible": true
+    },
+    "#pause": {
+      "box": {
+        "x": 298,
+        "y": 308,
+        "w": 44,
+        "h": 44
+      },
+      "font": "13px",
+      "color": "rgb(237, 244, 242)",
+      "background": "none",
+      "border": "4px",
+      "visible": true
+    }
+  },
+  "front": {
+    ".vitals": {
+      "box": {
+        "x": 12,
+        "y": 8,
+        "w": 155,
+        "h": 45.1875
+      },
+      "font": "16px",
+      "color": "rgb(227, 237, 238)",
+      "background": "linear-gradient(90deg, rgba(9, 29, 43, 0.85), rgba(9, 29, 43, 0))",
+      "border": "0px",
+      "visible": true
+    },
+    ".weapon-hud": {
+      "box": {
+        "x": 458,
+        "y": 8,
+        "w": 170,
+        "h": 62.296875
+      },
+      "font": "16px",
+      "color": "rgb(227, 237, 238)",
+      "background": "linear-gradient(270deg, rgba(9, 29, 43, 0.85), rgba(9, 29, 43, 0))",
+      "border": "0px",
+      "visible": true
+    },
+    ".mission-line": {
+      "box": {
+        "x": 274.578125,
+        "y": 8,
+        "w": 90.84375,
+        "h": 31.1875
+      },
+      "font": "16px",
+      "color": "rgb(227, 237, 238)",
+      "background": "none",
+      "border": "0px 0px 16px 16px",
+      "visible": true
+    },
+    ".crosshair": {
+      "box": {
+        "x": 311,
+        "y": 171,
+        "w": 18,
+        "h": 18
+      },
+      "font": "0px",
+      "color": "rgb(231, 245, 217)",
+      "background": "none",
+      "border": "0px",
+      "visible": true
+    },
+    "#minimap": {
+      "box": {
+        "x": 12,
+        "y": 96,
+        "w": 96,
+        "h": 106
+      },
+      "font": "16px",
+      "color": "rgb(227, 237, 238)",
+      "background": "none",
+      "border": "0px",
+      "visible": true
+    },
+    "#move": {
+      "box": {
+        "x": 35.265625,
+        "y": 233.109375,
+        "w": 95.1875,
+        "h": 95.1875
+      },
+      "font": "16px",
+      "color": "rgb(227, 237, 238)",
+      "background": "none",
+      "border": "50%",
+      "visible": true
+    },
+    "#fire": {
+      "box": {
+        "x": 533.890625,
+        "y": 197.5,
+        "w": 71.390625,
+        "h": 71.390625
+      },
+      "font": "17px",
+      "color": "rgb(237, 244, 242)",
+      "background": "none",
+      "border": "50%",
+      "visible": true
+    },
+    "#dodge": {
+      "box": {
+        "x": 464.671875,
+        "y": 291.234375,
+        "w": 47.59375,
+        "h": 47.59375
+      },
+      "font": "12px",
+      "color": "rgb(237, 244, 242)",
+      "background": "none",
+      "border": "50%",
+      "visible": true
+    },
+    "#swap": {
+      "box": {
+        "x": 558.265625,
+        "y": 98.515625,
+        "w": 47.59375,
+        "h": 47.59375
+      },
+      "font": "12px",
+      "color": "rgb(237, 244, 242)",
+      "background": "none",
+      "border": "50%",
+      "visible": true
+    },
+    "#pause": {
+      "box": {
+        "x": 298,
+        "y": 308,
+        "w": 44,
+        "h": 44
+      },
+      "font": "13px",
+      "color": "rgb(237, 244, 242)",
+      "background": "none",
+      "border": "4px",
+      "visible": true
+    }
+  },
+  "errors": []
+}
