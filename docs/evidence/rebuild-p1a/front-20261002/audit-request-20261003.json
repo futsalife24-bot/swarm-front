@@ -17,5 +17,8 @@
   "reviewCompleted": false,
   "modelId": "未確認",
   "reasoningSetting": "正式な実行設定は未確認",
-  "notes": "標準filechooserで直接添付し、完了・資料名・対象SHAを確認して送信。合格判定はまだ取得していない。実装後の変更は状態記録のみ。"
+  "notes": "同じChatと確定ZIPのまま、画面の再試行を1回実行。判定未取得、再試行の回答待ち。",
+  "firstAttemptOutcome": "17分24秒の応答生成後にサービスエラー。完了判定なし。",
+  "errorEvidence": "audit-error-20261003.png",
+  "retryStarted": true
 }
