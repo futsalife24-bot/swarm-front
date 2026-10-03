@@ -10,4 +10,6 @@
 
 任意のパッケージ指摘: `audit-package.json` は旧3倍版5b0ba4eの履歴で、4倍版正本は `4x-audit-package.json`。旧記録は保護して役割を追記する。修正資料は再監査ZIPの新MANIFESTで完全SHAを固定する。
 
-再監査・main反映・公開は未完了。実機Androidジャイロ、97体FPS、人間難易度、実ネット越し4人は未確認。主担当1体、実行モデル/effort未確認、切替なし。
+修正対象 `e546fc733b606c1cd9f29764ed5523d208977eea`。基準 `8fb888274663d9ebc8e34ca2accddb97c0320340` からの14ファイル差分ZIPは全blob一致、136,685 bytes、SHA256 `919ABD5EDFD297929DD24552C18543BF12B1E1FA45F19173F20E8E57353466F4`。[資料記録](evidence/front-feedback-20261003/f1-audit-package.json)。同じ通常Chatへ添付完了・送信・回答開始を確認済み。この対象後は記録だけ。
+
+再監査判定・main反映・公開は未完了。実機Androidジャイロ、97体FPS、人間難易度、実ネット越し4人は未確認。主担当1体、実行モデル/effort未確認、切替なし。
