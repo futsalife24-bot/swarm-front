@@ -1,4 +1,8 @@
-# 現在地: 敵4倍・通常HP半分を保存済み、監査送信承認待ち（2026-10-03）
+# 現在地: 敵4倍・通常HP半分の独立監査を送信済み（2026-10-03）
+
+ユーザーが4倍版ZIPの通常ChatGPT送信・独立監査・合格後の既存Worker公開を具体的に承認。固定対象 `8fb888274663d9ebc8e34ca2accddb97c0320340` のZIPをアプリ内ブラウザで直接添付し、アップロード完了・送信・監査開始を確認した。[今回の監査Chat](https://chatgpt.com/c/6ac0a06e-6360-83ee-a5d1-0a836af08b19)。以前の送信承認待ちは解消。現在は独立判定待ちで、合格後にPR117の通常merge・既存Worker公開・配信確認へ続行する。監査後の変更は記録のみ。
+
+# 履歴: 敵4倍・通常HP半分を保存済み、監査送信承認待ち（2026-10-03）
 
 追加指示に従い、改装版の通常敵を出現4倍・同時上限96・HP半分へ調整。空中経験値と旧版を含む戦闘中設定の修正を維持。旧版の敵数/HP、大型ボスHP7200は維持。[最新調整と検証](FRONT-COMBAT-FEEDBACK-4X.md)・[前段の変更](FRONT-COMBAT-FEEDBACK.md)。branch `codex/front-combat-feedback-20261003`、PR全体base `3e808ead8a93ce5d5242cf571de5cb0f19033f42`、追加実装SHA `a235ddad247d180ff3f5cb5d1b259e18467c94fb`、固定監査対象 `8fb888274663d9ebc8e34ca2accddb97c0320340`、[PR117](https://github.com/futsalife24-bot/swarm-front/pull/117)。作業場所 `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a`、GitHub `https://github.com/futsalife24-bot/swarm-front`。
 
