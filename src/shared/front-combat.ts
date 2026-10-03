@@ -55,7 +55,7 @@ export interface FrontBattleState {
   budgetExhaustions: number;
 }
 export const FRONT_BALANCE = {
-  enemyCap: 72,
+  enemyCap: 96,
   coreDamage: 42,
   fuseDamage: 34,
   radius: 5.5,

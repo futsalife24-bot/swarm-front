@@ -1,7 +1,7 @@
-# 現在地: 戦闘修正を保存済み・監査ZIPの具体的送信承認待ち（2026-10-03）
+# 現在地: 敵4倍・通常HP半分へ変更、監査送信承認待ち（2026-10-03）
 
-空中撃破経験値の地面配置、旧ソロ/旧協力/改装版の戦闘中設定、改装版の通常敵3倍/HP1/3と通信密集対策を実装中。[変更・検証](FRONT-COMBAT-FEEDBACK.md)。branch `codex/front-combat-feedback-20261003`、base `3e808ead8a93ce5d5242cf571de5cb0f19033f42`、作業場所 `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a`、GitHub `https://github.com/futsalife24-bot/swarm-front`。旧版の敵数・HP・進行は変更しない。旧ソロと改装版の設定、実協力の自己検証は成功。旧協力の配置編集が戦況受信で消える既存不具合も修正し、最終実UI検証が成功。独立監査・main反映・本番公開はまだ未完了。前の公開版と旧保護ブランチは維持する。
-固定監査対象 `5b0ba4ec1470ddd1053d718459a7e2339d4e3db6`、実装SHA `e4c09c6da8ac6b71cc21d400f73fe3d2b0a846e2`、[PR117](https://github.com/futsalife24-bot/swarm-front/pull/117)。配信ビルド・Worker dry-run成功。802ファイルの同SHA blob一致ZIPを作成し、通常Chatの新規監査画面へ進んだが、自動承認レビューが添付を2回拒否。公開GitHub・匿名取得200/収録ハッシュ一致・継続承認を示した後も、資料全体の具体的な送信承認不足という判断だった。添付・監査依頼は未実行、独立判定はない。[固定資料・送信先・拒否記録](FRONT-COMBAT-FEEDBACK-AUDIT.md)。この後の差分は記録だけ。
+空中撃破経験値の地面配置、旧ソロ/旧協力/改装版の戦闘中設定、改装版の通常敵4倍/HP半分と通信密集対策を実装中。[変更・検証](FRONT-COMBAT-FEEDBACK.md)。branch `codex/front-combat-feedback-20261003`、base `3e808ead8a93ce5d5242cf571de5cb0f19033f42`、作業場所 `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a`、GitHub `https://github.com/futsalife24-bot/swarm-front`。旧版の敵数・HP・進行は変更しない。旧ソロと改装版の設定、実協力の自己検証は成功。旧協力の配置編集が戦況受信で消える既存不具合も修正し、最終実UI検証が成功。独立監査・main反映・本番公開はまだ未完了。前の公開版と旧保護ブランチは維持する。
+3倍版の旧監査対象 `5b0ba4ec1470ddd1053d718459a7e2339d4e3db6`、実装SHA `e4c09c6da8ac6b71cc21d400f73fe3d2b0a846e2`、[PR117](https://github.com/futsalife24-bot/swarm-front/pull/117)。配信ビルド・Worker dry-run成功。802ファイルの同SHA blob一致ZIPを作成し、通常Chatの新規監査画面へ進んだが、自動承認レビューが添付を2回拒否。公開GitHub・匿名取得200/収録ハッシュ一致・継続承認を示した後も、資料全体の具体的な送信承認不足という判断だった。添付・監査依頼は未実行、独立判定はない。[固定資料・送信先・拒否記録](FRONT-COMBAT-FEEDBACK-AUDIT.md)。追加指示で倍率とHPを変更したため、この旧ZIPは公開監査に使用しない。[4倍版の検証](FRONT-COMBAT-FEEDBACK-4X.md)。
 
 停止理由: 自動承認レビューが今回の監査ZIPの通常ChatGPTへの送信を拒否。
 再開条件: 表示された確認で、このZIP（公開GitHubのソース・差分・既存素材・検証証拠、約82MB）をアプリ内ブラウザの通常ChatGPTへ送って独立監査し、合格後に既存Workerへ公開することをユーザーが具体的に承認する。既存手順や権限制約を回避しない。mainはまだ `3e808ead8a93ce5d5242cf571de5cb0f19033f42`、本番は前タスクの公開版。

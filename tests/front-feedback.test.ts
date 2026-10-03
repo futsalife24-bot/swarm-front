@@ -66,11 +66,11 @@ describe("戦闘フィードバックの回帰", () => {
     expect(collectFrontXp(w)).toBe(0);
     expect(w.front!.xp).toBe(2);
   });
-  it("出現間隔は1/3・通常HPは1/3、地上の予兆と距離を維持する", () => {
+  it("出現間隔は1/4・通常HPは半分、地上の予兆と距離を維持する", () => {
     const r = run();
     begin(r);
     stepFrontRun(r, {}, 0.05, 2);
-    expect(r.nextSpawnAt).toBeCloseTo(4 / 3);
+    expect(r.nextSpawnAt).toBeCloseTo(4 / 4);
     expect(r.pendingSpawns[0].at).toBe(1.5);
     expect(r.pendingSpawns[0].kinds).toHaveLength(2);
     for (let i = 0; i < 32; i++) stepFrontRun(r, {}, 0.05, 3 + i * 0.05);
@@ -78,20 +78,20 @@ describe("戦闘フィードバックの回帰", () => {
     const e = r.world.enemies[0];
     const baseline = createWorld("baseline", 4520, 1);
     const original = spawn(baseline, e.kind, e.x, e.z, "crown", 0)!;
-    expect(e.maxHp).toBeCloseTo(original.maxHp / 3);
-    expect(FRONT_RUN_CONFIG.enemyCap).toBe(72);
+    expect(e.maxHp).toBeCloseTo(original.maxHp / 2);
+    expect(FRONT_RUN_CONFIG.enemyCap).toBe(96);
   });
-  it("改装版は旧通信上限40体を越えて生成でき、73体で止まる。旧版は40体まで", () => {
+  it("改装版は旧通信上限40体を越えて生成でき、97体で止まる。旧版は40体まで", () => {
     const w = run().world;
-    for (let i = 0; i < 90; i++) spawn(w, "crawler", -30, 20);
+    for (let i = 0; i < 110; i++) spawn(w, "crawler", -30, 20);
     expect(w.enemies).toHaveLength(FRONT_BALANCE.enemyCap + 1);
     const legacy = createWorld("legacy");
-    for (let i = 0; i < 90; i++) spawn(legacy, "crawler", -30, 20);
+    for (let i = 0; i < 110; i++) spawn(legacy, "crawler", -30, 20);
     expect(legacy.enemies).toHaveLength(40);
   });
-  it("4人・73体・160経験値・全員の印がある状態も通信64KiB内", () => {
+  it("4人・97体・160経験値・全員の印がある状態も通信64KiB内", () => {
     const w = run(4).world;
-    for (let i = 0; i < 73; i++) spawn(w, "crawler", -30, 20);
+    for (let i = 0; i < 97; i++) spawn(w, "crawler", -30, 20);
     for (const p of Object.values(w.front!.players))
       for (const e of w.enemies)
         p.statuses[e.id] = { marked: true, hits: 2, lastShot: 999 };
@@ -134,7 +134,7 @@ describe("戦闘フィードバックの回帰", () => {
   it("更新前から続く協力作戦は旧クライアントに見えない敵を増やさない", () => {
     const w = run(4).world;
     delete w.front!.enemyCap;
-    for (let i = 0; i < 73; i++) spawn(w, "crawler", -30, 20);
+    for (let i = 0; i < 97; i++) spawn(w, "crawler", -30, 20);
     expect(w.enemies).toHaveLength(25);
   });
   it("最大密集の4人通信でも判定状態を保持し、古い演出だけを64KiB内に収める", () => {
@@ -150,7 +150,7 @@ describe("戦闘フィードバックの回帰", () => {
         0,
       ),
       w = r.world;
-    for (let i = 0; i < 73; i++) spawn(w, "hornet", -30.12345, 20.65432);
+    for (let i = 0; i < 97; i++) spawn(w, "hornet", -30.12345, 20.65432);
     for (const p of Object.values(w.front!.players))
       for (const e of w.enemies)
         p.statuses[e.id] = { marked: true, hits: 2, lastShot: 999999 };
@@ -206,7 +206,7 @@ describe("戦闘フィードバックの回帰", () => {
           65536,
         );
         const received = JSON.parse(wire).world;
-        expect(received.enemies).toHaveLength(73);
+        expect(received.enemies).toHaveLength(97);
         expect(received.projectiles).toHaveLength(100);
         expect(received.front.orbs).toHaveLength(160);
         expect(received.front.mines).toHaveLength(12);
