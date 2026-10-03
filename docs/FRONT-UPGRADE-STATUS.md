@@ -26,3 +26,5 @@ GitHub `https://github.com/futsalife24-bot/swarm-front`、ローカル `C:/Users
 タッチHUD比較2件も成功。844/640で強化欄の高さ追加以外の10部品の位置/外観を比較し、最大7アイコンが1行に収まることを確認。初回比較は旧版の初遭遇案内が割り込み、案内を通常操作で閉じる検証手順へ修正して再実行成功。`hud.txt`。
 
 公開ビルド・固定SHA独立監査・通常統合・既存Worker公開/配信/UI確認を続行。物理Androidと人間の体感は未確認。主担当1体、実モデル/effort未確認、切替操作なし。
+
+実装 `1da34ca82c6f8d6289df1ea080f3944dde63e954` から公開build/Worker dry-run成功。`build.txt` / `dryrun.txt`。以降は監査/公開の記録のみ。
