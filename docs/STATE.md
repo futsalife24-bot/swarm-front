@@ -1,6 +1,6 @@
-# 現在地: 旧版保護と大改装版の実装・自己検証、承認済みGoogle認証の本人入力待ち（2026-10-02）
+# 現在地: 大改装版は保存済み、独立監査用のアプリ内ブラウザ接続待ち（2026-10-03）
 
-実装の保存・push済み対象SHA: `ae445c123fe7cde37aeb09c288a3aceb51cee0d2`。この対象から再build/dry-run成功。GitHub Actionsの対象PR実行は返却0件（CI合格という意味ではない）。監査ZIP: `../.task-tools/swarm-front-rebuild-ae445c1-audit.zip`、83,578,585 byte、SHA256 `C30DC0B0AEA45F5E7BCA9ED5E5D77E2A0BDF685DDF0CA1B6548DA7D8C026FE83`。ソース・依存・必要な既存モデル/音声・生成画像・証拠の794ファイルは全て対象SHAのblob一致。差分/manifest/依頼本文を同梱。[パッケージ記録](evidence/rebuild-p1a/front-20261002/audit-package.json)・[監査依頼](REBUILD-PLAYABLE-AUDIT.md)。この後の変更は監査待ちの記録のみで、実装変更なし。ZIPの初回送信は未実施。IABタブ5は承認済みGoogle認証の本人入力画面で保持。
+実装の保存・push済み対象SHA: `ae445c123fe7cde37aeb09c288a3aceb51cee0d2`。この対象から再build/dry-run成功。GitHub Actionsの対象PR実行は返却0件（CI合格という意味ではない）。監査ZIP: `../.task-tools/swarm-front-rebuild-ae445c1-audit.zip`、83,578,585 byte、SHA256 `C30DC0B0AEA45F5E7BCA9ED5E5D77E2A0BDF685DDF0CA1B6548DA7D8C026FE83`。ソース・依存・必要な既存モデル/音声・生成画像・証拠の794ファイルは全て対象SHAのblob一致。差分/manifest/依頼本文を同梱。[パッケージ記録](evidence/rebuild-p1a/front-20261002/audit-package.json)・[監査依頼](REBUILD-PLAYABLE-AUDIT.md)。この後の変更は監査待ちの記録のみで、実装変更なし。ZIPの初回送信は未実施。Google方式の承認は継続しているが、現在はIABが未接続。
 
 ユーザー「旧版へ戻れるよう保護し、大改装版で遊びたい」、追加「推奨で」。新モード内の武器標準化と旧版から分離した進行を採用。branch `codex/rebuild-p1a-cloud-20261001`、開始HEAD `32af37c4d025def599ec5d85158ee285c5dfe697`、[PR115](https://github.com/futsalife24-bot/swarm-front/pull/115)。旧版main `4520c57ede444d44b8699753645f36ce479b72bf` を `preserved/pre-rebuild-20261002` と主要10ファイルのblob表で保護、GitHubへpush済み。旧入口 `/` と既存セーブ・所持品は維持。作業場所 `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a`。
 
@@ -8,8 +8,10 @@
 
 2026-10-02の追加「承認する」でGoogle方式・本人の既存ChatGPTアカウントによるログインを具体的に承認済み。「Googleで続行」は成功し、IABタブ5でGoogleのメールアドレス入力画面へ遷移。保存されたアカウント候補がなく、本人のログイン入力を依頼して画面を表示した。承認を取り直す状態ではない。PR115は競合なし（mergeable=true）・draft、head `7acdd1c4baf5da4cff4eb51bee5c3dc11b224057` のcommit statusは0件（CI合格ではない）。既存公開設定による `wrangler whoami` は未ログイン、ネットワーク障害なし。認証値・アカウント実値はGitへ保存していない。
 
-停止理由: IABのGoogle認証に本人の入力が必要で、ChatGPTへ未ログイン。監査ZIPは未送信、独立監査・main反映・本番公開は未実施。公開CLIのCloudflare認証も未ログイン。固定監査経路と必須独立判定を維持している。
-再開条件: 表示中のIABで既存ChatGPTアカウントのGoogleログインを本人が完了する。認証確認後、固定ZIPを新規通常Chatへ直接添付し、独立監査・必須修正/再監査・main反映へ進む。既存Cloudflare公開アカウントの認証復旧後、既存Worker公開・配信照合を実施する。追加のログイン方式承認は不要。
+2026-10-03「もう一度やって」で再開。前回のブラウザID 2は接続不可。公式復旧手順を確認し、利用可能なブラウザ一覧は0件、新規IAB作成も接続不可だった。Codexのブラウザ表示操作で `https://chatgpt.com/` を開く要求を送信し、結果は `queued`。その後もブラウザ一覧0件で、PCのCodexでこのチャットを開くよう依頼した。画面取得も不可のため、前日の画像を今回の接続証拠として再利用していない。GitHub PR115は同じbase/headで未merge・draft・競合なし、ローカル差分なしを確認。公開CLIの認証も再確認し、未ログイン・ネットワーク障害なし。実装変更と不要なテスト再実行はしていない。
+
+停止理由: アプリ内ブラウザが接続されておらず、監査用ChatGPTの画面操作・認証確認・ZIP添付ができない。独立監査・main反映・本番公開は未実施。公開CLIのCloudflare認証も未ログイン。固定監査経路と必須独立判定を維持している。
+再開条件: PCのCodexでこのチャットを開き、右側のChatGPTブラウザが表示・接続されること。接続後に承認済みGoogleログインの完了状態を確認し、必要なら本人入力を依頼する。固定ZIPの独立監査・必須修正/再監査・main反映を進め、既存Cloudflare公開アカウントの認証復旧後に公開・配信照合する。追加の方式承認は不要。
 
 # 履歴: プレゼンのスマホ公開完了（PR112、2026-09-29）
 
