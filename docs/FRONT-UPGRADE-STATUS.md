@@ -32,3 +32,5 @@ GitHub `https://github.com/futsalife24-bot/swarm-front`、ローカル `C:/Users
 固定対象 `2c175a6d04f3c61bb545fea393b7adaf3438dd96`、[PR123](https://github.com/futsalife24-bot/swarm-front/pull/123)、[通常Chat](https://chatgpt.com/c/6ac0cafa-6284-83ee-a646-a20f333c3781)へ監査ZIP添付と送信・応答開始を確認。714ファイル全blob一致、18,180,727 bytes。以降は記録のみ。
 
 独立監査初回はP2が1件。装甲補強はダウン中には現在HPを回復しないため、詳細を「生存中の取得時は増加分を回復」へ修正。HP=0の表示条件テストを追加し4件成功（unit-fix.txt）。状態や回復処理は変更しない。初回報告は audit-initial.txt。文言だけの修正のため既存の実UI6件は再実行せず、公開画面で確認する。640幅の追加補給で見出し/期限/再抽選が同時に出る直接E2Eは任意提案として記録、今回は未追加。
+
+同Chatの限定再監査で `c2af40c2522aeda6ed62e35187beb78de2a79bf4` は合格、P0/P1/P2なし。回答完了表示とコピー/再生成操作を確認、確定本文を audit-final.txt へ保存。9ファイル全blob/hash一致、説明と権威側生存条件が一致し処理は不変。監査側の依存取得/検証再実行はなし。以降の変更は公開記録のみ。
