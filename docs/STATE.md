@@ -1,6 +1,6 @@
-# 現在地: 大改装版は保存済み、独立監査用のアプリ内ブラウザ接続待ち（2026-10-03）
+# 現在地: 大改装版の独立監査を依頼済み、結果確認中（2026-10-03）
 
-実装の保存・push済み対象SHA: `ae445c123fe7cde37aeb09c288a3aceb51cee0d2`。この対象から再build/dry-run成功。GitHub Actionsの対象PR実行は返却0件（CI合格という意味ではない）。監査ZIP: `../.task-tools/swarm-front-rebuild-ae445c1-audit.zip`、83,578,585 byte、SHA256 `C30DC0B0AEA45F5E7BCA9ED5E5D77E2A0BDF685DDF0CA1B6548DA7D8C026FE83`。ソース・依存・必要な既存モデル/音声・生成画像・証拠の794ファイルは全て対象SHAのblob一致。差分/manifest/依頼本文を同梱。[パッケージ記録](evidence/rebuild-p1a/front-20261002/audit-package.json)・[監査依頼](REBUILD-PLAYABLE-AUDIT.md)。この後の変更は監査待ちの記録のみで、実装変更なし。ZIPの初回送信は未実施。Google方式の承認は継続しているが、現在はIABが未接続。
+実装の保存・push済み対象SHA: `ae445c123fe7cde37aeb09c288a3aceb51cee0d2`。この対象から再build/dry-run成功。GitHub Actionsの対象PR実行は返却0件（CI合格という意味ではない）。監査ZIP: `../.task-tools/swarm-front-rebuild-ae445c1-audit.zip`、83,578,585 byte、SHA256 `C30DC0B0AEA45F5E7BCA9ED5E5D77E2A0BDF685DDF0CA1B6548DA7D8C026FE83`。ソース・依存・必要な既存モデル/音声・生成画像・証拠の794ファイルは全て対象SHAのblob一致。差分/manifest/依頼本文を同梱。[パッケージ記録](evidence/rebuild-p1a/front-20261002/audit-package.json)・[監査依頼](REBUILD-PLAYABLE-AUDIT.md)。この後の変更は監査待ちの記録のみで、実装変更なし。ZIPの初回送信・受信を確認済み。通常Chatの監査URLは https://chatgpt.com/c/6ac069d4-ba90-83ec-b522-18d3c42a88da 。対象SHAと固定ZIPは変更なし。
 
 ユーザー「旧版へ戻れるよう保護し、大改装版で遊びたい」、追加「推奨で」。新モード内の武器標準化と旧版から分離した進行を採用。branch `codex/rebuild-p1a-cloud-20261001`、開始HEAD `32af37c4d025def599ec5d85158ee285c5dfe697`、[PR115](https://github.com/futsalife24-bot/swarm-front/pull/115)。旧版main `4520c57ede444d44b8699753645f36ce479b72bf` を `preserved/pre-rebuild-20261002` と主要10ファイルのblob表で保護、GitHubへpush済み。旧入口 `/` と既存セーブ・所持品は維持。作業場所 `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a`。
 
@@ -10,8 +10,11 @@
 
 2026-10-03「もう一度やって」で再開。前回のブラウザID 2は接続不可。公式復旧手順を確認し、利用可能なブラウザ一覧は0件、新規IAB作成も接続不可だった。Codexのブラウザ表示操作で `https://chatgpt.com/` を開く要求を送信し、結果は `queued`。その後もブラウザ一覧0件で、PCのCodexでこのチャットを開くよう依頼した。画面取得も不可のため、前日の画像を今回の接続証拠として再利用していない。GitHub PR115は同じbase/headで未merge・draft・競合なし、ローカル差分なしを確認。公開CLIの認証も再確認し、未ログイン・ネットワーク障害なし。実装変更と不要なテスト再実行はしていない。
 
-停止理由: アプリ内ブラウザが接続されておらず、監査用ChatGPTの画面操作・認証確認・ZIP添付ができない。独立監査・main反映・本番公開は未実施。公開CLIのCloudflare認証も未ログイン。固定監査経路と必須独立判定を維持している。
-再開条件: PCのCodexでこのチャットを開き、右側のChatGPTブラウザが表示・接続されること。接続後に承認済みGoogleログインの完了状態を確認し、必要なら本人入力を依頼する。固定ZIPの独立監査・必須修正/再監査・main反映を進め、既存Cloudflare公開アカウントの認証復旧後に公開・配信照合する。追加の方式承認は不要。
+2026-10-03にユーザーがPCの監査画面を提示し、IAB接続とChatGPTログインを確認。元のタブ1は別ゲームの下書きだったため送信せず残し、監査用タブ2にスワフロの依頼を入力した。固定ZIPのSHA256/サイズを再照合し、標準filechooserで直接添付、アップロード完了と日本語依頼・対象SHAを確認して送信。[独立監査Chat](https://chatgpt.com/c/6ac069d4-ba90-83ec-b522-18d3c42a88da)に同ZIPと依頼が表示され、監査側が資料確認を開始。送信証拠は `../.task-tools/front-audit-sent-20261003.png`。合格判定はまだ未取得。
+
+公開用の `wrangler login --browser=false` は自動承認レビューが「Googleへの承認とは別にCloudflareログインの具体承認が必要」として開始前に拒否。既存スワフロ公開アカウントへの通常ログイン復旧をユーザーへ質問済み。制限を迂回せず、公開操作は行っていない。監査・必須修正/再監査は進行可能。
+
+残作業: 独立監査の完了判定と必要修正/再監査、最新main/checks/保護の確認、通常merge、既存Cloudflare認証復旧後のWorker公開・配信照合。旧版保護・実装・自己検証と監査ZIPは維持し、承認待ちだけを完成扱いしない。
 
 # 履歴: プレゼンのスマホ公開完了（PR112、2026-09-29）
 
