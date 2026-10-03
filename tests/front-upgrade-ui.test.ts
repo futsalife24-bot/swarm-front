@@ -50,4 +50,18 @@ describe("強化状況の表示", () => {
     expect(detail).toContain("深度2まで伝播");
     expect(detail).not.toContain("進化 · 串刺し");
   });
+  it("ダウン中の装甲補強も回復の生存条件を明記する", () => {
+    const run = createFrontRun(
+      { runId: "downed", seed: 1, players: [{ id: "p" }] },
+      0,
+    );
+    run.world.players[0].hp = 0;
+    const v = getFrontRunView(run, "p");
+    v.levels.armor = 2;
+    v.picks = 2;
+    expect(frontUpgradeDetails(v, "/")).toContain(
+      "最大体力 +10%。生存中の取得時は増加分を回復。",
+    );
+    expect(run.world.players[0].hp).toBe(0);
+  });
 });

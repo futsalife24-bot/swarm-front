@@ -30,3 +30,5 @@ GitHub `https://github.com/futsalife24-bot/swarm-front`、ローカル `C:/Users
 実装 `1da34ca82c6f8d6289df1ea080f3944dde63e954` から公開build/Worker dry-run成功。`build.txt` / `dryrun.txt`。以降は監査/公開の記録のみ。
 
 固定対象 `2c175a6d04f3c61bb545fea393b7adaf3438dd96`、[PR123](https://github.com/futsalife24-bot/swarm-front/pull/123)、[通常Chat](https://chatgpt.com/c/6ac0cafa-6284-83ee-a646-a20f333c3781)へ監査ZIP添付と送信・応答開始を確認。714ファイル全blob一致、18,180,727 bytes。以降は記録のみ。
+
+独立監査初回はP2が1件。装甲補強はダウン中には現在HPを回復しないため、詳細を「生存中の取得時は増加分を回復」へ修正。HP=0の表示条件テストを追加し4件成功（unit-fix.txt）。状態や回復処理は変更しない。初回報告は audit-initial.txt。文言だけの修正のため既存の実UI6件は再実行せず、公開画面で確認する。640幅の追加補給で見出し/期限/再抽選が同時に出る直接E2Eは任意提案として記録、今回は未追加。

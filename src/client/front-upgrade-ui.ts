@@ -42,7 +42,7 @@ export function frontUpgradeDetails(view: UpgradeView, base: string) {
               level = view.levels[id];
             const description =
               id === "armor"
-                ? `最大体力 +${level * 5}%。取得時に増加分を回復。`
+                ? `最大体力 +${level * 5}%。生存中の取得時は増加分を回復。`
                 : id === "reload"
                   ? `装填時間を基準値から${level * 5}%短縮。`
                   : id === "magazine"
