@@ -27,3 +27,5 @@ GitHub `https://github.com/futsalife24-bot/swarm-front`、作業場所 `C:/Users
 実装 `91cb1c16fa86ecda8bf372cdeb418ddf5d7c9b15` からの公開build/Worker dry-run成功。`build.txt` / `dryrun.txt` を保存。以降の変更は監査/公開の記録のみ。
 
 固定監査対象 `ce154997a6dd46f0eceaebd360ab0e19f8825ff4`。[PR121](https://github.com/futsalife24-bot/swarm-front/pull/121)、[新規通常Chat](https://chatgpt.com/c/6ac0bc1f-4878-83ee-af08-3c2555c82e04)へ直接添付し送信/開始確認。695ファイル全blob一致、11,981,609 bytes。以降は記録のみ。
+
+独立監査は合格、対象 `ce154997a6dd46f0eceaebd360ab0e19f8825ff4`、必須P0/P1/P2なし。[完結した本文](evidence/front-choice-20261003/audit-final.txt)。全695ファイルのhash/blob・差分逆適用・状態遷移・画像/実測/ログを独立確認。依存取得禁止のため型/単体/実通信/実UI/buildの独立再実行なし。回答のコピー/再生成操作と停止操作消失で完了を確認し本文をGit保存。末尾にUI通信エラーが併記されたためChat側永続保存は未確認。任意提案は高遅延時の旧候補の一瞬再表示への抑止と、全カード静止後の証拠追加。前者はサーバー側stale/duplicate拒否があるため必須ではなく、今回の追加実装はしない。後者は公開確認時の静止PNGで補う。以降の差分は記録のみ。
