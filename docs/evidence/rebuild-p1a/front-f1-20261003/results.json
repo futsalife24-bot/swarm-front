@@ -22,7 +22,7 @@
   "format": "成功",
   "diffCheck": "成功",
   "build": "成功",
-  "independentReaudit": "未依頼",
+  "independentReaudit": "依頼済み・判定待ち",
   "limits": [
     "物理Android未確認",
     "人間の難易度未確認",
