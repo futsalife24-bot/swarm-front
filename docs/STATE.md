@@ -1,3 +1,7 @@
+# 現在地: 出撃準備UIの独立監査を送信済み（2026-10-03）
+
+[PR125](https://github.com/futsalife24-bot/swarm-front/pull/125)、固定対象 `b1bf510ba8bbb61e74d61df0b1da2f386169c48a`。[通常Chat](https://chatgpt.com/c/6ac0dbf4-da6c-83ee-b7c4-64eabba1c4ed)へZIPを直接添付し送信・応答開始を確認。725ファイル全blob一致。自己検証とbuild/dry-run成功。[変更](FRONT-PREP-LEGACY.md)。以降は記録のみ。判定後に通常統合・既存Worker公開へ続行。
+
 # 現在地: 出撃準備・読み込みを旧版へ統一、自己検証済み（2026-10-03）
 
 改装版の準備画面に従来の枠・左装備枠・右武器一覧を継承し、読み込みを共通進捗バーへ統一。型、実UI4件、旧版武器一覧8表示/操作、タッチHUD比較2件成功。[変更と証拠](FRONT-PREP-LEGACY.md)。branch `codex/front-prep-legacy-20261003`、base `eb81bfbe61082acbdb34e8a486ecd6c29247a1cb`。固定SHA監査・通常統合・既存Worker公開へ続行。
