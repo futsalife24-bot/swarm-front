@@ -1,0 +1,54 @@
+" [level=4]
+  - heading "結論：合格" [level=1]:
+    - text: 結論：
+    - strong: 合格
+  - paragraph:
+    - strong: "対象SHA:"
+    - text: e546fc733b606c1cd9f29764ed5523d208977eea
+    - strong: "必須指摘:"
+    - strong: P0=0 / P1=0 / P2=0
+  - paragraph:
+    - text: 初回P1は
+    - strong: 解消を確認
+    - text: しました。
+  - list:
+    - text: ZIP SHA256は指定値一致、MANIFEST
+    - strong: 14/14件でSHA256・Git blob一致
+    - text: 。
+    - text: state-wire.ts は frontView/serverNow を含む
+    - strong: 最終送信文字列そのもの
+    - text: で64KiB判定・二分探索。
+    - listitem: worker.ts の後付け JSON.parse → encodeState は廃止され、容量判定後にデータが膨らむ経路は消えています。
+    - text: 独立実行でも4人・97敵相当でWorker本体の broadcast/sendEncoded を通し、full/cache双方で
+    - strong: 4人全員≤65536 bytes、4009切断なし、最新演出・受信者別情報保持
+    - text: を確認しました。
+    - listitem: 旧版経路への直接的な回帰も差分上見当たりません。
+  - paragraph:
+    - text: 提出証拠の
+    - strong: 単体23件、旧版4件、実Worker/WebSocket 3件、型・build/dry-run成功
+    - text: はログ確認です。こちらで同じVitest一式や実WebSocket環境を再実行したわけではありません。
+  - paragraph:
+    - strong: "検証限界:"
+    - text: 実ネット越し4人、物理Androidジャイロ、97体最大密集FPS、人間難易度は未確認のままです。旧 audit-package.json は履歴扱いがREADMEで明確化されており、今回の必須問題とはしません。
+  - button "コピーする":
+  - button "共有":
+  - button "読み上げ":
+  - button "回答を再生成":
+  - button "その他のアクション":
+  - generic: ChatGPT は間違えることがあります。重要な情報は確認してください。
+  - button "一番下までスクロール":
+  - heading "最新の応答" [level=4]
+  - status
+  - button "ファイルなどを追加":
+  - textbox "ChatGPT に聞く":
+    - paragraph: ChatGPT に聞く
+  - button "ChatGPT モデルを選択":
+    - generic: 高
+  - button "音声入力":
+  - button "音声会話を開始":
+- status
+- status
+- status
+- status
+- status
+- status: 回答が完了しました
