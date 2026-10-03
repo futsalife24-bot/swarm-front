@@ -16,4 +16,6 @@ branch `codex/front-combat-feedback-20261003`、今回開始SHA `38e6740e1f4d6bf
 
 証拠は [evidence/front-feedback-20261003](evidence/front-feedback-20261003/) の `4x-unit.txt` / `4x-network.txt` / `4x-pilot.json`。設定/空中経験値/旧保存/旧ソロ・旧協力の以前の関連検証は引き続き履歴として保持し、4倍版の追加UI確認と配信ビルド結果を追記する。
 
+実装SHA `a235ddad247d180ff3f5cb5d1b259e18467c94fb` から配信ビルド・既存Worker dry-run成功。証拠は `4x-build.txt` / `4x-worker-build.txt`。この後の差分は記録のみ。監査対象の完全SHAは4倍版ZIPのmanifestに固定する。
+
 物理Androidのセンサーと最大密集FPS、実ネット越し4人、人間の難易度は未確認。以前の監査添付は自動承認レビューに拒否されたままで、今回の調整指示を外部送信の具体的承認には読み替えない。
