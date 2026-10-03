@@ -1,3 +1,28 @@
+# 現在地: 通信修正版の限定再監査合格、通常統合・公開準備（2026-10-03）
+
+対象 `e546fc733b606c1cd9f29764ed5523d208977eea` は同じ通常Chatの限定再監査で合格、必須P0/P1/P2各0件。監査側の独立実行でも4人・97敵のWorker最終送信が全員64KiB以内、4009切断なし。[判定と証拠](FRONT-COMBAT-FEEDBACK-F1.md)。以降は記録のみ。通常PR117 merge・既存Worker公開・配信/UI確認へ継続承認の範囲で進める。
+
+# 履歴: 独立監査P1の通信上限を修正、同Chatへ再監査送信済み（2026-10-03）
+
+再監査対象 `e546fc733b606c1cd9f29764ed5523d208977eea` の14ファイル差分ZIPを同じ[通常Chat](https://chatgpt.com/c/6ac0a06e-6360-83ee-a5d1-0a836af08b19)へ直接添付、送信と回答開始を確認。全blob一致・136,685 bytes・[資料記録](evidence/front-feedback-20261003/f1-audit-package.json)。基準は初回4倍版 `8fb888274663d9ebc8e34ca2accddb97c0320340`。依存/素材/その他実装は初回添付と同じ。以降の差分は記録のみ。判定待ちで、通常merge/本番公開は未実施。
+
+初回4倍版監査はP1=1で要修正。最終送信前に戦況/時刻を足すことで64KiBを超える問題を修正した。実装 `536f20b`、単体23件（Worker実ソースの最終送信回帰を含む）・旧通信4件・実Worker2〜4人3件・型・配信ビルド/dry-run成功。[指摘と修正](FRONT-COMBAT-FEEDBACK-F1.md)。同じ通常Chatで通信修正と影響だけを再監査し、合格後に通常merge・公開へ進む。初回対象後の実装差分はこのP1修正だけ。送信/再監査/合格後の公開は承認済み。
+
+# 履歴: 敵4倍・通常HP半分の独立監査を送信済み（2026-10-03）
+
+ユーザーが4倍版ZIPの通常ChatGPT送信・独立監査・合格後の既存Worker公開を具体的に承認。固定対象 `8fb888274663d9ebc8e34ca2accddb97c0320340` のZIPをアプリ内ブラウザで直接添付し、アップロード完了・送信・監査開始を確認した。[今回の監査Chat](https://chatgpt.com/c/6ac0a06e-6360-83ee-a5d1-0a836af08b19)。以前の送信承認待ちは解消。現在は独立判定待ちで、合格後にPR117の通常merge・既存Worker公開・配信確認へ続行する。監査後の変更は記録のみ。
+
+# 履歴: 敵4倍・通常HP半分を保存済み、監査送信承認待ち（2026-10-03）
+
+追加指示に従い、改装版の通常敵を出現4倍・同時上限96・HP半分へ調整。空中経験値と旧版を含む戦闘中設定の修正を維持。旧版の敵数/HP、大型ボスHP7200は維持。[最新調整と検証](FRONT-COMBAT-FEEDBACK-4X.md)・[前段の変更](FRONT-COMBAT-FEEDBACK.md)。branch `codex/front-combat-feedback-20261003`、PR全体base `3e808ead8a93ce5d5242cf571de5cb0f19033f42`、追加実装SHA `a235ddad247d180ff3f5cb5d1b259e18467c94fb`、固定監査対象 `8fb888274663d9ebc8e34ca2accddb97c0320340`、[PR117](https://github.com/futsalife24-bot/swarm-front/pull/117)。作業場所 `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a`、GitHub `https://github.com/futsalife24-bot/swarm-front`。
+
+4倍版の型・単体23件（97敵の圧迫通信）・実Worker2〜4人3件・横844の実UI1件・配信ビルド・Worker dry-run成功。固定入力9作戦は5勝4敗、8作戦7取得/1作戦5取得、効果予算超過0。人間の難易度/97体実機FPS/物理ジャイロは未確認。
+
+4倍版ZIPは `../.task-tools/swarm-front-feedback-4x-8fb8882-audit.zip`、82,197,182 bytes、812ファイル全件Git blob一致。[パッケージ記録](evidence/front-feedback-20261003/4x-audit-package.json)。3倍版の旧ZIPは未送信のまま保護するが公開監査には使用しない。前段の添付は自動承認レビューが2回拒否し、公開GitHubとの一致証拠と継続承認を示しても具体的な資料/宛先の承認不足という判断だった。[拒否履歴](FRONT-COMBAT-FEEDBACK-AUDIT.md)。今回の4倍版資料の添付は再試行せず、具体的承認の確認を更新済み。この後の変更は記録のみ。
+
+停止理由: 監査ZIP添付の自動承認レビュー拒否による具体的送信承認待ち。独立監査・main反映・本番公開は未完了。
+再開条件: ユーザーが4倍版ZIP（公開GitHubのソース・差分・既存素材・検証証拠、約82MB）をアプリ内ブラウザの通常ChatGPTへ送信して独立監査し、合格後に既存Workerへ公開することを具体的に承認する。送信先は新規通常ChatGPTの監査待ちタブ7（chatgpt.com）。旧公開版と旧保護ブランチは維持する。mainは `3e808ead8a93ce5d5242cf571de5cb0f19033f42` のまま。
+
 # 現在地: 旧版を保護して大改装版を本番公開（2026-10-03）
 
 大改装版は [公開入口](https://swarm-front.melosalife-24.workers.dev/front) で遊べる。従来の [旧版入口](https://swarm-front.melosalife-24.workers.dev/) と主要10ファイル・既存セーブを維持し、旧main `4520c57ede444d44b8699753645f36ce479b72bf` は `preserved/pre-rebuild-20261002` に保存済み。標準3武器2枠、3系統の強化と最大2進化、迎撃・防衛・日替わり、最大4人協力、端末内の独立進行を接続。3択は生成アイコン12種・短い日本語・順次表示に整理した。

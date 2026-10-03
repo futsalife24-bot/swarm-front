@@ -317,25 +317,28 @@ function pause() {
   checkpointNow();
   const d = dialog(
     "一時停止",
-    '<button id="pt-resume">タップで再開</button><button id="pt-pause-layout">操作ボタンの配置</button><button id="pt-retire">リタイア</button>',
+    '<button id="pt-resume">タップで再開</button><button id="pt-pause-layout">設定・操作</button><button id="pt-retire">リタイア</button>',
   );
   view.drone?.mount(d.querySelector<HTMLElement>(".menu-dialog-body")!);
   d.querySelector<HTMLButtonElement>("#pt-pause-layout")!.onclick = () => {
-    const previousScreen = screen;
-    const collectionNodes =
-      previousScreen === "collection" ? [...ui.childNodes] : [];
-    const collectionFade = document.querySelector(".pt-fade");
-    d.close();
-    editControlLayout(() => {
-      battleUI(previousScreen === "collection" ? "collection" : "battle");
-      if (previousScreen === "collection") {
-        ui.replaceChildren(...collectionNodes);
-        ui.classList.add("pt-clear");
-        ui.hidden = false;
-        if (collectionFade) document.body.append(collectionFade);
-      }
-      paused = false;
-      pause();
+    d.querySelector<HTMLButtonElement>("#pt-pause-layout")!.hidden = true;
+    preferences.mount(d, () => {
+      const previousScreen = screen;
+      const collectionNodes =
+        previousScreen === "collection" ? [...ui.childNodes] : [];
+      const collectionFade = document.querySelector(".pt-fade");
+      d.close();
+      editControlLayout(() => {
+        battleUI(previousScreen === "collection" ? "collection" : "battle");
+        if (previousScreen === "collection") {
+          ui.replaceChildren(...collectionNodes);
+          ui.classList.add("pt-clear");
+          ui.hidden = false;
+          if (collectionFade) document.body.append(collectionFade);
+        }
+        paused = false;
+        pause();
+      });
     });
   };
   d.querySelector<HTMLButtonElement>("#pt-resume")!.onclick = () => d.close();

@@ -19,6 +19,7 @@ import {
   createFrontBattleState,
   addFrontCombatPlayer,
   collectFrontXp,
+  FRONT_BALANCE,
 } from "./front-combat";
 import {
   createFrontUpgradeState,
@@ -43,7 +44,9 @@ export const FRONT_RUN_CONFIG = {
   finalResupply: 345,
   hardTimeout: 540,
   timeoutWarning: 480,
-  enemyCap: 24,
+  enemyCap: FRONT_BALANCE.enemyCap,
+  spawnMultiplier: 4,
+  normalHpMultiplier: 1 / 2,
   bossHp: 7200,
   spawnWarning: 1.5,
   minSpawnDistance: 16,
@@ -326,13 +329,17 @@ function safePoint(w: World, kind: Enemy["kind"], x: number, z: number) {
 }
 function schedule(run: FrontRun) {
   const w = run.world;
+  const enemyCap = w.front!.enemyCap ?? 24;
   run.pendingSpawns = run.pendingSpawns.filter((pending) => {
     if (pending.at > w.time) return true;
     pending.kinds.forEach((kind, index) => {
       const x = pending.x + index * 2.7;
-      if (w.enemies.length >= 24 || !safePoint(w, kind, x, pending.z)) return;
+      if (w.enemies.length >= enemyCap || !safePoint(w, kind, x, pending.z))
+        return;
       const e = spawn(w, kind, x, pending.z, "crown", run.spawnIndex++);
       if (e) {
+        e.hp *= FRONT_RUN_CONFIG.normalHpMultiplier;
+        e.maxHp = e.hp;
         e.active = true;
         w.spawned++;
       }
@@ -341,12 +348,15 @@ function schedule(run: FrontRun) {
   });
   if (
     w.time < run.nextSpawnAt ||
-    w.enemies.length + run.pendingSpawns.length * 2 >= 24
+    w.enemies.length +
+      run.pendingSpawns.reduce((sum, p) => sum + p.kinds.length, 0) >=
+      enemyCap
   )
     return;
   run.nextSpawnAt =
     w.time +
-    (run.finalResupplyDone ? 7 : w.time < 90 ? 4 : w.time < 210 ? 3.5 : 3);
+    (run.finalResupplyDone ? 7 : w.time < 90 ? 4 : w.time < 210 ? 3.5 : 3) /
+      FRONT_RUN_CONFIG.spawnMultiplier;
   const kinds: Enemy["kind"][] = [
     "crawler",
     w.time >= 120 && run.spawnIndex % 6 === 0

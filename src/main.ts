@@ -430,7 +430,7 @@ function setScreen(name: string) {
   screen = name;
   document.body.dataset.screen = name;
   ui.scrollTop = 0;
-  if (name !== "battle" && paused) closePause();
+  if (name !== "battle" && name !== "layout" && paused) closePause();
   controls.enabled = name === "battle" && !paused;
   if (!controls.enabled) {
     controls.reset();
@@ -1050,7 +1050,12 @@ async function connect(create: boolean, restore = false, joinCode?: string) {
         w.phase === "battle" && screen === "battle" && !paused,
       );
       if (w.phase === "battle") {
-        if (screen !== "battle" && screen !== "loading" && !netFatal)
+        if (
+          screen !== "battle" &&
+          screen !== "loading" &&
+          !(screen === "layout" && paused) &&
+          !netFatal
+        )
           void loadBattle(false);
         const p = w.players.find((p) => p.id === myId);
         if (p) {
@@ -1613,13 +1618,14 @@ function openPause(confirming = false) {
   menu.hidden = false;
   menu.innerHTML = confirming
     ? `<div class="pause-card"><h2>作戦を離脱しますか</h2><p>${pending ? `未確定の戦利品 <b>${pending} 件</b>を失います。` : "未確定の戦利品はありません。"}確定済みの武器は残ります。</p>${mode === "coop" ? '<p class="warn">部隊は作戦を続けます。あなたは戻れません。</p>' : ""}<div class="pause-actions"><button id="pause-back">やめる</button><button class="danger" id="pause-quit">離脱する</button></div></div>`
-    : `<div class="pause-card"><h2>一時停止</h2>${mode === "coop" ? '<p class="warn">協力プレイは止まりません。この間も戦闘は進み、被弾します。</p>' : "<p>ソロなので戦闘は止まっています。</p>"}<label>視点感度 <input id="pause-sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>射撃ボタンの視点感度 <input id="pause-fire-sense" type="range" min="0.1" max="6" step="0.1" value="${save.fireSensitivity ?? save.sensitivity}"></label><label>ジャイロ <button id="pause-gyro" type="button" role="switch" aria-label="ジャイロ" aria-checked="${save.gyroEnabled === true}">${save.gyroEnabled ? "オン" : "オフ"}</button><span id="pause-gyro-status" role="status">端末を動かして照準。反応しない場合はオフ→オンで許可を確認。</span></label><label>ジャイロ感度 <input id="pause-gyro-sense" type="range" min="0.1" max="6" step="0.1" value="${save.gyroSensitivity ?? 1}"></label><label>全体音量 <input id="pause-volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>BGM音量 <input id="pause-bgm-volume" type="range" min="0" max="1" step="0.05" value="${save.bgmVolume ?? 1}"></label><label>SE音量 <input id="pause-se-volume" type="range" min="0" max="1" step="0.05" value="${save.seVolume ?? 1}"></label><label>描画品質 <select id="pause-quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準（精細な地形・質感）</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量（従来の描画）</option></select></label><label>ミニマップ <select id="pause-map"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><label>ダメージ表示 <select id="pause-damage"><option value="self" ${(save.damageNumbers ?? "self") === "self" ? "selected" : ""}>自分のみ</option><option value="all" ${save.damageNumbers === "all" ? "selected" : ""}>味方も表示</option><option value="off" ${save.damageNumbers === "off" ? "selected" : ""}>表示しない</option></select></label><div class="pause-actions"><button class="primary" id="pause-resume">戦闘に戻る</button><button id="pause-layout">操作ボタンの配置</button><button id="pause-leave">作戦離脱…</button></div></div>`;
+    : `<div class="pause-card"><h2>一時停止</h2>${mode === "coop" ? '<p class="warn">協力プレイは止まりません。この間も戦闘は進み、被弾します。</p>' : "<p>ソロなので戦闘は止まっています。</p>"}<label>視点感度 <input id="pause-sense" type="range" min="0.1" max="6" step="0.1" value="${save.sensitivity}"></label><label>射撃ボタンの視点感度 <input id="pause-fire-sense" type="range" min="0.1" max="6" step="0.1" value="${save.fireSensitivity ?? save.sensitivity}"></label><label>ジャイロ <button id="pause-gyro" type="button" role="switch" aria-label="ジャイロ" aria-checked="${save.gyroEnabled === true}">${save.gyroEnabled ? "オン" : "オフ"}</button><span id="pause-gyro-status" role="status">端末を動かして照準。反応しない場合はオフ→オンで許可を確認。</span></label><label>ジャイロ感度 <input id="pause-gyro-sense" type="range" min="0.1" max="6" step="0.1" value="${save.gyroSensitivity ?? 1}"></label><label>全体音量 <input id="pause-volume" type="range" min="0" max="1" step="0.05" value="${save.volume}"></label><label>BGM音量 <input id="pause-bgm-volume" type="range" min="0" max="1" step="0.05" value="${save.bgmVolume ?? 1}"></label><label>SE音量 <input id="pause-se-volume" type="range" min="0" max="1" step="0.05" value="${save.seVolume ?? 1}"></label><label>描画品質 <select id="pause-quality"><option value="1" ${save.quality === 1 ? "selected" : ""}>標準（精細な地形・質感）</option><option value="0.65" ${save.quality === 0.65 ? "selected" : ""}>軽量（従来の描画）</option></select></label><label>描画上限 <select id="pause-frame-rate"><option value="60" ${(save.frameRate ?? 60) === 60 ? "selected" : ""}>60fps（なめらか）</option><option value="30" ${save.frameRate === 30 ? "selected" : ""}>30fps（省電力）</option></select></label><label>ミニマップ <select id="pause-map"><option value="fixed" ${save.mapRotates ? "" : "selected"}>北を上に固定</option><option value="follow" ${save.mapRotates ? "selected" : ""}>視点に合わせて回す</option></select></label><label>ダメージ表示 <select id="pause-damage"><option value="self" ${(save.damageNumbers ?? "self") === "self" ? "selected" : ""}>自分のみ</option><option value="all" ${save.damageNumbers === "all" ? "selected" : ""}>味方も表示</option><option value="off" ${save.damageNumbers === "off" ? "selected" : ""}>表示しない</option></select></label><div class="pause-actions"><button class="primary" id="pause-resume">戦闘に戻る</button><button id="pause-layout">操作ボタンの配置</button><button id="pause-leave">作戦離脱…</button></div></div>`;
   if (confirming) {
     $("pause-back").onclick = () => openPause(false);
     $("pause-quit").onclick = retreat;
     return;
   }
   $("pause-layout").onclick = () => {
+    menu.hidden = true;
     setScreen("layout");
     ui.hidden = false;
     openLayoutEditor(
@@ -1676,6 +1682,12 @@ function openPause(confirming = false) {
       })
     )
       configured();
+  };
+  $("pause-frame-rate").onchange = () => {
+    const input = $("pause-frame-rate") as HTMLSelectElement;
+    if (write({ ...save, frameRate: Number(input.value) as 30 | 60 }))
+      configured();
+    else input.value = String(save.frameRate ?? 60);
   };
   $("pause-map").onchange = () => {
     if (

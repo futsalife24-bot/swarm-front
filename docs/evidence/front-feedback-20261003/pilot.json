@@ -1,0 +1,641 @@
+{
+  "date": "2026-10-02",
+  "seed": 4520,
+  "policy": "近い敵を狙い距離を保つ。空弾倉時装填・近距離回避。改変HP/XP/勝利状態なし。障害物迂回や高度な戦術なし。",
+  "limits": "3モード×3系統の各1回。固定方針の計測であり、人間の楽しさ・勝率・実機性能の判定ではない。",
+  "results": [
+    {
+      "mode": "survival",
+      "family": "explosion",
+      "phase": "victory",
+      "reason": "最終大型撃破",
+      "combatSeconds": 396.9,
+      "picks": 7,
+      "evolved": [
+        "explosion"
+      ],
+      "evolvedAt": 30,
+      "xp": 1192,
+      "kills": 633,
+      "firstEffectAt": 1.7000000000000008,
+      "maxChain": 3,
+      "maxEnemies": 16,
+      "budgetExhaustions": 0,
+      "thresholdReachedAt": [
+        30,
+        30,
+        30,
+        75,
+        75,
+        75
+      ],
+      "selectedAt": [
+        {
+          "playerId": "pilot",
+          "cardId": "blast-core",
+          "combatTime": 0,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "fuse",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "compressed-charge",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "armor",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "armor-piercer",
+          "combatTime": 75,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "armor",
+          "combatTime": 75,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "interceptor",
+          "combatTime": 75,
+          "automatic": false
+        }
+      ]
+    },
+    {
+      "mode": "survival",
+      "family": "piercing",
+      "phase": "defeat",
+      "reason": "部隊が全員ダウンしました",
+      "combatSeconds": 406.6,
+      "picks": 7,
+      "evolved": [
+        "piercing"
+      ],
+      "evolvedAt": 30,
+      "xp": 1247,
+      "kills": 639,
+      "firstEffectAt": 34.79999999999987,
+      "maxChain": 4,
+      "maxEnemies": 15,
+      "budgetExhaustions": 0,
+      "thresholdReachedAt": [
+        30,
+        30,
+        30,
+        75,
+        75,
+        75
+      ],
+      "selectedAt": [
+        {
+          "playerId": "pilot",
+          "cardId": "armor-piercer",
+          "combatTime": 0,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "line-shot",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "ricochet",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "armor",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "blast-core",
+          "combatTime": 75,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "armor",
+          "combatTime": 75,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "compressed-charge",
+          "combatTime": 75,
+          "automatic": false
+        }
+      ]
+    },
+    {
+      "mode": "survival",
+      "family": "interception",
+      "phase": "victory",
+      "reason": "最終大型撃破",
+      "combatSeconds": 411.5,
+      "picks": 7,
+      "evolved": [
+        "interception"
+      ],
+      "evolvedAt": 30,
+      "xp": 1248,
+      "kills": 644,
+      "firstEffectAt": 76.04999999999994,
+      "maxChain": 3,
+      "maxEnemies": 17,
+      "budgetExhaustions": 0,
+      "thresholdReachedAt": [
+        30,
+        30,
+        30,
+        75,
+        75,
+        75
+      ],
+      "selectedAt": [
+        {
+          "playerId": "pilot",
+          "cardId": "afterimage-mine",
+          "combatTime": 0,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "tactical-reload",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "interceptor",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "armor-piercer",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "compressed-charge",
+          "combatTime": 75,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "armor",
+          "combatTime": 75,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "blast-core",
+          "combatTime": 75,
+          "automatic": false
+        }
+      ]
+    },
+    {
+      "mode": "defense",
+      "family": "explosion",
+      "phase": "defeat",
+      "reason": "防衛拠点が破壊されました",
+      "combatSeconds": 210.45,
+      "picks": 7,
+      "evolved": [
+        "explosion"
+      ],
+      "evolvedAt": 30,
+      "xp": 634,
+      "kills": 311,
+      "firstEffectAt": 1.7000000000000008,
+      "maxChain": 3,
+      "maxEnemies": 24,
+      "budgetExhaustions": 0,
+      "thresholdReachedAt": [
+        30,
+        30,
+        30,
+        75,
+        75,
+        75
+      ],
+      "selectedAt": [
+        {
+          "playerId": "pilot",
+          "cardId": "blast-core",
+          "combatTime": 0,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "fuse",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "compressed-charge",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "armor",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "armor-piercer",
+          "combatTime": 75,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "armor",
+          "combatTime": 75,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "interceptor",
+          "combatTime": 75,
+          "automatic": false
+        }
+      ]
+    },
+    {
+      "mode": "defense",
+      "family": "piercing",
+      "phase": "defeat",
+      "reason": "防衛拠点が破壊されました",
+      "combatSeconds": 377.75,
+      "picks": 7,
+      "evolved": [
+        "piercing"
+      ],
+      "evolvedAt": 30,
+      "xp": 1254,
+      "kills": 622,
+      "firstEffectAt": 36.099999999999795,
+      "maxChain": 4,
+      "maxEnemies": 17,
+      "budgetExhaustions": 0,
+      "thresholdReachedAt": [
+        30,
+        30,
+        30,
+        75,
+        75,
+        75
+      ],
+      "selectedAt": [
+        {
+          "playerId": "pilot",
+          "cardId": "armor-piercer",
+          "combatTime": 0,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "line-shot",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "ricochet",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "armor",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "blast-core",
+          "combatTime": 75,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "armor",
+          "combatTime": 75,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "compressed-charge",
+          "combatTime": 75,
+          "automatic": false
+        }
+      ]
+    },
+    {
+      "mode": "defense",
+      "family": "interception",
+      "phase": "defeat",
+      "reason": "防衛拠点が破壊されました",
+      "combatSeconds": 380.9,
+      "picks": 7,
+      "evolved": [
+        "interception"
+      ],
+      "evolvedAt": 30,
+      "xp": 1247,
+      "kills": 626,
+      "firstEffectAt": 75.14999999999999,
+      "maxChain": 3,
+      "maxEnemies": 17,
+      "budgetExhaustions": 0,
+      "thresholdReachedAt": [
+        30,
+        30,
+        30,
+        75,
+        75,
+        75
+      ],
+      "selectedAt": [
+        {
+          "playerId": "pilot",
+          "cardId": "afterimage-mine",
+          "combatTime": 0,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "tactical-reload",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "interceptor",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "armor-piercer",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "compressed-charge",
+          "combatTime": 75,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "armor",
+          "combatTime": 75,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "blast-core",
+          "combatTime": 75,
+          "automatic": false
+        }
+      ]
+    },
+    {
+      "mode": "daily",
+      "family": "explosion",
+      "phase": "victory",
+      "reason": "最終大型撃破",
+      "combatSeconds": 400.95,
+      "picks": 7,
+      "evolved": [
+        "explosion",
+        "piercing"
+      ],
+      "evolvedAt": 30,
+      "xp": 1269,
+      "kills": 647,
+      "firstEffectAt": 1.7000000000000008,
+      "maxChain": 5,
+      "maxEnemies": 6,
+      "budgetExhaustions": 0,
+      "thresholdReachedAt": [
+        30,
+        30,
+        30,
+        75,
+        75,
+        75
+      ],
+      "selectedAt": [
+        {
+          "playerId": "pilot",
+          "cardId": "blast-core",
+          "combatTime": 0,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "fuse",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "compressed-charge",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "armor-piercer",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "magazine",
+          "combatTime": 75,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "line-shot",
+          "combatTime": 75,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "ricochet",
+          "combatTime": 75,
+          "automatic": false
+        }
+      ]
+    },
+    {
+      "mode": "daily",
+      "family": "piercing",
+      "phase": "victory",
+      "reason": "最終大型撃破",
+      "combatSeconds": 410.95,
+      "picks": 7,
+      "evolved": [
+        "explosion",
+        "piercing"
+      ],
+      "evolvedAt": 30,
+      "xp": 1280,
+      "kills": 607,
+      "firstEffectAt": 30.200000000000003,
+      "maxChain": 5,
+      "maxEnemies": 6,
+      "budgetExhaustions": 0,
+      "thresholdReachedAt": [
+        30,
+        30,
+        30,
+        75,
+        75,
+        75
+      ],
+      "selectedAt": [
+        {
+          "playerId": "pilot",
+          "cardId": "armor-piercer",
+          "combatTime": 0,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "ricochet",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "line-shot",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "blast-core",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "fuse",
+          "combatTime": 75,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "compressed-charge",
+          "combatTime": 75,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "afterimage-mine",
+          "combatTime": 75,
+          "automatic": false
+        }
+      ]
+    },
+    {
+      "mode": "daily",
+      "family": "interception",
+      "phase": "victory",
+      "reason": "最終大型撃破",
+      "combatSeconds": 406.15,
+      "picks": 7,
+      "evolved": [
+        "explosion",
+        "interception"
+      ],
+      "evolvedAt": 30,
+      "xp": 1269,
+      "kills": 653,
+      "firstEffectAt": 30.200000000000003,
+      "maxChain": 4,
+      "maxEnemies": 6,
+      "budgetExhaustions": 0,
+      "thresholdReachedAt": [
+        30,
+        30,
+        30,
+        75,
+        75,
+        75
+      ],
+      "selectedAt": [
+        {
+          "playerId": "pilot",
+          "cardId": "afterimage-mine",
+          "combatTime": 0,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "tactical-reload",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "interceptor",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "blast-core",
+          "combatTime": 30,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "fuse",
+          "combatTime": 75,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "compressed-charge",
+          "combatTime": 75,
+          "automatic": false
+        },
+        {
+          "playerId": "pilot",
+          "cardId": "armor",
+          "combatTime": 75,
+          "automatic": false
+        }
+      ]
+    }
+  ]
+}

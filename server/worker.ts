@@ -1393,15 +1393,14 @@ export class Room extends DurableObject<Env> {
           !!s.equipmentCache &&
           w.phase === "battle" &&
           s.equipmentKey === state!.equipmentKey;
-        const packet = state!.packet(s.id, cached, s.seq);
-        const payload =
+        const recipientMetadata =
           this.saved.frontRun && this.saved.frontRun.upgrades[s.id]
-            ? encodeState({
-                ...JSON.parse(packet),
+            ? {
                 frontView: getFrontRunView(this.saved.frontRun, s.id),
                 serverNow: Date.now() / 1000,
-              })
-            : packet;
+              }
+            : undefined;
+        const payload = state!.packet(s.id, cached, s.seq, recipientMetadata);
         if (this.sendEncoded(ws, payload)) s.equipmentKey = state!.equipmentKey;
       } else this.send(ws, { type: "lobby", ...metadata });
     }

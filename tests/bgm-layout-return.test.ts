@@ -40,6 +40,11 @@ describe("solo layout return screen routing", () => {
         controls: { enabled: false, reset() {} },
         view: {},
         checkpointNow() {},
+        preferences: {
+          mount(_dialog: unknown, editLayout: () => void) {
+            buttons.set("#pt-layout", { onclick: editLayout });
+          },
+        },
         $: () => element,
         document: {
           querySelector: () => fade,
@@ -65,6 +70,7 @@ describe("solo layout return screen routing", () => {
       });
       runInContext(actualFunctions + "\npause();", context);
       buttons.get("#pt-pause-layout")!.onclick!();
+      buttons.get("#pt-layout")!.onclick!();
       expect(context.screen).toBe("layout");
       returnFromLayout!();
       expect(routed).toEqual([original]);

@@ -1,0 +1,27 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+ ❯ tests/front-feedback.test.ts (7 tests | 1 failed | 6 skipped) 16ms
+   ❯ 戦闘フィードバックの回帰 (7)
+     × 最大密集の4人通信でも判定状態を保持し、古い演出だけを64KiB内に収める 14ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/front-feedback.test.ts > 戦闘フィードバックの回帰 > 最大密集の4人通信でも判定状態を保持し、古い演出だけを64KiB内に収める
+AssertionError: expected 66095 to be less than or equal to 65536
+ ❯ tests/front-feedback.test.ts:219:55
+    217|           serverNow: 1791000000.123,
+    218|         });
+    219|         expect(new TextEncoder().encode(wire).length).toBeLessThanOrEq…
+       |                                                       ^
+    220|           65536,
+    221|         );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 skipped (7)
+   Start at  15:36:00
+   Duration  1.37s (import 73%, transform 25%, tests 1%)
+

@@ -43,35 +43,77 @@ export function encodeState(data: unknown): string {
 
 /** Common state is encoded once per broadcast, private loot stays per recipient. */
 export function prepareState(w: World, sentEvent: number, metadata: object) {
-  const { pending, rewards, drops, ...rest } = w;
+  const { pending, rewards, drops, front, ...rest } = w;
   const common = {
     ...rest,
     seed: 0,
     events: w.events.filter((e) => e.id > sentEvent),
   };
-  let full: string | undefined;
-  let cached: string | undefined;
+  const full = new Map<number, string>();
+  const cached = new Map<number, string>();
   const tail = encodeState(metadata).slice(1);
   return {
     equipmentKey: JSON.stringify([
       w.run,
       w.players.map((p) => [p.id, p.weapons]),
     ]),
-    packet(id: string, equipmentCached = false, inputAck = -1) {
-      if (!equipmentCached && full === undefined)
-        full = encodeState(common).slice(0, -1);
-      if (equipmentCached && cached === undefined) {
-        cached = encodeState({
-          ...common,
-          players: w.players.map(({ weapons, ...p }) => p),
-        }).slice(0, -1);
-      }
+    packet(
+      id: string,
+      equipmentCached = false,
+      inputAck = -1,
+      recipientMetadata?: object,
+    ) {
+      // 受信者別の戦況・時刻も含め、実際に送る最終データで容量を判定する。
+      const recipientTail = recipientMetadata
+        ? encodeState({ ...metadata, ...recipientMetadata }).slice(1)
+        : tail;
       const personal = encodeState({
+        ...(front
+          ? {
+              front: {
+                ...front,
+                // 描画に使う印は受信者自身の分だけ。サーバーの判定状態は維持する。
+                players: Object.fromEntries(
+                  Object.entries(front.players).map(([owner, p]) => [
+                    owner,
+                    { ...p, statuses: owner === id ? p.statuses : {} },
+                  ]),
+                ),
+              },
+            }
+          : {}),
         pending: { [id]: pending[id] ?? [] },
         rewards: { [id]: rewards[id] ?? [] },
         drops: drops.filter((d) => d.owner === id),
       }).slice(1);
-      return `{"type":"state","equipmentCached":${equipmentCached},"inputAck":${inputAck},"world":${equipmentCached ? cached : full},${personal},${tail}`;
+      const packetWith = (count: number) => {
+        const cache = equipmentCached ? cached : full;
+        let encoded = cache.get(count);
+        if (encoded === undefined) {
+          encoded = encodeState({
+            ...common,
+            events: count ? common.events.slice(-count) : [],
+            ...(equipmentCached
+              ? { players: w.players.map(({ weapons, ...p }) => p) }
+              : {}),
+          }).slice(0, -1);
+          cache.set(count, encoded);
+        }
+        return `{"type":"state","equipmentCached":${equipmentCached},"inputAck":${inputAck},"world":${encoded},${personal},${recipientTail}`;
+      };
+      const packet = packetWith(common.events.length);
+      if (!front || new TextEncoder().encode(packet).length <= 65536)
+        return packet;
+      // 密集時は古い演出だけを間引く。敵・弾・経験値・戦況は削らない。
+      let low = 0,
+        high = common.events.length;
+      while (low < high) {
+        const middle = Math.ceil((low + high) / 2);
+        if (new TextEncoder().encode(packetWith(middle)).length <= 65536)
+          low = middle;
+        else high = middle - 1;
+      }
+      return packetWith(low);
     },
   };
 }

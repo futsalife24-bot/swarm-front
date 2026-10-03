@@ -1,0 +1,76 @@
+[WebServer] (node:35244) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:20292) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 14:51:43 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision
+[WebServer] (209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
+[WebServer] (210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
+[WebServer] (209,37-61): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
+[WebServer] (210,82-106): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
+[WebServer] 14:51:52 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (196,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)
+[WebServer] 14:51:52 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (179,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)
+  ok 1 e2e\front-feedback.spec.ts:8:3 › 改装版844：戦闘を保持して設定・配置を保存、旧保存は不変 (18.9s)
+  ok 2 e2e\front-feedback.spec.ts:8:3 › 改装版640：戦闘を保持して設定・配置を保存、旧保存は不変 (12.0s)
+[WebServer] 14:53:19 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision
+[WebServer] (209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
+[WebServer] (210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
+[WebServer] (209,37-61): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
+[WebServer] (210,82-106): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
+[WebServer] 14:53:38 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (196,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)
+[WebServer] 14:53:40 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (179,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)
+  x  3 e2e\front-feedback.spec.ts:101:1 › 旧版：戦闘中の設定と配置編集から戻り、描画上限も保存 (1.7m)
+
+
+  1) e2e\front-feedback.spec.ts:101:1 › 旧版：戦闘中の設定と配置編集から戻り、描画上限も保存 ─────────────────────────────────
+
+    Test timeout of 100000ms exceeded.
+
+    Error: locator.click: Test timeout of 100000ms exceeded.
+    Call log:
+      - waiting for locator('#pause')
+        - locator resolved to <button id="pause" aria-label="一時停止メニュー">| |</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <dialog open="" class="menu-dialog" aria-labelledby="menu-dialog-title">…</dialog> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <dialog open="" class="menu-dialog" aria-labelledby="menu-dialog-title">…</dialog> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        124 × waiting for element to be visible, enabled and stable
+            - element is visible, enabled and stable
+            - scrolling into view if needed
+            - done scrolling
+            - <dialog open="" class="menu-dialog" aria-labelledby="menu-dialog-title">…</dialog> intercepts pointer events
+          - retrying click action
+            - waiting 500ms
+
+
+      115 |   await page.locator("#pt-enter").click({ timeout: 65000 });
+      116 |   await expect(page.locator("#pause")).toBeVisible({ timeout: 65000 });
+    > 117 |   await page.locator("#pause").click();
+          |                                ^
+      118 |   await page.locator("#pt-pause-layout").click();
+      119 |   for (const id of [
+      120 |     "sensitivity",
+        at C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\e2e\front-feedback.spec.ts:117:32
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\front-feedback-旧版：戦闘中の設定と配置編集から戻り、描画上限も保存\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\front-feedback-旧版：戦闘中の設定と配置編集から戻り、描画上限も保存\error-context.md
+
+  1 failed
+    e2e\front-feedback.spec.ts:101:1 › 旧版：戦闘中の設定と配置編集から戻り、描画上限も保存 ──────────────────────────────────
+  2 passed (2.5m)
