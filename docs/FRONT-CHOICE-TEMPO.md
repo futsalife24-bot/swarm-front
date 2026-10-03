@@ -22,7 +22,7 @@ GitHub `https://github.com/futsalife24-bot/swarm-front`、作業場所 `C:/Users
 - 実UI4件成功。横1280×720/844×390/640×360と実2人協力。表示スタイル・範囲・画像・初期候補・独立報酬/再読込・旧保存不変を確認。[ログ](evidence/front-choice-20261003/ui.txt)。
 - 選択から操作復帰は1280=267.1ms、844=233.0ms、640（動きを減らす設定）=230.4ms。3枠全無効と待ち文言なし。画像を目視確認。パネル幅/高さ: 1280=660×184、844=660×184、640=537.6×186.1、全画面中央。各 `choice-*.json` に実測保存。
 
-実機Android/ジャイロ/97体FPSと人間の体感は未確認。公開ビルド・固定SHAの通常Chat独立監査・通常merge・既存Worker公開/配信/UI確認を続行する。主担当1体、実モデル/effort未確認、切替なし。
+実機Android/ジャイロ/97体FPSと人間の体感は未確認。主担当1体、実モデル/effort未確認、切替なし。公開ビルド・固定SHA通常Chat監査・通常merge・既存Worker公開/配信/UI確認は完了。[公開記録](FRONT-CHOICE-TEMPO-RELEASE.md)。
 
 実装 `91cb1c16fa86ecda8bf372cdeb418ddf5d7c9b15` からの公開build/Worker dry-run成功。`build.txt` / `dryrun.txt` を保存。以降の変更は監査/公開の記録のみ。
 
