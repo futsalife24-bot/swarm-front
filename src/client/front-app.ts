@@ -15,6 +15,7 @@ import { placeControls, updateScopeButtons } from "./layout";
 import { FrontSettings } from "./front-settings";
 import { hudMarkup, updateCooldowns } from "./hud";
 import { Minimap } from "./minimap";
+import { frontUpgradeStrip, frontUpgradeDetails } from "./front-upgrade-ui";
 import { homeMarkup } from "./home-screen";
 import { roomBrowserMarkup, bindRoomBrowser } from "./room-browser";
 import { FrontNetwork, loadFrontNetworkSession } from "./front-network";
@@ -703,7 +704,7 @@ function paintOverlay() {
     ui.innerHTML = `<section class="pause-card rebuild-panel"><h1>接続を終了しました</h1><p>${esc(connectionFatal)}</p><button id="front-leave" class="primary">出撃メニューへ</button></section>`;
     $("front-leave").onclick = leave;
   } else if (gate.paused) {
-    ui.innerHTML = `<section class="pause-card rebuild-panel"><header><h1>${network ? "操作を停止中" : "一時停止"}</h1><button id="front-resume" class="primary">再開</button></header><p>${gate.pauseReason}</p><div class="pause-actions"><button id="front-settings">設定・操作</button><button id="front-leave">出撃メニューへ</button></div></section>`;
+    ui.innerHTML = `<section class="pause-card rebuild-panel front-pause"><header><h1>${network ? "操作を停止中" : "一時停止"}</h1><button id="front-resume" class="primary">再開</button></header><p class="front-pause-note">${gate.pauseReason}</p>${frontUpgradeDetails(info, import.meta.env.BASE_URL)}<div class="pause-actions"><button id="front-settings">設定・操作</button><button id="front-leave">出撃メニューへ</button></div></section>`;
     $("front-settings").onclick = () =>
       settings.open(ui, () => {
         overlayKey = "";
@@ -717,7 +718,7 @@ function paintOverlay() {
     };
     $("front-leave").onclick = leave;
   } else if (info.phase === "selection" && offer) {
-    ui.innerHTML = `<section class="pause-card rebuild-panel rebuild-selection"><header><h1>${offer.kind === "initial" ? "最初の強化を選択" : "補給 · 強化を選択"}</h1><div class="rebuild-selection-actions">${info.selectionDeadline !== null ? '<span id="front-countdown"></span>' : ""}${offer.kind === "additional" ? `<button id="rebuild-reroll" ${info.canReroll ? "" : "disabled"}>再抽選 残り${info.rerollsRemaining}</button>` : ""}</div></header><div class="rebuild-cards">${offer.cardIds
+    ui.innerHTML = `<section class="pause-card rebuild-panel rebuild-selection"><header><h1 class="front-choice-title">強化を選べ</h1><div class="rebuild-selection-actions">${info.selectionDeadline !== null ? '<span id="front-countdown"></span>' : ""}${offer.kind === "additional" ? `<button id="rebuild-reroll" ${info.canReroll ? "" : "disabled"}>再抽選 残り${info.rerollsRemaining}</button>` : ""}</div></header><div class="rebuild-cards">${offer.cardIds
       .map((card) => {
         const d = FRONT_UPGRADE_CATALOG[card];
         return `<button class="rebuild-card" data-card="${card}" aria-label="${d.name}：${esc(d.description)}"><img class="rebuild-card-icon" src="${import.meta.env.BASE_URL}rebuild/upgrades/${card}.png" alt="" width="96" height="96"><span class="rebuild-card-kind">${familyNames[d.family]}</span><strong>${d.name}</strong><span class="rebuild-card-description">${upgradeCopy[card]}</span></button>`;
@@ -786,9 +787,13 @@ function paintBattle() {
     weapon: `強化 ${info.picks}/7${info.evolved.length ? ` · ${info.evolved.map((f) => FRONT_EVOLUTIONS[f].name).join("・")}` : ""}`,
     help: `WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · F ジャンプ${world.players.length > 1 ? " · E 蘇生" : ""}`,
   });
-  if (lastHud !== hud) {
+  const upgradeStrip = frontUpgradeStrip(info, import.meta.env.BASE_URL);
+  if (lastHud !== hud + upgradeStrip) {
     $("hud").innerHTML = hud;
-    lastHud = hud;
+    $("hud")
+      .querySelector(".weapon-hud")
+      ?.insertAdjacentHTML("beforeend", upgradeStrip);
+    lastHud = hud + upgradeStrip;
   }
   minimap.draw(world, id, controls.input.yaw, performance.now());
   const state = world.front!;
