@@ -18,4 +18,9 @@ branch `codex/front-combat-feedback-20261003`、今回開始SHA `38e6740e1f4d6bf
 
 実装SHA `a235ddad247d180ff3f5cb5d1b259e18467c94fb` から配信ビルド・既存Worker dry-run成功。証拠は `4x-build.txt` / `4x-worker-build.txt`。この後の差分は記録のみ。監査対象の完全SHAは4倍版ZIPのmanifestに固定する。
 
+固定監査対象 `8fb888274663d9ebc8e34ca2accddb97c0320340`。資料は `C:/Users/futsa/Documents/Codex/2026-10-02/github/.task-tools/swarm-front-feedback-4x-8fb8882-audit.zip`、82,197,182 bytes、SHA256 `AA8CDCD029AC8A621687DF2EE952968E01B61262F05DE313FB143B616A407F0A`。812ファイル全件が対象SHAのGit blobと一致。[パッケージ記録](evidence/front-feedback-20261003/4x-audit-package.json)。3倍版の資料を維持して別名で新規作成した。送信先はアプリ内ブラウザの新規通常ChatGPT、`https://chatgpt.com/`（既存の監査待ちタブ7）。添付/送信はまだ未実施、今回の4倍版ZIPを明記した確認を表示済み。
+
+停止理由: 前段で自動承認レビューが監査ZIP添付を具体的な送信承認不足として拒否。独立判定なしでは公開できない。
+再開条件: ユーザーがこの4倍版ZIPの通常ChatGPTへの送信・独立監査・合格後の既存Worker公開を具体的に承認する。回答後に固定SHA/ZIPハッシュを照合し、同じ監査経路で続行する。
+
 物理Androidのセンサーと最大密集FPS、実ネット越し4人、人間の難易度は未確認。以前の監査添付は自動承認レビューに拒否されたままで、今回の調整指示を外部送信の具体的承認には読み替えない。
