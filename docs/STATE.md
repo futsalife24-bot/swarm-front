@@ -1,4 +1,14 @@
-# 現在地: 大改装版の監査指摘F1を修正、限定再監査合格・公開準備（2026-10-03）
+# 現在地: 旧版を保護して大改装版を本番公開（2026-10-03）
+
+大改装版は [公開入口](https://swarm-front.melosalife-24.workers.dev/front) で遊べる。従来の [旧版入口](https://swarm-front.melosalife-24.workers.dev/) と主要10ファイル・既存セーブを維持し、旧main `4520c57ede444d44b8699753645f36ce479b72bf` は `preserved/pre-rebuild-20261002` に保存済み。標準3武器2枠、3系統の強化と最大2進化、迎撃・防衛・日替わり、最大4人協力、端末内の独立進行を接続。3択は生成アイコン12種・短い日本語・順次表示に整理した。
+
+[PR115](https://github.com/futsalife24-bot/swarm-front/pull/115) を通常merge。公開ソース `2bdacb361ccc6b5c57e2df97bb4a2f01485091cf`、Worker Version `f5e2f965-999a-4599-bd94-fea836d7d9e2`。同じ通常Chatの限定再監査で対象 `be070dc85f230f856851e414d23f350fe2953338` が合格、必須P0/P1/P2各0件。以後の変更は記録だけ。公開ソースの配信ビルド・Worker dry-run成功、既存設定で公開、health 200・配信37ファイルのSHA256全一致。公開ブラウザで画像付き3択、順次表示設定、強化選択後の戦闘開始、一時停止・退出、旧版入口への遷移を確認した。
+
+[公開記録・証拠](REBUILD-PLAYABLE-RELEASE.md)・[F1修正と監査合格](REBUILD-PLAYABLE-F1.md)・[全体検証](REBUILD-PLAYABLE-VALIDATION.md)。作業場所 `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a`、GitHub `https://github.com/futsalife24-bot/swarm-front`。物理Android・人間の難易度/楽しさ・実ネット越し4人・既存端末の旧SW更新は未確認。新進行のクラウド同期と旧版からの移行は今回の範囲外。主担当1体、実行モデル/effort未確認、切替なし。
+
+公開後の記録は文書と証拠だけで、通常PRを通じてmainへ保存する。配信コードの差分はなく再公開不要。停止・承認待ちは解消済み。
+
+# 履歴: 大改装版の監査指摘F1を修正、限定再監査合格・公開準備（2026-10-03）
 
 実装の保存・push済み対象SHA: `ae445c123fe7cde37aeb09c288a3aceb51cee0d2`。この対象から再build/dry-run成功。GitHub Actionsの対象PR実行は返却0件（CI合格という意味ではない）。監査ZIP: `../.task-tools/swarm-front-rebuild-ae445c1-audit.zip`、83,578,585 byte、SHA256 `C30DC0B0AEA45F5E7BCA9ED5E5D77E2A0BDF685DDF0CA1B6548DA7D8C026FE83`。ソース・依存・必要な既存モデル/音声・生成画像・証拠の794ファイルは全て対象SHAのblob一致。差分/manifest/依頼本文を同梱。[パッケージ記録](evidence/rebuild-p1a/front-20261002/audit-package.json)・[監査依頼](REBUILD-PLAYABLE-AUDIT.md)。この後の変更は監査待ちの記録のみで、実装変更なし。ZIPの初回送信・受信を確認済み。通常Chatの監査URLは https://chatgpt.com/c/6ac069d4-ba90-83ec-b522-18d3c42a88da 。対象SHAと固定ZIPは変更なし。
 
