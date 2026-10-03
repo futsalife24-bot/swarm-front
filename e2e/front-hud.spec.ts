@@ -1,7 +1,11 @@
 import { test, expect, type Page } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 
-const evidence = "docs/evidence/front-hud-20261003";
+import { frontUpgradeStrip } from "../src/client/front-upgrade-ui";
+import { createFrontRun, getFrontRunView } from "../src/shared/front-run";
+
+const evidence =
+  process.env.FRONT_E2E_EVIDENCE ?? "docs/evidence/front-hud-20261003";
 test.use({ hasTouch: true, isMobile: true });
 
 async function instruments(page: Page) {
@@ -44,6 +48,12 @@ for (const width of [844, 640])
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
     await page.setViewportSize({ width, height: width === 844 ? 390 : 360 });
+    await page.addLocatorHandler(
+      page.getByRole("button", { name: "スキップして戦闘へ", exact: true }),
+      async (button) => {
+        await button.click();
+      },
+    );
     await page.goto("/");
     await page
       .getByRole("button", { name: "ソロで出撃準備", exact: true })
@@ -84,7 +94,15 @@ for (const width of [844, 640])
         expect(front[selector][key], `${selector} ${key}`).toBe(
           legacy[selector][key],
         );
-      if (selector !== ".mission-line")
+      if (selector === ".weapon-hud") {
+        expect(
+          { ...front[selector].box, h: legacy[selector].box.h },
+          selector,
+        ).toEqual(legacy[selector].box);
+        expect(
+          front[selector].box.h - legacy[selector].box.h,
+        ).toBeLessThanOrEqual(30);
+      } else if (selector !== ".mission-line")
         expect(front[selector].box, selector).toEqual(legacy[selector].box);
     }
     const vitals = front[".vitals"].box,
@@ -98,6 +116,40 @@ for (const width of [844, 640])
     expect(
       await page.evaluate(() => localStorage.getItem("swarm-front-save-v1")),
     ).toBe(prior);
+    const sample = getFrontRunView(
+      createFrontRun({ runId: "layout", seed: 1, players: [{ id: "p" }] }, 0),
+      "p",
+    );
+    for (const key of [
+      "blast-core",
+      "fuse",
+      "compressed-charge",
+      "armor-piercer",
+      "ricochet",
+      "line-shot",
+      "armor",
+    ] as const)
+      sample.levels[key] = 1;
+    sample.picks = 7;
+    // 最大7種類のアイコンが狭い従来HUDにも1行で収まる境界確認。
+    await page.locator(".front-upgrade-strip").evaluate(
+      (el, markup) => {
+        el.outerHTML = markup;
+      },
+      frontUpgradeStrip(sample, "/"),
+    );
+    const mini = await page.locator(".front-upgrade-mini").evaluateAll((els) =>
+      els.map((el) => {
+        const r = el.getBoundingClientRect();
+        return { left: r.left, right: r.right, top: r.top };
+      }),
+    );
+    expect(mini).toHaveLength(7);
+    expect(new Set(mini.map((r) => r.top)).size).toBe(1);
+    expect(
+      mini.every((r) => r.left >= weapon.x && r.right <= weapon.x + weapon.w),
+    ).toBe(true);
+    await page.screenshot({ path: `${evidence}/hud-seven-${width}.png` });
     expect(errors).toEqual([]);
     writeFileSync(
       `${evidence}/comparison-${width}.json`,
