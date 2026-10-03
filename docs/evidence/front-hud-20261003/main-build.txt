@@ -1,0 +1,39 @@
+
+> swarm-front@0.1.0 build:production
+> vite build
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 162 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/front.html                           2.76 kB │ gzip:   1.16 kB
+dist/index.html                           3.72 kB │ gzip:   1.34 kB
+dist/assets/legacy-CPbai1ZT.css           0.25 kB │ gzip:   0.13 kB
+dist/assets/main-BOIn8V8d.css             1.31 kB │ gzip:   0.66 kB
+dist/assets/home-screen-DBFueyT0.css      3.15 kB │ gzip:   0.94 kB
+dist/assets/weapon-help-BU42rxxn.css      4.42 kB │ gzip:   1.44 kB
+dist/assets/room-browser-D0N6sL-J.css     4.90 kB │ gzip:   1.35 kB
+dist/assets/front-BknB9tzh.css            8.13 kB │ gzip:   2.39 kB
+dist/assets/playtest-app-DIFsgu9S.css    35.52 kB │ gzip:   7.96 kB
+dist/assets/hud-Ds-WcwRj.css            107.83 kB │ gzip:  22.08 kB
+dist/assets/home-screen-B8p0eW02.js       2.69 kB │ gzip:   1.49 kB
+dist/assets/training-app-DU_Csjjf.js      3.76 kB │ gzip:   1.94 kB
+dist/assets/zoom-guard-BX9ppGrs.js        4.00 kB │ gzip:   1.66 kB
+dist/assets/room-browser-zizmWgAt.js      4.31 kB │ gzip:   2.14 kB
+dist/assets/weapon-sharing-88gaAFHg.js    4.75 kB │ gzip:   2.53 kB
+dist/assets/minimap-2c17V7Ha.js          10.60 kB │ gzip:   4.62 kB
+dist/assets/legacy-CTVQGpCn.js           18.12 kB │ gzip:   7.23 kB
+dist/assets/state-wire-BxAjEvYM.js       21.08 kB │ gzip:   9.57 kB
+dist/assets/front-DvYePhsp.js            42.52 kB │ gzip:  15.96 kB
+dist/assets/main--CRXIi59.js             51.98 kB │ gzip:  18.25 kB
+dist/assets/weapon-help-Dfs9Kq5E.js      70.13 kB │ gzip:  26.10 kB
+dist/assets/playtest-app-DVtXuNwB.js    119.14 kB │ gzip:  41.84 kB
+dist/assets/hud-BFjI631y.js             900.51 kB │ gzip: 251.96 kB
+
+✓ built in 973ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
