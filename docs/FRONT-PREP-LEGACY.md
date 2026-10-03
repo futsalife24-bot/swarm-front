@@ -21,3 +21,5 @@
 base: `eb81bfbe61082acbdb34e8a486ecd6c29247a1cb`。branch: `codex/front-prep-legacy-20261003`。旧版保護ブランチは変更しない。固定SHAの通常Chat監査→通常PR統合→既存Worker公開を既存承認の範囲で進める。
 
 従来タッチHUDとの実ブラウザ比較2件（844/640）も成功。旧版の準備画面、共通読み込み、タップ開始、戦闘継続を確認し、主要HUD10部品の見た目と位置を比較。
+
+実装SHAは 03e3fceb600e760c8d7ca1d1fd2e7835147c0170。commit後の公開用ビルド/Worker事前検証も成功。PR125で固定対象を監査する。
