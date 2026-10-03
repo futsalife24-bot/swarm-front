@@ -22,7 +22,13 @@
     "setup:windows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-windows.ps1",
     "server:test": "wrangler dev --local --config wrangler.test.jsonc --ip 127.0.0.1 --port 8789",
     "test:e2e": "playwright test",
-    "preview": "vite preview --host 127.0.0.1"
+    "preview": "vite preview --host 127.0.0.1",
+    "test:rebuild": "vitest run --config=vitest.rebuild.config.ts",
+    "build:rebuild": "vite build --config vite.rebuild.config.ts",
+    "test:rebuild:e2e": "playwright test --config playwright.rebuild.config.ts",
+    "test:front": "vitest run --config vitest.front.config.ts",
+    "test:front:integration": "vitest run --config vitest.front-integration.config.ts",
+    "test:front:e2e": "playwright test --config playwright.front.config.ts"
   },
   "dependencies": {
     "three": "0.185.1"

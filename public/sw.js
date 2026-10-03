@@ -11,6 +11,12 @@ const isAppAsset = (url) =>
   url.pathname !== adminPath &&
   !url.pathname.startsWith(adminUrl.pathname) &&
   url.pathname !== briefingPath &&
+  url.pathname !== new URL("front.html", scope).pathname &&
+  url.pathname !== new URL("front", scope).pathname &&
+  url.pathname !== new URL("front/", scope).pathname &&
+  url.pathname !== new URL("rebuild-p1a.html", scope).pathname &&
+  url.pathname !== new URL("rebuild-p1a", scope).pathname &&
+  url.pathname !== new URL("rebuild-p1a/", scope).pathname &&
   !url.pathname.startsWith(briefingUrl.pathname) &&
   !url.pathname.startsWith(new URL("api/", scope).pathname);
 

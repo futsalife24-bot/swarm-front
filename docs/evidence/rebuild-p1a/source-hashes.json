@@ -1,0 +1,27 @@
+{
+  "base": "4520c57ede444d44b8699753645f36ce479b72bf",
+  "date": "2026-10-01",
+  "purpose": "P1a validated source/test file hashes; external audit and browser acceptance remain open",
+  "files": {
+    "e2e/rebuild-p1a.spec.ts": "3ed2eff1b930c7fc36eacf482a7e20af66cb7c07b5bc3bc263d432d769b2ecf1",
+    "package-lock.json": "5fc44d8cf39937c9234aeaea5c8994ad1c573f01fd31a490bab7b907a5e79dfb",
+    "package.json": "25a2f50c15ed056d7ea0d51f10673591aa7c1492f31f29309440397d9acd164c",
+    "playwright.rebuild.config.ts": "91cafca2fb0f0cd3256ddf1a2cd5598c0e6b81ff6da6f64f8e7ceab864e2f4be",
+    "rebuild-p1a.html": "d69ffaf7aea3db20f8da28f1cf52ec76bec484d7eb6ae07dfacee0332390b4ad",
+    "src/client/rebuild-app.ts": "0fbeb325f695990c808d3a6e8465533c279f68f27edd55a66324883f1ba1feb7",
+    "src/client/rebuild-ui-state.ts": "a892e7dcca0b76038f1df4ece547752d0a6919a7492635572f69de0a5c219f71",
+    "src/client/rebuild.css": "ca6c4789e88d6f5380ccfe01a8ce5f8c75b01a0fb88da5b79f5807dae420bc0a",
+    "src/shared/game.ts": "180d1547c71967b5784c5da9f6a86f15ebf6bf8eacb66e1ba1384f0cfc93fd4b",
+    "src/shared/rebuild-combat.ts": "f090c6e7267aac474b6f43c24d9737313eb29bc029bb8356f5afac2ac8213a14",
+    "src/shared/rebuild-run.ts": "7ffdecbb908f466ab7896cf4f2df996dd793270a956f2321b901f5ac5f261a05",
+    "src/shared/rebuild-upgrades.ts": "6eb061892576f4fcfab24c12899700bcd9c073f7cab8df2f4650d0374646ee0a",
+    "src/shared/solo-progression.ts": "e47c0b0ee7e29c207aad5fec49d7cea5cb12ca669f240196d214ca7d7f7c6d41",
+    "tests/rebuild-combat.test.ts": "094316fb22cf34c9a7bdeef141764988a3243773fe24c2d83a36e788b0600eda",
+    "tests/rebuild-run.test.ts": "6893b548dd4fe7bc67a9eee4de4f9c2e92e37a350e61de0a5275f643a1ff5b20",
+    "tests/rebuild-ui-state.test.ts": "b10bd1cc3b3dc2158df58bb274faa66eeb8ffc83ca05aa6c9b9bf17a4f12e6a9",
+    "tests/rebuild-upgrades.test.ts": "e17124acfb5e5eb01826b0e3b14c477e738b8b416645bdd758b3419f0a195b39",
+    "vite.rebuild.config.ts": "2034401eb2fe851dd23485d89cbab66440d400441b38b39854c979358df2e2d3",
+    "vitest.config.ts": "13305dc99c5961c66eb5b63244aceb3c1b0de84e6794de43385107815b31068c",
+    "vitest.rebuild.config.ts": "d2012b81dd4b8a064c270fea8332c72b529a996f395865da64da9a2827e73a45"
+  }
+}

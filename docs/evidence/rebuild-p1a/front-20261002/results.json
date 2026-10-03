@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-02",
+  "branch": "codex/rebuild-p1a-cloud-20261001",
+  "startHead": "32af37c4d025def599ec5d85158ee285c5dfe697",
+  "legacyBaseline": "4520c57ede444d44b8699753645f36ce479b72bf",
+  "checks": [
+    {
+      "name": "新モード単体と全構成",
+      "passed": 16,
+      "failed": 0,
+      "durationSeconds": 24.83
+    },
+    {
+      "name": "実Worker/WebSocket",
+      "passed": 3,
+      "failed": 0,
+      "durationSeconds": 25.51
+    },
+    {
+      "name": "実ブラウザ新モード",
+      "passed": 3,
+      "failed": 0
+    },
+    {
+      "name": "共通準備変更後の旧試作ブラウザ",
+      "passed": 1,
+      "failed": 0
+    },
+    {
+      "name": "旧P1aロジック",
+      "passed": 120,
+      "failed": 0
+    },
+    {
+      "name": "保存回帰",
+      "passed": 147,
+      "failed": 0
+    },
+    {
+      "name": "旧関連ゲーム",
+      "passed": 81,
+      "failed": 1,
+      "knownBaselineFailures": [
+        "Stage25: 128.15秒・78撃破でdefeat。基準mainでも再現"
+      ]
+    },
+    {
+      "name": "SW入口分離",
+      "passed": 2,
+      "failed": 0
+    }
+  ],
+  "typecheck": "クライアント/Worker/計測スクリプト成功",
+  "build": "Vite/既存Worker production dry-run成功・未公開",
+  "oldFiles": "10ファイルGit blob一致",
+  "icons": "生成6点256角・透明・SHA256記録",
+  "pilot": "9回全て7取得/進化、7成功/2敗北、処理予算超過0",
+  "audit": "未依頼・IAB通常Chat未ログイン、Google方式の具体承認待ち",
+  "deployment": "未実施",
+  "unverified": [
+    "人間の楽しさと勝率",
+    "物理Android10分試遊と発熱",
+    "旧SW更新タイミング",
+    "全日付の難易度",
+    "新進行の端末間同期（今回対象外）"
+  ],
+  "modelId": "未確認",
+  "reasoningEffort": "未確認",
+  "modelChanged": false,
+  "agents": 1
+}

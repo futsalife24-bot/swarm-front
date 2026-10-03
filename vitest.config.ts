@@ -2,6 +2,8 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     include: [
+      "tests/front-*.test.ts",
+      "tests/rebuild-*.test.ts",
       "tests/harrow.test.ts",
       "tests/harrow-model.test.ts",
       "tests/harrow-weapons.test.ts",

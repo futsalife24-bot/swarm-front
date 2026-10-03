@@ -1,0 +1,85 @@
+{
+  "date": "2026-10-02",
+  "method": "画像生成6点、透明背景、原本を保持して256角に縮小",
+  "visualReview": "6点の一覧を確認。文字・枠なし、題材が異なる",
+  "images": [
+    {
+      "id": "armor-piercer",
+      "path": "public/rebuild/upgrades/armor-piercer.png",
+      "sha256": "311D16783CE99F3F92A41C7BFEB35853906F8FE7779B838DD8A693F0B5555F1F",
+      "width": 256,
+      "height": 256,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "ricochet",
+      "path": "public/rebuild/upgrades/ricochet.png",
+      "sha256": "AC7C78D02598557938D87A5E1C0D072BB7BCC202ED4DCC33BC4DF1A895C53A8F",
+      "width": 256,
+      "height": 256,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "line-shot",
+      "path": "public/rebuild/upgrades/line-shot.png",
+      "sha256": "914AF63090B00A93238666FE9159A310C6FBF5477AB4BE1F25D847301EBD483D",
+      "width": 256,
+      "height": 256,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "afterimage-mine",
+      "path": "public/rebuild/upgrades/afterimage-mine.png",
+      "sha256": "151A33C74E800E0D7E6BC54795C4CA492335DE008F236511F344FA3D758FB8D8",
+      "width": 256,
+      "height": 256,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "tactical-reload",
+      "path": "public/rebuild/upgrades/tactical-reload.png",
+      "sha256": "F22E917B8545F2DFD8E898DE0847D3E23FA73FDCB440AF3C8B00E62A1583325E",
+      "width": 256,
+      "height": 256,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "interceptor",
+      "path": "public/rebuild/upgrades/interceptor.png",
+      "sha256": "CD439251E1E0A1E6DBAB0B9A7585FB11BC2526193E82BCE03C88A47EBFC61844",
+      "width": 256,
+      "height": 256,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

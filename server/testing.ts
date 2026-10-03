@@ -42,6 +42,17 @@ export class TestRoom extends Room {
     }
     if (u.pathname === "/fixture") {
       this.stop();
+      if (u.searchParams.get("case") === "front-result") {
+        const run = this.saved.frontRun;
+        if (!run || !this.saved.world)
+          return new Response("改装版の戦闘が必要です", { status: 409 });
+        finish(run.world, true, "結果保存の検証用状態");
+        run.phase = "victory";
+        run.metrics.endedAt = run.world.time;
+        await this.persist();
+        this.broadcast();
+        return Response.json({ ok: true });
+      }
       if (
         [
           "terminal-victory",
@@ -242,7 +253,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|calyx|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|calyx|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result)$/.exec(
         u.pathname,
       );
     if (match && req.method === "POST") {

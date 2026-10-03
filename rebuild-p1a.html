@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#0c1820" />
+    <link
+      rel="icon"
+      href="%BASE_URL%icon-swarm-v3-64.png"
+      type="image/png"
+      sizes="64x64"
+    />
+    <title>SWARM FRONT · P1a 試作</title>
+    <meta
+      name="description"
+      content="手動射撃と連鎖爆発を試す、報酬・保存なしのソロ試作。"
+    />
+  </head>
+  <body class="rebuild-p1a" data-screen="battle">
+    <canvas id="world" aria-label="三人称3D戦場"></canvas>
+    <div id="hud" data-testid="rebuild-hud"></div>
+    <div id="damage" aria-hidden="true"></div>
+    <div id="scope-overlay" aria-hidden="true" hidden><span>2×</span></div>
+    <div id="controls" hidden>
+      <div id="move" aria-label="移動スティック"><span></span></div>
+      <div id="look" aria-label="視点操作"></div>
+      <button id="fire" aria-label="射撃">射撃</button>
+      <button id="dodge" aria-label="回避（Space）">回避</button>
+      <button id="jump" aria-label="ジャンプ（F）">ジャンプ</button>
+      <button id="reload" aria-label="装填（R）">装填</button>
+      <button id="swap" aria-label="武器切替（Q）">切替</button>
+      <button id="revive" hidden>蘇生</button>
+      <button id="scope" aria-label="スコープ（Z）" aria-pressed="false">
+        スコープ
+      </button>
+    </div>
+    <button
+      id="pause"
+      data-testid="rebuild-pause"
+      aria-label="一時停止（Esc）"
+      hidden
+    >
+      Ⅱ
+    </button>
+    <main id="ui" data-testid="rebuild-overlay"></main>
+    <div id="rebuild-notice" role="status" aria-live="polite" hidden></div>
+    <script type="module" src="/src/client/rebuild-app.ts"></script>
+  </body>
+</html>

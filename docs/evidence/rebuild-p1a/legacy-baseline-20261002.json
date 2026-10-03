@@ -1,0 +1,46 @@
+{
+  "baseline": "4520c57ede444d44b8699753645f36ce479b72bf",
+  "branch": "preserved/pre-rebuild-20261002",
+  "files": [
+    {
+      "path": "index.html",
+      "gitBlob": "5320d56f5d1e5fe0e1c5872bbbffabdf55a2e481"
+    },
+    {
+      "path": "src/bootstrap.ts",
+      "gitBlob": "594abc751ea6b64ae7a9aaeaf9b0efd9b7d416dd"
+    },
+    {
+      "path": "src/main.ts",
+      "gitBlob": "a6331311f8e0d0bc6a8e6d36702d0b0e7f85950f"
+    },
+    {
+      "path": "src/client/save.ts",
+      "gitBlob": "03d9ccb3d69514c3e50b4962a4f057223bb2f4c8"
+    },
+    {
+      "path": "src/client/save-writer.ts",
+      "gitBlob": "c4657e82d16b8726b7325b323e75369e75a7d774"
+    },
+    {
+      "path": "src/client/save-recovery.ts",
+      "gitBlob": "98cc09664251a09fa5bec3c4358a8b0d06987490"
+    },
+    {
+      "path": "src/client/progression-save.ts",
+      "gitBlob": "bb04c560f300fda861e4a61a0c7b666d1fe422b6"
+    },
+    {
+      "path": "src/client/cloud-save.ts",
+      "gitBlob": "53c16a4b07e3e1360950809fb5681ddefdc24e69"
+    },
+    {
+      "path": "src/shared/daily-rewards.ts",
+      "gitBlob": "7ca77dde84097cb446abf5bbdf45df6ac9d8001d"
+    },
+    {
+      "path": "src/shared/progression.ts",
+      "gitBlob": "9de5dae04351d940d46aad2ea906a20f73dd0a1b"
+    }
+  ]
+}

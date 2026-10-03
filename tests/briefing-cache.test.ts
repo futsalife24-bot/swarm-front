@@ -18,20 +18,39 @@ describe("presentation stays outside the game offline cache", () => {
             handlers.set(name, handler),
         },
         caches: {
-          open: async () => ({ put: async (key: URL) => writes.push(String(key)) }),
+          open: async () => ({
+            put: async (key: URL) => writes.push(String(key)),
+          }),
           match: async () => undefined,
         },
         fetch: async () => game.clone(),
       });
       const handle = handlers.get("fetch")!;
       for (const route of [
-        "briefing", "briefing/", "briefing/index.html", "briefing/slides.html",
-        "briefing/assets/update-concept.webp", "admin/", "api/health",
+        "briefing",
+        "briefing/",
+        "briefing/index.html",
+        "briefing/slides.html",
+        "briefing/assets/update-concept.webp",
+        "admin/",
+        "api/health",
+        "front.html",
+        "front",
+        "front/",
+        "rebuild-p1a.html",
+        "rebuild-p1a",
+        "rebuild-p1a/",
       ]) {
         let intercepted = false;
         handle({
-          request: { method: "GET", mode: "navigate", url: new URL(route, scope).href },
-          respondWith: () => { intercepted = true; },
+          request: {
+            method: "GET",
+            mode: "navigate",
+            url: new URL(route, scope).href,
+          },
+          respondWith: () => {
+            intercepted = true;
+          },
         });
         expect(intercepted, route).toBe(false);
       }
@@ -39,7 +58,9 @@ describe("presentation stays outside the game offline cache", () => {
       let response: Promise<Response> | undefined;
       handle({
         request: { method: "GET", mode: "navigate", url: scope },
-        respondWith: (result: Promise<Response>) => { response = result; },
+        respondWith: (result: Promise<Response>) => {
+          response = result;
+        },
       });
       expect(response).toBeDefined();
       expect(await (await response!).text()).toBe("game shell");

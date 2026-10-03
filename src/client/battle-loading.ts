@@ -5,6 +5,19 @@ import { VIEW_MAPS } from "./map-assets";
 import { loadStandardTrooper } from "./standard-trooper";
 import { loadProgressionWeapons } from "./progression-weapons";
 
+// Background tabs can suspend animation frames. Keep preparation and its deadline alive.
+const nextPreparationFrame = () =>
+  new Promise<void>((resolve) => {
+    let frame: number;
+    const finish = () => {
+      clearTimeout(timer);
+      cancelAnimationFrame(frame);
+      resolve();
+    };
+    const timer = setTimeout(finish, 80);
+    frame = requestAnimationFrame(finish);
+  });
+
 /** Covers downloads, actor attachment and the first GPU compile, with one deadline. */
 export async function prepareBattle(
   view: Renderer,
@@ -14,11 +27,12 @@ export async function prepareBattle(
   progress: (value: number) => void = () => {},
 ) {
   const began = performance.now();
+  let pending = "素材";
   const check = () => {
     if (cancelled()) throw new Error("準備を中止しました");
     if (performance.now() - began > 60000)
       throw new Error(
-        "読み込みに時間がかかっています。通信を確認して再試行してください。",
+        `読み込みに時間がかかっています（${pending}）。通信を確認して再試行してください。`,
       );
   };
   const wait = async (promise: Promise<unknown>) => {
@@ -41,9 +55,8 @@ export async function prepareBattle(
     if (error) throw error;
   };
   // Paint the loading screen before synchronous geometry/material work.
-  await new Promise<void>((resolve) =>
-    requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
-  );
+  await nextPreparationFrame();
+  await nextPreparationFrame();
   check();
   progress(5);
   await wait(
@@ -71,11 +84,20 @@ export async function prepareBattle(
     view.mapAssets.status[mapIndex] = { state: "idle", error: "" };
   while (true) {
     check();
-    view.render(world, id, 0, 0, 0, undefined, false);
+    // Actor preparation must continue in background tabs, without drawing every frame.
+    view.render(world, id, 0, 0, 0, undefined, false, false, false, false);
     view.mapAssets.select(mapIndex, true);
     const map = view.mapAssets.status[mapIndex],
       distant = view.mapAssets.distantStatus[mapIndex];
     const models = world.players.map((p) => view.players.get(p.id));
+    pending =
+      map.state !== "ready"
+        ? "マップ"
+        : !world.defense &&
+            mapFor(world).biome !== "cave" &&
+            distant.state !== "ready"
+          ? "遠景"
+          : `兵士 ${models.filter((m) => m?.userData.trooper).length}/${models.length}`;
     if (
       map.state === "error" ||
       distant.state === "error" ||
@@ -92,9 +114,10 @@ export async function prepareBattle(
       models.every((m) => m?.userData.trooper)
     )
       break;
-    await new Promise<void>((r) => requestAnimationFrame(() => r()));
+    await nextPreparationFrame();
   }
   progress(85);
+  pending = "描画の準備";
   await wait(view.renderer.compileAsync(view.scene, view.camera));
   check();
   view.renderer.render(view.scene, view.camera);

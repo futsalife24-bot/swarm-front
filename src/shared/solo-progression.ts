@@ -43,7 +43,7 @@ export interface SoloProgression {
   acquired: number;
 }
 export const maxHp = (w: World) =>
-  w.solo ? 160 * (1 + 0.1 * w.solo.levels.hp) : 160;
+  w.rebuild?.maxHp ?? (w.solo ? 160 * (1 + 0.1 * w.solo.levels.hp) : 160);
 export const pickupRadius = (w: World) =>
   3 *
   (w.solo?.accessory?.kind === "pickup"

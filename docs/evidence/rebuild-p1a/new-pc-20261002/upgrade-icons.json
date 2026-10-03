@@ -1,0 +1,80 @@
+[
+  {
+    "id": "compressed-charge",
+    "bytes": 126047,
+    "sha256": "27A2954D81567DCE0B6F085418C3C88A99EFAE800265C9688A9C4E6C349426A1",
+    "cornerAlpha": 0,
+    "source": "exec-9fe22794-c109-41bc-8017-13013529a264.png",
+    "cornerAlphas": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "armor",
+    "bytes": 132454,
+    "sha256": "87D0D697541C7A7E62AD7BC10D51970A82792276C89C6C093C803430061143DA",
+    "cornerAlpha": 0,
+    "source": "exec-8fe7a198-57cb-488a-8ca9-efc0104f8cb1.png",
+    "cornerAlphas": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "reload",
+    "bytes": 72946,
+    "sha256": "4BE46ECF200C76557B9A16A6178BAE190760F8055E2174D5443197DE113F050A",
+    "cornerAlpha": 0,
+    "source": "exec-b6d5eb74-6496-45ef-84bf-840d2f51abcd.png",
+    "cornerAlphas": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "magazine",
+    "bytes": 58446,
+    "sha256": "6CDD1F2CBCBB2FADC516CCB0B742F86CC70FC610E7708887C939662427C2F512",
+    "cornerAlpha": 0,
+    "source": "exec-004987c7-e28b-4ec6-98ac-d6a99b7e4f8f.png",
+    "cornerAlphas": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "fuse",
+    "bytes": 77290,
+    "sha256": "EEE2A79BF5C362EA70605BBB30FB3F3A36549A05AC08E5380119162E0475A107",
+    "cornerAlpha": 0,
+    "source": "exec-72403a7c-f528-4e38-87fb-2b845d1a39ce.png",
+    "cornerAlphas": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "blast-core",
+    "bytes": 107467,
+    "sha256": "3C097E98D87AEF6A739BE66EDF9295CC286185A2AE22B8D582DADC69170B3C36",
+    "cornerAlpha": 0,
+    "source": "exec-95795821-7d6f-4db0-9350-bcc4d6f2fc11.png",
+    "cornerAlphas": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+]
