@@ -47,7 +47,6 @@ import {
   formatRebuildTime,
   pauseRebuildUi,
   resumeRebuildUi,
-  tickRebuildUi,
 } from "./rebuild-ui-state";
 const $ = (id: string) => document.getElementById(id)!;
 const esc = (s: string) =>
@@ -84,6 +83,7 @@ let ready = false,
   accumulator = 0,
   previous = performance.now(),
   actionLockUntil = 0,
+  choiceFeedbackUntil = 0,
   noticeUntil = 0,
   loadSerial = 0,
   requestSerial = 0;
@@ -143,6 +143,7 @@ function leave() {
   world = null;
   info = null;
   ready = false;
+  choiceFeedbackUntil = 0;
   clearInput();
   Object.assign(gate, createRebuildUiGate());
   $("hud").replaceChildren();
@@ -612,7 +613,14 @@ function request(offer: NonNullable<FrontRunView["offer"]>) {
   };
 }
 function choose(cardId: FrontUpgradeId) {
-  if (!info?.offer || performance.now() < actionLockUntil) return;
+  if (
+    !info?.offer ||
+    choiceFeedbackUntil ||
+    performance.now() < actionLockUntil
+  )
+    return;
+  if (!localRun && (!network || network.closed || network.ws?.readyState !== 1))
+    return;
   const offer = info.offer,
     req = { ...request(offer), cardId };
   clearInput();
@@ -628,11 +636,31 @@ function choose(cardId: FrontUpgradeId) {
   } else network?.send({ type: "frontChoose", request: req });
   sound.unlock();
   sound.play("menu");
-  actionLockUntil = performance.now() + 300;
+  choiceFeedbackUntil =
+    performance.now() + FRONT_RUN_CONFIG.resumeSeconds * 1000;
+  actionLockUntil = choiceFeedbackUntil;
+  const selection = $("ui").querySelector<HTMLElement>(".rebuild-selection");
+  if (selection) {
+    selection.style.setProperty(
+      "--choice-feedback-ms",
+      `${FRONT_RUN_CONFIG.resumeSeconds * 1000}ms`,
+    );
+    selection.classList.add("is-choosing");
+    selection
+      .querySelectorAll<HTMLButtonElement>("button")
+      .forEach((button) => {
+        button.disabled = true;
+        if (button.dataset.card)
+          button.classList.add(
+            button.dataset.card === cardId ? "is-picked" : "is-dismissed",
+          );
+      });
+  }
   paintOverlay();
 }
 function pause() {
   if (screen !== "battle" || !ready) return;
+  choiceFeedbackUntil = 0;
   clearInput();
   pauseRebuildUi(
     gate,
@@ -645,12 +673,19 @@ function pause() {
 function paintOverlay() {
   if (screen !== "battle" || !ready || !info || !world) return;
   if (settings.opened) return;
+  if (
+    choiceFeedbackUntil &&
+    !gate.paused &&
+    !connectionFatal &&
+    info.phase !== "victory" &&
+    info.phase !== "defeat"
+  )
+    return;
   const offer = info.offer,
     key = [
       connectionFatal,
       world.run,
       gate.paused,
-      gate.resumeRemaining > 0,
       info.phase,
       offer?.id,
       info.picks,
@@ -677,12 +712,12 @@ function paintOverlay() {
       });
     $("front-resume").onclick = () => {
       clearInput();
-      resumeRebuildUi(gate, info?.phase === "combat" || info?.phase === "boss");
+      resumeRebuildUi(gate, false);
       paintOverlay();
     };
     $("front-leave").onclick = leave;
   } else if (info.phase === "selection" && offer) {
-    ui.innerHTML = `<section class="pause-card rebuild-panel rebuild-selection"><header><h1>${offer.kind === "initial" ? "最初の強化を選択" : "補給 · 強化を選択"}</h1><div class="rebuild-selection-actions"><span>${info.picks}/7</span>${info.selectionDeadline !== null ? '<span id="front-countdown"></span>' : ""}${offer.kind === "additional" ? `<button id="rebuild-reroll" ${info.canReroll ? "" : "disabled"}>再抽選 残り${info.rerollsRemaining}</button>` : ""}</div></header><div class="rebuild-cards">${offer.cardIds
+    ui.innerHTML = `<section class="pause-card rebuild-panel rebuild-selection"><header><h1>${offer.kind === "initial" ? "最初の強化を選択" : "補給 · 強化を選択"}</h1><div class="rebuild-selection-actions">${info.selectionDeadline !== null ? '<span id="front-countdown"></span>' : ""}${offer.kind === "additional" ? `<button id="rebuild-reroll" ${info.canReroll ? "" : "disabled"}>再抽選 残り${info.rerollsRemaining}</button>` : ""}</div></header><div class="rebuild-cards">${offer.cardIds
       .map((card) => {
         const d = FRONT_UPGRADE_CATALOG[card];
         return `<button class="rebuild-card" data-card="${card}" aria-label="${d.name}：${esc(d.description)}"><img class="rebuild-card-icon" src="${import.meta.env.BASE_URL}rebuild/upgrades/${card}.png" alt="" width="96" height="96"><span class="rebuild-card-kind">${familyNames[d.family]}</span><strong>${d.name}</strong><span class="rebuild-card-description">${upgradeCopy[card]}</span></button>`;
@@ -710,10 +745,7 @@ function paintOverlay() {
   } else if (info.phase === "victory" || info.phase === "defeat") {
     ui.innerHTML = `<section class="pause-card rebuild-panel"><header><h1>${info.phase === "victory" ? "作戦成功" : "任務終了"}</h1><button id="front-leave" class="primary">出撃メニューへ</button></header><p>${esc(world.reason)}</p><div class="rebuild-result"><b>${formatRebuildTime(world.time)}</b><b>取得 ${info.picks}/7</b><b>最大 ${info.maxChain}連鎖</b></div><p>${info.evolved.map((f) => FRONT_EVOLUTIONS[f].name).join("・") || "未進化"}</p><p>${esc(rewardText)}</p></section>`;
     $("front-leave").onclick = leave;
-  } else if (now() < info.resumeUntil || gate.resumeRemaining > 0)
-    ui.innerHTML =
-      '<div class="rebuild-resume-cue" role="status">まもなく再開</div>';
-  else ui.replaceChildren();
+  } else ui.replaceChildren();
 }
 const marks = new T.InstancedMesh(
   new T.TorusGeometry(0.62, 0.1, 4, 12),
@@ -812,8 +844,11 @@ function frame(time: number) {
   const wallDt = Math.max(0, (time - previous) / 1000),
     dt = Math.min(0.1, wallDt);
   previous = time;
-  if (!document.hidden && !gate.paused && tickRebuildUi(gate, wallDt))
+  if (choiceFeedbackUntil && time >= choiceFeedbackUntil) {
+    choiceFeedbackUntil = 0;
+    overlayKey = "";
     clearInput();
+  }
   let active =
     screen === "battle" &&
     ready &&
@@ -822,11 +857,17 @@ function frame(time: number) {
     !!info &&
     (info.phase === "combat" || info.phase === "boss") &&
     now() >= info.resumeUntil &&
-    gate.resumeRemaining <= 0 &&
+    !choiceFeedbackUntil &&
     (!network || (!network.closed && network.ws?.readyState === 1));
   controls.enabled = active;
   controls.setScopeAvailable(active);
-  if (localRun && ready && !gate.paused && !document.hidden) {
+  if (
+    localRun &&
+    ready &&
+    !gate.paused &&
+    !document.hidden &&
+    !choiceFeedbackUntil
+  ) {
     if (active) {
       accumulator += dt;
       while (accumulator >= 0.05 && active) {

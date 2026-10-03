@@ -77,9 +77,9 @@ describe("改装版の権威進行", () => {
       expect(state.offer).toBeNull();
       expect(state.rerollsRemaining).toBe(2);
     }
-    stepFrontRun(run, {}, 0.05, 115.9);
+    stepFrontRun(run, {}, 0.05, 115.19);
     expect(run.world.time).toBe(0);
-    stepFrontRun(run, {}, 0.05, 116);
+    stepFrontRun(run, {}, 0.05, 115.2);
     expect(run.world.time).toBe(0.05);
   });
   it("ソロは無制限、最終補給の全回収と選択中に戦闘を進めない", () => {
@@ -97,9 +97,9 @@ describe("改装版の権威進行", () => {
     expect(run.world.front!.orbs).toEqual([]);
     for (let i = 0; i < 6; i++) choose(run, "p0", undefined, 10002 + i);
     expect(run.phase).toBe("boss");
-    stepFrontRun(run, {}, 0.05, 10007.5);
+    stepFrontRun(run, {}, 0.05, 10007.19);
     expect(run.world.time).toBe(345);
-    stepFrontRun(run, {}, 0.05, 10008);
+    stepFrontRun(run, {}, 0.05, 10007.2);
     expect(run.bossId).toBeNull();
     expect(
       getFrontRunView(run, "p0").spawnWarnings.some((p) => p.radius === 6),
