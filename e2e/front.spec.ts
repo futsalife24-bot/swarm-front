@@ -6,7 +6,8 @@ import {
   FRONT_PROGRESS_KEY,
 } from "../src/client/front-progress";
 import { localCreationKey } from "../tests/credentials";
-const evidence = "docs/evidence/front-feedback-20261003";
+const evidence =
+  process.env.FRONT_E2E_EVIDENCE ?? "docs/evidence/front-feedback-20261003";
 const prior = JSON.stringify(fresh()),
   progress = {
     ...emptyFrontProgress(),
@@ -190,7 +191,7 @@ test("実ブラウザ2人：準備・共同選択・独立報酬・再読込", a
     await expect(p.locator("#controls")).toBeVisible({ timeout: 10000 });
   await page.locator("#pause").click();
   await page.locator("#front-settings").click();
-  const timer = page.locator(".rebuild-hud-rail > div:nth-child(2) > b");
+  const timer = page.locator(".mission-line > b");
   const beforeSettings = await timer.innerText();
   await expect.poll(() => timer.innerText()).not.toBe(beforeSettings);
   await expect(

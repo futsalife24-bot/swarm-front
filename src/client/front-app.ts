@@ -13,7 +13,8 @@ import { Sound } from "./audio";
 import { prepareBattle } from "./battle-loading";
 import { placeControls, updateScopeButtons } from "./layout";
 import { FrontSettings } from "./front-settings";
-import { updateCooldowns } from "./hud";
+import { hudMarkup, updateCooldowns } from "./hud";
+import { Minimap } from "./minimap";
 import { homeMarkup } from "./home-screen";
 import { roomBrowserMarkup, bindRoomBrowser } from "./room-browser";
 import { FrontNetwork, loadFrontNetworkSession } from "./front-network";
@@ -37,7 +38,7 @@ import {
   FRONT_EVOLUTIONS,
   type FrontUpgradeId,
 } from "../shared/front-upgrades";
-import { stats, WEAPONS } from "../shared/defs";
+import { WEAPONS } from "../shared/defs";
 import { STAGES } from "../shared/stages";
 import { retireEvents, eye, type World } from "../shared/game";
 import {
@@ -69,6 +70,7 @@ const view = new Renderer(
   FRONT_RUN_CONFIG.enemyCap + 1,
 );
 const settings = new FrontSettings(controls, sound, view);
+const minimap = new Minimap();
 let localRun: FrontRun | null = null,
   world: World | null = null,
   info: FrontRunView | null = null,
@@ -746,12 +748,17 @@ function paintBattle() {
   if (!world || !info) return;
   const p = world.players.find((p) => p.id === id);
   if (!p) return;
-  const boss = world.enemies.find((e) => e.id === info!.bossId);
-  const hud = `<div class="rebuild-hud-rail"><div><b>体力 ${Math.max(0, Math.ceil(p.hp))}/${Math.ceil(info.maxHp)}</b><span>${WEAPONS[p.weapons[p.slot].kind].name} · ${p.ammo[p.slot]}/${stats(p.weapons[p.slot]).mag}${p.reload > 0 ? " 装填中" : ""}</span></div><div><b>${formatRebuildTime(world.time)}</b><span>${world.time >= 480 ? `残り ${Math.max(0, Math.ceil(540 - world.time))}秒` : modeNames[info.mode]}${world.defense ? ` · 拠点 ${Math.max(0, Math.ceil(world.defense.armory.hp))}` : ""}</span></div><div><b>経験値 ${info.xp}${info.nextXpThreshold === null ? "" : `/${info.nextXpThreshold}`}</b><span>${info.evolved.map((f) => FRONT_EVOLUTIONS[f].name).join("・") || `強化 ${info.picks}/7`}</span></div></div><div class="crosshair">+</div>${boss ? `<div class="rebuild-boss">大型 ${Math.max(0, Math.ceil(boss.hp))}<progress max="${boss.maxHp}" value="${boss.hp}"></progress></div>` : ""}`;
+  const hud = hudMarkup(world, id, status, info.maxHp, undefined, {
+    mission: `${modeNames[info.mode]} · ${formatRebuildTime(world.time)}`,
+    detail: `経験値 ${info.xp}${info.nextXpThreshold === null ? "" : `/${info.nextXpThreshold}`}${world.defense ? ` · 拠点 ${Math.max(0, Math.ceil(world.defense.armory.hp))}` : ""}${world.time >= 480 ? ` · 残り ${Math.max(0, Math.ceil(540 - world.time))}秒` : ""}`,
+    weapon: `強化 ${info.picks}/7${info.evolved.length ? ` · ${info.evolved.map((f) => FRONT_EVOLUTIONS[f].name).join("・")}` : ""}`,
+    help: `WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · F ジャンプ${world.players.length > 1 ? " · E 蘇生" : ""}`,
+  });
   if (lastHud !== hud) {
     $("hud").innerHTML = hud;
     lastHud = hud;
   }
+  minimap.draw(world, id, controls.input.yaw, performance.now());
   const state = world.front!;
   let count = 0;
   for (const e of world.enemies)
@@ -838,6 +845,11 @@ function frame(time: number) {
     setView();
   } else if (network && active) network.input(controls.read());
   $("controls").hidden = !active;
+  $("minimap").hidden =
+    screen !== "battle" ||
+    !ready ||
+    !info ||
+    (info.phase !== "combat" && info.phase !== "boss");
   $("scope-overlay").hidden = !controls.scoped;
   updateScopeButtons(settings.layout, {
     visible: active,

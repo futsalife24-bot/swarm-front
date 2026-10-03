@@ -1,0 +1,18 @@
+[WebServer] (node:21752) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:37392) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 16:20:14 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision
+[WebServer] (209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
+[WebServer] (210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
+[WebServer] (209,37-61): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
+[WebServer] (210,82-106): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
+  ok 1 e2e\front-hud.spec.ts:42:3 › 従来の出撃HUDを継承：横844 (29.3s)
+[WebServer] 16:20:44 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (196,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)
+[WebServer] 16:20:45 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (179,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)
+  ok 2 e2e\front-hud.spec.ts:42:3 › 従来の出撃HUDを継承：横640 (14.6s)
+
+  2 passed (58.5s)

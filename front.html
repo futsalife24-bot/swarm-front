@@ -22,6 +22,7 @@
   <body class="rebuild-p1a front-game" data-screen="battle">
     <canvas id="world" aria-label="三人称3D戦場"></canvas>
     <div id="hud" data-testid="rebuild-hud"></div>
+    <canvas id="minimap" aria-label="戦場のミニマップ" hidden></canvas>
     <div id="damage" aria-hidden="true"></div>
     <div id="scope-overlay" aria-hidden="true" hidden><span>2×</span></div>
     <div id="controls" hidden>
@@ -43,7 +44,7 @@
       aria-label="一時停止（Esc）"
       hidden
     >
-      Ⅱ
+      | |
     </button>
     <main id="ui" data-testid="rebuild-overlay"></main>
     <div id="rebuild-notice" role="status" aria-live="polite" hidden></div>
