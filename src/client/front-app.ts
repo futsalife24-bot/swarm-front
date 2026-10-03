@@ -5,7 +5,11 @@ import "../menu-ui.css";
 import "../menu-theme.css";
 import "./coop-lobby.css";
 import "./rebuild.css";
+import "./playtest.css";
+import "./gear-weapon-list.css";
 import "./front.css";
+import { gearSupplyRows } from "./gear-weapon-list";
+import { battleLoadingMarkup } from "./loading-screen";
 import * as T from "three";
 import { Renderer } from "./render";
 import { Controls } from "./input";
@@ -159,6 +163,7 @@ function notice(text: string, seconds = 3) {
   noticeUntil = performance.now() + seconds * 1000;
 }
 function home() {
+  document.body.classList.remove("playtest");
   screen = "home";
   document.body.dataset.screen = "title";
   const progress = readFrontProgress(progressStorage);
@@ -214,12 +219,16 @@ function home() {
   $("ui").querySelector(".home-footer")!.remove();
   $("ui").querySelector("#export")?.remove();
 }
+let selectedFrontSlot = 0;
+const frontInitialSelection: Partial<Record<string, string>> = {};
 function prep(coop = false) {
+  // 出撃準備だけ旧版の共通メニュー様式を使用する。
+  document.body.classList.add("playtest");
   screen = "prep";
   document.body.dataset.screen = "prep";
   const progress = readFrontProgress(progressStorage).progress;
   $("ui").innerHTML =
-    `<section class="panel front-prep"><header><h1>出撃準備</h1><button id="front-back">戻る</button></header><div class="front-prep-controls"><label>作戦<select id="front-mode">${Object.entries(
+    `<section class="panel gear menu-screen pt-screen front-prep"><header class="menu-header"><h1>出撃準備</h1><nav><button id="front-back">戻る</button><button id="front-launch" class="primary">${coop ? "部屋を作る・参加" : "出撃"}</button></nav></header><div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label">01 出撃先</div><select id="front-mode" aria-label="作戦">${Object.entries(
       modeNames,
     )
       .map(
@@ -228,16 +237,7 @@ function prep(coop = false) {
       )
       .join(
         "",
-      )}</select></label><button id="front-launch" class="primary">${coop ? "部屋を作る・参加" : "出撃"}</button></div><div class="front-weapon-table" role="group" aria-label="支給武器"><div class="front-weapon-head"><span>武器</span><span>威力</span><span>間隔</span><span>弾倉</span><span>装填</span><span>射程</span><span>装備</span></div>${(
-      ["rifle", "shotgun", "smg"] as FrontWeaponKind[]
-    )
-      .map((kind) => {
-        const d = WEAPONS[kind];
-        return `<div class="front-weapon-row"><b>${d.name}</b><span>${d.damage}${d.pellets > 1 ? `×${d.pellets}` : ""}</span><span>${d.interval}秒</span><span>${d.mag}</span><span>${d.reload}秒</span><span>${d.range}</span><button data-weapon="${kind}" aria-pressed="${kinds.includes(kind)}">${kinds.includes(kind) ? `${kinds.indexOf(kind) + 1}枠目` : "装備"}</button></div>`;
-      })
-      .join(
-        "",
-      )}</div><div class="front-initial" role="group" aria-label="最初の候補">${Object.entries(
+      )}</select></section><section class="equipment-select"><div class="section-label">02 入替先</div><div class="loadout-slots">${kinds.map((kind, i) => `<button data-front-slot="${i}" aria-pressed="${selectedFrontSlot === i}"><span class="slot-number">0${i + 1}</span><span class="slot-info"><small>装備${i + 1}${selectedFrontSlot === i ? " · 選択中" : ""}</small><b>${WEAPONS[kind].name}</b></span></button>`).join("")}</div></section></aside><section class="gear-arsenal">${gearSupplyRows(kinds)}<div class="front-initial" role="group" aria-label="最初の候補"><div class="section-label">最初の強化候補</div>${Object.entries(
       FRONT_FAMILY_CARDS,
     )
       .map(
@@ -246,11 +246,26 @@ function prep(coop = false) {
             .filter((card) => progress.unlocks.includes(card))
             .map(
               (card) =>
-                `<option value="${card}">${FRONT_UPGRADE_CATALOG[card].name}</option>`,
+                `<option value="${card}" ${frontInitialSelection[family] === card ? "selected" : ""}>${FRONT_UPGRADE_CATALOG[card].name}</option>`,
             )
             .join("")}</select></label>`,
       )
-      .join("")}</div></section>`;
+      .join("")}</div></section></div></section>`;
+  $("ui")
+    .querySelectorAll<HTMLSelectElement>("[data-initial]")
+    .forEach((select) => {
+      select.onchange = () => {
+        frontInitialSelection[select.dataset.initial!] = select.value;
+      };
+    });
+  $("ui")
+    .querySelectorAll<HTMLButtonElement>("[data-front-slot]")
+    .forEach((button) => {
+      button.onclick = () => {
+        selectedFrontSlot = Number(button.dataset.frontSlot);
+        prep(coop);
+      };
+    });
   $("front-back").onclick = home;
   $("front-mode").onchange = () => {
     mode = ($("front-mode") as HTMLSelectElement).value as FrontMode;
@@ -262,7 +277,9 @@ function prep(coop = false) {
       (button) =>
         (button.onclick = () => {
           const kind = button.dataset.weapon as FrontWeaponKind;
-          if (!kinds.includes(kind)) kinds = [kinds[1], kind];
+          const previousSlot = kinds.indexOf(kind);
+          if (previousSlot >= 0) kinds[previousSlot] = kinds[selectedFrontSlot];
+          kinds[selectedFrontSlot] = kind;
           prep(coop);
         }),
     );
@@ -291,11 +308,11 @@ async function loadBattle() {
   if (!world) return;
   const current = ++loadSerial;
   screen = "loading";
+  document.body.classList.remove("playtest");
   ready = false;
   clearInput();
   document.body.dataset.screen = "battle";
-  $("ui").innerHTML =
-    '<section class="pause-card rebuild-panel"><h1>戦場を準備中</h1><output id="front-loading">0%</output></section>';
+  $("ui").innerHTML = battleLoadingMarkup();
   try {
     if (
       network?.assetReady &&
@@ -310,8 +327,12 @@ async function loadBattle() {
         id,
         () => current !== loadSerial,
         (n) => {
-          const el = document.getElementById("front-loading");
+          const el = document.getElementById("pt-load-percent");
+          const bar = document.getElementById(
+            "pt-progress",
+          ) as HTMLProgressElement | null;
           if (el) el.textContent = `${n}%`;
+          if (bar) bar.value = n;
         },
       );
     if (current !== loadSerial) return;
@@ -390,6 +411,7 @@ async function mountHumanCheck() {
   }
 }
 function rooms() {
+  document.body.classList.remove("playtest");
   screen = "rooms";
   $("ui").innerHTML = roomBrowserMarkup(endpoint(), status).replace(
     "CO-OP / SQUAD",

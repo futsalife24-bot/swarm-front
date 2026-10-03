@@ -63,7 +63,12 @@ for (const width of [844, 640])
       .fill("比較隊員");
     await page.getByRole("button", { name: "この名前で登録" }).click();
     await page.getByRole("button", { name: "確定", exact: true }).click();
+    await page.screenshot({ path: `${evidence}/legacy-prep-${width}.png` });
     await page.locator("#pt-start").click();
+    await expect(
+      page.getByRole("progressbar", { name: "準備の進捗" }),
+    ).toBeVisible();
+    await page.screenshot({ path: `${evidence}/legacy-loading-${width}.png` });
     await page.locator("#pt-enter").click({ timeout: 65000 });
     await page.locator("#pt-tutorial-skip").click();
     await expect(page.locator("#pause")).toBeVisible({ timeout: 65000 });

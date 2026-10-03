@@ -22,6 +22,29 @@ const columns = ["特殊効果", "威力", "装弾", "装填", "射程", "連射
 const keys = ["power", "mag", "reload", "range", "rate"] as const;
 const tiers = ["#92aaa6", "#83d8b0", "#7cbdf4", "#d5a4f4", "#ffd472"];
 
+/** 支給品も既存の行・性能列・装備印を使う。所持品やロックには接続しない。 */
+export function gearSupplyRows(
+  equipped: readonly ("rifle" | "shotgun" | "smg")[],
+) {
+  return `<div class="pt-weapon-list gear-weapon-list front-weapon-table" aria-label="支給武器"><div class="pt-weapon-row pt-weapon-head"><div class="pt-identity"><span class="gear-rarity">支給</span><span>武器</span></div><div class="pt-stat-scroll"><div class="pt-stat-inner">${columns.map((c) => `<span>${c}</span>`).join("")}</div></div><span class="gear-lock-head">装備</span></div>${(
+    ["rifle", "shotgun", "smg"] as const
+  )
+    .map((kind) => {
+      const d = WEAPONS[kind],
+        slot = equipped.indexOf(kind);
+      const values = [
+        "なし",
+        `${d.damage}${d.pellets > 1 ? "×" + d.pellets : ""}`,
+        String(d.mag),
+        `${d.reload.toFixed(2)}秒`,
+        `${d.range}m`,
+        (1 / d.interval).toFixed(1),
+      ];
+      return `<div class="pt-weapon-row front-weapon-row ${slot >= 0 ? "is-equipped" : ""}"><div class="pt-identity"><button data-weapon="${kind}" aria-label="${d.name}を装備"><small class="gear-rarity">支給</small><b>${d.name}</b>${slot >= 0 ? `<span class="gear-equipped" aria-label="装備${slot + 1}">E${slot + 1}</span>` : ""}</button></div><div class="pt-stat-scroll"><div class="pt-stat-inner">${values.map((v) => `<span>${v}</span>`).join("")}</div></div><button class="gear-pinned-label" data-weapon="${kind}" aria-label="${d.name}を装備" aria-pressed="${slot >= 0}">${slot >= 0 ? `${slot + 1}枠目` : "装備"}</button></div>`;
+    })
+    .join("")}</div>`;
+}
+
 export const lockMarkup = (locked: boolean, detail = false) =>
   `<img class="gear-lock-icon" src="${import.meta.env.BASE_URL}assets/ui/weapon-${locked ? "locked" : "unlocked"}.png" alt="" aria-hidden="true">${detail ? `<span>${locked ? "ロック解除" : "ロックする"}</span>` : ""}`;
 

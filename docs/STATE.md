@@ -1,3 +1,7 @@
+# 現在地: 出撃準備・読み込みを旧版へ統一、自己検証済み（2026-10-03）
+
+改装版の準備画面に従来の枠・左装備枠・右武器一覧を継承し、読み込みを共通進捗バーへ統一。型、実UI4件、旧版武器一覧8表示/操作、タッチHUD比較2件成功。[変更と証拠](FRONT-PREP-LEGACY.md)。branch `codex/front-prep-legacy-20261003`、base `eb81bfbe61082acbdb34e8a486ecd6c29247a1cb`。固定SHA監査・通常統合・既存Worker公開へ続行。
+
 # 現在地: 強化見出し・戦闘中/一時停止中の取得状況を公開（2026-10-03）
 
 [改装版](https://swarm-front.melosalife-24.workers.dev/front)へ「強化を選べ」の短い見出し演出、小アイコン、名前/段階/効果/進化の詳細を公開。従来HUDと即復帰を維持。PR123通常merge、公開ソース `226074ac46c0bab6e54da3443b6a721d10ecc0f7`、Worker Version `3b06c5d7-3e6b-4d14-8a46-40befb074326`。
