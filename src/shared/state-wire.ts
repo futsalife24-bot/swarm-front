@@ -57,7 +57,16 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
       w.run,
       w.players.map((p) => [p.id, p.weapons]),
     ]),
-    packet(id: string, equipmentCached = false, inputAck = -1) {
+    packet(
+      id: string,
+      equipmentCached = false,
+      inputAck = -1,
+      recipientMetadata?: object,
+    ) {
+      // 受信者別の戦況・時刻も含め、実際に送る最終データで容量を判定する。
+      const recipientTail = recipientMetadata
+        ? encodeState({ ...metadata, ...recipientMetadata }).slice(1)
+        : tail;
       const personal = encodeState({
         ...(front
           ? {
@@ -90,7 +99,7 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
           }).slice(0, -1);
           cache.set(count, encoded);
         }
-        return `{"type":"state","equipmentCached":${equipmentCached},"inputAck":${inputAck},"world":${encoded},${personal},${tail}`;
+        return `{"type":"state","equipmentCached":${equipmentCached},"inputAck":${inputAck},"world":${encoded},${personal},${recipientTail}`;
       };
       const packet = packetWith(common.events.length);
       if (!front || new TextEncoder().encode(packet).length <= 65536)
