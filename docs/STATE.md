@@ -1,3 +1,7 @@
+# 現在地: 装甲補強の説明条件を修正し同Chatで再監査中（2026-10-03）
+
+[PR123](https://github.com/futsalife24-bot/swarm-front/pull/123)、修正対象 `c2af40c2522aeda6ed62e35187beb78de2a79bf4`。初回P2は「ダウン中は装甲補強で回復しないのに無条件の説明」で、詳細文に生存条件を明記しHP=0表示単体を追加、4件成功。同じ[通常Chat](https://chatgpt.com/c/6ac0cafa-6284-83ee-a646-a20f333c3781)へ差分ZIPを直接添付して送信/開始確認。9ファイル全blob一致。[資料](evidence/front-upgrade-status-20261003/audit-fix-package.json)。以降は記録のみ。合格後に通常統合・既存Worker公開/確認へ進む。
+
 # 現在地: 強化表示の独立監査を送信済み（2026-10-03）
 
 [PR123](https://github.com/futsalife24-bot/swarm-front/pull/123)、固定対象 `2c175a6d04f3c61bb545fea393b7adaf3438dd96`、base `84ad310bb38559026521b33411ecdf014c9207fb`。[新規通常Chat](https://chatgpt.com/c/6ac0cafa-6284-83ee-a646-a20f333c3781)へZIP直接添付・送信と応答開始を確認。714ファイル全blob一致、18,180,727 bytes。[パッケージ記録](evidence/front-upgrade-status-20261003/audit-package.json)。以降は記録のみ。判定後に必要修正・通常統合・既存Worker公開へ続行。
