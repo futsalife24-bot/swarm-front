@@ -4,6 +4,8 @@
 
 branch `codex/front-combat-feedback-20261003`、base `3e808ead8a93ce5d5242cf571de5cb0f19033f42`。GitHub: https://github.com/futsalife24-bot/swarm-front 。作業場所: `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a`。監査対象の完全SHAは監査資料のmanifestに固定する。公開と独立合格はまだ未完了。
 
+実装SHA `e4c09c6da8ac6b71cc21d400f73fe3d2b0a846e2`、[PR117](https://github.com/futsalife24-bot/swarm-front/pull/117)。この実装SHAから配信ビルド・既存Worker dry-run成功。既存の大きい配信chunk警告は継続する。ログはGit管理対象の `.txt` として収録する。監査資料の対象へ記録のみ追記し、実装変更はない。
+
 ## 変更
 
 - `front-combat.ts`: 経験値の高さを地面へ合わせ、撃破地点が建物・壁の上なら最寄りの歩ける候補へ配置する。通行不可・場外を既存衝突判定で除外。候補がなければ経験値へ直接加算し、消失を防ぐ。回収半径と部隊共有は維持。
