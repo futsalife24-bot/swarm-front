@@ -666,9 +666,11 @@ export function spawn(
 ) {
   if (
     w.enemies.length >=
-    (w.solo
-      ? settings(w.solo.stage, w.solo.difficulty).enemyCap
-      : LIMITS.enemies)
+    (w.front
+      ? (w.front.enemyCap ?? 24) + 1
+      : w.solo
+        ? settings(w.solo.stage, w.solo.difficulty).enemyCap
+        : LIMITS.enemies)
   )
     return;
   if (kind === "boss" && form === "harrow") kind = "harrow";

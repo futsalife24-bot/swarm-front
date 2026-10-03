@@ -1,3 +1,50 @@
+.front-game .front-settings {
+  width: min(820px, 100%);
+  max-height: 100%;
+  overflow: hidden;
+}
+.front-game .front-settings-grid {
+  flex-shrink: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 18px;
+  overflow: auto;
+  min-height: 0;
+}
+.front-game .front-settings-grid label {
+  display: grid;
+  grid-template-columns: minmax(110px, 1fr) minmax(70px, 1fr) 38px;
+  gap: 6px;
+  align-items: center;
+  margin: 0;
+  font-size: 12px;
+}
+.front-settings-grid input {
+  width: 100%;
+  min-width: 0;
+}
+.front-settings-grid select,
+.front-settings-grid button[role="switch"] {
+  grid-column: 2 / 4;
+  min-width: 0;
+}
+.front-settings-grid output {
+  font-size: 12px;
+  text-align: right;
+}
+.front-game .front-settings p {
+  font-size: 12px;
+  margin: 8px 0 0;
+}
+@media (max-width: 700px) {
+  .front-settings-grid {
+    gap: 6px 10px;
+  }
+  .front-game .front-settings-grid label {
+    grid-template-columns: 1fr 1fr 30px;
+    font-size: 11px;
+  }
+}
 .front-game[data-screen="title"] #ui {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);

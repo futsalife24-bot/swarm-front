@@ -15,7 +15,11 @@ export function openLayoutEditor(
   current: Layout,
   onSave: (value: Layout) => void,
   onExit: () => void,
-  training?: { config: () => unknown; enabled?: boolean },
+  training?: {
+    config: () => unknown;
+    enabled?: boolean;
+    disabledReason?: string;
+  },
 ) {
   ensureScopeControls();
   let draft = structuredClone(current),
@@ -110,7 +114,8 @@ export function openLayoutEditor(
     el("layout-message").textContent = bad
       ? "ボタンが重なっています。間隔を空けてください"
       : training?.enabled === false
-        ? "協力プレイは進行中です。試し撃ちはホームから利用できます。"
+        ? (training.disabledReason ??
+          "協力プレイは進行中です。試し撃ちはホームから利用できます。")
         : "ボタンを選び、位置・大きさ・濃さを調整できます";
   };
   let drag:

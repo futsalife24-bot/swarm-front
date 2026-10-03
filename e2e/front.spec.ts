@@ -6,7 +6,7 @@ import {
   FRONT_PROGRESS_KEY,
 } from "../src/client/front-progress";
 import { localCreationKey } from "../tests/credentials";
-const evidence = "docs/evidence/rebuild-p1a/front-20261002";
+const evidence = "docs/evidence/front-feedback-20261003";
 const prior = JSON.stringify(fresh()),
   progress = {
     ...emptyFrontProgress(),
@@ -188,6 +188,19 @@ test("実ブラウザ2人：準備・共同選択・独立報酬・再読込", a
   await second.locator("[data-card='afterimage-mine']").click();
   for (const p of pages)
     await expect(p.locator("#controls")).toBeVisible({ timeout: 10000 });
+  await page.locator("#pause").click();
+  await page.locator("#front-settings").click();
+  const timer = page.locator(".rebuild-hud-rail > div:nth-child(2) > b");
+  const beforeSettings = await timer.innerText();
+  await expect.poll(() => timer.innerText()).not.toBe(beforeSettings);
+  await expect(
+    page.getByRole("heading", { name: "設定・操作", exact: true }),
+  ).toBeVisible();
+  await page.locator("#front-setting-fireSensitivity").press("ArrowRight");
+  await page.screenshot({ path: `${evidence}/coop-settings.png` });
+  await page.locator("#front-settings-back").click();
+  await page.locator("#front-resume").click();
+  await expect(page.locator("#controls")).toBeVisible({ timeout: 5000 });
   const result = await fetch(
     `http://127.0.0.1:8789/fixtures/${entry.code}/front-result`,
     { method: "POST" },

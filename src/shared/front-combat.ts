@@ -1,5 +1,6 @@
 /** 改装版だけの戦闘効果。旧版の所持品・報酬・保存には接続しない。 */
 import {
+  blocked,
   event,
   eye,
   hurtEnemy,
@@ -11,6 +12,7 @@ import {
 } from "./game";
 import { stats } from "./defs";
 import { mapFor } from "./stages";
+import { groundHeight } from "./terrain";
 import {
   FRONT_UPGRADE_IDS,
   type FrontUpgradeId,
@@ -42,6 +44,8 @@ export interface FrontMine {
 }
 export interface FrontBattleState {
   version: "front-v1";
+  /** 公開前から続く部隊は旧描画容量に合わせた24体を維持する。 */
+  enemyCap?: number;
   players: Record<string, FrontPlayerCombat>;
   xp: number;
   orbs: { id: number; x: number; y: number; z: number; value: number }[];
@@ -51,6 +55,7 @@ export interface FrontBattleState {
   budgetExhaustions: number;
 }
 export const FRONT_BALANCE = {
+  enemyCap: 72,
   coreDamage: 42,
   fuseDamage: 34,
   radius: 5.5,
@@ -66,6 +71,7 @@ export const FRONT_BALANCE = {
 export function createFrontBattleState(): FrontBattleState {
   return {
     version: "front-v1",
+    enemyCap: FRONT_BALANCE.enemyCap,
     players: {},
     xp: 0,
     orbs: [],
@@ -155,7 +161,31 @@ export function recordFrontKill(
         ? 3
         : 2;
   if (r.orbs.length >= 160) r.orbs[0].value += value;
-  else r.orbs.push({ id: ++w.serial, x: e.x, y: e.y, z: e.z, value });
+  else {
+    const blocks = mapFor(w).blocks;
+    const points = [{ x: e.x, z: e.z }];
+    // 空中・屋上で倒しても、建物の外側の歩ける地面へ落とす。
+    for (const b of blocks) {
+      const x = Math.max(b.x - b.w / 2, Math.min(b.x + b.w / 2, e.x));
+      const z = Math.max(b.z - b.d / 2, Math.min(b.z + b.d / 2, e.z));
+      points.push(
+        { x: b.x - b.w / 2 - 0.8, z },
+        { x: b.x + b.w / 2 + 0.8, z },
+        { x, z: b.z - b.d / 2 - 0.8 },
+        { x, z: b.z + b.d / 2 + 0.8 },
+      );
+    }
+    points.push(...w.players.filter((p) => p.connected && p.hp > 0));
+    const point = points
+      .map((p) => ({ x: p.x, z: p.z, y: groundHeight(p.x, p.z, blocks) }))
+      .filter((p) => !blocked(p.x, p.z, 0.55, p.y + 0.01, blocks))
+      .sort(
+        (a, b) =>
+          Math.hypot(a.x - e.x, a.z - e.z) - Math.hypot(b.x - e.x, b.z - e.z),
+      )[0];
+    if (point) r.orbs.push({ id: ++w.serial, ...point, value });
+    else r.xp += value;
+  }
 }
 export function collectFrontXp(w: World, all = false) {
   const r = w.front!,

@@ -11,7 +11,8 @@ import { Renderer } from "./render";
 import { Controls } from "./input";
 import { Sound } from "./audio";
 import { prepareBattle } from "./battle-loading";
-import { defaultLayout, placeControls, updateScopeButtons } from "./layout";
+import { placeControls, updateScopeButtons } from "./layout";
+import { FrontSettings } from "./front-settings";
 import { updateCooldowns } from "./hud";
 import { homeMarkup } from "./home-screen";
 import { roomBrowserMarkup, bindRoomBrowser } from "./room-browser";
@@ -24,6 +25,7 @@ import {
   rerollFrontRunOffer,
   getFrontRunView,
   frontTemporaryWeapons,
+  FRONT_RUN_CONFIG,
   type FrontRun,
   type FrontRunView,
   type FrontMode,
@@ -57,13 +59,16 @@ const esc = (s: string) =>
   );
 const controls = new Controls(),
   sound = new Sound(),
-  layout = defaultLayout(),
   gate = createRebuildUiGate();
 const progressStorage = {
   getItem: (key: string) => localStorage.getItem(key),
   setItem: (key: string, value: string) => localStorage.setItem(key, value),
 };
-const view = new Renderer($("world") as HTMLCanvasElement, 40);
+const view = new Renderer(
+  $("world") as HTMLCanvasElement,
+  FRONT_RUN_CONFIG.enemyCap + 1,
+);
+const settings = new FrontSettings(controls, sound, view);
 let localRun: FrontRun | null = null,
   world: World | null = null,
   info: FrontRunView | null = null,
@@ -637,6 +642,7 @@ function pause() {
 }
 function paintOverlay() {
   if (screen !== "battle" || !ready || !info || !world) return;
+  if (settings.opened) return;
   const offer = info.offer,
     key = [
       connectionFatal,
@@ -660,7 +666,13 @@ function paintOverlay() {
     ui.innerHTML = `<section class="pause-card rebuild-panel"><h1>接続を終了しました</h1><p>${esc(connectionFatal)}</p><button id="front-leave" class="primary">出撃メニューへ</button></section>`;
     $("front-leave").onclick = leave;
   } else if (gate.paused) {
-    ui.innerHTML = `<section class="pause-card rebuild-panel"><header><h1>${network ? "操作を停止中" : "一時停止"}</h1><button id="front-resume" class="primary">再開</button></header><p>${gate.pauseReason}</p><button id="front-leave">出撃メニューへ</button></section>`;
+    ui.innerHTML = `<section class="pause-card rebuild-panel"><header><h1>${network ? "操作を停止中" : "一時停止"}</h1><button id="front-resume" class="primary">再開</button></header><p>${gate.pauseReason}</p><div class="pause-actions"><button id="front-settings">設定・操作</button><button id="front-leave">出撃メニューへ</button></div></section>`;
+    $("front-settings").onclick = () =>
+      settings.open(ui, () => {
+        overlayKey = "";
+        clearInput();
+        paintOverlay();
+      });
     $("front-resume").onclick = () => {
       clearInput();
       resumeRebuildUi(gate, info?.phase === "combat" || info?.phase === "boss");
@@ -704,7 +716,7 @@ function paintOverlay() {
 const marks = new T.InstancedMesh(
   new T.TorusGeometry(0.62, 0.1, 4, 12),
   new T.MeshBasicMaterial({ color: 0xffcb69 }),
-  40,
+  FRONT_RUN_CONFIG.enemyCap + 1,
 );
 const orbs = new T.InstancedMesh(
   new T.OctahedronGeometry(0.3),
@@ -743,7 +755,11 @@ function paintBattle() {
   const state = world.front!;
   let count = 0;
   for (const e of world.enemies)
-    if (e.hp > 0 && state.players[id]?.statuses[e.id]?.marked && count < 40) {
+    if (
+      e.hp > 0 &&
+      state.players[id]?.statuses[e.id]?.marked &&
+      count < FRONT_RUN_CONFIG.enemyCap + 1
+    ) {
       marker.position.set(e.x, eye(e) + 0.8, e.z);
       marker.quaternion.copy(view.camera.quaternion);
       marker.updateMatrix();
@@ -823,7 +839,7 @@ function frame(time: number) {
   } else if (network && active) network.input(controls.read());
   $("controls").hidden = !active;
   $("scope-overlay").hidden = !controls.scoped;
-  updateScopeButtons(layout, {
+  updateScopeButtons(settings.layout, {
     visible: active,
     available: controls.scopeAvailable,
     scoped: controls.scoped,
@@ -917,8 +933,11 @@ document.addEventListener("visibilitychange", () => {
   if (document.hidden && screen === "battle") pause();
 });
 window.addEventListener("pagehide", clearInput);
-window.addEventListener("resize", () => placeControls(layout));
-placeControls(layout);
+window.addEventListener("resize", () => placeControls(settings.layout));
+window.visualViewport?.addEventListener("resize", () =>
+  placeControls(settings.layout),
+);
+placeControls(settings.layout);
 home();
 const invitation = new URL(location.href).searchParams.get("frontRoom");
 if (invitation && /^[A-Fa-f0-9]{8}$/.test(invitation)) {

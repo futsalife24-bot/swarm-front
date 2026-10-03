@@ -1,3 +1,6 @@
+# 現在地: 戦闘フィードバック修正・公開準備（2026-10-03）
+
+空中撃破経験値の地面配置、旧ソロ/旧協力/改装版の戦闘中設定、改装版の通常敵3倍/HP1/3と通信密集対策を実装中。[変更・検証](FRONT-COMBAT-FEEDBACK.md)。branch `codex/front-combat-feedback-20261003`、base `3e808ead8a93ce5d5242cf571de5cb0f19033f42`、作業場所 `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a`、GitHub `https://github.com/futsalife24-bot/swarm-front`。旧版の敵数・HP・進行は変更しない。旧ソロと改装版の設定、実協力の自己検証は成功。旧協力の配置編集が戦況受信で消える既存不具合も修正し、最終実UI検証が成功。独立監査・main反映・本番公開はまだ未完了。前の公開版と旧保護ブランチは維持する。
 # 現在地: 旧版を保護して大改装版を本番公開（2026-10-03）
 
 大改装版は [公開入口](https://swarm-front.melosalife-24.workers.dev/front) で遊べる。従来の [旧版入口](https://swarm-front.melosalife-24.workers.dev/) と主要10ファイル・既存セーブを維持し、旧main `4520c57ede444d44b8699753645f36ce479b72bf` は `preserved/pre-rebuild-20261002` に保存済み。標準3武器2枠、3系統の強化と最大2進化、迎撃・防衛・日替わり、最大4人協力、端末内の独立進行を接続。3択は生成アイコン12種・短い日本語・順次表示に整理した。
