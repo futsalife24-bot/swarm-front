@@ -28,3 +28,5 @@ GitHub `https://github.com/futsalife24-bot/swarm-front`、ローカル `C:/Users
 公開ビルド・固定SHA独立監査・通常統合・既存Worker公開/配信/UI確認を続行。物理Androidと人間の体感は未確認。主担当1体、実モデル/effort未確認、切替操作なし。
 
 実装 `1da34ca82c6f8d6289df1ea080f3944dde63e954` から公開build/Worker dry-run成功。`build.txt` / `dryrun.txt`。以降は監査/公開の記録のみ。
+
+固定対象 `2c175a6d04f3c61bb545fea393b7adaf3438dd96`、[PR123](https://github.com/futsalife24-bot/swarm-front/pull/123)、[通常Chat](https://chatgpt.com/c/6ac0cafa-6284-83ee-a646-a20f333c3781)へ監査ZIP添付と送信・応答開始を確認。714ファイル全blob一致、18,180,727 bytes。以降は記録のみ。
