@@ -1,0 +1,15 @@
+
+Running 7 tests using 1 worker
+
+(node:16680) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\rebuild-p1a.spec.ts:136:3 › initial cards fit one horizontal row at 844x390 (15.0s)
+  ok 2 e2e\rebuild-p1a.spec.ts:136:3 › initial cards fit one horizontal row at 640x360 (7.6s)
+  ok 3 e2e\rebuild-p1a.spec.ts:233:1 › loading stays noninteractive and repeated selection retains the one-second safe resume (9.1s)
+  ok 4 e2e\rebuild-p1a.spec.ts:271:1 › pause freezes visible state and discards held fire, scope and queued keys (17.5s)
+  ok 5 e2e\rebuild-p1a.spec.ts:333:3 › touch controls › pause recenters a dragged movement stick before explicit resume (11.4s)
+  -  6 e2e\rebuild-p1a.spec.ts:365:1 › a real background tab pauses combat until explicit resume
+  ok 7 e2e\rebuild-p1a.spec.ts:437:3 › legacy save isolation › retry and reload start fresh without writing or migrating existing saves (19.4s)
+
+  1 skipped
+  6 passed (1.5m)

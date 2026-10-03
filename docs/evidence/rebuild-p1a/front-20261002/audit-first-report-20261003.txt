@@ -15,16 +15,16 @@ heading 結論：要修正, Value: 1
 							51 text 箇所
 							52 content list
 								53 container
-									54 AXListMarker • 
+									54 AXListMarker •
 									55 text src/client/battle-loading.ts:45-47
 								56 container
-									57 AXListMarker • 
+									57 AXListMarker •
 									58 text src/client/battle-loading.ts:73-106
 								59 container
-									60 AXListMarker • 
+									60 AXListMarker •
 									61 text 呼出元  src/client/front-app.ts:530-597
 								62 container
-									63 AXListMarker • 
+									63 AXListMarker •
 									64 text src/client/render.ts:855-872
 							65 text Renderer.render(..., draw=false)  は  document.hidden  でも処理するよう直されています。そこ自体は正しいです。 しかし  prepareBattle()  は、
 							66 container
@@ -35,7 +35,7 @@ heading 結論：要修正, Value: 1
 							71 text で次の準備処理へ進んでいます。さらに開始直後も2回のrAF待ちです。
 							72 heading 独立再現, Value: 3
 								73 text 独立再現
-							74 text こちらで 
+							74 text こちらで
 							75 text headed Chromium 144 + Xvfb
 							76 text  を使い、実タブを前面→背面へ切り替えて確認しました。
 							77 table
@@ -103,7 +103,7 @@ heading 結論：要修正, Value: 1
 									139 cell
 										140 text 旧版保護
 									141 cell
-										142 text GitHub上でbase/target双方の旧主要10ファイルを直接取得。 index.html 、save/cloud-save/daily-rewards/progression等 
+										142 text GitHub上でbase/target双方の旧主要10ファイルを直接取得。 index.html 、save/cloud-save/daily-rewards/progression等
 										143 text 10/10 blob一致
 								144 row
 									145 cell
@@ -178,7 +178,7 @@ heading 結論：要修正, Value: 1
 									214 cell
 										215 text PR後続
 									216 cell
-										217 text 現在PR HEADは  d1dce7b...  ですが、 ae445c1  以降5コミットは 
+										217 text 現在PR HEADは  d1dce7b...  ですが、 ae445c1  以降5コミットは
 										218 text docs/evidenceのみ
 										219 text 。実装差分なし
 							220 container
@@ -186,7 +186,7 @@ heading 結論：要修正, Value: 1
 								222 pop up button (collapsed) Description: 表を展開, Secondary Actions: Expand
 							223 heading 任意指摘, Value: 3
 								224 text 任意指摘
-							225 text 新しい「日替わり」は  new Date().toISOString()  なので 
+							225 text 新しい「日替わり」は  new Date().toISOString()  なので
 							226 text UTC基準、つまり日本では午前9時に切替
 							227 text です。旧側にはJST基準処理もあります。内部整合性や二重受取問題はありませんが、「日本時間の日替わり」を意図するなら統一した方が自然です。現設計にタイムゾーン指定がないため必須指摘にはしていません。
 							228 heading 監査の限界, Value: 2
@@ -212,7 +212,7 @@ heading 結論：要修正, Value: 1
 								248 text 最新の応答
 							249 container
 								250 button (collapsed) Description: ファイルなどを追加, Secondary Actions: Expand
-								251 text entry area (settable) Description: ChatGPT に聞く, Value: 
+								251 text entry area (settable) Description: ChatGPT に聞く, Value:
 
 									252 container
 										253 text ChatGPT に聞く

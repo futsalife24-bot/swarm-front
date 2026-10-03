@@ -21,7 +21,7 @@
   "clientTypes": "成功",
   "format": "成功",
   "diffCheck": "成功",
-  "build": "未実施",
+  "build": "成功",
   "independentReaudit": "未依頼",
   "limits": [
     "物理Android未確認",
@@ -30,5 +30,7 @@
   ],
   "model": "未確認",
   "reasoningEffort": "未確認",
-  "modelChanged": false
+  "modelChanged": false,
+  "workerDryRun": "成功",
+  "buildSource": "335c740f59975128c9e7fdb6f28a04710b5c10e0"
 }
