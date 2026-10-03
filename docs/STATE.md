@@ -1,3 +1,7 @@
+# 現在地: 従来HUD継承の独立監査を送信済み（2026-10-03）
+
+[PR119](https://github.com/futsalife24-bot/swarm-front/pull/119)、固定対象 `9117cc35c958035abf01d1b38740af937ca7f279`、base `4f289fef938300dbdd6dbba6a3e7b453a058051d`。アプリ内ブラウザの新規[通常Chat](https://chatgpt.com/c/6ac0ae95-daa4-83ee-9305-b65677985716)へZIP直接添付、送信と回答開始を確認。798ファイル全blob一致、82,339,147 bytes。[資料](evidence/front-hud-20261003/audit-package.json)・[変更と検証](FRONT-COMBAT-HUD.md)。この後は記録のみ。独立判定を待ち、合格後に通常merge・既存Worker公開・配信/UI確認へ進む。
+
 # 現在地: 従来の出撃HUDを改装版へ継承、自己検証済み（2026-10-03）
 
 共通HUDとミニマップへ戻し、従来の配置・スタイルを維持。改装版の経験値/強化は短い補助表示へ追加。[変更と検証](FRONT-COMBAT-HUD.md)。branch `codex/front-combat-hud-20261003`、base `4f289fef938300dbdd6dbba6a3e7b453a058051d`。横844/640の実旧版比較2件、共通HUD/救助単体14件、実2人協力UI1件成功。公開ビルド・必須通常Chat監査・通常merge・既存Worker公開へ続行。前回公開版は以下の履歴のとおり維持。

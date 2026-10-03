@@ -25,3 +25,5 @@
 公開ビルド・独立監査・通常merge・既存Worker公開は続行対象。物理Android・ジャイロ・97体FPSは未確認。主担当1体、実モデル/effort未確認、切替なし。
 
 公開用ビルド・Worker dry-run成功（実装SHA `75f0a02df2e992d26dfd37337b1683bc03bbb326`）。証拠は `build.txt` / `dryrun.txt`。最初のdry-runはサンドボックス外ログ保存と親ディレクトリ参照で失敗し、承認済みの通常環境で同じ検証が成功。設定/保護の変更なし。
+
+独立監査対象 `9117cc35c958035abf01d1b38740af937ca7f279`。[PR119](https://github.com/futsalife24-bot/swarm-front/pull/119)、[通常Chat](https://chatgpt.com/c/6ac0ae95-daa4-83ee-9305-b65677985716)に直接添付して送信/開始確認済み。資料798ファイル全blob一致、82,339,147 bytes。この後は記録のみ。
