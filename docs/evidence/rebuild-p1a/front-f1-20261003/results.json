@@ -22,7 +22,7 @@
   "format": "成功",
   "diffCheck": "成功",
   "build": "成功",
-  "independentReaudit": "依頼済み・判定待ち",
+  "independentReaudit": "合格、必須P0/P1/P2各0、対象be070dc85f230f856851e414d23f350fe2953338",
   "limits": [
     "物理Android未確認",
     "人間の難易度未確認",

@@ -8,5 +8,15 @@
   "chatUrl": "https://chatgpt.com/c/6ac069d4-ba90-83ec-b522-18d3c42a88da",
   "requestedAtUTC": "2026-10-03T04:26:27.420404+00:00",
   "received": true,
-  "reviewCompleted": false
+  "reviewCompleted": true,
+  "firstAttemptOutcome": "5分4秒後のサービスエラー、最終判定なし",
+  "focusedFollowupSent": true,
+  "verdict": "合格",
+  "mandatory": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0
+  },
+  "finalTarget": "be070dc85f230f856851e414d23f350fe2953338",
+  "report": "audit-pass.txt"
 }
