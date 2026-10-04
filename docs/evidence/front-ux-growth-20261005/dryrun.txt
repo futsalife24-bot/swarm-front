@@ -8,9 +8,9 @@
 ✨ Read 284 files from the assets directory C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\dist
 Total Upload: 335.63 KiB / gzip: 82.73 KiB
 Your Worker has access to the following bindings:
-Binding                                                  Resource                  
-env.ROOMS (Room)                                         Durable Object            
-env.GATE (Gate)                                          Durable Object            
-env.PROJECT_HUB (project-hub)                            Worker                    
+Binding                                                  Resource
+env.ROOMS (Room)                                         Durable Object
+env.GATE (Gate)                                          Durable Object
+env.PROJECT_HUB (project-hub)                            Worker
 
 --dry-run: exiting now.
