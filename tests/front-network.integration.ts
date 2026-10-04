@@ -10,12 +10,16 @@ class Client {
   messages: any[] = [];
   id = "";
   token = "";
-  constructor(code: string, token = "") {
+  constructor(code: string, token = "", growth = true) {
     this.ws = new WebSocket(
       `${base.replace("http", "ws")}/rooms/${code}?ruleset=front-v1`,
     );
     this.ws.onopen = () =>
-      this.send({ type: "hello", ...(token ? { token } : {}) });
+      this.send({
+        type: "hello",
+        ...(growth ? { frontGrowth: 2 } : {}),
+        ...(token ? { token } : {}),
+      });
     this.ws.onmessage = (e) => {
       const m = JSON.parse(String(e.data));
       this.messages.push(m);
@@ -71,11 +75,11 @@ async function room(mode = "defense") {
   expect(response.status).toBe(200);
   return response.json();
 }
-async function team(count: number, mode = "defense") {
+async function team(count: number, mode = "defense", growth = true) {
   const entry = await room(mode),
     members: Client[] = [];
   for (let i = 0; i < count; i++) {
-    const c = new Client(entry.code);
+    const c = new Client(entry.code, "", growth);
     await c.wait((m) => m.type === "welcome");
     members.push(c);
     c.send({
@@ -154,6 +158,8 @@ describe("改装版の実通信", () => {
     const { entry, members, states } = await team(4);
     states.forEach((state) => {
       expect(state.frontView.phase).toBe("selection");
+      expect(state.frontView.growthVersion).toBe(2);
+      expect(state.frontView.maxPicks).toBe(12);
       expect(state.world.time).toBe(0);
       expect(state.world.players).toHaveLength(4);
       expect(state.world.defense.armory.hp).toBe(2000);
@@ -233,5 +239,14 @@ describe("改装版の実通信", () => {
     expect(state.frontView.picks).toBe(1);
     expect(state.frontView.offer).toBeNull();
     expect(state.frontView.rerollsRemaining).toBe(2);
+  });
+  it("旧画面だけの部隊は7回ルールで出撃し、新作戦へ古い画面で復帰すると更新案内を返す", async () => {
+    const old = await team(1, "survival", false);
+    expect(old.states[0].frontView.growthVersion).toBe(1);
+    expect(old.states[0].frontView.maxPicks).toBe(7);
+    const modern = await team(1, "survival");
+    const c = new Client(modern.entry.code, modern.members[0].token, false);
+    const error = await c.wait((m) => m.type === "notice");
+    expect(error.reason).toContain("再読み込み");
   });
 });

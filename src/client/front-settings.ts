@@ -93,7 +93,7 @@ export class FrontSettings {
     this.view.resize();
     placeControls(this.layout);
   }
-  open(root: HTMLElement, onExit: () => void) {
+  open(root: HTMLElement, onExit: () => void, backLabel = "一時停止へ") {
     this.opened = true;
     document.body.dataset.screen = "battle";
     const p = this.preferences;
@@ -105,7 +105,7 @@ export class FrontSettings {
       ["bgmVolume", "BGM音量"],
       ["seVolume", "SE音量"],
     ] as const;
-    root.innerHTML = `<section class="pause-card rebuild-panel front-settings"><header><h1>設定・操作</h1><button id="front-settings-back">一時停止へ</button></header><div class="front-settings-grid">${ranges
+    root.innerHTML = `<section class="pause-card rebuild-panel front-settings"><header><h1>設定・操作</h1><button id="front-settings-back">${backLabel}</button></header><div class="front-settings-grid">${ranges
       .map(([key, name]) => {
         const volume = key.toLowerCase().includes("volume");
         return `<label>${name}<input id="front-setting-${key}" type="range" min="${volume ? 0 : 0.1}" max="${volume ? 1 : 6}" step="${volume ? 0.05 : 0.1}" value="${p[key]}"><output></output></label>`;
@@ -190,7 +190,7 @@ export class FrontSettings {
             this.layout = value;
             placeControls(value);
           },
-          () => this.open(root, onExit),
+          () => this.open(root, onExit, backLabel),
           {
             config: () => ({}),
             enabled: false,

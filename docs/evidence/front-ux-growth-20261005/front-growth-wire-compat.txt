@@ -1,0 +1,13 @@
+
+> swarm-front@0.1.0 test:front:integration
+> vitest run --config vitest.front-integration.config.ts -t 旧画面だけ
+
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 3 skipped (4)
+   Start at  07:31:34
+   Duration  2.26s (import 47%, tests 40%, transform 13%)
+

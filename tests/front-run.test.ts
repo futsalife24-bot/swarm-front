@@ -6,8 +6,8 @@ import {
   getFrontRunView,
   frontTemporaryWeapons,
   frontDailySeed,
-} from "../src/shared/front-run";
-import { grantFrontUpgradeRights } from "../src/shared/front-upgrades";
+} from "../src/shared/front-legacy-run";
+import { grantFrontUpgradeRights } from "../src/shared/front-legacy-upgrades";
 import {
   neutral,
   spawn,
@@ -58,7 +58,7 @@ const choose = (
     now,
   );
 };
-describe("改装版の権威進行", () => {
+describe("更新前の改装版互換の権威進行", () => {
   it("4人の候補は独立し、15秒を共有、期限で未処理権を順番に確定", () => {
     const run = create(4);
     run.world.front!.xp = 192;
@@ -145,7 +145,7 @@ describe("改装版の権威進行", () => {
     expect(old.front).toBeUndefined();
   });
 });
-describe("改装版の戦闘起点と上限", () => {
+describe("更新前の改装版互換の戦闘起点と上限", () => {
   it("同一射の散弾で導火・充填・3命中を重複発動しない", () => {
     const run = create();
     choose(run);

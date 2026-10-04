@@ -11,9 +11,9 @@ import {
   FRONT_UPGRADE_IDS,
   frontEvolvedFamilies,
   frontCandidateCombinations,
-} from "../src/shared/front-upgrades";
+} from "../src/shared/front-legacy-upgrades";
 
-describe("改装版の強化", () => {
+describe("更新前の改装版互換の強化", () => {
   it("初期は異なる3系統で、他の人・古い・二重の要求を拒否する", () => {
     const state = createFrontUpgradeState("front-test", 42);
     expect(state.offer?.cardIds).toEqual([

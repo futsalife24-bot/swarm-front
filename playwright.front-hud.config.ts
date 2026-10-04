@@ -7,7 +7,7 @@ export default defineConfig({
   use: {
     actionTimeout: 10000,
     baseURL: "http://127.0.0.1:5186",
-    launchOptions: { channel: "chrome" },
+    launchOptions: { channel: "chrome", args: ["--use-angle=d3d11"] },
     screenshot: "only-on-failure",
   },
   webServer: {

@@ -796,7 +796,12 @@ export function hurtPlayer(w: World, p: Player, damage: number, heavy = false) {
     return;
   }
   if (p.hp <= 0 || p.evade > 0 || (w.solo?.invincible ?? 0) > 0) return;
-  p.hp = Math.max(0, p.hp - damage * stageFor(w).damage);
+  const frontArmor = w.front?.players[p.id];
+  const reduction =
+    frontArmor && w.time < frontArmor.armorUntil
+      ? 0.1 * frontArmor.levels["emergency-armor"]
+      : 0;
+  p.hp = Math.max(0, p.hp - damage * stageFor(w).damage * (1 - reduction));
   if (heavy) p.heavyHit = HEAVY_HIT_DURATION;
   p.hurt = 0.2;
   p.safe = 0;
@@ -1494,7 +1499,16 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
         }
     if (p.reload > 0) {
       p.reload -= dt;
-      if (p.reload <= 0) p.ammo[p.slot] = stats(p.weapons[p.slot]).mag;
+      if (p.reload <= 0) {
+        p.ammo[p.slot] = stats(p.weapons[p.slot]).mag;
+        const front = w.front?.players[p.id];
+        if (
+          front &&
+          front.levels["opening-shot"] > 0 &&
+          !front.openingSlots.includes(p.slot)
+        )
+          front.openingSlots.push(p.slot);
+      }
     }
     if (i.swap && p.swapCd <= 0) {
       if (w.solo) {

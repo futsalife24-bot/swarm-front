@@ -40,7 +40,7 @@ export function gearSupplyRows(
         `${d.range}m`,
         (1 / d.interval).toFixed(1),
       ];
-      return `<div class="pt-weapon-row front-weapon-row ${slot >= 0 ? "is-equipped" : ""}"><div class="pt-identity"><button data-weapon="${kind}" aria-label="${d.name}を装備"><small class="gear-rarity">支給</small><b>${d.name}</b>${slot >= 0 ? `<span class="gear-equipped" aria-label="装備${slot + 1}">E${slot + 1}</span>` : ""}</button></div><div class="pt-stat-scroll"><div class="pt-stat-inner">${values.map((v) => `<span>${v}</span>`).join("")}</div></div><button class="gear-pinned-label" data-weapon="${kind}" aria-label="${d.name}を装備" aria-pressed="${slot >= 0}">${slot >= 0 ? `${slot + 1}枠目` : "装備"}</button></div>`;
+      return `<div data-front-weapon-row="${kind}" class="pt-weapon-row front-weapon-row ${slot >= 0 ? "is-equipped" : ""}"><div class="pt-identity"><button data-weapon="${kind}" aria-label="${d.name}を装備"><small class="gear-rarity">支給</small><b>${d.name}</b>${slot >= 0 ? `<span class="gear-equipped" aria-label="装備${slot + 1}">E${slot + 1}</span>` : ""}</button></div><div class="pt-stat-scroll"><div class="pt-stat-inner">${values.map((v) => `<span>${v}</span>`).join("")}</div></div><button class="gear-pinned-label" data-weapon="${kind}" aria-label="${d.name}を装備" aria-pressed="${slot >= 0}">${slot >= 0 ? `${slot + 1}枠目` : "装備"}</button></div>`;
     })
     .join("")}</div>`;
 }

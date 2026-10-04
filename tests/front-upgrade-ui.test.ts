@@ -20,9 +20,7 @@ describe("強化状況の表示", () => {
     v.picks = 1;
     const before = structuredClone(v);
     const detail = frontUpgradeDetails(v, "/game/");
-    expect(detail).toContain(
-      "手動命中で印を付け、次の手動命中で印を消費して起爆。",
-    );
+    expect(detail).toContain("命中で印、次の命中で起爆。威力 34。");
     expect(detail).not.toContain('data-upgrade="blast-core"');
     expect(frontUpgradeStrip(v, "/game/")).toContain(
       "/game/rebuild/upgrades/fuse.png",
