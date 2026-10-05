@@ -244,6 +244,42 @@ body.front-game #ui .front-initial label {
   gap: 8px;
   font-size: 12px;
 }
+.front-game .rebuild-selection #front-choice-owned {
+  grid-column: 1;
+  justify-self: start;
+  min-height: 32px;
+  padding: 5px 9px;
+  white-space: nowrap;
+}
+.front-owned-dialog {
+  width: min(620px, calc(100vw - 32px));
+  max-height: calc(100dvh - 24px);
+  padding: 14px;
+  box-sizing: border-box;
+  color: #edf6f3;
+  background: #102633;
+  border: 1px solid #98ebc880;
+  border-radius: 6px;
+  overflow: auto;
+}
+.front-owned-dialog::backdrop {
+  background: #030b12bb;
+}
+.front-game .rebuild-selection .front-owned-dialog > header {
+  display: flex;
+  justify-content: flex-end;
+  position: sticky;
+  top: -14px;
+  padding: 4px 0;
+  background: #102633;
+}
+.front-owned-dialog .front-upgrade-details {
+  margin-top: 0;
+}
+.front-owned-deadline {
+  font-size: 12px;
+  color: #cfdbde;
+}
 .front-game .rebuild-selection #rebuild-reroll {
   min-height: 32px;
   padding: 5px 9px;
@@ -271,6 +307,51 @@ body.front-game #ui .front-initial label {
 .front-game .rebuild-selection .rebuild-card-description {
   font-size: 12px;
   line-height: 1.4;
+}
+.front-game .rebuild-selection .rebuild-card[data-acquisition] {
+  --acquisition-color: #8fe4ea;
+  border-top: 3px solid var(--acquisition-color);
+  padding-top: 8px;
+  padding-bottom: 6px;
+  gap: 3px;
+}
+.front-game .rebuild-selection .rebuild-card[data-acquisition="level-up"] {
+  --acquisition-color: #ffd184;
+}
+.front-acquisition {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 2px 9px;
+  border: 1px solid var(--acquisition-color);
+  border-radius: 3px;
+  color: var(--acquisition-color);
+  background: #08171dcc;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0.06em;
+}
+.front-acquisition > span {
+  font-size: 16px;
+  line-height: 1;
+}
+.front-game
+  .rebuild-selection
+  .rebuild-card[data-acquisition]
+  .rebuild-card-icon {
+  width: 44px;
+  height: 44px;
+}
+.front-game .rebuild-selection .rebuild-card[data-acquisition] strong {
+  font-size: 16px;
+  line-height: 1.25;
+}
+.front-game .rebuild-selection .front-card-rank {
+  color: #f4f8fa;
+  font-size: 12px;
+  font-weight: 700;
 }
 .front-game .rebuild-selection.is-choosing .rebuild-card {
   animation-delay: 0s;

@@ -22,7 +22,7 @@ import { Minimap } from "./minimap";
 import { frontUpgradeStrip, frontUpgradeDetails } from "./front-upgrade-ui";
 import { openBestiary } from "./bestiary";
 import { CHANGELOG } from "./changelog";
-import { frontUpgradeCardCopy, frontUpgradeIcon } from "./front-upgrade-ui";
+import { frontUpgradeCardMarkup } from "./front-upgrade-ui";
 import { homeMarkup } from "./home-screen";
 import { roomBrowserMarkup, bindRoomBrowser } from "./room-browser";
 import { FrontNetwork, loadFrontNetworkSession } from "./front-network";
@@ -817,12 +817,17 @@ function paintOverlay() {
     };
     $("front-leave").onclick = leave;
   } else if (info.phase === "selection" && offer) {
-    ui.innerHTML = `<section class="pause-card rebuild-panel rebuild-selection"><header><h1 class="front-choice-title">強化を選べ</h1><div class="rebuild-selection-actions">${info.selectionDeadline !== null ? '<span id="front-countdown"></span>' : ""}${offer.kind === "additional" ? `<button id="rebuild-reroll" ${info.canReroll ? "" : "disabled"}>再抽選 残り${info.rerollsRemaining}</button>` : ""}</div></header><div class="rebuild-cards">${offer.cardIds
-      .map((card) => {
-        const d = frontUpgradeCardCopy(info!, card);
-        return `<button class="rebuild-card" data-card="${card}" aria-label="${d.name}：${esc(d.aria)}"><img class="rebuild-card-icon" src="${frontUpgradeIcon(card, import.meta.env.BASE_URL)}" alt="" width="96" height="96"><span class="rebuild-card-kind">${d.prefix}${familyNames[d.family]}</span><strong>${d.name}</strong><span class="rebuild-card-description">${esc(d.description)}</span></button>`;
-      })
-      .join("")}</div></section>`;
+    ui.innerHTML = `<section class="pause-card rebuild-panel rebuild-selection"><header><button id="front-choice-owned" aria-haspopup="dialog">現在の強化 ${info.picks}/${info.maxPicks}</button><h1 class="front-choice-title">強化を選べ</h1><div class="rebuild-selection-actions">${info.selectionDeadline !== null ? '<span id="front-countdown"></span>' : ""}${offer.kind === "additional" ? `<button id="rebuild-reroll" ${info.canReroll ? "" : "disabled"}>再抽選 残り${info.rerollsRemaining}</button>` : ""}</div></header><div class="rebuild-cards">${offer.cardIds
+      .map((card) =>
+        frontUpgradeCardMarkup(info!, card, import.meta.env.BASE_URL),
+      )
+      .join(
+        "",
+      )}</div><dialog id="front-owned-dialog" class="front-owned-dialog" aria-label="現在の強化"><header><button id="front-owned-close">3択へ戻る</button></header>${frontUpgradeDetails(info, import.meta.env.BASE_URL)}${info.selectionDeadline !== null ? '<p class="front-owned-deadline">部隊の選択時間は進みます。</p>' : ""}</dialog></section>`;
+    const ownedDialog = $("front-owned-dialog") as HTMLDialogElement;
+    $("front-choice-owned").onclick = () => ownedDialog.showModal();
+    $("front-owned-close").onclick = () => ownedDialog.close();
+    ownedDialog.addEventListener("keydown", (event) => event.stopPropagation());
     ui.querySelectorAll<HTMLButtonElement>("[data-card]").forEach(
       (button) =>
         (button.onclick = () => choose(button.dataset.card as FrontUpgradeId)),

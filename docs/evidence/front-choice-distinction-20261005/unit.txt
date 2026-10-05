@@ -1,0 +1,16 @@
+
+> swarm-front@0.1.0 test:front
+> vitest run --config vitest.front.config.ts
+
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+
+ Test Files  6 passed (6)
+      Tests  41 passed (41)
+   Start at  20:46:10
+   Duration  8.40s (tests 58%, import 34%, transform 7%, worker 1%)
+
+    Isolate  6 workers spawned · ~313ms startup each (spawn + environment, per file)
+             at least ~1.57s faster with isolate: false — reuses workers across files instead of one per file
+
