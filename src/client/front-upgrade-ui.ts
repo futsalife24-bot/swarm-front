@@ -1,4 +1,9 @@
 import type { FrontRunView } from "../shared/front-run";
+import * as legacyUi from "./front-legacy-upgrade-ui";
+import {
+  FRONT_UPGRADE_CATALOG as legacyCatalog,
+  type FrontUpgradeId as LegacyId,
+} from "../shared/front-legacy-upgrades";
 import {
   FRONT_UPGRADE_CATALOG,
   FRONT_UPGRADE_IDS,
@@ -63,6 +68,7 @@ const icon = (id: FrontUpgradeId, base: string) =>
   `<img src="${esc(frontUpgradeIcon(id, base))}" alt="" width="32" height="32">`;
 
 export function frontUpgradeStrip(view: UpgradeView, base: string) {
+  if (view.growthVersion === 1) return legacyUi.frontUpgradeStrip(view, base);
   const ids = acquired(view);
   if (!ids.length) return "";
   return `<div class="front-upgrade-strip" role="list" aria-label="取得済み強化">${ids
@@ -75,6 +81,7 @@ export function frontUpgradeStrip(view: UpgradeView, base: string) {
 }
 
 export function frontUpgradeDetails(view: UpgradeView, base: string) {
+  if (view.growthVersion === 1) return legacyUi.frontUpgradeDetails(view, base);
   const ids = acquired(view);
   return `<section class="front-upgrade-details" aria-label="強化状況"><h2>強化状況 <small>${view.picks}/${view.maxPicks ?? FRONT_MAX_PICKS}</small></h2>${
     ids.length
@@ -97,4 +104,26 @@ export function frontUpgradeDetails(view: UpgradeView, base: string) {
           )
           .join("")
   }</div></section>`;
+}
+
+export function frontUpgradeCardCopy(view: UpgradeView, id: FrontUpgradeId) {
+  if (view.growthVersion === 1) {
+    const d = legacyCatalog[id as LegacyId];
+    return {
+      name: d.name,
+      family: d.family,
+      aria: d.description,
+      description: legacyUi.legacyUpgradeCopy[id as LegacyId],
+      prefix: "",
+    };
+  }
+  const d = FRONT_UPGRADE_CATALOG[id];
+  const description = frontUpgradeEffect(id, view.levels[id] + 1);
+  return {
+    name: d.name,
+    family: d.family,
+    aria: description,
+    description,
+    prefix: `${view.levels[id] ? `${view.levels[id]} → ${view.levels[id] + 1}段階` : "新規"} · `,
+  };
 }

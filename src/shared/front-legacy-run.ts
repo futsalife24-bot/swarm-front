@@ -1,3 +1,4 @@
+import { frontAutomaticRequestId } from "./front-request-id";
 /** 更新前に一時停止保存された作戦専用。新規作戦では使用しない。 */
 /** 改装版の権威状態。候補・乱数・要求履歴は World に載せない。 */
 import { STARTERS, WEAPONS, stats, ENEMIES, type Weapon } from "./defs";
@@ -449,7 +450,9 @@ export function stepFrontRun(
               runId: run.world.run,
               offerId: offer.id,
               revision: offer.revision,
-              requestId: `${offer.id}:default`,
+              requestId: frontAutomaticRequestId(
+                run.upgrades[id].processedRequestIds,
+              ),
               cardId: offer.defaultCardId,
             },
             now,

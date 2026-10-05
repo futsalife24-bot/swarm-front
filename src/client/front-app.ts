@@ -22,7 +22,7 @@ import { Minimap } from "./minimap";
 import { frontUpgradeStrip, frontUpgradeDetails } from "./front-upgrade-ui";
 import { openBestiary } from "./bestiary";
 import { CHANGELOG } from "./changelog";
-import { frontUpgradeEffect, frontUpgradeIcon } from "./front-upgrade-ui";
+import { frontUpgradeCardCopy, frontUpgradeIcon } from "./front-upgrade-ui";
 import { homeMarkup } from "./home-screen";
 import { roomBrowserMarkup, bindRoomBrowser } from "./room-browser";
 import { FrontNetwork, loadFrontNetworkSession } from "./front-network";
@@ -819,8 +819,8 @@ function paintOverlay() {
   } else if (info.phase === "selection" && offer) {
     ui.innerHTML = `<section class="pause-card rebuild-panel rebuild-selection"><header><h1 class="front-choice-title">強化を選べ</h1><div class="rebuild-selection-actions">${info.selectionDeadline !== null ? '<span id="front-countdown"></span>' : ""}${offer.kind === "additional" ? `<button id="rebuild-reroll" ${info.canReroll ? "" : "disabled"}>再抽選 残り${info.rerollsRemaining}</button>` : ""}</div></header><div class="rebuild-cards">${offer.cardIds
       .map((card) => {
-        const d = FRONT_UPGRADE_CATALOG[card];
-        return `<button class="rebuild-card" data-card="${card}" aria-label="${d.name}：${esc(frontUpgradeEffect(card, info!.levels[card] + 1))}"><img class="rebuild-card-icon" src="${frontUpgradeIcon(card, import.meta.env.BASE_URL)}" alt="" width="96" height="96"><span class="rebuild-card-kind">${info!.levels[card] ? `${info!.levels[card]} → ${info!.levels[card] + 1}段階` : "新規"} · ${familyNames[d.family]}</span><strong>${d.name}</strong><span class="rebuild-card-description">${frontUpgradeEffect(card, info!.levels[card] + 1)}</span></button>`;
+        const d = frontUpgradeCardCopy(info!, card);
+        return `<button class="rebuild-card" data-card="${card}" aria-label="${d.name}：${esc(d.aria)}"><img class="rebuild-card-icon" src="${frontUpgradeIcon(card, import.meta.env.BASE_URL)}" alt="" width="96" height="96"><span class="rebuild-card-kind">${d.prefix}${familyNames[d.family]}</span><strong>${d.name}</strong><span class="rebuild-card-description">${esc(d.description)}</span></button>`;
       })
       .join("")}</div></section>`;
     ui.querySelectorAll<HTMLButtonElement>("[data-card]").forEach(

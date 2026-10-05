@@ -4,6 +4,7 @@ import {
   chooseFrontUpgrade,
   stepFrontRun,
   getFrontRunView,
+  rerollFrontRunOffer,
 } from "../src/shared/front-run";
 import {
   createFrontRun as oldRun,
@@ -57,6 +58,89 @@ const choose = (run: ReturnType<typeof make>, id = "p0") => {
   );
 };
 describe("段階育成と経験値による選択", () => {
+  it.each([
+    [false, false],
+    [false, true],
+    [true, false],
+    [true, true],
+  ])(
+    "要求ID先取り後も期限で再開・復帰後も重複しない（旧規則=%s、連続衝突=%s）",
+    (old, repeated) => {
+      const r = (
+        old
+          ? oldRun({
+              runId: "growth",
+              seed: 5,
+              players: [{ id: "p0" }, { id: "p1" }],
+            })
+          : make(2)
+      ) as ReturnType<typeof make>;
+      for (const id of ["p0", "p1"]) {
+        const o = r.upgrades[id].offer!;
+        expect(
+          chooseFrontUpgrade(
+            r,
+            id,
+            {
+              runId: r.world.run,
+              offerId: o.id,
+              revision: o.revision,
+              requestId: "auto:0",
+              cardId: o.defaultCardId,
+            },
+            0,
+          ),
+        ).toBe(true);
+      }
+      r.world.front!.xp = 999;
+      if (old) r.world.time = 30;
+      stepFrontRun(r, {}, 0.05, 1);
+      expect(r.phase).toBe("selection");
+      for (const id of ["p0", "p1"]) {
+        const s = r.upgrades[id],
+          o = s.offer!;
+        expect(
+          rerollFrontRunOffer(
+            r,
+            id,
+            {
+              runId: r.world.run,
+              offerId: o.id,
+              revision: o.revision,
+              requestId: `${s.runId}:offer:${s.offerSerial + 1}:default`,
+            },
+            2,
+          ),
+        ).toBe(true);
+        const next = r.upgrades[id].offer!;
+        if (repeated)
+          expect(
+            rerollFrontRunOffer(
+              r,
+              id,
+              {
+                runId: r.world.run,
+                offerId: next.id,
+                revision: next.revision,
+                requestId: "auto:1",
+              },
+              3,
+            ),
+          ).toBe(true);
+      }
+      r.world.players[1].connected = false;
+      const restored = JSON.parse(JSON.stringify(r));
+      stepFrontRun(restored, {}, 0.05, 16);
+      expect(restored.phase).toBe("combat");
+      const picks = Object.values(restored.upgrades).map((s: any) => s.picks);
+      expect(picks.every((n) => n > 1)).toBe(true);
+      restored.world.players[1].connected = true;
+      stepFrontRun(restored, {}, 0.05, 17);
+      expect(Object.values(restored.upgrades).map((s: any) => s.picks)).toEqual(
+        picks,
+      );
+    },
+  );
   it("異なる抽選経路でも12回まで選べ、6種類・最大段階を超えず所持能力を育てられる", () => {
     for (let seed = 0; seed < 150; seed++) {
       let state = grantFrontUpgradeRights(
