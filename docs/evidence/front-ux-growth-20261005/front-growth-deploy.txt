@@ -1,0 +1,43 @@
+
+ ⛅️ wrangler 4.129.0
+────────────────────
+🌀 Building list of assets...
+✨ Read 284 files from the assets directory C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\dist
+🌀 Starting asset upload...
+🌀 Found 19 new or modified static assets to upload. Proceeding with upload...
++ /front.html
++ /assets/weapon-sharing-BABAtz-L.js
++ /assets/legacy-Du2hziIn.js
++ /assets/home-screen-ydFmhqCs.js
++ /assets/front-CDylOmlb.js
++ /rebuild/upgrades/magnet.png
++ /rebuild/upgrades/emergency-armor.png
++ /index.html
++ /assets/playtest-app-CU5IufCk.css
++ /assets/cloud-save-C3EWZTJO.js
++ /assets/changelog-DgUc6D4O.js
++ /assets/playtest-app-N35jXZWf.js
++ /rebuild/upgrades/blast-radius.png
++ /assets/training-app-BjUq-OWB.js
++ /assets/front-DpAnBViq.css
++ /assets/home-screen-ZVPxDFJE.css
++ /assets/main-DowJq9mH.js
++ /assets/hud-iM49UFZH.js
++ /rebuild/upgrades/opening-shot.png
+Uploaded 6 of 19 assets
+Uploaded 12 of 19 assets
+Uploaded 19 of 19 assets
+✨ Success! Uploaded 19 files (233 already uploaded) (3.29 sec)
+
+Total Upload: 336.04 KiB / gzip: 82.84 KiB
+Worker Startup Time: 306 ms
+Your Worker has access to the following bindings:
+Binding                                                  Resource
+env.ROOMS (Room)                                         Durable Object
+env.GATE (Gate)                                          Durable Object
+env.PROJECT_HUB (project-hub)                            Worker
+
+Uploaded swarm-front (10.21 sec)
+Deployed swarm-front triggers (0.66 sec)
+  https://swarm-front.melosalife-24.workers.dev
+Current Version ID: 550fd323-86be-484c-94e5-d67bd05bdd90
