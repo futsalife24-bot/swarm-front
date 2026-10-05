@@ -1,3 +1,12 @@
+# 現在地: 3択改善は検証・PR保存済み、監査資料送信の承認待ち（2026-10-05）
+
+[PR129](https://github.com/futsalife24-bot/swarm-front/pull/129)、固定監査対象 a71241ee153a3d1a4ddd79cf1511ee10893a4ed5、base 08dc16b94becdd411f6d6fe3c5e6b52635d93fbb。3択の新規/段階区別・現在の強化ボタンを実装。型・単体41・実ブラウザ7・build/本番dry-run成功。まだmain統合・本番公開していない。
+
+停止理由: アプリ内ブラウザの通常ChatへのZIP添付を自動承認レビューが拒否。理由は具体的な資料とChatGPT宛先への明示承認不足。GitHubが公開設定で対象SHAと728ファイルが一致することを確認して同一経路で再審査したが再度拒否。迂回せず停止。
+再開条件: 利用者が今回のソース差分・検証画像/ログを含む監査ZIPをChatGPTの通常Chatへ送信することを明示承認。承認後に同資料を添付して独立監査、合格後に通常統合・既存Worker公開・配信確認を続行。
+
+監査ZIP: ../.task-tools/swarm-front-distinction-review-audit.zip、SHA256 B341A3658C41ADA48CC0F7A2A174D8A4424B49D4B9A6E08EA58CDE87EC861A9F。約26MB、728収録ファイルGit blob一致。依頼文: ../.task-tools/front-distinction-audit-request.md。未送信・監査Chat URLは未確定。公開用スクリプト ../.task-tools/release-front-distinction.ps1 を準備済み。[変更と検証](FRONT-CHOICE-DISTINCTION.md)。
+
 # 現在地: 3択の取得区別・強化一覧を実装、独立監査へ（2026-10-05）
 
 新規獲得/段階アップを文字・記号・色で区別。3択の見出し左に現在の強化ボタンを追加。型・単体41・実ブラウザ7件成功。旧版規則と保存を変更せず、既存Worker公開前の独立監査を続ける。[変更と検証](FRONT-CHOICE-DISTINCTION.md)。
