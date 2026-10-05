@@ -1,3 +1,9 @@
+# 現在地: 必須2件を修正し同Chatへ再監査送信（2026-10-05）
+
+初回は要修正。P1の自動選択ID先取りによる永久停止を新旧双方で修正、P2の旧規則HUD/詳細/カード文言をbase由来へ復元。[修正記録](FRONT-UX-GROWTH-REAUDIT.md)。単体41・型・横844実UI・修正commit後のbuild/本番dry-run成功。
+
+固定再監査対象 `f8e7c1bf83b3555b191c2edb196e8662072f12cd`。同じ[監査Chat](https://chatgpt.com/c/6ac2d707-6318-83e8-838d-ed0d785743a3)へ `swarm-front-growth-reaudit-1.zip` を送信・添付と応答開始を確認。ZIP SHA256 `2B1EEDCAB019528615839AA8A209FBCA44A6788ACB5F0A8912BBA929945C8A80`。送信時一度接続タイムアウト、未送信下書きを別タブで確認してから一度送信。最終合格後にPR127通常統合・既存Worker公開・配信確認まで自走。追加承認は不要。
+
 # 現在地: 独立監査を送信・判定待ち（2026-10-05）
 
 アプリ内ブラウザが復旧。通常Chatへ監査ZIPを添付し送信、添付と応答開始を確認。[監査Chat](https://chatgpt.com/c/6ac2d707-6318-83e8-838d-ed0d785743a3)、[PR127](https://github.com/futsalife24-bot/swarm-front/pull/127)。固定対象 `3c22590722a48f1edf2398ac238dcf7f0b4640cb`、base `63844815fdd91d068672f752b1bb9439a246e198`。736ファイルblob一致、ZIP SHA256 `B6D2DB43D7909222E3F535F2E889CCA494CA930671A779F06609DF8549A1107D`。判定後に必要修正・再監査・通常統合・既存Worker公開を続行。まだ合格/公開とは扱わない。
