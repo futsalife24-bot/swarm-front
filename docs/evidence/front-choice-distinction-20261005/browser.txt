@@ -1,0 +1,13 @@
+Running 7 tests using 1 worker
+
+(node:30560) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\front.spec.ts:44:3 › 横画面 1280：初期候補・3択・再開・旧版保護 (8.7s)
+  ok 2 e2e\front.spec.ts:44:3 › 横画面 844：初期候補・3択・再開・旧版保護 (4.6s)
+  ok 3 e2e\front.spec.ts:44:3 › 横画面 640：初期候補・3択・再開・旧版保護 (4.0s)
+  ok 4 e2e\front.spec.ts:417:3 › 強化の区別 1280：取得済みと新規を同時表示 (1.5s)
+  ok 5 e2e\front.spec.ts:417:3 › 強化の区別 844：取得済みと新規を同時表示 (1.5s)
+  ok 6 e2e\front.spec.ts:417:3 › 強化の区別 640：取得済みと新規を同時表示 (1.5s)
+  ok 7 e2e\front.spec.ts:473:1 › 実ブラウザ2人：準備・共同選択・独立報酬・再読込 (14.1s)
+
+  7 passed (37.5s)

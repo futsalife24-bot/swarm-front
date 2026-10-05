@@ -1,3 +1,24 @@
+# 現在地: 3択改善の独立監査合格、公開へ（2026-10-06）
+
+[監査Chat](https://chatgpt.com/c/6ac3c0a5-3640-83ec-bb48-ebc43ab69e38)の6分7秒の完了回答で、固定対象 a71241ee153a3d1a4ddd79cf1511ee10893a4ed5 は合格・P0/P1/P2なし。[確定全文](evidence/front-choice-distinction-20261005/audit-final.md)。対象SHA・完了表示・コピー/再生成操作・停止ボタン消失を確認。末尾に通信エラー併記はあるが、最終判定全文をコピー保存済み。監査後差分は状態と監査記録のみ。PR129通常統合・既存Worker公開・配信/UI確認へ進む。
+
+# 現在地: 承認後に独立監査送信・回答待ち（2026-10-06）
+
+ユーザーが今回の監査ZIPの通常Chat送信を明示承認。同一ZIPをアプリ内ブラウザの[監査Chat](https://chatgpt.com/c/6ac3c0a5-3640-83ec-bb48-ebc43ab69e38)へ添付・送信し、監査側が差分4本を読み取った応答を確認。固定対象 a71241ee153a3d1a4ddd79cf1511ee10893a4ed5。以降の差分は状態記録のみ。下記の送信承認待ちは解消。最終監査結果の確認・必要修正後にPR129通常統合・既存Worker公開・配信確認を継続する。
+
+# 現在地: 3択改善は検証・PR保存済み、監査資料送信の承認待ち（2026-10-05）
+
+[PR129](https://github.com/futsalife24-bot/swarm-front/pull/129)、固定監査対象 a71241ee153a3d1a4ddd79cf1511ee10893a4ed5、base 08dc16b94becdd411f6d6fe3c5e6b52635d93fbb。3択の新規/段階区別・現在の強化ボタンを実装。型・単体41・実ブラウザ7・build/本番dry-run成功。まだmain統合・本番公開していない。
+
+停止理由: アプリ内ブラウザの通常ChatへのZIP添付を自動承認レビューが拒否。理由は具体的な資料とChatGPT宛先への明示承認不足。GitHubが公開設定で対象SHAと728ファイルが一致することを確認して同一経路で再審査したが再度拒否。迂回せず停止。
+再開条件: 利用者が今回のソース差分・検証画像/ログを含む監査ZIPをChatGPTの通常Chatへ送信することを明示承認。承認後に同資料を添付して独立監査、合格後に通常統合・既存Worker公開・配信確認を続行。
+
+監査ZIP: ../.task-tools/swarm-front-distinction-review-audit.zip、SHA256 B341A3658C41ADA48CC0F7A2A174D8A4424B49D4B9A6E08EA58CDE87EC861A9F。約26MB、728収録ファイルGit blob一致。依頼文: ../.task-tools/front-distinction-audit-request.md。未送信・監査Chat URLは未確定。公開用スクリプト ../.task-tools/release-front-distinction.ps1 を準備済み。[変更と検証](FRONT-CHOICE-DISTINCTION.md)。
+
+# 現在地: 3択の取得区別・強化一覧を実装、独立監査へ（2026-10-05）
+
+新規獲得/段階アップを文字・記号・色で区別。3択の見出し左に現在の強化ボタンを追加。型・単体41・実ブラウザ7件成功。旧版規則と保存を変更せず、既存Worker公開前の独立監査を続ける。[変更と検証](FRONT-CHOICE-DISTINCTION.md)。
+
 # 現在地: 旧版操作体験・段階育成を公開済み（2026-10-05）
 
 [改装版](https://swarm-front.melosalife-24.workers.dev/front)へ公開。PR127通常統合、公開ソース `037cd374b2a1a5f075964cf7a4c08b073c548ad8`、Worker `550fd323-86be-484c-94e5-d67bd05bdd90`。必須2件修正後の独立再監査合格、残る必須指摘なし。旧版/保存/更新前作戦を保護。

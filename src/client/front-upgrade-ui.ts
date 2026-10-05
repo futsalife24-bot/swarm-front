@@ -115,6 +115,9 @@ export function frontUpgradeCardCopy(view: UpgradeView, id: FrontUpgradeId) {
       aria: d.description,
       description: legacyUi.legacyUpgradeCopy[id as LegacyId],
       prefix: "",
+      intent: "legacy",
+      status: "",
+      rank: "",
     };
   }
   const d = FRONT_UPGRADE_CATALOG[id];
@@ -125,5 +128,26 @@ export function frontUpgradeCardCopy(view: UpgradeView, id: FrontUpgradeId) {
     aria: description,
     description,
     prefix: `${view.levels[id] ? `${view.levels[id]} → ${view.levels[id] + 1}段階` : "新規"} · `,
+    intent: view.levels[id] ? "level-up" : "new",
+    status: view.levels[id] ? "段階アップ" : "新規獲得",
+    rank: view.levels[id]
+      ? `${view.levels[id]} → ${view.levels[id] + 1}段階`
+      : "未取得 → 1段階",
   };
+}
+
+export function frontUpgradeCardMarkup(
+  view: UpgradeView,
+  id: FrontUpgradeId,
+  base: string,
+) {
+  const d = frontUpgradeCardCopy(view, id);
+  const family = {
+    explosion: "爆発",
+    piercing: "貫通",
+    interception: "迎撃",
+    generic: "補強",
+  }[d.family];
+  const modern = d.intent !== "legacy";
+  return `<button class="rebuild-card" data-card="${id}"${modern ? ` data-acquisition="${d.intent}"` : ""} aria-label="${modern ? `${d.status}・${d.rank}：` : ""}${esc(d.name)}：${esc(d.aria)}">${modern ? `<span class="front-acquisition"><span aria-hidden="true">${d.intent === "new" ? "＋" : "↑"}</span>${d.status}</span>` : ""}<img class="rebuild-card-icon" src="${frontUpgradeIcon(id, base)}" alt="" width="96" height="96"><span class="rebuild-card-kind">${modern ? `<b class="front-card-rank">${d.rank}</b> · ` : ""}${family}</span><strong>${esc(d.name)}</strong><span class="rebuild-card-description">${esc(d.description)}</span></button>`;
 }

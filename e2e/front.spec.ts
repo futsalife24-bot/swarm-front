@@ -5,7 +5,10 @@ import {
   emptyFrontProgress,
   FRONT_PROGRESS_KEY,
 } from "../src/client/front-progress";
-import { frontUpgradeDetails } from "../src/client/front-upgrade-ui";
+import {
+  frontUpgradeDetails,
+  frontUpgradeCardMarkup,
+} from "../src/client/front-upgrade-ui";
 import { createFrontRun, getFrontRunView } from "../src/shared/front-run";
 import { localCreationKey } from "../tests/credentials";
 const evidence =
@@ -139,6 +142,78 @@ for (const viewport of [
       page.getByRole("heading", { name: "強化を選べ", exact: true }),
     ).toBeVisible({ timeout: 65000 });
     await expect(page.locator(".rebuild-card")).toHaveCount(3);
+    const originalChoices = await page
+      .locator(".rebuild-card")
+      .evaluateAll((es) => es.map((e) => e.getAttribute("data-card")));
+    await page
+      .getByRole("button", { name: "現在の強化 0/12", exact: true })
+      .click();
+    const owned = page.getByRole("dialog", { name: "現在の強化", exact: true });
+    await expect(owned).toBeVisible();
+    await expect(owned).toContainText("まだ強化を取得していません");
+    await page.screenshot({
+      path: `${evidence}/owned-empty-${viewport.width}.png`,
+    });
+    const acquiredSample = getFrontRunView(
+      createFrontRun(
+        { runId: "owned-layout", seed: 1, players: [{ id: "p" }] },
+        0,
+      ),
+      "p",
+    );
+    for (const id of [
+      "blast-core",
+      "fuse",
+      "compressed-charge",
+      "armor-piercer",
+      "ricochet",
+      "line-shot",
+    ] as const)
+      acquiredSample.levels[id] = 2;
+    acquiredSample.picks = 12;
+    // 実際の詳細ダイアログに最大取得状態の描画だけを入れて収まりを検証。
+    await owned.locator(".front-upgrade-details").evaluate(
+      (el, markup) => {
+        el.outerHTML = markup;
+      },
+      frontUpgradeDetails(acquiredSample, "/"),
+    );
+    await expect(owned.locator("li")).toHaveCount(6);
+    await owned.locator(".front-evolution-progress").scrollIntoViewIfNeeded();
+    await expect(
+      page.getByRole("button", { name: "3択へ戻る", exact: true }),
+    ).toBeInViewport();
+    expect(
+      await owned.evaluate((el) => {
+        const r = el.getBoundingClientRect();
+        return (
+          r.left >= 0 &&
+          r.top >= 0 &&
+          r.right <= innerWidth &&
+          r.bottom <= innerHeight &&
+          el.scrollWidth <= el.clientWidth
+        );
+      }),
+    ).toBe(true);
+    await page.screenshot({
+      path: `${evidence}/owned-six-${viewport.width}.png`,
+    });
+    await page.getByRole("button", { name: "3択へ戻る", exact: true }).click();
+    await expect(owned).not.toBeVisible();
+    await page
+      .getByRole("button", { name: "現在の強化 0/12", exact: true })
+      .click();
+    await page.keyboard.press("Escape");
+    await expect(owned).not.toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "強化を選べ", exact: true }),
+    ).toBeVisible();
+    expect(
+      await page
+        .locator(".rebuild-card")
+        .evaluateAll((es) => es.map((e) => e.getAttribute("data-card"))),
+    ).toEqual(originalChoices);
+    await expect(page.locator(".rebuild-card")).toHaveCount(3);
     expect(await page.locator(".rebuild-selection footer").count()).toBe(0);
     const cards = await page.locator(".rebuild-card").evaluateAll((nodes) =>
       nodes.map((el) => {
@@ -242,7 +317,7 @@ for (const viewport of [
           );
         }),
     );
-    await page.getByRole("button", { name: /^導火：/ }).click();
+    await page.getByRole("button", { name: /導火：/ }).click();
     const selected = await transition;
     expect(selected.elapsed).toBeLessThan(700);
     expect(selected.picked).toBe(
@@ -338,6 +413,63 @@ for (const viewport of [
     ).toBe("旧版の日次台帳");
     expect(errors).toEqual([]);
   });
+for (const width of [1280, 844, 640])
+  test(`強化の区別 ${width}：取得済みと新規を同時表示`, async ({ page }) => {
+    await page.setViewportSize({ width, height: width === 1280 ? 720 : 360 });
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/front.html");
+    const sample = getFrontRunView(
+      createFrontRun(
+        { runId: "mixed-layout", seed: 1, players: [{ id: "p" }] },
+        0,
+      ),
+      "p",
+    );
+    sample.levels["compressed-charge"] = 2;
+    sample.levels["armor"] = 1;
+    sample.picks = 3;
+    // 同時出現する状態を合成。カードは本番と同じ描画関数で検証する。
+    await page.locator("#ui").evaluate(
+      (el, markup) => {
+        document.body.dataset.screen = "battle";
+        el.innerHTML = markup;
+      },
+      `<section class="pause-card rebuild-panel rebuild-selection"><header><button id="front-choice-owned">現在の強化 3/12</button><h1 class="front-choice-title">強化を選べ</h1><div class="rebuild-selection-actions"><span>あと15秒</span><button id="rebuild-reroll">再抽選 残り2</button></div></header><div class="rebuild-cards">${(["compressed-charge", "emergency-armor", "armor"] as const).map((id) => frontUpgradeCardMarkup(sample, id, "/")).join("")}</div></section>`,
+    );
+    await expect(
+      page.getByRole("button", { name: /^段階アップ・2 → 3段階：/ }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: /^新規獲得・未取得 → 1段階：/ }),
+    ).toBeVisible();
+    const layout = await page.locator(".rebuild-selection").evaluate((el) => {
+      const r = el.getBoundingClientRect();
+      const header = [...el.querySelectorAll("header > *")].map((e) =>
+        e.getBoundingClientRect(),
+      );
+      const fit = [...el.querySelectorAll("button")].every(
+        (e) => e.scrollWidth <= e.clientWidth + 1,
+      );
+      return {
+        height: r.height,
+        fit,
+        overlap:
+          header[0].right > header[1].left || header[1].right > header[2].left,
+        inView:
+          r.left >= 0 &&
+          r.right <= innerWidth &&
+          r.top >= 0 &&
+          r.bottom <= innerHeight,
+      };
+    });
+    expect(layout.inView).toBe(true);
+    expect(layout.fit).toBe(true);
+    expect(layout.overlap).toBe(false);
+    expect(layout.height).toBeLessThan((width === 1280 ? 720 : 360) * 0.65);
+    mkdirSync(evidence, { recursive: true });
+    await page.screenshot({ path: `${evidence}/mixed-${width}.png` });
+  });
+
 test("実ブラウザ2人：準備・共同選択・独立報酬・再読込", async ({
   page,
   context,
@@ -391,8 +523,18 @@ test("実ブラウザ2人：準備・共同選択・独立報酬・再読込", a
     await expect(
       p.getByRole("heading", { name: "強化を選べ", exact: true }),
     ).toBeVisible({ timeout: 65000 });
+  await second
+    .getByRole("button", { name: "現在の強化 0/12", exact: true })
+    .click();
+  const coopOwned = second.getByRole("dialog", {
+    name: "現在の強化",
+    exact: true,
+  });
+  await expect(coopOwned).toContainText("部隊の選択時間は進みます");
   await page.locator("[data-card='blast-core']").click();
   await expect(page.getByText("部隊の選択を待っています")).toBeVisible();
+  await expect(coopOwned).toBeVisible();
+  await second.getByRole("button", { name: "3択へ戻る", exact: true }).click();
   await second.locator("[data-card='afterimage-mine']").click();
   for (const p of pages)
     await expect(p.locator("#controls")).toBeVisible({ timeout: 10000 });
