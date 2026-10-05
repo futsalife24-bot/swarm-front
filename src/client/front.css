@@ -442,3 +442,53 @@ body.front-game #ui .front-initial label {
     height: 18px;
   }
 }
+
+/* 旧版と同じ情報密度・下端の主操作。装備枠を空き高さへ引き伸ばさない。 */
+.front-prep .equipment-select {
+  flex: none;
+}
+.front-prep .loadout-slots {
+  flex: none;
+  grid-auto-rows: min-content;
+}
+.front-prep .loadout-slots button {
+  flex: none;
+}
+.front-prep .gear-footer #front-launch {
+  min-width: 180px;
+  min-height: 38px;
+}
+.front-prep .front-room-mode {
+  margin: 4px 0;
+  font-size: 13px;
+}
+.front-room-mode small {
+  display: block;
+  font-size: 10px;
+}
+.front-menu {
+  width: min(840px, 100%);
+  max-height: 100%;
+}
+.front-menu-content {
+  overflow: auto;
+  min-height: 0;
+  font-size: 13px;
+}
+.front-menu .front-initial {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.front-menu .front-initial label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.front-menu .front-initial small {
+  font-size: 12px;
+}
+.front-weapon-row {
+  cursor: pointer;
+}

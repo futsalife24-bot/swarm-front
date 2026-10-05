@@ -1,3 +1,5 @@
+import { frontAutomaticRequestId } from "./front-request-id";
+import * as legacy from "./front-legacy-run";
 /** 改装版の権威状態。候補・乱数・要求履歴は World に載せない。 */
 import { STARTERS, WEAPONS, stats, ENEMIES, type Weapon } from "./defs";
 import {
@@ -28,8 +30,8 @@ import {
   selectFrontUpgrade,
   rerollFrontUpgrade,
   canRerollFrontUpgrade,
-  frontEvolvedFamilies,
   FRONT_INITIAL_CARDS,
+  FRONT_MAX_PICKS,
   type FrontUpgradeState,
   type FrontUpgradeId,
   type FrontUpgradeSelection,
@@ -39,8 +41,10 @@ import {
 export type FrontWeaponKind = "rifle" | "shotgun" | "smg";
 export type FrontMode = "survival" | "defense" | "daily";
 export const FRONT_RUN_CONFIG = {
-  selectionBoundaries: [30, 75, 120, 165, 210, 255, 345] as readonly number[],
-  xpThresholds: [12, 36, 66, 100, 144, 192] as readonly number[],
+  selectionBoundaries: [345] as readonly number[],
+  xpThresholds: [
+    12, 36, 80, 150, 240, 360, 510, 690, 900, 1140, 1410,
+  ] as readonly number[],
   finalResupply: 345,
   hardTimeout: 540,
   timeoutWarning: 480,
@@ -203,7 +207,7 @@ function applyBuild(run: FrontRun, id: string) {
     p = w.players.find((p) => p.id === id)!;
   const previous = r.maxHp;
   r.levels = { ...run.upgrades[id].levels };
-  r.evolved = frontEvolvedFamilies(r);
+  // 進化は精鋭撃破時に戦闘状態へ確定する。取得だけでは発動しない。
   r.maxHp = 160 * (1 + 0.05 * r.levels.armor);
   if (p.hp > 0) p.hp = Math.min(r.maxHp, p.hp + r.maxHp - previous);
   p.weapons = p.weapons.map((weapon) => ({
@@ -223,7 +227,8 @@ function applyBuild(run: FrontRun, id: string) {
 }
 function openOwed(run: FrontRun, id: string) {
   const s = run.upgrades[id];
-  if (s.offer || s.rightsSpent >= s.rightsGranted || s.picks >= 7) return;
+  if (s.offer || s.rightsSpent >= s.rightsGranted || s.picks >= FRONT_MAX_PICKS)
+    return;
   const result = openFrontUpgradeOffer(s);
   if (result.ok) run.upgrades[id] = result.state;
 }
@@ -239,6 +244,14 @@ export function chooseFrontUpgrade(
   now = 0,
   automatic = false,
 ): boolean {
+  if (!run.world.front?.growthVersion)
+    return legacy.chooseFrontUpgrade(
+      run as unknown as legacy.FrontRun,
+      id,
+      request as Parameters<typeof legacy.chooseFrontUpgrade>[2],
+      now,
+      automatic,
+    );
   if (
     run.phase !== "selection" ||
     !run.upgrades[id] ||
@@ -269,6 +282,13 @@ export function rerollFrontRunOffer(
   request: FrontUpgradeRequest,
   now = 0,
 ): boolean {
+  if (!run.world.front?.growthVersion)
+    return legacy.rerollFrontRunOffer(
+      run as unknown as legacy.FrontRun,
+      id,
+      request,
+      now,
+    );
   if (
     run.phase !== "selection" ||
     !run.upgrades[id] ||
@@ -282,7 +302,6 @@ export function rerollFrontRunOffer(
   return true;
 }
 function updateRights(run: FrontRun) {
-  if (run.finalResupplyDone) return;
   let count = 0;
   FRONT_RUN_CONFIG.xpThresholds.forEach((threshold, index) => {
     if (run.world.front!.xp >= threshold) {
@@ -427,6 +446,13 @@ export function stepFrontRun(
   dt = 0.05,
   now = 0,
 ): FrontRun {
+  if (!run.world.front?.growthVersion)
+    return legacy.stepFrontRun(
+      run as unknown as legacy.FrontRun,
+      inputs,
+      dt,
+      now,
+    ) as unknown as FrontRun;
   if (
     !Number.isFinite(dt) ||
     dt <= 0 ||
@@ -438,7 +464,7 @@ export function stepFrontRun(
   if (run.phase === "selection") {
     if (run.selectionDeadline !== null && now >= run.selectionDeadline) {
       for (const id of Object.keys(run.upgrades))
-        for (let count = 0; count < 7; count++) {
+        for (let count = 0; count < FRONT_MAX_PICKS; count++) {
           const offer = run.upgrades[id].offer;
           if (!offer) break;
           chooseFrontUpgrade(
@@ -448,7 +474,9 @@ export function stepFrontRun(
               runId: run.world.run,
               offerId: offer.id,
               revision: offer.revision,
-              requestId: `${offer.id}:default`,
+              requestId: frontAutomaticRequestId(
+                run.upgrades[id].processedRequestIds,
+              ),
               cardId: offer.defaultCardId,
             },
             now,
@@ -494,23 +522,40 @@ export function stepFrontRun(
     w.time = boundary;
     resupply(run, boundary, now);
   }
+  if (run.phase === "combat" || run.phase === "boss") {
+    Object.keys(run.upgrades).forEach((id) => openOwed(run, id));
+    if (Object.values(run.upgrades).some((s) => s.offer)) {
+      run.phase = "selection";
+      run.selectionDeadline =
+        w.players.length > 1 ? now + FRONT_RUN_CONFIG.selectionSeconds : null;
+    }
+  }
   return run;
 }
 /** 各クライアントへの情報は自身の候補だけ。内部乱数・他人の候補を渡さない。 */
 export function getFrontRunView(run: FrontRun, id: string) {
+  if (!run.world.front?.growthVersion) {
+    const old = legacy.getFrontRunView(run as unknown as legacy.FrontRun, id);
+    return {
+      ...old,
+      maxPicks: 7,
+      growthVersion: 1,
+      levels: { ...createFrontUpgradeState("view", 0).levels, ...old.levels },
+    };
+  }
   const s = run.upgrades[id],
     r = run.world.front!.players[id];
   if (!s || !r) throw new RangeError("参加者が見つかりません");
   const offer = s.offer;
   return {
     phase: run.phase,
+    maxPicks: FRONT_MAX_PICKS,
+    growthVersion: 2,
     mode: run.mode,
     day: run.day,
     combatTime: run.world.time,
     xp: run.world.front!.xp,
-    nextXpThreshold: run.finalResupplyDone
-      ? null
-      : (FRONT_RUN_CONFIG.xpThresholds[s.rightsGranted] ?? null),
+    nextXpThreshold: FRONT_RUN_CONFIG.xpThresholds[s.rightsGranted] ?? null,
     picks: s.picks,
     levels: { ...s.levels },
     evolved: [...r.evolved],

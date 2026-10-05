@@ -168,6 +168,7 @@ export class FrontNetwork {
       this.send({
         type: "hello",
         equipmentCache: 1,
+        frontGrowth: 2,
         name: this.playerName,
         ...(this.token ? { token: this.token } : {}),
       });

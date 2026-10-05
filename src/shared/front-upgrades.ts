@@ -15,7 +15,11 @@ export type FrontUpgradeId =
   | "interceptor"
   | "armor"
   | "reload"
-  | "magazine";
+  | "magazine"
+  | "magnet"
+  | "blast-radius"
+  | "opening-shot"
+  | "emergency-armor";
 export type FrontFamily = "explosion" | "piercing" | "interception";
 export const FRONT_FAMILY_CARDS: Readonly<
   Record<FrontFamily, readonly FrontUpgradeId[]>
@@ -54,9 +58,10 @@ export interface FrontUpgradeDefinition {
   readonly maxLevel: number;
 }
 
-export const FRONT_MAX_PICKS = 7;
-export const FRONT_MAX_ADDITIONAL_RIGHTS = 6;
+export const FRONT_MAX_PICKS = 12;
+export const FRONT_MAX_ADDITIONAL_RIGHTS = 11;
 export const FRONT_MAX_REROLLS = 2;
+export const FRONT_MAX_TYPES = 6;
 export const FRONT_EXPLOSION_UPGRADES: readonly FrontExplosionUpgradeId[] =
   Object.freeze(["blast-core", "fuse", "compressed-charge"]);
 export const FRONT_UPGRADE_IDS: readonly FrontUpgradeId[] = Object.freeze([
@@ -70,6 +75,10 @@ export const FRONT_UPGRADE_IDS: readonly FrontUpgradeId[] = Object.freeze([
   "armor",
   "reload",
   "magazine",
+  "magnet",
+  "blast-radius",
+  "opening-shot",
+  "emergency-armor",
 ]);
 
 export const FRONT_UPGRADE_CATALOG: Readonly<
@@ -80,14 +89,14 @@ export const FRONT_UPGRADE_CATALOG: Readonly<
     name: "誘爆核",
     description: "手動射撃で撃破すると小爆発。導火を持つと爆発で印も付ける。",
     family: "explosion",
-    maxLevel: 1,
+    maxLevel: 3,
   }),
   fuse: Object.freeze({
     id: "fuse",
     name: "導火",
     description: "手動命中で印を付け、次の手動命中で印を消費して起爆。",
     family: "explosion",
-    maxLevel: 1,
+    maxLevel: 3,
   }),
   "compressed-charge": Object.freeze({
     id: "compressed-charge",
@@ -95,54 +104,55 @@ export const FRONT_UPGRADE_CATALOG: Readonly<
     description:
       "同じ敵へ3回の手動命中で小爆発。他の爆発と重なる場合は半径を拡張。",
     family: "explosion",
-    maxLevel: 1,
+    maxLevel: 3,
   }),
   "armor-piercer": Object.freeze({
     id: "armor-piercer",
     name: "徹甲芯",
     description: "手動弾の貫通対象を1体追加。",
     family: "piercing",
-    maxLevel: 1,
+    maxLevel: 3,
   }),
   ricochet: Object.freeze({
     id: "ricochet",
     name: "反射弾",
     description: "同じ敵へ3回の手動命中で、近くの別対象へ1回跳弾。",
     family: "piercing",
-    maxLevel: 1,
+    maxLevel: 3,
   }),
   "line-shot": Object.freeze({
     id: "line-shot",
     name: "整列射",
     description: "貫通対象+1。1発で3体以上に当てると弾倉へ1発返す。",
     family: "piercing",
-    maxLevel: 1,
+    maxLevel: 3,
   }),
   "afterimage-mine": Object.freeze({
     id: "afterimage-mine",
     name: "残像地雷",
     description: "回避終了地点に地雷。最大3個、4個目は最古を置換。",
     family: "interception",
-    maxLevel: 1,
+    maxLevel: 3,
   }),
   "tactical-reload": Object.freeze({
     id: "tactical-reload",
     name: "戦術装填",
     description: "回避後の次の装填を短縮。",
     family: "interception",
-    maxLevel: 1,
+    maxLevel: 3,
   }),
   interceptor: Object.freeze({
     id: "interceptor",
     name: "迎撃子機",
     description: "手動命中で充填。弾を消費した装填中に短い迎撃を1回。",
     family: "interception",
-    maxLevel: 1,
+    maxLevel: 3,
   }),
   armor: Object.freeze({
     id: "armor",
     name: "装甲補強",
-    description: "最大HPを基準値の5%追加。増加分だけ現在HPも回復。最大4段階。",
+    description:
+      "最大HPを基準値の5%追加。生存中は増加分だけ現在HPも回復。最大4段階。",
     family: "generic",
     maxLevel: 4,
   }),
@@ -160,6 +170,34 @@ export const FRONT_UPGRADE_CATALOG: Readonly<
       "基準弾倉の10%を切り上げた固定量を追加（最低1発）。最大4段階。",
     family: "generic",
     maxLevel: 4,
+  }),
+  magnet: Object.freeze({
+    id: "magnet",
+    name: "磁力回収",
+    description: "経験値の回収半径を段階ごとに3m追加。",
+    family: "generic",
+    maxLevel: 3,
+  }),
+  "blast-radius": Object.freeze({
+    id: "blast-radius",
+    name: "爆域拡張",
+    description: "爆発・地雷の半径を段階ごとに20%拡張。",
+    family: "generic",
+    maxLevel: 3,
+  }),
+  "opening-shot": Object.freeze({
+    id: "opening-shot",
+    name: "装填初撃",
+    description: "装填を完了した武器の初弾威力を段階ごとに25%強化。",
+    family: "generic",
+    maxLevel: 3,
+  }),
+  "emergency-armor": Object.freeze({
+    id: "emergency-armor",
+    name: "緊急装甲",
+    description: "回避終了後2秒、被ダメージを段階ごとに10%軽減。",
+    family: "generic",
+    maxLevel: 3,
   }),
 });
 
@@ -244,25 +282,39 @@ export const frontFamilyCount = (
   build: Pick<FrontUpgradeState, "levels">,
   family: FrontFamily,
 ) => FRONT_FAMILY_CARDS[family].reduce((sum, id) => sum + build.levels[id], 0);
+/** 進化準備の成立。実際の進化はこの条件成立後の精鋭撃破で獲得する。 */
+export const FRONT_EVOLUTION_RECIPES: Record<
+  FrontFamily,
+  { main: FrontUpgradeId; support: FrontUpgradeId }
+> = {
+  explosion: { main: "fuse", support: "blast-radius" },
+  piercing: { main: "ricochet", support: "opening-shot" },
+  interception: { main: "afterimage-mine", support: "interceptor" },
+};
 export const frontEvolvedFamilies = (
   build: Pick<FrontUpgradeState, "levels">,
 ): FrontFamily[] =>
-  (Object.keys(FRONT_FAMILY_CARDS) as FrontFamily[]).filter(
-    (family) => frontFamilyCount(build, family) === 3,
-  );
+  (Object.keys(FRONT_EVOLUTION_RECIPES) as FrontFamily[]).filter((family) => {
+    const { main, support } = FRONT_EVOLUTION_RECIPES[family];
+    return (
+      build.levels[main] === FRONT_UPGRADE_CATALOG[main].maxLevel &&
+      build.levels[support] > 0
+    );
+  });
 const families = Object.keys(FRONT_FAMILY_CARDS) as FrontFamily[];
 
 function eligibleFor(build: Build): FrontUpgradeId[] {
+  const full =
+    FRONT_UPGRADE_IDS.filter((id) => build.levels[id] > 0).length >=
+    FRONT_MAX_TYPES;
   return FRONT_UPGRADE_IDS.filter(
-    (id) => build.levels[id] < FRONT_UPGRADE_CATALOG[id].maxLevel,
+    (id) =>
+      (!full || build.levels[id] > 0) &&
+      build.levels[id] < FRONT_UPGRADE_CATALOG[id].maxLevel,
   );
 }
-function guaranteedFor(build: Build): FrontUpgradeId[] {
-  return families.flatMap((family) =>
-    frontFamilyCount(build, family) === 2
-      ? FRONT_FAMILY_CARDS[family].filter((id) => build.levels[id] === 0)
-      : [],
-  );
+function guaranteedFor(_build: Build): FrontUpgradeId[] {
+  return [];
 }
 function defaultFor(
   build: Build,
@@ -285,30 +337,20 @@ function defaultFor(
 /** All valid three-card combinations. Exact enumeration also makes rerolls bounded. */
 function combinationsFor(build: Build): FrontUpgradeId[][] {
   const eligible = eligibleFor(build).sort(compareIds);
-  const guaranteed = guaranteedFor(build);
-  const continuation = families.filter(
-    (family) => frontFamilyCount(build, family) === 1,
-  );
+  const owned = eligible.filter((id) => build.levels[id] > 0);
   const combinations: FrontUpgradeId[][] = [];
-  for (let a = 0; a < eligible.length - 2; a++) {
-    for (let b = a + 1; b < eligible.length - 1; b++) {
-      for (let c = b + 1; c < eligible.length; c++) {
-        const ids = [eligible[a], eligible[b], eligible[c]];
-        if (!guaranteed.every((id) => ids.includes(id))) continue;
-        // まだ1枚の系統がある場合、続きの候補を少なくとも1つ含める。
-        if (
-          continuation.length &&
-          !ids.some((id) =>
-            continuation.includes(
-              FRONT_UPGRADE_CATALOG[id].family as FrontFamily,
-            ),
-          )
-        )
-          continue;
+  // 6種類×最低3段階なので、12取得未満なら候補は必ず残る。
+  const size = Math.min(3, eligible.length);
+  const visit = (start: number, ids: FrontUpgradeId[]) => {
+    if (ids.length === size) {
+      if (!owned.length || ids.some((id) => owned.includes(id)))
         combinations.push(ids);
-      }
+      return;
     }
-  }
+    for (let i = start; i < eligible.length; i++)
+      visit(i + 1, [...ids, eligible[i]]);
+  };
+  visit(0, []);
   return combinations;
 }
 /** 候補の全経路検証用。実抽選と同じ組合せを返す。 */
@@ -361,6 +403,8 @@ export function isValidFrontUpgradeState(
   if (
     FRONT_UPGRADE_IDS.reduce((sum, id) => sum + state.levels[id], 0) !==
       state.picks ||
+    FRONT_UPGRADE_IDS.filter((id) => state.levels[id] > 0).length >
+      FRONT_MAX_TYPES ||
     state.evolved !== frontEvolvedFamilies(state).length > 0
   )
     return false;
@@ -373,7 +417,7 @@ export function isValidFrontUpgradeState(
       return false;
   } else if (
     !(state.initialCards as readonly unknown[]).includes(state.initialCardId) ||
-    state.levels[state.initialCardId!] !== 1 ||
+    state.levels[state.initialCardId!] < 1 ||
     state.picks !== state.rightsSpent + 1
   )
     return false;
@@ -396,9 +440,10 @@ export function isValidFrontUpgradeState(
     offer.id !== `${state.runId}:offer:${state.offerSerial}` ||
     offer.revision !== state.revision ||
     !Array.isArray(offer.cardIds) ||
-    offer.cardIds.length !== 3 ||
+    offer.cardIds.length < 1 ||
+    offer.cardIds.length > 3 ||
     !offer.cardIds.every(isUpgradeId) ||
-    new Set(offer.cardIds).size !== 3 ||
+    new Set(offer.cardIds).size !== offer.cardIds.length ||
     !Array.isArray(offer.seenCombinations) ||
     offer.seenCombinations.length < 1 ||
     offer.seenCombinations.length >
@@ -481,6 +526,10 @@ export function createFrontUpgradeState(
       armor: 0,
       reload: 0,
       magazine: 0,
+      magnet: 0,
+      "blast-radius": 0,
+      "opening-shot": 0,
+      "emergency-armor": 0,
     }),
     initialCardId: null,
     initialCards: Object.freeze([...initialCards]),
@@ -514,7 +563,7 @@ export function grantFrontUpgradeRights(
       FRONT_MAX_ADDITIONAL_RIGHTS,
     )
   )
-    throw new RangeError("経験値による取得権は0〜6の整数で、減らせません");
+    throw new RangeError("経験値による取得権は0〜11の整数で、減らせません");
   return cumulativeRights === state.rightsGranted
     ? state
     : Object.freeze({ ...state, rightsGranted: cumulativeRights });

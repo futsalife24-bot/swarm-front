@@ -51,9 +51,16 @@ for (const viewport of [
     await page
       .getByRole("button", { name: "ソロで出撃準備", exact: true })
       .click();
+    await page.getByRole("button", { name: "基地", exact: true }).click();
     await page
       .getByRole("combobox", { name: "爆発", exact: true })
       .selectOption("fuse");
+    await page.getByRole("button", { name: "戻る", exact: true }).click();
+    await page.getByRole("button", { name: "設定・操作", exact: true }).click();
+    await expect(
+      page.getByRole("heading", { name: "設定・操作" }),
+    ).toBeVisible();
+    await page.getByRole("button", { name: "戻る", exact: true }).click();
     const prep = page.locator(".front-prep");
     expect(
       await prep.evaluate((el) => el.scrollHeight <= el.clientHeight + 1),
@@ -65,9 +72,14 @@ for (const viewport of [
     await page.locator('.front-weapon-row [data-weapon="smg"]').last().click();
     await expect(page.locator('[data-front-slot="0"]')).toContainText("SMG-3");
     await expect(page.locator('[data-front-slot="1"]')).toContainText("AR-9");
-    await expect(
-      page.getByRole("combobox", { name: "爆発", exact: true }),
-    ).toHaveValue("fuse");
+    await expect(page.locator("[data-initial]")).toHaveCount(0);
+    const launch = await page.locator("#front-launch").boundingBox();
+    expect(launch!.x).toBeGreaterThan(viewport.width / 2);
+    expect(launch!.y).toBeGreaterThan(viewport.height * 0.7);
+    await page
+      .locator('[data-front-weapon-row="rifle"] .pt-stat-inner')
+      .click();
+    await expect(page.locator('[data-front-slot="0"]')).toContainText("AR-9");
     // 元の装備に戻して、既存の戦闘・強化検証を続行。
     await page
       .locator('.front-weapon-row [data-weapon="rifle"]')
@@ -116,7 +128,7 @@ for (const viewport of [
     await page.screenshot({
       path: `${evidence}/prep-${viewport.width}x${viewport.height}.png`,
     });
-    await page.getByRole("button", { name: "出撃", exact: true }).click();
+    await page.getByRole("button", { name: "ソロ出撃 ↗", exact: true }).click();
     await expect(
       page.getByRole("progressbar", { name: "準備の進捗" }),
     ).toBeVisible();
@@ -242,13 +254,13 @@ for (const viewport of [
       `${evidence}/choice-${viewport.width}.json`,
       JSON.stringify({ viewport, panel, transition: selected }, null, 2) + "\n",
     );
-    await expect(page.getByText("強化 1/7", { exact: true })).toBeVisible();
+    await expect(page.getByText("強化 1/12", { exact: true })).toBeVisible();
     await expect(page.locator("#controls")).toBeVisible({ timeout: 10000 });
     await expect(
       page.getByRole("list", { name: "取得済み強化" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("listitem", { name: "導火", exact: true }),
+      page.getByRole("listitem", { name: "導火 1段階", exact: true }),
     ).toBeVisible();
     await page.screenshot({ path: `${evidence}/battle-${viewport.width}.png` });
     await page.keyboard.press("Escape");
@@ -257,7 +269,7 @@ for (const viewport of [
     ).toBeVisible();
     await expect(
       page.locator(".front-upgrade-details [data-upgrade='fuse']"),
-    ).toContainText("手動命中で印を付け");
+    ).toContainText("命中で印、次の命中で起爆");
     await page.screenshot({ path: `${evidence}/pause-${viewport.width}.png` });
     // 合成した最大取得状態で、詳細欄だけを実際の描画関数から差し替える。
     const sample = getFrontRunView(
@@ -271,10 +283,9 @@ for (const viewport of [
       "armor-piercer",
       "ricochet",
       "line-shot",
-      "armor",
     ] as const)
-      sample.levels[key] = 1;
-    sample.picks = 7;
+      sample.levels[key] = 2;
+    sample.picks = 12;
     sample.evolved = ["explosion", "piercing"];
     await page.locator(".front-upgrade-details").evaluate(
       (el, markup) => {
@@ -282,7 +293,7 @@ for (const viewport of [
       },
       frontUpgradeDetails(sample, "/"),
     );
-    await expect(page.locator(".front-upgrade-details li")).toHaveCount(7);
+    await expect(page.locator(".front-upgrade-details li")).toHaveCount(6);
     await expect(page.locator(".front-upgrade-evolutions")).toContainText(
       "連鎖崩落",
     );
@@ -303,7 +314,7 @@ for (const viewport of [
     await page.locator(".front-upgrade-evolutions").scrollIntoViewIfNeeded();
     await expect(page.locator(".front-upgrade-evolutions")).toBeInViewport();
     await page.screenshot({
-      path: `${evidence}/pause-seven-${viewport.width}.png`,
+      path: `${evidence}/pause-six-${viewport.width}.png`,
     });
     await page.getByRole("button", { name: "再開", exact: true }).click();
     await expect(page.locator("#controls")).toBeVisible();
@@ -311,9 +322,7 @@ for (const viewport of [
       page.locator(".front-upgrade-strip [role='listitem']"),
     ).toHaveCount(1);
     await page.locator("#pause").click();
-    await page
-      .getByRole("button", { name: "出撃メニューへ", exact: true })
-      .click();
+    await page.getByRole("button", { name: "タイトルへ", exact: true }).click();
     await page.getByRole("button", { name: "旧版で遊ぶ", exact: true }).click();
     await expect(page).toHaveURL("http://127.0.0.1:5186/");
     const data = await page.context().storageState();
@@ -355,9 +364,7 @@ test("実ブラウザ2人：準備・共同選択・独立報酬・再読込", a
   for (const p of pages) {
     await p.goto("/front.html");
     await p.getByRole("button", { name: "協力プレイ", exact: true }).click();
-    await p
-      .getByRole("button", { name: "部屋を作る・参加", exact: true })
-      .click();
+
     await p.getByText("接続先を手動設定（開発用）", { exact: true }).click();
     await p
       .getByRole("textbox", { name: "協力サーバー", exact: true })
@@ -366,6 +373,12 @@ test("実ブラウザ2人：準備・共同選択・独立報酬・再読込", a
       .getByRole("textbox", { name: "部屋IDまたは招待リンク", exact: true })
       .fill(entry.roomId);
     await p.getByRole("button", { name: "参加", exact: true }).click();
+    await expect(
+      p.getByRole("heading", { name: "出撃準備", exact: true }),
+    ).toBeVisible();
+    await expect(p.locator(".front-room-mode")).toContainText("防衛戦");
+    await expect(p.locator("#front-mode")).toHaveCount(0);
+    await p.getByRole("button", { name: "準備完了", exact: true }).click();
     await expect(
       p.getByRole("heading", { name: "防衛戦 · 協力部隊", exact: true }),
     ).toBeVisible({ timeout: 10000 });
@@ -391,7 +404,7 @@ test("実ブラウザ2人：準備・共同選択・独立報酬・再読込", a
     page.locator(".front-upgrade-details [data-upgrade='afterimage-mine']"),
   ).toHaveCount(0);
   await expect(
-    second.getByRole("listitem", { name: "残像地雷", exact: true }),
+    second.getByRole("listitem", { name: "残像地雷 1段階", exact: true }),
   ).toBeVisible();
   await page.locator("#front-settings").click();
   const timer = page.locator(".mission-line > b");

@@ -1,0 +1,5 @@
+  ok 1 e2e\front.spec.ts:41:3 › 横画面 844：初期候補・3択・再開・旧版保護 (9.8s)
+  pw:api => browser.close started +16ms
+  pw:api <= browser.close succeeded +203ms
+
+  1 passed (11.1s)

@@ -164,7 +164,7 @@ describe("戦闘フィードバックの回帰", () => {
       z: 10.54321,
       value: 20,
     }));
-    w.front!.mines = Array.from({ length: 12 }, (_, i) => ({
+    w.front!.mines = Array.from({ length: 20 }, (_, i) => ({
       id: 100000 + i,
       owner: ids[i % 4],
       x: -30.12345,
@@ -228,7 +228,7 @@ describe("戦闘フィードバックの回帰", () => {
         expect(received.enemies).toHaveLength(97);
         expect(received.projectiles).toHaveLength(100);
         expect(received.front.orbs).toHaveLength(160);
-        expect(received.front.mines).toHaveLength(12);
+        expect(received.front.mines).toHaveLength(20);
         expect(received.front.players[id].statuses).toEqual(
           w.front!.players[id].statuses,
         );

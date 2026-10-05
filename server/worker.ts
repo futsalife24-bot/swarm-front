@@ -1,3 +1,4 @@
+import { createFrontRun as createLegacyFrontRun } from "../src/shared/front-legacy-run";
 import { adminManifest, adminPage } from "./admin-page";
 import {
   createFrontRun,
@@ -79,6 +80,7 @@ interface Env {
   PROJECT_HUB_EXPORT_KEY?: string;
 }
 interface Member {
+  frontGrowth?: 2;
   id: string;
   token: string;
   name?: string;
@@ -1032,6 +1034,19 @@ export class Room extends DurableObject<Env> {
         );
         return;
       }
+      if (
+        this.saved.frontRun?.world.front?.growthVersion === 2 &&
+        m.frontGrowth !== 2
+      ) {
+        this.send(ws, {
+          type: "notice",
+          reason:
+            "強化ルールが更新されています。画面を再読み込みして復帰してください",
+        });
+        // 旧クライアントのerror処理は復帰トークンを消すので、noticeとcloseで保持する。
+        ws.close(4000, "画面を再読み込みして復帰してください");
+        return;
+      }
       let member: Member | undefined;
       if (m.token) {
         member = this.saved.members.find((p) => p.token === m.token);
@@ -1070,6 +1085,7 @@ export class Room extends DurableObject<Env> {
         };
         this.saved.members.push(member);
       }
+      member.frontGrowth = m.frontGrowth === 2 ? 2 : undefined;
       member.name =
         normalizePlayerName(m.name) || member.name || DEFAULT_PLAYER_NAME;
       member.last = now;
@@ -1123,6 +1139,7 @@ export class Room extends DurableObject<Env> {
       const name = normalizePlayerName(m.name);
       if (!name || name === member.name || now - (member.profileAt ?? 0) < 1000)
         return;
+      member.frontGrowth = m.frontGrowth === 2 ? 2 : undefined;
       member.name = name;
       member.profileAt = now;
       await this.persist();
@@ -1318,7 +1335,10 @@ export class Room extends DurableObject<Env> {
       }
       let world: World;
       if (this.saved.directory?.ruleset === "front-v1") {
-        const run = createFrontRun(
+        const createRun = present.every((p) => p.frontGrowth === 2)
+          ? createFrontRun
+          : createLegacyFrontRun;
+        const run = createRun(
           {
             runId: secret(),
             seed: crypto.getRandomValues(new Uint32Array(1))[0],
@@ -1330,7 +1350,7 @@ export class Room extends DurableObject<Env> {
           },
           now / 1000,
         );
-        this.saved.frontRun = run;
+        this.saved.frontRun = run as unknown as FrontRun;
         world = run.world;
       } else {
         world = createWorld(

@@ -24,7 +24,7 @@ for (const width of [844, 640])
     await page
       .getByRole("button", { name: "ソロで出撃準備", exact: true })
       .click();
-    await page.getByRole("button", { name: "出撃", exact: true }).click();
+    await page.getByRole("button", { name: "ソロ出撃 ↗", exact: true }).click();
     await expect(page.locator(".rebuild-card")).toHaveCount(3, {
       timeout: 65000,
     });
@@ -87,7 +87,7 @@ for (const width of [844, 640])
     await page
       .getByRole("button", { name: "ソロで出撃準備", exact: true })
       .click();
-    await page.getByRole("button", { name: "出撃", exact: true }).click();
+    await page.getByRole("button", { name: "ソロ出撃 ↗", exact: true }).click();
     await expect(page.locator(".rebuild-card")).toHaveCount(3, {
       timeout: 65000,
     });

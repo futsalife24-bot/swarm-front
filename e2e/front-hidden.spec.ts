@@ -101,6 +101,7 @@ test("同一実ブラウザの背面タブでも協力準備が完了する", as
     await p
       .locator("#room-join")
       .evaluate((el) => (el as HTMLButtonElement).click());
+    await p.getByRole("button", { name: "準備完了", exact: true }).click();
     await expect(
       p.getByRole("heading", { name: "防衛戦 · 協力部隊", exact: true }),
     ).toBeVisible();

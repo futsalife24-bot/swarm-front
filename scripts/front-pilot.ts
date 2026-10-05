@@ -8,6 +8,7 @@ import {
 import { neutral, eye, retireEvents } from "../src/shared/game";
 import {
   FRONT_FAMILY_CARDS,
+  FRONT_EVOLUTION_RECIPES,
   type FrontFamily,
   type FrontUpgradeId,
 } from "../src/shared/front-upgrades";
@@ -36,9 +37,16 @@ for (const mode of ["survival", "defense", "daily"] as FrontMode[]) {
       wall += 0.05;
       const offer = run.upgrades.pilot.offer;
       if (offer) {
-        const preferred = FRONT_FAMILY_CARDS[family as "explosion"].find(
-          (card) => offer.cardIds.includes(card),
-        ) as FrontUpgradeId | undefined;
+        const recipe = FRONT_EVOLUTION_RECIPES[family];
+        const order = [
+          recipe.main,
+          recipe.support,
+          ...FRONT_FAMILY_CARDS[family],
+          "magnet",
+          "armor",
+          "reload",
+        ] as FrontUpgradeId[];
+        const preferred = order.find((card) => offer.cardIds.includes(card));
         chooseFrontUpgrade(
           run,
           "pilot",
@@ -92,7 +100,28 @@ for (const mode of ["survival", "defense", "daily"] as FrontMode[]) {
           input.mz = (orb.z - p.z) / d;
         }
       }
+      // 射撃しながら落ちた経験値を拾う。回収をしない遠距離固定入力と区別する。
+      const nearestOrb = [...w.front!.orbs].sort(
+        (a, b) =>
+          Math.hypot(a.x - p.x, a.z - p.z) - Math.hypot(b.x - p.x, b.z - p.z),
+      )[0];
+      if (
+        nearestOrb &&
+        (!target || Math.hypot(target.x - p.x, target.z - p.z) > 5)
+      ) {
+        const distance = Math.max(
+          1,
+          Math.hypot(nearestOrb.x - p.x, nearestOrb.z - p.z),
+        );
+        input.mx = (nearestOrb.x - p.x) / distance;
+        input.mz = (nearestOrb.z - p.z) / distance;
+      }
       input.reload = p.ammo[p.slot] === 0;
+      // 入力は視点基準。上で求めた世界座標の移動方向を変換する。
+      const worldX = input.mx,
+        worldZ = input.mz;
+      input.mx = worldX * Math.cos(input.yaw) + worldZ * Math.sin(input.yaw);
+      input.mz = worldX * Math.sin(input.yaw) - worldZ * Math.cos(input.yaw);
       stepFrontRun(run, { pilot: input }, 0.05, wall);
       if (evolvedAt === null && w.front!.players.pilot.evolved.length)
         evolvedAt = w.time;
@@ -123,10 +152,10 @@ for (const mode of ["survival", "defense", "daily"] as FrontMode[]) {
 console.log(
   JSON.stringify(
     {
-      date: "2026-10-02",
+      date: "2026-10-05",
       seed: 4520,
       policy:
-        "近い敵を狙い距離を保つ。空弾倉時装填・近距離回避。改変HP/XP/勝利状態なし。障害物迂回や高度な戦術なし。",
+        "進化の主力・補助を優先。近い敵を狙い、敵が5m以内でなければ最寄り経験値へ移動。空弾倉時装填・近距離回避。改変HP/XP/勝利状態なし。障害物迂回や高度な戦術なし。",
       limits:
         "3モード×3系統の各1回。固定方針の計測であり、人間の楽しさ・勝率・実機性能の判定ではない。",
       results,
