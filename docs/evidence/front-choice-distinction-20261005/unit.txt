@@ -1,4 +1,3 @@
-
 > swarm-front@0.1.0 test:front
 > vitest run --config vitest.front.config.ts
 
@@ -13,4 +12,3 @@
 
     Isolate  6 workers spawned · ~313ms startup each (spawn + environment, per file)
              at least ~1.57s faster with isolate: false — reuses workers across files instead of one per file
-
