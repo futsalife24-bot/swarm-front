@@ -1,0 +1,345 @@
+{
+  "source": "d1c26b63256a3904020da8e8b2f14a247d86a11a",
+  "workerVersion": "2d56c76b-db83-42cb-98f2-56b3fecdf6e6",
+  "health": {
+    "status": 200,
+    "body": {
+      "ok": true,
+      "transport": "websocket",
+      "authority": "durable-object"
+    }
+  },
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 3730,
+      "sha256": "3333FBAF3D228128E1EE2912CB0FB2C2D83BDD08FF8CA69A0AB55913480BAC07",
+      "expected": "3333FBAF3D228128E1EE2912CB0FB2C2D83BDD08FF8CA69A0AB55913480BAC07",
+      "matched": true
+    },
+    {
+      "path": "front.html",
+      "status": 200,
+      "bytes": 2765,
+      "sha256": "B30820CD4E8C66096643D2A720C3030DE0F0EEC08B9298140189C44096A37F51",
+      "expected": "B30820CD4E8C66096643D2A720C3030DE0F0EEC08B9298140189C44096A37F51",
+      "matched": true
+    },
+    {
+      "path": "sw.js",
+      "status": 200,
+      "bytes": 3403,
+      "sha256": "CDA986FDEA0ED741110F22D38E4BEF437E0CCB0D33BA83299DB4F9F1D70BF54C",
+      "expected": "CDA986FDEA0ED741110F22D38E4BEF437E0CCB0D33BA83299DB4F9F1D70BF54C",
+      "matched": true
+    },
+    {
+      "path": "assets/changelog-BKGODUON.js",
+      "status": 200,
+      "bytes": 51901,
+      "sha256": "27761D62A77C8CCE1BDE6F1AD438EC5570774A1DFAD2C7F464E08F9E3CD557A6",
+      "expected": "27761D62A77C8CCE1BDE6F1AD438EC5570774A1DFAD2C7F464E08F9E3CD557A6",
+      "matched": true
+    },
+    {
+      "path": "assets/cloud-save-BU42rxxn.css",
+      "status": 200,
+      "bytes": 4428,
+      "sha256": "08AC9310ECA64F8FEFE5AC6387D3C330695F4B2396CF752D11ABF795ECA6FD7C",
+      "expected": "08AC9310ECA64F8FEFE5AC6387D3C330695F4B2396CF752D11ABF795ECA6FD7C",
+      "matched": true
+    },
+    {
+      "path": "assets/cloud-save-C_rmvd3N.js",
+      "status": 200,
+      "bytes": 29878,
+      "sha256": "1499D2120D63A6F55C3AFAFC1AB034A0153F8C6F5A36B30A1DEE9AA66912DAAA",
+      "expected": "1499D2120D63A6F55C3AFAFC1AB034A0153F8C6F5A36B30A1DEE9AA66912DAAA",
+      "matched": true
+    },
+    {
+      "path": "assets/front-9lsIQHzR.css",
+      "status": 200,
+      "bytes": 14596,
+      "sha256": "0B15EB2C4A5E85876EEEDDDB8C5841D1110D1CAFC246EC5F6F3A0ED3C5C62C86",
+      "expected": "0B15EB2C4A5E85876EEEDDDB8C5841D1110D1CAFC246EC5F6F3A0ED3C5C62C86",
+      "matched": true
+    },
+    {
+      "path": "assets/front-mpKDsMR5.js",
+      "status": 200,
+      "bytes": 67172,
+      "sha256": "FA5B8FA9C2F075AAA120B3A02B06BA0C06A9D2C4EBB2EF0904CE2CFC069C05FF",
+      "expected": "FA5B8FA9C2F075AAA120B3A02B06BA0C06A9D2C4EBB2EF0904CE2CFC069C05FF",
+      "matched": true
+    },
+    {
+      "path": "assets/home-screen-Ck8DqQ6M.js",
+      "status": 200,
+      "bytes": 46335,
+      "sha256": "6049786F3337EC77D5098D28B0042ABA1A256FD711F16D481F0038D53613B526",
+      "expected": "6049786F3337EC77D5098D28B0042ABA1A256FD711F16D481F0038D53613B526",
+      "matched": true
+    },
+    {
+      "path": "assets/home-screen-ZVPxDFJE.css",
+      "status": 200,
+      "bytes": 30148,
+      "sha256": "4E23675A1DABDAEA5A2297F92DFFAE1A79F5E81FF8A0AB536B1918AD9A041690",
+      "expected": "4E23675A1DABDAEA5A2297F92DFFAE1A79F5E81FF8A0AB536B1918AD9A041690",
+      "matched": true
+    },
+    {
+      "path": "assets/hud-Ds-WcwRj.css",
+      "status": 200,
+      "bytes": 107833,
+      "sha256": "36FF067E92DBBC9539335EE74D9EB936F9738580E91556CEF387D14B6802EE47",
+      "expected": "36FF067E92DBBC9539335EE74D9EB936F9738580E91556CEF387D14B6802EE47",
+      "matched": true
+    },
+    {
+      "path": "assets/hud-iM49UFZH.js",
+      "status": 200,
+      "bytes": 912138,
+      "sha256": "10F4129995BE7F494A9F9E1ECC41B9D2400F994D958597DEBC1C197466CFE830",
+      "expected": "10F4129995BE7F494A9F9E1ECC41B9D2400F994D958597DEBC1C197466CFE830",
+      "matched": true
+    },
+    {
+      "path": "assets/legacy-CPbai1ZT.css",
+      "status": 200,
+      "bytes": 259,
+      "sha256": "2639C37894EC77566AB7DD7D425D834BC2511FCE2C3D9172420289E2D771B1B9",
+      "expected": "2639C37894EC77566AB7DD7D425D834BC2511FCE2C3D9172420289E2D771B1B9",
+      "matched": true
+    },
+    {
+      "path": "assets/legacy-Czvhyo7T.js",
+      "status": 200,
+      "bytes": 16357,
+      "sha256": "B52B262C14F9839BBD2E6AEDCDD56BFFE22893F79C68C0E043BD6B3A2306321F",
+      "expected": "B52B262C14F9839BBD2E6AEDCDD56BFFE22893F79C68C0E043BD6B3A2306321F",
+      "matched": true
+    },
+    {
+      "path": "assets/main-1gY5OL8A.js",
+      "status": 200,
+      "bytes": 51986,
+      "sha256": "C28BA420FA18C12478BD648F3CC21535107D9559166E91DCDD9F6A01281FAE46",
+      "expected": "C28BA420FA18C12478BD648F3CC21535107D9559166E91DCDD9F6A01281FAE46",
+      "matched": true
+    },
+    {
+      "path": "assets/main-BOIn8V8d.css",
+      "status": 200,
+      "bytes": 1316,
+      "sha256": "8E4C418301931F43AE645FA5A07EE5C0BE77ADEB120B72544DEF5A58E9FFD027",
+      "expected": "8E4C418301931F43AE645FA5A07EE5C0BE77ADEB120B72544DEF5A58E9FFD027",
+      "matched": true
+    },
+    {
+      "path": "assets/playtest-app-CU5IufCk.css",
+      "status": 200,
+      "bytes": 8530,
+      "sha256": "F8DD2DC94F98D22FF4906C0FF444E119D3EB9F0847B66D56941305824879CEE9",
+      "expected": "F8DD2DC94F98D22FF4906C0FF444E119D3EB9F0847B66D56941305824879CEE9",
+      "matched": true
+    },
+    {
+      "path": "assets/playtest-app-Cx_sVAaB.js",
+      "status": 200,
+      "bytes": 76722,
+      "sha256": "3D3CBC72290707216826EF3E1622AB4C9F137E215C06C4D0F09B58421737FE4F",
+      "expected": "3D3CBC72290707216826EF3E1622AB4C9F137E215C06C4D0F09B58421737FE4F",
+      "matched": true
+    },
+    {
+      "path": "assets/room-browser-CKpAVlB6.js",
+      "status": 200,
+      "bytes": 4315,
+      "sha256": "95E75F536A7447B03ABB10ADDC02A32937C73A24FDAB11DCCDA7721A308EC13B",
+      "expected": "95E75F536A7447B03ABB10ADDC02A32937C73A24FDAB11DCCDA7721A308EC13B",
+      "matched": true
+    },
+    {
+      "path": "assets/room-browser-D0N6sL-J.css",
+      "status": 200,
+      "bytes": 4904,
+      "sha256": "8268AE33BACF789EA99164175788749FA3B40497E940D2EF1E4A1C588F70754F",
+      "expected": "8268AE33BACF789EA99164175788749FA3B40497E940D2EF1E4A1C588F70754F",
+      "matched": true
+    },
+    {
+      "path": "assets/save-writer-BuD2-hAo.js",
+      "status": 200,
+      "bytes": 22885,
+      "sha256": "3CF4C4E469B054574FF2F36BC559650E6D69AE6AFD69A612683B9FAD068481D1",
+      "expected": "3CF4C4E469B054574FF2F36BC559650E6D69AE6AFD69A612683B9FAD068481D1",
+      "matched": true
+    },
+    {
+      "path": "assets/training-app-BjUq-OWB.js",
+      "status": 200,
+      "bytes": 3767,
+      "sha256": "68F6A026966AA420BB813E65B7ADAE71E48844215B73FED4487548C618CCD10A",
+      "expected": "68F6A026966AA420BB813E65B7ADAE71E48844215B73FED4487548C618CCD10A",
+      "matched": true
+    },
+    {
+      "path": "assets/weapon-sharing-BABAtz-L.js",
+      "status": 200,
+      "bytes": 4759,
+      "sha256": "BAF8A7B1CFF196050CDCB4882C5AC656A967A3169235C3DE21AF1ED470C32D40",
+      "expected": "BAF8A7B1CFF196050CDCB4882C5AC656A967A3169235C3DE21AF1ED470C32D40",
+      "matched": true
+    },
+    {
+      "path": "assets/zoom-guard-CYxqEXnM.js",
+      "status": 200,
+      "bytes": 387,
+      "sha256": "736F58F8250C64061CCB8879032FE5115C11736690A368B6A157D659AB752D5B",
+      "expected": "736F58F8250C64061CCB8879032FE5115C11736690A368B6A157D659AB752D5B",
+      "matched": true
+    },
+    {
+      "path": "rebuild/upgrades/afterimage-mine.png",
+      "status": 200,
+      "bytes": 104027,
+      "sha256": "151A33C74E800E0D7E6BC54795C4CA492335DE008F236511F344FA3D758FB8D8",
+      "expected": "151A33C74E800E0D7E6BC54795C4CA492335DE008F236511F344FA3D758FB8D8",
+      "matched": true
+    },
+    {
+      "path": "rebuild/upgrades/armor-piercer.png",
+      "status": 200,
+      "bytes": 71657,
+      "sha256": "311D16783CE99F3F92A41C7BFEB35853906F8FE7779B838DD8A693F0B5555F1F",
+      "expected": "311D16783CE99F3F92A41C7BFEB35853906F8FE7779B838DD8A693F0B5555F1F",
+      "matched": true
+    },
+    {
+      "path": "rebuild/upgrades/armor.png",
+      "status": 200,
+      "bytes": 132454,
+      "sha256": "87D0D697541C7A7E62AD7BC10D51970A82792276C89C6C093C803430061143DA",
+      "expected": "87D0D697541C7A7E62AD7BC10D51970A82792276C89C6C093C803430061143DA",
+      "matched": true
+    },
+    {
+      "path": "rebuild/upgrades/blast-core.png",
+      "status": 200,
+      "bytes": 107467,
+      "sha256": "3C097E98D87AEF6A739BE66EDF9295CC286185A2AE22B8D582DADC69170B3C36",
+      "expected": "3C097E98D87AEF6A739BE66EDF9295CC286185A2AE22B8D582DADC69170B3C36",
+      "matched": true
+    },
+    {
+      "path": "rebuild/upgrades/blast-radius.png",
+      "status": 200,
+      "bytes": 1848906,
+      "sha256": "890B7201DF3EE6D1EBA41812801CADF3139BF2E6012DA6DF2BAB6A36CA8A1194",
+      "expected": "890B7201DF3EE6D1EBA41812801CADF3139BF2E6012DA6DF2BAB6A36CA8A1194",
+      "matched": true
+    },
+    {
+      "path": "rebuild/upgrades/compressed-charge.png",
+      "status": 200,
+      "bytes": 126047,
+      "sha256": "27A2954D81567DCE0B6F085418C3C88A99EFAE800265C9688A9C4E6C349426A1",
+      "expected": "27A2954D81567DCE0B6F085418C3C88A99EFAE800265C9688A9C4E6C349426A1",
+      "matched": true
+    },
+    {
+      "path": "rebuild/upgrades/emergency-armor.png",
+      "status": 200,
+      "bytes": 2295064,
+      "sha256": "6CE2FCDC15D149C5B2A8FE9D9BD4A54A24F0A298F93E49F17AC14E226357735D",
+      "expected": "6CE2FCDC15D149C5B2A8FE9D9BD4A54A24F0A298F93E49F17AC14E226357735D",
+      "matched": true
+    },
+    {
+      "path": "rebuild/upgrades/fuse.png",
+      "status": 200,
+      "bytes": 77290,
+      "sha256": "EEE2A79BF5C362EA70605BBB30FB3F3A36549A05AC08E5380119162E0475A107",
+      "expected": "EEE2A79BF5C362EA70605BBB30FB3F3A36549A05AC08E5380119162E0475A107",
+      "matched": true
+    },
+    {
+      "path": "rebuild/upgrades/interceptor.png",
+      "status": 200,
+      "bytes": 64851,
+      "sha256": "CD439251E1E0A1E6DBAB0B9A7585FB11BC2526193E82BCE03C88A47EBFC61844",
+      "expected": "CD439251E1E0A1E6DBAB0B9A7585FB11BC2526193E82BCE03C88A47EBFC61844",
+      "matched": true
+    },
+    {
+      "path": "rebuild/upgrades/line-shot.png",
+      "status": 200,
+      "bytes": 67061,
+      "sha256": "914AF63090B00A93238666FE9159A310C6FBF5477AB4BE1F25D847301EBD483D",
+      "expected": "914AF63090B00A93238666FE9159A310C6FBF5477AB4BE1F25D847301EBD483D",
+      "matched": true
+    },
+    {
+      "path": "rebuild/upgrades/magazine.png",
+      "status": 200,
+      "bytes": 58446,
+      "sha256": "6CDD1F2CBCBB2FADC516CCB0B742F86CC70FC610E7708887C939662427C2F512",
+      "expected": "6CDD1F2CBCBB2FADC516CCB0B742F86CC70FC610E7708887C939662427C2F512",
+      "matched": true
+    },
+    {
+      "path": "rebuild/upgrades/magnet.png",
+      "status": 200,
+      "bytes": 1698184,
+      "sha256": "84EE74A40BC3739500FB883CD033462F0A5FCB972289E27A22E2EF6234F5D096",
+      "expected": "84EE74A40BC3739500FB883CD033462F0A5FCB972289E27A22E2EF6234F5D096",
+      "matched": true
+    },
+    {
+      "path": "rebuild/upgrades/opening-shot.png",
+      "status": 200,
+      "bytes": 1944674,
+      "sha256": "D380EE0E14B69E2769632555A610893EAF3F33A4390C6B21938C5A3B409AAC84",
+      "expected": "D380EE0E14B69E2769632555A610893EAF3F33A4390C6B21938C5A3B409AAC84",
+      "matched": true
+    },
+    {
+      "path": "rebuild/upgrades/reload.png",
+      "status": 200,
+      "bytes": 72946,
+      "sha256": "4BE46ECF200C76557B9A16A6178BAE190760F8055E2174D5443197DE113F050A",
+      "expected": "4BE46ECF200C76557B9A16A6178BAE190760F8055E2174D5443197DE113F050A",
+      "matched": true
+    },
+    {
+      "path": "rebuild/upgrades/ricochet.png",
+      "status": 200,
+      "bytes": 68145,
+      "sha256": "AC7C78D02598557938D87A5E1C0D072BB7BCC202ED4DCC33BC4DF1A895C53A8F",
+      "expected": "AC7C78D02598557938D87A5E1C0D072BB7BCC202ED4DCC33BC4DF1A895C53A8F",
+      "matched": true
+    },
+    {
+      "path": "rebuild/upgrades/tactical-reload.png",
+      "status": 200,
+      "bytes": 93061,
+      "sha256": "F22E917B8545F2DFD8E898DE0847D3E23FA73FDCB440AF3C8B00E62A1583325E",
+      "expected": "F22E917B8545F2DFD8E898DE0847D3E23FA73FDCB440AF3C8B00E62A1583325E",
+      "matched": true
+    },
+    {
+      "path": "assets/characters/standard_trooper_v10.glb",
+      "status": 200,
+      "bytes": 9092432,
+      "sha256": "60A9E694A19C510C7C8F6B4007600FD8E283A699C422DD143B3A860B3CFB0EC4",
+      "expected": "60A9E694A19C510C7C8F6B4007600FD8E283A699C422DD143B3A860B3CFB0EC4",
+      "matched": true
+    }
+  ],
+  "matched": 41,
+  "total": 41,
+  "generatedAt": "2026-10-05T15:33:30.982Z"
+}
