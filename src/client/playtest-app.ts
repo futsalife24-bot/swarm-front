@@ -21,6 +21,7 @@ import {
 } from "./resource-frame";
 import { menuSamples } from "./menu-samples";
 import { homeMarkup } from "./home-screen";
+import { mountTitleMotion } from "./title-motion";
 import { openTutorialGuide } from "./tutorial-guide";
 import { canInstallApp, installApp } from "./app-install";
 import { CHANGELOG } from "./changelog";
@@ -1587,6 +1588,7 @@ function showHome(initialized: boolean) {
       void exitDeveloperMode();
     });
   }
+  mountTitleMotion(ui);
 }
 
 function gear() {
