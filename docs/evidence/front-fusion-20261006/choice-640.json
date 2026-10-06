@@ -1,0 +1,18 @@
+{
+  "viewport": {
+    "width": 640,
+    "height": 360
+  },
+  "panel": {
+    "x": 51.203125,
+    "y": 66,
+    "width": 537.59375,
+    "height": 228
+  },
+  "transition": {
+    "elapsed": 214.09999999403954,
+    "picked": "none",
+    "disabled": 3,
+    "cue": false
+  }
+}

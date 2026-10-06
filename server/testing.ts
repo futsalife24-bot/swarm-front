@@ -42,6 +42,19 @@ export class TestRoom extends Room {
     }
     if (u.pathname === "/fixture") {
       this.stop();
+      if (u.searchParams.get("case") === "front-return") {
+        const run = this.saved.frontRun;
+        if (
+          !run?.fusion ||
+          run.mode !== "survival" ||
+          run.returnAt === undefined
+        )
+          return new Response("生存戦が必要です", { status: 409 });
+        run.world.time = 3600;
+        run.returnAt = Date.now() / 1000;
+        await this.tick();
+        return Response.json({ ok: true });
+      }
       if (u.searchParams.get("case") === "front-result") {
         const run = this.saved.frontRun;
         if (!run || !this.saved.world)
@@ -253,7 +266,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|calyx|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|calyx|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return)$/.exec(
         u.pathname,
       );
     if (match && req.method === "POST") {

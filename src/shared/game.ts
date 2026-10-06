@@ -228,6 +228,8 @@ export interface Enemy extends WormNode {
   hurt: number;
 }
 export interface Projectile {
+  frontShot?: number;
+  frontSlot?: number;
   style?: "stake" | "laser" | "pollen";
   id: number;
   x: number;
@@ -1265,11 +1267,16 @@ export function fire(w: World, p: Player, i: Input, airborne = false) {
           // its range divided by its speed to reach that range at all.
           life: (def.range / speed) * (shape.gravity ? 2.2 : 1),
           owner: p.id,
-          damage: def.damage,
+          damage:
+            def.damage *
+            (w.front?.growthVersion === 3 ? (frontShot?.damageFactor ?? 1) : 1),
           rocket: true,
           chain: weapon.effect === "chain",
           radius: def.radius,
           family,
+          ...(w.front?.growthVersion === 3 && frontShot
+            ? { frontShot: frontShot.id, frontSlot: p.slot }
+            : {}),
           ...(shape.gravity ? { gravity: shape.gravity } : {}),
         });
       event(w, {
@@ -2061,7 +2068,22 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
                 mapFor(w).blocks,
               ) >=
                 d - 0.01;
-            if (clear)
+            if (
+              clear &&
+              w.front?.growthVersion === 3 &&
+              q.frontShot !== undefined
+            )
+              frontManualHit(
+                w,
+                e,
+                q.damage * (1 - blastDistance / reach),
+                q.owner,
+                q.frontShot,
+                b.part,
+                blastFamily,
+                q.frontSlot,
+              );
+            else if (clear)
               hurtEnemy(
                 w,
                 e,

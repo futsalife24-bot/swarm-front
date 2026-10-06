@@ -117,7 +117,7 @@ for (const width of [844, 640])
     await expect(page.locator(".hp i")).toBeVisible();
     await expect(page.locator(".ammo-label")).toHaveText("残弾");
     await expect(page.locator(".mission-hud")).toContainText("経験値");
-    await expect(page.locator(".weapon-hud")).toContainText("強化 1/12");
+    await expect(page.locator(".weapon-hud")).toContainText("強化 1/6枠");
     expect(
       await page.evaluate(() => localStorage.getItem("swarm-front-save-v1")),
     ).toBe(prior);

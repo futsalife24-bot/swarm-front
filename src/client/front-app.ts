@@ -1,14 +1,15 @@
-/** 旧版と併設する改装版。所持品・旧セーブへの依存なし。 */
+/** 攻略と併設する生存作戦。武器とコインは共有保存、作戦内の融合は一時状態。 */
 import "../style.css";
 import "../mobile-ui.css";
 import "../menu-ui.css";
 import "../menu-theme.css";
 import "./coop-lobby.css";
+import { loadProgress } from "./progression-save";
 import "./rebuild.css";
 import "./playtest.css";
 import "./gear-weapon-list.css";
 import "./front.css";
-import { gearSupplyRows } from "./gear-weapon-list";
+import { gearSupplyRows, gearWeaponRows } from "./gear-weapon-list";
 import { battleLoadingMarkup } from "./loading-screen";
 import * as T from "three";
 import { Renderer } from "./render";
@@ -26,9 +27,20 @@ import { frontUpgradeCardMarkup } from "./front-upgrade-ui";
 import { homeMarkup } from "./home-screen";
 import { roomBrowserMarkup, bindRoomBrowser } from "./room-browser";
 import { FrontNetwork, loadFrontNetworkSession } from "./front-network";
+import { startWithSaveWriter } from "./save-writer";
+import {
+  readFrontCampaign,
+  readFrontLoadout,
+  saveFrontLoadout,
+  queueFrontCampaignReward,
+  recoverFrontCampaignRewards,
+  FRONT_CAMPAIGN_UNLOCKS,
+} from "./front-campaign";
+import { soldier } from "./progression-save";
 import { readFrontProgress, awardFrontProgress } from "./front-progress";
 import {
   createFrontRun,
+  returnFrontRun,
   stepFrontRun,
   chooseFrontUpgrade,
   rerollFrontRunOffer,
@@ -42,11 +54,14 @@ import {
 } from "../shared/front-run";
 import {
   FRONT_UPGRADE_CATALOG,
+  FRONT_BASE_IDS,
+  FRONT_FUSION_IDS,
+  isFrontFusion,
   FRONT_FAMILY_CARDS,
   FRONT_EVOLUTIONS,
   type FrontUpgradeId,
 } from "../shared/front-upgrades";
-import { WEAPONS } from "../shared/defs";
+import { WEAPONS, type Weapon } from "../shared/defs";
 import { STAGES } from "../shared/stages";
 import { retireEvents, eye, type World } from "../shared/game";
 import {
@@ -100,13 +115,15 @@ let status = "",
   awardedRun = "",
   preparedGeneration = -1;
 let connectionFatal = "";
+let rewardError = false;
 let lastHud = "";
 let lastRenderKey = "";
 let lobbyPreparation: Promise<void> = Promise.resolve();
+let campaignBootError = "";
 const now = () =>
   network ? Date.now() / 1000 + network.clockOffset : performance.now() / 1000;
 const modeNames = {
-  survival: "迎撃戦",
+  survival: "生存戦",
   defense: "防衛戦",
   daily: "日替わり防衛",
 };
@@ -156,13 +173,24 @@ function home() {
   screen = "home";
   document.body.dataset.screen = "title";
   const progress = readFrontProgress(progressStorage);
+  let recoveryError = "";
+  try {
+    recoverFrontCampaignRewards(localStorage);
+  } catch (error) {
+    recoveryError = (error as Error).message;
+  }
   $("ui").innerHTML = homeMarkup({
     stage: STAGES[0],
-    inventoryCount: 0,
-    error: progress.error,
+    inventoryCount:
+      readFrontCampaign(progressStorage).save?.inventory.length ?? 0,
+    error:
+      recoveryError ||
+      campaignBootError ||
+      progress.error ||
+      readFrontCampaign(progressStorage).error,
   });
   const operation = $("ui").querySelector(".home-operation")!;
-  operation.innerHTML = `<div class="eyebrow">改装版</div><h2>強化を選び、群れを崩す</h2><p>爆発・貫通・迎撃 · 約7分の作戦</p><small>射撃・装填・回避を強化して生き残れ</small>`;
+  operation.innerHTML = `<div class="eyebrow">生存作戦</div><h2>強化を融合し、限界を越える</h2><p>攻略で得た武器と強化で生存時間に挑む</p><small>射撃・装填・回避を強化して生き残れ</small>`;
   const translations = [
     "戦術作戦本部",
     "ソロ出撃",
@@ -181,11 +209,11 @@ function home() {
   $("coop").onclick = rooms;
   $("open-armory").querySelector("b")!.textContent = "基地";
   $("open-armory").querySelector("em")!.textContent =
-    "支給武器・初期候補・進行";
+    "強化候補・融合条件・進行";
   $("open-armory").onclick = () => base();
   $("open-bestiary").onclick = () => openBestiary();
   $("ui").querySelector(".home-next-stage")!.textContent =
-    "迎撃戦・防衛戦を選んで出撃";
+    "生存戦・防衛戦を選んで出撃";
   $("home-settings").onclick = () => menuSettings(home);
   $("home-tutorial").textContent = "操作ガイド";
   $("home-tutorial").onclick = () =>
@@ -208,7 +236,7 @@ function home() {
       home,
     );
   const legacy = document.createElement("button");
-  legacy.textContent = "旧版で遊ぶ";
+  legacy.textContent = "攻略モード（従来版）";
   legacy.onclick = () => {
     location.href = import.meta.env.BASE_URL;
   };
@@ -216,7 +244,38 @@ function home() {
   $("ui").querySelector("#export")?.remove();
 }
 let selectedFrontSlot = 0;
-const frontInitialSelection: Partial<Record<string, string>> = {};
+let frontLoadout = readFrontLoadout(progressStorage);
+let ownedEquipment: string[] = [];
+function frontEquipment(): Weapon[] {
+  const campaign = readFrontCampaign(progressStorage);
+  const save = campaign.save;
+  if (save && save.inventory.length >= 2) {
+    if (
+      ownedEquipment.length !== 2 ||
+      ownedEquipment.some((id) => !save.inventory.some((w) => w.id === id))
+    )
+      ownedEquipment = [...soldier(save).equipped];
+    if (ownedEquipment.length !== 2)
+      ownedEquipment = save.inventory.slice(0, 2).map((w) => w.id);
+    return ownedEquipment.map((id) =>
+      structuredClone(save.inventory.find((w) => w.id === id)!),
+    );
+  }
+  return frontTemporaryWeapons("front-lobby", "front-client", kinds);
+}
+function frontWeaponRows() {
+  const save = readFrontCampaign(progressStorage).save;
+  if (!save) return gearSupplyRows(kinds);
+  const preview = structuredClone(save);
+  soldier(preview).equipped = frontEquipment().map((w) => w.id);
+  return gearWeaponRows(
+    preview.inventory,
+    preview,
+    false,
+    new Set(),
+    selectedFrontSlot,
+  );
+}
 function menuDialog(title: string, content: string, back: () => void) {
   document.body.classList.add("playtest");
   document.body.dataset.screen = "prep";
@@ -228,54 +287,69 @@ function menuSettings(back: () => void) {
   settings.open($("ui"), back, "戻る");
 }
 function base(back: () => void = home) {
-  const progress = readFrontProgress(progressStorage).progress;
+  const progress = readFrontProgress(progressStorage).progress,
+    campaign = readFrontCampaign(progressStorage);
+  frontLoadout = readFrontLoadout(progressStorage);
   menuDialog(
     "基地",
-    `<p>${progress.wins}勝 · ${progress.credits}功績 · 初期候補 ${progress.unlocks.length}/9種</p><p>支給武器は出撃準備で入れ替えます。通常ソロの初期候補を、各系統から1つ登録できます。日替わり・協力では共通の初期候補を使用します。</p><div class="front-initial">${Object.entries(
+    `<p>${progress.wins}勝 · ${progress.credits}功績 · 候補 ${frontLoadout.pool.length}種 <button id="front-save-pool">候補を保存</button></p><p id="front-pool-status">${esc(frontLoadout.error || "出撃に使う候補を6種類以上選択。初期候補は各系統1つ。ソロ・協力で共通の自分用設定です。")}</p><div class="front-initial">${Object.entries(
       FRONT_FAMILY_CARDS,
     )
       .map(
-        ([family, cards]) =>
+        ([family, cards], i) =>
           `<label>${familyNames[family as keyof typeof familyNames]}<select data-initial="${family}" aria-label="${familyNames[family as keyof typeof familyNames]}">${cards
-            .filter((card) => progress.unlocks.includes(card))
+            .filter((card) => campaign.initialUnlocked.includes(card))
             .map(
               (card) =>
-                `<option value="${card}" ${frontInitialSelection[family] === card ? "selected" : ""}>${FRONT_UPGRADE_CATALOG[card].name}</option>`,
+                `<option value="${card}" ${frontLoadout.initialCards[i] === card ? "selected" : ""}>${FRONT_UPGRADE_CATALOG[card].name}</option>`,
             )
-            .join(
-              "",
-            )}</select><small data-initial-help="${family}"></small></label>`,
+            .join("")}</select></label>`,
       )
-      .join("")}</div>`,
+      .join(
+        "",
+      )}</div><div class="front-pool">${FRONT_BASE_IDS.map((card) => `<label><input type="checkbox" data-pool="${card}" ${frontLoadout.pool.includes(card) ? "checked" : ""} ${campaign.unlocked.includes(card) ? "" : "disabled"}>${FRONT_UPGRADE_CATALOG[card].name}${campaign.unlocked.includes(card) ? "" : `<small>攻略${FRONT_CAMPAIGN_UNLOCKS.find((rule) => rule.ids.includes(card))?.stage}クリア</small>`}</label>`).join("")}</div><p>素材2種を最大まで育てると融合が候補に登場。融合で1枠が空き、1段階からさらに3段階まで育成できます。</p>`,
     back,
   );
-  $("ui")
-    .querySelectorAll<HTMLSelectElement>("[data-initial]")
-    .forEach((select) => {
-      const update = () => {
-        frontInitialSelection[select.dataset.initial!] = select.value;
-        $("ui").querySelector(
-          `[data-initial-help="${select.dataset.initial}"]`,
-        )!.textContent =
-          FRONT_UPGRADE_CATALOG[select.value as FrontUpgradeId].description;
-      };
-      select.onchange = update;
-      update();
-    });
+  $("front-save-pool").onclick = () => {
+    try {
+      const initialCards = [
+        ...$("ui").querySelectorAll<HTMLSelectElement>("[data-initial]"),
+      ].map((el) => el.value as FrontUpgradeId);
+      const pool = [
+        ...new Set(
+          [...$("ui").querySelectorAll<HTMLInputElement>("[data-pool]:checked")]
+            .map((el) => el.dataset.pool as FrontUpgradeId)
+            .concat(initialCards),
+        ),
+      ];
+      saveFrontLoadout(progressStorage, { pool, initialCards });
+      frontLoadout = readFrontLoadout(progressStorage);
+      $("front-pool-status").textContent =
+        "候補を保存しました。次の出撃から反映します。";
+      $("ui")
+        .querySelectorAll<HTMLInputElement>("[data-pool]")
+        .forEach((el) => {
+          el.checked = pool.includes(el.dataset.pool as FrontUpgradeId);
+        });
+    } catch (error) {
+      $("front-pool-status").textContent = (error as Error).message;
+    }
+  };
 }
 const modeDetails: Record<FrontMode, string> = {
-  survival: "群れを迎撃し、最終大型を撃破。部隊全滅または9分経過で作戦終了。",
+  survival:
+    "1つの戦場で時間制限なく生存。敵は3分ごとに強化。全滅で終了し、1分につき10コイン（最大300）を攻略へ持ち帰ります。",
   defense:
     "拠点を守りながら最終大型を撃破。拠点破壊・部隊全滅・9分経過で作戦終了。",
   daily:
-    "日ごとに共通の戦場で拠点を防衛。勝利報酬は1日1回。初期候補は全員共通。",
+    "日ごとに共通の戦場で拠点を防衛。勝利報酬は1日1回。候補は各プレイヤーの設定を使用。",
 };
 function prep(coop = false) {
   document.body.classList.add("playtest");
   screen = "prep";
   document.body.dataset.screen = "prep";
   $("ui").innerHTML =
-    `<section class="panel gear menu-screen pt-screen front-prep"><header class="menu-header"><h1>出撃準備</h1><nav>${coop ? "" : '<button id="front-base">基地</button>'}<button id="front-back">${coop ? "部屋を退出" : "タイトルへ"}</button><button id="front-prep-settings">設定・操作</button></nav></header><div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 出撃先</span><button id="front-mission-info">作戦詳細</button></div>${
+    `<section class="panel gear menu-screen pt-screen front-prep"><header class="menu-header"><h1>出撃準備</h1><nav><button id="front-base">強化候補</button><button id="front-back">${coop ? "部屋を退出" : "タイトルへ"}</button><button id="front-prep-settings">設定・操作</button></nav></header><div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 出撃先</span><button id="front-mission-info">作戦詳細</button></div>${
       coop
         ? `<p class="front-room-mode">${modeNames[mode]}<small>参加した部屋の作戦</small></p>`
         : `<select id="front-mode" aria-label="作戦">${Object.entries(modeNames)
@@ -284,7 +358,14 @@ function prep(coop = false) {
                 `<option value="${value}" ${mode === value ? "selected" : ""}>${name}</option>`,
             )
             .join("")}</select>`
-    }</section><section class="equipment-select"><div class="section-label"><span>02 入替先</span><small>一覧タップで変更</small></div><div class="loadout-slots">${kinds.map((kind, i) => `<button data-front-slot="${i}" aria-pressed="${selectedFrontSlot === i}"><span class="slot-number">0${i + 1}</span><span class="slot-info"><small>装備${i + 1} ${selectedFrontSlot === i ? "選択中" : ""}</small><b>${WEAPONS[kind].name}</b></span><i>入替先 ›</i></button>`).join("")}</div></section></aside><section class="gear-arsenal">${gearSupplyRows(kinds)}</section></div><footer class="gear-footer"><p class="status">装備${selectedFrontSlot + 1}を選択中 · 一覧タップで入替<small>${coop ? "準備完了後、部隊長が出撃します" : mode === "daily" ? "初期強化候補は全員共通" : "初期強化候補は基地で変更できます"}</small></p><button id="front-launch" class="primary">${coop ? "準備完了" : "ソロ出撃 ↗"}</button></footer></section>`;
+    }</section><section class="equipment-select"><div class="section-label"><span>02 入替先</span><small>一覧タップで変更</small></div><div class="loadout-slots">${frontEquipment()
+      .map(
+        (weapon, i) =>
+          `<button data-front-slot="${i}" aria-pressed="${selectedFrontSlot === i}"><span class="slot-number">0${i + 1}</span><span class="slot-info"><small>装備${i + 1} ${selectedFrontSlot === i ? "選択中" : ""}</small><b>${WEAPONS[weapon.kind].name}</b></span><i>入替先 ›</i></button>`,
+      )
+      .join(
+        "",
+      )}</div></section></aside><section class="gear-arsenal">${frontWeaponRows()}</section></div><footer class="gear-footer"><p class="status">装備${selectedFrontSlot + 1}を選択中 · 一覧タップで入替<small>${coop ? "準備完了後、部隊長が出撃します" : "攻略の所持武器と自分の強化候補を使用"}</small></p><button id="front-launch" class="primary">${coop ? "準備完了" : "ソロ出撃 ↗"}</button></footer></section>`;
   $("ui")
     .querySelectorAll<HTMLButtonElement>("[data-front-slot]")
     .forEach((button) => {
@@ -295,8 +376,8 @@ function prep(coop = false) {
     });
   $("front-back").onclick = coop ? leave : home;
   $("front-prep-settings").onclick = () => menuSettings(() => prep(coop));
+  $("front-base").onclick = () => base(() => prep(coop));
   if (!coop) {
-    $("front-base").onclick = () => base(() => prep());
     $("front-mode").onchange = () => {
       mode = ($("front-mode") as HTMLSelectElement).value as FrontMode;
       prep();
@@ -305,11 +386,11 @@ function prep(coop = false) {
   $("front-mission-info").onclick = () =>
     menuDialog(
       "作戦詳細",
-      `<h2>${modeNames[mode]}</h2><p>${modeDetails[mode]}</p><p>強化は最大12回。PRISM／大型の撃破で、条件を満たした能力が進化します。</p>`,
+      `<h2>${modeNames[mode]}</h2><p>${modeDetails[mode]}</p><p>強化は同時に6枠まで。素材2種を最大段階にすると融合を選べます。融合後は1枠になり、さらに育成できます。</p>`,
       () => prep(coop),
     );
   $("ui")
-    .querySelectorAll<HTMLElement>("[data-front-weapon-row]")
+    .querySelectorAll<HTMLElement>("[data-front-weapon-row], [data-row]")
     .forEach((row) => {
       let startX = 0,
         startY = 0,
@@ -325,6 +406,14 @@ function prep(coop = false) {
       };
       row.onclick = () => {
         if (moved) return;
+        if (row.dataset.row) {
+          const previousSlot = ownedEquipment.indexOf(row.dataset.row);
+          if (previousSlot >= 0)
+            ownedEquipment[previousSlot] = ownedEquipment[selectedFrontSlot];
+          ownedEquipment[selectedFrontSlot] = row.dataset.row;
+          prep(coop);
+          return;
+        }
         const kind = row.dataset.frontWeaponRow as FrontWeaponKind;
         const previousSlot = kinds.indexOf(kind);
         if (previousSlot >= 0) kinds[previousSlot] = kinds[selectedFrontSlot];
@@ -332,11 +421,18 @@ function prep(coop = false) {
         prep(coop);
       };
     });
+  $("ui")
+    .querySelectorAll<HTMLButtonElement>("[data-lock]")
+    .forEach((button) => {
+      button.disabled = true;
+      button.title = "ロックは攻略モードの倉庫で変更";
+    });
   $("front-launch").onclick = () => {
+    frontLoadout = readFrontLoadout(progressStorage);
     if (coop && network) {
-      network.equipment(
-        frontTemporaryWeapons("front-lobby", "front-client", kinds),
-      );
+      network.upgradePool = frontLoadout.pool;
+      network.initialCards = frontLoadout.initialCards;
+      network.equipment(frontEquipment());
       network.preparation(false);
       preparedGeneration = -1;
       screen = "lobby";
@@ -346,16 +442,22 @@ function prep(coop = false) {
   };
 }
 async function solo() {
-  const initialCards = Object.entries(FRONT_FAMILY_CARDS).map(
-    ([family, cards]) =>
-      (frontInitialSelection[family] ?? cards[0]) as FrontUpgradeId,
-  );
+  frontLoadout = readFrontLoadout(progressStorage);
+  const initialCards = frontLoadout.initialCards;
   localRun = createFrontRun(
     {
       runId: crypto.randomUUID(),
       seed: crypto.getRandomValues(new Uint32Array(1))[0],
       mode,
-      players: [{ id, weapons: kinds, initialCards }],
+      fusion: true,
+      players: [
+        {
+          id,
+          equipment: frontEquipment(),
+          initialCards,
+          pool: frontLoadout.pool,
+        },
+      ],
     },
     now(),
   );
@@ -556,10 +658,13 @@ function connectRoom(code: string, target: string, token = "") {
   ready = false;
   const net = network;
   net.preparing = true;
-  net.equip = frontTemporaryWeapons("front-lobby", "front-client", kinds);
+  net.equip = frontEquipment();
+  frontLoadout = readFrontLoadout(progressStorage);
+  net.upgradePool = frontLoadout.pool;
+  net.initialCards = frontLoadout.initialCards;
   net.onStatus = (message, fatal) => {
     status = message;
-    if (fatal) {
+    if (fatal && info?.phase !== "victory" && info?.phase !== "defeat") {
       connectionFatal = message;
       clearInput();
     }
@@ -584,11 +689,20 @@ function connectRoom(code: string, target: string, token = "") {
     }
     const phase = info?.phase;
     const evolvedCount = info?.evolved.length ?? 0;
+    const previousLevels = info?.levels;
     world = snapshot;
     info = net.frontView;
-    if (info.evolved.length > evolvedCount)
+    const newFusions = FRONT_FUSION_IDS.filter(
+      (f) => info!.levels[f] > 0 && !previousLevels?.[f],
+    );
+    if (info.growthVersion === 3 && newFusions.length)
       notice(
-        `自動進化 · ${info.evolved.map((f) => FRONT_EVOLUTIONS[f].name).join("・")}`,
+        `融合 · ${newFusions.map((f) => FRONT_UPGRADE_CATALOG[f].name).join("・")}`,
+        2,
+      );
+    else if (info.growthVersion !== 3 && info.evolved.length > evolvedCount)
+      notice(
+        `${info?.growthVersion === 3 ? "融合進化" : "自動進化"} · ${info.evolved.map((f) => FRONT_EVOLUTIONS[f].name).join("・")}`,
         4,
       );
     if (
@@ -611,7 +725,7 @@ function paintLobby() {
   if (!network || screen !== "lobby") return;
   const net = network;
   $("ui").innerHTML =
-    `<section class="panel front-lobby"><header><h1>${modeNames[net.mode]} · 協力部隊</h1><nav><button id="front-edit-loadout">装備変更</button><button id="front-leave">部屋を退出</button></nav></header><p>部屋ID <b>${esc(net.roomId || "接続中")}</b> <button id="front-copy">招待をコピー</button></p><div class="front-members">${net.members
+    `<section class="panel front-lobby"><header><h1>${modeNames[net.mode]} · 協力部隊</h1><nav><button id="front-edit-loadout">装備変更</button><button id="front-leave">部屋を退出</button></nav></header><p>部屋ID <b>${esc(net.roomId || "接続中")}</b> <button id="front-copy">招待をコピー</button>${net.mode === "survival" ? " · 出撃から60分で帰還・保存猶予2分" : ""}</p><div class="front-members">${net.members
       .filter((m) => m.connected)
       .map(
         (m) =>
@@ -656,13 +770,12 @@ async function prepareLobby() {
   const preview = createFrontRun(
     {
       runId: "front-preview",
+      fusion: true,
       seed: 1,
       mode: net.mode,
       players: members.map((member) => ({
         id: member.id,
-        weapons: member.weapons!.map(
-          (weapon) => weapon.kind as FrontWeaponKind,
-        ),
+        equipment: member.weapons!,
       })),
     },
     now(),
@@ -728,9 +841,11 @@ function choose(cardId: FrontUpgradeId) {
   if (localRun) {
     if (!chooseFrontUpgrade(localRun, id, req, now())) return;
     setView();
-    if (info!.evolved.length > before)
+    if (info!.growthVersion === 3 && isFrontFusion(cardId))
+      notice(`融合 · ${FRONT_UPGRADE_CATALOG[cardId].name}`, 2);
+    else if (info!.evolved.length > before)
       notice(
-        `自動進化 · ${info!.evolved.map((f) => FRONT_EVOLUTIONS[f].name).join("・")}`,
+        `${info?.growthVersion === 3 ? "融合進化" : "自動進化"} · ${info!.evolved.map((f) => FRONT_EVOLUTIONS[f].name).join("・")}`,
         4,
       );
   } else network?.send({ type: "frontChoose", request: req });
@@ -802,8 +917,12 @@ function paintOverlay() {
   if (connectionFatal) {
     ui.innerHTML = `<section class="pause-card rebuild-panel"><h1>接続を終了しました</h1><p>${esc(connectionFatal)}</p><button id="front-leave" class="primary">タイトルへ</button></section>`;
     $("front-leave").onclick = leave;
-  } else if (gate.paused) {
-    ui.innerHTML = `<section class="pause-card rebuild-panel front-pause"><header><h1>${network ? "操作を停止中" : "一時停止"}</h1><button id="front-resume" class="primary">再開</button></header><p class="front-pause-note">${gate.pauseReason}</p>${frontUpgradeDetails(info, import.meta.env.BASE_URL)}<div class="pause-actions"><button id="front-settings">設定・操作</button><button id="front-leave">タイトルへ</button></div></section>`;
+  } else if (
+    gate.paused &&
+    info.phase !== "victory" &&
+    info.phase !== "defeat"
+  ) {
+    ui.innerHTML = `<section class="pause-card rebuild-panel front-pause"><header><h1>${network ? "操作を停止中" : "一時停止"}</h1><button id="front-resume" class="primary">再開</button></header><p class="front-pause-note">${gate.pauseReason}${info.returnAt !== null && info.returnAt !== undefined ? ` · 帰還まで ${formatRebuildTime(Math.max(0, info.returnAt - now()))}` : ""}</p>${frontUpgradeDetails(info, import.meta.env.BASE_URL)}<div class="pause-actions"><button id="front-settings">設定・操作</button><button id="front-leave">タイトルへ</button></div></section>`;
     $("front-settings").onclick = () =>
       settings.open(ui, () => {
         overlayKey = "";
@@ -816,8 +935,20 @@ function paintOverlay() {
       paintOverlay();
     };
     $("front-leave").onclick = leave;
+    if (localRun?.fusion && localRun.mode === "survival" && world.time >= 60) {
+      const back = document.createElement("button");
+      back.textContent = "帰還して戦果を保存";
+      back.onclick = () => {
+        if (localRun && returnFrontRun(localRun)) {
+          resumeRebuildUi(gate, false);
+          setView();
+          overlayKey = "";
+        }
+      };
+      ui.querySelector("header")?.append(back);
+    }
   } else if (info.phase === "selection" && offer) {
-    ui.innerHTML = `<section class="pause-card rebuild-panel rebuild-selection"><header><button id="front-choice-owned" aria-haspopup="dialog">現在の強化 ${info.picks}/${info.maxPicks}</button><h1 class="front-choice-title">強化を選べ</h1><div class="rebuild-selection-actions">${info.selectionDeadline !== null ? '<span id="front-countdown"></span>' : ""}${offer.kind === "additional" ? `<button id="rebuild-reroll" ${info.canReroll ? "" : "disabled"}>再抽選 残り${info.rerollsRemaining}</button>` : ""}</div></header><div class="rebuild-cards">${offer.cardIds
+    ui.innerHTML = `<section class="pause-card rebuild-panel rebuild-selection"><header><button id="front-choice-owned" aria-haspopup="dialog">現在の強化 ${info.growthVersion === 3 ? `${Object.values(info.levels).filter((n) => n > 0).length}/6枠` : `${info.picks}/${info.maxPicks}`}</button><h1 class="front-choice-title">強化を選べ</h1><div class="rebuild-selection-actions">${info.selectionDeadline !== null ? '<span id="front-countdown"></span>' : ""}${offer.kind === "additional" ? `<button id="rebuild-reroll" ${info.canReroll ? "" : "disabled"}>再抽選 残り${info.rerollsRemaining}</button>` : ""}</div></header><div class="rebuild-cards">${offer.cardIds
       .map((card) =>
         frontUpgradeCardMarkup(info!, card, import.meta.env.BASE_URL),
       )
@@ -848,8 +979,14 @@ function paintOverlay() {
     ui.innerHTML =
       '<div class="rebuild-resume-cue" role="status">部隊の選択を待っています<span id="front-countdown"></span></div>';
   } else if (info.phase === "victory" || info.phase === "defeat") {
-    ui.innerHTML = `<section class="pause-card rebuild-panel"><header><h1>${info.phase === "victory" ? "作戦成功" : "任務終了"}</h1><button id="front-leave" class="primary">タイトルへ</button></header><p>${esc(world.reason)}</p><div class="rebuild-result"><b>${formatRebuildTime(world.time)}</b><b>取得 ${info.picks}/${info.maxPicks}</b><b>最大 ${info.maxChain}連鎖</b></div><p>${info.evolved.map((f) => FRONT_EVOLUTIONS[f].name).join("・") || "未進化"}</p><p>${esc(rewardText)}</p></section>`;
+    ui.innerHTML = `<section class="pause-card rebuild-panel"><header><h1>${info.phase === "victory" ? "作戦成功" : "任務終了"}</h1><button id="front-leave" class="primary">タイトルへ</button></header><p>${esc(world.reason)}</p><div class="rebuild-result"><b>${formatRebuildTime(world.time)}</b><b>取得 ${info.picks}${info.growthVersion === 3 ? "回" : `/${info.maxPicks}`}</b><b>最大 ${info.maxChain}連鎖</b></div><p>${(info.growthVersion === 3 ? FRONT_FUSION_IDS.filter((f) => info!.levels[f] > 0).map((f) => FRONT_UPGRADE_CATALOG[f].name) : info.evolved.map((f) => FRONT_EVOLUTIONS[f].name)).join("・") || "未進化"}</p><p>${esc(rewardText)}</p>${rewardError ? '<button id="front-retry-save">保存を再試行</button>' : ""}</section>`;
     $("front-leave").onclick = leave;
+    document
+      .getElementById("front-retry-save")
+      ?.addEventListener("click", () => {
+        awardedRun = "";
+        overlayKey = "";
+      });
   } else ui.replaceChildren();
 }
 const marks = new T.InstancedMesh(
@@ -887,8 +1024,8 @@ function paintBattle() {
   if (!p) return;
   const hud = hudMarkup(world, id, status, info.maxHp, undefined, {
     mission: `${modeNames[info.mode]} · ${formatRebuildTime(world.time)}`,
-    detail: `経験値 ${info.xp}${info.nextXpThreshold === null ? "" : `/${info.nextXpThreshold}`}${world.defense ? ` · 拠点 ${Math.max(0, Math.ceil(world.defense.armory.hp))}` : ""}${world.time >= 480 ? ` · 残り ${Math.max(0, Math.ceil(540 - world.time))}秒` : ""}`,
-    weapon: `強化 ${info.picks}/${info.maxPicks}${info.evolved.length ? ` · ${info.evolved.map((f) => FRONT_EVOLUTIONS[f].name).join("・")}` : ""}`,
+    detail: `経験値 ${info.xp}${info.nextXpThreshold === null ? "" : `/${info.nextXpThreshold}`}${world.defense ? ` · 拠点 ${Math.max(0, Math.ceil(world.defense.armory.hp))}` : ""}${info.returnAt != null && info.returnAt - now() <= 300 ? ` · 帰還まで ${formatRebuildTime(Math.max(0, info.returnAt - now()))}` : ""}${!(info.growthVersion === 3 && info.mode === "survival") && world.time >= 480 ? ` · 残り ${Math.max(0, Math.ceil(540 - world.time))}秒` : ""}`,
+    weapon: `強化 ${info.growthVersion === 3 ? `${Object.values(info.levels).filter((n) => n > 0).length}/6枠` : `${info.picks}/${info.maxPicks}`}${info.growthVersion !== 3 && info.evolved.length ? ` · ${info.evolved.map((f) => FRONT_EVOLUTIONS[f].name).join("・")}` : ""}`,
     help: `WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · F ジャンプ${world.players.length > 1 ? " · E 蘇生" : ""}`,
   });
   const upgradeStrip = frontUpgradeStrip(info, import.meta.env.BASE_URL);
@@ -1020,8 +1157,18 @@ function frame(time: number) {
         at: Date.now(),
       });
       awardedRun = world.run;
+      let campaignText = "";
+      rewardError = !result.saved;
+      if (info.growthVersion === 3 && info.mode === "survival") {
+        try {
+          campaignText = ` · 攻略コイン +${queueFrontCampaignReward(localStorage, world.run, world.time)}`;
+        } catch (error) {
+          rewardError = true;
+          campaignText = ` · ${(error as Error).message}`;
+        }
+      }
       rewardText = result.saved
-        ? `功績 +${result.reward} · 初期候補 ${result.progress.unlocks.length}/9種を解放`
+        ? `功績 +${result.reward}${campaignText}`
         : result.error;
     }
     paintOverlay();
@@ -1099,12 +1246,21 @@ window.addEventListener("resize", () => placeControls(settings.layout));
 window.visualViewport?.addEventListener("resize", () =>
   placeControls(settings.layout),
 );
-placeControls(settings.layout);
-home();
-const invitation = new URL(location.href).searchParams.get("frontRoom");
-if (invitation && /^[A-Fa-f0-9]{8}$/.test(invitation)) {
-  rooms();
-  ($("room-id") as HTMLInputElement).value = invitation;
-  notice("部屋IDを確認し、参加を押してください", 5);
-}
-requestAnimationFrame(frame);
+startWithSaveWriter(async () => {
+  try {
+    loadProgress("normal", localStorage);
+  } catch {
+    campaignBootError =
+      "攻略の保存を読み込めません。元データは保持しています。";
+  }
+  frontLoadout = readFrontLoadout(progressStorage);
+  placeControls(settings.layout);
+  home();
+  const invitation = new URL(location.href).searchParams.get("frontRoom");
+  if (invitation && /^[A-Fa-f0-9]{8}$/.test(invitation)) {
+    rooms();
+    ($("room-id") as HTMLInputElement).value = invitation;
+    notice("部屋IDを確認し、参加を押してください", 5);
+  }
+  requestAnimationFrame(frame);
+});

@@ -1,3 +1,8 @@
+import {
+  FRONT_BASE_IDS,
+  FRONT_INITIAL_CARDS,
+  type FrontUpgradeId,
+} from "../shared/front-upgrades";
 import type { FrontRunView } from "../shared/front-run";
 import {
   DEFAULT_PLAYER_NAME,
@@ -104,6 +109,8 @@ export class FrontNetwork {
   ready: () => void = () => {};
   timer: ReturnType<typeof setInterval>;
   equip: Weapon[] = [];
+  upgradePool: FrontUpgradeId[] = [...FRONT_BASE_IDS];
+  initialCards: FrontUpgradeId[] = [...FRONT_INITIAL_CARDS];
   private inputAt = -Infinity;
   private pendingInput: Input | undefined;
   private usesInputAck = false;
@@ -168,7 +175,7 @@ export class FrontNetwork {
       this.send({
         type: "hello",
         equipmentCache: 1,
-        frontGrowth: 2,
+        frontGrowth: 3,
         name: this.playerName,
         ...(this.token ? { token: this.token } : {}),
       });
@@ -246,23 +253,14 @@ export class FrontNetwork {
         this.roomName = typeof m.roomName === "string" ? m.roomName : "";
         this.token = m.token;
         this.retry = 0;
-        // Keep identity in this tab across reloads. Never put the token in URLs or logs.
-        try {
-          const stored = JSON.stringify({
-            version: 1,
-            endpoint: this.endpoint,
-            code: this.code,
-            token: this.token,
-            expiresAt: Date.now() + 60 * 60 * 1000,
-          } satisfies NetworkSession);
-          sessionStorage.setItem(FRONT_NETWORK_SESSION_KEY, stored);
-          localStorage.setItem(FRONT_NETWORK_SESSION_KEY, stored);
-        } catch {
-          // A blocked/full session store must not break the live connection.
-        }
+        this.rememberSession(
+          Number.isFinite(m.expiresAt) ? m.expiresAt : Date.now() + 3600000,
+        );
         this.onStatus("接続済み", false);
         this.send({
           type: "equip",
+          upgradePool: this.upgradePool,
+          initialCards: this.initialCards,
           weapons: this.equip,
           ready: !this.preparing && this.assetReady,
           stage: this.stage,
@@ -280,6 +278,9 @@ export class FrontNetwork {
         }
         this.members = m.members;
         this.frontView = m.frontView;
+        if (Number.isFinite(m.expiresAt)) this.rememberSession(m.expiresAt);
+        else if (this.frontView?.returnAt != null)
+          this.rememberSession(this.frontView.returnAt * 1000 + 120000);
         this.serverNow = m.serverNow;
         if (Number.isFinite(m.serverNow))
           this.clockOffset = m.serverNow - Date.now() / 1000;
@@ -337,6 +338,24 @@ export class FrontNetwork {
     };
     ws.onerror = () => {};
   }
+  private rememberedExpiry = 0;
+  private rememberSession(expiresAt: number) {
+    if (this.rememberedExpiry === expiresAt) return;
+    try {
+      const stored = JSON.stringify({
+        version: 1,
+        endpoint: this.endpoint,
+        code: this.code,
+        token: this.token,
+        expiresAt,
+      } satisfies NetworkSession);
+      sessionStorage.setItem(FRONT_NETWORK_SESSION_KEY, stored);
+      localStorage.setItem(FRONT_NETWORK_SESSION_KEY, stored);
+      this.rememberedExpiry = expiresAt;
+    } catch {
+      /* 保存不可でも接続は継続し、次の配信で再試行する。 */
+    }
+  }
   send(value: unknown) {
     if (this.ws?.readyState === 1) this.ws.send(JSON.stringify(value));
   }
@@ -368,6 +387,8 @@ export class FrontNetwork {
     this.assetReady = false;
     this.send({
       type: "equip",
+      upgradePool: this.upgradePool,
+      initialCards: this.initialCards,
       weapons,
       ready: !this.preparing && this.assetReady,
       stage: this.stage,

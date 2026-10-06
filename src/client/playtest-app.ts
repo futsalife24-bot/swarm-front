@@ -1509,6 +1509,14 @@ function showHome(initialized: boolean) {
     pendingCount: initialized ? save.pending.length : 0,
     install: canInstallApp(),
   });
+  if (mode === "normal") {
+    const survival = document.createElement("button");
+    survival.textContent = "生存モード";
+    survival.onclick = () => {
+      location.href = import.meta.env.BASE_URL + "front";
+    };
+    ui.querySelector(".home-footer")?.append(survival);
+  }
   if (canInstallApp()) bind("install", () => void installApp());
   const enter = (after: () => void) =>
     initialized

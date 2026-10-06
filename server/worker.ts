@@ -1,3 +1,7 @@
+import {
+  createFrontUpgradeState,
+  type FrontUpgradeId,
+} from "../src/shared/front-upgrades";
 import { createFrontRun as createLegacyFrontRun } from "../src/shared/front-legacy-run";
 import { adminManifest, adminPage } from "./admin-page";
 import {
@@ -80,7 +84,9 @@ interface Env {
   PROJECT_HUB_EXPORT_KEY?: string;
 }
 interface Member {
-  frontGrowth?: 2;
+  frontGrowth?: 2 | 3;
+  upgradePool?: FrontUpgradeId[];
+  initialCards?: FrontUpgradeId[];
   id: string;
   token: string;
   name?: string;
@@ -100,6 +106,7 @@ interface Saved {
   world: World | null;
   interrupted: boolean;
   paused?: boolean;
+  resultExpiresAt?: number;
   stage?: number;
   messages?: ChatMessage[];
   preparationGeneration?: number;
@@ -671,6 +678,33 @@ export class Gate extends DurableObject<Env> {
     const now = Date.now(),
       day = Math.floor(now / 86400000);
     const url = new URL(req.url);
+    // 内部Roomだけが呼ぶ。出撃60分と結果保存2分を登録・接続判定へ一括反映。
+    if (url.pathname === "/front-expiry") {
+      const update = (await req.json()) as { code: string; expires: number };
+      const directory =
+        (await this.ctx.storage.get<Record<string, DirectoryEntry>>(
+          "directory",
+        )) ?? {};
+      const state = await this.ctx.storage.get<{
+        rooms?: Record<string, number>;
+      }>("gate");
+      const entry = directory[update.code];
+      if (
+        !entry ||
+        entry.ruleset !== "front-v1" ||
+        entry.mode !== "survival" ||
+        !state?.rooms ||
+        !(state.rooms[update.code] > now) ||
+        !Number.isFinite(update.expires) ||
+        update.expires <= now ||
+        update.expires > now + LIMITS.roomMs + 120000
+      )
+        return json({ error: "生存部屋の期限を更新できません" }, 409);
+      entry.expires = update.expires;
+      state.rooms[update.code] = update.expires;
+      await this.ctx.storage.put({ directory, gate: state });
+      return json({ ok: true });
+    }
     if (["/list", "/resolve", "/directory"].includes(url.pathname)) {
       if (url.pathname !== "/directory") {
         for (const [key, entry] of this.directoryQueries)
@@ -914,6 +948,38 @@ export class Room extends DurableObject<Env> {
       member.readyGeneration = undefined;
     }
   }
+  private frontResultExpiresAt() {
+    const run = this.saved.frontRun;
+    return run?.fusion &&
+      run.mode === "survival" &&
+      (run.phase === "victory" || run.phase === "defeat")
+      ? this.saved.resultExpiresAt
+      : undefined;
+  }
+  private markFrontResult() {
+    const run = this.saved.frontRun;
+    if (
+      run?.fusion &&
+      run.mode === "survival" &&
+      (run.phase === "victory" || run.phase === "defeat") &&
+      this.saved.resultExpiresAt === undefined
+    )
+      this.saved.resultExpiresAt = Math.min(
+        (run.returnAt ?? Infinity) * 1000 + 120000,
+        Date.now() + 120000,
+      );
+  }
+  private roomExpiresAt() {
+    const run = this.saved.frontRun;
+    return run?.fusion &&
+      run.mode === "survival" &&
+      Number.isFinite(run.returnAt)
+      ? Math.min(
+          run.returnAt! * 1000 + 120000,
+          this.frontResultExpiresAt() ?? Infinity,
+        )
+      : this.saved.created + LIMITS.roomMs;
+  }
   async persist() {
     await this.ctx.storage.put("room", this.saved);
   }
@@ -936,7 +1002,7 @@ export class Room extends DurableObject<Env> {
       await this.ctx.storage.setAlarm(this.saved.created + LIMITS.idleMs);
       return json({ ok: true });
     }
-    if (!this.saved.created || Date.now() - this.saved.created > LIMITS.roomMs)
+    if (!this.saved.created || Date.now() > this.roomExpiresAt())
       return json({ error: "ルームの有効期限が切れました" }, 410);
     if (
       (new URL(req.url).searchParams.get("ruleset") === "front-v1"
@@ -1023,6 +1089,10 @@ export class Room extends DurableObject<Env> {
       return;
     }
     if (!s.id) {
+      if (now >= this.roomExpiresAt()) {
+        this.error(ws, "ルームの有効期限が切れました");
+        return;
+      }
       if (m.type !== "hello") {
         this.error(ws, "最初に参加認証が必要です");
         return;
@@ -1035,8 +1105,11 @@ export class Room extends DurableObject<Env> {
         return;
       }
       if (
-        this.saved.frontRun?.world.front?.growthVersion === 2 &&
-        m.frontGrowth !== 2
+        (this.saved.frontRun?.world.front?.growthVersion === 3 &&
+          m.frontGrowth !== 3) ||
+        (this.saved.frontRun?.world.front?.growthVersion === 2 &&
+          m.frontGrowth !== 2 &&
+          m.frontGrowth !== 3)
       ) {
         this.send(ws, {
           type: "notice",
@@ -1054,7 +1127,11 @@ export class Room extends DurableObject<Env> {
           this.error(ws, "参加者情報が一致しません");
           return;
         }
-        if (member.gone && now - member.gone > LIMITS.reconnectMs) {
+        if (
+          member.gone &&
+          now - member.gone > LIMITS.reconnectMs &&
+          this.frontResultExpiresAt() === undefined
+        ) {
           this.error(ws, "復帰期限（30秒）が切れました。装備画面へ");
           return;
         }
@@ -1085,7 +1162,8 @@ export class Room extends DurableObject<Env> {
         };
         this.saved.members.push(member);
       }
-      member.frontGrowth = m.frontGrowth === 2 ? 2 : undefined;
+      member.frontGrowth =
+        m.frontGrowth === 3 ? 3 : m.frontGrowth === 2 ? 2 : undefined;
       member.name =
         normalizePlayerName(m.name) || member.name || DEFAULT_PLAYER_NAME;
       member.last = now;
@@ -1098,14 +1176,15 @@ export class Room extends DurableObject<Env> {
       if (p) p.connected = true;
       if (this.saved.frontRun)
         stepFrontRun(this.saved.frontRun, {}, 0.05, now / 1000);
+      this.markFrontResult();
       this.saved.paused = false;
       this.invalidatePreparation();
       await this.persist();
       await this.ctx.storage.setAlarm(
         Math.min(
-          this.saved.created + LIMITS.roomMs,
+          this.roomExpiresAt(),
           this.saved.world?.phase === "battle"
-            ? this.saved.created + LIMITS.roomMs
+            ? this.roomExpiresAt()
             : this.saved.world
               ? now + 120000
               : this.saved.created + LIMITS.idleMs,
@@ -1113,6 +1192,7 @@ export class Room extends DurableObject<Env> {
       );
       this.send(ws, {
         type: "welcome",
+        expiresAt: this.roomExpiresAt(),
         inputAck: true,
         id: member.id,
         token: member.token,
@@ -1139,7 +1219,6 @@ export class Room extends DurableObject<Env> {
       const name = normalizePlayerName(m.name);
       if (!name || name === member.name || now - (member.profileAt ?? 0) < 1000)
         return;
-      member.frontGrowth = m.frontGrowth === 2 ? 2 : undefined;
       member.name = name;
       member.profileAt = now;
       await this.persist();
@@ -1267,6 +1346,19 @@ export class Room extends DurableObject<Env> {
         this.error(ws, "武器定義が不正です");
         return;
       }
+      if (
+        this.saved.directory?.ruleset === "front-v1" &&
+        member.frontGrowth === 3
+      ) {
+        try {
+          createFrontUpgradeState("validate", 0, m.initialCards, m.upgradePool);
+          if (!Array.isArray(m.upgradePool) || !Array.isArray(m.initialCards))
+            throw new Error();
+        } catch {
+          this.send(ws, { type: "notice", reason: "強化候補の設定が不正です" });
+          return;
+        }
+      }
       if ((member.edits ?? 0) >= 120) {
         this.error(ws, "このルームの装備更新上限です。新しいルームへ");
         return;
@@ -1274,6 +1366,7 @@ export class Room extends DurableObject<Env> {
       member.edits = (member.edits ?? 0) + 1;
       if (
         this.saved.directory?.ruleset === "front-v1" &&
+        member.frontGrowth !== 3 &&
         (m.weapons.some(
           (w: Weapon) => !["rifle", "shotgun", "smg"].includes(w.kind),
         ) ||
@@ -1302,7 +1395,17 @@ export class Room extends DurableObject<Env> {
             }
           : {}),
       }));
-      if (this.saved.directory?.ruleset === "front-v1")
+      if (
+        this.saved.directory?.ruleset === "front-v1" &&
+        member.frontGrowth === 3
+      ) {
+        member.upgradePool = [...m.upgradePool];
+        member.initialCards = [...m.initialCards];
+      }
+      if (
+        this.saved.directory?.ruleset === "front-v1" &&
+        member.frontGrowth !== 3
+      )
         member.weapons = frontTemporaryWeapons(
           "front-lobby",
           s.id,
@@ -1335,22 +1438,89 @@ export class Room extends DurableObject<Env> {
       }
       let world: World;
       if (this.saved.directory?.ruleset === "front-v1") {
-        const createRun = present.every((p) => p.frontGrowth === 2)
-          ? createFrontRun
-          : createLegacyFrontRun;
+        if (
+          present.some((p) => p.frontGrowth === 3) &&
+          present.some((p) => p.frontGrowth !== 3)
+        ) {
+          this.send(ws, {
+            type: "notice",
+            reason: "全員が画面を更新してから出撃してください",
+          });
+          return;
+        }
+        const createRun = (
+          options: Parameters<typeof createFrontRun>[0],
+          at: number,
+        ) =>
+          present.every((p) => p.frontGrowth === 2 || p.frontGrowth === 3)
+            ? createFrontRun(options, at)
+            : createLegacyFrontRun(
+                {
+                  runId: options.runId,
+                  seed: options.seed,
+                  mode: options.mode,
+                  players: options.players.map((p) => ({
+                    id: p.id,
+                    weapons: p.weapons,
+                  })),
+                },
+                at,
+              );
         const run = createRun(
           {
             runId: secret(),
             seed: crypto.getRandomValues(new Uint32Array(1))[0],
             mode: this.saved.directory.mode,
+            fusion: present.every((p) => p.frontGrowth === 3),
+            // 出撃前の時間を含めず、出撃開始から60分。
+            returnAt: (now + LIMITS.roomMs) / 1000,
             players: present.map((p) => ({
               id: p.id,
               weapons: p.weapons.map((w) => w.kind as FrontWeaponKind),
+              equipment: p.weapons,
+              pool: p.upgradePool,
+              initialCards: p.initialCards,
             })),
           },
           now / 1000,
         );
-        this.saved.frontRun = run as unknown as FrontRun;
+        const newRun = run as unknown as FrontRun;
+        if (
+          newRun.fusion &&
+          newRun.mode === "survival" &&
+          newRun.returnAt !== undefined
+        ) {
+          const code = this.saved.directory.code,
+            expires = newRun.returnAt * 1000 + 120000;
+          const extended = await this.ctx.blockConcurrencyWhile(async () => {
+            const extended = await this.env.GATE.get(
+              this.env.GATE.idFromName("admission"),
+            ).fetch(
+              new Request("https://internal/front-expiry", {
+                method: "POST",
+                body: JSON.stringify({
+                  code,
+                  expires,
+                }),
+              }),
+            );
+            if (extended.ok) {
+              this.saved.resultExpiresAt = undefined;
+              this.saved.frontRun = newRun;
+              this.saved.world = newRun.world;
+            }
+            return extended;
+          });
+          if (!extended.ok) {
+            this.send(ws, {
+              type: "notice",
+              reason:
+                "出撃期限を確保できませんでした。もう一度出撃してください",
+            });
+            return;
+          }
+        }
+        this.saved.frontRun = newRun;
         world = run.world;
       } else {
         world = createWorld(
@@ -1363,12 +1533,13 @@ export class Room extends DurableObject<Env> {
         start(world);
       }
       for (const p of present) p.last = now;
+      this.saved.resultExpiresAt = undefined;
       this.saved.world = world;
       this.saved.paused = false;
       this.sentEvent = 0;
       this.inputs = {};
       await this.persist();
-      await this.ctx.storage.setAlarm(this.saved.created + LIMITS.roomMs);
+      await this.ctx.storage.setAlarm(this.roomExpiresAt());
       this.broadcast();
       this.run();
     } else if (m.type === "ping") {
@@ -1418,6 +1589,7 @@ export class Room extends DurableObject<Env> {
             ? {
                 frontView: getFrontRunView(this.saved.frontRun, s.id),
                 serverNow: Date.now() / 1000,
+                expiresAt: this.roomExpiresAt(),
               }
             : undefined;
         const payload = state!.packet(s.id, cached, s.seq, recipientMetadata);
@@ -1468,7 +1640,7 @@ export class Room extends DurableObject<Env> {
           p.down = 0;
         }
       }
-    if (now - this.saved.created > LIMITS.roomMs) {
+    if (now > this.roomExpiresAt()) {
       finish(w, false, "ルームの有効期限が切れました");
     }
     const active = Object.fromEntries(
@@ -1492,13 +1664,14 @@ export class Room extends DurableObject<Env> {
     }
     this.ticks++;
     if (w.phase !== "battle") {
+      this.markFrontResult();
       this.invalidatePreparation();
       this.stop();
       this.persisting = true;
       try {
         await this.persist();
         await this.ctx.storage.setAlarm(
-          Math.min(this.saved.created + LIMITS.roomMs, Date.now() + 120000),
+          Math.min(this.roomExpiresAt(), Date.now() + 120000),
         );
         this.broadcast();
       } catch {
@@ -1531,10 +1704,8 @@ export class Room extends DurableObject<Env> {
       this.stop();
       this.saved.paused = true;
       void this.ctx.storage.setAlarm(
-        Math.min(
-          this.saved.created + LIMITS.roomMs,
-          Date.now() + LIMITS.reconnectMs,
-        ),
+        this.frontResultExpiresAt() ??
+          Math.min(this.roomExpiresAt(), Date.now() + LIMITS.reconnectMs),
       );
     }
     void this.persist().catch(() => {});
@@ -1550,12 +1721,17 @@ export class Room extends DurableObject<Env> {
     // Empty rooms receive only this single cleanup alarm; no simulation loop.
     const now = Date.now();
     const connected = [...this.sockets.entries()].filter(([, s]) => s.id);
+    const resultExpiresAt = this.frontResultExpiresAt();
+    if (resultExpiresAt !== undefined && now < resultExpiresAt) {
+      await this.ctx.storage.setAlarm(resultExpiresAt);
+      return;
+    }
     if (
-      now < this.saved.created + LIMITS.roomMs &&
+      now < this.roomExpiresAt() &&
       this.saved.world?.phase === "battle" &&
       connected.length
     ) {
-      await this.ctx.storage.setAlarm(this.saved.created + LIMITS.roomMs);
+      await this.ctx.storage.setAlarm(this.roomExpiresAt());
       return;
     }
     this.stop();
