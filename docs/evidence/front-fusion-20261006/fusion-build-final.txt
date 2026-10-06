@@ -32,7 +32,7 @@ dist/assets/front-CKuio5hI.js            76.95 kB │ gzip:  25.96 kB
 dist/assets/hud-VDYrXLj0.js             916.44 kB │ gzip: 255.83 kB
 
 ✓ built in 889ms
-[plugin builtin:vite-reporter] 
+[plugin builtin:vite-reporter]
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
