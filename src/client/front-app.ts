@@ -284,7 +284,7 @@ function menuDialog(title: string, content: string, back: () => void) {
   $("front-dialog-back").onclick = back;
 }
 function menuSettings(back: () => void) {
-  settings.open($("ui"), back, "戻る");
+  settings.open($("ui"), back);
 }
 function base(back: () => void = home) {
   const progress = readFrontProgress(progressStorage).progress,
@@ -934,7 +934,18 @@ function paintOverlay() {
       resumeRebuildUi(gate, false);
       paintOverlay();
     };
-    $("front-leave").onclick = leave;
+    const exitDialog = document.createElement("dialog");
+    exitDialog.className = "front-owned-dialog front-leave-dialog";
+    exitDialog.setAttribute("aria-labelledby", "front-leave-title");
+    exitDialog.innerHTML = `<h2 id="front-leave-title">タイトルへ戻りますか？</h2><p>${network ? "部隊から退出します。" : "この出撃を終了します。"}作戦中の強化は失われます。</p><div class="pause-actions"><button id="front-leave-cancel" autofocus>キャンセル</button><button id="front-leave-confirm">タイトルへ戻る</button></div>`;
+    ui.append(exitDialog);
+    exitDialog.addEventListener("keydown", (event) => event.stopPropagation());
+    $("front-leave").onclick = () => exitDialog.showModal();
+    $("front-leave-cancel").onclick = () => exitDialog.close();
+    $("front-leave-confirm").onclick = () => {
+      exitDialog.close();
+      leave();
+    };
     if (localRun?.fusion && localRun.mode === "survival" && world.time >= 60) {
       const back = document.createElement("button");
       back.textContent = "帰還して戦果を保存";

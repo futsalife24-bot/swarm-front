@@ -1,0 +1,16 @@
+[WebServer] (node:39352) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:32540) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 11:53:00 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision
+[WebServer] (209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
+[WebServer] (210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
+[WebServer] (209,37-61): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
+[WebServer] (210,82-106): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
+  ok 1 e2e\front.spec.ts:32:3 › 設定から保存して戻る・退出確認：横844 (12.0s)
+  ok 2 e2e\front.spec.ts:32:3 › 設定から保存して戻る・退出確認：横640 (4.5s)
+
+  2 passed (30.0s)

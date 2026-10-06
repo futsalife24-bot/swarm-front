@@ -83,6 +83,7 @@ for (const width of [844, 640])
     await expect(page.locator("#controls")).toBeVisible({ timeout: 5000 });
     await page.locator("#pause").click();
     await page.locator("#front-leave").click();
+    await page.locator("#front-leave-confirm").click();
     await page.reload();
     await page
       .getByRole("button", { name: "ソロで出撃準備", exact: true })
