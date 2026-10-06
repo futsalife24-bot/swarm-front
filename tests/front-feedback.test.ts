@@ -277,6 +277,8 @@ describe("戦闘フィードバックの回帰", () => {
         })),
         directory: { ruleset: "front-v1", mode: "interception" },
       };
+      worker.roomExpiresAt = () => 3600000;
+      worker.frontResultExpiresAt = () => undefined;
       worker.sentEvent = 0;
       worker.publishDirectory = () => {};
       worker.disconnected = () => {

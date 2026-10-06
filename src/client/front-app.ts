@@ -1,3 +1,4 @@
+import { FrontMineVisuals } from "./front-mine-visuals";
 /** 攻略と併設する生存作戦。武器とコインは共有保存、作戦内の融合は一時状態。 */
 import "../style.css";
 import "../mobile-ui.css";
@@ -1010,11 +1011,7 @@ const orbs = new T.InstancedMesh(
   new T.MeshBasicMaterial({ color: 0x98ebc8 }),
   160,
 );
-const mines = new T.InstancedMesh(
-  new T.CylinderGeometry(0.55, 0.7, 0.15, 12),
-  new T.MeshBasicMaterial({ color: 0x98ebc8 }),
-  4 * (2 + FRONT_UPGRADE_CATALOG["afterimage-mine"].maxLevel),
-);
+const mineVisuals = new FrontMineVisuals(view.scene);
 const marker = new T.Object3D();
 const warnings = new T.InstancedMesh(
   new T.TorusGeometry(1, 0.05, 4, 32),
@@ -1026,9 +1023,9 @@ const warnings = new T.InstancedMesh(
   32,
 );
 warnings.frustumCulled = false;
-marks.count = orbs.count = mines.count = warnings.count = 0;
-marks.frustumCulled = orbs.frustumCulled = mines.frustumCulled = false;
-view.scene.add(marks, orbs, mines, warnings);
+marks.count = orbs.count = warnings.count = 0;
+marks.frustumCulled = orbs.frustumCulled = false;
+view.scene.add(marks, orbs, warnings);
 function paintBattle() {
   if (!world || !info) return;
   const p = world.players.find((p) => p.id === id);
@@ -1072,14 +1069,7 @@ function paintBattle() {
   }
   orbs.count = count;
   orbs.instanceMatrix.needsUpdate = true;
-  count = 0;
-  for (const mine of state.mines) {
-    marker.position.set(mine.x, mine.y + 0.12, mine.z);
-    marker.updateMatrix();
-    mines.setMatrixAt(count++, marker.matrix);
-  }
-  mines.count = count;
-  mines.instanceMatrix.needsUpdate = true;
+  mineVisuals.update(state.mines, state.players, world.time, id);
   count = 0;
   marker.rotation.set(Math.PI / 2, 0, 0);
   for (const warning of info.spawnWarnings) {

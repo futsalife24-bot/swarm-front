@@ -32,6 +32,12 @@ export const frontUpgradeIcon = (id: FrontUpgradeId, base: string) =>
   `${base}rebuild/upgrades/${id}.png`;
 function fusionAbility(id: FrontUpgradeId, n: number): string {
   switch (id) {
+    case "fusion-aegis":
+      return `回避後の防御を${2 + 0.5 * n}秒に延長。回避も速く回せる。`;
+    case "fusion-collector":
+      return `広範囲の経験値回収で体力${3 + n}回復。${3 - 0.5 * n}秒に1回。`;
+    case "fusion-reactor":
+      return `2回命中で強化爆発。中心の敵へさらに${20 * n}ダメージ。`;
     case "fusion-collapse":
       return "印の爆発が、近くの印へ連鎖する。";
     case "fusion-skewer":
@@ -51,8 +57,14 @@ function fusionAbility(id: FrontUpgradeId, n: number): string {
 export function frontUpgradeEffect(id: FrontUpgradeId, level: number): string {
   const n = Math.max(1, level);
   if (isFrontFusion(id))
-    return `${fusionAbility(id, n)} ${FRONT_FUSIONS[id].map((material) => `${FRONT_UPGRADE_CATALOG[material].name}：${frontUpgradeEffect(material, FRONT_UPGRADE_CATALOG[material].maxLevel + n)}`).join(" ")}`;
+    return `${fusionAbility(id, n)} ${FRONT_FUSIONS[id].map((material) => `${FRONT_UPGRADE_CATALOG[material].name}：${id === "fusion-collector" && material === "recovery-pack" ? `回収時${3 + n}HP回復（${3 - 0.5 * n}秒に1回）。` : id === "fusion-aegis" && material === "emergency-armor" ? `${2 + 0.5 * n}秒、被ダメージ −${(3 + n) * 10}%。` : frontUpgradeEffect(material, FRONT_UPGRADE_CATALOG[material].maxLevel + n)}`).join(" ")}`;
   switch (id) {
+    case "boost-coil":
+      return `回避の待ち時間 −${Math.min(48, n * 8)}%。`;
+    case "recovery-pack":
+      return `経験値を拾うと${n}HP回復。3秒に1回。`;
+    case "burst-cell":
+      return `爆発・地雷の威力 +${Math.min(48, n * 8)}%。`;
     case "life-drain":
       return `撃破時に${n}HP回復。`;
     case "power-cell":
@@ -97,7 +109,7 @@ const atlasIds: readonly FrontUpgradeId[] = [
   "life-drain",
   "power-cell",
   "reserve-rounds",
-  ...FRONT_FUSION_IDS,
+  ...FRONT_FUSION_IDS.slice(0, 6),
 ];
 const icon = (id: FrontUpgradeId, base: string, card = false) => {
   const index = atlasIds.indexOf(id);

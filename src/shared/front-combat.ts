@@ -31,6 +31,7 @@ export interface FrontPlayerCombat {
   tacticalReady: boolean;
   openingSlots: number[];
   armorUntil: number;
+  recoveryAt?: number;
   statuses: Record<number, { marked: boolean; hits: number; lastShot: number }>;
   manualHits: number;
   effects: number;
@@ -49,6 +50,7 @@ export interface FrontMine {
 export interface FrontBattleState {
   version: "front-v1";
   growthVersion?: 2 | 3;
+  catalogVersion?: 2;
   /** 公開前から続く部隊は旧描画容量に合わせた24体を維持する。 */
   enemyCap?: number;
   players: Record<string, FrontPlayerCombat>;
@@ -223,15 +225,43 @@ export function collectFrontXp(w: World, all = false) {
     living = w.players.filter((p) => p.connected && p.hp > 0);
   let collected = 0;
   r.orbs = r.orbs.filter((orb) => {
-    if (
-      !all &&
-      !living.some(
-        (p) =>
-          Math.hypot(p.x - orb.x, p.z - orb.z) <=
-          5 + 3 * (r.players[p.id]?.levels.magnet ?? 0),
-      )
-    )
-      return true;
+    const collector = all
+      ? undefined
+      : living
+          .filter(
+            (p) =>
+              Math.hypot(p.x - orb.x, p.z - orb.z) <=
+              5 + 3 * (r.players[p.id]?.levels.magnet ?? 0),
+          )
+          .sort(
+            (a, b) =>
+              Math.hypot(a.x - orb.x, a.z - orb.z) -
+                Math.hypot(b.x - orb.x, b.z - orb.z) || (a.id < b.id ? -1 : 1),
+          )[0];
+    if (!all && !collector) return true;
+    if (collector) {
+      const combat = r.players[collector.id],
+        rank = combat?.levels["recovery-pack"] || 0;
+      if (
+        rank > 0 &&
+        collector.hp < combat.maxHp &&
+        w.time >= (combat.recoveryAt ?? 0)
+      ) {
+        const amount = Math.min(rank, combat.maxHp - collector.hp);
+        collector.hp += amount;
+        combat.recoveryAt =
+          w.time +
+          Math.max(1.5, 3 - 0.5 * (combat.levels["fusion-collector"] || 0));
+        event(w, {
+          type: "heal",
+          x: collector.x,
+          y: (collector.y ?? 0) + 1,
+          z: collector.z,
+          owner: collector.id,
+          amount,
+        });
+      }
+    }
     collected += orb.value;
     return false;
   });
@@ -251,6 +281,7 @@ function secondaryHit(
   origin: number,
   key: string,
   source: "ricochet" | "interceptor" | "mine" | "blast",
+  from?: { x: number; y?: number; z: number },
 ) {
   const s = ledger(w, origin, owner),
     tag = `${key}:${target.id}`;
@@ -275,10 +306,11 @@ function secondaryHit(
     event(w, {
       type: "shot",
       weapon: "rifle",
+      frontEffect: source === "ricochet" ? "ricochet" : "interceptor",
       owner,
-      x: player.x,
-      y: (player.y ?? 0) + 1.5,
-      z: player.z,
+      x: from?.x ?? player.x,
+      y: from?.y ?? (player.y ?? 0) + 1.5,
+      z: from?.z ?? player.z,
       tx: target.x,
       ty: eye(target),
       tz: target.z,
@@ -302,7 +334,16 @@ function blast(
     blocks = mapFor(w).blocks;
   markEffect(w, owner);
   if (depth === 0) radius *= 1 + 0.2 * r.levels["blast-radius"];
-  event(w, { type: "burst", x, y, z, radius, owner });
+  const cell = 1 + Math.min(0.48, 0.08 * (r.levels["burst-cell"] || 0));
+  event(w, {
+    type: "burst",
+    x,
+    y,
+    z,
+    radius,
+    owner,
+    frontEffect: key.startsWith("mine-") ? "mine" : "blast",
+  });
   for (const target of [...w.enemies]) {
     if (
       target.hp <= 0 ||
@@ -320,7 +361,7 @@ function blast(
     const applied = secondaryHit(
       w,
       target,
-      damage,
+      damage * cell,
       owner,
       origin,
       key,
@@ -431,6 +472,16 @@ export function frontManualHit(
       detonate ? "fuse" : core ? "core" : "compression",
     );
   }
+  if (compressed && (r.levels["fusion-reactor"] || 0) > 0)
+    secondaryHit(
+      w,
+      e,
+      20 * r.levels["fusion-reactor"],
+      owner,
+      origin,
+      "reactor-center",
+      "blast",
+    );
   if (fresh && r.levels.ricochet > 0 && status.hits % 3 === 0) {
     const target = [...w.enemies]
       .filter(
@@ -455,6 +506,7 @@ export function frontManualHit(
         origin,
         "ricochet",
         "ricochet",
+        { x: e.x, y: eye(e), z: e.z },
       )
     )
       markEffect(w, owner);
@@ -489,7 +541,8 @@ export function frontDodgeEnded(w: World, p: Player) {
   const r = w.front?.players[p.id];
   if (!r) return;
   if (r.levels["tactical-reload"] > 0) r.tacticalReady = true;
-  if (r.levels["emergency-armor"] > 0) r.armorUntil = w.time + 2;
+  if (r.levels["emergency-armor"] > 0)
+    r.armorUntil = w.time + 2 + 0.5 * (r.levels["fusion-aegis"] || 0);
   if (r.levels["afterimage-mine"] > 0) {
     const owned = w.front!.mines.filter((mine) => mine.owner === p.id);
     if (owned.length >= 2 + r.levels["afterimage-mine"])
@@ -509,6 +562,7 @@ export function frontDodgeEnded(w: World, p: Player) {
       y: (p.y ?? 0) + 0.1,
       z: p.z,
       radius: 0.8,
+      frontEffect: "mine-set",
       owner: p.id,
     });
   }

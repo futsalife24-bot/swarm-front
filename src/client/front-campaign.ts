@@ -20,6 +20,9 @@ export const FRONT_CAMPAIGN_UNLOCKS: readonly {
   stage: number;
   ids: readonly FrontUpgradeId[];
 }[] = [
+  { stage: 1, ids: ["boost-coil"] },
+  { stage: 3, ids: ["recovery-pack"] },
+  { stage: 5, ids: ["burst-cell"] },
   { stage: 2, ids: ["life-drain"] },
   { stage: 4, ids: ["power-cell"] },
   { stage: 6, ids: ["reserve-rounds"] },

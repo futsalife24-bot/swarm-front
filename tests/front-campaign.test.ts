@@ -25,6 +25,24 @@ const storage = () => {
     },
   };
 };
+it("攻略1/3/5で新規3種を遡及解放し、保存済みの個人候補を勝手に増やさない", () => {
+  const s = storage(),
+    p = freshProgress("normal"),
+    selected = readFrontLoadout(s);
+  saveFrontLoadout(s, selected);
+  p.missions = {
+    "1:normal": [true, false, false],
+    "3:normal": [true, false, false],
+    "5:normal": [true, false, false],
+  };
+  s.setItem(legacyProgressKey, JSON.stringify(p));
+  const before = [...s.map];
+  expect(readFrontCampaign(s).unlocked).toEqual(
+    expect.arrayContaining(["boost-coil", "recovery-pack", "burst-cell"]),
+  );
+  expect(readFrontLoadout(s).pool).toEqual(selected.pool);
+  expect([...s.map]).toEqual(before);
+});
 it("攻略2/4/6のクリアを遡及解放し、既存16種・原データを維持", () => {
   const s = storage(),
     p = freshProgress("normal");

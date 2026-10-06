@@ -1,0 +1,17 @@
+[WebServer] (node:39152) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:40228) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 13:28:55 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision
+[WebServer] (209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
+[WebServer] (210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
+[WebServer] (209,37-61): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
+[WebServer] (210,82-106): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
+[WebServer] 13:29:18 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (196,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)
+[WebServer] 13:29:19 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (179,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)
+  ok 1 e2e\front-expansion.spec.ts:7:1 › 従来モードで射撃・武器切替・共通エフェクトが動く (36.8s)
+
+  1 passed (59.5s)

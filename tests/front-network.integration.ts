@@ -14,7 +14,12 @@ class Client {
   messages: any[] = [];
   id = "";
   token = "";
-  constructor(code: string, token = "", growth: boolean | 3 = true) {
+  constructor(
+    code: string,
+    token = "",
+    growth: boolean | 3 = true,
+    catalog = 2,
+  ) {
     this.ws = new WebSocket(
       `${base.replace("http", "ws")}/rooms/${code}?ruleset=front-v1`,
     );
@@ -22,6 +27,7 @@ class Client {
       this.send({
         type: "hello",
         ...(growth ? { frontGrowth: growth === 3 ? 3 : 2 } : {}),
+        ...(growth === 3 && catalog === 2 ? { frontCatalog: 2 } : {}),
         ...(token ? { token } : {}),
       });
     this.ws.onmessage = (e) => {
@@ -130,6 +136,52 @@ async function team(
   return { entry, members, states };
 }
 describe("改装版の実通信", () => {
+  it("新候補を設定したロビーへ旧画面で戻ると出撃を止め、更新後に同じ設定で出撃できる", async () => {
+    const entry = await room("survival"),
+      modern = new Client(entry.code, "", 3);
+    await modern.wait((m) => m.type === "welcome");
+    modern.send({
+      type: "equip",
+      weapons: frontTemporaryWeapons("catalog", "a"),
+      upgradePool: FRONT_BASE_IDS,
+      initialCards: FRONT_INITIAL_CARDS,
+    });
+    await modern.wait(
+      (m) => m.type === "lobby" && m.members[0]?.weapons?.length === 2,
+    );
+    modern.ws.close();
+    await new Promise((r) => setTimeout(r, 150));
+    const old = new Client(entry.code, modern.token, 3, 1);
+    await old.wait((m) => m.type === "lobby");
+    old.send({
+      type: "ready",
+      ready: true,
+      stage: old.latest().stage,
+      preparationGeneration: old.latest().preparationGeneration,
+    });
+    await old.wait((m) => m.type === "lobby" && m.members[0]?.ready);
+    old.send({ type: "start" });
+    expect((await old.wait((m) => m.type === "notice")).reason).toContain(
+      "更新",
+    );
+    expect(old.messages.some((m) => m.type === "state")).toBe(false);
+    old.ws.close();
+    await new Promise((r) => setTimeout(r, 150));
+    const updated = new Client(entry.code, modern.token, 3);
+    await updated.wait((m) => m.type === "lobby");
+    updated.send({
+      type: "ready",
+      ready: true,
+      stage: updated.latest().stage,
+      preparationGeneration: updated.latest().preparationGeneration,
+    });
+    await updated.wait((m) => m.type === "lobby" && m.members[0]?.ready);
+    updated.send({ type: "start" });
+    expect(
+      (await updated.wait((m) => m.type === "state")).world.front
+        .catalogVersion,
+    ).toBe(2);
+  });
   it("融合規則：4人の個人設定・持込性能・再接続・途中変更禁止", async () => {
     const entry = await room("survival"),
       members: Client[] = [];
@@ -211,6 +263,11 @@ describe("改装版の実通信", () => {
       ).size,
     ).toBe(1);
     const original = states[1].frontView.offer;
+    expect(states[1].world.front.catalogVersion).toBe(2);
+    const previousCatalog = new Client(entry.code, members[1].token, 3, 1);
+    expect(
+      (await previousCatalog.wait((m) => m.type === "notice")).reason,
+    ).toContain("再読み込み");
     members[1].send({
       type: "equip",
       weapons: frontTemporaryWeapons("changed", "x"),

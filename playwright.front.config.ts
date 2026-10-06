@@ -1,7 +1,7 @@
 import { defineConfig } from "@playwright/test";
 export default defineConfig({
   testDir: "e2e",
-  testMatch: "front.spec.ts",
+  testMatch: ["front.spec.ts", "front-expansion.spec.ts"],
   timeout: 120000,
   workers: 1,
   use: {

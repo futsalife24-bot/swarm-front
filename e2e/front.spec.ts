@@ -209,7 +209,7 @@ for (const width of [844, 640])
       (el, markup) => {
         el.innerHTML = markup;
       },
-      FRONT_FUSION_IDS.slice(3)
+      FRONT_FUSION_IDS.slice(3, 6)
         .map((id) => frontUpgradeCardMarkup(view, id, "/"))
         .join(""),
     );

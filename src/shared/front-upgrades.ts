@@ -28,7 +28,13 @@ export type FrontUpgradeId =
   | "fusion-counter"
   | "fusion-bastion"
   | "fusion-magazine"
-  | "fusion-overdrive";
+  | "fusion-overdrive"
+  | "boost-coil"
+  | "recovery-pack"
+  | "burst-cell"
+  | "fusion-aegis"
+  | "fusion-collector"
+  | "fusion-reactor";
 export type FrontFamily = "explosion" | "piercing" | "interception";
 export const FRONT_FAMILY_CARDS: Readonly<
   Record<FrontFamily, readonly FrontUpgradeId[]>
@@ -97,13 +103,26 @@ export const FRONT_FUSION_IDS = [
   "fusion-bastion",
   "fusion-magazine",
   "fusion-overdrive",
+  "fusion-aegis",
+  "fusion-collector",
+  "fusion-reactor",
 ] as const;
 export type FrontFusionId = (typeof FRONT_FUSION_IDS)[number];
-export const FRONT_BASE_IDS: readonly FrontUpgradeId[] = [
+export const FRONT_PREVIOUS_BASE_IDS: readonly FrontUpgradeId[] = [
   ...FRONT_V2_UPGRADE_IDS,
   "life-drain",
   "power-cell",
   "reserve-rounds",
+];
+export const FRONT_BASE_IDS: readonly FrontUpgradeId[] = [
+  ...FRONT_PREVIOUS_BASE_IDS,
+  "boost-coil",
+  "recovery-pack",
+  "burst-cell",
+];
+export const FRONT_PREVIOUS_IDS: readonly FrontUpgradeId[] = [
+  ...FRONT_PREVIOUS_BASE_IDS,
+  ...FRONT_FUSION_IDS.slice(0, 6),
 ];
 export const FRONT_UPGRADE_IDS: readonly FrontUpgradeId[] = [
   ...FRONT_BASE_IDS,
@@ -119,6 +138,9 @@ export const FRONT_FUSIONS: Record<
   "fusion-bastion": ["armor", "life-drain"],
   "fusion-magazine": ["reload", "magazine"],
   "fusion-overdrive": ["power-cell", "reserve-rounds"],
+  "fusion-aegis": ["boost-coil", "emergency-armor"],
+  "fusion-collector": ["recovery-pack", "magnet"],
+  "fusion-reactor": ["burst-cell", "compressed-charge"],
 };
 export const isFrontFusion = (id: FrontUpgradeId): id is FrontFusionId =>
   (FRONT_FUSION_IDS as readonly string[]).includes(id);
@@ -281,6 +303,49 @@ export const FRONT_UPGRADE_CATALOG: Readonly<
     name: "弾薬循環",
     description: "手動射撃で撃破時、段階ごと1発を弾倉へ返却。",
     family: "generic",
+    maxLevel: 3,
+  },
+  "boost-coil": {
+    id: "boost-coil",
+    name: "ブーストコイル",
+    description: "回避の待ち時間を段階ごと8%短縮。",
+    family: "generic",
+    maxLevel: 3,
+  },
+  "recovery-pack": {
+    id: "recovery-pack",
+    name: "リカバリーパック",
+    description: "経験値を拾うと段階ごと1HP回復。3秒に1回。",
+    family: "generic",
+    maxLevel: 3,
+  },
+  "burst-cell": {
+    id: "burst-cell",
+    name: "バーストセル",
+    description: "爆発・地雷の威力を段階ごと8%増加。",
+    family: "generic",
+    maxLevel: 3,
+  },
+  "fusion-aegis": {
+    id: "fusion-aegis",
+    name: "イージスブースト",
+    description: "回避の回転率と軽減を継承し、回避後の防御時間も延長。",
+    family: "generic",
+    maxLevel: 3,
+  },
+  "fusion-collector": {
+    id: "fusion-collector",
+    name: "ライフコレクター",
+    description: "広い回収範囲と回復を継承し、回復の待ち時間も短縮。",
+    family: "generic",
+    maxLevel: 3,
+  },
+  "fusion-reactor": {
+    id: "fusion-reactor",
+    name: "ヒートリアクター",
+    description:
+      "爆発強化と連続命中を継承。2回命中の爆発に中心への追加ダメージ。",
+    family: "explosion",
     maxLevel: 3,
   },
   "fusion-collapse": {
@@ -552,10 +617,14 @@ export function isValidFrontUpgradeState(
     )
   )
     return false;
+  const stateIds = value.fusion
+    ? Object.keys(value.levels).length === FRONT_PREVIOUS_IDS.length
+      ? FRONT_PREVIOUS_IDS
+      : FRONT_UPGRADE_IDS
+    : FRONT_V2_UPGRADE_IDS;
   if (
-    Object.keys(value.levels).length !==
-      (value.fusion ? FRONT_UPGRADE_IDS : FRONT_V2_UPGRADE_IDS).length ||
-    !(value.fusion ? FRONT_UPGRADE_IDS : FRONT_V2_UPGRADE_IDS).every((id) =>
+    Object.keys(value.levels).length !== stateIds.length ||
+    !stateIds.every((id) =>
       integerIn(
         (value.levels as Record<string, unknown>)[id],
         0,
@@ -571,7 +640,9 @@ export function isValidFrontUpgradeState(
       state.pool.length < 6 ||
       state.pool.length > FRONT_BASE_IDS.length ||
       new Set(state.pool).size !== state.pool.length ||
-      !state.pool.every((id) => FRONT_BASE_IDS.includes(id)) ||
+      !state.pool.every(
+        (id) => FRONT_BASE_IDS.includes(id) && stateIds.includes(id),
+      ) ||
       !state.initialCards.every((id) => state.pool!.includes(id)) ||
       FRONT_FUSION_IDS.some(
         (f) =>
