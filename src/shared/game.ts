@@ -251,6 +251,7 @@ export interface Projectile {
   family?: Family;
 }
 export interface Event {
+  frontEffect?: "ricochet" | "interceptor" | "mine" | "mine-set" | "blast";
   rebuild?: RebuildAttribution;
   id: number;
   type:
@@ -801,7 +802,7 @@ export function hurtPlayer(w: World, p: Player, damage: number, heavy = false) {
   const frontArmor = w.front?.players[p.id];
   const reduction =
     frontArmor && w.time < frontArmor.armorUntil
-      ? 0.1 * frontArmor.levels["emergency-armor"]
+      ? Math.min(0.6, 0.1 * frontArmor.levels["emergency-armor"])
       : 0;
   p.hp = Math.max(0, p.hp - damage * stageFor(w).damage * (1 - reduction));
   if (heavy) p.heavyHit = HEAVY_HIT_DURATION;
@@ -1538,7 +1539,13 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
         (w.front ? frontReloadStarted(w, p) : 1);
     if (i.dodge && p.evadeCd <= 0) {
       p.evade = EVADE_DURATION;
-      p.evadeCd = 2.2;
+      p.evadeCd =
+        2.2 *
+        (1 -
+          Math.min(
+            0.48,
+            0.08 * (w.front?.players[p.id]?.levels["boost-coil"] || 0),
+          ));
     }
     const airborne = playerVerticalStep(p, i, mapFor(w).blocks, dt);
     const norm = Math.max(1, Math.hypot(i.mx, i.mz)),

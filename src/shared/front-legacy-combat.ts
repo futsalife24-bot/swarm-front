@@ -179,6 +179,7 @@ function secondaryHit(
   origin: number,
   key: string,
   source: "ricochet" | "interceptor" | "mine" | "blast",
+  from?: { x: number; y: number; z: number },
 ) {
   const s = ledger(w, origin, owner),
     tag = `${key}:${target.id}`;
@@ -203,10 +204,11 @@ function secondaryHit(
     event(w, {
       type: "shot",
       weapon: "rifle",
+      frontEffect: source === "ricochet" ? "ricochet" : "interceptor",
       owner,
-      x: player.x,
-      y: (player.y ?? 0) + 1.5,
-      z: player.z,
+      x: from?.x ?? player.x,
+      y: from?.y ?? (player.y ?? 0) + 1.5,
+      z: from?.z ?? player.z,
       tx: target.x,
       ty: eye(target),
       tz: target.z,
@@ -229,7 +231,15 @@ function blast(
   const r = w.front!.players[owner],
     blocks = mapFor(w).blocks;
   markEffect(w, owner);
-  event(w, { type: "burst", x, y, z, radius, owner });
+  event(w, {
+    type: "burst",
+    x,
+    y,
+    z,
+    radius,
+    owner,
+    frontEffect: key.startsWith("mine-") ? "mine" : "blast",
+  });
   for (const target of [...w.enemies]) {
     if (
       target.hp <= 0 ||
@@ -358,6 +368,7 @@ export function frontManualHit(
         origin,
         "ricochet",
         "ricochet",
+        { x: e.x, y: eye(e), z: e.z },
       )
     )
       markEffect(w, owner);
@@ -406,6 +417,7 @@ export function frontDodgeEnded(w: World, p: Player) {
       y: (p.y ?? 0) + 0.1,
       z: p.z,
       radius: 0.8,
+      frontEffect: "mine-set",
       owner: p.id,
     });
   }

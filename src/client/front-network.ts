@@ -176,6 +176,7 @@ export class FrontNetwork {
         type: "hello",
         equipmentCache: 1,
         frontGrowth: 3,
+        frontCatalog: 2,
         name: this.playerName,
         ...(this.token ? { token: this.token } : {}),
       });

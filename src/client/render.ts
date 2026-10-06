@@ -1427,9 +1427,9 @@ export class Renderer {
           q.x,
           q.y,
           q.z,
-          q.rocket ? 0.14 : q.style === "stake" ? 0.07 : 0.24,
-          q.rocket ? 0.14 : q.style === "stake" ? 0.07 : 0.19,
-          q.rocket ? 0.5 : q.style === "stake" ? 0.85 : 0.3,
+          q.rocket ? 0.2 : q.style === "stake" ? 0.07 : 0.24,
+          q.rocket ? 0.2 : q.style === "stake" ? 0.07 : 0.19,
+          q.rocket ? 0.65 : q.style === "stake" ? 0.85 : 0.3,
           -Math.atan2(q.dy, Math.hypot(q.dx, q.dz)),
           Math.atan2(q.dx, q.dz),
         );

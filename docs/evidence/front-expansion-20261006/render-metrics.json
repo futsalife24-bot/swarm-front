@@ -1,0 +1,8 @@
+{
+  "bright": 7033,
+  "mines": 32,
+  "drawCalls": 14,
+  "triangles": 9478,
+  "medianSubmitMs": 0.09999999403953552,
+  "note": "既知配置でのGPU描画。実端末の戦闘fps・60分負荷の保証ではない。"
+}

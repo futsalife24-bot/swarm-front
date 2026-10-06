@@ -5,7 +5,7 @@ import type { Event, Projectile } from "../shared/game";
 const sphere = new T.IcosahedronGeometry(1, 1);
 const blastSphere = new T.SphereGeometry(1, 32, 20);
 const ring = new T.RingGeometry(0.97, 1, 64);
-const slug = new T.CapsuleGeometry(0.035, 0.35, 2, 5);
+const slug = new T.CapsuleGeometry(0.065, 0.65, 2, 5);
 const cloud = new T.PlaneGeometry(2, 2);
 // Procedural billowing alpha: soft edges and mottled density without asset downloads.
 const texels = new Uint8Array(64 * 64 * 4);
@@ -70,7 +70,12 @@ export class CombatEffects {
       this.capture.tracerOpacity === 0
     )
       return;
-    if (this.items.length >= this.budget) return;
+    const critical = kind === "bullet" || kind === "flash";
+    if (
+      this.items.length >=
+      (critical ? this.budget : Math.max(0, this.budget - 24))
+    )
+      return;
     const flat = kind === "ring";
     const soft =
       kind === "fire" ||
@@ -96,6 +101,10 @@ export class CombatEffects {
           color,
           transparent: true,
           depthWrite: false,
+          blending:
+            kind === "bullet" || kind === "flash" || kind === "spark"
+              ? T.AdditiveBlending
+              : T.NormalBlending,
           map: soft ? cloudTexture : null,
           side: flat ? T.DoubleSide : T.FrontSide,
         }),
@@ -130,30 +139,55 @@ export class CombatEffects {
       const delta = new T.Vector3(e.tx! - e.x, e.ty! - e.y, e.tz! - e.z);
       const distance = delta.length();
       const dir = delta.normalize();
-      // A discrete moving slug, never a full muzzle-to-target beam.
+      const color =
+        e.frontEffect === "ricochet"
+          ? 0x8fd7ff
+          : e.frontEffect === "interceptor"
+            ? 0xc6a0ff
+            : e.weapon === "sniper"
+              ? 0xc2faff
+              : e.weapon === "shotgun"
+                ? 0xffa55e
+                : 0xffdc83;
+      // 短い発光弾。敵を隠す長い光線にはしない。
       if (e.weapon !== "rocket" && distance > 0.1)
         this.add(
           "bullet",
           e.x,
           e.y,
           e.z,
-          e.weapon === "shotgun" ? 0.7 : 1.4,
-          distance / 150,
-          0xffd58a,
-          dir.clone().multiplyScalar(150),
+          e.weapon === "shotgun" ? 0.85 : 1.6,
+          distance / 120,
+          color,
+          dir.clone().multiplyScalar(120),
         );
       this.add(
         "flash",
         e.x + dir.x * 0.8,
         e.y + dir.y * 0.8,
         e.z + dir.z * 0.8,
-        0.24,
-        0.055,
-        0xffefbc,
+        0.3,
+        0.065,
+        color,
       );
+    }
+    if (e.type === "burst" && e.frontEffect === "mine-set") {
+      this.add("ring", e.x, e.y, e.z, 1.1, 0.32, 0x65ffe2);
+      return;
     }
     if (e.type === "burst") {
       const radius = e.radius ?? 6.5;
+      if (e.frontEffect === "mine" || e.frontEffect === "blast") {
+        this.add(
+          "ring",
+          e.x,
+          Math.max(0.06, e.y - radius * 0.1),
+          e.z,
+          radius,
+          0.45,
+          e.frontEffect === "mine" ? 0x65ffe2 : 0xffd45c,
+        );
+      }
       // The ground circle is the sphere/ground intersection, including airbursts.
       if (e.y < radius)
         this.add(
@@ -259,11 +293,11 @@ export class CombatEffects {
         q.x,
         q.y,
         q.z,
-        q.rocket ? 0.15 : 0.08,
+        q.rocket ? 0.21 : 0.1,
         q.rocket ? 0.4 : 0.18,
         q.rocket ? 0x9c9386 : 0x65edff,
       );
-      if (q.rocket) this.add("flash", q.x, q.y, q.z, 0.22, 0.08, 0xffac48);
+      if (q.rocket) this.add("flash", q.x, q.y, q.z, 0.34, 0.09, 0xffac48);
     }
   }
   update(dt: number, camera?: T.Camera) {

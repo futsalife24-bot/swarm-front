@@ -1,4 +1,5 @@
 import {
+  FRONT_PREVIOUS_BASE_IDS,
   createFrontUpgradeState,
   type FrontUpgradeId,
 } from "../src/shared/front-upgrades";
@@ -85,6 +86,7 @@ interface Env {
 }
 interface Member {
   frontGrowth?: 2 | 3;
+  frontCatalog?: 2;
   upgradePool?: FrontUpgradeId[];
   initialCards?: FrontUpgradeId[];
   id: string;
@@ -1105,6 +1107,8 @@ export class Room extends DurableObject<Env> {
         return;
       }
       if (
+        (this.saved.frontRun?.world.front?.catalogVersion === 2 &&
+          m.frontCatalog !== 2) ||
         (this.saved.frontRun?.world.front?.growthVersion === 3 &&
           m.frontGrowth !== 3) ||
         (this.saved.frontRun?.world.front?.growthVersion === 2 &&
@@ -1162,6 +1166,7 @@ export class Room extends DurableObject<Env> {
         };
         this.saved.members.push(member);
       }
+      member.frontCatalog = m.frontCatalog === 2 ? 2 : undefined;
       member.frontGrowth =
         m.frontGrowth === 3 ? 3 : m.frontGrowth === 2 ? 2 : undefined;
       member.name =
@@ -1352,6 +1357,13 @@ export class Room extends DurableObject<Env> {
       ) {
         try {
           createFrontUpgradeState("validate", 0, m.initialCards, m.upgradePool);
+          if (
+            member.frontCatalog !== 2 &&
+            m.upgradePool?.some(
+              (id: FrontUpgradeId) => !FRONT_PREVIOUS_BASE_IDS.includes(id),
+            )
+          )
+            throw new Error("画面を更新してください");
           if (!Array.isArray(m.upgradePool) || !Array.isArray(m.initialCards))
             throw new Error();
         } catch {
@@ -1439,8 +1451,17 @@ export class Room extends DurableObject<Env> {
       let world: World;
       if (this.saved.directory?.ruleset === "front-v1") {
         if (
-          present.some((p) => p.frontGrowth === 3) &&
-          present.some((p) => p.frontGrowth !== 3)
+          (present.some((p) => p.frontGrowth === 3) &&
+            present.some((p) => p.frontGrowth !== 3)) ||
+          (present.some((p) => p.frontCatalog === 2) &&
+            present.some((p) => p.frontCatalog !== 2)) ||
+          present.some(
+            (p) =>
+              p.frontCatalog !== 2 &&
+              p.upgradePool?.some(
+                (id) => !FRONT_PREVIOUS_BASE_IDS.includes(id),
+              ),
+          )
         ) {
           this.send(ws, {
             type: "notice",
@@ -1472,13 +1493,14 @@ export class Room extends DurableObject<Env> {
             seed: crypto.getRandomValues(new Uint32Array(1))[0],
             mode: this.saved.directory.mode,
             fusion: present.every((p) => p.frontGrowth === 3),
+            catalogVersion: present.every((p) => p.frontCatalog === 2) ? 2 : 1,
             // 出撃前の時間を含めず、出撃開始から60分。
             returnAt: (now + LIMITS.roomMs) / 1000,
             players: present.map((p) => ({
               id: p.id,
               weapons: p.weapons.map((w) => w.kind as FrontWeaponKind),
               equipment: p.weapons,
-              pool: p.upgradePool,
+              pool: p.upgradePool ?? FRONT_PREVIOUS_BASE_IDS,
               initialCards: p.initialCards,
             })),
           },

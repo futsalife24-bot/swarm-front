@@ -74,6 +74,7 @@ export interface FrontRunOptions {
   mode?: FrontMode;
   day?: string;
   fusion?: boolean;
+  catalogVersion?: 1 | 2;
   /** 協力部屋の掃除より前に帰還するサーバー時刻（秒）。 */
   returnAt?: number;
   players: {
@@ -180,7 +181,10 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
     mode === "daily" ? (seed % 3) + 1 : 1,
   );
   world.front = createFrontBattleState();
-  if (options.fusion) world.front.growthVersion = 3;
+  if (options.fusion) {
+    world.front.growthVersion = 3;
+    if (options.catalogVersion !== 1) world.front.catalogVersion = 2;
+  }
   const upgrades: Record<string, FrontUpgradeState> = {};
   options.players.forEach((member, index) => {
     const p = addPlayer(
