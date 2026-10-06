@@ -48,7 +48,7 @@ export interface FrontMine {
 }
 export interface FrontBattleState {
   version: "front-v1";
-  growthVersion?: 2;
+  growthVersion?: 2 | 3;
   /** 公開前から続く部隊は旧描画容量に合わせた24体を維持する。 */
   enemyCap?: number;
   players: Record<string, FrontPlayerCombat>;
@@ -164,11 +164,24 @@ export function recordFrontKill(
     return legacy.recordFrontKill(w, e, owner, secondary);
   const r = w.front!;
   // 砲撃型を精鋭報酬対象にする。条件成立前の撃破は貯金しない。
-  if (e.kind === "spitter" || e.kind === "boss" || e.kind === "harrow") {
+  if (
+    r.growthVersion !== 3 &&
+    (e.kind === "spitter" || e.kind === "boss" || e.kind === "harrow")
+  ) {
     for (const combat of Object.values(r.players))
       combat.evolved = [
         ...new Set([...combat.evolved, ...frontEvolvedFamilies(combat)]),
       ];
+  }
+  if (r.growthVersion === 3 && r.players[owner]) {
+    const player = w.players.find((p) => p.id === owner),
+      levels = r.players[owner].levels;
+    if (player && player.hp > 0) {
+      player.hp = Math.min(
+        r.players[owner].maxHp,
+        player.hp + (levels["life-drain"] || 0),
+      );
+    }
   }
   if (secondary && r.players[owner]) r.players[owner].secondaryKills++;
   const value =
@@ -345,6 +358,7 @@ export function beginFrontShot(w: World, p: Player) {
     extraPierce:
       r.levels["armor-piercer"] + r.levels["line-shot"] + (shot.pierce ? 1 : 0),
     damageFactor:
+      (1 + 0.1 * (r.levels["power-cell"] || 0)) *
       (shot.pierce ? FRONT_BALANCE.pierceBonus : 1) *
       (opening ? 1 + 0.25 * r.levels["opening-shot"] : 1),
   };
@@ -357,6 +371,7 @@ export function frontManualHit(
   origin: number,
   part = 0,
   weapon: Event["weapon"] = "rifle",
+  sourceSlot?: number,
 ) {
   if (!w.front?.growthVersion)
     return legacy.frontManualHit(w, e, damage, owner, origin, part, weapon);
@@ -377,6 +392,15 @@ export function frontManualHit(
     if (counter) r.counterReady = false;
   }
   hurtEnemy(w, e, damage, owner, part, weapon);
+  if (w.front.growthVersion === 3 && e.hp <= 0) {
+    const p = w.players.find((p) => p.id === owner),
+      slot = sourceSlot ?? p?.slot;
+    if (p && p.hp > 0 && slot !== undefined && p.weapons[slot])
+      p.ammo[slot] = Math.min(
+        stats(p.weapons[slot]).mag,
+        p.ammo[slot] + (r.levels["reserve-rounds"] || 0),
+      );
+  }
   const compressed =
     fresh &&
     r.levels["compressed-charge"] > 0 &&
@@ -452,9 +476,10 @@ export function frontManualHit(
   const p = w.players.find((p) => p.id === owner);
   if (p && r.levels["line-shot"] > 0 && s.targets.size >= 3 && !s.refund) {
     s.refund = true;
-    p.ammo[p.slot] = Math.min(
-      stats(p.weapons[p.slot]).mag,
-      p.ammo[p.slot] + r.levels["line-shot"],
+    const slot = sourceSlot ?? p.slot;
+    p.ammo[slot] = Math.min(
+      stats(p.weapons[slot]).mag,
+      p.ammo[slot] + r.levels["line-shot"],
     );
     markEffect(w, owner);
   }

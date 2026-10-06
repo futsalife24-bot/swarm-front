@@ -1,7 +1,14 @@
 import { frontAutomaticRequestId } from "./front-request-id";
 import * as legacy from "./front-legacy-run";
 /** 改装版の権威状態。候補・乱数・要求履歴は World に載せない。 */
-import { STARTERS, WEAPONS, stats, ENEMIES, type Weapon } from "./defs";
+import {
+  STARTERS,
+  WEAPONS,
+  stats,
+  validBattleWeapon,
+  ENEMIES,
+  type Weapon,
+} from "./defs";
 import {
   addPlayer,
   blocked,
@@ -30,8 +37,12 @@ import {
   selectFrontUpgrade,
   rerollFrontUpgrade,
   canRerollFrontUpgrade,
+  getEligibleFrontUpgrades,
   FRONT_INITIAL_CARDS,
   FRONT_MAX_PICKS,
+  FRONT_BASE_IDS,
+  frontPickLimit,
+  frontEffectiveLevels,
   type FrontUpgradeState,
   type FrontUpgradeId,
   type FrontUpgradeSelection,
@@ -62,14 +73,19 @@ export interface FrontRunOptions {
   seed: number;
   mode?: FrontMode;
   day?: string;
+  fusion?: boolean;
   players: {
     id: string;
     weapons?: readonly FrontWeaponKind[];
     initialCards?: readonly FrontUpgradeId[];
+    pool?: readonly FrontUpgradeId[];
+    equipment?: readonly Weapon[];
   }[];
 }
 export interface FrontRun {
   world: World;
+  fusion?: true;
+  originalEquipment?: Record<string, Weapon[]>;
   upgrades: Record<string, FrontUpgradeState>;
   phase: "selection" | "combat" | "boss" | "victory" | "defeat";
   mode: FrontMode;
@@ -134,6 +150,14 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
     options.players.length < 1 ||
     options.players.length > 4 ||
     new Set(options.players.map((p) => p.id)).size !== options.players.length ||
+    (options.fusion &&
+      options.players.some(
+        (p) =>
+          p.equipment &&
+          (p.equipment.length !== 2 ||
+            !p.equipment.every(validBattleWeapon) ||
+            p.equipment[0].id === p.equipment[1].id),
+      )) ||
     options.players.some(
       (p) =>
         !p.id ||
@@ -153,21 +177,25 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
     mode === "daily" ? (seed % 3) + 1 : 1,
   );
   world.front = createFrontBattleState();
+  if (options.fusion) world.front.growthVersion = 3;
   const upgrades: Record<string, FrontUpgradeState> = {};
   options.players.forEach((member, index) => {
     const p = addPlayer(
       world,
       member.id,
-      frontTemporaryWeapons(options.runId, member.id, member.weapons),
+      options.fusion && member.equipment
+        ? structuredClone([...member.equipment])
+        : frontTemporaryWeapons(options.runId, member.id, member.weapons),
     );
     Object.assign(p, { x: (index - 1.5) * 2, z: 8, y: 0 });
     addFrontCombatPlayer(world, p.id);
     upgrades[p.id] = createFrontUpgradeState(
       options.runId,
       (seed ^ Math.imul(index + 1, 0x51f15e)) >>> 0,
-      mode === "daily"
+      mode === "daily" && !options.fusion
         ? FRONT_INITIAL_CARDS
         : (member.initialCards ?? FRONT_INITIAL_CARDS),
+      options.fusion ? (member.pool ?? FRONT_BASE_IDS) : undefined,
     );
   });
   if (mode !== "survival") {
@@ -179,6 +207,14 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
   start(world);
   return {
     world,
+    ...(options.fusion
+      ? {
+          fusion: true as const,
+          originalEquipment: Object.fromEntries(
+            world.players.map((p) => [p.id, structuredClone(p.weapons)]),
+          ),
+        }
+      : {}),
     upgrades,
     phase: "selection",
     mode,
@@ -206,28 +242,65 @@ function applyBuild(run: FrontRun, id: string) {
     r = w.front!.players[id],
     p = w.players.find((p) => p.id === id)!;
   const previous = r.maxHp;
-  r.levels = { ...run.upgrades[id].levels };
+  r.levels = run.fusion
+    ? frontEffectiveLevels(run.upgrades[id].levels)
+    : { ...run.upgrades[id].levels };
+  if (run.fusion)
+    r.evolved = (["explosion", "piercing", "interception"] as const).filter(
+      (_, i) =>
+        run.upgrades[id].levels[
+          (["fusion-collapse", "fusion-skewer", "fusion-counter"] as const)[i]
+        ] > 0,
+    );
   // 進化は精鋭撃破時に戦闘状態へ確定する。取得だけでは発動しない。
   r.maxHp = 160 * (1 + 0.05 * r.levels.armor);
   if (p.hp > 0) p.hp = Math.min(r.maxHp, p.hp + r.maxHp - previous);
-  p.weapons = p.weapons.map((weapon) => ({
-    ...weapon,
-    rolls: {
-      mag:
-        (WEAPONS[weapon.kind].mag +
-          Math.max(1, Math.ceil(WEAPONS[weapon.kind].mag * 0.1)) *
-            r.levels.magazine) /
-        WEAPONS[weapon.kind].mag,
-      reload: 1 - 0.05 * r.levels.reload,
-    },
-  }));
+  p.weapons = (run.originalEquipment?.[id] ?? p.weapons).map((weapon) => {
+    if (!run.fusion)
+      return {
+        ...weapon,
+        rolls: {
+          ...weapon.rolls,
+          mag:
+            (WEAPONS[weapon.kind].mag +
+              Math.max(1, Math.ceil(WEAPONS[weapon.kind].mag * 0.1)) *
+                r.levels.magazine) /
+            WEAPONS[weapon.kind].mag,
+          reload: 1 - 0.05 * r.levels.reload,
+        },
+      };
+    const base = run.fusion ? stats(weapon) : WEAPONS[weapon.kind];
+    return {
+      id: weapon.id,
+      kind: weapon.kind,
+      rarity: weapon.rarity,
+      power: base.damage / WEAPONS[weapon.kind].damage,
+      effect: weapon.effect,
+      rolls: {
+        mag:
+          (base.mag +
+            Math.max(1, Math.ceil(base.mag * 0.1)) * r.levels.magazine) /
+          WEAPONS[weapon.kind].mag,
+        reload:
+          ((base.reload / WEAPONS[weapon.kind].reload) *
+            (1 - 0.05 * r.levels.reload)) /
+          (weapon.effect === "quick" ? 0.8 : 1),
+        range: base.range / WEAPONS[weapon.kind].range,
+        rate: WEAPONS[weapon.kind].interval / base.interval,
+      },
+    };
+  });
   p.ammo = p.ammo.map((ammo, slot) =>
     Math.min(ammo, stats(p.weapons[slot]).mag),
   );
 }
 function openOwed(run: FrontRun, id: string) {
   const s = run.upgrades[id];
-  if (s.offer || s.rightsSpent >= s.rightsGranted || s.picks >= FRONT_MAX_PICKS)
+  if (
+    s.offer ||
+    s.rightsSpent >= s.rightsGranted ||
+    s.picks >= frontPickLimit(s)
+  )
     return;
   const result = openFrontUpgradeOffer(s);
   if (result.ok) run.upgrades[id] = result.state;
@@ -301,9 +374,13 @@ export function rerollFrontRunOffer(
   run.upgrades[id] = result.state;
   return true;
 }
+export const frontSurvivalThreshold = (n: number) => 12 + n * 24 + n * n * 8;
 function updateRights(run: FrontRun) {
   let count = 0;
-  FRONT_RUN_CONFIG.xpThresholds.forEach((threshold, index) => {
+  (run.fusion
+    ? Array.from({ length: 119 }, (_, i) => frontSurvivalThreshold(i))
+    : FRONT_RUN_CONFIG.xpThresholds
+  ).forEach((threshold, index) => {
     if (run.world.front!.xp >= threshold) {
       count++;
       run.metrics.thresholdReachedAt[index] ??= run.world.time;
@@ -357,7 +434,9 @@ function schedule(run: FrontRun) {
         return;
       const e = spawn(w, kind, x, pending.z, "crown", run.spawnIndex++);
       if (e) {
-        e.hp *= FRONT_RUN_CONFIG.normalHpMultiplier;
+        e.hp *=
+          FRONT_RUN_CONFIG.normalHpMultiplier *
+          (run.fusion ? 1 + Math.floor(w.time / 180) * 0.35 : 1);
         e.maxHp = e.hp;
         e.active = true;
         w.spawned++;
@@ -439,6 +518,19 @@ function conclude(run: FrontRun, win: boolean, reason: string) {
   run.phase = win ? "victory" : "defeat";
   run.metrics.endedAt = run.world.time;
 }
+/** ソロの生存戦だけ、1分以降に任意帰還できる。協力戦は全滅まで継続。 */
+export function returnFrontRun(run: FrontRun): boolean {
+  if (
+    !run.fusion ||
+    run.mode !== "survival" ||
+    run.world.players.length !== 1 ||
+    run.world.time < 60 ||
+    (run.phase !== "combat" && run.phase !== "boss")
+  )
+    return false;
+  conclude(run, true, "生存作戦から帰還しました");
+  return true;
+}
 /** now は単調な秒。協力では切断・停止後も同じ期限を保持する。 */
 export function stepFrontRun(
   run: FrontRun,
@@ -464,7 +556,7 @@ export function stepFrontRun(
   if (run.phase === "selection") {
     if (run.selectionDeadline !== null && now >= run.selectionDeadline) {
       for (const id of Object.keys(run.upgrades))
-        for (let count = 0; count < FRONT_MAX_PICKS; count++) {
+        for (let count = 0; count < frontPickLimit(run.upgrades[id]); count++) {
           const offer = run.upgrades[id].offer;
           if (!offer) break;
           chooseFrontUpgrade(
@@ -488,8 +580,12 @@ export function stepFrontRun(
   }
   if (now < run.resumeUntil) return run;
   const w = run.world,
-    boundary = FRONT_RUN_CONFIG.selectionBoundaries[run.boundaryIndex];
-  if (w.time >= 540 - 1e-8) {
+    boundary =
+      run.fusion && run.mode === "survival"
+        ? undefined
+        : FRONT_RUN_CONFIG.selectionBoundaries[run.boundaryIndex];
+  const timeout = run.fusion && run.mode === "survival" ? Infinity : 540;
+  if (w.time >= timeout - 1e-8) {
     w.time = 540;
     conclude(run, false, "作戦時間の上限（9分）に達しました");
     return run;
@@ -504,7 +600,7 @@ export function stepFrontRun(
   step(
     w,
     inputs,
-    Math.min(0.1, dt, (boundary ?? Infinity) - w.time, 540 - w.time),
+    Math.min(0.1, dt, (boundary ?? Infinity) - w.time, timeout - w.time),
   );
   collectFrontXp(w);
   updateRights(run);
@@ -549,19 +645,28 @@ export function getFrontRunView(run: FrontRun, id: string) {
   const offer = s.offer;
   return {
     phase: run.phase,
-    maxPicks: FRONT_MAX_PICKS,
-    growthVersion: 2,
+    maxPicks: frontPickLimit(s),
+    growthVersion: run.fusion ? 3 : 2,
     mode: run.mode,
     day: run.day,
     combatTime: run.world.time,
     xp: run.world.front!.xp,
-    nextXpThreshold: FRONT_RUN_CONFIG.xpThresholds[s.rightsGranted] ?? null,
+    nextXpThreshold:
+      s.picks >= frontPickLimit(s) ||
+      (run.fusion && !getEligibleFrontUpgrades(s).length)
+        ? null
+        : run.fusion
+          ? frontSurvivalThreshold(s.rightsGranted)
+          : (FRONT_RUN_CONFIG.xpThresholds[s.rightsGranted] ?? null),
     picks: s.picks,
     levels: { ...s.levels },
     evolved: [...r.evolved],
     maxHp: r.maxHp,
     maxChain: r.maxChain,
-    rightsPending: s.rightsGranted - s.rightsSpent,
+    rightsPending:
+      run.fusion && !getEligibleFrontUpgrades(s).length
+        ? 0
+        : s.rightsGranted - s.rightsSpent,
     rerollsRemaining: s.rerollsRemaining,
     canReroll: canRerollFrontUpgrade(s),
     selectionDeadline: run.selectionDeadline,

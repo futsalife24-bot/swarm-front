@@ -10,14 +10,14 @@ class Client {
   messages: any[] = [];
   id = "";
   token = "";
-  constructor(code: string, token = "", growth = true) {
+  constructor(code: string, token = "", growth: boolean | 3 = true) {
     this.ws = new WebSocket(
       `${base.replace("http", "ws")}/rooms/${code}?ruleset=front-v1`,
     );
     this.ws.onopen = () =>
       this.send({
         type: "hello",
-        ...(growth ? { frontGrowth: 2 } : {}),
+        ...(growth ? { frontGrowth: growth === 3 ? 3 : 2 } : {}),
         ...(token ? { token } : {}),
       });
     this.ws.onmessage = (e) => {
@@ -119,6 +119,93 @@ async function team(count: number, mode = "defense", growth = true) {
   return { entry, members, states };
 }
 describe("改装版の実通信", () => {
+  it("融合規則：4人の個人設定・持込性能・再接続・途中変更禁止", async () => {
+    const entry = await room("survival"),
+      members: Client[] = [];
+    const pools = [
+      [
+        "blast-core",
+        "armor-piercer",
+        "afterimage-mine",
+        "armor",
+        "reload",
+        "magazine",
+      ],
+      [
+        "fuse",
+        "ricochet",
+        "interceptor",
+        "magnet",
+        "blast-radius",
+        "opening-shot",
+      ],
+    ];
+    for (let i = 0; i < 4; i++) {
+      const c = new Client(entry.code, "", 3);
+      await c.wait((m) => m.type === "welcome");
+      members.push(c);
+      c.send({
+        type: "equip",
+        weapons: frontTemporaryWeapons("fusion", String(i)).map((w) => ({
+          ...w,
+          power: 1.2,
+        })),
+        upgradePool: pools[i % 2],
+        initialCards: pools[i % 2].slice(0, 3),
+      });
+      await c.wait(
+        (m) =>
+          m.type === "lobby" &&
+          m.members.find((p: any) => p.id === c.id)?.weapons?.length === 2,
+      );
+    }
+    members[0].send({ type: "profile", name: "融合検証の隊長" });
+    await members[0].wait(
+      (m) => m.type === "lobby" && m.members[0]?.name === "融合検証の隊長",
+    );
+    await new Promise((r) => setTimeout(r, 200));
+    const generation = members[0].latest().preparationGeneration;
+    for (const c of members)
+      c.send({
+        type: "ready",
+        ready: true,
+        stage: 1,
+        preparationGeneration: generation,
+      });
+    await members[0].wait(
+      (m) => m.members?.length === 4 && m.members.every((p: any) => p.ready),
+    );
+    members[0].send({ type: "start" });
+    const states = await Promise.all(
+      members.map((c) => c.wait((m) => m.type === "state")),
+    );
+    states.forEach((s, i) => {
+      expect(s.frontView.growthVersion).toBe(3);
+      expect(s.frontView.offer.cardIds).toEqual(pools[i % 2].slice(0, 3));
+      expect(
+        s.world.players.every((p: any) =>
+          p.weapons.every((w: any) => w.power === 1.2),
+        ),
+      ).toBe(true);
+    });
+    const original = states[1].frontView.offer;
+    members[1].send({
+      type: "equip",
+      weapons: frontTemporaryWeapons("changed", "x"),
+      upgradePool: pools[0],
+      initialCards: pools[0].slice(0, 3),
+    });
+    members[1].ws.close();
+    await new Promise((r) => setTimeout(r, 100));
+    const restored = new Client(entry.code, members[1].token, 3);
+    const snapshot = await restored.wait((m) => m.type === "state");
+    expect(snapshot.frontView.offer).toEqual(original);
+    const active = [members[0], restored, members[2], members[3]];
+    active.forEach((c, i) => c.choose(i === 1 ? snapshot : states[i]));
+    await members[0].wait(
+      (m) => m.type === "state" && m.frontView.phase === "combat",
+    );
+  });
   it("旧版の一覧・解決・接続と分離し、作成認証を維持する", async () => {
     const denied = await fetch(base + "/rooms", {
       method: "POST",

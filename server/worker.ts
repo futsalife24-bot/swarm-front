@@ -1,3 +1,7 @@
+import {
+  createFrontUpgradeState,
+  type FrontUpgradeId,
+} from "../src/shared/front-upgrades";
 import { createFrontRun as createLegacyFrontRun } from "../src/shared/front-legacy-run";
 import { adminManifest, adminPage } from "./admin-page";
 import {
@@ -80,7 +84,9 @@ interface Env {
   PROJECT_HUB_EXPORT_KEY?: string;
 }
 interface Member {
-  frontGrowth?: 2;
+  frontGrowth?: 2 | 3;
+  upgradePool?: FrontUpgradeId[];
+  initialCards?: FrontUpgradeId[];
   id: string;
   token: string;
   name?: string;
@@ -1035,8 +1041,11 @@ export class Room extends DurableObject<Env> {
         return;
       }
       if (
-        this.saved.frontRun?.world.front?.growthVersion === 2 &&
-        m.frontGrowth !== 2
+        (this.saved.frontRun?.world.front?.growthVersion === 3 &&
+          m.frontGrowth !== 3) ||
+        (this.saved.frontRun?.world.front?.growthVersion === 2 &&
+          m.frontGrowth !== 2 &&
+          m.frontGrowth !== 3)
       ) {
         this.send(ws, {
           type: "notice",
@@ -1085,7 +1094,8 @@ export class Room extends DurableObject<Env> {
         };
         this.saved.members.push(member);
       }
-      member.frontGrowth = m.frontGrowth === 2 ? 2 : undefined;
+      member.frontGrowth =
+        m.frontGrowth === 3 ? 3 : m.frontGrowth === 2 ? 2 : undefined;
       member.name =
         normalizePlayerName(m.name) || member.name || DEFAULT_PLAYER_NAME;
       member.last = now;
@@ -1139,7 +1149,6 @@ export class Room extends DurableObject<Env> {
       const name = normalizePlayerName(m.name);
       if (!name || name === member.name || now - (member.profileAt ?? 0) < 1000)
         return;
-      member.frontGrowth = m.frontGrowth === 2 ? 2 : undefined;
       member.name = name;
       member.profileAt = now;
       await this.persist();
@@ -1267,6 +1276,19 @@ export class Room extends DurableObject<Env> {
         this.error(ws, "武器定義が不正です");
         return;
       }
+      if (
+        this.saved.directory?.ruleset === "front-v1" &&
+        member.frontGrowth === 3
+      ) {
+        try {
+          createFrontUpgradeState("validate", 0, m.initialCards, m.upgradePool);
+          if (!Array.isArray(m.upgradePool) || !Array.isArray(m.initialCards))
+            throw new Error();
+        } catch {
+          this.send(ws, { type: "notice", reason: "強化候補の設定が不正です" });
+          return;
+        }
+      }
       if ((member.edits ?? 0) >= 120) {
         this.error(ws, "このルームの装備更新上限です。新しいルームへ");
         return;
@@ -1274,6 +1296,7 @@ export class Room extends DurableObject<Env> {
       member.edits = (member.edits ?? 0) + 1;
       if (
         this.saved.directory?.ruleset === "front-v1" &&
+        member.frontGrowth !== 3 &&
         (m.weapons.some(
           (w: Weapon) => !["rifle", "shotgun", "smg"].includes(w.kind),
         ) ||
@@ -1302,7 +1325,17 @@ export class Room extends DurableObject<Env> {
             }
           : {}),
       }));
-      if (this.saved.directory?.ruleset === "front-v1")
+      if (
+        this.saved.directory?.ruleset === "front-v1" &&
+        member.frontGrowth === 3
+      ) {
+        member.upgradePool = [...m.upgradePool];
+        member.initialCards = [...m.initialCards];
+      }
+      if (
+        this.saved.directory?.ruleset === "front-v1" &&
+        member.frontGrowth !== 3
+      )
         member.weapons = frontTemporaryWeapons(
           "front-lobby",
           s.id,
@@ -1335,17 +1368,46 @@ export class Room extends DurableObject<Env> {
       }
       let world: World;
       if (this.saved.directory?.ruleset === "front-v1") {
-        const createRun = present.every((p) => p.frontGrowth === 2)
-          ? createFrontRun
-          : createLegacyFrontRun;
+        if (
+          present.some((p) => p.frontGrowth === 3) &&
+          present.some((p) => p.frontGrowth !== 3)
+        ) {
+          this.send(ws, {
+            type: "notice",
+            reason: "全員が画面を更新してから出撃してください",
+          });
+          return;
+        }
+        const createRun = (
+          options: Parameters<typeof createFrontRun>[0],
+          at: number,
+        ) =>
+          present.every((p) => p.frontGrowth === 2 || p.frontGrowth === 3)
+            ? createFrontRun(options, at)
+            : createLegacyFrontRun(
+                {
+                  runId: options.runId,
+                  seed: options.seed,
+                  mode: options.mode,
+                  players: options.players.map((p) => ({
+                    id: p.id,
+                    weapons: p.weapons,
+                  })),
+                },
+                at,
+              );
         const run = createRun(
           {
             runId: secret(),
             seed: crypto.getRandomValues(new Uint32Array(1))[0],
             mode: this.saved.directory.mode,
+            fusion: present.every((p) => p.frontGrowth === 3),
             players: present.map((p) => ({
               id: p.id,
               weapons: p.weapons.map((w) => w.kind as FrontWeaponKind),
+              equipment: p.weapons,
+              pool: p.upgradePool,
+              initialCards: p.initialCards,
             })),
           },
           now / 1000,

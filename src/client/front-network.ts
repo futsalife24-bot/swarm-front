@@ -1,3 +1,8 @@
+import {
+  FRONT_BASE_IDS,
+  FRONT_INITIAL_CARDS,
+  type FrontUpgradeId,
+} from "../shared/front-upgrades";
 import type { FrontRunView } from "../shared/front-run";
 import {
   DEFAULT_PLAYER_NAME,
@@ -104,6 +109,8 @@ export class FrontNetwork {
   ready: () => void = () => {};
   timer: ReturnType<typeof setInterval>;
   equip: Weapon[] = [];
+  upgradePool: FrontUpgradeId[] = [...FRONT_BASE_IDS];
+  initialCards: FrontUpgradeId[] = [...FRONT_INITIAL_CARDS];
   private inputAt = -Infinity;
   private pendingInput: Input | undefined;
   private usesInputAck = false;
@@ -168,7 +175,7 @@ export class FrontNetwork {
       this.send({
         type: "hello",
         equipmentCache: 1,
-        frontGrowth: 2,
+        frontGrowth: 3,
         name: this.playerName,
         ...(this.token ? { token: this.token } : {}),
       });
@@ -263,6 +270,8 @@ export class FrontNetwork {
         this.onStatus("接続済み", false);
         this.send({
           type: "equip",
+          upgradePool: this.upgradePool,
+          initialCards: this.initialCards,
           weapons: this.equip,
           ready: !this.preparing && this.assetReady,
           stage: this.stage,
@@ -368,6 +377,8 @@ export class FrontNetwork {
     this.assetReady = false;
     this.send({
       type: "equip",
+      upgradePool: this.upgradePool,
+      initialCards: this.initialCards,
       weapons,
       ready: !this.preparing && this.assetReady,
       stage: this.stage,

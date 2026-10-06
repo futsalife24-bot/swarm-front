@@ -6,6 +6,9 @@ import {
 } from "../shared/front-legacy-upgrades";
 import {
   FRONT_UPGRADE_CATALOG,
+  FRONT_FUSIONS,
+  FRONT_FUSION_IDS,
+  isFrontFusion,
   FRONT_UPGRADE_IDS,
   FRONT_EVOLUTIONS,
   FRONT_EVOLUTION_RECIPES,
@@ -27,9 +30,35 @@ const acquired = (view: UpgradeView) =>
   FRONT_UPGRADE_IDS.filter((id) => view.levels[id] > 0);
 export const frontUpgradeIcon = (id: FrontUpgradeId, base: string) =>
   `${base}rebuild/upgrades/${id}.png`;
+function fusionAbility(id: FrontUpgradeId, n: number): string {
+  switch (id) {
+    case "fusion-collapse":
+      return "印の爆発が、近くの印へ連鎖する。";
+    case "fusion-skewer":
+      return "跳弾で倒すと、次の一発の威力と貫通がアップ。";
+    case "fusion-counter":
+      return "地雷が爆発すると、次の命中に追撃弾。";
+    case "fusion-bastion":
+      return `敵を倒すたび体力${3 + n}回復。最大体力も${(4 + n) * 5}%アップ。`;
+    case "fusion-magazine":
+      return `装填を${(4 + n) * 5}%短縮。弾倉容量も大幅アップ。`;
+    case "fusion-overdrive":
+      return `射撃の威力${(3 + n) * 10}%アップ。倒すたび${3 + n}発補充。`;
+    default:
+      return "";
+  }
+}
 export function frontUpgradeEffect(id: FrontUpgradeId, level: number): string {
   const n = Math.max(1, level);
+  if (isFrontFusion(id))
+    return `${fusionAbility(id, n)} ${FRONT_FUSIONS[id].map((material) => `${FRONT_UPGRADE_CATALOG[material].name}：${frontUpgradeEffect(material, FRONT_UPGRADE_CATALOG[material].maxLevel + n)}`).join(" ")}`;
   switch (id) {
+    case "life-drain":
+      return `撃破時に${n}HP回復。`;
+    case "power-cell":
+      return `手動射撃の威力 +${n * 10}%。`;
+    case "reserve-rounds":
+      return `手動射撃で撃破時、弾倉に${n}発返却。`;
     case "blast-core":
       return `射撃撃破で爆発。爆発威力 ${Math.round(42 * (1 + 0.3 * (n - 1)))}。`;
     case "fuse":
@@ -64,8 +93,18 @@ export function frontUpgradeEffect(id: FrontUpgradeId, level: number): string {
       return `回避終了後2秒、被ダメージ −${10 * n}%。`;
   }
 }
-const icon = (id: FrontUpgradeId, base: string) =>
-  `<img src="${esc(frontUpgradeIcon(id, base))}" alt="" width="32" height="32">`;
+const atlasIds: readonly FrontUpgradeId[] = [
+  "life-drain",
+  "power-cell",
+  "reserve-rounds",
+  ...FRONT_FUSION_IDS,
+];
+const icon = (id: FrontUpgradeId, base: string, card = false) => {
+  const index = atlasIds.indexOf(id);
+  return index < 0
+    ? `<img class="${card ? "rebuild-card-icon" : ""}" src="${esc(frontUpgradeIcon(id, base))}" alt="" width="${card ? 96 : 32}" height="${card ? 96 : 32}">`
+    : `<span aria-hidden="true" class="front-atlas-icon ${card ? "rebuild-card-icon" : ""}" style="background-image:url('${esc(base)}rebuild/upgrades/fusion-atlas.png');background-position:${(index % 3) * 50}% ${Math.floor(index / 3) * 50}%"></span>`;
+};
 
 export function frontUpgradeStrip(view: UpgradeView, base: string) {
   if (view.growthVersion === 1) return legacyUi.frontUpgradeStrip(view, base);
@@ -75,7 +114,7 @@ export function frontUpgradeStrip(view: UpgradeView, base: string) {
     .map((id) => {
       const d = FRONT_UPGRADE_CATALOG[id],
         level = view.levels[id];
-      return `<span class="front-upgrade-mini" role="listitem" aria-label="${esc(d.name)}${d.maxLevel > 1 ? ` ${level}段階` : ""}" title="${esc(d.name)}">${icon(id, base)}${d.maxLevel > 1 ? `<em>${level}</em>` : ""}</span>`;
+      return `<span class="front-upgrade-mini${isFrontFusion(id) ? " front-fused" : ""}" role="listitem" aria-label="${esc(d.name)}${d.maxLevel > 1 ? ` ${level}段階` : ""}" title="${esc(d.name)}">${icon(id, base)}${d.maxLevel > 1 ? `<em>${level}</em>` : ""}</span>`;
     })
     .join("")}</div>`;
 }
@@ -83,26 +122,31 @@ export function frontUpgradeStrip(view: UpgradeView, base: string) {
 export function frontUpgradeDetails(view: UpgradeView, base: string) {
   if (view.growthVersion === 1) return legacyUi.frontUpgradeDetails(view, base);
   const ids = acquired(view);
-  return `<section class="front-upgrade-details" aria-label="強化状況"><h2>強化状況 <small>${view.picks}/${view.maxPicks ?? FRONT_MAX_PICKS}</small></h2>${
+  return `<section class="front-upgrade-details" aria-label="強化状況"><h2>強化状況 <small>${view.growthVersion === 3 ? `${acquired(view).length}/6枠 · 取得${view.picks}回` : `${view.picks}/${view.maxPicks ?? FRONT_MAX_PICKS}`}</small></h2>${
     ids.length
       ? `<ul>${ids
           .map((id) => {
             const d = FRONT_UPGRADE_CATALOG[id],
               level = view.levels[id];
             const description = frontUpgradeEffect(id, level);
-            return `<li data-upgrade="${id}">${icon(id, base)}<div><h3>${esc(d.name)}${d.maxLevel > 1 ? `<small>${level}/${view.growthVersion === 1 && d.family !== "generic" ? 1 : d.maxLevel}段階</small>` : ""}</h3><p>${esc(description)}</p></div></li>`;
+            return `<li data-upgrade="${id}"${isFrontFusion(id) ? ' class="front-fused"' : ""}>${icon(id, base)}<div><h3>${esc(d.name)}${d.maxLevel > 1 ? `<small>${level}/${view.growthVersion === 1 && d.family !== "generic" ? 1 : d.maxLevel}段階</small>` : ""}</h3><p>${esc(description)}</p></div></li>`;
           })
           .join("")}</ul>`
       : '<p class="front-upgrade-empty">まだ強化を取得していません。</p>'
-  }${view.evolved.length ? `<div class="front-upgrade-evolutions">${view.evolved.map((f) => `<p><strong>進化 · ${esc(FRONT_EVOLUTIONS[f].name)}</strong>${esc(FRONT_EVOLUTIONS[f].description)}</p>`).join("")}</div>` : ""}<div class="front-evolution-progress"><h3>進化条件</h3>${
-    view.growthVersion === 1
-      ? "<p>更新前の作戦：同系統3種で進化。</p>"
-      : Object.entries(FRONT_EVOLUTION_RECIPES)
-          .map(
-            ([family, recipe]) =>
-              `<p>${FRONT_EVOLUTIONS[family as keyof typeof FRONT_EVOLUTIONS].name}：${FRONT_UPGRADE_CATALOG[recipe.main].name} ${view.levels[recipe.main]}/${FRONT_UPGRADE_CATALOG[recipe.main].maxLevel} ＋ ${FRONT_UPGRADE_CATALOG[recipe.support].name} ${view.levels[recipe.support] > 0 ? "取得済み" : "未取得"}${view.evolved.includes(family as keyof typeof FRONT_EVOLUTIONS) ? " · 進化済み" : " → PRISM／大型を撃破"}</p>`,
-          )
-          .join("")
+  }${view.growthVersion !== 3 && view.evolved.length ? `<div class="front-upgrade-evolutions">${view.evolved.map((f) => `<p><strong>進化 · ${esc(FRONT_EVOLUTIONS[f].name)}</strong>${esc(FRONT_EVOLUTIONS[f].description)}</p>`).join("")}</div>` : ""}<div class="front-evolution-progress"><h3>進化条件</h3>${
+    view.growthVersion === 3
+      ? FRONT_FUSION_IDS.map(
+          (f) =>
+            `<p>${FRONT_UPGRADE_CATALOG[f].name}：${view.levels[f] ? `融合済み ${view.levels[f]}/3段階` : FRONT_FUSIONS[f].map((id) => `${FRONT_UPGRADE_CATALOG[id].name} ${view.levels[id] || 0}/${FRONT_UPGRADE_CATALOG[id].maxLevel}`).join(" × ") + " → 1枠空く"}</p>`,
+        ).join("")
+      : view.growthVersion === 1
+        ? "<p>更新前の作戦：同系統3種で進化。</p>"
+        : Object.entries(FRONT_EVOLUTION_RECIPES)
+            .map(
+              ([family, recipe]) =>
+                `<p>${FRONT_EVOLUTIONS[family as keyof typeof FRONT_EVOLUTIONS].name}：${FRONT_UPGRADE_CATALOG[recipe.main].name} ${view.levels[recipe.main]}/${FRONT_UPGRADE_CATALOG[recipe.main].maxLevel} ＋ ${FRONT_UPGRADE_CATALOG[recipe.support].name} ${view.levels[recipe.support] > 0 ? "取得済み" : "未取得"}${view.evolved.includes(family as keyof typeof FRONT_EVOLUTIONS) ? " · 進化済み" : " → PRISM／大型を撃破"}</p>`,
+            )
+            .join("")
   }</div></section>`;
 }
 
@@ -121,18 +165,32 @@ export function frontUpgradeCardCopy(view: UpgradeView, id: FrontUpgradeId) {
     };
   }
   const d = FRONT_UPGRADE_CATALOG[id];
-  const description = frontUpgradeEffect(id, view.levels[id] + 1);
+  const description = isFrontFusion(id)
+    ? fusionAbility(id, (view.levels[id] || 0) + 1)
+    : frontUpgradeEffect(id, (view.levels[id] || 0) + 1);
   return {
     name: d.name,
     family: d.family,
-    aria: description,
+    aria:
+      description +
+      (isFrontFusion(id)
+        ? ` 素材：${FRONT_FUSIONS[id].map((m) => FRONT_UPGRADE_CATALOG[m].name).join(" × ")}`
+        : ""),
     description,
     prefix: `${view.levels[id] ? `${view.levels[id]} → ${view.levels[id] + 1}段階` : "新規"} · `,
-    intent: view.levels[id] ? "level-up" : "new",
-    status: view.levels[id] ? "段階アップ" : "新規獲得",
+    intent: isFrontFusion(id) ? "fusion" : view.levels[id] ? "level-up" : "new",
+    status: isFrontFusion(id)
+      ? view.levels[id]
+        ? "融合強化"
+        : "融合進化"
+      : view.levels[id]
+        ? "段階アップ"
+        : "新規獲得",
     rank: view.levels[id]
       ? `${view.levels[id]} → ${view.levels[id] + 1}段階`
-      : "未取得 → 1段階",
+      : isFrontFusion(id)
+        ? "2枠 → 1枠 · 1段階"
+        : "未取得 → 1段階",
   };
 }
 
@@ -149,5 +207,8 @@ export function frontUpgradeCardMarkup(
     generic: "補強",
   }[d.family];
   const modern = d.intent !== "legacy";
-  return `<button class="rebuild-card" data-card="${id}"${modern ? ` data-acquisition="${d.intent}"` : ""} aria-label="${modern ? `${d.status}・${d.rank}：` : ""}${esc(d.name)}：${esc(d.aria)}">${modern ? `<span class="front-acquisition"><span aria-hidden="true">${d.intent === "new" ? "＋" : "↑"}</span>${d.status}</span>` : ""}<img class="rebuild-card-icon" src="${frontUpgradeIcon(id, base)}" alt="" width="96" height="96"><span class="rebuild-card-kind">${modern ? `<b class="front-card-rank">${d.rank}</b> · ` : ""}${family}</span><strong>${esc(d.name)}</strong><span class="rebuild-card-description">${esc(d.description)}</span></button>`;
+  const sources = isFrontFusion(id)
+    ? `<span class="front-fusion-sources">${FRONT_FUSIONS[id].map((material) => `<span>${icon(material, base)}<span>${esc(FRONT_UPGRADE_CATALOG[material].name)}</span></span>`).join("<b>×</b>")}</span>`
+    : "";
+  return `<button class="rebuild-card${isFrontFusion(id) ? " front-fused" : ""}" data-card="${id}"${modern ? ` data-acquisition="${d.intent}"` : ""} aria-label="${modern ? `${d.status}・${d.rank}：` : ""}${esc(d.name)}：${esc(d.aria)}">${modern ? `<span class="front-acquisition"><span aria-hidden="true">${d.intent === "new" ? "＋" : "↑"}</span>${d.status}</span>` : ""}${icon(id, base, true)}<span class="rebuild-card-kind">${modern ? `<b class="front-card-rank">${d.rank}</b>${isFrontFusion(id) ? "" : " · "}` : ""}${isFrontFusion(id) ? "" : family}</span><strong>${esc(d.name)}</strong><span class="rebuild-card-description">${esc(d.description)}</span>${sources}</button>`;
 }

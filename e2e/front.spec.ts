@@ -11,6 +11,9 @@ import {
 } from "../src/client/front-upgrade-ui";
 import { createFrontRun, getFrontRunView } from "../src/shared/front-run";
 import { localCreationKey } from "../tests/credentials";
+import { freshProgress, newSaveKey } from "../src/client/progression-save";
+import { makeWeapon } from "../src/shared/progression";
+import { FRONT_FUSION_IDS } from "../src/shared/front-upgrades";
 const evidence =
   process.env.FRONT_E2E_EVIDENCE ?? "docs/evidence/front-feedback-20261003";
 const prior = JSON.stringify(fresh()),
@@ -36,6 +39,144 @@ test.use({
     ],
   },
 });
+for (const width of [844, 640])
+  test(`融合の光枠・攻略装備・個人候補：横${width}`, async ({ page }) => {
+    mkdirSync(evidence, { recursive: true });
+    const errors: string[] = [];
+    page.on("pageerror", (e) => errors.push(e.message));
+    await page.setViewportSize({ width, height: width === 844 ? 390 : 360 });
+    if (width === 640) await page.emulateMedia({ reducedMotion: "reduce" });
+    const save = freshProgress("normal");
+    save.armoryMigration = 1;
+    save.missions = {
+      "2:normal": [true, false, false],
+      "4:normal": [true, false, false],
+      "6:normal": [true, false, false],
+    };
+    for (let n = 0; n < 15; n++)
+      save.inventory.push(
+        makeWeapon(
+          `fusion-ui-${n}`,
+          (["rifle", "shotgun", "rocket"] as const)[n % 3],
+          n % 5,
+          { power: 20, reload: -10, range: 20, rate: 20 },
+          false,
+          save.serial++,
+        ),
+      );
+    const raw = JSON.stringify(save);
+    await page.addInitScript(
+      ({ key, raw }) => {
+        if (!localStorage.getItem(key)) localStorage.setItem(key, raw);
+      },
+      { key: newSaveKey("normal"), raw },
+    );
+    await page.goto("/front.html");
+    await page.locator("#solo").click();
+    await expect(page.locator("[data-row]")).toHaveCount(18);
+    await page.locator('[data-row="fusion-ui-1"] .pt-stat-inner').click();
+    await expect(page.locator('[data-front-slot="0"]')).toContainText("SG-4");
+    await page.screenshot({ path: `${evidence}/campaign-prep-${width}.png` });
+    await page.locator("#front-base").click();
+    await expect(page.locator('[data-pool="life-drain"]')).toBeEnabled();
+    await page.locator('[data-pool="magnet"]').uncheck();
+    await page.locator("#front-save-pool").click();
+    await page.locator("#front-dialog-back").click();
+    await page.reload();
+    await page.locator("#solo").click();
+    await page.locator("#front-base").click();
+    await expect(page.locator('[data-pool="magnet"]')).not.toBeChecked();
+    await page.screenshot({ path: `${evidence}/pool-${width}.png` });
+    await page.locator("#front-dialog-back").click();
+    await page.locator("#front-launch").click();
+    await expect(page.locator(".rebuild-card")).toHaveCount(3, {
+      timeout: 65000,
+    });
+    // 実画面へ共通描画関数の融合候補を表示し、枠・画像・短い横画面の収まりを検証。
+    const view = getFrontRunView(
+      createFrontRun({
+        runId: "visual",
+        seed: 1,
+        fusion: true,
+        players: [{ id: "p" }],
+      }),
+      "p",
+    );
+    await page.locator(".rebuild-cards").evaluate(
+      (el, markup) => {
+        el.innerHTML = markup;
+      },
+      FRONT_FUSION_IDS.slice(3)
+        .map((id) => frontUpgradeCardMarkup(view, id, "/"))
+        .join(""),
+    );
+    await expect(page.locator(".front-fused")).toHaveCount(3);
+    await expect(page.locator(".front-acquisition").first()).toHaveText(
+      "↑融合進化",
+    );
+    const metrics = await page.locator(".front-fused").evaluateAll((elements) =>
+      elements.map((el) => {
+        const r = el.getBoundingClientRect(),
+          css = getComputedStyle(el);
+        return {
+          x: r.x,
+          right: r.right,
+          bottom: r.bottom,
+          animation: css.animationName,
+          shadow: css.boxShadow,
+        };
+      }),
+    );
+    expect(
+      metrics.every(
+        (r) =>
+          r.x >= 0 &&
+          r.right <= width &&
+          r.bottom <= (width === 844 ? 390 : 360),
+      ),
+    ).toBe(true);
+    expect(
+      metrics.every((r) =>
+        width === 640
+          ? r.animation === "none"
+          : r.animation.includes("front-fusion-glow"),
+      ),
+    ).toBe(true);
+    await page.screenshot({ path: `${evidence}/fusion-${width}.png` });
+    await expect(page.locator(".front-fusion-sources")).toHaveCount(3);
+    await expect(page.locator(".front-fused").first()).toContainText(
+      "リジェネアーマー",
+    );
+    await expect(page.locator(".front-fusion-sources").first()).toContainText(
+      "装甲補強×生命回収",
+    );
+    await expect(page.locator(".rebuild-cards")).not.toContainText("継承");
+    await page.locator(".rebuild-cards").evaluate(
+      (el, markup) => {
+        el.innerHTML = markup;
+      },
+      FRONT_FUSION_IDS.slice(0, 3)
+        .map((id) => frontUpgradeCardMarkup(view, id, "/"))
+        .join(""),
+    );
+    const sourceFits = await page
+      .locator(".front-fusion-sources")
+      .evaluateAll((elements) =>
+        elements.every((el) => el.scrollWidth <= el.clientWidth + 1),
+      );
+    expect(sourceFits).toBe(true);
+    await expect(page.locator(".front-fused").nth(1)).toContainText(
+      "リフレクトバースト",
+    );
+    await page.screenshot({ path: `${evidence}/fusion-chain-${width}.png` });
+    expect(
+      await page.evaluate(
+        (key) => localStorage.getItem(key),
+        newSaveKey("normal"),
+      ),
+    ).toBe(raw);
+    expect(errors).toEqual([]);
+  });
 for (const viewport of [
   { width: 1280, height: 720 },
   { width: 844, height: 390 },
@@ -54,10 +195,11 @@ for (const viewport of [
     await page
       .getByRole("button", { name: "ソロで出撃準備", exact: true })
       .click();
-    await page.getByRole("button", { name: "基地", exact: true }).click();
+    await page.getByRole("button", { name: "強化候補", exact: true }).click();
     await page
       .getByRole("combobox", { name: "爆発", exact: true })
       .selectOption("fuse");
+    await page.getByRole("button", { name: "候補を保存", exact: true }).click();
     await page.getByRole("button", { name: "戻る", exact: true }).click();
     await page.getByRole("button", { name: "設定・操作", exact: true }).click();
     await expect(
@@ -146,7 +288,7 @@ for (const viewport of [
       .locator(".rebuild-card")
       .evaluateAll((es) => es.map((e) => e.getAttribute("data-card")));
     await page
-      .getByRole("button", { name: "現在の強化 0/12", exact: true })
+      .getByRole("button", { name: "現在の強化 0/6枠", exact: true })
       .click();
     const owned = page.getByRole("dialog", { name: "現在の強化", exact: true });
     await expect(owned).toBeVisible();
@@ -201,7 +343,7 @@ for (const viewport of [
     await page.getByRole("button", { name: "3択へ戻る", exact: true }).click();
     await expect(owned).not.toBeVisible();
     await page
-      .getByRole("button", { name: "現在の強化 0/12", exact: true })
+      .getByRole("button", { name: "現在の強化 0/6枠", exact: true })
       .click();
     await page.keyboard.press("Escape");
     await expect(owned).not.toBeVisible();
@@ -329,7 +471,7 @@ for (const viewport of [
       `${evidence}/choice-${viewport.width}.json`,
       JSON.stringify({ viewport, panel, transition: selected }, null, 2) + "\n",
     );
-    await expect(page.getByText("強化 1/12", { exact: true })).toBeVisible();
+    await expect(page.getByText("強化 1/6枠", { exact: true })).toBeVisible();
     await expect(page.locator("#controls")).toBeVisible({ timeout: 10000 });
     await expect(
       page.getByRole("list", { name: "取得済み強化" }),
@@ -398,7 +540,9 @@ for (const viewport of [
     ).toHaveCount(1);
     await page.locator("#pause").click();
     await page.getByRole("button", { name: "タイトルへ", exact: true }).click();
-    await page.getByRole("button", { name: "旧版で遊ぶ", exact: true }).click();
+    await page
+      .getByRole("button", { name: "攻略モード（従来版）", exact: true })
+      .click();
     await expect(page).toHaveURL("http://127.0.0.1:5186/");
     const data = await page.context().storageState();
     const local = data.origins.find(
@@ -524,7 +668,7 @@ test("実ブラウザ2人：準備・共同選択・独立報酬・再読込", a
       p.getByRole("heading", { name: "強化を選べ", exact: true }),
     ).toBeVisible({ timeout: 65000 });
   await second
-    .getByRole("button", { name: "現在の強化 0/12", exact: true })
+    .getByRole("button", { name: "現在の強化 0/6枠", exact: true })
     .click();
   const coopOwned = second.getByRole("dialog", {
     name: "現在の強化",

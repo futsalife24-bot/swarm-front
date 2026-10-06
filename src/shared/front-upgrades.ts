@@ -19,7 +19,16 @@ export type FrontUpgradeId =
   | "magnet"
   | "blast-radius"
   | "opening-shot"
-  | "emergency-armor";
+  | "emergency-armor"
+  | "life-drain"
+  | "power-cell"
+  | "reserve-rounds"
+  | "fusion-collapse"
+  | "fusion-skewer"
+  | "fusion-counter"
+  | "fusion-bastion"
+  | "fusion-magazine"
+  | "fusion-overdrive";
 export type FrontFamily = "explosion" | "piercing" | "interception";
 export const FRONT_FAMILY_CARDS: Readonly<
   Record<FrontFamily, readonly FrontUpgradeId[]>
@@ -64,7 +73,7 @@ export const FRONT_MAX_REROLLS = 2;
 export const FRONT_MAX_TYPES = 6;
 export const FRONT_EXPLOSION_UPGRADES: readonly FrontExplosionUpgradeId[] =
   Object.freeze(["blast-core", "fuse", "compressed-charge"]);
-export const FRONT_UPGRADE_IDS: readonly FrontUpgradeId[] = Object.freeze([
+export const FRONT_V2_UPGRADE_IDS: readonly FrontUpgradeId[] = Object.freeze([
   ...FRONT_EXPLOSION_UPGRADES,
   "armor-piercer",
   "ricochet",
@@ -80,6 +89,60 @@ export const FRONT_UPGRADE_IDS: readonly FrontUpgradeId[] = Object.freeze([
   "opening-shot",
   "emergency-armor",
 ]);
+
+export const FRONT_FUSION_IDS = [
+  "fusion-collapse",
+  "fusion-skewer",
+  "fusion-counter",
+  "fusion-bastion",
+  "fusion-magazine",
+  "fusion-overdrive",
+] as const;
+export type FrontFusionId = (typeof FRONT_FUSION_IDS)[number];
+export const FRONT_BASE_IDS: readonly FrontUpgradeId[] = [
+  ...FRONT_V2_UPGRADE_IDS,
+  "life-drain",
+  "power-cell",
+  "reserve-rounds",
+];
+export const FRONT_UPGRADE_IDS: readonly FrontUpgradeId[] = [
+  ...FRONT_BASE_IDS,
+  ...FRONT_FUSION_IDS,
+];
+export const FRONT_FUSIONS: Record<
+  FrontFusionId,
+  readonly [FrontUpgradeId, FrontUpgradeId]
+> = {
+  "fusion-collapse": ["fuse", "blast-radius"],
+  "fusion-skewer": ["ricochet", "opening-shot"],
+  "fusion-counter": ["afterimage-mine", "interceptor"],
+  "fusion-bastion": ["armor", "life-drain"],
+  "fusion-magazine": ["reload", "magazine"],
+  "fusion-overdrive": ["power-cell", "reserve-rounds"],
+};
+export const isFrontFusion = (id: FrontUpgradeId): id is FrontFusionId =>
+  (FRONT_FUSION_IDS as readonly string[]).includes(id);
+export const frontPickLimit = (s: { fusion?: boolean }) =>
+  s.fusion ? 120 : FRONT_MAX_PICKS;
+export const frontConsumed = (
+  levels: Readonly<Record<FrontUpgradeId, number>>,
+  id: FrontUpgradeId,
+) =>
+  FRONT_FUSION_IDS.some((f) => levels[f] > 0 && FRONT_FUSIONS[f].includes(id));
+/** 素材は表示枠から消し、戦闘用に最大段階の効果を復元する。 */
+export function frontEffectiveLevels(
+  levels: Readonly<Record<FrontUpgradeId, number>>,
+) {
+  const result = Object.fromEntries(
+    FRONT_UPGRADE_IDS.map((id) => [id, levels[id] ?? 0]),
+  ) as Record<FrontUpgradeId, number>;
+  for (const f of FRONT_FUSION_IDS)
+    if (levels[f] > 0) {
+      for (const id of FRONT_FUSIONS[f])
+        result[id] = FRONT_UPGRADE_CATALOG[id].maxLevel + levels[f];
+    }
+  return result;
+}
 
 export const FRONT_UPGRADE_CATALOG: Readonly<
   Record<FrontUpgradeId, FrontUpgradeDefinition>
@@ -199,6 +262,69 @@ export const FRONT_UPGRADE_CATALOG: Readonly<
     family: "generic",
     maxLevel: 3,
   }),
+  "life-drain": {
+    id: "life-drain",
+    name: "生命回収",
+    description: "撃破時に段階ごと1HP回復。",
+    family: "generic",
+    maxLevel: 3,
+  },
+  "power-cell": {
+    id: "power-cell",
+    name: "出力増幅",
+    description: "手動射撃の威力を段階ごと10%増加。",
+    family: "generic",
+    maxLevel: 3,
+  },
+  "reserve-rounds": {
+    id: "reserve-rounds",
+    name: "弾薬循環",
+    description: "手動射撃で撃破時、段階ごと1発を弾倉へ返却。",
+    family: "generic",
+    maxLevel: 3,
+  },
+  "fusion-collapse": {
+    id: "fusion-collapse",
+    name: "チェインノヴァ",
+    description: "導火と爆域拡張を継承。印の爆発が連鎖する。",
+    family: "explosion",
+    maxLevel: 3,
+  },
+  "fusion-skewer": {
+    id: "fusion-skewer",
+    name: "リフレクトバースト",
+    description: "反射弾と装填初撃を継承。跳弾撃破で次弾を増幅。",
+    family: "piercing",
+    maxLevel: 3,
+  },
+  "fusion-counter": {
+    id: "fusion-counter",
+    name: "ミラージュガード",
+    description: "残像地雷と迎撃子機を継承。地雷後の命中で迎撃。",
+    family: "interception",
+    maxLevel: 3,
+  },
+  "fusion-bastion": {
+    id: "fusion-bastion",
+    name: "リジェネアーマー",
+    description: "装甲補強と生命回収を継承。最大体力と撃破回復を追加。",
+    family: "generic",
+    maxLevel: 3,
+  },
+  "fusion-magazine": {
+    id: "fusion-magazine",
+    name: "ラピッドマガジン",
+    description: "整備手順と拡張弾倉を継承。弾倉と装填速度をさらに強化。",
+    family: "generic",
+    maxLevel: 3,
+  },
+  "fusion-overdrive": {
+    id: "fusion-overdrive",
+    name: "オーバードライブ",
+    description: "出力増幅と弾薬循環を継承。威力と弾薬返却を追加。",
+    family: "generic",
+    maxLevel: 3,
+  },
 });
 
 export interface FrontUpgradeOffer {
@@ -213,6 +339,8 @@ export interface FrontUpgradeOffer {
 
 export interface FrontUpgradeState {
   readonly runId: string;
+  readonly fusion?: true;
+  readonly pool?: readonly FrontUpgradeId[];
   readonly revision: number;
   readonly picks: number;
   readonly levels: Readonly<Record<FrontUpgradeId, number>>;
@@ -262,7 +390,8 @@ export type FrontUpgradeResult =
       readonly reason: FrontUpgradeFailure;
     };
 
-type Build = Pick<FrontUpgradeState, "levels" | "initialCardId">;
+type Build = Pick<FrontUpgradeState, "levels" | "initialCardId"> &
+  Partial<Pick<FrontUpgradeState, "fusion" | "pool">>;
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
 const integerIn = (value: unknown, min: number, max: number): value is number =>
@@ -307,14 +436,35 @@ function eligibleFor(build: Build): FrontUpgradeId[] {
   const full =
     FRONT_UPGRADE_IDS.filter((id) => build.levels[id] > 0).length >=
     FRONT_MAX_TYPES;
-  return FRONT_UPGRADE_IDS.filter(
-    (id) =>
-      (!full || build.levels[id] > 0) &&
-      build.levels[id] < FRONT_UPGRADE_CATALOG[id].maxLevel,
+  return (build.fusion ? FRONT_UPGRADE_IDS : FRONT_V2_UPGRADE_IDS).filter(
+    (id) => {
+      if (build.fusion && isFrontFusion(id))
+        return (
+          (build.levels[id] > 0 && build.levels[id] < 3) ||
+          (build.levels[id] === 0 &&
+            FRONT_FUSIONS[id].every(
+              (m) => build.levels[m] === FRONT_UPGRADE_CATALOG[m].maxLevel,
+            ))
+        );
+      if (
+        build.fusion &&
+        (frontConsumed(build.levels, id) ||
+          !(build.pool ?? FRONT_BASE_IDS).includes(id))
+      )
+        return false;
+      return (
+        (!full || build.levels[id] > 0) &&
+        build.levels[id] < FRONT_UPGRADE_CATALOG[id].maxLevel
+      );
+    },
   );
 }
 function guaranteedFor(_build: Build): FrontUpgradeId[] {
-  return [];
+  return _build.fusion
+    ? eligibleFor(_build).filter(
+        (id) => isFrontFusion(id) && !_build.levels[id],
+      )
+    : [];
 }
 function defaultFor(
   build: Build,
@@ -341,9 +491,16 @@ function combinationsFor(build: Build): FrontUpgradeId[][] {
   const combinations: FrontUpgradeId[][] = [];
   // 6種類×最低3段階なので、12取得未満なら候補は必ず残る。
   const size = Math.min(3, eligible.length);
+  if (!size) return [];
+  const ready = guaranteedFor(build);
   const visit = (start: number, ids: FrontUpgradeId[]) => {
     if (ids.length === size) {
-      if (!owned.length || ids.some((id) => owned.includes(id)))
+      if (ready.length && !ids.some((id) => ready.includes(id))) return;
+      if (
+        !owned.length ||
+        ids.some((id) => owned.includes(id)) ||
+        ids.some((id) => isFrontFusion(id) && !build.levels[id])
+      )
         combinations.push(ids);
       return;
     }
@@ -372,25 +529,33 @@ export function isValidFrontUpgradeState(
     !families.every(
       (family) =>
         (value.initialCards as unknown[]).filter(
-          (id) =>
-            isUpgradeId(id) && FRONT_UPGRADE_CATALOG[id].family === family,
+          (id) => isUpgradeId(id) && FRONT_FAMILY_CARDS[family].includes(id),
         ).length === 1,
     )
   )
     return false;
   if (
-    !integerIn(value.picks, 0, FRONT_MAX_PICKS) ||
+    !integerIn(value.picks, 0, value.fusion ? 120 : FRONT_MAX_PICKS) ||
     value.revision !== value.picks ||
-    !integerIn(value.rightsGranted, 0, FRONT_MAX_ADDITIONAL_RIGHTS) ||
+    !integerIn(
+      value.rightsGranted,
+      0,
+      value.fusion ? 119 : FRONT_MAX_ADDITIONAL_RIGHTS,
+    ) ||
     !integerIn(value.rightsSpent, 0, value.rightsGranted) ||
     !integerIn(value.rerollsRemaining, 0, FRONT_MAX_REROLLS) ||
     !integerIn(value.rngState, 0, 0xffffffff) ||
-    !integerIn(value.offerSerial, 1, FRONT_MAX_PICKS + FRONT_MAX_REROLLS)
+    !integerIn(
+      value.offerSerial,
+      1,
+      (value.fusion ? 120 : FRONT_MAX_PICKS) + FRONT_MAX_REROLLS,
+    )
   )
     return false;
   if (
-    Object.keys(value.levels).length !== FRONT_UPGRADE_IDS.length ||
-    !FRONT_UPGRADE_IDS.every((id) =>
+    Object.keys(value.levels).length !==
+      (value.fusion ? FRONT_UPGRADE_IDS : FRONT_V2_UPGRADE_IDS).length ||
+    !(value.fusion ? FRONT_UPGRADE_IDS : FRONT_V2_UPGRADE_IDS).every((id) =>
       integerIn(
         (value.levels as Record<string, unknown>)[id],
         0,
@@ -401,7 +566,36 @@ export function isValidFrontUpgradeState(
     return false;
   const state = value as unknown as FrontUpgradeState;
   if (
-    FRONT_UPGRADE_IDS.reduce((sum, id) => sum + state.levels[id], 0) !==
+    state.fusion &&
+    (!Array.isArray(state.pool) ||
+      state.pool.length < 6 ||
+      state.pool.length > FRONT_BASE_IDS.length ||
+      new Set(state.pool).size !== state.pool.length ||
+      !state.pool.every((id) => FRONT_BASE_IDS.includes(id)) ||
+      !state.initialCards.every((id) => state.pool!.includes(id)) ||
+      FRONT_FUSION_IDS.some(
+        (f) =>
+          state.levels[f] > 0 &&
+          FRONT_FUSIONS[f].some((id) => state.levels[id] !== 0),
+      ))
+  )
+    return false;
+  if (
+    (state.fusion
+      ? FRONT_UPGRADE_IDS.reduce(
+          (sum, id) => sum + (state.levels[id] || 0),
+          0,
+        ) +
+        FRONT_FUSION_IDS.filter((f) => state.levels[f] > 0).reduce(
+          (sum, f) =>
+            sum +
+            FRONT_FUSIONS[f].reduce(
+              (n, id) => n + FRONT_UPGRADE_CATALOG[id].maxLevel,
+              0,
+            ),
+          0,
+        )
+      : FRONT_V2_UPGRADE_IDS.reduce((sum, id) => sum + state.levels[id], 0)) !==
       state.picks ||
     FRONT_UPGRADE_IDS.filter((id) => state.levels[id] > 0).length >
       FRONT_MAX_TYPES ||
@@ -417,7 +611,8 @@ export function isValidFrontUpgradeState(
       return false;
   } else if (
     !(state.initialCards as readonly unknown[]).includes(state.initialCardId) ||
-    state.levels[state.initialCardId!] < 1 ||
+    (state.levels[state.initialCardId!] < 1 &&
+      !frontConsumed(state.levels, state.initialCardId!)) ||
     state.picks !== state.rightsSpent + 1
   )
     return false;
@@ -436,7 +631,7 @@ export function isValidFrontUpgradeState(
   if (!isRecord(state.offer)) return false;
   const offer = state.offer;
   if (
-    state.picks === FRONT_MAX_PICKS ||
+    state.picks === frontPickLimit(state) ||
     offer.id !== `${state.runId}:offer:${state.offerSerial}` ||
     offer.revision !== state.revision ||
     !Array.isArray(offer.cardIds) ||
@@ -506,14 +701,19 @@ export function createFrontUpgradeState(
   runId: string,
   seed: number,
   initialCards: readonly FrontUpgradeId[] = FRONT_INITIAL_CARDS,
+  pool?: readonly FrontUpgradeId[],
 ): FrontUpgradeState {
   if (!validId(runId) || !integerIn(seed, 0, 0xffffffff))
     throw new RangeError("作戦IDと32ビット整数シードが必要です");
   const state: FrontUpgradeState = {
     runId,
+    ...(pool ? { fusion: true as const, pool: Object.freeze([...pool]) } : {}),
     revision: 0,
     picks: 0,
     levels: Object.freeze({
+      ...(pool
+        ? Object.fromEntries(FRONT_UPGRADE_IDS.map((id) => [id, 0]))
+        : {}),
       "blast-core": 0,
       fuse: 0,
       "compressed-charge": 0,
@@ -530,7 +730,7 @@ export function createFrontUpgradeState(
       "blast-radius": 0,
       "opening-shot": 0,
       "emergency-armor": 0,
-    }),
+    }) as Record<FrontUpgradeId, number>,
     initialCardId: null,
     initialCards: Object.freeze([...initialCards]),
     evolved: false,
@@ -557,13 +757,11 @@ export function grantFrontUpgradeRights(
 ): FrontUpgradeState {
   requireValidState(state);
   if (
-    !integerIn(
-      cumulativeRights,
-      state.rightsGranted,
-      FRONT_MAX_ADDITIONAL_RIGHTS,
-    )
+    !integerIn(cumulativeRights, state.rightsGranted, frontPickLimit(state) - 1)
   )
-    throw new RangeError("経験値による取得権は0〜11の整数で、減らせません");
+    throw new RangeError(
+      "経験値による取得権は規定上限内の整数で、減らせません",
+    );
   return cumulativeRights === state.rightsGranted
     ? state
     : Object.freeze({ ...state, rightsGranted: cumulativeRights });
@@ -605,10 +803,13 @@ export function openFrontUpgradeOffer(
 ): FrontUpgradeResult {
   if (!isValidFrontUpgradeState(state)) return rejected(state, "invalid-state");
   if (state.offer !== null) return rejected(state, "offer-open");
-  if (state.picks >= FRONT_MAX_PICKS) return rejected(state, "pick-limit");
+  if (state.picks >= frontPickLimit(state))
+    return rejected(state, "pick-limit");
   if (state.rightsSpent >= state.rightsGranted)
     return rejected(state, "no-rights");
-  return { ok: true, state: drawOffer(state, combinationsFor(state)) };
+  const candidates = combinationsFor(state);
+  if (!candidates.length) return rejected(state, "pick-limit");
+  return { ok: true, state: drawOffer(state, candidates) };
 }
 
 function validateRequest(
@@ -621,7 +822,7 @@ function validateRequest(
     !validId(request.runId) ||
     typeof request.offerId !== "string" ||
     !validId(request.requestId) ||
-    !integerIn(request.revision, 0, FRONT_MAX_PICKS)
+    !integerIn(request.revision, 0, frontPickLimit(state))
   )
     return "invalid-request";
   if (request.runId !== state.runId) return "wrong-run";
@@ -647,6 +848,11 @@ export function selectFrontUpgrade(
   const levels = Object.freeze({
     ...state.levels,
     [request.cardId]: state.levels[request.cardId] + 1,
+    ...(state.fusion &&
+    isFrontFusion(request.cardId) &&
+    !state.levels[request.cardId]
+      ? Object.fromEntries(FRONT_FUSIONS[request.cardId].map((id) => [id, 0]))
+      : {}),
   });
   const next: FrontUpgradeState = {
     ...state,
