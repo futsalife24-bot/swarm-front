@@ -3,7 +3,38 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { frontUpgradeCardMarkup } from "../src/client/front-upgrade-ui";
 import { createFrontRun, getFrontRunView } from "../src/shared/front-run";
 import { type FrontUpgradeId } from "../src/shared/front-upgrades";
+import { freshProgress, newSaveKey } from "../src/client/progression-save";
 const evidence = "docs/evidence/front-expansion-20261006";
+
+test("全22種類の候補を実画面で保存し再読込する", async ({ page }) => {
+  const save = freshProgress("normal");
+  save.armoryMigration = 1;
+  save.missions = Object.fromEntries(
+    [1, 2, 3, 4, 5, 6].map((stage) => [
+      `${stage}:normal`,
+      [true, false, false],
+    ]),
+  );
+  await page.addInitScript(
+    ({ key, raw }) => {
+      if (!localStorage.getItem(key)) localStorage.setItem(key, raw);
+    },
+    { key: newSaveKey("normal"), raw: JSON.stringify(save) },
+  );
+  await page.goto("/front.html");
+  await page.locator("#solo").click();
+  await page.locator("#front-base").click();
+  await expect(page.locator("[data-pool]:checked")).toHaveCount(22);
+  await page.locator("#front-save-pool").click();
+  await expect(page.locator("#front-pool-status")).toHaveText(
+    "候補を保存しました。次の出撃から反映します。",
+  );
+  await page.reload();
+  await page.locator("#solo").click();
+  await page.locator("#front-base").click();
+  await expect(page.locator("[data-pool]:checked")).toHaveCount(22);
+  await page.screenshot({ path: `${evidence}/pool-all-22.png` });
+});
 test("従来モードで射撃・武器切替・共通エフェクトが動く", async ({ page }) => {
   page.setDefaultTimeout(65000);
   const errors: string[] = [];

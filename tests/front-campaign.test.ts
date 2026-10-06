@@ -25,6 +25,26 @@ const storage = () => {
     },
   };
 };
+it.each([20, 21, 22])("解放済み候補%d種類を保存して再読込できる", (count) => {
+  const s = storage(),
+    p = freshProgress("normal");
+  p.missions = Object.fromEntries(
+    [1, 2, 3, 4, 5, 6].map((stage) => [
+      `${stage}:normal`,
+      [true, false, false],
+    ]),
+  );
+  s.setItem(legacyProgressKey, JSON.stringify(p));
+  const available = readFrontLoadout(s);
+  expect(available.pool).toHaveLength(22);
+  const selected = {
+    pool: available.pool.slice(0, count),
+    initialCards: available.initialCards,
+  };
+  saveFrontLoadout(s, selected);
+  expect(readFrontLoadout(s)).toEqual({ ...selected, error: "" });
+  expect(JSON.parse(s.getItem(FRONT_LOADOUT_KEY)!)).toEqual(selected);
+});
 it("攻略1/3/5で新規3種を遡及解放し、保存済みの個人候補を勝手に増やさない", () => {
   const s = storage(),
     p = freshProgress("normal"),

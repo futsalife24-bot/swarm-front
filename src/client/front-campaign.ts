@@ -118,7 +118,7 @@ export function saveFrontLoadout(storage: FrontStorage, value: FrontLoadout) {
   const campaign = readFrontCampaign(storage);
   if (
     value.pool.length < 6 ||
-    value.pool.length > 19 ||
+    value.pool.length > FRONT_BASE_IDS.length ||
     new Set(value.pool).size !== value.pool.length ||
     !value.pool.every((id) => campaign.unlocked.includes(id)) ||
     value.initialCards.length !== 3 ||
