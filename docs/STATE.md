@@ -1,3 +1,7 @@
+# 現在地: タイトル演出の公開前独立監査を依頼（2026-10-07）
+
+公開指示を受け、PR138の対象 `6571b261d67761cc1713acf15aca7abf614168f4` を[通常Chat](https://chatgpt.com/c/6ac58aa7-bc70-83ee-a4f6-7915a7e3d003)へ添付送信、ZIP展開開始を確認。資料SHA256 `73172B63C312A7410CDBE0F18A34B0252A3D697C6D79F1C1985B5144DCB7BF0F`。確定判定と必要修正後、通常main統合・既存Worker公開・配信確認まで進める。現時点は未公開。
+
 # 現在地: タイトル操作演出を実装・自己検証して保存（2026-10-07）
 
 [下書きPR138](https://github.com/futsalife24-bot/swarm-front/pull/138)、実装 `3236b541cb90972b1f1bf1dee5db2012360080cd`、branch `codex/title-motion-20261007`、base `c67628040c747ab22c7dbfa45021c7a2cdb9ca52`。両タイトルの押し込み・選択強調・短い入場とアクセント、入力解除とreduced motionを追加。型・build・実ブラウザ動作8項目と844×390実UI確認成功。[変更と検証限界](TITLE-MOTION.md)。今回の明示範囲によりこの区切りで停止し、監査・main反映・公開は未実施。再開時はこのブランチのPRと検証記録を確認する。兵士音声PR137は別ブランチに保持、音声生成・課金切替なし。
