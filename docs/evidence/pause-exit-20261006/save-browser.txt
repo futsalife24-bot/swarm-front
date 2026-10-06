@@ -1,0 +1,104 @@
+
+> swarm-front@0.1.0 test:save:browser
+> node scripts/run-save-regression.mjs
+
+11:53:19 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:53:22 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:53:23 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:53:23 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:53:31 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:53:33 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:53:39 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:53:48 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:53:52 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:53:56 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:53:59 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:54:03 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:54:07 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:54:12 [vite] (client) [console.warn] Enemy asset unavailable; using fallback crawler TypeError: Failed to fetch
+    at http://127.0.0.1:51085/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=69476ebc:31446:19
+11:54:12 [vite] (client) [console.warn] Enemy asset unavailable; using fallback spider TypeError: Failed to fetch
+    at http://127.0.0.1:51085/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=69476ebc:31446:19
+11:54:12 [vite] (client) [console.warn] Enemy asset unavailable; using fallback harrow TypeError: Failed to fetch
+    at http://127.0.0.1:51085/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=69476ebc:31446:19
+11:54:13 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:54:18 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:54:21 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:54:25 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:54:29 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+safety: PASS (76.1s)
+11:54:33 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:54:36 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:54:39 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:54:43 [vite] (client) [console.warn] Enemy asset unavailable; using fallback crawler TypeError: Failed to fetch
+    at http://127.0.0.1:51085/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=69476ebc:31446:19
+11:54:43 [vite] (client) [console.warn] Enemy asset unavailable; using fallback harrow TypeError: Failed to fetch
+    at http://127.0.0.1:51085/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=69476ebc:31446:19
+11:54:43 [vite] (client) [console.warn] Enemy asset unavailable; using fallback spider TypeError: Failed to fetch
+    at http://127.0.0.1:51085/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=69476ebc:31446:19
+11:54:43 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:54:48 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:54:55 [vite] (client) [console.warn] Enemy asset unavailable; using fallback harrow TypeError: Failed to fetch
+    at http://127.0.0.1:51085/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=69476ebc:31446:19
+11:54:55 [vite] (client) [console.warn] Enemy asset unavailable; using fallback boss TypeError: Failed to fetch
+    at http://127.0.0.1:51085/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=69476ebc:31446:19
+11:54:55 [vite] (client) [console.warn] Enemy asset unavailable; using fallback spider TypeError: Failed to fetch
+    at http://127.0.0.1:51085/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=69476ebc:31446:19
+11:54:55 [vite] (client) [console.warn] Enemy asset unavailable; using fallback crawler TypeError: Failed to fetch
+    at http://127.0.0.1:51085/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=69476ebc:31446:19
+11:54:55 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:55:02 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:55:07 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:55:11 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:55:15 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:55:18 [vite] (client) [console.warn] Enemy asset unavailable; using fallback spider TypeError: Failed to fetch
+    at http://127.0.0.1:51085/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=69476ebc:31446:19
+11:55:18 [vite] (client) [console.warn] Enemy asset unavailable; using fallback crawler TypeError: Failed to fetch
+    at http://127.0.0.1:51085/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=69476ebc:31446:19
+11:55:18 [vite] (client) [console.warn] Enemy asset unavailable; using fallback harrow TypeError: Failed to fetch
+    at http://127.0.0.1:51085/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=69476ebc:31446:19
+11:55:19 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:55:24 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:55:28 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:55:32 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:55:35 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:55:38 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:55:40 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:55:43 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:55:47 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:55:49 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:55:52 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:55:54 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:55:57 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:56:00 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+fixtures: PASS (90.2s)
+11:56:03 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:56:07 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:56:11 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:56:14 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:56:18 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:56:22 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:56:24 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:56:27 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+receipts: PASS (28.2s)
+11:56:31 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:56:36 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision
+(209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
+(210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
+(209,37-61): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
+(210,82-106): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
+11:56:54 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (196,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)
+11:56:55 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (179,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)
+11:56:56 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:56:59 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (196,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)
+11:56:59 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (179,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)
+11:57:05 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision
+(209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
+(210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
+(209,37-61): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
+(210,82-106): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
+11:57:08 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:57:16 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+11:57:26 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+checkpoint: PASS (59.9s)
+Evidence: C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\dist-validation\save-regression\2026-10-06T02-53-03-666Z

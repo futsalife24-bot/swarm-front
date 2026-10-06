@@ -265,6 +265,9 @@ body.front-game #ui .front-initial label {
 .front-owned-dialog::backdrop {
   background: #030b12bb;
 }
+.front-leave-dialog {
+  width: min(480px, calc(100vw - 32px));
+}
 .front-game .rebuild-selection .front-owned-dialog > header {
   display: flex;
   justify-content: flex-end;

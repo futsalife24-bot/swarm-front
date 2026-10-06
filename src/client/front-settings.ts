@@ -93,7 +93,7 @@ export class FrontSettings {
     this.view.resize();
     placeControls(this.layout);
   }
-  open(root: HTMLElement, onExit: () => void, backLabel = "一時停止へ") {
+  open(root: HTMLElement, onExit: () => void, backLabel = "保存して戻る") {
     this.opened = true;
     document.body.dataset.screen = "battle";
     const p = this.preferences;

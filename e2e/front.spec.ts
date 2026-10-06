@@ -28,6 +28,53 @@ const prior = JSON.stringify(fresh()),
     credits: 100,
     unlocks: [...emptyFrontProgress().unlocks, "fuse"],
   };
+for (const width of [844, 640])
+  test(`設定から保存して戻る・退出確認：横${width}`, async ({ page }) => {
+    mkdirSync(evidence, { recursive: true });
+    await page.setViewportSize({ width, height: width === 844 ? 390 : 360 });
+    await page.goto("/front.html");
+    await page.locator("#solo").click();
+    await page.getByRole("button", { name: "ソロ出撃 ↗", exact: true }).click();
+    await expect(page.locator(".rebuild-card")).toHaveCount(3, {
+      timeout: 65000,
+    });
+    await page.locator(".rebuild-card").first().click();
+    await expect(page.locator("#controls")).toBeVisible();
+    await page.locator("#pause").click();
+    const hud = await page.locator("#hud").innerText();
+    await page.locator("#front-settings").click();
+    await page.locator("#front-setting-volume").press("Home");
+    await expect(
+      page.getByRole("button", { name: "保存して戻る", exact: true }),
+    ).toBeVisible();
+    await page.screenshot({ path: `${evidence}/settings-${width}.png` });
+    await page
+      .getByRole("button", { name: "保存して戻る", exact: true })
+      .click();
+    await page.locator("#front-leave").click();
+    const confirmation = page.getByRole("dialog", {
+      name: "タイトルへ戻りますか？",
+      exact: true,
+    });
+    await expect(confirmation).toBeVisible();
+    await expect(page.locator("#front-leave-cancel")).toBeFocused();
+    await page.screenshot({ path: `${evidence}/confirm-${width}.png` });
+    await page.locator("#front-leave-cancel").click();
+    await expect(confirmation).not.toBeVisible();
+    expect(await page.locator("#hud").innerText()).toBe(hud);
+    await page.locator("#front-leave").click();
+    await page.keyboard.press("Escape");
+    await expect(confirmation).not.toBeVisible();
+    await expect(page.locator("#front-resume")).toBeVisible();
+    await page.locator("#front-settings").click();
+    await expect(page.locator("#front-setting-volume")).toHaveValue("0");
+    await page
+      .getByRole("button", { name: "保存して戻る", exact: true })
+      .click();
+    await page.locator("#front-leave").click();
+    await page.locator("#front-leave-confirm").click();
+    await expect(page.locator("#solo")).toBeVisible();
+  });
 test.use({
   storageState: {
     cookies: [],
@@ -596,6 +643,7 @@ for (const viewport of [
     ).toHaveCount(1);
     await page.locator("#pause").click();
     await page.getByRole("button", { name: "タイトルへ", exact: true }).click();
+    await page.locator("#front-leave-confirm").click();
     await page
       .getByRole("button", { name: "攻略モード（従来版）", exact: true })
       .click();
@@ -758,6 +806,11 @@ test("実ブラウザ2人：準備・共同選択・独立報酬・再読込", a
   await page.locator("#front-setting-fireSensitivity").press("ArrowRight");
   await page.screenshot({ path: `${evidence}/coop-settings.png` });
   await page.locator("#front-settings-back").click();
+  await page.locator("#front-leave").click();
+  await expect(
+    page.getByRole("dialog", { name: "タイトルへ戻りますか？", exact: true }),
+  ).toContainText("部隊から退出します。");
+  await page.locator("#front-leave-cancel").click();
   await page.locator("#front-resume").click();
   await expect(page.locator("#controls")).toBeVisible({ timeout: 5000 });
   const result = await fetch(
