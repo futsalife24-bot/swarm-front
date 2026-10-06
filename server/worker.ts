@@ -106,6 +106,7 @@ interface Saved {
   world: World | null;
   interrupted: boolean;
   paused?: boolean;
+  resultExpiresAt?: number;
   stage?: number;
   messages?: ChatMessage[];
   preparationGeneration?: number;
@@ -947,12 +948,36 @@ export class Room extends DurableObject<Env> {
       member.readyGeneration = undefined;
     }
   }
+  private frontResultExpiresAt() {
+    const run = this.saved.frontRun;
+    return run?.fusion &&
+      run.mode === "survival" &&
+      (run.phase === "victory" || run.phase === "defeat")
+      ? this.saved.resultExpiresAt
+      : undefined;
+  }
+  private markFrontResult() {
+    const run = this.saved.frontRun;
+    if (
+      run?.fusion &&
+      run.mode === "survival" &&
+      (run.phase === "victory" || run.phase === "defeat") &&
+      this.saved.resultExpiresAt === undefined
+    )
+      this.saved.resultExpiresAt = Math.min(
+        (run.returnAt ?? Infinity) * 1000 + 120000,
+        Date.now() + 120000,
+      );
+  }
   private roomExpiresAt() {
     const run = this.saved.frontRun;
     return run?.fusion &&
       run.mode === "survival" &&
       Number.isFinite(run.returnAt)
-      ? run.returnAt! * 1000 + 120000
+      ? Math.min(
+          run.returnAt! * 1000 + 120000,
+          this.frontResultExpiresAt() ?? Infinity,
+        )
       : this.saved.created + LIMITS.roomMs;
   }
   async persist() {
@@ -1064,6 +1089,10 @@ export class Room extends DurableObject<Env> {
       return;
     }
     if (!s.id) {
+      if (now >= this.roomExpiresAt()) {
+        this.error(ws, "ルームの有効期限が切れました");
+        return;
+      }
       if (m.type !== "hello") {
         this.error(ws, "最初に参加認証が必要です");
         return;
@@ -1098,7 +1127,11 @@ export class Room extends DurableObject<Env> {
           this.error(ws, "参加者情報が一致しません");
           return;
         }
-        if (member.gone && now - member.gone > LIMITS.reconnectMs) {
+        if (
+          member.gone &&
+          now - member.gone > LIMITS.reconnectMs &&
+          this.frontResultExpiresAt() === undefined
+        ) {
           this.error(ws, "復帰期限（30秒）が切れました。装備画面へ");
           return;
         }
@@ -1143,6 +1176,7 @@ export class Room extends DurableObject<Env> {
       if (p) p.connected = true;
       if (this.saved.frontRun)
         stepFrontRun(this.saved.frontRun, {}, 0.05, now / 1000);
+      this.markFrontResult();
       this.saved.paused = false;
       this.invalidatePreparation();
       await this.persist();
@@ -1471,6 +1505,7 @@ export class Room extends DurableObject<Env> {
               }),
             );
             if (extended.ok) {
+              this.saved.resultExpiresAt = undefined;
               this.saved.frontRun = newRun;
               this.saved.world = newRun.world;
             }
@@ -1498,6 +1533,7 @@ export class Room extends DurableObject<Env> {
         start(world);
       }
       for (const p of present) p.last = now;
+      this.saved.resultExpiresAt = undefined;
       this.saved.world = world;
       this.saved.paused = false;
       this.sentEvent = 0;
@@ -1553,6 +1589,7 @@ export class Room extends DurableObject<Env> {
             ? {
                 frontView: getFrontRunView(this.saved.frontRun, s.id),
                 serverNow: Date.now() / 1000,
+                expiresAt: this.roomExpiresAt(),
               }
             : undefined;
         const payload = state!.packet(s.id, cached, s.seq, recipientMetadata);
@@ -1627,6 +1664,7 @@ export class Room extends DurableObject<Env> {
     }
     this.ticks++;
     if (w.phase !== "battle") {
+      this.markFrontResult();
       this.invalidatePreparation();
       this.stop();
       this.persisting = true;
@@ -1666,7 +1704,8 @@ export class Room extends DurableObject<Env> {
       this.stop();
       this.saved.paused = true;
       void this.ctx.storage.setAlarm(
-        Math.min(this.roomExpiresAt(), Date.now() + LIMITS.reconnectMs),
+        this.frontResultExpiresAt() ??
+          Math.min(this.roomExpiresAt(), Date.now() + LIMITS.reconnectMs),
       );
     }
     void this.persist().catch(() => {});
@@ -1682,6 +1721,11 @@ export class Room extends DurableObject<Env> {
     // Empty rooms receive only this single cleanup alarm; no simulation loop.
     const now = Date.now();
     const connected = [...this.sockets.entries()].filter(([, s]) => s.id);
+    const resultExpiresAt = this.frontResultExpiresAt();
+    if (resultExpiresAt !== undefined && now < resultExpiresAt) {
+      await this.ctx.storage.setAlarm(resultExpiresAt);
+      return;
+    }
     if (
       now < this.roomExpiresAt() &&
       this.saved.world?.phase === "battle" &&

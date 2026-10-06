@@ -1,6 +1,5 @@
 // Isolated integration fixtures. NEVER referenced by wrangler.jsonc or the browser.
 // They shorten setup of downed/result states; they are not evidence of full-mission balance.
-import { stepFrontRun } from "../src/shared/front-run";
 import { stageFor, troopCount } from "../src/shared/stages";
 import { STARTERS } from "../src/shared/defs";
 import { HARROW } from "../src/shared/harrow";
@@ -52,12 +51,8 @@ export class TestRoom extends Room {
         )
           return new Response("生存戦が必要です", { status: 409 });
         run.world.time = 3600;
-        stepFrontRun(run, {}, 0.05, run.returnAt);
-        await this.persist();
-        await this.ctx.storage.setAlarm(
-          Math.min(run.returnAt * 1000 + 120000, Date.now() + 120000),
-        );
-        this.broadcast();
+        run.returnAt = Date.now() / 1000;
+        await this.tick();
         return Response.json({ ok: true });
       }
       if (u.searchParams.get("case") === "front-result") {

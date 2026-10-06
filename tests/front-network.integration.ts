@@ -248,13 +248,37 @@ describe("改装版の実通信", () => {
       expect(ended.world.time).toBe(3600);
       expect(ended.world.reason).toContain("60分");
     }
-    members[1].ws.close();
-    await new Promise((r) => setTimeout(r, 100));
+    const resultState = members[0].messages.findLast(
+      (m) => m.frontView?.phase === "victory",
+    );
+    const expiry = resultState.expiresAt;
+    members.forEach((c) => c.ws.close());
+    await new Promise((r) => setTimeout(r, 31000));
     const restored = new Client(entry.code, members[1].token, 3);
     const ended = await restored.wait((m) => m.type === "state");
     expect(ended.frontView.phase).toBe("victory");
     expect(ended.world.run).toBe(initial.world.run);
-  });
+    expect(ended.expiresAt).toBe(expiry);
+    restored.ws.close();
+    await new Promise((r) =>
+      setTimeout(r, Math.max(0, expiry - Date.now() + 1000)),
+    );
+    // 一覧側が残っていても、権威Roomは期限を超えた接続を受け付けない。
+    const status = await new Promise<boolean>((resolve, reject) => {
+      const ws = new WebSocket(
+        base.replace("http", "ws") +
+          "/rooms/" +
+          entry.code +
+          "?ruleset=front-v1",
+      );
+      ws.onerror = () => resolve(true);
+      ws.onopen = () => {
+        ws.close();
+        reject(Error("結果保存の期限後に接続できました"));
+      };
+    });
+    expect(status).toBe(true);
+  }, 150000);
   it("旧版の一覧・解決・接続と分離し、作成認証を維持する", async () => {
     const denied = await fetch(base + "/rooms", {
       method: "POST",

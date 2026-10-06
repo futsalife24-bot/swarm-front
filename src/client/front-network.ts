@@ -278,7 +278,8 @@ export class FrontNetwork {
         }
         this.members = m.members;
         this.frontView = m.frontView;
-        if (this.frontView?.returnAt != null)
+        if (Number.isFinite(m.expiresAt)) this.rememberSession(m.expiresAt);
+        else if (this.frontView?.returnAt != null)
           this.rememberSession(this.frontView.returnAt * 1000 + 120000);
         this.serverNow = m.serverNow;
         if (Number.isFinite(m.serverNow))
