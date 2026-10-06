@@ -4,6 +4,7 @@ import "../mobile-ui.css";
 import "../menu-ui.css";
 import "../menu-theme.css";
 import "./coop-lobby.css";
+import { loadProgress } from "./progression-save";
 import "./rebuild.css";
 import "./playtest.css";
 import "./gear-weapon-list.css";
@@ -118,6 +119,7 @@ let rewardError = false;
 let lastHud = "";
 let lastRenderKey = "";
 let lobbyPreparation: Promise<void> = Promise.resolve();
+let campaignBootError = "";
 const now = () =>
   network ? Date.now() / 1000 + network.clockOffset : performance.now() / 1000;
 const modeNames = {
@@ -183,6 +185,7 @@ function home() {
       readFrontCampaign(progressStorage).save?.inventory.length ?? 0,
     error:
       recoveryError ||
+      campaignBootError ||
       progress.error ||
       readFrontCampaign(progressStorage).error,
   });
@@ -661,7 +664,7 @@ function connectRoom(code: string, target: string, token = "") {
   net.initialCards = frontLoadout.initialCards;
   net.onStatus = (message, fatal) => {
     status = message;
-    if (fatal) {
+    if (fatal && info?.phase !== "victory" && info?.phase !== "defeat") {
       connectionFatal = message;
       clearInput();
     }
@@ -722,7 +725,7 @@ function paintLobby() {
   if (!network || screen !== "lobby") return;
   const net = network;
   $("ui").innerHTML =
-    `<section class="panel front-lobby"><header><h1>${modeNames[net.mode]} · 協力部隊</h1><nav><button id="front-edit-loadout">装備変更</button><button id="front-leave">部屋を退出</button></nav></header><p>部屋ID <b>${esc(net.roomId || "接続中")}</b> <button id="front-copy">招待をコピー</button></p><div class="front-members">${net.members
+    `<section class="panel front-lobby"><header><h1>${modeNames[net.mode]} · 協力部隊</h1><nav><button id="front-edit-loadout">装備変更</button><button id="front-leave">部屋を退出</button></nav></header><p>部屋ID <b>${esc(net.roomId || "接続中")}</b> <button id="front-copy">招待をコピー</button>${net.mode === "survival" ? " · 出撃から60分で帰還・保存猶予2分" : ""}</p><div class="front-members">${net.members
       .filter((m) => m.connected)
       .map(
         (m) =>
@@ -914,8 +917,12 @@ function paintOverlay() {
   if (connectionFatal) {
     ui.innerHTML = `<section class="pause-card rebuild-panel"><h1>接続を終了しました</h1><p>${esc(connectionFatal)}</p><button id="front-leave" class="primary">タイトルへ</button></section>`;
     $("front-leave").onclick = leave;
-  } else if (gate.paused) {
-    ui.innerHTML = `<section class="pause-card rebuild-panel front-pause"><header><h1>${network ? "操作を停止中" : "一時停止"}</h1><button id="front-resume" class="primary">再開</button></header><p class="front-pause-note">${gate.pauseReason}</p>${frontUpgradeDetails(info, import.meta.env.BASE_URL)}<div class="pause-actions"><button id="front-settings">設定・操作</button><button id="front-leave">タイトルへ</button></div></section>`;
+  } else if (
+    gate.paused &&
+    info.phase !== "victory" &&
+    info.phase !== "defeat"
+  ) {
+    ui.innerHTML = `<section class="pause-card rebuild-panel front-pause"><header><h1>${network ? "操作を停止中" : "一時停止"}</h1><button id="front-resume" class="primary">再開</button></header><p class="front-pause-note">${gate.pauseReason}${info.returnAt !== null && info.returnAt !== undefined ? ` · 帰還まで ${formatRebuildTime(Math.max(0, info.returnAt - now()))}` : ""}</p>${frontUpgradeDetails(info, import.meta.env.BASE_URL)}<div class="pause-actions"><button id="front-settings">設定・操作</button><button id="front-leave">タイトルへ</button></div></section>`;
     $("front-settings").onclick = () =>
       settings.open(ui, () => {
         overlayKey = "";
@@ -1017,7 +1024,7 @@ function paintBattle() {
   if (!p) return;
   const hud = hudMarkup(world, id, status, info.maxHp, undefined, {
     mission: `${modeNames[info.mode]} · ${formatRebuildTime(world.time)}`,
-    detail: `経験値 ${info.xp}${info.nextXpThreshold === null ? "" : `/${info.nextXpThreshold}`}${world.defense ? ` · 拠点 ${Math.max(0, Math.ceil(world.defense.armory.hp))}` : ""}${!(info.growthVersion === 3 && info.mode === "survival") && world.time >= 480 ? ` · 残り ${Math.max(0, Math.ceil(540 - world.time))}秒` : ""}`,
+    detail: `経験値 ${info.xp}${info.nextXpThreshold === null ? "" : `/${info.nextXpThreshold}`}${world.defense ? ` · 拠点 ${Math.max(0, Math.ceil(world.defense.armory.hp))}` : ""}${info.returnAt != null && info.returnAt - now() <= 300 ? ` · 帰還まで ${formatRebuildTime(Math.max(0, info.returnAt - now()))}` : ""}${!(info.growthVersion === 3 && info.mode === "survival") && world.time >= 480 ? ` · 残り ${Math.max(0, Math.ceil(540 - world.time))}秒` : ""}`,
     weapon: `強化 ${info.growthVersion === 3 ? `${Object.values(info.levels).filter((n) => n > 0).length}/6枠` : `${info.picks}/${info.maxPicks}`}${info.growthVersion !== 3 && info.evolved.length ? ` · ${info.evolved.map((f) => FRONT_EVOLUTIONS[f].name).join("・")}` : ""}`,
     help: `WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · F ジャンプ${world.players.length > 1 ? " · E 蘇生" : ""}`,
   });
@@ -1240,6 +1247,13 @@ window.visualViewport?.addEventListener("resize", () =>
   placeControls(settings.layout),
 );
 startWithSaveWriter(async () => {
+  try {
+    loadProgress("normal", localStorage);
+  } catch {
+    campaignBootError =
+      "攻略の保存を読み込めません。元データは保持しています。";
+  }
+  frontLoadout = readFrontLoadout(progressStorage);
   placeControls(settings.layout);
   home();
   const invitation = new URL(location.href).searchParams.get("frontRoom");

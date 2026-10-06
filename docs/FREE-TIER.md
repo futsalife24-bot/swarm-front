@@ -45,3 +45,7 @@ Workers Freeで使えるDurable ObjectsはSQLite-backed。設定の `new_sqlite_
 採用日付のnpm公式メタデータを確認し、すべて完全固定。Node 24.14.1はVite 8.2.2の `^20.19.0 || >=22.12.0`、Wrangler 4.129.0の `>=22.0.0`、Vitest 5.0.0の `^22.12.0 || ^24.0.0 || >=26.0.0` を満たす。Three.js 0.185.1と型0.185.4、TypeScript 7.0.2、Playwright 1.63.0で型・ビルド・ブラウザ実行を確認。
 
 [Vite公式](https://vite.dev/guide/)、[Three.js公式](https://threejs.org/manual/en/installation.html)、[Wrangler公式](https://developers.cloudflare.com/workers/wrangler/install-and-update/)、[Vitest公式](https://vitest.dev/guide/)、[Playwright公式](https://playwright.dev/docs/intro)、[Microsoftランタイム公式](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist)
+
+## 2026-10-06 生存協力の出撃時間
+
+利用者の明示訂正により、新規の成長規則3・生存協力だけは「出撃開始から60分＋帰還後の保存/再接続2分」とする。準備時間は出撃60分に含めない。出撃時に受付レジストリと一覧の期限を同時更新し、Roomの接続・tick・alarmとクライアントの復帰情報も同じ終了時刻へ揃える。旧規則/攻略等の最長1時間、放置3分、無人時30秒、入力・作成頻度等の既存制限は維持。新規課金や契約変更は行わない。

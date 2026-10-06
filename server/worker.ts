@@ -677,6 +677,33 @@ export class Gate extends DurableObject<Env> {
     const now = Date.now(),
       day = Math.floor(now / 86400000);
     const url = new URL(req.url);
+    // 内部Roomだけが呼ぶ。出撃60分と結果保存2分を登録・接続判定へ一括反映。
+    if (url.pathname === "/front-expiry") {
+      const update = (await req.json()) as { code: string; expires: number };
+      const directory =
+        (await this.ctx.storage.get<Record<string, DirectoryEntry>>(
+          "directory",
+        )) ?? {};
+      const state = await this.ctx.storage.get<{
+        rooms?: Record<string, number>;
+      }>("gate");
+      const entry = directory[update.code];
+      if (
+        !entry ||
+        entry.ruleset !== "front-v1" ||
+        entry.mode !== "survival" ||
+        !state?.rooms ||
+        !(state.rooms[update.code] > now) ||
+        !Number.isFinite(update.expires) ||
+        update.expires <= now ||
+        update.expires > now + LIMITS.roomMs + 120000
+      )
+        return json({ error: "生存部屋の期限を更新できません" }, 409);
+      entry.expires = update.expires;
+      state.rooms[update.code] = update.expires;
+      await this.ctx.storage.put({ directory, gate: state });
+      return json({ ok: true });
+    }
     if (["/list", "/resolve", "/directory"].includes(url.pathname)) {
       if (url.pathname !== "/directory") {
         for (const [key, entry] of this.directoryQueries)
@@ -920,6 +947,14 @@ export class Room extends DurableObject<Env> {
       member.readyGeneration = undefined;
     }
   }
+  private roomExpiresAt() {
+    const run = this.saved.frontRun;
+    return run?.fusion &&
+      run.mode === "survival" &&
+      Number.isFinite(run.returnAt)
+      ? run.returnAt! * 1000 + 120000
+      : this.saved.created + LIMITS.roomMs;
+  }
   async persist() {
     await this.ctx.storage.put("room", this.saved);
   }
@@ -942,7 +977,7 @@ export class Room extends DurableObject<Env> {
       await this.ctx.storage.setAlarm(this.saved.created + LIMITS.idleMs);
       return json({ ok: true });
     }
-    if (!this.saved.created || Date.now() - this.saved.created > LIMITS.roomMs)
+    if (!this.saved.created || Date.now() > this.roomExpiresAt())
       return json({ error: "ルームの有効期限が切れました" }, 410);
     if (
       (new URL(req.url).searchParams.get("ruleset") === "front-v1"
@@ -1113,9 +1148,9 @@ export class Room extends DurableObject<Env> {
       await this.persist();
       await this.ctx.storage.setAlarm(
         Math.min(
-          this.saved.created + LIMITS.roomMs,
+          this.roomExpiresAt(),
           this.saved.world?.phase === "battle"
-            ? this.saved.created + LIMITS.roomMs
+            ? this.roomExpiresAt()
             : this.saved.world
               ? now + 120000
               : this.saved.created + LIMITS.idleMs,
@@ -1123,6 +1158,7 @@ export class Room extends DurableObject<Env> {
       );
       this.send(ws, {
         type: "welcome",
+        expiresAt: this.roomExpiresAt(),
         inputAck: true,
         id: member.id,
         token: member.token,
@@ -1402,6 +1438,8 @@ export class Room extends DurableObject<Env> {
             seed: crypto.getRandomValues(new Uint32Array(1))[0],
             mode: this.saved.directory.mode,
             fusion: present.every((p) => p.frontGrowth === 3),
+            // 出撃前の時間を含めず、出撃開始から60分。
+            returnAt: (now + LIMITS.roomMs) / 1000,
             players: present.map((p) => ({
               id: p.id,
               weapons: p.weapons.map((w) => w.kind as FrontWeaponKind),
@@ -1412,7 +1450,42 @@ export class Room extends DurableObject<Env> {
           },
           now / 1000,
         );
-        this.saved.frontRun = run as unknown as FrontRun;
+        const newRun = run as unknown as FrontRun;
+        if (
+          newRun.fusion &&
+          newRun.mode === "survival" &&
+          newRun.returnAt !== undefined
+        ) {
+          const code = this.saved.directory.code,
+            expires = newRun.returnAt * 1000 + 120000;
+          const extended = await this.ctx.blockConcurrencyWhile(async () => {
+            const extended = await this.env.GATE.get(
+              this.env.GATE.idFromName("admission"),
+            ).fetch(
+              new Request("https://internal/front-expiry", {
+                method: "POST",
+                body: JSON.stringify({
+                  code,
+                  expires,
+                }),
+              }),
+            );
+            if (extended.ok) {
+              this.saved.frontRun = newRun;
+              this.saved.world = newRun.world;
+            }
+            return extended;
+          });
+          if (!extended.ok) {
+            this.send(ws, {
+              type: "notice",
+              reason:
+                "出撃期限を確保できませんでした。もう一度出撃してください",
+            });
+            return;
+          }
+        }
+        this.saved.frontRun = newRun;
         world = run.world;
       } else {
         world = createWorld(
@@ -1430,7 +1503,7 @@ export class Room extends DurableObject<Env> {
       this.sentEvent = 0;
       this.inputs = {};
       await this.persist();
-      await this.ctx.storage.setAlarm(this.saved.created + LIMITS.roomMs);
+      await this.ctx.storage.setAlarm(this.roomExpiresAt());
       this.broadcast();
       this.run();
     } else if (m.type === "ping") {
@@ -1530,7 +1603,7 @@ export class Room extends DurableObject<Env> {
           p.down = 0;
         }
       }
-    if (now - this.saved.created > LIMITS.roomMs) {
+    if (now > this.roomExpiresAt()) {
       finish(w, false, "ルームの有効期限が切れました");
     }
     const active = Object.fromEntries(
@@ -1560,7 +1633,7 @@ export class Room extends DurableObject<Env> {
       try {
         await this.persist();
         await this.ctx.storage.setAlarm(
-          Math.min(this.saved.created + LIMITS.roomMs, Date.now() + 120000),
+          Math.min(this.roomExpiresAt(), Date.now() + 120000),
         );
         this.broadcast();
       } catch {
@@ -1593,10 +1666,7 @@ export class Room extends DurableObject<Env> {
       this.stop();
       this.saved.paused = true;
       void this.ctx.storage.setAlarm(
-        Math.min(
-          this.saved.created + LIMITS.roomMs,
-          Date.now() + LIMITS.reconnectMs,
-        ),
+        Math.min(this.roomExpiresAt(), Date.now() + LIMITS.reconnectMs),
       );
     }
     void this.persist().catch(() => {});
@@ -1613,11 +1683,11 @@ export class Room extends DurableObject<Env> {
     const now = Date.now();
     const connected = [...this.sockets.entries()].filter(([, s]) => s.id);
     if (
-      now < this.saved.created + LIMITS.roomMs &&
+      now < this.roomExpiresAt() &&
       this.saved.world?.phase === "battle" &&
       connected.length
     ) {
-      await this.ctx.storage.setAlarm(this.saved.created + LIMITS.roomMs);
+      await this.ctx.storage.setAlarm(this.roomExpiresAt());
       return;
     }
     this.stop();

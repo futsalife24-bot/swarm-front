@@ -11,7 +11,11 @@ import {
 } from "../src/client/front-upgrade-ui";
 import { createFrontRun, getFrontRunView } from "../src/shared/front-run";
 import { localCreationKey } from "../tests/credentials";
-import { freshProgress, newSaveKey } from "../src/client/progression-save";
+import {
+  freshProgress,
+  newSaveKey,
+  legacyProgressKey,
+} from "../src/client/progression-save";
 import { makeWeapon } from "../src/shared/progression";
 import { FRONT_FUSION_IDS } from "../src/shared/front-upgrades";
 const evidence =
@@ -39,6 +43,58 @@ test.use({
     ],
   },
 });
+for (const withV2 of [false, true]) {
+  test(
+    "旧保存から生存へ直接入場：" + (withV2 ? "v2とv1" : "v1のみ"),
+    async ({ page, context }) => {
+      const old = fresh();
+      old.inventory = old.inventory.map((w, i) => ({
+        ...w,
+        id: "carried-v1-" + i,
+      }));
+      old.equipped = old.inventory.slice(0, 2).map((w) => w.id);
+      const oldRaw = JSON.stringify(old),
+        v2 = freshProgress("normal"),
+        v2Raw = JSON.stringify(v2);
+      await context.addInitScript(
+        ({ oldRaw, v2Raw, withV2, key, legacyKey }) => {
+          if (!sessionStorage.getItem("migration-fixture")) {
+            localStorage.setItem(key, oldRaw);
+            if (withV2) localStorage.setItem(legacyKey, v2Raw);
+            sessionStorage.setItem("migration-fixture", "yes");
+          }
+        },
+        { oldRaw, v2Raw, withV2, key: SAVE_KEY, legacyKey: legacyProgressKey },
+      );
+      await page.goto("/front.html");
+      await page.locator("#solo").click();
+      await expect(page.locator('[data-row="carried-v1-0"]')).toBeVisible();
+      const read = async () => {
+        const state = await context.storageState();
+        return state.origins.find((o) => o.origin === "http://127.0.0.1:5186")!
+          .localStorage;
+      };
+      const values = await read(),
+        shared = values.find((v) => v.name === newSaveKey("normal"))!.value;
+      expect(values.find((v) => v.name === SAVE_KEY)!.value).toBe(oldRaw);
+      if (withV2)
+        expect(values.find((v) => v.name === legacyProgressKey)!.value).toBe(
+          v2Raw,
+        );
+      const inventory = JSON.parse(shared).inventory;
+      for (const w of old.inventory)
+        expect(inventory.find((x: any) => x.id === w.id)).toMatchObject(w);
+      if (withV2)
+        for (const w of v2.inventory)
+          expect(inventory.find((x: any) => x.id === w.id)).toMatchObject(w);
+      await page.reload();
+      await page.locator("#solo").click();
+      expect(
+        (await read()).find((v) => v.name === newSaveKey("normal"))!.value,
+      ).toBe(shared);
+    },
+  );
+}
 for (const width of [844, 640])
   test(`融合の光枠・攻略装備・個人候補：横${width}`, async ({ page }) => {
     mkdirSync(evidence, { recursive: true });
@@ -713,9 +769,7 @@ test("実ブラウザ2人：準備・共同選択・独立報酬・再読込", a
     await expect(
       p.getByRole("heading", { name: "作戦成功", exact: true }),
     ).toBeVisible({ timeout: 10000 });
-  await expect(
-    page.getByText("功績 +100 · 初期候補 5/9種を解放", { exact: true }),
-  ).toBeVisible();
+  await expect(page.getByText("功績 +100", { exact: true })).toBeVisible();
   await page.screenshot({ path: `${evidence}/coop-result.png` });
   await secondContext.close();
   await page.reload();

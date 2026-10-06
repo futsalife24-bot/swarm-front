@@ -74,6 +74,8 @@ export interface FrontRunOptions {
   mode?: FrontMode;
   day?: string;
   fusion?: boolean;
+  /** 協力部屋の掃除より前に帰還するサーバー時刻（秒）。 */
+  returnAt?: number;
   players: {
     id: string;
     weapons?: readonly FrontWeaponKind[];
@@ -85,6 +87,7 @@ export interface FrontRunOptions {
 export interface FrontRun {
   world: World;
   fusion?: true;
+  returnAt?: number;
   originalEquipment?: Record<string, Weapon[]>;
   upgrades: Record<string, FrontUpgradeState>;
   phase: "selection" | "combat" | "boss" | "victory" | "defeat";
@@ -207,6 +210,11 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
   start(world);
   return {
     world,
+    ...(options.fusion &&
+    mode === "survival" &&
+    Number.isFinite(options.returnAt)
+      ? { returnAt: options.returnAt }
+      : {}),
     ...(options.fusion
       ? {
           fusion: true as const,
@@ -553,6 +561,15 @@ export function stepFrontRun(
     run.phase === "defeat"
   )
     return run;
+  if (
+    run.fusion &&
+    run.mode === "survival" &&
+    run.returnAt !== undefined &&
+    now >= run.returnAt
+  ) {
+    conclude(run, true, "出撃から60分が経過したため、生存作戦から帰還しました");
+    return run;
+  }
   if (run.phase === "selection") {
     if (run.selectionDeadline !== null && now >= run.selectionDeadline) {
       for (const id of Object.keys(run.upgrades))
@@ -636,6 +653,7 @@ export function getFrontRunView(run: FrontRun, id: string) {
       ...old,
       maxPicks: 7,
       growthVersion: 1,
+      returnAt: null as number | null,
       levels: { ...createFrontUpgradeState("view", 0).levels, ...old.levels },
     };
   }
@@ -647,6 +665,7 @@ export function getFrontRunView(run: FrontRun, id: string) {
     phase: run.phase,
     maxPicks: frontPickLimit(s),
     growthVersion: run.fusion ? 3 : 2,
+    returnAt: run.returnAt ?? null,
     mode: run.mode,
     day: run.day,
     combatTime: run.world.time,

@@ -77,6 +77,45 @@ function select(s: FrontUpgradeState, id?: FrontUpgradeId) {
   return result.state;
 }
 describe("融合と個人候補", () => {
+  it("協力の部屋期限前に3択中でも戦果を確定し、再接続後も同じ期限を使う", () => {
+    const r = createFrontRun(
+      {
+        runId: "room-limit",
+        seed: 1,
+        fusion: true,
+        returnAt: 3480,
+        players: [{ id: "p" }, { id: "q" }],
+      },
+      0,
+    );
+    r.world.time = 2400;
+    stepFrontRun(r, {}, 0.05, 3479);
+    expect(r.world.phase).toBe("battle");
+    const restored = structuredClone(r);
+    stepFrontRun(restored, {}, 0.05, 3480);
+    expect(restored.phase).toBe("victory");
+    expect(restored.world.phase).toBe("victory");
+    expect(restored.world.reason).toContain("帰還");
+    expect(restored.world.time).toBe(2400);
+    expect(restored.metrics.endedAt).toBe(2400);
+    expect(getFrontRunView(restored, "p").returnAt).toBe(3480);
+    stepFrontRun(restored, {}, 0.05, 3600);
+    expect(restored.metrics.endedAt).toBe(2400);
+    const solo = createFrontRun({
+      runId: "no-room",
+      seed: 1,
+      fusion: true,
+      players: [{ id: "p" }],
+    });
+    expect(getFrontRunView(solo, "p").returnAt).toBeNull();
+    const old = createFrontRun({
+      runId: "old-limit",
+      seed: 1,
+      returnAt: 3480,
+      players: [{ id: "p" }],
+    });
+    expect(getFrontRunView(old, "p").returnAt).toBeNull();
+  });
   it("ロケットへ射撃強化を固定し、着弾前の武器切替で返却先を変えない", () => {
     const r = createFrontRun({
       runId: "rocket",

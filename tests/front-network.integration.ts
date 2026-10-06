@@ -2,6 +2,10 @@
 import { afterEach, describe, it, expect } from "vitest";
 import { localCreationKey } from "./credentials";
 import { frontTemporaryWeapons } from "../src/shared/front-run";
+import {
+  FRONT_BASE_IDS,
+  FRONT_INITIAL_CARDS,
+} from "../src/shared/front-upgrades";
 import { neutral } from "../src/shared/game";
 const base = "http://127.0.0.1:8789",
   clients: Client[] = [];
@@ -75,7 +79,11 @@ async function room(mode = "defense") {
   expect(response.status).toBe(200);
   return response.json();
 }
-async function team(count: number, mode = "defense", growth = true) {
+async function team(
+  count: number,
+  mode = "defense",
+  growth: boolean | 3 = true,
+) {
   const entry = await room(mode),
     members: Client[] = [];
   for (let i = 0; i < count; i++) {
@@ -84,6 +92,9 @@ async function team(count: number, mode = "defense", growth = true) {
     members.push(c);
     c.send({
       type: "equip",
+      ...(growth === 3
+        ? { upgradePool: FRONT_BASE_IDS, initialCards: FRONT_INITIAL_CARDS }
+        : {}),
       weapons: frontTemporaryWeapons("client", `p${i}`, ["rifle", "smg"]).map(
         (w) => ({ ...w, power: 1.2, rolls: { power: 1.1 } }),
       ),
@@ -176,11 +187,14 @@ describe("改装版の実通信", () => {
       (m) => m.members?.length === 4 && m.members.every((p: any) => p.ready),
     );
     members[0].send({ type: "start" });
+    members[0].send({ type: "start" });
     const states = await Promise.all(
       members.map((c) => c.wait((m) => m.type === "state")),
     );
     states.forEach((s, i) => {
       expect(s.frontView.growthVersion).toBe(3);
+      expect(s.frontView.returnAt - s.serverNow).toBeGreaterThan(3590);
+      expect(s.frontView.returnAt - s.serverNow).toBeLessThanOrEqual(3600);
       expect(s.frontView.offer.cardIds).toEqual(pools[i % 2].slice(0, 3));
       expect(
         s.world.players.every((p: any) =>
@@ -188,6 +202,14 @@ describe("改装版の実通信", () => {
         ),
       ).toBe(true);
     });
+    await new Promise((r) => setTimeout(r, 200));
+    expect(
+      new Set(
+        members[0].messages
+          .filter((m) => m.type === "state")
+          .map((m) => m.world.run),
+      ).size,
+    ).toBe(1);
     const original = states[1].frontView.offer;
     members[1].send({
       type: "equip",
@@ -200,11 +222,38 @@ describe("改装版の実通信", () => {
     const restored = new Client(entry.code, members[1].token, 3);
     const snapshot = await restored.wait((m) => m.type === "state");
     expect(snapshot.frontView.offer).toEqual(original);
+    expect(snapshot.frontView.returnAt).toBe(states[1].frontView.returnAt);
+    expect(restored.messages.find((m) => m.type === "welcome").expiresAt).toBe(
+      snapshot.frontView.returnAt * 1000 + 120000,
+    );
     const active = [members[0], restored, members[2], members[3]];
     active.forEach((c, i) => c.choose(i === 1 ? snapshot : states[i]));
     await members[0].wait(
       (m) => m.type === "state" && m.frontView.phase === "combat",
     );
+  });
+  it("60分の帰還境界で全員へ戦果を配信し、結果へ再接続できる", async () => {
+    const { entry, members, states } = await team(2, "survival", 3);
+    const initial = states[0];
+    expect(initial.frontView.returnAt - initial.serverNow).toBeGreaterThan(
+      3590,
+    );
+    const fixture = await fetch(
+      base + "/fixtures/" + entry.code + "/front-return",
+      { method: "POST" },
+    );
+    expect(fixture.status).toBe(200);
+    for (const c of members) {
+      const ended = await c.wait((m) => m.frontView?.phase === "victory");
+      expect(ended.world.time).toBe(3600);
+      expect(ended.world.reason).toContain("60分");
+    }
+    members[1].ws.close();
+    await new Promise((r) => setTimeout(r, 100));
+    const restored = new Client(entry.code, members[1].token, 3);
+    const ended = await restored.wait((m) => m.type === "state");
+    expect(ended.frontView.phase).toBe("victory");
+    expect(ended.world.run).toBe(initial.world.run);
   });
   it("旧版の一覧・解決・接続と分離し、作成認証を維持する", async () => {
     const denied = await fetch(base + "/rooms", {
