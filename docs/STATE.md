@@ -1,3 +1,6 @@
+# 現在地: 強化融合・攻略連携の独立監査を依頼済み（2026-10-06）
+
+固定対象 0f24040288cc7e1b11133fc79c68bab585467fb1、[PR131](https://github.com/futsalife24-bot/swarm-front/pull/131)。アプリ内ブラウザの[通常Chat](https://chatgpt.com/c/6ac45115-c3d4-83ee-86f1-034bab38cd02)へ監査ZIPを添付・送信し、対象差分の読取開始を確認。資料は ../.task-tools/swarm-front-fusion-review-audit.zip、SHA256 26A34F15D666B6DC87A3EC083CD0711B3879BF9A6C15D471D9EC4EA29F6C8853、742ファイルGit blob一致。監査後に必須修正・通常統合・既存Worker公開を継続する。監査対象以後は状態記録のみ。
 # 現在地: 強化融合・攻略連携を実装、独立監査へ（2026-10-06）
 
 [PR131](https://github.com/futsalife24-bot/swarm-front/pull/131)、基点 d9b965cbf1a4050561fdf536f69b6d6be3dbb9f5、ブランチ codex/campaign-survival-design-20261006。通常強化3種・融合6種、1枠へまとめて再育成、攻略武器と解放候補の持込、協力の個別候補、時間制限なしの生存戦、戦果コインの安全な保存を実装。融合名をカタカナにし、能力を主文、素材を小型アイコン付きで表示。型・単体59/147/119・実通信5・横画面5と最終表示2・武器行8画面・保存ブラウザ4系統・本番ビルド成功。[仕様](CAMPAIGN-SURVIVAL-LINK.md)と[証拠/限界](evidence/front-fusion-20261006/README.md)。独立Chat監査・通常統合・既存Worker公開を続行する。まだ本番反映していない。
