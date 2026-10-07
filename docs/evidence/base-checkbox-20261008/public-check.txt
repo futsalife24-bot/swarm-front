@@ -1,0 +1,2 @@
+通信失敗 https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/g/turnstile/f/av0/rch/um55n/0x4AAAAAAEqP4GMKnl-xNQKK/dark/fbE/new/normal?lang=auto net::ERR_ABORTED
+6条件: デッキ保存・反映・再読込、融合素材、タッチ相当、画面寸法、例外なし
