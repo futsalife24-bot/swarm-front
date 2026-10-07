@@ -169,7 +169,34 @@ try {
         await p.locator("#base-slot").innerText(),
         /融合・爆発デッキ/,
       );
+      // 名前は出撃候補とは別保存。出撃へ反映しても未保存名の破棄確認を残す。
+      await p.locator("#base-name").fill("まだ保存していない名前");
+      await p.locator("#front-save-pool").tap();
       await p.locator("#base-back").tap();
+      await p.locator(".base-confirm").waitFor();
+      await p.locator(".base-confirm [data-cancel]").tap();
+      await p.locator("#base-load").tap();
+      await p.locator(".base-confirm").waitFor();
+      await p.locator(".base-confirm [data-cancel]").tap();
+      assert.equal(
+        await p.locator("#base-name").inputValue(),
+        "まだ保存していない名前",
+      );
+      const savedName = () =>
+        p.evaluate(
+          () =>
+            JSON.parse(localStorage.getItem("swarm-front-upgrade-decks-v1"))
+              .slots[0].name,
+        );
+      assert.equal(await savedName(), "融合・爆発デッキ");
+      await p.locator("#base-store").tap();
+      await p.locator(".base-confirm [data-cancel]").tap();
+      assert.equal(await savedName(), "融合・爆発デッキ");
+      await p.locator("#base-store").tap();
+      await p.locator(".base-confirm [data-confirm]").tap();
+      assert.equal(await savedName(), "まだ保存していない名前");
+      await p.locator("#base-back").tap();
+      assert.equal(await p.locator(".base-confirm").count(), 0);
       await p.locator("#coop").tap();
       const coop = await p.evaluate(() => ({
         screen: document.body.dataset.screen,
@@ -202,6 +229,7 @@ try {
         errors,
         consoleErrors,
         serviceWorkerControlled,
+        unsavedNameGuard: "set → back/load/cancel retain → deck save clears",
         fusionRecipeBefore,
       });
       await p.close();

@@ -242,7 +242,7 @@ body .menu-dialog .pt-confirm-actions button {
     gap: 7px;
   }
   .pt-screen .menu-header {
-    gap: 10px;
+    gap: 8px;
   }
   .pt-screen .menu-header nav {
     max-width: none;
@@ -250,7 +250,8 @@ body .menu-dialog .pt-confirm-actions button {
     gap: 4px;
   }
   .pt-screen .menu-header nav button {
-    min-height: 28px;
+    min-width: 44px;
+    min-height: 36px;
     padding: 4px 7px;
     font-size: 10px;
   }

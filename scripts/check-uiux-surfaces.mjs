@@ -2,7 +2,7 @@ import { chromium } from "@playwright/test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 const origin = "http://127.0.0.1:5186",
-  out = "dist-validation/base-decks/surfaces";
+  out = process.env.UIUX_OUTPUT || "dist-validation/base-decks/surfaces";
 fs.mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({
   channel: "chrome",
@@ -63,6 +63,21 @@ try {
                 hit: !!hit && (hit === e || e.contains(hit)),
               };
             }),
+            headerTapTargets: [
+              ...document.querySelectorAll(
+                ".pt-screen .menu-header nav button",
+              ),
+            ]
+              .map((e) => {
+                const r = e.getBoundingClientRect();
+                return {
+                  id: e.id,
+                  text: e.textContent.trim(),
+                  w: r.width,
+                  h: r.height,
+                };
+              })
+              .filter((r) => r.w > 0 && r.h > 0),
           }),
           targets,
         );
@@ -82,6 +97,10 @@ try {
         assert.ok(
           metrics.targets.every((t) => t.inside && t.hit),
           JSON.stringify({ name, ...metrics }),
+        );
+        assert.ok(
+          metrics.headerTapTargets.every((t) => t.w >= 43.9 && t.h >= 35.9),
+          JSON.stringify({ name, headerTapTargets: metrics.headerTapTargets }),
         );
       };
       const go = async (path) => {

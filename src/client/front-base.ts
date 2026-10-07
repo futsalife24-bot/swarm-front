@@ -47,7 +47,8 @@ export function openFrontBase(
     slot = 0;
   let selected: FrontUpgradeId = "blast-core",
     tab: "upgrades" | "fusions" = "upgrades",
-    dirty = false;
+    loadoutDirty = false,
+    nameDirty = false;
   const icon = (id: FrontUpgradeId) =>
     frontUpgradeIconMarkup(id, import.meta.env.BASE_URL);
   const locked = (id: FrontUpgradeId) => !campaign.unlocked.includes(id);
@@ -94,7 +95,7 @@ export function openFrontBase(
     $("base-load").toggleAttribute("disabled", !decks.slots[slot]);
   }
   function changed() {
-    dirty = true;
+    loadoutDirty = true;
     message(
       "編集中 · 出撃に使うには「出撃にセット」。デッキ保存で別の構成も残せます。",
     );
@@ -237,8 +238,13 @@ export function openFrontBase(
   $("front-save-pool").onclick = () =>
     attempt(() => {
       saveFrontLoadout(storage, draft);
-      dirty = false;
-      message("出撃にセットしました。次のソロ・協力出撃から反映します。", true);
+      loadoutDirty = false;
+      message(
+        nameDirty
+          ? "出撃にセットしました。デッキ名の変更は未保存です。"
+          : "出撃にセットしました。次のソロ・協力出撃から反映します。",
+        true,
+      );
     });
   $("base-store").onclick = () =>
     attempt(() => {
@@ -254,7 +260,8 @@ export function openFrontBase(
             },
           });
           decks = readFrontDecks(storage);
-          dirty = false;
+          loadoutDirty = false;
+          nameDirty = false;
           slotOptions();
           message(
             `「${decks.slots[slot]!.name}」を保存しました。出撃へは「出撃にセット」で反映します。`,
@@ -277,7 +284,8 @@ export function openFrontBase(
         validateFrontLoadout(storage, stored.loadout);
         draft = { ...structuredClone(stored.loadout), error: "" };
         name.value = stored.name;
-        dirty = false;
+        loadoutDirty = false;
+        nameDirty = false;
         root
           .querySelectorAll<HTMLSelectElement>("[data-initial]")
           .forEach((el, i) => {
@@ -291,7 +299,7 @@ export function openFrontBase(
           `「${stored.name}」を呼び出しました。出撃に使うには「出撃にセット」。`,
         );
       });
-    if (dirty)
+    if (loadoutDirty || nameDirty)
       confirmAction("編集中の変更を破棄して呼び出しますか？", "呼び出す", load);
     else load();
   };
@@ -300,7 +308,7 @@ export function openFrontBase(
     slotOptions();
   };
   name.oninput = () => {
-    dirty = true;
+    nameDirty = true;
   };
   root.querySelectorAll<HTMLSelectElement>("[data-initial]").forEach(
     (el, i) =>
@@ -346,7 +354,7 @@ export function openFrontBase(
     };
   }
   $("base-back").onclick = () =>
-    dirty
+    loadoutDirty || nameDirty
       ? confirmAction("保存していない編集を破棄して戻りますか？", "戻る", back)
       : back();
   slotOptions();
