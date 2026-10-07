@@ -500,6 +500,11 @@ for (const viewport of [
     ).toEqual(originalChoices);
     await expect(page.locator(".rebuild-card")).toHaveCount(3);
     expect(await page.locator(".rebuild-selection footer").count()).toBe(0);
+    await page.waitForFunction(() =>
+      [
+        ...document.querySelectorAll<HTMLImageElement>(".rebuild-card img"),
+      ].every((image) => image.complete),
+    );
     const cards = await page.locator(".rebuild-card").evaluateAll((nodes) =>
       nodes.map((el) => {
         const r = el.getBoundingClientRect(),
@@ -510,7 +515,7 @@ for (const viewport of [
           right: r.right,
           top: r.top,
           bottom: r.bottom,
-          loaded: image.complete && image.naturalWidth === 256,
+          loaded: image.complete && image.naturalWidth > 0,
           animation: style.animationName,
           delay: style.animationDelay,
         };
