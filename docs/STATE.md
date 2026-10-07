@@ -1,3 +1,7 @@
+# 現在地: メニュー12場面の独立再監査に合格（2026-10-07）
+
+PR140、最終対象 `3816388f4c4966ade85bf0271550ef2879de1ef8`。[確定回答](evidence/menu-effects-20261007/audit-final.md)は残存必須0・任意0。以後は回答・状態記録のみ、製品ソース不変。実非表示cleanupは未実測として保持。最新mainと通常統合条件を確認し、既存Worker公開・配信/UI確認へ進む。兵士音声PR137と戦闘演出は保留。
+
 # 現在地: メニュー演出の修正版を同じ通常Chatへ提出（2026-10-07）
 
 [PR140](https://github.com/futsalife24-bot/swarm-front/pull/140)、対象 `3816388f4c4966ade85bf0271550ef2879de1ef8`。[同じ監査Chat](https://chatgpt.com/c/6ac5a307-3158-83ee-9ac7-7770eefca7fb)へ306ファイルの対象blob/差分/証拠ZIPを添付送信済み、SHA256 `3982c5b8a7c048cee2ef4bb6b98e233a1c2d360ea4adcc772122132a2fd6ca95`。必須P2の選択/保存分離と旧解析格子除去、型31単体実ログ・reduced途中切替・通信演出回数・修正版本番build/dry-runを提出。実非表示は未実測。確定再判定後に通常統合・既存Worker公開へ進む。未統合・未公開、兵士音声PR137と戦闘演出は保留。
