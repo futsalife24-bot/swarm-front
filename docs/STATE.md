@@ -6,7 +6,7 @@ Windows型・関連7ファイル857件（配置696件含む）・build/productio
 
 独立監査の対象 `672bc9c63a7558f39db347bdf1901ed5d4bc0d8f`、[通常新規Chat](https://chatgpt.com/c/6ac65eb3-82dc-83ee-b828-a1da443b6e8d)で **合格、P0/P1/P2すべて0**。任意1は洞窟実Worker頭部撃破E2E追加で公開阻止ではない。[回答全文](evidence/cave-foundry-release-20261007/audit-final.md)。独立計算で実個体半径の違反12/1260→0。監査側の依存取得未完でVitest/Vite/Wranglerの独立再実行は未達。監査後の製品修正なし。詳細/限界・復旧経緯は [CAVE-FOUNDRY-RELEASE.md](CAVE-FOUNDRY-RELEASE.md)。
 
-公開記録は `codex/pr148-release-record-20261008` の文書・証拠だけで通常PR反映する。製品不変のため追加公開不要。記録mainの最新SHAは記録PRのmergeを正とし、終了時にlocal main/origin/main/GitHub main一致・cleanを照合する。専用ローカルWorker/Vite/検証Chromeと監査iabタブは終了。保管庫ノートへ現在地を保存し、完了結果も更新する。モデルID・推論設定は未確認。戦闘演出/PR137・別branchのpilot修正は保留のまま。
+公開記録は[PR149](https://github.com/futsalife24-bot/swarm-front/pull/149)（`codex/pr148-release-record-20261008`）の文書・証拠だけで通常PR反映する。製品不変のため追加公開不要。記録mainの最新SHAはPR149のmergeを正とし、終了時にlocal main/origin/main/GitHub main一致・cleanを照合する。専用ローカルWorker/Vite/検証Chromeと監査iabタブは終了。保管庫ノートへ現在地を保存し、完了結果も更新する。モデルID・推論設定は未確認。戦闘演出/PR137・別branchのpilot修正は保留のまま。
 
 ## 前回: 採用済み出現の限定1回試験、694成功・洞窟増援2失敗を記録（2026-10-07）
 

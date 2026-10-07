@@ -39,6 +39,8 @@ cleanなmain同期後にbuild→`wrangler.production.jsonc` dry-run→既存Work
 
 GitHubへの監査結果pushは2回500応答となり、公式status/PR readの確認後、永続設定を変更しないHTTP/1.1一時指定で通常pushが成功した。PRへのSHA反映待ちを照合してから通常mergeした。認証/保護/Hookを変更していない。
 
+公開記録のmain反映は[PR149](https://github.com/futsalife24-bot/swarm-front/pull/149)、branch `codex/pr148-release-record-20261008`。公開ソースとの差分はdocsだけで製品不変。最終記録mainのSHAはPR149のmergeを正とし、ローカル/origin/GitHub mainの一致とcleanを終了時に確認する。
+
 公開洞窟確認補助では、PCの非表示touch pauseボタン、Escape後のresume、初遭遇film中のHUD非表示により途中試行が失敗した。初遭遇filmは意図してHUD/controlsを隠すため、戦場描画の確認fixtureを既遭遇に揃えた後、4条件が成功した。失敗ログも保持。PCのEscape動作・初遭遇film全経路のE2E合格として扱わない。製品の未遭遇情報や操作コードは変更していない。
 
 ## 検証環境での失敗と限界
