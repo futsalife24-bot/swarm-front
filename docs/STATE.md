@@ -1,8 +1,12 @@
-# 現在地: 基地の選択・編集終了を明確化、Windows6条件成功・PR150独立監査合格・通常merge/公開準備（2026-10-08）
+# 現在地: PR150を通常merge・基地UI改善を公開、配信26件/公開6条件成功（2026-10-08）
 
-branch `codex/base-selection-clarity-20261008`、base `4f758d908cb22a04717baf6126db91f1cf0d5713`。本人の画像付き訂正に従い、戻る確認を「編集を続ける／変更を破棄して戻る」、強化の左端を☑型チェック枠へ変更。「？」撤去、ホバー/フォーカス/選択で右の説明を更新。Escの既存競合も修正。保存・通信・ランダム3択・武器行は維持。
+[PR150](https://github.com/futsalife24-bot/swarm-front/pull/150)通常merge、公開ソースmain `e4315c6edc9d555b53095bc5335142d654e35edf`、Worker Version `30413495-bb4a-4e29-92ba-59d3c37b76e0`。基地の強化を左端の☑型チェック枠と明るい背景/枠で表示。「？」撤去、ホバー/フォーカス/選択で右側説明を更新。戻る確認は「編集を続ける／変更を破棄して戻る」、Esc競合も修正。保存形式・通信・開幕ランダム3択・武器行は維持。日本語Player-Noteをmerge本文へ保持。[公開版/front](https://swarm-front.melosalife-24.workers.dev/front)。
 
-Windows型・関連83件・build/production dry-run成功。Chrome通常/reduced×844/640/1220の6条件で選択・保存・融合・編集継続/破棄/Esc/フォーカス・協力画面が成功、全条件console/page error0。詳細・限界・初回失敗の切り分けは [BASE-SELECTION-CLARITY.md](BASE-SELECTION-CLARITY.md)。[PR150](https://github.com/futsalife24-bot/swarm-front/pull/150)、対象 `1b564377370cb3782f8cd8b44aed6ef58739966b`（製品 `4fba4310437762b07dca74edfdb498aa0efdc896`）。ZIP `dist-validation/base-selection-20261008/audit-1b56437.zip`、SHA256 `64089770518c2336d5f28a7ad41852aaa402ebd66bf166cf960a7485cc81fa4d` を [iab通常新規Chat](https://chatgpt.com/c/6ac6ad7b-f114-83ee-ae9a-c776bd638728) で独立監査合格、必須P0/P1/P2=0。任意R1はスクリーンリーダー実機の読み上げ順。監査後の製品修正なし。[回答全文](evidence/base-selection-20261008/audit-final.md)。通常mergeと既存Worker公開へ進む。現時点で未merge/未公開。モデルID/推論設定未確認。PR137保留。
+Windows型・関連12ファイル83件・build/production dry-run成功。実ローカルWorkerとChromeで通常/reduced×844×390・640×360・1220×413の6条件成功。mainから再build/dry-run後に公開し、配信26/26 SHA一致・health200/ok、公開同6条件も成功。選択・保存・呼び出し・融合・編集継続/破棄/Esc/フォーカス復帰・協力画面を確認、すべてconsole/page error0。専用contextだけを使用。実スマホ・スクリーンリーダー実機・長期GPU・無変更の全画面/全敵の再確認は未実施。
+
+独立監査対象 `1b564377370cb3782f8cd8b44aed6ef58739966b`（製品 `4fba4310437762b07dca74edfdb498aa0efdc896`）。[iab通常新規Chat](https://chatgpt.com/c/6ac6ad7b-f114-83ee-ae9a-c776bd638728)で合格、必須P0/P1/P2=0。任意R1はスクリーンリーダー実機。監査後の製品修正なし。監査側は全242ファイルのmanifest・ソース/差分・画像/ログを照合し、Chrome/83件/build/Workerを独立再実行したわけではない。[詳細](BASE-SELECTION-CLARITY.md)、[回答全文](evidence/base-selection-20261008/audit-final.md)、[配信](evidence/base-selection-20261008/delivery.json)、[公開検証](evidence/base-selection-20261008/public/base-checks.json)。
+
+公開記録は[PR151](https://github.com/futsalife24-bot/swarm-front/pull/151)（文書専用branch `codex/pr150-release-record-20261008`）で通常main反映する。公開ソース以後の製品差分はなく追加公開不要。終了時にlocal main/origin/main/GitHub main一致・cleanを照合する。専用Vite/Worker/検証Chrome/監査iabタブは終了。保管庫の現在地と本人訂正による再発防止ノートも更新する。モデルID/推論設定未確認。戦闘演出/PR137・別branchのpilot修正は保留。
 
 # 現在地: PR148を通常merge・既存Worker公開、配信26件/公開6条件成功（2026-10-08）
 
