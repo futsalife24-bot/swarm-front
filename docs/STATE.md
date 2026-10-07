@@ -6,7 +6,7 @@ Windows型・関連83件・build/production dry-run成功。無変更の単体1�
 
 独立監査対象 `eac10df84600bc36d21d94dcfb8ff7705fa1e5fc`、base `42890be31a25acaafc7e260ce04bdfe8ce19dfca`。[iab通常新規Chat](https://chatgpt.com/c/6ac6bba0-58b0-83ee-a7a3-1d2c2a923f9f)で合格、必須P0/P1/P2=0。監査後の製品修正なし。任意R1は20pxの実機操作性、R2は入力境界の追加回帰。監査側はmanifest247件/ソース/差分/画像/ログを照合し、Windows試験を独立再実行したものではない。[詳細](BASE-CHECKBOX-HITAREA.md)、[回答](evidence/base-checkbox-20261008/audit-final.md)、[配信](evidence/base-checkbox-20261008/delivery.json)、[公開検証](evidence/base-checkbox-20261008/public/base-checks.json)。
 
-公開記録はbranch `codex/pr152-release-record-20261008` の文書・証拠だけを通常PRでmain反映する。公開ソース以後の製品差分なし、追加公開不要。終了時にlocal main/origin/main/GitHub main一致・cleanを照合。専用Vite/Worker/Chromeと監査iabタブは終了。保管庫の現在地と本人訂正の再発防止ノートを更新・自動同期対象へ追加。戦闘演出/PR137と別branchのpilot修正は保留。モデルID/推論設定未確認。
+公開記録は[PR153](https://github.com/futsalife24-bot/swarm-front/pull/153)（branch `codex/pr152-release-record-20261008`）の文書・証拠だけを通常mergeでmain反映する。公開ソース以後の製品差分なし、追加公開不要。終了時にlocal main/origin/main/GitHub main一致・cleanを照合。専用Vite/Worker/Chromeと監査iabタブは終了。保管庫の現在地と本人訂正の再発防止ノートを更新・自動同期対象へ追加。戦闘演出/PR137と別branchのpilot修正は保留。モデルID/推論設定未確認。
 
 # 現在地: PR150を通常merge・基地UI改善を公開、配信26件/公開6条件成功（2026-10-08）
 
