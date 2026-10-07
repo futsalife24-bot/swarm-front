@@ -115,8 +115,9 @@ body.front-game #ui .base-catalog-heading button {
   background: linear-gradient(120deg, #443b2d, #142c34);
 }
 .base-tile[data-selected="true"] {
-  border-color: #83baaa;
-  background: linear-gradient(120deg, #305348, #122c35);
+  border-color: #b3efd0;
+  box-shadow: inset 0 0 0 1px #b3efd045;
+  background: linear-gradient(120deg, #3b6753, #1d3f40);
 }
 .base-tile[data-locked="true"] {
   background: #182730;
@@ -156,7 +157,7 @@ body.front-game #ui .base-tile button::after {
   flex: none;
   object-fit: cover;
 }
-.base-tile-pick > span:not(.front-atlas-icon) {
+.base-tile-pick > .base-tile-text {
   min-width: 0;
   flex: 1;
 }
@@ -176,14 +177,28 @@ body.front-game #ui .base-tile button::after {
   font-size: 12px;
   color: #d9eebc;
 }
-body.front-game #ui .base-tile .base-help {
-  flex: 0 0 30px;
-  color: #cee1e7;
-  border-left: 1px solid #66818a55;
+.base-checkbox {
+  box-sizing: border-box;
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #91a8ad;
+  border-radius: 2px;
+  background: #0b202a;
+  color: #102a24;
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1;
 }
-.base-help::first-letter {
-  border: 1px solid #9ebcc5;
-  border-radius: 50%;
+.base-tile[data-selected="true"] .base-checkbox {
+  border-color: #c6f6d9;
+  background: #c6f6d9;
+}
+body.front-game #ui .base-tile-pick:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
 }
 .base-detail {
   min-height: 0;
@@ -313,6 +328,12 @@ body.front-game #ui .front-base #front-pool-status {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+  flex-wrap: wrap;
+}
+body.front-game #ui .base-confirm button {
+  min-height: 40px;
+  padding: 8px 12px;
+  font-size: 14px;
 }
 .base-confirm::backdrop {
   background: #040e16bd;
@@ -358,9 +379,5 @@ body.front-game #ui .front-base #front-pool-status {
   }
   .base-tile-pick em {
     display: none;
-  }
-  .base-tile[data-selected="true"] .base-tile-pick strong::before {
-    content: "✓ ";
-    color: var(--mint);
   }
 }

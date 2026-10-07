@@ -1,3 +1,9 @@
+# 現在地: 基地の選択・編集終了を明確化、Windows6条件成功・独立監査準備（2026-10-08）
+
+branch `codex/base-selection-clarity-20261008`、base `4f758d908cb22a04717baf6126db91f1cf0d5713`。本人の画像付き訂正に従い、戻る確認を「編集を続ける／変更を破棄して戻る」、強化の左端を☑型チェック枠へ変更。「？」撤去、ホバー/フォーカス/選択で右の説明を更新。Escの既存競合も修正。保存・通信・ランダム3択・武器行は維持。
+
+Windows型・関連83件・build/production dry-run成功。Chrome通常/reduced×844/640/1220の6条件で選択・保存・融合・編集継続/破棄/Esc/フォーカス・協力画面が成功、全条件console/page error0。詳細・限界・初回失敗の切り分けは [BASE-SELECTION-CLARITY.md](BASE-SELECTION-CLARITY.md)。これから対象commitのZIPをiab通常新規Chatへ添付し、合格後に通常mergeと既存Worker公開を行う。現時点で未merge/未公開。モデルID/推論設定未確認。PR137保留。
+
 # 現在地: PR148を通常merge・既存Worker公開、配信26件/公開6条件成功（2026-10-08）
 
 [PR148](https://github.com/futsalife24-bot/swarm-front/pull/148)通常merge、公開ソースmain `e1e9d7ce1c6e19113046726cc5aae231efc72b1c`、Worker Version `3061c5ac-aa16-41ea-b65f-70197bdad2fd`。洞窟増援の候補判定と最終配置へ通常spawnの高さ上限を共通適用。日本語Player-Noteをmerge本文に保持。[公開版/front](https://swarm-front.melosalife-24.workers.dev/front)、従来版は同ドメインの `/`。
