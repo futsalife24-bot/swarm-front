@@ -1,3 +1,11 @@
+# 現在地: ボイス操作の再開承認を確認、AI Studioの有料請求先設定待ち（2026-10-08）
+
+本人の「よい、この承認が優先される」を受け、AI Studio新規タブ操作が成功。前回の自動承認拒否は解消。[PR137](https://github.com/futsalife24-bot/swarm-front/pull/137)、branch `codex/soldier-voice-remake-20261006`、再開時HEAD `f470a10cb3d40764bfca2a58dc9bbddc63c166f1`。生成0本・今回支出0円。全11台詞/総額1,000円承認を継承。監査Chat未作成、実装・統合・公開未実施。
+
+既存kondate/youtube-analysisはともに支払い設定段階へ進む。Gemini 3.8 Flash TTSと2.5 Pro Preview TTSを確認。2.5 Proの入力画面でFenrir・共通演技・「装填中！」を準備したが、キー接続には支払い設定が必要。Chromeの専用タブ `1271483160`、URL `https://aistudio.google.com/generate-speech?model=gemini-2.5-pro-preview-tts` を引継ぎ保持。画面上に「Cloud 請求先アカウントの設定」と、無料トライアルの請求先選択が有料請求先へのアップグレード同意になる旨を実確認。[証拠](evidence/soldier-remake-20261008/billing-required.jpg)。請求先選択・続行・契約同意・生成は未実施。モデル比較の採用結果は未確定、Codex実モデル/推論設定未確認。
+
+停止理由: 音声生成の承認とは別に、Google Cloud請求先の有料契約変更が必要。再開条件: 本人が保持した設定画面で支払い設定を完了するか、既存の利用可能な接続先を指定する。生成予算の再承認不要。利用可能後に最新mainを取り込み、比較3台詞から生成/聴感/技術検証/独立監査/通常統合/既存Worker公開まで継続する。公開main `de67860cfae978f3ee0bbd6784fc33a38ce68686` は維持。
+
 # 現在地: 兵士11台詞の再制作を再依頼、生成画面の操作が自動承認で拒否（2026-10-08）
 
 [下書きPR137](https://github.com/futsalife24-bot/swarm-front/pull/137)、branch `codex/soldier-voice-remake-20261006`、対象HEAD `c015601851bb0de75c017c1909cd70cb5e31df23`、base `c67628040c747ab22c7dbfa45021c7a2cdb9ca52`。ユーザーから「次はボイスの撮り直しをしてきて」と再依頼。既存の全11台詞・総額1,000円承認・比較3台詞先行の[準備](SOLDIER-VOICE-REMAKE.md)を確認。生成0本・今回支出0円。監査Chatは未作成、実装・監査・統合・公開は未実施。公開mainは `de67860cfae978f3ee0bbd6784fc33a38ce68686` を維持。
