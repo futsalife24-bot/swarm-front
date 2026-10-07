@@ -68,3 +68,7 @@
 - 型チェック、front単体77件成功。初回の保存単体147件・実通信・戦闘UI結果は保存方式/通信/戦闘に変更がないため再利用。今回の変更に依存する実UIとビルドを再検証する。
 - 証拠は `evidence/base-decks-20261007/revision/`。任意のランタイムerrorフィールドのDTO分離は実害なしとの判定で今回は未変更。
 - 修正commit `cd29362a25fcbebefeacbf0d1b5c5ccacf9f7141` の本番build・本番設定Worker dry-run成功。`revision/committed-build.txt`、`committed-worker.txt`、`built-source.txt`。公開用は通常merge後のmainで作成する。
+
+## 独立再監査の合格
+
+2026-10-07 16:22 JSTごろ、同じ通常Chatの[確定回答](evidence/base-decks-20261007/audit-final.md)を確認。対象 `2a5639d5c289857efaec2e6da3782589cf01003d`、必須P0/P1/P2各0、全体UIUX合格。ZIP・168ファイルのSHA256/Git blob・前回ZIPへの差分適用を独立照合し、両P2の解消と新規必須回帰なしを確認。型/build/dry-run/ブラウザ試験は提出ログ照合で、監査側の独立再実行ではない。対象後の製品変更なし。任意3件は回答に保持し、最終準備画面の画像は公開確認時に補完する。
