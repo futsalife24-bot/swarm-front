@@ -112,7 +112,10 @@ export function readFrontLoadout(
     };
   }
 }
-export function saveFrontLoadout(storage: FrontStorage, value: FrontLoadout) {
+export function validateFrontLoadout(
+  storage: FrontStorage,
+  value: FrontLoadout,
+) {
   const current = readFrontLoadout(storage);
   if (current.error) throw new Error(current.error);
   const campaign = readFrontCampaign(storage);
@@ -130,6 +133,9 @@ export function saveFrontLoadout(storage: FrontStorage, value: FrontLoadout) {
     )
   )
     throw new Error("候補は6種類以上、初期候補は各系統1つを選んでください。");
+}
+export function saveFrontLoadout(storage: FrontStorage, value: FrontLoadout) {
+  validateFrontLoadout(storage, value);
   storage.setItem(FRONT_LOADOUT_KEY, JSON.stringify(value));
 }
 /** 共有保存と同じ排他権・改訂番号・受取記録を使い、コインと受取済みを一括保存。 */

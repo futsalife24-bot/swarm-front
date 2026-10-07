@@ -1,0 +1,50 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "fixture": true,
+    "collection": true,
+    "reward": true,
+    "victory": true,
+    "down": true,
+    "defeat": true,
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "fixture": true,
+    "collection": true,
+    "reward": true,
+    "victory": true,
+    "down": true,
+    "defeat": true,
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "fixture": true,
+    "collection": true,
+    "reward": true,
+    "victory": true,
+    "down": true,
+    "defeat": true,
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "fixture": true,
+    "collection": true,
+    "reward": true,
+    "victory": true,
+    "down": true,
+    "defeat": true,
+    "errors": []
+  }
+]
