@@ -1,0 +1,7 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": [
+    "../../tests/bot.ts",
+    "../../tests/stages.test.ts"
+  ]
+}

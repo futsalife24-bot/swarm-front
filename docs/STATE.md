@@ -1,4 +1,12 @@
-# 現在地: PR146を通常merge・既存Worker公開、配信26件/公開8条件成功（2026-10-07）
+# 現在地: 試験pilot限定修正、局所8件とST25通し1回が成功（2026-10-07）
+
+base/main `1c2f4ba44348ab95558ca0362f4f50a561e900d0`、branch `codex/pilot-input-fix-20261007`。試験用`tests/bot.ts`でSpinの予告中の退避と接触直前の回避を分離し、終了済み/接触済みの回転へ回避を消費しない。pitchを既存clampPitchへ通し、再使用待ちが次tickで解ける場合だけdodgeを要求。製品のHP/火力/敵AI/攻撃時間/勝敗期待値は不変。[差分・証拠・限界](PILOT-INPUT-FIX.md)。
+
+Windowsで修正前の局所8件は7失敗、修正後8件は成功。変更2ファイルの型成功。20:31 JSTのST25 seed814通しは上限1回で勝利、172.45秒/92撃破/HP141.152、3449入力すべてvalidInputを通過。花粉4回・回転1回・敵弾1回の被弾は残り、無被弾とはしない。不正pitch補正で旧走行から経路が変わり得るため、旧runとのtick一致は主張しない。
+
+今回の範囲は試験補助の局所修正・自己検証・branch保存まで。UI/独立Chat/PR/main統合/公開は行わず、mainとWorkerは不変。他の既知失敗は保留。次案1件はST20 seed814を同じ合法装備で1回確認すること（未実施）。モデルID/推論設定未確認。前の観測branch`df51fa1`、分類branch`6b1ceac`、実非表示調査branch`85388dc`は保持。
+
+## PR146を通常merge・既存Worker公開、配信26件/公開8条件成功（2026-10-07）
 
 [PR146](https://github.com/futsalife24-bot/swarm-front/pull/146)通常merge、公開ソースmain `b10e685b7a13374bfb66e06feeb47a9d162ca064`、Worker Version `356a85b3-e4c2-468e-aeb7-1f455277f1f5`。基地の固定開幕3枠を撤去し、チェック候補6〜22種から重複なしランダム3択。旧デッキ名/pool保持、ソロ/協力共通。初回監査P2の更新前後の通信混在保護を修正し、[同じChat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)再監査の対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2` は必須0で合格。
 

@@ -1,0 +1,16 @@
+{
+  "source": "1c2f4ba44348ab95558ca0362f4f50a561e900d0",
+  "branch": "codex/pilot-input-fix-20261007",
+  "node": "v24.19.0",
+  "platform": "Windows",
+  "maxFullRuns": 1,
+  "fullRunsStarted": 1,
+  "command": "node node_modules/vitest/vitest.mjs run tests/stages.test.ts --config vitest.config.ts -t '^stage 25 completes within the time limit using legal endgame gear and ordinary inputs$' --reporter=default",
+  "botSha256": "3FD2629839DA4768A3B3D988F0122D22F078A090DB62C4FC0F4192FFA29911BF",
+  "testSha256": "C62AD3AA6FC17A511E7FB2E9C9457F78458A8483A6671B60F727065A3D1A9F9C",
+  "modelId": "未確認",
+  "reasoningEffort": "未確認",
+  "startedAtUtc": "2026-10-07T11:31:45.4020813Z",
+  "exitCode": 0,
+  "finishedAtUtc": "2026-10-07T11:31:48.0683092Z"
+}

@@ -18,12 +18,150 @@ import {
   wallDistance,
   roofHeight,
   move,
+  validInput,
+  eye,
+  type World,
 } from "../src/shared/game";
 import { validWeapon } from "../src/shared/defs";
 import { STARTERS } from "../src/shared/defs";
 import { step } from "../src/shared/game";
 import { pilot } from "./bot";
 import { supportHeight } from "../src/shared/terrain";
+import { MIN_PITCH, MAX_PITCH } from "../src/shared/aim";
+import { HARROW } from "../src/shared/harrow";
+
+function spinPilotFixture(until: number, evadeCd = 0) {
+  const w = createWorld("pilot-boundary", 37, 1);
+  addPlayer(w, "p");
+  start(w);
+  w.enemies = [];
+  w.nextSpawn = Number.MAX_SAFE_INTEGER;
+  w.time = 12;
+  const p = w.players[0];
+  p.x = p.z = p.y = 0;
+  p.evadeCd = evadeCd;
+  const e = spawn(w, "harrow", 0, -10)!;
+  e.y = 0;
+  e.harrowAirborne = false;
+  e.harrow = {
+    kind: "Spin",
+    started: w.time - HARROW.spinWind + until,
+    fired: false,
+    yaw: 0,
+  };
+  return { w, p, e };
+}
+
+it("pilot retreats during an early Spin warning without spending the dodge", () => {
+  const { w, p, e } = spinPilotFixture(HARROW.spinWind);
+  const distance = Math.hypot(p.x - e.x, p.z - e.z);
+  const input = pilot(w, "p");
+  expect(validInput(input)).toBe(true);
+  expect(input.dodge).toBe(false);
+  step(w, { p: input });
+  expect(Math.hypot(p.x - e.x, p.z - e.z)).toBeGreaterThan(distance);
+  expect(p.evadeCd).toBe(0);
+});
+
+it("pilot times a ready dodge to survive actual Spin contact without repeat hits", () => {
+  const { w, p, e } = spinPilotFixture(0.1);
+  const hp = p.hp;
+  const first = pilot(w, "p");
+  expect(validInput(first)).toBe(true);
+  expect(first.dodge).toBe(true);
+  step(w, { p: first });
+  for (let n = 0; n < 12; n++) {
+    const input = pilot(w, "p");
+    expect(validInput(input)).toBe(true);
+    step(w, { p: input });
+    expect(p.hp).toBe(hp);
+  }
+  expect(e.harrow?.hitIds).toContain("p");
+  expect(p.evade).toBe(0);
+  expect(pilot(w, "p").dodge).toBe(false);
+});
+
+it.each([
+  { cooldown: 0.05, starts: true },
+  { cooldown: 0.051, starts: false },
+])(
+  "pilot respects the next-tick dodge cooldown boundary $cooldown",
+  ({ cooldown, starts }) => {
+    const { w, p } = spinPilotFixture(0.1, cooldown);
+    const input = pilot(w, "p");
+    expect(validInput(input)).toBe(true);
+    expect(input.dodge).toBe(starts);
+    step(w, { p: input });
+    expect(p.evade > 0).toBe(starts);
+  },
+);
+
+it.each(["already-contacted", "finished"] as const)(
+  "pilot does not spend a dodge on a Spin that is $0",
+  (state) => {
+    const { w, e } = spinPilotFixture(0.1);
+    if (state === "already-contacted") e.harrow!.hitIds = ["p"];
+    else e.harrow!.started = w.time - HARROW.spinWind - HARROW.spinTurn - 0.05;
+    const input = pilot(w, "p");
+    expect(validInput(input)).toBe(true);
+    expect(input.dodge).toBe(false);
+  },
+);
+
+it.each([
+  { name: "above", playerY: 0, enemyY: 100, boundary: MAX_PITCH },
+  { name: "below", playerY: 100, enemyY: 0, boundary: MIN_PITCH },
+])(
+  "pilot keeps near-vertical aim $name within the product input limits",
+  ({ playerY, enemyY, boundary }) => {
+    const { w, p, e } = spinPilotFixture(HARROW.spinWind);
+    p.y = playerY;
+    e.y = enemyY;
+    e.z = -1;
+    e.harrow = undefined;
+    const rawPitch = Math.atan2(eye(e) - (p.y + 1.5), 1);
+    expect(Math.abs(rawPitch)).toBeGreaterThan(Math.abs(boundary));
+    const input = pilot(w, "p");
+    expect(input.fire).toBe(true);
+    expect(validInput(input)).toBe(true);
+    expect(input.pitch).toBe(boundary);
+  },
+);
+
+// ST25の有限な診断。値の代入は元どおりに行い、HP減少だけを記録する。
+function observeStage25Damage(w: World) {
+  const p = w.players[0];
+  let hp = p.hp;
+  let count = 0;
+  const hits: unknown[] = [];
+  Object.defineProperty(p, "hp", {
+    enumerable: true,
+    configurable: true,
+    get: () => hp,
+    set: (next: number) => {
+      const before = hp;
+      hp = next;
+      if (next >= before) return;
+      count++;
+      if (hits.length >= 100) return;
+      hits.push({
+        time: w.time,
+        before,
+        after: next,
+        player: { x: p.x, y: p.y, z: p.z, evade: p.evade, evadeCd: p.evadeCd },
+        source: new Error().stack?.split("\n").slice(1, 7),
+        enemies: structuredClone(
+          w.enemies.filter(
+            (e) =>
+              e.hp > 0 &&
+              (e.kind === "harrow" || Math.hypot(p.x - e.x, p.z - e.z) < 25),
+          ),
+        ),
+      });
+    },
+  });
+  return () => ({ count, truncated: count > hits.length, hits });
+}
 
 it.each(STAGES)(
   "stage $id completes within the time limit using legal endgame gear and ordinary inputs",
@@ -39,8 +177,18 @@ it.each(STAGES)(
     expect(gear.every(validWeapon)).toBe(true);
     addPlayer(w, "p", gear);
     start(w);
-    for (let n = 0; n < 12001 && w.phase === "battle"; n++)
-      step(w, { p: pilot(w, "p") });
+    const damage = s.id === 25 ? observeStage25Damage(w) : undefined;
+    let inputCount = 0;
+    for (let n = 0; n < 12001 && w.phase === "battle"; n++) {
+      const input = pilot(w, "p");
+      expect(validInput(input), `ST${s.id} input at ${w.time}s`).toBe(true);
+      inputCount++;
+      step(w, { p: input });
+    }
+    if (damage)
+      console.log(
+        `ST25_DIAGNOSTICS ${JSON.stringify({ time: w.time, phase: w.phase, kills: w.totalKills, hp: w.players[0].hp, inputCount, damage: damage() })}`,
+      );
     console.log(
       `Clear ST${s.id}: ${w.time.toFixed(1)}s / ${w.totalKills} kills / HP ${w.players[0].hp.toFixed(1)}`,
     );

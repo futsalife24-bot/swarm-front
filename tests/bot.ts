@@ -1,4 +1,5 @@
-import { MOVE_SPEED } from "../src/shared/defs";
+import { MOVE_SPEED, EVADE_DURATION } from "../src/shared/defs";
+import { clampPitch } from "../src/shared/aim";
 import { CAVE_BLOCKS, caveWaypoint } from "../src/shared/cave";
 import { mapFor } from "../src/shared/stages";
 import { foundryPath } from "../src/shared/foundry-navigation";
@@ -132,7 +133,7 @@ export function pilot(w: World, id: string): Input {
   searchWaypoints.delete(w);
   const d = Math.hypot(e.x - p.x, e.z - p.z);
   i.yaw = Math.atan2(e.x - p.x, -(e.z - p.z));
-  i.pitch = Math.atan2(e.aimY - ((p.y ?? 0) + 1.5), d);
+  i.pitch = clampPitch(Math.atan2(e.aimY - ((p.y ?? 0) + 1.5), d));
   i.fire = true;
   let vx = Math.cos(w.time * 0.7) * 4,
     vz = Math.sin(w.time * 0.7) * 2;
@@ -193,16 +194,23 @@ export function pilot(w: World, id: string): Input {
     z: number;
     radius: number;
     until: number;
+    dodgeNearImpact?: boolean;
   }[] = [];
   for (const enemy of w.enemies) {
     if (enemy.kind !== "harrow" || enemy.hp <= 0 || !enemy.harrow) continue;
     const attack = enemy.harrow;
     if (attack.kind === "Spin") {
+      if (
+        attack.hitIds?.includes(p.id) ||
+        w.time >= attack.started + HARROW.spinWind + HARROW.spinTurn
+      )
+        continue;
       harrowWarnings.push({
         x: enemy.x,
         z: enemy.z,
         radius: HARROW.spinRadius,
         until: attack.started + HARROW.spinWind - w.time,
+        dodgeNearImpact: true,
       });
     } else if (
       (attack.kind === "Glide" || attack.kind === "Dive") &&
@@ -238,12 +246,14 @@ export function pilot(w: World, id: string): Input {
     const weight = escape / Math.max(0.25, warning.until);
     warningX += (distance > 0.01 ? dx / distance : 1) * weight;
     warningZ += (distance > 0.01 ? dz / distance : 0) * weight;
-    // A dodge can buy the extra travel needed for a large ground sweep.
-    imminent ||=
-      escape >
-      MOVE_SPEED.walk *
-        (1 + 0.03 * (w.solo?.levels.move ?? 0)) *
-        Math.max(0, warning.until);
+    // Retreat throughout the warning, but keep the short invulnerability for
+    // contact. Half its duration leaves room for the next authoritative tick.
+    imminent ||= warning.dodgeNearImpact
+      ? warning.until <= EVADE_DURATION / 2
+      : escape >
+        MOVE_SPEED.walk *
+          (1 + 0.03 * (w.solo?.levels.move ?? 0)) *
+          Math.max(0, warning.until);
   }
   if (Math.hypot(warningX, warningZ) > 0.01) {
     // Do not pull back into an active red circle to maintain the usual lane.
@@ -288,15 +298,16 @@ export function pilot(w: World, id: string): Input {
   i.mz = Math.max(-1, Math.min(1, vx * Math.sin(i.yaw) - vz * Math.cos(i.yaw)));
   // Dodge close to impact; dodging at 0.6 seconds expires before the projectile arrives.
   i.dodge =
-    imminent ||
-    threateningBosses.some((a) => a.wind < 0.25) ||
-    w.enemies.some(
-      (a) =>
-        a.hp > 0 &&
-        a.wind > 0 &&
-        a.wind < 0.25 &&
-        Math.hypot(a.x - p.x, a.z - p.z) < 3,
-    );
+    p.evadeCd <= 0.05 &&
+    (imminent ||
+      threateningBosses.some((a) => a.wind < 0.25) ||
+      w.enemies.some(
+        (a) =>
+          a.hp > 0 &&
+          a.wind > 0 &&
+          a.wind < 0.25 &&
+          Math.hypot(a.x - p.x, a.z - p.z) < 3,
+      ));
   i.revive = true;
   return i;
 }

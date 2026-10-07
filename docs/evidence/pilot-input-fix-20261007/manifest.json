@@ -1,0 +1,103 @@
+{
+  "base": "1c2f4ba44348ab95558ca0362f4f50a561e900d0",
+  "branch": "codex/pilot-input-fix-20261007",
+  "evidence": [
+    {
+      "file": "after-boundaries.json",
+      "bytes": 12680,
+      "sha256": "44250da716033f13e0d254f4f2a9a2dcf866523a7965aae2c48b3694f498cd58"
+    },
+    {
+      "file": "after-boundaries.txt",
+      "bytes": 153,
+      "sha256": "fe74e163d7130a9aec21852c378d6cb7dd160ee91ba12ed1b4dff969f8f41f7d"
+    },
+    {
+      "file": "before-boundaries.json",
+      "bytes": 21371,
+      "sha256": "eb83a1cc1e163fc108a1b28ef8f2a1d83b4e059584ae2438fb3dfbc3c925e29d"
+    },
+    {
+      "file": "before-boundaries.txt",
+      "bytes": 154,
+      "sha256": "98a4580643b72d4452711789c007af873c7b9cc7e6067a383828058bd61cedec"
+    },
+    {
+      "file": "st25-execution.json",
+      "bytes": 756,
+      "sha256": "32b5362c34c8b361c9ac6a79f55a3fa110520012a59fe69a392545a910fb43ab"
+    },
+    {
+      "file": "st25-result.json",
+      "bytes": 7012,
+      "sha256": "a79520f46dca418458d84136c578225fdceadebda00345a8928ca29a28b7fbf3"
+    },
+    {
+      "file": "st25.txt",
+      "bytes": 7574,
+      "sha256": "a8bb94a9021546a04105d4e5553ff05b35409aaad3c697b995b7ce1618f6689d"
+    },
+    {
+      "file": "typecheck-config.json",
+      "bytes": 118,
+      "sha256": "b3ad93b53fe689d352a2d029060192414d37bb9876983d462f3efe95014415b3"
+    },
+    {
+      "file": "typecheck-exit.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "file": "typecheck.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "file": "tests/bot.ts",
+      "sha256": "3fd2629839da4768a3b3d988f0122d22f078a090db62c4fc0f4192ffa29911bf"
+    },
+    {
+      "file": "tests/stages.test.ts",
+      "sha256": "c62ad3aa6fc17a511e7fb2e9c9457f78458a8483a6671b60f727065a3d1a9f9c"
+    },
+    {
+      "file": "src/shared/game.ts",
+      "sha256": "18da950cf7f35ddce1dccc7c7af698f759439a8e8406e0ec42b0f63bfbcef855"
+    },
+    {
+      "file": "src/shared/aim.ts",
+      "sha256": "090453f28791a1313473a3754d953d8bde681a23901f5165535c0e9e20a5eb4d"
+    },
+    {
+      "file": "src/shared/defs.ts",
+      "sha256": "8c5fabfe9300c1eae7f44fafd79480a439be2956f9e3f01cc0bacdc198a34b94"
+    },
+    {
+      "file": "src/shared/harrow.ts",
+      "sha256": "a30615c1e4f643ee9ea348c1b97aee8177708a999351401353620b9d0a61195a"
+    },
+    {
+      "file": "src/shared/harrow-motion.ts",
+      "sha256": "34f70dcf1f90eb6fdce4f3fb266e6ea34f0d52eacc2fde8cc95e50130daa8a02"
+    },
+    {
+      "file": "vitest.config.ts",
+      "sha256": "c404d0b07411c6a5ee82d1d6e599507624d3d07a90388e23b3955f48af38273b"
+    },
+    {
+      "file": "tsconfig.json",
+      "sha256": "319bbf51731dc1eebfe3783d5a0e374176463b9ada6b9e9487af29c572dfeb97"
+    },
+    {
+      "file": "package.json",
+      "sha256": "d1a556a5c2639782bd8fe5bd2b0f35dce510f2e6aeaab3d6cef179f712a03a86"
+    },
+    {
+      "file": "package-lock.json",
+      "sha256": "5fc44d8cf39937c9234aeaea5c8994ad1c573f01fd31a490bab7b907a5e79dfb"
+    }
+  ],
+  "note": "Windowsの実行ログ。テキストの改行だけLFへ正規化。型の一時設定はdist-validation/pilot-input-fix-20261007/tsconfig.jsonで実行。"
+}
