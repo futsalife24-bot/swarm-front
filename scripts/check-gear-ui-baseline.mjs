@@ -22,6 +22,10 @@ try {
   await p.goto(origin+'/');await p.locator('#solo').click();await p.locator('#player-name').fill('UI検証');await p.locator('#player-name-form button[type=submit]').click();
   for(const organizing of [false,true]){
    if(organizing)await p.locator('#pt-organize').click();
+   // Layout baseline is measured after the real title-entry transform settles.
+   // During entry Chrome can report 30.0000076px for a 30px row.
+   await p.waitForFunction(()=>document.getAnimations().every(a=>
+    a.playState!=='running'||a.effect?.getTiming().iterations===Infinity));
    const state=await p.evaluate(()=>{
     const list=document.querySelector('.gear-weapon-list'),lr=list.getBoundingClientRect(),rows=[...list.querySelectorAll('[data-row]')];
     const head=list.querySelector('.pt-weapon-head').getBoundingClientRect();

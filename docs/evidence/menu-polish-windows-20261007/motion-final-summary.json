@@ -1,0 +1,218 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "errors": [],
+    "scenes": [
+      {
+        "name": "title",
+        "frames": 134,
+        "maxAnimations": 3
+      },
+      {
+        "name": "equip",
+        "frames": 110,
+        "maxAnimations": 5
+      },
+      {
+        "name": "craft",
+        "frames": 111,
+        "maxAnimations": 15
+      },
+      {
+        "name": "synthesis",
+        "frames": 116,
+        "maxAnimations": 30
+      },
+      {
+        "name": "growth",
+        "frames": 112,
+        "maxAnimations": 2
+      },
+      {
+        "name": "report",
+        "frames": 166,
+        "maxAnimations": 51
+      },
+      {
+        "name": "save-check",
+        "frames": 105,
+        "maxAnimations": 3
+      },
+      {
+        "name": "meter",
+        "frames": 169,
+        "maxAnimations": 3
+      },
+      {
+        "name": "front-guide",
+        "frames": 89,
+        "maxAnimations": 3
+      }
+    ],
+    "video": "844-no-preference.mp4"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "errors": [],
+    "scenes": [
+      {
+        "name": "title",
+        "frames": 171,
+        "maxAnimations": 0
+      },
+      {
+        "name": "equip",
+        "frames": 110,
+        "maxAnimations": 0
+      },
+      {
+        "name": "craft",
+        "frames": 116,
+        "maxAnimations": 0
+      },
+      {
+        "name": "synthesis",
+        "frames": 113,
+        "maxAnimations": 0
+      },
+      {
+        "name": "growth",
+        "frames": 114,
+        "maxAnimations": 0
+      },
+      {
+        "name": "report",
+        "frames": 166,
+        "maxAnimations": 0
+      },
+      {
+        "name": "save-check",
+        "frames": 105,
+        "maxAnimations": 0
+      },
+      {
+        "name": "meter",
+        "frames": 167,
+        "maxAnimations": 0
+      },
+      {
+        "name": "front-guide",
+        "frames": 109,
+        "maxAnimations": 0
+      }
+    ],
+    "video": "844-reduce.mp4"
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "errors": [],
+    "scenes": [
+      {
+        "name": "title",
+        "frames": 148,
+        "maxAnimations": 3
+      },
+      {
+        "name": "equip",
+        "frames": 108,
+        "maxAnimations": 5
+      },
+      {
+        "name": "craft",
+        "frames": 113,
+        "maxAnimations": 15
+      },
+      {
+        "name": "synthesis",
+        "frames": 111,
+        "maxAnimations": 30
+      },
+      {
+        "name": "growth",
+        "frames": 104,
+        "maxAnimations": 2
+      },
+      {
+        "name": "report",
+        "frames": 146,
+        "maxAnimations": 51
+      },
+      {
+        "name": "save-check",
+        "frames": 104,
+        "maxAnimations": 3
+      },
+      {
+        "name": "meter",
+        "frames": 164,
+        "maxAnimations": 3
+      },
+      {
+        "name": "front-guide",
+        "frames": 111,
+        "maxAnimations": 3
+      }
+    ],
+    "video": "640-no-preference.mp4"
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "errors": [],
+    "scenes": [
+      {
+        "name": "title",
+        "frames": 133,
+        "maxAnimations": 0
+      },
+      {
+        "name": "equip",
+        "frames": 108,
+        "maxAnimations": 0
+      },
+      {
+        "name": "craft",
+        "frames": 109,
+        "maxAnimations": 0
+      },
+      {
+        "name": "synthesis",
+        "frames": 111,
+        "maxAnimations": 0
+      },
+      {
+        "name": "growth",
+        "frames": 108,
+        "maxAnimations": 0
+      },
+      {
+        "name": "report",
+        "frames": 163,
+        "maxAnimations": 0
+      },
+      {
+        "name": "save-check",
+        "frames": 104,
+        "maxAnimations": 0
+      },
+      {
+        "name": "meter",
+        "frames": 170,
+        "maxAnimations": 0
+      },
+      {
+        "name": "front-guide",
+        "frames": 109,
+        "maxAnimations": 0
+      }
+    ],
+    "video": "640-reduce.mp4"
+  }
+]

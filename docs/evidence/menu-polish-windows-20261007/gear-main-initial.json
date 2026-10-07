@@ -1,0 +1,287 @@
+[
+  {
+    "width": 1280,
+    "height": 582,
+    "organizing": false,
+    "titleTop": 30.809358596801758,
+    "frameTop": 14.762483596801758,
+    "heading": 20,
+    "header": 41,
+    "rows": [
+      {
+        "row": 30,
+        "visible": true,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": true,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": true,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": true,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": true,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": true,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": true,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": true,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": true,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": true,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": true,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": false,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30.000030517578125,
+        "visible": false,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": false,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": false,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": false,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": false,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": false,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": false,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": false,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": false,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": false,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": false,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": false,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": false,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": false,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      },
+      {
+        "row": 30,
+        "visible": false,
+        "nameFits": true,
+        "scroll": 0,
+        "lockWidth": 28,
+        "lockRight": 1254,
+        "listRight": 1255,
+        "cellOverlap": false
+      }
+    ],
+    "visible": 11,
+    "footerClear": true,
+    "checks": 0,
+    "overflow": false
+  }
+]

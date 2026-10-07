@@ -1,4 +1,10 @@
-# 現在地: タイトル・メニュー演出の品質改善を実装・検証、独立監査待ち（2026-10-07）
+# 現在地: PR142のWindows再検証を完了、独立監査資料を準備中（2026-10-07）
+
+[PR142](https://github.com/futsalife24-bot/swarm-front/pull/142)、継続branch `ccr-3d467d84-o5t70k`、base `1026fccaa509723c74e1b85bbdde934afe6d82f6`、実装監査対象 `7ef32289a4662afa940c1c7accbfc9f42bb179e6`。mainの進行なし、開始時HEAD `f240329519f1fde57220f0094455e726bc8c1e2e`。Windowsのnpm ci/型/save147/front73/progression6/media3/build/server dry-run、通常/reducedメニュー・実通信・連続操作確認が成功。武器行は入場中の小数誤差をmainでも再現、演出の自然終了後に同じ厳格基準で両方8表示合格。製品ソース修正なし、確認スクリプトとWindows証拠を追加。[詳細](MENU-POLISH-WINDOWS.md)。
+
+iabの通常Chatへアクセスでき、既存Cloudflare認証も確認済み。共有UIの利用順を調整中、監査資料は未送信（監査Chat URL未確定）。独立監査・通常merge・公開・配信/UI照合は未実施。共有UI利用枠を受けて目視確認・対象SHA付きZIP送信から継続する。実非表示cleanup、実機タッチ、GPU長時間、全敵モデルは未実測。戦闘演出と兵士音声PR137は保留。
+
+# 前回の現在地: タイトル・メニュー演出の品質改善を実装・検証、独立監査待ち（2026-10-07）
 
 [下書きPR142](https://github.com/futsalife24-bot/swarm-front/pull/142)、branch `ccr-3d467d84-o5t70k`、base main `1026fccaa509723c74e1b85bbdde934afe6d82f6`、監査対象（実装）`7ef32289a4662afa940c1c7accbfc9f42bb179e6`。タイトル遷移線・装備線・作成/報酬粒子の開始/終了位置、段階付き演出の時間配分、育成確定・敵レポート・準備完了・保存チェック・改装版ガイド・試聴の表現を改善し、連続操作で古い演出が残る問題を修正。型、単体（save147/front66/progression6）、既存UI/実通信の確認2本、新規連続操作確認、本番build/dry-run成功。[変更・比較画像・限界](MENU-POLISH.md)。
 
@@ -2061,6 +2067,5 @@ EDFはミニマップが視点に追従して回転するためこの分担が�
 
 ## 2026-09-12 下向き移動のカメラ振動
 カメラ位置と注視点の補間基準を統一。原因・差分・修正前後の計測は docs/CAMERA-JITTER.md。
-
 
 

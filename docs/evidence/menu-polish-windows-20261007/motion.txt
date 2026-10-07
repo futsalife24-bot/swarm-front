@@ -1,0 +1,34 @@
+844-no-preference title 18 frames
+844-no-preference equip 78 frames
+844-no-preference craft 78 frames
+844-no-preference synthesis 78 frames
+844-no-preference growth 77 frames
+844-no-preference report 45 frames
+844-no-preference save-check 78 frames
+844-no-preference meter 139 frames
+844-no-preference front-guide 76 frames
+844-reduce title 19 frames
+844-reduce equip 79 frames
+844-reduce craft 79 frames
+844-reduce synthesis 79 frames
+844-reduce growth 79 frames
+844-reduce report 115 frames
+844-reduce save-check 79 frames
+844-reduce meter 139 frames
+844-reduce front-guide 74 frames
+file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/scripts/check-menu-polish-motion.mjs:21
+      const recorded = new Promise((resolve,reject)=>{recorder.on('error',reject);recorder.on('exit',code=>code===0?resolve():reject(Error(recorderError)));});
+                                                                                                                                     ^
+
+Error: [out#0/mp4 @ 000001f60066dec0] Output file does not contain any stream
+
+Error opening output file dist-validation/menu-polish-motion/640-no-preference.mp4.
+
+Error opening output files: Invalid argument
+
+
+    at ChildProcess.<anonymous> (file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/scripts/check-menu-polish-motion.mjs:21:134)
+    at ChildProcess.emit (node:events:509:28)
+    at ChildProcess._handle.onexit (node:internal/child_process:295:12)
+
+Node.js v24.19.0
