@@ -1,0 +1,18 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.waitFor: Timeout 65000ms exceeded.
+Call log:
+  - waiting for locator('#hud') to be visible
+    121 × locator resolved to hidden <div id="hud" hidden=""></div>
+
+    at C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\scripts\check-cave-foundry-browser.mjs:38:40 {
+  log: [
+    "  - waiting for locator('#hud') to be visible",
+    '    121 × locator resolved to hidden <div id="hud" hidden=""></div>'
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0

@@ -1,0 +1,20 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+browserContext.newPage: Executable doesn't exist at C:\Users\futsa\AppData\Local\ms-playwright\ffmpeg-1011\ffmpeg-win64.exe
+╔═════════════════════════════════════════════════════════════════╗
+║ Video rendering requires ffmpeg binary.                         ║
+║ Downloading it will not affect any of the system-wide settings. ║
+║ Please run the following command:                               ║
+║                                                                 ║
+║     npx playwright install ffmpeg                               ║
+║                                                                 ║
+║ <3 Playwright Team                                              ║
+╚═════════════════════════════════════════════════════════════════╝
+    at C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\scripts\check-cave-foundry-browser.mjs:13:32 {
+  log: [],
+  name: 'Error'
+}
+
+Node.js v24.19.0

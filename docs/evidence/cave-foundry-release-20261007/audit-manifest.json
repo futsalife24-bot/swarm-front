@@ -1,0 +1,576 @@
+{
+  "target": "672bc9c63a7558f39db347bdf1901ed5d4bc0d8f",
+  "base": "1c2f4ba44348ab95558ca0362f4f50a561e900d0",
+  "pr": "https://github.com/futsalife24-bot/swarm-front/pull/148",
+  "createdAt": "2026-10-08T00:00:42.0484364+09:00",
+  "sourceMethod": "git archive target SHA",
+  "scope": "洞窟増援の高度不整合、採用済み配置試験。変更していないGLB/Blender・vault・秘密・node_modulesは含めない",
+  "limits": "docs/CAVE-FOUNDRY-RELEASE.md",
+  "files": [
+    {
+      "sha256": "053de8d72192b11b8cb4763c5f8e143053eaf200c4e17b0b89b7fbf5b78d5eca",
+      "bytes": 35411,
+      "path": "change.diff"
+    },
+    {
+      "sha256": "38756f29146de5c0c66380d5219fe60aa6914213c53ad701a9c8c87fd82c7579",
+      "bytes": 10512,
+      "path": "docs/ADOPTED-MAP-SPAWNS.md"
+    },
+    {
+      "sha256": "7130575e6d0a6344ac1856ea0a0e4b32a0386bb9c4d8d7102c9e77e6391a7b63",
+      "bytes": 3735,
+      "path": "docs/CAVE-FOUNDRY-RELEASE.md"
+    },
+    {
+      "sha256": "9e41a13e60a386afb69a7a34750123bd142c492430275d31fab740b148750061",
+      "bytes": 3174,
+      "path": "docs/evidence/adopted-map-spawns-20261007/execution.json"
+    },
+    {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "bytes": 2,
+      "path": "docs/evidence/adopted-map-spawns-20261007/exit-code.txt"
+    },
+    {
+      "sha256": "5db04719233bbefcfb2fe716179b3d3879e15dea280f70e48d97c551923b100d",
+      "bytes": 2093,
+      "path": "docs/evidence/adopted-map-spawns-20261007/failure-analysis.json"
+    },
+    {
+      "sha256": "34f11e41db410c57e7cd54118442c9a0ee4feac67fda8fdb3f9f6569955ae778",
+      "bytes": 11695,
+      "path": "docs/evidence/adopted-map-spawns-20261007/manifest.json"
+    },
+    {
+      "sha256": "25718f4c6bbd19aceb7a33a6f5b8a23b23105d666c3197f4287f55a1391db824",
+      "bytes": 1460815,
+      "path": "docs/evidence/adopted-map-spawns-20261007/observations.json"
+    },
+    {
+      "sha256": "e093b20e38ee53629fa44d98abafd076b73ea4dc8744ea56dfff15dedb552b6b",
+      "bytes": 161317,
+      "path": "docs/evidence/adopted-map-spawns-20261007/result.json"
+    },
+    {
+      "sha256": "518fead27682f3d445ca0c09bf5746d8d408010a56d44eb55c92760806b4465a",
+      "bytes": 3485,
+      "path": "docs/evidence/adopted-map-spawns-20261007/run-once.mjs"
+    },
+    {
+      "sha256": "9a4b7e339af5c094acb4cdf5f75c5b8334e27a1fdf21c8927c3cd01a268e1085",
+      "bytes": 36559,
+      "path": "docs/evidence/adopted-map-spawns-20261007/run.txt"
+    },
+    {
+      "sha256": "b48ae48873a58fa519730f5636b2f564337e70518c0be362e01c25481c1682cb",
+      "bytes": 2558,
+      "path": "docs/evidence/adopted-map-spawns-20261007/summary.json"
+    },
+    {
+      "sha256": "31991088c5d4e0dee44c8051b5910cd3bfa2cff24702eec7944405e3e273a101",
+      "bytes": 114,
+      "path": "docs/evidence/adopted-map-spawns-20261007/typecheck-config.json"
+    },
+    {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "path": "docs/evidence/adopted-map-spawns-20261007/typecheck-exit.txt"
+    },
+    {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "bytes": 2,
+      "path": "docs/evidence/adopted-map-spawns-20261007/typecheck-initial-exit.txt"
+    },
+    {
+      "sha256": "190186a94c2288dd0054761e6a1031ca0e2525e6ca242d62ba941cb0dd8b4734",
+      "bytes": 675,
+      "path": "docs/evidence/adopted-map-spawns-20261007/typecheck-initial.txt"
+    },
+    {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "bytes": 2,
+      "path": "docs/evidence/adopted-map-spawns-20261007/typecheck-node-reference-exit.txt"
+    },
+    {
+      "sha256": "7c8978fa2e05850f1b538eedcfd557a739fac4daaf3f5850867f1d7a14cb4bec",
+      "bytes": 775,
+      "path": "docs/evidence/adopted-map-spawns-20261007/typecheck-node-reference.txt"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "path": "docs/evidence/adopted-map-spawns-20261007/typecheck.txt"
+    },
+    {
+      "sha256": "4e4117f720a8c63c9d554b242a06e3fd5edb62d72980c1d322ddb8594f90481a",
+      "bytes": 383,
+      "path": "docs/evidence/cave-foundry-release-20261007/browser-legacy.txt"
+    },
+    {
+      "sha256": "72b9e94a77832d6aff36442c1dd0ea3b96b5078d443f332832fd756ba793a758",
+      "bytes": 393,
+      "path": "docs/evidence/cave-foundry-release-20261007/browser.txt"
+    },
+    {
+      "sha256": "3a0030107b87660a4a8e1e1c208825d7107e7ba8282246eae313e30ee5076ca8",
+      "bytes": 151981,
+      "path": "docs/evidence/cave-foundry-release-20261007/browser/640-st10.png"
+    },
+    {
+      "sha256": "c22592ad07c8d3e760327cc886960f961f99c57f551de434fb1ab436410fcb8f",
+      "bytes": 244707,
+      "path": "docs/evidence/cave-foundry-release-20261007/browser/640-st16.png"
+    },
+    {
+      "sha256": "9a7f82353a43313033284282eef4b1d99d94c23759094fb908fcc92dca8280d6",
+      "bytes": 267404,
+      "path": "docs/evidence/cave-foundry-release-20261007/browser/844-st10.png"
+    },
+    {
+      "sha256": "8844bbb0b1d380ee2637e713464a0c4f4e80b32c4bceb64a31ad5da57a86e75e",
+      "bytes": 236835,
+      "path": "docs/evidence/cave-foundry-release-20261007/browser/844-st16.png"
+    },
+    {
+      "sha256": "7e7fd2c14b4b332befb2fb398cb8c863f74bf6a4aaf52c2232aafe3cf4ead7f8",
+      "bytes": 12095,
+      "path": "docs/evidence/cave-foundry-release-20261007/browser/result.json"
+    },
+    {
+      "sha256": "42cc27d7f7fbb8c680d0116697241e1acd9b41f5ca42509ee587d244d21b8f02",
+      "bytes": 2964,
+      "path": "docs/evidence/cave-foundry-release-20261007/build.txt"
+    },
+    {
+      "sha256": "741329322ecfd5025075997b2049ad9e25f1bd28b531a57cfaab07586fcce90f",
+      "bytes": 3109,
+      "path": "docs/evidence/cave-foundry-release-20261007/cave-browser-check.txt"
+    },
+    {
+      "sha256": "76ad142cdc31c8b1ff8fcbbb6ae3df67402a2a44e7190177ceaeb6a646d13efd",
+      "bytes": 4877,
+      "path": "docs/evidence/cave-foundry-release-20261007/cave-browser-final.txt"
+    },
+    {
+      "sha256": "204c8df63af892155bee5f3bea13c40aa206a022969035ead31c5229f83203f9",
+      "bytes": 120,
+      "path": "docs/evidence/cave-foundry-release-20261007/cave-browser-pass.txt"
+    },
+    {
+      "sha256": "3a7264c266897334ae43ddb08a8a5128c392885c29da87dec9bdb631b2a9d849",
+      "bytes": 368,
+      "path": "docs/evidence/cave-foundry-release-20261007/cave-browser-v2.txt"
+    },
+    {
+      "sha256": "c93165e3d17d6b15a80c24332f6ff0c74536e7bdf9b2f7470f5914ff2ce0b76d",
+      "bytes": 1667,
+      "path": "docs/evidence/cave-foundry-release-20261007/cave-browser-v3.txt"
+    },
+    {
+      "sha256": "60b61cd49f63090bd81cd4c985a483567690891e87c7a3166d9fcaf002e00e12",
+      "bytes": 545,
+      "path": "docs/evidence/cave-foundry-release-20261007/cave-browser-v4.txt"
+    },
+    {
+      "sha256": "12e19af60565b4a552232c51383d2a5c436df3d69fed3c40d64c97c50524db24",
+      "bytes": 547,
+      "path": "docs/evidence/cave-foundry-release-20261007/cave-browser-v5.txt"
+    },
+    {
+      "sha256": "92824b215b8c0d3ed510d93af9a42d4d3d9a9d2c2f76ab4805c219c6fd1ef21e",
+      "bytes": 1272,
+      "path": "docs/evidence/cave-foundry-release-20261007/cave-browser.txt"
+    },
+    {
+      "sha256": "b304f1f70943197f41e3877eeef78bfb72c5c8e6e778a96e457d5a80cf2d81b8",
+      "bytes": 91,
+      "path": "docs/evidence/cave-foundry-release-20261007/comparison.json"
+    },
+    {
+      "sha256": "115d2673303a033a3d719f31e872b3c3e9dfc4691a9de61cb49ab67e11c3bbc9",
+      "bytes": 121,
+      "path": "docs/evidence/cave-foundry-release-20261007/network-retry.txt"
+    },
+    {
+      "sha256": "bca620847c45f680b9429b060e9b4d20a8ad10eefc1e7617cef86153e0dd35e1",
+      "bytes": 725,
+      "path": "docs/evidence/cave-foundry-release-20261007/network.json"
+    },
+    {
+      "sha256": "6731bdf73f606dff1a92a926b4f911029c4153b20cb544649fc006150dc3e080",
+      "bytes": 1459019,
+      "path": "docs/evidence/cave-foundry-release-20261007/observations.json"
+    },
+    {
+      "sha256": "987ab61e17b9d2d61752fa1b9ea5e9265553d0aa6b7265213cd7cc5cb293ffcc",
+      "bytes": 208707,
+      "path": "docs/evidence/cave-foundry-release-20261007/result.json"
+    },
+    {
+      "sha256": "95f9f3b9c53e07ba31654f8cfeb97361291b9ba8b58645746bd0b939d52241ea",
+      "bytes": 833,
+      "path": "docs/evidence/cave-foundry-release-20261007/test-summary.json"
+    },
+    {
+      "sha256": "3cd94853a6483ebffff7fa50d3ed225f317a4e7181edb757e8968efb7871505b",
+      "bytes": 2135,
+      "path": "docs/evidence/cave-foundry-release-20261007/tests.txt"
+    },
+    {
+      "sha256": "c0f7833da2803d20d8fdbcc4b1d2e77c0690c3a83442c9ed6d989c939953ba79",
+      "bytes": 85,
+      "path": "docs/evidence/cave-foundry-release-20261007/typecheck.txt"
+    },
+    {
+      "sha256": "c70e318e46303fe9feef13e4826e6d8c5c03fca0f99b15766cb850b46b869860",
+      "bytes": 815,
+      "path": "docs/evidence/cave-foundry-release-20261007/worker-dry-run.txt"
+    },
+    {
+      "sha256": "5fc44d8cf39937c9234aeaea5c8994ad1c573f01fd31a490bab7b907a5e79dfb",
+      "bytes": 101747,
+      "path": "package-lock.json"
+    },
+    {
+      "sha256": "d1a556a5c2639782bd8fe5bd2b0f35dce510f2e6aeaab3d6cef179f712a03a86",
+      "bytes": 2073,
+      "path": "package.json"
+    },
+    {
+      "sha256": "d88a1422c926d8438235d30d3e5750d408371a4cec4075edcd03f74e1ba87a55",
+      "bytes": 4575,
+      "path": "scripts/check-cave-foundry-browser.mjs"
+    },
+    {
+      "sha256": "f97ceb4bbb69dc1caca03c7f4796bea693185f162d55f2c9d9b68267f2f0cee7",
+      "bytes": 1268,
+      "path": "scripts/check-cave-foundry-release.mjs"
+    },
+    {
+      "sha256": "e739fdc463e29fbb86a0871951e4c8359bc6a324e4d6188b3c38ae8cea6e5eb3",
+      "bytes": 5980,
+      "path": "scripts/check-foundry-network.mjs"
+    },
+    {
+      "sha256": "85a92617822c3bab0f89d1fb4e52298826006ef20bb7b2c6ec57ad84323107c8",
+      "bytes": 10693,
+      "path": "server/admin-page.ts"
+    },
+    {
+      "sha256": "9309186a807664e27581db2601d110bcd2b75b29a8345eac269402bfb763a4b2",
+      "bytes": 1490,
+      "path": "server/admin-proxy.ts"
+    },
+    {
+      "sha256": "54c1ba2288c1b3d7838d4b94073a9180bb1b04dbe9c95aa2a7ca0359dc63a5b9",
+      "bytes": 9600,
+      "path": "server/app-analytics.ts"
+    },
+    {
+      "sha256": "7fad3ab78c41b7df91c4dc640f04daba41810623c2da88aa0e1a140c74c3be81",
+      "bytes": 1680,
+      "path": "server/auth.ts"
+    },
+    {
+      "sha256": "a18c0cb206be56c5bd38dc360db04cd0e7ebaacd0b8a81ea27cf4f16f8df7fa6",
+      "bytes": 5777,
+      "path": "server/developer-auth.ts"
+    },
+    {
+      "sha256": "1a5d867914a12a567fc508c9057da73bb9d24feffc7632aa569e241cee3504f2",
+      "bytes": 13816,
+      "path": "server/player-vault.ts"
+    },
+    {
+      "sha256": "27c9ea363d3677808a5826a270f4b5a42124860ac79c7914717c014035b054ef",
+      "bytes": 3589,
+      "path": "server/project-hub.ts"
+    },
+    {
+      "sha256": "e7f60286b00d215ee60dd43976866215361e576f851b55c5168827f9d8af30fa",
+      "bytes": 9830,
+      "path": "server/testing.ts"
+    },
+    {
+      "sha256": "7234e3caec6795bdb52b09f12f620a7b2948e535484c39b62233cb8dd59c9aa2",
+      "bytes": 60864,
+      "path": "server/worker.ts"
+    },
+    {
+      "sha256": "090453f28791a1313473a3754d953d8bde681a23901f5165535c0e9e20a5eb4d",
+      "bytes": 1052,
+      "path": "src/shared/aim.ts"
+    },
+    {
+      "sha256": "d49eb2bcc09f0e653076969c07244e5a6fa692ce55a58d0dcafd510b65c9b557",
+      "bytes": 200,
+      "path": "src/shared/arena.ts"
+    },
+    {
+      "sha256": "7c70d247032b7d3dee3523473053759d7137558b66869cd0dc660e03e592670a",
+      "bytes": 600,
+      "path": "src/shared/calendar.ts"
+    },
+    {
+      "sha256": "c74aa3b3300db85a4ca7ffb01f1b80ae2dc947c6f1de2e18a477cc7c91c31ead",
+      "bytes": 8762,
+      "path": "src/shared/calyx.ts"
+    },
+    {
+      "sha256": "83170a847dcfad1ae7906dd8d9d5d23d654fa57191f364e2d799e118ae57e793",
+      "bytes": 1161,
+      "path": "src/shared/campaign.ts"
+    },
+    {
+      "sha256": "4e2de6da90206a553ce6b787a3625b82672e0fa2233579461f0d0bf6bf06d89c",
+      "bytes": 4262,
+      "path": "src/shared/cave.ts"
+    },
+    {
+      "sha256": "e623cd16530c96a037dccbb5501b9a3ef1141beba9dcccb5c9137497672bd653",
+      "bytes": 2625,
+      "path": "src/shared/daily-defense.ts"
+    },
+    {
+      "sha256": "a0287b970a47569b4eebc29cde38c37e01c4770c8ca70b4ecf42c983b6d30f81",
+      "bytes": 3633,
+      "path": "src/shared/daily-rewards.ts"
+    },
+    {
+      "sha256": "8c5fabfe9300c1eae7f44fafd79480a439be2956f9e3f01cc0bacdc198a34b94",
+      "bytes": 16631,
+      "path": "src/shared/defs.ts"
+    },
+    {
+      "sha256": "c65207746273c73a193784b1cc4d10086a3029c2ba306b7c6c071aae6a0384bc",
+      "bytes": 5754,
+      "path": "src/shared/enemy-motion.ts"
+    },
+    {
+      "sha256": "3e913d0538c2a0c05357222bc1f11bccbfd3f3859adf181e3b016eaac546e3a4",
+      "bytes": 958,
+      "path": "src/shared/enemy-size.ts"
+    },
+    {
+      "sha256": "8023c95f1d973534e0b4d1b62b7bb61242ba5670d6633547c8b6ba8ecbb34325",
+      "bytes": 1636,
+      "path": "src/shared/foundry-defs.ts"
+    },
+    {
+      "sha256": "d5328c22b073721a0a8e63bc3b9740ed16bea2c0a29e339bc2ee89c2ad94e662",
+      "bytes": 7836,
+      "path": "src/shared/foundry-navigation.ts"
+    },
+    {
+      "sha256": "e949ef32a855f5f05d477f788a03f22e5b4e4b4da98b7f601d23d1de8796ba12",
+      "bytes": 4438,
+      "path": "src/shared/foundry-spawning.ts"
+    },
+    {
+      "sha256": "88d89d55dced3b78ad2f61d7c345683af99aed6d9e6b11f6beb92619435ac5f4",
+      "bytes": 17833,
+      "path": "src/shared/front-combat.ts"
+    },
+    {
+      "sha256": "3216b92bf6047738af608c1bb1530708c8488d63af9f4b9691d4e4026b264edd",
+      "bytes": 13005,
+      "path": "src/shared/front-legacy-combat.ts"
+    },
+    {
+      "sha256": "23d9d730a5154930c50b1f164cdbaf714456d8bfaea3431b2b7b43d7590591b8",
+      "bytes": 16530,
+      "path": "src/shared/front-legacy-run.ts"
+    },
+    {
+      "sha256": "353f9f6a3ab87cd70289cddc7ed028511f8035a6e20970d3fdca8dbb6b60cbab",
+      "bytes": 21389,
+      "path": "src/shared/front-legacy-upgrades.ts"
+    },
+    {
+      "sha256": "0a215a13c42da660ff0e23aa6434d8b9ab6fcc093b5ce940bb5b1a5be6386f71",
+      "bytes": 286,
+      "path": "src/shared/front-request-id.ts"
+    },
+    {
+      "sha256": "131b7353a9b37d7d94541b61ac2e24ab3d45b7e4e20d88e6d59d7f0442b71cd7",
+      "bytes": 21706,
+      "path": "src/shared/front-run.ts"
+    },
+    {
+      "sha256": "64f1bd0f18b37bc3cb8d90bd68dd2d30e77fcc977177545a0522e89964d85150",
+      "bytes": 32357,
+      "path": "src/shared/front-upgrades.ts"
+    },
+    {
+      "sha256": "a068f814a72db0646978853d83904f036bad1eb11c73fb188ffc1b0cc6dc4763",
+      "bytes": 65645,
+      "path": "src/shared/game.ts"
+    },
+    {
+      "sha256": "34f70dcf1f90eb6fdce4f3fb266e6ea34f0d52eacc2fde8cc95e50130daa8a02",
+      "bytes": 702,
+      "path": "src/shared/harrow-motion.ts"
+    },
+    {
+      "sha256": "a30615c1e4f643ee9ea348c1b97aee8177708a999351401353620b9d0a61195a",
+      "bytes": 14499,
+      "path": "src/shared/harrow.ts"
+    },
+    {
+      "sha256": "f23cf909f023d88765e6dc2213c47ca57d6d0925bcbe1ea98bea37cc09aaa345",
+      "bytes": 16833,
+      "path": "src/shared/legacy-campaign.ts"
+    },
+    {
+      "sha256": "d8b59e31b53850d299dc794790b19ac61d297f32aab0bc3af94c130fbb984359",
+      "bytes": 423,
+      "path": "src/shared/map-blocks.ts"
+    },
+    {
+      "sha256": "effdf8536564d967e6d8559206ee060c424689674c0639d4c10821384007c175",
+      "bytes": 9601,
+      "path": "src/shared/progression.ts"
+    },
+    {
+      "sha256": "f090c6e7267aac474b6f43c24d9737313eb29bc029bb8356f5afac2ac8213a14",
+      "bytes": 9094,
+      "path": "src/shared/rebuild-combat.ts"
+    },
+    {
+      "sha256": "7ffdecbb908f466ab7896cf4f2df996dd793270a956f2321b901f5ac5f261a05",
+      "bytes": 14039,
+      "path": "src/shared/rebuild-run.ts"
+    },
+    {
+      "sha256": "6eb061892576f4fcfab24c12899700bcd9c073f7cab8df2f4650d0374646ee0a",
+      "bytes": 17521,
+      "path": "src/shared/rebuild-upgrades.ts"
+    },
+    {
+      "sha256": "08d5aac5d93490555f1eb0041882e54e7e0234eeb5d89aa364d9d3a164b0bc88",
+      "bytes": 4619,
+      "path": "src/shared/rock.ts"
+    },
+    {
+      "sha256": "dcf3c36132487b7610e58dfe945c1364f4a5901f8e5df7f8a375fe05df400a6c",
+      "bytes": 1754,
+      "path": "src/shared/room-directory.ts"
+    },
+    {
+      "sha256": "9861e970bb4b9950de034c970238afcaf53bdc216a55de3cde2e8e28900006e8",
+      "bytes": 1294,
+      "path": "src/shared/social.ts"
+    },
+    {
+      "sha256": "e47c0b0ee7e29c207aad5fec49d7cea5cb12ca669f240196d214ca7d7f7c6d41",
+      "bytes": 7685,
+      "path": "src/shared/solo-progression.ts"
+    },
+    {
+      "sha256": "2c9568dd918b7ca5f41b899db34e42b241090c3a09f247ed9c1b0f0af491c383",
+      "bytes": 15105,
+      "path": "src/shared/stages.ts"
+    },
+    {
+      "sha256": "41fb9d7686ca1c81537458a16c8ee58fd82a34101d18332793702951fe6d93d4",
+      "bytes": 4484,
+      "path": "src/shared/state-wire.ts"
+    },
+    {
+      "sha256": "1229d286b58887de0c166940d156f2e6767182a12de111b88a1ee983a463fec2",
+      "bytes": 2925,
+      "path": "src/shared/structure-ai.ts"
+    },
+    {
+      "sha256": "2d6043fcb03a73675f471929d7d1a5da8be536b4e1f9b93563daae9eab1c9661",
+      "bytes": 732,
+      "path": "src/shared/structure-timing.ts"
+    },
+    {
+      "sha256": "d0b786043fc3148f24af419731ddee721d9310bc7a705cc99b29f739f97be762",
+      "bytes": 6728,
+      "path": "src/shared/terrain.ts"
+    },
+    {
+      "sha256": "6e1f358ff68b09719d5ad6fe79b7acd3466b243014a57c5b51b820d24ce67c2c",
+      "bytes": 1178,
+      "path": "src/shared/training.ts"
+    },
+    {
+      "sha256": "161286f5ec6a314f97e905f4be15e6e7b765c4769eaf1521f8e5f1c4445dbd32",
+      "bytes": 2081,
+      "path": "src/shared/weekly-missions.ts"
+    },
+    {
+      "sha256": "acc7ebf077ac8026526be5f77c4e1904e35601b0fb5db3261114002c61ddc6f9",
+      "bytes": 14308,
+      "path": "src/shared/worm.ts"
+    },
+    {
+      "sha256": "d21aedf5bd508572c066e7577c796f1f8ee0c492c813f427b8274d128d4389d4",
+      "bytes": 5391,
+      "path": "tests/enemy-size.test.ts"
+    },
+    {
+      "sha256": "f80e390bed4a54e67ad3e42f7bbaeda4ea73b17e6ca315810fe0041ea9ce4b70",
+      "bytes": 7784,
+      "path": "tests/foundry-generation.test.ts"
+    },
+    {
+      "sha256": "57236a074ac5688dc60082c48c1d3e0f1dca11a5050e14286d4826527dd984cd",
+      "bytes": 16046,
+      "path": "tests/foundry-movement.test.ts"
+    },
+    {
+      "sha256": "6bbe8dedfce5b60cbf592ac0cf8fc98d768cfd47971b469cd0c23df1e4d219a8",
+      "bytes": 24623,
+      "path": "tests/game.test.ts"
+    },
+    {
+      "sha256": "be172d3dd8481a60098a52ebdbffca77c5d93ee3f95359a14ad7f5b1e253cbff",
+      "bytes": 4470,
+      "path": "tests/hornet.test.ts"
+    },
+    {
+      "sha256": "11190c7bb8e0ed2b328036f103851282110e0473e6e45d7d105383d564476d3c",
+      "bytes": 8025,
+      "path": "tests/maps-adopted-spawns.test.ts"
+    },
+    {
+      "sha256": "71712a9830fef49ea504907e3a921b9599067c99ee78b66716446c0bc16b4379",
+      "bytes": 16098,
+      "path": "tests/terrain.test.ts"
+    },
+    {
+      "sha256": "319bbf51731dc1eebfe3783d5a0e374176463b9ada6b9e9487af29c572dfeb97",
+      "bytes": 277,
+      "path": "tsconfig.json"
+    },
+    {
+      "sha256": "bb777805228a0ed5c2eb9c2e48980015f82fdcabff1835570f057c2899791e9d",
+      "bytes": 285,
+      "path": "tsconfig.worker.json"
+    },
+    {
+      "sha256": "bb032f5f54133b0493c088cdc2245bf0256f934af5cc6ae09d13f9227a809db3",
+      "bytes": 713,
+      "path": "vite.config.ts"
+    },
+    {
+      "sha256": "c404d0b07411c6a5ee82d1d6e599507624d3d07a90388e23b3955f48af38273b",
+      "bytes": 2222,
+      "path": "vitest.config.ts"
+    },
+    {
+      "sha256": "4800a7bf3cc6019f084688c82c19ba55dd0a9d53f1f5fdcce06a5fc32c215318",
+      "bytes": 718,
+      "path": "wrangler.production.jsonc"
+    },
+    {
+      "sha256": "3809f4afce06f81fb05cc5b8c05c39022269bc1deaa531d129d0cbf28d3b0ca3",
+      "bytes": 470,
+      "path": "wrangler.test.jsonc"
+    }
+  ]
+}

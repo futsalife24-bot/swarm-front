@@ -1,0 +1,44 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.selectOption: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('#pt-stage')
+    - locator resolved to <select hidden="" id="pt-stage" aria-label="ステージ" data-game-select="true">…</select>
+  - attempting select option action
+    2 × waiting for element to be visible and enabled
+      - element is not visible
+    - retrying select option action
+    - waiting 20ms
+    2 × waiting for element to be visible and enabled
+      - element is not visible
+    - retrying select option action
+      - waiting 100ms
+    59 × waiting for element to be visible and enabled
+       - element is not visible
+     - retrying select option action
+       - waiting 500ms
+
+    at C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\scripts\check-cave-foundry-browser.mjs:35:39 {
+  log: [
+    "  - waiting for locator('#pt-stage')",
+    '    - locator resolved to <select hidden="" id="pt-stage" aria-label="ステージ" data-game-select="true">…</select>',
+    '  - attempting select option action',
+    '    2 × waiting for element to be visible and enabled',
+    '      - element is not visible',
+    '    - retrying select option action',
+    '    - waiting 20ms',
+    '    2 × waiting for element to be visible and enabled',
+    '      - element is not visible',
+    '    - retrying select option action',
+    '      - waiting 100ms',
+    '    59 × waiting for element to be visible and enabled',
+    '       - element is not visible',
+    '     - retrying select option action',
+    '       - waiting 500ms'
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0

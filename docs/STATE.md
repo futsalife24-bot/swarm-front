@@ -1,4 +1,29 @@
-# 現在地: PR146を通常merge・既存Worker公開、配信26件/公開8条件成功（2026-10-07）
+# 現在地: 洞窟増援の高度修正、独立監査・main反映・公開を進行中（2026-10-07）
+
+本人「公開までやって」で前回の限定範囲を拡張。branch `codex/adopted-map-spawns-20261007`、base main `1c2f4ba44348ab95558ca0362f4f50a561e900d0`。洞窟で通常spawnの高さ上限を増援の候補判定と最終配置へ共通適用する修正。通常spawnの式、洞窟以外の増援、抽選/数/通信/保存/UI/素材は保持。
+
+Windows型チェック・関連7ファイル857件・本番build・production dry-run成功。採用済み配置696件は全成功、元の失敗証拠は保持。草原/雪峡の4,292観測が修正前後一致。実ローカルWorker2接続のST6増援通信も成功。洞窟ST10/ST16のChrome表示確認・通常新規Chatでの独立監査を行い、合格後に通常PR merge・既存Worker公開・配信/health/公開画面照合へ続ける。
+
+対象SHA `672bc9c63a7558f39db347bdf1901ed5d4bc0d8f`、[PR148](https://github.com/futsalife24-bot/swarm-front/pull/148)。2026-10-08、iabの通常新規[監査Chat](https://chatgpt.com/c/6ac65eb3-82dc-83ee-b828-a1da443b6e8d)で確定判定 **合格、P0/P1/P2すべて0**。任意1は洞窟実Worker頭部撃破E2E追加で公開阻止ではない。[回答全文](evidence/cave-foundry-release-20261007/audit-final.md)。独立再計算は実個体半径で修正前12/1260違反→修正後0。ZIP113ファイルのSHA一致、diff/ソース/証拠を照合。監査側の依存取得未完でVitest/Vite/Wranglerの独立再実行は未達。製品修正の追加なし、対象以後は記録のみ。通常merge→main build/dry-run→既存Worker公開へ進める。現時点は未統合・未公開。詳細/限界は [CAVE-FOUNDRY-RELEASE.md](CAVE-FOUNDRY-RELEASE.md)。モデルID・推論設定は未確認。
+
+## 前回: 採用済み出現の限定1回試験、694成功・洞窟増援2失敗を記録（2026-10-07）
+
+本人「作業再開」で `codex/adopted-map-spawns-20261007` / 停止記録 `bbd2657682a78113a5afc21d143711be7ea7dcbf` から継続。base/product `1c2f4ba44348ab95558ca0362f4f50a561e900d0`、再開時もローカルmain・origin/main・GitHub main一致clean。新しい隔離候補 `tests/maps-adopted-spawns.test.ts` のみ作成、元mapsと期待値/skip条件は保持。草原・雪峡・洞窟の固定許可表・床接続・seed 1〜30の通常/連結炉増援を確認した。
+
+Windows限定型確認/実行補助構文成功後、22:51 JSTに**1回だけ**実行し696件中694成功・2失敗、skip 0。草原242/雪峡242全成功、洞窟210成功・2失敗。通常出現690個体と増援元600個体は衝突なし、増援4200個体のうち洞窟hornet 2個体（未抽選seed22/抽選済みseed17）が最終高度の天井判定で失敗。候補選択のcruiseと、地面高加算・洞窟上限5を失う最終上書きの不整合を記録した。[結果・原因・限界](ADOPTED-MAP-SPAWNS.md)、[実行記録](evidence/adopted-map-spawns-20261007/execution.json)。型確認の初期Node型不足2回も保存。
+
+候補・製品・既存maps・設定は実行後も不変、失敗後の修正/再試行なし。文書・証拠・候補だけを自己レビューして本branchへcommit/pushする。今回の有限確認は失敗を記録して完了し、製品修正・UI・独立Chat・PR・main反映・公開は範囲外。実任務での同一位置・次tick・見え方・高台版・全作戦・編集保存の拒否は未確認。次の高度処理修正は別指示で選定する。本記録を自動再実行や修正の予定にしない。モデルID・推論設定は未確認。
+
+## 前回の停止記録（再開済み）
+
+branch `codex/adopted-map-spawns-20261007`、開始HEAD/base `1c2f4ba44348ab95558ca0362f4f50a561e900d0`。完了済みの洞窟契約調査 `b8ea4bc695cc22381cef26dcc7366d484d942352` を保持し、次の候補用branchを最新mainから作成、既存テスト・出現編成・実行方法を読み取った時点で本人が全作業の停止を指示した。
+
+新しい限定テストファイルは未作成。構文/型確認・限定試験とも未開始で、ゲーム実行0。既存`tests/maps.test.ts`・製品・設定・CI・Hooksは不変。この停止記録だけをローカルcommitし、新しい外部送信・push・UI・独立Chat・PR・main反映・公開は行わない。開始時と停止時の作業treeはclean、今回起動した専用process・UI・保有UI枠はない。
+
+停止理由: 本人の明示指示「ぼちぼち各作業は止めて」に従った終了。未完了は採用済み編成の有限許可表、隔離テスト作成、型確認、1回の実行と結果保存。完了や成功とは扱わない。
+再開条件: 本人の新しい指示。本記録を自動再開の予定にしない。公開状態は下記PR146のまま。モデルID・推論設定は未確認。
+
+## 公開済み: PR146を通常merge・既存Worker公開、配信26件/公開8条件成功
 
 [PR146](https://github.com/futsalife24-bot/swarm-front/pull/146)通常merge、公開ソースmain `b10e685b7a13374bfb66e06feeb47a9d162ca064`、Worker Version `356a85b3-e4c2-468e-aeb7-1f455277f1f5`。基地の固定開幕3枠を撤去し、チェック候補6〜22種から重複なしランダム3択。旧デッキ名/pool保持、ソロ/協力共通。初回監査P2の更新前後の通信混在保護を修正し、[同じChat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)再監査の対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2` は必須0で合格。
 

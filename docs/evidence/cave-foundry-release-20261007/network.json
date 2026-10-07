@@ -1,0 +1,44 @@
+{
+  "pass": true,
+  "realWorker": true,
+  "clients": 2,
+  "fixture": "initial middle cut and 1HP head only",
+  "normalInputDestroyedHead": true,
+  "generationCount": 3,
+  "detachedExcluded": true,
+  "survivingBodyCount": 6,
+  "peerMatches": true,
+  "straightLaser": {
+    "id": 5,
+    "x": 0.38,
+    "y": 1.8,
+    "z": -28.77,
+    "dx": -6.9,
+    "dy": -10.95,
+    "dz": -58.59,
+    "gravity": 0,
+    "life": 1.6166666666666667,
+    "owner": "enemy",
+    "damage": 9.5,
+    "rocket": false,
+    "style": "laser"
+  },
+  "generated": [
+    {
+      "id": 6,
+      "kind": "hornet"
+    },
+    {
+      "id": 7,
+      "kind": "spider"
+    },
+    {
+      "id": 8,
+      "kind": "hornet"
+    }
+  ],
+  "errors": [
+    [],
+    []
+  ]
+}

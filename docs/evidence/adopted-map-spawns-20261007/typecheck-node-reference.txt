@@ -1,0 +1,4 @@
+tests/maps-adopted-spawns.test.ts(1,23): error TS2688: Cannot find type definition file for 'node'.
+tests/maps-adopted-spawns.test.ts(3,31): error TS2591: Cannot find name 'node:fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+tests/maps-adopted-spawns.test.ts(76,7): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+tests/maps-adopted-spawns.test.ts(78,7): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.

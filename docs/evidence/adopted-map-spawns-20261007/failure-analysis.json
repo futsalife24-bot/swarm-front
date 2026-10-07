@@ -1,0 +1,67 @@
+{
+  "method": "記録済み位置と現行cave.tsの数式による算出。製品関数・試験・stepの追加実行ではない。MAP_SCALE=2。 増援順からordinalを静的に推定し、enemy-size.tsの個体表から出現前の半径を算出。元のform=crownは子のspawn既定引数で、増援元の実ボス形態はworm。",
+  "failures": [
+    {
+      "route": "foundry-random",
+      "map": 5,
+      "stage": 10,
+      "seed": 22,
+      "kind": "hornet",
+      "form": "crown",
+      "position": {
+        "x": -33.00000000000001,
+        "y": 7.846668809611776,
+        "z": 3.1961524227066302
+      },
+      "radius": 1.15,
+      "collision": true,
+      "childIndex": 5,
+      "clearance": 2.486598572608167,
+      "ceiling": 8.57107393788466,
+      "top": 8.996668809611776,
+      "ceilingExcess": 0.42559487172711563,
+      "groundFromFinalAltitude": 1.346668809611776,
+      "baseCruiseTop": 7.65,
+      "lateralPass": true,
+      "requestedKind": "random",
+      "sourceForm": "worm",
+      "childFormArgument": "crown",
+      "ordinalInferred": 6,
+      "placementRadiusInferred": 1.81125,
+      "precheckTopInferred": 8.31125,
+      "precheckLateralPass": true,
+      "precheckCeilingPass": true
+    },
+    {
+      "route": "foundry-pinned",
+      "map": 5,
+      "stage": 10,
+      "seed": 17,
+      "kind": "hornet",
+      "form": "crown",
+      "position": {
+        "x": 43,
+        "y": 7.93845899850223,
+        "z": -42.80384757729337
+      },
+      "radius": 1.15,
+      "collision": true,
+      "childIndex": 5,
+      "clearance": 2.3590664256295257,
+      "ceiling": 8.436967088139836,
+      "top": 9.08845899850223,
+      "ceilingExcess": 0.6514919103623935,
+      "groundFromFinalAltitude": 1.43845899850223,
+      "baseCruiseTop": 7.65,
+      "lateralPass": true,
+      "requestedKind": "hornet",
+      "sourceForm": "worm",
+      "childFormArgument": "crown",
+      "ordinalInferred": 6,
+      "placementRadiusInferred": 1.81125,
+      "precheckTopInferred": 8.31125,
+      "precheckLateralPass": true,
+      "precheckCeilingPass": true
+    }
+  ]
+}
