@@ -1,0 +1,191 @@
+{
+  "source": "1c2f4ba44348ab95558ca0362f4f50a561e900d0",
+  "generatedAtUtc": "2026-10-07T10:57:59.7187909Z",
+  "evidence": [
+    {
+      "path": "environment.json",
+      "sha256": "de5c6f86dac333da5c1d7fa4df93e07037ce656ad4ddc3006edec4e33c945a50",
+      "bytes": 627
+    },
+    {
+      "path": "exit-code.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "bytes": 2
+    },
+    {
+      "path": "result.json",
+      "sha256": "0be882a59b9049c6d6ebbfeababe9d9a1906cdf280ce4245103cb13fc56aa58e",
+      "bytes": 24542
+    },
+    {
+      "path": "run.txt",
+      "sha256": "8e28e3b3f7ab22b5ea325ca3578c8d5769c30448d7bb2cf03a03fda03006194a",
+      "bytes": 141
+    },
+    {
+      "path": "summary.json",
+      "sha256": "dec86eecc2680d656d51e995e9dd5295dc1cf84d5aa8506505cb502d3a4dd99f",
+      "bytes": 3071
+    }
+  ],
+  "referencedSources": [
+    {
+      "path": "tests/aim.test.ts",
+      "sha256": "fe39b0a0b9f7ef8555ac70847e5ff769d9ccb0bc7f1dd5ed343026167998a32b",
+      "bytes": 6603,
+      "workingTreeSha256": "fe39b0a0b9f7ef8555ac70847e5ff769d9ccb0bc7f1dd5ed343026167998a32b"
+    },
+    {
+      "path": "tests/maps.test.ts",
+      "sha256": "9962ae2643464586cd88d4dae8c8f8bf707c46b4e89cac82a74fbe19b4b2124c",
+      "bytes": 3641,
+      "workingTreeSha256": "9962ae2643464586cd88d4dae8c8f8bf707c46b4e89cac82a74fbe19b4b2124c"
+    },
+    {
+      "path": "tests/render.test.ts",
+      "sha256": "7d9a679e17a9a2ca0bbaa5dca76e4587d4057fa5d2dd821e22085c11818e14ee",
+      "bytes": 4827,
+      "workingTreeSha256": "7d9a679e17a9a2ca0bbaa5dca76e4587d4057fa5d2dd821e22085c11818e14ee"
+    },
+    {
+      "path": "tests/stages.test.ts",
+      "sha256": "87a0f7b4587cc0737dd08bf19cf11d105956c6608109237744ec8cc0055f1432",
+      "bytes": 7491,
+      "workingTreeSha256": "87a0f7b4587cc0737dd08bf19cf11d105956c6608109237744ec8cc0055f1432"
+    },
+    {
+      "path": "tests/weapon-stat-marks.test.ts",
+      "sha256": "e6d691b6166d081c7c3582d53804f0d94ceb6130fd1b1e64d52641ffa0ab56bb",
+      "bytes": 4861,
+      "workingTreeSha256": "e6d691b6166d081c7c3582d53804f0d94ceb6130fd1b1e64d52641ffa0ab56bb"
+    },
+    {
+      "path": "tests/bot.ts",
+      "sha256": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+      "bytes": 9843,
+      "workingTreeSha256": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869"
+    },
+    {
+      "path": "vitest.config.ts",
+      "sha256": "c404d0b07411c6a5ee82d1d6e599507624d3d07a90388e23b3955f48af38273b",
+      "bytes": 2222,
+      "workingTreeSha256": "c404d0b07411c6a5ee82d1d6e599507624d3d07a90388e23b3955f48af38273b"
+    },
+    {
+      "path": "package.json",
+      "sha256": "d1a556a5c2639782bd8fe5bd2b0f35dce510f2e6aeaab3d6cef179f712a03a86",
+      "bytes": 2073,
+      "workingTreeSha256": "d1a556a5c2639782bd8fe5bd2b0f35dce510f2e6aeaab3d6cef179f712a03a86"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "5fc44d8cf39937c9234aeaea5c8994ad1c573f01fd31a490bab7b907a5e79dfb",
+      "bytes": 101747,
+      "workingTreeSha256": "5fc44d8cf39937c9234aeaea5c8994ad1c573f01fd31a490bab7b907a5e79dfb"
+    },
+    {
+      "path": "src/shared/game.ts",
+      "sha256": "18da950cf7f35ddce1dccc7c7af698f759439a8e8406e0ec42b0f63bfbcef855",
+      "bytes": 65368,
+      "workingTreeSha256": "18da950cf7f35ddce1dccc7c7af698f759439a8e8406e0ec42b0f63bfbcef855"
+    },
+    {
+      "path": "src/shared/defs.ts",
+      "sha256": "8c5fabfe9300c1eae7f44fafd79480a439be2956f9e3f01cc0bacdc198a34b94",
+      "bytes": 16631,
+      "workingTreeSha256": "8c5fabfe9300c1eae7f44fafd79480a439be2956f9e3f01cc0bacdc198a34b94"
+    },
+    {
+      "path": "src/shared/enemy-size.ts",
+      "sha256": "3e913d0538c2a0c05357222bc1f11bccbfd3f3859adf181e3b016eaac546e3a4",
+      "bytes": 958,
+      "workingTreeSha256": "3e913d0538c2a0c05357222bc1f11bccbfd3f3859adf181e3b016eaac546e3a4"
+    },
+    {
+      "path": "src/shared/cave.ts",
+      "sha256": "4e2de6da90206a553ce6b787a3625b82672e0fa2233579461f0d0bf6bf06d89c",
+      "bytes": 4262,
+      "workingTreeSha256": "4e2de6da90206a553ce6b787a3625b82672e0fa2233579461f0d0bf6bf06d89c"
+    },
+    {
+      "path": "src/shared/harrow.ts",
+      "sha256": "a30615c1e4f643ee9ea348c1b97aee8177708a999351401353620b9d0a61195a",
+      "bytes": 14499,
+      "workingTreeSha256": "a30615c1e4f643ee9ea348c1b97aee8177708a999351401353620b9d0a61195a"
+    },
+    {
+      "path": "src/shared/stages.ts",
+      "sha256": "2c9568dd918b7ca5f41b899db34e42b241090c3a09f247ed9c1b0f0af491c383",
+      "bytes": 15105,
+      "workingTreeSha256": "2c9568dd918b7ca5f41b899db34e42b241090c3a09f247ed9c1b0f0af491c383"
+    },
+    {
+      "path": "src/client/combat-effects.ts",
+      "sha256": "e3c9961e5fde6419d8abefc9cc2c1f77e48d8b747889e1a22f4ffb4d512a2abe",
+      "bytes": 10483,
+      "workingTreeSha256": "e3c9961e5fde6419d8abefc9cc2c1f77e48d8b747889e1a22f4ffb4d512a2abe"
+    },
+    {
+      "path": "src/client/gear-weapon-list.ts",
+      "sha256": "9492732d9ec05273b740078aaa721c627ca052c2ce3ee4c67e51d676093ac905",
+      "bytes": 5661,
+      "workingTreeSha256": "9492732d9ec05273b740078aaa721c627ca052c2ce3ee4c67e51d676093ac905"
+    },
+    {
+      "path": "src/client/weapon-help.ts",
+      "sha256": "39e23d3debf6d8857e5b961e2e5d420dc5e9721b880979ad8dcfda342c449fe7",
+      "bytes": 11099,
+      "workingTreeSha256": "39e23d3debf6d8857e5b961e2e5d420dc5e9721b880979ad8dcfda342c449fe7"
+    },
+    {
+      "path": "docs/MONSTER-SIZE-150.md",
+      "sha256": "89f74b4d45372e339671ee8ae241327b5fb7a4f64966599beceb2bd2496be13b",
+      "bytes": 3494,
+      "workingTreeSha256": "89f74b4d45372e339671ee8ae241327b5fb7a4f64966599beceb2bd2496be13b"
+    },
+    {
+      "path": "docs/CALYX.md",
+      "sha256": "cb7c958918da1927ee1b207465bb8b2bab74c1999c7c5fe44046a19b94d54ec9",
+      "bytes": 6706,
+      "workingTreeSha256": "cb7c958918da1927ee1b207465bb8b2bab74c1999c7c5fe44046a19b94d54ec9"
+    },
+    {
+      "path": "docs/COMBAT-EFFECTS.md",
+      "sha256": "ddd7862312154b6282806d39e36b7f96a42625f7a451161dff2d4ab52650d13f",
+      "bytes": 6083,
+      "workingTreeSha256": "ddd7862312154b6282806d39e36b7f96a42625f7a451161dff2d4ab52650d13f"
+    },
+    {
+      "path": "docs/FRONT-EXPANSION-EFFECTS-RELEASE.md",
+      "sha256": "adc5e29ec8ae656d20cd0500ea19f3c6ea793b594c27b52dc5e9e9297403af68",
+      "bytes": 3400,
+      "workingTreeSha256": "adc5e29ec8ae656d20cd0500ea19f3c6ea793b594c27b52dc5e9e9297403af68"
+    },
+    {
+      "path": "docs/HARROW-INTEGRATION.md",
+      "sha256": "ede72f946dcc1bc6aa03b052f1ea4ae7552cca6a0bf3172f5911165b9a5fa37f",
+      "bytes": 19158,
+      "workingTreeSha256": "ede72f946dcc1bc6aa03b052f1ea4ae7552cca6a0bf3172f5911165b9a5fa37f"
+    },
+    {
+      "path": "docs/HARROW-BALANCE-V8.md",
+      "sha256": "48215147d2495bde7bdfa089543eec69f248623ece9925aa20c5426f0e8ee9d8",
+      "bytes": 14204,
+      "workingTreeSha256": "48215147d2495bde7bdfa089543eec69f248623ece9925aa20c5426f0e8ee9d8"
+    },
+    {
+      "path": "docs/MENU-POLISH.md",
+      "sha256": "0f6383f729006c07f73c8bfdda85d7da9c3df1ada7e0172955677fb4b5fa0614",
+      "bytes": 6971,
+      "workingTreeSha256": "0f6383f729006c07f73c8bfdda85d7da9c3df1ada7e0172955677fb4b5fa0614"
+    },
+    {
+      "path": "docs/MENU-POLISH-RELEASE.md",
+      "sha256": "fd0e3a778b65a3718376a0d677c3aedec7e8c9cb73469cd81722ed441fbd2a1d",
+      "bytes": 5101,
+      "workingTreeSha256": "fd0e3a778b65a3718376a0d677c3aedec7e8c9cb73469cd81722ed441fbd2a1d"
+    }
+  ],
+  "encoding": "証拠テキストはUTF-8/LFへ改行だけ正規化。result.jsonの内容は無変更。実行元原本はdist-validation/unit-baseline-20261007に保持。",
+  "sourceHashBasis": "referencedSources.sha256は対象source commitのGit blob。workingTreeSha256は実行に用いた作業ファイル。"
+}

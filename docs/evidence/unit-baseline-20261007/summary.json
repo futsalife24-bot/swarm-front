@@ -1,0 +1,99 @@
+{
+  "source": "1c2f4ba44348ab95558ca0362f4f50a561e900d0",
+  "branch": "codex/unit-baseline-investigation-20261007",
+  "executionCount": 1,
+  "environment": "Windows/Node、既定Vitest設定",
+  "testFiles": 5,
+  "collected": 57,
+  "passed": 53,
+  "failedAssertions": 4,
+  "collectionFailureFiles": 1,
+  "exitCode": 1,
+  "categories": {
+    "environment": 1,
+    "unresolved": 2,
+    "staleExpectation": 2,
+    "confirmedProductDefect": 0
+  },
+  "files": [
+    {
+      "file": "tests/aim.test.ts",
+      "classification": "仕様や期待値の古さ",
+      "status": "failed",
+      "passed": 9,
+      "failed": 1,
+      "collected": 10,
+      "collectionError": "",
+      "failures": [
+        {
+          "name": "camera-aligned authoritative shots sends accurate rockets through the center target at near/far and elevated angles",
+          "message": "AssertionError: expected 1.8750000000000022 to be close to 1.25, received difference is 0.6250000000000022, but expected 5e-7"
+        }
+      ]
+    },
+    {
+      "file": "tests/maps.test.ts",
+      "classification": "未確定",
+      "status": "failed",
+      "passed": 5,
+      "failed": 1,
+      "collected": 6,
+      "collectionError": "",
+      "failures": [
+        {
+          "name": "晶脈の地底巣 has connected walkable passages and safe enemy entries",
+          "message": "AssertionError: expected true to be false // Object.is equality"
+        }
+      ]
+    },
+    {
+      "file": "tests/render.test.ts",
+      "classification": "仕様や期待値の古さ",
+      "status": "failed",
+      "passed": 5,
+      "failed": 1,
+      "collected": 6,
+      "collectionError": "",
+      "failures": [
+        {
+          "name": "uses a short moving bullet, bounds the blast ring and releases finished effects",
+          "message": "AssertionError: expected -6 to be close to -7.5, received difference is 1.5, but expected 0.005"
+        }
+      ]
+    },
+    {
+      "file": "tests/stages.test.ts",
+      "classification": "未確定",
+      "status": "failed",
+      "passed": 34,
+      "failed": 1,
+      "collected": 35,
+      "collectionError": "",
+      "failures": [
+        {
+          "name": "stage 25 completes within the time limit using legal endgame gear and ordinary inputs",
+          "message": "AssertionError: Stage 25, time 128.1499999999949, kills 78: expected 'defeat' to be 'victory' // Object.is equality"
+        }
+      ]
+    },
+    {
+      "file": "tests/weapon-stat-marks.test.ts",
+      "classification": "環境不足",
+      "status": "failed",
+      "passed": 0,
+      "failed": 0,
+      "collected": 0,
+      "collectionError": "document is not defined",
+      "failures": []
+    }
+  ],
+  "limitations": [
+    "製品不具合0確定は不具合なしを意味しない",
+    "JSON reporterに途中の戦闘状態・被弾ログなし",
+    "旧SHAの再実行なし",
+    "ブラウザ・UI・実通信・Worker・全件単体の実行なし",
+    "ソース・テスト・設定の変更なし"
+  ],
+  "modelId": "未確認",
+  "reasoningEffort": "未確認"
+}

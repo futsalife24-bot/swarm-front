@@ -1,4 +1,12 @@
-# 現在地: PR146を通常merge・既存Worker公開、配信26件/公開8条件成功（2026-10-07）
+# 現在地: 既定単体5ファイルの有限調査を完了、製品main・公開は不変（2026-10-07）
+
+対象main/base `1c2f4ba44348ab95558ca0362f4f50a561e900d0`、調査branch `codex/unit-baseline-investigation-20261007`。Windows/Node v24.19.0/Vitest 5.0.0で`aim / maps / render / stages / weapon-stat-marks`だけを1回実行。53件成功・4件失敗＋1ファイル読込停止。古い期待値2、環境不足1、未確定2に分類。照準は敵1.5倍化、弾表示は速度150→120に旧期待値が残る。DOM依存で性能印試験は未実行。洞窟で全敵種を強制出現させる試験対象域と、ST25の128.15秒/78撃破での敗北は未確定。製品不具合の有無を断定せず、[根拠・最小対応案・証拠](UNIT-BASELINE-INVESTIGATION.md)へ記録。
+
+今回の範囲は分類と記録・既存GitHubへの保存まで。製品/テスト/設定/依存/Hook/CI変更、修正実装、全件単体、ブラウザ、独立監査、main merge、再公開は行わない。PR・監査Chatの新規作成なし。次に調べる場合はST25の被弾元/入力/敵状態を限定記録し、操縦と難易度の原因を分ける。この記録だけで追加調査を自動実行しない。モデルID/推論設定未確認。
+
+前の実非表示調査は別branch `codex/visibility-cleanup-investigation-20261007` / `85388dcba3c13bae0d8f43b34012751c82685885`に保存済み。UI057返却・専用Chrome/Vite/temp片付け済み、trusted hiddenは未観測。今回もUI使用・非表示再試行なし。公開ソース`b10e685`/Worker `356a85b3-e4c2-468e-aeb7-1f455277f1f5`とPR146/147の完了は下記のまま維持。
+
+## PR146を通常merge・既存Worker公開、配信26件/公開8条件成功（2026-10-07）
 
 [PR146](https://github.com/futsalife24-bot/swarm-front/pull/146)通常merge、公開ソースmain `b10e685b7a13374bfb66e06feeb47a9d162ca064`、Worker Version `356a85b3-e4c2-468e-aeb7-1f455277f1f5`。基地の固定開幕3枠を撤去し、チェック候補6〜22種から重複なしランダム3択。旧デッキ名/pool保持、ソロ/協力共通。初回監査P2の更新前後の通信混在保護を修正し、[同じChat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)再監査の対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2` は必須0で合格。
 

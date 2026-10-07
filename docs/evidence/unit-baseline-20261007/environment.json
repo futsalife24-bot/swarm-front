@@ -1,0 +1,13 @@
+{
+  "source": "1c2f4ba44348ab95558ca0362f4f50a561e900d0",
+  "branch": "codex/unit-baseline-investigation-20261007",
+  "node": "v24.19.0",
+  "os": "Microsoft Windows NT 10.0.26200.0",
+  "platform": "win32",
+  "vitest": "5.0.0",
+  "config": "vitest.config.ts",
+  "fileParallelism": false,
+  "executionCount": 1,
+  "command": "node node_modules/vitest/vitest.mjs run tests/aim.test.ts tests/maps.test.ts tests/render.test.ts tests/stages.test.ts tests/weapon-stat-marks.test.ts --config vitest.config.ts --reporter=json --outputFile=dist-validation/unit-baseline-20261007/result.json",
+  "atUtc": "2026-10-07T10:52:18.3095930Z"
+}
