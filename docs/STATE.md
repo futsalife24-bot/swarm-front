@@ -1,5 +1,9 @@
 # 現在地: 全体UIUXの必須2件を修正・検証、同じChatへの再監査準備（2026-10-07）
 
+再監査対象 `2a5639d5c289857efaec2e6da3782589cf01003d`、[PR144](https://github.com/futsalife24-bot/swarm-front/pull/144)、[同じ監査Chat](https://chatgpt.com/c/6ac5e3c4-0174-83e8-84b7-cee77d5e1e11)。修正ZIP `dist-validation/base-decks/audit/swarm-front-uiux-revision-2a5639d.zip`（8,467,341 bytes、168 files、SHA256 `9de7ad5098af9c9d2067b04f5f9bc9a12133858abf3b734cc3a05ba9ccfc72a7`）、manifest/CRC照合済みで未送信。
+
+15:55 JST時点の待機理由: 共有UI調整担当の貸出指示が、自動承認審査で具体payload/宛先の本人承認根拠不足として拒否され、UI024は未貸出。今回のユーザー提示AGENTSの「監査用ソース/差分/素材/証拠ZIPの初回・修正版送信」の継続承認と今回の対象を調整担当が照合中。拒否の迂回や旧貸出IDの再利用はしない。再開条件は、この根拠の照合後に通常の新規UI貸出を受けること。資料と独立工程は準備済み、旧初回監査は要修正のままなので未統合・未公開。
+
 修正commit `cd29362a25fcbebefeacbf0d1b5c5ccacf9f7141` をPR144へpush。型/front77・基地6条件（未保存名→出撃→戻る/呼出の保護を含む）・全108画面/ヘッダーボタン152箇所の44×36px・武器8条件が成功。844幅の武器完全表示6件も維持。修正commitから本番build/dry-runも成功。詳細 `docs/BASE-DECKS-UIUX.md` と証拠 `docs/evidence/base-decks-20261007/revision/`。対象SHAの差分資料を同じChatへ再提出する。未統合・未公開。
 
 15:36 JSTごろに[初回確定回答](evidence/base-decks-20261007/audit-first.md)を回収。対象 `27397543ed121f6fb52126205d135178c12ead74` はP0/P1各0・P2が2件で要修正。未保存デッキ名の状態を出撃適用時に消してしまう点と、短横画面の一部ヘッダーボタン28pxを修正する。名前の未保存状態を分離し、44×36pxの最小ボタン寸法と回帰検査を追加中。同じChatで再監査後に通常統合・公開する。未統合・未公開。UI021は返却済み。
