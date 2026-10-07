@@ -49,4 +49,18 @@ HP診断は試験中のアクセサで代入値をそのまま保持し、減少
 
 今回の範囲は自己レビュー・必要検証・調査branchへのcommit/pushと記録まで。UI・独立Chat監査・PR作成・main統合・既存Workerへの再公開は行わない。他の既知失敗を修正せず、全体テストが通ったとは扱わない。
 
-次案1件（未実施）: 同じ合法装備・既存期待値で**ST20 seed814を1回だけ**確認し、HARROWが出る別作戦への影響を確かめる。今回のST25成功を理由に全作戦の成功へ一般化しない。
+## ST20の追加有限確認（2026-10-07、20:42 JST）
+
+先に提案したST20だけの1回確認を実施した。対象は候補SHA **`933110668a456857765fb24940375cca9f572256`**（試験コードは`b582ee9`から不変）。開始時は同じbranch、HEAD/origin/remote一致・clean。先の局所試験JSONではST20がskipされていることと、当該SHAでのST20完了記録がないことを確認した。
+
+既存の合法装備、seed814、50ms刻み、12001tick上限、勝利と全撃破数の期待値を変えず、次の1件だけを実行した。ST25・局所8件・型・全件試験は反復していない。
+
+```powershell
+node node_modules/vitest/vitest.mjs run tests/stages.test.ts --config vitest.config.ts -t '^stage 20 completes within the time limit using legal endgame gear and ordinary inputs$' --reporter=default
+```
+
+**1成功・42skip、118.1秒・49撃破・残HP115.3で勝利。** 時間/HPは既存ログの小数第1位表示で、内部の全精度は出力されていない。各tickで実行される`validInput`アサーションを最後まで通過したが、入力の件数はST20ログに出力されていないため推定値を確定件数として書かない。勝利理由は既存の`w.phase === "victory"`と、予定される全敵数の撃破が検証できたこと。ゲーム内部の終了理由文字列は成功時のログに含まれない。
+
+実行前後のbot/test SHA256は一致。コード・製品値・期待値・CI・Hook・設定は変更しない。[実行回数/対象](evidence/pilot-input-fix-20261007/st20-execution.json)、[生ログ](evidence/pilot-input-fix-20261007/st20.txt)、[集計と精度](evidence/pilot-input-fix-20261007/st20-result.json)。後続commitは記録と証拠だけ。
+
+この1条件では修正済みpilotによるST20の勝利・入力受付の回帰は出なかった。ST20/ST25各seed814の成功を全作戦・別seed・人間の難度へ一般化しない。今回依頼された試験補助修正の有限確認に、追加の必須実行は残っていない。main統合・独立Chat・公開は今回の指示範囲外で実施せず、候補branchへ記録を保存して完了する。他の既知単体失敗や実機未確認項目は別範囲のまま。

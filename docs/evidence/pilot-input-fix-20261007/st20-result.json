@@ -1,0 +1,19 @@
+{
+  "source": "933110668a456857765fb24940375cca9f572256",
+  "stage": 20,
+  "seed": 814,
+  "executionCount": 1,
+  "result": "victory",
+  "displayedTimeSeconds": 118.1,
+  "kills": 49,
+  "displayedHp": 115.3,
+  "precision": "時間とHPは既存ログの小数第1位表示。内部の全精度は出力されていない。",
+  "validInputs": "毎tickの既存validInputアサーションを完走。入力件数は既存ログに出力なし。",
+  "checks": "合法装備、全入力受付、victory、予定全撃破数の既存assertionが成功",
+  "vitest": {
+    "passed": 1,
+    "skipped": 42
+  },
+  "codeUnchanged": true,
+  "limits": "ST20 seed814の1条件。全作戦・人の難度を保証しない。ST25/局所成功試験は今回再実行していない。"
+}

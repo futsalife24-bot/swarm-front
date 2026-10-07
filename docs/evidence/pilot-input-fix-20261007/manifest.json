@@ -23,6 +23,21 @@
       "sha256": "98a4580643b72d4452711789c007af873c7b9cc7e6067a383828058bd61cedec"
     },
     {
+      "file": "st20-execution.json",
+      "bytes": 924,
+      "sha256": "5f50a2aafe47f080ba3d45ec0610feed88a9465f8daf441d1504dd1e6c35ae1f"
+    },
+    {
+      "file": "st20-result.json",
+      "bytes": 775,
+      "sha256": "aab1a2ca8aed619cee9e6d215f16b9cd96da1708177a08bfc7fde0bdb3fe0e00"
+    },
+    {
+      "file": "st20.txt",
+      "bytes": 544,
+      "sha256": "051107ea74b2112bbb87ca6fcb7bcfb533a6197f899e5bbc3cd643b08387f778"
+    },
+    {
       "file": "st25-execution.json",
       "bytes": 756,
       "sha256": "32b5362c34c8b361c9ac6a79f55a3fa110520012a59fe69a392545a910fb43ab"
@@ -99,5 +114,11 @@
       "sha256": "5fc44d8cf39937c9234aeaea5c8994ad1c573f01fd31a490bab7b907a5e79dfb"
     }
   ],
-  "note": "Windowsの実行ログ。テキストの改行をLFへ揃え、通しログ末尾の空行だけを除去。実行元原本はdist-validation/pilot-input-fix-20261007へ保持。型の一時設定も同ディレクトリのtsconfig.jsonで実行。"
+  "note": "Windowsの実行ログ。テキストの改行をLFへ揃え、通しログ末尾の空行だけを除去。実行元原本はdist-validation/pilot-input-fix-20261007へ保持。型の一時設定も同ディレクトリのtsconfig.jsonで実行。",
+  "additionalVerification": {
+    "source": "933110668a456857765fb24940375cca9f572256",
+    "stage": 20,
+    "seed": 814,
+    "executionCount": 1
+  }
 }

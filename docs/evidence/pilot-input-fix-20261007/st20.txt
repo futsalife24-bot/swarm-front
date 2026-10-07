@@ -1,0 +1,13 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+stdout | tests/stages.test.ts > stage 20 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST20: 118.1s / 49 kills / HP 115.3
+
+ ✓ tests/stages.test.ts (43 tests | 42 skipped) 470ms
+   ✓ stage 20 completes within the time limit using legal endgame gear and ordinary inputs 469ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 42 skipped (43)
+   Start at  20:42:10
+   Duration  1.74s (import 53%, tests 29%, transform 18%)
