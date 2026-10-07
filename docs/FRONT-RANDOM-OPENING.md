@@ -40,6 +40,14 @@
 
 監査側は424entry hash・patchの基点への適用結果・GitHubの主要blobを独立照合。FrontNetworkを直接実行し旧Welcomeのtoken保持/equip未送信/切断/後着無視を確認。Room.webSocketMessageのCloudflare部分だけを最小モックし、旧equip→新Hello復帰、装備済み旧再接続→start停止、進行中offer/levels保持を実行した。旧initialCards残存の抽選と旧固定規則、協力画像も確認。監査環境のnpm ciタイムアウトにより提出Vitest/実Worker/Playwright一式の独立再実行は未達であり、Windows提出ログの成功照合と区別する。
 
+## main統合・既存Worker公開
+
+- [PR146](https://github.com/futsalife24-bot/swarm-front/pull/146)を通常merge。公開ソースmain `b10e685b7a13374bfb66e06feeb47a9d162ca064`。merge本文に日本語の`Player-Note:`を保持。
+- 同mainから本番build/production dry-run成功後、既存Workerへ公開。Version `356a85b3-e4c2-468e-aeb7-1f455277f1f5`。
+- 配信26/26 SHA一致、health200。[証拠](evidence/random-opening-20261007/release/delivery.json)。
+- UI048で公開Windows Chromeの基地844/640/1220 × 通常/reducedの6条件成功。旧固定欄なし・解除・保存/呼出/再読込・未保存名保護・融合素材・画像・画面寸法・協力入口を確認。公開版の開幕844通常/640 reducedの2条件も、補強6種だけの候補を保存→再読込→候補内3択→取得反映で成功。全条件pageerror/console error0。[基地](evidence/random-opening-20261007/release/public-base/base-checks.json)・[開幕](evidence/random-opening-20261007/release/public-opening/checks.json)。844基地と640開幕の実画像も目視、専用ブラウザ終了/貸出返却済み。本人の保存は操作していない。
+- 公開記録は[PR147](https://github.com/futsalife24-bot/swarm-front/pull/147)、branch `codex/pr146-release-record-20261007`。製品変更はなく、追加公開は不要。main反映後にローカルmain/origin/main/remote SHA一致とcleanを確認する。
+
 ## 限界
 
 UIUXはPR144で改装版・従来版へ適用した同一基準を継承し、今回影響する基地・開幕3択・協力・保存操作を再確認する。PR144の全108画面検査は今回再実行したものとは区別する。実機タッチ・GPU長時間・全敵モデル・全ミッション通過は未確認。モデルID・推論設定は未確認。
