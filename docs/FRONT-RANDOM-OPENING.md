@@ -40,6 +40,13 @@
 
 監査側は424entry hash・patchの基点への適用結果・GitHubの主要blobを独立照合。FrontNetworkを直接実行し旧Welcomeのtoken保持/equip未送信/切断/後着無視を確認。Room.webSocketMessageのCloudflare部分だけを最小モックし、旧equip→新Hello復帰、装備済み旧再接続→start停止、進行中offer/levels保持を実行した。旧initialCards残存の抽選と旧固定規則、協力画像も確認。監査環境のnpm ciタイムアウトにより提出Vitest/実Worker/Playwright一式の独立再実行は未達であり、Windows提出ログの成功照合と区別する。
 
+## main統合・既存Worker公開
+
+- [PR146](https://github.com/futsalife24-bot/swarm-front/pull/146)を通常merge。公開ソースmain `b10e685b7a13374bfb66e06feeb47a9d162ca064`。merge本文に日本語の`Player-Note:`を保持。
+- 同mainから本番build/production dry-run成功後、既存Workerへ公開。Version `356a85b3-e4c2-468e-aeb7-1f455277f1f5`。
+- 配信26/26 SHA一致、health200。[証拠](evidence/random-opening-20261007/release/delivery.json)。公開画面は新規UI貸出後に基地6条件/開幕2条件を確認する。
+- 公開記録branch `codex/pr146-release-record-20261007`。記録のmain反映と最終clean照合は公開UI完了後。
+
 ## 限界
 
 UIUXはPR144で改装版・従来版へ適用した同一基準を継承し、今回影響する基地・開幕3択・協力・保存操作を再確認する。PR144の全108画面検査は今回再実行したものとは区別する。実機タッチ・GPU長時間・全敵モデル・全ミッション通過は未確認。モデルID・推論設定は未確認。

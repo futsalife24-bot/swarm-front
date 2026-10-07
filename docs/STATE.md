@@ -1,5 +1,10 @@
-# 現在地: PR146の独立再監査合格、通常merge・既存Worker公開へ（2026-10-07）
+# 現在地: PR146を通常merge・既存Worker公開、配信26件一致・公開UI待ち（2026-10-07）
 
+[PR146](https://github.com/futsalife24-bot/swarm-front/pull/146)を通常merge。公開ソースmain `b10e685b7a13374bfb66e06feeb47a9d162ca064`、Worker Version `356a85b3-e4c2-468e-aeb7-1f455277f1f5`。mainからbuild/production dry-run成功後に既存Workerへ公開。配信26/26 SHA一致、health200。[配信証拠](evidence/random-opening-20261007/release/delivery.json)。
+
+独立再監査は対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2`・必須0で合格、初回P2修正済み。以後製品不変。公開版Windows Chrome基地6条件/開幕2条件の新UI貸出約5分を要求済み。記録branch `codex/pr146-release-record-20261007` で公開UI証拠と記録をPR→mainへ通常反映し、ローカルmain/origin/main一致clean・保管庫更新まで続ける。実機タッチ等の未確認・PR137保留は維持。
+
+## 直前の独立再監査
 17:57 JST、[同じ通常Chat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)の確定回答を回収。対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2`、P0/P1/P2/任意すべて0、初回P2-01は解消。[回答全文](evidence/random-opening-20261007/revision/audit-final.txt)。監査側はソースの直接実行と最小Cloudflareモックで混在/再接続/進行中保護を独立確認。npm ci制約によるVitest/実Workerの独立再実行未達は提出ログ検証と区別。
 
 UI046返却済み、当該監査回答の監視は終了。対象以後は文書/証拠のみで製品不変。PR146をReady→通常merge→main同期後build/production dry-run→既存Worker公開→配信/health/公開UI→公開記録main反映へ進める。公開後UIは新規貸出約5分を要求。現時点は未統合・未公開。
