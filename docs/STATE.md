@@ -1,4 +1,10 @@
-# 現在地: 本人が再監査ZIP送信を承認、同じChatへの送信を再開（2026-10-07）
+# 現在地: 修正版を同じChatへ送信済み、独立再監査の確定判定待ち（2026-10-07）
+
+16:08:56 JST、対象 `2a5639d5c289857efaec2e6da3782589cf01003d` の修正版ZIPを[同じ監査Chat](https://chatgpt.com/c/6ac5e3c4-0174-83e8-84b7-cee77d5e1e11)へ送信し、添付名と応答開始を確認。UI-20261007-026を返却済み。[PR144](https://github.com/futsalife24-bot/swarm-front/pull/144)は未統合・未公開。本人の明示承認で前回の送信承認待ちは解消している。監査対象以降はSTATE記録のみ、実装変更なし。
+
+資料: `dist-validation/base-decks/audit/swarm-front-uiux-revision-2a5639d.zip`、8,467,341 bytes、168ソース/証拠＋4補助ファイル、SHA256 `9de7ad5098af9c9d2067b04f5f9bc9a12133858abf3b734cc3a05ba9ccfc72a7`。初回必須P2の未保存名保護と短横画面ボタン寸法を修正・Windows検証済み。共通UIUX基準を維持して両修正と他画面への影響を再判定依頼。確定必須0の後、通常merge→main build/dry-run→既存Worker公開→配信/health/UI確認→公開記録main反映へ続ける。
+
+## 直前の経緯: 本人承認で再監査送信を再開
 
 本人がこの担当チャットで「承認」と明示。下記の対象2a5639d/168ファイルの同じ監査Chatへの送信を再開する。Git HEAD `0ec0bfdb3ffe3eb3f844b44c23d0fa991bd79baa`、clean、対象以降はSTATEのみ。ZIP SHA256も再照合済み。共有UIは別担当のUI025返却後に新規貸出を受けて使用する。本人承認待ちは解消、再監査判定・統合・公開は未完了。
 
