@@ -1,6 +1,6 @@
 # 現在地: PR142をmain統合・既存Worker公開、配信・Windows Chrome確認済み（2026-10-07）
 
-[PR142](https://github.com/futsalife24-bot/swarm-front/pull/142)通常merge、公開ソース `65c0ed30201138e3db2811b3158db70af2293d6a`、Worker `24caf74a-9d6a-4289-ba76-1e294caf3e9d`。独立監査は必須0・任意1、追加製品修正なし。Windowsの指定検証・実通信動画4条件、本番main build/dry-run成功。配信26/26一致・health200、公開Windows ChromeはSW有効の844/640通常/reduced全4条件でpageerror/console error各0・画像確認済み。公開IABの追加目視だけは別タブの保存保護で未確認とし、UI014を返却。強制解放はせず、任意の再確認は本人が既存ゲーム画面を閉じた後。公開記録を通常PRでmainへ反映する。[公開詳細](MENU-POLISH-RELEASE.md)。実非表示cleanup・実機タッチ・GPU長時間・全敵モデルは未実測。戦闘演出/PR137は保留。
+[PR142](https://github.com/futsalife24-bot/swarm-front/pull/142)通常merge、公開ソース `65c0ed30201138e3db2811b3158db70af2293d6a`、Worker `24caf74a-9d6a-4289-ba76-1e294caf3e9d`。独立監査は必須0・任意1、追加製品修正なし。Windowsの指定検証・実通信動画4条件、本番main build/dry-run成功。配信26/26一致・health200、公開Windows ChromeはSW有効の844/640通常/reduced全4条件でpageerror/console error各0・画像確認済み。公開IABの追加目視だけは別タブの保存保護で未確認とし、UI014を返却。強制解放はせず、任意の再確認は本人が既存ゲーム画面を閉じた後。公開記録は[PR143](https://github.com/futsalife24-bot/swarm-front/pull/143)。[公開詳細](MENU-POLISH-RELEASE.md)。実非表示cleanup・実機タッチ・GPU長時間・全敵モデルは未実測。戦闘演出/PR137は保留。
 
 # 前回の現在地: PR142の独立監査に合格、通常統合・公開へ（2026-10-07）
 

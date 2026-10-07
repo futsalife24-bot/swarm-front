@@ -24,4 +24,4 @@ Windowsのnpm ci、型、save147/front73/progression6/media3、本番build、Wor
 - 実際のタブ非表示cleanup、実機タッチ、GPU長時間負荷、全敵モデルは未実測。監査側Linuxは依存取得未完のため独自テストの再実行は成立せず、提出したWindowsログ・JSON・動画とソースの整合を独立照合した。
 - 初期IABのローカル5347で観測した一時装備成功線の原因は未特定。実配信ソース、別の新規入口、Windows Chromeの一時所持武器検査、公開版のSW有効4条件とは区別し、古い表示を合格根拠に含めない。
 - 戦闘演出と兵士音声PR137は保留を維持。使用モデルID・推論設定は未確認。
-- 公開記録は`codex/pr142-release-record-20261007`で保存し、通常PRでmainへ反映する。製品ソース変更を含まず再公開は不要。公開後のブラウザ検証スクリプトも再現用に保存。
+- 公開記録は`codex/pr142-release-record-20261007`、[PR143](https://github.com/futsalife24-bot/swarm-front/pull/143)に保存。製品ソース変更を含まず再公開は不要。公開後のブラウザ検証スクリプトも再現用に保存。
