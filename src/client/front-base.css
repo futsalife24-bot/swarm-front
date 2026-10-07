@@ -151,6 +151,15 @@ body.front-game #ui .base-tile button::after {
   gap: 5px;
   flex: 1;
 }
+body.front-game #ui .base-tile .base-check-toggle {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  min-height: 20px;
+  padding: 0;
+  margin: 0 1px 0 4px;
+  align-self: center;
+}
 .base-tile-pick > :is(img, .front-atlas-icon) {
   width: 38px;
   height: 38px;
@@ -196,7 +205,10 @@ body.front-game #ui .base-tile button::after {
   border-color: #c6f6d9;
   background: #c6f6d9;
 }
-body.front-game #ui .base-tile-pick:focus-visible {
+body.front-game
+  #ui
+  .base-tile
+  :is(.base-tile-pick, .base-check-toggle):focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: -2px;
 }

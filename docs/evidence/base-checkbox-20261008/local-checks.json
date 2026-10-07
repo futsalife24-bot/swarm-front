@@ -1,0 +1,674 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "openingSpace": {
+      "top": 146,
+      "height": 207,
+      "fullyVisible": 9
+    },
+    "metrics": {
+      "overflow": false,
+      "panel": {
+        "x": 12,
+        "y": 8,
+        "width": 820,
+        "height": 374,
+        "right": 832,
+        "bottom": 382
+      },
+      "grid": {
+        "x": 19,
+        "y": 146,
+        "width": 501.171875,
+        "height": 177,
+        "right": 520.171875,
+        "bottom": 323
+      },
+      "detail": {
+        "x": 530.171875,
+        "y": 106,
+        "width": 294.828125,
+        "height": 247,
+        "right": 825,
+        "bottom": 353
+      },
+      "actions": [
+        {
+          "x": 700.484375,
+          "y": 15,
+          "width": 76.515625,
+          "height": 36,
+          "right": 777,
+          "bottom": 51
+        },
+        {
+          "x": 781,
+          "y": 15,
+          "width": 44,
+          "height": 36,
+          "right": 825,
+          "bottom": 51
+        },
+        {
+          "x": 361,
+          "y": 64,
+          "width": 68.984375,
+          "height": 36,
+          "right": 429.984375,
+          "bottom": 100
+        },
+        {
+          "x": 435.984375,
+          "y": 64,
+          "width": 62.375,
+          "height": 36,
+          "right": 498.359375,
+          "bottom": 100
+        }
+      ],
+      "broken": []
+    },
+    "coop": {
+      "screen": "rooms",
+      "panel": {
+        "x": 22,
+        "y": 25,
+        "width": 800,
+        "height": 354,
+        "top": 25,
+        "right": 822,
+        "bottom": 379,
+        "left": 22
+      },
+      "browse": {
+        "x": 360.625,
+        "y": 96,
+        "width": 444.375,
+        "height": 239,
+        "top": 96,
+        "right": 805,
+        "bottom": 335,
+        "left": 360.625
+      }
+    },
+    "errors": [],
+    "consoleErrors": [],
+    "imageReadiness": [
+      {
+        "stage": "upgrades",
+        "pending": [],
+        "waitedMs": 42
+      },
+      {
+        "stage": "fusions",
+        "pending": [],
+        "waitedMs": 26
+      }
+    ],
+    "serviceWorkerControlled": false,
+    "unsavedNameGuard": "set → back/load/cancel retain → deck save clears",
+    "fusionRecipeBefore": "チェインノヴァ\n›\n導火\n✓ 候補に選択中\n＋\n爆域拡張\n✓ 候補に選択中\n\n素材2種を候補に選択済み\n\n素材を選択済み"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "openingSpace": {
+      "top": 146,
+      "height": 207,
+      "fullyVisible": 9
+    },
+    "metrics": {
+      "overflow": false,
+      "panel": {
+        "x": 12,
+        "y": 8,
+        "width": 820,
+        "height": 374,
+        "right": 832,
+        "bottom": 382
+      },
+      "grid": {
+        "x": 19,
+        "y": 146,
+        "width": 501.171875,
+        "height": 177,
+        "right": 520.171875,
+        "bottom": 323
+      },
+      "detail": {
+        "x": 530.171875,
+        "y": 106,
+        "width": 294.828125,
+        "height": 247,
+        "right": 825,
+        "bottom": 353
+      },
+      "actions": [
+        {
+          "x": 700.484375,
+          "y": 15,
+          "width": 76.515625,
+          "height": 36,
+          "right": 777,
+          "bottom": 51
+        },
+        {
+          "x": 781,
+          "y": 15,
+          "width": 44,
+          "height": 36,
+          "right": 825,
+          "bottom": 51
+        },
+        {
+          "x": 361,
+          "y": 64,
+          "width": 68.984375,
+          "height": 36,
+          "right": 429.984375,
+          "bottom": 100
+        },
+        {
+          "x": 435.984375,
+          "y": 64,
+          "width": 62.375,
+          "height": 36,
+          "right": 498.359375,
+          "bottom": 100
+        }
+      ],
+      "broken": []
+    },
+    "coop": {
+      "screen": "rooms",
+      "panel": {
+        "x": 22,
+        "y": 18,
+        "width": 800,
+        "height": 354,
+        "top": 18,
+        "right": 822,
+        "bottom": 372,
+        "left": 22
+      },
+      "browse": {
+        "x": 360.625,
+        "y": 89,
+        "width": 444.375,
+        "height": 239,
+        "top": 89,
+        "right": 805,
+        "bottom": 328,
+        "left": 360.625
+      }
+    },
+    "errors": [],
+    "consoleErrors": [],
+    "imageReadiness": [
+      {
+        "stage": "upgrades",
+        "pending": [],
+        "waitedMs": 85
+      },
+      {
+        "stage": "fusions",
+        "pending": [],
+        "waitedMs": 46
+      }
+    ],
+    "serviceWorkerControlled": false,
+    "unsavedNameGuard": "set → back/load/cancel retain → deck save clears",
+    "fusionRecipeBefore": "チェインノヴァ\n›\n導火\n✓ 候補に選択中\n＋\n爆域拡張\n✓ 候補に選択中\n\n素材2種を候補に選択済み\n\n素材を選択済み"
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "openingSpace": {
+      "top": 146,
+      "height": 177,
+      "fullyVisible": 6
+    },
+    "metrics": {
+      "overflow": false,
+      "panel": {
+        "x": 12,
+        "y": 8,
+        "width": 616,
+        "height": 344,
+        "right": 628,
+        "bottom": 352
+      },
+      "grid": {
+        "x": 19,
+        "y": 146,
+        "width": 366.765625,
+        "height": 177,
+        "right": 385.765625,
+        "bottom": 323
+      },
+      "detail": {
+        "x": 391.765625,
+        "y": 106,
+        "width": 229.234375,
+        "height": 217,
+        "right": 621,
+        "bottom": 323
+      },
+      "actions": [
+        {
+          "x": 502.484375,
+          "y": 15,
+          "width": 70.515625,
+          "height": 36,
+          "right": 573,
+          "bottom": 51
+        },
+        {
+          "x": 577,
+          "y": 15,
+          "width": 44,
+          "height": 36,
+          "right": 621,
+          "bottom": 51
+        },
+        {
+          "x": 257,
+          "y": 64,
+          "width": 68.984375,
+          "height": 36,
+          "right": 325.984375,
+          "bottom": 100
+        },
+        {
+          "x": 329.984375,
+          "y": 64,
+          "width": 62.375,
+          "height": 36,
+          "right": 392.359375,
+          "bottom": 100
+        }
+      ],
+      "broken": []
+    },
+    "coop": {
+      "screen": "rooms",
+      "panel": {
+        "x": 22,
+        "y": 25,
+        "width": 596,
+        "height": 324,
+        "top": 25,
+        "right": 618,
+        "bottom": 349,
+        "left": 22
+      },
+      "browse": {
+        "x": 343,
+        "y": 92,
+        "width": 264,
+        "height": 217,
+        "top": 92,
+        "right": 607,
+        "bottom": 309,
+        "left": 343
+      }
+    },
+    "errors": [],
+    "consoleErrors": [],
+    "imageReadiness": [
+      {
+        "stage": "upgrades",
+        "pending": [],
+        "waitedMs": 72
+      },
+      {
+        "stage": "fusions",
+        "pending": [],
+        "waitedMs": 91
+      }
+    ],
+    "serviceWorkerControlled": false,
+    "unsavedNameGuard": "set → back/load/cancel retain → deck save clears",
+    "fusionRecipeBefore": "チェインノヴァ\n›\n導火\n✓ 候補に選択中\n＋\n爆域拡張\n✓ 候補に選択中\n\n素材2種を候補に選択済み\n\n素材を選択済み"
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "openingSpace": {
+      "top": 146,
+      "height": 177,
+      "fullyVisible": 6
+    },
+    "metrics": {
+      "overflow": false,
+      "panel": {
+        "x": 12,
+        "y": 8,
+        "width": 616,
+        "height": 344,
+        "right": 628,
+        "bottom": 352
+      },
+      "grid": {
+        "x": 19,
+        "y": 146,
+        "width": 366.765625,
+        "height": 177,
+        "right": 385.765625,
+        "bottom": 323
+      },
+      "detail": {
+        "x": 391.765625,
+        "y": 106,
+        "width": 229.234375,
+        "height": 217,
+        "right": 621,
+        "bottom": 323
+      },
+      "actions": [
+        {
+          "x": 502.484375,
+          "y": 15,
+          "width": 70.515625,
+          "height": 36,
+          "right": 573,
+          "bottom": 51
+        },
+        {
+          "x": 577,
+          "y": 15,
+          "width": 44,
+          "height": 36,
+          "right": 621,
+          "bottom": 51
+        },
+        {
+          "x": 257,
+          "y": 64,
+          "width": 68.984375,
+          "height": 36,
+          "right": 325.984375,
+          "bottom": 100
+        },
+        {
+          "x": 329.984375,
+          "y": 64,
+          "width": 62.375,
+          "height": 36,
+          "right": 392.359375,
+          "bottom": 100
+        }
+      ],
+      "broken": []
+    },
+    "coop": {
+      "screen": "rooms",
+      "panel": {
+        "x": 22,
+        "y": 18,
+        "width": 596,
+        "height": 324,
+        "top": 18,
+        "right": 618,
+        "bottom": 342,
+        "left": 22
+      },
+      "browse": {
+        "x": 343,
+        "y": 85,
+        "width": 264,
+        "height": 217,
+        "top": 85,
+        "right": 607,
+        "bottom": 302,
+        "left": 343
+      }
+    },
+    "errors": [],
+    "consoleErrors": [],
+    "imageReadiness": [
+      {
+        "stage": "upgrades",
+        "pending": [],
+        "waitedMs": 35
+      },
+      {
+        "stage": "fusions",
+        "pending": [],
+        "waitedMs": 22
+      }
+    ],
+    "serviceWorkerControlled": false,
+    "unsavedNameGuard": "set → back/load/cancel retain → deck save clears",
+    "fusionRecipeBefore": "チェインノヴァ\n›\n導火\n✓ 候補に選択中\n＋\n爆域拡張\n✓ 候補に選択中\n\n素材2種を候補に選択済み\n\n素材を選択済み"
+  },
+  {
+    "width": 1220,
+    "height": 413,
+    "reducedMotion": "no-preference",
+    "openingSpace": {
+      "top": 146,
+      "height": 230,
+      "fullyVisible": 9
+    },
+    "metrics": {
+      "overflow": false,
+      "panel": {
+        "x": 50,
+        "y": 8,
+        "width": 1120,
+        "height": 397,
+        "right": 1170,
+        "bottom": 405
+      },
+      "grid": {
+        "x": 57,
+        "y": 146,
+        "width": 690.0625,
+        "height": 177,
+        "right": 747.0625,
+        "bottom": 323
+      },
+      "detail": {
+        "x": 757.0625,
+        "y": 106,
+        "width": 405.9375,
+        "height": 270,
+        "right": 1163,
+        "bottom": 376
+      },
+      "actions": [
+        {
+          "x": 1038.484375,
+          "y": 15,
+          "width": 76.515625,
+          "height": 36,
+          "right": 1115,
+          "bottom": 51
+        },
+        {
+          "x": 1119,
+          "y": 15,
+          "width": 44,
+          "height": 36,
+          "right": 1163,
+          "bottom": 51
+        },
+        {
+          "x": 399,
+          "y": 64,
+          "width": 68.984375,
+          "height": 36,
+          "right": 467.984375,
+          "bottom": 100
+        },
+        {
+          "x": 473.984375,
+          "y": 64,
+          "width": 62.375,
+          "height": 36,
+          "right": 536.359375,
+          "bottom": 100
+        }
+      ],
+      "broken": []
+    },
+    "coop": {
+      "screen": "rooms",
+      "panel": {
+        "x": 50,
+        "y": 18.692134857177734,
+        "width": 1120,
+        "height": 377,
+        "top": 18.692134857177734,
+        "right": 1170,
+        "bottom": 395.69213485717773,
+        "left": 50
+      },
+      "browse": {
+        "x": 519.53125,
+        "y": 89.692138671875,
+        "width": 633.46875,
+        "height": 262,
+        "top": 89.692138671875,
+        "right": 1153,
+        "bottom": 351.692138671875,
+        "left": 519.53125
+      }
+    },
+    "errors": [],
+    "consoleErrors": [],
+    "imageReadiness": [
+      {
+        "stage": "upgrades",
+        "pending": [],
+        "waitedMs": 65
+      },
+      {
+        "stage": "fusions",
+        "pending": [],
+        "waitedMs": 50
+      }
+    ],
+    "serviceWorkerControlled": false,
+    "unsavedNameGuard": "set → back/load/cancel retain → deck save clears",
+    "fusionRecipeBefore": "チェインノヴァ\n›\n導火\n✓ 候補に選択中\n＋\n爆域拡張\n✓ 候補に選択中\n\n素材2種を候補に選択済み\n\n素材を選択済み"
+  },
+  {
+    "width": 1220,
+    "height": 413,
+    "reducedMotion": "reduce",
+    "openingSpace": {
+      "top": 146,
+      "height": 230,
+      "fullyVisible": 9
+    },
+    "metrics": {
+      "overflow": false,
+      "panel": {
+        "x": 50,
+        "y": 8,
+        "width": 1120,
+        "height": 397,
+        "right": 1170,
+        "bottom": 405
+      },
+      "grid": {
+        "x": 57,
+        "y": 146,
+        "width": 690.0625,
+        "height": 177,
+        "right": 747.0625,
+        "bottom": 323
+      },
+      "detail": {
+        "x": 757.0625,
+        "y": 106,
+        "width": 405.9375,
+        "height": 270,
+        "right": 1163,
+        "bottom": 376
+      },
+      "actions": [
+        {
+          "x": 1038.484375,
+          "y": 15,
+          "width": 76.515625,
+          "height": 36,
+          "right": 1115,
+          "bottom": 51
+        },
+        {
+          "x": 1119,
+          "y": 15,
+          "width": 44,
+          "height": 36,
+          "right": 1163,
+          "bottom": 51
+        },
+        {
+          "x": 399,
+          "y": 64,
+          "width": 68.984375,
+          "height": 36,
+          "right": 467.984375,
+          "bottom": 100
+        },
+        {
+          "x": 473.984375,
+          "y": 64,
+          "width": 62.375,
+          "height": 36,
+          "right": 536.359375,
+          "bottom": 100
+        }
+      ],
+      "broken": []
+    },
+    "coop": {
+      "screen": "rooms",
+      "panel": {
+        "x": 50,
+        "y": 18,
+        "width": 1120,
+        "height": 377,
+        "top": 18,
+        "right": 1170,
+        "bottom": 395,
+        "left": 50
+      },
+      "browse": {
+        "x": 519.53125,
+        "y": 89,
+        "width": 633.46875,
+        "height": 262,
+        "top": 89,
+        "right": 1153,
+        "bottom": 351,
+        "left": 519.53125
+      }
+    },
+    "errors": [],
+    "consoleErrors": [],
+    "imageReadiness": [
+      {
+        "stage": "upgrades",
+        "pending": [],
+        "waitedMs": 52
+      },
+      {
+        "stage": "fusions",
+        "pending": [],
+        "waitedMs": 102
+      }
+    ],
+    "serviceWorkerControlled": false,
+    "unsavedNameGuard": "set → back/load/cancel retain → deck save clears",
+    "fusionRecipeBefore": "チェインノヴァ\n›\n導火\n✓ 候補に選択中\n＋\n爆域拡張\n✓ 候補に選択中\n\n素材2種を候補に選択済み\n\n素材を選択済み"
+  }
+]

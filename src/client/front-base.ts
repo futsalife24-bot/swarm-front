@@ -152,45 +152,66 @@ export function openFrontBase(
           : unavailable
             ? unlock(id)
             : families[d.family];
-        return `<div class="base-tile" data-family="${fusion ? "fusion" : d.family}" data-selected="${active}" data-locked="${unavailable}"><button class="base-tile-pick" data-pool="${id}" ${fusion ? `aria-label="${d.name}の融合レシピを見る"` : `role="checkbox" aria-checked="${active}" aria-label="${d.name}を候補に含める" ${unavailable ? 'aria-disabled="true"' : ""}`}>${fusion ? "" : `<span class="base-checkbox" aria-hidden="true">${active ? "✓" : ""}</span>`}${icon(id)}<span class="base-tile-text"><strong>${d.name}</strong><small>${note}</small></span>${fusion ? '<em aria-hidden="true">◇</em>' : ""}</button></div>`;
+        return `<div class="base-tile" data-family="${fusion ? "fusion" : d.family}" data-selected="${active}" data-locked="${unavailable}">${fusion ? "" : `<button class="base-check-toggle" data-pool="${id}" role="checkbox" aria-checked="${active}" aria-label="${d.name}を候補に含める" ${unavailable ? 'aria-disabled="true"' : ""}><span class="base-checkbox" aria-hidden="true">${active ? "✓" : ""}</span></button>`}<button class="base-tile-pick" data-inspect="${id}" aria-label="${d.name}の${fusion ? "融合レシピ" : "効果・融合"}を見る">${icon(id)}<span class="base-tile-text"><strong>${d.name}</strong><small>${note}</small></span>${fusion ? '<em aria-hidden="true">◇</em>' : ""}</button></div>`;
       })
       .join("");
     grid.scrollTop = scroll;
-    grid.querySelectorAll<HTMLButtonElement>("[data-pool]").forEach(
-      (b) =>
-        (b.onclick = () => {
-          const id = b.dataset.pool as FrontUpgradeId;
-          selected = id;
-          if (isFrontFusion(id)) {
-            detail();
-            return;
-          }
-          if (locked(id)) {
-            message(unlock(id));
-            detail();
-            return;
-          }
-          draft.pool = draft.pool.includes(id)
-            ? draft.pool.filter((v) => v !== id)
-            : [...draft.pool, id];
-          changed();
-          const replacement = grid.querySelector<HTMLButtonElement>(
-            `[data-pool="${id}"]`,
-          )!;
-          replacement.focus({ preventScroll: true });
-          menuMotion(replacement, [{ opacity: 0.65 }, { opacity: 1 }], 160);
-        }),
-    );
     grid.querySelectorAll<HTMLButtonElement>("[data-pool]").forEach((b) => {
-      const showDetail = () => {
-        const id = b.dataset.pool as FrontUpgradeId;
-        if (selected === id) return;
-        selected = id;
-        detail();
+      // Chromeのタッチ補正は枠外のタップもcheckboxへ送るため、元の座標で判定する。
+      let pointerInside = false;
+      const inside = (event: PointerEvent) => {
+        const rect = b.getBoundingClientRect();
+        return (
+          event.clientX >= rect.left &&
+          event.clientX < rect.right &&
+          event.clientY >= rect.top &&
+          event.clientY < rect.bottom
+        );
       };
-      b.onfocus = showDetail;
-      b.onpointerenter = showDetail;
+      b.onpointerdown = (event) => {
+        pointerInside = inside(event);
+      };
+      b.onpointerup = (event) => {
+        pointerInside = pointerInside && inside(event);
+      };
+      b.onpointercancel = () => {
+        pointerInside = false;
+      };
+      b.onclick = (event) => {
+        const allowed = event.detail === 0 || pointerInside;
+        pointerInside = false;
+        if (!allowed) return;
+        const id = b.dataset.pool as FrontUpgradeId;
+        selected = id;
+        if (locked(id)) {
+          message(unlock(id));
+          detail();
+          return;
+        }
+        draft.pool = draft.pool.includes(id)
+          ? draft.pool.filter((v) => v !== id)
+          : [...draft.pool, id];
+        changed();
+        const replacement = grid.querySelector<HTMLButtonElement>(
+          `[data-pool="${id}"]`,
+        )!;
+        replacement.focus({ preventScroll: true });
+        menuMotion(replacement, [{ opacity: 0.65 }, { opacity: 1 }], 160);
+      };
     });
+    grid
+      .querySelectorAll<HTMLButtonElement>("[data-pool],[data-inspect]")
+      .forEach((b) => {
+        const showDetail = () => {
+          const id = (b.dataset.pool ?? b.dataset.inspect) as FrontUpgradeId;
+          if (selected === id) return;
+          selected = id;
+          detail();
+        };
+        b.onfocus = showDetail;
+        b.onpointerenter = showDetail;
+        if (b.dataset.inspect) b.onclick = showDetail;
+      });
     detail();
   }
   // 上書き・編集破棄の確認はゲーム内のキーボード対応ダイアログで行う。
