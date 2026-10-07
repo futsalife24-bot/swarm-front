@@ -23,6 +23,10 @@
 
 自分が起動したローカルWorker8793・Vite5186は終了し、待受なしを確認。残留テストwrapperも確認時に消滅済み。既存CloudflareアカウントのOAuth認証を確認し、契約/権限は変更していない。
 
+同Chatの確定判定は **合格、P0/P1/P2各0、任意1**。[全文](evidence/cave-foundry-release-20261007/audit-final.md)。監査側は113ハッシュとdiff逆適用、ソース経路、画像、観測を独立照合。実個体半径で洞窟増援1260個体を再計算し、修正前12違反→修正後0。草原/雪峡4292観測一致、洞窟で変わった243配置もkind/seed/routeは保持。依存取得が完了しなかったためVitest/Vite/Wranglerの独立再実行は未達。任意1は洞窟実Worker頭部撃破E2E追加で公開阻止ではない。追加製品修正なし、対象以後は記録のみ。
+
+最初のPowerShell検証wrapperも最終的にexit 0を回収し、857件成功の結果JSONと整合した。
+
 ## 検証環境での失敗と限界
 
 初回のWorker起動/dry-runはWindowsの親ディレクトリ読み取り制限で失敗し、通常権限で復旧した。テスト結果JSONは857件成功を記録したが、最初のPowerShell終了待ちwrapperは残留したため、結果JSONとwrapper終了を区別する。

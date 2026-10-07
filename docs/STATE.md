@@ -4,7 +4,7 @@
 
 Windows型チェック・関連7ファイル857件・本番build・production dry-run成功。採用済み配置696件は全成功、元の失敗証拠は保持。草原/雪峡の4,292観測が修正前後一致。実ローカルWorker2接続のST6増援通信も成功。洞窟ST10/ST16のChrome表示確認・通常新規Chatでの独立監査を行い、合格後に通常PR merge・既存Worker公開・配信/health/公開画面照合へ続ける。
 
-対象SHA `672bc9c63a7558f39db347bdf1901ed5d4bc0d8f`、[PR148](https://github.com/futsalife24-bot/swarm-front/pull/148)下書き。2026-10-08、iabの通常新規[監査Chat](https://chatgpt.com/c/6ac65eb3-82dc-83ee-b828-a1da443b6e8d)へソース・差分・Windows証拠ZIPを直接添付し依頼済み。ZIP SHA256 `897aac904ba9ea76b8a448b3055ad42c447f1e3da0a57a44ce02979efa627a8d`、113ファイルのmanifest一致を監査側が確認、判定は待機中。未統合・未公開。詳細/限界は [CAVE-FOUNDRY-RELEASE.md](CAVE-FOUNDRY-RELEASE.md)。モデルID・推論設定は未確認。以前の停止と範囲外記録は下記の履歴であり、今回の本人による再開/公開指示に優先しない。
+対象SHA `672bc9c63a7558f39db347bdf1901ed5d4bc0d8f`、[PR148](https://github.com/futsalife24-bot/swarm-front/pull/148)。2026-10-08、iabの通常新規[監査Chat](https://chatgpt.com/c/6ac65eb3-82dc-83ee-b828-a1da443b6e8d)で確定判定 **合格、P0/P1/P2すべて0**。任意1は洞窟実Worker頭部撃破E2E追加で公開阻止ではない。[回答全文](evidence/cave-foundry-release-20261007/audit-final.md)。独立再計算は実個体半径で修正前12/1260違反→修正後0。ZIP113ファイルのSHA一致、diff/ソース/証拠を照合。監査側の依存取得未完でVitest/Vite/Wranglerの独立再実行は未達。製品修正の追加なし、対象以後は記録のみ。通常merge→main build/dry-run→既存Worker公開へ進める。現時点は未統合・未公開。詳細/限界は [CAVE-FOUNDRY-RELEASE.md](CAVE-FOUNDRY-RELEASE.md)。モデルID・推論設定は未確認。
 
 ## 前回: 採用済み出現の限定1回試験、694成功・洞窟増援2失敗を記録（2026-10-07）
 
