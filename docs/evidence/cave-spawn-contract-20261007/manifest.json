@@ -1,0 +1,170 @@
+{
+  "version": 1,
+  "kind": "静的調査と既存証拠の抽出",
+  "targetSource": "1c2f4ba44348ab95558ca0362f4f50a561e900d0",
+  "createdAt": "2026-10-07T11:59:08.539Z",
+  "sourceFiles": [
+    {
+      "path": "tests/maps.test.ts",
+      "gitBlob": "0642ffb4d5a5383ba070ea0a805c886c98b714e7",
+      "sha256": "9962ae2643464586cd88d4dae8c8f8bf707c46b4e89cac82a74fbe19b4b2124c"
+    },
+    {
+      "path": "src/shared/defs.ts",
+      "gitBlob": "f79f9ab384b4066a470f64e0aa243dd8d0ecb236",
+      "sha256": "8c5fabfe9300c1eae7f44fafd79480a439be2956f9e3f01cc0bacdc198a34b94"
+    },
+    {
+      "path": "src/shared/game.ts",
+      "gitBlob": "ded330022beee8dd2d0a15423e7ab33cc8ab5c43",
+      "sha256": "18da950cf7f35ddce1dccc7c7af698f759439a8e8406e0ec42b0f63bfbcef855"
+    },
+    {
+      "path": "src/shared/cave.ts",
+      "gitBlob": "ede19399069f102e1e06aaacd5c713e9fecaba76",
+      "sha256": "4e2de6da90206a553ce6b787a3625b82672e0fa2233579461f0d0bf6bf06d89c"
+    },
+    {
+      "path": "src/shared/harrow.ts",
+      "gitBlob": "5ed40deb3f87a0c9f1ca1a27c762bd53a7c77761",
+      "sha256": "a30615c1e4f643ee9ea348c1b97aee8177708a999351401353620b9d0a61195a"
+    },
+    {
+      "path": "src/shared/stages.ts",
+      "gitBlob": "b760b820cea6e5d9d02a422fec72420fe432687a",
+      "sha256": "2c9568dd918b7ca5f41b899db34e42b241090c3a09f247ed9c1b0f0af491c383"
+    },
+    {
+      "path": "src/shared/terrain.ts",
+      "gitBlob": "0fb91e29e27ee5e2fffee74d6103e93679620b76",
+      "sha256": "d0b786043fc3148f24af419731ddee721d9310bc7a705cc99b29f739f97be762"
+    },
+    {
+      "path": "src/shared/solo-progression.ts",
+      "gitBlob": "467a072fd1780da45fac5e0568f4752d394eba6e",
+      "sha256": "e47c0b0ee7e29c207aad5fec49d7cea5cb12ca669f240196d214ca7d7f7c6d41"
+    },
+    {
+      "path": "src/shared/campaign.ts",
+      "gitBlob": "ae352fda5caf0e4f70a97172b513c6a58848e171",
+      "sha256": "83170a847dcfad1ae7906dd8d9d5d23d654fa57191f364e2d799e118ae57e793"
+    },
+    {
+      "path": "src/shared/daily-defense.ts",
+      "gitBlob": "96b6133170219d6bbc9e3475195669d24525a3a2",
+      "sha256": "e623cd16530c96a037dccbb5501b9a3ef1141beba9dcccb5c9137497672bd653"
+    },
+    {
+      "path": "src/shared/foundry-spawning.ts",
+      "gitBlob": "15bafb44f8a4d2b7d1ab6c270da2f8612a94d5a7",
+      "sha256": "07ca8195c0a35e7b3daeca34596caf970db06a5c9d95ad772089d95936c9b56a"
+    },
+    {
+      "path": "src/shared/front-run.ts",
+      "gitBlob": "37671ab03eca06ad13cc50feaeacaba64498557a",
+      "sha256": "131b7353a9b37d7d94541b61ac2e24ab3d45b7e4e20d88e6d59d7f0442b71cd7"
+    },
+    {
+      "path": "src/shared/front-legacy-run.ts",
+      "gitBlob": "9b579a26b98cdba8e55f0468956e076a98221c9e",
+      "sha256": "23d9d730a5154930c50b1f164cdbaf714456d8bfaea3431b2b7b43d7590591b8"
+    },
+    {
+      "path": "src/shared/rebuild-run.ts",
+      "gitBlob": "cc60c2363569ac9364d003203502888a5722f711",
+      "sha256": "7ffdecbb908f466ab7896cf4f2df996dd793270a956f2321b901f5ac5f261a05"
+    },
+    {
+      "path": "src/shared/training.ts",
+      "gitBlob": "77a37d3e4db61024aeda5f3904c8f1cf271e5fbc",
+      "sha256": "6e1f358ff68b09719d5ad6fe79b7acd3466b243014a57c5b51b820d24ce67c2c"
+    },
+    {
+      "path": "src/shared/legacy-campaign.ts",
+      "gitBlob": "b9432a65f33aa90c84202dd0d7ce0e51b1d38099",
+      "sha256": "f23cf909f023d88765e6dc2213c47ca57d6d0925bcbe1ea98bea37cc09aaa345"
+    },
+    {
+      "path": "src/client/battle-checkpoint.ts",
+      "gitBlob": "560e6702216709c0d04123ddcd3231b7c14600ec",
+      "sha256": "8958f2130f6483dbab4412303bbc6f24cebc8a3dc98db28798be2bade71baa83"
+    },
+    {
+      "path": "src/client/harrow-checkpoint-migration.ts",
+      "gitBlob": "897d9d058eeac12e215b5b770d00f4574484fcc8",
+      "sha256": "53a95ec08af6e1ba9382dc553df961413c8a6da4c7839e7767300b7d7ac9f301"
+    },
+    {
+      "path": "src/client/playtest-app.ts",
+      "gitBlob": "f19749dc0d5cc8f1bc16ef770212ae230e2cc0bb",
+      "sha256": "9cc4e392f14170fa3c5aba5a9a6f8859a383564879add75b0e76736e4d5da101"
+    },
+    {
+      "path": "server/worker.ts",
+      "gitBlob": "00f5986877a8bcc0a1dda259ebbf2d916480daca",
+      "sha256": "7234e3caec6795bdb52b09f12f620a7b2948e535484c39b62233cb8dd59c9aa2"
+    },
+    {
+      "path": "server/testing.ts",
+      "gitBlob": "e22c85b5c415b0baea6f81d167b7342d0d7621c2",
+      "sha256": "e7f60286b00d215ee60dd43976866215361e576f851b55c5168827f9d8af30fa"
+    },
+    {
+      "path": "wrangler.test.jsonc",
+      "gitBlob": "97ecb76befa1c9db51748cf95e3c651c97c6e979",
+      "sha256": "3809f4afce06f81fb05cc5b8c05c39022269bc1deaa531d129d0cbf28d3b0ca3"
+    },
+    {
+      "path": "wrangler.production.jsonc",
+      "gitBlob": "fc6286d70a18be2e703504915559ebef47923e7a",
+      "sha256": "4800a7bf3cc6019f084688c82c19ba55dd0a9d53f1f5fdcce06a5fc32c215318"
+    },
+    {
+      "path": "wrangler.jsonc",
+      "gitBlob": "7e1cb16eb8242da343e1481ad1af130b082a0aa4",
+      "sha256": "7f09c68ab12b5dd092acdd835b16353398126d33b30ad2032cf2b7f4cb3dde70"
+    },
+    {
+      "path": "docs/UNDERGROUND-NEST.md",
+      "gitBlob": "c75cfc8780477ee661b4d438d6c9f2237b038c18",
+      "sha256": "657035463d7f71da969354131a8aeb96c31742868522c9987109146d4c49c848"
+    },
+    {
+      "path": "docs/HARROW-INTEGRATION.md",
+      "gitBlob": "eed522e0b8b9ef9e7dba65fc6eb7fb5c2bff86d8",
+      "sha256": "ede72f946dcc1bc6aa03b052f1ea4ae7552cca6a0bf3172f5911165b9a5fa37f"
+    }
+  ],
+  "originalEvidence": [
+    {
+      "commit": "6b1ceac5d636168162f643d4e151b6a7de8d4664",
+      "path": "docs/evidence/unit-baseline-20261007/result.json",
+      "gitBlob": "e5628c3fd5de7b414bb8101cda502a2db84573ec",
+      "sha256": "0be882a59b9049c6d6ebbfeababe9d9a1906cdf280ce4245103cb13fc56aa58e"
+    },
+    {
+      "commit": "6b1ceac5d636168162f643d4e151b6a7de8d4664",
+      "path": "docs/UNIT-BASELINE-INVESTIGATION.md",
+      "gitBlob": "1fadb6762d80648bd8b550542e05def9ec4fdc23",
+      "sha256": "2841505219f6cbe4cb74979cf711a037b4992b1c245e0ba7ddedb7f482f6f8f4"
+    }
+  ],
+  "extractedEvidence": [
+    {
+      "path": "docs/evidence/cave-spawn-contract-20261007/reused-maps-failure.json",
+      "sha256": "6c2bf613c9a0b0ed5e7028d0f4291448e31275d78957c326e305adafb93960f2"
+    }
+  ],
+  "excludedActions": [
+    "製品・テスト変更",
+    "テスト再実行",
+    "合法fixture実行",
+    "UI",
+    "独立Chat",
+    "PR",
+    "main反映",
+    "公開"
+  ],
+  "modelId": null,
+  "reasoningEffort": null
+}

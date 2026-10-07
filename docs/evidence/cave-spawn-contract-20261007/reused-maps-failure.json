@@ -1,0 +1,54 @@
+{
+  "sourceCommit": "6b1ceac5d636168162f643d4e151b6a7de8d4664",
+  "sourcePath": "docs/evidence/unit-baseline-20261007/result.json",
+  "sourceSha256": "0be882a59b9049c6d6ebbfeababe9d9a1906cdf280ce4245103cb13fc56aa58e",
+  "targetSource": "1c2f4ba44348ab95558ca0362f4f50a561e900d0",
+  "provenance": "既存のWindows実行JSONから抽出。今回の実行ではない。",
+  "result": {
+    "name": "tests/maps.test.ts",
+    "passed": 5,
+    "failed": 1,
+    "assertions": [
+      {
+        "fullName": "doubles outdoor extents and tunnel centreline lengths without widening the tunnels",
+        "status": "passed",
+        "failureMessages": []
+      },
+      {
+        "fullName": "nest has two solid islands, two independent loops and an arched bullet-blocking ceiling",
+        "status": "passed",
+        "failureMessages": []
+      },
+      {
+        "fullName": "a boss-sized mover can route around both islands and return from the burrows",
+        "status": "passed",
+        "failureMessages": []
+      },
+      {
+        "fullName": "風渡る草原 has connected walkable passages and safe enemy entries",
+        "status": "passed",
+        "failureMessages": []
+      },
+      {
+        "fullName": "白嶺の雪峡 has connected walkable passages and safe enemy entries",
+        "status": "passed",
+        "failureMessages": []
+      },
+      {
+        "fullName": "晶脈の地底巣 has connected walkable passages and safe enemy entries",
+        "status": "failed",
+        "failureMessages": [
+          "AssertionError: expected true to be false // Object.is equality\n    at C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/tests/maps.test.ts:103:74\n    at file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/node_modules/vitest/dist/chunks/run.CQOUYP-x.js:2869:63\n    at file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/node_modules/vitest/dist/chunks/run.CQOUYP-x.js:1628:35\n    at file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/node_modules/vitest/dist/chunks/run.CQOUYP-x.js:2783:26\n    at file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/node_modules/vitest/dist/chunks/run.CQOUYP-x.js:3319:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/node_modules/vitest/dist/chunks/run.CQOUYP-x.js:3314:10)\n    at file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/node_modules/vitest/dist/chunks/run.CQOUYP-x.js:3299:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/node_modules/vitest/dist/chunks/run.CQOUYP-x.js:3257:10)"
+        ]
+      }
+    ]
+  },
+  "recordedSeed": null,
+  "recordedEnemyKind": null,
+  "staticInference": {
+    "seed": 1,
+    "kind": "harrow",
+    "evidence": "列挙順と高度下限37.9 > 天井上限10.5。今回の実測ではない。"
+  },
+  "additionalSimulationRuns": 0
+}

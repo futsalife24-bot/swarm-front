@@ -1,4 +1,12 @@
-# 現在地: PR146を通常merge・既存Worker公開、配信26件/公開8条件成功（2026-10-07）
+# 現在地: 洞窟HARROWの出現契約を静的調査、修正・再実行なし（2026-10-07）
+
+対象main/base `1c2f4ba44348ab95558ca0362f4f50a561e900d0`、branch `codex/cave-spawn-contract-20261007`。既存のmaps失敗を再利用し、通常編成とテスト対象の不整合に分類。洞窟ST10/16にHARROWはなく、通常生成・中断保存復帰・増援・別モードに洞窟HARROWを新たに生成する経路は見つからなかった。全敵種を直接生成する試験では、HARROWの高度＋半径の下限37.9mが天井上限10.5mを超える。seed/kindの特定は静的推論であり、実測ログにはない。
+
+直接生成や編集された保存の組合せ拒否は未定義。合法な全洞窟編成の安全性は未確認のまま。[調査と最小修正案](CAVE-SPAWN-CONTRACT.md)、[参照SHA一覧](evidence/cave-spawn-contract-20261007/manifest.json)。製品・テスト・設定は不変、maps/全件/ST20/ST25/合法fixtureの追加実行0。文書・既存証拠抽出だけを自己レビューして本branchへcommit/pushする。依頼された有限調査はここまでで、UI・独立Chat・PR・main反映・公開は今回の範囲外。本人対応が必要な障害・承認待ちはない。後続実装を始める場合は調査内の最小案を別範囲として選定する。
+
+前のpilot修正・ST20確認は `codex/pilot-input-fix-20261007` / `69faf845c64542038782c0f28207310052e3b38d` に保存済みで保護。公開状態は下記PR146のまま。モデルID・推論設定は未確認。
+
+## 公開済み: PR146を通常merge・既存Worker公開、配信26件/公開8条件成功
 
 [PR146](https://github.com/futsalife24-bot/swarm-front/pull/146)通常merge、公開ソースmain `b10e685b7a13374bfb66e06feeb47a9d162ca064`、Worker Version `356a85b3-e4c2-468e-aeb7-1f455277f1f5`。基地の固定開幕3枠を撤去し、チェック候補6〜22種から重複なしランダム3択。旧デッキ名/pool保持、ソロ/協力共通。初回監査P2の更新前後の通信混在保護を修正し、[同じChat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)再監査の対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2` は必須0で合格。
 
