@@ -12,4 +12,3 @@ Clear ST25: 172.5s / 92 kills / HP 141.2
       Tests  1 passed | 42 skipped (43)
    Start at  20:31:45
    Duration  2.28s (tests 45%, import 43%, transform 13%)
-

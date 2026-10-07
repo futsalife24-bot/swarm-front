@@ -34,8 +34,8 @@
     },
     {
       "file": "st25.txt",
-      "bytes": 7574,
-      "sha256": "a8bb94a9021546a04105d4e5553ff05b35409aaad3c697b995b7ce1618f6689d"
+      "bytes": 7573,
+      "sha256": "cad3169bb0ba1083a90d0f251977bbf70aed56c7eb3f3e773bc01b8bd2048af1"
     },
     {
       "file": "typecheck-config.json",
@@ -99,5 +99,5 @@
       "sha256": "5fc44d8cf39937c9234aeaea5c8994ad1c573f01fd31a490bab7b907a5e79dfb"
     }
   ],
-  "note": "Windowsの実行ログ。テキストの改行だけLFへ正規化。型の一時設定はdist-validation/pilot-input-fix-20261007/tsconfig.jsonで実行。"
+  "note": "Windowsの実行ログ。テキストの改行をLFへ揃え、通しログ末尾の空行だけを除去。実行元原本はdist-validation/pilot-input-fix-20261007へ保持。型の一時設定も同ディレクトリのtsconfig.jsonで実行。"
 }

@@ -45,7 +45,7 @@ HP診断は試験中のアクセサで代入値をそのまま保持し、減少
 
 ## 証拠・完了範囲
 
-[修正前](evidence/pilot-input-fix-20261007/before-boundaries.json)、[修正後](evidence/pilot-input-fix-20261007/after-boundaries.json)、[型検査](evidence/pilot-input-fix-20261007/typecheck.txt)、[型終了コード](evidence/pilot-input-fix-20261007/typecheck-exit.txt)、[型の一時設定](evidence/pilot-input-fix-20261007/typecheck-config.json)、[通しの実行回数/対象ハッシュ](evidence/pilot-input-fix-20261007/st25-execution.json)、[通しの生ログ](evidence/pilot-input-fix-20261007/st25.txt)、[同ログから抽出した診断](evidence/pilot-input-fix-20261007/st25-result.json)、[証拠・対象SHA256](evidence/pilot-input-fix-20261007/manifest.json)。テキスト証拠はGit保存に合わせ改行だけLF化した。
+[修正前](evidence/pilot-input-fix-20261007/before-boundaries.json)、[修正後](evidence/pilot-input-fix-20261007/after-boundaries.json)、[型検査](evidence/pilot-input-fix-20261007/typecheck.txt)、[型終了コード](evidence/pilot-input-fix-20261007/typecheck-exit.txt)、[型の一時設定](evidence/pilot-input-fix-20261007/typecheck-config.json)、[通しの実行回数/対象ハッシュ](evidence/pilot-input-fix-20261007/st25-execution.json)、[通しの生ログ](evidence/pilot-input-fix-20261007/st25.txt)、[同ログから抽出した診断](evidence/pilot-input-fix-20261007/st25-result.json)、[証拠・対象SHA256](evidence/pilot-input-fix-20261007/manifest.json)。テキスト証拠はGit保存に合わせLF化し、通しログ末尾の空行だけを除去した。実行元原本はdist-validation以下へ保持。最初の保存差分で指摘された末尾空行を整え、対象コードと実行結果は変更していない。
 
 今回の範囲は自己レビュー・必要検証・調査branchへのcommit/pushと記録まで。UI・独立Chat監査・PR作成・main統合・既存Workerへの再公開は行わない。他の既知失敗を修正せず、全体テストが通ったとは扱わない。
 
