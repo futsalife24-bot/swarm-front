@@ -6,4 +6,3 @@
       Tests  6 passed (6)
    Start at  13:15:25
    Duration  849ms (import 44%, transform 42%, worker 7%, tests 6%)
-

@@ -29,7 +29,7 @@ with zipfile.ZipFile(output, 'a', zipfile.ZIP_DEFLATED) as z:
         z.writestr(path,git('show',head+':'+path))
     z.writestr('windows-scripts/check-menu-effects-network.mjs',git('show',head+':scripts/check-menu-effects-network.mjs'))
     for path in sorted(Path('dist-validation/menu-polish-motion').glob('*.mp4')):
-        z.write(path,'windows-realtime-video/'+path.name)
+        z.writestr('windows-realtime-video/'+path.name,path.read_bytes())
     manifest = {name: hashlib.sha256(z.read(name)).hexdigest() for name in z.namelist() if not name.endswith('/')}
     z.writestr('SOURCE-MANIFEST.json',json.dumps(manifest,ensure_ascii=False,indent=2))
     z.writestr('AUDIT.txt',f'BASE {base}\nIMPLEMENTATION {implementation}\nEVIDENCE_HEAD {head}\n'

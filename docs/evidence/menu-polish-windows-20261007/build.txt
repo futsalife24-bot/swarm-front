@@ -33,7 +33,7 @@ dist/assets/front-yEHHR0yX.js            81.18 kB │ gzip:  27.41 kB
 dist/assets/hud-BTDDKESD.js             919.39 kB │ gzip: 256.13 kB
 
 ✓ built in 3.79s
-[plugin builtin:vite-reporter] 
+[plugin builtin:vite-reporter]
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
@@ -45,4 +45,3 @@ Additional hook time came from the hooks below and from hooks under 1s.
 1 hook is listed without a time. Its calls overlapped, so the time inside one call includes work from other calls. To find its cost, profile the build with `node --cpu-prof`:
   - vite:build-html transform (2 calls)
 See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
-
