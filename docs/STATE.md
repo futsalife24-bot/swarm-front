@@ -1,8 +1,8 @@
-# 現在地: PR142のWindows再検証を完了、独立監査資料を準備中（2026-10-07）
+# 現在地: PR142のWindows再検証を完了、独立監査を依頼済み（2026-10-07）
 
 [PR142](https://github.com/futsalife24-bot/swarm-front/pull/142)、継続branch `ccr-3d467d84-o5t70k`、base `1026fccaa509723c74e1b85bbdde934afe6d82f6`、実装監査対象 `7ef32289a4662afa940c1c7accbfc9f42bb179e6`。mainの進行なし、開始時HEAD `f240329519f1fde57220f0094455e726bc8c1e2e`。Windowsのnpm ci/型/save147/front73/progression6/media3/build/server dry-run、通常/reducedメニュー・実通信・連続操作確認が成功。武器行は入場中の小数誤差をmainでも再現、演出の自然終了後に同じ厳格基準で両方8表示合格。製品ソース修正なし、確認スクリプトとWindows証拠を追加。[詳細](MENU-POLISH-WINDOWS.md)。
 
-iabの通常Chatへアクセスでき、既存Cloudflare認証も確認済み。共有UIの利用順を調整中、監査資料は未送信（監査Chat URL未確定）。独立監査・通常merge・公開・配信/UI照合は未実施。共有UI利用枠を受けて目視確認・対象SHA付きZIP送信から継続する。実非表示cleanup、実機タッチ、GPU長時間、全敵モデルは未実測。戦闘演出と兵士音声PR137は保留。
+13:43 JSTごろ、[通常Chat監査](https://chatgpt.com/c/6ac5cd95-d3f4-83ec-9f08-046535b388f4)へZIPを直接送信し受付確認。Windows証拠HEAD `d57320925564cf3b9ed91bd4bb55b2c9b09a1903`、`dist-validation/menu-polish-audit-d573209.zip`、SHA256 `04e7a2df8879eb19b1e6d57a191174d13844e26f70fa1a8e1bcfdbef4c8581b6`、379ファイルmanifest/CRC一致。製品src/serverは実装監査対象以降不変。確定判定待ち、通常merge・公開・配信/UI照合は未実施。共有UI貸出008を返却済み、判定確認用の利用枠を要求。Free契約/当日153requestsを既存管理画面で確認。実非表示cleanup、実機タッチ、GPU長時間、全敵モデルは未実測。戦闘演出と兵士音声PR137は保留。
 
 # 前回の現在地: タイトル・メニュー演出の品質改善を実装・検証、独立監査待ち（2026-10-07）
 
@@ -2067,5 +2067,4 @@ EDFはミニマップが視点に追従して回転するためこの分担が�
 
 ## 2026-09-12 下向き移動のカメラ振動
 カメラ位置と注視点の補間基準を統一。原因・差分・修正前後の計測は docs/CAMERA-JITTER.md。
-
 
