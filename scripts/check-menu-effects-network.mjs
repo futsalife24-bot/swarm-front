@@ -22,6 +22,36 @@ const browser = await chromium.launch({
 const errors = [],
   results = {};
 const pages = [];
+async function observeEffects(page) {
+  await page.addInitScript(() => {
+    window.menuFxSeen = [];
+    const recorded = new WeakSet();
+    new MutationObserver((records) => {
+      for (const record of records)
+        for (const added of record.addedNodes) {
+          if (!(added instanceof Element)) continue;
+          const nodes = [
+            ...added.querySelectorAll(".menu-fx-trace,.menu-fx-reward"),
+          ];
+          if (added.matches(".menu-fx-trace,.menu-fx-reward"))
+            nodes.push(added);
+          for (const node of nodes) {
+            if (recorded.has(node)) continue;
+            recorded.add(node);
+            const member = node.closest("[data-fx-member]");
+            window.menuFxSeen.push({
+              kind: node.classList.contains("menu-fx-reward")
+                ? "reward"
+                : "trace",
+              member: member?.dataset.fxMember,
+              ready: !!member?.querySelector(".member-status.is-ready"),
+            });
+          }
+        }
+    }).observe(document, { childList: true, subtree: true });
+  });
+}
+
 try {
   for (let i = 0; i < 2; i++) {
     const p = await browser.newPage({
@@ -29,6 +59,7 @@ try {
       serviceWorkers: "block",
     });
     p.on("pageerror", (e) => errors.push(e.message));
+    await observeEffects(p);
     await p.addInitScript(
       (name) => localStorage.setItem("swarm-front-player-name-v1", name),
       "部隊演出" + (i + 1),
@@ -54,6 +85,11 @@ try {
       { timeout: 15000 },
     );
   }
+  const readyBefore = await pages[0].evaluate(() =>
+    window.menuFxSeen.filter((e) => e.member && e.ready),
+  );
+  assert.equal(readyBefore.length, 2);
+  assert.equal(new Set(readyBefore.map((e) => e.member)).size, 2);
   await pages[0].screenshot({ path: `${out}/squad.png` });
   await pages[1].locator("#back").click();
   await pages[0].waitForFunction(
@@ -65,6 +101,21 @@ try {
     {},
     { timeout: 90000 },
   );
+  await pages[0].waitForFunction(
+    () => window.menuFxSeen.filter((e) => e.member && e.ready).length === 3,
+  );
+  await pages[0].waitForFunction(
+    () => document.querySelectorAll(".menu-fx-trace").length === 0,
+  );
+  const readyAfter = await pages[0].evaluate(() =>
+    window.menuFxSeen.filter((e) => e.member && e.ready),
+  );
+  assert.equal(readyAfter.length, 3);
+  results.squadReadyEffects = {
+    initial: readyBefore.length,
+    afterReprepare: readyAfter.length,
+    ended: true,
+  };
   results.realSquadReadyAndReprepare = true;
   for (const p of pages) await p.close();
   // Proxy to the real isolated Worker. No fabricated API response or production save.
@@ -73,6 +124,7 @@ try {
     serviceWorkers: "block",
   });
   p.on("pageerror", (e) => errors.push(e.message));
+  await observeEffects(p);
   await p.route("**/api/cloud/**", async (route) => {
     const request = route.request();
     const r = await route.fetch({
@@ -127,6 +179,11 @@ try {
     await p.locator(".weekly-wallet .resource-amount").innerText(),
     String(coins + 150),
   );
+  const rewards = await p.evaluate(
+    () => window.menuFxSeen.filter((e) => e.kind === "reward").length,
+  );
+  assert.equal(rewards, 1);
+  results.weeklyEffects = { appeared: rewards, ended: true };
   await p.screenshot({ path: `${out}/weekly.png` });
   await p.waitForTimeout(850);
   assert.equal(await p.locator(".menu-fx-reward").count(), 0);

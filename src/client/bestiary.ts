@@ -152,6 +152,7 @@ export function openBestiary(
     worm: boolean,
     visible: boolean,
   ) => {
+    viewport.querySelector(".menu-fx-mosaic")?.remove();
     analysisPending = true;
     if (visible) {
       try {

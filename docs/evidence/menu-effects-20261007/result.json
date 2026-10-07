@@ -1,5 +1,9 @@
 [
   {
+    "frontDraftWithoutSavedCue": true,
+    "changeDuringMotion": true,
+    "actualHiddenCleanup": false,
+    "visibilityLimit": "Headless tabs stayed visible; real visibility cleanup not verified",
     "reducedMotion": "no-preference",
     "equipmentAndRetry": true,
     "craftingAndSynthesis": true,
@@ -13,6 +17,10 @@
     "errors": []
   },
   {
+    "frontDraftWithoutSavedCue": true,
+    "changeDuringMotion": false,
+    "actualHiddenCleanup": false,
+    "visibilityLimit": "Headless tabs stayed visible; real visibility cleanup not verified",
     "reducedMotion": "reduce",
     "equipmentAndRetry": true,
     "craftingAndSynthesis": true,

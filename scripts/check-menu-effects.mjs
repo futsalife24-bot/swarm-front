@@ -146,6 +146,7 @@ try {
       true,
     );
     await p.locator(".media-dialog .dialog-close").click();
+    await p.locator(".media-dialog").waitFor({ state: "detached" });
     await p.locator(".dialog-close").click();
     await p.locator("#open-bestiary").click();
     await p
@@ -173,8 +174,64 @@ try {
           ).length,
     );
     assert.equal(animations, 0);
+    let changeDuringMotion = false;
+    let actualHiddenCleanup = false;
+    if (reducedMotion === "no-preference") {
+      await p.locator("#solo").click();
+      await p.locator('[data-row="v2-starter-rocket"] [data-detail]').click();
+      assert.equal(await p.locator(".menu-fx-trace").count(), 1);
+      await p.emulateMedia({ reducedMotion: "reduce" });
+      await p.waitForFunction(
+        () =>
+          document.querySelectorAll(".menu-fx-equip,.menu-fx-trace").length ===
+          0,
+      );
+      changeDuringMotion = true;
+      await p.emulateMedia({ reducedMotion: "no-preference" });
+      await p.locator('[data-row="v2-starter-rifle"] [data-detail]').click();
+      assert.equal(await p.locator(".menu-fx-trace").count(), 1);
+      const other = await browser.newPage();
+      await other.bringToFront();
+      if (await p.evaluate(() => document.hidden)) {
+        await p.waitForFunction(
+          () =>
+            document.querySelectorAll(".menu-fx-equip,.menu-fx-trace")
+              .length === 0,
+          {},
+          { timeout: 15000 },
+        );
+        actualHiddenCleanup = true;
+      }
+      await other.close();
+      await p.bringToFront();
+    }
+    await p.goto(origin + "/front");
+    await p.locator("#solo").click();
+    const frontSaved = await saved();
+    const originalSlot = await p.locator('[data-front-slot="0"] b').innerText();
+    await p.locator('[data-row="v2-starter-rocket"] [data-detail]').click();
+    assert.notEqual(
+      await p.locator('[data-front-slot="0"] b').innerText(),
+      originalSlot,
+    );
+    assert.deepEqual(await saved(), frontSaved);
+    assert.equal(await p.locator(".menu-fx-equip,.menu-fx-trace").count(), 0);
+    await p.reload();
+    await p.locator("#solo").click();
+    assert.equal(
+      await p.locator('[data-front-slot="0"] b').innerText(),
+      originalSlot,
+    );
+    assert.equal(await p.locator(".menu-fx-equip,.menu-fx-trace").count(), 0);
+    await p.screenshot({ path: `${out}/front-draft-${reducedMotion}.png` });
     assert.deepEqual(errors, []);
     results.push({
+      frontDraftWithoutSavedCue: true,
+      changeDuringMotion,
+      actualHiddenCleanup,
+      visibilityLimit: actualHiddenCleanup
+        ? null
+        : "Headless tabs stayed visible; real visibility cleanup not verified",
       reducedMotion,
       equipmentAndRetry: true,
       craftingAndSynthesis: true,

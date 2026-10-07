@@ -1,7 +1,6 @@
 import { FrontMineVisuals } from "./front-mine-visuals";
 import {
   createSquadEffects,
-  menuEquip,
   menuGuide,
   menuMotion,
   menuNew,
@@ -371,6 +370,14 @@ const modeDetails: Record<FrontMode, string> = {
   daily:
     "日ごとに共通の戦場で拠点を防衛。勝利報酬は1日1回。候補は各プレイヤーの設定を使用。",
 };
+// This loadout is a run-local draft; acknowledge selection without a saved cue.
+function animateFrontSelection() {
+  menuMotion(
+    $("ui").querySelector(`[data-front-slot="${selectedFrontSlot}"]`),
+    [{ opacity: 0.65 }, { opacity: 1 }],
+    180,
+  );
+}
 function prep(coop = false) {
   document.body.classList.add("playtest");
   screen = "prep";
@@ -437,18 +444,13 @@ function prep(coop = false) {
       };
       row.onclick = () => {
         if (moved) return;
-        const source = row.getBoundingClientRect();
         if (row.dataset.row) {
           const previousSlot = ownedEquipment.indexOf(row.dataset.row);
           if (previousSlot >= 0)
             ownedEquipment[previousSlot] = ownedEquipment[selectedFrontSlot];
           ownedEquipment[selectedFrontSlot] = row.dataset.row;
           prep(coop);
-          menuEquip(
-            $("ui"),
-            $("ui").querySelector(`[data-front-slot="${selectedFrontSlot}"]`),
-            source,
-          );
+          animateFrontSelection();
           return;
         }
         const kind = row.dataset.frontWeaponRow as FrontWeaponKind;
@@ -456,11 +458,7 @@ function prep(coop = false) {
         if (previousSlot >= 0) kinds[previousSlot] = kinds[selectedFrontSlot];
         kinds[selectedFrontSlot] = kind;
         prep(coop);
-        menuEquip(
-          $("ui"),
-          $("ui").querySelector(`[data-front-slot="${selectedFrontSlot}"]`),
-          source,
-        );
+        animateFrontSelection();
       };
     });
   $("ui")
