@@ -1,0 +1,118 @@
+[
+  {
+    "file": "src/shared/arena.ts",
+    "sha256": "d49eb2bcc09f0e653076969c07244e5a6fa692ce55a58d0dcafd510b65c9b557"
+  },
+  {
+    "file": "src/shared/rock.ts",
+    "sha256": "08d5aac5d93490555f1eb0041882e54e7e0234eeb5d89aa364d9d3a164b0bc88"
+  },
+  {
+    "file": "src/shared/terrain.ts",
+    "sha256": "d0b786043fc3148f24af419731ddee721d9310bc7a705cc99b29f739f97be762"
+  },
+  {
+    "file": "src/shared/cave.ts",
+    "sha256": "4e2de6da90206a553ce6b787a3625b82672e0fa2233579461f0d0bf6bf06d89c"
+  },
+  {
+    "file": "src/shared/map-blocks.ts",
+    "sha256": "d8b59e31b53850d299dc794790b19ac61d297f32aab0bc3af94c130fbb984359"
+  },
+  {
+    "file": "src/shared/campaign.ts",
+    "sha256": "83170a847dcfad1ae7906dd8d9d5d23d654fa57191f364e2d799e118ae57e793"
+  },
+  {
+    "file": "src/shared/stages.ts",
+    "sha256": "2c9568dd918b7ca5f41b899db34e42b241090c3a09f247ed9c1b0f0af491c383"
+  },
+  {
+    "file": "src/shared/progression.ts",
+    "sha256": "effdf8536564d967e6d8559206ee060c424689674c0639d4c10821384007c175"
+  },
+  {
+    "file": "src/shared/defs.ts",
+    "sha256": "8c5fabfe9300c1eae7f44fafd79480a439be2956f9e3f01cc0bacdc198a34b94"
+  },
+  {
+    "file": "src/shared/front-upgrades.ts",
+    "sha256": "64f1bd0f18b37bc3cb8d90bd68dd2d30e77fcc977177545a0522e89964d85150"
+  },
+  {
+    "file": "src/shared/front-legacy-combat.ts",
+    "sha256": "3216b92bf6047738af608c1bb1530708c8488d63af9f4b9691d4e4026b264edd"
+  },
+  {
+    "file": "src/shared/front-combat.ts",
+    "sha256": "88d89d55dced3b78ad2f61d7c345683af99aed6d9e6b11f6beb92619435ac5f4"
+  },
+  {
+    "file": "src/shared/rebuild-combat.ts",
+    "sha256": "f090c6e7267aac474b6f43c24d9737313eb29bc029bb8356f5afac2ac8213a14"
+  },
+  {
+    "file": "src/shared/harrow-motion.ts",
+    "sha256": "34f70dcf1f90eb6fdce4f3fb266e6ea34f0d52eacc2fde8cc95e50130daa8a02"
+  },
+  {
+    "file": "src/shared/enemy-size.ts",
+    "sha256": "3e913d0538c2a0c05357222bc1f11bccbfd3f3859adf181e3b016eaac546e3a4"
+  },
+  {
+    "file": "src/shared/enemy-motion.ts",
+    "sha256": "c65207746273c73a193784b1cc4d10086a3029c2ba306b7c6c071aae6a0384bc"
+  },
+  {
+    "file": "src/shared/calyx.ts",
+    "sha256": "c74aa3b3300db85a4ca7ffb01f1b80ae2dc947c6f1de2e18a477cc7c91c31ead"
+  },
+  {
+    "file": "src/shared/harrow.ts",
+    "sha256": "a30615c1e4f643ee9ea348c1b97aee8177708a999351401353620b9d0a61195a"
+  },
+  {
+    "file": "src/shared/daily-defense.ts",
+    "sha256": "e623cd16530c96a037dccbb5501b9a3ef1141beba9dcccb5c9137497672bd653"
+  },
+  {
+    "file": "src/shared/foundry-defs.ts",
+    "sha256": "8023c95f1d973534e0b4d1b62b7bb61242ba5670d6633547c8b6ba8ecbb34325"
+  },
+  {
+    "file": "src/shared/foundry-navigation.ts",
+    "sha256": "d5328c22b073721a0a8e63bc3b9740ed16bea2c0a29e339bc2ee89c2ad94e662"
+  },
+  {
+    "file": "src/shared/worm.ts",
+    "sha256": "acc7ebf077ac8026526be5f77c4e1904e35601b0fb5db3261114002c61ddc6f9"
+  },
+  {
+    "file": "src/shared/foundry-spawning.ts",
+    "sha256": "07ca8195c0a35e7b3daeca34596caf970db06a5c9d95ad772089d95936c9b56a"
+  },
+  {
+    "file": "src/shared/solo-progression.ts",
+    "sha256": "e47c0b0ee7e29c207aad5fec49d7cea5cb12ca669f240196d214ca7d7f7c6d41"
+  },
+  {
+    "file": "src/shared/aim.ts",
+    "sha256": "090453f28791a1313473a3754d953d8bde681a23901f5165535c0e9e20a5eb4d"
+  },
+  {
+    "file": "src/shared/structure-timing.ts",
+    "sha256": "2d6043fcb03a73675f471929d7d1a5da8be536b4e1f9b93563daae9eab1c9661"
+  },
+  {
+    "file": "src/shared/structure-ai.ts",
+    "sha256": "1229d286b58887de0c166940d156f2e6767182a12de111b88a1ee983a463fec2"
+  },
+  {
+    "file": "src/shared/game.ts",
+    "sha256": "18da950cf7f35ddce1dccc7c7af698f759439a8e8406e0ec42b0f63bfbcef855"
+  },
+  {
+    "file": "tests/bot.ts",
+    "sha256": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869"
+  }
+]

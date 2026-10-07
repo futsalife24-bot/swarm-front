@@ -1,0 +1,1 @@
+{"steps":40,"sentDodge":true,"phase":"battle","time":128.1499999999949,"hp":113.68000000000163,"damageAttempts":1,"appliedDamage":0,"changedInputFields":["dodge"]}

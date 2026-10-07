@@ -1,0 +1,76 @@
+[
+  {
+    "file": "src/shared/game.ts",
+    "sourceSha256": "18da950cf7f35ddce1dccc7c7af698f759439a8e8406e0ec42b0f63bfbcef855",
+    "instrumentedSha256": "dcf677a7d8a693990914e36aa8b76f4d69288ad1cd30911045c5578df00abbcf",
+    "changes": [
+      {
+        "call": "hurtPlayer(w, target, q.damage)",
+        "kind": "foundry-laser",
+        "line": 862
+      },
+      {
+        "call": "hurtPlayer(w, p, def.damage, true)",
+        "kind": "boss-burst",
+        "line": 1790
+      },
+      {
+        "call": "hurtPlayer(w, p, def.damage)",
+        "kind": "crawler-melee",
+        "line": 1859
+      },
+      {
+        "call": "hurtPlayer(w, t, def.damage)",
+        "kind": "normal-melee",
+        "line": 1864
+      },
+      {
+        "call": "hurtPlayer(w, p, q.damage)",
+        "kind": "enemy-projectile",
+        "line": 2152
+      },
+      {
+        "call": "owner: \"enemy\",",
+        "kind": "projectile-origin"
+      }
+    ]
+  },
+  {
+    "file": "src/shared/harrow.ts",
+    "sourceSha256": "a30615c1e4f643ee9ea348c1b97aee8177708a999351401353620b9d0a61195a",
+    "instrumentedSha256": "85da8732f21331e376ee7f1123ccd937f98980845e5d4ad939532e39a6c9b822",
+    "changes": [
+      {
+        "call": "hurtPlayer(w, p, m.damage)",
+        "kind": "harrow-missile",
+        "line": 255
+      },
+      {
+        "call": "hurtPlayer(w, p, damage, true)",
+        "kind": "harrow-area",
+        "line": 295
+      }
+    ]
+  },
+  {
+    "file": "src/shared/calyx.ts",
+    "sourceSha256": "c74aa3b3300db85a4ca7ffb01f1b80ae2dc947c6f1de2e18a477cc7c91c31ead",
+    "instrumentedSha256": "e4baf742d74b449f416aab5fecf60c2c1cf60a3e8f8262897d9636ffb4186941",
+    "changes": [
+      {
+        "call": "hurtPlayer(w, p, damage)",
+        "kind": "pollen",
+        "line": 118
+      },
+      {
+        "call": "hurtPlayer(w, p, 24)",
+        "kind": "calyx-melee",
+        "line": 224
+      },
+      {
+        "call": "owner: \"enemy\",",
+        "kind": "projectile-origin"
+      }
+    ]
+  }
+]

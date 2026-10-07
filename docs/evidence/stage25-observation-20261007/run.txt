@@ -1,0 +1,1 @@
+{"source":"1c2f4ba44348ab95558ca0362f4f50a561e900d0","sameEveryTickAndInput":true,"phase":"defeat","time":128.1499999999949,"kills":78,"damageAttempts":6,"appliedHits":6,"invalidInputTicks":1}

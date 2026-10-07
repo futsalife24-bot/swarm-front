@@ -1,0 +1,7 @@
+{
+  "startedAtUtc": "2026-10-07T11:13:24.686Z",
+  "fullRunsStarted": 2,
+  "replayRunsStarted": 1,
+  "status": "completed-with-one-bounded-replay",
+  "finishedAtUtc": "2026-10-07T11:15:10.142Z"
+}

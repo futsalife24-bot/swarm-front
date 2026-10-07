@@ -1,0 +1,16 @@
+{
+  "source": "1c2f4ba44348ab95558ca0362f4f50a561e900d0",
+  "node": "v24.19.0",
+  "platform": "win32",
+  "atUtc": "2026-10-07T11:13:24.685Z",
+  "fullRuns": 2,
+  "maxTicksPerFullRun": 12001,
+  "dt": 0.05,
+  "stage": 25,
+  "seed": 814,
+  "worldName": "clear-25",
+  "optionalReplayRuns": 1,
+  "maxReplayTicks": 40,
+  "modelId": "未確認",
+  "reasoningEffort": "未確認"
+}

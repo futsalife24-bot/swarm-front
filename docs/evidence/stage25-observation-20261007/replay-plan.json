@@ -1,0 +1,11 @@
+{
+  "source": "1c2f4ba44348ab95558ca0362f4f50a561e900d0",
+  "startTick": 2523,
+  "endExclusive": 2563,
+  "maxTicks": 40,
+  "startTime": 126.14999999999498,
+  "checkpointSha256": "65e9a4acd40d373436ce99f6579e1f509afb4f6ab7ad1d3515fb1702f19e30f4",
+  "strategy": "同じ記録入力を再生。対象Spin中は早期dodgeを抑止し、開始から1.15秒の衝突開始まで残り0.10秒以下となる最初の受付可能tickに1回だけdodge=true。それ以外の入力/製品状態は変更しない。",
+  "spinWind": 1.15,
+  "tolerance": 1e-8
+}

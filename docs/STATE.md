@@ -1,4 +1,12 @@
-# 現在地: PR146を通常merge・既存Worker公開、配信26件/公開8条件成功（2026-10-07）
+# 現在地: ST25限定観測を完了、pilotの早い回避と致死攻撃を特定（2026-10-07）
+
+対象main/base `1c2f4ba44348ab95558ca0362f4f50a561e900d0`、調査branch `codex/stage25-observation-20261007`。前の5ファイル分類`6b1ceac`で残ったST25 seed814だけを、通常1回・観測付き1回・直前2秒/40tickの入力比較1回に限定して確認。全2563tickの状態と入力は観測有無で一致し、128.15秒/78撃破/敗北を再現。HARROWの回転に対しpilotが1.15秒早く回避を使い、被弾時は回避終了・再使用待ちだった。短区間でdodge時刻だけを遅らせると、同じ128.10秒の攻撃を無被弾、128.15秒でHP113.68・戦闘継続。[条件・証拠・限界](STAGE25-OBSERVATION.md)。
+
+既存pilotは別の1tickでpitch80.2791度を出し、製品上限80度/validInputを満たしていなかった。製品の回避無効不具合は限定比較で未再現。ST25通し勝利、人の回避/体感難度、入力を全て正規化した経路は未確認。次案1件はpilotの回避時刻・入力境界を整える限定修正だが、今回は未着手。src/tests/設定・main・Workerは変更なし。UI/独立監査/PR/merge/公開なし、モデルID/推論設定未確認。
+
+今回の変更は観測スクリプト2本・文書・有限ログのみで、記録/既存GitHub保存までが範囲。既存の調査branch `codex/unit-baseline-investigation-20261007`/`6b1ceac5d636168162f643d4e151b6a7de8d4664`と、実非表示調査branch/`85388dc`を保護。公開ソース`b10e685`/Worker `356a85b3-e4c2-468e-aeb7-1f455277f1f5`とPR146/147の完了は維持。
+
+## PR146を通常merge・既存Worker公開、配信26件/公開8条件成功（2026-10-07）
 
 [PR146](https://github.com/futsalife24-bot/swarm-front/pull/146)通常merge、公開ソースmain `b10e685b7a13374bfb66e06feeb47a9d162ca064`、Worker Version `356a85b3-e4c2-468e-aeb7-1f455277f1f5`。基地の固定開幕3枠を撤去し、チェック候補6〜22種から重複なしランダム3択。旧デッキ名/pool保持、ソロ/協力共通。初回監査P2の更新前後の通信混在保護を修正し、[同じChat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)再監査の対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2` は必須0で合格。
 
