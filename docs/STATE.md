@@ -2,7 +2,7 @@
 
 [PR144](https://github.com/futsalife24-bot/swarm-front/pull/144)通常merge、公開ソースmain `7bc6ac48289e8e5d153074cf4e4b266742985240`、Worker Version `a35b1e09-bbd1-4f1d-b00a-0d2bf6e7db80`。独立再監査は対象 `2a5639d5c289857efaec2e6da3782589cf01003d`・必須0・全体UIUX合格。初回P2の2件を修正済み。main build/本番dry-run、配信26/26一致・health200、公開Windows Chromeの基地/デッキ/融合/協力6条件＋最終準備4条件が成功、pageerror/console error各0。[公開詳細と限界](BASE-DECKS-RELEASE.md)。
 
-公開直後の配信不一致と、検査の画像読込待ち不足は初回ログも保存。検査だけに画像complete待ちを加え、製品変更なし。IAB追加目視は別タブの保存保護で未確認、強制解放せずUI031を返却。公開記録は `codex/pr144-release-record-20261007` から通常PRでmainへ反映する。実機タッチ・実非表示cleanup・GPU長時間・全敵モデルは未確認、戦闘演出/PR137は保留。
+公開直後の配信不一致と、検査の画像読込待ち不足は初回ログも保存。検査だけに画像complete待ちを加え、製品変更なし。IAB追加目視は別タブの保存保護で未確認、強制解放せずUI031を返却。公開記録は[PR145](https://github.com/futsalife24-bot/swarm-front/pull/145)（`codex/pr144-release-record-20261007`）でmainへ通常反映。次の開始はmainの実SHA一致・cleanを確認する。実機タッチ・実非表示cleanup・GPU長時間・全敵モデルは未確認、戦闘演出/PR137は保留。
 
 ## 独立再監査の合格記録
 

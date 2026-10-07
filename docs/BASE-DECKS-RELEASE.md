@@ -36,4 +36,4 @@ IABの追加目視は「別のタブでゲームを開いています」の保�
 - 監査側はZIP/manifest/Git blob/ソース/差分適用/構造化JSON/画像を独立照合。型は依存がないため再実行不能、Windowsテスト/build/dry-runは提出ログの照合。監査側の独立実行成功とは扱わない。
 - 実機タッチ、実際のタブ非表示cleanup、GPU長時間、全敵モデル、全ミッション実通過は未確認。結果fixtureやタッチエミュレーションと区別する。
 - 戦闘演出と兵士音声PR137は保留。使用モデルID・推論設定は未確認。
-- 公開記録は`codex/pr144-release-record-20261007`で保存し、通常PRからmainへ反映する。製品変更を含まないので追加デプロイは不要。
+- 公開記録は`codex/pr144-release-record-20261007`、[PR145](https://github.com/futsalife24-bot/swarm-front/pull/145)に保存し、通常mergeでmainへ反映。製品変更を含まないので追加デプロイは不要。
