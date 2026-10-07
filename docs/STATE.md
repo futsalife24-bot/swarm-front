@@ -2,6 +2,8 @@
 
 実装修正 `c59247b142d81570a7c94c6c90e31752bab0d81f` 後の本番build/production dry-run・Windows Chrome実2人協力（準備/共同選択/個別強化/報酬/再読込）が成功。型/front83/実Worker6件も成功。[PR146](https://github.com/futsalife24-bot/swarm-front/pull/146)は未統合・未公開。UI039返却済み。
 
+修正監査対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2`。資料 `dist-validation/random-opening/audit-8d6f1d6.zip`、10,981,438 bytes、424 files＋manifest、SHA256 `da9c4e0ce92a516917adf9f9f0a7645252b60c3d56dae558aae2bad477f2ed0c`。全entry hash/CRC一致・秘密ファイル/認証値パターン0件。[資料検査](evidence/random-opening-20261007/revision/payload-check.json)。差分基点は初回 `6806f08585e34fe7068c23cd5f9c344bbd1f8f1c`。以後の記録commitは製品変更なし。
+
 送信待ちの具体的理由: 調整担当による外部Chat送信を含むUI貸出指示が、自動承認レビューで拒否され未送達。ローカル検証だけのUI039指示に従い、送信していない。修正版ZIPの完全SHA/manifest/サイズ/内容・秘密非混入と既存継続承認を照合して再審査する。再開条件は同じ監査先への修正版送信が許可された新しいUI貸出。対象を特定せず別経路へ切り替えない。必須0確定後に通常merge/既存Worker公開/配信/UI確認/公開記録main反映へ続ける。
 
 初回対象 `6806f08585e34fe7068c23cd5f9c344bbd1f8f1c` は[同じ監査Chat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)で確定要修正、P0/P1各0・P2が1件。[全文](evidence/random-opening-20261007/audit-first.txt)。旧画面の固定開幕指定が新Workerで黙って無視される問題へ、Hello/WelcomeのfrontOpening世代とequip/startガードを追加。進行中の作戦・復帰トークン・装備/poolは保持。型/front83・実Worker関連6件成功、詳細[修正記録](FRONT-RANDOM-OPENING.md)。
