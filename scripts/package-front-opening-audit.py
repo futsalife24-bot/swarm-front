@@ -14,7 +14,7 @@ def git(*args):
 
 head = git("rev-parse", "HEAD").decode().strip()
 output = pathlib.Path(f"dist-validation/random-opening/audit-{head[:7]}.zip")
-files = git("ls-tree", "-r", "--name-only", head).decode().splitlines()
+files = git("ls-tree", "-r", "-z", "--name-only", head).decode().strip("\0").split("\0")
 selected = [p for p in files if p.startswith(("src/", "server/", "tests/", "e2e/", "public/rebuild/upgrades/", "docs/evidence/random-opening-20261007/")) or p in [
     "AGENTS.md", "package.json", "package-lock.json", "tsconfig.json", "tsconfig.worker.json",
     "vite.config.ts", "vitest.front.config.ts", "vitest.save.config.ts", "vitest.front-integration.config.ts",
@@ -26,7 +26,7 @@ selected = [p for p in files if p.startswith(("src/", "server/", "tests/", "e2e/
 ]]
 git("archive", "--format=zip", f"--output={output}", head, *selected)
 with zipfile.ZipFile(output, "a", zipfile.ZIP_DEFLATED) as z:
-    changed = git("diff", "--name-only", BASE, head).decode().splitlines()
+    changed = git("diff", "-z", "--name-only", BASE, head).decode().strip("\0").split("\0")
     for path in changed:
         if git("ls-tree", BASE, "--", path):
             z.writestr("base/" + path, git("show", BASE + ":" + path))
