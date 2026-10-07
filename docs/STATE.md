@@ -1,9 +1,10 @@
-# 現在地: PR146を通常merge・既存Worker公開、配信26件一致・公開UI待ち（2026-10-07）
+# 現在地: PR146を通常merge・既存Worker公開、配信26件/公開8条件成功（2026-10-07）
 
-[PR146](https://github.com/futsalife24-bot/swarm-front/pull/146)を通常merge。公開ソースmain `b10e685b7a13374bfb66e06feeb47a9d162ca064`、Worker Version `356a85b3-e4c2-468e-aeb7-1f455277f1f5`。mainからbuild/production dry-run成功後に既存Workerへ公開。配信26/26 SHA一致、health200。[配信証拠](evidence/random-opening-20261007/release/delivery.json)。
+[PR146](https://github.com/futsalife24-bot/swarm-front/pull/146)通常merge、公開ソースmain `b10e685b7a13374bfb66e06feeb47a9d162ca064`、Worker Version `356a85b3-e4c2-468e-aeb7-1f455277f1f5`。基地の固定開幕3枠を撤去し、チェック候補6〜22種から重複なしランダム3択。旧デッキ名/pool保持、ソロ/協力共通。初回監査P2の更新前後の通信混在保護を修正し、[同じChat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)再監査の対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2` は必須0で合格。
 
-独立再監査は対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2`・必須0で合格、初回P2修正済み。以後製品不変。公開版Windows Chrome基地6条件/開幕2条件の新UI貸出約5分を要求済み。記録branch `codex/pr146-release-record-20261007` で公開UI証拠と記録をPR→mainへ通常反映し、ローカルmain/origin/main一致clean・保管庫更新まで続ける。実機タッチ等の未確認・PR137保留は維持。
+Windows型/front83/save147・実Worker6件・基地6条件・ソロ3サイズ/実2人協力が成功。main build/production dry-run後に既存Worker公開、配信26/26 SHA一致・health200。公開Windows Chromeの基地6条件＋開幕2条件も成功、pageerror/console error0。UI048返却・専用ブラウザ/ローカル検証サーバー終了済み。[仕様/検証/限界](FRONT-RANDOM-OPENING.md)。
 
+公開記録は[PR147](https://github.com/futsalife24-bot/swarm-front/pull/147)（`codex/pr146-release-record-20261007`）。記録のみで製品不変のため追加公開不要。記録のmain反映状態はPR147を正とし、次の開始時もローカルmain/origin/main/remoteのSHA一致・cleanを確認する。保管庫の既存Swarm Frontノートへ概要を保存。実機タッチ・実非表示cleanup・GPU長時間・全敵モデル/全作戦通過は未確認、戦闘演出/PR137は保留。
 ## 直前の独立再監査
 17:57 JST、[同じ通常Chat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)の確定回答を回収。対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2`、P0/P1/P2/任意すべて0、初回P2-01は解消。[回答全文](evidence/random-opening-20261007/revision/audit-final.txt)。監査側はソースの直接実行と最小Cloudflareモックで混在/再接続/進行中保護を独立確認。npm ci制約によるVitest/実Workerの独立再実行未達は提出ログ検証と区別。
 

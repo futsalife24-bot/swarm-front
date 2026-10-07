@@ -44,8 +44,9 @@
 
 - [PR146](https://github.com/futsalife24-bot/swarm-front/pull/146)を通常merge。公開ソースmain `b10e685b7a13374bfb66e06feeb47a9d162ca064`。merge本文に日本語の`Player-Note:`を保持。
 - 同mainから本番build/production dry-run成功後、既存Workerへ公開。Version `356a85b3-e4c2-468e-aeb7-1f455277f1f5`。
-- 配信26/26 SHA一致、health200。[証拠](evidence/random-opening-20261007/release/delivery.json)。公開画面は新規UI貸出後に基地6条件/開幕2条件を確認する。
-- 公開記録branch `codex/pr146-release-record-20261007`。記録のmain反映と最終clean照合は公開UI完了後。
+- 配信26/26 SHA一致、health200。[証拠](evidence/random-opening-20261007/release/delivery.json)。
+- UI048で公開Windows Chromeの基地844/640/1220 × 通常/reducedの6条件成功。旧固定欄なし・解除・保存/呼出/再読込・未保存名保護・融合素材・画像・画面寸法・協力入口を確認。公開版の開幕844通常/640 reducedの2条件も、補強6種だけの候補を保存→再読込→候補内3択→取得反映で成功。全条件pageerror/console error0。[基地](evidence/random-opening-20261007/release/public-base/base-checks.json)・[開幕](evidence/random-opening-20261007/release/public-opening/checks.json)。844基地と640開幕の実画像も目視、専用ブラウザ終了/貸出返却済み。本人の保存は操作していない。
+- 公開記録は[PR147](https://github.com/futsalife24-bot/swarm-front/pull/147)、branch `codex/pr146-release-record-20261007`。製品変更はなく、追加公開は不要。main反映後にローカルmain/origin/main/remote SHA一致とcleanを確認する。
 
 ## 限界
 
