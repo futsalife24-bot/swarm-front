@@ -32,6 +32,10 @@ base main `1026fccaa509723c74e1b85bbdde934afe6d82f6`、実装監査対象 `7ef32
 
 使用モデルID・推論設定は未確認。
 
+## 独立監査の確定判定
+
+14:05 JSTごろ、[同じ通常Chat](https://chatgpt.com/c/6ac5cd95-d3f4-83ec-9f08-046535b388f4)で回答完了と**合格、必須P0/P1/P2各0・任意1**を確認。[確定本文](evidence/menu-polish-windows-20261007/audit-final.md)。実装対象7ef3228、初回証拠HEAD d573209、379ファイルSHA不一致/欠落0。任意は既存のタイトル線900ms期限で、遅いクラウド処理時に線が出ない可能性。今回の回帰ではなく非同期ガードは維持されるため、範囲外の改修を追加しない。監査側Linuxは依存取得未完で新規テスト再実行できず、Windowsのログ・動画・計測とソースを独立照合した。製品の追加修正は不要。以後の差分も製品src/server不変を確認して通常統合へ進む。
+
 ## 独立監査の依頼
 
 13:43 JSTごろ、[通常Chat](https://chatgpt.com/c/6ac5cd95-d3f4-83ec-9f08-046535b388f4)へ`menu-polish-audit-d573209.zip`を直接添付送信し、対象差分の照合開始を確認。実装7ef3228、補足HEAD d57320925564cf3b9ed91bd4bb55b2c9b09a1903。ZIP7,729,771bytes、SHA256 `04e7a2df8879eb19b1e6d57a191174d13844e26f70fa1a8e1bcfdbef4c8581b6`、379ファイルのSHAとCRC一致。初回ZIP生成はWindowsのパス区切り不一致で検査に失敗したため送信せず修正し、上記の正常ZIPだけを送った。
