@@ -28,3 +28,7 @@ base `4f758d908cb22a04717baf6126db91f1cf0d5713`、branch `codex/base-selection-c
 ## 独立監査と公開
 
 repo skill `docs/skills/swarm-front-audit-release/SKILL.md` の固定経路で、対象commitのソース/差分/画像/検証/manifestを通常新規Chatへ添付し判定を待つ。合格後の通常merge・既存Worker公開・配信/health/公開UIの結果は追記する。
+
+[PR150](https://github.com/futsalife24-bot/swarm-front/pull/150)。対象 `1b564377370cb3782f8cd8b44aed6ef58739966b`（製品 `4fba4310437762b07dca74edfdb498aa0efdc896`）は [通常新規Chat](https://chatgpt.com/c/6ac6ad7b-f114-83ee-ae9a-c776bd638728) で合格、P0/P1/P2すべて0。監査後の製品修正なし。任意R1はスクリーンリーダー実機の読み上げ順で、公開阻止ではない。[回答全文](evidence/base-selection-20261008/audit-final.md)。監査側はZIP/manifest全242件・差分/関連コード・画像/ログを照合し、Chrome/83単体/build/Worker通信は独立再実行していない。
+
+ZIP `dist-validation/base-selection-20261008/audit-1b56437.zip`（22,498,421 bytes）、SHA256 `64089770518c2336d5f28a7ad41852aaa402ebd66bf166cf960a7485cc81fa4d`。対象以後の追加は監査・公開記録だけ。
