@@ -17,6 +17,12 @@
 
 資料は [evidence/cave-foundry-release-20261007](evidence/cave-foundry-release-20261007/)。実装SHA、PR、監査、公開結果はSTATEと本書へ確定後に追記する。
 
+## 独立監査（2026-10-08）
+
+対象 `672bc9c63a7558f39db347bdf1901ed5d4bc0d8f` をpushし [PR148](https://github.com/futsalife24-bot/swarm-front/pull/148)を作成。iab→通常の新規[監査Chat](https://chatgpt.com/c/6ac65eb3-82dc-83ee-b828-a1da443b6e8d)に `swarm-front-pr148-672bc9c-audit.zip` を直接添付して依頼した。ZIP SHA256 `897aac904ba9ea76b8a448b3055ad42c447f1e3da0a57a44ce02979efa627a8d`。対象SHAのgit archiveで全sharedと必要server/設定/テスト/証拠を収録し、manifestに113ファイルの個別ハッシュを記録。秘密・vault・依存キャッシュ・変更のないモデル素材は含めない。対象以後の変更は文書・証拠のみ。判定待機中、main未反映/未公開。
+
+自分が起動したローカルWorker8793・Vite5186は終了し、待受なしを確認。残留テストwrapperも確認時に消滅済み。既存CloudflareアカウントのOAuth認証を確認し、契約/権限は変更していない。
+
 ## 検証環境での失敗と限界
 
 初回のWorker起動/dry-runはWindowsの親ディレクトリ読み取り制限で失敗し、通常権限で復旧した。テスト結果JSONは857件成功を記録したが、最初のPowerShell終了待ちwrapperは残留したため、結果JSONとwrapper終了を区別する。
