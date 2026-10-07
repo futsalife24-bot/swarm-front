@@ -7,20 +7,33 @@ import { execFileSync } from "node:child_process";
 import {
   visibilityPlan,
   visibilityRequestKind,
+  createVisibilityProfile,
+  removeVisibilityProfile,
   startVisibilityChrome,
 } from "./menu-visibility-cdp.mjs";
 
 const origin = process.env.VISIBILITY_ORIGIN || "http://127.0.0.1:5351";
 const out =
-  process.env.VISIBILITY_OUTPUT || "dist-validation/menu-visibility-cdp";
+  process.env.VISIBILITY_OUTPUT || "dist-validation/menu-visibility-temp";
 if (!/^http:\/\/127\.0\.0\.1:\d+$/.test(origin))
   throw new Error("隔離したローカル開発サーバーだけで実行してください");
 const plan = visibilityPlan(origin, out);
 if (process.argv.includes("--preflight")) {
+  const temporary = createVisibilityProfile();
+  removeVisibilityProfile(temporary.profile);
   fs.mkdirSync(out, { recursive: true });
   fs.writeFileSync(
     `${out}/preflight.json`,
-    JSON.stringify({ ...plan, browserStarted: false }, null, 2) + "\n",
+    JSON.stringify(
+      {
+        ...plan,
+        browserStarted: false,
+        temporaryDirectoryCreatedAndRemoved: true,
+        removedProfile: temporary.profile,
+      },
+      null,
+      2,
+    ) + "\n",
   );
   console.log("非UI準備確認成功。ブラウザ未起動。実非表示は未確認。");
   process.exit(0);
@@ -50,12 +63,21 @@ const report = {
   errors: [],
   consoleErrors: [],
   blockedAnalytics: [],
+  blockedUnusedTurnstile: [],
+  outOfScopeControlRequests: [],
   unexpectedExternalRequests: [],
   result: "incomplete",
 };
 let session;
 let page;
 try {
+  report.phase = "ローカルdev応答確認";
+  const devResponse = await fetch(origin, {
+    signal: AbortSignal.timeout(5000),
+  });
+  assert.equal(devResponse.status, 200);
+  await devResponse.body?.cancel();
+  report.phase = "専用Chrome起動";
   session = await startVisibilityChrome(plan);
   const { browser, context } = session;
   report.startup = session.evidence;
@@ -63,7 +85,16 @@ try {
   await context.route("**/*", async (route) => {
     const request = route.request();
     const kind = visibilityRequestKind(request.url(), origin);
-    if (kind === "local" || kind === "internal") return route.continue();
+    if (kind === "local") {
+      const pathname = new URL(request.url()).pathname;
+      if (
+        pathname.startsWith("/api/developer/") ||
+        /\/(?:turnstile-config|rooms)(?:\/|$)/.test(pathname)
+      )
+        report.outOfScopeControlRequests.push(pathname);
+      return route.continue();
+    }
+    if (kind === "internal") return route.continue();
     const url = new URL(request.url());
     const entry = {
       url: url.origin + url.pathname,
@@ -71,6 +102,8 @@ try {
       method: request.method(),
     };
     if (kind === "analytics") report.blockedAnalytics.push(entry);
+    else if (kind === "unused-turnstile-script")
+      report.blockedUnusedTurnstile.push(entry);
     else report.unexpectedExternalRequests.push(entry);
     // 成功モックを返さない。本文・架空保存・queryは記録しない。
     await route.abort("blockedbyclient");
@@ -121,9 +154,25 @@ try {
       true,
     );
   });
-  // 解析抑止queryが外れてもcontext routeで対象外通信を止める。
-  await page.goto(origin + "/?developer=1");
+  // 通常のソロ入口。管理者/協力/招待/復帰経路を選ばず、認証結果を差し替えない。
+  report.phase = "通常ソロ入口";
+  await page.goto(origin + "/");
   await page.locator("#solo").waitFor();
+  report.entry = await page.evaluate(() => ({
+    path: location.pathname,
+    search: location.search,
+    hash: location.hash,
+    legacySolo: document.body.classList.contains("playtest"),
+    turnstileHolder: !!document.getElementById("turnstile-room-create"),
+  }));
+  assert.deepEqual(report.entry, {
+    path: "/",
+    search: "",
+    hash: "",
+    legacySolo: true,
+    turnstileHolder: false,
+  });
+  report.phase = "隔離した架空保存の設定";
   await page.evaluate(async () => {
     const module = await import("/src/client/progression-save.ts");
     const fixture = module.freshProgress("normal");
@@ -133,6 +182,7 @@ try {
   });
   await page.reload();
   await page.bringToFront();
+  report.phase = "ソロ出撃準備";
   await page.locator("#solo").click();
   await page.waitForTimeout(1100);
   const locks = () =>
@@ -196,6 +246,7 @@ try {
     JSON.parse(before.save).soldiers[0].equipped[0],
     "v2-starter-rocket",
   );
+  report.phase = "装備演出中の実タブ切替";
   await other.bringToFront();
   // 非表示中のrAFを待たず、状態をポーリングする。合成イベントは送らない。
   await page.waitForFunction(
@@ -229,6 +280,7 @@ try {
     localStorage.getItem("swarm-front-shared-progress-v3"),
   );
   assert.equal(hiddenSave, before.save);
+  report.phase = "実非表示から復帰";
   await page.bringToFront();
   await page.waitForFunction(() => document.visibilityState === "visible");
   await page.waitForTimeout(300);
@@ -273,6 +325,7 @@ try {
   assert.equal(report.nextEquipment, "v2-starter-rifle");
   assert.deepEqual(report.errors, []);
   assert.deepEqual(report.unexpectedExternalRequests, []);
+  assert.deepEqual(report.outOfScopeControlRequests, []);
   report.result = "pass";
 } catch (error) {
   report.result = "not-passed";
@@ -280,6 +333,12 @@ try {
   if (page) {
     report.lastObservation = await page
       .evaluate(() => ({
+        documentState: {
+          readyState: document.readyState,
+          bodyClass: document.body.className,
+          soloPresent: !!document.getElementById("solo"),
+          saveWriterBlocked: !!document.getElementById("save-writer-blocked"),
+        },
         sample: window.__menuVisibilityProbe?.sample?.(),
         observations: window.__menuVisibilityProbe?.observations,
         events: window.__menuVisibilityProbe?.events,

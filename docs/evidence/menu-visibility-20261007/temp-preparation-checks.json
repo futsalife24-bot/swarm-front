@@ -1,0 +1,9 @@
+{
+  "browserStarted": false,
+  "tempOutsideRepository": true,
+  "createdDirectoryRemoved": true,
+  "unownedDeletionRejected": true,
+  "onlyObservedTurnstileScriptClassified": true,
+  "actualLoopbackPidAndCleanupAfterChrome": "未実行。実起動後の照合を必須化",
+  "actualHiddenCleanup": "未実行"
+}

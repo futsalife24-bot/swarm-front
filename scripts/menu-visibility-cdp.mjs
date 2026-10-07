@@ -2,6 +2,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
+import os from "node:os";
 import { createHash } from "node:crypto";
 import { execFileSync, spawn } from "node:child_process";
 import { setTimeout as delay } from "node:timers/promises";
@@ -9,6 +10,76 @@ import { setTimeout as delay } from "node:timers/promises";
 const analytics =
   "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front";
 const chrome = "C:/Program Files/Google/Chrome/Application/chrome.exe";
+const ownedProfiles = new Map();
+const profilePrefix = "swarm-front-visibility-";
+
+function tempParentOutsideRepository() {
+  const parent = fs.realpathSync(os.tmpdir());
+  const repository = fs.realpathSync(process.cwd());
+  const relative = path.relative(repository, parent);
+  assert.ok(
+    relative === ".." ||
+      relative.startsWith(`..${path.sep}`) ||
+      path.isAbsolute(relative),
+    "一時領域がVite監視対象のリポジトリ内です",
+  );
+  return parent;
+}
+
+export function createVisibilityProfile() {
+  const parent = tempParentOutsideRepository();
+  const profile = fs.realpathSync(
+    fs.mkdtempSync(path.join(parent, profilePrefix)),
+  );
+  assert.equal(path.dirname(profile), parent);
+  assert.equal(fs.lstatSync(profile).isSymbolicLink(), false);
+  ownedProfiles.set(profile, parent);
+  return { profile, parent };
+}
+
+export function removeVisibilityProfile(profile) {
+  // 名前だけが一致する他者のディレクトリを削除しない。生成した実体だけ許可する。
+  const parent = ownedProfiles.get(profile);
+  assert.ok(
+    parent && path.isAbsolute(profile),
+    "自分が生成した絶対パスではありません",
+  );
+  assert.equal(fs.realpathSync(parent), parent);
+  assert.equal(path.dirname(profile), parent);
+  assert.ok(path.basename(profile).startsWith(profilePrefix));
+  assert.equal(fs.lstatSync(profile).isSymbolicLink(), false);
+  assert.equal(fs.realpathSync(profile), profile);
+  fs.rmSync(profile, { recursive: true, maxRetries: 5, retryDelay: 200 });
+  ownedProfiles.delete(profile);
+  assert.equal(fs.existsSync(profile), false);
+}
+
+function verifyOwnChrome(pid, profile) {
+  assert.ok(Number.isSafeInteger(pid) && pid > 0);
+  const description = execFileSync(
+    "powershell.exe",
+    [
+      "-NoProfile",
+      "-Command",
+      `$visibilityProcess = Get-CimInstance Win32_Process -Filter 'ProcessId=${pid}'; if (!$visibilityProcess) { throw 'Dedicated process not found' }; $visibilityProcess | Select-Object ProcessId,ParentProcessId,ExecutablePath,CommandLine | ConvertTo-Json -Compress`,
+    ],
+    { encoding: "utf8", windowsHide: true, timeout: 10000 },
+  );
+  const actual = JSON.parse(description);
+  assert.equal(actual.ProcessId, pid);
+  assert.equal(actual.ParentProcessId, process.pid);
+  assert.equal(
+    path.resolve(actual.ExecutablePath).toLowerCase(),
+    path.resolve(chrome).toLowerCase(),
+  );
+  assert.ok(actual.CommandLine.includes(`--user-data-dir=${profile}`));
+  return {
+    pid,
+    parentPid: process.pid,
+    executableMatches: true,
+    profileArgumentMatches: true,
+  };
+}
 
 export function visibilityPlan(origin, output) {
   assert.match(origin, /^http:\/\/127\.0\.0\.1:\d+$/);
@@ -37,6 +108,8 @@ export function visibilityPlan(origin, output) {
     origin,
     out,
     chrome,
+    temporaryParent: tempParentOutsideRepository(),
+    profileLocation: "OS temp直下の新規専用領域。Vite監視対象外を生成前に照合",
     noDefaults: true,
     context: "専用Chromeの既存default contextだけを使用",
     playwright: JSON.parse(
@@ -56,6 +129,11 @@ export function visibilityRequestKind(url, origin) {
   if (!["http:", "https:"].includes(target.protocol)) return "internal";
   if (target.origin === origin) return "local";
   if (target.origin + target.pathname === analytics) return "analytics";
+  if (
+    target.href ===
+    "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+  )
+    return "unused-turnstile-script";
   return "unexpected-external";
 }
 
@@ -66,9 +144,8 @@ export async function startVisibilityChrome(plan) {
   assert.ok(
     relative && !relative.startsWith("..") && !path.isAbsolute(relative),
   );
-  const profile = fs.mkdtempSync(path.join(outputRoot, "profile-"));
-  // この呼出しが作成したディレクトリだけを終了時の削除対象にする。
-  const profileReal = fs.realpathSync(profile);
+  const { profile: profileReal, parent: profileParent } =
+    createVisibilityProfile();
   const args = [
     `--user-data-dir=${profileReal}`,
     "--remote-debugging-address=127.0.0.1",
@@ -100,6 +177,7 @@ export async function startVisibilityChrome(plan) {
     };
     if (browser?.isConnected()) {
       try {
+        result.ownProcessBeforeClose = verifyOwnChrome(child.pid, profileReal);
         const session = await browser.newBrowserCDPSession();
         result.browserCloseRequested = true;
         await session.send("Browser.close").catch(() => {});
@@ -118,6 +196,7 @@ export async function startVisibilityChrome(plan) {
       await delay(100);
     if (child.exitCode === null && child.signalCode === null && !spawnError) {
       // 自分が生成し、まだ終了していないProcessのツリーだけを対象とする。
+      result.ownProcessBeforeKill = verifyOwnChrome(child.pid, profileReal);
       result.forcedOwnProcess = true;
       execFileSync("taskkill.exe", ["/PID", String(child.pid), "/T", "/F"], {
         windowsHide: true,
@@ -134,11 +213,7 @@ export async function startVisibilityChrome(plan) {
       spawnError || child.exitCode !== null || child.signalCode !== null,
       "専用Chrome終了未確認",
     );
-    assert.equal(path.dirname(profileReal), outputRoot);
-    assert.ok(path.basename(profileReal).startsWith("profile-"));
-    assert.equal(fs.realpathSync(profile), profileReal);
-    assert.equal(fs.lstatSync(profile).isSymbolicLink(), false);
-    fs.rmSync(profileReal, { recursive: true, maxRetries: 5, retryDelay: 200 });
+    removeVisibilityProfile(profileReal);
     result.profileRemoved = true;
     return result;
   };
@@ -164,17 +239,22 @@ export async function startVisibilityChrome(plan) {
       [
         "-NoProfile",
         "-Command",
-        `(Get-NetTCPConnection -State Listen -LocalPort ${port} -ErrorAction Stop).LocalAddress | ConvertTo-Json -Compress`,
+        `Get-NetTCPConnection -State Listen -LocalPort ${port} -ErrorAction Stop | Select-Object LocalAddress,OwningProcess | ConvertTo-Json -Compress`,
       ],
-      { encoding: "utf8", windowsHide: true },
+      { encoding: "utf8", windowsHide: true, timeout: 10000 },
     ).trim();
     const parsed = JSON.parse(addresses);
     const listeners = Array.isArray(parsed) ? parsed : [parsed];
     assert.ok(
       listeners.length > 0 &&
-        listeners.every((address) => ["127.0.0.1", "::1"].includes(address)),
+        listeners.every(
+          (listener) =>
+            ["127.0.0.1", "::1"].includes(listener.LocalAddress) &&
+            listener.OwningProcess === child.pid,
+        ),
       "CDPがloopback限定ではありません",
     );
+    const ownProcess = verifyOwnChrome(child.pid, profileReal);
     const { chromium } = await import("@playwright/test");
     browser = await chromium.connectOverCDP(`http://127.0.0.1:${port}`, {
       noDefaults: true,
@@ -190,10 +270,13 @@ export async function startVisibilityChrome(plan) {
       cleanup,
       evidence: {
         pid: child.pid,
+        ownProcess,
         listeners,
         noDefaults: true,
         defaultContextOnly: true,
         profile: path.basename(profileReal),
+        profileParent,
+        profileOutsideRepository: true,
         startupBlankPage: true,
       },
     };

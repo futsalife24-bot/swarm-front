@@ -1,0 +1,16 @@
+{
+  "origin": "http://127.0.0.1:5351",
+  "out": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\dist-validation\\menu-visibility-temp",
+  "chrome": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+  "temporaryParent": "C:\\Users\\futsa\\AppData\\Local\\Temp",
+  "profileLocation": "OS temp直下の新規専用領域。Vite監視対象外を生成前に照合",
+  "noDefaults": true,
+  "context": "専用Chromeの既存default contextだけを使用",
+  "playwright": "1.63.0",
+  "implementationSha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+  "observationOrder": "初期capture → 製品document listener → 後から追加するdocument listener",
+  "analytics": "外部解析はabort。成功応答・hidden・イベントは合成しない",
+  "browserStarted": false,
+  "temporaryDirectoryCreatedAndRemoved": true,
+  "removedProfile": "C:\\Users\\futsa\\AppData\\Local\\Temp\\swarm-front-visibility-lCN4r4"
+}

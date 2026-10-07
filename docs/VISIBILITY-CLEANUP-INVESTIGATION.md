@@ -4,6 +4,21 @@
 
 調整担当からの既存仕様内の原因切り分け1件。製品コード・保存仕様・main・公開は変更しない。独立監査やPR137、全画面・長時間GPU試験へ広げない。モデルID/推論設定は未確認。
 
+## 配置不備の修正準備（9f00779後、新規UI貸出待ち）
+
+調整担当の次の1件として、UI054で特定した検証補助の配置不備を修正。新規プロフィールはOS temp直下の`swarm-front-visibility-*`へ置き、生成前に実体の親がリポジトリの外か照合する。削除はこのプロセスが生成したパスの台帳・絶対パス・親の実体・非symlinkが全部一致した時だけ許可する。出力証拠だけを従来のリポジトリ内へ残す。製品/Vite/ライブラリの監視設定は変更しない。
+
+起動後はChromeのPID・親PID・実行ファイル・専用プロフィール引数を照合し、CDP実リスナーがloopbackかつ同じPIDであることを確認してから接続する。終了要求/必要時の自分のPIDツリー終了前にも所有を再照合する。これらの実Chromeに対する追加確認は**未実行**。非UIでは2スクリプトの構文/書式、temp外置きと1件の生成→削除、未所有パスの削除拒否を確認済み。[構成](evidence/menu-visibility-20261007/temp-preflight.json)、[確認結果](evidence/menu-visibility-20261007/temp-preparation-checks.json)。ブラウザ起動0、作成したtempの残存0。
+
+Turnstileのソース切り分け:
+
+- `index.html:67`はTurnstileをasync/deferの別scriptとして読み、`src/bootstrap.ts`のmoduleとは独立している。`bootstrap.ts:35`の通常・新規保存・招待/協力指定なしの入口は`playtest-app.ts`へ進む。`playtest-app.ts:1551`のソロボタンは`enter(gear)`、同`:2038`前後の装備保存成功後に`menuEquip`を開始し、Turnstile tokenを参照しない。
+- `src/main.ts:311`のTurnstile配置は協力画面のholderがなければ戻り、部屋作成時`:1118`でtokenを必須としている。今回の通常ソロ経路はその画面/操作へ入らない。中断したTurnstile取得が前回の入口未達へ単独で作用したかは実測していないが、ソロ入口がその結果を待つ依存は見つからなかった。
+- 検証補助のURLを通常の`/`にし、不要だった`?developer=1`を外す。以前の指定は`bootstrap.ts:26`から管理者session照会を発生させ、未許可なら通常経路へ戻るものだった。認証結果や保存保護は置き換えず、正規のソロ入口を使う。
+- 既存indexのTurnstile取得は前回同様abortするが、解析と区別した「今回使わないscript」として件数を記録する。認証token/成功callback/成功応答は作らない。通常ソロのbodyクラス・空query/hash・協力holderなしを実画面で照合し、管理者session/協力部屋/Turnstile設定の要求が発生したら範囲外として未合格にする。その他の予期しない外部HTTPも引き続き中断・未合格。認証機能の動作検証や迂回の結果には一般化しない。
+
+次の1回の判定条件: devが生存→専用Chrome/外置きtemp/自分のPIDとloopback確認→通常ソロ入口→装備保存とrunning演出→trusted hiddenの同一イベントで製品処理前/後を観測→cancel/装飾0→架空保存の文字列不変・writer lock保持→復帰と新規操作。失敗時は段階と最小DOM状態を残し同条件を反復しない。所要約4分を新規UIへ要求、現在UI055は別担当。旧UI054を再利用しない。製品main `1c2f4ba`・公開不変、使用モデルID/推論設定は未確認。
+
 ## 追加1件の結果: 専用Chrome起動後、装備操作の前に中止
 
 UI-20261007-054で対象`5916616d96e89c5193fd76c8e9243567959b9fad`を**1回**実行（2026-10-07 19:15:30 JST開始）。Chrome `154.0.8037.98`、CDP実リスナー`127.0.0.1`だけ、`noDefaults:true`、専用default contextと初期about:blankは確認できた。しかし、最初の`#solo`表示待ちで30秒timeoutとなり、架空保存の設定・装備操作・タブ切替へ進んでいない。**実非表示cleanup・保存不変・ロック保持・復帰は今回も未確認、製品不具合は再現していない。** 前の2試行と異なり、今回は非表示への切替自体が未実行。
@@ -70,7 +85,7 @@ UI-20261007-054で対象`5916616d96e89c5193fd76c8e9243567959b9fad`を**1回**実
 
 ```powershell
 $env:VISIBILITY_ORIGIN='http://127.0.0.1:5351'
-$env:VISIBILITY_OUTPUT='dist-validation/menu-visibility-cdp'
+$env:VISIBILITY_OUTPUT='dist-validation/menu-visibility-temp'
 node scripts/check-menu-visibility.mjs
 ```
 
