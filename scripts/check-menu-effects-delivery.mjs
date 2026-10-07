@@ -13,6 +13,6 @@ for(const file of files){
 const res=await fetch(base+'/api/health',{cache:'no-store'});
 const health={status:res.status,body:await res.json()};
 const result={at:new Date().toISOString(),base,health,pass:checks.every(x=>x.pass)&&health.status===200&&health.body.ok===true,checks};
-fs.writeFileSync('docs/evidence/menu-effects-20261007/delivery.json',JSON.stringify(result,null,2));
+fs.writeFileSync(process.env.DELIVERY_OUTPUT || 'docs/evidence/menu-effects-20261007/delivery.json',JSON.stringify(result,null,2));
 console.log(JSON.stringify({pass:result.pass,health:health.status,files:checks.length,failed:checks.filter(x=>!x.pass)}));
 if(!result.pass)process.exitCode=1;
