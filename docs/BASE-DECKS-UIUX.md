@@ -56,3 +56,5 @@
 |成功演出は実成功後だけ|保存・反映の例外を表示し、成功時のみチェック。入力/通信は演出を待たない。動画6本で通常/reducedを区別|
 
 独立監査は2026-10-07 15:17 JSTごろに[通常Chat](https://chatgpt.com/c/6ac5e3c4-0174-83e8-84b7-cee77d5e1e11)へ提出済み。対象 `27397543ed121f6fb52126205d135178c12ead74`、955ファイルmanifest/ZIP SHA256の一致を監査側も確認して受付。IABで844/640横画面の協力・基地・融合レシピと未解放素材を追加目視。確定判定、main統合、公開は未実施。
+
+監査提出後は公開検査用に `check-front-base.mjs` へconsole error検査と `BASE_SERVICE_WORKERS=allow` の指定を追加。従来版でPWAを登録してから改装版へ進み、SW制御も要求する。ローカルの通常6条件では追加検査を含めpageerror/console error各0（`base-console-checks.json`）。公開SW条件は公開後に実行する。製品ソースは監査対象から不変。

@@ -4,6 +4,8 @@ import fs from "node:fs";
 import { recordMenuMotion } from "./menu-motion-recorder.mjs";
 const origin = process.env.BASE_ORIGIN || "http://127.0.0.1:5186";
 const out = process.env.BASE_OUTPUT || "dist-validation/base-decks";
+const serviceWorkers =
+  process.env.BASE_SERVICE_WORKERS === "allow" ? "allow" : "block";
 fs.mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({
   channel: "chrome",
@@ -22,10 +24,27 @@ try {
         viewport: { width, height },
         hasTouch: true,
         reducedMotion,
-        serviceWorkers: "block",
+        serviceWorkers,
       });
       const errors = [];
+      const consoleErrors = [];
       p.on("pageerror", (e) => errors.push(e.message));
+      p.on("console", (m) => {
+        if (m.type() === "error") consoleErrors.push(m.text());
+      });
+      if (serviceWorkers === "allow") {
+        // 既存PWAの登録入口は従来版。新規の隔離コンテキストだけで確認する。
+        await p.goto(origin + "/", { waitUntil: "domcontentloaded" });
+        await p.locator("#home-tutorial").waitFor();
+        await p.evaluate(async () => {
+          await Promise.race([
+            navigator.serviceWorker.ready,
+            new Promise((_, reject) =>
+              setTimeout(() => reject(Error("SW readiness timeout")), 60000),
+            ),
+          ]);
+        });
+      }
       await p.goto(origin + "/front.html", { waitUntil: "domcontentloaded" });
       await p.locator("#open-armory").click();
       await p.locator(".base-tile").first().waitFor();
@@ -168,6 +187,12 @@ try {
       assert.ok(coop.browse.width > 160);
       await p.screenshot({ path: `${out}/coop-${width}-${reducedMotion}.png` });
       assert.deepEqual(errors, []);
+      assert.deepEqual(consoleErrors, []);
+      const serviceWorkerControlled = await p.evaluate(
+        () => !!navigator.serviceWorker.controller,
+      );
+      if (serviceWorkers === "allow")
+        assert.equal(serviceWorkerControlled, true);
       results.push({
         width,
         height,
@@ -175,6 +200,8 @@ try {
         metrics,
         coop,
         errors,
+        consoleErrors,
+        serviceWorkerControlled,
         fusionRecipeBefore,
       });
       await p.close();
