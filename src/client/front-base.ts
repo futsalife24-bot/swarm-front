@@ -102,7 +102,7 @@ export function openFrontBase(
               .map((f) => {
                 const recipe = FRONT_FUSIONS[f],
                   ready = recipe.every((id) => draft.pool.includes(id));
-                return `<div class="base-recipe" data-ready="${ready}">${!fusion ? `<button data-detail="${f}" class="base-fusion-result">${icon(f)}<strong>${catalog[f].name}</strong><span aria-hidden="true">?</span></button>` : ""}<div class="base-recipe-materials">${recipe.map((id) => `<button data-detail="${id}" aria-label="${catalog[id].name}の効果を見る">${icon(id)}<span>${catalog[id].name}<small>${locked(id) ? unlock(id) : draft.pool.includes(id) ? "✓ 候補に選択中" : "候補に未選択"}</small></span></button>`).join('<b aria-hidden="true">＋</b>')}</div><p>${ready ? "素材2種を候補に選択済み" : "素材を候補へ加えて、融合を狙おう"}</p><button data-add-recipe="${f}" ${recipe.some(locked) || ready ? "disabled" : ""}>${recipe.some(locked) ? "未解放の素材あり" : ready ? "素材を選択済み" : "素材2種を候補に加える"}</button></div>`;
+                return `<div class="base-recipe" data-ready="${ready}">${!fusion ? `<button data-detail="${f}" class="base-fusion-result">${icon(f)}<strong>${catalog[f].name}</strong><span aria-hidden="true">›</span></button>` : ""}<div class="base-recipe-materials">${recipe.map((id) => `<button data-detail="${id}" aria-label="${catalog[id].name}の効果を見る">${icon(id)}<span>${catalog[id].name}<small>${locked(id) ? unlock(id) : draft.pool.includes(id) ? "✓ 候補に選択中" : "候補に未選択"}</small></span></button>`).join('<b aria-hidden="true">＋</b>')}</div><p>${ready ? "素材2種を候補に選択済み" : "素材を候補へ加えて、融合を狙おう"}</p><button data-add-recipe="${f}" ${recipe.some(locked) || ready ? "disabled" : ""}>${recipe.some(locked) ? "未解放の素材あり" : ready ? "素材を選択済み" : "素材2種を候補に加える"}</button></div>`;
               })
               .join("")
           : '<p class="base-no-recipe">この強化を素材にする融合はありません。</p>'
@@ -152,7 +152,7 @@ export function openFrontBase(
           : unavailable
             ? unlock(id)
             : families[d.family];
-        return `<div class="base-tile" data-family="${fusion ? "fusion" : d.family}" data-selected="${active}" data-locked="${unavailable}"><button class="base-tile-pick" data-pool="${id}" ${fusion ? `aria-label="${d.name}の融合レシピを見る"` : `aria-pressed="${active}" aria-label="${d.name}を候補${active ? "から外す" : "に加える"}" ${unavailable ? 'aria-disabled="true"' : ""}`}>${icon(id)}<span><strong>${d.name}</strong><small>${note}</small></span>${fusion ? '<em aria-hidden="true">◇</em>' : `<em aria-hidden="true">${unavailable ? "鍵" : active ? "✓" : "＋"}</em>`}</button><button class="base-help" data-help="${id}" aria-label="${d.name}の効果・融合を見る">?</button></div>`;
+        return `<div class="base-tile" data-family="${fusion ? "fusion" : d.family}" data-selected="${active}" data-locked="${unavailable}"><button class="base-tile-pick" data-pool="${id}" ${fusion ? `aria-label="${d.name}の融合レシピを見る"` : `role="checkbox" aria-checked="${active}" aria-label="${d.name}を候補に含める" ${unavailable ? 'aria-disabled="true"' : ""}`}>${fusion ? "" : `<span class="base-checkbox" aria-hidden="true">${active ? "✓" : ""}</span>`}${icon(id)}<span class="base-tile-text"><strong>${d.name}</strong><small>${note}</small></span>${fusion ? '<em aria-hidden="true">◇</em>' : ""}</button></div>`;
       })
       .join("");
     grid.scrollTop = scroll;
@@ -181,13 +181,16 @@ export function openFrontBase(
           menuMotion(replacement, [{ opacity: 0.65 }, { opacity: 1 }], 160);
         }),
     );
-    grid.querySelectorAll<HTMLButtonElement>("[data-help]").forEach(
-      (b) =>
-        (b.onclick = () => {
-          selected = b.dataset.help as FrontUpgradeId;
-          detail(true);
-        }),
-    );
+    grid.querySelectorAll<HTMLButtonElement>("[data-pool]").forEach((b) => {
+      const showDetail = () => {
+        const id = b.dataset.pool as FrontUpgradeId;
+        if (selected === id) return;
+        selected = id;
+        detail();
+      };
+      b.onfocus = showDetail;
+      b.onpointerenter = showDetail;
+    });
     detail();
   }
   // 上書き・編集破棄の確認はゲーム内のキーボード対応ダイアログで行う。
@@ -195,7 +198,8 @@ export function openFrontBase(
     const dialog = document.createElement("dialog");
     dialog.className = "base-confirm";
     dialog.setAttribute("aria-labelledby", "base-confirm-title");
-    dialog.innerHTML = `<h2 id="base-confirm-title">${esc(text)}</h2><div><button data-cancel autofocus>キャンセル</button><button data-confirm>${label}</button></div>`;
+    dialog.innerHTML = `<h2 id="base-confirm-title">${esc(text)}</h2><div><button data-cancel autofocus>編集を続ける</button><button data-confirm>${esc(label)}</button></div>`;
+    dialog.addEventListener("keydown", (event) => event.stopPropagation());
     root.append(dialog);
     dialog.querySelector<HTMLButtonElement>("[data-cancel]")!.onclick = () =>
       dialog.close();
@@ -269,7 +273,7 @@ export function openFrontBase(
         );
       });
     if (loadoutDirty || nameDirty)
-      confirmAction("編集中の変更を破棄して呼び出しますか？", "呼び出す", load);
+      confirmAction("編集中の変更があります", "変更を破棄して呼び出す", load);
     else load();
   };
   slots.onchange = () => {
@@ -312,7 +316,7 @@ export function openFrontBase(
   }
   $("base-back").onclick = () =>
     loadoutDirty || nameDirty
-      ? confirmAction("保存していない編集を破棄して戻りますか？", "戻る", back)
+      ? confirmAction("編集中の変更があります", "変更を破棄して戻る", back)
       : back();
   slotOptions();
   name.value = decks.slots[slot]?.name ?? "";

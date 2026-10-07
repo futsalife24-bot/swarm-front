@@ -44,6 +44,9 @@ try {
         imageReadiness.push({ stage, pending, waitedMs: Date.now() - started });
       };
       p.on("pageerror", (e) => errors.push(e.message));
+      p.on("requestfailed", (r) =>
+        console.error("通信失敗", r.url(), r.failure()?.errorText),
+      );
       p.on("console", (m) => {
         if (m.type() === "error") consoleErrors.push(m.text());
       });
@@ -74,6 +77,86 @@ try {
           : async () => {};
       recordings.push(stopVideo);
       assert.equal(await p.locator(".base-tile").count(), 22);
+      assert.equal(await p.locator("[data-help],.base-help").count(), 0);
+      assert.equal(await p.locator('#base-grid [role="checkbox"]').count(), 22);
+      const initialStorage = await p.evaluate(() =>
+        localStorage.getItem("swarm-front-upgrade-loadout-v1"),
+      );
+      await p.locator('[data-pool="fuse"]').focus();
+      assert.match(await p.locator("#base-detail-name").innerText(), /導火/);
+      assert.equal(
+        await p.locator('[data-pool="fuse"]').getAttribute("aria-checked"),
+        "true",
+      );
+      await p.keyboard.press("Space");
+      assert.equal(
+        await p.locator('[data-pool="fuse"]').getAttribute("aria-checked"),
+        "false",
+      );
+      await p.locator("#base-back").tap();
+      assert.equal(
+        await p.locator("#base-confirm-title").innerText(),
+        "編集中の変更があります",
+      );
+      assert.equal(
+        await p.locator("[data-cancel]").innerText(),
+        "編集を続ける",
+      );
+      assert.equal(
+        await p.locator("[data-confirm]").innerText(),
+        "変更を破棄して戻る",
+      );
+      assert.ok(
+        await p
+          .locator("[data-cancel]")
+          .evaluate((e) => e === document.activeElement),
+      );
+      const dialogBox = await p.locator(".base-confirm").boundingBox();
+      assert.ok(
+        dialogBox.x >= 0 &&
+          dialogBox.y >= 0 &&
+          dialogBox.x + dialogBox.width <= width &&
+          dialogBox.y + dialogBox.height <= height,
+      );
+      await p.screenshot({ path: `${out}/exit-${width}-${reducedMotion}.png` });
+      await p.locator("[data-cancel]").tap();
+      assert.equal(
+        await p.locator('[data-pool="fuse"]').getAttribute("aria-checked"),
+        "false",
+      );
+      await p.locator("#base-back").tap();
+      await p.keyboard.press("Escape");
+      await p.locator(".base-confirm").waitFor({ state: "detached" });
+      assert.equal(await p.locator(".base-confirm").count(), 0);
+      assert.ok(
+        await p
+          .locator("#base-back")
+          .evaluate((e) => e === document.activeElement),
+      );
+      await p.locator("#base-back").tap();
+      await p.locator("[data-confirm]").tap();
+      await p.locator("#open-armory").click();
+      assert.equal(
+        await p.locator('[data-pool="fuse"]').getAttribute("aria-checked"),
+        "true",
+      );
+      assert.equal(
+        await p.evaluate(() =>
+          localStorage.getItem("swarm-front-upgrade-loadout-v1"),
+        ),
+        initialStorage,
+      );
+      const locked = p.locator('#base-grid [aria-disabled="true"]').first();
+      if (await locked.count()) {
+        const checked = await locked.getAttribute("aria-checked");
+        // aria-disabledでも説明閲覧は可能。実入力を送り選択が変わらないことを検証。
+        await locked.tap({ force: true });
+        assert.equal(await locked.getAttribute("aria-checked"), checked);
+        assert.match(
+          await p.locator("#base-detail").innerText(),
+          /クリアで解放/,
+        );
+      }
       assert.equal(await p.locator(".base-initial,[data-initial]").count(), 0);
       assert.doesNotMatch(
         await p.locator("#base-grid").innerText(),
@@ -93,14 +176,14 @@ try {
       for (const id of ["blast-core", "armor-piercer", "afterimage-mine"]) {
         await p.locator(`[data-pool="${id}"]`).tap();
         assert.equal(
-          await p.locator(`[data-pool="${id}"]`).getAttribute("aria-pressed"),
+          await p.locator(`[data-pool="${id}"]`).getAttribute("aria-checked"),
           "false",
         );
       }
       const active = await p.evaluate(() =>
         localStorage.getItem("swarm-front-upgrade-loadout-v1"),
       );
-      await p.locator('[data-help="fuse"]').tap();
+      await p.locator('[data-pool="fuse"]').focus();
       assert.match(
         await p.locator("#base-detail").innerText(),
         /チェインノヴァ/,
@@ -108,7 +191,7 @@ try {
       const fusionRecipeBefore = await p.locator(".base-recipe").innerText();
       await p.locator('[data-pool="fuse"]').tap();
       assert.equal(
-        await p.locator('[data-pool="fuse"]').getAttribute("aria-pressed"),
+        await p.locator('[data-pool="fuse"]').getAttribute("aria-checked"),
         "false",
       );
       await p.locator("#base-name").fill("融合・爆発デッキ");
@@ -149,17 +232,34 @@ try {
       await p.locator("#base-upgrades").tap();
       for (const id of ["blast-core", "armor-piercer", "afterimage-mine"]) {
         assert.equal(
-          await p.locator(`[data-pool="${id}"]`).getAttribute("aria-pressed"),
+          await p.locator(`[data-pool="${id}"]`).getAttribute("aria-checked"),
           "false",
         );
       }
       assert.equal(
-        await p.locator('[data-pool="fuse"]').getAttribute("aria-pressed"),
+        await p.locator('[data-pool="fuse"]').getAttribute("aria-checked"),
         "false",
       );
-      // 「?」の閲覧で選択・保存が変わらず、画像が読み込まれる。
-      await p.locator('[data-help="fuse"]').tap();
+      // フォーカスで説明を閲覧しても選択・保存が変わらず、画像が読み込まれる。
+      await p.locator('[data-pool="fuse"]').focus();
       await waitForBaseImages("upgrades");
+      const checkboxes = await p.locator(".base-checkbox").evaluateAll((es) =>
+        es.map((e) => {
+          const b = e.getBoundingClientRect(),
+            icon = e.nextElementSibling.getBoundingClientRect();
+          return {
+            width: b.width,
+            height: b.height,
+            left: b.left,
+            iconLeft: icon.left,
+          };
+        }),
+      );
+      assert.ok(
+        checkboxes.every(
+          (b) => b.width >= 20 && b.height >= 20 && b.left < b.iconLeft,
+        ),
+      );
       await p.screenshot({ path: `${out}/base-${width}-${reducedMotion}.png` });
       await p.locator("#base-fusions").tap();
       await waitForBaseImages("fusions");
@@ -208,7 +308,7 @@ try {
       await p.reload({ waitUntil: "domcontentloaded" });
       await p.locator("#open-armory").click();
       assert.equal(
-        await p.locator('[data-pool="fuse"]').getAttribute("aria-pressed"),
+        await p.locator('[data-pool="fuse"]').getAttribute("aria-checked"),
         "false",
       );
       assert.match(

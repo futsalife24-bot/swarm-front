@@ -40,7 +40,7 @@ try {
     await page.locator("#open-armory").click();
     assert.equal(await page.locator(".base-initial,[data-initial]").count(), 0);
     const selected = await page
-      .locator('[data-pool][aria-pressed="true"]')
+      .locator('[data-pool][aria-checked="true"]')
       .evaluateAll((es) => es.map((e) => e.dataset.pool));
     for (const id of selected.filter((id) => !pool.includes(id)))
       await page.locator(`[data-pool="${id}"]`).click();
@@ -52,7 +52,7 @@ try {
     await page.reload({ waitUntil: "domcontentloaded" });
     await page.locator("#open-armory").click();
     const restored = await page
-      .locator('[data-pool][aria-pressed="true"]')
+      .locator('[data-pool][aria-checked="true"]')
       .evaluateAll((es) => es.map((e) => e.dataset.pool));
     assert.deepEqual([...restored].sort(), [...pool].sort());
     await page.locator("#base-back").click();
