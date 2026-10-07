@@ -1,3 +1,10 @@
+# 現在地: 実タブ非表示cleanupの1経路を調査、非UI準備済み（2026-10-07）
+
+開幕ランダム3択の公開タスクは下記PR146/147で完了。次の既存仕様内調査として、製品main `1c2f4ba44348ab95558ca0362f4f50a561e900d0` を基点に、従来版の装備保存演出中→同じブラウザの空白タブへ切替→復帰の1往復だけを選定。[調査記録/観測方法](VISIBILITY-CLEANUP-INVESTIGATION.md)。branch `codex/visibility-cleanup-investigation-20261007`。製品コード・保存仕様・main・公開は変更しない。
+
+既存Linux/Windows証拠のactualHiddenCleanupはfalseで未カバー。実装はhiddenでAnimation取消/装飾cleanup、writer lockはvisibilitychangeで解放しない。専用Chrome/contextの観測スクリプトを作成し構文検査・公開originの起動前拒否を確認。ブラウザ由来のtrusted hiddenと、自然終了前の取消/保存不変/復帰後の新操作を検査する。実画面/性能はまだ未確認。MONSTER REELのUI051完了後に新規UI約3分を要求済み。貸出前のブラウザ起動・IAB保存ロック操作なし。
+
+## 前回完了: 開幕ランダム3択の公開
 # 現在地: PR146を通常merge・既存Worker公開、配信26件/公開8条件成功（2026-10-07）
 
 [PR146](https://github.com/futsalife24-bot/swarm-front/pull/146)通常merge、公開ソースmain `b10e685b7a13374bfb66e06feeb47a9d162ca064`、Worker Version `356a85b3-e4c2-468e-aeb7-1f455277f1f5`。基地の固定開幕3枠を撤去し、チェック候補6〜22種から重複なしランダム3択。旧デッキ名/pool保持、ソロ/協力共通。初回監査P2の更新前後の通信混在保護を修正し、[同じChat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)再監査の対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2` は必須0で合格。
