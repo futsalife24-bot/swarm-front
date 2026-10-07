@@ -1,0 +1,24 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('#pt-resume')
+    - locator resolved to <button id="pt-resume">タップで再開</button>
+  - attempting click action
+    - waiting for element to be visible, enabled and stable
+  - element was detached from the DOM, retrying
+
+    at C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\dist-validation\cave-foundry-release-20261007\check-public-cave.mjs:32:38 {
+  log: [
+    "  - waiting for locator('#pt-resume')",
+    '    - locator resolved to <button id="pt-resume">タップで再開</button>',
+    '  - attempting click action',
+    '    - waiting for element to be visible, enabled and stable',
+    '  - element was detached from the DOM, retrying'
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0

@@ -1,0 +1,111 @@
+{
+  "origin": "https://swarm-front.melosalife-24.workers.dev",
+  "results": [
+    {
+      "width": 844,
+      "height": 390,
+      "reducedMotion": "no-preference",
+      "pool": [
+        "armor",
+        "reload",
+        "magazine",
+        "magnet",
+        "blast-radius",
+        "opening-shot"
+      ],
+      "offered": [
+        "blast-radius",
+        "opening-shot",
+        "reload"
+      ],
+      "selected": "blast-radius",
+      "cards": [
+        {
+          "x": 92,
+          "y": 125,
+          "width": 214.65625,
+          "height": 184,
+          "top": 125,
+          "right": 306.65625,
+          "bottom": 309,
+          "left": 92
+        },
+        {
+          "x": 314.65625,
+          "y": 125,
+          "width": 214.671875,
+          "height": 184,
+          "top": 125,
+          "right": 529.328125,
+          "bottom": 309,
+          "left": 314.65625
+        },
+        {
+          "x": 537.328125,
+          "y": 125,
+          "width": 214.671875,
+          "height": 184,
+          "top": 125,
+          "right": 752,
+          "bottom": 309,
+          "left": 537.328125
+        }
+      ],
+      "errors": [],
+      "consoleErrors": []
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "reducedMotion": "reduce",
+      "pool": [
+        "armor",
+        "reload",
+        "magazine",
+        "magnet",
+        "blast-radius",
+        "opening-shot"
+      ],
+      "offered": [
+        "armor",
+        "blast-radius",
+        "reload"
+      ],
+      "selected": "armor",
+      "cards": [
+        {
+          "x": 51.203125,
+          "y": 110,
+          "width": 173.859375,
+          "height": 184,
+          "top": 110,
+          "right": 225.0625,
+          "bottom": 294,
+          "left": 51.203125
+        },
+        {
+          "x": 233.0625,
+          "y": 110,
+          "width": 173.859375,
+          "height": 184,
+          "top": 110,
+          "right": 406.921875,
+          "bottom": 294,
+          "left": 233.0625
+        },
+        {
+          "x": 414.921875,
+          "y": 110,
+          "width": 173.859375,
+          "height": 184,
+          "top": 110,
+          "right": 588.78125,
+          "bottom": 294,
+          "left": 414.921875
+        }
+      ],
+      "errors": [],
+      "consoleErrors": []
+    }
+  ]
+}

@@ -1,10 +1,12 @@
-# 現在地: 洞窟増援の高度修正、独立監査・main反映・公開を進行中（2026-10-07）
+# 現在地: PR148を通常merge・既存Worker公開、配信26件/公開6条件成功（2026-10-08）
 
-本人「公開までやって」で前回の限定範囲を拡張。branch `codex/adopted-map-spawns-20261007`、base main `1c2f4ba44348ab95558ca0362f4f50a561e900d0`。洞窟で通常spawnの高さ上限を増援の候補判定と最終配置へ共通適用する修正。通常spawnの式、洞窟以外の増援、抽選/数/通信/保存/UI/素材は保持。
+[PR148](https://github.com/futsalife24-bot/swarm-front/pull/148)通常merge、公開ソースmain `e1e9d7ce1c6e19113046726cc5aae231efc72b1c`、Worker Version `3061c5ac-aa16-41ea-b65f-70197bdad2fd`。洞窟増援の候補判定と最終配置へ通常spawnの高さ上限を共通適用。日本語Player-Noteをmerge本文に保持。[公開版/front](https://swarm-front.melosalife-24.workers.dev/front)、従来版は同ドメインの `/`。
 
-Windows型チェック・関連7ファイル857件・本番build・production dry-run成功。採用済み配置696件は全成功、元の失敗証拠は保持。草原/雪峡の4,292観測が修正前後一致。実ローカルWorker2接続のST6増援通信も成功。洞窟ST10/ST16のChrome表示確認・通常新規Chatでの独立監査を行い、合格後に通常PR merge・既存Worker公開・配信/health/公開画面照合へ続ける。
+Windows型・関連7ファイル857件（配置696件含む）・build/production dry-run・実Worker2接続成功。草原/雪峡4292観測は修正前後一致。mainから再build/dry-run後に公開し、配信26/26 SHA一致・health200。公開Chrome/d3d11で洞窟10/16×844/640幅の4条件、改装版844通常/640 reducedの2条件が成功、すべてconsole/page error0。洞窟は専用contextの完了進行/既遭遇fixture、タッチエミュレーションで描画/HUD/pause/resumeを確認。実機タッチ・洞窟Worker頭部撃破E2E・長期負荷・全作戦/全敵モデルは未確認。
 
-対象SHA `672bc9c63a7558f39db347bdf1901ed5d4bc0d8f`、[PR148](https://github.com/futsalife24-bot/swarm-front/pull/148)。2026-10-08、iabの通常新規[監査Chat](https://chatgpt.com/c/6ac65eb3-82dc-83ee-b828-a1da443b6e8d)で確定判定 **合格、P0/P1/P2すべて0**。任意1は洞窟実Worker頭部撃破E2E追加で公開阻止ではない。[回答全文](evidence/cave-foundry-release-20261007/audit-final.md)。独立再計算は実個体半径で修正前12/1260違反→修正後0。ZIP113ファイルのSHA一致、diff/ソース/証拠を照合。監査側の依存取得未完でVitest/Vite/Wranglerの独立再実行は未達。製品修正の追加なし、対象以後は記録のみ。通常merge→main build/dry-run→既存Worker公開へ進める。現時点は未統合・未公開。詳細/限界は [CAVE-FOUNDRY-RELEASE.md](CAVE-FOUNDRY-RELEASE.md)。モデルID・推論設定は未確認。
+独立監査の対象 `672bc9c63a7558f39db347bdf1901ed5d4bc0d8f`、[通常新規Chat](https://chatgpt.com/c/6ac65eb3-82dc-83ee-b828-a1da443b6e8d)で **合格、P0/P1/P2すべて0**。任意1は洞窟実Worker頭部撃破E2E追加で公開阻止ではない。[回答全文](evidence/cave-foundry-release-20261007/audit-final.md)。独立計算で実個体半径の違反12/1260→0。監査側の依存取得未完でVitest/Vite/Wranglerの独立再実行は未達。監査後の製品修正なし。詳細/限界・復旧経緯は [CAVE-FOUNDRY-RELEASE.md](CAVE-FOUNDRY-RELEASE.md)。
+
+公開記録は `codex/pr148-release-record-20261008` の文書・証拠だけで通常PR反映する。製品不変のため追加公開不要。記録mainの最新SHAは記録PRのmergeを正とし、終了時にlocal main/origin/main/GitHub main一致・cleanを照合する。専用ローカルWorker/Vite/検証Chromeと監査iabタブは終了。保管庫ノートへ現在地を保存し、完了結果も更新する。モデルID・推論設定は未確認。戦闘演出/PR137・別branchのpilot修正は保留のまま。
 
 ## 前回: 採用済み出現の限定1回試験、694成功・洞窟増援2失敗を記録（2026-10-07）
 

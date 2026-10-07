@@ -1,0 +1,21 @@
+{
+  "verifiedAt": "2026-10-07T15:31:57.5114161Z",
+  "sourceSha": "e1e9d7ce1c6e19113046726cc5aae231efc72b1c",
+  "pr": "https://github.com/futsalife24-bot/swarm-front/pull/148",
+  "auditSha": "672bc9c63a7558f39db347bdf1901ed5d4bc0d8f",
+  "auditChat": "https://chatgpt.com/c/6ac65eb3-82dc-83ee-b828-a1da443b6e8d",
+  "auditVerdict": "合格",
+  "mandatory": 0,
+  "optional": 1,
+  "version": "3061c5ac-aa16-41ea-b65f-70197bdad2fd",
+  "deliveryFiles": 26,
+  "deliveryPass": true,
+  "health": 200,
+  "publicCaveCases": 4,
+  "publicFrontCases": 2,
+  "consoleErrors": 0,
+  "pageErrors": 0,
+  "limitations": "洞窟実Worker頭部撃破E2E・実機タッチ・長期GPU/全seed/全作戦/全敵モデル・実タブ非表示cleanup未確認",
+  "model": "未確認",
+  "reasoning": "未確認"
+}

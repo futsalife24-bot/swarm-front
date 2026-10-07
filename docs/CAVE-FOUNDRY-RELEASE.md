@@ -27,6 +27,20 @@
 
 最初のPowerShell検証wrapperも最終的にexit 0を回収し、857件成功の結果JSONと整合した。
 
+## main統合・既存Worker公開（2026-10-08）
+
+[PR148](https://github.com/futsalife24-bot/swarm-front/pull/148)をReady→通常merge。merge/公開ソースSHA `e1e9d7ce1c6e19113046726cc5aae231efc72b1c`。baseは監査時と同じ、対象以後のsrc/server/tests/scripts差分なしを確認し、CI/保護を迂回せず統合。merge本文の `Player-Note: 洞窟で連結炉から生まれた飛行敵が天井にめり込むことがある問題を修正しました。` を保持した。
+
+cleanなmain同期後にbuild→`wrangler.production.jsonc` dry-run→既存Worker公開。Worker Version **`3061c5ac-aa16-41ea-b65f-70197bdad2fd`**。配信26ファイルすべてSHA一致・health200。公開ソース以後の公開記録は文書/証拠のみで、追加公開は不要。
+
+- 公開Chrome/d3d11の洞窟ST10/ST16×844×390/640×360、計4条件は描画・HUD・横溢れなし・pause/resume・console/page error0。本人とは別contextの、既存freshProgressから生成した完了進行/既遭遇fixtureを使用。タッチエミュレーションであり、実機タッチではない。洞窟Worker頭部撃破を実測した結果ではない。
+- 公開改装版/front、844×390通常/640×360 reducedの2条件は、6種pool保存/再読込→pool内の重複なしランダム3択→取得反映まで成功。console/page error0。
+- [公開証拠](evidence/cave-foundry-release-20261007/release/)にmain build/dry-run/deploy、26配信、公開6条件の結果・画像、専用fixture/確認補助を保存。補助の再現には `release/check-public-cave.mjs` と `release/public-fixture.json` をそれぞれ `dist-validation/cave-foundry-release-20261007/` の同名へ置いて、repo rootから実行する。
+
+GitHubへの監査結果pushは2回500応答となり、公式status/PR readの確認後、永続設定を変更しないHTTP/1.1一時指定で通常pushが成功した。PRへのSHA反映待ちを照合してから通常mergeした。認証/保護/Hookを変更していない。
+
+公開洞窟確認補助では、PCの非表示touch pauseボタン、Escape後のresume、初遭遇film中のHUD非表示により途中試行が失敗した。初遭遇filmは意図してHUD/controlsを隠すため、戦場描画の確認fixtureを既遭遇に揃えた後、4条件が成功した。失敗ログも保持。PCのEscape動作・初遭遇film全経路のE2E合格として扱わない。製品の未遭遇情報や操作コードは変更していない。
+
 ## 検証環境での失敗と限界
 
 初回のWorker起動/dry-runはWindowsの親ディレクトリ読み取り制限で失敗し、通常権限で復旧した。テスト結果JSONは857件成功を記録したが、最初のPowerShell終了待ちwrapperは残留したため、結果JSONとwrapper終了を区別する。
