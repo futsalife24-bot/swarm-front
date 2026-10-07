@@ -1,0 +1,15 @@
+
+> swarm-front@0.1.0 server:build
+> wrangler deploy --dry-run --outdir dist-worker
+
+
+ ⛅️ wrangler 4.129.0
+────────────────────
+Total Upload: 355.98 KiB / gzip: 87.44 KiB
+Your Worker has access to the following bindings:
+Binding                                                               Resource
+env.ROOMS (Room)                                                      Durable Object
+env.GATE (Gate)                                                       Durable Object
+env.ALLOWED_ORIGINS ("http://127.0.0.1:5186,http://localhos...")      Environment Variable
+
+--dry-run: exiting now.

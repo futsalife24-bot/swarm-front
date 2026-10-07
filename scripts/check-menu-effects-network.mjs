@@ -1,9 +1,15 @@
 import { chromium } from "@playwright/test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import { recordMenuMotion } from "./menu-motion-recorder.mjs";
 const origin = "http://127.0.0.1:5186",
   endpoint = "http://127.0.0.1:8789";
 const out = "dist-validation/menu-effects";
+const width = Number(process.env.MENU_WIDTH || 844);
+const height = width === 640 ? 360 : 390;
+const reducedMotion =
+  process.env.MENU_REDUCED === "reduce" ? "reduce" : "no-preference";
+const animated = reducedMotion !== "reduce";
 fs.mkdirSync(out, { recursive: true });
 const key = /^ROOM_CREATION_KEY="([a-f0-9]{64})"$/m.exec(
   fs.readFileSync(".dev.vars", "utf8"),
@@ -15,13 +21,30 @@ const response = await fetch(endpoint + "/rooms", {
 });
 assert.ok(response.ok, `Local room creation ${response.status}`);
 const { code } = await response.json();
-const browser = await chromium.launch({
-  channel: "chrome",
-  args: ["--use-angle=d3d11"],
-});
+// PW_EXECUTABLE runs the same checks on a bundled Chromium (e.g. Linux CI).
+const browser = await chromium.launch(
+  process.env.PW_EXECUTABLE
+    ? { executablePath: process.env.PW_EXECUTABLE }
+    : { channel: "chrome", args: ["--use-angle=d3d11"] },
+);
 const errors = [],
   results = {};
 const pages = [];
+const recordings = [];
+const record = async (page, scene) => {
+  if (process.env.MENU_RECORD_VIDEO !== "1") return async () => {};
+  const folder = "dist-validation/menu-polish-network-motion";
+  fs.mkdirSync(folder, { recursive: true });
+  const stop = await recordMenuMotion(
+    page,
+    `${folder}/${width}-${reducedMotion}-${scene}.mp4`,
+    width,
+    height,
+  );
+  recordings.push(stop);
+  return stop;
+};
+let stopSquad;
 async function observeEffects(page) {
   await page.addInitScript(() => {
     window.menuFxSeen = [];
@@ -31,9 +54,11 @@ async function observeEffects(page) {
         for (const added of record.addedNodes) {
           if (!(added instanceof Element)) continue;
           const nodes = [
-            ...added.querySelectorAll(".menu-fx-trace,.menu-fx-reward"),
+            ...added.querySelectorAll(
+              ".menu-fx-trace,.menu-fx-check,.menu-fx-reward",
+            ),
           ];
-          if (added.matches(".menu-fx-trace,.menu-fx-reward"))
+          if (added.matches(".menu-fx-trace,.menu-fx-check,.menu-fx-reward"))
             nodes.push(added);
           for (const node of nodes) {
             if (recorded.has(node)) continue;
@@ -42,7 +67,9 @@ async function observeEffects(page) {
             window.menuFxSeen.push({
               kind: node.classList.contains("menu-fx-reward")
                 ? "reward"
-                : "trace",
+                : node.classList.contains("menu-fx-check")
+                  ? "check"
+                  : "trace",
               member: member?.dataset.fxMember,
               ready: !!member?.querySelector(".member-status.is-ready"),
             });
@@ -55,7 +82,8 @@ async function observeEffects(page) {
 try {
   for (let i = 0; i < 2; i++) {
     const p = await browser.newPage({
-      viewport: { width: 844, height: 390 },
+      viewport: { width, height },
+      reducedMotion,
       serviceWorkers: "block",
     });
     p.on("pageerror", (e) => errors.push(e.message));
@@ -70,6 +98,7 @@ try {
     await p.locator("#launch").click();
     await p.locator(".lobby").waitFor();
     pages.push(p);
+    if (i === 0) stopSquad = await record(p, "squad");
   }
   for (const p of pages) {
     await p.bringToFront();
@@ -80,7 +109,8 @@ try {
     );
     assert.equal(await p.locator("[data-fx-member]").count(), 2);
     await p.waitForFunction(
-      () => document.querySelectorAll(".menu-fx-trace").length === 0,
+      () =>
+        document.querySelectorAll(".menu-fx-trace,.menu-fx-check").length === 0,
       {},
       { timeout: 15000 },
     );
@@ -88,8 +118,11 @@ try {
   const readyBefore = await pages[0].evaluate(() =>
     window.menuFxSeen.filter((e) => e.member && e.ready),
   );
-  assert.equal(readyBefore.length, 2);
-  assert.equal(new Set(readyBefore.map((e) => e.member)).size, 2);
+  assert.equal(readyBefore.length, animated ? 2 : 0);
+  assert.equal(
+    new Set(readyBefore.map((e) => e.member)).size,
+    animated ? 2 : 0,
+  );
   await pages[0].screenshot({ path: `${out}/squad.png` });
   await pages[1].locator("#back").click();
   await pages[0].waitForFunction(
@@ -101,26 +134,30 @@ try {
     {},
     { timeout: 90000 },
   );
+  if (animated)
+    await pages[0].waitForFunction(
+      () => window.menuFxSeen.filter((e) => e.member && e.ready).length === 3,
+    );
   await pages[0].waitForFunction(
-    () => window.menuFxSeen.filter((e) => e.member && e.ready).length === 3,
-  );
-  await pages[0].waitForFunction(
-    () => document.querySelectorAll(".menu-fx-trace").length === 0,
+    () =>
+      document.querySelectorAll(".menu-fx-trace,.menu-fx-check").length === 0,
   );
   const readyAfter = await pages[0].evaluate(() =>
     window.menuFxSeen.filter((e) => e.member && e.ready),
   );
-  assert.equal(readyAfter.length, 3);
+  assert.equal(readyAfter.length, animated ? 3 : 0);
   results.squadReadyEffects = {
     initial: readyBefore.length,
     afterReprepare: readyAfter.length,
     ended: true,
   };
   results.realSquadReadyAndReprepare = true;
+  await stopSquad();
   for (const p of pages) await p.close();
   // Proxy to the real isolated Worker. No fabricated API response or production save.
   const p = await browser.newPage({
-    viewport: { width: 844, height: 390 },
+    viewport: { width, height },
+    reducedMotion,
     serviceWorkers: "block",
   });
   p.on("pageerror", (e) => errors.push(e.message));
@@ -158,6 +195,7 @@ try {
     () =>
       JSON.parse(localStorage.getItem("swarm-front-shared-progress-v3")).coins,
   );
+  const stopWeekly = await record(p, "weekly");
   await claim.click();
   await p.waitForFunction(
     () =>
@@ -182,14 +220,38 @@ try {
   const rewards = await p.evaluate(
     () => window.menuFxSeen.filter((e) => e.kind === "reward").length,
   );
+  // The mutation observer also sees a reward node synchronously removed by
+  // reduced motion. Verify the live DOM separately from this success count.
   assert.equal(rewards, 1);
+  if (!animated) {
+    assert.equal(await p.locator(".menu-fx-reward").count(), 0);
+    assert.equal(
+      await p.evaluate(
+        () =>
+          document
+            .getAnimations()
+            .filter(
+              (a) =>
+                a.playState === "running" &&
+                a.effect?.target?.closest?.(".menu-fx-layer"),
+            ).length,
+      ),
+      0,
+    );
+  }
   results.weeklyEffects = { appeared: rewards, ended: true };
   await p.screenshot({ path: `${out}/weekly.png` });
-  await p.waitForTimeout(850);
-  assert.equal(await p.locator(".menu-fx-reward").count(), 0);
+  await p.waitForFunction(
+    () => document.querySelectorAll(".menu-fx-reward").length === 0,
+    {},
+    { timeout: 3000 },
+  );
+  await stopWeekly();
   await p.locator(".dialog-close").click();
   assert.deepEqual(errors, []);
   results.realWeeklyClaimOnce = true;
+  results.viewport = { width, height };
+  results.reducedMotion = reducedMotion;
   results.errors = errors;
   fs.writeFileSync(`${out}/network.json`, JSON.stringify(results, null, 2));
   console.log(JSON.stringify(results));
@@ -218,5 +280,6 @@ try {
   );
   throw error;
 } finally {
+  for (const stop of recordings) await stop();
   await browser.close();
 }

@@ -1,0 +1,278 @@
+[
+  {
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "meter": {
+      "paused": false,
+      "hidden": false,
+      "bars": 3
+    },
+    "errors": [],
+    "framesWritten": 1075,
+    "scenes": [
+      {
+        "name": "title",
+        "frames": 20,
+        "maxAnimations": 3,
+        "overflow": false
+      },
+      {
+        "name": "equip",
+        "frames": 78,
+        "maxAnimations": 5,
+        "overflow": false
+      },
+      {
+        "name": "craft",
+        "frames": 78,
+        "maxAnimations": 15,
+        "overflow": false
+      },
+      {
+        "name": "synthesis",
+        "frames": 78,
+        "maxAnimations": 30,
+        "overflow": false
+      },
+      {
+        "name": "growth",
+        "frames": 79,
+        "maxAnimations": 2,
+        "overflow": false
+      },
+      {
+        "name": "report",
+        "frames": 73,
+        "maxAnimations": 51,
+        "overflow": false
+      },
+      {
+        "name": "save-check",
+        "frames": 77,
+        "maxAnimations": 3,
+        "overflow": false
+      },
+      {
+        "name": "meter",
+        "frames": 139,
+        "maxAnimations": 3,
+        "overflow": false
+      },
+      {
+        "name": "front-guide",
+        "frames": 46,
+        "maxAnimations": 3,
+        "overflow": false
+      }
+    ],
+    "video": "640-no-preference.mp4"
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "meter": {
+      "paused": false,
+      "hidden": false,
+      "bars": 3
+    },
+    "errors": [],
+    "framesWritten": 954,
+    "scenes": [
+      {
+        "name": "title",
+        "frames": 28,
+        "maxAnimations": 0,
+        "overflow": false
+      },
+      {
+        "name": "equip",
+        "frames": 79,
+        "maxAnimations": 0,
+        "overflow": false
+      },
+      {
+        "name": "craft",
+        "frames": 79,
+        "maxAnimations": 0,
+        "overflow": false
+      },
+      {
+        "name": "synthesis",
+        "frames": 66,
+        "maxAnimations": 0,
+        "overflow": false
+      },
+      {
+        "name": "growth",
+        "frames": 79,
+        "maxAnimations": 0,
+        "overflow": false
+      },
+      {
+        "name": "report",
+        "frames": 10,
+        "maxAnimations": 0,
+        "overflow": false
+      },
+      {
+        "name": "save-check",
+        "frames": 79,
+        "maxAnimations": 0,
+        "overflow": false
+      },
+      {
+        "name": "meter",
+        "frames": 140,
+        "maxAnimations": 0,
+        "overflow": false
+      },
+      {
+        "name": "front-guide",
+        "frames": 73,
+        "maxAnimations": 0,
+        "overflow": false
+      }
+    ],
+    "video": "640-reduce.mp4"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "meter": {
+      "paused": false,
+      "hidden": false,
+      "bars": 3
+    },
+    "errors": [],
+    "framesWritten": 1096,
+    "scenes": [
+      {
+        "name": "title",
+        "frames": 18,
+        "maxAnimations": 3,
+        "overflow": false
+      },
+      {
+        "name": "equip",
+        "frames": 78,
+        "maxAnimations": 5,
+        "overflow": false
+      },
+      {
+        "name": "craft",
+        "frames": 78,
+        "maxAnimations": 15,
+        "overflow": false
+      },
+      {
+        "name": "synthesis",
+        "frames": 78,
+        "maxAnimations": 30,
+        "overflow": false
+      },
+      {
+        "name": "growth",
+        "frames": 77,
+        "maxAnimations": 2,
+        "overflow": false
+      },
+      {
+        "name": "report",
+        "frames": 45,
+        "maxAnimations": 51,
+        "overflow": false
+      },
+      {
+        "name": "save-check",
+        "frames": 78,
+        "maxAnimations": 3,
+        "overflow": false
+      },
+      {
+        "name": "meter",
+        "frames": 139,
+        "maxAnimations": 3,
+        "overflow": false
+      },
+      {
+        "name": "front-guide",
+        "frames": 76,
+        "maxAnimations": 3,
+        "overflow": false
+      }
+    ],
+    "video": "844-no-preference.mp4"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "meter": {
+      "paused": false,
+      "hidden": false,
+      "bars": 3
+    },
+    "errors": [],
+    "framesWritten": 902,
+    "scenes": [
+      {
+        "name": "title",
+        "frames": 19,
+        "maxAnimations": 0,
+        "overflow": false
+      },
+      {
+        "name": "equip",
+        "frames": 79,
+        "maxAnimations": 0,
+        "overflow": false
+      },
+      {
+        "name": "craft",
+        "frames": 79,
+        "maxAnimations": 0,
+        "overflow": false
+      },
+      {
+        "name": "synthesis",
+        "frames": 79,
+        "maxAnimations": 0,
+        "overflow": false
+      },
+      {
+        "name": "growth",
+        "frames": 79,
+        "maxAnimations": 0,
+        "overflow": false
+      },
+      {
+        "name": "report",
+        "frames": 115,
+        "maxAnimations": 0,
+        "overflow": false
+      },
+      {
+        "name": "save-check",
+        "frames": 79,
+        "maxAnimations": 0,
+        "overflow": false
+      },
+      {
+        "name": "meter",
+        "frames": 139,
+        "maxAnimations": 0,
+        "overflow": false
+      },
+      {
+        "name": "front-guide",
+        "frames": 74,
+        "maxAnimations": 0,
+        "overflow": false
+      }
+    ],
+    "video": "844-reduce.mp4"
+  }
+]

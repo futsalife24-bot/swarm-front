@@ -6,10 +6,12 @@ if (!/^http:\/\/127\.0\.0\.1:\d+$/.test(origin))
   throw Error("Fixtures require localhost");
 const out = "dist-validation/menu-effects";
 fs.mkdirSync(out, { recursive: true });
-const browser = await chromium.launch({
-  channel: "chrome",
-  args: ["--use-angle=d3d11"],
-});
+// PW_EXECUTABLE runs the same checks on a bundled Chromium (e.g. Linux CI).
+const browser = await chromium.launch(
+  process.env.PW_EXECUTABLE
+    ? { executablePath: process.env.PW_EXECUTABLE }
+    : { channel: "chrome", args: ["--use-angle=d3d11"] },
+);
 const results = [];
 let current;
 try {
@@ -62,8 +64,13 @@ try {
     );
     assert.equal((await saved()).inventory.length, before.inventory.length);
     await p.screenshot({ path: `${out}/gear-${reducedMotion}.png` });
-    await p.waitForTimeout(850);
-    assert.equal(await p.locator(".menu-fx-equip,.menu-fx-trace").count(), 0);
+    // The slot frame starts when the travelling light arrives; wait for the end.
+    await p.waitForFunction(
+      () =>
+        document.querySelectorAll(".menu-fx-equip,.menu-fx-trace").length === 0,
+      {},
+      { timeout: 3000 },
+    );
     // Failed save cannot display the success cue, and retry still saves normally.
     await p.evaluate(() => {
       window.fxSetItem = Storage.prototype.setItem;
@@ -162,7 +169,7 @@ try {
     );
     assert.equal(await p.locator(".menu-fx-mosaic").count(), 0);
     await p.locator("#report-close").click();
-    await p.waitForTimeout(850);
+    await p.waitForTimeout(1200);
     const animations = await p.evaluate(
       () =>
         document

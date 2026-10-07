@@ -1,3 +1,20 @@
+# 現在地: PR142の独立監査に合格、通常統合・公開へ（2026-10-07）
+
+[独立監査の確定回答](evidence/menu-polish-windows-20261007/audit-final.md)は対象 `7ef32289a4662afa940c1c7accbfc9f42bb179e6`、必須P0/P1/P2各0・任意1。14:05 JSTごろ、[同じ通常Chat](https://chatgpt.com/c/6ac5cd95-d3f4-83ec-9f08-046535b388f4)で回答完了と合格を確認。任意は既存のタイトル線900ms監視期限。追加の製品修正なし、以後の差分は記録と確認スクリプト/証拠のみ。実通信動画4条件も `dd0bba130f56cb7fdc0a4302fce2e5c554d77a32` で確認・push済み。UI012を返却し公開画面の枠を要求。PR142を通常mergeし、mainビルド・本番構成dry-run・既存Worker公開・配信/health/UI照合へ進む。まだ未統合・未公開。
+
+# 前回の現在地: PR142のWindows再検証を完了、独立監査を依頼済み（2026-10-07）
+
+[PR142](https://github.com/futsalife24-bot/swarm-front/pull/142)、継続branch `ccr-3d467d84-o5t70k`、base `1026fccaa509723c74e1b85bbdde934afe6d82f6`、実装監査対象 `7ef32289a4662afa940c1c7accbfc9f42bb179e6`。mainの進行なし、開始時HEAD `f240329519f1fde57220f0094455e726bc8c1e2e`。Windowsのnpm ci/型/save147/front73/progression6/media3/build/server dry-run、通常/reducedメニュー・実通信・連続操作確認が成功。武器行は入場中の小数誤差をmainでも再現、演出の自然終了後に同じ厳格基準で両方8表示合格。製品ソース修正なし、確認スクリプトとWindows証拠を追加。[詳細](MENU-POLISH-WINDOWS.md)。
+
+13:43 JSTごろ、[通常Chat監査](https://chatgpt.com/c/6ac5cd95-d3f4-83ec-9f08-046535b388f4)へZIPを直接送信し受付確認。Windows証拠HEAD `d57320925564cf3b9ed91bd4bb55b2c9b09a1903`、`dist-validation/menu-polish-audit-d573209.zip`、SHA256 `04e7a2df8879eb19b1e6d57a191174d13844e26f70fa1a8e1bcfdbef4c8581b6`、379ファイルmanifest/CRC一致。製品src/serverは実装監査対象以降不変。確定判定待ち、通常merge・公開・配信/UI照合は未実施。共有UI貸出008を返却済み、判定確認用の利用枠を要求。Free契約/当日153requestsを既存管理画面で確認。実非表示cleanup、実機タッチ、GPU長時間、全敵モデルは未実測。戦闘演出と兵士音声PR137は保留。
+
+# 前回の現在地: タイトル・メニュー演出の品質改善を実装・検証、独立監査待ち（2026-10-07）
+
+[下書きPR142](https://github.com/futsalife24-bot/swarm-front/pull/142)、branch `ccr-3d467d84-o5t70k`、base main `1026fccaa509723c74e1b85bbdde934afe6d82f6`、監査対象（実装）`7ef32289a4662afa940c1c7accbfc9f42bb179e6`。タイトル遷移線・装備線・作成/報酬粒子の開始/終了位置、段階付き演出の時間配分、育成確定・敵レポート・準備完了・保存チェック・改装版ガイド・試聴の表現を改善し、連続操作で古い演出が残る問題を修正。型、単体（save147/front66/progression6）、既存UI/実通信の確認2本、新規連続操作確認、本番build/dry-run成功。[変更・比較画像・限界](MENU-POLISH.md)。
+
+停止理由: このセッションはLinuxクラウド環境で、固定の監査経路（アプリ内ブラウザの通常Chat）とCloudflare認証がない。独立監査・main統合・既存Worker公開は未実施（自己レビューで代替しない）。Obsidian保管庫（Windows上）も参照不可。
+再開条件: iabが使える環境でこのbranchを取得し、`git diff 1026fcc..7ef3228` と `docs/evidence/menu-polish-20261007` から監査ZIPを作成して通常Chatへ送る。合格後に通常merge・既存Worker公開・配信照合。実非表示cleanup・実機タッチ・GPU長時間・全敵モデル・Windows Chromeでの武器行基準照合は未実測。
+
 # 現在地: メニュー12場面の演出を公開済み（2026-10-07）
 
 PR140通常統合、公開ソース `7702d758c8fd86a26e2892d32156ff95b3d3026e`、Worker `ff0ec103-ec71-4fcd-8501-e0fe2dde6915`。独立再監査は残存必須0・任意0。型31単体・横画面/保存UI・実ローカル通信・本番build/dry-run成功。配信26/26一致・health200、公開IABの準備/一時装備/new/ガイド/従来版/試聴の点灯・消灯/チュートリアル確認、console error0。[公開記録と限界](MENU-EFFECTS-RELEASE.md)。戦闘演出と兵士音声PR137は保留。公開後記録を通常PR統合してmain一致とcleanを確認する。
@@ -2054,6 +2071,3 @@ EDFはミニマップが視点に追従して回転するためこの分担が�
 
 ## 2026-09-12 下向き移動のカメラ振動
 カメラ位置と注視点の補間基準を統一。原因・差分・修正前後の計測は docs/CAMERA-JITTER.md。
-
-
-

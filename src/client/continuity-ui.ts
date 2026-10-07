@@ -198,10 +198,15 @@ export function openWeeklyMissions(dialog: Dialog, refreshed: () => void) {
       (b) =>
         (b.onclick = () =>
           void run(async () => {
-            await claimCloudWeekly(b.dataset.weeklyId!);
+            const id = b.dataset.weeklyId!;
+            await claimCloudWeekly(id);
             refreshed();
             await draw();
-            menuReward(d.querySelector(".weekly-wallet"));
+            // From the claimed mission row (re-rendered as 受取済み) to the wallet.
+            menuReward(
+              d.querySelector(".weekly-wallet"),
+              d.querySelector(`[data-weekly-id="${CSS.escape(id)}"]`),
+            );
           })),
     );
   };

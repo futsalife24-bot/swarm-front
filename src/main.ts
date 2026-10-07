@@ -745,7 +745,12 @@ function gear() {
     }
     gear();
     if (saved)
-      menuEquip(ui, ui.querySelector(`[data-pick="${activeSlot}"]`), source);
+      menuEquip(
+        ui,
+        ui.querySelector(`[data-pick="${activeSlot}"]`),
+        ui.querySelector(`[data-equip="${CSS.escape(id)}"] .weapon-identity`) ??
+          source,
+      );
   };
   ui.querySelectorAll<HTMLElement>("[data-equip]").forEach((el) => {
     el.onclick = (event) => {
