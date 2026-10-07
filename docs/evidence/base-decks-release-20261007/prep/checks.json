@@ -1,0 +1,122 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "metrics": {
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "強化候補",
+          "width": 56,
+          "height": 36,
+          "inside": true
+        },
+        {
+          "text": "タイトルへ",
+          "width": 54.875,
+          "height": 36,
+          "inside": true
+        },
+        {
+          "text": "設定・操作",
+          "width": 61,
+          "height": 36,
+          "inside": true
+        }
+      ]
+    },
+    "errors": [],
+    "consoleErrors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "metrics": {
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "強化候補",
+          "width": 56,
+          "height": 36,
+          "inside": true
+        },
+        {
+          "text": "タイトルへ",
+          "width": 54.875,
+          "height": 36,
+          "inside": true
+        },
+        {
+          "text": "設定・操作",
+          "width": 61,
+          "height": 36,
+          "inside": true
+        }
+      ]
+    },
+    "errors": [],
+    "consoleErrors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "metrics": {
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "強化候補",
+          "width": 50,
+          "height": 36,
+          "inside": true
+        },
+        {
+          "text": "タイトルへ",
+          "width": 48.875,
+          "height": 36,
+          "inside": true
+        },
+        {
+          "text": "設定・操作",
+          "width": 55,
+          "height": 36,
+          "inside": true
+        }
+      ]
+    },
+    "errors": [],
+    "consoleErrors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "metrics": {
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "強化候補",
+          "width": 50,
+          "height": 36,
+          "inside": true
+        },
+        {
+          "text": "タイトルへ",
+          "width": 48.875,
+          "height": 36,
+          "inside": true
+        },
+        {
+          "text": "設定・操作",
+          "width": 55,
+          "height": 36,
+          "inside": true
+        }
+      ]
+    },
+    "errors": [],
+    "consoleErrors": []
+  }
+]
