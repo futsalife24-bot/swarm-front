@@ -1356,7 +1356,8 @@ export class Room extends DurableObject<Env> {
         member.frontGrowth === 3
       ) {
         try {
-          createFrontUpgradeState("validate", 0, m.initialCards, m.upgradePool);
+          if (!Array.isArray(m.upgradePool)) throw new Error();
+          createFrontUpgradeState("validate", 0, undefined, m.upgradePool);
           if (
             member.frontCatalog !== 2 &&
             m.upgradePool?.some(
@@ -1364,8 +1365,6 @@ export class Room extends DurableObject<Env> {
             )
           )
             throw new Error("画面を更新してください");
-          if (!Array.isArray(m.upgradePool) || !Array.isArray(m.initialCards))
-            throw new Error();
         } catch {
           this.send(ws, { type: "notice", reason: "強化候補の設定が不正です" });
           return;
@@ -1412,7 +1411,6 @@ export class Room extends DurableObject<Env> {
         member.frontGrowth === 3
       ) {
         member.upgradePool = [...m.upgradePool];
-        member.initialCards = [...m.initialCards];
       }
       if (
         this.saved.directory?.ruleset === "front-v1" &&

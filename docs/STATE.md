@@ -1,4 +1,10 @@
-# 現在地: PR144を通常統合・既存Worker公開、配信と公開Chrome確認に成功（2026-10-07）
+# 現在地: 開幕固定指定の撤去・選択候補からのランダム3択を実装、Windows実画面確認待ち（2026-10-07）
+
+本人の追加依頼により、基地の開幕3系統指定を撤去し、チェックした6〜22種から開幕も重複なし3択へ変更。ブランチ `codex/front-random-opening-20261007`、base `dd5c8d03bd3bafc8d2363e9e0b85e6ab2280e73c`。型/front81/save147・実Worker関連3件・本番build/dry-run成功。固定3種のチェック解除、旧デッキ名/pool保持、進行中作戦の候補保持と旧規則を検証。[仕様と検証](FRONT-RANDOM-OPENING.md)。
+
+共有UIは他担当UI032の返却と新規貸出を待機中。本人の操作は不要。実画面・独立通常Chat監査・main統合・公開は未完了。PR/監査Chatはまだ未作成。次はWindows Chromeの基地6条件とソロ/協力開幕を確認し、固定SHAのZIPを新規通常Chatへ添付。必須0後に通常merge→既存Worker公開→配信/公開UI→記録main反映へ続ける。非表示cleanupの別調査は始めない。
+
+## 前回完了: PR144を通常統合・既存Worker公開
 
 [PR144](https://github.com/futsalife24-bot/swarm-front/pull/144)通常merge、公開ソースmain `7bc6ac48289e8e5d153074cf4e4b266742985240`、Worker Version `a35b1e09-bbd1-4f1d-b00a-0d2bf6e7db80`。独立再監査は対象 `2a5639d5c289857efaec2e6da3782589cf01003d`・必須0・全体UIUX合格。初回P2の2件を修正済み。main build/本番dry-run、配信26/26一致・health200、公開Windows Chromeの基地/デッキ/融合/協力6条件＋最終準備4条件が成功、pageerror/console error各0。[公開詳細と限界](BASE-DECKS-RELEASE.md)。
 

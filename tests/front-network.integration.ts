@@ -214,7 +214,6 @@ describe("改装版の実通信", () => {
           power: 1.2,
         })),
         upgradePool: pools[i % 2],
-        initialCards: pools[i % 2].slice(0, 3),
       });
       await c.wait(
         (m) =>
@@ -247,7 +246,13 @@ describe("改装版の実通信", () => {
       expect(s.frontView.growthVersion).toBe(3);
       expect(s.frontView.returnAt - s.serverNow).toBeGreaterThan(3590);
       expect(s.frontView.returnAt - s.serverNow).toBeLessThanOrEqual(3600);
-      expect(s.frontView.offer.cardIds).toEqual(pools[i % 2].slice(0, 3));
+      expect(s.frontView.offer.cardIds).toHaveLength(3);
+      expect(new Set(s.frontView.offer.cardIds).size).toBe(3);
+      expect(
+        s.frontView.offer.cardIds.every((card: string) =>
+          pools[i % 2].includes(card),
+        ),
+      ).toBe(true);
       expect(
         s.world.players.every((p: any) =>
           p.weapons.every((w: any) => w.power === 1.2),

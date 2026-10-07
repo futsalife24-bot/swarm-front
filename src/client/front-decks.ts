@@ -1,4 +1,4 @@
-import { FRONT_BASE_IDS, FRONT_FAMILY_CARDS } from "../shared/front-upgrades";
+import { isValidFrontUpgradePool } from "../shared/front-upgrades";
 import { validateFrontLoadout, type FrontLoadout } from "./front-campaign";
 import type { FrontStorage } from "./front-progress";
 
@@ -18,17 +18,7 @@ function validDeck(value: unknown): value is FrontDeck {
     d.name.trim().length > 0 &&
     d.name.length <= 24 &&
     !!v &&
-    Array.isArray(v.pool) &&
-    v.pool.length >= 6 &&
-    v.pool.length <= FRONT_BASE_IDS.length &&
-    new Set(v.pool).size === v.pool.length &&
-    v.pool.every((id) => FRONT_BASE_IDS.includes(id)) &&
-    Array.isArray(v.initialCards) &&
-    v.initialCards.length === 3 &&
-    Object.values(FRONT_FAMILY_CARDS).every((ids, i) =>
-      ids.includes(v.initialCards[i]),
-    ) &&
-    v.initialCards.every((id) => v.pool.includes(id))
+    isValidFrontUpgradePool(v.pool)
   );
 }
 export function readFrontDecks(storage: FrontStorage): {
@@ -47,7 +37,17 @@ export function readFrontDecks(storage: FrontStorage): {
       !value.slots.every((d: unknown) => d === null || validDeck(d))
     )
       throw new Error();
-    return { slots: value.slots, error: "" };
+    // 旧デッキの開幕指定を引き継がず、名前と選択候補だけを読む。保存原文は変更しない。
+    return {
+      slots: value.slots.map(
+        (d: FrontDeck | null) =>
+          d && {
+            name: d.name,
+            loadout: { pool: [...d.loadout.pool] },
+          },
+      ),
+      error: "",
+    };
   } catch {
     return {
       slots: empty(),
@@ -71,7 +71,10 @@ export function saveFrontDeck(
   )
     throw new Error("デッキ名は1〜24文字、候補は6種以上で保存してください。");
   validateFrontLoadout(storage, next.loadout);
-  current.slots[slot] = next;
+  current.slots[slot] = {
+    name: next.name,
+    loadout: { pool: [...next.loadout.pool] },
+  };
   storage.setItem(
     FRONT_DECKS_KEY,
     JSON.stringify({ version: 1, slots: current.slots }),
