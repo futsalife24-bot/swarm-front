@@ -1,0 +1,46 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('#pause')
+    - locator resolved to <button id="pause" aria-label="一時停止メニュー">| |</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    55 × waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+
+    at C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\dist-validation\cave-foundry-release-20261007\check-public-cave.mjs:31:34 {
+  log: [
+    "  - waiting for locator('#pause')",
+    '    - locator resolved to <button id="pause" aria-label="一時停止メニュー">| |</button>',
+    '  - attempting click action',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is not visible',
+    '    - retrying click action',
+    '    - waiting 20ms',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is not visible',
+    '    - retrying click action',
+    '      - waiting 100ms',
+    '    55 × waiting for element to be visible, enabled and stable',
+    '       - element is not visible',
+    '     - retrying click action',
+    '       - waiting 500ms',
+    '    - waiting for element to be visible, enabled and stable'
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0
