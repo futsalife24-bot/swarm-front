@@ -24,4 +24,10 @@ Windows型チェック・本番build・production dry-run成功。関連83件は
 
 添付 `audit-eac10df.zip`、22,134,592 bytes、SHA256 `ef4de38535e00066ef098196d7ce9e81b5cf281f8527cd43cd2067c7d560f6c0`。manifest247ファイル一致。監査側はソース・差分・証拠を確認し、Windows試験を独立再実行したものではない。任意R1は20pxの実スマホ操作性、R2はpointer移動/cancel/マルチタッチ/支援技術の追加回帰。実スマホ・読み上げ実機・長時間負荷・無変更の全画面回帰は未確認。
 
-main/既存Worker公開・配信/公開UIの結果は確認後追記する。戦闘演出/PR137は対象外。
+## main統合・公開結果
+
+PR152をReady→通常merge、main `7ae06a819aff811d8e77666f945a03e295bb3db4`。merge本文に日本語Player-Noteを保持。このmainからbuild/production dry-runを再実行し既存Workerへ公開、Version `3237fa73-3f06-40e0-9d6e-946ce6525866`。[公開版](https://swarm-front.melosalife-24.workers.dev/front)。
+
+配信26/26 SHA一致、health200/ok。公開Windows Chromeでも通常/reduced×844×390・640×360・1220×413の6条件成功。☑内外・アイコン/名前/系統/余白・Space/Enter、閲覧だけで戻る、未選択の説明閲覧、保存/呼出/融合/戻る確認を含む。全条件console/page error0、overflow/broken0。公開844画像を目視し枠維持を確認。Turnstile要求1件のERR_ABORTEDは実ログに保存（画面離脱も行う検証、アプリ例外なし）。[公開結果](evidence/base-checkbox-20261008/public/base-checks.json)、[配信](evidence/base-checkbox-20261008/delivery.json)。
+
+公開記録は文書専用PRでmainへ反映、製品不変のため追加公開は不要。専用ローカルサーバー/検証Chrome/監査iabタブは終了。保管庫の既存プロジェクトノートと再発防止ノートを更新し、対象2ファイルだけ自動同期へ引き渡す。戦闘演出/PR137は対象外。

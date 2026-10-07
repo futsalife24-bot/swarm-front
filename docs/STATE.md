@@ -1,8 +1,12 @@
-# 現在地: 基地の☑だけを切替領域へ修正、Windows6条件・独立監査合格（2026-10-08）
+# 現在地: PR152の☑限定操作を公開、配信26件・公開6条件成功（2026-10-08）
 
-branch `codex/base-checkbox-hitarea-20261008`、base `42890be31a25acaafc7e260ce04bdfe8ce19dfca`。本人が承認した枠デザインを維持し、チェック枠だけを独立した切替buttonへ分離。アイコン/名前/余白は説明表示のみ。Chromeの枠外タップ補正も元のpointer座標で防ぐ。明示保存・融合・戻る確認・通信は維持。
+[PR152](https://github.com/futsalife24-bot/swarm-front/pull/152)通常merge、公開ソースmain `7ae06a819aff811d8e77666f945a03e295bb3db4`、Worker Version `3237fa73-3f06-40e0-9d6e-946ce6525866`。本人承認済みの枠を維持し、左端☑だけで候補選択を切替。アイコン/名前/系統/余白は説明表示のみ。Chromeの枠外タップ補正も元のpointer座標で防ぐ。保存/融合/開幕3択/通信は継承。日本語Player-Noteをmerge本文へ保持。[公開版/front](https://swarm-front.melosalife-24.workers.dev/front)。
 
-Windows型/build/production dry-run、関連83件（時間切れの1ファイルは専用プロセス終了後に元の条件で4件再試験成功）、通常/reduced×844/640/1220の6条件が成功。全条件console/page error0、選択変更/説明閲覧/保存/融合/戻るを確認。[詳細・初回失敗/復旧](BASE-CHECKBOX-HITAREA.md)。iabの初回attach/CDP timeoutは専用プロセス終了後に復旧。[PR152](https://github.com/futsalife24-bot/swarm-front/pull/152)、監査対象 `eac10df84600bc36d21d94dcfb8ff7705fa1e5fc`。[監査Chat](https://chatgpt.com/c/6ac6bba0-58b0-83ee-a7a3-1d2c2a923f9f)で必須0合格、監査後の製品修正なし。通常merge・既存Worker公開へ進む。現時点で未merge/未公開。実スマホ・読み上げ実機・長期負荷未確認。モデルID/推論設定未確認。
+Windows型・関連83件・build/production dry-run成功。無変更の単体1ファイルが高負荷時にtimeoutしたが、専用プロセス終了後に元の30秒設定で4件成功/6.03秒。ローカル実WorkerとChrome通常/reduced×844×390・640×360・1220×413の6条件成功。mainから再build/dry-run後に公開し、配信26/26 SHA一致・health200/ok、公開同6条件も成功。☑内外/アイコン/名前/余白のタップ、キーボード、説明閲覧後の戻る、選択/保存/呼出/融合/編集継続・破棄/Esc/フォーカスを確認。すべてconsole/page error0・overflow/broken0。Turnstileリクエスト1件のERR_ABORTEDをログ保存（画面離脱を含む試験、例外0）。実スマホ・読み上げ実機・長期負荷・無変更の全画面再試験は未実施。
+
+独立監査対象 `eac10df84600bc36d21d94dcfb8ff7705fa1e5fc`、base `42890be31a25acaafc7e260ce04bdfe8ce19dfca`。[iab通常新規Chat](https://chatgpt.com/c/6ac6bba0-58b0-83ee-a7a3-1d2c2a923f9f)で合格、必須P0/P1/P2=0。監査後の製品修正なし。任意R1は20pxの実機操作性、R2は入力境界の追加回帰。監査側はmanifest247件/ソース/差分/画像/ログを照合し、Windows試験を独立再実行したものではない。[詳細](BASE-CHECKBOX-HITAREA.md)、[回答](evidence/base-checkbox-20261008/audit-final.md)、[配信](evidence/base-checkbox-20261008/delivery.json)、[公開検証](evidence/base-checkbox-20261008/public/base-checks.json)。
+
+公開記録は[PR153](https://github.com/futsalife24-bot/swarm-front/pull/153)（branch `codex/pr152-release-record-20261008`）の文書・証拠だけを通常mergeでmain反映する。公開ソース以後の製品差分なし、追加公開不要。終了時にlocal main/origin/main/GitHub main一致・cleanを照合。専用Vite/Worker/Chromeと監査iabタブは終了。保管庫の現在地と本人訂正の再発防止ノートを更新・自動同期対象へ追加。戦闘演出/PR137と別branchのpilot修正は保留。モデルID/推論設定未確認。
 
 # 現在地: PR150を通常merge・基地UI改善を公開、配信26件/公開6条件成功（2026-10-08）
 
