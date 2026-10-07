@@ -1,6 +1,7 @@
 import { chromium } from "@playwright/test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import { recordMenuMotion } from "./menu-motion-recorder.mjs";
 const origin = "http://127.0.0.1:5186",
   endpoint = "http://127.0.0.1:8789";
 const out = "dist-validation/menu-effects";
@@ -29,6 +30,21 @@ const browser = await chromium.launch(
 const errors = [],
   results = {};
 const pages = [];
+const recordings = [];
+const record = async (page, scene) => {
+  if (process.env.MENU_RECORD_VIDEO !== "1") return async () => {};
+  const folder = "dist-validation/menu-polish-network-motion";
+  fs.mkdirSync(folder, { recursive: true });
+  const stop = await recordMenuMotion(
+    page,
+    `${folder}/${width}-${reducedMotion}-${scene}.mp4`,
+    width,
+    height,
+  );
+  recordings.push(stop);
+  return stop;
+};
+let stopSquad;
 async function observeEffects(page) {
   await page.addInitScript(() => {
     window.menuFxSeen = [];
@@ -82,6 +98,7 @@ try {
     await p.locator("#launch").click();
     await p.locator(".lobby").waitFor();
     pages.push(p);
+    if (i === 0) stopSquad = await record(p, "squad");
   }
   for (const p of pages) {
     await p.bringToFront();
@@ -135,6 +152,7 @@ try {
     ended: true,
   };
   results.realSquadReadyAndReprepare = true;
+  await stopSquad();
   for (const p of pages) await p.close();
   // Proxy to the real isolated Worker. No fabricated API response or production save.
   const p = await browser.newPage({
@@ -177,6 +195,7 @@ try {
     () =>
       JSON.parse(localStorage.getItem("swarm-front-shared-progress-v3")).coins,
   );
+  const stopWeekly = await record(p, "weekly");
   await claim.click();
   await p.waitForFunction(
     () =>
@@ -227,6 +246,7 @@ try {
     {},
     { timeout: 3000 },
   );
+  await stopWeekly();
   await p.locator(".dialog-close").click();
   assert.deepEqual(errors, []);
   results.realWeeklyClaimOnce = true;
@@ -260,5 +280,6 @@ try {
   );
   throw error;
 } finally {
+  for (const stop of recordings) await stop();
   await browser.close();
 }

@@ -1,0 +1,1 @@
+{"squadReadyEffects":{"initial":0,"afterReprepare":0,"ended":true},"realSquadReadyAndReprepare":true,"weeklyEffects":{"appeared":1,"ended":true},"realWeeklyClaimOnce":true,"viewport":{"width":844,"height":390},"reducedMotion":"reduce","errors":[]}

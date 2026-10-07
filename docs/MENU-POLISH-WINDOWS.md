@@ -22,9 +22,11 @@ base main `1026fccaa509723c74e1b85bbdde934afe6d82f6`、実装監査対象 `7ef32
 
 最終動画は実描画フレームをChromeの時刻で20fpsへ割り当てて保存。演出の実時間はJSONのms/currentTimeでも照合する。使い捨て生成物の`dist-validation/menu-polish-motion/`へ保存し、監査ZIPへ直接同梱。Playwright任意ffmpeg取得がタイムアウトしたため既存ffmpegで記録。録画開始のタイミング・非同期操作後の計測継続を修正し、全4条件を最終再実行して成功（`motion-final.txt`と`motion-final-summary.json`）。操作スクリプトではpauseイベント/ダイアログ除去完了を待って測定するよう調整。製品ソースの修正はない。初回の失敗ログは補完前の記録として保持。
 
+監査の回答待ちに、実通信の準備完了/再準備と週間報酬も844/640・通常/reducedの4条件を実時間録画して再確認。`MENU_RECORD_VIDEO=1 MENU_WIDTH=844 MENU_REDUCED=no-preference node scripts/check-menu-effects-network.mjs`（PowerShellでは各環境変数を設定）で再現できる。既存ffmpegを使用し、録画しない既定動作は維持。成功回数・150コイン・終了後DOM0・pageerror0が全条件成功。状態文字の横でチェックが現れて消え、週間受取行から所持コインへ粒子が移動する過程を動画の時系列フレームで目視確認した。結果は`network-motion-*.json/.txt`、比較は`*-weekly-sequence.jpg`と`*-squad-final-sequence.jpg`。動画8本は`dist-validation/menu-polish-network-motion/`、ハッシュは`network-videos.json`。この追加分は初回監査ZIPの送信後に取得した補足で、製品ソースは不変。実APIの隔離保存先は幅別に分け、既存検証データと本番データを変更しない。
+
 ## 監査・公開と残件
 
-独立監査は指定されたiabの通常新規Chatを使用する。共有UI貸出UI-20261007-008を受領して実画面と送信を進行中。既存CloudflareのOAuth認証と既存アカウントを確認済み。契約APIは権限不足403だったが管理画面ではFree/$0/Current planを確認。当日153/100,000 requests、10/1〜10/7のrequests2.72k・CPU2,035ms。変更せず読み取りのみ。監査判定、通常merge、本番構成dry-run、Worker公開、配信照合は未実施。
+独立監査は指定されたiabの通常新規Chatを使用する。共有UI貸出UI-20261007-008で依頼を送信し、009/010で処理中を確認して返却済み。既存CloudflareのOAuth認証と既存アカウントを確認済み。契約APIは権限不足403だったが管理画面ではFree/$0/Current planを確認。当日153/100,000 requests、10/1〜10/7のrequests2.72k・CPU2,035ms。変更せず読み取りのみ。監査判定、通常merge、本番構成dry-run、Worker公開、配信照合は未実施。
 
 実際のタブ非表示時cleanup、実機タッチ、GPU長時間負荷、全敵モデルの見え方は未実測。headlessの別タブはvisibleのままだった。戦闘演出と兵士音声PR137は保留。
 
@@ -34,4 +36,4 @@ base main `1026fccaa509723c74e1b85bbdde934afe6d82f6`、実装監査対象 `7ef32
 
 13:43 JSTごろ、[通常Chat](https://chatgpt.com/c/6ac5cd95-d3f4-83ec-9f08-046535b388f4)へ`menu-polish-audit-d573209.zip`を直接添付送信し、対象差分の照合開始を確認。実装7ef3228、補足HEAD d57320925564cf3b9ed91bd4bb55b2c9b09a1903。ZIP7,729,771bytes、SHA256 `04e7a2df8879eb19b1e6d57a191174d13844e26f70fa1a8e1bcfdbef4c8581b6`、379ファイルのSHAとCRC一致。初回ZIP生成はWindowsのパス区切り不一致で検査に失敗したため送信せず修正し、上記の正常ZIPだけを送った。
 
-iabの初期ローカル5347では、現在のソースにない旧設定画面や一時装備の旧成功線が見えた。保存/キャッシュ削除は行わず、新規5352へ切替。新規入口では一時支給装備の成功線0・横溢れ0、従来版との往復を確認したが、初期URLの古い表示の発生原因は厳密には未特定。監査依頼でこの観測を開示し、古い表示を対象ソースの合格根拠にはしない。現在ソースの一時所持武器は別途headless実行で成功線0と保存不変/再読込復帰を確認済み。動画はiabで844通常/640通常の再生を行い、実フレームの時系列と途中画像も照合。reducedは実時間計測/画像で確認。共有UIは送信後返却した。
+iabの初期ローカル5347では、一時所持武器の選択後に成功線のDOMが見えた。設定画面は現在のFrontSettingsにも存在し、その見た目は古いキャッシュの証明にはならない。保存/キャッシュ削除は行わず、新規5352へ切替。新規入口では一時支給装備の成功線0・横溢れ0、従来版との往復を確認したが、初期URLの成功線が出た原因は厳密には未特定。監査依頼でこの観測を開示し、初期表示を対象ソースの合格根拠にはしない。現在ソースの一時所持武器は別途headless実行で成功線0と保存不変/再読込復帰を確認済み。動画はiabで844通常/640通常の再生を行い、実フレームの時系列と途中画像も照合。reducedは実時間計測/画像で確認。共有UIは送信後返却した。
