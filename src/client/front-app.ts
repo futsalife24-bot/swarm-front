@@ -26,6 +26,7 @@ import { openBestiary } from "./bestiary";
 import { CHANGELOG } from "./changelog";
 import { frontUpgradeCardMarkup } from "./front-upgrade-ui";
 import { homeMarkup } from "./home-screen";
+import { mountTitleMotion } from "./title-motion";
 import { roomBrowserMarkup, bindRoomBrowser } from "./room-browser";
 import { FrontNetwork, loadFrontNetworkSession } from "./front-network";
 import { startWithSaveWriter } from "./save-writer";
@@ -243,6 +244,7 @@ function home() {
   };
   $("ui").querySelector(".home-footer")!.append(legacy);
   $("ui").querySelector("#export")?.remove();
+  mountTitleMotion($("ui"));
 }
 let selectedFrontSlot = 0;
 let frontLoadout = readFrontLoadout(progressStorage);
