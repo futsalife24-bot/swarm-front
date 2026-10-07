@@ -20,6 +20,7 @@ const report = {
   mechanism:
     "headed Chrome, same isolated context, two real tabs, bringToFront",
   visibilityOverridden: false,
+  focusEmulation: "Playwright default override disabled on both test tabs",
   animationTimingOverridden: false,
   errors: [],
   consoleErrors: [],
@@ -82,7 +83,8 @@ try {
       true,
     );
   });
-  await page.goto(origin);
+  // 既存の開発用解析抑止を使い、架空操作を外部解析へ送らない。
+  await page.goto(origin + "/?developer=1");
   await page.locator("#solo").waitFor();
   await page.evaluate(async () => {
     const module = await import("/src/client/progression-save.ts");
@@ -92,6 +94,12 @@ try {
     localStorage.setItem("swarm-front-player-name-v1", "非表示調査用");
   });
   await page.reload();
+  // Playwrightが既定で有効化するfocused/activeの模擬だけを外す。
+  // visibility値を設定せず、実タブ切替のブラウザイベントを観測する。
+  for (const tab of [page, other]) {
+    const session = await context.newCDPSession(tab);
+    await session.send("Emulation.setFocusEmulationEnabled", { enabled: false });
+  }
   await page.bringToFront();
   await page.locator("#solo").click();
   await page.waitForTimeout(1100);
