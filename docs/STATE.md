@@ -1,3 +1,10 @@
+# 現在地: メニュー12場面の演出は検証済み、監査Chatの認証待ち（2026-10-07）
+
+[PR140](https://github.com/futsalife24-bot/swarm-front/pull/140)、branch `codex/menu-effects-20261007`、監査対象 `6dd4dbba336361c06cd7c8bdb51282bcae69581a`。型・関連31単体・武器一覧8表示・育成アクセサリ3サイズ・通常/reduced実UI・実2人協力/週間受取・本番build/dry-run成功。297ファイルの対象blob/差分/証拠ZIP（SHA256 `bc6bccc2246d2bcf5239f667ebb4d7a606df2968d8abcf729c86e4d628e33b31`）を通常Chatへ添付し送信操作後、アカウント読込エラー。再読み込みでCloudflareの認証チェックが出た。正式な監査Chat URL・受付・確定判定は未確認。
+
+停止理由: ブラウザ操作の規則によりCAPTCHA実行は操作時の本人確認が必要。ユーザーへ確認済み、回答待ち。
+再開条件: CAPTCHA操作の明示承認、またはユーザーによる同じIABの認証完了。受付を確認し、未成立なら対象ZIPを同じ通常Chat経路で再送して独立監査・必要修正・main統合・既存Worker公開を続ける。公開は未実施、戦闘演出と兵士音声PR137は保留。証拠 [認証画面](evidence/menu-effects-20261007/audit-captcha.jpg)、[変更と検証](MENU-EFFECTS.md)。
+
 # 現在地: メニュー12場面の演出を自己検証、独立監査へ（2026-10-07）
 
 branch `codex/menu-effects-20261007`、base `800410d501fd5ac3610e19b6087976088cbca1d8`。装備・作戦・協力・武器詳細・アクセサリ・育成・敵レポート・週間報酬・ガイド・設定・履歴・試聴へ演出を接続。戦闘演出は対象外。型、関連単体31、武器一覧8表示、育成アクセサリ3サイズ、通常/動きを減らす設定の実UI、実2人協力と週間受取成功。証拠と実際の限界は [MENU-EFFECTS.md](MENU-EFFECTS.md)。[下書きPR140](https://github.com/futsalife24-bot/swarm-front/pull/140)に保存。本番build・Worker dry-run成功、ビルド済み実UIガイドとerror0確認。通常Chatへの独立監査・必要修正・main統合・既存Worker公開まで続ける。兵士音声PR137は保持・保留。
