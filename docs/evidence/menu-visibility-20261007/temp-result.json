@@ -1,0 +1,259 @@
+{
+  "source": "2f97af30207bcafeac4c86df8fd185a746d6acfc",
+  "origin": "http://127.0.0.1:5351",
+  "at": "2026-10-07T10:40:16.337Z",
+  "mechanism": "専用一時Chrome、loopback CDP、noDefaults、default contextの実2タブ",
+  "lease": "UI-20261007-057",
+  "plan": {
+    "origin": "http://127.0.0.1:5351",
+    "out": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\dist-validation\\menu-visibility-temp",
+    "chrome": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+    "temporaryParent": "C:\\Users\\futsa\\AppData\\Local\\Temp",
+    "profileLocation": "OS temp直下の新規専用領域。Vite監視対象外を生成前に照合",
+    "noDefaults": true,
+    "context": "専用Chromeの既存default contextだけを使用",
+    "playwright": "1.63.0",
+    "implementationSha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+    "observationOrder": "初期capture → 製品document listener → 後から追加するdocument listener",
+    "analytics": "外部解析はabort。成功応答・hidden・イベントは合成しない"
+  },
+  "visibilityOverridden": false,
+  "focusEmulation": "起動時からnoDefaults=true。focus模擬を設定/解除するコマンドは送らない",
+  "animationTimingOverridden": false,
+  "errors": [],
+  "consoleErrors": [
+    "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector",
+    "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector",
+    "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector",
+    "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+  ],
+  "blockedAnalytics": [
+    {
+      "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+      "type": "fetch",
+      "method": "POST"
+    },
+    {
+      "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+      "type": "fetch",
+      "method": "POST"
+    }
+  ],
+  "blockedUnusedTurnstile": [
+    {
+      "url": "https://challenges.cloudflare.com/turnstile/v0/api.js",
+      "type": "script",
+      "method": "GET"
+    },
+    {
+      "url": "https://challenges.cloudflare.com/turnstile/v0/api.js",
+      "type": "script",
+      "method": "GET"
+    }
+  ],
+  "outOfScopeControlRequests": [],
+  "unexpectedExternalRequests": [],
+  "result": "not-passed",
+  "phase": "装備演出中の実タブ切替",
+  "startup": {
+    "pid": 33116,
+    "ownProcess": {
+      "pid": 33116,
+      "parentPid": 44656,
+      "executableMatches": true,
+      "profileArgumentMatches": true
+    },
+    "listeners": [
+      {
+        "LocalAddress": "127.0.0.1",
+        "OwningProcess": 33116
+      }
+    ],
+    "noDefaults": true,
+    "defaultContextOnly": true,
+    "profile": "swarm-front-visibility-9qjrWM",
+    "profileParent": "C:\\Users\\futsa\\AppData\\Local\\Temp",
+    "profileOutsideRepository": true,
+    "startupBlankPage": true
+  },
+  "browser": "154.0.8037.98",
+  "entry": {
+    "path": "/",
+    "search": "",
+    "hash": "",
+    "legacySolo": true,
+    "turnstileHolder": false
+  },
+  "lockBefore": [
+    {
+      "name": "swarm-front-shared-save-writer-v3",
+      "mode": "exclusive"
+    }
+  ],
+  "reducedMotion": false,
+  "before": {
+    "at": 5216.100000023842,
+    "visibility": "visible",
+    "hidden": false,
+    "layers": 2,
+    "animations": [
+      {
+        "index": 0,
+        "state": "running",
+        "currentTime": 16.4390000000596,
+        "connected": true
+      },
+      {
+        "index": 1,
+        "state": "running",
+        "currentTime": 16.4390000000596,
+        "connected": true
+      },
+      {
+        "index": 2,
+        "state": "running",
+        "currentTime": 16.4390000000596,
+        "connected": true
+      },
+      {
+        "index": 3,
+        "state": "running",
+        "currentTime": 16.4390000000596,
+        "connected": true
+      },
+      {
+        "index": 4,
+        "state": "running",
+        "currentTime": 16.4390000000596,
+        "connected": true
+      },
+      {
+        "index": 5,
+        "state": "running",
+        "currentTime": 16.4390000000596,
+        "connected": true
+      },
+      {
+        "index": 6,
+        "state": "running",
+        "currentTime": 16.4390000000596,
+        "connected": true
+      }
+    ]
+  },
+  "failure": "TimeoutError: page.waitForFunction: Timeout 3000ms exceeded.",
+  "lastObservation": {
+    "documentState": {
+      "readyState": "complete",
+      "bodyClass": "playtest",
+      "soloPresent": false,
+      "saveWriterBlocked": false
+    },
+    "sample": {
+      "at": 8248.300000011921,
+      "visibility": "visible",
+      "hidden": false,
+      "layers": 0,
+      "animations": [
+        {
+          "index": 0,
+          "state": "finished",
+          "currentTime": 610,
+          "connected": false
+        },
+        {
+          "index": 1,
+          "state": "finished",
+          "currentTime": 929.9999999999999,
+          "connected": false
+        },
+        {
+          "index": 2,
+          "state": "finished",
+          "currentTime": 650,
+          "connected": true
+        },
+        {
+          "index": 3,
+          "state": "finished",
+          "currentTime": 420,
+          "connected": true
+        },
+        {
+          "index": 4,
+          "state": "finished",
+          "currentTime": 230,
+          "connected": false
+        },
+        {
+          "index": 5,
+          "state": "finished",
+          "currentTime": 383.33333333333337,
+          "connected": false
+        },
+        {
+          "index": 6,
+          "state": "finished",
+          "currentTime": 560,
+          "connected": false
+        }
+      ]
+    },
+    "observations": [],
+    "events": [
+      {
+        "type": "finish",
+        "index": 0,
+        "at": 6325.200000017881,
+        "hidden": false
+      },
+      {
+        "type": "finish",
+        "index": 1,
+        "at": 6325.300000011921,
+        "hidden": false
+      },
+      {
+        "type": "finish",
+        "index": 2,
+        "at": 6325.4000000059605,
+        "hidden": false
+      },
+      {
+        "type": "finish",
+        "index": 3,
+        "at": 6325.4000000059605,
+        "hidden": false
+      },
+      {
+        "type": "finish",
+        "index": 4,
+        "at": 6325.4000000059605,
+        "hidden": false
+      },
+      {
+        "type": "finish",
+        "index": 5,
+        "at": 6325.4000000059605,
+        "hidden": false
+      },
+      {
+        "type": "finish",
+        "index": 6,
+        "at": 6325.5,
+        "hidden": false
+      }
+    ]
+  },
+  "cleanup": {
+    "browserCloseRequested": true,
+    "forcedOwnProcess": false,
+    "profileRemoved": true,
+    "ownProcessBeforeClose": {
+      "pid": 33116,
+      "parentPid": 44656,
+      "executableMatches": true,
+      "profileArgumentMatches": true
+    }
+  }
+}

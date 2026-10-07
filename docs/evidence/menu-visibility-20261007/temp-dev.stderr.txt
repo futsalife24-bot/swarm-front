@@ -1,0 +1,11 @@
+19:40:30 [vite] (client) [console.error] THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:5351/e947080c-b8d8-471a-bf83-ac7748c8328d
+19:40:30 [vite] (client) [console.error] THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:5351/09e36a74-c413-4cf8-a5f6-c5c1de9eaaa5
+19:40:30 [vite] (client) [console.error] THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:5351/7fa499a6-7de6-48ad-9d85-f704b9c58089
+19:40:30 [vite] (client) [console.error] THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:5351/e79bb1e1-859d-4e60-8703-7c018b4a315a
+19:40:30 [vite] (client) [console.error] THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:5351/e415187e-cc02-482e-9033-e7bdb5d919eb
+19:40:30 [vite] (client) [console.error] THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:5351/73dbe0ea-2ab7-4f8b-af0e-1caca4b5e895
+19:40:30 [vite] (client) [console.error] THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:5351/b77bd8c8-9068-447c-8c09-808985b9789a
+19:40:30 [vite] (client) [console.error] THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:5351/942079ba-77b6-4c90-a997-c34feb80511b
+19:40:30 [vite] (client) [console.error] THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:5351/794fee97-e314-4da6-b17e-cf2bee911f9f
+19:40:30 [vite] (client) [console.warn] Enemy asset unavailable; using fallback harrow TypeError: Failed to fetch
+    at http://127.0.0.1:5351/node_modules/.vite/deps/three.module-Cg0SxxSv.js?v=473ffabe:31446:19

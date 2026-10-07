@@ -1,0 +1,129 @@
+{
+  "source": "2f97af30207bcafeac4c86df8fd185a746d6acfc",
+  "productSha": "1c2f4ba44348ab95558ca0362f4f50a561e900d0",
+  "lease": "UI-20261007-057",
+  "at": "2026-10-07T10:40:16.337Z",
+  "result": "not-passed",
+  "phase": "装備演出中の実タブ切替",
+  "executionCount": 1,
+  "startupProbe": "Vite ready前の疎通で接続拒否、ready後に観測本体を1回実行。先の疎通時Chrome未起動",
+  "entry": {
+    "path": "/",
+    "search": "",
+    "hash": "",
+    "legacySolo": true,
+    "turnstileHolder": false
+  },
+  "confirmedStartup": {
+    "pid": 33116,
+    "ownProcess": {
+      "pid": 33116,
+      "parentPid": 44656,
+      "executableMatches": true,
+      "profileArgumentMatches": true
+    },
+    "listeners": [
+      {
+        "LocalAddress": "127.0.0.1",
+        "OwningProcess": 33116
+      }
+    ],
+    "noDefaults": true,
+    "defaultContextOnly": true,
+    "profile": "swarm-front-visibility-9qjrWM",
+    "profileParent": "C:\\Users\\futsa\\AppData\\Local\\Temp",
+    "profileOutsideRepository": true,
+    "startupBlankPage": true
+  },
+  "before": {
+    "layers": 2,
+    "running": 7,
+    "lock": [
+      {
+        "name": "swarm-front-shared-save-writer-v3",
+        "mode": "exclusive"
+      }
+    ]
+  },
+  "after": {
+    "visibility": "visible",
+    "hidden": false,
+    "layers": 0,
+    "visibilityEvents": 0,
+    "finish": 7,
+    "cancel": 0
+  },
+  "pageErrors": 0,
+  "capturedConsoleErrors": 4,
+  "blockedAnalytics": 2,
+  "blockedUnusedTurnstile": 2,
+  "unexpectedExternal": 0,
+  "outOfScopeControlRequests": 0,
+  "devDiagnostics": {
+    "textureErrors": 9,
+    "enemyFallbackWarnings": 1,
+    "ebusy": false,
+    "timingOrImpact": "発生時刻と原本は保存。再読込/終了との因果と表示品質への影響は未検証"
+  },
+  "cleanup": {
+    "browserCloseRequested": true,
+    "forcedOwnProcess": false,
+    "profileRemoved": true,
+    "ownProcessBeforeClose": {
+      "pid": 33116,
+      "parentPid": 44656,
+      "executableMatches": true,
+      "profileArgumentMatches": true
+    }
+  },
+  "independentCleanup": {
+    "recordedPids": [
+      33116,
+      1916
+    ],
+    "remainingProcesses": 0,
+    "local5351Listeners": 0,
+    "temporaryProfileExists": false
+  },
+  "uiReleased": true,
+  "confirmedFix": "プロフィール外置き後はEBUSYなし、dev生存のまま装備操作に到達",
+  "unverified": [
+    "実hidden/取消/保存不変/lock保持/復帰",
+    "両ページのwindowIdと実際の選択tab切替",
+    "CDP送信ログ上のfocus模擬コマンド有無",
+    "敵モデルの見え方"
+  ],
+  "conclusion": "noDefaultsと外置きtempの構成でもhidden未到達。原因未確定、製品不具合未再現、同条件再試行なし",
+  "rawEvidence": [
+    {
+      "file": "temp-result.json",
+      "bytes": 6785,
+      "sha256": "909c90d6ba26223c4c3a899ff6d60bdc83f62ba4669244aaf8c8e1f4bbe01095",
+      "gitLfSha256": "909c90d6ba26223c4c3a899ff6d60bdc83f62ba4669244aaf8c8e1f4bbe01095"
+    },
+    {
+      "file": "temp-run.txt",
+      "bytes": 198,
+      "sha256": "c0fcbe32ccfd6d7ea895f205adcbcbf85efc0d38fb8f2aabddb48a1d8ccb6dbe",
+      "gitLfSha256": "900dbccd7c57b0a9e8ef1b8e7b60802ddefc9bdba927ccb3bd318eb26860ce2d"
+    },
+    {
+      "file": "temp-dev.stdout.txt",
+      "bytes": 110,
+      "sha256": "9eae3b638483a58f83bb3765854d3205c08dbb385815126339265660b9c543cf",
+      "gitLfSha256": "9eae3b638483a58f83bb3765854d3205c08dbb385815126339265660b9c543cf"
+    },
+    {
+      "file": "temp-dev.stderr.txt",
+      "bytes": 1517,
+      "sha256": "9eed9e99febcb15831099868d3b1929cf950d36cf95186303749201de6685a6d",
+      "gitLfSha256": "9eed9e99febcb15831099868d3b1929cf950d36cf95186303749201de6685a6d"
+    },
+    {
+      "file": "temp-cleanup-check.json",
+      "bytes": 146,
+      "sha256": "eb6c744a32ac6ada74b69935eda8ee288b5dc39f5e5eb9b0b1f61fcda6b669d0",
+      "gitLfSha256": "16ab8803a9519d55b7cfda050ebf3d0b82d1dd1daed95fe29e72b35ffa9604dc"
+    }
+  ]
+}

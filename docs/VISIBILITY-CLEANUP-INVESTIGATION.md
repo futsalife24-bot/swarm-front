@@ -4,7 +4,22 @@
 
 調整担当からの既存仕様内の原因切り分け1件。製品コード・保存仕様・main・公開は変更しない。独立監査やPR137、全画面・長時間GPU試験へ広げない。モデルID/推論設定は未確認。
 
-## 配置不備の修正準備（9f00779後、新規UI貸出待ち）
+## 配置修正後の結果: 装備演出まで到達、実hiddenは未到達
+
+UI-20261007-057で`2f97af30207bcafeac4c86df8fd185a746d6acfc`を**1回**実行（2026-10-07 19:40:16 JST開始）。最初の疎通確認はVite ready前で接続拒否だったがChromeは未起動。Viteのready表示後に観測本体を1回だけ実行した。
+
+- 外置きtemp、自分のChrome PID/親PID/実行ファイル/プロフィール引数、同じPIDの`127.0.0.1`待受、`noDefaults:true`指定、専用default contextを確認。前回の`EBUSY`はなく、dev生存のまま通常ソロ入口と装備保存へ進めた。**補助のプロフィール配置不備は解消を確認**。
+- 装備変更後は装飾2個・7 Animationがrunning、事前のwriter lockは1件。空白ページの`bringToFront`後も3秒以内にhiddenへ移らず、visibilityイベント0、7件がfinish・cancel0・装飾0だった。**非表示cleanupは未合格、製品不具合は未再現**。非表示中の保存不変/lock保持・取消後の復帰は未到達で、復帰画像もない。
+- 通常`/`、空query/hash、playtestクラス、協力holderなしを確認。解析2件・今回使わないTurnstile script2件をabort、管理者/協力の対象外要求0・その他外部HTTP0。今回のソロ装備経路にはTurnstileの成功結果が不要であることを確認した。協力/認証機能の動作検証には一般化しない。
+- pageerror0、ブラウザで捕捉したconsole errorは中断に伴う4件。別途Viteログには19:40:30のGLTF texture読込エラー9件と敵fallback警告1件があり、原本へ保存した。再読込/終了との因果と敵の見え方への影響は未検証で、全体error 0・全敵モデル合格とは記さない。
+
+原本: [結果JSON](evidence/menu-visibility-20261007/temp-result.json)、[実行ログ](evidence/menu-visibility-20261007/temp-run.txt)、[Vite起動](evidence/menu-visibility-20261007/temp-dev.stdout.txt)/[診断](evidence/menu-visibility-20261007/temp-dev.stderr.txt)、[別途の終了確認](evidence/menu-visibility-20261007/temp-cleanup-check.json)、[集計・SHA](evidence/menu-visibility-20261007/temp-summary.json)。ChromeはPID等を再照合して通常終了、強制終了なし・temp除去成功。自分のViteも停止し、Chrome/Viteの記録PID・5351待受・当該tempの残存0を確認、**UI057返却済み**。
+
+観測限界: 同じdefault contextの2ページを使った事実と、`bringToFront`がエラーなく返ったことまでは確認したが、両ページのwindowId・実際の選択tab遷移は記録していない。`noDefaults`指定と既存実装の分岐は確認したが、実際のCDP送信ログでfocus模擬コマンドがないことを独立照合してはいない。今回の結果から特定のChrome/UI障害や製品cleanup不具合へ断定しない。
+
+この1回は未到達として区切り、同条件を反復・再配車要求しない。さらに観測するなら、実際の同一window/選択tabの遷移とブラウザ由来hiddenを確認できる条件を先に具体化する必要がある。追加構成・製品修正は今回作らず、製品main `1c2f4ba`・公開は不変。実タッチ/GPU長時間/全敵モデル等は未確認のまま。
+
+## 配置不備の修正準備（2f97af3時点）
 
 調整担当の次の1件として、UI054で特定した検証補助の配置不備を修正。新規プロフィールはOS temp直下の`swarm-front-visibility-*`へ置き、生成前に実体の親がリポジトリの外か照合する。削除はこのプロセスが生成したパスの台帳・絶対パス・親の実体・非symlinkが全部一致した時だけ許可する。出力証拠だけを従来のリポジトリ内へ残す。製品/Vite/ライブラリの監視設定は変更しない。
 
@@ -17,7 +32,7 @@ Turnstileのソース切り分け:
 - 検証補助のURLを通常の`/`にし、不要だった`?developer=1`を外す。以前の指定は`bootstrap.ts:26`から管理者session照会を発生させ、未許可なら通常経路へ戻るものだった。認証結果や保存保護は置き換えず、正規のソロ入口を使う。
 - 既存indexのTurnstile取得は前回同様abortするが、解析と区別した「今回使わないscript」として件数を記録する。認証token/成功callback/成功応答は作らない。通常ソロのbodyクラス・空query/hash・協力holderなしを実画面で照合し、管理者session/協力部屋/Turnstile設定の要求が発生したら範囲外として未合格にする。その他の予期しない外部HTTPも引き続き中断・未合格。認証機能の動作検証や迂回の結果には一般化しない。
 
-次の1回の判定条件: devが生存→専用Chrome/外置きtemp/自分のPIDとloopback確認→通常ソロ入口→装備保存とrunning演出→trusted hiddenの同一イベントで製品処理前/後を観測→cancel/装飾0→架空保存の文字列不変・writer lock保持→復帰と新規操作。失敗時は段階と最小DOM状態を残し同条件を反復しない。所要約4分を新規UIへ要求、現在UI055は別担当。旧UI054を再利用しない。製品main `1c2f4ba`・公開不変、使用モデルID/推論設定は未確認。
+準備時の判定条件: devが生存→専用Chrome/外置きtemp/自分のPIDとloopback確認→通常ソロ入口→装備保存とrunning演出→trusted hiddenの同一イベントで製品処理前/後を観測→cancel/装飾0→架空保存の文字列不変・writer lock保持→復帰と新規操作。新規UI057で上記の1回を実行・返却済み。旧UI054の再利用なし。製品main `1c2f4ba`・公開不変、使用モデルID/推論設定は未確認。
 
 ## 追加1件の結果: 専用Chrome起動後、装備操作の前に中止
 

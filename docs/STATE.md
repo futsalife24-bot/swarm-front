@@ -1,4 +1,10 @@
-# 現在地: 検証補助のtemp配置を修正・非UI確認済み、新規UI貸出待ち（2026-10-07）
+# 現在地: temp配置不備は解消、装備演出後も実hidden未到達として記録（2026-10-07）
+
+UI057で対象`2f97af30207bcafeac4c86df8fd185a746d6acfc`を1回実行。外置きtemp/自分のChrome PID・親・実行ファイル・専用引数/loopback所有者/default context/noDefaults指定を確認し、EBUSYなく通常ソロの装備保存まで到達。切替前7 Animation running・装飾2、空白ページを前面化後もhidden=false、visibilityイベント0、finish7/cancel0で3秒timeout。**実非表示cleanup/保存不変/lock保持/復帰は未確認、製品不具合未再現**。[詳細・原本・観測限界](VISIBILITY-CLEANUP-INVESTIGATION.md)。
+
+解析2件・不要Turnstile script2件をabort、対象外制御要求0。pageerror0/捕捉console error4。別途Viteにはtextureエラー9・敵fallback警告1があり、原因/見え方は未検証。Chrome通常終了・temp削除、自分のVite停止と記録PID/5351待受/temp残存0を確認、UI057返却済み。同条件再試行・新規UI要求なし。今回の有限確認は記録までで区切り、さらに測るなら同一window/実選択tab遷移とtrusted hiddenを確認できる条件の具体化が必要。製品main `1c2f4ba`・公開不変、モデルID/推論設定未確認。
+
+## 今回の準備記録（2f97af3時点）
 
 `9f00779`で特定した補助の不備を次の1件として修正。プロフィールをVite監視外のOS tempへ移し、生成した絶対パス/親/台帳/非symlinkの照合後だけ削除する。非UIでtemp生成・削除と未所有パス拒否、構文/書式を確認。実ChromeのPID/親PID/実行ファイル/プロフィール引数とloopback待受所有者を起動後に照合する準備を追加したが、ブラウザは未起動。[最新の準備と判定条件](VISIBILITY-CLEANUP-INVESTIGATION.md)。
 
