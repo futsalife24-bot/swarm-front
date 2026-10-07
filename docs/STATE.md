@@ -1,10 +1,12 @@
-# 現在地: 開幕固定指定撤去のWindows検証完了、PR146の通常Chat監査を準備中（2026-10-07）
+# 現在地: PR146の開幕ランダム3択を通常Chatへ送信、独立判定待ち（2026-10-07）
+
+17:03 JSTごろ、対象 `6806f08585e34fe7068c23cd5f9c344bbd1f8f1c` のZIPを[新規通常Chat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)へ添付送信し、応答開始を確認。資料 `dist-validation/random-opening/audit-6806f08.zip`、37,791,663 bytes、439 files＋manifest、SHA256 `1d8ed175eea28b41dca14f2e2c05bfbb6757481b6f5c79bce0db6cb4de52144c`。通常Chat/Latest/High表示を確認、実モデルIDは未確認。UI033返却済み。次回回収は新規貸出後。PR146は下書き・未統合・未公開。
 
 本人の追加依頼により、基地の開幕3系統指定を撤去し、チェックした6〜22種から開幕も重複なし3択へ変更。ブランチ `codex/front-random-opening-20261007`、base `dd5c8d03bd3bafc8d2363e9e0b85e6ab2280e73c`。型/front81/save147・実Worker関連3件・本番build/dry-run成功。固定3種のチェック解除、旧デッキ名/pool保持、進行中作戦の候補保持と旧規則を検証。[仕様と検証](FRONT-RANDOM-OPENING.md)。
 
 実装 `2a8f39d2776287065bc101189aa396ac5a81e8d1` をpushし、[下書きPR146](https://github.com/futsalife24-bot/swarm-front/pull/146)へ保存。UI033でWindows Chrome基地6条件とソロ3サイズ/実2人協力1件が成功。初回の画像サイズ固定テスト失敗は既存1254px素材と切り分け、テストだけ補正して2サイズ再実行成功。IAB844/640も目視・console error 0。一覧高さは49〜53px増加。証拠と限界は詳細文書へ保存。
 
-UI033で新規通常Chatへ固定SHAのZIPを添付する準備中。監査Chatへの送信・独立判定・main統合・公開は未完了。必須0後に通常merge→既存Worker公開→配信/公開UI→記録main反映へ続ける。非表示cleanupの別調査は始めない。
+独立判定・main統合・公開は未完了。必須0後に通常merge→既存Worker公開→配信/公開UI→記録main反映へ続ける。非表示cleanupの別調査は始めない。
 
 ## 前回完了: PR144を通常統合・既存Worker公開
 
