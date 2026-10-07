@@ -1,4 +1,10 @@
-# 現在地: PR144の独立再監査に合格、通常統合・公開へ（2026-10-07）
+# 現在地: PR144を通常統合・既存Worker公開、配信と公開Chrome確認に成功（2026-10-07）
+
+[PR144](https://github.com/futsalife24-bot/swarm-front/pull/144)通常merge、公開ソースmain `7bc6ac48289e8e5d153074cf4e4b266742985240`、Worker Version `a35b1e09-bbd1-4f1d-b00a-0d2bf6e7db80`。独立再監査は対象 `2a5639d5c289857efaec2e6da3782589cf01003d`・必須0・全体UIUX合格。初回P2の2件を修正済み。main build/本番dry-run、配信26/26一致・health200、公開Windows Chromeの基地/デッキ/融合/協力6条件＋最終準備4条件が成功、pageerror/console error各0。[公開詳細と限界](BASE-DECKS-RELEASE.md)。
+
+公開直後の配信不一致と、検査の画像読込待ち不足は初回ログも保存。検査だけに画像complete待ちを加え、製品変更なし。IAB追加目視は別タブの保存保護で未確認、強制解放せずUI031を返却。公開記録は `codex/pr144-release-record-20261007` から通常PRでmainへ反映する。実機タッチ・実非表示cleanup・GPU長時間・全敵モデルは未確認、戦闘演出/PR137は保留。
+
+## 独立再監査の合格記録
 
 16:22 JSTごろ[確定回答](evidence/base-decks-20261007/audit-final.md)を回収。対象 `2a5639d5c289857efaec2e6da3782589cf01003d` は必須P0/P1/P2各0・全体UIUX合格。未保存名とボタン寸法の初回P2は両方解消。任意はDTO分離・回帰シナリオのCI常時化・最終準備画面画像の補完。監査対象以降は記録のみ、製品不変。最新mainは `1b3c0cd69a8f26f0cba7643b3129637cea3835db`。UI029返却済み、PR144の通常merge→main build/dry-run→既存Worker公開→配信/health/UI確認へ進む。現時点では未統合・未公開。
 

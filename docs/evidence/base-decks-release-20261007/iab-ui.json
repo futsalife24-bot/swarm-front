@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-07",
+  "url": "https://swarm-front.melosalife-24.workers.dev/front",
+  "lease": "UI-20261007-031",
+  "result": "保存保護により追加目視は未確認",
+  "visibleHeading": "別のタブでゲームを開いています",
+  "visibleText": "保存データを守るため、同時に遊べる画面は1つです。もう一方のゲームタブを閉じてから、この画面で再開してください。",
+  "action": "再開・強制解放・他タブ操作をせず、確認用タブだけ閉じてUIを返却",
+  "consoleErrors": [],
+  "independentPublishedVerification": "Windows Chrome新規隔離コンテキストの基地等6条件と準備4条件が成功。IAB成功とは区別"
+}

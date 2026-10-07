@@ -28,6 +28,21 @@ try {
       });
       const errors = [];
       const consoleErrors = [];
+      const imageReadiness = [];
+      const waitForBaseImages = async (stage) => {
+        const pending = await p
+          .locator(".front-base img")
+          .evaluateAll((images) =>
+            images.filter((image) => !image.complete).map((image) => image.src),
+          );
+        const started = Date.now();
+        await p.waitForFunction(() =>
+          [...document.querySelectorAll(".front-base img")].every(
+            (image) => image.complete,
+          ),
+        );
+        imageReadiness.push({ stage, pending, waitedMs: Date.now() - started });
+      };
       p.on("pageerror", (e) => errors.push(e.message));
       p.on("console", (m) => {
         if (m.type() === "error") consoleErrors.push(m.text());
@@ -115,8 +130,10 @@ try {
       );
       // 「?」の閲覧で選択・保存が変わらず、画像が読み込まれる。
       await p.locator('[data-help="fuse"]').tap();
+      await waitForBaseImages("upgrades");
       await p.screenshot({ path: `${out}/base-${width}-${reducedMotion}.png` });
       await p.locator("#base-fusions").tap();
+      await waitForBaseImages("fusions");
       await p.screenshot({
         path: `${out}/fusion-${width}-${reducedMotion}.png`,
       });
@@ -228,6 +245,7 @@ try {
         coop,
         errors,
         consoleErrors,
+        imageReadiness,
         serviceWorkerControlled,
         unsavedNameGuard: "set → back/load/cancel retain → deck save clears",
         fusionRecipeBefore,
