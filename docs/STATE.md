@@ -1,8 +1,10 @@
-# 現在地: 実タブ非表示cleanupの1経路を調査、非UI準備済み（2026-10-07）
+# 現在地: 実タブ非表示の限定調査を記録、2条件ともhidden未到達（2026-10-07）
 
 開幕ランダム3択の公開タスクは下記PR146/147で完了。次の既存仕様内調査として、製品main `1c2f4ba44348ab95558ca0362f4f50a561e900d0` を基点に、従来版の装備保存演出中→同じブラウザの空白タブへ切替→復帰の1往復だけを選定。[調査記録/観測方法](VISIBILITY-CLEANUP-INVESTIGATION.md)。branch `codex/visibility-cleanup-investigation-20261007`。製品コード・保存仕様・main・公開は変更しない。
 
-既存Linux/Windows証拠のactualHiddenCleanupはfalseで未カバー。実装はhiddenでAnimation取消/装飾cleanup、writer lockはvisibilitychangeで解放しない。専用Chrome/contextの観測スクリプトを作成し構文検査・公開originの起動前拒否を確認。ブラウザ由来のtrusted hiddenと、自然終了前の取消/保存不変/復帰後の新操作を検査する。実画面/性能はまだ未確認。MONSTER REELのUI051完了後に新規UI約3分を要求済み。貸出前のブラウザ起動・IAB保存ロック操作なし。
+UI052でWindows Chromeの実タブ切替を2条件実行。初回 `6cf1df430116c2eba42255669a06c2fb7dc1ce0b` と追加CDPから模擬解除を要求した `c971c4f80494e3dc66c0443b4a23826a06d9fe9d` は、いずれもvisibleのまま3秒timeout。7 Animationはcancelでなくfinish、trusted hiddenは観測0。**実非表示cleanup・保存不変・復帰は未確認、製品不具合の再現なし**。pageerror0、既存解析CORS関連console errorは4/2件で0扱いしない。原本JSON/ログを[証拠](evidence/menu-visibility-20261007/)へ保存。
+
+Playwright既定のfocus emulation有効化をソースで確認したが、今回の未到達との因果は未確定。次の案は専用一時Chromeのdefault contextへ`connectOverCDP({noDefaults:true})`で接続し同じ1経路を観測すること（未実装・未実行、計測順の補正も必要）。同条件は反復しない。専用ブラウザ/5351サーバー終了、UI052返却済み。調査branchだけをGitHubへ保存し、main/公開は対象外のまま維持。共有IABロック・本人保存は操作していない。再観測にはこの準備と新規UI貸出が必要。
 
 ## 前回完了: 開幕ランダム3択の公開
 # 現在地: PR146を通常merge・既存Worker公開、配信26件/公開8条件成功（2026-10-07）

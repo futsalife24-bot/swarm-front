@@ -1,0 +1,1 @@
+{"result":"not-passed","source":"6cf1df430116c2eba42255669a06c2fb7dc1ce0b","failure":"TimeoutError: page.waitForFunction: Timeout 3000ms exceeded.","output":"dist-validation/menu-visibility"}

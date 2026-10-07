@@ -1,4 +1,5 @@
 // 調査用: 専用Chromeの実タブ切替を1往復だけ観測する。製品・実保存は変更しない。
+// 2026-10-07の2試行は実hidden未到達。合格実績なし。再開条件は調査記録を参照。
 import { chromium } from "@playwright/test";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
@@ -20,7 +21,8 @@ const report = {
   mechanism:
     "headed Chrome, same isolated context, two real tabs, bringToFront",
   visibilityOverridden: false,
-  focusEmulation: "Playwright default override disabled on both test tabs",
+  focusEmulation:
+    "Disable requested via secondary CDP sessions; effectiveness unconfirmed",
   animationTimingOverridden: false,
   errors: [],
   consoleErrors: [],
@@ -67,7 +69,8 @@ try {
         connected: !!a.effect?.target?.isConnected,
       })),
     });
-    // 製品リスナーより前のcaptureと後のmicrotaskを比較。hiddenや時刻は偽装しない。
+    // captureとmicrotaskを比較する準備。実hidden未到達のため後者の実行順も未検証。
+    // 再開時は製品リスナー処理後の観測を保証すること。hiddenや時刻は偽装しない。
     document.addEventListener(
       "visibilitychange",
       (event) => {
@@ -83,7 +86,7 @@ try {
       true,
     );
   });
-  // 既存の開発用解析抑止を使い、架空操作を外部解析へ送らない。
+  // 開発用解析抑止を指定。画面遷移後を含む全送信抑止は保証されず、実測ではCORSエラーあり。
   await page.goto(origin + "/?developer=1");
   await page.locator("#solo").waitFor();
   await page.evaluate(async () => {
@@ -94,11 +97,13 @@ try {
     localStorage.setItem("swarm-front-player-name-v1", "非表示調査用");
   });
   await page.reload();
-  // Playwrightが既定で有効化するfocused/activeの模擬だけを外す。
+  // focused/activeの模擬解除を別CDP sessionから要求する。元sessionへの効果は未確認。
   // visibility値を設定せず、実タブ切替のブラウザイベントを観測する。
   for (const tab of [page, other]) {
     const session = await context.newCDPSession(tab);
-    await session.send("Emulation.setFocusEmulationEnabled", { enabled: false });
+    await session.send("Emulation.setFocusEmulationEnabled", {
+      enabled: false,
+    });
   }
   await page.bringToFront();
   await page.locator("#solo").click();

@@ -1,0 +1,170 @@
+{
+  "source": "c971c4f80494e3dc66c0443b4a23826a06d9fe9d",
+  "origin": "http://127.0.0.1:5351",
+  "at": "2026-10-07T09:47:01.908Z",
+  "mechanism": "headed Chrome, same isolated context, two real tabs, bringToFront",
+  "visibilityOverridden": false,
+  "focusEmulation": "Playwright default override disabled on both test tabs",
+  "animationTimingOverridden": false,
+  "errors": [],
+  "consoleErrors": [
+    "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5351' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+    "Failed to load resource: net::ERR_FAILED"
+  ],
+  "result": "not-passed",
+  "browser": "154.0.8037.98",
+  "lockBefore": [
+    {
+      "name": "swarm-front-shared-save-writer-v3",
+      "mode": "exclusive"
+    }
+  ],
+  "before": {
+    "at": 2718.9000000059605,
+    "visibility": "visible",
+    "hidden": false,
+    "layers": 2,
+    "animations": [
+      {
+        "index": 0,
+        "state": "running",
+        "currentTime": 0,
+        "connected": true
+      },
+      {
+        "index": 1,
+        "state": "running",
+        "currentTime": 0,
+        "connected": true
+      },
+      {
+        "index": 2,
+        "state": "running",
+        "currentTime": 0,
+        "connected": true
+      },
+      {
+        "index": 3,
+        "state": "running",
+        "currentTime": 0,
+        "connected": true
+      },
+      {
+        "index": 4,
+        "state": "running",
+        "currentTime": 0,
+        "connected": true
+      },
+      {
+        "index": 5,
+        "state": "running",
+        "currentTime": 0,
+        "connected": true
+      },
+      {
+        "index": 6,
+        "state": "running",
+        "currentTime": 0,
+        "connected": true
+      }
+    ]
+  },
+  "failure": "TimeoutError: page.waitForFunction: Timeout 3000ms exceeded.",
+  "lastObservation": {
+    "sample": {
+      "at": 5741.9000000059605,
+      "visibility": "visible",
+      "hidden": false,
+      "layers": 0,
+      "animations": [
+        {
+          "index": 0,
+          "state": "finished",
+          "currentTime": 610,
+          "connected": false
+        },
+        {
+          "index": 1,
+          "state": "finished",
+          "currentTime": 929.9999999999999,
+          "connected": false
+        },
+        {
+          "index": 2,
+          "state": "finished",
+          "currentTime": 650,
+          "connected": true
+        },
+        {
+          "index": 3,
+          "state": "finished",
+          "currentTime": 420,
+          "connected": true
+        },
+        {
+          "index": 4,
+          "state": "finished",
+          "currentTime": 230,
+          "connected": false
+        },
+        {
+          "index": 5,
+          "state": "finished",
+          "currentTime": 383.33333333333337,
+          "connected": false
+        },
+        {
+          "index": 6,
+          "state": "finished",
+          "currentTime": 560,
+          "connected": false
+        }
+      ]
+    },
+    "observations": [],
+    "events": [
+      {
+        "type": "finish",
+        "index": 0,
+        "at": 3803.9000000059605,
+        "hidden": false
+      },
+      {
+        "type": "finish",
+        "index": 1,
+        "at": 3804.0999999940395,
+        "hidden": false
+      },
+      {
+        "type": "finish",
+        "index": 2,
+        "at": 3804.0999999940395,
+        "hidden": false
+      },
+      {
+        "type": "finish",
+        "index": 3,
+        "at": 3804.0999999940395,
+        "hidden": false
+      },
+      {
+        "type": "finish",
+        "index": 4,
+        "at": 3804.0999999940395,
+        "hidden": false
+      },
+      {
+        "type": "finish",
+        "index": 5,
+        "at": 3804.0999999940395,
+        "hidden": false
+      },
+      {
+        "type": "finish",
+        "index": 6,
+        "at": 3804.0999999940395,
+        "hidden": false
+      }
+    ]
+  }
+}

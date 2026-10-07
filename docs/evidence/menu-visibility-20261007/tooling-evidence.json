@@ -1,0 +1,47 @@
+{
+  "productSha": "1c2f4ba44348ab95558ca0362f4f50a561e900d0",
+  "playwrightVersion": "1.63.0",
+  "chromeVersion": "154.0.8037.98",
+  "coreBundle": {
+    "path": "node_modules/playwright-core/lib/coreBundle.js",
+    "sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+    "lines": "37634-37638",
+    "observation": "通常contextでfocus emulationを有効化。noDefaultsとdefault contextの両条件を満たす時は省略"
+  },
+  "typeDefinition": {
+    "path": "node_modules/playwright-core/types/types.d.ts",
+    "lines": "25533-25547",
+    "observation": "noDefaultsは既存default contextに作用し、newContextには作用しない"
+  },
+  "officialReference": "https://playwright.dev/docs/api/class-browsertype#browser-type-connect-over-cdp",
+  "confirmed": "2試行とも実hidden未到達・自然終了。製品cleanupの正否は判定できない",
+  "unconfirmed": "focus emulationが未到達の唯一の原因か、追加CDP sessionの解除が元sessionに作用したか",
+  "proposedOnly": "専用一時Chromeのdefault contextへconnectOverCDP noDefaults=trueで接続する構成は未実装・未実行",
+  "rawEvidence": [
+    {
+      "file": "initial-result.json",
+      "bytes": 4284,
+      "sha256": "e216d6a9c1360a63a9f6e18e7f92db9fa8466bc6b77446c3e9d7a37b4561543a",
+      "gitLfSha256": "e216d6a9c1360a63a9f6e18e7f92db9fa8466bc6b77446c3e9d7a37b4561543a"
+    },
+    {
+      "file": "initial-run.txt",
+      "bytes": 193,
+      "sha256": "249595c57675780f8c1ad1e26dbc21c0db2c931c2536a4fc60d0b10818f4fadf",
+      "gitLfSha256": "6c4f57aae9d4d72ef3142c14370c9f1867fc9a01e7dd20aafdba6efa2e8ffa69"
+    },
+    {
+      "file": "second-result.json",
+      "bytes": 4014,
+      "sha256": "374aabb07e98e78aec2214902b7c388a238c37bef33ee5a61579a4c43bcaf734",
+      "gitLfSha256": "374aabb07e98e78aec2214902b7c388a238c37bef33ee5a61579a4c43bcaf734"
+    },
+    {
+      "file": "second-run.txt",
+      "bytes": 193,
+      "sha256": "90bb6f7ae31beb4fb3832a3d5dc32f832ac826ca6997c3fbcc998a075eb9115f",
+      "gitLfSha256": "ef44c1180ca7c411fc262a2c30e3c51e3ba2c059437d4216f73f53fff67dd13c"
+    }
+  ],
+  "lineEndings": "bytes/sha256は取得原本。既存gitattributesによりGitはLFへ正規化するためgitLfSha256も併記。JSON内容・ログ本文は変更していない。"
+}
