@@ -1,3 +1,7 @@
+# 現在地: メニュー12場面の独立監査を受付済み（2026-10-07）
+
+[通常Chat](https://chatgpt.com/c/6ac5a307-3158-83ee-9ac7-7770eefca7fb)へ対象 `6dd4dbba336361c06cd7c8bdb51282bcae69581a` のソース/差分/証拠ZIPを添付送信し、ZIP・SHA256・manifestと12場面の確認開始を確認。認証画面は操作せず解消し、未送信の下書きへ戻ったため同じ資料を再添付、表示名は `menu-effects-audit-6dd4dbb(1).zip`。先頭の認証待ち状態は解消。監査対象以後はSTATE・停止画面証拠・配信確認スクリプトだけ、ゲーム実装は不変。確定判定と必要修正後に通常統合・既存Worker公開する。現時点は未統合・未公開。
+
 # 現在地: メニュー12場面の演出は検証済み、監査Chatの認証待ち（2026-10-07）
 
 [PR140](https://github.com/futsalife24-bot/swarm-front/pull/140)、branch `codex/menu-effects-20261007`、監査対象 `6dd4dbba336361c06cd7c8bdb51282bcae69581a`。型・関連31単体・武器一覧8表示・育成アクセサリ3サイズ・通常/reduced実UI・実2人協力/週間受取・本番build/dry-run成功。297ファイルの対象blob/差分/証拠ZIP（SHA256 `bc6bccc2246d2bcf5239f667ebb4d7a606df2968d8abcf729c86e4d628e33b31`）を通常Chatへ添付し送信操作後、アカウント読込エラー。再読み込みでCloudflareの認証チェックが出た。正式な監査Chat URL・受付・確定判定は未確認。
