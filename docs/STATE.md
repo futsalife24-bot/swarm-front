@@ -1,4 +1,7 @@
-# 現在地: 全体UIUXの必須2件を修正・検証、同じChatへの再監査準備（2026-10-07）
+# 現在地: 全体UIUXの必須2件を修正・検証、再監査ZIP送信の承認待ち（2026-10-07）
+
+停止理由: 共有UI調整担当が既存承認・固定skill・ZIP hashを照合した後も、再監査ZIP送信を進めるUI024貸出指示が自動承認審査で「非公開の具体ZIPと宛先への本人明示承認不足」として拒否された。調整担当のチャットで本人へ同ZIP/同監査Chatへの送信承認1件を質問済み。当担当は重複質問・別経路送信をせず待機。独立した実装/検証/資料準備は完了。
+再開条件: 本人の同ZIP・同監査Chatへの送信承認が調整担当から届き、新しいUI貸出を受けること。その後、同じChatへ対象2a5639dを再監査し、必須0の確定後に通常merge・既存Worker公開・配信/health/実UI照合・公開記録main反映まで続ける。PR144は下書きのまま未統合・未公開。
 
 再監査対象 `2a5639d5c289857efaec2e6da3782589cf01003d`、[PR144](https://github.com/futsalife24-bot/swarm-front/pull/144)、[同じ監査Chat](https://chatgpt.com/c/6ac5e3c4-0174-83e8-84b7-cee77d5e1e11)。修正ZIP `dist-validation/base-decks/audit/swarm-front-uiux-revision-2a5639d.zip`（8,467,341 bytes、168 files、SHA256 `9de7ad5098af9c9d2067b04f5f9bc9a12133858abf3b734cc3a05ba9ccfc72a7`）、manifest/CRC照合済みで未送信。
 
