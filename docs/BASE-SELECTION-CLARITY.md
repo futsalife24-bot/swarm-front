@@ -27,8 +27,12 @@ base `4f758d908cb22a04717baf6126db91f1cf0d5713`、branch `codex/base-selection-c
 
 ## 独立監査と公開
 
-repo skill `docs/skills/swarm-front-audit-release/SKILL.md` の固定経路で、対象commitのソース/差分/画像/検証/manifestを通常新規Chatへ添付し判定を待つ。合格後の通常merge・既存Worker公開・配信/health/公開UIの結果は追記する。
+repo skill `docs/skills/swarm-front-audit-release/SKILL.md` の固定経路で、対象commitのソース/差分/画像/検証/manifestを通常新規Chatへ添付して独立判定を得た。
 
 [PR150](https://github.com/futsalife24-bot/swarm-front/pull/150)。対象 `1b564377370cb3782f8cd8b44aed6ef58739966b`（製品 `4fba4310437762b07dca74edfdb498aa0efdc896`）は [通常新規Chat](https://chatgpt.com/c/6ac6ad7b-f114-83ee-ae9a-c776bd638728) で合格、P0/P1/P2すべて0。監査後の製品修正なし。任意R1はスクリーンリーダー実機の読み上げ順で、公開阻止ではない。[回答全文](evidence/base-selection-20261008/audit-final.md)。監査側はZIP/manifest全242件・差分/関連コード・画像/ログを照合し、Chrome/83単体/build/Worker通信は独立再実行していない。
 
 ZIP `dist-validation/base-selection-20261008/audit-1b56437.zip`（22,498,421 bytes）、SHA256 `64089770518c2336d5f28a7ad41852aaa402ebd66bf166cf960a7485cc81fa4d`。対象以後の追加は監査・公開記録だけ。
+
+PR150を通常mergeし、日本語Player-Noteをmerge本文に保持。公開ソース `e4315c6edc9d555b53095bc5335142d654e35edf` のclean mainからbuild/production dry-run成功後、既存Worker `swarm-front` へ公開。Worker Version `30413495-bb4a-4e29-92ba-59d3c37b76e0`。既存アカウント名・OAuthをwhoamiで確認、権限拡大なし。
+
+配信は26/26ファイルのSHA一致、health200/ok。公開URL https://swarm-front.melosalife-24.workers.dev/front 。公開Chromeでも同じ6条件すべて成功、全条件でconsole/page error0。選択・保存・呼び出し・融合・編集継続/破棄/Esc/フォーカス、844/640/1220幅の画面を確認。公開専用contextのみ使用し、本人の保存や公開ルームは変更していない。[公開結果](evidence/base-selection-20261008/public/base-checks.json)。公開記録は文書専用branch `codex/pr150-release-record-20261008` から通常PRでmainへ反映する。
