@@ -74,6 +74,29 @@ try {
           : async () => {};
       recordings.push(stopVideo);
       assert.equal(await p.locator(".base-tile").count(), 22);
+      assert.equal(await p.locator(".base-initial,[data-initial]").count(), 0);
+      assert.doesNotMatch(
+        await p.locator("#base-grid").innerText(),
+        /開幕候補/,
+      );
+      const openingSpace = await p.locator("#base-grid").evaluate((grid) => {
+        const r = grid.getBoundingClientRect();
+        return {
+          top: r.top,
+          height: r.height,
+          fullyVisible: [...grid.querySelectorAll(".base-tile")].filter((e) => {
+            const b = e.getBoundingClientRect();
+            return b.top >= r.top && b.bottom <= r.bottom + 1;
+          }).length,
+        };
+      });
+      for (const id of ["blast-core", "armor-piercer", "afterimage-mine"]) {
+        await p.locator(`[data-pool="${id}"]`).tap();
+        assert.equal(
+          await p.locator(`[data-pool="${id}"]`).getAttribute("aria-pressed"),
+          "false",
+        );
+      }
       const active = await p.evaluate(() =>
         localStorage.getItem("swarm-front-upgrade-loadout-v1"),
       );
@@ -124,6 +147,12 @@ try {
         /セットしました/,
       );
       await p.locator("#base-upgrades").tap();
+      for (const id of ["blast-core", "armor-piercer", "afterimage-mine"]) {
+        assert.equal(
+          await p.locator(`[data-pool="${id}"]`).getAttribute("aria-pressed"),
+          "false",
+        );
+      }
       assert.equal(
         await p.locator('[data-pool="fuse"]').getAttribute("aria-pressed"),
         "false",
@@ -241,6 +270,7 @@ try {
         width,
         height,
         reducedMotion,
+        openingSpace,
         metrics,
         coop,
         errors,

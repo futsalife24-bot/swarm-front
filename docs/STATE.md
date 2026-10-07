@@ -1,4 +1,33 @@
-# 現在地: PR144を通常統合・既存Worker公開、配信と公開Chrome確認に成功（2026-10-07）
+# 現在地: PR146の独立再監査合格、通常merge・既存Worker公開へ（2026-10-07）
+
+17:57 JST、[同じ通常Chat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)の確定回答を回収。対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2`、P0/P1/P2/任意すべて0、初回P2-01は解消。[回答全文](evidence/random-opening-20261007/revision/audit-final.txt)。監査側はソースの直接実行と最小Cloudflareモックで混在/再接続/進行中保護を独立確認。npm ci制約によるVitest/実Workerの独立再実行未達は提出ログ検証と区別。
+
+UI046返却済み、当該監査回答の監視は終了。対象以後は文書/証拠のみで製品不変。PR146をReady→通常merge→main同期後build/production dry-run→既存Worker公開→配信/health/公開UI→公開記録main反映へ進める。公開後UIは新規貸出約5分を要求。現時点は未統合・未公開。
+
+## 今回の修正・監査の経緯
+17:44 JST、下記の具体的ZIP/既存継続承認を照合した再審査後、UI041で[同じ独立監査Chat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)へ添付送信。添付名と応答開始を確認し、UI041を返却。送信の阻害は解消し、現在は外部監査の確定判定待ち。対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2`、以後は記録だけで製品変更なし。[送信証拠](evidence/random-opening-20261007/revision/audit-sent.png)。新規UI貸出で確定回答を回収し、必須0後に通常merge→main build/dry-run→既存Worker公開→配信/公開UI→記録main反映へ継続する。
+
+実装修正 `c59247b142d81570a7c94c6c90e31752bab0d81f` 後の本番build/production dry-run・Windows Chrome実2人協力（準備/共同選択/個別強化/報酬/再読込）が成功。型/front83/実Worker6件も成功。[PR146](https://github.com/futsalife24-bot/swarm-front/pull/146)は未統合・未公開。UI039返却済み。
+
+修正監査対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2`。資料 `dist-validation/random-opening/audit-8d6f1d6.zip`、10,981,438 bytes、424 files＋manifest、SHA256 `da9c4e0ce92a516917adf9f9f0a7645252b60c3d56dae558aae2bad477f2ed0c`。全entry hash/CRC一致・秘密ファイル/認証値パターン0件。[資料検査](evidence/random-opening-20261007/revision/payload-check.json)。差分基点は初回 `6806f08585e34fe7068c23cd5f9c344bbd1f8f1c`。以後の記録commitは製品変更なし。
+
+解消済みの送信待ち理由: 調整担当による外部Chat送信を含むUI貸出指示が、自動承認レビューで拒否され未送達。ローカル検証だけのUI039で送信せず、ZIPの完全SHA/manifest/サイズ/内容・秘密非混入と既存継続承認を照合。具体資料と同じ監査先を明示した再審査後のUI041で正規経路から送信できた。別経路への切替・拒否迂回はしていない。
+
+初回対象 `6806f08585e34fe7068c23cd5f9c344bbd1f8f1c` は[同じ監査Chat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)で確定要修正、P0/P1各0・P2が1件。[全文](evidence/random-opening-20261007/audit-first.txt)。旧画面の固定開幕指定が新Workerで黙って無視される問題へ、Hello/WelcomeのfrontOpening世代とequip/startガードを追加。進行中の作戦・復帰トークン・装備/poolは保持。型/front83・実Worker関連6件成功、詳細[修正記録](FRONT-RANDOM-OPENING.md)。
+
+UI037は初回回答回収と公開検査スクリプトのローカル2条件確認後に返却済み。修正後の協力UI/同Chat再監査送信の新枠を要求。PR146は下書き・未統合・未公開。build/dry-run・修正対象ZIP→同Chat再監査の必須0→通常merge/既存Worker公開/配信確認まで継続する。
+
+17:03 JSTごろ、対象 `6806f08585e34fe7068c23cd5f9c344bbd1f8f1c` のZIPを[新規通常Chat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)へ添付送信し、応答開始を確認。資料 `dist-validation/random-opening/audit-6806f08.zip`、37,791,663 bytes、439 files＋manifest、SHA256 `1d8ed175eea28b41dca14f2e2c05bfbb6757481b6f5c79bce0db6cb4de52144c`。通常Chat/Latest/High表示を確認、実モデルIDは未確認。UI033返却済み。次回回収は新規貸出後。PR146は下書き・未統合・未公開。
+
+17:12 JSTごろUI035で確認。監査側はZIP hash/439件manifest一致と抽選本体/旧規則の分岐を確認済み、互換境界・UI・独立実行を調査中。「停止」表示が残り確定回答は未完了。UI035返却済み、次の回収は新規IDで行う。公開用の隔離Chrome検査 `check-front-opening-published.mjs` を追加準備（構文のみ成功、まだ未実行）。監査対象以降は記録/検査だけで製品変更なし。
+
+本人の追加依頼により、基地の開幕3系統指定を撤去し、チェックした6〜22種から開幕も重複なし3択へ変更。ブランチ `codex/front-random-opening-20261007`、base `dd5c8d03bd3bafc8d2363e9e0b85e6ab2280e73c`。型/front81/save147・実Worker関連3件・本番build/dry-run成功。固定3種のチェック解除、旧デッキ名/pool保持、進行中作戦の候補保持と旧規則を検証。[仕様と検証](FRONT-RANDOM-OPENING.md)。
+
+実装 `2a8f39d2776287065bc101189aa396ac5a81e8d1` をpushし、[下書きPR146](https://github.com/futsalife24-bot/swarm-front/pull/146)へ保存。UI033でWindows Chrome基地6条件とソロ3サイズ/実2人協力1件が成功。初回の画像サイズ固定テスト失敗は既存1254px素材と切り分け、テストだけ補正して2サイズ再実行成功。IAB844/640も目視・console error 0。一覧高さは49〜53px増加。証拠と限界は詳細文書へ保存。
+
+独立判定・main統合・公開は未完了。必須0後に通常merge→既存Worker公開→配信/公開UI→記録main反映へ続ける。非表示cleanupの別調査は始めない。
+
+## 前回完了: PR144を通常統合・既存Worker公開
 
 [PR144](https://github.com/futsalife24-bot/swarm-front/pull/144)通常merge、公開ソースmain `7bc6ac48289e8e5d153074cf4e4b266742985240`、Worker Version `a35b1e09-bbd1-4f1d-b00a-0d2bf6e7db80`。独立再監査は対象 `2a5639d5c289857efaec2e6da3782589cf01003d`・必須0・全体UIUX合格。初回P2の2件を修正済み。main build/本番dry-run、配信26/26一致・health200、公開Windows Chromeの基地/デッキ/融合/協力6条件＋最終準備4条件が成功、pageerror/console error各0。[公開詳細と限界](BASE-DECKS-RELEASE.md)。
 

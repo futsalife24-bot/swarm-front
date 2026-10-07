@@ -228,7 +228,7 @@ function home() {
   $("home-tutorial").onclick = () =>
     menuDialog(
       "操作と作戦",
-      `<p>左側で移動、右側で視点を操作。射撃・装填・回避を組み合わせて敵を倒します。ボタン配置とジャイロは「設定・操作」で変更できます。</p><p>パソコン：移動 WASD・射撃 クリック・装填 R・切替 Q・回避 Space・ジャンプ F・蘇生 E。</p><p>基地では強化の画像横の「?」から効果と融合素材を確認し、候補を6種以上選びます。デッキはこの端末に3枠保存でき、「出撃にセット」で次のソロ・協力へ反映します。</p><p>作戦中の強化は最大6枠。素材2種をそれぞれ最大段階まで育てると融合が抽選候補に登場し、2枠が1枠にまとまります。融合した強化も3段階まで育成できます。一時停止の強化状況でも素材と段階を確認できます。</p>`,
+      `<p>左側で移動、右側で視点を操作。射撃・装填・回避を組み合わせて敵を倒します。ボタン配置とジャイロは「設定・操作」で変更できます。</p><p>パソコン：移動 WASD・射撃 クリック・装填 R・切替 Q・回避 Space・ジャンプ F・蘇生 E。</p><p>基地では強化の画像横の「?」から効果と融合素材を確認し、候補を6種以上選びます。開幕も選んだ候補からランダムに3種が提示され、その中から1つを選びます。デッキはこの端末に3枠保存でき、「出撃にセット」で次のソロ・協力へ反映します。</p><p>作戦中の強化は最大6枠。素材2種をそれぞれ最大段階まで育てると融合が抽選候補に登場し、2枠が1枠にまとまります。融合した強化も3段階まで育成できます。一時停止の強化状況でも素材と段階を確認できます。</p>`,
       home,
     );
   $("ui").querySelector(".fine")!.textContent =
@@ -424,7 +424,6 @@ function prep(coop = false) {
     frontLoadout = readFrontLoadout(progressStorage);
     if (coop && network) {
       network.upgradePool = frontLoadout.pool;
-      network.initialCards = frontLoadout.initialCards;
       network.equipment(frontEquipment());
       network.preparation(false);
       preparedGeneration = -1;
@@ -436,7 +435,6 @@ function prep(coop = false) {
 }
 async function solo() {
   frontLoadout = readFrontLoadout(progressStorage);
-  const initialCards = frontLoadout.initialCards;
   localRun = createFrontRun(
     {
       runId: crypto.randomUUID(),
@@ -447,7 +445,6 @@ async function solo() {
         {
           id,
           equipment: frontEquipment(),
-          initialCards,
           pool: frontLoadout.pool,
         },
       ],
@@ -655,7 +652,6 @@ function connectRoom(code: string, target: string, token = "") {
   net.equip = frontEquipment();
   frontLoadout = readFrontLoadout(progressStorage);
   net.upgradePool = frontLoadout.pool;
-  net.initialCards = frontLoadout.initialCards;
   net.onStatus = (message, fatal) => {
     status = message;
     if (fatal && info?.phase !== "victory" && info?.phase !== "defeat") {

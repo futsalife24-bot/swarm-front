@@ -50,6 +50,8 @@ function built(
     revision: picks,
     rightsGranted: 119,
     rightsSpent: picks - 1,
+    // 既存作戦の途中状態fixture。開幕抽選の結果を保持した状態として扱う。
+    initialCards: ["blast-core", "armor-piercer", "afterimage-mine"] as const,
     initialCardId: "afterimage-mine" as const,
     evolved: frontEvolvedFamilies({ levels }).length > 0,
     offer: null,

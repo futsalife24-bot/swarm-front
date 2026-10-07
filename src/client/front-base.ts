@@ -1,7 +1,6 @@
 import "./front-base.css";
 import {
   FRONT_BASE_IDS,
-  FRONT_FAMILY_CARDS,
   FRONT_FUSIONS,
   FRONT_FUSION_IDS,
   FRONT_UPGRADE_CATALOG as catalog,
@@ -58,24 +57,10 @@ export function openFrontBase(
     <header class="menu-header base-header"><h1>基地</h1><span class="base-service">${progress.wins}勝 · ${progress.credits}功績</span><nav><button id="front-save-pool" class="primary">出撃にセット</button><button id="base-back">戻る</button></nav></header>
     <div class="base-deck-bar"><label class="sr-only" for="base-slot">保存デッキ</label><select id="base-slot"></select><label class="sr-only" for="base-name">デッキ名</label><input id="base-name" maxlength="24" placeholder="デッキ名（24文字まで）"><button id="base-store">デッキ保存</button><button id="base-load">呼び出す</button><span id="base-count"></span></div>
     <div class="base-workbench"><section class="base-catalog" aria-label="強化候補">
-      <div class="base-initial" aria-label="開幕の3択">${Object.entries(
-        FRONT_FAMILY_CARDS,
-      )
-        .map(
-          ([family, ids], i) =>
-            `<label><span>${families[family as keyof typeof families]} · 開幕</span><span class="base-initial-choice"><span data-initial-icon="${i}">${icon(draft.initialCards[i])}</span><select data-initial="${family}" aria-label="開幕の${families[family as keyof typeof families]}候補">${ids
-              .filter((id) => campaign.initialUnlocked.includes(id))
-              .map(
-                (id) =>
-                  `<option value="${id}" ${draft.initialCards[i] === id ? "selected" : ""}>${catalog[id].name}</option>`,
-              )
-              .join("")}</select></span></label>`,
-        )
-        .join("")}</div>
       <div class="base-catalog-heading"><div role="tablist" aria-label="強化と融合"><button id="base-upgrades" role="tab" aria-selected="true" aria-controls="base-grid">強化 ${FRONT_BASE_IDS.length}</button><button id="base-fusions" role="tab" aria-selected="false" aria-controls="base-grid" tabindex="-1">融合 ${FRONT_FUSION_IDS.length}</button></div><span id="base-fusion-count"></span></div>
       <div id="base-grid" role="tabpanel" aria-labelledby="base-upgrades" tabindex="0"></div>
     </section><aside id="base-detail" class="base-detail" aria-label="強化・融合の説明"></aside></div>
-    <p id="front-pool-status" role="status">${esc(draft.error || decks.error || "候補は6種以上。デッキはこの端末に保存。出撃には「出撃にセット」。")}</p>
+    <p id="front-pool-status" role="status">${esc(draft.error || decks.error || "開幕も選んだ候補からランダム3択。候補は6種以上。出撃には「出撃にセット」。")}</p>
   </section>`;
   const $ = <T extends HTMLElement = HTMLElement>(id: string) =>
     root.querySelector<T>(`#${id}`)!;
@@ -162,15 +147,12 @@ export function openFrontBase(
         const unavailable = fusion
           ? FRONT_FUSIONS[id].some(locked)
           : locked(id);
-        const isInitial = draft.initialCards.includes(id);
         const note = fusion
           ? `${FRONT_FUSIONS[id].filter((m) => draft.pool.includes(m)).length}/2 素材選択`
           : unavailable
             ? unlock(id)
-            : isInitial
-              ? "開幕候補"
-              : families[d.family];
-        return `<div class="base-tile" data-family="${fusion ? "fusion" : d.family}" data-selected="${active}" data-locked="${unavailable}"><button class="base-tile-pick" data-pool="${id}" ${fusion ? `aria-label="${d.name}の融合レシピを見る"` : `aria-pressed="${active}" aria-label="${d.name}を候補${active ? "から外す" : "に加える"}" ${unavailable || isInitial ? 'aria-disabled="true"' : ""}`}>${icon(id)}<span><strong>${d.name}</strong><small>${note}</small></span>${fusion ? '<em aria-hidden="true">◇</em>' : `<em aria-hidden="true">${unavailable ? "鍵" : active ? "✓" : "＋"}</em>`}</button><button class="base-help" data-help="${id}" aria-label="${d.name}の効果・融合を見る">?</button></div>`;
+            : families[d.family];
+        return `<div class="base-tile" data-family="${fusion ? "fusion" : d.family}" data-selected="${active}" data-locked="${unavailable}"><button class="base-tile-pick" data-pool="${id}" ${fusion ? `aria-label="${d.name}の融合レシピを見る"` : `aria-pressed="${active}" aria-label="${d.name}を候補${active ? "から外す" : "に加える"}" ${unavailable ? 'aria-disabled="true"' : ""}`}>${icon(id)}<span><strong>${d.name}</strong><small>${note}</small></span>${fusion ? '<em aria-hidden="true">◇</em>' : `<em aria-hidden="true">${unavailable ? "鍵" : active ? "✓" : "＋"}</em>`}</button><button class="base-help" data-help="${id}" aria-label="${d.name}の効果・融合を見る">?</button></div>`;
       })
       .join("");
     grid.scrollTop = scroll;
@@ -183,12 +165,8 @@ export function openFrontBase(
             detail();
             return;
           }
-          if (locked(id) || draft.initialCards.includes(id)) {
-            message(
-              locked(id)
-                ? unlock(id)
-                : "開幕候補は抽選候補にも必要です。上の開幕候補から変更できます。",
-            );
+          if (locked(id)) {
+            message(unlock(id));
             detail();
             return;
           }
@@ -256,7 +234,6 @@ export function openFrontBase(
             name: name.value,
             loadout: {
               pool: [...draft.pool],
-              initialCards: [...draft.initialCards],
             },
           });
           decks = readFrontDecks(storage);
@@ -286,14 +263,6 @@ export function openFrontBase(
         name.value = stored.name;
         loadoutDirty = false;
         nameDirty = false;
-        root
-          .querySelectorAll<HTMLSelectElement>("[data-initial]")
-          .forEach((el, i) => {
-            el.value = draft.initialCards[i];
-            root.querySelector(`[data-initial-icon="${i}"]`)!.innerHTML = icon(
-              draft.initialCards[i],
-            );
-          });
         render();
         message(
           `「${stored.name}」を呼び出しました。出撃に使うには「出撃にセット」。`,
@@ -310,18 +279,6 @@ export function openFrontBase(
   name.oninput = () => {
     nameDirty = true;
   };
-  root.querySelectorAll<HTMLSelectElement>("[data-initial]").forEach(
-    (el, i) =>
-      (el.onchange = () => {
-        draft.initialCards[i] = el.value as FrontUpgradeId;
-        draft.pool = [...new Set([...draft.pool, ...draft.initialCards])];
-        root.querySelector(`[data-initial-icon="${i}"]`)!.innerHTML = icon(
-          draft.initialCards[i],
-        );
-        selected = draft.initialCards[i];
-        changed();
-      }),
-  );
   for (const mode of ["upgrades", "fusions"] as const) {
     $("base-" + mode).onclick = () => {
       tab = mode;

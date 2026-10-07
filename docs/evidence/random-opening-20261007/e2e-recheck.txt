@@ -1,0 +1,9 @@
+
+Running 2 tests using 1 worker
+
+(node:47464) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\front.spec.ts:295:3 › 横画面 844：初期候補・3択・再開・旧版保護 (14.2s)
+  ok 2 e2e\front.spec.ts:295:3 › 横画面 640：初期候補・3択・再開・旧版保護 (6.3s)
+
+  2 passed (22.1s)

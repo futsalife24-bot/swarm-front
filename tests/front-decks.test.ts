@@ -59,7 +59,7 @@ describe("名前付きデッキは現在の出撃設定・進行と独立して�
     expect(() => saveFrontDeck(s, 0, value)).toThrow();
     expect(s.getItem(FRONT_DECKS_KEY)).toBeNull();
   });
-  it("候補不足・未解放・初期候補の欠落・名前と枠の不正を拒否", () => {
+  it("候補不足・未解放・重複・名前と枠の不正を拒否", () => {
     const s = storage(),
       loadout = readFrontLoadout(s),
       valid = { name: "有効", loadout };
@@ -70,7 +70,7 @@ describe("名前付きデッキは現在の出撃設定・進行と独立して�
     for (const pool of [
       loadout.pool.slice(0, 3),
       [...loadout.pool, "life-drain" as const],
-      loadout.pool.filter((id) => id !== loadout.initialCards[0]),
+      [...loadout.pool, loadout.pool[0]],
     ])
       expect(() =>
         saveFrontDeck(s, 0, { ...valid, loadout: { ...loadout, pool } }),
