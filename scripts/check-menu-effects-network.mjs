@@ -15,10 +15,12 @@ const response = await fetch(endpoint + "/rooms", {
 });
 assert.ok(response.ok, `Local room creation ${response.status}`);
 const { code } = await response.json();
-const browser = await chromium.launch({
-  channel: "chrome",
-  args: ["--use-angle=d3d11"],
-});
+// PW_EXECUTABLE runs the same checks on a bundled Chromium (e.g. Linux CI).
+const browser = await chromium.launch(
+  process.env.PW_EXECUTABLE
+    ? { executablePath: process.env.PW_EXECUTABLE }
+    : { channel: "chrome", args: ["--use-angle=d3d11"] },
+);
 const errors = [],
   results = {};
 const pages = [];
@@ -31,9 +33,11 @@ async function observeEffects(page) {
         for (const added of record.addedNodes) {
           if (!(added instanceof Element)) continue;
           const nodes = [
-            ...added.querySelectorAll(".menu-fx-trace,.menu-fx-reward"),
+            ...added.querySelectorAll(
+              ".menu-fx-trace,.menu-fx-check,.menu-fx-reward",
+            ),
           ];
-          if (added.matches(".menu-fx-trace,.menu-fx-reward"))
+          if (added.matches(".menu-fx-trace,.menu-fx-check,.menu-fx-reward"))
             nodes.push(added);
           for (const node of nodes) {
             if (recorded.has(node)) continue;
@@ -42,7 +46,9 @@ async function observeEffects(page) {
             window.menuFxSeen.push({
               kind: node.classList.contains("menu-fx-reward")
                 ? "reward"
-                : "trace",
+                : node.classList.contains("menu-fx-check")
+                  ? "check"
+                  : "trace",
               member: member?.dataset.fxMember,
               ready: !!member?.querySelector(".member-status.is-ready"),
             });
@@ -80,7 +86,8 @@ try {
     );
     assert.equal(await p.locator("[data-fx-member]").count(), 2);
     await p.waitForFunction(
-      () => document.querySelectorAll(".menu-fx-trace").length === 0,
+      () =>
+        document.querySelectorAll(".menu-fx-trace,.menu-fx-check").length === 0,
       {},
       { timeout: 15000 },
     );
@@ -105,7 +112,8 @@ try {
     () => window.menuFxSeen.filter((e) => e.member && e.ready).length === 3,
   );
   await pages[0].waitForFunction(
-    () => document.querySelectorAll(".menu-fx-trace").length === 0,
+    () =>
+      document.querySelectorAll(".menu-fx-trace,.menu-fx-check").length === 0,
   );
   const readyAfter = await pages[0].evaluate(() =>
     window.menuFxSeen.filter((e) => e.member && e.ready),
@@ -185,8 +193,11 @@ try {
   assert.equal(rewards, 1);
   results.weeklyEffects = { appeared: rewards, ended: true };
   await p.screenshot({ path: `${out}/weekly.png` });
-  await p.waitForTimeout(850);
-  assert.equal(await p.locator(".menu-fx-reward").count(), 0);
+  await p.waitForFunction(
+    () => document.querySelectorAll(".menu-fx-reward").length === 0,
+    {},
+    { timeout: 3000 },
+  );
   await p.locator(".dialog-close").click();
   assert.deepEqual(errors, []);
   results.realWeeklyClaimOnce = true;

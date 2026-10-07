@@ -18,9 +18,9 @@ import {
   menuAssemble,
   menuEquip,
   menuGlow,
+  menuGrowthSaved,
   menuShine,
   menuTerrain,
-  menuTrace,
 } from "./menu-effects";
 import {
   resourceFrame,
@@ -2028,7 +2028,12 @@ function equipWeapon(id: string, slot: number, after: () => void) {
     // Reuse the combat switch clip, including first-gesture decoding.
     void sound.load().then(() => sound.play("switch"));
     after();
-    menuEquip(ui, ui.querySelector(`[data-gear-slot="${slot}"]`), source);
+    // Start from the tapped row as re-rendered (now marked E), not its old rect.
+    menuEquip(
+      ui,
+      ui.querySelector(`[data-gear-slot="${slot}"]`),
+      ui.querySelector(`[data-row="${CSS.escape(id)}"] .pt-identity`) ?? source,
+    );
   });
 }
 function detail(w: StoredWeapon, context: string) {
@@ -2141,10 +2146,10 @@ function growth() {
       () =>
         commit(n, () => {
           growth();
-          menuTrace(ui.querySelector(".growth-radar"));
-          for (const k of SKILLS)
-            if (v[k] !== p.levels[k])
-              menuGlow(ui.querySelector(`[data-radar-level="${k}"]`));
+          menuGrowthSaved(
+            ui.querySelector(".growth-radar"),
+            SKILLS.filter((k) => v[k] !== p.levels[k]),
+          );
         }),
     );
     const actions = document.createElement("footer");
@@ -2229,24 +2234,26 @@ function accessories() {
         );
       }),
   );
-  const crafted = (next: ProgressSave) => {
+  const crafted = (next: ProgressSave, from: string) => {
     const added = next.accessories
       .filter((a) => !save.accessories.some((b) => b.id === a.id))
       .map((a) => a.id);
     return commit(next, () => {
       accessories();
       ui.querySelectorAll<HTMLElement>("[data-accessory-info]").forEach((b) => {
-        if (added.includes(b.dataset.accessoryInfo!)) menuAssemble(b);
+        if (added.includes(b.dataset.accessoryInfo!))
+          menuAssemble(ui, b.closest<HTMLElement>(".accessory-row"), $(from));
       });
     });
   };
-  bind("pt-craft", () => crafted(createAccessory(save)));
+  bind("pt-craft", () => crafted(createAccessory(save), "pt-craft"));
   bind("pt-target-craft", () =>
     crafted(
       createAccessory(
         save,
         ($("pt-accessory-kind") as HTMLSelectElement).value as AccessoryKind,
       ),
+      "pt-target-craft",
     ),
   );
   bind("pt-synthesis", () => {
@@ -2254,7 +2261,7 @@ function accessories() {
     confirmAction(
       "一括合成の確認",
       `<p>消費 ${preview.consumed.length}個 / 完成 ${preview.created.length}個</p>${preview.consumed.map((a) => `<p>消費 ${ACCESSORY_NAMES[a.kind]} R${a.rarity}</p>`).join("")}${preview.created.map((a) => `<p>完成 ${ACCESSORY_NAMES[a.kind]} R${a.rarity}</p>`).join("")}`,
-      () => crafted(preview.save),
+      () => crafted(preview.save, "pt-synthesis"),
     );
   });
   bind("pt-accessory-off", () => {

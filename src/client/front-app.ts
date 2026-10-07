@@ -1,11 +1,11 @@
 import { FrontMineVisuals } from "./front-mine-visuals";
 import {
   createSquadEffects,
-  menuGuide,
   menuMotion,
   menuNew,
   menuTerrain,
   menuTrace,
+  menuUnderline,
 } from "./menu-effects";
 const squadEffects = createSquadEffects();
 /** 攻略と併設する生存作戦。武器とコインは共有保存、作戦内の融合は一時状態。 */
@@ -297,7 +297,8 @@ function menuDialog(title: string, content: string, back: () => void) {
   if (title === "更新履歴")
     menuNew($("ui").querySelector(".front-menu-content h2"));
   if (title === "操作と作戦") {
-    menuGuide($("front-dialog-back"));
+    // Mark the opened guide itself, not the back button.
+    menuUnderline($("ui").querySelector(".menu-header h1"));
     menuMotion(
       $("ui").querySelector(".front-menu-content"),
       [

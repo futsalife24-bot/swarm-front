@@ -63,6 +63,7 @@ export function mountMediaMenu(
     const status = d.querySelector<HTMLElement>(".media-status")!;
     const light = document.createElement("span");
     light.className = "media-playing-light";
+    light.innerHTML = "<i></i><i></i><i></i>";
     light.setAttribute("aria-hidden", "true");
     light.hidden = true;
     if (!video) d.querySelector("h2")!.append(light);
@@ -76,17 +77,22 @@ export function mountMediaMenu(
       stopIndicator();
       if (!video) {
         light.hidden = false;
-        stopPulse = menuMotion(
-          light,
-          [
-            { boxShadow: "0 0 2px #bdebd2", opacity: 0.6 },
-            { boxShadow: "0 0 9px #bdebd2", opacity: 1, offset: 0.5 },
-            { boxShadow: "0 0 2px #bdebd2", opacity: 0.6 },
-          ],
-          1400,
-          () => {},
-          Infinity,
+        // A slow level meter reads as "audio is playing" without a blink.
+        const stops = [...light.children].map((bar, i) =>
+          menuMotion(
+            bar,
+            [
+              { transform: "scaleY(.45)" },
+              { transform: "scaleY(1)", offset: 0.5 },
+              { transform: "scaleY(.45)" },
+            ],
+            [1100, 1500, 1300][i],
+            () => {},
+            Infinity,
+            { delay: i * -400, easing: "ease-in-out" },
+          ),
         );
+        stopPulse = () => stops.forEach((stop) => stop());
       }
     };
     media.addEventListener("playing", playing);

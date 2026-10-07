@@ -74,12 +74,10 @@ export function mountTitleMotion(root: HTMLElement) {
     element: HTMLElement,
     frames: Keyframe[],
     duration = 190,
+    easing = "cubic-bezier(.2,.75,.25,1)",
   ) => {
     if (reduced.matches || document.hidden || !element.animate) return;
-    const animation = element.animate(frames, {
-      duration,
-      easing: "cubic-bezier(.2,.75,.25,1)",
-    });
+    const animation = element.animate(frames, { duration, easing });
     animations.add(animation);
     animation.onfinish = animation.oncancel = () =>
       animations.delete(animation);
@@ -192,38 +190,46 @@ export function mountTitleMotion(root: HTMLElement) {
         departed = changed;
         enter(destination);
         if (reduced.matches || document.hidden) return;
-        const to = destination.getBoundingClientRect();
+        // The pressed button's underline travels to the opened screen's title,
+        // linking the choice to its result instead of the whole screen box.
+        const heading = destination.querySelector("h1,h2");
+        let to = (heading ?? destination).getBoundingClientRect();
+        if (heading) {
+          const range = document.createRange();
+          range.selectNodeContents(heading);
+          const text = range.getBoundingClientRect();
+          if (text.width > 0) to = text;
+        }
         if (from.width <= 0 || to.width <= 0) return;
         accent = document.createElement("span");
         accent.className = "title-motion-accent";
         accent.setAttribute("aria-hidden", "true");
         Object.assign(accent.style, {
           left: `${from.left}px`,
-          top: `${from.top}px`,
+          top: `${from.bottom - 2}px`,
           width: `${from.width}px`,
         });
         document.body.append(accent);
         const line = accent;
+        const arrive = `translate(${to.left - from.left}px,${to.bottom + 3 - from.bottom}px) scaleX(${to.width / from.width})`;
         animate(
           line,
           [
-            { opacity: 0.85, transform: "translate(0,0) scaleX(1)" },
             {
-              opacity: 0.45,
-              offset: 0.65,
-              transform: `translate(${to.left - from.left}px,${to.top - from.top}px) scaleX(${to.width / from.width})`,
+              opacity: 0.9,
+              transform: "translate(0,0) scaleX(1)",
+              easing: "cubic-bezier(.3,.7,.2,1)",
             },
-            {
-              opacity: 0,
-              transform: `translate(${to.left - from.left}px,${to.top - from.top}px) scaleX(${to.width / from.width})`,
-            },
+            { opacity: 0.9, offset: 0.62, transform: arrive },
+            { opacity: 0, transform: arrive },
           ],
-          210,
+          280,
+          "linear",
         );
         setTimeout(() => {
           line.remove();
           if (accent === line) accent = null;
-        }, 220);
+        }, 290);
       });
       observer.observe(root, { childList: true });
       observer.observe(document.body, { childList: true });

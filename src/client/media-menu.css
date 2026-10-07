@@ -3,13 +3,22 @@
   flex-direction: column;
 }
 .media-playing-light {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 11px;
   margin-inline-start: 10px;
   vertical-align: middle;
-  border-radius: 50%;
+}
+.media-playing-light i {
+  width: 2px;
+  height: 100%;
   background: #bdebd2;
+  box-shadow: 0 0 4px #bdebd288;
+  transform-origin: bottom;
+}
+.media-playing-light i:nth-child(odd) {
+  transform: scaleY(0.6);
 }
 .media-playing-light[hidden] {
   display: none;
