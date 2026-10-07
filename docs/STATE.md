@@ -1,4 +1,8 @@
-# 現在地: PR142の独立監査に合格、通常統合・公開へ（2026-10-07）
+# 現在地: PR142をmain統合・既存Worker公開、配信・Windows Chrome確認済み（2026-10-07）
+
+[PR142](https://github.com/futsalife24-bot/swarm-front/pull/142)通常merge、公開ソース `65c0ed30201138e3db2811b3158db70af2293d6a`、Worker `24caf74a-9d6a-4289-ba76-1e294caf3e9d`。独立監査は必須0・任意1、追加製品修正なし。Windowsの指定検証・実通信動画4条件、本番main build/dry-run成功。配信26/26一致・health200、公開Windows ChromeはSW有効の844/640通常/reduced全4条件でpageerror/console error各0・画像確認済み。公開IABの追加目視だけは別タブの保存保護で未確認とし、UI014を返却。強制解放はせず、任意の再確認は本人が既存ゲーム画面を閉じた後。公開記録は[PR143](https://github.com/futsalife24-bot/swarm-front/pull/143)。[公開詳細](MENU-POLISH-RELEASE.md)。実非表示cleanup・実機タッチ・GPU長時間・全敵モデルは未実測。戦闘演出/PR137は保留。
+
+# 前回の現在地: PR142の独立監査に合格、通常統合・公開へ（2026-10-07）
 
 [独立監査の確定回答](evidence/menu-polish-windows-20261007/audit-final.md)は対象 `7ef32289a4662afa940c1c7accbfc9f42bb179e6`、必須P0/P1/P2各0・任意1。14:05 JSTごろ、[同じ通常Chat](https://chatgpt.com/c/6ac5cd95-d3f4-83ec-9f08-046535b388f4)で回答完了と合格を確認。任意は既存のタイトル線900ms監視期限。追加の製品修正なし、以後の差分は記録と確認スクリプト/証拠のみ。実通信動画4条件も `dd0bba130f56cb7fdc0a4302fce2e5c554d77a32` で確認・push済み。UI012を返却し公開画面の枠を要求。PR142を通常mergeし、mainビルド・本番構成dry-run・既存Worker公開・配信/health/UI照合へ進む。まだ未統合・未公開。
 
