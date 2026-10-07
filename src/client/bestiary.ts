@@ -1,4 +1,5 @@
 import { backgroundMusic } from "./bgm";
+import { menuAnalyze } from "./menu-effects";
 import { showModalAfterFullscreen } from "./landscape";
 import { ENEMIES } from "../shared/defs";
 import "./bestiary.css";
@@ -108,8 +109,13 @@ export function openBestiary(
   const status = playback.querySelector<HTMLElement>(".motion-status")!;
   const motionButtons =
     playback.querySelectorAll<HTMLButtonElement>("[data-motion]");
+  let analysisPending = true;
   function syncPlayback() {
     const ready = viewport.dataset.asset === "ready";
+    if (ready && analysisPending && viewport.style.filter !== "brightness(0)") {
+      analysisPending = false;
+      menuAnalyze(viewport);
+    }
     motionButtons.forEach((button) => {
       button.disabled = !ready;
       button.setAttribute(
@@ -146,6 +152,7 @@ export function openBestiary(
     worm: boolean,
     visible: boolean,
   ) => {
+    analysisPending = true;
     if (visible) {
       try {
         viewer ??= createEnemyViewer(viewport);

@@ -1,0 +1,28 @@
+[
+  {
+    "reducedMotion": "no-preference",
+    "equipmentAndRetry": true,
+    "craftingAndSynthesis": true,
+    "growthDraftCancelCommit": true,
+    "guide": true,
+    "history": true,
+    "settings": true,
+    "soundPause": true,
+    "coopSilhouetteProtected": true,
+    "effectsAfterClose": 0,
+    "errors": []
+  },
+  {
+    "reducedMotion": "reduce",
+    "equipmentAndRetry": true,
+    "craftingAndSynthesis": true,
+    "growthDraftCancelCommit": true,
+    "guide": true,
+    "history": true,
+    "settings": true,
+    "soundPause": true,
+    "coopSilhouetteProtected": true,
+    "effectsAfterClose": 0,
+    "errors": []
+  }
+]

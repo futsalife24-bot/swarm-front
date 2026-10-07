@@ -1,4 +1,5 @@
 import { showModalAfterFullscreen } from "./landscape";
+import { menuNew } from "./menu-effects";
 
 /** A dialog awaiting fullscreen has no native close event until it is open. */
 export function closeMenuDialog(dialog: HTMLDialogElement) {
@@ -27,6 +28,7 @@ export function menuDialog(
     if (trigger?.isConnected) trigger.focus({ preventScroll: true });
   });
   document.body.append(dialog);
+  if (title === "更新履歴") menuNew(dialog.querySelector(".release-entry h3"));
   showModalAfterFullscreen(dialog);
   const guide = document.createElement("div");
   guide.className = "reading-guide";

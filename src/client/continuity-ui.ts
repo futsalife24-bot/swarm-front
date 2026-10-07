@@ -1,3 +1,5 @@
+import { menuReward } from "./menu-effects";
+import { resourceFrame } from "./resource-frame";
 import {
   createCloudSave,
   transferCode,
@@ -178,6 +180,13 @@ export function openWeeklyMissions(dialog: Dialog, refreshed: () => void) {
       throw Error(labels[cloudStatus().status]);
     const remote = await inspectCloud(code);
     if (!d.isConnected) return;
+    let wallet = d.querySelector<HTMLElement>(".weekly-wallet");
+    if (!wallet) {
+      wallet = document.createElement("span");
+      wallet.className = "weekly-wallet";
+      d.querySelector("header h2")!.append(wallet);
+    }
+    wallet.innerHTML = resourceFrame("coins", remote.save.coins);
     const weekly =
       remote.save.weekly?.week === remote.week ? remote.save.weekly : undefined;
     d.querySelector("#pt-weekly-list")!.innerHTML = WEEKLY_MISSIONS.map((m) => {
@@ -192,6 +201,7 @@ export function openWeeklyMissions(dialog: Dialog, refreshed: () => void) {
             await claimCloudWeekly(b.dataset.weeklyId!);
             refreshed();
             await draw();
+            menuReward(d.querySelector(".weekly-wallet"));
           })),
     );
   };

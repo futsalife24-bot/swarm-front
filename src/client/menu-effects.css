@@ -1,0 +1,97 @@
+.menu-fx-host {
+  position: relative;
+  isolation: isolate;
+}
+.menu-fx-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  user-select: none;
+  overflow: hidden;
+  z-index: 1;
+  border-radius: inherit;
+}
+.menu-fx-layer svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.menu-fx-check path,
+.menu-fx-trace path,
+.menu-fx-equip path,
+.menu-fx-guide ellipse {
+  fill: none;
+  stroke: #bdebd2;
+  stroke-width: 1.5;
+  stroke-dasharray: 1;
+  vector-effect: non-scaling-stroke;
+}
+.menu-fx-check {
+  inset: 0 0 0 auto;
+  width: 24px;
+}
+.menu-fx-particles i,
+.menu-fx-reward i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #d1ffe2;
+  box-shadow: 0 0 5px #a8dbbf;
+}
+.menu-fx-terrain {
+  z-index: -1;
+  opacity: 0.16;
+}
+.menu-fx-shine i {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 35%,
+    #ccecd02b 50%,
+    transparent 65%
+  );
+}
+.menu-fx-terrain path {
+  fill: #6fa99c;
+}
+.menu-fx-terrain path + path {
+  fill: #bfd8c0;
+}
+.menu-fx-mosaic {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+}
+.menu-fx-mosaic i {
+  background: #17342f;
+  border: 1px solid #45685c;
+}
+.menu-fx-new {
+  position: relative;
+  display: inline-block;
+  margin-inline-start: 8px;
+  color: #bdebd2;
+  font-size: 10px;
+  vertical-align: middle;
+}
+.weekly-wallet {
+  display: inline-flex;
+  font-size: 12px;
+  margin-inline-start: 10px;
+  vertical-align: middle;
+}
+.menu-fx-code {
+  position: absolute;
+  inset: 0;
+  color: #a6cfb5;
+  background: #12241e;
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-fx-layer:not(.menu-fx-terrain) {
+    display: none;
+  }
+}

@@ -1,4 +1,14 @@
 import { FrontMineVisuals } from "./front-mine-visuals";
+import {
+  createSquadEffects,
+  menuEquip,
+  menuGuide,
+  menuMotion,
+  menuNew,
+  menuTerrain,
+  menuTrace,
+} from "./menu-effects";
+const squadEffects = createSquadEffects();
 /** 攻略と併設する生存作戦。武器とコインは共有保存、作戦内の融合は一時状態。 */
 import "../style.css";
 import "../mobile-ui.css";
@@ -285,6 +295,19 @@ function menuDialog(title: string, content: string, back: () => void) {
   $("ui").innerHTML =
     `<section class="panel menu-screen pt-screen front-menu"><header class="menu-header"><h1>${title}</h1><nav><button id="front-dialog-back">戻る</button></nav></header><div class="front-menu-content">${content}</div></section>`;
   $("front-dialog-back").onclick = back;
+  if (title === "更新履歴")
+    menuNew($("ui").querySelector(".front-menu-content h2"));
+  if (title === "操作と作戦") {
+    menuGuide($("front-dialog-back"));
+    menuMotion(
+      $("ui").querySelector(".front-menu-content"),
+      [
+        { opacity: 0.7, transform: "translateY(4px)" },
+        { opacity: 1, transform: "translateY(0)" },
+      ],
+      260,
+    );
+  }
 }
 function menuSettings(back: () => void) {
   settings.open($("ui"), back);
@@ -329,6 +352,7 @@ function base(back: () => void = home) {
       frontLoadout = readFrontLoadout(progressStorage);
       $("front-pool-status").textContent =
         "候補を保存しました。次の出撃から反映します。";
+      menuTrace($("front-pool-status"), true);
       $("ui")
         .querySelectorAll<HTMLInputElement>("[data-pool]")
         .forEach((el) => {
@@ -386,6 +410,10 @@ function prep(coop = false) {
       prep();
     };
   }
+  menuTerrain(
+    $("ui").querySelector(".mission-select"),
+    ["survival", "defense", "daily"].indexOf(mode),
+  );
   $("front-mission-info").onclick = () =>
     menuDialog(
       "作戦詳細",
@@ -409,12 +437,18 @@ function prep(coop = false) {
       };
       row.onclick = () => {
         if (moved) return;
+        const source = row.getBoundingClientRect();
         if (row.dataset.row) {
           const previousSlot = ownedEquipment.indexOf(row.dataset.row);
           if (previousSlot >= 0)
             ownedEquipment[previousSlot] = ownedEquipment[selectedFrontSlot];
           ownedEquipment[selectedFrontSlot] = row.dataset.row;
           prep(coop);
+          menuEquip(
+            $("ui"),
+            $("ui").querySelector(`[data-front-slot="${selectedFrontSlot}"]`),
+            source,
+          );
           return;
         }
         const kind = row.dataset.frontWeaponRow as FrontWeaponKind;
@@ -422,6 +456,11 @@ function prep(coop = false) {
         if (previousSlot >= 0) kinds[previousSlot] = kinds[selectedFrontSlot];
         kinds[selectedFrontSlot] = kind;
         prep(coop);
+        menuEquip(
+          $("ui"),
+          $("ui").querySelector(`[data-front-slot="${selectedFrontSlot}"]`),
+          source,
+        );
       };
     });
   $("ui")
@@ -732,11 +771,14 @@ function paintLobby() {
       .filter((m) => m.connected)
       .map(
         (m) =>
-          `<p>${esc(m.name ?? "隊員")} · ${m.ready ? "準備完了" : "読み込み中"}</p>`,
+          `<p data-fx-member="${esc(m.id)}">${esc(m.name ?? "隊員")} · ${m.ready ? "準備完了" : "読み込み中"}</p>`,
       )
       .join(
         "",
       )}</div><p class="status">${esc(status)}</p><button class="primary" id="front-start" ${net.members.find((m) => m.connected)?.id !== net.id || !net.members.filter((m) => m.connected).every((m) => m.ready) ? "disabled" : ""}>出撃</button></section>`;
+  squadEffects(net, net.members, [
+    ...$("ui").querySelectorAll("[data-fx-member]"),
+  ]);
   $("front-leave").onclick = leave;
   $("front-edit-loadout").onclick = () => {
     net.preparation(true);
