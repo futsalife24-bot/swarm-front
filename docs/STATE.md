@@ -6,7 +6,7 @@ Windows型・関連12ファイル83件・build/production dry-run成功。実ロ
 
 独立監査対象 `1b564377370cb3782f8cd8b44aed6ef58739966b`（製品 `4fba4310437762b07dca74edfdb498aa0efdc896`）。[iab通常新規Chat](https://chatgpt.com/c/6ac6ad7b-f114-83ee-ae9a-c776bd638728)で合格、必須P0/P1/P2=0。任意R1はスクリーンリーダー実機。監査後の製品修正なし。監査側は全242ファイルのmanifest・ソース/差分・画像/ログを照合し、Chrome/83件/build/Workerを独立再実行したわけではない。[詳細](BASE-SELECTION-CLARITY.md)、[回答全文](evidence/base-selection-20261008/audit-final.md)、[配信](evidence/base-selection-20261008/delivery.json)、[公開検証](evidence/base-selection-20261008/public/base-checks.json)。
 
-公開記録は文書専用branch `codex/pr150-release-record-20261008` の通常PRでmainへ反映する。公開ソース以後の製品差分はなく追加公開不要。終了時にlocal main/origin/main/GitHub main一致・cleanを照合する。専用Vite/Worker/検証Chrome/監査iabタブは終了。保管庫の現在地と本人訂正による再発防止ノートも更新する。モデルID/推論設定未確認。戦闘演出/PR137・別branchのpilot修正は保留。
+公開記録は[PR151](https://github.com/futsalife24-bot/swarm-front/pull/151)（文書専用branch `codex/pr150-release-record-20261008`）で通常main反映する。公開ソース以後の製品差分はなく追加公開不要。終了時にlocal main/origin/main/GitHub main一致・cleanを照合する。専用Vite/Worker/検証Chrome/監査iabタブは終了。保管庫の現在地と本人訂正による再発防止ノートも更新する。モデルID/推論設定未確認。戦闘演出/PR137・別branchのpilot修正は保留。
 
 # 現在地: PR148を通常merge・既存Worker公開、配信26件/公開6条件成功（2026-10-08）
 
