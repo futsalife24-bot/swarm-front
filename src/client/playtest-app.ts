@@ -1518,7 +1518,7 @@ function showHome(initialized: boolean) {
     };
     ui.querySelector(".home-footer")?.append(survival);
   }
-  if (canInstallApp()) bind("install", () => void installApp());
+  if (canInstallApp()) bind("install", () => installApp());
   const enter = (after: () => void) =>
     initialized
       ? after()
@@ -1584,9 +1584,7 @@ function showHome(initialized: boolean) {
       "beforeend",
       '<button id="pt-developer-exit">通常モード<br>へ戻る</button>',
     );
-    bind("pt-developer-exit", () => {
-      void exitDeveloperMode();
-    });
+    bind("pt-developer-exit", () => exitDeveloperMode());
   }
   mountTitleMotion(ui);
 }
