@@ -1,0 +1,74 @@
+{
+  "source": "5916616d96e89c5193fd76c8e9243567959b9fad",
+  "origin": "http://127.0.0.1:5351",
+  "at": "2026-10-07T10:15:30.506Z",
+  "mechanism": "専用一時Chrome、loopback CDP、noDefaults、default contextの実2タブ",
+  "lease": "UI-20261007-054",
+  "plan": {
+    "origin": "http://127.0.0.1:5351",
+    "out": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\dist-validation\\menu-visibility-cdp",
+    "chrome": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+    "noDefaults": true,
+    "context": "専用Chromeの既存default contextだけを使用",
+    "playwright": "1.63.0",
+    "implementationSha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+    "observationOrder": "初期capture → 製品document listener → 後から追加するdocument listener",
+    "analytics": "外部解析はabort。成功応答・hidden・イベントは合成しない"
+  },
+  "visibilityOverridden": false,
+  "focusEmulation": "起動時からnoDefaults=true。focus模擬を設定/解除するコマンドは送らない",
+  "animationTimingOverridden": false,
+  "errors": [],
+  "consoleErrors": [
+    "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_RESET",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+  ],
+  "blockedAnalytics": [],
+  "unexpectedExternalRequests": [
+    {
+      "url": "https://challenges.cloudflare.com/turnstile/v0/api.js",
+      "type": "script",
+      "method": "GET"
+    }
+  ],
+  "result": "not-passed",
+  "startup": {
+    "pid": 33704,
+    "listeners": [
+      "127.0.0.1"
+    ],
+    "noDefaults": true,
+    "defaultContextOnly": true,
+    "profile": "profile-D1ckjB",
+    "startupBlankPage": true
+  },
+  "browser": "154.0.8037.98",
+  "failure": "TimeoutError: locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#solo') to be visible\u001b[22m\n",
+  "lastObservation": {
+    "sample": {
+      "at": 31676.40000000596,
+      "visibility": "visible",
+      "hidden": false,
+      "layers": 0,
+      "animations": []
+    },
+    "observations": [],
+    "events": []
+  },
+  "cleanup": {
+    "browserCloseRequested": true,
+    "forcedOwnProcess": false,
+    "profileRemoved": true
+  }
+}

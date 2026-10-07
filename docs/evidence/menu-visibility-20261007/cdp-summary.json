@@ -1,0 +1,77 @@
+{
+  "source": "5916616d96e89c5193fd76c8e9243567959b9fad",
+  "productSha": "1c2f4ba44348ab95558ca0362f4f50a561e900d0",
+  "lease": "UI-20261007-054",
+  "result": "not-passed",
+  "phase": "最初のsolo入口待機でtimeout。架空保存設定・装備操作・タブ切替は未実行",
+  "confirmedStartup": {
+    "pid": 33704,
+    "listeners": [
+      "127.0.0.1"
+    ],
+    "noDefaults": true,
+    "defaultContextOnly": true,
+    "profile": "profile-D1ckjB",
+    "startupBlankPage": true
+  },
+  "pageErrors": 0,
+  "consoleErrors": 13,
+  "blockedAnalytics": 0,
+  "unexpectedExternal": [
+    {
+      "url": "https://challenges.cloudflare.com/turnstile/v0/api.js",
+      "type": "script",
+      "method": "GET"
+    }
+  ],
+  "observedVisibilityEvents": 0,
+  "cause": "リポジトリ内の新規プロフィールのCookiesをViteがwatchし、EBUSYでdevサーバー終了。検証補助側の配置不備",
+  "cleanup": {
+    "browserCloseRequested": true,
+    "forcedOwnProcess": false,
+    "profileRemoved": true
+  },
+  "independentCleanupObservation": {
+    "recordedChromeAndVitePids": [
+      33704,
+      10984
+    ],
+    "remainingProcesses": 0,
+    "port5351Listeners": 0,
+    "temporaryProfiles": 0,
+    "uiReleased": true
+  },
+  "limits": [
+    "実hidden/取消/保存不変/ロック保持/復帰は未確認",
+    "解析abortの実リクエスト成功実績は0件",
+    "Turnstile取得の中断が入口未到達へ単独で作用するかは未検証"
+  ],
+  "nextCondition": "監視対象外の新規一時領域へプロフィールを置く補助の修正と、対象外Turnstile取得の扱い整理。今回は再試行/修正なし",
+  "rawEvidence": [
+    {
+      "file": "cdp-result.json",
+      "bytes": 2888,
+      "sha256": "7ae87113afa2953b35aec7f784114d4faf68b5b9f1ec9045aaf28e2340f575e7",
+      "gitLfSha256": "7ae87113afa2953b35aec7f784114d4faf68b5b9f1ec9045aaf28e2340f575e7"
+    },
+    {
+      "file": "cdp-run.txt",
+      "bytes": 273,
+      "sha256": "a5df3e6dce71d8eb37dadd1a74345ad4e8b7e5c73e66d883d128b5cc7fdd6867",
+      "gitLfSha256": "de085491ed5fc3bca4080d82bdce0a1b1293be5f8780f6270bd1670866692f74"
+    },
+    {
+      "file": "cdp-dev.stderr.txt",
+      "bytes": 1980,
+      "sha256": "cc564f4db829bf988a22c41f76847347734c1f93ebbe2e60b3677d7f15ed70d7",
+      "gitLfSha256": "806e218bb3edf7ba3a605e927ebbfb9284b103dddf4e2bd31b46fd6c9e6eb90f"
+    },
+    {
+      "file": "cdp-dev.stdout.txt",
+      "bytes": 110,
+      "sha256": "bfa509d47ee63680faac16782c8522e5caf913c4a47576c16552987e539d4173",
+      "gitLfSha256": "bfa509d47ee63680faac16782c8522e5caf913c4a47576c16552987e539d4173"
+    }
+  ],
+  "lineEndings": "sha256は取得原本。Git既定のLF正規化後をgitLfSha256に記録"
+}
