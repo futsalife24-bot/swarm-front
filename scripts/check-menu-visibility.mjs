@@ -1,15 +1,36 @@
 // 調査用: 専用Chromeの実タブ切替を1往復だけ観測する。製品・実保存は変更しない。
-// 2026-10-07の2試行は実hidden未到達。合格実績なし。再開条件は調査記録を参照。
-import { chromium } from "@playwright/test";
+// 旧2試行は実hidden未到達。今回は起動時からnoDefaultsを指定する別構成。
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import fs from "node:fs";
 import { execFileSync } from "node:child_process";
+import {
+  visibilityPlan,
+  visibilityRequestKind,
+  startVisibilityChrome,
+} from "./menu-visibility-cdp.mjs";
 
 const origin = process.env.VISIBILITY_ORIGIN || "http://127.0.0.1:5351";
-const out = process.env.VISIBILITY_OUTPUT || "dist-validation/menu-visibility";
+const out =
+  process.env.VISIBILITY_OUTPUT || "dist-validation/menu-visibility-cdp";
 if (!/^http:\/\/127\.0\.0\.1:\d+$/.test(origin))
   throw new Error("隔離したローカル開発サーバーだけで実行してください");
+const plan = visibilityPlan(origin, out);
+if (process.argv.includes("--preflight")) {
+  fs.mkdirSync(out, { recursive: true });
+  fs.writeFileSync(
+    `${out}/preflight.json`,
+    JSON.stringify({ ...plan, browserStarted: false }, null, 2) + "\n",
+  );
+  console.log("非UI準備確認成功。ブラウザ未起動。実非表示は未確認。");
+  process.exit(0);
+}
+const lease = process.env.VISIBILITY_UI_LEASE;
+assert.match(
+  lease || "",
+  /^UI-\d{8}-\d{3}$/,
+  "新規UI貸出IDを指定してから実行してください",
+);
 fs.mkdirSync(out, { recursive: true });
 const hash = (s) => createHash("sha256").update(s).digest("hex");
 const report = {
@@ -19,32 +40,45 @@ const report = {
   origin,
   at: new Date().toISOString(),
   mechanism:
-    "headed Chrome, same isolated context, two real tabs, bringToFront",
+    "専用一時Chrome、loopback CDP、noDefaults、default contextの実2タブ",
+  lease,
+  plan,
   visibilityOverridden: false,
   focusEmulation:
-    "Disable requested via secondary CDP sessions; effectiveness unconfirmed",
+    "起動時からnoDefaults=true。focus模擬を設定/解除するコマンドは送らない",
   animationTimingOverridden: false,
   errors: [],
   consoleErrors: [],
+  blockedAnalytics: [],
+  unexpectedExternalRequests: [],
   result: "incomplete",
 };
-const browser = await chromium.launch({
-  channel: "chrome",
-  headless: false,
-  args: ["--use-angle=d3d11"],
-});
+let session;
 let page;
 try {
+  session = await startVisibilityChrome(plan);
+  const { browser, context } = session;
+  report.startup = session.evidence;
   report.browser = browser.version();
-  const context = await browser.newContext({
-    viewport: { width: 844, height: 390 },
-    reducedMotion: "no-preference",
-    serviceWorkers: "block",
+  await context.route("**/*", async (route) => {
+    const request = route.request();
+    const kind = visibilityRequestKind(request.url(), origin);
+    if (kind === "local" || kind === "internal") return route.continue();
+    const url = new URL(request.url());
+    const entry = {
+      url: url.origin + url.pathname,
+      type: request.resourceType(),
+      method: request.method(),
+    };
+    if (kind === "analytics") report.blockedAnalytics.push(entry);
+    else report.unexpectedExternalRequests.push(entry);
+    // 成功モックを返さない。本文・架空保存・queryは記録しない。
+    await route.abort("blockedbyclient");
   });
   // ゲームを二重起動せず、空白タブは保存ロックにも触れない。
-  const other = await context.newPage();
-  await other.goto("about:blank");
+  const other = context.pages()[0];
   page = await context.newPage();
+  await page.setViewportSize({ width: 844, height: 390 });
   page.on("pageerror", (e) => report.errors.push(e.message));
   page.on("console", (e) => {
     if (e.type() === "error") report.consoleErrors.push(e.text());
@@ -56,6 +90,7 @@ try {
       observations: [],
       armed: false,
       hiddenDone: false,
+      eventRecords: new WeakMap(),
     });
     probe.sample = () => ({
       at: performance.now(),
@@ -69,24 +104,24 @@ try {
         connected: !!a.effect?.target?.isConnected,
       })),
     });
-    // captureとmicrotaskを比較する準備。実hidden未到達のため後者の実行順も未検証。
-    // 再開時は製品リスナー処理後の観測を保証すること。hiddenや時刻は偽装しない。
+    // 製品の非capture listenerより前に同期観測する。イベントは合成しない。
     document.addEventListener(
       "visibilitychange",
       (event) => {
         if (!probe.armed) return;
         const before = probe.sample();
-        const observation = { trusted: event.isTrusted, before };
+        const observation = {
+          trusted: event.isTrusted,
+          before,
+          targetIsDocument: event.target === document,
+        };
         probe.observations.push(observation);
-        queueMicrotask(() => {
-          observation.after = probe.sample();
-          if (before.hidden) probe.hiddenDone = true;
-        });
+        probe.eventRecords.set(event, observation);
       },
       true,
     );
   });
-  // 開発用解析抑止を指定。画面遷移後を含む全送信抑止は保証されず、実測ではCORSエラーあり。
+  // 解析抑止queryが外れてもcontext routeで対象外通信を止める。
   await page.goto(origin + "/?developer=1");
   await page.locator("#solo").waitFor();
   await page.evaluate(async () => {
@@ -97,14 +132,6 @@ try {
     localStorage.setItem("swarm-front-player-name-v1", "非表示調査用");
   });
   await page.reload();
-  // focused/activeの模擬解除を別CDP sessionから要求する。元sessionへの効果は未確認。
-  // visibility値を設定せず、実タブ切替のブラウザイベントを観測する。
-  for (const tab of [page, other]) {
-    const session = await context.newCDPSession(tab);
-    await session.send("Emulation.setFocusEmulationEnabled", {
-      enabled: false,
-    });
-  }
   await page.bringToFront();
   await page.locator("#solo").click();
   await page.waitForTimeout(1100);
@@ -116,8 +143,26 @@ try {
     );
   report.lockBefore = await locks();
   assert.equal(report.lockBefore.length, 1);
+  report.reducedMotion = await page.evaluate(
+    () => matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
+  assert.equal(
+    report.reducedMotion,
+    false,
+    "通常モーション条件が必要。OS設定は変更しない",
+  );
   await page.evaluate(() => {
-    window.__menuVisibilityProbe.armed = true;
+    const probe = window.__menuVisibilityProbe;
+    // 既に製品moduleを読み込んだ後、同じdocumentの非captureへ後から登録する。
+    // menu-effectsの同期stop/cleanupより後になる。microtaskの実行順には依存しない。
+    document.addEventListener("visibilitychange", (event) => {
+      const observation = probe.eventRecords.get(event);
+      if (!observation) return;
+      observation.after = probe.sample();
+      observation.sameTrustedEventAfterProduct = event.isTrusted;
+      if (observation.before.hidden) probe.hiddenDone = true;
+    });
+    probe.armed = true;
   });
   await page.locator('[data-row="v2-starter-rocket"] [data-detail]').click();
   const before = await page.evaluate(() => {
@@ -166,6 +211,7 @@ try {
   );
   const hide = report.observations.find((o) => o.before.hidden);
   assert.ok(hide?.trusted, "ブラウザ由来の実visibilitychangeが必要");
+  assert.ok(hide.targetIsDocument && hide.sameTrustedEventAfterProduct);
   assert.ok(
     hide.before.animations.some((a) => a.state === "running"),
     "自然終了後の空確認では合格にしない",
@@ -226,6 +272,7 @@ try {
   );
   assert.equal(report.nextEquipment, "v2-starter-rifle");
   assert.deepEqual(report.errors, []);
+  assert.deepEqual(report.unexpectedExternalRequests, []);
   report.result = "pass";
 } catch (error) {
   report.result = "not-passed";
@@ -241,7 +288,15 @@ try {
   }
   process.exitCode = 1;
 } finally {
-  await browser.close();
+  if (session) {
+    try {
+      report.cleanup = await session.cleanup();
+    } catch (error) {
+      report.cleanupFailure = String(error);
+      report.result = "not-passed";
+      process.exitCode = 1;
+    }
+  }
   fs.writeFileSync(
     `${out}/result.json`,
     JSON.stringify(report, null, 2) + "\n",

@@ -1,0 +1,9 @@
+{
+  "publicOriginRejected": true,
+  "pathEscapeRejected": true,
+  "localAndAnalyticsRoutingClassified": true,
+  "missingLeaseRejectedBeforeBrowser": true,
+  "createdProfiles": 0,
+  "browserStarted": false,
+  "actualHiddenCleanup": "未実行"
+}

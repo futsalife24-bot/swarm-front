@@ -4,6 +4,20 @@
 
 調整担当からの既存仕様内の原因切り分け1件。製品コード・保存仕様・main・公開は変更しない。独立監査やPR137、全画面・長時間GPU試験へ広げない。モデルID/推論設定は未確認。
 
+## 追加1件: 別構成の非UI準備（新規貸出待ち）
+
+前の限定調査は`2ee4dde2f4c9ca8403c528cfd268b47a7043e58a`で記録完了。調整担当の次の1件として、同じ装備演出→空白タブ→復帰を、**起動時からfocus上書きを適用しない構成**で有限確認する準備を追加した。前の2条件の再試行ではない。製品mainは引き続き`1c2f4ba`。
+
+- `scripts/menu-visibility-cdp.mjs`で新しい一時プロフィールのChromeだけを起動し、動的CDP portの実リスナーがloopbackのみか検査してから`connectOverCDP({noDefaults:true})`へ接続する。最初のabout:blankがあるdefault contextだけを使用し、`newContext()`やfocus emulationの設定/解除はしない。普段のChrome/IABに接続しない。
+- インストール済みPlaywright `1.63.0`の`noDefaults && default context`条件とfocus有効化の分岐を読取で照合し、実装hashを保存。依存ファイル・Hook・OS設定は変更しない。起動時の実リスナー/default context/通常モーションの確認は**まだ未実行**。
+- 観測は初期captureで取消前を採取し、製品module読込後に登録する同じdocumentの非capture listenerで取消後を同期採取する。同一のブラウザ由来イベントをWeakMapで対応付け、前回のmicrotask順序への依存をなくす。製品`menu-effects.ts`のlistenerはdocument・非capture・同期cleanupとソース照合済み。実イベントでの順序証拠は実行後に確認する。
+- ゲームのローカルHTTPは通し、対象外の解析はcontext routeでabort。その他の外部HTTPも止め、検知時は未合格とする。成功モック・hidden上書き・イベント合成は使わない。中断件数を記録し、console errorへ出た場合も隠さない。ブラウザ自体の全通信を無通信と証明する検査ではない。
+- 専用Chrome終了後、この呼出しで作成したプロフィールだけを絶対パス/親/非symlinkを照合して除去。通常終了が届かない時は生成した自分のPIDのツリーだけを終了対象とする。既存の本人保存・lockは操作しない。
+
+非UI確認: 2スクリプトの構文/書式、公開origin拒否、出力パス逸脱拒否、ローカル/解析/対象外リクエストの分類、貸出ID未指定の起動前拒否が成功。[構成確認](evidence/menu-visibility-20261007/cdp-preflight.json)、[準備確認](evidence/menu-visibility-20261007/cdp-preparation-checks.json)。ブラウザ起動0、一時プロフィール作成0。実cleanup合格とは扱わない。
+
+UI要求は新IDで約4分、同じ1経路を1回。現在UI053は別担当が使用中。貸出後にローカルdev 5351を起動し、`VISIBILITY_UI_LEASE`へ**実際に受領した新規ID**を指定して実行する。失敗時は同条件を繰り返さず、終了/返却し、観測限界と再開条件を記録する。外部へ利用者の追加承認を求める待機ではない。
+
 ## 読取で確認した期待動作
 
 | 対象 | 現実装と期待 | 今回の扱い |
@@ -24,7 +38,7 @@
 
 今回も製品の非表示不具合を再現した事実はない。2条件とも実際のhidden状態に到達しておらず、製品cleanupの正否を判定できない。どのブラウザ条件がその原因かは未確定で、headlessや別contextだけへ断定しない。
 
-## 最小観測方法
+## 前の限定調査の観測方法（2ee4dde時点）
 
 `scripts/check-menu-visibility.mjs`。インストール済みWindows Chromeのheaded起動と、隔離context内の2タブを使う。片方だけがゲーム、他方はabout:blank。新しい一時プロフィールの架空保存で実行し、IAB/普段のChrome/既存保存ロックへアクセスしない。localhost以外のoriginは起動前に拒否する。
 
@@ -38,11 +52,11 @@
 
 準備確認: `node --check scripts/check-menu-visibility.mjs`成功。公開originを渡す負の確認も、ブラウザ起動前の拒否で成功。下記2試行後にコメント・出力説明を訂正したが、検証動作は変更していない。製品ソースは変更していない。
 
-実行例（ローカルdev 5351起動後・共有UI貸出中のみ）:
+現在の実行入口（ローカルdev 5351起動後・新規UI貸出中のみ。貸出IDの事前指定が必要）:
 
 ```powershell
 $env:VISIBILITY_ORIGIN='http://127.0.0.1:5351'
-$env:VISIBILITY_OUTPUT='dist-validation/menu-visibility'
+$env:VISIBILITY_OUTPUT='dist-validation/menu-visibility-cdp'
 node scripts/check-menu-visibility.mjs
 ```
 
@@ -65,7 +79,7 @@ node scripts/check-menu-visibility.mjs
 
 この模擬設定の存在は事実。ただし「これだけがhidden未到達の原因」「追加CDP sessionの解除要求が元sessionへ効かなかった」は**仮説**で、今回の観測だけでは確定しない。ライブラリ内部や製品へパッチは当てていない。
 
-## 次の観測条件と今回の区切り
+## 前の限定調査で具体化した次の観測条件（2ee4dde時点）
 
 次に実測する場合は、新規UI貸出の下で、普段のChrome/IABとは別の**新しい一時プロフィールの専用Chrome**を起動し、loopback限定CDPへ`connectOverCDP({noDefaults:true})`で接続、そのdefault contextで同じ1経路を確認する案。既存利用者のブラウザへ接続せず、設定・lock・hidden・イベントを変更しない。この構成は**提案のみで未実装・未実行**。先に製品リスナー後の計測順を保証し、対象外の解析リクエストを明示的に停止する準備も必要。解析を成功モックへ置き換えない。
 
