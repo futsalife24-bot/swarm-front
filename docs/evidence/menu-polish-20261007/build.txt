@@ -1,8 +1,2 @@
-dist/assets/hud-BTDDKESD.js             919.39 kB │ gzip: 256.13 kB
-
-✓ built in 1.14s
-[plugin builtin:vite-reporter] 
+✓ built in 1.36s
 (!) Some chunks are larger than 500 kB after minification. Consider:
-- Using dynamic import() to code-split the application
-- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
-- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.

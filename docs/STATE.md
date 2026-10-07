@@ -1,3 +1,10 @@
+# 現在地: タイトル・メニュー演出の品質改善を実装・検証、独立監査待ち（2026-10-07）
+
+branch `ccr-3d467d84-o5t70k`、base main `1026fccaa509723c74e1b85bbdde934afe6d82f6`、監査対象（実装）`7ef32289a4662afa940c1c7accbfc9f42bb179e6`。タイトル遷移線・装備線・作成/報酬粒子の開始/終了位置、段階付き演出の時間配分、育成確定・敵レポート・準備完了・保存チェック・改装版ガイド・試聴の表現を改善し、連続操作で古い演出が残る問題を修正。型、単体（save147/front66/progression6）、既存UI/実通信の確認2本、新規連続操作確認、本番build/dry-run成功。[変更・比較画像・限界](MENU-POLISH.md)。
+
+停止理由: このセッションはLinuxクラウド環境で、固定の監査経路（アプリ内ブラウザの通常Chat）とCloudflare認証がない。独立監査・main統合・既存Worker公開は未実施（自己レビューで代替しない）。Obsidian保管庫（Windows上）も参照不可。
+再開条件: iabが使える環境でこのbranchを取得し、`git diff 1026fcc..7ef3228` と `docs/evidence/menu-polish-20261007` から監査ZIPを作成して通常Chatへ送る。合格後に通常merge・既存Worker公開・配信照合。実非表示cleanup・実機タッチ・GPU長時間・全敵モデル・Windows Chromeでの武器行基準照合は未実測。
+
 # 現在地: メニュー12場面の演出を公開済み（2026-10-07）
 
 PR140通常統合、公開ソース `7702d758c8fd86a26e2892d32156ff95b3d3026e`、Worker `ff0ec103-ec71-4fcd-8501-e0fe2dde6915`。独立再監査は残存必須0・任意0。型31単体・横画面/保存UI・実ローカル通信・本番build/dry-run成功。配信26/26一致・health200、公開IABの準備/一時装備/new/ガイド/従来版/試聴の点灯・消灯/チュートリアル確認、console error0。[公開記録と限界](MENU-EFFECTS-RELEASE.md)。戦闘演出と兵士音声PR137は保留。公開後記録を通常PR統合してmain一致とcleanを確認する。

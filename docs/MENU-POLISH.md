@@ -34,7 +34,7 @@
 - `check-menu-effects-network.mjs`: 実ローカルWorker（wrangler）で2人部隊の準備完了2回・再準備で追加1回、週間150コイン受取1回と演出終了。[結果](evidence/menu-polish-20261007/network.json)
 - 新規 `check-menu-effects-rapid.mjs`: タイトル決定直後の戻り、装備3連続、ステージ3連続、作成3連続、作成/育成確定/設定保存の直後に画面を離れる・閉じる、ガイドタブ5連続、スライダー5連続、敵5連続切替で、残る演出層0・実行中アニメ0、同時表示の演出層は最大2。動きを減らす設定では一時演出層0。保存値も最後の操作どおり。[結果](evidence/menu-polish-20261007/rapid.json)
 - 640×360でも装備・作成・設定保存の演出位置と、文字・性能値が隠れないことを目視確認。
-- 本番build成功（既存の大きいチャンク警告のみ）、Worker dry-run成功。
+- 実装commit `7ef32289a4662afa940c1c7accbfc9f42bb179e6` で本番build成功（既存の大きいチャンク警告のみ）、Worker dry-run成功。ビルド済みの従来版/改装版でガイド演出の表示とpageerror 0を確認（[結果](evidence/menu-polish-20261007/built-smoke.json)）。
 
 ## 未確認・限界
 
