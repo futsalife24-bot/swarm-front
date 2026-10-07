@@ -18,4 +18,10 @@ Windows型チェック・本番build・production dry-run成功。関連83件は
 
 初回のUI確認は読み込みtimeout。その後、Chromeが枠の4px上のタップをcheckboxへ補正することを実測した。チェック枠y=165〜185に対しpointerdown/upはy=161、clickだけy=167へ補正された。元のpointerdown/up座標が枠内の時だけクリックによる変更を許可し、pointercancelで破棄する修正後に全条件成功。キーボード/支援技術のdetail=0による操作は維持。証拠は [docs/evidence/base-checkbox-20261008](evidence/base-checkbox-20261008/)、一時資料は `dist-validation/base-checkbox-20261008/`。
 
-詳細結果・独立通常Chatの対象SHA/判定・main/既存Worker公開・配信/公開UIの結果は確認後追記する。前回PR150の合格を今回の監査として流用しない。戦闘演出/PR137は対象外。
+## 独立監査結果
+
+[PR152](https://github.com/futsalife24-bot/swarm-front/pull/152)、対象 `eac10df84600bc36d21d94dcfb8ff7705fa1e5fc`。iabの[通常新規Chat](https://chatgpt.com/c/6ac6bba0-58b0-83ee-a7a3-1d2c2a923f9f)で合格、必須P0/P1/P2=0、通常merge・既存Worker公開へ進行可。[回答全文](evidence/base-checkbox-20261008/audit-final.md)。必須修正なし、監査後の製品変更なし。
+
+添付 `audit-eac10df.zip`、22,134,592 bytes、SHA256 `ef4de38535e00066ef098196d7ce9e81b5cf281f8527cd43cd2067c7d560f6c0`。manifest247ファイル一致。監査側はソース・差分・証拠を確認し、Windows試験を独立再実行したものではない。任意R1は20pxの実スマホ操作性、R2はpointer移動/cancel/マルチタッチ/支援技術の追加回帰。実スマホ・読み上げ実機・長時間負荷・無変更の全画面回帰は未確認。
+
+main/既存Worker公開・配信/公開UIの結果は確認後追記する。戦闘演出/PR137は対象外。
