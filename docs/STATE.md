@@ -1,4 +1,12 @@
-# 現在地: 採用済み出現の限定1回試験、694成功・洞窟増援2失敗を記録（2026-10-07）
+# 現在地: 洞窟増援の高度修正、独立監査・main反映・公開を進行中（2026-10-07）
+
+本人「公開までやって」で前回の限定範囲を拡張。branch `codex/adopted-map-spawns-20261007`、base main `1c2f4ba44348ab95558ca0362f4f50a561e900d0`。洞窟で通常spawnの高さ上限を増援の候補判定と最終配置へ共通適用する修正。通常spawnの式、洞窟以外の増援、抽選/数/通信/保存/UI/素材は保持。
+
+Windows型チェック・関連7ファイル857件・本番build・production dry-run成功。採用済み配置696件は全成功、元の失敗証拠は保持。草原/雪峡の4,292観測が修正前後一致。実ローカルWorker2接続のST6増援通信も成功。洞窟ST10/ST16のChrome表示確認・通常新規Chatでの独立監査を行い、合格後に通常PR merge・既存Worker公開・配信/health/公開画面照合へ続ける。
+
+詳細/限界は [CAVE-FOUNDRY-RELEASE.md](CAVE-FOUNDRY-RELEASE.md)。現時点は未監査・未統合・未公開。対象SHA/PR/監査Chatは確定後に記録。モデルID・推論設定は未確認。以前の停止と範囲外記録は下記の履歴であり、今回の本人による再開/公開指示に優先しない。
+
+## 前回: 採用済み出現の限定1回試験、694成功・洞窟増援2失敗を記録（2026-10-07）
 
 本人「作業再開」で `codex/adopted-map-spawns-20261007` / 停止記録 `bbd2657682a78113a5afc21d143711be7ea7dcbf` から継続。base/product `1c2f4ba44348ab95558ca0362f4f50a561e900d0`、再開時もローカルmain・origin/main・GitHub main一致clean。新しい隔離候補 `tests/maps-adopted-spawns.test.ts` のみ作成、元mapsと期待値/skip条件は保持。草原・雪峡・洞窟の固定許可表・床接続・seed 1〜30の通常/連結炉増援を確認した。
 

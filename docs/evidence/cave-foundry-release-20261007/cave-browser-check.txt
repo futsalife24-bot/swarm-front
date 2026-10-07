@@ -1,0 +1,15 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"consoleErrors":["Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.","Failed to load resource: net::ERR_FAILED","Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.","Failed to load resource: net::ERR_FAILED","Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.","Failed to load resource: net::ERR_FAILED","Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.","Failed to load resource: net::ERR_FAILED","Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.","Failed to load resource: net::ERR_FAILED","Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.","Failed to load resource: net::ERR_FAILED"],"failedRequests":["https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front","https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front","https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front","https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front","https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front","http://127.0.0.1:5186/assets/audio/bgm-v1/title.mp3","https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front"]}
+    at file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/scripts/check-cave-foundry-browser.mjs:103:12 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

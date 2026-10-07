@@ -1,0 +1,49 @@
+
+> swarm-front@0.1.0 build
+> vite build
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 177 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/front.html                           2.84 kB │ gzip:   1.18 kB
+dist/index.html                           3.81 kB │ gzip:   1.35 kB
+dist/assets/legacy-CPbai1ZT.css           0.25 kB │ gzip:   0.13 kB
+dist/assets/main-BOIn8V8d.css             1.31 kB │ gzip:   0.66 kB
+dist/assets/save-writer-C20n41-k.css      2.24 kB │ gzip:   0.86 kB
+dist/assets/cloud-save-BBcbApPk.css       4.77 kB │ gzip:   1.56 kB
+dist/assets/room-browser-D0N6sL-J.css     4.90 kB │ gzip:   1.35 kB
+dist/assets/playtest-app-CU5IufCk.css     8.53 kB │ gzip:   2.39 kB
+dist/assets/front-XpbTtCFj.css           22.43 kB │ gzip:   5.53 kB
+dist/assets/title-motion-BKG61TTL.css    31.68 kB │ gzip:   7.05 kB
+dist/assets/hud-Ds-WcwRj.css            107.83 kB │ gzip:  22.08 kB
+dist/assets/zoom-guard-CYxqEXnM.js        0.38 kB │ gzip:   0.21 kB
+dist/assets/training-app-DkI0Nq92.js      3.76 kB │ gzip:   1.95 kB
+dist/assets/room-browser-CtHauy-j.js      4.31 kB │ gzip:   2.14 kB
+dist/assets/weapon-sharing-COBv_hde.js    4.75 kB │ gzip:   2.53 kB
+dist/assets/legacy-B5yeC1zk.js           16.40 kB │ gzip:   6.49 kB
+dist/assets/cloud-save-DFv_JuJZ.js       30.61 kB │ gzip:  11.02 kB
+dist/assets/save-writer-B9wubfaf.js      31.66 kB │ gzip:  13.43 kB
+dist/assets/title-motion-f_9al_zJ.js     49.91 kB │ gzip:  17.20 kB
+dist/assets/main-BwlVztR-.js             52.42 kB │ gzip:  18.41 kB
+dist/assets/changelog-C1xuv_GC.js        53.65 kB │ gzip:  21.22 kB
+dist/assets/playtest-app-Co6bD61f.js     78.89 kB │ gzip:  28.73 kB
+dist/assets/front-D2jBlAXW.js            89.34 kB │ gzip:  30.19 kB
+dist/assets/hud-BigNXWRf.js             919.81 kB │ gzip: 256.66 kB
+
+✓ built in 4.95s
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[PLUGIN_TIMINGS] Plugin hooks ran for 4.1s of this 4.9s build (83%).
+The slowest hooks, timed inside each callback (the wait before a callback starts is excluded, the time it awaits is included):
+  - vite:prepare-out-dir renderStart (47%, 2.3s, 1 call)
+  - vite:css-post renderChunk (26%, 1.3s, 13 calls)
+Additional hook time came from the hooks below and from hooks under 1s.
+2 hooks are listed without a time. Their calls overlapped, so the time inside one call includes work from other calls. To find their cost, profile the build with `node --cpu-prof`:
+  - vite:css transform (21 calls)
+  - vite:build-html transform (2 calls)
+See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.

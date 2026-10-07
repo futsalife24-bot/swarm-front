@@ -1,0 +1,174 @@
+{
+  "pass": true,
+  "base": "http://127.0.0.1:5186",
+  "results": [
+    {
+      "width": 844,
+      "height": 390,
+      "stage": 10,
+      "hud": "HP160 / 160ST 10 · WAVE 1 / 33 体 · 0 撃破 · 0:01AR-9 リーフ · 1/2残弾32 / 32未確定 0 · +WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · F ジャンプ · H 救急箱",
+      "overflow": false,
+      "errors": [],
+      "consoleErrors": [
+        "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED"
+      ],
+      "failedRequests": [
+        {
+          "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+          "error": "net::ERR_FAILED"
+        },
+        {
+          "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+          "error": "net::ERR_FAILED"
+        },
+        {
+          "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+          "error": "net::ERR_FAILED"
+        }
+      ],
+      "scope": "ローカル進行fixtureからソロ開始・洞窟描画、増援の実撃破映像ではない"
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "stage": 16,
+      "hud": "HP160 / 160ST 16 · WAVE 1 / 33 体 · 0 撃破 · 0:01AR-9 リーフ · 1/2残弾32 / 32未確定 0 · +WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · F ジャンプ · H 救急箱",
+      "overflow": false,
+      "errors": [],
+      "consoleErrors": [
+        "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED"
+      ],
+      "failedRequests": [
+        {
+          "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+          "error": "net::ERR_FAILED"
+        },
+        {
+          "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+          "error": "net::ERR_FAILED"
+        },
+        {
+          "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+          "error": "net::ERR_FAILED"
+        },
+        {
+          "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+          "error": "net::ERR_FAILED"
+        },
+        {
+          "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+          "error": "net::ERR_FAILED"
+        },
+        {
+          "url": "http://127.0.0.1:5186/assets/audio/bgm-v1/title.mp3",
+          "error": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+          "error": "net::ERR_FAILED"
+        }
+      ],
+      "scope": "ローカル進行fixtureからソロ開始・洞窟描画、増援の実撃破映像ではない"
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "stage": 10,
+      "hud": "HP160 / 160ST 10 · WAVE 1 / 32 体 · 0 撃破 · 0:01AR-9 リーフ · 1/2残弾32 / 32未確定 0 · +WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · F ジャンプ · H 救急箱",
+      "overflow": false,
+      "errors": [],
+      "consoleErrors": [
+        "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED"
+      ],
+      "failedRequests": [
+        {
+          "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+          "error": "net::ERR_FAILED"
+        },
+        {
+          "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+          "error": "net::ERR_FAILED"
+        },
+        {
+          "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+          "error": "net::ERR_FAILED"
+        }
+      ],
+      "scope": "ローカル進行fixtureからソロ開始・洞窟描画、増援の実撃破映像ではない"
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "stage": 16,
+      "hud": "HP\n160 / 160\nST 16 · WAVE 1 / 3\n5 体 · 0 撃破 · 0:03\nAR-9 リーフ · 1/2\n残弾\n32 / 32\n未確定 0 ·\n+\nWASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · F ジャンプ · H 救急箱",
+      "overflow": false,
+      "errors": [],
+      "consoleErrors": [
+        "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED",
+        "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5186' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED"
+      ],
+      "failedRequests": [
+        {
+          "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+          "error": "net::ERR_FAILED"
+        },
+        {
+          "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+          "error": "net::ERR_FAILED"
+        },
+        {
+          "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+          "error": "net::ERR_FAILED"
+        },
+        {
+          "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+          "error": "net::ERR_FAILED"
+        },
+        {
+          "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+          "error": "net::ERR_FAILED"
+        },
+        {
+          "url": "http://127.0.0.1:5186/assets/audio/bgm-v1/title.mp3",
+          "error": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
+          "error": "net::ERR_FAILED"
+        }
+      ],
+      "scope": "ローカル進行fixtureからソロ開始・洞窟描画、増援の実撃破映像ではない"
+    }
+  ]
+}

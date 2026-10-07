@@ -2,10 +2,12 @@ import { enemySize, spawnSize } from "./enemy-size";
 import { settings } from "./progression";
 import { groundHeight } from "./terrain";
 import { ENEMIES, LIMITS } from "./defs";
+import { CAVE_BLOCKS } from "./cave";
 import { mapFor, stageFor, type TroopKind } from "./stages";
 import {
   blocked,
   enemyBodies,
+  enemySpawnHeight,
   random,
   spawn,
   type Enemy,
@@ -59,7 +61,11 @@ function spawnPoint(w: World, batch: FoundrySpawnBatch, kind: TroopKind) {
       const angle = ((i + (batch.source % 24)) * Math.PI) / 12;
       const x = batch.x + Math.sin(angle) * (4 + ring * 2);
       const z = batch.z + Math.cos(angle) * (4 + ring * 2);
-      if (blocked(x, z, def.radius, def.cruise, blocks)) continue;
+      const height =
+        blocks === CAVE_BLOCKS
+          ? enemySpawnHeight(kind, x, z, blocks)
+          : def.cruise;
+      if (blocked(x, z, def.radius, height, blocks)) continue;
       if (
         bodies.some(
           (b) => Math.hypot(b.x - x, b.z - z) < b.radius + def.radius + 0.2,
@@ -113,9 +119,11 @@ export function flushFoundrySpawns(w: World) {
       // against the same collision geometry and keeps the promised head vicinity.
       enemy.x = position.x;
       enemy.z = position.z;
+      const blocks = mapFor(w).blocks;
       enemy.y =
-        groundHeight(position.x, position.z, mapFor(w).blocks) +
-        ENEMIES[kind].cruise;
+        blocks === CAVE_BLOCKS
+          ? enemySpawnHeight(kind, position.x, position.z, blocks)
+          : groundHeight(position.x, position.z, blocks) + ENEMIES[kind].cruise;
       enemy.foundrySource = batch.source;
       batch.kinds.shift();
       w.foundrySpawned = (w.foundrySpawned ?? 0) + 1;

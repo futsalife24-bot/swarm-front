@@ -1,0 +1,47 @@
+{
+  "platform": "win32",
+  "node": "v24.19.0",
+  "success": true,
+  "total": 857,
+  "passed": 857,
+  "failed": 0,
+  "skipped": 0,
+  "start": 1791383941051,
+  "files": [
+    {
+      "name": "enemy-size.test.ts",
+      "status": "passed",
+      "tests": 35
+    },
+    {
+      "name": "foundry-generation.test.ts",
+      "status": "passed",
+      "tests": 9
+    },
+    {
+      "name": "foundry-movement.test.ts",
+      "status": "passed",
+      "tests": 34
+    },
+    {
+      "name": "game.test.ts",
+      "status": "passed",
+      "tests": 35
+    },
+    {
+      "name": "hornet.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "maps-adopted-spawns.test.ts",
+      "status": "passed",
+      "tests": 696
+    },
+    {
+      "name": "terrain.test.ts",
+      "status": "passed",
+      "tests": 40
+    }
+  ]
+}

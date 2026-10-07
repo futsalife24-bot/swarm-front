@@ -1,0 +1,26 @@
+# 洞窟の連結炉増援の高度修正（2026-10-07）
+
+## 今回の範囲
+
+本人「公開までやって」で、[限定試験の2失敗](ADOPTED-MAP-SPAWNS.md)から製品修正・独立監査・main反映・既存Worker公開へ範囲を拡張した。branch `codex/adopted-map-spawns-20261007`、base `1c2f4ba44348ab95558ca0362f4f50a561e900d0`。正本 https://github.com/futsalife24-bot/swarm-front 、作業場所 `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a`。
+
+通常spawnの既存初期高度を `enemySpawnHeight` として抽出し、洞窟増援の候補判定と最終配置が同じ関数を使うようにした。hornetの洞窟上限5を保持し、判定半径は実個体サイズを使う。洞窟以外の増援の高度式・選択処理は保持。通常出現の式・抽選回数・増援数・接続節の数え方・キュー・保存・通信・戦闘性能・UI・素材は変更していない。
+
+## Windowsでの検証
+
+- 型チェック成功（client/shared/Worker）。Vite本番build成功、既存production構成のWorker dry-run成功。
+- 関連7ファイル857件成功、失敗/skip 0。新しい採用済み配置696件はそのまま再実行して全成功。既存maps/期待値/skip/Vitest設定は不変。
+- ST10/ST16×seed22未抽選/seed17 hornet抽選済みの実 `hurtEnemy`→`step` 回帰確認を追加。7体生成、キュー残0、hornet高さ上限5、実個体半径で衝突なし。
+- 修正前後の草原・雪峡の配置観測4,292件は一致。元の有限1回実行証拠は不変に保管し、修正後は別フォルダーへ保存。
+- 実ローカルWorker・2 WebSocketで、従来ST6 fixtureの実入力による頭部撃破→3体生成/6節残存・双方の同一権威スナップショット・通信エラー0を確認。これは洞窟のWorker撃破試験ではない。
+- Chrome/d3d11で洞窟ST10/ST16を844×390・640×360で確認。専用ブラウザのローカル進行fixtureから実ソロ開始・ロード完了・戦場入口を操作。短時間の描画/HUD/横溢れを検査。pageerrorとconsoleを別記録し、ローカルanalyticsの既存CORSだけをURLで分類する。製品通信をmockしていない。
+
+資料は [evidence/cave-foundry-release-20261007](evidence/cave-foundry-release-20261007/)。実装SHA、PR、監査、公開結果はSTATEと本書へ確定後に追記する。
+
+## 検証環境での失敗と限界
+
+初回のWorker起動/dry-runはWindowsの親ディレクトリ読み取り制限で失敗し、通常権限で復旧した。テスト結果JSONは857件成功を記録したが、最初のPowerShell終了待ちwrapperは残留したため、結果JSONとwrapper終了を区別する。
+
+古い `check-foundry-published` は現行の通常進行入口・レポートとは異なるセレクタを持ち、このままでは利用できなかった。新しい洞窟スクリプトで現行の保存キー・進行キー・共通選択UI・「戦場へ」の操作を合わせた。途中の導線失敗ログも保存。短い動画は同梱ffmpegが未導入で作成できず、依存追加は行っていない。analyticsはlocalhostを許可しない外部サービスの既存CORS失敗があり、console error 0とは報告しない。
+
+洞窟の実Worker上での頭部撃破映像、長期戦の次tick以降の全位置、全seed/全敵モデル、高台版、実機タッチ、GPU長時間負荷、実タブ非表示cleanup、ST20/ST25完走は今回未確認。旧全敵強制出現maps試験などの既存失敗は修正/skipしていない。戦闘演出・PR137・別branchのST25 pilot修正は含めない。モデルID・推論設定は未確認。

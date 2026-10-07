@@ -1,3 +1,4 @@
+import type { Block } from "./map-blocks";
 import {
   beginFrontShot,
   frontManualHit,
@@ -659,6 +660,19 @@ export function retireEvents(w: World, delivered: number) {
   if (w.events.length && w.events[0].id <= delivered)
     w.events = w.events.filter((e) => e.id > delivered);
 }
+/** 通常出現の初期高度。HARROWの飛行高はspawn側で後から加算する。 */
+export function enemySpawnHeight(
+  kind: Enemy["kind"],
+  x: number,
+  z: number,
+  blocks: Block[],
+) {
+  return Math.min(
+    supportHeight(x, z, blocks) + ENEMIES[kind].cruise,
+    blocks === CAVE_BLOCKS && kind === "hornet" ? 5 : Infinity,
+  );
+}
+
 export function spawn(
   w: World,
   kind: Enemy["kind"],
@@ -713,10 +727,7 @@ export function spawn(
     size,
     kind,
     x: ex,
-    y: Math.min(
-      supportHeight(ex, ez, mapFor(w).blocks) + ENEMIES[kind].cruise,
-      mapFor(w).blocks === CAVE_BLOCKS && kind === "hornet" ? 5 : Infinity,
-    ),
+    y: enemySpawnHeight(kind, ex, ez, mapFor(w).blocks),
     z: ez,
     hp,
     maxHp: hp,

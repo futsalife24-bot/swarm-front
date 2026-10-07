@@ -1,0 +1,35 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+stdout | tests/game.test.ts > authoritative combat > solo starter pilot completes the real mission without stat/time cheats
+{"mission":"victory","seconds":51.599999999999206,"kills":32,"hp":160,"position":[-5.64871745337905,8.094430239518553],"enemies":[{"kind":"crawler","x":-23.736205436291353,"z":52.25205849339183,"hp":-4.786531847960449}],"maxEnemies":8,"simulationMs":164.8030000000001}
+
+ ✓ tests/game.test.ts (35 tests) 1781ms
+   ✓ rolled figures (3)
+     ✓ keeps every figure inside its declared band 794ms
+ ✓ tests/terrain.test.ts (40 tests) 250ms
+ ✓ tests/foundry-movement.test.ts (34 tests) 26291ms
+   ✓ ground patrol stays clear and covers both axes on map 0 (灰明の街区) 3482ms
+   ✓ ground patrol stays clear and covers both axes on map 1 (薄暮の倉庫地区) 1245ms
+   ✓ ground patrol stays clear and covers both axes on map 2 (蒼鉄の工業区) 1838ms
+   ✓ ground patrol stays clear and covers both axes on map 3 (風渡る草原) 355ms
+   ✓ ground patrol stays clear and covers both axes on map 4 (白嶺の雪峡) 690ms
+   ✓ ground patrol stays clear and covers both axes on map 5 (晶脈の地底巣) 346ms
+   ✓ all cut chains navigate to a distant player on map 0 7708ms
+   ✓ all cut chains navigate to a distant player on map 1 3079ms
+   ✓ all cut chains navigate to a distant player on map 2 5290ms
+   ✓ all cut chains navigate to a distant player on map 4 1435ms
+stdout | tests/maps-adopted-spawns.test.ts
+
+ ✓ tests/maps-adopted-spawns.test.ts (696 tests) 695ms
+ ✓ tests/foundry-generation.test.ts (9 tests) 689ms
+   ✓ generates exactly the head-attached count for all 128 body destruction patterns, once 623ms
+ ✓ tests/enemy-size.test.ts (35 tests) 410ms
+ ✓ tests/hornet.test.ts (8 tests) 81ms
+
+ Test Files  7 passed (7)
+      Tests  857 passed (857)
+   Start at  23:39:01
+   Duration  35.27s (tests 88%, import 10%, transform 2%)
+
+JSON report written to C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/dist-validation/cave-foundry-release-20261007/result.json
