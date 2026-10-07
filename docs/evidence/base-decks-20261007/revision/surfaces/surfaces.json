@@ -1,0 +1,3570 @@
+[
+  {
+    "name": "front-title",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#solo",
+        "x": 442,
+        "y": 42.953125,
+        "w": 374,
+        "h": 72.78125,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#coop",
+        "x": 442,
+        "y": 122.734375,
+        "w": 374,
+        "h": 58,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#open-armory",
+        "x": 442,
+        "y": 187.734375,
+        "w": 183.5,
+        "h": 50,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#home-settings",
+        "x": 632,
+        "y": 245.734375,
+        "w": 184,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#home-tutorial",
+        "x": 442,
+        "y": 245.734375,
+        "w": 184,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "front-guide",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "prep",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#front-dialog-back",
+        "x": 781,
+        "y": 105.6875,
+        "w": 44,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "front-dialog-back",
+        "text": "戻る",
+        "w": 44,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "front-changelog",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "prep",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#front-dialog-back",
+        "x": 781,
+        "y": 15,
+        "w": 44,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "front-dialog-back",
+        "text": "戻る",
+        "w": 44,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "front-settings",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "battle",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#front-settings-back",
+        "x": 679.921875,
+        "y": 57.5,
+        "w": 136.078125,
+        "h": 54,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#front-setting-layout",
+        "x": 431,
+        "y": 253.5,
+        "w": 385,
+        "h": 54,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "front-layout",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "layout",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "front-bestiary",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#report-close",
+        "x": 732.984375,
+        "y": 20.5,
+        "w": 86.015625,
+        "h": 40,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "front-prep",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "prep",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#front-launch",
+        "x": 637,
+        "y": 331,
+        "w": 180,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#front-base",
+        "x": 635.125,
+        "y": 22,
+        "w": 56,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "front-base",
+        "text": "強化候補",
+        "w": 56,
+        "h": 36
+      },
+      {
+        "id": "front-back",
+        "text": "タイトルへ",
+        "w": 54.875,
+        "h": 36
+      },
+      {
+        "id": "front-prep-settings",
+        "text": "設定・操作",
+        "w": 61,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-title",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#solo",
+        "x": 452.046875,
+        "y": 24.953125,
+        "w": 358.203125,
+        "h": 72.78125,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#coop",
+        "x": 452.046875,
+        "y": 104.734375,
+        "w": 358.203125,
+        "h": 58,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#open-armory",
+        "x": 452.046875,
+        "y": 169.734375,
+        "w": 175.59375,
+        "h": 50,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#home-settings",
+        "x": 634.140625,
+        "y": 271.734375,
+        "w": 176.109375,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-guide",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 717.09375,
+        "y": 33,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-guide-1",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 717.09375,
+        "y": 56.5,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-guide-2",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 717.09375,
+        "y": 56.5,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-changelog",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 717.09375,
+        "y": 33,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-settings",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 743.09375,
+        "y": 33,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-media",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".media-dialog .dialog-close",
+        "x": 719.09375,
+        "y": 59.5,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "[data-pause]",
+        "x": 115,
+        "y": 268.25,
+        "w": 74,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-bestiary",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#report-close",
+        "x": 732.984375,
+        "y": 20.5,
+        "w": 86.015625,
+        "h": 40,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-bestiary-coop",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#report-close",
+        "x": 732.984375,
+        "y": 20.5,
+        "w": 86.015625,
+        "h": 40,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-profile",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#player-name-form button",
+        "x": 59,
+        "y": 248.375,
+        "w": 124.234375,
+        "h": 50.75,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-coop",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "gear",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#home",
+        "x": 712.796875,
+        "y": 24,
+        "w": 104.203125,
+        "h": 49,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#room-join",
+        "x": 743,
+        "y": 136,
+        "w": 74,
+        "h": 49,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#room-refresh",
+        "x": 743,
+        "y": 81,
+        "w": 74,
+        "h": 49,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-prep",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "gear",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-start",
+        "x": 664,
+        "y": 329,
+        "w": 155,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#pt-base",
+        "x": 649.125,
+        "y": 24,
+        "w": 44,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 54.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 61,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-organize",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "gear",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 54.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 61,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-base",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "base",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-accessories",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "accessories",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-target-craft",
+        "x": 278.484375,
+        "y": 117,
+        "w": 137.109375,
+        "h": 35,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-crafted",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "accessories",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-synthesis",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "accessories",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-confirm",
+        "x": 647.734375,
+        "y": 33.5,
+        "w": 58,
+        "h": 37,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#pt-cancel",
+        "x": 711.734375,
+        "y": 33.5,
+        "w": 73.265625,
+        "h": 37,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-growth",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "growth",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-allocate",
+        "x": 639,
+        "y": 319,
+        "w": 180,
+        "h": 48,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-growth-detail",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "growth",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-growth-confirm",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "screen": "growth",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-confirm",
+        "x": 595,
+        "y": 273.046875,
+        "w": 190,
+        "h": 48,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#pt-cancel",
+        "x": 511.734375,
+        "y": 278.046875,
+        "w": 73.265625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "front-title",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#solo",
+        "x": 442,
+        "y": 42.953125,
+        "w": 374,
+        "h": 72.78125,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#coop",
+        "x": 442,
+        "y": 122.734375,
+        "w": 374,
+        "h": 58,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#open-armory",
+        "x": 442,
+        "y": 187.734375,
+        "w": 183.5,
+        "h": 50,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#home-settings",
+        "x": 632,
+        "y": 245.734375,
+        "w": 184,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#home-tutorial",
+        "x": 442,
+        "y": 245.734375,
+        "w": 184,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "front-guide",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "prep",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#front-dialog-back",
+        "x": 781,
+        "y": 105.6875,
+        "w": 44,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "front-dialog-back",
+        "text": "戻る",
+        "w": 44,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "front-changelog",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "prep",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#front-dialog-back",
+        "x": 781,
+        "y": 15,
+        "w": 44,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "front-dialog-back",
+        "text": "戻る",
+        "w": 44,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "front-settings",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "battle",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#front-settings-back",
+        "x": 679.921875,
+        "y": 57.5,
+        "w": 136.078125,
+        "h": 54,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#front-setting-layout",
+        "x": 431,
+        "y": 253.5,
+        "w": 385,
+        "h": 54,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "front-layout",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "layout",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "front-bestiary",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#report-close",
+        "x": 732.984375,
+        "y": 20.5,
+        "w": 86.015625,
+        "h": 40,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "front-prep",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "prep",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#front-launch",
+        "x": 637,
+        "y": 331,
+        "w": 180,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#front-base",
+        "x": 635.125,
+        "y": 22,
+        "w": 56,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "front-base",
+        "text": "強化候補",
+        "w": 56,
+        "h": 36
+      },
+      {
+        "id": "front-back",
+        "text": "タイトルへ",
+        "w": 54.875,
+        "h": 36
+      },
+      {
+        "id": "front-prep-settings",
+        "text": "設定・操作",
+        "w": 61,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-title",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#solo",
+        "x": 452.046875,
+        "y": 24.953125,
+        "w": 358.203125,
+        "h": 72.78125,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#coop",
+        "x": 452.046875,
+        "y": 104.734375,
+        "w": 358.203125,
+        "h": 58,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#open-armory",
+        "x": 452.046875,
+        "y": 169.734375,
+        "w": 175.59375,
+        "h": 50,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#home-settings",
+        "x": 634.140625,
+        "y": 271.734375,
+        "w": 176.109375,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-guide",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 717.09375,
+        "y": 33,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-guide-1",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 717.09375,
+        "y": 56.5,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-guide-2",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 717.09375,
+        "y": 56.5,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-changelog",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 717.09375,
+        "y": 33,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-settings",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 743.09375,
+        "y": 33,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-media",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".media-dialog .dialog-close",
+        "x": 719.09375,
+        "y": 59.5,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "[data-pause]",
+        "x": 115,
+        "y": 268.25,
+        "w": 74,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-bestiary",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#report-close",
+        "x": 732.984375,
+        "y": 20.5,
+        "w": 86.015625,
+        "h": 40,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-bestiary-coop",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#report-close",
+        "x": 732.984375,
+        "y": 20.5,
+        "w": 86.015625,
+        "h": 40,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-profile",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#player-name-form button",
+        "x": 59,
+        "y": 248.375,
+        "w": 124.234375,
+        "h": 50.75,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-coop",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "gear",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#home",
+        "x": 712.796875,
+        "y": 24,
+        "w": 104.203125,
+        "h": 49,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#room-join",
+        "x": 743,
+        "y": 136,
+        "w": 74,
+        "h": 49,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#room-refresh",
+        "x": 743,
+        "y": 81,
+        "w": 74,
+        "h": 49,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-prep",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "gear",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-start",
+        "x": 664,
+        "y": 329,
+        "w": 155,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#pt-base",
+        "x": 649.125,
+        "y": 24,
+        "w": 44,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 54.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 61,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-organize",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "gear",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 54.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 61,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-base",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "base",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-accessories",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "accessories",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-target-craft",
+        "x": 278.484375,
+        "y": 117,
+        "w": 137.109375,
+        "h": 35,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-crafted",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "accessories",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-synthesis",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "accessories",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-confirm",
+        "x": 647.734375,
+        "y": 33.5,
+        "w": 58,
+        "h": 37,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#pt-cancel",
+        "x": 711.734375,
+        "y": 33.5,
+        "w": 73.265625,
+        "h": 37,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-growth",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "growth",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-allocate",
+        "x": 639,
+        "y": 319,
+        "w": 180,
+        "h": 48,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-growth-detail",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "growth",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-growth-confirm",
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "screen": "growth",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-confirm",
+        "x": 595,
+        "y": 273.046875,
+        "w": 190,
+        "h": 48,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#pt-cancel",
+        "x": 511.734375,
+        "y": 278.046875,
+        "w": 73.265625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "front-title",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#solo",
+        "x": 340,
+        "y": 58.40625,
+        "w": 272,
+        "h": 53.1875,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#coop",
+        "x": 340,
+        "y": 116.59375,
+        "w": 272,
+        "h": 44,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#open-armory",
+        "x": 340,
+        "y": 165.59375,
+        "w": 133.5,
+        "h": 42,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#home-settings",
+        "x": 479,
+        "y": 215.59375,
+        "w": 133,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#home-tutorial",
+        "x": 340,
+        "y": 215.59375,
+        "w": 133,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "front-guide",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "prep",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#front-dialog-back",
+        "x": 577,
+        "y": 79.96875,
+        "w": 44,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "front-dialog-back",
+        "text": "戻る",
+        "w": 44,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "front-changelog",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "prep",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#front-dialog-back",
+        "x": 577,
+        "y": 15,
+        "w": 44,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "front-dialog-back",
+        "text": "戻る",
+        "w": 44,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "front-settings",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "battle",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#front-settings-back",
+        "x": 475.921875,
+        "y": 43,
+        "w": 136.078125,
+        "h": 54,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#front-setting-layout",
+        "x": 329,
+        "y": 238,
+        "w": 283,
+        "h": 54,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "front-layout",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "layout",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "front-bestiary",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#report-close",
+        "x": 528.984375,
+        "y": 20.5,
+        "w": 86.015625,
+        "h": 40,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "front-prep",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "prep",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#front-launch",
+        "x": 433,
+        "y": 301,
+        "w": 180,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#front-base",
+        "x": 453.125,
+        "y": 22,
+        "w": 50,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "front-base",
+        "text": "強化候補",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "front-back",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "front-prep-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-title",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#solo",
+        "x": 272.625,
+        "y": 34.8125,
+        "w": 341.78125,
+        "h": 53.1875,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#coop",
+        "x": 272.625,
+        "y": 93,
+        "w": 341.78125,
+        "h": 44,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#open-armory",
+        "x": 272.625,
+        "y": 142,
+        "w": 168.390625,
+        "h": 42,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#home-settings",
+        "x": 446.515625,
+        "y": 236,
+        "w": 167.890625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-guide",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 539.09375,
+        "y": 33,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-guide-1",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 539.09375,
+        "y": 33,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-guide-2",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 539.09375,
+        "y": 33,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-changelog",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 539.09375,
+        "y": 33,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-settings",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 539.09375,
+        "y": 33,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-media",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".media-dialog .dialog-close",
+        "x": 541.09375,
+        "y": 44.5,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "[data-pause]",
+        "x": 89,
+        "y": 253.25,
+        "w": 74,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-bestiary",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#report-close",
+        "x": 528.984375,
+        "y": 20.5,
+        "w": 86.015625,
+        "h": 40,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-bestiary-coop",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#report-close",
+        "x": 528.984375,
+        "y": 20.5,
+        "w": 86.015625,
+        "h": 40,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-profile",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#player-name-form button",
+        "x": 33,
+        "y": 233.375,
+        "w": 124.234375,
+        "h": 50.75,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-coop",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "gear",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#home",
+        "x": 514.796875,
+        "y": 20,
+        "w": 104.203125,
+        "h": 49,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#room-join",
+        "x": 545,
+        "y": 132,
+        "w": 74,
+        "h": 49,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#room-refresh",
+        "x": 545,
+        "y": 77,
+        "w": 74,
+        "h": 49,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-prep",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "gear",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-start",
+        "x": 500,
+        "y": 299,
+        "w": 115,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#pt-base",
+        "x": 461.125,
+        "y": 24,
+        "w": 44,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-organize",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "gear",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-base",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "base",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-accessories",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "accessories",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-target-craft",
+        "x": 278.484375,
+        "y": 117,
+        "w": 137.109375,
+        "h": 35,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-crafted",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "accessories",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-synthesis",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "accessories",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-confirm",
+        "x": 469.734375,
+        "y": 72,
+        "w": 58,
+        "h": 37,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#pt-cancel",
+        "x": 533.734375,
+        "y": 72,
+        "w": 73.265625,
+        "h": 37,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-growth",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "growth",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-allocate",
+        "x": 435,
+        "y": 289,
+        "w": 180,
+        "h": 48,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-growth-detail",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "growth",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-growth-confirm",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "screen": "growth",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-confirm",
+        "x": 417,
+        "y": 258.046875,
+        "w": 190,
+        "h": 48,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#pt-cancel",
+        "x": 333.734375,
+        "y": 263.046875,
+        "w": 73.265625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "front-title",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#solo",
+        "x": 340,
+        "y": 58.40625,
+        "w": 272,
+        "h": 53.1875,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#coop",
+        "x": 340,
+        "y": 116.59375,
+        "w": 272,
+        "h": 44,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#open-armory",
+        "x": 340,
+        "y": 165.59375,
+        "w": 133.5,
+        "h": 42,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#home-settings",
+        "x": 479,
+        "y": 215.59375,
+        "w": 133,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#home-tutorial",
+        "x": 340,
+        "y": 215.59375,
+        "w": 133,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "front-guide",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "prep",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#front-dialog-back",
+        "x": 577,
+        "y": 79.96875,
+        "w": 44,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "front-dialog-back",
+        "text": "戻る",
+        "w": 44,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "front-changelog",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "prep",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#front-dialog-back",
+        "x": 577,
+        "y": 15,
+        "w": 44,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "front-dialog-back",
+        "text": "戻る",
+        "w": 44,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "front-settings",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "battle",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#front-settings-back",
+        "x": 475.921875,
+        "y": 43,
+        "w": 136.078125,
+        "h": 54,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#front-setting-layout",
+        "x": 329,
+        "y": 238,
+        "w": 283,
+        "h": 54,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "front-layout",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "layout",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "front-bestiary",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#report-close",
+        "x": 528.984375,
+        "y": 20.5,
+        "w": 86.015625,
+        "h": 40,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "front-prep",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "prep",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#front-launch",
+        "x": 433,
+        "y": 301,
+        "w": 180,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#front-base",
+        "x": 453.125,
+        "y": 22,
+        "w": 50,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "front-base",
+        "text": "強化候補",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "front-back",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "front-prep-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-title",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#solo",
+        "x": 272.625,
+        "y": 34.8125,
+        "w": 341.78125,
+        "h": 53.1875,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#coop",
+        "x": 272.625,
+        "y": 93,
+        "w": 341.78125,
+        "h": 44,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#open-armory",
+        "x": 272.625,
+        "y": 142,
+        "w": 168.390625,
+        "h": 42,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#home-settings",
+        "x": 446.515625,
+        "y": 236,
+        "w": 167.890625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-guide",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 539.09375,
+        "y": 33,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-guide-1",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 539.09375,
+        "y": 33,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-guide-2",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 539.09375,
+        "y": 33,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-changelog",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 539.09375,
+        "y": 33,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-settings",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".dialog-close",
+        "x": 539.09375,
+        "y": 33,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-media",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": ".media-dialog .dialog-close",
+        "x": 541.09375,
+        "y": 44.5,
+        "w": 67.90625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "[data-pause]",
+        "x": 89,
+        "y": 253.25,
+        "w": 74,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-bestiary",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#report-close",
+        "x": 528.984375,
+        "y": 20.5,
+        "w": 86.015625,
+        "h": 40,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-bestiary-coop",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#report-close",
+        "x": 528.984375,
+        "y": 20.5,
+        "w": 86.015625,
+        "h": 40,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-profile",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "title",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#player-name-form button",
+        "x": 33,
+        "y": 233.375,
+        "w": 124.234375,
+        "h": 50.75,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-coop",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "gear",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#home",
+        "x": 514.796875,
+        "y": 20,
+        "w": 104.203125,
+        "h": 49,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#room-join",
+        "x": 545,
+        "y": 132,
+        "w": 74,
+        "h": 49,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#room-refresh",
+        "x": 545,
+        "y": 77,
+        "w": 74,
+        "h": 49,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [],
+    "errors": []
+  },
+  {
+    "name": "legacy-prep",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "gear",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-start",
+        "x": 500,
+        "y": 299,
+        "w": 115,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#pt-base",
+        "x": 461.125,
+        "y": 24,
+        "w": 44,
+        "h": 36,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-organize",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "gear",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-base",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "base",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-accessories",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "accessories",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-target-craft",
+        "x": 278.484375,
+        "y": 117,
+        "w": 137.109375,
+        "h": 35,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-crafted",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "accessories",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-synthesis",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "accessories",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-confirm",
+        "x": 469.734375,
+        "y": 72,
+        "w": 58,
+        "h": 37,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#pt-cancel",
+        "x": 533.734375,
+        "y": 72,
+        "w": 73.265625,
+        "h": 37,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-growth",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "growth",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-allocate",
+        "x": 435,
+        "y": 289,
+        "w": 180,
+        "h": 48,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-growth-detail",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "growth",
+    "overflow": false,
+    "targets": [],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  },
+  {
+    "name": "legacy-growth-confirm",
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "screen": "growth",
+    "overflow": false,
+    "targets": [
+      {
+        "s": "#pt-confirm",
+        "x": 417,
+        "y": 258.046875,
+        "w": 190,
+        "h": 48,
+        "inside": true,
+        "hit": true
+      },
+      {
+        "s": "#pt-cancel",
+        "x": 333.734375,
+        "y": 263.046875,
+        "w": 73.265625,
+        "h": 38,
+        "inside": true,
+        "hit": true
+      }
+    ],
+    "headerTapTargets": [
+      {
+        "id": "pt-gear",
+        "text": "出撃準備",
+        "w": 50,
+        "h": 36
+      },
+      {
+        "id": "pt-base",
+        "text": "基地",
+        "w": 44,
+        "h": 36
+      },
+      {
+        "id": "pt-home",
+        "text": "タイトルへ",
+        "w": 48.875,
+        "h": 36
+      },
+      {
+        "id": "pt-settings",
+        "text": "設定・操作",
+        "w": 55,
+        "h": 36
+      }
+    ],
+    "errors": []
+  }
+]

@@ -40,7 +40,9 @@ export async function recordMenuMotion(page, path, width, height) {
   });
   complete.catch(() => {});
   const cdp = await page.context().newCDPSession(page);
-  cdp.on("Page.screencastFrame", async (event) => {
+  let stopped = false;
+  const onFrame = async (event) => {
+    if (stopped) return;
     timestamps.push(event.metadata.timestamp);
     if (previous) {
       const count = Math.max(
@@ -51,8 +53,13 @@ export async function recordMenuMotion(page, path, width, height) {
       written += count;
     }
     previous = Buffer.from(event.data, "base64");
-    await cdp.send("Page.screencastFrameAck", { sessionId: event.sessionId });
-  });
+    try {
+      await cdp.send("Page.screencastFrameAck", { sessionId: event.sessionId });
+    } catch (e) {
+      if (!stopped) error += String(e);
+    }
+  };
+  cdp.on("Page.screencastFrame", onFrame);
   await page.bringToFront();
   await cdp.send("Page.startScreencast", {
     format: "jpeg",
@@ -61,10 +68,10 @@ export async function recordMenuMotion(page, path, width, height) {
     maxHeight: height,
     everyNthFrame: 1,
   });
-  let stopped = false;
   return async () => {
     if (stopped) return;
     stopped = true;
+    cdp.off("Page.screencastFrame", onFrame);
     if (!page.isClosed()) await cdp.send("Page.stopScreencast");
     if (previous) {
       encoder.stdin.write(previous);
@@ -72,6 +79,7 @@ export async function recordMenuMotion(page, path, width, height) {
     }
     encoder.stdin.end();
     await complete;
+    if (error) throw Error(error);
     fs.writeFileSync(
       path + ".json",
       JSON.stringify({ timestamps, written, fps: 20 }, null, 2),

@@ -1,4 +1,14 @@
 /* Inherit the established menu theme. Only progression-specific structure lives here. */
+.pt-confirm-actions {
+  display: flex;
+  gap: 6px;
+  flex: none;
+}
+body .menu-dialog .pt-confirm-actions button {
+  min-height: 36px;
+  padding: 7px 12px;
+  white-space: nowrap;
+}
 .playtest #ui .pt-screen {
   display: flex;
   flex-direction: column;
@@ -232,7 +242,7 @@
     gap: 7px;
   }
   .pt-screen .menu-header {
-    gap: 10px;
+    gap: 8px;
   }
   .pt-screen .menu-header nav {
     max-width: none;
@@ -240,7 +250,8 @@
     gap: 4px;
   }
   .pt-screen .menu-header nav button {
-    min-height: 28px;
+    min-width: 44px;
+    min-height: 36px;
     padding: 4px 7px;
     font-size: 10px;
   }

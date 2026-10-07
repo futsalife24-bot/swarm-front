@@ -1,4 +1,39 @@
-# 現在地: PR142をmain統合・既存Worker公開、配信・Windows Chrome確認済み（2026-10-07）
+# 現在地: PR144の独立再監査に合格、通常統合・公開へ（2026-10-07）
+
+16:22 JSTごろ[確定回答](evidence/base-decks-20261007/audit-final.md)を回収。対象 `2a5639d5c289857efaec2e6da3782589cf01003d` は必須P0/P1/P2各0・全体UIUX合格。未保存名とボタン寸法の初回P2は両方解消。任意はDTO分離・回帰シナリオのCI常時化・最終準備画面画像の補完。監査対象以降は記録のみ、製品不変。最新mainは `1b3c0cd69a8f26f0cba7643b3129637cea3835db`。UI029返却済み、PR144の通常merge→main build/dry-run→既存Worker公開→配信/health/UI確認へ進む。現時点では未統合・未公開。
+
+## 再監査送信の記録
+
+16:08:56 JST、対象 `2a5639d5c289857efaec2e6da3782589cf01003d` の修正版ZIPを[同じ監査Chat](https://chatgpt.com/c/6ac5e3c4-0174-83e8-84b7-cee77d5e1e11)へ送信し、添付名と応答開始を確認。UI-20261007-026を返却済み。[PR144](https://github.com/futsalife24-bot/swarm-front/pull/144)は未統合・未公開。本人の明示承認で前回の送信承認待ちは解消している。監査対象以降はSTATE記録のみ、実装変更なし。
+
+資料: `dist-validation/base-decks/audit/swarm-front-uiux-revision-2a5639d.zip`、8,467,341 bytes、168ソース/証拠＋4補助ファイル、SHA256 `9de7ad5098af9c9d2067b04f5f9bc9a12133858abf3b734cc3a05ba9ccfc72a7`。初回必須P2の未保存名保護と短横画面ボタン寸法を修正・Windows検証済み。共通UIUX基準を維持して両修正と他画面への影響を再判定依頼。確定必須0の後、通常merge→main build/dry-run→既存Worker公開→配信/health/UI確認→公開記録main反映へ続ける。
+
+## 直前の経緯: 本人承認で再監査送信を再開
+
+本人がこの担当チャットで「承認」と明示。下記の対象2a5639d/168ファイルの同じ監査Chatへの送信を再開する。Git HEAD `0ec0bfdb3ffe3eb3f844b44c23d0fa991bd79baa`、clean、対象以降はSTATEのみ。ZIP SHA256も再照合済み。共有UIは別担当のUI025返却後に新規貸出を受けて使用する。本人承認待ちは解消、再監査判定・統合・公開は未完了。
+
+前回の停止理由: 共有UI調整担当が既存承認・固定skill・ZIP hashを照合した後も、再監査ZIP送信を進めるUI024貸出指示が自動承認審査で「非公開の具体ZIPと宛先への本人明示承認不足」として拒否された。調整担当のチャットで本人へ同ZIP/同監査Chatへの送信承認1件を質問済み。当担当は重複質問・別経路送信をせず待機。独立した実装/検証/資料準備は完了。
+前回の再開条件（本人承認は解消）: 本人の同ZIP・同監査Chatへの送信承認が調整担当から届き、新しいUI貸出を受けること。その後、同じChatへ対象2a5639dを再監査し、必須0の確定後に通常merge・既存Worker公開・配信/health/実UI照合・公開記録main反映まで続ける。PR144は下書きのまま未統合・未公開。
+
+再監査対象 `2a5639d5c289857efaec2e6da3782589cf01003d`、[PR144](https://github.com/futsalife24-bot/swarm-front/pull/144)、[同じ監査Chat](https://chatgpt.com/c/6ac5e3c4-0174-83e8-84b7-cee77d5e1e11)。修正ZIP `dist-validation/base-decks/audit/swarm-front-uiux-revision-2a5639d.zip`（8,467,341 bytes、168 files、SHA256 `9de7ad5098af9c9d2067b04f5f9bc9a12133858abf3b734cc3a05ba9ccfc72a7`）、manifest/CRC照合済みで未送信。
+
+15:55 JST時点の待機理由: 共有UI調整担当の貸出指示が、自動承認審査で具体payload/宛先の本人承認根拠不足として拒否され、UI024は未貸出。今回のユーザー提示AGENTSの「監査用ソース/差分/素材/証拠ZIPの初回・修正版送信」の継続承認と今回の対象を調整担当が照合中。拒否の迂回や旧貸出IDの再利用はしない。再開条件は、この根拠の照合後に通常の新規UI貸出を受けること。資料と独立工程は準備済み、旧初回監査は要修正のままなので未統合・未公開。
+
+修正commit `cd29362a25fcbebefeacbf0d1b5c5ccacf9f7141` をPR144へpush。型/front77・基地6条件（未保存名→出撃→戻る/呼出の保護を含む）・全108画面/ヘッダーボタン152箇所の44×36px・武器8条件が成功。844幅の武器完全表示6件も維持。修正commitから本番build/dry-runも成功。詳細 `docs/BASE-DECKS-UIUX.md` と証拠 `docs/evidence/base-decks-20261007/revision/`。対象SHAの差分資料を同じChatへ再提出する。未統合・未公開。
+
+15:36 JSTごろに[初回確定回答](evidence/base-decks-20261007/audit-first.md)を回収。対象 `27397543ed121f6fb52126205d135178c12ead74` はP0/P1各0・P2が2件で要修正。未保存デッキ名の状態を出撃適用時に消してしまう点と、短横画面の一部ヘッダーボタン28pxを修正する。名前の未保存状態を分離し、44×36pxの最小ボタン寸法と回帰検査を追加中。同じChatで再監査後に通常統合・公開する。未統合・未公開。UI021は返却済み。
+
+15:17 JSTごろ、[通常Chat](https://chatgpt.com/c/6ac5e3c4-0174-83e8-84b7-cee77d5e1e11)へ対象 `27397543ed121f6fb52126205d135178c12ead74` のZIPを添付送信。監査側も40,927,421 bytes・ZIP SHA256・955ファイルmanifestの一致を確認して監査開始。改装版/従来版を同一のUIUX基準で判定するよう依頼済み。IABの844/640横画面で協力・基地・融合素材/未解放条件の表示を追加目視。UI-20261007-019は返却済み、確定判定確認の新枠を要求。回答は未確定、通常merge・公開は未実施。以降は記録のみで製品/テスト不変。
+
+## 2026-10-07 協力画面・基地デッキ／ゲーム全体UIUX改善（自己検証済み）
+
+- 本人の添付画像で協力画面の幅崩れ、基地の強化説明・画像・デッキ保存不足を確認。融合情報を見ながら編成、ゲーム全体を同一基準で監査する追加指示も対象。
+- branch `codex/front-base-decks-coop-20261007`、base `1b3c0cd69a8f26f0cba7643b3129637cea3835db`。既存PR142/143は下記のとおり公開済み。本件は[下書きPR144](https://github.com/futsalife24-bot/swarm-front/pull/144)、監査対象 `27397543ed121f6fb52126205d135178c12ead74`。監査Chatは上記。
+- 協力画面の原因はタイトル用2列配置が残る画面状態。Windows Chrome 844/640/1220幅で再現。基地の強化画像・詳細・融合9レシピ・名前付き3枠保存を実装。全体監査で発見した従来版確認操作の画面外落ちと改装版の安全領域不足も修正。
+- 対象・共通基準・画面一覧は `docs/BASE-DECKS-UIUX.md`。型チェック、front単体77件、保存147件、関連E2E11件＋戦闘UI6件、基地6条件/動画6本、協力作成・一覧・参加2条件、共通メニュー108画面、結果fixture20画面、安全領域8画面、武器行8条件が成功。独立Chat監査・通常merge・既存Worker公開はこれから。
+- 監査ZIP `dist-validation/base-decks/audit/swarm-front-base-uiux-2739754.zip`（40,927,421 bytes、955 source files、SHA256 `1c97d6c2fb6773a4c7e061eea4d7473980f761a7dd1cd38e74a3a793d34c642a`）。manifest/CRC/対象SHA照合済み。
+- 共有UIの貸出019で送信を完了し、返却済み。独立headless Chromeとローカル作業で進行。現時点で停止・監査合格・公開済みとは扱わない。
+
 
 [PR142](https://github.com/futsalife24-bot/swarm-front/pull/142)通常merge、公開ソース `65c0ed30201138e3db2811b3158db70af2293d6a`、Worker `24caf74a-9d6a-4289-ba76-1e294caf3e9d`。独立監査は必須0・任意1、追加製品修正なし。Windowsの指定検証・実通信動画4条件、本番main build/dry-run成功。配信26/26一致・health200、公開Windows ChromeはSW有効の844/640通常/reduced全4条件でpageerror/console error各0・画像確認済み。公開IABの追加目視だけは別タブの保存保護で未確認とし、UI014を返却。強制解放はせず、任意の再確認は本人が既存ゲーム画面を閉じた後。公開記録は[PR143](https://github.com/futsalife24-bot/swarm-front/pull/143)。[公開詳細](MENU-POLISH-RELEASE.md)。実非表示cleanup・実機タッチ・GPU長時間・全敵モデルは未実測。戦闘演出/PR137は保留。
 

@@ -1,0 +1,95 @@
+
+Running 11 tests using 1 worker
+
+(node:36604) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 e2e\front-expansion.spec.ts:10:1 › 全22種類の候補を実画面で保存し再読込する (4.8s)
+  ok  2 e2e\front-expansion.spec.ts:87:3 › 追加強化と融合3枚の収まり：横640 (12.6s)
+  ok  3 e2e\front-expansion.spec.ts:87:3 › 追加強化と融合3枚の収まり：横844 (3.9s)
+  ok  4 e2e\front.spec.ts:32:3 › 設定から保存して戻る・退出確認：横844 (9.6s)
+  ok  5 e2e\front.spec.ts:32:3 › 設定から保存して戻る・退出確認：横640 (13.6s)
+  ok  6 e2e\front.spec.ts:146:3 › 融合の光枠・攻略装備・個人候補：横844 (8.2s)
+  ok  7 e2e\front.spec.ts:146:3 › 融合の光枠・攻略装備・個人候補：横640 (5.4s)
+  x   8 e2e\front.spec.ts:291:3 › 横画面 1280：初期候補・3択・再開・旧版保護 (12.6s)
+(node:26348) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x   9 e2e\front.spec.ts:291:3 › 横画面 844：初期候補・3択・再開・旧版保護 (13.0s)
+(node:41360) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  10 e2e\front.spec.ts:291:3 › 横画面 640：初期候補・3択・再開・旧版保護 (12.2s)
+(node:45636) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 11 e2e\front.spec.ts:726:1 › 実ブラウザ2人：準備・共同選択・独立報酬・再読込 (21.3s)
+
+
+  1) e2e\front.spec.ts:291:3 › 横画面 1280：初期候補・3択・再開・旧版保護 ────────────────────────────────────────────
+
+    TimeoutError: locator.click: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '戻る', exact: true })
+
+
+      314 |       page.getByRole("heading", { name: "設定・操作" }),
+      315 |     ).toBeVisible();
+    > 316 |     await page.getByRole("button", { name: "戻る", exact: true }).click();
+          |                                                                 ^
+      317 |     const prep = page.locator(".front-prep");
+      318 |     expect(
+      319 |       await prep.evaluate((el) => el.scrollHeight <= el.clientHeight + 1),
+        at C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\e2e\front.spec.ts:316:65
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\front-横画面-1280：初期候補・3択・再開・旧版保護\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\front-横画面-1280：初期候補・3択・再開・旧版保護\error-context.md
+
+  2) e2e\front.spec.ts:291:3 › 横画面 844：初期候補・3択・再開・旧版保護 ─────────────────────────────────────────────
+
+    TimeoutError: locator.click: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '戻る', exact: true })
+
+
+      314 |       page.getByRole("heading", { name: "設定・操作" }),
+      315 |     ).toBeVisible();
+    > 316 |     await page.getByRole("button", { name: "戻る", exact: true }).click();
+          |                                                                 ^
+      317 |     const prep = page.locator(".front-prep");
+      318 |     expect(
+      319 |       await prep.evaluate((el) => el.scrollHeight <= el.clientHeight + 1),
+        at C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\e2e\front.spec.ts:316:65
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\front-横画面-844：初期候補・3択・再開・旧版保護\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\front-横画面-844：初期候補・3択・再開・旧版保護\error-context.md
+
+  3) e2e\front.spec.ts:291:3 › 横画面 640：初期候補・3択・再開・旧版保護 ─────────────────────────────────────────────
+
+    TimeoutError: locator.click: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '戻る', exact: true })
+
+
+      314 |       page.getByRole("heading", { name: "設定・操作" }),
+      315 |     ).toBeVisible();
+    > 316 |     await page.getByRole("button", { name: "戻る", exact: true }).click();
+          |                                                                 ^
+      317 |     const prep = page.locator(".front-prep");
+      318 |     expect(
+      319 |       await prep.evaluate((el) => el.scrollHeight <= el.clientHeight + 1),
+        at C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\e2e\front.spec.ts:316:65
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\front-横画面-640：初期候補・3択・再開・旧版保護\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\front-横画面-640：初期候補・3択・再開・旧版保護\error-context.md
+
+  3 failed
+    e2e\front.spec.ts:291:3 › 横画面 1280：初期候補・3択・再開・旧版保護 ─────────────────────────────────────────────
+    e2e\front.spec.ts:291:3 › 横画面 844：初期候補・3択・再開・旧版保護 ──────────────────────────────────────────────
+    e2e\front.spec.ts:291:3 › 横画面 640：初期候補・3択・再開・旧版保護 ──────────────────────────────────────────────
+  8 passed (2.1m)

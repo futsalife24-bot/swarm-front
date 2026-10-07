@@ -1224,10 +1224,20 @@ function dialog(title: string, content: string) {
   return d;
 }
 function confirmAction(title: string, content: string, action: () => void) {
-  const d = dialog(
-    title,
-    `${content}<button id="pt-confirm" class="primary">確定</button><button id="pt-cancel">キャンセル</button>`,
-  );
+  const d = dialog(title, content);
+  // 長い素材・報酬一覧の外に置き、短い横画面でも確認と取消を見失わない。
+  const cancel = d.querySelector<HTMLButtonElement>(".dialog-close")!;
+  cancel.id = "pt-cancel";
+  cancel.textContent = "キャンセル";
+  cancel.setAttribute("aria-label", "キャンセル");
+  const confirm = document.createElement("button");
+  confirm.id = "pt-confirm";
+  confirm.className = "primary";
+  confirm.textContent = "確定";
+  const actions = document.createElement("nav");
+  actions.className = "pt-confirm-actions";
+  cancel.before(actions);
+  actions.append(confirm, cancel);
   d.querySelector<HTMLButtonElement>("#pt-cancel")!.onclick = () => d.close();
   d.querySelector<HTMLButtonElement>("#pt-confirm")!.onclick = () => {
     d.close();

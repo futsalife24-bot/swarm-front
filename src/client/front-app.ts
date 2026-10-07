@@ -1,3 +1,4 @@
+import { openFrontBase } from "./front-base";
 import { FrontMineVisuals } from "./front-mine-visuals";
 import {
   createSquadEffects,
@@ -42,10 +43,8 @@ import { startWithSaveWriter } from "./save-writer";
 import {
   readFrontCampaign,
   readFrontLoadout,
-  saveFrontLoadout,
   queueFrontCampaignReward,
   recoverFrontCampaignRewards,
-  FRONT_CAMPAIGN_UNLOCKS,
 } from "./front-campaign";
 import { soldier } from "./progression-save";
 import { readFrontProgress, awardFrontProgress } from "./front-progress";
@@ -65,7 +64,6 @@ import {
 } from "../shared/front-run";
 import {
   FRONT_UPGRADE_CATALOG,
-  FRONT_BASE_IDS,
   FRONT_FUSION_IDS,
   isFrontFusion,
   FRONT_FAMILY_CARDS,
@@ -230,7 +228,7 @@ function home() {
   $("home-tutorial").onclick = () =>
     menuDialog(
       "操作と作戦",
-      `<p>左側で移動、右側で視点を操作。射撃・装填・回避を組み合わせて敵を倒します。ボタン配置とジャイロは「設定・操作」で変更できます。</p><p>パソコン：移動 WASD・射撃 クリック・装填 R・切替 Q・回避 Space・ジャンプ F・蘇生 E。</p><p>経験値を集めて強化を選択。取得は最大6種類、各能力を繰り返し育てられます。進化条件は一時停止の強化状況で確認できます。</p>`,
+      `<p>左側で移動、右側で視点を操作。射撃・装填・回避を組み合わせて敵を倒します。ボタン配置とジャイロは「設定・操作」で変更できます。</p><p>パソコン：移動 WASD・射撃 クリック・装填 R・切替 Q・回避 Space・ジャンプ F・蘇生 E。</p><p>基地では強化の画像横の「?」から効果と融合素材を確認し、候補を6種以上選びます。デッキはこの端末に3枠保存でき、「出撃にセット」で次のソロ・協力へ反映します。</p><p>作戦中の強化は最大6枠。素材2種をそれぞれ最大段階まで育てると融合が抽選候補に登場し、2枠が1枠にまとまります。融合した強化も3段階まで育成できます。一時停止の強化状況でも素材と段階を確認できます。</p>`,
       home,
     );
   $("ui").querySelector(".fine")!.textContent =
@@ -313,55 +311,9 @@ function menuSettings(back: () => void) {
   settings.open($("ui"), back);
 }
 function base(back: () => void = home) {
-  const progress = readFrontProgress(progressStorage).progress,
-    campaign = readFrontCampaign(progressStorage);
-  frontLoadout = readFrontLoadout(progressStorage);
-  menuDialog(
-    "基地",
-    `<p>${progress.wins}勝 · ${progress.credits}功績 · 候補 ${frontLoadout.pool.length}種 <button id="front-save-pool">候補を保存</button></p><p id="front-pool-status">${esc(frontLoadout.error || "出撃に使う候補を6種類以上選択。初期候補は各系統1つ。ソロ・協力で共通の自分用設定です。")}</p><div class="front-initial">${Object.entries(
-      FRONT_FAMILY_CARDS,
-    )
-      .map(
-        ([family, cards], i) =>
-          `<label>${familyNames[family as keyof typeof familyNames]}<select data-initial="${family}" aria-label="${familyNames[family as keyof typeof familyNames]}">${cards
-            .filter((card) => campaign.initialUnlocked.includes(card))
-            .map(
-              (card) =>
-                `<option value="${card}" ${frontLoadout.initialCards[i] === card ? "selected" : ""}>${FRONT_UPGRADE_CATALOG[card].name}</option>`,
-            )
-            .join("")}</select></label>`,
-      )
-      .join(
-        "",
-      )}</div><div class="front-pool">${FRONT_BASE_IDS.map((card) => `<label><input type="checkbox" data-pool="${card}" ${frontLoadout.pool.includes(card) ? "checked" : ""} ${campaign.unlocked.includes(card) ? "" : "disabled"}>${FRONT_UPGRADE_CATALOG[card].name}${campaign.unlocked.includes(card) ? "" : `<small>攻略${FRONT_CAMPAIGN_UNLOCKS.find((rule) => rule.ids.includes(card))?.stage}クリア</small>`}</label>`).join("")}</div><p>素材2種を最大まで育てると融合が候補に登場。融合で1枠が空き、1段階からさらに3段階まで育成できます。</p>`,
-    back,
-  );
-  $("front-save-pool").onclick = () => {
-    try {
-      const initialCards = [
-        ...$("ui").querySelectorAll<HTMLSelectElement>("[data-initial]"),
-      ].map((el) => el.value as FrontUpgradeId);
-      const pool = [
-        ...new Set(
-          [...$("ui").querySelectorAll<HTMLInputElement>("[data-pool]:checked")]
-            .map((el) => el.dataset.pool as FrontUpgradeId)
-            .concat(initialCards),
-        ),
-      ];
-      saveFrontLoadout(progressStorage, { pool, initialCards });
-      frontLoadout = readFrontLoadout(progressStorage);
-      $("front-pool-status").textContent =
-        "候補を保存しました。次の出撃から反映します。";
-      menuTrace($("front-pool-status"), true);
-      $("ui")
-        .querySelectorAll<HTMLInputElement>("[data-pool]")
-        .forEach((el) => {
-          el.checked = pool.includes(el.dataset.pool as FrontUpgradeId);
-        });
-    } catch (error) {
-      $("front-pool-status").textContent = (error as Error).message;
-    }
-  };
+  document.body.classList.add("playtest");
+  document.body.dataset.screen = "prep";
+  openFrontBase($("ui"), progressStorage, back);
 }
 const modeDetails: Record<FrontMode, string> = {
   survival:
@@ -612,6 +564,7 @@ async function mountHumanCheck() {
   }
 }
 function rooms() {
+  document.body.dataset.screen = "rooms";
   document.body.classList.remove("playtest");
   screen = "rooms";
   $("ui").innerHTML = roomBrowserMarkup(endpoint(), status).replace(
@@ -765,6 +718,8 @@ function connectRoom(code: string, target: string, token = "") {
 function paintLobby() {
   if (!network || screen !== "lobby") return;
   const net = network;
+  document.body.classList.remove("playtest");
+  document.body.dataset.screen = "lobby";
   $("ui").innerHTML =
     `<section class="panel front-lobby"><header><h1>${modeNames[net.mode]} · 協力部隊</h1><nav><button id="front-edit-loadout">装備変更</button><button id="front-leave">部屋を退出</button></nav></header><p>部屋ID <b>${esc(net.roomId || "接続中")}</b> <button id="front-copy">招待をコピー</button>${net.mode === "survival" ? " · 出撃から60分で帰還・保存猶予2分" : ""}</p><div class="front-members">${net.members
       .filter((m) => m.connected)
@@ -1034,7 +989,7 @@ function paintOverlay() {
     ui.innerHTML =
       '<div class="rebuild-resume-cue" role="status">部隊の選択を待っています<span id="front-countdown"></span></div>';
   } else if (info.phase === "victory" || info.phase === "defeat") {
-    ui.innerHTML = `<section class="pause-card rebuild-panel"><header><h1>${info.phase === "victory" ? "作戦成功" : "任務終了"}</h1><button id="front-leave" class="primary">タイトルへ</button></header><p>${esc(world.reason)}</p><div class="rebuild-result"><b>${formatRebuildTime(world.time)}</b><b>取得 ${info.picks}${info.growthVersion === 3 ? "回" : `/${info.maxPicks}`}</b><b>最大 ${info.maxChain}連鎖</b></div><p>${(info.growthVersion === 3 ? FRONT_FUSION_IDS.filter((f) => info!.levels[f] > 0).map((f) => FRONT_UPGRADE_CATALOG[f].name) : info.evolved.map((f) => FRONT_EVOLUTIONS[f].name)).join("・") || "未進化"}</p><p>${esc(rewardText)}</p>${rewardError ? '<button id="front-retry-save">保存を再試行</button>' : ""}</section>`;
+    ui.innerHTML = `<section class="pause-card rebuild-panel"><header><h1>${info.phase === "victory" ? "作戦成功" : "任務終了"}</h1><button id="front-leave" class="primary">タイトルへ</button></header><p>${esc(world.reason)}</p><div class="rebuild-result"><b>${formatRebuildTime(world.time)}</b><b>取得 ${info.picks}${info.growthVersion === 3 ? "回" : `/${info.maxPicks}`}</b><b>最大 ${info.maxChain}連鎖</b></div><p>${(info.growthVersion === 3 ? FRONT_FUSION_IDS.filter((f) => info!.levels[f] > 0).map((f) => FRONT_UPGRADE_CATALOG[f].name) : info.evolved.map((f) => FRONT_EVOLUTIONS[f].name)).join("・") || (info.growthVersion === 3 ? "融合なし" : "未進化")}</p><p>${esc(rewardText)}</p>${rewardError ? '<button id="front-retry-save">保存を再試行</button>' : ""}</section>`;
     $("front-leave").onclick = leave;
     document
       .getElementById("front-retry-save")

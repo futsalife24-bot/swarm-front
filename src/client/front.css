@@ -3,6 +3,11 @@
   max-height: 100%;
   overflow: hidden;
 }
+/* 基地・協力・戦闘中のメニューも、タイトルと同じ安全領域を保つ。 */
+body.front-game #ui {
+  padding-left: max(12px, var(--safe-left));
+  padding-right: max(12px, var(--safe-right));
+}
 .front-game .front-settings-grid {
   flex-shrink: 1;
   display: grid;
@@ -128,7 +133,8 @@ body.front-game #ui .front-initial label {
 }
 @media (max-height: 450px) {
   .front-game[data-screen="title"] #ui {
-    padding: 10px 16px;
+    padding: max(10px, var(--safe-top)) max(16px, var(--safe-right))
+      max(10px, var(--safe-bottom)) max(16px, var(--safe-left));
   }
   .front-game .title-logo {
     max-height: 100px;
