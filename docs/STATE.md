@@ -1,5 +1,10 @@
-# 現在地: PR146のP2修正版8d6f1d6を同じ通常Chatへ送信済み、確定再監査待ち（2026-10-07）
+# 現在地: PR146の独立再監査合格、通常merge・既存Worker公開へ（2026-10-07）
 
+17:57 JST、[同じ通常Chat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)の確定回答を回収。対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2`、P0/P1/P2/任意すべて0、初回P2-01は解消。[回答全文](evidence/random-opening-20261007/revision/audit-final.txt)。監査側はソースの直接実行と最小Cloudflareモックで混在/再接続/進行中保護を独立確認。npm ci制約によるVitest/実Workerの独立再実行未達は提出ログ検証と区別。
+
+UI046返却済み、当該監査回答の監視は終了。対象以後は文書/証拠のみで製品不変。PR146をReady→通常merge→main同期後build/production dry-run→既存Worker公開→配信/health/公開UI→公開記録main反映へ進める。公開後UIは新規貸出約5分を要求。現時点は未統合・未公開。
+
+## 今回の修正・監査の経緯
 17:44 JST、下記の具体的ZIP/既存継続承認を照合した再審査後、UI041で[同じ独立監査Chat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)へ添付送信。添付名と応答開始を確認し、UI041を返却。送信の阻害は解消し、現在は外部監査の確定判定待ち。対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2`、以後は記録だけで製品変更なし。[送信証拠](evidence/random-opening-20261007/revision/audit-sent.png)。新規UI貸出で確定回答を回収し、必須0後に通常merge→main build/dry-run→既存Worker公開→配信/公開UI→記録main反映へ継続する。
 
 実装修正 `c59247b142d81570a7c94c6c90e31752bab0d81f` 後の本番build/production dry-run・Windows Chrome実2人協力（準備/共同選択/個別強化/報酬/再読込）が成功。型/front83/実Worker6件も成功。[PR146](https://github.com/futsalife24-bot/swarm-front/pull/146)は未統合・未公開。UI039返却済み。

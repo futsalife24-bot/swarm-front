@@ -34,6 +34,12 @@
 - 公開確認用スクリプトのローカル844/640の2条件も成功（補強6種だけを保存→再読込→候補内3択→取得反映・page/console error0）。これは通信修正前のソロ確認。同Chat再監査を続ける。
 - 17:44 JST、対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2` の修正版ZIPを同じ通常Chatへ送信し応答開始を確認。初回との差分、424ファイル＋manifest、10,981,438 bytes、SHA256 `da9c4e0ce92a516917adf9f9f0a7645252b60c3d56dae558aae2bad477f2ed0c`。送信の自動審査は具体資料と既存承認の照合で解消。確定再監査待ち、未統合・未公開。
 
+## 独立再監査の確定判定
+
+17:57 JST、同じ通常Chatの対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2` は**合格**。P0/P1/P2/任意すべて0、初回P2-01は解消。[回答全文](evidence/random-opening-20261007/revision/audit-final.txt)。以後は文書/証拠のみで製品不変。UI046返却済み。
+
+監査側は424entry hash・patchの基点への適用結果・GitHubの主要blobを独立照合。FrontNetworkを直接実行し旧Welcomeのtoken保持/equip未送信/切断/後着無視を確認。Room.webSocketMessageのCloudflare部分だけを最小モックし、旧equip→新Hello復帰、装備済み旧再接続→start停止、進行中offer/levels保持を実行した。旧initialCards残存の抽選と旧固定規則、協力画像も確認。監査環境のnpm ciタイムアウトにより提出Vitest/実Worker/Playwright一式の独立再実行は未達であり、Windows提出ログの成功照合と区別する。
+
 ## 限界
 
 UIUXはPR144で改装版・従来版へ適用した同一基準を継承し、今回影響する基地・開幕3択・協力・保存操作を再確認する。PR144の全108画面検査は今回再実行したものとは区別する。実機タッチ・GPU長時間・全敵モデル・全ミッション通過は未確認。モデルID・推論設定は未確認。
