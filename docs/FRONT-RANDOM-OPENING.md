@@ -32,6 +32,7 @@
 - 修正commit `c59247b142d81570a7c94c6c90e31752bab0d81f` 後の本番buildとproduction dry-runも成功。[修正後の証拠](evidence/random-opening-20261007/revision/)。
 - 同commit後、UI039でWindows Chromeの実2人協力も成功。準備・共同選択・各自の強化・独立報酬・再読込を確認し、ブラウザ終了/貸出返却。最終報酬はローカルWorkerの検証用fixtureで発火しており、全作戦を通した試験ではない。
 - 公開確認用スクリプトのローカル844/640の2条件も成功（補強6種だけを保存→再読込→候補内3択→取得反映・page/console error0）。これは通信修正前のソロ確認。同Chat再監査を続ける。
+- 17:44 JST、対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2` の修正版ZIPを同じ通常Chatへ送信し応答開始を確認。初回との差分、424ファイル＋manifest、10,981,438 bytes、SHA256 `da9c4e0ce92a516917adf9f9f0a7645252b60c3d56dae558aae2bad477f2ed0c`。送信の自動審査は具体資料と既存承認の照合で解消。確定再監査待ち、未統合・未公開。
 
 ## 限界
 
