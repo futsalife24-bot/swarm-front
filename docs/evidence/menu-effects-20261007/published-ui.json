@@ -1,0 +1,23 @@
+{
+  "source": "7702d758c8fd86a26e2892d32156ff95b3d3026e",
+  "workerVersion": "ff0ec103-ec71-4fcd-8501-e0fe2dde6915",
+  "browser": "iab",
+  "frontScript": "/assets/front-CQo4xNtJ.js",
+  "frontPrepTerrain": 1,
+  "frontDraftSuccessCue": 0,
+  "frontGearHorizontalOverflow": [],
+  "newHistoryMarker": 1,
+  "frontGuideAndReturn": true,
+  "legacyRouteAndReturn": true,
+  "soundActualPlayingAndLightVisible": true,
+  "soundActualPauseAndLightHidden": true,
+  "soundClose": true,
+  "legacyTutorialTabSwitchAndClose": true,
+  "consoleErrors": [],
+  "limits": [
+    "Real hidden visibility cleanup not measured",
+    "Actual touch/GPU long duration/all enemy visual variants not measured",
+    "No production squad join or weekly claim; real local Worker was tested"
+  ],
+  "screenshotNote": "One capture while playing failed; actual playback/pause and light were checked by DOM. Published prep/guide/paused sound were captured."
+}
