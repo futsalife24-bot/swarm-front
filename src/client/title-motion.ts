@@ -1,5 +1,22 @@
 /** Title entry only: presentation observes the existing actions, never delays them. */
 const mounted = new WeakMap<HTMLElement, () => void>();
+const pending = new WeakMap<HTMLElement, number>();
+
+/** Retain the decision guard until the actual action settles, not a motion timer. */
+export function trackTitleAction<T>(root: HTMLElement, action: () => T): T {
+  pending.set(root, (pending.get(root) ?? 0) + 1);
+  const done = () =>
+    pending.set(root, Math.max(0, (pending.get(root) ?? 1) - 1));
+  try {
+    const result = action();
+    if (result instanceof Promise) return result.finally(done) as T;
+    done();
+    return result;
+  } catch (error) {
+    done();
+    throw error;
+  }
+}
 
 export function mountTitleMotion(root: HTMLElement) {
   const existing = mounted.get(root);
@@ -15,16 +32,24 @@ export function mountTitleMotion(root: HTMLElement) {
   let expiry: ReturnType<typeof setTimeout> | undefined;
   let accent: HTMLElement | null = null;
   let lastActivated: HTMLButtonElement | null = null;
+  const wrapped = new WeakSet<HTMLButtonElement>();
+  const wrapActions = () => {
+    root.querySelectorAll<HTMLButtonElement>("button").forEach((button) => {
+      const action = button.onclick;
+      if (!action || wrapped.has(button)) return;
+      wrapped.add(button);
+      button.onclick = function (event) {
+        return trackTitleAction(root, () => action.call(this, event));
+      };
+    });
+  };
   const isHome = () => !!root.querySelector(".home-command");
   const buttonFor = (event: Event) => {
-    const button = (event.target as Element | null)?.closest<HTMLButtonElement>(
-      "button",
-    );
-    return isHome() &&
-      button &&
-      root.contains(button) &&
-      !button.disabled &&
-      !document.querySelector("dialog[open]")
+    const button =
+      event.target instanceof Element
+        ? event.target.closest<HTMLButtonElement>("button")
+        : null;
+    return isHome() && button && root.contains(button) && !button.disabled
       ? button
       : null;
   };
@@ -65,6 +90,7 @@ export function mountTitleMotion(root: HTMLElement) {
       { opacity: 1, transform: "translateY(0)" },
     ]);
   const refresh = () => {
+    wrapActions();
     if (!departed) return;
     cancel();
     departed = false;
@@ -77,6 +103,7 @@ export function mountTitleMotion(root: HTMLElement) {
     keyboardReturn = false;
   };
   mounted.set(root, refresh);
+  wrapActions();
   root.addEventListener("pointerdown", (event) => {
     const button = buttonFor(event);
     if (!button || event.button !== 0) return;
@@ -84,7 +111,9 @@ export function mountTitleMotion(root: HTMLElement) {
     pressed = button;
     button.classList.add("title-pressed");
   });
-  root.addEventListener("focusout", release);
+  root.addEventListener("focusout", (event) => {
+    if (event.target === pressed) release();
+  });
   window.addEventListener("pointerup", release);
   window.addEventListener("pointercancel", release);
   window.addEventListener("blur", () => {
@@ -130,7 +159,11 @@ export function mountTitleMotion(root: HTMLElement) {
     (event) => {
       const button = buttonFor(event);
       if (!button) return;
-      if (event.detail > 1 && button === lastActivated) {
+      if (
+        (pending.get(root) ?? 0) > 0 ||
+        document.querySelector("dialog.menu-dialog,dialog[open]") ||
+        (event.detail > 1 && button === lastActivated)
+      ) {
         event.preventDefault();
         event.stopImmediatePropagation();
         return;

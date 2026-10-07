@@ -21,7 +21,7 @@ import {
 } from "./resource-frame";
 import { menuSamples } from "./menu-samples";
 import { homeMarkup } from "./home-screen";
-import { mountTitleMotion } from "./title-motion";
+import { mountTitleMotion, trackTitleAction } from "./title-motion";
 import { openTutorialGuide } from "./tutorial-guide";
 import { canInstallApp, installApp } from "./app-install";
 import { CHANGELOG } from "./changelog";
@@ -1191,7 +1191,7 @@ function bind(id: string, fn: () => void) {
   if (e)
     e.onclick = () => {
       try {
-        fn();
+        return fn();
       } catch (error) {
         message((error as Error).message);
       }
@@ -1538,7 +1538,7 @@ function showHome(initialized: boolean) {
     );
     bind("pt-daily-defense", () =>
       enter(() => {
-        void openDailyDefense();
+        return trackTitleAction(ui, openDailyDefense);
       }),
     );
     bind("pt-weekly-missions", weeklyMissionsUI);

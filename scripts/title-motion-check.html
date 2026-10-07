@@ -13,7 +13,7 @@ let calls=0;
 const results=[];
 const assert=(condition,message)=>{if(!condition)throw Error(message)};
 const frame=()=>new Promise(requestAnimationFrame);
-function home(action){document.body.dataset.screen='title';root.innerHTML='<section class="title">タイトル</section><section class="home-command"><div class="title-actions"><button id="action">出撃準備</button></div></section>';mountTitleMotion(root);const button=root.querySelector('button');button.onclick=()=>{calls++;action?.()};return button}
+function home(action){document.body.dataset.screen='title';root.innerHTML='<section class="title">タイトル</section><section class="home-command"><div class="title-actions"><button id="action">出撃準備</button><button id="other">別の入口</button></div></section>';const button=root.querySelector('button');button.onclick=()=>{calls++;return action?.()};root.querySelector('#other').onclick=()=>calls++;mountTitleMotion(root);return button}
 const next=()=>{document.body.dataset.screen='prep';root.innerHTML='<section class="panel"><button id="back">戻る</button><b>次画面</b></section>'};
 const settled=async()=>{await new Promise(r=>setTimeout(r,250))};
 document.querySelector('#run').onclick=async()=>{
@@ -26,6 +26,7 @@ window.dispatchEvent(new PointerEvent('pointercancel',{bubbles:true,pointerType:
 assert(!button.classList.contains('title-pressed'),'タッチ取消で解除');results.push('タッチ押し込み/取消');
 button.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true,button:0}));window.dispatchEvent(new Event('blur'));
 assert(!button.classList.contains('title-pressed'),'フォーカス喪失で解除');results.push('フォーカス喪失');
+const other=root.querySelector('#other');button.focus();other.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true,button:0}));other.focus();assert(other.classList.contains('title-pressed'),'前ボタンのfocusoutで次ボタンを解除しない');window.dispatchEvent(new PointerEvent('pointerup'));assert(!other.classList.contains('title-pressed'),'次ボタンもpointerupで解除');results.push('別ボタンへのフォーカス移動中の押し込み');
 button.click();assert(root.querySelector('.panel'),'次画面はクリックの同じ処理内で操作可能');await frame();
 assert(root.querySelector('.panel').getAnimations().length===1,'入場演出');
 assert(document.querySelectorAll('.title-motion-accent').length===1,'アクセントは1本');
@@ -40,6 +41,9 @@ assert(!fresh.defaultPrevented,'解除後の新しい入力');results.push('長�
 button=home();const before=calls;button.dispatchEvent(new MouseEvent('click',{detail:1,bubbles:true,cancelable:true}));button.dispatchEvent(new MouseEvent('click',{detail:2,bubbles:true,cancelable:true}));
 assert(calls===before+1,'同じボタンへの二重決定抑止');results.push('二重決定');await new Promise(r=>setTimeout(r,950));next();await frame();
 assert(root.querySelector('.panel').getAnimations().length===0,'失敗後の監視が後続画面に残らない');results.push('画面変化なし/失敗後の監視終了');
+let finish;button=home(()=>new Promise(resolve=>finish=resolve));const asyncBefore=calls;button.click();window.dispatchEvent(new KeyboardEvent('keyup',{key:'Enter',bubbles:true}));button.click();root.querySelector('#other').click();await new Promise(r=>setTimeout(r,950));root.querySelector('#other').click();assert(calls===asyncBefore+1,'keyup後や別ボタンも非同期処理中は決定抑止、900ms後も維持');finish();await frame();root.querySelector('#other').click();assert(calls===asyncBefore+2,'成功後は再決定可能');results.push('非同期処理中の全入口抑止/成功後の解除');
+button=home(()=>Promise.reject(Error('fixture failure')));button.onclick=((original)=>function(e){return original.call(this,e)?.catch(()=>{})})(button.onclick);button.click();await frame();const failedBefore=calls;root.querySelector('#other').click();assert(calls===failedBefore+1,'失敗後は再決定可能');results.push('非同期失敗後の解除');
+const closed=document.createElement('dialog');closed.className='menu-dialog';button=home(()=>document.body.append(closed));const dialogBefore=calls;button.click();await frame();root.querySelector('#other').click();assert(calls===dialogBefore+1,'fullscreen待ちのclosed dialog中は後続決定抑止');closed.showModal();await frame();closed.close();closed.remove();root.querySelector('#other').click();assert(calls===dialogBefore+2,'dialog取消後は再決定可能');results.push('closed dialog待機/取消後の解除');
 button=home(next);await settled();reduced.matches=true;reduced.dispatchEvent(new Event('change'));button.click();await frame();
 assert(root.querySelector('.panel').getAnimations().length===0&&!document.querySelector('.title-motion-accent'),'動きを減らす設定');results.push('動きを減らす設定');
 reduced.matches=false;reduced.dispatchEvent(new Event('change'));button=home(next);await settled();mountTitleMotion(root);mountTitleMotion(root);button.click();await frame();
