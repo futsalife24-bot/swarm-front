@@ -1,0 +1,35 @@
+
+> swarm-front@0.1.0 test:front
+> vitest run --config vitest.front.config.ts
+
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+ ❯ tests/front-upgrades.test.ts (4 tests | 1 failed) 36342ms
+   ❯ 更新前の改装版互換の強化 (4)
+     × 7取得までの全構成で3択と保証枠が成立し、上限・取得済みを除く 36174ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/front-upgrades.test.ts > 更新前の改装版互換の強化 > 7取得までの全構成で3択と保証枠が成立し、上限・取得済みを除く
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/front-upgrades.test.ts:104:3
+    102|     expect(state.picks).toBe(7);
+    103|   });
+    104|   it("7取得までの全構成で3択と保証枠が成立し、上限・取得済みを除く", () => {
+       |   ^
+    105|     const initial = createFrontUpgradeState("enumerate", 1);
+    106|     const seen = new Set<string>();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 11 passed (12)
+      Tests  1 failed | 82 passed (83)
+   Start at  06:14:26
+   Duration  155.36s (tests 53%, import 33%, transform 14%)
+
+     Import  66 modules were evaluated 85 times · 44.20s total, 33% of tracked time
+             ~9.88s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation

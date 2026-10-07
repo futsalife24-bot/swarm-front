@@ -1,3 +1,9 @@
+# 現在地: 基地の☑だけを切替領域へ修正、Windows6条件成功・独立監査準備（2026-10-08）
+
+branch `codex/base-checkbox-hitarea-20261008`、base `42890be31a25acaafc7e260ce04bdfe8ce19dfca`。本人が承認した枠デザインを維持し、チェック枠だけを独立した切替buttonへ分離。アイコン/名前/余白は説明表示のみ。Chromeの枠外タップ補正も元のpointer座標で防ぐ。明示保存・融合・戻る確認・通信は維持。
+
+Windows型/build/production dry-run、関連83件（時間切れの1ファイルは専用プロセス終了後に元の条件で4件再試験成功）、通常/reduced×844/640/1220の6条件が成功。全条件console/page error0、選択変更/説明閲覧/保存/融合/戻るを確認。[詳細・初回失敗/復旧](BASE-CHECKBOX-HITAREA.md)。iabの初回attach/CDP timeoutは専用プロセス終了後に復旧。新規通常Chatへ今回の固定SHA資料を送り、独立監査合格後に通常merge・既存Worker公開を行う。現時点で未merge/未公開。実スマホ・読み上げ実機・長期負荷未確認。モデルID/推論設定未確認。
+
 # 現在地: PR150を通常merge・基地UI改善を公開、配信26件/公開6条件成功（2026-10-08）
 
 [PR150](https://github.com/futsalife24-bot/swarm-front/pull/150)通常merge、公開ソースmain `e4315c6edc9d555b53095bc5335142d654e35edf`、Worker Version `30413495-bb4a-4e29-92ba-59d3c37b76e0`。基地の強化を左端の☑型チェック枠と明るい背景/枠で表示。「？」撤去、ホバー/フォーカス/選択で右側説明を更新。戻る確認は「編集を続ける／変更を破棄して戻る」、Esc競合も修正。保存形式・通信・開幕ランダム3択・武器行は維持。日本語Player-Noteをmerge本文へ保持。[公開版/front](https://swarm-front.melosalife-24.workers.dev/front)。

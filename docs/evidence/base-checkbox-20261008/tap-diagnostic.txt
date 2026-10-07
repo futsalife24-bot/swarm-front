@@ -1,0 +1,78 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"checkBox":{"x":188.390625,"y":165,"width":20,"height":20},"events":[{"type":"pointerdown","x":198.390625,"y":161,"target":"<span class=\"base-checkbox\" aria-hidden=\"true\">✓</span>"},{"type":"touchstart","x":198.390625,"y":161,"target":"<span class=\"base-checkbox\" aria-hidden=\"true\">✓</span>"},{"type":"pointerup","x":198.390625,"y":161,"target":"<span class=\"base-checkbox\" aria-hidden=\"true\">✓</span>"},{"type":"click","x":199,"y":167,"target":"<span class=\"base-checkbox\" aria-hidden=\"true\">✓</span>"}]}
++ actual - expected
+
+  [
+    [
+      'blast-core',
+      'true'
+    ],
+    [
+      'fuse',
++     'false'
+-     'true'
+    ],
+    [
+      'compressed-charge',
+      'true'
+    ],
+
+    at file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/scripts/check-front-base.mjs:115:14 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [
+    [ 'blast-core', 'true' ],
+    [ 'fuse', 'false' ],
+    [ 'compressed-charge', 'true' ],
+    [ 'armor-piercer', 'true' ],
+    [ 'ricochet', 'true' ],
+    [ 'line-shot', 'true' ],
+    [ 'afterimage-mine', 'true' ],
+    [ 'tactical-reload', 'true' ],
+    [ 'interceptor', 'true' ],
+    [ 'armor', 'true' ],
+    [ 'reload', 'true' ],
+    [ 'magazine', 'true' ],
+    [ 'magnet', 'true' ],
+    [ 'blast-radius', 'true' ],
+    [ 'opening-shot', 'true' ],
+    [ 'emergency-armor', 'true' ],
+    [ 'life-drain', 'false' ],
+    [ 'power-cell', 'false' ],
+    [ 'reserve-rounds', 'false' ],
+    [ 'boost-coil', 'false' ],
+    [ 'recovery-pack', 'false' ],
+    [ 'burst-cell', 'false' ]
+  ],
+  expected: [
+    [ 'blast-core', 'true' ],
+    [ 'fuse', 'true' ],
+    [ 'compressed-charge', 'true' ],
+    [ 'armor-piercer', 'true' ],
+    [ 'ricochet', 'true' ],
+    [ 'line-shot', 'true' ],
+    [ 'afterimage-mine', 'true' ],
+    [ 'tactical-reload', 'true' ],
+    [ 'interceptor', 'true' ],
+    [ 'armor', 'true' ],
+    [ 'reload', 'true' ],
+    [ 'magazine', 'true' ],
+    [ 'magnet', 'true' ],
+    [ 'blast-radius', 'true' ],
+    [ 'opening-shot', 'true' ],
+    [ 'emergency-armor', 'true' ],
+    [ 'life-drain', 'false' ],
+    [ 'power-cell', 'false' ],
+    [ 'reserve-rounds', 'false' ],
+    [ 'boost-coil', 'false' ],
+    [ 'recovery-pack', 'false' ],
+    [ 'burst-cell', 'false' ]
+  ],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

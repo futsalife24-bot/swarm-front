@@ -82,6 +82,63 @@ try {
       const initialStorage = await p.evaluate(() =>
         localStorage.getItem("swarm-front-upgrade-loadout-v1"),
       );
+      const selection = () =>
+        p
+          .locator("[data-pool]")
+          .evaluateAll((es) =>
+            es.map((e) => [e.dataset.pool, e.getAttribute("aria-checked")]),
+          );
+      const beforeInspect = await selection();
+      // アイコン・名前・系統・余白は閲覧だけ。チェックの上下にも切替領域を広げない。
+      for (const selector of [
+        '[data-inspect="fuse"] > :is(img,.front-atlas-icon)',
+        '[data-inspect="fuse"] strong',
+        '[data-inspect="fuse"] small',
+      ]) {
+        await p.locator(selector).tap();
+        assert.match(await p.locator("#base-detail-name").innerText(), /導火/);
+        assert.deepEqual(await selection(), beforeInspect);
+      }
+      const inspectBox = await p.locator('[data-inspect="fuse"]').boundingBox();
+      await p.touchscreen.tap(
+        inspectBox.x + inspectBox.width - 2,
+        inspectBox.y + inspectBox.height - 2,
+      );
+      const checkBox = await p.locator('[data-pool="fuse"]').boundingBox();
+      assert.equal(checkBox.width, 20);
+      assert.equal(checkBox.height, 20);
+      await p.touchscreen.tap(checkBox.x + checkBox.width / 2, checkBox.y - 4);
+      assert.deepEqual(
+        await selection(),
+        beforeInspect,
+        "チェック枠の上の余白は閲覧のみ",
+      );
+      await p.touchscreen.tap(
+        checkBox.x + checkBox.width / 2,
+        checkBox.y + checkBox.height + 4,
+      );
+      await p.locator('[data-inspect="fuse"]').focus();
+      await p.keyboard.press("Space");
+      await p.keyboard.press("Enter");
+      assert.deepEqual(await selection(), beforeInspect);
+      assert.equal(
+        await p.evaluate(() =>
+          localStorage.getItem("swarm-front-upgrade-loadout-v1"),
+        ),
+        initialStorage,
+      );
+      await p.locator("#base-back").tap();
+      await p.screenshot({
+        path: `${out}/inspect-return-${width}-${reducedMotion}.png`,
+      });
+      assert.equal(
+        await p.locator(".base-confirm").count(),
+        0,
+        String(await p.locator("#front-pool-status").allTextContents()),
+      );
+      await p.locator("#open-armory").waitFor();
+      assert.equal(await p.locator(".base-confirm").count(), 0);
+      await p.locator("#open-armory").tap();
       await p.locator('[data-pool="fuse"]').focus();
       assert.match(await p.locator("#base-detail-name").innerText(), /導火/);
       assert.equal(
@@ -89,6 +146,11 @@ try {
         "true",
       );
       await p.keyboard.press("Space");
+      assert.equal(
+        await p.locator('[data-pool="fuse"]').getAttribute("aria-checked"),
+        "false",
+      );
+      await p.locator('[data-inspect="fuse"] strong').tap();
       assert.equal(
         await p.locator('[data-pool="fuse"]').getAttribute("aria-checked"),
         "false",
@@ -246,7 +308,10 @@ try {
       const checkboxes = await p.locator(".base-checkbox").evaluateAll((es) =>
         es.map((e) => {
           const b = e.getBoundingClientRect(),
-            icon = e.nextElementSibling.getBoundingClientRect();
+            icon = e
+              .closest(".base-tile")
+              .querySelector(".base-tile-pick > :is(img,.front-atlas-icon)")
+              .getBoundingClientRect();
           return {
             width: b.width,
             height: b.height,
