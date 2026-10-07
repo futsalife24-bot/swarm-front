@@ -29,6 +29,6 @@
 
 `scripts/check-menu-effects-network.mjs` は既存ローカルWorkerに実接続し2人部隊の準備完了/再準備、週間150コイン受取・重複受取不可・所持表示を成功、pageerror0。クラウド要求は実WorkerへのHTTP転送で、応答を捏造しない。初回のready待機や固定850msの演出終了断定は、通信の再準備/描画タイミングに対して脆かったため、実際の状態成立と演出終了を待つ確認へ修正。最終ソースを固定して再成功。
 
-固定fixtureはローカルの独立ブラウザだけで使用し、本番データへ書かない。証拠は [docs/evidence/menu-effects-20261007](evidence/menu-effects-20261007)。本番公開・独立監査は後続。実機タッチ/GPU、長時間負荷、全敵モデルの演出見え方は未実測。
+固定fixtureはローカルの独立ブラウザだけで使用し、本番データへ書かない。証拠は [docs/evidence/menu-effects-20261007](evidence/menu-effects-20261007)。本番buildとWorker dry-run成功。ビルド済み改装版のガイド表示をアプリ内ブラウザで確認、console error0。本番公開・独立監査は後続。実機タッチ/GPU、長時間負荷、全敵モデルの演出見え方は未実測。
 
 作業場所: `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a`。GitHub: https://github.com/futsalife24-bot/swarm-front 。base `800410d501fd5ac3610e19b6087976088cbca1d8`、branch `codex/menu-effects-20261007`。使用モデルID・推論設定は未確認。
