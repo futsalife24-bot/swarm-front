@@ -172,12 +172,13 @@ export class FrontNetwork {
         equipmentCache: 1,
         frontGrowth: 3,
         frontCatalog: 2,
+        frontOpening: 2,
         name: this.playerName,
         ...(this.token ? { token: this.token } : {}),
       });
     };
     ws.onmessage = (e) => {
-      if (this.ws !== ws) return;
+      if (this.closed || this.ws !== ws) return;
       this.last = Date.now();
       let m;
       try {
@@ -252,6 +253,16 @@ export class FrontNetwork {
         this.rememberSession(
           Number.isFinite(m.expiresAt) ? m.expiresAt : Date.now() + 3600000,
         );
+        if (m.frontOpening !== 2) {
+          // 古いWorkerへ新形式を送らず、復帰トークンを保持して更新を案内する。
+          this.closed = true;
+          ws.close();
+          this.onStatus(
+            "通信先の強化ルールが旧版です。少し待って画面を再読み込みしてください",
+            true,
+          );
+          return;
+        }
         this.onStatus("接続済み", false);
         this.send({
           type: "equip",

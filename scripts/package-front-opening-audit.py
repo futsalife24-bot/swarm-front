@@ -4,8 +4,13 @@ import json
 import pathlib
 import subprocess
 import zipfile
+import argparse
 
-BASE = "dd5c8d03bd3bafc8d2363e9e0b85e6ab2280e73c"
+parser = argparse.ArgumentParser()
+parser.add_argument("--base", default="dd5c8d03bd3bafc8d2363e9e0b85e6ab2280e73c")
+parser.add_argument("--without-icons", action="store_true", help="同じ監査Chatに提出済みの変更なしアイコンを再送しない")
+args = parser.parse_args()
+BASE = args.base
 
 
 def git(*args):
@@ -24,6 +29,8 @@ selected = [p for p in files if p.startswith(("src/", "server/", "tests/", "e2e/
     "docs/BASE-DECKS-RELEASE.md", "docs/WEAPON-ROW.md", "docs/WORKFLOW.md",
     "docs/evidence/base-decks-release-20261007/public/base-checks.json",
 ]]
+if args.without_icons:
+    selected = [p for p in selected if not p.startswith("public/rebuild/upgrades/")]
 git("archive", "--format=zip", f"--output={output}", head, *selected)
 with zipfile.ZipFile(output, "a", zipfile.ZIP_DEFLATED) as z:
     changed = git("diff", "-z", "--name-only", BASE, head).decode().strip("\0").split("\0")

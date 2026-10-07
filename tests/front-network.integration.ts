@@ -19,6 +19,7 @@ class Client {
     token = "",
     growth: boolean | 3 = true,
     catalog = 2,
+    opening = 2,
   ) {
     this.ws = new WebSocket(
       `${base.replace("http", "ws")}/rooms/${code}?ruleset=front-v1`,
@@ -28,6 +29,7 @@ class Client {
         type: "hello",
         ...(growth ? { frontGrowth: growth === 3 ? 3 : 2 } : {}),
         ...(growth === 3 && catalog === 2 ? { frontCatalog: 2 } : {}),
+        ...(growth === 3 && opening === 2 ? { frontOpening: 2 } : {}),
         ...(token ? { token } : {}),
       });
     this.ws.onmessage = (e) => {
@@ -98,9 +100,7 @@ async function team(
     members.push(c);
     c.send({
       type: "equip",
-      ...(growth === 3
-        ? { upgradePool: FRONT_BASE_IDS, initialCards: FRONT_INITIAL_CARDS }
-        : {}),
+      ...(growth === 3 ? { upgradePool: FRONT_BASE_IDS } : {}),
       weapons: frontTemporaryWeapons("client", `p${i}`, ["rifle", "smg"]).map(
         (w) => ({ ...w, power: 1.2, rolls: { power: 1.1 } }),
       ),
@@ -136,6 +136,129 @@ async function team(
   return { entry, members, states };
 }
 describe("改装版の実通信", () => {
+  it("開幕世代：旧形式の固定指定を拒否し、トークンを保って更新後に出撃できる", async () => {
+    const entry = await room("survival"),
+      old = new Client(entry.code, "", 3, 2, 1);
+    await old.wait((m) => m.type === "welcome");
+    old.send({
+      type: "equip",
+      weapons: frontTemporaryWeapons("old-opening", "p"),
+      upgradePool: FRONT_BASE_IDS,
+      initialCards: FRONT_INITIAL_CARDS,
+    });
+    expect((await old.wait((m) => m.type === "notice")).reason).toContain(
+      "再読み込み",
+    );
+    expect(old.latest().members[0].weapons).toHaveLength(0);
+    old.send({ type: "start" });
+    await old.wait((m) => m.type === "notice" && m.reason.includes("全員"));
+    expect(old.messages.some((m) => m.type === "state")).toBe(false);
+    const token = old.token;
+    old.ws.close();
+    const updated = new Client(entry.code, token, 3);
+    const welcome = await updated.wait((m) => m.type === "welcome");
+    expect(welcome.frontOpening).toBe(2);
+    expect(updated.token).toBe(token);
+    updated.send({
+      type: "equip",
+      weapons: frontTemporaryWeapons("new-opening", "p"),
+      upgradePool: FRONT_BASE_IDS,
+    });
+    await updated.wait(
+      (m) => m.type === "lobby" && m.members[0]?.weapons?.length === 2,
+    );
+    updated.send({
+      type: "ready",
+      ready: true,
+      stage: 1,
+      preparationGeneration: updated.latest().preparationGeneration,
+    });
+    await updated.wait((m) => m.type === "lobby" && m.members[0]?.ready);
+    updated.send({ type: "start" });
+    expect(
+      (await updated.wait((m) => m.type === "state")).frontView.offer.cardIds,
+    ).toHaveLength(3);
+  });
+
+  it("開幕世代：装備済みロビーへ旧画面が戻りequipを送らなくても混在出撃を止める", async () => {
+    const entry = await room("survival");
+    const leader = new Client(entry.code, "", 3);
+    await leader.wait((m) => m.type === "welcome");
+    const modern = new Client(entry.code, "", 3);
+    for (const c of [leader, modern]) {
+      await c.wait((m) => m.type === "welcome");
+      c.send({
+        type: "equip",
+        weapons: frontTemporaryWeapons("mixed", c.id),
+        upgradePool: FRONT_BASE_IDS,
+      });
+      await c.wait(
+        (m) =>
+          m.type === "lobby" &&
+          m.members.find((p: any) => p.id === c.id)?.weapons?.length === 2,
+      );
+    }
+    modern.ws.close();
+    const old = new Client(entry.code, modern.token, 3, 2, 1);
+    await old.wait((m) => m.type === "welcome");
+    await old.wait((m) => m.type === "lobby");
+    const generation = old.latest().preparationGeneration;
+    for (const c of [leader, old])
+      c.send({
+        type: "ready",
+        ready: true,
+        stage: 1,
+        preparationGeneration: generation,
+      });
+    await leader.wait(
+      (m) => m.type === "lobby" && m.members.every((p: any) => p.ready),
+    );
+    const from = leader.messages.length;
+    leader.send({ type: "start" });
+    expect(
+      (await leader.wait((m) => m.type === "notice", from)).reason,
+    ).toContain("再読み込み");
+    expect(leader.messages.some((m) => m.type === "state")).toBe(false);
+    old.ws.close();
+    const updated = new Client(entry.code, modern.token, 3);
+    await updated.wait((m) => m.type === "lobby");
+    const next = updated.latest().preparationGeneration;
+    for (const c of [leader, updated])
+      c.send({
+        type: "ready",
+        ready: true,
+        stage: 1,
+        preparationGeneration: next,
+      });
+    await leader.wait(
+      (m) =>
+        m.type === "lobby" &&
+        m.preparationGeneration === next &&
+        m.members.every((p: any) => p.ready),
+    );
+    leader.send({ type: "start" });
+    expect(
+      (await updated.wait((m) => m.type === "state")).frontView.offer.cardIds,
+    ).toHaveLength(3);
+  });
+
+  it("開幕世代：進行中の作戦は旧画面の復帰でも抽選し直さず、取得も保持", async () => {
+    const { entry, members, states } = await team(1, "survival", 3);
+    const first = states[0],
+      token = members[0].token;
+    members[0].ws.close();
+    const old = new Client(entry.code, token, 3, 2, 1);
+    const resumed = await old.wait((m) => m.type === "state");
+    expect(resumed.frontView.offer).toEqual(first.frontView.offer);
+    old.choose(resumed);
+    await old.wait((m) => m.frontView?.picks === 1);
+    old.ws.close();
+    const updated = new Client(entry.code, token, 3);
+    const again = await updated.wait((m) => m.type === "state");
+    expect(again.frontView.picks).toBe(1);
+    expect(again.frontView.levels[first.frontView.offer.defaultCardId]).toBe(1);
+  });
+
   it("新候補を設定したロビーへ旧画面で戻ると出撃を止め、更新後に同じ設定で出撃できる", async () => {
     const entry = await room("survival"),
       modern = new Client(entry.code, "", 3);
@@ -144,7 +267,6 @@ describe("改装版の実通信", () => {
       type: "equip",
       weapons: frontTemporaryWeapons("catalog", "a"),
       upgradePool: FRONT_BASE_IDS,
-      initialCards: FRONT_INITIAL_CARDS,
     });
     await modern.wait(
       (m) => m.type === "lobby" && m.members[0]?.weapons?.length === 2,

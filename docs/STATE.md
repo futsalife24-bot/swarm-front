@@ -1,4 +1,8 @@
-# 現在地: PR146の開幕ランダム3択を通常Chatへ送信、独立判定待ち（2026-10-07）
+# 現在地: PR146の独立監査P2を修正、世代混在の実通信6件成功・再監査準備（2026-10-07）
+
+初回対象 `6806f08585e34fe7068c23cd5f9c344bbd1f8f1c` は[同じ監査Chat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)で確定要修正、P0/P1各0・P2が1件。[全文](evidence/random-opening-20261007/audit-first.txt)。旧画面の固定開幕指定が新Workerで黙って無視される問題へ、Hello/WelcomeのfrontOpening世代とequip/startガードを追加。進行中の作戦・復帰トークン・装備/poolは保持。型/front83・実Worker関連6件成功、詳細[修正記録](FRONT-RANDOM-OPENING.md)。
+
+UI037は初回回答回収と公開検査スクリプトのローカル2条件確認後に返却済み。修正後の協力UI/同Chat再監査送信の新枠を要求。PR146は下書き・未統合・未公開。build/dry-run・修正対象ZIP→同Chat再監査の必須0→通常merge/既存Worker公開/配信確認まで継続する。
 
 17:03 JSTごろ、対象 `6806f08585e34fe7068c23cd5f9c344bbd1f8f1c` のZIPを[新規通常Chat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)へ添付送信し、応答開始を確認。資料 `dist-validation/random-opening/audit-6806f08.zip`、37,791,663 bytes、439 files＋manifest、SHA256 `1d8ed175eea28b41dca14f2e2c05bfbb6757481b6f5c79bce0db6cb4de52144c`。通常Chat/Latest/High表示を確認、実モデルIDは未確認。UI033返却済み。次回回収は新規貸出後。PR146は下書き・未統合・未公開。
 
