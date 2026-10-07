@@ -15,6 +15,14 @@ import "./playtest.css";
 import "./gear-weapon-list.css";
 import { growthMarkup, bindGrowthUI, growthConfirmation } from "./growth-ui";
 import {
+  menuAssemble,
+  menuEquip,
+  menuGlow,
+  menuShine,
+  menuTerrain,
+  menuTrace,
+} from "./menu-effects";
+import {
   resourceFrame,
   resourceWallet,
   bindResourceHelp,
@@ -1620,6 +1628,7 @@ function gear() {
     stage = Number(($("pt-stage") as HTMLSelectElement).value);
     gear();
   };
+  menuTerrain(ui.querySelector(".mission-select"), stage);
   $("pt-difficulty").onchange = () => {
     difficulty = ($("pt-difficulty") as HTMLSelectElement).value as Difficulty;
     gear();
@@ -1999,6 +2008,9 @@ function dismantleUI(ids: string[], redraw: () => void = armory) {
 function equipWeapon(id: string, slot: number, after: () => void) {
   if (!save.inventory.some((w) => w.id === id) || (slot !== 0 && slot !== 1))
     return;
+  const source = [...ui.querySelectorAll<HTMLElement>("[data-row]")]
+    .find((e) => e.dataset.row === id)
+    ?.getBoundingClientRect();
   const n = structuredClone(save),
     p = soldier(n),
     other = p.equipped.indexOf(id);
@@ -2016,6 +2028,7 @@ function equipWeapon(id: string, slot: number, after: () => void) {
     // Reuse the combat switch clip, including first-gesture decoding.
     void sound.load().then(() => sound.play("switch"));
     after();
+    menuEquip(ui, ui.querySelector(`[data-gear-slot="${slot}"]`), source);
   });
 }
 function detail(w: StoredWeapon, context: string) {
@@ -2078,7 +2091,15 @@ function detail(w: StoredWeapon, context: string) {
     .then((m) =>
       m.previewWeapon(d.querySelector<HTMLElement>("#pt-weapon-preview")!, w),
     )
-    .then((dispose) => d.addEventListener("close", dispose));
+    .then((dispose) => {
+      if (!d.isConnected) {
+        dispose();
+        return;
+      }
+      d.addEventListener("close", dispose);
+      menuGlow(d.querySelector("#pt-weapon-preview canvas"));
+      menuShine(d.querySelector("#pt-weapon-preview"));
+    });
 }
 function growth() {
   tutorial(
@@ -2117,7 +2138,14 @@ function growth() {
     const d = confirmAction(
       "育成内容の確認",
       growthConfirmation(p.levels, v),
-      () => commit(n, growth),
+      () =>
+        commit(n, () => {
+          growth();
+          menuTrace(ui.querySelector(".growth-radar"));
+          for (const k of SKILLS)
+            if (v[k] !== p.levels[k])
+              menuGlow(ui.querySelector(`[data-radar-level="${k}"]`));
+        }),
     );
     const actions = document.createElement("footer");
     actions.className = "growth-confirm-actions";
@@ -2201,14 +2229,24 @@ function accessories() {
         );
       }),
   );
-  bind("pt-craft", () => commit(createAccessory(save), accessories));
+  const crafted = (next: ProgressSave) => {
+    const added = next.accessories
+      .filter((a) => !save.accessories.some((b) => b.id === a.id))
+      .map((a) => a.id);
+    return commit(next, () => {
+      accessories();
+      ui.querySelectorAll<HTMLElement>("[data-accessory-info]").forEach((b) => {
+        if (added.includes(b.dataset.accessoryInfo!)) menuAssemble(b);
+      });
+    });
+  };
+  bind("pt-craft", () => crafted(createAccessory(save)));
   bind("pt-target-craft", () =>
-    commit(
+    crafted(
       createAccessory(
         save,
         ($("pt-accessory-kind") as HTMLSelectElement).value as AccessoryKind,
       ),
-      accessories,
     ),
   );
   bind("pt-synthesis", () => {
@@ -2216,7 +2254,7 @@ function accessories() {
     confirmAction(
       "一括合成の確認",
       `<p>消費 ${preview.consumed.length}個 / 完成 ${preview.created.length}個</p>${preview.consumed.map((a) => `<p>消費 ${ACCESSORY_NAMES[a.kind]} R${a.rarity}</p>`).join("")}${preview.created.map((a) => `<p>完成 ${ACCESSORY_NAMES[a.kind]} R${a.rarity}</p>`).join("")}`,
-      () => commit(preview.save, accessories),
+      () => crafted(preview.save),
     );
   });
   bind("pt-accessory-off", () => {

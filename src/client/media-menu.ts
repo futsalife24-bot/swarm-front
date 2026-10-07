@@ -1,4 +1,5 @@
 import { backgroundMusic, type MusicTrack } from "./bgm";
+import { menuMotion } from "./menu-effects";
 import { closeMenuDialog, menuDialog } from "./menu-ui";
 import { MediaPlayback } from "./media-playback";
 import "./media-menu.css";
@@ -60,6 +61,37 @@ export function mountMediaMenu(
     level.oninput = applyVolume;
     applyVolume();
     const status = d.querySelector<HTMLElement>(".media-status")!;
+    const light = document.createElement("span");
+    light.className = "media-playing-light";
+    light.setAttribute("aria-hidden", "true");
+    light.hidden = true;
+    if (!video) d.querySelector("h2")!.append(light);
+    let stopPulse = () => {};
+    const stopIndicator = () => {
+      stopPulse();
+      stopPulse = () => {};
+      light.hidden = true;
+    };
+    const playing = () => {
+      stopIndicator();
+      if (!video) {
+        light.hidden = false;
+        stopPulse = menuMotion(
+          light,
+          [
+            { boxShadow: "0 0 2px #bdebd2", opacity: 0.6 },
+            { boxShadow: "0 0 9px #bdebd2", opacity: 1, offset: 0.5 },
+            { boxShadow: "0 0 2px #bdebd2", opacity: 0.6 },
+          ],
+          1400,
+          () => {},
+          Infinity,
+        );
+      }
+    };
+    media.addEventListener("playing", playing);
+    for (const event of ["pause", "ended", "waiting", "emptied", "error"])
+      media.addEventListener(event, stopIndicator);
     const playback = new MediaPlayback(media, (message) => {
       status.textContent = message;
     });
@@ -89,6 +121,10 @@ export function mountMediaMenu(
       "close",
       () => {
         owner.removeEventListener("close", ownerClosed);
+        stopIndicator();
+        media.removeEventListener("playing", playing);
+        for (const event of ["pause", "ended", "waiting", "emptied", "error"])
+          media.removeEventListener(event, stopIndicator);
         playback.dispose();
         release();
         active = undefined;

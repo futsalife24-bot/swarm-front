@@ -1,3 +1,4 @@
+import { menuGuide, menuMotion } from "./menu-effects";
 const sections = [
   {
     label: "各ページ",
@@ -99,7 +100,17 @@ export function openTutorialGuide(
         i !== index;
     });
     body.scrollTop = 0;
+    menuGuide(buttons[index]);
+    menuMotion(
+      d.querySelector(`#tutorial-panel-${index} .tutorial-entries`),
+      [
+        { transform: "translateY(4px) scale(.99)", opacity: 0.7 },
+        { transform: "translateY(0) scale(1)", opacity: 1 },
+      ],
+      260,
+    );
   };
+  select(0);
   buttons.forEach((button, i) => {
     button.onclick = () => select(i);
     button.onkeydown = (event) => {

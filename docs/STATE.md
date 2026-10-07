@@ -1,3 +1,30 @@
+# 現在地: メニュー12場面の独立再監査に合格（2026-10-07）
+
+PR140、最終対象 `3816388f4c4966ade85bf0271550ef2879de1ef8`。[確定回答](evidence/menu-effects-20261007/audit-final.md)は残存必須0・任意0。以後は回答・状態記録のみ、製品ソース不変。実非表示cleanupは未実測として保持。最新mainと通常統合条件を確認し、既存Worker公開・配信/UI確認へ進む。兵士音声PR137と戦闘演出は保留。
+
+# 現在地: メニュー演出の修正版を同じ通常Chatへ提出（2026-10-07）
+
+[PR140](https://github.com/futsalife24-bot/swarm-front/pull/140)、対象 `3816388f4c4966ade85bf0271550ef2879de1ef8`。[同じ監査Chat](https://chatgpt.com/c/6ac5a307-3158-83ee-9ac7-7770eefca7fb)へ306ファイルの対象blob/差分/証拠ZIPを添付送信済み、SHA256 `3982c5b8a7c048cee2ef4bb6b98e233a1c2d360ea4adcc772122132a2fd6ca95`。必須P2の選択/保存分離と旧解析格子除去、型31単体実ログ・reduced途中切替・通信演出回数・修正版本番build/dry-runを提出。実非表示は未実測。確定再判定後に通常統合・既存Worker公開へ進む。未統合・未公開、兵士音声PR137と戦闘演出は保留。
+
+# 現在地: メニュー演出の監査必須P2を修正、再監査へ（2026-10-07）
+
+PR140。初回は改装版の一時装備に保存成功演出が出るP2を1件指摘。保存仕様を維持して短い選択反応へ分離し、再読込と保存不変/成功線0を確認。型・関連31単体・通常/reduced実UI成功。演出中のreduced切替、実通信readyの初回2回/再準備追加1回、週間受取演出1回/終了も確認。高速な敵切替の旧解析格子を除去。実非表示はheadlessがvisibleのままのため未実測。[修正と証拠](MENU-EFFECTS.md)。修正版build/dry-runと再監査後に通常統合・既存Worker公開する。
+
+# 現在地: メニュー12場面の独立監査を受付済み（2026-10-07）
+
+[通常Chat](https://chatgpt.com/c/6ac5a307-3158-83ee-9ac7-7770eefca7fb)へ対象 `6dd4dbba336361c06cd7c8bdb51282bcae69581a` のソース/差分/証拠ZIPを添付送信し、ZIP・SHA256・manifestと12場面の確認開始を確認。認証画面は操作せず解消し、未送信の下書きへ戻ったため同じ資料を再添付、表示名は `menu-effects-audit-6dd4dbb(1).zip`。先頭の認証待ち状態は解消。監査対象以後はSTATE・停止画面証拠・配信確認スクリプトだけ、ゲーム実装は不変。確定判定と必要修正後に通常統合・既存Worker公開する。現時点は未統合・未公開。
+
+# 現在地: メニュー12場面の演出は検証済み、監査Chatの認証待ち（2026-10-07）
+
+[PR140](https://github.com/futsalife24-bot/swarm-front/pull/140)、branch `codex/menu-effects-20261007`、監査対象 `6dd4dbba336361c06cd7c8bdb51282bcae69581a`。型・関連31単体・武器一覧8表示・育成アクセサリ3サイズ・通常/reduced実UI・実2人協力/週間受取・本番build/dry-run成功。297ファイルの対象blob/差分/証拠ZIP（SHA256 `bc6bccc2246d2bcf5239f667ebb4d7a606df2968d8abcf729c86e4d628e33b31`）を通常Chatへ添付し送信操作後、アカウント読込エラー。再読み込みでCloudflareの認証チェックが出た。正式な監査Chat URL・受付・確定判定は未確認。
+
+停止理由: ブラウザ操作の規則によりCAPTCHA実行は操作時の本人確認が必要。ユーザーへ確認済み、回答待ち。
+再開条件: CAPTCHA操作の明示承認、またはユーザーによる同じIABの認証完了。受付を確認し、未成立なら対象ZIPを同じ通常Chat経路で再送して独立監査・必要修正・main統合・既存Worker公開を続ける。公開は未実施、戦闘演出と兵士音声PR137は保留。証拠 [認証画面](evidence/menu-effects-20261007/audit-captcha.jpg)、[変更と検証](MENU-EFFECTS.md)。
+
+# 現在地: メニュー12場面の演出を自己検証、独立監査へ（2026-10-07）
+
+branch `codex/menu-effects-20261007`、base `800410d501fd5ac3610e19b6087976088cbca1d8`。装備・作戦・協力・武器詳細・アクセサリ・育成・敵レポート・週間報酬・ガイド・設定・履歴・試聴へ演出を接続。戦闘演出は対象外。型、関連単体31、武器一覧8表示、育成アクセサリ3サイズ、通常/動きを減らす設定の実UI、実2人協力と週間受取成功。証拠と実際の限界は [MENU-EFFECTS.md](MENU-EFFECTS.md)。[下書きPR140](https://github.com/futsalife24-bot/swarm-front/pull/140)に保存。本番build・Worker dry-run成功、ビルド済み実UIガイドとerror0確認。通常Chatへの独立監査・必要修正・main統合・既存Worker公開まで続ける。兵士音声PR137は保持・保留。
+
 # 現在地: タイトル操作演出を公開済み（2026-10-07）
 
 PR138通常統合、公開ソース `0a4e668c08d765ba11e504c876b909139b136342`、Worker `27d4d8d7-e173-4d10-b841-23b3cff29940`。独立最終監査は必須0・任意0、型・build・dry-run・実ブラウザ12項目成功。配信25/25一致・health200、公開版のガイド/戻り/ソロ準備/従来版の非同期失敗通知から再操作を確認、error0。[公開記録と限界](TITLE-MOTION-RELEASE.md)。兵士音声PR137は保持・保留。

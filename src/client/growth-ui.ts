@@ -6,6 +6,7 @@ import {
   type Skill,
 } from "../shared/progression";
 import { resourceFrame } from "./resource-frame";
+import { menuMotion } from "./menu-effects";
 import "./growth-accessory.css";
 
 const descriptions: Record<Skill, string> = {
@@ -116,7 +117,32 @@ export function bindGrowthUI(
         (select) =>
           (draft[select.dataset.level as Skill] = Number(select.value)),
       );
-    root.querySelector(".radar-draft")!.setAttribute("points", points(draft));
+    const polygon = root.querySelector<SVGPolygonElement>(".radar-draft")!;
+    const from = Array.from(polygon.animatedPoints)
+      .map((p) => `${p.x},${p.y}`)
+      .join(" ");
+    const to = points(draft);
+    polygon.querySelectorAll("animate").forEach((a) => a.remove());
+    polygon.setAttribute("points", to);
+    if (from !== to) {
+      const morph = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "animate",
+      );
+      for (const [key, value] of Object.entries({
+        attributeName: "points",
+        from,
+        to,
+        dur: ".28s",
+        begin: "indefinite",
+      }))
+        morph.setAttribute(key, value);
+      polygon.append(morph);
+      morph.beginElement();
+      menuMotion(polygon, [{ opacity: 0.85 }, { opacity: 1 }], 280, () =>
+        morph.remove(),
+      );
+    }
     let total = 0;
     for (const k of SKILLS) {
       total += COSTS[draft[k]];

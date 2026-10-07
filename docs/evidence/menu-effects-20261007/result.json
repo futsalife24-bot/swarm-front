@@ -1,0 +1,36 @@
+[
+  {
+    "frontDraftWithoutSavedCue": true,
+    "changeDuringMotion": true,
+    "actualHiddenCleanup": false,
+    "visibilityLimit": "Headless tabs stayed visible; real visibility cleanup not verified",
+    "reducedMotion": "no-preference",
+    "equipmentAndRetry": true,
+    "craftingAndSynthesis": true,
+    "growthDraftCancelCommit": true,
+    "guide": true,
+    "history": true,
+    "settings": true,
+    "soundPause": true,
+    "coopSilhouetteProtected": true,
+    "effectsAfterClose": 0,
+    "errors": []
+  },
+  {
+    "frontDraftWithoutSavedCue": true,
+    "changeDuringMotion": false,
+    "actualHiddenCleanup": false,
+    "visibilityLimit": "Headless tabs stayed visible; real visibility cleanup not verified",
+    "reducedMotion": "reduce",
+    "equipmentAndRetry": true,
+    "craftingAndSynthesis": true,
+    "growthDraftCancelCommit": true,
+    "guide": true,
+    "history": true,
+    "settings": true,
+    "soundPause": true,
+    "coopSilhouetteProtected": true,
+    "effectsAfterClose": 0,
+    "errors": []
+  }
+]
