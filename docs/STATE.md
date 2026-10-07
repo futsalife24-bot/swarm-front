@@ -3,10 +3,11 @@
 ## 2026-10-07 協力画面・基地デッキ／ゲーム全体UIUX改善（自己検証済み）
 
 - 本人の添付画像で協力画面の幅崩れ、基地の強化説明・画像・デッキ保存不足を確認。融合情報を見ながら編成、ゲーム全体を同一基準で監査する追加指示も対象。
-- branch `codex/front-base-decks-coop-20261007`、base `1b3c0cd69a8f26f0cba7643b3129637cea3835db`。既存PR142/143は下記のとおり公開済み。本件のPR・監査Chatは未作成。
+- branch `codex/front-base-decks-coop-20261007`、base `1b3c0cd69a8f26f0cba7643b3129637cea3835db`。既存PR142/143は下記のとおり公開済み。本件は[下書きPR144](https://github.com/futsalife24-bot/swarm-front/pull/144)、監査対象 `27397543ed121f6fb52126205d135178c12ead74`。監査Chatは未作成。
 - 協力画面の原因はタイトル用2列配置が残る画面状態。Windows Chrome 844/640/1220幅で再現。基地の強化画像・詳細・融合9レシピ・名前付き3枠保存を実装。全体監査で発見した従来版確認操作の画面外落ちと改装版の安全領域不足も修正。
 - 対象・共通基準・画面一覧は `docs/BASE-DECKS-UIUX.md`。型チェック、front単体77件、保存147件、関連E2E11件＋戦闘UI6件、基地6条件/動画6本、協力作成・一覧・参加2条件、共通メニュー108画面、結果fixture20画面、安全領域8画面、武器行8条件が成功。独立Chat監査・通常merge・既存Worker公開はこれから。
-- 共有UIは新しい貸出ID待ち。独立headless Chromeとローカル作業で進行。現時点で停止・監査合格・公開済みとは扱わない。
+- 監査ZIP `dist-validation/base-decks/audit/swarm-front-base-uiux-2739754.zip`（40,927,421 bytes、955 source files、SHA256 `1c97d6c2fb6773a4c7e061eea4d7473980f761a7dd1cd38e74a3a793d34c642a`）。manifest/CRC/対象SHA照合済み。
+- 共有UIは準備完了を報告し、新しい貸出ID待ち。独立headless Chromeとローカル作業で進行。現時点で停止・監査合格・公開済みとは扱わない。
 
 
 [PR142](https://github.com/futsalife24-bot/swarm-front/pull/142)通常merge、公開ソース `65c0ed30201138e3db2811b3158db70af2293d6a`、Worker `24caf74a-9d6a-4289-ba76-1e294caf3e9d`。独立監査は必須0・任意1、追加製品修正なし。Windowsの指定検証・実通信動画4条件、本番main build/dry-run成功。配信26/26一致・health200、公開Windows ChromeはSW有効の844/640通常/reduced全4条件でpageerror/console error各0・画像確認済み。公開IABの追加目視だけは別タブの保存保護で未確認とし、UI014を返却。強制解放はせず、任意の再確認は本人が既存ゲーム画面を閉じた後。公開記録は[PR143](https://github.com/futsalife24-bot/swarm-front/pull/143)。[公開詳細](MENU-POLISH-RELEASE.md)。実非表示cleanup・実機タッチ・GPU長時間・全敵モデルは未実測。戦闘演出/PR137は保留。
