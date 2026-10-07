@@ -1,0 +1,255 @@
+{
+  "version": 1,
+  "productBase": "1c2f4ba44348ab95558ca0362f4f50a561e900d0",
+  "executionHead": "bbd2657682a78113a5afc21d143711be7ea7dcbf",
+  "candidateSha256": "11190c7bb8e0ed2b328036f103851282110e0473e6e45d7d105383d564476d3c",
+  "sourceFiles": [
+    {
+      "path": "tests/maps.test.ts",
+      "gitBlob": "0642ffb4d5a5383ba070ea0a805c886c98b714e7",
+      "sha256": "9962ae2643464586cd88d4dae8c8f8bf707c46b4e89cac82a74fbe19b4b2124c"
+    },
+    {
+      "path": "vitest.config.ts",
+      "gitBlob": "361310e3fe5f42e2467f7c9cc9ede2fd4d71b937",
+      "sha256": "c404d0b07411c6a5ee82d1d6e599507624d3d07a90388e23b3955f48af38273b"
+    },
+    {
+      "path": "tsconfig.json",
+      "gitBlob": "cbf8ec618979fcc85fff6faa38e2e9364c04ec5b",
+      "sha256": "319bbf51731dc1eebfe3783d5a0e374176463b9ada6b9e9487af29c572dfeb97"
+    },
+    {
+      "path": "package.json",
+      "gitBlob": "5f7d5ddd538f6eb18b2e7fff78b8cbcb96ace49e",
+      "sha256": "d1a556a5c2639782bd8fe5bd2b0f35dce510f2e6aeaab3d6cef179f712a03a86"
+    },
+    {
+      "path": "src/shared/game.ts",
+      "gitBlob": "ded330022beee8dd2d0a15423e7ab33cc8ab5c43",
+      "sha256": "18da950cf7f35ddce1dccc7c7af698f759439a8e8406e0ec42b0f63bfbcef855"
+    },
+    {
+      "path": "src/shared/stages.ts",
+      "gitBlob": "b760b820cea6e5d9d02a422fec72420fe432687a",
+      "sha256": "2c9568dd918b7ca5f41b899db34e42b241090c3a09f247ed9c1b0f0af491c383"
+    },
+    {
+      "path": "src/shared/defs.ts",
+      "gitBlob": "f79f9ab384b4066a470f64e0aa243dd8d0ecb236",
+      "sha256": "8c5fabfe9300c1eae7f44fafd79480a439be2956f9e3f01cc0bacdc198a34b94"
+    },
+    {
+      "path": "src/shared/terrain.ts",
+      "gitBlob": "0fb91e29e27ee5e2fffee74d6103e93679620b76",
+      "sha256": "d0b786043fc3148f24af419731ddee721d9310bc7a705cc99b29f739f97be762"
+    },
+    {
+      "path": "src/shared/cave.ts",
+      "gitBlob": "ede19399069f102e1e06aaacd5c713e9fecaba76",
+      "sha256": "4e2de6da90206a553ce6b787a3625b82672e0fa2233579461f0d0bf6bf06d89c"
+    },
+    {
+      "path": "src/shared/arena.ts",
+      "gitBlob": "8f06155dc48ce646c226df74880fc0a2b890f16b",
+      "sha256": "d49eb2bcc09f0e653076969c07244e5a6fa692ce55a58d0dcafd510b65c9b557"
+    },
+    {
+      "path": "src/shared/worm.ts",
+      "gitBlob": "e5d39f5a0ad8028a447f1e5a88fe12cab108b168",
+      "sha256": "acc7ebf077ac8026526be5f77c4e1904e35601b0fb5db3261114002c61ddc6f9"
+    },
+    {
+      "path": "src/shared/foundry-spawning.ts",
+      "gitBlob": "15bafb44f8a4d2b7d1ab6c270da2f8612a94d5a7",
+      "sha256": "07ca8195c0a35e7b3daeca34596caf970db06a5c9d95ad772089d95936c9b56a"
+    },
+    {
+      "path": "src/shared/foundry-navigation.ts",
+      "gitBlob": "6c4e3af92dffc43e388e58819735ff1c50de90d1",
+      "sha256": "d5328c22b073721a0a8e63bc3b9740ed16bea2c0a29e339bc2ee89c2ad94e662"
+    },
+    {
+      "path": "src/shared/enemy-size.ts",
+      "gitBlob": "94e022833f73ee682fd63fa34666de7bc33d2e0b",
+      "sha256": "3e913d0538c2a0c05357222bc1f11bccbfd3f3859adf181e3b016eaac546e3a4"
+    }
+  ],
+  "candidateFiles": [
+    {
+      "path": "tests/maps-adopted-spawns.test.ts",
+      "gitBlob": "b25303b4d46bcb923fad745f23db3165b6b058aa",
+      "sha256": "11190c7bb8e0ed2b328036f103851282110e0473e6e45d7d105383d564476d3c"
+    },
+    {
+      "path": "docs/evidence/adopted-map-spawns-20261007/run-once.mjs",
+      "gitBlob": "84a1400e7aa675dc623cdd58d056588a0527cf5e",
+      "sha256": "518fead27682f3d445ca0c09bf5746d8d408010a56d44eb55c92760806b4465a"
+    },
+    {
+      "path": "docs/ADOPTED-MAP-SPAWNS.md",
+      "gitBlob": "87baf3b92609a385efe2ebf478aa05c884a67e66",
+      "sha256": "38756f29146de5c0c66380d5219fe60aa6914213c53ad701a9c8c87fd82c7579"
+    },
+    {
+      "path": "docs/STATE.md",
+      "gitBlob": "1df7d1870be96bab42e9ecf11b608f1d21f7fbe1",
+      "sha256": "9ed223a8a43a757883369e41a0fa56d77f9ca54dbb7f14ad617643044f10dcb8"
+    }
+  ],
+  "evidenceFiles": [
+    {
+      "path": "docs/evidence/adopted-map-spawns-20261007/execution.json",
+      "sha256": "9e41a13e60a386afb69a7a34750123bd142c492430275d31fab740b148750061"
+    },
+    {
+      "path": "docs/evidence/adopted-map-spawns-20261007/exit-code.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "docs/evidence/adopted-map-spawns-20261007/failure-analysis.json",
+      "sha256": "5db04719233bbefcfb2fe716179b3d3879e15dea280f70e48d97c551923b100d"
+    },
+    {
+      "path": "docs/evidence/adopted-map-spawns-20261007/observations.json",
+      "sha256": "25718f4c6bbd19aceb7a33a6f5b8a23b23105d666c3197f4287f55a1391db824"
+    },
+    {
+      "path": "docs/evidence/adopted-map-spawns-20261007/result.json",
+      "sha256": "e093b20e38ee53629fa44d98abafd076b73ea4dc8744ea56dfff15dedb552b6b"
+    },
+    {
+      "path": "docs/evidence/adopted-map-spawns-20261007/run.txt",
+      "sha256": "9a4b7e339af5c094acb4cdf5f75c5b8334e27a1fdf21c8927c3cd01a268e1085"
+    },
+    {
+      "path": "docs/evidence/adopted-map-spawns-20261007/summary.json",
+      "sha256": "b48ae48873a58fa519730f5636b2f564337e70518c0be362e01c25481c1682cb"
+    },
+    {
+      "path": "docs/evidence/adopted-map-spawns-20261007/typecheck-config.json",
+      "sha256": "31991088c5d4e0dee44c8051b5910cd3bfa2cff24702eec7944405e3e273a101"
+    },
+    {
+      "path": "docs/evidence/adopted-map-spawns-20261007/typecheck-exit.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/evidence/adopted-map-spawns-20261007/typecheck-initial-exit.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "docs/evidence/adopted-map-spawns-20261007/typecheck-initial.txt",
+      "sha256": "190186a94c2288dd0054761e6a1031ca0e2525e6ca242d62ba941cb0dd8b4734"
+    },
+    {
+      "path": "docs/evidence/adopted-map-spawns-20261007/typecheck-node-reference-exit.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "docs/evidence/adopted-map-spawns-20261007/typecheck-node-reference.txt",
+      "sha256": "7c8978fa2e05850f1b538eedcfd557a739fac4daaf3f5850867f1d7a14cb4bec"
+    },
+    {
+      "path": "docs/evidence/adopted-map-spawns-20261007/typecheck.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "transformations": [
+    {
+      "sourcePath": "dist-validation/adopted-map-spawns-20261007/execution.json",
+      "sourceSha256": "9e41a13e60a386afb69a7a34750123bd142c492430275d31fab740b148750061",
+      "storedPath": "docs/evidence/adopted-map-spawns-20261007/execution.json",
+      "storedSha256": "9e41a13e60a386afb69a7a34750123bd142c492430275d31fab740b148750061"
+    },
+    {
+      "sourcePath": "dist-validation/adopted-map-spawns-20261007/exit-code.txt",
+      "sourceSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "storedPath": "docs/evidence/adopted-map-spawns-20261007/exit-code.txt",
+      "storedSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "sourcePath": "dist-validation/adopted-map-spawns-20261007/failure-analysis.json",
+      "sourceSha256": "5db04719233bbefcfb2fe716179b3d3879e15dea280f70e48d97c551923b100d",
+      "storedPath": "docs/evidence/adopted-map-spawns-20261007/failure-analysis.json",
+      "storedSha256": "5db04719233bbefcfb2fe716179b3d3879e15dea280f70e48d97c551923b100d"
+    },
+    {
+      "file": "observations.json",
+      "method": "JSON内容不変のcompact化"
+    },
+    {
+      "sourcePath": "dist-validation/adopted-map-spawns-20261007/observations.json",
+      "sourceSha256": "658e2bac10cfad6f74535d59e88b0039d54bb1fa82af5ab99bfe94733e723ab1",
+      "storedPath": "docs/evidence/adopted-map-spawns-20261007/observations.json",
+      "storedSha256": "25718f4c6bbd19aceb7a33a6f5b8a23b23105d666c3197f4287f55a1391db824"
+    },
+    {
+      "sourcePath": "dist-validation/adopted-map-spawns-20261007/result.json",
+      "sourceSha256": "ec8b0a82cc3bdb7607447050be961b111314e24d3070c95dc5dbfd91b73fed78",
+      "storedPath": "docs/evidence/adopted-map-spawns-20261007/result.json",
+      "storedSha256": "e093b20e38ee53629fa44d98abafd076b73ea4dc8744ea56dfff15dedb552b6b"
+    },
+    {
+      "file": "run.txt",
+      "method": "重複する全観測JSON行1件を案内へ置換、改行/末尾空行整理"
+    },
+    {
+      "sourcePath": "dist-validation/adopted-map-spawns-20261007/run.txt",
+      "sourceSha256": "5e0387c87c0c8311e46b7c614beb8aedc18216284fa4a17527ce252f1926d477",
+      "storedPath": "docs/evidence/adopted-map-spawns-20261007/run.txt",
+      "storedSha256": "9a4b7e339af5c094acb4cdf5f75c5b8334e27a1fdf21c8927c3cd01a268e1085"
+    },
+    {
+      "sourcePath": "dist-validation/adopted-map-spawns-20261007/summary.json",
+      "sourceSha256": "b48ae48873a58fa519730f5636b2f564337e70518c0be362e01c25481c1682cb",
+      "storedPath": "docs/evidence/adopted-map-spawns-20261007/summary.json",
+      "storedSha256": "b48ae48873a58fa519730f5636b2f564337e70518c0be362e01c25481c1682cb"
+    },
+    {
+      "sourcePath": "dist-validation/adopted-map-spawns-20261007/tsconfig.json",
+      "sourceSha256": "31991088c5d4e0dee44c8051b5910cd3bfa2cff24702eec7944405e3e273a101",
+      "storedPath": "docs/evidence/adopted-map-spawns-20261007/typecheck-config.json",
+      "storedSha256": "31991088c5d4e0dee44c8051b5910cd3bfa2cff24702eec7944405e3e273a101"
+    },
+    {
+      "sourcePath": "dist-validation/adopted-map-spawns-20261007/typecheck-exit.txt",
+      "sourceSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "storedPath": "docs/evidence/adopted-map-spawns-20261007/typecheck-exit.txt",
+      "storedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "sourcePath": "dist-validation/adopted-map-spawns-20261007/typecheck-initial-exit.txt",
+      "sourceSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "storedPath": "docs/evidence/adopted-map-spawns-20261007/typecheck-initial-exit.txt",
+      "storedSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "sourcePath": "dist-validation/adopted-map-spawns-20261007/typecheck-initial.txt",
+      "sourceSha256": "c64ce4f732be3e4e78ffd201cfcd253143a8c3bbb7a6a2d17a383434c62fc344",
+      "storedPath": "docs/evidence/adopted-map-spawns-20261007/typecheck-initial.txt",
+      "storedSha256": "190186a94c2288dd0054761e6a1031ca0e2525e6ca242d62ba941cb0dd8b4734"
+    },
+    {
+      "sourcePath": "dist-validation/adopted-map-spawns-20261007/typecheck-node-reference-exit.txt",
+      "sourceSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "storedPath": "docs/evidence/adopted-map-spawns-20261007/typecheck-node-reference-exit.txt",
+      "storedSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "sourcePath": "dist-validation/adopted-map-spawns-20261007/typecheck-node-reference.txt",
+      "sourceSha256": "6e7b5efffc9491a882d4c1a21a2255d09592535f53d2516ea1659613b2ca9c0c",
+      "storedPath": "docs/evidence/adopted-map-spawns-20261007/typecheck-node-reference.txt",
+      "storedSha256": "7c8978fa2e05850f1b538eedcfd557a739fac4daaf3f5850867f1d7a14cb4bec"
+    },
+    {
+      "sourcePath": "dist-validation/adopted-map-spawns-20261007/typecheck.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "storedPath": "docs/evidence/adopted-map-spawns-20261007/typecheck.txt",
+      "storedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "additionalTestRuns": 0,
+  "modelId": null,
+  "reasoningEffort": null
+}
