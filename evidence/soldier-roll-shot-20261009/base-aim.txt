@@ -1,0 +1,33 @@
+Base regression check: aim.test.ts
+Base SHA: c529694902397fba952dc6de16ff4bdc6c31bcd1
+Run: 2026-10-09 22:34:13 JST
+Source: exact captured tool output, transcribed after execution (not a fresh run).
+
+Preparation:
+git archive -o test-results/shot-origin-base.zip HEAD src tests/aim.test.ts vitest.config.ts package.json tsconfig.json
+Expand-Archive -LiteralPath test-results/shot-origin-base.zip -DestinationPath test-results/shot-origin-base -Force
+
+Command:
+node node_modules/vitest/vitest.mjs run --root test-results/shot-origin-base tests/aim.test.ts
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-09/swarm-soldier-motion/test-results/shot-origin-base
+
+ FAIL  tests/aim.test.ts > camera-aligned authoritative shots > sends accurate rockets through the center target at near/far and elevated angles
+AssertionError: expected 1.8750000000000022 to be close to 1.25, received difference is 0.6250000000000022, but expected 5e-7
+ at tests/aim.test.ts:127:32
+    125|           shot.target.z - e.z,
+    126|         );
+    127|         expect(targetDistance).toBeCloseTo(1.25, 6);
+    128|       }
+    129|   });
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  22:34:13
+   Duration  1.87s (import 74%, transform 24%, tests 1%)
+Exit code: 1
+
+Changed-tree run at 22:33:44 JST produced the identical assertion and location.
+That combined run (front-shot-origin.test.ts + aim.test.ts) had 14 passed / 1 failed.
+After adding the authority-origin regression, front-shot-origin.test.ts alone passed 6/6 at 22:34:39 JST.
+No shared authority or aim code was edited by this subtask.

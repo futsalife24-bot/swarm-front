@@ -13,7 +13,8 @@ export default mergeConfig(
           server.middlewares.use("/__soldier-proof", async (req, res) => {
             if (
               req.method !== "POST" ||
-              req.headers.origin !== "http://127.0.0.1:5198"
+              req.headers.origin !==
+                `http://127.0.0.1:${server.config.server.port}`
             ) {
               res.statusCode = 403;
               res.end();

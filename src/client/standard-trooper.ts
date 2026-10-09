@@ -147,7 +147,7 @@ export function loadStandardTrooper(reviewAssetUrl?: string) {
       // the binary so an existing player receives the revised rig and clips.
       loader.loadAsync(
         (import.meta.env.DEV && reviewAssetUrl) ||
-          `${base}swarm-soldier.glb?v=bea4886cd676e602816df15de52424dc953279d0b463de61ba9860c3bfef280e`,
+          `${base}swarm-soldier.glb?v=d1028fd14cb42cfab2a0c484c57fa99032dc73609f8c3a08684abdec76f35269`,
       ),
       ...(["rifle", "shotgun", "rocket"] as const).map((k) =>
         loader.loadAsync(

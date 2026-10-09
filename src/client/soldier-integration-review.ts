@@ -34,23 +34,39 @@ const output = document.createElement("canvas");
 output.width = 960;
 output.height = 540;
 const ctx = output.getContext("2d")!;
-const phases = [
-  [0, "待機"],
-  [2, "歩行"],
-  [5, "走行"],
-  [8, "停止→射撃"],
-  [10, "射撃→装填"],
-  [14, "移動射撃"],
-  [16, "移動装填"],
-  [20, "武器持ち替え"],
-  [23, "元の武器へ"],
-  [26, "踏み込み回避"],
-  [28, "後退・横移動"],
-  [31, "ジャンプ"],
-  [34, "被弾→転倒"],
-  [38, "終了"],
-] as const;
+const rollShotReview =
+  new URLSearchParams(location.search).get("review") === "roll-shot";
+const duration = rollShotReview ? 7.5 : 38;
+const phases: ReadonlyArray<readonly [number, string]> = rollShotReview
+  ? [
+      [0, "待機"],
+      [1, "左移動射撃"],
+      [2.5, "右移動射撃"],
+      [4, "前方ローリング"],
+      [4.5, "回避後射撃"],
+      [5.2, "回避の再使用待ち"],
+      [6.5, "左ローリング"],
+      [7.5, "終了"],
+    ]
+  : ([
+      [0, "待機"],
+      [2, "歩行"],
+      [5, "走行"],
+      [8, "停止→射撃"],
+      [10, "射撃→装填"],
+      [14, "移動射撃"],
+      [16, "移動装填"],
+      [20, "武器持ち替え"],
+      [23, "元の武器へ"],
+      [26, "回避"],
+      [28, "後退・横移動"],
+      [31, "ジャンプ"],
+      [34, "被弾→転倒"],
+      [38, "終了"],
+    ] as const);
 const samples: unknown[] = [];
+const emissionSamples: unknown[] = [];
+const renderSamples: unknown[] = [];
 let running = false,
   accumulator = 0,
   fired = new Set<number>();
@@ -68,6 +84,18 @@ async function store(name: string, body: Blob | string) {
 function inputAt(t: number): Input {
   const i = neutral();
   i.cameraAim = false;
+  if (rollShotReview) {
+    i.mx =
+      t >= 1 && t < 2.5 ? -0.6 : t >= 2.5 && t < 4 ? 0.6 : t >= 6.5 ? -1 : 0;
+    i.mz = t >= 4 && t < 4.5 ? 1 : 0;
+    i.fire = (t >= 1 && t < 4) || (t >= 4.5 && t < 5.2);
+    for (const at of [4, 6.5])
+      if (t >= at && !fired.has(at)) {
+        i.dodge = true;
+        fired.add(at);
+      }
+    return i;
+  }
   if (t >= 2 && t < 5) i.mz = 0.35;
   if (t >= 5 && t < 8) i.mz = 1;
   if ((t >= 8 && t < 10) || (t >= 14 && t < 16)) i.fire = true;
@@ -105,6 +133,43 @@ function draw(dt: number) {
     false,
   );
   const p = focused;
+  if (rollShotReview && running) {
+    const body = view.players.get(p.id)?.position;
+    renderSamples.push({
+      t: sceneTime,
+      evade: p.evade,
+      lastEvent: view.lastEvent,
+      events: world.events.map((e) => ({
+        id: e.id,
+        type: e.type,
+        owner: e.owner,
+      })),
+      effects: view.combat.items.map((e) => ({
+        kind: e.kind,
+        anchored: !!e.shotAnchor,
+        matching: e.shotAnchor === body,
+      })),
+      pose: view.players
+        .get(p.id)
+        ?.userData.trooper?.model.getObjectByName("Pelvis")
+        ?.quaternion.toArray(),
+    });
+    if (body)
+      for (const effect of view.combat.items) {
+        if (effect.kind === "flash" && effect.shotAnchor === body) {
+          emissionSamples.push({
+            t: sceneTime,
+            body: body.toArray(),
+            origin: effect.mesh.position.toArray(),
+            error: Math.hypot(
+              effect.mesh.position.x - body.x,
+              effect.mesh.position.y - body.y - 1.5,
+              effect.mesh.position.z - body.z,
+            ),
+          });
+        }
+      }
+  }
   view.camera.fov = 45;
   view.camera.position.set(p.x + 1.9, (p.y ?? 0) + 1.8, p.z - 2.9);
   view.camera.lookAt(p.x, (p.y ?? 0) + 1, p.z);
@@ -138,7 +203,11 @@ button.onclick = async () => {
   button.disabled = true;
   focus.disabled = true;
   Object.assign(world, structuredClone(initial));
+  // A replay rewinds event IDs; reset the renderer through its normal run boundary.
+  view.render(null, "", 0, 0, 0, undefined, false, false, false, false);
   samples.length = 0;
+  emissionSamples.length = 0;
+  renderSamples.length = 0;
   fired = new Set();
   frames = 0;
   accumulator = 0;
@@ -187,14 +256,14 @@ async function frame() {
   const dt = running ? 1 / fps : 0;
   if (running) {
     accumulator += dt;
-    while (accumulator >= 0.05 && sceneTime < 38) {
+    while (accumulator >= 0.05 && sceneTime < duration) {
       const input = inputAt(sceneTime);
       step(
         world,
         Object.fromEntries(world.players.map((p) => [p.id, { ...input }])),
         0.05,
       );
-      if (sceneTime >= 34 && !fired.has(34)) {
+      if (!rollShotReview && sceneTime >= 34 && !fired.has(34)) {
         for (const p of world.players) hurtPlayer(world, p, 10000, true);
         fired.add(34);
       }
@@ -229,7 +298,7 @@ async function frame() {
       });
       await store(`${String(frames).padStart(4, "0")}.jpg`, jpg);
       frames++;
-      if (frames >= 38 * fps) {
+      if (frames >= duration * fps) {
         running = false;
         await store(
           "metrics.json",
@@ -237,8 +306,11 @@ async function frame() {
             captureId,
             fps,
             frames,
+            review: rollShotReview ? "roll-shot" : "full",
             scene: "固定入力の実ゲーム処理。24fps固定コマ保存。敵なし。",
             samples,
+            emissionSamples,
+            renderSamples,
           }),
         );
         status.textContent = `保存完了 ${captureId} / ${frames}コマ / 24fps`;

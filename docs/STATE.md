@@ -1,3 +1,16 @@
+## 2026-10-09 ローリング・固定発射点の独立監査合格
+
+通常Chatの独立監査が完了し、対象 `4c357dd454663e8d16a0b494bc032570aa45abf9` は合格、必須P0/P1/P2は0件。[監査回答](../evidence/soldier-roll-shot-20261009/audit-4c357dd.txt)。ZIP内322項目のハッシュ、3クリップだけの変更、発光73コマの体中心差0を監査側で照合。テスト/buildの独立再実行・全地形・4人通信・実機性能は保証外。以降は記録のみで実装変更なし。本人承認に基づきPR156の通常merge・既存Worker公開へ進む。既存Workers Freeがアクティブ、24時間のWorker呼び出し303・エラー0を画面確認し、契約変更なし。
+## 2026-10-09 ローリング復帰・横移動射撃の発射点を修正中
+
+本人の「承認する」で今回の修正・素材・証拠の公開GitHub送信、通常Chat監査、修正/再監査、合格後の通常merge・既存Worker公開・記録同期の承認が解消。2985b42までpush成功、[PR156](https://github.com/futsalife24-bot/swarm-front/pull/156)をdraft作成。4c357ddの承認済みZIPを[新規通常Chat](https://chatgpt.com/c/6ac8f717-5e54-83ec-9b1e-7854310a9944)へ送信し、独立監査の回答待ち。以降の変更は記録のみ。監査合格・merge・公開はまだ。
+
+実装＋証拠の対象HEAD `4c357dd454663e8d16a0b494bc032570aa45abf9`。公開GitHubへのpushは自動承認レビューが「今回の修正・証拠をその宛先へ公開する明示承認を確認できない」と拒否。push・PR作成・監査送信・merge・公開は未実施。本人へ当該範囲の一式承認を質問中。ローカルWorker dry-runは成功。準備済み監査ZIP `C:/Users/futsa/Documents/Codex/2026-10-07/https-x-com-dstudio-ai-status/soldier-motion-20261009/soldier-roll-shot-4c357dd.zip`、85,816,864 bytes、SHA256 `5d75157c3080c562913258e698c1a36563ec804a48dca0407822caaf92083a8d`。322収録項目のハッシュとZIP破損なしを確認。送信先は新しい通常Chat（iab）で未送信。再開条件は本人の今回一式への明示承認。拒否を迂回しない。
+
+公開版を操作した本人の追加指定。作業は `C:/Users/futsa/Documents/Codex/2026-10-09/swarm-soldier-motion`、branch `codex/soldier-roll-shot-origin-20261009`、base `c529694902397fba952dc6de16ff4bdc6c31bcd1`。モデル形状と31動作を維持し、回避3クリップを武器別ローリングへ戻す。回避距離・0.32秒・無敵時間・再使用待ち時間は維持。発射表示は本人が許容した体中心＋高さ1.5を採用し、描画補間に合わせる。権威判定・着弾点は変更しない。短い武器の床干渉は本人の許容を維持。
+
+関連19テストとclient/Worker型検査成功。3回避の体床下頂点0、握り最大差3.10mm以下。新しい検証originで武器3種×180コマを保存、前方/横回避を確認。発光と描画体中心の距離は計73コマで最大0。旧originのService Workerキャッシュで古い描画だった記録は成功証拠にしない。通常ソロの敵あり・10ゲーム秒/172描画も保存し、移動射撃・装填途中切替・回避後射撃を確認。実装 `34fb30c476a02c10328357a60bf11987db71abe8` の本番build成功、全268ファイルの開発録画混入0。独立Chat監査・main反映・公開は未完了。[変更と証拠](../evidence/soldier-roll-shot-20261009/README.md)。モデルID/推論設定は未確認。
+
 ## 2026-10-09 兵士更新を本番公開・配信確認完了
 
 本人が残作業一式を明示承認。独立監査合格のPR154を通常mergeし、公開ソースmainは `1246038673773cd4aa39c21d8503ec4ec7c7bcaf`。監査後の実装変更なし。merge後の本番build・全268ファイルの開発録画混入0検査・Worker dry-runが成功。既存Free契約のWorkerへ公開し、Version `66bb4086-3848-451a-a87b-f7c25caf500f`。公開先 https://swarm-front.melosalife-24.workers.dev/front 。
