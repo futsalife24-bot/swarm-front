@@ -1,58 +1,51 @@
 # 参照画像から制作した兵士のモーション修正
 
-## 状態
+## 現在地（2026-10-09）
 
-制作途中。ローカルのゲーム描画で4人・32動作・4色を読み込み、歩行・照準・装填・倒れる姿勢を確認。公開版は未変更。旧モーションはユーザー不承認であり、静止ポーズ検査の成功を動作の合格として扱わない。午後の最新GLBは `ea26f04520a8aa667840c6c7dbec568c9705990f57dc062972543821805a0190`。背中の接続点、武器別装填軌道、UAL_Walk接続と左右接地位相、倒れる連続再生を修正し、型チェック・構造検査成功。走行の距離同期と全動作の見た目は未完了。
+制作途中。ローカルのStandardTrooper描画に4人・32動作・4色を接続済み。歩行距離と足の位相、装填時の支持手、回避時の両手保持を修正した。公開ゲームは未変更。旧モーションはユーザー不承認であり、構造検査や静止画だけで自然さの合格とは扱わない。
 
-公開GitHubへのpushと、実ゲームの「新しい進行を開始」確定が自動承認レビューで拒否され、それぞれ具体的なユーザー承認待ち。再試行・迂回はしていない。独立した動作検証は継続可能。制作パッケージ内progress-20261009.mdに詳細を保存。
+確認済みのローカルGLB: `8ec17d5ac3b903191708e0503d88cc04dbd319dc37c7a7bf20766046916400c4`。転倒時は背負い装備の厚みに合わせて胴体を支え、かかとを地面へ落ち着かせる。回避は銃を胸元に保持し、背面接続点を固定したまま武器の向きを変えて床を避ける。回避の全身持ち上げ案は見た目が不自然なため不採用。体と武器の接地・32動作の秒数・構造検査を通過した。実ゲームでの自然さの最終確認は未完了。
 
-作業ブランチ: `codex/soldier-motion-reference-20261009`。基準: `de67860cfae978f3ee0bbd6784fc33a38ce68686`。
+公開GitHubへのpushと、実ゲームの「新しい進行を開始」確定は、自動承認レビューの拒否により各ユーザー承認待ち。再試行・迂回はしていない。独立した動作制作と検証は継続可能。
 
-制作場所: `C:/Users/futsa/Documents/Codex/2026-10-07/https-x-com-dstudio-ai-status/soldier-motion-20261009`。
+- リポジトリ: https://github.com/futsalife24-bot/swarm-front
+- 作業ブランチ: `codex/soldier-motion-reference-20261009`
+- 基準: `de67860cfae978f3ee0bbd6784fc33a38ce68686`
+- Git作業場所: `C:/Users/futsa/Documents/Codex/2026-10-09/swarm-soldier-motion`
+- 制作場所: `C:/Users/futsa/Documents/Codex/2026-10-07/https-x-com-dstudio-ai-status/soldier-motion-20261009`
+- モデルID・推論設定: 未確認
 
-Git作業場所: `C:/Users/futsa/Documents/Codex/2026-10-09/swarm-soldier-motion`。
+## 変更と根拠
 
-## 今回の変更
+QuaterniusのCC0データを歩行・走行・跳躍・回避・転倒などへ転送した。武器動作は既存ゲームのクリップを元に調整し、MixamoとReallusionの公開映像を銃の支持・移動姿勢の目視参考とした。有料モーションは取得していない。参照元・用途・限界は制作パッケージの `reference-plan.json`。
 
-- QuaterniusのCC0アニメーションを元に歩行・小走り・走行などを転送。接地高さ、周期の終端、A/Tポーズの差を補正。
-- 銃構え・射撃・装填は既存ゲームのクリップを転用した候補。Adobe Mixamoの公開プレビューを見本として確認したが、そのデータは取得していない。
-- 左右の小指の骨が前腕付近に残っていたことを検出。小指の骨と誤った頂点重みを修正し、掌の方向の計算も修正。
-- 右手のグリップ、左手の支持位置と手の向きを調整。装填の開始・終了に支持手の補正を滑らかに加え、中間の手の移動を保持。
-- 比較画面に動作選択・速度・時間・手元拡大を用意。単発動作は終了時に停止。
-- 肩と胸の既存シアン塗装を4色へ切り替えるシェーダーを追加。シアン/オレンジ/パープル/ライム。Chrome接続は復旧し、肩の4色切替を実描画で確認。ゲーム内の識別性は未検証。
+小指の骨位置と重みを修正し、右手のグリップ・左手の支持・武器別装填の軌道を調整した。歩行と走行は足の支持区間から求めた1周期の距離を使い、新兵士の旧転倒用20cm持ち上げを外した。回避では銃を胸元に両手で保持する候補へ変更。肩・胸の既存塗装をシアン・オレンジ・パープル・ライムに切り替える。
+
+旧GLBがService Workerのキャッシュから再表示される問題を確認したため、モデルURLに内容SHAを付けた。モデル更新時はURLのSHAも更新する。キャッシュ修正前の画像は、その時点のディスク上のモデルと同一だとは保証しない。Service Workerやユーザーの保存データは削除していない。
+
+検証画面 `/soldier-review.html` は通常ゲームと同じStandardTrooperを使用し、4人・武器別・正面/側面/背面・低速・1コマ送りを比較できる。これは描画用の独立した検証画面で、通信や実プレイ検証の代替ではない。
 
 ## 素材と再生成
 
-素材は `assets/blender/source/swarm_soldier_20261009/`。ファイル対応とSHA-256は同フォルダーの `manifest.json`。
+保存場所は `assets/blender/source/swarm_soldier_20261009/`。対応とSHAは `manifest.json`。入力 `soldier-rig-input.blend` には本人の頭・体・骨格だけを保存し、キットの隠し素体やサンプルは含めない。
 
-入力 `soldier-rig-input.blend` は兵士本人の頭・体・骨格だけを保持する。制作キットの隠し素体、サンプルメッシュ、不要なリグを含む元のローカル中間ファイルは配布しない。元キット正本は変更していない。
+制作フォルダーでBlenderのバックグラウンド実行により、`retarget-ual.py` → `retarget-combat.py` → `polish-motion.py` → `refine-ground.py` → `arm-roll.py` → `ground-equipped.py -- --down-only` → `animate-sling.py` の順に実行する。現行版は次の入力を明示して書き出す。
 
-保存先の `soldier-motion-20261009/` で、Blenderのバックグラウンド実行により次を順番に実行する。
+```text
+Blender --background --disable-autoexec --python export-game.py -- --source=soldier-sling-motion-candidate.blend
+```
 
-1. `retarget-ual.py`
-2. `retarget-combat.py`
-3. `polish-motion.py`
-4. `check-motion.py` と `render-combat-check.py`
-5. `export-game.py`、通常Pythonで `check-game-export.py`
+`ground-equipped.py` の採用工程は `--down-only`。引数なしの全身持ち上げは回避の比較実験で、不採用。`animate-sling.py` は転倒修正済み入力から背面武器の回避中の向きを作る。採否は `candidate-decisions.json`。`repair-hand-rig.py` はローカルの古い中間データの修正記録で、再生成は保存済みの修正済み入力を使う。
 
-ゲーム用GLBは32動作、必須57骨と左右の武器/背面接続点を持つ。`SoldierBasis`でゲームの前方へ合わせ、メッシュ名とHead骨名の衝突を解消。ローカルの `public/assets/characters/swarm-soldier.glb` は検査後の出力。ゲーム用の4人確認画面は `npm run dev -- --port 5196` から `/soldier-review.html` を開く。通常ゲームと同じStandardTrooperを使用するが、通信/実プレイ検証の代替ではない。
+制作側 `review.html` と `soldier-motion-candidate.glb` は元の骨名を使う比較表示。ゲーム側GLBとは名称・前方基準が異なる。旧動画・接触一覧画像は制作段階ごとの比較資料。現行の実表示はゲーム側 `/soldier-review.html`、モデルは `public/assets/characters/swarm-soldier.glb` を正とする。QuaterniusとThree.jsのライセンスは素材へ同梱。
 
-`inspect-export.py` は通常のPythonで実行する。`repair-hand-rig.py` は元のローカル中間データに対する修正記録で、通常の再生成は修正済み入力から開始する。
+## 検証の範囲と残件
 
-ローカルHTTPサーバーで素材フォルダーを配信し、`soldier-motion-20261009/review.html` を開く。プレビューの左側はQuaterniusまたは既存ゲーム、右側が修正候補。キットの従来の歩行プレビューには、この新クリップは自動反映されない。
+- `game-contract-check.json`: 必須57骨、32動作、2メッシュ、必要チャンネル・有限数・単調時刻。現行版errors空。
+- `export-timing-check.json`: 32動作の秒数が補正前と一致。自然さを検証するものではない。
+- `exported-ground-check.json`: 体・頭の実メッシュについて、歩行・走行・回避・転倒・跳躍開始・着地を240Hz相当で検査。現行版は許容2mmを超える床貫通なし。
+- `scripts/check-soldier-weapon-ground.mjs`: 実際の3武器系統のレア度0と全3接続点を、転倒・回避について240Hzで検査。レア度1〜4の静的形状が0と同一であることも照合。現行版は全18組で床貫通なし、最小高さ約4.87mm。地形・ゲーム中の補間は対象外。結果は `weapon-ground-current.json`。
+- `runtime-sling-roll-010.png` / `runtime-sling-roll-015.png` / `runtime-sling-recovered.png`: 現行版の回避0.10秒・0.15秒・0.35秒。旧 `runtime-armed-roll-inverted.png` は修正前の床貫通、`runtime-equipped-roll.png` は持ち上げ案を不採用とした証拠。
+- 型チェック成功。関連単体4件の成功記録あり。最新の検証日時・対象は制作記録へ残す。
 
-Quaterniusのライセンスは同梱 `source/ual/Animation Library[Standard]/License.txt`、Three.jsは `vendor/THREE-LICENSE.txt`。元の参照URLと用途は `reference-plan.json`。
-
-## 検証と残件
-
-- `hand-rig-check.json`: 54骨、体27,661頂点、指の骨位置・影響頂点・重み総和・余分なオブジェクトの検査。
-- `export-check.json`: GLBのアニメーション名、時刻単調性、有限数、回転四元数。
-- `motion-check.json`: 足裏の座標と周期差、武器を基準にした手首の移動量。単発動作や装填中の意図的な手の移動はループ不良と混同しない。
-- `walk-jog-sprint.mp4`: 前段の歩行系確認動画。以後の変更は手元が中心で、最終GLBと動画の同一ハッシュを主張しない。
-- `grip-side-repaired.png`: 短い銃構え候補の側面。全動作の合格証拠ではない。
-
-`game-contract-check.json`: 32動作、必須57骨、2メッシュ、骨がskin jointとして存在すること、主要動作の必要チャンネル、有限数/単調時刻を検査しerrorsは空。ゲーム用GLB SHA-256は `baac565a5fe849078887ebd5bbb42a1cec65804ad387f8fee3c5af68bcc801eb`。型チェック成功、関連単体テスト `tests/standard-trooper.test.ts` 4件成功。これらは視覚品質の証明ではない。既存のmotion-checkと動画は拡張前の候補を対象としており、32動作全体の検証済みとは扱わない。
-
-残件は全動作の見た目確認、散弾銃/ロケットの装填調整、ゲーム内の4色識別性、武器接点・移動速度同期、実プレイ、ビルド、所定の独立監査と公開。走行の参照クリップは下半身だけを適用し、武器の構えを上書きしないよう修正した。ローカル確認サーバーは起動済みだが、この記録時点で4人画面はまだ実表示未確認。
-
-ブラウザ操作の再初期化後に接続IDが変わり、一時的に比較画面へ接続できなくなった。新しい一覧で同じChromeとタブを特定して復旧し、ユーザー側の再接続操作は不要と案内した。モデルID・推論設定は未確認。
+残件は背負い装備と身体の干渉・補間を含む全動作の自然さと切替、実ゲームでの4色識別・移動速度・武器接続、ビルド、独立Chat監査、承認後のGitHub同期・main反映・既存Worker公開・配信確認。開発画面でVite接続エラーを観測しており、console error 0とは報告しない。

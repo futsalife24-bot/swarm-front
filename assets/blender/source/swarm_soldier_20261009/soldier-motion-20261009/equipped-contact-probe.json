@@ -1,0 +1,156 @@
+{
+  "Dodge_Roll": {
+    "baseline": {
+      "minimum": -0.20396119356155396,
+      "weapons": {
+        "rifle/RightHandWeaponSocket": 0.06434687972068787,
+        "rifle/BackWeaponSocket": -0.09968003630638123,
+        "rifle/BackWeaponSocket_2": -0.20396119356155396,
+        "shotgun/RightHandWeaponSocket": 0.05770748853683472,
+        "shotgun/BackWeaponSocket": -0.1410353183746338,
+        "shotgun/BackWeaponSocket_2": -0.19863653182983398,
+        "rocket/RightHandWeaponSocket": 0.08403649926185608,
+        "rocket/BackWeaponSocket": -0.09137685596942902,
+        "rocket/BackWeaponSocket_2": -0.19916746020317078
+      },
+      "maximumBodyLift": 0
+    },
+    "spineX-0.8": {
+      "minimum": -0.09782412648200989,
+      "weapons": {
+        "rifle/RightHandWeaponSocket": -0.03269612789154053,
+        "rifle/BackWeaponSocket": -0.0439792275428772,
+        "rifle/BackWeaponSocket_2": -0.030525416135787964,
+        "shotgun/RightHandWeaponSocket": -0.05481874942779541,
+        "shotgun/BackWeaponSocket": -0.08372876048088074,
+        "shotgun/BackWeaponSocket_2": -0.03890633583068848,
+        "rocket/RightHandWeaponSocket": -0.021109089255332947,
+        "rocket/BackWeaponSocket": -0.025968730449676514,
+        "rocket/BackWeaponSocket_2": -0.09782412648200989
+      },
+      "maximumBodyLift": 0.015014343239367008
+    },
+    "spineX-0.4": {
+      "minimum": -0.1273559331893921,
+      "weapons": {
+        "rifle/RightHandWeaponSocket": 0.06434687972068787,
+        "rifle/BackWeaponSocket": -0.07029438018798828,
+        "rifle/BackWeaponSocket_2": -0.12096399068832397,
+        "shotgun/RightHandWeaponSocket": 0.05770748853683472,
+        "shotgun/BackWeaponSocket": -0.11331802606582642,
+        "shotgun/BackWeaponSocket_2": -0.11618489027023315,
+        "rocket/RightHandWeaponSocket": 0.08403649926185608,
+        "rocket/BackWeaponSocket": -0.06751829385757446,
+        "rocket/BackWeaponSocket_2": -0.1273559331893921
+      },
+      "maximumBodyLift": 0.0007981993686407805
+    },
+    "spineX0.4": {
+      "minimum": -0.21766623854637146,
+      "weapons": {
+        "rifle/RightHandWeaponSocket": 0.06434687972068787,
+        "rifle/BackWeaponSocket": -0.1089915782213211,
+        "rifle/BackWeaponSocket_2": -0.21766623854637146,
+        "shotgun/RightHandWeaponSocket": 0.05770748853683472,
+        "shotgun/BackWeaponSocket": -0.14514808356761932,
+        "shotgun/BackWeaponSocket_2": -0.21166417002677917,
+        "rocket/RightHandWeaponSocket": 0.08403649926185608,
+        "rocket/BackWeaponSocket": -0.12236128747463226,
+        "rocket/BackWeaponSocket_2": -0.2093072235584259
+      },
+      "maximumBodyLift": 0.10684960269927979
+    },
+    "spineX0.8": {
+      "minimum": -0.18811020255088806,
+      "weapons": {
+        "rifle/RightHandWeaponSocket": 0.06434687972068787,
+        "rifle/BackWeaponSocket": -0.106223464012146,
+        "rifle/BackWeaponSocket_2": -0.1807505488395691,
+        "shotgun/RightHandWeaponSocket": 0.05770748853683472,
+        "shotgun/BackWeaponSocket": -0.14123186469078064,
+        "shotgun/BackWeaponSocket_2": -0.17389851808547974,
+        "rocket/RightHandWeaponSocket": 0.08403649926185608,
+        "rocket/BackWeaponSocket": -0.13514834642410278,
+        "rocket/BackWeaponSocket_2": -0.18811020255088806
+      },
+      "maximumBodyLift": 0.24026148700714112
+    }
+  },
+  "Down": {
+    "baseline": {
+      "minimum": -0.1436232477426529,
+      "weapons": {
+        "rifle/RightHandWeaponSocket": 0.14080041646957397,
+        "rifle/BackWeaponSocket": -0.1013464480638504,
+        "rifle/BackWeaponSocket_2": -0.07700194418430328,
+        "shotgun/RightHandWeaponSocket": 0.1318119317293167,
+        "shotgun/BackWeaponSocket": -0.1436232477426529,
+        "shotgun/BackWeaponSocket_2": -0.09016768634319305,
+        "rocket/RightHandWeaponSocket": 0.10102646052837372,
+        "rocket/BackWeaponSocket": -0.0830892026424408,
+        "rocket/BackWeaponSocket_2": -0.14273662865161896
+      },
+      "maximumBodyLift": 0
+    },
+    "hipY-1.2": {
+      "minimum": -0.16887596249580383,
+      "weapons": {
+        "rifle/RightHandWeaponSocket": -0.14372725784778595,
+        "rifle/BackWeaponSocket": -0.16223549842834473,
+        "rifle/BackWeaponSocket_2": 0.05369985103607178,
+        "shotgun/RightHandWeaponSocket": -0.1573241800069809,
+        "shotgun/BackWeaponSocket": -0.16887596249580383,
+        "shotgun/BackWeaponSocket_2": 0.016585886478424072,
+        "rocket/RightHandWeaponSocket": -0.13943235576152802,
+        "rocket/BackWeaponSocket": -0.16831225156784058,
+        "rocket/BackWeaponSocket_2": 0.11188304424285889
+      },
+      "maximumBodyLift": 0.5232472338676453
+    },
+    "hipY-0.6": {
+      "minimum": -0.11351962387561798,
+      "weapons": {
+        "rifle/RightHandWeaponSocket": -0.06754106283187866,
+        "rifle/BackWeaponSocket": -0.08685635030269623,
+        "rifle/BackWeaponSocket_2": -0.03194186091423035,
+        "shotgun/RightHandWeaponSocket": -0.07706694304943085,
+        "shotgun/BackWeaponSocket": -0.11351962387561798,
+        "shotgun/BackWeaponSocket_2": -0.06761497259140015,
+        "rocket/RightHandWeaponSocket": -0.09361337125301361,
+        "rocket/BackWeaponSocket": -0.03992021083831787,
+        "rocket/BackWeaponSocket_2": -0.04735305905342102
+      },
+      "maximumBodyLift": 0.23530978643894196
+    },
+    "hipY0.6": {
+      "minimum": -0.17091484367847443,
+      "weapons": {
+        "rifle/RightHandWeaponSocket": 0.2485501766204834,
+        "rifle/BackWeaponSocket": -0.03543740510940552,
+        "rifle/BackWeaponSocket_2": -0.07578478753566742,
+        "shotgun/RightHandWeaponSocket": 0.24669939279556274,
+        "shotgun/BackWeaponSocket": -0.07503563165664673,
+        "shotgun/BackWeaponSocket_2": -0.04517248272895813,
+        "rocket/RightHandWeaponSocket": 0.28111809492111206,
+        "rocket/BackWeaponSocket": -0.09026351571083069,
+        "rocket/BackWeaponSocket_2": -0.17091484367847443
+      },
+      "maximumBodyLift": 0.11039449208974839
+    },
+    "hipY1.2": {
+      "minimum": -0.08304330706596375,
+      "weapons": {
+        "rifle/RightHandWeaponSocket": 0.2485501766204834,
+        "rifle/BackWeaponSocket": 0.13103953003883362,
+        "rifle/BackWeaponSocket_2": 0.009547442197799683,
+        "shotgun/RightHandWeaponSocket": 0.24669939279556274,
+        "shotgun/BackWeaponSocket": 0.12299436330795288,
+        "shotgun/BackWeaponSocket_2": -0.004089146852493286,
+        "rocket/RightHandWeaponSocket": 0.28111809492111206,
+        "rocket/BackWeaponSocket": 0.05981436371803284,
+        "rocket/BackWeaponSocket_2": -0.08304330706596375
+      },
+      "maximumBodyLift": 0.27194809103012085
+    }
+  }
+}

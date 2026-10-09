@@ -1,7 +1,8 @@
 """Check the actual GLB against runtime names, skin joints and animated channels."""
-import json,struct,hashlib,math
+import json,struct,hashlib,math,sys
 from pathlib import Path
 p=Path(__file__).resolve().parent
+p=next((Path(a.split('=',1)[1]) for a in sys.argv if a.startswith('--directory=')),p)
 file=p/'swarm-soldier.glb';raw=file.read_bytes();length,kind=struct.unpack_from('<II',raw,12)
 g=json.loads(raw[20:20+length]);tail=raw[20+length:]
 # Read-only validation. Mesh names must already be distinct from joint names.

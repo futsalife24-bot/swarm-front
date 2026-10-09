@@ -2,6 +2,7 @@ import bpy,json,math,hashlib,sys,numpy as np
 from pathlib import Path
 from mathutils import Vector
 p=Path(__file__).resolve().parent
+p=next((Path(a.split('=',1)[1]) for a in sys.argv if a.startswith('--directory=')),p)
 exported='--exported' in sys.argv
 if exported:
  bpy.ops.wm.read_factory_settings(use_empty=True);bpy.context.scene.render.fps=60

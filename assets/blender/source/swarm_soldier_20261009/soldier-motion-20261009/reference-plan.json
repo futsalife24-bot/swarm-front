@@ -1,21 +1,48 @@
 {
   "status": "調整・検証中。旧プレビューはユーザー不承認",
   "sources": [
-    {"name":"Quaternius Universal Animation Library Standard","url":"https://opengameart.org/content/universal-animation-library","authorUrl":"https://quaternius.com/packs/universalanimationlibrary.html","license":"CC0","local":"source/ual/Animation Library[Standard]/Godot/AnimationLibrary_Godot_Standard.glb","usage":"歩行・走行・待機・跳躍・着地・回避・被弾・倒れる動作の比較元とリターゲット元"},
-    {"name":"Adobe Mixamo","url":"https://www.mixamo.com/","usage":"公開プレビューのライフル歩行・照準待機・立位装填を目視参考。アニメーションデータは取得していない。Adobeアカウント不要の範囲のみ"},
-    {"name":"Swarm Front 既存兵士","repository":"https://github.com/futsalife24-bot/swarm-front","head":"78dfadf9ca4781b904c7cf52164407891a9fc420","local":"source/game-trooper.glb","usage":"既存の銃構え・射撃・装填クリップの転用候補。外部の実写モーションと同一とは扱わない"}
+    {
+      "name": "Quaternius Universal Animation Library Standard",
+      "url": "https://opengameart.org/content/universal-animation-library",
+      "authorUrl": "https://quaternius.com/packs/universalanimationlibrary.html",
+      "license": "CC0",
+      "local": "source/ual/Animation Library[Standard]/Godot/AnimationLibrary_Godot_Standard.glb",
+      "usage": "歩行・走行・待機・跳躍・着地・回避・被弾・倒れる動作の比較元とリターゲット元"
+    },
+    {
+      "name": "Adobe Mixamo",
+      "url": "https://www.mixamo.com/",
+      "usage": "公開プレビューのライフル歩行・照準待機・立位装填を目視参考。アニメーションデータは取得していない。Adobeアカウント不要の範囲のみ"
+    },
+    {
+      "name": "Swarm Front 既存兵士",
+      "repository": "https://github.com/futsalife24-bot/swarm-front",
+      "head": "78dfadf9ca4781b904c7cf52164407891a9fc420",
+      "local": "source/game-trooper.glb",
+      "usage": "既存の銃構え・射撃・装填クリップの転用候補。外部の実写モーションと同一とは扱わない"
+    },
+    {
+      "name": "Reallusion Rifle Combat Combo 公開紹介映像",
+      "url": "https://www.youtube.com/watch?v=Trzaq4o_GaI",
+      "usage": "立位・膝立ち・移動・遮蔽物付近での銃の支持を目視参考。回避の実演は未確認。有料データは取得していない。"
+    }
   ],
   "criteria": {
-    "歩行":"左右の接地と通過姿勢、膝の曲がる方向、逆位相の腕振り、腰の過剰な上下動と足滑りを確認",
-    "走行":"前傾、支持期と滞空期、脚の回収、周期の連続性を確認。ゲーム移動速度との一致は組込時に別途確認",
-    "銃構え":"右手のグリップ、左手の前側支持、銃の水平、肘と装備の干渉を正面・側面で確認",
-    "射撃":"両手と銃の接触、短い反動と復帰、上体の過剰な揺れを確認",
-    "装填":"支持手を離す順序、マガジン付近への移動、再び銃を支える姿勢を確認",
-    "着地":"屈曲による衝撃吸収、接地後の復帰、靴の貫通を確認",
-    "回避・被弾・倒れる":"重心の移動と装備の変形を確認。単発動作をループ用と混同しない"
+    "歩行": "左右の接地と通過姿勢、膝の曲がる方向、逆位相の腕振り、腰の過剰な上下動と足滑りを確認",
+    "走行": "前傾、支持期と滞空期、脚の回収、周期の連続性を確認。ゲーム移動速度との一致は組込時に別途確認",
+    "銃構え": "右手のグリップ、左手の前側支持、銃の水平、肘と装備の干渉を正面・側面で確認",
+    "射撃": "両手と銃の接触、短い反動と復帰、上体の過剰な揺れを確認",
+    "装填": "支持手を離す順序、マガジン付近への移動、再び銃を支える姿勢を確認",
+    "着地": "屈曲による衝撃吸収、接地後の復帰、靴の貫通を確認",
+    "回避・被弾・倒れる": "重心の移動と装備の変形を確認。単発動作をループ用と混同しない"
   },
-  "knownLimits":["救助姿勢はFixing_Kneelingの参考候補であり完成した蘇生動作ではない","新兵士のゲーム組込と移動速度同期は未実施","キットの既存歩行表示は汎用VRMAであり新しいクリップを自動的には表示しない"],
-  "modelId":"未確認",
-  "reasoningEffort":"未確認",
-  "userSetting":"高速モードへ変更したとの本人申告。エージェント側では変更なし"
+  "knownLimits": [
+    "救助姿勢はFixing_Kneeling由来の候補であり実ゲームでの自然さは未確認",
+    "ローカルゲーム用の骨・32動作・4色・移動距離同期を実装済み。実プレイと全動作の自然さは未検証",
+    "キット従来のプレビューではなく /soldier-review.html で実際のStandardTrooper描画を確認する",
+    "制作フォルダーの旧動画・比較プレビューは現行GLBと異なる場合がある。各証拠の対象SHAを確認する"
+  ],
+  "modelId": "未確認",
+  "reasoningEffort": "未確認",
+  "userSetting": "高速モードへ変更したとの本人申告。エージェント側では変更なし"
 }
