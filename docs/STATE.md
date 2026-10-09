@@ -1,3 +1,9 @@
+## 2026-10-09 限定再監査の送信承認待ち
+
+実装HEAD c5213543a0a1dec284c3a6f86662854c305df1fd はpush済み。P2-03限定資料 `soldier-p2-03-c521354.zip`（4,506,819 bytes、SHA256 a739f7049a9efa0d1558b9ff28f0864f5f4c837279696dd658b93ba2fea7a89a）は準備済みだが未送信。保存先は `C:/Users/futsa/Documents/Codex/2026-10-07/https-x-com-dstudio-ai-status/soldier-motion-20261009/`。送信先は既存監査Chat https://chatgpt.com/c/6ac8c749-56a4-83e8-90de-a62a92f2a350 。自動承認レビューが「送信データと宛先の具体的な許可がないため」とアップロードを拒否し、対象ZIP・宛先を明示して本人へ確認中。代替経路へは送信していない。承認後に同じ経路で限定再監査し、合格後にPR154の通常merge・公開へ進む。
+
+独立した公開準備として、既存CloudflareアカウントのWorkers Freeがアクティブであることを画面確認。10月1〜9日のアカウント利用はリクエスト3.73k、CPU 2.8k ms、本日0/100,000と表示。契約変更なし。3世代比較PNGは `evidence/soldier-motion-20261009/comparison/soldier-generations.png` に完成済み。全体の概算94%、監査合格・main反映・公開は未完了。
+
 ## 2026-10-09 モーション監査解消・本番除外を限定修正
 
 独立監査baf5d1dはP2-01/02解消、P2-03として開発用録画TSの本番混入を指摘。[監査回答](../evidence/soldier-motion-20261009/audit-baf5d1d.md)。DEV条件内のnew URLを通常の動的importへ変え、268ファイル全体の内容・ファイル名検査で混入0。JSのみ検索した以前の本番除外の自己判定は誤りとして訂正。本体兵士と動作は不変、型/build成功。比較PNGは完成し前回資料に同梱済み。次はP2-03だけの修正ソース・本番成果物/全体manifestを同じChatへ再監査。合格までmerge/公開しない。
