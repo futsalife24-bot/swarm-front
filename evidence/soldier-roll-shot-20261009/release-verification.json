@@ -1,0 +1,31 @@
+{
+  "source": "4dfd5e18c1b62d139d53bab7ee35a4866b95ceef",
+  "workerVersion": "54aca1f3-2c66-4342-9e13-1ef395773370",
+  "health": {
+    "ok": true,
+    "transport": "websocket",
+    "authority": "durable-object"
+  },
+  "files": [
+    {
+      "path": "front.html",
+      "sha256": "3da650fa3d7d0975afc435260d6652e4785c54e7ca533f82776e25339599d90b",
+      "matches": true
+    },
+    {
+      "path": "assets/characters/swarm-soldier.glb",
+      "sha256": "d1028fd14cb42cfab2a0c484c57fa99032dc73609f8c3a08684abdec76f35269",
+      "matches": true
+    },
+    {
+      "path": "assets/front-D3Yc2CVg.js",
+      "sha256": "6f716a941af96d669db82d167479bdee41594d7ea41b5378fdb8d8d00a2b3a04",
+      "matches": true
+    },
+    {
+      "path": "assets/hud-AC_9YLe2.js",
+      "sha256": "999770c355acb1ababbdd5496f13814dba4dcfb61087f8f3238486a28df583a3",
+      "matches": true
+    }
+  ]
+}
