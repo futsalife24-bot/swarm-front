@@ -1,5 +1,7 @@
 ## 2026-10-09 ローリング復帰・横移動射撃の発射点を修正中
 
+本人の「承認する」で今回の修正・素材・証拠の公開GitHub送信、通常Chat監査、修正/再監査、合格後の通常merge・既存Worker公開・記録同期の承認が解消。2985b42までpush成功、[PR156](https://github.com/futsalife24-bot/swarm-front/pull/156)をdraft作成。4c357ddの承認済みZIPを[新規通常Chat](https://chatgpt.com/c/6ac8f717-5e54-83ec-9b1e-7854310a9944)へ送信し、独立監査の回答待ち。以降の変更は記録のみ。監査合格・merge・公開はまだ。
+
 実装＋証拠の対象HEAD `4c357dd454663e8d16a0b494bc032570aa45abf9`。公開GitHubへのpushは自動承認レビューが「今回の修正・証拠をその宛先へ公開する明示承認を確認できない」と拒否。push・PR作成・監査送信・merge・公開は未実施。本人へ当該範囲の一式承認を質問中。ローカルWorker dry-runは成功。準備済み監査ZIP `C:/Users/futsa/Documents/Codex/2026-10-07/https-x-com-dstudio-ai-status/soldier-motion-20261009/soldier-roll-shot-4c357dd.zip`、85,816,864 bytes、SHA256 `5d75157c3080c562913258e698c1a36563ec804a48dca0407822caaf92083a8d`。322収録項目のハッシュとZIP破損なしを確認。送信先は新しい通常Chat（iab）で未送信。再開条件は本人の今回一式への明示承認。拒否を迂回しない。
 
 公開版を操作した本人の追加指定。作業は `C:/Users/futsa/Documents/Codex/2026-10-09/swarm-soldier-motion`、branch `codex/soldier-roll-shot-origin-20261009`、base `c529694902397fba952dc6de16ff4bdc6c31bcd1`。モデル形状と31動作を維持し、回避3クリップを武器別ローリングへ戻す。回避距離・0.32秒・無敵時間・再使用待ち時間は維持。発射表示は本人が許容した体中心＋高さ1.5を採用し、描画補間に合わせる。権威判定・着弾点は変更しない。短い武器の床干渉は本人の許容を維持。
