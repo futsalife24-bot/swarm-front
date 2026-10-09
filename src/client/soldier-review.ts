@@ -163,14 +163,15 @@ try {
                 ? 0.25
                 : 0
               : 0;
+          const reloadSeconds = reloadDuration(p.weapons[p.slot], 0);
           p.reload =
             mode.value === "reload" || mode.value === "walk-reload"
-              ? Math.max(
-                  0.001,
-                  reloadDuration(p.weapons[p.slot], p.ammo[p.slot]) *
-                    (1 - (modeTime % 4) / 4),
-                )
+              ? Math.max(0, reloadSeconds - (modeTime % (reloadSeconds + 0.6)))
               : 0;
+          // Empty-magazine reload at the weapon's actual duration, followed by
+          // a short idle interval so completion and the return pose are visible.
+          if (mode.value === "reload" || mode.value === "walk-reload")
+            p.ammo[p.slot] = 0;
           p.evade =
             mode.value === "roll"
               ? Math.max(0, EVADE_DURATION - (modeTime % 2))

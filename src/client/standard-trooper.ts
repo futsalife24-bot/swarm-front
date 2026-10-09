@@ -146,7 +146,7 @@ export function loadStandardTrooper() {
       // The installed shell caches asset URLs. Change this content digest with
       // the binary so an existing player receives the revised rig and clips.
       loader.loadAsync(
-        `${base}swarm-soldier.glb?v=8ec17d5ac3b903191708e0503d88cc04dbd319dc37c7a7bf20766046916400c4`,
+        `${base}swarm-soldier.glb?v=25e20aa113cec9e16879014cc8003f5f58e98054110e179de41419837163b66d`,
       ),
       ...(["rifle", "shotgun", "rocket"] as const).map((k) =>
         loader.loadAsync(
