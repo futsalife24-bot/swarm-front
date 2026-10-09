@@ -5,6 +5,7 @@ import { WeaponRarityGlow } from "./weapon-rarity-glow";
 import { weaponTier } from "../shared/progression";
 import { clone } from "three/addons/utils/SkeletonUtils.js";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
+import { soldierAccent } from "./soldier-accent";
 import type { Player } from "../shared/game";
 import { modelOf, type ModelKind } from "../shared/defs";
 import {
@@ -139,7 +140,7 @@ export function loadStandardTrooper() {
     const loader = new GLTFLoader(),
       base = `${import.meta.env.BASE_URL}assets/characters/`;
     const [character, rifle, shotgun, rocket] = await Promise.all([
-      loader.loadAsync(`${base}standard_trooper_v10.glb`),
+      loader.loadAsync(`${base}swarm-soldier.glb`),
       ...(["rifle", "shotgun", "rocket"] as const).map((k) =>
         loader.loadAsync(
           `${import.meta.env.BASE_URL}assets/weapons/realism-v2/${k}_0.glb`,
@@ -303,6 +304,10 @@ export class StandardTrooper {
     fromQ: T.Quaternion;
   }[] = [];
   private previousPose: { p: T.Vector3; q: T.Quaternion; s: T.Vector3 }[] = [];
+  private readonly accentSetters: ((index: number) => unknown)[] = [];
+  setPlayerAccent(index: number) {
+    for (const set of this.accentSetters) set(index);
+  }
   constructor(readonly assets: Assets) {
     this.model = clone(assets.character.scene) as T.Group;
     this.model.name = "StandardTrooper_Player";
@@ -374,6 +379,8 @@ export class StandardTrooper {
           let local = this.skinMaterials.get(material);
           if (!local) {
             local = material.clone();
+            if (material.name === "Material_uniform")
+              this.accentSetters.push(soldierAccent(local));
             this.skinMaterials.set(material, local);
           }
           return local;
@@ -433,6 +440,8 @@ export class StandardTrooper {
         : undefined);
     if (runMotion) {
       const trial = runMotion.clip.clone();
+      // Reference locomotion contains full-body tracks; preserve the active gun pose.
+      trial.tracks = trial.tracks.filter((track) => lower.test(track.name));
       const duration = this.clips.get("Run")!.duration;
       for (const track of trial.tracks) track.scale(duration / trial.duration);
       trial.duration = duration;
@@ -834,8 +843,8 @@ export class StandardTrooper {
       lower: string | undefined;
     if (p.hp <= 0) {
       mode = "down";
-      clip = "Hit_Heavy";
-      at = 0.83;
+      clip = this.clips.has("Down") ? "Down" : "Hit_Heavy";
+      at = this.clips.get(clip)!.duration;
     } else if (rolling) {
       mode = "roll";
       clip = "Dodge_Roll";

@@ -1,0 +1,184 @@
+{
+  "corrections": {
+    "Dodge_Roll": {
+      "frames": 45,
+      "groundCorrection": false,
+      "loopClosed": false
+    },
+    "Down": {
+      "frames": 73,
+      "groundCorrection": false,
+      "loopClosed": false
+    },
+    "Hit": {
+      "frames": 11,
+      "groundCorrection": true,
+      "loopClosed": false
+    },
+    "Idle": {
+      "frames": 76,
+      "groundCorrection": true,
+      "loopClosed": true
+    },
+    "Jog": {
+      "frames": 29,
+      "groundCorrection": true,
+      "loopClosed": true
+    },
+    "Jump_Air": {
+      "frames": 76,
+      "groundCorrection": false,
+      "loopClosed": true
+    },
+    "Jump_Land": {
+      "frames": 39,
+      "groundCorrection": false,
+      "loopClosed": false
+    },
+    "Jump_Start": {
+      "frames": 41,
+      "groundCorrection": false,
+      "loopClosed": false
+    },
+    "Revive": {
+      "frames": 157,
+      "groundCorrection": true,
+      "loopClosed": true
+    },
+    "Rifle_Aim": {
+      "frames": 17,
+      "groundCorrection": true,
+      "loopClosed": false
+    },
+    "Rifle_Backward": {
+      "frames": 25,
+      "groundCorrection": true,
+      "loopClosed": true
+    },
+    "Rifle_Fire": {
+      "frames": 5,
+      "groundCorrection": true,
+      "loopClosed": false
+    },
+    "Rifle_Idle": {
+      "frames": 91,
+      "groundCorrection": true,
+      "loopClosed": true
+    },
+    "Rifle_LowReady": {
+      "frames": 91,
+      "groundCorrection": true,
+      "loopClosed": true
+    },
+    "Rifle_Reload": {
+      "frames": 51,
+      "groundCorrection": true,
+      "loopClosed": false
+    },
+    "Rifle_Run": {
+      "frames": 20,
+      "groundCorrection": true,
+      "loopClosed": true
+    },
+    "Rifle_Walk": {
+      "frames": 31,
+      "groundCorrection": true,
+      "loopClosed": true
+    },
+    "Rocket_Backward": {
+      "frames": 25,
+      "groundCorrection": true,
+      "loopClosed": true
+    },
+    "Rocket_Fire": {
+      "frames": 35,
+      "groundCorrection": true,
+      "loopClosed": false
+    },
+    "Rocket_Idle": {
+      "frames": 91,
+      "groundCorrection": true,
+      "loopClosed": true
+    },
+    "Rocket_Reload": {
+      "frames": 82,
+      "groundCorrection": true,
+      "loopClosed": false
+    },
+    "Rocket_Run": {
+      "frames": 20,
+      "groundCorrection": true,
+      "loopClosed": true
+    },
+    "Rocket_Walk": {
+      "frames": 31,
+      "groundCorrection": true,
+      "loopClosed": true
+    },
+    "Shotgun_Aim": {
+      "frames": 17,
+      "groundCorrection": true,
+      "loopClosed": false
+    },
+    "Shotgun_Fire": {
+      "frames": 25,
+      "groundCorrection": true,
+      "loopClosed": false
+    },
+    "Shotgun_Idle": {
+      "frames": 91,
+      "groundCorrection": true,
+      "loopClosed": true
+    },
+    "Shotgun_LowReady": {
+      "frames": 91,
+      "groundCorrection": true,
+      "loopClosed": true
+    },
+    "Shotgun_Reload": {
+      "frames": 64,
+      "groundCorrection": true,
+      "loopClosed": false
+    },
+    "Sprint": {
+      "frames": 21,
+      "groundCorrection": true,
+      "loopClosed": true
+    },
+    "Walk": {
+      "frames": 41,
+      "groundCorrection": true,
+      "loopClosed": true
+    },
+    "Weapon_Switch": {
+      "frames": 31,
+      "groundCorrection": true,
+      "loopClosed": false
+    },
+    "Weapon_Switch_Back": {
+      "frames": 31,
+      "groundCorrection": true,
+      "loopClosed": false
+    }
+  },
+  "fingerWeightedVertices": {
+    "index_distal.L": 99,
+    "index_distal.R": 101,
+    "index_intermediate.L": 127,
+    "index_intermediate.R": 123,
+    "index_proximal.L": 257,
+    "index_proximal.R": 258,
+    "middle_distal.L": 85,
+    "middle_distal.R": 94,
+    "middle_intermediate.L": 99,
+    "middle_intermediate.R": 95,
+    "middle_proximal.L": 147,
+    "middle_proximal.R": 154,
+    "thumb_distal.L": 118,
+    "thumb_distal.R": 118,
+    "thumb_intermediate.L": 134,
+    "thumb_intermediate.R": 132,
+    "thumb_proximal.L": 285,
+    "thumb_proximal.R": 292
+  }
+}

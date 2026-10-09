@@ -1,3 +1,7 @@
+# 制作途中: 新兵士のモーション修正（2026-10-09）
+
+`codex/soldier-motion-reference-20261009`、基準 `de67860cfae978f3ee0bbd6784fc33a38ce68686`。参照モーションの転送、接地/周期補正、小指の骨と重みの修正、銃の接点調整を制作中。候補32クリップと必須57骨を含むゲーム用GLBを作成。ローカルゲームの読み込み・4色割当を変更。型チェックと関連単体4件成功、実表示は未確認。公開ゲームは未変更。Chrome接続は復旧し、肩の4色切替を実描画で確認。装填モーションの通し検証は継続中。ゲームへの骨名/動作名対応・実プレイ・独立監査・公開は未完了。[詳細と検証範囲](SOLDIER-REFERENCE-MOTION-20261009.md)。作業場所は `C:/Users/futsa/Documents/Codex/2026-10-09/swarm-soldier-motion`。完成版としてmainへ混ぜない。
+
 # 現在地: PR152の☑限定操作を公開、配信26件・公開6条件成功（2026-10-08）
 
 [PR152](https://github.com/futsalife24-bot/swarm-front/pull/152)通常merge、公開ソースmain `7ae06a819aff811d8e77666f945a03e295bb3db4`、Worker Version `3237fa73-3f06-40e0-9d6e-946ce6525866`。本人承認済みの枠を維持し、左端☑だけで候補選択を切替。アイコン/名前/系統/余白は説明表示のみ。Chromeの枠外タップ補正も元のpointer座標で防ぐ。保存/融合/開幕3択/通信は継承。日本語Player-Noteをmerge本文へ保持。[公開版/front](https://swarm-front.melosalife-24.workers.dev/front)。

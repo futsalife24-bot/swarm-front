@@ -960,7 +960,7 @@ export class Renderer {
         this.players.delete(key);
       }
     if (w) {
-      for (const p of w.players) {
+      for (const [playerIndex, p] of w.players.entries()) {
         let m = this.players.get(p.id);
         const target = p.id === id && predict ? predict : p;
         if (!m) {
@@ -973,6 +973,7 @@ export class Renderer {
           this.players.set(p.id, m);
           this.scene.add(m);
         }
+        (m.userData.trooper as StandardTrooper | undefined)?.setPlayerAccent(playerIndex);
         m.position.lerp(
           new T.Vector3(
             target.x,
