@@ -12,7 +12,11 @@ names+=['check-export-timing.py','export-timing-check.json','inspect-imported-me
 names+=['refine-rocket-reload.py','inspect-reload-arm.py','reload-arm-inspection.json','rocket-reload-candidate.json','compare-reload-export.py','reload-export-difference.json','soldier-reload-candidate.blend','runtime-reload-refined-100.png','runtime-reload-refined-200.png','runtime-reload-actual-100.png','runtime-reload-actual-300.png']
 names+=['soldier-grounded-down-candidate.blend','grounded-down-check.json','soldier-sling-motion-candidate.blend','animate-sling.py','sling-motion-candidate.json','probe-sling-motion.py','sling-motion-probe.json','probe-shoulder-roll.py','shoulder-roll-probe.json','candidate-decisions.json','weapon-ground-current.json','runtime-equipped-down.png','runtime-equipped-roll.png','runtime-sling-roll-010.png','runtime-sling-roll-015.png','runtime-sling-recovered.png','runtime-rocket-reload-current.png','runtime-grounded-down.png','arm-roll.py','armed-roll-check.json','soldier-armed-roll-candidate.blend','probe-equipped-contact.py','equipped-contact-probe.json','ground-equipped.py','equipped-contact-candidate.json','weapon-ground-armed.json','runtime-back-sling.png','runtime-armed-roll-middle.png','runtime-armed-roll-inverted.png']
 if (p/'exported-ground-check.json').exists():names+=['exported-ground-check.json']
-for n in names:shutil.copy2(p/n,dest/n)
+names+=['refine-switch-handoff.py','refine-switch-handoff-direct.py','inspect-switch-handoff.py','inspect-switch-path.py','compare-switch-export.py','switch-handoff-before.json','switch-handoff-candidate.json','switch-handoff-exported.json','switch-handoff-direct-exported.json','switch-path-inspection.json','switch-path-direct.json','switch-export-difference.json','soldier-switch-candidate.blend','switch-preview/swarm-soldier.glb','switch-preview/game-export.json','runtime-walk-reload-100.png']
+names+=['runtime-switch-flank-0150.png','runtime-switch-flank-0383.png']
+for n in names:
+ (dest/n).parent.mkdir(parents=True,exist_ok=True)
+ shutil.copy2(p/n,dest/n)
 for n in ['combat-render-check.json','combat-contact-sheet.png','player-1-cyan.png','player-2-orange.png','player-3-purple.png','player-4-lime.png','runtime-shotgun-reload.png']:
  if (p/n).exists():shutil.copy2(p/n,dest/n)
 for n in ['ual-source.blend','game-trooper.glb','rifle.glb','shotgun.glb','rocket.glb','ual/Animation Library[Standard]/Godot/AnimationLibrary_Godot_Standard.glb','ual/Animation Library[Standard]/License.txt']:

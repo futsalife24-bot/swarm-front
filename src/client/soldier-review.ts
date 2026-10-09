@@ -181,7 +181,9 @@ try {
               ? Math.max(0, HEAVY_HIT_DURATION - (modeTime % 3))
               : 0;
           if (mode.value === "switch") {
-            p.slot = Math.floor(modeTime / 2) % 2;
+            // Start by selecting the other weapon: a cooldown without a slot
+            // change is not a real switch and would test the wrong handoff.
+            p.slot = 1 - (Math.floor(modeTime / 2) % 2);
             p.swapCd = Math.max(0, WEAPON_SWITCH_DURATION - (modeTime % 2));
           } else {
             p.slot = 0;

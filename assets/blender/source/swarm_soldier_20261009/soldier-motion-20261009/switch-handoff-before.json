@@ -1,0 +1,33 @@
+{
+  "scope": "Authored socket frames only; runtime blending and attachment scale need visual validation.",
+  "events": [
+    {
+      "action": "Weapon_Switch",
+      "fraction": 0.45,
+      "back": "BackWeaponSocket",
+      "originGapMetres": 0.35604636650280996,
+      "rotationGapDegrees": 159.30805620142942
+    },
+    {
+      "action": "Weapon_Switch",
+      "fraction": 0.6,
+      "back": "BackWeaponSocket_2",
+      "originGapMetres": 0.3415142941606279,
+      "rotationGapDegrees": 164.78170514285162
+    },
+    {
+      "action": "Weapon_Switch_Back",
+      "fraction": 0.45,
+      "back": "BackWeaponSocket_2",
+      "originGapMetres": 0.4037906563175598,
+      "rotationGapDegrees": 162.04745747469045
+    },
+    {
+      "action": "Weapon_Switch_Back",
+      "fraction": 0.6,
+      "back": "BackWeaponSocket",
+      "originGapMetres": 0.2916228300989114,
+      "rotationGapDegrees": 159.31102414599488
+    }
+  ]
+}
