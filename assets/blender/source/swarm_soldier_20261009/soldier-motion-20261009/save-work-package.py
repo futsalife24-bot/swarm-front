@@ -17,6 +17,7 @@ names+=['runtime-switch-flank-0150.png','runtime-switch-flank-0383.png']
 names+=['refine-switch-support.py','soldier-switch-support-candidate.blend','switch-support-candidate.json','switch-support-export-difference.json','switch-support-handoff-exported.json','check-back-body-runtime.py','back-body-runtime-check.json','runtime-switch-support-0383.png','runtime-switch-support-0483.png','runtime-switch-support-0600.png','runtime-switch-support-rear-0233.png']
 names+=['search-back-mount.py','back-mount-search.json','back-mount-floor-search.json','back-depth-floor-probe.json','probe-back-pivot.py','back-pivot-feasibility.json','refine-back-mount.py','back-mount-candidate.json','soldier-back-mount-candidate.blend','back-mount-preview/swarm-soldier.glb','back-mount-preview/game-export.json']
 names+=['back-mount-preview/game-contract-check.json','back-mount-weapon-ground.json','runtime-back-mount-idle.png','runtime-back-mount-roll-0150.png']
+names+=['refine-roll-grips.py','soldier-roll-grips-candidate.blend','roll-grips-candidate.json','check-roll-grips-export.py','roll-grips-export-check.json','roll-grips-preview/swarm-soldier.glb','roll-grips-preview/game-export.json','roll-grips-preview/game-contract-check.json','roll-grip-Shotgun.json','roll-grip-Rocket.json','roll-grips-weapon-ground.json','roll-grips-rocket-0150.png','roll-grips-shotgun-0150.png','back-mount-close-candidate.json']
 for n in names:
  (dest/n).parent.mkdir(parents=True,exist_ok=True)
  shutil.copy2(p/n,dest/n)

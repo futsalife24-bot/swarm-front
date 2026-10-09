@@ -1,8 +1,11 @@
 """背面の接続位置を維持し、回避中の武器の向きを連続経路で調整する制作候補。体の持ち上げ・非表示・拡縮は行わない。"""
-import bpy, math, json, hashlib, numpy as np
+import bpy, math, json, hashlib, sys, numpy as np
 from pathlib import Path
 from mathutils import Vector, Matrix, Quaternion
 p=Path(__file__).resolve().parent
+close='--layout=close' in sys.argv
+outputStem='soldier-back-mount-close-candidate' if close else 'soldier-back-mount-candidate'
+reportStem='back-mount-close-candidate' if close else 'back-mount-candidate'
 repo=next((root for root in p.parents if (root/'public/assets/weapons/realism-v2').is_dir()),Path('C:/Users/futsa/Documents/Codex/2026-10-09/swarm-soldier-motion'))
 bpy.ops.wm.open_mainfile(filepath=str(p/'soldier-switch-support-candidate.blend'))
 s=bpy.context.scene;rig=next(o for o in s.objects if o.type=='ARMATURE')
@@ -15,6 +18,12 @@ search=json.loads((p/'back-mount-floor-search.json').read_text())
 def from_values(v):return Matrix([v[i:i+4] for i in range(0,16,4)]).transposed()
 idleChest=from_values(runtime['poses'][0]['sockets']['Chest'])
 chosen={name:next(r for r in search['results'] if r['socket']==name) for name in ['BackWeaponSocket','BackWeaponSocket_2']}
+if close:
+ allRows=json.loads((p/'back-mount-search.json').read_text())['candidates']
+ specs={'BackWeaponSocket':([0,0,.16],0,180),'BackWeaponSocket_2':([-.06,0,.12],0,0)}
+ chosen={}
+ for name,(shift,lean,flip) in specs.items():
+  chosen[name]=next(r for r in allRows if r['socket']==name and max(abs(a-b) for a,b in zip(r['idleWorldShift'],shift))<1e-6 and r['leanDegrees']==lean and r['flipDegrees']==flip)
 back={name:idleChest.inverted()@from_values(row['idleWorldMatrix']) for name,row in chosen.items()}
 weapons={}
 for kind in ['rifle','shotgun','rocket']:
@@ -59,7 +68,7 @@ for actionName in ['Soldier_Dodge_Roll','Soldier_Down']:
   for n,m in back.items():worlds[n].append(rig.matrix_world@rig.pose.bones['chest'].matrix@m)
  actionReport={}
  for name in back:
-  pivot=Vector((0,.28 if name=='BackWeaponSocket' else 0,0))
+  pivot=Vector((0,.28 if close or name=='BackWeaponSocket' else 0,0))
   rotations=[Matrix.Translation(pivot)@Matrix.Rotation(math.radians(x),4,'X')@Matrix.Rotation(math.radians(y),4,'Y')@Matrix.Rotation(math.radians(z),4,'Z')@Matrix.Translation(-pivot) for x,y,z in angles]
   lows=np.empty((len(frames),len(angles)))
   for fi,world in enumerate(worlds[name]):
@@ -90,8 +99,8 @@ for actionName in ['Soldier_Dodge_Roll','Soldier_Down']:
 rig.animation_data.action=None
 for n in back:
  rig.pose.bones[n].rotation_quaternion=(1,0,0,0);rig.pose.bones[n].location=(0,0,0)
-bpy.ops.wm.save_as_mainfile(filepath=str(p/'soldier-back-mount-candidate.blend'))
-report['authoringBlendSha256']=hashlib.sha256((p/'soldier-back-mount-candidate.blend').read_bytes()).hexdigest()
+bpy.ops.wm.save_as_mainfile(filepath=str(p/(outputStem+'.blend')))
+report['authoringBlendSha256']=hashlib.sha256((p/(outputStem+'.blend')).read_bytes()).hexdigest()
 report['sourceRuntimeSha256']=runtime['sha256']
 report['limits']=['未採用。持ち替え到達は旧位置。','床・体干渉・自然さの書き出し後検査が必要。']
-(p/'back-mount-candidate.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+(p/(reportStem+'.json')).write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')

@@ -141,7 +141,19 @@ for (const kind of ["rifle", "shotgun", "rocket"]) {
     character.scene.getObjectByName(socket).add(gun);
     gun.position.set(0, 0, 0);
     gun.rotation.set(Math.PI / 2, 0, 0);
-    for (const name of ["Down", "Trial_Dodge_Roll"]) {
+    const clipNames = ["Down", "Trial_Dodge_Roll"];
+    for (const [profile, heldKind] of [
+      ["Shotgun", "shotgun"],
+      ["Rocket", "rocket"],
+    ]) {
+      const name = `Trial_Dodge_Roll_${profile}`;
+      if (
+        character.animations.some((clip) => clip.name === name) &&
+        (socket !== "RightHandWeaponSocket" || kind === heldKind)
+      )
+        clipNames.push(name);
+    }
+    for (const name of clipNames) {
       const clip = T.AnimationClip.findByName(character.animations, name);
       const rows = [],
         count = Math.ceil(clip.duration * 240);

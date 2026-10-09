@@ -106,12 +106,17 @@ weapon.addEventListener("change", () => {
   pendingSteps = 0;
 });
 try {
+  const requestedCandidate = new URLSearchParams(location.search).get(
+    "candidate",
+  );
   const candidate =
     import.meta.env.DEV &&
-    new URLSearchParams(location.search).get("candidate") === "back-mount";
+    (requestedCandidate === "back-mount" || requestedCandidate === "roll-grips")
+      ? requestedCandidate
+      : undefined;
   // The app shell may cache source module URLs even in a local review tab.
   // Version the candidate renderer without clearing any game save or cache.
-  const candidateModule = "/src/client/standard-trooper.ts?review=mount-38ed06";
+  const candidateModule = "/src/client/standard-trooper.ts?review=grips-094059";
   const { loadStandardTrooper, StandardTrooper } = candidate
     ? ((await import(
         /* @vite-ignore */ candidateModule
@@ -119,7 +124,7 @@ try {
     : defaultTrooper;
   const assets = await loadStandardTrooper(
       candidate
-        ? "/assets/blender/source/swarm_soldier_20261009/soldier-motion-20261009/back-mount-preview/swarm-soldier.glb"
+        ? `/assets/blender/source/swarm_soldier_20261009/soldier-motion-20261009/${candidate === "roll-grips" ? "roll-grips-preview" : "back-mount-preview"}/swarm-soldier.glb`
         : undefined,
     ),
     world = createWorld("soldier-review", 42);
@@ -134,7 +139,7 @@ try {
     scene.add(actor.model);
     return { player, actor };
   });
-  status.textContent = `${candidate ? "未採用の背面装備候補・" : ""}4人・${assets.character.animations.length}動作を読込済み。ゲームと同じ描画処理で検証中`;
+  status.textContent = `${candidate ? (candidate === "roll-grips" ? "未採用の武器別回避候補・" : "未採用の背面装備候補・") : ""}4人・${assets.character.animations.length}動作を読込済み。ゲームと同じ描画処理で検証中`;
   function frame(now: number) {
     const dt =
       pendingSteps > 0

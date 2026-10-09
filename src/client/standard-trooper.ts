@@ -874,10 +874,9 @@ export class StandardTrooper {
       at = this.clips.has("Down") ? this.downTime : 0.83;
     } else if (rolling) {
       mode = "roll";
-      clip = "Dodge_Roll";
-      at =
-        (this.rollTime / EVADE_DURATION) *
-        this.clips.get("Dodge_Roll")!.duration;
+      const profileRoll = `Dodge_Roll_${profile}`;
+      clip = this.clips.has(profileRoll) ? profileRoll : "Dodge_Roll";
+      at = (this.rollTime / EVADE_DURATION) * this.clips.get(clip)!.duration;
     } else if (this.switchTime < TROOPER_SWITCH.duration) {
       mode = "switch";
       clip = this.oldSlot === 0 ? "Switch_1_to_2" : "Switch_2_to_1";
