@@ -1,3 +1,8 @@
+## 2026-10-09 ローリング・固定発射点を本番公開完了
+
+本人承認と通常Chat独立監査合格後、[PR156](https://github.com/futsalife24-bot/swarm-front/pull/156)を通常merge。公開ソースmain `4dfd5e18c1b62d139d53bab7ee35a4866b95ceef` から本番build・全268成果物の開発録画混入0・既存Worker dry-run成功。既存Free契約のswarm-frontへ公開、Version `54aca1f3-2c66-4342-9e13-1ef395773370`。公開先 https://swarm-front.melosalife-24.workers.dev/front 。監査後に実装変更なし。
+
+health正常、HTML・主要JS2件・兵士GLBのSHAが成果物と完全一致。[配信検証](../evidence/soldier-roll-shot-20261009/release-verification.json)。Chromeでも新しいfront-D3Yc2CVg.jsを読み、通常ソロで新兵士と射撃表示を確認、9ゲーム秒で一時停止しタイトルへ戻って終了。確認時console error0。[本番画像](../evidence/soldier-roll-shot-20261009/release-live.png)。ローリングと横移動の詳細は公開前の3武器×180コマと独立監査で検証済み。本番画面だけから全遷移を確認したとは扱わない。全地形・4人通信・実機性能は未保証、既存弾道テスト1件はbaseでも同じ失敗。残る作業は本公開記録のmain同期のみ。モデルID/推論設定は未確認。
 ## 2026-10-09 ローリング・固定発射点の独立監査合格
 
 通常Chatの独立監査が完了し、対象 `4c357dd454663e8d16a0b494bc032570aa45abf9` は合格、必須P0/P1/P2は0件。[監査回答](../evidence/soldier-roll-shot-20261009/audit-4c357dd.txt)。ZIP内322項目のハッシュ、3クリップだけの変更、発光73コマの体中心差0を監査側で照合。テスト/buildの独立再実行・全地形・4人通信・実機性能は保証外。以降は記録のみで実装変更なし。本人承認に基づきPR156の通常merge・既存Worker公開へ進む。既存Workers Freeがアクティブ、24時間のWorker呼び出し303・エラー0を画面確認し、契約変更なし。
