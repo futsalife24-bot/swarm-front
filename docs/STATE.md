@@ -1,3 +1,9 @@
+## 2026-10-09 兵士更新を本番公開・配信確認完了
+
+本人が残作業一式を明示承認。独立監査合格のPR154を通常mergeし、公開ソースmainは `1246038673773cd4aa39c21d8503ec4ec7c7bcaf`。監査後の実装変更なし。merge後の本番build・全268ファイルの開発録画混入0検査・Worker dry-runが成功。既存Free契約のWorkerへ公開し、Version `66bb4086-3848-451a-a87b-f7c25caf500f`。公開先 https://swarm-front.melosalife-24.workers.dev/front 。
+
+`/api/health`正常、配信HTML・主要JS2件・兵士GLBのSHAが公開成果物と一致。[配信検証](../evidence/soldier-motion-20261009/release-verification.json)。Chromeの通常ソロ出撃で新兵士と識別色を確認し、約5秒後に一時停止→タイトルへ戻って検証終了。確認時のconsole errorは0。[本番画像](../evidence/soldier-motion-20261009/release-live.png)。全遷移・全地形・実機性能の保証は行わず、既存弾道テスト1件のbase同一失敗は前述の通り。初期（簡易図形）→現行（v10）→最新の同ポーズ比較も[完成](../evidence/soldier-motion-20261009/comparison/soldier-generations.png)。残る同期は本公開記録のみ。モデルID・推論設定は未確認。
+
 ## 2026-10-09 独立監査合格・公開へ
 
 監査回答保存commit6f0f3bcのpush・PR本文更新・Draft解除は、自動承認レビューが「直前承認は旧コミットの進捗pushに限る」と拒否。残る監査/公開記録の既存公開GitHub同期・PR154通常merge・既存Worker公開・配信確認・完了記録のmain反映をまとめて本人へ確認中。拒否された外部変更は未実施。公開前のローカルWorker dry-runは成功し、全268本番ファイル再検査も混入0。監査後の実装変更はなし。
