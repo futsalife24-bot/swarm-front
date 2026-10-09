@@ -159,6 +159,8 @@ export interface Player {
   reloadSlots?: number[];
   y?: number; // Authoritative feet altitude; absent legacy snapshots mean zero.
   id: string;
+  /** Stable squad colour, assigned by the authority; optional for old snapshots. */
+  accentSlot?: number;
   x: number;
   z: number;
   yaw: number;
@@ -366,6 +368,13 @@ export function addPlayer(
 ) {
   const p: Player = {
     id,
+    accentSlot:
+      [0, 1, 2, 3].find(
+        (slot) =>
+          !w.players.some(
+            (other, index) => (other.accentSlot ?? index) === slot,
+          ),
+      ) ?? 0,
     x: w.players.length * 2 - 1,
     z: mapFor(w).blocks === CAVE_BLOCKS ? 36 * MAP_SCALE : 17 * MAP_SCALE,
     yaw: 0,

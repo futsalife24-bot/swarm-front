@@ -275,6 +275,7 @@ export class Renderer {
   foundryLasers!: T.InstancedMesh;
   foundryLaserGlow!: T.InstancedMesh;
   players = new Map<string, T.Group>();
+  private playerAccentSlots = new Map<string, number>();
   readonly defenseVisual: DefenseVisual;
   dummy = new T.Object3D();
   particles: T.InstancedMesh;
@@ -924,6 +925,7 @@ export class Renderer {
       this.clearFoundryWorms();
       this.foundryTime = w.time;
       this.run = w.run;
+      this.playerAccentSlots.clear();
       this.lastEvent = 0;
       this.visual.clear();
       this.crawlerAim.clear();
@@ -973,9 +975,16 @@ export class Renderer {
           this.players.set(p.id, m);
           this.scene.add(m);
         }
-        (m.userData.trooper as StandardTrooper | undefined)?.setPlayerAccent(playerIndex);
-        const authoredGround = (m.userData.trooper as StandardTrooper | undefined)
-          ?.model.userData.soldierReferenceVersion;
+        // Snapshot slots agree across clients; cache legacy slots by identity.
+        const accentSlot =
+          p.accentSlot ?? this.playerAccentSlots.get(p.id) ?? playerIndex;
+        this.playerAccentSlots.set(p.id, accentSlot);
+        (m.userData.trooper as StandardTrooper | undefined)?.setPlayerAccent(
+          accentSlot,
+        );
+        const authoredGround = (
+          m.userData.trooper as StandardTrooper | undefined
+        )?.model.userData.soldierReferenceVersion;
         m.position.lerp(
           new T.Vector3(
             target.x,
