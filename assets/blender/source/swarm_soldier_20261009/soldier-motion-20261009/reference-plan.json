@@ -25,6 +25,11 @@
       "name": "Reallusion Rifle Combat Combo 公開紹介映像",
       "url": "https://www.youtube.com/watch?v=Trzaq4o_GaI",
       "usage": "立位・膝立ち・移動・遮蔽物付近での銃の支持を目視参考。回避の実演は未確認。有料データは取得していない。"
+    },
+    {
+      "name": "Quaternius Crouch_Fwd_Loop",
+      "usage": "CC0手元ソースの4姿勢を実際に描画し、膝屈曲・前傾・左右足の通過を確認。新回避はこの姿勢の考え方を参考にした独自の短い踏み込みで、同クリップの直接転用ではない。",
+      "local": "Crouch_Fwd_Loop-reference.png"
     }
   ],
   "criteria": {
@@ -44,5 +49,9 @@
   ],
   "modelId": "未確認",
   "reasoningEffort": "未確認",
-  "userSetting": "高速モードへ変更したとの本人申告。エージェント側では変更なし"
+  "userSetting": "高速モードへ変更したとの本人申告。エージェント側では変更なし",
+  "userDecisions20261009": [
+    "一瞬の武器の床めり込みは許容。これだけを理由に採用・完了を止めない。",
+    "回避は低い踏み込み動作への変更を明示選択。距離・時間・無敵時間は変更しない。"
+  ]
 }

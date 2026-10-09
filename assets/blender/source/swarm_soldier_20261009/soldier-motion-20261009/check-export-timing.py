@@ -17,6 +17,10 @@ else:
  original=subprocess.run(['git','show','6f5952901dabec09a986b734c8ecd43d92dd5fc6:public/assets/characters/swarm-soldier.glb'],cwd=repo,check=True,capture_output=True).stdout
 before,bh=durations(original);after,ah=durations((p/'swarm-soldier.glb').read_bytes())
 errors=[name for name,d in before.items() if name not in after or abs(after[name]-d)>1e-5]
+added={'Trial_Dodge_Roll_Shotgun','Trial_Dodge_Roll_Rocket'}
+expected=set(before)|added if added & set(after) else set(before)
+for name in added & set(after):
+ if abs(after[name]-before['Trial_Dodge_Roll'])>1e-5:errors.append(name)
 report={'baselineSha256':bh,'exportSha256':ah,'baselineDurations':before,'exportDurations':after,'errors':errors}
 (p/'export-timing-check.json').write_text(json.dumps(report,indent=2));print(json.dumps({'clips':len(after),'errors':errors}))
-assert not errors and set(before)==set(after),'Export changed clip timing'
+assert not errors and expected==set(after),'Export changed clip timing or unexpected clips'

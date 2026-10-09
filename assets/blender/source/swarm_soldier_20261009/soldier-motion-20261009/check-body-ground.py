@@ -16,9 +16,11 @@ meshNames=['SoldierMesh_Body','SoldierMesh_Head'] if exported else ['Body','Head
 meshes=[bpy.data.objects[n] for n in meshNames]
 assert all(any(m.type=='ARMATURE' for m in o.modifiers) for o in meshes)
 report={'sourceSha256':hashlib.sha256((p/('swarm-soldier.glb' if exported else 'soldier-polished-candidate.blend')).read_bytes()).hexdigest(),'exported':exported,'clips':{}}
-for name in ['Down','Dodge_Roll','Jump_Start','Jump_Land','Walk','Sprint']:
+clipNames=next((a.split('=',1)[1].split(',') for a in sys.argv if a.startswith('--clips=')),['Down','Dodge_Roll','Jump_Start','Jump_Land','Walk','Sprint'])
+for name in clipNames:
  runtime={'Walk':'UAL_Walk','Sprint':'UAL_sprint','Dodge_Roll':'Trial_Dodge_Roll'}
- a=bpy.data.actions[runtime.get(name,name) if exported else 'Soldier_'+name];r.animation_data.action=a;r.animation_data.action_slot=a.slots[0];rows=[]
+ runtimeName='Trial_'+name if name.startswith('Dodge_Roll') else runtime.get(name,name)
+ a=bpy.data.actions[runtimeName if exported else 'Soldier_'+name];r.animation_data.action=a;r.animation_data.action_slot=a.slots[0];rows=[]
  for quarter in range(round(a.frame_range[0]*4),round(a.frame_range[1]*4)+1):
   f=quarter/4;s.frame_set(math.floor(f),subframe=f%1);dg=bpy.context.evaluated_depsgraph_get();lowest=1e9;count=0
   for obj in meshes:

@@ -101,11 +101,20 @@ for (const kind of ["rifle", "shotgun", "rocket"]) {
   weapons[kind] = meshData(gun);
 }
 const poses = [];
-for (const [name, fraction] of [
+const poseSpecs = [
   ["Trial_Weapon_Idle_Rifle", 0],
   ["Trial_Switch_1_to_2", 0.45],
   ["Trial_Switch_1_to_2", 0.6],
-]) {
+];
+if (process.argv.includes("--evade")) {
+  for (const name of [
+    "Trial_Dodge_Roll",
+    "Trial_Dodge_Roll_Shotgun",
+    "Trial_Dodge_Roll_Rocket",
+  ])
+    for (const fraction of [0.25, 0.5, 0.75]) poseSpecs.push([name, fraction]);
+}
+for (const [name, fraction] of poseSpecs) {
   mixer.stopAllAction();
   const clip = T.AnimationClip.findByName(character.animations, name);
   const action = mixer.clipAction(clip).reset().setLoop(T.LoopOnce, 1).play();

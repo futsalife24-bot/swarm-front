@@ -1,6 +1,6 @@
 {
   "baselineSha256": "ea26f04520a8aa667840c6c7dbec568c9705990f57dc062972543821805a0190",
-  "exportSha256": "746e35fd16126f5c09140ef6e193eea7e48d0be23eb9dda17cac50c64a67ae23",
+  "exportSha256": "bea4886cd676e602816df15de52424dc953279d0b463de61ba9860c3bfef280e",
   "baselineDurations": {
     "Aim_Raise_Rifle": 0.5333333611488342,
     "Aim_Raise_Shotgun": 0.5333333611488342,
@@ -49,6 +49,8 @@
     "Low_Ready_Shotgun": 3.0,
     "Revive": 5.199999809265137,
     "Trial_Dodge_Roll": 1.4666666984558105,
+    "Trial_Dodge_Roll_Rocket": 1.4666666984558105,
+    "Trial_Dodge_Roll_Shotgun": 1.4666666984558105,
     "Trial_Fire_Rifle": 0.13333334028720856,
     "Trial_Fire_Rocket": 1.1333333253860474,
     "Trial_Fire_Shotgun": 0.800000011920929,

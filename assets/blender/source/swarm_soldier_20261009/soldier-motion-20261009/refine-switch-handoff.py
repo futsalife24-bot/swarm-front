@@ -1,9 +1,11 @@
 """Candidate: align held and stowed weapon frames at the two attachment events."""
-import bpy,json,math
+import bpy,json,math,sys
 from pathlib import Path
 from mathutils import Vector,Matrix,Quaternion
 p=Path(__file__).resolve().parent
-bpy.ops.wm.open_mainfile(filepath=str(p/'soldier-reload-candidate.blend'))
+source=next((Path(a.split('=',1)[1]) for a in sys.argv if a.startswith('--source=')),p/'soldier-reload-candidate.blend')
+stem=next((a.split('=',1)[1] for a in sys.argv if a.startswith('--output-stem=')),'soldier-switch-candidate')
+bpy.ops.wm.open_mainfile(filepath=str(source))
 s=bpy.context.scene;rig=next(o for o in s.objects if o.type=='ARMATURE')
 for tr in list(rig.animation_data.nla_tracks):rig.animation_data.nla_tracks.remove(tr)
 idle=bpy.data.actions['Soldier_Rifle_Idle'];rig.animation_data.action=idle;rig.animation_data.action_slot=idle.slots[0];s.frame_set(0);bpy.context.view_layer.update()
@@ -66,5 +68,6 @@ for actionName,backNames in [('Weapon_Switch',['BackWeaponSocket','BackWeaponSoc
  print(actionName,'maximum socket position residual',max(errors),flush=True)
  if max(errors)>.002:raise RuntimeError('Candidate hand path exceeds arm reach')
 rig.animation_data.action=None
-bpy.ops.wm.save_as_mainfile(filepath=str(p/'soldier-switch-candidate.blend'))
-(p/'switch-handoff-candidate.json').write_text(json.dumps({'status':'candidate; right-flank route; rendered and exported verification required','events':report},indent=2));print(json.dumps(report),flush=True)
+bpy.ops.wm.save_as_mainfile(filepath=str(p/(stem+'.blend')))
+reportName='switch-handoff-candidate' if stem=='soldier-switch-candidate' else stem
+(p/(reportName+'.json')).write_text(json.dumps({'status':'candidate; right-flank route; rendered and exported verification required','events':report},indent=2));print(json.dumps(report),flush=True)

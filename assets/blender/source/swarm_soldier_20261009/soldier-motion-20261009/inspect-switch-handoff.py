@@ -6,6 +6,7 @@ exported='--exported' in sys.argv
 support='--support' in sys.argv
 candidate=p/('switch-support-preview' if support else 'switch-preview')/'swarm-soldier.glb'
 if support and not candidate.exists():candidate=p/'swarm-soldier.glb'
+candidate=next((Path(a.split('=',1)[1]) for a in sys.argv if a.startswith('--asset=')),candidate)
 if exported:
  bpy.ops.wm.read_factory_settings(use_empty=True)
  bpy.ops.import_scene.gltf(filepath=str(candidate))
@@ -25,5 +26,6 @@ for name,backs in [('Weapon_Switch',['BackWeaponSocket','BackWeaponSocket_2']),(
 result={'scope':'Authored socket frames only; runtime blending and attachment scale need visual validation.','events':report}
 if exported:result['sha256']=hashlib.sha256(candidate.read_bytes()).hexdigest()
 filename=('switch-support-handoff-exported.json' if support else 'switch-handoff-exported.json') if exported else 'switch-handoff-before.json'
+filename=next((a.split('=',1)[1] for a in sys.argv if a.startswith('--output=')),filename)
 (p/filename).write_text(json.dumps(result,indent=2));print(json.dumps(result),flush=True)
 if exported:assert all(row['originGapMetres']<.002 and row['rotationGapDegrees']<1 for row in report)

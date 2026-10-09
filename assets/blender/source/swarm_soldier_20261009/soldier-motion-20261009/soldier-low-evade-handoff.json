@@ -1,0 +1,29 @@
+{
+  "status": "candidate; right-flank route; rendered and exported verification required",
+  "events": [
+    {
+      "action": "Weapon_Switch",
+      "fraction": 0.45,
+      "originGapMetres": 3.1489436200315057e-06,
+      "rotationGapDegrees": 0.0
+    },
+    {
+      "action": "Weapon_Switch",
+      "fraction": 0.6,
+      "originGapMetres": 4.091345756353237e-06,
+      "rotationGapDegrees": 0.0
+    },
+    {
+      "action": "Weapon_Switch_Back",
+      "fraction": 0.45,
+      "originGapMetres": 4.088896009002327e-06,
+      "rotationGapDegrees": 0.0
+    },
+    {
+      "action": "Weapon_Switch_Back",
+      "fraction": 0.6,
+      "originGapMetres": 3.2668905607200297e-06,
+      "rotationGapDegrees": 0.0
+    }
+  ]
+}

@@ -3,11 +3,13 @@
 Input is the right-flank switch candidate. Only left-arm/finger tracks of the
 two switch clips are written; weapon handoff transforms must remain unchanged.
 """
-import bpy,json,math
+import bpy,json,math,sys
 from pathlib import Path
 from mathutils import Vector,Matrix
 p=Path(__file__).resolve().parent
-bpy.ops.wm.open_mainfile(filepath=str(p/'soldier-switch-candidate.blend'))
+source=next((Path(a.split('=',1)[1]) for a in sys.argv if a.startswith('--source=')),p/'soldier-switch-candidate.blend')
+stem=next((a.split('=',1)[1] for a in sys.argv if a.startswith('--output-stem=')),'soldier-switch-support-candidate')
+bpy.ops.wm.open_mainfile(filepath=str(source))
 s=bpy.context.scene;rig=next(o for o in s.objects if o.type=='ARMATURE')
 for tr in list(rig.animation_data.nla_tracks):rig.animation_data.nla_tracks.remove(tr)
 idle=bpy.data.actions['Soldier_Rifle_Idle'];rig.animation_data.action=idle;rig.animation_data.action_slot=idle.slots[0]
@@ -59,6 +61,7 @@ for name in ['Soldier_Weapon_Switch','Soldier_Weapon_Switch_Back']:
  report.append({'action':name,'samples':len(samples),'maxHandResidualMetres':max(errors),'maxWristDeltaFromIdleDegrees':max(wrist)})
  assert max(errors)<.002
 rig.animation_data.action=None
-bpy.ops.wm.save_as_mainfile(filepath=str(p/'soldier-switch-support-candidate.blend'))
-(p/'switch-support-candidate.json').write_text(json.dumps({'status':'candidate; rendered verification required','checks':report},indent=2))
+bpy.ops.wm.save_as_mainfile(filepath=str(p/(stem+'.blend')))
+reportName='switch-support-candidate' if stem=='soldier-switch-support-candidate' else stem
+(p/(reportName+'.json')).write_text(json.dumps({'status':'candidate; rendered verification required','checks':report},indent=2))
 print(json.dumps(report),flush=True)

@@ -7,6 +7,7 @@ import {
   EVADE_DURATION,
   HEAVY_HIT_DURATION,
   WEAPON_SWITCH_DURATION,
+  MOVE_SPEED,
 } from "../shared/defs";
 
 const status = document.querySelector<HTMLSpanElement>("#status")!;
@@ -92,7 +93,10 @@ document.querySelector("#rear")!.addEventListener("click", () => {
   controls.update();
 });
 document.querySelector("#close")!.addEventListener("click", () => {
-  const lowPose = mode.value === "down" || mode.value === "roll";
+  const oldRoll = ["back-mount", "roll-grips", "back-mount-close"].includes(
+    new URLSearchParams(location.search).get("candidate") ?? "",
+  );
+  const lowPose = mode.value === "down" || (mode.value === "roll" && oldRoll);
   controls.target.set(-1.95, lowPose ? 0.35 : 1.1, travel);
   camera.position.set(-1.2, lowPose ? 1.1 : 1.7, travel - 2.5);
   controls.update();
@@ -111,20 +115,24 @@ try {
   );
   const candidate =
     import.meta.env.DEV &&
-    (requestedCandidate === "back-mount" || requestedCandidate === "roll-grips")
+    (requestedCandidate === "back-mount" ||
+      requestedCandidate === "roll-grips" ||
+      requestedCandidate === "back-mount-close" ||
+      requestedCandidate === "low-evade-integrated")
       ? requestedCandidate
       : undefined;
   // The app shell may cache source module URLs even in a local review tab.
   // Version the candidate renderer without clearing any game save or cache.
-  const candidateModule = "/src/client/standard-trooper.ts?review=grips-094059";
-  const { loadStandardTrooper, StandardTrooper } = candidate
+  const candidateModule =
+    "/src/client/standard-trooper.ts?review=low-evade-bea488";
+  const { loadStandardTrooper, StandardTrooper } = import.meta.env.DEV
     ? ((await import(
         /* @vite-ignore */ candidateModule
       )) as typeof defaultTrooper)
     : defaultTrooper;
   const assets = await loadStandardTrooper(
       candidate
-        ? `/assets/blender/source/swarm_soldier_20261009/soldier-motion-20261009/${candidate === "roll-grips" ? "roll-grips-preview" : "back-mount-preview"}/swarm-soldier.glb`
+        ? `/assets/blender/source/swarm_soldier_20261009/soldier-motion-20261009/${candidate}-preview/swarm-soldier.glb`
         : undefined,
     ),
     world = createWorld("soldier-review", 42);
@@ -139,7 +147,7 @@ try {
     scene.add(actor.model);
     return { player, actor };
   });
-  status.textContent = `${candidate ? (candidate === "roll-grips" ? "未採用の武器別回避候補・" : "未採用の背面装備候補・") : ""}4人・${assets.character.animations.length}動作を読込済み。ゲームと同じ描画処理で検証中`;
+  status.textContent = `${candidate ? (candidate === "low-evade-integrated" ? "低い踏み込み回避の候補・" : candidate === "roll-grips" ? "未採用の武器別回避候補・" : "未採用の背面装備候補・") : ""}4人・${assets.character.animations.length}動作を読込済み。ゲームと同じ描画処理で検証中`;
   function frame(now: number) {
     const dt =
       pendingSteps > 0
@@ -154,13 +162,15 @@ try {
         modeTime += dt;
         clock.value = `${modeTime.toFixed(3)}秒`;
         const speed =
-          mode.value === "run"
-            ? 5
-            : mode.value.startsWith("walk")
-              ? 1.5
-              : mode.value === "back"
-                ? -2
-                : 0;
+          mode.value === "roll" && modeTime % 2 < EVADE_DURATION
+            ? MOVE_SPEED.dodge
+            : mode.value === "run"
+              ? 5
+              : mode.value.startsWith("walk")
+                ? 1.5
+                : mode.value === "back"
+                  ? -2
+                  : 0;
         const dz = -speed * dt;
         travel += dz;
         camera.position.z += dz;

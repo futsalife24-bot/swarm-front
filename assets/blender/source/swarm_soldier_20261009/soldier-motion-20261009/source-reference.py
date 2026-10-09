@@ -1,4 +1,4 @@
-import bpy,json
+import bpy,json,sys
 from pathlib import Path
 from mathutils import Vector
 p=Path(__file__).resolve().parent
@@ -14,6 +14,8 @@ if not s.world:s.world=bpy.data.worlds.new('Reference World')
 s.world.color=(.12,.14,.17)
 bpy.ops.object.camera_add();c=bpy.context.object;c.data.type='ORTHO';c.data.ortho_scale=8.6;s.camera=c;c.location=(3.4,-9,2.3);c.rotation_euler=(Vector((3.4,0,1))-c.location).to_track_quat('-Z','Y').to_euler()
 clips=['Walk_Loop','Jog_Fwd_Loop','Sprint_Loop','Idle_Loop','Jump_Start','Jump_Land','Roll','Hit_Chest','Death01','Fixing_Kneeling']
+requested=next((a.split('=',1)[1] for a in sys.argv if a.startswith('--clip=')),None)
+if requested:clips=[requested]
 for name in clips:
  a=bpy.data.actions[name];r.animation_data.action=a;r.animation_data.action_slot=a.slots[0]
  snapshots=[]
