@@ -20,12 +20,12 @@ export default mergeConfig(
               return;
             }
             const match =
-              /^\/([0-2])-([0-9]{13})\/(\d{4}\.jpg|metrics\.json)$/.exec(
+              /^\/([0-2]|play)-([0-9]{13})\/(\d{4}\.jpg|metrics\.json|capture\.webm)$/.exec(
                 req.url || "",
               );
             if (
               !match ||
-              (match[3] !== "metrics.json" &&
+              (match[3].endsWith(".jpg") &&
                 Number(match[3].slice(0, 4)) >= 1000)
             ) {
               res.statusCode = 400;
@@ -37,7 +37,10 @@ export default mergeConfig(
               let size = 0;
               for await (const chunk of req) {
                 size += chunk.length;
-                if (size > 2_000_000) throw new Error("size");
+                if (
+                  size > (match[3] === "capture.webm" ? 60_000_000 : 2_000_000)
+                )
+                  throw new Error("size");
                 parts.push(chunk);
               }
               const dir = resolve(

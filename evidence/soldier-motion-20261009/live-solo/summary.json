@@ -1,0 +1,410 @@
+{
+  "capture": "play-1791547622092",
+  "wallSeconds": 60.7355,
+  "renderedFrames": 155,
+  "gameSeconds": 10.000000000000007,
+  "maxEnemies": 18,
+  "checks": {
+    "forwardFire": true,
+    "backFire": true,
+    "leftFire": true,
+    "rightFire": true,
+    "movingReload": true,
+    "switchInterruptsReload": true,
+    "evade": true,
+    "fireAfterEvade": true
+  },
+  "selected": [
+    {
+      "wall": 2.9454000000357627,
+      "t": 0.5499999999999999,
+      "hp": 168,
+      "x": -3,
+      "z": 4.150000000000004,
+      "weapon": "rifle",
+      "slot": 0,
+      "ammo": [
+        27,
+        7
+      ],
+      "reload": 0,
+      "evade": 0,
+      "swapCd": 0,
+      "enemies": 0,
+      "keys": [
+        "KeyW"
+      ],
+      "fire": true,
+      "pose": "normal_Rifle_Run_fire",
+      "motionVersion": 10,
+      "combat": true,
+      "shotTime": 0,
+      "aimProgress": 1
+    },
+    {
+      "wall": 12.034400000035763,
+      "t": 1.4500000000000006,
+      "hp": 168,
+      "x": -3,
+      "z": 3.4500000000000046,
+      "weapon": "rifle",
+      "slot": 0,
+      "ammo": [
+        20,
+        7
+      ],
+      "reload": 0,
+      "evade": 0,
+      "swapCd": 0,
+      "enemies": 0,
+      "keys": [
+        "KeyS"
+      ],
+      "fire": true,
+      "pose": "normal_Rifle_Run_Backward_fire",
+      "motionVersion": 10,
+      "combat": true,
+      "shotTime": 0,
+      "aimProgress": 1
+    },
+    {
+      "wall": 19.097400000035762,
+      "t": 2.1500000000000004,
+      "hp": 168,
+      "x": -3.6999999999999993,
+      "z": 7.65,
+      "weapon": "rifle",
+      "slot": 0,
+      "ammo": [
+        15,
+        7
+      ],
+      "reload": 0,
+      "evade": 0,
+      "swapCd": 0,
+      "enemies": 2,
+      "keys": [
+        "KeyA"
+      ],
+      "fire": true,
+      "pose": "normal_Rifle_Run_Backward_fire",
+      "motionVersion": 10,
+      "combat": true,
+      "shotTime": 0,
+      "aimProgress": 1
+    },
+    {
+      "wall": 24.13160000002384,
+      "t": 2.6499999999999986,
+      "hp": 168,
+      "x": -7.199999999999996,
+      "z": 7.65,
+      "weapon": "rifle",
+      "slot": 0,
+      "ammo": [
+        13,
+        7
+      ],
+      "reload": 1.3999999999999997,
+      "evade": 0,
+      "swapCd": 0,
+      "enemies": 4,
+      "keys": [
+        "KeyA"
+      ],
+      "fire": false,
+      "pose": "normal_Rifle_reload_Run",
+      "motionVersion": 10,
+      "combat": true,
+      "shotTime": 0.30000000000000004,
+      "aimProgress": 1
+    },
+    {
+      "wall": 26.6785,
+      "t": 3.349999999999996,
+      "hp": 168,
+      "x": -10.700000000000006,
+      "z": 7.65,
+      "weapon": "shotgun",
+      "slot": 1,
+      "ammo": [
+        13,
+        7
+      ],
+      "reload": 0,
+      "evade": 0,
+      "swapCd": 0.45,
+      "enemies": 4,
+      "keys": [
+        "KeyD"
+      ],
+      "fire": false,
+      "pose": "switch",
+      "motionVersion": 10,
+      "combat": true,
+      "shotTime": 0.9663999999999942,
+      "aimProgress": 0.83375
+    },
+    {
+      "wall": 32.90130000001192,
+      "t": 4.549999999999992,
+      "hp": 168,
+      "x": -2.3000000000000016,
+      "z": 7.65,
+      "weapon": "shotgun",
+      "slot": 1,
+      "ammo": [
+        13,
+        6
+      ],
+      "reload": 0,
+      "evade": 0,
+      "swapCd": 0,
+      "enemies": 6,
+      "keys": [
+        "KeyD"
+      ],
+      "fire": true,
+      "pose": "normal_Shotgun_Run_fire",
+      "motionVersion": 10,
+      "combat": true,
+      "shotTime": 0.4001000000000058,
+      "aimProgress": 1
+    },
+    {
+      "wall": 37.643,
+      "t": 5.349999999999989,
+      "hp": 168,
+      "x": 3.2999999999999976,
+      "z": 7.65,
+      "weapon": "shotgun",
+      "slot": 1,
+      "ammo": [
+        13,
+        5
+      ],
+      "reload": 1.8500000000000003,
+      "evade": 0,
+      "swapCd": 0,
+      "enemies": 8,
+      "keys": [
+        "KeyD"
+      ],
+      "fire": false,
+      "pose": "normal_Shotgun_reload_Run",
+      "motionVersion": 10,
+      "combat": true,
+      "shotTime": 0.4834000000000087,
+      "aimProgress": 1
+    },
+    {
+      "wall": 39.698,
+      "t": 5.849999999999987,
+      "hp": 168,
+      "x": 6.7999999999999945,
+      "z": 7.65,
+      "weapon": "rifle",
+      "slot": 0,
+      "ammo": [
+        13,
+        5
+      ],
+      "reload": 0,
+      "evade": 0,
+      "swapCd": 0.45,
+      "enemies": 10,
+      "keys": [
+        "KeyD"
+      ],
+      "fire": false,
+      "pose": "switch",
+      "motionVersion": 10,
+      "combat": true,
+      "shotTime": 0.9667000000000117,
+      "aimProgress": 0.7507500000000072
+    },
+    {
+      "wall": 44.78269999998808,
+      "t": 6.649999999999984,
+      "hp": 168,
+      "x": 12.05000000000001,
+      "z": 7.300000000000001,
+      "weapon": "rifle",
+      "slot": 0,
+      "ammo": [
+        12,
+        5
+      ],
+      "reload": 0,
+      "evade": 0,
+      "swapCd": 0,
+      "enemies": 10,
+      "keys": [
+        "KeyW"
+      ],
+      "fire": true,
+      "pose": "normal_Rifle_Run_fire",
+      "motionVersion": 10,
+      "combat": true,
+      "shotTime": 0,
+      "aimProgress": 1
+    },
+    {
+      "wall": 45.02969999998808,
+      "t": 6.8999999999999835,
+      "hp": 168,
+      "x": 14.600000000000009,
+      "z": 6.600000000000001,
+      "weapon": "rifle",
+      "slot": 0,
+      "ammo": [
+        11,
+        5
+      ],
+      "reload": 0,
+      "evade": 0.22000000000000003,
+      "swapCd": 0,
+      "enemies": 12,
+      "keys": [
+        "KeyD"
+      ],
+      "fire": false,
+      "pose": "roll",
+      "motionVersion": 10,
+      "combat": true,
+      "shotTime": 0.15010000000000584,
+      "aimProgress": 1
+    },
+    {
+      "wall": 47.599,
+      "t": 7.199999999999982,
+      "hp": 168,
+      "x": 18.70000000000003,
+      "z": 6.600000000000001,
+      "weapon": "rifle",
+      "slot": 0,
+      "ammo": [
+        11,
+        5
+      ],
+      "reload": 0,
+      "evade": 0,
+      "swapCd": 0,
+      "enemies": 12,
+      "keys": [
+        "KeyD"
+      ],
+      "fire": false,
+      "pose": "normal_Rifle_Run_Backward_aim",
+      "motionVersion": 10,
+      "combat": true,
+      "shotTime": 0.45010000000000583,
+      "aimProgress": 1
+    },
+    {
+      "wall": 47.80919999998808,
+      "t": 7.399999999999982,
+      "hp": 168,
+      "x": 20.100000000000037,
+      "z": 6.600000000000001,
+      "weapon": "rifle",
+      "slot": 0,
+      "ammo": [
+        9,
+        5
+      ],
+      "reload": 0,
+      "evade": 0,
+      "swapCd": 0,
+      "enemies": 12,
+      "keys": [
+        "KeyD"
+      ],
+      "fire": true,
+      "pose": "normal_Rifle_Run_Backward_fire",
+      "motionVersion": 10,
+      "combat": true,
+      "shotTime": 0.03330000000000291,
+      "aimProgress": 1
+    },
+    {
+      "wall": 50.99630000001192,
+      "t": 7.84999999999998,
+      "hp": 168,
+      "x": 21.15000000000004,
+      "z": 8.700000000000003,
+      "weapon": "rifle",
+      "slot": 0,
+      "ammo": [
+        8,
+        5
+      ],
+      "reload": 1.3999999999999997,
+      "evade": 0,
+      "swapCd": 0,
+      "enemies": 14,
+      "keys": [
+        "KeyS"
+      ],
+      "fire": false,
+      "pose": "normal_Rifle_reload_Run_Backward",
+      "motionVersion": 10,
+      "combat": true,
+      "shotTime": 0.33310000000000584,
+      "aimProgress": 1
+    },
+    {
+      "wall": 54.92430000001192,
+      "t": 8.449999999999985,
+      "hp": 168,
+      "x": 21.15000000000004,
+      "z": 12.90000000000002,
+      "weapon": "shotgun",
+      "slot": 1,
+      "ammo": [
+        8,
+        5
+      ],
+      "reload": 0,
+      "evade": 0,
+      "swapCd": 0.35000000000000003,
+      "enemies": 14,
+      "keys": [
+        "KeyS"
+      ],
+      "fire": false,
+      "pose": "switch",
+      "motionVersion": 10,
+      "combat": true,
+      "shotTime": 0.9333000000000028,
+      "aimProgress": 0.75
+    },
+    {
+      "wall": 57.832600000023845,
+      "t": 9.399999999999999,
+      "hp": 168,
+      "x": 18.70000000000003,
+      "z": 17.100000000000037,
+      "weapon": "shotgun",
+      "slot": 1,
+      "ammo": [
+        8,
+        4
+      ],
+      "reload": 0,
+      "evade": 0,
+      "swapCd": 0,
+      "enemies": 16,
+      "keys": [
+        "KeyA"
+      ],
+      "fire": true,
+      "pose": "normal_Shotgun_Run_Backward_fire",
+      "motionVersion": 10,
+      "combat": true,
+      "shotTime": 0.29989999999999417,
+      "aimProgress": 1
+    }
+  ],
+  "limitations": "通常ソロのControls自動入力。録画は実時間を維持。描画間隔が不均一で、実時間の滑らかさ/性能を保証しない。ライフルと散弾銃のみ。通常カメラは960px、拡大側は同じ姿勢で背景/影なし。"
+}

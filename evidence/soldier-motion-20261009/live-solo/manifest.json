@@ -1,0 +1,97 @@
+[
+  {
+    "path": "frame-00.jpg",
+    "bytes": 50819,
+    "sha256": "e6290d95240c8a703533155fbfdbb0dfb3d2ef23f98bc0eecaaed43d624c207a"
+  },
+  {
+    "path": "frame-01.jpg",
+    "bytes": 49465,
+    "sha256": "d5526e035a79996c18ea5c7ab7d0860d2284c9794ee9481134e7a1d8fa2b25aa"
+  },
+  {
+    "path": "frame-02.jpg",
+    "bytes": 49688,
+    "sha256": "8ed42dc8e40acbc90cfd161476bf0fb77dca34b5884cb73167aa9ca012a634b4"
+  },
+  {
+    "path": "frame-03.jpg",
+    "bytes": 48944,
+    "sha256": "955bdb01ff0aa22b0d343cb688ef107b81eff3b04b47fc6ba1e010229b2f7092"
+  },
+  {
+    "path": "frame-04.jpg",
+    "bytes": 50199,
+    "sha256": "ed849796784b9db3ceec2b90e51787e94a888009cfd578002a11c3323811650d"
+  },
+  {
+    "path": "frame-05.jpg",
+    "bytes": 49367,
+    "sha256": "3099b45f168ba71e79f4d20dd1b4e4052519a35f4eb37ecd267ec17e24bb50ef"
+  },
+  {
+    "path": "frame-06.jpg",
+    "bytes": 50622,
+    "sha256": "9ab3bf99ca332bb82d71796cf9add793f370778a30da998281984882daec46ec"
+  },
+  {
+    "path": "frame-07.jpg",
+    "bytes": 49799,
+    "sha256": "76c8090a677c1ca4edc14228eb8bda57a0f0e0534bc0d23229058e71816b0602"
+  },
+  {
+    "path": "frame-08.jpg",
+    "bytes": 48395,
+    "sha256": "a71d30cf14ec84e90e59a1583659b01eee8a29acbe6910474ef07ee3b3d23f3d"
+  },
+  {
+    "path": "frame-09.jpg",
+    "bytes": 48395,
+    "sha256": "a71d30cf14ec84e90e59a1583659b01eee8a29acbe6910474ef07ee3b3d23f3d"
+  },
+  {
+    "path": "frame-10.jpg",
+    "bytes": 46597,
+    "sha256": "f272cfd8fca5efd4e96082e5839019fed45035f842fdf0877d99a264b8360454"
+  },
+  {
+    "path": "frame-11.jpg",
+    "bytes": 46597,
+    "sha256": "f272cfd8fca5efd4e96082e5839019fed45035f842fdf0877d99a264b8360454"
+  },
+  {
+    "path": "frame-12.jpg",
+    "bytes": 45884,
+    "sha256": "031604e075257a00f065e3e369ca3700643a4f948d35f7083cdd07985f56b460"
+  },
+  {
+    "path": "frame-13.jpg",
+    "bytes": 48422,
+    "sha256": "c13b1d9f29edb73e98df0de0ebb652bba88ed54775853c9cda8af611358bf851"
+  },
+  {
+    "path": "frame-14.jpg",
+    "bytes": 49181,
+    "sha256": "583abe924f58cbe1bf0258cc5e0666869b1c9599051862ae9e078dacd807db5e"
+  },
+  {
+    "path": "half-speed.mp4",
+    "bytes": 6104920,
+    "sha256": "9af7f6449c55bb4def4eb21193878dec1912c62f9d97ae0cfb5c835380cd728b"
+  },
+  {
+    "path": "metrics.json",
+    "bytes": 85363,
+    "sha256": "9d3e0a3c6a81736f7a7253530cee7efa0eb836d37a00b773dd4fd3b23bafd312"
+  },
+  {
+    "path": "normal.mp4",
+    "bytes": 5613454,
+    "sha256": "a9ea4d62b05c6ab5e696ba018c8f51ae1300f12600a92ddda1baef505829e752"
+  },
+  {
+    "path": "summary.json",
+    "bytes": 8926,
+    "sha256": "83dd03f1e94ad9e319ea285ddfc3428b7049b5188aa09cdfac7151156e91b015"
+  }
+]
