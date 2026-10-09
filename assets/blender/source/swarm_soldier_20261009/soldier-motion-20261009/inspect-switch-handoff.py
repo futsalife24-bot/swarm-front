@@ -3,9 +3,12 @@ import bpy,json,math,sys,hashlib
 from pathlib import Path
 p=Path(__file__).resolve().parent
 exported='--exported' in sys.argv
+support='--support' in sys.argv
+candidate=p/('switch-support-preview' if support else 'switch-preview')/'swarm-soldier.glb'
+if support and not candidate.exists():candidate=p/'swarm-soldier.glb'
 if exported:
  bpy.ops.wm.read_factory_settings(use_empty=True)
- bpy.ops.import_scene.gltf(filepath=str(p/'switch-preview/swarm-soldier.glb'))
+ bpy.ops.import_scene.gltf(filepath=str(candidate))
 else:bpy.ops.wm.open_mainfile(filepath=str(p/'soldier-reload-candidate.blend'))
 s=bpy.context.scene;rig=next(o for o in s.objects if o.type=='ARMATURE')
 for tr in list(rig.animation_data.nla_tracks):rig.animation_data.nla_tracks.remove(tr)
@@ -20,6 +23,7 @@ for name,backs in [('Weapon_Switch',['BackWeaponSocket','BackWeaponSocket_2']),(
   angle=math.degrees(hand.to_quaternion().rotation_difference(target.to_quaternion()).angle)
   report.append({'action':name,'fraction':t,'back':back,'originGapMetres':(hand.translation-target.translation).length,'rotationGapDegrees':min(angle,360-angle)})
 result={'scope':'Authored socket frames only; runtime blending and attachment scale need visual validation.','events':report}
-if exported:result['sha256']=hashlib.sha256((p/'switch-preview/swarm-soldier.glb').read_bytes()).hexdigest()
-(p/('switch-handoff-exported.json' if exported else 'switch-handoff-before.json')).write_text(json.dumps(result,indent=2));print(json.dumps(result),flush=True)
+if exported:result['sha256']=hashlib.sha256(candidate.read_bytes()).hexdigest()
+filename=('switch-support-handoff-exported.json' if support else 'switch-handoff-exported.json') if exported else 'switch-handoff-before.json'
+(p/filename).write_text(json.dumps(result,indent=2));print(json.dumps(result),flush=True)
 if exported:assert all(row['originGapMetres']<.002 and row['rotationGapDegrees']<1 for row in report)

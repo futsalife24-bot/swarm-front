@@ -1,0 +1,1392 @@
+{
+  "scope": "Surface-overlap probe from Three.js world geometry, without GLB bone import.\n\nRequires scripts/probe-soldier-switch-geometry.mjs output. Three authored poses\nonly: no gameplay blending, no solid-containment guarantee, no acceptance claim.\nOffsets are diagnostic trials, not changes to the model or mounting positions.\n",
+  "sha256": "746e35fd16126f5c09140ef6e193eea7e48d0be23eb9dda17cac50c64a67ae23",
+  "samples": [
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 2283,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1217,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 3164,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.04,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 4307,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.04,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1024,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.04,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 2405,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.08,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 3394,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.08,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 617,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.08,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1409,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.12,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 952,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.12,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 54,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.12,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1228,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.16,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 46,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.16,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.16,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 350,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.2,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.2,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.2,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.24,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.24,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.24,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 2199,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 897,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1349,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.04,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1625,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.04,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 640,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.04,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1200,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.08,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 296,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.08,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 174,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.08,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 473,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.12,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.12,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.12,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 63,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.16,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.16,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.16,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.2,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.2,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.2,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.24,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.24,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Weapon_Idle_Rifle",
+      "fraction": 0,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.24,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 3278,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1347,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 3618,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.04,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 4702,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.04,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1708,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.04,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 2983,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.08,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 2877,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.08,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1211,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.08,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1639,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.12,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 496,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.12,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 56,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.12,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 911,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.16,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.16,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.16,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 420,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.2,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.2,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.2,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.24,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.24,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.24,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 2047,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1018,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1359,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.04,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1875,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.04,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 827,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.04,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 764,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.08,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1030,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.08,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 316,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.08,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 508,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.12,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 315,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.12,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.12,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.16,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.16,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.16,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.2,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.2,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.2,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.24,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.24,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.45,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.24,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 3122,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1490,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 4840,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.04,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 4637,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.04,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1683,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.04,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 3293,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.08,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 3408,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.08,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1282,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.08,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 2064,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.12,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 694,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.12,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 78,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.12,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1549,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.16,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.16,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.16,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 635,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.2,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.2,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.2,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.24,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.24,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.24,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 2613,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1163,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1670,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.04,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 2798,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.04,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1028,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.04,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1254,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.08,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 1302,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.08,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 367,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.08,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 628,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.12,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 300,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.12,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.12,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.16,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.16,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.16,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.2,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.2,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.2,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rifle",
+      "additionalBackDepthMetres": 0.24,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "shotgun",
+      "additionalBackDepthMetres": 0.24,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    },
+    {
+      "action": "Trial_Switch_1_to_2",
+      "fraction": 0.6,
+      "socket": "BackWeaponSocket_2",
+      "weapon": "rocket",
+      "additionalBackDepthMetres": 0.24,
+      "surfaceTrianglePairs": {
+        "SoldierMesh_Body": 0,
+        "SoldierMesh_Head": 0
+      }
+    }
+  ]
+}

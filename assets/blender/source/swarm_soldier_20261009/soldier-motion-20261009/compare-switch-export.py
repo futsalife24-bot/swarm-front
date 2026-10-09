@@ -1,5 +1,5 @@
 """Verify switch candidates preserve other clips, rest nodes and geometry."""
-import json,struct,hashlib,subprocess
+import json,struct,hashlib,subprocess,sys
 from pathlib import Path
 p=Path(__file__).resolve().parent
 def read(path):
@@ -21,14 +21,22 @@ def read(path):
    for index in [primitive['indices'],*primitive['attributes'].values()]:geometry.update(repr(accessor(index)).encode())
  for skin in doc['skins']:geometry.update(repr(accessor(skin['inverseBindMatrices'])).encode())
  return result,hashlib.sha256(raw).hexdigest(),doc['nodes'],geometry.hexdigest()
-before=(p/'swarm-soldier.glb').read_bytes()
-candidate=p/'switch-preview/swarm-soldier.glb'
+baseline=p/'reload-preview/swarm-soldier.glb'
+if baseline.exists():before=baseline.read_bytes()
+else:
+ repo=next(root for root in p.parents if (root/'.git').exists())
+ before=subprocess.run(['git','show','27127c6f11b277f07067d490b88528808ce80b4d:public/assets/characters/swarm-soldier.glb'],cwd=repo,check=True,capture_output=True).stdout
+support='--support' in sys.argv
+candidate=p/('switch-support-preview' if support else 'switch-preview')/'swarm-soldier.glb'
+if support and not candidate.exists():candidate=p/'swarm-soldier.glb'
 old,oldsha,oldnodes,oldgeometry=read(before);new,newsha,newnodes,newgeometry=read(candidate)
 changed=[];unexpected=[];roundoff=[]
 for key in old.keys()|new.keys():
  if old.get(key)==new.get(key):continue
  changed.append(list(key))
- if key[0] not in ['Trial_Switch_1_to_2','Trial_Switch_2_to_1'] or not (key[1] in ['UpperArm_R','LowerArm_R','Hand_R','RightHandWeaponSocket'] or (key[1].endswith('_R') and any(key[1].startswith(f) for f in ['Thumb','Index','Middle','Ring','Little']))):
+ sides=['R','L'] if support else ['R']
+ allowedBones=['RightHandWeaponSocket']+[f'{joint}_{side}' for side in sides for joint in ['UpperArm','LowerArm','Hand']]
+ if key[0] not in ['Trial_Switch_1_to_2','Trial_Switch_2_to_1'] or not (key[1] in allowedBones or (any(key[1].endswith('_'+side) for side in sides) and any(key[1].startswith(f) for f in ['Thumb','Index','Middle','Ring','Little']))):
   x,y=old.get(key),new.get(key)
   delta=float('inf')
   if x and y and x[0]==y[0] and len(x[1])==len(y[1]):
@@ -36,6 +44,6 @@ for key in old.keys()|new.keys():
   if key[0] in ['Trial_Switch_1_to_2','Trial_Switch_2_to_1'] and delta<=1e-5:roundoff.append({'track':list(key),'maxComponentDelta':delta})
   else:unexpected.append({'track':list(key),'maxComponentDelta':delta})
 report={'beforeSha256':oldsha,'candidateSha256':newsha,'changedTracks':changed,'roundoffTolerance':1e-5,'roundoffOnly':roundoff,'unexpectedTracks':unexpected,'restNodesIdentical':oldnodes==newnodes,'geometryAndBindIdentical':oldgeometry==newgeometry,'scopeOnly':not unexpected and oldnodes==newnodes and oldgeometry==newgeometry}
-(p/'switch-export-difference.json').write_text(json.dumps(report,indent=2))
+(p/('switch-support-export-difference.json' if support else 'switch-export-difference.json')).write_text(json.dumps(report,indent=2))
 print(json.dumps({k:v for k,v in report.items() if k not in ['changedTracks','roundoffOnly']},indent=2))
 if not report['scopeOnly']:raise SystemExit(1)
