@@ -44,4 +44,3 @@ report={'beforeSha256':oldsha,'candidateSha256':newsha,'changedTracks':changed,'
 (p/'reload-export-difference.json').write_text(json.dumps(report,indent=2))
 print(json.dumps({k:v for k,v in report.items() if k not in ['changedTracks','roundoffOnly']},indent=2))
 if not report['scopeOnly']:raise SystemExit(1)
-
