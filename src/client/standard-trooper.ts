@@ -305,6 +305,7 @@ export class StandardTrooper {
   }[] = [];
   private previousPose: { p: T.Vector3; q: T.Quaternion; s: T.Vector3 }[] = [];
   private readonly accentSetters: ((index: number) => unknown)[] = [];
+  private downTime = 0;
   setPlayerAccent(index: number) {
     for (const set of this.accentSetters) set(index);
   }
@@ -364,6 +365,16 @@ export class StandardTrooper {
             clip.tracks.filter((t) => !lower.test(t.name)),
           ),
         );
+    }
+    const referenceWalk = this.clips.get("UAL_Walk");
+    if (referenceWalk) {
+      const walk = referenceWalk.clone();
+      const duration = this.clips.get("Walk")!.duration;
+      for (const track of walk.tracks) track.scale(duration / walk.duration);
+      walk.duration = duration;
+      walk.tracks = walk.tracks.filter((track) => lower.test(track.name));
+      walk.name = "Lower_Walk";
+      this.clips.set(walk.name, walk);
     }
     this.hand = this.model.getObjectByName("RightHandWeaponSocket")!;
     this.back = ["BackWeaponSocket", "BackWeaponSocket_2"].map((n) =>
@@ -526,7 +537,8 @@ export class StandardTrooper {
     }
     const stance = walking ? 0.6 : 0.22;
     const targets = this.feet.map((leg, i) => {
-      const q = (phase + (i === 0 ? 0.5 : 0)) % 1;
+      // UAL_Walk starts with the left boot planted; the right lands half a cycle later.
+      const q = (phase + (i === 1 ? 0.5 : 0)) % 1;
       const p = leg.foot.getWorldPosition(new T.Vector3());
       const rotation = leg.foot.getWorldQuaternion(new T.Quaternion());
       if (q > stance) {
@@ -719,6 +731,7 @@ export class StandardTrooper {
     visualAim = false,
   ) {
     dt = Math.max(0, Math.min(0.1, dt));
+    this.downTime = p.hp <= 0 ? this.downTime + dt : 0;
     this.equip(p.weapons, p.slot);
     for (const glow of this.weaponGlows) glow.update(time);
     const prev = this.prior,
@@ -844,7 +857,7 @@ export class StandardTrooper {
     if (p.hp <= 0) {
       mode = "down";
       clip = this.clips.has("Down") ? "Down" : "Hit_Heavy";
-      at = this.clips.get(clip)!.duration;
+      at = this.clips.has("Down") ? this.downTime : 0.83;
     } else if (rolling) {
       mode = "roll";
       clip = "Dodge_Roll";

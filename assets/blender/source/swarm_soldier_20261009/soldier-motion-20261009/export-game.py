@@ -1,7 +1,7 @@
 """Export the authored soldier with the runtime rig/clip contract, without kit donors."""
 import bpy, json, math, struct, hashlib
 from pathlib import Path
-from mathutils import Vector
+from mathutils import Vector, Matrix
 
 p=Path(__file__).resolve().parent
 bpy.ops.wm.open_mainfile(filepath=str(p/'soldier-polished-candidate.blend'))
@@ -9,6 +9,19 @@ s=bpy.context.scene
 rig=next(o for o in s.objects if o.type=='ARMATURE')
 rig.animation_data.action=None
 for tr in list(rig.animation_data.nla_tracks):rig.animation_data.nla_tracks.remove(tr)
+beforeObjects=set(bpy.data.objects);beforeActions=set(bpy.data.actions)
+bpy.ops.import_scene.gltf(filepath=str(p/'source/game-trooper.glb'))
+added=set(bpy.data.objects)-beforeObjects
+source=next(o for o in added if o.type=='ARMATURE')
+sw=Matrix.Rotation(math.pi,4,'Z')@source.matrix_world;tw=rig.matrix_world
+ratio=(tw@rig.data.bones['hips'].head_local).z/(sw@source.data.bones['Pelvis'].head_local).z
+backFrames={}
+for name in ['BackWeaponSocket','BackWeaponSocket_2']:
+ bone=source.data.bones[name];frame=tw.inverted()@sw@bone.matrix_local
+ frame.translation=rig.data.bones['chest'].head_local+tw.to_3x3().inverted()@((sw@bone.head_local-sw@source.data.bones['Chest'].head_local)*ratio)
+ backFrames[name]=frame
+for obj in added:bpy.data.objects.remove(obj,do_unlink=True)
+for action in set(bpy.data.actions)-beforeActions:bpy.data.actions.remove(action)
 mapping={'root':'Root','hips':'Pelvis','spine':'Spine','chest':'Chest','neck':'Neck','head':'Head'}
 for side in ['L','R']:
  for a,b in [('shoulder','Clavicle'),('upper_arm','UpperArm'),('lower_arm','LowerArm'),('hand','Hand'),('upper_leg','UpperLeg'),('lower_leg','LowerLeg'),('foot','Foot'),('toes','Toe')]:mapping[a+'.'+side]=b+'_'+side
@@ -30,6 +43,7 @@ for name,parent,offset in [('SpineMid','Spine',(0,0,.05)),('LeftHandSupportSocke
  if name in rig.data.edit_bones:continue
  b=rig.data.edit_bones.new(name);b.parent=rig.data.edit_bones[parent]
  b.head=b.parent.head+Vector(offset);b.tail=b.head+Vector((0,0,.06));b.use_deform=False
+ if name in backFrames:b.matrix=backFrames[name]
 bpy.ops.object.mode_set(mode='OBJECT')
 clips={'Idle':'Idle','Walk':'UAL_Walk','Jog':'UAL_Jog','Sprint':'UAL_sprint','Jump_Start':'Jump_Start','Jump_Air':'Jump_Air','Jump_Land':'Jump_Land','Dodge_Roll':'Trial_Dodge_Roll','Hit':'Trial_Hit_Heavy','Down':'Down','Revive':'Revive','Rifle_Idle':'Trial_Weapon_Idle_Rifle','Rifle_LowReady':'Low_Ready_Rifle','Rifle_Aim':'Aim_Raise_Rifle','Rifle_Fire':'Trial_Fire_Rifle','Rifle_Reload':'Trial_Reload_Rifle','Rifle_Walk':'Combat_Walk','Rifle_Run':'Trial_Run','Rifle_Backward':'Trial_Run_Backward','Weapon_Switch':'Trial_Switch_1_to_2','Weapon_Switch_Back':'Trial_Switch_2_to_1','Shotgun_Idle':'Trial_Weapon_Idle_Shotgun','Shotgun_LowReady':'Low_Ready_Shotgun','Shotgun_Aim':'Aim_Raise_Shotgun','Shotgun_Fire':'Trial_Fire_Shotgun','Shotgun_Reload':'Trial_Reload_Shotgun','Rocket_Idle':'Trial_Weapon_Idle_Rocket','Rocket_Walk':'Combat_Walk_Rocket','Rocket_Run':'Trial_Run_Rocket','Rocket_Backward':'Trial_Run_Backward_Rocket','Rocket_Fire':'Trial_Fire_Rocket','Rocket_Reload':'Trial_Reload_Rocket'}
 for old,new in clips.items():

@@ -11,13 +11,19 @@ grounded={'Idle','Walk','Hit','Revive','Rifle_Idle','Rifle_LowReady','Rifle_Aim'
 running={'Jog','Sprint','Rifle_Run','Rifle_Backward','Rocket_Run','Rocket_Backward'}
 loops={'Idle','Walk','Jog','Sprint','Jump_Air','Revive','Rifle_Idle','Rifle_LowReady','Rifle_Walk','Rifle_Run','Rifle_Backward','Shotgun_Idle','Shotgun_LowReady','Rocket_Idle','Rocket_Walk','Rocket_Run','Rocket_Backward'}
 report={'corrections':{},'fingerWeightedVertices':{g.name:sum(any(w.group==g.index and w.weight>.1 for w in v.groups) for v in body.data.vertices) for g in body.vertex_groups if any(x in g.name for x in ['index','middle','thumb'])}}
-# Calibrated support frame from the rifle idle, in weapon space.
-idle=bpy.data.actions['Soldier_Rifle_Idle'];rig.animation_data.action=idle;rig.animation_data.action_slot=idle.slots[0];s.frame_set(round(idle.frame_range[0]));bpy.context.view_layer.update()
-socket0=rig.pose.bones['RightHandWeaponSocket'].matrix.copy();sq0=socket0.to_quaternion();socket0.translation+=sq0@Vector((0,.060,.025))
-supportAnchor=socket0.inverted()@(rig.pose.bones['hand.L'].head+sq0@Vector((0,.030,.075)))
-supportRotation=sq0.inverted()@rig.pose.bones['hand.L'].matrix.to_quaternion()@Quaternion(Vector((0,1,0)),-math.pi/2)
-def reload_position(t):
- points=[(0,supportAnchor),(.16,Vector((.085,.100,-.100))),(.30,Vector((.085,.100,-.205))),(.50,Vector((.170,-.020,-.290))),(.66,Vector((.085,.100,-.210))),(.82,Vector((.085,.100,-.100))),(1,supportAnchor)]
+# Each weapon has its own grip; a rifle anchor is not valid for a launcher.
+supportFrames={}
+for profile in ['Rifle','Shotgun','Rocket']:
+ idle=bpy.data.actions['Soldier_'+profile+'_Idle'];rig.animation_data.action=idle;rig.animation_data.action_slot=idle.slots[0];s.frame_set(round(idle.frame_range[0]));bpy.context.view_layer.update()
+ socket0=rig.pose.bones['RightHandWeaponSocket'].matrix.copy();sq0=socket0.to_quaternion();socket0.translation+=sq0@Vector((0,.060,.025))
+ supportFrames[profile]=(socket0.inverted()@(rig.pose.bones['hand.L'].head+sq0@Vector((0,.030,.075))),sq0.inverted()@rig.pose.bones['hand.L'].matrix.to_quaternion()@Quaternion(Vector((0,1,0)),-math.pi/2))
+def reload_position(t,profile):
+ supportAnchor=supportFrames[profile][0]
+ routes={
+ 'Rifle':[(.16,(.085,.100,-.100)),(.30,(.085,.100,-.205)),(.50,(.170,-.020,-.290)),(.66,(.085,.100,-.210)),(.82,(.085,.100,-.100))],
+ 'Shotgun':[(.15,(.160,-.080,-.290)),(.32,(.070,.050,-.095)),(.42,(.060,.075,-.060)),(.56,(.160,-.080,-.290)),(.72,(.070,.050,-.095)),(.82,(.060,.075,-.060))],
+ 'Rocket':[(.18,(.180,-.090,-.260)),(.38,(.130,-.350,.005)),(.57,(.105,-.285,.040)),(.75,(.105,-.150,.040))]}
+ points=[(0,supportAnchor)]+[(at,Vector(point)) for at,point in routes[profile]]+[(1,supportAnchor)]
  for (a,p0),(b,p1) in zip(points,points[1:]):
   if t<=b:
    u=max(0,min(1,(t-a)/(b-a)));return p0.lerp(p1,u*u*(3-2*u))
@@ -60,8 +66,9 @@ for action in list(bpy.data.actions):
    if 'L' in sides:
     upper=rig.pose.bones['upper_arm.L'];lower=rig.pose.bones['lower_arm.L'];hand=rig.pose.bones['hand.L'];hq=hand.matrix.to_quaternion()
     a0=upper.head.copy();b0=lower.head.copy();c0=hand.head.copy();goal=c0+(sq@Vector((0,.030,.075)))*supportWeight;l1=(b0-a0).length;l2=(c0-b0).length
-    if name=='Rifle_Reload':
-     goal=socket.matrix@reload_position((f-start)/max(1,end-start));hq=sq@supportRotation
+    if name in ['Rifle_Reload','Shotgun_Reload','Rocket_Reload']:
+     profile=name.split('_')[0]
+     goal=socket.matrix@reload_position((f-start)/max(1,end-start),profile);hq=sq@supportFrames[profile][1]
     axis=(goal-a0).normalized();dist=min((goal-a0).length,l1+l2-.0001);pole=b0-a0-axis*(b0-a0).dot(axis)
     along=(l1*l1-l2*l2+dist*dist)/(2*dist);elbow=a0+axis*along+pole.normalized()*math.sqrt(max(0,l1*l1-along*along))
     q=(b0-a0).rotation_difference(elbow-a0);upper.matrix=Matrix.Translation(a0)@q.to_matrix().to_4x4()@Matrix.Translation(-a0)@upper.matrix;bpy.context.view_layer.update()

@@ -8,7 +8,8 @@
       0.6,
       0.8,
       1.0
-    ]
+    ],
+    "blendSha256": "6eddf78bba456dfd557ff850127fb3e8631a24891574716255815d8183fdd64d"
   },
   {
     "clip": "Rifle_Fire",
@@ -19,62 +20,8 @@
       0.6,
       0.8,
       1.0
-    ]
-  },
-  {
-    "clip": "Rifle_Walk",
-    "sampleFractions": [
-      0.0,
-      0.2,
-      0.4,
-      0.6,
-      0.8,
-      1.0
-    ]
-  },
-  {
-    "clip": "Shotgun_Fire",
-    "sampleFractions": [
-      0.0,
-      0.2,
-      0.4,
-      0.6,
-      0.8,
-      1.0
-    ]
-  },
-  {
-    "clip": "Shotgun_Reload",
-    "sampleFractions": [
-      0.0,
-      0.2,
-      0.4,
-      0.6,
-      0.8,
-      1.0
-    ]
-  },
-  {
-    "clip": "Rocket_Fire",
-    "sampleFractions": [
-      0.0,
-      0.2,
-      0.4,
-      0.6,
-      0.8,
-      1.0
-    ]
-  },
-  {
-    "clip": "Rocket_Reload",
-    "sampleFractions": [
-      0.0,
-      0.2,
-      0.4,
-      0.6,
-      0.8,
-      1.0
-    ]
+    ],
+    "blendSha256": "6eddf78bba456dfd557ff850127fb3e8631a24891574716255815d8183fdd64d"
   },
   {
     "clip": "Rifle_Reload",
@@ -86,6 +33,66 @@
       0.8,
       1.0
     ],
-    "blendSha256": "78162b1cac8072712dccfa2434bc0295f90d023a46e3a9675f3ae6cc3290c1a3"
+    "blendSha256": "6eddf78bba456dfd557ff850127fb3e8631a24891574716255815d8183fdd64d"
+  },
+  {
+    "clip": "Rifle_Walk",
+    "sampleFractions": [
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "blendSha256": "6eddf78bba456dfd557ff850127fb3e8631a24891574716255815d8183fdd64d"
+  },
+  {
+    "clip": "Shotgun_Fire",
+    "sampleFractions": [
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "blendSha256": "6eddf78bba456dfd557ff850127fb3e8631a24891574716255815d8183fdd64d"
+  },
+  {
+    "clip": "Shotgun_Reload",
+    "sampleFractions": [
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "blendSha256": "6eddf78bba456dfd557ff850127fb3e8631a24891574716255815d8183fdd64d"
+  },
+  {
+    "clip": "Rocket_Fire",
+    "sampleFractions": [
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "blendSha256": "6eddf78bba456dfd557ff850127fb3e8631a24891574716255815d8183fdd64d"
+  },
+  {
+    "clip": "Rocket_Reload",
+    "sampleFractions": [
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "blendSha256": "6eddf78bba456dfd557ff850127fb3e8631a24891574716255815d8183fdd64d"
   }
 ]
