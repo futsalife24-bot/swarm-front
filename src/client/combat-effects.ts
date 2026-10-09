@@ -31,6 +31,7 @@ type Effect = {
   duration: number;
   size: number;
   velocity: T.Vector3;
+  shotAnchor?: T.Vector3;
   kind:
     | "bullet"
     | "trail"
@@ -64,6 +65,7 @@ export class CombatEffects {
     duration: number,
     color: number,
     velocity = new T.Vector3(),
+    shotAnchor?: T.Vector3,
   ) {
     if (
       (kind === "bullet" || kind === "trail") &&
@@ -130,13 +132,22 @@ export class CombatEffects {
         duration,
         size,
         velocity,
+        shotAnchor,
         kind,
       }),
     );
   }
-  event(e: Event) {
+  event(e: Event, renderedBody?: T.Vector3) {
     if (e.type === "shot") {
-      const delta = new T.Vector3(e.tx! - e.x, e.ty! - e.y, e.tz! - e.z);
+      // Player shots use the same fixed body-centre origin as authority, but in
+      // rendered space. Snapshot coordinates otherwise jump ahead of the body
+      // on a strafe. Secondary hits retain their own world-space origin.
+      const anchor =
+        e.owner !== "enemy" && !e.frontEffect ? renderedBody : undefined;
+      const start = anchor
+        ? new T.Vector3(anchor.x, anchor.y + 1.5, anchor.z)
+        : new T.Vector3(e.x, e.y, e.z);
+      const delta = new T.Vector3(e.tx!, e.ty!, e.tz!).sub(start);
       const distance = delta.length();
       const dir = delta.normalize();
       const color =
@@ -153,9 +164,9 @@ export class CombatEffects {
       if (e.weapon !== "rocket" && distance > 0.1)
         this.add(
           "bullet",
-          e.x,
-          e.y,
-          e.z,
+          start.x,
+          start.y,
+          start.z,
           e.weapon === "shotgun" ? 0.85 : 1.6,
           distance / 120,
           color,
@@ -163,12 +174,14 @@ export class CombatEffects {
         );
       this.add(
         "flash",
-        e.x + dir.x * 0.8,
-        e.y + dir.y * 0.8,
-        e.z + dir.z * 0.8,
+        anchor ? start.x : e.x + dir.x * 0.8,
+        anchor ? start.y : e.y + dir.y * 0.8,
+        anchor ? start.z : e.z + dir.z * 0.8,
         0.3,
         0.065,
         color,
+        new T.Vector3(),
+        anchor,
       );
     }
     if (e.type === "burst" && e.frontEffect === "mine-set") {
@@ -319,6 +332,13 @@ export class CombatEffects {
         e.velocity,
         e.kind === "billow" ? expand(e.age) - expand(previousAge) : dt,
       );
+      // Only the brief emission flash follows the body; fired rounds never do.
+      if (e.shotAnchor)
+        e.mesh.position.set(
+          e.shotAnchor.x,
+          e.shotAnchor.y + 1.5,
+          e.shotAnchor.z,
+        );
 
       const scale =
         e.kind === "shell"

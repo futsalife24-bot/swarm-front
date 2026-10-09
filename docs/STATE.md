@@ -1,3 +1,9 @@
+## 2026-10-09 ローリング復帰・横移動射撃の発射点を修正中
+
+公開版を操作した本人の追加指定。作業は `C:/Users/futsa/Documents/Codex/2026-10-09/swarm-soldier-motion`、branch `codex/soldier-roll-shot-origin-20261009`、base `c529694902397fba952dc6de16ff4bdc6c31bcd1`。モデル形状と31動作を維持し、回避3クリップを武器別ローリングへ戻す。回避距離・0.32秒・無敵時間・再使用待ち時間は維持。発射表示は本人が許容した体中心＋高さ1.5を採用し、描画補間に合わせる。権威判定・着弾点は変更しない。短い武器の床干渉は本人の許容を維持。
+
+関連19テストとclient/Worker型検査成功。3回避の体床下頂点0、握り最大差3.10mm以下。新しい検証originで武器3種×180コマを保存、前方/横回避を確認。発光と描画体中心の距離は計73コマで最大0。旧originのService Workerキャッシュで古い描画だった記録は成功証拠にしない。通常敵あり検証・独立Chat監査・main反映・公開は進行中。[変更と証拠](../evidence/soldier-roll-shot-20261009/README.md)。モデルID/推論設定は未確認。
+
 ## 2026-10-09 兵士更新を本番公開・配信確認完了
 
 本人が残作業一式を明示承認。独立監査合格のPR154を通常mergeし、公開ソースmainは `1246038673773cd4aa39c21d8503ec4ec7c7bcaf`。監査後の実装変更なし。merge後の本番build・全268ファイルの開発録画混入0検査・Worker dry-runが成功。既存Free契約のWorkerへ公開し、Version `66bb4086-3848-451a-a87b-f7c25caf500f`。公開先 https://swarm-front.melosalife-24.workers.dev/front 。

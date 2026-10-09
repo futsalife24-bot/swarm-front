@@ -1496,7 +1496,10 @@ export class Renderer {
       syncDynamicInstances(this.healDrops);
       for (const e of w.events.filter((e) => e.id > this.lastEvent)) {
         this.lastEvent = Math.max(this.lastEvent, e.id);
-        this.combat.event(e);
+        this.combat.event(
+          e,
+          e.owner ? this.players.get(e.owner)?.position : undefined,
+        );
         if (e.type === "kill") {
           for (let n = 0; n < 4 && this.effects.length < 100; n++)
             this.effects.push({

@@ -1,0 +1,12 @@
+{
+  "sha256": "d1028fd14cb42cfab2a0c484c57fa99032dc73609f8c3a08684abdec76f35269",
+  "replacedClips": [
+    "Trial_Dodge_Roll",
+    "Trial_Dodge_Roll_Rocket",
+    "Trial_Dodge_Roll_Shotgun"
+  ],
+  "unchangedClips": 31,
+  "rigMeshMaterialsUnchanged": true,
+  "currentBackMountsPreserved": true,
+  "gameplayTimingChanged": false
+}
