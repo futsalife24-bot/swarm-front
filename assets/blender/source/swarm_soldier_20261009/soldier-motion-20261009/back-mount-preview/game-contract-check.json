@@ -1,0 +1,9 @@
+{
+  "sha256": "38ed06dbac9ee117d26839e94f9d4675525bcb26a0a2e719fd34600a12576242",
+  "bytes": 15105356,
+  "requiredBones": 57,
+  "clips": 32,
+  "meshes": 2,
+  "errors": [],
+  "scope": "Structural contract only; visual and gameplay validation remain required."
+}

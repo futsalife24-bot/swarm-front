@@ -138,15 +138,16 @@ function trooperEnvironment() {
   texture.needsUpdate = true;
   return texture;
 }
-export function loadStandardTrooper() {
-  return (loading ??= (async () => {
+export function loadStandardTrooper(reviewAssetUrl?: string) {
+  const load = async () => {
     const loader = new GLTFLoader(),
       base = `${import.meta.env.BASE_URL}assets/characters/`;
     const [character, rifle, shotgun, rocket] = await Promise.all([
       // The installed shell caches asset URLs. Change this content digest with
       // the binary so an existing player receives the revised rig and clips.
       loader.loadAsync(
-        `${base}swarm-soldier.glb?v=746e35fd16126f5c09140ef6e193eea7e48d0be23eb9dda17cac50c64a67ae23`,
+        (import.meta.env.DEV && reviewAssetUrl) ||
+          `${base}swarm-soldier.glb?v=746e35fd16126f5c09140ef6e193eea7e48d0be23eb9dda17cac50c64a67ae23`,
       ),
       ...(["rifle", "shotgun", "rocket"] as const).map((k) =>
         loader.loadAsync(
@@ -243,7 +244,8 @@ export function loadStandardTrooper() {
         ).loadRunTrial(trial);
     }
     return assets;
-  })());
+  };
+  return import.meta.env.DEV && reviewAssetUrl ? load() : (loading ??= load());
 }
 
 /** Character clips and weapon profiles are independent of authoritative combat rules. */

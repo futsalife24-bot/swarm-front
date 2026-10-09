@@ -46,18 +46,48 @@ function meshData(root) {
     if (!o.isMesh) return;
     const vertices = [],
       triangles = [],
+      vertexRegions = [],
+      regions = [],
       v = new T.Vector3(),
       g = o.geometry;
     for (let i = 0; i < g.attributes.position.count; i++) {
       o.getVertexPosition(i, v).applyMatrix4(o.matrixWorld);
       vertices.push(v.toArray());
+      let region = "static";
+      if (o.isSkinnedMesh) {
+        const weights = new T.Vector4().fromBufferAttribute(
+          g.attributes.skinWeight,
+          i,
+        );
+        const joints = new T.Vector4().fromBufferAttribute(
+          g.attributes.skinIndex,
+          i,
+        );
+        const strongest = [0, 1, 2, 3].reduce((a, b) =>
+          weights.getComponent(b) > weights.getComponent(a) ? b : a,
+        );
+        const bone = o.skeleton.bones[joints.getComponent(strongest)].name;
+        region = /Hand_|Thumb|Index|Middle|Ring|Little/.test(bone)
+          ? `hand_${bone.endsWith("_R") ? "R" : "L"}`
+          : /UpperArm_|LowerArm_|Clavicle_/.test(bone)
+            ? `arm_${bone.endsWith("_R") ? "R" : "L"}`
+            : /UpperLeg_|LowerLeg_|Foot_|Toe_/.test(bone)
+              ? "legs"
+              : /Head|Neck/.test(bone)
+                ? "head"
+                : "trunk";
+      }
+      vertexRegions.push(region);
     }
     const count = g.index?.count ?? g.attributes.position.count;
-    for (let i = 0; i < count; i += 3)
-      triangles.push(
-        [0, 1, 2].map((j) => (g.index ? g.index.getX(i + j) : i + j)),
+    for (let i = 0; i < count; i += 3) {
+      const ids = [0, 1, 2].map((j) => (g.index ? g.index.getX(i + j) : i + j));
+      triangles.push(ids);
+      regions.push(
+        [...new Set(ids.map((j) => vertexRegions[j]))].sort().join("+"),
       );
-    result.push({ name: o.name, vertices, triangles });
+    }
+    result.push({ name: o.name, vertices, triangles, regions });
   });
   return result;
 }

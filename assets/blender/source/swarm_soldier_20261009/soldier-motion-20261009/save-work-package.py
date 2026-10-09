@@ -15,6 +15,8 @@ if (p/'exported-ground-check.json').exists():names+=['exported-ground-check.json
 names+=['refine-switch-handoff.py','refine-switch-handoff-direct.py','inspect-switch-handoff.py','inspect-switch-path.py','compare-switch-export.py','switch-handoff-before.json','switch-handoff-candidate.json','switch-handoff-exported.json','switch-handoff-direct-exported.json','switch-path-inspection.json','switch-path-direct.json','switch-export-difference.json','soldier-switch-candidate.blend','switch-preview/swarm-soldier.glb','switch-preview/game-export.json','runtime-walk-reload-100.png']
 names+=['runtime-switch-flank-0150.png','runtime-switch-flank-0383.png']
 names+=['refine-switch-support.py','soldier-switch-support-candidate.blend','switch-support-candidate.json','switch-support-export-difference.json','switch-support-handoff-exported.json','check-back-body-runtime.py','back-body-runtime-check.json','runtime-switch-support-0383.png','runtime-switch-support-0483.png','runtime-switch-support-0600.png','runtime-switch-support-rear-0233.png']
+names+=['search-back-mount.py','back-mount-search.json','back-mount-floor-search.json','back-depth-floor-probe.json','probe-back-pivot.py','back-pivot-feasibility.json','refine-back-mount.py','back-mount-candidate.json','soldier-back-mount-candidate.blend','back-mount-preview/swarm-soldier.glb','back-mount-preview/game-export.json']
+names+=['back-mount-preview/game-contract-check.json','back-mount-weapon-ground.json','runtime-back-mount-idle.png','runtime-back-mount-roll-0150.png']
 for n in names:
  (dest/n).parent.mkdir(parents=True,exist_ok=True)
  shutil.copy2(p/n,dest/n)
@@ -47,7 +49,7 @@ manifest['rebuild']=[v.replace('--source=soldier-motion-20261009/soldier-sling-m
 manifest['rebuild'].insert(-2,'Blender --background --disable-autoexec --python soldier-motion-20261009/refine-switch-handoff.py')
 manifest['rebuild'].insert(-2,'Blender --background --disable-autoexec --python soldier-motion-20261009/refine-switch-support.py')
 manifest['rebuild']=[v.replace('--source=soldier-motion-20261009/soldier-reload-candidate.blend','--source=soldier-motion-20261009/soldier-switch-support-candidate.blend') for v in manifest['rebuild']]
-manifest['notes']+=['ground-equipped.pyは--down-onlyを採用し、回避の全身持ち上げ案は不採用。詳細はcandidate-decisions.json。','review.htmlとsoldier-motion-candidate.glbは制作側の骨名の比較用。現行ゲーム表示は/soldier-review.htmlとpublic/assets/characters/swarm-soldier.glbを使う。','現行746e35は持ち替えの左右腕を修正した制作途中版。構造・秒数・他30動作の不変を照合。床検査と回避画像は8ec17d版の証拠であり、装填差分と持ち替え差分の2報告で対象動作・形状・骨基準の不変を確認した。','背負い武器と体の表面干渉を3姿勢18組で検出。追加後方20cmの数値試行では検出0だが未適用。全動作・見た目・接地・腕到達を満たす位置調整が必要。']
+manifest['notes']+=['ground-equipped.pyは--down-onlyを採用し、回避の全身持ち上げ案は不採用。詳細はcandidate-decisions.json。','review.htmlとsoldier-motion-candidate.glbは制作側の骨名の比較用。現行ゲーム表示は/soldier-review.htmlとpublic/assets/characters/swarm-soldier.glbを使う。','現行746e35は持ち替えの左右腕を修正した制作途中版。構造・秒数・他30動作の不変を照合。床検査と回避画像は8ec17d版の証拠であり、装填差分と持ち替え差分の2報告で対象動作・形状・骨基準の不変を確認した。','背面装備の後方20cm案は回避・転倒で最大約19cm床下へ入るため不採用。720配置を探索し、静止で交差0の114配置も既存の回避/転倒ではすべて床貫通。別のback-mount候補で3軸の傾きを試作中。回避左側の床貫通・体干渉・持ち替え位置・自然さが未解決のため現行746e35は変更しない。']
 manifest['notes']+=['4色シェーダーは実装済み。肩の橙・紫・ライムへの切替をChrome実描画で確認。実ゲームでの識別性は未検証。','入力Blendには兵士本人の頭・体・骨格のみ。元キットの隠し素体・サンプルは含めない。','修正スクリプトrepair-hand-rig.pyは元のローカル中間データ用。通常の再生成は保存済みsoldier-rig-input.blendから開始する。']
 (base/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
 print(json.dumps({'files':len(manifest['files']),'bytes':sum(f.stat().st_size for f in base.rglob('*') if f.is_file()),'destination':str(base)},ensure_ascii=False))

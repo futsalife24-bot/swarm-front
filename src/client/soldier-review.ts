@@ -1,6 +1,6 @@
 import * as T from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import { loadStandardTrooper, StandardTrooper } from "./standard-trooper";
+import * as defaultTrooper from "./standard-trooper";
 import { addPlayer, createWorld } from "../shared/game";
 import {
   reloadDuration,
@@ -106,7 +106,22 @@ weapon.addEventListener("change", () => {
   pendingSteps = 0;
 });
 try {
-  const assets = await loadStandardTrooper(),
+  const candidate =
+    import.meta.env.DEV &&
+    new URLSearchParams(location.search).get("candidate") === "back-mount";
+  // The app shell may cache source module URLs even in a local review tab.
+  // Version the candidate renderer without clearing any game save or cache.
+  const candidateModule = "/src/client/standard-trooper.ts?review=mount-38ed06";
+  const { loadStandardTrooper, StandardTrooper } = candidate
+    ? ((await import(
+        /* @vite-ignore */ candidateModule
+      )) as typeof defaultTrooper)
+    : defaultTrooper;
+  const assets = await loadStandardTrooper(
+      candidate
+        ? "/assets/blender/source/swarm_soldier_20261009/soldier-motion-20261009/back-mount-preview/swarm-soldier.glb"
+        : undefined,
+    ),
     world = createWorld("soldier-review", 42);
   const actors = Array.from({ length: 4 }, (_, i) => {
     const player = addPlayer(world, `review-${i}`),
@@ -119,7 +134,7 @@ try {
     scene.add(actor.model);
     return { player, actor };
   });
-  status.textContent = `4人・${assets.character.animations.length}動作を読込済み。ゲームと同じ描画処理で検証中`;
+  status.textContent = `${candidate ? "未採用の背面装備候補・" : ""}4人・${assets.character.animations.length}動作を読込済み。ゲームと同じ描画処理で検証中`;
   function frame(now: number) {
     const dt =
       pendingSteps > 0
