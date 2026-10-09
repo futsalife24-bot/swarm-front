@@ -107,10 +107,7 @@ if (
   import.meta.env.DEV &&
   new URLSearchParams(location.search).has("motionReview")
 ) {
-  void import(
-    /* @vite-ignore */ new URL("./soldier-live-review.ts?v=4", import.meta.url)
-      .href
-  ).then((m: typeof import("./soldier-live-review")) => {
+  void import("./soldier-live-review").then((m) => {
     soldierLiveReview = m.attachLiveReview(view, controls);
   });
 }
