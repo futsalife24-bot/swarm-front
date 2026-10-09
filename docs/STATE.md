@@ -1,3 +1,7 @@
+## 2026-10-09 独立監査合格・公開へ
+
+本人の明示承認後、d03be04のpushと限定ZIPの送信が成功。通常Chatで実装c5213543a0a1dec284c3a6f86662854c305df1fdの限定再監査が完了し、P2-01/02/03すべて解消、P0/P1/P2残存0、通常merge・既存Worker公開可。[監査回答](../evidence/soldier-motion-20261009/audit-c521354.md)。監査側の現物照合はZIP内の本番27ファイル、その他241件は検査JSONの確認に留まる。全動作・全地形・実機性能の保証ではない。監査後の追加は本記録と回答保存のみ。次にPR154を通常merge、merge後mainからbuild/dry-run/本番公開・配信確認する。
+
 ## 2026-10-09 限定再監査の送信承認待ち
 
 実装HEAD c5213543a0a1dec284c3a6f86662854c305df1fd はpush済み。P2-03限定資料 `soldier-p2-03-c521354.zip`（4,506,819 bytes、SHA256 a739f7049a9efa0d1558b9ff28f0864f5f4c837279696dd658b93ba2fea7a89a）は準備済みだが未送信。保存先は `C:/Users/futsa/Documents/Codex/2026-10-07/https-x-com-dstudio-ai-status/soldier-motion-20261009/`。送信先は既存監査Chat https://chatgpt.com/c/6ac8c749-56a4-83e8-90de-a62a92f2a350 。自動承認レビューが「送信データと宛先の具体的な許可がないため」とアップロードを拒否し、対象ZIP・宛先を明示して本人へ確認中。代替経路へは送信していない。承認後に同じ経路で限定再監査し、合格後にPR154の通常merge・公開へ進む。
