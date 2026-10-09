@@ -2,162 +2,226 @@
   "corrections": {
     "Dodge_Roll": {
       "frames": 45,
-      "groundCorrection": false,
+      "groundCorrection": true,
+      "fullBodyGroundCheck": true,
+      "maximumGroundLift": 0.17901756954193115,
       "loopClosed": false
     },
     "Down": {
       "frames": 73,
-      "groundCorrection": false,
+      "groundCorrection": true,
+      "fullBodyGroundCheck": true,
+      "maximumGroundLift": 0.16758921337127686,
       "loopClosed": false
     },
     "Hit": {
       "frames": 11,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.019746770754456522,
       "loopClosed": false
     },
     "Idle": {
       "frames": 76,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.01322200582176447,
       "loopClosed": true
     },
     "Jog": {
       "frames": 29,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.014235219590365887,
       "loopClosed": true
     },
     "Jump_Air": {
       "frames": 76,
       "groundCorrection": false,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0,
       "loopClosed": true
     },
     "Jump_Land": {
       "frames": 39,
-      "groundCorrection": false,
+      "groundCorrection": true,
+      "fullBodyGroundCheck": true,
+      "maximumGroundLift": 0.040144957274198534,
       "loopClosed": false
     },
     "Jump_Start": {
       "frames": 41,
-      "groundCorrection": false,
+      "groundCorrection": true,
+      "fullBodyGroundCheck": true,
+      "maximumGroundLift": 0.13075881791114807,
       "loopClosed": false
     },
     "Revive": {
       "frames": 157,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.04512347993254662,
       "loopClosed": true
     },
     "Rifle_Aim": {
       "frames": 17,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.009977251894772053,
       "loopClosed": false
     },
     "Rifle_Backward": {
       "frames": 25,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.03342581507563591,
       "loopClosed": true
     },
     "Rifle_Fire": {
       "frames": 5,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.001870587096665986,
       "loopClosed": false
     },
     "Rifle_Idle": {
       "frames": 91,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.010770288899540901,
       "loopClosed": true
     },
     "Rifle_LowReady": {
       "frames": 91,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.010770296350121498,
       "loopClosed": true
     },
     "Rifle_Reload": {
       "frames": 51,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.0018705522884847597,
       "loopClosed": false
     },
     "Rifle_Run": {
       "frames": 20,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.0323131602704525,
       "loopClosed": true
     },
     "Rifle_Walk": {
       "frames": 31,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.03286988255381584,
       "loopClosed": true
     },
     "Rocket_Backward": {
       "frames": 25,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.03342581507563591,
       "loopClosed": true
     },
     "Rocket_Fire": {
       "frames": 35,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.02083506216108799,
       "loopClosed": false
     },
     "Rocket_Idle": {
       "frames": 91,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.017242182649672033,
       "loopClosed": true
     },
     "Rocket_Reload": {
       "frames": 82,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.020835058435797693,
       "loopClosed": false
     },
     "Rocket_Run": {
       "frames": 20,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.03261182424426079,
       "loopClosed": true
     },
     "Rocket_Walk": {
       "frames": 31,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.032692320317029955,
       "loopClosed": true
     },
     "Shotgun_Aim": {
       "frames": 17,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.009977251894772053,
       "loopClosed": false
     },
     "Shotgun_Fire": {
       "frames": 25,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.001870587096665986,
       "loopClosed": false
     },
     "Shotgun_Idle": {
       "frames": 91,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.010770288899540901,
       "loopClosed": true
     },
     "Shotgun_LowReady": {
       "frames": 91,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.010770296350121498,
       "loopClosed": true
     },
     "Shotgun_Reload": {
       "frames": 64,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.0018705522884847597,
       "loopClosed": false
     },
     "Sprint": {
       "frames": 21,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0,
       "loopClosed": true
     },
     "Walk": {
       "frames": 41,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.022933771505951883,
       "loopClosed": true
     },
     "Weapon_Switch": {
       "frames": 31,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.025122236132621767,
       "loopClosed": false
     },
     "Weapon_Switch_Back": {
       "frames": 31,
       "groundCorrection": true,
+      "fullBodyGroundCheck": false,
+      "maximumGroundLift": 0.02512261983752251,
       "loopClosed": false
     }
   },

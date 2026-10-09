@@ -1,0 +1,40 @@
+{
+  "Walk": {
+    "units": "metres per full cycle",
+    "method": "ankle forward displacement regression during planted midstance; rolling sole may vary",
+    "phaseWindows": {
+      "L": [
+        0.05,
+        0.25
+      ],
+      "R": [
+        0.55,
+        0.75
+      ]
+    },
+    "sides": {
+      "L": 1.2254780828952792,
+      "R": 1.318879835307598
+    },
+    "mean": 1.2721789591014385
+  },
+  "Sprint": {
+    "units": "metres per full cycle",
+    "method": "ankle forward displacement regression during planted midstance; rolling sole may vary",
+    "phaseWindows": {
+      "L": [
+        0.05,
+        0.2
+      ],
+      "R": [
+        0.6,
+        0.75
+      ]
+    },
+    "sides": {
+      "L": 4.758469730615616,
+      "R": 4.881759226322174
+    },
+    "mean": 4.820114478468895
+  }
+}

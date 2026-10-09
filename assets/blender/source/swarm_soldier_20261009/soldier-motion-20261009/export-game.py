@@ -9,6 +9,20 @@ s=bpy.context.scene
 rig=next(o for o in s.objects if o.type=='ARMATURE')
 rig.animation_data.action=None
 for tr in list(rig.animation_data.nla_tracks):rig.animation_data.nla_tracks.remove(tr)
+# Preserve the quarter-frame grounding keys when glTF force-samples the rig.
+# Scale frame numbers and FPS together, leaving every clip's seconds unchanged.
+for action in bpy.data.actions:
+ for layer in action.layers:
+  for strip in layer.strips:
+   for bag in strip.channelbags:
+    for curve in bag.fcurves:
+     for key in curve.keyframe_points:
+      key.co.x*=4;key.handle_left.x*=4;key.handle_right.x*=4
+s.render.fps*=4
+bpy.ops.object.select_all(action='DESELECT')
+for obj in [rig,bpy.data.objects['Body'],bpy.data.objects['Head']]:obj.select_set(True)
+bpy.context.view_layer.objects.active=rig
+bpy.ops.export_scene.gltf(filepath=str(p/'soldier-motion-candidate.glb'),use_selection=True,export_format='GLB',export_animations=True,export_animation_mode='ACTIONS',export_frame_range=False,export_force_sampling=True)
 beforeObjects=set(bpy.data.objects);beforeActions=set(bpy.data.actions)
 bpy.ops.import_scene.gltf(filepath=str(p/'source/game-trooper.glb'))
 added=set(bpy.data.objects)-beforeObjects

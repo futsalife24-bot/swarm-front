@@ -974,10 +974,13 @@ export class Renderer {
           this.scene.add(m);
         }
         (m.userData.trooper as StandardTrooper | undefined)?.setPlayerAccent(playerIndex);
+        const authoredGround = (m.userData.trooper as StandardTrooper | undefined)
+          ?.model.userData.soldierReferenceVersion;
         m.position.lerp(
           new T.Vector3(
             target.x,
-            (target.y ?? 0) + (p.hp <= 0 ? 0.2 : 0),
+            // The new Down clip already places the body on the ground.
+            (target.y ?? 0) + (p.hp <= 0 && !authoredGround ? 0.2 : 0),
             target.z,
           ),
           1 - Math.exp(-dt * 18),

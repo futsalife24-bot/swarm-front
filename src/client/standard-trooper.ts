@@ -31,6 +31,9 @@ export const TROOPER_SWITCH = {
 export const TROOPER_RUN_STRIDE = 2.6;
 // Provisional B adoption: the exact reviewed UAL Sprint lower-body clip.
 export const TROOPER_SPRINT_STRIDE = 5.21351158618927;
+// Retargeted soldier: measured midstance ankle travel (stride-fit.json).
+const SOLDIER_WALK_STRIDE = 1.2721789591014385;
+const SOLDIER_SPRINT_STRIDE = 4.820114478468895;
 export const TROOPER_SKINS = {
   standard: {
     Armor: "#526570",
@@ -445,8 +448,10 @@ export class StandardTrooper {
       (adopted
         ? {
             clip: adopted,
-            stride: TROOPER_SPRINT_STRIDE,
-            name: "Sprint_Loop (provisional B)",
+            stride: this.model.userData.soldierReferenceVersion
+              ? SOLDIER_SPRINT_STRIDE
+              : TROOPER_SPRINT_STRIDE,
+            name: "Sprint_Loop",
           }
         : undefined);
     if (runMotion) {
@@ -538,7 +543,8 @@ export class StandardTrooper {
     const stance = walking ? 0.6 : 0.22;
     const targets = this.feet.map((leg, i) => {
       // UAL_Walk starts with the left boot planted; the right lands half a cycle later.
-      const q = (phase + (i === 1 ? 0.5 : 0)) % 1;
+      const offsetFoot = this.clips.has("UAL_Walk") ? 1 : 0;
+      const q = (phase + (i === offsetFoot ? 0.5 : 0)) % 1;
       const p = leg.foot.getWorldPosition(new T.Vector3());
       const rotation = leg.foot.getWorldQuaternion(new T.Quaternion());
       if (q > stance) {
@@ -797,7 +803,9 @@ export class StandardTrooper {
             (backward
               ? TROOPER_RUN_STRIDE
               : runClip === "Walk"
-                ? 1.3
+                ? this.clips.has("UAL_Walk")
+                  ? SOLDIER_WALK_STRIDE
+                  : 1.3
                 : this.runStride)) *
             runDuration) %
         runDuration;

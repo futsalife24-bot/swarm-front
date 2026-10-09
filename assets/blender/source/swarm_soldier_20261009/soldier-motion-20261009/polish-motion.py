@@ -9,6 +9,7 @@ for tr in list(rig.animation_data.nla_tracks):rig.animation_data.nla_tracks.remo
 sole=[v.index for v in body.data.vertices if (body.matrix_world@v.co).z<.06]
 grounded={'Idle','Walk','Hit','Revive','Rifle_Idle','Rifle_LowReady','Rifle_Aim','Rifle_Fire','Rifle_Reload','Rifle_Walk','Shotgun_Idle','Shotgun_LowReady','Shotgun_Aim','Shotgun_Fire','Shotgun_Reload','Rocket_Idle','Rocket_Walk','Rocket_Fire','Rocket_Reload','Weapon_Switch','Weapon_Switch_Back'}
 running={'Jog','Sprint','Rifle_Run','Rifle_Backward','Rocket_Run','Rocket_Backward'}
+groundContact={'Down','Dodge_Roll','Jump_Start','Jump_Land'}
 loops={'Idle','Walk','Jog','Sprint','Jump_Air','Revive','Rifle_Idle','Rifle_LowReady','Rifle_Walk','Rifle_Run','Rifle_Backward','Shotgun_Idle','Shotgun_LowReady','Rocket_Idle','Rocket_Walk','Rocket_Run','Rocket_Backward'}
 report={'corrections':{},'fingerWeightedVertices':{g.name:sum(any(w.group==g.index and w.weight>.1 for w in v.groups) for v in body.data.vertices) for g in body.vertex_groups if any(x in g.name for x in ['index','middle','thumb'])}}
 # Each weapon has its own grip; a rifle anchor is not valid for a launcher.
@@ -32,7 +33,7 @@ for action in list(bpy.data.actions):
  if not action.name.startswith('Soldier_'):continue
  if quick and action.name!='Soldier_Rifle_Idle':continue
  name=action.name[8:];rig.animation_data.action=action;rig.animation_data.action_slot=action.slots[0]
- start,end=map(round,action.frame_range);samples=[]
+ start,end=map(round,action.frame_range);samples=[];groundLifts=[]
  for f in range(start,end+1):
   s.frame_set(f);bpy.context.view_layer.update()
   # Read all samples before editing keyframes, avoiding evaluation feedback.
@@ -76,11 +77,18 @@ for action in list(bpy.data.actions):
     hand.matrix=Matrix.LocRotScale(hand.head,hq,Vector((1,1,1)))
     for pb in [upper,lower,hand]:sample[pb.name]={'q':pb.rotation_quaternion.copy(),'loc':pb.location.copy()}
   lift=0
-  if name in grounded|running:
-   obj=body.evaluated_get(bpy.context.evaluated_depsgraph_get());mesh=obj.to_mesh();low=min((obj.matrix_world@mesh.vertices[i].co).z for i in sole);obj.to_mesh_clear()
+  if name in grounded|running|groundContact:
+   dg=bpy.context.evaluated_depsgraph_get()
+   if name in groundContact:
+    low=float('inf')
+    for part in [body,bpy.data.objects['Head']]:
+     obj=part.evaluated_get(dg);mesh=obj.to_mesh();low=min(low,min((obj.matrix_world@v.co).z for v in mesh.vertices));obj.to_mesh_clear()
+   else:
+    obj=body.evaluated_get(dg);mesh=obj.to_mesh();low=min((obj.matrix_world@mesh.vertices[i].co).z for i in sole);obj.to_mesh_clear()
    lift=.002-low if name in grounded else max(0,.002-low)
    hip=rig.pose.bones['hips'];basis=(rig.matrix_world@hip.parent.matrix).to_quaternion()@(hip.parent.bone.matrix_local.inverted()@hip.bone.matrix_local).to_quaternion()
    sample['hips']['loc']+=basis.inverted()@Vector((0,0,lift))
+  groundLifts.append(lift)
   samples.append(sample)
  if name in loops:
   # Blend only the last 10% into the exact first pose to close the cycle.
@@ -100,7 +108,7 @@ for action in list(bpy.data.actions):
    for bag in strip.channelbags:
     for fc in bag.fcurves:
      for k in fc.keyframe_points:k.interpolation='LINEAR'
- report['corrections'][name]={'frames':len(samples),'groundCorrection':name in grounded|running,'loopClosed':name in loops}
+ report['corrections'][name]={'frames':len(samples),'groundCorrection':name in grounded|running|groundContact,'fullBodyGroundCheck':name in groundContact,'maximumGroundLift':max(groundLifts),'loopClosed':name in loops}
  action.use_fake_user=True;rig.animation_data.action=None;track=rig.animation_data.nla_tracks.new();track.strips.new(name,start,action);track.mute=True
 rig.animation_data.action=None
 for b in rig.pose.bones:b.rotation_quaternion=Quaternion();b.location=(0,0,0)

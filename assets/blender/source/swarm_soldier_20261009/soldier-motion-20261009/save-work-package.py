@@ -7,6 +7,10 @@ dest=base/p.name;dest.mkdir(parents=True,exist_ok=True)
 names=['inspect-source.py','source-reference.py','retarget-ual.py','retarget-combat.py','polish-motion.py','check-motion.py','inspect-export.py','render-motion-video.py','reference-plan.json','retarget-report.json','polish-report.json','export-check.json','motion-check.json','video-segments.json','walk-jog-sprint.mp4','soldier-polished-candidate.blend','soldier-motion-candidate.glb']
 names+=['soldier-rig-input.blend','hand-rig-repair.json','repair-hand-rig.py','verify-hand-rig.py','hand-rig-check.json','render-combat-check.py','player-accent.js','progress-20261009.md','grip-side-repaired.png','hand-rest-diagnostic.png']
 names+=['export-game.py','check-game-export.py','game-export.json','game-contract-check.json','soldier-game.blend','swarm-soldier.glb','build-contact-sheet.py','save-work-package.py']
+names+=['check-body-ground.py','body-ground-before.json','body-ground-check.json','measure-stride.py','stride-samples.json','stride-fit.json','refine-ground.py','ground-refinement.json','render-ground-check.py','build-ground-sheet.py','ground-render-check.json','ground-contact-sheet.png']
+names+=['check-export-timing.py','export-timing-check.json','inspect-imported-meshes.py']
+names+=['runtime-grounded-down.png']
+if (p/'exported-ground-check.json').exists():names+=['exported-ground-check.json']
 for n in names:shutil.copy2(p/n,dest/n)
 for n in ['combat-render-check.json','combat-contact-sheet.png','player-1-cyan.png','player-2-orange.png','player-3-purple.png','player-4-lime.png','runtime-shotgun-reload.png']:
  if (p/n).exists():shutil.copy2(p/n,dest/n)
@@ -31,6 +35,7 @@ for f in base.rglob('*'):
   f.write_bytes(text.encode('utf-8'))
 manifest={'status':'制作途中・ゲーム未反映','base':'de67860cfae978f3ee0bbd6784fc33a38ce68686','branch':'codex/soldier-motion-reference-20261009','workspace':str(p),'preview':'soldier-motion-20261009/review.html','rebuild':['Blender --background --disable-autoexec --python soldier-motion-20261009/retarget-ual.py','Blender --background --disable-autoexec --python soldier-motion-20261009/retarget-combat.py','Blender --background --disable-autoexec --python soldier-motion-20261009/polish-motion.py'],'notes':['Pythonのhttp.server等でこのフォルダーを127.0.0.1に配信し、previewを開く。','Quaternius元アクションを削除せず再生成。銃動作の比較元は既存ゲーム資産。','元のキット正本と既存ゲームブランチは上書きしていない。'],'files':{str(f.relative_to(base)).replace('\\','/'):hashlib.sha256(f.read_bytes()).hexdigest() for f in base.rglob('*') if f.is_file()}}
 manifest['files'].pop('manifest.json',None)
+manifest['rebuild']+=['Blender --background --disable-autoexec --python soldier-motion-20261009/refine-ground.py','Blender --background --disable-autoexec --python soldier-motion-20261009/export-game.py','Blender --background --disable-autoexec --python soldier-motion-20261009/check-body-ground.py -- --exported --strict']
 manifest['notes']+=['4色シェーダーは実装済み。肩の橙・紫・ライムへの切替をChrome実描画で確認。実ゲームでの識別性は未検証。','入力Blendには兵士本人の頭・体・骨格のみ。元キットの隠し素体・サンプルは含めない。','修正スクリプトrepair-hand-rig.pyは元のローカル中間データ用。通常の再生成は保存済みsoldier-rig-input.blendから開始する。']
 (base/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
 print(json.dumps({'files':len(manifest['files']),'bytes':sum(f.stat().st_size for f in base.rglob('*') if f.is_file()),'destination':str(base)},ensure_ascii=False))
