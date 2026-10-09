@@ -81,8 +81,8 @@
   },
   {
     "path": "metrics.json",
-    "bytes": 85363,
-    "sha256": "9d3e0a3c6a81736f7a7253530cee7efa0eb836d37a00b773dd4fd3b23bafd312"
+    "bytes": 81326,
+    "sha256": "86ab5d29819db98998c77cc762485013932c0ee4ea0d8e0873bba6f00c5dc2a0"
   },
   {
     "path": "normal.mp4",
@@ -91,7 +91,7 @@
   },
   {
     "path": "summary.json",
-    "bytes": 8926,
-    "sha256": "83dd03f1e94ad9e319ea285ddfc3428b7049b5188aa09cdfac7151156e91b015"
+    "bytes": 8517,
+    "sha256": "6ebb8ee4a006c1ea77cf717c7c681dfa5ad51251967b864e5429bf92f9cb2c40"
   }
 ]
