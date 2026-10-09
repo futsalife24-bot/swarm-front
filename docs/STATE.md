@@ -1,5 +1,7 @@
 ## 2026-10-09 ローリング復帰・横移動射撃の発射点を修正中
 
+実装＋証拠の対象HEAD `4c357dd454663e8d16a0b494bc032570aa45abf9`。公開GitHubへのpushは自動承認レビューが「今回の修正・証拠をその宛先へ公開する明示承認を確認できない」と拒否。push・PR作成・監査送信・merge・公開は未実施。本人へ当該範囲の一式承認を質問中。ローカルWorker dry-runは成功。準備済み監査ZIP `C:/Users/futsa/Documents/Codex/2026-10-07/https-x-com-dstudio-ai-status/soldier-motion-20261009/soldier-roll-shot-4c357dd.zip`、85,816,864 bytes、SHA256 `5d75157c3080c562913258e698c1a36563ec804a48dca0407822caaf92083a8d`。322収録項目のハッシュとZIP破損なしを確認。送信先は新しい通常Chat（iab）で未送信。再開条件は本人の今回一式への明示承認。拒否を迂回しない。
+
 公開版を操作した本人の追加指定。作業は `C:/Users/futsa/Documents/Codex/2026-10-09/swarm-soldier-motion`、branch `codex/soldier-roll-shot-origin-20261009`、base `c529694902397fba952dc6de16ff4bdc6c31bcd1`。モデル形状と31動作を維持し、回避3クリップを武器別ローリングへ戻す。回避距離・0.32秒・無敵時間・再使用待ち時間は維持。発射表示は本人が許容した体中心＋高さ1.5を採用し、描画補間に合わせる。権威判定・着弾点は変更しない。短い武器の床干渉は本人の許容を維持。
 
 関連19テストとclient/Worker型検査成功。3回避の体床下頂点0、握り最大差3.10mm以下。新しい検証originで武器3種×180コマを保存、前方/横回避を確認。発光と描画体中心の距離は計73コマで最大0。旧originのService Workerキャッシュで古い描画だった記録は成功証拠にしない。通常ソロの敵あり・10ゲーム秒/172描画も保存し、移動射撃・装填途中切替・回避後射撃を確認。実装 `34fb30c476a02c10328357a60bf11987db71abe8` の本番build成功、全268ファイルの開発録画混入0。独立Chat監査・main反映・公開は未完了。[変更と証拠](../evidence/soldier-roll-shot-20261009/README.md)。モデルID/推論設定は未確認。
