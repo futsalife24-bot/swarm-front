@@ -102,6 +102,16 @@ const view = new Renderer(
 );
 const settings = new FrontSettings(controls, sound, view);
 const minimap = new Minimap();
+let soldierLiveReview: import("./soldier-live-review").LiveReview | undefined;
+if (
+  import.meta.env.DEV &&
+  new URLSearchParams(location.search).has("motionReview")
+) {
+  void import("./soldier-live-review").then((m) => {
+    soldierLiveReview = m.attachLiveReview(view, controls);
+  });
+}
+
 let localRun: FrontRun | null = null,
   world: World | null = null,
   info: FrontRunView | null = null,
@@ -1102,6 +1112,7 @@ function frame(time: number) {
     (!network || (!network.closed && network.ws?.readyState === 1));
   controls.enabled = active;
   controls.setScopeAvailable(active);
+  soldierLiveReview?.beforeFrame(world, id, active);
   if (
     localRun &&
     ready &&
@@ -1204,6 +1215,7 @@ function frame(time: number) {
         controls.scoped,
         controls.aiming,
       );
+      soldierLiveReview?.capture(world, id);
       lastRenderKey = renderKey;
     }
     if (localRun)

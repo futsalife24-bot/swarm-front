@@ -1,0 +1,19 @@
+{
+  "status": "candidate; rendering and transitions required",
+  "approval": "2026-10-09 user selected low stepping evade; transient weapon floor penetration accepted",
+  "profiles": {
+    "Rifle": {
+      "samples": 177,
+      "maxFootTargetErrorMetres": 4.192449844953934e-05
+    },
+    "Shotgun": {
+      "samples": 177,
+      "maxFootTargetErrorMetres": 4.184544553410972e-05
+    },
+    "Rocket": {
+      "samples": 177,
+      "maxFootTargetErrorMetres": 3.228034872797084e-05
+    }
+  },
+  "sha256": "0ae550fdd12160dd73f2c47124d54d7c294574ec3a1529c90d22de70619cac22"
+}

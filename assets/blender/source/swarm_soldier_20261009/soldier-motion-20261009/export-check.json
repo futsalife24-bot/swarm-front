@@ -1,0 +1,172 @@
+{
+  "sha256": "42cd10f4fc88ee8c7031b5a5911ea4d959d20aa5be95fefc3b9486aa14ee141e",
+  "bytes": 13644344,
+  "clips": [
+    {
+      "name": "Soldier_Dodge_Roll",
+      "duration": 1.4666666984558105,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Down",
+      "duration": 2.4000000953674316,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Hit",
+      "duration": 0.3333333432674408,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Idle",
+      "duration": 2.5,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Jog",
+      "duration": 0.9333333373069763,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Jump_Air",
+      "duration": 2.5,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Jump_Land",
+      "duration": 1.2666666507720947,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Jump_Start",
+      "duration": 1.3333333730697632,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Revive",
+      "duration": 5.199999809265137,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Rifle_Aim",
+      "duration": 0.5333333611488342,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Rifle_Backward",
+      "duration": 0.800000011920929,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Rifle_Fire",
+      "duration": 0.13333334028720856,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Rifle_Idle",
+      "duration": 3.0,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Rifle_LowReady",
+      "duration": 3.0,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Rifle_Reload",
+      "duration": 1.6666666269302368,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Rifle_Run",
+      "duration": 0.6333333253860474,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Rifle_Walk",
+      "duration": 1.0,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Rocket_Backward",
+      "duration": 0.800000011920929,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Rocket_Fire",
+      "duration": 1.1333333253860474,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Rocket_Idle",
+      "duration": 3.0,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Rocket_Reload",
+      "duration": 2.700000047683716,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Rocket_Run",
+      "duration": 0.6333333253860474,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Rocket_Walk",
+      "duration": 1.0,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Shotgun_Aim",
+      "duration": 0.5333333611488342,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Shotgun_Fire",
+      "duration": 0.800000011920929,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Shotgun_Idle",
+      "duration": 3.0,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Shotgun_LowReady",
+      "duration": 3.0,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Shotgun_Reload",
+      "duration": 2.0999999046325684,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Sprint",
+      "duration": 0.6666666865348816,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Walk",
+      "duration": 1.3333333730697632,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Weapon_Switch",
+      "duration": 1.0,
+      "channels": 165
+    },
+    {
+      "name": "Soldier_Weapon_Switch_Back",
+      "duration": 1.0,
+      "channels": 165
+    }
+  ],
+  "errors": [],
+  "meshes": [
+    "body_00001.001",
+    "head_00001.001"
+  ],
+  "nodes": 58
+}

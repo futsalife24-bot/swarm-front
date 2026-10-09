@@ -1,0 +1,29 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-09/swarm-soldier-motion/test-results/soldier-base-regression
+
+ ❯ tests/render.test.ts (6 tests | 1 failed | 5 skipped) 11ms
+   × uses a short moving bullet, bounds the blast ring and releases finished effects 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/render.test.ts > uses a short moving bullet, bounds the blast ring and releases finished effects
+AssertionError: expected -6 to be close to -7.5, received difference is 1.5, but expected 0.005
+ ❯ tests/render.test.ts:32:34
+     30|   ).toBeLessThan(1);
+     31|   fx.update(0.05);
+     32|   expect(bullet.mesh.position.z).toBeCloseTo(-7.5);
+       |                                  ^
+     33|   fx.event({ id: 2, type: "burst", x: 0, y: 0, z: 0, radius: 3.5 });
+     34|   fx.update(0.25);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 skipped (6)
+   Start at  20:46:54
+   Duration  4.52s (transform 57%, import 42%)
+
+  Transform  transforming modules took 2.35s · 57% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns

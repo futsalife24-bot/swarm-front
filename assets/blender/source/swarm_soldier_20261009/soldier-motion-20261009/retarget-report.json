@@ -1,0 +1,221 @@
+{
+  "source": "Quaternius Universal Animation Library Standard CC0",
+  "scale": 0.9734140658638148,
+  "clips": [
+    {
+      "name": "Idle",
+      "reference": "Idle_Loop",
+      "duration": 2.5,
+      "frames": 76
+    },
+    {
+      "name": "Walk",
+      "reference": "Walk_Loop",
+      "duration": 1.3333333333333333,
+      "frames": 41
+    },
+    {
+      "name": "Jog",
+      "reference": "Jog_Fwd_Loop",
+      "duration": 0.9333333174387614,
+      "frames": 29
+    },
+    {
+      "name": "Sprint",
+      "reference": "Sprint_Loop",
+      "duration": 0.6666666666666666,
+      "frames": 21
+    },
+    {
+      "name": "Jump_Start",
+      "reference": "Jump_Start",
+      "duration": 1.3333333333333333,
+      "frames": 41
+    },
+    {
+      "name": "Jump_Air",
+      "reference": "Jump_Loop",
+      "duration": 2.5,
+      "frames": 76
+    },
+    {
+      "name": "Jump_Land",
+      "reference": "Jump_Land",
+      "duration": 1.2666666507720947,
+      "frames": 39
+    },
+    {
+      "name": "Dodge_Roll",
+      "reference": "Roll",
+      "duration": 1.4666666984558105,
+      "frames": 45
+    },
+    {
+      "name": "Hit",
+      "reference": "Hit_Chest",
+      "duration": 0.3333333333333333,
+      "frames": 11
+    },
+    {
+      "name": "Down",
+      "reference": "Death01",
+      "duration": 2.4000000953674316,
+      "frames": 73
+    },
+    {
+      "name": "Revive",
+      "reference": "Fixing_Kneeling",
+      "duration": 5.199999809265137,
+      "frames": 157
+    },
+    {
+      "name": "Rifle_Idle",
+      "reference": "Trial_Weapon_Idle_Rifle",
+      "source": "game",
+      "duration": 3.0,
+      "frames": 91
+    },
+    {
+      "name": "Rifle_LowReady",
+      "reference": "Low_Ready_Rifle",
+      "source": "game",
+      "duration": 3.0,
+      "frames": 91
+    },
+    {
+      "name": "Rifle_Aim",
+      "reference": "Aim_Raise_Rifle",
+      "source": "game",
+      "duration": 0.55,
+      "frames": 17
+    },
+    {
+      "name": "Rifle_Fire",
+      "reference": "Trial_Fire_Rifle",
+      "source": "game",
+      "duration": 0.13333333333333333,
+      "frames": 5
+    },
+    {
+      "name": "Rifle_Reload",
+      "reference": "Trial_Reload_Rifle",
+      "source": "game",
+      "duration": 1.65,
+      "frames": 51
+    },
+    {
+      "name": "Rifle_Walk",
+      "reference": "Combat_Walk",
+      "source": "game",
+      "duration": 1.0,
+      "frames": 31
+    },
+    {
+      "name": "Rifle_Run",
+      "reference": "Combat_Run",
+      "source": "game",
+      "duration": 0.6399999618530273,
+      "frames": 20
+    },
+    {
+      "name": "Rifle_Backward",
+      "reference": "Trial_Run_Backward",
+      "source": "game",
+      "duration": 0.8,
+      "frames": 25
+    },
+    {
+      "name": "Weapon_Switch",
+      "reference": "Trial_Switch_1_to_2",
+      "source": "game",
+      "duration": 1.0,
+      "frames": 31
+    },
+    {
+      "name": "Weapon_Switch_Back",
+      "reference": "Trial_Switch_2_to_1",
+      "source": "game",
+      "duration": 1.0,
+      "frames": 31
+    },
+    {
+      "name": "Shotgun_Idle",
+      "reference": "Trial_Weapon_Idle_Shotgun",
+      "source": "game",
+      "duration": 3.0,
+      "frames": 91
+    },
+    {
+      "name": "Shotgun_LowReady",
+      "reference": "Low_Ready_Shotgun",
+      "source": "game",
+      "duration": 3.0,
+      "frames": 91
+    },
+    {
+      "name": "Shotgun_Aim",
+      "reference": "Aim_Raise_Shotgun",
+      "source": "game",
+      "duration": 0.55,
+      "frames": 17
+    },
+    {
+      "name": "Shotgun_Fire",
+      "reference": "Trial_Fire_Shotgun",
+      "source": "game",
+      "duration": 0.8,
+      "frames": 25
+    },
+    {
+      "name": "Shotgun_Reload",
+      "reference": "Trial_Reload_Shotgun",
+      "source": "game",
+      "duration": 2.0999998728434246,
+      "frames": 64
+    },
+    {
+      "name": "Rocket_Idle",
+      "reference": "Trial_Weapon_Idle_Rocket",
+      "source": "game",
+      "duration": 3.0,
+      "frames": 91
+    },
+    {
+      "name": "Rocket_Walk",
+      "reference": "Combat_Walk_Rocket",
+      "source": "game",
+      "duration": 1.0,
+      "frames": 31
+    },
+    {
+      "name": "Rocket_Run",
+      "reference": "Combat_Run_Rocket",
+      "source": "game",
+      "duration": 0.6399999618530273,
+      "frames": 20
+    },
+    {
+      "name": "Rocket_Backward",
+      "reference": "Trial_Run_Backward_Rocket",
+      "source": "game",
+      "duration": 0.8,
+      "frames": 25
+    },
+    {
+      "name": "Rocket_Fire",
+      "reference": "Trial_Fire_Rocket",
+      "source": "game",
+      "duration": 1.15,
+      "frames": 35
+    },
+    {
+      "name": "Rocket_Reload",
+      "reference": "Trial_Reload_Rocket",
+      "source": "game",
+      "duration": 2.7,
+      "frames": 82
+    }
+  ],
+  "status": "candidate-not-approved",
+  "combatNote": "Existing Swarm Front authored clips retargeted as candidates with A/T pose alignment. Grip and contacts require validation."
+}

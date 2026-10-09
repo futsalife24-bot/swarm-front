@@ -1,0 +1,29 @@
+{
+  "models": [
+    {
+      "name": "初期兵士",
+      "file": "test-results\\soldier-comparison\\initial.glb",
+      "sha256": "d5101b812b065c2140cb08b509a658d05bae95ac3e0e4cce4e04713f4a6aa4b2",
+      "heightBefore": 1.9242212995886803,
+      "displayHeight": 1.85,
+      "pose": "common T pose"
+    },
+    {
+      "name": "現行兵士",
+      "file": "public\\assets\\characters\\standard_trooper_v10.glb",
+      "sha256": "60a9e694a19c510c7c8f6b4007600fd8e283a699c422dd143b3a860b3cfb0ec4",
+      "heightBefore": 1.8659999957308173,
+      "displayHeight": 1.85,
+      "pose": "common T pose"
+    },
+    {
+      "name": "最新兵士（今回）",
+      "file": "public\\assets\\characters\\swarm-soldier.glb",
+      "sha256": "bea4886cd676e602816df15de52424dc953279d0b463de61ba9860c3bfef280e",
+      "heightBefore": 1.6700004681877694,
+      "displayHeight": 1.85,
+      "pose": "common T pose"
+    }
+  ],
+  "conditions": "共通のTポーズ、表示身長1.85m、正投影カメラ、共通照明。初期図形は固定腕、他は既存の骨の回転でTポーズへ揃え、武器は非表示。形状やテクスチャの生成置換なし。"
+}

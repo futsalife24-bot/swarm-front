@@ -1,0 +1,103 @@
+{
+  "status": "rejected: roll floor penetration remains; not exported or adopted",
+  "mounts": {
+    "BackWeaponSocket": {
+      "socket": "BackWeaponSocket",
+      "idleWorldShift": [
+        0.0,
+        0.0,
+        0.1599999964237213
+      ],
+      "leanDegrees": 0,
+      "flipDegrees": 180,
+      "pairs": {
+        "rifle": 0,
+        "shotgun": 0,
+        "rocket": 0
+      },
+      "intersectingKinds": 0,
+      "distance": 0.15999999797903,
+      "idleWorldMatrix": [
+        -1.9018649766167073e-08,
+        9.283493085376904e-08,
+        -1.0,
+        0.0,
+        0.4349658191204071,
+        0.9004467725753784,
+        4.5421771233122854e-08,
+        0.0,
+        0.9004470109939575,
+        -0.43496569991111755,
+        -4.577380252612784e-08,
+        0.0,
+        0.11413008719682693,
+        1.1280361413955688,
+        0.254052996635437,
+        1.0
+      ]
+    },
+    "BackWeaponSocket_2": {
+      "socket": "BackWeaponSocket_2",
+      "idleWorldShift": [
+        -0.05999999865889549,
+        0.0,
+        0.11999999731779099
+      ],
+      "leanDegrees": 0,
+      "flipDegrees": 0,
+      "pairs": {
+        "rifle": 0,
+        "shotgun": 0,
+        "rocket": 0
+      },
+      "intersectingKinds": 0,
+      "distance": 0.1341640774976704,
+      "idleWorldMatrix": [
+        -5.809409913126728e-07,
+        -4.882447228737874e-07,
+        1.0,
+        0.0,
+        -0.4349660575389862,
+        0.9004467725753784,
+        1.7071164393200888e-07,
+        0.0,
+        -0.9004469513893127,
+        -0.43496590852737427,
+        -7.273593496393005e-07,
+        0.0,
+        -0.22586989402770996,
+        1.1280362606048584,
+        0.21405300498008728,
+        1.0
+      ]
+    }
+  },
+  "actions": {
+    "Soldier_Dodge_Roll": {
+      "BackWeaponSocket": {
+        "minimum": -0.006083965301513672,
+        "maximumStepDegrees": 30.0
+      },
+      "BackWeaponSocket_2": {
+        "minimum": -0.16525496542453766,
+        "maximumStepDegrees": 30.0
+      }
+    },
+    "Soldier_Down": {
+      "BackWeaponSocket": {
+        "minimum": 0.014896735548973083,
+        "maximumStepDegrees": 30.0
+      },
+      "BackWeaponSocket_2": {
+        "minimum": 0.015557736158370972,
+        "maximumStepDegrees": 30.0
+      }
+    }
+  },
+  "authoringBlendSha256": "5efeeda27c2f682e998157257d4d22d1af1721d76ddc4ed8a2d0d0c0fe83a4ae",
+  "sourceRuntimeSha256": "746e35fd16126f5c09140ef6e193eea7e48d0be23eb9dda17cac50c64a67ae23",
+  "limits": [
+    "\u672a\u63a1\u7528\u3002\u6301\u3061\u66ff\u3048\u5230\u9054\u306f\u65e7\u4f4d\u7f6e\u3002",
+    "\u5e8a\u30fb\u4f53\u5e72\u6e09\u30fb\u81ea\u7136\u3055\u306e\u66f8\u304d\u51fa\u3057\u5f8c\u691c\u67fb\u304c\u5fc5\u8981\u3002"
+  ]
+}

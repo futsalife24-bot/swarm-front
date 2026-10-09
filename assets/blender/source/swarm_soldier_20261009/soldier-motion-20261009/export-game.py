@@ -1,0 +1,96 @@
+"""Export the authored soldier with the runtime rig/clip contract, without kit donors."""
+import bpy, json, math, struct, hashlib, sys
+from pathlib import Path
+from mathutils import Vector, Matrix
+
+p=Path(__file__).resolve().parent
+source=next((Path(a.split('=',1)[1]) for a in sys.argv if a.startswith('--source=')),p/'soldier-polished-candidate.blend')
+outdir=next((Path(a.split('=',1)[1]) for a in sys.argv if a.startswith('--output=')),p)
+outdir.mkdir(parents=True,exist_ok=True)
+bpy.ops.wm.open_mainfile(filepath=str(source))
+s=bpy.context.scene
+rig=next(o for o in s.objects if o.type=='ARMATURE')
+rig.animation_data.action=None
+for tr in list(rig.animation_data.nla_tracks):rig.animation_data.nla_tracks.remove(tr)
+# Preserve the quarter-frame grounding keys when glTF force-samples the rig.
+# Scale frame numbers and FPS together, leaving every clip's seconds unchanged.
+for action in bpy.data.actions:
+ for layer in action.layers:
+  for strip in layer.strips:
+   for bag in strip.channelbags:
+    for curve in bag.fcurves:
+     for key in curve.keyframe_points:
+      key.co.x*=4;key.handle_left.x*=4;key.handle_right.x*=4
+s.render.fps*=4
+bpy.ops.object.select_all(action='DESELECT')
+for obj in [rig,bpy.data.objects['Body'],bpy.data.objects['Head']]:obj.select_set(True)
+bpy.context.view_layer.objects.active=rig
+if '--skip-preview' not in sys.argv:
+ bpy.ops.export_scene.gltf(filepath=str(outdir/'soldier-motion-candidate.glb'),use_selection=True,export_format='GLB',export_animations=True,export_animation_mode='ACTIONS',export_frame_range=False,export_force_sampling=True)
+def export_runtime():
+ idle=bpy.data.actions['Soldier_Rifle_Idle'];rig.animation_data.action=idle;rig.animation_data.action_slot=idle.slots[0];s.frame_set(0);bpy.context.view_layer.update()
+ # Author the sling against this soldier's actual idle chest, in runtime axes.
+ # Flat weapon sides face the back; the long axis runs diagonally up the torso.
+ runtimeBasis=Matrix(((-1,0,0,0),(0,0,1,0),(0,1,0,0),(0,0,0,1)))
+ tw=rig.matrix_world;chestPose=rig.pose.bones['chest'].matrix.copy()
+ chestWorld=runtimeBasis@tw@chestPose
+ backFrames={}
+ for i,name in enumerate(['BackWeaponSocket','BackWeaponSocket_2']):
+  frame=Matrix.Rotation(-.45 if i==0 else .45,4,'Z')@Matrix.Rotation(-math.pi/2,4,'Y')
+  frame.translation=chestWorld.translation+Vector((.14 if i==0 else -.14,.08,.10))
+  backFrames[name]=rig.data.bones['chest'].matrix_local@chestPose.inverted()@tw.inverted()@runtimeBasis.inverted()@frame
+ rig.animation_data.action=None
+ for bone in rig.pose.bones:bone.rotation_quaternion=(1,0,0,0);bone.location=(0,0,0)
+ mapping={'root':'Root','hips':'Pelvis','spine':'Spine','chest':'Chest','neck':'Neck','head':'Head'}
+ for side in ['L','R']:
+  for a,b in [('shoulder','Clavicle'),('upper_arm','UpperArm'),('lower_arm','LowerArm'),('hand','Hand'),('upper_leg','UpperLeg'),('lower_leg','LowerLeg'),('foot','Foot'),('toes','Toe')]:mapping[a+'.'+side]=b+'_'+side
+  for finger in ['thumb','index','middle','ring','little']:
+   for i,seg in enumerate(['proximal','intermediate','distal'],1):mapping[finger+'_'+seg+'.'+side]=finger.title()+str(i)+'_'+side
+ # Bone rename updates groups, but detached layered actions also need explicit paths.
+ for old,new in mapping.items():rig.data.bones[old].name=new
+ for action in bpy.data.actions:
+  for layer in action.layers:
+   for strip in layer.strips:
+    for bag in strip.channelbags:
+     for curve in bag.fcurves:
+      for old,new in mapping.items():
+       curve.data_path=curve.data_path.replace('pose.bones["'+old+'"]','pose.bones["'+new+'"]')
+ bpy.context.view_layer.objects.active=rig
+ rig.select_set(True)
+ bpy.ops.object.mode_set(mode='EDIT')
+ for name,parent,offset in [('SpineMid','Spine',(0,0,.05)),('LeftHandSupportSocket','Hand_L',(0,0,0)),('BackWeaponSocket','Chest',(.13,.15,.12)),('BackWeaponSocket_2','Chest',(-.13,.15,.12))]:
+  if name in rig.data.edit_bones:continue
+  b=rig.data.edit_bones.new(name);b.parent=rig.data.edit_bones[parent]
+  b.head=b.parent.head+Vector(offset);b.tail=b.head+Vector((0,0,.06));b.use_deform=False
+  if name in backFrames:b.matrix=backFrames[name]
+ bpy.ops.object.mode_set(mode='OBJECT')
+ clips={'Idle':'Idle','Walk':'UAL_Walk','Jog':'UAL_Jog','Sprint':'UAL_sprint','Jump_Start':'Jump_Start','Jump_Air':'Jump_Air','Jump_Land':'Jump_Land','Dodge_Roll':'Trial_Dodge_Roll','Hit':'Trial_Hit_Heavy','Down':'Down','Revive':'Revive','Rifle_Idle':'Trial_Weapon_Idle_Rifle','Rifle_LowReady':'Low_Ready_Rifle','Rifle_Aim':'Aim_Raise_Rifle','Rifle_Fire':'Trial_Fire_Rifle','Rifle_Reload':'Trial_Reload_Rifle','Rifle_Walk':'Combat_Walk','Rifle_Run':'Trial_Run','Rifle_Backward':'Trial_Run_Backward','Weapon_Switch':'Trial_Switch_1_to_2','Weapon_Switch_Back':'Trial_Switch_2_to_1','Shotgun_Idle':'Trial_Weapon_Idle_Shotgun','Shotgun_LowReady':'Low_Ready_Shotgun','Shotgun_Aim':'Aim_Raise_Shotgun','Shotgun_Fire':'Trial_Fire_Shotgun','Shotgun_Reload':'Trial_Reload_Shotgun','Rocket_Idle':'Trial_Weapon_Idle_Rocket','Rocket_Walk':'Combat_Walk_Rocket','Rocket_Run':'Trial_Run_Rocket','Rocket_Backward':'Trial_Run_Backward_Rocket','Rocket_Fire':'Trial_Fire_Rocket','Rocket_Reload':'Trial_Reload_Rocket'}
+ # Older authored sources remain exportable; profile rolls are an atomic pair.
+ profile_rolls=['Dodge_Roll_Shotgun','Dodge_Roll_Rocket']
+ present=[name for name in profile_rolls if bpy.data.actions.get('Soldier_'+name)]
+ if present and len(present)!=len(profile_rolls):raise RuntimeError('Incomplete weapon-profile roll pair')
+ for name in present:clips[name]='Trial_'+name
+ for old,new in clips.items():
+  a=bpy.data.actions.get('Soldier_'+old)
+  if not a:raise RuntimeError('Missing authored clip: '+old)
+  a.name=new;a.use_fake_user=True
+ for b in rig.pose.bones:b.rotation_quaternion=(1,0,0,0);b.location=(0,0,0);b.scale=(1,1,1)
+ s.frame_set(0)
+ bpy.ops.object.select_all(action='DESELECT')
+ for o in [rig,bpy.data.objects['Body'],bpy.data.objects['Head']]:o.hide_set(False);o.select_set(True)
+ out=outdir/'swarm-soldier.glb'
+ bpy.ops.export_scene.gltf(filepath=str(out),use_selection=True,export_format='GLB',export_animations=True,export_animation_mode='ACTIONS',export_frame_range=False,export_force_sampling=True,export_extras=True)
+ # A static basis parent changes -Y Blender forward to the game's +Y convention.
+ # Keeping it below the scene root preserves it when gameplay sets model.rotation.
+ raw=out.read_bytes();jlen,jtype=struct.unpack_from('<II',raw,12);g=json.loads(raw[20:20+jlen]);tail=raw[20+jlen:]
+ for mesh_node in g['nodes']:
+  if 'mesh' in mesh_node:mesh_node['name']='SoldierMesh_'+mesh_node.get('name','mesh')
+ scene=g['scenes'][g.get('scene',0)]
+ node=len(g['nodes']);g['nodes'].append({'name':'SoldierBasis','rotation':[0,1,0,0],'children':scene['nodes']});scene['nodes']=[node]
+ scene['extras']={'trooperMotionVersion':10,'trooperDesignVersion':11,'soldierReferenceVersion':'20261009','heightMetres':1.67,'status':'integration-candidate'}
+ j=json.dumps(g,separators=(',',':')).encode();j+=b' '*((-len(j))%4)
+ out.write_bytes(struct.pack('<III',0x46546c67,2,20+len(j)+len(tail))+struct.pack('<II',len(j),0x4e4f534a)+j+tail)
+ bpy.ops.wm.save_as_mainfile(filepath=str(outdir/'soldier-game.blend'))
+ (outdir/'game-export.json').write_text(json.dumps({'sha256':hashlib.sha256(out.read_bytes()).hexdigest(),'clips':list(clips.values()),'boneNames':list(mapping.values()),'status':'not yet validated in gameplay'},indent=2))
+if '--preview-only' not in sys.argv:
+ export_runtime()

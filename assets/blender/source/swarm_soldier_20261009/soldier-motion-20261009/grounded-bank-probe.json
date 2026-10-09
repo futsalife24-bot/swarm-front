@@ -1,0 +1,2162 @@
+{
+  "scope": "Test a continuous body bank with close, rigid back mounts before authoring.\n\nUnlike the rejected fixed-angle probe, solve the phase-dependent angle while\npreserving the original body's lowest point. Does not save a modified model.\n",
+  "actions": {
+    "Soldier_Dodge_Roll": {
+      "minimum": -0.20201126507447562,
+      "unavoidableMinimum": -0.20201126507447562,
+      "maximumAngle": 60.0,
+      "samples": [
+        {
+          "frame": 0.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.06434697816192916,
+          "bodyMinimum": 0.004116532767593858,
+          "groundShift": 3.0357660829594124e-17,
+          "bestPossibleMinimum": 0.3282675107024242
+        },
+        {
+          "frame": 0.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.08891187212913522,
+          "bodyMinimum": 0.004098582629667244,
+          "groundShift": 1.9081958235744878e-17,
+          "bestPossibleMinimum": 0.3484418433620232
+        },
+        {
+          "frame": 1.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.12272739330175769,
+          "bodyMinimum": 0.004053465166379883,
+          "groundShift": 5.0306980803327406e-17,
+          "bestPossibleMinimum": 0.40101261650592535
+        },
+        {
+          "frame": 1.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.2016050686106966,
+          "bodyMinimum": 0.004077402909763887,
+          "groundShift": 4.336808689942018e-18,
+          "bestPossibleMinimum": 0.487227907765144
+        },
+        {
+          "frame": 2.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.27351030384685615,
+          "bodyMinimum": 0.004106415485736158,
+          "groundShift": -4.5102810375396984e-17,
+          "bestPossibleMinimum": 0.5465538622895098
+        },
+        {
+          "frame": 2.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.40939275135488573,
+          "bodyMinimum": 0.004042110742707493,
+          "groundShift": 5.4643789493269423e-17,
+          "bestPossibleMinimum": 0.6211671981985546
+        },
+        {
+          "frame": 3.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.5222545908814953,
+          "bodyMinimum": 0.03330553680590957,
+          "groundShift": 4.163336342344337e-17,
+          "bestPossibleMinimum": 0.6684061554255963
+        },
+        {
+          "frame": 3.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.650804502522105,
+          "bodyMinimum": 0.09597212335027105,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.7198212087883791
+        },
+        {
+          "frame": 4.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7673190424473906,
+          "bodyMinimum": 0.16222670421051893,
+          "groundShift": -5.551115123125783e-17,
+          "bestPossibleMinimum": 0.7673190424473906
+        },
+        {
+          "frame": 4.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.8187801390335829,
+          "bodyMinimum": 0.21069176861505157,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.8406604378188203
+        },
+        {
+          "frame": 5.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.8139674797588403,
+          "bodyMinimum": 0.2634896634892643,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.8950107563191098
+        },
+        {
+          "frame": 5.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7985074136585082,
+          "bodyMinimum": 0.3244201012423537,
+          "groundShift": -5.551115123125783e-17,
+          "bestPossibleMinimum": 0.9258429298133661
+        },
+        {
+          "frame": 6.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7959083718833917,
+          "bodyMinimum": 0.39971151430348906,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.9446272154008161
+        },
+        {
+          "frame": 6.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7970550732136245,
+          "bodyMinimum": 0.4938299185903522,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.9310290963183471
+        },
+        {
+          "frame": 7.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7914802342697258,
+          "bodyMinimum": 0.6017528091934592,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.9191951853828829
+        },
+        {
+          "frame": 7.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.776912009801046,
+          "bodyMinimum": 0.6973825568515162,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.8977613309339084
+        },
+        {
+          "frame": 8.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7644009108729986,
+          "bodyMinimum": 0.7889116162432399,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.8682055610917716
+        },
+        {
+          "frame": 8.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7484309042209318,
+          "bodyMinimum": 0.7821155925164801,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.8177434418980399
+        },
+        {
+          "frame": 9.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7355689049306493,
+          "bodyMinimum": 0.7782185423908918,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.8000982714329313
+        },
+        {
+          "frame": 9.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7032844369897737,
+          "bodyMinimum": 0.7581399940063629,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.7603238394261558
+        },
+        {
+          "frame": 10.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.6748446491016838,
+          "bodyMinimum": 0.7328698821846965,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.7135474240463214
+        },
+        {
+          "frame": 10.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.6143292895306554,
+          "bodyMinimum": 0.6028442008100504,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.6272758783270811
+        },
+        {
+          "frame": 11.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.5557694443600667,
+          "bodyMinimum": 0.4893317224438477,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.5557694443600667
+        },
+        {
+          "frame": 11.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.4453850962028211,
+          "bodyMinimum": 0.36257447408354393,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.4453850962028211
+        },
+        {
+          "frame": 12.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.27094272095746075,
+          "bodyMinimum": 0.26056031038753247,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.289622771755374
+        },
+        {
+          "frame": 12.5,
+          "angle": -5.0,
+          "equipmentMinimum": 0.13753292100413272,
+          "bodyMinimum": 0.1792480234309466,
+          "groundShift": 0.002106099584565868,
+          "bestPossibleMinimum": 0.13753292100413272
+        },
+        {
+          "frame": 13.0,
+          "angle": -10.0,
+          "equipmentMinimum": 0.02781789450998784,
+          "bodyMinimum": 0.12864004751793745,
+          "groundShift": 0.0016544485426435163,
+          "bestPossibleMinimum": 0.02781789450998784
+        },
+        {
+          "frame": 13.5,
+          "angle": -15.0,
+          "equipmentMinimum": -0.05884738808582868,
+          "bodyMinimum": 0.08987829662378277,
+          "groundShift": 0.020905157220216686,
+          "bestPossibleMinimum": -0.05884738808582868
+        },
+        {
+          "frame": 14.0,
+          "angle": -15.0,
+          "equipmentMinimum": -0.10228020288388288,
+          "bodyMinimum": 0.054215667121795,
+          "groundShift": 0.03151485159559271,
+          "bestPossibleMinimum": -0.10081252537103141
+        },
+        {
+          "frame": 14.5,
+          "angle": -20.0,
+          "equipmentMinimum": -0.13745925031867043,
+          "bodyMinimum": 0.04305732199754756,
+          "groundShift": 0.03374389396268921,
+          "bestPossibleMinimum": -0.11464541608318218
+        },
+        {
+          "frame": 15.0,
+          "angle": -20.0,
+          "equipmentMinimum": -0.1361699787478695,
+          "bodyMinimum": 0.05006480211016541,
+          "groundShift": 0.033062574631042355,
+          "bestPossibleMinimum": -0.11921264947284882
+        },
+        {
+          "frame": 15.5,
+          "angle": -20.0,
+          "equipmentMinimum": -0.13899302867678603,
+          "bodyMinimum": 0.05724525713305913,
+          "groundShift": 0.031268568663546395,
+          "bestPossibleMinimum": -0.1237877601270016
+        },
+        {
+          "frame": 16.0,
+          "angle": -20.0,
+          "equipmentMinimum": -0.12137075290122082,
+          "bodyMinimum": 0.08083117427462586,
+          "groundShift": 0.03038282879511431,
+          "bestPossibleMinimum": -0.1176729771575
+        },
+        {
+          "frame": 16.5,
+          "angle": -20.0,
+          "equipmentMinimum": -0.12297396833656393,
+          "bodyMinimum": 0.07487225971091233,
+          "groundShift": 0.03121132059669851,
+          "bestPossibleMinimum": -0.12297396833656393
+        },
+        {
+          "frame": 17.0,
+          "angle": -15.0,
+          "equipmentMinimum": -0.10744448612418216,
+          "bodyMinimum": 0.07147646084104971,
+          "groundShift": 0.02778448066405788,
+          "bestPossibleMinimum": -0.10744448612418216
+        },
+        {
+          "frame": 17.5,
+          "angle": -15.0,
+          "equipmentMinimum": -0.08885963516337608,
+          "bodyMinimum": 0.0636442925732173,
+          "groundShift": 0.028213715050109445,
+          "bestPossibleMinimum": -0.08885963516337608
+        },
+        {
+          "frame": 18.0,
+          "angle": -15.0,
+          "equipmentMinimum": -0.08220939803854566,
+          "bodyMinimum": 0.05815315494521855,
+          "groundShift": 0.028583613098531517,
+          "bestPossibleMinimum": -0.08220939803854566
+        },
+        {
+          "frame": 18.5,
+          "angle": -25.0,
+          "equipmentMinimum": -0.11851203411794559,
+          "bodyMinimum": 0.05939018462450868,
+          "groundShift": 0.0288852654521356,
+          "bestPossibleMinimum": -0.11851203411794559
+        },
+        {
+          "frame": 19.0,
+          "angle": -35.0,
+          "equipmentMinimum": -0.20201126507447562,
+          "bodyMinimum": 0.004000068008228036,
+          "groundShift": -0.0025921903119389854,
+          "bestPossibleMinimum": -0.20201126507447562
+        },
+        {
+          "frame": 19.5,
+          "angle": -45.0,
+          "equipmentMinimum": -0.19792472753469026,
+          "bodyMinimum": 0.004000068172554662,
+          "groundShift": -0.010559284139970591,
+          "bestPossibleMinimum": -0.19576990955661666
+        },
+        {
+          "frame": 20.0,
+          "angle": -50.0,
+          "equipmentMinimum": -0.1899626719724385,
+          "bodyMinimum": 0.004000067997830798,
+          "groundShift": -0.0009086111158808519,
+          "bestPossibleMinimum": -0.1894562696764302
+        },
+        {
+          "frame": 20.5,
+          "angle": -55.0,
+          "equipmentMinimum": -0.16216763606555468,
+          "bodyMinimum": 0.0040000678536524685,
+          "groundShift": 0.021784605805993274,
+          "bestPossibleMinimum": -0.15803796931382325
+        },
+        {
+          "frame": 21.0,
+          "angle": -60.0,
+          "equipmentMinimum": -0.14600386314834357,
+          "bodyMinimum": 0.003999948466301416,
+          "groundShift": 0.06634980108340827,
+          "bestPossibleMinimum": -0.12334516578923585
+        },
+        {
+          "frame": 21.5,
+          "angle": -60.0,
+          "equipmentMinimum": -0.10425451098127217,
+          "bodyMinimum": 0.00470078028016277,
+          "groundShift": 0.07829378872539053,
+          "bestPossibleMinimum": -0.10425451098127217
+        },
+        {
+          "frame": 22.0,
+          "angle": -60.0,
+          "equipmentMinimum": -0.06870128598498651,
+          "bodyMinimum": 0.004000068100648483,
+          "groundShift": 0.0887908938158958,
+          "bestPossibleMinimum": -0.06870128598498651
+        },
+        {
+          "frame": 22.5,
+          "angle": -50.0,
+          "equipmentMinimum": -0.06216991086271219,
+          "bodyMinimum": 0.004000067838058766,
+          "groundShift": 0.07426408121476173,
+          "bestPossibleMinimum": -0.05771238673514918
+        },
+        {
+          "frame": 23.0,
+          "angle": -40.0,
+          "equipmentMinimum": -0.034799061073847004,
+          "bodyMinimum": 0.004000068058311435,
+          "groundShift": 0.06804618653658037,
+          "bestPossibleMinimum": 0.01247875404247678
+        },
+        {
+          "frame": 23.5,
+          "angle": -25.0,
+          "equipmentMinimum": 0.05706134279946915,
+          "bodyMinimum": 0.021771371157663734,
+          "groundShift": 0.020196187084151364,
+          "bestPossibleMinimum": 0.13076185577673138
+        },
+        {
+          "frame": 24.0,
+          "angle": -15.0,
+          "equipmentMinimum": 0.16063063816072565,
+          "bodyMinimum": 0.004119873385569834,
+          "groundShift": -0.016058278712399413,
+          "bestPossibleMinimum": 0.2586975322898189
+        },
+        {
+          "frame": 24.5,
+          "angle": -10.0,
+          "equipmentMinimum": 0.22972506274367702,
+          "bodyMinimum": 0.0041371550730546925,
+          "groundShift": 0.015108762776657307,
+          "bestPossibleMinimum": 0.32907993892897536
+        },
+        {
+          "frame": 25.0,
+          "angle": -5.0,
+          "equipmentMinimum": 0.24615588129366775,
+          "bodyMinimum": 0.004146132991945418,
+          "groundShift": 0.006031407046956239,
+          "bestPossibleMinimum": 0.37028932697355765
+        },
+        {
+          "frame": 25.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.30903902383276144,
+          "bodyMinimum": 0.004242204066276992,
+          "groundShift": -1.9081958235744878e-17,
+          "bestPossibleMinimum": 0.4151642107757314
+        },
+        {
+          "frame": 26.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.31401972407709217,
+          "bodyMinimum": 0.004062755620698461,
+          "groundShift": -5.204170427930421e-18,
+          "bestPossibleMinimum": 0.4364894857572968
+        },
+        {
+          "frame": 26.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.3385097560652342,
+          "bodyMinimum": 0.004069935975039202,
+          "groundShift": 1.734723475976807e-17,
+          "bestPossibleMinimum": 0.46160890436846697
+        },
+        {
+          "frame": 27.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.3620410852379519,
+          "bodyMinimum": 0.004076329497812842,
+          "groundShift": 6.071532165918825e-18,
+          "bestPossibleMinimum": 0.48668795734714193
+        },
+        {
+          "frame": 27.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.39335783906971106,
+          "bodyMinimum": 0.0040774947520535575,
+          "groundShift": 1.214306433183765e-17,
+          "bestPossibleMinimum": 0.5135470251101506
+        },
+        {
+          "frame": 28.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.422093562841893,
+          "bodyMinimum": 0.004076935593624092,
+          "groundShift": -6.071532165918825e-18,
+          "bestPossibleMinimum": 0.5386544080952314
+        },
+        {
+          "frame": 28.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.4569486780432533,
+          "bodyMinimum": 0.004079211616546577,
+          "groundShift": 1.3877787807814457e-17,
+          "bestPossibleMinimum": 0.5665233927845891
+        },
+        {
+          "frame": 29.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.4892322704106001,
+          "bodyMinimum": 0.004080228840528405,
+          "groundShift": 1.6479873021779667e-17,
+          "bestPossibleMinimum": 0.5930438993830494
+        },
+        {
+          "frame": 29.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.5246839056778314,
+          "bodyMinimum": 0.004087287471932162,
+          "groundShift": -4.85722573273506e-17,
+          "bestPossibleMinimum": 0.620267786759885
+        },
+        {
+          "frame": 30.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.5590134508203528,
+          "bodyMinimum": 0.004094131449188517,
+          "groundShift": 5.204170427930421e-17,
+          "bestPossibleMinimum": 0.6466544739914823
+        },
+        {
+          "frame": 30.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.5938798140350947,
+          "bodyMinimum": 0.004104532710284723,
+          "groundShift": -4.683753385137379e-17,
+          "bestPossibleMinimum": 0.6725697878901594
+        },
+        {
+          "frame": 31.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.6282506972257411,
+          "bodyMinimum": 0.004115264888808086,
+          "groundShift": -4.336808689942018e-18,
+          "bestPossibleMinimum": 0.6978071636072595
+        },
+        {
+          "frame": 31.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.6624653414529633,
+          "bodyMinimum": 0.00412564604806532,
+          "groundShift": 7.806255641895632e-18,
+          "bestPossibleMinimum": 0.722805112107929
+        },
+        {
+          "frame": 32.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.6950769895072217,
+          "bodyMinimum": 0.004136028866407116,
+          "groundShift": 4.5102810375396984e-17,
+          "bestPossibleMinimum": 0.7407300534786538
+        },
+        {
+          "frame": 32.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.719678212442082,
+          "bodyMinimum": 0.004145831929695389,
+          "groundShift": -3.122502256758253e-17,
+          "bestPossibleMinimum": 0.7561557134893355
+        },
+        {
+          "frame": 33.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.742008005607345,
+          "bodyMinimum": 0.004155829207470644,
+          "groundShift": 4.7704895589362195e-17,
+          "bestPossibleMinimum": 0.7656530873662991
+        },
+        {
+          "frame": 33.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7436633997338696,
+          "bodyMinimum": 0.0041652190031337966,
+          "groundShift": -2.7755575615628914e-17,
+          "bestPossibleMinimum": 0.7662622539658013
+        },
+        {
+          "frame": 34.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7444148972030378,
+          "bodyMinimum": 0.004174401393287557,
+          "groundShift": 4.9439619065339e-17,
+          "bestPossibleMinimum": 0.7673361827125873
+        },
+        {
+          "frame": 34.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7442754129633864,
+          "bodyMinimum": 0.004182913195387348,
+          "groundShift": 1.9949319973733282e-17,
+          "bestPossibleMinimum": 0.7686995518630612
+        },
+        {
+          "frame": 35.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7439153552008804,
+          "bodyMinimum": 0.004191431455498411,
+          "groundShift": 2.688821387764051e-17,
+          "bestPossibleMinimum": 0.7677010196637702
+        },
+        {
+          "frame": 35.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.743389402022218,
+          "bodyMinimum": 0.004198989687030052,
+          "groundShift": 2.168404344971009e-17,
+          "bestPossibleMinimum": 0.7666834580407709
+        },
+        {
+          "frame": 36.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.742679707741926,
+          "bodyMinimum": 0.004206589345220312,
+          "groundShift": -2.3418766925686896e-17,
+          "bestPossibleMinimum": 0.7644632061284029
+        },
+        {
+          "frame": 36.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7424186662222181,
+          "bodyMinimum": 0.004116898085680008,
+          "groundShift": -4.597017211338539e-17,
+          "bestPossibleMinimum": 0.762995139980209
+        },
+        {
+          "frame": 37.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7422488508927478,
+          "bodyMinimum": 0.004118145138626925,
+          "groundShift": -3.5561831257524545e-17,
+          "bestPossibleMinimum": 0.7619393475800813
+        },
+        {
+          "frame": 37.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7427906115219669,
+          "bodyMinimum": 0.004119472594590239,
+          "groundShift": 1.5612511283791264e-17,
+          "bestPossibleMinimum": 0.7619778734730399
+        },
+        {
+          "frame": 38.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7430585065286972,
+          "bodyMinimum": 0.004120595017002069,
+          "groundShift": 5.377642775528102e-17,
+          "bestPossibleMinimum": 0.7617460035215713
+        },
+        {
+          "frame": 38.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7443817879245053,
+          "bodyMinimum": 0.004121401057328474,
+          "groundShift": -2.6020852139652106e-17,
+          "bestPossibleMinimum": 0.7628342779589363
+        },
+        {
+          "frame": 39.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7454756748934221,
+          "bodyMinimum": 0.004122138347956738,
+          "groundShift": 2.168404344971009e-17,
+          "bestPossibleMinimum": 0.7636149805755617
+        },
+        {
+          "frame": 39.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7477934092421887,
+          "bodyMinimum": 0.004122848306140016,
+          "groundShift": -5.377642775528102e-17,
+          "bestPossibleMinimum": 0.7658133836934033
+        },
+        {
+          "frame": 40.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7499097649247525,
+          "bodyMinimum": 0.00412351966732388,
+          "groundShift": 5.2909066017292616e-17,
+          "bestPossibleMinimum": 0.7677027241216168
+        },
+        {
+          "frame": 40.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7523451077219825,
+          "bodyMinimum": 0.004123978768273075,
+          "groundShift": -9.540979117872439e-18,
+          "bestPossibleMinimum": 0.7700951094856427
+        },
+        {
+          "frame": 41.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7546471586820601,
+          "bodyMinimum": 0.0041243482179715235,
+          "groundShift": 4.9439619065339e-17,
+          "bestPossibleMinimum": 0.7722814076745235
+        },
+        {
+          "frame": 41.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7561809057709828,
+          "bodyMinimum": 0.004124692342291113,
+          "groundShift": 4.336808689942018e-17,
+          "bestPossibleMinimum": 0.7737936527720708
+        },
+        {
+          "frame": 42.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7576477550606362,
+          "bodyMinimum": 0.004124922695718423,
+          "groundShift": 1.9949319973733282e-17,
+          "bestPossibleMinimum": 0.7751855369116974
+        },
+        {
+          "frame": 42.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7584569560227014,
+          "bodyMinimum": 0.004125168326319228,
+          "groundShift": -3.382710778154774e-17,
+          "bestPossibleMinimum": 0.7759719499190424
+        },
+        {
+          "frame": 43.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7592442138013323,
+          "bodyMinimum": 0.004125411946503135,
+          "groundShift": -4.163336342344337e-17,
+          "bestPossibleMinimum": 0.7767132716507467
+        },
+        {
+          "frame": 43.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7594754925367354,
+          "bodyMinimum": 0.004125435665354978,
+          "groundShift": 2.949029909160572e-17,
+          "bestPossibleMinimum": 0.7769387959315291
+        },
+        {
+          "frame": 44.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7597048435936976,
+          "bodyMinimum": 0.004125355664705561,
+          "groundShift": 5.117434254131581e-17,
+          "bestPossibleMinimum": 0.7771597270401084
+        }
+      ]
+    },
+    "Soldier_Dodge_Roll_Shotgun": {
+      "minimum": -0.20201126507447562,
+      "unavoidableMinimum": -0.20201126507447562,
+      "maximumAngle": 60.0,
+      "samples": [
+        {
+          "frame": 0.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.05770756626438614,
+          "bodyMinimum": 0.004116532767593858,
+          "groundShift": 3.0357660829594124e-17,
+          "bestPossibleMinimum": 0.3253810651394533
+        },
+        {
+          "frame": 0.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.08288010791407786,
+          "bodyMinimum": 0.004098582629667244,
+          "groundShift": 1.9081958235744878e-17,
+          "bestPossibleMinimum": 0.3484418433620232
+        },
+        {
+          "frame": 1.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.11688079677675495,
+          "bodyMinimum": 0.004053465166379883,
+          "groundShift": 5.0306980803327406e-17,
+          "bestPossibleMinimum": 0.39699774018806944
+        },
+        {
+          "frame": 1.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.19674119640633903,
+          "bodyMinimum": 0.004077402909763887,
+          "groundShift": 4.336808689942018e-18,
+          "bestPossibleMinimum": 0.4841030737252552
+        },
+        {
+          "frame": 2.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.2690575776152216,
+          "bodyMinimum": 0.004106415485736158,
+          "groundShift": -4.5102810375396984e-17,
+          "bestPossibleMinimum": 0.5859967415140028
+        },
+        {
+          "frame": 2.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.4053262533503799,
+          "bodyMinimum": 0.004042110742707493,
+          "groundShift": 5.4643789493269423e-17,
+          "bestPossibleMinimum": 0.6670611815538333
+        },
+        {
+          "frame": 3.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.5178723732053268,
+          "bodyMinimum": 0.03330553680590957,
+          "groundShift": 4.163336342344337e-17,
+          "bestPossibleMinimum": 0.7122298242752956
+        },
+        {
+          "frame": 3.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.646008797052569,
+          "bodyMinimum": 0.09597212335027105,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.7546272398778632
+        },
+        {
+          "frame": 4.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7810393119183261,
+          "bodyMinimum": 0.16222670421051893,
+          "groundShift": -5.551115123125783e-17,
+          "bestPossibleMinimum": 0.7977606037656662
+        },
+        {
+          "frame": 4.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.8273244749747795,
+          "bodyMinimum": 0.21069176861505157,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.8667369746960798
+        },
+        {
+          "frame": 5.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.807357691735531,
+          "bodyMinimum": 0.2634896634892643,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.9185821971981484
+        },
+        {
+          "frame": 5.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7894850644452167,
+          "bodyMinimum": 0.3244201012423537,
+          "groundShift": -5.551115123125783e-17,
+          "bestPossibleMinimum": 0.9506816716010489
+        },
+        {
+          "frame": 6.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7864501927589499,
+          "bodyMinimum": 0.39971151430348906,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.9474733951997145
+        },
+        {
+          "frame": 6.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7888319955247444,
+          "bodyMinimum": 0.4938299185903522,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.9509633702337007
+        },
+        {
+          "frame": 7.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7861378273592665,
+          "bodyMinimum": 0.6017528091934592,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.9482800654941691
+        },
+        {
+          "frame": 7.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7780004603740391,
+          "bodyMinimum": 0.6973825568515162,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.9290061646633143
+        },
+        {
+          "frame": 8.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7719151036475559,
+          "bodyMinimum": 0.7756951178028434,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.8815696144698858
+        },
+        {
+          "frame": 8.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7633363405106062,
+          "bodyMinimum": 0.7557406928116467,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.8400387330080128
+        },
+        {
+          "frame": 9.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7578001881832742,
+          "bodyMinimum": 0.736923270223309,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.820860691031184
+        },
+        {
+          "frame": 9.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7345761465971072,
+          "bodyMinimum": 0.6981113323226955,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.7759841421364274
+        },
+        {
+          "frame": 10.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7169910290784507,
+          "bodyMinimum": 0.6652332925003868,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.731364521997584
+        },
+        {
+          "frame": 10.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.655873880269604,
+          "bodyMinimum": 0.6028442008100504,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.6652624378967502
+        },
+        {
+          "frame": 11.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.6009730617939508,
+          "bodyMinimum": 0.4893317224438477,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.6009730617939508
+        },
+        {
+          "frame": 11.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.4453850962028211,
+          "bodyMinimum": 0.36257447408354393,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.4453850962028211
+        },
+        {
+          "frame": 12.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.27094272095746075,
+          "bodyMinimum": 0.26056031038753247,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.289622771755374
+        },
+        {
+          "frame": 12.5,
+          "angle": -5.0,
+          "equipmentMinimum": 0.13753292100413272,
+          "bodyMinimum": 0.1792480234309466,
+          "groundShift": 0.002106099584565868,
+          "bestPossibleMinimum": 0.13753292100413272
+        },
+        {
+          "frame": 13.0,
+          "angle": -10.0,
+          "equipmentMinimum": 0.02781789450998784,
+          "bodyMinimum": 0.12864004751793745,
+          "groundShift": 0.0016544485426435163,
+          "bestPossibleMinimum": 0.02781789450998784
+        },
+        {
+          "frame": 13.5,
+          "angle": -15.0,
+          "equipmentMinimum": -0.05884738808582868,
+          "bodyMinimum": 0.08987829662378277,
+          "groundShift": 0.020905157220216686,
+          "bestPossibleMinimum": -0.05884738808582868
+        },
+        {
+          "frame": 14.0,
+          "angle": -15.0,
+          "equipmentMinimum": -0.10228020288388288,
+          "bodyMinimum": 0.054215667121795,
+          "groundShift": 0.03151485159559271,
+          "bestPossibleMinimum": -0.09491559187702042
+        },
+        {
+          "frame": 14.5,
+          "angle": -20.0,
+          "equipmentMinimum": -0.13745925031867043,
+          "bodyMinimum": 0.04305732199754756,
+          "groundShift": 0.03374389396268921,
+          "bestPossibleMinimum": -0.10883274610375387
+        },
+        {
+          "frame": 15.0,
+          "angle": -20.0,
+          "equipmentMinimum": -0.1361699787478695,
+          "bodyMinimum": 0.05006480211016541,
+          "groundShift": 0.033062574631042355,
+          "bestPossibleMinimum": -0.11353400290721682
+        },
+        {
+          "frame": 15.5,
+          "angle": -20.0,
+          "equipmentMinimum": -0.13899302867678603,
+          "bodyMinimum": 0.05724525713305913,
+          "groundShift": 0.031268568663546395,
+          "bestPossibleMinimum": -0.11840624751497503
+        },
+        {
+          "frame": 16.0,
+          "angle": -20.0,
+          "equipmentMinimum": -0.12137075290122082,
+          "bodyMinimum": 0.08083117427462586,
+          "groundShift": 0.03038282879511431,
+          "bestPossibleMinimum": -0.11257694199971321
+        },
+        {
+          "frame": 16.5,
+          "angle": -20.0,
+          "equipmentMinimum": -0.12297396833656393,
+          "bodyMinimum": 0.07487225971091233,
+          "groundShift": 0.03121132059669851,
+          "bestPossibleMinimum": -0.12297396833656393
+        },
+        {
+          "frame": 17.0,
+          "angle": -15.0,
+          "equipmentMinimum": -0.10744448612418216,
+          "bodyMinimum": 0.07147646084104971,
+          "groundShift": 0.02778448066405788,
+          "bestPossibleMinimum": -0.10744448612418216
+        },
+        {
+          "frame": 17.5,
+          "angle": -15.0,
+          "equipmentMinimum": -0.08885963516337608,
+          "bodyMinimum": 0.0636442925732173,
+          "groundShift": 0.028213715050109445,
+          "bestPossibleMinimum": -0.08885963516337608
+        },
+        {
+          "frame": 18.0,
+          "angle": -15.0,
+          "equipmentMinimum": -0.08220939803854566,
+          "bodyMinimum": 0.05815315494521855,
+          "groundShift": 0.028583613098531517,
+          "bestPossibleMinimum": -0.08220939803854566
+        },
+        {
+          "frame": 18.5,
+          "angle": -25.0,
+          "equipmentMinimum": -0.11851202868120236,
+          "bodyMinimum": 0.05939018462450868,
+          "groundShift": 0.028885270888878822,
+          "bestPossibleMinimum": -0.11851202868120236
+        },
+        {
+          "frame": 19.0,
+          "angle": -35.0,
+          "equipmentMinimum": -0.20201126507447562,
+          "bodyMinimum": 0.004000068008228036,
+          "groundShift": -0.0025921903119389854,
+          "bestPossibleMinimum": -0.20201126507447562
+        },
+        {
+          "frame": 19.5,
+          "angle": -45.0,
+          "equipmentMinimum": -0.19792472753469026,
+          "bodyMinimum": 0.004000068172554662,
+          "groundShift": -0.010559284139970591,
+          "bestPossibleMinimum": -0.1931534583069774
+        },
+        {
+          "frame": 20.0,
+          "angle": -50.0,
+          "equipmentMinimum": -0.1899626719724385,
+          "bodyMinimum": 0.004000067997830798,
+          "groundShift": -0.0009086111158808519,
+          "bestPossibleMinimum": -0.18501644013049573
+        },
+        {
+          "frame": 20.5,
+          "angle": -55.0,
+          "equipmentMinimum": -0.16216763606555468,
+          "bodyMinimum": 0.0040000678536524685,
+          "groundShift": 0.021784605805993274,
+          "bestPossibleMinimum": -0.15803796931382325
+        },
+        {
+          "frame": 21.0,
+          "angle": -60.0,
+          "equipmentMinimum": -0.14600376712692872,
+          "bodyMinimum": 0.003999948466301416,
+          "groundShift": 0.06634989710482311,
+          "bestPossibleMinimum": -0.12334516578923585
+        },
+        {
+          "frame": 21.5,
+          "angle": -60.0,
+          "equipmentMinimum": -0.1042546035556747,
+          "bodyMinimum": 0.00470078028016277,
+          "groundShift": 0.078293696150988,
+          "bestPossibleMinimum": -0.1042546035556747
+        },
+        {
+          "frame": 22.0,
+          "angle": -55.0,
+          "equipmentMinimum": -0.09020471729300902,
+          "bodyMinimum": 0.004000068100648483,
+          "groundShift": 0.07431733204053273,
+          "bestPossibleMinimum": -0.09016757855913127
+        },
+        {
+          "frame": 22.5,
+          "angle": -45.0,
+          "equipmentMinimum": -0.07315141293374973,
+          "bodyMinimum": 0.004000067838058766,
+          "groundShift": 0.06769986923920361,
+          "bestPossibleMinimum": -0.05956420674667086
+        },
+        {
+          "frame": 23.0,
+          "angle": -35.0,
+          "equipmentMinimum": -0.0410474152926073,
+          "bodyMinimum": 0.004000068058311435,
+          "groundShift": 0.05914292907026547,
+          "bestPossibleMinimum": 0.01247875404247678
+        },
+        {
+          "frame": 23.5,
+          "angle": -25.0,
+          "equipmentMinimum": 0.046542742648179626,
+          "bodyMinimum": 0.021771371157663734,
+          "groundShift": 0.020196187084151364,
+          "bestPossibleMinimum": 0.13076185577673138
+        },
+        {
+          "frame": 24.0,
+          "angle": -15.0,
+          "equipmentMinimum": 0.1286547445242458,
+          "bodyMinimum": 0.004119873385569834,
+          "groundShift": -0.016058278712399413,
+          "bestPossibleMinimum": 0.2586975322898189
+        },
+        {
+          "frame": 24.5,
+          "angle": -10.0,
+          "equipmentMinimum": 0.2012979590167926,
+          "bodyMinimum": 0.0041371550730546925,
+          "groundShift": 0.015108762776657307,
+          "bestPossibleMinimum": 0.3306097729903416
+        },
+        {
+          "frame": 25.0,
+          "angle": -5.0,
+          "equipmentMinimum": 0.22173631878490085,
+          "bodyMinimum": 0.004146132991945418,
+          "groundShift": 0.006031407046956239,
+          "bestPossibleMinimum": 0.3865271425951683
+        },
+        {
+          "frame": 25.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.28842266729802396,
+          "bodyMinimum": 0.004242204066276992,
+          "groundShift": -1.9081958235744878e-17,
+          "bestPossibleMinimum": 0.45289472851253165
+        },
+        {
+          "frame": 26.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.2940210083933897,
+          "bodyMinimum": 0.004062755620698461,
+          "groundShift": -5.204170427930421e-18,
+          "bestPossibleMinimum": 0.5027723864041374
+        },
+        {
+          "frame": 26.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.3187154173319802,
+          "bodyMinimum": 0.004069935975039202,
+          "groundShift": 1.734723475976807e-17,
+          "bestPossibleMinimum": 0.5437302481729744
+        },
+        {
+          "frame": 27.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.3424723826502761,
+          "bodyMinimum": 0.004076329497812842,
+          "groundShift": 6.071532165918825e-18,
+          "bestPossibleMinimum": 0.5702817344082113
+        },
+        {
+          "frame": 27.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.373817123836143,
+          "bodyMinimum": 0.0040774947520535575,
+          "groundShift": 1.214306433183765e-17,
+          "bestPossibleMinimum": 0.5993402852061143
+        },
+        {
+          "frame": 28.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.4025824902881912,
+          "bodyMinimum": 0.004076935593624092,
+          "groundShift": -6.071532165918825e-18,
+          "bestPossibleMinimum": 0.6264779352025334
+        },
+        {
+          "frame": 28.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.43731958995412384,
+          "bodyMinimum": 0.004079211616546577,
+          "groundShift": 1.3877787807814457e-17,
+          "bestPossibleMinimum": 0.6591557622452285
+        },
+        {
+          "frame": 29.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.46948961257722727,
+          "bodyMinimum": 0.004080228840528405,
+          "groundShift": 1.6479873021779667e-17,
+          "bestPossibleMinimum": 0.6843536286621382
+        },
+        {
+          "frame": 29.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.5047516820968365,
+          "bodyMinimum": 0.004087287471932162,
+          "groundShift": -4.85722573273506e-17,
+          "bestPossibleMinimum": 0.6987937302245707
+        },
+        {
+          "frame": 30.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.5389045276058357,
+          "bodyMinimum": 0.004094131449188517,
+          "groundShift": 5.204170427930421e-17,
+          "bestPossibleMinimum": 0.7123439606699931
+        },
+        {
+          "frame": 30.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.5735735594517806,
+          "bodyMinimum": 0.004104532710284723,
+          "groundShift": -4.683753385137379e-17,
+          "bestPossibleMinimum": 0.7332053054528661
+        },
+        {
+          "frame": 31.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.6077677253720539,
+          "bodyMinimum": 0.004115264888808086,
+          "groundShift": -4.336808689942018e-18,
+          "bestPossibleMinimum": 0.7425555768266919
+        },
+        {
+          "frame": 31.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.6418105143353257,
+          "bodyMinimum": 0.00412564604806532,
+          "groundShift": 7.806255641895632e-18,
+          "bestPossibleMinimum": 0.7546073869394496
+        },
+        {
+          "frame": 32.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.6754464335689627,
+          "bodyMinimum": 0.004136028866407116,
+          "groundShift": 4.5102810375396984e-17,
+          "bestPossibleMinimum": 0.7603571037734098
+        },
+        {
+          "frame": 32.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7084296372912262,
+          "bodyMinimum": 0.004145831929695389,
+          "groundShift": -3.122502256758253e-17,
+          "bestPossibleMinimum": 0.7633730210074677
+        },
+        {
+          "frame": 33.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7410361746398937,
+          "bodyMinimum": 0.004155829207470644,
+          "groundShift": 4.7704895589362195e-17,
+          "bestPossibleMinimum": 0.7656530873662991
+        },
+        {
+          "frame": 33.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7436633997338696,
+          "bodyMinimum": 0.0041652190031337966,
+          "groundShift": -2.7755575615628914e-17,
+          "bestPossibleMinimum": 0.7662622539658013
+        },
+        {
+          "frame": 34.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7444148972030378,
+          "bodyMinimum": 0.004174401393287557,
+          "groundShift": 4.9439619065339e-17,
+          "bestPossibleMinimum": 0.7673361827125873
+        },
+        {
+          "frame": 34.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7442754129633864,
+          "bodyMinimum": 0.004182913195387348,
+          "groundShift": 1.9949319973733282e-17,
+          "bestPossibleMinimum": 0.7686995518630612
+        },
+        {
+          "frame": 35.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7439153552008804,
+          "bodyMinimum": 0.004191431455498411,
+          "groundShift": 2.688821387764051e-17,
+          "bestPossibleMinimum": 0.7677010196637702
+        },
+        {
+          "frame": 35.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.743389402022218,
+          "bodyMinimum": 0.004198989687030052,
+          "groundShift": 2.168404344971009e-17,
+          "bestPossibleMinimum": 0.7666834580407709
+        },
+        {
+          "frame": 36.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.742679707741926,
+          "bodyMinimum": 0.004206589345220312,
+          "groundShift": -2.3418766925686896e-17,
+          "bestPossibleMinimum": 0.7644632061284029
+        },
+        {
+          "frame": 36.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7424186662222181,
+          "bodyMinimum": 0.004116898085680008,
+          "groundShift": -4.597017211338539e-17,
+          "bestPossibleMinimum": 0.762995139980209
+        },
+        {
+          "frame": 37.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7422488508927478,
+          "bodyMinimum": 0.004118145138626925,
+          "groundShift": -3.5561831257524545e-17,
+          "bestPossibleMinimum": 0.7619393475800813
+        },
+        {
+          "frame": 37.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7427906115219669,
+          "bodyMinimum": 0.004119472594590239,
+          "groundShift": 1.5612511283791264e-17,
+          "bestPossibleMinimum": 0.7619778734730399
+        },
+        {
+          "frame": 38.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7430585065286972,
+          "bodyMinimum": 0.004120595017002069,
+          "groundShift": 5.377642775528102e-17,
+          "bestPossibleMinimum": 0.7617460035215713
+        },
+        {
+          "frame": 38.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7443817879245053,
+          "bodyMinimum": 0.004121401057328474,
+          "groundShift": -2.6020852139652106e-17,
+          "bestPossibleMinimum": 0.7628342779589363
+        },
+        {
+          "frame": 39.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7454756748934221,
+          "bodyMinimum": 0.004122138347956738,
+          "groundShift": 2.168404344971009e-17,
+          "bestPossibleMinimum": 0.7636149805755617
+        },
+        {
+          "frame": 39.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7477934092421887,
+          "bodyMinimum": 0.004122848306140016,
+          "groundShift": -5.377642775528102e-17,
+          "bestPossibleMinimum": 0.7658133836934033
+        },
+        {
+          "frame": 40.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7499097649247525,
+          "bodyMinimum": 0.00412351966732388,
+          "groundShift": 5.2909066017292616e-17,
+          "bestPossibleMinimum": 0.7677027241216168
+        },
+        {
+          "frame": 40.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7523451077219825,
+          "bodyMinimum": 0.004123978768273075,
+          "groundShift": -9.540979117872439e-18,
+          "bestPossibleMinimum": 0.7700951094856427
+        },
+        {
+          "frame": 41.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7546471586820601,
+          "bodyMinimum": 0.0041243482179715235,
+          "groundShift": 4.9439619065339e-17,
+          "bestPossibleMinimum": 0.7722814076745235
+        },
+        {
+          "frame": 41.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7561809057709828,
+          "bodyMinimum": 0.004124692342291113,
+          "groundShift": 4.336808689942018e-17,
+          "bestPossibleMinimum": 0.7737936527720708
+        },
+        {
+          "frame": 42.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7576477550606362,
+          "bodyMinimum": 0.004124922695718423,
+          "groundShift": 1.9949319973733282e-17,
+          "bestPossibleMinimum": 0.7751855369116974
+        },
+        {
+          "frame": 42.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7584569560227014,
+          "bodyMinimum": 0.004125168326319228,
+          "groundShift": -3.382710778154774e-17,
+          "bestPossibleMinimum": 0.7759719499190424
+        },
+        {
+          "frame": 43.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7592442138013323,
+          "bodyMinimum": 0.004125411946503135,
+          "groundShift": -4.163336342344337e-17,
+          "bestPossibleMinimum": 0.7767132716507467
+        },
+        {
+          "frame": 43.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7594754925367354,
+          "bodyMinimum": 0.004125435665354978,
+          "groundShift": 2.949029909160572e-17,
+          "bestPossibleMinimum": 0.7769387959315291
+        },
+        {
+          "frame": 44.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7597048435936976,
+          "bodyMinimum": 0.004125355664705561,
+          "groundShift": 5.117434254131581e-17,
+          "bestPossibleMinimum": 0.7771597270401084
+        }
+      ]
+    },
+    "Soldier_Dodge_Roll_Rocket": {
+      "minimum": -0.2112714445683969,
+      "unavoidableMinimum": -0.20201126507447562,
+      "maximumAngle": 90.0,
+      "samples": [
+        {
+          "frame": 0.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.08403643876172909,
+          "bodyMinimum": 0.004116532767593858,
+          "groundShift": 3.0357660829594124e-17,
+          "bestPossibleMinimum": 0.2833771537598222
+        },
+        {
+          "frame": 0.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.10836877336632202,
+          "bodyMinimum": 0.004098582629667244,
+          "groundShift": 1.9081958235744878e-17,
+          "bestPossibleMinimum": 0.3111887736781059
+        },
+        {
+          "frame": 1.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.13959520343967652,
+          "bodyMinimum": 0.004053465166379883,
+          "groundShift": 5.0306980803327406e-17,
+          "bestPossibleMinimum": 0.3581551228202871
+        },
+        {
+          "frame": 1.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.2143900122468006,
+          "bodyMinimum": 0.004077402909763887,
+          "groundShift": 4.336808689942018e-18,
+          "bestPossibleMinimum": 0.4514916754826289
+        },
+        {
+          "frame": 2.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.2795635614799593,
+          "bodyMinimum": 0.004106415485736158,
+          "groundShift": -4.5102810375396984e-17,
+          "bestPossibleMinimum": 0.5361028297040042
+        },
+        {
+          "frame": 2.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.4016936754300495,
+          "bodyMinimum": 0.004042110742707493,
+          "groundShift": 5.4643789493269423e-17,
+          "bestPossibleMinimum": 0.6245070126325836
+        },
+        {
+          "frame": 3.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.49942655074940845,
+          "bodyMinimum": 0.03330553680590957,
+          "groundShift": 4.163336342344337e-17,
+          "bestPossibleMinimum": 0.6776897522990452
+        },
+        {
+          "frame": 3.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.6127220617312399,
+          "bodyMinimum": 0.09597212335027105,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.7221232109912931
+        },
+        {
+          "frame": 4.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7347954352633428,
+          "bodyMinimum": 0.16222670421051893,
+          "groundShift": -5.551115123125783e-17,
+          "bestPossibleMinimum": 0.7573051065086507
+        },
+        {
+          "frame": 4.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.8201310677545697,
+          "bodyMinimum": 0.21069176861505157,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.8201310677545697
+        },
+        {
+          "frame": 5.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7901771042835226,
+          "bodyMinimum": 0.2634896634892643,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.8757617166939722
+        },
+        {
+          "frame": 5.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.761596893726638,
+          "bodyMinimum": 0.3244201012423537,
+          "groundShift": -5.551115123125783e-17,
+          "bestPossibleMinimum": 0.8957606773201809
+        },
+        {
+          "frame": 6.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.746595275693033,
+          "bodyMinimum": 0.39971151430348906,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.9022006314492501
+        },
+        {
+          "frame": 6.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7346950099622421,
+          "bodyMinimum": 0.4938299185903522,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.884121407490586
+        },
+        {
+          "frame": 7.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7248356903050941,
+          "bodyMinimum": 0.6017528091934592,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.8660472360493688
+        },
+        {
+          "frame": 7.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7087537320677755,
+          "bodyMinimum": 0.6973825568515162,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.8375726289055136
+        },
+        {
+          "frame": 8.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.6951336493414906,
+          "bodyMinimum": 0.7889112560391389,
+          "groundShift": 0.0,
+          "bestPossibleMinimum": 0.8001911538020298
+        },
+        {
+          "frame": 8.5,
+          "angle": 5.0,
+          "equipmentMinimum": 0.7189920245923953,
+          "bodyMinimum": 0.7821155925164349,
+          "groundShift": -0.0015293611728939283,
+          "bestPossibleMinimum": 0.7563930436677384
+        },
+        {
+          "frame": 9.0,
+          "angle": 10.0,
+          "equipmentMinimum": 0.7168781461589782,
+          "bodyMinimum": 0.7782182851022366,
+          "groundShift": 0.012014722683037604,
+          "bestPossibleMinimum": 0.7303392762349196
+        },
+        {
+          "frame": 9.5,
+          "angle": 15.0,
+          "equipmentMinimum": 0.67439517842713,
+          "bodyMinimum": 0.74896910432501,
+          "groundShift": 0.016474296754340312,
+          "bestPossibleMinimum": 0.67439517842713
+        },
+        {
+          "frame": 10.0,
+          "angle": 25.0,
+          "equipmentMinimum": 0.5786335510809273,
+          "bodyMinimum": 0.7221809834233752,
+          "groundShift": 0.017795494997493888,
+          "bestPossibleMinimum": 0.6226125482061982
+        },
+        {
+          "frame": 10.5,
+          "angle": 40.0,
+          "equipmentMinimum": 0.3722387312880785,
+          "bodyMinimum": 0.6028442008100504,
+          "groundShift": -0.0662619202304432,
+          "bestPossibleMinimum": 0.5172634833571701
+        },
+        {
+          "frame": 11.0,
+          "angle": 55.0,
+          "equipmentMinimum": 0.21804422855769612,
+          "bodyMinimum": 0.4893317224438477,
+          "groundShift": -0.1582240600983139,
+          "bestPossibleMinimum": 0.4602838133104512
+        },
+        {
+          "frame": 11.5,
+          "angle": 70.0,
+          "equipmentMinimum": 0.09259785937956933,
+          "bodyMinimum": 0.36257447408354393,
+          "groundShift": -0.2675980735547213,
+          "bestPossibleMinimum": 0.39995299063476086
+        },
+        {
+          "frame": 12.0,
+          "angle": 85.0,
+          "equipmentMinimum": 0.04709360534521845,
+          "bodyMinimum": 0.26056031038753247,
+          "groundShift": -0.3375194521285718,
+          "bestPossibleMinimum": 0.289622771755374
+        },
+        {
+          "frame": 12.5,
+          "angle": 90.0,
+          "equipmentMinimum": 0.028105883008543775,
+          "bodyMinimum": 0.1792480234309466,
+          "groundShift": -0.3457480630523271,
+          "bestPossibleMinimum": 0.13753292100413272
+        },
+        {
+          "frame": 13.0,
+          "angle": 90.0,
+          "equipmentMinimum": -0.007376060820506014,
+          "bodyMinimum": 0.12864004751793745,
+          "groundShift": -0.3265453337454054,
+          "bestPossibleMinimum": 0.02781789450998784
+        },
+        {
+          "frame": 13.5,
+          "angle": 90.0,
+          "equipmentMinimum": -0.035358937948478775,
+          "bodyMinimum": 0.08987829662378277,
+          "groundShift": -0.3126214080635965,
+          "bestPossibleMinimum": -0.035358937948478775
+        },
+        {
+          "frame": 14.0,
+          "angle": 90.0,
+          "equipmentMinimum": -0.06568621898484223,
+          "bodyMinimum": 0.054215667121795,
+          "groundShift": -0.29968893925096857,
+          "bestPossibleMinimum": -0.06568621898484223
+        },
+        {
+          "frame": 14.5,
+          "angle": 90.0,
+          "equipmentMinimum": -0.08127083360902171,
+          "bodyMinimum": 0.04305732199754756,
+          "groundShift": -0.27919841203175216,
+          "bestPossibleMinimum": -0.08127083360902171
+        },
+        {
+          "frame": 15.0,
+          "angle": 90.0,
+          "equipmentMinimum": -0.08739064638769489,
+          "bodyMinimum": 0.05006480211016541,
+          "groundShift": -0.24798954191280165,
+          "bestPossibleMinimum": -0.08739064638769489
+        },
+        {
+          "frame": 15.5,
+          "angle": 90.0,
+          "equipmentMinimum": -0.091528491656299,
+          "bodyMinimum": 0.05724525713305913,
+          "groundShift": -0.19945085828998604,
+          "bestPossibleMinimum": -0.091528491656299
+        },
+        {
+          "frame": 16.0,
+          "angle": 90.0,
+          "equipmentMinimum": -0.08490723124735608,
+          "bodyMinimum": 0.08083117427462586,
+          "groundShift": -0.14045603277425198,
+          "bestPossibleMinimum": -0.08490723124735608
+        },
+        {
+          "frame": 16.5,
+          "angle": 90.0,
+          "equipmentMinimum": -0.0957497011191975,
+          "bodyMinimum": 0.07487225971091233,
+          "groundShift": -0.11896496629498815,
+          "bestPossibleMinimum": -0.0957497011191975
+        },
+        {
+          "frame": 17.0,
+          "angle": 90.0,
+          "equipmentMinimum": -0.10705826507985287,
+          "bodyMinimum": 0.07147646084104971,
+          "groundShift": -0.09827148978478,
+          "bestPossibleMinimum": -0.10705826507985287
+        },
+        {
+          "frame": 17.5,
+          "angle": 90.0,
+          "equipmentMinimum": -0.1207124321945176,
+          "bodyMinimum": 0.0636442925732173,
+          "groundShift": -0.07089611371280385,
+          "bestPossibleMinimum": -0.08885963516337608
+        },
+        {
+          "frame": 18.0,
+          "angle": 90.0,
+          "equipmentMinimum": -0.1401994902757978,
+          "bodyMinimum": 0.05815315494521855,
+          "groundShift": -0.04411738094512053,
+          "bestPossibleMinimum": -0.08220939803854566
+        },
+        {
+          "frame": 18.5,
+          "angle": 90.0,
+          "equipmentMinimum": -0.14522771987924243,
+          "bodyMinimum": 0.05939018462450868,
+          "groundShift": 0.02637436356902123,
+          "bestPossibleMinimum": -0.11851203411794559
+        },
+        {
+          "frame": 19.0,
+          "angle": 90.0,
+          "equipmentMinimum": -0.20562575483283724,
+          "bodyMinimum": 0.004000068008228036,
+          "groundShift": 0.03612829878406036,
+          "bestPossibleMinimum": -0.20201126507447562
+        },
+        {
+          "frame": 19.5,
+          "angle": 90.0,
+          "equipmentMinimum": -0.1931534583069774,
+          "bodyMinimum": 0.004000068172554662,
+          "groundShift": 0.06512988566928024,
+          "bestPossibleMinimum": -0.1931534583069774
+        },
+        {
+          "frame": 20.0,
+          "angle": 90.0,
+          "equipmentMinimum": -0.18501644013049573,
+          "bodyMinimum": 0.004000067997830798,
+          "groundShift": 0.09993469945440463,
+          "bestPossibleMinimum": -0.18501644013049573
+        },
+        {
+          "frame": 20.5,
+          "angle": 75.0,
+          "equipmentMinimum": -0.2112714445683969,
+          "bodyMinimum": 0.0040000678536524685,
+          "groundShift": 0.01487776933911535,
+          "bestPossibleMinimum": -0.15803796931382325
+        },
+        {
+          "frame": 21.0,
+          "angle": 65.0,
+          "equipmentMinimum": -0.12334516578923585,
+          "bodyMinimum": 0.003999948466301416,
+          "groundShift": 0.03530036017973695,
+          "bestPossibleMinimum": -0.12334516578923585
+        },
+        {
+          "frame": 21.5,
+          "angle": 65.0,
+          "equipmentMinimum": -0.09955893287666914,
+          "bodyMinimum": 0.00470078028016277,
+          "groundShift": 0.052431544872801966,
+          "bestPossibleMinimum": -0.09955893287666914
+        },
+        {
+          "frame": 22.0,
+          "angle": 65.0,
+          "equipmentMinimum": -0.0730093718606748,
+          "bodyMinimum": 0.004000068100648483,
+          "groundShift": 0.06407417764093776,
+          "bestPossibleMinimum": -0.06870121224541584
+        },
+        {
+          "frame": 22.5,
+          "angle": 60.0,
+          "equipmentMinimum": -0.05771238673514918,
+          "bodyMinimum": 0.004000067838058766,
+          "groundShift": 0.0687288399246606,
+          "bestPossibleMinimum": -0.0504528707433846
+        },
+        {
+          "frame": 23.0,
+          "angle": 50.0,
+          "equipmentMinimum": 0.00690291283174882,
+          "bodyMinimum": 0.004000068058311435,
+          "groundShift": 0.11113159151397406,
+          "bestPossibleMinimum": 0.01247875404247678
+        },
+        {
+          "frame": 23.5,
+          "angle": 35.0,
+          "equipmentMinimum": 0.12459921572923185,
+          "bodyMinimum": 0.021771371157663734,
+          "groundShift": 0.09621583540198445,
+          "bestPossibleMinimum": 0.13076185577673138
+        },
+        {
+          "frame": 24.0,
+          "angle": 25.0,
+          "equipmentMinimum": 0.24943087962565974,
+          "bodyMinimum": 0.004119873385569834,
+          "groundShift": 0.07036719939095036,
+          "bestPossibleMinimum": 0.2586975322898189
+        },
+        {
+          "frame": 24.5,
+          "angle": 15.0,
+          "equipmentMinimum": 0.32907993892897536,
+          "bodyMinimum": 0.0041371550730546925,
+          "groundShift": 0.05044022815597428,
+          "bestPossibleMinimum": 0.3306097729903416
+        },
+        {
+          "frame": 25.0,
+          "angle": 10.0,
+          "equipmentMinimum": 0.3877596489982933,
+          "bodyMinimum": 0.004146132991945418,
+          "groundShift": 0.0364480940047364,
+          "bestPossibleMinimum": 0.3877596489982933
+        },
+        {
+          "frame": 25.5,
+          "angle": 5.0,
+          "equipmentMinimum": 0.40606981359489114,
+          "bodyMinimum": 0.004242204066276992,
+          "groundShift": 0.004227287930668159,
+          "bestPossibleMinimum": 0.45289472851253165
+        },
+        {
+          "frame": 26.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.3704727205341721,
+          "bodyMinimum": 0.004062755620698461,
+          "groundShift": -5.204170427930421e-18,
+          "bestPossibleMinimum": 0.5027723864041374
+        },
+        {
+          "frame": 26.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.3907043422893382,
+          "bodyMinimum": 0.004069935975039202,
+          "groundShift": 1.734723475976807e-17,
+          "bestPossibleMinimum": 0.5318683659270781
+        },
+        {
+          "frame": 27.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.40993425527295596,
+          "bodyMinimum": 0.004076329497812842,
+          "groundShift": 6.071532165918825e-18,
+          "bestPossibleMinimum": 0.556111435937748
+        },
+        {
+          "frame": 27.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.44082554370499977,
+          "bodyMinimum": 0.0040774947520535575,
+          "groundShift": 1.214306433183765e-17,
+          "bestPossibleMinimum": 0.5853674968017921
+        },
+        {
+          "frame": 28.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.46913555477113783,
+          "bodyMinimum": 0.004076935593624092,
+          "groundShift": -6.071532165918825e-18,
+          "bestPossibleMinimum": 0.612657768959162
+        },
+        {
+          "frame": 28.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.5063966154263009,
+          "bodyMinimum": 0.004079211616546577,
+          "groundShift": 1.3877787807814457e-17,
+          "bestPossibleMinimum": 0.6441633394081164
+        },
+        {
+          "frame": 29.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.5410740623111936,
+          "bodyMinimum": 0.004080228840528405,
+          "groundShift": 1.6479873021779667e-17,
+          "bestPossibleMinimum": 0.6736686094976543
+        },
+        {
+          "frame": 29.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.5806466068235108,
+          "bodyMinimum": 0.004087287471932162,
+          "groundShift": -4.85722573273506e-17,
+          "bestPossibleMinimum": 0.6987937302245707
+        },
+        {
+          "frame": 30.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.6190534883019263,
+          "bodyMinimum": 0.004094131449188517,
+          "groundShift": 5.204170427930421e-17,
+          "bestPossibleMinimum": 0.7167913098981296
+        },
+        {
+          "frame": 30.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.6587226719220867,
+          "bodyMinimum": 0.004104532710284723,
+          "groundShift": -4.683753385137379e-17,
+          "bestPossibleMinimum": 0.7332053054528661
+        },
+        {
+          "frame": 31.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.6966194914933723,
+          "bodyMinimum": 0.004115264888808086,
+          "groundShift": -4.336808689942018e-18,
+          "bestPossibleMinimum": 0.7486301031441466
+        },
+        {
+          "frame": 31.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7274832188234558,
+          "bodyMinimum": 0.00412564604806532,
+          "groundShift": 7.806255641895632e-18,
+          "bestPossibleMinimum": 0.7548076356567253
+        },
+        {
+          "frame": 32.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7341770654387829,
+          "bodyMinimum": 0.004136028866407116,
+          "groundShift": 4.5102810375396984e-17,
+          "bestPossibleMinimum": 0.7603571037734098
+        },
+        {
+          "frame": 32.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7382937388658202,
+          "bodyMinimum": 0.004145831929695389,
+          "groundShift": -3.122502256758253e-17,
+          "bestPossibleMinimum": 0.7633730210074677
+        },
+        {
+          "frame": 33.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.742008005607345,
+          "bodyMinimum": 0.004155829207470644,
+          "groundShift": 4.7704895589362195e-17,
+          "bestPossibleMinimum": 0.7668941523179036
+        },
+        {
+          "frame": 33.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7436633997338696,
+          "bodyMinimum": 0.0041652190031337966,
+          "groundShift": -2.7755575615628914e-17,
+          "bestPossibleMinimum": 0.7676186533693162
+        },
+        {
+          "frame": 34.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7444148972030378,
+          "bodyMinimum": 0.004174401393287557,
+          "groundShift": 4.9439619065339e-17,
+          "bestPossibleMinimum": 0.7679884145510824
+        },
+        {
+          "frame": 34.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7442754129633864,
+          "bodyMinimum": 0.004182913195387348,
+          "groundShift": 1.9949319973733282e-17,
+          "bestPossibleMinimum": 0.7686995518630612
+        },
+        {
+          "frame": 35.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7439153552008804,
+          "bodyMinimum": 0.004191431455498411,
+          "groundShift": 2.688821387764051e-17,
+          "bestPossibleMinimum": 0.7677010196637702
+        },
+        {
+          "frame": 35.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.743389402022218,
+          "bodyMinimum": 0.004198989687030052,
+          "groundShift": 2.168404344971009e-17,
+          "bestPossibleMinimum": 0.7666834580407709
+        },
+        {
+          "frame": 36.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.742679707741926,
+          "bodyMinimum": 0.004206589345220312,
+          "groundShift": -2.3418766925686896e-17,
+          "bestPossibleMinimum": 0.7644632061284029
+        },
+        {
+          "frame": 36.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7424186662222181,
+          "bodyMinimum": 0.004116898085680008,
+          "groundShift": -4.597017211338539e-17,
+          "bestPossibleMinimum": 0.762995139980209
+        },
+        {
+          "frame": 37.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7422488508927478,
+          "bodyMinimum": 0.004118145138626925,
+          "groundShift": -3.5561831257524545e-17,
+          "bestPossibleMinimum": 0.7619393475800813
+        },
+        {
+          "frame": 37.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7427906115219669,
+          "bodyMinimum": 0.004119472594590239,
+          "groundShift": 1.5612511283791264e-17,
+          "bestPossibleMinimum": 0.7619778734730399
+        },
+        {
+          "frame": 38.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7430585065286972,
+          "bodyMinimum": 0.004120595017002069,
+          "groundShift": 5.377642775528102e-17,
+          "bestPossibleMinimum": 0.7617460035215713
+        },
+        {
+          "frame": 38.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7443817879245053,
+          "bodyMinimum": 0.004121401057328474,
+          "groundShift": -2.6020852139652106e-17,
+          "bestPossibleMinimum": 0.7628342779589363
+        },
+        {
+          "frame": 39.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7454756748934221,
+          "bodyMinimum": 0.004122138347956738,
+          "groundShift": 2.168404344971009e-17,
+          "bestPossibleMinimum": 0.7636149805755617
+        },
+        {
+          "frame": 39.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7477934092421887,
+          "bodyMinimum": 0.004122848306140016,
+          "groundShift": -5.377642775528102e-17,
+          "bestPossibleMinimum": 0.7658133836934033
+        },
+        {
+          "frame": 40.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7499097649247525,
+          "bodyMinimum": 0.00412351966732388,
+          "groundShift": 5.2909066017292616e-17,
+          "bestPossibleMinimum": 0.7677027241216168
+        },
+        {
+          "frame": 40.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7523451077219825,
+          "bodyMinimum": 0.004123978768273075,
+          "groundShift": -9.540979117872439e-18,
+          "bestPossibleMinimum": 0.7700951094856427
+        },
+        {
+          "frame": 41.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7546471586820601,
+          "bodyMinimum": 0.0041243482179715235,
+          "groundShift": 4.9439619065339e-17,
+          "bestPossibleMinimum": 0.7722814076745235
+        },
+        {
+          "frame": 41.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7561809057709828,
+          "bodyMinimum": 0.004124692342291113,
+          "groundShift": 4.336808689942018e-17,
+          "bestPossibleMinimum": 0.7737936527720708
+        },
+        {
+          "frame": 42.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7576477550606362,
+          "bodyMinimum": 0.004124922695718423,
+          "groundShift": 1.9949319973733282e-17,
+          "bestPossibleMinimum": 0.7751855369116974
+        },
+        {
+          "frame": 42.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7584569560227014,
+          "bodyMinimum": 0.004125168326319228,
+          "groundShift": -3.382710778154774e-17,
+          "bestPossibleMinimum": 0.7759719499190424
+        },
+        {
+          "frame": 43.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7592442138013323,
+          "bodyMinimum": 0.004125411946503135,
+          "groundShift": -4.163336342344337e-17,
+          "bestPossibleMinimum": 0.7767132716507467
+        },
+        {
+          "frame": 43.5,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7594754925367354,
+          "bodyMinimum": 0.004125435665354978,
+          "groundShift": 2.949029909160572e-17,
+          "bestPossibleMinimum": 0.7769387959315291
+        },
+        {
+          "frame": 44.0,
+          "angle": 0.0,
+          "equipmentMinimum": 0.7597048435936976,
+          "bodyMinimum": 0.004125355664705561,
+          "groundShift": 5.117434254131581e-17,
+          "bestPossibleMinimum": 0.7771597270401084
+        }
+      ]
+    }
+  }
+}

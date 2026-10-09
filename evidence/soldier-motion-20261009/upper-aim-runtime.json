@@ -1,0 +1,22 @@
+[
+  {
+    "label": "forward",
+    "minPitch": -5.450161729543299,
+    "maxPitch": 4.61449142998439
+  },
+  {
+    "label": "back",
+    "minPitch": -2.94998081756364,
+    "maxPitch": 2.5479366861884114
+  },
+  {
+    "label": "left",
+    "minPitch": -5.450163049147173,
+    "maxPitch": 4.614490802889172
+  },
+  {
+    "label": "right",
+    "minPitch": -5.45016114438125,
+    "maxPitch": 4.614492712527206
+  }
+]

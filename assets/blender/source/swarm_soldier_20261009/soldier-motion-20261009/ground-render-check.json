@@ -1,0 +1,17 @@
+{
+  "blendSha256": "0ab00dff171d04d5ae8bb1b7cddfb152009fc0655141948ce0a9273c681e7351",
+  "clips": [
+    "Down",
+    "Dodge_Roll",
+    "Jump_Start",
+    "Jump_Land"
+  ],
+  "fractions": [
+    0.0,
+    0.2,
+    0.4,
+    0.6,
+    0.8,
+    1.0
+  ]
+}

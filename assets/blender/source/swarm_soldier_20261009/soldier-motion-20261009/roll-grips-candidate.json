@@ -1,0 +1,23 @@
+{
+  "status": "candidate; exported path, grip, body contact and rendering validation required",
+  "sourceSha256": "eb58a8d276d64d8643526435d601f6dbd9438d0fc3b722dc84c42b340a0300a1",
+  "sha256": "754fe4b2fb642e6b6af70973fad3546fb4477da61c08897cfe6ce298481ecca2",
+  "actions": [
+    {
+      "profile": "Shotgun",
+      "samples": 177,
+      "maxHandResidualMetres": {
+        "R": 3.591767189858541e-07,
+        "L": 7.183364371513051e-06
+      }
+    },
+    {
+      "profile": "Rocket",
+      "samples": 177,
+      "maxHandResidualMetres": {
+        "R": 3.607189189466895e-07,
+        "L": 5.757327385446191e-06
+      }
+    }
+  ]
+}

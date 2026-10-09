@@ -5,6 +5,7 @@ import { WeaponRarityGlow } from "./weapon-rarity-glow";
 import { weaponTier } from "../shared/progression";
 import { clone } from "three/addons/utils/SkeletonUtils.js";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
+import { soldierAccent } from "./soldier-accent";
 import type { Player } from "../shared/game";
 import { modelOf, type ModelKind } from "../shared/defs";
 import {
@@ -30,6 +31,9 @@ export const TROOPER_SWITCH = {
 export const TROOPER_RUN_STRIDE = 2.6;
 // Provisional B adoption: the exact reviewed UAL Sprint lower-body clip.
 export const TROOPER_SPRINT_STRIDE = 5.21351158618927;
+// Retargeted soldier: measured midstance ankle travel (stride-fit.json).
+const SOLDIER_WALK_STRIDE = 1.2721789591014385;
+const SOLDIER_SPRINT_STRIDE = 4.820114478468895;
 export const TROOPER_SKINS = {
   standard: {
     Armor: "#526570",
@@ -134,12 +138,17 @@ function trooperEnvironment() {
   texture.needsUpdate = true;
   return texture;
 }
-export function loadStandardTrooper() {
-  return (loading ??= (async () => {
+export function loadStandardTrooper(reviewAssetUrl?: string) {
+  const load = async () => {
     const loader = new GLTFLoader(),
       base = `${import.meta.env.BASE_URL}assets/characters/`;
     const [character, rifle, shotgun, rocket] = await Promise.all([
-      loader.loadAsync(`${base}standard_trooper_v10.glb`),
+      // The installed shell caches asset URLs. Change this content digest with
+      // the binary so an existing player receives the revised rig and clips.
+      loader.loadAsync(
+        (import.meta.env.DEV && reviewAssetUrl) ||
+          `${base}swarm-soldier.glb?v=bea4886cd676e602816df15de52424dc953279d0b463de61ba9860c3bfef280e`,
+      ),
       ...(["rifle", "shotgun", "rocket"] as const).map((k) =>
         loader.loadAsync(
           `${import.meta.env.BASE_URL}assets/weapons/realism-v2/${k}_0.glb`,
@@ -235,7 +244,8 @@ export function loadStandardTrooper() {
         ).loadRunTrial(trial);
     }
     return assets;
-  })());
+  };
+  return import.meta.env.DEV && reviewAssetUrl ? load() : (loading ??= load());
 }
 
 /** Character clips and weapon profiles are independent of authoritative combat rules. */
@@ -303,6 +313,11 @@ export class StandardTrooper {
     fromQ: T.Quaternion;
   }[] = [];
   private previousPose: { p: T.Vector3; q: T.Quaternion; s: T.Vector3 }[] = [];
+  private readonly accentSetters: ((index: number) => unknown)[] = [];
+  private downTime = 0;
+  setPlayerAccent(index: number) {
+    for (const set of this.accentSetters) set(index);
+  }
   constructor(readonly assets: Assets) {
     this.model = clone(assets.character.scene) as T.Group;
     this.model.name = "StandardTrooper_Player";
@@ -360,6 +375,16 @@ export class StandardTrooper {
           ),
         );
     }
+    const referenceWalk = this.clips.get("UAL_Walk");
+    if (referenceWalk) {
+      const walk = referenceWalk.clone();
+      const duration = this.clips.get("Walk")!.duration;
+      for (const track of walk.tracks) track.scale(duration / walk.duration);
+      walk.duration = duration;
+      walk.tracks = walk.tracks.filter((track) => lower.test(track.name));
+      walk.name = "Lower_Walk";
+      this.clips.set(walk.name, walk);
+    }
     this.hand = this.model.getObjectByName("RightHandWeaponSocket")!;
     this.back = ["BackWeaponSocket", "BackWeaponSocket_2"].map((n) =>
       this.model.getObjectByName(n)!,
@@ -374,6 +399,8 @@ export class StandardTrooper {
           let local = this.skinMaterials.get(material);
           if (!local) {
             local = material.clone();
+            if (material.name === "Material_uniform")
+              this.accentSetters.push(soldierAccent(local));
             this.skinMaterials.set(material, local);
           }
           return local;
@@ -427,12 +454,16 @@ export class StandardTrooper {
       (adopted
         ? {
             clip: adopted,
-            stride: TROOPER_SPRINT_STRIDE,
-            name: "Sprint_Loop (provisional B)",
+            stride: this.model.userData.soldierReferenceVersion
+              ? SOLDIER_SPRINT_STRIDE
+              : TROOPER_SPRINT_STRIDE,
+            name: "Sprint_Loop",
           }
         : undefined);
     if (runMotion) {
       const trial = runMotion.clip.clone();
+      // Reference locomotion contains full-body tracks; preserve the active gun pose.
+      trial.tracks = trial.tracks.filter((track) => lower.test(track.name));
       const duration = this.clips.get("Run")!.duration;
       for (const track of trial.tracks) track.scale(duration / trial.duration);
       trial.duration = duration;
@@ -517,7 +548,9 @@ export class StandardTrooper {
     }
     const stance = walking ? 0.6 : 0.22;
     const targets = this.feet.map((leg, i) => {
-      const q = (phase + (i === 0 ? 0.5 : 0)) % 1;
+      // UAL_Walk starts with the left boot planted; the right lands half a cycle later.
+      const offsetFoot = this.clips.has("UAL_Walk") ? 1 : 0;
+      const q = (phase + (i === offsetFoot ? 0.5 : 0)) % 1;
       const p = leg.foot.getWorldPosition(new T.Vector3());
       const rotation = leg.foot.getWorldQuaternion(new T.Quaternion());
       if (q > stance) {
@@ -710,6 +743,7 @@ export class StandardTrooper {
     visualAim = false,
   ) {
     dt = Math.max(0, Math.min(0.1, dt));
+    this.downTime = p.hp <= 0 ? this.downTime + dt : 0;
     this.equip(p.weapons, p.slot);
     for (const glow of this.weaponGlows) glow.update(time);
     const prev = this.prior,
@@ -775,7 +809,9 @@ export class StandardTrooper {
             (backward
               ? TROOPER_RUN_STRIDE
               : runClip === "Walk"
-                ? 1.3
+                ? this.clips.has("UAL_Walk")
+                  ? SOLDIER_WALK_STRIDE
+                  : 1.3
                 : this.runStride)) *
             runDuration) %
         runDuration;
@@ -834,14 +870,13 @@ export class StandardTrooper {
       lower: string | undefined;
     if (p.hp <= 0) {
       mode = "down";
-      clip = "Hit_Heavy";
-      at = 0.83;
+      clip = this.clips.has("Down") ? "Down" : "Hit_Heavy";
+      at = this.clips.has("Down") ? this.downTime : 0.83;
     } else if (rolling) {
       mode = "roll";
-      clip = "Dodge_Roll";
-      at =
-        (this.rollTime / EVADE_DURATION) *
-        this.clips.get("Dodge_Roll")!.duration;
+      const profileRoll = `Dodge_Roll_${profile}`;
+      clip = this.clips.has(profileRoll) ? profileRoll : "Dodge_Roll";
+      at = (this.rollTime / EVADE_DURATION) * this.clips.get(clip)!.duration;
     } else if (this.switchTime < TROOPER_SWITCH.duration) {
       mode = "switch";
       clip = this.oldSlot === 0 ? "Switch_1_to_2" : "Switch_2_to_1";

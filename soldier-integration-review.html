@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" /><title>兵士・ゲーム処理の連続検証</title>
+  <style>
+    body {
+      margin: 0;
+      background: #14202a;
+      color: white;
+      font: 16px system-ui;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      z-index: 5;
+      background: #14202a;
+      padding: 10px;
+    }
+    button,
+    a {
+      margin: 5px;
+      padding: 6px;
+    }
+    canvas {
+      display: block;
+    }
+    #damage {
+      pointer-events: none;
+    }
+  </style>
+  <header>
+    開発用 第3版：固定入力・1人描画・24fpsコマ保存（敵なし）
+    <select id="focus" aria-label="注目する兵士">
+      <option value="0">ライフル</option>
+      <option value="1">散弾銃</option>
+      <option value="2">ロケット</option>
+    </select>
+    <button id="record" disabled>連続動作を保存</button
+    ><span id="status">準備中</span>
+  </header>
+  <canvas id="world"></canvas>
+  <div id="damage"></div>
+  <script
+    type="module"
+    src="/src/client/soldier-integration-review.ts?v=20261009-proof3"
+  ></script>
+</html>
