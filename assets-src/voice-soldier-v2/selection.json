@@ -29,5 +29,5 @@
     "fullSet": "young-soldier/clips/",
     "individualLinesListening": "2026-10-10、実配信11本の連結試聴提示後、本人が「これは合格！ゲームに反映して！」と一式採用。young-soldier/acceptance.jsonに全11ID/SHA対応を記録"
   },
-  "productReplaced": "SOLDIER_PATHをvoice-young-soldier-v1へ変更。公開は独立監査後"
+  "productReplaced": "SOLDIER_PATHをvoice-young-soldier-v1へ変更。本人一式採用・独立監査最終合格、PR137通常merge 8e0596b32845b4bf8ed01bf0dcf181698b114d6dから既存Worker公開。Version c1f69e2e-468e-4a2f-9b15-701332728a1d"
 }

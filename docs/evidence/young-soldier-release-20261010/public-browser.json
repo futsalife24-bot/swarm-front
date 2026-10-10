@@ -1,0 +1,236 @@
+{
+  "at": "2026-10-10T08:39:23.403Z",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "platform": "Windows Chrome",
+  "viewport": {
+    "width": 844,
+    "height": 390
+  },
+  "pass": true,
+  "previews": [
+    {
+      "id": "reload",
+      "ended": true,
+      "duration": 0.92,
+      "error": null,
+      "shaMatched": true
+    },
+    {
+      "id": "reload-alt",
+      "ended": true,
+      "duration": 0.81,
+      "error": null,
+      "shaMatched": true
+    },
+    {
+      "id": "empty",
+      "ended": true,
+      "duration": 1.67,
+      "error": null,
+      "shaMatched": true
+    },
+    {
+      "id": "cover",
+      "ended": true,
+      "duration": 0.88,
+      "error": null,
+      "shaMatched": true
+    },
+    {
+      "id": "warning",
+      "ended": true,
+      "duration": 1.08,
+      "error": null,
+      "shaMatched": true
+    },
+    {
+      "id": "wave",
+      "ended": true,
+      "duration": 1.35,
+      "error": null,
+      "shaMatched": true
+    },
+    {
+      "id": "wave-alt",
+      "ended": true,
+      "duration": 1.58,
+      "error": null,
+      "shaMatched": true
+    },
+    {
+      "id": "hurt",
+      "ended": true,
+      "duration": 0.46,
+      "error": null,
+      "shaMatched": true
+    },
+    {
+      "id": "hurt-alt-v2",
+      "ended": true,
+      "duration": 1.99,
+      "error": null,
+      "shaMatched": true
+    },
+    {
+      "id": "fire",
+      "ended": true,
+      "duration": 0.77,
+      "error": null,
+      "shaMatched": true
+    },
+    {
+      "id": "fire-alt",
+      "ended": true,
+      "duration": 1.1,
+      "error": null,
+      "shaMatched": true
+    }
+  ],
+  "battle": {
+    "voices": [
+      {
+        "id": "reload",
+        "duration": 0.92,
+        "at": 15946.5
+      }
+    ],
+    "screen": "battle",
+    "hud": "HP152 / 160生存戦 · 0:11経験値 0/12AR-9 リーフ · 1/2残弾32 / 32強化 1/6枠1+WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · F ジャンプ"
+  },
+  "requests": [
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/reload.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/reload-alt.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/empty.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/cover.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/warning.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/wave.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/wave-alt.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/hurt.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/hurt-alt-v2.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/fire.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/fire-alt.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/reload.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/reload-alt.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/empty.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/cover.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/warning.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/wave.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/wave-alt.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/hurt.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/hurt-alt-v2.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/fire.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/fire-alt.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/reload.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/reload-alt.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/empty.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/cover.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/warning.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/wave.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/wave-alt.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/hurt.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/hurt-alt-v2.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/fire.wav",
+      "status": 200
+    },
+    {
+      "url": "https://swarm-front.melosalife-24.workers.dev/assets/audio/voice-young-soldier-v1/fire-alt.wav",
+      "status": 200
+    }
+  ],
+  "errors": [],
+  "limitations": "通常ソロの有限確認、長時間戦闘と実スマホ性能は未確認。WebAudioの取得SHA/再生開始を観測する検証用計装のみ、配信コード変更なし"
+}
