@@ -1,4 +1,6 @@
-# 現在地: 若い兵士シリーズ全11台詞を保存・差し替え、検証と独立監査へ（2026-10-10）
+# 現在地: 若い兵士シリーズ全11台詞を保存・差し替え、Windows検証済み・独立監査へ（2026-10-10）
+
+実装対象SHA `b35b912043c387adf95343f348cb58f2ab383c5c`。Windowsで型/関連30テスト/build/Worker dry-run成功。全11試聴完走・配信WAVのSHA一致、実Sound/WebAudioの接近警告再生と停止成功。[今回の検証と限界](../assets-src/voice-soldier-v2/young-soldier/VALIDATION.md)。ローカル分析通信の既存CORS失敗2件は結果JSONに残し、console error 0とは扱わない。通常Chat監査依頼の準備中、main統合・公開は未実施。下の「進行中」は開始時記録。
 
 本人が連続3台詞の声を「まだ未熟な若い兵士」としてシリーズ化し、全台詞の再制作・保存・差し替えまで依頼。gemini-3.8-flash-tts/Fenrir・単一話者/単一block/1リクエストで全11台詞を再生成。18.28秒の原本と実入力を保持し、台詞間の低レベル区間10箇所で個別11WAVへ分割。[原本・再現・全SHA](../assets-src/voice-soldier-v2/young-soldier/README.md)。音量・速度・ピッチ不変、各区間PCM一致、全11クリッピング0。
 

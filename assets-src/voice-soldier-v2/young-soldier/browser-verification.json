@@ -1,0 +1,175 @@
+{
+  "at": "2026-10-10T07:37:33.836Z",
+  "origin": "http://127.0.0.1:5358",
+  "platform": "Windows Chrome",
+  "pass": true,
+  "soundTest": [
+    {
+      "id": "reload",
+      "source": "http://127.0.0.1:5358/assets/audio/voice-young-soldier-v1/reload.wav",
+      "network": {
+        "status": 200,
+        "sha256": "69c795b1d20f6f49070b0d987a913e1ffe6cf6f09f4233b6e7d39043a6aa1baa"
+      },
+      "src": "blob:http://127.0.0.1:5358/c67f1a6d-3bde-4bf3-9634-9b8c5a7740cc",
+      "duration": 0.92,
+      "currentTime": 0.92,
+      "ended": true,
+      "error": null
+    },
+    {
+      "id": "reload-alt",
+      "source": "http://127.0.0.1:5358/assets/audio/voice-young-soldier-v1/reload-alt.wav",
+      "network": {
+        "status": 200,
+        "sha256": "c32bc63c40bbc81b69e67dd41dc03d8b2419d0d4039411f469568f7cf20508e8"
+      },
+      "src": "blob:http://127.0.0.1:5358/acd0a8ed-2170-4810-86e9-0859220dd600",
+      "duration": 0.81,
+      "currentTime": 0.81,
+      "ended": true,
+      "error": null
+    },
+    {
+      "id": "empty",
+      "source": "http://127.0.0.1:5358/assets/audio/voice-young-soldier-v1/empty.wav",
+      "network": {
+        "status": 200,
+        "sha256": "d27390769a5f4dd6a690a2e4a8c698c01f1d91edcdf854e8014f473da128ec5c"
+      },
+      "src": "blob:http://127.0.0.1:5358/43a06e9b-4973-453d-aee7-413bada2b3fb",
+      "duration": 1.67,
+      "currentTime": 1.67,
+      "ended": true,
+      "error": null
+    },
+    {
+      "id": "cover",
+      "source": "http://127.0.0.1:5358/assets/audio/voice-young-soldier-v1/cover.wav",
+      "network": {
+        "status": 200,
+        "sha256": "a6351204cbc99ea20347ab43901a69d5498e022cfcaa3e9119bcdd8b1fff4a09"
+      },
+      "src": "blob:http://127.0.0.1:5358/9b78777d-554f-4d54-8035-a0704e7bf8f1",
+      "duration": 0.88,
+      "currentTime": 0.88,
+      "ended": true,
+      "error": null
+    },
+    {
+      "id": "warning",
+      "source": "http://127.0.0.1:5358/assets/audio/voice-young-soldier-v1/warning.wav",
+      "network": {
+        "status": 200,
+        "sha256": "27fdba462b72cf871397089ab21e461ff13b3a80983979adeecaa4cf964ad674"
+      },
+      "src": "blob:http://127.0.0.1:5358/c770ec7b-ca8a-4a0f-b2ec-d3ff1c3bbfda",
+      "duration": 1.08,
+      "currentTime": 1.08,
+      "ended": true,
+      "error": null
+    },
+    {
+      "id": "wave",
+      "source": "http://127.0.0.1:5358/assets/audio/voice-young-soldier-v1/wave.wav",
+      "network": {
+        "status": 200,
+        "sha256": "4ef67e90009028ec6a6c2d8c2b941a3aa42d8131d40762ee411e12942f4eedeb"
+      },
+      "src": "blob:http://127.0.0.1:5358/9a0ca434-de21-451a-b906-85cf9f938306",
+      "duration": 1.35,
+      "currentTime": 1.35,
+      "ended": true,
+      "error": null
+    },
+    {
+      "id": "wave-alt",
+      "source": "http://127.0.0.1:5358/assets/audio/voice-young-soldier-v1/wave-alt.wav",
+      "network": {
+        "status": 200,
+        "sha256": "3223e80166ba84c9591dde924e33e42347bf38c97b51c215354eddc452939bf1"
+      },
+      "src": "blob:http://127.0.0.1:5358/e63ce229-406f-494f-9079-a8a1c88febf2",
+      "duration": 1.58,
+      "currentTime": 1.58,
+      "ended": true,
+      "error": null
+    },
+    {
+      "id": "hurt",
+      "source": "http://127.0.0.1:5358/assets/audio/voice-young-soldier-v1/hurt.wav",
+      "network": {
+        "status": 200,
+        "sha256": "f680e6ceb555dc0838c2ea9fa3dbd9a565190aba03c14ad5a910e5a812658572"
+      },
+      "src": "blob:http://127.0.0.1:5358/c66e3228-f598-42ad-8e39-8601754663a9",
+      "duration": 0.46,
+      "currentTime": 0.46,
+      "ended": true,
+      "error": null
+    },
+    {
+      "id": "hurt-alt-v2",
+      "source": "http://127.0.0.1:5358/assets/audio/voice-young-soldier-v1/hurt-alt-v2.wav",
+      "network": {
+        "status": 200,
+        "sha256": "b71f9785c291c69b452310fe9e7c84e9e227c065595536d418ae288d63d2a81c"
+      },
+      "src": "blob:http://127.0.0.1:5358/dce4b046-1252-46aa-a043-6d4cc7e9058c",
+      "duration": 1.99,
+      "currentTime": 1.99,
+      "ended": true,
+      "error": null
+    },
+    {
+      "id": "fire",
+      "source": "http://127.0.0.1:5358/assets/audio/voice-young-soldier-v1/fire.wav",
+      "network": {
+        "status": 200,
+        "sha256": "75f4aa3c76a29112f0e4fff13f50dcf6d7b04d09e54c8ff498c61d62971a58de"
+      },
+      "src": "blob:http://127.0.0.1:5358/10c12598-bdf1-4469-932c-95891d52c0dc",
+      "duration": 0.77,
+      "currentTime": 0.77,
+      "ended": true,
+      "error": null
+    },
+    {
+      "id": "fire-alt",
+      "source": "http://127.0.0.1:5358/assets/audio/voice-young-soldier-v1/fire-alt.wav",
+      "network": {
+        "status": 200,
+        "sha256": "0ae501462287462761f9b6892ef9d8e0390ce926b1cd2a988a0b125aa6b063c5"
+      },
+      "src": "blob:http://127.0.0.1:5358/12997ace-8906-4485-b464-d0438d5aedc7",
+      "duration": 1.1,
+      "currentTime": 1.1,
+      "ended": true,
+      "error": null
+    }
+  ],
+  "battleFixture": {
+    "loaded": [
+      "voice:reload",
+      "voice:reload-alt",
+      "voice:hurt",
+      "voice:warning",
+      "voice:cover",
+      "voice:wave",
+      "voice:empty",
+      "voice:fire",
+      "voice:fire-alt",
+      "voice:wave-alt",
+      "voice:hurt-alt-v2"
+    ],
+    "activeSpeech": true,
+    "duration": 1.08,
+    "contextState": "running",
+    "stopped": true
+  },
+  "errors": [
+    "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5358' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+    "Failed to load resource: net::ERR_FAILED"
+  ],
+  "limitations": "実Sound/WebAudioと実worldイベントの有限確認。人の聴感・全戦闘・実機性能の保証ではない"
+}
