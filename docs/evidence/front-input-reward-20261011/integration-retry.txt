@@ -1,0 +1,35 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+ ❯ tests/front-network.integration.ts (10 tests | 1 failed | 9 skipped) 53ms
+   ❯ 改装版の実通信 (10)
+     × 旧画面だけの部隊は7回ルールで出撃し、新作戦へ古い画面で復帰すると更新案内を返す 52ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/front-network.integration.ts > 改装版の実通信 > 旧画面だけの部隊は7回ルールで出撃し、新作戦へ古い画面で復帰すると更新案内を返す
+AssertionError: expected 429 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 429
+
+ ❯ room tests/front-network.integration.ts:87:27
+     85|     }),
+     86|   });
+     87|   expect(response.status).toBe(200);
+       |                           ^
+     88|   return response.json();
+     89| }
+ ❯ team tests/front-network.integration.ts:95:17
+ ❯ tests/front-network.integration.ts:588:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 skipped (10)
+   Start at  00:17:05
+   Duration  1.50s (import 71%, transform 25%, tests 4%)

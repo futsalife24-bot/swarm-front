@@ -1,5 +1,7 @@
 # ゲーム体験を維持するバランス・不具合調査
 
+2026-10-11更新: 本人ログインで認証障害は解消。[Claude共同調査](https://claude.ai/chat/8d71c544-a8e3-49b2-bec5-f7567c119072)を実施し、入力中断と報酬再試行の2修正を進めた。最新状態は [変更・検証](FRONT-INPUT-REWARD-FIX.md) とSTATE先頭。以下は調査開始時の記録。
+
 2026-10-10、本人がClaudeとの共同作業と進行を依頼。対象正本は https://github.com/futsalife24-bot/swarm-front 、作業場所は C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a 。開始時点はPR159の記録HEAD `269a22c16df5c24dd3cf905bbca76ee9fd208312`。先行PR159の統合後は `c6c1408037ec73c09d369380c218be50c431e419` を基点とする。
 
 ## 役割と判定

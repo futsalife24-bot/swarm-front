@@ -47,11 +47,14 @@ import { startWithSaveWriter } from "./save-writer";
 import {
   readFrontCampaign,
   readFrontLoadout,
-  queueFrontCampaignReward,
   recoverFrontCampaignRewards,
 } from "./front-campaign";
 import { soldier } from "./progression-save";
-import { readFrontProgress, awardFrontProgress } from "./front-progress";
+import { readFrontProgress } from "./front-progress";
+import {
+  saveFrontRunRewards,
+  type FrontRewardStatus,
+} from "./front-reward-status";
 import {
   createFrontRun,
   returnFrontRun,
@@ -139,6 +142,7 @@ let status = "",
   preparedGeneration = -1;
 let connectionFatal = "";
 let rewardError = false;
+let rewardStatus: FrontRewardStatus | undefined;
 let lastHud = "";
 let lastRenderKey = "";
 let lobbyPreparation: Promise<void> = Promise.resolve();
@@ -159,6 +163,7 @@ const familyNames = {
 function clearInput() {
   controls.enabled = false;
   controls.reset();
+  network?.discardPendingInput();
   accumulator = 0;
   previous = performance.now();
   if (document.pointerLockElement) document.exitPointerLock();
@@ -1179,27 +1184,24 @@ function frame(time: number) {
       (info.phase === "victory" || info.phase === "defeat") &&
       awardedRun !== world.run
     ) {
-      const result = awardFrontProgress(progressStorage, {
-        id: world.run,
-        won: info.phase === "victory",
-        mode: info.mode,
-        day: info.day,
-        at: Date.now(),
-      });
+      rewardStatus = saveFrontRunRewards(
+        progressStorage,
+        localStorage,
+        {
+          id: world.run,
+          won: info.phase === "victory",
+          mode: info.mode,
+          day: info.day,
+          at: Date.now(),
+        },
+        info.growthVersion === 3 && info.mode === "survival"
+          ? world.time
+          : null,
+        rewardStatus,
+      );
       awardedRun = world.run;
-      let campaignText = "";
-      rewardError = !result.saved;
-      if (info.growthVersion === 3 && info.mode === "survival") {
-        try {
-          campaignText = ` · 攻略コイン +${queueFrontCampaignReward(localStorage, world.run, world.time)}`;
-        } catch (error) {
-          rewardError = true;
-          campaignText = ` · ${(error as Error).message}`;
-        }
-      }
-      rewardText = result.saved
-        ? `功績 +${result.reward}${campaignText}`
-        : result.error;
+      rewardError = rewardStatus.error;
+      rewardText = rewardStatus.text;
     }
     paintOverlay();
     paintBattle();

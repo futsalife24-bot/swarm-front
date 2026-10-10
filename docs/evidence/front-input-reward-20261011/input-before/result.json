@@ -1,0 +1,222 @@
+{
+  "queued": {
+    "mx": 0,
+    "mz": 0,
+    "yaw": 0,
+    "pitch": 0,
+    "fire": false,
+    "reload": false,
+    "dodge": true,
+    "jump": false,
+    "swap": false,
+    "revive": false,
+    "seq": 9,
+    "cameraAim": true
+  },
+  "paused": {
+    "pending": {
+      "mx": 0,
+      "mz": 0,
+      "yaw": 0,
+      "pitch": 0,
+      "fire": false,
+      "reload": false,
+      "dodge": true,
+      "jump": false,
+      "swap": false,
+      "revive": false,
+      "seq": 13,
+      "cameraAim": true
+    },
+    "sent": 0
+  },
+  "resumed": {
+    "sent": [
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": true,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 14,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 17,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 20,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 24,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 27,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 30,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 34,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 38,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 41,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 44,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 48,
+        "cameraAim": true
+      }
+    ],
+    "states": [
+      {
+        "time": 0.25,
+        "evade": 0,
+        "evadeCd": 0
+      },
+      {
+        "time": 0.35,
+        "evade": 0.27,
+        "evadeCd": 2.1500000000000004
+      },
+      {
+        "time": 0.45,
+        "evade": 0.17000000000000004,
+        "evadeCd": 2.0500000000000007
+      },
+      {
+        "time": 0.55,
+        "evade": 0.07000000000000003,
+        "evadeCd": 1.9500000000000008
+      },
+      {
+        "time": 0.65,
+        "evade": 0,
+        "evadeCd": 1.8500000000000008
+      }
+    ]
+  },
+  "staleSent": true,
+  "serverDodged": true,
+  "errors": [],
+  "scope": "実Chrome UI＋実Worker、送信buffer圧だけ試験注入"
+}

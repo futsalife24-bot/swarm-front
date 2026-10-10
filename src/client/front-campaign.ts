@@ -119,12 +119,15 @@ export function awardFrontCampaign(
     loadProgress("normal", storage) ?? initializeProgress("normal", storage);
   const receipt = `front-survival:${runId}`;
   if (save.receipts.includes(receipt)) return 0;
-  const coins = Math.min(300, Math.floor(seconds / 60) * 10);
+  const coins = frontCampaignCoins(seconds);
   const next = structuredClone(save);
   next.coins += coins;
   next.receipts.push(receipt);
   persistProgress(next, storage);
   return coins;
+}
+export function frontCampaignCoins(seconds: number) {
+  return Math.min(300, Math.floor(seconds / 60) * 10);
 }
 export const FRONT_PENDING_REWARDS_KEY = "swarm-front-survival-pending-v1";
 type PendingReward = { runId: string; seconds: number };
