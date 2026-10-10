@@ -64,6 +64,26 @@ try {
         });
       }
       await p.goto(origin + "/front.html", { waitUntil: "domcontentloaded" });
+      // この既存検査は発見済みのレシピでデッキ編集を検証。未発見はcheck-fusion-discoveryで確認。
+      await p.evaluate(() =>
+        localStorage.setItem(
+          "swarm-front-fusion-discovery-v1",
+          JSON.stringify({
+            version: 1,
+            ids: [
+              "fusion-collapse",
+              "fusion-skewer",
+              "fusion-counter",
+              "fusion-bastion",
+              "fusion-magazine",
+              "fusion-overdrive",
+              "fusion-aegis",
+              "fusion-collector",
+              "fusion-reactor",
+            ],
+          }),
+        ),
+      );
       await p.locator("#open-armory").click();
       await p.locator(".base-tile").first().waitFor();
       const stopVideo =

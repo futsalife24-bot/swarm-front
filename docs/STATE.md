@@ -1,3 +1,14 @@
+# 現在地: PR159の実装・検証・監査資料を保存、通常Chatの下書き保護承認待ち（2026-10-10）
+
+PR https://github.com/futsalife24-bot/swarm-front/pull/159 （Draft）、branch `codex/fusion-roll-polish-20261010`、base `f1298bb1632ce3844023a822fe495db6445227d1`、実装/監査対象ソース `3481d5469ecb6deaf6eb211dde721825473f22af`。以後の変更は検証スクリプト・証拠・文書。型、改装版99件、保存147件、build、本番設定dry-run、Windows Chromeの開発/本番ビルド4条件ずつ、実ローカルWorker併用の基地回帰6条件が成功。回避の前3武器/左1武器比較でauthority不変、GLB無変更。[詳細](FUSION-ROLL-POLISH.md)、[証拠](evidence/fusion-roll-20261010/roll/README.md)。
+
+停止理由: iab通常Chatホームに別件の下書きがあり、自動承認レビューが「保護のための本文読み取り」と「新しいチャット」を拒否。対象外の私的内容アクセス/未保存下書きの消失リスクが理由。保護・復元して監査を続ける承認を質問済み、未回答。監査資料に別件本文は含めない。
+再開条件: 本人が下書きの保護・復元を承認するか、本人がホームの下書きを整理する。準備したZIPをiabの新しい通常Chatへ添付し、監査URLをここへ記録→必須修正/再監査→PR159通常merge→mainビルド→既存Worker公開/配信UI照合→公開記録main/保管庫更新。
+
+監査Chat URL: 未作成（ホーム準備だけ、未送信・未合格）。main統合・今回の公開は未実施。公開ソース `8e0596b32845b4bf8ed01bf0dcf181698b114d6d`、Version `c1f69e2e-468e-4a2f-9b15-701332728a1d` を維持。監査資料: `dist-validation/fusion-roll/fusion-roll-audit.zip`（再生成はscripts/package-fusion-roll-audit.py）。資料対象SHAとmanifestはZIP内に記録。主担当の実モデルID/effort未確認、補助指定gpt-6.1-sol/high。実機スマホ・長時間GPU・人の自然さの最終採否は未確認。
+
+---
+
 # 現在地: 若い兵士11台詞をmain統合・既存Workerへ公開、配信と実戦再生成功（2026-10-10）
 
 本人が新11台詞を一式採用。PR137をReady→通常merge、公開ソース/merge SHA `8e0596b32845b4bf8ed01bf0dcf181698b114d6d`。merge本文Player-Note保持。SOLDIER_PATHのみ差し替え、既存11ID/台詞/発声条件/抽選/クールダウン・旧音声は維持。監査必須の製品修正なし、追加は技術検証証拠と本人採用記録。[通常Chat最終独立監査](https://chatgpt.com/c/6ac9ebe2-4838-83ec-a180-46c05b5d3d3a)の最終対象 `9d56b157534eac606a676a9e219d055dbf27249e` は合格、必須P0/P1/P2各0、本人受入保留解除。最終ZIP SHA256 `6a52a400c64d45fe51bcee30c6e13ff8e25c97005a1233175ca3e0d77c925eee`。
