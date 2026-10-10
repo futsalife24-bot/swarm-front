@@ -1,4 +1,6 @@
-# 現在地: 若い兵士シリーズ全11台詞を保存・差し替え、Windows検証済み・独立監査へ（2026-10-10）
+# 現在地: 若い兵士11台詞の本人合格を受領、最終再監査からmain統合・公開へ（2026-10-10）
+
+本人の「これは合格！ゲームに反映して！」を受領。直前に提示した実配信11本のPCM不変連結16.61秒（SHA256 dc112c50b508a93584ff7e0d8c8437b8ca615c379cdf6d17184ba3e8344b338e）の一式採用を全11IDへ記録。[本人採用記録](../assets-src/voice-soldier-v2/young-soldier/acceptance.json)。個別回答した記録とはせず、Codex自身の聴感評価にも置換しない。前回の停止理由は解消。同Chatで最終対象の受入判定を確認し、合格後にPR137通常merge/既存Worker公開/配信確認を進める。以下は前回までの経過。
 
 最終確認対象 `9f375cb3788e6261156cac4dc8453b2bbda5d938` の追加独立監査が完了。同Chat判定は「技術指摘解消・技術追加監査合格、本人の全11照合1件が残り最終受入/merge/Worker公開保留」。追加ZIP `dist-validation/soldier-voice-audit-20261010/young-soldier-supplement-9f375cb.zip`、SHA256 `6960ae7e01c97a64941ba38ea5cf9ce7aa25a09e525108ac4acd5717833dcdd5`。PR137下書き、mainは `ad779114fe2219ae97c393a3cb41ef8ec8bb6812` のまま。
 

@@ -1,0 +1,78 @@
+{
+  "date": "2026-10-10",
+  "userStatement": "これは合格！ゲームに反映して！",
+  "scope": "直前に提示した実配信11本のPCM不変連結16.61秒を本人が全体採用。各台詞を個別回答したという記録ではなく、この全体採用を全11IDに対応付ける。",
+  "reviewSourceCommit": "1a3ec4c14d3a59970c154489d99414ac4dccc9e5",
+  "reviewSha256": "dc112c50b508a93584ff7e0d8c8437b8ca615c379cdf6d17184ba3e8344b338e",
+  "series": "まだ未熟な若い兵士",
+  "clips": [
+    {
+      "id": "reload",
+      "sha256": "69c795b1d20f6f49070b0d987a913e1ffe6cf6f09f4233b6e7d39043a6aa1baa",
+      "accepted": true,
+      "basis": "全11一式の本人合格"
+    },
+    {
+      "id": "reload-alt",
+      "sha256": "c32bc63c40bbc81b69e67dd41dc03d8b2419d0d4039411f469568f7cf20508e8",
+      "accepted": true,
+      "basis": "全11一式の本人合格"
+    },
+    {
+      "id": "empty",
+      "sha256": "d27390769a5f4dd6a690a2e4a8c698c01f1d91edcdf854e8014f473da128ec5c",
+      "accepted": true,
+      "basis": "全11一式の本人合格"
+    },
+    {
+      "id": "cover",
+      "sha256": "a6351204cbc99ea20347ab43901a69d5498e022cfcaa3e9119bcdd8b1fff4a09",
+      "accepted": true,
+      "basis": "全11一式の本人合格"
+    },
+    {
+      "id": "warning",
+      "sha256": "27fdba462b72cf871397089ab21e461ff13b3a80983979adeecaa4cf964ad674",
+      "accepted": true,
+      "basis": "全11一式の本人合格"
+    },
+    {
+      "id": "wave",
+      "sha256": "4ef67e90009028ec6a6c2d8c2b941a3aa42d8131d40762ee411e12942f4eedeb",
+      "accepted": true,
+      "basis": "全11一式の本人合格"
+    },
+    {
+      "id": "wave-alt",
+      "sha256": "3223e80166ba84c9591dde924e33e42347bf38c97b51c215354eddc452939bf1",
+      "accepted": true,
+      "basis": "全11一式の本人合格"
+    },
+    {
+      "id": "hurt",
+      "sha256": "f680e6ceb555dc0838c2ea9fa3dbd9a565190aba03c14ad5a910e5a812658572",
+      "accepted": true,
+      "basis": "全11一式の本人合格"
+    },
+    {
+      "id": "hurt-alt-v2",
+      "sha256": "b71f9785c291c69b452310fe9e7c84e9e227c065595536d418ae288d63d2a81c",
+      "accepted": true,
+      "basis": "全11一式の本人合格"
+    },
+    {
+      "id": "fire",
+      "sha256": "75f4aa3c76a29112f0e4fff13f50dcf6d7b04d09e54c8ff498c61d62971a58de",
+      "accepted": true,
+      "basis": "全11一式の本人合格"
+    },
+    {
+      "id": "fire-alt",
+      "sha256": "0ae501462287462761f9b6892ef9d8e0390ce926b1cd2a988a0b125aa6b063c5",
+      "accepted": true,
+      "basis": "全11一式の本人合格"
+    }
+  ],
+  "codexListeningPerformed": false,
+  "billingConfirmed": false
+}
