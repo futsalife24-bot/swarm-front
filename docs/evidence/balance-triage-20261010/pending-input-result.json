@@ -1,0 +1,35 @@
+{
+  "scope": "transport-only reproduction; not yet an actual browser/server reproduction",
+  "queuedDuringCongestion": true,
+  "neutralInputOnResume": {
+    "seq": 2,
+    "mx": 0,
+    "my": 0,
+    "yaw": 0,
+    "pitch": 0,
+    "fire": false,
+    "reload": false,
+    "swap": false,
+    "dodge": false,
+    "jump": false
+  },
+  "sent": [
+    {
+      "type": "input",
+      "input": {
+        "seq": 2,
+        "mx": 0,
+        "my": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": true,
+        "swap": false,
+        "dodge": true,
+        "jump": false
+      }
+    }
+  ],
+  "staleDodge": true,
+  "staleReload": true
+}
