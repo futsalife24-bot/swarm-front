@@ -26,6 +26,19 @@
     "trailingBelowMinus40DbSeconds": 0.458
   },
   {
+    "file": "fire-take3.wav",
+    "bytes": 51884,
+    "sha256": "bb3c19190883b3563e33418f6e12eaed2665f1b535e51866b7e0e38561a08210",
+    "channels": 1,
+    "sampleRate": 24000,
+    "seconds": 1.08,
+    "peakDbfs": -1.48,
+    "rmsDbfs": -18.76,
+    "clippedSamples": 0,
+    "leadingBelowMinus40DbSeconds": 0.267,
+    "trailingBelowMinus40DbSeconds": 0.326
+  },
+  {
     "file": "reload-take1.wav",
     "bytes": 57644,
     "sha256": "5e7bf9168a35a631ceaca955d0783bf2e46ba88135518cc80c84f76adbc4605a",

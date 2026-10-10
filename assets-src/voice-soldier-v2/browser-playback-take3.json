@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-10",
+  "platform": "Windows Chrome",
+  "subjectiveListening": "第3候補の本人評価待ち",
+  "audio": {
+    "currentTime": 1.08,
+    "duration": 1.08,
+    "ended": true,
+    "error": null,
+    "paused": true,
+    "readyState": 4,
+    "src": "candidates/fire-take3.wav"
+  }
+}

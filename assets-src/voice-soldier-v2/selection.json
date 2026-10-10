@@ -1,0 +1,8 @@
+{
+  "date": "2026-10-10",
+  "source": "本人のスマホ試聴評価",
+  "reload": { "selected": "reload-take1.wav", "status": "採用" },
+  "warning": { "selected": "warning-take2.wav", "status": "採用", "rejected": ["旧音声", "warning-take1.wav"] },
+  "fire": { "selected": null, "status": "第3候補の評価待ち", "rejected": ["fire-take1.wav", "fire-take2.wav"], "reasonTake2": "本人: きゅらえになっている" },
+  "productReplaced": false
+}
