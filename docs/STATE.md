@@ -1,4 +1,12 @@
-# 現在地: 比較3台詞は採用、攻撃の声を基準に統一感を確認中（2026-10-10）
+# 現在地: 若い兵士シリーズ全11台詞を保存・差し替え、検証と独立監査へ（2026-10-10）
+
+本人が連続3台詞の声を「まだ未熟な若い兵士」としてシリーズ化し、全台詞の再制作・保存・差し替えまで依頼。gemini-3.8-flash-tts/Fenrir・単一話者/単一block/1リクエストで全11台詞を再生成。18.28秒の原本と実入力を保持し、台詞間の低レベル区間10箇所で個別11WAVへ分割。[原本・再現・全SHA](../assets-src/voice-soldier-v2/young-soldier/README.md)。音量・速度・ピッチ不変、各区間PCM一致、全11クリッピング0。
+
+配信パス `assets/audio/voice-young-soldier-v1/` へ保存し、SOLDIER_PATHだけを変更。旧音声・11ID・発声条件/抽選/クールダウン・HUD・保存/通信は維持。シリーズ選択UIは追加せず現音声を差し替える。Windows npm ci、client/Worker型、関連単体30成功。実ブラウザの全11試聴・戦闘再生、本番build/dry-run、通常Chat独立監査、main統合と既存Worker公開/配信確認は進行中。監査Chat未作成。
+
+PR137、branch `codex/soldier-voice-remake-20261006`、base main `ad779114fe2219ae97c393a3cb41ef8ec8bb6812`、開始HEAD `bac6a67173da9f09444364c0337af6f4f0ec5c7f`。生成累計8リクエスト、総予算1,000円承認継承、実請求額未確認。本人の採用は声の方向性で、新全11の本人聴感確認済みとは扱わない。Codex音声入力利用不可、実モデルID/推論設定未確認。独立監査合格前にmerge/公開しない。
+
+# 経過: 比較3台詞は採用、攻撃の声を基準に統一感を確認中（2026-10-10）
 
 本人が「くらえっ！」第3候補を採用し、全体の声の統一感に懸念を提示。基準の声は本人指定で「くらえっ！」。reload第1/warning第2/fire第3の採用を [selection.json](../assets-src/voice-soldier-v2/selection.json) に記録。採用3本を原本PCM不変・0.5秒の無音だけで連結した比較音声4.76秒と、同じFenrir/共通指定/単一話者/単一block/1リクエストで連続生成した候補5.48秒を準備。[原本・実入力・連結再現](../assets-src/voice-soldier-v2/README.md)。採用音声自体の参照入力はせず、声特性の一致を保証しない。
 
