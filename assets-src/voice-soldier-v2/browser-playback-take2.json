@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-10",
+  "platform": "Windows Chrome",
+  "subjectiveListening": "第2候補は本人評価待ち",
+  "audio": [
+    {
+      "currentTime": 1.48,
+      "duration": 1.48,
+      "ended": true,
+      "error": null,
+      "paused": true,
+      "readyState": 4,
+      "src": "candidates/warning-take2.wav"
+    },
+    {
+      "currentTime": 1.28,
+      "duration": 1.28,
+      "ended": true,
+      "error": null,
+      "paused": true,
+      "readyState": 4,
+      "src": "candidates/fire-take2.wav"
+    }
+  ]
+}
