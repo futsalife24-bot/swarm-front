@@ -9,6 +9,8 @@
 - 全11WAV: 24kHz/mono/16bit、原本区間PCM一致、クリッピング0。manifest参照。
 - scripts/check-young-soldier-voice.mjs: Windows Chrome/d3d11、844×390、従来版のサウンドテストで11本の再生完走/デコードエラーなし、HTTP取得ハッシュとmanifest一致。
 - /frontでは実Sound/WebAudioと実worldイベントの有限fixtureで全11デコード、接近警告1.08秒再生、AudioContext running、stop後speechなし。
+- 監査後の追加: 抽選入力だけを固定した実Sound/WebAudioとworldイベントで全11IDを発声し、選ばれた実AudioBuffer一致、非active中断、復帰時滞留なしを全11条件で確認。通常戦闘や人の聴感の代用ではない。
+- 旧配信音声は現行11IDに加え旧hurt-altを含む12ファイルを対象Git SHAで確認、baseとのバイト一致。old-voices-preserved.jsonに全SHA。
 - ローカル分析送信の既存CORS失敗2件をbrowser-verification.jsonへ保持。console error 0とは扱わない。音声変更に関係するエラーなし。
 
 人の聴感、全台詞の発音/演技、実スマホ性能、通常戦闘全場面は未確認。本人の声の方向性採用を全11聴感確認と混同しない。Codex音声入力は利用不可、実モデルID/推論設定未確認。

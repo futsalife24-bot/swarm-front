@@ -27,12 +27,10 @@ page.on("response", (response) => {
   if (response.url().includes("/assets/audio/voice-young-soldier-v1/"))
     fetched.set(
       response.url(),
-      response
-        .body()
-        .then((bytes) => ({
-          status: response.status(),
-          sha256: createHash("sha256").update(bytes).digest("hex"),
-        })),
+      response.body().then((bytes) => ({
+        status: response.status(),
+        sha256: createHash("sha256").update(bytes).digest("hex"),
+      })),
     );
 });
 page.on("pageerror", (e) => errors.push(e.message));
@@ -136,12 +134,85 @@ try {
     };
     sound.stop();
     result.stopped = !sound.speech;
+    result.eventCases = [];
+    for (const target of loaded.map((key) => key.slice(6))) {
+      const state = createWorld("event-" + target);
+      state.run = "event-" + target;
+      const player = addPlayer(state, "event-player");
+      start(state);
+      state.enemies = [];
+      state.wave = 1;
+      player.reload = 0;
+      const lottery =
+        target === "reload-alt"
+          ? [0, 0.5]
+          : target === "empty" ||
+              target.endsWith("-alt") ||
+              target === "hurt-alt-v2"
+            ? [0, 0.99]
+            : [0, 0];
+      // Deterministic lottery input in this fixture only; real Sound and decoded buffers remain unchanged.
+      sound.soldier.random = () => lottery.shift() ?? 0;
+      sound.update(state, player.id, 0, true);
+      state.time = 3;
+      if (target.startsWith("reload") || target === "empty") {
+        player.reload = 1;
+        player.ammo[player.slot] = target === "empty" ? 0 : 1;
+      } else if (target.startsWith("hurt")) player.hp -= 1;
+      else if (target.startsWith("wave")) state.wave = 2;
+      else if (target === "warning")
+        state.enemies.push({
+          id: 999999,
+          kind: "boss",
+          hp: 100,
+          active: true,
+          x: player.x,
+          z: player.z,
+        });
+      else {
+        if (target === "cover") {
+          const ally = addPlayer(state, "ally");
+          ally.hp = 0;
+          ally.x = player.x;
+          ally.z = player.z;
+        }
+        state.events.push({
+          id: (state.events.at(-1)?.id ?? 0) + 1,
+          type: "shot",
+          owner: player.id,
+          x: player.x,
+          y: 1,
+          z: player.z,
+        });
+      }
+      sound.update(state, player.id, 0, true);
+      const matched =
+        !!sound.speech &&
+        sound.speech.buffer === sound.buffers.get("voice:" + target);
+      sound.update(state, player.id, 0, false);
+      const stopped = !sound.speech;
+      sound.update(state, player.id, 0, true);
+      result.eventCases.push({
+        id: target,
+        matched,
+        stopped,
+        resumedWithoutBacklog: !sound.speech,
+      });
+      sound.stop();
+    }
     return result;
   });
   assert.equal(battle.loaded.length, 11);
   assert.equal(battle.activeSpeech, true);
   assert.equal(battle.contextState, "running");
   assert.equal(battle.stopped, true);
+  assert.equal(battle.eventCases.length, 11);
+  assert(
+    battle.eventCases.every(
+      (c) => c.matched && c.stopped && c.resumedWithoutBacklog,
+    ),
+    JSON.stringify(battle.eventCases),
+  );
   const analyticsCors = errors.some(
     (e) =>
       e.includes(

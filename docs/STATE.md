@@ -1,5 +1,11 @@
 # 現在地: 若い兵士シリーズ全11台詞を保存・差し替え、Windows検証済み・独立監査へ（2026-10-10）
 
+独立監査初回判定: 素材・差分は合格、確定コード不具合0、全11台詞の人による内容照合を必須受入条件として最終合格/merge/公開保留。[監査記録](../assets-src/voice-soldier-v2/young-soldier/AUDIT.md)。追加要求の全11発声/中断/復帰fixtureと旧12音声base一致をWindowsで確認済み。製品音声・コード不変。本人へ原本18.28秒のスマホリンクと台詞順を提示し内容/発音照合を依頼中。
+
+停止理由: ワシと監査側の音声入力が利用不可で、必須の新11本の内容照合が未確認。再開条件: 本人から全11の内容・発音の問題なし、または具体的な修正台詞を受領し、必要修正/同Chat再監査/合格後の通常mergeと既存Worker公開を続ける。main/Workerは未変更。
+
+[通常Chat独立監査](https://chatgpt.com/c/6ac9ebe2-4838-83ec-a180-46c05b5d3d3a)へZIP添付済み。監査対象 `221f22ef3941d826e5aaf136b0706f39d7168087`、ZIP SHA256 `4d3a24e6720b8f8a1efd90af3bd21faace537f0827699d605c4f89618c0e68d0`、資料 `dist-validation/soldier-voice-audit-20261010/young-soldier-221f22e-audit.zip`。判定回答中、合格未確定。既存本番設定dry-runも成功。
+
 実装対象SHA `b35b912043c387adf95343f348cb58f2ab383c5c`。Windowsで型/関連30テスト/build/Worker dry-run成功。全11試聴完走・配信WAVのSHA一致、実Sound/WebAudioの接近警告再生と停止成功。[今回の検証と限界](../assets-src/voice-soldier-v2/young-soldier/VALIDATION.md)。ローカル分析通信の既存CORS失敗2件は結果JSONに残し、console error 0とは扱わない。通常Chat監査依頼の準備中、main統合・公開は未実施。下の「進行中」は開始時記録。
 
 本人が連続3台詞の声を「まだ未熟な若い兵士」としてシリーズ化し、全台詞の再制作・保存・差し替えまで依頼。gemini-3.8-flash-tts/Fenrir・単一話者/単一block/1リクエストで全11台詞を再生成。18.28秒の原本と実入力を保持し、台詞間の低レベル区間10箇所で個別11WAVへ分割。[原本・再現・全SHA](../assets-src/voice-soldier-v2/young-soldier/README.md)。音量・速度・ピッチ不変、各区間PCM一致、全11クリッピング0。

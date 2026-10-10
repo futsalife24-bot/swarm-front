@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-10T07:37:33.836Z",
+  "at": "2026-10-10T07:44:41.089Z",
   "origin": "http://127.0.0.1:5358",
   "platform": "Windows Chrome",
   "pass": true,
@@ -11,7 +11,7 @@
         "status": 200,
         "sha256": "69c795b1d20f6f49070b0d987a913e1ffe6cf6f09f4233b6e7d39043a6aa1baa"
       },
-      "src": "blob:http://127.0.0.1:5358/c67f1a6d-3bde-4bf3-9634-9b8c5a7740cc",
+      "src": "blob:http://127.0.0.1:5358/50e0692b-0b73-4f17-a2ff-0190e72d8a8f",
       "duration": 0.92,
       "currentTime": 0.92,
       "ended": true,
@@ -24,7 +24,7 @@
         "status": 200,
         "sha256": "c32bc63c40bbc81b69e67dd41dc03d8b2419d0d4039411f469568f7cf20508e8"
       },
-      "src": "blob:http://127.0.0.1:5358/acd0a8ed-2170-4810-86e9-0859220dd600",
+      "src": "blob:http://127.0.0.1:5358/a3697a25-14fe-42b8-b032-72cb5bf95ace",
       "duration": 0.81,
       "currentTime": 0.81,
       "ended": true,
@@ -37,7 +37,7 @@
         "status": 200,
         "sha256": "d27390769a5f4dd6a690a2e4a8c698c01f1d91edcdf854e8014f473da128ec5c"
       },
-      "src": "blob:http://127.0.0.1:5358/43a06e9b-4973-453d-aee7-413bada2b3fb",
+      "src": "blob:http://127.0.0.1:5358/3cd00a14-56f2-4337-a87e-7b9641eb027d",
       "duration": 1.67,
       "currentTime": 1.67,
       "ended": true,
@@ -50,7 +50,7 @@
         "status": 200,
         "sha256": "a6351204cbc99ea20347ab43901a69d5498e022cfcaa3e9119bcdd8b1fff4a09"
       },
-      "src": "blob:http://127.0.0.1:5358/9b78777d-554f-4d54-8035-a0704e7bf8f1",
+      "src": "blob:http://127.0.0.1:5358/6bc52dd5-3b26-4aef-ba26-229370b9b1e5",
       "duration": 0.88,
       "currentTime": 0.88,
       "ended": true,
@@ -63,7 +63,7 @@
         "status": 200,
         "sha256": "27fdba462b72cf871397089ab21e461ff13b3a80983979adeecaa4cf964ad674"
       },
-      "src": "blob:http://127.0.0.1:5358/c770ec7b-ca8a-4a0f-b2ec-d3ff1c3bbfda",
+      "src": "blob:http://127.0.0.1:5358/6ce4c5b6-28a3-49c1-b693-679957f74fab",
       "duration": 1.08,
       "currentTime": 1.08,
       "ended": true,
@@ -76,7 +76,7 @@
         "status": 200,
         "sha256": "4ef67e90009028ec6a6c2d8c2b941a3aa42d8131d40762ee411e12942f4eedeb"
       },
-      "src": "blob:http://127.0.0.1:5358/9a0ca434-de21-451a-b906-85cf9f938306",
+      "src": "blob:http://127.0.0.1:5358/fd5d9860-21d7-4550-906f-8fe3de30c6cd",
       "duration": 1.35,
       "currentTime": 1.35,
       "ended": true,
@@ -89,7 +89,7 @@
         "status": 200,
         "sha256": "3223e80166ba84c9591dde924e33e42347bf38c97b51c215354eddc452939bf1"
       },
-      "src": "blob:http://127.0.0.1:5358/e63ce229-406f-494f-9079-a8a1c88febf2",
+      "src": "blob:http://127.0.0.1:5358/fc6af327-650d-47e6-a1b2-635a020fae2f",
       "duration": 1.58,
       "currentTime": 1.58,
       "ended": true,
@@ -102,7 +102,7 @@
         "status": 200,
         "sha256": "f680e6ceb555dc0838c2ea9fa3dbd9a565190aba03c14ad5a910e5a812658572"
       },
-      "src": "blob:http://127.0.0.1:5358/c66e3228-f598-42ad-8e39-8601754663a9",
+      "src": "blob:http://127.0.0.1:5358/06502636-7ccd-42d6-b613-b37d8973e148",
       "duration": 0.46,
       "currentTime": 0.46,
       "ended": true,
@@ -115,7 +115,7 @@
         "status": 200,
         "sha256": "b71f9785c291c69b452310fe9e7c84e9e227c065595536d418ae288d63d2a81c"
       },
-      "src": "blob:http://127.0.0.1:5358/dce4b046-1252-46aa-a043-6d4cc7e9058c",
+      "src": "blob:http://127.0.0.1:5358/ec0275b0-d6a5-440b-8aab-79b81602c2f1",
       "duration": 1.99,
       "currentTime": 1.99,
       "ended": true,
@@ -128,7 +128,7 @@
         "status": 200,
         "sha256": "75f4aa3c76a29112f0e4fff13f50dcf6d7b04d09e54c8ff498c61d62971a58de"
       },
-      "src": "blob:http://127.0.0.1:5358/10c12598-bdf1-4469-932c-95891d52c0dc",
+      "src": "blob:http://127.0.0.1:5358/17ddbee4-a43b-4939-bac1-43bca2feaabd",
       "duration": 0.77,
       "currentTime": 0.77,
       "ended": true,
@@ -141,7 +141,7 @@
         "status": 200,
         "sha256": "0ae501462287462761f9b6892ef9d8e0390ce926b1cd2a988a0b125aa6b063c5"
       },
-      "src": "blob:http://127.0.0.1:5358/12997ace-8906-4485-b464-d0438d5aedc7",
+      "src": "blob:http://127.0.0.1:5358/312dda8d-67a4-40e9-bae6-17dd59096d71",
       "duration": 1.1,
       "currentTime": 1.1,
       "ended": true,
@@ -152,12 +152,12 @@
     "loaded": [
       "voice:reload",
       "voice:reload-alt",
-      "voice:hurt",
-      "voice:warning",
       "voice:cover",
-      "voice:wave",
-      "voice:empty",
+      "voice:hurt",
       "voice:fire",
+      "voice:warning",
+      "voice:empty",
+      "voice:wave",
       "voice:fire-alt",
       "voice:wave-alt",
       "voice:hurt-alt-v2"
@@ -165,7 +165,75 @@
     "activeSpeech": true,
     "duration": 1.08,
     "contextState": "running",
-    "stopped": true
+    "stopped": true,
+    "eventCases": [
+      {
+        "id": "reload",
+        "matched": true,
+        "stopped": true,
+        "resumedWithoutBacklog": true
+      },
+      {
+        "id": "reload-alt",
+        "matched": true,
+        "stopped": true,
+        "resumedWithoutBacklog": true
+      },
+      {
+        "id": "cover",
+        "matched": true,
+        "stopped": true,
+        "resumedWithoutBacklog": true
+      },
+      {
+        "id": "hurt",
+        "matched": true,
+        "stopped": true,
+        "resumedWithoutBacklog": true
+      },
+      {
+        "id": "fire",
+        "matched": true,
+        "stopped": true,
+        "resumedWithoutBacklog": true
+      },
+      {
+        "id": "warning",
+        "matched": true,
+        "stopped": true,
+        "resumedWithoutBacklog": true
+      },
+      {
+        "id": "empty",
+        "matched": true,
+        "stopped": true,
+        "resumedWithoutBacklog": true
+      },
+      {
+        "id": "wave",
+        "matched": true,
+        "stopped": true,
+        "resumedWithoutBacklog": true
+      },
+      {
+        "id": "fire-alt",
+        "matched": true,
+        "stopped": true,
+        "resumedWithoutBacklog": true
+      },
+      {
+        "id": "wave-alt",
+        "matched": true,
+        "stopped": true,
+        "resumedWithoutBacklog": true
+      },
+      {
+        "id": "hurt-alt-v2",
+        "matched": true,
+        "stopped": true,
+        "resumedWithoutBacklog": true
+      }
+    ]
   },
   "errors": [
     "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5358' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
