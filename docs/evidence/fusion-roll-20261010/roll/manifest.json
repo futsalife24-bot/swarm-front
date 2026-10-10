@@ -1,0 +1,77 @@
+[
+  {
+    "path": "after-0.mp4",
+    "bytes": 441692,
+    "sha256": "406540c2c4e5c4309dc7cbc8e24852970367ccf37c3eb9f3afc1fb1c7757d4e1"
+  },
+  {
+    "path": "after-1.mp4",
+    "bytes": 438552,
+    "sha256": "170171d426d1004d348edd512efa675f685e21da68105c7837ee4e1dd7fbb98c"
+  },
+  {
+    "path": "after-2.mp4",
+    "bytes": 421125,
+    "sha256": "d8f90794b825618f4fe8b5a564546628443e91e6220bd2add23ef5e3e9bb8c9b"
+  },
+  {
+    "path": "before-0.mp4",
+    "bytes": 438125,
+    "sha256": "031bc11f76f9df1a45907cecb992c00883f13701f7a87f19534b6ea87ec32e56"
+  },
+  {
+    "path": "before-1.mp4",
+    "bytes": 437020,
+    "sha256": "e2c1917a0d339d672603ff1557ceddf6af1c9bbfcb8b8b4db44955f3f568a75d"
+  },
+  {
+    "path": "before-2.mp4",
+    "bytes": 419436,
+    "sha256": "34e94b0a4351f623ad2b335a3c8f0274da626e6df703ae0f4cba60e3862ee133"
+  },
+  {
+    "path": "browser-checks.json",
+    "bytes": 310150,
+    "sha256": "f9c86e04f6bd7c81357b9df50b250a0ee35bdb040d53bc0ee858808b785a2bb1"
+  },
+  {
+    "path": "comparison-0.mp4",
+    "bytes": 829632,
+    "sha256": "f170b533cefe9b949c677b09704e325d3d5407432e6724266893a48fc66b5772"
+  },
+  {
+    "path": "comparison-1.mp4",
+    "bytes": 825246,
+    "sha256": "f61b1f71be0858e13727f70015dd4c4401b34c765c404dbfb0b2b22c2a9ff32c"
+  },
+  {
+    "path": "comparison-2.mp4",
+    "bytes": 792185,
+    "sha256": "06cc5fc69cd492bd82a47c0352948dc61f695d0c415164b19b74e63d3d23e423"
+  },
+  {
+    "path": "left-browser-checks.json",
+    "bytes": 51201,
+    "sha256": "00c22ce9ea7b1bb2a3aa1ae1455b661d67ebae431fae0a2e4b31358b4090b0ff"
+  },
+  {
+    "path": "left-comparison.mp4",
+    "bytes": 512568,
+    "sha256": "41770bc02f3007621a7f3a3896e4af2622d65f6c0589ad34c453928a751be859"
+  },
+  {
+    "path": "README.md",
+    "bytes": 4305,
+    "sha256": "8ad98eb25cc4ba2451c7aa92fcfaee51eb7b96e8994a7fcd667fd4f086121bba"
+  },
+  {
+    "path": "roll-contact.jpg",
+    "bytes": 129206,
+    "sha256": "27d309de18a51bbc2a34d9d06cf539ca22e1201648e8f316bd81e2d42177686b"
+  },
+  {
+    "path": "summary.json",
+    "bytes": 1560,
+    "sha256": "50318a2409cf71c000353c91f38527632bf82f469ad32af15eb5577ea6d632a3"
+  }
+]

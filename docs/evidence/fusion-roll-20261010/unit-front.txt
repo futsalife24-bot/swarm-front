@@ -1,0 +1,17 @@
+
+> swarm-front@0.1.0 test:front
+> vitest run --config vitest.front.config.ts
+
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+
+ Test Files  15 passed (15)
+      Tests  99 passed (99)
+   Start at  18:58:19
+   Duration  19.48s (tests 47%, import 46%, transform 6%, worker 1%)
+
+     Import  77 modules were evaluated 98 times · 7.86s total, 46% of tracked time
+             ~1.68s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation
+

@@ -456,6 +456,12 @@ body.front-game #ui .front-initial label {
 .front-pause-note {
   flex-shrink: 0;
 }
+.front-game .front-pause > header button,
+.front-game .front-pause > .pause-actions button {
+  min-height: 42px;
+  padding: 8px 16px;
+  font-size: 16px;
+}
 .front-game .front-pause-note {
   margin: 4px 0 8px;
   font-size: 12px;
@@ -498,6 +504,14 @@ body.front-game #ui .front-initial label {
   margin: 0;
   font-size: 13px;
   line-height: 1.5;
+}
+.front-fusion-heading > h3 {
+  display: inline;
+  margin-right: 10px;
+}
+.front-fusion-rule {
+  color: #becfd1;
+  font-size: 12px;
 }
 .front-upgrade-details h3 small {
   margin-left: 6px;
@@ -694,4 +708,14 @@ body.front-game #ui .front-initial label {
 }
 .front-game .rebuild-card.front-fused strong {
   font-size: 16px;
+}
+
+.front-fusion-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 12px;
+  margin-top: 5px;
+}
+.front-fusion-heading {
+  grid-column: 1 / -1;
 }

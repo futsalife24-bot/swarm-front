@@ -1,3 +1,7 @@
+import {
+  readFrontFusionDiscovery,
+  recordFrontFusionDiscovery,
+} from "./front-fusion-discovery";
 import { openFrontBase } from "./front-base";
 import { FrontMineVisuals } from "./front-mine-visuals";
 import {
@@ -159,10 +163,29 @@ function clearInput() {
   previous = performance.now();
   if (document.pointerLockElement) document.exitPointerLock();
 }
+let discoveredFusions = readFrontFusionDiscovery(progressStorage).ids;
+let discoveryRetryAt = 0;
+function observeFusions() {
+  if (
+    !info ||
+    info.growthVersion !== 3 ||
+    performance.now() < discoveryRetryAt ||
+    !FRONT_FUSION_IDS.some(
+      (f) => info!.levels[f] > 0 && !discoveredFusions.includes(f),
+    )
+  )
+    return;
+  const result = recordFrontFusionDiscovery(progressStorage, info);
+  if (result.error) {
+    discoveryRetryAt = performance.now() + 5000;
+    notice(result.error, 5);
+  } else discoveredFusions = result.ids;
+}
 function setView() {
   if (localRun) {
     world = localRun.world;
     info = getFrontRunView(localRun, id);
+    observeFusions();
   }
 }
 function leave() {
@@ -692,6 +715,7 @@ function connectRoom(code: string, target: string, token = "") {
     const previousLevels = info?.levels;
     world = snapshot;
     info = net.frontView;
+    observeFusions();
     const newFusions = FRONT_FUSION_IDS.filter(
       (f) => info!.levels[f] > 0 && !previousLevels?.[f],
     );
@@ -927,7 +951,7 @@ function paintOverlay() {
     info.phase !== "victory" &&
     info.phase !== "defeat"
   ) {
-    ui.innerHTML = `<section class="pause-card rebuild-panel front-pause"><header><h1>${network ? "操作を停止中" : "一時停止"}</h1><button id="front-resume" class="primary">再開</button></header><p class="front-pause-note">${gate.pauseReason}${info.returnAt !== null && info.returnAt !== undefined ? ` · 帰還まで ${formatRebuildTime(Math.max(0, info.returnAt - now()))}` : ""}</p>${frontUpgradeDetails(info, import.meta.env.BASE_URL)}<div class="pause-actions"><button id="front-settings">設定・操作</button><button id="front-leave">タイトルへ</button></div></section>`;
+    ui.innerHTML = `<section class="pause-card rebuild-panel front-pause"><header><h1>${network ? "操作を停止中" : "一時停止"}</h1><button id="front-resume" class="primary">再開</button></header>${network || info.returnAt != null ? `<p class="front-pause-note">${gate.pauseReason}${info.returnAt !== null && info.returnAt !== undefined ? ` · 帰還まで ${formatRebuildTime(Math.max(0, info.returnAt - now()))}` : ""}</p>` : ""}${frontUpgradeDetails(info, import.meta.env.BASE_URL, discoveredFusions)}<div class="pause-actions"><button id="front-settings">設定・操作</button><button id="front-leave">タイトルへ</button></div></section>`;
     $("front-settings").onclick = () =>
       settings.open(ui, () => {
         overlayKey = "";
@@ -970,7 +994,7 @@ function paintOverlay() {
       )
       .join(
         "",
-      )}</div><dialog id="front-owned-dialog" class="front-owned-dialog" aria-label="現在の強化"><header><button id="front-owned-close">3択へ戻る</button></header>${frontUpgradeDetails(info, import.meta.env.BASE_URL)}${info.selectionDeadline !== null ? '<p class="front-owned-deadline">部隊の選択時間は進みます。</p>' : ""}</dialog></section>`;
+      )}</div><dialog id="front-owned-dialog" class="front-owned-dialog" aria-label="現在の強化"><header><button id="front-owned-close">3択へ戻る</button></header>${frontUpgradeDetails(info, import.meta.env.BASE_URL, discoveredFusions)}${info.selectionDeadline !== null ? '<p class="front-owned-deadline">部隊の選択時間は進みます。</p>' : ""}</dialog></section>`;
     const ownedDialog = $("front-owned-dialog") as HTMLDialogElement;
     $("front-choice-owned").onclick = () => ownedDialog.showModal();
     $("front-owned-close").onclick = () => ownedDialog.close();

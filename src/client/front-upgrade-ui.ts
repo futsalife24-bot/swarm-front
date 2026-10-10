@@ -133,7 +133,11 @@ export function frontUpgradeStrip(view: UpgradeView, base: string) {
     .join("")}</div>`;
 }
 
-export function frontUpgradeDetails(view: UpgradeView, base: string) {
+export function frontUpgradeDetails(
+  view: UpgradeView,
+  base: string,
+  discovered: readonly FrontUpgradeId[] = [],
+) {
   if (view.growthVersion === 1) return legacyUi.frontUpgradeDetails(view, base);
   const ids = acquired(view);
   return `<section class="front-upgrade-details" aria-label="強化状況"><h2>強化状況 <small>${view.growthVersion === 3 ? `${acquired(view).length}/6枠 · 取得${view.picks}回` : `${view.picks}/${view.maxPicks ?? FRONT_MAX_PICKS}`}</small></h2>${
@@ -147,11 +151,11 @@ export function frontUpgradeDetails(view: UpgradeView, base: string) {
           })
           .join("")}</ul>`
       : '<p class="front-upgrade-empty">まだ強化を取得していません。</p>'
-  }${view.growthVersion !== 3 && view.evolved.length ? `<div class="front-upgrade-evolutions">${view.evolved.map((f) => `<p><strong>進化 · ${esc(FRONT_EVOLUTIONS[f].name)}</strong>${esc(FRONT_EVOLUTIONS[f].description)}</p>`).join("")}</div>` : ""}<div class="front-evolution-progress"><h3>${view.growthVersion === 3 ? "融合条件" : "進化条件"}</h3>${
+  }${view.growthVersion !== 3 && view.evolved.length ? `<div class="front-upgrade-evolutions">${view.evolved.map((f) => `<p><strong>進化 · ${esc(FRONT_EVOLUTIONS[f].name)}</strong>${esc(FRONT_EVOLUTIONS[f].description)}</p>`).join("")}</div>` : ""}<div class="front-evolution-progress${view.growthVersion === 3 ? " front-fusion-list" : ""}"><div class="front-fusion-heading"><h3>${view.growthVersion === 3 ? "融合条件" : "進化条件"}</h3>${view.growthVersion === 3 ? '<span class="front-fusion-rule">融合元の能力をレベルMAXで融合可能。1枠空く</span>' : ""}</div>${
     view.growthVersion === 3
       ? FRONT_FUSION_IDS.map(
           (f) =>
-            `<p>${FRONT_UPGRADE_CATALOG[f].name}：${view.levels[f] ? `融合済み ${view.levels[f]}/3段階` : FRONT_FUSIONS[f].map((id) => `${FRONT_UPGRADE_CATALOG[id].name} ${view.levels[id] || 0}/${FRONT_UPGRADE_CATALOG[id].maxLevel}`).join(" × ") + " → 1枠空く"}</p>`,
+            `<p>${FRONT_UPGRADE_CATALOG[f].name}＝${view.levels[f] || discovered.includes(f) ? FRONT_FUSIONS[f].map((id) => FRONT_UPGRADE_CATALOG[id].name).join(" × ") : "？？ × ？？"}</p>`,
         ).join("")
       : view.growthVersion === 1
         ? "<p>更新前の作戦：同系統3種で進化。</p>"

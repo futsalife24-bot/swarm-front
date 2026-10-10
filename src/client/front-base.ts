@@ -1,3 +1,4 @@
+import { readFrontFusionDiscovery } from "./front-fusion-discovery";
 import "./front-base.css";
 import {
   FRONT_BASE_IDS,
@@ -39,6 +40,8 @@ export function openFrontBase(
   storage: FrontStorage,
   back: () => void,
 ) {
+  const discovery = readFrontFusionDiscovery(storage);
+  const known = (id: FrontUpgradeId) => discovery.ids.includes(id);
   const campaign = readFrontCampaign(storage),
     progress = readFrontProgress(storage).progress;
   let draft = readFrontLoadout(storage),
@@ -60,7 +63,7 @@ export function openFrontBase(
       <div class="base-catalog-heading"><div role="tablist" aria-label="強化と融合"><button id="base-upgrades" role="tab" aria-selected="true" aria-controls="base-grid">強化 ${FRONT_BASE_IDS.length}</button><button id="base-fusions" role="tab" aria-selected="false" aria-controls="base-grid" tabindex="-1">融合 ${FRONT_FUSION_IDS.length}</button></div><span id="base-fusion-count"></span></div>
       <div id="base-grid" role="tabpanel" aria-labelledby="base-upgrades" tabindex="0"></div>
     </section><aside id="base-detail" class="base-detail" aria-label="強化・融合の説明"></aside></div>
-    <p id="front-pool-status" role="status">${esc(draft.error || decks.error || "開幕も選んだ候補からランダム3択。候補は6種以上。出撃には「出撃にセット」。")}</p>
+    <p id="front-pool-status" role="status">${esc(draft.error || decks.error || discovery.error || "開幕も選んだ候補からランダム3択。候補は6種以上。出撃には「出撃にセット」。")}</p>
   </section>`;
   const $ = <T extends HTMLElement = HTMLElement>(id: string) =>
     root.querySelector<T>(`#${id}`)!;
@@ -91,7 +94,16 @@ export function openFrontBase(
       fusion = isFrontFusion(selected);
     const recipes = isFrontFusion(selected)
       ? [selected]
-      : FRONT_FUSION_IDS.filter((f) => FRONT_FUSIONS[f].includes(selected));
+      : FRONT_FUSION_IDS.filter(
+          (f) => known(f) && FRONT_FUSIONS[f].includes(selected),
+        );
+    if (fusion && !known(selected)) {
+      $("base-detail").innerHTML =
+        `<div class="base-detail-title"><div><small>未発見の融合</small><h2 id="base-detail-name" tabindex="-1">${d.name}</h2></div></div><p>${d.name}＝？？ × ？？</p><p>作戦中に初めて融合すると、素材と効果をここで確認できます。</p><p class="base-fusion-rule">融合元の能力をレベルMAXで融合可能。1枠空く</p>`;
+      $("base-detail").scrollTop = 0;
+      if (focus) $("base-detail-name").focus({ preventScroll: true });
+      return;
+    }
     $("base-detail").innerHTML =
       `<div class="base-detail-title ${fusion ? "is-fusion" : ""}">${icon(selected)}<div><small>${fusion ? "融合完成形" : `${families[d.family]} · 最大${d.maxLevel}段階`}</small><h2 id="base-detail-name" tabindex="-1">${d.name}</h2></div></div>
       <p class="base-effect">${esc(fusion ? d.description : frontUpgradeEffect(selected, 1))}</p>${fusion ? "" : `<details class="base-ranks"><summary>最大段階の効果</summary><p>${esc(frontUpgradeEffect(selected, d.maxLevel))}</p></details>`}
@@ -105,7 +117,7 @@ export function openFrontBase(
                 return `<div class="base-recipe" data-ready="${ready}">${!fusion ? `<button data-detail="${f}" class="base-fusion-result">${icon(f)}<strong>${catalog[f].name}</strong><span aria-hidden="true">›</span></button>` : ""}<div class="base-recipe-materials">${recipe.map((id) => `<button data-detail="${id}" aria-label="${catalog[id].name}の効果を見る">${icon(id)}<span>${catalog[id].name}<small>${locked(id) ? unlock(id) : draft.pool.includes(id) ? "✓ 候補に選択中" : "候補に未選択"}</small></span></button>`).join('<b aria-hidden="true">＋</b>')}</div><p>${ready ? "素材2種を候補に選択済み" : "素材を候補へ加えて、融合を狙おう"}</p><button data-add-recipe="${f}" ${recipe.some(locked) || ready ? "disabled" : ""}>${recipe.some(locked) ? "未解放の素材あり" : ready ? "素材を選択済み" : "素材2種を候補に加える"}</button></div>`;
               })
               .join("")
-          : '<p class="base-no-recipe">この強化を素材にする融合はありません。</p>'
+          : '<p class="base-no-recipe">この強化を素材にする発見済みの融合はありません。</p>'
       }<p class="base-fusion-rule">作戦中に素材2種をそれぞれ最大段階へ育てると、融合が抽選候補に登場。2枠が1枠になり、完成形はさらに3段階まで育成できます。</p></section>${fusion ? `<details class="base-ranks"><summary>融合後の詳しい効果</summary><p>1段階：${esc(frontUpgradeEffect(selected, 1))}</p><p>最大段階：${esc(frontUpgradeEffect(selected, 3))}</p></details>` : ""}`;
     $("base-detail")
       .querySelectorAll<HTMLButtonElement>("[data-detail]")
@@ -132,11 +144,12 @@ export function openFrontBase(
   }
   function render() {
     $("base-count").textContent = `候補 ${draft.pool.length}種`;
-    const readyCount = FRONT_FUSION_IDS.filter((f) =>
-      FRONT_FUSIONS[f].every((id) => draft.pool.includes(id)),
+    const readyCount = FRONT_FUSION_IDS.filter(
+      (f) =>
+        known(f) && FRONT_FUSIONS[f].every((id) => draft.pool.includes(id)),
     ).length;
     $("base-fusion-count").textContent =
-      `狙える融合 ${readyCount}/${FRONT_FUSION_IDS.length}`;
+      `発見 ${discovery.ids.length}/${FRONT_FUSION_IDS.length} · 狙える融合 ${readyCount}`;
     const grid = $("base-grid"),
       scroll = grid.scrollTop;
     grid.innerHTML = (tab === "upgrades" ? FRONT_BASE_IDS : FRONT_FUSION_IDS)
@@ -145,14 +158,16 @@ export function openFrontBase(
           fusion = isFrontFusion(id),
           active = draft.pool.includes(id);
         const unavailable = fusion
-          ? FRONT_FUSIONS[id].some(locked)
+          ? !known(id) || FRONT_FUSIONS[id].some(locked)
           : locked(id);
         const note = fusion
-          ? `${FRONT_FUSIONS[id].filter((m) => draft.pool.includes(m)).length}/2 素材選択`
+          ? known(id)
+            ? `${FRONT_FUSIONS[id].filter((m) => draft.pool.includes(m)).length}/2 素材選択`
+            : "？？ × ？？"
           : unavailable
             ? unlock(id)
             : families[d.family];
-        return `<div class="base-tile" data-family="${fusion ? "fusion" : d.family}" data-selected="${active}" data-locked="${unavailable}">${fusion ? "" : `<button class="base-check-toggle" data-pool="${id}" role="checkbox" aria-checked="${active}" aria-label="${d.name}を候補に含める" ${unavailable ? 'aria-disabled="true"' : ""}><span class="base-checkbox" aria-hidden="true">${active ? "✓" : ""}</span></button>`}<button class="base-tile-pick" data-inspect="${id}" aria-label="${d.name}の${fusion ? "融合レシピ" : "効果・融合"}を見る">${icon(id)}<span class="base-tile-text"><strong>${d.name}</strong><small>${note}</small></span>${fusion ? '<em aria-hidden="true">◇</em>' : ""}</button></div>`;
+        return `<div class="base-tile" data-family="${fusion ? "fusion" : d.family}" data-selected="${active}" data-locked="${unavailable}">${fusion ? "" : `<button class="base-check-toggle" data-pool="${id}" role="checkbox" aria-checked="${active}" aria-label="${d.name}を候補に含める" ${unavailable ? 'aria-disabled="true"' : ""}><span class="base-checkbox" aria-hidden="true">${active ? "✓" : ""}</span></button>`}<button class="base-tile-pick" data-inspect="${id}" aria-label="${d.name}の${fusion ? "融合レシピ" : "効果・融合"}を見る">${fusion && !known(id) ? '<span class="base-undiscovered" aria-hidden="true">？</span>' : icon(id)}<span class="base-tile-text"><strong>${d.name}</strong><small>${note}</small></span>${fusion ? '<em aria-hidden="true">◇</em>' : ""}</button></div>`;
       })
       .join("");
     grid.scrollTop = scroll;

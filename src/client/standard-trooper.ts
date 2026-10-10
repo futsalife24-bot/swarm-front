@@ -34,6 +34,11 @@ export const TROOPER_SPRINT_STRIDE = 5.21351158618927;
 // Retargeted soldier: measured midstance ankle travel (stride-fit.json).
 const SOLDIER_WALK_STRIDE = 1.2721789591014385;
 const SOLDIER_SPRINT_STRIDE = 4.820114478468895;
+// The reference roll has finished rotating by 0.90s. Its remaining 0.57s
+// is a settling pose, not more travel. Give the rotation the full evade window
+// and blend that settlement after it, without extending authority or input gates.
+const SOLDIER_ROLL_ROTATION_END = 0.9;
+const SOLDIER_ROLL_RECOVERY = 0.18;
 export const TROOPER_SKINS = {
   standard: {
     Armor: "#526570",
@@ -293,8 +298,10 @@ export class StandardTrooper {
   private stopTurnTime = 0.18;
   private rollTime = 0;
   private rollYaw = 0;
+  private rollRecovery = 0;
   private mode = "";
   private blend = 1;
+  private blendDuration = 0.08;
   private lowerMode = "";
   private lowerBlend = 1;
   private lowerBlendDuration = 0.18;
@@ -757,6 +764,7 @@ export class StandardTrooper {
       this.mode = "";
       this.lowerMode = "";
       this.basePose = [];
+      this.rollRecovery = 0;
     }
     const dx = fresh ? 0 : motion.x - prev.x,
       dz = fresh ? 0 : motion.z - prev.z;
@@ -848,6 +856,13 @@ export class StandardTrooper {
           ? Math.max(0, HEAVY_HIT_DURATION - heavy)
           : Math.max(this.heavyTime, HEAVY_HIT_DURATION - heavy);
     const rolling = p.hp > 0 && p.evade > 0;
+    const referenceRoll = !!this.model.userData.soldierReferenceVersion;
+    this.rollRecovery =
+      rolling || p.hp <= 0 || heavy > 0
+        ? 0
+        : referenceRoll && !fresh && prev.evade > 0
+          ? SOLDIER_ROLL_RECOVERY
+          : Math.max(0, this.rollRecovery - dt);
     if (rolling && (fresh || prev.evade <= 0 || p.evade > prev.evade)) {
       this.rollTime = Math.max(0, EVADE_DURATION - p.evade);
       this.rollYaw = distance > 0.00001 ? Math.atan2(dx, -dz) : yaw;
@@ -876,7 +891,11 @@ export class StandardTrooper {
       mode = "roll";
       const profileRoll = `Dodge_Roll_${profile}`;
       clip = this.clips.has(profileRoll) ? profileRoll : "Dodge_Roll";
-      at = (this.rollTime / EVADE_DURATION) * this.clips.get(clip)!.duration;
+      at =
+        T.MathUtils.clamp(this.rollTime / EVADE_DURATION, 0, 1) *
+        (referenceRoll
+          ? Math.min(SOLDIER_ROLL_ROTATION_END, this.clips.get(clip)!.duration)
+          : this.clips.get(clip)!.duration);
     } else if (this.switchTime < TROOPER_SWITCH.duration) {
       mode = "switch";
       clip = this.oldSlot === 0 ? "Switch_1_to_2" : "Switch_2_to_1";
@@ -947,11 +966,15 @@ export class StandardTrooper {
         leg.fromQ.copy(leg.lastQ);
       }
       this.lowerBlend = this.lowerMode && mode !== "roll" ? 0 : 1;
-      this.lowerBlendDuration = /^Lower_(Run|Walk)/.test(lower ?? "")
-        ? 0.1
-        : /^Lower_(Run|Walk)/.test(this.lowerMode) && lower?.includes("Idle")
-          ? 0.18
-          : 0.08;
+      this.lowerBlendDuration =
+        this.rollRecovery > 0
+          ? SOLDIER_ROLL_RECOVERY
+          : /^Lower_(Run|Walk)/.test(lower ?? "")
+            ? 0.1
+            : /^Lower_(Run|Walk)/.test(this.lowerMode) &&
+                lower?.includes("Idle")
+              ? 0.18
+              : 0.08;
       this.lowerMode = lowerMode;
     }
     if (mode !== this.mode) {
@@ -959,6 +982,7 @@ export class StandardTrooper {
       // and applying those rotations again caused the stop/restart leg kick.
       this.previousPose = snapshot();
       this.blend = this.mode && mode !== "roll" ? 0 : 1;
+      this.blendDuration = this.rollRecovery > 0 ? SOLDIER_ROLL_RECOVERY : 0.08;
       this.mode = mode;
     }
     this.sample(
@@ -985,7 +1009,7 @@ export class StandardTrooper {
       p: leg.foot.getWorldPosition(new T.Vector3()),
       q: leg.foot.getWorldQuaternion(new T.Quaternion()),
     }));
-    this.blend = Math.min(1, this.blend + dt / 0.08);
+    this.blend = Math.min(1, this.blend + dt / this.blendDuration);
     this.lowerBlend = Math.min(
       1,
       this.lowerBlend + dt / this.lowerBlendDuration,
@@ -1060,8 +1084,29 @@ export class StandardTrooper {
         bone.updateWorldMatrix(false, true);
       }
     }
-    this.model.rotation.y = rolling ? yaw - this.rollYaw : 0;
+    const recovery = this.rollRecovery / SOLDIER_ROLL_RECOVERY;
+    const rollAngle = Math.atan2(
+      Math.sin(yaw - this.rollYaw),
+      Math.cos(yaw - this.rollYaw),
+    );
+    this.model.rotation.y = rolling
+      ? rollAngle
+      : recovery > 0
+        ? rollAngle * recovery * recovery * (3 - 2 * recovery)
+        : 0;
     this.model.updateMatrixWorld(true);
+    if (this.rollRecovery > 0 && lower && lower !== "Lower_Hit_Heavy") {
+      // Recover the legs along the captured travel axis, but immediately return
+      // the upper body's aim and both weapon grips to the current facing.
+      const spine = this.model.getObjectByName("Spine")!;
+      const axis = new T.Vector3(0, 1, 0).applyQuaternion(
+        spine.parent!.getWorldQuaternion(new T.Quaternion()).invert(),
+      );
+      spine.quaternion.premultiply(
+        new T.Quaternion().setFromAxisAngle(axis, -this.model.rotation.y),
+      );
+      this.model.updateMatrixWorld(true);
+    }
     this.lockContacts(
       this.locomotion / runDuration,
       runClip === "Walk",

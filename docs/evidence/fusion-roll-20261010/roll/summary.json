@@ -1,0 +1,57 @@
+{
+  "base": "f1298bb1632ce3844023a822fe495db6445227d1",
+  "motionEndSeconds": 0.9,
+  "visualRecoverySeconds": 0.18,
+  "authorityEvadeSeconds": 0.32,
+  "framesPerClip": 90,
+  "fps": 30,
+  "rows": [
+    {
+      "version": "before",
+      "profile": 0,
+      "peakPelvisRadiansPerSecond": 50.82414928847119,
+      "rollFrames": 11,
+      "recoveryFrames": 0
+    },
+    {
+      "version": "before",
+      "profile": 1,
+      "peakPelvisRadiansPerSecond": 50.82414928847119,
+      "rollFrames": 11,
+      "recoveryFrames": 0
+    },
+    {
+      "version": "before",
+      "profile": 2,
+      "peakPelvisRadiansPerSecond": 50.82414928847119,
+      "rollFrames": 11,
+      "recoveryFrames": 0
+    },
+    {
+      "version": "after",
+      "profile": 0,
+      "peakPelvisRadiansPerSecond": 29.79880468055852,
+      "rollFrames": 11,
+      "recoveryFrames": 6
+    },
+    {
+      "version": "after",
+      "profile": 1,
+      "peakPelvisRadiansPerSecond": 29.79880468055852,
+      "rollFrames": 11,
+      "recoveryFrames": 6
+    },
+    {
+      "version": "after",
+      "profile": 2,
+      "peakPelvisRadiansPerSecond": 29.79880468055852,
+      "rollFrames": 11,
+      "recoveryFrames": 6
+    }
+  ],
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "high",
+  "assetUnchanged": "d1028fd14cb42cfab2a0c484c57fa99032dc73609f8c3a08684abdec76f35269",
+  "sourceBefore": "41ca5788d4265da9087764ab7ce7940b800f94960347664286a1d365ec83de3a",
+  "sourceAfter": "f3f81c136f859e46f5e6d66b568ec9d09f8911e6cc7b19d87ece8ae96bd8b73f"
+}
