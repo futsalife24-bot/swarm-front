@@ -47,6 +47,19 @@ const receipt = {
   day: "2026-10-11",
   at: 1791644400000,
 };
+it("時計巻戻りなどで履歴境界に拒否された新しい結果を受取済みと断定しない", () => {
+  const s = setup();
+  s.storage.setItem(
+    FRONT_PROGRESS_KEY,
+    JSON.stringify({
+      ...readFrontProgress(s.storage).progress,
+      receiptFloor: receipt.at + 1,
+    }),
+  );
+  const result = saveFrontRunRewards(s.storage, s.storage, receipt, null);
+  expect(result.text).toBe("功績 +0");
+  expect(readFrontProgress(s.storage).progress.credits).toBe(0);
+});
 for (const failed of ["progress", "campaign", "both"] as const) {
   it(`${failed}の保存失敗後も成功分の表示を維持し、連打/再接続で二重付与しない`, () => {
     const s = setup();

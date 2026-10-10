@@ -29,7 +29,7 @@ export function saveFrontRunRewards(
       const recorded = result.progress.receipts.find(
         (r) => r.id === receipt.id,
       );
-      status.progress = recorded ? `功績 +${recorded.reward}` : "功績 受取済み";
+      status.progress = `功績 +${recorded?.reward ?? result.reward}`;
     } else progressError = result.error;
   }
   if (campaignSeconds !== null && !status.campaign) {
