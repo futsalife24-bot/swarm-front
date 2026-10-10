@@ -1,5 +1,9 @@
 # 現在地: 若い兵士シリーズ全11台詞を保存・差し替え、Windows検証済み・独立監査へ（2026-10-10）
 
+最終確認対象 `9f375cb3788e6261156cac4dc8453b2bbda5d938` の追加独立監査が完了。同Chat判定は「技術指摘解消・技術追加監査合格、本人の全11照合1件が残り最終受入/merge/Worker公開保留」。追加ZIP `dist-validation/soldier-voice-audit-20261010/young-soldier-supplement-9f375cb.zip`、SHA256 `6960ae7e01c97a64941ba38ea5cf9ce7aa25a09e525108ac4acd5717833dcdd5`。PR137下書き、mainは `ad779114fe2219ae97c393a3cb41ef8ec8bb6812` のまま。
+
+本人照合用に実配信11本のPCM不変連結 `assets-src/voice-soldier-v2/young-soldier/listening-review.wav` を保存。16.61秒、台詞間0.4秒の無音だけ追加、SHA256 `dc112c50b508a93584ff7e0d8c8437b8ca615c379cdf6d17184ba3e8344b338e`。11項目の順序/SHAと再現スクリプトも保持。既存音声原本・個別ファイル・製品コード不変。自分のVite5358を停止、保管庫ノートを更新・stageして既存10分同期へ引渡し。本人照合を受領後、ID別合否を記録して同Chatへ最終再監査依頼→合格後通常merge→main build/本番dry-run/既存Worker公開/配信照合を実施する。過去の「回答中/準備中」は経過として保持。
+
 独立監査初回判定: 素材・差分は合格、確定コード不具合0、全11台詞の人による内容照合を必須受入条件として最終合格/merge/公開保留。[監査記録](../assets-src/voice-soldier-v2/young-soldier/AUDIT.md)。追加要求の全11発声/中断/復帰fixtureと旧12音声base一致をWindowsで確認済み。製品音声・コード不変。本人へ原本18.28秒のスマホリンクと台詞順を提示し内容/発音照合を依頼中。
 
 停止理由: ワシと監査側の音声入力が利用不可で、必須の新11本の内容照合が未確認。再開条件: 本人から全11の内容・発音の問題なし、または具体的な修正台詞を受領し、必要修正/同Chat再監査/合格後の通常mergeと既存Worker公開を続ける。main/Workerは未変更。

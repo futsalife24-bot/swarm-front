@@ -8,3 +8,5 @@
 - 対応: 製品コード・音声不変。全11の実WebAudio/event fixtureと旧12ファイルbase一致を追加。本人へ18.28秒の原本と11台詞順のスマホリンクを提示し、内容・発音の照合を依頼中。聴感未確認を自己承認しない。
 
 要旨記録。判定原文は同Chat、画面証拠はaudit-first.png。全11の本人照合後に同Chatで最終再監査し、合格後に通常merge/既存Worker公開する。
+
+追加監査: 対象9f375cb3788e6261156cac4dc8453b2bbda5d938、追加ZIP SHA256 6960ae7e01c97a64941ba38ea5cf9ce7aa25a09e525108ac4acd5717833dcdd5。監査側で旧12WAVとmanifestを実ハッシュ照合、全11fixtureの検査構造/結果整合を独立確認。技術追加要求は解消、技術側合格。base Gitオブジェクトの直接照合は監査側未実施として明記。確定コード不具合0/0/0、聴感の必須受入1件残存、merge/既存Worker公開保留。画面audit-supplement.png。実配信11本のPCM不変連結listening-review.wavを本人照合用に保存し、原本だけでなく切り出し後を確認できるようにした。
