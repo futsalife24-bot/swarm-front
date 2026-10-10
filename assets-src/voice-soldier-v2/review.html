@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>兵士ボイス・比較3台詞</title>
+<style>body{font:16px system-ui;background:#101c24;color:#e7eeee;margin:24px;max-width:1000px}h1{font-size:24px}table{width:100%;border-collapse:collapse}td,th{padding:12px;border-bottom:1px solid #49616b;text-align:left}audio{max-width:100%;width:300px}p{line-height:1.6}small{color:#aec5ca}</style>
+<h1>兵士ボイス・比較3台詞</h1>
+<p>本人評価：装填中は新を採用、大型接近は旧・第1候補とも没、くらえっは第1候補を仮採用。下段の第2候補2本を比べてください。ゲームへの差し替えはまだです。</p>
+<table><thead><tr><th>台詞</th><th>現在の声</th><th>撮り直し候補</th></tr></thead><tbody>
+<tr><th>装填中！</th><td><audio controls preload="metadata" src="../../public/assets/audio/voice-fenrir-v1/reload.wav"></audio></td><td><audio controls preload="metadata" src="candidates/reload-take1.wav"></audio></td></tr>
+<tr><th>大型接近！</th><td><audio controls preload="metadata" src="../../public/assets/audio/voice-fenrir-v1/warning.wav"></audio></td><td><audio controls preload="metadata" src="candidates/warning-take1.wav"></audio></td></tr>
+<tr><th>くらえっ！</th><td><audio controls preload="metadata" src="../../public/assets/audio/voice-fenrir-v1/fire.wav"></audio></td><td><audio controls preload="metadata" src="candidates/fire-take1.wav"></audio></td></tr>
+</tbody></table>
+<h1>録り直し・第2候補</h1>
+<table><thead><tr><th>台詞</th><th>第1候補</th><th>第2候補</th></tr></thead><tbody>
+<tr><th>大型接近！</th><td><audio controls preload="metadata" src="candidates/warning-take1.wav"></audio></td><td><audio controls preload="metadata" src="candidates/warning-take2.wav"></audio></td></tr>
+<tr><th>くらえっ！</th><td><audio controls preload="metadata" src="candidates/fire-take1.wav"></audio></td><td><audio controls preload="metadata" src="candidates/fire-take2.wav"></audio></td></tr>
+</tbody></table><p><small>Fenrir / gemini-3.8-flash-tts。原本のまま、音量・速度・ピッチ変更なし。複数音声の同時再生を避けるため、別の再生を押すと前の音声を停止します。</small></p>
+<script>document.querySelectorAll('audio').forEach(a=>a.addEventListener('play',()=>document.querySelectorAll('audio').forEach(b=>{if(a!==b)b.pause()})))</script></html>

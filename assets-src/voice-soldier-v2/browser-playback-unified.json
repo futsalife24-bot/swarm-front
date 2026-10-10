@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-10",
+  "platform": "Windows Chrome",
+  "subjectiveConsistency": "本人評価待ち",
+  "audio": [
+    {
+      "currentTime": 4.76,
+      "duration": 4.76,
+      "ended": true,
+      "error": null,
+      "paused": true,
+      "readyState": 4,
+      "src": "candidates/selected-three-comparison.wav"
+    },
+    {
+      "currentTime": 5.48,
+      "duration": 5.48,
+      "ended": true,
+      "error": null,
+      "paused": true,
+      "readyState": 4,
+      "src": "candidates/unified-three-take1.wav"
+    }
+  ]
+}

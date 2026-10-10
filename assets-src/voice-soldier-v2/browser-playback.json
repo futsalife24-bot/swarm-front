@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-10",
+  "platform": "Windows Chrome",
+  "subjectiveListening": "未評価",
+  "audio": [
+    {
+      "currentTime": 0,
+      "duration": 1.12,
+      "ended": false,
+      "error": null,
+      "paused": true,
+      "readyState": 4,
+      "src": "current/reload.wav"
+    },
+    {
+      "currentTime": 1.2,
+      "duration": 1.2,
+      "ended": true,
+      "error": null,
+      "paused": true,
+      "readyState": 4,
+      "src": "candidates/reload-take1.wav"
+    },
+    {
+      "currentTime": 0,
+      "duration": 2.24,
+      "ended": false,
+      "error": null,
+      "paused": true,
+      "readyState": 4,
+      "src": "current/warning.wav"
+    },
+    {
+      "currentTime": 2,
+      "duration": 2,
+      "ended": true,
+      "error": null,
+      "paused": true,
+      "readyState": 4,
+      "src": "candidates/warning-take1.wav"
+    },
+    {
+      "currentTime": 0,
+      "duration": 1.2,
+      "ended": false,
+      "error": null,
+      "paused": true,
+      "readyState": 4,
+      "src": "current/fire.wav"
+    },
+    {
+      "currentTime": 1.2,
+      "duration": 1.2,
+      "ended": true,
+      "error": null,
+      "paused": true,
+      "readyState": 4,
+      "src": "candidates/fire-take1.wav"
+    }
+  ]
+}

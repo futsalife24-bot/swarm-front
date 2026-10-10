@@ -14,7 +14,7 @@ export const SOLDIER_VOICES = [
   { id: "fire-alt", label: "押し返すぞ！" },
 ] as const;
 export type SoldierClip = (typeof SOLDIER_VOICES)[number]["id"];
-export const SOLDIER_PATH = "assets/audio/voice-fenrir-v1/";
+export const SOLDIER_PATH = "assets/audio/voice-young-soldier-v1/";
 
 /** Local presentation only. Observe even while muted so old lines never queue. */
 export class SoldierVoice {

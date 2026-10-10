@@ -1,3 +1,77 @@
+# 現在地: 若い兵士11台詞の本人合格を受領、最終再監査からmain統合・公開へ（2026-10-10）
+
+本人の「これは合格！ゲームに反映して！」を受領。直前に提示した実配信11本のPCM不変連結16.61秒（SHA256 dc112c50b508a93584ff7e0d8c8437b8ca615c379cdf6d17184ba3e8344b338e）の一式採用を全11IDへ記録。[本人採用記録](../assets-src/voice-soldier-v2/young-soldier/acceptance.json)。個別回答した記録とはせず、Codex自身の聴感評価にも置換しない。前回の停止理由は解消。同Chatで最終対象の受入判定を確認し、合格後にPR137通常merge/既存Worker公開/配信確認を進める。以下は前回までの経過。
+
+最終確認対象 `9f375cb3788e6261156cac4dc8453b2bbda5d938` の追加独立監査が完了。同Chat判定は「技術指摘解消・技術追加監査合格、本人の全11照合1件が残り最終受入/merge/Worker公開保留」。追加ZIP `dist-validation/soldier-voice-audit-20261010/young-soldier-supplement-9f375cb.zip`、SHA256 `6960ae7e01c97a64941ba38ea5cf9ce7aa25a09e525108ac4acd5717833dcdd5`。PR137下書き、mainは `ad779114fe2219ae97c393a3cb41ef8ec8bb6812` のまま。
+
+本人照合用に実配信11本のPCM不変連結 `assets-src/voice-soldier-v2/young-soldier/listening-review.wav` を保存。16.61秒、台詞間0.4秒の無音だけ追加、SHA256 `dc112c50b508a93584ff7e0d8c8437b8ca615c379cdf6d17184ba3e8344b338e`。11項目の順序/SHAと再現スクリプトも保持。既存音声原本・個別ファイル・製品コード不変。自分のVite5358を停止、保管庫ノートを更新・stageして既存10分同期へ引渡し。本人照合を受領後、ID別合否を記録して同Chatへ最終再監査依頼→合格後通常merge→main build/本番dry-run/既存Worker公開/配信照合を実施する。過去の「回答中/準備中」は経過として保持。
+
+独立監査初回判定: 素材・差分は合格、確定コード不具合0、全11台詞の人による内容照合を必須受入条件として最終合格/merge/公開保留。[監査記録](../assets-src/voice-soldier-v2/young-soldier/AUDIT.md)。追加要求の全11発声/中断/復帰fixtureと旧12音声base一致をWindowsで確認済み。製品音声・コード不変。本人へ原本18.28秒のスマホリンクと台詞順を提示し内容/発音照合を依頼中。
+
+停止理由: ワシと監査側の音声入力が利用不可で、必須の新11本の内容照合が未確認。再開条件: 本人から全11の内容・発音の問題なし、または具体的な修正台詞を受領し、必要修正/同Chat再監査/合格後の通常mergeと既存Worker公開を続ける。main/Workerは未変更。
+
+[通常Chat独立監査](https://chatgpt.com/c/6ac9ebe2-4838-83ec-a180-46c05b5d3d3a)へZIP添付済み。監査対象 `221f22ef3941d826e5aaf136b0706f39d7168087`、ZIP SHA256 `4d3a24e6720b8f8a1efd90af3bd21faace537f0827699d605c4f89618c0e68d0`、資料 `dist-validation/soldier-voice-audit-20261010/young-soldier-221f22e-audit.zip`。判定回答中、合格未確定。既存本番設定dry-runも成功。
+
+実装対象SHA `b35b912043c387adf95343f348cb58f2ab383c5c`。Windowsで型/関連30テスト/build/Worker dry-run成功。全11試聴完走・配信WAVのSHA一致、実Sound/WebAudioの接近警告再生と停止成功。[今回の検証と限界](../assets-src/voice-soldier-v2/young-soldier/VALIDATION.md)。ローカル分析通信の既存CORS失敗2件は結果JSONに残し、console error 0とは扱わない。通常Chat監査依頼の準備中、main統合・公開は未実施。下の「進行中」は開始時記録。
+
+本人が連続3台詞の声を「まだ未熟な若い兵士」としてシリーズ化し、全台詞の再制作・保存・差し替えまで依頼。gemini-3.8-flash-tts/Fenrir・単一話者/単一block/1リクエストで全11台詞を再生成。18.28秒の原本と実入力を保持し、台詞間の低レベル区間10箇所で個別11WAVへ分割。[原本・再現・全SHA](../assets-src/voice-soldier-v2/young-soldier/README.md)。音量・速度・ピッチ不変、各区間PCM一致、全11クリッピング0。
+
+配信パス `assets/audio/voice-young-soldier-v1/` へ保存し、SOLDIER_PATHだけを変更。旧音声・11ID・発声条件/抽選/クールダウン・HUD・保存/通信は維持。シリーズ選択UIは追加せず現音声を差し替える。Windows npm ci、client/Worker型、関連単体30成功。実ブラウザの全11試聴・戦闘再生、本番build/dry-run、通常Chat独立監査、main統合と既存Worker公開/配信確認は進行中。監査Chat未作成。
+
+PR137、branch `codex/soldier-voice-remake-20261006`、base main `ad779114fe2219ae97c393a3cb41ef8ec8bb6812`、開始HEAD `bac6a67173da9f09444364c0337af6f4f0ec5c7f`。生成累計8リクエスト、総予算1,000円承認継承、実請求額未確認。本人の採用は声の方向性で、新全11の本人聴感確認済みとは扱わない。Codex音声入力利用不可、実モデルID/推論設定未確認。独立監査合格前にmerge/公開しない。
+
+# 経過: 比較3台詞は採用、攻撃の声を基準に統一感を確認中（2026-10-10）
+
+本人が「くらえっ！」第3候補を採用し、全体の声の統一感に懸念を提示。基準の声は本人指定で「くらえっ！」。reload第1/warning第2/fire第3の採用を [selection.json](../assets-src/voice-soldier-v2/selection.json) に記録。採用3本を原本PCM不変・0.5秒の無音だけで連結した比較音声4.76秒と、同じFenrir/共通指定/単一話者/単一block/1リクエストで連続生成した候補5.48秒を準備。[原本・実入力・連結再現](../assets-src/voice-soldier-v2/README.md)。採用音声自体の参照入力はせず、声特性の一致を保証しない。
+
+Windows WAV検査で比較2本とも24kHz/mono/16bit・クリッピング0、Chromeで2本とも再生完走・デコードエラーなし。[比較対象SHA](https://github.com/futsalife24-bot/swarm-front/commit/8c612c20d98587f7a22bbf043a3ce16e5b6476c8) `8c612c20d98587f7a22bbf043a3ce16e5b6476c8` をpush済み、スマホ用WAV2本も200/audio/wavで応答。生成累計7リクエスト（単独6＋3台詞連続1）、実請求額未確認。総予算1,000円承認を継承。PR137、branch `codex/soldier-voice-remake-20261006`、作業開始HEAD `afd2c511620c1eedc2f816fab35ba33a212d5b94`。残り8台詞・製品差し替え・独立監査・main統合・公開は未実施、監査Chat未作成。Codex実モデルID/推論設定は未確認。
+
+停止理由: 声の統一感と新しい連続生成候補の聴感評価待ち。再開条件: スマホ用比較2本への本人評価を受領し、同じ兵士に聞こえる声指定を確定して残りの制作・全11本検証・通常Chat独立監査・合格後の通常統合/既存Worker公開へ継続する。Codex音声入力は利用不可、統一感を自己判断しない。
+
+# 経過: 警告は第2候補採用、攻撃は発音修正した第3候補の評価待ち（2026-10-10）
+
+本人の評価「大型接近は第二候補。くらえっはどちらも没(第二は『きゅらえ』になってる)」を受領。装填中第1候補と大型接近第2候補を採用、くらえっ第1/第2候補は不採用。[採否正本](../assets-src/voice-soldier-v2/selection.json)。冒頭の「く」/kɯ/ を明瞭に残す指定で、同じモデル/Fenrirのfire第3候補を1回生成。[原本・実入力](../assets-src/voice-soldier-v2/README.md)。新WAVはWindowsで24kHz/mono/16bit、1.08秒、クリッピング0。生成累計6本、実請求額未確認、総予算1,000円承認を継承。
+
+PR137、branch `codex/soldier-voice-remake-20261006`、第3候補の対象SHA `827adbc4b5c2cd97db825bdbbccfdb832154f1d3` はpush済み。新1本はWindows Chromeで再生完走・デコードエラーなし、スマホ用GitHub原本リンクも200/audio/wavで応答。作業開始HEAD `7fa1c26aa9ac12c9b04bd8ccd331b50d7c875bf1`。監査Chat未作成、製品差し替え・残り8本・独立監査・main統合・公開は未実施。Codex実モデルID/推論設定は未確認。
+
+停止理由: 攻撃第3候補の発音・演技の本人試聴評価待ち。再開条件: スマホ用第3候補リンクの評価を受領し、採用なら残り8本と全11本確認へ継続。没なら具体的な発音/演技の問題を確認して生成手法を見直す。Codex音声入力は利用不可のままで、発音が修正済みとは自己判断しない。
+
+# 経過: 装填中は新を採用、警告・攻撃の第2候補を再制作（2026-10-10）
+
+本人の評価「装填中は新、大型接近はどちらも没、くらえっはかろうじて新」を受領。reload第1候補を採用候補として固定、warning旧/第1候補は没、fire第1候補は仮採用。warning・fireは同じ `gemini-3.8-flash-tts` / Fenrirで演技指定を変え各1回再生成。[原本と実入力](../assets-src/voice-soldier-v2/README.md)。第2候補の対象SHA `b2dbeebd7e89a6b30069465c2d99f76635bdd96c` をpush済み。新2本のWindows WAV検査は24kHz/mono/16bit・クリッピング0、Chromeで2本とも再生完走・デコードエラーなし。生成累計5本、実請求額未確認。総予算1,000円承認を継承。PR137/branchと取り込み済みmainは下記と同じ。監査Chat未作成、製品差し替え・main統合・公開は未実施。
+
+停止理由: 警告の採用候補がまだ成立しておらず、第2候補2本の本人試聴判断待ち。再開条件: スマホ用の新2本リンクに対し、採用または具体的な修正点を受領後、残り8本制作・全11本確認・通常Chat独立監査・合格後の通常統合/既存Worker公開へ継続する。Codex音声入力利用不可のため聴感合格を自己判定しない。
+
+# 経過: 支払い設定待ち解消、兵士ボイス比較3本の試聴判断待ち（2026-10-10）
+
+本人の「設定済み」を受け、AI Studioの請求先設定完了・既存キー接続成功を画面確認。`gemini-3.8-flash-tts` / Fenrirで「装填中！」「大型接近！」「くらえっ！」を各1回生成し、原本を [assets-src/voice-soldier-v2](../assets-src/voice-soldier-v2/README.md) に保存。全11台詞/総予算1,000円の既存承認を継承。生成3本、実請求額未確認。WindowsのWAV検査でmono/24kHz/16bit・クリッピング0、Chromeで3本とも最後まで再生・デコードエラーなし。Codex音声入力は利用不可のため、日本語の抑揚・同一人物・気迫は未評価。
+
+[PR137](https://github.com/futsalife24-bot/swarm-front/pull/137)、branch `codex/soldier-voice-remake-20261006`。比較候補の対象SHA `d3595432faa75608b0133f8a9d3815de2acbf7d4` をpushし、remote SHA一致・clean確認。最新main `ad779114fe2219ae97c393a3cb41ef8ec8bb6812` を取り込み、通常merge `d044befae8c774b704e9883aec9b7993e14a5aa7`。PROJECT_TEAMの本人指定方針とSTATE双方の履歴を保持。製品ソース・公開音声の変更0、残り8本・独立監査・PR137統合・公開は未実施。監査Chat未作成、Codex実モデルID/推論設定未確認。
+
+停止理由: 比較3本の日本語と演技を聴感評価できていない。再開条件: 本人が [比較画面](http://127.0.0.1:8769/review.html) の右列3本を聴き、採用方向または修正点を返す。残り8本はその判断後に制作し、全11本の技術/聴感確認・通常Chat独立監査・合格後のmain統合/既存Worker公開まで続ける。再生成や予算の一律再承認は不要。
+
+比較画面Chromeタブ `1271483723` とAI Studioタブ `1271483719` を保持。配信プロセスは8769のloopback限定、専用フォルダー `dist-validation/voice-review-20261010/` の比較HTMLと旧/新各3WAVだけを公開。ワークスペース全体の配信案は自動承認レビューで拒否され、限定配信へ変更して成功。公開製品を変更していない。
+
+# 経過: ボイス操作の再開承認を確認、AI Studioの有料請求先設定待ち（2026-10-08）
+
+本人の「よい、この承認が優先される」を受け、AI Studio新規タブ操作が成功。前回の自動承認拒否は解消。[PR137](https://github.com/futsalife24-bot/swarm-front/pull/137)、branch `codex/soldier-voice-remake-20261006`、再開時HEAD `f470a10cb3d40764bfca2a58dc9bbddc63c166f1`。生成0本・今回支出0円。全11台詞/総額1,000円承認を継承。監査Chat未作成、実装・統合・公開未実施。
+
+既存kondate/youtube-analysisはともに支払い設定段階へ進む。Gemini 3.8 Flash TTSと2.5 Pro Preview TTSを確認。2.5 Proの入力画面でFenrir・共通演技・「装填中！」を準備したが、キー接続には支払い設定が必要。Chromeの専用タブ `1271483160`、URL `https://aistudio.google.com/generate-speech?model=gemini-2.5-pro-preview-tts` を引継ぎ保持。画面上に「Cloud 請求先アカウントの設定」と、無料トライアルの請求先選択が有料請求先へのアップグレード同意になる旨を実確認。[証拠](evidence/soldier-remake-20261008/billing-required.jpg)。請求先選択・続行・契約同意・生成は未実施。モデル比較の採用結果は未確定、Codex実モデル/推論設定未確認。
+
+停止理由: 音声生成の承認とは別に、Google Cloud請求先の有料契約変更が必要。再開条件: 本人が保持した設定画面で支払い設定を完了するか、既存の利用可能な接続先を指定する。生成予算の再承認不要。利用可能後に最新mainを取り込み、比較3台詞から生成/聴感/技術検証/独立監査/通常統合/既存Worker公開まで継続する。公開main `de67860cfae978f3ee0bbd6784fc33a38ce68686` は維持。
+
+# 現在地: 兵士11台詞の再制作を再依頼、生成画面の操作が自動承認で拒否（2026-10-08）
+
+[下書きPR137](https://github.com/futsalife24-bot/swarm-front/pull/137)、branch `codex/soldier-voice-remake-20261006`、対象HEAD `c015601851bb0de75c017c1909cd70cb5e31df23`、base `c67628040c747ab22c7dbfa45021c7a2cdb9ca52`。ユーザーから「次はボイスの撮り直しをしてきて」と再依頼。既存の全11台詞・総額1,000円承認・比較3台詞先行の[準備](SOLDIER-VOICE-REMAKE.md)を確認。生成0本・今回支出0円。監査Chatは未作成、実装・監査・統合・公開は未実施。公開mainは `de67860cfae978f3ee0bbd6784fc33a38ce68686` を維持。
+
+停止理由: ChromeのAI Studio新規生成タブを開く操作が自動承認レビューで拒否。理由原文「ユーザーが各作業を止める意向を示した後に、音声生成サイトの新規タブを開いて作業を進める操作であり、明示的な停止制限に反します。」今回の再開依頼と食い違うが、別経路への回避なし。現在の支払い設定は未確認（前回は設定待ち）。
+
+再開条件: ユーザーが兵士ボイス作業の再開とAI Studio操作を明示確認した後、通常の自動承認を経て接続状態を確認。総額1,000円の再承認は不要。契約同意/支払い設定が引き続き必要ならユーザー側で対応。利用可能になれば比較3台詞→全11本→聴感/技術検証→独立監査→通常統合→既存Worker公開。最新mainの取り込みは製品作業前に行い、STATE先頭を保護する。モデルID/推論設定未確認。
+
+# 現在地: 兵士音声は総額1,000円承認済み、支払い設定待ち（2026-10-06）
+
+全11台詞の演技指示と差し替え・検証手順を準備。[下書きPR137](https://github.com/futsalife24-bot/swarm-front/pull/137)、[再制作準備](SOLDIER-VOICE-REMAKE.md)。branch `codex/soldier-voice-remake-20261006`、base `c67628040c747ab22c7dbfa45021c7a2cdb9ca52`。利用者が総額1,000円までの有料生成を明示承認。生成0本・支出0円、音声生成・実装・監査・公開は未実施。停止理由: AI Studioの既存kondateとyoutube-analysisの双方が支払い設定を要求。再開条件: 利用者が支払い設定を完了し、使える接続先を指定する。予算の再承認は不要、利用可能になったら比較3台詞から再開する。
+
 ## 2026-10-09 ローリング・固定発射点を本番公開完了
 
 本人承認と通常Chat独立監査合格後、[PR156](https://github.com/futsalife24-bot/swarm-front/pull/156)を通常merge。公開ソースmain `4dfd5e18c1b62d139d53bab7ee35a4866b95ceef` から本番build・全268成果物の開発録画混入0・既存Worker dry-run成功。既存Free契約のswarm-frontへ公開、Version `54aca1f3-2c66-4342-9e13-1ef395773370`。公開先 https://swarm-front.melosalife-24.workers.dev/front 。監査後に実装変更なし。
