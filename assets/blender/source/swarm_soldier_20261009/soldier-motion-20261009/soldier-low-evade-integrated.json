@@ -1,0 +1,17 @@
+{
+  "status": "candidate; rendered verification required",
+  "checks": [
+    {
+      "action": "Soldier_Weapon_Switch",
+      "samples": 121,
+      "maxHandResidualMetres": 1.2066895562947534e-05,
+      "maxWristDeltaFromIdleDegrees": 0.0
+    },
+    {
+      "action": "Soldier_Weapon_Switch_Back",
+      "samples": 121,
+      "maxHandResidualMetres": 1.2051981424940228e-05,
+      "maxWristDeltaFromIdleDegrees": 0.0
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 import type { Controls } from "./input";
+import { menuTrace } from "./menu-effects";
 import type { Sound } from "./audio";
 import type { Renderer } from "./render";
 import {
@@ -122,6 +123,7 @@ export class FrontSettings {
         this.apply();
         this.error = "";
         status.textContent = "設定を保存しました。";
+        menuTrace(status, true);
         return true;
       } catch {
         status.textContent =

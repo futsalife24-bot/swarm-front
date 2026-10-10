@@ -275,6 +275,7 @@ export class Renderer {
   foundryLasers!: T.InstancedMesh;
   foundryLaserGlow!: T.InstancedMesh;
   players = new Map<string, T.Group>();
+  private playerAccentSlots = new Map<string, number>();
   readonly defenseVisual: DefenseVisual;
   dummy = new T.Object3D();
   particles: T.InstancedMesh;
@@ -924,6 +925,7 @@ export class Renderer {
       this.clearFoundryWorms();
       this.foundryTime = w.time;
       this.run = w.run;
+      this.playerAccentSlots.clear();
       this.lastEvent = 0;
       this.visual.clear();
       this.crawlerAim.clear();
@@ -960,7 +962,7 @@ export class Renderer {
         this.players.delete(key);
       }
     if (w) {
-      for (const p of w.players) {
+      for (const [playerIndex, p] of w.players.entries()) {
         let m = this.players.get(p.id);
         const target = p.id === id && predict ? predict : p;
         if (!m) {
@@ -973,10 +975,21 @@ export class Renderer {
           this.players.set(p.id, m);
           this.scene.add(m);
         }
+        // Snapshot slots agree across clients; cache legacy slots by identity.
+        const accentSlot =
+          p.accentSlot ?? this.playerAccentSlots.get(p.id) ?? playerIndex;
+        this.playerAccentSlots.set(p.id, accentSlot);
+        (m.userData.trooper as StandardTrooper | undefined)?.setPlayerAccent(
+          accentSlot,
+        );
+        const authoredGround = (
+          m.userData.trooper as StandardTrooper | undefined
+        )?.model.userData.soldierReferenceVersion;
         m.position.lerp(
           new T.Vector3(
             target.x,
-            (target.y ?? 0) + (p.hp <= 0 ? 0.2 : 0),
+            // The new Down clip already places the body on the ground.
+            (target.y ?? 0) + (p.hp <= 0 && !authoredGround ? 0.2 : 0),
             target.z,
           ),
           1 - Math.exp(-dt * 18),
@@ -1483,7 +1496,10 @@ export class Renderer {
       syncDynamicInstances(this.healDrops);
       for (const e of w.events.filter((e) => e.id > this.lastEvent)) {
         this.lastEvent = Math.max(this.lastEvent, e.id);
-        this.combat.event(e);
+        this.combat.event(
+          e,
+          e.owner ? this.players.get(e.owner)?.position : undefined,
+        );
         if (e.type === "kill") {
           for (let n = 0; n < 4 && this.effects.length < 100; n++)
             this.effects.push({

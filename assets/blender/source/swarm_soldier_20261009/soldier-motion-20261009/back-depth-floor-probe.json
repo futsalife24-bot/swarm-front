@@ -1,0 +1,154 @@
+{
+  "scope": "Authored clip floor probe with runtime weapon attachment basis. Diagnostic offsets are not applied.",
+  "sha256": "746e35fd16126f5c09140ef6e193eea7e48d0be23eb9dda17cac50c64a67ae23",
+  "results": [
+    {
+      "clip": "Trial_Dodge_Roll",
+      "additionalBackDepthMetres": 0,
+      "sampleRate": 240,
+      "cases": {
+        "BackWeaponSocket/rifle": {
+          "minY": 0.016963593463590776,
+          "fraction": 0.4702549575070821,
+          "minAnchorY": 0.15339094573506168
+        },
+        "BackWeaponSocket/shotgun": {
+          "minY": 0.014046615746256236,
+          "fraction": 0.43909348441926344,
+          "minAnchorY": 0.15339094573506168
+        },
+        "BackWeaponSocket/rocket": {
+          "minY": 0.013981511399445229,
+          "fraction": 0.41359773371104813,
+          "minAnchorY": 0.15339094573506168
+        },
+        "BackWeaponSocket_2/rifle": {
+          "minY": 0.03235251539086893,
+          "fraction": 0.42492917847025496,
+          "minAnchorY": 0.09762646742790104
+        },
+        "BackWeaponSocket_2/shotgun": {
+          "minY": 0.04320136382753096,
+          "fraction": 0.43059490084985835,
+          "minAnchorY": 0.09762646742790104
+        },
+        "BackWeaponSocket_2/rocket": {
+          "minY": 0.010301622785625658,
+          "fraction": 0.43342776203966005,
+          "minAnchorY": 0.09762646742790104
+        }
+      }
+    },
+    {
+      "clip": "Trial_Dodge_Roll",
+      "additionalBackDepthMetres": 0.2,
+      "sampleRate": 240,
+      "cases": {
+        "BackWeaponSocket/rifle": {
+          "minY": -0.15476834452794358,
+          "fraction": 0.43342776203966005,
+          "minAnchorY": -0.03390535425182953
+        },
+        "BackWeaponSocket/shotgun": {
+          "minY": -0.1663220880371089,
+          "fraction": 0.43626062322946174,
+          "minAnchorY": -0.03390535425182953
+        },
+        "BackWeaponSocket/rocket": {
+          "minY": -0.17878168572780404,
+          "fraction": 0.41359773371104813,
+          "minAnchorY": -0.03390535425182953
+        },
+        "BackWeaponSocket_2/rifle": {
+          "minY": -0.15959911969281748,
+          "fraction": 0.42209631728045327,
+          "minAnchorY": -0.08966983255899016
+        },
+        "BackWeaponSocket_2/shotgun": {
+          "minY": -0.14540189430857303,
+          "fraction": 0.42209631728045327,
+          "minAnchorY": -0.08966983255899016
+        },
+        "BackWeaponSocket_2/rocket": {
+          "minY": -0.17597959201243146,
+          "fraction": 0.43059490084985835,
+          "minAnchorY": -0.08966983255899016
+        }
+      }
+    },
+    {
+      "clip": "Down",
+      "additionalBackDepthMetres": 0,
+      "sampleRate": 240,
+      "cases": {
+        "BackWeaponSocket/rifle": {
+          "minY": 0.0442905224561746,
+          "fraction": 0.41074523396880414,
+          "minAnchorY": 0.19724881987253834
+        },
+        "BackWeaponSocket/shotgun": {
+          "minY": 0.004874895924828593,
+          "fraction": 0.4072790294627383,
+          "minAnchorY": 0.19724881987253834
+        },
+        "BackWeaponSocket/rocket": {
+          "minY": 0.02385140458785029,
+          "fraction": 0.49913344887348354,
+          "minAnchorY": 0.19724881987253834
+        },
+        "BackWeaponSocket_2/rifle": {
+          "minY": 0.06947345687841311,
+          "fraction": 0.4124783362218371,
+          "minAnchorY": 0.1854741639217636
+        },
+        "BackWeaponSocket_2/shotgun": {
+          "minY": 0.054336237610585425,
+          "fraction": 0.4124783362218371,
+          "minAnchorY": 0.1854741639217636
+        },
+        "BackWeaponSocket_2/rocket": {
+          "minY": 0.00486558363374856,
+          "fraction": 0.4246100519930676,
+          "minAnchorY": 0.1854741639217636
+        }
+      }
+    },
+    {
+      "clip": "Down",
+      "additionalBackDepthMetres": 0.2,
+      "sampleRate": 240,
+      "cases": {
+        "BackWeaponSocket/rifle": {
+          "minY": -0.11936377538307605,
+          "fraction": 0.5268630849220104,
+          "minAnchorY": 0.00395033452888105
+        },
+        "BackWeaponSocket/shotgun": {
+          "minY": -0.13145325842684488,
+          "fraction": 1,
+          "minAnchorY": 0.00395033452888105
+        },
+        "BackWeaponSocket/rocket": {
+          "minY": -0.16943289232107617,
+          "fraction": 0.49913344887348354,
+          "minAnchorY": 0.00395033452888105
+        },
+        "BackWeaponSocket_2/rifle": {
+          "minY": -0.11987939262634893,
+          "fraction": 0.5008665511265165,
+          "minAnchorY": -0.007810132987162849
+        },
+        "BackWeaponSocket_2/shotgun": {
+          "minY": -0.11638554558395967,
+          "fraction": 0.512998266897747,
+          "minAnchorY": -0.007810132987162849
+        },
+        "BackWeaponSocket_2/rocket": {
+          "minY": -0.18829906176054825,
+          "fraction": 0.5008665511265165,
+          "minAnchorY": -0.007810132987162849
+        }
+      }
+    }
+  ]
+}

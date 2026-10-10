@@ -1,0 +1,44 @@
+[
+  {
+    "path": "rebuild/upgrades/blast-core.png",
+    "status": 200,
+    "type": "image/png",
+    "bytes": 107467,
+    "match": true
+  },
+  {
+    "path": "rebuild/upgrades/afterimage-mine.png",
+    "status": 200,
+    "type": "image/png",
+    "bytes": 104027,
+    "match": true
+  },
+  {
+    "path": "rebuild/upgrades/fusion-aegis.png",
+    "status": 200,
+    "type": "image/png",
+    "bytes": 2048204,
+    "match": true
+  },
+  {
+    "path": "rebuild/upgrades/fusion-collector.png",
+    "status": 200,
+    "type": "image/png",
+    "bytes": 1461088,
+    "match": true
+  },
+  {
+    "path": "rebuild/upgrades/fusion-reactor.png",
+    "status": 200,
+    "type": "image/png",
+    "bytes": 1865659,
+    "match": true
+  },
+  {
+    "path": "rebuild/upgrades/blast-radius.png",
+    "status": 200,
+    "type": "image/png",
+    "bytes": 1848906,
+    "match": true
+  }
+]

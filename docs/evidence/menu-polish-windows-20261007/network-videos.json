@@ -1,0 +1,42 @@
+[
+  {
+    "file": "640-no-preference-squad.mp4",
+    "bytes": 173483,
+    "sha256": "203b7d954b0437fac23e7ec2de943a8ba51d8c0598241568dcd996eecc6fa7f8"
+  },
+  {
+    "file": "640-no-preference-weekly.mp4",
+    "bytes": 21300,
+    "sha256": "a231ad5299a85e88c902f0e7eb7c1b9bb10f0d0381849b07bbe685223ef448e5"
+  },
+  {
+    "file": "640-reduce-squad.mp4",
+    "bytes": 155077,
+    "sha256": "7df408cc0c66e51109b0b465655b47cf3fa74403563bfc24c4704417eaeaaa0e"
+  },
+  {
+    "file": "640-reduce-weekly.mp4",
+    "bytes": 15522,
+    "sha256": "91c04bc2a63255c8030e10b9e99bf4a658140e65ae9d72c70f98babee88043c7"
+  },
+  {
+    "file": "844-no-preference-squad.mp4",
+    "bytes": 181059,
+    "sha256": "f3348548a3fecc1d628b6a7eafc35b6b14542ea057ba8c9da5dd309bc9fcf59e"
+  },
+  {
+    "file": "844-no-preference-weekly.mp4",
+    "bytes": 24772,
+    "sha256": "82b81ad2f9b092119fd2e73415fe5455f95e80c2096be16e3e27405950f70c65"
+  },
+  {
+    "file": "844-reduce-squad.mp4",
+    "bytes": 158071,
+    "sha256": "385052f26fec820353673c2d1f2b4680ce04a74368934d3b1a871c9609417919"
+  },
+  {
+    "file": "844-reduce-weekly.mp4",
+    "bytes": 17422,
+    "sha256": "be240070c6365304e63544cfff33275721edbf8a4fa8f642ab1d1abe884ad30c"
+  }
+]

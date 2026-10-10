@@ -1,0 +1,46 @@
+{
+  "pass": true,
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "results": [
+    {
+      "width": 844,
+      "height": 390,
+      "stage": 10,
+      "hud": "HP\n160 / 160\nST 10 · WAVE 1 / 3\n5 体 · 0 撃破 · 0:03\nAR-9 リーフ · 1/2\n残弾\n32 / 32\n未確定 0 ·\n+",
+      "overflow": false,
+      "errors": [],
+      "consoleErrors": [],
+      "scope": "専用contextの進行fixture・Chromeタッチエミュレーションから公開ソロ開始・洞窟描画・pause/resume。実機タッチ/実Worker頭部撃破ではない。"
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "stage": 16,
+      "hud": "HP\n160 / 160\nST 16 · WAVE 1 / 3\n5 体 · 0 撃破 · 0:03\nAR-9 リーフ · 1/2\n残弾\n32 / 32\n未確定 0 ·\n+",
+      "overflow": false,
+      "errors": [],
+      "consoleErrors": [],
+      "scope": "専用contextの進行fixture・Chromeタッチエミュレーションから公開ソロ開始・洞窟描画・pause/resume。実機タッチ/実Worker頭部撃破ではない。"
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "stage": 10,
+      "hud": "HP\n145 / 160\nST 10 · WAVE 1 / 3\n6 体 · 0 撃破 · 0:03\nAR-9 リーフ · 1/2\n残弾\n32 / 32\n未確定 0 ·\n+",
+      "overflow": false,
+      "errors": [],
+      "consoleErrors": [],
+      "scope": "専用contextの進行fixture・Chromeタッチエミュレーションから公開ソロ開始・洞窟描画・pause/resume。実機タッチ/実Worker頭部撃破ではない。"
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "stage": 16,
+      "hud": "HP\n138 / 160\nST 16 · WAVE 1 / 3\n5 体 · 0 撃破 · 0:03\nAR-9 リーフ · 1/2\n残弾\n32 / 32\n未確定 0 ·\n+",
+      "overflow": false,
+      "errors": [],
+      "consoleErrors": [],
+      "scope": "専用contextの進行fixture・Chromeタッチエミュレーションから公開ソロ開始・洞窟描画・pause/resume。実機タッチ/実Worker頭部撃破ではない。"
+    }
+  ]
+}

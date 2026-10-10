@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-07",
+  "url": "https://swarm-front.melosalife-24.workers.dev/front",
+  "uiLease": "UI-20261007-014",
+  "status": "additional_visual_check_blocked_by_existing_save_writer",
+  "observedText": "別のタブでゲームを開いています",
+  "consoleErrorsOnBlockedPage": [],
+  "firstRetry": "自動承認レビューが、別タブの保存状態を奪取する恐れを理由にクリックを拒否。",
+  "readOnlyCheck": "src/client/save-writer.tsはnavigator.locks.requestのifAvailable: trueを使用。他タブのロックを奪取・解放しない。",
+  "secondRetry": "コードの読み取り確認後、通常UIの再開操作を実行。同じ保存保護画面に戻った。",
+  "otherGameTabsVisibleToTools": false,
+  "existingSaveOrLockModified": false,
+  "ownPublicCheckTabClosed": true,
+  "publicVerification": "公開版のWindows Chrome4条件はpublic-ui.jsonで別途確認済み。既存Service Worker有効、pageerror・console errorともに0。",
+  "optionalRecheckCondition": "本人が既存のSwarm Frontゲーム画面を閉じ、保存ロックが通常解放された後にIABで再確認する。ロックを強制削除しない。"
+}

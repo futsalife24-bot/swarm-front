@@ -1,9 +1,7 @@
 /** 攻略の確定記録から解放を導出。読取時は移行・書換えを行わない。 */
 import {
-  FRONT_BASE_IDS,
-  FRONT_INITIAL_CARDS,
   FRONT_V2_UPGRADE_IDS,
-  FRONT_FAMILY_CARDS,
+  isValidFrontUpgradePool,
   type FrontUpgradeId,
 } from "../shared/front-upgrades";
 import {
@@ -53,21 +51,18 @@ export function readFrontCampaign(storage: FrontStorage) {
     return {
       save,
       unlocked,
-      initialUnlocked: progress.progress.unlocks,
       error: "",
     };
   } catch {
     return {
       save: null,
       unlocked: [...FRONT_V2_UPGRADE_IDS],
-      initialUnlocked: [...FRONT_INITIAL_CARDS],
       error: "攻略の保存を読み込めません。既存データは保持しています。",
     };
   }
 }
 export interface FrontLoadout {
   pool: FrontUpgradeId[];
-  initialCards: FrontUpgradeId[];
 }
 export function readFrontLoadout(
   storage: FrontStorage,
@@ -75,35 +70,16 @@ export function readFrontLoadout(
   const campaign = readFrontCampaign(storage);
   const fallback = {
     pool: campaign.unlocked,
-    initialCards: [...FRONT_INITIAL_CARDS],
   };
   try {
     const raw = storage.getItem(FRONT_LOADOUT_KEY);
     if (raw === null) return { ...fallback, error: campaign.error };
     const value = JSON.parse(raw) as FrontLoadout;
-    if (
-      !Array.isArray(value.pool) ||
-      !value.pool.every((id) => FRONT_BASE_IDS.includes(id)) ||
-      new Set(value.pool).size !== value.pool.length ||
-      !Array.isArray(value.initialCards) ||
-      value.initialCards.length !== 3 ||
-      !Object.values(FRONT_FAMILY_CARDS).every(
-        (ids) =>
-          value.initialCards.filter((id) => ids.includes(id)).length === 1,
-      )
-    )
-      throw new Error();
-    const initialCards = value.initialCards.map((id, i) =>
-      campaign.initialUnlocked.includes(id) ? id : FRONT_INITIAL_CARDS[i],
-    );
-    const pool = [
-      ...new Set([
-        ...value.pool.filter((id) => campaign.unlocked.includes(id)),
-        ...initialCards,
-      ]),
-    ];
+    // 旧保存のinitialCardsは読取時に無視。チェック内容を増やさず、元データも書き換えない。
+    if (!isValidFrontUpgradePool(value?.pool)) throw new Error();
+    const pool = value.pool.filter((id) => campaign.unlocked.includes(id));
     if (pool.length < 6) throw new Error();
-    return { pool, initialCards, error: campaign.error };
+    return { pool, error: campaign.error };
   } catch {
     return {
       ...fallback,
@@ -112,25 +88,22 @@ export function readFrontLoadout(
     };
   }
 }
-export function saveFrontLoadout(storage: FrontStorage, value: FrontLoadout) {
+export function validateFrontLoadout(
+  storage: FrontStorage,
+  value: FrontLoadout,
+) {
   const current = readFrontLoadout(storage);
   if (current.error) throw new Error(current.error);
   const campaign = readFrontCampaign(storage);
   if (
-    value.pool.length < 6 ||
-    value.pool.length > FRONT_BASE_IDS.length ||
-    new Set(value.pool).size !== value.pool.length ||
-    !value.pool.every((id) => campaign.unlocked.includes(id)) ||
-    value.initialCards.length !== 3 ||
-    !Object.values(FRONT_FAMILY_CARDS).every(
-      (ids) => value.initialCards.filter((id) => ids.includes(id)).length === 1,
-    ) ||
-    !value.initialCards.every(
-      (id) => value.pool.includes(id) && campaign.initialUnlocked.includes(id),
-    )
+    !isValidFrontUpgradePool(value?.pool) ||
+    !value.pool.every((id) => campaign.unlocked.includes(id))
   )
-    throw new Error("候補は6種類以上、初期候補は各系統1つを選んでください。");
-  storage.setItem(FRONT_LOADOUT_KEY, JSON.stringify(value));
+    throw new Error("解放済みの強化候補を6種類以上選んでください。");
+}
+export function saveFrontLoadout(storage: FrontStorage, value: FrontLoadout) {
+  validateFrontLoadout(storage, value);
+  storage.setItem(FRONT_LOADOUT_KEY, JSON.stringify({ pool: [...value.pool] }));
 }
 /** 共有保存と同じ排他権・改訂番号・受取記録を使い、コインと受取済みを一括保存。 */
 export function awardFrontCampaign(

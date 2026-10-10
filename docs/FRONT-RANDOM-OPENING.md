@@ -1,0 +1,53 @@
+# 基地の開幕指定を撤去し、チェック候補からランダム3択（2026-10-07）
+
+本人が基地の「爆発・開幕／貫通・開幕／迎撃・開幕」3項目を不要とし、開幕もチェックした候補からランダム3択にするよう指定。基点 `dd5c8d03bd3bafc8d2363e9e0b85e6ab2280e73c`、ブランチ `codex/front-random-opening-20261007`。
+
+## 変更
+
+- 固定指定の行と「開幕候補」表示を撤去し、空いた高さを既存の強化一覧へ返す。既存テーマ・画像・融合レシピ・デッキ3枠を維持。
+- 開幕は選択済み6〜22種から重複なしの3種を抽選。系統割当はせず補強も対象。旧固定3種もチェック解除可能。候補の並び順を変えても同じseedなら同じ抽選になる。
+- ソロと協力は共有ロジックを使用。協力はWorkerが各人の候補から確定し、クライアントから固定3種は送らない。再接続・進行中作戦は保持済みの候補を使う。
+- 旧保存デッキの名前・候補を保持し、廃止したinitialCardsだけを読取時に無視。読取では書き換えず、明示保存時だけpoolのDTOへ保存する。旧規則の固定3択は維持。
+- 6種未満・重複・候補外・未解放の保存を拒否。破損・容量不足・未保存名確認・通信の世代保護を維持。報酬・戦闘演出・PR137は対象外。
+
+## Windowsの自己検証
+
+- 型チェック成功。front単体81件、save147件成功。新規4テストで512seed／6候補の全20組合せ、再現性、候補外排除、復元、旧保存読取不変・明示保存を確認。
+- 実ローカルWorkerの関連3件成功（4人の個別poolから3択・再接続・途中変更禁止、旧画面案内、旧規則出撃）。時間境界など変更と無関係な4件は今回未実行。
+- 本番buildと`wrangler.production.jsonc`のdry-run成功。実装commit `2a8f39d2776287065bc101189aa396ac5a81e8d1` 後にも再実行して成功。
+- Windows Chromeの基地844×390／640×360／1220×413 × 通常・reducedの6条件成功。旧固定3種の解除、デッキ保存/呼出/再読込、出撃セット、未保存名保護、融合、協力入口、画像読込、横overflow、pageerror/console error各0。タッチはエミュレーション。
+- 前回公開版の同サイズのgrid実測と比較し、844は158→207px、640は128→177px、1220は177→230px。強化の完全表示は順に9/6/9件。比較元はPR144の公開JSONであり、今回再計測した旧版ではない。
+- ソロ/実2人協力E2Eの初回は1280と協力が成功、844/640は画像自然幅256px固定の旧検査で失敗。ランダム候補の緊急装甲は既存1254px素材だった。検査を読込完了＋自然幅が正へ修正し、画面内寸法検査は維持。失敗証拠を保存し、失敗2サイズの再実行に成功。合計ソロ3サイズ＋協力1件が成功、製品修正なし。
+- IABの844/640で実際に基地を開き、旧固定候補の解除と効果/融合タブ切替を目視。見出し・カード・融合素材を確認、console error 0。表示サイズを戻し確認タブを閉じた。実機操作の証拠ではない。
+- [独立監査Chat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)へ17:03 JSTごろ対象 `6806f08585e34fe7068c23cd5f9c344bbd1f8f1c` の439ファイルZIPを送信。初回の確定判定はP0/P1各0・P2が1件で要修正。[全文](evidence/random-opening-20261007/audit-first.txt)。[下書きPR146](https://github.com/futsalife24-bot/swarm-front/pull/146)、未統合・未公開。
+
+## 初回P2の修正
+
+旧画面と新Workerが同じ通信世代のため、旧画面の固定開幕指定を黙って無視できることを監査側が独立再現。Hello/Welcomeに`frontOpening:2`を追加し、相互に現行規則を確認する。
+
+- Workerは未対応画面または旧initialCards付きequipを拒否し、準備を解除して再読込を案内する。装備/pool/復帰トークンは保持。既に装備を保存した部屋に旧画面で戻りequipを送らない場合も、start時の世代照合で拒否する。
+- 新画面が旧WorkerのWelcomeを受けた場合はequipを送らず、トークンを保存して接続を閉じ、待機/再読込を案内。閉じた接続の後着メッセージで表示を戻さない。
+- 進行中作戦はこの準備・start判定を通さず、既存offerと取得済み強化をそのまま復帰する。旧7回規則や前カタログの境界は維持。
+- Windowsの型チェック、front83件、実Workerの関連6件が成功（世代混在の新規3件を含む）。旧WorkerのWelcome判定は単体の応答入力、旧/新画面・再接続・4人の個別候補は実Worker試験と区別する。
+- 修正commit `c59247b142d81570a7c94c6c90e31752bab0d81f` 後の本番buildとproduction dry-runも成功。[修正後の証拠](evidence/random-opening-20261007/revision/)。
+- 同commit後、UI039でWindows Chromeの実2人協力も成功。準備・共同選択・各自の強化・独立報酬・再読込を確認し、ブラウザ終了/貸出返却。最終報酬はローカルWorkerの検証用fixtureで発火しており、全作戦を通した試験ではない。
+- 公開確認用スクリプトのローカル844/640の2条件も成功（補強6種だけを保存→再読込→候補内3択→取得反映・page/console error0）。これは通信修正前のソロ確認。同Chat再監査を続ける。
+- 17:44 JST、対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2` の修正版ZIPを同じ通常Chatへ送信し応答開始を確認。初回との差分、424ファイル＋manifest、10,981,438 bytes、SHA256 `da9c4e0ce92a516917adf9f9f0a7645252b60c3d56dae558aae2bad477f2ed0c`。送信の自動審査は具体資料と既存承認の照合で解消。確定再監査待ち、未統合・未公開。
+
+## 独立再監査の確定判定
+
+17:57 JST、同じ通常Chatの対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2` は**合格**。P0/P1/P2/任意すべて0、初回P2-01は解消。[回答全文](evidence/random-opening-20261007/revision/audit-final.txt)。以後は文書/証拠のみで製品不変。UI046返却済み。
+
+監査側は424entry hash・patchの基点への適用結果・GitHubの主要blobを独立照合。FrontNetworkを直接実行し旧Welcomeのtoken保持/equip未送信/切断/後着無視を確認。Room.webSocketMessageのCloudflare部分だけを最小モックし、旧equip→新Hello復帰、装備済み旧再接続→start停止、進行中offer/levels保持を実行した。旧initialCards残存の抽選と旧固定規則、協力画像も確認。監査環境のnpm ciタイムアウトにより提出Vitest/実Worker/Playwright一式の独立再実行は未達であり、Windows提出ログの成功照合と区別する。
+
+## main統合・既存Worker公開
+
+- [PR146](https://github.com/futsalife24-bot/swarm-front/pull/146)を通常merge。公開ソースmain `b10e685b7a13374bfb66e06feeb47a9d162ca064`。merge本文に日本語の`Player-Note:`を保持。
+- 同mainから本番build/production dry-run成功後、既存Workerへ公開。Version `356a85b3-e4c2-468e-aeb7-1f455277f1f5`。
+- 配信26/26 SHA一致、health200。[証拠](evidence/random-opening-20261007/release/delivery.json)。
+- UI048で公開Windows Chromeの基地844/640/1220 × 通常/reducedの6条件成功。旧固定欄なし・解除・保存/呼出/再読込・未保存名保護・融合素材・画像・画面寸法・協力入口を確認。公開版の開幕844通常/640 reducedの2条件も、補強6種だけの候補を保存→再読込→候補内3択→取得反映で成功。全条件pageerror/console error0。[基地](evidence/random-opening-20261007/release/public-base/base-checks.json)・[開幕](evidence/random-opening-20261007/release/public-opening/checks.json)。844基地と640開幕の実画像も目視、専用ブラウザ終了/貸出返却済み。本人の保存は操作していない。
+- 公開記録は[PR147](https://github.com/futsalife24-bot/swarm-front/pull/147)、branch `codex/pr146-release-record-20261007`。製品変更はなく、追加公開は不要。main反映後にローカルmain/origin/main/remote SHA一致とcleanを確認する。
+
+## 限界
+
+UIUXはPR144で改装版・従来版へ適用した同一基準を継承し、今回影響する基地・開幕3択・協力・保存操作を再確認する。PR144の全108画面検査は今回再実行したものとは区別する。実機タッチ・GPU長時間・全敵モデル・全ミッション通過は未確認。モデルID・推論設定は未確認。

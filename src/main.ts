@@ -1,4 +1,11 @@
 import { predictPlayerMove } from "./client/player-prediction";
+import {
+  createSquadEffects,
+  menuEquip,
+  menuTerrain,
+  menuTrace,
+} from "./client/menu-effects";
+const squadEffects = createSquadEffects();
 import { backgroundMusic } from "./client/bgm";
 import { mountMediaMenu } from "./client/media-menu";
 import { installCloudSync } from "./client/cloud-save";
@@ -676,6 +683,7 @@ function gear() {
     stage.disabled = true;
     $("home").textContent = "部隊を退出";
   }
+  menuTerrain(ui.querySelector(".mission-select"), selectedStage);
   $("gear-armory").onclick = armory;
   $("gear-settings").onclick = () => openSettings(gear);
   const filter = $("weapon-filter") as HTMLSelectElement,
@@ -720,11 +728,15 @@ function gear() {
   );
   const equip = (id: string) => {
     if (save.equipped[activeSlot] === id) return;
+    const source = [...ui.querySelectorAll<HTMLElement>("[data-equip]")]
+      .find((e) => e.dataset.equip === id)
+      ?.getBoundingClientRect();
     const n = structuredClone(save),
       other = 1 - activeSlot;
     if (n.equipped[other] === id) n.equipped[other] = n.equipped[activeSlot];
     n.equipped[activeSlot] = id;
-    if (write(n)) {
+    const saved = write(n);
+    if (saved) {
       sound.unlock();
       sound.play("unequip");
       sound.play("equip", 1, 0, "equip", 0.12);
@@ -732,6 +744,13 @@ function gear() {
       status = `装備 ${activeSlot + 1} を変更しました。`;
     }
     gear();
+    if (saved)
+      menuEquip(
+        ui,
+        ui.querySelector(`[data-pick="${activeSlot}"]`),
+        ui.querySelector(`[data-equip="${CSS.escape(id)}"] .weapon-identity`) ??
+          source,
+      );
   };
   ui.querySelectorAll<HTMLElement>("[data-equip]").forEach((el) => {
     el.onclick = (event) => {
@@ -823,6 +842,7 @@ function openSettings(back: () => void) {
     dialog.querySelector(".settings-status")!.textContent = ok
       ? "設定を保存しました。"
       : `保存できませんでした。${saveError || status}`;
+    if (ok) menuTrace(dialog.querySelector(".settings-status"), true);
     return ok;
   };
   alignSettings(dialog.querySelector("#settings-preferences")!);
@@ -1138,7 +1158,7 @@ function lobby() {
       const m = members[i];
       if (!m)
         return `<article class="squad-member empty"><span class="member-number">0${i + 1}</span><div><b>参加待ち</b><small>招待リンクから参加できます</small></div></article>`;
-      return `<article class="squad-member ${m.id === network?.id ? "self" : ""}"><div class="member-heading"><b><span class="member-number">0${i + 1}</span> ${esc(m.name || `隊員 ${String(i + 1).padStart(2, "0")}`)}${m.id === network?.id ? "（あなた）" : ""}</b><small>${m.id === host ? "HOST" : "MEMBER"}</small><span class="member-status ${m.connected && m.ready ? "is-ready" : "is-preparing"}">${!m.connected ? "切断中" : m.ready ? "準備完了" : "準備中…"}</span></div><div class="member-weapons">${[
+      return `<article data-fx-member="${esc(m.id)}" class="squad-member ${m.id === network?.id ? "self" : ""}"><div class="member-heading"><b><span class="member-number">0${i + 1}</span> ${esc(m.name || `隊員 ${String(i + 1).padStart(2, "0")}`)}${m.id === network?.id ? "（あなた）" : ""}</b><small>${m.id === host ? "HOST" : "MEMBER"}</small><span class="member-status ${m.connected && m.ready ? "is-ready" : "is-preparing"}">${!m.connected ? "切断中" : m.ready ? "準備完了" : "準備中…"}</span></div><div class="member-weapons">${[
         0, 1,
       ]
         .map((slot) => {
@@ -1150,6 +1170,10 @@ function lobby() {
   ).join(
     "",
   )}</div></section><section class="lobby-chat" aria-label="部隊チャット"><h2>チャット</h2><ol id="chat-log" role="log" aria-live="polite" aria-relevant="additions"></ol><form id="chat-form"><label class="sr-only" for="chat-input">メッセージ</label><input id="chat-input" maxlength="400" autocomplete="off" placeholder="メッセージを入力…" ${online ? "" : "disabled"}><button type="submit" ${online ? "" : "disabled"}>送信</button><p id="chat-status" role="status"></p></form></section></div></section>`;
+  if (network)
+    squadEffects(network, members, [
+      ...ui.querySelectorAll("[data-fx-member]"),
+    ]);
   const chatInput = $("chat-input") as HTMLInputElement;
   if (network?.roomId)
     ui.querySelector(".lobby-header h1")!.insertAdjacentHTML(

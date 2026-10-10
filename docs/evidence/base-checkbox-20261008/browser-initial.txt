@@ -1,0 +1,17 @@
+通信失敗 http://127.0.0.1:5186/front.html net::ERR_ABORTED
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.goto: Timeout 30000ms exceeded.
+Call log:
+  - navigating to "http://127.0.0.1:5186/front.html", waiting until "domcontentloaded"
+
+    at C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\scripts\check-front-base.mjs:66:15 {
+  log: [
+    '  - navigating to "http://127.0.0.1:5186/front.html", waiting until "domcontentloaded"'
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0

@@ -1,0 +1,669 @@
+{
+  "beforeSha256": "8ec17d5ac3b903191708e0503d88cc04dbd319dc37c7a7bf20766046916400c4",
+  "candidateSha256": "25e20aa113cec9e16879014cc8003f5f58e98054110e179de41419837163b66d",
+  "changedTracks": [
+    [
+      "Trial_Reload_Rocket",
+      "Ring2_L",
+      "rotation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "LowerArm_L",
+      "scale"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Ring1_L",
+      "rotation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Little2_L",
+      "rotation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Middle1_L",
+      "scale"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Little3_L",
+      "rotation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Ring2_L",
+      "translation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Ring1_L",
+      "translation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Little2_L",
+      "translation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "LeftHandSupportSocket",
+      "scale"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Ring1_L",
+      "scale"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "LeftHandSupportSocket",
+      "translation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Little3_L",
+      "scale"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Little3_L",
+      "translation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Thumb2_L",
+      "scale"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Thumb2_L",
+      "rotation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Index2_L",
+      "rotation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Thumb1_L",
+      "rotation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "UpperArm_L",
+      "scale"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Thumb2_L",
+      "translation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Thumb1_L",
+      "translation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "UpperArm_L",
+      "rotation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "UpperArm_L",
+      "translation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Index1_L",
+      "scale"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Index2_L",
+      "scale"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Thumb1_L",
+      "scale"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Ring3_L",
+      "rotation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Hand_L",
+      "scale"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Index1_L",
+      "rotation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Hand_L",
+      "rotation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Index3_L",
+      "rotation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Index1_L",
+      "translation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Index2_L",
+      "translation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Thumb3_L",
+      "rotation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Hand_L",
+      "translation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Ring3_L",
+      "scale"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Index3_L",
+      "scale"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Middle3_L",
+      "rotation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Ring3_L",
+      "translation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Thumb3_L",
+      "scale"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Middle2_L",
+      "scale"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Index3_L",
+      "translation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Little1_L",
+      "rotation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Middle2_L",
+      "rotation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Thumb3_L",
+      "translation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Middle3_L",
+      "scale"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Little1_L",
+      "translation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Middle2_L",
+      "translation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "LowerArm_L",
+      "rotation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Middle3_L",
+      "translation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Little1_L",
+      "scale"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Middle1_L",
+      "rotation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "LowerArm_L",
+      "translation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Middle1_L",
+      "translation"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Ring2_L",
+      "scale"
+    ],
+    [
+      "Trial_Reload_Rocket",
+      "Little2_L",
+      "scale"
+    ]
+  ],
+  "roundoffTolerance": 1e-05,
+  "roundoffOnly": [
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Ring2_L",
+        "rotation"
+      ],
+      "maxComponentDelta": 1.4901161193847656e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Ring1_L",
+        "rotation"
+      ],
+      "maxComponentDelta": 2.384185791015625e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Little2_L",
+        "rotation"
+      ],
+      "maxComponentDelta": 2.086162567138672e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Middle1_L",
+        "scale"
+      ],
+      "maxComponentDelta": 1.1920928955078125e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Little3_L",
+        "rotation"
+      ],
+      "maxComponentDelta": 2.384185791015625e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Ring2_L",
+        "translation"
+      ],
+      "maxComponentDelta": 2.942979335784912e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Ring1_L",
+        "translation"
+      ],
+      "maxComponentDelta": 1.2153759598731995e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Little2_L",
+        "translation"
+      ],
+      "maxComponentDelta": 1.4246132895578967e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "LeftHandSupportSocket",
+        "scale"
+      ],
+      "maxComponentDelta": 1.1920928955078125e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Ring1_L",
+        "scale"
+      ],
+      "maxComponentDelta": 1.1920928955078125e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "LeftHandSupportSocket",
+        "translation"
+      ],
+      "maxComponentDelta": 9.548111279400473e-08
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Little3_L",
+        "scale"
+      ],
+      "maxComponentDelta": 1.7881393432617188e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Little3_L",
+        "translation"
+      ],
+      "maxComponentDelta": 8.009374141693115e-08
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Thumb2_L",
+        "scale"
+      ],
+      "maxComponentDelta": 1.1920928955078125e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Thumb2_L",
+        "rotation"
+      ],
+      "maxComponentDelta": 2.086162567138672e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Index2_L",
+        "rotation"
+      ],
+      "maxComponentDelta": 1.7881393432617188e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Thumb1_L",
+        "rotation"
+      ],
+      "maxComponentDelta": 2.980232238769531e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Thumb2_L",
+        "translation"
+      ],
+      "maxComponentDelta": 1.7136335372924805e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Thumb1_L",
+        "translation"
+      ],
+      "maxComponentDelta": 1.8067657947540283e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Index1_L",
+        "scale"
+      ],
+      "maxComponentDelta": 1.1920928955078125e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Index2_L",
+        "scale"
+      ],
+      "maxComponentDelta": 1.1920928955078125e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Thumb1_L",
+        "scale"
+      ],
+      "maxComponentDelta": 1.7881393432617188e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Ring3_L",
+        "rotation"
+      ],
+      "maxComponentDelta": 1.7881393432617188e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Index1_L",
+        "rotation"
+      ],
+      "maxComponentDelta": 2.384185791015625e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Index3_L",
+        "rotation"
+      ],
+      "maxComponentDelta": 2.384185791015625e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Index1_L",
+        "translation"
+      ],
+      "maxComponentDelta": 6.170012056827545e-08
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Index2_L",
+        "translation"
+      ],
+      "maxComponentDelta": 8.829574227320336e-08
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Thumb3_L",
+        "rotation"
+      ],
+      "maxComponentDelta": 1.7881393432617188e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Ring3_L",
+        "scale"
+      ],
+      "maxComponentDelta": 1.7881393432617188e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Index3_L",
+        "scale"
+      ],
+      "maxComponentDelta": 1.1920928955078125e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Middle3_L",
+        "rotation"
+      ],
+      "maxComponentDelta": 1.341104507446289e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Ring3_L",
+        "translation"
+      ],
+      "maxComponentDelta": 3.2033808849973866e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Thumb3_L",
+        "scale"
+      ],
+      "maxComponentDelta": 1.1920928955078125e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Middle2_L",
+        "scale"
+      ],
+      "maxComponentDelta": 1.7881393432617188e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Index3_L",
+        "translation"
+      ],
+      "maxComponentDelta": 1.30385160446167e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Little1_L",
+        "rotation"
+      ],
+      "maxComponentDelta": 2.086162567138672e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Middle2_L",
+        "rotation"
+      ],
+      "maxComponentDelta": 2.384185791015625e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Thumb3_L",
+        "translation"
+      ],
+      "maxComponentDelta": 1.1920928955078125e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Middle3_L",
+        "scale"
+      ],
+      "maxComponentDelta": 1.7881393432617188e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Little1_L",
+        "translation"
+      ],
+      "maxComponentDelta": 1.0058283805847168e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Middle2_L",
+        "translation"
+      ],
+      "maxComponentDelta": 1.8998980522155762e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Middle3_L",
+        "translation"
+      ],
+      "maxComponentDelta": 2.2554762857396327e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Little1_L",
+        "scale"
+      ],
+      "maxComponentDelta": 5.960464477539063e-08
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Middle1_L",
+        "rotation"
+      ],
+      "maxComponentDelta": 1.4901161193847656e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Middle1_L",
+        "translation"
+      ],
+      "maxComponentDelta": 5.448237061500549e-08
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Ring2_L",
+        "scale"
+      ],
+      "maxComponentDelta": 2.980232238769531e-07
+    },
+    {
+      "track": [
+        "Trial_Reload_Rocket",
+        "Little2_L",
+        "scale"
+      ],
+      "maxComponentDelta": 5.960464477539063e-08
+    }
+  ],
+  "unexpectedTracks": [],
+  "restNodesIdentical": true,
+  "geometryAndBindIdentical": true,
+  "scopeOnly": true
+}

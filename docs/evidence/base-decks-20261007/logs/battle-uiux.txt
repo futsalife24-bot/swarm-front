@@ -1,0 +1,49 @@
+
+Running 6 tests using 1 worker
+
+(node:49660) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\front-feedback.spec.ts:11:3 › 改装版844：戦闘を保持して設定・配置を保存、旧保存は不変 (29.6s)
+  ok 2 e2e\front-feedback.spec.ts:11:3 › 改装版640：戦闘を保持して設定・配置を保存、旧保存は不変 (13.3s)
+  x  3 e2e\front-feedback.spec.ts:105:1 › 旧版：戦闘中の設定と配置編集から戻り、描画上限も保存 (43.2s)
+(node:35732) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 4 e2e\front-feedback.spec.ts:148:1 › 旧版協力：戦闘中の設定・描画上限・配置からの復帰 (34.7s)
+  ok 5 e2e\front-hud.spec.ts:46:3 › 従来の出撃HUDを継承：横844 (56.9s)
+  ok 6 e2e\front-hud.spec.ts:46:3 › 従来の出撃HUDを継承：横640 (26.5s)
+
+
+  1) e2e\front-feedback.spec.ts:105:1 › 旧版：戦闘中の設定と配置編集から戻り、描画上限も保存 ─────────────────────────────────
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.menu-dialog[open]')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('.menu-dialog[open]') with timeout 5000ms
+      - waiting for locator('.menu-dialog[open]')
+        13 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      143 |   expect(await page.locator("#hud").innerText()).toBe(checkpoint);
+      144 |   await page.locator("#pt-resume").click();
+    > 145 |   await expect(page.locator(".menu-dialog[open]")).toHaveCount(0);
+          |                                                    ^
+      146 |   await expect(page.locator("#controls")).toBeVisible();
+      147 | });
+      148 | test("旧版協力：戦闘中の設定・描画上限・配置からの復帰", async ({ page }) => {
+        at C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\e2e\front-feedback.spec.ts:145:52
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\front-feedback-旧版：戦闘中の設定と配置編集から戻り、描画上限も保存\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\front-feedback-旧版：戦闘中の設定と配置編集から戻り、描画上限も保存\error-context.md
+
+  1 failed
+    e2e\front-feedback.spec.ts:105:1 › 旧版：戦闘中の設定と配置編集から戻り、描画上限も保存 ──────────────────────────────────
+  5 passed (3.5m)

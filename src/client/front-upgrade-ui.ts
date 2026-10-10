@@ -117,6 +117,8 @@ const icon = (id: FrontUpgradeId, base: string, card = false) => {
     ? `<img class="${card ? "rebuild-card-icon" : ""}" src="${esc(frontUpgradeIcon(id, base))}" alt="" width="${card ? 96 : 32}" height="${card ? 96 : 32}">`
     : `<span aria-hidden="true" class="front-atlas-icon ${card ? "rebuild-card-icon" : ""}" style="background-image:url('${esc(base)}rebuild/upgrades/fusion-atlas.png');background-position:${(index % 3) * 50}% ${Math.floor(index / 3) * 50}%"></span>`;
 };
+/** 基地でも戦闘と同じ画像・アトラス切り出しを使う。 */
+export const frontUpgradeIconMarkup = icon;
 
 export function frontUpgradeStrip(view: UpgradeView, base: string) {
   if (view.growthVersion === 1) return legacyUi.frontUpgradeStrip(view, base);
@@ -145,7 +147,7 @@ export function frontUpgradeDetails(view: UpgradeView, base: string) {
           })
           .join("")}</ul>`
       : '<p class="front-upgrade-empty">まだ強化を取得していません。</p>'
-  }${view.growthVersion !== 3 && view.evolved.length ? `<div class="front-upgrade-evolutions">${view.evolved.map((f) => `<p><strong>進化 · ${esc(FRONT_EVOLUTIONS[f].name)}</strong>${esc(FRONT_EVOLUTIONS[f].description)}</p>`).join("")}</div>` : ""}<div class="front-evolution-progress"><h3>進化条件</h3>${
+  }${view.growthVersion !== 3 && view.evolved.length ? `<div class="front-upgrade-evolutions">${view.evolved.map((f) => `<p><strong>進化 · ${esc(FRONT_EVOLUTIONS[f].name)}</strong>${esc(FRONT_EVOLUTIONS[f].description)}</p>`).join("")}</div>` : ""}<div class="front-evolution-progress"><h3>${view.growthVersion === 3 ? "融合条件" : "進化条件"}</h3>${
     view.growthVersion === 3
       ? FRONT_FUSION_IDS.map(
           (f) =>

@@ -1,0 +1,158 @@
+.menu-fx-host {
+  position: relative;
+  isolation: isolate;
+}
+.menu-fx-isolate {
+  isolation: isolate;
+}
+.menu-fx-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  user-select: none;
+  overflow: hidden;
+  z-index: 1;
+  border-radius: inherit;
+}
+.menu-fx-layer svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.menu-fx-check path,
+.menu-fx-trace path,
+.menu-fx-equip path,
+.menu-fx-underline path,
+.menu-fx-guide ellipse {
+  fill: none;
+  stroke: #bdebd2;
+  stroke-width: 1.5;
+  stroke-dasharray: 1;
+  vector-effect: non-scaling-stroke;
+}
+.menu-fx-check {
+  inset: 0 0 0 auto;
+  width: 24px;
+  overflow: visible;
+}
+.menu-fx-check path {
+  stroke: #d8f7e4;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.menu-fx-equip path {
+  stroke-width: 1.25;
+  opacity: 0.75;
+}
+/* Travelling light: where the eye should follow, not another glow. */
+.menu-fx-equip b {
+  position: absolute;
+  left: -3px;
+  top: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f1fff6;
+  box-shadow:
+    0 0 6px #bdebd2,
+    0 0 14px #bdebd255;
+}
+.menu-fx-particles i,
+.menu-fx-reward i {
+  position: absolute;
+  left: -2px;
+  top: -2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #d1ffe2;
+  box-shadow: 0 0 6px #a8dbbf;
+}
+.menu-fx-reward i {
+  background: #ffe8b8;
+  box-shadow: 0 0 6px #e8bc78;
+}
+.menu-fx-terrain {
+  z-index: -1;
+  opacity: 0.24;
+}
+.menu-fx-shine i {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 35%,
+    #ccecd02b 50%,
+    transparent 65%
+  );
+}
+.menu-fx-terrain path {
+  fill: #6fa99c;
+}
+.menu-fx-terrain path + path {
+  fill: #bfd8c0;
+}
+.menu-fx-mosaic {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+}
+.menu-fx-mosaic i {
+  background: #17342f;
+  border: 1px solid #45685c;
+  opacity: 0;
+}
+.menu-fx-mosaic b {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  width: 2px;
+  margin-left: -1px;
+  background: #d1ffe2;
+  box-shadow: 0 0 10px #a8dbbf;
+  opacity: 0;
+}
+.menu-fx-underline {
+  inset: auto auto -5px 0;
+  height: 8px;
+}
+/* Inside the chamfered clip of menu buttons, so it is never cut off. */
+.menu-fx-ring {
+  box-shadow:
+    inset 0 0 0 1px #d8f7e4,
+    inset 0 0 14px #bdebd255;
+}
+.radar-fx-settle {
+  fill: none;
+  stroke: #e8f6ec;
+  stroke-width: 2;
+  stroke-dasharray: 1;
+  stroke-linejoin: round;
+}
+.menu-fx-new {
+  position: relative;
+  display: inline-block;
+  margin-inline-start: 8px;
+  color: #bdebd2;
+  font-size: 10px;
+  vertical-align: middle;
+}
+.weekly-wallet {
+  display: inline-flex;
+  font-size: 12px;
+  margin-inline-start: 10px;
+  vertical-align: middle;
+}
+.menu-fx-code {
+  position: absolute;
+  inset: 0;
+  color: #a6cfb5;
+  background: #12241e;
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-fx-layer:not(.menu-fx-terrain) {
+    display: none;
+  }
+}

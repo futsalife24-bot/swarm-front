@@ -1,0 +1,11 @@
+{
+  "errors": [],
+  "objects": [
+    "Body",
+    "CharaKit_Weights_91812a9a_Rig",
+    "Head"
+  ],
+  "vertices": 27661,
+  "boneCount": 54,
+  "status": "passed"
+}

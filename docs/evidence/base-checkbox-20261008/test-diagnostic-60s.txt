@@ -1,0 +1,8 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  06:25:22
+   Duration  24.43s (tests 97%, transform 2%, import 1%)

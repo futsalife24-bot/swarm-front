@@ -1,0 +1,12 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+
+ Test Files  3 passed (3)
+      Tests  31 passed (31)
+   Start at  10:51:17
+   Duration  3.88s (import 61%, tests 28%, transform 10%, worker 1%)
+
+    Isolate  3 workers spawned · ~172ms startup each (spawn + environment, per file)
+             at least ~345ms faster with isolate: false — reuses workers across files instead of one per file
+

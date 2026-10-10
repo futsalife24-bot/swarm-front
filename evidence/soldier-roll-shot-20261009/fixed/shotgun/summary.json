@@ -1,0 +1,10 @@
+{
+  "capture": "1-1791554210449",
+  "frames": 180,
+  "fps": 24,
+  "seconds": 7.5,
+  "emissionSamples": 40,
+  "maxEmissionError": 0,
+  "evadingSamples": 14,
+  "limitations": "実ゲームstep/Renderer、敵なし・影なし・注目1人。固定24fpsで実時間性能やネットワークの保証ではない。ロケット実体と煙は従来の権威座標。"
+}

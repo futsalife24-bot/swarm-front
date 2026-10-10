@@ -1,10 +1,12 @@
 import { test, expect } from "@playwright/test";
 import { mkdirSync } from "node:fs";
 import { fresh, SAVE_KEY } from "../src/client/save";
-import { FRONT_SETTINGS_KEY } from "../src/client/front-settings";
+// Browser module loads CSS; inspect its persisted key without importing DOM/CSS into Node.
+const FRONT_SETTINGS_KEY = "swarm-front-rebuild-settings-v1";
 import { LAYOUT_KEY } from "../src/client/layout";
 import { localCreationKey } from "../tests/credentials";
-const evidence = "docs/evidence/front-feedback-20261003";
+const evidence =
+  process.env.FRONT_E2E_EVIDENCE ?? "docs/evidence/front-feedback-20261003";
 for (const width of [844, 640])
   test(`改装版${width}：戦闘を保持して設定・配置を保存、旧保存は不変`, async ({
     page,
@@ -140,7 +142,16 @@ test("旧版：戦闘中の設定と配置編集から戻り、描画上限も�
   await expect(page.locator('[data-preference="volume"]')).toHaveValue("0");
   expect(await page.locator("#hud").innerText()).toBe(checkpoint);
   await page.locator("#pt-resume").click();
-  await expect(page.locator(".menu-dialog[open]")).toHaveCount(0);
+  // 初遭遇演出は再開後に通常どおり出る。設定画面の残留と混同しない。
+  await expect(page.locator("#pt-pause-layout")).toHaveCount(0);
+  const encounter = page.getByRole("button", {
+    name: "スキップして戦闘へ",
+    exact: true,
+  });
+  if (await encounter.isVisible()) {
+    await page.screenshot({ path: `${evidence}/legacy-first-contact-844.png` });
+    await encounter.click();
+  }
   await expect(page.locator("#controls")).toBeVisible();
 });
 test("旧版協力：戦闘中の設定・描画上限・配置からの復帰", async ({ page }) => {

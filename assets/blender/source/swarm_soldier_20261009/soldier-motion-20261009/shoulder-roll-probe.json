@@ -1,0 +1,1242 @@
+{
+  "-90": {
+    "minimum": -0.23739869892597198,
+    "samples": [
+      {
+        "fraction": 0.0,
+        "equipmentMin": 0.05770748853683472,
+        "groundShift": 6.705522537231445e-08
+      },
+      {
+        "fraction": 0.016666666666666666,
+        "equipmentMin": 0.09830698370933533,
+        "groundShift": 0.0009699966758489609
+      },
+      {
+        "fraction": 0.03333333333333333,
+        "equipmentMin": 0.19831430912017822,
+        "groundShift": 0.003843933140160516
+      },
+      {
+        "fraction": 0.05,
+        "equipmentMin": 0.33637309074401855,
+        "groundShift": -0.0003294306807219982
+      },
+      {
+        "fraction": 0.06666666666666667,
+        "equipmentMin": 0.49359598755836487,
+        "groundShift": -0.014264212921261787
+      },
+      {
+        "fraction": 0.08333333333333333,
+        "equipmentMin": 0.6771294474601746,
+        "groundShift": -0.020739175379276276
+      },
+      {
+        "fraction": 0.1,
+        "equipmentMin": 0.7217186093330383,
+        "groundShift": -0.0333048552274704
+      },
+      {
+        "fraction": 0.11666666666666667,
+        "equipmentMin": 0.638858437538147,
+        "groundShift": -0.05069282650947571
+      },
+      {
+        "fraction": 0.13333333333333333,
+        "equipmentMin": 0.5696310997009277,
+        "groundShift": -0.06854233145713806
+      },
+      {
+        "fraction": 0.15,
+        "equipmentMin": 0.5443788766860962,
+        "groundShift": -0.055447161197662354
+      },
+      {
+        "fraction": 0.16666666666666666,
+        "equipmentMin": 0.5429134964942932,
+        "groundShift": -0.018334388732910156
+      },
+      {
+        "fraction": 0.18333333333333332,
+        "equipmentMin": 0.5892829895019531,
+        "groundShift": 0.06826311349868774
+      },
+      {
+        "fraction": 0.2,
+        "equipmentMin": 0.5505832433700562,
+        "groundShift": 0.068692147731781
+      },
+      {
+        "fraction": 0.21666666666666667,
+        "equipmentMin": 0.4975876808166504,
+        "groundShift": 0.06520181894302368
+      },
+      {
+        "fraction": 0.23333333333333334,
+        "equipmentMin": 0.37185555696487427,
+        "groundShift": -0.0012363791465759277
+      },
+      {
+        "fraction": 0.25,
+        "equipmentMin": 0.20399892330169678,
+        "groundShift": -0.08443832397460938
+      },
+      {
+        "fraction": 0.26666666666666666,
+        "equipmentMin": 0.012922406196594238,
+        "groundShift": -0.13127267360687256
+      },
+      {
+        "fraction": 0.2833333333333333,
+        "equipmentMin": -0.13966232538223267,
+        "groundShift": -0.1726076602935791
+      },
+      {
+        "fraction": 0.3,
+        "equipmentMin": -0.19466948509216309,
+        "groundShift": -0.1534414291381836
+      },
+      {
+        "fraction": 0.31666666666666665,
+        "equipmentMin": -0.23453789949417114,
+        "groundShift": -0.1603785753250122
+      },
+      {
+        "fraction": 0.3333333333333333,
+        "equipmentMin": -0.23739869892597198,
+        "groundShift": -0.17797137424349785
+      },
+      {
+        "fraction": 0.35,
+        "equipmentMin": -0.2050253003835678,
+        "groundShift": -0.168691273778677
+      },
+      {
+        "fraction": 0.36666666666666664,
+        "equipmentMin": -0.13793788850307465,
+        "groundShift": -0.11635804176330566
+      },
+      {
+        "fraction": 0.38333333333333336,
+        "equipmentMin": -0.12798798084259033,
+        "groundShift": -0.09782063215970993
+      },
+      {
+        "fraction": 0.4,
+        "equipmentMin": -0.1251237392425537,
+        "groundShift": -0.07246662303805351
+      },
+      {
+        "fraction": 0.4166666666666667,
+        "equipmentMin": -0.09589694440364838,
+        "groundShift": 0.0054174624383449554
+      },
+      {
+        "fraction": 0.43333333333333335,
+        "equipmentMin": -0.14240291714668274,
+        "groundShift": 0.04557785368524492
+      },
+      {
+        "fraction": 0.45,
+        "equipmentMin": -0.13378700613975525,
+        "groundShift": 0.10838331282138824
+      },
+      {
+        "fraction": 0.4666666666666667,
+        "equipmentMin": -0.12388116121292114,
+        "groundShift": 0.17522691190242767
+      },
+      {
+        "fraction": 0.48333333333333334,
+        "equipmentMin": -0.12010031938552856,
+        "groundShift": 0.22153383493423462
+      },
+      {
+        "fraction": 0.5,
+        "equipmentMin": -0.13057252764701843,
+        "groundShift": 0.2273564045317471
+      },
+      {
+        "fraction": 0.5166666666666667,
+        "equipmentMin": -0.13017413020133972,
+        "groundShift": 0.23722600936889648
+      },
+      {
+        "fraction": 0.5333333333333333,
+        "equipmentMin": -0.11124154925346375,
+        "groundShift": 0.19119050353765488
+      },
+      {
+        "fraction": 0.55,
+        "equipmentMin": -0.12666594982147217,
+        "groundShift": 0.07867198623716831
+      },
+      {
+        "fraction": 0.5666666666666667,
+        "equipmentMin": -0.10453572869300842,
+        "groundShift": 0.06853868975304067
+      },
+      {
+        "fraction": 0.5833333333333334,
+        "equipmentMin": -0.05511149764060974,
+        "groundShift": 0.05503609520383179
+      },
+      {
+        "fraction": 0.6,
+        "equipmentMin": -0.038700610399246216,
+        "groundShift": 0.03420537430793047
+      },
+      {
+        "fraction": 0.6166666666666667,
+        "equipmentMin": -0.029812663793563843,
+        "groundShift": -0.0047565484419465065
+      },
+      {
+        "fraction": 0.6333333333333333,
+        "equipmentMin": -0.01557236909866333,
+        "groundShift": -0.03891143249347806
+      },
+      {
+        "fraction": 0.65,
+        "equipmentMin": 0.00195881724357605,
+        "groundShift": -0.06934476178139448
+      },
+      {
+        "fraction": 0.6666666666666666,
+        "equipmentMin": 0.05495250225067139,
+        "groundShift": -0.06452960940077901
+      },
+      {
+        "fraction": 0.6833333333333333,
+        "equipmentMin": 0.11111065745353699,
+        "groundShift": -0.05464512063190341
+      },
+      {
+        "fraction": 0.7,
+        "equipmentMin": 0.17492061853408813,
+        "groundShift": -0.04050574079155922
+      },
+      {
+        "fraction": 0.7166666666666667,
+        "equipmentMin": 0.245692640542984,
+        "groundShift": -0.023694248404353857
+      },
+      {
+        "fraction": 0.7333333333333333,
+        "equipmentMin": 0.32226771116256714,
+        "groundShift": -0.005923893768340349
+      },
+      {
+        "fraction": 0.75,
+        "equipmentMin": 0.40306663513183594,
+        "groundShift": 0.011339093558490276
+      },
+      {
+        "fraction": 0.7666666666666667,
+        "equipmentMin": 0.4856603145599365,
+        "groundShift": 0.02701331628486514
+      },
+      {
+        "fraction": 0.7833333333333333,
+        "equipmentMin": 0.5680456161499023,
+        "groundShift": 0.039752423763275146
+      },
+      {
+        "fraction": 0.8,
+        "equipmentMin": 0.6482068300247192,
+        "groundShift": 0.04899757448583841
+      },
+      {
+        "fraction": 0.8166666666666667,
+        "equipmentMin": 0.725609540939331,
+        "groundShift": 0.05468220915645361
+      },
+      {
+        "fraction": 0.8333333333333334,
+        "equipmentMin": 0.7454080581665039,
+        "groundShift": 0.056293390691280365
+      },
+      {
+        "fraction": 0.85,
+        "equipmentMin": 0.7483198642730713,
+        "groundShift": 0.05397344846278429
+      },
+      {
+        "fraction": 0.8666666666666667,
+        "equipmentMin": 0.7486095428466797,
+        "groundShift": 0.04861536715179682
+      },
+      {
+        "fraction": 0.8833333333333333,
+        "equipmentMin": 0.747306764125824,
+        "groundShift": 0.04120276216417551
+      },
+      {
+        "fraction": 0.9,
+        "equipmentMin": 0.744905948638916,
+        "groundShift": 0.03230512933805585
+      },
+      {
+        "fraction": 0.9166666666666666,
+        "equipmentMin": 0.7419476509094238,
+        "groundShift": 0.023150223772972822
+      },
+      {
+        "fraction": 0.9333333333333333,
+        "equipmentMin": 0.7392929792404175,
+        "groundShift": 0.014924716670066118
+      },
+      {
+        "fraction": 0.95,
+        "equipmentMin": 0.7364730834960938,
+        "groundShift": 0.007963445037603378
+      },
+      {
+        "fraction": 0.9666666666666667,
+        "equipmentMin": 0.7347947359085083,
+        "groundShift": 0.003374018531758338
+      },
+      {
+        "fraction": 0.9833333333333333,
+        "equipmentMin": 0.7336745262145996,
+        "groundShift": 0.000476576155051589
+      },
+      {
+        "fraction": 1.0,
+        "equipmentMin": 0.7338476181030273,
+        "groundShift": 1.30385160446167e-07
+      }
+    ]
+  },
+  "-60": {
+    "minimum": -0.1736794114112854,
+    "samples": [
+      {
+        "fraction": 0.0,
+        "equipmentMin": 0.05770689249038696,
+        "groundShift": 1.1175870895385742e-07
+      },
+      {
+        "fraction": 0.016666666666666666,
+        "equipmentMin": 0.09785890579223633,
+        "groundShift": 0.0006480172742158175
+      },
+      {
+        "fraction": 0.03333333333333333,
+        "equipmentMin": 0.19597581028938293,
+        "groundShift": 0.002584697911515832
+      },
+      {
+        "fraction": 0.05,
+        "equipmentMin": 0.32950058579444885,
+        "groundShift": -0.0031646336428821087
+      },
+      {
+        "fraction": 0.06666666666666667,
+        "equipmentMin": 0.4903801381587982,
+        "groundShift": -0.009480917826294899
+      },
+      {
+        "fraction": 0.08333333333333333,
+        "equipmentMin": 0.6696406602859497,
+        "groundShift": -0.012877658009529114
+      },
+      {
+        "fraction": 0.1,
+        "equipmentMin": 0.7584224343299866,
+        "groundShift": -0.020279839634895325
+      },
+      {
+        "fraction": 0.11666666666666667,
+        "equipmentMin": 0.6880307197570801,
+        "groundShift": -0.030878782272338867
+      },
+      {
+        "fraction": 0.13333333333333333,
+        "equipmentMin": 0.6313619613647461,
+        "groundShift": -0.04120567440986633
+      },
+      {
+        "fraction": 0.15,
+        "equipmentMin": 0.5894477367401123,
+        "groundShift": -0.04978013038635254
+      },
+      {
+        "fraction": 0.16666666666666666,
+        "equipmentMin": 0.5789436101913452,
+        "groundShift": -0.02514582872390747
+      },
+      {
+        "fraction": 0.18333333333333332,
+        "equipmentMin": 0.620669424533844,
+        "groundShift": 0.05427616834640503
+      },
+      {
+        "fraction": 0.2,
+        "equipmentMin": 0.5833337306976318,
+        "groundShift": 0.05833923816680908
+      },
+      {
+        "fraction": 0.21666666666666667,
+        "equipmentMin": 0.5300098061561584,
+        "groundShift": 0.0604822039604187
+      },
+      {
+        "fraction": 0.23333333333333334,
+        "equipmentMin": 0.4024861454963684,
+        "groundShift": -0.0009698867797851562
+      },
+      {
+        "fraction": 0.25,
+        "equipmentMin": 0.2776834964752197,
+        "groundShift": -0.03449118137359619
+      },
+      {
+        "fraction": 0.26666666666666666,
+        "equipmentMin": 0.0796862244606018,
+        "groundShift": -0.05853879451751709
+      },
+      {
+        "fraction": 0.2833333333333333,
+        "equipmentMin": -0.08294349908828735,
+        "groundShift": -0.08168959617614746
+      },
+      {
+        "fraction": 0.3,
+        "equipmentMin": -0.1424294114112854,
+        "groundShift": -0.03981888294219971
+      },
+      {
+        "fraction": 0.31666666666666665,
+        "equipmentMin": -0.1736794114112854,
+        "groundShift": -0.022760633379220963
+      },
+      {
+        "fraction": 0.3333333333333333,
+        "equipmentMin": -0.1678014099597931,
+        "groundShift": -0.02819954976439476
+      },
+      {
+        "fraction": 0.35,
+        "equipmentMin": -0.14411407709121704,
+        "groundShift": -0.029925592243671417
+      },
+      {
+        "fraction": 0.36666666666666664,
+        "equipmentMin": -0.10433049499988556,
+        "groundShift": -0.022956132888793945
+      },
+      {
+        "fraction": 0.38333333333333336,
+        "equipmentMin": -0.09885084629058838,
+        "groundShift": -0.0192025825381279
+      },
+      {
+        "fraction": 0.4,
+        "equipmentMin": -0.09304375946521759,
+        "groundShift": -0.009451277554035187
+      },
+      {
+        "fraction": 0.4166666666666667,
+        "equipmentMin": -0.06099723279476166,
+        "groundShift": 0.021587010473012924
+      },
+      {
+        "fraction": 0.43333333333333335,
+        "equipmentMin": -0.12827400863170624,
+        "groundShift": -0.011048674816265702
+      },
+      {
+        "fraction": 0.45,
+        "equipmentMin": -0.12889420986175537,
+        "groundShift": 0.0016907455865293741
+      },
+      {
+        "fraction": 0.4666666666666667,
+        "equipmentMin": -0.11531161516904831,
+        "groundShift": 0.03998410701751709
+      },
+      {
+        "fraction": 0.48333333333333334,
+        "equipmentMin": -0.0988897830247879,
+        "groundShift": 0.07239211350679398
+      },
+      {
+        "fraction": 0.5,
+        "equipmentMin": -0.10920298099517822,
+        "groundShift": 0.08879107283428311
+      },
+      {
+        "fraction": 0.5166666666666667,
+        "equipmentMin": -0.1318027675151825,
+        "groundShift": 0.10160011053085327
+      },
+      {
+        "fraction": 0.5333333333333333,
+        "equipmentMin": -0.08361992239952087,
+        "groundShift": 0.10912629775702953
+      },
+      {
+        "fraction": 0.55,
+        "equipmentMin": -0.03778177499771118,
+        "groundShift": 0.08252568449825048
+      },
+      {
+        "fraction": 0.5666666666666667,
+        "equipmentMin": 0.004133462905883789,
+        "groundShift": 0.11002973769791424
+      },
+      {
+        "fraction": 0.5833333333333334,
+        "equipmentMin": 0.052784234285354614,
+        "groundShift": 0.10521192569285631
+      },
+      {
+        "fraction": 0.6,
+        "equipmentMin": 0.06350106000900269,
+        "groundShift": 0.08289519837126136
+      },
+      {
+        "fraction": 0.6166666666666667,
+        "equipmentMin": 0.09882760047912598,
+        "groundShift": 0.07085170550271869
+      },
+      {
+        "fraction": 0.6333333333333333,
+        "equipmentMin": 0.1412351131439209,
+        "groundShift": 0.06251700641587377
+      },
+      {
+        "fraction": 0.65,
+        "equipmentMin": 0.18984174728393555,
+        "groundShift": 0.05721478350460529
+      },
+      {
+        "fraction": 0.6666666666666666,
+        "equipmentMin": 0.24179011583328247,
+        "groundShift": 0.054334748070687056
+      },
+      {
+        "fraction": 0.6833333333333333,
+        "equipmentMin": 0.29819145798683167,
+        "groundShift": 0.05337238451465964
+      },
+      {
+        "fraction": 0.7,
+        "equipmentMin": 0.35810285806655884,
+        "groundShift": 0.053989635314792395
+      },
+      {
+        "fraction": 0.7166666666666667,
+        "equipmentMin": 0.4208632707595825,
+        "groundShift": 0.05555296456441283
+      },
+      {
+        "fraction": 0.7333333333333333,
+        "equipmentMin": 0.4857669770717621,
+        "groundShift": 0.05733694555237889
+      },
+      {
+        "fraction": 0.75,
+        "equipmentMin": 0.5522446632385254,
+        "groundShift": 0.05900539876893163
+      },
+      {
+        "fraction": 0.7666666666666667,
+        "equipmentMin": 0.6184175610542297,
+        "groundShift": 0.06004332844167948
+      },
+      {
+        "fraction": 0.7833333333333333,
+        "equipmentMin": 0.6830383539199829,
+        "groundShift": 0.059797621332108974
+      },
+      {
+        "fraction": 0.8,
+        "equipmentMin": 0.7395268082618713,
+        "groundShift": 0.058058887254446745
+      },
+      {
+        "fraction": 0.8166666666666667,
+        "equipmentMin": 0.7413607835769653,
+        "groundShift": 0.05477047944441438
+      },
+      {
+        "fraction": 0.8333333333333334,
+        "equipmentMin": 0.741774320602417,
+        "groundShift": 0.04990374390035868
+      },
+      {
+        "fraction": 0.85,
+        "equipmentMin": 0.7413060665130615,
+        "groundShift": 0.043692860286682844
+      },
+      {
+        "fraction": 0.8666666666666667,
+        "equipmentMin": 0.7401047945022583,
+        "groundShift": 0.036701437551528215
+      },
+      {
+        "fraction": 0.8833333333333333,
+        "equipmentMin": 0.7385193705558777,
+        "groundShift": 0.02920975536108017
+      },
+      {
+        "fraction": 0.9,
+        "equipmentMin": 0.7374266386032104,
+        "groundShift": 0.02209261292591691
+      },
+      {
+        "fraction": 0.9166666666666666,
+        "equipmentMin": 0.7363957762718201,
+        "groundShift": 0.015479272697120905
+      },
+      {
+        "fraction": 0.9333333333333333,
+        "equipmentMin": 0.7352400422096252,
+        "groundShift": 0.00940238917246461
+      },
+      {
+        "fraction": 0.95,
+        "equipmentMin": 0.7345882654190063,
+        "groundShift": 0.005201985244639218
+      },
+      {
+        "fraction": 0.9666666666666667,
+        "equipmentMin": 0.7339359521865845,
+        "groundShift": 0.0021096899872645736
+      },
+      {
+        "fraction": 0.9833333333333333,
+        "equipmentMin": 0.7334476709365845,
+        "groundShift": 0.00014624162577092648
+      },
+      {
+        "fraction": 1.0,
+        "equipmentMin": 0.7338472604751587,
+        "groundShift": 1.885928213596344e-07
+      }
+    ]
+  },
+  "60": {
+    "minimum": -0.41138583421707153,
+    "samples": [
+      {
+        "fraction": 0.0,
+        "equipmentMin": 0.057705461978912354,
+        "groundShift": 5.9138983488082886e-08
+      },
+      {
+        "fraction": 0.016666666666666666,
+        "equipmentMin": 0.09649065136909485,
+        "groundShift": -0.00022688182070851326
+      },
+      {
+        "fraction": 0.03333333333333333,
+        "equipmentMin": 0.19103851914405823,
+        "groundShift": 0.0018056811532005668
+      },
+      {
+        "fraction": 0.05,
+        "equipmentMin": 0.3220145106315613,
+        "groundShift": 0.004769473278429359
+      },
+      {
+        "fraction": 0.06666666666666667,
+        "equipmentMin": 0.47865810990333557,
+        "groundShift": 0.008975563570857048
+      },
+      {
+        "fraction": 0.08333333333333333,
+        "equipmentMin": 0.638454258441925,
+        "groundShift": 0.014085724949836731
+      },
+      {
+        "fraction": 0.1,
+        "equipmentMin": 0.7912885546684265,
+        "groundShift": 0.01678815484046936
+      },
+      {
+        "fraction": 0.11666666666666667,
+        "equipmentMin": 0.869611918926239,
+        "groundShift": 0.02064308524131775
+      },
+      {
+        "fraction": 0.13333333333333333,
+        "equipmentMin": 0.8598923087120056,
+        "groundShift": 0.024077296257019043
+      },
+      {
+        "fraction": 0.15,
+        "equipmentMin": 0.8691003322601318,
+        "groundShift": 0.027266770601272583
+      },
+      {
+        "fraction": 0.16666666666666666,
+        "equipmentMin": 0.8469783067703247,
+        "groundShift": 0.032179832458496094
+      },
+      {
+        "fraction": 0.18333333333333332,
+        "equipmentMin": 0.7896345853805542,
+        "groundShift": 0.02114081382751465
+      },
+      {
+        "fraction": 0.2,
+        "equipmentMin": 0.7164872884750366,
+        "groundShift": 0.011679649353027344
+      },
+      {
+        "fraction": 0.21666666666666667,
+        "equipmentMin": 0.6393908262252808,
+        "groundShift": 0.024158000946044922
+      },
+      {
+        "fraction": 0.23333333333333334,
+        "equipmentMin": 0.48615893721580505,
+        "groundShift": -0.021962881088256836
+      },
+      {
+        "fraction": 0.25,
+        "equipmentMin": 0.2997196614742279,
+        "groundShift": -0.08664554357528687
+      },
+      {
+        "fraction": 0.26666666666666666,
+        "equipmentMin": 0.12634152173995972,
+        "groundShift": -0.11034321784973145
+      },
+      {
+        "fraction": 0.2833333333333333,
+        "equipmentMin": -0.0833580493927002,
+        "groundShift": -0.1394360065460205
+      },
+      {
+        "fraction": 0.3,
+        "equipmentMin": -0.23622378706932068,
+        "groundShift": -0.16265082359313965
+      },
+      {
+        "fraction": 0.31666666666666665,
+        "equipmentMin": -0.35247427225112915,
+        "groundShift": -0.19710134714841843
+      },
+      {
+        "fraction": 0.3333333333333333,
+        "equipmentMin": -0.41138583421707153,
+        "groundShift": -0.21972226724028587
+      },
+      {
+        "fraction": 0.35,
+        "equipmentMin": -0.40148845314979553,
+        "groundShift": -0.1924067884683609
+      },
+      {
+        "fraction": 0.36666666666666664,
+        "equipmentMin": -0.3496255874633789,
+        "groundShift": -0.13706554472446442
+      },
+      {
+        "fraction": 0.38333333333333336,
+        "equipmentMin": -0.33726876974105835,
+        "groundShift": -0.11761070042848587
+      },
+      {
+        "fraction": 0.4,
+        "equipmentMin": -0.32634276151657104,
+        "groundShift": -0.09620141983032227
+      },
+      {
+        "fraction": 0.4166666666666667,
+        "equipmentMin": -0.26380953192710876,
+        "groundShift": -0.0340394452214241
+      },
+      {
+        "fraction": 0.43333333333333335,
+        "equipmentMin": -0.21937313675880432,
+        "groundShift": -0.023248910903930664
+      },
+      {
+        "fraction": 0.45,
+        "equipmentMin": -0.13515684008598328,
+        "groundShift": -0.010479450225830078
+      },
+      {
+        "fraction": 0.4666666666666667,
+        "equipmentMin": -0.09508576989173889,
+        "groundShift": 0.012041211361065507
+      },
+      {
+        "fraction": 0.48333333333333334,
+        "equipmentMin": -0.08758549392223358,
+        "groundShift": 0.039485931396484375
+      },
+      {
+        "fraction": 0.5,
+        "equipmentMin": -0.06180688738822937,
+        "groundShift": 0.058034845162183046
+      },
+      {
+        "fraction": 0.5166666666666667,
+        "equipmentMin": -0.05562499165534973,
+        "groundShift": 0.07727302610874176
+      },
+      {
+        "fraction": 0.5333333333333333,
+        "equipmentMin": 0.04612773656845093,
+        "groundShift": 0.11945343390107155
+      },
+      {
+        "fraction": 0.55,
+        "equipmentMin": 0.09691470861434937,
+        "groundShift": 0.07668305654078722
+      },
+      {
+        "fraction": 0.5666666666666667,
+        "equipmentMin": 0.13566842675209045,
+        "groundShift": 0.0821982272900641
+      },
+      {
+        "fraction": 0.5833333333333334,
+        "equipmentMin": 0.18965429067611694,
+        "groundShift": 0.06517734890803695
+      },
+      {
+        "fraction": 0.6,
+        "equipmentMin": 0.23190182447433472,
+        "groundShift": 0.057982160709798336
+      },
+      {
+        "fraction": 0.6166666666666667,
+        "equipmentMin": 0.27987876534461975,
+        "groundShift": 0.0426315045915544
+      },
+      {
+        "fraction": 0.6333333333333333,
+        "equipmentMin": 0.33310309052467346,
+        "groundShift": 0.030850903131067753
+      },
+      {
+        "fraction": 0.65,
+        "equipmentMin": 0.3911978304386139,
+        "groundShift": 0.022811995819211006
+      },
+      {
+        "fraction": 0.6666666666666666,
+        "equipmentMin": 0.4535216987133026,
+        "groundShift": 0.018876392859965563
+      },
+      {
+        "fraction": 0.6833333333333333,
+        "equipmentMin": 0.5202512741088867,
+        "groundShift": 0.017784087918698788
+      },
+      {
+        "fraction": 0.7,
+        "equipmentMin": 0.5803449153900146,
+        "groundShift": 0.019356212113052607
+      },
+      {
+        "fraction": 0.7166666666666667,
+        "equipmentMin": 0.6078971028327942,
+        "groundShift": 0.022452753502875566
+      },
+      {
+        "fraction": 0.7333333333333333,
+        "equipmentMin": 0.6325662732124329,
+        "groundShift": 0.02623264631256461
+      },
+      {
+        "fraction": 0.75,
+        "equipmentMin": 0.654109001159668,
+        "groundShift": 0.030047979205846786
+      },
+      {
+        "fraction": 0.7666666666666667,
+        "equipmentMin": 0.6723145246505737,
+        "groundShift": 0.033725716173648834
+      },
+      {
+        "fraction": 0.7833333333333333,
+        "equipmentMin": 0.6876769065856934,
+        "groundShift": 0.03636693535372615
+      },
+      {
+        "fraction": 0.8,
+        "equipmentMin": 0.7002421617507935,
+        "groundShift": 0.03767062583938241
+      },
+      {
+        "fraction": 0.8166666666666667,
+        "equipmentMin": 0.7102348208427429,
+        "groundShift": 0.037556024733930826
+      },
+      {
+        "fraction": 0.8333333333333334,
+        "equipmentMin": 0.7181500196456909,
+        "groundShift": 0.03587635373696685
+      },
+      {
+        "fraction": 0.85,
+        "equipmentMin": 0.7240123152732849,
+        "groundShift": 0.03246268490329385
+      },
+      {
+        "fraction": 0.8666666666666667,
+        "equipmentMin": 0.7282954454421997,
+        "groundShift": 0.027967089787125587
+      },
+      {
+        "fraction": 0.8833333333333333,
+        "equipmentMin": 0.7316114902496338,
+        "groundShift": 0.022680246271193027
+      },
+      {
+        "fraction": 0.9,
+        "equipmentMin": 0.7351808547973633,
+        "groundShift": 0.017616295721381903
+      },
+      {
+        "fraction": 0.9166666666666666,
+        "equipmentMin": 0.7382310032844543,
+        "groundShift": 0.012675282079726458
+      },
+      {
+        "fraction": 0.9333333333333333,
+        "equipmentMin": 0.7403998374938965,
+        "groundShift": 0.007975474465638399
+      },
+      {
+        "fraction": 0.95,
+        "equipmentMin": 0.7372851967811584,
+        "groundShift": 0.004159701187745668
+      },
+      {
+        "fraction": 0.9666666666666667,
+        "equipmentMin": 0.7354236841201782,
+        "groundShift": 0.0019277611281722784
+      },
+      {
+        "fraction": 0.9833333333333333,
+        "equipmentMin": 0.7342140674591064,
+        "groundShift": 0.000494134146720171
+      },
+      {
+        "fraction": 1.0,
+        "equipmentMin": 0.7338469624519348,
+        "groundShift": 1.19674950838089e-07
+      }
+    ]
+  },
+  "90": {
+    "minimum": -0.32303136587142944,
+    "samples": [
+      {
+        "fraction": 0.0,
+        "equipmentMin": 0.057704538106918335,
+        "groundShift": 5.960464477539063e-08
+      },
+      {
+        "fraction": 0.016666666666666666,
+        "equipmentMin": 0.0966375470161438,
+        "groundShift": 4.144012928009033e-05
+      },
+      {
+        "fraction": 0.03333333333333333,
+        "equipmentMin": 0.19107741117477417,
+        "groundShift": 0.0028450286481529474
+      },
+      {
+        "fraction": 0.05,
+        "equipmentMin": 0.3213285803794861,
+        "groundShift": 0.007754361955448985
+      },
+      {
+        "fraction": 0.06666666666666667,
+        "equipmentMin": 0.4762548804283142,
+        "groundShift": 0.013673249632120132
+      },
+      {
+        "fraction": 0.08333333333333333,
+        "equipmentMin": 0.6313133835792542,
+        "groundShift": 0.020581282675266266
+      },
+      {
+        "fraction": 0.1,
+        "equipmentMin": 0.777403712272644,
+        "groundShift": 0.024291440844535828
+      },
+      {
+        "fraction": 0.11666666666666667,
+        "equipmentMin": 0.8819454908370972,
+        "groundShift": 0.0269281268119812
+      },
+      {
+        "fraction": 0.13333333333333333,
+        "equipmentMin": 0.9029895663261414,
+        "groundShift": 0.029274344444274902
+      },
+      {
+        "fraction": 0.15,
+        "equipmentMin": 0.8722934126853943,
+        "groundShift": 0.032507628202438354
+      },
+      {
+        "fraction": 0.16666666666666666,
+        "equipmentMin": 0.8192459344863892,
+        "groundShift": 0.038911521434783936
+      },
+      {
+        "fraction": 0.18333333333333332,
+        "equipmentMin": 0.748224139213562,
+        "groundShift": 0.03056877851486206
+      },
+      {
+        "fraction": 0.2,
+        "equipmentMin": 0.6763391494750977,
+        "groundShift": 0.02202606201171875
+      },
+      {
+        "fraction": 0.21666666666666667,
+        "equipmentMin": 0.6018776893615723,
+        "groundShift": 0.030789673328399658
+      },
+      {
+        "fraction": 0.23333333333333334,
+        "equipmentMin": 0.45243072509765625,
+        "groundShift": -0.021110236644744873
+      },
+      {
+        "fraction": 0.25,
+        "equipmentMin": 0.23815393447875977,
+        "groundShift": -0.1275985836982727
+      },
+      {
+        "fraction": 0.26666666666666666,
+        "equipmentMin": 0.03662675619125366,
+        "groundShift": -0.21653687953948975
+      },
+      {
+        "fraction": 0.2833333333333333,
+        "equipmentMin": -0.15380650758743286,
+        "groundShift": -0.26961344480514526
+      },
+      {
+        "fraction": 0.3,
+        "equipmentMin": -0.2764926254749298,
+        "groundShift": -0.3030555546283722
+      },
+      {
+        "fraction": 0.31666666666666665,
+        "equipmentMin": -0.32303136587142944,
+        "groundShift": -0.30949997901916504
+      },
+      {
+        "fraction": 0.3333333333333333,
+        "equipmentMin": -0.3171998858451843,
+        "groundShift": -0.29682707041502
+      },
+      {
+        "fraction": 0.35,
+        "equipmentMin": -0.2792643904685974,
+        "groundShift": -0.2466953992843628
+      },
+      {
+        "fraction": 0.36666666666666664,
+        "equipmentMin": -0.2285802662372589,
+        "groundShift": -0.17312585562467575
+      },
+      {
+        "fraction": 0.38333333333333336,
+        "equipmentMin": -0.2116321474313736,
+        "groundShift": -0.13979101926088333
+      },
+      {
+        "fraction": 0.4,
+        "equipmentMin": -0.20214267075061798,
+        "groundShift": -0.1014176607131958
+      },
+      {
+        "fraction": 0.4166666666666667,
+        "equipmentMin": -0.1879366636276245,
+        "groundShift": -0.029059648513793945
+      },
+      {
+        "fraction": 0.43333333333333335,
+        "equipmentMin": -0.2355554699897766,
+        "groundShift": -2.6479829102754593e-06
+      },
+      {
+        "fraction": 0.45,
+        "equipmentMin": -0.20946377515792847,
+        "groundShift": 0.057381413877010345
+      },
+      {
+        "fraction": 0.4666666666666667,
+        "equipmentMin": -0.19664499163627625,
+        "groundShift": 0.11986146890558302
+      },
+      {
+        "fraction": 0.48333333333333334,
+        "equipmentMin": -0.20124787092208862,
+        "groundShift": 0.15956585109233856
+      },
+      {
+        "fraction": 0.5,
+        "equipmentMin": -0.22472766041755676,
+        "groundShift": 0.15669155167415738
+      },
+      {
+        "fraction": 0.5166666666666667,
+        "equipmentMin": -0.23790311813354492,
+        "groundShift": 0.1532633900642395
+      },
+      {
+        "fraction": 0.5333333333333333,
+        "equipmentMin": -0.2137857973575592,
+        "groundShift": 0.10631481558084488
+      },
+      {
+        "fraction": 0.55,
+        "equipmentMin": -0.21038562059402466,
+        "groundShift": 0.0005605251062661409
+      },
+      {
+        "fraction": 0.5666666666666667,
+        "equipmentMin": -0.1744224727153778,
+        "groundShift": -0.012523372191935778
+      },
+      {
+        "fraction": 0.5833333333333334,
+        "equipmentMin": -0.1315528154373169,
+        "groundShift": -0.05128548853099346
+      },
+      {
+        "fraction": 0.6,
+        "equipmentMin": -0.09044939279556274,
+        "groundShift": -0.06675688363611698
+      },
+      {
+        "fraction": 0.6166666666666667,
+        "equipmentMin": -0.045721590518951416,
+        "groundShift": -0.08964309096336365
+      },
+      {
+        "fraction": 0.6333333333333333,
+        "equipmentMin": 0.007199406623840332,
+        "groundShift": -0.10430322913452983
+      },
+      {
+        "fraction": 0.65,
+        "equipmentMin": 0.07002919912338257,
+        "groundShift": -0.1105883396230638
+      },
+      {
+        "fraction": 0.6666666666666666,
+        "equipmentMin": 0.14205920696258545,
+        "groundShift": -0.10845239320769906
+      },
+      {
+        "fraction": 0.6833333333333333,
+        "equipmentMin": 0.22261354327201843,
+        "groundShift": -0.10018848162144423
+      },
+      {
+        "fraction": 0.7,
+        "equipmentMin": 0.3088327646255493,
+        "groundShift": -0.08616929361596704
+      },
+      {
+        "fraction": 0.7166666666666667,
+        "equipmentMin": 0.39993494749069214,
+        "groundShift": -0.06864596577361226
+      },
+      {
+        "fraction": 0.7333333333333333,
+        "equipmentMin": 0.49382561445236206,
+        "groundShift": -0.04939599521458149
+      },
+      {
+        "fraction": 0.75,
+        "equipmentMin": 0.5646268129348755,
+        "groundShift": -0.029911274556070566
+      },
+      {
+        "fraction": 0.7666666666666667,
+        "equipmentMin": 0.6014080047607422,
+        "groundShift": -0.011021758895367384
+      },
+      {
+        "fraction": 0.7833333333333333,
+        "equipmentMin": 0.6335856914520264,
+        "groundShift": 0.005504039116203785
+      },
+      {
+        "fraction": 0.8,
+        "equipmentMin": 0.6607632637023926,
+        "groundShift": 0.01884814165532589
+      },
+      {
+        "fraction": 0.8166666666666667,
+        "equipmentMin": 0.6829957962036133,
+        "groundShift": 0.02860701084136963
+      },
+      {
+        "fraction": 0.8333333333333334,
+        "equipmentMin": 0.7007150650024414,
+        "groundShift": 0.03450076607987285
+      },
+      {
+        "fraction": 0.85,
+        "equipmentMin": 0.7141364812850952,
+        "groundShift": 0.036320867482572794
+      },
+      {
+        "fraction": 0.8666666666666667,
+        "equipmentMin": 0.7237876057624817,
+        "groundShift": 0.03489796910434961
+      },
+      {
+        "fraction": 0.8833333333333333,
+        "equipmentMin": 0.7305391430854797,
+        "groundShift": 0.030838167294859886
+      },
+      {
+        "fraction": 0.9,
+        "equipmentMin": 0.7352832555770874,
+        "groundShift": 0.024855294730514288
+      },
+      {
+        "fraction": 0.9166666666666666,
+        "equipmentMin": 0.7387480735778809,
+        "groundShift": 0.01837553083896637
+      },
+      {
+        "fraction": 0.9333333333333333,
+        "equipmentMin": 0.741468608379364,
+        "groundShift": 0.012265436816960573
+      },
+      {
+        "fraction": 0.95,
+        "equipmentMin": 0.7407069206237793,
+        "groundShift": 0.006591925164684653
+      },
+      {
+        "fraction": 0.9666666666666667,
+        "equipmentMin": 0.7367732524871826,
+        "groundShift": 0.002848612261004746
+      },
+      {
+        "fraction": 0.9833333333333333,
+        "equipmentMin": 0.7345633506774902,
+        "groundShift": 0.0007382596377283335
+      },
+      {
+        "fraction": 1.0,
+        "equipmentMin": 0.73384690284729,
+        "groundShift": 1.1315569281578064e-07
+      }
+    ]
+  }
+}

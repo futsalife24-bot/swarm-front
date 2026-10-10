@@ -1,0 +1,42 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "serviceWorkerControlled": true,
+    "frontDraftCue": 0,
+    "meterAnimations": 3,
+    "errors": [],
+    "consoleErrors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "serviceWorkerControlled": true,
+    "frontDraftCue": 0,
+    "meterAnimations": 0,
+    "errors": [],
+    "consoleErrors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "serviceWorkerControlled": true,
+    "frontDraftCue": 0,
+    "meterAnimations": 3,
+    "errors": [],
+    "consoleErrors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "serviceWorkerControlled": true,
+    "frontDraftCue": 0,
+    "meterAnimations": 0,
+    "errors": [],
+    "consoleErrors": []
+  }
+]

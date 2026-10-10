@@ -1,0 +1,30 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "createdByUi": true,
+    "listedAndJoinedByUi": true,
+    "ready": 2,
+    "metrics": {
+      "screen": "lobby",
+      "width": 820,
+      "overflow": false,
+      "members": 2
+    },
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "createdByUi": true,
+    "listedAndJoinedByUi": true,
+    "ready": 2,
+    "metrics": {
+      "screen": "lobby",
+      "width": 616,
+      "overflow": false,
+      "members": 2
+    },
+    "errors": []
+  }
+]

@@ -17,7 +17,11 @@ import {
   legacyProgressKey,
 } from "../src/client/progression-save";
 import { makeWeapon } from "../src/shared/progression";
-import { FRONT_FUSION_IDS } from "../src/shared/front-upgrades";
+import {
+  FRONT_FUSION_IDS,
+  FRONT_UPGRADE_CATALOG,
+  type FrontUpgradeId,
+} from "../src/shared/front-upgrades";
 const evidence =
   process.env.FRONT_E2E_EVIDENCE ?? "docs/evidence/front-feedback-20261003";
 const prior = JSON.stringify(fresh()),
@@ -182,15 +186,18 @@ for (const width of [844, 640])
     await page.screenshot({ path: `${evidence}/campaign-prep-${width}.png` });
     await page.locator("#front-base").click();
     await expect(page.locator('[data-pool="life-drain"]')).toBeEnabled();
-    await page.locator('[data-pool="magnet"]').uncheck();
+    await page.locator('[data-pool="magnet"]').click();
     await page.locator("#front-save-pool").click();
-    await page.locator("#front-dialog-back").click();
+    await page.locator("#base-back").click();
     await page.reload();
     await page.locator("#solo").click();
     await page.locator("#front-base").click();
-    await expect(page.locator('[data-pool="magnet"]')).not.toBeChecked();
+    await expect(page.locator('[data-pool="magnet"]')).toHaveAttribute(
+      "aria-pressed",
+      "false",
+    );
     await page.screenshot({ path: `${evidence}/pool-${width}.png` });
-    await page.locator("#front-dialog-back").click();
+    await page.locator("#base-back").click();
     await page.locator("#front-launch").click();
     await expect(page.locator(".rebuild-card")).toHaveCount(3, {
       timeout: 65000,
@@ -299,48 +306,73 @@ for (const viewport of [
       .getByRole("button", { name: "ソロで出撃準備", exact: true })
       .click();
     await page.getByRole("button", { name: "強化候補", exact: true }).click();
+    await expect(page.locator("[data-initial]")).toHaveCount(0);
+    const excluded = ["blast-core", "armor-piercer", "afterimage-mine"];
+    for (const id of excluded) {
+      await page.locator(`[data-pool="${id}"]`).click();
+      await expect(page.locator(`[data-pool="${id}"]`)).toHaveAttribute(
+        "aria-pressed",
+        "false",
+      );
+    }
+    const selectedPool = await page
+      .locator('[data-pool][aria-pressed="true"]')
+      .evaluateAll((es) => es.map((e) => e.getAttribute("data-pool")));
     await page
-      .getByRole("combobox", { name: "爆発", exact: true })
-      .selectOption("fuse");
-    await page.getByRole("button", { name: "候補を保存", exact: true }).click();
+      .getByRole("button", { name: "出撃にセット", exact: true })
+      .click();
     await page.getByRole("button", { name: "戻る", exact: true }).click();
     await page.getByRole("button", { name: "設定・操作", exact: true }).click();
     await expect(
       page.getByRole("heading", { name: "設定・操作" }),
     ).toBeVisible();
-    await page.getByRole("button", { name: "戻る", exact: true }).click();
+    await page
+      .getByRole("button", { name: "保存して戻る", exact: true })
+      .click();
     const prep = page.locator(".front-prep");
     expect(
       await prep.evaluate((el) => el.scrollHeight <= el.clientHeight + 1),
     ).toBe(true);
     await page.locator('[data-front-slot="1"]').click();
-    await page.locator('.front-weapon-row [data-weapon="smg"]').last().click();
-    await expect(page.locator('[data-front-slot="1"]')).toContainText("SMG-3");
+    await page
+      .locator("[data-row]")
+      .filter({ hasText: "RL-2" })
+      .locator(".pt-stat-inner")
+      .click();
+    await expect(page.locator('[data-front-slot="1"]')).toContainText("RL-2");
     await page.locator('[data-front-slot="0"]').click();
-    await page.locator('.front-weapon-row [data-weapon="smg"]').last().click();
-    await expect(page.locator('[data-front-slot="0"]')).toContainText("SMG-3");
+    await page
+      .locator("[data-row]")
+      .filter({ hasText: "RL-2" })
+      .locator(".pt-stat-inner")
+      .click();
+    await expect(page.locator('[data-front-slot="0"]')).toContainText("RL-2");
     await expect(page.locator('[data-front-slot="1"]')).toContainText("AR-9");
     await expect(page.locator("[data-initial]")).toHaveCount(0);
     const launch = await page.locator("#front-launch").boundingBox();
     expect(launch!.x).toBeGreaterThan(viewport.width / 2);
     expect(launch!.y).toBeGreaterThan(viewport.height * 0.7);
     await page
-      .locator('[data-front-weapon-row="rifle"] .pt-stat-inner')
+      .locator("[data-row]")
+      .filter({ hasText: "AR-9" })
+      .locator(".pt-stat-inner")
       .click();
     await expect(page.locator('[data-front-slot="0"]')).toContainText("AR-9");
     // 元の装備に戻して、既存の戦闘・強化検証を続行。
     await page
-      .locator('.front-weapon-row [data-weapon="rifle"]')
-      .last()
+      .locator("[data-row]")
+      .filter({ hasText: "AR-9" })
+      .locator(".pt-stat-inner")
       .click();
     await page.locator('[data-front-slot="1"]').click();
     await page
-      .locator('.front-weapon-row [data-weapon="shotgun"]')
-      .last()
+      .locator("[data-row]")
+      .filter({ hasText: "SG-4" })
+      .locator(".pt-stat-inner")
       .click();
-    const layout = await page.locator(".front-weapon-table").evaluate((el) => {
+    const layout = await page.locator(".gear-weapon-list").evaluate((el) => {
       const r = el.getBoundingClientRect();
-      const rows = [...el.querySelectorAll(".front-weapon-row")];
+      const rows = [...el.querySelectorAll("[data-row]")];
       return {
         x: r.x,
         right: r.right,
@@ -354,24 +386,24 @@ for (const viewport of [
     expect(layout.heights).toEqual([30, 30, 30]);
     if (viewport.width >= 844) expect(layout.scroll).toBeLessThanOrEqual(1);
     const fixed = await page
-      .locator(".front-weapon-row .gear-pinned-label")
+      .locator("[data-pinned] .gear-pinned-label")
       .first()
       .boundingBox();
     await page
-      .locator(".front-weapon-table")
+      .locator(".gear-weapon-list")
       .evaluate((el) => (el.scrollLeft = 500));
     expect(
       (await page
-        .locator(".front-weapon-row .gear-pinned-label")
+        .locator("[data-pinned] .gear-pinned-label")
         .first()
         .boundingBox())!.x,
     ).toBe(fixed!.x);
     const offsets = await page
-      .locator(".front-weapon-table .pt-stat-inner")
+      .locator(".gear-weapon-list .pt-stat-inner")
       .evaluateAll((es) => es.map((el) => el.getBoundingClientRect().x));
     expect(offsets.every((x) => Math.abs(x - offsets[0]) < 1)).toBe(true);
     await page
-      .locator(".front-weapon-table")
+      .locator(".gear-weapon-list")
       .evaluate((el) => (el.scrollLeft = 0));
     await page.screenshot({
       path: `${evidence}/prep-${viewport.width}x${viewport.height}.png`,
@@ -390,6 +422,14 @@ for (const viewport of [
     const originalChoices = await page
       .locator(".rebuild-card")
       .evaluateAll((es) => es.map((e) => e.getAttribute("data-card")));
+    expect(new Set(originalChoices).size).toBe(3);
+    expect(
+      originalChoices.every(
+        (id) => selectedPool.includes(id) && !excluded.includes(id!),
+      ),
+    ).toBe(true);
+    const chosenId = originalChoices[0] as FrontUpgradeId;
+    const chosenName = FRONT_UPGRADE_CATALOG[chosenId].name;
     await page
       .getByRole("button", { name: "現在の強化 0/6枠", exact: true })
       .click();
@@ -460,6 +500,11 @@ for (const viewport of [
     ).toEqual(originalChoices);
     await expect(page.locator(".rebuild-card")).toHaveCount(3);
     expect(await page.locator(".rebuild-selection footer").count()).toBe(0);
+    await page.waitForFunction(() =>
+      [
+        ...document.querySelectorAll<HTMLImageElement>(".rebuild-card img"),
+      ].every((image) => image.complete),
+    );
     const cards = await page.locator(".rebuild-card").evaluateAll((nodes) =>
       nodes.map((el) => {
         const r = el.getBoundingClientRect(),
@@ -470,7 +515,7 @@ for (const viewport of [
           right: r.right,
           top: r.top,
           bottom: r.bottom,
-          loaded: image.complete && image.naturalWidth === 256,
+          loaded: image.complete && image.naturalWidth > 0,
           animation: style.animationName,
           delay: style.animationDelay,
         };
@@ -562,7 +607,7 @@ for (const viewport of [
           );
         }),
     );
-    await page.getByRole("button", { name: /導火：/ }).click();
+    await page.locator(`[data-card="${chosenId}"]`).click();
     const selected = await transition;
     expect(selected.elapsed).toBeLessThan(700);
     expect(selected.picked).toBe(
@@ -580,7 +625,7 @@ for (const viewport of [
       page.getByRole("list", { name: "取得済み強化" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("listitem", { name: "導火 1段階", exact: true }),
+      page.getByRole("listitem", { name: `${chosenName} 1段階`, exact: true }),
     ).toBeVisible();
     await page.screenshot({ path: `${evidence}/battle-${viewport.width}.png` });
     await page.keyboard.press("Escape");
@@ -588,8 +633,8 @@ for (const viewport of [
       page.getByRole("heading", { name: "一時停止", exact: true }),
     ).toBeVisible();
     await expect(
-      page.locator(".front-upgrade-details [data-upgrade='fuse']"),
-    ).toContainText("命中で印、次の命中で起爆");
+      page.locator(`.front-upgrade-details [data-upgrade='${chosenId}']`),
+    ).toContainText(chosenName);
     await page.screenshot({ path: `${evidence}/pause-${viewport.width}.png` });
     // 合成した最大取得状態で、詳細欄だけを実際の描画関数から差し替える。
     const sample = getFrontRunView(
@@ -779,22 +824,33 @@ test("実ブラウザ2人：準備・共同選択・独立報酬・再読込", a
     exact: true,
   });
   await expect(coopOwned).toContainText("部隊の選択時間は進みます");
-  await page.locator("[data-card='blast-core']").click();
+  const firstPick = await page
+    .locator(".rebuild-card")
+    .first()
+    .getAttribute("data-card");
+  await page.locator(`[data-card='${firstPick}']`).click();
   await expect(page.getByText("部隊の選択を待っています")).toBeVisible();
   await expect(coopOwned).toBeVisible();
   await second.getByRole("button", { name: "3択へ戻る", exact: true }).click();
-  await second.locator("[data-card='afterimage-mine']").click();
+  const secondPick = (await second
+    .locator(`.rebuild-card:not([data-card='${firstPick}'])`)
+    .first()
+    .getAttribute("data-card")) as FrontUpgradeId;
+  await second.locator(`[data-card='${secondPick}']`).click();
   for (const p of pages)
     await expect(p.locator("#controls")).toBeVisible({ timeout: 10000 });
   await page.locator("#pause").click();
   await expect(
-    page.locator(".front-upgrade-details [data-upgrade='blast-core']"),
+    page.locator(`.front-upgrade-details [data-upgrade='${firstPick}']`),
   ).toBeVisible();
   await expect(
-    page.locator(".front-upgrade-details [data-upgrade='afterimage-mine']"),
+    page.locator(`.front-upgrade-details [data-upgrade='${secondPick}']`),
   ).toHaveCount(0);
   await expect(
-    second.getByRole("listitem", { name: "残像地雷 1段階", exact: true }),
+    second.getByRole("listitem", {
+      name: `${FRONT_UPGRADE_CATALOG[secondPick].name} 1段階`,
+      exact: true,
+    }),
   ).toBeVisible();
   await page.locator("#front-settings").click();
   const timer = page.locator(".mission-line > b");

@@ -1,3 +1,4 @@
+import type { Block } from "./map-blocks";
 import {
   beginFrontShot,
   frontManualHit,
@@ -158,6 +159,8 @@ export interface Player {
   reloadSlots?: number[];
   y?: number; // Authoritative feet altitude; absent legacy snapshots mean zero.
   id: string;
+  /** Stable squad colour, assigned by the authority; optional for old snapshots. */
+  accentSlot?: number;
   x: number;
   z: number;
   yaw: number;
@@ -365,6 +368,13 @@ export function addPlayer(
 ) {
   const p: Player = {
     id,
+    accentSlot:
+      [0, 1, 2, 3].find(
+        (slot) =>
+          !w.players.some(
+            (other, index) => (other.accentSlot ?? index) === slot,
+          ),
+      ) ?? 0,
     x: w.players.length * 2 - 1,
     z: mapFor(w).blocks === CAVE_BLOCKS ? 36 * MAP_SCALE : 17 * MAP_SCALE,
     yaw: 0,
@@ -659,6 +669,19 @@ export function retireEvents(w: World, delivered: number) {
   if (w.events.length && w.events[0].id <= delivered)
     w.events = w.events.filter((e) => e.id > delivered);
 }
+/** 通常出現の初期高度。HARROWの飛行高はspawn側で後から加算する。 */
+export function enemySpawnHeight(
+  kind: Enemy["kind"],
+  x: number,
+  z: number,
+  blocks: Block[],
+) {
+  return Math.min(
+    supportHeight(x, z, blocks) + ENEMIES[kind].cruise,
+    blocks === CAVE_BLOCKS && kind === "hornet" ? 5 : Infinity,
+  );
+}
+
 export function spawn(
   w: World,
   kind: Enemy["kind"],
@@ -713,10 +736,7 @@ export function spawn(
     size,
     kind,
     x: ex,
-    y: Math.min(
-      supportHeight(ex, ez, mapFor(w).blocks) + ENEMIES[kind].cruise,
-      mapFor(w).blocks === CAVE_BLOCKS && kind === "hornet" ? 5 : Infinity,
-    ),
+    y: enemySpawnHeight(kind, ex, ez, mapFor(w).blocks),
     z: ez,
     hp,
     maxHp: hp,

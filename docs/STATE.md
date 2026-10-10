@@ -18,6 +18,321 @@
 
 全11台詞の演技指示と差し替え・検証手順を準備。[下書きPR137](https://github.com/futsalife24-bot/swarm-front/pull/137)、[再制作準備](SOLDIER-VOICE-REMAKE.md)。branch `codex/soldier-voice-remake-20261006`、base `c67628040c747ab22c7dbfa45021c7a2cdb9ca52`。利用者が総額1,000円までの有料生成を明示承認。生成0本・支出0円、音声生成・実装・監査・公開は未実施。停止理由: AI Studioの既存kondateとyoutube-analysisの双方が支払い設定を要求。再開条件: 利用者が支払い設定を完了し、使える接続先を指定する。予算の再承認は不要、利用可能になったら比較3台詞から再開する。
 
+## 2026-10-09 ローリング・固定発射点を本番公開完了
+
+本人承認と通常Chat独立監査合格後、[PR156](https://github.com/futsalife24-bot/swarm-front/pull/156)を通常merge。公開ソースmain `4dfd5e18c1b62d139d53bab7ee35a4866b95ceef` から本番build・全268成果物の開発録画混入0・既存Worker dry-run成功。既存Free契約のswarm-frontへ公開、Version `54aca1f3-2c66-4342-9e13-1ef395773370`。公開先 https://swarm-front.melosalife-24.workers.dev/front 。監査後に実装変更なし。
+
+health正常、HTML・主要JS2件・兵士GLBのSHAが成果物と完全一致。[配信検証](../evidence/soldier-roll-shot-20261009/release-verification.json)。Chromeでも新しいfront-D3Yc2CVg.jsを読み、通常ソロで新兵士と射撃表示を確認、9ゲーム秒で一時停止しタイトルへ戻って終了。確認時console error0。[本番画像](../evidence/soldier-roll-shot-20261009/release-live.png)。ローリングと横移動の詳細は公開前の3武器×180コマと独立監査で検証済み。本番画面だけから全遷移を確認したとは扱わない。全地形・4人通信・実機性能は未保証、既存弾道テスト1件はbaseでも同じ失敗。残る作業は本公開記録のmain同期のみ。モデルID/推論設定は未確認。
+## 2026-10-09 ローリング・固定発射点の独立監査合格
+
+通常Chatの独立監査が完了し、対象 `4c357dd454663e8d16a0b494bc032570aa45abf9` は合格、必須P0/P1/P2は0件。[監査回答](../evidence/soldier-roll-shot-20261009/audit-4c357dd.txt)。ZIP内322項目のハッシュ、3クリップだけの変更、発光73コマの体中心差0を監査側で照合。テスト/buildの独立再実行・全地形・4人通信・実機性能は保証外。以降は記録のみで実装変更なし。本人承認に基づきPR156の通常merge・既存Worker公開へ進む。既存Workers Freeがアクティブ、24時間のWorker呼び出し303・エラー0を画面確認し、契約変更なし。
+## 2026-10-09 ローリング復帰・横移動射撃の発射点を修正中
+
+本人の「承認する」で今回の修正・素材・証拠の公開GitHub送信、通常Chat監査、修正/再監査、合格後の通常merge・既存Worker公開・記録同期の承認が解消。2985b42までpush成功、[PR156](https://github.com/futsalife24-bot/swarm-front/pull/156)をdraft作成。4c357ddの承認済みZIPを[新規通常Chat](https://chatgpt.com/c/6ac8f717-5e54-83ec-9b1e-7854310a9944)へ送信し、独立監査の回答待ち。以降の変更は記録のみ。監査合格・merge・公開はまだ。
+
+実装＋証拠の対象HEAD `4c357dd454663e8d16a0b494bc032570aa45abf9`。公開GitHubへのpushは自動承認レビューが「今回の修正・証拠をその宛先へ公開する明示承認を確認できない」と拒否。push・PR作成・監査送信・merge・公開は未実施。本人へ当該範囲の一式承認を質問中。ローカルWorker dry-runは成功。準備済み監査ZIP `C:/Users/futsa/Documents/Codex/2026-10-07/https-x-com-dstudio-ai-status/soldier-motion-20261009/soldier-roll-shot-4c357dd.zip`、85,816,864 bytes、SHA256 `5d75157c3080c562913258e698c1a36563ec804a48dca0407822caaf92083a8d`。322収録項目のハッシュとZIP破損なしを確認。送信先は新しい通常Chat（iab）で未送信。再開条件は本人の今回一式への明示承認。拒否を迂回しない。
+
+公開版を操作した本人の追加指定。作業は `C:/Users/futsa/Documents/Codex/2026-10-09/swarm-soldier-motion`、branch `codex/soldier-roll-shot-origin-20261009`、base `c529694902397fba952dc6de16ff4bdc6c31bcd1`。モデル形状と31動作を維持し、回避3クリップを武器別ローリングへ戻す。回避距離・0.32秒・無敵時間・再使用待ち時間は維持。発射表示は本人が許容した体中心＋高さ1.5を採用し、描画補間に合わせる。権威判定・着弾点は変更しない。短い武器の床干渉は本人の許容を維持。
+
+関連19テストとclient/Worker型検査成功。3回避の体床下頂点0、握り最大差3.10mm以下。新しい検証originで武器3種×180コマを保存、前方/横回避を確認。発光と描画体中心の距離は計73コマで最大0。旧originのService Workerキャッシュで古い描画だった記録は成功証拠にしない。通常ソロの敵あり・10ゲーム秒/172描画も保存し、移動射撃・装填途中切替・回避後射撃を確認。実装 `34fb30c476a02c10328357a60bf11987db71abe8` の本番build成功、全268ファイルの開発録画混入0。独立Chat監査・main反映・公開は未完了。[変更と証拠](../evidence/soldier-roll-shot-20261009/README.md)。モデルID/推論設定は未確認。
+
+## 2026-10-09 兵士更新を本番公開・配信確認完了
+
+本人が残作業一式を明示承認。独立監査合格のPR154を通常mergeし、公開ソースmainは `1246038673773cd4aa39c21d8503ec4ec7c7bcaf`。監査後の実装変更なし。merge後の本番build・全268ファイルの開発録画混入0検査・Worker dry-runが成功。既存Free契約のWorkerへ公開し、Version `66bb4086-3848-451a-a87b-f7c25caf500f`。公開先 https://swarm-front.melosalife-24.workers.dev/front 。
+
+`/api/health`正常、配信HTML・主要JS2件・兵士GLBのSHAが公開成果物と一致。[配信検証](../evidence/soldier-motion-20261009/release-verification.json)。Chromeの通常ソロ出撃で新兵士と識別色を確認し、約5秒後に一時停止→タイトルへ戻って検証終了。確認時のconsole errorは0。[本番画像](../evidence/soldier-motion-20261009/release-live.png)。全遷移・全地形・実機性能の保証は行わず、既存弾道テスト1件のbase同一失敗は前述の通り。初期（簡易図形）→現行（v10）→最新の同ポーズ比較も[完成](../evidence/soldier-motion-20261009/comparison/soldier-generations.png)。残る同期は本公開記録のみ。モデルID・推論設定は未確認。
+
+## 2026-10-09 独立監査合格・公開へ
+
+監査回答保存commit6f0f3bcのpush・PR本文更新・Draft解除は、自動承認レビューが「直前承認は旧コミットの進捗pushに限る」と拒否。残る監査/公開記録の既存公開GitHub同期・PR154通常merge・既存Worker公開・配信確認・完了記録のmain反映をまとめて本人へ確認中。拒否された外部変更は未実施。公開前のローカルWorker dry-runは成功し、全268本番ファイル再検査も混入0。監査後の実装変更はなし。
+
+本人の明示承認後、d03be04のpushと限定ZIPの送信が成功。通常Chatで実装c5213543a0a1dec284c3a6f86662854c305df1fdの限定再監査が完了し、P2-01/02/03すべて解消、P0/P1/P2残存0、通常merge・既存Worker公開可。[監査回答](../evidence/soldier-motion-20261009/audit-c521354.md)。監査側の現物照合はZIP内の本番27ファイル、その他241件は検査JSONの確認に留まる。全動作・全地形・実機性能の保証ではない。監査後の追加は本記録と回答保存のみ。次にPR154を通常merge、merge後mainからbuild/dry-run/本番公開・配信確認する。
+
+## 2026-10-09 限定再監査の送信承認待ち
+
+実装HEAD c5213543a0a1dec284c3a6f86662854c305df1fd はpush済み。P2-03限定資料 `soldier-p2-03-c521354.zip`（4,506,819 bytes、SHA256 a739f7049a9efa0d1558b9ff28f0864f5f4c837279696dd658b93ba2fea7a89a）は準備済みだが未送信。保存先は `C:/Users/futsa/Documents/Codex/2026-10-07/https-x-com-dstudio-ai-status/soldier-motion-20261009/`。送信先は既存監査Chat https://chatgpt.com/c/6ac8c749-56a4-83e8-90de-a62a92f2a350 。自動承認レビューが「送信データと宛先の具体的な許可がないため」とアップロードを拒否し、対象ZIP・宛先を明示して本人へ確認中。代替経路へは送信していない。承認後に同じ経路で限定再監査し、合格後にPR154の通常merge・公開へ進む。
+
+独立した公開準備として、既存CloudflareアカウントのWorkers Freeがアクティブであることを画面確認。10月1〜9日のアカウント利用はリクエスト3.73k、CPU 2.8k ms、本日0/100,000と表示。契約変更なし。3世代比較PNGは `evidence/soldier-motion-20261009/comparison/soldier-generations.png` に完成済み。全体の概算94%、監査合格・main反映・公開は未完了。
+
+## 2026-10-09 モーション監査解消・本番除外を限定修正
+
+独立監査baf5d1dはP2-01/02解消、P2-03として開発用録画TSの本番混入を指摘。[監査回答](../evidence/soldier-motion-20261009/audit-baf5d1d.md)。DEV条件内のnew URLを通常の動的importへ変え、268ファイル全体の内容・ファイル名検査で混入0。JSのみ検索した以前の本番除外の自己判定は誤りとして訂正。本体兵士と動作は不変、型/build成功。比較PNGは完成し前回資料に同梱済み。次はP2-03だけの修正ソース・本番成果物/全体manifestを同じChatへ再監査。合格までmerge/公開しない。
+
+## 2026-10-09 最新手順の適用・通常ソロ証拠を追加
+
+最新のAGENTS/PROJECT_TEAM（原c8d570a）を3822cc7で取り込み。ユーザー指定project-kickoffと参照2文書を再読し、主担当兼務・既存独立Chat監査・承認維持を適用。通常戦闘の残存P2証拠と限界は [LIVE-SOLO.md](../evidence/soldier-motion-20261009/LIVE-SOLO.md)。play-1791547622092の10ゲーム秒/60.7355実秒/155描画を採用。前後左右射撃、移動装填、装填中切替、回避後射撃を実状態で確認。既存弾道テストは変更前baseでも同じ1件失敗を再現。クライアント/Worker型検査、本番build、変更UI/TSの書式確認成功。本番成果物に録画モジュール/保存経路/操作UIなし。GLBと実モーションはc202c77から不変。
+
+初期・現行・最新の比較画像も実モデルで作成中。初期はまず簡易図形と解釈。監査の最終判定は未取得、PR154はdraft、main/公開は未実施。次はこの追加資料をcommit/pushして同じ通常Chatへ残P2-01の再監査を依頼する。モデルID・推論設定は未確認。
+
+## 2026-10-09 追加納品と再監査の残作業
+
+ユーザー追加依頼: 最後に初期兵士・現行兵士・今回の最新兵士を、同じポーズ/向き/大きさ/照明で横並び比較した画像を納品する。各世代の実モデルをGit履歴で特定し、生成画像による見た目の置換ではなく実物を撮影する。
+
+c202c77はpush済み。再監査はP2-02解消、P2-01は通常ソロで移動中の射撃/装填/持ち替え/回避直後の射撃と手元拡大が残る。通常出撃の自動入力・録画を開発限定で追加中。play-1791546809354は実ゲーム10秒・実時間60.049秒・171描画コマの録画であり、実時間の滑らかさの証明にはしない。見た目の銃の下向きは実角度測定で再確認中、実モーション変更は未実施。監査合格・merge・公開はまだ。
+
+## 2026-10-09 再監査用の連続動作映像を作成
+
+承認済みのソロ出撃・公開GitHubへのpushは実施済み。実装HEADは識別slot修正495960b、PR154はdraft、監査Chatは https://chatgpt.com/c/6ac8c749-56a4-83e8-90de-a62a92f2a350 。main反映・公開はまだ。
+
+P2-01補足: ゲームのstep/Renderer/現行GLBを使った固定入力の連続書き出しを追加。各武器38秒/24fps/912コマ、通常速度・半速MP4・姿勢抜粋・状態計測を evidence/soldier-motion-20261009/integration-* へ保存。敵と影を無効にし、注目する1人を近距離描画。実時間の通常プレイ録画、全34クリップ/全遷移/全地形/通信の証明ではない。詳細・再現手順・限界は [INTEGRATION.md](../evidence/soldier-motion-20261009/INTEGRATION.md)。散弾銃とロケットの初回にあった冒頭の代替モデル1コマは、描画準備を待って再取得し、最終映像では解消。ブラウザキャッシュ対策として検証入口に版を付与。
+
+3武器の射撃弾数減少・装填・持ち替え・回避・ジャンプ・転倒・識別slot維持を計測で確認。型検査と本番build成功。P2-02は固定slotの19関連テストが成功済み。既存render.test.tsの弾道期待値1件失敗は前項の通り。旧ライブ録画の計測ファイルは取得文字数上限で切れていたため採用せず、最終版はローカル書き出しした完全なJSONを検証。
+
+次: この追加証拠と固定色修正をcommit/pushし、同じ通常Chatへ再監査。合格前にmerge/公開しない。通常出撃用の検証タブは終了済み。開発画面はlocalhost:5198。モデルID・推論設定は未確認。
+
+## 2026-10-09 独立監査の必須指摘へ対応中
+
+ca4fc03の独立監査は要修正（P0/P1=0、P2=2）。[回答本文](../evidence/soldier-motion-20261009/audit-ca4fc03.md)。P2-01は実ゲーム全動作/遷移の連続映像不足、P2-02はプレイヤー配列順による色変化。merge/公開は未実施。
+
+P2-02修正: addPlayerで空いている固定accentSlotを割り当て、通常の状態配信に含める。描画は固定slotを使用し、旧snapshotはIDごとの記憶で再配列時の色を保持。先頭離脱→新規参加→状態配信→並べ替えで残存3人の色が変わらず、4色が重複しない回帰試験を追加。旧snapshot参加も確認。関連4ファイル19テスト・クライアント/Worker型検査成功。広げたrender.test.tsは既存の弾道期待値 -7.5 に対し実測 -6 で1件失敗。該当combat-effects.tsとテストはca4fc03から変更なしで、今回の色修正の成功とは混同しない。
+
+次は連続映像を補い、同じ監査Chatへ修正差分と証拠を送る。新しい監査合格は未取得。
+## 2026-10-09 出撃・公開pushを明示承認、PR154の独立監査中
+
+ユーザーが「両方承認します」と回答。ソロ出撃と、兵士モデル・34動作・ゲームコード・制作手順・検証資料を既存公開GitHubへpushする承認待ちは解消した。ca4fc032669e2d7870344434615f41b5d20d4891をpush済み、[PR154](https://github.com/futsalife24-bot/swarm-front/pull/154)はdraft。GitHub上のbaseはde67860cfae978f3ee0bbd6784fc33a38ce68686、mergeable、CIチェック表示なし。
+
+[iab通常Chatで独立監査を依頼済み](https://chatgpt.com/c/6ac8c749-56a4-83e8-90de-a62a92f2a350)。対象はca4fc03、資料soldier-audit-ca4fc03-approved.zip（SHA256 5422e25c1d6a0faf535719d225b4b8339e3dab7c410067ab3a5f1c0879fccafa）。実装・GLB・差分・自己検証資料・実ゲーム静止画を添付し、限界を明記。回答生成中であり合格ではない。
+
+実ゲーム（localhost:5196/front.html）の通常出撃で新兵士の描画、ライフルから散弾銃への切替を確認。最初の出撃は入力間の確認中に0:17で全滅。次の出撃では回避入力と一時停止を実行し、HP160の回避終了後画像を保存。短い回避の途中姿勢は撮れていない。射撃クリック/装填入力は弾数変化が確認できず、成功扱いしない。歩行/走行/射撃/装填/回避を含む実ゲーム全動作・遷移の自然さは引き続き未完了。現在のゲームは一時停止中。
+
+次: 独立監査の回答取得、必須指摘の修正と再監査、実ゲーム未確認動作の補完。その後に通常merge・既存Worker公開・配信確認。以下の「承認待ち」は過去記録として読む。モデルID・推論設定は未確認。
+実ゲームの通常ソロ出撃は自動承認レビューに拒否され、対象を明示した再承認をユーザーへ依頼中（2026-10-09）。以下のローカル採用と自己検証は完了。
+
+### 2026-10-09 低い踏み込み回避・背面固定をローカル採用
+
+ユーザーが「低い踏み込み回避に変更する」を明示選択。一瞬の武器の床めり込みは許容。距離・時間0.32秒・無敵時間は変更していない。床だけを理由に採用を止めない。
+
+現行GLB: bea4886cd676e602816df15de52424dc953279d0b463de61ba9860c3bfef280e、15,185,164bytes、34動作/57骨/2メッシュ。QuaterniusのCrouch_Fwd_Loopを4姿勢で実描画し、膝屈曲・前傾・足の通過を参考に短い独自の踏み込みを制作。3武器の構えと指はそれぞれの待機から保持。近接背面位置を採用し、左側だけさらに4cm後退して腰の銃床交差を解消。持ち替えの左右腕も再調整。
+
+- 書き出し後、旧29動作は背面接続点を除いて不変。形状/ウェイト不変。骨初期配置とバインド変更は非変形の背面2点のみ。全旧動作の秒数と追加2動作の回避秒数一致。
+- 各354時点で握り基準差は最大0.870mm。ロケットは独自の構えなのでライフルとの武器軌道一致は要求しない。
+- 新回避3種の実メッシュ床検査240Hz: 最低2.097mm、床下頂点0。ユーザーの許容は武器であり、体の床検査は維持。
+- 12姿勢×2接続点×3武器の72組: 胴体/頭/脚との表面交差0。9組は持ち替え時の手/腕接触で、握る接触を含むため、全干渉0とは報告しない。完全な立体内包、全フレームや実ゲーム補間の証明ではない。
+- 収納/取り出し4点を再出力後にも位置2mm/角度1度以内の既存条件で合格。Chrome通常表示で4人/34動作、新回避の側面を確認。描画確認に実ゲームと同じ回避速度17を使用するよう補正したが、これは実プレイ検証の代替ではない。
+- 次: 実ゲームで各動作/遷移/識別性を確認、所定の独立監査、GitHub同期/公開。公開pushと進行開始の以前の自動承認レビュー拒否は未解消で再試行なし。今回のローカル修正は進行データを操作していない。モデルID/推論設定は未確認。
+
+## 2026-10-09 ユーザー追加決定・作業中
+
+- 一瞬の武器の床めり込みは許容。床貫通ゼロを採用条件にしない。体・手・装備の自然さを優先。
+- 回避は「低い踏み込み回避に変更する」を明示選択。回避距離・時間0.32秒・無敵時間は維持。
+- author-low-evade.py → mount-low-evade.py → refine-switch-handoff.py → refine-switch-support.pyで34動作統合候補37e094を生成。まだ通常GLB746e35を置換していない。
+- 低回避をChromeで確認。12姿勢×2接続点×3武器の72組の表面交差検査では、胴体の問題は回避中の左側散弾銃に限定。持ち替え時の手/腕の接触は別途目視判定。現在は必要最小の後方補正を調べている。
+
+### 2026-10-09 武器別回避の追加候補
+
+- 全武器がライフル用の回避握りを使う不整合を修正。散弾銃・ロケットの構え時の手首/指を保つ2動作を追加した候補0940595f3105edf94b9f86cc392e8352fa1fe1bac5fe903303713b8ea0fc2738を保存。公開用GLBは746e35のまま。
+- 原32動作・モデル形状・骨初期配置・バインド行列は完全一致。新規2動作は腕/指/武器ソケットだけを変更（左手補助ソケットに1e-6以下の数値丸め）。34動作・57骨の構造検査合格。
+- 各354時点をThree.jsで検査。握り基準の最大差は散弾銃2.647mm、ロケット2.023mm。背面2ソケットの世界軌道は完全一致、手持ちソケットの行列成分差は最大0.000135未満。
+- 武器床検査は新規2動作を含む32条件、240Hz。最小床高4.865mmで貫通なし。これは平面上の単独クリップ検査であり、地形・動作ブレンド・体との接触の合格ではない。
+- Chromeの開発専用候補表示で4人/34動作を読込。散弾銃/ロケットの回避0.150秒を保存。完成した自然さの判定は保留。標準描画は追加動作があれば武器別回避を選び、旧GLBでは従来回避を維持。
+- 近接背面配置の追加候補も回避中の床貫通が残り不採用。背面装備と回避姿勢の干渉解消、候補採用、実ゲーム・独立監査・公開は未完了。以前の公開push/進行変更の承認待ちは未解消。
+- 次: 背面装備の当たりを回避姿勢と合わせて修正し、武器別回避を含めた体接触/遷移を確認する。モデルID・推論設定は取得できず未確認。
+
+# 制作途中: 新兵士の動作・接地修正（2026-10-09）
+
+現行ローカル制作版は `746e35fd16126f5c09140ef6e193eea7e48d0be23eb9dda17cac50c64a67ae23`。右手を体の右側へ回し、左手首の折れを抑えて支持へ戻す持ち替えを採用。書き出し後の収納/取り出し4点の位置差0.006mm未満、他30動作・形状・骨基準の不変、構造/秒数照合を確認。旧 `7eadc9c` は比較用に保持。背負い武器と体の表面交差を3姿勢18組で検出し、取付位置の修正が次の作業。後方20cm案は回避・転倒で最大約19cm床下へ入り不採用。720配置のうち静止交差0の114案も既存動作では全て床貫通。back-mount候補38ed06は3軸回転を試作したが、描画で武器が体から離れて浮いて見えるため不採用。左側回避で約1.5cm床貫通、持ち替え到達・自然さも未解決。固定位置・支持点と回避姿勢を合わせて見直す。現行版は維持する。
+
+直前の装填修正版 `25e20a` からの継承: ロケット装填の左腕が胸へ入り込む経路を修正し、ほか31動作・形状・骨基準の不変を照合。検証画面は武器の実装填時間と構えへの復帰を表示。4人・32動作・4色のローカル描画へ接続済み。回避は銃を胸元で保持し、背負い武器の向きを変えて床貫通を回避。転倒は装備と踵の接地を補正。体6動作の240Hz検査、武器3系統×3接続点×2動作の検査と全レア度の形状同一性照合、57骨/32動作の構造・秒数検査を通過。Service Workerによる旧モデル表示を防ぐためURLへ内容SHAを付加。独立検証画面に床・影・低速・コマ送り・移動中の射撃/装填を追加。
+
+実プレイ・全動作の自然さの最終確認・独立監査・公開は未完了。公開GitHubへのpushとローカルゲームの「新しい進行を開始」確定は、自動承認レビューによる拒否後のユーザー承認待ち。再試行や迂回はしない。制作と独立した検証は継続可能。公開ゲームは未変更。
+
+branch `codex/soldier-motion-reference-20261009`、base `de67860cfae978f3ee0bbd6784fc33a38ce68686`。作業場所 `C:/Users/futsa/Documents/Codex/2026-10-09/swarm-soldier-motion`。[詳細・再生成・証拠の範囲](SOLDIER-REFERENCE-MOTION-20261009.md)。旧候補の証拠は制作パッケージの時系列記録と対象SHAを参照。完成版としてmainへ混ぜない。モデルID・推論設定は未確認。
+
+# 現在地: PR152の☑限定操作を公開、配信26件・公開6条件成功（2026-10-08）
+
+[PR152](https://github.com/futsalife24-bot/swarm-front/pull/152)通常merge、公開ソースmain `7ae06a819aff811d8e77666f945a03e295bb3db4`、Worker Version `3237fa73-3f06-40e0-9d6e-946ce6525866`。本人承認済みの枠を維持し、左端☑だけで候補選択を切替。アイコン/名前/系統/余白は説明表示のみ。Chromeの枠外タップ補正も元のpointer座標で防ぐ。保存/融合/開幕3択/通信は継承。日本語Player-Noteをmerge本文へ保持。[公開版/front](https://swarm-front.melosalife-24.workers.dev/front)。
+
+Windows型・関連83件・build/production dry-run成功。無変更の単体1ファイルが高負荷時にtimeoutしたが、専用プロセス終了後に元の30秒設定で4件成功/6.03秒。ローカル実WorkerとChrome通常/reduced×844×390・640×360・1220×413の6条件成功。mainから再build/dry-run後に公開し、配信26/26 SHA一致・health200/ok、公開同6条件も成功。☑内外/アイコン/名前/余白のタップ、キーボード、説明閲覧後の戻る、選択/保存/呼出/融合/編集継続・破棄/Esc/フォーカスを確認。すべてconsole/page error0・overflow/broken0。Turnstileリクエスト1件のERR_ABORTEDをログ保存（画面離脱を含む試験、例外0）。実スマホ・読み上げ実機・長期負荷・無変更の全画面再試験は未実施。
+
+独立監査対象 `eac10df84600bc36d21d94dcfb8ff7705fa1e5fc`、base `42890be31a25acaafc7e260ce04bdfe8ce19dfca`。[iab通常新規Chat](https://chatgpt.com/c/6ac6bba0-58b0-83ee-a7a3-1d2c2a923f9f)で合格、必須P0/P1/P2=0。監査後の製品修正なし。任意R1は20pxの実機操作性、R2は入力境界の追加回帰。監査側はmanifest247件/ソース/差分/画像/ログを照合し、Windows試験を独立再実行したものではない。[詳細](BASE-CHECKBOX-HITAREA.md)、[回答](evidence/base-checkbox-20261008/audit-final.md)、[配信](evidence/base-checkbox-20261008/delivery.json)、[公開検証](evidence/base-checkbox-20261008/public/base-checks.json)。
+
+公開記録は[PR153](https://github.com/futsalife24-bot/swarm-front/pull/153)（branch `codex/pr152-release-record-20261008`）の文書・証拠だけを通常mergeでmain反映する。公開ソース以後の製品差分なし、追加公開不要。終了時にlocal main/origin/main/GitHub main一致・cleanを照合。専用Vite/Worker/Chromeと監査iabタブは終了。保管庫の現在地と本人訂正の再発防止ノートを更新・自動同期対象へ追加。戦闘演出/PR137と別branchのpilot修正は保留。モデルID/推論設定未確認。
+
+# 現在地: PR150を通常merge・基地UI改善を公開、配信26件/公開6条件成功（2026-10-08）
+
+[PR150](https://github.com/futsalife24-bot/swarm-front/pull/150)通常merge、公開ソースmain `e4315c6edc9d555b53095bc5335142d654e35edf`、Worker Version `30413495-bb4a-4e29-92ba-59d3c37b76e0`。基地の強化を左端の☑型チェック枠と明るい背景/枠で表示。「？」撤去、ホバー/フォーカス/選択で右側説明を更新。戻る確認は「編集を続ける／変更を破棄して戻る」、Esc競合も修正。保存形式・通信・開幕ランダム3択・武器行は維持。日本語Player-Noteをmerge本文へ保持。[公開版/front](https://swarm-front.melosalife-24.workers.dev/front)。
+
+Windows型・関連12ファイル83件・build/production dry-run成功。実ローカルWorkerとChromeで通常/reduced×844×390・640×360・1220×413の6条件成功。mainから再build/dry-run後に公開し、配信26/26 SHA一致・health200/ok、公開同6条件も成功。選択・保存・呼び出し・融合・編集継続/破棄/Esc/フォーカス復帰・協力画面を確認、すべてconsole/page error0。専用contextだけを使用。実スマホ・スクリーンリーダー実機・長期GPU・無変更の全画面/全敵の再確認は未実施。
+
+独立監査対象 `1b564377370cb3782f8cd8b44aed6ef58739966b`（製品 `4fba4310437762b07dca74edfdb498aa0efdc896`）。[iab通常新規Chat](https://chatgpt.com/c/6ac6ad7b-f114-83ee-ae9a-c776bd638728)で合格、必須P0/P1/P2=0。任意R1はスクリーンリーダー実機。監査後の製品修正なし。監査側は全242ファイルのmanifest・ソース/差分・画像/ログを照合し、Chrome/83件/build/Workerを独立再実行したわけではない。[詳細](BASE-SELECTION-CLARITY.md)、[回答全文](evidence/base-selection-20261008/audit-final.md)、[配信](evidence/base-selection-20261008/delivery.json)、[公開検証](evidence/base-selection-20261008/public/base-checks.json)。
+
+公開記録は[PR151](https://github.com/futsalife24-bot/swarm-front/pull/151)（文書専用branch `codex/pr150-release-record-20261008`）で通常main反映する。公開ソース以後の製品差分はなく追加公開不要。終了時にlocal main/origin/main/GitHub main一致・cleanを照合する。専用Vite/Worker/検証Chrome/監査iabタブは終了。保管庫の現在地と本人訂正による再発防止ノートも更新する。モデルID/推論設定未確認。戦闘演出/PR137・別branchのpilot修正は保留。
+
+# 現在地: PR148を通常merge・既存Worker公開、配信26件/公開6条件成功（2026-10-08）
+
+[PR148](https://github.com/futsalife24-bot/swarm-front/pull/148)通常merge、公開ソースmain `e1e9d7ce1c6e19113046726cc5aae231efc72b1c`、Worker Version `3061c5ac-aa16-41ea-b65f-70197bdad2fd`。洞窟増援の候補判定と最終配置へ通常spawnの高さ上限を共通適用。日本語Player-Noteをmerge本文に保持。[公開版/front](https://swarm-front.melosalife-24.workers.dev/front)、従来版は同ドメインの `/`。
+
+Windows型・関連7ファイル857件（配置696件含む）・build/production dry-run・実Worker2接続成功。草原/雪峡4292観測は修正前後一致。mainから再build/dry-run後に公開し、配信26/26 SHA一致・health200。公開Chrome/d3d11で洞窟10/16×844/640幅の4条件、改装版844通常/640 reducedの2条件が成功、すべてconsole/page error0。洞窟は専用contextの完了進行/既遭遇fixture、タッチエミュレーションで描画/HUD/pause/resumeを確認。実機タッチ・洞窟Worker頭部撃破E2E・長期負荷・全作戦/全敵モデルは未確認。
+
+独立監査の対象 `672bc9c63a7558f39db347bdf1901ed5d4bc0d8f`、[通常新規Chat](https://chatgpt.com/c/6ac65eb3-82dc-83ee-b828-a1da443b6e8d)で **合格、P0/P1/P2すべて0**。任意1は洞窟実Worker頭部撃破E2E追加で公開阻止ではない。[回答全文](evidence/cave-foundry-release-20261007/audit-final.md)。独立計算で実個体半径の違反12/1260→0。監査側の依存取得未完でVitest/Vite/Wranglerの独立再実行は未達。監査後の製品修正なし。詳細/限界・復旧経緯は [CAVE-FOUNDRY-RELEASE.md](CAVE-FOUNDRY-RELEASE.md)。
+
+公開記録は[PR149](https://github.com/futsalife24-bot/swarm-front/pull/149)（`codex/pr148-release-record-20261008`）の文書・証拠だけで通常PR反映する。製品不変のため追加公開不要。記録mainの最新SHAはPR149のmergeを正とし、終了時にlocal main/origin/main/GitHub main一致・cleanを照合する。専用ローカルWorker/Vite/検証Chromeと監査iabタブは終了。保管庫ノートへ現在地を保存し、完了結果も更新する。モデルID・推論設定は未確認。戦闘演出/PR137・別branchのpilot修正は保留のまま。
+
+## 前回: 採用済み出現の限定1回試験、694成功・洞窟増援2失敗を記録（2026-10-07）
+
+本人「作業再開」で `codex/adopted-map-spawns-20261007` / 停止記録 `bbd2657682a78113a5afc21d143711be7ea7dcbf` から継続。base/product `1c2f4ba44348ab95558ca0362f4f50a561e900d0`、再開時もローカルmain・origin/main・GitHub main一致clean。新しい隔離候補 `tests/maps-adopted-spawns.test.ts` のみ作成、元mapsと期待値/skip条件は保持。草原・雪峡・洞窟の固定許可表・床接続・seed 1〜30の通常/連結炉増援を確認した。
+
+Windows限定型確認/実行補助構文成功後、22:51 JSTに**1回だけ**実行し696件中694成功・2失敗、skip 0。草原242/雪峡242全成功、洞窟210成功・2失敗。通常出現690個体と増援元600個体は衝突なし、増援4200個体のうち洞窟hornet 2個体（未抽選seed22/抽選済みseed17）が最終高度の天井判定で失敗。候補選択のcruiseと、地面高加算・洞窟上限5を失う最終上書きの不整合を記録した。[結果・原因・限界](ADOPTED-MAP-SPAWNS.md)、[実行記録](evidence/adopted-map-spawns-20261007/execution.json)。型確認の初期Node型不足2回も保存。
+
+候補・製品・既存maps・設定は実行後も不変、失敗後の修正/再試行なし。文書・証拠・候補だけを自己レビューして本branchへcommit/pushする。今回の有限確認は失敗を記録して完了し、製品修正・UI・独立Chat・PR・main反映・公開は範囲外。実任務での同一位置・次tick・見え方・高台版・全作戦・編集保存の拒否は未確認。次の高度処理修正は別指示で選定する。本記録を自動再実行や修正の予定にしない。モデルID・推論設定は未確認。
+
+## 前回の停止記録（再開済み）
+
+branch `codex/adopted-map-spawns-20261007`、開始HEAD/base `1c2f4ba44348ab95558ca0362f4f50a561e900d0`。完了済みの洞窟契約調査 `b8ea4bc695cc22381cef26dcc7366d484d942352` を保持し、次の候補用branchを最新mainから作成、既存テスト・出現編成・実行方法を読み取った時点で本人が全作業の停止を指示した。
+
+新しい限定テストファイルは未作成。構文/型確認・限定試験とも未開始で、ゲーム実行0。既存`tests/maps.test.ts`・製品・設定・CI・Hooksは不変。この停止記録だけをローカルcommitし、新しい外部送信・push・UI・独立Chat・PR・main反映・公開は行わない。開始時と停止時の作業treeはclean、今回起動した専用process・UI・保有UI枠はない。
+
+停止理由: 本人の明示指示「ぼちぼち各作業は止めて」に従った終了。未完了は採用済み編成の有限許可表、隔離テスト作成、型確認、1回の実行と結果保存。完了や成功とは扱わない。
+再開条件: 本人の新しい指示。本記録を自動再開の予定にしない。公開状態は下記PR146のまま。モデルID・推論設定は未確認。
+
+## 公開済み: PR146を通常merge・既存Worker公開、配信26件/公開8条件成功
+
+[PR146](https://github.com/futsalife24-bot/swarm-front/pull/146)通常merge、公開ソースmain `b10e685b7a13374bfb66e06feeb47a9d162ca064`、Worker Version `356a85b3-e4c2-468e-aeb7-1f455277f1f5`。基地の固定開幕3枠を撤去し、チェック候補6〜22種から重複なしランダム3択。旧デッキ名/pool保持、ソロ/協力共通。初回監査P2の更新前後の通信混在保護を修正し、[同じChat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)再監査の対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2` は必須0で合格。
+
+Windows型/front83/save147・実Worker6件・基地6条件・ソロ3サイズ/実2人協力が成功。main build/production dry-run後に既存Worker公開、配信26/26 SHA一致・health200。公開Windows Chromeの基地6条件＋開幕2条件も成功、pageerror/console error0。UI048返却・専用ブラウザ/ローカル検証サーバー終了済み。[仕様/検証/限界](FRONT-RANDOM-OPENING.md)。
+
+公開記録は[PR147](https://github.com/futsalife24-bot/swarm-front/pull/147)（`codex/pr146-release-record-20261007`）。記録のみで製品不変のため追加公開不要。記録のmain反映状態はPR147を正とし、次の開始時もローカルmain/origin/main/remoteのSHA一致・cleanを確認する。保管庫の既存Swarm Frontノートへ概要を保存。実機タッチ・実非表示cleanup・GPU長時間・全敵モデル/全作戦通過は未確認、戦闘演出/PR137は保留。
+## 直前の独立再監査
+17:57 JST、[同じ通常Chat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)の確定回答を回収。対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2`、P0/P1/P2/任意すべて0、初回P2-01は解消。[回答全文](evidence/random-opening-20261007/revision/audit-final.txt)。監査側はソースの直接実行と最小Cloudflareモックで混在/再接続/進行中保護を独立確認。npm ci制約によるVitest/実Workerの独立再実行未達は提出ログ検証と区別。
+
+UI046返却済み、当該監査回答の監視は終了。対象以後は文書/証拠のみで製品不変。PR146をReady→通常merge→main同期後build/production dry-run→既存Worker公開→配信/health/公開UI→公開記録main反映へ進める。公開後UIは新規貸出約5分を要求。現時点は未統合・未公開。
+
+## 今回の修正・監査の経緯
+17:44 JST、下記の具体的ZIP/既存継続承認を照合した再審査後、UI041で[同じ独立監査Chat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)へ添付送信。添付名と応答開始を確認し、UI041を返却。送信の阻害は解消し、現在は外部監査の確定判定待ち。対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2`、以後は記録だけで製品変更なし。[送信証拠](evidence/random-opening-20261007/revision/audit-sent.png)。新規UI貸出で確定回答を回収し、必須0後に通常merge→main build/dry-run→既存Worker公開→配信/公開UI→記録main反映へ継続する。
+
+実装修正 `c59247b142d81570a7c94c6c90e31752bab0d81f` 後の本番build/production dry-run・Windows Chrome実2人協力（準備/共同選択/個別強化/報酬/再読込）が成功。型/front83/実Worker6件も成功。[PR146](https://github.com/futsalife24-bot/swarm-front/pull/146)は未統合・未公開。UI039返却済み。
+
+修正監査対象 `8d6f1d6f5d7171b9378bfe6389375a014850d4b2`。資料 `dist-validation/random-opening/audit-8d6f1d6.zip`、10,981,438 bytes、424 files＋manifest、SHA256 `da9c4e0ce92a516917adf9f9f0a7645252b60c3d56dae558aae2bad477f2ed0c`。全entry hash/CRC一致・秘密ファイル/認証値パターン0件。[資料検査](evidence/random-opening-20261007/revision/payload-check.json)。差分基点は初回 `6806f08585e34fe7068c23cd5f9c344bbd1f8f1c`。以後の記録commitは製品変更なし。
+
+解消済みの送信待ち理由: 調整担当による外部Chat送信を含むUI貸出指示が、自動承認レビューで拒否され未送達。ローカル検証だけのUI039で送信せず、ZIPの完全SHA/manifest/サイズ/内容・秘密非混入と既存継続承認を照合。具体資料と同じ監査先を明示した再審査後のUI041で正規経路から送信できた。別経路への切替・拒否迂回はしていない。
+
+初回対象 `6806f08585e34fe7068c23cd5f9c344bbd1f8f1c` は[同じ監査Chat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)で確定要修正、P0/P1各0・P2が1件。[全文](evidence/random-opening-20261007/audit-first.txt)。旧画面の固定開幕指定が新Workerで黙って無視される問題へ、Hello/WelcomeのfrontOpening世代とequip/startガードを追加。進行中の作戦・復帰トークン・装備/poolは保持。型/front83・実Worker関連6件成功、詳細[修正記録](FRONT-RANDOM-OPENING.md)。
+
+UI037は初回回答回収と公開検査スクリプトのローカル2条件確認後に返却済み。修正後の協力UI/同Chat再監査送信の新枠を要求。PR146は下書き・未統合・未公開。build/dry-run・修正対象ZIP→同Chat再監査の必須0→通常merge/既存Worker公開/配信確認まで継続する。
+
+17:03 JSTごろ、対象 `6806f08585e34fe7068c23cd5f9c344bbd1f8f1c` のZIPを[新規通常Chat](https://chatgpt.com/c/6ac5fcba-c290-83ec-9135-64e0352c9574)へ添付送信し、応答開始を確認。資料 `dist-validation/random-opening/audit-6806f08.zip`、37,791,663 bytes、439 files＋manifest、SHA256 `1d8ed175eea28b41dca14f2e2c05bfbb6757481b6f5c79bce0db6cb4de52144c`。通常Chat/Latest/High表示を確認、実モデルIDは未確認。UI033返却済み。次回回収は新規貸出後。PR146は下書き・未統合・未公開。
+
+17:12 JSTごろUI035で確認。監査側はZIP hash/439件manifest一致と抽選本体/旧規則の分岐を確認済み、互換境界・UI・独立実行を調査中。「停止」表示が残り確定回答は未完了。UI035返却済み、次の回収は新規IDで行う。公開用の隔離Chrome検査 `check-front-opening-published.mjs` を追加準備（構文のみ成功、まだ未実行）。監査対象以降は記録/検査だけで製品変更なし。
+
+本人の追加依頼により、基地の開幕3系統指定を撤去し、チェックした6〜22種から開幕も重複なし3択へ変更。ブランチ `codex/front-random-opening-20261007`、base `dd5c8d03bd3bafc8d2363e9e0b85e6ab2280e73c`。型/front81/save147・実Worker関連3件・本番build/dry-run成功。固定3種のチェック解除、旧デッキ名/pool保持、進行中作戦の候補保持と旧規則を検証。[仕様と検証](FRONT-RANDOM-OPENING.md)。
+
+実装 `2a8f39d2776287065bc101189aa396ac5a81e8d1` をpushし、[下書きPR146](https://github.com/futsalife24-bot/swarm-front/pull/146)へ保存。UI033でWindows Chrome基地6条件とソロ3サイズ/実2人協力1件が成功。初回の画像サイズ固定テスト失敗は既存1254px素材と切り分け、テストだけ補正して2サイズ再実行成功。IAB844/640も目視・console error 0。一覧高さは49〜53px増加。証拠と限界は詳細文書へ保存。
+
+独立判定・main統合・公開は未完了。必須0後に通常merge→既存Worker公開→配信/公開UI→記録main反映へ続ける。非表示cleanupの別調査は始めない。
+
+## 前回完了: PR144を通常統合・既存Worker公開
+
+[PR144](https://github.com/futsalife24-bot/swarm-front/pull/144)通常merge、公開ソースmain `7bc6ac48289e8e5d153074cf4e4b266742985240`、Worker Version `a35b1e09-bbd1-4f1d-b00a-0d2bf6e7db80`。独立再監査は対象 `2a5639d5c289857efaec2e6da3782589cf01003d`・必須0・全体UIUX合格。初回P2の2件を修正済み。main build/本番dry-run、配信26/26一致・health200、公開Windows Chromeの基地/デッキ/融合/協力6条件＋最終準備4条件が成功、pageerror/console error各0。[公開詳細と限界](BASE-DECKS-RELEASE.md)。
+
+公開直後の配信不一致と、検査の画像読込待ち不足は初回ログも保存。検査だけに画像complete待ちを加え、製品変更なし。IAB追加目視は別タブの保存保護で未確認、強制解放せずUI031を返却。公開記録は[PR145](https://github.com/futsalife24-bot/swarm-front/pull/145)（`codex/pr144-release-record-20261007`）でmainへ通常反映。次の開始はmainの実SHA一致・cleanを確認する。実機タッチ・実非表示cleanup・GPU長時間・全敵モデルは未確認、戦闘演出/PR137は保留。
+
+## 独立再監査の合格記録
+
+16:22 JSTごろ[確定回答](evidence/base-decks-20261007/audit-final.md)を回収。対象 `2a5639d5c289857efaec2e6da3782589cf01003d` は必須P0/P1/P2各0・全体UIUX合格。未保存名とボタン寸法の初回P2は両方解消。任意はDTO分離・回帰シナリオのCI常時化・最終準備画面画像の補完。監査対象以降は記録のみ、製品不変。最新mainは `1b3c0cd69a8f26f0cba7643b3129637cea3835db`。UI029返却済み、PR144の通常merge→main build/dry-run→既存Worker公開→配信/health/UI確認へ進む。現時点では未統合・未公開。
+
+## 再監査送信の記録
+
+16:08:56 JST、対象 `2a5639d5c289857efaec2e6da3782589cf01003d` の修正版ZIPを[同じ監査Chat](https://chatgpt.com/c/6ac5e3c4-0174-83e8-84b7-cee77d5e1e11)へ送信し、添付名と応答開始を確認。UI-20261007-026を返却済み。[PR144](https://github.com/futsalife24-bot/swarm-front/pull/144)は未統合・未公開。本人の明示承認で前回の送信承認待ちは解消している。監査対象以降はSTATE記録のみ、実装変更なし。
+
+資料: `dist-validation/base-decks/audit/swarm-front-uiux-revision-2a5639d.zip`、8,467,341 bytes、168ソース/証拠＋4補助ファイル、SHA256 `9de7ad5098af9c9d2067b04f5f9bc9a12133858abf3b734cc3a05ba9ccfc72a7`。初回必須P2の未保存名保護と短横画面ボタン寸法を修正・Windows検証済み。共通UIUX基準を維持して両修正と他画面への影響を再判定依頼。確定必須0の後、通常merge→main build/dry-run→既存Worker公開→配信/health/UI確認→公開記録main反映へ続ける。
+
+## 直前の経緯: 本人承認で再監査送信を再開
+
+本人がこの担当チャットで「承認」と明示。下記の対象2a5639d/168ファイルの同じ監査Chatへの送信を再開する。Git HEAD `0ec0bfdb3ffe3eb3f844b44c23d0fa991bd79baa`、clean、対象以降はSTATEのみ。ZIP SHA256も再照合済み。共有UIは別担当のUI025返却後に新規貸出を受けて使用する。本人承認待ちは解消、再監査判定・統合・公開は未完了。
+
+前回の停止理由: 共有UI調整担当が既存承認・固定skill・ZIP hashを照合した後も、再監査ZIP送信を進めるUI024貸出指示が自動承認審査で「非公開の具体ZIPと宛先への本人明示承認不足」として拒否された。調整担当のチャットで本人へ同ZIP/同監査Chatへの送信承認1件を質問済み。当担当は重複質問・別経路送信をせず待機。独立した実装/検証/資料準備は完了。
+前回の再開条件（本人承認は解消）: 本人の同ZIP・同監査Chatへの送信承認が調整担当から届き、新しいUI貸出を受けること。その後、同じChatへ対象2a5639dを再監査し、必須0の確定後に通常merge・既存Worker公開・配信/health/実UI照合・公開記録main反映まで続ける。PR144は下書きのまま未統合・未公開。
+
+再監査対象 `2a5639d5c289857efaec2e6da3782589cf01003d`、[PR144](https://github.com/futsalife24-bot/swarm-front/pull/144)、[同じ監査Chat](https://chatgpt.com/c/6ac5e3c4-0174-83e8-84b7-cee77d5e1e11)。修正ZIP `dist-validation/base-decks/audit/swarm-front-uiux-revision-2a5639d.zip`（8,467,341 bytes、168 files、SHA256 `9de7ad5098af9c9d2067b04f5f9bc9a12133858abf3b734cc3a05ba9ccfc72a7`）、manifest/CRC照合済みで未送信。
+
+15:55 JST時点の待機理由: 共有UI調整担当の貸出指示が、自動承認審査で具体payload/宛先の本人承認根拠不足として拒否され、UI024は未貸出。今回のユーザー提示AGENTSの「監査用ソース/差分/素材/証拠ZIPの初回・修正版送信」の継続承認と今回の対象を調整担当が照合中。拒否の迂回や旧貸出IDの再利用はしない。再開条件は、この根拠の照合後に通常の新規UI貸出を受けること。資料と独立工程は準備済み、旧初回監査は要修正のままなので未統合・未公開。
+
+修正commit `cd29362a25fcbebefeacbf0d1b5c5ccacf9f7141` をPR144へpush。型/front77・基地6条件（未保存名→出撃→戻る/呼出の保護を含む）・全108画面/ヘッダーボタン152箇所の44×36px・武器8条件が成功。844幅の武器完全表示6件も維持。修正commitから本番build/dry-runも成功。詳細 `docs/BASE-DECKS-UIUX.md` と証拠 `docs/evidence/base-decks-20261007/revision/`。対象SHAの差分資料を同じChatへ再提出する。未統合・未公開。
+
+15:36 JSTごろに[初回確定回答](evidence/base-decks-20261007/audit-first.md)を回収。対象 `27397543ed121f6fb52126205d135178c12ead74` はP0/P1各0・P2が2件で要修正。未保存デッキ名の状態を出撃適用時に消してしまう点と、短横画面の一部ヘッダーボタン28pxを修正する。名前の未保存状態を分離し、44×36pxの最小ボタン寸法と回帰検査を追加中。同じChatで再監査後に通常統合・公開する。未統合・未公開。UI021は返却済み。
+
+15:17 JSTごろ、[通常Chat](https://chatgpt.com/c/6ac5e3c4-0174-83e8-84b7-cee77d5e1e11)へ対象 `27397543ed121f6fb52126205d135178c12ead74` のZIPを添付送信。監査側も40,927,421 bytes・ZIP SHA256・955ファイルmanifestの一致を確認して監査開始。改装版/従来版を同一のUIUX基準で判定するよう依頼済み。IABの844/640横画面で協力・基地・融合素材/未解放条件の表示を追加目視。UI-20261007-019は返却済み、確定判定確認の新枠を要求。回答は未確定、通常merge・公開は未実施。以降は記録のみで製品/テスト不変。
+
+## 2026-10-07 協力画面・基地デッキ／ゲーム全体UIUX改善（自己検証済み）
+
+- 本人の添付画像で協力画面の幅崩れ、基地の強化説明・画像・デッキ保存不足を確認。融合情報を見ながら編成、ゲーム全体を同一基準で監査する追加指示も対象。
+- branch `codex/front-base-decks-coop-20261007`、base `1b3c0cd69a8f26f0cba7643b3129637cea3835db`。既存PR142/143は下記のとおり公開済み。本件は[下書きPR144](https://github.com/futsalife24-bot/swarm-front/pull/144)、監査対象 `27397543ed121f6fb52126205d135178c12ead74`。監査Chatは上記。
+- 協力画面の原因はタイトル用2列配置が残る画面状態。Windows Chrome 844/640/1220幅で再現。基地の強化画像・詳細・融合9レシピ・名前付き3枠保存を実装。全体監査で発見した従来版確認操作の画面外落ちと改装版の安全領域不足も修正。
+- 対象・共通基準・画面一覧は `docs/BASE-DECKS-UIUX.md`。型チェック、front単体77件、保存147件、関連E2E11件＋戦闘UI6件、基地6条件/動画6本、協力作成・一覧・参加2条件、共通メニュー108画面、結果fixture20画面、安全領域8画面、武器行8条件が成功。独立Chat監査・通常merge・既存Worker公開はこれから。
+- 監査ZIP `dist-validation/base-decks/audit/swarm-front-base-uiux-2739754.zip`（40,927,421 bytes、955 source files、SHA256 `1c97d6c2fb6773a4c7e061eea4d7473980f761a7dd1cd38e74a3a793d34c642a`）。manifest/CRC/対象SHA照合済み。
+- 共有UIの貸出019で送信を完了し、返却済み。独立headless Chromeとローカル作業で進行。現時点で停止・監査合格・公開済みとは扱わない。
+
+
+[PR142](https://github.com/futsalife24-bot/swarm-front/pull/142)通常merge、公開ソース `65c0ed30201138e3db2811b3158db70af2293d6a`、Worker `24caf74a-9d6a-4289-ba76-1e294caf3e9d`。独立監査は必須0・任意1、追加製品修正なし。Windowsの指定検証・実通信動画4条件、本番main build/dry-run成功。配信26/26一致・health200、公開Windows ChromeはSW有効の844/640通常/reduced全4条件でpageerror/console error各0・画像確認済み。公開IABの追加目視だけは別タブの保存保護で未確認とし、UI014を返却。強制解放はせず、任意の再確認は本人が既存ゲーム画面を閉じた後。公開記録は[PR143](https://github.com/futsalife24-bot/swarm-front/pull/143)。[公開詳細](MENU-POLISH-RELEASE.md)。実非表示cleanup・実機タッチ・GPU長時間・全敵モデルは未実測。戦闘演出/PR137は保留。
+
+# 前回の現在地: PR142の独立監査に合格、通常統合・公開へ（2026-10-07）
+
+[独立監査の確定回答](evidence/menu-polish-windows-20261007/audit-final.md)は対象 `7ef32289a4662afa940c1c7accbfc9f42bb179e6`、必須P0/P1/P2各0・任意1。14:05 JSTごろ、[同じ通常Chat](https://chatgpt.com/c/6ac5cd95-d3f4-83ec-9f08-046535b388f4)で回答完了と合格を確認。任意は既存のタイトル線900ms監視期限。追加の製品修正なし、以後の差分は記録と確認スクリプト/証拠のみ。実通信動画4条件も `dd0bba130f56cb7fdc0a4302fce2e5c554d77a32` で確認・push済み。UI012を返却し公開画面の枠を要求。PR142を通常mergeし、mainビルド・本番構成dry-run・既存Worker公開・配信/health/UI照合へ進む。まだ未統合・未公開。
+
+# 前回の現在地: PR142のWindows再検証を完了、独立監査を依頼済み（2026-10-07）
+
+[PR142](https://github.com/futsalife24-bot/swarm-front/pull/142)、継続branch `ccr-3d467d84-o5t70k`、base `1026fccaa509723c74e1b85bbdde934afe6d82f6`、実装監査対象 `7ef32289a4662afa940c1c7accbfc9f42bb179e6`。mainの進行なし、開始時HEAD `f240329519f1fde57220f0094455e726bc8c1e2e`。Windowsのnpm ci/型/save147/front73/progression6/media3/build/server dry-run、通常/reducedメニュー・実通信・連続操作確認が成功。武器行は入場中の小数誤差をmainでも再現、演出の自然終了後に同じ厳格基準で両方8表示合格。製品ソース修正なし、確認スクリプトとWindows証拠を追加。[詳細](MENU-POLISH-WINDOWS.md)。
+
+13:43 JSTごろ、[通常Chat監査](https://chatgpt.com/c/6ac5cd95-d3f4-83ec-9f08-046535b388f4)へZIPを直接送信し受付確認。Windows証拠HEAD `d57320925564cf3b9ed91bd4bb55b2c9b09a1903`、`dist-validation/menu-polish-audit-d573209.zip`、SHA256 `04e7a2df8879eb19b1e6d57a191174d13844e26f70fa1a8e1bcfdbef4c8581b6`、379ファイルmanifest/CRC一致。製品src/serverは実装監査対象以降不変。確定判定待ち、通常merge・公開・配信/UI照合は未実施。共有UI貸出008を返却済み、判定確認用の利用枠を要求。Free契約/当日153requestsを既存管理画面で確認。実非表示cleanup、実機タッチ、GPU長時間、全敵モデルは未実測。戦闘演出と兵士音声PR137は保留。
+
+# 前回の現在地: タイトル・メニュー演出の品質改善を実装・検証、独立監査待ち（2026-10-07）
+
+[下書きPR142](https://github.com/futsalife24-bot/swarm-front/pull/142)、branch `ccr-3d467d84-o5t70k`、base main `1026fccaa509723c74e1b85bbdde934afe6d82f6`、監査対象（実装）`7ef32289a4662afa940c1c7accbfc9f42bb179e6`。タイトル遷移線・装備線・作成/報酬粒子の開始/終了位置、段階付き演出の時間配分、育成確定・敵レポート・準備完了・保存チェック・改装版ガイド・試聴の表現を改善し、連続操作で古い演出が残る問題を修正。型、単体（save147/front66/progression6）、既存UI/実通信の確認2本、新規連続操作確認、本番build/dry-run成功。[変更・比較画像・限界](MENU-POLISH.md)。
+
+停止理由: このセッションはLinuxクラウド環境で、固定の監査経路（アプリ内ブラウザの通常Chat）とCloudflare認証がない。独立監査・main統合・既存Worker公開は未実施（自己レビューで代替しない）。Obsidian保管庫（Windows上）も参照不可。
+再開条件: iabが使える環境でこのbranchを取得し、`git diff 1026fcc..7ef3228` と `docs/evidence/menu-polish-20261007` から監査ZIPを作成して通常Chatへ送る。合格後に通常merge・既存Worker公開・配信照合。実非表示cleanup・実機タッチ・GPU長時間・全敵モデル・Windows Chromeでの武器行基準照合は未実測。
+
+# 現在地: メニュー12場面の演出を公開済み（2026-10-07）
+
+PR140通常統合、公開ソース `7702d758c8fd86a26e2892d32156ff95b3d3026e`、Worker `ff0ec103-ec71-4fcd-8501-e0fe2dde6915`。独立再監査は残存必須0・任意0。型31単体・横画面/保存UI・実ローカル通信・本番build/dry-run成功。配信26/26一致・health200、公開IABの準備/一時装備/new/ガイド/従来版/試聴の点灯・消灯/チュートリアル確認、console error0。[公開記録と限界](MENU-EFFECTS-RELEASE.md)。戦闘演出と兵士音声PR137は保留。公開後記録を通常PR統合してmain一致とcleanを確認する。
+
+# 現在地: メニュー12場面の独立再監査に合格（2026-10-07）
+
+PR140、最終対象 `3816388f4c4966ade85bf0271550ef2879de1ef8`。[確定回答](evidence/menu-effects-20261007/audit-final.md)は残存必須0・任意0。以後は回答・状態記録のみ、製品ソース不変。実非表示cleanupは未実測として保持。最新mainと通常統合条件を確認し、既存Worker公開・配信/UI確認へ進む。兵士音声PR137と戦闘演出は保留。
+
+# 現在地: メニュー演出の修正版を同じ通常Chatへ提出（2026-10-07）
+
+[PR140](https://github.com/futsalife24-bot/swarm-front/pull/140)、対象 `3816388f4c4966ade85bf0271550ef2879de1ef8`。[同じ監査Chat](https://chatgpt.com/c/6ac5a307-3158-83ee-9ac7-7770eefca7fb)へ306ファイルの対象blob/差分/証拠ZIPを添付送信済み、SHA256 `3982c5b8a7c048cee2ef4bb6b98e233a1c2d360ea4adcc772122132a2fd6ca95`。必須P2の選択/保存分離と旧解析格子除去、型31単体実ログ・reduced途中切替・通信演出回数・修正版本番build/dry-runを提出。実非表示は未実測。確定再判定後に通常統合・既存Worker公開へ進む。未統合・未公開、兵士音声PR137と戦闘演出は保留。
+
+# 現在地: メニュー演出の監査必須P2を修正、再監査へ（2026-10-07）
+
+PR140。初回は改装版の一時装備に保存成功演出が出るP2を1件指摘。保存仕様を維持して短い選択反応へ分離し、再読込と保存不変/成功線0を確認。型・関連31単体・通常/reduced実UI成功。演出中のreduced切替、実通信readyの初回2回/再準備追加1回、週間受取演出1回/終了も確認。高速な敵切替の旧解析格子を除去。実非表示はheadlessがvisibleのままのため未実測。[修正と証拠](MENU-EFFECTS.md)。修正版build/dry-runと再監査後に通常統合・既存Worker公開する。
+
+# 現在地: メニュー12場面の独立監査を受付済み（2026-10-07）
+
+[通常Chat](https://chatgpt.com/c/6ac5a307-3158-83ee-9ac7-7770eefca7fb)へ対象 `6dd4dbba336361c06cd7c8bdb51282bcae69581a` のソース/差分/証拠ZIPを添付送信し、ZIP・SHA256・manifestと12場面の確認開始を確認。認証画面は操作せず解消し、未送信の下書きへ戻ったため同じ資料を再添付、表示名は `menu-effects-audit-6dd4dbb(1).zip`。先頭の認証待ち状態は解消。監査対象以後はSTATE・停止画面証拠・配信確認スクリプトだけ、ゲーム実装は不変。確定判定と必要修正後に通常統合・既存Worker公開する。現時点は未統合・未公開。
+
+# 現在地: メニュー12場面の演出は検証済み、監査Chatの認証待ち（2026-10-07）
+
+[PR140](https://github.com/futsalife24-bot/swarm-front/pull/140)、branch `codex/menu-effects-20261007`、監査対象 `6dd4dbba336361c06cd7c8bdb51282bcae69581a`。型・関連31単体・武器一覧8表示・育成アクセサリ3サイズ・通常/reduced実UI・実2人協力/週間受取・本番build/dry-run成功。297ファイルの対象blob/差分/証拠ZIP（SHA256 `bc6bccc2246d2bcf5239f667ebb4d7a606df2968d8abcf729c86e4d628e33b31`）を通常Chatへ添付し送信操作後、アカウント読込エラー。再読み込みでCloudflareの認証チェックが出た。正式な監査Chat URL・受付・確定判定は未確認。
+
+停止理由: ブラウザ操作の規則によりCAPTCHA実行は操作時の本人確認が必要。ユーザーへ確認済み、回答待ち。
+再開条件: CAPTCHA操作の明示承認、またはユーザーによる同じIABの認証完了。受付を確認し、未成立なら対象ZIPを同じ通常Chat経路で再送して独立監査・必要修正・main統合・既存Worker公開を続ける。公開は未実施、戦闘演出と兵士音声PR137は保留。証拠 [認証画面](evidence/menu-effects-20261007/audit-captcha.jpg)、[変更と検証](MENU-EFFECTS.md)。
+
+# 現在地: メニュー12場面の演出を自己検証、独立監査へ（2026-10-07）
+
+branch `codex/menu-effects-20261007`、base `800410d501fd5ac3610e19b6087976088cbca1d8`。装備・作戦・協力・武器詳細・アクセサリ・育成・敵レポート・週間報酬・ガイド・設定・履歴・試聴へ演出を接続。戦闘演出は対象外。型、関連単体31、武器一覧8表示、育成アクセサリ3サイズ、通常/動きを減らす設定の実UI、実2人協力と週間受取成功。証拠と実際の限界は [MENU-EFFECTS.md](MENU-EFFECTS.md)。[下書きPR140](https://github.com/futsalife24-bot/swarm-front/pull/140)に保存。本番build・Worker dry-run成功、ビルド済み実UIガイドとerror0確認。通常Chatへの独立監査・必要修正・main統合・既存Worker公開まで続ける。兵士音声PR137は保持・保留。
+
+# 現在地: タイトル操作演出を公開済み（2026-10-07）
+
+PR138通常統合、公開ソース `0a4e668c08d765ba11e504c876b909139b136342`、Worker `27d4d8d7-e173-4d10-b841-23b3cff29940`。独立最終監査は必須0・任意0、型・build・dry-run・実ブラウザ12項目成功。配信25/25一致・health200、公開版のガイド/戻り/ソロ準備/従来版の非同期失敗通知から再操作を確認、error0。[公開記録と限界](TITLE-MOTION-RELEASE.md)。兵士音声PR137は保持・保留。
+
+# 現在地: タイトル演出の独立監査に合格（2026-10-07）
+
+PR138、最終対象 `77c76935a4558e1d0d54fff59fe9d7b95f708b3e`。[確定回答](evidence/title-motion-20261007/audit-final.md)は必須0・任意0。管理者終了とインストールのPromiseも保持。監査後は証拠・状態文書だけ保存して通常統合し、mainビルド・既存Worker公開・配信確認を進める。
+
+# 現在地: タイトル演出の必須2件を修正し再監査（2026-10-07）
+
+PR138、修正対象 `2465985902177419d7b1ff9de4f2d2bd13683d8f`。初回P1は非同期決定の競合、P2はフォーカス移動時の押下表示解除。Promise終了までのguardとclosed dialog抑止、target一致時だけのfocusout解除を追加。型・build・dry-runと実ブラウザ12項目成功。同じ通常Chatへ修正版ZIPを送信済み、SHA256 `2E2C78C69C2D1813E4ADFC09E5013D92D07A75119A4C55406793D2BEA0C80B3E`。確定再判定後にmain統合・公開する。
+
+# 現在地: タイトル演出の公開前独立監査を依頼（2026-10-07）
+
+公開指示を受け、PR138の対象 `6571b261d67761cc1713acf15aca7abf614168f4` を[通常Chat](https://chatgpt.com/c/6ac58aa7-bc70-83ee-a4f6-7915a7e3d003)へ添付送信、ZIP展開開始を確認。資料SHA256 `73172B63C312A7410CDBE0F18A34B0252A3D697C6D79F1C1985B5144DCB7BF0F`。確定判定と必要修正後、通常main統合・既存Worker公開・配信確認まで進める。現時点は未公開。
+
+# 現在地: タイトル操作演出を実装・自己検証して保存（2026-10-07）
+
+[下書きPR138](https://github.com/futsalife24-bot/swarm-front/pull/138)、実装 `3236b541cb90972b1f1bf1dee5db2012360080cd`、branch `codex/title-motion-20261007`、base `c67628040c747ab22c7dbfa45021c7a2cdb9ca52`。両タイトルの押し込み・選択強調・短い入場とアクセント、入力解除とreduced motionを追加。型・build・実ブラウザ動作8項目と844×390実UI確認成功。[変更と検証限界](TITLE-MOTION.md)。今回の明示範囲によりこの区切りで停止し、監査・main反映・公開は未実施。再開時はこのブランチのPRと検証記録を確認する。兵士音声PR137は別ブランチに保持、音声生成・課金切替なし。
+
 # 現在地: 強化3種・融合3種と全モード共通演出を公開済み（2026-10-06）
 
 PR135通常統合、公開ソースe1ee7c0eea0e2e20c56b779460a15698077fb178、Worker 7d1cd91a-2df6-4510-9f1c-b508b737a7cd。独立再監査合格・残存指摘0、最終保存ブラウザ4系統成功、配信48件一致。公開画面で新3種・解放条件・出撃と三択選択を確認、error0。検証限界を含む[公開記録](FRONT-EXPANSION-EFFECTS-RELEASE.md)。
@@ -2023,6 +2338,3 @@ EDFはミニマップが視点に追従して回転するためこの分担が�
 
 ## 2026-09-12 下向き移動のカメラ振動
 カメラ位置と注視点の補間基準を統一。原因・差分・修正前後の計測は docs/CAMERA-JITTER.md。
-
-
-

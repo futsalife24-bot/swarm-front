@@ -1,0 +1,921 @@
+{
+  "status": "feasibility only; discontinuous search, not an accepted animation",
+  "minimum": -0.012045934796333313,
+  "samples": [
+    {
+      "fraction": 0.0,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.5101557970046997,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.5234419107437134,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.016666666666666666,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.5678216218948364,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.5799843668937683,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.03333333333333333,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.6747363209724426,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.6847231388092041,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.05,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.7926092147827148,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.7994935512542725,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.06666666666666667,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.9091664552688599,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.9121232032775879,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.08333333333333333,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.9981310367584229,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.9966652393341064,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.1,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 1.0742675065994263,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 1.0679134130477905,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.11666666666666667,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 1.1326485872268677,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 1.1260337829589844,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.13333333333333333,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 1.1545164585113525,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 1.1707695722579956,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.15,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 1.1112353801727295,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 1.2065283060073853,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.16666666666666666,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 1.0528610944747925,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 1.2339228391647339,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.18333333333333332,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.984420657157898,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 1.167330026626587,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.2,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.9025909900665283,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 1.071320652961731,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.21666666666666667,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.7856031656265259,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.9366052150726318,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.23333333333333334,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.6400009989738464,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.7657976746559143,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.25,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.4668508768081665,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.5582789182662964,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.26666666666666666,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.28869765996932983,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.3158223032951355,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.2833333333333333,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.13903826475143433,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.10238271951675415,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.3,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.029541015625,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.005047500133514404,
+          "xDegrees": 15,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.31666666666666665,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.06199908256530762,
+          "xDegrees": -15,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.08041894435882568,
+          "xDegrees": 45,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.3333333333333333,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.06995007395744324,
+          "xDegrees": -15,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.09727972745895386,
+          "xDegrees": 60,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.35,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.02060118317604065,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": -0.0008660554885864258,
+          "xDegrees": 60,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.36666666666666664,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.0779910534620285,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.00927230715751648,
+          "xDegrees": -60,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.38333333333333336,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.0805058479309082,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": -0.002681821584701538,
+          "xDegrees": -30,
+          "yDegrees": -45
+        }
+      }
+    },
+    {
+      "fraction": 0.4,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.06466150283813477,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.017103493213653564,
+          "xDegrees": -30,
+          "yDegrees": -45
+        }
+      }
+    },
+    {
+      "fraction": 0.4166666666666667,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.0200376957654953,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": -0.012045934796333313,
+          "xDegrees": -30,
+          "yDegrees": -45
+        }
+      }
+    },
+    {
+      "fraction": 0.43333333333333335,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.0066395103931427,
+          "xDegrees": -60,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": -0.003094129264354706,
+          "xDegrees": 30,
+          "yDegrees": -45
+        }
+      }
+    },
+    {
+      "fraction": 0.45,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.027291014790534973,
+          "xDegrees": -60,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.040656380355358124,
+          "xDegrees": 45,
+          "yDegrees": -45
+        }
+      }
+    },
+    {
+      "fraction": 0.4666666666666667,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.020140841603279114,
+          "xDegrees": -60,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.015542775392532349,
+          "xDegrees": 45,
+          "yDegrees": -45
+        }
+      }
+    },
+    {
+      "fraction": 0.48333333333333334,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.0038971304893493652,
+          "xDegrees": -45,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.023688122630119324,
+          "xDegrees": 60,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.5,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.056800633668899536,
+          "xDegrees": -45,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.06479473412036896,
+          "xDegrees": 60,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.5166666666666667,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.025216758251190186,
+          "xDegrees": -30,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.023960351943969727,
+          "xDegrees": 45,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.5333333333333333,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.03810924291610718,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.06785669922828674,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.55,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.18662774562835693,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.21268576383590698,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.5666666666666667,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.26644057035446167,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.2870550751686096,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.5833333333333334,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.3627280592918396,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.37907180190086365,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.6,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.4223092496395111,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.43611231446266174,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.6166666666666667,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.4810318648815155,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.4937625527381897,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.6333333333333333,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.5276085138320923,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.5401766300201416,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.65,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.5650210380554199,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.5780863761901855,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.6666666666666666,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.5948708653450012,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.6088041663169861,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.6833333333333333,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.6195248961448669,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.634614884853363,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.7,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.6387149095535278,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.6551849842071533,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.7166666666666667,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.6539604663848877,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.6719174385070801,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.7333333333333333,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.6662402153015137,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.6857330799102783,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.75,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.6760556101799011,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.6954357624053955,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.7666666666666667,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.6834115982055664,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.7025446891784668,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.7833333333333333,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.6896613240242004,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.7084982395172119,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.8,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.6950747966766357,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.7132581472396851,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.8166666666666667,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.6998583674430847,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.7173126935958862,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.8333333333333334,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.7044480443000793,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.7209360599517822,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.85,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.7091026306152344,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.7235139608383179,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.8666666666666667,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.7134764790534973,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.7261744737625122,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.8833333333333333,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.7176963090896606,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.7292200326919556,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.9,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.7218899130821228,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.7328554391860962,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.9166666666666666,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.7256872653961182,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.7364230155944824,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.9333333333333333,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.728996753692627,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.739732563495636,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.95,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.7312105894088745,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.7419463396072388,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.9666666666666667,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.7326526641845703,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.7433884739875793,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 0.9833333333333333,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.7335107326507568,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.7442464828491211,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    },
+    {
+      "fraction": 1.0,
+      "sockets": {
+        "BackWeaponSocket": {
+          "minimum": 0.7338476181030273,
+          "xDegrees": 0,
+          "yDegrees": 0
+        },
+        "BackWeaponSocket_2": {
+          "minimum": 0.7445834875106812,
+          "xDegrees": 0,
+          "yDegrees": 0
+        }
+      }
+    }
+  ]
+}

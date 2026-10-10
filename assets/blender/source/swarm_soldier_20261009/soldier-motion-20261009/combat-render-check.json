@@ -1,0 +1,98 @@
+[
+  {
+    "clip": "Rifle_Idle",
+    "sampleFractions": [
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "blendSha256": "6eddf78bba456dfd557ff850127fb3e8631a24891574716255815d8183fdd64d"
+  },
+  {
+    "clip": "Rifle_Fire",
+    "sampleFractions": [
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "blendSha256": "6eddf78bba456dfd557ff850127fb3e8631a24891574716255815d8183fdd64d"
+  },
+  {
+    "clip": "Rifle_Reload",
+    "sampleFractions": [
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "blendSha256": "6eddf78bba456dfd557ff850127fb3e8631a24891574716255815d8183fdd64d"
+  },
+  {
+    "clip": "Rifle_Walk",
+    "sampleFractions": [
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "blendSha256": "6eddf78bba456dfd557ff850127fb3e8631a24891574716255815d8183fdd64d"
+  },
+  {
+    "clip": "Shotgun_Fire",
+    "sampleFractions": [
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "blendSha256": "6eddf78bba456dfd557ff850127fb3e8631a24891574716255815d8183fdd64d"
+  },
+  {
+    "clip": "Shotgun_Reload",
+    "sampleFractions": [
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "blendSha256": "6eddf78bba456dfd557ff850127fb3e8631a24891574716255815d8183fdd64d"
+  },
+  {
+    "clip": "Rocket_Fire",
+    "sampleFractions": [
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "blendSha256": "6eddf78bba456dfd557ff850127fb3e8631a24891574716255815d8183fdd64d"
+  },
+  {
+    "clip": "Rocket_Reload",
+    "sampleFractions": [
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "blendSha256": "6eddf78bba456dfd557ff850127fb3e8631a24891574716255815d8183fdd64d"
+  }
+]

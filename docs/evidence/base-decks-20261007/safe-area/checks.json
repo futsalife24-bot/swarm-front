@@ -1,0 +1,58 @@
+[
+  {
+    "name": "title",
+    "left": 454,
+    "right": 812,
+    "top": 42.953125,
+    "bottom": 115.734375
+  },
+  {
+    "name": "title-art",
+    "left": 85.015625,
+    "right": 384.984375,
+    "top": 36.671875,
+    "bottom": 305.328125
+  },
+  {
+    "name": "coop",
+    "left": 54,
+    "right": 814,
+    "top": 18,
+    "bottom": 372
+  },
+  {
+    "name": "base",
+    "left": 44,
+    "right": 824,
+    "top": 8,
+    "bottom": 382
+  },
+  {
+    "name": "prep",
+    "left": 44,
+    "right": 824,
+    "top": 8,
+    "bottom": 382
+  },
+  {
+    "name": "legacy-title",
+    "left": 457.046875,
+    "right": 810.25,
+    "top": 24.953125,
+    "bottom": 97.734375
+  },
+  {
+    "name": "legacy-coop",
+    "left": 54,
+    "right": 814,
+    "top": 10,
+    "bottom": 380
+  },
+  {
+    "name": "legacy-prep",
+    "left": 54,
+    "right": 814,
+    "top": 10,
+    "bottom": 380
+  }
+]

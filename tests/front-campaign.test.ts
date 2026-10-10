@@ -39,7 +39,6 @@ it.each([20, 21, 22])("解放済み候補%d種類を保存して再読込でき�
   expect(available.pool).toHaveLength(22);
   const selected = {
     pool: available.pool.slice(0, count),
-    initialCards: available.initialCards,
   };
   saveFrontLoadout(s, selected);
   expect(readFrontLoadout(s)).toEqual({ ...selected, error: "" });
@@ -108,18 +107,15 @@ it("個人候補の保存・再読込・設定外と未解放を拒否", () => {
     "reload",
     "magazine",
   ] as const;
-  saveFrontLoadout(s, { pool: [...pool], initialCards: [...v.initialCards] });
+  saveFrontLoadout(s, { pool: [...pool] });
   expect(readFrontLoadout(s).pool).toEqual(pool);
   expect(() =>
     saveFrontLoadout(s, {
       pool: [...pool, "life-drain"],
-      initialCards: v.initialCards,
     }),
   ).toThrow();
   s.setItem(FRONT_LOADOUT_KEY, "bad");
-  expect(() =>
-    saveFrontLoadout(s, { pool: [...pool], initialCards: v.initialCards }),
-  ).toThrow();
+  expect(() => saveFrontLoadout(s, { pool: [...pool] })).toThrow();
   expect(s.getItem(FRONT_LOADOUT_KEY)).toBe("bad");
 });
 it("コインは作戦ごと一度だけ、所持品・攻略進行・報酬は不変", () => {

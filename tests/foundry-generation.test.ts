@@ -19,6 +19,7 @@ import {
   troopCount,
 } from "../src/shared/stages";
 import { wormNodes } from "../src/shared/worm";
+import { enemySize } from "../src/shared/enemy-size";
 
 function field(stage = 6) {
   const w = createWorld("foundry", 719, stage),
@@ -173,6 +174,45 @@ it("permission lists use every existing normal type on that map and never a boss
     expect(map.foundryAllowed).not.toContain("boss");
   }
 });
+
+it.each([10, 16])(
+  "洞窟ST%iの実撃破後の増援は上限高度と個体半径で天井に収まる",
+  (stage) => {
+    for (const [seed, pinned] of [
+      [22, false],
+      [17, true],
+    ] as const) {
+      const w = createWorld("cave-foundry-height", seed, stage);
+      const p = addPlayer(w, "p");
+      start(w);
+      w.enemies = [];
+      w.nextSpawn = 1e9;
+      const source = spawn(w, "boss", undefined, undefined, "worm")!;
+      hurtEnemy(w, source, 1e6, p.id, 0);
+      if (pinned) {
+        const batch = w.foundrySpawns![0];
+        batch.kinds = batch.parts.map(() => "hornet");
+      }
+      step(w, {}, 0.01);
+      const generated = w.enemies.filter((e) => e.foundrySource === source.id);
+      expect(generated, `ST${stage}/seed${seed}`).toHaveLength(7);
+      expect(pendingFoundryCount(w)).toBe(0);
+      for (const e of generated) {
+        if (e.kind === "hornet") expect(e.y).toBeLessThanOrEqual(5);
+        expect(
+          blocked(
+            e.x,
+            e.z,
+            ENEMIES[e.kind].radius * enemySize(e),
+            e.y,
+            mapFor(w).blocks,
+          ),
+          `ST${stage}/seed${seed}/${e.kind}/${e.x},${e.y},${e.z}`,
+        ).toBe(false);
+      }
+    }
+  },
+);
 
 function laser(overrides: Partial<Projectile> = {}): Projectile {
   return {

@@ -1,0 +1,123 @@
+{
+  "status": "未採用。描画で背面武器が体から離れて浮いて見え、回避の床貫通と持ち替え到達も残る。",
+  "mounts": {
+    "BackWeaponSocket": {
+      "socket": "BackWeaponSocket",
+      "idleWorldShift": [
+        0.18000000715255737,
+        0.07999999821186066,
+        0.1599999964237213
+      ],
+      "leanDegrees": 0,
+      "flipDegrees": 0,
+      "pairs": {
+        "rifle": 0,
+        "shotgun": 0,
+        "rocket": 0
+      },
+      "intersectingKinds": 0,
+      "distance": 0.2537715508721131,
+      "idleWorldMatrix": [
+        9.773822995384762e-08,
+        -1.3086084038604895e-07,
+        1,
+        0,
+        0.4349658191204071,
+        0.9004467725753784,
+        4.5421771233122854e-08,
+        0,
+        -0.9004470109939575,
+        0.43496569991111755,
+        1.331965790996037e-07,
+        0,
+        0.2941300868988037,
+        1.208036184310913,
+        0.254052996635437,
+        1
+      ],
+      "minimum": -0.10296943457711694,
+      "worst": {
+        "clip": "Down",
+        "fraction": 0.5008665511265165,
+        "weapon": "rocket",
+        "anchorY": 0.07041265874448824
+      }
+    },
+    "BackWeaponSocket_2": {
+      "socket": "BackWeaponSocket_2",
+      "idleWorldShift": [
+        -0.18000000715255737,
+        0.1599999964237213,
+        0
+      ],
+      "leanDegrees": -25,
+      "flipDegrees": 0,
+      "pairs": {
+        "rifle": 0,
+        "shotgun": 0,
+        "rocket": 0
+      },
+      "intersectingKinds": 0,
+      "distance": 0.240831891978025,
+      "idleWorldMatrix": [
+        -7.328524702643335e-07,
+        -1.96983791056482e-07,
+        1,
+        0,
+        -0.013667970895767212,
+        0.9999065399169922,
+        1.7071164393200888e-07,
+        0,
+        -0.999906599521637,
+        -0.01366773247718811,
+        -7.273593496393005e-07,
+        0,
+        -0.34586989879608154,
+        1.2880362272262573,
+        0.0940530076622963,
+        1
+      ],
+      "minimum": -0.0238475736019029,
+      "worst": {
+        "clip": "Trial_Dodge_Roll",
+        "fraction": 0.35127478753541075,
+        "weapon": "rocket",
+        "anchorY": 0.11779140376695021
+      }
+    }
+  },
+  "actions": {
+    "Soldier_Dodge_Roll": {
+      "BackWeaponSocket": {
+        "minimum": 0.018129050731658936,
+        "maximumStepDegrees": 30.0
+      },
+      "BackWeaponSocket_2": {
+        "minimum": -0.016530245542526245,
+        "maximumStepDegrees": 30.0
+      }
+    },
+    "Soldier_Down": {
+      "BackWeaponSocket": {
+        "minimum": 0.01801641285419464,
+        "maximumStepDegrees": 30.0
+      },
+      "BackWeaponSocket_2": {
+        "minimum": 0.03195013105869293,
+        "maximumStepDegrees": 0.0
+      }
+    }
+  },
+  "authoringBlendSha256": "c42d4986bdb97f5549d97126ba33bb7f15dbeb88815a3f12559bc23722381901",
+  "sourceRuntimeSha256": "746e35fd16126f5c09140ef6e193eea7e48d0be23eb9dda17cac50c64a67ae23",
+  "limits": [
+    "未採用。持ち替えの到達位置はまだ旧マウントのため不一致。",
+    "回避の左側武器で床下約1.7cmが残る。全身や武器の拡縮・非表示は行っていない。",
+    "姿勢ごとの最大30度の向き変化があり、連続再生の自然さと体との干渉は未判定。"
+  ],
+  "exportedSha256": "38ed06dbac9ee117d26839e94f9d4675525bcb26a0a2e719fd34600a12576242",
+  "runtimeEvidence": [
+    "runtime-back-mount-idle.png",
+    "runtime-back-mount-roll-0150.png"
+  ]
+}

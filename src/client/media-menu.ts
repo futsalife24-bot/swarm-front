@@ -1,4 +1,5 @@
 import { backgroundMusic, type MusicTrack } from "./bgm";
+import { menuMotion } from "./menu-effects";
 import { closeMenuDialog, menuDialog } from "./menu-ui";
 import { MediaPlayback } from "./media-playback";
 import "./media-menu.css";
@@ -60,6 +61,43 @@ export function mountMediaMenu(
     level.oninput = applyVolume;
     applyVolume();
     const status = d.querySelector<HTMLElement>(".media-status")!;
+    const light = document.createElement("span");
+    light.className = "media-playing-light";
+    light.innerHTML = "<i></i><i></i><i></i>";
+    light.setAttribute("aria-hidden", "true");
+    light.hidden = true;
+    if (!video) d.querySelector("h2")!.append(light);
+    let stopPulse = () => {};
+    const stopIndicator = () => {
+      stopPulse();
+      stopPulse = () => {};
+      light.hidden = true;
+    };
+    const playing = () => {
+      stopIndicator();
+      if (!video) {
+        light.hidden = false;
+        // A slow level meter reads as "audio is playing" without a blink.
+        const stops = [...light.children].map((bar, i) =>
+          menuMotion(
+            bar,
+            [
+              { transform: "scaleY(.45)" },
+              { transform: "scaleY(1)", offset: 0.5 },
+              { transform: "scaleY(.45)" },
+            ],
+            [1100, 1500, 1300][i],
+            () => {},
+            Infinity,
+            { delay: i * -400, easing: "ease-in-out" },
+          ),
+        );
+        stopPulse = () => stops.forEach((stop) => stop());
+      }
+    };
+    media.addEventListener("playing", playing);
+    for (const event of ["pause", "ended", "waiting", "emptied", "error"])
+      media.addEventListener(event, stopIndicator);
     const playback = new MediaPlayback(media, (message) => {
       status.textContent = message;
     });
@@ -89,6 +127,10 @@ export function mountMediaMenu(
       "close",
       () => {
         owner.removeEventListener("close", ownerClosed);
+        stopIndicator();
+        media.removeEventListener("playing", playing);
+        for (const event of ["pause", "ended", "waiting", "emptied", "error"])
+          media.removeEventListener(event, stopIndicator);
         playback.dispose();
         release();
         active = undefined;

@@ -1,0 +1,653 @@
+{
+  "scope": "Diagnostic joint coordinates only. Torso, vest and weapon surface clearance are not tested.",
+  "samples": [
+    {
+      "action": "Soldier_Weapon_Switch",
+      "fraction": 0,
+      "chestRelative": {
+        "upper_arm.R": [
+          0.1596,
+          0.2091,
+          0.0776
+        ],
+        "lower_arm.R": [
+          0.2909,
+          0.0333,
+          -0.0307
+        ],
+        "hand.R": [
+          0.1717,
+          0.0674,
+          -0.2311
+        ],
+        "RightHandWeaponSocket": [
+          0.1242,
+          0.1541,
+          -0.3519
+        ],
+        "BackWeaponSocket": [
+          0.14,
+          0.08,
+          0.1
+        ],
+        "BackWeaponSocket_2": [
+          -0.14,
+          0.08,
+          0.1
+        ]
+      }
+    },
+    {
+      "action": "Soldier_Weapon_Switch",
+      "fraction": 0.15,
+      "chestRelative": {
+        "upper_arm.R": [
+          0.1646,
+          0.2322,
+          0.0679
+        ],
+        "lower_arm.R": [
+          0.3274,
+          0.0805,
+          -0.0338
+        ],
+        "hand.R": [
+          0.1286,
+          0.0299,
+          -0.15
+        ],
+        "RightHandWeaponSocket": [
+          0.0807,
+          0.1349,
+          -0.255
+        ],
+        "BackWeaponSocket": [
+          0.1566,
+          0.08,
+          0.0712
+        ],
+        "BackWeaponSocket_2": [
+          -0.1181,
+          0.08,
+          0.1251
+        ]
+      }
+    },
+    {
+      "action": "Soldier_Weapon_Switch",
+      "fraction": 0.3,
+      "chestRelative": {
+        "upper_arm.R": [
+          0.1607,
+          0.2518,
+          0.0671
+        ],
+        "lower_arm.R": [
+          0.3422,
+          0.1102,
+          -0.0158
+        ],
+        "hand.R": [
+          0.1605,
+          -0.038,
+          0.0085
+        ],
+        "RightHandWeaponSocket": [
+          0.1248,
+          0.0992,
+          -0.0566
+        ],
+        "BackWeaponSocket": [
+          0.1633,
+          0.08,
+          0.0542
+        ],
+        "BackWeaponSocket_2": [
+          -0.1042,
+          0.08,
+          0.1369
+        ]
+      }
+    },
+    {
+      "action": "Soldier_Weapon_Switch",
+      "fraction": 0.45,
+      "chestRelative": {
+        "upper_arm.R": [
+          0.1607,
+          0.2518,
+          0.0671
+        ],
+        "lower_arm.R": [
+          0.3371,
+          0.0993,
+          -0.0069
+        ],
+        "hand.R": [
+          0.2017,
+          -0.0664,
+          0.092
+        ],
+        "RightHandWeaponSocket": [
+          0.1633,
+          0.08,
+          0.0542
+        ],
+        "BackWeaponSocket": [
+          0.1633,
+          0.08,
+          0.0542
+        ],
+        "BackWeaponSocket_2": [
+          -0.1042,
+          0.08,
+          0.1369
+        ]
+      }
+    },
+    {
+      "action": "Soldier_Weapon_Switch",
+      "fraction": 0.525,
+      "chestRelative": {
+        "upper_arm.R": [
+          0.1607,
+          0.2518,
+          0.0671
+        ],
+        "lower_arm.R": [
+          0.3087,
+          0.0655,
+          0.0101
+        ],
+        "hand.R": [
+          0.1264,
+          -0.0408,
+          0.1153
+        ],
+        "RightHandWeaponSocket": [
+          0.0296,
+          0.08,
+          0.0955
+        ],
+        "BackWeaponSocket": [
+          0.1633,
+          0.08,
+          0.0542
+        ],
+        "BackWeaponSocket_2": [
+          -0.1042,
+          0.08,
+          0.1369
+        ]
+      }
+    },
+    {
+      "action": "Soldier_Weapon_Switch",
+      "fraction": 0.6,
+      "chestRelative": {
+        "upper_arm.R": [
+          0.1607,
+          0.2518,
+          0.0671
+        ],
+        "lower_arm.R": [
+          0.2457,
+          0.024,
+          0.0399
+        ],
+        "hand.R": [
+          0.0346,
+          0.009,
+          0.1437
+        ],
+        "RightHandWeaponSocket": [
+          -0.1042,
+          0.08,
+          0.1369
+        ],
+        "BackWeaponSocket": [
+          0.1633,
+          0.08,
+          0.0542
+        ],
+        "BackWeaponSocket_2": [
+          -0.1042,
+          0.08,
+          0.1369
+        ]
+      }
+    },
+    {
+      "action": "Soldier_Weapon_Switch",
+      "fraction": 0.75,
+      "chestRelative": {
+        "upper_arm.R": [
+          0.1607,
+          0.2518,
+          0.0671
+        ],
+        "lower_arm.R": [
+          0.2751,
+          0.0559,
+          -0.0246
+        ],
+        "hand.R": [
+          0.0474,
+          -0.0008,
+          -0.0022
+        ],
+        "RightHandWeaponSocket": [
+          -0.0666,
+          0.1035,
+          -0.0244
+        ],
+        "BackWeaponSocket": [
+          0.1633,
+          0.08,
+          0.0542
+        ],
+        "BackWeaponSocket_2": [
+          -0.1042,
+          0.08,
+          0.1369
+        ]
+      }
+    },
+    {
+      "action": "Soldier_Weapon_Switch",
+      "fraction": 0.9,
+      "chestRelative": {
+        "upper_arm.R": [
+          0.1726,
+          0.2275,
+          0.0452
+        ],
+        "lower_arm.R": [
+          0.2843,
+          0.0618,
+          -0.096
+        ],
+        "hand.R": [
+          0.078,
+          0.0406,
+          -0.2081
+        ],
+        "RightHandWeaponSocket": [
+          -0.0039,
+          0.1426,
+          -0.2932
+        ],
+        "BackWeaponSocket": [
+          0.1633,
+          0.08,
+          0.0542
+        ],
+        "BackWeaponSocket_2": [
+          -0.1042,
+          0.08,
+          0.1369
+        ]
+      }
+    },
+    {
+      "action": "Soldier_Weapon_Switch",
+      "fraction": 1,
+      "chestRelative": {
+        "upper_arm.R": [
+          0.1754,
+          0.2091,
+          0.027
+        ],
+        "lower_arm.R": [
+          0.2688,
+          0.0333,
+          -0.1153
+        ],
+        "hand.R": [
+          0.0957,
+          0.0674,
+          -0.2715
+        ],
+        "RightHandWeaponSocket": [
+          0.0147,
+          0.1541,
+          -0.3729
+        ],
+        "BackWeaponSocket": [
+          0.1633,
+          0.08,
+          0.0542
+        ],
+        "BackWeaponSocket_2": [
+          -0.1042,
+          0.08,
+          0.1369
+        ]
+      }
+    },
+    {
+      "action": "Soldier_Weapon_Switch_Back",
+      "fraction": 0,
+      "chestRelative": {
+        "upper_arm.R": [
+          0.1754,
+          0.2091,
+          0.027
+        ],
+        "lower_arm.R": [
+          0.2688,
+          0.0333,
+          -0.1153
+        ],
+        "hand.R": [
+          0.0957,
+          0.0674,
+          -0.2715
+        ],
+        "RightHandWeaponSocket": [
+          0.0147,
+          0.1541,
+          -0.3729
+        ],
+        "BackWeaponSocket": [
+          0.1633,
+          0.08,
+          0.0542
+        ],
+        "BackWeaponSocket_2": [
+          -0.1042,
+          0.08,
+          0.1369
+        ]
+      }
+    },
+    {
+      "action": "Soldier_Weapon_Switch_Back",
+      "fraction": 0.15,
+      "chestRelative": {
+        "upper_arm.R": [
+          0.169,
+          0.2371,
+          0.0542
+        ],
+        "lower_arm.R": [
+          0.2839,
+          0.0689,
+          -0.0814
+        ],
+        "hand.R": [
+          0.069,
+          0.0261,
+          -0.1682
+        ],
+        "RightHandWeaponSocket": [
+          -0.0162,
+          0.1349,
+          -0.2407
+        ],
+        "BackWeaponSocket": [
+          0.1633,
+          0.08,
+          0.0542
+        ],
+        "BackWeaponSocket_2": [
+          -0.1042,
+          0.08,
+          0.1369
+        ]
+      }
+    },
+    {
+      "action": "Soldier_Weapon_Switch_Back",
+      "fraction": 0.3,
+      "chestRelative": {
+        "upper_arm.R": [
+          0.1607,
+          0.2518,
+          0.0671
+        ],
+        "lower_arm.R": [
+          0.2721,
+          0.0509,
+          -0.0172
+        ],
+        "hand.R": [
+          0.0454,
+          -0.0005,
+          0.0221
+        ],
+        "RightHandWeaponSocket": [
+          -0.0734,
+          0.0992,
+          0.0047
+        ],
+        "BackWeaponSocket": [
+          0.1633,
+          0.08,
+          0.0542
+        ],
+        "BackWeaponSocket_2": [
+          -0.1042,
+          0.08,
+          0.1369
+        ]
+      }
+    },
+    {
+      "action": "Soldier_Weapon_Switch_Back",
+      "fraction": 0.45,
+      "chestRelative": {
+        "upper_arm.R": [
+          0.1607,
+          0.2518,
+          0.0671
+        ],
+        "lower_arm.R": [
+          0.2457,
+          0.024,
+          0.0399
+        ],
+        "hand.R": [
+          0.0346,
+          0.009,
+          0.1437
+        ],
+        "RightHandWeaponSocket": [
+          -0.1042,
+          0.08,
+          0.1369
+        ],
+        "BackWeaponSocket": [
+          0.1633,
+          0.08,
+          0.0542
+        ],
+        "BackWeaponSocket_2": [
+          -0.1042,
+          0.08,
+          0.1369
+        ]
+      }
+    },
+    {
+      "action": "Soldier_Weapon_Switch_Back",
+      "fraction": 0.525,
+      "chestRelative": {
+        "upper_arm.R": [
+          0.1607,
+          0.2518,
+          0.0671
+        ],
+        "lower_arm.R": [
+          0.3087,
+          0.0655,
+          0.0101
+        ],
+        "hand.R": [
+          0.1264,
+          -0.0408,
+          0.1153
+        ],
+        "RightHandWeaponSocket": [
+          0.0296,
+          0.08,
+          0.0955
+        ],
+        "BackWeaponSocket": [
+          0.1633,
+          0.08,
+          0.0542
+        ],
+        "BackWeaponSocket_2": [
+          -0.1042,
+          0.08,
+          0.1369
+        ]
+      }
+    },
+    {
+      "action": "Soldier_Weapon_Switch_Back",
+      "fraction": 0.6,
+      "chestRelative": {
+        "upper_arm.R": [
+          0.1607,
+          0.2518,
+          0.0671
+        ],
+        "lower_arm.R": [
+          0.3371,
+          0.0993,
+          -0.0069
+        ],
+        "hand.R": [
+          0.2017,
+          -0.0664,
+          0.092
+        ],
+        "RightHandWeaponSocket": [
+          0.1633,
+          0.08,
+          0.0542
+        ],
+        "BackWeaponSocket": [
+          0.1633,
+          0.08,
+          0.0542
+        ],
+        "BackWeaponSocket_2": [
+          -0.1042,
+          0.08,
+          0.1369
+        ]
+      }
+    },
+    {
+      "action": "Soldier_Weapon_Switch_Back",
+      "fraction": 0.75,
+      "chestRelative": {
+        "upper_arm.R": [
+          0.1609,
+          0.2515,
+          0.0669
+        ],
+        "lower_arm.R": [
+          0.3418,
+          0.11,
+          -0.0174
+        ],
+        "hand.R": [
+          0.1529,
+          -0.0308,
+          -0.0103
+        ],
+        "RightHandWeaponSocket": [
+          0.1163,
+          0.1035,
+          -0.081
+        ],
+        "BackWeaponSocket": [
+          0.1633,
+          0.08,
+          0.0542
+        ],
+        "BackWeaponSocket_2": [
+          -0.1042,
+          0.08,
+          0.1369
+        ]
+      }
+    },
+    {
+      "action": "Soldier_Weapon_Switch_Back",
+      "fraction": 0.9,
+      "chestRelative": {
+        "upper_arm.R": [
+          0.1638,
+          0.2236,
+          0.0709
+        ],
+        "lower_arm.R": [
+          0.3183,
+          0.0643,
+          -0.0322
+        ],
+        "hand.R": [
+          0.1386,
+          0.0451,
+          -0.1834
+        ],
+        "RightHandWeaponSocket": [
+          0.0898,
+          0.1426,
+          -0.2951
+        ],
+        "BackWeaponSocket": [
+          0.1516,
+          0.08,
+          0.0814
+        ],
+        "BackWeaponSocket_2": [
+          -0.1261,
+          0.08,
+          0.117
+        ]
+      }
+    },
+    {
+      "action": "Soldier_Weapon_Switch_Back",
+      "fraction": 1,
+      "chestRelative": {
+        "upper_arm.R": [
+          0.1596,
+          0.2091,
+          0.0776
+        ],
+        "lower_arm.R": [
+          0.2909,
+          0.0333,
+          -0.0307
+        ],
+        "hand.R": [
+          0.1717,
+          0.0674,
+          -0.2311
+        ],
+        "RightHandWeaponSocket": [
+          0.1242,
+          0.1541,
+          -0.3519
+        ],
+        "BackWeaponSocket": [
+          0.14,
+          0.08,
+          0.1
+        ],
+        "BackWeaponSocket_2": [
+          -0.14,
+          0.08,
+          0.1
+        ]
+      }
+    }
+  ]
+}

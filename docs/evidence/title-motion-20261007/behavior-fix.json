@@ -1,0 +1,19 @@
+{
+  "pass": true,
+  "checks": [
+    "タッチ押し込み/取消",
+    "フォーカス喪失",
+    "別ボタンへのフォーカス移動中の押し込み",
+    "即時遷移/演出中の戻り/選択復元",
+    "長押し/入力解除",
+    "二重決定",
+    "画面変化なし/失敗後の監視終了",
+    "非同期処理中の全入口抑止/成功後の解除",
+    "非同期失敗後の解除",
+    "closed dialog待機/取消後の解除",
+    "動きを減らす設定",
+    "再表示/設定変更時の取消"
+  ],
+  "generatedAt": "2026-10-07T00:08:52.871Z",
+  "scope": "isolated real-browser behavioral fixture; actual game UI verified separately"
+}

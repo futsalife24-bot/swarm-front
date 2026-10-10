@@ -1,0 +1,15 @@
+{
+  "pass": true,
+  "checks": [
+    "タッチ押し込み/取消",
+    "フォーカス喪失",
+    "即時遷移/演出中の戻り/選択復元",
+    "長押し/入力解除",
+    "二重決定",
+    "画面変化なし/失敗後の監視終了",
+    "動きを減らす設定",
+    "再表示/設定変更時の取消"
+  ],
+  "generatedAt": "2026-10-06T23:13:32.074Z",
+  "scope": "isolated real-browser behavioral fixture; actual game UI verified separately"
+}

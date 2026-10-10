@@ -1,0 +1,1353 @@
+{
+  "head": "4dfd5e18c1b62d139d53bab7ee35a4866b95ceef",
+  "scope": "dist配下の全ファイル名と全ファイル内容をバイト列で検査。JS以外のTS、生素材、HTML、JSONも対象。",
+  "markers": [
+    "soldier-live-review",
+    "__soldier-proof",
+    "次の戦闘で10秒記録",
+    "motionReview"
+  ],
+  "violations": [],
+  "files": [
+    {
+      "file": ".assetsignore",
+      "bytes": 284,
+      "sha256": "b6709ba218f5af07470c2cc977cc4b18f12e2aa19f00d03e5dfd355e9234a887"
+    },
+    {
+      "file": "assets/audio/ar-hit-v1/CREDITS.txt",
+      "bytes": 233,
+      "sha256": "bdefc89c4ce2c600be07f74a90bdfa9aebd9a2160895a6cc0f573f0cb949a9ab"
+    },
+    {
+      "file": "assets/audio/ar-hit-v1/impactHard.wav",
+      "bytes": 30764,
+      "sha256": "fb27dfe4835f5e2f6831a99f81b0b39dd639fdea976099ad8cb625b1e56ca713"
+    },
+    {
+      "file": "assets/audio/ar-hit-v1/impactShell.wav",
+      "bytes": 30764,
+      "sha256": "8e78dc8dfd03d18bf7e7ba72cb5a4e334b1efb1810fe9267f24ce7e47f8d7647"
+    },
+    {
+      "file": "assets/audio/ar-hit-v1/impactSoft.wav",
+      "bytes": 30764,
+      "sha256": "07a7ceb7fc016ddf7dbff791db5a9733c122aed579258b40266fdc6a6bfa2038"
+    },
+    {
+      "file": "assets/audio/ar-hit-v1/manifest.json",
+      "bytes": 3084,
+      "sha256": "24f70008f8278fd8d9f00168734cdc0459d6e7a306694a5272b299de5dedb1aa"
+    },
+    {
+      "file": "assets/audio/bgm-v1/base.mp3",
+      "bytes": 4643957,
+      "sha256": "dad86a8e7d350bca0003da86a94a16d302df6e02371ed7d047705271ff287047"
+    },
+    {
+      "file": "assets/audio/bgm-v1/clear.mp3",
+      "bytes": 206299,
+      "sha256": "0a3ea9bb641950a6ee10a6970bdfbc7cd8de2d34c681dc09b10e78b88b42b9fd"
+    },
+    {
+      "file": "assets/audio/bgm-v1/lobby.mp3",
+      "bytes": 1394591,
+      "sha256": "23281e57eec4e6e3b3d1984744fa4615347a40855fa9e338ec6b67d1920588d4"
+    },
+    {
+      "file": "assets/audio/bgm-v1/map-0.mp3",
+      "bytes": 4323720,
+      "sha256": "0240d7d06615392aaab02f36fb4b0e60b9b53aaba2848fe4eac0014d92b7e72e"
+    },
+    {
+      "file": "assets/audio/bgm-v1/map-1.mp3",
+      "bytes": 2290162,
+      "sha256": "01da3c8c4e38604cd29140ea0225696c632dbab39de9e1d6d8902fc31e072735"
+    },
+    {
+      "file": "assets/audio/bgm-v1/map-2.mp3",
+      "bytes": 4412117,
+      "sha256": "c4dad5e7d3bb71764c5880cb6422de6757000d7cac065d2f79fdd57a87d14565"
+    },
+    {
+      "file": "assets/audio/bgm-v1/map-3.mp3",
+      "bytes": 3449488,
+      "sha256": "877a591cdae66f947cecdfe1b884bbeb4424740bf58e70ceb0aecc7672d24584"
+    },
+    {
+      "file": "assets/audio/bgm-v1/map-4.mp3",
+      "bytes": 3267529,
+      "sha256": "fc2a107a20f1205e2fb23cb65f3cc09e918e6ef3170ed11e7884ddf60da41ec0"
+    },
+    {
+      "file": "assets/audio/bgm-v1/map-5.mp3",
+      "bytes": 3844903,
+      "sha256": "a399dd67078b661535704dc31991659b95c6a65223d3a8bc73bb157f3702bf41"
+    },
+    {
+      "file": "assets/audio/bgm-v1/prepare.mp3",
+      "bytes": 2248347,
+      "sha256": "bacc5580e275a4ac06a7a0439a99ecbab8842ec18c8a4f6ac06f5b76031c0ec3"
+    },
+    {
+      "file": "assets/audio/bgm-v1/README.md",
+      "bytes": 1992,
+      "sha256": "ed985b48bdf44a6e2d11ab5c2eb72647b59ffd2714ea7cf3bd712b7fa4c9e5d2"
+    },
+    {
+      "file": "assets/audio/bgm-v1/report.mp3",
+      "bytes": 3808185,
+      "sha256": "7a896f4b80119f641cc8ac9b6417fc909aa2e7513e6bb74f6a71eb439d5ee68a"
+    },
+    {
+      "file": "assets/audio/bgm-v1/title.mp3",
+      "bytes": 3374244,
+      "sha256": "8f3498df9ac03c0e1021f5277f4ef77319f2515b60b4a9880dbbf5853ed63344"
+    },
+    {
+      "file": "assets/audio/bgm-v1/victory.mp3",
+      "bytes": 1236162,
+      "sha256": "496abe1a50cf33dd1c52f3ec4de6470d20b7a82b8e109d2f668f87a6e9eed79b"
+    },
+    {
+      "file": "assets/audio/rocket-final-v1/CREDITS.txt",
+      "bytes": 360,
+      "sha256": "30acb39847cedbfe95502d8838916025beebe63b5ed1997de92467035f0bfe3a"
+    },
+    {
+      "file": "assets/audio/rocket-final-v1/manifest.json",
+      "bytes": 793,
+      "sha256": "c99aed811a0907139fa98da8fcf9e20ae077284899c2c83a41afeb8ee535be8c"
+    },
+    {
+      "file": "assets/audio/rocket-final-v1/rocketBurst.wav",
+      "bytes": 130478,
+      "sha256": "3e07c6ec2d9a92e263dcfb3175c138ac68cdbb74633b69ced70cec45f0761a0a"
+    },
+    {
+      "file": "assets/audio/se-v1/acid.wav",
+      "bytes": 41644,
+      "sha256": "75bc608045305b2d7330882aa3b2031060cc6ea3f5bd20d198c70e57d635dab4"
+    },
+    {
+      "file": "assets/audio/se-v1/burst.wav",
+      "bytes": 80044,
+      "sha256": "6fcbb1e99fb42e9e03e30aa0166f623d98882b33173ca89bcb737c6bb44d0a86"
+    },
+    {
+      "file": "assets/audio/se-v1/charge.wav",
+      "bytes": 44844,
+      "sha256": "838385b3b5549ec720483f1fd155069f917de0a9ddc19acf53aeb0d426f645d0"
+    },
+    {
+      "file": "assets/audio/se-v1/CREDITS.md",
+      "bytes": 1963,
+      "sha256": "c4330fb25b4ba7212164a9cf949990911f119ddb9b5a7ca342aa85cb8b9d2b68"
+    },
+    {
+      "file": "assets/audio/se-v1/dodge.wav",
+      "bytes": 32044,
+      "sha256": "4720236b0ef49c4536427ca9825b0f7a3363d76b40158e49ac007292749b4515"
+    },
+    {
+      "file": "assets/audio/se-v1/down.wav",
+      "bytes": 44844,
+      "sha256": "7eee90c79ce28a713638c7ad2f752e5efc9d7df4d49ca02786a46a18b3181398"
+    },
+    {
+      "file": "assets/audio/se-v1/equip.wav",
+      "bytes": 32044,
+      "sha256": "cb70d1cd4c3a35811d67a86e8d4bac382e33fd42f980b80433a307ca870e9e76"
+    },
+    {
+      "file": "assets/audio/se-v1/hurt.wav",
+      "bytes": 14124,
+      "sha256": "ca4d8167f193635c020dc4902dc2fa29794415ab9844cdb725b464c49e826fb0"
+    },
+    {
+      "file": "assets/audio/se-v1/impact.wav",
+      "bytes": 14124,
+      "sha256": "3b226f8dbcaf404999b265b910d3e967d623427c332d2a9ccf9df74d265ef89f"
+    },
+    {
+      "file": "assets/audio/se-v1/kill.wav",
+      "bytes": 25644,
+      "sha256": "80d2e5e12dfa7600846dc2a308b93f6019a0c07f6adf8de8ac1c9544da66bfbe"
+    },
+    {
+      "file": "assets/audio/se-v1/land.wav",
+      "bytes": 28844,
+      "sha256": "b857c8c21c0c0c4821a7732be547507a8a20485d1ceec0a8913d6a9ab0cd7034"
+    },
+    {
+      "file": "assets/audio/se-v1/laser.wav",
+      "bytes": 51244,
+      "sha256": "a079845e3528806e1c4f5cd801e2128964d70c2774d76a24ce6d40913d3e222b"
+    },
+    {
+      "file": "assets/audio/se-v1/leap.wav",
+      "bytes": 25644,
+      "sha256": "ad3e66b4286dfe0a72a60e4b7ae8caf3fb65914d8202f6b2082c893b8abe70f6"
+    },
+    {
+      "file": "assets/audio/se-v1/lunge.wav",
+      "bytes": 25644,
+      "sha256": "90c34702dfe7f7b6f950e422a0535b3e942253bee10b429b89e082ceb63ac288"
+    },
+    {
+      "file": "assets/audio/se-v1/manifest.json",
+      "bytes": 7627,
+      "sha256": "d1ce5091f87dac461684f4972388a7699e3b9b0ddd270720e9bab82f9732f254"
+    },
+    {
+      "file": "assets/audio/se-v1/melee.wav",
+      "bytes": 27564,
+      "sha256": "bc7657b0f3de8a55c2b2e64254e57c3e432890e2a6f9332c613c34ac9443ffd8"
+    },
+    {
+      "file": "assets/audio/se-v1/menu.wav",
+      "bytes": 4844,
+      "sha256": "d6cf3237d40380dc3f085e6f22394c16eff327ec2d1f75dc75bbe966172d089f"
+    },
+    {
+      "file": "assets/audio/se-v1/ready.wav",
+      "bytes": 24364,
+      "sha256": "1703ada47d968dc8299f9fc85c5f6b9ba5ce4dc34d4c8ab79116122e1bea3521"
+    },
+    {
+      "file": "assets/audio/se-v1/reload.wav",
+      "bytes": 41644,
+      "sha256": "a0e5235f6c4e1d6d7f1197831bcfec89ad7cbb6cfced943816c49d543da256d7"
+    },
+    {
+      "file": "assets/audio/se-v1/revive.wav",
+      "bytes": 35244,
+      "sha256": "736ae3cea21dc97166e6b2df999d26355b3f287347db3d0a39ae69b31f8d16dc"
+    },
+    {
+      "file": "assets/audio/se-v1/rifle.wav",
+      "bytes": 44844,
+      "sha256": "657f443590f8c19586fb15a0bc642dd678a720408b84dc07d03cf4ce3ad9c7e0"
+    },
+    {
+      "file": "assets/audio/se-v1/rocket.wav",
+      "bytes": 48044,
+      "sha256": "570fd95fbd430e3e0547d8938c6d2fd36e9a1c5bfc3fdf5661269b0517615a41"
+    },
+    {
+      "file": "assets/audio/se-v1/shotgun.wav",
+      "bytes": 67244,
+      "sha256": "2867b5510706de5b2c205b6e70944c2124ecd19504d15f5fa7411ab29457c5ac"
+    },
+    {
+      "file": "assets/audio/se-v1/spit.wav",
+      "bytes": 26924,
+      "sha256": "fbcdc5b8a390714991f02f02fe30b2af91134039f1b0685c03278a9352bfb203"
+    },
+    {
+      "file": "assets/audio/se-v1/stake.wav",
+      "bytes": 22444,
+      "sha256": "d6f2e0ac3f5016002734ac5ec67c216482b8db8bd0e27b18ccb77d48f7dfae40"
+    },
+    {
+      "file": "assets/audio/se-v1/switch.wav",
+      "bytes": 26924,
+      "sha256": "ef99a5f8c54ef77789d1d7a7c026dcf8f1a17b5dfab4e8faddcb21324ef390c6"
+    },
+    {
+      "file": "assets/audio/se-v1/unequip.wav",
+      "bytes": 22444,
+      "sha256": "2a7c7ce17ef8bc45ca0198cd182ffc2624cbe8c29936ac5a02a20ae39224e31a"
+    },
+    {
+      "file": "assets/audio/se-v1/warning.wav",
+      "bytes": 12844,
+      "sha256": "3e210a52dec8596ac604334ca4e34228f9484796b368ceed97a417a8fcb8cb6f"
+    },
+    {
+      "file": "assets/audio/selected-v1/CREDITS.txt",
+      "bytes": 832,
+      "sha256": "53cbd12a2a697f3dd0e178415ca5c1a64b330623a538c1476228714450d8e6db"
+    },
+    {
+      "file": "assets/audio/selected-v1/manifest.json",
+      "bytes": 1566,
+      "sha256": "8f65ab1b34a72bea39bccb2663158caf0ec2aa4a78c536d4f78064a7046a143f"
+    },
+    {
+      "file": "assets/audio/selected-v1/rifle.wav",
+      "bytes": 6060,
+      "sha256": "7bdff35e248c041eb59cb55f5599474882fa818d0be0db4471824ba51fdbf9ee"
+    },
+    {
+      "file": "assets/audio/selected-v1/rocket.wav",
+      "bytes": 171528,
+      "sha256": "bda2c48b2a3433ad55739937cbdf18f6b16e23e39007b2650a31333a7a0a9438"
+    },
+    {
+      "file": "assets/audio/selected-v1/shotgun.wav",
+      "bytes": 94524,
+      "sha256": "dde26ec283b5ea2599025c04ea8770378ace5779d448d25430e419fb2e5684ee"
+    },
+    {
+      "file": "assets/audio/voice-fenrir-v1/cover.wav",
+      "bytes": 55724,
+      "sha256": "ce71d9c42ddcd22d14e473b71872055a6898ddf74f566f4345e0c3328e5c4a0c"
+    },
+    {
+      "file": "assets/audio/voice-fenrir-v1/empty.wav",
+      "bytes": 109484,
+      "sha256": "c78350963ecc8998e303c1d0d400bf7b062a98b59490fdd1445d1639f0b9e5f5"
+    },
+    {
+      "file": "assets/audio/voice-fenrir-v1/fire-alt.wav",
+      "bytes": 69164,
+      "sha256": "bd0d980a53370dcd999b11e69d1c72e4a74a2e4d2a9bd6d99954d1b4525aeaf9"
+    },
+    {
+      "file": "assets/audio/voice-fenrir-v1/fire.wav",
+      "bytes": 57644,
+      "sha256": "aab0388e9ec004c7d9a5e07c3c964d3ba0d0e6018e6b9647f3fab09c99e21ea9"
+    },
+    {
+      "file": "assets/audio/voice-fenrir-v1/hurt-alt-v2.wav",
+      "bytes": 88364,
+      "sha256": "5d866e994770c63290b21eae98353d7a675b07df4857db8df9e0451f6e313bfe"
+    },
+    {
+      "file": "assets/audio/voice-fenrir-v1/hurt-alt.wav",
+      "bytes": 84524,
+      "sha256": "84065c78671bc066a172621c128e63b8c2fb1c00fa729a4f80a69cdef202e29a"
+    },
+    {
+      "file": "assets/audio/voice-fenrir-v1/hurt.wav",
+      "bytes": 51884,
+      "sha256": "e2a4b8edead003efc6fa807e125fa873f5710c308cb38097419dfaa244032f68"
+    },
+    {
+      "file": "assets/audio/voice-fenrir-v1/reload-alt.wav",
+      "bytes": 53804,
+      "sha256": "7dacb9ebdb794c03429e8eb6879504c1673f7dfde804fffe80bbc1a458dfd02d"
+    },
+    {
+      "file": "assets/audio/voice-fenrir-v1/reload.wav",
+      "bytes": 53804,
+      "sha256": "6704c61bffe48ff3e6366f951837dcc1ddc20c61a2cf1e86ed74ef080f899c63"
+    },
+    {
+      "file": "assets/audio/voice-fenrir-v1/warning.wav",
+      "bytes": 107564,
+      "sha256": "28c198d63e2f928e452422b598ae74ab44e113f0d1cda610964e640318d4bfa1"
+    },
+    {
+      "file": "assets/audio/voice-fenrir-v1/wave-alt.wav",
+      "bytes": 96044,
+      "sha256": "443074450cb7a44047ee051176113de5900ed8aaffa904c3f30a3d89461297fc"
+    },
+    {
+      "file": "assets/audio/voice-fenrir-v1/wave.wav",
+      "bytes": 73004,
+      "sha256": "c3070fd972521d6042464c5aa1031d9133395963a5a18c4f0ccff1949a7669a9"
+    },
+    {
+      "file": "assets/changelog-ok3kfwHn.js",
+      "bytes": 54670,
+      "sha256": "286dd5a719d0f43ec3a04f65c25cc6e16c6637463a8aa19b765ecfa5f1991949"
+    },
+    {
+      "file": "assets/characters/standard_rifle_v1.glb",
+      "bytes": 600388,
+      "sha256": "dfc6c48b610abc5dca5f286cb46709e12de79524ed302d4c45466d96e1db6d3d"
+    },
+    {
+      "file": "assets/characters/standard_rifle_v3.glb",
+      "bytes": 2093904,
+      "sha256": "7a22e515be054652d5a061de0d19676aed3d8849842f36ece03342cb76b38d34"
+    },
+    {
+      "file": "assets/characters/standard_rifle_v4.glb",
+      "bytes": 2117576,
+      "sha256": "a36f92f30224869984d9845c386d38ebd33d235d3f106ce6a2af70524b784638"
+    },
+    {
+      "file": "assets/characters/standard_rocket_v1.glb",
+      "bytes": 418828,
+      "sha256": "cec9612c9569e380a666fcb1ae4485c5435115b04b4cc3805e46f3e01473002e"
+    },
+    {
+      "file": "assets/characters/standard_rocket_v3.glb",
+      "bytes": 1520500,
+      "sha256": "45adb6b21ccdde4f47952f8aba57369b3325ff2f68e7672f8ceef567e81d2c00"
+    },
+    {
+      "file": "assets/characters/standard_rocket_v4.glb",
+      "bytes": 1520500,
+      "sha256": "45adb6b21ccdde4f47952f8aba57369b3325ff2f68e7672f8ceef567e81d2c00"
+    },
+    {
+      "file": "assets/characters/standard_shotgun_v1.glb",
+      "bytes": 594968,
+      "sha256": "4388436d179ec40b1e74157f1b13f898ea7566877dfb4cb2e1777040168cee2d"
+    },
+    {
+      "file": "assets/characters/standard_shotgun_v3.glb",
+      "bytes": 2082628,
+      "sha256": "38baf1e02c717dd2d33fc294844dfee160f50df230338827196b387ca0e988de"
+    },
+    {
+      "file": "assets/characters/standard_shotgun_v4.glb",
+      "bytes": 2106300,
+      "sha256": "abacc73fc58dac7a20e4767a0252654481a439e68e0151e5c08eea93a3a60614"
+    },
+    {
+      "file": "assets/characters/standard_trooper_sprint_v8.glb",
+      "bytes": 15460672,
+      "sha256": "5621035c7405bad7b0fa1ea20231ce036a7b70fd07def7554de2a6ba70c96896"
+    },
+    {
+      "file": "assets/characters/standard_trooper_sprint_v8.json",
+      "bytes": 684,
+      "sha256": "6200f869c2a872f56f67069caa962ddb71ffa8950eed55aaef1651cce3975cbc"
+    },
+    {
+      "file": "assets/characters/standard_trooper_v1.glb",
+      "bytes": 2988564,
+      "sha256": "b78977f69d75f00567e7a90d63c3bfb0b4c73aa702df097ac379ed4fd1a8c35c"
+    },
+    {
+      "file": "assets/characters/standard_trooper_v1.json",
+      "bytes": 691,
+      "sha256": "7c9bf9c85bc862506ec73978795109d9526d852f25b5f5cc179c0ba89e6a78b8"
+    },
+    {
+      "file": "assets/characters/standard_trooper_v10.blender.json",
+      "bytes": 823,
+      "sha256": "f4b9fa83b9d6a5f34877d68374d4e791ae1cbd62b053e8e1f0667fc62736724c"
+    },
+    {
+      "file": "assets/characters/standard_trooper_v10.glb",
+      "bytes": 9092432,
+      "sha256": "60a9e694a19c510c7c8f6b4007600fd8e283a699c422dd143b3a860b3cfb0ec4"
+    },
+    {
+      "file": "assets/characters/standard_trooper_v10.json",
+      "bytes": 1259,
+      "sha256": "28e7a6593f9d31d966a06aee46b81abe03f9e7388c023bcf8893b2b5727e2059"
+    },
+    {
+      "file": "assets/characters/standard_trooper_v2.glb",
+      "bytes": 2989256,
+      "sha256": "6703a5b44e67e9e94327fa7ce1b478f329e33e2a0ec7ea841f7fd2eec3a89c7b"
+    },
+    {
+      "file": "assets/characters/standard_trooper_v2.json",
+      "bytes": 691,
+      "sha256": "7c9bf9c85bc862506ec73978795109d9526d852f25b5f5cc179c0ba89e6a78b8"
+    },
+    {
+      "file": "assets/characters/standard_trooper_v3.glb",
+      "bytes": 6816100,
+      "sha256": "07691f6dd6384196b3f7b5b87d0fc53f37e2b1bb6bbec0ea967959fb0226f4bd"
+    },
+    {
+      "file": "assets/characters/standard_trooper_v3.json",
+      "bytes": 774,
+      "sha256": "1da9b1edb9c400f867cca9fc9852343207086afc316bfa0f72631dbe87c183b1"
+    },
+    {
+      "file": "assets/characters/standard_trooper_v4.glb",
+      "bytes": 7786932,
+      "sha256": "92ba118b47cbb1452d177378276f647e6b188bc463742d566a0bb8a443fbf396"
+    },
+    {
+      "file": "assets/characters/standard_trooper_v4.json",
+      "bytes": 18401,
+      "sha256": "089435c3b2ae8d46491c9f096a8c32fc425d5aca4cb28a0f572c9c6346ac9fc4"
+    },
+    {
+      "file": "assets/characters/standard_trooper_v5.glb",
+      "bytes": 5529072,
+      "sha256": "b615a52a5c3332ffba73c596e18f4bf9ee1344c6d3525d4abafa4ca82b46a6f6"
+    },
+    {
+      "file": "assets/characters/standard_trooper_v5.json",
+      "bytes": 1132,
+      "sha256": "5582f1966f51c7dc592ac7d272c0f73652569c6680be194baea5b3f0fd0ea663"
+    },
+    {
+      "file": "assets/characters/standard_trooper_v6.glb",
+      "bytes": 10476752,
+      "sha256": "85d1ddc6e19fc67690309db916d14660bd34b6ea6fc6587de605a0d255239405"
+    },
+    {
+      "file": "assets/characters/standard_trooper_v7.glb",
+      "bytes": 15404748,
+      "sha256": "fb477da790f8644657409171d474fda4d2117fbd52fadd43e113bea1464e74ec"
+    },
+    {
+      "file": "assets/characters/standard_trooper_v9.glb",
+      "bytes": 7343204,
+      "sha256": "58c9b3902de4eba2413523f598f7bf5efbda7589a0ff9d4bd6d12095307f79ba"
+    },
+    {
+      "file": "assets/characters/standard_trooper_v9.json",
+      "bytes": 1391,
+      "sha256": "1b9c2f4d2333127adb1185a1dcb5977e888931c4887963b413a25577cc07ca29"
+    },
+    {
+      "file": "assets/characters/swarm-soldier.glb",
+      "bytes": 15341532,
+      "sha256": "d1028fd14cb42cfab2a0c484c57fa99032dc73609f8c3a08684abdec76f35269"
+    },
+    {
+      "file": "assets/cloud-save-BBcbApPk.css",
+      "bytes": 4775,
+      "sha256": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75"
+    },
+    {
+      "file": "assets/cloud-save-B_OXc3NF.js",
+      "bytes": 30613,
+      "sha256": "f194c3b86d19fd89ff417cc61f6cd1a9594faa4bcfc535b58d89ee426bdb8851"
+    },
+    {
+      "file": "assets/encounters/report-v1/ant.mp4",
+      "bytes": 2026683,
+      "sha256": "3d4d2dc4fdde0ed4a832e5fd2ae126adec2f1203af6a6838a962157f7b04faeb"
+    },
+    {
+      "file": "assets/encounters/report-v1/boss.mp4",
+      "bytes": 2320882,
+      "sha256": "54b471835f900a23350aaaf56a15b97851de1a60c9ddd2f9203eeec2145e33d8"
+    },
+    {
+      "file": "assets/encounters/report-v1/crawler.mp4",
+      "bytes": 1964883,
+      "sha256": "ccf928123d26906a25d285a1263b49b9c95bf4432f84ef27fd45eb86da3c08e1"
+    },
+    {
+      "file": "assets/encounters/report-v1/hornet.mp4",
+      "bytes": 1683170,
+      "sha256": "96bdb3acf132aaf1eded77a7c4b04fa097f7e718e6d4f27cca99704f720b572a"
+    },
+    {
+      "file": "assets/encounters/report-v1/spider.mp4",
+      "bytes": 2048705,
+      "sha256": "c7da665c05872a7b49f44b1ca827612187657743fcff747d2e6b4ce7fa055f1a"
+    },
+    {
+      "file": "assets/encounters/report-v1/spitter.mp4",
+      "bytes": 2463052,
+      "sha256": "070df8f53a717c0dfa8ab208a31fe7ca0ded440cd495c1f689083cec71446f72"
+    },
+    {
+      "file": "assets/encounters/report-v1/worm.mp4",
+      "bytes": 1728108,
+      "sha256": "d261b054c8473100ae85a7672bd0902a418d806292d24eb14e940842b772280f"
+    },
+    {
+      "file": "assets/encounters/report-v2/ant.mp4",
+      "bytes": 2253442,
+      "sha256": "09976f83d4328db3f442f9a85772e08ae6008cc76a53322ecf4a788c47e62f65"
+    },
+    {
+      "file": "assets/encounters/report-v2/boss.mp4",
+      "bytes": 2357015,
+      "sha256": "71309f071de1f7546f5e9d70e0a023303b388c7b3278d62562c1e28ed09bdfad"
+    },
+    {
+      "file": "assets/encounters/report-v2/calyx-v5.mp4",
+      "bytes": 1626539,
+      "sha256": "57e99494a0f097a7e92e6acb17e1f78daea0435970199722215cad23d4ab7cf7"
+    },
+    {
+      "file": "assets/encounters/report-v2/crawler.mp4",
+      "bytes": 2250145,
+      "sha256": "54a152f3412e76551782cbf7463d88e29890899a1c94057e403aeb139dff6fbc"
+    },
+    {
+      "file": "assets/encounters/report-v2/harrow-v7.mp4",
+      "bytes": 3856560,
+      "sha256": "118790bc5fc819551ab626145543ef4cd6dca26950a654d2f8dd0f2e3eb8b0fa"
+    },
+    {
+      "file": "assets/encounters/report-v2/harrow-v8.mp4",
+      "bytes": 3804278,
+      "sha256": "2e3a29b54bfb23a337070cd366b1d0cf83aeac43121fb559851c3aa97b42be3f"
+    },
+    {
+      "file": "assets/encounters/report-v2/hornet.mp4",
+      "bytes": 1837497,
+      "sha256": "350bd49482be5c9f1ec812a5bec246cc5018ace460c7a94a0dc194fce144464d"
+    },
+    {
+      "file": "assets/encounters/report-v2/spider.mp4",
+      "bytes": 2394136,
+      "sha256": "8775e7be3c51f4e884b2e3e1283ce833eea8cb1a7a01d7f7e086bf7811e1b52d"
+    },
+    {
+      "file": "assets/encounters/report-v2/spitter.mp4",
+      "bytes": 2572102,
+      "sha256": "3d6d81fb7e6607bb1bf95ef6d88fc1f1dd1517356ae4c8710de6048ea614c967"
+    },
+    {
+      "file": "assets/encounters/report-v2/worm.mp4",
+      "bytes": 2124401,
+      "sha256": "d1cef6a24e7df98cc8d75b7071bc63df486e19c1729510b8149199ed996d05da"
+    },
+    {
+      "file": "assets/enemies/calyx_motion_v1.glb",
+      "bytes": 629024,
+      "sha256": "d1a7573d5976e28492be14e8fbe25c880ea93ed96946c7859c8c3f558089d9ad"
+    },
+    {
+      "file": "assets/enemies/foundry_zero_mechanical_legs_v2.glb",
+      "bytes": 1787652,
+      "sha256": "cefb976551d55167ba6b2ecf7ec9c7144105d890a85cb1c5335e24db90c275ab"
+    },
+    {
+      "file": "assets/enemies/foundry_zero_motion_v1.glb",
+      "bytes": 1885412,
+      "sha256": "a8e3b2921fac1000e30642227c4d5deb697f46777c7c5a5d85eb5fca892887cf"
+    },
+    {
+      "file": "assets/enemies/foundry_zero_segmented_v1.glb",
+      "bytes": 1580536,
+      "sha256": "2df80e300c824c6665134bb9e0b0463da2eedf2e3acad9415830169cf7a9a7ea"
+    },
+    {
+      "file": "assets/enemies/foundry_zero_v1.glb",
+      "bytes": 1035912,
+      "sha256": "9b03b80bacba4d8c092b4d0aa3f074bb3ab2ad1c4776b3a4b23a001829a80454"
+    },
+    {
+      "file": "assets/enemies/harrow_motion_v10.glb",
+      "bytes": 9007852,
+      "sha256": "460b71eb6840b25e2565fbcc23d4cdcfac5710643965fdd11fe83dd4c5ba7cf5"
+    },
+    {
+      "file": "assets/enemies/harrow_motion_v6.glb",
+      "bytes": 8053036,
+      "sha256": "0f640a7552d08f410c44a57733a1b0be87ce937995e32f05f18e519429100985"
+    },
+    {
+      "file": "assets/enemies/harrow_motion_v7.glb",
+      "bytes": 8574688,
+      "sha256": "af5152de9e7be4ad4e4265d22a2fbe541e510eccc8f32fa274c406a016a75243"
+    },
+    {
+      "file": "assets/enemies/harrow_motion_v8.glb",
+      "bytes": 8793856,
+      "sha256": "c9a8e1c0ce27bd74a2f756cb688e055d64eab3561a9d2265b3e1d83ff5fda736"
+    },
+    {
+      "file": "assets/enemies/harrow_motion_v9.glb",
+      "bytes": 8804176,
+      "sha256": "637073973b04a78d19ea1a7d187b74ba5f2c597dc6ef1f4ae186bb29729192c7"
+    },
+    {
+      "file": "assets/enemies/hound_blockout_v1.glb",
+      "bytes": 90592,
+      "sha256": "782905206b1d450f8d1c57418d051bd4aefdb2c50d3559689eb40d4e0912d6cd"
+    },
+    {
+      "file": "assets/enemies/hound_blockout_v2.glb",
+      "bytes": 91016,
+      "sha256": "cacbbb213b4f86360e2b86ea1dc1d85f30690bcbc0a56875182b40a7cbf551a9"
+    },
+    {
+      "file": "assets/enemies/hound_blockout_v3.glb",
+      "bytes": 241136,
+      "sha256": "bdb9fb2288db6b5167f44104277f7dcd265a400b3a99f005108e54f64b389ffa"
+    },
+    {
+      "file": "assets/enemies/hound_motion_v1.glb",
+      "bytes": 605876,
+      "sha256": "ab0d39eb16a7de79a71810f625d2ef05a0246c211df78d0dce5be82a19f53a88"
+    },
+    {
+      "file": "assets/enemies/leaper_motion_v1.glb",
+      "bytes": 4531232,
+      "sha256": "3b0f46e012b0d1eebe3db54dc1e7fe85b0f90f901081d5dad8139c30cb0b57f0"
+    },
+    {
+      "file": "assets/enemies/leaper_motion_v2.glb",
+      "bytes": 4531208,
+      "sha256": "f277b504b7244f144f5e31393c896e25f76cc5508a759bee432e886bd8323f01"
+    },
+    {
+      "file": "assets/enemies/leaper_motion_v3.glb",
+      "bytes": 3802608,
+      "sha256": "7a57499b4e7ab82c9fe23155f6731d95213a4fb29835eaecf905e9cd939c38e3"
+    },
+    {
+      "file": "assets/enemies/pleat_motion_v4.glb",
+      "bytes": 330144,
+      "sha256": "6ee7747c1273b6dc076c962c91fab1fc4ab83039830b765da64f59b26733edc4"
+    },
+    {
+      "file": "assets/enemies/pleat_motion_v5.glb",
+      "bytes": 4394424,
+      "sha256": "891dfa187cb1c0d54b92a47af962e693984ff9ba04198e5a3b7b95e763a8b018"
+    },
+    {
+      "file": "assets/enemies/prism_motion_v1.glb",
+      "bytes": 443412,
+      "sha256": "54439f79a6b552eff19413a82f164ddf3c2b4c37d3305ce332dc15e281c1450f"
+    },
+    {
+      "file": "assets/enemies/prism_v1.glb",
+      "bytes": 231876,
+      "sha256": "c4eb27b61919b06a9430b1c2b8a6919a2dcee1a7c29c319f9d4672bd94d83838"
+    },
+    {
+      "file": "assets/enemies/ray_motion_v1.glb",
+      "bytes": 424088,
+      "sha256": "cb513efbbac681c6fbfde65f366a9b7ae3bdacfd87340605f771400fa9180d11"
+    },
+    {
+      "file": "assets/enemies/ray_v1.glb",
+      "bytes": 192232,
+      "sha256": "aa46a5c6c9a6082d5ec1ab12ccc4bc9a03e05536c4d9b0f082305a34432c1693"
+    },
+    {
+      "file": "assets/fonts/rajdhani/OFL.txt",
+      "bytes": 4373,
+      "sha256": "f62ef357d3a1c3d27edd35a6e1ba350e8a8d13499797964eeadefbf0b3b15d1f"
+    },
+    {
+      "file": "assets/fonts/rajdhani/Rajdhani-Bold.ttf",
+      "bytes": 400680,
+      "sha256": "691470dd3286a14e9677940d0bf75796179841ba5215cbda1a2c8910a3226afd"
+    },
+    {
+      "file": "assets/front-BnAbBNVu.css",
+      "bytes": 22901,
+      "sha256": "0b12832441a6bead44409f0fdafc7111a987ab7517b69e941c352940ee7e1f91"
+    },
+    {
+      "file": "assets/front-D3Yc2CVg.js",
+      "bytes": 89767,
+      "sha256": "6f716a941af96d669db82d167479bdee41594d7ea41b5378fdb8d8d00a2b3a04"
+    },
+    {
+      "file": "assets/hud-AC_9YLe2.js",
+      "bytes": 921949,
+      "sha256": "999770c355acb1ababbdd5496f13814dba4dcfb61087f8f3238486a28df583a3"
+    },
+    {
+      "file": "assets/hud-Ds-WcwRj.css",
+      "bytes": 107833,
+      "sha256": "36ff067e92dbbc9539335ee74d9eb936f9738580e91556cef387d14b6802ee47"
+    },
+    {
+      "file": "assets/legacy-B0AZoDOK.js",
+      "bytes": 16401,
+      "sha256": "355d74156d2f8e06cfe6af14f664ac1d4cd463deb730fadf7a970c2d87cd95a4"
+    },
+    {
+      "file": "assets/legacy-CPbai1ZT.css",
+      "bytes": 259,
+      "sha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9"
+    },
+    {
+      "file": "assets/main-BOIn8V8d.css",
+      "bytes": 1316,
+      "sha256": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027"
+    },
+    {
+      "file": "assets/main-CYJq1Eyi.js",
+      "bytes": 52423,
+      "sha256": "006af657e5c6bb6361ca4ef05dc26f1f7ee6b090fc9fc2251713097f2e790688"
+    },
+    {
+      "file": "assets/maps/armory_v2.glb",
+      "bytes": 569292,
+      "sha256": "4d28ed92ac0c3308708550e93240e0f99211eee4e5bd4b3208f9323fbf8aea0b"
+    },
+    {
+      "file": "assets/maps/defense_0_v2.glb",
+      "bytes": 11593464,
+      "sha256": "25b9e532dcf717e74a995af4587c480117d29160f919b2bf66f718981000727e"
+    },
+    {
+      "file": "assets/maps/defense_1_v2.glb",
+      "bytes": 1186916,
+      "sha256": "351ac7992cf053274055a7edf66d136781a078caa4f7070431741173a1fea884"
+    },
+    {
+      "file": "assets/maps/defense_2_v2.glb",
+      "bytes": 7676928,
+      "sha256": "4043e1fe003a70800e4827cca683389cf5e0b6efdc3fce12a8f7f39d2d0d8a55"
+    },
+    {
+      "file": "assets/maps/defense_3_v2.glb",
+      "bytes": 10919460,
+      "sha256": "6b0c0473151095a7c79896b790a98d0e2481c34b30435b9073ef2750b766324a"
+    },
+    {
+      "file": "assets/maps/defense_4_v2.glb",
+      "bytes": 3414664,
+      "sha256": "074c54eb82a3741d4e01e529fa43acd4a732537f4e2c16fe3e2e23a15d0e603d"
+    },
+    {
+      "file": "assets/maps/defense_5_v2.glb",
+      "bytes": 163876,
+      "sha256": "2ddd93c4b9d1f9e5108f078aa7c89da88ff33f5257663208a4f335a507878dd2"
+    },
+    {
+      "file": "assets/maps/distant_0_v1.glb",
+      "bytes": 2754680,
+      "sha256": "54786d80673f0694541d362996fe214f430f807fbd6887123ec232d98a444296"
+    },
+    {
+      "file": "assets/maps/distant_1_v1.glb",
+      "bytes": 509736,
+      "sha256": "bde843455a1963813cba95312e4416f846c72b1097a1c35c59c3fd9fecbc70f0"
+    },
+    {
+      "file": "assets/maps/distant_2_v1.glb",
+      "bytes": 1058804,
+      "sha256": "1c85300f8b47eb91218f2faf177d3d690441976f9cd86bb936823237137a5e5d"
+    },
+    {
+      "file": "assets/maps/distant_3_v1.glb",
+      "bytes": 505916,
+      "sha256": "84183ac3f276a814bfd7c6fa43c4f258d3a38934627fe36863ef82682c1b513a"
+    },
+    {
+      "file": "assets/maps/distant_4_v1.glb",
+      "bytes": 850992,
+      "sha256": "fa7381713eaf8940cc4f1501d3c7491f76ca7f2c90ed7f1285e78fc7ab23a70d"
+    },
+    {
+      "file": "assets/maps/map_0_v1.glb",
+      "bytes": 14594828,
+      "sha256": "8a6ba3e36b72ae1ce92a337c799846c0a1b6f4b4d54e92ecf6a7ba5aaab377a1"
+    },
+    {
+      "file": "assets/maps/map_1_v1.glb",
+      "bytes": 2847392,
+      "sha256": "251c43e3cbbfe9dc7d432a0b17679f648a83ec7b922bd1bf588b3e9635871831"
+    },
+    {
+      "file": "assets/maps/map_2_v1.glb",
+      "bytes": 9863852,
+      "sha256": "7c4f9f25f711f0c622bcd4de62fb3ade2a9736af2d1efc007a5b2ea68c066b45"
+    },
+    {
+      "file": "assets/maps/map_3_v1.glb",
+      "bytes": 15210828,
+      "sha256": "3c2160ed5863904643e85868239e0ce983cf60dc03fa8b39f2189d29daa73585"
+    },
+    {
+      "file": "assets/maps/map_4_v1.glb",
+      "bytes": 2328652,
+      "sha256": "3a41c93e273f9abbcb1dea562f38fe52d0d735f6e881384fc03d680b15490716"
+    },
+    {
+      "file": "assets/maps/map_5_v1.glb",
+      "bytes": 4857828,
+      "sha256": "9be55d7216157cfef39c89b9f373c96462b558ab1bb45c91db64ee6171610405"
+    },
+    {
+      "file": "assets/playtest-app-CHMx8LkA.js",
+      "bytes": 78890,
+      "sha256": "e7ad64469f8f617aebadbb85015ec5897627926f56893f843ff17426f5affd59"
+    },
+    {
+      "file": "assets/playtest-app-CU5IufCk.css",
+      "bytes": 8530,
+      "sha256": "f8dd2dc94f98d22ff4906c0ff444e119d3eb9f0847b66d56941305824879cee9"
+    },
+    {
+      "file": "assets/room-browser-CtHauy-j.js",
+      "bytes": 4315,
+      "sha256": "87acf6ff1b759b9fb2368e30a8b590caa9b7228a1abc72350f61a6d188361599"
+    },
+    {
+      "file": "assets/room-browser-D0N6sL-J.css",
+      "bytes": 4904,
+      "sha256": "8268ae33bacf789ea99164175788749fa3b40497e940d2ef1e4a1c588f70754f"
+    },
+    {
+      "file": "assets/save-writer-B9wubfaf.js",
+      "bytes": 31662,
+      "sha256": "8bce4885d6351e65e05b8629cb9886a5f6fc9939109c49e617640febb7174e0a"
+    },
+    {
+      "file": "assets/save-writer-C20n41-k.css",
+      "bytes": 2242,
+      "sha256": "d564121aea9da4e7e3dae67df1338c35df5d5f0d950b3216653456b396cab6db"
+    },
+    {
+      "file": "assets/title-motion-BKG61TTL.css",
+      "bytes": 31681,
+      "sha256": "07f0da7553dfd3b3b55c9bac5080825247c5f713e7548a2e345e0c8b43dad3fc"
+    },
+    {
+      "file": "assets/title-motion-jbdYWStl.js",
+      "bytes": 49919,
+      "sha256": "733d39aba506fbbd92161f442acceaefe76080f6d4e0f4aced747d80a76d5cf8"
+    },
+    {
+      "file": "assets/training-app-4bqT8gLV.js",
+      "bytes": 3767,
+      "sha256": "5c1f4a2e0f5d430b31abf4d94a8441c84e52d379c56d5090a30e27593b6f4c0a"
+    },
+    {
+      "file": "assets/ui/title-atmosphere-v1.png",
+      "bytes": 1813295,
+      "sha256": "9d8f3639f04927d1cad543d059b71c3a3c268ef6aa84e896dba08b2496e7189e"
+    },
+    {
+      "file": "assets/ui/title-logo-v1.png",
+      "bytes": 2348662,
+      "sha256": "9dfbed71d3a8ffc4cc6cf2765c93436747b57700beb117be04fe6eb4063b70a2"
+    },
+    {
+      "file": "assets/ui/title-logo-v2.png",
+      "bytes": 1032285,
+      "sha256": "e55405d77fb379d9220a38c74f8820b3591db3f3ba45727cd76dcafeb326a261"
+    },
+    {
+      "file": "assets/ui/weapon-locked.png",
+      "bytes": 873911,
+      "sha256": "db246d41aeaa3abd6ad286fbb335cf1349dfe8f7ea47a0cc94561c6a4525efd2"
+    },
+    {
+      "file": "assets/ui/weapon-unlocked.png",
+      "bytes": 876093,
+      "sha256": "e760ef71ef536d0fdf96c75f13b6b6ffc3f377809f7862d36ced6d6d001bbf41"
+    },
+    {
+      "file": "assets/video/README.md",
+      "bytes": 1231,
+      "sha256": "27ee0c4b8d1e14bdbcdb7bf685019e2eb35ff3161ee9aa437f9c497afbe25a0c"
+    },
+    {
+      "file": "assets/video/swarm-front-pv-v10.mp4",
+      "bytes": 12940023,
+      "sha256": "f833a37c1e21c6e6434596e22694a437700e010f75b4bb154d098c38a590325c"
+    },
+    {
+      "file": "assets/weapon-sharing-CpaPOFzH.js",
+      "bytes": 4759,
+      "sha256": "3ec7524777ef336b75363f52f69d224c1477f7c7c30ccd4b8971ad4db787c87f"
+    },
+    {
+      "file": "assets/weapons/progression-v1/manifest.json",
+      "bytes": 3167,
+      "sha256": "a7701dc826e1667792f7b380d65af1b03215e2627760380c44383b05e41ae588"
+    },
+    {
+      "file": "assets/weapons/progression-v1/rifle_0.glb",
+      "bytes": 2127368,
+      "sha256": "5fbdae09e950c92e649e34a3801e66f67c1c9e3e171b123f56f34723ef09780b"
+    },
+    {
+      "file": "assets/weapons/progression-v1/rifle_1.glb",
+      "bytes": 2130792,
+      "sha256": "ba7c052bd374b5816f0a0dde994ddf818b06b8a792391657accd416be49f61ba"
+    },
+    {
+      "file": "assets/weapons/progression-v1/rifle_2.glb",
+      "bytes": 2133888,
+      "sha256": "9f4be5213eb77c475add8412b62243e52dd1936ad2b6cb5b00c366355923464a"
+    },
+    {
+      "file": "assets/weapons/progression-v1/rifle_3.glb",
+      "bytes": 2136904,
+      "sha256": "471814d5cf161fc1ca752d53a06896d5cb48a3c922f1989d386d567915030c70"
+    },
+    {
+      "file": "assets/weapons/progression-v1/rifle_4.glb",
+      "bytes": 2140052,
+      "sha256": "cdbcebc065ca9f99f790978611d993e50db44c76d54f16d6186da60bbb456181"
+    },
+    {
+      "file": "assets/weapons/progression-v1/rocket_0.glb",
+      "bytes": 1520884,
+      "sha256": "5877c6c7bc1a07d1b833dcb4b451eeeb9d29e205afb5965404ac64e6b1433978"
+    },
+    {
+      "file": "assets/weapons/progression-v1/rocket_1.glb",
+      "bytes": 1524344,
+      "sha256": "a1a76e2477c522a67171c0312c73b633ba00916f2da92197a536b9e817111ca0"
+    },
+    {
+      "file": "assets/weapons/progression-v1/rocket_2.glb",
+      "bytes": 1527476,
+      "sha256": "4a9a58651ef7a323e2c5bac3a4688f814f2e10c47fe026a94b2aa8c0d93fb85d"
+    },
+    {
+      "file": "assets/weapons/progression-v1/rocket_3.glb",
+      "bytes": 1530528,
+      "sha256": "7ec8e5f421950f06d59aa00c4b1df37aab32c9e3b69c24be255806e7c51da045"
+    },
+    {
+      "file": "assets/weapons/progression-v1/rocket_4.glb",
+      "bytes": 1533712,
+      "sha256": "4962ec23628a0cbdedc3caca2386f7ed6e19b971c9050cb15b602d47515e0aec"
+    },
+    {
+      "file": "assets/weapons/progression-v1/shotgun_0.glb",
+      "bytes": 2115900,
+      "sha256": "ce94c13f58a6ef7cf87f521ec9d51b46fc1b805613b47d7b43789de27ffa1a4e"
+    },
+    {
+      "file": "assets/weapons/progression-v1/shotgun_1.glb",
+      "bytes": 2119328,
+      "sha256": "c191a4442b4d1f4ca263da526d318b34e9723ae94cfc2c78055dd37ffce59ef9"
+    },
+    {
+      "file": "assets/weapons/progression-v1/shotgun_2.glb",
+      "bytes": 2122432,
+      "sha256": "e1c8b6f3fdee13c633dbe972f3dfb1e9d7fb7cfcfedf09e98617ab08201f9b71"
+    },
+    {
+      "file": "assets/weapons/progression-v1/shotgun_3.glb",
+      "bytes": 2125452,
+      "sha256": "b537285c03df0e0935228fcb76824f370f396724645f77f64dd8058c47a5c2dd"
+    },
+    {
+      "file": "assets/weapons/progression-v1/shotgun_4.glb",
+      "bytes": 2128600,
+      "sha256": "c0b68f498964c29c79822530db5e32d933047122c4ece127073b1281e51e1a30"
+    },
+    {
+      "file": "assets/weapons/realism-v2/manifest.json",
+      "bytes": 5117,
+      "sha256": "386265f8e50e7882d700fbab8f6d1326283c6def8fafd9e7ae300197a7b3c18e"
+    },
+    {
+      "file": "assets/weapons/realism-v2/rifle_0.glb",
+      "bytes": 792224,
+      "sha256": "5a5539736338946c43f070e20203c08ce3ffa27cf23f999c701e922c9321a537"
+    },
+    {
+      "file": "assets/weapons/realism-v2/rifle_1.glb",
+      "bytes": 792224,
+      "sha256": "bb2d327162b905c34857f9d2656a176e0e8e54a06e37dcf9cc0ec7bc224ded54"
+    },
+    {
+      "file": "assets/weapons/realism-v2/rifle_2.glb",
+      "bytes": 792224,
+      "sha256": "9a8d45f8b09fe3fe76dce35d6516c2f069511476d6eef90a1e14afc9d050d820"
+    },
+    {
+      "file": "assets/weapons/realism-v2/rifle_3.glb",
+      "bytes": 792224,
+      "sha256": "858c925b6c63b1c414e964276a5ccfa613953e03003b626f8d10fec5ab1f0b84"
+    },
+    {
+      "file": "assets/weapons/realism-v2/rifle_4.glb",
+      "bytes": 792220,
+      "sha256": "dbff0b689cefc96fa4d2d0228d9d783a366f9ee02247ef030063d95881ce7d47"
+    },
+    {
+      "file": "assets/weapons/realism-v2/rocket_0.glb",
+      "bytes": 483424,
+      "sha256": "af11c626d8e82dbc277d0a04e54df0ce4c2645cc9be728a1f9450669dd004a40"
+    },
+    {
+      "file": "assets/weapons/realism-v2/rocket_1.glb",
+      "bytes": 483424,
+      "sha256": "bb678df173b94c62ea405438ed515554c81fff6c71e22dcb9dea688d174bb59f"
+    },
+    {
+      "file": "assets/weapons/realism-v2/rocket_2.glb",
+      "bytes": 483424,
+      "sha256": "7d17a02968b265396e78fa9c6a878647da411d8d7270a6d77ec25b74e1417521"
+    },
+    {
+      "file": "assets/weapons/realism-v2/rocket_3.glb",
+      "bytes": 483424,
+      "sha256": "43fe2854d49bfce14526ed5b0bbce15ac0a9ce8935be4c5ff8c487fb2b988243"
+    },
+    {
+      "file": "assets/weapons/realism-v2/rocket_4.glb",
+      "bytes": 483420,
+      "sha256": "c3370005965cbfc7cb2e66577d416b954339d2229cdd9126fbea6929aa572743"
+    },
+    {
+      "file": "assets/weapons/realism-v2/shotgun_0.glb",
+      "bytes": 444960,
+      "sha256": "37ffc6c7a90abe35e1d4c4a1b7b1581bfa4274d14788c7ed21c66428d6e63061"
+    },
+    {
+      "file": "assets/weapons/realism-v2/shotgun_1.glb",
+      "bytes": 444960,
+      "sha256": "3ce0e6dc435d7e3502c25e619a82de909e62a9435d7eb3d71e93657c2ec6e34c"
+    },
+    {
+      "file": "assets/weapons/realism-v2/shotgun_2.glb",
+      "bytes": 444960,
+      "sha256": "f60cb564e48b3e78bccd9fd03226b0c9572c50ad9d74b66c1daed5744cf83d86"
+    },
+    {
+      "file": "assets/weapons/realism-v2/shotgun_3.glb",
+      "bytes": 444960,
+      "sha256": "da262691a4c128bfea46a418bf4abc55d6b702c86f3d17427a954e639c0e4f5a"
+    },
+    {
+      "file": "assets/weapons/realism-v2/shotgun_4.glb",
+      "bytes": 444956,
+      "sha256": "a6c5979a02e4a555cdcd75afc93c445e620e02c32c257fe445443dedea4bfe2c"
+    },
+    {
+      "file": "assets/zoom-guard-CYxqEXnM.js",
+      "bytes": 387,
+      "sha256": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b"
+    },
+    {
+      "file": "briefing/assets/battle.webp",
+      "bytes": 25080,
+      "sha256": "eb33ebb0b729e2d9cb8e2b5054eff6ac14a4385c55cc4ebe8a951222b88fcf77"
+    },
+    {
+      "file": "briefing/assets/calyx.webp",
+      "bytes": 9560,
+      "sha256": "64612bb1bf7eac1e2d3451fbcaed611815b6b233dbf1c79b423549b7f620aeec"
+    },
+    {
+      "file": "briefing/assets/title.webp",
+      "bytes": 24618,
+      "sha256": "c432e4c798452ed2f536f77c4d4c9eaabee71eac57ad7fe99fb4c72d36a7daf0"
+    },
+    {
+      "file": "briefing/assets/trooper.webp",
+      "bytes": 30144,
+      "sha256": "210c0b982980f094ce7abff802f5d51f104f3013f17eb3d91b49e874973dbac8"
+    },
+    {
+      "file": "briefing/assets/update-concept.webp",
+      "bytes": 195858,
+      "sha256": "a9d0382296ccf689b041f7588c26a9ba1d0a67afe2b7b223118d48eb74eb1be3"
+    },
+    {
+      "file": "briefing/index.html",
+      "bytes": 59139,
+      "sha256": "c727868b6a291da432efcf21e48a2cfb35ceae5b1cd136c4c18427d0476c46bc"
+    },
+    {
+      "file": "briefing/slides.html",
+      "bytes": 5351501,
+      "sha256": "9b6e9fedf6a3a15134d4634b5c5c46a6648da831a41bcfd2aa3add0ab07d63a5"
+    },
+    {
+      "file": "front.html",
+      "bytes": 2847,
+      "sha256": "3da650fa3d7d0975afc435260d6652e4785c54e7ca533f82776e25339599d90b"
+    },
+    {
+      "file": "icon-180.png",
+      "bytes": 4724,
+      "sha256": "00769dcdd835bd345dec1f329f3afd777648b22aaf88270e3d66746f5a6936b9"
+    },
+    {
+      "file": "icon-192.png",
+      "bytes": 5103,
+      "sha256": "68741e7f169d22df10c53c367e87af7104e0e4439487421e873479a369ee40e7"
+    },
+    {
+      "file": "icon-512-maskable.png",
+      "bytes": 13140,
+      "sha256": "73747a74f24e084500980f942c2d086800d290f342afcb391c591d6134a09b8c"
+    },
+    {
+      "file": "icon-512.png",
+      "bytes": 18122,
+      "sha256": "d340833cb84cf2c39cab5b47cac43fc351fb873845be93c44c246dd05485113e"
+    },
+    {
+      "file": "icon-swarm-v2-180.png",
+      "bytes": 77613,
+      "sha256": "648ac2cc8db28f4a3e756e5f985b32787ca9cba4e44198f288f6b145abe2dcef"
+    },
+    {
+      "file": "icon-swarm-v2-192.png",
+      "bytes": 88208,
+      "sha256": "d626a3f9f464ced78c1df2a5a3625660beb83223a3ccbb8ecb65d871b8cb01f9"
+    },
+    {
+      "file": "icon-swarm-v2-512-maskable.png",
+      "bytes": 422580,
+      "sha256": "de2de295d3069a086cd2ec7df0bce3356e9458c62b887bb208d7f18b3f72f4b6"
+    },
+    {
+      "file": "icon-swarm-v2-512.png",
+      "bytes": 517806,
+      "sha256": "71ce7bf3b6a397968bc1f105ad61d11b719e1c815112b5af453051e5d04b7b84"
+    },
+    {
+      "file": "icon-swarm-v2-64.png",
+      "bytes": 11335,
+      "sha256": "46aeb3fc4a9825a3968bb5ecf2a1123bf106301d9a433ccdbfb910e8a26394be"
+    },
+    {
+      "file": "icon-swarm-v3-180.png",
+      "bytes": 63761,
+      "sha256": "eeab6f8e634b629823df229ff395bedec4af3d6c1efe7d386afc7a096e9c01f1"
+    },
+    {
+      "file": "icon-swarm-v3-192.png",
+      "bytes": 71045,
+      "sha256": "8b3a6e209d41e48b26608fbf03f4e5e76b8dde8ac3e4ccdcf2187503b9f5700e"
+    },
+    {
+      "file": "icon-swarm-v3-512-maskable.png",
+      "bytes": 429952,
+      "sha256": "0fdc83301cbabc6b63dab0b0bdd869b73466dff478efdce8d0e117c5229aa575"
+    },
+    {
+      "file": "icon-swarm-v3-512.png",
+      "bytes": 429952,
+      "sha256": "0fdc83301cbabc6b63dab0b0bdd869b73466dff478efdce8d0e117c5229aa575"
+    },
+    {
+      "file": "icon-swarm-v3-64.png",
+      "bytes": 9702,
+      "sha256": "e9fc9e95ffe52f1dd55b073dea96f76256324ee5a1f52338600203a762fe9471"
+    },
+    {
+      "file": "icon.svg",
+      "bytes": 414,
+      "sha256": "b7021777320e78c10ca36bf79ad74ba2349d706830aef75caef88ae83aa425b6"
+    },
+    {
+      "file": "index.html",
+      "bytes": 3810,
+      "sha256": "9a43d4dbc850c6041593ffb17fb8d9a829b7a3f8bd45153ec606f3f5a93ac9f0"
+    },
+    {
+      "file": "manifest.webmanifest",
+      "bytes": 792,
+      "sha256": "4ccb9648d0544cd62020e7004ea3cc7589d78596a0ff0c517dfec89fe561882b"
+    },
+    {
+      "file": "rebuild/upgrades/afterimage-mine.png",
+      "bytes": 104027,
+      "sha256": "151a33c74e800e0d7e6bc54795c4ca492335de008f236511f344fa3d758fb8d8"
+    },
+    {
+      "file": "rebuild/upgrades/armor-piercer.png",
+      "bytes": 71657,
+      "sha256": "311d16783ce99f3f92a41c7bfeb35853906f8fe7779b838dd8a693f0b5555f1f"
+    },
+    {
+      "file": "rebuild/upgrades/armor.png",
+      "bytes": 132454,
+      "sha256": "87d0d697541c7a7e62ad7bc10d51970a82792276c89c6c093c803430061143da"
+    },
+    {
+      "file": "rebuild/upgrades/blast-core.png",
+      "bytes": 107467,
+      "sha256": "3c097e98d87aef6a739be66edf9295cc286185a2ae22b8d582dadc69170b3c36"
+    },
+    {
+      "file": "rebuild/upgrades/blast-radius.png",
+      "bytes": 1848906,
+      "sha256": "890b7201df3ee6d1eba41812801cadf3139bf2e6012da6df2bab6a36ca8a1194"
+    },
+    {
+      "file": "rebuild/upgrades/boost-coil.png",
+      "bytes": 1362642,
+      "sha256": "60533354927341e2647f7ca0a8e4178ee8fca829335478ba88d1fdbacbc726a7"
+    },
+    {
+      "file": "rebuild/upgrades/burst-cell.png",
+      "bytes": 1370090,
+      "sha256": "6d3108b47854cfb63ae5b904a45240574644c474c4543d110e0fa0b8324bb0a5"
+    },
+    {
+      "file": "rebuild/upgrades/compressed-charge.png",
+      "bytes": 126047,
+      "sha256": "27a2954d81567dce0b6f085418c3c88a99efae800265c9688a9c4e6c349426a1"
+    },
+    {
+      "file": "rebuild/upgrades/emergency-armor.png",
+      "bytes": 2295064,
+      "sha256": "6ce2fcdc15d149c5b2a8fe9d9bd4a54a24f0a298f93e49f17ac14e226357735d"
+    },
+    {
+      "file": "rebuild/upgrades/fuse.png",
+      "bytes": 77290,
+      "sha256": "eee2a79bf5c362ea70605bbb30fb3f3a36549a05ac08e5380119162e0475a107"
+    },
+    {
+      "file": "rebuild/upgrades/fusion-aegis.png",
+      "bytes": 2048204,
+      "sha256": "e10468468d4119607e5461e5c4a2d0633bf95e69ec409f2487334399f2cd0bf4"
+    },
+    {
+      "file": "rebuild/upgrades/fusion-atlas.png",
+      "bytes": 2366679,
+      "sha256": "bef6d6fb4cfec4b9dfc429f99e1c5a62b5cfd831cb4e6b9c178e703d870ca214"
+    },
+    {
+      "file": "rebuild/upgrades/fusion-collector.png",
+      "bytes": 1461088,
+      "sha256": "f3ac3a93f66b4f5a1e6559bc049ef8f1011ada9d14d1028c2c82312fdf6193ec"
+    },
+    {
+      "file": "rebuild/upgrades/fusion-reactor.png",
+      "bytes": 1865659,
+      "sha256": "c3d6beffb0f0488eb8c7e037b6f72085bffa55ede4dff5c7fed312a6a8b40c0c"
+    },
+    {
+      "file": "rebuild/upgrades/interceptor.png",
+      "bytes": 64851,
+      "sha256": "cd439251e1e0a1e6dbab0b9a7585fb11bc2526193e82bce03c88a47ebfc61844"
+    },
+    {
+      "file": "rebuild/upgrades/line-shot.png",
+      "bytes": 67061,
+      "sha256": "914af63090b00a93238666fe9159a310c6fbf5477ab4be1f25d847301ebd483d"
+    },
+    {
+      "file": "rebuild/upgrades/magazine.png",
+      "bytes": 58446,
+      "sha256": "6cdd1f2cbcbb2fadc516ccb0b742f86cc70fc610e7708887c939662427c2f512"
+    },
+    {
+      "file": "rebuild/upgrades/magnet.png",
+      "bytes": 1698184,
+      "sha256": "84ee74a40bc3739500fb883cd033462f0a5fcb972289e27a22e2ef6234f5d096"
+    },
+    {
+      "file": "rebuild/upgrades/opening-shot.png",
+      "bytes": 1944674,
+      "sha256": "d380ee0e14b69e2769632555a610893eaf3f33a4390c6b21938c5a3b409aac84"
+    },
+    {
+      "file": "rebuild/upgrades/recovery-pack.png",
+      "bytes": 1621588,
+      "sha256": "4b2d0e55cf9c86242f58192fb204b286b33a0895e29ed36825703a0b91c32f57"
+    },
+    {
+      "file": "rebuild/upgrades/reload.png",
+      "bytes": 72946,
+      "sha256": "4be46ecf200c76557b9a16a6178bae190760f8055e2174d5443197de113f050a"
+    },
+    {
+      "file": "rebuild/upgrades/ricochet.png",
+      "bytes": 68145,
+      "sha256": "ac7c78d02598557938d87a5e1c0d072bb7bcc202ed4dcc33bc4df1a895c53a8f"
+    },
+    {
+      "file": "rebuild/upgrades/tactical-reload.png",
+      "bytes": 93061,
+      "sha256": "f22e917b8545f2dfd8e898de0847d3e23fa73fdcb440af3c8b00e62a1583325e"
+    },
+    {
+      "file": "share-swarm-front-20260920.jpg",
+      "bytes": 82077,
+      "sha256": "b143b8138a5506e756fb9f76705baff39046eb44a4ab6c6a0a4b6185b8b7c8c4"
+    },
+    {
+      "file": "sw.js",
+      "bytes": 3403,
+      "sha256": "cda986fdea0ed741110f22d38e4bef437e0ccb0d33ba83299db4f9f1d70bf54c"
+    }
+  ]
+}

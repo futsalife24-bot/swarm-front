@@ -1,0 +1,2 @@
+✓ built in 1.36s
+(!) Some chunks are larger than 500 kB after minification. Consider:

@@ -87,6 +87,7 @@ interface Env {
 interface Member {
   frontGrowth?: 2 | 3;
   frontCatalog?: 2;
+  frontOpening?: 2;
   upgradePool?: FrontUpgradeId[];
   initialCards?: FrontUpgradeId[];
   id: string;
@@ -1167,6 +1168,7 @@ export class Room extends DurableObject<Env> {
         this.saved.members.push(member);
       }
       member.frontCatalog = m.frontCatalog === 2 ? 2 : undefined;
+      member.frontOpening = m.frontOpening === 2 ? 2 : undefined;
       member.frontGrowth =
         m.frontGrowth === 3 ? 3 : m.frontGrowth === 2 ? 2 : undefined;
       member.name =
@@ -1207,6 +1209,7 @@ export class Room extends DurableObject<Env> {
           ? {
               ruleset: this.saved.directory.ruleset,
               mode: this.saved.directory.mode,
+              frontOpening: 2,
             }
           : {}),
       });
@@ -1355,8 +1358,22 @@ export class Room extends DurableObject<Env> {
         this.saved.directory?.ruleset === "front-v1" &&
         member.frontGrowth === 3
       ) {
+        if (member.frontOpening !== 2 || "initialCards" in m) {
+          // 更新前の固定開幕指定を黙って無視しない。保存済み装備・候補は保持する。
+          member.frontOpening = undefined;
+          this.invalidatePreparation();
+          await this.persist();
+          this.broadcast();
+          this.send(ws, {
+            type: "notice",
+            reason:
+              "開幕の強化ルールが更新されています。画面を再読み込みしてください",
+          });
+          return;
+        }
         try {
-          createFrontUpgradeState("validate", 0, m.initialCards, m.upgradePool);
+          if (!Array.isArray(m.upgradePool)) throw new Error();
+          createFrontUpgradeState("validate", 0, undefined, m.upgradePool);
           if (
             member.frontCatalog !== 2 &&
             m.upgradePool?.some(
@@ -1364,8 +1381,6 @@ export class Room extends DurableObject<Env> {
             )
           )
             throw new Error("画面を更新してください");
-          if (!Array.isArray(m.upgradePool) || !Array.isArray(m.initialCards))
-            throw new Error();
         } catch {
           this.send(ws, { type: "notice", reason: "強化候補の設定が不正です" });
           return;
@@ -1412,7 +1427,6 @@ export class Room extends DurableObject<Env> {
         member.frontGrowth === 3
       ) {
         member.upgradePool = [...m.upgradePool];
-        member.initialCards = [...m.initialCards];
       }
       if (
         this.saved.directory?.ruleset === "front-v1" &&
@@ -1429,6 +1443,17 @@ export class Room extends DurableObject<Env> {
       const present = this.saved.members.filter((p) => !p.gone);
       if (s.id !== present[0]?.id || this.saved.world?.phase === "battle")
         return;
+      if (
+        this.saved.directory?.ruleset === "front-v1" &&
+        present.some((p) => p.frontGrowth === 3 && p.frontOpening !== 2)
+      ) {
+        this.send(ws, {
+          type: "notice",
+          reason:
+            "開幕の強化ルールが更新されています。全員が画面を再読み込みしてから出撃してください",
+        });
+        return;
+      }
       if (
         !present.length ||
         present.some(

@@ -1,0 +1,80 @@
+[
+  {
+    "file": "evidence/soldier-motion-20261009/integration-rifle/half-speed.mp4",
+    "bytes": 6384913,
+    "sha256": "bcbca62232f49609f613ebc7d7aa7177a7f5911c1f38627835a95c6a970c5818",
+    "width": 960,
+    "height": 540,
+    "avg_frame_rate": "24/1",
+    "duration": "75.958333",
+    "nb_frames": "1823",
+    "side_data_list": [
+      {}
+    ]
+  },
+  {
+    "file": "evidence/soldier-motion-20261009/integration-rifle/normal.mp4",
+    "bytes": 5659420,
+    "sha256": "54063613ca42e70b5fac009c601291060f728d0638d32a84cac3b53cb8be0560",
+    "width": 960,
+    "height": 540,
+    "avg_frame_rate": "24/1",
+    "duration": "38.000000",
+    "nb_frames": "912",
+    "side_data_list": [
+      {}
+    ]
+  },
+  {
+    "file": "evidence/soldier-motion-20261009/integration-rocket/half-speed.mp4",
+    "bytes": 5931490,
+    "sha256": "02f5aa209dc2749c186b6cbba39adc222162d7114885aac1b2c251fefab72974",
+    "width": 960,
+    "height": 540,
+    "avg_frame_rate": "24/1",
+    "duration": "75.958333",
+    "nb_frames": "1823",
+    "side_data_list": [
+      {}
+    ]
+  },
+  {
+    "file": "evidence/soldier-motion-20261009/integration-rocket/normal.mp4",
+    "bytes": 5263662,
+    "sha256": "eb298c08605ff82f712f0b88dff348849c54f2806e94501713dce54f092ecd5b",
+    "width": 960,
+    "height": 540,
+    "avg_frame_rate": "24/1",
+    "duration": "38.000000",
+    "nb_frames": "912",
+    "side_data_list": [
+      {}
+    ]
+  },
+  {
+    "file": "evidence/soldier-motion-20261009/integration-shotgun/half-speed.mp4",
+    "bytes": 6342379,
+    "sha256": "261b1ecaed8a1d905d2ff35d46c5992587ebb28386befef39684ab448de88b59",
+    "width": 960,
+    "height": 540,
+    "avg_frame_rate": "24/1",
+    "duration": "75.958333",
+    "nb_frames": "1823",
+    "side_data_list": [
+      {}
+    ]
+  },
+  {
+    "file": "evidence/soldier-motion-20261009/integration-shotgun/normal.mp4",
+    "bytes": 5560160,
+    "sha256": "63387196e5eeac70a9472519afe3cf4b53caf227e8cc8899e80cc6b5f825613d",
+    "width": 960,
+    "height": 540,
+    "avg_frame_rate": "24/1",
+    "duration": "38.000000",
+    "nb_frames": "912",
+    "side_data_list": [
+      {}
+    ]
+  }
+]

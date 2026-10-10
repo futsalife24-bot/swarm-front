@@ -1,0 +1,32 @@
+{
+  "Down": {
+    "sampleRate": 120,
+    "keys": 289,
+    "maximumExtraLift": 0.0073186087384819985
+  },
+  "Dodge_Roll": {
+    "sampleRate": 120,
+    "keys": 177,
+    "maximumExtraLift": 0.024633704960346222
+  },
+  "Jump_Start": {
+    "sampleRate": 120,
+    "keys": 161,
+    "maximumExtraLift": 0.03412446127831936
+  },
+  "Jump_Land": {
+    "sampleRate": 120,
+    "keys": 153,
+    "maximumExtraLift": 0.009219736136496067
+  },
+  "Walk": {
+    "sampleRate": 120,
+    "keys": 161,
+    "maximumExtraLift": 0.003636672408087179
+  },
+  "Sprint": {
+    "sampleRate": 120,
+    "keys": 81,
+    "maximumExtraLift": 0.017368907384574413
+  }
+}

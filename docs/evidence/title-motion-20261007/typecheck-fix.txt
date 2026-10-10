@@ -1,0 +1,1 @@
+Client and Worker TypeScript checks: exit 0 (2026-10-07)

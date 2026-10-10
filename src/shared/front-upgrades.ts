@@ -497,6 +497,19 @@ export const frontEvolvedFamilies = (
   });
 const families = Object.keys(FRONT_FAMILY_CARDS) as FrontFamily[];
 
+/** 出撃に持ち込む基礎強化。開幕もこの候補から抽選する。 */
+export function isValidFrontUpgradePool(
+  value: unknown,
+): value is FrontUpgradeId[] {
+  return (
+    Array.isArray(value) &&
+    value.length >= 6 &&
+    value.length <= FRONT_BASE_IDS.length &&
+    new Set(value).size === value.length &&
+    value.every((id) => FRONT_BASE_IDS.includes(id))
+  );
+}
+
 function eligibleFor(build: Build): FrontUpgradeId[] {
   const full =
     FRONT_UPGRADE_IDS.filter((id) => build.levels[id] > 0).length >=
@@ -591,12 +604,15 @@ export function isValidFrontUpgradeState(
   if (
     !Array.isArray(value.initialCards) ||
     value.initialCards.length !== 3 ||
-    !families.every(
-      (family) =>
-        (value.initialCards as unknown[]).filter(
-          (id) => isUpgradeId(id) && FRONT_FAMILY_CARDS[family].includes(id),
-        ).length === 1,
-    )
+    new Set(value.initialCards).size !== 3 ||
+    !value.initialCards.every(isUpgradeId) ||
+    (!value.fusion &&
+      !families.every(
+        (family) =>
+          (value.initialCards as unknown[]).filter(
+            (id) => isUpgradeId(id) && FRONT_FAMILY_CARDS[family].includes(id),
+          ).length === 1,
+      ))
   )
     return false;
   if (
@@ -636,13 +652,8 @@ export function isValidFrontUpgradeState(
   const state = value as unknown as FrontUpgradeState;
   if (
     state.fusion &&
-    (!Array.isArray(state.pool) ||
-      state.pool.length < 6 ||
-      state.pool.length > FRONT_BASE_IDS.length ||
-      new Set(state.pool).size !== state.pool.length ||
-      !state.pool.every(
-        (id) => FRONT_BASE_IDS.includes(id) && stateIds.includes(id),
-      ) ||
+    (!isValidFrontUpgradePool(state.pool) ||
+      !state.pool.every((id) => stateIds.includes(id)) ||
       !state.initialCards.every((id) => state.pool!.includes(id)) ||
       FRONT_FUSION_IDS.some(
         (f) =>
@@ -767,7 +778,7 @@ function makeOffer(
   });
 }
 
-/** 各系統から1枚ずつの初期候補を作る。不正な作戦ID・シードは拒否する。 */
+/** 現行規則は持込候補から重複なし3種を抽選。旧規則の固定初期候補は維持する。 */
 export function createFrontUpgradeState(
   runId: string,
   seed: number,
@@ -776,6 +787,8 @@ export function createFrontUpgradeState(
 ): FrontUpgradeState {
   if (!validId(runId) || !integerIn(seed, 0, 0xffffffff))
     throw new RangeError("作戦IDと32ビット整数シードが必要です");
+  if (pool !== undefined && !isValidFrontUpgradePool(pool))
+    throw new RangeError("強化候補は重複のない基礎強化6種類以上が必要です");
   const state: FrontUpgradeState = {
     runId,
     ...(pool ? { fusion: true as const, pool: Object.freeze([...pool]) } : {}),
@@ -813,9 +826,19 @@ export function createFrontUpgradeState(
     offer: null,
     processedRequestIds: Object.freeze([]),
   };
-  const result = Object.freeze({
+  const candidates = pool ? combinationsFor(state) : [];
+  const rngState = pool ? (Math.imul(seed, 1664525) + 1013904223) >>> 0 : seed;
+  const opening = pool
+    ? candidates[Math.floor((rngState / 0x100000000) * candidates.length)]
+    : initialCards;
+  const opened = {
     ...state,
-    offer: makeOffer(state, initialCards, "initial", 1),
+    rngState,
+    initialCards: Object.freeze([...opening]),
+  };
+  const result = Object.freeze({
+    ...opened,
+    offer: makeOffer(opened, opening, "initial", 1),
   });
   requireValidState(result);
   return result;

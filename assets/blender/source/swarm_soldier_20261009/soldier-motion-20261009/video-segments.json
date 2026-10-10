@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Walk",
+    "firstFrame": 0,
+    "lastFrame": 63,
+    "fps": 24
+  },
+  {
+    "name": "Jog",
+    "firstFrame": 64,
+    "lastFrame": 107,
+    "fps": 24
+  },
+  {
+    "name": "Sprint",
+    "firstFrame": 108,
+    "lastFrame": 139,
+    "fps": 24
+  }
+]

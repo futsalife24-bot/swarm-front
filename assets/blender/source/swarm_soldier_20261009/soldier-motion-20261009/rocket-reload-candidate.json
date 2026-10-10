@@ -1,0 +1,20 @@
+{
+  "status": "candidate; rendered validation pending",
+  "changedAction": "Soldier_Rocket_Reload",
+  "samples": 325,
+  "maxHandResidualMetres": 1.9815659178547442e-05,
+  "elbowRuntimeChestRelativeBounds": [
+    [
+      -0.3367200791835785,
+      0.02148510329425335
+    ],
+    [
+      0.03793919086456299,
+      0.20062506198883057
+    ],
+    [
+      -0.2845868766307831,
+      -0.18589812517166138
+    ]
+  ]
+}

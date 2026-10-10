@@ -1,0 +1,8 @@
+{
+  "baselineSha256": "746e35fd16126f5c09140ef6e193eea7e48d0be23eb9dda17cac50c64a67ae23",
+  "candidateSha256": "0940595f3105edf94b9f86cc392e8352fa1fe1bac5fe903303713b8ea0fc2738",
+  "originalClips": 32,
+  "candidateClips": 34,
+  "errors": [],
+  "scope": "Exact original clips, rest nodes, geometry and skin binds; new clips limited to arm/finger/socket channels with equal time extents. Constant-track interpolation and left support socket decomposition allow at most 1e-6 component roundoff. Socket world trajectory and contact require runtime checks."
+}
