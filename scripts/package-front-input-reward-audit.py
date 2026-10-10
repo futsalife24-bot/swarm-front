@@ -20,7 +20,7 @@ while queue:
                 files.add(candidate);queue.append(candidate);break
 payload={p:content(p) for p in sorted(files)}
 payload['DIFF.patch']=subprocess.check_output(['git','diff','--binary',base,head,'--','src','tests','scripts'])
-payload['TARGET.json']=json.dumps({'base':base,'target':head,'implementation':'6a4f0c3bf61207d5c1d3e799637bb7d5c5728222','scope':'未送信入力の中断時破棄、報酬保存再試行表示。バランス値/保存形式/付与量不変。','claude':'https://claude.ai/chat/8d71c544-a8e3-49b2-bec5-f7567c119072','limits':'通信混雑はbuffer圧だけ注入。実機スマホ/自然高遅延/長時間/実タブ非表示は未確認。実戦結果UIのコインは0、非ゼロ額は単体で検証。'},ensure_ascii=False,indent=2).encode()
+payload['TARGET.json']=json.dumps({'base':base,'target':head,'implementation':'834c2b21db6608d2b41220d7bbfbe61d78cc76c6','scope':'未送信入力の中断時破棄、報酬保存再試行表示。バランス値/保存形式/付与量不変。','claude':'https://claude.ai/chat/8d71c544-a8e3-49b2-bec5-f7567c119072','limits':'通信混雑はbuffer圧だけ注入。実機スマホ/自然高遅延/長時間/実タブ非表示は未確認。実戦結果UIのコインは0、非ゼロ額は単体で検証。'},ensure_ascii=False,indent=2).encode()
 manifest=[{'path':p,'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest()} for p,b in sorted(payload.items())]
 payload['MANIFEST.json']=json.dumps(manifest,ensure_ascii=False,indent=2).encode()
 out=Path('dist-validation/claude-balance');out.mkdir(parents=True,exist_ok=True)
