@@ -1,0 +1,48 @@
+
+ ⛅️ wrangler 4.129.0
+────────────────────
+🌀 Building list of assets...
+✨ Read 305 files from the assets directory C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\dist
+🌀 Starting asset upload...
+🌀 Found 23 new or modified static assets to upload. Proceeding with upload...
++ /front.html
++ /assets/weapon-sharing-D4pe9eAa.js
++ /assets/cloud-save-DUU3wRuF.js
++ /assets/audio/voice-young-soldier-v1/cover.wav
++ /assets/audio/voice-young-soldier-v1/warning.wav
++ /assets/changelog-CZ0RRNWF.js
++ /assets/playtest-app-D3ivEbY0.js
++ /assets/audio/voice-young-soldier-v1/hurt-alt-v2.wav
++ /assets/training-app-nuRL_xvM.js
++ /assets/legacy-BOH-1QX6.js
++ /assets/audio/voice-young-soldier-v1/fire.wav
++ /assets/audio/voice-young-soldier-v1/reload.wav
++ /assets/main-C7UosajA.js
++ /assets/audio/voice-young-soldier-v1/wave.wav
++ /assets/audio/voice-young-soldier-v1/empty.wav
++ /assets/hud-D-2pDCk_.js
++ /index.html
++ /assets/audio/voice-young-soldier-v1/hurt.wav
++ /assets/audio/voice-young-soldier-v1/reload-alt.wav
++ /assets/title-motion-BLo0PI-o.js
++ /assets/audio/voice-young-soldier-v1/fire-alt.wav
++ /assets/audio/voice-young-soldier-v1/wave-alt.wav
++ /assets/front-NL54tmY6.js
+Uploaded 7 of 23 assets
+Uploaded 15 of 23 assets
+Uploaded 23 of 23 assets
+✨ Success! Uploaded 23 files (249 already uploaded) (2.02 sec)
+
+Total Upload: 358.20 KiB / gzip: 87.82 KiB
+Worker Startup Time: 320 ms
+Your Worker has access to the following bindings:
+Binding                                                  Resource                  
+env.ROOMS (Room)                                         Durable Object            
+env.GATE (Gate)                                          Durable Object            
+env.PROJECT_HUB (project-hub)                            Worker                    
+env.TURNSTILE_SITE_KEY: 既存公開設定のサイトキー（値は省略）
+
+Uploaded swarm-front (8.13 sec)
+Deployed swarm-front triggers (0.80 sec)
+  https://swarm-front.melosalife-24.workers.dev
+Current Version ID: c1f69e2e-468e-4a2f-9b15-701332728a1d
