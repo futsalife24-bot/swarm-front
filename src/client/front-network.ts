@@ -365,6 +365,10 @@ export class FrontNetwork {
   send(value: unknown) {
     if (this.ws?.readyState === 1) this.ws.send(JSON.stringify(value));
   }
+  discardPendingInput() {
+    // 中断前の未送信タップだけ破棄。送信済み入力のack待ちと送信間隔は維持する。
+    this.pendingInput = undefined;
+  }
   input(input: Input) {
     if (this.ws?.readyState !== 1) return;
     const pending = this.pendingInput;
