@@ -2,7 +2,7 @@
 
 本人の評価「大型接近は第二候補。くらえっはどちらも没(第二は『きゅらえ』になってる)」を受領。装填中第1候補と大型接近第2候補を採用、くらえっ第1/第2候補は不採用。[採否正本](../assets-src/voice-soldier-v2/selection.json)。冒頭の「く」/kɯ/ を明瞭に残す指定で、同じモデル/Fenrirのfire第3候補を1回生成。[原本・実入力](../assets-src/voice-soldier-v2/README.md)。新WAVはWindowsで24kHz/mono/16bit、1.08秒、クリッピング0。生成累計6本、実請求額未確認、総予算1,000円承認を継承。
 
-PR137、branch `codex/soldier-voice-remake-20261006`、作業開始HEAD `7fa1c26aa9ac12c9b04bd8ccd331b50d7c875bf1`。監査Chat未作成、製品差し替え・残り8本・独立監査・main統合・公開は未実施。
+PR137、branch `codex/soldier-voice-remake-20261006`、第3候補の対象SHA `827adbc4b5c2cd97db825bdbbccfdb832154f1d3` はpush済み。新1本はWindows Chromeで再生完走・デコードエラーなし、スマホ用GitHub原本リンクも200/audio/wavで応答。作業開始HEAD `7fa1c26aa9ac12c9b04bd8ccd331b50d7c875bf1`。監査Chat未作成、製品差し替え・残り8本・独立監査・main統合・公開は未実施。Codex実モデルID/推論設定は未確認。
 
 停止理由: 攻撃第3候補の発音・演技の本人試聴評価待ち。再開条件: スマホ用第3候補リンクの評価を受領し、採用なら残り8本と全11本確認へ継続。没なら具体的な発音/演技の問題を確認して生成手法を見直す。Codex音声入力は利用不可のままで、発音が修正済みとは自己判断しない。
 
