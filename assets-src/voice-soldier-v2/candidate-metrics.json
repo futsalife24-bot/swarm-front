@@ -52,6 +52,32 @@
     "trailingBelowMinus40DbSeconds": 0.304
   },
   {
+    "file": "selected-three-comparison.wav",
+    "bytes": 228524,
+    "sha256": "6ac16fdaade6b5e0111cdeb84aa6d5a019fddc6015cad5d76289404e440f6f33",
+    "channels": 1,
+    "sampleRate": 24000,
+    "seconds": 4.76,
+    "peakDbfs": -1.48,
+    "rmsDbfs": -18.96,
+    "clippedSamples": 0,
+    "leadingBelowMinus40DbSeconds": 0.229,
+    "trailingBelowMinus40DbSeconds": 0.326
+  },
+  {
+    "file": "unified-three-take1.wav",
+    "bytes": 263084,
+    "sha256": "9b18aa79ce8713daab57a757384c3b26c9e1d9b6fa32022b73285e8ec6312bed",
+    "channels": 1,
+    "sampleRate": 24000,
+    "seconds": 5.48,
+    "peakDbfs": -0.83,
+    "rmsDbfs": -18.01,
+    "clippedSamples": 0,
+    "leadingBelowMinus40DbSeconds": 0.189,
+    "trailingBelowMinus40DbSeconds": 0.375
+  },
+  {
     "file": "warning-take1.wav",
     "bytes": 96044,
     "sha256": "c8bd248dfab765941dcfc72079018751cd6708d3b594755199207642a0286538",

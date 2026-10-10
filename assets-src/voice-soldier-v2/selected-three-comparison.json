@@ -1,0 +1,31 @@
+{
+  "order": [
+    "reload-take1.wav",
+    "warning-take2.wav",
+    "fire-take3.wav"
+  ],
+  "gapSeconds": 0.5,
+  "processing": "原本PCM不変・無音連結のみ",
+  "parts": [
+    {
+      "file": "reload-take1.wav",
+      "startSeconds": 0,
+      "seconds": 1.2,
+      "sha256": "5e7bf9168a35a631ceaca955d0783bf2e46ba88135518cc80c84f76adbc4605a"
+    },
+    {
+      "file": "warning-take2.wav",
+      "startSeconds": 1.7,
+      "seconds": 1.48,
+      "sha256": "dc1f86c23c51877fc531ed60fe11604d25bb7db1df3a54b7f9145e879dd274cf"
+    },
+    {
+      "file": "fire-take3.wav",
+      "startSeconds": 3.6799999999999997,
+      "seconds": 1.08,
+      "sha256": "bb3c19190883b3563e33418f6e12eaed2665f1b535e51866b7e0e38561a08210"
+    }
+  ],
+  "seconds": 4.76,
+  "sha256": "6ac16fdaade6b5e0111cdeb84aa6d5a019fddc6015cad5d76289404e440f6f33"
+}

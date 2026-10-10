@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>兵士の声・統一感の比較</title>
+<style>body{font:18px system-ui;background:#101c24;color:#e7eeee;margin:24px;max-width:700px}h1{font-size:25px}h2{font-size:20px}audio{width:100%;max-width:450px}p{line-height:1.7}</style>
+<h1>兵士の声・統一感の比較</h1>
+<p>順番は「装填中！」→「大型接近！」→「くらえっ！」です。「くらえっ！」第3候補の声を基準に、全体が同じ兵士に聞こえるかを比べてください。</p>
+<h2>① 採用済み3本を並べた声</h2>
+<audio controls preload="metadata" src="candidates/selected-three-comparison.wav"></audio>
+<p>原本のサンプルはそのまま、台詞の間に0.5秒の無音だけを追加。</p>
+<h2>② 同じ話者・共通指定で連続生成した候補</h2>
+<audio controls preload="metadata" src="candidates/unified-three-take1.wav"></audio>
+<p>同じ声の指定で1回の生成に3台詞をまとめた原本。採用した音声自体を参照入力したものではありません。音量・速度・ピッチ加工なし。ゲームへの差し替えはまだです。</p>
+<script>document.querySelectorAll('audio').forEach(a=>a.addEventListener('play',()=>document.querySelectorAll('audio').forEach(b=>{if(a!==b)b.pause()})))</script>
+</html>
