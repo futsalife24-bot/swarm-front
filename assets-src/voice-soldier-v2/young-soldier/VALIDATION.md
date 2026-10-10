@@ -1,5 +1,7 @@
 # Windows再検証（2026-10-10）
 
+追記: 実配信11本の連結試聴提示後、本人から一式合格を受領（acceptance.json）。下の人の聴感未確認は検証開始時の記録。Codex自身の聴感未評価・実請求額未確認・実スマホ性能未確認は維持。
+
 実装SHA: b35b912043c387adf95343f348cb58f2ab383c5c。base main: ad779114fe2219ae97c393a3cb41ef8ec8bb6812。
 
 - npm ci 成功。既存lock由来のaudit high 5件は依存変更せず記録。

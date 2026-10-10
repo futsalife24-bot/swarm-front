@@ -1,10 +1,33 @@
 {
   "date": "2026-10-10",
   "source": "本人のスマホ試聴評価",
-  "reload": { "selected": "reload-take1.wav", "status": "採用" },
-  "warning": { "selected": "warning-take2.wav", "status": "採用", "rejected": ["旧音声", "warning-take1.wav"] },
-  "fire": { "selected": "fire-take3.wav", "status": "採用", "rejected": ["fire-take1.wav", "fire-take2.wav"], "reasonTake2": "本人: きゅらえになっている" },
+  "reload": {
+    "selected": "reload-take1.wav",
+    "status": "採用"
+  },
+  "warning": {
+    "selected": "warning-take2.wav",
+    "status": "採用",
+    "rejected": [
+      "旧音声",
+      "warning-take1.wav"
+    ]
+  },
+  "fire": {
+    "selected": "fire-take3.wav",
+    "status": "採用",
+    "rejected": [
+      "fire-take1.wav",
+      "fire-take2.wav"
+    ],
+    "reasonTake2": "本人: きゅらえになっている"
+  },
   "consistency": "本人が連続3台詞の統一感を確認し、若く迫力が薄い声を『まだ未熟な若い兵士』としてシリーズ化",
-  "series": { "name": "まだ未熟な若い兵士", "approvedProfile": "unified-three-take1.wav", "fullSet": "young-soldier/clips/", "individualLinesListening": "新しい全11台詞の本人確認は未実施" },
+  "series": {
+    "name": "まだ未熟な若い兵士",
+    "approvedProfile": "unified-three-take1.wav",
+    "fullSet": "young-soldier/clips/",
+    "individualLinesListening": "2026-10-10、実配信11本の連結試聴提示後、本人が「これは合格！ゲームに反映して！」と一式採用。young-soldier/acceptance.jsonに全11ID/SHA対応を記録"
+  },
   "productReplaced": "SOLDIER_PATHをvoice-young-soldier-v1へ変更。公開は独立監査後"
 }
