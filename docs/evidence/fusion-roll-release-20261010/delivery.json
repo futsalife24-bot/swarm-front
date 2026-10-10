@@ -1,0 +1,274 @@
+{
+  "at": "2026-10-10T14:31:48.914Z",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "health": {
+    "status": 200,
+    "body": {
+      "ok": true,
+      "transport": "websocket",
+      "authority": "durable-object"
+    }
+  },
+  "pass": true,
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "local": "eb738bff0287427ad05183828118edbf097627695490888c230c1aeaffc40f15",
+      "remote": "eb738bff0287427ad05183828118edbf097627695490888c230c1aeaffc40f15",
+      "pass": true
+    },
+    {
+      "file": "front.html",
+      "status": 200,
+      "local": "8251d28b16996a39fa050c23238e83f9eca10f8cfe36b08edf0f21dffa7762e8",
+      "remote": "8251d28b16996a39fa050c23238e83f9eca10f8cfe36b08edf0f21dffa7762e8",
+      "pass": true
+    },
+    {
+      "file": "sw.js",
+      "status": 200,
+      "local": "cda986fdea0ed741110f22d38e4bef437e0ccb0d33ba83299db4f9f1d70bf54c",
+      "remote": "cda986fdea0ed741110f22d38e4bef437e0ccb0d33ba83299db4f9f1d70bf54c",
+      "pass": true
+    },
+    {
+      "file": "assets/changelog-BRASJY7z.js",
+      "status": 200,
+      "local": "f6c1f93170f007d1cf87bcf9b4d99352ab6cd8ad5d31fb1cb6f55a1f4869a1c0",
+      "remote": "f6c1f93170f007d1cf87bcf9b4d99352ab6cd8ad5d31fb1cb6f55a1f4869a1c0",
+      "pass": true
+    },
+    {
+      "file": "assets/cloud-save-BBcbApPk.css",
+      "status": 200,
+      "local": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75",
+      "remote": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75",
+      "pass": true
+    },
+    {
+      "file": "assets/cloud-save-BdQE4y2K.js",
+      "status": 200,
+      "local": "25522abecf80b5da1c8d121344363233d25728c9869cab3aaa7643c57a605e71",
+      "remote": "25522abecf80b5da1c8d121344363233d25728c9869cab3aaa7643c57a605e71",
+      "pass": true
+    },
+    {
+      "file": "assets/front-CahoyTfv.js",
+      "status": 200,
+      "local": "de76b393a109e385d4a48db89f0746cb9e1b595accc1ff87a8aadf71b94de654",
+      "remote": "de76b393a109e385d4a48db89f0746cb9e1b595accc1ff87a8aadf71b94de654",
+      "pass": true
+    },
+    {
+      "file": "assets/front-CfbWKfsS.css",
+      "status": 200,
+      "local": "e63b21f942ef9da20c9f199f7704af4595bb2e4af97c8061fbf7d855b69dad4b",
+      "remote": "e63b21f942ef9da20c9f199f7704af4595bb2e4af97c8061fbf7d855b69dad4b",
+      "pass": true
+    },
+    {
+      "file": "assets/hud-DFb-O_WO.js",
+      "status": 200,
+      "local": "56fe849caea1d615d87ea63edfc92bcc6478c3aba8e2cdbaff7636de549a72a2",
+      "remote": "56fe849caea1d615d87ea63edfc92bcc6478c3aba8e2cdbaff7636de549a72a2",
+      "pass": true
+    },
+    {
+      "file": "assets/hud-Ds-WcwRj.css",
+      "status": 200,
+      "local": "36ff067e92dbbc9539335ee74d9eb936f9738580e91556cef387d14b6802ee47",
+      "remote": "36ff067e92dbbc9539335ee74d9eb936f9738580e91556cef387d14b6802ee47",
+      "pass": true
+    },
+    {
+      "file": "assets/legacy-4py5qJST.js",
+      "status": 200,
+      "local": "a1160a173f4063cc3c5c19fa9cc08b5a2ca020b8761e6c8197a6996473d1be52",
+      "remote": "a1160a173f4063cc3c5c19fa9cc08b5a2ca020b8761e6c8197a6996473d1be52",
+      "pass": true
+    },
+    {
+      "file": "assets/legacy-CPbai1ZT.css",
+      "status": 200,
+      "local": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "remote": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "pass": true
+    },
+    {
+      "file": "assets/main-BOIn8V8d.css",
+      "status": 200,
+      "local": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "remote": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "pass": true
+    },
+    {
+      "file": "assets/main-DfRW47KS.js",
+      "status": 200,
+      "local": "dce3416f6ec8c82941f9775143af35f5e87144c04786977ef45f38e65a0513fd",
+      "remote": "dce3416f6ec8c82941f9775143af35f5e87144c04786977ef45f38e65a0513fd",
+      "pass": true
+    },
+    {
+      "file": "assets/playtest-app-BpDdmwqe.js",
+      "status": 200,
+      "local": "61b9fe904ea69e06fdced089882a50ca260bf636f6629bef25fbe106f5d7a872",
+      "remote": "61b9fe904ea69e06fdced089882a50ca260bf636f6629bef25fbe106f5d7a872",
+      "pass": true
+    },
+    {
+      "file": "assets/playtest-app-CU5IufCk.css",
+      "status": 200,
+      "local": "f8dd2dc94f98d22ff4906c0ff444e119d3eb9f0847b66d56941305824879cee9",
+      "remote": "f8dd2dc94f98d22ff4906c0ff444e119d3eb9f0847b66d56941305824879cee9",
+      "pass": true
+    },
+    {
+      "file": "assets/room-browser-CtHauy-j.js",
+      "status": 200,
+      "local": "87acf6ff1b759b9fb2368e30a8b590caa9b7228a1abc72350f61a6d188361599",
+      "remote": "87acf6ff1b759b9fb2368e30a8b590caa9b7228a1abc72350f61a6d188361599",
+      "pass": true
+    },
+    {
+      "file": "assets/room-browser-D0N6sL-J.css",
+      "status": 200,
+      "local": "8268ae33bacf789ea99164175788749fa3b40497e940d2ef1e4a1c588f70754f",
+      "remote": "8268ae33bacf789ea99164175788749fa3b40497e940d2ef1e4a1c588f70754f",
+      "pass": true
+    },
+    {
+      "file": "assets/save-writer-B9wubfaf.js",
+      "status": 200,
+      "local": "8bce4885d6351e65e05b8629cb9886a5f6fc9939109c49e617640febb7174e0a",
+      "remote": "8bce4885d6351e65e05b8629cb9886a5f6fc9939109c49e617640febb7174e0a",
+      "pass": true
+    },
+    {
+      "file": "assets/save-writer-C20n41-k.css",
+      "status": 200,
+      "local": "d564121aea9da4e7e3dae67df1338c35df5d5f0d950b3216653456b396cab6db",
+      "remote": "d564121aea9da4e7e3dae67df1338c35df5d5f0d950b3216653456b396cab6db",
+      "pass": true
+    },
+    {
+      "file": "assets/title-motion-BKG61TTL.css",
+      "status": 200,
+      "local": "07f0da7553dfd3b3b55c9bac5080825247c5f713e7548a2e345e0c8b43dad3fc",
+      "remote": "07f0da7553dfd3b3b55c9bac5080825247c5f713e7548a2e345e0c8b43dad3fc",
+      "pass": true
+    },
+    {
+      "file": "assets/title-motion-Bv4W59_C.js",
+      "status": 200,
+      "local": "31c67f6eff61bc08a2bae06c16fcda4ad40eee6c79484e738e55ca4194191c22",
+      "remote": "31c67f6eff61bc08a2bae06c16fcda4ad40eee6c79484e738e55ca4194191c22",
+      "pass": true
+    },
+    {
+      "file": "assets/training-app-BonsXgFR.js",
+      "status": 200,
+      "local": "557a9625c47970b8a28bec3142ede0c03e8470f1726ada3d3ddb92c0569b70e8",
+      "remote": "557a9625c47970b8a28bec3142ede0c03e8470f1726ada3d3ddb92c0569b70e8",
+      "pass": true
+    },
+    {
+      "file": "assets/weapon-sharing-BDY5Sm4B.js",
+      "status": 200,
+      "local": "75d3416f6535cf3ee57348b2eb9718ee96105942896eb93161e2bbabb41ed249",
+      "remote": "75d3416f6535cf3ee57348b2eb9718ee96105942896eb93161e2bbabb41ed249",
+      "pass": true
+    },
+    {
+      "file": "assets/zoom-guard-CYxqEXnM.js",
+      "status": 200,
+      "local": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "remote": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "pass": true
+    },
+    {
+      "file": "assets/ui/title-atmosphere-v1.png",
+      "status": 200,
+      "local": "9d8f3639f04927d1cad543d059b71c3a3c268ef6aa84e896dba08b2496e7189e",
+      "remote": "9d8f3639f04927d1cad543d059b71c3a3c268ef6aa84e896dba08b2496e7189e",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/voice-young-soldier-v1/cover.wav",
+      "status": 200,
+      "local": "a6351204cbc99ea20347ab43901a69d5498e022cfcaa3e9119bcdd8b1fff4a09",
+      "remote": "a6351204cbc99ea20347ab43901a69d5498e022cfcaa3e9119bcdd8b1fff4a09",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/voice-young-soldier-v1/empty.wav",
+      "status": 200,
+      "local": "d27390769a5f4dd6a690a2e4a8c698c01f1d91edcdf854e8014f473da128ec5c",
+      "remote": "d27390769a5f4dd6a690a2e4a8c698c01f1d91edcdf854e8014f473da128ec5c",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/voice-young-soldier-v1/fire-alt.wav",
+      "status": 200,
+      "local": "0ae501462287462761f9b6892ef9d8e0390ce926b1cd2a988a0b125aa6b063c5",
+      "remote": "0ae501462287462761f9b6892ef9d8e0390ce926b1cd2a988a0b125aa6b063c5",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/voice-young-soldier-v1/fire.wav",
+      "status": 200,
+      "local": "75f4aa3c76a29112f0e4fff13f50dcf6d7b04d09e54c8ff498c61d62971a58de",
+      "remote": "75f4aa3c76a29112f0e4fff13f50dcf6d7b04d09e54c8ff498c61d62971a58de",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/voice-young-soldier-v1/hurt-alt-v2.wav",
+      "status": 200,
+      "local": "b71f9785c291c69b452310fe9e7c84e9e227c065595536d418ae288d63d2a81c",
+      "remote": "b71f9785c291c69b452310fe9e7c84e9e227c065595536d418ae288d63d2a81c",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/voice-young-soldier-v1/hurt.wav",
+      "status": 200,
+      "local": "f680e6ceb555dc0838c2ea9fa3dbd9a565190aba03c14ad5a910e5a812658572",
+      "remote": "f680e6ceb555dc0838c2ea9fa3dbd9a565190aba03c14ad5a910e5a812658572",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/voice-young-soldier-v1/reload-alt.wav",
+      "status": 200,
+      "local": "c32bc63c40bbc81b69e67dd41dc03d8b2419d0d4039411f469568f7cf20508e8",
+      "remote": "c32bc63c40bbc81b69e67dd41dc03d8b2419d0d4039411f469568f7cf20508e8",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/voice-young-soldier-v1/reload.wav",
+      "status": 200,
+      "local": "69c795b1d20f6f49070b0d987a913e1ffe6cf6f09f4233b6e7d39043a6aa1baa",
+      "remote": "69c795b1d20f6f49070b0d987a913e1ffe6cf6f09f4233b6e7d39043a6aa1baa",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/voice-young-soldier-v1/warning.wav",
+      "status": 200,
+      "local": "27fdba462b72cf871397089ab21e461ff13b3a80983979adeecaa4cf964ad674",
+      "remote": "27fdba462b72cf871397089ab21e461ff13b3a80983979adeecaa4cf964ad674",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/voice-young-soldier-v1/wave-alt.wav",
+      "status": 200,
+      "local": "3223e80166ba84c9591dde924e33e42347bf38c97b51c215354eddc452939bf1",
+      "remote": "3223e80166ba84c9591dde924e33e42347bf38c97b51c215354eddc452939bf1",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/voice-young-soldier-v1/wave.wav",
+      "status": 200,
+      "local": "4ef67e90009028ec6a6c2d8c2b941a3aa42d8131d40762ee411e12942f4eedeb",
+      "remote": "4ef67e90009028ec6a6c2d8c2b941a3aa42d8131d40762ee411e12942f4eedeb",
+      "pass": true
+    }
+  ]
+}
