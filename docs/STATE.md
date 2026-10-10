@@ -4,7 +4,7 @@
 
 [Claude共同調査](https://claude.ai/chat/8d71c544-a8e3-49b2-bec5-f7567c119072)後、[通常Chat独立再監査](https://chatgpt.com/c/6aca5839-839c-83ee-9a97-c4171faac963)は対象 `864d7846845e1e893df8e34461100c22d80e9d32` で合格、必須P0/P1/P2各0。初回P2の履歴境界理由表示を修正済み。監査以後の製品変更なし。
 
-Windows型/front109/save147、実Worker入力前後/対照、協力通信10件（9成功＋429自然解除後1成功）、merge後build/本番dry-run成功。公開配信37/37 SHA一致・health200/ok:true。公開Chrome844×390/640×360の保存再試行4条件＋履歴境界1条件でconsole/page error0。ローカル検証サーバー終了。公開記録のみをmain反映する段階。実スマホ・実タブ非表示・自然高遅延・長時間・人の難度評価は未確認。実UIは正当な0コイン、非ゼロ額は単体で確認。旧公開記録や下部の未実施表記は経過。
+Windows型/front109/save147、実Worker入力前後/対照、協力通信10件（9成功＋429自然解除後1成功）、merge後build/本番dry-run成功。公開配信37/37 SHA一致・health200/ok:true。公開Chrome844×390/640×360の保存再試行4条件＋履歴境界1条件でconsole/page error0。ローカル検証サーバー終了。公開記録は [PR162](https://github.com/futsalife24-bot/swarm-front/pull/162) に集約。実スマホ・実タブ非表示・自然高遅延・長時間・人の難度評価は未確認。実UIは正当な0コイン、非ゼロ額は単体で確認。旧公開記録や下部の未実施表記は経過。
 
 # 経過: PR161の独立再監査合格、main統合・既存Worker公開へ（2026-10-11）
 
