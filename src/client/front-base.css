@@ -101,6 +101,15 @@ body.front-game #ui .base-catalog-heading button {
   min-width: 0;
   background: linear-gradient(120deg, #243844, #102530);
 }
+.base-undiscovered {
+  display: grid;
+  place-items: center;
+  flex: 0 0 34px;
+  height: 34px;
+  border: 1px solid #64757b;
+  color: #c6d3d8;
+  font-size: 22px;
+}
 .base-tile[data-family="explosion"] {
   --card-color: #f0ae75;
 }
