@@ -1,6 +1,10 @@
-# 現在地: Claude共同調査で入力中断・戦果再試行の2件を修正、独立監査P2を修正、再監査準備（2026-10-11）
+# 現在地: PR161の独立再監査合格、main統合・既存Worker公開へ（2026-10-11）
 
-本人ログイン完了によりClaude障害解消。[共同調査Chat](https://claude.ai/chat/8d71c544-a8e3-49b2-bec5-f7567c119072)へ対象ソースを送り、2件を最小修正・検証。詳細は [変更・検証・据え置き判断](FRONT-INPUT-REWARD-FIX.md)。branch `codex/front-input-reward-fixes-20261010`、base `a478059206c4b6d9bff4c238f4ff4bd5fb9e395e`。型/front109/save147成功、実Chrome/実Workerで保留回避の停止越し混入を前後比較、実結果画面で報酬再試行を確認。保存形式・通信仕様・バランス数値は不変。Claudeの修正案確認は必須指摘なし。[PR161](https://github.com/futsalife24-bot/swarm-front/pull/161)へ実装6a4f0c3bf61207d5c1d3e799637bb7d5c5728222を保存。通常Chat独立監査は対象 `f9f53bef68654c270860cb652a67bfc60fe5484a` を [監査Chat](https://chatgpt.com/c/6aca5839-839c-83ee-9a97-c4171faac963)へ送信済み。初回P2の履歴境界理由表示1件を834c2b21db6608d2b41220d7bbfbe61d78cc76c6で修正し、型/front109/buildと640×360実結果画面を再確認。同Chatへ再監査する。ZIP SHA256 `6f7b29ad369f92b6f6b08d5365834998f95b07ae700cf13ee6ee47a609016283`、191項目。既存協力通信は9件成功後に1件作成429、制限の自然解除後に残り1件も成功。main統合・公開は未実施。既存公開PR159のVersionは以下を維持。
+Claude共同調査で未送信入力の中断越し混入と部分報酬保存の再試行表示を修正。[PR161](https://github.com/futsalife24-bot/swarm-front/pull/161)、branch codex/front-input-reward-fixes-20261010、base a478059206c4b6d9bff4c238f4ff4bd5fb9e395e。[共同調査Chat](https://claude.ai/chat/8d71c544-a8e3-49b2-bec5-f7567c119072)。数値バランス・保存形式・付与量・プロトコルは不変。
+
+[通常Chat独立再監査](https://chatgpt.com/c/6aca5839-839c-83ee-9a97-c4171faac963)は対象864d7846845e1e893df8e34461100c22d80e9d32で合格、必須P0/P1/P2各0。初回P2の履歴境界理由表示を834c2b21db6608d2b41220d7bbfbe61d78cc76c6で修正。修正版ZIP SHA256 f54c383eacb3accfd48d03c26856d919c53edec5ed7e2428fb7d6321fa0f9148、197項目。監査後は判定保存・文書のみ。判定全文はevidence/front-input-reward-20261011/audit-final.txt。
+
+Windows型/front109/save147/build/本番dry-run成功。実Chrome/実Workerで入力前後・対照、結果画面844×390/640×360、履歴境界640×360を確認。既存協力通信は9件成功＋429自然解除後に残り1件成功。監査側はソース/差分/証拠照合で、Windows再実行はしていない。実スマホ・自然高遅延・長時間・人の難度評価は未確認。[詳細](FRONT-INPUT-REWARD-FIX.md)。main統合・今回公開はこれから。旧公開PR159を維持し、通常merge→merge後HEAD build/dry-run→既存Worker公開→配信/UI確認→記録main反映へ進む。
 
 # 経過: PR159をmain統合・既存Worker公開、Claude共同調査のログイン復旧待ち（2026-10-10）
 
@@ -919,7 +923,7 @@ HEAD `30737b43ea58a7e385b852205448109e297aea2f` をPR78へpush済み。F1/F2/F3�
 再開条件: このタスクでiabが利用可能になったら同じ監査Chatの判定を取得し、修正版ZIPを送信。必須指摘を解消して合格後、通常merge・既存Worker公開・配信確認へ進む。自己検証を独立監査合格とは扱わない。
 # 現在地: HARROW PR78を独立Chat監査へ送信済み（2026-09-22）
 
-[PR78](https://github.com/futsalife24-bot/swarm-front/pull/78)、監査対象 `0120db6e6e226b354e8be4f5d83da0b734a06893`、base `402dcece262cbf265da3912e21d95ada891b9821`。資料 `dist-validation/harrow/HARROW-audit-0120db6.zip`（12,281,354 bytes）を [通常Chat](https://chatgpt.com/c/6ab26169-d12c-83e8-84b1-1b91731a8856) へ添付・送信済み。初回P2の履歴境界理由表示1件を834c2b21db6608d2b41220d7bbfbe61d78cc76c6で修正し、型/front109/buildと640×360実結果画面を再確認。同Chatへ再監査する。実装と自己検証は下記/詳細記録。main反映・公開未完了。後続差分は監査記録のみ。別作業差分を保護。
+[PR78](https://github.com/futsalife24-bot/swarm-front/pull/78)、監査対象 `0120db6e6e226b354e8be4f5d83da0b734a06893`、base `402dcece262cbf265da3912e21d95ada891b9821`。資料 `dist-validation/harrow/HARROW-audit-0120db6.zip`（12,281,354 bytes）を [通常Chat](https://chatgpt.com/c/6ab26169-d12c-83e8-84b1-1b91731a8856) へ添付・送信済み。初回P2の履歴境界理由表示1件を834c2b21db6608d2b41220d7bbfbe61d78cc76c6で修正し、型/front109/buildと640×360実結果画面を再確認。同Chatへ新対象864d7846845e1e893df8e34461100c22d80e9d32を送信済み、再監査回答待ち。修正版ZIP SHA256 f54c383eacb3accfd48d03c26856d919c53edec5ed7e2428fb7d6321fa0f9148、197項目。実装と自己検証は下記/詳細記録。main反映・公開未完了。後続差分は監査記録のみ。別作業差分を保護。
 
 # 現在地: HARROW・通常25面・15-Aの実装と自己検証（2026-09-22）
 
