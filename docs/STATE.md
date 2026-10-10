@@ -1,4 +1,14 @@
-# 現在地: 若い兵士11台詞の本人合格を受領、最終再監査からmain統合・公開へ（2026-10-10）
+# 現在地: 若い兵士11台詞をmain統合・既存Workerへ公開、配信と実戦再生成功（2026-10-10）
+
+本人が新11台詞を一式採用。PR137をReady→通常merge、公開ソース/merge SHA `8e0596b32845b4bf8ed01bf0dcf181698b114d6d`。merge本文Player-Note保持。SOLDIER_PATHのみ差し替え、既存11ID/台詞/発声条件/抽選/クールダウン・旧音声は維持。監査必須の製品修正なし、追加は技術検証証拠と本人採用記録。[通常Chat最終独立監査](https://chatgpt.com/c/6ac9ebe2-4838-83ec-a180-46c05b5d3d3a)の最終対象 `9d56b157534eac606a676a9e219d055dbf27249e` は合格、必須P0/P1/P2各0、本人受入保留解除。最終ZIP SHA256 `6a52a400c64d45fe51bcee30c6e13ff8e25c97005a1233175ca3e0d77c925eee`。
+
+Windows npm ci・client/Worker型・関連30単体・全11WAV形式/PCM一致/クリッピング0・11試聴/全11実WebAudioイベント発声/中断/復帰が成功。merge後HEADから本番buildとwrangler.production.jsonc dry-runを実行して既存swarm-front Workerへ公開。Version `c1f69e2e-468e-4a2f-9b15-701332728a1d`。[公開記録・再現・証拠](evidence/young-soldier-release-20261010/README.md)。公開HTML/JS/CSS等と新11WAVを含む37/37 SHA一致、health200/ok:true。Windows Chrome 844×390の従来版サウンドテストで全11再生完走/SHA一致、改装版の通常ソロ入力で新reloadの実WebAudio再生開始を取得SHAと対応付けて確認。公開console/page error0。ローカル既存分析CORS2件は過去検証JSONへ保持し、公開では再現なし。
+
+公開時のローカルmain/origin/main/この作業場所HEADは8e0596bで一致・clean。main checkoutは既存 `C:/Users/futsa/Documents/Codex/2026-10-09/swarm-soldier-motion` をclean確認のうえ通常fast-forward、この作業場所は同じmain SHAをdetached checkoutして公開。別worktreeの未保存差分なしを確認し、ブランチ付け替え・reset・削除なし。公開記録は `codex/young-soldier-release-record-20261010` から通常PRでmain反映し、反映後もSHA一致とcleanを照合する。
+
+未確認: 実請求額、実スマホ性能、GPU/通常戦闘長時間、監査側/Codex自身の聴感。本人の新11一式採用は確認済み。生成累計8リクエスト、1000円予算承認継承、新規生成/契約変更なし。Codex実モデルID/推論設定未確認。保管庫既存ノートを更新し対象1件のみstage、既存10分同期へ引渡し。以下は解消済みの経過。
+
+# 経過: 若い兵士11台詞の本人合格を受領、最終再監査からmain統合・公開へ（2026-10-10）
 
 本人の「これは合格！ゲームに反映して！」を受領。直前に提示した実配信11本のPCM不変連結16.61秒（SHA256 dc112c50b508a93584ff7e0d8c8437b8ca615c379cdf6d17184ba3e8344b338e）の一式採用を全11IDへ記録。[本人採用記録](../assets-src/voice-soldier-v2/young-soldier/acceptance.json)。個別回答した記録とはせず、Codex自身の聴感評価にも置換しない。前回の停止理由は解消。同Chatで最終対象の受入判定を確認し、合格後にPR137通常merge/既存Worker公開/配信確認を進める。以下は前回までの経過。
 
