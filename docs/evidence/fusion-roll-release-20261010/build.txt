@@ -33,7 +33,7 @@ dist/assets/front-CahoyTfv.js            91.62 kB │ gzip:  30.90 kB
 dist/assets/hud-DFb-O_WO.js             922.64 kB │ gzip: 257.65 kB
 
 ✓ built in 4.06s
-[plugin builtin:vite-reporter] 
+[plugin builtin:vite-reporter]
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
@@ -46,4 +46,3 @@ Additional hook time came from the hooks below and from hooks under 1s.
   - vite:css transform (21 calls)
   - vite:build-html transform (2 calls)
 See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
-
