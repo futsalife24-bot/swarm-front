@@ -1,0 +1,41 @@
+[
+  {
+    "file": "fire-take1.wav",
+    "bytes": 57644,
+    "sha256": "d185e69b1da51a1df100fd51d440684a08529ef80ba0f278b1c5c78ee24527f4",
+    "channels": 1,
+    "sampleRate": 24000,
+    "seconds": 1.2,
+    "peakDbfs": -1.53,
+    "rmsDbfs": -19.89,
+    "clippedSamples": 0,
+    "leadingBelowMinus40DbSeconds": 0.327,
+    "trailingBelowMinus40DbSeconds": 0.428
+  },
+  {
+    "file": "reload-take1.wav",
+    "bytes": 57644,
+    "sha256": "5e7bf9168a35a631ceaca955d0783bf2e46ba88135518cc80c84f76adbc4605a",
+    "channels": 1,
+    "sampleRate": 24000,
+    "seconds": 1.2,
+    "peakDbfs": -3.39,
+    "rmsDbfs": -21.64,
+    "clippedSamples": 0,
+    "leadingBelowMinus40DbSeconds": 0.229,
+    "trailingBelowMinus40DbSeconds": 0.304
+  },
+  {
+    "file": "warning-take1.wav",
+    "bytes": 96044,
+    "sha256": "c8bd248dfab765941dcfc72079018751cd6708d3b594755199207642a0286538",
+    "channels": 1,
+    "sampleRate": 24000,
+    "seconds": 2.0,
+    "peakDbfs": -1.11,
+    "rmsDbfs": -15.62,
+    "clippedSamples": 0,
+    "leadingBelowMinus40DbSeconds": 0.28,
+    "trailingBelowMinus40DbSeconds": 0.38
+  }
+]
