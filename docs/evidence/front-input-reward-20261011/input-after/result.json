@@ -1,0 +1,366 @@
+{
+  "scenario": "pause",
+  "queued": {
+    "mx": 0,
+    "mz": 0,
+    "yaw": 0,
+    "pitch": 0,
+    "fire": false,
+    "reload": false,
+    "dodge": true,
+    "jump": false,
+    "swap": false,
+    "revive": false,
+    "seq": 12,
+    "cameraAim": true
+  },
+  "paused": {
+    "pending": null,
+    "sent": 0
+  },
+  "resumed": {
+    "sent": [
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 16,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 20,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 23,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 27,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 30,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 34,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 37,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 41,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 44,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 48,
+        "cameraAim": true
+      }
+    ],
+    "states": [
+      {
+        "time": 0.55,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 8
+      },
+      {
+        "time": 0.65,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 8
+      },
+      {
+        "time": 0.75,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 8
+      },
+      {
+        "time": 0.85,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 8
+      },
+      {
+        "time": 0.95,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 8
+      }
+    ]
+  },
+  "staleSent": false,
+  "serverDodged": false,
+  "stoppedMovement": {
+    "states": [
+      {
+        "time": 1.05,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 7.65
+      },
+      {
+        "time": 1.15,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.95
+      },
+      {
+        "time": 1.25,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      },
+      {
+        "time": 1.35,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      },
+      {
+        "time": 1.45,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      },
+      {
+        "time": 1.55,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      },
+      {
+        "time": 1.65,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      },
+      {
+        "time": 1.75,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      },
+      {
+        "time": 1.85,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      },
+      {
+        "time": 1.95,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      },
+      {
+        "time": 2.05,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      },
+      {
+        "time": 2.15,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      },
+      {
+        "time": 2.25,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      },
+      {
+        "time": 2.35,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      },
+      {
+        "time": 2.45,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      },
+      {
+        "time": 2.55,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      },
+      {
+        "time": 2.65,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      },
+      {
+        "time": 2.75,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      },
+      {
+        "time": 2.85,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      },
+      {
+        "time": 2.95,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      },
+      {
+        "time": 3.05,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      },
+      {
+        "time": 3.15,
+        "evade": 0,
+        "evadeCd": 0,
+        "x": -3,
+        "z": 6.6
+      }
+    ],
+    "sentWhilePaused": [],
+    "maxDrift": 0
+  },
+  "errors": [],
+  "scope": "実Chrome UI＋実Worker、送信buffer圧だけ試験注入"
+}

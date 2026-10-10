@@ -1,0 +1,206 @@
+{
+  "scenario": "continue",
+  "queued": {
+    "mx": 0,
+    "mz": 0,
+    "yaw": 0,
+    "pitch": 0,
+    "fire": false,
+    "reload": false,
+    "dodge": true,
+    "jump": false,
+    "swap": false,
+    "revive": false,
+    "seq": 11,
+    "cameraAim": true
+  },
+  "paused": {
+    "pending": {
+      "mx": 0,
+      "mz": 0,
+      "yaw": 0,
+      "pitch": 0,
+      "fire": false,
+      "reload": false,
+      "dodge": true,
+      "jump": false,
+      "swap": false,
+      "revive": false,
+      "seq": 12,
+      "cameraAim": true
+    },
+    "sent": 0
+  },
+  "resumed": {
+    "sent": [
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": true,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 22,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 24,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 27,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 30,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 33,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 37,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 40,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 44,
+        "cameraAim": true
+      },
+      {
+        "mx": 0,
+        "mz": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "fire": false,
+        "reload": false,
+        "dodge": false,
+        "jump": false,
+        "swap": false,
+        "revive": false,
+        "seq": 47,
+        "cameraAim": true
+      }
+    ],
+    "states": [
+      {
+        "time": 0.5,
+        "evade": 0.27,
+        "evadeCd": 2.1500000000000004,
+        "x": -3,
+        "z": 8
+      },
+      {
+        "time": 0.6,
+        "evade": 0.17000000000000004,
+        "evadeCd": 2.0500000000000007,
+        "x": -3,
+        "z": 8
+      },
+      {
+        "time": 0.7,
+        "evade": 0.07000000000000003,
+        "evadeCd": 1.9500000000000008,
+        "x": -3,
+        "z": 8
+      },
+      {
+        "time": 0.8,
+        "evade": 0,
+        "evadeCd": 1.8500000000000008,
+        "x": -3,
+        "z": 8
+      },
+      {
+        "time": 0.9,
+        "evade": 0,
+        "evadeCd": 1.7500000000000007,
+        "x": -3,
+        "z": 8
+      }
+    ]
+  },
+  "staleSent": true,
+  "serverDodged": true,
+  "stoppedMovement": null,
+  "errors": [],
+  "scope": "実Chrome UI＋実Worker、送信buffer圧だけ試験注入"
+}

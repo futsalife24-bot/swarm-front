@@ -1,4 +1,8 @@
-# 現在地: PR159をmain統合・既存Worker公開、Claude共同調査のログイン復旧待ち（2026-10-10）
+# 現在地: Claude共同調査で入力中断・戦果再試行の2件を修正、独立監査準備中（2026-10-11）
+
+本人ログイン完了によりClaude障害解消。[共同調査Chat](https://claude.ai/chat/8d71c544-a8e3-49b2-bec5-f7567c119072)へ対象ソースを送り、2件を最小修正・検証。詳細は [変更・検証・据え置き判断](FRONT-INPUT-REWARD-FIX.md)。branch `codex/front-input-reward-fixes-20261010`、base `a478059206c4b6d9bff4c238f4ff4bd5fb9e395e`。型/front109/save147成功、実Chrome/実Workerで保留回避の停止越し混入を前後比較、実結果画面で報酬再試行を確認。保存形式・通信仕様・バランス数値は不変。Claudeの修正案確認は必須指摘なし。[PR161](https://github.com/futsalife24-bot/swarm-front/pull/161)へ実装6a4f0c3bf61207d5c1d3e799637bb7d5c5728222を保存。今回の通常Chat独立監査・main統合・公開は未実施。既存公開PR159のVersionは以下を維持。
+
+# 経過: PR159をmain統合・既存Worker公開、Claude共同調査のログイン復旧待ち（2026-10-10）
 
 PR159を通常merge、公開ソース `c6c1408037ec73c09d369380c218be50c431e419`、Worker Version `4b27773e-518f-4faf-bd28-89e07e647307`。[公開記録](evidence/fusion-roll-release-20261010/README.md)。merge後build/本番dry-run成功、配信37/37 SHA一致・health200/ok:true。Windows Chromeの公開版844×390/640×360・通常/reduceの4条件成功、console/page error0。監査後の実装修正なし。下記の「統合・公開へ」は解消済み経過。
 
