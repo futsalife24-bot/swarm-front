@@ -2,7 +2,7 @@
 
 本人が「くらえっ！」第3候補を採用し、全体の声の統一感に懸念を提示。基準の声は本人指定で「くらえっ！」。reload第1/warning第2/fire第3の採用を [selection.json](../assets-src/voice-soldier-v2/selection.json) に記録。採用3本を原本PCM不変・0.5秒の無音だけで連結した比較音声4.76秒と、同じFenrir/共通指定/単一話者/単一block/1リクエストで連続生成した候補5.48秒を準備。[原本・実入力・連結再現](../assets-src/voice-soldier-v2/README.md)。採用音声自体の参照入力はせず、声特性の一致を保証しない。
 
-Windows WAV検査で比較2本とも24kHz/mono/16bit・クリッピング0。生成累計7リクエスト（単独6＋3台詞連続1）、実請求額未確認。総予算1,000円承認を継承。PR137、branch `codex/soldier-voice-remake-20261006`、作業開始HEAD `afd2c511620c1eedc2f816fab35ba33a212d5b94`。残り8台詞・製品差し替え・独立監査・main統合・公開は未実施、監査Chat未作成。
+Windows WAV検査で比較2本とも24kHz/mono/16bit・クリッピング0、Chromeで2本とも再生完走・デコードエラーなし。[比較対象SHA](https://github.com/futsalife24-bot/swarm-front/commit/8c612c20d98587f7a22bbf043a3ce16e5b6476c8) `8c612c20d98587f7a22bbf043a3ce16e5b6476c8` をpush済み、スマホ用WAV2本も200/audio/wavで応答。生成累計7リクエスト（単独6＋3台詞連続1）、実請求額未確認。総予算1,000円承認を継承。PR137、branch `codex/soldier-voice-remake-20261006`、作業開始HEAD `afd2c511620c1eedc2f816fab35ba33a212d5b94`。残り8台詞・製品差し替え・独立監査・main統合・公開は未実施、監査Chat未作成。Codex実モデルID/推論設定は未確認。
 
 停止理由: 声の統一感と新しい連続生成候補の聴感評価待ち。再開条件: スマホ用比較2本への本人評価を受領し、同じ兵士に聞こえる声指定を確定して残りの制作・全11本検証・通常Chat独立監査・合格後の通常統合/既存Worker公開へ継続する。Codex音声入力は利用不可、統一感を自己判断しない。
 
