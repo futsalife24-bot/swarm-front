@@ -5,7 +5,7 @@ PR https://github.com/futsalife24-bot/swarm-front/pull/159 （Draft）、branch 
 停止理由: iab通常Chatホームに別件の下書きがあり、自動承認レビューが「保護のための本文読み取り」と「新しいチャット」を拒否。対象外の私的内容アクセス/未保存下書きの消失リスクが理由。保護・復元して監査を続ける承認を質問済み、未回答。監査資料に別件本文は含めない。
 再開条件: 本人が下書きの保護・復元を承認するか、本人がホームの下書きを整理する。準備したZIPをiabの新しい通常Chatへ添付し、監査URLをここへ記録→必須修正/再監査→PR159通常merge→mainビルド→既存Worker公開/配信UI照合→公開記録main/保管庫更新。
 
-監査Chat URL: 未作成（ホーム準備だけ、未送信・未合格）。main統合・今回の公開は未実施。公開ソース `8e0596b32845b4bf8ed01bf0dcf181698b114d6d`、Version `c1f69e2e-468e-4a2f-9b15-701332728a1d` を維持。監査資料: `dist-validation/fusion-roll/fusion-roll-audit.zip`（再生成はscripts/package-fusion-roll-audit.py）。資料対象SHAとmanifestはZIP内に記録。主担当の実モデルID/effort未確認、補助指定gpt-6.1-sol/high。実機スマホ・長時間GPU・人の自然さの最終採否は未確認。
+監査Chat URL: 未作成（ホーム準備だけ、未送信・未合格）。main統合・今回の公開は未実施。公開ソース `8e0596b32845b4bf8ed01bf0dcf181698b114d6d`、Version `c1f69e2e-468e-4a2f-9b15-701332728a1d` を維持。監査資料: `dist-validation/fusion-roll/fusion-roll-audit.zip`（再生成はscripts/package-fusion-roll-audit.py）。資料対象SHA `19b18fbb8391e2ebf59b34fc1b5b946177f4963f`、ZIP SHA256 `3786b6843186652ee23f68e432d0e89f859cf340d5990d6c61ce6a4ccdeb4765`（243項目、26,375,074 bytes）。manifestはZIP内に記録。主担当の実モデルID/effort未確認、補助指定gpt-6.1-sol/high。実機スマホ・長時間GPU・人の自然さの最終採否は未確認。
 
 ---
 
