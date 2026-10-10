@@ -2,7 +2,7 @@
 
 本人の「設定済み」を受け、AI Studioの請求先設定完了・既存キー接続成功を画面確認。`gemini-3.8-flash-tts` / Fenrirで「装填中！」「大型接近！」「くらえっ！」を各1回生成し、原本を [assets-src/voice-soldier-v2](../assets-src/voice-soldier-v2/README.md) に保存。全11台詞/総予算1,000円の既存承認を継承。生成3本、実請求額未確認。WindowsのWAV検査でmono/24kHz/16bit・クリッピング0、Chromeで3本とも最後まで再生・デコードエラーなし。Codex音声入力は利用不可のため、日本語の抑揚・同一人物・気迫は未評価。
 
-[PR137](https://github.com/futsalife24-bot/swarm-front/pull/137)、branch `codex/soldier-voice-remake-20261006`。最新main `ad779114fe2219ae97c393a3cb41ef8ec8bb6812` を取り込み、通常merge `d044befae8c774b704e9883aec9b7993e14a5aa7`。PROJECT_TEAMの本人指定方針とSTATE双方の履歴を保持。製品ソース・公開音声の変更0、残り8本・独立監査・PR137統合・公開は未実施。監査Chat未作成、Codex実モデルID/推論設定未確認。
+[PR137](https://github.com/futsalife24-bot/swarm-front/pull/137)、branch `codex/soldier-voice-remake-20261006`。比較候補の対象SHA `d3595432faa75608b0133f8a9d3815de2acbf7d4` をpushし、remote SHA一致・clean確認。最新main `ad779114fe2219ae97c393a3cb41ef8ec8bb6812` を取り込み、通常merge `d044befae8c774b704e9883aec9b7993e14a5aa7`。PROJECT_TEAMの本人指定方針とSTATE双方の履歴を保持。製品ソース・公開音声の変更0、残り8本・独立監査・PR137統合・公開は未実施。監査Chat未作成、Codex実モデルID/推論設定未確認。
 
 停止理由: 比較3本の日本語と演技を聴感評価できていない。再開条件: 本人が [比較画面](http://127.0.0.1:8769/review.html) の右列3本を聴き、採用方向または修正点を返す。残り8本はその判断後に制作し、全11本の技術/聴感確認・通常Chat独立監査・合格後のmain統合/既存Worker公開まで続ける。再生成や予算の一律再承認は不要。
 
