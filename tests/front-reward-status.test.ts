@@ -57,7 +57,11 @@ it("時計巻戻りなどで履歴境界に拒否された新しい結果を受�
     }),
   );
   const result = saveFrontRunRewards(s.storage, s.storage, receipt, null);
-  expect(result.text).toBe("功績 +0");
+  expect(result.text).toBe("功績：保存履歴より古い結果のため対象外");
+  expect(result.error).toBe(false);
+  expect(
+    saveFrontRunRewards(s.storage, s.storage, receipt, null, result).text,
+  ).toBe(result.text);
   expect(readFrontProgress(s.storage).progress.credits).toBe(0);
 });
 for (const failed of ["progress", "campaign", "both"] as const) {
