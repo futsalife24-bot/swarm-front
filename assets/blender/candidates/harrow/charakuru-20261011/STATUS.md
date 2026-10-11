@@ -46,3 +46,11 @@ Chrome内部ダウンロードページの確認はブラウザURLポリシー�
 
 GitHub: https://github.com/futsalife24-bot/swarm-front 。ローカル: `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a`。branch `codex/harrow-charakuru-20261011`、base `85ed091cb5642036790bf0aedc8fc369386d7430`。mainは別worktree使用中のため移動していない。
 主担当の実モデルID/推論設定は未確認。契約調査補助のみ `gpt-6-sol` / `medium` 指定。今回ゲームコード変更なし、ゲームテスト/ビルド/監査/公開未実施。
+
+## 再発防止と候補登録の再開（2026-10-12）
+
+本人の厳格ルール化・goal再開指示で、使用中Charakuru Skillの停止判断を修正。docs/skills/HARROW-DOWNLOAD-RECOVERY.mdがGit保管版、HARROW-DOWNLOAD-RULE-CHANGE.jsonに変更前後SHA。実ファイル検査、対象照合、コピー前後ハッシュを必須化。全8件で保存元と制作先SHA一致を追加確認。Knowledge/mistakes.mdへ訂正内容を記録。Hook/セキュリティ条件の変更なし。
+
+Charakuruを既存起動スクリプトで再起動し、candidates依頼28b66a2e-b266-4327-9f7b-c1cbdabc6072をbegin(saved:true)→既存8FBX登録→complete。正本SHA256 060c04d5088646474cd23294f7b9557341530e5da3bb82de6ed6e231ac20e4a9。アプリの頭/体各4候補と未決定表示、頭候補1の実表示を確認。追加生成・消費0。次は候補比較・採用から継続。
+
+goalはget_goalでblockedのまま。利用可能な公開ツールにはactiveへの再開操作がなく、本人へ画面側の再開だけ依頼した。依頼全体を完了に偽装したり内部DBを変更せず、制作自体は上記の通り再開済み。主担当実モデル/推論設定未確認、今回子不使用。
