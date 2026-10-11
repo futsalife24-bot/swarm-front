@@ -1,6 +1,6 @@
-# 現在地: PR163をWindowsで引継ぎ、独立監査資料を準備（2026-10-11）
+# 現在地: PR163をWindowsで引継ぎ、独立監査合格・通常merge/既存Worker公開へ（2026-10-11）
 
-対象実装3bd6ed51ea1ef8bcc41cc416d330bfe4b461bfa9、base9f7f9d592ba021054c0eda28e013c38316b4e0d0、branch ccr-29bae2db-rwyj88。[PR163](https://github.com/futsalife24-bot/swarm-front/pull/163)。重複担当は停止済み。既存iab通常Chat/Cloudflare認証利用可能、新規設定なし。Windows型/build/本番dry-run、HUD/訓練E2E3件、描画中心と実射撃36条件成功。全単体903成功/4失敗＋1suite読込失敗。base再現だけで無害とは判定せず、配置制約・難度・未実行suite・依存high5件を[監査資料](PR163-AUDIT-RELEASE.md)へ開示。実Android未確認。下部の旧クラウド停止/悪化なし断定は引継ぎ前の経過。監査Chat未送信、merge/今回公開未実施。
+対象実装3bd6ed51ea1ef8bcc41cc416d330bfe4b461bfa9、base9f7f9d592ba021054c0eda28e013c38316b4e0d0、branch ccr-29bae2db-rwyj88。[PR163](https://github.com/futsalife24-bot/swarm-front/pull/163)。重複担当は停止済み。既存iab通常Chat/Cloudflare認証利用可能、新規設定なし。Windows型/build/本番dry-run、HUD/訓練E2E3件、描画中心と実射撃36条件成功。全単体903成功/4失敗＋1suite読込失敗。base再現だけで無害とは判定せず、配置制約・難度・未実行suite・依存high5件を[監査資料](PR163-AUDIT-RELEASE.md)へ開示。実Android未確認。下部の旧クラウド停止/悪化なし断定は引継ぎ前の経過。[独立監査Chat](https://chatgpt.com/c/6acb22bc-2420-83e8-9e86-4b81e687245a)へ対象956017d87972a3b3e3b15df9e515664d3a9647fdを送信済み、条件付き合格。今回の新規必須P0/P1/P2各0。既存失敗/High5件の未解消追跡とSHA/公開検査を条件に通常merge/既存Worker公開可と最終確認。製品追加修正なし。ZIP SHA256 6fbdc20bf76de0e2dc3c0d834b857dcdfea746d95a2394aa9a8dafc25df8b30c、164項目。別件下書き496文字は復元一致。merge/今回公開未実施。
 
 # 経過: 照準と着弾のずれ修正・弾の細身化をbranchへ保存（2026-10-11、監査・main反映前）
 

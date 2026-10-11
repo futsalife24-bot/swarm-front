@@ -36,6 +36,10 @@ npm ciの既存依存にもhigh 5件（wrangler/miniflare/sharp/undici/source-ma
 
 実Android実機、実タッチ/ピンチ・ソフトキーボード・ブラウザバー開閉、長時間GPU負荷、全敵/全武器・遮蔽条件、人のプレイ難度は未確認。デスクトップの人工再現は報告画像の実原因の断定には不十分。独立監査は上記失敗と限界を含めて対象commitの通常merge/既存Worker公開の可否を判断する。必須修正があれば同じChatで修正SHAを再監査する。
 
-監査Chat: 未送信。main統合/今回公開: 未実施。主担当の実モデルID/推論設定は未確認、サブエージェント不使用。
+[監査Chat](https://chatgpt.com/c/6acb22bc-2420-83e8-9e86-4b81e687245a): 対象956017d87972a3b3e3b15df9e515664d3a9647fd、必須新規P0/P1/P2各0。既存失敗・High5件を未解消で追跡する条件付き合格。追加確認で通常merge/既存Worker公開可と判定。製品修正要求なし。公開前後のSHA/build/dry-run/配信/実UI確認が残条件。判定全文audit-initial.txt/audit-final.txt。main統合/今回公開: 未実施。主担当の実モデルID/推論設定は未確認、サブエージェント不使用。
 
 補足: dry-run初回は処理自体exit0だがsandbox外ログ書込にEPERM。既存設定のまま通常権限で再実行しexit0・ログ書込成功（dry-run-confirmed.txt）。認証/設定変更はなし。
+
+公開範囲の判断: 既存失敗5ファイルとHigh5件を未解消と認識したうえで、検証された照準修正を公開する。汎用spawn・ST25の品質とDOM suiteの検証欠落、ツールチェーン依存の改善を追跡項目として維持。Worker成果物/server/srcに対象依存名参照は見つからないが、Wranglerにはundiciが含まれデプロイ経路の悪用可能性を否定していない。実Androidで症状が解消したとは報告しない。監査側のGit/依存追加判定は担当報告に基づき独立実行ではない。
+
+公開検査スクリプト scripts/check-pr163-published.mjs を本番previewで確認。844×390/640×360の実ソロ/スコープ操作、人工HUD高さ差、縮小後中心一致、console/page error0。previewサーバーは検査終了時に閉じた。公開版で同じ検査を再実施する。
