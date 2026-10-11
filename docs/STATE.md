@@ -1,3 +1,6 @@
+# 現在地: HARROW v11 PR165を通常Chatで独立監査中（2026-10-12）
+
+本人から別件下書きの一時保管・復元を明示承認。保管した496文字を送信せず分離し、[独立監査Chat](https://chatgpt.com/c/6acc1a0c-f5d8-83ec-97fb-99eb8e165b60)へHARROW資料を送信済み。監査対象261ecacd923eb002f33c0d11cf00f389c194c385、実装bb7f11b、PR165 head98b3fceとの差は記録のみ。ZIP d872226c2f141bf9b44f6649ffc62351c87c88d77796547f0214a6eab494f273。下部の承認待ちは解消前の経過。監査結果を確認し、必須指摘修正・通常merge・既存Worker公開へ続ける。
 # 現在地: HARROW新版PR165・監査資料準備済み、下書き保護の承認待ち（2026-10-12）
 
 branch `codex/harrow-charakuru-20261011`、base `85ed091cb5642036790bf0aedc8fc369386d7430`。Charakuruの頭・胴と4K材質を専用39骨/12動作へ組み立て、`harrow_motion_v11.glb`へ接続。GLB SHA256 `7000b43d96bd77e1e8d09caaed9ad7b657a30db745998fcaedadb4df92326f5b`。22スキンメッシュを3材質へ結合、100537三角形。元生成物・旧v10を保持。10ミサイルの発射原点を実測し、攻撃性能/時刻/Rootの権威移動は維持。
