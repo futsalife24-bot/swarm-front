@@ -1,3 +1,9 @@
+# 現在地: PR163をmain統合・既存Worker公開完了（2026-10-11）
+
+[PR163](https://github.com/futsalife24-bot/swarm-front/pull/163)通常merge。公開ソース/merge SHA `9e4cb3120d4b9d107bee2eef5205c3b04b6042a6`、Worker Version `17a5c735-88a8-44b5-9945-54440cdf6ecd`。[公開記録](evidence/pr163-release-20261011/README.md)。監査後の製品追加修正なし。[通常Chat独立監査](https://chatgpt.com/c/6acb22bc-2420-83e8-9e86-4b81e687245a)対象956017d87972a3b3e3b15df9e515664d3a9647fd、新規必須P0/P1/P2各0。既存5ファイル失敗・依存high5件を未解消追跡する条件付き合格、通常merge/既存Worker公開可の再確認済み。
+
+merge前後の製品一致、merge後build/本番dry-run成功。公開37/37 SHA一致・health200/ok:true、Windows Chrome公開844×390/640×360の実照準/スコープ/人工HUD差/縮小確認でconsole/page error0。Windows型/E2E3件/射撃36条件成功。全単体903成功/4失敗＋1suite読込失敗を全件合格とは扱わない。実Android・人の難度・長時間GPU・全武器/敵/遮蔽は未確認。既存認証利用、新規設定なし。重複担当停止確認済み、検証サーバー終了。下部の監査/公開未実施は経過。
+
 # 現在地: PR163をWindowsで引継ぎ、独立監査合格・通常merge/既存Worker公開へ（2026-10-11）
 
 対象実装3bd6ed51ea1ef8bcc41cc416d330bfe4b461bfa9、base9f7f9d592ba021054c0eda28e013c38316b4e0d0、branch ccr-29bae2db-rwyj88。[PR163](https://github.com/futsalife24-bot/swarm-front/pull/163)。重複担当は停止済み。既存iab通常Chat/Cloudflare認証利用可能、新規設定なし。Windows型/build/本番dry-run、HUD/訓練E2E3件、描画中心と実射撃36条件成功。全単体903成功/4失敗＋1suite読込失敗。base再現だけで無害とは判定せず、配置制約・難度・未実行suite・依存high5件を[監査資料](PR163-AUDIT-RELEASE.md)へ開示。実Android未確認。下部の旧クラウド停止/悪化なし断定は引継ぎ前の経過。[独立監査Chat](https://chatgpt.com/c/6acb22bc-2420-83e8-9e86-4b81e687245a)へ対象956017d87972a3b3e3b15df9e515664d3a9647fdを送信済み、条件付き合格。今回の新規必須P0/P1/P2各0。既存失敗/High5件の未解消追跡とSHA/公開検査を条件に通常merge/既存Worker公開可と最終確認。製品追加修正なし。ZIP SHA256 6fbdc20bf76de0e2dc3c0d834b857dcdfea746d95a2394aa9a8dafc25df8b30c、164項目。別件下書き496文字は復元一致。merge/今回公開未実施。
