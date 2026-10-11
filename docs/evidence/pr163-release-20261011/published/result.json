@@ -1,0 +1,163 @@
+{
+  "origin": "https://swarm-front.melosalife-24.workers.dev",
+  "at": "2026-10-11T05:55:55.180Z",
+  "scope": "public solo with real scope interaction; tall HUD is synthetic; physical Android unverified",
+  "results": [
+    {
+      "width": 844,
+      "height": 390,
+      "normal": {
+        "canvas": [
+          422,
+          195
+        ],
+        "crosshair": [
+          422,
+          195
+        ],
+        "scope": [
+          422,
+          195
+        ],
+        "inner": [
+          844,
+          390
+        ]
+      },
+      "scoped": {
+        "canvas": [
+          422,
+          195
+        ],
+        "crosshair": [
+          422,
+          195
+        ],
+        "scope": [
+          422,
+          195
+        ],
+        "inner": [
+          844,
+          390
+        ]
+      },
+      "tall": {
+        "canvas": [
+          422,
+          195
+        ],
+        "crosshair": [
+          422,
+          195
+        ],
+        "scope": [
+          422,
+          195
+        ],
+        "inner": [
+          844,
+          390
+        ]
+      },
+      "resized": {
+        "canvas": [
+          402,
+          160
+        ],
+        "crosshair": [
+          402,
+          160
+        ],
+        "scope": [
+          402,
+          160
+        ],
+        "inner": [
+          804,
+          320
+        ]
+      },
+      "errors": [],
+      "consoleErrors": []
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "normal": {
+        "canvas": [
+          320,
+          180
+        ],
+        "crosshair": [
+          320,
+          180
+        ],
+        "scope": [
+          320,
+          180
+        ],
+        "inner": [
+          640,
+          360
+        ]
+      },
+      "scoped": {
+        "canvas": [
+          320,
+          180
+        ],
+        "crosshair": [
+          320,
+          180
+        ],
+        "scope": [
+          320,
+          180
+        ],
+        "inner": [
+          640,
+          360
+        ]
+      },
+      "tall": {
+        "canvas": [
+          320,
+          180
+        ],
+        "crosshair": [
+          320,
+          180
+        ],
+        "scope": [
+          320,
+          180
+        ],
+        "inner": [
+          640,
+          360
+        ]
+      },
+      "resized": {
+        "canvas": [
+          300,
+          160
+        ],
+        "crosshair": [
+          300,
+          160
+        ],
+        "scope": [
+          300,
+          160
+        ],
+        "inner": [
+          600,
+          320
+        ]
+      },
+      "errors": [],
+      "consoleErrors": []
+    }
+  ]
+}

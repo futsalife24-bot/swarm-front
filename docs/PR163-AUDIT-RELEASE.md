@@ -43,3 +43,5 @@ npm ciの既存依存にもhigh 5件（wrangler/miniflare/sharp/undici/source-ma
 公開範囲の判断: 既存失敗5ファイルとHigh5件を未解消と認識したうえで、検証された照準修正を公開する。汎用spawn・ST25の品質とDOM suiteの検証欠落、ツールチェーン依存の改善を追跡項目として維持。Worker成果物/server/srcに対象依存名参照は見つからないが、Wranglerにはundiciが含まれデプロイ経路の悪用可能性を否定していない。実Androidで症状が解消したとは報告しない。監査側のGit/依存追加判定は担当報告に基づき独立実行ではない。
 
 公開検査スクリプト scripts/check-pr163-published.mjs を本番previewで確認。844×390/640×360の実ソロ/スコープ操作、人工HUD高さ差、縮小後中心一致、console/page error0。previewサーバーは検査終了時に閉じた。公開版で同じ検査を再実施する。
+
+公開完了: PR163通常merge/公開ソース9e4cb3120d4b9d107bee2eef5205c3b04b6042a6、Version17a5c735-88a8-44b5-9945-54440cdf6ecd。37/37配信一致、health正常、公開Chrome2サイズconsole/page error0。[公開記録](evidence/pr163-release-20261011/README.md)。監査の実行確認条件を充足。上部の未実施表記は作成時点の経過。
