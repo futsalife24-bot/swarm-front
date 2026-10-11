@@ -1,3 +1,7 @@
+# 現在地: HARROW画像刷新・Charakuru候補制作中（2026-10-11）
+
+本人添付画像を使うHARROWモデル刷新から公開までのgoalを設定。branch `codex/harrow-charakuru-20261011`、base `85ed091cb5642036790bf0aedc8fc369386d7430`。[制作状況](../assets/blender/candidates/harrow/charakuru-20261011/STATUS.md)。元画像・方向別8枚・実生成プロンプト・現行接続契約を保存。Charakuru専用正本へ8枚を登録済み。Tripo P2.0/非公開で頭4・体4候補を生成、200クレジット消費（残高2900）。正式FBXの保存は未確認、初回exportはdownload待機タイムアウトと一時ファイルを確認。本人へChrome保存ダイアログの確認を質問中。内部ダウンロード画面はブラウザポリシー拒否、迂回なし。生成のやり直しは不要。候補採用・材質・リグ・モデル置換・テスト・独立監査・main反映・公開は未実施、現行公開モデルは維持。
+
 # 現在地: PR163をmain統合・既存Worker公開完了（2026-10-11）
 
 [PR163](https://github.com/futsalife24-bot/swarm-front/pull/163)通常merge。公開ソース/merge SHA `9e4cb3120d4b9d107bee2eef5205c3b04b6042a6`、Worker Version `17a5c735-88a8-44b5-9945-54440cdf6ecd`。[公開記録](evidence/pr163-release-20261011/README.md)。監査後の製品追加修正なし。[通常Chat独立監査](https://chatgpt.com/c/6acb22bc-2420-83e8-9e86-4b81e687245a)対象956017d87972a3b3e3b15df9e515664d3a9647fd、新規必須P0/P1/P2各0。既存5ファイル失敗・依存high5件を未解消追跡する条件付き合格、通常merge/既存Worker公開可の再確認済み。
