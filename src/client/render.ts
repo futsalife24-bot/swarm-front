@@ -737,6 +737,8 @@ export class Renderer {
       });
     }
     window.addEventListener("resize", () => this.resize());
+    // Fullscreen and browser-bar changes can settle after the window event.
+    window.visualViewport?.addEventListener("resize", () => this.resize());
   }
   instance(
     mesh: T.InstancedMesh,
@@ -767,6 +769,12 @@ export class Renderer {
     this.renderer.setSize(innerWidth, innerHeight);
     this.camera.aspect = innerWidth / innerHeight;
     this.camera.updateProjectionMatrix();
+    // The sight ray ends at the canvas centre. HUD layers are 100dvh tall, which
+    // some Android fullscreen states report taller than innerHeight; a CSS 50%
+    // then drew the crosshair below the real aim point, so shots read high.
+    const root = document.documentElement.style;
+    root.setProperty("--view-center-x", innerWidth / 2 + "px");
+    root.setProperty("--view-center-y", innerHeight / 2 + "px");
   }
   private viewportWidth = innerWidth;
   private viewportHeight = innerHeight;
