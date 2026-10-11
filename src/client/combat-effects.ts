@@ -5,7 +5,8 @@ import type { Event, Projectile } from "../shared/game";
 const sphere = new T.IcosahedronGeometry(1, 1);
 const blastSphere = new T.SphereGeometry(1, 32, 20);
 const ring = new T.RingGeometry(0.97, 1, 64);
-const slug = new T.CapsuleGeometry(0.065, 0.65, 2, 5);
+// Slim but long: reads as a fast round without covering the target.
+const slug = new T.CapsuleGeometry(0.04, 0.82, 2, 6);
 const cloud = new T.PlaneGeometry(2, 2);
 // Procedural billowing alpha: soft edges and mottled density without asset downloads.
 const texels = new Uint8Array(64 * 64 * 4);

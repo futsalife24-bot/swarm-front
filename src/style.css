@@ -512,8 +512,9 @@ footer span {
 }
 .crosshair {
   position: absolute;
-  left: 50%;
-  top: 50%;
+  /* Renderer-owned canvas centre: the same point the shot ray targets. */
+  left: var(--view-center-x, 50%);
+  top: var(--view-center-y, 50%);
   transform: translate(-50%, -50%);
   width: 18px;
   height: 18px;
@@ -545,7 +546,7 @@ footer span {
   inset: 0;
   pointer-events: none;
   background: radial-gradient(
-    circle at center,
+    circle at var(--view-center-x, 50%) var(--view-center-y, 50%),
     transparent 22%,
     #03101566 70%,
     #031015b3 100%
@@ -554,8 +555,8 @@ footer span {
 #scope-overlay::before {
   content: "";
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: var(--view-center-x, 50%);
+  top: var(--view-center-y, 50%);
   width: min(68vh, 50vw);
   height: min(68vh, 50vw);
   transform: translate(-50%, -50%);
@@ -564,8 +565,8 @@ footer span {
 }
 #scope-overlay span {
   position: absolute;
-  left: calc(50% + 22px);
-  top: calc(50% + 18px);
+  left: calc(var(--view-center-x, 50%) + 22px);
+  top: calc(var(--view-center-y, 50%) + 18px);
   color: #e7f5d9;
   font-size: 12px;
 }

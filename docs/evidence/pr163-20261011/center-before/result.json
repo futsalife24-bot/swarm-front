@@ -1,0 +1,437 @@
+{
+  "scope": "actual Renderer and authoritative fire; synthetic tall HUD and visualViewport event, not physical Android",
+  "results": [
+    {
+      "width": 844,
+      "rows": [
+        {
+          "pitch": 0,
+          "distance": 8,
+          "scoped": false,
+          "targetError": 0,
+          "rayError": 0,
+          "surfaceDistance": 1.8750000000000022,
+          "fov": 65
+        },
+        {
+          "pitch": 0,
+          "distance": 8,
+          "scoped": true,
+          "targetError": 1.0609224069678322e-14,
+          "rayError": 1.0609224069678322e-14,
+          "surfaceDistance": 1.5937500000000029,
+          "fov": 35.33700925179748
+        },
+        {
+          "pitch": 0,
+          "distance": 35,
+          "scoped": false,
+          "targetError": 1.0346769430466499e-15,
+          "rayError": 1.0346769430466499e-15,
+          "surfaceDistance": 2.156250000000047,
+          "fov": 65
+        },
+        {
+          "pitch": 0,
+          "distance": 35,
+          "scoped": true,
+          "targetError": 6.547178729735643e-14,
+          "rayError": 6.547178729735645e-14,
+          "surfaceDistance": 1.7812500000000613,
+          "fov": 35.33700925179748
+        },
+        {
+          "pitch": 0,
+          "distance": 60,
+          "scoped": false,
+          "targetError": 1.8900782919499583e-14,
+          "rayError": 1.8900782919499583e-14,
+          "surfaceDistance": 2.437500000000356,
+          "fov": 65
+        },
+        {
+          "pitch": 0,
+          "distance": 60,
+          "scoped": true,
+          "targetError": 1.1618007127585878e-15,
+          "rayError": 2.3236014255171763e-15,
+          "surfaceDistance": 1.5000000000005835,
+          "fov": 35.33700925179748
+        },
+        {
+          "pitch": 0.5,
+          "distance": 8,
+          "scoped": false,
+          "targetError": 1.8030183911163155e-13,
+          "rayError": 1.8030183911163155e-13,
+          "surfaceDistance": 1.968749999999998,
+          "fov": 65
+        },
+        {
+          "pitch": 0.5,
+          "distance": 8,
+          "scoped": true,
+          "targetError": 4.192560837174083e-13,
+          "rayError": 4.200741451464487e-13,
+          "surfaceDistance": 2.8125,
+          "fov": 35.33700925179748
+        },
+        {
+          "pitch": 0.5,
+          "distance": 35,
+          "scoped": false,
+          "targetError": 3.264376636824098e-14,
+          "rayError": 2.0402353980150613e-15,
+          "surfaceDistance": 1.6875,
+          "fov": 65
+        },
+        {
+          "pitch": 0.5,
+          "distance": 35,
+          "scoped": true,
+          "targetError": 6.615968509896628e-14,
+          "rayError": 6.615968509896628e-14,
+          "surfaceDistance": 2.0624999999999996,
+          "fov": 35.33700925179748
+        },
+        {
+          "pitch": 0.5,
+          "distance": 60,
+          "scoped": false,
+          "targetError": 1.8790775497641152e-14,
+          "rayError": 3.7531493812449526e-14,
+          "surfaceDistance": 1.875000000000003,
+          "fov": 65
+        },
+        {
+          "pitch": 0.5,
+          "distance": 60,
+          "scoped": true,
+          "targetError": 3.767883348237879e-14,
+          "rayError": 1.1298747669965135e-13,
+          "surfaceDistance": 2.249999999999999,
+          "fov": 35.33700925179748
+        },
+        {
+          "pitch": 1.3962634015954636,
+          "distance": 8,
+          "scoped": false,
+          "targetError": 1.749509655161709e-13,
+          "rayError": 1.7486560275650692e-13,
+          "surfaceDistance": 1.7812500000000016,
+          "fov": 65
+        },
+        {
+          "pitch": 1.3962634015954636,
+          "distance": 8,
+          "scoped": true,
+          "targetError": 4.0542039589715446e-13,
+          "rayError": 4.07779797363626e-13,
+          "surfaceDistance": 2.625000000000003,
+          "fov": 35.33700925179748
+        },
+        {
+          "pitch": 1.3962634015954636,
+          "distance": 35,
+          "scoped": false,
+          "targetError": 3.297249285435166e-14,
+          "rayError": 3.302432075733971e-14,
+          "surfaceDistance": 1.8750000000002167,
+          "fov": 65
+        },
+        {
+          "pitch": 1.3962634015954636,
+          "distance": 35,
+          "scoped": true,
+          "targetError": 9.933437532871395e-14,
+          "rayError": 1.657066700532594e-13,
+          "surfaceDistance": 2.1562500000001865,
+          "fov": 35.33700925179748
+        },
+        {
+          "pitch": 1.3962634015954636,
+          "distance": 60,
+          "scoped": false,
+          "targetError": 3.733811840905275e-14,
+          "rayError": 9.611259427922287e-15,
+          "surfaceDistance": 1.6875000000003695,
+          "fov": 65
+        },
+        {
+          "pitch": 1.3962634015954636,
+          "distance": 60,
+          "scoped": true,
+          "targetError": 9.395796391087577e-14,
+          "rayError": 1.125861749193692e-13,
+          "surfaceDistance": 1.968750000000316,
+          "fov": 35.33700925179748
+        }
+      ],
+      "bullet": {
+        "size": [
+          0.11758610233664513,
+          0.7799999713897705,
+          0.12363734841346741
+        ],
+        "zAfter50ms": -6
+      },
+      "normalHud": {
+        "canvas": [
+          422,
+          195
+        ],
+        "crosshair": [
+          422,
+          195
+        ],
+        "scope": [
+          422,
+          195
+        ],
+        "hudHeight": 390
+      },
+      "tallHud": {
+        "canvas": [
+          422,
+          195
+        ],
+        "crosshair": [
+          422,
+          227.5
+        ],
+        "scope": [
+          422,
+          195
+        ],
+        "hudHeight": 455
+      },
+      "resized": {
+        "canvas": [
+          422,
+          168
+        ],
+        "crosshair": [
+          422,
+          227.5
+        ]
+      },
+      "errors": []
+    },
+    {
+      "width": 640,
+      "rows": [
+        {
+          "pitch": 0,
+          "distance": 8,
+          "scoped": false,
+          "targetError": 0,
+          "rayError": 0,
+          "surfaceDistance": 1.8750000000000022,
+          "fov": 65
+        },
+        {
+          "pitch": 0,
+          "distance": 8,
+          "scoped": true,
+          "targetError": 9.793129910472299e-15,
+          "rayError": 9.793129910472299e-15,
+          "surfaceDistance": 1.5937500000000029,
+          "fov": 35.33700925179748
+        },
+        {
+          "pitch": 0,
+          "distance": 35,
+          "scoped": false,
+          "targetError": 9.550864089661386e-16,
+          "rayError": 9.550864089661386e-16,
+          "surfaceDistance": 2.156250000000047,
+          "fov": 65
+        },
+        {
+          "pitch": 0,
+          "distance": 35,
+          "scoped": true,
+          "targetError": 6.043549596679055e-14,
+          "rayError": 6.043549596679057e-14,
+          "surfaceDistance": 1.7812500000000613,
+          "fov": 35.33700925179748
+        },
+        {
+          "pitch": 0,
+          "distance": 60,
+          "scoped": false,
+          "targetError": 1.7446876541076538e-14,
+          "rayError": 1.7446876541076538e-14,
+          "surfaceDistance": 2.437500000000356,
+          "fov": 65
+        },
+        {
+          "pitch": 0,
+          "distance": 60,
+          "scoped": true,
+          "targetError": 1.0724314271617736e-15,
+          "rayError": 2.144862854323548e-15,
+          "surfaceDistance": 1.5000000000005835,
+          "fov": 35.33700925179748
+        },
+        {
+          "pitch": 0.5,
+          "distance": 8,
+          "scoped": false,
+          "targetError": 1.6643246687227526e-13,
+          "rayError": 1.6643246687227526e-13,
+          "surfaceDistance": 1.968749999999998,
+          "fov": 65
+        },
+        {
+          "pitch": 0.5,
+          "distance": 8,
+          "scoped": true,
+          "targetError": 3.870056157391461e-13,
+          "rayError": 3.8776074936595267e-13,
+          "surfaceDistance": 2.8125,
+          "fov": 35.33700925179748
+        },
+        {
+          "pitch": 0.5,
+          "distance": 35,
+          "scoped": false,
+          "targetError": 3.013270741683783e-14,
+          "rayError": 1.8832942135523644e-15,
+          "surfaceDistance": 1.6875,
+          "fov": 65
+        },
+        {
+          "pitch": 0.5,
+          "distance": 35,
+          "scoped": true,
+          "targetError": 6.107047855289196e-14,
+          "rayError": 6.107047855289196e-14,
+          "surfaceDistance": 2.0624999999999996,
+          "fov": 35.33700925179748
+        },
+        {
+          "pitch": 0.5,
+          "distance": 60,
+          "scoped": false,
+          "targetError": 1.734533122859183e-14,
+          "rayError": 3.464445582687649e-14,
+          "surfaceDistance": 1.875000000000003,
+          "fov": 65
+        },
+        {
+          "pitch": 0.5,
+          "distance": 60,
+          "scoped": true,
+          "targetError": 3.4780461676041966e-14,
+          "rayError": 1.042961323381397e-13,
+          "surfaceDistance": 2.249999999999999,
+          "fov": 35.33700925179748
+        },
+        {
+          "pitch": 1.3962634015954636,
+          "distance": 8,
+          "scoped": false,
+          "targetError": 1.614931989380039e-13,
+          "rayError": 1.6141440254446793e-13,
+          "surfaceDistance": 1.7812500000000016,
+          "fov": 65
+        },
+        {
+          "pitch": 1.3962634015954636,
+          "distance": 8,
+          "scoped": true,
+          "targetError": 3.7423421159737336e-13,
+          "rayError": 3.7641212064334707e-13,
+          "surfaceDistance": 2.625000000000003,
+          "fov": 35.33700925179748
+        },
+        {
+          "pitch": 1.3962634015954636,
+          "distance": 35,
+          "scoped": false,
+          "targetError": 3.0436147250170765e-14,
+          "rayError": 3.04839883913905e-14,
+          "surfaceDistance": 1.8750000000002167,
+          "fov": 65
+        },
+        {
+          "pitch": 1.3962634015954636,
+          "distance": 35,
+          "scoped": true,
+          "targetError": 9.169326953419749e-14,
+          "rayError": 1.529600031260856e-13,
+          "surfaceDistance": 2.1562500000001865,
+          "fov": 35.33700925179748
+        },
+        {
+          "pitch": 1.3962634015954636,
+          "distance": 60,
+          "scoped": false,
+          "targetError": 3.446595545451024e-14,
+          "rayError": 8.871931779620572e-15,
+          "surfaceDistance": 1.6875000000003695,
+          "fov": 65
+        },
+        {
+          "pitch": 1.3962634015954636,
+          "distance": 60,
+          "scoped": true,
+          "targetError": 8.673042822542378e-14,
+          "rayError": 1.0392569992557158e-13,
+          "surfaceDistance": 1.968750000000316,
+          "fov": 35.33700925179748
+        }
+      ],
+      "bullet": {
+        "size": [
+          0.11758610233664513,
+          0.7799999713897705,
+          0.12363734841346741
+        ],
+        "zAfter50ms": -6
+      },
+      "normalHud": {
+        "canvas": [
+          320,
+          180
+        ],
+        "crosshair": [
+          320,
+          180
+        ],
+        "scope": [
+          320,
+          180
+        ],
+        "hudHeight": 360
+      },
+      "tallHud": {
+        "canvas": [
+          320,
+          180
+        ],
+        "crosshair": [
+          320,
+          212.5
+        ],
+        "scope": [
+          320,
+          180
+        ],
+        "hudHeight": 425
+      },
+      "resized": {
+        "canvas": [
+          320.5,
+          171
+        ],
+        "crosshair": [
+          321,
+          212.5
+        ]
+      },
+      "errors": []
+    }
+  ]
+}

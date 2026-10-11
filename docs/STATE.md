@@ -1,3 +1,13 @@
+# 現在地: PR163をWindowsで引継ぎ、独立監査合格・通常merge/既存Worker公開へ（2026-10-11）
+
+対象実装3bd6ed51ea1ef8bcc41cc416d330bfe4b461bfa9、base9f7f9d592ba021054c0eda28e013c38316b4e0d0、branch ccr-29bae2db-rwyj88。[PR163](https://github.com/futsalife24-bot/swarm-front/pull/163)。重複担当は停止済み。既存iab通常Chat/Cloudflare認証利用可能、新規設定なし。Windows型/build/本番dry-run、HUD/訓練E2E3件、描画中心と実射撃36条件成功。全単体903成功/4失敗＋1suite読込失敗。base再現だけで無害とは判定せず、配置制約・難度・未実行suite・依存high5件を[監査資料](PR163-AUDIT-RELEASE.md)へ開示。実Android未確認。下部の旧クラウド停止/悪化なし断定は引継ぎ前の経過。[独立監査Chat](https://chatgpt.com/c/6acb22bc-2420-83e8-9e86-4b81e687245a)へ対象956017d87972a3b3e3b15df9e515664d3a9647fdを送信済み、条件付き合格。今回の新規必須P0/P1/P2各0。既存失敗/High5件の未解消追跡とSHA/公開検査を条件に通常merge/既存Worker公開可と最終確認。製品追加修正なし。ZIP SHA256 6fbdc20bf76de0e2dc3c0d834b857dcdfea746d95a2394aa9a8dafc25df8b30c、164項目。別件下書き496文字は復元一致。merge/今回公開未実施。
+
+# 経過: 照準と着弾のずれ修正・弾の細身化をbranchへ保存（2026-10-11、監査・main反映前）
+
+branch `ccr-29bae2db-rwyj88`（base `9f7f9d5`）。ユーザー報告「弾が照準よりやや上へ飛ぶ」。射撃判定と3Dカメラ中心は一致（実ブラウザで射撃終点の投影が中心±2px）。原因はHUD照準のCSS中央（`#hud`=100dvh）と描画（innerHeight）の基準不一致で、Android全画面等で100dvh>innerHeightになると照準だけ下へ表示される。ユーザー画像の照準位置は縦56.7%、HUDを描画より縦長にした再現で修正前57.1%（32.5px下）→修正後は描画中心と一致。`Renderer.resize()` が描画中心を `--view-center-x/y` に出し、照準・スコープ円を同じ点へ配置、visualViewport変化でも再計算。弾は半径0.065→0.04、長さ0.65→0.82（弾速・判定不変）。
+検証: typecheck成功、front-hud(844/640)・training-scope e2e成功、単体903/907成功。失敗5件（render弾位置・aim rocket・maps晶脈・stages25・weapon-stat-marks）は修正前mainでも同一の既存失敗。既存失敗の根拠（base 9f7f9d5でも同一、PR163の変更箇所と無関係）: (1) weapon-stat-marks: DOM依存の `src/client/gear-weapon-list` をnode環境で読み込み `document is not defined`（テスト環境設定）。(2) aim rocket: 狙い点と敵中心の距離 1.875≠期待1.25（敵サイズ倍率の変更に期待値が未追従の可能性）。(3) render: 弾が0.05秒で-6m（弾速120）、期待-7.5m（150）でテストが旧弾速のまま。(4) maps 晶脈の地底巣: 一部seedで敵出現位置が障害物と重なる判定（製品側の不具合候補、別タスク）。(5) stages 25: 規定装備のシミュレーションが128秒で敗北（バランス/テスト要確認）。(4)(5)は公開済みmainの既存挙動で、本PRは悪化させない（変更は照準CSS・描画中心・弾形状のみ）。
+[PR163](https://github.com/futsalife24-bot/swarm-front/pull/163) 作成済み。ユーザーが公開を指示したが、2026-10-11再確認でも同じクラウド環境（host vm）で、iab通常Chatもwrangler認証（CLOUDFLARE_API_TOKEN等）もなく、独立監査・Worker公開を実行できず停止。未実施: 実機Android確認、独立Chat監査、main反映・Worker公開。再開条件: iab環境（またはCloudflare認証のある環境）で本branchの監査→合格後に通常merge・既存Worker公開・配信確認。
+
 # 現在地: Claude共同修正のPR161をmain統合・既存Worker公開完了（2026-10-11）
 
 [PR161](https://github.com/futsalife24-bot/swarm-front/pull/161)を通常merge。公開ソース/merge SHA `73f1310809b7a429e3b5c7bdaa2e39b7ebde6a9e`、Worker Version `2510182e-eafa-4636-a763-6e84860005c7`。[公開記録](evidence/front-input-reward-release-20261011/README.md)。未送信入力の中断越し混入と部分保存後の報酬再試行表示を修正、数値バランス・付与量・保存形式・通信仕様は不変。

@@ -1,0 +1,3 @@
+14:40:13 [vite] (client) [console.warn] THREE.WARNING: Multiple instances of Three.js being imported.
+14:40:19 [vite] (client) [console.warn] THREE.WARNING: Multiple instances of Three.js being imported.
+[{"width":844,"maxRayError":4.200741451464487e-13,"bullet":{"size":[0.11758610233664513,0.7799999713897705,0.12363734841346741],"zAfter50ms":-6},"errors":[]},{"width":640,"maxRayError":3.8776074936595267e-13,"bullet":{"size":[0.11758610233664513,0.7799999713897705,0.12363734841346741],"zAfter50ms":-6},"errors":[]}]

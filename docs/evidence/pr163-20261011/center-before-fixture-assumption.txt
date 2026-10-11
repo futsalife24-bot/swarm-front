@@ -1,0 +1,16 @@
+14:38:50 [vite] (client) [console.warn] THREE.WARNING: Multiple instances of Three.js being imported.
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"width":844,"mismatch":true,"centers":{"canvas":[422,195],"crosshair":[422,227.5],"scope":[422,195],"hudHeight":455}}
+    at file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/scripts/check-pr163-aim-center.mjs:70:16 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
