@@ -1,0 +1,18 @@
+14:33:52 [vite] (client) [optimizer] scanning dependencies...
+14:34:38 [vite] (client) [optimizer] bundling dependencies...
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.goto: Timeout 30000ms exceeded.
+Call log:
+  - navigating to "http://127.0.0.1:5194/e2e/structure-fixture.html", waiting until "load"
+
+    at C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\scripts\check-pr163-aim-center.mjs:17:16 {
+  log: [
+    '  - navigating to "http://127.0.0.1:5194/e2e/structure-fixture.html", waiting until "load"'
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0

@@ -1,0 +1,1 @@
+{"count":30,"examples":[{"map":"晶脈の地底巣","stage":10,"seed":1,"kind":"harrow","x":62,"y":34.5,"z":2,"radius":3.4},{"map":"晶脈の地底巣","stage":10,"seed":2,"kind":"harrow","x":-42,"y":34.5,"z":50,"radius":3.4},{"map":"晶脈の地底巣","stage":10,"seed":3,"kind":"harrow","x":-30,"y":35.66507577896118,"z":-2,"radius":3.4}],"kinds":["harrow"]}

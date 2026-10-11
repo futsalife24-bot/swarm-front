@@ -1,3 +1,7 @@
+# 現在地: PR163をWindowsで引継ぎ、独立監査資料を準備（2026-10-11）
+
+対象実装3bd6ed51ea1ef8bcc41cc416d330bfe4b461bfa9、base9f7f9d592ba021054c0eda28e013c38316b4e0d0、branch ccr-29bae2db-rwyj88。[PR163](https://github.com/futsalife24-bot/swarm-front/pull/163)。重複担当は停止済み。既存iab通常Chat/Cloudflare認証利用可能、新規設定なし。Windows型/build/本番dry-run、HUD/訓練E2E3件、描画中心と実射撃36条件成功。全単体903成功/4失敗＋1suite読込失敗。base再現だけで無害とは判定せず、配置制約・難度・未実行suite・依存high5件を[監査資料](PR163-AUDIT-RELEASE.md)へ開示。実Android未確認。下部の旧クラウド停止/悪化なし断定は引継ぎ前の経過。監査Chat未送信、merge/今回公開未実施。
+
 # 経過: 照準と着弾のずれ修正・弾の細身化をbranchへ保存（2026-10-11、監査・main反映前）
 
 branch `ccr-29bae2db-rwyj88`（base `9f7f9d5`）。ユーザー報告「弾が照準よりやや上へ飛ぶ」。射撃判定と3Dカメラ中心は一致（実ブラウザで射撃終点の投影が中心±2px）。原因はHUD照準のCSS中央（`#hud`=100dvh）と描画（innerHeight）の基準不一致で、Android全画面等で100dvh>innerHeightになると照準だけ下へ表示される。ユーザー画像の照準位置は縦56.7%、HUDを描画より縦長にした再現で修正前57.1%（32.5px下）→修正後は描画中心と一致。`Renderer.resize()` が描画中心を `--view-center-x/y` に出し、照準・スコープ円を同じ点へ配置、visualViewport変化でも再計算。弾は半径0.065→0.04、長さ0.65→0.82（弾速・判定不変）。
