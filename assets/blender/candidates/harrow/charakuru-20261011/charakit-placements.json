@@ -1,0 +1,53 @@
+{
+  "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-07\\https-x-com-dstudio-ai-status\\tools\\charakuru-1.0.2\\charakuru-1.0.2-2026-10-07T16-58-19-992Z\\projects\\d8761f86-439a-406e-b0dc-d3d08c1b6703\\project.charakit",
+  "sha256": "b675efd887c530eea3af9e84abc451622886079009161757990a8e07f8cb8dc3",
+  "placements": {
+    "body": {
+      "position": [
+        0,
+        0,
+        0.725
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "scale": 1
+    },
+    "head": {
+      "position": [
+        0.002155,
+        -1.04981,
+        1.52993
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "scale": 0.99068
+    },
+    "hair": {
+      "position": [
+        0.002155,
+        -1.04981,
+        1.52993
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "scale": 0.99068
+    }
+  },
+  "workflow": {
+    "version": 1,
+    "rigging": "tripo",
+    "phase": "parts",
+    "attachHair": false,
+    "boneMap": {}
+  },
+  "notes": "材質組み立て後にUIで頭の首接合位置を調整して保存。専用ゲームリグは別Blendで制作中。"
+}

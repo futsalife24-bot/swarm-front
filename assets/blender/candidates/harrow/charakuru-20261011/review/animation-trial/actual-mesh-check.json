@@ -1,0 +1,316 @@
+{
+  "fps": 40,
+  "objects": [
+    "Hindlimb.L",
+    "Hindlimb.R",
+    "Wing.L",
+    "Wing.R"
+  ],
+  "clips": {
+    "Idle": {
+      "wing_min_z": [
+        0.4366161823272705,
+        0.0,
+        "Wing.L"
+      ],
+      "wing_ground_radius": [
+        Infinity,
+        null
+      ],
+      "hind_min_z": [
+        0.024996604770421982,
+        0.0,
+        "Hindlimb.L"
+      ],
+      "ground_wing_min_z": [
+        0.4366161823272705,
+        0.0,
+        "Wing.L"
+      ],
+      "ground_hind_min_z": [
+        0.024996604770421982,
+        0.0,
+        "Hindlimb.L"
+      ]
+    },
+    "Locomotion": {
+      "wing_min_z": [
+        0.4366161823272705,
+        0.0,
+        "Wing.L"
+      ],
+      "wing_ground_radius": [
+        Infinity,
+        null
+      ],
+      "hind_min_z": [
+        0.02499481849372387,
+        0.0,
+        "Hindlimb.R"
+      ],
+      "ground_wing_min_z": [
+        0.4366161823272705,
+        0.0,
+        "Wing.L"
+      ],
+      "ground_hind_min_z": [
+        0.02499481849372387,
+        0.0,
+        "Hindlimb.R"
+      ]
+    },
+    "Attack": {
+      "wing_min_z": [
+        0.4366161823272705,
+        0.0,
+        "Wing.L"
+      ],
+      "wing_ground_radius": [
+        Infinity,
+        null
+      ],
+      "hind_min_z": [
+        0.024996604770421982,
+        0.0,
+        "Hindlimb.L"
+      ],
+      "ground_wing_min_z": [
+        0.4366161823272705,
+        0.0,
+        "Wing.L"
+      ],
+      "ground_hind_min_z": [
+        0.024996604770421982,
+        0.0,
+        "Hindlimb.L"
+      ]
+    },
+    "Threat": {
+      "wing_min_z": [
+        0.4366161823272705,
+        0.0,
+        "Wing.L"
+      ],
+      "wing_ground_radius": [
+        Infinity,
+        null
+      ],
+      "hind_min_z": [
+        0.024996604770421982,
+        0.0,
+        "Hindlimb.L"
+      ],
+      "ground_wing_min_z": [
+        0.4366161823272705,
+        0.0,
+        "Wing.L"
+      ],
+      "ground_hind_min_z": [
+        0.024996604770421982,
+        0.0,
+        "Hindlimb.L"
+      ]
+    },
+    "AirThreat": {
+      "wing_min_z": [
+        -4.753413200378418,
+        0.4,
+        "Wing.L"
+      ],
+      "wing_ground_radius": [
+        Infinity,
+        null
+      ],
+      "hind_min_z": [
+        0.3387684226036072,
+        0.0,
+        "Hindlimb.R"
+      ],
+      "ground_wing_min_z": [
+        Infinity,
+        null
+      ],
+      "ground_hind_min_z": [
+        Infinity,
+        null
+      ]
+    },
+    "Spin": {
+      "wing_min_z": [
+        0.024997562170028687,
+        1.15,
+        "Wing.L"
+      ],
+      "wing_ground_radius": [
+        11.80176821884133,
+        1.15,
+        "Wing.R"
+      ],
+      "hind_min_z": [
+        0.024991190060973167,
+        1.0,
+        "Hindlimb.R"
+      ],
+      "ground_wing_min_z": [
+        0.024997562170028687,
+        1.15,
+        "Wing.L"
+      ],
+      "ground_hind_min_z": [
+        0.024991190060973167,
+        1.0,
+        "Hindlimb.R"
+      ]
+    },
+    "Takeoff": {
+      "wing_min_z": [
+        -4.702332496643066,
+        3.2,
+        "Wing.L"
+      ],
+      "wing_ground_radius": [
+        Infinity,
+        null
+      ],
+      "hind_min_z": [
+        0.024995850399136543,
+        0.4,
+        "Hindlimb.L"
+      ],
+      "ground_wing_min_z": [
+        0.4366161823272705,
+        0.0,
+        "Wing.L"
+      ],
+      "ground_hind_min_z": [
+        0.024995850399136543,
+        0.4,
+        "Hindlimb.L"
+      ]
+    },
+    "Flight": {
+      "wing_min_z": [
+        -4.83447790145874,
+        1.2000000000000002,
+        "Wing.L"
+      ],
+      "wing_ground_radius": [
+        Infinity,
+        null
+      ],
+      "hind_min_z": [
+        0.3387684226036072,
+        0.0,
+        "Hindlimb.R"
+      ],
+      "ground_wing_min_z": [
+        Infinity,
+        null
+      ],
+      "ground_hind_min_z": [
+        Infinity,
+        null
+      ]
+    },
+    "Glide": {
+      "wing_min_z": [
+        -4.579241752624512,
+        0.2,
+        "Wing.L"
+      ],
+      "wing_ground_radius": [
+        Infinity,
+        null
+      ],
+      "hind_min_z": [
+        0.3387684226036072,
+        0.0,
+        "Hindlimb.R"
+      ],
+      "ground_wing_min_z": [
+        Infinity,
+        null
+      ],
+      "ground_hind_min_z": [
+        Infinity,
+        null
+      ]
+    },
+    "Dive": {
+      "wing_min_z": [
+        -4.437923908233643,
+        0.2,
+        "Wing.L"
+      ],
+      "wing_ground_radius": [
+        Infinity,
+        null
+      ],
+      "hind_min_z": [
+        0.024995939806103706,
+        0.9,
+        "Hindlimb.L"
+      ],
+      "ground_wing_min_z": [
+        Infinity,
+        null
+      ],
+      "ground_hind_min_z": [
+        Infinity,
+        null
+      ]
+    },
+    "StaggerFall": {
+      "wing_min_z": [
+        -5.119894981384277,
+        0.6000000000000001,
+        "Wing.L"
+      ],
+      "wing_ground_radius": [
+        Infinity,
+        null
+      ],
+      "hind_min_z": [
+        0.02499038726091385,
+        2.4000000000000004,
+        "Hindlimb.R"
+      ],
+      "ground_wing_min_z": [
+        1.3773350715637207,
+        2.4000000000000004,
+        "Wing.R"
+      ],
+      "ground_hind_min_z": [
+        0.02499038726091385,
+        2.4000000000000004,
+        "Hindlimb.R"
+      ]
+    },
+    "Land": {
+      "wing_min_z": [
+        0.4366161823272705,
+        1.75,
+        "Wing.L"
+      ],
+      "wing_ground_radius": [
+        Infinity,
+        null
+      ],
+      "hind_min_z": [
+        0.024994617328047752,
+        1.0,
+        "Hindlimb.L"
+      ],
+      "ground_wing_min_z": [
+        0.4366161823272705,
+        1.75,
+        "Wing.L"
+      ],
+      "ground_hind_min_z": [
+        0.024994617328047752,
+        1.0,
+        "Hindlimb.L"
+      ]
+    }
+  }
+}

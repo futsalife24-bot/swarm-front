@@ -1,0 +1,722 @@
+[
+  {
+    "clip": "Idle",
+    "time": 0.0,
+    "status": "ok"
+  },
+  {
+    "clip": "Idle",
+    "time": 1.75,
+    "status": "ok"
+  },
+  {
+    "clip": "Idle",
+    "time": 3.5,
+    "status": "ok"
+  },
+  {
+    "clip": "Idle",
+    "time": 5.25,
+    "status": "ok"
+  },
+  {
+    "clip": "Idle",
+    "time": 7.0,
+    "status": "ok"
+  },
+  {
+    "clip": "Locomotion",
+    "time": 0.0,
+    "status": "ok"
+  },
+  {
+    "clip": "Locomotion",
+    "time": 1.05,
+    "status": "ok"
+  },
+  {
+    "clip": "Locomotion",
+    "time": 2.1,
+    "status": "ok"
+  },
+  {
+    "clip": "Locomotion",
+    "time": 3.1500000000000004,
+    "status": "ok"
+  },
+  {
+    "clip": "Locomotion",
+    "time": 4.2,
+    "status": "ok"
+  },
+  {
+    "clip": "Attack",
+    "time": 0.0,
+    "status": "ok"
+  },
+  {
+    "clip": "Attack",
+    "time": 1.3125,
+    "status": "ok"
+  },
+  {
+    "clip": "Attack",
+    "time": 2.625,
+    "status": "ok"
+  },
+  {
+    "clip": "Attack",
+    "time": 3.9375,
+    "status": "ok"
+  },
+  {
+    "clip": "Attack",
+    "time": 5.25,
+    "status": "ok"
+  },
+  {
+    "clip": "Threat",
+    "time": 0.0,
+    "status": "ok"
+  },
+  {
+    "clip": "Threat",
+    "time": 1.75,
+    "status": "ok"
+  },
+  {
+    "clip": "Threat",
+    "time": 3.5,
+    "status": "ok"
+  },
+  {
+    "clip": "Threat",
+    "time": 5.25,
+    "status": "ok"
+  },
+  {
+    "clip": "Threat",
+    "time": 7.0,
+    "status": "ok"
+  },
+  {
+    "clip": "AirThreat",
+    "time": 0.0,
+    "status": "ok"
+  },
+  {
+    "clip": "AirThreat",
+    "time": 1.75,
+    "status": "ok"
+  },
+  {
+    "clip": "AirThreat",
+    "time": 3.5,
+    "status": "ok"
+  },
+  {
+    "clip": "AirThreat",
+    "time": 5.25,
+    "status": "ok"
+  },
+  {
+    "clip": "AirThreat",
+    "time": 7.0,
+    "status": "ok"
+  },
+  {
+    "clip": "Spin",
+    "time": 0.0,
+    "status": "ok"
+  },
+  {
+    "clip": "Spin",
+    "time": 0.75,
+    "status": "ok"
+  },
+  {
+    "clip": "Spin",
+    "time": 1.15,
+    "status": "ok"
+  },
+  {
+    "clip": "Spin",
+    "time": 1.5,
+    "status": "ok"
+  },
+  {
+    "clip": "Spin",
+    "time": 1.675,
+    "status": "ok"
+  },
+  {
+    "clip": "Spin",
+    "time": 2.2,
+    "status": "ok"
+  },
+  {
+    "clip": "Spin",
+    "time": 2.25,
+    "status": "ok"
+  },
+  {
+    "clip": "Spin",
+    "time": 3.0,
+    "status": "ok"
+  },
+  {
+    "clip": "Takeoff",
+    "time": 0.0,
+    "status": "ok"
+  },
+  {
+    "clip": "Takeoff",
+    "time": 0.875,
+    "status": "ok"
+  },
+  {
+    "clip": "Takeoff",
+    "time": 1.75,
+    "status": "ok"
+  },
+  {
+    "clip": "Takeoff",
+    "time": 2.625,
+    "status": "ok"
+  },
+  {
+    "clip": "Takeoff",
+    "time": 3.5,
+    "status": "ok"
+  },
+  {
+    "clip": "Flight",
+    "time": 0.0,
+    "status": "ok"
+  },
+  {
+    "clip": "Flight",
+    "time": 4.2,
+    "status": "ok"
+  },
+  {
+    "clip": "Flight",
+    "time": 8.4,
+    "status": "ok"
+  },
+  {
+    "clip": "Flight",
+    "time": 12.600000000000001,
+    "status": "ok"
+  },
+  {
+    "clip": "Flight",
+    "time": 16.8,
+    "status": "ok"
+  },
+  {
+    "clip": "Glide",
+    "time": 0.0,
+    "status": "ok"
+  },
+  {
+    "clip": "Glide",
+    "time": 0.525,
+    "status": "ok"
+  },
+  {
+    "clip": "Glide",
+    "time": 1.05,
+    "status": "ok"
+  },
+  {
+    "clip": "Glide",
+    "time": 1.5750000000000002,
+    "status": "ok"
+  },
+  {
+    "clip": "Glide",
+    "time": 2.1,
+    "status": "ok"
+  },
+  {
+    "clip": "Dive",
+    "time": 0.0,
+    "status": "ok"
+  },
+  {
+    "clip": "Dive",
+    "time": 0.225,
+    "status": "ok"
+  },
+  {
+    "clip": "Dive",
+    "time": 0.45,
+    "status": "ok"
+  },
+  {
+    "clip": "Dive",
+    "time": 0.675,
+    "status": "ok"
+  },
+  {
+    "clip": "Dive",
+    "time": 0.8,
+    "status": "ok"
+  },
+  {
+    "clip": "Dive",
+    "time": 0.825,
+    "status": "ok"
+  },
+  {
+    "clip": "Dive",
+    "time": 0.85,
+    "status": "ok"
+  },
+  {
+    "clip": "Dive",
+    "time": 0.875,
+    "status": "ok"
+  },
+  {
+    "clip": "Dive",
+    "time": 0.9,
+    "status": "ok"
+  },
+  {
+    "clip": "StaggerFall",
+    "time": 0.0,
+    "status": "ok"
+  },
+  {
+    "clip": "StaggerFall",
+    "time": 0.65625,
+    "status": "ok"
+  },
+  {
+    "clip": "StaggerFall",
+    "time": 1.3125,
+    "status": "ok"
+  },
+  {
+    "clip": "StaggerFall",
+    "time": 1.96875,
+    "status": "ok"
+  },
+  {
+    "clip": "StaggerFall",
+    "time": 2.35,
+    "status": "ok"
+  },
+  {
+    "clip": "StaggerFall",
+    "time": 2.375,
+    "status": "ok"
+  },
+  {
+    "clip": "StaggerFall",
+    "time": 2.4,
+    "status": "ok"
+  },
+  {
+    "clip": "StaggerFall",
+    "time": 2.425,
+    "status": "ok"
+  },
+  {
+    "clip": "StaggerFall",
+    "time": 2.45,
+    "status": "ok"
+  },
+  {
+    "clip": "StaggerFall",
+    "time": 2.475,
+    "status": "ok"
+  },
+  {
+    "clip": "StaggerFall",
+    "time": 2.5,
+    "status": "ok"
+  },
+  {
+    "clip": "StaggerFall",
+    "time": 2.525,
+    "status": "ok"
+  },
+  {
+    "clip": "StaggerFall",
+    "time": 2.55,
+    "status": "ok"
+  },
+  {
+    "clip": "StaggerFall",
+    "time": 2.575,
+    "status": "ok"
+  },
+  {
+    "clip": "StaggerFall",
+    "time": 2.6,
+    "status": "ok"
+  },
+  {
+    "clip": "StaggerFall",
+    "time": 2.625,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.0,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.025,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.05,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.075,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.1,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.125,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.15,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.175,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.2,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.225,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.25,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.275,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.3,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.325,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.35,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.375,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.4,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.425,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.45,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.475,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.5,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.525,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.55,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.575,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.6,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.625,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.65,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.675,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.7,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.725,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.75,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.775,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.8,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.825,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.85,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.875,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.9,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.925,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.95,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 0.975,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.0,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.025,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.05,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.075,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.1,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.125,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.15,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.175,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.2,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.225,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.25,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.275,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.3,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.325,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.35,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.375,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.4,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.425,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.45,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.475,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.5,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.525,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.55,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.575,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.6,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.625,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.65,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.675,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.7,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.725,
+    "status": "ok"
+  },
+  {
+    "clip": "Land",
+    "time": 1.75,
+    "status": "ok"
+  }
+]

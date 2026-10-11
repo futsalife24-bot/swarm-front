@@ -1,0 +1,58 @@
+[
+  {
+    "part": "body",
+    "id": "040554d6-0376-4970-b56a-55441df6a567",
+    "path": "models/body/040554d6-0376-4970-b56a-55441df6a567.fbx",
+    "bytes": 1109344,
+    "sha256": "3a5ffeb332c49be0c7f9ee9860b6831e44a5e0da4b6a54a24a16c7060acfa728"
+  },
+  {
+    "part": "body",
+    "id": "6195770f-7fac-4e1f-8d2e-9bb1414a30a7",
+    "path": "models/body/6195770f-7fac-4e1f-8d2e-9bb1414a30a7.fbx",
+    "bytes": 1133696,
+    "sha256": "fd5fb8631ad139ff71cba735368ce2a9b072b524b3a37cf6b39abadea8102453"
+  },
+  {
+    "part": "body",
+    "id": "6708256b-38d1-4e6f-8dee-973c5e8be1fa",
+    "path": "models/body/6708256b-38d1-4e6f-8dee-973c5e8be1fa.fbx",
+    "bytes": 1169776,
+    "sha256": "34e03f2e661993560bddf74ef6178b4173dc346c4c7966b7dda1db9f677ad7d6"
+  },
+  {
+    "part": "body",
+    "id": "d62f7831-6934-4040-bb19-6f613e52e261",
+    "path": "models/body/d62f7831-6934-4040-bb19-6f613e52e261.fbx",
+    "bytes": 1003904,
+    "sha256": "75af6c32e418daa427115f6afaaec16c897eaa899e9bf0469ec4e218cc2e80d7"
+  },
+  {
+    "part": "head",
+    "id": "27256128-cec0-4f90-abe5-678a69261eac",
+    "path": "models/head/27256128-cec0-4f90-abe5-678a69261eac.fbx",
+    "bytes": 1162896,
+    "sha256": "515b4ac094e3a9d4d75f25d291d145516d1a98cf7c86426b5359d52b9582fdc7"
+  },
+  {
+    "part": "head",
+    "id": "4b05c79e-d7bf-4e23-b247-e0c18a18b846",
+    "path": "models/head/4b05c79e-d7bf-4e23-b247-e0c18a18b846.fbx",
+    "bytes": 1186384,
+    "sha256": "17b3cc586a139131572867e06ac3792338b8e82edbb89c069ac813cae5806279"
+  },
+  {
+    "part": "head",
+    "id": "809ac48d-3e21-4c7a-8645-f7d9a82e97ab",
+    "path": "models/head/809ac48d-3e21-4c7a-8645-f7d9a82e97ab.fbx",
+    "bytes": 1128912,
+    "sha256": "cfc81f534d5e8f3d6972c38115544b922e7097f624b075837a37689b986f8a0c"
+  },
+  {
+    "part": "head",
+    "id": "faa0e7ab-6df1-4d55-a1a4-c19fd2b58372",
+    "path": "models/head/faa0e7ab-6df1-4d55-a1a4-c19fd2b58372.fbx",
+    "bytes": 1168256,
+    "sha256": "ba9f61bff101a5b461baf076c9f45eaa4f94a462488b3b0a87c8b68de57a2bef"
+  }
+]

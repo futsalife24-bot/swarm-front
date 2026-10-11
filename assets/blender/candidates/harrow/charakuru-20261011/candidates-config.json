@@ -1,0 +1,54 @@
+{
+  "input": "C:/Users/futsa/Documents/Codex/2026-10-07/https-x-com-dstudio-ai-status/tools/charakuru-1.0.2/charakuru-1.0.2-2026-10-07T16-58-19-992Z/projects/d8761f86-439a-406e-b0dc-d3d08c1b6703/project.charakit",
+  "action": "candidates",
+  "candidates": [
+    {
+      "source": "body",
+      "name": "HARROW body 040554d6-0376-4970-b56a-55441df6a567",
+      "fbx": "models/body/040554d6-0376-4970-b56a-55441df6a567.fbx",
+      "resources": []
+    },
+    {
+      "source": "body",
+      "name": "HARROW body 6195770f-7fac-4e1f-8d2e-9bb1414a30a7",
+      "fbx": "models/body/6195770f-7fac-4e1f-8d2e-9bb1414a30a7.fbx",
+      "resources": []
+    },
+    {
+      "source": "body",
+      "name": "HARROW body 6708256b-38d1-4e6f-8dee-973c5e8be1fa",
+      "fbx": "models/body/6708256b-38d1-4e6f-8dee-973c5e8be1fa.fbx",
+      "resources": []
+    },
+    {
+      "source": "body",
+      "name": "HARROW body d62f7831-6934-4040-bb19-6f613e52e261",
+      "fbx": "models/body/d62f7831-6934-4040-bb19-6f613e52e261.fbx",
+      "resources": []
+    },
+    {
+      "source": "head",
+      "name": "HARROW head 27256128-cec0-4f90-abe5-678a69261eac",
+      "fbx": "models/head/27256128-cec0-4f90-abe5-678a69261eac.fbx",
+      "resources": []
+    },
+    {
+      "source": "head",
+      "name": "HARROW head 4b05c79e-d7bf-4e23-b247-e0c18a18b846",
+      "fbx": "models/head/4b05c79e-d7bf-4e23-b247-e0c18a18b846.fbx",
+      "resources": []
+    },
+    {
+      "source": "head",
+      "name": "HARROW head 809ac48d-3e21-4c7a-8645-f7d9a82e97ab",
+      "fbx": "models/head/809ac48d-3e21-4c7a-8645-f7d9a82e97ab.fbx",
+      "resources": []
+    },
+    {
+      "source": "head",
+      "name": "HARROW head faa0e7ab-6df1-4d55-a1a4-c19fd2b58372",
+      "fbx": "models/head/faa0e7ab-6df1-4d55-a1a4-c19fd2b58372.fbx",
+      "resources": []
+    }
+  ]
+}

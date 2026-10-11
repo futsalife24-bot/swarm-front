@@ -1,0 +1,25 @@
+{
+  "source": "C:\\Users\\futsa\\Downloads\\e4199d85-55c5-4ea2-b27e-ad75233a983f.tmp",
+  "archive_sha256": "882ac9be4408436d8c79aa0e4d6fe98bfabb9572f0b7e68d0abceb2b7a89813a",
+  "files": [
+    {
+      "name": "body.fbx.fbx",
+      "bytes": 1300192,
+      "sha256": "562c7839fe1a70439925678befccf3e46b454dbaf362eebf2305e321bc79fb86"
+    },
+    {
+      "name": "body.fbx.fbm/body.fbx_basecolor.jpg",
+      "bytes": 4984393,
+      "sha256": "f0a12a40b437585d3e7baeaa908f9b8c6379a665bb88433bcc47b99e2d9d10c6"
+    }
+  ],
+  "images": [
+    {
+      "file": "body.fbx.fbm\\body.fbx_basecolor.jpg",
+      "size": [
+        4096,
+        4096
+      ]
+    }
+  ]
+}

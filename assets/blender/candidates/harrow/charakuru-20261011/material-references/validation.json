@@ -1,0 +1,58 @@
+[
+  {
+    "file": "head-front.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "alpha_bounds": [
+      31,
+      40,
+      1232,
+      1230
+    ],
+    "sha256": "90ac24473a4270bf62de92b97147ce80fcf278185f170e7f5454100eccf9fc37"
+  },
+  {
+    "file": "head-back.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "alpha_bounds": [
+      57,
+      39,
+      1227,
+      1254
+    ],
+    "sha256": "0b874cba66a70b201c8aaf7f1488c5ffcc41b514a47fe8314c2a4af40005bc91"
+  },
+  {
+    "file": "body-front.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "alpha_bounds": [
+      21,
+      31,
+      1242,
+      1208
+    ],
+    "sha256": "32d9a3564c30b5808fe3d4924a3077878482fdeb771ee1680d76744e9b332220"
+  },
+  {
+    "file": "body-back.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "alpha_bounds": [
+      27,
+      17,
+      1236,
+      1254
+    ],
+    "sha256": "c57e59026cbf5050a8265627f805d7016d7280970a48b6ea4d21292176242935"
+  }
+]

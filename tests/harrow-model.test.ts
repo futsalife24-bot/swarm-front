@@ -6,8 +6,14 @@ import { HARROW, harrowMissileOrigins } from "../src/shared/harrow";
 import { HARROW_FLIGHT_CYCLE } from "../src/shared/harrow-motion";
 
 async function model() {
-  const bytes = readFileSync("public/assets/enemies/harrow_motion_v10.glb");
-  return new GLTFLoader().parseAsync(
+  const bytes = readFileSync("public/assets/enemies/harrow_motion_v11.glb");
+  // CPU geometry/animation checks only: Node has no image decoder. Actual 4K
+  // texture decoding and rendering are verified separately in the browser.
+  const loader = new GLTFLoader().register(() => ({
+    name: "HEADLESS_GEOMETRY_ONLY",
+    loadTexture: async () => new T.Texture(),
+  }));
+  return loader.parseAsync(
     bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength),
     "",
   );
@@ -31,6 +37,37 @@ it("the shipped HARROW clips finish at their authoritative attack transitions", 
     expect(
       asset.animations.find((clip) => clip.name === name)?.duration,
     ).toBeCloseTo(duration, 5);
+});
+
+it("joins dive and stagger fall to landing without a skeleton discontinuity", async () => {
+  const asset = await model();
+  const mixer = new T.AnimationMixer(asset.scene);
+  const bones: T.Bone[] = [];
+  asset.scene.traverse((object) => {
+    if (object instanceof T.Bone) bones.push(object);
+  });
+  expect(bones).toHaveLength(39);
+  const pose = (name: string, end: boolean) => {
+    mixer.stopAllAction();
+    const clip = asset.animations.find((c) => c.name === name)!;
+    const action = mixer.clipAction(clip).reset().setLoop(T.LoopOnce, 1);
+    action.clampWhenFinished = true;
+    action.play();
+    mixer.setTime(end ? clip.duration : 0);
+    asset.scene.updateMatrixWorld(true);
+    return bones.map((bone) => bone.matrixWorld.clone());
+  };
+  const landing = pose("Land", false);
+  for (const name of ["Dive", "StaggerFall"])
+    pose(name, true).forEach((matrix, i) => {
+      expect(
+        Math.max(
+          ...matrix.elements.map((v, j) =>
+            Math.abs(v - landing[i].elements[j]),
+          ),
+        ),
+      ).toBeLessThan(0.00001);
+    });
 });
 
 it("plants both articulated wings before the authoritative single sweep while keeping root motion external", async () => {
@@ -72,7 +109,7 @@ it("plants both articulated wings before the authoritative single sweep while ke
       const mesh = object as T.SkinnedMesh;
       if (!mesh.isSkinnedMesh || !mesh.name.startsWith("Wing")) return;
       mesh.skeleton.update();
-      const side = mesh.name.split("__")[0].endsWith("L") ? "L" : "R";
+      const side = mesh.name.endsWith("L") ? "L" : "R";
       const wing = wings[side];
       for (let i = 0; i < mesh.geometry.attributes.position.count; i++) {
         const p = mesh
@@ -116,69 +153,52 @@ it.each([false, true])(
     mixer.setTime(HARROW.threatWind);
     asset.scene.updateMatrixWorld(true);
     const actual: T.Vector3[] = [];
+    const sides = { L: 0, R: 0 };
     asset.scene.traverse((object) => {
       const mesh = object as T.SkinnedMesh;
-      if (
-        !mesh.isSkinnedMesh ||
-        !mesh.name.startsWith("Launcher") ||
-        !mesh.name.includes("Carmine")
-      )
-        return;
+      if (!mesh.isSkinnedMesh || !mesh.name.startsWith("Launcher")) return;
+      expect(mesh.name).toMatch(/^Launcher[LR]_/);
+      sides[mesh.name.startsWith("LauncherL_") ? "L" : "R"]++;
       mesh.skeleton.update();
-      const geometry = mesh.geometry,
-        position = geometry.attributes.position;
-      const parents = Array.from({ length: position.count }, (_, i) => i);
-      const find = (i: number): number =>
-        parents[i] === i ? i : (parents[i] = find(parents[i]));
-      const join = (a: number, b: number) => {
-        parents[find(a)] = find(b);
-      };
-      const welded = new Map<string, number>();
-      for (let i = 0; i < position.count; i++) {
-        const key = [position.getX(i), position.getY(i), position.getZ(i)]
-          .map((v) => v.toFixed(5))
-          .join(",");
-        if (welded.has(key)) join(i, welded.get(key)!);
-        else welded.set(key, i);
-      }
-      for (let i = 0; i < geometry.index!.count; i += 3) {
-        join(geometry.index!.getX(i), geometry.index!.getX(i + 1));
-        join(geometry.index!.getX(i), geometry.index!.getX(i + 2));
-      }
-      const groups = new Map<number, number[]>();
-      for (let i = 0; i < position.count; i++) {
-        const key = find(i);
-        if (!groups.has(key)) groups.set(key, []);
-        groups.get(key)!.push(i);
-      }
-      expect(groups.size).toBe(5);
-      for (const ids of groups.values()) {
-        const tipX = Math.min(...ids.map((i) => position.getX(i)));
-        const end = ids.filter((i) => Math.abs(position.getX(i) - tipX) < 1e-5);
-        const tip = new T.Vector3();
-        for (const i of end)
-          tip.add(
-            mesh
-              .getVertexPosition(i, new T.Vector3())
-              .applyMatrix4(mesh.matrixWorld),
-          );
-        tip.multiplyScalar(HARROW.scale / end.length);
-        tip.z *= -1; // Production heading 0 faces world +Z.
-        actual.push(tip);
-      }
+      const position = mesh.geometry.attributes.position;
+      // Each of the ten independent missiles has one highest rest-Y warhead tip.
+      let index = 0;
+      for (let i = 1; i < position.count; i++)
+        if (position.getY(i) > position.getY(index)) index = i;
+      const tip = mesh
+        .getVertexPosition(index, new T.Vector3())
+        .applyMatrix4(mesh.matrixWorld)
+        .multiplyScalar(HARROW.scale);
+      tip.z *= -1; // Production heading 0 faces world +Z.
+      actual.push(tip);
     });
-    const expected = harrowMissileOrigins(
-      { x: 0, y: 0, z: 0, harrowAirborne: airborne },
-      0,
-    );
     expect(actual).toHaveLength(10);
-    for (const point of expected)
-      expect(
-        Math.min(
-          ...actual.map((tip) =>
-            tip.distanceTo(new T.Vector3(point.x, point.y, point.z)),
-          ),
-        ),
-      ).toBeLessThan(0.0001);
+    expect(sides).toEqual({ L: 5, R: 5 });
+    for (const { x, y, z, yaw } of [
+      { x: 0, y: 0, z: 0, yaw: 0 },
+      { x: 12, y: 4, z: -9, yaw: 0.73 },
+    ]) {
+      const expected = harrowMissileOrigins(
+        { x, y, z, harrowAirborne: airborne },
+        yaw,
+      );
+      const transformed = actual.map((tip) =>
+        tip
+          .clone()
+          .applyAxisAngle(new T.Vector3(0, 1, 0), yaw)
+          .add(new T.Vector3(x, y, z)),
+      );
+      const matched = new Set<number>();
+      for (const point of expected) {
+        const target = new T.Vector3(point.x, point.y, point.z);
+        const matches = transformed
+          .map((tip, i) => (tip.distanceTo(target) < 0.0001 ? i : -1))
+          .filter((i) => i >= 0);
+        expect(matches).toHaveLength(1);
+        expect(matched.has(matches[0])).toBe(false);
+        matched.add(matches[0]);
+      }
+      expect(matched.size).toBe(10);
+    }
   },
 );

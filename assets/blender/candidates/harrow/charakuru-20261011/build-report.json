@@ -1,0 +1,3663 @@
+{
+  "restoration": [
+    {
+      "maxError": 6.143906006172983e-08,
+      "tolerance": 1.6155607361989577e-05,
+      "faces": 51637,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "maxError": 8.429369557916289e-08,
+      "tolerance": 1.5496453610149028e-05,
+      "faces": 49073,
+      "scale": [
+        1.0,
+        1.0000001192092896,
+        0.9999998211860657
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "scale": 22.0,
+  "removed": [
+    {
+      "id": "body_00050",
+      "vertices": 45,
+      "min": [
+        0.0862262025475502,
+        -0.4428538680076599,
+        0.0669296383857727
+      ],
+      "max": [
+        0.11357758194208145,
+        -0.4130687117576599,
+        0.30288010835647583
+      ],
+      "reason": "shin artifact"
+    },
+    {
+      "id": "body_00051",
+      "vertices": 45,
+      "min": [
+        -0.11162623018026352,
+        -0.4428538680076599,
+        0.06692519783973694
+      ],
+      "max": [
+        -0.08426722139120102,
+        -0.4130687117576599,
+        0.3028795123100281
+      ],
+      "reason": "shin artifact"
+    },
+    {
+      "id": "body_00092",
+      "vertices": 29,
+      "min": [
+        -0.00708420854061842,
+        -0.41551607847213745,
+        0.5857273936271667
+      ],
+      "max": [
+        0.006105564069002867,
+        -0.21960090100765228,
+        0.6521642804145813
+      ],
+      "reason": "neck rear artifact"
+    },
+    {
+      "id": "body_00212",
+      "vertices": 95,
+      "min": [
+        0.17220905423164368,
+        -0.31730419397354126,
+        0.5320018529891968
+      ],
+      "max": [
+        0.21568134427070618,
+        -0.26356279850006104,
+        0.6301921606063843
+      ],
+      "reason": "sixth missile"
+    },
+    {
+      "id": "body_00213",
+      "vertices": 94,
+      "min": [
+        -0.21421827375888824,
+        -0.3168162703514099,
+        0.531511664390564
+      ],
+      "max": [
+        -0.17073072493076324,
+        -0.2630748748779297,
+        0.6301902532577515
+      ],
+      "reason": "sixth missile"
+    }
+  ],
+  "parts": [
+    {
+      "id": "body_00001",
+      "kind": "Wing.L",
+      "vertices": 415,
+      "rigid": false,
+      "bones": [
+        "Wing fan.L",
+        "Wing fore.L",
+        "Wing upper.L"
+      ]
+    },
+    {
+      "id": "body_00002",
+      "kind": "TorsoTail",
+      "vertices": 3760,
+      "rigid": false,
+      "bones": [
+        "Neck.00",
+        "Neck.01",
+        "Neck.02",
+        "Tail.00",
+        "Tail.01",
+        "Tail.02",
+        "Tail.03",
+        "Tail.04",
+        "Tail.05",
+        "Tail.06",
+        "Torso"
+      ]
+    },
+    {
+      "id": "body_00003",
+      "kind": "Hindlimb.R",
+      "vertices": 324,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.R.1"
+      ]
+    },
+    {
+      "id": "body_00004",
+      "kind": "Launcher.R_body_00004",
+      "vertices": 94,
+      "rigid": true,
+      "bones": [
+        "Wing fore.R"
+      ]
+    },
+    {
+      "id": "body_00005",
+      "kind": "Launcher.L_body_00005",
+      "vertices": 94,
+      "rigid": true,
+      "bones": [
+        "Wing fore.L"
+      ]
+    },
+    {
+      "id": "body_00006",
+      "kind": "Launcher.R_body_00006",
+      "vertices": 93,
+      "rigid": true,
+      "bones": [
+        "Wing fore.R"
+      ]
+    },
+    {
+      "id": "body_00007",
+      "kind": "Neck",
+      "vertices": 80,
+      "rigid": false,
+      "bones": [
+        "Neck.05"
+      ]
+    },
+    {
+      "id": "body_00008",
+      "kind": "Launcher.L_body_00008",
+      "vertices": 93,
+      "rigid": true,
+      "bones": [
+        "Wing fore.L"
+      ]
+    },
+    {
+      "id": "body_00009",
+      "kind": "Launcher.R_body_00009",
+      "vertices": 91,
+      "rigid": true,
+      "bones": [
+        "Wing fore.R"
+      ]
+    },
+    {
+      "id": "body_00010",
+      "kind": "Launcher.L_body_00010",
+      "vertices": 91,
+      "rigid": true,
+      "bones": [
+        "Wing fore.L"
+      ]
+    },
+    {
+      "id": "body_00011",
+      "kind": "Launcher.L_body_00011",
+      "vertices": 90,
+      "rigid": true,
+      "bones": [
+        "Wing fore.L"
+      ]
+    },
+    {
+      "id": "body_00012",
+      "kind": "Launcher.R_body_00012",
+      "vertices": 90,
+      "rigid": true,
+      "bones": [
+        "Wing fore.R"
+      ]
+    },
+    {
+      "id": "body_00013",
+      "kind": "Wing.L",
+      "vertices": 92,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00014",
+      "kind": "Neck",
+      "vertices": 320,
+      "rigid": false,
+      "bones": [
+        "Neck.03",
+        "Neck.04",
+        "Neck.05"
+      ]
+    },
+    {
+      "id": "body_00015",
+      "kind": "Launcher.R_body_00015",
+      "vertices": 89,
+      "rigid": true,
+      "bones": [
+        "Wing fore.R"
+      ]
+    },
+    {
+      "id": "body_00016",
+      "kind": "Neck",
+      "vertices": 76,
+      "rigid": false,
+      "bones": [
+        "Neck.05"
+      ]
+    },
+    {
+      "id": "body_00017",
+      "kind": "Wing.L",
+      "vertices": 76,
+      "rigid": true,
+      "bones": [
+        "Wing upper.L"
+      ]
+    },
+    {
+      "id": "body_00018",
+      "kind": "Launcher.L_body_00018",
+      "vertices": 89,
+      "rigid": true,
+      "bones": [
+        "Wing fore.L"
+      ]
+    },
+    {
+      "id": "body_00019",
+      "kind": "Wing.R",
+      "vertices": 89,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00020",
+      "kind": "Wing.R",
+      "vertices": 77,
+      "rigid": true,
+      "bones": [
+        "Wing upper.R"
+      ]
+    },
+    {
+      "id": "body_00021",
+      "kind": "Wing.L",
+      "vertices": 73,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00022",
+      "kind": "Wing.L",
+      "vertices": 68,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00023",
+      "kind": "Wing.L",
+      "vertices": 73,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00024",
+      "kind": "Wing.L",
+      "vertices": 65,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00025",
+      "kind": "Neck",
+      "vertices": 320,
+      "rigid": false,
+      "bones": [
+        "Neck.03",
+        "Neck.04",
+        "Neck.05"
+      ]
+    },
+    {
+      "id": "body_00026",
+      "kind": "Wing.R",
+      "vertices": 63,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00027",
+      "kind": "Wing.R",
+      "vertices": 62,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00028",
+      "kind": "Wing.R",
+      "vertices": 58,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00029",
+      "kind": "Wing.L",
+      "vertices": 60,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00030",
+      "kind": "Wing.R",
+      "vertices": 73,
+      "rigid": true,
+      "bones": [
+        "Wing fore.R"
+      ]
+    },
+    {
+      "id": "body_00031",
+      "kind": "Wing.L",
+      "vertices": 57,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00032",
+      "kind": "Wing.L",
+      "vertices": 55,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00033",
+      "kind": "Forelimb.L",
+      "vertices": 59,
+      "rigid": true,
+      "bones": [
+        "Forelimb.L.2"
+      ]
+    },
+    {
+      "id": "body_00034",
+      "kind": "Wing.R",
+      "vertices": 56,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00035",
+      "kind": "Forelimb.R",
+      "vertices": 58,
+      "rigid": true,
+      "bones": [
+        "Forelimb.R.2"
+      ]
+    },
+    {
+      "id": "body_00036",
+      "kind": "Hindlimb.R",
+      "vertices": 299,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.R.3"
+      ]
+    },
+    {
+      "id": "body_00037",
+      "kind": "Wing.L",
+      "vertices": 51,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00038",
+      "kind": "Wing.R",
+      "vertices": 55,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00039",
+      "kind": "Forelimb.R",
+      "vertices": 57,
+      "rigid": true,
+      "bones": [
+        "Forelimb.R.2"
+      ]
+    },
+    {
+      "id": "body_00040",
+      "kind": "Forelimb.L",
+      "vertices": 58,
+      "rigid": true,
+      "bones": [
+        "Forelimb.L.2"
+      ]
+    },
+    {
+      "id": "body_00041",
+      "kind": "Forelimb.R",
+      "vertices": 57,
+      "rigid": true,
+      "bones": [
+        "Forelimb.R.2"
+      ]
+    },
+    {
+      "id": "body_00042",
+      "kind": "Wing.L",
+      "vertices": 52,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00043",
+      "kind": "Forelimb.R",
+      "vertices": 56,
+      "rigid": true,
+      "bones": [
+        "Forelimb.R.2"
+      ]
+    },
+    {
+      "id": "body_00044",
+      "kind": "Forelimb.L",
+      "vertices": 55,
+      "rigid": true,
+      "bones": [
+        "Forelimb.L.2"
+      ]
+    },
+    {
+      "id": "body_00045",
+      "kind": "Forelimb.L",
+      "vertices": 56,
+      "rigid": true,
+      "bones": [
+        "Forelimb.L.2"
+      ]
+    },
+    {
+      "id": "body_00046",
+      "kind": "Wing.L",
+      "vertices": 48,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00047",
+      "kind": "Hindlimb.L",
+      "vertices": 299,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.L.3"
+      ]
+    },
+    {
+      "id": "body_00048",
+      "kind": "Wing.R",
+      "vertices": 50,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00049",
+      "kind": "Wing.L",
+      "vertices": 77,
+      "rigid": true,
+      "bones": [
+        "Wing fore.L"
+      ]
+    },
+    {
+      "id": "body_00052",
+      "kind": "Wing.R",
+      "vertices": 42,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00053",
+      "kind": "Hindlimb.R",
+      "vertices": 48,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.R.1"
+      ]
+    },
+    {
+      "id": "body_00054",
+      "kind": "Wing.R",
+      "vertices": 47,
+      "rigid": true,
+      "bones": [
+        "Wing fore.R"
+      ]
+    },
+    {
+      "id": "body_00055",
+      "kind": "Hindlimb.L",
+      "vertices": 48,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.L.1"
+      ]
+    },
+    {
+      "id": "body_00056",
+      "kind": "Wing.L",
+      "vertices": 53,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00057",
+      "kind": "Hindlimb.R",
+      "vertices": 47,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.R.1"
+      ]
+    },
+    {
+      "id": "body_00058",
+      "kind": "Hindlimb.L",
+      "vertices": 280,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.L.3"
+      ]
+    },
+    {
+      "id": "body_00059",
+      "kind": "Hindlimb.L",
+      "vertices": 47,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.L.1"
+      ]
+    },
+    {
+      "id": "body_00060",
+      "kind": "Wing.L",
+      "vertices": 79,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00061",
+      "kind": "Wing.R",
+      "vertices": 50,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00062",
+      "kind": "Wing.L",
+      "vertices": 50,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00063",
+      "kind": "Wing.R",
+      "vertices": 44,
+      "rigid": true,
+      "bones": [
+        "Wing fore.R"
+      ]
+    },
+    {
+      "id": "body_00064",
+      "kind": "Wing.R",
+      "vertices": 44,
+      "rigid": true,
+      "bones": [
+        "Wing fore.R"
+      ]
+    },
+    {
+      "id": "body_00065",
+      "kind": "Wing.R",
+      "vertices": 44,
+      "rigid": true,
+      "bones": [
+        "Wing fore.R"
+      ]
+    },
+    {
+      "id": "body_00066",
+      "kind": "Forelimb.L",
+      "vertices": 37,
+      "rigid": true,
+      "bones": [
+        "Forelimb.L.2"
+      ]
+    },
+    {
+      "id": "body_00067",
+      "kind": "Wing.L",
+      "vertices": 43,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00068",
+      "kind": "Wing.R",
+      "vertices": 38,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00069",
+      "kind": "Hindlimb.R",
+      "vertices": 273,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.R.3"
+      ]
+    },
+    {
+      "id": "body_00070",
+      "kind": "Wing.R",
+      "vertices": 43,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00071",
+      "kind": "Wing.L",
+      "vertices": 43,
+      "rigid": true,
+      "bones": [
+        "Wing fore.L"
+      ]
+    },
+    {
+      "id": "body_00072",
+      "kind": "Wing.R",
+      "vertices": 44,
+      "rigid": true,
+      "bones": [
+        "Wing fore.R"
+      ]
+    },
+    {
+      "id": "body_00073",
+      "kind": "Forelimb.L",
+      "vertices": 36,
+      "rigid": true,
+      "bones": [
+        "Forelimb.L.1"
+      ]
+    },
+    {
+      "id": "body_00074",
+      "kind": "Wing.L",
+      "vertices": 43,
+      "rigid": true,
+      "bones": [
+        "Wing fore.L"
+      ]
+    },
+    {
+      "id": "body_00075",
+      "kind": "Wing.R",
+      "vertices": 42,
+      "rigid": true,
+      "bones": [
+        "Wing fore.R"
+      ]
+    },
+    {
+      "id": "body_00076",
+      "kind": "Wing.L",
+      "vertices": 42,
+      "rigid": true,
+      "bones": [
+        "Wing fore.L"
+      ]
+    },
+    {
+      "id": "body_00077",
+      "kind": "Forelimb.R",
+      "vertices": 34,
+      "rigid": true,
+      "bones": [
+        "Forelimb.R.1"
+      ]
+    },
+    {
+      "id": "body_00078",
+      "kind": "Forelimb.R",
+      "vertices": 34,
+      "rigid": true,
+      "bones": [
+        "Forelimb.R.2"
+      ]
+    },
+    {
+      "id": "body_00079",
+      "kind": "Wing.R",
+      "vertices": 33,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00080",
+      "kind": "Hindlimb.L",
+      "vertices": 221,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.L.1"
+      ]
+    },
+    {
+      "id": "body_00081",
+      "kind": "Wing.R",
+      "vertices": 57,
+      "rigid": true,
+      "bones": [
+        "Wing fore.R"
+      ]
+    },
+    {
+      "id": "body_00082",
+      "kind": "Wing.L",
+      "vertices": 56,
+      "rigid": true,
+      "bones": [
+        "Wing upper.L"
+      ]
+    },
+    {
+      "id": "body_00083",
+      "kind": "Wing.R",
+      "vertices": 33,
+      "rigid": true,
+      "bones": [
+        "Wing fore.R"
+      ]
+    },
+    {
+      "id": "body_00084",
+      "kind": "Wing.R",
+      "vertices": 31,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00085",
+      "kind": "Wing.R",
+      "vertices": 30,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00086",
+      "kind": "Wing.R",
+      "vertices": 30,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00087",
+      "kind": "Wing.R",
+      "vertices": 30,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00088",
+      "kind": "Wing.R",
+      "vertices": 30,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00089",
+      "kind": "Wing.R",
+      "vertices": 36,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00090",
+      "kind": "Wing.R",
+      "vertices": 29,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00091",
+      "kind": "Hindlimb.R",
+      "vertices": 217,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.R.1"
+      ]
+    },
+    {
+      "id": "body_00093",
+      "kind": "Wing.R",
+      "vertices": 28,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00094",
+      "kind": "Wing.R",
+      "vertices": 28,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00095",
+      "kind": "Wing.R",
+      "vertices": 28,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00096",
+      "kind": "Wing.R",
+      "vertices": 28,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00097",
+      "kind": "Wing.R",
+      "vertices": 27,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00098",
+      "kind": "Wing.R",
+      "vertices": 27,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00099",
+      "kind": "Wing.R",
+      "vertices": 27,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00100",
+      "kind": "Wing.R",
+      "vertices": 27,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00101",
+      "kind": "Wing.R",
+      "vertices": 26,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00102",
+      "kind": "Hindlimb.L",
+      "vertices": 214,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.L.1"
+      ]
+    },
+    {
+      "id": "body_00103",
+      "kind": "Wing.R",
+      "vertices": 26,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00104",
+      "kind": "Wing.R",
+      "vertices": 26,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00105",
+      "kind": "Wing.R",
+      "vertices": 26,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00106",
+      "kind": "Wing.R",
+      "vertices": 26,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00107",
+      "kind": "Wing.R",
+      "vertices": 26,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00108",
+      "kind": "Wing.R",
+      "vertices": 26,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00109",
+      "kind": "Wing.R",
+      "vertices": 25,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00110",
+      "kind": "Wing.R",
+      "vertices": 23,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00111",
+      "kind": "Wing.R",
+      "vertices": 25,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00112",
+      "kind": "Wing.R",
+      "vertices": 23,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00113",
+      "kind": "Neck",
+      "vertices": 1738,
+      "rigid": false,
+      "bones": [
+        "Neck.00",
+        "Neck.01",
+        "Neck.02",
+        "Neck.03",
+        "Neck.04",
+        "Neck.05"
+      ]
+    },
+    {
+      "id": "body_00114",
+      "kind": "Hindlimb.R",
+      "vertices": 212,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.R.1"
+      ]
+    },
+    {
+      "id": "body_00115",
+      "kind": "Wing.R",
+      "vertices": 23,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00116",
+      "kind": "Wing.R",
+      "vertices": 36,
+      "rigid": true,
+      "bones": [
+        "Wing fore.R"
+      ]
+    },
+    {
+      "id": "body_00117",
+      "kind": "Wing.R",
+      "vertices": 42,
+      "rigid": true,
+      "bones": [
+        "Wing upper.R"
+      ]
+    },
+    {
+      "id": "body_00118",
+      "kind": "Wing.R",
+      "vertices": 22,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00119",
+      "kind": "Wing.L",
+      "vertices": 41,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00120",
+      "kind": "Wing.R",
+      "vertices": 20,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00121",
+      "kind": "Wing.L",
+      "vertices": 18,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00122",
+      "kind": "Wing.R",
+      "vertices": 20,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00123",
+      "kind": "Wing.L",
+      "vertices": 20,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00124",
+      "kind": "Wing.R",
+      "vertices": 23,
+      "rigid": true,
+      "bones": [
+        "Wing fore.R"
+      ]
+    },
+    {
+      "id": "body_00125",
+      "kind": "Hindlimb.R",
+      "vertices": 180,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.R.0"
+      ]
+    },
+    {
+      "id": "body_00126",
+      "kind": "Wing.R",
+      "vertices": 7,
+      "rigid": true,
+      "bones": [
+        "Wing upper.R"
+      ]
+    },
+    {
+      "id": "body_00127",
+      "kind": "Wing.L",
+      "vertices": 4,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00128",
+      "kind": "Wing.R",
+      "vertices": 3,
+      "rigid": true,
+      "bones": [
+        "Wing upper.R"
+      ]
+    },
+    {
+      "id": "body_00129",
+      "kind": "Torso",
+      "vertices": 3,
+      "rigid": true,
+      "bones": [
+        "Torso"
+      ]
+    },
+    {
+      "id": "body_00130",
+      "kind": "Hindlimb.L",
+      "vertices": 180,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.L.0"
+      ]
+    },
+    {
+      "id": "body_00131",
+      "kind": "Hindlimb.R",
+      "vertices": 175,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.R.0"
+      ]
+    },
+    {
+      "id": "body_00132",
+      "kind": "Hindlimb.L",
+      "vertices": 175,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.L.0"
+      ]
+    },
+    {
+      "id": "body_00133",
+      "kind": "Wing.R",
+      "vertices": 176,
+      "rigid": true,
+      "bones": [
+        "Wing upper.R"
+      ]
+    },
+    {
+      "id": "body_00134",
+      "kind": "Wing.L",
+      "vertices": 175,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00135",
+      "kind": "Hindlimb.R",
+      "vertices": 177,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.R.0"
+      ]
+    },
+    {
+      "id": "body_00136",
+      "kind": "Hindlimb.L",
+      "vertices": 172,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.L.0"
+      ]
+    },
+    {
+      "id": "body_00137",
+      "kind": "Wing.L",
+      "vertices": 170,
+      "rigid": true,
+      "bones": [
+        "Wing upper.L"
+      ]
+    },
+    {
+      "id": "body_00138",
+      "kind": "Hindlimb.R",
+      "vertices": 374,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.R.3"
+      ]
+    },
+    {
+      "id": "body_00139",
+      "kind": "Wing.L",
+      "vertices": 192,
+      "rigid": true,
+      "bones": [
+        "Wing upper.L"
+      ]
+    },
+    {
+      "id": "body_00140",
+      "kind": "Wing.L",
+      "vertices": 154,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00141",
+      "kind": "Neck",
+      "vertices": 145,
+      "rigid": false,
+      "bones": [
+        "Neck.04",
+        "Neck.05"
+      ]
+    },
+    {
+      "id": "body_00142",
+      "kind": "Wing.R",
+      "vertices": 144,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00143",
+      "kind": "Wing.L",
+      "vertices": 144,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00144",
+      "kind": "Wing.L",
+      "vertices": 141,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00145",
+      "kind": "Wing.R",
+      "vertices": 138,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00146",
+      "kind": "Torso",
+      "vertices": 137,
+      "rigid": true,
+      "bones": [
+        "Torso"
+      ]
+    },
+    {
+      "id": "body_00147",
+      "kind": "Torso",
+      "vertices": 137,
+      "rigid": true,
+      "bones": [
+        "Torso"
+      ]
+    },
+    {
+      "id": "body_00148",
+      "kind": "Wing.R",
+      "vertices": 140,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00149",
+      "kind": "Neck",
+      "vertices": 644,
+      "rigid": false,
+      "bones": [
+        "Neck.01",
+        "Neck.02",
+        "Neck.03",
+        "Neck.04",
+        "Neck.05"
+      ]
+    },
+    {
+      "id": "body_00150",
+      "kind": "Wing.R",
+      "vertices": 134,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00151",
+      "kind": "Wing.L",
+      "vertices": 139,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00152",
+      "kind": "Wing.R",
+      "vertices": 131,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00153",
+      "kind": "Wing.L",
+      "vertices": 141,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00154",
+      "kind": "Wing.L",
+      "vertices": 129,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00155",
+      "kind": "Forelimb.R",
+      "vertices": 121,
+      "rigid": true,
+      "bones": [
+        "Forelimb.R.2"
+      ]
+    },
+    {
+      "id": "body_00156",
+      "kind": "Forelimb.L",
+      "vertices": 121,
+      "rigid": true,
+      "bones": [
+        "Forelimb.L.2"
+      ]
+    },
+    {
+      "id": "body_00157",
+      "kind": "Hindlimb.L",
+      "vertices": 118,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.L.0"
+      ]
+    },
+    {
+      "id": "body_00158",
+      "kind": "Hindlimb.R",
+      "vertices": 117,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.R.0"
+      ]
+    },
+    {
+      "id": "body_00159",
+      "kind": "Forelimb.L",
+      "vertices": 113,
+      "rigid": true,
+      "bones": [
+        "Forelimb.L.1"
+      ]
+    },
+    {
+      "id": "body_00160",
+      "kind": "Neck",
+      "vertices": 396,
+      "rigid": false,
+      "bones": [
+        "Neck.04",
+        "Neck.05"
+      ]
+    },
+    {
+      "id": "body_00161",
+      "kind": "Wing.L",
+      "vertices": 113,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00162",
+      "kind": "Forelimb.R",
+      "vertices": 112,
+      "rigid": true,
+      "bones": [
+        "Forelimb.R.0"
+      ]
+    },
+    {
+      "id": "body_00163",
+      "kind": "Forelimb.R",
+      "vertices": 112,
+      "rigid": true,
+      "bones": [
+        "Forelimb.R.1"
+      ]
+    },
+    {
+      "id": "body_00164",
+      "kind": "Forelimb.L",
+      "vertices": 112,
+      "rigid": true,
+      "bones": [
+        "Forelimb.L.0"
+      ]
+    },
+    {
+      "id": "body_00165",
+      "kind": "Wing.L",
+      "vertices": 111,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00166",
+      "kind": "Torso",
+      "vertices": 109,
+      "rigid": true,
+      "bones": [
+        "Torso"
+      ]
+    },
+    {
+      "id": "body_00167",
+      "kind": "Wing.L",
+      "vertices": 109,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00168",
+      "kind": "Torso",
+      "vertices": 108,
+      "rigid": true,
+      "bones": [
+        "Torso"
+      ]
+    },
+    {
+      "id": "body_00169",
+      "kind": "Torso",
+      "vertices": 108,
+      "rigid": true,
+      "bones": [
+        "Torso"
+      ]
+    },
+    {
+      "id": "body_00170",
+      "kind": "Torso",
+      "vertices": 108,
+      "rigid": true,
+      "bones": [
+        "Torso"
+      ]
+    },
+    {
+      "id": "body_00171",
+      "kind": "Hindlimb.L",
+      "vertices": 373,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.L.3"
+      ]
+    },
+    {
+      "id": "body_00172",
+      "kind": "Hindlimb.L",
+      "vertices": 105,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.L.1"
+      ]
+    },
+    {
+      "id": "body_00173",
+      "kind": "Hindlimb.R",
+      "vertices": 104,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.R.1"
+      ]
+    },
+    {
+      "id": "body_00174",
+      "kind": "Wing.L",
+      "vertices": 108,
+      "rigid": true,
+      "bones": [
+        "Wing fore.L"
+      ]
+    },
+    {
+      "id": "body_00175",
+      "kind": "Wing.L",
+      "vertices": 103,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00176",
+      "kind": "Wing.L",
+      "vertices": 103,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00177",
+      "kind": "Wing.R",
+      "vertices": 104,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00178",
+      "kind": "Wing.L",
+      "vertices": 103,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00179",
+      "kind": "Wing.R",
+      "vertices": 105,
+      "rigid": true,
+      "bones": [
+        "Wing fore.R"
+      ]
+    },
+    {
+      "id": "body_00180",
+      "kind": "Wing.L",
+      "vertices": 98,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00181",
+      "kind": "Wing.L",
+      "vertices": 102,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00182",
+      "kind": "Hindlimb.R",
+      "vertices": 336,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.R.3"
+      ]
+    },
+    {
+      "id": "body_00183",
+      "kind": "Wing.R",
+      "vertices": 97,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00184",
+      "kind": "Wing.L",
+      "vertices": 93,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00185",
+      "kind": "Wing.L",
+      "vertices": 93,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00186",
+      "kind": "Wing.L",
+      "vertices": 117,
+      "rigid": true,
+      "bones": [
+        "Wing fore.L"
+      ]
+    },
+    {
+      "id": "body_00187",
+      "kind": "Wing.L",
+      "vertices": 104,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00188",
+      "kind": "Wing.L",
+      "vertices": 95,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00189",
+      "kind": "Wing.L",
+      "vertices": 92,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00190",
+      "kind": "Torso",
+      "vertices": 95,
+      "rigid": true,
+      "bones": [
+        "Torso"
+      ]
+    },
+    {
+      "id": "body_00191",
+      "kind": "Torso",
+      "vertices": 95,
+      "rigid": true,
+      "bones": [
+        "Torso"
+      ]
+    },
+    {
+      "id": "body_00192",
+      "kind": "Wing.R",
+      "vertices": 87,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00193",
+      "kind": "Hindlimb.L",
+      "vertices": 333,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.L.3"
+      ]
+    },
+    {
+      "id": "body_00194",
+      "kind": "Wing.R",
+      "vertices": 87,
+      "rigid": true,
+      "bones": [
+        "Wing fan.R"
+      ]
+    },
+    {
+      "id": "body_00195",
+      "kind": "Wing.L",
+      "vertices": 92,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00196",
+      "kind": "Wing.L",
+      "vertices": 87,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00197",
+      "kind": "Wing.L",
+      "vertices": 87,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00198",
+      "kind": "Wing.L",
+      "vertices": 86,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00199",
+      "kind": "Wing.L",
+      "vertices": 90,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00200",
+      "kind": "Wing.R",
+      "vertices": 85,
+      "rigid": true,
+      "bones": [
+        "Wing fore.R"
+      ]
+    },
+    {
+      "id": "body_00201",
+      "kind": "Wing.L",
+      "vertices": 85,
+      "rigid": true,
+      "bones": [
+        "Wing fore.L"
+      ]
+    },
+    {
+      "id": "body_00202",
+      "kind": "Wing.L",
+      "vertices": 92,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00203",
+      "kind": "Hindlimb.R",
+      "vertices": 84,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.R.2"
+      ]
+    },
+    {
+      "id": "body_00204",
+      "kind": "Hindlimb.L",
+      "vertices": 328,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.L.1"
+      ]
+    },
+    {
+      "id": "body_00205",
+      "kind": "Wing.R",
+      "vertices": 84,
+      "rigid": true,
+      "bones": [
+        "Wing fore.R"
+      ]
+    },
+    {
+      "id": "body_00206",
+      "kind": "Wing.R",
+      "vertices": 84,
+      "rigid": true,
+      "bones": [
+        "Wing upper.R"
+      ]
+    },
+    {
+      "id": "body_00207",
+      "kind": "Hindlimb.L",
+      "vertices": 84,
+      "rigid": true,
+      "bones": [
+        "Hindlimb.L.2"
+      ]
+    },
+    {
+      "id": "body_00208",
+      "kind": "Wing.L",
+      "vertices": 84,
+      "rigid": true,
+      "bones": [
+        "Wing upper.L"
+      ]
+    },
+    {
+      "id": "body_00209",
+      "kind": "Wing.L",
+      "vertices": 84,
+      "rigid": true,
+      "bones": [
+        "Wing fore.L"
+      ]
+    },
+    {
+      "id": "body_00210",
+      "kind": "Wing.L",
+      "vertices": 84,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00211",
+      "kind": "Wing.L",
+      "vertices": 90,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "body_00214",
+      "kind": "Wing.L",
+      "vertices": 85,
+      "rigid": true,
+      "bones": [
+        "Wing fan.L"
+      ]
+    },
+    {
+      "id": "head_00001",
+      "kind": "Head",
+      "vertices": 1361,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00002",
+      "kind": "Head",
+      "vertices": 1953,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00003",
+      "kind": "Head",
+      "vertices": 135,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00004",
+      "kind": "Head",
+      "vertices": 32,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00005",
+      "kind": "Head",
+      "vertices": 23,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00006",
+      "kind": "Head",
+      "vertices": 10,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00007",
+      "kind": "Head",
+      "vertices": 10,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00008",
+      "kind": "Head",
+      "vertices": 120,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00009",
+      "kind": "Head",
+      "vertices": 184,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00010",
+      "kind": "Head",
+      "vertices": 260,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00011",
+      "kind": "Head",
+      "vertices": 189,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00012",
+      "kind": "Head",
+      "vertices": 1364,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00013",
+      "kind": "Head",
+      "vertices": 1099,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00014",
+      "kind": "Head",
+      "vertices": 1004,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00015",
+      "kind": "Head",
+      "vertices": 831,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00016",
+      "kind": "Head",
+      "vertices": 468,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00017",
+      "kind": "Head",
+      "vertices": 2302,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00018",
+      "kind": "Head",
+      "vertices": 445,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00019",
+      "kind": "Head",
+      "vertices": 412,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00020",
+      "kind": "Head",
+      "vertices": 391,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00021",
+      "kind": "Head",
+      "vertices": 389,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00022",
+      "kind": "Head",
+      "vertices": 389,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00023",
+      "kind": "Head",
+      "vertices": 377,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00024",
+      "kind": "Head",
+      "vertices": 358,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00025",
+      "kind": "Head",
+      "vertices": 350,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00026",
+      "kind": "Head",
+      "vertices": 389,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00027",
+      "kind": "Head",
+      "vertices": 276,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00028",
+      "kind": "Head",
+      "vertices": 1645,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00029",
+      "kind": "Head",
+      "vertices": 261,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00030",
+      "kind": "Head",
+      "vertices": 261,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00031",
+      "kind": "Head",
+      "vertices": 270,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00032",
+      "kind": "Head",
+      "vertices": 258,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00033",
+      "kind": "Head",
+      "vertices": 270,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00034",
+      "kind": "Head",
+      "vertices": 257,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00035",
+      "kind": "Head",
+      "vertices": 222,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00036",
+      "kind": "Head",
+      "vertices": 221,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00037",
+      "kind": "Head",
+      "vertices": 220,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00038",
+      "kind": "Head",
+      "vertices": 175,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00039",
+      "kind": "Head",
+      "vertices": 605,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00040",
+      "kind": "Head",
+      "vertices": 209,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00041",
+      "kind": "Head",
+      "vertices": 174,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00042",
+      "kind": "Head",
+      "vertices": 166,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00043",
+      "kind": "Head",
+      "vertices": 166,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00044",
+      "kind": "Head",
+      "vertices": 165,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00045",
+      "kind": "Head",
+      "vertices": 148,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00046",
+      "kind": "Head",
+      "vertices": 140,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00047",
+      "kind": "Head",
+      "vertices": 125,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00048",
+      "kind": "Head",
+      "vertices": 124,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00049",
+      "kind": "Head",
+      "vertices": 110,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00050",
+      "kind": "Head",
+      "vertices": 413,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00051",
+      "kind": "Head",
+      "vertices": 108,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00052",
+      "kind": "Head",
+      "vertices": 119,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00053",
+      "kind": "Head",
+      "vertices": 120,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00054",
+      "kind": "Head",
+      "vertices": 114,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00055",
+      "kind": "Head",
+      "vertices": 102,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00056",
+      "kind": "Head",
+      "vertices": 120,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00057",
+      "kind": "Head",
+      "vertices": 120,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00058",
+      "kind": "Head",
+      "vertices": 120,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00059",
+      "kind": "Head",
+      "vertices": 96,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00060",
+      "kind": "Head",
+      "vertices": 88,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00061",
+      "kind": "Head",
+      "vertices": 759,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00062",
+      "kind": "Head",
+      "vertices": 82,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00063",
+      "kind": "Head",
+      "vertices": 81,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00064",
+      "kind": "Head",
+      "vertices": 78,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00065",
+      "kind": "Head",
+      "vertices": 84,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00066",
+      "kind": "Head",
+      "vertices": 75,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00067",
+      "kind": "Head",
+      "vertices": 94,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00068",
+      "kind": "Head",
+      "vertices": 75,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00069",
+      "kind": "Head",
+      "vertices": 74,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00070",
+      "kind": "Head",
+      "vertices": 84,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00071",
+      "kind": "Head",
+      "vertices": 68,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00072",
+      "kind": "Head",
+      "vertices": 412,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00073",
+      "kind": "Head",
+      "vertices": 68,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00074",
+      "kind": "Head",
+      "vertices": 80,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00075",
+      "kind": "Head",
+      "vertices": 80,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00076",
+      "kind": "Head",
+      "vertices": 64,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00077",
+      "kind": "Head",
+      "vertices": 64,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00078",
+      "kind": "Head",
+      "vertices": 64,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00079",
+      "kind": "Head",
+      "vertices": 72,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00080",
+      "kind": "Head",
+      "vertices": 64,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00081",
+      "kind": "Head",
+      "vertices": 50,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00082",
+      "kind": "Head",
+      "vertices": 44,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00083",
+      "kind": "Head",
+      "vertices": 287,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00084",
+      "kind": "Head",
+      "vertices": 44,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00085",
+      "kind": "Head",
+      "vertices": 47,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00086",
+      "kind": "Head",
+      "vertices": 37,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00087",
+      "kind": "Head",
+      "vertices": 53,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00088",
+      "kind": "Head",
+      "vertices": 35,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00089",
+      "kind": "Head",
+      "vertices": 33,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00090",
+      "kind": "Head",
+      "vertices": 33,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00091",
+      "kind": "Head",
+      "vertices": 32,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00092",
+      "kind": "Head",
+      "vertices": 38,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00093",
+      "kind": "Head",
+      "vertices": 38,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00094",
+      "kind": "Head",
+      "vertices": 258,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00095",
+      "kind": "Head",
+      "vertices": 37,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00096",
+      "kind": "Head",
+      "vertices": 36,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00097",
+      "kind": "Head",
+      "vertices": 47,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00098",
+      "kind": "Head",
+      "vertices": 36,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00099",
+      "kind": "Head",
+      "vertices": 36,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00100",
+      "kind": "Head",
+      "vertices": 36,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00101",
+      "kind": "Head",
+      "vertices": 35,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00102",
+      "kind": "Head",
+      "vertices": 34,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00103",
+      "kind": "Head",
+      "vertices": 33,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    },
+    {
+      "id": "head_00104",
+      "kind": "Head",
+      "vertices": 33,
+      "rigid": true,
+      "bones": [
+        "Head"
+      ]
+    }
+  ],
+  "bones": {
+    "Root": {
+      "head": [
+        0,
+        0,
+        0
+      ],
+      "tail": [
+        0,
+        0,
+        0.6
+      ],
+      "parent": null
+    },
+    "Torso": {
+      "head": [
+        -0.15399999916553497,
+        -0.0,
+        6.231060028076172
+      ],
+      "tail": [
+        -0.15399999916553497,
+        0.0,
+        7.231060028076172
+      ],
+      "parent": "Root"
+    },
+    "Neck.00": {
+      "head": [
+        -0.35199999809265137,
+        -0.0,
+        7.265059947967529
+      ],
+      "tail": [
+        -0.48399999737739563,
+        -0.0,
+        8.2110595703125
+      ],
+      "parent": "Torso"
+    },
+    "Neck.01": {
+      "head": [
+        -0.48399999737739563,
+        -0.0,
+        8.2110595703125
+      ],
+      "tail": [
+        -0.7699999809265137,
+        -0.0,
+        8.981060028076172
+      ],
+      "parent": "Neck.00"
+    },
+    "Neck.02": {
+      "head": [
+        -0.7699999809265137,
+        -0.0,
+        8.981060028076172
+      ],
+      "tail": [
+        -1.055999994277954,
+        -0.0,
+        9.86106014251709
+      ],
+      "parent": "Neck.01"
+    },
+    "Neck.03": {
+      "head": [
+        -1.055999994277954,
+        -0.0,
+        9.86106014251709
+      ],
+      "tail": [
+        -1.3420000076293945,
+        -0.0,
+        10.697059631347656
+      ],
+      "parent": "Neck.02"
+    },
+    "Neck.04": {
+      "head": [
+        -1.3420000076293945,
+        -0.0,
+        10.697059631347656
+      ],
+      "tail": [
+        -1.5399999618530273,
+        -0.0,
+        11.489060401916504
+      ],
+      "parent": "Neck.03"
+    },
+    "Neck.05": {
+      "head": [
+        -1.5399999618530273,
+        -0.0,
+        11.489060401916504
+      ],
+      "tail": [
+        -1.649999976158142,
+        -0.0,
+        12.215060234069824
+      ],
+      "parent": "Neck.04"
+    },
+    "Head": {
+      "head": [
+        -1.649999976158142,
+        -0.0,
+        12.215060234069824
+      ],
+      "tail": [
+        -1.649999976158142,
+        0.0,
+        13.715060234069824
+      ],
+      "parent": "Neck.05"
+    },
+    "Jaw": {
+      "head": [
+        -1.649999976158142,
+        -0.0,
+        12.215060234069824
+      ],
+      "tail": [
+        -2.1500000953674316,
+        0.0,
+        12.215060234069824
+      ],
+      "parent": "Head"
+    },
+    "Hindlimb.L.0": {
+      "head": [
+        -0.04399999976158142,
+        -1.1225500106811523,
+        5.769060134887695
+      ],
+      "tail": [
+        0.0,
+        -2.530550003051758,
+        4.86706018447876
+      ],
+      "parent": "Torso"
+    },
+    "Hindlimb.L.1": {
+      "head": [
+        0.0,
+        -2.530550003051758,
+        4.86706018447876
+      ],
+      "tail": [
+        -0.10999999940395355,
+        -2.6185500621795654,
+        3.7450599670410156
+      ],
+      "parent": "Hindlimb.L.0"
+    },
+    "Hindlimb.L.2": {
+      "head": [
+        -0.10999999940395355,
+        -2.6185500621795654,
+        3.7450599670410156
+      ],
+      "tail": [
+        -0.35199999809265137,
+        -2.94854998588562,
+        2.84306001663208
+      ],
+      "parent": "Hindlimb.L.1"
+    },
+    "Hindlimb.L.3": {
+      "head": [
+        -0.35199999809265137,
+        -2.94854998588562,
+        2.84306001663208
+      ],
+      "tail": [
+        -0.9520000219345093,
+        -2.94854998588562,
+        2.6430599689483643
+      ],
+      "parent": "Hindlimb.L.2"
+    },
+    "Forelimb.L.0": {
+      "head": [
+        -0.4399999976158142,
+        -0.6825500130653381,
+        8.255060195922852
+      ],
+      "tail": [
+        0.10999999940395355,
+        -0.9685500264167786,
+        8.145059585571289
+      ],
+      "parent": "Torso"
+    },
+    "Forelimb.L.1": {
+      "head": [
+        0.10999999940395355,
+        -0.9685500264167786,
+        8.145059585571289
+      ],
+      "tail": [
+        0.33000001311302185,
+        -1.3205499649047852,
+        8.695059776306152
+      ],
+      "parent": "Forelimb.L.0"
+    },
+    "Forelimb.L.2": {
+      "head": [
+        0.33000001311302185,
+        -1.3205499649047852,
+        8.695059776306152
+      ],
+      "tail": [
+        0.37400001287460327,
+        -1.4745500087738037,
+        8.981060028076172
+      ],
+      "parent": "Forelimb.L.1"
+    },
+    "Forelimb.L.3": {
+      "head": [
+        0.37400001287460327,
+        -1.4745500087738037,
+        8.981060028076172
+      ],
+      "tail": [
+        -0.22600001096725464,
+        -1.4745500087738037,
+        8.781060218811035
+      ],
+      "parent": "Forelimb.L.2"
+    },
+    "Hindlimb.R.0": {
+      "head": [
+        -0.04399999976158142,
+        1.1654499769210815,
+        5.769060134887695
+      ],
+      "tail": [
+        0.0,
+        2.5734500885009766,
+        4.86706018447876
+      ],
+      "parent": "Torso"
+    },
+    "Hindlimb.R.1": {
+      "head": [
+        0.0,
+        2.5734500885009766,
+        4.86706018447876
+      ],
+      "tail": [
+        -0.10999999940395355,
+        2.661449909210205,
+        3.7450599670410156
+      ],
+      "parent": "Hindlimb.R.0"
+    },
+    "Hindlimb.R.2": {
+      "head": [
+        -0.10999999940395355,
+        2.661449909210205,
+        3.7450599670410156
+      ],
+      "tail": [
+        -0.35199999809265137,
+        2.991450071334839,
+        2.84306001663208
+      ],
+      "parent": "Hindlimb.R.1"
+    },
+    "Hindlimb.R.3": {
+      "head": [
+        -0.35199999809265137,
+        2.991450071334839,
+        2.84306001663208
+      ],
+      "tail": [
+        -0.9520000219345093,
+        2.991450071334839,
+        2.6430599689483643
+      ],
+      "parent": "Hindlimb.R.2"
+    },
+    "Forelimb.R.0": {
+      "head": [
+        -0.4399999976158142,
+        0.7254499793052673,
+        8.255060195922852
+      ],
+      "tail": [
+        0.10999999940395355,
+        1.0114500522613525,
+        8.145059585571289
+      ],
+      "parent": "Torso"
+    },
+    "Forelimb.R.1": {
+      "head": [
+        0.10999999940395355,
+        1.0114500522613525,
+        8.145059585571289
+      ],
+      "tail": [
+        0.33000001311302185,
+        1.363450050354004,
+        8.695059776306152
+      ],
+      "parent": "Forelimb.R.0"
+    },
+    "Forelimb.R.2": {
+      "head": [
+        0.33000001311302185,
+        1.363450050354004,
+        8.695059776306152
+      ],
+      "tail": [
+        0.37400001287460327,
+        1.517449975013733,
+        8.981060028076172
+      ],
+      "parent": "Forelimb.R.1"
+    },
+    "Forelimb.R.3": {
+      "head": [
+        0.37400001287460327,
+        1.517449975013733,
+        8.981060028076172
+      ],
+      "tail": [
+        -0.22600001096725464,
+        1.517449975013733,
+        8.781060218811035
+      ],
+      "parent": "Forelimb.R.2"
+    },
+    "Wing upper.L": {
+      "head": [
+        0.0,
+        -0.9465500116348267,
+        7.595059871673584
+      ],
+      "tail": [
+        0.8799999952316284,
+        -2.6845500469207764,
+        8.915060043334961
+      ],
+      "parent": "Torso"
+    },
+    "Wing fore.L": {
+      "head": [
+        0.8799999952316284,
+        -2.6845500469207764,
+        8.915060043334961
+      ],
+      "tail": [
+        2.309999942779541,
+        -4.488550186157227,
+        9.619059562683105
+      ],
+      "parent": "Wing upper.L"
+    },
+    "Wing fan.L": {
+      "head": [
+        2.309999942779541,
+        -4.488550186157227,
+        9.619059562683105
+      ],
+      "tail": [
+        3.9600000381469727,
+        -8.778550148010254,
+        6.055059909820557
+      ],
+      "parent": "Wing fore.L"
+    },
+    "Wing upper.R": {
+      "head": [
+        0.0,
+        0.9894499778747559,
+        7.595059871673584
+      ],
+      "tail": [
+        0.8799999952316284,
+        2.727449893951416,
+        8.915060043334961
+      ],
+      "parent": "Torso"
+    },
+    "Wing fore.R": {
+      "head": [
+        0.8799999952316284,
+        2.727449893951416,
+        8.915060043334961
+      ],
+      "tail": [
+        2.309999942779541,
+        4.531449794769287,
+        9.619059562683105
+      ],
+      "parent": "Wing upper.R"
+    },
+    "Wing fan.R": {
+      "head": [
+        2.309999942779541,
+        4.531449794769287,
+        9.619059562683105
+      ],
+      "tail": [
+        3.9600000381469727,
+        8.821450233459473,
+        6.055059909820557
+      ],
+      "parent": "Wing fore.R"
+    },
+    "Tail.00": {
+      "head": [
+        -0.11000002920627594,
+        5.818903692222932e-10,
+        5.615059852600098
+      ],
+      "tail": [
+        2.6399998664855957,
+        5.818903692222932e-10,
+        4.446750640869141
+      ],
+      "parent": "Torso"
+    },
+    "Tail.01": {
+      "head": [
+        2.6399998664855957,
+        5.818903692222932e-10,
+        4.446750640869141
+      ],
+      "tail": [
+        5.5,
+        5.818903692222932e-10,
+        3.6778371334075928
+      ],
+      "parent": "Tail.00"
+    },
+    "Tail.02": {
+      "head": [
+        5.5,
+        5.818903692222932e-10,
+        3.6778371334075928
+      ],
+      "tail": [
+        8.359999656677246,
+        5.818903692222932e-10,
+        3.331996202468872
+      ],
+      "parent": "Tail.01"
+    },
+    "Tail.03": {
+      "head": [
+        8.359999656677246,
+        5.818903692222932e-10,
+        3.331996202468872
+      ],
+      "tail": [
+        11.220000267028809,
+        5.818903692222932e-10,
+        2.9740140438079834
+      ],
+      "parent": "Tail.02"
+    },
+    "Tail.04": {
+      "head": [
+        11.220000267028809,
+        5.818903692222932e-10,
+        2.9740140438079834
+      ],
+      "tail": [
+        14.079999923706055,
+        5.818903692222932e-10,
+        2.5426735877990723
+      ],
+      "parent": "Tail.03"
+    },
+    "Tail.05": {
+      "head": [
+        14.079999923706055,
+        5.818903692222932e-10,
+        2.5426735877990723
+      ],
+      "tail": [
+        16.940000534057617,
+        5.818903692222932e-10,
+        1.8447608947753906
+      ],
+      "parent": "Tail.04"
+    },
+    "Tail.06": {
+      "head": [
+        16.940000534057617,
+        5.818903692222932e-10,
+        1.8447608947753906
+      ],
+      "tail": [
+        19.799999237060547,
+        5.818903692222932e-10,
+        0.7750598788261414
+      ],
+      "parent": "Tail.05"
+    }
+  },
+  "meshes": 20,
+  "vertices": 52843,
+  "triangles": 100537,
+  "contacts": {
+    ".L": {
+      "bone": "Hindlimb.L.3",
+      "point": [
+        -1.329507827758789,
+        -3.670149326324463,
+        0.00012324887211434543
+      ]
+    },
+    ".R": {
+      "bone": "Hindlimb.R.3",
+      "point": [
+        -1.3294973373413086,
+        3.659374713897705,
+        8.686023647896945e-05
+      ]
+    }
+  },
+  "wing_contacts": {
+    ".L": {
+      "bone": "Wing fan.L",
+      "point": [
+        7.461645603179932,
+        -10.45217227935791,
+        5.304716110229492
+      ]
+    },
+    ".R": {
+      "bone": "Wing fan.R",
+      "point": [
+        8.03123664855957,
+        10.828129768371582,
+        10.04501724243164
+      ]
+    }
+  },
+  "animation": {
+    "actions": {
+      "Idle": "Idle",
+      "Locomotion": "Locomotion",
+      "Attack": "Attack",
+      "Threat": "Threat",
+      "AirThreat": "AirThreat",
+      "Spin": "Spin",
+      "Takeoff": "Takeoff",
+      "Flight": "Flight",
+      "Glide": "Glide",
+      "Dive": "Dive",
+      "StaggerFall": "StaggerFall",
+      "Land": "Land"
+    },
+    "durations": {
+      "Idle": 7.0,
+      "Locomotion": 4.2,
+      "Attack": 5.25,
+      "Threat": 7.0,
+      "AirThreat": 7.0,
+      "Spin": 3.0,
+      "Takeoff": 3.5,
+      "Flight": 16.8,
+      "Glide": 2.1,
+      "Dive": 0.9,
+      "StaggerFall": 2.625,
+      "Land": 1.75
+    },
+    "fps": 40,
+    "launcher_measure_at": 3.5,
+    "launchers": {
+      "Threat": [
+        [
+          1.744112491607666,
+          -3.184143543243408,
+          13.016983985900879
+        ],
+        [
+          2.066378116607666,
+          -2.6733012199401855,
+          12.787924766540527
+        ],
+        [
+          1.550751805305481,
+          -2.780856132507324,
+          12.656435012817383
+        ],
+        [
+          2.0663583278656006,
+          -3.423916816711426,
+          13.384271621704102
+        ],
+        [
+          2.2060329914093018,
+          -3.006314277648926,
+          13.121665000915527
+        ],
+        [
+          2.0663607120513916,
+          2.676079750061035,
+          12.772647857666016
+        ],
+        [
+          1.7440963983535767,
+          3.1969594955444336,
+          13.005559921264648
+        ],
+        [
+          1.5507566928863525,
+          2.7874650955200195,
+          12.631134033203125
+        ],
+        [
+          2.0663528442382812,
+          3.426711082458496,
+          13.368949890136719
+        ],
+        [
+          2.2060184478759766,
+          3.009092330932617,
+          13.10643196105957
+        ]
+      ],
+      "AirThreat": [
+        [
+          3.0179357528686523,
+          -4.532702445983887,
+          11.717809677124023
+        ],
+        [
+          3.315927505493164,
+          -3.9779882431030273,
+          11.5736665725708
+        ],
+        [
+          2.778578042984009,
+          -4.044079303741455,
+          11.53347110748291
+        ],
+        [
+          3.39454984664917,
+          -4.866353988647461,
+          11.925346374511719
+        ],
+        [
+          3.5015876293182373,
+          -4.391628742218018,
+          11.763972282409668
+        ],
+        [
+          3.3151822090148926,
+          3.978086471557617,
+          11.570415496826172
+        ],
+        [
+          3.0173802375793457,
+          4.543516635894775,
+          11.715400695800781
+        ],
+        [
+          2.775520086288452,
+          4.045024871826172,
+          11.519776344299316
+        ],
+        [
+          3.393806219100952,
+          4.866454601287842,
+          11.92204761505127
+        ],
+        [
+          3.500854015350342,
+          4.391738414764404,
+          11.760760307312012
+        ]
+      ]
+    },
+    "authority_root_motion": false,
+    "contacts": {
+      ".L": {
+        "bone": "Hindlimb.L.3",
+        "point": [
+          -1.329507827758789,
+          -3.670149326324463,
+          0.00012324887211434543
+        ]
+      },
+      ".R": {
+        "bone": "Hindlimb.R.3",
+        "point": [
+          -1.3294973373413086,
+          3.659374713897705,
+          8.686023647896945e-05
+        ]
+      }
+    }
+  }
+}

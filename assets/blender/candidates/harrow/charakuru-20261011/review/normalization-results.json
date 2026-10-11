@@ -1,0 +1,124 @@
+[
+  {
+    "group": "head",
+    "output": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\assets\\blender\\candidates\\harrow\\charakuru-20261011\\models\\normalized-returns\\head.fbx",
+    "sha256": "231262bbda2148817aaef468e48775ca9c65a1e3748f5ddae8b2c783435011c7",
+    "facesBijection": 51637,
+    "cornersBijection": 154911,
+    "maxRawCoordinateRestoration": 1.665192595753176e-05,
+    "repairLimit": 0.0001,
+    "originalCanonicalMapping": {
+      "scale": 0.9995145783841468,
+      "center": [
+        0.0,
+        5.960464477539063e-08,
+        0.49805065989494324
+      ],
+      "maxCanonicalDistance": 3.3641532354522496e-05,
+      "minNearestMargin": 0.00045904967009846587
+    },
+    "returnedCanonicalMapping": {
+      "scale": 0.99951171875,
+      "center": [
+        0.0,
+        2.9802322387695312e-08,
+        0.498046875
+      ],
+      "maxCanonicalDistance": 4.65061457362026e-05,
+      "minNearestMargin": 0.0004557077554636635
+    },
+    "texture": [
+      {
+        "path": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\assets\\blender\\candidates\\harrow\\charakuru-20261011\\models\\textured\\head\\head.fbx.fbm\\head.fbx_basecolor.jpg",
+        "sha256": "46e5f77638b9cf87de923a5b7a289686e42275c10c1c23a8a8d3bf0f6990045b",
+        "size": [
+          4096,
+          4096
+        ]
+      }
+    ],
+    "unmodifiedProductionRestoreUV": {
+      "maxError": 6.143906006172983e-08,
+      "tolerance": 1.6155607361989577e-05,
+      "faces": 51637,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    "exportedUVMaxError": 0,
+    "inputHashesUnchanged": {
+      "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\assets\\blender\\candidates\\harrow\\charakuru-20261011\\models\\segmentation-input\\head.glb": "9f1ce1b32733deb35409143cf0ddab0cedc3102cc1255e26c2e395c1a02ac746",
+      "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\assets\\blender\\candidates\\harrow\\charakuru-20261011\\models\\prepared-kit\\documents\\production\\175d4a72-4dec-41b4-8f71-20e0c782534f\\components.fbx": "5d8bdb99d695a9be3c97b545b1d07f03f57380123811dfc219a30699174a116d",
+      "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\assets\\blender\\candidates\\harrow\\charakuru-20261011\\models\\textured\\head\\head.fbx.fbx": "d7e2fe621b77f51f4172eeca85a193c85902c2bdeeebb62f93f4ddd67dfaa9ed",
+      "C:\\Users\\futsa\\Documents\\Codex\\2026-10-07\\https-x-com-dstudio-ai-status\\tools\\charakuru-1.0.2\\charakuru-1.0.2-2026-10-07T16-58-19-992Z\\scripts\\production.py": "97a435790293e1c916e77bc5c0344893f659f09a13048d27f348934e121bf3cb"
+    }
+  },
+  {
+    "group": "body",
+    "output": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\assets\\blender\\candidates\\harrow\\charakuru-20261011\\models\\normalized-returns\\body.fbx",
+    "sha256": "49423966bd3dcf2d45ee2e78681da20e920883f6f86534cf981e1a00ea4db510",
+    "facesBijection": 49073,
+    "cornersBijection": 147219,
+    "maxRawCoordinateRestoration": 2.544277167180732e-05,
+    "repairLimit": 0.0001,
+    "originalCanonicalMapping": {
+      "scale": 0.9994856253442823,
+      "center": [
+        0.0,
+        5.960464477539063e-08,
+        0.32803553342819214
+      ],
+      "maxCanonicalDistance": 4.639926191885024e-05,
+      "minNearestMargin": 0.00044228761362319347
+    },
+    "returnedCanonicalMapping": {
+      "scale": 0.99951171875,
+      "center": [
+        0.0,
+        1.4901161193847656e-08,
+        0.3280334770679474
+      ],
+      "maxCanonicalDistance": 5.046590740676038e-05,
+      "minNearestMargin": 0.00045389617298496887
+    },
+    "texture": [
+      {
+        "path": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\assets\\blender\\candidates\\harrow\\charakuru-20261011\\models\\textured\\body\\body.fbx.fbm\\body.fbx_basecolor.jpg",
+        "sha256": "f0a12a40b437585d3e7baeaa908f9b8c6379a665bb88433bcc47b99e2d9d10c6",
+        "size": [
+          4096,
+          4096
+        ]
+      }
+    ],
+    "unmodifiedProductionRestoreUV": {
+      "maxError": 8.429369557916289e-08,
+      "tolerance": 1.5496453610149028e-05,
+      "faces": 49073,
+      "scale": [
+        1.0,
+        1.0000001192092896,
+        0.9999998211860657
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    "exportedUVMaxError": 0,
+    "inputHashesUnchanged": {
+      "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\assets\\blender\\candidates\\harrow\\charakuru-20261011\\models\\segmentation-input\\body.glb": "edc9d1927b899e47689664694631db4350f488236773013cbdf7e15f4403f1f1",
+      "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\assets\\blender\\candidates\\harrow\\charakuru-20261011\\models\\prepared-kit\\documents\\production\\175d4a72-4dec-41b4-8f71-20e0c782534f\\components.fbx": "5d8bdb99d695a9be3c97b545b1d07f03f57380123811dfc219a30699174a116d",
+      "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\assets\\blender\\candidates\\harrow\\charakuru-20261011\\models\\textured\\body\\body.fbx.fbx": "562c7839fe1a70439925678befccf3e46b454dbaf362eebf2305e321bc79fb86",
+      "C:\\Users\\futsa\\Documents\\Codex\\2026-10-07\\https-x-com-dstudio-ai-status\\tools\\charakuru-1.0.2\\charakuru-1.0.2-2026-10-07T16-58-19-992Z\\scripts\\production.py": "97a435790293e1c916e77bc5c0344893f659f09a13048d27f348934e121bf3cb"
+    }
+  }
+]

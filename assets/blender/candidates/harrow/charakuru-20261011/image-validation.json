@@ -1,0 +1,110 @@
+{
+  "count": 8,
+  "images": [
+    {
+      "slot": "head/front/neutral",
+      "file": "images/head/front.png",
+      "sha256": "0c1eb42182623479f7f7236193e29e1a01f5d422988f0d5a75bdb165f2160d1a",
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "slot": "head/left/neutral",
+      "file": "images/head/left.png",
+      "sha256": "f473b884a6a902fe3d825b9671acd266fb17bf6707ae83ebbecdab6c2be93f34",
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "slot": "head/right/neutral",
+      "file": "images/head/right.png",
+      "sha256": "453c82d38f9c702a54e0108d784bece0a6978f85a565c106cb8590b06edcf71b",
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "slot": "head/back/neutral",
+      "file": "images/head/back.png",
+      "sha256": "70565c616b04c6d1d74682e704bf2811f498e243850d20a06fd80a4fd269939a",
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "slot": "body/front/neutral",
+      "file": "images/body/front.png",
+      "sha256": "addf9f37994960ec0e5f73550c2c4eef149e29732593750ce7f5bf7079c2a78d",
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "slot": "body/left/neutral",
+      "file": "images/body/left.png",
+      "sha256": "c0e28d77217dacabc0d81b7d99677fc2717ca3aa68fe71a68f59eae573d09239",
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "slot": "body/right/neutral",
+      "file": "images/body/right.png",
+      "sha256": "af135688aeef71f6295be0d230334e57233f8d9cea7376ca6b30559ea856a608",
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "slot": "body/back/neutral",
+      "file": "images/body/back.png",
+      "sha256": "d818f6b3619d041329e12dc79300bcbd064933fbdc7d09ef8f040179b0dd9075",
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    }
+  ],
+  "scope": "PNG形式・寸法・実アルファ・実プロンプト存在。方向の厳密整合や3D品質の合格ではない。"
+}

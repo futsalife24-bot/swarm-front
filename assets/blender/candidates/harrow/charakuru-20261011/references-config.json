@@ -1,0 +1,26 @@
+{
+  "action": "references",
+  "references": [
+    {
+      "id": "head",
+      "view": "front",
+      "png": "material-references/head-front.png"
+    },
+    {
+      "id": "head",
+      "view": "back",
+      "png": "material-references/head-back.png"
+    },
+    {
+      "id": "body",
+      "view": "front",
+      "png": "material-references/body-front.png"
+    },
+    {
+      "id": "body",
+      "view": "back",
+      "png": "material-references/body-back.png"
+    }
+  ],
+  "input": "C:/Users/futsa/Documents/Codex/2026-10-07/https-x-com-dstudio-ai-status/tools/charakuru-1.0.2/charakuru-1.0.2-2026-10-07T16-58-19-992Z/projects/d8761f86-439a-406e-b0dc-d3d08c1b6703/project.charakit"
+}

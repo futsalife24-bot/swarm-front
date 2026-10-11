@@ -1,3 +1,32 @@
+# 現在地: HARROW v11 PR165を通常Chatで独立監査中（2026-10-12）
+
+本人から別件下書きの一時保管・復元を明示承認。保管した496文字を送信せず分離し、[独立監査Chat](https://chatgpt.com/c/6acc1a0c-f5d8-83ec-97fb-99eb8e165b60)へHARROW資料を送信済み。監査対象261ecacd923eb002f33c0d11cf00f389c194c385、実装bb7f11b、PR165 head98b3fceとの差は記録のみ。ZIP d872226c2f141bf9b44f6649ffc62351c87c88d77796547f0214a6eab494f273。下部の承認待ちは解消前の経過。監査結果を確認し、必須指摘修正・通常merge・既存Worker公開へ続ける。
+# 現在地: HARROW新版PR165・監査資料準備済み、下書き保護の承認待ち（2026-10-12）
+
+branch `codex/harrow-charakuru-20261011`、base `85ed091cb5642036790bf0aedc8fc369386d7430`。Charakuruの頭・胴と4K材質を専用39骨/12動作へ組み立て、`harrow_motion_v11.glb`へ接続。GLB SHA256 `7000b43d96bd77e1e8d09caaed9ad7b657a30db745998fcaedadb4df92326f5b`。22スキンメッシュを3材質へ結合、100537三角形。元生成物・旧v10を保持。10ミサイルの発射原点を実測し、攻撃性能/時刻/Rootの権威移動は維持。
+
+client/worker型、関連93件とモデル5件の合計98テスト成功（旧座標テスト1件を更新後に再成功）。144姿勢・16接続を制作側で確認し、着地接続とSpin胴体予備動作の不足を修正。実GLB・実ゲーム描画で新材質/12動作/3描画バッチ確認。実スマホ性能は未確認。独立監査・main反映・公開は未完。[制作と再現手順](../assets/blender/candidates/harrow/charakuru-20261011/BUILD.md)。
+
+通常Chatの別件未送信下書きに対する一時保管/新規Chat操作が自動承認レビューで拒否されたため、下書き一時保管・復元のみ追加承認を質問済み。本文の送信や破棄はしていない。許可済みの実装保存・検証・資料準備は継続。goal表示blockedの管理API制限は実作業の停止理由にしない。
+# 現在地: HARROWの4K材質組み立て完了、専用形状・リグ制作中（2026-10-12）
+
+branch `codex/harrow-charakuru-20261011`、base `85ed091cb5642036790bf0aedc8fc369386d7430`。頭・胴のSmart UV/4K材質を取得し、ZIP形式・CRC・FBX読込・4096画像を検査。累計360クレジット、残2740。材質返却の微小座標誤差は、全三角形/UVコーナーの一意対応を検査した派生FBXで正本座標へ復元。未変更のCharakuru厳密検査に両方合格し、assemble・materials complete成功。正本SHA `cb8db831467760def42c999138c1afff87964125b0befd4f28870816ff9b6065`。
+
+原本を保持したゲーム用候補で、すね突起2成分・余分なミサイル左右1本の除去、小腕爪、専用39骨を制作中。多面図・12動作の実物検証はこれから。ゲーム置換・独立Chat監査・main反映・公開は未完。詳細は[制作状況](../assets/blender/candidates/harrow/charakuru-20261011/STATUS.md)。goal表示blockedの管理API制限は実作業の停止理由にしない。
+
+[PR165](https://github.com/futsalife24-bot/swarm-front/pull/165)へpush済み。実装 `bb7f11ba31a83d4105eb94a6c54a9b8eeeaca71d`、監査資料対象 `261ecacd923eb002f33c0d11cf00f389c194c385`。本番build・Worker dry-run成功、配信用GLBとdistのSHA一致。通常Chat監査ZIPは `assets/blender/candidates/harrow/charakuru-20261011/review/harrow-v11-audit.zip`、239ファイル/68,445,292 bytes、SHA256 `d872226c2f141bf9b44f6649ffc62351c87c88d77796547f0214a6eab494f273`、CRC検証済み。[監査詳細](HARROW-V11-AUDIT.md)。
+
+停止理由: 自動承認レビューが監査Chatの別件下書きの一時保管と新規Chat操作を拒否。HARROW外の私的内容の読取り/下書き消失リスクに対する追加承認待ち。本人へ質問済み、許可済みの実装・自己検証・PR・資料準備は完了。
+再開条件: 本人が別件下書きの一時保管・監査後の復元を許可するか、本人が下書きを保存して入力欄を空にする。その後、iab通常Chat監査→必須修正→通常merge→既存Worker公開・配信確認。別件本文の送信や破棄はしない。
+# 経過: HARROW採用・分割完了、材質制作中（2026-10-12）
+
+branch `codex/harrow-charakuru-20261011`、base `85ed091cb5642036790bf0aedc8fc369386d7430`。頭4b05c79e・体040554d6を修整ベースに採用。Charakuruのmaterials依頼5a42f243-1852-474b-97de-b751d145d395は進行中。頭/体をTripo粗分割→FBX取得→Blender読込→コピー前後SHA照合→正本segmented/analyze/classify/prepareまで完了。全51637/49073面がアップロードGLBと対応し追加・欠落0。頭/体2グループの塗り参照PNG4枚を作成・登録。Smart UV・4K材質を制作中。
+
+[詳細状況](../assets/blender/candidates/harrow/charakuru-20261011/STATUS.md)、[形状比較](../assets/blender/candidates/harrow/charakuru-20261011/review/REVIEW.md)。胴のミサイル6→5本/肩、不要突起、小腕指、羽板の修整は未完。材質完成・専用リグ/12モーション・ゲーム置換・検証・独立Chat監査・main反映・既存Worker公開は残作業。全体完了にはしていない。ダウンロード本人対応待ちは解消済みで、厳格ルールはdocs/skills/HARROW-DOWNLOAD-RECOVERY.md。goal表示はblockedのままだが、公開ツールに再開機能がないため制作を継続し、内部状態の直接編集はしない。
+# 現在地: HARROW画像刷新・Charakuru候補制作中（2026-10-11）
+
+本人添付画像を使うHARROWモデル刷新から公開までのgoalを設定。branch `codex/harrow-charakuru-20261011`、base `85ed091cb5642036790bf0aedc8fc369386d7430`。[制作状況](../assets/blender/candidates/harrow/charakuru-20261011/STATUS.md)。元画像・方向別8枚・実生成プロンプト・現行接続契約を保存。Charakuru専用正本へ8枚を登録済み。Tripo P2.0/非公開で頭4・体4候補を生成、200クレジット消費（残高2900）。2026-10-12に全8候補FBXを取得。保存された.tmpは実FBXで、Blender全8件読込成功後に制作フォルダーへ保存。保存待ちは解消・本人の手動操作不要。ハッシュと読込結果を記録、追加クレジット消費0。候補採用・材質・リグ・モデル置換・テスト・独立監査・main反映・公開は未実施、現行公開モデルは維持。
+
 # 現在地: PR163をmain統合・既存Worker公開完了（2026-10-11）
 
 [PR163](https://github.com/futsalife24-bot/swarm-front/pull/163)通常merge。公開ソース/merge SHA `9e4cb3120d4b9d107bee2eef5205c3b04b6042a6`、Worker Version `17a5c735-88a8-44b5-9945-54440cdf6ecd`。[公開記録](evidence/pr163-release-20261011/README.md)。監査後の製品追加修正なし。[通常Chat独立監査](https://chatgpt.com/c/6acb22bc-2420-83e8-9e86-4b81e687245a)対象956017d87972a3b3e3b15df9e515664d3a9647fd、新規必須P0/P1/P2各0。既存5ファイル失敗・依存high5件を未解消追跡する条件付き合格、通常merge/既存Worker公開可の再確認済み。
