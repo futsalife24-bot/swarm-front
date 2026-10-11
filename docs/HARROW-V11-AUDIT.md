@@ -38,3 +38,5 @@
 監査対象から98b3fce7への差はSTATEと監査ZIPメタデータだけで、製品差分0を主担当がGitで照合。最新main85ed091cから変化なし、PRはMERGEABLE/CLEAN、報告されたCIチェックなし。保護迂回なしで通常mergeへ進める。
 
 別件下書き保護の承認待ちは本人の「許可」で解消。一時保管した496文字を別件として新規Chat入力欄へ復元し、全文一致を確認した。別件本文の送信・破棄なし。監査は指定どおりiab通常Chat、契約確認はログイン済みChromeで実施。既存CloudflareアカウントのWorkers Freeがアクティブ、支払方法未登録を確認。認証/契約変更なし。
+
+2026-10-12完了: PR165を通常mergeし、merge後build/dry-run、既存Worker公開・配信25件SHA照合・health・公開UI確認まで完了。[公開記録](evidence/harrow-v11-release-20261012/README.md)。

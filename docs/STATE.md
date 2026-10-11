@@ -1,3 +1,6 @@
+# 現在地: HARROW v11への置換・独立監査・main反映・公開完了（2026-10-12）
+
+[PR165](https://github.com/futsalife24-bot/swarm-front/pull/165)通常merge。公開ソース `d7600e74eb85d27c061006be6350997409a24941`、Worker Version `00096fb9-7d27-447a-b52f-d816fcddc025`。[公開記録](evidence/harrow-v11-release-20261012/README.md)。通常Chat独立監査は資料範囲で合格、必須P0/P1/P2各0。関連98テスト・型・実モデル/動作検査・merge後build/dry-run成功。公開25/25 SHA一致、health200/ok:true、公開Chromeで新形状/材質と待機/攻撃切替を確認。スマホ性能・4Kメモリー・既存シェーダー警告/5テスト失敗/High5件は未解消追跡。ダウンロードはCodex側で完了し再発防止を規則化、別件下書き496文字も全文一致で復元済み。以下の承認待ち/未完了は過去経過。
 # 現在地: HARROW v11 PR165を通常Chatで独立監査中（2026-10-12）
 
 本人から別件下書きの一時保管・復元を明示承認。保管した496文字を送信せず分離し、[独立監査Chat](https://chatgpt.com/c/6acc1a0c-f5d8-83ec-97fb-99eb8e165b60)へHARROW資料を送信済み。監査対象261ecacd923eb002f33c0d11cf00f389c194c385、実装bb7f11b、PR165 head98b3fceとの差は記録のみ。ZIP d872226c2f141bf9b44f6649ffc62351c87c88d77796547f0214a6eab494f273。下部の承認待ちは解消前の経過。監査結果を確認し、必須指摘修正・通常merge・既存Worker公開へ続ける。
