@@ -1,0 +1,30 @@
+{
+  "input": "C:/Users/futsa/Documents/Codex/2026-10-07/https-x-com-dstudio-ai-status/tools/charakuru-1.0.2/charakuru-1.0.2-2026-10-07T16-58-19-992Z/projects/d8761f86-439a-406e-b0dc-d3d08c1b6703/project.charakit",
+  "action": "returns",
+  "returns": [
+    {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "id": "head",
+      "resources": [
+        "models/textured/head/head.fbx.fbm/head.fbx_basecolor.jpg"
+      ],
+      "fbx": "models/normalized-returns/head.fbx"
+    },
+    {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "id": "body",
+      "resources": [
+        "models/textured/body/body.fbx.fbm/body.fbx_basecolor.jpg"
+      ],
+      "fbx": "models/normalized-returns/body.fbx"
+    }
+  ]
+}

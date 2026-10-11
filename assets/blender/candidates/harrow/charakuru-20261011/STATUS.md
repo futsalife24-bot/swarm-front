@@ -66,3 +66,11 @@ materials依頼5a42f243-1852-474b-97de-b751d145d395をbegin(saved:true)。export
 06:32追記: 胴分割FBX214mesh/49073面取得成功。頭・胴ともアップロードGLBに対する最近傍頂点対応で全三角形一致、追加/欠落0（review/segmentation-*-report.md）。UI頂点集計差の原因は未確定。segmented→analyze→classify→prepare→references成功。頭104成分/胴214成分を2枚の4K用グループに分類。非人型機械のためCharakuruの髪/衣装向けspringGroupsは空、翼・尾は専用骨格で動かす。新規塗り参照4枚のPNG実アルファ・実プロンプトを保存。頭材質用アセットb1580706-d62c-4705-adce-7430f9ca8b94、UI Y90補正を確認しSmart UV20クレジット実行中（残2800、累計300）。
 
 06:37追記: 頭Smart UV占有率73.9%、胴71.2%で保存完了。胴材質用asset7c6297cd-2e6e-4878-a186-871be640ae85。頭は正面/背面参照・4K・Remove Lighting OFFで20クレジット生成開始。UV頭胴40、頭材質20が追加、累計340クレジット（他タブ残高には遅延あり）。候補や分割の再生成はしていない。
+
+## 材質取得と組み立て完了（2026-10-12）
+
+頭b1580706・胴7c6297cdのSmart UVと4K材質生成完了。累計360クレジット、残2740。材質付き書出し.tmpはZIPで、CRC・安全な相対パス・FBX Binary・4096×4096 JPEGを検査しmodels/texturedへ展開。元tmp保持、全エントリSHA一致。unpack_texture_download.pyが再現検査器。頭ZIPを最初にFBXとして読みInvalid headerとなったが、magicを調べZIPと判別して正常取得。ダウンロード失敗や本人作業待ちにはしていない。
+
+returns登録後、assembleの厳密座標許容値で頭1.67744e-5>1.61556e-5が検出された。検査コード・閾値は変更せず、共有基準GLBを使い全面/全コーナーの一意対応をassertした座標復元派生FBXをmodels/normalized-returnsへ保存。最大補正量頭1.6652e-5・胴2.5443e-5。書出し後のUV差0、元4K画像SHA維持。未変更production.restore_uvの最大誤差頭6.144e-8・胴8.429e-8で合格。review/normalization-report.md参照。
+
+normalized-returns→assemble成功、materials依頼5a42f243-1852-474b-97de-b751d145d395 complete成功。Charakuru正本SHA256 cb8db831467760def42c999138c1afff87964125b0befd4f28870816ff9b6065。外部正本と元生成物を保持。ゲーム用build_candidate.pyは別候補Blendで形状修整・39骨を作成し、animation_contract.pyは専用12動作を生成する。現時点では候補レンダー中、動作実検証・ゲーム置換・監査・公開未完。

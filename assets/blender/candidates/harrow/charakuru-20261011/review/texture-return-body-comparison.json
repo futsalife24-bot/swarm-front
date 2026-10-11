@@ -1,0 +1,1506 @@
+{
+  "files": [
+    {
+      "file": "models\\segmentation-input\\body.glb",
+      "sha256": "edc9d1927b899e47689664694631db4350f488236773013cbdf7e15f4403f1f1",
+      "meshes": 1,
+      "vertices": 26537,
+      "polygons": 49073,
+      "triangles": 49073,
+      "bounds_min": [
+        -0.492431640625,
+        -0.4997558295726776,
+        -3.7730519153456044e-08
+      ],
+      "bounds_max": [
+        0.492431640625,
+        0.499755859375,
+        0.6557618379592896
+      ],
+      "objects": [
+        {
+          "name": "tripo_61ae16d8_7d3c_4cf8_8125_6ba188a79462",
+          "vertices": 26537,
+          "polygons": 49073,
+          "triangles": 49073
+        }
+      ]
+    },
+    {
+      "file": "models\\segmented\\body.fbx",
+      "sha256": "aab569f779d85ef35a183e301d653c59740afb3084c2c6bb2a442fda5c983f67",
+      "meshes": 214,
+      "vertices": 26212,
+      "polygons": 49073,
+      "triangles": 49073,
+      "bounds_min": [
+        -0.49267613887786865,
+        -0.5000130534172058,
+        -3.7749941839138046e-08
+      ],
+      "bounds_max": [
+        0.49267613887786865,
+        0.5000131130218506,
+        0.6560710668563843
+      ],
+      "objects": [
+        {
+          "name": "tripo_part_0",
+          "vertices": 415,
+          "polygons": 478,
+          "triangles": 478
+        },
+        {
+          "name": "tripo_part_1",
+          "vertices": 3760,
+          "polygons": 7528,
+          "triangles": 7528
+        },
+        {
+          "name": "tripo_part_2",
+          "vertices": 1738,
+          "polygons": 3218,
+          "triangles": 3218
+        },
+        {
+          "name": "tripo_part_3",
+          "vertices": 374,
+          "polygons": 744,
+          "triangles": 744
+        },
+        {
+          "name": "tripo_part_4",
+          "vertices": 644,
+          "polygons": 1272,
+          "triangles": 1272
+        },
+        {
+          "name": "tripo_part_5",
+          "vertices": 396,
+          "polygons": 792,
+          "triangles": 792
+        },
+        {
+          "name": "tripo_part_6",
+          "vertices": 373,
+          "polygons": 742,
+          "triangles": 742
+        },
+        {
+          "name": "tripo_part_7",
+          "vertices": 336,
+          "polygons": 668,
+          "triangles": 668
+        },
+        {
+          "name": "tripo_part_8",
+          "vertices": 333,
+          "polygons": 662,
+          "triangles": 662
+        },
+        {
+          "name": "tripo_part_9",
+          "vertices": 328,
+          "polygons": 652,
+          "triangles": 652
+        },
+        {
+          "name": "tripo_part_10",
+          "vertices": 324,
+          "polygons": 644,
+          "triangles": 644
+        },
+        {
+          "name": "tripo_part_11",
+          "vertices": 320,
+          "polygons": 628,
+          "triangles": 628
+        },
+        {
+          "name": "tripo_part_12",
+          "vertices": 320,
+          "polygons": 627,
+          "triangles": 627
+        },
+        {
+          "name": "tripo_part_13",
+          "vertices": 299,
+          "polygons": 594,
+          "triangles": 594
+        },
+        {
+          "name": "tripo_part_14",
+          "vertices": 299,
+          "polygons": 594,
+          "triangles": 594
+        },
+        {
+          "name": "tripo_part_15",
+          "vertices": 280,
+          "polygons": 559,
+          "triangles": 559
+        },
+        {
+          "name": "tripo_part_16",
+          "vertices": 273,
+          "polygons": 546,
+          "triangles": 546
+        },
+        {
+          "name": "tripo_part_17",
+          "vertices": 221,
+          "polygons": 422,
+          "triangles": 422
+        },
+        {
+          "name": "tripo_part_18",
+          "vertices": 217,
+          "polygons": 413,
+          "triangles": 413
+        },
+        {
+          "name": "tripo_part_19",
+          "vertices": 214,
+          "polygons": 410,
+          "triangles": 410
+        },
+        {
+          "name": "tripo_part_20",
+          "vertices": 212,
+          "polygons": 403,
+          "triangles": 403
+        },
+        {
+          "name": "tripo_part_21",
+          "vertices": 180,
+          "polygons": 344,
+          "triangles": 344
+        },
+        {
+          "name": "tripo_part_22",
+          "vertices": 180,
+          "polygons": 344,
+          "triangles": 344
+        },
+        {
+          "name": "tripo_part_23",
+          "vertices": 175,
+          "polygons": 338,
+          "triangles": 338
+        },
+        {
+          "name": "tripo_part_24",
+          "vertices": 175,
+          "polygons": 338,
+          "triangles": 338
+        },
+        {
+          "name": "tripo_part_25",
+          "vertices": 176,
+          "polygons": 332,
+          "triangles": 332
+        },
+        {
+          "name": "tripo_part_26",
+          "vertices": 175,
+          "polygons": 325,
+          "triangles": 325
+        },
+        {
+          "name": "tripo_part_27",
+          "vertices": 177,
+          "polygons": 333,
+          "triangles": 333
+        },
+        {
+          "name": "tripo_part_28",
+          "vertices": 172,
+          "polygons": 324,
+          "triangles": 324
+        },
+        {
+          "name": "tripo_part_29",
+          "vertices": 170,
+          "polygons": 318,
+          "triangles": 318
+        },
+        {
+          "name": "tripo_part_30",
+          "vertices": 192,
+          "polygons": 312,
+          "triangles": 312
+        },
+        {
+          "name": "tripo_part_31",
+          "vertices": 154,
+          "polygons": 288,
+          "triangles": 288
+        },
+        {
+          "name": "tripo_part_32",
+          "vertices": 145,
+          "polygons": 286,
+          "triangles": 286
+        },
+        {
+          "name": "tripo_part_33",
+          "vertices": 144,
+          "polygons": 284,
+          "triangles": 284
+        },
+        {
+          "name": "tripo_part_34",
+          "vertices": 144,
+          "polygons": 284,
+          "triangles": 284
+        },
+        {
+          "name": "tripo_part_35",
+          "vertices": 141,
+          "polygons": 278,
+          "triangles": 278
+        },
+        {
+          "name": "tripo_part_36",
+          "vertices": 138,
+          "polygons": 272,
+          "triangles": 272
+        },
+        {
+          "name": "tripo_part_37",
+          "vertices": 137,
+          "polygons": 270,
+          "triangles": 270
+        },
+        {
+          "name": "tripo_part_38",
+          "vertices": 137,
+          "polygons": 270,
+          "triangles": 270
+        },
+        {
+          "name": "tripo_part_39",
+          "vertices": 140,
+          "polygons": 265,
+          "triangles": 265
+        },
+        {
+          "name": "tripo_part_40",
+          "vertices": 134,
+          "polygons": 264,
+          "triangles": 264
+        },
+        {
+          "name": "tripo_part_41",
+          "vertices": 139,
+          "polygons": 264,
+          "triangles": 264
+        },
+        {
+          "name": "tripo_part_42",
+          "vertices": 131,
+          "polygons": 258,
+          "triangles": 258
+        },
+        {
+          "name": "tripo_part_43",
+          "vertices": 141,
+          "polygons": 254,
+          "triangles": 254
+        },
+        {
+          "name": "tripo_part_44",
+          "vertices": 129,
+          "polygons": 254,
+          "triangles": 254
+        },
+        {
+          "name": "tripo_part_45",
+          "vertices": 121,
+          "polygons": 238,
+          "triangles": 238
+        },
+        {
+          "name": "tripo_part_46",
+          "vertices": 121,
+          "polygons": 238,
+          "triangles": 238
+        },
+        {
+          "name": "tripo_part_47",
+          "vertices": 118,
+          "polygons": 232,
+          "triangles": 232
+        },
+        {
+          "name": "tripo_part_48",
+          "vertices": 117,
+          "polygons": 230,
+          "triangles": 230
+        },
+        {
+          "name": "tripo_part_49",
+          "vertices": 113,
+          "polygons": 222,
+          "triangles": 222
+        },
+        {
+          "name": "tripo_part_50",
+          "vertices": 113,
+          "polygons": 222,
+          "triangles": 222
+        },
+        {
+          "name": "tripo_part_51",
+          "vertices": 112,
+          "polygons": 220,
+          "triangles": 220
+        },
+        {
+          "name": "tripo_part_52",
+          "vertices": 112,
+          "polygons": 220,
+          "triangles": 220
+        },
+        {
+          "name": "tripo_part_53",
+          "vertices": 112,
+          "polygons": 220,
+          "triangles": 220
+        },
+        {
+          "name": "tripo_part_54",
+          "vertices": 111,
+          "polygons": 218,
+          "triangles": 218
+        },
+        {
+          "name": "tripo_part_55",
+          "vertices": 109,
+          "polygons": 214,
+          "triangles": 214
+        },
+        {
+          "name": "tripo_part_56",
+          "vertices": 109,
+          "polygons": 214,
+          "triangles": 214
+        },
+        {
+          "name": "tripo_part_57",
+          "vertices": 108,
+          "polygons": 212,
+          "triangles": 212
+        },
+        {
+          "name": "tripo_part_58",
+          "vertices": 108,
+          "polygons": 212,
+          "triangles": 212
+        },
+        {
+          "name": "tripo_part_59",
+          "vertices": 108,
+          "polygons": 212,
+          "triangles": 212
+        },
+        {
+          "name": "tripo_part_60",
+          "vertices": 105,
+          "polygons": 206,
+          "triangles": 206
+        },
+        {
+          "name": "tripo_part_61",
+          "vertices": 104,
+          "polygons": 204,
+          "triangles": 204
+        },
+        {
+          "name": "tripo_part_62",
+          "vertices": 108,
+          "polygons": 204,
+          "triangles": 204
+        },
+        {
+          "name": "tripo_part_63",
+          "vertices": 103,
+          "polygons": 202,
+          "triangles": 202
+        },
+        {
+          "name": "tripo_part_64",
+          "vertices": 103,
+          "polygons": 202,
+          "triangles": 202
+        },
+        {
+          "name": "tripo_part_65",
+          "vertices": 104,
+          "polygons": 196,
+          "triangles": 196
+        },
+        {
+          "name": "tripo_part_66",
+          "vertices": 103,
+          "polygons": 194,
+          "triangles": 194
+        },
+        {
+          "name": "tripo_part_67",
+          "vertices": 105,
+          "polygons": 192,
+          "triangles": 192
+        },
+        {
+          "name": "tripo_part_68",
+          "vertices": 98,
+          "polygons": 192,
+          "triangles": 192
+        },
+        {
+          "name": "tripo_part_69",
+          "vertices": 102,
+          "polygons": 186,
+          "triangles": 186
+        },
+        {
+          "name": "tripo_part_70",
+          "vertices": 97,
+          "polygons": 182,
+          "triangles": 182
+        },
+        {
+          "name": "tripo_part_71",
+          "vertices": 93,
+          "polygons": 182,
+          "triangles": 182
+        },
+        {
+          "name": "tripo_part_72",
+          "vertices": 93,
+          "polygons": 182,
+          "triangles": 182
+        },
+        {
+          "name": "tripo_part_73",
+          "vertices": 117,
+          "polygons": 179,
+          "triangles": 179
+        },
+        {
+          "name": "tripo_part_74",
+          "vertices": 104,
+          "polygons": 178,
+          "triangles": 178
+        },
+        {
+          "name": "tripo_part_75",
+          "vertices": 95,
+          "polygons": 176,
+          "triangles": 176
+        },
+        {
+          "name": "tripo_part_76",
+          "vertices": 92,
+          "polygons": 172,
+          "triangles": 172
+        },
+        {
+          "name": "tripo_part_77",
+          "vertices": 95,
+          "polygons": 171,
+          "triangles": 171
+        },
+        {
+          "name": "tripo_part_78",
+          "vertices": 95,
+          "polygons": 171,
+          "triangles": 171
+        },
+        {
+          "name": "tripo_part_79",
+          "vertices": 87,
+          "polygons": 170,
+          "triangles": 170
+        },
+        {
+          "name": "tripo_part_80",
+          "vertices": 87,
+          "polygons": 170,
+          "triangles": 170
+        },
+        {
+          "name": "tripo_part_81",
+          "vertices": 92,
+          "polygons": 170,
+          "triangles": 170
+        },
+        {
+          "name": "tripo_part_82",
+          "vertices": 87,
+          "polygons": 170,
+          "triangles": 170
+        },
+        {
+          "name": "tripo_part_83",
+          "vertices": 87,
+          "polygons": 170,
+          "triangles": 170
+        },
+        {
+          "name": "tripo_part_84",
+          "vertices": 86,
+          "polygons": 168,
+          "triangles": 168
+        },
+        {
+          "name": "tripo_part_85",
+          "vertices": 90,
+          "polygons": 167,
+          "triangles": 167
+        },
+        {
+          "name": "tripo_part_86",
+          "vertices": 85,
+          "polygons": 166,
+          "triangles": 166
+        },
+        {
+          "name": "tripo_part_87",
+          "vertices": 85,
+          "polygons": 166,
+          "triangles": 166
+        },
+        {
+          "name": "tripo_part_88",
+          "vertices": 92,
+          "polygons": 165,
+          "triangles": 165
+        },
+        {
+          "name": "tripo_part_89",
+          "vertices": 84,
+          "polygons": 164,
+          "triangles": 164
+        },
+        {
+          "name": "tripo_part_90",
+          "vertices": 84,
+          "polygons": 164,
+          "triangles": 164
+        },
+        {
+          "name": "tripo_part_91",
+          "vertices": 84,
+          "polygons": 164,
+          "triangles": 164
+        },
+        {
+          "name": "tripo_part_92",
+          "vertices": 84,
+          "polygons": 164,
+          "triangles": 164
+        },
+        {
+          "name": "tripo_part_93",
+          "vertices": 84,
+          "polygons": 164,
+          "triangles": 164
+        },
+        {
+          "name": "tripo_part_94",
+          "vertices": 84,
+          "polygons": 164,
+          "triangles": 164
+        },
+        {
+          "name": "tripo_part_95",
+          "vertices": 84,
+          "polygons": 164,
+          "triangles": 164
+        },
+        {
+          "name": "tripo_part_96",
+          "vertices": 90,
+          "polygons": 163,
+          "triangles": 163
+        },
+        {
+          "name": "tripo_part_97",
+          "vertices": 95,
+          "polygons": 160,
+          "triangles": 160
+        },
+        {
+          "name": "tripo_part_98",
+          "vertices": 94,
+          "polygons": 158,
+          "triangles": 158
+        },
+        {
+          "name": "tripo_part_99",
+          "vertices": 85,
+          "polygons": 158,
+          "triangles": 158
+        },
+        {
+          "name": "tripo_part_100",
+          "vertices": 94,
+          "polygons": 157,
+          "triangles": 157
+        },
+        {
+          "name": "tripo_part_101",
+          "vertices": 94,
+          "polygons": 157,
+          "triangles": 157
+        },
+        {
+          "name": "tripo_part_102",
+          "vertices": 93,
+          "polygons": 156,
+          "triangles": 156
+        },
+        {
+          "name": "tripo_part_103",
+          "vertices": 80,
+          "polygons": 156,
+          "triangles": 156
+        },
+        {
+          "name": "tripo_part_104",
+          "vertices": 93,
+          "polygons": 155,
+          "triangles": 155
+        },
+        {
+          "name": "tripo_part_105",
+          "vertices": 91,
+          "polygons": 152,
+          "triangles": 152
+        },
+        {
+          "name": "tripo_part_106",
+          "vertices": 91,
+          "polygons": 152,
+          "triangles": 152
+        },
+        {
+          "name": "tripo_part_107",
+          "vertices": 90,
+          "polygons": 152,
+          "triangles": 152
+        },
+        {
+          "name": "tripo_part_108",
+          "vertices": 90,
+          "polygons": 151,
+          "triangles": 151
+        },
+        {
+          "name": "tripo_part_109",
+          "vertices": 92,
+          "polygons": 151,
+          "triangles": 151
+        },
+        {
+          "name": "tripo_part_110",
+          "vertices": 89,
+          "polygons": 148,
+          "triangles": 148
+        },
+        {
+          "name": "tripo_part_111",
+          "vertices": 76,
+          "polygons": 148,
+          "triangles": 148
+        },
+        {
+          "name": "tripo_part_112",
+          "vertices": 76,
+          "polygons": 148,
+          "triangles": 148
+        },
+        {
+          "name": "tripo_part_113",
+          "vertices": 89,
+          "polygons": 148,
+          "triangles": 148
+        },
+        {
+          "name": "tripo_part_114",
+          "vertices": 89,
+          "polygons": 147,
+          "triangles": 147
+        },
+        {
+          "name": "tripo_part_115",
+          "vertices": 77,
+          "polygons": 147,
+          "triangles": 147
+        },
+        {
+          "name": "tripo_part_116",
+          "vertices": 73,
+          "polygons": 142,
+          "triangles": 142
+        },
+        {
+          "name": "tripo_part_117",
+          "vertices": 68,
+          "polygons": 132,
+          "triangles": 132
+        },
+        {
+          "name": "tripo_part_118",
+          "vertices": 73,
+          "polygons": 128,
+          "triangles": 128
+        },
+        {
+          "name": "tripo_part_119",
+          "vertices": 65,
+          "polygons": 124,
+          "triangles": 124
+        },
+        {
+          "name": "tripo_part_120",
+          "vertices": 63,
+          "polygons": 121,
+          "triangles": 121
+        },
+        {
+          "name": "tripo_part_121",
+          "vertices": 62,
+          "polygons": 120,
+          "triangles": 120
+        },
+        {
+          "name": "tripo_part_122",
+          "vertices": 58,
+          "polygons": 112,
+          "triangles": 112
+        },
+        {
+          "name": "tripo_part_123",
+          "vertices": 60,
+          "polygons": 105,
+          "triangles": 105
+        },
+        {
+          "name": "tripo_part_124",
+          "vertices": 73,
+          "polygons": 104,
+          "triangles": 104
+        },
+        {
+          "name": "tripo_part_125",
+          "vertices": 57,
+          "polygons": 98,
+          "triangles": 98
+        },
+        {
+          "name": "tripo_part_126",
+          "vertices": 55,
+          "polygons": 98,
+          "triangles": 98
+        },
+        {
+          "name": "tripo_part_127",
+          "vertices": 59,
+          "polygons": 97,
+          "triangles": 97
+        },
+        {
+          "name": "tripo_part_128",
+          "vertices": 56,
+          "polygons": 95,
+          "triangles": 95
+        },
+        {
+          "name": "tripo_part_129",
+          "vertices": 58,
+          "polygons": 95,
+          "triangles": 95
+        },
+        {
+          "name": "tripo_part_130",
+          "vertices": 51,
+          "polygons": 95,
+          "triangles": 95
+        },
+        {
+          "name": "tripo_part_131",
+          "vertices": 55,
+          "polygons": 94,
+          "triangles": 94
+        },
+        {
+          "name": "tripo_part_132",
+          "vertices": 57,
+          "polygons": 94,
+          "triangles": 94
+        },
+        {
+          "name": "tripo_part_133",
+          "vertices": 58,
+          "polygons": 94,
+          "triangles": 94
+        },
+        {
+          "name": "tripo_part_134",
+          "vertices": 57,
+          "polygons": 91,
+          "triangles": 91
+        },
+        {
+          "name": "tripo_part_135",
+          "vertices": 52,
+          "polygons": 91,
+          "triangles": 91
+        },
+        {
+          "name": "tripo_part_136",
+          "vertices": 56,
+          "polygons": 90,
+          "triangles": 90
+        },
+        {
+          "name": "tripo_part_137",
+          "vertices": 55,
+          "polygons": 90,
+          "triangles": 90
+        },
+        {
+          "name": "tripo_part_138",
+          "vertices": 56,
+          "polygons": 89,
+          "triangles": 89
+        },
+        {
+          "name": "tripo_part_139",
+          "vertices": 48,
+          "polygons": 89,
+          "triangles": 89
+        },
+        {
+          "name": "tripo_part_140",
+          "vertices": 50,
+          "polygons": 87,
+          "triangles": 87
+        },
+        {
+          "name": "tripo_part_141",
+          "vertices": 77,
+          "polygons": 84,
+          "triangles": 84
+        },
+        {
+          "name": "tripo_part_142",
+          "vertices": 45,
+          "polygons": 81,
+          "triangles": 81
+        },
+        {
+          "name": "tripo_part_143",
+          "vertices": 45,
+          "polygons": 80,
+          "triangles": 80
+        },
+        {
+          "name": "tripo_part_144",
+          "vertices": 42,
+          "polygons": 80,
+          "triangles": 80
+        },
+        {
+          "name": "tripo_part_145",
+          "vertices": 48,
+          "polygons": 78,
+          "triangles": 78
+        },
+        {
+          "name": "tripo_part_146",
+          "vertices": 47,
+          "polygons": 78,
+          "triangles": 78
+        },
+        {
+          "name": "tripo_part_147",
+          "vertices": 48,
+          "polygons": 78,
+          "triangles": 78
+        },
+        {
+          "name": "tripo_part_148",
+          "vertices": 53,
+          "polygons": 78,
+          "triangles": 78
+        },
+        {
+          "name": "tripo_part_149",
+          "vertices": 47,
+          "polygons": 77,
+          "triangles": 77
+        },
+        {
+          "name": "tripo_part_150",
+          "vertices": 47,
+          "polygons": 77,
+          "triangles": 77
+        },
+        {
+          "name": "tripo_part_151",
+          "vertices": 79,
+          "polygons": 77,
+          "triangles": 77
+        },
+        {
+          "name": "tripo_part_152",
+          "vertices": 50,
+          "polygons": 75,
+          "triangles": 75
+        },
+        {
+          "name": "tripo_part_153",
+          "vertices": 50,
+          "polygons": 75,
+          "triangles": 75
+        },
+        {
+          "name": "tripo_part_154",
+          "vertices": 44,
+          "polygons": 71,
+          "triangles": 71
+        },
+        {
+          "name": "tripo_part_155",
+          "vertices": 44,
+          "polygons": 71,
+          "triangles": 71
+        },
+        {
+          "name": "tripo_part_156",
+          "vertices": 44,
+          "polygons": 70,
+          "triangles": 70
+        },
+        {
+          "name": "tripo_part_157",
+          "vertices": 37,
+          "polygons": 70,
+          "triangles": 70
+        },
+        {
+          "name": "tripo_part_158",
+          "vertices": 43,
+          "polygons": 70,
+          "triangles": 70
+        },
+        {
+          "name": "tripo_part_159",
+          "vertices": 38,
+          "polygons": 69,
+          "triangles": 69
+        },
+        {
+          "name": "tripo_part_160",
+          "vertices": 43,
+          "polygons": 69,
+          "triangles": 69
+        },
+        {
+          "name": "tripo_part_161",
+          "vertices": 43,
+          "polygons": 69,
+          "triangles": 69
+        },
+        {
+          "name": "tripo_part_162",
+          "vertices": 44,
+          "polygons": 68,
+          "triangles": 68
+        },
+        {
+          "name": "tripo_part_163",
+          "vertices": 36,
+          "polygons": 68,
+          "triangles": 68
+        },
+        {
+          "name": "tripo_part_164",
+          "vertices": 43,
+          "polygons": 68,
+          "triangles": 68
+        },
+        {
+          "name": "tripo_part_165",
+          "vertices": 42,
+          "polygons": 67,
+          "triangles": 67
+        },
+        {
+          "name": "tripo_part_166",
+          "vertices": 42,
+          "polygons": 67,
+          "triangles": 67
+        },
+        {
+          "name": "tripo_part_167",
+          "vertices": 34,
+          "polygons": 64,
+          "triangles": 64
+        },
+        {
+          "name": "tripo_part_168",
+          "vertices": 34,
+          "polygons": 64,
+          "triangles": 64
+        },
+        {
+          "name": "tripo_part_169",
+          "vertices": 33,
+          "polygons": 62,
+          "triangles": 62
+        },
+        {
+          "name": "tripo_part_170",
+          "vertices": 57,
+          "polygons": 62,
+          "triangles": 62
+        },
+        {
+          "name": "tripo_part_171",
+          "vertices": 56,
+          "polygons": 58,
+          "triangles": 58
+        },
+        {
+          "name": "tripo_part_172",
+          "vertices": 33,
+          "polygons": 58,
+          "triangles": 58
+        },
+        {
+          "name": "tripo_part_173",
+          "vertices": 31,
+          "polygons": 57,
+          "triangles": 57
+        },
+        {
+          "name": "tripo_part_174",
+          "vertices": 30,
+          "polygons": 56,
+          "triangles": 56
+        },
+        {
+          "name": "tripo_part_175",
+          "vertices": 30,
+          "polygons": 56,
+          "triangles": 56
+        },
+        {
+          "name": "tripo_part_176",
+          "vertices": 30,
+          "polygons": 56,
+          "triangles": 56
+        },
+        {
+          "name": "tripo_part_177",
+          "vertices": 30,
+          "polygons": 55,
+          "triangles": 55
+        },
+        {
+          "name": "tripo_part_178",
+          "vertices": 36,
+          "polygons": 55,
+          "triangles": 55
+        },
+        {
+          "name": "tripo_part_179",
+          "vertices": 29,
+          "polygons": 54,
+          "triangles": 54
+        },
+        {
+          "name": "tripo_part_180",
+          "vertices": 29,
+          "polygons": 54,
+          "triangles": 54
+        },
+        {
+          "name": "tripo_part_181",
+          "vertices": 28,
+          "polygons": 52,
+          "triangles": 52
+        },
+        {
+          "name": "tripo_part_182",
+          "vertices": 28,
+          "polygons": 52,
+          "triangles": 52
+        },
+        {
+          "name": "tripo_part_183",
+          "vertices": 28,
+          "polygons": 52,
+          "triangles": 52
+        },
+        {
+          "name": "tripo_part_184",
+          "vertices": 28,
+          "polygons": 51,
+          "triangles": 51
+        },
+        {
+          "name": "tripo_part_185",
+          "vertices": 27,
+          "polygons": 50,
+          "triangles": 50
+        },
+        {
+          "name": "tripo_part_186",
+          "vertices": 27,
+          "polygons": 50,
+          "triangles": 50
+        },
+        {
+          "name": "tripo_part_187",
+          "vertices": 27,
+          "polygons": 50,
+          "triangles": 50
+        },
+        {
+          "name": "tripo_part_188",
+          "vertices": 27,
+          "polygons": 50,
+          "triangles": 50
+        },
+        {
+          "name": "tripo_part_189",
+          "vertices": 26,
+          "polygons": 48,
+          "triangles": 48
+        },
+        {
+          "name": "tripo_part_190",
+          "vertices": 26,
+          "polygons": 48,
+          "triangles": 48
+        },
+        {
+          "name": "tripo_part_191",
+          "vertices": 26,
+          "polygons": 48,
+          "triangles": 48
+        },
+        {
+          "name": "tripo_part_192",
+          "vertices": 26,
+          "polygons": 48,
+          "triangles": 48
+        },
+        {
+          "name": "tripo_part_193",
+          "vertices": 26,
+          "polygons": 48,
+          "triangles": 48
+        },
+        {
+          "name": "tripo_part_194",
+          "vertices": 26,
+          "polygons": 48,
+          "triangles": 48
+        },
+        {
+          "name": "tripo_part_195",
+          "vertices": 26,
+          "polygons": 48,
+          "triangles": 48
+        },
+        {
+          "name": "tripo_part_196",
+          "vertices": 25,
+          "polygons": 46,
+          "triangles": 46
+        },
+        {
+          "name": "tripo_part_197",
+          "vertices": 23,
+          "polygons": 46,
+          "triangles": 46
+        },
+        {
+          "name": "tripo_part_198",
+          "vertices": 25,
+          "polygons": 45,
+          "triangles": 45
+        },
+        {
+          "name": "tripo_part_199",
+          "vertices": 23,
+          "polygons": 42,
+          "triangles": 42
+        },
+        {
+          "name": "tripo_part_200",
+          "vertices": 23,
+          "polygons": 42,
+          "triangles": 42
+        },
+        {
+          "name": "tripo_part_201",
+          "vertices": 36,
+          "polygons": 41,
+          "triangles": 41
+        },
+        {
+          "name": "tripo_part_202",
+          "vertices": 42,
+          "polygons": 41,
+          "triangles": 41
+        },
+        {
+          "name": "tripo_part_203",
+          "vertices": 22,
+          "polygons": 40,
+          "triangles": 40
+        },
+        {
+          "name": "tripo_part_204",
+          "vertices": 41,
+          "polygons": 39,
+          "triangles": 39
+        },
+        {
+          "name": "tripo_part_205",
+          "vertices": 20,
+          "polygons": 36,
+          "triangles": 36
+        },
+        {
+          "name": "tripo_part_206",
+          "vertices": 18,
+          "polygons": 32,
+          "triangles": 32
+        },
+        {
+          "name": "tripo_part_207",
+          "vertices": 20,
+          "polygons": 32,
+          "triangles": 32
+        },
+        {
+          "name": "tripo_part_208",
+          "vertices": 20,
+          "polygons": 32,
+          "triangles": 32
+        },
+        {
+          "name": "tripo_part_209",
+          "vertices": 23,
+          "polygons": 21,
+          "triangles": 21
+        },
+        {
+          "name": "tripo_part_210",
+          "vertices": 7,
+          "polygons": 6,
+          "triangles": 6
+        },
+        {
+          "name": "tripo_part_211",
+          "vertices": 4,
+          "polygons": 2,
+          "triangles": 2
+        },
+        {
+          "name": "tripo_part_212",
+          "vertices": 3,
+          "polygons": 1,
+          "triangles": 1
+        },
+        {
+          "name": "tripo_part_213",
+          "vertices": 3,
+          "polygons": 1,
+          "triangles": 1
+        }
+      ]
+    },
+    {
+      "file": "models\\textured\\body\\body.fbx.fbx",
+      "sha256": "562c7839fe1a70439925678befccf3e46b454dbaf362eebf2305e321bc79fb86",
+      "meshes": 1,
+      "vertices": 26113,
+      "polygons": 49073,
+      "triangles": 49073,
+      "bounds_min": [
+        -0.49267578125,
+        -0.4999999701976776,
+        -3.774895063202166e-08
+      ],
+      "bounds_max": [
+        0.49267578125,
+        0.5,
+        0.6560670137405396
+      ],
+      "objects": [
+        {
+          "name": "body",
+          "vertices": 26113,
+          "polygons": 49073,
+          "triangles": 49073
+        }
+      ]
+    }
+  ],
+  "comparisons": {
+    "segmented_vs_textured": {
+      "axis_permutation_destination_to_source": [
+        0,
+        1,
+        2
+      ],
+      "axis_signs": [
+        1,
+        1,
+        1
+      ],
+      "scale": 1.0000261962421595,
+      "source_center": [
+        0.0,
+        2.9802322387695312e-08,
+        0.32803550362586975
+      ],
+      "destination_center": [
+        0.0,
+        1.4901161193847656e-08,
+        0.3280334770679474
+      ],
+      "destination_to_source_distance": {
+        "max": 1.573704503243789e-05,
+        "rms": 7.652510575534548e-06,
+        "median": 6.659075552306604e-06,
+        "p99": 1.392188005411299e-05,
+        "above_1e-5": 4955
+      },
+      "source_to_destination_distance": {
+        "max": 2.0936613509547897e-05,
+        "rms": 7.653067959580801e-06,
+        "median": 6.658428901573643e-06,
+        "p99": 1.392461490468122e-05,
+        "above_1e-5": 4975
+      },
+      "source_unique_positions_1e-5": 26147,
+      "destination_unique_positions_1e-5": 26113,
+      "identical_triangle_occurrences_1e-5": 3071,
+      "source_triangle_occurrences": 49073,
+      "destination_triangle_occurrences": 49073,
+      "source_only_triangle_occurrences": 46002,
+      "destination_only_triangle_occurrences": 46002,
+      "nearest_vertex_snapped_identical_triangles": 48962,
+      "nearest_vertex_snapped_source_only_triangles": 111,
+      "nearest_vertex_snapped_destination_only_triangles": 111,
+      "nearest_vertex_snapped_unique_positions": 26113
+    },
+    "canonical_vs_segmented": {
+      "axis_permutation_destination_to_source": [
+        0,
+        1,
+        2
+      ],
+      "axis_signs": [
+        1,
+        1,
+        1
+      ],
+      "scale": 0.9994855359703129,
+      "source_center": [
+        0.0,
+        1.4901161193847656e-08,
+        0.3278808891773224
+      ],
+      "destination_center": [
+        0.0,
+        2.9802322387695312e-08,
+        0.32803550362586975
+      ],
+      "destination_to_source_distance": {
+        "max": 4.64275071863085e-05,
+        "rms": 1.5434678837633632e-05,
+        "median": 1.3182500879338477e-05,
+        "p99": 3.533937342581339e-05,
+        "above_1e-5": 18359
+      },
+      "source_to_destination_distance": {
+        "max": 4.64275071863085e-05,
+        "rms": 1.5441383347986218e-05,
+        "median": 1.3232177479949314e-05,
+        "p99": 3.533509880071506e-05,
+        "above_1e-5": 18627
+      },
+      "source_unique_positions_1e-5": 26110,
+      "destination_unique_positions_1e-5": 26130,
+      "identical_triangle_occurrences_1e-5": 556,
+      "source_triangle_occurrences": 49073,
+      "destination_triangle_occurrences": 49073,
+      "source_only_triangle_occurrences": 48517,
+      "destination_only_triangle_occurrences": 48517,
+      "nearest_vertex_snapped_identical_triangles": 49073,
+      "nearest_vertex_snapped_source_only_triangles": 0,
+      "nearest_vertex_snapped_destination_only_triangles": 0,
+      "nearest_vertex_snapped_unique_positions": 26110
+    },
+    "canonical_vs_textured": {
+      "axis_permutation_destination_to_source": [
+        0,
+        1,
+        2
+      ],
+      "axis_signs": [
+        1,
+        1,
+        1
+      ],
+      "scale": 0.9995117187354481,
+      "source_center": [
+        0.0,
+        1.4901161193847656e-08,
+        0.3278808891773224
+      ],
+      "destination_center": [
+        0.0,
+        1.4901161193847656e-08,
+        0.3280334770679474
+      ],
+      "destination_to_source_distance": {
+        "max": 5.043589408160187e-05,
+        "rms": 1.455811905971023e-05,
+        "median": 1.2373887329886202e-05,
+        "p99": 4.074407115695067e-05,
+        "above_1e-5": 17484
+      },
+      "source_to_destination_distance": {
+        "max": 5.043589408160187e-05,
+        "rms": 1.4550776925298016e-05,
+        "median": 1.2388314644340426e-05,
+        "p99": 4.0494593122275546e-05,
+        "above_1e-5": 17785
+      },
+      "source_unique_positions_1e-5": 26110,
+      "destination_unique_positions_1e-5": 26113,
+      "identical_triangle_occurrences_1e-5": 411,
+      "source_triangle_occurrences": 49073,
+      "destination_triangle_occurrences": 49073,
+      "source_only_triangle_occurrences": 48662,
+      "destination_only_triangle_occurrences": 48662,
+      "nearest_vertex_snapped_identical_triangles": 49073,
+      "nearest_vertex_snapped_source_only_triangles": 0,
+      "nearest_vertex_snapped_destination_only_triangles": 0,
+      "nearest_vertex_snapped_unique_positions": 26110
+    }
+  }
+}

@@ -1,4 +1,10 @@
-# 現在地: HARROW採用・分割完了、材質制作中（2026-10-12）
+# 現在地: HARROWの4K材質組み立て完了、専用形状・リグ制作中（2026-10-12）
+
+branch `codex/harrow-charakuru-20261011`、base `85ed091cb5642036790bf0aedc8fc369386d7430`。頭・胴のSmart UV/4K材質を取得し、ZIP形式・CRC・FBX読込・4096画像を検査。累計360クレジット、残2740。材質返却の微小座標誤差は、全三角形/UVコーナーの一意対応を検査した派生FBXで正本座標へ復元。未変更のCharakuru厳密検査に両方合格し、assemble・materials complete成功。正本SHA `cb8db831467760def42c999138c1afff87964125b0befd4f28870816ff9b6065`。
+
+原本を保持したゲーム用候補で、すね突起2成分・余分なミサイル左右1本の除去、小腕爪、専用39骨を制作中。多面図・12動作の実物検証はこれから。ゲーム置換・独立Chat監査・main反映・公開は未完。詳細は[制作状況](../assets/blender/candidates/harrow/charakuru-20261011/STATUS.md)。goal表示blockedの管理API制限は実作業の停止理由にしない。
+
+# 経過: HARROW採用・分割完了、材質制作中（2026-10-12）
 
 branch `codex/harrow-charakuru-20261011`、base `85ed091cb5642036790bf0aedc8fc369386d7430`。頭4b05c79e・体040554d6を修整ベースに採用。Charakuruのmaterials依頼5a42f243-1852-474b-97de-b751d145d395は進行中。頭/体をTripo粗分割→FBX取得→Blender読込→コピー前後SHA照合→正本segmented/analyze/classify/prepareまで完了。全51637/49073面がアップロードGLBと対応し追加・欠落0。頭/体2グループの塗り参照PNG4枚を作成・登録。Smart UV・4K材質を制作中。
 
