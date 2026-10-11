@@ -1,7 +1,7 @@
 # 経過: 照準と着弾のずれ修正・弾の細身化をbranchへ保存（2026-10-11、監査・main反映前）
 
 branch `ccr-29bae2db-rwyj88`（base `9f7f9d5`）。ユーザー報告「弾が照準よりやや上へ飛ぶ」。射撃判定と3Dカメラ中心は一致（実ブラウザで射撃終点の投影が中心±2px）。原因はHUD照準のCSS中央（`#hud`=100dvh）と描画（innerHeight）の基準不一致で、Android全画面等で100dvh>innerHeightになると照準だけ下へ表示される。ユーザー画像の照準位置は縦56.7%、HUDを描画より縦長にした再現で修正前57.1%（32.5px下）→修正後は描画中心と一致。`Renderer.resize()` が描画中心を `--view-center-x/y` に出し、照準・スコープ円を同じ点へ配置、visualViewport変化でも再計算。弾は半径0.065→0.04、長さ0.65→0.82（弾速・判定不変）。
-検証: typecheck成功、front-hud(844/640)・training-scope e2e成功、単体903/907成功。失敗5件（render弾位置・aim rocket・maps晶脈・stages25・weapon-stat-marks）は修正前mainでも同一の既存失敗。未実施: 実機Android確認、独立Chat監査（このクラウド環境にiab通常Chatがない）、main反映・Worker公開。再開条件: iab環境で本branchの監査→合格後に通常merge・公開。
+検証: typecheck成功、front-hud(844/640)・training-scope e2e成功、単体903/907成功。失敗5件（render弾位置・aim rocket・maps晶脈・stages25・weapon-stat-marks）は修正前mainでも同一の既存失敗。[PR163](https://github.com/futsalife24-bot/swarm-front/pull/163) 作成済み。ユーザーが公開を指示したが、このクラウド環境はiab通常Chatもwrangler認証（CLOUDFLARE_API_TOKEN等）もなく、独立監査・Worker公開を実行できず停止。未実施: 実機Android確認、独立Chat監査、main反映・Worker公開。再開条件: iab環境（またはCloudflare認証のある環境）で本branchの監査→合格後に通常merge・既存Worker公開・配信確認。
 
 # 現在地: Claude共同修正のPR161をmain統合・既存Worker公開完了（2026-10-11）
 
