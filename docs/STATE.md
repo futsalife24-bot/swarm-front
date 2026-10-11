@@ -1,3 +1,8 @@
+# 現在地: HARROW採用・分割完了、材質制作中（2026-10-12）
+
+branch `codex/harrow-charakuru-20261011`、base `85ed091cb5642036790bf0aedc8fc369386d7430`。頭4b05c79e・体040554d6を修整ベースに採用。Charakuruのmaterials依頼5a42f243-1852-474b-97de-b751d145d395は進行中。頭/体をTripo粗分割→FBX取得→Blender読込→コピー前後SHA照合→正本segmented/analyze/classify/prepareまで完了。全51637/49073面がアップロードGLBと対応し追加・欠落0。頭/体2グループの塗り参照PNG4枚を作成・登録。Smart UV・4K材質を制作中。
+
+[詳細状況](../assets/blender/candidates/harrow/charakuru-20261011/STATUS.md)、[形状比較](../assets/blender/candidates/harrow/charakuru-20261011/review/REVIEW.md)。胴のミサイル6→5本/肩、不要突起、小腕指、羽板の修整は未完。材質完成・専用リグ/12モーション・ゲーム置換・検証・独立Chat監査・main反映・既存Worker公開は残作業。全体完了にはしていない。ダウンロード本人対応待ちは解消済みで、厳格ルールはdocs/skills/HARROW-DOWNLOAD-RECOVERY.md。goal表示はblockedのままだが、公開ツールに再開機能がないため制作を継続し、内部状態の直接編集はしない。
 # 現在地: HARROW画像刷新・Charakuru候補制作中（2026-10-11）
 
 本人添付画像を使うHARROWモデル刷新から公開までのgoalを設定。branch `codex/harrow-charakuru-20261011`、base `85ed091cb5642036790bf0aedc8fc369386d7430`。[制作状況](../assets/blender/candidates/harrow/charakuru-20261011/STATUS.md)。元画像・方向別8枚・実生成プロンプト・現行接続契約を保存。Charakuru専用正本へ8枚を登録済み。Tripo P2.0/非公開で頭4・体4候補を生成、200クレジット消費（残高2900）。2026-10-12に全8候補FBXを取得。保存された.tmpは実FBXで、Blender全8件読込成功後に制作フォルダーへ保存。保存待ちは解消・本人の手動操作不要。ハッシュと読込結果を記録、追加クレジット消費0。候補採用・材質・リグ・モデル置換・テスト・独立監査・main反映・公開は未実施、現行公開モデルは維持。

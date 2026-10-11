@@ -1,0 +1,15 @@
+{
+  "assetId": "759def0a-e412-472f-8137-cec6c5304e6d",
+  "source": "C:/Users/futsa/Downloads/7b700cd0-6ff1-433e-bfb4-1a7ce9a22d08.tmp",
+  "path": "models/segmented/body.fbx",
+  "bytes": 1381792,
+  "sha256": "AAB569F779D85EF35A183E301D653C59740AFB3084C2C6BB2A442FDA5C983F67",
+  "format": "FBX binary 7400",
+  "meshes": 214,
+  "polygons": 49073,
+  "verticesImported": 26212,
+  "verticesUI": 26715,
+  "vertexDifference": "UI頂点集計差の原因は未確定。GLBとの全三角形対応は一致、追加・欠落0。reviewのsegmentation比較報告参照。",
+  "creditCost": 40,
+  "remainingCredits": 2820
+}
