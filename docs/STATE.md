@@ -1,6 +1,6 @@
 # 現在地: HARROW画像刷新・Charakuru候補制作中（2026-10-11）
 
-本人添付画像を使うHARROWモデル刷新から公開までのgoalを設定。branch `codex/harrow-charakuru-20261011`、base `85ed091cb5642036790bf0aedc8fc369386d7430`。[制作状況](../assets/blender/candidates/harrow/charakuru-20261011/STATUS.md)。元画像・方向別8枚・実生成プロンプト・現行接続契約を保存。Charakuru専用正本へ8枚を登録済み。Tripo P2.0/非公開で頭4・体4候補を生成、200クレジット消費（残高2900）。正式FBXの保存は未確認、初回exportはdownload待機タイムアウトと一時ファイルを確認。本人へChrome保存ダイアログの確認を質問中。内部ダウンロード画面はブラウザポリシー拒否、迂回なし。生成のやり直しは不要。候補採用・材質・リグ・モデル置換・テスト・独立監査・main反映・公開は未実施、現行公開モデルは維持。
+本人添付画像を使うHARROWモデル刷新から公開までのgoalを設定。branch `codex/harrow-charakuru-20261011`、base `85ed091cb5642036790bf0aedc8fc369386d7430`。[制作状況](../assets/blender/candidates/harrow/charakuru-20261011/STATUS.md)。元画像・方向別8枚・実生成プロンプト・現行接続契約を保存。Charakuru専用正本へ8枚を登録済み。Tripo P2.0/非公開で頭4・体4候補を生成、200クレジット消費（残高2900）。2026-10-12に全8候補FBXを取得。保存された.tmpは実FBXで、Blender全8件読込成功後に制作フォルダーへ保存。保存待ちは解消・本人の手動操作不要。ハッシュと読込結果を記録、追加クレジット消費0。候補採用・材質・リグ・モデル置換・テスト・独立監査・main反映・公開は未実施、現行公開モデルは維持。
 
 # 現在地: PR163をmain統合・既存Worker公開完了（2026-10-11）
 
