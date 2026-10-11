@@ -1,7 +1,8 @@
 # 経過: 照準と着弾のずれ修正・弾の細身化をbranchへ保存（2026-10-11、監査・main反映前）
 
 branch `ccr-29bae2db-rwyj88`（base `9f7f9d5`）。ユーザー報告「弾が照準よりやや上へ飛ぶ」。射撃判定と3Dカメラ中心は一致（実ブラウザで射撃終点の投影が中心±2px）。原因はHUD照準のCSS中央（`#hud`=100dvh）と描画（innerHeight）の基準不一致で、Android全画面等で100dvh>innerHeightになると照準だけ下へ表示される。ユーザー画像の照準位置は縦56.7%、HUDを描画より縦長にした再現で修正前57.1%（32.5px下）→修正後は描画中心と一致。`Renderer.resize()` が描画中心を `--view-center-x/y` に出し、照準・スコープ円を同じ点へ配置、visualViewport変化でも再計算。弾は半径0.065→0.04、長さ0.65→0.82（弾速・判定不変）。
-検証: typecheck成功、front-hud(844/640)・training-scope e2e成功、単体903/907成功。失敗5件（render弾位置・aim rocket・maps晶脈・stages25・weapon-stat-marks）は修正前mainでも同一の既存失敗。[PR163](https://github.com/futsalife24-bot/swarm-front/pull/163) 作成済み。ユーザーが公開を指示したが、このクラウド環境はiab通常Chatもwrangler認証（CLOUDFLARE_API_TOKEN等）もなく、独立監査・Worker公開を実行できず停止。未実施: 実機Android確認、独立Chat監査、main反映・Worker公開。再開条件: iab環境（またはCloudflare認証のある環境）で本branchの監査→合格後に通常merge・既存Worker公開・配信確認。
+検証: typecheck成功、front-hud(844/640)・training-scope e2e成功、単体903/907成功。失敗5件（render弾位置・aim rocket・maps晶脈・stages25・weapon-stat-marks）は修正前mainでも同一の既存失敗。既存失敗の根拠（base 9f7f9d5でも同一、PR163の変更箇所と無関係）: (1) weapon-stat-marks: DOM依存の `src/client/gear-weapon-list` をnode環境で読み込み `document is not defined`（テスト環境設定）。(2) aim rocket: 狙い点と敵中心の距離 1.875≠期待1.25（敵サイズ倍率の変更に期待値が未追従の可能性）。(3) render: 弾が0.05秒で-6m（弾速120）、期待-7.5m（150）でテストが旧弾速のまま。(4) maps 晶脈の地底巣: 一部seedで敵出現位置が障害物と重なる判定（製品側の不具合候補、別タスク）。(5) stages 25: 規定装備のシミュレーションが128秒で敗北（バランス/テスト要確認）。(4)(5)は公開済みmainの既存挙動で、本PRは悪化させない（変更は照準CSS・描画中心・弾形状のみ）。
+[PR163](https://github.com/futsalife24-bot/swarm-front/pull/163) 作成済み。ユーザーが公開を指示したが、2026-10-11再確認でも同じクラウド環境（host vm）で、iab通常Chatもwrangler認証（CLOUDFLARE_API_TOKEN等）もなく、独立監査・Worker公開を実行できず停止。未実施: 実機Android確認、独立Chat監査、main反映・Worker公開。再開条件: iab環境（またはCloudflare認証のある環境）で本branchの監査→合格後に通常merge・既存Worker公開・配信確認。
 
 # 現在地: Claude共同修正のPR161をmain統合・既存Worker公開完了（2026-10-11）
 
