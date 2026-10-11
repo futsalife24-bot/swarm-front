@@ -23,6 +23,15 @@ let overview = true,
 const canvas = document.querySelector("canvas")!;
 const saveStatus = document.getElementById("saved")!;
 async function save(blob: Blob, kind: "image" | "video", name: string) {
+  if (location.port !== "5200") {
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `harrow-game-${name}.${kind === "image" ? "png" : "webm"}`;
+    link.textContent = `生成済みファイルを保存: ${link.download}`;
+    saveStatus.replaceChildren(link);
+    setTimeout(() => URL.revokeObjectURL(link.href), 300000);
+    return;
+  }
   const response = await fetch("/__harrow-spin", {
     method: "POST",
     headers: {

@@ -89,15 +89,15 @@ it("renders airborne missiles from the upright wing tips without moving ground m
   expect(airborne).toHaveLength(10);
   expect(airborne.filter((missile) => missile.origin.x > 0)).toHaveLength(5);
   expect(airborne.filter((missile) => missile.origin.x < 0)).toHaveLength(5);
-  // First physical red-warhead tip measured from v8 AirThreat at 3.5 seconds.
-  // The report's heading mirrors the symmetric X coordinates, but not Z.
-  expect(airborne[0].origin.x / HARROW.scale).toBeCloseTo(6.35393, 5);
+  // First physical warhead tip measured from v11 AirThreat at 3.5 seconds.
+  // The report's heading reverses X while retaining the authored Z coordinate.
+  expect(airborne[0].origin.x / HARROW.scale).toBeCloseTo(4.532703557, 5);
   expect(
     (airborne[0].origin.y - HARROW.flightHeight) / HARROW.scale,
-  ).toBeCloseTo(7.861266, 5);
-  expect(airborne[0].origin.z / HARROW.scale).toBeCloseTo(0.264011, 5);
-  expect(ground[0].origin.y / HARROW.scale).toBeCloseTo(6.446827, 5);
-  expect(ground[0].origin.z / HARROW.scale).toBeCloseTo(-2.32226, 5);
+  ).toBeCloseTo(11.717809138, 5);
+  expect(airborne[0].origin.z / HARROW.scale).toBeCloseTo(3.017935282, 5);
+  expect(ground[0].origin.y / HARROW.scale).toBeCloseTo(13.016983025, 5);
+  expect(ground[0].origin.z / HARROW.scale).toBeCloseTo(1.744111805, 5);
   expect(airborne.map((missile) => missile.target)).toEqual(
     ground.map((missile) => missile.target),
   );

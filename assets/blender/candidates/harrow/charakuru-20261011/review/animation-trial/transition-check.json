@@ -1,0 +1,146 @@
+[
+  {
+    "from": "Spin",
+    "from_time": 3,
+    "to": "Idle",
+    "max_point_m": 1.667,
+    "point_bone": "Tail.06",
+    "max_angle_deg": 5.4,
+    "angle_bone": "Tail.06"
+  },
+  {
+    "from": "Idle",
+    "from_time": 0.8,
+    "to": "Threat",
+    "max_point_m": 1.279,
+    "point_bone": "Wing fan.L",
+    "max_angle_deg": 4.9,
+    "angle_bone": "Wing fan.L"
+  },
+  {
+    "from": "Threat",
+    "from_time": 7,
+    "to": "Idle",
+    "max_point_m": 1.667,
+    "point_bone": "Tail.06",
+    "max_angle_deg": 5.4,
+    "angle_bone": "Tail.06"
+  },
+  {
+    "from": "Idle",
+    "from_time": 0.8,
+    "to": "Takeoff",
+    "max_point_m": 1.279,
+    "point_bone": "Wing fan.L",
+    "max_angle_deg": 4.9,
+    "angle_bone": "Wing fan.L"
+  },
+  {
+    "from": "Takeoff",
+    "from_time": 3.5,
+    "to": "Flight",
+    "max_point_m": 0.0,
+    "point_bone": "Wing upper.R",
+    "max_angle_deg": 0.0,
+    "angle_bone": "Root"
+  },
+  {
+    "from": "Flight",
+    "from_time": 16.8,
+    "to": "AirThreat",
+    "max_point_m": 0.0,
+    "point_bone": "Wing upper.R",
+    "max_angle_deg": 0.0,
+    "angle_bone": "Root"
+  },
+  {
+    "from": "AirThreat",
+    "from_time": 7,
+    "to": "Glide",
+    "max_point_m": 0.0,
+    "point_bone": "Wing upper.R",
+    "max_angle_deg": 0.0,
+    "angle_bone": "Root"
+  },
+  {
+    "from": "Glide",
+    "from_time": 2.1,
+    "to": "Dive",
+    "max_point_m": 0.0,
+    "point_bone": "Wing upper.R",
+    "max_angle_deg": 0.0,
+    "angle_bone": "Root"
+  },
+  {
+    "from": "Dive",
+    "from_time": 0.9,
+    "to": "Land",
+    "max_point_m": 0.0,
+    "point_bone": "Wing upper.R",
+    "max_angle_deg": 0.0,
+    "angle_bone": "Root"
+  },
+  {
+    "from": "Land",
+    "from_time": 1.75,
+    "to": "Idle",
+    "max_point_m": 1.667,
+    "point_bone": "Tail.06",
+    "max_angle_deg": 5.4,
+    "angle_bone": "Tail.06"
+  },
+  {
+    "from": "Flight",
+    "from_time": 16.8,
+    "to": "StaggerFall",
+    "max_point_m": 0.0,
+    "point_bone": "Wing upper.R",
+    "max_angle_deg": 0.0,
+    "angle_bone": "Root"
+  },
+  {
+    "from": "StaggerFall",
+    "from_time": 2.625,
+    "to": "Land",
+    "max_point_m": 0.0,
+    "point_bone": "Wing upper.R",
+    "max_angle_deg": 0.0,
+    "angle_bone": "Root"
+  },
+  {
+    "from": "Idle",
+    "from_time": 0,
+    "to": "Locomotion",
+    "max_point_m": 0.323,
+    "point_bone": "Hindlimb.L.2",
+    "max_angle_deg": 8.7,
+    "angle_bone": "Hindlimb.L.2"
+  },
+  {
+    "from": "Locomotion",
+    "from_time": 4.2,
+    "to": "Idle",
+    "max_point_m": 0.323,
+    "point_bone": "Hindlimb.L.2",
+    "max_angle_deg": 8.7,
+    "angle_bone": "Hindlimb.L.2"
+  },
+  {
+    "from": "Idle",
+    "from_time": 0,
+    "to": "Attack",
+    "max_point_m": 1.667,
+    "point_bone": "Tail.06",
+    "max_angle_deg": 5.4,
+    "angle_bone": "Tail.06"
+  },
+  {
+    "from": "Attack",
+    "from_time": 5.25,
+    "to": "Idle",
+    "max_point_m": 1.667,
+    "point_bone": "Tail.06",
+    "max_angle_deg": 5.4,
+    "angle_bone": "Tail.06"
+  }
+]

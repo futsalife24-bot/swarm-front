@@ -4,7 +4,7 @@ from mathutils import Vector,kdtree
 r=Path(__file__).resolve().parent;b=r.parent;out=b/'models/normalized-returns';out.mkdir(exist_ok=True)
 kit=Path('C:/Users/futsa/Documents/Codex/2026-10-07/https-x-com-dstudio-ai-status/tools/charakuru-1.0.2/charakuru-1.0.2-2026-10-07T16-58-19-992Z')
 spec=importlib.util.spec_from_file_location('original_production',kit/'scripts/production.py');prod=importlib.util.module_from_spec(spec);spec.loader.exec_module(prod)
-base=b/'models/prepared-kit';p=json.loads((base/'project.json').read_text(encoding='utf-8'));report=[]
+base=b;p=json.loads((base/'production-baseline.json').read_text(encoding='utf-8-sig'));report=[]
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 def clear():bpy.ops.wm.read_factory_settings(use_empty=True)
 def bbox(points):

@@ -1,3 +1,10 @@
+# 現在地: HARROW新版を実装・モデル検証済み、監査準備中（2026-10-12）
+
+branch `codex/harrow-charakuru-20261011`、base `85ed091cb5642036790bf0aedc8fc369386d7430`。Charakuruの頭・胴と4K材質を専用39骨/12動作へ組み立て、`harrow_motion_v11.glb`へ接続。GLB SHA256 `7000b43d96bd77e1e8d09caaed9ad7b657a30db745998fcaedadb4df92326f5b`。22スキンメッシュを3材質へ結合、100537三角形。元生成物・旧v10を保持。10ミサイルの発射原点を実測し、攻撃性能/時刻/Rootの権威移動は維持。
+
+client/worker型、関連93件とモデル5件の合計98テスト成功（旧座標テスト1件を更新後に再成功）。144姿勢・16接続を制作側で確認し、着地接続とSpin胴体予備動作の不足を修正。実GLB・実ゲーム描画で新材質/12動作/3描画バッチ確認。実スマホ性能は未確認。独立監査・main反映・公開は未完。[制作と再現手順](../assets/blender/candidates/harrow/charakuru-20261011/BUILD.md)。
+
+通常Chatの別件未送信下書きに対する一時保管/新規Chat操作が自動承認レビューで拒否されたため、下書き一時保管・復元のみ追加承認を質問済み。本文の送信や破棄はしていない。許可済みの実装保存・検証・資料準備は継続。goal表示blockedの管理API制限は実作業の停止理由にしない。
 # 現在地: HARROWの4K材質組み立て完了、専用形状・リグ制作中（2026-10-12）
 
 branch `codex/harrow-charakuru-20261011`、base `85ed091cb5642036790bf0aedc8fc369386d7430`。頭・胴のSmart UV/4K材質を取得し、ZIP形式・CRC・FBX読込・4096画像を検査。累計360クレジット、残2740。材質返却の微小座標誤差は、全三角形/UVコーナーの一意対応を検査した派生FBXで正本座標へ復元。未変更のCharakuru厳密検査に両方合格し、assemble・materials complete成功。正本SHA `cb8db831467760def42c999138c1afff87964125b0befd4f28870816ff9b6065`。
