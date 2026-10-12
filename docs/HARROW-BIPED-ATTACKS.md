@@ -48,6 +48,10 @@
 
 ## 監査の再開条件
 
+実装commit `cc43615d1f0835360f8fa9d5edbf8ac81a97bd3d` を [PR167](https://github.com/futsalife24-bot/swarm-front/pull/167) へpush済み。同commitからフロントbuildと本番Worker dry-runが成功。これ以降の記録更新は実装変更と区別する。ローカル作業場所：`C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a`。
+
 監査資料は `scripts/package-harrow-v12-audit.py` で対象commitから作成し、CRCと全収録ファイルのSHA256を照合する。原本、新旧GLB、必要なソース/依存、差分、検証JSON、今回の実画面画像/動画を含む。
+
+作成済み：`dist-validation/harrow-v12/harrow-v12-audit.zip`、対象cc43615、191ファイル、79,469,141 bytes。SHA256 `d24f95ab6f0ea89fe3208f24c845458f9a4a0320369aaa00d11d9dfcc5e8a819`、CRC・全収録SHA一致。送信は未実施。`audit-request.txt` に対象・仕様・検証限界を明記した依頼文を保存。
 
 通常Chatの新規入力欄に別件の未送信下書きが残る。別タブでも同じ下書きが現れ、操作は未実施。前回本人の「許可」を会話から確認して再審査したが、自動承認レビューは今回の下書き本文への具体的なアクセス承認不足として一時保管を拒否した。本文の保管・消去・送信は行っていない。今回の監査のため同じ下書きを一時保管し、新規ChatへHARROW資料のみ送った後に元どおり復元する操作の承認が必要。監査合格前のmain反映・公開はしない。

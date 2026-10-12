@@ -2,10 +2,12 @@
 
 branch `codex/harrow-biped-attacks-20261012`、base `9bdb1d29b8692ad62e7f7b46aa819c19bad55365`。本人指定7攻撃と地上ミサイル2方式を実装。v11の形状・材質・ウェイトを保持した39骨/18動作のv12。GLB SHA256 `b0d0664b7ea65b65f0416b5d0c5aad2386f42d668d00ef7826d201a858d96ddd`。[仕様と検証](HARROW-BIPED-ATTACKS.md)。イャンガルルガ実戦映像を停止・コマ送りで確認した範囲も同記録へ保存。
 
-関連133テスト、client/worker型、実Worker/2WebSocket22検査、GLB形状保持/発射位置/接地/主要遷移、Blender原本再openが成功。iabの実Rendererで9種録画と主要5姿勢画像を保存。候補・再現手順は `assets/blender/candidates/harrow/biped-v12/`。公開はv11のまま。独立監査・main反映・公開は未完了。
+関連133テスト、client/worker型、実Worker/2WebSocket22検査、GLB形状保持/発射位置/接地/主要遷移、Blender原本再openが成功。iabの実Rendererで9種録画と主要5姿勢画像を保存。図鑑844×390でモデル読込・攻撃選択・操作列の非重複を確認。最後の図鑑修正後も局所10件と型検査成功。実装 `cc43615d1f0835360f8fa9d5edbf8ac81a97bd3d` を [PR167](https://github.com/futsalife24-bot/swarm-front/pull/167) へpush済み。同commitからの最終フロントbuild・本番Worker dry-run成功。候補・再現手順は `assets/blender/candidates/harrow/biped-v12/`。公開はv11のまま。独立監査・main反映・公開は未完了。
 
 停止理由: 通常Chatの新規入力欄に残る別件下書きについて、別タブでも同じ本文が現れた。前回の本人承認発言を確認して再審査したが、今回の具体的なアクセス承認不足として一時保管が自動承認レビューで拒否された。本文は保管・消去・送信していない。
 再開条件: この監査のため別件下書きを一時保管し、HARROW資料だけを新規通常Chatへ送った後、元の下書きを全文一致で復元する操作を本人が承認するか、本人が下書きを保存して新規入力欄を空にする。監査経路や保護を迂回しない。
+
+監査ZIP準備済み：`dist-validation/harrow-v12/harrow-v12-audit.zip`（191ファイル、79,469,141 bytes、SHA256 `d24f95ab6f0ea89fe3208f24c845458f9a4a0320369aaa00d11d9dfcc5e8a819`）。対象は上記実装cc43615、CRC・全収録SHA照合成功。依頼本文は同ディレクトリ `audit-request.txt`。現在の追加差分はこの記録と最終build JSONのみ。新規監査Chatは未作成・未送信。自己検証を独立監査と扱わない。
 # 経過: HARROW v11への置換・独立監査・main反映・公開完了（2026-10-12）
 
 [PR165](https://github.com/futsalife24-bot/swarm-front/pull/165)通常merge。公開ソース `d7600e74eb85d27c061006be6350997409a24941`、Worker Version `00096fb9-7d27-447a-b52f-d816fcddc025`。[公開記録](evidence/harrow-v11-release-20261012/README.md)。通常Chat独立監査は資料範囲で合格、必須P0/P1/P2各0。関連98テスト・型・実モデル/動作検査・merge後build/dry-run成功。公開25/25 SHA一致、health200/ok:true、公開Chromeで新形状/材質と待機/攻撃切替を確認。スマホ性能・4Kメモリー・既存シェーダー警告/5テスト失敗/High5件は未解消追跡。ダウンロードはCodex側で完了し再発防止を規則化、別件下書き496文字も全文一致で復元済み。以下の承認待ち/未完了は過去経過。
