@@ -12,6 +12,12 @@ export const TURN_STEP_MIN_SPEED = 3; // rad/s, so large turns still finish bris
 export const TURN_STEP_DONE = 0.04; // rad
 /** Walk-cycle fraction per radian turned: one plant-limit turn is about half a cycle (one foot). */
 export const TURN_STEP_CYCLE = 0.8;
+/**
+ * Walk-cycle phase where both boots are down (left heel strike at 0, right at
+ * 0.5, each stance lasting 0.6 of the cycle). Steps start and end here, so the
+ * walk legs hand back to the idle legs from a planted pose.
+ */
+export const TURN_REST_PHASE = 0.05;
 
 const wrap = (a: number) => Math.atan2(Math.sin(a), Math.cos(a));
 
@@ -19,22 +25,28 @@ export class TurnInPlace {
   /** World-facing yaw of the feet/pelvis (game yaw convention). */
   feetYaw = 0;
   stepping = false;
+  /** Walk-cycle phase for the step legs; always a rest phase when not stepping. */
+  cycle = TURN_REST_PHASE;
   private held = 0;
+  private stepFrom = TURN_REST_PHASE;
+  private stepSpan = 0.5;
+  private stepTurned = 0;
+  private stepTotal = 0;
+  private stepProgress = 0;
 
   reset(yaw: number) {
-    this.feetYaw = yaw;
+    this.feetYaw = wrap(yaw);
     this.stepping = false;
     this.held = 0;
+    this.cycle = TURN_REST_PHASE;
   }
   /** While moving, the locomotion code owns the hips; remember where they point. */
   track(feetYaw: number) {
-    this.feetYaw = wrap(feetYaw);
-    this.stepping = false;
-    this.held = 0;
+    this.reset(feetYaw);
   }
   /**
    * Standing update. Returns the hip twist (body yaw minus feet yaw, i.e. the
-   * value used as the pelvis offset) and the walk-cycle fraction to step this frame.
+   * value used as the pelvis offset) and the walk-cycle fraction stepped this frame.
    */
   stand(yaw: number, dt: number) {
     dt = Math.max(0, Math.min(0.1, dt));
@@ -42,8 +54,14 @@ export class TurnInPlace {
     const size = Math.abs(diff);
     if (!this.stepping) {
       this.held = size > TURN_SETTLE_MIN ? this.held + dt : 0;
-      if (size > TURN_PLANT_LIMIT || this.held > TURN_SETTLE_DELAY)
+      if (size > TURN_PLANT_LIMIT || this.held > TURN_SETTLE_DELAY) {
         this.stepping = true;
+        this.stepFrom = this.cycle;
+        this.stepSpan = 0.5;
+        this.stepTurned = 0;
+        this.stepTotal = size;
+        this.stepProgress = 0;
+      }
     }
     let travel = 0;
     if (this.stepping) {
@@ -57,9 +75,29 @@ export class TurnInPlace {
           ),
         );
       this.feetYaw = wrap(this.feetYaw + step);
-      travel = Math.abs(step) * TURN_STEP_CYCLE;
       diff = wrap(yaw - this.feetYaw);
-      if (Math.abs(diff) < TURN_STEP_DONE) {
+      const done = Math.abs(diff) < TURN_STEP_DONE;
+      // The legs follow the rotation, in whole half cycles (one foot each), so
+      // the step lands with both boots down exactly when the feet are square.
+      this.stepTurned += Math.abs(step);
+      this.stepTotal = Math.max(
+        this.stepTotal,
+        this.stepTurned + (done ? 0 : Math.abs(diff)),
+      );
+      this.stepSpan = Math.max(
+        this.stepSpan,
+        0.5 * Math.round(this.stepTotal * TURN_STEP_CYCLE * 2),
+      );
+      const progress = done
+        ? this.stepSpan
+        : Math.max(
+            this.stepProgress,
+            (this.stepSpan * this.stepTurned) / this.stepTotal,
+          );
+      travel = progress - this.stepProgress;
+      this.stepProgress = progress;
+      this.cycle = (this.stepFrom + progress) % 1;
+      if (done) {
         this.stepping = false;
         this.held = 0;
       }

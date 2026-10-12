@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   TurnInPlace,
   TURN_PLANT_LIMIT,
+  TURN_REST_PHASE,
   TURN_SETTLE_DELAY,
   easeYaw,
 } from "../src/client/turn-in-place";
@@ -54,6 +55,25 @@ describe("turn in place (presentation only)", () => {
     const r = run(t, (time) => 4 * time, 1.2);
     for (const s of r)
       expect(Math.abs(s.twist)).toBeLessThan(TURN_PLANT_LIMIT + 0.35);
+  });
+
+  it("lands every step in double support, also after a long sweep", () => {
+    for (const end of [TURN_PLANT_LIMIT + 0.1, 1.4, 3]) {
+      const t = new TurnInPlace();
+      t.reset(0);
+      const r = run(t, (time) => Math.min(end, 4 * time), 2);
+      expect(r.some((s) => s.stepping)).toBe(true);
+      expect(r.every((s) => s.travel >= 0)).toBe(true);
+      expect(t.stepping).toBe(false);
+      const phase = (t.cycle - TURN_REST_PHASE + 1) % 0.5;
+      expect(Math.min(phase, 0.5 - phase)).toBeLessThan(1e-9);
+    }
+  });
+
+  it("starts a new step from a stopped run with the boots together", () => {
+    const t = new TurnInPlace();
+    t.track(0.2);
+    expect(t.cycle).toBe(TURN_REST_PHASE);
   });
 
   it("follows the shortest way across ±π", () => {

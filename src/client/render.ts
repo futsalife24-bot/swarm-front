@@ -1019,19 +1019,25 @@ export class Renderer {
         ].join(":");
         m.userData.poseElapsed =
           (m.userData.poseElapsed ?? 0) + (animate ? dt : 0);
-        const updatePose =
-          !animate ||
-          m.userData.poseState !== state ||
-          p.cool > (m.userData.poseCool ?? 0) + 0.025 ||
-          m.userData.poseElapsed + 1e-6 >= cadence;
+        const shot = p.cool > (m.userData.poseCool ?? 0) + 0.025;
         // Other soldiers arrive as 20 Hz yaw snapshots: ease the drawn facing
-        // between them (presentation only). The local soldier uses the camera aim.
-        if (m.userData.facingRun !== w.run || !animate) {
+        // between them (presentation only). A new shot snaps it to the reported
+        // aim so the muzzle matches the shot. The local soldier uses the camera aim.
+        if (m.userData.facingRun !== w.run || !animate || shot) {
           m.userData.facing = p.yaw;
           m.userData.facingRun = w.run;
         } else m.userData.facing = easeYaw(m.userData.facing, p.yaw, dt);
         const facing: number =
           p.id === id && localAim ? localAim.yaw : m.userData.facing;
+        const turned = facing - (m.userData.poseFacing ?? facing);
+        const updatePose =
+          !animate ||
+          m.userData.poseState !== state ||
+          shot ||
+          // The planted hip twist is relative to this rotation: a reduced pose
+          // cadence would otherwise swing the feet with the body between poses.
+          Math.abs(Math.atan2(Math.sin(turned), Math.cos(turned))) > 0.002 ||
+          m.userData.poseElapsed + 1e-6 >= cadence;
         m.rotation.set(0, -facing, 0);
         if (updatePose) {
           poseSoldier(
@@ -1046,6 +1052,7 @@ export class Renderer {
           m.userData.poseElapsed = 0;
           m.userData.poseState = state;
           m.userData.poseCool = p.cool;
+          m.userData.poseFacing = facing;
         }
         m.visible = !(scoped && p.id === id);
         const gun = m.userData.gun as T.Group;

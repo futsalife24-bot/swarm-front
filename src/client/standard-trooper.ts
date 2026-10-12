@@ -299,7 +299,6 @@ export class StandardTrooper {
   private stopTurnTime = 0.18;
   /** Standing facing changes: planted hip twist, then a short step (visual only). */
   private readonly turn = new TurnInPlace();
-  private turnCycle = 0;
   private rollTime = 0;
   private rollYaw = 0;
   private rollRecovery = 0;
@@ -753,6 +752,8 @@ export class StandardTrooper {
     motion: { x: number; z: number } = p,
     visualAim = false,
   ) {
+    // A long gap (hidden tab, pose cadence catch-up) re-squares the feet.
+    const resync = dt > 0.25;
     dt = Math.max(0, Math.min(0.1, dt));
     this.downTime = p.hp <= 0 ? this.downTime + dt : 0;
     this.equip(p.weapons, p.slot);
@@ -795,17 +796,20 @@ export class StandardTrooper {
       this.combat &&
       this.clips.has("Lower_Walk") &&
       p.hp > 0 &&
-      p.evade <= 0
+      p.evade <= 0 &&
+      // Heavy hits play whole-body (or Lower_Hit_Heavy) legs without the hip
+      // twist; ease the twist out instead and pick the feet up afterwards.
+      (p.heavyHit ?? 0) <= 0 &&
+      this.heavyTime + dt >= HEAVY_HIT_DURATION
     ) {
       // Standing: the feet stay where the hips pointed; aim turns the upper body
       // and, past a limit or after holding a twist, the feet step around.
+      if (resync) this.turn.reset(yaw);
       const standing = this.turn.stand(yaw, dt);
       this.moveYaw = standing.twist;
       this.stopYaw = this.moveYaw;
-      this.stopTurnTime = 0.18;
-      this.turnCycle = standing.stepping
-        ? (this.turnCycle + standing.travel) % 1
-        : this.turnCycle;
+      // Leaving this branch eases the twist out like stopping does.
+      this.stopTurnTime = 0;
     } else {
       this.stopTurnTime = Math.min(0.18, this.stopTurnTime + dt);
       const turn = this.stopTurnTime / 0.18;
@@ -820,7 +824,6 @@ export class StandardTrooper {
       this.walking = false;
       this.aimProgress = 0;
       this.turn.reset(yaw);
-      this.turnCycle = 0;
     }
     // A standing turn borrows the walk legs for its short step; upper body unchanged.
     const turning = !moving && this.turn.stepping;
@@ -851,7 +854,7 @@ export class StandardTrooper {
     const locomotionTime =
       (this.locomotion / runDuration) * this.clips.get(runClip)!.duration;
     const turnTime = turning
-      ? this.turnCycle * this.clips.get("Lower_Walk")!.duration
+      ? this.turn.cycle * this.clips.get("Lower_Walk")!.duration
       : 0;
     const standingLower = (profile: string) =>
       turning
