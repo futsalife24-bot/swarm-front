@@ -1,0 +1,55 @@
+{
+  "overview": true,
+  "sideView": true,
+  "status": {
+    "mode": "walk",
+    "time": 8.43,
+    "hp": 10000,
+    "height": 5.100035141231105,
+    "scale": 1.95,
+    "movementSpeed": 0.64,
+    "spinRotation": null,
+    "overview": true,
+    "sideView": true,
+    "paused": true,
+    "recording": false,
+    "missiles": 0,
+    "model": "GLB loaded",
+    "assetURL": "http://127.0.0.1:5200/assets/enemies/harrow_motion_v13.glb",
+    "clips": [
+      "Idle",
+      "Locomotion",
+      "Lunge",
+      "Threat",
+      "AirThreat",
+      "Spin",
+      "Takeoff",
+      "Flight",
+      "Glide",
+      "Dive",
+      "StaggerFall",
+      "Land",
+      "Dash",
+      "Snipe",
+      "BombPass",
+      "TakeoffB",
+      "TakeoffC",
+      "TakeoffD"
+    ],
+    "drawBatches": 3,
+    "pose": {
+      "clip": "Idle",
+      "time": 0,
+      "from": "Locomotion",
+      "fromTime": 8.391428204965555,
+      "blend": 0,
+      "wind": 0,
+      "cool": 998.9831
+    },
+    "palettePose": [
+      0,
+      1,
+      0
+    ]
+  }
+}
