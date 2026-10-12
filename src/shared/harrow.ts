@@ -92,6 +92,8 @@ export interface HarrowMissile {
   damage: number;
   radius: number;
   trajectory?: "arc" | "straight";
+  /** Last flight time checked for collisions, including across delayed ticks/checkpoints. */
+  lastChecked?: number;
 }
 /** Cubic trajectory: vertical launch, turn above the battlefield, vertical descent. */
 export function harrowMissilePosition(m: HarrowMissile, time: number): Point {
@@ -398,7 +400,7 @@ export function queueHarrowBombs(w: World, e: Enemy, target: Player) {
     }
   }
 }
-export function stepHarrowMissiles(w: World, living: Player[], dt: number) {
+export function stepHarrowMissiles(w: World, living: Player[], _dt: number) {
   if (w.phase !== "battle" || w.waveClearAt !== null) {
     w.harrowMissiles = [];
     return;
@@ -412,12 +414,13 @@ export function stepHarrowMissiles(w: World, living: Player[], dt: number) {
       return false;
     if (w.time < m.launch) return true;
     let hit: Point | undefined;
+    const through = Math.min(w.time, m.impact);
     // Sweep subsegments so a high-speed descending missile cannot pass through a roof.
     for (
-      let at = Math.max(m.launch, w.time - dt);
-      at < Math.min(w.time, m.impact) - 1e-8;
+      let at = Math.max(m.launch, Math.min(m.lastChecked ?? m.launch, through));
+      at < through - 1e-8;
     ) {
-      const next = Math.min(at + 1 / 60, w.time, m.impact),
+      const next = Math.min(at + 1 / 60, through),
         a = harrowMissilePosition(m, at),
         b = harrowMissilePosition(m, next);
       const dx = b.x - a.x,
@@ -471,7 +474,10 @@ export function stepHarrowMissiles(w: World, living: Player[], dt: number) {
       }
       at = next;
     }
-    if (!hit && w.time + 1e-8 < m.impact) return true;
+    if (!hit && w.time + 1e-8 < m.impact) {
+      m.lastChecked = through;
+      return true;
+    }
     hit ??= m.target;
     event(w, { type: "burst", ...hit, radius: m.radius });
     for (const p of living) {
@@ -513,20 +519,47 @@ export function stepHarrow(
     radius: number,
     damage: number,
     hitIds?: string[],
+    from?: Point,
   ) => {
     for (const p of living) {
       if (p.hp <= 0 || !p.connected || hitIds?.includes(p.id)) continue;
-      const dx = p.x - point.x,
-        dy = (p.y ?? 0) + 0.9 - point.y,
-        dz = p.z - point.z,
+      const center = { x: p.x, y: (p.y ?? 0) + 0.9, z: p.z };
+      let nearest = point;
+      if (from) {
+        const sx = point.x - from.x,
+          sy = point.y - from.y,
+          sz = point.z - from.z,
+          squared = sx * sx + sy * sy + sz * sz;
+        const t =
+          squared > 1e-8
+            ? Math.max(
+                0,
+                Math.min(
+                  1,
+                  ((center.x - from.x) * sx +
+                    (center.y - from.y) * sy +
+                    (center.z - from.z) * sz) /
+                    squared,
+                ),
+              )
+            : 1;
+        nearest = {
+          x: from.x + sx * t,
+          y: from.y + sy * t,
+          z: from.z + sz * t,
+        };
+      }
+      const dx = center.x - nearest.x,
+        dy = center.y - nearest.y,
+        dz = center.z - nearest.z,
         length = Math.hypot(dx, dy, dz);
       if (
         length <= radius &&
         (length < 1e-6 ||
           wallDistance(
-            point.x,
-            point.y,
-            point.z,
+            nearest.x,
+            nearest.y,
+            nearest.z,
             dx / length,
             dy / length,
             dz / length,
@@ -570,6 +603,7 @@ export function stepHarrow(
         );
         const distance = Math.max(0, end - start) * HARROW.dashDistance;
         a.travelProgress = end;
+        const from = { x: e.x, y: e.y + 0.9, z: e.z };
         move(
           e,
           Math.sin(a.yaw) * distance,
@@ -583,6 +617,7 @@ export function stepHarrow(
             HARROW.dashRadius,
             HARROW.dashDamage,
             (a.hitIds ??= []),
+            from,
           );
       }
       if (age >= HARROW.dashDuration) {

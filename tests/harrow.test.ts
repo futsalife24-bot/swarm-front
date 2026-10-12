@@ -95,6 +95,69 @@ it("sweeps a straight claw shot into the first player and respects intervening w
   }
 });
 
+it("checks every unprocessed straight-shot interval even after impact has passed", () => {
+  const { w, p, e } = fixture();
+  queueHarrowSnipes(w, e, p);
+  const shot = w.harrowMissiles![0];
+  Object.assign(shot, {
+    origin: { x: 0, y: 0.9, z: 0 },
+    target: { x: 0, y: 0.9, z: 10 },
+    launch: 0,
+    impact: 0.8,
+  });
+  w.harrowMissiles = [shot];
+  Object.assign(p, { x: 0, y: 0, z: 5, safe: 0 });
+  const hp = p.hp;
+  w.time = 1.2;
+  stepHarrowMissiles(w, [p], 0.05);
+  expect(p.hp).toBeLessThan(hp);
+  const burst = w.events.find((event) => event.type === "burst");
+  expect(burst?.z).toBeGreaterThan(3.5);
+  expect(burst?.z).toBeLessThan(5.5);
+
+  p.hp = hp;
+  p.safe = 0;
+  w.events = [];
+  w.harrowMissiles = [{ ...shot, id: ++w.serial, lastChecked: undefined }];
+  const wall = { x: 0, z: 2, w: 4, d: 0.2, h: 4 };
+  TRAINING_MAP.blocks.push(wall);
+  try {
+    stepHarrowMissiles(w, [p], 0.05);
+    expect(p.hp).toBe(hp);
+    expect(w.events.find((event) => event.type === "burst")?.z).toBeLessThan(3);
+  } finally {
+    TRAINING_MAP.blocks.splice(TRAINING_MAP.blocks.indexOf(wall), 1);
+  }
+});
+
+it("resumes an arc's unchecked descent after a delayed tick and hits the roof", () => {
+  const { w, p, e } = fixture();
+  queueHarrowMissiles(w, e, [p]);
+  const shot = w.harrowMissiles![0];
+  Object.assign(shot, {
+    origin: { x: 0, y: 5, z: 0 },
+    target: { x: 0, y: 0.06, z: 0 },
+    launch: 0,
+    impact: 1.8,
+  });
+  w.harrowMissiles = [shot];
+  w.time = 0.5;
+  stepHarrowMissiles(w, [], 0.5);
+  expect(shot.lastChecked).toBeCloseTo(0.5);
+  const roof = { x: 0, z: 0, w: 2, d: 2, h: 2 };
+  TRAINING_MAP.blocks.push(roof);
+  try {
+    w.time = 2.2;
+    stepHarrowMissiles(w, [], 0.05);
+    const burst = w.events.find((event) => event.type === "burst");
+    expect(burst?.y).toBeGreaterThan(1.8);
+    expect(burst?.y).toBeLessThan(2.5);
+    expect(w.harrowMissiles).toEqual([]);
+  } finally {
+    TRAINING_MAP.blocks.splice(TRAINING_MAP.blocks.indexOf(roof), 1);
+  }
+});
+
 it("commits two five-bomb rows and flies straight over the target center", () => {
   const { w, p, e } = fixture();
   e.harrowAirborne = true;
@@ -196,6 +259,70 @@ it("dashes the committed distance and uses the same six tapered claw strokes for
   expect(claw.x).toBeCloseTo(at.x);
   expect(claw.z).toBeCloseTo(at.z);
   expect(claw.radius).toBeCloseTo(HARROW.diveClawRadius - 2 * 0.15);
+});
+
+it("hits along a large Dash step only once and stops at an intervening wall", () => {
+  const { w, p, e } = fixture();
+  e.harrow = {
+    kind: "Dash",
+    started: 0,
+    fired: false,
+    yaw: 0,
+    travelProgress: 0,
+  };
+  const start = e.z;
+  p.z = start + HARROW.dashDistance / 2;
+  const hp = p.hp;
+  w.time = HARROW.dashWind + HARROW.dashTravel;
+  stepHarrow(w, e, p, [p], 0.05);
+  expect(e.z).toBeCloseTo(start + HARROW.dashDistance);
+  expect(p.hp).toBeLessThan(hp);
+
+  e.z = start;
+  e.harrow = {
+    kind: "Dash",
+    started: 0,
+    fired: false,
+    yaw: 0,
+    travelProgress: 0,
+  };
+  p.hp = hp;
+  p.safe = 0;
+  w.time = HARROW.dashWind + HARROW.dashTravel / 2;
+  stepHarrow(w, e, p, [p], 0.05);
+  expect(p.hp).toBeLessThan(hp);
+  const afterFirstHit = p.hp;
+  p.safe = 0;
+  w.time = HARROW.dashWind + HARROW.dashTravel;
+  stepHarrow(w, e, p, [p], 0.05);
+  expect(p.hp).toBe(afterFirstHit);
+
+  e.z = start;
+  e.harrow = {
+    kind: "Dash",
+    started: 0,
+    fired: false,
+    yaw: 0,
+    travelProgress: 0,
+  };
+  p.hp = hp;
+  p.safe = 0;
+  p.z = start + HARROW.dashDistance;
+  const wall = {
+    x: 0,
+    z: start + HARROW.dashDistance / 2,
+    w: 30,
+    d: 0.2,
+    h: 10,
+  };
+  TRAINING_MAP.blocks.push(wall);
+  try {
+    stepHarrow(w, e, p, [p], 0.05);
+    expect(e.z).toBeLessThan(wall.z);
+    expect(p.hp).toBe(hp);
+  } finally {
+    TRAINING_MAP.blocks.splice(TRAINING_MAP.blocks.indexOf(wall), 1);
+  }
 });
 
 it("selects a natural Dash only when the target is within its 4-16 metre approach", () => {
@@ -356,6 +483,8 @@ it("checkpoint replay keeps missile timing exact and wire packets preserve every
   initSolo(w, 20, "normal", false, progress.soldiers[0].levels);
   queueHarrowMissiles(w, e, [p]);
   w.time = HARROW.markerLead + 0.3;
+  stepHarrowMissiles(w, [p], 0.3);
+  expect(w.harrowMissiles![0].lastChecked).toBeCloseTo(w.time);
   const values = new Map<string, string>();
   const storage = {
     getItem: (k: string) => values.get(k) ?? null,

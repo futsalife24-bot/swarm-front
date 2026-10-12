@@ -1,0 +1,32 @@
+{
+  "pass": true,
+  "at": "2026-10-12T02:42:24.6415343Z",
+  "base": "cc43615d1f0835360f8fa9d5edbf8ac81a97bd3d",
+  "checks": [
+    {
+      "tests": 36,
+      "command": "npx vitest run tests/harrow.test.ts",
+      "pass": true
+    },
+    {
+      "pass": true,
+      "command": "npm run typecheck"
+    },
+    {
+      "pass": true,
+      "command": "npx prettier --check scripts/check-harrow-network.mjs src/shared/harrow.ts tests/harrow.test.ts"
+    },
+    {
+      "pass": true,
+      "checks": 22,
+      "mockedTransport": false,
+      "command": "HARROW_TEST_API=http://127.0.0.1:8789 node scripts/check-harrow-network.mjs",
+      "clients": 2
+    }
+  ],
+  "sourceHashes": {
+    "tests/harrow.test.ts": "f1dcea201d0f4bdaf42fb520f21c7bea8e54c96f8cdbb5ffce3e5d38e512e4d4",
+    "src/shared/harrow.ts": "796ae0352533b17179a70d7fc94dc6308f80e277fc825c06e859a03534eba76a",
+    "scripts/check-harrow-network.mjs": "76dd297b161f05473b767cdfc86f280aa43bf5a52c3a43b7f7d29ad50d160858"
+  }
+}

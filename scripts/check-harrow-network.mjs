@@ -132,7 +132,18 @@ try {
       w.harrowMissiles.every((m) => w.time >= m.launch && w.time < m.impact),
     "ten missiles launched",
   );
-  assert.deepEqual(fired.harrowMissiles, warning.harrowMissiles);
+  const committedFields = (missiles) =>
+    missiles.map(({ lastChecked: _lastChecked, ...committed }) => committed);
+  assert.deepEqual(
+    committedFields(fired.harrowMissiles),
+    committedFields(warning.harrowMissiles),
+  );
+  assert.ok(
+    fired.harrowMissiles.every(
+      (m) => m.lastChecked >= m.launch && m.lastChecked <= fired.time,
+    ),
+    "Both clients receive the authoritative missile sweep cursor",
+  );
   await checkpoint(
     run,
     (w) => !w.harrowMissiles?.length && w.players.every((p) => p.hp < 10000),

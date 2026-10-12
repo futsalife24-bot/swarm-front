@@ -59,7 +59,7 @@
     },
     {
       "label": "spin wind-up",
-      "time": 0.05,
+      "time": 0.1,
       "missiles": 0,
       "airborne": false,
       "action": "Spin",
@@ -72,7 +72,7 @@
     },
     {
       "label": "spin damage",
-      "time": 1.25,
+      "time": 1.2,
       "missiles": 0,
       "airborne": false,
       "action": "Spin",
@@ -85,7 +85,7 @@
     },
     {
       "label": "dash ground warning",
-      "time": 0.05,
+      "time": 0.1,
       "missiles": 0,
       "airborne": false,
       "action": "Dash",
@@ -98,7 +98,7 @@
     },
     {
       "label": "dash travel and contact",
-      "time": 1.35,
+      "time": 1.3,
       "missiles": 0,
       "airborne": false,
       "action": "Dash",
@@ -163,7 +163,7 @@
     },
     {
       "label": "bomb pass travels above committed rows",
-      "time": 2.1,
+      "time": 2.15,
       "missiles": 10,
       "airborne": true,
       "action": "BombPass",
@@ -176,11 +176,11 @@
     },
     {
       "label": "bomb rows impact and damage synchronizes",
-      "time": 4.3,
+      "time": 4.35,
       "missiles": 0,
       "airborne": true,
       "action": "Land",
-      "enemyHeight": 27.66,
+      "enemyHeight": 26.42,
       "playerHp": [
         10000,
         9968
@@ -280,7 +280,7 @@
     },
     {
       "label": "stagger landing transition",
-      "time": 2.65,
+      "time": 2.7,
       "missiles": 0,
       "airborne": false,
       "action": "Land",
@@ -293,8 +293,8 @@
     }
   ],
   "sourceHashes": {
-    "src/shared/harrow.ts": "81a55ed3f697d3e56a7b5bb45ceeb8fea4f4375313cafc62af342473a9591f43",
+    "src/shared/harrow.ts": "796ae0352533b17179a70d7fc94dc6308f80e277fc825c06e859a03534eba76a",
     "server/testing.ts": "1c3aac6e4dcd7e0434a0416330141d58ff2f70e425d805075366c62c0c239f55",
-    "scripts/check-harrow-network.mjs": "777a2f723b8ea00129a433be94a4703457f4030fea311905e5d1d66de5367bec"
+    "scripts/check-harrow-network.mjs": "76dd297b161f05473b767cdfc86f280aa43bf5a52c3a43b7f7d29ad50d160858"
   }
 }

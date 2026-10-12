@@ -1,3 +1,8 @@
+# 現在地: HARROW v12・独立監査の必須2点を修正し再監査準備（2026-10-12）
+
+[PR167](https://github.com/futsalife24-bot/swarm-front/pull/167)、branch `codex/harrow-biped-attacks-20261012`、base `9bdb1d29b8692ad62e7f7b46aa819c19bad55365`。[通常Chat監査](https://chatgpt.com/c/6acc45c7-1978-83ec-8776-15d96f976047)の初回判定は必須P2が2件、P0/P1なし。突進の途中命中と、更新遅延時のミサイル未処理区間を修正。局所36テスト・型検査成功、実Worker/2WebSocketの22検査も再成功。詳細は [監査・公開記録](HARROW-V12-AUDIT.md)。監査合格・main反映・公開は未完了、公開はv11のまま。
+
+本人の今回の承認で別件下書き496文字を一時保管し、HARROW資料のみ送信した後、全文一致で復元済み。下記の承認待ちは解消済みの経過。
 # 現在地: HARROW二脚モーション・指定7攻撃を実装、監査前の下書き保護承認待ち（2026-10-12）
 
 branch `codex/harrow-biped-attacks-20261012`、base `9bdb1d29b8692ad62e7f7b46aa819c19bad55365`。本人指定7攻撃と地上ミサイル2方式を実装。v11の形状・材質・ウェイトを保持した39骨/18動作のv12。GLB SHA256 `b0d0664b7ea65b65f0416b5d0c5aad2386f42d668d00ef7826d201a858d96ddd`。[仕様と検証](HARROW-BIPED-ATTACKS.md)。イャンガルルガ実戦映像を停止・コマ送りで確認した範囲も同記録へ保存。
