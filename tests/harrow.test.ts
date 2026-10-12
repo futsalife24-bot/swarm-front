@@ -11,7 +11,13 @@ import {
 import {
   HARROW,
   harrowMissilePosition,
+  harrowDiveClawCircles,
+  harrowDiveRootForTarget,
+  harrowSnipeOrigins,
+  harrowBombOrigins,
   queueHarrowMissiles,
+  queueHarrowSnipes,
+  queueHarrowBombs,
   stepHarrowMissiles,
   stepHarrow,
   staggerHarrow,
@@ -44,6 +50,196 @@ function fixture() {
   e.harrow = { kind: "Threat", started: w.time, fired: false, yaw: 0 };
   return { w, p, e };
 }
+
+it("sweeps a straight claw shot into the first player and respects intervening walls", () => {
+  const { w, p, e } = fixture();
+  e.harrow = { kind: "Snipe", started: 0, fired: false, yaw: 0 };
+  queueHarrowSnipes(w, e, p);
+  expect(w.harrowMissiles).toHaveLength(10);
+  const shot = w.harrowMissiles![0];
+  expect(shot.trajectory).toBe("straight");
+  expect(shot.origin).toEqual(harrowSnipeOrigins(e, 0)[0]);
+  expect(shot.origin.x).toBeCloseTo(e.x - 4.949096154 * HARROW.scale);
+  expect(shot.origin.y).toBeCloseTo(e.y + 10.293295083 * HARROW.scale);
+  expect(shot.origin.z).toBeCloseTo(e.z - 0.187017313 * HARROW.scale);
+  expect(w.harrowMissiles![9].origin.x).toBeCloseTo(
+    e.x + 4.940100605 * HARROW.scale,
+  );
+  expect(harrowMissilePosition(shot, shot.launch)).toEqual(shot.origin);
+  expect(harrowMissilePosition(shot, shot.impact).y).toBeCloseTo(shot.target.y);
+  Object.assign(shot, {
+    origin: { x: 0, y: 0.9, z: 0 },
+    target: { x: 0, y: 0.9, z: 10 },
+    launch: 0,
+    impact: 0.8,
+  });
+  w.harrowMissiles = [shot];
+  Object.assign(p, { x: 0, y: 0, z: 5, safe: 0 });
+  const hp = p.hp;
+  w.time = 0.5;
+  stepHarrowMissiles(w, [p], 0.5);
+  expect(p.hp).toBeLessThan(hp);
+  expect(w.harrowMissiles).toEqual([]);
+
+  p.hp = hp;
+  p.safe = 0;
+  w.harrowMissiles = [{ ...shot, id: ++w.serial }];
+  const wall = { x: 0, z: 2, w: 4, d: 0.2, h: 4 };
+  TRAINING_MAP.blocks.push(wall);
+  try {
+    stepHarrowMissiles(w, [p], 0.5);
+    expect(p.hp).toBe(hp);
+    expect(w.harrowMissiles).toEqual([]);
+  } finally {
+    TRAINING_MAP.blocks.splice(TRAINING_MAP.blocks.indexOf(wall), 1);
+  }
+});
+
+it("commits two five-bomb rows and flies straight over the target center", () => {
+  const { w, p, e } = fixture();
+  e.harrowAirborne = true;
+  e.y = HARROW.flightHeight;
+  e.harrow = {
+    kind: "BombPass",
+    started: w.time,
+    fired: false,
+    yaw: 0,
+    from: { x: e.x, y: e.y, z: e.z },
+    to: { x: p.x, y: e.y, z: p.z + 16 },
+  };
+  queueHarrowBombs(w, e, p);
+  const bombs = w.harrowMissiles!;
+  expect(bombs).toHaveLength(10);
+  expect(new Set(bombs.map((m) => m.launch)).size).toBe(5);
+  for (let row = 0; row < 5; row++) {
+    const left = bombs[row * 2],
+      right = bombs[row * 2 + 1];
+    const intendedZ = p.z + (row - 2) * HARROW.bombSpacing;
+    expect(left.launch).toBe(right.launch);
+    expect(Math.abs(left.target.z - intendedZ)).toBeLessThan(0.2);
+    expect(Math.abs(right.target.z - intendedZ)).toBeLessThan(0.2);
+  }
+  expect(bombs.filter((m) => m.target.x < p.x)).toHaveLength(5);
+  expect(bombs.filter((m) => m.target.x > p.x)).toHaveLength(5);
+  expect(bombs.every((m) => m.trajectory === "straight")).toBe(true);
+  expect(bombs[4].target.z).toBeCloseTo(p.z);
+  const centerBody = { x: e.x, y: e.y, z: p.z };
+  expect(bombs[4].origin).toEqual(harrowBombOrigins(centerBody, 0)[2]);
+  expect(bombs[5].origin).toEqual(harrowBombOrigins(centerBody, 0)[7]);
+  expect(bombs[4].origin.x).toBeCloseTo(-0.549980251 * HARROW.scale);
+  expect(bombs[4].origin.z).toBeCloseTo(p.z - 0.381897412 * HARROW.scale);
+  const warned = structuredClone(bombs.map((m) => [m.target, m.launch]));
+  p.z += 20;
+  w.time = HARROW.bombWind + (24 / 40) * HARROW.bombTravel;
+  stepHarrow(w, e, p, [p], 0.05);
+  expect(e.z).toBeCloseTo(12);
+  expect(bombs.map((m) => [m.target, m.launch])).toEqual(warned);
+});
+
+it("preannounces the first surface along a moving bomb claw's diagonal path", () => {
+  const { w, p, e } = fixture();
+  e.y = HARROW.flightHeight;
+  e.harrow = {
+    kind: "BombPass",
+    started: 0,
+    fired: false,
+    yaw: 0,
+    from: { x: e.x, y: e.y, z: e.z },
+    to: { x: 0, y: e.y, z: p.z + 16 },
+  };
+  const wall = { x: -HARROW.bombSide, z: p.z, w: 2, d: 2, h: 8 };
+  TRAINING_MAP.blocks.push(wall);
+  try {
+    queueHarrowBombs(w, e, p);
+    const bomb = w.harrowMissiles![4];
+    expect(bomb.target.y).toBeGreaterThan(
+      groundHeight(bomb.target.x, bomb.target.z, mapFor(w).blocks),
+    );
+    expect(bomb.target.x).toBeGreaterThan(-HARROW.bombSide);
+    w.harrowMissiles = [bomb];
+    w.time = bomb.impact;
+    stepHarrowMissiles(w, [], bomb.impact - bomb.launch);
+    const burst = w.events.find((event) => event.type === "burst");
+    expect(burst).toMatchObject({
+      x: bomb.target.x,
+      y: bomb.target.y,
+      z: bomb.target.z,
+    });
+  } finally {
+    TRAINING_MAP.blocks.splice(TRAINING_MAP.blocks.indexOf(wall), 1);
+  }
+});
+
+it("dashes the committed distance and uses the same six tapered claw strokes for dive hits", () => {
+  const { w, p, e } = fixture();
+  e.harrow = {
+    kind: "Dash",
+    started: 0,
+    fired: false,
+    yaw: 0,
+    travelProgress: 0,
+  };
+  const start = e.z;
+  p.z = start + HARROW.dashDistance;
+  const hp = p.hp;
+  w.time = HARROW.dashWind + HARROW.dashTravel;
+  stepHarrow(w, e, p, [p], 0.05);
+  expect(e.z - start).toBeCloseTo(HARROW.dashDistance);
+  expect(p.hp).toBeLessThan(hp);
+  const at = { x: 0, y: 0, z: 0 };
+  const circles = harrowDiveClawCircles(at, 0);
+  expect(circles).toHaveLength(30);
+  expect(circles.every((c) => Math.hypot(c.x, c.z) > c.radius)).toBe(true);
+  expect(circles.every((c) => Math.hypot(c.x, c.z + 10) > c.radius)).toBe(true);
+  const root = harrowDiveRootForTarget(at, 0);
+  const claw = harrowDiveClawCircles(root, 0)[22];
+  expect(claw.x).toBeCloseTo(at.x);
+  expect(claw.z).toBeCloseTo(at.z);
+  expect(claw.radius).toBeCloseTo(HARROW.diveClawRadius - 2 * 0.15);
+});
+
+it("selects a natural Dash only when the target is within its 4-16 metre approach", () => {
+  const { w, p, e } = fixture();
+  e.harrow = undefined;
+  e.harrowAirborne = false;
+  e.y = groundHeight(e.x, e.z, mapFor(w).blocks);
+  e.harrowSwitchAt = 100;
+  e.heading = 0;
+  e.cool = 0;
+  w.seed = 0;
+  p.z = e.z + 12;
+  stepHarrow(w, e, p, [p], 0.05);
+  expect(e.harrow?.kind).toBe("Dash");
+  e.harrow = undefined;
+  e.cool = 0;
+  e.heading = 0;
+  w.seed = 0;
+  p.z = e.z + HARROW.dashDistance + HARROW.dashRadius + 1;
+  stepHarrow(w, e, p, [p], 0.05);
+  expect(e.harrow?.kind).not.toBe("Dash");
+});
+
+it("keeps Takeoff grounded through 24 percent wing preparation before rising", () => {
+  const { w, p, e } = fixture();
+  e.y = 0;
+  e.harrow = {
+    kind: "Takeoff",
+    started: 0,
+    fired: false,
+    yaw: 0,
+    from: { x: e.x, y: 0, z: e.z },
+    to: { x: e.x, y: HARROW.flightHeight, z: e.z },
+    flapSeed: 0.625,
+  };
+  w.time = HARROW.takeoffDuration * 0.24 - 0.01;
+  stepHarrow(w, e, p, [p], 0.05);
+  expect(e.y).toBeCloseTo(0);
+  expect(e.harrow?.flapSeed).toBe(0.625);
+  w.time = HARROW.takeoffDuration * 0.5;
+  stepHarrow(w, e, p, [p], 0.05);
+  expect(e.y).toBeGreaterThan(0);
+  expect(e.y).toBeLessThan(HARROW.flightHeight);
+});
 
 /** Real solo tick/input path, retaining the campaign map and damage multiplier. */
 function combatFixture(stage: number, difficulty: "normal" | "medium") {
@@ -477,7 +673,7 @@ it("28m pressure reach does not expand the old 21.2m ground or airborne close-at
 
 it("an unupgraded 160 HP soldier survives one ST25 medium dive through real ticks", () => {
   const { w, p, e } = combatFixture(25, "medium");
-  const target = { x: p.x, y: p.y, z: p.z };
+  const target = harrowDiveRootForTarget({ x: p.x, y: p.y, z: p.z }, 0);
   e.harrow = {
     kind: "Dive",
     started: 0,
@@ -495,6 +691,36 @@ it("an unupgraded 160 HP soldier survives one ST25 medium dive through real tick
   expect(w.phase).toBe("battle");
   for (let tick = 0; tick < 8; tick++) step(w, { solo: neutral() });
   expect(p.hp).toBeCloseTo(3.416, 6);
+});
+
+it("locks a natural Glide so the right middle claw, rather than the foot gap, lands on the target", () => {
+  const { w, p, e } = fixture();
+  p.z = e.z + HARROW.spinTriggerRadius + 5;
+  e.harrow = undefined;
+  e.harrowAirborne = true;
+  e.y = HARROW.flightHeight;
+  e.harrowSwitchAt = 100;
+  e.cool = 0;
+  e.heading = 0;
+  w.seed = 0;
+  const aimed = { x: p.x, y: p.y ?? 0, z: p.z };
+  stepHarrow(w, e, p, [p], 0.05);
+  expect(e.harrow?.kind).toBe("Glide");
+  const root = e.harrow!.to!;
+  const expected = harrowDiveRootForTarget(aimed, 0);
+  expect(root.x).toBeCloseTo(expected.x);
+  expect(root.z).toBeCloseTo(expected.z);
+  const circles = harrowDiveClawCircles(root, e.harrow!.yaw);
+  expect(circles[22].x).toBeCloseTo(aimed.x);
+  expect(circles[22].z).toBeCloseTo(aimed.z);
+  expect(
+    circles.every((c) => Math.hypot(c.x - root.x, c.z - root.z) > c.radius),
+  ).toBe(true);
+  p.x += 12;
+  w.time += HARROW.glideDuration;
+  stepHarrow(w, e, p, [p], 0.05);
+  expect(e.harrow?.kind).toBe("Dive");
+  expect(e.harrow?.to).toEqual(root);
 });
 
 it("airborne ranged attacks choose glide dives near 45 percent and retain the committed dive target", () => {
@@ -515,7 +741,7 @@ it("airborne ranged attacks choose glide dives near 45 percent and retain the co
   }
   expect(dives).toBeGreaterThan(390);
   expect(dives).toBeLessThan(510);
-  const committed = { x: p.x, y: 0, z: p.z };
+  const committed = harrowDiveRootForTarget({ x: p.x, y: 0, z: p.z }, 0);
   e.harrow = {
     kind: "Glide",
     started: w.time,

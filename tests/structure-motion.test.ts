@@ -1,6 +1,7 @@
 import { it, expect } from "vitest";
 import {
   StructureMotionController,
+  harrowTakeoffClip,
   type StructureInput,
 } from "../src/client/structure-motion";
 import {
@@ -15,6 +16,39 @@ const sample = (changes: Partial<StructureInput> = {}): StructureInput => ({
   wind: 0,
   cool: 0,
   ...changes,
+});
+it("HARROW chooses a stable asymmetric takeoff clip from the authoritative seed", () => {
+  expect([0, 0.24, 0.25, 0.5, 0.75, 1].map(harrowTakeoffClip)).toEqual([
+    "Takeoff",
+    "Takeoff",
+    "TakeoffB",
+    "TakeoffC",
+    "TakeoffD",
+    "TakeoffD",
+  ]);
+  const controller = new StructureMotionController("harrow");
+  const poses: unknown[][] = [];
+  controller.update(
+    {
+      setPose(...args: unknown[]) {
+        poses.push(args);
+      },
+    },
+    [
+      sample({
+        worldTime: 11,
+        harrow: {
+          kind: "Takeoff",
+          started: 10,
+          fired: false,
+          yaw: 0,
+          flapSeed: 0.7,
+        },
+      }),
+    ],
+    0,
+  );
+  expect(poses.at(-1)?.slice(0, 3)).toEqual([0, "TakeoffC", 1]);
 });
 for (const kind of Object.keys(STRUCTURE_TIMING).filter(
   (k) => k !== "calyx" && k !== "harrow",

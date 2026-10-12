@@ -119,6 +119,16 @@
   padding: 6px 9px;
   font-size: 12px;
 }
+.motion-buttons .harrow-attack-picker {
+  min-width: 0;
+  max-width: 150px;
+  min-height: 36px;
+  color: #d9ecf5;
+  background: #172734;
+  border: 1px solid #547389;
+  border-radius: 5px;
+  font-size: 12px;
+}
 .motion-status {
   text-align: center;
   min-height: 14px;

@@ -18,6 +18,7 @@ type Surface = {
 };
 type CachedRing = Point & {
   radius: number;
+  filled: boolean;
   blocks?: Block[];
   triangles: number;
   widthFactor: number;
@@ -188,6 +189,19 @@ export class TerrainProjectedMarkers extends T.Mesh<
     this.indexDirty = false;
   }
   setRing(index: number, point: Point, radius: number, blocks?: Block[]) {
+    this.setShape(index, point, radius, blocks, false);
+  }
+  /** A filled footprint uses the same terrain clipping and upper-surface selection as rings. */
+  setDisc(index: number, point: Point, radius: number, blocks?: Block[]) {
+    this.setShape(index, point, radius, blocks, true);
+  }
+  private setShape(
+    index: number,
+    point: Point,
+    radius: number,
+    blocks: Block[] | undefined,
+    filled: boolean,
+  ) {
     if (index >= this.capacity) return;
     const old = this.cache[index];
     if (
@@ -196,6 +210,7 @@ export class TerrainProjectedMarkers extends T.Mesh<
       old.y === point.y &&
       old.z === point.z &&
       old.radius === radius &&
+      old.filled === filled &&
       old.blocks === blocks
     )
       return;
@@ -232,7 +247,7 @@ export class TerrainProjectedMarkers extends T.Mesh<
       for (let segment = 0; segment < segments && !exhausted; segment++) {
         const angle = (segment / segments) * Math.PI * 2,
           next = (((segment + 1) % segments) / segments) * Math.PI * 2;
-        const inner = radius * (1 - 0.055 * widthFactor),
+        const inner = filled ? 0 : radius * (1 - 0.055 * widthFactor),
           outer = radius * (1 + 0.055 * widthFactor);
         const polygon: XY[] = [
           [
@@ -335,7 +350,14 @@ export class TerrainProjectedMarkers extends T.Mesh<
     } while (exhausted && widthFactor >= 1 / 64);
     if (exhausted)
       throw new Error("Terrain marker exceeds fixed tessellation capacity");
-    this.cache[index] = { ...point, radius, blocks, triangles, widthFactor };
+    this.cache[index] = {
+      ...point,
+      radius,
+      filled,
+      blocks,
+      triangles,
+      widthFactor,
+    };
     this.indexDirty = true;
     positions.addUpdateRange(index * this.verticesPerRing * 3, triangles * 9);
     positions.needsUpdate = true;

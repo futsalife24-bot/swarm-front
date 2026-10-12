@@ -6,7 +6,7 @@ import { HARROW, harrowMissileOrigins } from "../src/shared/harrow";
 import { HARROW_FLIGHT_CYCLE } from "../src/shared/harrow-motion";
 
 async function model() {
-  const bytes = readFileSync("public/assets/enemies/harrow_motion_v11.glb");
+  const bytes = readFileSync("public/assets/enemies/harrow_motion_v12.glb");
   // CPU geometry/animation checks only: Node has no image decoder. Actual 4K
   // texture decoding and rendering are verified separately in the browser.
   const loader = new GLTFLoader().register(() => ({
@@ -32,6 +32,12 @@ it("the shipped HARROW clips finish at their authoritative attack transitions", 
     Dive: HARROW.diveDuration,
     StaggerFall: HARROW.staggerFallDuration,
     Land: HARROW.landDuration,
+    Dash: HARROW.dashDuration,
+    Snipe: HARROW.snipeDuration,
+    BombPass: HARROW.bombDuration,
+    TakeoffB: HARROW.takeoffDuration,
+    TakeoffC: HARROW.takeoffDuration,
+    TakeoffD: HARROW.takeoffDuration,
   };
   for (const [name, duration] of Object.entries(durations))
     expect(

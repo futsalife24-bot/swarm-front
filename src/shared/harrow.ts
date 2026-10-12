@@ -19,6 +19,9 @@ import {
   HARROW_MOVE_SPEED,
   HARROW_WALK_AUTHORED_SPEED,
   HARROW_SPIN_TIMING,
+  HARROW_DASH_TIMING,
+  HARROW_SNIPE_TIMING,
+  HARROW_BOMB_TIMING,
   harrowSpinRotation,
 } from "./harrow-motion";
 
@@ -43,6 +46,26 @@ export const HARROW = {
   // More reach must not change when HARROW lands or chooses its close attack.
   spinTriggerRadius: 21.2,
   spinDamage: 84,
+  dashWind: HARROW_DASH_TIMING.wind,
+  dashTravel: HARROW_DASH_TIMING.travel,
+  dashDuration: HARROW_DASH_TIMING.duration,
+  dashDistance: 12,
+  dashRadius: 4,
+  dashDamage: 60,
+  snipeWind: HARROW_SNIPE_TIMING.wind,
+  snipeInterval: HARROW_SNIPE_TIMING.interval,
+  snipeDuration: HARROW_SNIPE_TIMING.duration,
+  snipeFlight: 0.8,
+  snipeDamage: 18,
+  snipeRadius: 0.7,
+  bombWind: HARROW_BOMB_TIMING.wind,
+  bombTravel: HARROW_BOMB_TIMING.travel,
+  bombDuration: HARROW_BOMB_TIMING.duration,
+  bombFlight: 0.8,
+  bombDamage: 32,
+  bombRadius: 2.5,
+  bombSide: 5,
+  bombSpacing: 6,
   takeoffDuration: 3.5,
   flightHeight: RAY_MAX_FLIGHT_HEIGHT * 3,
   groundDuration: 12,
@@ -54,6 +77,7 @@ export const HARROW = {
   diveRange: 60,
   diveRadius: 12,
   diveDamage: 92,
+  diveClawRadius: 1.45,
   staggerFraction: 0.12,
   staggerFallDuration: 2.625,
 } as const;
@@ -67,10 +91,17 @@ export interface HarrowMissile {
   impact: number;
   damage: number;
   radius: number;
+  trajectory?: "arc" | "straight";
 }
 /** Cubic trajectory: vertical launch, turn above the battlefield, vertical descent. */
 export function harrowMissilePosition(m: HarrowMissile, time: number): Point {
   const t = Math.max(0, Math.min(1, (time - m.launch) / (m.impact - m.launch)));
+  if (m.trajectory === "straight")
+    return {
+      x: m.origin.x + (m.target.x - m.origin.x) * t,
+      y: m.origin.y + (m.target.y - m.origin.y) * t,
+      z: m.origin.z + (m.target.z - m.origin.z) * t,
+    };
   const u = 1 - t,
     top = Math.max(m.origin.y, m.target.y) + 28;
   return {
@@ -89,13 +120,55 @@ export function harrowMissilePosition(m: HarrowMissile, time: number): Point {
 }
 export interface HarrowAttack {
   kind:
-    "Spin" | "Threat" | "Takeoff" | "Glide" | "Dive" | "Land" | "StaggerFall";
+    | "Spin"
+    | "Threat"
+    | "Dash"
+    | "Snipe"
+    | "BombPass"
+    | "Takeoff"
+    | "Glide"
+    | "Dive"
+    | "Land"
+    | "StaggerFall";
   started: number;
   fired: boolean;
   yaw: number;
   from?: Point;
   to?: Point;
   hitIds?: string[];
+  flapSeed?: number;
+  travelProgress?: number;
+}
+const DIVE_FOOT_SIDE = 7.1;
+const DIVE_CLAW_START = -2;
+const DIVE_CLAW_STEP = 1.6;
+const DIVE_CENTER_SEGMENT = 2;
+/** Aligns the right foot's middle claw with the locked player position. */
+export function harrowDiveRootForTarget(target: Point, yaw: number): Point {
+  const forward = DIVE_CLAW_START + DIVE_CENTER_SEGMENT * DIVE_CLAW_STEP;
+  return {
+    x: target.x - Math.sin(yaw) * forward - Math.cos(yaw) * DIVE_FOOT_SIDE,
+    y: target.y,
+    z: target.z - Math.cos(yaw) * forward + Math.sin(yaw) * DIVE_FOOT_SIDE,
+  };
+}
+/** Two feet, three tapering claw strokes each. Every returned circle is both marked and dangerous. */
+export function harrowDiveClawCircles(to: Point, yaw: number) {
+  const circles: Array<{ x: number; y: number; z: number; radius: number }> =
+    [];
+  for (const side of [-1, 1])
+    for (let claw = -1; claw <= 1; claw++)
+      for (let segment = 0; segment < 5; segment++) {
+        const forward = DIVE_CLAW_START + segment * DIVE_CLAW_STEP;
+        const lateral = side * DIVE_FOOT_SIDE + claw * (3.2 + segment * 0.38);
+        circles.push({
+          x: to.x + Math.sin(yaw) * forward + Math.cos(yaw) * lateral,
+          y: to.y,
+          z: to.z + Math.cos(yaw) * forward - Math.sin(yaw) * lateral,
+          radius: HARROW.diveClawRadius - segment * 0.15,
+        });
+      }
+  return circles;
 }
 /** Forward distance and side offset in the same -Z production frame as the GLB. */
 export function harrowPoint(
@@ -191,6 +264,140 @@ export function queueHarrowMissiles(w: World, e: Enemy, living: Player[]) {
     });
   }
 }
+/** v12 verification: ten Snipe wing-claw tips in production model coordinates. */
+const HARROW_SNIPE_TIPS = [
+  [-4.949096154, 10.293295083, 0.187017313],
+  [-4.49562371, 10.452240359, -0.244703862],
+  [-4.466234556, 10.007106408, 0.064682816],
+  [-5.356540394, 10.649327066, 0.128167036],
+  [-4.928284909, 10.667198389, -0.153151892],
+  [4.507401502, 10.440571456, -0.271876733],
+  [4.968687089, 10.284540607, 0.16663],
+  [4.470680669, 9.997343627, 0.045110465],
+  [5.368284599, 10.637677366, 0.101023039],
+  [4.940100605, 10.655529141, -0.180344694],
+] as const;
+/** v12 verification: five launchers per wing during BombPass. */
+const HARROW_BOMB_TIPS = [
+  [-0.780474019, 13.560811475, 0.502723456],
+  [-0.543660069, 13.127334688, 0.919018012],
+  [-0.549980251, 13.048660437, 0.381897412],
+  [-0.905879293, 14.005562263, 0.790305062],
+  [-0.711961283, 13.581552012, 1.003550545],
+  [0.559624, 13.095054079, 0.92770759],
+  [0.803161603, 13.536633293, 0.509239753],
+  [0.573756248, 13.009321353, 0.388513465],
+  [0.92187989, 13.973250545, 0.798997186],
+  [0.727906149, 13.54930902, 1.01224768],
+] as const;
+/** Grounded wing-claw muzzle positions, preserving verified launcher order. */
+export function harrowSnipeOrigins(e: Enemy, yaw: number): Point[] {
+  return HARROW_SNIPE_TIPS.map(([x, y, z]) => harrowPoint(e, yaw, -z, x, y));
+}
+export function harrowBombOrigins(
+  e: Pick<Enemy, "x" | "y" | "z">,
+  yaw: number,
+): Point[] {
+  return HARROW_BOMB_TIPS.map(([x, y, z]) => harrowPoint(e, yaw, -z, x, y));
+}
+export function queueHarrowSnipes(w: World, e: Enemy, target: Player) {
+  const missiles = (w.harrowMissiles ??= []);
+  if (missiles.length + 10 > HARROW.maxMissiles) return;
+  const origins = harrowSnipeOrigins(e, e.harrow!.yaw);
+  const aimed: Point = { x: target.x, y: (target.y ?? 0) + 0.9, z: target.z };
+  for (let i = 0; i < 10; i++) {
+    const launch = w.time + HARROW.snipeWind + i * HARROW.snipeInterval;
+    missiles.push({
+      id: ++w.serial,
+      owner: e.id,
+      origin: origins[i],
+      target: { ...aimed },
+      launch,
+      impact: launch + HARROW.snipeFlight,
+      damage: HARROW.snipeDamage,
+      radius: HARROW.snipeRadius,
+      trajectory: "straight",
+    });
+  }
+}
+/** Commit both target rows before the flyover, including their release times. */
+export function queueHarrowBombs(w: World, e: Enemy, target: Player) {
+  const missiles = (w.harrowMissiles ??= []);
+  if (missiles.length + 10 > HARROW.maxMissiles) return;
+  const a = e.harrow!;
+  const from = a.from ?? { x: e.x, y: e.y, z: e.z };
+  const to = a.to!;
+  const blocks = mapFor(w).blocks;
+  const length = Math.hypot(to.x - from.x, to.z - from.z);
+  const forwardX = Math.sin(a.yaw),
+    forwardZ = Math.cos(a.yaw);
+  const sideX = Math.cos(a.yaw),
+    sideZ = -Math.sin(a.yaw);
+  const targetDistance =
+    (target.x - from.x) * forwardX + (target.z - from.z) * forwardZ;
+  for (let row = 0; row < 5; row++) {
+    const along = Math.max(
+      0,
+      Math.min(length, targetDistance + (row - 2) * HARROW.bombSpacing),
+    );
+    const progress = length > 0 ? along / length : 0;
+    const body = {
+      x: from.x + (to.x - from.x) * progress,
+      y: from.y,
+      z: from.z + (to.z - from.z) * progress,
+    };
+    const origins = harrowBombOrigins(body, a.yaw);
+    for (const side of [-1, 1]) {
+      const x = from.x + forwardX * along + sideX * side * HARROW.bombSide;
+      const z = from.z + forwardZ * along + sideZ * side * HARROW.bombSide;
+      const ground = supportHeight(x, z, blocks, groundHeight(x, z, blocks));
+      const origin = origins[side < 0 ? row : row + 5];
+      const intended = { x, y: ground, z };
+      const delta = {
+        x: intended.x - origin.x,
+        y: intended.y - origin.y,
+        z: intended.z - origin.z,
+      };
+      const distance = Math.hypot(delta.x, delta.y, delta.z);
+      const firstSurface =
+        distance > 1e-8
+          ? wallDistance(
+              origin.x,
+              origin.y,
+              origin.z,
+              delta.x / distance,
+              delta.y / distance,
+              delta.z / distance,
+              distance,
+              blocks,
+            )
+          : distance;
+      const hitFraction =
+        firstSurface < distance - 1e-5
+          ? Math.max(0, firstSurface - 0.02) / distance
+          : 1;
+      const launch = w.time + HARROW.bombWind + progress * HARROW.bombTravel;
+      missiles.push({
+        id: ++w.serial,
+        owner: e.id,
+        origin,
+        target:
+          hitFraction === 1
+            ? intended
+            : {
+                x: origin.x + delta.x * hitFraction,
+                y: origin.y + delta.y * hitFraction,
+                z: origin.z + delta.z * hitFraction,
+              },
+        launch,
+        impact: launch + HARROW.bombFlight,
+        damage: HARROW.bombDamage,
+        radius: HARROW.bombRadius,
+        trajectory: "straight",
+      });
+    }
+  }
+}
 export function stepHarrowMissiles(w: World, living: Player[], dt: number) {
   if (w.phase !== "battle" || w.waveClearAt !== null) {
     w.harrowMissiles = [];
@@ -230,6 +437,33 @@ export function stepHarrowMissiles(w: World, living: Player[], dt: number) {
               blocks,
             )
           : length;
+      if (m.trajectory === "straight" && length > 1e-8) {
+        let first = wall;
+        for (const p of living) {
+          if (p.hp <= 0 || !p.connected) continue;
+          const px = p.x - a.x,
+            py = (p.y ?? 0) + 0.9 - a.y,
+            pz = p.z - a.z;
+          const along = Math.max(
+            0,
+            Math.min(length, (px * dx + py * dy + pz * dz) / length),
+          );
+          const separation = Math.hypot(
+            px - (dx / length) * along,
+            py - (dy / length) * along,
+            pz - (dz / length) * along,
+          );
+          if (separation <= m.radius && along <= first) first = along;
+        }
+        if (first < length - 1e-5) {
+          hit = {
+            x: a.x + (dx / length) * first,
+            y: a.y + (dy / length) * first,
+            z: a.z + (dz / length) * first,
+          };
+          break;
+        }
+      }
       if (wall < length - 1e-5) {
         const f = Math.max(0, wall - 0.02) / length;
         hit = { x: a.x + dx * f, y: a.y + dy * f, z: a.z + dz * f };
@@ -318,11 +552,66 @@ export function stepHarrow(
       yaw: e.heading ?? 0,
       from: { x: e.x, y: e.y, z: e.z },
       to,
+      flapSeed: kind === "Takeoff" ? random(w) : undefined,
     };
   };
   if (e.harrow) {
     const a = e.harrow,
       age = Math.max(0, w.time - a.started);
+    if (a.kind === "Dash") {
+      e.heading = a.yaw;
+      e.wind = Math.max(0, HARROW.dashWind - age);
+      if (age >= HARROW.dashWind) a.fired = true;
+      if (age >= HARROW.dashWind) {
+        const start = a.travelProgress ?? 0;
+        const end = Math.max(
+          0,
+          Math.min(1, (age - HARROW.dashWind) / HARROW.dashTravel),
+        );
+        const distance = Math.max(0, end - start) * HARROW.dashDistance;
+        a.travelProgress = end;
+        move(
+          e,
+          Math.sin(a.yaw) * distance,
+          Math.cos(a.yaw) * distance,
+          3.4 * HARROW.scale,
+          blocks,
+        );
+        if (distance > 0)
+          hitPlayers(
+            { x: e.x, y: e.y + 0.9, z: e.z },
+            HARROW.dashRadius,
+            HARROW.dashDamage,
+            (a.hitIds ??= []),
+          );
+      }
+      if (age >= HARROW.dashDuration) {
+        e.harrow = undefined;
+        e.cool = HARROW.cooldown;
+        e.wind = 0;
+      }
+      return;
+    }
+    if (a.kind === "BombPass") {
+      e.heading = a.yaw;
+      e.wind = Math.max(0, HARROW.bombWind - age);
+      if (age >= HARROW.bombWind) a.fired = true;
+      if (age >= HARROW.bombWind) {
+        const progress = Math.max(
+          0,
+          Math.min(1, (age - HARROW.bombWind) / HARROW.bombTravel),
+        );
+        e.x = a.from!.x + (a.to!.x - a.from!.x) * progress;
+        e.z = a.from!.z + (a.to!.z - a.from!.z) * progress;
+        e.y = a.from!.y;
+      }
+      if (age >= HARROW.bombDuration) {
+        e.harrow = undefined;
+        e.cool = HARROW.cooldown;
+        e.wind = 0;
+      }
+      return;
+    }
     if (
       a.kind === "Takeoff" ||
       a.kind === "Land" ||
@@ -341,7 +630,11 @@ export function stepHarrow(
                 ? HARROW.glideDuration
                 : HARROW.diveDuration;
       const fraction = Math.min(1, age / duration),
-        t = fraction * fraction * (3 - 2 * fraction);
+        travelFraction =
+          a.kind === "Takeoff"
+            ? Math.max(0, (fraction - 0.24) / 0.76)
+            : fraction,
+        t = travelFraction * travelFraction * (3 - 2 * travelFraction);
       const from = a.from!,
         to = a.to!;
       if (a.kind === "Glide") {
@@ -368,12 +661,20 @@ export function stepHarrow(
           return;
         }
         if (a.kind === "Dive") {
-          event(w, { type: "burst", ...to, radius: HARROW.diveRadius });
-          hitPlayers(
-            { ...to, y: to.y + 0.9 },
-            HARROW.diveRadius,
-            HARROW.diveDamage,
-          );
+          const hitIds: string[] = [];
+          for (const [index, circle] of harrowDiveClawCircles(
+            to,
+            a.yaw,
+          ).entries()) {
+            if (index % 5 === 4)
+              event(w, { type: "burst", ...circle, radius: circle.radius });
+            hitPlayers(
+              { ...circle, y: circle.y + 0.9 },
+              circle.radius,
+              HARROW.diveDamage,
+              hitIds,
+            );
+          }
           transition("Land", to);
           return;
         }
@@ -387,7 +688,12 @@ export function stepHarrow(
       }
       return;
     }
-    const wind = a.kind === "Spin" ? HARROW.spinWind : HARROW.threatWind;
+    const wind =
+      a.kind === "Spin"
+        ? HARROW.spinWind
+        : a.kind === "Snipe"
+          ? HARROW.snipeWind
+          : HARROW.threatWind;
     e.heading = a.yaw;
     e.wind = Math.max(0, wind - age);
     if (a.kind === "Spin") {
@@ -404,7 +710,12 @@ export function stepHarrow(
       a.fired = true;
     }
     if (
-      age >= (a.kind === "Spin" ? HARROW.spinDuration : HARROW.threatDuration)
+      age >=
+      (a.kind === "Spin"
+        ? HARROW.spinDuration
+        : a.kind === "Snipe"
+          ? HARROW.snipeDuration
+          : HARROW.threatDuration)
     ) {
       e.harrow = undefined;
       e.wind = 0;
@@ -457,11 +768,51 @@ export function stepHarrow(
       distance <= HARROW.diveRange &&
       random(w) < HARROW.diveChance
     ) {
-      transition("Glide", {
-        x: target.x,
-        z: target.z,
-        y: supportHeight(target.x, target.z, blocks, target.y ?? 0),
+      const root = harrowDiveRootForTarget(
+        { x: target.x, y: target.y ?? 0, z: target.z },
+        yaw,
+      );
+      root.y = supportHeight(root.x, root.z, blocks, target.y ?? 0);
+      e.heading = yaw;
+      transition("Glide", root);
+      return;
+    }
+    if (e.harrowAirborne && distance > 30 && random(w) < 0.55) {
+      const beyond = 16;
+      e.heading = yaw;
+      transition("BombPass", {
+        x: target.x + Math.sin(yaw) * beyond,
+        y: e.y,
+        z: target.z + Math.cos(yaw) * beyond,
       });
+      queueHarrowBombs(w, e, target);
+      e.wind = HARROW.bombWind;
+      return;
+    }
+    if (
+      !e.harrowAirborne &&
+      distance > HARROW.dashRadius &&
+      distance <= HARROW.dashDistance + HARROW.dashRadius &&
+      random(w) < 0.35
+    ) {
+      e.heading = yaw;
+      transition("Dash", {
+        x: e.x + Math.sin(yaw) * HARROW.dashDistance,
+        y: e.y,
+        z: e.z + Math.cos(yaw) * HARROW.dashDistance,
+      });
+      e.wind = HARROW.dashWind;
+      return;
+    }
+    if (
+      !e.harrowAirborne &&
+      distance > HARROW.spinTriggerRadius &&
+      random(w) < 0.5
+    ) {
+      e.heading = yaw;
+      transition("Snipe");
+      queueHarrowSnipes(w, e, target);
+      e.wind = HARROW.snipeWind;
       return;
     }
     e.harrow = {

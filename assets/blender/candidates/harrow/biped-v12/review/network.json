@@ -1,0 +1,300 @@
+{
+  "pass": true,
+  "realLocalWorker": true,
+  "mockedTransport": false,
+  "clients": 2,
+  "fixtures": "High-HP stationary players; natural HARROW spawn/AI/missiles/spin; seeded Dash/Snipe/BombPass/Glide fixtures and natural Takeoff variant; ordinary hurtEnemy starts StaggerFall. All transitions and damage use real Worker ticks and two WebSocket clients.",
+  "checks": [
+    {
+      "label": "initial airborne spawn",
+      "time": 0,
+      "missiles": 0,
+      "airborne": true,
+      "action": null,
+      "enemyHeight": 34.5,
+      "playerHp": [
+        10000,
+        10000
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "ten authoritative warning targets",
+      "time": 0.1,
+      "missiles": 10,
+      "airborne": true,
+      "action": "Threat",
+      "enemyHeight": 34.5,
+      "playerHp": [
+        10000,
+        10000
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "ten missiles launched",
+      "time": 3.6,
+      "missiles": 10,
+      "airborne": true,
+      "action": "Threat",
+      "enemyHeight": 34.5,
+      "playerHp": [
+        10000,
+        10000
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "missiles impact and synchronized damage",
+      "time": 5.4,
+      "missiles": 0,
+      "airborne": true,
+      "action": "Threat",
+      "enemyHeight": 34.5,
+      "playerHp": [
+        9928,
+        9928
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "spin wind-up",
+      "time": 0.05,
+      "missiles": 0,
+      "airborne": false,
+      "action": "Spin",
+      "enemyHeight": 0,
+      "playerHp": [
+        10000,
+        10000
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "spin damage",
+      "time": 1.25,
+      "missiles": 0,
+      "airborne": false,
+      "action": "Spin",
+      "enemyHeight": 0,
+      "playerHp": [
+        9916,
+        9916
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "dash ground warning",
+      "time": 0.05,
+      "missiles": 0,
+      "airborne": false,
+      "action": "Dash",
+      "enemyHeight": 0,
+      "playerHp": [
+        10000,
+        10000
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "dash travel and contact",
+      "time": 1.35,
+      "missiles": 0,
+      "airborne": false,
+      "action": "Dash",
+      "enemyHeight": 0,
+      "playerHp": [
+        9940,
+        9940
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "ten fixed straight claw shots",
+      "time": 0,
+      "missiles": 10,
+      "airborne": false,
+      "action": "Snipe",
+      "enemyHeight": 0,
+      "playerHp": [
+        10000,
+        10000
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "staggered straight shot launch",
+      "time": 2.05,
+      "missiles": 10,
+      "airborne": false,
+      "action": "Snipe",
+      "enemyHeight": 0,
+      "playerHp": [
+        10000,
+        10000
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "straight shots resolve and damage synchronizes",
+      "time": 3.55,
+      "missiles": 0,
+      "airborne": false,
+      "action": "Snipe",
+      "enemyHeight": 0,
+      "playerHp": [
+        9820,
+        9820
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "two fixed five-bomb rows",
+      "time": 0,
+      "missiles": 10,
+      "airborne": true,
+      "action": "BombPass",
+      "enemyHeight": 34.5,
+      "playerHp": [
+        10000,
+        10000
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "bomb pass travels above committed rows",
+      "time": 2.1,
+      "missiles": 10,
+      "airborne": true,
+      "action": "BombPass",
+      "enemyHeight": 34.5,
+      "playerHp": [
+        10000,
+        10000
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "bomb rows impact and damage synchronizes",
+      "time": 4.3,
+      "missiles": 0,
+      "airborne": true,
+      "action": "Land",
+      "enemyHeight": 27.66,
+      "playerHp": [
+        10000,
+        9968
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "authoritative takeoff wing variant",
+      "time": 0.05,
+      "missiles": 0,
+      "airborne": true,
+      "action": "Takeoff",
+      "enemyHeight": 0,
+      "playerHp": [
+        10000,
+        10000
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "takeoff wing variant persists between ticks",
+      "time": 1.55,
+      "missiles": 0,
+      "airborne": true,
+      "action": "Takeoff",
+      "enemyHeight": 5.32,
+      "playerHp": [
+        10000,
+        10000
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "takeoff reaches synchronized flight",
+      "time": 3.65,
+      "missiles": 0,
+      "airborne": true,
+      "action": null,
+      "enemyHeight": 34.5,
+      "playerHp": [
+        10000,
+        10000
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "committed glide target",
+      "time": 0,
+      "missiles": 0,
+      "airborne": true,
+      "action": "Glide",
+      "enemyHeight": 34.5,
+      "playerHp": [
+        10000,
+        10000
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "dive transition",
+      "time": 2.15,
+      "missiles": 0,
+      "airborne": true,
+      "action": "Dive",
+      "enemyHeight": 34.19,
+      "playerHp": [
+        10000,
+        10000
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "dive landing damage",
+      "time": 3.05,
+      "missiles": 0,
+      "airborne": true,
+      "action": "Land",
+      "enemyHeight": 0,
+      "playerHp": [
+        9908,
+        9908
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "damage-triggered stagger fall",
+      "time": 0,
+      "missiles": 0,
+      "airborne": true,
+      "action": "StaggerFall",
+      "enemyHeight": 34.5,
+      "playerHp": [
+        10000,
+        10000
+      ],
+      "peerMatches": true
+    },
+    {
+      "label": "stagger landing transition",
+      "time": 2.65,
+      "missiles": 0,
+      "airborne": false,
+      "action": "Land",
+      "enemyHeight": 0,
+      "playerHp": [
+        10000,
+        10000
+      ],
+      "peerMatches": true
+    }
+  ],
+  "sourceHashes": {
+    "src/shared/harrow.ts": "81a55ed3f697d3e56a7b5bb45ceeb8fea4f4375313cafc62af342473a9591f43",
+    "server/testing.ts": "1c3aac6e4dcd7e0434a0416330141d58ff2f70e425d805075366c62c0c239f55",
+    "scripts/check-harrow-network.mjs": "777a2f723b8ea00129a433be94a4703457f4030fea311905e5d1d66de5367bec"
+  }
+}

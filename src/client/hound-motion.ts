@@ -14,9 +14,15 @@ export type HoundClip =
   | "Slam"
   | "PollenShot"
   | "Threat"
+  | "Dash"
+  | "Snipe"
   | "AirThreat"
+  | "BombPass"
   | "Spin"
   | "Takeoff"
+  | "TakeoffB"
+  | "TakeoffC"
+  | "TakeoffD"
   | "Flight"
   | "Glide"
   | "Dive"
@@ -58,7 +64,7 @@ export function loadEnemyMotion(
   const request = new GLTFLoader()
     .loadAsync(
       // The service worker caches by URL. Version HARROW's path with its asset.
-      `${import.meta.env.BASE_URL}assets/enemies/${name}_motion_${name === "harrow" ? "v11" : name === "pleat" ? "v5" : name === "leaper" ? "v3" : "v1"}.glb${name === "calyx" ? "?rev=d1a7573d5976e284" : ""}`,
+      `${import.meta.env.BASE_URL}assets/enemies/${name}_motion_${name === "harrow" ? "v12" : name === "pleat" ? "v5" : name === "leaper" ? "v3" : "v1"}.glb${name === "calyx" ? "?rev=d1a7573d5976e284" : ""}`,
     )
     .then(({ scene: model, animations: clips }) => {
       // HARROW's authored forward is -X; production models face local -Z.
@@ -83,6 +89,12 @@ export function loadEnemyMotion(
               "Dive",
               "StaggerFall",
               "Land",
+              "Dash",
+              "Snipe",
+              "BombPass",
+              "TakeoffB",
+              "TakeoffC",
+              "TakeoffD",
             ]
           : name === "calyx"
             ? ["Idle", "Locomotion", "Slam", "PollenShot"]

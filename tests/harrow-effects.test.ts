@@ -52,6 +52,22 @@ function markerTop(view: TerrainProjectedMarkers, x: number, z: number) {
   }
   return top;
 }
+it("projects filled claw footprints onto sloped terrain", () => {
+  const blocks = MAPS[3].blocks;
+  const x = 4,
+    z = -35;
+  const point = { x, y: supportHeight(x, z, blocks), z };
+  const view = new TerrainProjectedMarkers(new T.MeshBasicMaterial(), 1, 1024);
+  try {
+    view.setDisc(0, point, HARROW.diveClawRadius, blocks);
+    view.setCount(1);
+    expect(view.geometry.drawRange.count).toBeGreaterThan(0);
+    expect(markerTop(view, x, z)).toBeCloseTo(point.y + 0.12, 2);
+  } finally {
+    view.dispose();
+    view.material.dispose();
+  }
+});
 
 it("marks the spin wind-up and the committed dive landing point", () => {
   const view = new HarrowEffects();
@@ -86,13 +102,18 @@ it("marks the spin wind-up and the committed dive landing point", () => {
       to: { x: 7, y: 3, z: 9 },
     };
     view.update({ time: 1.1, enemies: [enemy] });
-    expect(warnings.count).toBe(1);
-    expect(positions.getX(0)).toBeCloseTo(7 + HARROW.diveRadius * 0.945);
-    expect(positions.getY(0)).toBeCloseTo(3.12);
-    expect(positions.getZ(0)).toBe(9);
+    expect(warnings.count).toBe(0);
+    const fill = view.root.children[4] as TerrainProjectedMarkers;
+    const outline = view.root.children[5] as T.LineSegments;
+    expect(fill.count).toBe(30);
+    expect(fill.ringInfo(0)?.filled).toBe(true);
+    expect(outline.geometry.drawRange.count).toBe(120);
+    expect(fill.geometry.drawRange.count).toBeGreaterThan(120);
     enemy.harrow.kind = "Land";
     view.update({ time: 2, enemies: [enemy] });
     expect(warnings.count).toBe(0);
+    expect(fill.count).toBe(0);
+    expect(outline.geometry.drawRange.count).toBe(0);
   } finally {
     view.dispose();
   }

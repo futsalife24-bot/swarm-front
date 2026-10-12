@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HARROW エネミーレポート確認</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <button type="button" id="open-report">エネミーレポートを開く</button>
+    <script type="module">
+      import { ENEMIES } from "/src/shared/defs.ts";
+      import { openBestiary } from "/src/client/bestiary.ts";
+
+      const encounters = Object.fromEntries(
+        Object.keys(ENEMIES).map((key) => [key, "solo"]),
+      );
+      const open = () => {
+        openBestiary({ encounters });
+        document.querySelector('.bestiary [data-enemy="harrow"]')?.click();
+      };
+      document.getElementById("open-report").onclick = open;
+      open();
+    </script>
+  </body>
+</html>

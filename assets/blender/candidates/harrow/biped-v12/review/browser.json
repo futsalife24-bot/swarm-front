@@ -1,0 +1,28 @@
+{
+  "確認日": "2026-10-12",
+  "モデルSHA256": "b0d0664b7ea65b65f0416b5d0c5aad2386f42d668d00ef7826d201a858d96ddd",
+  "実戦": {
+    "URL": "http://127.0.0.1:5200/scripts/harrow-preview.html",
+    "読込": "harrow_motion_v12.glb",
+    "クリップ": 18,
+    "描画バッチ": 3,
+    "エラーログ": [],
+    "録画保存": ["walk", "dash", "snipe", "spin", "takeoff", "bomb", "dive", "missile", "ground-missile"],
+    "主要静止姿勢": ["spin 1.15秒", "snipe 2.1秒", "takeoff 1.6秒", "bomb 2.9秒", "dive予告 0.5秒"],
+    "保存先": "dist-validation/harrow-v9/ui-v12-*",
+    "注記": "共有戦闘処理と実Rendererを使用。通信検査はnetwork.jsonで別途実施。動画保存はページの保存成功応答で確認。"
+  },
+  "レポート": {
+    "URL": "http://127.0.0.1:5200/scripts/harrow-report-preview.html",
+    "画面": [844, 390],
+    "実体": "既存openBestiary、既存src/style.css、全敵解放の確認用入口",
+    "asset": "ready",
+    "選択": "BombPass",
+    "ダイアログ": {"左": 12, "上": 10, "右": 832, "下": 380, "clientWidth": 819, "scrollWidth": 819},
+    "操作列": {"上": 278, "高さ": 46, "右端": 492, "重なり": false},
+    "エラーログ": [],
+    "一時画面サイズ": "確認後に解除"
+  },
+  "単体表示": "最終GLBをキャッシュ識別子付きで再読込し、Spin 1.15秒・Dive 0.4秒・Snipe 2.1秒を側面から確認。",
+  "限界": "実スマートフォン性能、長時間GPU負荷、本人の動作品質評価、独立Chat監査は未確認。"
+}

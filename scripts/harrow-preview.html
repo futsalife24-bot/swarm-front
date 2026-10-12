@@ -41,13 +41,31 @@
     <div>
       <button data-mode="walk">ゆっくり歩行</button
       ><button data-mode="encounter">空中会敵</button
-      ><button data-mode="missile">ミサイル</button
+      ><button data-mode="missile">空中ミサイル</button
+      ><button data-mode="ground-missile">地上山なり10発</button
+      ><button data-mode="dash">短ダッシュ</button
+      ><button data-mode="snipe">直射</button
+      ><button data-mode="bomb">爆撃通過</button
+      ><button data-mode="takeoff">離陸</button
       ><button data-mode="spin">翼接地回転</button
       ><button data-mode="dive">滑空ダイブ</button
       ><button data-mode="fall">怯み落下</button
       ><button id="pause">一時停止</button
       ><button id="advance">0.5秒進める</button
       ><button id="camera">地面を見る</button>
+    </div>
+    <div>
+      <label
+        >選択動作の時刻
+        <input
+          id="seek-time"
+          type="number"
+          min="0"
+          max="20"
+          step="0.05"
+          value="0"
+          style="width: 65px" /></label
+      ><button id="seek">指定時刻へ</button>
     </div>
     <div>
       回転時刻: <button data-time="0">0</button
@@ -60,7 +78,7 @@
     </div>
     <button id="overview">俯瞰切替</button
     ><button id="capture">静止画像を保存</button
-    ><button id="record">回転を録画</button>
+    ><button id="record">選択中の動作を録画</button>
     <pre id="saved"></pre>
     <pre id="status">読込中</pre>
   </aside>
