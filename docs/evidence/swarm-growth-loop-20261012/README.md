@@ -37,7 +37,11 @@ Windows sandboxでVitestの別プロセスがSSR一時ファイルを読めず�
 ## 未完了・再開条件
 
 - 正式演出ZIP `libfile_6fe7f021941c819192d14b213859e75a` は転送helperのWindows非対応 (`os.setxattr`) により取得未完。README/consumer-manifestは未読。契約の推測で正式素材を差し込まない。
+- 同じ環境の既存Linux経路を再確認した。WSL一覧はexit 1・「Linux用Windowsサブシステムがインストールされていません」。docker/podman/bashはPATHに見つからない。新規インストール・認証・セキュリティ変更はしていない。
+- 正式転送結果: `file_00000000307481f5918053f698ec967e`、Library IDは上記、filename `swarm-front-claude-motion-assets-20261012.zip`、24,119,471 bytes、返却version 0、GET transfer、workspace_path null、xattr `user.library-file-version`。公式helperはそのxattr設定で `AttributeError: module 'os' has no attribute 'setxattr'`。最終ファイルはreferences内に存在せず、URLやメタデータを省く取得はしていない。
 - 通常Chat独立監査は未実施。指定のiab起動が `cannot locate required Windows platform directory: HRESULT 0x80070003` で失敗。別の監査経路に切り替えていない。
+- 再試行ではcuaカーネルリセット後のgetStateを2回、規定の `cua.createBrowserTab("iab", "https://chatgpt.com/", {visible:false})` を1回実施。getStateはtrusted Nodeの異常終了、直接IABは新kernel PID 68772 / exit 1 / 同じHRESULT。UI状態を取得できず、監査Chat作成・資料送信は未実施。一時的な会話タブの障害としては復旧しなかった。
+- 最小の次工程: 親からREADME/consumer-manifest本文を受け取り、契約と差込みコードを先に確認できる。素材バイトはLibraryの通常ダウンロードによる正規ローカル入力、またはWindows対応の正式転送が必要。IABはアプリ/ブラウザランタイムの初期化復旧後に同じ経路で再試行する。WSL等の新規インストールや監査経路の置換は要求しない。
 - 実スマホ・長時間GPU・25任務を通じた収集/素材費用の調整・実クラウドの複数端末UI・正式デザインの美術的採用は未確認。
 - merge・公開・破壊的移行は未実施。素材取得、本人の候補レビュー、既存失敗/Highの受入方針、独立監査を満たしてから通常手順で再開する。
 

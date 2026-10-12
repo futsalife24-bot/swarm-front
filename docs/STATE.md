@@ -6,6 +6,8 @@
 
 実装 `afe321f7485648b1869646a3f428c2e612e9dfd1` は [Draft PR175](https://github.com/futsalife24-bot/swarm-front/pull/175) へpush済み。client buildとWorker dry-run成功。最初のpushは自動承認レビューが外部共有承認不足と判断して拒否したが、AGENTSの2026-09-15継続承認と既存originを照合した再審査で許可された。新規共有先・force push・merge・公開は行っていない。
 
+取得/監査の再確認: 既存WSLは未インストール（一覧exit 1）、docker/podman/bashはPATHで検出なし。公式helper変更・新規Linux導入なし。IABはkernel reset→getState 2回→規定のChatGPT IAB新規タブ1回も初期化時に失敗し、同じ `HRESULT 0x80070003` を再現。親からREADME/consumer-manifest本文を受領すれば契約準備は進められるが、正規ローカル素材入力またはWindows対応転送と、IABランタイム復旧が残る。詳細な転送結果と再開条件は上記検証記録へ保存。
+
 # 経過: HARROW v14 上下羽ばたき修正をmain反映・公開完了（2026-10-12）
 
 [PR173](https://github.com/futsalife24-bot/swarm-front/pull/173)通常merge。公開ソース `24f009e211515daa5011c4c473a1199b929b7696`、Worker `4c168f5c-f43e-4452-a8ba-9d12d7171ae2`。離陸A–D/Flightを胴前後軸まわりの上下ストロークへ修正。他13動作・形状・発射口・7攻撃仕様は保持。122テスト・型・素材/境界/発射口検査、実画面/録画抜粋、merge後build/dry-run合格。独立Chat監査は画像時刻の訂正後95dbb8fを含めP0/P1/P2各0。配信25/25 SHA一致・health正常、公開HARROW表示/移動/離陸A再生を確認。本人の美術的採用・実スマホ・長時間GPU・動画全フレーム目視は未確認、既存足滑り0.10833mは維持。[公開記録](evidence/harrow-v14-release-20261012/README.md)。以下は過去経過。
