@@ -1,0 +1,58 @@
+{
+  "overview": true,
+  "sideView": true,
+  "frontView": false,
+  "status": {
+    "mode": "takeoff",
+    "time": 1.15,
+    "hp": 10000,
+    "height": 6.590199714438273,
+    "scale": 1.95,
+    "movementSpeed": 0.64,
+    "attack": "Takeoff",
+    "spinRotation": null,
+    "overview": true,
+    "sideView": true,
+    "frontView": false,
+    "paused": true,
+    "recording": false,
+    "missiles": 0,
+    "model": "GLB loaded",
+    "assetURL": "http://127.0.0.1:5200/assets/enemies/harrow_motion_v14.glb",
+    "clips": [
+      "Idle",
+      "Locomotion",
+      "Lunge",
+      "Threat",
+      "AirThreat",
+      "Spin",
+      "Takeoff",
+      "Flight",
+      "Glide",
+      "Dive",
+      "StaggerFall",
+      "Land",
+      "Dash",
+      "Snipe",
+      "BombPass",
+      "TakeoffB",
+      "TakeoffC",
+      "TakeoffD"
+    ],
+    "drawBatches": 3,
+    "pose": {
+      "clip": "Takeoff",
+      "time": 1.15,
+      "from": "Idle",
+      "fromTime": 0.14285714285714285,
+      "blend": 1.15,
+      "wind": 0,
+      "cool": 999
+    },
+    "palettePose": [
+      2082,
+      2083,
+      0
+    ]
+  }
+}
