@@ -1,3 +1,8 @@
+# 現在地: HARROW v12・7攻撃の独立監査/main反映/公開完了（2026-10-12）
+
+[PR167](https://github.com/futsalife24-bot/swarm-front/pull/167)通常merge、公開ソース `b917d4f2a35c5ad8231d2a9e55ebd1afce03f4d1`、Worker Version `68f940a7-984f-4500-87bf-6571dc23aa4d`。[公開記録](evidence/harrow-v12-release-20261012/README.md)。独立通常Chat監査は必須P0/P1/P2と証跡不備各0で最終合格。指定7攻撃・地上ミサイル2方式、二脚18動作を公開済み。関連133テスト、監査修正後36件/型/実通信22項目、merge後build/dry-run、公開25/25 SHA・health、Chrome公開図鑑の選択/表示を確認。下書き全文復元済み。
+
+実スマホ性能・長時間GPU・難度・尾先補間前差/足滑り、既存5テスト失敗/依存High5件は未解消として追跡。下記は公開前の過去経過。
 # 現在地: HARROW v12・PR167独立監査合格、main反映と公開へ（2026-10-12）
 
 [PR167](https://github.com/futsalife24-bot/swarm-front/pull/167)、base `9bdb1d29b8692ad62e7f7b46aa819c19bad55365`、最終実装 `e9f9e373c3341f03b487d0fcee9b0bdb5228221d`、監査記録head `48cb6f2fcc9487d61ae62d08ed9e5567e33262fc`。[通常Chat](https://chatgpt.com/c/6acc45c7-1978-83ec-8776-15d96f976047)の最終判定は合格、必須P0/P1/P2と証跡不備各0、通常merge/既存Worker公開可。36テスト・型・実通信22項目・最終SHAからのbuild/dry-run成功。[監査・公開記録](HARROW-V12-AUDIT.md)。公開後に配信SHA・health・実画面を確認する。現時点の公開はv11。

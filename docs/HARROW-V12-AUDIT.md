@@ -41,3 +41,5 @@ Workers一覧では本日のリクエスト `0 / 100,000`、10月1日～12日の
 同じ通常Chatの完了回答で **最終合格、PR167通常merge可・既存Worker公開可** を確認。最終実装 `e9f9e373c3341f03b487d0fcee9b0bdb5228221d`、記録head `48cb6f2fcc9487d61ae62d08ed9e5567e33262fc`。証拠ZIP `5d81870b3847301b8acd8039224c0dc3e94ad2f14c655044d29f376039789cbc`（7909 bytes）の全6ファイルSHAを監査側が確認。実行前後HEADと両ログSHA、終了コード0が一致。必須P0/P1/P2各0、公開前証跡不備0。
 
 監査側はWorker成果物本体のハッシュ独立再計算、実Gitリモート/Cloudflare本番の直接確認をしていない。これらは実装側の公開工程で照合する。既存失敗・依存High・補間差・足滑り・実機性能/難度の限界は継続。追加コード修正/追加再監査の必須事項なし。
+
+公開完了：PR167 merge b917d4f2a35c5ad8231d2a9e55ebd1afce03f4d1、Worker 68f940a7-984f-4500-87bf-6571dc23aa4d。配信25/25 SHA一致・health正常・公開Chrome図鑑確認。[公開記録](evidence/harrow-v12-release-20261012/README.md)。
