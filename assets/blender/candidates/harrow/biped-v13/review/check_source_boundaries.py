@@ -27,7 +27,10 @@ def snapshot(clip, t):
     return {bone.name: tuple(v for row in bone.matrix for v in row)
             for bone in rig.pose.bones}
 
-pairs = [('Idle', 0, 'Spin', 0), ('Spin', 3, 'Idle', 0),
+pairs = [('Idle', 0, 'Locomotion', 0),
+         ('Locomotion', 4.2, 'Idle', 0),
+         ('Locomotion', 4.2, 'Locomotion', 0),
+         ('Idle', 0, 'Spin', 0), ('Spin', 3, 'Idle', 0),
          ('Idle', 0, 'Takeoff', 0), ('Takeoff', 3.5, 'Flight', 0),
          ('Flight', 16.8, 'Glide', 0), ('Glide', 2.1, 'Dive', 0),
          ('Dive', 0.9, 'Land', 0), ('StaggerFall', 2.625, 'Land', 0),

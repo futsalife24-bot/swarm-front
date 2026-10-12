@@ -45,7 +45,7 @@ it("the shipped HARROW clips finish at their authoritative attack transitions", 
     ).toBeCloseTo(duration, 5);
 });
 
-it("joins dive and stagger fall to landing without a skeleton discontinuity", async () => {
+it("joins landing and both walk boundaries without a skeleton discontinuity", async () => {
   const asset = await model();
   const mixer = new T.AnimationMixer(asset.scene);
   const bones: T.Bone[] = [];
@@ -63,17 +63,24 @@ it("joins dive and stagger fall to landing without a skeleton discontinuity", as
     asset.scene.updateMatrixWorld(true);
     return bones.map((bone) => bone.matrixWorld.clone());
   };
-  const landing = pose("Land", false);
-  for (const name of ["Dive", "StaggerFall"])
-    pose(name, true).forEach((matrix, i) => {
+  for (const [from, fromEnd, to, toEnd] of [
+    ["Dive", true, "Land", false],
+    ["StaggerFall", true, "Land", false],
+    ["Idle", false, "Locomotion", false],
+    ["Locomotion", true, "Idle", false],
+  ] as const) {
+    const destination = pose(to, toEnd);
+    pose(from, fromEnd).forEach((matrix, i) => {
       expect(
         Math.max(
           ...matrix.elements.map((v, j) =>
-            Math.abs(v - landing[i].elements[j]),
+            Math.abs(v - destination[i].elements[j]),
           ),
         ),
+        `${from}→${to}: ${bones[i].name}`,
       ).toBeLessThan(0.00001);
     });
+  }
 });
 
 it("plants both articulated wings before the authoritative single sweep while keeping root motion external", async () => {

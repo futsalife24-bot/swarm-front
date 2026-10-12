@@ -604,6 +604,10 @@ def _pose(rig, metadata, wing_cache, clip: str, time: float) -> None:
                     swing_u = (gait - duty) / (1 - duty)
                     target.x += stride * (0.5 - _smooth(swing_u))
                     target.z += 0.35 * math.sin(math.pi * swing_u) ** 2
+                # Centre each periodic foot trajectory on its own Idle goal.
+                # This constant offset changes neither stance velocity nor
+                # world-space contact drift, but removes the clip-end foot pop.
+                target.x -= stride * (phase / duty - 0.5)
             if clip == 'Dash' and 0.8 <= time < 1.5:
                 # Four fast strides at the authority's constant 12m / .7s.
                 gait = (((time - 0.8) / 0.7) * 4 + phase) % 1.0

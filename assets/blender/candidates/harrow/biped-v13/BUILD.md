@@ -15,17 +15,18 @@ v12を保持し、v11由来の形状・材質・UV・ウェイトを変えずに
 node assets/blender/candidates/harrow/biped-v13/verify_asset.mjs
 node assets/blender/candidates/harrow/biped-v13/review/check-gait-boundaries.mjs
 & 'C:/Program Files/Blender Foundation/Blender 5.2/blender.exe' --background --factory-startup --disable-autoexec --python-exit-code 1 --python assets/blender/candidates/harrow/biped-v13/review/check_source_boundaries.py
+& 'C:/Program Files/Blender Foundation/Blender 5.2/blender.exe' --background --factory-startup --disable-autoexec --python-exit-code 1 --python assets/blender/candidates/harrow/biped-v13/review/check_source_gait.py
 & 'C:/Program Files/Blender Foundation/Blender 5.2/blender.exe' --background --factory-startup --disable-autoexec assets/blender/candidates/harrow/biped-v13/harrow.blend --python-exit-code 1 --python assets/blender/candidates/harrow/biped-v13/review/inspect_blend.py -- assets/blender/candidates/harrow/biped-v13/review/blend-inspection.json
 ```
 
 ## 最終実物と検証
 
-- GLB SHA-256: `772541a2735b465e2d04f8830f556f11e47ca29dee7335f8b17446a1857e0431`
-- blend SHA-256: `8b79a4deadf69ff1e5b29b6927b2c6069e81b408001337ed9d1c4a9c50197890`
+- GLB SHA-256: `c5a8e2e241cc441473519ed7f12e24e7b508c916d00cf7270427cc4a0a7ef0ba`
+- blend SHA-256: `56f76691f6768f8abd4a20afd0179c4cebc3810c38749e9ad876be4f147a294f`
 - `verify_asset.mjs`: 39骨・18クリップ・長さ・有限値・Root固定・選定姿勢の床条件が成功。元形状の頂点/法線/UV/ウェイト/索引は完全一致。結果は`review/asset-verification.json`。
 - 保存blendの再読込: 39骨、22書出しプリミティブ、全メッシュスキン、18動作、画像内包の5項目すべて成功。結果は`review/blend-inspection.json`。
-- 焼付前の全39骨matrixを9境界で照合し、最大要素差は`1.907e-6`（閾値`1e-5`）。Dive/StaggerFall終端→Land0を含む。`review/source-boundaries.json`。
-- 実GLBを60Hzで評価した歩行の接地足ドリフト最大`0.10833m`。Idle↔Locomotion境界の足先差は`0.323m`、Spin/離着陸/落下の記録済み境界の最大位置差は約`0.000006m`。`review/gait-boundaries.json`。
+- 焼付前の全39骨matrixを12境界で照合し、最大要素差は`1.907e-6`（閾値`1e-5`）。Idle0↔Locomotion0/4.2と歩行ループは`1.7e-16`以下、Dive/StaggerFall終端→Land0も含む。`review/source-boundaries.json`。
+- 焼付前の20Hz剛体接地爪と権威移動を合成したドリフト最大`0.000169m`。`review/source-gait.json`。実GLBのスキン済み足先を60Hzで評価した歩行の接地足ドリフト最大`0.10833m`（前版と同水準）。Idle↔Locomotion境界の最大位置差は約`0.000006m`。`review/gait-boundaries.json`。
 - 発射3.5秒の実GLB翼爪10本の左右幅: Threatはv12 `13.359m`→v13 `19.175m`、AirThreatはv12 `18.979m`→v13 `23.004m`。座標は`review/asset-verification.json`。
 
 数値検査の成功は、ゲーム画面での見た目承認や独立監査・公開の完了を意味しない。主担当が実ゲーム描画・発射原点・攻撃接続を確認する。制作担当モデル: `gpt-6-sol`、推論設定: `medium`。

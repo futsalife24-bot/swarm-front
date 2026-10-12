@@ -1,6 +1,6 @@
 {
   "asset": "harrow.glb",
-  "sha256": "772541a2735b465e2d04f8830f556f11e47ca29dee7335f8b17446a1857e0431",
+  "sha256": "c5a8e2e241cc441473519ed7f12e24e7b508c916d00cf7270427cc4a0a7ef0ba",
   "method": "60 Hz animation samples; fixed lowest skinned toe vertex selected from each Hindlimb mesh at 0/0.7/1.4s; authority +Z at 0.64 m/s, scale 1.95; stance when toe vertex is within 0.08m of its cycle minimum for at least 0.18s; boundaries compare all 39 bone origins at source end and destination start in game meters with common root translation.",
   "gait": {
     "duration": 4.199999809265137,
@@ -8,124 +8,124 @@
     "contact": {
       "L": {
         "toeVertex": 2620,
-        "lowestToeY": 0.04805260151173437,
-        "stanceThresholdY": 0.12805260151173437,
+        "lowestToeY": 0.04820779696643865,
+        "stanceThresholdY": 0.12820779696643864,
         "intervals": [
           {
             "startTime": 0,
             "endTime": 1.05,
-            "worldDriftMeters": 0.047518766924525904,
+            "worldDriftMeters": 0.047514218981122125,
             "startPosition": {
-              "x": 7.156781359377215,
-              "y": 0.04876849345132696,
-              "z": 2.9150945467741947
+              "x": 7.156785673046077,
+              "y": 0.04876459565954434,
+              "z": 2.5925389022889735
             },
             "finishPosition": {
-              "x": 7.15679050883157,
-              "y": 0.07469090831216507,
-              "z": 2.962613312817884
+              "x": 7.156793535138641,
+              "y": 0.07468609152410377,
+              "z": 2.6400531206196325
             }
           },
           {
             "startTime": 1.35,
             "endTime": 2.45,
-            "worldDriftMeters": 0.10832938647497312,
+            "worldDriftMeters": 0.1083239026795311,
             "startPosition": {
-              "x": 7.156784786207765,
-              "y": 0.10410376406670228,
-              "z": 3.7502838181654203
+              "x": 7.156788161413812,
+              "y": 0.1040982672138154,
+              "z": 3.4277291663765226
             },
             "finishPosition": {
-              "x": 7.156790332783509,
-              "y": 0.07469066820299128,
-              "z": 3.8586132044983983
+              "x": 7.156793372613786,
+              "y": 0.07468587032101928,
+              "z": 3.5360530689307046
             }
           },
           {
             "startTime": 2.75,
             "endTime": 3.85,
-            "worldDriftMeters": 0.10832952484386106,
+            "worldDriftMeters": 0.10832398278560924,
             "startPosition": {
-              "x": 7.1567847825336495,
-              "y": 0.1041036773875458,
-              "z": 4.646283845243888
+              "x": 7.15678815657513,
+              "y": 0.10409817644187003,
+              "z": 4.3237291943828575
             },
             "finishPosition": {
-              "x": 7.156790509644878,
-              "y": 0.07469110053029256,
-              "z": 4.75461336993636
+              "x": 7.15679353568137,
+              "y": 0.07468628375828165,
+              "z": 4.43205317703491
             }
           }
         ],
-        "maximumWorldDriftMeters": 0.10832952484386106
+        "maximumWorldDriftMeters": 0.10832398278560924
       },
       "R": {
         "toeVertex": 2995,
-        "lowestToeY": 0.048040042431857555,
-        "stanceThresholdY": 0.12804004243185757,
+        "lowestToeY": 0.0479342160147425,
+        "stanceThresholdY": 0.1279342160147425,
         "intervals": [
           {
             "startTime": 0,
             "endTime": 0.35,
-            "worldDriftMeters": 0.04751224763042667,
+            "worldDriftMeters": 0.04751397393758601,
             "startPosition": {
-              "x": -7.135773665322213,
-              "y": 0.04876634692168076,
-              "z": 2.4670809985946023
+              "x": -7.135779007408215,
+              "y": 0.048765330506227035,
+              "z": 2.5925203752274872
             },
             "finishPosition": {
-              "x": -7.135778779307362,
-              "y": 0.07461602203816535,
-              "z": 2.514593245949807
+              "x": -7.135782640224306,
+              "y": 0.07461414056805116,
+              "z": 2.6400343490261946
             }
           },
           {
             "startTime": 0.65,
             "endTime": 1.75,
-            "worldDriftMeters": 0.10832514275565737,
+            "worldDriftMeters": 0.1083294278370113,
             "startPosition": {
-              "x": -7.135776135815296,
-              "y": 0.10402856110645495,
-              "z": 3.302268096097191
+              "x": -7.135776718961435,
+              "y": 0.1040313605366807,
+              "z": 3.427704914181963
             },
             "finishPosition": {
-              "x": -7.135778779206056,
-              "y": 0.07461599801165505,
-              "z": 3.4105932388205957
+              "x": -7.1357826401067745,
+              "y": 0.07461411655108377,
+              "z": 3.536034341857153
             }
           },
           {
             "startTime": 2.05,
             "endTime": 3.15,
-            "worldDriftMeters": 0.10832505662524886,
+            "worldDriftMeters": 0.10832933127039643,
             "startPosition": {
-              "x": -7.135776138536291,
-              "y": 0.10402849530678528,
-              "z": 4.198268116842967
+              "x": -7.135776721923854,
+              "y": 0.10403129301434919,
+              "z": 4.323704934513877
             },
             "finishPosition": {
-              "x": -7.135778772795161,
-              "y": 0.07461589772447656,
-              "z": 4.306593173436186
+              "x": -7.135782578411087,
+              "y": 0.07461401496648642,
+              "z": 4.432034265625967
             }
           },
           {
             "startTime": 3.4499999999999997,
             "endTime": 4.199999809265137,
-            "worldDriftMeters": 0.06081653952984462,
+            "worldDriftMeters": 0.06082162611814945,
             "startPosition": {
-              "x": -7.135776140452638,
-              "y": 0.10402880014959577,
-              "z": 5.094268020584285
+              "x": -7.135776724706358,
+              "y": 0.10403233219467017,
+              "z": 5.219705113792213
             },
             "finishPosition": {
-              "x": -7.135773543798671,
-              "y": 0.04876554077453884,
-              "z": 5.155080883590529
+              "x": -7.1357788711114,
+              "y": 0.048764794142159895,
+              "z": 5.280520311245525
             }
           }
         ],
-        "maximumWorldDriftMeters": 0.10832514275565737
+        "maximumWorldDriftMeters": 0.1083294278370113
       }
     }
   },
@@ -133,62 +133,62 @@
     {
       "from": "Idle",
       "to": "Locomotion",
-      "maximumGameMeters": 0.3225568512808483,
+      "maximumGameMeters": 0.00000569234847542178,
       "largestBones": [
         {
-          "bone": "HindlimbL3",
-          "gameMeters": 0.3225568512808483
+          "bone": "Tail06",
+          "gameMeters": 0.00000569234847542178
         },
         {
-          "bone": "HindlimbL1",
-          "gameMeters": 0.17431140168604792
+          "bone": "Tail05",
+          "gameMeters": 0.000004721803921434812
         },
         {
-          "bone": "HindlimbL2",
-          "gameMeters": 0.1503962948585102
+          "bone": "Tail04",
+          "gameMeters": 0.000003798084672986025
         },
         {
-          "bone": "HindlimbR3",
-          "gameMeters": 0.12543991928083653
+          "bone": "Tail03",
+          "gameMeters": 0.0000028863138357850955
         },
         {
-          "bone": "HindlimbR1",
-          "gameMeters": 0.04620365284465808
+          "bone": "Tail02",
+          "gameMeters": 0.0000019795130537822977
         },
         {
-          "bone": "HindlimbR2",
-          "gameMeters": 0.0381582323484065
+          "bone": "Tail01",
+          "gameMeters": 0.0000010001732576052244
         }
       ]
     },
     {
       "from": "Locomotion",
       "to": "Idle",
-      "maximumGameMeters": 0.32255664111716204,
+      "maximumGameMeters": 0.000005682614958209241,
       "largestBones": [
         {
-          "bone": "HindlimbL3",
-          "gameMeters": 0.32255664111716204
+          "bone": "Tail06",
+          "gameMeters": 0.000005682614958209241
         },
         {
-          "bone": "HindlimbL1",
-          "gameMeters": 0.17431148094943225
+          "bone": "Tail05",
+          "gameMeters": 0.0000047144254681516364
         },
         {
-          "bone": "HindlimbL2",
-          "gameMeters": 0.15039632257498306
+          "bone": "Tail04",
+          "gameMeters": 0.00000379488716188116
         },
         {
-          "bone": "HindlimbR3",
-          "gameMeters": 0.1254401282707132
+          "bone": "Tail03",
+          "gameMeters": 0.0000028879167533650467
         },
         {
-          "bone": "HindlimbR1",
-          "gameMeters": 0.046203574574200136
+          "bone": "Tail02",
+          "gameMeters": 0.0000019859800302023175
         },
         {
-          "bone": "HindlimbR2",
-          "gameMeters": 0.03815814586274496
+          "bone": "Tail01",
+          "gameMeters": 0.0000010082935944895401
         }
       ]
     },

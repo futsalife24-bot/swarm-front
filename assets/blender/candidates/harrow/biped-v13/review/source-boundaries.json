@@ -3,6 +3,24 @@
   "pairs": [
     {
       "from": "Idle",
+      "to": "Locomotion",
+      "maximum_matrix_component_difference": 0.0,
+      "bone": "Wing upper.R"
+    },
+    {
+      "from": "Locomotion",
+      "to": "Idle",
+      "maximum_matrix_component_difference": 1.6653345369377348e-16,
+      "bone": "Tail.00"
+    },
+    {
+      "from": "Locomotion",
+      "to": "Locomotion",
+      "maximum_matrix_component_difference": 1.6653345369377348e-16,
+      "bone": "Tail.00"
+    },
+    {
+      "from": "Idle",
       "to": "Spin",
       "maximum_matrix_component_difference": 1.9073486328125e-06,
       "bone": "Hindlimb.L.3"
