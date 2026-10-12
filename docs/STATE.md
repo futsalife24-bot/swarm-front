@@ -1,10 +1,10 @@
-# 現在地: PR175独立監査は限定合格、公開条件整理・監視追加は未実装（2026-10-12）
+# 現在地: PR175は限定合格、経済ログは公開停止条件ではなく推奨運用（2026-10-12）
 
-監査対象 `a7de399057040af1670031928f84ad0cea7d9720`、[通常Chat監査](https://chatgpt.com/c/6acd5156-e2f8-83ee-b7f5-b99dfc024ef8)。補足訂正を優先し、合格（確認範囲限定）・必須P0/P1/P2各0件。監査側test/build/dry-run/E2E/実機の独立再実行はなし。原文Library `libfile_f753c033d92881919602b9f4b4350640` を公式readで全文取得し、[全文](evidence/swarm-growth-loop-20261012/PR175-a7de399-independent-audit-full.txt)を13,234 bytes・SHA256 `0df5184cda38c939a2c75dca9d9f67a15ad881fb90e3134f439ef237c089e51d` 一致で保存した。現在の実装は対象SHAと同じで、反映前HEAD8fb9574以降も今回の変更は文書だけ。
+監査対象 `a7de399057040af1670031928f84ad0cea7d9720`、[通常Chat監査](https://chatgpt.com/c/6acd5156-e2f8-83ee-b7f5-b99dfc024ef8)。2026-10-12 22:04 UTCの最終具体化を初回/補足より優先する。合格（確認範囲限定）・必須P0/P1/P2各0件、監査側のtest/build/dry-run/E2E/実機の独立再実行なし。成長経済ログは公開前必須修正でも公開停止条件でもなく、公開後を含む推奨運用。未実装でもa7de399の判定は変わらない。原文Library `libfile_f753c033d92881919602b9f4b4350640` version 1を公式readで871行取得し、[全文](evidence/swarm-growth-loop-20261012/PR175-a7de399-independent-audit-full.txt)を20,843 bytes・SHA256 `62578bd4f995d99086d26fd85d5c49c8775360dfa3fcd79a956abb8d71d7cacc` 一致で保存。実装は監査対象のまま、今回も文書訂正だけ。
 
-[公開条件と次の作業](SWARM-GROWTH-AUDIT-FOLLOWUP.md)：既存5失敗はBASE-01〜05で未解消のまま追跡。実端末確認は既存の保存/回復/表示を使えるが実施未完。経済ログ監視は既存のview/sortie/clear統計だけでは満たせず、記録・重複対策・有界集計・閲覧を追加する必要がある。計測項目/保持/送信先・予算、仮数値/美術、段階公開方法、既存失敗/Highの受入と公開承認は本人判断。High5到達性・本番同期競合・長期バランスは未確認で、全面保証や無害へ読み替えない。
+[最終訂正と次の作業](SWARM-GROWTH-AUDIT-FOLLOWUP.md)：任意ON/端末内日次30日/識別子・外部送信なしは十分な方針と評価された。初回到達日数等は任意。ログを理由に必須作業を追加しない。BASE-01〜05/High5は未解消、実スマホ・本番同期競合・長期バランスは未確認のまま追跡。本人が判断するのは既知の未確認・暫定値/素材を含む現候補でmerge/公開へ進むか、公開後の少人数実端末確認の範囲/タイミング。merge/公開承認はまだない。
 
-ブランチ `codex/swarm-growth-loop-20261012`、base35125e5を維持。[Draft PR175](https://github.com/futsalife24-bot/swarm-front/pull/175)はmerge/公開しない。ローカルorigin/main27208f1のPR176を取り込んでおらず、統合時は別実装SHAと影響範囲を確認する。PR176は別checkoutのまま、承認された新規空persist-to比較起動1回でもWindows APIアクセス拒否で停止し、元DB/WAL/SHM等45ファイル不変を照合。時刻付き連続撮影・銃口軸確認は未完。新認証・昇格・拒否回避は行わない。以下の未依頼/IAB起動待ち等は当時の経過で、現在は親側の通常Chat監査完了を優先する。
+ブランチ `codex/swarm-growth-loop-20261012`、base35125e5、[Draft PR175](https://github.com/futsalife24-bot/swarm-front/pull/175)を維持。STATE先頭のPR175/PR176進捗競合は文書だけで整理可能だが未実施。main27208f1統合はPR176コードも加わるので統合SHA/通常検証は別に確認する。PR176は別checkoutで射撃方向/仲間facing/回避成功/復帰画像を確認済み、銃口軸と同一試行の時刻付き連続撮影は未完。空persist-to起動1回もWindows APIアクセス拒否で停止し、元DB/WAL/SHM等45ファイル不変。昇格・拒否回避・新認証・公開は行わない。Git pushはgetaddrinfo thread失敗で文書コミットがremote未反映。以下の未依頼/旧ログ条件等は当時の経過であり、最終訂正を優先する。
 
 # 現在地: 成長循環と正式7イベント画像を候補統合、通常Chat独立監査の制御基盤復旧待ち（2026-10-12）
 

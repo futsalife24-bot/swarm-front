@@ -2,7 +2,7 @@
 
 基点 `35125e556c85a249a024cd4c033c39ce249b8d67`、ブランチ `codex/swarm-growth-loop-20261012`。実装は [候補仕様](../../SWARM-GROWTH-REDESIGN.md)。本番セーブと既存公開版を変更していない。
 
-正式画像統合後の実装対象は `a7de399057040af1670031928f84ad0cea7d9720`、[Draft PR175](https://github.com/futsalife24-bot/swarm-front/pull/175)。通常Chat独立監査は親側から依頼・回答取得済み。補足訂正の最終判定は合格（確認範囲限定）・必須P0/P1/P2各0件であり、独立test/build/dry-run/E2E再実行はない。[監査全文](PR175-a7de399-independent-audit-full.txt)と[公開条件・追跡台帳](../../SWARM-GROWTH-AUDIT-FOLLOWUP.md)。本人の公開承認ではなく、merge・公開しない。以下の未依頼/旧実装の記録は当時の経過。
+正式画像統合後の実装対象は `a7de399057040af1670031928f84ad0cea7d9720`、[Draft PR175](https://github.com/futsalife24-bot/swarm-front/pull/175)。通常Chat独立監査は親側から依頼・回答取得済み。2026-10-12 22:04 UTCの最終具体化を優先し、合格（確認範囲限定）・必須P0/P1/P2各0件。成長経済ログは公開前必須修正/停止条件ではなく推奨運用で、未実装でも判定は変わらない。独立test/build/dry-run/E2E再実行はない。[最終回答を含む全文](PR175-a7de399-independent-audit-full.txt)と[訂正・追跡台帳](../../SWARM-GROWTH-AUDIT-FOLLOWUP.md)。本人の公開承認ではなく、merge・公開しない。以下の未依頼/旧条件/旧実装の記録は当時の経過。
 
 ## 合格した確認
 
