@@ -1,0 +1,310 @@
+{
+  "version": 1,
+  "source": "ClaudeCode event-banners 2026-10-12, unchanged artwork",
+  "assets": [
+    {
+      "eventId": "adv-sortie",
+      "durationMs": 1980,
+      "inMs": 520,
+      "holdMs": 1100,
+      "outMs": 360,
+      "intent": "前方への突進。全要素が右方向ベクトルを共有し、退場も右へ抜ける。",
+      "variants": {
+        "standard": {
+          "dimensions": [
+            960,
+            336
+          ],
+          "nominalFps": 30,
+          "sampleFrames": 62,
+          "encodedFrames": 28,
+          "bytes": 750127,
+          "durationMs": 1980,
+          "holdMatchesOriginalPngMs": 1124.407,
+          "posterSha256": "e1b616268131bb976c6f7b0e82fa058125f00662ac31bb971e9d02a00638ebad",
+          "png": "standard/adv-sortie.png",
+          "apng": "standard/adv-sortie.apng",
+          "maxUncompressedSampleMiB": 76.3
+        },
+        "mobile": {
+          "dimensions": [
+            640,
+            224
+          ],
+          "nominalFps": 15,
+          "sampleFrames": 32,
+          "encodedFrames": 15,
+          "bytes": 326680,
+          "durationMs": 1980,
+          "holdMatchesOriginalPngMs": 1118.621,
+          "posterSha256": "7a45dd09288b057ac31a7148b2b75880d20755994444993218bd0e89d36a4383",
+          "png": "mobile/adv-sortie.png",
+          "apng": "mobile/adv-sortie.apng",
+          "maxUncompressedSampleMiB": 17.5
+        }
+      }
+    },
+    {
+      "eventId": "adv-extract",
+      "durationMs": 2460,
+      "inMs": 560,
+      "holdMs": 1500,
+      "outMs": 400,
+      "intent": "整然とした離脱。レールが中央から伸び、矢印だけが上へ抜ける。横移動は使わない。",
+      "variants": {
+        "standard": {
+          "dimensions": [
+            960,
+            336
+          ],
+          "nominalFps": 30,
+          "sampleFrames": 76,
+          "encodedFrames": 30,
+          "bytes": 711513,
+          "durationMs": 2460,
+          "holdMatchesOriginalPngMs": 1529.315,
+          "posterSha256": "3631f6e8273ee1f06e41376e5a7fa5100fdae025d5460fed55fda2d2b8e18326",
+          "png": "standard/adv-extract.png",
+          "apng": "standard/adv-extract.apng",
+          "maxUncompressedSampleMiB": 93.5
+        },
+        "mobile": {
+          "dimensions": [
+            640,
+            224
+          ],
+          "nominalFps": 15,
+          "sampleFrames": 39,
+          "encodedFrames": 16,
+          "bytes": 304832,
+          "durationMs": 2460,
+          "holdMatchesOriginalPngMs": 1558.333,
+          "posterSha256": "a82891ca4118f3e74628c70f90510ab809247bc68bbb5bbc7531b37dcbdb876b",
+          "png": "mobile/adv-extract.png",
+          "apng": "mobile/adv-extract.apng",
+          "maxUncompressedSampleMiB": 21.3
+        }
+      }
+    },
+    {
+      "eventId": "adv-failed",
+      "durationMs": 2860,
+      "inMs": 640,
+      "holdMs": 1800,
+      "outMs": 420,
+      "intent": "破断。プレートは一枚で現れ、200ms後に破断片が一度だけずれる。明滅・反復振動は禁止。",
+      "variants": {
+        "standard": {
+          "dimensions": [
+            960,
+            336
+          ],
+          "nominalFps": 30,
+          "sampleFrames": 88,
+          "encodedFrames": 33,
+          "bytes": 1193769,
+          "durationMs": 2860,
+          "holdMatchesOriginalPngMs": 1816.235,
+          "posterSha256": "a25d5ad0387e7af0bc3a8ad61bb43ba044796d90aeb6e802376b1d78f707785f",
+          "png": "standard/adv-failed.png",
+          "apng": "standard/adv-failed.apng",
+          "maxUncompressedSampleMiB": 108.3
+        },
+        "mobile": {
+          "dimensions": [
+            640,
+            224
+          ],
+          "nominalFps": 15,
+          "sampleFrames": 45,
+          "encodedFrames": 18,
+          "bytes": 506894,
+          "durationMs": 2860,
+          "holdMatchesOriginalPngMs": 1811.429,
+          "posterSha256": "a35a891f760a93b01302e1e3ae61b5293338039ae00ec8914fa6e9ae06ea2d72",
+          "png": "mobile/adv-failed.png",
+          "apng": "mobile/adv-failed.apng",
+          "maxUncompressedSampleMiB": 24.6
+        }
+      }
+    },
+    {
+      "eventId": "adv-complete",
+      "durationMs": 3040,
+      "inMs": 700,
+      "holdMs": 1900,
+      "outMs": 440,
+      "intent": "叙勲。作戦章が中心でわずかに弾み、翼線とバンドが左右対称に開く。",
+      "variants": {
+        "standard": {
+          "dimensions": [
+            960,
+            336
+          ],
+          "nominalFps": 30,
+          "sampleFrames": 94,
+          "encodedFrames": 36,
+          "bytes": 1227233,
+          "durationMs": 3040,
+          "holdMatchesOriginalPngMs": 1905.714,
+          "posterSha256": "1aa87d5e9f2e2cd415e1944bd7e53a9b5b6a9c79a10c9d144bab1536484904d2",
+          "png": "standard/adv-complete.png",
+          "apng": "standard/adv-complete.apng",
+          "maxUncompressedSampleMiB": 115.7
+        },
+        "mobile": {
+          "dimensions": [
+            640,
+            224
+          ],
+          "nominalFps": 15,
+          "sampleFrames": 48,
+          "encodedFrames": 19,
+          "bytes": 536987,
+          "durationMs": 3040,
+          "holdMatchesOriginalPngMs": 1934.667,
+          "posterSha256": "c7d9aa7ea9627b78f3ec1f9e5918f5c2578f9c96604b9cde21e96c135974401d",
+          "png": "mobile/adv-complete.png",
+          "apng": "mobile/adv-complete.apng",
+          "maxUncompressedSampleMiB": 26.2
+        }
+      }
+    },
+    {
+      "eventId": "srv-sortie",
+      "durationMs": 2120,
+      "inMs": 640,
+      "holdMs": 1100,
+      "outMs": 380,
+      "intent": "防衛円周の展開。円周が回り込みながら閉じ、包囲の矢が外から内へ寄る。直進ではなく求心。",
+      "variants": {
+        "standard": {
+          "dimensions": [
+            960,
+            336
+          ],
+          "nominalFps": 30,
+          "sampleFrames": 66,
+          "encodedFrames": 33,
+          "bytes": 1599082,
+          "durationMs": 2120,
+          "holdMatchesOriginalPngMs": 1109.841,
+          "posterSha256": "fcd3dae7a2740d1f4b72ee079d5466a1c4c0ebd6c0718697bad533c650678a5f",
+          "png": "standard/srv-sortie.png",
+          "apng": "standard/srv-sortie.apng",
+          "maxUncompressedSampleMiB": 81.2
+        },
+        "mobile": {
+          "dimensions": [
+            640,
+            224
+          ],
+          "nominalFps": 15,
+          "sampleFrames": 34,
+          "encodedFrames": 17,
+          "bytes": 613485,
+          "durationMs": 2120,
+          "holdMatchesOriginalPngMs": 1138.065,
+          "posterSha256": "0f62d203aa2771bec8e0561c5e04e797ce3bfcf278b8bfeb5cf89c93a578994b",
+          "png": "mobile/srv-sortie.png",
+          "apng": "mobile/srv-sortie.apng",
+          "maxUncompressedSampleMiB": 18.6
+        }
+      }
+    },
+    {
+      "eventId": "srv-extract",
+      "durationMs": 2520,
+      "inMs": 600,
+      "holdMs": 1500,
+      "outMs": 420,
+      "intent": "包囲からの離脱。円周の開口から矢印が上へ抜け、他は静かに消える。",
+      "variants": {
+        "standard": {
+          "dimensions": [
+            960,
+            336
+          ],
+          "nominalFps": 30,
+          "sampleFrames": 78,
+          "encodedFrames": 32,
+          "bytes": 1116732,
+          "durationMs": 2520,
+          "holdMatchesOriginalPngMs": 1516.8,
+          "posterSha256": "5b24d481bee23083e0e3b5d194b3e853e00d3b2aeda9975a5bc65a34f255f9e3",
+          "png": "standard/srv-extract.png",
+          "apng": "standard/srv-extract.apng",
+          "maxUncompressedSampleMiB": 96
+        },
+        "mobile": {
+          "dimensions": [
+            640,
+            224
+          ],
+          "nominalFps": 15,
+          "sampleFrames": 40,
+          "encodedFrames": 17,
+          "bytes": 442478,
+          "durationMs": 2520,
+          "holdMatchesOriginalPngMs": 1511.351,
+          "posterSha256": "678877a1660c5d03eb9911d3d8f8026d0c4292bac8a5bebc8c823fb1590042a3",
+          "png": "mobile/srv-extract.png",
+          "apng": "mobile/srv-extract.apng",
+          "maxUncompressedSampleMiB": 21.9
+        }
+      }
+    },
+    {
+      "eventId": "srv-ended",
+      "durationMs": 2640,
+      "inMs": 640,
+      "holdMs": 1600,
+      "outMs": 400,
+      "intent": "記録の終端。線が終端ノードまで引かれて止まる。勝敗を示す弾み・揺れ・落下・赤色を使わない中立な動き。",
+      "variants": {
+        "standard": {
+          "dimensions": [
+            960,
+            336
+          ],
+          "nominalFps": 30,
+          "sampleFrames": 82,
+          "encodedFrames": 33,
+          "bytes": 758128,
+          "durationMs": 2640,
+          "holdMatchesOriginalPngMs": 1632.405,
+          "posterSha256": "802ee44f37442aacd0299e7e3e5dbcd522f3e9336742611101c2951714e70ba1",
+          "png": "standard/srv-ended.png",
+          "apng": "standard/srv-ended.apng",
+          "maxUncompressedSampleMiB": 100.9
+        },
+        "mobile": {
+          "dimensions": [
+            640,
+            224
+          ],
+          "nominalFps": 15,
+          "sampleFrames": 42,
+          "encodedFrames": 17,
+          "bytes": 322963,
+          "durationMs": 2640,
+          "holdMatchesOriginalPngMs": 1661.538,
+          "posterSha256": "b97dbb39f9728c6483249c92ac8a45c2815ad026ecb8e4155444c5c4318ee3a7",
+          "png": "mobile/srv-ended.png",
+          "apng": "mobile/srv-ended.apng",
+          "maxUncompressedSampleMiB": 23
+        }
+      }
+    }
+  ],
+  "loops": 1,
+  "lastFrame": "fully transparent",
+  "defaultImage": "original authored PNG",
+  "survivalClear": null,
+  "reducedMotion": {
+    "still": "定常フレーム（PNG静止画そのもの）を保持時間だけ表示",
+    "fadeIn": 160,
+    "fadeOut": 160,
+    "rule": "移動・拡大・ワイプ・明滅を全て無効化し、不透明度のみ。点滅や揺れを入れない。"
+  }
+}
