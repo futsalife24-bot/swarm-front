@@ -1,0 +1,591 @@
+{
+  "currentSha256": "0385b7c0198d47125a0779544726787c6076bc7213bd61382221eb0c6592d5ae",
+  "previousSha256": "c5a8e2e241cc441473519ed7f12e24e7b508c916d00cf7270427cc4a0a7ef0ba",
+  "axes": "game world: Y up, X lateral, Z forward; shoulder-relative isolates wing stroke",
+  "sampleStepSeconds": 0.05,
+  "intervalSeconds": 0.25,
+  "picks": {
+    "L/outer": {
+      "mesh": "WingL",
+      "vertex": 1379,
+      "lateral": 12.200177616146162
+    },
+    "L/claw": {
+      "mesh": "LauncherL_body_00011",
+      "vertex": 53,
+      "lateral": 7.1005439566925315
+    },
+    "R/outer": {
+      "mesh": "WingR",
+      "vertex": 1980,
+      "lateral": 13.412048841116242
+    },
+    "R/claw": {
+      "mesh": "LauncherR_body_00012",
+      "vertex": 20,
+      "lateral": 7.413979367266954
+    }
+  },
+  "rows": [
+    {
+      "clip": "Takeoff",
+      "side": "L",
+      "kind": "outer",
+      "pick": {
+        "mesh": "WingL",
+        "vertex": 1379,
+        "lateral": 12.200177616146162
+      },
+      "downstroke": {
+        "from": 0.9,
+        "to": 1.1500000000000001,
+        "verticalDown": 5.298023337910173,
+        "horizontal": 1.2982555098622486,
+        "ratio": 4.080878762049175,
+        "worldVerticalDown": 4.26743512035296,
+        "worldHorizontal": 1.4338604212963046
+      },
+      "v13SameTimes": {
+        "from": 0.9,
+        "to": 1.1500000000000001,
+        "verticalDown": -5.5245906594821825,
+        "horizontal": 6.555437910441076,
+        "ratio": -0.8427492922605481,
+        "worldVerticalDown": -6.5551788770393955,
+        "worldHorizontal": 6.413031133387581
+      }
+    },
+    {
+      "clip": "Takeoff",
+      "side": "L",
+      "kind": "claw",
+      "pick": {
+        "mesh": "LauncherL_body_00011",
+        "vertex": 53,
+        "lateral": 7.1005439566925315
+      },
+      "downstroke": {
+        "from": 0.9,
+        "to": 1.1500000000000001,
+        "verticalDown": 2.5191981668065146,
+        "horizontal": 1.1616083434336408,
+        "ratio": 2.1687156269555743,
+        "worldVerticalDown": 1.4886099492493017,
+        "worldHorizontal": 1.2644472961984659
+      },
+      "v13SameTimes": {
+        "from": 0.9,
+        "to": 1.1500000000000001,
+        "verticalDown": -3.488858641537899,
+        "horizontal": 3.462747118860164,
+        "ratio": -1.0075406958063775,
+        "worldVerticalDown": -4.519446859095112,
+        "worldHorizontal": 3.3850888354936988
+      }
+    },
+    {
+      "clip": "Takeoff",
+      "side": "R",
+      "kind": "outer",
+      "pick": {
+        "mesh": "WingR",
+        "vertex": 1980,
+        "lateral": 13.412048841116242
+      },
+      "downstroke": {
+        "from": 0.9500000000000001,
+        "to": 1.2000000000000002,
+        "verticalDown": 6.626176398784585,
+        "horizontal": 1.412552502185306,
+        "ratio": 4.690923975238783,
+        "worldVerticalDown": 5.667252854177876,
+        "worldHorizontal": 1.5253797175698443
+      },
+      "v13SameTimes": {
+        "from": 0.9500000000000001,
+        "to": 1.2000000000000002,
+        "verticalDown": 1.5810574805607125,
+        "horizontal": 1.8078506059437451,
+        "ratio": 0.8745509586702599,
+        "worldVerticalDown": 0.6221339359540039,
+        "worldHorizontal": 1.9385886428813879
+      }
+    },
+    {
+      "clip": "Takeoff",
+      "side": "R",
+      "kind": "claw",
+      "pick": {
+        "mesh": "LauncherR_body_00012",
+        "vertex": 20,
+        "lateral": 7.413979367266954
+      },
+      "downstroke": {
+        "from": 0.9500000000000001,
+        "to": 1.2000000000000002,
+        "verticalDown": 3.1627049623714054,
+        "horizontal": 0.823503606144507,
+        "ratio": 3.840547799394116,
+        "worldVerticalDown": 2.203781417764697,
+        "worldHorizontal": 0.9217962221815719
+      },
+      "v13SameTimes": {
+        "from": 0.9500000000000001,
+        "to": 1.2000000000000002,
+        "verticalDown": 0.668452584218624,
+        "horizontal": 0.911318036299522,
+        "ratio": 0.7335008828892796,
+        "worldVerticalDown": -0.2904709603880846,
+        "worldHorizontal": 1.0385191795829456
+      }
+    },
+    {
+      "clip": "TakeoffB",
+      "side": "L",
+      "kind": "outer",
+      "pick": {
+        "mesh": "WingL",
+        "vertex": 1379,
+        "lateral": 12.200177616146162
+      },
+      "downstroke": {
+        "from": 0.9500000000000001,
+        "to": 1.2000000000000002,
+        "verticalDown": 6.160610658390841,
+        "horizontal": 1.1487786975655745,
+        "ratio": 5.3627479961510875,
+        "worldVerticalDown": 5.201687140329501,
+        "worldHorizontal": 1.2646734544980727
+      },
+      "v13SameTimes": {
+        "from": 0.9500000000000001,
+        "to": 1.2000000000000002,
+        "verticalDown": 2.3109670304628107,
+        "horizontal": 2.8136274045371903,
+        "ratio": 0.8213479250081936,
+        "worldVerticalDown": 1.3520435124014707,
+        "worldHorizontal": 2.93180525059705
+      }
+    },
+    {
+      "clip": "TakeoffB",
+      "side": "L",
+      "kind": "claw",
+      "pick": {
+        "mesh": "LauncherL_body_00011",
+        "vertex": 53,
+        "lateral": 7.1005439566925315
+      },
+      "downstroke": {
+        "from": 1,
+        "to": 1.25,
+        "verticalDown": 3.139249218043634,
+        "horizontal": 0.8698705650740541,
+        "ratio": 3.6088693468739024,
+        "worldVerticalDown": 2.346374865448441,
+        "worldHorizontal": 0.9308786400726407
+      },
+      "v13SameTimes": {
+        "from": 1,
+        "to": 1.25,
+        "verticalDown": -0.2545218757245191,
+        "horizontal": 0.08243565169233548,
+        "ratio": -3.0875218488529703,
+        "worldVerticalDown": -1.0473962283197125,
+        "worldHorizontal": 0.14629558437822102
+      }
+    },
+    {
+      "clip": "TakeoffB",
+      "side": "R",
+      "kind": "outer",
+      "pick": {
+        "mesh": "WingR",
+        "vertex": 1980,
+        "lateral": 13.412048841116242
+      },
+      "downstroke": {
+        "from": 0.9,
+        "to": 1.1500000000000001,
+        "verticalDown": 4.630644327078443,
+        "horizontal": 1.6557904060411646,
+        "ratio": 2.7966367664551623,
+        "worldVerticalDown": 3.6000560796953707,
+        "worldHorizontal": 1.7854321619754008
+      },
+      "v13SameTimes": {
+        "from": 0.9,
+        "to": 1.1500000000000001,
+        "verticalDown": -8.079975980897697,
+        "horizontal": 7.071888092615329,
+        "ratio": -1.1425486199838262,
+        "worldVerticalDown": -9.110564228280769,
+        "worldHorizontal": 6.9595354425389715
+      }
+    },
+    {
+      "clip": "TakeoffB",
+      "side": "R",
+      "kind": "claw",
+      "pick": {
+        "mesh": "LauncherR_body_00012",
+        "vertex": 20,
+        "lateral": 7.413979367266954
+      },
+      "downstroke": {
+        "from": 0.9,
+        "to": 1.1500000000000001,
+        "verticalDown": 2.145639191620493,
+        "horizontal": 0.9193117281913435,
+        "ratio": 2.3339626003051537,
+        "worldVerticalDown": 1.1150509442374208,
+        "worldHorizontal": 1.0358359576967575
+      },
+      "v13SameTimes": {
+        "from": 0.9,
+        "to": 1.1500000000000001,
+        "verticalDown": -4.396196324180927,
+        "horizontal": 4.030681030325966,
+        "ratio": -1.0906832595050076,
+        "worldVerticalDown": -5.426784571563999,
+        "worldHorizontal": 3.9530265959436965
+      }
+    },
+    {
+      "clip": "TakeoffC",
+      "side": "L",
+      "kind": "outer",
+      "pick": {
+        "mesh": "WingL",
+        "vertex": 1379,
+        "lateral": 12.200177616146162
+      },
+      "downstroke": {
+        "from": 0.8500000000000001,
+        "to": 1.1,
+        "verticalDown": 3.6667559012956996,
+        "horizontal": 1.3479811881690273,
+        "ratio": 2.720183288519242,
+        "worldVerticalDown": 2.659511523199651,
+        "worldHorizontal": 1.4853219760369862
+      },
+      "v13SameTimes": {
+        "from": 0.8500000000000001,
+        "to": 1.1,
+        "verticalDown": -5.237544281535124,
+        "horizontal": 6.38074477704063,
+        "ratio": -0.8208358842969239,
+        "worldVerticalDown": -6.244788659631173,
+        "worldHorizontal": 6.2409212318467455
+      }
+    },
+    {
+      "clip": "TakeoffC",
+      "side": "L",
+      "kind": "claw",
+      "pick": {
+        "mesh": "LauncherL_body_00011",
+        "vertex": 53,
+        "lateral": 7.1005439566925315
+      },
+      "downstroke": {
+        "from": 0.8500000000000001,
+        "to": 1.1,
+        "verticalDown": 1.5944574512290597,
+        "horizontal": 1.0819734677226935,
+        "ratio": 1.473656701198993,
+        "worldVerticalDown": 0.587213073133011,
+        "worldHorizontal": 1.1940310484813974
+      },
+      "v13SameTimes": {
+        "from": 0.8500000000000001,
+        "to": 1.1,
+        "verticalDown": -3.349047699974859,
+        "horizontal": 3.354451838683831,
+        "ratio": -0.9983889651815385,
+        "worldVerticalDown": -4.356292078070908,
+        "worldHorizontal": 3.277647850939791
+      }
+    },
+    {
+      "clip": "TakeoffC",
+      "side": "R",
+      "kind": "outer",
+      "pick": {
+        "mesh": "WingR",
+        "vertex": 1980,
+        "lateral": 13.412048841116242
+      },
+      "downstroke": {
+        "from": 1,
+        "to": 1.25,
+        "verticalDown": 6.0546456920680765,
+        "horizontal": 1.0235106366261213,
+        "ratio": 5.915566947136457,
+        "worldVerticalDown": 5.261771318860882,
+        "worldHorizontal": 1.10175396308231
+      },
+      "v13SameTimes": {
+        "from": 1,
+        "to": 1.25,
+        "verticalDown": 3.153578543703002,
+        "horizontal": 3.5868363446715987,
+        "ratio": 0.8792089297265486,
+        "worldVerticalDown": 2.360704170495808,
+        "worldHorizontal": 3.689787271915404
+      }
+    },
+    {
+      "clip": "TakeoffC",
+      "side": "R",
+      "kind": "claw",
+      "pick": {
+        "mesh": "LauncherR_body_00012",
+        "vertex": 20,
+        "lateral": 7.413979367266954
+      },
+      "downstroke": {
+        "from": 1,
+        "to": 1.25,
+        "verticalDown": 2.894992862628923,
+        "horizontal": 0.6221079494178193,
+        "ratio": 4.653521732583732,
+        "worldVerticalDown": 2.102118489421729,
+        "worldHorizontal": 0.6897293268062367
+      },
+      "v13SameTimes": {
+        "from": 1,
+        "to": 1.25,
+        "verticalDown": 1.6639302066674908,
+        "horizontal": 1.7796398284073358,
+        "ratio": 0.934981438438924,
+        "worldVerticalDown": 0.8710558334602965,
+        "worldHorizontal": 1.882872224134398
+      }
+    },
+    {
+      "clip": "TakeoffD",
+      "side": "L",
+      "kind": "outer",
+      "pick": {
+        "mesh": "WingL",
+        "vertex": 1379,
+        "lateral": 12.200177616146162
+      },
+      "downstroke": {
+        "from": 0.9500000000000001,
+        "to": 1.2000000000000002,
+        "verticalDown": 6.178774900990616,
+        "horizontal": 1.1906930654988408,
+        "ratio": 5.1892255695652505,
+        "worldVerticalDown": 5.219851382929276,
+        "worldHorizontal": 1.302864301655682
+      },
+      "v13SameTimes": {
+        "from": 0.9500000000000001,
+        "to": 1.2000000000000002,
+        "verticalDown": -4.264076587787445,
+        "horizontal": 5.504777263791163,
+        "ratio": -0.7746138278537281,
+        "worldVerticalDown": -5.223000105848785,
+        "worldHorizontal": 5.375551816435243
+      }
+    },
+    {
+      "clip": "TakeoffD",
+      "side": "L",
+      "kind": "claw",
+      "pick": {
+        "mesh": "LauncherL_body_00011",
+        "vertex": 53,
+        "lateral": 7.1005439566925315
+      },
+      "downstroke": {
+        "from": 0.9500000000000001,
+        "to": 1.2000000000000002,
+        "verticalDown": 3.090427154220185,
+        "horizontal": 1.0633946336760163,
+        "ratio": 2.906190285667497,
+        "worldVerticalDown": 2.131503636158845,
+        "worldHorizontal": 1.1513755915945725
+      },
+      "v13SameTimes": {
+        "from": 0.9500000000000001,
+        "to": 1.2000000000000002,
+        "verticalDown": -2.9363670955417653,
+        "horizontal": 2.7183328968002454,
+        "ratio": -1.0802087923072883,
+        "worldVerticalDown": -3.8952906136031054,
+        "worldHorizontal": 2.6345531986151287
+      }
+    },
+    {
+      "clip": "TakeoffD",
+      "side": "R",
+      "kind": "outer",
+      "pick": {
+        "mesh": "WingR",
+        "vertex": 1980,
+        "lateral": 13.412048841116242
+      },
+      "downstroke": {
+        "from": 1.6,
+        "to": 1.85,
+        "verticalDown": 3.7243925508345495,
+        "horizontal": 1.1464976334925072,
+        "ratio": 3.248495628804008,
+        "worldVerticalDown": 3.763120945355684,
+        "worldHorizontal": 1.1766569652881187
+      },
+      "v13SameTimes": {
+        "from": 1.6,
+        "to": 1.85,
+        "verticalDown": 0.5687812381841209,
+        "horizontal": 1.2612658178486666,
+        "ratio": 0.4509606382215983,
+        "worldVerticalDown": 0.6075096327052556,
+        "worldHorizontal": 1.2251564058019755
+      }
+    },
+    {
+      "clip": "TakeoffD",
+      "side": "R",
+      "kind": "claw",
+      "pick": {
+        "mesh": "LauncherR_body_00012",
+        "vertex": 20,
+        "lateral": 7.413979367266954
+      },
+      "downstroke": {
+        "from": 1.6,
+        "to": 1.85,
+        "verticalDown": 1.8752972245382296,
+        "horizontal": 0.5435729764975676,
+        "ratio": 3.4499456478161052,
+        "worldVerticalDown": 1.9140256190593643,
+        "worldHorizontal": 0.5760503374463808
+      },
+      "v13SameTimes": {
+        "from": 1.6,
+        "to": 1.85,
+        "verticalDown": 0.5097988085623015,
+        "horizontal": 0.6013353911236462,
+        "ratio": 0.8477778226385432,
+        "worldVerticalDown": 0.5485272030834363,
+        "worldHorizontal": 0.5627222844690893
+      }
+    },
+    {
+      "clip": "Flight",
+      "side": "L",
+      "kind": "outer",
+      "pick": {
+        "mesh": "WingL",
+        "vertex": 1379,
+        "lateral": 12.200177616146162
+      },
+      "downstroke": {
+        "from": 0.45,
+        "to": 0.7000000000000001,
+        "verticalDown": 2.4321534452423013,
+        "horizontal": 0.14809444628115204,
+        "ratio": 16.422988885247893,
+        "worldVerticalDown": 2.4321534452423013,
+        "worldHorizontal": 0.14809444628115165
+      },
+      "v13SameTimes": {
+        "from": 0.45,
+        "to": 0.7000000000000001,
+        "verticalDown": -0.055426527773196455,
+        "horizontal": 0.21140813364318536,
+        "ratio": -0.2621778396981894,
+        "worldVerticalDown": -0.055426527773196455,
+        "worldHorizontal": 0.21140813364318536
+      }
+    },
+    {
+      "clip": "Flight",
+      "side": "L",
+      "kind": "claw",
+      "pick": {
+        "mesh": "LauncherL_body_00011",
+        "vertex": 53,
+        "lateral": 7.1005439566925315
+      },
+      "downstroke": {
+        "from": 0.5,
+        "to": 0.75,
+        "verticalDown": 1.449168639856902,
+        "horizontal": 0.1993029166536495,
+        "ratio": 7.271186313722047,
+        "worldVerticalDown": 1.449168639856902,
+        "worldHorizontal": 0.1993029166536495
+      },
+      "v13SameTimes": {
+        "from": 0.5,
+        "to": 0.75,
+        "verticalDown": -0.05196650798900748,
+        "horizontal": 0.06679257408412725,
+        "ratio": -0.7780282269635859,
+        "worldVerticalDown": -0.05196650798900748,
+        "worldHorizontal": 0.06679257408412725
+      }
+    },
+    {
+      "clip": "Flight",
+      "side": "R",
+      "kind": "outer",
+      "pick": {
+        "mesh": "WingR",
+        "vertex": 1980,
+        "lateral": 13.412048841116242
+      },
+      "downstroke": {
+        "from": 0.7000000000000001,
+        "to": 0.9500000000000001,
+        "verticalDown": 1.958811721090063,
+        "horizontal": 0.05269812875166173,
+        "ratio": 37.170422697946286,
+        "worldVerticalDown": 1.958811721090063,
+        "worldHorizontal": 0.05269812875166105
+      },
+      "v13SameTimes": {
+        "from": 0.7000000000000001,
+        "to": 0.9500000000000001,
+        "verticalDown": -0.7674706318394655,
+        "horizontal": 0.9346749815796034,
+        "ratio": -0.8211096337920996,
+        "worldVerticalDown": -0.7674706318394655,
+        "worldHorizontal": 0.9346749815796025
+      }
+    },
+    {
+      "clip": "Flight",
+      "side": "R",
+      "kind": "claw",
+      "pick": {
+        "mesh": "LauncherR_body_00012",
+        "vertex": 20,
+        "lateral": 7.413979367266954
+      },
+      "downstroke": {
+        "from": 0.7000000000000001,
+        "to": 0.9500000000000001,
+        "verticalDown": 1.0593168834036923,
+        "horizontal": 0.004637065604000181,
+        "ratio": 228.44552436132648,
+        "worldVerticalDown": 1.0593168834036923,
+        "worldHorizontal": 0.004637065604000181
+      },
+      "v13SameTimes": {
+        "from": 0.7000000000000001,
+        "to": 0.9500000000000001,
+        "verticalDown": -0.4093456981105259,
+        "horizontal": 0.49693183328032137,
+        "ratio": -0.8237461774351901,
+        "worldVerticalDown": -0.4093456981105259,
+        "worldHorizontal": 0.49693183328032137
+      }
+    }
+  ]
+}

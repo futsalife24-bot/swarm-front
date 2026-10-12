@@ -5,7 +5,7 @@ import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-const source = "public/assets/enemies/harrow_motion_v13.glb";
+const source = "public/assets/enemies/harrow_motion_v14.glb";
 const bytes = readFileSync(source);
 // The headless check inspects geometry and animation; browser QA decodes the textures.
 const loader = new GLTFLoader().register(() => ({
@@ -42,14 +42,14 @@ const names = animations.map((clip) =>
 assert.deepEqual(
   names.slice().sort(),
   expected.slice().sort(),
-  "HARROW v13 clips",
+  "HARROW v14 clips",
 );
 const meshes = [];
 scene.traverse((object) => {
   if (object instanceof T.SkinnedMesh) meshes.push(object);
 });
-assert.equal(meshes.length, 22, "HARROW v13 skinned mesh primitives");
-assert.equal(meshes[0].skeleton.bones.length, 39, "HARROW v13 bones");
+assert.equal(meshes.length, 22, "HARROW v14 skinned mesh primitives");
+assert.equal(meshes[0].skeleton.bones.length, 39, "HARROW v14 bones");
 for (const mesh of meshes) {
   assert.ok(
     mesh.bindMatrix.equals(meshes[0].bindMatrix),
@@ -82,7 +82,7 @@ const result = {
 };
 mkdirSync("dist-validation/harrow", { recursive: true });
 writeFileSync(
-  "dist-validation/harrow/v13-asset.json",
+  "dist-validation/harrow/v14-asset.json",
   JSON.stringify(result, null, 2),
 );
 console.log(JSON.stringify(result));

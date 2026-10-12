@@ -1,0 +1,56 @@
+{
+  "pass": true,
+  "before": {
+    "sha256": "c5a8e2e241cc441473519ed7f12e24e7b508c916d00cf7270427cc4a0a7ef0ba",
+    "clips": {
+      "Idle": "0aae76727e674f586845037357cae38780d37f466a09fc364dd888f4461124b3",
+      "Locomotion": "b6cbd46a5ceb871efe8315913eac7c823dbb78dbdfee285bda36c2250017ae50",
+      "Attack": "50492fe966d2da5d0219dc6e735b8d1774b3959bce9bd0dd5f6c9fd33cdcc306",
+      "Threat": "5bfa0493af0966ee7bb3eb767f56be083b03190cf73a04495eb1b4145858e9cf",
+      "AirThreat": "02f13775319e2170ebf44cf7cca9183cf30a6238d5b6dd2b47450169f8a63a26",
+      "Spin": "6fee54caa1b9cef8d7320f8243825a6f4e7c050c4aea153aac670bd4aeec69b8",
+      "Takeoff": "75bb50f28ef8ea7cab92e0d5a42cf7cddd6ccd478b67fc87bafdd1ba56c832bf",
+      "Flight": "39e871d8ff4eaad2c681c77ce15c816f4b8cbfaee7f7b25340413c92280548d0",
+      "Glide": "c7683070733ae735f05b038add91bc843bc1fc07b665fd76f72733ae54ac3bdc",
+      "Dive": "9efc551a49a74cef4636dbdc60fbeeb0ee6fe7ae2d8f2681a8c897b42d55559e",
+      "StaggerFall": "8735991dfcb6c4df4073675901a36416a8287dbb8aad67a3ea8b437f98425172",
+      "Land": "461194c13205d634818200bcf31e8d604258285386e315680767fe6af2589173",
+      "Dash": "65ce9087d6ceb9bf04159074ad96ee8a18c16c56254c63e6bf5144c7d6a2a322",
+      "Snipe": "5aec3403592753a4c686da2ff45f8c5eb617b41cd3190ea7c839f0e9e7b045ef",
+      "BombPass": "7c65d6deae9e61c0f247815a96f0c9df6cbf6789a7024d8eb799b44e0d4823d8",
+      "TakeoffB": "973faa1962da54c32300b4465155fceabe1b198d90b9a0c32333173a1889e432",
+      "TakeoffC": "2519e3bf407eebabf0409441136d14c81c3bd09826e6e1784d6221c3f46b20be",
+      "TakeoffD": "8e340c2c58cbd2940e5065538ba91c6aad99eaba4a9bf9164cadfd7a8bafd04a"
+    }
+  },
+  "after": {
+    "sha256": "0385b7c0198d47125a0779544726787c6076bc7213bd61382221eb0c6592d5ae",
+    "clips": {
+      "Idle": "0aae76727e674f586845037357cae38780d37f466a09fc364dd888f4461124b3",
+      "Locomotion": "b6cbd46a5ceb871efe8315913eac7c823dbb78dbdfee285bda36c2250017ae50",
+      "Attack": "50492fe966d2da5d0219dc6e735b8d1774b3959bce9bd0dd5f6c9fd33cdcc306",
+      "Threat": "5bfa0493af0966ee7bb3eb767f56be083b03190cf73a04495eb1b4145858e9cf",
+      "AirThreat": "02f13775319e2170ebf44cf7cca9183cf30a6238d5b6dd2b47450169f8a63a26",
+      "Spin": "6fee54caa1b9cef8d7320f8243825a6f4e7c050c4aea153aac670bd4aeec69b8",
+      "Takeoff": "15da31df63202154d4a7edfc4f3f9f9b5022b18b4acbb133e5acce1af47f8e14",
+      "Flight": "64b0ad4b52f958bd4f66cb7d162a2bdd234047d0c26d43eb6da65770ab7db516",
+      "Glide": "c7683070733ae735f05b038add91bc843bc1fc07b665fd76f72733ae54ac3bdc",
+      "Dive": "9efc551a49a74cef4636dbdc60fbeeb0ee6fe7ae2d8f2681a8c897b42d55559e",
+      "StaggerFall": "8735991dfcb6c4df4073675901a36416a8287dbb8aad67a3ea8b437f98425172",
+      "Land": "461194c13205d634818200bcf31e8d604258285386e315680767fe6af2589173",
+      "Dash": "65ce9087d6ceb9bf04159074ad96ee8a18c16c56254c63e6bf5144c7d6a2a322",
+      "Snipe": "5aec3403592753a4c686da2ff45f8c5eb617b41cd3190ea7c839f0e9e7b045ef",
+      "BombPass": "7c65d6deae9e61c0f247815a96f0c9df6cbf6789a7024d8eb799b44e0d4823d8",
+      "TakeoffB": "bb1cbdb54580cf44e4324ac394ad53f1da8c2a6c39f72012496898a5b883ddc6",
+      "TakeoffC": "be36ed02bdfe137955f8d4c522db5575294ad15a49424270d1373c4a86cb1dda",
+      "TakeoffD": "b937c152e1a4c21da97f803637dcb51e34827544d2efc46502c9215e7eaed528"
+    }
+  },
+  "changed": [
+    "Takeoff",
+    "Flight",
+    "TakeoffB",
+    "TakeoffC",
+    "TakeoffD"
+  ]
+}
