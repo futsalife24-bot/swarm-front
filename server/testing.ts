@@ -2,7 +2,13 @@
 // They shorten setup of downed/result states; they are not evidence of full-mission balance.
 import { stageFor, troopCount } from "../src/shared/stages";
 import { STARTERS } from "../src/shared/defs";
-import { HARROW } from "../src/shared/harrow";
+import {
+  HARROW,
+  harrowDiveRootForTarget,
+  harrowDiveClawCircles,
+  queueHarrowSnipes,
+  queueHarrowBombs,
+} from "../src/shared/harrow";
 import { groundHeight } from "../src/shared/terrain";
 import { mapFor } from "../src/shared/stages";
 import production, { Room, Gate } from "./worker";
@@ -100,9 +106,16 @@ export class TestRoom extends Room {
       w.nextSpawn = 1e9;
       w.enemies = [];
       if (
-        ["harrow", "harrow-spin", "harrow-dive", "harrow-stagger"].includes(
-          u.searchParams.get("case") ?? "",
-        )
+        [
+          "harrow",
+          "harrow-spin",
+          "harrow-dive",
+          "harrow-stagger",
+          "harrow-dash",
+          "harrow-snipe",
+          "harrow-bomb",
+          "harrow-takeoff",
+        ].includes(u.searchParams.get("case") ?? "")
       ) {
         const fixture = u.searchParams.get("case");
         const blocks = mapFor(w).blocks;
@@ -130,14 +143,61 @@ export class TestRoom extends Room {
           e.harrowAirborne = false;
           e.harrowSwitchAt = HARROW.groundDuration;
         } else if (fixture === "harrow-dive") {
+          const root = harrowDiveRootForTarget(
+            { x: 0, y: groundHeight(0, 12, blocks), z: 12 },
+            0,
+          );
+          root.y = groundHeight(root.x, root.z, blocks);
+          // Both connected players stand in the shared warning and hit circle.
+          const claw = harrowDiveClawCircles(root, 0)[22];
+          for (const p of w.players) {
+            p.x = claw.x;
+            p.z = claw.z;
+            p.y = groundHeight(claw.x, claw.z, blocks);
+          }
           e.harrow = {
             kind: "Glide",
             started: w.time,
             fired: false,
             yaw: 0,
             from: { x: e.x, y: e.y, z: e.z },
-            to: { x: 0, y: groundHeight(0, 12, blocks), z: 12 },
+            to: root,
           };
+        } else if (fixture === "harrow-dash") {
+          e.y = groundHeight(e.x, e.z, blocks);
+          e.harrowAirborne = false;
+          e.harrowSwitchAt = HARROW.groundDuration;
+          for (const p of w.players) p.z = e.z + HARROW.dashDistance;
+          e.harrow = {
+            kind: "Dash",
+            started: w.time,
+            fired: false,
+            yaw: 0,
+            from: { x: e.x, y: e.y, z: e.z },
+            to: { x: e.x, y: e.y, z: e.z + HARROW.dashDistance },
+          };
+        } else if (fixture === "harrow-snipe") {
+          e.y = groundHeight(e.x, e.z, blocks);
+          e.harrowAirborne = false;
+          e.harrowSwitchAt = HARROW.groundDuration;
+          e.harrow = { kind: "Snipe", started: w.time, fired: false, yaw: 0 };
+          queueHarrowSnipes(w, e, w.players[0]);
+        } else if (fixture === "harrow-bomb") {
+          // Row targets are committed while both real sockets receive the warning.
+          if (w.players[1]) w.players[1].x = HARROW.bombSide;
+          e.harrow = {
+            kind: "BombPass",
+            started: w.time,
+            fired: false,
+            yaw: 0,
+            from: { x: e.x, y: e.y, z: e.z },
+            to: { x: 0, y: e.y, z: w.players[0].z + 16 },
+          };
+          queueHarrowBombs(w, e, w.players[0]);
+        } else if (fixture === "harrow-takeoff") {
+          e.y = groundHeight(e.x, e.z, blocks);
+          e.harrowAirborne = false;
+          e.harrowSwitchAt = w.time;
         } else if (fixture === "harrow-stagger") {
           hurtEnemy(
             w,
@@ -266,7 +326,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|calyx|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return)$/.exec(
         u.pathname,
       );
     if (match && req.method === "POST") {

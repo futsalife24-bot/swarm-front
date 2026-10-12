@@ -19,6 +19,10 @@ export const STRUCTURE_ASSETS = {
 } as const;
 /** Length of the LEAPER Leap clip; matches the authoritative 0.9 s jump. */
 const LEAP_SECONDS = 0.9;
+export function harrowTakeoffClip(seed = 0): HoundClip {
+  const clips: HoundClip[] = ["Takeoff", "TakeoffB", "TakeoffC", "TakeoffD"];
+  return clips[Math.min(3, Math.max(0, Math.floor(seed * 4)))];
+}
 export type StructureVisualKind = keyof typeof STRUCTURE_ASSETS;
 export type StructureInput = HoundVisualInput & {
   slot: number;
@@ -71,7 +75,9 @@ export class StructureMotionController {
         const desired: HoundClip =
           (e.harrow?.kind === "Threat" && e.harrowAirborne
             ? "AirThreat"
-            : e.harrow?.kind) ??
+            : e.harrow?.kind === "Takeoff"
+              ? harrowTakeoffClip(e.harrow.flapSeed)
+              : e.harrow?.kind) ??
           (e.harrowAirborne ? "Flight" : e.moving ? "Locomotion" : "Idle");
         if (desired !== s.clip) {
           s.from = s.clip;

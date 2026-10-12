@@ -1,0 +1,568 @@
+{
+  "asset": "harrow.glb",
+  "sha256": "b0d0664b7ea65b65f0416b5d0c5aad2386f42d668d00ef7826d201a858d96ddd",
+  "method": "60 Hz animation samples; fixed lowest skinned toe vertex selected from each Hindlimb mesh at 0/0.7/1.4s; authority +Z at 0.64 m/s, scale 1.95; stance when toe vertex is within 0.08m of its cycle minimum for at least 0.18s; boundaries compare all 39 bone origins at source end and destination start in game meters with common root translation.",
+  "gait": {
+    "duration": 4.199999809265137,
+    "authorityDistanceMeters": 2.6879998779296876,
+    "contact": {
+      "L": {
+        "toeVertex": 2620,
+        "lowestToeY": 0.04841358887919107,
+        "stanceThresholdY": 0.12841358887919108,
+        "intervals": [
+          {
+            "startTime": 0,
+            "endTime": 1.05,
+            "worldDriftMeters": 0.04751520380976143,
+            "startPosition": {
+              "x": 7.156785712034255,
+              "y": 0.04876372914365548,
+              "z": 2.915096338260323
+            },
+            "finishPosition": {
+              "x": 7.156790205549461,
+              "y": 0.07469285522418462,
+              "z": 2.9626115418576084
+            }
+          },
+          {
+            "startTime": 1.35,
+            "endTime": 2.45,
+            "worldDriftMeters": 0.1083154010391132,
+            "startPosition": {
+              "x": 7.15679357890997,
+              "y": 0.10408225967965996,
+              "z": 3.7502960516698893
+            },
+            "finishPosition": {
+              "x": 7.156790204814199,
+              "y": 0.07469261064288363,
+              "z": 3.85861145265645
+            }
+          },
+          {
+            "startTime": 2.75,
+            "endTime": 3.85,
+            "worldDriftMeters": 0.1083155168329987,
+            "startPosition": {
+              "x": 7.156793578586284,
+              "y": 0.10408215992393542,
+              "z": 4.646296081643608
+            },
+            "finishPosition": {
+              "x": 7.156790206374498,
+              "y": 0.0746930497225967,
+              "z": 4.754611598424113
+            }
+          }
+        ],
+        "maximumWorldDriftMeters": 0.1083155168329987
+      },
+      "R": {
+        "toeVertex": 2995,
+        "lowestToeY": 0.04840650461106861,
+        "stanceThresholdY": 0.12840650461106862,
+        "intervals": [
+          {
+            "startTime": 0,
+            "endTime": 0.35,
+            "worldDriftMeters": 0.04750864510980991,
+            "startPosition": {
+              "x": -7.135783485462654,
+              "y": 0.04873764731107472,
+              "z": 2.467081347061749
+            },
+            "finishPosition": {
+              "x": -7.135781551141602,
+              "y": 0.07461549865175578,
+              "z": 2.514589992132181
+            }
+          },
+          {
+            "startTime": 0.65,
+            "endTime": 1.75,
+            "worldDriftMeters": 0.1083141255009833,
+            "startPosition": {
+              "x": -7.135787431692893,
+              "y": 0.10400512613634542,
+              "z": 3.3022758597287742
+            },
+            "finishPosition": {
+              "x": -7.1357815510386615,
+              "y": 0.07461547434288121,
+              "z": 3.4105899850701196
+            }
+          },
+          {
+            "startTime": 2.05,
+            "endTime": 3.15,
+            "worldDriftMeters": 0.10831404009473841,
+            "startPosition": {
+              "x": -7.135787431714154,
+              "y": 0.10400506915625843,
+              "z": 4.198275879852227
+            },
+            "finishPosition": {
+              "x": -7.135781551195337,
+              "y": 0.0746153744360667,
+              "z": 4.306589919787335
+            }
+          },
+          {
+            "startTime": 3.4499999999999997,
+            "endTime": 4.199999809265137,
+            "worldDriftMeters": 0.06080612016036324,
+            "startPosition": {
+              "x": -7.1357874323167625,
+              "y": 0.10400538262819942,
+              "z": 5.094275779406569
+            },
+            "finishPosition": {
+              "x": -7.135783369289123,
+              "y": 0.048735947055455905,
+              "z": 5.155081633755542
+            }
+          }
+        ],
+        "maximumWorldDriftMeters": 0.1083141255009833
+      }
+    }
+  },
+  "boundaries": [
+    {
+      "from": "Idle",
+      "to": "Locomotion",
+      "maximumGameMeters": 0.32255380474866036,
+      "largestBones": [
+        {
+          "bone": "HindlimbL3",
+          "gameMeters": 0.32255380474866036
+        },
+        {
+          "bone": "HindlimbR3",
+          "gameMeters": 0.1254403542679779
+        },
+        {
+          "bone": "HindlimbL1",
+          "gameMeters": 0.1143075445407584
+        },
+        {
+          "bone": "HindlimbL2",
+          "gameMeters": 0.10626589790405878
+        },
+        {
+          "bone": "HindlimbR1",
+          "gameMeters": 0.030681545940099468
+        },
+        {
+          "bone": "HindlimbR2",
+          "gameMeters": 0.028090337534439225
+        }
+      ]
+    },
+    {
+      "from": "Locomotion",
+      "to": "Idle",
+      "maximumGameMeters": 0.32255386548608767,
+      "largestBones": [
+        {
+          "bone": "HindlimbL3",
+          "gameMeters": 0.32255386548608767
+        },
+        {
+          "bone": "HindlimbR3",
+          "gameMeters": 0.12544034841010354
+        },
+        {
+          "bone": "HindlimbL1",
+          "gameMeters": 0.11430770103931569
+        },
+        {
+          "bone": "HindlimbL2",
+          "gameMeters": 0.1062663341481601
+        },
+        {
+          "bone": "HindlimbR1",
+          "gameMeters": 0.03068114410242897
+        },
+        {
+          "bone": "HindlimbR2",
+          "gameMeters": 0.028089187727093373
+        }
+      ]
+    },
+    {
+      "from": "Idle",
+      "to": "Takeoff",
+      "maximumGameMeters": 1.1463820434874246,
+      "largestBones": [
+        {
+          "bone": "Tail06",
+          "gameMeters": 1.1463820434874246
+        },
+        {
+          "bone": "Tail05",
+          "gameMeters": 0.7100221099022598
+        },
+        {
+          "bone": "Tail04",
+          "gameMeters": 0.37912874650310063
+        },
+        {
+          "bone": "Tail03",
+          "gameMeters": 0.15958417779636289
+        },
+        {
+          "bone": "Head",
+          "gameMeters": 0.15615488143337886
+        },
+        {
+          "bone": "Jaw",
+          "gameMeters": 0.15615451875238784
+        }
+      ]
+    },
+    {
+      "from": "Takeoff",
+      "to": "Flight",
+      "maximumGameMeters": 7.093366074720026e-7,
+      "largestBones": [
+        {
+          "bone": "Wing_fanR",
+          "gameMeters": 7.093366074720026e-7
+        },
+        {
+          "bone": "Wing_foreR",
+          "gameMeters": 3.766214653955158e-7
+        },
+        {
+          "bone": "Wing_fanL",
+          "gameMeters": 1.3714312396115573e-7
+        },
+        {
+          "bone": "Wing_foreL",
+          "gameMeters": 6.050217114510575e-8
+        },
+        {
+          "bone": "Root",
+          "gameMeters": 0
+        },
+        {
+          "bone": "Torso",
+          "gameMeters": 0
+        }
+      ]
+    },
+    {
+      "from": "Idle",
+      "to": "TakeoffB",
+      "maximumGameMeters": 1.1463820434874246,
+      "largestBones": [
+        {
+          "bone": "Tail06",
+          "gameMeters": 1.1463820434874246
+        },
+        {
+          "bone": "Tail05",
+          "gameMeters": 0.7100221099022598
+        },
+        {
+          "bone": "Tail04",
+          "gameMeters": 0.37912874650310063
+        },
+        {
+          "bone": "Tail03",
+          "gameMeters": 0.15958417779636289
+        },
+        {
+          "bone": "Head",
+          "gameMeters": 0.15615488143337886
+        },
+        {
+          "bone": "Jaw",
+          "gameMeters": 0.15615451875238784
+        }
+      ]
+    },
+    {
+      "from": "TakeoffB",
+      "to": "Flight",
+      "maximumGameMeters": 7.093366074720026e-7,
+      "largestBones": [
+        {
+          "bone": "Wing_fanR",
+          "gameMeters": 7.093366074720026e-7
+        },
+        {
+          "bone": "Wing_foreR",
+          "gameMeters": 3.766214653955158e-7
+        },
+        {
+          "bone": "Wing_fanL",
+          "gameMeters": 1.3714312396115573e-7
+        },
+        {
+          "bone": "Wing_foreL",
+          "gameMeters": 6.050217114510575e-8
+        },
+        {
+          "bone": "Root",
+          "gameMeters": 0
+        },
+        {
+          "bone": "Torso",
+          "gameMeters": 0
+        }
+      ]
+    },
+    {
+      "from": "Idle",
+      "to": "TakeoffC",
+      "maximumGameMeters": 1.1463820434874246,
+      "largestBones": [
+        {
+          "bone": "Tail06",
+          "gameMeters": 1.1463820434874246
+        },
+        {
+          "bone": "Tail05",
+          "gameMeters": 0.7100221099022598
+        },
+        {
+          "bone": "Tail04",
+          "gameMeters": 0.37912874650310063
+        },
+        {
+          "bone": "Tail03",
+          "gameMeters": 0.15958417779636289
+        },
+        {
+          "bone": "Head",
+          "gameMeters": 0.15615488143337886
+        },
+        {
+          "bone": "Jaw",
+          "gameMeters": 0.15615451875238784
+        }
+      ]
+    },
+    {
+      "from": "TakeoffC",
+      "to": "Flight",
+      "maximumGameMeters": 7.093366074720026e-7,
+      "largestBones": [
+        {
+          "bone": "Wing_fanR",
+          "gameMeters": 7.093366074720026e-7
+        },
+        {
+          "bone": "Wing_foreR",
+          "gameMeters": 3.766214653955158e-7
+        },
+        {
+          "bone": "Wing_fanL",
+          "gameMeters": 1.3714312396115573e-7
+        },
+        {
+          "bone": "Wing_foreL",
+          "gameMeters": 6.050217114510575e-8
+        },
+        {
+          "bone": "Root",
+          "gameMeters": 0
+        },
+        {
+          "bone": "Torso",
+          "gameMeters": 0
+        }
+      ]
+    },
+    {
+      "from": "Idle",
+      "to": "TakeoffD",
+      "maximumGameMeters": 1.1463820434874246,
+      "largestBones": [
+        {
+          "bone": "Tail06",
+          "gameMeters": 1.1463820434874246
+        },
+        {
+          "bone": "Tail05",
+          "gameMeters": 0.7100221099022598
+        },
+        {
+          "bone": "Tail04",
+          "gameMeters": 0.37912874650310063
+        },
+        {
+          "bone": "Tail03",
+          "gameMeters": 0.15958417779636289
+        },
+        {
+          "bone": "Head",
+          "gameMeters": 0.15615488143337886
+        },
+        {
+          "bone": "Jaw",
+          "gameMeters": 0.15615451875238784
+        }
+      ]
+    },
+    {
+      "from": "TakeoffD",
+      "to": "Flight",
+      "maximumGameMeters": 7.093366074720026e-7,
+      "largestBones": [
+        {
+          "bone": "Wing_fanR",
+          "gameMeters": 7.093366074720026e-7
+        },
+        {
+          "bone": "Wing_foreR",
+          "gameMeters": 3.766214653955158e-7
+        },
+        {
+          "bone": "Wing_fanL",
+          "gameMeters": 1.3714312396115573e-7
+        },
+        {
+          "bone": "Wing_foreL",
+          "gameMeters": 6.050217114510575e-8
+        },
+        {
+          "bone": "Root",
+          "gameMeters": 0
+        },
+        {
+          "bone": "Torso",
+          "gameMeters": 0
+        }
+      ]
+    },
+    {
+      "from": "Flight",
+      "to": "Glide",
+      "maximumGameMeters": 7.093366074720026e-7,
+      "largestBones": [
+        {
+          "bone": "Wing_fanR",
+          "gameMeters": 7.093366074720026e-7
+        },
+        {
+          "bone": "Wing_foreR",
+          "gameMeters": 3.766214653955158e-7
+        },
+        {
+          "bone": "Wing_fanL",
+          "gameMeters": 1.3714312396115573e-7
+        },
+        {
+          "bone": "Wing_foreL",
+          "gameMeters": 6.050217114510575e-8
+        },
+        {
+          "bone": "Root",
+          "gameMeters": 0
+        },
+        {
+          "bone": "Torso",
+          "gameMeters": 0
+        }
+      ]
+    },
+    {
+      "from": "Glide",
+      "to": "Dive",
+      "maximumGameMeters": 7.76626744043563e-7,
+      "largestBones": [
+        {
+          "bone": "Tail06",
+          "gameMeters": 7.76626744043563e-7
+        },
+        {
+          "bone": "Tail05",
+          "gameMeters": 6.442866788293927e-7
+        },
+        {
+          "bone": "Tail04",
+          "gameMeters": 5.207696276382967e-7
+        },
+        {
+          "bone": "HindlimbL3",
+          "gameMeters": 4.897239799246998e-7
+        },
+        {
+          "bone": "Tail03",
+          "gameMeters": 3.9985243380209267e-7
+        },
+        {
+          "bone": "HindlimbR3",
+          "gameMeters": 3.548484736851702e-7
+        }
+      ]
+    },
+    {
+      "from": "Dive",
+      "to": "Land",
+      "maximumGameMeters": 0.000001654778282738041,
+      "largestBones": [
+        {
+          "bone": "HindlimbL3",
+          "gameMeters": 0.000001654778282738041
+        },
+        {
+          "bone": "Tail06",
+          "gameMeters": 0.000001622849085726539
+        },
+        {
+          "bone": "Tail05",
+          "gameMeters": 0.0000013449612518166179
+        },
+        {
+          "bone": "HindlimbL2",
+          "gameMeters": 0.00000117934610776288
+        },
+        {
+          "bone": "Tail04",
+          "gameMeters": 0.0000010912216612813021
+        },
+        {
+          "bone": "HindlimbR3",
+          "gameMeters": 0.0000010733685713810204
+        }
+      ]
+    },
+    {
+      "from": "Land",
+      "to": "Idle",
+      "maximumGameMeters": 1.1463822459193782,
+      "largestBones": [
+        {
+          "bone": "Tail06",
+          "gameMeters": 1.1463822459193782
+        },
+        {
+          "bone": "Tail05",
+          "gameMeters": 0.7100223086491897
+        },
+        {
+          "bone": "Tail04",
+          "gameMeters": 0.3791289057636458
+        },
+        {
+          "bone": "Tail03",
+          "gameMeters": 0.15958428311598727
+        },
+        {
+          "bone": "Head",
+          "gameMeters": 0.15615471576564594
+        },
+        {
+          "bone": "Jaw",
+          "gameMeters": 0.15615435308460138
+        }
+      ]
+    }
+  ]
+}

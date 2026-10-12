@@ -11,6 +11,21 @@ export const HARROW_SPIN_TIMING = {
   turn: 1.05,
   duration: 3,
 } as const;
+export const HARROW_DASH_TIMING = {
+  wind: 0.8,
+  travel: 0.7,
+  duration: 2.1,
+} as const;
+export const HARROW_SNIPE_TIMING = {
+  wind: 2,
+  interval: 0.08,
+  duration: 4.0,
+} as const;
+export const HARROW_BOMB_TIMING = {
+  wind: 1.5,
+  travel: 2.2,
+  duration: 3.7,
+} as const;
 export function harrowSpinRotation(age: number) {
   const turn = Math.max(
     0,

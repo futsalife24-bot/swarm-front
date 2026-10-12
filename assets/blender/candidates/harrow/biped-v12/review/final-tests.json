@@ -1,0 +1,37 @@
+{
+  "checked_at": "2026-10-12T11:03:54+09:00",
+  "branch": "codex/harrow-biped-attacks-20261012",
+  "base_head": "9bdb1d29b8692ad62e7f7b46aa819c19bad55365",
+  "scope": "HARROW v12 combat, client motion, report, markers, and model integration",
+  "checks": [
+    {
+      "command": "npx vitest run tests/harrow.test.ts tests/harrow-weapons.test.ts tests/harrow-model.test.ts tests/harrow-effects.test.ts tests/hound-motion.test.ts tests/structure-motion.test.ts tests/enemy-report-motion.test.ts --maxWorkers=1 --no-file-parallelism",
+      "exit_code": 0,
+      "test_files": 7,
+      "tests_passed": 133,
+      "tests_failed": 0,
+      "duration_seconds": 93.23
+    },
+    {
+      "command": "npm run typecheck",
+      "exit_code": 0,
+      "projects": ["tsconfig.json", "tsconfig.worker.json"]
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "note": "Git warned that docs/STATE.md CRLF would be replaced by LF; no whitespace error."
+    }
+  ],
+  "review": {
+    "result": "No concrete new defect found in the reviewed HARROW client/shared integration diff.",
+    "reviewed": [
+      "v12 clip loader and Takeoff seed selection",
+      "Dive claw terrain markers and shared collision circles",
+      "Snipe/BombPass launcher and report trajectories",
+      "Takeoff height and BombPass/Dash root movement",
+      "preview entry points and v6 inspection preservation"
+    ],
+    "remaining_visual_limit": "Browser appearance and independent audit are handled by the main agent."
+  }
+}

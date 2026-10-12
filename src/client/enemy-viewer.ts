@@ -4,7 +4,11 @@ import { enemyGeometry } from "./enemy-model";
 import type { Enemy } from "../shared/game";
 import { HARROW, harrowMissilePosition } from "../shared/harrow";
 import { harrowSpinRotation } from "../shared/harrow-motion";
-import { loadEnemyMotion, HoundMotionBatch } from "./hound-motion";
+import {
+  loadEnemyMotion,
+  HoundMotionBatch,
+  type HoundClip,
+} from "./hound-motion";
 import { STRUCTURE_ASSETS } from "./structure-motion";
 import type { StructureVisualKind } from "./structure-motion";
 import { FoundryWormView, FOUNDRY_WORM_ASSET } from "./foundry-worm";
@@ -52,6 +56,7 @@ export function createEnemyViewer(host: HTMLElement) {
   let mode: ReportMotion = "idle",
     time = 0,
     last = 0;
+  let selectedHarrowAttack: HoundClip | undefined;
   const effects = new ReportEffects();
   scene.add(effects.root);
   const transform = new T.Matrix4();
@@ -64,7 +69,22 @@ export function createEnemyViewer(host: HTMLElement) {
           .clone()
           .translate(new T.Vector3(0, HARROW.flightHeight / HARROW.scale, 0)),
       );
-      for (const missile of reportHarrowMissiles()) {
+      bounds.union(
+        restBounds
+          .clone()
+          .translate(
+            new T.Vector3(
+              0,
+              HARROW.flightHeight / HARROW.scale,
+              -40 / HARROW.scale,
+            ),
+          ),
+      );
+      for (const missile of [
+        ...reportHarrowMissiles(),
+        ...reportHarrowMissiles(false, "snipe"),
+        ...reportHarrowMissiles(true, "bomb"),
+      ]) {
         for (let step = 0; step <= 20; step++) {
           const p = harrowMissilePosition(
             missile,
@@ -83,7 +103,7 @@ export function createEnemyViewer(host: HTMLElement) {
   }
   function animatePose() {
     if (motion) {
-      const pose = reportPose(kind, mode, time);
+      const pose = reportPose(kind, mode, time, selectedHarrowAttack);
       motion.setPose(0, pose.clip, pose.sample);
       // Combat uses heading - PI. The report's base heading is PI.
       transform.makeRotationY(
@@ -91,7 +111,7 @@ export function createEnemyViewer(host: HTMLElement) {
           ? harrowSpinRotation(pose.sample)
           : 0,
       );
-      transform.setPosition(0, pose.height, 0);
+      transform.setPosition(0, pose.height, "z" in pose ? (pose.z ?? 0) : 0);
       motion.setTransform(0, transform);
       motion.finish(1);
     }
@@ -111,7 +131,7 @@ export function createEnemyViewer(host: HTMLElement) {
       foundry.root.position.z = mode === "move" ? time * 4.2 : 0;
     }
     effects.root.position.copy(model.position);
-    effects.update(kind, wormForm, mode, time);
+    effects.update(kind, wormForm, mode, time, selectedHarrowAttack);
   }
   renderer.setAnimationLoop((now) => {
     const dt = last ? Math.min(0.05, (now - last) / 1000) : 0;
@@ -183,6 +203,7 @@ export function createEnemyViewer(host: HTMLElement) {
     show(selectedKind: Enemy["kind"], worm = false) {
       kind = selectedKind;
       mode = "idle";
+      selectedHarrowAttack = undefined;
       time = 0;
       host.dataset.motion = mode;
       host.dataset.asset = "loading";
@@ -268,8 +289,9 @@ export function createEnemyViewer(host: HTMLElement) {
             if (ticket === generation) host.dataset.asset = "error";
           });
     },
-    play(next: ReportMotion) {
+    play(next: ReportMotion, attack?: HoundClip) {
       mode = next;
+      selectedHarrowAttack = next === "attack" ? attack : undefined;
       time = 0;
       last = 0;
       host.dataset.motion = mode;

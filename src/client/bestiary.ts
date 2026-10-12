@@ -4,6 +4,7 @@ import { showModalAfterFullscreen } from "./landscape";
 import { ENEMIES } from "../shared/defs";
 import "./bestiary.css";
 import { createEnemyViewer } from "./enemy-viewer";
+import type { HoundClip } from "./hound-motion";
 import { hasEncounterFilm, showEncounterFilm } from "./encounter-film";
 
 type EnemyType = "生物型" | "異構型" | "機構型";
@@ -14,7 +15,7 @@ const entries: Record<
   harrow: [
     "HARROW",
     "異構型",
-    "両翼を地面につけ、身体をその場で横に一回転させます。翼を広げると左右の翼爪からミサイルを上空へ放ち、隊員の足元と周囲の地面に赤い印が浮かびます。ミサイルは弾道を曲げてその地点へ降り注ぎます。飛び上がった後、隊員へ滑空し、身体を傾けて急降下する姿も観察されています。",
+    "地上では短く突進し、翼爪から山なりの弾と直射弾を放ちます。地面すれすれまで伏せ、その場で一回転する攻撃も見られます。空中では山なり弾を放ち、標的の上空を直線に通過しながら左右二列へ爆撃します。急降下では二脚の爪を先行させ、地面に爪形の予兆が現れます。",
     "長い首から胴体へ連なる鱗の被覆と、喉から腹を覆う装甲。細い後脚で歩き、支柱で組まれた翼を広げて高く飛び上がります。地上と空中を行き来し、飛行中に大きく損傷すると体勢を崩して落下します。",
   ],
   calyx: [
@@ -104,11 +105,14 @@ export function openBestiary(
   playback.setAttribute("role", "group");
   playback.setAttribute("aria-label", "モーション再生");
   playback.innerHTML =
-    '<div class="motion-buttons"><button type="button" data-motion="move" aria-pressed="false" disabled>移動を見る</button><button type="button" data-motion="attack" aria-pressed="false" disabled>攻撃を見る</button><button type="button" data-motion="idle" aria-pressed="true" disabled>待機を見る</button></div><p class="motion-status" role="status">モデルを読み込み中…</p>';
+    '<div class="motion-buttons"><button type="button" data-motion="move" aria-pressed="false" disabled>移動を見る</button><button type="button" data-motion="attack" aria-pressed="false" disabled>攻撃を見る</button><button type="button" data-motion="idle" aria-pressed="true" disabled>待機を見る</button><select class="harrow-attack-picker" aria-label="HARROWの攻撃を選択" hidden><option value="">全攻撃を連続再生</option><option value="Dash">短距離ダッシュ</option><option value="Threat">山なり弾</option><option value="Snipe">直射弾</option><option value="Spin">低姿勢回転</option><option value="Takeoff">離陸 A</option><option value="TakeoffB">離陸 B</option><option value="TakeoffC">離陸 C</option><option value="TakeoffD">離陸 D</option><option value="AirThreat">空中山なり弾</option><option value="BombPass">爆撃通過</option><option value="Dive">爪先行急降下</option></select></div><p class="motion-status" role="status">モデルを読み込み中…</p>';
   viewport.after(playback);
   const status = playback.querySelector<HTMLElement>(".motion-status")!;
   const motionButtons =
     playback.querySelectorAll<HTMLButtonElement>("[data-motion]");
+  const harrowPicker = playback.querySelector<HTMLSelectElement>(
+    ".harrow-attack-picker",
+  )!;
   let analysisPending = true;
   function syncPlayback() {
     const ready = viewport.dataset.asset === "ready";
@@ -144,8 +148,16 @@ export function openBestiary(
   motionButtons.forEach(
     (button) =>
       (button.onclick = () =>
-        viewer?.play(button.dataset.motion as "idle" | "move" | "attack")),
+        viewer?.play(
+          button.dataset.motion as "idle" | "move" | "attack",
+          (harrowPicker.value || undefined) as HoundClip | undefined,
+        )),
   );
+  harrowPicker.onchange = () =>
+    viewer?.play(
+      "attack",
+      (harrowPicker.value || undefined) as HoundClip | undefined,
+    );
   const article = dialog.querySelector<HTMLElement>("article")!;
   const showModel = (
     key: keyof typeof ENEMIES,
@@ -173,8 +185,10 @@ export function openBestiary(
       access(worm ? "worm" : key) === "coop" ? "brightness(0)" : "";
   };
   function select(key: keyof typeof ENEMIES, worm = false) {
-    const [name, role, attack, movement] = entries[key];
     const state = access(worm ? "worm" : key);
+    harrowPicker.hidden = key !== "harrow" || state !== "solo";
+    harrowPicker.value = "";
+    const [name, role, attack, movement] = entries[key];
     const copy =
       worm && key === "boss" ? foundryWormReport : { attack, movement };
     dialog

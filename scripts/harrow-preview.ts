@@ -8,7 +8,13 @@ import {
   hurtEnemy,
   eye,
 } from "../src/shared/game";
-import { HARROW } from "../src/shared/harrow";
+import {
+  HARROW,
+  harrowDiveRootForTarget,
+  queueHarrowMissiles,
+  queueHarrowBombs,
+  queueHarrowSnipes,
+} from "../src/shared/harrow";
 import { harrowSpinRotation } from "../src/shared/harrow-motion";
 import { groundHeight } from "../src/shared/terrain";
 import { mapFor } from "../src/shared/stages";
@@ -65,12 +71,16 @@ document.getElementById("capture")!.onclick = () => {
   draw(0);
   canvas.toBlob((blob) => {
     if (blob)
-      void save(blob, "image", `spin-${w.time.toFixed(3).replace(".", "-")}`);
+      void save(
+        blob,
+        "image",
+        `v12-${mode}-${w.time.toFixed(3).replace(".", "-")}`,
+      );
   }, "image/png");
 };
 document.getElementById("record")!.onclick = () => {
   if (recording) return;
-  reset("spin");
+  reset(mode);
   recording = true;
   const stream = canvas.captureStream(30),
     recorder = new MediaRecorder(stream, { mimeType: "video/webm" });
@@ -80,7 +90,11 @@ document.getElementById("record")!.onclick = () => {
   };
   recorder.onstop = () => {
     for (const track of stream.getTracks()) track.stop();
-    void save(new Blob(chunks, { type: "video/webm" }), "video", "spin-cycle");
+    void save(
+      new Blob(chunks, { type: "video/webm" }),
+      "video",
+      `v12-${mode}-cycle`,
+    );
   };
   recorder.start();
   stopRecording = () => {
@@ -92,6 +106,7 @@ document.getElementById("record")!.onclick = () => {
 let stopRecording: (() => void) | undefined;
 function reset(value: string) {
   mode = value;
+  renderer.structures.get("harrow")?.controller.states.clear();
   w = createWorld(`harrow-${performance.now()}`, 1, 20);
   w.phase = "battle";
   w.wave = 2;
@@ -101,7 +116,10 @@ function reset(value: string) {
     x: 0,
     y: 0,
     z:
-      mode === "encounter" || mode === "missile"
+      mode === "encounter" ||
+      mode === "missile" ||
+      mode === "ground-missile" ||
+      mode === "bomb"
         ? 60
         : mode === "walk"
           ? 45
@@ -113,26 +131,69 @@ function reset(value: string) {
   Object.assign(e, { active: true, cool: 999, heading: 0 });
   // Freeze campaign spawning, leaving ordinary authority movement/attacks active.
   w.spawned = 9999;
-  if (mode === "missile") e.cool = 0;
-  if (mode === "walk") {
+  if (["walk", "dash", "snipe", "takeoff", "ground-missile"].includes(mode)) {
     e.y = groundHeight(0, 0, mapFor(w).blocks);
     e.harrowAirborne = false;
     e.harrowSwitchAt = 1e9;
   }
+  if (mode === "dash")
+    e.harrow = {
+      kind: "Dash",
+      started: 0,
+      fired: false,
+      yaw: 0,
+      from: { x: 0, y: e.y, z: 0 },
+      to: { x: 0, y: e.y, z: HARROW.dashDistance },
+    };
+  if (mode === "snipe") {
+    e.harrow = { kind: "Snipe", started: 0, fired: false, yaw: 0 };
+    queueHarrowSnipes(w, e, p);
+  }
+  if (mode === "missile" || mode === "ground-missile") {
+    e.harrow = { kind: "Threat", started: 0, fired: false, yaw: 0 };
+    queueHarrowMissiles(w, e, [p]);
+  }
+  if (mode === "bomb") {
+    e.y = groundHeight(0, 0, mapFor(w).blocks) + HARROW.flightHeight;
+    e.harrowAirborne = true;
+    e.harrow = {
+      kind: "BombPass",
+      started: 0,
+      fired: false,
+      yaw: 0,
+      from: { x: 0, y: e.y, z: 0 },
+      to: { x: 0, y: e.y, z: 80 },
+    };
+    queueHarrowBombs(w, e, p);
+  }
+  if (mode === "takeoff")
+    e.harrow = {
+      kind: "Takeoff",
+      started: 0,
+      fired: false,
+      yaw: 0,
+      flapSeed: 0.7,
+      from: { x: 0, y: e.y, z: 0 },
+      to: { x: 0, y: e.y + HARROW.flightHeight, z: 0 },
+    };
   if (mode === "spin") {
     e.y = groundHeight(0, 0, mapFor(w).blocks);
     e.harrowAirborne = false;
     e.harrow = { kind: "Spin", started: 0, fired: false, yaw: 0 };
   }
-  if (mode === "dive")
+  if (mode === "dive") {
+    const blocks = mapFor(w).blocks;
+    const root = harrowDiveRootForTarget({ x: p.x, y: p.y ?? 0, z: p.z }, 0);
+    root.y = groundHeight(root.x, root.z, blocks);
     e.harrow = {
       kind: "Glide",
       started: 0,
       fired: false,
       yaw: 0,
       from: { x: 0, y: e.y, z: 0 },
-      to: { x: 0, y: groundHeight(0, 12, mapFor(w).blocks), z: 12 },
+      to: root,
     };
+  }
   if (mode === "fall")
     hurtEnemy(w, e, e.maxHp * HARROW.staggerFraction, "viewer");
   paused = false;
@@ -141,6 +202,21 @@ document
   .querySelectorAll<HTMLButtonElement>("[data-mode]")
   .forEach((b) => (b.onclick = () => reset(b.dataset.mode!)));
 document.getElementById("pause")!.onclick = () => (paused = !paused);
+document.getElementById("seek")!.onclick = () => {
+  const target = Math.max(
+    0,
+    Math.min(
+      20,
+      Number(
+        (document.getElementById("seek-time") as HTMLInputElement).value,
+      ) || 0,
+    ),
+  );
+  reset(mode);
+  while (w.time < target - 1e-9)
+    step(w, { viewer: neutral() }, Math.min(0.025, target - w.time));
+  paused = true;
+};
 document.getElementById("camera")!.onclick = () =>
   (groundCamera = !groundCamera);
 document.getElementById("advance")!.onclick = () => {
@@ -212,7 +288,20 @@ function frame(now: number) {
   before = now;
   if (!paused) step(w, { viewer: neutral() }, dt);
   draw(dt);
-  if (recording && w.time >= 3.2) stopRecording?.();
+  const recordEnd: Record<string, number> = {
+    spin: 3.2,
+    dash: 2.3,
+    snipe: 4.2,
+    bomb: 4.8,
+    takeoff: 4.4,
+    dive: 5.0,
+    fall: 4.5,
+    walk: 8.4,
+    encounter: 17,
+    missile: 7.2,
+    "ground-missile": 7.2,
+  };
+  if (recording && w.time >= (recordEnd[mode] ?? 7.2)) stopRecording?.();
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);

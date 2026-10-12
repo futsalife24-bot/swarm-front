@@ -1,7 +1,13 @@
 import * as T from "three";
 import type { World } from "../shared/game";
-import { HARROW, harrowMissilePosition } from "../shared/harrow";
+import {
+  HARROW,
+  harrowDiveClawCircles,
+  harrowMissilePosition,
+} from "../shared/harrow";
 import { mapFor } from "../shared/stages";
+import { supportHeight } from "../shared/terrain";
+import type { Block } from "../shared/defs";
 import { TerrainProjectedMarkers } from "./terrain-projected-marker";
 import { HarrowSpinEffects } from "./harrow-spin-effects";
 
@@ -17,6 +23,13 @@ export class HarrowEffects {
     color: 0xff283b,
     transparent: true,
     opacity: 0.85,
+    depthWrite: false,
+    side: T.DoubleSide,
+  });
+  private readonly clawFillMaterial = new T.MeshBasicMaterial({
+    color: 0xff283b,
+    transparent: true,
+    opacity: 0.35,
     depthWrite: false,
     side: T.DoubleSide,
   });
@@ -45,6 +58,20 @@ export class HarrowEffects {
     this.markerMaterial,
     this.capacity,
   );
+  private readonly clawFills = new TerrainProjectedMarkers(
+    this.clawFillMaterial,
+    30,
+    1024,
+  );
+  private readonly clawOutlineGeometry = new T.BufferGeometry();
+  private readonly clawOutlineMaterial = new T.LineBasicMaterial({
+    color: 0xff5060,
+    depthWrite: false,
+  });
+  private readonly clawOutlines = new T.LineSegments(
+    this.clawOutlineGeometry,
+    this.clawOutlineMaterial,
+  );
   private readonly matrix = new T.Matrix4();
   private readonly rotation = new T.Quaternion();
   private readonly position = new T.Vector3();
@@ -53,13 +80,34 @@ export class HarrowEffects {
   private readonly unit = new T.Vector3(1, 1, 1);
   private readonly spin = new HarrowSpinEffects();
   constructor() {
-    for (const mesh of [this.markers, this.bodies, this.tails, this.warnings]) {
+    this.clawOutlineGeometry.setAttribute(
+      "position",
+      new T.BufferAttribute(new Float32Array(6 * 10 * 2 * 3), 3).setUsage(
+        T.DynamicDrawUsage,
+      ),
+    );
+    this.clawOutlineGeometry.setDrawRange(0, 0);
+    this.clawOutlines.frustumCulled = false;
+    for (const mesh of [
+      this.markers,
+      this.bodies,
+      this.tails,
+      this.warnings,
+      this.clawFills,
+    ]) {
       mesh.count = 0;
       mesh.frustumCulled = false;
       if (mesh instanceof T.InstancedMesh)
         mesh.instanceMatrix.setUsage(T.DynamicDrawUsage);
     }
-    this.root.add(this.markers, this.bodies, this.tails, this.warnings);
+    this.root.add(
+      this.markers,
+      this.bodies,
+      this.tails,
+      this.warnings,
+      this.clawFills,
+      this.clawOutlines,
+    );
     this.root.add(this.spin.root);
   }
   update(
@@ -75,7 +123,8 @@ export class HarrowEffects {
   ) {
     let markers = 0,
       bodies = 0,
-      warnings = 0;
+      warnings = 0,
+      claws = 0;
     const blocks =
       w && (w.stage !== undefined || w.training || w.campaignPlan || w.defense)
         ? mapFor(w).blocks
@@ -96,6 +145,16 @@ export class HarrowEffects {
         const dive =
           (attack.kind === "Glide" || attack.kind === "Dive") && attack.to;
         if (!spin && !dive) continue;
+        if (dive) {
+          if (claws >= this.clawFills.capacity) continue;
+          const circles = harrowDiveClawCircles(dive, attack.yaw);
+          for (const circle of circles) {
+            if (claws >= this.clawFills.capacity) break;
+            this.clawFills.setDisc(claws++, circle, circle.radius, blocks);
+          }
+          this.setClawOutline(circles, blocks);
+          continue;
+        }
         const point = dive || enemy;
         const radius = spin ? HARROW.spinRadius : HARROW.diveRadius;
         this.warnings.setRing(warnings++, point, radius, blocks);
@@ -123,17 +182,79 @@ export class HarrowEffects {
     this.markers.setCount(markers);
     this.bodies.count = this.tails.count = bodies;
     this.warnings.setCount(warnings);
+    this.clawFills.setCount(claws);
+    if (!claws) this.clawOutlineGeometry.setDrawRange(0, 0);
     for (const mesh of [this.bodies, this.tails])
       mesh.instanceMatrix.needsUpdate = true;
   }
+  private setClawOutline(
+    circles: ReturnType<typeof harrowDiveClawCircles>,
+    blocks?: Block[],
+  ) {
+    const position = this.clawOutlineGeometry.getAttribute(
+      "position",
+    ) as T.BufferAttribute;
+    let vertex = 0;
+    for (let claw = 0; claw < 6; claw++) {
+      const centers = circles.slice(claw * 5, claw * 5 + 5);
+      const left: Array<{ x: number; y: number; z: number }> = [];
+      const right: typeof left = [];
+      for (let i = 0; i < centers.length; i++) {
+        const center = centers[i],
+          before = centers[Math.max(0, i - 1)],
+          after = centers[Math.min(centers.length - 1, i + 1)];
+        const length = Math.hypot(after.x - before.x, after.z - before.z) || 1,
+          nx = -(after.z - before.z) / length,
+          nz = (after.x - before.x) / length;
+        left.push({
+          x: center.x + nx * center.radius,
+          y: center.y,
+          z: center.z + nz * center.radius,
+        });
+        right.push({
+          x: center.x - nx * center.radius,
+          y: center.y,
+          z: center.z - nz * center.radius,
+        });
+      }
+      const boundary = [...left, ...right.reverse()];
+      for (let i = 0; i < boundary.length; i++) {
+        for (const point of [
+          boundary[i],
+          boundary[(i + 1) % boundary.length],
+        ]) {
+          position.setXYZ(
+            vertex++,
+            point.x,
+            (blocks
+              ? supportHeight(point.x, point.z, blocks, point.y)
+              : point.y) + 0.15,
+            point.z,
+          );
+        }
+      }
+    }
+    this.clawOutlineGeometry.setDrawRange(0, vertex);
+    position.addUpdateRange(0, vertex * 3);
+    position.needsUpdate = true;
+  }
   dispose() {
     this.spin.dispose();
-    for (const mesh of [this.markers, this.bodies, this.tails, this.warnings])
+    for (const mesh of [
+      this.markers,
+      this.bodies,
+      this.tails,
+      this.warnings,
+      this.clawFills,
+    ])
       mesh.dispose();
+    this.clawOutlineGeometry.dispose();
+    this.clawOutlineMaterial.dispose();
     for (const geometry of [this.bodyGeometry, this.tailGeometry])
       geometry.dispose();
     for (const material of [
       this.markerMaterial,
+      this.clawFillMaterial,
       this.bodyMaterial,
       this.tailMaterial,
     ])

@@ -1,0 +1,14 @@
+{
+  "head": "e9f9e373c3341f03b487d0fcee9b0bdb5228221d",
+  "headAfter": "e9f9e373c3341f03b487d0fcee9b0bdb5228221d",
+  "startedAt": "2026-10-12T02:46:36.9400453Z",
+  "checkedAt": "2026-10-12T02:47:40.8648613Z",
+  "frontendExit": 0,
+  "workerDryRunExit": 0,
+  "pass": true,
+  "logs": {
+    "frontend": "04ef286335e2efb6b8badae24d9822abb3b68a6527c4b962117395a97775b0ab",
+    "worker": "6120951d18901d091926675e2cd959f2fc28d46f6cc83c9064ac4d90b1e20aba"
+  },
+  "workerArtifactSha256": "653e0012863ed17007132159661f2f1c41f7845eab37d52e5f3748877f03049e"
+}

@@ -29,9 +29,15 @@ it("observes HARROW spin, full threat, dive and staggered fall in one grounded l
   expect(seen).toEqual(
     expect.arrayContaining([
       "Spin",
+      "Dash",
+      "Snipe",
       "Threat",
       "AirThreat",
+      "BombPass",
       "Takeoff",
+      "TakeoffB",
+      "TakeoffC",
+      "TakeoffD",
       "Flight",
       "Glide",
       "Dive",
@@ -70,7 +76,7 @@ it("keeps the upright airborne missile phase at combat altitude through release"
   expect(
     reportPose("harrow", "attack", start + HARROW.threatDuration + 0.01),
   ).toMatchObject({
-    clip: "Glide",
+    clip: "BombPass",
     height: HARROW.flightHeight / HARROW.scale,
   });
 });
@@ -157,7 +163,13 @@ it("observes ten upward missiles and clears them when leaving attack playback", 
   expect(missiles.filter((m) => m.origin.x < 0)).toHaveLength(5);
   const effects = new ReportEffects();
   try {
-    const start = HARROW.spinDuration + 0.8;
+    const threatIndex = HARROW_REPORT_SEQUENCE.findIndex(
+      (phase) => phase.clip === "Threat",
+    );
+    const start = HARROW_REPORT_SEQUENCE.slice(0, threatIndex).reduce(
+      (sum, phase) => sum + phase.duration,
+      0,
+    );
     effects.update("harrow", false, "attack", start + HARROW.markerLead + 0.1);
     const group = effects.root.children.find(
       (child) => child instanceof T.Group,
@@ -167,7 +179,7 @@ it("observes ten upward missiles and clears them when leaving attack playback", 
       group.children
         .filter((child) => !(child instanceof T.Group))
         .map((child) => (child as T.InstancedMesh).count),
-    ).toEqual([10, 10, 10, 0]);
+    ).toEqual([10, 10, 10, 0, 0, undefined]);
     expect(group.getObjectByName("HARROW_SPIN_PRESSURE")?.visible).toBe(false);
     effects.update("harrow", false, "idle", start + 0.1);
     expect(group.visible).toBe(false);
@@ -175,10 +187,85 @@ it("observes ten upward missiles and clears them when leaving attack playback", 
       group.children
         .filter((child) => !(child instanceof T.Group))
         .map((child) => (child as T.InstancedMesh).count),
-    ).toEqual([0, 0, 0, 0]);
+    ).toEqual([0, 0, 0, 0, 0, undefined]);
   } finally {
     effects.dispose();
   }
+});
+it("shows straight snipe shots and two bomb rows in the report sequence", () => {
+  const snipe = reportHarrowMissiles(false, "snipe");
+  const bomb = reportHarrowMissiles(true, "bomb");
+  expect(snipe).toHaveLength(10);
+  expect(snipe.every((missile) => missile.trajectory === "straight")).toBe(
+    true,
+  );
+  expect(snipe[9].launch).toBeGreaterThan(snipe[0].launch);
+  expect(new Set(bomb.map((missile) => missile.target.x))).toEqual(
+    new Set([-HARROW.bombSide, HARROW.bombSide]),
+  );
+  const startOf = (clip: string) =>
+    HARROW_REPORT_SEQUENCE.slice(
+      0,
+      HARROW_REPORT_SEQUENCE.findIndex((phase) => phase.clip === clip),
+    ).reduce((sum, phase) => sum + phase.duration, 0);
+  const effects = new ReportEffects();
+  try {
+    for (const [clip, age] of [
+      ["Snipe", HARROW.snipeWind + 0.01],
+      ["BombPass", bomb[0].launch + 0.01],
+    ] as const) {
+      effects.update("harrow", false, "attack", startOf(clip) + age);
+      const group = effects.root.children.find(
+        (child) => child instanceof T.Group,
+      )!;
+      expect((group.children[1] as T.InstancedMesh).count).toBeGreaterThan(0);
+    }
+    const lastImpact = Math.max(...bomb.map((missile) => missile.impact));
+    effects.update(
+      "harrow",
+      false,
+      "attack",
+      startOf("BombPass") + lastImpact - 0.01,
+    );
+    const group = effects.root.children.find(
+      (child) => child instanceof T.Group,
+    )!;
+    expect((group.children[1] as T.InstancedMesh).count).toBeGreaterThan(0);
+  } finally {
+    effects.dispose();
+  }
+});
+it("repeats an individually selected HARROW attack without changing the full sequence", () => {
+  expect(reportPose("harrow", "attack", 0.1, "Dash").clip).toBe("Dash");
+  expect(
+    reportPose("harrow", "attack", HARROW.dashDuration + 0.1, "Dash").sample,
+  ).toBeCloseTo(0.1);
+  expect(reportPose("harrow", "attack", 0.1, "BombPass")).toMatchObject({
+    clip: "BombPass",
+    height: HARROW.flightHeight / HARROW.scale,
+  });
+  expect(reportPose("harrow", "attack", 0.1).clip).toBe("Spin");
+});
+it("keeps report takeoff and bomb flyover on the authoritative root path", () => {
+  const takeoff = HARROW_REPORT_SEQUENCE.find(
+    (phase) => phase.clip === "Takeoff",
+  )!;
+  expect(
+    reportPose("harrow", "attack", takeoff.duration * 0.2, "Takeoff").height,
+  ).toBe(0);
+  expect(
+    reportPose("harrow", "attack", takeoff.duration, "Takeoff").height,
+  ).toBe(0);
+  expect(
+    reportPose("harrow", "attack", takeoff.duration - 0.01, "Takeoff").height,
+  ).toBeCloseTo(HARROW.flightHeight / HARROW.scale, 2);
+  const bomb = reportHarrowMissiles(true, "bomb");
+  for (const missile of bomb) {
+    const pose = reportPose("harrow", "attack", missile.launch, "BombPass");
+    expect(pose.z * HARROW.scale).toBeCloseTo(missile.target.z, 5);
+    expect(pose.height * HARROW.scale).toBeCloseTo(HARROW.flightHeight, 5);
+  }
+  expect(reportPose("harrow", "attack", HARROW.bombWind, "BombPass").z).toBeCloseTo(0);
 });
 
 it("shows VOLLEY release at its actual wind-up time and keeps PLEAT independent", () => {
