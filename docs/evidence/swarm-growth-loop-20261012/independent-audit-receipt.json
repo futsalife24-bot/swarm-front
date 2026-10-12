@@ -1,0 +1,25 @@
+{
+  "auditConversation": "https://chatgpt.com/c/6acd5156-e2f8-83ee-b7f5-b99dfc024ef8",
+  "sourceCommit": "a7de399057040af1670031928f84ad0cea7d9720",
+  "baseCommit": "35125e556c85a249a024cd4c033c39ce249b8d67",
+  "inputZipSha256": "718a92abe73d2d8eaeec6e86271b5c58249d7e299d031b0e9ac2887c5c86ad98",
+  "libraryFileId": "libfile_f753c033d92881919602b9f4b4350640",
+  "fileId": "file_0000000069c88206943a580a4c6e22c1",
+  "libraryVersionId": null,
+  "fileName": "PR175-a7de399-independent-audit-full.txt",
+  "sizeBytes": 13234,
+  "sha256": "0df5184cda38c939a2c75dca9d9f67a15ad881fb90e3134f439ef237c089e51d",
+  "readMode": "Library full read, 636 lines, has_more=false",
+  "localMirror": "PR175-a7de399-independent-audit-full.txt",
+  "readNormalization": "Final blank line omitted by Library read restored; resulting bytes match supplied SHA256 and size",
+  "verdict": "合格（確認範囲限定）",
+  "mandatoryFindings": { "P0": 0, "P1": 0, "P2": 0 },
+  "supplementOverridesInitial": true,
+  "auditorIndependentTestBuildDryRunE2E": false,
+  "publicationApproved": false,
+  "releaseConditions": [
+    "既存試験失敗5件を別課題として追跡",
+    "段階公開後の実端末確認",
+    "成長経済ログ監視追加"
+  ]
+}

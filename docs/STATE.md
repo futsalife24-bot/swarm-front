@@ -1,3 +1,11 @@
+# 現在地: PR175独立監査は限定合格、公開条件整理・監視追加は未実装（2026-10-12）
+
+監査対象 `a7de399057040af1670031928f84ad0cea7d9720`、[通常Chat監査](https://chatgpt.com/c/6acd5156-e2f8-83ee-b7f5-b99dfc024ef8)。補足訂正を優先し、合格（確認範囲限定）・必須P0/P1/P2各0件。監査側test/build/dry-run/E2E/実機の独立再実行はなし。原文Library `libfile_f753c033d92881919602b9f4b4350640` を公式readで全文取得し、[全文](evidence/swarm-growth-loop-20261012/PR175-a7de399-independent-audit-full.txt)を13,234 bytes・SHA256 `0df5184cda38c939a2c75dca9d9f67a15ad881fb90e3134f439ef237c089e51d` 一致で保存した。現在の実装は対象SHAと同じで、反映前HEAD8fb9574以降も今回の変更は文書だけ。
+
+[公開条件と次の作業](SWARM-GROWTH-AUDIT-FOLLOWUP.md)：既存5失敗はBASE-01〜05で未解消のまま追跡。実端末確認は既存の保存/回復/表示を使えるが実施未完。経済ログ監視は既存のview/sortie/clear統計だけでは満たせず、記録・重複対策・有界集計・閲覧を追加する必要がある。計測項目/保持/送信先・予算、仮数値/美術、段階公開方法、既存失敗/Highの受入と公開承認は本人判断。High5到達性・本番同期競合・長期バランスは未確認で、全面保証や無害へ読み替えない。
+
+ブランチ `codex/swarm-growth-loop-20261012`、base35125e5を維持。[Draft PR175](https://github.com/futsalife24-bot/swarm-front/pull/175)はmerge/公開しない。ローカルorigin/main27208f1のPR176を取り込んでおらず、統合時は別実装SHAと影響範囲を確認する。PR176は別checkoutのまま、承認された新規空persist-to比較起動1回でもWindows APIアクセス拒否で停止し、元DB/WAL/SHM等45ファイル不変を照合。時刻付き連続撮影・銃口軸確認は未完。新認証・昇格・拒否回避は行わない。以下の未依頼/IAB起動待ち等は当時の経過で、現在は親側の通常Chat監査完了を優先する。
+
 # 現在地: 成長循環と正式7イベント画像を候補統合、通常Chat独立監査の制御基盤復旧待ち（2026-10-12）
 
 作業は `C:/Users/futsa/Documents/Codex/2026-10-12/task-2/game`、branch `codex/swarm-growth-loop-20261012`、base main `35125e556c85a249a024cd4c033c39ce249b8d67`。旧HARROW作業場所は変更せず、v14/PR173/174を保全。進撃と生存の報酬保存、Lvと選択改造/変換、共通タイトルと演出差込み口を候補として実装。[仕様・互換基準](SWARM-GROWTH-REDESIGN.md)、[検証](evidence/swarm-growth-loop-20261012/README.md)。最大3丁・費用などは本人指定の確定数値ではなく仮設定。型、関連139・保存147・クラウド59・実通信13・UI4＋武器行1件を確認。全体既存失敗5件と依存High5件は残る。
