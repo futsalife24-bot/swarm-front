@@ -1,4 +1,4 @@
-import { WEAPONS, type Kind } from "../shared/defs";
+import { ENEMIES, WEAPONS, type Kind } from "../shared/defs";
 import { SOLO_STAGE_IDS } from "../shared/campaign";
 import {
   ACCESSORY_NAMES,
@@ -35,16 +35,7 @@ export function developerProgress() {
   for (const stage of SOLO_STAGE_IDS)
     for (const difficulty of ["normal", "medium"] as const)
       save.missions[missionKey(stage, difficulty)] = [true, true, true];
-  for (const kind of [
-    "crawler",
-    "ant",
-    "spider",
-    "spitter",
-    "hornet",
-    "boss",
-    "worm",
-    "harrow",
-  ])
+  for (const kind of [...Object.keys(ENEMIES), "worm"])
     save.encounters[kind] = "solo";
   for (const kind of Object.keys(ACCESSORY_NAMES) as AccessoryKind[])
     for (let rarity = 1; rarity <= 6; rarity++)

@@ -1,3 +1,6 @@
+# 現在地: CALYXの開発者モード解放漏れを修正、監査準備（2026-10-12）
+
+base `6f29821452f684e7b1528af76451509f7f5c5a4d`、branch `codex/calyx-developer-report-20261012`。手書き解放一覧からCALYXが漏れていたためENEMIES由来へ修正。回帰再現後24テスト・型検査成功、実UIで開発者データのCALYXモデルと通常データの未遭遇ロックを確認。[検証記録](evidence/calyx-developer-20261012/README.md)。通常Chat監査・main反映・公開は未完了。
 # 現在地: HARROW v12・7攻撃の独立監査/main反映/公開完了（2026-10-12）
 
 [PR167](https://github.com/futsalife24-bot/swarm-front/pull/167)通常merge、公開ソース `b917d4f2a35c5ad8231d2a9e55ebd1afce03f4d1`、Worker Version `68f940a7-984f-4500-87bf-6571dc23aa4d`。[公開記録](evidence/harrow-v12-release-20261012/README.md)。独立通常Chat監査は必須P0/P1/P2と証跡不備各0で最終合格。指定7攻撃・地上ミサイル2方式、二脚18動作を公開済み。関連133テスト、監査修正後36件/型/実通信22項目、merge後build/dry-run、公開25/25 SHA・health、Chrome公開図鑑の選択/表示を確認。下書き全文復元済み。
