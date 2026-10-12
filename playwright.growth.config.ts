@@ -1,7 +1,11 @@
 import { defineConfig } from "@playwright/test";
 export default defineConfig({
   testDir: "e2e",
-  testMatch: "growth-loop.spec.ts",
+  testMatch: [
+    "growth-loop.spec.ts",
+    "operation-cue.spec.ts",
+    "event-banners-real.spec.ts",
+  ],
   timeout: 60000,
   workers: 1,
   use: {

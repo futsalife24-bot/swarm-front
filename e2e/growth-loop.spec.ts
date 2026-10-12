@@ -104,21 +104,22 @@ test("optional operation cues can be skipped and interrupted with a static fallb
   await page.goto("/front");
   await page.evaluate(async () => {
     const cue = await import("/src/client/operation-cue.ts" as string);
-    cue.showOperationCue("end");
+    cue.showOperationCue("srv-ended");
   });
   await expect(page.locator(".operation-cue")).toContainText("戦闘終了");
-  await page.locator(".operation-cue button").click();
+  await page.locator(".operation-cue-skip").click();
   await expect(page.locator(".operation-cue")).toHaveCount(0);
   await page.evaluate(async () => {
     const cue = await import("/src/client/operation-cue.ts" as string);
-    cue.showOperationCue("sortie");
-    cue.showOperationCue("return");
+    cue.showOperationCue("srv-sortie");
+    cue.showOperationCue("srv-extract");
   });
   await expect(page.locator(".operation-cue")).toHaveCount(1);
   await expect(page.locator(".operation-cue")).toContainText("撤収完了");
-  await page.evaluate(() =>
-    document.dispatchEvent(new Event("swarm-motion-preference")),
-  );
+  await page.evaluate(async () => {
+    const cue = await import("/src/client/operation-cue.ts" as string);
+    cue.cancelOperationCue();
+  });
   await expect(page.locator(".operation-cue")).toHaveCount(0);
 });
 

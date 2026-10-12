@@ -4,32 +4,44 @@
   top: max(8px, env(safe-area-inset-top));
   left: 50%;
   transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  max-width: 80vw;
-  padding: 8px 14px;
   color: #edfff5;
-  background: #102925ed;
-  border: 1px solid #80ddbc;
-  border-radius: 7px;
+  max-width: calc(
+    100vw - env(safe-area-inset-left) - env(safe-area-inset-right)
+  );
+  pointer-events: none;
+}
+.operation-cue * {
   pointer-events: none;
 }
 .operation-cue strong {
+  display: block;
   white-space: nowrap;
   font-size: clamp(16px, 3vw, 25px);
+  padding: 8px 14px;
 }
-.operation-cue button {
-  pointer-events: auto;
-  min-height: 32px;
-  font-size: 12px;
+.operation-cue.has-image {
+  width: 100%;
+  max-width: 960px;
+  aspect-ratio: 960/336;
 }
 .operation-cue img {
   position: absolute;
-  z-index: -1;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  pointer-events: none;
+}
+.operation-cue.is-loaded strong {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.operation-cue-skip {
+  min-height: 40px;
+  font-size: 12px;
+  pointer-events: auto;
 }

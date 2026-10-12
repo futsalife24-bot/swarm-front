@@ -323,6 +323,7 @@ function battleUI(next: "battle" | "collection" = "battle") {
 }
 function pause() {
   if (!["battle", "collection"].includes(screen) || paused) return;
+  cancelOperationCue();
   paused = true;
   controls.reset();
   checkpointNow();
@@ -1363,10 +1364,12 @@ function commit(next: ProgressSave, after: () => void = () => {}) {
 function setScreen(next: string) {
   if (next !== screen) {
     cancelOperationCue();
-    if (next === "battle") showOperationCue("sortie");
-    else if (next === "collection") showOperationCue("clear");
+    if (next === "battle")
+      showOperationCue("adv-sortie", { key: `${world?.run}:sortie` });
+    else if (next === "collection")
+      showOperationCue("adv-complete", { key: `${world?.run}:complete` });
     else if (next === "result" && save?.result?.win === false)
-      showOperationCue("end");
+      showOperationCue("adv-failed", { key: `${save.result.run}:failed` });
   }
   backgroundMusic().setScreen(next, save?.result?.win === true, world);
   queueMicrotask(() => {

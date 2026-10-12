@@ -426,10 +426,12 @@ const equipped = () =>
 function setScreen(name: string) {
   if (name !== screen) {
     cancelOperationCue();
-    if (name === "battle") showOperationCue("sortie");
-    else if (name === "stage-clear") showOperationCue("clear");
+    if (name === "battle")
+      showOperationCue("adv-sortie", { key: `${world?.run}:sortie` });
+    else if (name === "stage-clear")
+      showOperationCue("adv-complete", { key: `${world?.run}:complete` });
     else if (name === "result" && world?.phase === "defeat")
-      showOperationCue("end");
+      showOperationCue("adv-failed", { key: `${world.run}:failed` });
   }
   backgroundMusic().setScreen(name, world?.phase === "victory", world);
   queueMicrotask(() =>
@@ -1648,6 +1650,7 @@ function retreat() {
   gear();
 }
 function openPause(confirming = false) {
+  cancelOperationCue();
   paused = true;
   controls.enabled = false;
   controls.reset();

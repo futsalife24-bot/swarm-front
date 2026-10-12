@@ -43,6 +43,7 @@ import { homeMarkup } from "./home-screen";
 import { mountTitleMotion } from "./title-motion";
 import { openOperationPicker } from "./operation-picker";
 import { showOperationCue, cancelOperationCue } from "./operation-cue";
+import { operationCueForResult } from "./operation-cue-assets";
 import { frontResultTitle } from "./front-result-title";
 import { openWeaponWorkshop } from "./weapon-workshop-ui";
 import type { NewWeapon } from "../shared/progression";
@@ -333,6 +334,7 @@ function frontWeaponRows() {
   );
 }
 function menuDialog(title: string, content: string, back: () => void) {
+  cancelOperationCue();
   document.body.classList.add("playtest");
   document.body.dataset.screen = "prep";
   $("ui").innerHTML =
@@ -354,9 +356,11 @@ function menuDialog(title: string, content: string, back: () => void) {
   }
 }
 function menuSettings(back: () => void) {
+  cancelOperationCue();
   settings.open($("ui"), back);
 }
 function base(back: () => void = home) {
+  cancelOperationCue();
   document.body.classList.add("playtest");
   document.body.dataset.screen = "prep";
   openFrontBase($("ui"), progressStorage, back);
@@ -383,6 +387,7 @@ function animateFrontSelection() {
   );
 }
 function prep(coop = false) {
+  cancelOperationCue();
   try {
     if (!readFrontCampaign(progressStorage).save)
       initializeProgress("normal", localStorage);
@@ -534,6 +539,7 @@ async function solo() {
   await loadBattle();
 }
 async function loadBattle() {
+  cancelOperationCue();
   if (!world) return;
   const current = ++loadSerial;
   screen = "loading";
@@ -567,7 +573,9 @@ async function loadBattle() {
     if (current !== loadSerial) return;
     ready = true;
     screen = "battle";
-    showOperationCue("sortie");
+    showOperationCue(mode === "survival" ? "srv-sortie" : "adv-sortie", {
+      key: `${world.run}:sortie`,
+    });
     overlayKey = "";
     paintOverlay();
   } catch (error) {
@@ -641,6 +649,7 @@ async function mountHumanCheck() {
   }
 }
 function rooms() {
+  cancelOperationCue();
   document.body.dataset.screen = "rooms";
   document.body.classList.remove("playtest");
   screen = "rooms";
@@ -954,6 +963,7 @@ function choose(cardId: FrontUpgradeId) {
 }
 function pause() {
   if (screen !== "battle" || !ready) return;
+  cancelOperationCue();
   choiceFeedbackUntil = 0;
   clearInput();
   pauseRebuildUi(
@@ -1257,13 +1267,11 @@ function frame(time: number) {
           : undefined,
       );
       showOperationCue(
-        info.mode === "survival"
-          ? info.phase === "victory"
-            ? "return"
-            : "end"
-          : info.phase === "victory"
-            ? "clear"
-            : "end",
+        operationCueForResult(
+          info.mode === "survival" ? "survival" : "advance",
+          info.phase,
+        ),
+        { key: `${world.run}:result` },
       );
       awardedRun = world.run;
       rewardError = rewardStatus.error;

@@ -1,12 +1,12 @@
-# 現在地: 成長循環の候補実装・回帰確認済み、正式素材の取得とレビュー前（2026-10-12）
+# 現在地: 成長循環と正式7イベント画像を候補統合、独立監査のIAB起動待ち（2026-10-12）
 
 作業は `C:/Users/futsa/Documents/Codex/2026-10-12/task-2/game`、branch `codex/swarm-growth-loop-20261012`、base main `35125e556c85a249a024cd4c033c39ce249b8d67`。旧HARROW作業場所は変更せず、v14/PR173/174を保全。進撃と生存の報酬保存、Lvと選択改造/変換、共通タイトルと演出差込み口を候補として実装。[仕様・互換基準](SWARM-GROWTH-REDESIGN.md)、[検証](evidence/swarm-growth-loop-20261012/README.md)。最大3丁・費用などは本人指定の確定数値ではなく仮設定。型、関連139・保存147・クラウド59・実通信13・UI4＋武器行1件を確認。全体既存失敗5件と依存High5件は残る。
 
-未完: 正式Claude Code演出ZIP `libfile_6fe7f021941c819192d14b213859e75a` はLibrary準備成功後、Windowsにない `os.setxattr` で転送helperが失敗。ZIP readも内容なし。README/consumer-manifest未読・正式素材未統合。通常Chat独立監査はiab起動障害 `HRESULT 0x80070003`。本番移行・merge・公開は未実施。Windows対応の正式素材転送（または正規ローカル添付）、候補/仮数値/美術のレビュー、既存失敗/Highの方針、独立監査を満たしてから再開。以下の公開記録は既存v14で、今回の公開ではない。
+正式素材は本人の「スワフロの素材はおｋ」による公開送信承認後、親の `d4482b1f8008b7796828cc35c938dca3ad26772c` を `6216e624c8d0806402c50c8178a0281e0d2bb889` として独立ブランチへ取込み。追加34ファイル・画像28 SHA・manifest28参照・PNG14ハッシュ・APNG全14の構造/時間/透明終端を確認済み。保護した未コミット14ファイルも内容ハッシュ一致で復元した。7イベント・標準/スマホ・PNG切替を有効化し、関連146件とブラウザ27項目を分割確認。配置は `public/assets/event-banners/{standard,mobile}/`。元Library ZIP全体の転送は未完だが、必要な原本画像は受領済み。法律上の契約書・個人情報は素材転送に含めない。
 
 実装 `afe321f7485648b1869646a3f428c2e612e9dfd1` は [Draft PR175](https://github.com/futsalife24-bot/swarm-front/pull/175) へpush済み。client buildとWorker dry-run成功。最初のpushは自動承認レビューが外部共有承認不足と判断して拒否したが、AGENTSの2026-09-15継続承認と既存originを照合した再審査で許可された。新規共有先・force push・merge・公開は行っていない。
 
-取得/監査の再確認: 既存WSLは未インストール（一覧exit 1）、docker/podman/bashはPATHで検出なし。公式helper変更・新規Linux導入なし。IABはkernel reset→getState 2回→規定のChatGPT IAB新規タブ1回も初期化時に失敗し、同じ `HRESULT 0x80070003` を再現。親からREADME/consumer-manifest本文を受領すれば契約準備は進められるが、正規ローカル素材入力またはWindows対応転送と、IABランタイム復旧が残る。詳細な転送結果と再開条件は上記検証記録へ保存。
+未完: 通常Chat独立監査は指定IABの起動時に `cannot locate required Windows platform directory: HRESULT 0x80070003`。今回もkernel reset→規定の新規IABでPID3964/exit1の同じ障害を再現し、監査Chat作成・資料送信は未実施。他セッションのアプリは再起動せず、監査をChrome/Work/サブエージェントで代用しない。実スマホ性能・長期バランス・候補/仮数値/美術の採用・既存失敗5/依存High5の方針も未確認。本番移行・merge・公開は未実施。候補SHAとZIPを固定して同じ監査経路の復旧後に再開する。以下の公開記録は既存v14で、今回の公開ではない。
 
 # 経過: HARROW v14 上下羽ばたき修正をmain反映・公開完了（2026-10-12）
 
