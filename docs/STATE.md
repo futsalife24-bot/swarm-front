@@ -1,12 +1,12 @@
-# 現在地: 成長循環と正式7イベント画像を候補統合、独立監査のIAB起動待ち（2026-10-12）
+# 現在地: 成長循環と正式7イベント画像を候補統合、通常Chat独立監査の制御基盤復旧待ち（2026-10-12）
 
 作業は `C:/Users/futsa/Documents/Codex/2026-10-12/task-2/game`、branch `codex/swarm-growth-loop-20261012`、base main `35125e556c85a249a024cd4c033c39ce249b8d67`。旧HARROW作業場所は変更せず、v14/PR173/174を保全。進撃と生存の報酬保存、Lvと選択改造/変換、共通タイトルと演出差込み口を候補として実装。[仕様・互換基準](SWARM-GROWTH-REDESIGN.md)、[検証](evidence/swarm-growth-loop-20261012/README.md)。最大3丁・費用などは本人指定の確定数値ではなく仮設定。型、関連139・保存147・クラウド59・実通信13・UI4＋武器行1件を確認。全体既存失敗5件と依存High5件は残る。
 
 正式素材は本人の「スワフロの素材はおｋ」による公開送信承認後、親の `d4482b1f8008b7796828cc35c938dca3ad26772c` を `6216e624c8d0806402c50c8178a0281e0d2bb889` として独立ブランチへ取込み。追加34ファイル・画像28 SHA・manifest28参照・PNG14ハッシュ・APNG全14の構造/時間/透明終端を確認済み。保護した未コミット14ファイルも内容ハッシュ一致で復元した。7イベント・標準/スマホ・PNG切替を有効化し、関連146件とブラウザ27項目を分割確認。配置は `public/assets/event-banners/{standard,mobile}/`。元Library ZIP全体の転送は未完だが、必要な原本画像は受領済み。法律上の契約書・個人情報は素材転送に含めない。
 
-最新実装 `a7de399057040af1670031928f84ad0cea7d9720` は [Draft PR175](https://github.com/futsalife24-bot/swarm-front/pull/175) へpush済み。同SHAからclient build・通常/本番設定Worker dry-run成功、ビルド後も画像28 SHA一致。監査ZIPは作業場所の親に `swarm-growth-audit-a7de399.zip`、472ファイル・41,932,849 bytes・SHA256 `4fa5a60b1b1a59ce6f07ec3ec760f9c6a3fe33d2667a3c86b86bd042c355d6ee`。CRC/全収録ハッシュ確認済み、認証情報・Library signed URL・無関係な個人資料は含めていない。未変更の巨大3D/音声は同梱せず、ZIP単独での全実戦描画再実行には限界がある。独立監査は未送信。最初の成長循環pushでの自動承認拒否は既存継続承認の照合で解消済みで、今回の素材送信も明示承認済み。force push・main反映・本番公開は行っていない。
+最新実装 `a7de399057040af1670031928f84ad0cea7d9720` は [Draft PR175](https://github.com/futsalife24-bot/swarm-front/pull/175) へpush済み。同SHAからclient build・通常/本番設定Worker dry-run成功、ビルド後も画像28 SHA一致。監査ZIPは作業場所の親に `swarm-growth-audit-a7de399.zip`、472ファイル・41,933,062 bytes・SHA256 `718a92abe73d2d8eaeec6e86271b5c58249d7e299d031b0e9ac2887c5c86ad98`。CRC/全収録ハッシュ確認済み、認証情報・Library signed URL・無関係な個人資料は含めていない。未変更の巨大3D/音声は同梱せず、ZIP単独での全実戦描画再実行には限界がある。独立監査は未送信。最初の成長循環pushでの自動承認拒否は既存継続承認の照合で解消済みで、今回の素材送信も明示承認済み。force push・main反映・本番公開は行っていない。
 
-未完: 通常Chat独立監査は指定IABの起動時に `cannot locate required Windows platform directory: HRESULT 0x80070003`。今回もkernel reset→規定の新規IABでPID3964/exit1の同じ障害を再現し、監査Chat作成・資料送信は未実施。他セッションのアプリは再起動せず、監査をChrome/Work/サブエージェントで代用しない。実スマホ性能・長期バランス・候補/仮数値/美術の採用・既存失敗5/依存High5の方針も未確認。本番移行・merge・公開は未実施。候補SHAとZIPを固定して同じ監査経路の復旧後に再開する。以下の公開記録は既存v14で、今回の公開ではない。
+未完: 通常Chat独立監査は未送信。本人は正規Chrome等の別ブラウザ経路への変更調査を承認したが、kernel reset後の規定Chrome初回APIもPID30688/exit1、IABと同じ `cannot locate required Windows platform directory: HRESULT 0x80070003` でUI取得前に停止。Chrome拡張不在や権限拒否を確認した結果ではない。監査ZIPはLibrary `libfile_ec2c665dfd008191a3f20c0f0d654cab` に正式保存成功。ローカル属性付与はWindows `os.setxattr` 非対応で未完。他セッション再起動・秘密取得・アクセス拒否回避・新規認証発行はしない。Work/サブエージェント/自己検証は独立監査の代用にしない。実スマホ性能・長期バランス・候補/仮数値/美術の採用・既存失敗5/依存High5の方針も未確認。本番移行・merge・公開は未実施。候補SHAを固定し、正規制御基盤の復旧後に通常Chat監査を再開する。PR176の実ネットワーク描画確認は別checkoutで行い、PR175へ混ぜない。以下の公開記録は既存v14で、今回の公開ではない。
 
 # 経過: HARROW v14 上下羽ばたき修正をmain反映・公開完了（2026-10-12）
 

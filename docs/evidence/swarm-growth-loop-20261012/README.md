@@ -39,7 +39,7 @@ Windows sandboxでVitestの別プロセスがSSR一時ファイルを読めず�
 - 元Library ZIP全体の転送はWindows非対応 (`os.setxattr`) により未完。その後、今回の画像28点と説明/原本資料6点は明示承認済みの専用GitHub素材コミットから受領し、照合後に有効化した。詳細は下の「正式素材の統合確認」。ZIP未取得を、画像バイト未受領とは混同しない。
 - 同じ環境の既存Linux経路を再確認した。WSL一覧はexit 1・「Linux用Windowsサブシステムがインストールされていません」。docker/podman/bashはPATHに見つからない。新規インストール・認証・セキュリティ変更はしていない。
 - 正式転送結果: `file_00000000307481f5918053f698ec967e`、Library IDは上記、filename `swarm-front-claude-motion-assets-20261012.zip`、24,119,471 bytes、返却version 0、GET transfer、workspace_path null、xattr `user.library-file-version`。公式helperはそのxattr設定で `AttributeError: module 'os' has no attribute 'setxattr'`。最終ファイルはreferences内に存在せず、URLやメタデータを省く取得はしていない。
-- 通常Chat独立監査は未実施。指定のiab起動が `cannot locate required Windows platform directory: HRESULT 0x80070003` で失敗。別の監査経路に切り替えていない。
+- 通常Chat独立監査は未実施。当初の指定iabは `cannot locate required Windows platform directory: HRESULT 0x80070003` で失敗。以下のIAB固定記述は当時の経過であり、最新のブラウザ経路承認と確認は末尾に記す。
 - 再試行ではcuaカーネルリセット後のgetStateを2回、規定の `cua.createBrowserTab("iab", "https://chatgpt.com/", {visible:false})` を1回実施。getStateはtrusted Nodeの異常終了、直接IABは新kernel PID 68772 / exit 1 / 同じHRESULT。UI状態を取得できず、監査Chat作成・資料送信は未実施。一時的な会話タブの障害としては復旧しなかった。
 - 素材受渡しと取込みは完了。IABは画像統合後も再度kernel reset→規定の新規IABを試したが、PID3964/exit1/同じHRESULTで起動できなかった。通常Chatを作成・送信していない。現在残る実行上の阻害はIABランタイム初期化。復旧後に対象SHAのZIPを同じ経路で監査する。他セッションのアプリを再起動しない。WSL等の導入や監査経路の置換は行わない。
 - 実スマホ・長時間GPU・25任務を通じた収集/素材費用の調整・実クラウドの複数端末UI・正式デザインの美術的採用は未確認。
@@ -70,4 +70,14 @@ Windows sandboxでVitestの別プロセスがSSR一時ファイルを読めず�
 
 対象実装 `a7de399057040af1670031928f84ad0cea7d9720` をPR175へpush確認。同SHAからclient build・通常Worker dry-run・本番設定 `wrangler.production.jsonc` のdry-run成功。後者は344静的ファイルを読取り、実deployはしていない。ビルド後の画像28点も転送元SHAと一致。既存の大容量chunk警告は残る。
 
-作業場所の親ディレクトリに `swarm-growth-audit-a7de399.zip` を保存。472ファイル、41,932,849 bytes、SHA256 `4fa5a60b1b1a59ce6f07ec3ec760f9c6a3fe33d2667a3c86b86bd042c355d6ee`。CRCと全収録SHAを照合し、既存ローカル認証値が収録されないことを確認した。実差分/ソース/依存lock/正式画像/元説明/OFL/UI証拠/自己検証ログを含む。認証・依存キャッシュ・Library signed URL・無関係な個人資料は含まない。未変更の巨大3D/音声は除外しているため、全実戦描画をZIP単独で再実行できるとはしない。独立監査は未送信。
+作業場所の親ディレクトリに `swarm-growth-audit-a7de399.zip` を保存。472ファイル、41,933,062 bytes、SHA256 `718a92abe73d2d8eaeec6e86271b5c58249d7e299d031b0e9ac2887c5c86ad98`。CRCと全収録SHAを照合し、既存ローカル認証値が収録されないことを確認した。実差分/ソース/依存lock/正式画像/元説明/OFL/UI証拠/自己検証ログを含む。認証・依存キャッシュ・Library signed URL・無関係な個人資料は含まない。未変更の巨大3D/音声は除外しているため、全実戦描画をZIP単独で再実行できるとはしない。独立監査は未送信。
+
+## 通常Chat監査の別ブラウザ経路確認
+
+2026-10-12、本人が正規Chrome等の別ブラウザ経路への変更調査を承認。通常ChatGPTでの独立監査を維持し、Work・サブエージェント・自己レビューを代用にしない。秘密情報取得、アクセス拒否回避、新規認証発行は行わない。
+
+CUA kernel reset後の `getState` はtrusted Nodeの異常終了。次の規定の初回API `cua.createBrowserTab("chrome", "https://chatgpt.com/", {sessionName:"🔎 スワフロ監査"})` もPID30688/exit1、`MXC launcher: cannot locate required Windows platform directory: HRESULT 0x80070003` で停止した。ブラウザのUI状態を得る前の共通基盤障害であり、Chrome拡張の不在や接続権限拒否を確認した結果ではない。通常Chat作成・添付・監査依頼は未実施。他セッションのアプリ再起動・非公式の認証転用・制御経路の自作はしていない。
+
+監査ZIPを正式Library createで保存済み。Library ID `libfile_ec2c665dfd008191a3f20c0f0d654cab`、filename `swarm-growth-audit-a7de399.zip`、初回version 0、file ID `file_00000000a00c8206af7b9e7540c9f8d0`。リモート保存成功とローカル属性付与は別に扱う。返却属性を公式helperで適用するとWindowsの `os.setxattr` 非対応で停止し、ローカルのLibrary版属性は保存できていない。リモート保存の成功は確認済み。
+
+その後、ZIPの監査依頼文だけに本人の別ブラウザ承認と共通基盤障害を反映。収録ソースは対象SHAのまま、同じLibrary IDをexpected version 0で置換しversion 1の保存成功を確認（file ID `file_00000000385c82068c714c1e06264f04`）。現在のサイズ・SHAは上の固定候補欄。全472件のCRCと収録SHAを再照合した。公式helperのローカル属性付与は同じWindows非対応で未完であり、ローカル属性の保存成功とはしない。
