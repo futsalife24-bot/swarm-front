@@ -6,7 +6,7 @@ import { HARROW, harrowMissileOrigins } from "../src/shared/harrow";
 import { HARROW_FLIGHT_CYCLE } from "../src/shared/harrow-motion";
 
 async function model() {
-  const bytes = readFileSync("public/assets/enemies/harrow_motion_v13.glb");
+  const bytes = readFileSync("public/assets/enemies/harrow_motion_v14.glb");
   // CPU geometry/animation checks only: Node has no image decoder. Actual 4K
   // texture decoding and rendering are verified separately in the browser.
   const loader = new GLTFLoader().register(() => ({

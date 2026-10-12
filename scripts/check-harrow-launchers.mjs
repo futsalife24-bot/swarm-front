@@ -7,7 +7,7 @@ import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { build } from "esbuild";
 
-const source = "public/assets/enemies/harrow_motion_v13.glb";
+const source = "public/assets/enemies/harrow_motion_v14.glb";
 const bytes = readFileSync(source);
 const loader = new GLTFLoader().register(() => ({
   name: "HEADLESS_GEOMETRY_ONLY",
@@ -115,7 +115,7 @@ for (const sample of samples) {
   };
 }
 writeFileSync(
-  "dist-validation/harrow/v13-launchers.json",
+  "dist-validation/harrow/v14-launchers.json",
   JSON.stringify(report, null, 2),
 );
 console.log(

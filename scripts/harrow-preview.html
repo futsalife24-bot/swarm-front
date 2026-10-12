@@ -41,12 +41,18 @@
     <div>
       <button data-mode="walk">ゆっくり歩行</button
       ><button data-mode="encounter">空中会敵</button
+      ><button data-mode="flight">飛行の羽ばたき</button
       ><button data-mode="missile">空中ミサイル</button
       ><button data-mode="ground-missile">地上山なり10発</button
       ><button data-mode="dash">短ダッシュ</button
       ><button data-mode="snipe">直射</button
       ><button data-mode="bomb">爆撃通過</button
       ><button data-mode="takeoff">離陸</button
+      ><select id="takeoff-variant" aria-label="離陸パターン">
+        <option value="0">離陸 A</option>
+        <option value="0.25">離陸 B</option>
+        <option value="0.5">離陸 C</option>
+        <option value="0.75">離陸 D</option></select
       ><button data-mode="spin">翼接地回転</button
       ><button data-mode="dive">滑空ダイブ</button
       ><button data-mode="fall">怯み落下</button
@@ -78,6 +84,7 @@
     </div>
     <button id="overview">俯瞰切替</button
     ><button id="side-view">側面切替</button
+    ><button id="front-view">正面切替</button
     ><button id="capture">静止画像を保存</button
     ><button id="record">選択中の動作を録画</button>
     <pre id="saved"></pre>

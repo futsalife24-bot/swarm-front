@@ -26,9 +26,15 @@ let w: ReturnType<typeof createWorld>,
   groundCamera = false;
 let overview = true,
   sideView = false,
+  frontView = false,
   recording = false;
 const canvas = document.querySelector("canvas")!;
 const saveStatus = document.getElementById("saved")!;
+const takeoffVariant = document.getElementById(
+  "takeoff-variant",
+) as HTMLSelectElement;
+const captureMode = () =>
+  mode === "takeoff" ? `takeoff-${takeoffVariant.selectedIndex}` : mode;
 async function save(blob: Blob, kind: "image" | "video", name: string) {
   if (location.port !== "5200") {
     const link = document.createElement("a");
@@ -49,6 +55,7 @@ async function save(blob: Blob, kind: "image" | "video", name: string) {
         JSON.stringify({
           overview,
           sideView,
+          frontView,
           status: JSON.parse(document.getElementById("status")!.textContent!),
         }),
       ),
@@ -75,6 +82,12 @@ document
 document.getElementById("overview")!.onclick = () => (overview = !overview);
 document.getElementById("side-view")!.onclick = () => {
   sideView = !sideView;
+  frontView = false;
+  overview = true;
+};
+document.getElementById("front-view")!.onclick = () => {
+  frontView = !frontView;
+  sideView = false;
   overview = true;
 };
 document.getElementById("capture")!.onclick = () => {
@@ -84,7 +97,7 @@ document.getElementById("capture")!.onclick = () => {
       void save(
         blob,
         "image",
-        `v13-${mode}-${w.time.toFixed(3).replace(".", "-")}`,
+        `v14-${captureMode()}-${frontView ? "front" : sideView ? "side" : "high"}-${w.time.toFixed(3).replace(".", "-")}`,
       );
   }, "image/png");
 };
@@ -103,7 +116,7 @@ document.getElementById("record")!.onclick = () => {
     void save(
       new Blob(chunks, { type: "video/webm" }),
       "video",
-      `v13-${mode}-cycle`,
+      `v14-${captureMode()}-${frontView ? "front" : sideView ? "side" : "high"}-cycle`,
     );
   };
   recorder.start();
@@ -141,6 +154,12 @@ function reset(value: string) {
   Object.assign(e, { active: true, cool: 999, heading: 0 });
   // Freeze campaign spawning, leaving ordinary authority movement/attacks active.
   w.spawned = 9999;
+  if (mode === "flight") {
+    e.y = groundHeight(0, 0, mapFor(w).blocks) + HARROW.flightHeight;
+    e.harrowAirborne = true;
+    e.harrowSwitchAt = 1e9;
+    e.harrow = undefined;
+  }
   if (["walk", "dash", "snipe", "takeoff", "ground-missile"].includes(mode)) {
     e.y = groundHeight(0, 0, mapFor(w).blocks);
     e.harrowAirborne = false;
@@ -182,7 +201,7 @@ function reset(value: string) {
       started: 0,
       fired: false,
       yaw: 0,
-      flapSeed: 0.7,
+      flapSeed: Number(takeoffVariant.value),
       from: { x: 0, y: e.y, z: 0 },
       to: { x: 0, y: e.y + HARROW.flightHeight, z: 0 },
     };
@@ -223,8 +242,11 @@ document.getElementById("seek")!.onclick = () => {
     ),
   );
   reset(mode);
-  while (w.time < target - 1e-9)
-    step(w, { viewer: neutral() }, Math.min(0.025, target - w.time));
+  while (w.time < target - 1e-9) {
+    const dt = Math.min(0.025, target - w.time);
+    step(w, { viewer: neutral() }, dt);
+    draw(dt);
+  }
   paused = true;
 };
 document.getElementById("camera")!.onclick = () =>
@@ -257,11 +279,11 @@ function draw(dt: number) {
   );
   if (overview && e) {
     renderer.camera.position.set(
-      e.x + (sideView ? 55 : 43),
-      e.y + (sideView ? 12 : 48),
+      e.x + (sideView ? 55 : frontView ? 8 : 43),
+      e.y + (sideView || frontView ? 12 : 48),
       e.z + (sideView ? 8 : 52),
     );
-    renderer.camera.lookAt(e.x, e.y + (sideView ? 12 : 1), e.z);
+    renderer.camera.lookAt(e.x, e.y + (sideView || frontView ? 12 : 1), e.z);
     renderer.renderer.render(renderer.scene, renderer.camera);
   }
   const model = renderer.structures.get("harrow");
@@ -280,6 +302,7 @@ function draw(dt: number) {
           : null,
       overview,
       sideView,
+      frontView,
       paused,
       recording,
       missiles: w.harrowMissiles?.length ?? 0,
@@ -316,6 +339,7 @@ function frame(now: number) {
     fall: 4.5,
     walk: 8.4,
     encounter: 17,
+    flight: 17,
     missile: 7.2,
     "ground-missile": 7.2,
   };
