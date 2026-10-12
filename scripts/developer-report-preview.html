@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>開発者レポートの局所検証</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <button id="developer">開発者データで確認</button>
+    <button id="normal">通常の未遭遇データで確認</button>
+    <script type="module">
+      import { developerProgress } from "/src/client/developer-mode.ts";
+      import { freshProgress } from "/src/client/progression-save.ts";
+      import { openBestiary } from "/src/client/bestiary.ts";
+      const show = (save) => {
+        openBestiary({ encounters: save.encounters });
+        document.querySelector('[data-enemy="calyx"]').click();
+      };
+      document.getElementById("developer").onclick = () =>
+        show(developerProgress());
+      document.getElementById("normal").onclick = () =>
+        show(freshProgress("normal"));
+    </script>
+  </body>
+</html>
