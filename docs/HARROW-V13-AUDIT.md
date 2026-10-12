@@ -1,5 +1,14 @@
 # HARROW v13 監査への引き継ぎ
 
+## 修正版の保存と再開点
+
+- 修正commit/ビルド対象: `d8ecc2e8a6b7f154169ac8b5374d133135250dae`、PR171へpush済み。base `cbda0481234fe494dd4d1ab023869e9812ea978d`。
+- 修正後122テスト、型、素材/姿勢/40発射元、build、production dry-run合格。後続変更はこの記録のみ。
+- 修正版監査ZIP: `dist-validation/harrow-v13/harrow-v13-audit.zip`、142ファイル、90,940,188 bytes、SHA256 `57d58ab0b5f51fb8e46160cf575d27c6c052ca5948fa0a01b3914c3d47df0f32`。CRCと全manifest照合済み。初回ZIPは `harrow-v13-initial-audit.zip` として保存。
+- 添付用文面: `dist-validation/harrow-v13/reaudit-message.txt`。既存監査Chatは上記URL。画像/動画は初回GLBの証拠であり、P2修正後の歩行実画面は未確認。ZIP内の `ui-review.json` に元SHAを保持。
+- 停止理由: CUAの状態取得と既存監査Chat接続が連続タイムアウトし、kernel reset。ビルド待機中の再確認でも復旧せず。再監査未送信・main/公開未実施。公開HARROWはv12、CALYXは修正公開済み。
+- 再開条件: iab接続復旧後、ローカルプレビューを再起動して歩行境界を実画面確認し、同じChatへ修正版を添付。技術監査合格後に通常merge→merge後build/dry-run→既存Worker公開・配信/UI確認。追加の操作承認は不要。
+- 一時検証サーバー5200/8798は停止。別件下書きは全文復元済みで、Git/監査ZIPには含まない。主担当モデル/推論設定は未確認、制作補助は `gpt-6-sol` / `medium`。
 ## 初回判定とP2修正
 
 初回の独立監査は `cc66f070c2eacf0075cc413821fdcda41ea6d8ab` に対してP0/P1各0、P2・1件で保留。P2はIdle↔Locomotionの0.32256mの位置差。監査側はZIP/manifest・22プリミティブの形状保持・画像/動画抜粋・発射座標の証拠整合を実確認し、低い基本/飛行姿勢と翼幅拡大を確認した。検証コマンドの独立再実行・実スマホ・全動画フレーム精査は未実施。

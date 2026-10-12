@@ -1,6 +1,6 @@
 # 現在地: HARROW v13監査P2修正済み、再監査送信の接続復旧待ち（2026-10-12）
 
-[PR171](https://github.com/futsalife24-bot/swarm-front/pull/171)の初回[独立監査](https://chatgpt.com/c/6acc6d2a-fae8-83ee-9950-2f70807c9693)は歩行切替のP2・1件で保留。Idle↔Locomotionを全39骨で合わせ、実GLBの差を0.32256mから約0.000006mへ修正。122テスト・型・素材/姿勢/発射口再検査合格、他17動作は完全一致。最終GLB c5a8e2e241cc441473519ed7f12e24e7b508c916d00cf7270427cc4a0a7ef0ba。CUAが状態取得/監査Chat接続もタイムアウトし、再監査の送信と修正後実画面確認は未完了。接続復旧後に同じChatで再監査→通常merge/既存Worker公開へ。元下書き496文字は承認後の送信時に全文復元済み。[詳細](HARROW-V13-AUDIT.md)。
+[PR171](https://github.com/futsalife24-bot/swarm-front/pull/171)の初回[独立監査](https://chatgpt.com/c/6acc6d2a-fae8-83ee-9950-2f70807c9693)は歩行切替のP2・1件で保留。Idle↔Locomotionを全39骨で合わせ、実GLBの差を0.32256mから約0.000006mへ修正。122テスト・型・素材/姿勢/発射口再検査合格、他17動作は完全一致。修正commit `d8ecc2e8a6b7f154169ac8b5374d133135250dae` をpush済み。修正後build/production dry-runも合格。再監査ZIP142ファイルのCRC/SHA照合済み。最終GLB c5a8e2e241cc441473519ed7f12e24e7b508c916d00cf7270427cc4a0a7ef0ba。CUAが状態取得/監査Chat接続もタイムアウトし、再監査の送信と修正後実画面確認は未完了。接続復旧後に同じChatで再監査→通常merge/既存Worker公開へ。元下書き496文字は承認後の送信時に全文復元済み。[詳細](HARROW-V13-AUDIT.md)。
 # 現在地: HARROW v13・PR171独立監査依頼済み（2026-10-12）
 
 [通常Chat監査](https://chatgpt.com/c/6acc6d2a-fae8-83ee-9950-2f70807c9693)へ約91MBの実物/証拠ZIPを添付送信済み。対象実装 `cc66f070c2eacf0075cc413821fdcda41ea6d8ab`、[PR171](https://github.com/futsalife24-bot/swarm-front/pull/171)。本人の明示承認後に別件下書きを一時置換し、送信後496文字の全文復元・一致を確認。122テスト・型・実Worker22項目・各素材検査・build/dry-run成功。判定確認→必要修正→通常merge/既存Worker公開へ続行。[引き継ぎ](HARROW-V13-AUDIT.md)。以下の承認待ちは解消済みの過去経過。
