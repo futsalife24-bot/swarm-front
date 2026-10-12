@@ -1,0 +1,12 @@
+{
+  "chat": "https://chatgpt.com/c/6acc6d2a-fae8-83ee-9950-2f70807c9693",
+  "initialTarget": "7d2076b14104caf5d1c627b54aa07167d0c4dd07",
+  "finalTarget": "95dbb8f73b08f073b359954c0dd1fa75bdaeca2a",
+  "result": "限定再監査合格、P0/P1/P2各0。通常merge・既存Worker公開を技術的に許容",
+  "verifiedByAuditor": ["初回ZIP/manifestとGLB構造", "旧新版GLBの5変更・13完全一致", "画像・軌跡計測と検証記録", "訂正ZIP7項目CRC/manifest6項目", "画像保存の非同期競合修正と訂正PNG/JSONの時刻整合"],
+  "conditions": ["製品ソース/素材の無変更をGitで確認", "merge後mainでbuild/production dry-run"],
+  "limits": ["監査側のBlender/122テスト/実ブラウザ再実行なし", "全周期の独立軌跡計測なし", "全動画フレーム目視・実スマホ・長時間GPU・本人の美術的採用は未確認"],
+  "invalidEvidence": "初回ZIPのui-v14-takeoff-0-side-4-400.png/.jsonは時刻証拠として撤回",
+  "replacementEvidence": "ui-v14-takeoff-0-side-1-150.png/.json",
+  "correctionZipSha256": "fe61ba8f56369cd2684d283f2d5ac0231367c0e487bdc48a2ee844253a82adad"
+}
