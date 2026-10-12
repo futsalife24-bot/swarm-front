@@ -1,3 +1,8 @@
+# 現在地: CALYX表示修正公開済み、HARROW姿勢再改修へ（2026-10-12）
+
+[PR169](https://github.com/futsalife24-bot/swarm-front/pull/169)通常merge、公開ソース `666d1d56487439a7a7ecbbeb581ba811f85b4bb4`、Worker `64251496-d53c-4c17-9958-bbd6050084b2`。CALYXの開発者解放漏れを修正。独立Chat監査合格/必須0、24テスト・型・merge後build/dry-run、配信25件SHA/health、公開CALYX実表示を確認。[記録](evidence/calyx-developer-20261012/README.md)。
+
+本人はHARROW v12の動きを不採用と指定。地上/空中の上体と翼を起こしすぎているため、低姿勢回転の胴体・翼角から脚を伸ばした基本姿勢に改修する。空中も翼を寝かせ、山なり弾だけ大筋を維持して翼を横へ広げる。v13制作を継続中。以下は過去経過。
 # 現在地: CALYXの開発者モード解放漏れを修正、監査準備（2026-10-12）
 
 base `6f29821452f684e7b1528af76451509f7f5c5a4d`、branch `codex/calyx-developer-report-20261012`。手書き解放一覧からCALYXが漏れていたためENEMIES由来へ修正。回帰再現後24テスト・型検査成功、実UIで開発者データのCALYXモデルと通常データの未遭遇ロックを確認。[検証記録](evidence/calyx-developer-20261012/README.md)。通常Chat監査・main反映・公開は未完了。
