@@ -2,9 +2,12 @@
 
 基点 `35125e556c85a249a024cd4c033c39ce249b8d67`、ブランチ `codex/swarm-growth-loop-20261012`。実装は [候補仕様](../../SWARM-GROWTH-REDESIGN.md)。本番セーブと既存公開版を変更していない。
 
+実装対象 `afe321f7485648b1869646a3f428c2e612e9dfd1` を [Draft PR175](https://github.com/futsalife24-bot/swarm-front/pull/175) へ保存済み。素材と独立監査の未完了を明記し、mergeしない。
+
 ## 合格した確認
 
 - client / Worker型検査。
+- `npm run build` と `npm run server:build` 成功。Workerはdry-runだけ。初回のsandboxログ書込警告は、ログ先を作業領域に指定して再確認し解消。クライアントの既存大容量chunk警告は残る。
 - 生存・成長・旧セーブ・再受取・不正データ・工房など関連139件。
 - 保存回帰147件。旧所持品・旧pending >3・回復ドロップ・勝利後手動回収を保持。
 - クラウド保存・共有武器庫・保存fixtures・成長循環59件。新規フィールドの検証、成長を消す旧端末の上書き拒否、初回ST1→生存Lv2武器→改造の費用3片、未保存進撃の武装片回復も確認。
