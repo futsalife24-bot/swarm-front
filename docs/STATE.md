@@ -1,3 +1,6 @@
+# 現在地: HARROW v13・PR171独立監査依頼済み（2026-10-12）
+
+[通常Chat監査](https://chatgpt.com/c/6acc6d2a-fae8-83ee-9950-2f70807c9693)へ約91MBの実物/証拠ZIPを添付送信済み。対象実装 `cc66f070c2eacf0075cc413821fdcda41ea6d8ab`、[PR171](https://github.com/futsalife24-bot/swarm-front/pull/171)。本人の明示承認後に別件下書きを一時置換し、送信後496文字の全文復元・一致を確認。122テスト・型・実Worker22項目・各素材検査・build/dry-run成功。判定確認→必要修正→通常merge/既存Worker公開へ続行。[引き継ぎ](HARROW-V13-AUDIT.md)。以下の承認待ちは解消済みの過去経過。
 # 現在地: HARROW v13・PR171保存済み、監査Chatの下書き操作承認待ち（2026-10-12）
 
 [PR171](https://github.com/futsalife24-bot/swarm-front/pull/171)、実装/ビルド `cc66f070c2eacf0075cc413821fdcda41ea6d8ab`。122テスト・型・実通信22項目・asset/posture/40発射元・build/dry-run成功。監査ZIP136ファイル/約91MB、実UI画像と3動画を準備。[引き継ぎと資料SHA](HARROW-V13-AUDIT.md)。新規通常Chatにも別件下書きが引き継がれ、全文退避後も一時置換が自動承認レビューに拒否された。一時置換と全文復元の承認、または本人による下書き整理を待つ。監査依頼は未送信、main/公開は未完了。公開HARROWはv12。以下は過去経過。
