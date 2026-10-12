@@ -6,7 +6,7 @@ import { HARROW, harrowMissileOrigins } from "../src/shared/harrow";
 import { HARROW_FLIGHT_CYCLE } from "../src/shared/harrow-motion";
 
 async function model() {
-  const bytes = readFileSync("public/assets/enemies/harrow_motion_v12.glb");
+  const bytes = readFileSync("public/assets/enemies/harrow_motion_v13.glb");
   // CPU geometry/animation checks only: Node has no image decoder. Actual 4K
   // texture decoding and rendering are verified separately in the browser.
   const loader = new GLTFLoader().register(() => ({
@@ -45,7 +45,7 @@ it("the shipped HARROW clips finish at their authoritative attack transitions", 
     ).toBeCloseTo(duration, 5);
 });
 
-it("joins dive and stagger fall to landing without a skeleton discontinuity", async () => {
+it("joins landing and both walk boundaries without a skeleton discontinuity", async () => {
   const asset = await model();
   const mixer = new T.AnimationMixer(asset.scene);
   const bones: T.Bone[] = [];
@@ -63,17 +63,24 @@ it("joins dive and stagger fall to landing without a skeleton discontinuity", as
     asset.scene.updateMatrixWorld(true);
     return bones.map((bone) => bone.matrixWorld.clone());
   };
-  const landing = pose("Land", false);
-  for (const name of ["Dive", "StaggerFall"])
-    pose(name, true).forEach((matrix, i) => {
+  for (const [from, fromEnd, to, toEnd] of [
+    ["Dive", true, "Land", false],
+    ["StaggerFall", true, "Land", false],
+    ["Idle", false, "Locomotion", false],
+    ["Locomotion", true, "Idle", false],
+  ] as const) {
+    const destination = pose(to, toEnd);
+    pose(from, fromEnd).forEach((matrix, i) => {
       expect(
         Math.max(
           ...matrix.elements.map((v, j) =>
-            Math.abs(v - landing[i].elements[j]),
+            Math.abs(v - destination[i].elements[j]),
           ),
         ),
+        `${from}→${to}: ${bones[i].name}`,
       ).toBeLessThan(0.00001);
     });
+  }
 });
 
 it("plants both articulated wings before the authoritative single sweep while keeping root motion external", async () => {
@@ -175,7 +182,8 @@ it.each([false, true])(
         .getVertexPosition(index, new T.Vector3())
         .applyMatrix4(mesh.matrixWorld)
         .multiplyScalar(HARROW.scale);
-      tip.z *= -1; // Production heading 0 faces world +Z.
+      // Renderer applies -(PI - heading): at heading 0 both X and Z reverse.
+      tip.applyAxisAngle(new T.Vector3(0, 1, 0), -Math.PI);
       actual.push(tip);
     });
     expect(actual).toHaveLength(10);

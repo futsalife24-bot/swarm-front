@@ -1,0 +1,576 @@
+{
+  "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\assets\\blender\\candidates\\harrow\\biped-v13\\harrow.blend",
+  "source_sha256": "56f76691f6768f8abd4a20afd0179c4cebc3810c38749e9ad876be4f147a294f",
+  "blender_version": "5.2.1 LTS",
+  "scene_frame_rate": 40.0,
+  "armatures": [
+    {
+      "name": "HARROW",
+      "bones": 39,
+      "bone_names": [
+        "Root",
+        "Torso",
+        "Neck.00",
+        "Neck.01",
+        "Neck.02",
+        "Neck.03",
+        "Neck.04",
+        "Neck.05",
+        "Head",
+        "Jaw",
+        "Hindlimb.L.0",
+        "Hindlimb.L.1",
+        "Hindlimb.L.2",
+        "Hindlimb.L.3",
+        "Forelimb.L.0",
+        "Forelimb.L.1",
+        "Forelimb.L.2",
+        "Forelimb.L.3",
+        "Hindlimb.R.0",
+        "Hindlimb.R.1",
+        "Hindlimb.R.2",
+        "Hindlimb.R.3",
+        "Forelimb.R.0",
+        "Forelimb.R.1",
+        "Forelimb.R.2",
+        "Forelimb.R.3",
+        "Wing upper.L",
+        "Wing fore.L",
+        "Wing fan.L",
+        "Wing upper.R",
+        "Wing fore.R",
+        "Wing fan.R",
+        "Tail.00",
+        "Tail.01",
+        "Tail.02",
+        "Tail.03",
+        "Tail.04",
+        "Tail.05",
+        "Tail.06"
+      ]
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Forelimb.L",
+      "vertices": 743,
+      "faces": 1266,
+      "material_primitives": 2,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_body",
+        "Obsidian claws"
+      ]
+    },
+    {
+      "name": "Forelimb.R",
+      "vertices": 737,
+      "faces": 1254,
+      "material_primitives": 2,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_body",
+        "Obsidian claws"
+      ]
+    },
+    {
+      "name": "Head surface",
+      "vertices": 26747,
+      "faces": 51637,
+      "material_primitives": 1,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_head"
+      ]
+    },
+    {
+      "name": "Hindlimb.L",
+      "vertices": 2977,
+      "faces": 5804,
+      "material_primitives": 1,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_body"
+      ]
+    },
+    {
+      "name": "Hindlimb.R",
+      "vertices": 2967,
+      "faces": 5780,
+      "material_primitives": 1,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_body"
+      ]
+    },
+    {
+      "name": "Launcher.L_body_00005",
+      "vertices": 94,
+      "faces": 157,
+      "material_primitives": 1,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_body"
+      ]
+    },
+    {
+      "name": "Launcher.L_body_00008",
+      "vertices": 93,
+      "faces": 155,
+      "material_primitives": 1,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_body"
+      ]
+    },
+    {
+      "name": "Launcher.L_body_00010",
+      "vertices": 91,
+      "faces": 152,
+      "material_primitives": 1,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_body"
+      ]
+    },
+    {
+      "name": "Launcher.L_body_00011",
+      "vertices": 90,
+      "faces": 152,
+      "material_primitives": 1,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_body"
+      ]
+    },
+    {
+      "name": "Launcher.L_body_00018",
+      "vertices": 89,
+      "faces": 148,
+      "material_primitives": 1,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_body"
+      ]
+    },
+    {
+      "name": "Launcher.R_body_00004",
+      "vertices": 94,
+      "faces": 157,
+      "material_primitives": 1,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_body"
+      ]
+    },
+    {
+      "name": "Launcher.R_body_00006",
+      "vertices": 93,
+      "faces": 156,
+      "material_primitives": 1,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_body"
+      ]
+    },
+    {
+      "name": "Launcher.R_body_00009",
+      "vertices": 91,
+      "faces": 152,
+      "material_primitives": 1,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_body"
+      ]
+    },
+    {
+      "name": "Launcher.R_body_00012",
+      "vertices": 90,
+      "faces": 151,
+      "material_primitives": 1,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_body"
+      ]
+    },
+    {
+      "name": "Launcher.R_body_00015",
+      "vertices": 89,
+      "faces": 148,
+      "material_primitives": 1,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_body"
+      ]
+    },
+    {
+      "name": "Neck",
+      "vertices": 3719,
+      "faces": 7127,
+      "material_primitives": 1,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_body"
+      ]
+    },
+    {
+      "name": "Torso surface",
+      "vertices": 900,
+      "faces": 1733,
+      "material_primitives": 1,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_body"
+      ]
+    },
+    {
+      "name": "TorsoTail",
+      "vertices": 3760,
+      "faces": 7528,
+      "material_primitives": 1,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_body"
+      ]
+    },
+    {
+      "name": "Wing.L",
+      "vertices": 5729,
+      "faces": 10099,
+      "material_primitives": 1,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_body"
+      ]
+    },
+    {
+      "name": "Wing.R",
+      "vertices": 3650,
+      "faces": 6577,
+      "material_primitives": 1,
+      "armature_modifiers": [
+        "HARROW"
+      ],
+      "materials": [
+        "Material_body"
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "name": "AirThreat",
+      "frame_start": 0.0,
+      "frame_end": 280.0,
+      "duration_seconds": 7.0
+    },
+    {
+      "name": "Attack",
+      "frame_start": 0.0,
+      "frame_end": 210.0,
+      "duration_seconds": 5.25
+    },
+    {
+      "name": "BombPass",
+      "frame_start": 0.0,
+      "frame_end": 148.0,
+      "duration_seconds": 3.7
+    },
+    {
+      "name": "Dash",
+      "frame_start": 0.0,
+      "frame_end": 84.0,
+      "duration_seconds": 2.1
+    },
+    {
+      "name": "Dive",
+      "frame_start": 0.0,
+      "frame_end": 36.0,
+      "duration_seconds": 0.9
+    },
+    {
+      "name": "Flight",
+      "frame_start": 0.0,
+      "frame_end": 672.0,
+      "duration_seconds": 16.8
+    },
+    {
+      "name": "Glide",
+      "frame_start": 0.0,
+      "frame_end": 84.0,
+      "duration_seconds": 2.1
+    },
+    {
+      "name": "Idle",
+      "frame_start": 0.0,
+      "frame_end": 280.0,
+      "duration_seconds": 7.0
+    },
+    {
+      "name": "Land",
+      "frame_start": 0.0,
+      "frame_end": 70.0,
+      "duration_seconds": 1.75
+    },
+    {
+      "name": "Locomotion",
+      "frame_start": 0.0,
+      "frame_end": 168.0,
+      "duration_seconds": 4.2
+    },
+    {
+      "name": "Snipe",
+      "frame_start": 0.0,
+      "frame_end": 160.0,
+      "duration_seconds": 4.0
+    },
+    {
+      "name": "Spin",
+      "frame_start": 0.0,
+      "frame_end": 120.0,
+      "duration_seconds": 3.0
+    },
+    {
+      "name": "StaggerFall",
+      "frame_start": 0.0,
+      "frame_end": 105.0,
+      "duration_seconds": 2.625
+    },
+    {
+      "name": "Takeoff",
+      "frame_start": 0.0,
+      "frame_end": 140.0,
+      "duration_seconds": 3.5
+    },
+    {
+      "name": "TakeoffB",
+      "frame_start": 0.0,
+      "frame_end": 140.0,
+      "duration_seconds": 3.5
+    },
+    {
+      "name": "TakeoffC",
+      "frame_start": 0.0,
+      "frame_end": 140.0,
+      "duration_seconds": 3.5
+    },
+    {
+      "name": "TakeoffD",
+      "frame_start": 0.0,
+      "frame_end": 140.0,
+      "duration_seconds": 3.5
+    },
+    {
+      "name": "Threat",
+      "frame_start": 0.0,
+      "frame_end": 280.0,
+      "duration_seconds": 7.0
+    }
+  ],
+  "nla": [
+    {
+      "object": "HARROW",
+      "track": "Idle",
+      "strip": "Idle",
+      "action": "Idle",
+      "start": 0.0,
+      "end": 280.0
+    },
+    {
+      "object": "HARROW",
+      "track": "Locomotion",
+      "strip": "Locomotion",
+      "action": "Locomotion",
+      "start": 0.0,
+      "end": 168.0
+    },
+    {
+      "object": "HARROW",
+      "track": "Attack",
+      "strip": "Attack",
+      "action": "Attack",
+      "start": 0.0,
+      "end": 210.0
+    },
+    {
+      "object": "HARROW",
+      "track": "Threat",
+      "strip": "Threat",
+      "action": "Threat",
+      "start": 0.0,
+      "end": 280.0
+    },
+    {
+      "object": "HARROW",
+      "track": "AirThreat",
+      "strip": "AirThreat",
+      "action": "AirThreat",
+      "start": 0.0,
+      "end": 280.0
+    },
+    {
+      "object": "HARROW",
+      "track": "Spin",
+      "strip": "Spin",
+      "action": "Spin",
+      "start": 0.0,
+      "end": 120.0
+    },
+    {
+      "object": "HARROW",
+      "track": "Takeoff",
+      "strip": "Takeoff",
+      "action": "Takeoff",
+      "start": 0.0,
+      "end": 140.0
+    },
+    {
+      "object": "HARROW",
+      "track": "Flight",
+      "strip": "Flight",
+      "action": "Flight",
+      "start": 0.0,
+      "end": 672.0
+    },
+    {
+      "object": "HARROW",
+      "track": "Glide",
+      "strip": "Glide",
+      "action": "Glide",
+      "start": 0.0,
+      "end": 84.0
+    },
+    {
+      "object": "HARROW",
+      "track": "Dive",
+      "strip": "Dive",
+      "action": "Dive",
+      "start": 0.0,
+      "end": 36.0
+    },
+    {
+      "object": "HARROW",
+      "track": "StaggerFall",
+      "strip": "StaggerFall",
+      "action": "StaggerFall",
+      "start": 0.0,
+      "end": 105.0
+    },
+    {
+      "object": "HARROW",
+      "track": "Land",
+      "strip": "Land",
+      "action": "Land",
+      "start": 0.0,
+      "end": 70.0
+    },
+    {
+      "object": "HARROW",
+      "track": "Dash",
+      "strip": "Dash",
+      "action": "Dash",
+      "start": 0.0,
+      "end": 84.0
+    },
+    {
+      "object": "HARROW",
+      "track": "Snipe",
+      "strip": "Snipe",
+      "action": "Snipe",
+      "start": 0.0,
+      "end": 160.0
+    },
+    {
+      "object": "HARROW",
+      "track": "BombPass",
+      "strip": "BombPass",
+      "action": "BombPass",
+      "start": 0.0,
+      "end": 148.0
+    },
+    {
+      "object": "HARROW",
+      "track": "TakeoffB",
+      "strip": "TakeoffB",
+      "action": "TakeoffB",
+      "start": 0.0,
+      "end": 140.0
+    },
+    {
+      "object": "HARROW",
+      "track": "TakeoffC",
+      "strip": "TakeoffC",
+      "action": "TakeoffC",
+      "start": 0.0,
+      "end": 140.0
+    },
+    {
+      "object": "HARROW",
+      "track": "TakeoffD",
+      "strip": "TakeoffD",
+      "action": "TakeoffD",
+      "start": 0.0,
+      "end": 140.0
+    }
+  ],
+  "images": [
+    {
+      "name": "body_fbx_basecolor",
+      "width": 4096,
+      "height": 4096,
+      "packed": true,
+      "source": "FILE"
+    },
+    {
+      "name": "head_fbx_basecolor",
+      "width": 4096,
+      "height": 4096,
+      "packed": true,
+      "source": "FILE"
+    }
+  ],
+  "checks": {
+    "one_39_bone_armature": true,
+    "22_export_primitives": true,
+    "all_meshes_skinned": true,
+    "18_actions_or_nla": true,
+    "all_images_packed": true
+  }
+}
