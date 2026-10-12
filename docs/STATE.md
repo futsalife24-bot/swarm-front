@@ -1,3 +1,6 @@
+# 現在地: HARROW v13低姿勢化の監査・main反映・公開完了（2026-10-12）
+
+[PR171](https://github.com/futsalife24-bot/swarm-front/pull/171)通常merge、公開ソース `39d56bc2ae5cc6cd88ac91f22b12190f37ef3d76`、Worker `4903e901-f5ea-4933-ab81-da40ba8658c0`。地上/飛行を低姿勢化、山なり弾の翼幅拡大、歩行切替の約32cm差を約0.000006mへ修正。独立Chat再監査は対象d8ecc2e、P0/P1/P2各0で技術合格。122テスト・型・素材/姿勢/発射元、merge後build/dry-run成功。配信25/25 SHA一致・health正常、公開HARROWの表示/移動再生を確認。接続障害は新規タブで復旧。残留足滑り最大0.108329m・実スマホ/長時間GPU・本人の美術的採用は未確認で区別。[公開記録](evidence/harrow-v13-release-20261012/README.md)。以下は過去経過。
 # 現在地: HARROW v13監査P2修正済み、再監査送信の接続復旧待ち（2026-10-12）
 
 [PR171](https://github.com/futsalife24-bot/swarm-front/pull/171)の初回[独立監査](https://chatgpt.com/c/6acc6d2a-fae8-83ee-9950-2f70807c9693)は歩行切替のP2・1件で保留。Idle↔Locomotionを全39骨で合わせ、実GLBの差を0.32256mから約0.000006mへ修正。122テスト・型・素材/姿勢/発射口再検査合格、他17動作は完全一致。修正commit `d8ecc2e8a6b7f154169ac8b5374d133135250dae` をpush済み。修正後build/production dry-runも合格。再監査ZIP142ファイルのCRC/SHA照合済み。最終GLB c5a8e2e241cc441473519ed7f12e24e7b508c916d00cf7270427cc4a0a7ef0ba。CUAが状態取得/監査Chat接続もタイムアウトし、再監査の送信と修正後実画面確認は未完了。接続復旧後に同じChatで再監査→通常merge/既存Worker公開へ。元下書き496文字は承認後の送信時に全文復元済み。[詳細](HARROW-V13-AUDIT.md)。
