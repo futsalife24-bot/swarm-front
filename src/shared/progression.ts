@@ -11,6 +11,7 @@ import {
 } from "./defs";
 import { STAGES, HARROW_BRANCH, troopCount, type StagePlan } from "./stages";
 import { BRANCH_15, campaignNumber } from "./campaign";
+import { applyWeaponGrowth, validWeaponGrowth } from "./weapon-growth";
 
 export type Difficulty = "normal" | "medium";
 export type Skill = "hp" | "aim" | "move" | "swap";
@@ -61,6 +62,7 @@ export function validNewWeapon(value: unknown): value is NewWeapon {
   const w = value as NewWeapon;
   return (
     w.format === 2 &&
+    validWeaponGrowth(w) &&
     typeof w.id === "string" &&
     /^[a-zA-Z0-9_-]{1,100}$/.test(w.id) &&
     Object.hasOwn(WEAPONS, w.kind) &&
@@ -252,19 +254,22 @@ export function rollWeapon(
     rarity && rng() < 0.6
       ? EFFECT_POOLS[kind][Math.floor(rng() * EFFECT_POOLS[kind].length)]
       : "none";
-  return makeWeapon(id, kind, rarity, variance, testData, acquired, effect);
+  return {
+    ...makeWeapon(id, kind, rarity, variance, testData, acquired, effect),
+    level: Math.min(60, campaignNumber(stage)),
+  };
 }
 export function newStats(w: NewWeapon) {
   const d = WEAPONS[w.kind],
     scale = 1.15 ** w.rarity;
-  return {
+  return applyWeaponGrowth(w, {
     ...d,
     damage: d.damage * scale * (1 + w.variance.power / 100),
     mag: MAGAZINES[w.kind][w.rarity],
     reload: d.reload / (scale * (1 + w.variance.reload / 100)),
     range: d.range * scale * (1 + w.variance.range / 100),
     interval: d.interval / (scale * (1 + w.variance.rate / 100)),
-  };
+  });
 }
 export const varianceClass = (n: number) =>
   n < 0

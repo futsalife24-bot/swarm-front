@@ -351,7 +351,7 @@ it("weapon switching preserves active reload and cannot cancel fire cooldown", (
   for (let i = 0; i < 21; i++) step(w, { solo: neutral() });
   expect(p.ammo[0]).toBe(32);
 });
-it("independent drop caps do not limit total collections, full HP leaves healing, and victory keeps manual collection", () => {
+it("limits new campaign weapons to three, keeps healing, and reserves a victory slot for manual collection", () => {
   const { w, p } = fixture();
   for (let i = 0; i < 30; i++) {
     w.drops.push({
@@ -364,7 +364,7 @@ it("independent drop caps do not limit total collections, full HP leaves healing
     });
     collectSolo(w, p);
   }
-  expect(w.pending.solo).toHaveLength(30);
+  expect(w.pending.solo.map((item) => item.id)).toEqual(["d0", "d1", "d2"]);
   w.drops.push({
     id: "heal",
     x: p.x,
@@ -380,10 +380,31 @@ it("independent drop caps do not limit total collections, full HP leaves healing
   expect(p.hp).toBe(132);
   expect(w.drops).toHaveLength(0);
   finish(w, true);
+  expect(w.rewards.solo).toHaveLength(3);
   const time = w.time;
   collectionStep(w, { ...neutral(), mz: 1 }, 1);
   expect(w.time).toBe(time);
   expect(w.solo!.collection).toBe(1);
+
+  const manual = fixture();
+  manual.w.pending.solo.push(weapon("old0"), weapon("old1"));
+  manual.w.drops.push({
+    id: "manual",
+    x: manual.p.x,
+    z: manual.p.z,
+    owner: manual.p.id,
+    type: "weapon",
+    weapon: weapon("manual"),
+  });
+  finish(manual.w, true);
+  expect(manual.w.rewards.solo).toHaveLength(2);
+  collectionStep(manual.w, neutral(), 0.05);
+  expect(manual.w.pending.solo.map((item) => item.id)).toEqual([
+    "old0",
+    "old1",
+    "manual",
+  ]);
+  expect(manual.w.drops).toHaveLength(0);
 });
 it("unspawned enemies prevent wins; timers do not accumulate multiple waves behind the cap", () => {
   const { w } = fixture();

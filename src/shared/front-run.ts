@@ -22,7 +22,14 @@ import {
   type Input,
   type Enemy,
 } from "./game";
-import { mapFor } from "./stages";
+import { mapFor, stageFor } from "./stages";
+import {
+  finalizeFrontSurvivalRewards,
+  frontSurvivalDifficulty,
+  frontSurvivalRewardCount,
+  frontSurvivalWeaponLevel,
+  validFrontClearedStage,
+} from "./front-survival";
 import { supportHeight } from "./terrain";
 import {
   createFrontBattleState,
@@ -75,6 +82,8 @@ export interface FrontRunOptions {
   day?: string;
   fusion?: boolean;
   catalogVersion?: 1 | 2;
+  /** Campaign progress captured at sortie, authoritative host value in co-op. */
+  clearedStage?: number;
   /** 協力部屋の掃除より前に帰還するサーバー時刻（秒）。 */
   returnAt?: number;
   players: {
@@ -90,6 +99,8 @@ export interface FrontRun {
   fusion?: true;
   returnAt?: number;
   originalEquipment?: Record<string, Weapon[]>;
+  clearedStage?: number;
+  rewardEligible?: Record<string, boolean>;
   upgrades: Record<string, FrontUpgradeState>;
   phase: "selection" | "combat" | "boss" | "victory" | "defeat";
   mode: FrontMode;
@@ -149,6 +160,8 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
   if (
     !Number.isFinite(now) ||
     !Number.isInteger(options.seed) ||
+    (options.clearedStage !== undefined &&
+      !validFrontClearedStage(options.clearedStage)) ||
     options.seed < 0 ||
     options.seed > 0xffffffff ||
     options.players.length < 1 ||
@@ -184,6 +197,13 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
   if (options.fusion) {
     world.front.growthVersion = 3;
     if (options.catalogVersion !== 1) world.front.catalogVersion = 2;
+    if (mode === "survival") {
+      const difficulty = frontSurvivalDifficulty(options.clearedStage ?? 0);
+      world.campaignPlan = {
+        ...stageFor(world),
+        damage: stageFor(world).damage * difficulty.damageScale,
+      };
+    }
   }
   const upgrades: Record<string, FrontUpgradeState> = {};
   options.players.forEach((member, index) => {
@@ -222,6 +242,14 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
     ...(options.fusion
       ? {
           fusion: true as const,
+          ...(mode === "survival"
+            ? {
+                clearedStage: options.clearedStage ?? 0,
+                rewardEligible: Object.fromEntries(
+                  options.players.map((p) => [p.id, true]),
+                ),
+              }
+            : {}),
           originalEquipment: Object.fromEntries(
             world.players.map((p) => [p.id, structuredClone(p.weapons)]),
           ),
@@ -288,6 +316,9 @@ function applyBuild(run: FrontRun, id: string) {
       rarity: weapon.rarity,
       power: base.damage / WEAPONS[weapon.kind].damage,
       effect: weapon.effect,
+      // Damage/magazine growth is already baked into this run-local projection.
+      // Speed has no legacy roll, so keep only that modification here.
+      ...(weapon.mods ? { mods: { speed: weapon.mods.speed ?? 0 } } : {}),
       rolls: {
         mag:
           (base.mag +
@@ -448,7 +479,10 @@ function schedule(run: FrontRun) {
       if (e) {
         e.hp *=
           FRONT_RUN_CONFIG.normalHpMultiplier *
-          (run.fusion ? 1 + Math.floor(w.time / 180) * 0.35 : 1);
+          (run.fusion ? 1 + Math.floor(w.time / 180) * 0.35 : 1) *
+          (run.fusion && run.mode === "survival"
+            ? frontSurvivalDifficulty(run.clearedStage ?? 0).hpScale
+            : 1);
         e.maxHp = e.hp;
         e.active = true;
         w.spawned++;
@@ -466,7 +500,10 @@ function schedule(run: FrontRun) {
   run.nextSpawnAt =
     w.time +
     (run.finalResupplyDone ? 7 : w.time < 90 ? 4 : w.time < 210 ? 3.5 : 3) /
-      FRONT_RUN_CONFIG.spawnMultiplier;
+      (FRONT_RUN_CONFIG.spawnMultiplier *
+        (run.fusion && run.mode === "survival"
+          ? frontSurvivalDifficulty(run.clearedStage ?? 0).spawnScale
+          : 1));
   const kinds: Enemy["kind"][] = [
     "crawler",
     w.time >= 120 && run.spawnIndex % 6 === 0
@@ -527,8 +564,21 @@ function spawnBoss(run: FrontRun) {
 }
 function conclude(run: FrontRun, win: boolean, reason: string) {
   finish(run.world, win, reason);
+  if (run.fusion && run.mode === "survival")
+    finalizeFrontSurvivalRewards(
+      run.world,
+      run.clearedStage ?? 0,
+      Object.keys(run.rewardEligible ?? {}).filter(
+        (id) => run.rewardEligible?.[id],
+      ),
+    );
   run.phase = win ? "victory" : "defeat";
   run.metrics.endedAt = run.world.time;
+}
+/** Explicit room exit forfeits this sortie; socket loss does not. */
+export function forfeitFrontRunPlayer(run: FrontRun, id: string) {
+  if (run.fusion && run.mode === "survival" && run.rewardEligible)
+    run.rewardEligible[id] = false;
 }
 /** ソロの生存戦だけ、1分以降に任意帰還できる。協力戦は全滅まで継続。 */
 export function returnFrontRun(run: FrontRun): boolean {
@@ -605,10 +655,14 @@ export function stepFrontRun(
       run.fusion && run.mode === "survival"
         ? undefined
         : FRONT_RUN_CONFIG.selectionBoundaries[run.boundaryIndex];
-  const timeout = run.fusion && run.mode === "survival" ? Infinity : 540;
+  const timeout = run.fusion && run.mode === "survival" ? 3600 : 540;
   if (w.time >= timeout - 1e-8) {
-    w.time = 540;
-    conclude(run, false, "作戦時間の上限（9分）に達しました");
+    w.time = timeout;
+    conclude(
+      run,
+      !!run.fusion && run.mode === "survival",
+      "制限時間に到達しました",
+    );
     return run;
   }
   if (boundary !== undefined && w.time >= boundary - 1e-8) {
@@ -626,10 +680,17 @@ export function stepFrontRun(
   collectFrontXp(w);
   updateRights(run);
   run.metrics.maxEnemies = Math.max(run.metrics.maxEnemies, w.enemies.length);
-  if (w.phase === "defeat" || !w.players.some((p) => p.connected && p.hp > 0))
-    conclude(run, false, "部隊が全員ダウンしました");
+  if (
+    w.phase === "defeat" ||
+    !w.players.some(
+      (p) =>
+        p.hp > 0 &&
+        (run.fusion && run.mode === "survival" ? true : p.connected),
+    )
+  )
+    conclude(run, false, "全員が倒れました");
   else if (w.defense && w.defense.armory.hp <= 0)
-    conclude(run, false, "防衛拠点が破壊されました");
+    conclude(run, false, "防衛対象が破壊されました");
   else if (
     run.bossId !== null &&
     !w.enemies.some((e) => e.id === run.bossId && e.hp > 0)
@@ -655,6 +716,10 @@ export function getFrontRunView(run: FrontRun, id: string) {
     const old = legacy.getFrontRunView(run as unknown as legacy.FrontRun, id);
     return {
       ...old,
+      clearedStage: 0,
+      weaponLevel: 1,
+      rewardCount: 0,
+      rewardEligible: false,
       maxPicks: 7,
       growthVersion: 1,
       returnAt: null as number | null,
@@ -667,6 +732,13 @@ export function getFrontRunView(run: FrontRun, id: string) {
   const offer = s.offer;
   return {
     phase: run.phase,
+    clearedStage: run.clearedStage ?? 0,
+    weaponLevel: frontSurvivalWeaponLevel(run.clearedStage ?? 0),
+    rewardCount: frontSurvivalRewardCount(
+      run.world.time,
+      run.world.players.find((p) => p.id === id)?.kills ?? 0,
+    ),
+    rewardEligible: run.rewardEligible?.[id] ?? false,
     maxPicks: frontPickLimit(s),
     growthVersion: run.fusion ? 3 : 2,
     returnAt: run.returnAt ?? null,

@@ -1,4 +1,10 @@
-# 現在地: HARROW v14 上下羽ばたき修正をmain反映・公開完了（2026-10-12）
+# 現在地: 成長循環の候補実装・回帰確認済み、正式素材の取得とレビュー前（2026-10-12）
+
+作業は `C:/Users/futsa/Documents/Codex/2026-10-12/task-2/game`、branch `codex/swarm-growth-loop-20261012`、base main `35125e556c85a249a024cd4c033c39ce249b8d67`。旧HARROW作業場所は変更せず、v14/PR173/174を保全。進撃と生存の報酬保存、Lvと選択改造/変換、共通タイトルと演出差込み口を候補として実装。[仕様・互換基準](SWARM-GROWTH-REDESIGN.md)、[検証](evidence/swarm-growth-loop-20261012/README.md)。最大3丁・費用などは本人指定の確定数値ではなく仮設定。型、関連139・保存147・クラウド59・実通信13・UI4＋武器行1件を確認。全体既存失敗5件と依存High5件は残る。
+
+未完: 正式Claude Code演出ZIP `libfile_6fe7f021941c819192d14b213859e75a` はLibrary準備成功後、Windowsにない `os.setxattr` で転送helperが失敗。ZIP readも内容なし。README/consumer-manifest未読・正式素材未統合。通常Chat独立監査はiab起動障害 `HRESULT 0x80070003`。本番移行・merge・公開は未実施。Windows対応の正式素材転送（または正規ローカル添付）、候補/仮数値/美術のレビュー、既存失敗/Highの方針、独立監査を満たしてから再開。以下の公開記録は既存v14で、今回の公開ではない。
+
+# 経過: HARROW v14 上下羽ばたき修正をmain反映・公開完了（2026-10-12）
 
 [PR173](https://github.com/futsalife24-bot/swarm-front/pull/173)通常merge。公開ソース `24f009e211515daa5011c4c473a1199b929b7696`、Worker `4c168f5c-f43e-4452-a8ba-9d12d7171ae2`。離陸A–D/Flightを胴前後軸まわりの上下ストロークへ修正。他13動作・形状・発射口・7攻撃仕様は保持。122テスト・型・素材/境界/発射口検査、実画面/録画抜粋、merge後build/dry-run合格。独立Chat監査は画像時刻の訂正後95dbb8fを含めP0/P1/P2各0。配信25/25 SHA一致・health正常、公開HARROW表示/移動/離陸A再生を確認。本人の美術的採用・実スマホ・長時間GPU・動画全フレーム目視は未確認、既存足滑り0.10833mは維持。[公開記録](evidence/harrow-v14-release-20261012/README.md)。以下は過去経過。
 

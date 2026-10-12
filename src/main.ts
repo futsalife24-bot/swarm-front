@@ -31,6 +31,7 @@ import { updateScopeButtons } from "./client/layout";
 import "./client/coop-lobby.css";
 import { roomBrowserMarkup, bindRoomBrowser } from "./client/room-browser";
 import { homeMarkup } from "./client/home-screen";
+import { showOperationCue, cancelOperationCue } from "./client/operation-cue";
 import { openDeveloperLogin } from "./client/developer-access";
 import { STAGES, MAPS, mapFor, stageFor } from "./shared/stages";
 import { recordCoopEncounters } from "./client/progression-coop";
@@ -423,6 +424,13 @@ const weaponName = (w: Weapon) => WEAPONS[w.kind].name;
 const equipped = () =>
   save.equipped.map((id) => save.inventory.find((w) => w.id === id)!);
 function setScreen(name: string) {
+  if (name !== screen) {
+    cancelOperationCue();
+    if (name === "battle") showOperationCue("sortie");
+    else if (name === "stage-clear") showOperationCue("clear");
+    else if (name === "result" && world?.phase === "defeat")
+      showOperationCue("end");
+  }
   backgroundMusic().setScreen(name, world?.phase === "victory", world);
   queueMicrotask(() =>
     enhanceGameSelects(
@@ -1559,7 +1567,14 @@ function finishMission() {
 }
 function storeMissionRewards(w: World) {
   try {
-    const stored = write(bankRewards(save, w.run, w.rewards[myId] ?? []));
+    const next = bankRewards(save, w.run, w.rewards[myId] ?? []);
+    persistSharedCoopSave(next, localStorage, {
+      run: w.run,
+      stage: w.stage ?? 1,
+    });
+    save = next;
+    saveError = "";
+    const stored = true;
     if (stored)
       status = save.pendingWeapons?.length
         ? "獲得武器は端末に保存済みです。上限を超えた武器はホームの武器庫で整理できます。"

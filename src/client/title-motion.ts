@@ -1,3 +1,5 @@
+import { mountScreenTransitions } from "./screen-transition";
+
 /** Title entry only: presentation observes the existing actions, never delays them. */
 const mounted = new WeakMap<HTMLElement, () => void>();
 const pending = new WeakMap<HTMLElement, number>();
@@ -19,9 +21,13 @@ export function trackTitleAction<T>(root: HTMLElement, action: () => T): T {
 }
 
 export function mountTitleMotion(root: HTMLElement) {
+  mountScreenTransitions(root);
   const existing = mounted.get(root);
   if (existing) return existing();
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  const motionReduced = () =>
+    reduced.matches ||
+    document.documentElement.dataset.menuReducedMotion === "true";
   const animations = new Set<Animation>();
   let pressed: HTMLButtonElement | null = null;
   let heldKey = "";
@@ -76,7 +82,7 @@ export function mountTitleMotion(root: HTMLElement) {
     duration = 190,
     easing = "cubic-bezier(.2,.75,.25,1)",
   ) => {
-    if (reduced.matches || document.hidden || !element.animate) return;
+    if (motionReduced() || document.hidden || !element.animate) return;
     const animation = element.animate(frames, { duration, easing });
     animations.add(animation);
     animation.onfinish = animation.oncancel = () =>
@@ -125,6 +131,7 @@ export function mountTitleMotion(root: HTMLElement) {
     }
   });
   reduced.addEventListener("change", cancel);
+  document.addEventListener("swarm-motion-preference", cancel);
   window.addEventListener(
     "keydown",
     (event) => {
@@ -189,7 +196,7 @@ export function mountTitleMotion(root: HTMLElement) {
         stopWatching();
         departed = changed;
         enter(destination);
-        if (reduced.matches || document.hidden) return;
+        if (motionReduced() || document.hidden) return;
         // The pressed button's underline travels to the opened screen's title,
         // linking the choice to its result instead of the whole screen box.
         const heading = destination.querySelector("h1,h2");

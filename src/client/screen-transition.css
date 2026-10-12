@@ -1,0 +1,23 @@
+:is(.menu-screen, .front-settings) > :is(.menu-header, header) {
+  position: relative;
+}
+.screen-transition-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: min(44%, 220px);
+  height: 2px;
+  background: linear-gradient(90deg, #bdebd2, #e8bc78 60%, transparent);
+  transform-origin: left center;
+  pointer-events: none;
+  user-select: none;
+  z-index: 2;
+}
+@media (prefers-reduced-motion: reduce) {
+  .screen-transition-line {
+    display: none;
+  }
+}
+html[data-menu-reduced-motion="true"] .screen-transition-line {
+  display: none;
+}

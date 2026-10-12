@@ -156,3 +156,6 @@
     display: none;
   }
 }
+html[data-menu-reduced-motion="true"] .menu-fx-layer:not(.menu-fx-terrain) {
+  display: none;
+}

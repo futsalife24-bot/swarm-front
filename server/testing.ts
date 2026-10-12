@@ -48,6 +48,22 @@ export class TestRoom extends Room {
     }
     if (u.pathname === "/fixture") {
       this.stop();
+      if (u.searchParams.get("case") === "front-growth-result") {
+        const run = this.saved.frontRun;
+        if (!run?.fusion || run.mode !== "survival")
+          return new Response("生存戦が必要です", { status: 409 });
+        run.phase = "combat";
+        run.world.time = 125;
+        run.world.enemies = [];
+        for (const player of run.world.players) {
+          player.kills = 31;
+          player.hp = 0;
+        }
+        await this.tick();
+        await this.persist();
+        this.broadcast();
+        return Response.json({ ok: true });
+      }
       if (u.searchParams.get("case") === "front-return") {
         const run = this.saved.frontRun;
         if (
@@ -321,12 +337,24 @@ export class TestRoom extends Room {
 export default {
   async fetch(req: Request, env: Parameters<typeof production.fetch>[1]) {
     const u = new URL(req.url);
+    // Isolated test cases represent separate clients. Rate-limit thresholds and
+    // real network flow remain unchanged; production never imports this adapter.
+    const testClient =
+      req.headers.get("X-Test-Client") ?? u.searchParams.get("testClient");
+    if (
+      u.pathname.startsWith("/rooms") &&
+      /^[a-f0-9]{64}$/.test(testClient ?? "")
+    ) {
+      const headers = new Headers(req.headers);
+      headers.set("CF-Connecting-IP", `integration-${testClient}`);
+      req = new Request(req, { headers });
+    }
     if (u.pathname === "/admission-stats")
       return env.GATE.get(env.GATE.idFromName("admission")).fetch(
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result)$/.exec(
         u.pathname,
       );
     if (match && req.method === "POST") {

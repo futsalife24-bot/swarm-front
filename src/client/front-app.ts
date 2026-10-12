@@ -41,15 +41,26 @@ import { CHANGELOG } from "./changelog";
 import { frontUpgradeCardMarkup } from "./front-upgrade-ui";
 import { homeMarkup } from "./home-screen";
 import { mountTitleMotion } from "./title-motion";
+import { openOperationPicker } from "./operation-picker";
+import { showOperationCue, cancelOperationCue } from "./operation-cue";
+import { frontResultTitle } from "./front-result-title";
+import { openWeaponWorkshop } from "./weapon-workshop-ui";
+import type { NewWeapon } from "../shared/progression";
 import { roomBrowserMarkup, bindRoomBrowser } from "./room-browser";
 import { FrontNetwork, loadFrontNetworkSession } from "./front-network";
 import { startWithSaveWriter } from "./save-writer";
+import { installCloudSync } from "./cloud-save";
 import {
   readFrontCampaign,
   readFrontLoadout,
   recoverFrontCampaignRewards,
+  highestClearedStage,
 } from "./front-campaign";
-import { soldier } from "./progression-save";
+import {
+  soldier,
+  initializeProgress,
+  persistProgress,
+} from "./progression-save";
 import { readFrontProgress } from "./front-progress";
 import {
   saveFrontRunRewards,
@@ -216,6 +227,7 @@ function notice(text: string, seconds = 3) {
   noticeUntil = performance.now() + seconds * 1000;
 }
 function home() {
+  cancelOperationCue();
   document.body.classList.remove("playtest");
   screen = "home";
   document.body.dataset.screen = "title";
@@ -236,31 +248,33 @@ function home() {
       progress.error ||
       readFrontCampaign(progressStorage).error,
   });
-  const operation = $("ui").querySelector(".home-operation")!;
-  operation.innerHTML = `<div class="eyebrow">生存作戦</div><h2>強化を融合し、限界を越える</h2><p>攻略で得た武器と強化で生存時間に挑む</p><small>射撃・装填・回避を強化して生き残れ</small>`;
-  const translations = [
-    "戦術作戦本部",
-    "ソロ出撃",
-    "1〜4人協力",
-    "基地",
-    "エネミーレポート",
-  ];
-  $("ui")
-    .querySelectorAll<HTMLElement>(
-      ".title>.eyebrow,.title-actions button small",
-    )
-    .forEach((e, i) => (e.textContent = translations[i] ?? ""));
   $("ui").querySelector(".command-heading .eyebrow")!.textContent =
     "出撃メニュー";
-  $("solo").onclick = () => prep();
-  $("coop").onclick = rooms;
+  $("solo").onclick = () =>
+    openOperationPicker("solo", {
+      advance: () => {
+        location.href = import.meta.env.BASE_URL + "?solo=1";
+      },
+      survival: () => {
+        mode = "survival";
+        prep();
+      },
+    });
+  $("coop").onclick = () =>
+    openOperationPicker("coop", {
+      advance: () => {
+        location.href = import.meta.env.BASE_URL + "?coop=1";
+      },
+      survival: () => {
+        mode = "survival";
+        rooms();
+      },
+    });
   $("open-armory").querySelector("b")!.textContent = "基地";
   $("open-armory").querySelector("em")!.textContent =
     "強化候補・融合条件・進行";
   $("open-armory").onclick = () => base();
   $("open-bestiary").onclick = () => openBestiary();
-  $("ui").querySelector(".home-next-stage")!.textContent =
-    "生存戦・防衛戦を選んで出撃";
   $("home-settings").onclick = () => menuSettings(home);
   $("home-tutorial").textContent = "操作ガイド";
   $("home-tutorial").onclick = () =>
@@ -282,12 +296,6 @@ function home() {
         .join(""),
       home,
     );
-  const legacy = document.createElement("button");
-  legacy.textContent = "攻略モード（従来版）";
-  legacy.onclick = () => {
-    location.href = import.meta.env.BASE_URL;
-  };
-  $("ui").querySelector(".home-footer")!.append(legacy);
   $("ui").querySelector("#export")?.remove();
   mountTitleMotion($("ui"));
 }
@@ -352,10 +360,15 @@ function base(back: () => void = home) {
   document.body.classList.add("playtest");
   document.body.dataset.screen = "prep";
   openFrontBase($("ui"), progressStorage, back);
+  const workshop = document.createElement("button");
+  workshop.textContent = "武器工房";
+  workshop.onclick = () =>
+    openWeaponWorkshop($("ui"), localStorage, () => base(back));
+  $("ui").querySelector("header nav")?.prepend(workshop);
 }
 const modeDetails: Record<FrontMode, string> = {
   survival:
-    "1つの戦場で時間制限なく生存。敵は3分ごとに強化。全滅で終了し、1分につき10コイン（最大300）を攻略へ持ち帰ります。",
+    "進撃の最高クリア進度で出撃時に難度と報酬Lvを固定。死亡・60分帰還・ソロ60秒後の任意帰還で戦果を持ち帰ります。武器は60秒以上かつ1撃破から、1分ごと＋30撃破ごとに1丁（最大30）。コインは1分10、最大300。途中退出は戦果なし、切断は作戦を継続し結果保存猶予2分。",
   defense:
     "拠点を守りながら最終大型を撃破。拠点破壊・部隊全滅・9分経過で作戦終了。",
   daily:
@@ -370,6 +383,13 @@ function animateFrontSelection() {
   );
 }
 function prep(coop = false) {
+  try {
+    if (!readFrontCampaign(progressStorage).save)
+      initializeProgress("normal", localStorage);
+  } catch (error) {
+    notice((error as Error).message, 5);
+    return;
+  }
   document.body.classList.add("playtest");
   screen = "prep";
   document.body.dataset.screen = "prep";
@@ -459,6 +479,24 @@ function prep(coop = false) {
       button.title = "ロックは攻略モードの倉庫で変更";
     });
   $("front-launch").onclick = () => {
+    const launchButton = $("front-launch") as HTMLButtonElement;
+    if (launchButton.disabled) return;
+    launchButton.disabled = true;
+    try {
+      const saved = readFrontCampaign(progressStorage).save;
+      if (
+        saved &&
+        soldier(saved).equipped.join("|") !== ownedEquipment.join("|")
+      ) {
+        const next = structuredClone(saved);
+        soldier(next).equipped = frontEquipment().map((w) => w.id);
+        persistProgress(next, localStorage);
+      }
+    } catch (error) {
+      launchButton.disabled = false;
+      notice((error as Error).message, 5);
+      return;
+    }
     frontLoadout = readFrontLoadout(progressStorage);
     if (coop && network) {
       network.upgradePool = frontLoadout.pool;
@@ -478,6 +516,9 @@ async function solo() {
       runId: crypto.randomUUID(),
       seed: crypto.getRandomValues(new Uint32Array(1))[0],
       mode,
+      clearedStage: highestClearedStage(
+        readFrontCampaign(progressStorage).save,
+      ),
       fusion: true,
       players: [
         {
@@ -526,6 +567,7 @@ async function loadBattle() {
     if (current !== loadSerial) return;
     ready = true;
     screen = "battle";
+    showOperationCue("sortie");
     overlayKey = "";
     paintOverlay();
   } catch (error) {
@@ -686,6 +728,9 @@ function connectRoom(code: string, target: string, token = "") {
   screen = "lobby";
   ready = false;
   const net = network;
+  net.clearedStage = highestClearedStage(
+    readFrontCampaign(progressStorage).save,
+  );
   net.preparing = true;
   net.equip = frontEquipment();
   frontLoadout = readFrontLoadout(progressStorage);
@@ -971,7 +1016,7 @@ function paintOverlay() {
     const exitDialog = document.createElement("dialog");
     exitDialog.className = "front-owned-dialog front-leave-dialog";
     exitDialog.setAttribute("aria-labelledby", "front-leave-title");
-    exitDialog.innerHTML = `<h2 id="front-leave-title">タイトルへ戻りますか？</h2><p>${network ? "部隊から退出します。" : "この出撃を終了します。"}作戦中の強化は失われます。</p><div class="pause-actions"><button id="front-leave-cancel" autofocus>キャンセル</button><button id="front-leave-confirm">タイトルへ戻る</button></div>`;
+    exitDialog.innerHTML = `<h2 id="front-leave-title">途中退出しますか？</h2><p>${network ? "部隊から退出します。" : "この出撃を終了します。"}途中退出では今回の武器・コインを受け取れません。作戦中の強化も失われます。${!network && info.mode === "survival" ? "ソロは60秒後の「帰還して戦果を保存」で受け取れます。" : "切断中も作戦は継続し、結果確定後は2分以内に再接続して保存できます。"}</p><div class="pause-actions"><button id="front-leave-cancel" autofocus>キャンセル</button><button id="front-leave-confirm">戦果なしで退出</button></div>`;
     ui.append(exitDialog);
     exitDialog.addEventListener("keydown", (event) => event.stopPropagation());
     $("front-leave").onclick = () => exitDialog.showModal();
@@ -1024,7 +1069,7 @@ function paintOverlay() {
     ui.innerHTML =
       '<div class="rebuild-resume-cue" role="status">部隊の選択を待っています<span id="front-countdown"></span></div>';
   } else if (info.phase === "victory" || info.phase === "defeat") {
-    ui.innerHTML = `<section class="pause-card rebuild-panel"><header><h1>${info.phase === "victory" ? "作戦成功" : "任務終了"}</h1><button id="front-leave" class="primary">タイトルへ</button></header><p>${esc(world.reason)}</p><div class="rebuild-result"><b>${formatRebuildTime(world.time)}</b><b>取得 ${info.picks}${info.growthVersion === 3 ? "回" : `/${info.maxPicks}`}</b><b>最大 ${info.maxChain}連鎖</b></div><p>${(info.growthVersion === 3 ? FRONT_FUSION_IDS.filter((f) => info!.levels[f] > 0).map((f) => FRONT_UPGRADE_CATALOG[f].name) : info.evolved.map((f) => FRONT_EVOLUTIONS[f].name)).join("・") || (info.growthVersion === 3 ? "融合なし" : "未進化")}</p><p>${esc(rewardText)}</p>${rewardError ? '<button id="front-retry-save">保存を再試行</button>' : ""}</section>`;
+    ui.innerHTML = `<section class="pause-card rebuild-panel"><header><h1>${frontResultTitle(info.mode, info.phase)}</h1><button id="front-leave" class="primary">タイトルへ</button></header><p>${esc(world.reason)}</p><div class="rebuild-result"><b>${formatRebuildTime(world.time)}</b><b>取得 ${info.picks}${info.growthVersion === 3 ? "回" : `/${info.maxPicks}`}</b><b>最大 ${info.maxChain}連鎖</b></div><p>${(info.growthVersion === 3 ? FRONT_FUSION_IDS.filter((f) => info!.levels[f] > 0).map((f) => FRONT_UPGRADE_CATALOG[f].name) : info.evolved.map((f) => FRONT_EVOLUTIONS[f].name)).join("・") || (info.growthVersion === 3 ? "融合なし" : "未進化")}</p><p>${esc(rewardText)}</p>${rewardError ? '<button id="front-retry-save">保存を再試行</button>' : ""}</section>`;
     $("front-leave").onclick = leave;
     document
       .getElementById("front-retry-save")
@@ -1194,10 +1239,31 @@ function frame(time: number) {
           day: info.day,
           at: Date.now(),
         },
-        info.growthVersion === 3 && info.mode === "survival"
+        info.growthVersion === 3 &&
+          info.mode === "survival" &&
+          info.rewardEligible
           ? world.time
           : null,
         rewardStatus,
+        info.growthVersion === 3 &&
+          info.mode === "survival" &&
+          info.rewardEligible &&
+          "clearedStage" in info
+          ? {
+              weapons: (world.rewards[id] ?? []) as NewWeapon[],
+              kills: world.players.find((p) => p.id === id)?.kills ?? 0,
+              clearedStage: info.clearedStage,
+            }
+          : undefined,
+      );
+      showOperationCue(
+        info.mode === "survival"
+          ? info.phase === "victory"
+            ? "return"
+            : "end"
+          : info.phase === "victory"
+            ? "clear"
+            : "end",
       );
       awardedRun = world.run;
       rewardError = rewardStatus.error;
@@ -1280,6 +1346,7 @@ window.visualViewport?.addEventListener("resize", () =>
   placeControls(settings.layout),
 );
 startWithSaveWriter(async () => {
+  installCloudSync();
   try {
     loadProgress("normal", localStorage);
   } catch {
@@ -1289,6 +1356,9 @@ startWithSaveWriter(async () => {
   frontLoadout = readFrontLoadout(progressStorage);
   placeControls(settings.layout);
   home();
+  const navigation = new URL(location.href).searchParams;
+  if (navigation.get("solo") === "1") prep();
+  else if (navigation.get("coop") === "1") rooms();
   const invitation = new URL(location.href).searchParams.get("frontRoom");
   if (invitation && /^[A-Fa-f0-9]{8}$/.test(invitation)) {
     rooms();

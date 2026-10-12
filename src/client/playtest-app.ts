@@ -29,6 +29,9 @@ import {
 } from "./resource-frame";
 import { menuSamples } from "./menu-samples";
 import { homeMarkup } from "./home-screen";
+import { openOperationPicker } from "./operation-picker";
+import { openWeaponWorkshop } from "./weapon-workshop-ui";
+import { showOperationCue, cancelOperationCue } from "./operation-cue";
 import { mountTitleMotion, trackTitleAction } from "./title-motion";
 import { openTutorialGuide } from "./tutorial-guide";
 import { canInstallApp, installApp } from "./app-install";
@@ -1358,6 +1361,13 @@ function commit(next: ProgressSave, after: () => void = () => {}) {
   return true;
 }
 function setScreen(next: string) {
+  if (next !== screen) {
+    cancelOperationCue();
+    if (next === "battle") showOperationCue("sortie");
+    else if (next === "collection") showOperationCue("clear");
+    else if (next === "result" && save?.result?.win === false)
+      showOperationCue("end");
+  }
   backgroundMusic().setScreen(next, save?.result?.win === true, world);
   queueMicrotask(() => {
     enhanceGameSelects(ui, "#pt-difficulty, #pt-bulk-grade");
@@ -1528,14 +1538,6 @@ function showHome(initialized: boolean) {
     pendingCount: initialized ? save.pending.length : 0,
     install: canInstallApp(),
   });
-  if (mode === "normal") {
-    const survival = document.createElement("button");
-    survival.textContent = "生存モード";
-    survival.onclick = () => {
-      location.href = import.meta.env.BASE_URL + "front";
-    };
-    ui.querySelector(".home-footer")?.append(survival);
-  }
   if (canInstallApp()) bind("install", () => installApp());
   const enter = (after: () => void) =>
     initialized
@@ -1548,7 +1550,14 @@ function showHome(initialized: boolean) {
             after();
           },
         );
-  bind("solo", () => enter(gear));
+  bind("solo", () =>
+    openOperationPicker("solo", {
+      advance: () => enter(gear),
+      survival: () => {
+        location.href = import.meta.env.BASE_URL + "front?solo=1";
+      },
+    }),
+  );
   if (!developerMode) {
     ui.querySelector(".home-challenges")!.insertAdjacentHTML(
       "beforeend",
@@ -1577,11 +1586,18 @@ function showHome(initialized: boolean) {
   bind("open-bestiary", () => enter(report));
   bind("home-settings", settingsUI);
   bind("home-tutorial", () => openTutorialGuide(dialog));
-  bind("coop", () => {
-    location.href = location.hostname.endsWith(".trycloudflare.com")
-      ? "https://swarm-front.melosalife-24.workers.dev/?coop=1"
-      : import.meta.env.BASE_URL + "?coop=1";
-  });
+  bind("coop", () =>
+    openOperationPicker("coop", {
+      advance: () => {
+        location.href = location.hostname.endsWith(".trycloudflare.com")
+          ? "https://swarm-front.melosalife-24.workers.dev/?coop=1"
+          : import.meta.env.BASE_URL + "?coop=1";
+      },
+      survival: () => {
+        location.href = import.meta.env.BASE_URL + "front?coop=1";
+      },
+    }),
+  );
   bind("changelog", () =>
     dialog(
       "更新履歴",
@@ -2060,6 +2076,27 @@ function detail(w: StoredWeapon, context: string) {
         "",
       )}</select></label><div id="pt-comparison"></div><button id="pt-detail-lock">${lockMarkup(save.locks.includes(w.id), true)}</button>${context !== "result" && !save.pending.some((a) => a.id === w.id) ? '<button data-slot="0">装備1へ</button><button data-slot="1">装備2へ</button>' : ""}<button id="pt-share">共有画像</button>`,
   );
+  if (
+    mode === "normal" &&
+    context !== "result" &&
+    save.inventory.some((item) => item.id === w.id)
+  ) {
+    const workshop = document.createElement("button");
+    workshop.textContent = "変換・恒久改造";
+    workshop.onclick = () => {
+      d.close();
+      openWeaponWorkshop(
+        ui,
+        localStorage,
+        () => {
+          save = loadProgress("normal")!;
+          context === "gear" ? gear() : armory();
+        },
+        w.id,
+      );
+    };
+    d.append(workshop);
+  }
   const draw = () => {
     const base = save.inventory.find(
       (a) =>
@@ -2332,6 +2369,14 @@ window.addEventListener("app-install-changed", () => {
   if (screen === "home" || screen === "intro") showHome(screen === "home");
 });
 loadMode("normal");
+if (
+  new URLSearchParams(location.search).get("solo") === "1" &&
+  (screen === "intro" ||
+    (save && save.result?.choice !== "pending" && screen === "home"))
+) {
+  if (screen === "intro") save = initializeProgress("normal");
+  gear();
+}
 if (!developerMode) {
   installCloudSync();
   window.addEventListener("swarm-progress-saved", updateWeeklyBadge);

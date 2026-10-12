@@ -1,5 +1,5 @@
 import { showModalAfterFullscreen } from "./landscape";
-import { menuNew } from "./menu-effects";
+import { menuMotion, menuNew } from "./menu-effects";
 
 /** A dialog awaiting fullscreen has no native close event until it is open. */
 export function closeMenuDialog(dialog: HTMLDialogElement) {
@@ -28,8 +28,28 @@ export function menuDialog(
     if (trigger?.isConnected) trigger.focus({ preventScroll: true });
   });
   document.body.append(dialog);
+  let stopEntrance = () => {};
+  const enter = () => {
+    if (!dialog.open) return;
+    reveal.disconnect();
+    stopEntrance = menuMotion(
+      dialog,
+      [
+        { opacity: 0, transform: "translateY(8px) scale(.985)" },
+        { opacity: 1, transform: "translateY(0) scale(1)" },
+      ],
+      240,
+    );
+  };
+  const reveal = new MutationObserver(enter);
+  reveal.observe(dialog, { attributes: true, attributeFilter: ["open"] });
+  dialog.addEventListener("close", () => {
+    reveal.disconnect();
+    stopEntrance();
+  });
   if (title === "更新履歴") menuNew(dialog.querySelector(".release-entry h3"));
   showModalAfterFullscreen(dialog);
+  enter();
   const guide = document.createElement("div");
   guide.className = "reading-guide";
   guide.textContent = "続きは上下にスクロール ↕";

@@ -1,4 +1,6 @@
 import { assertSaveWriter } from "./save-writer";
+import { campaignNumber } from "../shared/campaign";
+import { preservesGrowthSave } from "../shared/growth-save-guard";
 import {
   CAMPAIGN_COUNT,
   validSoloStage,
@@ -58,6 +60,7 @@ export interface Soldier {
   accessory?: string;
 }
 export interface Receipt {
+  powder?: number;
   run: string;
   stage: number;
   difficulty: Difficulty;
@@ -75,6 +78,13 @@ export interface Receipt {
   collectionDone: boolean;
 }
 export interface ProgressSave {
+  survival?: {
+    bestSeconds: number;
+    bestKills: number;
+    runs: number;
+    weapons: number;
+    highestClearedStage: number;
+  };
   weekly?: WeeklyProgress;
   weeklyPending?: string[];
   dailyDefense?: DefenseLedger;
@@ -188,6 +198,20 @@ export const accessoryProtected = (s: ProgressSave, id: string) =>
   s.soldiers.some((p) => p.accessory === id);
 export function validateProgress(s: ProgressSave) {
   const integer = (v: number) => Number.isSafeInteger(v) && v >= 0;
+  if (
+    s?.survival &&
+    (!Number.isFinite(s.survival.bestSeconds) ||
+      s.survival.bestSeconds < 0 ||
+      s.survival.bestSeconds > 3601 ||
+      ![
+        s.survival.bestKills,
+        s.survival.runs,
+        s.survival.weapons,
+        s.survival.highestClearedStage,
+      ].every(integer) ||
+      s.survival.highestClearedStage > CAMPAIGN_COUNT)
+  )
+    throw Error("生存記録の形式が不正です。上書きを停止しました。");
   if (
     s?.weeklyPending &&
     (!Array.isArray(s.weeklyPending) ||
@@ -341,7 +365,9 @@ export function validateProgress(s: ProgressSave) {
       (r.choice === "pending" && r.weapons.some((w) => !ids.includes(w.id))) ||
       !integer(r.collected) ||
       !integer(r.coins) ||
-      !integer(r.firstCoins)
+      !integer(r.firstCoins) ||
+      (r.powder !== undefined &&
+        r.powder !== (r.win ? 2 + campaignNumber(r.stage) : 0))
     )
       throw new Error("報酬保存が不正です");
   }
@@ -515,6 +541,15 @@ export function persistProgress(
   if (current) {
     if ((current.revision ?? 0) !== (s.revision ?? 0))
       throw new SaveConflictError();
+    if (
+      !preservesGrowthSave(
+        current as unknown as Record<string, unknown>,
+        s as unknown as Record<string, unknown>,
+      )
+    )
+      throw new SaveConflictError(
+        "武器の恒久成長・生存記録を失う保存です。最新データを読み込んでください。",
+      );
   }
   const next = { ...s, revision: (s.revision ?? 0) + 1 };
   const incomingReceipts = weaponReceiptSnapshot(s);
@@ -659,8 +694,10 @@ export function grantResult(
     choice: input.win ? "pending" : "normal",
     collectionDone: !input.win,
     bonus: [],
+    powder: input.win ? 2 + campaignNumber(input.stage) : 0,
   };
   if (input.win) {
+    n.powder += 2 + campaignNumber(input.stage);
     n.missions[key] = old.map((v, i) => v || input.missions[i]);
     if (first && input.stage !== 21) {
       n.points = Math.min(120, n.points + 3);

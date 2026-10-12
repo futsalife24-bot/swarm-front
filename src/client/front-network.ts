@@ -106,6 +106,7 @@ export class FrontNetwork {
   timer: ReturnType<typeof setInterval>;
   equip: Weapon[] = [];
   upgradePool: FrontUpgradeId[] = [...FRONT_BASE_IDS];
+  clearedStage = 0;
   private inputAt = -Infinity;
   private pendingInput: Input | undefined;
   private usesInputAck = false;
@@ -169,6 +170,7 @@ export class FrontNetwork {
     ws.onopen = () => {
       this.send({
         type: "hello",
+        clearedStage: this.clearedStage,
         equipmentCache: 1,
         frontGrowth: 3,
         frontCatalog: 2,
@@ -397,6 +399,7 @@ export class FrontNetwork {
     this.assetReady = false;
     this.send({
       type: "equip",
+      clearedStage: this.clearedStage,
       upgradePool: this.upgradePool,
       weapons,
       ready: !this.preparing && this.assetReady,
