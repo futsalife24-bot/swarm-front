@@ -1,0 +1,22 @@
+{
+  "assetSha256": "0385b7c0198d47125a0779544726787c6076bc7213bd61382221eb0c6592d5ae",
+  "flightRecorded": [
+    "front-17s",
+    "side-17s"
+  ],
+  "reviewed": "離陸Aの0.90/1.15秒正面/側面、A-D録画抽出コマ、Flight正面/側面の先頭6秒抽出コマ、Flight0.45/0.70秒実再生時刻照合",
+  "modelLoaded": true,
+  "browser": "iab",
+  "takeoffVariantsRecorded": [
+    "A-side",
+    "B-front",
+    "C-front",
+    "D-front"
+  ],
+  "limits": [
+    "動画全フレームの人手検査なし",
+    "実スマホ未確認",
+    "長時間GPU負荷未確認",
+    "本人の美術的採用未確認"
+  ]
+}

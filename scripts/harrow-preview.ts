@@ -35,7 +35,20 @@ const takeoffVariant = document.getElementById(
 ) as HTMLSelectElement;
 const captureMode = () =>
   mode === "takeoff" ? `takeoff-${takeoffVariant.selectedIndex}` : mode;
-async function save(blob: Blob, kind: "image" | "video", name: string) {
+function captureMetadata() {
+  return {
+    overview,
+    sideView,
+    frontView,
+    status: JSON.parse(document.getElementById("status")!.textContent!),
+  };
+}
+async function save(
+  blob: Blob,
+  kind: "image" | "video",
+  name: string,
+  metadata = captureMetadata(),
+) {
   if (location.port !== "5200") {
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
@@ -51,14 +64,7 @@ async function save(blob: Blob, kind: "image" | "video", name: string) {
       "Content-Type": blob.type,
       "x-harrow-kind": kind,
       "x-harrow-name": name,
-      "x-harrow-metadata": encodeURIComponent(
-        JSON.stringify({
-          overview,
-          sideView,
-          frontView,
-          status: JSON.parse(document.getElementById("status")!.textContent!),
-        }),
-      ),
+      "x-harrow-metadata": encodeURIComponent(JSON.stringify(metadata)),
     },
     body: blob,
   });
@@ -92,13 +98,10 @@ document.getElementById("front-view")!.onclick = () => {
 };
 document.getElementById("capture")!.onclick = () => {
   draw(0);
+  const name = `v14-${captureMode()}-${frontView ? "front" : sideView ? "side" : "high"}-${w.time.toFixed(3).replace(".", "-")}`;
+  const metadata = captureMetadata();
   canvas.toBlob((blob) => {
-    if (blob)
-      void save(
-        blob,
-        "image",
-        `v14-${captureMode()}-${frontView ? "front" : sideView ? "side" : "high"}-${w.time.toFixed(3).replace(".", "-")}`,
-      );
+    if (blob) void save(blob, "image", name, metadata);
   }, "image/png");
 };
 document.getElementById("record")!.onclick = () => {
