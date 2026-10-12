@@ -5,7 +5,7 @@ import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-const source = "public/assets/enemies/harrow_motion_v12.glb";
+const source = "public/assets/enemies/harrow_motion_v13.glb";
 const bytes = readFileSync(source);
 // The headless check inspects geometry and animation; browser QA decodes the textures.
 const loader = new GLTFLoader().register(() => ({
@@ -17,33 +17,72 @@ const { scene, animations } = await loader.parseAsync(
   "",
 );
 const expected = [
-  "Idle", "Locomotion", "Lunge", "Threat", "AirThreat", "Spin",
-  "Takeoff", "Flight", "Glide", "Dive", "StaggerFall", "Land",
-  "Dash", "Snipe", "BombPass", "TakeoffB", "TakeoffC", "TakeoffD",
+  "Idle",
+  "Locomotion",
+  "Lunge",
+  "Threat",
+  "AirThreat",
+  "Spin",
+  "Takeoff",
+  "Flight",
+  "Glide",
+  "Dive",
+  "StaggerFall",
+  "Land",
+  "Dash",
+  "Snipe",
+  "BombPass",
+  "TakeoffB",
+  "TakeoffC",
+  "TakeoffD",
 ];
-const names = animations.map((clip) => clip.name === "Attack" ? "Lunge" : clip.name);
-assert.deepEqual(names.slice().sort(), expected.slice().sort(), "HARROW v12 clips");
+const names = animations.map((clip) =>
+  clip.name === "Attack" ? "Lunge" : clip.name,
+);
+assert.deepEqual(
+  names.slice().sort(),
+  expected.slice().sort(),
+  "HARROW v13 clips",
+);
 const meshes = [];
 scene.traverse((object) => {
   if (object instanceof T.SkinnedMesh) meshes.push(object);
 });
-assert.equal(meshes.length, 22, "HARROW v12 skinned mesh primitives");
-assert.equal(meshes[0].skeleton.bones.length, 39, "HARROW v12 bones");
+assert.equal(meshes.length, 22, "HARROW v13 skinned mesh primitives");
+assert.equal(meshes[0].skeleton.bones.length, 39, "HARROW v13 bones");
 for (const mesh of meshes) {
-  assert.ok(mesh.bindMatrix.equals(meshes[0].bindMatrix), `${mesh.name} bind matrix`);
-  assert.ok(mesh.matrixWorld.equals(meshes[0].matrixWorld), `${mesh.name} world matrix`);
-  assert.deepEqual(mesh.skeleton.bones, meshes[0].skeleton.bones, `${mesh.name} bone order`);
+  assert.ok(
+    mesh.bindMatrix.equals(meshes[0].bindMatrix),
+    `${mesh.name} bind matrix`,
+  );
+  assert.ok(
+    mesh.matrixWorld.equals(meshes[0].matrixWorld),
+    `${mesh.name} world matrix`,
+  );
+  assert.deepEqual(
+    mesh.skeleton.bones,
+    meshes[0].skeleton.bones,
+    `${mesh.name} bone order`,
+  );
 }
 for (const clip of animations)
-  assert.ok(Number.isFinite(clip.duration) && clip.duration > 0, `${clip.name} duration`);
+  assert.ok(
+    Number.isFinite(clip.duration) && clip.duration > 0,
+    `${clip.name} duration`,
+  );
 const result = {
   source,
   sha256: createHash("sha256").update(bytes).digest("hex"),
   skinnedMeshes: meshes.length,
   bones: meshes[0].skeleton.bones.length,
-  clips: Object.fromEntries(animations.map((clip) => [clip.name, clip.duration])),
+  clips: Object.fromEntries(
+    animations.map((clip) => [clip.name, clip.duration]),
+  ),
   sharedBinding: true,
 };
 mkdirSync("dist-validation/harrow", { recursive: true });
-writeFileSync("dist-validation/harrow/v12-asset.json", JSON.stringify(result, null, 2));
+writeFileSync(
+  "dist-validation/harrow/v13-asset.json",
+  JSON.stringify(result, null, 2),
+);
 console.log(JSON.stringify(result));

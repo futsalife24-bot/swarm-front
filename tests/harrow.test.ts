@@ -59,11 +59,11 @@ it("sweeps a straight claw shot into the first player and respects intervening w
   const shot = w.harrowMissiles![0];
   expect(shot.trajectory).toBe("straight");
   expect(shot.origin).toEqual(harrowSnipeOrigins(e, 0)[0]);
-  expect(shot.origin.x).toBeCloseTo(e.x - 4.949096154 * HARROW.scale);
-  expect(shot.origin.y).toBeCloseTo(e.y + 10.293295083 * HARROW.scale);
-  expect(shot.origin.z).toBeCloseTo(e.z - 0.187017313 * HARROW.scale);
+  expect(shot.origin.x).toBeCloseTo(e.x - 4.915367343 * HARROW.scale);
+  expect(shot.origin.y).toBeCloseTo(e.y + 7.02764525 * HARROW.scale);
+  expect(shot.origin.z).toBeCloseTo(e.z + 3.421645303 * HARROW.scale);
   expect(w.harrowMissiles![9].origin.x).toBeCloseTo(
-    e.x + 4.940100605 * HARROW.scale,
+    e.x + 5.344896683 * HARROW.scale,
   );
   expect(harrowMissilePosition(shot, shot.launch)).toEqual(shot.origin);
   expect(harrowMissilePosition(shot, shot.impact).y).toBeCloseTo(shot.target.y);
@@ -160,6 +160,9 @@ it("resumes an arc's unchecked descent after a delayed tick and hits the roof", 
 
 it("commits two five-bomb rows and flies straight over the target center", () => {
   const { w, p, e } = fixture();
+  // Keep all five rows away from the training yard's wall at Z=24.
+  // The broader v13 wings cast a different diagonal toward that wall.
+  p.z = 0;
   e.harrowAirborne = true;
   e.y = HARROW.flightHeight;
   e.harrow = {
@@ -189,11 +192,11 @@ it("commits two five-bomb rows and flies straight over the target center", () =>
   const centerBody = { x: e.x, y: e.y, z: p.z };
   expect(bombs[4].origin).toEqual(harrowBombOrigins(centerBody, 0)[2]);
   expect(bombs[5].origin).toEqual(harrowBombOrigins(centerBody, 0)[7]);
-  expect(bombs[4].origin.x).toBeCloseTo(-0.549980251 * HARROW.scale);
-  expect(bombs[4].origin.z).toBeCloseTo(p.z - 0.381897412 * HARROW.scale);
+  expect(bombs[4].origin.x).toBeCloseTo(-5.627812876 * HARROW.scale);
+  expect(bombs[4].origin.z).toBeCloseTo(p.z + 2.815680154 * HARROW.scale);
   const warned = structuredClone(bombs.map((m) => [m.target, m.launch]));
   p.z += 20;
-  w.time = HARROW.bombWind + (24 / 40) * HARROW.bombTravel;
+  w.time = HARROW.bombWind + (24 / 28) * HARROW.bombTravel;
   stepHarrow(w, e, p, [p], 0.05);
   expect(e.z).toBeCloseTo(12);
   expect(bombs.map((m) => [m.target, m.launch])).toEqual(warned);
@@ -218,7 +221,9 @@ it("preannounces the first surface along a moving bomb claw's diagonal path", ()
     expect(bomb.target.y).toBeGreaterThan(
       groundHeight(bomb.target.x, bomb.target.z, mapFor(w).blocks),
     );
-    expect(bomb.target.x).toBeGreaterThan(-HARROW.bombSide);
+    // v13 claws sit outside the target row, so the ray approaches from -X.
+    expect(bomb.target.x).toBeGreaterThan(bomb.origin.x);
+    expect(bomb.target.x).toBeLessThan(-HARROW.bombSide);
     w.harrowMissiles = [bomb];
     w.time = bomb.impact;
     stepHarrowMissiles(w, [], bomb.impact - bomb.launch);

@@ -194,9 +194,9 @@ try {
   );
   assert.equal(new Set(snipeWarning.harrowMissiles.map((m) => m.id)).size, 10);
   assert.ok(
-    Math.abs(snipeWarning.harrowMissiles[0].origin.x + 4.949096154 * 1.95) <
+    Math.abs(snipeWarning.harrowMissiles[0].origin.x + 4.915367343 * 1.95) <
       0.01,
-    "Worker uses v12 Snipe claw origin",
+    "Worker uses v13 Snipe claw origin",
   );
   await checkpoint(
     run,
@@ -234,9 +234,9 @@ try {
     assert.ok(Math.abs(right.target.z - intendedZ) < 0.2);
   }
   assert.ok(
-    Math.abs(bombWarning.harrowMissiles[4].origin.x + 0.549980251 * 1.95) <
+    Math.abs(bombWarning.harrowMissiles[4].origin.x + 5.627812876 * 1.95) <
       0.01,
-    "Worker uses v12 moving BombPass claw origin",
+    "Worker uses v13 moving BombPass claw origin",
   );
   assert.equal(
     bombWarning.harrowMissiles.filter((m) => m.target.x < 0).length,

@@ -25,6 +25,7 @@ let w: ReturnType<typeof createWorld>,
   mode = "encounter",
   groundCamera = false;
 let overview = true,
+  sideView = false,
   recording = false;
 const canvas = document.querySelector("canvas")!;
 const saveStatus = document.getElementById("saved")!;
@@ -47,6 +48,7 @@ async function save(blob: Blob, kind: "image" | "video", name: string) {
       "x-harrow-metadata": encodeURIComponent(
         JSON.stringify({
           overview,
+          sideView,
           status: JSON.parse(document.getElementById("status")!.textContent!),
         }),
       ),
@@ -57,8 +59,12 @@ async function save(blob: Blob, kind: "image" | "video", name: string) {
 }
 function seekSpin(target: number) {
   reset("spin");
-  while (w.time < target - 1e-9)
-    step(w, { viewer: neutral() }, Math.min(0.025, target - w.time));
+  while (w.time < target - 1e-9) {
+    const dt = Math.min(0.025, target - w.time);
+    step(w, { viewer: neutral() }, dt);
+    // Advance the actual animation controller as well as simulation when seeking.
+    draw(dt);
+  }
   paused = true;
 }
 document
@@ -67,6 +73,10 @@ document
     (button) => (button.onclick = () => seekSpin(Number(button.dataset.time))),
   );
 document.getElementById("overview")!.onclick = () => (overview = !overview);
+document.getElementById("side-view")!.onclick = () => {
+  sideView = !sideView;
+  overview = true;
+};
 document.getElementById("capture")!.onclick = () => {
   draw(0);
   canvas.toBlob((blob) => {
@@ -74,7 +84,7 @@ document.getElementById("capture")!.onclick = () => {
       void save(
         blob,
         "image",
-        `v12-${mode}-${w.time.toFixed(3).replace(".", "-")}`,
+        `v13-${mode}-${w.time.toFixed(3).replace(".", "-")}`,
       );
   }, "image/png");
 };
@@ -93,7 +103,7 @@ document.getElementById("record")!.onclick = () => {
     void save(
       new Blob(chunks, { type: "video/webm" }),
       "video",
-      `v12-${mode}-cycle`,
+      `v13-${mode}-cycle`,
     );
   };
   recorder.start();
@@ -221,7 +231,10 @@ document.getElementById("camera")!.onclick = () =>
   (groundCamera = !groundCamera);
 document.getElementById("advance")!.onclick = () => {
   paused = true;
-  for (let i = 0; i < 10; i++) step(w, { viewer: neutral() }, 0.05);
+  for (let i = 0; i < 10; i++) {
+    step(w, { viewer: neutral() }, 0.05);
+    draw(0.05);
+  }
 };
 reset("encounter");
 function draw(dt: number) {
@@ -243,8 +256,12 @@ function draw(dt: number) {
     !paused,
   );
   if (overview && e) {
-    renderer.camera.position.set(e.x + 43, e.y + 48, e.z + 52);
-    renderer.camera.lookAt(e.x, e.y + 1, e.z);
+    renderer.camera.position.set(
+      e.x + (sideView ? 55 : 43),
+      e.y + (sideView ? 12 : 48),
+      e.z + (sideView ? 8 : 52),
+    );
+    renderer.camera.lookAt(e.x, e.y + (sideView ? 12 : 1), e.z);
     renderer.renderer.render(renderer.scene, renderer.camera);
   }
   const model = renderer.structures.get("harrow");
@@ -262,6 +279,7 @@ function draw(dt: number) {
           ? harrowSpinRotation(w.time - e.harrow.started)
           : null,
       overview,
+      sideView,
       paused,
       recording,
       missiles: w.harrowMissiles?.length ?? 0,

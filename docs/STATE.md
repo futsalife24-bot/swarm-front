@@ -1,3 +1,6 @@
+# 現在地: HARROW v13低姿勢化の自己検証完了、独立監査準備（2026-10-12）
+
+base `cbda0481234fe494dd4d1ab023869e9812ea978d`、branch `codex/harrow-low-posture-v13-20261012`。低姿勢Spinから脚を伸ばした地上基本姿勢、翼を寝かせた飛行、山なり弾の横への翼展開を反映。形状・39骨・18動作・7攻撃の性能を保持。実GLBの爪先から40発射元を同期。122テスト、型、実Worker2接続22項目、形状保持・全骨着地境界・発射位置検査成功。実画面の地上/飛翔と動画を確認中。[詳細](HARROW-V13-POSTURE.md)。独立Chat監査・main反映・既存Worker公開は未完了。本人の見た目承認は未確認。CALYX修正は下記のとおり公開済み。
 # 現在地: CALYX表示修正公開済み、HARROW姿勢再改修へ（2026-10-12）
 
 [PR169](https://github.com/futsalife24-bot/swarm-front/pull/169)通常merge、公開ソース `666d1d56487439a7a7ecbbeb581ba811f85b4bb4`、Worker `64251496-d53c-4c17-9958-bbd6050084b2`。CALYXの開発者解放漏れを修正。独立Chat監査合格/必須0、24テスト・型・merge後build/dry-run、配信25件SHA/health、公開CALYX実表示を確認。[記録](evidence/calyx-developer-20261012/README.md)。
