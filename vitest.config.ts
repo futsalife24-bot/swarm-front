@@ -41,6 +41,7 @@ export default defineConfig({
       "tests/foundry-movement.test.ts",
       "tests/aim.test.ts",
       "tests/standard-trooper.test.ts",
+      "tests/turn-in-place.test.ts",
       "tests/hound-motion.test.ts",
       "tests/structure-motion.test.ts",
       "tests/enemy-report-motion.test.ts",

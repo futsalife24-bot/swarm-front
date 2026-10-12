@@ -6,6 +6,7 @@ import { weaponTier } from "../shared/progression";
 import { clone } from "three/addons/utils/SkeletonUtils.js";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { soldierAccent } from "./soldier-accent";
+import { TurnInPlace } from "./turn-in-place";
 import type { Player } from "../shared/game";
 import { modelOf, type ModelKind } from "../shared/defs";
 import {
@@ -296,6 +297,9 @@ export class StandardTrooper {
   private moveYaw = 0;
   private stopYaw = 0;
   private stopTurnTime = 0.18;
+  /** Standing facing changes: planted hip twist, then a short step (visual only). */
+  private readonly turn = new TurnInPlace();
+  private turnCycle = 0;
   private rollTime = 0;
   private rollYaw = 0;
   private rollRecovery = 0;
@@ -786,10 +790,27 @@ export class StandardTrooper {
         (1 - Math.exp(-dt / 0.055));
       this.stopYaw = this.moveYaw;
       this.stopTurnTime = 0;
+      this.turn.track(yaw - this.moveYaw);
+    } else if (
+      this.combat &&
+      this.clips.has("Lower_Walk") &&
+      p.hp > 0 &&
+      p.evade <= 0
+    ) {
+      // Standing: the feet stay where the hips pointed; aim turns the upper body
+      // and, past a limit or after holding a twist, the feet step around.
+      const standing = this.turn.stand(yaw, dt);
+      this.moveYaw = standing.twist;
+      this.stopYaw = this.moveYaw;
+      this.stopTurnTime = 0.18;
+      this.turnCycle = standing.stepping
+        ? (this.turnCycle + standing.travel) % 1
+        : this.turnCycle;
     } else {
       this.stopTurnTime = Math.min(0.18, this.stopTurnTime + dt);
       const turn = this.stopTurnTime / 0.18;
       this.moveYaw = this.stopYaw * (1 - turn * turn * (3 - 2 * turn));
+      this.turn.track(yaw - this.moveYaw);
     }
     if (fresh) {
       this.moveYaw = 0;
@@ -798,7 +819,11 @@ export class StandardTrooper {
       this.locomotion = 0;
       this.walking = false;
       this.aimProgress = 0;
+      this.turn.reset(yaw);
+      this.turnCycle = 0;
     }
+    // A standing turn borrows the walk legs for its short step; upper body unchanged.
+    const turning = !moving && this.turn.stepping;
     if (this.combat && moving) {
       const speed = distance / dt;
       this.walking = this.walking ? speed < 3.0 : speed < 2.6;
@@ -825,6 +850,13 @@ export class StandardTrooper {
         runDuration;
     const locomotionTime =
       (this.locomotion / runDuration) * this.clips.get(runClip)!.duration;
+    const turnTime = turning
+      ? this.turnCycle * this.clips.get("Lower_Walk")!.duration
+      : 0;
+    const standingLower = (profile: string) =>
+      turning
+        ? "Lower_Walk"
+        : `Lower_${profile === "Rocket" ? "Weapon_Idle_Rocket" : "Idle"}`;
     this.shotTime += dt;
     this.heavyTime += dt;
     if (!fresh && p.cool > prev.cool + 0.025) this.shotTime = 0;
@@ -911,7 +943,7 @@ export class StandardTrooper {
         lower = `Lower_${runClip}`;
       } else {
         clip = `Upper_${clip}`;
-        lower = `Lower_${profile === "Rocket" ? "Weapon_Idle_Rocket" : "Idle"}`;
+        lower = standingLower(profile);
       }
     } else if (this.heavyTime < HEAVY_HIT_DURATION) {
       mode = "heavy";
@@ -924,7 +956,7 @@ export class StandardTrooper {
       at =
         T.MathUtils.clamp(1 - p.reload / duration, 0, 1) *
         this.clips.get(clip)!.duration;
-      lower = `Lower_${moving ? runClip : profile === "Rocket" ? "Weapon_Idle_Rocket" : "Idle"}`;
+      lower = moving ? `Lower_${runClip}` : standingLower(profile);
     } else {
       const fire = this.clips.get(`Fire_${profile}`)!;
       const firing = this.shotTime < fire.duration;
@@ -947,7 +979,7 @@ export class StandardTrooper {
         }
         mode += `_${firing ? "fire" : this.aimProgress > 0 ? "aim" : "ready"}`;
       }
-      lower = `Lower_${moving ? runClip : profile === "Rocket" ? "Weapon_Idle_Rocket" : "Idle"}`;
+      lower = moving ? `Lower_${runClip}` : standingLower(profile);
     }
     const snapshot = () =>
       this.basePose.map((b) => ({
@@ -989,11 +1021,13 @@ export class StandardTrooper {
       clip,
       at,
       lower,
-      /^Lower_(Run|Walk)/.test(lower ?? "")
-        ? locomotionTime
-        : lower === "Lower_Hit_Heavy"
-          ? this.heavyTime
-          : time % 3,
+      turning && lower === "Lower_Walk"
+        ? turnTime
+        : /^Lower_(Run|Walk)/.test(lower ?? "")
+          ? locomotionTime
+          : lower === "Lower_Hit_Heavy"
+            ? this.heavyTime
+            : time % 3,
     );
     // Capture the two grip frames before joint interpolation. Interpolating
     // elbows independently otherwise lets the support hand leave the weapon.

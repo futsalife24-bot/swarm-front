@@ -1,6 +1,7 @@
 import { CalyxEffects } from "./calyx-effects";
 import { HarrowEffects } from "./harrow-effects";
 import { DroneCamera } from "./drone-camera";
+import { easeYaw } from "./turn-in-place";
 import "./drone-camera.css";
 import { cleanCapture } from "./clean-capture";
 import { dropGeometry } from "./drop-design";
@@ -1023,12 +1024,20 @@ export class Renderer {
           m.userData.poseState !== state ||
           p.cool > (m.userData.poseCool ?? 0) + 0.025 ||
           m.userData.poseElapsed + 1e-6 >= cadence;
-        m.rotation.set(0, -p.yaw, 0);
+        // Other soldiers arrive as 20 Hz yaw snapshots: ease the drawn facing
+        // between them (presentation only). The local soldier uses the camera aim.
+        if (m.userData.facingRun !== w.run || !animate) {
+          m.userData.facing = p.yaw;
+          m.userData.facingRun = w.run;
+        } else m.userData.facing = easeYaw(m.userData.facing, p.yaw, dt);
+        const facing: number =
+          p.id === id && localAim ? localAim.yaw : m.userData.facing;
+        m.rotation.set(0, -facing, 0);
         if (updatePose) {
           poseSoldier(
             m,
             p.id === id && localAim ? { ...p, pitch: localAim.pitch } : p,
-            p.id === id && localAim ? localAim.yaw : p.yaw,
+            facing,
             w.time,
             w.run,
             animate ? m.userData.poseElapsed : 0,
