@@ -1,0 +1,41 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+ ❯ tests/structure-motion.test.ts (16 tests | 1 failed | 13 skipped) 134ms
+   × ant at 2.4m keeps the release pose with authoritative cooldown 1.2 114ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/structure-motion.test.ts > ant at 2.4m keeps the release pose with authoritative cooldown 1.2
+AssertionError: expected { clip: 'Idle', time: 0.05, …(5) } to match object { clip: 'Lunge', time: 0.45 }
+(5 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "clip": "Lunge",
+-   "time": 0.45,
++   "clip": "Idle",
++   "time": 0.05,
+  }
+
+ ❯ tests/structure-motion.test.ts:104:38
+    102|     expect(sawWind).toBe(true);
+    103|     expect(enemy.cool).toBe(cooldown);
+    104|     expect(controller.states.get(7)).toMatchObject({
+       |                                      ^
+    105|       clip: "Lunge",
+    106|       time: 0.45,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed | 13 skipped (16)
+   Start at  14:01:03
+   Duration  7.97s (transform 64%, import 33%, tests 2%, worker 1%)
+
+  Transform  transforming modules took 4.10s · 64% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns

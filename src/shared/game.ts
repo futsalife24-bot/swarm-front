@@ -1883,6 +1883,13 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
           if (d < 2.5 && Math.abs(e.y - (t.y ?? 0)) < 2)
             hurtPlayer(w, t, def.damage);
           e.cool = 1.2;
+          if (e.kind === "spider") {
+            const recovery =
+              STRUCTURE_TIMING.crawler.duration -
+              STRUCTURE_TIMING.crawler.impact;
+            e.jumpWait = Math.max(e.jumpWait ?? 0, recovery);
+            e.wallCooldown = Math.max(e.wallCooldown ?? 0, recovery);
+          }
         }
       }
       continue;

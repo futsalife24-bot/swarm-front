@@ -1,0 +1,29 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+ ❯ tests/structure-motion.test.ts (13 tests | 1 failed | 12 skipped) 26ms
+   × LEAPER displays the attack through recovery before restarting travel jumps 23ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/structure-motion.test.ts > LEAPER displays the attack through recovery before restarting travel jumps
+AssertionError: expected 'Leap' to be 'Lunge' // Object.is equality
+
+Expected: "Lunge"
+Received: "Leap"
+
+ ❯ tests/structure-motion.test.ts:50:55
+     48|   expect(player.hp).toBeLessThan(hp);
+     49|   expect(controller.states.get(7)).toMatchObject({ clip: "Lunge", time…
+     50|   for (let n = 0; n < 13; n++) expect(advance().clip).toBe("Lunge");
+       |                                                       ^
+     51|   expect(enemy.jump ?? 0).toBe(0);
+     52| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 skipped (13)
+   Start at  13:42:06
+   Duration  1.60s (transform 55%, import 42%, tests 2%, worker 1%)

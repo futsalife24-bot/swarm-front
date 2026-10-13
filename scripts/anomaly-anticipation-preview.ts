@@ -69,6 +69,7 @@ const cases: Case[] = [
     name: "光線",
     kind: "hornet",
     wind: STRUCTURE_TIMING.hornet.wind,
+    warningAt: STRUCTURE_TIMING.hornet.wind - 0.4,
     duration: 3.1,
   },
   {
@@ -181,6 +182,7 @@ let front = initialUrl.searchParams.get("front") === "1";
 let areaView = initialUrl.searchParams.get("view") === "area";
 let captureTimer: number | undefined;
 let last = performance.now();
+let lastPausedRender = 0;
 
 function buildWorld() {
   renderer.structures.get(selected.kind)?.controller.states.clear();
@@ -257,7 +259,7 @@ function buildWorld() {
   scheduleCapture();
   const selectedId = selected.id;
   void renderer.structures.get(selected.kind)?.loading.then(() => {
-    if (selected.id === selectedId) scheduleCapture();
+    if (selected.id === selectedId) seek(time, true);
   });
 }
 
@@ -275,7 +277,8 @@ function scheduleCapture() {
   }, 180);
 }
 
-function renderAt(age: number) {
+function renderAt(age: number, display = true) {
+  const dt = Math.max(0, Math.min(0.05, age - time));
   time = Math.max(0, Math.min(selected.duration, age));
   world.time = time;
   const warning = selected.warningAt ?? selected.wind / 2;
@@ -314,14 +317,14 @@ function renderAt(age: number) {
         : STRUCTURE_TIMING[selected.kind].cooldown;
     enemy.cool =
       time < selected.wind
-        ? cooldown
+        ? 0
         : Math.max(0, cooldown - (time - selected.wind));
   }
   // The fixture controls time itself; bypass the production frame pacer for exact seeks.
   renderer.render(
     world,
     "viewer",
-    0,
+    dt,
     0,
     -0.2,
     undefined,
@@ -357,15 +360,15 @@ function renderAt(age: number) {
     enemy.y + (selected.kind === "harrow" ? 7 : 2),
     enemy.z,
   );
-  renderer.renderer.render(renderer.scene, renderer.camera);
+  if (display) renderer.renderer.render(renderer.scene, renderer.camera);
 }
 
-function seek(age: number) {
+function seek(age: number, rebuild = false) {
   // Rebuild the clip transition before a discontinuous jump, including impact.
-  if (age < time || Math.abs(age - time) > 0.1) {
+  if (rebuild || age < time || Math.abs(age - time) > 0.1) {
     renderer.structures.get(selected.kind)?.controller.states.clear();
-    renderAt(0);
-    if (age > selected.wind) renderAt(selected.wind - 0.01);
+    renderAt(0, false);
+    for (let tick = 0.05; tick < age; tick += 0.05) renderAt(tick, false);
   }
   renderAt(age);
   scheduleCapture();
@@ -466,7 +469,11 @@ function frame(now: number) {
       playButton.textContent = "再生";
     }
     renderAt(time + dt);
-  } else renderAt(time);
+  } else if (now - lastPausedRender >= 250) {
+    // Keep async asset loads visible without redrawing a frozen world at 60 Hz.
+    lastPausedRender = now;
+    renderAt(time);
+  }
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);

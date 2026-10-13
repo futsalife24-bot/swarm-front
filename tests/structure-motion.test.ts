@@ -1,5 +1,13 @@
 import { it, expect } from "vitest";
 import {
+  addPlayer,
+  createWorld,
+  neutral,
+  spawn,
+  start,
+  step,
+} from "../src/shared/game";
+import {
   StructureMotionController,
   harrowTakeoffClip,
   type StructureInput,
@@ -17,6 +25,88 @@ const sample = (changes: Partial<StructureInput> = {}): StructureInput => ({
   cool: 0,
   ...changes,
 });
+it("LEAPER displays the attack through recovery before restarting travel jumps", () => {
+  const world = createWorld("leaper-attack", 11, 1);
+  const player = addPlayer(world, "p");
+  start(world);
+  world.enemies = [];
+  world.nextSpawn = 1e9;
+  player.x = 0;
+  player.z = 0;
+  spawn(world, "spider", 0, -2.3);
+  const enemy = world.enemies[0];
+  enemy.cool = 0;
+  enemy.jumpWait = 0.3;
+  const controller = new StructureMotionController("spider");
+  const advance = () => {
+    step(world, { p: neutral() });
+    controller.update(
+      { setPose() {} },
+      [
+        sample({
+          wind: enemy.wind,
+          cool: enemy.cool,
+          leap: (enemy.jump ?? 0) > 0 ? enemy.jump! / 0.9 : undefined,
+        }),
+      ],
+      0.05,
+    );
+    return controller.states.get(7)!;
+  };
+  const hp = player.hp;
+  for (let n = 0; n < 25 && player.hp === hp; n++) {
+    const pose = advance();
+    if (enemy.wind > 0) expect(pose.clip).toBe("Lunge");
+  }
+  expect(player.hp).toBeLessThan(hp);
+  expect(controller.states.get(7)).toMatchObject({ clip: "Lunge", time: 0.45 });
+  for (let n = 0; n < 13; n++) expect(advance().clip).toBe("Lunge");
+  expect(enemy.jump ?? 0).toBe(0);
+});
+it.each([
+  ["ant", 2.4, 1.2],
+  ["spider", 2.3, 1.2],
+  ["ant", 10, 2.7],
+] as const)(
+  "%s at %sm keeps the release pose with authoritative cooldown %s",
+  (kind, distance, cooldown) => {
+    const world = createWorld("structure-release", 11, 1);
+    const player = addPlayer(world, "p");
+    start(world);
+    world.enemies = [];
+    world.nextSpawn = 1e9;
+    player.x = 0;
+    player.z = 0;
+    spawn(world, kind, 0, -distance);
+    const enemy = world.enemies[0];
+    enemy.cool = 0;
+    if (kind === "spider") enemy.jumpWait = 1;
+    const controller = new StructureMotionController(kind);
+    let sawWind = false;
+    for (let frame = 0; frame < 30; frame++) {
+      step(world, { p: neutral() });
+      controller.update(
+        { setPose() {} },
+        [
+          sample({
+            wind: enemy.wind,
+            cool: enemy.cool,
+            leap: (enemy.jump ?? 0) > 0 ? enemy.jump! / 0.9 : undefined,
+          }),
+        ],
+        0.05,
+      );
+      sawWind ||= enemy.wind > 0;
+      if (sawWind && enemy.wind <= 0) break;
+    }
+    expect(sawWind).toBe(true);
+    expect(enemy.cool).toBe(cooldown);
+    expect(controller.states.get(7)).toMatchObject({
+      clip: "Lunge",
+      time: 0.45,
+    });
+  },
+);
 it("HARROW chooses a stable asymmetric takeoff clip from the authoritative seed", () => {
   expect([0, 0.24, 0.25, 0.5, 0.75, 1].map(harrowTakeoffClip)).toEqual([
     "Takeoff",

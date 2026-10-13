@@ -5,7 +5,16 @@ import {
   redWarningDuringWind,
 } from "../src/client/attack-telegraph";
 import { projectileWarningPaths } from "../src/client/projectile-warning";
-import type { Enemy } from "../src/shared/game";
+import {
+  addPlayer,
+  createWorld,
+  neutral,
+  spawn,
+  start,
+  step,
+  type Enemy,
+} from "../src/shared/game";
+import { mapFor } from "../src/shared/stages";
 
 it("keeps a real preparation interval before the red area and removes it at impact", () => {
   expect(redWarningDuringWind(0.8, 0.8)).toBe(false);
@@ -17,6 +26,82 @@ it("keeps a real preparation interval before the red area and removes it at impa
   expect(redWarningAfterStart(0.8, 0.8)).toBe(false);
   expect(redWarningBeforeLaunch(1.59, 2, 0.8)).toBe(false);
   expect(redWarningBeforeLaunch(1.6, 2, 0.8)).toBe(true);
+});
+
+it("keeps a roof-grazing VOLLEY warning on the authoritative wall impact", () => {
+  const w = createWorld("warning-grazing-wall", 11, 1);
+  const p = addPlayer(w, "p");
+  start(w);
+  w.nextSpawn = 1e9;
+  w.enemies = [];
+  p.x = 34;
+  p.z = -20;
+  spawn(w, "ant", 34, -20);
+  const e = w.enemies[0];
+  e.x = 34;
+  e.z = -20;
+  e.y = 0;
+  e.size = 1;
+  e.active = true;
+  e.wind = 0.01;
+  e.tx = 34;
+  e.ty = 7;
+  e.tz = 20;
+  const paths = projectileWarningPaths(e, mapFor(w).blocks);
+  expect(
+    paths.reduce((sum, path) => sum + path.length - 1, 0),
+  ).toBeLessThanOrEqual(120);
+  const warned = paths[1].at(-1)!;
+  step(w, { p: neutral() });
+  const round = w.projectiles[1];
+  expect(round).toBeDefined();
+  let ticks = 0;
+  for (; ticks < 80 && w.projectiles.includes(round); ticks++)
+    step(w, { p: neutral() });
+  expect(ticks).toBeLessThan(78);
+  expect(round.y).toBeGreaterThan(0);
+  expect(round.z).toBeGreaterThan(5);
+  expect(warned.z).toBeGreaterThan(5);
+  expect(
+    Math.hypot(warned.x - round.x, warned.y - round.y, warned.z - round.z),
+  ).toBeLessThan(1e-5);
+});
+
+it("keeps an unobstructed VOLLEY warning through the authoritative lifetime tick", () => {
+  const w = createWorld("warning-lifetime", 11, 1);
+  const p = addPlayer(w, "p");
+  start(w);
+  w.nextSpawn = 1e9;
+  w.enemies = [];
+  p.x = 0;
+  p.z = 0;
+  spawn(w, "ant", 0, 0);
+  const e = w.enemies[0];
+  e.x = 0;
+  e.z = 0;
+  e.y = 0;
+  e.size = 1;
+  e.active = true;
+  e.wind = 0.01;
+  e.tx = 0;
+  e.ty = 100;
+  e.tz = 20;
+  const paths = projectileWarningPaths(e, mapFor(w).blocks);
+  expect(
+    paths.reduce((sum, path) => sum + path.length - 1, 0),
+  ).toBeLessThanOrEqual(123);
+  const warned = paths[1].at(-1)!;
+  step(w, { p: neutral() });
+  const round = w.projectiles[1];
+  expect(round).toBeDefined();
+  let ticks = 0;
+  for (; ticks < 81 && w.projectiles.includes(round); ticks++)
+    step(w, { p: neutral() });
+  expect(ticks).toBe(80);
+  expect(round.z).toBeGreaterThan(52);
+  expect(
+    Math.hypot(warned.x - round.x, warned.y - round.y, warned.z - round.z),
+  ).toBeLessThan(1e-5);
 });
 
 it("tracks all three VOLLEY rounds and PRISM/RAY danger beyond the aim point", () => {
@@ -40,6 +125,10 @@ it("tracks all three VOLLEY rounds and PRISM/RAY danger beyond the aim point", (
   expect(volley[0].some((p) => p.x < -2 && p.z > 15)).toBe(true);
   expect(volley[2].some((p) => p.x > 2 && p.z > 15)).toBe(true);
   expect(volley[1].some((p) => p.z > 20)).toBe(true);
+  enemy.ty = 100;
+  const fullLength = projectileWarningPaths(enemy, []);
+  expect(fullLength.reduce((sum, path) => sum + path.length - 1, 0)).toBe(123);
+  enemy.ty = 0;
   for (const kind of ["spitter", "hornet"] as const) {
     enemy.kind = kind;
     const path = projectileWarningPaths(enemy, []);

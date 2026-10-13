@@ -39,9 +39,12 @@ export function projectileWarningPaths(
           : Math.cos(angle) * speed,
     };
     let point = { x: e.x, y: sourceY, z: e.z };
+    let life = 4;
     const path = [point];
-    for (let step = 0; step < 40; step++) {
-      const dt = 0.1;
+    // Match the authority's 50 ms collision integration. Draw every second
+    // point, plus the impact or lifetime endpoint, within 41 segments per lane.
+    for (let step = 0; step < 81 && life > 0; step++) {
+      const dt = 0.05;
       const dx = velocity.x * dt;
       const dy = velocity.y * dt - 0.5 * gravity * dt * dt;
       const dz = velocity.z * dt;
@@ -62,10 +65,12 @@ export function projectileWarningPaths(
         y: point.y + dy * portion,
         z: point.z + dz * portion,
       };
+      life -= dt;
       const floor = groundHeight(point.x, point.z, blocks);
       if (point.y <= floor) point.y = floor;
-      path.push(point);
-      if (wall < segment || point.y <= floor) break;
+      const hit = wall < segment || point.y <= floor || life <= 0;
+      if (hit || step % 2 === 1) path.push(point);
+      if (hit) break;
       velocity.y -= gravity * dt;
     }
     paths.push(path);

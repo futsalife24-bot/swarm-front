@@ -1,6 +1,7 @@
 import { CalyxEffects } from "./calyx-effects";
 import { HarrowEffects } from "./harrow-effects";
 import { redWarningDuringWind } from "./attack-telegraph";
+import { foundryLaserWarningLine } from "./foundry-laser-warning";
 import {
   projectileWarningPaths,
   type WarningPoint,
@@ -30,13 +31,18 @@ import { EnemySpawnEffects } from "./enemy-spawn-effects";
 import { MAPS, DEFENSE_MAPS, mapFor } from "../shared/stages";
 import * as T from "three";
 import { enemyGeometry, mechanizeMaterial } from "./enemy-model";
-import { ENEMIES, EVADE_DURATION, modelOf, zoomOf } from "../shared/defs";
+import {
+  ENEMIES,
+  EVADE_DURATION,
+  modelOf,
+  zoomOf,
+  type Block,
+} from "../shared/defs";
 import { NORMAL_FOV, SCOPE_FOV, scopeFov } from "../shared/aim";
 import { aimCamera, cameraShot } from "../shared/game";
 import { FoundryWormView, FOUNDRY_WORM_ASSET } from "./foundry-worm";
 import {
   foundryLaserOrigin,
-  FOUNDRY_TARGET_HEIGHT,
   FOUNDRY_LASER_WARNING,
 } from "../shared/foundry-defs";
 import { eye, type Enemy, type Player, type World } from "../shared/game";
@@ -838,7 +844,7 @@ export class Renderer {
     }
     return state;
   }
-  private foundryWarning(enemy: Enemy) {
+  private foundryWarning(enemy: Enemy, blocks: Block[]) {
     for (const [part, node] of [enemy, ...(enemy.segments ?? [])].entries()) {
       if (
         !node.pulseAim ||
@@ -850,10 +856,15 @@ export class Renderer {
         this.foundryWarnings.count >= 640
       )
         continue;
-      const origin = foundryLaserOrigin(node, part, enemySize(enemy)),
-        target = node.pulseAim;
-      const dy = (target.y ?? FOUNDRY_TARGET_HEIGHT) - origin.y;
+      const origin = foundryLaserOrigin(node, part, enemySize(enemy));
+      const { to: target, length } = foundryLaserWarningLine(
+        origin,
+        node.pulseAim,
+        blocks,
+      );
+      if (length <= 0) continue;
       const dx = target.x - origin.x,
+        dy = target.y - origin.y,
         dz = target.z - origin.z;
       const charge = T.MathUtils.clamp(
         1 -
@@ -870,7 +881,7 @@ export class Renderer {
         (origin.z + target.z) / 2,
         0.012 + charge * 0.014,
         0.012 + charge * 0.014,
-        Math.hypot(dx, dy, dz),
+        length,
         -Math.atan2(dy, Math.hypot(dx, dz)),
         Math.atan2(dx, dz),
       );
@@ -1135,10 +1146,10 @@ export class Renderer {
               foundry.view.update(projected, this.foundryTime, (x, z) =>
                 groundHeight(x, z, activeMap.blocks),
               );
-              this.foundryWarning(projected);
+              this.foundryWarning(e, activeMap.blocks);
               continue;
             }
-            this.foundryWarning(e);
+            this.foundryWarning(e, activeMap.blocks);
           }
           if (kind === "crawler" && this.houndDebug?.motion)
             this.houndVisualInputs.push({
