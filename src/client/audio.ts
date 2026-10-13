@@ -13,7 +13,7 @@ import {
   ANOMALY_VOICE_PATH,
 } from "./anomaly-voice";
 const LEVELS: Record<string, number> = {
-  ...Object.fromEntries(ANOMALY_VOICE_KEYS.map((key) => [key, 0.48])),
+  ...Object.fromEntries(ANOMALY_VOICE_KEYS.map((key) => [key, 0.24])),
   rifle: 0.62,
   shotgun: 0.8,
   rocket: 0.75,
