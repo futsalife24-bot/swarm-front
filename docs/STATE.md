@@ -1,6 +1,6 @@
 # 現在地: PRISMと連結個体の声を追加修正中（2026-10-13）
 
-本人はv2の差別化を概ね採用。PRISMの遮断機らしさを再調整し、FOUNDRY通常型・連結個体の連結中・分離後を別の声にする。名称独立は今後の仕様。base `7be80ad25f4d1d21d16a02f7eaa804f9be5426a6`、branch `codex/anomaly-voice-prism-foundry-20261013`。[変更記録](ANOMALY-VOICE-V3.md)。関連17テスト・型チェック・23WAV検査成功。追加監査・main反映・v3公開は未完了。
+本人はv2の差別化を概ね採用。PRISMの遮断機らしさを再調整し、FOUNDRY通常型・連結個体の連結中・分離後を別の声にする。名称独立は今後の仕様。base `7be80ad25f4d1d21d16a02f7eaa804f9be5426a6`、branch `codex/anomaly-voice-prism-foundry-20261013`。[変更記録](ANOMALY-VOICE-V3.md)。関連17テスト・型チェック・23WAV検査成功。実装9a63c30・検証145765aを[PR179](https://github.com/futsalife24-bot/swarm-front/pull/179)へ保存。通常ChatへのZIP送信を確認、追加監査回答待ち。main反映・v3公開は未完了。
 
 PR178は通常merge済み。v2公開も完了しており、Worker `bde1bbb8-1e53-4f00-8b1a-410cc6d4aa87`、source `7be80ad`、[配信61件一致・health正常](evidence/anomaly-voice-v2-20261013/delivery.json)を確認。下記のv2未公開表記は過去経過。
 

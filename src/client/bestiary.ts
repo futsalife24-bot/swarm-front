@@ -240,7 +240,7 @@ export function openBestiary(
       article.append(note);
     } else {
       const voice = document.createElement("div");
-      voice.className = "report-voice";
+      voice.className = "report-voices";
       const profiles: (keyof typeof ANOMALY_VOICE_PROFILES)[] =
         worm && key === "boss" ? ["boss-linked", "boss-separated"] : [key];
       const buttons: { button: HTMLButtonElement; label: string }[] = [];
@@ -277,7 +277,10 @@ export function openBestiary(
             if (request === playback) button.textContent = "再試聴する";
           });
         };
-        voice.append(button, description);
+        const row = document.createElement("div");
+        row.className = "report-voice";
+        row.append(button, description);
+        voice.append(row);
       }
       voicePlayer.onended = resetLabels;
       article.querySelector("h3")!.after(voice);
