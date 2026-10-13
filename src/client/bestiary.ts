@@ -6,6 +6,7 @@ import "./bestiary.css";
 import { createEnemyViewer } from "./enemy-viewer";
 import type { HoundClip } from "./hound-motion";
 import { hasEncounterFilm, showEncounterFilm } from "./encounter-film";
+import { ANOMALY_VOICE_PROFILES, ANOMALY_VOICE_PATH } from "./anomaly-voice";
 
 type EnemyType = "生物型" | "異構型" | "機構型";
 const entries: Record<
@@ -72,6 +73,7 @@ export function openBestiary(
   options: {
     encounters?: Record<string, "solo" | "coop">;
     onClose?: () => void;
+    voiceVolume?: number;
   } = {},
 ) {
   const access = (key: string) =>
@@ -98,6 +100,17 @@ export function openBestiary(
   document.body.append(dialog);
   showModalAfterFullscreen(dialog);
   backgroundMusic().setReport(true);
+  const voicePlayer = new Audio();
+  voicePlayer.preload = "none";
+  voicePlayer.volume = Math.max(0, Math.min(1, options.voiceVolume ?? 0.35));
+  const stopVoice = () => {
+    voicePlayer.pause();
+    voicePlayer.currentTime = 0;
+  };
+  const hideVoice = () => {
+    if (document.hidden) stopVoice();
+  };
+  document.addEventListener("visibilitychange", hideVoice);
   let viewer: ReturnType<typeof createEnemyViewer> | undefined;
   const viewport = dialog.querySelector<HTMLElement>(".enemy-viewport")!;
   const playback = document.createElement("div");
@@ -185,6 +198,7 @@ export function openBestiary(
       access(worm ? "worm" : key) === "coop" ? "brightness(0)" : "";
   };
   function select(key: keyof typeof ENEMIES, worm = false) {
+    stopVoice();
     const state = access(worm ? "worm" : key);
     harrowPicker.hidden = key !== "harrow" || state !== "solo";
     harrowPicker.value = "";
@@ -224,6 +238,52 @@ export function openBestiary(
           ? "協力で姿を確認。ソロで遭遇すると正式に記録されます。"
           : "まだ遭遇していません。";
       article.append(note);
+    } else {
+      const voice = document.createElement("div");
+      voice.className = "report-voices";
+      const profiles: (keyof typeof ANOMALY_VOICE_PROFILES)[] =
+        worm && key === "boss" ? ["boss-linked", "boss-separated"] : [key];
+      const buttons: { button: HTMLButtonElement; label: string }[] = [];
+      const resetLabels = () => {
+        for (const { button, label } of buttons) button.textContent = label;
+      };
+      let playback = 0;
+      for (const profile of profiles) {
+        const button = document.createElement("button");
+        button.type = "button";
+        const label =
+          profile === "boss-linked"
+            ? "連結中の声"
+            : profile === "boss-separated"
+              ? "分離後の声"
+              : "声を聴く";
+        button.textContent = label;
+        button.setAttribute(
+          "aria-label",
+          `${ANOMALY_VOICE_PROFILES[profile].name}の声を聴く`,
+        );
+        buttons.push({ button, label });
+        const description = document.createElement("p");
+        description.textContent = ANOMALY_VOICE_PROFILES[profile].description;
+        let variant = 0;
+        button.onclick = () => {
+          stopVoice();
+          resetLabels();
+          const request = ++playback;
+          voicePlayer.src = `${import.meta.env.BASE_URL}${ANOMALY_VOICE_PATH}${profile}-${variant}.wav`;
+          variant = 1 - variant;
+          button.textContent = "再生中…";
+          void voicePlayer.play().catch(() => {
+            if (request === playback) button.textContent = "再試聴する";
+          });
+        };
+        const row = document.createElement("div");
+        row.className = "report-voice";
+        row.append(button, description);
+        voice.append(row);
+      }
+      voicePlayer.onended = resetLabels;
+      article.querySelector("h3")!.after(voice);
     }
     showModel(key, worm, !!state);
     article.querySelectorAll<HTMLButtonElement>("[data-worm]").forEach(
@@ -248,6 +308,9 @@ export function openBestiary(
   dialog.querySelector<HTMLButtonElement>("#report-close")!.onclick = () =>
     dialog.close();
   dialog.addEventListener("close", () => {
+    stopVoice();
+    voicePlayer.removeAttribute("src");
+    document.removeEventListener("visibilitychange", hideVoice);
     playbackObserver.disconnect();
     viewer?.dispose();
     dialog.remove();

@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-13",
+  "method": "Chrome dashboard read-only observation",
+  "accountId": "5fc5ec277dd3010f25a7c1a7b7e585b3",
+  "worker": "swarm-front",
+  "billingUrl": "https://dash.cloudflare.com/5fc5ec277dd3010f25a7c1a7b7e585b3/billing",
+  "plan": "Workers Free",
+  "planStatus": "active",
+  "workersToday": { "requests": 51, "limit": 100000 },
+  "workersDisplayedPeriod": {
+    "from": "2026-10-01",
+    "to": "2026-10-13",
+    "requestsDisplay": "5.07k",
+    "cpuMillisecondsDisplay": "3.65k"
+  },
+  "durableObjectsDisplayedMetrics": {
+    "period": "画面に期間の明示がなく未確認",
+    "requests": 54,
+    "durationGbSeconds": 1.83,
+    "sqlStorageDisplay": "503.81 kB",
+    "sqlRowsRead": 678,
+    "sqlRowsWritten": 51,
+    "kvStorageBytes": 0,
+    "displayedNamespaceErrors": 0
+  },
+  "mutations": "none",
+  "deploymentStatus": "監査中・未公開"
+}

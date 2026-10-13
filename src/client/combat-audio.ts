@@ -63,7 +63,7 @@ export class CombatAudio {
     for (const e of w.events) {
       if (e.id <= this.event) continue;
       this.event = Math.max(this.event, e.id);
-      if (!active || fresh) continue;
+      if (!active || fresh || e.silent) continue;
       if (e.type === "shot") {
         const key = `${e.owner}:${e.weapon}`;
         if (!shots.has(key)) {

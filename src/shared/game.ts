@@ -254,6 +254,8 @@ export interface Projectile {
   family?: Family;
 }
 export interface Event {
+  /** Keep the visual event without a combat sound (ANOMALY arrival cues). */
+  silent?: boolean;
   frontEffect?: "ricochet" | "interceptor" | "mine" | "mine-set" | "blast";
   rebuild?: RebuildAttribution;
   id: number;
@@ -1830,7 +1832,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
           e.cool = 3 * enemyStatSize(e);
         } else if (
           e.kind === "spitter" ||
-          (e.kind === "ant" && d > 2.5) ||
+          (e.kind === "ant" && Math.hypot(e.tx - e.x, e.tz - e.z) > 2.5) ||
           e.kind === "hornet"
         ) {
           const dist = Math.hypot(e.tx - e.x, e.tz - e.z);
@@ -1902,6 +1904,13 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
           if (d < 2.5 && Math.abs(e.y - (t.y ?? 0)) < 2)
             hurtPlayer(w, t, def.damage);
           e.cool = 1.2;
+          if (e.kind === "spider") {
+            const recovery =
+              STRUCTURE_TIMING.crawler.duration -
+              STRUCTURE_TIMING.crawler.impact;
+            e.jumpWait = Math.max(e.jumpWait ?? 0, recovery);
+            e.wallCooldown = Math.max(e.wallCooldown ?? 0, recovery);
+          }
         }
       }
       continue;
@@ -2005,6 +2014,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
               : e.kind === "hornet"
                 ? 24
                 : 2.6) &&
+      (e.kind !== "spider" || ((e.jump ?? 0) <= 0 && (e.perch ?? 0) <= 0)) &&
       (e.kind === "hornet"
         ? rayVisible(e, t, mapFor(w).blocks)
         : visible(e, t, mapFor(w).blocks))

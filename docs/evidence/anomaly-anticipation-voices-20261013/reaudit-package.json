@@ -1,0 +1,9 @@
+{
+  "head": "93b7ba08e345acb1299b54dd8d73c2a803e75179",
+  "file": "dist-validation/anomaly-voices-20261013/anomaly-reaudit-93b7ba0.zip",
+  "entries": 393,
+  "bytes": 22460449,
+  "sha256": "a12647dff9674d0932d215b1bc726da8cb5167bd8d67b0ce61cce3d0165102e8",
+  "runtimeHead": "4cabb7a074e9dd38da5f8d18362a7aaf2f391497",
+  "validation": "ZIP CRC/sha256全件一致。2026-10-13 16:09 JST通常Chatへ送信、限定再監査合格。後続の赤帯幅変更は別途追加監査"
+}

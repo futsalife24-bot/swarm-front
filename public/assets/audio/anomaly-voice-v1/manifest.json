@@ -1,0 +1,121 @@
+{
+  "method": "original procedural vocal synthesis",
+  "external_samples": false,
+  "ai_generation": false,
+  "credits_spent": 0,
+  "sample_rate": 32000,
+  "files": [
+    {
+      "file": "harrow-0.wav",
+      "seconds": 1.65,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -8.69,
+      "sha256": "306eb9ef3f61856f9453528b456844fd308021222d075ea165a026686638afe6"
+    },
+    {
+      "file": "harrow-1.wav",
+      "seconds": 1.65,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -8.49,
+      "sha256": "5ac2048bc247ab1659669d7fa59c46bc37090a6de6d872cb221b1e85e07e044c"
+    },
+    {
+      "file": "calyx-0.wav",
+      "seconds": 1.85,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -8.18,
+      "sha256": "836d59c54bb970794e14404601ca07031dc16d01eef88cb04ebd91edeec00b92"
+    },
+    {
+      "file": "calyx-1.wav",
+      "seconds": 1.85,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -8.33,
+      "sha256": "47860741b70af5e4951c32403bcf36d96dbf2b2e27e5266cdc9be3478c416ca2"
+    },
+    {
+      "file": "ant-0.wav",
+      "seconds": 1.1,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -12.55,
+      "sha256": "d03e8c9d6c797d02fb76a70a5062e223ce9cf3fd904bcd9a2ce51858c369ee60"
+    },
+    {
+      "file": "ant-1.wav",
+      "seconds": 1.1,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -12.44,
+      "sha256": "a387a994893777dfdd760d51a6f9a4983793172ec872f0ded9a6c6c85362c572"
+    },
+    {
+      "file": "spider-0.wav",
+      "seconds": 1.3,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -9.41,
+      "sha256": "e68b2f360cecafb38624ecd18c2d984fc19186d246af6e6bf63cdc9cb8de1798"
+    },
+    {
+      "file": "spider-1.wav",
+      "seconds": 1.3,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -9.3,
+      "sha256": "a3d4bda9b5748c24f4ffd68ad2beeadac8e0f354f71bd8c41380f342d68a7749"
+    },
+    {
+      "file": "crawler-0.wav",
+      "seconds": 1.45,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -8.37,
+      "sha256": "3fb0ec210dfb125b5aaa9f7d6d09b12a5abe8ad17ac2437d55d38c00ec9616cf"
+    },
+    {
+      "file": "crawler-1.wav",
+      "seconds": 1.45,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -8.18,
+      "sha256": "4fcbdb5dca08e6fd08a3b58a03ee1a72085e7c6f8bd54eb58df9ac3af002f8c5"
+    },
+    {
+      "file": "spitter-0.wav",
+      "seconds": 1.55,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -10.18,
+      "sha256": "79b235bc434fdc11dc66314ba904be51fbceadab4df9d096b07d877ff7865a0c"
+    },
+    {
+      "file": "spitter-1.wav",
+      "seconds": 1.55,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -9.99,
+      "sha256": "2fbc3f992c8210162ccdae759064199ad3909097a004270e22eee67932aa7556"
+    },
+    {
+      "file": "hornet-0.wav",
+      "seconds": 1.7,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -10.79,
+      "sha256": "eba5120d02b052d7bf6d1209e066655ff2b0ee213c5cd2f66f89d6c3105d5d74"
+    },
+    {
+      "file": "hornet-1.wav",
+      "seconds": 1.7,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -10.28,
+      "sha256": "bcbd07779cc3d51a3d29959b38ad367170a8a673dd70474f64617191320af6a1"
+    },
+    {
+      "file": "boss-0.wav",
+      "seconds": 2.05,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -7.4,
+      "sha256": "05caf4a11f8db887cc726ab5735233899fb5e781aa00d7addf0919dcd2dd0819"
+    },
+    {
+      "file": "boss-1.wav",
+      "seconds": 2.05,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -7.46,
+      "sha256": "729b39f76a643aaa9e62df360b49c5799d93567ea03e821419f6368893cd0ac2"
+    }
+  ]
+}

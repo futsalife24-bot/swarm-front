@@ -275,7 +275,8 @@ function home() {
   $("open-armory").querySelector("em")!.textContent =
     "強化候補・融合条件・進行";
   $("open-armory").onclick = () => base();
-  $("open-bestiary").onclick = () => openBestiary();
+  $("open-bestiary").onclick = () =>
+    openBestiary({ voiceVolume: sound.effectsVolume });
   $("home-settings").onclick = () => menuSettings(home);
   $("home-tutorial").textContent = "操作ガイド";
   $("home-tutorial").onclick = () =>

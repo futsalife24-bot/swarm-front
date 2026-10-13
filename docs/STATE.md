@@ -1,3 +1,9 @@
+# 現在地: 成長循環PR175を引継ぎ、敵・協力体力の比較調整中（2026-10-14）
+
+本人が敵のバランスと協力時の体力調整をテスト・実装まで依頼。PR175の保存済み文書HEAD c6225abを引継ぎ、main 0cc3783と統合中。既存の報酬・恒久成長候補を保護し、1〜4人と進撃到達度の比較を追加する。旧監査合格は旧対象のみで、新差分・統合後の検証と監査は未完了。公開未実施。
+
+以下は過去の経過。
+
 # 現在地: PR175は限定合格、経済ログは公開停止条件ではなく推奨運用（2026-10-12）
 
 監査対象 `a7de399057040af1670031928f84ad0cea7d9720`、[通常Chat監査](https://chatgpt.com/c/6acd5156-e2f8-83ee-b7f5-b99dfc024ef8)。2026-10-12 22:04 UTCの最終具体化を初回/補足より優先する。合格（確認範囲限定）・必須P0/P1/P2各0件、監査側のtest/build/dry-run/E2E/実機の独立再実行なし。成長経済ログは公開前必須修正でも公開停止条件でもなく、公開後を含む推奨運用。未実装でもa7de399の判定は変わらない。原文Library `libfile_f753c033d92881919602b9f4b4350640` version 1を公式readで871行取得し、[全文](evidence/swarm-growth-loop-20261012/PR175-a7de399-independent-audit-full.txt)を20,843 bytes・SHA256 `62578bd4f995d99086d26fd85d5c49c8775360dfa3fcd79a956abb8d71d7cacc` 一致で保存。実装は監査対象のまま、今回も文書訂正だけ。
@@ -17,6 +23,109 @@
 未完: 通常Chat独立監査は未送信。本人は正規Chrome等の別ブラウザ経路への変更調査を承認したが、kernel reset後の規定Chrome初回APIもPID30688/exit1、IABと同じ `cannot locate required Windows platform directory: HRESULT 0x80070003` でUI取得前に停止。Chrome拡張不在や権限拒否を確認した結果ではない。監査ZIPはLibrary `libfile_ec2c665dfd008191a3f20c0f0d654cab` に正式保存成功。ローカル属性付与はWindows `os.setxattr` 非対応で未完。他セッション再起動・秘密取得・アクセス拒否回避・新規認証発行はしない。Work/サブエージェント/自己検証は独立監査の代用にしない。実スマホ性能・長期バランス・候補/仮数値/美術の採用・既存失敗5/依存High5の方針も未確認。本番移行・merge・公開は未実施。候補SHAを固定し、正規制御基盤の復旧後に通常Chat監査を再開する。PR176の実ネットワーク描画確認は別checkoutで行い、PR175へ混ぜない。以下の公開記録は既存v14で、今回の公開ではない。
 
 # 経過: HARROW v14 上下羽ばたき修正をmain反映・公開完了（2026-10-12）
+
+以下はmain側の公開済み経過。
+# 現在地: ANOMALY出現SEだけ無効化して公開完了（2026-10-14）
+
+PR181通常merge、出現予告/ボス出現の演出6箇所をsilent化。出現演出・採用声・控えめ音量・通常爆発を保持。型/既存32＋新規6テスト、実Audioで出現SE0/通常burst1/声1、独立監査必須0・19確認成功。公開ソース7af5f6dbd156f6dfd7a6a8c0f716d67b4618d128、Worker d822510a-a68b-495a-8c55-044237aa60de。merge後build/dry-run/deploy成功、配信67/67一致・health正常、公開タイトル/更新履歴確認。[公開記録](evidence/anomaly-arrival-silent-20261014/release.md)。実聴・実スマホは未確認。
+
+以下は経過。
+# 現在地: ANOMALY出現SEを除去、追加監査待ち（2026-10-14）
+
+[PR181](https://github.com/futsalife24-bot/swarm-front/pull/181)、対象670c2eafd5155af75da2970832623678f6ad3c1a、base0c6c64d、branch codex/anomaly-arrival-silent-20261014。通常出現予告/ボス出現の6箇所のburstへsilent指定、演出と採用声/控えめ音量・通常攻撃音を保持。src/worker型・既存関連32件・新規6ケース・確定build/dry-run成功。同じ通常Chatへ差分全文を追加送信済み。ブラウザはiabの画像/標準ボタン操作で復旧。実Sound/Audioで出現イベント2件・SE0、通常burst1・声1、デコード正常を確認。[検証記録](evidence/anomaly-arrival-silent-20261014/verification.md)。監査結果→必要修正→main→既存Worker公開・配信確認が残る。main未反映・未公開。
+
+以下は経過。
+# 現在地: 戦闘ボイスを控えめに調整して公開完了（2026-10-13）
+
+PR180通常merge、全20声の戦闘ゲイン0.48→0.24（約-6dB）。既存最大2声・間隔・距離減衰維持。型/17テスト/実Audioの音量・抑制確認、独立監査必須0・14確認成功。公開ソース92e9a6f175416cefa11c2301f1d4be404f04fb61、Worker b7b72867-82af-4937-bfa5-b8d69bec688a。merge後build/dry-run/deploy成功、配信67/67一致・health正常。既存プレイタブは保護。実スマホ/群れとSE混合の聴感は未確認。[公開記録](evidence/anomaly-voice-volume-20261013/release.md)。
+
+以下は経過。
+# 現在地: 群れの戦闘ボイス音量を半減、追加監査中（2026-10-13）
+
+本人の控えめにする指示で全20声の戦闘ゲイン0.48→0.24（約-6dB）、既存最大2声・発声間隔・距離減衰を維持。製品差分はaudio.tsの1行。[PR180](https://github.com/futsalife24-bot/swarm-front/pull/180)、対象0408bc65f77c53498228cbbdd471003a0472e811、base419043b、branch codex/anomaly-voice-volume-20261013。型/17テスト/build/dry-run成功。同じ通常Chatへ差分を提出済み、独立判定待ち。ブラウザ復旧後、実Sound/Audio/WAVで0.24×2声・3声目抑制・銃声0.62維持を確認。main反映・公開は未完了。[検証記録](evidence/anomaly-voice-volume-20261013/verification.md)。
+
+以下は経過。
+# 現在地: 採用版ボイスv3をmain反映・公開完了（2026-10-13）
+
+本人採用済みの全20声をPR179で通常merge・公開。PRISM改訂、通常FOUNDRY/連結中/分離後の別音源、図鑑の状態別試聴を反映。最終b48238bの独立監査は必須0・67確認成功。公開ソースe6e02df6d2b2a98b4e580b832eb2e9820b6633b5、Worker 6c6a3558-dae2-4945-b6f1-ed9839f4121c。merge後build/dry-run/deploy成功、配信67/67一致・health正常、公開33音声読込とボス比較9秒完走を確認。[公開記録](evidence/anomaly-voice-v3-20261013/release.md)。実スマホ・戦闘SE/BGM混合は未確認。名称独立・別ボス化は今後の仕様。
+
+以下は経過。
+# 現在地: PR179の採用版・最終監査合格、main反映と公開へ（2026-10-13）
+
+本人がv3全20声を採用。最終製品b48238b23a6470123119e430f7cef18b028b7ff7は通常Chatの限定再監査で必須P0/P1/P2各0、独立67確認グループ成功。図鑑の横画面崩れを修正し、監査側でも解消確認。[最終監査](evidence/anomaly-voice-v3-20261013/audit.md)。任意R1のPR本文採用状態を更新する。以後の製品変更なし。通常merge・merge後build/dry-run・既存Worker公開・配信確認へ進む。公開は未完了。
+
+以下は経過。
+# 現在地: PRISMと連結個体の声を追加修正中（2026-10-13）
+
+本人はv2の差別化を概ね採用。PRISMの遮断機らしさを再調整し、FOUNDRY通常型・連結個体の連結中・分離後を別の声にする。名称独立は今後の仕様。base `7be80ad25f4d1d21d16a02f7eaa804f9be5426a6`、branch `codex/anomaly-voice-prism-foundry-20261013`。[変更記録](ANOMALY-VOICE-V3.md)。関連17テスト・型チェック・23WAV検査成功。実装9a63c30・検証145765aを[PR179](https://github.com/futsalife24-bot/swarm-front/pull/179)へ保存。通常ChatへのZIP送信を確認、追加監査回答待ち。本人がv3を「いいね、これで採用」と明示。横画面の試聴説明を2行化したb48238bを追加し、844×390枠の実表示・型・修正後build成功。表示追加差分の監査も必要。main反映・v3公開は未完了。
+
+PR178は通常merge済み。v2公開も完了しており、Worker `bde1bbb8-1e53-4f00-8b1a-410cc6d4aa87`、source `7be80ad`、[配信61件一致・health正常](evidence/anomaly-voice-v2-20261013/delivery.json)を確認。下記のv2未公開表記は過去経過。
+
+# 現在地: 本人が既存ボイスを不採用、8種の発音構造を再制作（2026-10-13）
+
+PR177の公開は完了したが、本人が「全部同じ音、高さ違い程度、群れで識別できない」と評価。共通の声帯式を種別8構造へ分けたv2 16声と、旧版比較・2声/4声の重ね聴きを追加。branch `codex/anomaly-voice-identities-20261013`、開始main `0ec79b0`。音声関連16テスト・src/worker型チェック成功、Chromeで26音声読込正常。本人の聴感採用とは区別する。
+
+実装 `4f3c6634765fff08d00833e4dfa7df7829cadd51` を [PR178](https://github.com/futsalife24-bot/swarm-front/pull/178)へ保存。短い声が埋もれないよう音量を再調整し、18WAV検査・16声再生成一致、最終16テスト、ビルドとその後の本番Worker dry-run成功。詳細 [ボイス再制作](ANOMALY-VOICE-V2.md) / [自己検証](evidence/anomaly-voice-v2-20261013/verification.md)。ローカル試聴 `http://127.0.0.1:5203/anomaly-voices.html`（PC内サーバー稼働中のみ）。Chromeで26音声の読込・混合音の再生進行と切替停止を最終確認。独立監査・main反映・改訂版公開はこれから。ゲーム上の攻撃/モデル/発声制御は今回変更なし。
+
+追加監査は対象 `61e7112d8e9f394666fb614e16c46e1f6acd5acb` として [同じ通常Chat](https://chatgpt.com/c/6acdaec0-6ddc-83ee-98d5-8c96c0c6955e)へ送信・開始確認。ZIP `dist-validation/anomaly-voice-v2-20261013/audit-v2.zip`、4,094,164 bytes、SHA256 `30991593ea7e6b69144df4251504f3516a66f614632f6900ccaf64d13d142ba4`。タイトルは「Swarm Front｜独立監査｜ANOMALYボイス再制作」へ設定。ブラウザの送信操作は時間切れだったが、別タブの画面で送信済み本文と監査の進行を確認し、再送していない。結果待ち。最新origin/mainは0ec79b0で、別main worktreeもclean。
+
+追加監査は技術面で合格（必須P0/P1/P2各0、独立41確認グループ成功）。[監査回答](evidence/anomaly-voice-v2-20261013/audit.md)。実聴・本人の採用・実スマホ・戦闘SE/BGM混合は監査側も未確認。任意R1として、新版RMSが旧版より2.39〜6.58dB低い点は採用時の比較に残す。聴感低下の確定欠陥ではなく一律増幅の要求もなし。PR178はmerge可能・チェック要求なしを確認、監査後の追加は記録だけ。通常merge・改訂版公開へ進む。
+
+以下は前回の公開記録。
+
+# 全ANOMALYの予備動作・赤予告・固有ボイスをmain反映・公開完了（2026-10-13）
+
+[PR177](https://github.com/futsalife24-bot/swarm-front/pull/177)を通常merge。公開ソース `9b302d68c5cd5c4f68c754ba5214c34d33dc42c5`、Worker `0326b248-470c-45e5-8399-1a2785511371`。全8種/連結形態を構え→赤い攻撃エリア→攻撃へ統一、8種16声と戦闘再生・試聴一覧を追加。HARROW v14、CALYX解放、兵士旋回を保持。声は独自合成・費用0。
+
+初回必須5件と追加ANT不具合を修正し、93b7ba0再監査合格。実画面で連結炉の赤線を幅2mの帯へ追加改善した8a8345eも、最終独立監査で必須P0/P1/P2各0・新規任意なし。最終UI確認、型/関連テスト/ビルド等、merge後build/dry-run成功。公開51/51 SHA一致、health正常。公開試聴一覧の16音声読込/HARROW・CALYX再生、エネミーレポートのCALYX実モデル/HARROW攻撃再生を844×390でも確認。
+
+[ゲーム](https://swarm-front.melosalife-24.workers.dev/front) / [16声の試聴一覧](https://swarm-front.melosalife-24.workers.dev/anomaly-voices.html) / [公開記録・検証限界](evidence/anomaly-anticipation-voices-20261013/release.md)。通常弾の既存renderテスト1失敗、実スマホ・長時間戦闘・本人の美術/聴感採用は未確認。PNG保存は接続障害で未達、ツール画像目視と区別。公開後の文書記録をmainへ保存し、main/origin/mainとcleanを最終照合する。モデルID/推論設定は未確認。
+
+以下は過去経過。
+# 現在地: PR177の最終追加監査まで合格、main反映・公開へ（2026-10-13）
+
+[PR177](https://github.com/futsalife24-bot/swarm-front/pull/177)、branch `codex/anomaly-anticipation-voices-20261013`、base main `27208f1de0d491bcfbba191a75c861bed0c29418`。93b7ba0（実装4cabb7a）の[通常Chat再監査](https://chatgpt.com/c/6acdaec0-6ddc-83ee-98d5-8c96c0c6955e)は必須P0/P1/P2各0で合格。初回5件と追加ANT修正の解消を独立確認。[監査結果](evidence/anomaly-anticipation-voices-20261013/audit-reaudit.md)。
+
+Chrome新タブで復旧し、通常6ケースと連結炉の構え/赤/解放を目視確認。16声実再生も確認済み。連結炉の赤線が細すぎたため、製品側の表示幅を2m、厚み0.06〜0.10mへ追加改善（壁/射程/時刻/威力は不変）。確認ページは連結炉の向き・胸高照準・近距離視点、ANT射撃coolを実戦へ合わせた。追加差分8a8345eも同じChatで必須P0/P1/P2各0・新規任意なしで合格。確定8a8345eの製品buildと本番Worker dry-run成功。監査後の追加は監査/検証記録のみ。通常merge・merge後build・既存Worker公開へ続ける。現時点では未公開・main未反映。
+
+関連94件と型/ビルド等は前記録参照。追加表示改善は型・書式・固定ページbuild、連結炉予測3件成功。renderは5件成功/既存通常弾1件失敗（対象コード/テストともbaseから差分なし）。[最新UI範囲](evidence/anomaly-anticipation-voices-20261013/ui-final.md)、[追加検証](evidence/anomaly-anticipation-voices-20261013/visible-warning-validation.txt)。画像のダウンロード時にChrome接続が切れ、新接続の新タブで復旧。保存PNGなし。本人の美術/聴感採用・実スマホ・長時間戦闘は未確認。今回限定Chrome経路と通常公開は承認済み、取り直し不要。担当モデルID/推論設定は未確認。
+
+以下は過去経過。
+# 現在地: 全ANOMALYの修正版ZIPを同じ通常Chatへ再監査送信済み（2026-10-13）
+
+[PR177](https://github.com/futsalife24-bot/swarm-front/pull/177)、branch `codex/anomaly-anticipation-voices-20261013`、base `27208f1de0d491bcfbba191a75c861bed0c29418`、最終実装 `4cabb7a074e9dd38da5f8d18362a7aaf2f391497` をpush済み。全8種/連結形態の構え→赤い攻撃エリア→攻撃、16声・戦闘音声・試聴一覧を実装。HARROW v14、CALYX開発者解放、兵士旋回PR176を保持。声は独自の手続き合成（外部AIではなく費用0）。
+
+本人の今回限定Chrome承認で[通常Chat監査](https://chatgpt.com/c/6acdaec0-6ddc-83ee-98d5-8c96c0c6955e)は初回完了。ea2c947にP2が5件（P0/P1未検出）。全5件を修正し、追加でANT近接が発動時にIdleへ戻る不具合も修正。関連94件の範囲・型3対象・書式、確定4cabb7aのvite build/本番Worker dry-run成功。初回の戦闘関連180件・音声51件・実Worker/WebSocket10件・履歴検査成功も記録済み。独立再監査の合格はまだ得ていない。main未反映・未公開。
+
+音声一覧の16/16実再生・単独切替をChromeで確認。HARROW7攻撃、CALYX2攻撃、通常FOUNDRYの構え/赤/解放を目視した。確認ページのdt=0により通常種の姿勢ブレンドが止まっていたため50ms刻みへ修正し、FOUNDRYは再確認。ANT近接/射撃・LEAPER・PLEAT・PRISM・RAYの6姿勢の再視認と、修正後の連結FOUNDRYレーザー赤線/発射は未確認。以前の赤範囲観測を姿勢合格と混同しない。[UI到達点](evidence/anomaly-anticipation-voices-20261013/ui-final.md)。PNG保存・本人の美術/聴感採用・実スマホ/長時間戦闘も未確認。
+
+再接続結果: 本人の再試行指示で同じChrome内の新規タブから監査Chatを復旧。2026-10-13 16:09 JST、保存済み93b7ba0のZIPを標準filechooserで添付し送信成功、ChatGPT応答中を確認。既存タブのFocus命令は失敗したが、新しいタブでは入力・添付が復旧した。iabの別件下書き496文字は変更していない。回答待ちの間に残るUI確認を続ける。
+
+次工程: 残るUI確認と再監査回答確認→必要修正/合格→既存mainへ通常merge→既存Worker公開・配信SHA/health/UI確認へ続ける。経路例外は今回だけ承認済み、追加確認不要。再監査ZIPの完全SHA/ハッシュは `docs/evidence/anomaly-anticipation-voices-20261013/reaudit-package.json` へ記録済み。再監査対象93b7ba08e345acb1299b54dd8d73c2a803e75179、ZIP 393ファイル/22,460,449 bytes、SHA256 a12647dff9674d0932d215b1bc726da8cb5167bd8d67b0ce61cce3d0165102e8。`python scripts/package-anomaly-reaudit.py`で現在HEADから再生成可能（その場合は新SHA/ZIPとして送る）。試聴は `public/anomaly-voices.html`、ローカル固定プレビューは5201。詳細は [作業記録](ANOMALY-ANTICIPATION-VOICES.md)。担当モデルID/推論設定は取得不可で未確認。
+
+既存CloudflareはWorkers Free・当日51/100,000（閲覧時）、契約変更なし。GitHub mainは確認時27208f1、PR177はdraft・MERGEABLE/CLEAN、チェック表示なし・保護/rulesetなし（設定変更なし）。別worktree main `C:/Users/futsa/Documents/Codex/2026-10-09/swarm-soldier-motion` は35125e5/cleanを読み取り確認。公開時は現状再確認後、指定先限定safe.directoryでff-only同期する。以下は過去経過。
+
+# 経過: 兵士のその場旋回（足の踏み替え）と他プレイヤーの向き補間、再監査で条件付き合格、main反映・公開へ（2026-10-12、Claude Code）
+
+独立監査は通常Chat（https://chatgpt.com/c/6accca3f-1bc0-83ec-be0e-078c7ad797c3）で行った。
+- 1回目（`4451104`）：要修正（P1 1件、P2 2件）。
+- 2回目（`e1ad90f`）：条件付き合格。前回の指摘は解消し、新しい必須の指摘は0件。
+- 任意の指摘（P3）は4件。急な左右切り返しの目視、cool増加を伴わない射撃での補間遅延、0.002radのしきい値付近の揺れ、実通信・Renderer全体の未検証。
+- 急な切り返しは、撮影用ページの実描画で確認した。踏み替えの脚が出て、姿勢は崩れない。
+- 撮影用ページでは回避が発動せず、回避からの復帰は結合テストだけで確認した。
+- 実通信の協力、実スマホは未確認。
+
+利用者の指摘「その場でエイムして回転する姿が機械的」に対応。[PR176](https://github.com/futsalife24-bot/swarm-front/pull/176)、branch `claude/soldier-turn-in-place-20261012`（base main `35125e5`）。
+- 立ち止まっているときは足を残して腰をひねり、限界（0.62ラジアン）を超えたら既存の歩行の脚で踏み替える。他プレイヤーの向きは約0.06秒で補間する。見た目だけの変更で、判定・通信・保存・モデルは変更していない。
+- 独立監査1回目（`4451104`）は要修正だった（P1 1件、P2 2件）。対応は次のとおり。
+  - 他プレイヤーの向きが変わっている間は、骨格を毎フレーム更新する。
+  - 重い被弾中は立ち止まりの処理から外す。
+  - 踏み替えは両足が接地した位相で終える。
+  - 立ち止まりの処理を抜けるときのひねりの飛び、タブ復帰、射撃時の向きも修正した。
+- 型チェックとbuildは成功。全単体は935件成功で、失敗は既知のものだけ。[詳細](SOLDIER-TURN-IN-PLACE.md)。
+- 再監査に合格したら、main反映と既存Workerへの公開へ進む。
+
+# 現在地: HARROW v14 上下羽ばたき修正をmain反映・公開完了（2026-10-12）
 
 [PR173](https://github.com/futsalife24-bot/swarm-front/pull/173)通常merge。公開ソース `24f009e211515daa5011c4c473a1199b929b7696`、Worker `4c168f5c-f43e-4452-a8ba-9d12d7171ae2`。離陸A–D/Flightを胴前後軸まわりの上下ストロークへ修正。他13動作・形状・発射口・7攻撃仕様は保持。122テスト・型・素材/境界/発射口検査、実画面/録画抜粋、merge後build/dry-run合格。独立Chat監査は画像時刻の訂正後95dbb8fを含めP0/P1/P2各0。配信25/25 SHA一致・health正常、公開HARROW表示/移動/離陸A再生を確認。本人の美術的採用・実スマホ・長時間GPU・動画全フレーム目視は未確認、既存足滑り0.10833mは維持。[公開記録](evidence/harrow-v14-release-20261012/README.md)。以下は過去経過。
 

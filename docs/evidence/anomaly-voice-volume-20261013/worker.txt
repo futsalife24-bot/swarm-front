@@ -1,0 +1,12 @@
+
+ ⛅️ wrangler 4.129.0
+────────────────────
+✨ Read 376 files from the assets directory C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\dist
+Total Upload: 370.43 KiB / gzip: 91.13 KiB
+Your Worker has access to the following bindings:
+Binding                                                  Resource
+env.ROOMS (Room)                                         Durable Object
+env.GATE (Gate)                                          Durable Object
+env.PROJECT_HUB (project-hub)                            Worker
+
+--dry-run: exiting now.

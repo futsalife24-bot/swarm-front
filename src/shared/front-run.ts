@@ -527,6 +527,7 @@ function schedule(run: FrontRun) {
   kinds.forEach((_, index) =>
     event(w, {
       type: "burst",
+      silent: true,
       radius: 2,
       x: point.x + index * 2.7,
       y: 0.1,
@@ -556,6 +557,7 @@ function spawnBoss(run: FrontRun) {
   run.pendingBoss = null;
   event(run.world, {
     type: "burst",
+    silent: true,
     radius: 8,
     x: boss.x,
     y: boss.y + 2,
