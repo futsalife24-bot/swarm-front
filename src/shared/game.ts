@@ -1811,7 +1811,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
           e.cool = 3 * enemyStatSize(e);
         } else if (
           e.kind === "spitter" ||
-          (e.kind === "ant" && d > 2.5) ||
+          (e.kind === "ant" && Math.hypot(e.tx - e.x, e.tz - e.z) > 2.5) ||
           e.kind === "hornet"
         ) {
           const dist = Math.hypot(e.tx - e.x, e.tz - e.z);

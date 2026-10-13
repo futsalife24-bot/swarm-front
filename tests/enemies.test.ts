@@ -268,6 +268,63 @@ it.each([3, 5, 10, 17, 24, 30])(
   },
 );
 
+it("VOLLEY keeps its three-round warning when the target crosses into melee range", () => {
+  const { w, p } = field();
+  spawn(w, "ant", 0, -3.2);
+  const ant = w.enemies[0];
+  ant.cool = 0;
+  step(w, { p: neutral() });
+  expect(ant.wind).toBeGreaterThan(0);
+  expect(Math.hypot(ant.tx - ant.x, ant.tz - ant.z)).toBeGreaterThan(2.5);
+  p.z = ant.z + 2.4;
+  ant.wind = 0.01;
+  step(w, { p: neutral() });
+  expect(w.projectiles.filter((round) => round.owner === "enemy")).toHaveLength(
+    3,
+  );
+  expect(ant.cool).toBe(2.7);
+});
+
+it("VOLLEY keeps its melee warning when the target crosses out of melee range", () => {
+  const { w, p } = field();
+  spawn(w, "ant", 0, -2.4);
+  const ant = w.enemies[0];
+  ant.cool = 0;
+  step(w, { p: neutral() });
+  expect(ant.wind).toBeGreaterThan(0);
+  expect(Math.hypot(ant.tx - ant.x, ant.tz - ant.z)).toBeLessThan(2.5);
+  p.z = ant.z + 2.6;
+  ant.wind = 0.01;
+  const hp = p.hp;
+  step(w, { p: neutral() });
+  expect(w.projectiles.filter((round) => round.owner === "enemy")).toHaveLength(
+    0,
+  );
+  expect(p.hp).toBe(hp);
+  expect(ant.cool).toBe(1.2);
+});
+
+it("VOLLEY keeps its three-round choice when a nearer player replaces the aimed target", () => {
+  const { w, p } = field();
+  const other = addPlayer(w, "other");
+  other.z = 12;
+  spawn(w, "ant", 0, -3.2);
+  const ant = w.enemies[0];
+  ant.cool = 0;
+  step(w, { p: neutral(), other: neutral() });
+  expect(ant.targetId).toBe(p.id);
+  expect(Math.hypot(ant.tx - ant.x, ant.tz - ant.z)).toBeGreaterThan(2.5);
+  p.z = ant.z + 6;
+  other.z = ant.z + 1;
+  ant.wind = 0.01;
+  step(w, { p: neutral(), other: neutral() });
+  expect(ant.targetId).toBe(p.id);
+  expect(w.projectiles.filter((round) => round.owner === "enemy")).toHaveLength(
+    3,
+  );
+  expect(ant.cool).toBe(2.7);
+});
+
 it("ground acid splash causes no damage even when the player stands on it", () => {
   const { w, p } = field();
   w.projectiles.push({
