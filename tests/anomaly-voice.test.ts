@@ -2,9 +2,16 @@ import { describe, expect, it } from "vitest";
 import {
   AnomalyVoice,
   ANOMALY_VOICES,
+  ANOMALY_VOICE_PROFILES,
   ANOMALY_VOICE_PATH,
 } from "../src/client/anomaly-voice";
-import { addPlayer, createWorld, spawn, start } from "../src/shared/game";
+import {
+  addPlayer,
+  createWorld,
+  hurtEnemy,
+  spawn,
+  start,
+} from "../src/shared/game";
 import { ENEMIES } from "../src/shared/defs";
 import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
@@ -28,7 +35,7 @@ describe("ANOMALY vocal transitions", () => {
       readFileSync(new URL("manifest.json", base), "utf8"),
     );
     const hashes = new Set<string>();
-    for (const kind of Object.keys(ENEMIES))
+    for (const kind of Object.keys(ANOMALY_VOICE_PROFILES))
       for (const variant of [0, 1]) {
         const file = `${kind}-${variant}.wav`,
           data = readFileSync(new URL(file, base));
@@ -53,7 +60,7 @@ describe("ANOMALY vocal transitions", () => {
         expect(data.readInt16LE(44)).toBe(0);
         expect(data.readInt16LE(data.length - 2)).toBe(0);
       }
-    expect(hashes.size).toBe(Object.keys(ENEMIES).length * 2);
+    expect(hashes.size).toBe(Object.keys(ANOMALY_VOICE_PROFILES).length * 2);
   });
   it("covers every current species", () => {
     expect(Object.keys(ANOMALY_VOICES).sort()).toEqual(
@@ -112,6 +119,43 @@ describe("ANOMALY vocal transitions", () => {
       node.acidAt = w.time + 0.8;
     }
     expect(collect()).toHaveLength(1);
+    expect(collect()).toEqual([]);
+  });
+  it("uses separate identities for the ordinary boss and the linked boss before/after a real cut", () => {
+    const { w, p, collect } = fixture();
+    spawn(w, "boss", p.x + 5, p.z);
+    const e = w.enemies.at(-1)!;
+    e.wind = 0;
+    collect();
+    e.wind = 0.8;
+    expect(collect()[0].type).toMatch(/^anomaly:boss-[01]$/);
+    e.wind = 0;
+    e.partHp = 100;
+    e.segments = [1, 2, 3].map((i) => ({
+      x: e.x,
+      y: e.y,
+      z: e.z + i * 3,
+      partHp: 100,
+    }));
+    collect();
+    w.time += 3;
+    e.segments[2].pulseAim = { x: p.x, z: p.z };
+    e.segments[2].acidAt = w.time + 0.8;
+    expect(collect()[0].type).toMatch(/^anomaly:boss-linked-[01]$/);
+    hurtEnemy(w, e, 100, p.id, 2);
+    expect(e.fractured).toBe(true);
+    // The cut itself is silent; the next attack uses the new identity, without replaying old pulses.
+    expect(collect()).toEqual([]);
+    w.time += 3;
+    e.segments[2].acidAt = w.time + 0.8;
+    expect(collect()[0].type).toMatch(/^anomaly:boss-separated-[01]$/);
+    expect(collect()).toEqual([]);
+    e.segments[2].acidAt += 1;
+    expect(collect()).toEqual([]); // same-owner cooldown still applies
+    collect(false);
+    w.time += 3;
+    e.segments[2].acidAt = w.time + 0.8;
+    expect(collect(false)).toEqual([]);
     expect(collect()).toEqual([]);
   });
   it("never replays muted, restored, distant or paused attacks", () => {

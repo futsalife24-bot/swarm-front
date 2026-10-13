@@ -1,3 +1,14 @@
+# 現在地: PR179の採用版・最終監査合格、main反映と公開へ（2026-10-13）
+
+本人がv3全20声を採用。最終製品b48238b23a6470123119e430f7cef18b028b7ff7は通常Chatの限定再監査で必須P0/P1/P2各0、独立67確認グループ成功。図鑑の横画面崩れを修正し、監査側でも解消確認。[最終監査](evidence/anomaly-voice-v3-20261013/audit.md)。任意R1のPR本文採用状態を更新する。以後の製品変更なし。通常merge・merge後build/dry-run・既存Worker公開・配信確認へ進む。公開は未完了。
+
+以下は経過。
+# 現在地: PRISMと連結個体の声を追加修正中（2026-10-13）
+
+本人はv2の差別化を概ね採用。PRISMの遮断機らしさを再調整し、FOUNDRY通常型・連結個体の連結中・分離後を別の声にする。名称独立は今後の仕様。base `7be80ad25f4d1d21d16a02f7eaa804f9be5426a6`、branch `codex/anomaly-voice-prism-foundry-20261013`。[変更記録](ANOMALY-VOICE-V3.md)。関連17テスト・型チェック・23WAV検査成功。実装9a63c30・検証145765aを[PR179](https://github.com/futsalife24-bot/swarm-front/pull/179)へ保存。通常ChatへのZIP送信を確認、追加監査回答待ち。本人がv3を「いいね、これで採用」と明示。横画面の試聴説明を2行化したb48238bを追加し、844×390枠の実表示・型・修正後build成功。表示追加差分の監査も必要。main反映・v3公開は未完了。
+
+PR178は通常merge済み。v2公開も完了しており、Worker `bde1bbb8-1e53-4f00-8b1a-410cc6d4aa87`、source `7be80ad`、[配信61件一致・health正常](evidence/anomaly-voice-v2-20261013/delivery.json)を確認。下記のv2未公開表記は過去経過。
+
 # 現在地: 本人が既存ボイスを不採用、8種の発音構造を再制作（2026-10-13）
 
 PR177の公開は完了したが、本人が「全部同じ音、高さ違い程度、群れで識別できない」と評価。共通の声帯式を種別8構造へ分けたv2 16声と、旧版比較・2声/4声の重ね聴きを追加。branch `codex/anomaly-voice-identities-20261013`、開始main `0ec79b0`。音声関連16テスト・src/worker型チェック成功、Chromeで26音声読込正常。本人の聴感採用とは区別する。
