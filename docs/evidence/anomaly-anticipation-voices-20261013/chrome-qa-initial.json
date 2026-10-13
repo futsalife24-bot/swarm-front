@@ -1,0 +1,145 @@
+{
+  "capturedAtUtc": "2026-10-13 04:16:03 UTC",
+  "scope": "Chromeの実ゲームRendererを使った固定ケース画面の視覚確認。実通信戦闘や独立Chat監査の代用ではない。",
+  "server": "http://127.0.0.1:5200",
+  "observations": [
+    {
+      "case": "ANT melee",
+      "stages": [
+        { "timeSeconds": 0.20, "stage": "構え", "result": "銅色と水色のモデルを読み込み、体を曲げる予備姿勢を確認。" },
+        { "timeSeconds": 0.45, "stage": "赤予告", "result": "地形に沿う赤い近接輪が明瞭に表示された。" },
+        { "timeSeconds": 0.85, "stage": "攻撃", "result": "攻撃姿勢を確認。モデルが灰白色に見えたが、既存の攻撃時発光か材質問題かは未確定。" }
+      ]
+    },
+    {
+      "case": "HARROW Dash",
+      "stages": [
+        { "timeSeconds": 0.20, "stage": "構え", "result": "最初の撮影はGLB読み込み前だった。再撮影で二脚・翼・爪とテクスチャを備えたHARROW実モデルを確認。" },
+        { "timeSeconds": 0.45, "stage": "赤予告", "result": "地形上に赤く塗られた突進経路を確認。モデル表示も維持。" },
+        { "timeSeconds": 0.85, "stage": "攻撃", "result": "攻撃段階へ進み、翼と胴の姿勢変化を確認。" }
+      ]
+    },
+    {
+      "case": "HARROW Threat",
+      "stages": [
+        { "timeSeconds": 0.80, "stage": "構え", "result": "二脚実モデルを維持したまま首と翼を持ち上げ始める。" },
+        { "timeSeconds": 1.80, "stage": "赤予告", "result": "首を大きく伸ばし、プレイヤー付近へ広がる複数の大きな赤い円を確認。" },
+        { "timeSeconds": 3.55, "stage": "攻撃", "result": "持ち上げた頭上に橙色の弾を確認。撮影時は赤い円も残っていた。" }
+      ]
+    },
+    {
+      "case": "HARROW Snipe",
+      "stages": [
+        { "timeSeconds": 0.50, "stage": "構え", "result": "二脚実モデルが翼を畳んで低く構える。" },
+        { "timeSeconds": 1.05, "stage": "赤予告", "result": "翼の発射器を持ち上げ、プレイヤー足元に小さな赤い標的輪を確認。" },
+        { "timeSeconds": 2.05, "stage": "攻撃", "result": "翼の発射器と黒い飛翔物を確認。撮影時は小さな標的輪も残っていた。" }
+      ],
+      "possibleConcern": "姿勢視点ではSnipeの標的輪が小さく、射線全域を範囲視点でまだ確認できていない。"
+    },
+    {
+      "case": "HARROW Spin",
+      "stages": [
+        { "timeSeconds": 0.25, "stage": "構え", "result": "二脚実モデルと翼・爪・テクスチャを確認。" },
+        { "timeSeconds": 0.63, "stage": "赤予告", "result": "体を低く伏せ、画面上で赤い円形予告の縁を確認。" },
+        { "timeSeconds": 1.20, "stage": "攻撃", "result": "低姿勢の回転演出と白い回転軌跡を確認。" }
+      ]
+    },
+    {
+      "case": "HARROW AirThreat",
+      "stages": [
+        { "timeSeconds": 0.88, "stage": "構え", "result": "浮遊中の二脚実モデルを確認。首と翼を引いて構える。" },
+        { "timeSeconds": 1.80, "stage": "赤予告", "result": "首を伸ばして翼を開く。姿勢視点の画面内では地上赤予告を確認できず、範囲視点での確認が残る。" },
+        { "timeSeconds": 3.55, "stage": "攻撃", "result": "翼を開き、頭上に橙色の弾を確認。" }
+      ]
+    },
+    {
+      "case": "HARROW BombPass",
+      "stages": [
+        { "timeSeconds": 0.38, "stage": "構え", "result": "浮遊中の実モデルが頭を下げ、翼の発射器を持ち上げる。" },
+        { "timeSeconds": 1.20, "stage": "赤予告", "result": "範囲視点で地面に左右2列の赤い円を確認。この時刻では4円が見え、後続の円は攻撃開始後に増えた。" },
+        { "timeSeconds": 1.55, "stage": "攻撃", "result": "通過姿勢の実モデルと左右2列に増えた赤い円を確認。弾そのものは撮影時刻が発射直後のため判別しにくい。" }
+      ]
+    },
+    {
+      "case": "HARROW Dive",
+      "stages": [
+        { "timeSeconds": 0.53, "stage": "構え", "result": "浮遊中の実モデルを確認。段階表示は赤予告だが、開始時刻0.40秒後のため純粋な構え画面ではない。" },
+        { "timeSeconds": 0.45, "stage": "赤予告", "result": "範囲視点で左右各3本の赤い爪痕形マーカーを確認。" },
+        { "timeSeconds": 3.25, "stage": "攻撃", "result": "実モデルが両脚の爪を前に出し、地上の爪痕形マーカーへ向かう姿勢を確認。着地瞬間は未撮影。" }
+      ]
+    },
+    {
+      "case": "ANT 射撃",
+      "stages": [
+        { "timeSeconds": 0.20, "stage": "構え", "result": "ANT実モデルを確認。" },
+        { "timeSeconds": 0.45, "stage": "赤予告", "result": "プレイヤーを挟む3本の湾曲した赤い危険帯を明瞭に確認。" },
+        { "timeSeconds": 0.85, "stage": "攻撃", "result": "赤帯が消え、モデルが灰白色の攻撃演出に切り替わる。" }
+      ]
+    },
+    {
+      "case": "LEAPER 近接",
+      "stages": [
+        { "timeSeconds": 0.18, "stage": "構え", "result": "モデルがプレイヤー目前で低く身構える。" },
+        { "timeSeconds": 0.45, "stage": "赤予告", "result": "本体周囲に地形に沿う赤い近接輪を確認。構えとの姿勢差は静止画では小さい。" },
+        { "timeSeconds": 0.85, "stage": "攻撃", "result": "赤輪が消え、前脚・胴が動いた灰白色の攻撃姿勢を確認。" }
+      ],
+      "possibleConcern": "構えと赤予告の姿勢差が静止画で小さい。再生中の予備動作の明瞭さは未確認。"
+    },
+    {
+      "case": "PLEAT 近接",
+      "stages": [
+        { "timeSeconds": 0.20, "stage": "構え", "result": "甲殻を備えた実モデルがプレイヤー目前で低く構える。" },
+        { "timeSeconds": 0.45, "stage": "赤予告", "result": "本体前方に赤い扇形の攻撃範囲を確認。" },
+        { "timeSeconds": 0.85, "stage": "攻撃", "result": "赤い扇が消え、甲殻が灰白色の攻撃姿勢になる。" }
+      ]
+    },
+    {
+      "case": "PRISM 射撃",
+      "stages": [
+        { "timeSeconds": 0.20, "stage": "構え", "result": "浮遊する多面体の実モデルと水色の発光輪を確認。" },
+        { "timeSeconds": 0.45, "stage": "赤予告", "result": "多面体の前方から画面端まで延びる赤い直線の危険帯を確認。" },
+        { "timeSeconds": 0.85, "stage": "攻撃", "result": "赤帯が消え、面が組み替わる灰白色の攻撃姿勢を確認。" }
+      ]
+    },
+    {
+      "case": "RAY 光線",
+      "stages": [
+        { "timeSeconds": 0.30, "stage": "構え", "result": "浮遊する翼と水色の発光輪を確認。" },
+        { "timeSeconds": 1.70, "stage": "赤予告", "result": "範囲視点でRAY本体からプレイヤーを通り越す赤い直線危険帯を確認。" },
+        { "timeSeconds": 2.10, "stage": "攻撃", "result": "赤帯が消え、本体の攻撃姿勢を確認。光線そのものは撮影時刻が発動直後で判別しにくい。" }
+      ],
+      "fixtureIssue": "固定版e6c1ff9の段階表示は赤開始1.02秒と示したが、実仕様の赤開始は1.65秒。t=1.07と1.50に赤帯がなかったのは描画欠落ではなく表示時刻の誤り。"
+    },
+    {
+      "case": "FOUNDRY 近接",
+      "stages": [
+        { "timeSeconds": 0.50, "stage": "構え", "result": "巨大な炉と脚の実モデルを確認。" },
+        { "timeSeconds": 1.60, "stage": "赤予告", "result": "プレイヤー周囲に大きな赤い円を確認。炉本体と脚の姿勢差は静止画ではほぼ判別できない。" },
+        { "timeSeconds": 3.15, "stage": "攻撃", "result": "赤円が消え、炉全体が灰白色の攻撃演出になる。" }
+      ],
+      "possibleConcern": "構えの変化が静止画では明瞭ではない。再生と側面視点の確認は接続障害により未実施。"
+    }
+  ],
+  "browserEvidence": "各段階の画像はmcp__cua_replのツール出力で確認したが、ローカル画像ファイルは保存できていない。",
+  "pngDownload": "保存できず。約6.5MBのdata:image/pngリンクでdownloadMediaが期限切れとなり、ダウンロードイベント待機とクリックの後にブラウザ接続が切れた。親担当の指示により再試行は禁止。",
+  "remaining": "3段階の実画面未確認は連結FOUNDRYとCALYX 2攻撃の3ケース。FOUNDRY通常の再生・側面、HARROW AirThreatの地上赤予告の範囲視点、RAY光線そのもの、Dive着地瞬間も未確認。音声16件は試聴ページで確認済み。",
+  "connectionFailure": {
+    "tabId": "1271484155",
+    "ax": "CDP Accessibility.getFullAXTreeの10秒待機が期限切れ。",
+    "screenshot": "CDP Emulation.setFocusEmulationEnabledの10秒待機が期限切れ。"
+  },
+  "secondConnectionFailure": {
+    "tabId": "1271484169",
+    "context": "固定版5201でCALYX Slamへ移動した直後。",
+    "ax": "CDP Accessibility.getFullAXTreeの10秒待機が期限切れ。",
+    "screenshot": "CDP Emulation.setFocusEmulationEnabledの10秒待機が期限切れ。"
+  },
+  "voiceQa": {
+    "tabId": "1271484166",
+    "url": "http://127.0.0.1:5200/anomaly-voices.html",
+    "decoded": "16件すべてreadyState=4、有限のduration、media errorなし。",
+    "played": "16件すべて再生操作後、currentTimeが少なくとも0.22秒まで進み、paused=falseを確認。",
+    "switching": "切替試料ごとに再生中は1件のみ。HARROWでは再生中の一時停止で0.93秒時点のpaused=trueを確認。",
+    "limit": "HTML音声試聴ページの挙動であり、実戦のボイス管理や人の聴感評価を保証しない。"
+  }
+}

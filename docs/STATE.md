@@ -1,10 +1,16 @@
-# 現在地: 全ANOMALYの予備動作・固有ボイス、初回監査の必須5件を修正し再監査準備中（2026-10-13）
+# 現在地: 全ANOMALYの監査指摘を修正済み、Chrome接続障害で再監査待ち（2026-10-13）
 
-本人のgoal指示により、全8種/連結形態を「構え→赤い攻撃エリア→攻撃」に統一し、種類ごとの16声・戦闘再生・エネミーレポート試聴・一覧ページを実装。[PR177](https://github.com/futsalife24-bot/swarm-front/pull/177)、実装 `ea2c94799827042a7980fdaea81401f355d1caa5`、base `27208f1de0d491bcfbba191a75c861bed0c29418`、branch `codex/anomaly-anticipation-voices-20261013`。HARROW v14と兵士旋回PR176を保持。型3対象・音声関連51件・最終戦闘関連180件・実Worker/WebSocket10件通過。vite build・本番Worker dry-run成功、監査ZIPのCRC/全SHA検証済み。16 WAVデコード正常。声は独自の手続き合成、外部AI生成ではなく費用0。
+[PR177](https://github.com/futsalife24-bot/swarm-front/pull/177)、branch `codex/anomaly-anticipation-voices-20261013`、base `27208f1de0d491bcfbba191a75c861bed0c29418`、最終実装 `4cabb7a074e9dd38da5f8d18362a7aaf2f391497` をpush済み。全8種/連結形態の構え→赤い攻撃エリア→攻撃、16声・戦闘音声・試聴一覧を実装。HARROW v14、CALYX開発者解放、兵士旋回PR176を保持。声は独自の手続き合成（外部AIではなく費用0）。
 
-監査: 本人が「今回だけChromeでの通常Chat監査を承認」と明示したため、入力障害が続くiabから今回のみ経路を変更。[監査Chat](https://chatgpt.com/c/6acdaec0-6ddc-83ee-98d5-8c96c0c6955e)へ初回ZIPを直接添付し送信成功。対象実装 `ea2c947` の初回判定は要修正（P0/P1未検出、必須P2が5件）。5件すべて局所修正・回帰検証済み。P2-02も4件通過し、関連計91件（既存7スイート87件＋予告4件）通過。src・Worker・確認ページの型検査も通過。修正は `e6c1ff9` と未commit差分を含み、確定SHAは統合後に追記する。初回ZIP SHA256 `baca9c27cc26ca61420a086788b7aa17094aeaf96625e7999156dc1d4d1b5794` は修正前の資料であり、修正版の再監査送信・判定は未実施。元のiab下書き496文字は保持。main未反映・未公開。
+本人の今回限定Chrome承認で[通常Chat監査](https://chatgpt.com/c/6acdaec0-6ddc-83ee-98d5-8c96c0c6955e)は初回完了。ea2c947にP2が5件（P0/P1未検出）。全5件を修正し、追加でANT近接が発動時にIdleへ戻る不具合も修正。関連94件の範囲・型3対象・書式、確定4cabb7aのvite build/本番Worker dry-run成功。初回の戦闘関連180件・音声51件・実Worker/WebSocket10件・履歴検査成功も記録済み。独立再監査の合格はまだ得ていない。main未反映・未公開。
 
-次の工程: 残るUI3ケース（CALYX 2攻撃・連結FOUNDRY）とFOUNDRY通常の再生・側面を確認→修正版資料を同じChatへ送り再監査→必須指摘なしを確認後にmain反映・既存Worker公開・配信確認。同じ承認を取り直さない。固定版の実ゲームRendererでは17攻撃中14ケースの表示を確認、Chrome試聴一覧では16声すべてデコード・再生時刻進行・単独再生を確認した。これらは実通信戦闘や本人の聴感採用の確認ではない。旧「監査未送信」「実再生未確認」は初回障害時の履歴であり、現状では解消済み。GitHub mainは27208f1、PR177は初回確認時MERGEABLE/CLEAN・チェック表示なし。mainのbranch保護なし・rulesetなしを読み取り確認した（変更はしていない）。別worktreeのmain（35125e5）は指定先限定のsafe.directoryを使った読み取りでclean。配信確認スクリプト `scripts/check-anomaly-voices-delivery.mjs` は準備済み。資料は `dist-validation/anomaly-voices-20261013/`、試聴一覧は `public/anomaly-voices.html`。[詳細記録](ANOMALY-ANTICIPATION-VOICES.md)。以下は過去経過。
+音声一覧の16/16実再生・単独切替をChromeで確認。HARROW7攻撃、CALYX2攻撃、通常FOUNDRYの構え/赤/解放を目視した。確認ページのdt=0により通常種の姿勢ブレンドが止まっていたため50ms刻みへ修正し、FOUNDRYは再確認。ANT近接/射撃・LEAPER・PLEAT・PRISM・RAYの6姿勢の再視認と、修正後の連結FOUNDRYレーザー赤線/発射は未確認。以前の赤範囲観測を姿勢合格と混同しない。[UI到達点](evidence/anomaly-anticipation-voices-20261013/ui-final.md)。PNG保存・本人の美術/聴感採用・実スマホ/長時間戦闘も未確認。
+
+停止理由: Chromeが既存Chat/3Dタブへの接続、同じChatの新規タブ、全体状態取得でタイムアウト。再初期化後に現存ChatのID指定でもFocus命令が10秒超過した。再監査資料は未送信。承認不足ではなく外部の操作接続障害。iabの別件下書き496文字は保持、秘密値・下書き本文は監査資料に含めない。
+
+再開条件: Chrome通常Chatへの状態取得・入力・添付が復旧したら、保存済み再監査ZIPを同じChatへ送信し、残るUI確認→必須指摘修正/合格→既存mainへ通常merge→既存Worker公開・配信SHA/health/UI確認へ続ける。経路例外は今回だけ承認済み、追加確認不要。再監査ZIPの完全SHA/ハッシュは `docs/evidence/anomaly-anticipation-voices-20261013/reaudit-package.json` へ記録する。試聴は `public/anomaly-voices.html`、ローカル固定プレビューは5201。詳細は [作業記録](ANOMALY-ANTICIPATION-VOICES.md)。担当モデルID/推論設定は取得不可で未確認。
+
+既存CloudflareはWorkers Free・当日51/100,000（閲覧時）、契約変更なし。GitHub mainは確認時27208f1、PR177はdraft・MERGEABLE/CLEAN、チェック表示なし・保護/rulesetなし（設定変更なし）。別worktree main `C:/Users/futsa/Documents/Codex/2026-10-09/swarm-soldier-motion` は35125e5/cleanを読み取り確認。公開時は現状再確認後、指定先限定safe.directoryでff-only同期する。以下は過去経過。
 
 # 経過: 兵士のその場旋回（足の踏み替え）と他プレイヤーの向き補間、再監査で条件付き合格、main反映・公開へ（2026-10-12、Claude Code）
 

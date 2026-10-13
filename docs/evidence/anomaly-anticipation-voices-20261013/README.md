@@ -2,13 +2,13 @@
 
 ## 最新の確認（2026-10-13）
 
-今回のみ本人が承認したChrome通常Chatへ初回ZIPを送信済み。[独立監査](https://chatgpt.com/c/6acdaec0-6ddc-83ee-98d5-8c96c0c6955e)の初回判定は実装 `ea2c947` に対して要修正（P0/P1未検出、必須P2が5件）。P2-01〜05はすべて実装・回帰検証済みで、修正版を同じChatへ再監査する準備中。修正は `e6c1ff9` と未commit差分を含み、確定SHAは統合後に追記する。初回ZIPは修正前の資料であり、再監査の送信・判定は未実施。main未反映・未公開。
+[通常Chat監査](https://chatgpt.com/c/6acdaec0-6ddc-83ee-98d5-8c96c0c6955e)の初回P2全5件を修正し、追加のANT近接解放も修正。最終実装 `4cabb7a074e9dd38da5f8d18362a7aaf2f391497` をPR177へpush済み。関連94件の範囲・型3対象・書式・同SHAのbuild/本番Worker dry-run成功。再監査はChrome接続障害で未送信。main未反映・未公開。
 
-P2-01のVOLLEY攻撃種選択は固定照準点の距離へ統一（`431741d`）、P2-02の壁上端予告は権威と同じ50ms積分へ統一して予告4件通過。P2-03のLEAPER構え/跳躍競合、P2-04の連結FOUNDRYレーザー赤線終端、P2-05の中断後に残る古い声も修正・回帰検証済み。関連7スイート87件と予告4件、計91件通過。src・Worker・確認ページの型検査も通過した。初回のsandbox Temp ssr ENOENTは作業領域Temp・単一workerで同条件を再実行し、assertion失敗と区別した。詳細は[作業記録](../../ANOMALY-ANTICIPATION-VOICES.md)。
+修正内容は [作業記録](../../ANOMALY-ANTICIPATION-VOICES.md)。初回回答は [audit-initial.md](audit-initial.md)、最新の実画面観測/限界は [ui-final.md](ui-final.md)。`chrome-qa-initial.json`は途中観測の履歴であり、dt=0だった通常種の姿勢評価には使わない。`pose-qa-pending.json`は再視認失敗の記録。
 
-固定版の実ゲームRendererでは17攻撃中14ケースの表示を確認し、残るCALYX 2攻撃と連結FOUNDRYの3ケースは未確認。FOUNDRY通常の再生・側面も追加確認中。Chrome試聴一覧の16声はすべて `readyState=4`・エラーなし、再生時刻の進行、切替時の単独再生を確認した。これは実通信戦闘での全攻撃目視や本人の聴感・美術的採用の確認ではない。PNG保存はブラウザ接続障害で未達。観測の詳細は `dist-validation/anomaly-voices-20261013/chrome-qa-observations.json`。
+16声はChromeのHTML audioで全件デコードと再生時刻進行、切替時の単独再生を確認。本人の聴感採用や実戦AudioContext試験とは区別する。音声中断の回帰は`audio-lifecycle-*.txt`。Cloudflare契約は既存Free、表示値はcloudflare-preflight.json、設定変更なし。
 
-Cloudflare既存アカウントはWorkers Free・有効。閲覧時の当日リクエスト51/100,000。既存DOの表示値は対象期間不明のため当日値とは扱わない。契約・設定変更なし（cloudflare-preflight.json）。
+再監査資料のsourceは添付README記載の完全SHAからgit archive。初回からの差分/必要ソース/8モデル/16声/検証ログを含め、CRC・sha256.jsonの全件を検査。個人下書き/秘密値/依存キャッシュを含めない。
 
 ## 初回資料の記録
 
