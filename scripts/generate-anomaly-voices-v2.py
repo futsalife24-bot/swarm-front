@@ -161,10 +161,10 @@ def render(kind, v):
     # 共通なのはDC除去、端点、出力レベルの処理だけ。音源・発声の構造は種別。
     x -= x.mean()
     x *= gate(t, 0, duration - 1 / RATE, .005, .018)
-    x *= .105 / max(1e-9, float(np.sqrt(np.mean(x * x))))
-    peak = float(np.max(np.abs(x)))
-    if peak > .69:
-        x *= .69 / peak
+    x *= .22 / max(1e-9, float(np.sqrt(np.mean(x * x))))
+    # 単発のピークだけで全体を下げず、短い発声も戦闘音に残る音量に整える。
+    # 滑らかな飽和で余裕を確保し、PCMのハードクリップは発生させない。
+    x = .69 * np.tanh(x / .69)
     x[0] = x[-1] = 0
     assert np.isfinite(x).all()
     return x

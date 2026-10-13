@@ -19,7 +19,7 @@
 
 ## 素材と再生成
 
-`public/assets/audio/anomaly-voice-v2/`、PCM16 / mono / 32 kHz。16声は1.12〜2.10秒、合計1,686,464 bytes。ピークは−6.66〜−3.22 dBFS、RMSは−23.63〜−19.58 dBFS。無音端点・有限波形。外部サンプル・生成AI・外部API不使用、クレジット0。manifestに全WAVのSHA256とミックスの発声時刻を記録。
+`public/assets/audio/anomaly-voice-v2/`、PCM16 / mono / 32 kHz。16声は1.12〜2.10秒、合計1,686,464 bytes。ピークは−4.26〜−3.24 dBFS、RMSは−15.34〜−13.98 dBFS。無音端点・有限波形。初稿はRMSが低すぎたため、単発ピークで全体を下げる処理を滑らかな出力制限へ変えて調整した。外部サンプル・生成AI・外部API不使用、クレジット0。manifestに全WAVのSHA256とミックスの発声時刻を記録。
 
 Python 3.12.14 / NumPy 2.3.5で `python scripts/generate-anomaly-voices-v2.py`。NumPyの数値処理変更でハッシュが変わり得るため、保存済みWAVが実行時の正本。
 
