@@ -83,3 +83,7 @@ RAYは照準の固定後に赤予告を出すため、構え約1.65秒、赤予�
 最終公開前ビルド: 対象実装のvite buildと本番設定Worker dry-run成功。監査ZIPへ最終ログを追加し、CRC・全SHAを再検証。ハッシュは `docs/evidence/anomaly-anticipation-voices-20261013/audit-package.json`。独立監査/main/公開は未実施。
 
 再開確認（2026-10-13）: 履歴検査は既存90秒上限を変更せず単独52.11秒で通過（changelog-recovery.txt）。iab一覧/試聴一覧の表示は一度復旧したが、再生クリック・Spaceは時刻0のままで未確認。攻撃画面は再読込のCDP focus命令と画像取得が時間切れ。通常Chatタブ27へのアクセスは別件下書きの読み取り可能性を理由に自動承認レビューが拒否し、本人へ全文保護と一時置換/復元の承認を依頼中。下書きにはアクセスしていない。
+
+公開再開確認: 本人の「公開までやって」により通常Chatの読み取り・監査文への一時置換を実施できた。下書き496文字は全文保存・復元照合済み（私的下書きはGit/監査ZIPへ入れない）。添付click/Enter/Expandとfilechooserは無反応・10秒超過。送信していない。復旧用の再読み込みが自動承認レビューに拒否され、再読み込み・必要時の全文復元を本人へ承認依頼。HARROW Spinの実モデル/テクスチャ、0.20秒で赤なし、0.80秒で赤予告を実画面確認。PNGダウンロードは20秒超過で未保存、全件UI合格ではない。GitHub mainは27208f1、既存CloudflareアカウントのOAuth認証あり。
+
+配信準備: `scripts/check-anomaly-voices-delivery.mjs` は既存Workerのhealthと、試聴ページ・16 WAV・manifest/CREDITS・現行8モデル・index/front/JS/CSSをSHA照合する。node --check通過。公開前のため通信を伴う本検証は未実行。ランタイム実装SHA ea2c947は不変。

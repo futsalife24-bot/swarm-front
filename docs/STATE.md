@@ -2,9 +2,9 @@
 
 本人のgoal指示により、全8種/連結形態を「構え→赤い攻撃エリア→攻撃」に統一し、種類ごとの16声・戦闘再生・エネミーレポート試聴・一覧ページを実装。[PR177](https://github.com/futsalife24-bot/swarm-front/pull/177)、実装 `ea2c94799827042a7980fdaea81401f355d1caa5`、base `27208f1de0d491bcfbba191a75c861bed0c29418`、branch `codex/anomaly-anticipation-voices-20261013`。HARROW v14と兵士旋回PR176を保持。型3対象・音声関連51件・最終戦闘関連180件・実Worker/WebSocket10件通過。vite build・本番Worker dry-run成功、監査ZIPのCRC/全SHA検証済み。16 WAVデコード正常。声は独自の手続き合成、外部AI生成ではなく費用0。
 
-停止理由: iab一覧取得は一度復旧したが再生クリック/Spaceは無反応、攻撃画面の再読込・画像取得も再び時間切れ。さらに通常Chatのタブ27を開く操作は、別件の未送信下書きを読み取る可能性を理由に自動承認レビューで拒否。下書きの読み取り・全文保存・一時置換・送信後全文復元を本人へ非同期承認依頼中。必須の通常Chat監査は未送信。実モデルのテクスチャ読込エラーも観測し、最終見た目・実再生は未確認。履歴検査は環境回復後、既存90秒上限のまま52.11秒で通過。独立監査未送信・main未反映・未公開。
+停止理由: 本人の「公開までやって」で再開し、通常Chatタブ27の読み取り・監査文への一時置換は実施できた。別件下書き496文字をローカルへ全文保存して照合済み。添付ボタンのclick/Enter/アクセシビリティ展開と標準filechooserが反応せず、ZIP添付・監査送信は未実施。元の下書きは496文字の完全一致で復元済み。復旧用の再読み込みは、自動承認レビューが「復元した未送信下書きを失うおそれと、再読み込み自体の明示承認なし」を理由に拒否。再読み込みと必要時の全文復元を本人へ非同期承認依頼中。main未反映・未公開。
 
-再開条件: iab状態取得・入力・添付の復旧後、最終UI/試聴確認と証拠取得、履歴検査、通常Chat独立監査・必要修正を行い、main反映・既存Worker公開・配信確認へ。対象SHA監査資料とログは `dist-validation/anomaly-voices-20261013/`、試聴一覧は `public/anomaly-voices.html`。詳細は[作業記録](ANOMALY-ANTICIPATION-VOICES.md)。以下は過去経過。
+再開条件: 監査用Chatの再読み込みと必要時の下書き復元の承認後、iabの添付/送信を復旧し、最終UI/試聴確認→通常Chat独立監査・必要修正→main反映・既存Worker公開・配信確認。今回HARROW Spinの構え0.20秒で赤なし、赤予告0.80秒で赤範囲と実テクスチャ表示を確認。他モーション全件・実再生の最終確認は未完了。GitHub mainは27208f1のまま、既存CloudflareアカウントのOAuth認証を確認。配信確認スクリプト `scripts/check-anomaly-voices-delivery.mjs` を準備（構文検査のみ、未配信検証）。対象SHA監査ZIPとログは `dist-validation/anomaly-voices-20261013/`、試聴一覧は `public/anomaly-voices.html`。詳細は[作業記録](ANOMALY-ANTICIPATION-VOICES.md)。以下は過去経過。
 
 # 経過: 兵士のその場旋回（足の踏み替え）と他プレイヤーの向き補間、再監査で条件付き合格、main反映・公開へ（2026-10-12、Claude Code）
 
