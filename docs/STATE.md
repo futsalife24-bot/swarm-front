@@ -1,3 +1,8 @@
+# 現在地: 群れの戦闘ボイス音量を半減、追加監査中（2026-10-13）
+
+本人の控えめにする指示で全20声の戦闘ゲイン0.48→0.24（約-6dB）、既存最大2声・発声間隔・距離減衰を維持。製品差分はaudio.tsの1行。[PR180](https://github.com/futsalife24-bot/swarm-front/pull/180)、対象0408bc65f77c53498228cbbdd471003a0472e811、base419043b、branch codex/anomaly-voice-volume-20261013。型/17テスト/build/dry-run成功。同じ通常Chatへ差分を提出済み、独立判定待ち。ブラウザ復旧後、実Sound/Audio/WAVで0.24×2声・3声目抑制・銃声0.62維持を確認。main反映・公開は未完了。[検証記録](evidence/anomaly-voice-volume-20261013/verification.md)。
+
+以下は経過。
 # 現在地: 採用版ボイスv3をmain反映・公開完了（2026-10-13）
 
 本人採用済みの全20声をPR179で通常merge・公開。PRISM改訂、通常FOUNDRY/連結中/分離後の別音源、図鑑の状態別試聴を反映。最終b48238bの独立監査は必須0・67確認成功。公開ソースe6e02df6d2b2a98b4e580b832eb2e9820b6633b5、Worker 6c6a3558-dae2-4945-b6f1-ed9839f4121c。merge後build/dry-run/deploy成功、配信67/67一致・health正常、公開33音声読込とボス比較9秒完走を確認。[公開記録](evidence/anomaly-voice-v3-20261013/release.md)。実スマホ・戦闘SE/BGM混合は未確認。名称独立・別ボス化は今後の仕様。
