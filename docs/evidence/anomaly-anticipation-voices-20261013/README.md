@@ -14,7 +14,7 @@
 
 必須経路であるiab通常Chatへの監査送信は未実施。main未反映・未公開。
 
-監査ZIPはローカル `dist-validation/anomaly-voices-20261013/anomaly-audit-ea2c947.zip`。347ファイル、22,346,401 bytes、SHA256 `89eb937cf33601f0bcb66ef539bdda128ca50c326be5f1dcd1d983141667cb83`。CRC・内包全ファイルのSHAを検証済み。対象コミットから抽出したソース・現行8モデル・16声・実差分・検証ログを収録。ZIP中build.logは途中状態であり成功証拠ではない。最終ビルド結果は別途追記する。
+監査ZIPはローカル `dist-validation/anomaly-voices-20261013/anomaly-audit-ea2c947.zip`。348ファイル、22,348,150 bytes、SHA256 `7e3fb3a91c529afcd965c807333fa7afd7943db6672ba4135a7fd7bda209c8d9`。CRC・内包全ファイルのSHAを検証済み。対象コミットから抽出したソース・現行8モデル・16声・実差分・検証ログを収録。最終vite buildと本番設定Worker dry-runは成功。最終ログをZIPと本ディレクトリへ保存。公開操作は未実施。
 
 試聴一覧 `public/anomaly-voices.html`。音声は外部AI生成ではなく独自の手続き合成。費用0。原本・計測・権利情報は `public/assets/audio/anomaly-voice-v1/`。
 

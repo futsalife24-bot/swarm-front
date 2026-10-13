@@ -1,6 +1,6 @@
 # 現在地: 全ANOMALYの攻撃予備動作と固有ボイスをPR177へ保存、iab監査経路の復旧待ち（2026-10-13）
 
-本人のgoal指示により、全8種/連結形態を「構え→赤い攻撃エリア→攻撃」に統一し、種類ごとの16声・戦闘再生・エネミーレポート試聴・一覧ページを実装。[PR177](https://github.com/futsalife24-bot/swarm-front/pull/177)、実装 `ea2c94799827042a7980fdaea81401f355d1caa5`、base `27208f1de0d491bcfbba191a75c861bed0c29418`、branch `codex/anomaly-anticipation-voices-20261013`。HARROW v14と兵士旋回PR176を保持。型3対象・音声関連51件・最終戦闘関連180件・実Worker/WebSocket10件通過。16 WAVデコード正常。声は独自の手続き合成、外部AI生成ではなく費用0。
+本人のgoal指示により、全8種/連結形態を「構え→赤い攻撃エリア→攻撃」に統一し、種類ごとの16声・戦闘再生・エネミーレポート試聴・一覧ページを実装。[PR177](https://github.com/futsalife24-bot/swarm-front/pull/177)、実装 `ea2c94799827042a7980fdaea81401f355d1caa5`、base `27208f1de0d491bcfbba191a75c861bed0c29418`、branch `codex/anomaly-anticipation-voices-20261013`。HARROW v14と兵士旋回PR176を保持。型3対象・音声関連51件・最終戦闘関連180件・実Worker/WebSocket10件通過。vite build・本番Worker dry-run成功、監査ZIPのCRC/全SHA検証済み。16 WAVデコード正常。声は独自の手続き合成、外部AI生成ではなく費用0。
 
 停止理由: iabのクリック/Enter無反応に加え全体状態取得もタイムアウトし、必須の通常Chat監査を送信できない。実モデルのテクスチャ読込エラーも観測し、最終見た目・実再生は未確認。履歴検査は90秒超過で未合格。独立監査未送信・main未反映・未公開。
 

@@ -6,4 +6,3 @@
       Tests  1 passed | 15 skipped (16)
    Start at  11:36:09
    Duration  159.09s (tests 68%, transform 24%, import 8%)
-

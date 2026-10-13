@@ -24,4 +24,3 @@ If this is a long-running test, pass a timeout value as the last argument or con
       Tests  1 failed | 22 skipped (23)
    Start at  11:20:38
    Duration  206.39s (tests 94%, transform 4%, import 2%)
-
