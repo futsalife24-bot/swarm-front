@@ -1,0 +1,57 @@
+
+ ⛅️ wrangler 4.129.0
+────────────────────
+🌀 Building list of assets...
+✨ Read 329 files from the assets directory C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\dist
+🌀 Starting asset upload...
+🌀 Found 32 new or modified static assets to upload. Proceeding with upload...
++ /assets/audio/anomaly-voice-v1/CREDITS.txt
++ /assets/training-app-CTABHmeI.js
++ /assets/weapon-sharing-C95q1Hx0.js
++ /assets/title-motion-Du0kW1pO.css
++ /assets/changelog-ljGSyVvv.js
++ /assets/playtest-app-DX_QidOe.js
++ /assets/front-NvGEXgYp.js
++ /assets/audio/anomaly-voice-v1/spitter-0.wav
++ /assets/audio/anomaly-voice-v1/harrow-1.wav
++ /assets/audio/anomaly-voice-v1/calyx-0.wav
++ /assets/audio/anomaly-voice-v1/boss-1.wav
++ /front.html
++ /index.html
++ /assets/legacy-DW5zaruO.js
++ /assets/main-CxxHRN3K.js
++ /assets/audio/anomaly-voice-v1/ant-0.wav
++ /assets/audio/anomaly-voice-v1/spider-0.wav
++ /assets/audio/anomaly-voice-v1/crawler-0.wav
++ /assets/audio/anomaly-voice-v1/spitter-1.wav
++ /assets/audio/anomaly-voice-v1/hornet-0.wav
++ /assets/audio/anomaly-voice-v1/calyx-1.wav
++ /assets/hud-CqPPjzac.js
++ /assets/audio/anomaly-voice-v1/manifest.json
++ /anomaly-voices.html
++ /assets/cloud-save-K9gxMrc_.js
++ /assets/title-motion-Bw0yG1QG.js
++ /assets/audio/anomaly-voice-v1/ant-1.wav
++ /assets/audio/anomaly-voice-v1/spider-1.wav
++ /assets/audio/anomaly-voice-v1/crawler-1.wav
++ /assets/audio/anomaly-voice-v1/harrow-0.wav
++ /assets/audio/anomaly-voice-v1/hornet-1.wav
++ /assets/audio/anomaly-voice-v1/boss-0.wav
+Uploaded 10 of 32 assets
+Uploaded 21 of 32 assets
+Uploaded 32 of 32 assets
+✨ Success! Uploaded 32 files (263 already uploaded) (2.27 sec)
+
+Total Upload: 370.43 KiB / gzip: 91.13 KiB
+Worker Startup Time: 286 ms
+Your Worker has access to the following bindings:
+Binding                                                  Resource
+env.ROOMS (Room)                                         Durable Object
+env.GATE (Gate)                                          Durable Object
+env.PROJECT_HUB (project-hub)                            Worker
+env.TURNSTILE_SITE_KEY ("0x4AAAAAAEqP4GMKnl-xNQKK")      Environment Variable
+
+Uploaded swarm-front (11.59 sec)
+Deployed swarm-front triggers (0.92 sec)
+  https://swarm-front.melosalife-24.workers.dev
+Current Version ID: 0326b248-470c-45e5-8399-1a2785511371

@@ -1,3 +1,12 @@
+# 現在地: 全ANOMALYの予備動作・赤予告・固有ボイスをmain反映・公開完了（2026-10-13）
+
+[PR177](https://github.com/futsalife24-bot/swarm-front/pull/177)を通常merge。公開ソース `9b302d68c5cd5c4f68c754ba5214c34d33dc42c5`、Worker `0326b248-470c-45e5-8399-1a2785511371`。全8種/連結形態を構え→赤い攻撃エリア→攻撃へ統一、8種16声と戦闘再生・試聴一覧を追加。HARROW v14、CALYX解放、兵士旋回を保持。声は独自合成・費用0。
+
+初回必須5件と追加ANT不具合を修正し、93b7ba0再監査合格。実画面で連結炉の赤線を幅2mの帯へ追加改善した8a8345eも、最終独立監査で必須P0/P1/P2各0・新規任意なし。最終UI確認、型/関連テスト/ビルド等、merge後build/dry-run成功。公開51/51 SHA一致、health正常。公開試聴一覧の16音声読込/HARROW・CALYX再生、エネミーレポートのCALYX実モデル/HARROW攻撃再生を844×390でも確認。
+
+[ゲーム](https://swarm-front.melosalife-24.workers.dev/front) / [16声の試聴一覧](https://swarm-front.melosalife-24.workers.dev/anomaly-voices.html) / [公開記録・検証限界](evidence/anomaly-anticipation-voices-20261013/release.md)。通常弾の既存renderテスト1失敗、実スマホ・長時間戦闘・本人の美術/聴感採用は未確認。PNG保存は接続障害で未達、ツール画像目視と区別。公開後の文書記録をmainへ保存し、main/origin/mainとcleanを最終照合する。モデルID/推論設定は未確認。
+
+以下は過去経過。
 # 現在地: PR177の最終追加監査まで合格、main反映・公開へ（2026-10-13）
 
 [PR177](https://github.com/futsalife24-bot/swarm-front/pull/177)、branch `codex/anomaly-anticipation-voices-20261013`、base main `27208f1de0d491bcfbba191a75c861bed0c29418`。93b7ba0（実装4cabb7a）の[通常Chat再監査](https://chatgpt.com/c/6acdaec0-6ddc-83ee-98d5-8c96c0c6955e)は必須P0/P1/P2各0で合格。初回5件と追加ANT修正の解消を独立確認。[監査結果](evidence/anomaly-anticipation-voices-20261013/audit-reaudit.md)。

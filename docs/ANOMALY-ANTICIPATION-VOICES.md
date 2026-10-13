@@ -129,3 +129,7 @@ Chrome一覧では16声すべての時刻進行、同時1件と一時停止を�
 ## 再監査合格と最終UI確認
 
 93b7ba0（実装4cabb7a）の限定再監査は必須P0/P1/P2各0で合格。[結果](evidence/anomaly-anticipation-voices-20261013/audit-reaudit.md)。Chrome復旧後、通常6ケースと連結炉の構え/赤/解放を実画面確認。連結炉の赤線が細く見づらかったため幅2mの赤帯へ追加改善、確認ページの頭向き/照準高さ/coolも実戦に合わせた。製品の変更はrenderの表示幅/厚みだけ。これは先の合格対象外として限定追加監査後に公開する。自己検証と既存renderテスト失敗の区別はvisible-warning-validation.txt、最終UIの範囲はui-final.mdを参照。
+
+## 公開完了
+
+PR177を通常merge、ソース9b302d68c5cd5c4f68c754ba5214c34d33dc42c5から既存Workerへ公開。Version 0326b248-470c-45e5-8399-1a2785511371。51ファイルSHA一致/health正常、公開試聴一覧・CALYX実モデル・HARROW攻撃再生を確認。[公開記録](evidence/anomaly-anticipation-voices-20261013/release.md)。既存テスト失敗や本人の美術/聴感採用は未確認のまま区別する。
