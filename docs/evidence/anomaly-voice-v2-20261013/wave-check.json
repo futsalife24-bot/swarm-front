@@ -1,0 +1,238 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "file": "harrow-0.wav",
+      "sha_matches": true,
+      "pcm": [
+        1,
+        2,
+        32000
+      ],
+      "silent_endpoints": true,
+      "peak": 21634,
+      "reproducible": true,
+      "pass": true
+    },
+    {
+      "file": "harrow-1.wav",
+      "sha_matches": true,
+      "pcm": [
+        1,
+        2,
+        32000
+      ],
+      "silent_endpoints": true,
+      "peak": 21481,
+      "reproducible": true,
+      "pass": true
+    },
+    {
+      "file": "calyx-0.wav",
+      "sha_matches": true,
+      "pcm": [
+        1,
+        2,
+        32000
+      ],
+      "silent_endpoints": true,
+      "peak": 21585,
+      "reproducible": true,
+      "pass": true
+    },
+    {
+      "file": "calyx-1.wav",
+      "sha_matches": true,
+      "pcm": [
+        1,
+        2,
+        32000
+      ],
+      "silent_endpoints": true,
+      "peak": 21357,
+      "reproducible": true,
+      "pass": true
+    },
+    {
+      "file": "ant-0.wav",
+      "sha_matches": true,
+      "pcm": [
+        1,
+        2,
+        32000
+      ],
+      "silent_endpoints": true,
+      "peak": 22044,
+      "reproducible": true,
+      "pass": true
+    },
+    {
+      "file": "ant-1.wav",
+      "sha_matches": true,
+      "pcm": [
+        1,
+        2,
+        32000
+      ],
+      "silent_endpoints": true,
+      "peak": 21871,
+      "reproducible": true,
+      "pass": true
+    },
+    {
+      "file": "spider-0.wav",
+      "sha_matches": true,
+      "pcm": [
+        1,
+        2,
+        32000
+      ],
+      "silent_endpoints": true,
+      "peak": 20508,
+      "reproducible": true,
+      "pass": true
+    },
+    {
+      "file": "spider-1.wav",
+      "sha_matches": true,
+      "pcm": [
+        1,
+        2,
+        32000
+      ],
+      "silent_endpoints": true,
+      "peak": 20067,
+      "reproducible": true,
+      "pass": true
+    },
+    {
+      "file": "crawler-0.wav",
+      "sha_matches": true,
+      "pcm": [
+        1,
+        2,
+        32000
+      ],
+      "silent_endpoints": true,
+      "peak": 22005,
+      "reproducible": true,
+      "pass": true
+    },
+    {
+      "file": "crawler-1.wav",
+      "sha_matches": true,
+      "pcm": [
+        1,
+        2,
+        32000
+      ],
+      "silent_endpoints": true,
+      "peak": 21922,
+      "reproducible": true,
+      "pass": true
+    },
+    {
+      "file": "spitter-0.wav",
+      "sha_matches": true,
+      "pcm": [
+        1,
+        2,
+        32000
+      ],
+      "silent_endpoints": true,
+      "peak": 21986,
+      "reproducible": true,
+      "pass": true
+    },
+    {
+      "file": "spitter-1.wav",
+      "sha_matches": true,
+      "pcm": [
+        1,
+        2,
+        32000
+      ],
+      "silent_endpoints": true,
+      "peak": 21869,
+      "reproducible": true,
+      "pass": true
+    },
+    {
+      "file": "hornet-0.wav",
+      "sha_matches": true,
+      "pcm": [
+        1,
+        2,
+        32000
+      ],
+      "silent_endpoints": true,
+      "peak": 22553,
+      "reproducible": true,
+      "pass": true
+    },
+    {
+      "file": "hornet-1.wav",
+      "sha_matches": true,
+      "pcm": [
+        1,
+        2,
+        32000
+      ],
+      "silent_endpoints": true,
+      "peak": 22514,
+      "reproducible": true,
+      "pass": true
+    },
+    {
+      "file": "boss-0.wav",
+      "sha_matches": true,
+      "pcm": [
+        1,
+        2,
+        32000
+      ],
+      "silent_endpoints": true,
+      "peak": 21316,
+      "reproducible": true,
+      "pass": true
+    },
+    {
+      "file": "boss-1.wav",
+      "sha_matches": true,
+      "pcm": [
+        1,
+        2,
+        32000
+      ],
+      "silent_endpoints": true,
+      "peak": 20699,
+      "reproducible": true,
+      "pass": true
+    },
+    {
+      "file": "pairs.wav",
+      "sha_matches": true,
+      "pcm": [
+        1,
+        2,
+        32000
+      ],
+      "silent_endpoints": true,
+      "peak": 25013,
+      "pass": true
+    },
+    {
+      "file": "crowd-stress.wav",
+      "sha_matches": true,
+      "pcm": [
+        1,
+        2,
+        32000
+      ],
+      "silent_endpoints": true,
+      "peak": 18448,
+      "pass": true
+    }
+  ],
+  "listening_approval": false
+}

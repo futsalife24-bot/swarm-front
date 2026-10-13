@@ -2,7 +2,7 @@
 
 PR177の公開は完了したが、本人が「全部同じ音、高さ違い程度、群れで識別できない」と評価。共通の声帯式を種別8構造へ分けたv2 16声と、旧版比較・2声/4声の重ね聴きを追加。branch `codex/anomaly-voice-identities-20261013`、開始main `0ec79b0`。音声関連16テスト・src/worker型チェック成功、Chromeで26音声読込正常。本人の聴感採用とは区別する。
 
-詳細 [ボイス再制作](ANOMALY-VOICE-V2.md)。ローカル試聴 `http://127.0.0.1:5203/anomaly-voices.html`（PC内サーバー稼働中のみ）。独立監査・main反映・改訂版公開はこれから。ゲーム上の攻撃/モデル/発声制御は今回変更なし。
+実装 `4f3c6634765fff08d00833e4dfa7df7829cadd51` を [PR178](https://github.com/futsalife24-bot/swarm-front/pull/178)へ保存。短い声が埋もれないよう音量を再調整し、18WAV検査・16声再生成一致、最終16テスト、ビルドとその後の本番Worker dry-run成功。詳細 [ボイス再制作](ANOMALY-VOICE-V2.md) / [自己検証](evidence/anomaly-voice-v2-20261013/verification.md)。ローカル試聴 `http://127.0.0.1:5203/anomaly-voices.html`（PC内サーバー稼働中のみ）。Chromeで26音声の読込・混合音の再生進行と切替停止を最終確認。独立監査・main反映・改訂版公開はこれから。ゲーム上の攻撃/モデル/発声制御は今回変更なし。
 
 以下は前回の公開記録。
 
