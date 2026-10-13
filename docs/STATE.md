@@ -1,3 +1,8 @@
+# 現在地: 戦闘ボイスを控えめに調整して公開完了（2026-10-13）
+
+PR180通常merge、全20声の戦闘ゲイン0.48→0.24（約-6dB）。既存最大2声・間隔・距離減衰維持。型/17テスト/実Audioの音量・抑制確認、独立監査必須0・14確認成功。公開ソース92e9a6f175416cefa11c2301f1d4be404f04fb61、Worker b7b72867-82af-4937-bfa5-b8d69bec688a。merge後build/dry-run/deploy成功、配信67/67一致・health正常。既存プレイタブは保護。実スマホ/群れとSE混合の聴感は未確認。[公開記録](evidence/anomaly-voice-volume-20261013/release.md)。
+
+以下は経過。
 # 現在地: 群れの戦闘ボイス音量を半減、追加監査中（2026-10-13）
 
 本人の控えめにする指示で全20声の戦闘ゲイン0.48→0.24（約-6dB）、既存最大2声・発声間隔・距離減衰を維持。製品差分はaudio.tsの1行。[PR180](https://github.com/futsalife24-bot/swarm-front/pull/180)、対象0408bc65f77c53498228cbbdd471003a0472e811、base419043b、branch codex/anomaly-voice-volume-20261013。型/17テスト/build/dry-run成功。同じ通常Chatへ差分を提出済み、独立判定待ち。ブラウザ復旧後、実Sound/Audio/WAVで0.24×2声・3声目抑制・銃声0.62維持を確認。main反映・公開は未完了。[検証記録](evidence/anomaly-voice-volume-20261013/verification.md)。
