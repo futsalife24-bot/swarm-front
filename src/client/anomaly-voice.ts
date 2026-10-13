@@ -4,42 +4,42 @@ import type { Enemy, World } from "../shared/game";
 export const ANOMALY_VOICES = {
   harrow: {
     name: "HARROW",
-    description: "掠れた喉鳴りから、低い唸りを重ねた鋭い咆哮。",
+    description: "割れた喉の咆哮。短い喉鳴りの後、一息で吼えて途切れる。",
   },
   calyx: {
     name: "CALYX",
-    description: "空洞の花弁が共鳴する、息を吸い込むような不気味な声。",
+    description: "空洞へ吸い込む息が膨らみ、口を閉じるように急に止まる。",
   },
   ant: {
     name: "HOUND / VOLLEY",
-    description: "短い二連の吠え声に、乾いた骨の震えが混じる。",
+    description: "乾いた短い二連吠え。二声の間に明確な間を置く。",
   },
   spider: {
     name: "HOUND / LEAPER",
-    description: "喉を絞った高めの唸りが、跳ねるようにせり上がる。",
+    description: "細い鳴き声が三連から加速し、短い擦れ声で終わる。",
   },
   crawler: {
     name: "PLEAT",
-    description: "胸の奥から響く低い唸りと、襞が擦れるざらつき。",
+    description: "襞を引きずる湿った擦れ。喉の奥の不規則な脈動を伴う。",
   },
   spitter: {
     name: "PRISM",
-    description: "複数の硬い面がずれて共鳴する、透き通った不協和音。",
+    description: "硬い殻が三段に共鳴する、短く澄んだ不協和の鳴き声。",
   },
   hornet: {
     name: "RAY",
-    description: "長く曲がる笛のような声に、電気的な震えが重なる。",
+    description: "鋭い息が断続的に震え、後半で細い笛声へ収束する。",
   },
   boss: {
     name: "FOUNDRY ZERO",
     description:
-      "巨大な炉の奥が鳴る重低音と、金属の軋み。連結形態でも同じ声を使う。",
+      "低い殻鳴りの後、重い金属がたわむ長い軋みが残る。連結形態でも同じ声を使う。",
   },
 } as const satisfies Record<
   Enemy["kind"],
   { name: string; description: string }
 >;
-export const ANOMALY_VOICE_PATH = "assets/audio/anomaly-voice-v1/";
+export const ANOMALY_VOICE_PATH = "assets/audio/anomaly-voice-v2/";
 export const ANOMALY_VOICE_KEYS = Object.keys(ANOMALY_VOICES).flatMap((kind) =>
   [0, 1].map((variant) => `anomaly:${kind}-${variant}`),
 );

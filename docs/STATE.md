@@ -1,4 +1,16 @@
-# 現在地: 全ANOMALYの予備動作・赤予告・固有ボイスをmain反映・公開完了（2026-10-13）
+# 現在地: 本人が既存ボイスを不採用、8種の発音構造を再制作（2026-10-13）
+
+PR177の公開は完了したが、本人が「全部同じ音、高さ違い程度、群れで識別できない」と評価。共通の声帯式を種別8構造へ分けたv2 16声と、旧版比較・2声/4声の重ね聴きを追加。branch `codex/anomaly-voice-identities-20261013`、開始main `0ec79b0`。音声関連16テスト・src/worker型チェック成功、Chromeで26音声読込正常。本人の聴感採用とは区別する。
+
+実装 `4f3c6634765fff08d00833e4dfa7df7829cadd51` を [PR178](https://github.com/futsalife24-bot/swarm-front/pull/178)へ保存。短い声が埋もれないよう音量を再調整し、18WAV検査・16声再生成一致、最終16テスト、ビルドとその後の本番Worker dry-run成功。詳細 [ボイス再制作](ANOMALY-VOICE-V2.md) / [自己検証](evidence/anomaly-voice-v2-20261013/verification.md)。ローカル試聴 `http://127.0.0.1:5203/anomaly-voices.html`（PC内サーバー稼働中のみ）。Chromeで26音声の読込・混合音の再生進行と切替停止を最終確認。独立監査・main反映・改訂版公開はこれから。ゲーム上の攻撃/モデル/発声制御は今回変更なし。
+
+追加監査は対象 `61e7112d8e9f394666fb614e16c46e1f6acd5acb` として [同じ通常Chat](https://chatgpt.com/c/6acdaec0-6ddc-83ee-98d5-8c96c0c6955e)へ送信・開始確認。ZIP `dist-validation/anomaly-voice-v2-20261013/audit-v2.zip`、4,094,164 bytes、SHA256 `30991593ea7e6b69144df4251504f3516a66f614632f6900ccaf64d13d142ba4`。タイトルは「Swarm Front｜独立監査｜ANOMALYボイス再制作」へ設定。ブラウザの送信操作は時間切れだったが、別タブの画面で送信済み本文と監査の進行を確認し、再送していない。結果待ち。最新origin/mainは0ec79b0で、別main worktreeもclean。
+
+追加監査は技術面で合格（必須P0/P1/P2各0、独立41確認グループ成功）。[監査回答](evidence/anomaly-voice-v2-20261013/audit.md)。実聴・本人の採用・実スマホ・戦闘SE/BGM混合は監査側も未確認。任意R1として、新版RMSが旧版より2.39〜6.58dB低い点は採用時の比較に残す。聴感低下の確定欠陥ではなく一律増幅の要求もなし。PR178はmerge可能・チェック要求なしを確認、監査後の追加は記録だけ。通常merge・改訂版公開へ進む。
+
+以下は前回の公開記録。
+
+# 全ANOMALYの予備動作・赤予告・固有ボイスをmain反映・公開完了（2026-10-13）
 
 [PR177](https://github.com/futsalife24-bot/swarm-front/pull/177)を通常merge。公開ソース `9b302d68c5cd5c4f68c754ba5214c34d33dc42c5`、Worker `0326b248-470c-45e5-8399-1a2785511371`。全8種/連結形態を構え→赤い攻撃エリア→攻撃へ統一、8種16声と戦闘再生・試聴一覧を追加。HARROW v14、CALYX解放、兵士旋回を保持。声は独自合成・費用0。
 

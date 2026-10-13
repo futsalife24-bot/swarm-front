@@ -1,0 +1,4 @@
+SWARM FRONT ANOMALY ボイス v2
+独自の数式・ノイズ合成。外部サンプル、人物音声、生成AI、外部APIは不使用。クレジット消費0。
+再生成: python scripts/generate-anomaly-voices-v2.py (Python 3.12 / NumPy)
+旧版は比較用に保持。本人の聴感採用とは区別する。

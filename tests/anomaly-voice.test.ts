@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { AnomalyVoice, ANOMALY_VOICES } from "../src/client/anomaly-voice";
+import {
+  AnomalyVoice,
+  ANOMALY_VOICES,
+  ANOMALY_VOICE_PATH,
+} from "../src/client/anomaly-voice";
 import { addPlayer, createWorld, spawn, start } from "../src/shared/game";
 import { ENEMIES } from "../src/shared/defs";
 import { readFileSync } from "node:fs";
@@ -19,10 +23,7 @@ function fixture() {
 }
 describe("ANOMALY vocal transitions", () => {
   it("ships two decodable, bounded, distinct WAV files per species", () => {
-    const base = new URL(
-      "../public/assets/audio/anomaly-voice-v1/",
-      import.meta.url,
-    );
+    const base = new URL(`../public/${ANOMALY_VOICE_PATH}`, import.meta.url);
     const manifest = JSON.parse(
       readFileSync(new URL("manifest.json", base), "utf8"),
     );
