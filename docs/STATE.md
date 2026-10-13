@@ -4,6 +4,8 @@ PR177の公開は完了したが、本人が「全部同じ音、高さ違い程
 
 実装 `4f3c6634765fff08d00833e4dfa7df7829cadd51` を [PR178](https://github.com/futsalife24-bot/swarm-front/pull/178)へ保存。短い声が埋もれないよう音量を再調整し、18WAV検査・16声再生成一致、最終16テスト、ビルドとその後の本番Worker dry-run成功。詳細 [ボイス再制作](ANOMALY-VOICE-V2.md) / [自己検証](evidence/anomaly-voice-v2-20261013/verification.md)。ローカル試聴 `http://127.0.0.1:5203/anomaly-voices.html`（PC内サーバー稼働中のみ）。Chromeで26音声の読込・混合音の再生進行と切替停止を最終確認。独立監査・main反映・改訂版公開はこれから。ゲーム上の攻撃/モデル/発声制御は今回変更なし。
 
+追加監査は対象 `61e7112d8e9f394666fb614e16c46e1f6acd5acb` として [同じ通常Chat](https://chatgpt.com/c/6acdaec0-6ddc-83ee-98d5-8c96c0c6955e)へ送信・開始確認。ZIP `dist-validation/anomaly-voice-v2-20261013/audit-v2.zip`、4,094,164 bytes、SHA256 `30991593ea7e6b69144df4251504f3516a66f614632f6900ccaf64d13d142ba4`。タイトルは「Swarm Front｜独立監査｜ANOMALYボイス再制作」へ設定。ブラウザの送信操作は時間切れだったが、別タブの画面で送信済み本文と監査の進行を確認し、再送していない。結果待ち。最新origin/mainは0ec79b0で、別main worktreeもclean。
+
 以下は前回の公開記録。
 
 # 全ANOMALYの予備動作・赤予告・固有ボイスをmain反映・公開完了（2026-10-13）
