@@ -32,8 +32,10 @@ const voices = [
   "boss",
   "calyx",
   "harrow",
+  "boss-linked",
+  "boss-separated",
 ];
-const audioRoot = "assets/audio/anomaly-voice-v2";
+const audioRoot = "assets/audio/anomaly-voice-v3";
 const voiceFiles = voices.flatMap((name) =>
   [0, 1].map((variant) => `${name}-${variant}.wav`),
 );
@@ -49,7 +51,12 @@ const files = [
   ...voiceFiles.map((file) => `${audioRoot}/${file}`),
   `${audioRoot}/pairs.wav`,
   `${audioRoot}/crowd-stress.wav`,
-  ...voices.map((name) => `assets/audio/anomaly-voice-v1/${name}-0.wav`),
+  `${audioRoot}/boss-states.wav`,
+  ...voices
+    .filter((name) => name !== "spitter" && !name.startsWith("boss-"))
+    .map((name) => `assets/audio/anomaly-voice-v1/${name}-0.wav`),
+  "assets/audio/anomaly-voice-v2/spitter-0.wav",
+  "assets/audio/anomaly-voice-v2/boss-0.wav",
 ];
 for (const file of fs.readdirSync("dist/assets")) {
   if (/\.(js|css)$/.test(file)) files.push(`assets/${file}`);

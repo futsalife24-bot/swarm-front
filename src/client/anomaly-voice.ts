@@ -24,7 +24,8 @@ export const ANOMALY_VOICES = {
   },
   spitter: {
     name: "PRISM",
-    description: "硬い殻が三段に共鳴する、短く澄んだ不協和の鳴き声。",
+    description:
+      "殻が擦れて裂けるような声。ざらついた響きが不規則にせり上がり、砕けて止まる。",
   },
   hornet: {
     name: "RAY",
@@ -32,16 +33,37 @@ export const ANOMALY_VOICES = {
   },
   boss: {
     name: "FOUNDRY ZERO",
-    description:
-      "低い殻鳴りの後、重い金属がたわむ長い軋みが残る。連結形態でも同じ声を使う。",
+    description: "低い殻鳴りの後、重い金属がたわむ長い軋みが残る。",
   },
 } as const satisfies Record<
   Enemy["kind"],
   { name: string; description: string }
 >;
-export const ANOMALY_VOICE_PATH = "assets/audio/anomaly-voice-v2/";
-export const ANOMALY_VOICE_KEYS = Object.keys(ANOMALY_VOICES).flatMap((kind) =>
-  [0, 1].map((variant) => `anomaly:${kind}-${variant}`),
+export const ANOMALY_VOICE_PROFILES = {
+  ...ANOMALY_VOICES,
+  "boss-linked": {
+    name: "連結個体・連結中",
+    description:
+      "複数の空洞が唸る、長く膨らむ重い息。異なる響きがうねり、底へ沈む。",
+  },
+  "boss-separated": {
+    name: "連結個体・分離後",
+    description:
+      "硬い顎を鳴らすような、荒い破裂声。ばらついた短い連声から擦れた叫びへ変わる。",
+  },
+} as const;
+export function anomalyVoiceProfile(
+  e: Enemy,
+): keyof typeof ANOMALY_VOICE_PROFILES {
+  return e.kind === "boss" && e.segments
+    ? e.fractured
+      ? "boss-separated"
+      : "boss-linked"
+    : e.kind;
+}
+export const ANOMALY_VOICE_PATH = "assets/audio/anomaly-voice-v3/";
+export const ANOMALY_VOICE_KEYS = Object.keys(ANOMALY_VOICE_PROFILES).flatMap(
+  (kind) => [0, 1].map((variant) => `anomaly:${kind}-${variant}`),
 );
 export interface AnomalyVoiceCue {
   type: string;
@@ -137,7 +159,7 @@ export class AnomalyVoice {
     this.globalNext = w.time + 0.65;
     return [
       {
-        type: `anomaly:${e.kind}-${variant}`,
+        type: `anomaly:${anomalyVoiceProfile(e)}-${variant}`,
         x: e.x,
         z: e.z,
         key: `anomaly:${e.id}`,

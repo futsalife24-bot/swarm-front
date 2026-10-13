@@ -6,7 +6,7 @@ import "./bestiary.css";
 import { createEnemyViewer } from "./enemy-viewer";
 import type { HoundClip } from "./hound-motion";
 import { hasEncounterFilm, showEncounterFilm } from "./encounter-film";
-import { ANOMALY_VOICES, ANOMALY_VOICE_PATH } from "./anomaly-voice";
+import { ANOMALY_VOICE_PROFILES, ANOMALY_VOICE_PATH } from "./anomaly-voice";
 
 type EnemyType = "生物型" | "異構型" | "機構型";
 const entries: Record<
@@ -241,26 +241,45 @@ export function openBestiary(
     } else {
       const voice = document.createElement("div");
       voice.className = "report-voice";
-      const button = document.createElement("button");
-      button.type = "button";
-      button.textContent = "声を聴く";
-      button.setAttribute("aria-label", `${name}の声を聴く`);
-      const description = document.createElement("p");
-      description.textContent = ANOMALY_VOICES[key].description;
-      let variant = 0;
-      button.onclick = () => {
-        stopVoice();
-        voicePlayer.src = `${import.meta.env.BASE_URL}${ANOMALY_VOICE_PATH}${key}-${variant}.wav`;
-        variant = 1 - variant;
-        button.textContent = "再生中…";
-        void voicePlayer.play().catch(() => {
-          button.textContent = "再試聴する";
-        });
+      const profiles: (keyof typeof ANOMALY_VOICE_PROFILES)[] =
+        worm && key === "boss" ? ["boss-linked", "boss-separated"] : [key];
+      const buttons: { button: HTMLButtonElement; label: string }[] = [];
+      const resetLabels = () => {
+        for (const { button, label } of buttons) button.textContent = label;
       };
-      voicePlayer.onended = () => {
-        button.textContent = "声を聴く";
-      };
-      voice.append(button, description);
+      let playback = 0;
+      for (const profile of profiles) {
+        const button = document.createElement("button");
+        button.type = "button";
+        const label =
+          profile === "boss-linked"
+            ? "連結中の声"
+            : profile === "boss-separated"
+              ? "分離後の声"
+              : "声を聴く";
+        button.textContent = label;
+        button.setAttribute(
+          "aria-label",
+          `${ANOMALY_VOICE_PROFILES[profile].name}の声を聴く`,
+        );
+        buttons.push({ button, label });
+        const description = document.createElement("p");
+        description.textContent = ANOMALY_VOICE_PROFILES[profile].description;
+        let variant = 0;
+        button.onclick = () => {
+          stopVoice();
+          resetLabels();
+          const request = ++playback;
+          voicePlayer.src = `${import.meta.env.BASE_URL}${ANOMALY_VOICE_PATH}${profile}-${variant}.wav`;
+          variant = 1 - variant;
+          button.textContent = "再生中…";
+          void voicePlayer.play().catch(() => {
+            if (request === playback) button.textContent = "再試聴する";
+          });
+        };
+        voice.append(button, description);
+      }
+      voicePlayer.onended = resetLabels;
       article.querySelector("h3")!.after(voice);
     }
     showModel(key, worm, !!state);

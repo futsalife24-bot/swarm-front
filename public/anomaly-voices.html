@@ -92,7 +92,7 @@
     <a href="./front">ゲームへ戻る</a>
   </header>
   <p>
-    改訂版・全８種各２パターン。鳴き方と音の質感を作り直しました。旧版と重ね聴きも比較できます。
+    全10系統・各２パターン。PRISMを改訂し、連結個体の連結中・分離後の声を追加しました。
   </p>
   <details id="overlap">
     <summary>群れでの重なりを聴く（同じ方向から鳴る条件）</summary>
@@ -105,20 +105,30 @@
       controls
       preload="metadata"
       aria-label="２声ずつの重ね聴き"
-      src="./assets/audio/anomaly-voice-v2/pairs.wav"
+      src="./assets/audio/anomaly-voice-v3/pairs.wav"
     ></audio>
     <h2>４声同時・厳しい条件で比較</h2>
     <p>
-      HARROW・CALYX・VOLLEY・LEAPER →
-      PLEAT・PRISM・RAY・FOUNDRY。実際のゲームは最大２声です。
+      HARROW・CALYX・VOLLEY・LEAPER → PLEAT・PRISM・RAY・FOUNDRY →
+      連結中・分離後・PRISM・HARROW。実際のゲームは最大２声です。
     </p>
     <audio
       controls
       preload="metadata"
       aria-label="４声同時の重ね聴き"
-      src="./assets/audio/anomaly-voice-v2/crowd-stress.wav"
+      src="./assets/audio/anomaly-voice-v3/crowd-stress.wav"
     ></audio>
   </details>
+  <section id="boss-comparison">
+    <h2>ボス３系統を聴き比べる</h2>
+    <p>FOUNDRY ZERO 通常型 → 連結個体・連結中 → 連結個体・分離後</p>
+    <audio
+      controls
+      preload="metadata"
+      aria-label="ボス３系統の聴き比べ"
+      src="./assets/audio/anomaly-voice-v3/boss-states.wav"
+    ></audio>
+  </section>
   <main id="voices"></main>
   <p>
     独自合成の非言語ボイス。生成AI・外部サンプルは不使用。戦闘では攻撃の構え始めに鳴きます。
@@ -153,16 +163,26 @@
       [
         "spitter",
         "PRISM",
-        "硬い殻が三段に共鳴する、短く澄んだ不協和の鳴き声。",
+        "殻が擦れて裂けるような声。ざらついた響きが不規則にせり上がり、砕けて止まる。",
       ],
       ["hornet", "RAY", "鋭い息が断続的に震え、後半で細い笛声へ収束する。"],
       [
         "boss",
-        "FOUNDRY ZERO",
-        "低い殻鳴りの後、重い金属がたわむ長い軋みが残る。通常・連結形態で共通。",
+        "FOUNDRY ZERO 通常型",
+        "低い殻鳴りの後、重い金属がたわむ長い軋みが残る。",
+      ],
+      [
+        "boss-linked",
+        "連結個体・連結中",
+        "複数の空洞が唸る、長く膨らむ重い息。異なる響きがうねり、底へ沈む。",
+      ],
+      [
+        "boss-separated",
+        "連結個体・分離後",
+        "硬い顎を鳴らすような、荒い破裂声。ばらついた短い連声から擦れた叫びへ変わる。",
       ],
     ];
-    const players = [...document.querySelectorAll("#overlap audio")];
+    const players = [...document.querySelectorAll("audio")];
     for (const [id, name, description] of voices) {
       const row = document.createElement("article");
       const title = document.createElement("h2");
@@ -177,19 +197,19 @@
         player.controls = true;
         player.preload = "metadata";
         player.setAttribute("aria-label", `${name} パターン${v + 1}`);
-        player.src = `./assets/audio/anomaly-voice-v2/${id}-${v}.wav`;
+        player.src = `./assets/audio/anomaly-voice-v3/${id}-${v}.wav`;
         label.append(player);
         row.append(label);
         players.push(player);
       }
       const comparison = document.createElement("details");
       const caption = document.createElement("summary");
-      caption.textContent = "旧版と比較";
+      caption.textContent = id === "spitter" ? "前版と比較" : "旧版と比較";
       const old = document.createElement("audio");
       old.controls = true;
       old.preload = "metadata";
       old.setAttribute("aria-label", `${name} 旧版`);
-      old.src = `./assets/audio/anomaly-voice-v1/${id}-0.wav`;
+      old.src = `./assets/audio/anomaly-voice-${id === "spitter" || id.startsWith("boss-") ? "v2" : "v1"}/${id.startsWith("boss-") ? "boss" : id}-0.wav`;
       comparison.append(caption, old);
       row.append(comparison);
       players.push(old);

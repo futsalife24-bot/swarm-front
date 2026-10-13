@@ -1,3 +1,9 @@
+# 現在地: PRISMと連結個体の声を追加修正中（2026-10-13）
+
+本人はv2の差別化を概ね採用。PRISMの遮断機らしさを再調整し、FOUNDRY通常型・連結個体の連結中・分離後を別の声にする。名称独立は今後の仕様。base `7be80ad25f4d1d21d16a02f7eaa804f9be5426a6`、branch `codex/anomaly-voice-prism-foundry-20261013`。[変更記録](ANOMALY-VOICE-V3.md)。関連17テスト・型チェック・23WAV検査成功。追加監査・main反映・v3公開は未完了。
+
+PR178は通常merge済み。v2公開も完了しており、Worker `bde1bbb8-1e53-4f00-8b1a-410cc6d4aa87`、source `7be80ad`、[配信61件一致・health正常](evidence/anomaly-voice-v2-20261013/delivery.json)を確認。下記のv2未公開表記は過去経過。
+
 # 現在地: 本人が既存ボイスを不採用、8種の発音構造を再制作（2026-10-13）
 
 PR177の公開は完了したが、本人が「全部同じ音、高さ違い程度、群れで識別できない」と評価。共通の声帯式を種別8構造へ分けたv2 16声と、旧版比較・2声/4声の重ね聴きを追加。branch `codex/anomaly-voice-identities-20261013`、開始main `0ec79b0`。音声関連16テスト・src/worker型チェック成功、Chromeで26音声読込正常。本人の聴感採用とは区別する。
