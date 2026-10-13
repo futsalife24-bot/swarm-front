@@ -258,7 +258,8 @@ function home() {
   $("open-armory").querySelector("em")!.textContent =
     "強化候補・融合条件・進行";
   $("open-armory").onclick = () => base();
-  $("open-bestiary").onclick = () => openBestiary();
+  $("open-bestiary").onclick = () =>
+    openBestiary({ voiceVolume: sound.effectsVolume });
   $("ui").querySelector(".home-next-stage")!.textContent =
     "生存戦・防衛戦を選んで出撃";
   $("home-settings").onclick = () => menuSettings(home);

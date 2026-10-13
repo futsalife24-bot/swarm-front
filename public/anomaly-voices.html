@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ANOMALY ボイス試聴</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: system-ui, sans-serif;
+      background: #09151b;
+      color: #e5f0ed;
+    }
+    body {
+      margin: auto;
+      max-width: 1100px;
+      padding: 18px;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0;
+    }
+    p {
+      color: #adbfbe;
+      line-height: 1.6;
+    }
+    a {
+      color: #aae2d3;
+    }
+    main {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    article {
+      padding: 14px;
+      border: 1px solid #365059;
+      border-radius: 6px;
+      background: #13262d;
+    }
+    h2 {
+      font-size: 17px;
+      margin: 0 0 6px;
+    }
+    article p {
+      font-size: 13px;
+      margin: 0 0 10px;
+      min-height: 40px;
+    }
+    audio {
+      width: 100%;
+      height: 36px;
+    }
+    label {
+      display: block;
+      margin-top: 6px;
+      font-size: 12px;
+      color: #adbfbe;
+    }
+    @media (max-width: 600px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+      header {
+        align-items: flex-start;
+      }
+      h1 {
+        font-size: 20px;
+      }
+    }
+  </style>
+  <header>
+    <h1>ANOMALY ボイス試聴</h1>
+    <a href="./front">ゲームへ戻る</a>
+  </header>
+  <p>
+    全８種・各２パターン。再生ボタンで聞き比べられます。戦闘では攻撃の構え始めに鳴きます。
+  </p>
+  <main id="voices"></main>
+  <p>オリジナルの非言語ボイス。声帯・息・共鳴を独自に音声合成しています。</p>
+  <script>
+    const voices = [
+      ["harrow", "HARROW", "掠れた喉鳴りから、低い唸りを重ねた鋭い咆哮。"],
+      [
+        "calyx",
+        "CALYX",
+        "空洞の花弁が共鳴する、息を吸い込むような不気味な声。",
+      ],
+      ["ant", "HOUND / VOLLEY", "短い二連の吠え声に、乾いた骨の震えが混じる。"],
+      [
+        "spider",
+        "HOUND / LEAPER",
+        "喉を絞った高めの唸りが、跳ねるようにせり上がる。",
+      ],
+      ["crawler", "PLEAT", "胸の奥から響く低い唸りと、襞が擦れるざらつき。"],
+      [
+        "spitter",
+        "PRISM",
+        "複数の硬い面がずれて共鳴する、透き通った不協和音。",
+      ],
+      ["hornet", "RAY", "長く曲がる笛のような声に、電気的な震えが重なる。"],
+      [
+        "boss",
+        "FOUNDRY ZERO",
+        "巨大な炉の奥が鳴る重低音と金属の軋み。通常・連結形態で共通。",
+      ],
+    ];
+    const players = [];
+    for (const [id, name, description] of voices) {
+      const row = document.createElement("article");
+      const title = document.createElement("h2");
+      title.textContent = name;
+      const text = document.createElement("p");
+      text.textContent = description;
+      row.append(title, text);
+      for (let v = 0; v < 2; v++) {
+        const label = document.createElement("label");
+        label.textContent = `パターン ${v + 1}`;
+        const player = document.createElement("audio");
+        player.controls = true;
+        player.preload = "metadata";
+        player.volume = 0.5;
+        player.setAttribute("aria-label", `${name} パターン${v + 1}`);
+        player.src = `./assets/audio/anomaly-voice-v1/${id}-${v}.wav`;
+        player.addEventListener("play", () => {
+          for (const other of players)
+            if (other !== player) {
+              other.pause();
+              other.currentTime = 0;
+            }
+        });
+        label.append(player);
+        row.append(label);
+        players.push(player);
+      }
+      document.getElementById("voices").append(row);
+    }
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) for (const player of players) player.pause();
+    });
+  </script>
+</html>

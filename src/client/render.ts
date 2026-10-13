@@ -1,5 +1,10 @@
 import { CalyxEffects } from "./calyx-effects";
 import { HarrowEffects } from "./harrow-effects";
+import { redWarningDuringWind } from "./attack-telegraph";
+import {
+  projectileWarningPaths,
+  type WarningPoint,
+} from "./projectile-warning";
 import { DroneCamera } from "./drone-camera";
 import { easeYaw } from "./turn-in-place";
 import "./drone-camera.css";
@@ -8,7 +13,7 @@ import { dropGeometry } from "./drop-design";
 import { DefenseVisual } from "./defense-visual";
 import { enemySize } from "../shared/enemy-size";
 import { dropAt } from "../shared/solo-progression";
-import { groundHeight } from "../shared/terrain";
+import { groundHeight, supportHeight } from "../shared/terrain";
 import { TerrainWarnings } from "./terrain-warnings";
 import { MapAssets, VIEW_MAPS } from "./map-assets";
 import {
@@ -35,6 +40,7 @@ import {
   FOUNDRY_LASER_WARNING,
 } from "../shared/foundry-defs";
 import { eye, type Enemy, type Player, type World } from "../shared/game";
+import { STRUCTURE_TIMING } from "../shared/structure-timing";
 const mats = new Map<number, T.MeshStandardMaterial>();
 function material(color: number) {
   if (!mats.has(color))
@@ -286,6 +292,10 @@ export class Renderer {
   rings: T.InstancedMesh;
   private terrainWarnings = new TerrainWarnings();
   aimWarnings: T.InstancedMesh;
+  private projectileWarningCache = new Map<
+    number,
+    { key: string; paths: WarningPoint[][] }
+  >();
   houndWarnings: T.InstancedMesh;
   effects: { x: number; y: number; z: number; life: number; size: number }[] =
     [];
@@ -498,7 +508,7 @@ export class Renderer {
     this.foundryWarnings = new T.InstancedMesh(
       box,
       new T.MeshBasicMaterial({
-        color: 0x50d9fa,
+        color: 0xff4054,
         transparent: true,
         opacity: 0.36,
         depthWrite: false,
@@ -597,7 +607,7 @@ export class Renderer {
         opacity: 0.7,
         depthWrite: false,
       }),
-      120,
+      Math.max(120, enemyCapacity * 126),
     );
     this.aimWarnings.visible = !cleanCapture.enabled;
     this.rings.visible = !cleanCapture.enabled;
@@ -833,6 +843,10 @@ export class Renderer {
       if (
         !node.pulseAim ||
         node.partHp === 0 ||
+        !redWarningDuringWind(
+          (node.acidAt ?? this.foundryTime) - this.foundryTime,
+          FOUNDRY_LASER_WARNING,
+        ) ||
         this.foundryWarnings.count >= 640
       )
         continue;
@@ -931,6 +945,7 @@ export class Renderer {
     this.frames.push(dt * 1000);
     if (this.frames.length > 600) this.frames.shift();
     if (w && w.run !== this.run) {
+      this.projectileWarningCache.clear();
       this.clearFoundryWorms();
       this.foundryTime = w.time;
       this.run = w.run;
@@ -1325,7 +1340,14 @@ export class Renderer {
             }
           }
           for (const node of e.segments ? [] : [e]) {
-            if (node.pulseAim && node.partHp !== 0)
+            if (
+              node.pulseAim &&
+              node.partHp !== 0 &&
+              redWarningDuringWind(
+                (node.acidAt ?? w.time) - w.time,
+                FOUNDRY_LASER_WARNING,
+              )
+            )
               this.instance(
                 this.rings,
                 ri++,
@@ -1338,12 +1360,32 @@ export class Renderer {
                 -Math.PI / 2,
               );
           }
-          if (e.wind > 0 && e.kind === "crawler") {
+          const attackWind =
+            e.kind === "ant"
+              ? 0.8
+              : e.kind === "spider" || e.kind === "crawler"
+                ? STRUCTURE_TIMING.crawler.wind
+                : e.kind === "spitter" ||
+                    e.kind === "hornet" ||
+                    e.kind === "boss"
+                  ? STRUCTURE_TIMING[e.kind].wind
+                  : 0;
+          // RAY tracks until 0.4 s before firing; only then is its lane committed.
+          const redWarning = redWarningDuringWind(
+            e.wind,
+            e.kind === "hornet" ? 0.8 : attackWind,
+          );
+          const rangedAnt =
+            e.kind === "ant" && Math.hypot(e.tx - e.x, e.tz - e.z) > 2.5;
+          if (redWarning && e.kind === "crawler") {
+            const warningLift =
+              supportHeight(e.x, e.z, activeMap.blocks, e.y) -
+              groundHeight(e.x, e.z, activeMap.blocks);
             this.instance(
               this.houndWarnings,
               hi++,
               e.x,
-              0.09,
+              warningLift + 0.09,
               e.z,
               1,
               1,
@@ -1352,52 +1394,60 @@ export class Renderer {
               Math.atan2(-(e.tx - e.x), -(e.tz - e.z)),
             );
           } else if (
-            e.wind > 0 &&
-            (e.kind === "spitter" || e.kind === "hornet")
+            redWarning &&
+            (e.kind === "spitter" || e.kind === "hornet" || rangedAnt)
           ) {
-            const color = new T.Color(
-              e.kind === "hornet" && e.wind > 0.4 ? 0xffc46b : 0x65edff,
-            );
-            for (const [sx, sz] of [
-              [1.2, 0.08],
-              [0.08, 1.2],
-            ]) {
-              this.instance(
-                this.aimWarnings,
-                ai,
-                e.tx,
-                groundHeight(e.tx, e.tz, activeMap.blocks) + 0.09,
-                e.tz,
-                sx,
-                0.05,
-                sz,
-              );
-              this.aimWarnings.setColorAt(ai++, color);
+            const color = new T.Color(0xff4054);
+            const key = [e.kind, e.x, e.y, e.z, e.tx, e.ty, e.tz].join(":");
+            let cached = this.projectileWarningCache.get(e.id);
+            if (!cached || cached.key !== key) {
+              cached = {
+                key,
+                paths: projectileWarningPaths(e, activeMap.blocks),
+              };
+              this.projectileWarningCache.set(e.id, cached);
             }
-            const dx = e.tx - e.x,
-              dy = groundHeight(e.tx, e.tz, activeMap.blocks) + 1.2 - eye(e),
-              dz = e.tz - e.z;
-            this.instance(
-              this.aimWarnings,
-              ai,
-              (e.x + e.tx) / 2,
-              (eye(e) + groundHeight(e.tx, e.tz, activeMap.blocks) + 1.2) / 2,
-              (e.z + e.tz) / 2,
-              0.035,
-              0.035,
-              Math.hypot(dx, dy, dz),
-              -Math.atan2(dy, Math.hypot(dx, dz)),
-              Math.atan2(dx, dz),
-            );
-            this.aimWarnings.setColorAt(ai++, color);
-          } else if (e.wind > 0 && e.kind !== "calyx") {
+            for (const path of cached.paths) {
+              for (let i = 1; i < path.length; i++) {
+                if (ai >= this.aimWarnings.instanceMatrix.count) break;
+                const from = path[i - 1],
+                  to = path[i];
+                const dx = to.x - from.x;
+                const dy = to.y - from.y;
+                const dz = to.z - from.z;
+                const horizontal = Math.hypot(dx, dz);
+                this.instance(
+                  this.aimWarnings,
+                  ai,
+                  (from.x + to.x) / 2,
+                  (from.y + to.y) / 2,
+                  (from.z + to.z) / 2,
+                  0.32,
+                  0.32,
+                  Math.hypot(dx, dy, dz),
+                  -Math.atan2(dy, horizontal),
+                  Math.atan2(dx, dz),
+                );
+                this.aimWarnings.setColorAt(ai++, color);
+              }
+            }
+          } else if (redWarning && e.kind !== "calyx" && e.kind !== "harrow") {
             const rad = e.kind === "boss" ? 7 : e.kind === "spitter" ? 2 : 2.5;
+            const wx = e.kind === "boss" ? e.tx : e.x;
+            const wz = e.kind === "boss" ? e.tz : e.z;
+            const warningLift =
+              supportHeight(
+                wx,
+                wz,
+                activeMap.blocks,
+                e.kind === "boss" ? (e.ty ?? 0) : e.y,
+              ) - groundHeight(wx, wz, activeMap.blocks);
             this.instance(
               this.rings,
               ri++,
-              e.tx,
-              0.08,
-              e.tz,
+              wx,
+              warningLift + 0.08,
+              wz,
               rad,
               rad,
               1,

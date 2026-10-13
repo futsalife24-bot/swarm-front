@@ -1,0 +1,4 @@
+{
+  "extends": "../tsconfig.json",
+  "include": ["anomaly-anticipation-preview.ts"]
+}

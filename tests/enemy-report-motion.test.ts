@@ -95,15 +95,15 @@ it("renders airborne missiles from the upright wing tips without moving ground m
   expect(airborne).toHaveLength(10);
   expect(airborne.filter((missile) => missile.origin.x > 0)).toHaveLength(5);
   expect(airborne.filter((missile) => missile.origin.x < 0)).toHaveLength(5);
-  // First physical warhead tip measured from v11 AirThreat at 3.5 seconds.
+  // First physical warhead tips measured from the current airborne/grounded clips.
   // The report's heading reverses X while retaining the authored Z coordinate.
-  expect(airborne[0].origin.x / HARROW.scale).toBeCloseTo(4.532703557, 5);
+  expect(airborne[0].origin.x / HARROW.scale).toBeCloseTo(5.19393361, 5);
   expect(
     (airborne[0].origin.y - HARROW.flightHeight) / HARROW.scale,
-  ).toBeCloseTo(11.717809138, 5);
-  expect(airborne[0].origin.z / HARROW.scale).toBeCloseTo(3.017935282, 5);
-  expect(ground[0].origin.y / HARROW.scale).toBeCloseTo(13.016983025, 5);
-  expect(ground[0].origin.z / HARROW.scale).toBeCloseTo(1.744111805, 5);
+  ).toBeCloseTo(11.061604433, 5);
+  expect(airborne[0].origin.z / HARROW.scale).toBeCloseTo(1.937587254, 5);
+  expect(ground[0].origin.y / HARROW.scale).toBeCloseTo(12.035592695, 5);
+  expect(ground[0].origin.z / HARROW.scale).toBeCloseTo(1.212735148, 5);
   expect(airborne.map((missile) => missile.target)).toEqual(
     ground.map((missile) => missile.target),
   );
@@ -179,7 +179,7 @@ it("observes ten upward missiles and clears them when leaving attack playback", 
       group.children
         .filter((child) => !(child instanceof T.Group))
         .map((child) => (child as T.InstancedMesh).count),
-    ).toEqual([10, 10, 10, 0, 0, undefined]);
+    ).toEqual([10, 10, 10, 0, 0, undefined, 0]);
     expect(group.getObjectByName("HARROW_SPIN_PRESSURE")?.visible).toBe(false);
     effects.update("harrow", false, "idle", start + 0.1);
     expect(group.visible).toBe(false);
@@ -187,7 +187,7 @@ it("observes ten upward missiles and clears them when leaving attack playback", 
       group.children
         .filter((child) => !(child instanceof T.Group))
         .map((child) => (child as T.InstancedMesh).count),
-    ).toEqual([0, 0, 0, 0, 0, undefined]);
+    ).toEqual([0, 0, 0, 0, 0, undefined, 0]);
   } finally {
     effects.dispose();
   }
@@ -265,7 +265,9 @@ it("keeps report takeoff and bomb flyover on the authoritative root path", () =>
     expect(pose.z * HARROW.scale).toBeCloseTo(missile.target.z, 5);
     expect(pose.height * HARROW.scale).toBeCloseTo(HARROW.flightHeight, 5);
   }
-  expect(reportPose("harrow", "attack", HARROW.bombWind, "BombPass").z).toBeCloseTo(0);
+  expect(
+    reportPose("harrow", "attack", HARROW.bombWind, "BombPass").z,
+  ).toBeCloseTo(0);
 });
 
 it("shows VOLLEY release at its actual wind-up time and keeps PLEAT independent", () => {

@@ -1,5 +1,5 @@
 import * as T from "three";
-import type { World } from "../shared/game";
+import { move, type World } from "../shared/game";
 import {
   HARROW,
   harrowDiveClawCircles,
@@ -10,6 +10,10 @@ import { supportHeight } from "../shared/terrain";
 import type { Block } from "../shared/defs";
 import { TerrainProjectedMarkers } from "./terrain-projected-marker";
 import { HarrowSpinEffects } from "./harrow-spin-effects";
+import {
+  redWarningAfterStart,
+  redWarningBeforeLaunch,
+} from "./attack-telegraph";
 
 /** Shared combat/report view; authoritative missiles remain read-only. */
 export class HarrowEffects {
@@ -30,6 +34,13 @@ export class HarrowEffects {
     color: 0xff283b,
     transparent: true,
     opacity: 0.35,
+    depthWrite: false,
+    side: T.DoubleSide,
+  });
+  private readonly dashFillMaterial = new T.MeshBasicMaterial({
+    color: 0xff4054,
+    transparent: true,
+    opacity: 0.24,
     depthWrite: false,
     side: T.DoubleSide,
   });
@@ -63,6 +74,11 @@ export class HarrowEffects {
     30,
     1024,
   );
+  private readonly dashFills = new TerrainProjectedMarkers(
+    this.dashFillMaterial,
+    13,
+    1024,
+  );
   private readonly clawOutlineGeometry = new T.BufferGeometry();
   private readonly clawOutlineMaterial = new T.LineBasicMaterial({
     color: 0xff5060,
@@ -94,6 +110,7 @@ export class HarrowEffects {
       this.tails,
       this.warnings,
       this.clawFills,
+      this.dashFills,
     ]) {
       mesh.count = 0;
       mesh.frustumCulled = false;
@@ -107,6 +124,7 @@ export class HarrowEffects {
       this.warnings,
       this.clawFills,
       this.clawOutlines,
+      this.dashFills,
     );
     this.root.add(this.spin.root);
   }
@@ -124,7 +142,8 @@ export class HarrowEffects {
     let markers = 0,
       bodies = 0,
       warnings = 0,
-      claws = 0;
+      claws = 0,
+      dashDiscs = 0;
     const blocks =
       w && (w.stage !== undefined || w.training || w.campaignPlan || w.defense)
         ? mapFor(w).blocks
@@ -140,11 +159,39 @@ export class HarrowEffects {
           warnings >= this.capacity
         )
           continue;
+        const age = w.time - attack.started;
         const spin =
-          attack.kind === "Spin" && w.time - attack.started < HARROW.spinWind;
+          attack.kind === "Spin" && redWarningAfterStart(age, HARROW.spinWind);
         const dive =
-          (attack.kind === "Glide" || attack.kind === "Dive") && attack.to;
-        if (!spin && !dive) continue;
+          ((attack.kind === "Glide" && age >= 0.4) || attack.kind === "Dive") &&
+          attack.to;
+        const dash =
+          attack.kind === "Dash" && redWarningAfterStart(age, HARROW.dashWind);
+        if (!spin && !dive && !dash) continue;
+        if (dash) {
+          const from = attack.from ?? enemy;
+          const position = { x: from.x, y: from.y, z: from.z };
+          const interval = HARROW.dashDistance / 60;
+          for (let step = 0; step <= 60; step++) {
+            if (step > 0)
+              move(
+                position,
+                Math.sin(attack.yaw) * interval,
+                Math.cos(attack.yaw) * interval,
+                3.4 * HARROW.scale,
+                blocks,
+              );
+            if (step % 5 !== 0 || dashDiscs >= this.dashFills.capacity)
+              continue;
+            this.dashFills.setDisc(
+              dashDiscs++,
+              position,
+              HARROW.dashRadius,
+              blocks,
+            );
+          }
+          continue;
+        }
         if (dive) {
           if (claws >= this.clawFills.capacity) continue;
           const circles = harrowDiveClawCircles(dive, attack.yaw);
@@ -161,8 +208,23 @@ export class HarrowEffects {
       }
     if (w)
       for (const missile of w.harrowMissiles ?? []) {
-        if (w.time >= missile.impact || markers >= this.capacity) continue;
-        this.markers.setRing(markers++, missile.target, missile.radius, blocks);
+        if (w.time >= missile.impact || bodies >= this.capacity) continue;
+        const wind =
+          missile.trajectory !== "straight"
+            ? HARROW.threatWind
+            : missile.radius === HARROW.snipeRadius
+              ? HARROW.snipeWind
+              : HARROW.bombWind;
+        if (
+          markers < this.capacity &&
+          redWarningBeforeLaunch(w.time, missile.launch, wind)
+        )
+          this.markers.setRing(
+            markers++,
+            missile.target,
+            missile.radius,
+            blocks,
+          );
         if (w.time < missile.launch) continue;
         const p = harrowMissilePosition(missile, w.time);
         const next = harrowMissilePosition(
@@ -183,6 +245,7 @@ export class HarrowEffects {
     this.bodies.count = this.tails.count = bodies;
     this.warnings.setCount(warnings);
     this.clawFills.setCount(claws);
+    this.dashFills.setCount(dashDiscs);
     if (!claws) this.clawOutlineGeometry.setDrawRange(0, 0);
     for (const mesh of [this.bodies, this.tails])
       mesh.instanceMatrix.needsUpdate = true;
@@ -246,6 +309,7 @@ export class HarrowEffects {
       this.tails,
       this.warnings,
       this.clawFills,
+      this.dashFills,
     ])
       mesh.dispose();
     this.clawOutlineGeometry.dispose();
@@ -255,6 +319,7 @@ export class HarrowEffects {
     for (const material of [
       this.markerMaterial,
       this.clawFillMaterial,
+      this.dashFillMaterial,
       this.bodyMaterial,
       this.tailMaterial,
     ])

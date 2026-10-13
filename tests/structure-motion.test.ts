@@ -214,7 +214,7 @@ it("LEAPER has its own model while VOLLEY and both attack timings are preserved"
     expect(STRUCTURE_ASSETS[kind]).toBe(kind === "ant" ? "hound" : "leaper");
     const c = new StructureMotionController(kind),
       b = { setPose() {} };
-    const wind = kind === "ant" ? 0.8 : 0.45,
+    const wind = 0.8,
       cool = kind === "ant" ? 2.7 : 1.2;
     c.update(b, [sample({ wind })], 0.016);
     expect(c.states.get(7)?.time).toBe(0);
@@ -248,7 +248,7 @@ it("LEAPER plays Leap from authoritative jump progress, then resumes ground clip
   c.update(b, [sample({ moving: true, distance: 0.36 })], 0.016);
   expect(c.states.get(7)).toMatchObject({ clip: "Locomotion", from: "Leap" });
   expect(c.states.get(7)?.time).toBeCloseTo(0.4);
-  c.update(b, [sample({ wind: 0.45 })], 0.016);
+  c.update(b, [sample({ wind: 0.8 })], 0.016);
   expect(c.states.get(7)).toMatchObject({ clip: "Lunge", time: 0 });
   c.update(b, [sample()], 0.016);
   c.update(b, [sample({ leap: 0.5 }), sample({ id: 8, slot: 1 })], 0.016);
