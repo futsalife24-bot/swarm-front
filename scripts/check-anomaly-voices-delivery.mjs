@@ -33,7 +33,7 @@ const voices = [
   "calyx",
   "harrow",
 ];
-const audioRoot = "assets/audio/anomaly-voice-v1";
+const audioRoot = "assets/audio/anomaly-voice-v2";
 const voiceFiles = voices.flatMap((name) =>
   [0, 1].map((variant) => `${name}-${variant}.wav`),
 );
@@ -47,13 +47,18 @@ const files = [
   `${audioRoot}/manifest.json`,
   `${audioRoot}/CREDITS.txt`,
   ...voiceFiles.map((file) => `${audioRoot}/${file}`),
+  `${audioRoot}/pairs.wav`,
+  `${audioRoot}/crowd-stress.wav`,
+  ...voices.map((name) => `assets/audio/anomaly-voice-v1/${name}-0.wav`),
 ];
 for (const file of fs.readdirSync("dist/assets")) {
   if (/\.(js|css)$/.test(file)) files.push(`assets/${file}`);
 }
 
 const manifest = JSON.parse(fs.readFileSync(`dist/${audioRoot}/manifest.json`));
-const listed = new Map(manifest.files.map(({ file, sha256 }) => [file, sha256]));
+const listed = new Map(
+  manifest.files.map(({ file, sha256 }) => [file, sha256]),
+);
 const manifestMatches =
   listed.size === voiceFiles.length &&
   voiceFiles.every(

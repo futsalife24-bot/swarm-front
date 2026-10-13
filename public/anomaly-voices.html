@@ -62,6 +62,19 @@
       font-size: 12px;
       color: #adbfbe;
     }
+    details {
+      margin-top: 10px;
+    }
+    summary {
+      cursor: pointer;
+      color: #adbfbe;
+    }
+    #overlap {
+      margin-bottom: 12px;
+    }
+    #overlap h2 {
+      margin-top: 8px;
+    }
     @media (max-width: 600px) {
       main {
         grid-template-columns: 1fr;
@@ -79,38 +92,77 @@
     <a href="./front">ゲームへ戻る</a>
   </header>
   <p>
-    全８種・各２パターン。再生ボタンで聞き比べられます。戦闘では攻撃の構え始めに鳴きます。
+    改訂版・全８種各２パターン。鳴き方と音の質感を作り直しました。旧版と重ね聴きも比較できます。
   </p>
+  <details id="overlap">
+    <summary>群れでの重なりを聴く（同じ方向から鳴る条件）</summary>
+    <h2>２声ずつ・0.65秒差</h2>
+    <p>
+      HARROW＋CALYX → VOLLEY＋LEAPER → PLEAT＋FOUNDRY →
+      PRISM＋RAY。各組の間に休止を入れています。
+    </p>
+    <audio
+      controls
+      preload="metadata"
+      aria-label="２声ずつの重ね聴き"
+      src="./assets/audio/anomaly-voice-v2/pairs.wav"
+    ></audio>
+    <h2>４声同時・厳しい条件で比較</h2>
+    <p>
+      HARROW・CALYX・VOLLEY・LEAPER →
+      PLEAT・PRISM・RAY・FOUNDRY。実際のゲームは最大２声です。
+    </p>
+    <audio
+      controls
+      preload="metadata"
+      aria-label="４声同時の重ね聴き"
+      src="./assets/audio/anomaly-voice-v2/crowd-stress.wav"
+    ></audio>
+  </details>
   <main id="voices"></main>
-  <p>オリジナルの非言語ボイス。声帯・息・共鳴を独自に音声合成しています。</p>
+  <p>
+    独自合成の非言語ボイス。生成AI・外部サンプルは不使用。戦闘では攻撃の構え始めに鳴きます。
+  </p>
   <script>
     const voices = [
-      ["harrow", "HARROW", "掠れた喉鳴りから、低い唸りを重ねた鋭い咆哮。"],
+      [
+        "harrow",
+        "HARROW",
+        "割れた喉の咆哮。短い喉鳴りの後、一息で吼えて途切れる。",
+      ],
       [
         "calyx",
         "CALYX",
-        "空洞の花弁が共鳴する、息を吸い込むような不気味な声。",
+        "空洞へ吸い込む息が膨らみ、口を閉じるように急に止まる。",
       ],
-      ["ant", "HOUND / VOLLEY", "短い二連の吠え声に、乾いた骨の震えが混じる。"],
+      [
+        "ant",
+        "HOUND / VOLLEY",
+        "乾いた短い二連吠え。二声の間に明確な間を置く。",
+      ],
       [
         "spider",
         "HOUND / LEAPER",
-        "喉を絞った高めの唸りが、跳ねるようにせり上がる。",
+        "細い鳴き声が三連から加速し、短い擦れ声で終わる。",
       ],
-      ["crawler", "PLEAT", "胸の奥から響く低い唸りと、襞が擦れるざらつき。"],
+      [
+        "crawler",
+        "PLEAT",
+        "襞を引きずる湿った擦れ。喉の奥の不規則な脈動を伴う。",
+      ],
       [
         "spitter",
         "PRISM",
-        "複数の硬い面がずれて共鳴する、透き通った不協和音。",
+        "硬い殻が三段に共鳴する、短く澄んだ不協和の鳴き声。",
       ],
-      ["hornet", "RAY", "長く曲がる笛のような声に、電気的な震えが重なる。"],
+      ["hornet", "RAY", "鋭い息が断続的に震え、後半で細い笛声へ収束する。"],
       [
         "boss",
         "FOUNDRY ZERO",
-        "巨大な炉の奥が鳴る重低音と金属の軋み。通常・連結形態で共通。",
+        "低い殻鳴りの後、重い金属がたわむ長い軋みが残る。通常・連結形態で共通。",
       ],
     ];
-    const players = [];
+    const players = [...document.querySelectorAll("#overlap audio")];
     for (const [id, name, description] of voices) {
       const row = document.createElement("article");
       const title = document.createElement("h2");
@@ -124,21 +176,34 @@
         const player = document.createElement("audio");
         player.controls = true;
         player.preload = "metadata";
-        player.volume = 0.5;
         player.setAttribute("aria-label", `${name} パターン${v + 1}`);
-        player.src = `./assets/audio/anomaly-voice-v1/${id}-${v}.wav`;
-        player.addEventListener("play", () => {
-          for (const other of players)
-            if (other !== player) {
-              other.pause();
-              other.currentTime = 0;
-            }
-        });
+        player.src = `./assets/audio/anomaly-voice-v2/${id}-${v}.wav`;
         label.append(player);
         row.append(label);
         players.push(player);
       }
+      const comparison = document.createElement("details");
+      const caption = document.createElement("summary");
+      caption.textContent = "旧版と比較";
+      const old = document.createElement("audio");
+      old.controls = true;
+      old.preload = "metadata";
+      old.setAttribute("aria-label", `${name} 旧版`);
+      old.src = `./assets/audio/anomaly-voice-v1/${id}-0.wav`;
+      comparison.append(caption, old);
+      row.append(comparison);
+      players.push(old);
       document.getElementById("voices").append(row);
+    }
+    for (const player of players) {
+      player.volume = 0.5;
+      player.addEventListener("play", () => {
+        for (const other of players)
+          if (other !== player) {
+            other.pause();
+            if (other.readyState > 0) other.currentTime = 0;
+          }
+      });
     }
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) for (const player of players) player.pause();

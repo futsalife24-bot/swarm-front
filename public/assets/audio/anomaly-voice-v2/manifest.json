@@ -1,0 +1,222 @@
+{
+  "method": "species-specific procedural synthesis",
+  "external_samples": false,
+  "ai_generation": false,
+  "credits_spent": 0,
+  "sample_rate": 32000,
+  "numpy_version": "2.3.5",
+  "files": [
+    {
+      "file": "harrow-0.wav",
+      "seconds": 1.85,
+      "peak_dbfs": -4.04,
+      "rms_dbfs": -19.58,
+      "sha256": "19886d5e7a4f8eba0b594415bcf9f06e4da16e5c23741899064dc91021201be7",
+      "description": "割れた喉の咆哮。短い喉鳴りの後、一息で吼えて途切れる。"
+    },
+    {
+      "file": "harrow-1.wav",
+      "seconds": 1.85,
+      "peak_dbfs": -4.39,
+      "rms_dbfs": -19.58,
+      "sha256": "1ac6eb1592182782bae744031924c1871908287407bdf10e6bf64aa56f56d58f",
+      "description": "割れた喉の咆哮。短い喉鳴りの後、一息で吼えて途切れる。"
+    },
+    {
+      "file": "calyx-0.wav",
+      "seconds": 1.85,
+      "peak_dbfs": -4.15,
+      "rms_dbfs": -19.58,
+      "sha256": "a4a93c73a2e82cdf428d271eefdc8fbdc10200101d0e6650f002abda3575814b",
+      "description": "空洞へ吸い込む息が膨らみ、口を閉じるように急に止まる。"
+    },
+    {
+      "file": "calyx-1.wav",
+      "seconds": 1.85,
+      "peak_dbfs": -4.64,
+      "rms_dbfs": -19.58,
+      "sha256": "63f47801bd69bfc18281d63205162f8cf71d1ec6cfa63400bc709efe188f2786",
+      "description": "空洞へ吸い込む息が膨らみ、口を閉じるように急に止まる。"
+    },
+    {
+      "file": "ant-0.wav",
+      "seconds": 1.12,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -19.94,
+      "sha256": "029c4d198040ae43ba7c796f84d1658830fc6baab1bd608c174120e801f70921",
+      "description": "乾いた短い二連吠え。二声の間に明確な間を置く。"
+    },
+    {
+      "file": "ant-1.wav",
+      "seconds": 1.12,
+      "peak_dbfs": -3.41,
+      "rms_dbfs": -19.58,
+      "sha256": "b8aab0e2ed9624534493be1aeac452942cbc3984b51a85d53ea055a22dbbd943",
+      "description": "乾いた短い二連吠え。二声の間に明確な間を置く。"
+    },
+    {
+      "file": "spider-0.wav",
+      "seconds": 1.3,
+      "peak_dbfs": -6.06,
+      "rms_dbfs": -19.58,
+      "sha256": "f5ac86e3a213ca59a14c4edb776fb35879b32c7107efa8613f6a2b866b1e30e8",
+      "description": "細い鳴き声が三連から加速し、短い擦れ声で終わる。"
+    },
+    {
+      "file": "spider-1.wav",
+      "seconds": 1.3,
+      "peak_dbfs": -6.66,
+      "rms_dbfs": -19.58,
+      "sha256": "6be8a94e2635ade68defb2a162922af08f4260de59de1e1c3a39da29b1eb8e7a",
+      "description": "細い鳴き声が三連から加速し、短い擦れ声で終わる。"
+    },
+    {
+      "file": "crawler-0.wav",
+      "seconds": 1.75,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -19.8,
+      "sha256": "a0d52dd62b2ec7c6a68fd41b30f4e068da807ad3c76d5d61edad8fce9bc8132a",
+      "description": "襞を引きずる湿った擦れ。喉の奥の不規則な脈動を伴う。"
+    },
+    {
+      "file": "crawler-1.wav",
+      "seconds": 1.75,
+      "peak_dbfs": -3.26,
+      "rms_dbfs": -19.58,
+      "sha256": "16b536a20bf01ece9a4ea5c810d5b4e5b8afd6dc52e6e1e8006161607c500b75",
+      "description": "襞を引きずる湿った擦れ。喉の奥の不規則な脈動を伴う。"
+    },
+    {
+      "file": "spitter-0.wav",
+      "seconds": 1.55,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -19.74,
+      "sha256": "b94acddea6a17689ce0fa70fed7a452b29ca87cdc916e07e34e0d6ac798189d7",
+      "description": "硬い殻が三段に共鳴する、短く澄んだ不協和の鳴き声。"
+    },
+    {
+      "file": "spitter-1.wav",
+      "seconds": 1.55,
+      "peak_dbfs": -3.42,
+      "rms_dbfs": -19.58,
+      "sha256": "0a19396e4c57284923194abcb351c05a84fef493c782aea713ad07ed040637f5",
+      "description": "硬い殻が三段に共鳴する、短く澄んだ不協和の鳴き声。"
+    },
+    {
+      "file": "hornet-0.wav",
+      "seconds": 1.65,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -23.63,
+      "sha256": "e32ad193312f088e19a68d160364ee111edffafa29585df8c8d39013a248ee2d",
+      "description": "鋭い息が断続的に震え、後半で細い笛声へ収束する。"
+    },
+    {
+      "file": "hornet-1.wav",
+      "seconds": 1.65,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -22.92,
+      "sha256": "7be8741cb775f59a3eae03febe4f8c451971e3c554df55781dea86f3e1ecac89",
+      "description": "鋭い息が断続的に震え、後半で細い笛声へ収束する。"
+    },
+    {
+      "file": "boss-0.wav",
+      "seconds": 2.1,
+      "peak_dbfs": -4.72,
+      "rms_dbfs": -19.58,
+      "sha256": "8a046e2b775881552834865dc76daf4d8555659f1daa3ebe47109c090972f745",
+      "description": "低い殻鳴りの後、重い金属がたわむ長い軋みが残る。"
+    },
+    {
+      "file": "boss-1.wav",
+      "seconds": 2.1,
+      "peak_dbfs": -5.78,
+      "rms_dbfs": -19.58,
+      "sha256": "7e18294ce1d58e5af3a25c74837675ff7777639ec5ecc236fbe2f8a9b9b45dbe",
+      "description": "低い殻鳴りの後、重い金属がたわむ長い軋みが残る。"
+    }
+  ],
+  "auditions": [
+    {
+      "file": "pairs.wav",
+      "seconds": 14.0,
+      "peak_dbfs": -5.39,
+      "rms_dbfs": -24.4,
+      "sha256": "fa12f8ccd253a75dd07c1fd1c8cb94abca0a01197eb233cfdcd9a84387ea75ba",
+      "cues": [
+        {
+          "kind": "harrow",
+          "at": 0.1
+        },
+        {
+          "kind": "calyx",
+          "at": 0.75
+        },
+        {
+          "kind": "ant",
+          "at": 3.6
+        },
+        {
+          "kind": "spider",
+          "at": 4.25
+        },
+        {
+          "kind": "crawler",
+          "at": 7.1
+        },
+        {
+          "kind": "boss",
+          "at": 7.75
+        },
+        {
+          "kind": "spitter",
+          "at": 10.6
+        },
+        {
+          "kind": "hornet",
+          "at": 11.25
+        }
+      ]
+    },
+    {
+      "file": "crowd-stress.wav",
+      "seconds": 7.0,
+      "peak_dbfs": -8.66,
+      "rms_dbfs": -26.98,
+      "sha256": "b150150cb66a52e566479c8f09e9ed476f23ba7c660b4f94b66bd73ebbb214f2",
+      "cues": [
+        {
+          "kind": "harrow",
+          "at": 0.1
+        },
+        {
+          "kind": "calyx",
+          "at": 0.1
+        },
+        {
+          "kind": "ant",
+          "at": 0.1
+        },
+        {
+          "kind": "spider",
+          "at": 0.1
+        },
+        {
+          "kind": "crawler",
+          "at": 3.6
+        },
+        {
+          "kind": "spitter",
+          "at": 3.6
+        },
+        {
+          "kind": "hornet",
+          "at": 3.6
+        },
+        {
+          "kind": "boss",
+          "at": 3.6
+        }
+      ]
+    }
+  ]
+}
