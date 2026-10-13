@@ -144,6 +144,7 @@ export function specialMotion(w: World, e: Enemy, t: Player, dt: number) {
       b.h - base > 5 &&
       d < def.radius + 0.8 &&
       d >= def.radius &&
+      e.wind <= 0 &&
       (e.jump ?? 0) === 0 &&
       e.wallCooldown === 0
     ) {
@@ -157,6 +158,7 @@ export function specialMotion(w: World, e: Enemy, t: Player, dt: number) {
   }
   if (
     e.kind === "spider" &&
+    e.wind <= 0 &&
     (e.jumpWait ?? 0) === 0 &&
     Math.hypot(t.x - e.x, t.z - e.z) > 1.8
   ) {

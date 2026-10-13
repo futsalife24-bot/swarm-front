@@ -11,6 +11,7 @@ import {
   stepCalyx,
   stepPollen,
   advancePollen,
+  calyxPredictedImpact,
   pollenContains,
   pollenPointContains,
   pollenRadius,
@@ -233,6 +234,37 @@ it("fires a ballistic sac at the stored position, not a moving target, with a 12
   expect(w.pollen).toHaveLength(1);
   expect(w.pollen![0].z).toBeCloseTo(12, 0);
 });
+it.each([false, true])(
+  "predicts the pollen landing at its first surface (wall: %s)",
+  (withWall) => {
+    const { w, p, e } = setup();
+    p.z = 12;
+    const blocks = mapFor(w).blocks;
+    const wall = { x: 0, z: 6, w: 4, d: 0.5, h: 20 };
+    try {
+      stepCalyx(w, e, p, w.players, 0.05);
+      expect(e.calyx?.kind).toBe("PollenShot");
+      // A wall on the initial sightline prevents this attack from starting.
+      if (withWall) blocks.push(wall);
+      const warned = calyxPredictedImpact(e, e.calyx!.yaw, blocks)!;
+      expect(warned).toBeDefined();
+      if (withWall) expect(warned.z).toBeLessThan(wall.z);
+      w.time = CALYX.shotWind;
+      stepCalyx(w, e, p, w.players, 0.05);
+      const q = w.projectiles[0];
+      for (let i = 0; i < 50 && q.life > 0; i++) {
+        w.time += 0.05;
+        advancePollen(w, q, 0.05);
+      }
+      expect(w.pollen).toHaveLength(1);
+      expect(w.pollen![0].x).toBeCloseTo(warned.x, 5);
+      expect(w.pollen![0].y).toBeCloseTo(warned.y, 5);
+      expect(w.pollen![0].z).toBeCloseTo(warned.z, 5);
+    } finally {
+      if (withWall) blocks.splice(blocks.indexOf(wall), 1);
+    }
+  },
+);
 it("expands to a 13.5m hemisphere, clips walls and lower floors, and expires at 8s", () => {
   const c = { id: 1, x: 0, y: 0.03, z: 0, born: 0, damage: 4 };
   expect(pollenRadius(c, 0.5)).toBe(6.75);

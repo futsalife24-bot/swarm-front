@@ -268,6 +268,105 @@ it.each([3, 5, 10, 17, 24, 30])(
   },
 );
 
+it("VOLLEY keeps its three-round warning when the target crosses behind into melee range", () => {
+  const { w, p } = field();
+  spawn(w, "ant", 0, -3.2);
+  const ant = w.enemies[0];
+  ant.cool = 0;
+  step(w, { p: neutral() });
+  expect(ant.wind).toBeGreaterThan(0);
+  expect(Math.hypot(ant.tx - ant.x, ant.tz - ant.z)).toBeGreaterThan(2.5);
+  p.z = ant.z - 1;
+  ant.wind = 0.01;
+  const hp = p.hp;
+  step(w, { p: neutral() });
+  expect(w.projectiles.filter((round) => round.owner === "enemy")).toHaveLength(
+    3,
+  );
+  expect(p.hp).toBe(hp);
+  expect(ant.cool).toBe(2.7);
+});
+
+it("VOLLEY keeps its melee warning when the target crosses out of melee range", () => {
+  const { w, p } = field();
+  spawn(w, "ant", 0, -2.4);
+  const ant = w.enemies[0];
+  ant.cool = 0;
+  step(w, { p: neutral() });
+  expect(ant.wind).toBeGreaterThan(0);
+  expect(Math.hypot(ant.tx - ant.x, ant.tz - ant.z)).toBeLessThan(2.5);
+  p.z = ant.z + 2.6;
+  ant.wind = 0.01;
+  const hp = p.hp;
+  step(w, { p: neutral() });
+  expect(w.projectiles.filter((round) => round.owner === "enemy")).toHaveLength(
+    0,
+  );
+  expect(p.hp).toBe(hp);
+  expect(ant.cool).toBe(1.2);
+});
+
+it("VOLLEY keeps its three-round choice when a nearer player replaces the aimed target", () => {
+  const { w, p } = field();
+  const other = addPlayer(w, "other");
+  other.z = 12;
+  spawn(w, "ant", 0, -3.2);
+  const ant = w.enemies[0];
+  ant.cool = 0;
+  step(w, { p: neutral(), other: neutral() });
+  expect(ant.targetId).toBe(p.id);
+  expect(Math.hypot(ant.tx - ant.x, ant.tz - ant.z)).toBeGreaterThan(2.5);
+  p.z = ant.z + 6;
+  other.z = ant.z + 1;
+  ant.wind = 0.01;
+  step(w, { p: neutral(), other: neutral() });
+  expect(ant.targetId).toBe(p.id);
+  expect(w.projectiles.filter((round) => round.owner === "enemy")).toHaveLength(
+    3,
+  );
+  expect(ant.cool).toBe(2.7);
+});
+
+it("LEAPER does not begin a melee wind-up while its jump animation is active", () => {
+  const { w, p } = field();
+  spawn(w, "spider", 0, -2.2);
+  const leaper = w.enemies[0];
+  leaper.cool = 0;
+  leaper.jump = 0.4;
+  leaper.jumpFrom = 0;
+  step(w, { p: neutral() });
+  expect(leaper.jump).toBeGreaterThan(0);
+  expect(leaper.wind).toBe(0);
+});
+
+it("LEAPER keeps its attack wind-up visible instead of jumping through it", () => {
+  const { w, p } = field();
+  spawn(w, "spider", 0, -2.2);
+  const leaper = w.enemies[0];
+  leaper.cool = 0;
+  leaper.jumpWait = 1;
+  step(w, { p: neutral() });
+  expect(leaper.wind).toBeGreaterThan(0);
+  leaper.jumpWait = 0;
+  step(w, { p: neutral() });
+  expect(leaper.wind).toBeGreaterThan(0);
+  expect(leaper.jump ?? 0).toBe(0);
+});
+
+it("LEAPER does not perch on a wall during its attack wind-up", () => {
+  const { w, p } = field();
+  const wall = mapFor(w).blocks[0];
+  spawn(w, "spider", 0, -10);
+  const leaper = w.enemies[0];
+  leaper.x = wall.x - wall.w / 2 - 1.7;
+  leaper.z = wall.z;
+  leaper.y = 0;
+  leaper.wind = 0.4;
+  expect(specialMotion(w, leaper, p, 0.05)).toBe(true);
+  expect(leaper.perch ?? 0).toBe(0);
+  expect(leaper.jump ?? 0).toBe(0);
+});
+
 it("ground acid splash causes no damage even when the player stands on it", () => {
   const { w, p } = field();
   w.projectiles.push({

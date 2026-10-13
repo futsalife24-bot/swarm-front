@@ -1,3 +1,26 @@
+# 現在地: PR177の最終追加監査まで合格、main反映・公開へ（2026-10-13）
+
+[PR177](https://github.com/futsalife24-bot/swarm-front/pull/177)、branch `codex/anomaly-anticipation-voices-20261013`、base main `27208f1de0d491bcfbba191a75c861bed0c29418`。93b7ba0（実装4cabb7a）の[通常Chat再監査](https://chatgpt.com/c/6acdaec0-6ddc-83ee-98d5-8c96c0c6955e)は必須P0/P1/P2各0で合格。初回5件と追加ANT修正の解消を独立確認。[監査結果](evidence/anomaly-anticipation-voices-20261013/audit-reaudit.md)。
+
+Chrome新タブで復旧し、通常6ケースと連結炉の構え/赤/解放を目視確認。16声実再生も確認済み。連結炉の赤線が細すぎたため、製品側の表示幅を2m、厚み0.06〜0.10mへ追加改善（壁/射程/時刻/威力は不変）。確認ページは連結炉の向き・胸高照準・近距離視点、ANT射撃coolを実戦へ合わせた。追加差分8a8345eも同じChatで必須P0/P1/P2各0・新規任意なしで合格。確定8a8345eの製品buildと本番Worker dry-run成功。監査後の追加は監査/検証記録のみ。通常merge・merge後build・既存Worker公開へ続ける。現時点では未公開・main未反映。
+
+関連94件と型/ビルド等は前記録参照。追加表示改善は型・書式・固定ページbuild、連結炉予測3件成功。renderは5件成功/既存通常弾1件失敗（対象コード/テストともbaseから差分なし）。[最新UI範囲](evidence/anomaly-anticipation-voices-20261013/ui-final.md)、[追加検証](evidence/anomaly-anticipation-voices-20261013/visible-warning-validation.txt)。画像のダウンロード時にChrome接続が切れ、新接続の新タブで復旧。保存PNGなし。本人の美術/聴感採用・実スマホ・長時間戦闘は未確認。今回限定Chrome経路と通常公開は承認済み、取り直し不要。担当モデルID/推論設定は未確認。
+
+以下は過去経過。
+# 現在地: 全ANOMALYの修正版ZIPを同じ通常Chatへ再監査送信済み（2026-10-13）
+
+[PR177](https://github.com/futsalife24-bot/swarm-front/pull/177)、branch `codex/anomaly-anticipation-voices-20261013`、base `27208f1de0d491bcfbba191a75c861bed0c29418`、最終実装 `4cabb7a074e9dd38da5f8d18362a7aaf2f391497` をpush済み。全8種/連結形態の構え→赤い攻撃エリア→攻撃、16声・戦闘音声・試聴一覧を実装。HARROW v14、CALYX開発者解放、兵士旋回PR176を保持。声は独自の手続き合成（外部AIではなく費用0）。
+
+本人の今回限定Chrome承認で[通常Chat監査](https://chatgpt.com/c/6acdaec0-6ddc-83ee-98d5-8c96c0c6955e)は初回完了。ea2c947にP2が5件（P0/P1未検出）。全5件を修正し、追加でANT近接が発動時にIdleへ戻る不具合も修正。関連94件の範囲・型3対象・書式、確定4cabb7aのvite build/本番Worker dry-run成功。初回の戦闘関連180件・音声51件・実Worker/WebSocket10件・履歴検査成功も記録済み。独立再監査の合格はまだ得ていない。main未反映・未公開。
+
+音声一覧の16/16実再生・単独切替をChromeで確認。HARROW7攻撃、CALYX2攻撃、通常FOUNDRYの構え/赤/解放を目視した。確認ページのdt=0により通常種の姿勢ブレンドが止まっていたため50ms刻みへ修正し、FOUNDRYは再確認。ANT近接/射撃・LEAPER・PLEAT・PRISM・RAYの6姿勢の再視認と、修正後の連結FOUNDRYレーザー赤線/発射は未確認。以前の赤範囲観測を姿勢合格と混同しない。[UI到達点](evidence/anomaly-anticipation-voices-20261013/ui-final.md)。PNG保存・本人の美術/聴感採用・実スマホ/長時間戦闘も未確認。
+
+再接続結果: 本人の再試行指示で同じChrome内の新規タブから監査Chatを復旧。2026-10-13 16:09 JST、保存済み93b7ba0のZIPを標準filechooserで添付し送信成功、ChatGPT応答中を確認。既存タブのFocus命令は失敗したが、新しいタブでは入力・添付が復旧した。iabの別件下書き496文字は変更していない。回答待ちの間に残るUI確認を続ける。
+
+次工程: 残るUI確認と再監査回答確認→必要修正/合格→既存mainへ通常merge→既存Worker公開・配信SHA/health/UI確認へ続ける。経路例外は今回だけ承認済み、追加確認不要。再監査ZIPの完全SHA/ハッシュは `docs/evidence/anomaly-anticipation-voices-20261013/reaudit-package.json` へ記録済み。再監査対象93b7ba08e345acb1299b54dd8d73c2a803e75179、ZIP 393ファイル/22,460,449 bytes、SHA256 a12647dff9674d0932d215b1bc726da8cb5167bd8d67b0ce61cce3d0165102e8。`python scripts/package-anomaly-reaudit.py`で現在HEADから再生成可能（その場合は新SHA/ZIPとして送る）。試聴は `public/anomaly-voices.html`、ローカル固定プレビューは5201。詳細は [作業記録](ANOMALY-ANTICIPATION-VOICES.md)。担当モデルID/推論設定は取得不可で未確認。
+
+既存CloudflareはWorkers Free・当日51/100,000（閲覧時）、契約変更なし。GitHub mainは確認時27208f1、PR177はdraft・MERGEABLE/CLEAN、チェック表示なし・保護/rulesetなし（設定変更なし）。別worktree main `C:/Users/futsa/Documents/Codex/2026-10-09/swarm-soldier-motion` は35125e5/cleanを読み取り確認。公開時は現状再確認後、指定先限定safe.directoryでff-only同期する。以下は過去経過。
+
 # 経過: 兵士のその場旋回（足の踏み替え）と他プレイヤーの向き補間、再監査で条件付き合格、main反映・公開へ（2026-10-12、Claude Code）
 
 独立監査は通常Chat（https://chatgpt.com/c/6accca3f-1bc0-83ec-be0e-078c7ad797c3）で行った。

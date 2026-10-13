@@ -1,0 +1,26 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+ ❯ tests/structure-v2.test.ts (23 tests | 1 failed | 22 skipped) 193150ms
+   × current changelog contains no legacy creature descriptions 193139ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/structure-v2.test.ts > current changelog contains no legacy creature descriptions
+Error: Test timed out in 90000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/structure-v2.test.ts:333:1
+    331|   expect(effects.items[0].mesh.material.color.getHex()).toBe(0x65edff);
+    332| });
+    333| it("current changelog contains no legacy creature descriptions", async…
+       | ^
+    334|   // Vite injects this value during builds; exercise the same generate…
+    335|   vi.stubGlobal(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 22 skipped (23)
+   Start at  11:20:38
+   Duration  206.39s (tests 94%, transform 4%, import 2%)

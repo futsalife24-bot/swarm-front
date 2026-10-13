@@ -126,9 +126,11 @@ export class StructureMotionController {
         batch.setPose(i, s.clip, s.time, s.from, s.fromTime, s.blend / 0.35);
         return;
       }
+      // VOLLEY uses 1.2s after melee and 2.7s after its three-round shot.
+      const releaseCooldown = this.kind === "ant" ? 1.2 : spec.cooldown;
       const fired =
         e.wind <= 0 &&
-        e.cool > spec.cooldown - 0.35 &&
+        e.cool > releaseCooldown - 0.35 &&
         ((s.wind > 0 && e.cool > s.cool) || e.cool > s.cool + 0.4);
       const recovering =
         s.clip === "Lunge" && s.time >= spec.impact && s.time < spec.duration;

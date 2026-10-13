@@ -1,0 +1,10 @@
+{
+  "head": "8a8345eec0110b72eb03cf5f227e6add4737d6f0",
+  "baseAudit": "93b7ba08e345acb1299b54dd8d73c2a803e75179",
+  "file": "dist-validation/anomaly-voices-20261013/anomaly-visibility-8a8345e.zip",
+  "entries": 19,
+  "bytes": 225322,
+  "sha256": "85625c877696e6c2db75a1d2a74312629f56ee6dfb56ac516d029d781295f823",
+  "validation": "CRCと内部SHA全件一致、同じ通常Chatへ添付送信成功",
+  "auditUrl": "https://chatgpt.com/c/6acdaec0-6ddc-83ee-98d5-8c96c0c6955e"
+}

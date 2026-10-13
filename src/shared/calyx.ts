@@ -120,7 +120,33 @@ export function stepPollen(w: World, living: Player[], dt: number) {
   }
   w.pollen = clouds.filter((c) => w.time - c.born < CALYX.lifetime);
 }
-export function advancePollen(w: World, q: Projectile, dt: number) {
+type PollenFlight = Pick<
+  Projectile,
+  "x" | "y" | "z" | "dx" | "dy" | "dz" | "life"
+>;
+function pollenLaunch(
+  e: Pick<Enemy, "x" | "y" | "z" | "tx" | "ty" | "tz">,
+  yaw: number,
+  blocks: Block[],
+): PollenFlight {
+  const origin = calyxMuzzle(e, yaw),
+    distance = Math.hypot(e.tx - origin.x, e.tz - origin.z),
+    flight = Math.max(1.2, Math.min(1.8, distance / 16)),
+    ty = e.ty ?? groundHeight(e.tx, e.tz, blocks);
+  return {
+    ...origin,
+    dx: (e.tx - origin.x) / flight,
+    dz: (e.tz - origin.z) / flight,
+    dy: (ty + 0.04 - origin.y) / flight + 0.5 * CALYX.gravity * flight,
+    life: flight + 0.2,
+  };
+}
+/** Advance the same trajectory for live projectiles and pre-fire impact warnings. */
+function tracePollen(
+  q: PollenFlight,
+  dt: number,
+  blocks: Block[],
+): { x: number; y: number; z: number; elapsed: number } | undefined {
   // Substeps follow the parabola, including ceilings, rather than one long chord.
   let remaining = Math.min(dt, Math.max(0, q.life)),
     elapsed = 0;
@@ -138,7 +164,7 @@ export function advancePollen(w: World, q: Projectile, dt: number) {
         dy / length,
         dz / length,
         length,
-        mapFor(w).blocks,
+        blocks,
       );
     const hit = wall < length - 1e-8;
     const part = hit ? Math.max(0, (wall - 0.025) / length) : 1;
@@ -149,22 +175,42 @@ export function advancePollen(w: World, q: Projectile, dt: number) {
     elapsed += h * (hit ? wall / length : 1);
     remaining -= h;
     q.life -= h;
-    const floor = groundHeight(q.x, q.z, mapFor(w).blocks);
+    const floor = groundHeight(q.x, q.z, blocks);
     if (hit || q.y <= floor + 0.03 || q.life <= 1e-8) {
       q.y = Math.max(q.y, floor + 0.03);
       q.life = -1;
-      const clouds = (w.pollen ??= []);
-      if (clouds.length < CALYX.maxClouds)
-        clouds.push({
-          id: ++w.serial,
-          x: q.x,
-          y: supportHeight(q.x, q.z, mapFor(w).blocks, q.y) + 0.03,
-          z: q.z,
-          born: w.time - dt + elapsed,
-          damage: q.damage,
-        });
+      return {
+        x: q.x,
+        y: supportHeight(q.x, q.z, blocks, q.y) + 0.03,
+        z: q.z,
+        elapsed,
+      };
     }
   }
+}
+/** First solid-surface landing of a committed PollenShot, for the red warning. */
+export function calyxPredictedImpact(
+  e: Pick<Enemy, "x" | "y" | "z" | "tx" | "ty" | "tz">,
+  yaw: number,
+  blocks: Block[],
+) {
+  const flight = pollenLaunch(e, yaw, blocks);
+  const impact = tracePollen(flight, flight.life, blocks);
+  return impact && { x: impact.x, y: impact.y, z: impact.z };
+}
+export function advancePollen(w: World, q: Projectile, dt: number) {
+  const impact = tracePollen(q, dt, mapFor(w).blocks);
+  if (!impact) return;
+  const clouds = (w.pollen ??= []);
+  if (clouds.length < CALYX.maxClouds)
+    clouds.push({
+      id: ++w.serial,
+      x: impact.x,
+      y: impact.y,
+      z: impact.z,
+      born: w.time - dt + impact.elapsed,
+      damage: q.damage,
+    });
 }
 /** Socket near the forward pollen sac; GLB local -Z is forward. */
 export function calyxMuzzle(e: Pick<Enemy, "x" | "y" | "z">, yaw: number) {
@@ -225,18 +271,10 @@ export function stepCalyx(
         }
       } else {
         e.pollenReadyAt = w.time + CALYX.shotCooldown;
-        const origin = calyxMuzzle(e, attack.yaw),
-          distance = Math.hypot(e.tx - origin.x, e.tz - origin.z);
-        const flight = Math.max(1.2, Math.min(1.8, distance / 16)),
-          ty = e.ty ?? groundHeight(e.tx, e.tz, blocks);
         if (w.projectiles.length < 100)
           w.projectiles.push({
             id: ++w.serial,
-            ...origin,
-            dx: (e.tx - origin.x) / flight,
-            dz: (e.tz - origin.z) / flight,
-            dy: (ty + 0.04 - origin.y) / flight + 0.5 * CALYX.gravity * flight,
-            life: flight + 0.2,
+            ...pollenLaunch(e, attack.yaw, blocks),
             owner: "enemy",
             damage: CALYX.damage,
             rocket: false,

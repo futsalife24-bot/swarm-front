@@ -90,6 +90,8 @@ it("marks the spin wind-up and the committed dive landing point", () => {
   const positions = warnings.geometry.getAttribute("position");
   try {
     view.update({ time: 0.1, enemies: [enemy] });
+    expect(warnings.count).toBe(0);
+    view.update({ time: HARROW.spinWind * 0.5 + 0.01, enemies: [enemy] });
     expect(warnings.count).toBe(1);
     expect(positions.getX(0)).toBeCloseTo(enemy.x + HARROW.spinRadius * 0.945);
     view.update({ time: HARROW.spinWind + 0.1, enemies: [enemy] });
@@ -105,6 +107,8 @@ it("marks the spin wind-up and the committed dive landing point", () => {
     expect(warnings.count).toBe(0);
     const fill = view.root.children[4] as TerrainProjectedMarkers;
     const outline = view.root.children[5] as T.LineSegments;
+    expect(fill.count).toBe(0);
+    view.update({ time: 1.41, enemies: [enemy] });
     expect(fill.count).toBe(30);
     expect(fill.ringInfo(0)?.filled).toBe(true);
     expect(outline.geometry.drawRange.count).toBe(120);
@@ -114,6 +118,44 @@ it("marks the spin wind-up and the committed dive landing point", () => {
     expect(warnings.count).toBe(0);
     expect(fill.count).toBe(0);
     expect(outline.geometry.drawRange.count).toBe(0);
+  } finally {
+    view.dispose();
+  }
+});
+
+it("reveals the terrain-projected Dash route only after its visible preparation", () => {
+  const view = new HarrowEffects();
+  const enemy: Enemy = {
+    id: 3,
+    kind: "harrow",
+    x: 0,
+    y: 0,
+    z: 0,
+    hp: 100,
+    maxHp: 100,
+    cool: 0,
+    wind: 0,
+    hurt: 0,
+    tx: 0,
+    tz: 12,
+    harrow: {
+      kind: "Dash",
+      started: 0,
+      fired: false,
+      yaw: 0,
+      from: { x: 0, y: 0, z: 0 },
+      to: { x: 0, y: 0, z: 12 },
+    },
+  };
+  const route = view.root.children[6] as TerrainProjectedMarkers;
+  try {
+    view.update({ time: HARROW.dashWind * 0.25, enemies: [enemy] });
+    expect(route.count).toBe(0);
+    view.update({ time: HARROW.dashWind * 0.75, enemies: [enemy] });
+    expect(route.count).toBe(13);
+    expect(route.ringInfo(0)?.filled).toBe(true);
+    view.update({ time: HARROW.dashWind + 0.01, enemies: [enemy] });
+    expect(route.count).toBe(0);
   } finally {
     view.dispose();
   }

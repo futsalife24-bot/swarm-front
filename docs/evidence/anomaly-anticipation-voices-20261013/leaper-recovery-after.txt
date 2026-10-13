@@ -1,0 +1,25 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+ ❯ tests/enemies.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/enemies.test.ts [ tests/enemies.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{b4483191-af7b-4324-8d38-3bd318c5bd09}\AC\Temp\J4ShgXhn7yhg3f4xRicrx\ssr\b082f4ee47dd23128642d43633250953e01704aa'
+ ❯ tests/enemies.test.ts:1:1
+      1| import { enemySize, enemySpeedFactor } from "../src/shared/enemy-size";
+       | ^
+      2| import { supportHeight } from "../src/shared/terrain";
+      3| import { expect, it } from "vitest";
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  13 passed (13)
+   Start at  13:42:37
+   Duration  2.34s (transform 52%, import 46%, worker 1%, tests 1%)
+
+    Isolate  2 workers spawned · ~321ms startup each (spawn + environment, per file)
+             at least ~321ms faster with isolate: false — reuses workers across files instead of one per file

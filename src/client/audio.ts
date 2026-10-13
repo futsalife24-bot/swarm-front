@@ -7,7 +7,13 @@ import {
   type SoldierClip,
 } from "./soldier-voice";
 import type { World } from "../shared/game";
+import {
+  AnomalyVoice,
+  ANOMALY_VOICE_KEYS,
+  ANOMALY_VOICE_PATH,
+} from "./anomaly-voice";
 const LEVELS: Record<string, number> = {
+  ...Object.fromEntries(ANOMALY_VOICE_KEYS.map((key) => [key, 0.48])),
   rifle: 0.62,
   shotgun: 0.8,
   rocket: 0.75,
@@ -63,6 +69,8 @@ export class Sound {
   private menuVoices = new Set<AudioBufferSourceNode>();
   private tracker = new CombatAudio();
   private soldier = new SoldierVoice();
+  private anomaly = new AnomalyVoice();
+  private anomalyVoices = new Set<AudioBufferSourceNode>();
   private speech?: AudioBufferSourceNode;
   private speechRun = "";
   private speechOwner = "";
@@ -114,15 +122,17 @@ export class Sound {
         if (this.bytes.has(key)) return;
         try {
           const r = await fetch(
-            key.startsWith("voice:")
-              ? `${import.meta.env.BASE_URL}${SOLDIER_PATH}${key.slice(6)}.wav`
-              : (key !== "impact" && isImpact(key)
-                  ? AR_HIT
-                  : key === "rocketBurst"
-                    ? ROCKET_FINAL
-                    : ["rifle", "shotgun"].includes(key)
-                      ? SELECTED
-                      : BASE) +
+            key.startsWith("anomaly:")
+              ? `${import.meta.env.BASE_URL}${ANOMALY_VOICE_PATH}${key.slice(8)}.wav`
+              : key.startsWith("voice:")
+                ? `${import.meta.env.BASE_URL}${SOLDIER_PATH}${key.slice(6)}.wav`
+                : (key !== "impact" && isImpact(key)
+                    ? AR_HIT
+                    : key === "rocketBurst"
+                      ? ROCKET_FINAL
+                      : ["rifle", "shotgun"].includes(key)
+                        ? SELECTED
+                        : BASE) +
                   key +
                   ".wav",
           );
@@ -206,7 +216,13 @@ export class Sound {
   resetSpeech() {
     this.speech?.stop();
     this.speech = undefined;
+    for (const voice of this.anomalyVoices) {
+      voice.stop();
+      this.voices.delete(voice);
+    }
+    this.anomalyVoices.clear();
     this.soldier.suspend();
+    this.anomaly.suspend();
   }
   consumed(run: string) {
     return this.tracker.consumed(run);
@@ -251,7 +267,12 @@ export class Sound {
         SOLDIER_VOICES.every((v) => this.buffers.has(`voice:${v.id}`)),
     );
     if (line) this.speak(line);
-    for (const cue of this.tracker.collect(w, active)) {
+    const calls = this.anomaly.collect(
+      w,
+      id,
+      active && this.effectsVolume > 0 && this.context?.state === "running",
+    );
+    for (const cue of [...this.tracker.collect(w, active), ...calls]) {
       if (!p) continue;
       const dx = (cue.x ?? p.x) - p.x,
         dz = (cue.z ?? p.z) - p.z,
@@ -308,6 +329,10 @@ export class Sound {
     )
       return;
     const now = c.currentTime;
+    const monster = type.startsWith("anomaly:");
+    // Missing voice assets stay silent; never replace a vocal with a click.
+    if (monster && !this.buffers.has(type)) return;
+    if (monster && this.anomalyVoices.size >= 2) return;
     // Per cue/source: pellets coalesce, but a shot never suppresses a hit or dodge.
     if (
       now - (this.last.get(key) ?? -Infinity) <
@@ -352,10 +377,12 @@ export class Sound {
     stereo.pan.value = pan;
     source.connect(g).connect(stereo).connect(this.master!);
     this.voices.add(source);
+    if (monster) this.anomalyVoices.add(source);
     if (["menu", "equip", "unequip"].includes(type))
       this.menuVoices.add(source);
     source.onended = () => {
       this.voices.delete(source);
+      this.anomalyVoices.delete(source);
       this.menuVoices.delete(source);
       source.disconnect();
       g.disconnect();

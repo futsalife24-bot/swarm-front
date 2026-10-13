@@ -1,0 +1,30 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+ ❯ tests/harrow-effects.test.ts (16 tests | 1 failed) 86481ms
+   × clips face interiors over every campaign grass/snow rock instead of bridging their ridges 55318ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/harrow-effects.test.ts > clips face interiors over every campaign grass/snow rock instead of bridging their ridges
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/harrow-effects.test.ts:371:1
+    369|   },
+    370| );
+    371| it("clips face interiors over every campaign grass/snow rock instead o…
+       | ^
+    372|   const view = new TerrainProjectedMarkers(new T.MeshBasicMaterial(), …
+    373|   let worst = -Infinity,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 8 passed (9)
+      Tests  1 failed | 179 passed | 1 skipped (181)
+   Start at  11:27:59
+   Duration  356.69s (tests 48%, import 27%, transform 25%)
+
+     Import  68 modules were evaluated 96 times · 77.09s total, 27% of tracked time
+             ~22.49s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation

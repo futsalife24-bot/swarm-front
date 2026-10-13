@@ -117,7 +117,7 @@ it("PRISM snapshots and retreats below 16m without changing damage", () => {
     ENEMIES.spitter.damage * enemyStatSize(e),
   );
 });
-it("HOUND shockwave hits forward after .45 seconds, not behind or outside range", () => {
+it("PLEAT holds through preparation and red warning before the forward shockwave", () => {
   const { w, e } = field();
   e.x = 0;
   e.z = -1;
@@ -126,8 +126,14 @@ it("HOUND shockwave hits forward after .45 seconds, not behind or outside range"
   Object.assign(w.players[2], { x: 3, z: 1 });
   Object.assign(w.players[3], { x: 0, z: 8 });
   step(w, {});
-  expect(e.wind).toBe(0.45);
+  expect(e.wind).toBe(0.8);
   const hp = w.players.map((p) => p.hp);
+  for (let i = 0; i < 8; i++) step(w, {});
+  expect(e.wind).toBeCloseTo(0.4);
+  expect(w.players.map((p) => p.hp)).toEqual(hp);
+  for (let i = 0; i < 7; i++) step(w, {});
+  expect(e.wind).toBeGreaterThan(0);
+  expect(w.players.map((p) => p.hp)).toEqual(hp);
   while (e.wind > 0) step(w, {});
   expect(w.players[0].hp).toBeCloseTo(
     hp[0] - ENEMIES.crawler.damage * enemyStatSize(e),

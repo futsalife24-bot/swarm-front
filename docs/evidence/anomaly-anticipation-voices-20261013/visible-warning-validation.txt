@@ -1,0 +1,7 @@
+追加表示改善の検証（2026-10-13）
+- src型検査: 成功。
+- 確認ページ型検査: TypeScriptのCLIに--ignoreConfigを指定して成功。初回はTS5112、R1修正途中はANTの型分岐エラーがあり、修正後成功。
+- prettier: src/client/render.ts、scripts/anomaly-anticipation-preview.ts成功。
+- 固定確認ページVite build成功。通常6ケースと連結炉の構え/赤/解放を実画面確認。
+- foundry-laser-warning 3件成功、render 5件成功/1件失敗。
+- render失敗は既存の通常弾の座標期待値 -7.5 に対し -6。src/client/combat-effects.ts と tests/render.test.ts はbase 27208f1と差分なしで、今回の予告幅変更の実行経路外。既存失敗を成功扱いせずログを保存。

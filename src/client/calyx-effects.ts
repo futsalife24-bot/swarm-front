@@ -1,8 +1,15 @@
 import * as T from "three";
 import { wallDistance, type World } from "../shared/game";
-import { CALYX, pollenPointContains, pollenRadius } from "../shared/calyx";
+import {
+  CALYX,
+  calyxPredictedImpact,
+  pollenPointContains,
+  pollenRadius,
+} from "../shared/calyx";
 import { mapFor } from "../shared/stages";
 import { supportHeight } from "../shared/terrain";
+import type { Block } from "../shared/map-blocks";
+import { redWarningAfterStart } from "./attack-telegraph";
 
 /** Bounded instances; wall clipping is cached per stationary cloud, not raycast every frame. */
 export class CalyxEffects {
@@ -36,8 +43,14 @@ export class CalyxEffects {
   // Attack warnings have their own budget: persistent clouds must never crowd them out.
   private warnings = new T.InstancedMesh(
     this.marks.geometry,
-    this.marks.material,
-    12000, // Solo permits 120 actors; each full Slam warning uses 96 instances.
+    new T.MeshBasicMaterial({
+      color: 0xff4054,
+      transparent: true,
+      opacity: 0.52,
+      depthWrite: false,
+      side: T.DoubleSide,
+    }),
+    32000, // Dense PollenShot coverage remains bounded even at the Solo actor cap.
   );
   private cells = new Map<
     number,
@@ -45,6 +58,14 @@ export class CalyxEffects {
       mist: { x: number; y: number; z: number; distance: number }[];
       dome: T.Mesh<T.SphereGeometry, T.MeshBasicMaterial>;
       reach: Float32Array;
+    }
+  >();
+  private shotWarnings = new Map<
+    number,
+    {
+      started: number;
+      blocks: Block[];
+      cells: { x: number; y: number; z: number }[];
     }
   >();
   private domeTemplate = new T.SphereGeometry(
@@ -85,6 +106,7 @@ export class CalyxEffects {
     for (const c of this.cells.values()) c.dome.geometry.dispose();
     this.cells.clear();
     this.domes.clear();
+    this.shotWarnings.clear();
   }
   /** Local camera haze only, no persistent blindness or stacking. */
   haze(w: World | null | undefined, p: T.Vector3) {
@@ -192,9 +214,11 @@ export class CalyxEffects {
         this.cells.delete(id);
       }
     markBatch = this.warnings;
+    const activeShots = new Set<number>();
     for (const e of w.enemies) {
       const a = e.calyx;
       if (!a) continue;
+      if (a.kind === "PollenShot" && !a.fired) activeShots.add(e.id);
       if (a.fired) {
         const age = w.time - a.started - CALYX.slamWind;
         if (a.kind === "Slam" && age >= 0 && age < 0.3) {
@@ -207,18 +231,51 @@ export class CalyxEffects {
         }
         continue;
       }
+      const wind = a.kind === "Slam" ? CALYX.slamWind : CALYX.shotWind;
+      if (!redWarningAfterStart(w.time - a.started, wind)) continue;
       if (a.kind === "PollenShot") {
-        const r = 0.6 + 0.1 * Math.sin(w.time * 8);
-        mark(e.tx, e.ty ?? 0, e.tz, r);
+        let cached = this.shotWarnings.get(e.id);
+        if (
+          !cached ||
+          cached.started !== a.started ||
+          cached.blocks !== blocks
+        ) {
+          const impact = calyxPredictedImpact(e, a.yaw, blocks);
+          const cells: { x: number; y: number; z: number }[] = [];
+          if (impact) {
+            const cloud = { id: 0, ...impact, born: 0, damage: 0 };
+            for (let dx = -13.5; dx <= 13.5; dx += 1.5)
+              for (let dz = -13.5; dz <= 13.5; dz += 1.5) {
+                const x = impact.x + dx,
+                  z = impact.z + dz;
+                if (Math.hypot(dx, dz) > CALYX.radius) continue;
+                const y = supportHeight(x, z, blocks, impact.y);
+                if (
+                  pollenPointContains(
+                    cloud,
+                    { x, y: y + 0.9, z },
+                    CALYX.growth,
+                    blocks,
+                  )
+                )
+                  cells.push({ x, y, z });
+              }
+          }
+          cached = { started: a.started, blocks, cells };
+          this.shotWarnings.set(e.id, cached);
+        }
+        for (const cell of cached.cells) mark(cell.x, cell.y, cell.z, 1.2);
       } else {
         for (let r = 0.5; r <= CALYX.slamRange; r += 0.5)
           for (let angle = -Math.PI / 3; angle <= Math.PI / 3; angle += 0.18) {
             const x = e.x + Math.sin(a.yaw + angle) * r,
               z = e.z + Math.cos(a.yaw + angle) * r;
-            mark(x, supportHeight(x, z, blocks, e.y), z, 0.15);
+            mark(x, supportHeight(x, z, blocks, e.y), z, 0.42);
           }
       }
     }
+    for (const id of this.shotWarnings.keys())
+      if (!activeShots.has(id)) this.shotWarnings.delete(id);
     this.mist.geometry.setDrawRange(0, this.mistCount);
     this.mist.geometry.attributes.position.needsUpdate = true;
     this.marks.instanceMatrix.needsUpdate = true;

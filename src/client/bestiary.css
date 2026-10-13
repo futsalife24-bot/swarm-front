@@ -71,6 +71,20 @@
   background: #254840;
   border-color: #90e7cd;
 }
+.report-voice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+}
+.report-voice button {
+  flex-shrink: 0;
+  min-height: 40px;
+}
+.bestiary article .report-voice p {
+  margin: 0;
+  font-size: 11px;
+}
 .report-detail {
   display: grid;
   grid-template-rows: minmax(180px, 1fr) minmax(0, 0.85fr);
