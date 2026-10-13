@@ -30,6 +30,7 @@ export default defineConfig({
       "tests/audio.test.ts",
       "tests/anomaly-voice.test.ts",
       "tests/anomaly-audio-lifecycle.test.ts",
+      "tests/anomaly-arrival-audio.test.ts",
       "tests/foundry-laser-warning.test.ts",
       "tests/attack-telegraph.test.ts",
       "tests/soldier-voice.test.ts",

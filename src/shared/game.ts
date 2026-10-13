@@ -254,6 +254,8 @@ export interface Projectile {
   family?: Family;
 }
 export interface Event {
+  /** Keep the visual event without a combat sound (ANOMALY arrival cues). */
+  silent?: boolean;
   frontEffect?: "ricochet" | "interceptor" | "mine" | "mine-set" | "blast";
   rebuild?: RebuildAttribution;
   id: number;
