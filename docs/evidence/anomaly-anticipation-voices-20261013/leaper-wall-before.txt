@@ -1,0 +1,32 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+ ❯ tests/enemies.test.ts (41 tests | 1 failed | 40 skipped) 14ms
+   × LEAPER does not perch on a wall during its attack wind-up 12ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/enemies.test.ts > LEAPER does not perch on a wall during its attack wind-up
+AssertionError: expected 1.2 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1.2
+
+ ❯ tests/enemies.test.ts:366:29
+    364|   leaper.wind = 0.4;
+    365|   expect(specialMotion(w, leaper, p, 0.05)).toBe(true);
+    366|   expect(leaper.perch ?? 0).toBe(0);
+       |                             ^
+    367|   expect(leaper.jump ?? 0).toBe(0);
+    368| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 40 skipped (41)
+   Start at  13:29:31
+   Duration  2.73s (import 50%, transform 49%, tests 1%, worker 1%)

@@ -1986,6 +1986,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
               : e.kind === "hornet"
                 ? 24
                 : 2.6) &&
+      (e.kind !== "spider" || ((e.jump ?? 0) <= 0 && (e.perch ?? 0) <= 0)) &&
       (e.kind === "hornet"
         ? rayVisible(e, t, mapFor(w).blocks)
         : visible(e, t, mapFor(w).blocks))

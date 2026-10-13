@@ -216,6 +216,11 @@ export class Sound {
   resetSpeech() {
     this.speech?.stop();
     this.speech = undefined;
+    for (const voice of this.anomalyVoices) {
+      voice.stop();
+      this.voices.delete(voice);
+    }
+    this.anomalyVoices.clear();
     this.soldier.suspend();
     this.anomaly.suspend();
   }

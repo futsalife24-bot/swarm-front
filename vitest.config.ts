@@ -29,6 +29,7 @@ export default defineConfig({
       "tests/encounter-camera.test.ts",
       "tests/audio.test.ts",
       "tests/anomaly-voice.test.ts",
+      "tests/anomaly-audio-lifecycle.test.ts",
       "tests/attack-telegraph.test.ts",
       "tests/soldier-voice.test.ts",
       "tests/soldier-playback.test.ts",

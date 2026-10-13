@@ -1,0 +1,51 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+ ❯ tests/anomaly-audio-lifecycle.test.ts (5 tests | 5 failed) 64ms
+   × cancels interrupted monster voices before audio resumes, without occupying new voice slots 35ms
+   × cancels playing monster voices on disconnect 10ms
+   × cancels playing monster voices on death 5ms
+   × cancels playing monster voices on new-run 4ms
+   × cancels playing monster voices on no-world 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/anomaly-audio-lifecycle.test.ts > cancels interrupted monster voices before audio resumes, without occupying new voice slots
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/anomaly-audio-lifecycle.test.ts:49:74
+     47|   Object.defineProperty(context, "state", { value: "suspended", config…
+     48|   context.onstatechange!(new Event("statechange"));
+     49|   expect(sources.every((source) => source.stop.mock.calls.length === 1…
+       |                                                                          ^
+     50|   Object.defineProperty(context, "state", { value: "running", configur…
+     51|   // onended is asynchronous: stopped nodes must release both slots im…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  tests/anomaly-audio-lifecycle.test.ts > cancels playing monster voices on disconnect
+ FAIL  tests/anomaly-audio-lifecycle.test.ts > cancels playing monster voices on death
+ FAIL  tests/anomaly-audio-lifecycle.test.ts > cancels playing monster voices on new-run
+ FAIL  tests/anomaly-audio-lifecycle.test.ts > cancels playing monster voices on no-world
+AssertionError: expected "vi.fn()" to be called once, but got 0 times
+ ❯ tests/anomaly-audio-lifecycle.test.ts:71:24
+     69|   if (transition === "new-run") world.run += "-next";
+     70|   sound.update(transition === "no-world" ? null : world, player.id, 0,…
+     71|   expect(playing.stop).toHaveBeenCalledOnce();
+       |                        ^
+     72| });
+     73|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed (5)
+   Start at  13:25:32
+   Duration  4.37s (transform 50%, import 48%, tests 2%)
