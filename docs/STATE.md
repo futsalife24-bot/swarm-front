@@ -1,3 +1,8 @@
+# 現在地: ANOMALY出現SEだけ無効化して公開完了（2026-10-14）
+
+PR181通常merge、出現予告/ボス出現の演出6箇所をsilent化。出現演出・採用声・控えめ音量・通常爆発を保持。型/既存32＋新規6テスト、実Audioで出現SE0/通常burst1/声1、独立監査必須0・19確認成功。公開ソース7af5f6dbd156f6dfd7a6a8c0f716d67b4618d128、Worker d822510a-a68b-495a-8c55-044237aa60de。merge後build/dry-run/deploy成功、配信67/67一致・health正常、公開タイトル/更新履歴確認。[公開記録](evidence/anomaly-arrival-silent-20261014/release.md)。実聴・実スマホは未確認。
+
+以下は経過。
 # 現在地: ANOMALY出現SEを除去、追加監査待ち（2026-10-14）
 
 [PR181](https://github.com/futsalife24-bot/swarm-front/pull/181)、対象670c2eafd5155af75da2970832623678f6ad3c1a、base0c6c64d、branch codex/anomaly-arrival-silent-20261014。通常出現予告/ボス出現の6箇所のburstへsilent指定、演出と採用声/控えめ音量・通常攻撃音を保持。src/worker型・既存関連32件・新規6ケース・確定build/dry-run成功。同じ通常Chatへ差分全文を追加送信済み。ブラウザはiabの画像/標準ボタン操作で復旧。実Sound/Audioで出現イベント2件・SE0、通常burst1・声1、デコード正常を確認。[検証記録](evidence/anomaly-arrival-silent-20261014/verification.md)。監査結果→必要修正→main→既存Worker公開・配信確認が残る。main未反映・未公開。

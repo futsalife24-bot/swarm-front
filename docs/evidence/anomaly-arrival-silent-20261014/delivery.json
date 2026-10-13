@@ -1,0 +1,487 @@
+{
+  "at": "2026-10-13T22:32:27.008Z",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "source": "7af5f6dbd156f6dfd7a6a8c0f716d67b4618d128",
+  "version": "d822510a-a68b-495a-8c55-044237aa60de",
+  "manifestMatches": true,
+  "health": {
+    "status": 200,
+    "body": {
+      "ok": true,
+      "transport": "websocket",
+      "authority": "durable-object"
+    }
+  },
+  "pass": true,
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "local": "651dcd122fd3e553727cdce90fe6c10f86d034c73efe4d7aa115604df86ec6c6",
+      "remote": "651dcd122fd3e553727cdce90fe6c10f86d034c73efe4d7aa115604df86ec6c6",
+      "pass": true
+    },
+    {
+      "file": "front.html",
+      "status": 200,
+      "local": "1fd73ab5639214bfc284cfe7fb6eb33ce3febe87a39b2f7e2d6d925467bd0e73",
+      "remote": "1fd73ab5639214bfc284cfe7fb6eb33ce3febe87a39b2f7e2d6d925467bd0e73",
+      "pass": true
+    },
+    {
+      "file": "anomaly-voices.html",
+      "status": 200,
+      "local": "bfc3579bab90e8cc992350437e7bd8837ca6ae7aad0c299b17934c5b36c0a2a8",
+      "remote": "bfc3579bab90e8cc992350437e7bd8837ca6ae7aad0c299b17934c5b36c0a2a8",
+      "pass": true
+    },
+    {
+      "file": "assets/enemies/hound_motion_v1.glb",
+      "status": 200,
+      "local": "ab0d39eb16a7de79a71810f625d2ef05a0246c211df78d0dce5be82a19f53a88",
+      "remote": "ab0d39eb16a7de79a71810f625d2ef05a0246c211df78d0dce5be82a19f53a88",
+      "pass": true
+    },
+    {
+      "file": "assets/enemies/leaper_motion_v3.glb",
+      "status": 200,
+      "local": "7a57499b4e7ab82c9fe23155f6731d95213a4fb29835eaecf905e9cd939c38e3",
+      "remote": "7a57499b4e7ab82c9fe23155f6731d95213a4fb29835eaecf905e9cd939c38e3",
+      "pass": true
+    },
+    {
+      "file": "assets/enemies/pleat_motion_v5.glb",
+      "status": 200,
+      "local": "891dfa187cb1c0d54b92a47af962e693984ff9ba04198e5a3b7b95e763a8b018",
+      "remote": "891dfa187cb1c0d54b92a47af962e693984ff9ba04198e5a3b7b95e763a8b018",
+      "pass": true
+    },
+    {
+      "file": "assets/enemies/prism_motion_v1.glb",
+      "status": 200,
+      "local": "54439f79a6b552eff19413a82f164ddf3c2b4c37d3305ce332dc15e281c1450f",
+      "remote": "54439f79a6b552eff19413a82f164ddf3c2b4c37d3305ce332dc15e281c1450f",
+      "pass": true
+    },
+    {
+      "file": "assets/enemies/ray_motion_v1.glb",
+      "status": 200,
+      "local": "cb513efbbac681c6fbfde65f366a9b7ae3bdacfd87340605f771400fa9180d11",
+      "remote": "cb513efbbac681c6fbfde65f366a9b7ae3bdacfd87340605f771400fa9180d11",
+      "pass": true
+    },
+    {
+      "file": "assets/enemies/foundry_zero_motion_v1.glb",
+      "status": 200,
+      "local": "a8e3b2921fac1000e30642227c4d5deb697f46777c7c5a5d85eb5fca892887cf",
+      "remote": "a8e3b2921fac1000e30642227c4d5deb697f46777c7c5a5d85eb5fca892887cf",
+      "pass": true
+    },
+    {
+      "file": "assets/enemies/calyx_motion_v1.glb",
+      "status": 200,
+      "local": "d1a7573d5976e28492be14e8fbe25c880ea93ed96946c7859c8c3f558089d9ad",
+      "remote": "d1a7573d5976e28492be14e8fbe25c880ea93ed96946c7859c8c3f558089d9ad",
+      "pass": true
+    },
+    {
+      "file": "assets/enemies/harrow_motion_v14.glb",
+      "status": 200,
+      "local": "0385b7c0198d47125a0779544726787c6076bc7213bd61382221eb0c6592d5ae",
+      "remote": "0385b7c0198d47125a0779544726787c6076bc7213bd61382221eb0c6592d5ae",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/manifest.json",
+      "status": 200,
+      "local": "e185c2cd21f17b350dd913c76ef4c739ab0a82157c8a345f9b35162044aa121d",
+      "remote": "e185c2cd21f17b350dd913c76ef4c739ab0a82157c8a345f9b35162044aa121d",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/CREDITS.txt",
+      "status": 200,
+      "local": "bd38bb0474e658a668ca63652f0cf95174526cbc1bdf6bbebc226eb3e35e80b4",
+      "remote": "bd38bb0474e658a668ca63652f0cf95174526cbc1bdf6bbebc226eb3e35e80b4",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/ant-0.wav",
+      "status": 200,
+      "local": "863dd6f42dc2b8de66ff6ede1f2fce60d35c7be0a0baa06fdd4f4af3ab2537d3",
+      "remote": "863dd6f42dc2b8de66ff6ede1f2fce60d35c7be0a0baa06fdd4f4af3ab2537d3",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/ant-1.wav",
+      "status": 200,
+      "local": "3a04a0779cffbd5868a46dc8af2d3241fc32c325a749e53bd9f4dff24619d209",
+      "remote": "3a04a0779cffbd5868a46dc8af2d3241fc32c325a749e53bd9f4dff24619d209",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/spider-0.wav",
+      "status": 200,
+      "local": "09d5732695107f7ac780f0996ea79101e006d261780e85e4b729166eedbfd9b0",
+      "remote": "09d5732695107f7ac780f0996ea79101e006d261780e85e4b729166eedbfd9b0",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/spider-1.wav",
+      "status": 200,
+      "local": "39e2eb846a17198a26965ad8a526af9fe94840c6bf2ea3041fae486ea7538b4d",
+      "remote": "39e2eb846a17198a26965ad8a526af9fe94840c6bf2ea3041fae486ea7538b4d",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/crawler-0.wav",
+      "status": 200,
+      "local": "21b347e7173ef3ffe5ced11763e10da1c5d7b56811233b4bdce3389748cf8995",
+      "remote": "21b347e7173ef3ffe5ced11763e10da1c5d7b56811233b4bdce3389748cf8995",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/crawler-1.wav",
+      "status": 200,
+      "local": "6d02f99922f8aa6c8ef95fc0e0df4cdf993c60b89710f7d5283a711c969f68d3",
+      "remote": "6d02f99922f8aa6c8ef95fc0e0df4cdf993c60b89710f7d5283a711c969f68d3",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/spitter-0.wav",
+      "status": 200,
+      "local": "3caf0a3040ec4fbf1135b8b827993030c3d4ea0bc7b2898413edb1fa64708792",
+      "remote": "3caf0a3040ec4fbf1135b8b827993030c3d4ea0bc7b2898413edb1fa64708792",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/spitter-1.wav",
+      "status": 200,
+      "local": "85af9509922db811a95100ffd88e9e4fa5ea8128578272792f627fad5ee43377",
+      "remote": "85af9509922db811a95100ffd88e9e4fa5ea8128578272792f627fad5ee43377",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/hornet-0.wav",
+      "status": 200,
+      "local": "7b2444db6543fdd7d37dd8bec6707b078fa3d1f7186e19523f6ca23e251086b9",
+      "remote": "7b2444db6543fdd7d37dd8bec6707b078fa3d1f7186e19523f6ca23e251086b9",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/hornet-1.wav",
+      "status": 200,
+      "local": "91e239bf22be33728a271ca93e0e12b51699c2634675f0b3a882ca27c0c1be78",
+      "remote": "91e239bf22be33728a271ca93e0e12b51699c2634675f0b3a882ca27c0c1be78",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/boss-0.wav",
+      "status": 200,
+      "local": "369e3b08fbc56d6c107b51ce58447acb621abe2c571d78ec256f50b6cb8949e9",
+      "remote": "369e3b08fbc56d6c107b51ce58447acb621abe2c571d78ec256f50b6cb8949e9",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/boss-1.wav",
+      "status": 200,
+      "local": "79581a5476f24093bea26a37c02a400480757ee806a523884f4e127dfb772e84",
+      "remote": "79581a5476f24093bea26a37c02a400480757ee806a523884f4e127dfb772e84",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/calyx-0.wav",
+      "status": 200,
+      "local": "fa6717f62fe2055c304b3fc68a9748d78e0adc192b4d1ee3c4fd56c7ddfe2c33",
+      "remote": "fa6717f62fe2055c304b3fc68a9748d78e0adc192b4d1ee3c4fd56c7ddfe2c33",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/calyx-1.wav",
+      "status": 200,
+      "local": "d450e62b90dc64e9d192da2800012ce3ae11cda2426be225fc912fa9e824641a",
+      "remote": "d450e62b90dc64e9d192da2800012ce3ae11cda2426be225fc912fa9e824641a",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/harrow-0.wav",
+      "status": 200,
+      "local": "fbe19379759539a2aa38b2d9fe881158f7c90147dc4d381913048631bc5ed644",
+      "remote": "fbe19379759539a2aa38b2d9fe881158f7c90147dc4d381913048631bc5ed644",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/harrow-1.wav",
+      "status": 200,
+      "local": "31de354b9dca3ad780dc602e278ef161fa59e028b501c2931f64a96b9bc986d2",
+      "remote": "31de354b9dca3ad780dc602e278ef161fa59e028b501c2931f64a96b9bc986d2",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/boss-linked-0.wav",
+      "status": 200,
+      "local": "6b8feb00e4e7719b7994581e69a91f1d5bdc5f74a46b7fc47836f8fffbef33b8",
+      "remote": "6b8feb00e4e7719b7994581e69a91f1d5bdc5f74a46b7fc47836f8fffbef33b8",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/boss-linked-1.wav",
+      "status": 200,
+      "local": "3c8f53c5eb8707db3c17ed74871870ba45a6dfe5f4da47eb6acbdf6497ba42d6",
+      "remote": "3c8f53c5eb8707db3c17ed74871870ba45a6dfe5f4da47eb6acbdf6497ba42d6",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/boss-separated-0.wav",
+      "status": 200,
+      "local": "a3b559434dd101c49795d797999f8e59dbfa68e9410adf264e37f164ce07dac5",
+      "remote": "a3b559434dd101c49795d797999f8e59dbfa68e9410adf264e37f164ce07dac5",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/boss-separated-1.wav",
+      "status": 200,
+      "local": "2b94158d1d83ae4c7449066e0c20cd32dff14349d6baffb08e6933e687701938",
+      "remote": "2b94158d1d83ae4c7449066e0c20cd32dff14349d6baffb08e6933e687701938",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/pairs.wav",
+      "status": 200,
+      "local": "6a7e07d5af714f39e718242bf13b405ec2f77d45a2db8fd4ded5a13560ee2e50",
+      "remote": "6a7e07d5af714f39e718242bf13b405ec2f77d45a2db8fd4ded5a13560ee2e50",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/crowd-stress.wav",
+      "status": 200,
+      "local": "1ab3f77b43e1e90a5cae3a00e22ad6a17246f927fe25c3b30f613f86dbb8d573",
+      "remote": "1ab3f77b43e1e90a5cae3a00e22ad6a17246f927fe25c3b30f613f86dbb8d573",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/boss-states.wav",
+      "status": 200,
+      "local": "2d97f235d6197361d41a895238092b27954ec7594b84d54abd5e70cc15ca9618",
+      "remote": "2d97f235d6197361d41a895238092b27954ec7594b84d54abd5e70cc15ca9618",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v1/ant-0.wav",
+      "status": 200,
+      "local": "d03e8c9d6c797d02fb76a70a5062e223ce9cf3fd904bcd9a2ce51858c369ee60",
+      "remote": "d03e8c9d6c797d02fb76a70a5062e223ce9cf3fd904bcd9a2ce51858c369ee60",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v1/spider-0.wav",
+      "status": 200,
+      "local": "e68b2f360cecafb38624ecd18c2d984fc19186d246af6e6bf63cdc9cb8de1798",
+      "remote": "e68b2f360cecafb38624ecd18c2d984fc19186d246af6e6bf63cdc9cb8de1798",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v1/crawler-0.wav",
+      "status": 200,
+      "local": "3fb0ec210dfb125b5aaa9f7d6d09b12a5abe8ad17ac2437d55d38c00ec9616cf",
+      "remote": "3fb0ec210dfb125b5aaa9f7d6d09b12a5abe8ad17ac2437d55d38c00ec9616cf",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v1/hornet-0.wav",
+      "status": 200,
+      "local": "eba5120d02b052d7bf6d1209e066655ff2b0ee213c5cd2f66f89d6c3105d5d74",
+      "remote": "eba5120d02b052d7bf6d1209e066655ff2b0ee213c5cd2f66f89d6c3105d5d74",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v1/boss-0.wav",
+      "status": 200,
+      "local": "05caf4a11f8db887cc726ab5735233899fb5e781aa00d7addf0919dcd2dd0819",
+      "remote": "05caf4a11f8db887cc726ab5735233899fb5e781aa00d7addf0919dcd2dd0819",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v1/calyx-0.wav",
+      "status": 200,
+      "local": "836d59c54bb970794e14404601ca07031dc16d01eef88cb04ebd91edeec00b92",
+      "remote": "836d59c54bb970794e14404601ca07031dc16d01eef88cb04ebd91edeec00b92",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v1/harrow-0.wav",
+      "status": 200,
+      "local": "306eb9ef3f61856f9453528b456844fd308021222d075ea165a026686638afe6",
+      "remote": "306eb9ef3f61856f9453528b456844fd308021222d075ea165a026686638afe6",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v2/spitter-0.wav",
+      "status": 200,
+      "local": "3d71084f2196257bbd47036fc16e3052bccadbe1686419c270f0267e7862b1ec",
+      "remote": "3d71084f2196257bbd47036fc16e3052bccadbe1686419c270f0267e7862b1ec",
+      "pass": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v2/boss-0.wav",
+      "status": 200,
+      "local": "369e3b08fbc56d6c107b51ce58447acb621abe2c571d78ec256f50b6cb8949e9",
+      "remote": "369e3b08fbc56d6c107b51ce58447acb621abe2c571d78ec256f50b6cb8949e9",
+      "pass": true
+    },
+    {
+      "file": "assets/changelog-Z3JvGRq8.js",
+      "status": 200,
+      "local": "8a4ac41e664dc9195686a60a8f0fb7d74fb96e188baf553d5d15ae9cfa947cb2",
+      "remote": "8a4ac41e664dc9195686a60a8f0fb7d74fb96e188baf553d5d15ae9cfa947cb2",
+      "pass": true
+    },
+    {
+      "file": "assets/cloud-save-BBcbApPk.css",
+      "status": 200,
+      "local": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75",
+      "remote": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75",
+      "pass": true
+    },
+    {
+      "file": "assets/cloud-save-CZa4TNGe.js",
+      "status": 200,
+      "local": "ef23ee44dd08a4adc786410c266fa19a07dd8fa179728f743a36f37ca0132eca",
+      "remote": "ef23ee44dd08a4adc786410c266fa19a07dd8fa179728f743a36f37ca0132eca",
+      "pass": true
+    },
+    {
+      "file": "assets/front-CfbWKfsS.css",
+      "status": 200,
+      "local": "e63b21f942ef9da20c9f199f7704af4595bb2e4af97c8061fbf7d855b69dad4b",
+      "remote": "e63b21f942ef9da20c9f199f7704af4595bb2e4af97c8061fbf7d855b69dad4b",
+      "pass": true
+    },
+    {
+      "file": "assets/front-DbAtcYMF.js",
+      "status": 200,
+      "local": "19257f8a63b5c22eb1b4c8c8a758f6a4ab60fe12a1ae1b95d440c71890531477",
+      "remote": "19257f8a63b5c22eb1b4c8c8a758f6a4ab60fe12a1ae1b95d440c71890531477",
+      "pass": true
+    },
+    {
+      "file": "assets/hud--CDBtrs9.js",
+      "status": 200,
+      "local": "00a404819a42c71954665912aa53ac6eb1a7f9f0f20bcd536e22f2482a8da52d",
+      "remote": "00a404819a42c71954665912aa53ac6eb1a7f9f0f20bcd536e22f2482a8da52d",
+      "pass": true
+    },
+    {
+      "file": "assets/hud-KJkCjEBB.css",
+      "status": 200,
+      "local": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3",
+      "remote": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3",
+      "pass": true
+    },
+    {
+      "file": "assets/legacy-CjLgwue8.js",
+      "status": 200,
+      "local": "d6a411319a667e31056f1109a25205996767663777f73473115ba6f808018285",
+      "remote": "d6a411319a667e31056f1109a25205996767663777f73473115ba6f808018285",
+      "pass": true
+    },
+    {
+      "file": "assets/legacy-CPbai1ZT.css",
+      "status": 200,
+      "local": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "remote": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "pass": true
+    },
+    {
+      "file": "assets/main-BOIn8V8d.css",
+      "status": 200,
+      "local": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "remote": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "pass": true
+    },
+    {
+      "file": "assets/main-C49DmES5.js",
+      "status": 200,
+      "local": "a1171793bfd4eeb6b6bfd8ce415c6756577956b361f805f1294442ab6d558881",
+      "remote": "a1171793bfd4eeb6b6bfd8ce415c6756577956b361f805f1294442ab6d558881",
+      "pass": true
+    },
+    {
+      "file": "assets/playtest-app-CDBarGcE.js",
+      "status": 200,
+      "local": "e9e4aed5b6c2a4a534d022034dd083a243874b35b538d3da27b0a860cf8e9d36",
+      "remote": "e9e4aed5b6c2a4a534d022034dd083a243874b35b538d3da27b0a860cf8e9d36",
+      "pass": true
+    },
+    {
+      "file": "assets/playtest-app-CU5IufCk.css",
+      "status": 200,
+      "local": "f8dd2dc94f98d22ff4906c0ff444e119d3eb9f0847b66d56941305824879cee9",
+      "remote": "f8dd2dc94f98d22ff4906c0ff444e119d3eb9f0847b66d56941305824879cee9",
+      "pass": true
+    },
+    {
+      "file": "assets/room-browser-CtHauy-j.js",
+      "status": 200,
+      "local": "87acf6ff1b759b9fb2368e30a8b590caa9b7228a1abc72350f61a6d188361599",
+      "remote": "87acf6ff1b759b9fb2368e30a8b590caa9b7228a1abc72350f61a6d188361599",
+      "pass": true
+    },
+    {
+      "file": "assets/room-browser-D0N6sL-J.css",
+      "status": 200,
+      "local": "8268ae33bacf789ea99164175788749fa3b40497e940d2ef1e4a1c588f70754f",
+      "remote": "8268ae33bacf789ea99164175788749fa3b40497e940d2ef1e4a1c588f70754f",
+      "pass": true
+    },
+    {
+      "file": "assets/save-writer-B9wubfaf.js",
+      "status": 200,
+      "local": "8bce4885d6351e65e05b8629cb9886a5f6fc9939109c49e617640febb7174e0a",
+      "remote": "8bce4885d6351e65e05b8629cb9886a5f6fc9939109c49e617640febb7174e0a",
+      "pass": true
+    },
+    {
+      "file": "assets/save-writer-C20n41-k.css",
+      "status": 200,
+      "local": "d564121aea9da4e7e3dae67df1338c35df5d5f0d950b3216653456b396cab6db",
+      "remote": "d564121aea9da4e7e3dae67df1338c35df5d5f0d950b3216653456b396cab6db",
+      "pass": true
+    },
+    {
+      "file": "assets/title-motion-D927oqwK.js",
+      "status": 200,
+      "local": "6c807cf13091e958ff52bcfa2a74ea83d903aea24cf8211cb79bede085883f70",
+      "remote": "6c807cf13091e958ff52bcfa2a74ea83d903aea24cf8211cb79bede085883f70",
+      "pass": true
+    },
+    {
+      "file": "assets/title-motion-Du0kW1pO.css",
+      "status": 200,
+      "local": "9bac9f85028c61b5a9ce7c31afceda78ee0129e2e98632204c3eb8e40905885e",
+      "remote": "9bac9f85028c61b5a9ce7c31afceda78ee0129e2e98632204c3eb8e40905885e",
+      "pass": true
+    },
+    {
+      "file": "assets/training-app-BNYJoeoE.js",
+      "status": 200,
+      "local": "3e74631468e9099af4ec16f48ed093471d38d43779b8d1c43dfc3ccd84d260a8",
+      "remote": "3e74631468e9099af4ec16f48ed093471d38d43779b8d1c43dfc3ccd84d260a8",
+      "pass": true
+    },
+    {
+      "file": "assets/weapon-sharing-DLHd4GOx.js",
+      "status": 200,
+      "local": "18a172d1c7af34704aa26f98bbbb6cf99defa3ad54b8a5bb81a3975f5d60796b",
+      "remote": "18a172d1c7af34704aa26f98bbbb6cf99defa3ad54b8a5bb81a3975f5d60796b",
+      "pass": true
+    },
+    {
+      "file": "assets/zoom-guard-CYxqEXnM.js",
+      "status": 200,
+      "local": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "remote": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "pass": true
+    }
+  ]
+}
