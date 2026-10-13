@@ -209,7 +209,14 @@ function spawnBoss(run: RebuildRun) {
   boss.active = true;
   run.bossId = boss.id;
   run.metrics.picksAtFinalResupply = run.upgrades.picks;
-  event(w, { type: "burst", radius: 8, x: boss.x, y: boss.y + 2, z: boss.z });
+  event(w, {
+    type: "burst",
+    silent: true,
+    radius: 8,
+    x: boss.x,
+    y: boss.y + 2,
+    z: boss.z,
+  });
 }
 function resumeCombat(run: RebuildRun) {
   if (run.finalResupplyDone) {
@@ -344,6 +351,7 @@ function scheduleEnemies(run: RebuildRun) {
     event(w, {
       type: "burst",
       radius: 2,
+      silent: true,
       x,
       y: supportHeight(x, z, mapFor(w).blocks) + 0.1,
       z,
