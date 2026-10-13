@@ -879,8 +879,10 @@ export class Renderer {
         (origin.x + target.x) / 2,
         origin.y + dy / 2,
         (origin.z + target.z) / 2,
-        0.012 + charge * 0.014,
-        0.012 + charge * 0.014,
+        // The authoritative laser hits player centres within 1 m of its ray.
+        // Show that danger corridor, rather than a subpixel targeting thread.
+        2,
+        0.06 + charge * 0.04,
         length,
         -Math.atan2(dy, Math.hypot(dx, dz)),
         Math.atan2(dx, dz),

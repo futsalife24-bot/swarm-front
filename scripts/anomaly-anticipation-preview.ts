@@ -7,7 +7,10 @@ import {
   queueHarrowMissiles,
   queueHarrowSnipes,
 } from "../src/shared/harrow";
-import { FOUNDRY_LASER_WARNING } from "../src/shared/foundry-defs";
+import {
+  FOUNDRY_LASER_WARNING,
+  FOUNDRY_TARGET_HEIGHT,
+} from "../src/shared/foundry-defs";
 import { mapFor } from "../src/shared/stages";
 import { STRUCTURE_TIMING } from "../src/shared/structure-timing";
 import { groundHeight } from "../src/shared/terrain";
@@ -202,9 +205,14 @@ function buildWorld() {
   player.hp = 10000;
   enemy = spawn(world, selected.kind, 0, 0, selected.form ?? "crown")!;
   enemy.active = true;
+  if (selected.form === "worm") {
+    // Preserve the safe chain's heading and aim in front of its head.
+    player.x = enemy.x + Math.sin(enemy.heading ?? 0) * 20;
+    player.z = enemy.z + Math.cos(enemy.heading ?? 0) * 20;
+    player.y = groundHeight(player.x, player.z, mapFor(world).blocks);
+  } else enemy.heading = 0;
   enemy.tx = player.x;
   enemy.tz = player.z;
-  enemy.heading = 0;
   enemy.cool = 10;
   if (selected.kind === "calyx") {
     enemy.calyx = {
@@ -296,7 +304,11 @@ function renderAt(age: number, display = true) {
     enemy.wind = 0;
     enemy.pulseAim =
       time < selected.wind
-        ? { x: enemy.tx, y: playerY(), z: enemy.tz }
+        ? {
+            x: enemy.tx,
+            y: playerY() + FOUNDRY_TARGET_HEIGHT,
+            z: enemy.tz,
+          }
         : undefined;
     enemy.acidAt = selected.wind;
   } else if (selected.kind === "calyx") {
@@ -312,13 +324,15 @@ function renderAt(age: number, display = true) {
   } else {
     enemy.wind = time < selected.wind ? selected.wind - time : 0;
     const cooldown =
-      selected.kind === "ant" || selected.kind === "spider"
-        ? 1.2
-        : STRUCTURE_TIMING[selected.kind].cooldown;
+      selected.kind === "ant"
+        ? selected.id === "ant"
+          ? 1.2
+          : 2.7
+        : selected.kind === "spider"
+          ? 1.2
+          : STRUCTURE_TIMING[selected.kind].cooldown;
     enemy.cool =
-      time < selected.wind
-        ? 0
-        : Math.max(0, cooldown - (time - selected.wind));
+      time < selected.wind ? 0 : Math.max(0, cooldown - (time - selected.wind));
   }
   // The fixture controls time itself; bypass the production frame pacer for exact seeks.
   renderer.render(
@@ -333,9 +347,11 @@ function renderAt(age: number, display = true) {
     false,
     false,
   );
+  if (selected.form === "worm")
+    status.textContent += `\n赤線 ${renderer.foundryWarnings.count}本 / 頭 (${enemy.x.toFixed(1)}, ${enemy.y.toFixed(1)}, ${enemy.z.toFixed(1)}) / 標的 (${enemy.tx.toFixed(1)}, ${playerY().toFixed(1)}, ${enemy.tz.toFixed(1)})`;
   const poseDistance =
     selected.form === "worm"
-      ? 45
+      ? 15
       : selected.kind === "harrow"
         ? 32
         : selected.kind === "calyx"
@@ -350,10 +366,16 @@ function renderAt(age: number, display = true) {
                   ? 10
                   : 8;
   const distance = areaView ? Math.max(32, poseDistance * 2.5) : poseDistance;
+  const cameraHeading = selected.form === "worm" ? (enemy.heading ?? 0) : 0;
+  const cameraSide = front ? 0 : distance * 0.7;
   renderer.camera.position.set(
-    enemy.x + (front ? 0 : distance * 0.7),
+    enemy.x +
+      cameraSide * Math.cos(cameraHeading) +
+      distance * Math.sin(cameraHeading),
     enemy.y + distance * 0.53,
-    enemy.z + distance,
+    enemy.z +
+      distance * Math.cos(cameraHeading) -
+      cameraSide * Math.sin(cameraHeading),
   );
   renderer.camera.lookAt(
     enemy.x,

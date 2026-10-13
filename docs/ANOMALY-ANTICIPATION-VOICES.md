@@ -125,3 +125,7 @@ Chrome一覧では16声すべての時刻進行、同時1件と一時停止を�
 ## 再監査前の保存到達点
 
 最終実装は`4cabb7a074e9dd38da5f8d18362a7aaf2f391497`、PR177へpush済み。このSHAのフロントbuildと既存Worker本番設定dry-runは成功。最新のUI観測は [ui-final.md](evidence/anomaly-anticipation-voices-20261013/ui-final.md) を正とする。通常FOUNDRYの明瞭な溜めは修正fixtureで再確認したが、通常6ケースと連結炉レーザー後半はChrome接続障害で未確認。16声の実再生は確認済み。再監査資料は準備するが、送信・独立合格・main/公開は未完了。Chromeの既存/新規タブ・全体状態取得・再初期化後のID指定も時間切れとなり、復旧後に同じChatで再開する。追加の承認は不要。
+
+## 再監査合格と最終UI確認
+
+93b7ba0（実装4cabb7a）の限定再監査は必須P0/P1/P2各0で合格。[結果](evidence/anomaly-anticipation-voices-20261013/audit-reaudit.md)。Chrome復旧後、通常6ケースと連結炉の構え/赤/解放を実画面確認。連結炉の赤線が細く見づらかったため幅2mの赤帯へ追加改善、確認ページの頭向き/照準高さ/coolも実戦に合わせた。製品の変更はrenderの表示幅/厚みだけ。これは先の合格対象外として限定追加監査後に公開する。自己検証と既存renderテスト失敗の区別はvisible-warning-validation.txt、最終UIの範囲はui-final.mdを参照。
