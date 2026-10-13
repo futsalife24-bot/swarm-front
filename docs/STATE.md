@@ -6,6 +6,8 @@ PR177の公開は完了したが、本人が「全部同じ音、高さ違い程
 
 追加監査は対象 `61e7112d8e9f394666fb614e16c46e1f6acd5acb` として [同じ通常Chat](https://chatgpt.com/c/6acdaec0-6ddc-83ee-98d5-8c96c0c6955e)へ送信・開始確認。ZIP `dist-validation/anomaly-voice-v2-20261013/audit-v2.zip`、4,094,164 bytes、SHA256 `30991593ea7e6b69144df4251504f3516a66f614632f6900ccaf64d13d142ba4`。タイトルは「Swarm Front｜独立監査｜ANOMALYボイス再制作」へ設定。ブラウザの送信操作は時間切れだったが、別タブの画面で送信済み本文と監査の進行を確認し、再送していない。結果待ち。最新origin/mainは0ec79b0で、別main worktreeもclean。
 
+追加監査は技術面で合格（必須P0/P1/P2各0、独立41確認グループ成功）。[監査回答](evidence/anomaly-voice-v2-20261013/audit.md)。実聴・本人の採用・実スマホ・戦闘SE/BGM混合は監査側も未確認。任意R1として、新版RMSが旧版より2.39〜6.58dB低い点は採用時の比較に残す。聴感低下の確定欠陥ではなく一律増幅の要求もなし。PR178はmerge可能・チェック要求なしを確認、監査後の追加は記録だけ。通常merge・改訂版公開へ進む。
+
 以下は前回の公開記録。
 
 # 全ANOMALYの予備動作・赤予告・固有ボイスをmain反映・公開完了（2026-10-13）
