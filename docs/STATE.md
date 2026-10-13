@@ -8,7 +8,7 @@
 
 停止理由: Chromeが既存Chat/3Dタブへの接続、同じChatの新規タブ、全体状態取得でタイムアウト。再初期化後に現存ChatのID指定でもFocus命令が10秒超過した。再監査資料は未送信。承認不足ではなく外部の操作接続障害。iabの別件下書き496文字は保持、秘密値・下書き本文は監査資料に含めない。
 
-再開条件: Chrome通常Chatへの状態取得・入力・添付が復旧したら、保存済み再監査ZIPを同じChatへ送信し、残るUI確認→必須指摘修正/合格→既存mainへ通常merge→既存Worker公開・配信SHA/health/UI確認へ続ける。経路例外は今回だけ承認済み、追加確認不要。再監査ZIPの完全SHA/ハッシュは `docs/evidence/anomaly-anticipation-voices-20261013/reaudit-package.json` へ記録する。試聴は `public/anomaly-voices.html`、ローカル固定プレビューは5201。詳細は [作業記録](ANOMALY-ANTICIPATION-VOICES.md)。担当モデルID/推論設定は取得不可で未確認。
+再開条件: Chrome通常Chatへの状態取得・入力・添付が復旧したら、保存済み再監査ZIPを同じChatへ送信し、残るUI確認→必須指摘修正/合格→既存mainへ通常merge→既存Worker公開・配信SHA/health/UI確認へ続ける。経路例外は今回だけ承認済み、追加確認不要。再監査ZIPの完全SHA/ハッシュは `docs/evidence/anomaly-anticipation-voices-20261013/reaudit-package.json` へ記録済み。再監査対象93b7ba08e345acb1299b54dd8d73c2a803e75179、ZIP 393ファイル/22,460,449 bytes、SHA256 a12647dff9674d0932d215b1bc726da8cb5167bd8d67b0ce61cce3d0165102e8。`python scripts/package-anomaly-reaudit.py`で現在HEADから再生成可能（その場合は新SHA/ZIPとして送る）。試聴は `public/anomaly-voices.html`、ローカル固定プレビューは5201。詳細は [作業記録](ANOMALY-ANTICIPATION-VOICES.md)。担当モデルID/推論設定は取得不可で未確認。
 
 既存CloudflareはWorkers Free・当日51/100,000（閲覧時）、契約変更なし。GitHub mainは確認時27208f1、PR177はdraft・MERGEABLE/CLEAN、チェック表示なし・保護/rulesetなし（設定変更なし）。別worktree main `C:/Users/futsa/Documents/Codex/2026-10-09/swarm-soldier-motion` は35125e5/cleanを読み取り確認。公開時は現状再確認後、指定先限定safe.directoryでff-only同期する。以下は過去経過。
 
