@@ -1,3 +1,8 @@
+# 現在地: ANOMALY出現SEを除去、追加監査待ち（2026-10-14）
+
+[PR181](https://github.com/futsalife24-bot/swarm-front/pull/181)、対象670c2eafd5155af75da2970832623678f6ad3c1a、base0c6c64d、branch codex/anomaly-arrival-silent-20261014。通常出現予告/ボス出現の6箇所のburstへsilent指定、演出と採用声/控えめ音量・通常攻撃音を保持。src/worker型・既存関連32件・新規6ケース・確定build/dry-run成功。同じ通常Chatへ差分全文を追加送信済み。ブラウザはChrome未接続、iabの移動/Focus取得も失敗し実再生は未確認。[検証記録](evidence/anomaly-arrival-silent-20261014/verification.md)。監査結果→必要修正→main→既存Worker公開・配信確認が残る。main未反映・未公開。
+
+以下は経過。
 # 現在地: 戦闘ボイスを控えめに調整して公開完了（2026-10-13）
 
 PR180通常merge、全20声の戦闘ゲイン0.48→0.24（約-6dB）。既存最大2声・間隔・距離減衰維持。型/17テスト/実Audioの音量・抑制確認、独立監査必須0・14確認成功。公開ソース92e9a6f175416cefa11c2301f1d4be404f04fb61、Worker b7b72867-82af-4937-bfa5-b8d69bec688a。merge後build/dry-run/deploy成功、配信67/67一致・health正常。既存プレイタブは保護。実スマホ/群れとSE混合の聴感は未確認。[公開記録](evidence/anomaly-voice-volume-20261013/release.md)。
