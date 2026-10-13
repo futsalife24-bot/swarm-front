@@ -116,6 +116,7 @@ async function startTeam() {
 }
 it("rejects invalid progress, holds the host snapshot and keeps personal weapons across reconnect", async () => {
   const { entry, host, guest, state } = await startTeam();
+  expect(state.world.scale).toBe(1.75);
   expect(state.frontView.clearedStage).toBe(3);
   expect(state.frontView.weaponLevel).toBe(4);
   expect(state.world.players[0].weapons[0].mods.damage).toBe(1);
@@ -128,6 +129,7 @@ it("rejects invalid progress, holds the host snapshot and keeps personal weapons
   const rejoin = new Client(entry.code, 0, guest.token),
     restored = await rejoin.wait((m) => m.type === "state");
   expect(rejoin.id).toBe(guest.id);
+  expect(restored.world.scale).toBe(state.world.scale);
   expect(restored.frontView.clearedStage).toBe(3);
   expect(restored.frontView.rewardEligible).toBe(true);
   expect(

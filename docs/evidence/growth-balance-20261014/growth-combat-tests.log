@@ -1,0 +1,16 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+··················································stdout | tests/game.test.ts > authoritative combat > solo starter pilot completes the real mission without stat/time cheats
+{"mission":"victory","seconds":51.599999999999206,"kills":32,"hp":160,"position":[-5.64871745337905,8.094430239518553],"enemies":[{"kind":"crawler","x":-23.736205436291353,"z":52.25205849339183,"hp":-4.786531847960449}],"maxEnemies":8,"simulationMs":2105.7456}
+
+····························································
+
+ Test Files  6 passed (6)
+      Tests  110 passed (110)
+   Start at  08:19:07
+   Duration  123.80s (tests 62%, import 21%, transform 17%)
+
+    Isolate  6 workers spawned · ~2.86s startup each (spawn + environment, per file)
+             at least ~14.28s faster with isolate: false — reuses workers across files instead of one per file
+

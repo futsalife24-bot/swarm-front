@@ -1,0 +1,6 @@
+{"mode":"survival","stage":0,"count":1,"seed":814,"seconds":360,"result":"battle","kills":711,"playerKills":[711],"hp":[130.05],"taken":167,"spawned":802,"maxEnemies":96,"scale":1,"selections":3}
+{"mode":"survival","stage":0,"count":4,"seed":814,"seconds":360,"result":"battle","kills":814,"playerKills":[192,190,237,195],"hp":[160,160,168,160],"taken":0,"spawned":829,"maxEnemies":21,"scale":3.25,"selections":4}
+{"mode":"survival","stage":10,"count":1,"seed":814,"seconds":261.8,"result":"defeat","kills":610,"playerKills":[610],"hp":[0],"taken":214.45,"spawned":700,"maxEnemies":96,"scale":1,"selections":7}
+{"mode":"survival","stage":10,"count":4,"seed":814,"seconds":360,"result":"battle","kills":968,"playerKills":[216,268,253,231],"hp":[0,0,80.83,160],"taken":478.85,"spawned":1058,"maxEnemies":94,"scale":3.25,"selections":4}
+{"mode":"survival","stage":25,"count":1,"seed":814,"seconds":182.55,"result":"defeat","kills":472,"playerKills":[472],"hp":[0],"taken":267.1,"spawned":563,"maxEnemies":96,"scale":1,"selections":8}
+{"mode":"survival","stage":25,"count":4,"seed":814,"seconds":340.75,"result":"defeat","kills":1180,"playerKills":[247,275,282,376],"hp":[0,0,0,0],"taken":829.7,"spawned":1272,"maxEnemies":96,"scale":3.25,"selections":16}

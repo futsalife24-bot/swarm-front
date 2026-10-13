@@ -1,0 +1,13 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  08:22:25
+   Duration  14.70s (transform 50%, import 28%, tests 20%, worker 1%)
+
+  Transform  transforming modules took 6.70s · 50% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

@@ -405,7 +405,9 @@ export function addPlayer(
 }
 export function start(w: World) {
   w.phase = "battle";
-  w.scale = 1 + 0.55 * (w.players.length - 1);
+  // Snapshot once at sortie: co-op keeps a shared-fire advantage without
+  // reducing four-player health-per-gun to two thirds of the solo value.
+  w.scale = 1 + 0.75 * (w.players.length - 1);
   w.wave = 1;
   w.waveAt = 0;
   if (!w.defense && !w.rebuild && !w.front) beginWave(w);

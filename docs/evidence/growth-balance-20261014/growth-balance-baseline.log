@@ -1,0 +1,48 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+stdout | scripts/measure-growth-balance.test.ts > measures progression and party size with legal inputs
+{"mode":"survival","stage":0,"count":1,"seed":814,"seconds":180,"result":"battle","playerKills":[365],"hp":[160],"taken":0,"spawned":371,"maxEnemies":12,"scale":1,"selections":1}
+{"mode":"survival","stage":0,"count":1,"seed":723,"seconds":180,"result":"battle","playerKills":[365],"hp":[160],"taken":0,"spawned":371,"maxEnemies":11,"scale":1,"selections":1}
+{"mode":"survival","stage":0,"count":2,"seed":814,"seconds":180,"result":"battle","playerKills":[208,162],"hp":[160,160],"taken":0,"spawned":372,"maxEnemies":6,"scale":1.55,"selections":2}
+{"mode":"survival","stage":0,"count":2,"seed":723,"seconds":180,"result":"battle","playerKills":[202,168],"hp":[160,160],"taken":0,"spawned":372,"maxEnemies":6,"scale":1.55,"selections":2}
+{"mode":"survival","stage":0,"count":4,"seed":814,"seconds":180,"result":"battle","playerKills":[116,95,76,83],"hp":[160,160,168,160],"taken":0,"spawned":372,"maxEnemies":6,"scale":2.6500000000000004,"selections":4}
+{"mode":"survival","stage":0,"count":4,"seed":723,"seconds":180,"result":"battle","playerKills":[93,88,95,92],"hp":[160,160,168,160],"taken":0,"spawned":370,"maxEnemies":5,"scale":2.6500000000000004,"selections":4}
+{"mode":"survival","stage":10,"count":1,"seed":814,"seconds":180,"result":"battle","playerKills":[445],"hp":[160],"taken":0,"spawned":503,"maxEnemies":61,"scale":1,"selections":4}
+{"mode":"survival","stage":10,"count":1,"seed":723,"seconds":180,"result":"battle","playerKills":[445],"hp":[160],"taken":0,"spawned":503,"maxEnemies":61,"scale":1,"selections":4}
+{"mode":"survival","stage":10,"count":2,"seed":814,"seconds":180,"result":"battle","playerKills":[306,183],"hp":[160,160],"taken":0,"spawned":505,"maxEnemies":21,"scale":1.55,"selections":2}
+{"mode":"survival","stage":10,"count":2,"seed":723,"seconds":180,"result":"battle","playerKills":[296,193],"hp":[160,160],"taken":0,"spawned":504,"maxEnemies":18,"scale":1.55,"selections":2}
+{"mode":"survival","stage":10,"count":4,"seed":814,"seconds":180,"result":"battle","playerKills":[165,108,101,131],"hp":[160,160,168,160],"taken":0,"spawned":510,"maxEnemies":11,"scale":2.6500000000000004,"selections":4}
+{"mode":"survival","stage":10,"count":4,"seed":723,"seconds":180,"result":"battle","playerKills":[146,133,94,136],"hp":[160,160,168,160],"taken":0,"spawned":509,"maxEnemies":9,"scale":2.6500000000000004,"selections":4}
+{"mode":"survival","stage":25,"count":1,"seed":814,"seconds":129.4,"result":"defeat","playerKills":[334],"hp":[0],"taken":262.3,"spawned":424,"maxEnemies":96,"scale":1,"selections":8}
+{"mode":"survival","stage":25,"count":1,"seed":723,"seconds":117.65,"result":"defeat","playerKills":[305],"hp":[0],"taken":266.05,"spawned":394,"maxEnemies":96,"scale":1,"selections":7}
+{"mode":"survival","stage":25,"count":2,"seed":814,"seconds":180,"result":"battle","playerKills":[355,233],"hp":[57.59,0],"taken":305.96,"spawned":679,"maxEnemies":96,"scale":1.55,"selections":14}
+{"mode":"survival","stage":25,"count":2,"seed":723,"seconds":180,"result":"battle","playerKills":[366,230],"hp":[101.13,123.13],"taken":230.32,"spawned":681,"maxEnemies":96,"scale":1.55,"selections":8}
+{"mode":"survival","stage":25,"count":4,"seed":814,"seconds":180,"result":"battle","playerKills":[170,158,164,217],"hp":[160,160,184,160],"taken":0,"spawned":713,"maxEnemies":13,"scale":2.6500000000000004,"selections":12}
+{"mode":"survival","stage":25,"count":4,"seed":723,"seconds":180,"result":"battle","playerKills":[198,128,129,229],"hp":[160,160,176,160],"taken":28.88,"spawned":718,"maxEnemies":39,"scale":2.6500000000000004,"selections":8}
+{"mode":"advance","stage":0,"count":1,"seed":814,"seconds":51.6,"result":"victory","playerKills":[32],"hp":[160],"taken":0,"spawned":32,"maxEnemies":8,"scale":1,"selections":0}
+{"mode":"advance","stage":0,"count":1,"seed":723,"seconds":56,"result":"victory","playerKills":[32],"hp":[160],"taken":0,"spawned":32,"maxEnemies":10,"scale":1,"selections":0}
+{"mode":"advance","stage":0,"count":2,"seed":814,"seconds":55.05,"result":"victory","playerKills":[16,16],"hp":[160,160],"taken":0,"spawned":32,"maxEnemies":11,"scale":1.55,"selections":0}
+{"mode":"advance","stage":0,"count":2,"seed":723,"seconds":55,"result":"victory","playerKills":[13,19],"hp":[160,160],"taken":0,"spawned":32,"maxEnemies":12,"scale":1.55,"selections":0}
+{"mode":"advance","stage":0,"count":4,"seed":814,"seconds":47.65,"result":"victory","playerKills":[12,10,5,5],"hp":[160,160,160,160],"taken":0,"spawned":32,"maxEnemies":8,"scale":2.6500000000000004,"selections":0}
+{"mode":"advance","stage":0,"count":4,"seed":723,"seconds":46.6,"result":"victory","playerKills":[11,7,6,8],"hp":[160,160,160,160],"taken":0,"spawned":32,"maxEnemies":11,"scale":2.6500000000000004,"selections":0}
+{"mode":"advance","stage":10,"count":1,"seed":814,"seconds":180,"result":"battle","playerKills":[101],"hp":[160],"taken":0,"spawned":113,"maxEnemies":26,"scale":1,"selections":0}
+{"mode":"advance","stage":10,"count":1,"seed":723,"seconds":177.1,"result":"victory","playerKills":[113],"hp":[160],"taken":15.34,"spawned":113,"maxEnemies":28,"scale":1,"selections":0}
+{"mode":"advance","stage":10,"count":2,"seed":814,"seconds":175.85,"result":"victory","playerKills":[57,55],"hp":[160,160],"taken":14.04,"spawned":112,"maxEnemies":25,"scale":1.55,"selections":0}
+{"mode":"advance","stage":10,"count":2,"seed":723,"seconds":171.25,"result":"victory","playerKills":[59,53],"hp":[160,160],"taken":0,"spawned":112,"maxEnemies":20,"scale":1.55,"selections":0}
+{"mode":"advance","stage":10,"count":4,"seed":814,"seconds":172.8,"result":"victory","playerKills":[25,18,39,30],"hp":[160,160,160,160],"taken":0,"spawned":112,"maxEnemies":22,"scale":2.6500000000000004,"selections":0}
+{"mode":"advance","stage":10,"count":4,"seed":723,"seconds":152.6,"result":"victory","playerKills":[41,31,18,22],"hp":[160,160,160,160],"taken":0,"spawned":112,"maxEnemies":27,"scale":2.6500000000000004,"selections":0}
+{"mode":"advance","stage":25,"count":1,"seed":814,"seconds":155.55,"result":"victory","playerKills":[92],"hp":[160],"taken":0,"spawned":92,"maxEnemies":19,"scale":1,"selections":0}
+{"mode":"advance","stage":25,"count":1,"seed":723,"seconds":147.9,"result":"victory","playerKills":[92],"hp":[141.55],"taken":165.76,"spawned":92,"maxEnemies":22,"scale":1,"selections":0}
+{"mode":"advance","stage":25,"count":2,"seed":814,"seconds":137.75,"result":"victory","playerKills":[48,44],"hp":[160,135.88],"taken":288.07,"spawned":92,"maxEnemies":19,"scale":1.55,"selections":0}
+{"mode":"advance","stage":25,"count":2,"seed":723,"seconds":131.15,"result":"victory","playerKills":[42,50],"hp":[160,160],"taken":177.6,"spawned":92,"maxEnemies":21,"scale":1.55,"selections":0}
+{"mode":"advance","stage":25,"count":4,"seed":814,"seconds":128.3,"result":"victory","playerKills":[25,23,24,20],"hp":[160,160,160,160],"taken":0,"spawned":92,"maxEnemies":15,"scale":2.6500000000000004,"selections":0}
+{"mode":"advance","stage":25,"count":4,"seed":723,"seconds":130.8,"result":"victory","playerKills":[32,17,22,21],"hp":[59.08,0,0,0],"taken":787.47,"spawned":92,"maxEnemies":17,"scale":2.6500000000000004,"selections":0}
+
+·
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  08:06:49
+   Duration  339.73s (tests 99%, import 1%, transform 1%)
+

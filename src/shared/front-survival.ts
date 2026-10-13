@@ -23,8 +23,8 @@ export function frontSurvivalDifficulty(clearedStage: number) {
     clearedStage,
     weaponLevel: frontSurvivalWeaponLevel(clearedStage),
     hpScale: 1 + clearedStage * 0.055,
-    damageScale: 1 + clearedStage * 0.035,
-    spawnScale: 1 + clearedStage * 0.04,
+    damageScale: 1 + clearedStage * 0.025,
+    spawnScale: 1 + clearedStage * 0.03,
   };
 }
 
