@@ -1,8 +1,8 @@
-# 現在地: PR177の限定再監査合格、連結炉の赤帯表示を追加確認中（2026-10-13）
+# 現在地: PR177の最終追加監査まで合格、main反映・公開へ（2026-10-13）
 
 [PR177](https://github.com/futsalife24-bot/swarm-front/pull/177)、branch `codex/anomaly-anticipation-voices-20261013`、base main `27208f1de0d491bcfbba191a75c861bed0c29418`。93b7ba0（実装4cabb7a）の[通常Chat再監査](https://chatgpt.com/c/6acdaec0-6ddc-83ee-98d5-8c96c0c6955e)は必須P0/P1/P2各0で合格。初回5件と追加ANT修正の解消を独立確認。[監査結果](evidence/anomaly-anticipation-voices-20261013/audit-reaudit.md)。
 
-Chrome新タブで復旧し、通常6ケースと連結炉の構え/赤/解放を目視確認。16声実再生も確認済み。連結炉の赤線が細すぎたため、製品側の表示幅を2m、厚み0.06〜0.10mへ追加改善（壁/射程/時刻/威力は不変）。確認ページは連結炉の向き・胸高照準・近距離視点、ANT射撃coolを実戦へ合わせた。追加差分は先の合格に含めず、同じChatで限定追加監査してから通常merge/既存Worker公開へ続ける。未公開・main未反映。
+Chrome新タブで復旧し、通常6ケースと連結炉の構え/赤/解放を目視確認。16声実再生も確認済み。連結炉の赤線が細すぎたため、製品側の表示幅を2m、厚み0.06〜0.10mへ追加改善（壁/射程/時刻/威力は不変）。確認ページは連結炉の向き・胸高照準・近距離視点、ANT射撃coolを実戦へ合わせた。追加差分8a8345eも同じChatで必須P0/P1/P2各0・新規任意なしで合格。確定8a8345eの製品buildと本番Worker dry-run成功。監査後の追加は監査/検証記録のみ。通常merge・merge後build・既存Worker公開へ続ける。現時点では未公開・main未反映。
 
 関連94件と型/ビルド等は前記録参照。追加表示改善は型・書式・固定ページbuild、連結炉予測3件成功。renderは5件成功/既存通常弾1件失敗（対象コード/テストともbaseから差分なし）。[最新UI範囲](evidence/anomaly-anticipation-voices-20261013/ui-final.md)、[追加検証](evidence/anomaly-anticipation-voices-20261013/visible-warning-validation.txt)。画像のダウンロード時にChrome接続が切れ、新接続の新タブで復旧。保存PNGなし。本人の美術/聴感採用・実スマホ・長時間戦闘は未確認。今回限定Chrome経路と通常公開は承認済み、取り直し不要。担当モデルID/推論設定は未確認。
 
