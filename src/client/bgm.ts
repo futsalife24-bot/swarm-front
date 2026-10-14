@@ -1,4 +1,5 @@
 import { stageFor } from "../shared/stages";
+import { setGameMediaMetadata } from "./media-session";
 
 export const MAP_MUSIC = [
   "map-0",
@@ -55,6 +56,7 @@ export class BackgroundMusic {
   private suspensions = new Set<symbol>();
   private revision = 0;
   constructor() {
+    setGameMediaMetadata();
     this.player = new Audio();
     this.player.preload = "none";
     this.player.volume = this.level * 0.55;

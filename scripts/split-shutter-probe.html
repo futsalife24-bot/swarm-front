@@ -1,0 +1,106 @@
+<!doctype html><meta charset="utf-8" /><title>分割シャッター実画面確認</title>
+<style>
+  body {
+    margin: 0;
+    background: #13212a;
+    color: white;
+    font: 14px system-ui;
+  }
+  header {
+    height: 76px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  button {
+    padding: 12px;
+  }
+  iframe {
+    width: 1280px;
+    height: 720px;
+    border: 0;
+  }
+  output {
+    white-space: pre-wrap;
+  }
+</style>
+<header>
+  <button id="hold">次の遷移を途中で停止</button
+  ><button id="resume">再開</button><output id="result">画面を読込み中</output>
+</header>
+<iframe src="/front.html"></iframe>
+<script>
+  const frame = document.querySelector("iframe"),
+    out = document.querySelector("output");
+  const size = new URLSearchParams(location.search);
+  if (size.get("size") === "844") {
+    frame.style.width = "844px";
+    frame.style.height = "390px";
+  }
+  let hold = false;
+  document.querySelector("#hold").onclick = () => {
+    hold = true;
+    out.textContent = "次の操作を待機";
+  };
+  document.querySelector("#resume").onclick = () => {
+    for (const a of frame.contentDocument.getAnimations()) a.play();
+    hold = false;
+  };
+  frame.onload = () => {
+    const doc = frame.contentDocument,
+      win = frame.contentWindow;
+    let at = 0;
+    const seen = new WeakSet();
+    win.addEventListener(
+      "click",
+      () => {
+        at = performance.now();
+      },
+      true,
+    );
+    new MutationObserver(() => {
+      const layer = doc.querySelector(".split-shutter:not(#probe-still)");
+      if (!layer || seen.has(layer)) return;
+      seen.add(layer);
+      out.textContent = JSON.stringify({
+        strips: layer.children.length,
+        elapsedToOverlay: Math.round(performance.now() - at),
+        clonedNodes: Array.from(layer.children).reduce(
+          (total, strip) =>
+            total + (strip.shadowRoot?.querySelectorAll("*").length ?? 0),
+          0,
+        ),
+        duplicateIds: layer.querySelectorAll("[id]").length,
+      });
+      if (hold) {
+        for (const a of doc.getAnimations()) {
+          if (a.effect?.target?.classList.contains("split-shutter-strip")) {
+            a.pause();
+            a.currentTime = 220;
+          }
+        }
+        hold = false;
+        const clone = layer.cloneNode(true);
+        for (const [i, strip] of [...clone.children].entries()) {
+          strip.style.transform = win.getComputedStyle(
+            layer.children[i],
+          ).transform;
+          const original = layer.children[i].shadowRoot;
+          if (original) {
+            const shadow = strip.attachShadow({ mode: "open" });
+            shadow.adoptedStyleSheets = original.adoptedStyleSheets;
+            for (const child of original.childNodes)
+              shadow.append(child.cloneNode(true));
+          }
+        }
+        clone.id = "probe-still";
+        doc.body.append(clone);
+        clone.showPopover();
+        document.querySelector("#resume").onclick = () => {
+          clone.remove();
+        };
+      }
+    }).observe(doc.body, { childList: true });
+    out.textContent = "準備完了";
+  };
+</script>

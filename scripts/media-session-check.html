@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" /><title>通知ロゴ確認</title
+  ><style>
+    body {
+      background: #0c1820;
+      color: white;
+      font: 18px system-ui;
+      padding: 24px;
+    }
+    img {
+      width: 180px;
+      height: 180px;
+    }
+    pre {
+      white-space: pre-wrap;
+    }
+  </style>
+  <h1>通知用ロゴ</h1>
+  <button id="check">共通BGMを初期化して確認</button>
+  <pre id="result">未実施</pre>
+  <img id="art" alt="通知用SWARM FRONTロゴ" />
+  <script type="module">
+    import { BackgroundMusic } from "/src/client/bgm.ts";
+    document.querySelector("#check").onclick = () => {
+      new BackgroundMusic();
+      const m = navigator.mediaSession?.metadata;
+      const a = m?.artwork?.[0];
+      document.querySelector("#result").textContent = JSON.stringify(
+        {
+          mediaSessionSupported: "mediaSession" in navigator,
+          mediaMetadataSupported: typeof MediaMetadata !== "undefined",
+          metadataAssigned: !!m,
+          title: m?.title,
+          artwork: a,
+          playbackState: navigator.mediaSession?.playbackState,
+          scope: "ブラウザの実MediaMetadata。Android通知パネル自体は未確認",
+        },
+        null,
+        2,
+      );
+      document.querySelector("#art").src = a?.src ?? "/icon-swarm-v2-512.png";
+    };
+  </script>
+</html>

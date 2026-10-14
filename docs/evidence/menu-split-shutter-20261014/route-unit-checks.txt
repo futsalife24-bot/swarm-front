@@ -1,0 +1,24 @@
+別文書への作戦遷移・単体検証記録（2026-10-14）
+
+対象: src/client/menu-route.ts
+実行: リポジトリ直下で node scripts/menu-route-check.mjs
+環境: Windows / PowerShell / Node.js v24.19.0
+結果: 終了コード0、全確認項目合格。
+
+確認済み項目:
+- DOMがない環境でモジュール読込とnavigateMenu呼出が例外にならない。
+- 同一originでは正確な行先URLと8秒以内の期限を記録し、元のURLへ即時遷移する。
+- クロスoriginでは記録せず元のURLへ即時遷移する。
+- sessionStorage操作が例外でも元のURLへ遷移する。
+- 初回訪問、期限切れ、URL不一致、リロードでは到着演出を起動しない。
+- 演出軽減設定では演出を開始せず、印は一回で消費する。
+- 到着先メニューの表示待ちはclickを遮断しない。
+- 帯表示中はpointerdown/click/keydownのdefaultPreventedがtrueとなる。
+- resize、fullscreenchange、550ms終了の各経路で3入力が復帰する。
+- 各終了経路で帯を1回除去し、6アニメーションを解除する。
+
+補足:
+実行時にNode.jsのstripTypeScriptTypes実験機能警告が出るが、検証は正常終了。
+DOM、イベント、保存領域、タイマーを代替した単体検証である。
+実ブラウザでの描画品質、ページ遷移の通信時間、最前面表示はこの結果の対象外。
+製品コード変更なし。検証スクリプトと本記録のみ追加。

@@ -1,0 +1,11 @@
+{
+  "before": {
+    "buttonHeight": 40,
+    "font": "16px"
+  },
+  "after": {
+    "buttonHeight": 40,
+    "font": "16px"
+  },
+  "scope": "実基地の上書き確認を閉じる演出を220msで固定"
+}

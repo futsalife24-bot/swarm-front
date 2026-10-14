@@ -31,6 +31,8 @@ import { updateScopeButtons } from "./client/layout";
 import "./client/coop-lobby.css";
 import { roomBrowserMarkup, bindRoomBrowser } from "./client/room-browser";
 import { homeMarkup } from "./client/home-screen";
+import { navigateMenu } from "./client/menu-route";
+import { mountScreenTransitions } from "./client/screen-transition";
 import { showOperationCue, cancelOperationCue } from "./client/operation-cue";
 import { openDeveloperLogin } from "./client/developer-access";
 import { STAGES, MAPS, mapFor, stageFor } from "./shared/stages";
@@ -131,6 +133,7 @@ const ui = $("ui"),
   controls = new Controls(),
   minimap = new Minimap(),
   sound = new Sound();
+mountScreenTransitions(ui);
 interface InstallPromptEvent extends Event {
   prompt(): Promise<void>;
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
@@ -464,7 +467,7 @@ function title() {
   preparedKey = "";
   preparingKey = "";
   network?.close();
-  location.assign(import.meta.env.BASE_URL);
+  navigateMenu(import.meta.env.BASE_URL);
 }
 
 function showChangelog() {

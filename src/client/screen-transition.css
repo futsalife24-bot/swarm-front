@@ -1,23 +1,90 @@
-:is(.menu-screen, .front-settings) > :is(.menu-header, header) {
-  position: relative;
-}
-.screen-transition-line {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: min(44%, 220px);
-  height: 2px;
-  background: linear-gradient(90deg, #bdebd2, #e8bc78 60%, transparent);
-  transform-origin: left center;
+.split-shutter {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  background: transparent;
   pointer-events: none;
-  user-select: none;
-  z-index: 2;
+  z-index: 2147483647;
+}
+.split-shutter::backdrop {
+  background: transparent;
+  pointer-events: none;
+}
+.split-shutter-strip,
+.split-shutter-scene {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.split-shutter-strip {
+  will-change: transform;
+}
+.split-shutter-scene {
+  background: #080e13;
+  overflow: hidden;
+}
+.split-shutter *,
+.split-shutter *::before,
+.split-shutter *::after {
+  pointer-events: none !important;
 }
 @media (prefers-reduced-motion: reduce) {
-  .screen-transition-line {
+  .split-shutter {
     display: none;
   }
 }
-html[data-menu-reduced-motion="true"] .screen-transition-line {
+html[data-menu-reduced-motion="true"] .split-shutter {
   display: none;
+}
+#ui
+  :is(
+    .menu-screen,
+    .front-settings,
+    .layout-editor,
+    .front-pause,
+    .room-entry,
+    .lobby,
+    .front-lobby,
+    .armory,
+    .result
+  )
+  button,
+dialog:not(.title-entry) button {
+  transition:
+    scale 90ms ease-out,
+    background-color 160ms,
+    border-color 160ms,
+    box-shadow 160ms;
+}
+#ui
+  :is(
+    .menu-screen,
+    .front-settings,
+    .layout-editor,
+    .front-pause,
+    .room-entry,
+    .lobby,
+    .front-lobby,
+    .armory,
+    .result
+  )
+  button:active:not(:disabled),
+dialog:not(.title-entry) button:active:not(:disabled) {
+  scale: 0.98;
+}
+@media (prefers-reduced-motion: reduce) {
+  #ui button,
+  dialog button {
+    scale: 1 !important;
+  }
+}
+html[data-menu-reduced-motion="true"] :is(#ui, dialog) button {
+  scale: 1 !important;
 }

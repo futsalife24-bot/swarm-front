@@ -30,6 +30,7 @@ import {
 import { menuSamples } from "./menu-samples";
 import { homeMarkup } from "./home-screen";
 import { openOperationPicker } from "./operation-picker";
+import { navigateMenu } from "./menu-route";
 import { openWeaponWorkshop } from "./weapon-workshop-ui";
 import { showOperationCue, cancelOperationCue } from "./operation-cue";
 import { mountTitleMotion, trackTitleAction } from "./title-motion";
@@ -1558,7 +1559,7 @@ function showHome(initialized: boolean) {
     openOperationPicker("solo", {
       advance: () => enter(gear),
       survival: () => {
-        location.href = import.meta.env.BASE_URL + "front?solo=1";
+        navigateMenu(import.meta.env.BASE_URL + "front?solo=1");
       },
     }),
   );
@@ -1593,12 +1594,14 @@ function showHome(initialized: boolean) {
   bind("coop", () =>
     openOperationPicker("coop", {
       advance: () => {
-        location.href = location.hostname.endsWith(".trycloudflare.com")
-          ? "https://swarm-front.melosalife-24.workers.dev/?coop=1"
-          : import.meta.env.BASE_URL + "?coop=1";
+        navigateMenu(
+          location.hostname.endsWith(".trycloudflare.com")
+            ? "https://swarm-front.melosalife-24.workers.dev/?coop=1"
+            : import.meta.env.BASE_URL + "?coop=1",
+        );
       },
       survival: () => {
-        location.href = import.meta.env.BASE_URL + "front?coop=1";
+        navigateMenu(import.meta.env.BASE_URL + "front?coop=1");
       },
     }),
   );

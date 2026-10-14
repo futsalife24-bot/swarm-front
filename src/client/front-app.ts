@@ -42,6 +42,7 @@ import { frontUpgradeCardMarkup } from "./front-upgrade-ui";
 import { homeMarkup } from "./home-screen";
 import { mountTitleMotion } from "./title-motion";
 import { openOperationPicker } from "./operation-picker";
+import { navigateMenu } from "./menu-route";
 import { showOperationCue, cancelOperationCue } from "./operation-cue";
 import { operationCueForResult } from "./operation-cue-assets";
 import { frontResultTitle } from "./front-result-title";
@@ -254,7 +255,7 @@ function home() {
   $("solo").onclick = () =>
     openOperationPicker("solo", {
       advance: () => {
-        location.href = import.meta.env.BASE_URL + "?solo=1";
+        navigateMenu(import.meta.env.BASE_URL + "?solo=1");
       },
       survival: () => {
         mode = "survival";
@@ -264,7 +265,7 @@ function home() {
   $("coop").onclick = () =>
     openOperationPicker("coop", {
       advance: () => {
-        location.href = import.meta.env.BASE_URL + "?coop=1";
+        navigateMenu(import.meta.env.BASE_URL + "?coop=1");
       },
       survival: () => {
         mode = "survival";

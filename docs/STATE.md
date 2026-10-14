@@ -1,3 +1,36 @@
+# 現在地: 最終独立監査合格、main反映・公開へ（2026-10-14）
+
+PR187、実装6970c7fa931c91517aa8e67d21f022fd0096961c。通常Chatの最終判定は合格、必須P0/P1/P2=0。独立ブラウザ一般10/入力9/タイトル12/追加20ケース成功。主担当の型・Vitest入力10件・BGM音声25件・build成功、Worker dry-runも前段成功。以後の差分は記録のみ。合格全文は [audit-final.txt](evidence/menu-split-shutter-20261014/audit-final.txt)。通常merge→mainからbuild→既存Worker公開→配信/UI確認へ続行。
+# 現在地: 再監査の残件P2-01Rを修正、最終再提出へ（2026-10-14）
+
+PR187。322961bの再監査はP2-01R（画面外でキー解放→復帰後の別キー決定が遮断）のみ残件。共通入力ガードに保留集合を導入して新規入力と保持入力を分離。型・単体10件・到着印・ブラウザ入力9/タイトル12項目成功。ほかの初回指摘と通知画像は独立監査で解消確認。詳細は [記録](MENU-SPLIT-SHUTTER-20261014.md)。最終commit/build/再監査→合格後mainと既存Worker公開へ継続。追加承認不要。
+# 現在地: 分割シャッター修正版322961bを再監査送信済み（2026-10-14）
+
+PR187、branch codex/menu-split-shutter-20261014。初回Chat監査P2 4件の入力持越し・協力経路・閉dialog監視・dialog祖先CSSを修正。型、入力単体6件、到着印チェック、BGM/音声25件、実ブラウザ一般10項目/入力5項目成功。通知用正式ロゴの実MediaMetadataと画像確認。詳細は [全体記録](MENU-SPLIT-SHUTTER-20261014.md)。iab接続は復旧済み。対象322961b857f7cf1bf1b2e6fc9e4c13729023c400をpushし、同じ通常Chatへ再監査送信・応答開始確認。build205modulesとWorker production dry-run成功。実基地の確認dialogの往復と協力進撃のページ移動/入口表示も追加確認。監査判定→合格後main/公開へ継続。追加承認不要。
+# 現在地: 通知ロゴ修正をPR187へ保存、iab障害で監査再提出待ち（2026-10-14）
+
+[PR187](https://github.com/futsalife24-bot/swarm-front/pull/187)、追加実装 `35105752285ad0a5ad760cc74018adab772d95f2`。既存v2正方形の正式ロゴをMediaMetadataへ指定。協力進撃の共通演出読込も補完。BGM16件・音声9件・型・到着印単体チェック成功。[通知記録](MEDIA-NOTIFICATION-LOGO-20261014.md)、[全体記録](MENU-SPLIT-SHUTTER-20261014.md)。
+
+停止理由: iabの通知確認タブ26・既存監査タブ24・全体状態取得が連続して時間切れ、ランタイム再初期化後も復旧せず。初回監査は[通常Chat](https://chatgpt.com/c/6acf6949-e500-83ee-9132-62b7957349ba)へ送信済みだが最終回答未取得、追加差分未送信。main未反映・未公開。承認待ちは解消済み。
+再開条件: iabの接続復旧後、追加ブラウザ確認と同じChatの最終回答取得→対象3510575資料追加→必須修正/合格→通常merge/既存Worker公開。別案件下書き496文字は新規Chat入力欄で全文一致を確認済み。秘密を含まないZIPと依頼文はGit対象外の .codex-remote-attachments に保存。追加確認不要。
+
+# 現在地: 分割シャッター監査送信済み・通知画像修正中（2026-10-14）
+
+本人が下書きの永続退避・復元を承認。保存と全文読み戻し後、[独立監査Chat](https://chatgpt.com/c/6acf6949-e500-83ee-9132-62b7957349ba)へ対象 `0c0ff801bb85a7ed47132849daa88d8e46c12903` のZIPを送信・応答開始確認。PR187。下書きはGit対象外へ保管、元入力欄への復元確認を継続中。監査最終判定・main・公開は未完了。
+
+追加本人依頼: Androidメディア表示の月画像を正式ロゴへ修正。現行v3アイコンは月、既存v2正方形は正式ロゴ。BGM共通初期化で通知artworkを明示する局所修正を進行中。
+
+# 現在地: 分割シャッターをPR187へ保存、監査入力欄の保護で停止（2026-10-14）
+
+[PR187](https://github.com/futsalife24-bot/swarm-front/pull/187)、実装 `0c0ff801bb85a7ed47132849daa88d8e46c12903`、branch `codex/menu-split-shutter-20261014`。型・11単体・8ブラウザ回帰・12入力回帰・最終build成功。[詳細](MENU-SPLIT-SHUTTER-20261014.md)。監査未依頼・main未反映・未公開。
+
+停止理由: 通常Chatの別案件下書きを一時変数へ退避して消す操作が、自動承認レビューで状態喪失リスクと明示承認不足を理由に拒否された。原稿は保持。
+再開条件: 本人が原稿を保存して入力欄を空にする、または永続退避と復元を含む一時利用を明示承認。許可後、iabの新規通常Chatで独立監査→修正→通常merge→既存Worker公開。
+
+# 現在地: 分割シャッター実装・最終検証と独立監査準備（2026-10-14）
+
+本人選択の分割シャッターを共通メニュー遷移へ実装。branch `codex/menu-split-shutter-20261014`、base `855c9c2ef4b5613c8bcb831e590f44dcd4de5937`。型・関連11件・ブラウザ回帰8項目・タイトル入力12項目成功。1280幅/844幅の実画面往復を確認。[詳細](MENU-SPLIT-SHUTTER-20261014.md)。最終build、独立監査、main反映、公開は未完了。採用済みロゴ入口は維持。①〜⑤には未着手。
+
 # 現在地: TAP START・通信ノイズ・ドット縮小を公開完了（2026-10-14）
 
 [PR185](https://github.com/futsalife24-bot/swarm-front/pull/185)を通常merge。公開ソース `16ff61383e281ac87e5cf25f72fb74ceceeeddf5`、Worker Version `4c97a5f1-4fd2-4d1e-8842-fdd6711e321b`。[公開版](https://swarm-front.melosalife-24.workers.dev/front)。ロゴ下のTAP START、6.8秒周期の短い横ずれと走査線、タップ時に120msで58%へ縮小してから全画面へ広がる動きを追加。低モーション対応。

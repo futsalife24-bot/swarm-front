@@ -1,0 +1,13 @@
+{
+  "mediaSessionSupported": true,
+  "mediaMetadataSupported": true,
+  "metadataAssigned": true,
+  "title": "SWARM FRONT.",
+  "artwork": {
+    "sizes": "512x512",
+    "src": "http://127.0.0.1:5208/icon-swarm-v2-512.png",
+    "type": "image/png"
+  },
+  "playbackState": "none",
+  "scope": "ブラウザの実MediaMetadata。Android通知パネル自体は未確認"
+}
