@@ -54,3 +54,7 @@
 2026-10-14のnpm auditはHigh 5、他0。依存経路は開発用Vite→PostCSS→source-map-js 1.2.1、Wrangler 4.129.0→Miniflare→sharp 0.35.2/undici 7.29.0。src/serverの直接利用は見つからず、本番の直接依存はthreeのみ。開発ツールにおける不正な画像/ソースマップ/通信入力のリスクは残り、解消済み・安全とは判定しない。指摘と依存木を原文JSONで保存。今回のゲーム調整ではツール更新を混ぜず、監査側にも未解消として提示する。
 
 修正後のViteビルドおよび本番設定Worker dry-runも成功。
+
+## 修正版の独立再監査結果
+
+09f9610bb9738e1135fc8540711a3fc04aff6bfeは技術上の限定合格、必須P0/P1/P2各0。旧SHAで報酬不具合を再現、新SHAで解消。監査側の独立実行はcore19群447assert、追加保存等15群、模擬環境の実Room6群＋30秒境界6群成功。実時間のWebSocket試験とは区別する。型検証は監査環境のvite/client不足で未完了、提出側の成功報告として扱う。既知失敗・依存High5・実機/長期の未確認を継続管理し、対象一致を条件に通常merge/既存Worker公開へ進行可。[全文](evidence/growth-balance-20261014/audit-09f9610.txt)。

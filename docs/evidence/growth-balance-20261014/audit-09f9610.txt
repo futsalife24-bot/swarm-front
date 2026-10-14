@@ -1,0 +1,315 @@
+- heading "ChatGPT の発言:" [level=4]
+    - heading "再監査判定：技術上の限定合格" [level=1]
+    - paragraph:
+      - strong: 対象SHA：09f9610bb9738e1135fc8540711a3fc04aff6bfe
+      - text: 直前監査：584cea9317a542a14117fc69c890d44aeec83082
+      - text: main基点：0cc37830f2e883d8140deba6d55ec8adae8b46a1
+    - table:
+      - rowgroup:
+        - row "必須修正 今回の残件":
+          - columnheader "必須修正"
+          - columnheader "今回の残件"
+      - rowgroup:
+        - row "P0 0件":
+          - cell "P0"
+          - cell "0件"
+        - row "P1 0件。前回P1-01の解消を確認":
+          - cell "P1":
+            - strong: P1
+          - cell "0件。前回P1-01の解消を確認":
+            - strong: 0件。前回P1-01の解消を確認
+        - row "P2 0件":
+          - cell "P2"
+          - cell "0件"
+    - button "表をコピー":
+    - button "表を展開":
+    - paragraph:
+      - strong: 前回の報酬保存不具合は、旧SHAで再現し、新SHAでは解消しました。関連する切断復帰修正も、今回の独立試験範囲では回帰を確認しませんでした。通常merge・既存Worker公開への技術的な差分阻害は解消したと判断します。
+    - paragraph: これは全件試験・実機・本番同期・依存脆弱性まで解決したという判定ではありません。以下の未確認事項と既知問題は残ります。merge・deployは実施していません。
+    - paragraph:
+      - button "pr175-09f9610-independent-reaudit-evidence.zip をダウンロード":
+        - text: 独立再監査のコード・実行ログ・結果・根拠資料
+    - heading "1. 前回P1-01：解消を確認" [level=2]
+    - paragraph: 以下の行番号は、添付ZIPの source/ 以下です。
+    - table:
+      - rowgroup:
+        - row "ファイル：行 確認した修正・ガード":
+          - columnheader "ファイル：行"
+          - columnheader "確認した修正・ガード"
+      - rowgroup:
+        - row "src/client/shared-armory.ts:88 保存済み正本の s.receipts と呼出元の next.receipts を統合し、呼出元から受領票が抜けても保存済み履歴を維持します。":
+          - cell "src/client/shared-armory.ts:88"
+          - cell "保存済み正本の s.receipts と呼出元の next.receipts を統合し、呼出元から受領票が抜けても保存済み履歴を維持します。"
+        - row "同：104–115 協力進撃の付与済み判定を s.receipts.includes(receipt) に限定。保存前の呼出元状態を、付与済みの証拠にしません。":
+          - cell "同：104–115"
+          - cell "協力進撃の付与済み判定を s.receipts.includes(receipt) に限定。保存前の呼出元状態を、付与済みの証拠にしません。":
+            - text: 協力進撃の付与済み判定を
+            - strong: s.receipts.includes(receipt)
+            - text: に限定。保存前の呼出元状態を、付与済みの証拠にしません。
+        - row "同：118–124 検証・保存の成功後に project(updated) を作り、Object.assign(next, committed) で確定内容全体を呼出元へ反映します。":
+          - cell "同：118–124"
+          - cell "検証・保存の成功後に project(updated) を作り、Object.assign(next, committed) で確定内容全体を呼出元へ反映します。":
+            - text: 検証・保存の成功後に project(updated) を作り、
+            - strong: Object.assign(next, committed)
+            - text: で確定内容全体を呼出元へ反映します。
+        - row "src/client/progression-save.ts:539–571 revision不一致・恒久成長を失う保存を拒否。書込み失敗時は例外とし、成功後にrevision等を更新します。":
+          - cell "src/client/progression-save.ts:539–571"
+          - cell "revision不一致・恒久成長を失う保存を拒否。書込み失敗時は例外とし、成功後にrevision等を更新します。"
+    - button "表をコピー":
+    - button "表を展開":
+    - paragraph: src/main.ts:1552–1599 の「クリア演出開始時に保存→結果画面でも保存」という呼出順は残っています。しかし、今回の修正では、二度目の呼出しでも確定した残高・受領票を維持します。
+    - heading "独立再現結果" [level=3]
+    - table:
+      - rowgroup:
+        - row "保存順序 旧SHA 新SHA":
+          - columnheader "保存順序"
+          - columnheader "旧SHA"
+          - columnheader "新SHA"
+      - rowgroup:
+        - row "初回の協力進撃ST2報酬 coins 120／武装片4 coins 120／武装片4":
+          - cell "初回の協力進撃ST2報酬"
+          - cell "coins 120／武装片4"
+          - cell "coins 120／武装片4"
+        - row "同じ結果を再保存 coins 240へ二重付与 coins 120を維持":
+          - cell "同じ結果を再保存"
+          - cell "coins 240へ二重付与":
+            - strong: coins 240へ二重付与
+          - cell "coins 120を維持":
+            - strong: coins 120を維持
+        - row "続けて設定保存 武装片0、受領票消失 武装片4、受領票保持":
+          - cell "続けて設定保存"
+          - cell "武装片0、受領票消失":
+            - strong: 武装片0、受領票消失
+          - cell "武装片4、受領票保持":
+            - strong: 武装片4、受領票保持
+    - button "表をコピー":
+    - button "表を展開":
+    - paragraph: 新SHAでは、設定が最初の追加保存になる場合、保存失敗後の再試行、再読込み後の再処理、複数回の同一ステージ攻略も確認しました。保存失敗時には呼出元・保存先とも変更されず、再試行後の付与は一度だけでした。
+    - paragraph: さらに、上限超過武器の保留、成長情報の保持、報酬武器の分解後に同じ結果を再処理しても武器を復活させないこと、古い別画面からの保存拒否を確認しました。
+    - paragraph:
+      - strong: 前回P1-01はクローズします。追加の必須修正案はありません。
+    - heading "2. 関連修正：切断猶予中の早期敗北" [level=2]
+    - heading "実装の確認" [level=3]
+    - paragraph: src/shared/game.ts:1665–1677 では、接続中の生存者がいない場合、前線作戦なら if (w.front) return; として、共通戦闘処理で先に敗北確定しないようになっています。
+    - paragraph: その後の src/shared/front-run.ts:685–695 が、作戦ごとの全滅を判定します。
+    - list:
+      - strong: 融合生存
+      - text: ：切断中でもHPが残る隊員を生存者として扱う。
+      - strong: 非融合生存・防衛等
+      - text: ：接続中かつHPが残る隊員が必要。
+      - strong: 通常進撃
+      - text: ：w.front がないため、従来の共通敗北判定を維持。
+    - paragraph: 猶予超過後は server/worker.ts:1718–1724 が切断隊員のHPとdownを0にするため、融合生存でも全員倒れれば終了します。
+    - heading "独立確認した境界" [level=3]
+    - paragraph: 実際の Room クラスを、模擬時計・Storage・socketで呼びました。
+    - table:
+      - rowgroup:
+        - row "条件 結果":
+          - columnheader "条件"
+          - columnheader "結果"
+      - rowgroup:
+        - row "最後の生存者が切断し、1ms／29,999ms／30,000msで復帰 早期敗北せず復帰。HP・人数倍率・出撃時進度を保持":
+          - cell "最後の生存者が切断し、1ms／29,999ms／30,000msで復帰"
+          - cell "早期敗北せず復帰。HP・人数倍率・出撃時進度を保持"
+        - row "30,000msを超過した次のtick 切断者がHP0になり、全滅なら敗北確定":
+          - cell "30,000msを超過した次のtick"
+          - cell "切断者がHP0になり、全滅なら敗北確定"
+        - row "敗北確定後の結果取得用再接続 HPを復活させず、報酬と乱数状態を維持":
+          - cell "敗北確定後の結果取得用再接続"
+          - cell "HPを復活させず、報酬と乱数状態を維持"
+        - row "切断者も既にHP0 生存者として待ち続けず敗北":
+          - cell "切断者も既にHP0"
+          - cell "生存者として待ち続けず敗北"
+        - row "全接続喪失後、倒れている隊員が生存者より先に復帰 猶予内では作戦を誤って終了させない":
+          - cell "全接続喪失後、倒れている隊員が生存者より先に復帰"
+          - cell "猶予内では作戦を誤って終了させない"
+        - row "非融合生存・防衛・旧run・通常進撃 確認した条件で従来の敗北判定を維持":
+          - cell "非融合生存・防衛・旧run・通常進撃"
+          - cell "確認した条件で従来の敗北判定を維持"
+    - button "表をコピー":
+    - button "表を展開":
+    - paragraph:
+      - strong: 30秒を実時間で待った通信試験ではありません。
+      - text: 時計を進めてサーバー処理を検査した結果です。旧SHAでは、この追加境界試験6群のうち5群が失敗し、新SHAでは6群すべて成功しました。
+    - heading "3. 独立再実行と提出証拠の区別" [level=2]
+    - heading "私自身が今回実行したもの" [level=3]
+    - table:
+      - rowgroup:
+        - row "コマンド・検査 結果と範囲":
+          - columnheader "コマンド・検査"
+          - columnheader "結果と範囲"
+      - rowgroup:
+        - row "ZIP／manifest照合 申告のサイズ・SHA256・411項目と一致。manifest掲載410ファイルも全一致":
+          - cell "ZIP／manifest照合"
+          - cell "申告のサイズ・SHA256・411項目と一致。manifest掲載410ファイルも全一致"
+        - row "git apply --reverse --check 製品ソース・テストに限定した両差分の検査は終了0":
+          - cell "git apply --reverse --check"
+          - cell "製品ソース・テストに限定した両差分の検査は終了0"
+        - row "node transpile.cjs 新SHAの291モジュールを変換。型検査ではありません":
+          - cell "node transpile.cjs"
+          - cell "新SHAの291モジュールを変換。型検査ではありません":
+            - text: 新SHAの291モジュールを変換。
+            - strong: 型検査ではありません
+        - row "node core-checks.mjs 19群成功、447 assertions。旧SHAでは前回P1に対応する2群が失敗":
+          - cell "node core-checks.mjs"
+          - cell "19群成功、447 assertions。旧SHAでは前回P1に対応する2群が失敗":
+            - strong: 19群成功、447 assertions
+            - text: 。旧SHAでは前回P1に対応する2群が失敗
+        - row "node fix-regressions.mjs 報酬保存・失敗回復・保留・モード別敗北等の追加15群成功":
+          - cell "node fix-regressions.mjs"
+          - cell "報酬保存・失敗回復・保留・モード別敗北等の追加15群成功":
+            - text: 報酬保存・失敗回復・保留・モード別敗北等の
+            - strong: 追加15群成功
+        - row "node … room-checks.mjs 実Room実装＋模擬環境で6群成功":
+          - cell "node … room-checks.mjs"
+          - cell "実Room実装＋模擬環境で6群成功":
+            - text: 実Room実装＋模擬環境で
+            - strong: 6群成功
+        - row "node … room-boundaries.mjs 切断猶予境界等の追加6群成功":
+          - cell "node … room-boundaries.mjs"
+          - cell "切断猶予境界等の追加6群成功":
+            - text: 切断猶予境界等の
+            - strong: 追加6群成功
+        - row "node known-failures.mjs aim／mapsの既知不一致を一部再現。成功試験には数えません":
+          - cell "node known-failures.mjs"
+          - cell "aim／mapsの既知不一致を一部再現。成功試験には数えません":
+            - text: aim／mapsの既知不一致を一部再現。
+            - strong: 成功試験には数えません
+        - row "node dependency-review.cjs 提供ソースの静的依存経路とlockfileを検査":
+          - cell "node dependency-review.cjs"
+          - cell "提供ソースの静的依存経路とlockfileを検査"
+        - row "npm run typecheck 終了2。vite/client の型定義不足で停止し、Worker側には未到達":
+          - cell "npm run typecheck"
+          - cell "終了2。vite/client の型定義不足で停止し、Worker側には未到達":
+            - strong: 終了2。vite/client の型定義不足で停止し、Worker側には未到達
+    - button "表をコピー":
+    - button "表を展開":
+    - paragraph: 独立実行環境はNode 22.16.0、変換に使用したTypeScriptは5.8.3です。プロジェクト指定のTypeScript 7.0.2／Vitest 5.0.0による実行とは区別します。
+    - paragraph:
+      - text: 追加試験の一部は、監査側の前提を訂正して再実行しました。JSONで省略される設定値の比較、満杯にする武器種、開始直後の待機時間が該当します。
+      - strong: 初回ログと訂正理由も証拠ZIPに保存し、製品不具合には数えていません。
+    - heading "提出証拠として確認したもの" [level=3]
+    - paragraph:
+      - text: 保存62件、戦闘66件、切断試験3件、実Worker通信3件、Vite build、本番設定Worker dry-runのログを読みました。これらは
+      - strong: 実装担当の実行証拠であり、私の独立成功件数には加算しません。
+    - paragraph: 型成功は提出報告として扱います。growth-type-reaudit.log は0 bytesで、ログ単独から成功終了コードまでは確認できません。
+    - paragraph: また、全差分の無条件逆適用は、バイナリ本文の省略と一部文書等の非同梱により成立していません。上表の成功は、明示したソース・テスト範囲の検査です。
+    - heading "4. 既知失敗とHigh5件の評価" [level=2]
+    - heading "既知テスト失敗" [level=3]
+    - paragraph:
+      - text: 提出された現行ログは、
+      - strong: 5ファイル中1成功・4失敗。個別試験29成功・3失敗に、DOM読込み失敗1スイート
+      - text: です。enemy-report-motion は成功へ変わっています。
+    - paragraph: 残るaim／mapsについては、私も一部の不一致を再現しました。renderとweapon-stat-marksの全ファイル再実行は行っていません。
+    - paragraph: 今回の保存修正・全滅判定の変更による新規回帰を示す根拠は確認しませんでした。ただし、射撃位置・生成位置・描画・性能表示の品質課題が解消したとは扱いません。特にmapsの再現は、地底巣ST10へHARROWを強制生成する条件です。通常ST10編成に含まれないことだけで、汎用生成処理を無害とは認定しません。
+    - heading "依存High5件" [level=3]
+    - paragraph:
+      - text: 原JSON・依存木・lockfileを照合しました。package.json と package-lock.json は直前ZIPと一致しています。
+      - strong: High5は影響する5パッケージの集計で、独立した脆弱性が5種類という意味ではありません。
+    - paragraph: 公開されているアドバイザリでも、具体的な危険を確認しました。
+    - table:
+      - rowgroup:
+        - row "依存経路 残る危険":
+          - columnheader "依存経路"
+          - columnheader "残る危険"
+      - rowgroup:
+        - 'row "Vite→PostCSS→source-map-js 1.2.1 細工されたsource mapの処理によるイベントループ停止。 GitHub: source-map-js allows event-loop denial of service through indexed source-map section offsets · CVE-2026-93749 · GitHub Advisory Database · GitHub, https://github.com/advisories/GHSA-68fv-2mgg-jv7q"':
+          - cell "Vite→PostCSS→source-map-js 1.2.1"
+          - 'cell "細工されたsource mapの処理によるイベントループ停止。 GitHub: source-map-js allows event-loop denial of service through indexed source-map section offsets · CVE-2026-93749 · GitHub Advisory Database · GitHub, https://github.com/advisories/GHSA-68fv-2mgg-jv7q"':
+            - text: 細工されたsource mapの処理によるイベントループ停止。
+            - 'link "GitHub: source-map-js allows event-loop denial of service through indexed source-map section offsets · CVE-2026-93749 · GitHub Advisory Database · GitHub, https://github.com/advisories/GHSA-68fv-2mgg-jv7q"':
+              - /url: https://github.com/advisories/GHSA-68fv-2mgg-jv7q
+              - generic: GitHub
+        - 'row "Wrangler→Miniflare→sharp 0.35.2 画像処理ライブラリの脆弱性。特定のLinux実行条件ではコード実行につながる可能性があります。 GitHub: sharp: Vulnerabilities in libheif: GHSA-g89c-p67h-r497 and GHSA-2jg2-4ch7-h545 · GHSA-rgj7-g3m4-5g8c · GitHub Advisory Database · GitHub, https://github.com/advisories/GHSA-rgj7-g3m4-5g8c, 追加の情報源 1 件"':
+          - cell "Wrangler→Miniflare→sharp 0.35.2"
+          - 'cell "画像処理ライブラリの脆弱性。特定のLinux実行条件ではコード実行につながる可能性があります。 GitHub: sharp: Vulnerabilities in libheif: GHSA-g89c-p67h-r497 and GHSA-2jg2-4ch7-h545 · GHSA-rgj7-g3m4-5g8c · GitHub Advisory Database · GitHub, https://github.com/advisories/GHSA-rgj7-g3m4-5g8c, 追加の情報源 1 件"':
+            - text: 画像処理ライブラリの脆弱性。特定のLinux実行条件ではコード実行につながる可能性があります。
+            - 'link "GitHub: sharp: Vulnerabilities in libheif: GHSA-g89c-p67h-r497 and GHSA-2jg2-4ch7-h545 · GHSA-rgj7-g3m4-5g8c · GitHub Advisory Database · GitHub, https://github.com/advisories/GHSA-rgj7-g3m4-5g8c, 追加の情報源 1 件"':
+              - /url: https://github.com/advisories/GHSA-rgj7-g3m4-5g8c
+              - generic: GitHub
+              - generic: "+1"
+        - 'row "Wrangler→Miniflare→undici 7.29.0 不正なWebSocket応答によるプロセス停止や、特定のBalancedPool設定で独自TLS検証が失われる問題。 GitHub: undici vulnerable to Denial of Service via unrequested WebSocket subprotocol · CVE-2026-19534 · GitHub Advisory Database · GitHub, https://github.com/advisories/GHSA-rfgv-xxqx-mfg5, 追加の情報源 1 件"':
+          - cell "Wrangler→Miniflare→undici 7.29.0"
+          - 'cell "不正なWebSocket応答によるプロセス停止や、特定のBalancedPool設定で独自TLS検証が失われる問題。 GitHub: undici vulnerable to Denial of Service via unrequested WebSocket subprotocol · CVE-2026-19534 · GitHub Advisory Database · GitHub, https://github.com/advisories/GHSA-rfgv-xxqx-mfg5, 追加の情報源 1 件"':
+            - text: 不正なWebSocket応答によるプロセス停止や、特定のBalancedPool設定で独自TLS検証が失われる問題。
+            - 'link "GitHub: undici vulnerable to Denial of Service via unrequested WebSocket subprotocol · CVE-2026-19534 · GitHub Advisory Database · GitHub, https://github.com/advisories/GHSA-rfgv-xxqx-mfg5, 追加の情報源 1 件"':
+              - /url: https://github.com/advisories/GHSA-rfgv-xxqx-mfg5
+              - generic: GitHub
+              - generic: "+1"
+    - button "表をコピー":
+    - button "表を展開":
+    - paragraph: 提供されたWorker入口から49モジュールを静的追跡した範囲では、外部importは cloudflare:workers のみで、上記依存へ至る製品ソースの経路は見つかりませんでした。
+    - paragraph:
+      - text: 一方、
+      - strong: 完成バンドルやWrangler内部での具体的な悪用条件まで検証したわけではありません。開発・デプロイ環境の危険は残ります。
+      - text: 今回の修正へ無関係なツール更新を混ぜず、未解消として別追跡する方針は、この限定判定と両立します。「開発依存だから安全」とは判断していません。
+    - heading "5. 任意改善・未確認事項" [level=2]
+    - paragraph:
+      - text: 任意改善として、実ブラウザでの「クリア→結果→設定→再読込み」と、実Worker／WebSocketによる30秒境界試験を回帰試験へ追加することを推奨します。また、型検査等の証拠には対象SHA・実行コマンド・終了コードを併記すると、空ログによる確認不足を避けられます。
+      - strong: いずれも今回、新たな必須P2にはしていません。
+    - paragraph: 98条件の測定値は直前SHAの参考資料です。今回の保存・切断修正後の再計測としては扱いません。実スマホ、未同梱3D・音声を含む全描画、本番同期競合、長期経済、全件試験、ライブGit上の現在SHAも未確認です。
+    - paragraph:
+      - strong: 経済ログは従来どおり推奨運用であり、公開前の必須実装には変更しません。
+    - heading "6. 技術的なmerge・公開可否" [level=2]
+    - table:
+      - rowgroup:
+        - row "対象 判定":
+          - columnheader "対象"
+          - columnheader "判定"
+      - rowgroup:
+        - row "前回P1-01 解消":
+          - cell "前回P1-01"
+          - cell "解消":
+            - strong: 解消
+        - row "関連する切断修正 確認範囲で合格":
+          - cell "関連する切断修正"
+          - cell "確認範囲で合格":
+            - strong: 確認範囲で合格
+        - row "今回の必須コード修正 P0／P1／P2とも残件0":
+          - cell "今回の必須コード修正"
+          - cell "P0／P1／P2とも残件0":
+            - strong: P0／P1／P2とも残件0
+        - row "通常merge 技術上、進行可":
+          - cell "通常merge"
+          - cell "技術上、進行可":
+            - strong: 技術上、進行可
+        - row "既存Worker公開 対象一致・既存の公開経路・既知問題の継続管理を前提に、限定的に進行可":
+          - cell "既存Worker公開"
+          - cell "対象一致・既存の公開経路・既知問題の継続管理を前提に、限定的に進行可":
+            - strong: 対象一致・既存の公開経路・既知問題の継続管理を前提に、限定的に進行可
+    - button "表をコピー":
+    - button "表を展開":
+    - paragraph: 公開直前のSHA・merge差分の一致確認は実行担当側に残ります。新たな製品変更や、未信頼入力を扱う開発運用への拡大まで、この判定を流用することはできません。
+    - paragraph:
+      - strong: 今回の結論は「前回の公開阻害P1は解消し、関連修正にも確認範囲で新たな必須欠陥はない」です。既知失敗・High5件・未検証環境まで合格に含めたものではありません。
+    - button "pr175-09f9610-reward-reproduction.json のプレビューを開く"
+    - generic "pr175-09f9610-reward-reproduction.json"
+    - generic: コード
+    - button "ファイルをダウンロード":
+    - button "pr175-09f9610-source-excerpts.txt のプレビューを開く"
+    - generic "pr175-09f9610-source-excerpts.txt"
+    - generic: ドキュメント
+    - button "ファイルをダウンロード":
+    - button "コピーする":
+    - button "共有":
+    - button "読み上げ":
+    - button "回答を再生成":
+    - button "その他のアクション":
+    - button "ソース":
+    - generic: ChatGPT は間違えることがあります。重要な情報は確認してください。
+    - button "一番下までスクロール":
+    - heading "最新の応答" [level=4]
+    - status
+    - button "ファイルなどを追加":
+    - textbox "ChatGPT に聞く":
+      - paragraph: ChatGPT に聞く
+    - button "ChatGPT モデルを選択":
+      - generic: Pro
+    - button "音声入力":
+    - button "音声会話を開始":
+- status
+- status: 回答が完了しました
+- status
+- status
+- status
+- status
