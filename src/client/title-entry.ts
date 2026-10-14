@@ -1,5 +1,8 @@
 import "./title-entry.css";
-import { titleEntryInputGate } from "./title-entry-input";
+import {
+  rememberTitleEntryClick,
+  titleEntryInputGate,
+} from "./title-entry-input";
 import { waitForFullscreenTransition } from "./landscape";
 
 let shown = false;
@@ -165,7 +168,10 @@ export function mountTitleEntry(root: HTMLElement) {
       finish();
     }
   };
-  button.onclick = () => void start();
+  button.onclick = (event) => {
+    if (event.detail > 0) rememberTitleEntryClick(root);
+    void start();
+  };
   button.onkeydown = (event) => {
     entry.classList.add("title-entry-keyboard");
     if (event.repeat) event.preventDefault();

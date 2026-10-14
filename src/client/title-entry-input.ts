@@ -1,3 +1,22 @@
+// A browser can classify a second click after the short touch guard expires.
+// Keep that sequence's ownership on this root until a fresh click/key action.
+const entryClicks = new WeakSet<HTMLElement>();
+
+export function rememberTitleEntryClick(root: HTMLElement) {
+  entryClicks.add(root);
+}
+
+export function consumeTitleEntryClick(root: HTMLElement, event: MouseEvent) {
+  if (!entryClicks.has(root)) return false;
+  if (event.detail > 1) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    return true;
+  }
+  entryClicks.delete(root);
+  return false;
+}
+
 /** Keep the modal input boundary until the gesture that opened it is released. */
 export function titleEntryInputGate(target: Window, release: () => void) {
   const keys = new Set<string>();

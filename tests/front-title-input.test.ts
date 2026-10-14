@@ -1,5 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { titleEntryInputGate } from "../src/client/title-entry-input";
+import {
+  consumeTitleEntryClick,
+  rememberTitleEntryClick,
+  titleEntryInputGate,
+} from "../src/client/title-entry-input";
 
 describe("title entry input boundary", () => {
   beforeEach(() =>
@@ -47,6 +51,40 @@ describe("title entry input boundary", () => {
     expect(released).not.toHaveBeenCalled();
     vi.advanceTimersByTime(1);
     expect(released).toHaveBeenCalledTimes(1);
+  });
+
+  it("consumes a browser multi-click after the modal expires, then allows a fresh single click", () => {
+    const { gate, emit, released } = setup();
+    const root = {} as HTMLElement;
+    rememberTitleEntryClick(root);
+    emit("pointerdown", { pointerId: 1 });
+    emit("pointerup", { pointerId: 1 });
+    gate.settle();
+    vi.advanceTimersByTime(450);
+    expect(released).toHaveBeenCalledTimes(1);
+    const click = (detail: number) =>
+      Object.assign(new Event("click", { cancelable: true }), {
+        detail,
+      }) as MouseEvent;
+    for (const detail of [2, 3]) {
+      const event = click(detail);
+      expect(consumeTitleEntryClick(root, event)).toBe(true);
+      expect(event.defaultPrevented).toBe(true);
+    }
+    expect(consumeTitleEntryClick(root, click(1))).toBe(false);
+    expect(consumeTitleEntryClick(root, click(2))).toBe(false);
+  });
+
+  it("allows a new keyboard action and never carries the guard to another root", () => {
+    const root = {} as HTMLElement;
+    rememberTitleEntryClick(root);
+    const click = (detail: number) =>
+      Object.assign(new Event("click", { cancelable: true }), {
+        detail,
+      }) as MouseEvent;
+    expect(consumeTitleEntryClick({} as HTMLElement, click(2))).toBe(false);
+    expect(consumeTitleEntryClick(root, click(0))).toBe(false);
+    expect(consumeTitleEntryClick(root, click(2))).toBe(false);
   });
 
   it("does not release a second pointer that is still held", () => {

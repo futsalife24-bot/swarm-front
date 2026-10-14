@@ -26,7 +26,12 @@ const record=(phase)=>{
 root.querySelector('#solo').onclick=()=>{solo++;record('solo');};
 installLandscapeGuard(()=>{}); mountTitleMotion(root);
 document.querySelector('.title-entry-start').addEventListener('click',()=>{setTimeout(()=>record('150ms'),150);setTimeout(()=>record('1100ms'),1100);},{once:true});
+if(query.has('late')) document.querySelector('.title-entry-start').addEventListener('click',()=>{
+ setTimeout(()=>{const event=new MouseEvent('click',{bubbles:true,cancelable:true,detail:2});root.querySelector('#solo').dispatchEvent(event);record('late450 prevented='+event.defaultPrevented);},450);
+ setTimeout(()=>{root.querySelector('#solo').dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,detail:1}));record('fresh750');},750);
+},{once:true});
 document.getElementById('landscape-start').addEventListener('click',()=>record('portrait-start'));
 record('initial');
 </script></body></html>
+
 

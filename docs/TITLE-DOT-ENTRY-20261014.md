@@ -25,3 +25,10 @@
 [局所検証ページ](evidence/title-dot-entry-20261014/probe.html)は本物の共通タイトル・全画面ガードを使用し、ソロ処理だけカウンターへ代替したテスト用。製品ビルド入口には含めない。タッチ端末相当のmaxTouchPoints=1と実際のクリックでFullscreen APIを実行し、150ms時点でfullscreen=true/entryOpen=true/前面=true、1100msで入口除去/soloフォーカス/誤起動0を確認。[結果](evidence/title-dot-entry-20261014/fullscreen-probe.json)。390×844で開始ボタンへのEnterとフォーカス、844×390へ戻したロゴ表示とEnter遷移を確認。円の実計算の終点でアニメーションだけ停止する局所検証で1280×720/844×390の四隅被覆を撮影。実スマートフォンそのもの、Safari/Firefox、物理キーボードの長押しは担当側で未確認（長押しは入力状態の自動試験）。修正版の独立再監査・main反映・公開は未完了。
 
 修正版576386fの製品/front.htmlでもSpace→メニュー→ソロ作戦選択を確認。初回dry-runはビルドexit0だが標準ログ書込みのみEPERMがあり、通常権限で再確認してログ保存を含めexit0（input-fix-dryrun-confirmed.log）。
+
+## 遅い連続クリックの追加修正
+
+1db2fceの再監査ではP2-01/03と基本・回帰45ケースは通過したが、低モーションで450ms間隔のネイティブclick(detail=2)がソロへ到達し、P2-02のみ残った。[原文](evidence/title-dot-entry-20261014/audit-1db2fce.txt)。固定待機時間の延長は行わず、入口のポインタclickを共通rootのWeakSetへ記録し、既存title-motionのclick捕捉処理の最初で連続click(detail>1)を消費する。次の単発click(detail=1)またはキーボード由来click(detail=0)で記録を解除。別rootへ持ち越さず、追加のグローバルリスナー/タイマーは不要。
+
+関連11件成功。局所probeのlate/reduced条件では、実クリックで入口を開始し、450ms後の合成detail=2はprevented=true/solo=0、750ms後の新規detail=1だけsolo=1。これはDOM結合試験で、450msのOS入力経路の再現は独立監査側へ依頼する。[局所結果](evidence/title-dot-entry-20261014/click-tail-probe.json)。前回合格した円・全画面・縦横切替の実装は変更していない。
+追加修正後の型チェックと公開用ビルドもexit 0。
