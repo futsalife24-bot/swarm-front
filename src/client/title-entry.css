@@ -52,6 +52,7 @@ body dialog.title-entry .title-entry-start,
 body dialog.title-entry .title-entry-start:hover,
 body dialog.title-entry .title-entry-start:active,
 body dialog.title-entry .title-entry-start:focus-visible {
+  clip-path: none;
   outline: none;
   border: 0;
   background: transparent;

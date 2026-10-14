@@ -1,4 +1,6 @@
 import "./title-entry.css";
+import { titleEntryInputGate } from "./title-entry-input";
+import { waitForFullscreenTransition } from "./landscape";
 
 let shown = false;
 
@@ -27,12 +29,24 @@ export function mountTitleEntry(root: HTMLElement) {
   button.append(mark, dot);
   entry.append(button);
   document.body.append(entry);
-  entry.showModal();
+  const portrait = matchMedia("(orientation: portrait)");
+  if (!portrait.matches) entry.showModal();
   let starting = false;
   let closed = false;
+  let waitingFullscreen = false;
   const animations = new Set<Animation>();
   let timeout: ReturnType<typeof setTimeout> | undefined;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  const input = titleEntryInputGate(window, () => {
+    document.removeEventListener("visibilitychange", visibility);
+    document.removeEventListener("fullscreenchange", promote);
+    portrait.removeEventListener("change", orientation);
+    entry.close();
+    entry.remove();
+    root
+      .querySelector<HTMLButtonElement>("#solo")
+      ?.focus({ preventScroll: true });
+  });
   const finish = () => {
     if (closed) return;
     closed = true;
@@ -40,17 +54,38 @@ export function mountTitleEntry(root: HTMLElement) {
     for (const animation of animations) animation.cancel();
     animations.clear();
     window.removeEventListener("resize", interrupt);
-    document.removeEventListener("visibilitychange", interrupt);
     reduced.removeEventListener("change", interrupt);
     document.removeEventListener("swarm-motion-preference", interrupt);
-    entry.close();
-    entry.remove();
-    root
-      .querySelector<HTMLButtonElement>("#solo")
-      ?.focus({ preventScroll: true });
+    // Reveal the menu immediately, but retain the transparent modal until the
+    // initiating key/gesture is released so input cannot leak into that menu.
+    entry.style.opacity = "0";
+    input.settle();
   };
   const interrupt = () => {
-    if (starting) finish();
+    if (starting && !waitingFullscreen) finish();
+  };
+  const visibility = () => {
+    if (document.hidden) {
+      input.interrupt();
+      if (starting) finish();
+    }
+  };
+  const promote = () => {
+    if (portrait.matches || !entry.isConnected) return;
+    // Fullscreen reorders the top layer even when the dialog was already open.
+    if (entry.open) entry.close();
+    entry.inert = false;
+    entry.showModal();
+  };
+  const orientation = () => {
+    if (portrait.matches) {
+      if (entry.open) entry.close();
+      entry.inert = true;
+      input.interrupt();
+      if (starting) finish();
+    } else {
+      promote();
+    }
   };
   const animate = (
     element: HTMLElement,
@@ -64,9 +99,23 @@ export function mountTitleEntry(root: HTMLElement) {
   const start = async () => {
     if (starting || closed) return;
     starting = true;
-    button.disabled = true;
+    button.setAttribute("aria-disabled", "true");
     timeout = setTimeout(finish, 1400);
     try {
+      waitingFullscreen = true;
+      await waitForFullscreenTransition();
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
+      waitingFullscreen = false;
+      if (closed) return;
+      if (portrait.matches) {
+        orientation();
+        return;
+      }
+      promote();
+      clearTimeout(timeout);
+      timeout = setTimeout(finish, 1400);
       if (
         reduced.matches ||
         document.documentElement.dataset.menuReducedMotion === "true" ||
@@ -117,14 +166,19 @@ export function mountTitleEntry(root: HTMLElement) {
     }
   };
   button.onclick = () => void start();
-  button.onkeydown = () => entry.classList.add("title-entry-keyboard");
+  button.onkeydown = (event) => {
+    entry.classList.add("title-entry-keyboard");
+    if (event.repeat) event.preventDefault();
+  };
   button.onpointerdown = () => entry.classList.remove("title-entry-keyboard");
   entry.addEventListener("cancel", (event) => {
     event.preventDefault();
     void start();
   });
   window.addEventListener("resize", interrupt);
-  document.addEventListener("visibilitychange", interrupt);
+  document.addEventListener("visibilitychange", visibility);
+  document.addEventListener("fullscreenchange", promote);
+  portrait.addEventListener("change", orientation);
   reduced.addEventListener("change", interrupt);
   document.addEventListener("swarm-motion-preference", interrupt);
 }

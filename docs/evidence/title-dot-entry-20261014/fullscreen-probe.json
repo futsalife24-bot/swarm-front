@@ -1,0 +1,29 @@
+[
+  {
+    "phase": "initial",
+    "fullscreen": false,
+    "entryOpen": true,
+    "opacity": "1",
+    "front": true,
+    "focus": "",
+    "solo": 0
+  },
+  {
+    "phase": "150ms",
+    "fullscreen": true,
+    "entryOpen": true,
+    "opacity": "1",
+    "front": true,
+    "focus": "",
+    "solo": 0
+  },
+  {
+    "phase": "1100ms",
+    "fullscreen": true,
+    "entryOpen": false,
+    "opacity": null,
+    "front": false,
+    "focus": "solo",
+    "solo": 0
+  }
+]
