@@ -1,3 +1,11 @@
+# 現在地: TAP START・ノイズ・縮小演出の独立監査合格（2026-10-14）
+
+PR185、対象f54b99234c65668cfd148ec877d01b1a85b7d56cは限定合格、必須P0/P1/P2各0。追加演出/回復46・OS入力3・直接入口4の計53件通過。[原文](evidence/title-signal-idle-20261014/audit-f54b992.txt)。提出画像の読込み不足は任意改善として撮り直し、終了コード付き型/11テストの証拠も補足。製品差分は不変。通常main反映・公開へ進む。
+
+# 現在地: TAP START・待機ノイズ・ドット縮小を実装、監査準備（2026-10-14）
+
+本人指定の案内と待機演出を追加。タップ後は120msの縮小から既存の円拡大へ接続。型/関連11件/build、実メニュー操作・局所描画値・低モーションを確認。[詳細](TITLE-SIGNAL-IDLE-20261014.md)。[PR185](https://github.com/futsalife24-bot/swarm-front/pull/185)、対象f54b99234c65668cfd148ec877d01b1a85b7d56cを[同じタイトル監査Chat](https://chatgpt.com/c/6aced8f6-8cac-83ee-907b-8996b8ab3335)へ送信・応答開始確認済み。最終判定/main/公開は未完了。
+
 # 現在地: ロゴのみの入口・ドット拡大遷移を公開完了（2026-10-14）
 
 [PR183](https://github.com/futsalife24-bot/swarm-front/pull/183)を通常merge。公開ソース `7cf5bcd64471e5e52942436e5cc5ca91a002b9e3`、Worker Version `4c549a0b-670a-45f1-a98c-f7a1a3ca6411`。[公開版](https://swarm-front.melosalife-24.workers.dev/front)。既存メニューの前にロゴだけの入口を表示し、タップでFRONT.のドットが広がって既存メニューへ遷移する。Enter/Space・低モーション・縦横切替・全画面化に対応し、開始時の連打/長押しの持越しを防止。
@@ -1376,7 +1384,7 @@ branch `codex/weapon-rarity-glow`、base `4d77be91a827601dd8afebb4425e4a04a191ee
 
 # 現在地: 武器のレア度発光を自己検証、独立監査準備（2026-09-21）
 
-branch codex/weapon-rarity-glow、base 4d77be9。手持ち/背中それぞれの全輪郭にレア色・4秒明滅。型/関連4件/実GLB15組合せ・両装備・明暗・持替え・破棄/build成功。独立監査/main/公開は未完了。[詳細](WEAPON-RARITY-GLOW.md)。別作業4ファイル保護。
+branch codex/weapon-rarity-glow、base 4d77be9。手持ち/背中それぞれの全輪郭にレア色・4秒明滅。型/関連4件/実GLB15組合せ・両装備・明暗・持替え・破棄/build成功。[PR185](https://github.com/futsalife24-bot/swarm-front/pull/185)、対象f54b99234c65668cfd148ec877d01b1a85b7d56cを[同じタイトル監査Chat](https://chatgpt.com/c/6aced8f6-8cac-83ee-907b-8996b8ab3335)へ送信・応答開始確認済み。最終判定/main/公開は未完了。[詳細](WEAPON-RARITY-GLOW.md)。別作業4ファイル保護。
 
 # 現在地: 育成確認UIをmain反映・本番公開完了（2026-09-21）
 
@@ -1445,7 +1453,7 @@ branch `codex/rock-jump-collision`、base5e55f50、実装/監査対象 `4bd4dc37
 
 # 現在地: 岩の射線・乗り上がりと着地後移動を修正、監査準備（2026-09-21）
 
-branch codex/rock-jump-collision、base5e55f50。岩の実形状を射撃/支持/着地へ共有、下降速度残留を解除。型・関連133件、実GLB4マップ980地点、実iab登頂、実Worker2接続成功。baseで5回帰再現、aim既存1失敗を分離。独立監査/main/公開は未完了。[詳細](ROCK-COLLISION.md)。別作業4ファイル保護。
+branch codex/rock-jump-collision、base5e55f50。岩の実形状を射撃/支持/着地へ共有、下降速度残留を解除。型・関連133件、実GLB4マップ980地点、実iab登頂、実Worker2接続成功。baseで5回帰再現、aim既存1失敗を分離。[PR185](https://github.com/futsalife24-bot/swarm-front/pull/185)、対象f54b99234c65668cfd148ec877d01b1a85b7d56cを[同じタイトル監査Chat](https://chatgpt.com/c/6aced8f6-8cac-83ee-907b-8996b8ab3335)へ送信・応答開始確認済み。最終判定/main/公開は未完了。[詳細](ROCK-COLLISION.md)。別作業4ファイル保護。
 
 # 現在地: CALYX移動・回転3倍をmain反映・公開（2026-09-21）
 

@@ -33,10 +33,71 @@ dialog.title-entry {
   touch-action: manipulation;
 }
 .title-entry-mark {
+  position: relative;
   display: block;
   width: min(72vw, 116dvh, 880px);
   line-height: 0;
   mix-blend-mode: screen;
+}
+.title-entry-interference {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  animation: title-signal-break 6.8s linear infinite;
+}
+.title-entry-mark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: repeating-linear-gradient(0deg, transparent 0 3px, #000b 3px 4px, #50e3cd55 4px 5px);
+  animation: title-signal-scan 6.8s linear infinite;
+}
+.title-entry-prompt {
+  position: absolute;
+  top: calc(50% + min(14.53vw, 23.41dvh, 177.56px) + clamp(16px, 5dvh, 38px));
+  color: #a9e5dc;
+  font: 600 clamp(12px, 2.8dvh, 18px)/1.4 monospace;
+  letter-spacing: .28em;
+  padding-left: .28em;
+  pointer-events: none;
+  animation: title-start-breathe 2.8s ease-in-out infinite;
+}
+@keyframes title-signal-break {
+  0%, 42%, 48%, 76%, 79%, 100% { opacity: 0; transform: none; clip-path: inset(0); }
+  42.1%, 44% { opacity: .8; transform: translateX(7px); clip-path: inset(22% 0 69%); }
+  44.1%, 46% { opacity: .6; transform: translateX(-5px); clip-path: inset(63% 0 28%); }
+  46.1%, 47.9% { opacity: .7; transform: translateX(3px); clip-path: inset(39% 0 57%); }
+  76.1%, 78.9% { opacity: .55; transform: translateX(-4px); clip-path: inset(78% 0 17%); }
+}
+@keyframes title-signal-scan {
+  0%, 41%, 49%, 100% { opacity: 0; clip-path: inset(0 0 100%); }
+  41.1% { opacity: .5; clip-path: inset(0 0 88%); }
+  48.9% { opacity: .5; clip-path: inset(88% 0 0); }
+}
+@keyframes title-start-breathe {
+  0%, 100% { opacity: .65; }
+  50% { opacity: 1; }
+}
+.title-entry-starting .title-entry-interference,
+.title-entry-starting .title-entry-mark::after,
+html[data-menu-reduced-motion="true"] .title-entry-interference,
+html[data-menu-reduced-motion="true"] .title-entry-mark::after {
+  animation: none;
+  opacity: 0;
+}
+.title-entry-starting .title-entry-prompt {
+  animation: none;
+  opacity: 0;
+}
+html[data-menu-reduced-motion="true"] .title-entry-prompt {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .title-entry-interference, .title-entry-mark::after { animation: none; opacity: 0; }
+  .title-entry-prompt { animation: none; }
 }
 .title-entry-mark svg {
   display: block;
@@ -62,10 +123,11 @@ body dialog.title-entry .title-entry-start:disabled {
   opacity: 1;
   filter: none;
 }
-.title-entry-dot {
+.title-entry-dot, .title-entry-dot-cover {
   position: fixed;
   border-radius: 50%;
   background: #50e3cd;
   opacity: 0;
   pointer-events: none;
 }
+.title-entry-dot-cover { background: #000; }

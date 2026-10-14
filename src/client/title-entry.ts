@@ -26,10 +26,22 @@ export function mountTitleEntry(root: HTMLElement) {
   const mark = document.createElement("span");
   mark.className = "title-entry-mark";
   mark.append(logo.cloneNode(true));
+  const interference = document.createElement("span");
+  interference.className = "title-entry-interference";
+  interference.setAttribute("aria-hidden", "true");
+  interference.append(logo.cloneNode(true));
+  mark.append(interference);
+  const prompt = document.createElement("span");
+  prompt.className = "title-entry-prompt";
+  prompt.textContent = "TAP START";
+  prompt.setAttribute("aria-hidden", "true");
   const dot = document.createElement("span");
   dot.className = "title-entry-dot";
   dot.setAttribute("aria-hidden", "true");
-  button.append(mark, dot);
+  const dotCover = document.createElement("span");
+  dotCover.className = "title-entry-dot-cover";
+  dotCover.setAttribute("aria-hidden", "true");
+  button.append(mark, prompt, dotCover, dot);
   entry.append(button);
   document.body.append(entry);
   const portrait = matchMedia("(orientation: portrait)");
@@ -102,6 +114,7 @@ export function mountTitleEntry(root: HTMLElement) {
   const start = async () => {
     if (starting || closed) return;
     starting = true;
+    entry.classList.add("title-entry-starting");
     button.setAttribute("aria-disabled", "true");
     timeout = setTimeout(finish, 1400);
     try {
@@ -145,10 +158,20 @@ export function mountTitleEntry(root: HTMLElement) {
         marginTop: `${-radius}px`,
         opacity: "1",
       });
+      // Hide the static artwork dot while its animated replacement contracts.
+      Object.assign(dotCover.style, {
+        left: `${x}px`, top: `${y}px`,
+        width: `${radius * 2.3}px`, height: `${radius * 2.3}px`,
+        marginLeft: `${-radius * 1.15}px`, marginTop: `${-radius * 1.15}px`,
+        opacity: "1",
+      });
+      await animate(dot, [{ transform: "scale(1)" }, { transform: "scale(.58)" }], {
+        duration: 120, easing: "cubic-bezier(.4,0,.8,.4)", fill: "forwards",
+      });
       await animate(
         dot,
         [
-          { transform: "scale(1)" },
+          { transform: "scale(.58)" },
           { transform: `scale(${(farthest + 4) / radius})` },
         ],
         {
