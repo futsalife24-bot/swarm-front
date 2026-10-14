@@ -1,6 +1,86 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { readFileSync } from "node:fs";
 import { musicForBattle, musicForScreen } from "../src/client/bgm";
+import { BackgroundMusic } from "../src/client/bgm";
+import { setGameMediaMetadata } from "../src/client/media-session";
 import { STAGES, HARROW_BRANCH } from "../src/shared/stages";
+
+describe("game media notification identity", () => {
+  afterEach(() => vi.unstubAllGlobals());
+  const session = () => {
+    const mediaSession = {
+      metadata: null as MediaMetadataInit | null,
+      playbackState: "paused",
+      setActionHandler: vi.fn(),
+    };
+    vi.stubGlobal("navigator", { mediaSession });
+    vi.stubGlobal(
+      "MediaMetadata",
+      class {
+        constructor(value: MediaMetadataInit) {
+          Object.assign(this, value);
+        }
+      },
+    );
+    return mediaSession;
+  };
+  it.each(["/", "/swarm-front/"])(
+    "uses the existing square logo below deployment base %s",
+    (base) => {
+      const media = session();
+      setGameMediaMetadata(base);
+      expect(media.metadata?.title).toBe("SWARM FRONT.");
+      expect(media.metadata?.artwork?.[0]?.src).toBe(
+        `${base}icon-swarm-v2-512.png`,
+      );
+      const png = readFileSync("public/icon-swarm-v2-512.png");
+      expect(media.metadata?.artwork?.[0]?.sizes).toBe(
+        `${png.readUInt32BE(16)}x${png.readUInt32BE(20)}`,
+      );
+      expect(media.setActionHandler).not.toHaveBeenCalled();
+      expect(media.playbackState).toBe("paused");
+    },
+  );
+  it("sets metadata through the common BGM initialization without starting audio", () => {
+    const media = session();
+    const play = vi.fn();
+    vi.stubGlobal(
+      "Audio",
+      class extends EventTarget {
+        dataset = {};
+        play = play;
+      },
+    );
+    vi.stubGlobal(
+      "document",
+      Object.assign(new EventTarget(), { body: { append() {} } }),
+    );
+    vi.stubGlobal("window", new EventTarget());
+    new BackgroundMusic();
+    expect(media.metadata?.title).toBe("SWARM FRONT.");
+    expect(play).not.toHaveBeenCalled();
+  });
+  it("tolerates unavailable browser APIs", () => {
+    vi.stubGlobal("navigator", undefined);
+    expect(() => setGameMediaMetadata()).not.toThrow();
+    vi.stubGlobal("navigator", {});
+    expect(() => setGameMediaMetadata()).not.toThrow();
+    vi.stubGlobal("navigator", { mediaSession: {} });
+    vi.stubGlobal("MediaMetadata", undefined);
+    expect(() => setGameMediaMetadata()).not.toThrow();
+  });
+  it("does not break audio initialization if the browser rejects metadata", () => {
+    session();
+    vi.stubGlobal("navigator", {
+      mediaSession: {
+        set metadata(_value: unknown) {
+          throw new Error("metadata unavailable");
+        },
+      },
+    });
+    expect(() => setGameMediaMetadata()).not.toThrow();
+  });
+});
 
 describe("map battle music", () => {
   it.each([

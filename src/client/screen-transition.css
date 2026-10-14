@@ -43,7 +43,19 @@
 html[data-menu-reduced-motion="true"] .split-shutter {
   display: none;
 }
-#ui :is(.menu-screen, .front-settings, .layout-editor) button,
+#ui
+  :is(
+    .menu-screen,
+    .front-settings,
+    .layout-editor,
+    .front-pause,
+    .room-entry,
+    .lobby,
+    .front-lobby,
+    .armory,
+    .result
+  )
+  button,
 dialog:not(.title-entry) button {
   transition:
     scale 90ms ease-out,
@@ -52,7 +64,17 @@ dialog:not(.title-entry) button {
     box-shadow 160ms;
 }
 #ui
-  :is(.menu-screen, .front-settings, .layout-editor)
+  :is(
+    .menu-screen,
+    .front-settings,
+    .layout-editor,
+    .front-pause,
+    .room-entry,
+    .lobby,
+    .front-lobby,
+    .armory,
+    .result
+  )
   button:active:not(:disabled),
 dialog:not(.title-entry) button:active:not(:disabled) {
   scale: 0.98;

@@ -137,6 +137,23 @@
         assert(!document.querySelector(".split-shutter"), "戦闘を覆わない");
         results.push("戦闘HUDは対象外");
         reset();
+        root.innerHTML =
+          '<section class="panel room-entry"><h1>協力プレイ</h1><button id="go">部隊へ</button></section>';
+        root.querySelector("#go").onclick = () => {
+          root.innerHTML =
+            '<section class="panel lobby"><h1>協力ロビー</h1><button id="back">装備へ</button></section>';
+        };
+        root.querySelector("#go").click();
+        await frame();
+        assert(document.querySelector(".split-shutter"), "協力入口からロビー");
+        window.dispatchEvent(new Event("resize"));
+        root.querySelector("#back").onclick = () => render("出撃準備");
+        root.querySelector("#back").click();
+        await frame();
+        assert(document.querySelector(".split-shutter"), "ロビーから装備");
+        window.dispatchEvent(new Event("resize"));
+        results.push("協力入口・ロビー・装備の共通演出");
+        reset();
         const list = root.querySelector("#list");
         list.innerHTML = Array.from(
           { length: 160 },

@@ -2,7 +2,7 @@ import "./screen-transition.css";
 
 const mounted = new WeakSet<HTMLElement>();
 const menuSelector =
-  ".home-command,.menu-screen,.front-settings,.layout-editor,.front-pause";
+  ".home-command,.menu-screen,.front-settings,.layout-editor,.front-pause,.room-entry,.lobby,.front-lobby,.armory,.result";
 
 // Each band has an inert style scope: the real page never sees copied
 // IDs/dialogs, and changing body[data-screen] cannot restyle the outgoing view.

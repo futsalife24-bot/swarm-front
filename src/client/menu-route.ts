@@ -89,7 +89,7 @@ function revealMenuRoute() {
     }
     if (
       !document.querySelector(
-        "#ui :is(.menu-screen,.home-command,.front-settings)",
+        "#ui :is(.menu-screen,.home-command,.front-settings,.room-entry,.lobby,.front-lobby)",
       )
     )
       return;
