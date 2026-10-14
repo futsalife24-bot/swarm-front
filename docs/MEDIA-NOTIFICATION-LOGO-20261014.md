@@ -7,3 +7,5 @@
 確認: bgm.test.ts 16件（追加5件）、media-playback 9件、型チェック成功。初回のVitest一時SSRファイルENOENTは再実行で解消。別途bgm-layout-return 2件は既存のcancelOperationCueスタブ不足による失敗で、今回修正していない。Android実機通知パネルの最終表示は未確認。仕様根拠: https://web.dev/articles/media-session 。
 
 実装担当のモデルID/推論設定は未確認。独立Chat監査へ分割シャッターの修正と一緒に追加する。正本PR187。既存アイコン原本を維持し、通知画像の読み取り先を明示する変更。
+
+追加実装35105752285ad0a5ad760cc74018adab772d95f2の `npm run build` は終了0、204 modules。既存のchunk容量警告あり。ブラウザのMediaMetadata表示ページは準備済みだが、iabのタブ再接続と全体状態取得が連続で時間切れとなり、実ブラウザの確認結果は未取得。監査・公開も未完了。下書きはホーム入力欄で496文字完全一致を確認済み。
