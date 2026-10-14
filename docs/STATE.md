@@ -1,3 +1,7 @@
+# 現在地: タイトル入口の独立監査合格、main反映・公開へ（2026-10-14）
+
+再接続で[同じ監査Chat](https://chatgpt.com/c/6aced8f6-8cac-83ee-907b-8996b8ab3335)の最終回答を取得。対象0a4e61a3d1b5f63af4ec182678ee868dd0a8964aは限定合格、必須P0/P1/P2各0。450ms連打8件を含むOS入力13ケースと状態5件を独立確認。P2-01/03は不変で前回合格を維持。[原文](evidence/title-dot-entry-20261014/audit-0a4e61a.txt)。以後の差分は記録文書・証拠のみで製品コード不変。PR183の通常mergeと公開を進める。
+
 # 現在地: PR183の最終再監査を送信済み、iab応答障害で判定取得待ち（2026-10-14）
 
 実装対象 `0a4e61a3d1b5f63af4ec182678ee868dd0a8964a`、branch `codex/title-dot-entry-20261014`、base `0932140fa228213bd3dd110cf3750ee35028e3d3`。[PR183](https://github.com/futsalife24-bot/swarm-front/pull/183)、[監査Chat](https://chatgpt.com/c/6aced8f6-8cac-83ee-907b-8996b8ab3335)。残ったP2-02の遅い連続クリックだけ追加修正し、関連11件・型・build・Worker dry-runは成功。合成DOM試験で450msのdetail=2遮断と750msの新規単発を確認。独立監査の最終判定・main反映・公開は未完了。

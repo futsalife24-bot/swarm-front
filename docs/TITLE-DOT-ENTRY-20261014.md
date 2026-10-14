@@ -33,3 +33,4 @@
 関連11件成功。局所probeのlate/reduced条件では、実クリックで入口を開始し、450ms後の合成detail=2はprevented=true/solo=0、750ms後の新規detail=1だけsolo=1。これはDOM結合試験で、450msのOS入力経路の再現は独立監査側へ依頼する。[局所結果](evidence/title-dot-entry-20261014/click-tail-probe.json)。前回合格した円・全画面・縦横切替の実装は変更していない。
 追加修正後の型チェックと公開用ビルドもexit 0。
 最終差分0a4e61aの再監査は送信済み。送信後にiabのDOM取得・新タブ復旧・画像取得がタイムアウトし、判定取得は外部障害で未完了。公開操作は未実施。追加修正後のWorker dry-runもexit 0（click-tail-dryrun.log）。
+再接続後に最終監査を取得。対象0a4e61aは限定合格、必須P0/P1/P2各0。OS入力13ケースと状態5件が成功、P2-01/03は不変で前回判定維持。原文audit-0a4e61a.txt。監査後の製品差分なし。
