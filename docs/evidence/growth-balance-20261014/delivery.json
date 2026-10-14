@@ -1,0 +1,388 @@
+{
+  "at": "2026-10-14T00:41:48.549Z",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "source": "b4827bc6192019265467c1c51de0e9f21c5764db",
+  "version": "f2879067-81ab-43ec-8fbd-034992f01bef",
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "local": "4e2d4643cf1117b75486046e191ecac846ae0d5efd106a2e868df40d226a4d62",
+      "remote": "4e2d4643cf1117b75486046e191ecac846ae0d5efd106a2e868df40d226a4d62",
+      "pass": true
+    },
+    {
+      "file": "front.html",
+      "status": 200,
+      "local": "8f1c8cfd99b10bd973a14b07fae3cdecd121871948a6fc40881584821fa84531",
+      "remote": "8f1c8cfd99b10bd973a14b07fae3cdecd121871948a6fc40881584821fa84531",
+      "pass": true
+    },
+    {
+      "file": "assets/cloud-save-CFSRFGFQ.js",
+      "status": 200,
+      "local": "547952375fb7d30c7239faba0527f637dd7fa5c2c810879b30eda784f30e3b1f",
+      "remote": "547952375fb7d30c7239faba0527f637dd7fa5c2c810879b30eda784f30e3b1f",
+      "pass": true
+    },
+    {
+      "file": "assets/cloud-save-D6ivyzww.css",
+      "status": 200,
+      "local": "1e1758778f8e43579c191b42f60c756b071397e22f79fb9df0aeff442293e199",
+      "remote": "1e1758778f8e43579c191b42f60c756b071397e22f79fb9df0aeff442293e199",
+      "pass": true
+    },
+    {
+      "file": "assets/front-CfbWKfsS.css",
+      "status": 200,
+      "local": "e63b21f942ef9da20c9f199f7704af4595bb2e4af97c8061fbf7d855b69dad4b",
+      "remote": "e63b21f942ef9da20c9f199f7704af4595bb2e4af97c8061fbf7d855b69dad4b",
+      "pass": true
+    },
+    {
+      "file": "assets/front-DGttfjje.js",
+      "status": 200,
+      "local": "570be947574e0db6ed8ba00024163bcee08b18cece414fcfa9cb2d18302feb79",
+      "remote": "570be947574e0db6ed8ba00024163bcee08b18cece414fcfa9cb2d18302feb79",
+      "pass": true
+    },
+    {
+      "file": "assets/game-select-BBcbApPk.css",
+      "status": 200,
+      "local": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75",
+      "remote": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75",
+      "pass": true
+    },
+    {
+      "file": "assets/game-select-C-B9GtxM.js",
+      "status": 200,
+      "local": "ce60eac59df28b11f1a91d1ef246cccb81ff6295b6e78157fb7080db27f9b6b0",
+      "remote": "ce60eac59df28b11f1a91d1ef246cccb81ff6295b6e78157fb7080db27f9b6b0",
+      "pass": true
+    },
+    {
+      "file": "assets/hud-1kykfPiX.js",
+      "status": 200,
+      "local": "72ce9ea8223500a4469c10697c0992d46e547afff58dcf0019c3d292d653b379",
+      "remote": "72ce9ea8223500a4469c10697c0992d46e547afff58dcf0019c3d292d653b379",
+      "pass": true
+    },
+    {
+      "file": "assets/hud-KJkCjEBB.css",
+      "status": 200,
+      "local": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3",
+      "remote": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3",
+      "pass": true
+    },
+    {
+      "file": "assets/legacy-CGHMt4Su.js",
+      "status": 200,
+      "local": "639c201344b9caf26cf6f2f55836b78fd3a7a57021c43fa02ad5b8f9c35d7c52",
+      "remote": "639c201344b9caf26cf6f2f55836b78fd3a7a57021c43fa02ad5b8f9c35d7c52",
+      "pass": true
+    },
+    {
+      "file": "assets/legacy-CPbai1ZT.css",
+      "status": 200,
+      "local": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "remote": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "pass": true
+    },
+    {
+      "file": "assets/main-BOIn8V8d.css",
+      "status": 200,
+      "local": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "remote": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "pass": true
+    },
+    {
+      "file": "assets/main-CgglKeDh.js",
+      "status": 200,
+      "local": "18ce633fed2a1c4ababd2b597d31f0353646b01c8690a3e0b0c61ec9db5bd5f5",
+      "remote": "18ce633fed2a1c4ababd2b597d31f0353646b01c8690a3e0b0c61ec9db5bd5f5",
+      "pass": true
+    },
+    {
+      "file": "assets/playtest-app-CU5IufCk.css",
+      "status": 200,
+      "local": "f8dd2dc94f98d22ff4906c0ff444e119d3eb9f0847b66d56941305824879cee9",
+      "remote": "f8dd2dc94f98d22ff4906c0ff444e119d3eb9f0847b66d56941305824879cee9",
+      "pass": true
+    },
+    {
+      "file": "assets/playtest-app-DCpSS2JC.js",
+      "status": 200,
+      "local": "18280d1fcc7b1e8cbb69bd38423e073bdc330ebdfd504c37c628b1861143acde",
+      "remote": "18280d1fcc7b1e8cbb69bd38423e073bdc330ebdfd504c37c628b1861143acde",
+      "pass": true
+    },
+    {
+      "file": "assets/room-browser-BVZONukl.js",
+      "status": 200,
+      "local": "4022199df1afbb4c838dc213a628ad2ad800eb1d0e56174462c9ed904adc9085",
+      "remote": "4022199df1afbb4c838dc213a628ad2ad800eb1d0e56174462c9ed904adc9085",
+      "pass": true
+    },
+    {
+      "file": "assets/room-browser-D0N6sL-J.css",
+      "status": 200,
+      "local": "8268ae33bacf789ea99164175788749fa3b40497e940d2ef1e4a1c588f70754f",
+      "remote": "8268ae33bacf789ea99164175788749fa3b40497e940d2ef1e4a1c588f70754f",
+      "pass": true
+    },
+    {
+      "file": "assets/save-writer-6ccprsHO.css",
+      "status": 200,
+      "local": "e40c4ebae34cd465c956204dd5b402c39f69198cdb75666088f43dbfaebc18f8",
+      "remote": "e40c4ebae34cd465c956204dd5b402c39f69198cdb75666088f43dbfaebc18f8",
+      "pass": true
+    },
+    {
+      "file": "assets/save-writer-Dhi_2R-O.js",
+      "status": 200,
+      "local": "bb352c7751f2722298fba03a40ecb64d912b6ef135a310dc578dce11e63141a1",
+      "remote": "bb352c7751f2722298fba03a40ecb64d912b6ef135a310dc578dce11e63141a1",
+      "pass": true
+    },
+    {
+      "file": "assets/training-app-Dz88XQvE.js",
+      "status": 200,
+      "local": "839a59776ac546a39afd2831456101cd3d4e120213855a8ce488248aa118861e",
+      "remote": "839a59776ac546a39afd2831456101cd3d4e120213855a8ce488248aa118861e",
+      "pass": true
+    },
+    {
+      "file": "assets/weapon-sharing-CnEIK8kv.js",
+      "status": 200,
+      "local": "7af91c6514ec98c6451e87e1148165637211d75ec4efb79691bc276fc13a0484",
+      "remote": "7af91c6514ec98c6451e87e1148165637211d75ec4efb79691bc276fc13a0484",
+      "pass": true
+    },
+    {
+      "file": "assets/weapon-workshop-ui-B-h2Ismc.css",
+      "status": 200,
+      "local": "dafb05db345c9d24780ae03d58e252a4d59b070705b1d8302ebcff760e5e109a",
+      "remote": "dafb05db345c9d24780ae03d58e252a4d59b070705b1d8302ebcff760e5e109a",
+      "pass": true
+    },
+    {
+      "file": "assets/weapon-workshop-ui-BGWC3R0l.js",
+      "status": 200,
+      "local": "50686fd1a5b98ca06b6cdb63bfb061064920c24b6ef57e3b152473ff403e7a20",
+      "remote": "50686fd1a5b98ca06b6cdb63bfb061064920c24b6ef57e3b152473ff403e7a20",
+      "pass": true
+    },
+    {
+      "file": "assets/zoom-guard-CYxqEXnM.js",
+      "status": 200,
+      "local": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "remote": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/mobile/adv-complete.apng",
+      "status": 200,
+      "local": "d273f09d339327fe272e34a1e9d42d755dbb412b4a872078d9ca274a8465c8ff",
+      "remote": "d273f09d339327fe272e34a1e9d42d755dbb412b4a872078d9ca274a8465c8ff",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/mobile/adv-complete.png",
+      "status": 200,
+      "local": "c7d9aa7ea9627b78f3ec1f9e5918f5c2578f9c96604b9cde21e96c135974401d",
+      "remote": "c7d9aa7ea9627b78f3ec1f9e5918f5c2578f9c96604b9cde21e96c135974401d",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/mobile/adv-extract.apng",
+      "status": 200,
+      "local": "fc93cc6539b0f3f68e532ea7762b4711a898f2e3b1747f9778345fd9bc77787c",
+      "remote": "fc93cc6539b0f3f68e532ea7762b4711a898f2e3b1747f9778345fd9bc77787c",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/mobile/adv-extract.png",
+      "status": 200,
+      "local": "a82891ca4118f3e74628c70f90510ab809247bc68bbb5bbc7531b37dcbdb876b",
+      "remote": "a82891ca4118f3e74628c70f90510ab809247bc68bbb5bbc7531b37dcbdb876b",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/mobile/adv-failed.apng",
+      "status": 200,
+      "local": "7802b1a9bcb074104a9e785e91171838e27e1f1677e33da439827e263cfa6502",
+      "remote": "7802b1a9bcb074104a9e785e91171838e27e1f1677e33da439827e263cfa6502",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/mobile/adv-failed.png",
+      "status": 200,
+      "local": "a35a891f760a93b01302e1e3ae61b5293338039ae00ec8914fa6e9ae06ea2d72",
+      "remote": "a35a891f760a93b01302e1e3ae61b5293338039ae00ec8914fa6e9ae06ea2d72",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/mobile/adv-sortie.apng",
+      "status": 200,
+      "local": "dc84cc01b709a45949f7f6302d03c845e15bfe34c5006bce2884849110275047",
+      "remote": "dc84cc01b709a45949f7f6302d03c845e15bfe34c5006bce2884849110275047",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/mobile/adv-sortie.png",
+      "status": 200,
+      "local": "7a45dd09288b057ac31a7148b2b75880d20755994444993218bd0e89d36a4383",
+      "remote": "7a45dd09288b057ac31a7148b2b75880d20755994444993218bd0e89d36a4383",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/mobile/srv-ended.apng",
+      "status": 200,
+      "local": "f3c6e704059fc882e389002174ee669bfb44fb5e24edf41cb85e77a018eaf39d",
+      "remote": "f3c6e704059fc882e389002174ee669bfb44fb5e24edf41cb85e77a018eaf39d",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/mobile/srv-ended.png",
+      "status": 200,
+      "local": "b97dbb39f9728c6483249c92ac8a45c2815ad026ecb8e4155444c5c4318ee3a7",
+      "remote": "b97dbb39f9728c6483249c92ac8a45c2815ad026ecb8e4155444c5c4318ee3a7",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/mobile/srv-extract.apng",
+      "status": 200,
+      "local": "9a075a02b38c6c46d910eaa036bc1c23f2ecf0a7d838329a486682c911394627",
+      "remote": "9a075a02b38c6c46d910eaa036bc1c23f2ecf0a7d838329a486682c911394627",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/mobile/srv-extract.png",
+      "status": 200,
+      "local": "678877a1660c5d03eb9911d3d8f8026d0c4292bac8a5bebc8c823fb1590042a3",
+      "remote": "678877a1660c5d03eb9911d3d8f8026d0c4292bac8a5bebc8c823fb1590042a3",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/mobile/srv-sortie.apng",
+      "status": 200,
+      "local": "e7c30816be69e6e0928bc73e085f03636335978e54bbd5847e7767670b41f265",
+      "remote": "e7c30816be69e6e0928bc73e085f03636335978e54bbd5847e7767670b41f265",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/mobile/srv-sortie.png",
+      "status": 200,
+      "local": "0f62d203aa2771bec8e0561c5e04e797ce3bfcf278b8bfeb5cf89c93a578994b",
+      "remote": "0f62d203aa2771bec8e0561c5e04e797ce3bfcf278b8bfeb5cf89c93a578994b",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/standard/adv-complete.apng",
+      "status": 200,
+      "local": "a3ff0a5253c73dbe7cf246e36474b5e4a7cc2d06d19dc40830269a3714355e0f",
+      "remote": "a3ff0a5253c73dbe7cf246e36474b5e4a7cc2d06d19dc40830269a3714355e0f",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/standard/adv-complete.png",
+      "status": 200,
+      "local": "1aa87d5e9f2e2cd415e1944bd7e53a9b5b6a9c79a10c9d144bab1536484904d2",
+      "remote": "1aa87d5e9f2e2cd415e1944bd7e53a9b5b6a9c79a10c9d144bab1536484904d2",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/standard/adv-extract.apng",
+      "status": 200,
+      "local": "345baad97cde33b3bdf588be6cccaa131cc274ad34315443d4ecfab31d89aa2f",
+      "remote": "345baad97cde33b3bdf588be6cccaa131cc274ad34315443d4ecfab31d89aa2f",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/standard/adv-extract.png",
+      "status": 200,
+      "local": "3631f6e8273ee1f06e41376e5a7fa5100fdae025d5460fed55fda2d2b8e18326",
+      "remote": "3631f6e8273ee1f06e41376e5a7fa5100fdae025d5460fed55fda2d2b8e18326",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/standard/adv-failed.apng",
+      "status": 200,
+      "local": "e7bdd615834b1867d62592b5a673520567b27582d3000f65dbf5fdc48645e2e0",
+      "remote": "e7bdd615834b1867d62592b5a673520567b27582d3000f65dbf5fdc48645e2e0",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/standard/adv-failed.png",
+      "status": 200,
+      "local": "a25d5ad0387e7af0bc3a8ad61bb43ba044796d90aeb6e802376b1d78f707785f",
+      "remote": "a25d5ad0387e7af0bc3a8ad61bb43ba044796d90aeb6e802376b1d78f707785f",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/standard/adv-sortie.apng",
+      "status": 200,
+      "local": "ca9d86e19b3ea153c24ca4254c6cc9ef7e5096edbadccea9d715601987274fd0",
+      "remote": "ca9d86e19b3ea153c24ca4254c6cc9ef7e5096edbadccea9d715601987274fd0",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/standard/adv-sortie.png",
+      "status": 200,
+      "local": "e1b616268131bb976c6f7b0e82fa058125f00662ac31bb971e9d02a00638ebad",
+      "remote": "e1b616268131bb976c6f7b0e82fa058125f00662ac31bb971e9d02a00638ebad",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/standard/srv-ended.apng",
+      "status": 200,
+      "local": "2bb99144e804a51a75db339ec315a9e8b09ef016a140c40957e676218e42b125",
+      "remote": "2bb99144e804a51a75db339ec315a9e8b09ef016a140c40957e676218e42b125",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/standard/srv-ended.png",
+      "status": 200,
+      "local": "802ee44f37442aacd0299e7e3e5dbcd522f3e9336742611101c2951714e70ba1",
+      "remote": "802ee44f37442aacd0299e7e3e5dbcd522f3e9336742611101c2951714e70ba1",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/standard/srv-extract.apng",
+      "status": 200,
+      "local": "23423a7b16bac965dc3b9798809451507a1f37fdaa91c24fbed3535d4f5faff6",
+      "remote": "23423a7b16bac965dc3b9798809451507a1f37fdaa91c24fbed3535d4f5faff6",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/standard/srv-extract.png",
+      "status": 200,
+      "local": "5b24d481bee23083e0e3b5d194b3e853e00d3b2aeda9975a5bc65a34f255f9e3",
+      "remote": "5b24d481bee23083e0e3b5d194b3e853e00d3b2aeda9975a5bc65a34f255f9e3",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/standard/srv-sortie.apng",
+      "status": 200,
+      "local": "fe01637e4de958fae0b21a69d988fd58951b09015546f157da1cb5bffb0953b5",
+      "remote": "fe01637e4de958fae0b21a69d988fd58951b09015546f157da1cb5bffb0953b5",
+      "pass": true
+    },
+    {
+      "file": "assets/event-banners/standard/srv-sortie.png",
+      "status": 200,
+      "local": "fcd3dae7a2740d1f4b72ee079d5466a1c4c0ebd6c0718697bad533c650678a5f",
+      "remote": "fcd3dae7a2740d1f4b72ee079d5466a1c4c0ebd6c0718697bad533c650678a5f",
+      "pass": true
+    }
+  ],
+  "health": {
+    "status": 200,
+    "body": {
+      "ok": true,
+      "transport": "websocket",
+      "authority": "durable-object"
+    }
+  },
+  "pass": true
+}

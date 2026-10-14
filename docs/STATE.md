@@ -1,3 +1,9 @@
+# 現在地: 成長循環・敵と協力体力調整を公開完了（2026-10-14）
+
+[PR175](https://github.com/futsalife24-bot/swarm-front/pull/175)を通常merge。公開ソース `b4827bc6192019265467c1c51de0e9f21c5764db`、Worker Version `f2879067-81ab-43ec-8fbd-034992f01bef`。[公開版](https://swarm-front.melosalife-24.workers.dev/front)。敵HPは1/2/3/4人で1/1.75/2.5/3.25倍、生存ST当たり攻撃力2.5%・出現頻度3%。成長循環と報酬保存、切断復帰猶予を統合。独立監査09f9610は限定合格、必須P0/P1/P2各0。以後は記録文書のみ、公開ソースと監査対象の製品コード一致を確認。
+
+型・関連保存62/戦闘66/実通信3・98条件測定・build/dry-run成功。公開53ファイルSHA一致、health200/ok:true。iab公開版で作戦選択→準備→強化→生存戦闘→17秒で無操作敗北→武器0/コイン0の結果保存表示→タイトル復帰を確認。勝率や人間の操作評価とはしない。[配信証拠](evidence/growth-balance-20261014/delivery.json)、[公開画面](evidence/growth-balance-20261014/public-operations.jpg)、[詳細](GROWTH-BALANCE-20261014.md)。既知4テストファイル失敗と開発依存High5は別追跡、実スマホ・長期経済は未確認。今回依頼の実装・監査・main反映・既存Worker公開は完了。
+
 # 現在地: PR175修正版09f9610の独立再監査合格、main反映・公開へ（2026-10-14）
 
 [通常Chat](https://chatgpt.com/c/6acd5156-e2f8-83ee-b7f5-b99dfc024ef8)で09f9610bb9738e1135fc8540711a3fc04aff6bfeが技術上の限定合格、必須P0/P1/P2は各0。協力報酬P1解消と切断復帰境界の回帰なしを独立確認。[監査全文](evidence/growth-balance-20261014/audit-09f9610.txt)。今回の追加差分は監査・状態の記録だけ。既知4テストファイル失敗・開発依存High5・実機/長期の未確認は残る。通常mergeと既存Worker公開を継続承認に沿って進める。
