@@ -1,4 +1,9 @@
 import { newStats, validNewWeapon, type NewWeapon } from "./progression";
+import {
+  applyWeaponGrowth,
+  validWeaponGrowth,
+  type WeaponMods,
+} from "./weapon-growth";
 export const EVADE_DURATION = 0.32;
 export const WEAPON_SWITCH_DURATION = 0.5;
 export const WEAPON_SWITCH_RESUME = 0.08;
@@ -64,6 +69,8 @@ export const ROLLS: Roll[] = ["power", "mag", "reload", "range", "rate"];
 // Reload is the one where a smaller number is the better outcome.
 export const LOWER_IS_BETTER: Roll[] = ["reload"];
 export interface Weapon {
+  level?: number;
+  mods?: WeaponMods;
   id: string;
   kind: Kind;
   rarity: 0 | 1 | 2 | 3 | 4;
@@ -391,7 +398,7 @@ export function stats(w: Weapon) {
   if ((w as NewWeapon).format === 2) return newStats(w as NewWeapon);
   const d = WEAPONS[w.kind];
   const roll = (key: Roll) => w.rolls?.[key] ?? 1;
-  return {
+  return applyWeaponGrowth(w, {
     ...d,
     damage: d.damage * w.power,
     // A rocket holds two rounds, so a percentage would round it to ruin; every
@@ -400,7 +407,7 @@ export function stats(w: Weapon) {
     reload: d.reload * roll("reload") * (w.effect === "quick" ? 0.8 : 1),
     range: d.range * roll("range"),
     interval: d.interval / roll("rate"),
-  };
+  });
 }
 // Read ammunition at reload start. Ammo stays unchanged until completion,
 // allowing the HUD and authoritative simulation to share this duration.
@@ -484,6 +491,7 @@ export function validWeapon(w: unknown): w is Weapon {
   const v = w as Weapon;
   return (
     !("format" in v) &&
+    validWeaponGrowth(v) &&
     typeof v.id === "string" &&
     /^[a-zA-Z0-9_-]{1,100}$/.test(v.id) &&
     Object.hasOwn(WEAPONS, v.kind) &&

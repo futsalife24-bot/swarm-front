@@ -1,6 +1,8 @@
 import { validWeapon, type Weapon } from "../shared/defs";
 import { validNewWeapon, type StoredWeapon } from "../shared/progression";
 import { fresh, type Save } from "./save";
+import { normalSaveId, CAMPAIGN_COUNT } from "../shared/campaign";
+import { victoryCoins } from "../shared/progression";
 import {
   SaveConflictError,
   allWeapons,
@@ -47,6 +49,7 @@ export function loadSharedCoopSave(
 export function persistSharedCoopSave(
   next: Save,
   storage: StorageAccess = localStorage,
+  campaign?: { run: string; stage: number },
 ): void {
   const s = loadProgress("normal", storage);
   if (!s || !next.sharedArmory || next.sharedRevision === undefined)
@@ -82,7 +85,7 @@ export function persistSharedCoopSave(
   soldier(updated).equipped = [...next.equipped];
   updated.locks = [...(next.favorites ?? [])];
   updated.powder = next.powder ?? 0;
-  updated.receipts = [...next.receipts];
+  updated.receipts = [...new Set([...s.receipts, ...next.receipts])];
   updated.weeklyPending = [
     ...new Set([
       ...(s.weeklyPending ?? []),
@@ -90,10 +93,33 @@ export function persistSharedCoopSave(
     ]),
   ].slice(-128);
   updated.coopPreferences = coopPreferences(next);
+  if (campaign) {
+    if (
+      !Number.isInteger(campaign.stage) ||
+      campaign.stage < 1 ||
+      campaign.stage > CAMPAIGN_COUNT ||
+      !updated.receipts.includes(campaign.run)
+    )
+      throw Error("進撃の確定結果が不正です。");
+    const receipt = `coop-campaign:${campaign.run}`;
+    if (!s.receipts.includes(receipt)) {
+      const key = `${normalSaveId(campaign.stage)}:normal`;
+      const flags = updated.missions[key] ?? [false, false, false];
+      if (!flags[0]) {
+        updated.points = Math.min(120, updated.points + 3);
+        if (campaign.stage <= 4) updated.materials++;
+      }
+      updated.missions[key] = [true, flags[1], flags[2]];
+      updated.coins += victoryCoins(normalSaveId(campaign.stage), "normal");
+      updated.powder += 2 + campaign.stage;
+      updated.receipts.push(receipt);
+    }
+  }
   validateProgress(updated);
   persistProgress(updated, storage);
-  next.sharedRevision = updated.revision;
   const committed = project(updated);
-  next.protectedWeapons = committed.protectedWeapons;
+  // Publish the complete committed projection after storage succeeds. The caller
+  // reuses this object for the result screen and later preference writes.
+  Object.assign(next, committed);
   baselines.set(next.sharedRevision!, fingerprint(committed));
 }

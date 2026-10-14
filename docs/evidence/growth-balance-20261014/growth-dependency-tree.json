@@ -1,0 +1,49 @@
+{
+  "version": "0.1.0",
+  "name": "swarm-front",
+  "dependencies": {
+    "vite": {
+      "version": "8.2.2",
+      "resolved": "https://registry.npmjs.org/vite/-/vite-8.2.2.tgz",
+      "overridden": false,
+      "dependencies": {
+        "postcss": {
+          "version": "8.5.28",
+          "resolved": "https://registry.npmjs.org/postcss/-/postcss-8.5.28.tgz",
+          "overridden": false,
+          "dependencies": {
+            "source-map-js": {
+              "version": "1.2.1",
+              "resolved": "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.1.tgz",
+              "overridden": false
+            }
+          }
+        }
+      }
+    },
+    "wrangler": {
+      "version": "4.129.0",
+      "resolved": "https://registry.npmjs.org/wrangler/-/wrangler-4.129.0.tgz",
+      "overridden": false,
+      "dependencies": {
+        "miniflare": {
+          "version": "5.20260903.0-alpha",
+          "resolved": "https://registry.npmjs.org/miniflare/-/miniflare-5.20260903.0-alpha.tgz",
+          "overridden": false,
+          "dependencies": {
+            "sharp": {
+              "version": "0.35.2",
+              "resolved": "https://registry.npmjs.org/sharp/-/sharp-0.35.2.tgz",
+              "overridden": false
+            },
+            "undici": {
+              "version": "7.29.0",
+              "resolved": "https://registry.npmjs.org/undici/-/undici-7.29.0.tgz",
+              "overridden": false
+            }
+          }
+        }
+      }
+    }
+  }
+}

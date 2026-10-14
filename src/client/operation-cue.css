@@ -1,0 +1,47 @@
+.operation-cue {
+  position: fixed;
+  z-index: 90;
+  top: max(8px, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  color: #edfff5;
+  max-width: calc(
+    100vw - env(safe-area-inset-left) - env(safe-area-inset-right)
+  );
+  pointer-events: none;
+}
+.operation-cue * {
+  pointer-events: none;
+}
+.operation-cue strong {
+  display: block;
+  white-space: nowrap;
+  font-size: clamp(16px, 3vw, 25px);
+  padding: 8px 14px;
+}
+.operation-cue.has-image {
+  width: 100%;
+  max-width: 960px;
+  aspect-ratio: 960/336;
+}
+.operation-cue img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.operation-cue.is-loaded strong {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.operation-cue-skip {
+  min-height: 40px;
+  font-size: 12px;
+  pointer-events: auto;
+}

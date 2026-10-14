@@ -124,7 +124,7 @@ describe("authoritative combat", () => {
     for (let n = 0; n < 3; n++) addPlayer(w, `p${n}`);
     start(w);
     for (let n = 0; n < 60; n++) spawn(w, "crawler", 0, -20);
-    expect(w.scale).toBe(2.6500000000000004);
+    expect(w.scale).toBe(3.25);
     expect(w.enemies).toHaveLength(LIMITS.enemies);
   });
   it("rejects nonfinite, oversized axes, wrong booleans and illegal weapons", () => {

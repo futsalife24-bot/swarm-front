@@ -1,4 +1,7 @@
 import { japanDay, japanWeek } from "../src/shared/calendar";
+import { preservesGrowthSave } from "../src/shared/growth-save-guard";
+import { validWeaponGrowth } from "../src/shared/weapon-growth";
+import type { Weapon } from "../src/shared/defs";
 import { beginDefense, type DefenseSave } from "../src/shared/daily-rewards";
 import {
   recordWeekly,
@@ -48,6 +51,30 @@ export function validCloudSave(
 ): value is Record<string, unknown> {
   if (!value || typeof value !== "object" || Array.isArray(value)) return false;
   const s = value as Record<string, unknown>;
+  const growth = s.survival as Record<string, number> | undefined;
+  if (
+    growth &&
+    (!Number.isFinite(growth.bestSeconds) ||
+      growth.bestSeconds < 0 ||
+      growth.bestSeconds > 3601 ||
+      ![
+        growth.bestKills,
+        growth.runs,
+        growth.weapons,
+        growth.highestClearedStage,
+      ].every((n) => Number.isSafeInteger(n) && n >= 0) ||
+      growth.highestClearedStage > 25)
+  )
+    return false;
+  for (const key of ["inventory", "pending"]) {
+    if (
+      !Array.isArray(s[key]) ||
+      (s[key] as unknown[]).some(
+        (w) => !w || typeof w !== "object" || !validWeaponGrowth(w as Weapon),
+      )
+    )
+      return false;
+  }
   return (
     s.version === 2 &&
     s.mode === "normal" &&
@@ -313,6 +340,15 @@ export async function playerVault(
       409,
     );
   const pending = body.save.weeklyPending;
+  if (!preservesGrowthSave(state.save, body.save))
+    return cloudReply(
+      {
+        error:
+          "武器成長・生存戦果が新しい端末で更新されています。クラウドを採用してください。",
+        conflict: true,
+      },
+      409,
+    );
   const receivedReceipts = body.save.receipts as unknown[];
   if (
     pending !== undefined &&

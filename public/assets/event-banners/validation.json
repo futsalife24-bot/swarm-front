@@ -1,0 +1,164 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "event": "adv-sortie",
+      "tier": "standard",
+      "pass": true,
+      "rendererMeanByteDifference": 0.2836,
+      "rendererFractionPixelsDeltaOver32": 0.000946,
+      "finalTransparent": true,
+      "onePlay": true,
+      "holdExact": true,
+      "staticByteIdentical": true
+    },
+    {
+      "event": "adv-sortie",
+      "tier": "mobile",
+      "pass": true,
+      "rendererMeanByteDifference": 0.433,
+      "rendererFractionPixelsDeltaOver32": 0.001207,
+      "finalTransparent": true,
+      "onePlay": true,
+      "holdExact": true,
+      "staticByteIdentical": true
+    },
+    {
+      "event": "adv-extract",
+      "tier": "standard",
+      "pass": true,
+      "rendererMeanByteDifference": 0.1799,
+      "rendererFractionPixelsDeltaOver32": 0.0004,
+      "finalTransparent": true,
+      "onePlay": true,
+      "holdExact": true,
+      "staticByteIdentical": true
+    },
+    {
+      "event": "adv-extract",
+      "tier": "mobile",
+      "pass": true,
+      "rendererMeanByteDifference": 0.299,
+      "rendererFractionPixelsDeltaOver32": 0.000565,
+      "finalTransparent": true,
+      "onePlay": true,
+      "holdExact": true,
+      "staticByteIdentical": true
+    },
+    {
+      "event": "adv-failed",
+      "tier": "standard",
+      "pass": true,
+      "rendererMeanByteDifference": 0.3468,
+      "rendererFractionPixelsDeltaOver32": 0.001547,
+      "finalTransparent": true,
+      "onePlay": true,
+      "holdExact": true,
+      "staticByteIdentical": true
+    },
+    {
+      "event": "adv-failed",
+      "tier": "mobile",
+      "pass": true,
+      "rendererMeanByteDifference": 0.4937,
+      "rendererFractionPixelsDeltaOver32": 0.002155,
+      "finalTransparent": true,
+      "onePlay": true,
+      "holdExact": true,
+      "staticByteIdentical": true
+    },
+    {
+      "event": "adv-complete",
+      "tier": "standard",
+      "pass": true,
+      "rendererMeanByteDifference": 0.4288,
+      "rendererFractionPixelsDeltaOver32": 0.003643,
+      "finalTransparent": true,
+      "onePlay": true,
+      "holdExact": true,
+      "staticByteIdentical": true
+    },
+    {
+      "event": "adv-complete",
+      "tier": "mobile",
+      "pass": true,
+      "rendererMeanByteDifference": 0.537,
+      "rendererFractionPixelsDeltaOver32": 0.003871,
+      "finalTransparent": true,
+      "onePlay": true,
+      "holdExact": true,
+      "staticByteIdentical": true
+    },
+    {
+      "event": "srv-sortie",
+      "tier": "standard",
+      "pass": true,
+      "rendererMeanByteDifference": 0.5775,
+      "rendererFractionPixelsDeltaOver32": 0.006975,
+      "finalTransparent": true,
+      "onePlay": true,
+      "holdExact": true,
+      "staticByteIdentical": true
+    },
+    {
+      "event": "srv-sortie",
+      "tier": "mobile",
+      "pass": true,
+      "rendererMeanByteDifference": 0.7171,
+      "rendererFractionPixelsDeltaOver32": 0.007073,
+      "finalTransparent": true,
+      "onePlay": true,
+      "holdExact": true,
+      "staticByteIdentical": true
+    },
+    {
+      "event": "srv-extract",
+      "tier": "standard",
+      "pass": true,
+      "rendererMeanByteDifference": 0.3915,
+      "rendererFractionPixelsDeltaOver32": 0.003078,
+      "finalTransparent": true,
+      "onePlay": true,
+      "holdExact": true,
+      "staticByteIdentical": true
+    },
+    {
+      "event": "srv-extract",
+      "tier": "mobile",
+      "pass": true,
+      "rendererMeanByteDifference": 0.5572,
+      "rendererFractionPixelsDeltaOver32": 0.00415,
+      "finalTransparent": true,
+      "onePlay": true,
+      "holdExact": true,
+      "staticByteIdentical": true
+    },
+    {
+      "event": "srv-ended",
+      "tier": "standard",
+      "pass": true,
+      "rendererMeanByteDifference": 0.3199,
+      "rendererFractionPixelsDeltaOver32": 0.002682,
+      "finalTransparent": true,
+      "onePlay": true,
+      "holdExact": true,
+      "staticByteIdentical": true
+    },
+    {
+      "event": "srv-ended",
+      "tier": "mobile",
+      "pass": true,
+      "rendererMeanByteDifference": 0.4215,
+      "rendererFractionPixelsDeltaOver32": 0.003195,
+      "finalTransparent": true,
+      "onePlay": true,
+      "holdExact": true,
+      "staticByteIdentical": true
+    }
+  ],
+  "limits": [
+    "No live-game integration",
+    "No physical mobile-device benchmark",
+    "Animation rasterizer differs from source Chromium antialiasing on less than 1% of pixels; hold and fallback PNG are byte-identical originals."
+  ]
+}

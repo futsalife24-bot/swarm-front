@@ -13,9 +13,11 @@ import {
   getFrontRunView,
   frontTemporaryWeapons,
   frontDailySeed,
+  forfeitFrontRunPlayer,
   type FrontRun,
   type FrontWeaponKind,
 } from "../src/shared/front-run";
+import { validFrontClearedStage } from "../src/shared/front-survival";
 import {
   exportProjectAnalytics,
   forwardAnalytics,
@@ -85,6 +87,7 @@ interface Env {
   PROJECT_HUB_EXPORT_KEY?: string;
 }
 interface Member {
+  frontClearedStage?: number;
   frontGrowth?: 2 | 3;
   frontCatalog?: 2;
   frontOpening?: 2;
@@ -1125,6 +1128,13 @@ export class Room extends DurableObject<Env> {
         ws.close(4000, "画面を再読み込みして復帰してください");
         return;
       }
+      if (
+        m.clearedStage !== undefined &&
+        !validFrontClearedStage(m.clearedStage)
+      ) {
+        this.error(ws, "攻略進度が不正です");
+        return;
+      }
       let member: Member | undefined;
       if (m.token) {
         member = this.saved.members.find((p) => p.token === m.token);
@@ -1171,6 +1181,11 @@ export class Room extends DurableObject<Env> {
       member.frontOpening = m.frontOpening === 2 ? 2 : undefined;
       member.frontGrowth =
         m.frontGrowth === 3 ? 3 : m.frontGrowth === 2 ? 2 : undefined;
+      if (m.clearedStage !== undefined)
+        member.frontClearedStage = Math.max(
+          member.frontClearedStage ?? 0,
+          m.clearedStage,
+        );
       member.name =
         normalizePlayerName(m.name) || member.name || DEFAULT_PLAYER_NAME;
       member.last = now;
@@ -1346,6 +1361,13 @@ export class Room extends DurableObject<Env> {
     } else if (m.type === "equip") {
       if (this.saved.world?.phase === "battle") return;
       if (
+        m.clearedStage !== undefined &&
+        !validFrontClearedStage(m.clearedStage)
+      ) {
+        this.error(ws, "攻略進度が不正です");
+        return;
+      }
+      if (
         !Array.isArray(m.weapons) ||
         m.weapons.length !== 2 ||
         !m.weapons.every(validBattleWeapon) ||
@@ -1391,6 +1413,11 @@ export class Room extends DurableObject<Env> {
         return;
       }
       member.edits = (member.edits ?? 0) + 1;
+      if (m.clearedStage !== undefined)
+        member.frontClearedStage = Math.max(
+          member.frontClearedStage ?? 0,
+          m.clearedStage,
+        );
       if (
         this.saved.directory?.ruleset === "front-v1" &&
         member.frontGrowth !== 3 &&
@@ -1412,6 +1439,8 @@ export class Room extends DurableObject<Env> {
         rarity: w.rarity,
         power: w.power,
         effect: w.effect,
+        ...(w.level !== undefined ? { level: w.level } : {}),
+        ...(w.mods ? { mods: { ...w.mods } } : {}),
         ...(w.rolls ? { rolls: { ...w.rolls } } : {}),
         ...("format" in w
           ? {
@@ -1518,6 +1547,7 @@ export class Room extends DurableObject<Env> {
             seed: crypto.getRandomValues(new Uint32Array(1))[0],
             mode: this.saved.directory.mode,
             fusion: present.every((p) => p.frontGrowth === 3),
+            clearedStage: present[0]?.frontClearedStage ?? 0,
             catalogVersion: present.every((p) => p.frontCatalog === 2) ? 2 : 1,
             // 出撃前の時間を含めず、出撃開始から60分。
             returnAt: (now + LIMITS.roomMs) / 1000,
@@ -1593,6 +1623,8 @@ export class Room extends DurableObject<Env> {
       this.send(ws, { type: "pong" });
       this.publishDirectory();
     } else if (m.type === "leave") {
+      if (this.saved.world?.phase === "battle" && this.saved.frontRun)
+        forfeitFrontRunPlayer(this.saved.frontRun, s.id);
       ws.close(1000, "退出");
       this.disconnected(ws);
     } else {
@@ -1615,6 +1647,10 @@ export class Room extends DurableObject<Env> {
     const metadata = {
       members,
       stage: this.saved.stage ?? 1,
+      clearedStage:
+        this.saved.frontRun?.clearedStage ??
+        this.saved.members.find((p) => !p.gone)?.frontClearedStage ??
+        0,
       preparationGeneration: this.saved.preparationGeneration ?? 0,
       ...(this.saved.directory?.ruleset
         ? {

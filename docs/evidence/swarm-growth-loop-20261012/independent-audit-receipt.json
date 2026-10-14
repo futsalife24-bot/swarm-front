@@ -1,0 +1,41 @@
+{
+  "auditConversation": "https://chatgpt.com/c/6acd5156-e2f8-83ee-b7f5-b99dfc024ef8",
+  "sourceCommit": "a7de399057040af1670031928f84ad0cea7d9720",
+  "baseCommit": "35125e556c85a249a024cd4c033c39ce249b8d67",
+  "inputZipSha256": "718a92abe73d2d8eaeec6e86271b5c58249d7e299d031b0e9ac2887c5c86ad98",
+  "libraryFileId": "libfile_f753c033d92881919602b9f4b4350640",
+  "fileId": "file_00000000ca9482069b9ead1648eb474a",
+  "libraryVersionId": "1",
+  "fileName": "PR175-a7de399-independent-audit-full.txt",
+  "sizeBytes": 20843,
+  "sha256": "62578bd4f995d99086d26fd85d5c49c8775360dfa3fcd79a956abb8d71d7cacc",
+  "readMode": "Library full read, 871 lines, has_more=false",
+  "localMirror": "PR175-a7de399-independent-audit-full.txt",
+  "readNormalization": "Final blank line omitted by Library read restored; resulting bytes match supplied SHA256 and size",
+  "verdict": "合格（確認範囲限定）",
+  "mandatoryFindings": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0
+  },
+  "supplementOverridesInitial": true,
+  "auditorIndependentTestBuildDryRunE2E": false,
+  "publicationApproved": false,
+  "finalClarificationOverridesEarlier": true,
+  "finalClarificationTime": "2026-10-12 22:04 UTC",
+  "economicMonitoring": {
+    "classification": "公開後を含む推奨運用",
+    "requiredBeforePublication": false,
+    "unimplementedChangesVerdict": false,
+    "localOnlyOptInDaily30DaysNoIdentifiersNoExternalSendSufficientPolicy": true,
+    "firstMilestoneTimingOptional": true
+  },
+  "followupItems": [
+    "既存失敗5件/High5の追跡",
+    "実端末/本番同期等の未確認を区別した確認"
+  ],
+  "recommendedOperations": [
+    "任意ローカル日次集計",
+    "少人数・数日〜2週間の初期経済確認"
+  ]
+}

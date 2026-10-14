@@ -1,5 +1,6 @@
 /** 実際のローカル Worker と WebSocket。通信モックは使用しない。 */
 import { afterEach, describe, it, expect } from "vitest";
+import { createHash } from "node:crypto";
 import { localCreationKey } from "./credentials";
 import { frontTemporaryWeapons } from "../src/shared/front-run";
 import {
@@ -7,7 +8,7 @@ import {
   FRONT_INITIAL_CARDS,
 } from "../src/shared/front-upgrades";
 import { neutral } from "../src/shared/game";
-const base = "http://127.0.0.1:8789",
+const base = process.env.SWARM_TEST_SERVER_URL ?? "http://127.0.0.1:8789",
   clients: Client[] = [];
 class Client {
   ws: WebSocket;
@@ -22,7 +23,11 @@ class Client {
     opening = 2,
   ) {
     this.ws = new WebSocket(
-      `${base.replace("http", "ws")}/rooms/${code}?ruleset=front-v1`,
+      `${base.replace("http", "ws")}/rooms/${code}?ruleset=front-v1&testClient=${createHash(
+        "sha256",
+      )
+        .update(expect.getState().currentTestName ?? "legacy-integration")
+        .digest("hex")}`,
     );
     this.ws.onopen = () =>
       this.send({
@@ -76,7 +81,12 @@ afterEach(() => clients.splice(0).forEach((c) => c.ws.close()));
 async function room(mode = "defense") {
   const response = await fetch(base + "/rooms", {
     method: "POST",
-    headers: { "X-Room-Creation-Key": localCreationKey() },
+    headers: {
+      "X-Room-Creation-Key": localCreationKey(),
+      "X-Test-Client": createHash("sha256")
+        .update(expect.getState().currentTestName ?? "legacy-integration")
+        .digest("hex"),
+    },
     body: JSON.stringify({
       name: "改装版検証",
       listed: true,

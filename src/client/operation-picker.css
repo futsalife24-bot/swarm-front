@@ -1,0 +1,66 @@
+.operation-picker-dialog .operation-picker-intro {
+  margin: 0 0 12px;
+  color: #bfd0d0;
+}
+.operation-picker-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.operation-picker-options button {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  min-height: 100px;
+  padding: 12px 28px 12px 14px;
+  border: 1px solid #709a96;
+  border-left: 3px solid #bdebd2;
+  background: linear-gradient(120deg, #25434a, #10232d);
+  color: #f2f5ed;
+  text-align: left;
+  cursor: pointer;
+}
+.operation-picker-options button:nth-child(2) {
+  border-left-color: #e8bc78;
+}
+.operation-picker-options button:is(:hover, :focus-visible) {
+  border-color: #d9efdd;
+  background: linear-gradient(120deg, #34545b, #19343d);
+}
+.operation-picker-options small {
+  color: #b8d2c6;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+.operation-picker-options strong {
+  font-size: 20px;
+}
+.operation-picker-options span {
+  color: #c2d2d3;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.operation-picker-options i {
+  position: absolute;
+  right: 11px;
+  top: 13px;
+  font-style: normal;
+}
+@media (max-width: 540px) {
+  .operation-picker-options {
+    grid-template-columns: 1fr;
+  }
+  .operation-picker-options button {
+    min-height: 74px;
+  }
+}
+@media (orientation: landscape) and (max-height: 390px) {
+  .operation-picker-options button {
+    min-height: 58px;
+    padding-block: 7px;
+  }
+  .operation-picker-options span {
+    display: none;
+  }
+}

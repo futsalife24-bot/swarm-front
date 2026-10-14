@@ -82,6 +82,7 @@ export function recoverUnsavedResult(
     };
     next.coins += coins + firstCoins;
     if (r.win) {
+      next.powder += r.powder ?? 0;
       next.missions[key] = old.map((v, i) => v || r.missions[i]);
       if (first && r.stage !== 21) {
         next.points = Math.min(120, next.points + 3);

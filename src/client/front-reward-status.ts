@@ -1,5 +1,10 @@
 import { awardFrontProgress, type FrontStorage } from "./front-progress";
-import { frontCampaignCoins, queueFrontCampaignReward } from "./front-campaign";
+import {
+  frontCampaignCoins,
+  queueFrontCampaignReward,
+  readFrontCampaign,
+  type SurvivalSpoils,
+} from "./front-campaign";
 
 export interface FrontRewardStatus {
   runId: string;
@@ -16,6 +21,7 @@ export function saveFrontRunRewards(
   receipt: Parameters<typeof awardFrontProgress>[1],
   campaignSeconds: number | null,
   previous?: FrontRewardStatus,
+  spoils?: SurvivalSpoils,
 ): FrontRewardStatus {
   const status: FrontRewardStatus =
     previous?.runId === receipt.id
@@ -37,9 +43,21 @@ export function saveFrontRunRewards(
   }
   if (campaignSeconds !== null && !status.campaign) {
     try {
-      queueFrontCampaignReward(campaignStorage, receipt.id, campaignSeconds);
+      queueFrontCampaignReward(
+        campaignStorage,
+        receipt.id,
+        campaignSeconds,
+        spoils,
+      );
       // queueの戻り値は他作戦の未保存分も合算するため、この作戦の既存計算式で表示する。
-      status.campaign = `攻略コイン +${frontCampaignCoins(campaignSeconds)}`;
+      const stored = readFrontCampaign(campaignStorage).save;
+      const ids = new Set(
+        [...(stored?.inventory ?? []), ...(stored?.pending ?? [])].map(
+          (w) => w.id,
+        ),
+      );
+      const count = spoils?.weapons.filter((w) => ids.has(w.id)).length ?? 0;
+      status.campaign = `攻略コイン +${frontCampaignCoins(campaignSeconds)}${spoils ? ` · 恒久武器 ${count}丁 保存済み（上限超過は保留） · 最高生存 ${Math.floor(stored?.survival?.bestSeconds ?? 0)}秒` : ""}`;
     } catch (error) {
       campaignError = (error as Error).message;
     }

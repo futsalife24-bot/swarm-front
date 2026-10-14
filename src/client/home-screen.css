@@ -62,6 +62,19 @@ body[data-screen="title"] #ui button.title-pressed {
     display: none;
   }
 }
+html[data-menu-reduced-motion="true"] body[data-screen="title"] #ui button,
+html[data-menu-reduced-motion="true"]
+  body[data-screen="title"]
+  #ui
+  .title-actions
+  button
+  i {
+  transition: none !important;
+  transform: none !important;
+}
+html[data-menu-reduced-motion="true"] .title-motion-accent {
+  display: none;
+}
 body[data-screen="title"][data-screen] #ui:has(.home-command):not(:empty) {
   background:
     linear-gradient(90deg, #09151b38, #0b1a22b8 70%),

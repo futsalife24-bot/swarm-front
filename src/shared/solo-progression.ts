@@ -203,6 +203,10 @@ export function soloDrop(w: World, e: Enemy) {
   ] as const) {
     if (
       !chance ||
+      (type === "weapon" &&
+        (w.pending[w.players[0].id]?.length ?? 0) +
+          w.drops.filter((d) => (d.type ?? "weapon") === "weapon").length >=
+          3) ||
       w.drops.filter((d) => (d.type ?? "weapon") === type).length >= 10
     )
       continue;
@@ -248,7 +252,7 @@ export function collectSolo(w: World, p: Player) {
               ? ACCESSORY_VALUES.healing[w.solo.accessory.rarity]
               : 0.2),
       );
-    } else w.pending[p.id].push(d.weapon);
+    } else if (w.pending[p.id].length < 3) w.pending[p.id].push(d.weapon);
     w.drops = w.drops.filter((x) => x !== d);
   }
 }

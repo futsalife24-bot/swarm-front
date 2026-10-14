@@ -405,7 +405,9 @@ export function addPlayer(
 }
 export function start(w: World) {
   w.phase = "battle";
-  w.scale = 1 + 0.55 * (w.players.length - 1);
+  // Snapshot once at sortie: co-op keeps a shared-fire advantage without
+  // reducing four-player health-per-gun to two thirds of the solo value.
+  w.scale = 1 + 0.75 * (w.players.length - 1);
   w.wave = 1;
   w.waveAt = 0;
   if (!w.defense && !w.rebuild && !w.front) beginWave(w);
@@ -462,6 +464,7 @@ export function loot(w: World): Weapon {
   return {
     id: `${w.run}-${++w.serial}`,
     kind,
+    level: Math.min(60, w.stage ?? 1),
     // LR is never drawn: it is what a top-grade roll becomes when it also
     // carries an effect, so the tier means "this one landed everything".
     rarity: grade >= LR_QUALITY && effect !== "none" ? 3 : rarity,
@@ -951,6 +954,14 @@ export function hurtEnemy(
     else if (random(w) < stageFor(w).dropRate && w.drops.length < 24)
       for (const p of w.players) {
         if (w.drops.length >= 24) break;
+        if (
+          (w.pending[p.id]?.length ?? 0) +
+            w.drops.filter(
+              (d) => d.owner === p.id && (d.type ?? "weapon") === "weapon",
+            ).length >=
+          3
+        )
+          continue;
         const weapon = loot(w);
         w.drops.push({
           id: weapon.id,
@@ -972,7 +983,17 @@ export function finish(w: World, win: boolean, reason = "") {
     w.drops = [];
   } else if (win)
     for (const p of w.players) {
-      w.rewards[p.id] = [...w.pending[p.id], loot(w), loot(w)];
+      const pending = w.pending[p.id];
+      const uncollected = w.solo
+        ? w.drops.filter(
+            (d) => d.owner === p.id && (d.type ?? "weapon") === "weapon",
+          ).length
+        : 0;
+      const bonusCount = Math.max(0, 3 - pending.length - uncollected);
+      w.rewards[p.id] = [
+        ...pending,
+        ...Array.from({ length: bonusCount }, () => loot(w)),
+      ];
     }
   else {
     w.pending = Object.fromEntries(w.players.map((p) => [p.id, []]));
@@ -1275,8 +1296,8 @@ export function fire(w: World, p: Player, i: Input, airborne = false) {
     const dx = Math.sin(ya) * Math.cos(pi),
       dz = -Math.cos(ya) * Math.cos(pi),
       dy = Math.sin(pi);
-    if (shape.speed) {
-      const speed = shape.speed;
+    if ("speed" in def && def.speed) {
+      const speed = def.speed;
       if (w.projectiles.length < 100)
         w.projectiles.push({
           id: ++w.serial,
@@ -1608,7 +1629,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       for (const d of w.drops.filter(
         (d) => d.owner === p.id && Math.hypot(d.x - p.x, d.z - p.z) < 3,
       )) {
-        if (w.pending[p.id].length < 20) w.pending[p.id].push(d.weapon);
+        if (w.pending[p.id].length < 3) w.pending[p.id].push(d.weapon);
         w.drops = w.drops.filter((x) => x !== d);
       }
   }
@@ -1650,6 +1671,8 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       endSoloTick(w);
       return;
     }
+    // 前線作戦の全滅判定は、この共通戦闘tickの後に作戦側で行う。
+    if (w.front) return;
     finish(w, false, "部隊が全員ダウンしました");
     return;
   }

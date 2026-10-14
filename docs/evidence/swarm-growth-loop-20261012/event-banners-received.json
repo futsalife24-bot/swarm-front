@@ -1,0 +1,307 @@
+{
+  "root": "public/assets/event-banners",
+  "images": {
+    "mobile/adv-complete.apng": {
+      "bytes": 536987,
+      "sha256": "d273f09d339327fe272e34a1e9d42d755dbb412b4a872078d9ca274a8465c8ff",
+      "width": 640,
+      "height": 224,
+      "rgba": true,
+      "encodedFrames": 19,
+      "loops": 1,
+      "durationMs": 3040.0,
+      "finalTransparent": true,
+      "defaultMatchesPng": true,
+      "estimatedRgbaFrameBytes": 10895360
+    },
+    "mobile/adv-complete.png": {
+      "bytes": 59432,
+      "sha256": "c7d9aa7ea9627b78f3ec1f9e5918f5c2578f9c96604b9cde21e96c135974401d",
+      "width": 640,
+      "height": 224,
+      "rgba": true
+    },
+    "mobile/adv-extract.apng": {
+      "bytes": 304832,
+      "sha256": "fc93cc6539b0f3f68e532ea7762b4711a898f2e3b1747f9778345fd9bc77787c",
+      "width": 640,
+      "height": 224,
+      "rgba": true,
+      "encodedFrames": 16,
+      "loops": 1,
+      "durationMs": 2460.0,
+      "finalTransparent": true,
+      "defaultMatchesPng": true,
+      "estimatedRgbaFrameBytes": 9175040
+    },
+    "mobile/adv-extract.png": {
+      "bytes": 41968,
+      "sha256": "a82891ca4118f3e74628c70f90510ab809247bc68bbb5bbc7531b37dcbdb876b",
+      "width": 640,
+      "height": 224,
+      "rgba": true
+    },
+    "mobile/adv-failed.apng": {
+      "bytes": 506894,
+      "sha256": "7802b1a9bcb074104a9e785e91171838e27e1f1677e33da439827e263cfa6502",
+      "width": 640,
+      "height": 224,
+      "rgba": true,
+      "encodedFrames": 18,
+      "loops": 1,
+      "durationMs": 2860.0,
+      "finalTransparent": true,
+      "defaultMatchesPng": true,
+      "estimatedRgbaFrameBytes": 10321920
+    },
+    "mobile/adv-failed.png": {
+      "bytes": 63183,
+      "sha256": "a35a891f760a93b01302e1e3ae61b5293338039ae00ec8914fa6e9ae06ea2d72",
+      "width": 640,
+      "height": 224,
+      "rgba": true
+    },
+    "mobile/adv-sortie.apng": {
+      "bytes": 326680,
+      "sha256": "dc84cc01b709a45949f7f6302d03c845e15bfe34c5006bce2884849110275047",
+      "width": 640,
+      "height": 224,
+      "rgba": true,
+      "encodedFrames": 15,
+      "loops": 1,
+      "durationMs": 1980.0,
+      "finalTransparent": true,
+      "defaultMatchesPng": true,
+      "estimatedRgbaFrameBytes": 8601600
+    },
+    "mobile/adv-sortie.png": {
+      "bytes": 53244,
+      "sha256": "7a45dd09288b057ac31a7148b2b75880d20755994444993218bd0e89d36a4383",
+      "width": 640,
+      "height": 224,
+      "rgba": true
+    },
+    "mobile/srv-ended.apng": {
+      "bytes": 322963,
+      "sha256": "f3c6e704059fc882e389002174ee669bfb44fb5e24edf41cb85e77a018eaf39d",
+      "width": 640,
+      "height": 224,
+      "rgba": true,
+      "encodedFrames": 17,
+      "loops": 1,
+      "durationMs": 2640.0,
+      "finalTransparent": true,
+      "defaultMatchesPng": true,
+      "estimatedRgbaFrameBytes": 9748480
+    },
+    "mobile/srv-ended.png": {
+      "bytes": 48027,
+      "sha256": "b97dbb39f9728c6483249c92ac8a45c2815ad026ecb8e4155444c5c4318ee3a7",
+      "width": 640,
+      "height": 224,
+      "rgba": true
+    },
+    "mobile/srv-extract.apng": {
+      "bytes": 442478,
+      "sha256": "9a075a02b38c6c46d910eaa036bc1c23f2ecf0a7d838329a486682c911394627",
+      "width": 640,
+      "height": 224,
+      "rgba": true,
+      "encodedFrames": 17,
+      "loops": 1,
+      "durationMs": 2520.0,
+      "finalTransparent": true,
+      "defaultMatchesPng": true,
+      "estimatedRgbaFrameBytes": 9748480
+    },
+    "mobile/srv-extract.png": {
+      "bytes": 50854,
+      "sha256": "678877a1660c5d03eb9911d3d8f8026d0c4292bac8a5bebc8c823fb1590042a3",
+      "width": 640,
+      "height": 224,
+      "rgba": true
+    },
+    "mobile/srv-sortie.apng": {
+      "bytes": 613485,
+      "sha256": "e7c30816be69e6e0928bc73e085f03636335978e54bbd5847e7767670b41f265",
+      "width": 640,
+      "height": 224,
+      "rgba": true,
+      "encodedFrames": 17,
+      "loops": 1,
+      "durationMs": 2120.0,
+      "finalTransparent": true,
+      "defaultMatchesPng": true,
+      "estimatedRgbaFrameBytes": 9748480
+    },
+    "mobile/srv-sortie.png": {
+      "bytes": 77302,
+      "sha256": "0f62d203aa2771bec8e0561c5e04e797ce3bfcf278b8bfeb5cf89c93a578994b",
+      "width": 640,
+      "height": 224,
+      "rgba": true
+    },
+    "standard/adv-complete.apng": {
+      "bytes": 1227233,
+      "sha256": "a3ff0a5253c73dbe7cf246e36474b5e4a7cc2d06d19dc40830269a3714355e0f",
+      "width": 960,
+      "height": 336,
+      "rgba": true,
+      "encodedFrames": 36,
+      "loops": 1,
+      "durationMs": 3039.9999998243134,
+      "finalTransparent": true,
+      "defaultMatchesPng": true,
+      "estimatedRgbaFrameBytes": 46448640
+    },
+    "standard/adv-complete.png": {
+      "bytes": 99798,
+      "sha256": "1aa87d5e9f2e2cd415e1944bd7e53a9b5b6a9c79a10c9d144bab1536484904d2",
+      "width": 960,
+      "height": 336,
+      "rgba": true
+    },
+    "standard/adv-extract.apng": {
+      "bytes": 711513,
+      "sha256": "345baad97cde33b3bdf588be6cccaa131cc274ad34315443d4ecfab31d89aa2f",
+      "width": 960,
+      "height": 336,
+      "rgba": true,
+      "encodedFrames": 30,
+      "loops": 1,
+      "durationMs": 2459.9999996977554,
+      "finalTransparent": true,
+      "defaultMatchesPng": true,
+      "estimatedRgbaFrameBytes": 38707200
+    },
+    "standard/adv-extract.png": {
+      "bytes": 64975,
+      "sha256": "3631f6e8273ee1f06e41376e5a7fa5100fdae025d5460fed55fda2d2b8e18326",
+      "width": 960,
+      "height": 336,
+      "rgba": true
+    },
+    "standard/adv-failed.apng": {
+      "bytes": 1193769,
+      "sha256": "e7bdd615834b1867d62592b5a673520567b27582d3000f65dbf5fdc48645e2e0",
+      "width": 960,
+      "height": 336,
+      "rgba": true,
+      "encodedFrames": 33,
+      "loops": 1,
+      "durationMs": 2860.0,
+      "finalTransparent": true,
+      "defaultMatchesPng": true,
+      "estimatedRgbaFrameBytes": 42577920
+    },
+    "standard/adv-failed.png": {
+      "bytes": 102962,
+      "sha256": "a25d5ad0387e7af0bc3a8ad61bb43ba044796d90aeb6e802376b1d78f707785f",
+      "width": 960,
+      "height": 336,
+      "rgba": true
+    },
+    "standard/adv-sortie.apng": {
+      "bytes": 750127,
+      "sha256": "ca9d86e19b3ea153c24ca4254c6cc9ef7e5096edbadccea9d715601987274fd0",
+      "width": 960,
+      "height": 336,
+      "rgba": true,
+      "encodedFrames": 28,
+      "loops": 1,
+      "durationMs": 1980.0,
+      "finalTransparent": true,
+      "defaultMatchesPng": true,
+      "estimatedRgbaFrameBytes": 36126720
+    },
+    "standard/adv-sortie.png": {
+      "bytes": 90050,
+      "sha256": "e1b616268131bb976c6f7b0e82fa058125f00662ac31bb971e9d02a00638ebad",
+      "width": 960,
+      "height": 336,
+      "rgba": true
+    },
+    "standard/srv-ended.apng": {
+      "bytes": 758128,
+      "sha256": "2bb99144e804a51a75db339ec315a9e8b09ef016a140c40957e676218e42b125",
+      "width": 960,
+      "height": 336,
+      "rgba": true,
+      "encodedFrames": 33,
+      "loops": 1,
+      "durationMs": 2640.0000008057946,
+      "finalTransparent": true,
+      "defaultMatchesPng": true,
+      "estimatedRgbaFrameBytes": 42577920
+    },
+    "standard/srv-ended.png": {
+      "bytes": 74828,
+      "sha256": "802ee44f37442aacd0299e7e3e5dbcd522f3e9336742611101c2951714e70ba1",
+      "width": 960,
+      "height": 336,
+      "rgba": true
+    },
+    "standard/srv-extract.apng": {
+      "bytes": 1116732,
+      "sha256": "23423a7b16bac965dc3b9798809451507a1f37fdaa91c24fbed3535d4f5faff6",
+      "width": 960,
+      "height": 336,
+      "rgba": true,
+      "encodedFrames": 32,
+      "loops": 1,
+      "durationMs": 2520.0,
+      "finalTransparent": true,
+      "defaultMatchesPng": true,
+      "estimatedRgbaFrameBytes": 41287680
+    },
+    "standard/srv-extract.png": {
+      "bytes": 82861,
+      "sha256": "5b24d481bee23083e0e3b5d194b3e853e00d3b2aeda9975a5bc65a34f255f9e3",
+      "width": 960,
+      "height": 336,
+      "rgba": true
+    },
+    "standard/srv-sortie.apng": {
+      "bytes": 1599082,
+      "sha256": "fe01637e4de958fae0b21a69d988fd58951b09015546f157da1cb5bffb0953b5",
+      "width": 960,
+      "height": 336,
+      "rgba": true,
+      "encodedFrames": 33,
+      "loops": 1,
+      "durationMs": 2120.0,
+      "finalTransparent": true,
+      "defaultMatchesPng": true,
+      "estimatedRgbaFrameBytes": 42577920
+    },
+    "standard/srv-sortie.png": {
+      "bytes": 134072,
+      "sha256": "fcd3dae7a2740d1f4b72ee079d5466a1c4c0ebd6c0718697bad533c650678a5f",
+      "width": 960,
+      "height": 336,
+      "rgba": true
+    }
+  },
+  "documents": {
+    "README.md": {
+      "bytes": 3725,
+      "sha256": "03b4d4f1f0c73c3eac99fd480f3b459e895bcd145d591ff23e4d93371ea2a474"
+    },
+    "consumer-manifest.json": {
+      "bytes": 9901,
+      "sha256": "2b049a0ee15e63c00328c6d3c73a98094365216a1b873c6ab84e3fd2e00f05f0"
+    },
+    "validation.json": {
+      "bytes": 4452,
+      "sha256": "7d825cccdc5ca6e30fdcca978fff04dc64f782f058dbe064af59f880d890bb8f"
+    }
+  },
+  "sourceHashComparison": "verified",
+  "browserMemoryMeasured": false,
+  "errors": [],
+  "structurePassed": true,
+  "sourceTransferCommit": "d4482b1f8008b7796828cc35c938dca3ad26772c",
+  "importCommit": "6216e624c8d0806402c50c8178a0281e0d2bb889",
+  "sourceHashBasis": "Git blobs of approved transfer commit; parent verified original artwork hashes",
+  "manifestPngHashesMatched": 14
+}

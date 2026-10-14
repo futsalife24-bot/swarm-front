@@ -1,0 +1,49 @@
+.weapon-workshop {
+  overflow: auto;
+  max-height: 100%;
+}
+.weapon-workshop label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.weapon-workshop select {
+  max-width: 100%;
+  min-height: 40px;
+}
+.workshop-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.workshop-actions section {
+  border: 1px solid #57978766;
+  border-radius: 10px;
+  padding: 10px;
+}
+.workshop-actions h2 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+}
+.workshop-actions small {
+  display: block;
+}
+.workshop-actions button {
+  margin-top: 8px;
+  min-height: 40px;
+}
+.workshop-confirm {
+  max-width: min(90vw, 520px);
+  color: #e1efec;
+  background: #102c2a;
+  border: 1px solid #76bc9d;
+  border-radius: 10px;
+}
+@media (max-width: 620px) {
+  .workshop-actions {
+    grid-template-columns: 1fr;
+  }
+  .weapon-workshop .menu-header {
+    flex-wrap: wrap;
+  }
+}

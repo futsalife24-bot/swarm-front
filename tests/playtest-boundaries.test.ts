@@ -99,9 +99,9 @@ it("same tick final kill and player down resolves victory with the player still 
   step(w, { solo: neutral() });
   expect(w.phase).toBe("victory");
   expect(p.hp).toBe(0);
-  expect(w.rewards.solo).toHaveLength(2);
+  expect(w.rewards.solo).toHaveLength(3);
 });
-it("both drop types can appear together and enforce independent caps without replacing older items", () => {
+it("caps new weapons at three while healing keeps its own ten-drop cap and older drops survive", () => {
   const { w, p } = fixture();
   let seed = 0;
   for (; seed < 100000; seed++) {
@@ -114,7 +114,7 @@ it("both drop types can appear together and enforce independent caps without rep
     w.seed = seed;
     soloDrop(w, e);
   }
-  expect(w.drops.filter((d) => d.type === "weapon")).toHaveLength(10);
+  expect(w.drops.filter((d) => d.type === "weapon")).toHaveLength(3);
   expect(w.drops.filter((d) => d.type === "heal")).toHaveLength(10);
   const first = w.drops[0].id;
   w.seed = seed;
@@ -124,7 +124,7 @@ it("both drop types can appear together and enforce independent caps without rep
   w.seed = seed;
   soloDrop(w, e);
   expect(w.drops.filter((d) => d.type === "heal")).toHaveLength(1);
-  expect(w.drops.filter((d) => d.type === "weapon")).toHaveLength(10);
+  expect(w.drops.filter((d) => d.type === "weapon")).toHaveLength(3);
   const d = w.drops[0];
   const at = dropAt(w, d);
   expect(Number.isFinite(at.x + at.z + at.jump)).toBe(true);

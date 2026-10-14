@@ -3,13 +3,25 @@ import "./menu-effects.css";
 // NANKA DEKIRU's expressions adapted to the existing menus, without new libraries.
 // Presentation never waits on an effect, changes saved values, or handles input.
 // Importable without a DOM (unit tests load menus that use these effects).
-const dom = typeof window !== "undefined";
+const dom = typeof window !== "undefined" && typeof document !== "undefined";
+const REDUCED_MOTION_KEY = "swarm-front-menu-reduced-motion-v1";
+if (dom) {
+  try {
+    if (localStorage.getItem(REDUCED_MOTION_KEY) === "true")
+      document.documentElement.dataset.menuReducedMotion = "true";
+  } catch {
+    // Storage restrictions must not block the menu.
+  }
+}
 const reducedQuery = dom
   ? matchMedia("(prefers-reduced-motion: reduce)")
   : undefined;
 const reduced = {
   get matches() {
-    return reducedQuery?.matches ?? true;
+    return (
+      (dom && document.documentElement.dataset.menuReducedMotion === "true") ||
+      (reducedQuery?.matches ?? true)
+    );
   },
 };
 const running = new Map<Animation, { owner: Element; cancel: () => void }>();
@@ -30,6 +42,23 @@ if (dom) {
   reducedQuery!.addEventListener("change", () => {
     if (reduced.matches) stop();
   });
+  document.addEventListener("swarm-motion-preference", () => {
+    if (reduced.matches) stop();
+  });
+}
+/** Called by settings when the in-game reduced-motion choice changes. */
+export function setMenuReducedMotion(enabled: boolean) {
+  if (!dom) return;
+  document.documentElement.dataset.menuReducedMotion = String(enabled);
+  try {
+    localStorage.setItem(REDUCED_MOTION_KEY, String(enabled));
+  } catch {
+    // The current session still honors the choice.
+  }
+  document.dispatchEvent(new Event("swarm-motion-preference"));
+}
+export function getMenuReducedMotion() {
+  return dom && document.documentElement.dataset.menuReducedMotion === "true";
 }
 const ease = "cubic-bezier(.2,.75,.25,1)";
 export function menuMotion(
