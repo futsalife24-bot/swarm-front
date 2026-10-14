@@ -1,6 +1,6 @@
-# 現在地: 分割シャッター監査4件を修正、再監査準備（2026-10-14）
+# 現在地: 分割シャッター修正版322961bを再監査送信済み（2026-10-14）
 
-PR187、branch codex/menu-split-shutter-20261014。初回Chat監査P2 4件の入力持越し・協力経路・閉dialog監視・dialog祖先CSSを修正。型、入力単体6件、到着印チェック、BGM/音声25件、実ブラウザ一般10項目/入力5項目成功。通知用正式ロゴの実MediaMetadataと画像確認。詳細は [全体記録](MENU-SPLIT-SHUTTER-20261014.md)。iab接続は復旧済み。最終build→同じ通常Chat再監査→合格後main/公開へ継続。追加承認不要。
+PR187、branch codex/menu-split-shutter-20261014。初回Chat監査P2 4件の入力持越し・協力経路・閉dialog監視・dialog祖先CSSを修正。型、入力単体6件、到着印チェック、BGM/音声25件、実ブラウザ一般10項目/入力5項目成功。通知用正式ロゴの実MediaMetadataと画像確認。詳細は [全体記録](MENU-SPLIT-SHUTTER-20261014.md)。iab接続は復旧済み。対象322961b857f7cf1bf1b2e6fc9e4c13729023c400をpushし、同じ通常Chatへ再監査送信・応答開始確認。build205modulesとWorker production dry-run成功。実基地の確認dialogの往復と協力進撃のページ移動/入口表示も追加確認。監査判定→合格後main/公開へ継続。追加承認不要。
 # 現在地: 通知ロゴ修正をPR187へ保存、iab障害で監査再提出待ち（2026-10-14）
 
 [PR187](https://github.com/futsalife24-bot/swarm-front/pull/187)、追加実装 `35105752285ad0a5ad760cc74018adab772d95f2`。既存v2正方形の正式ロゴをMediaMetadataへ指定。協力進撃の共通演出読込も補完。BGM16件・音声9件・型・到着印単体チェック成功。[通知記録](MEDIA-NOTIFICATION-LOGO-20261014.md)、[全体記録](MENU-SPLIT-SHUTTER-20261014.md)。
@@ -2760,4 +2760,3 @@ EDFはミニマップが視点に追従して回転するためこの分担が�
 
 ## 2026-09-12 下向き移動のカメラ振動
 カメラ位置と注視点の補間基準を統一。原因・差分・修正前後の計測は docs/CAMERA-JITTER.md。
-

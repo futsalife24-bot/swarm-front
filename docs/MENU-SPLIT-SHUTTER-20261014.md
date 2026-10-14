@@ -71,3 +71,5 @@ OSとゲーム内の演出軽減設定を尊重し、非表示化・画面サイ
 検証: 型チェック、共通入力単体6件、到着印チェック、BGM/音声25件成功。実ブラウザで一般回帰10項目と入力終端5項目成功（後者は構築イベントであり実機入力ではない）。ブラウザの実MediaMetadataに正式v2ロゴの512px PNG指定を確認、画像も目視。結果JSONと画像は同evidence内。古い開発用モジュールキャッシュを新規ポートで排除して最終確認した。最初のBGM検証はsandbox一時SSRキャッシュENOENT、通常環境で同じ25件が成功。実Android通知欄・Safari/Firefox・実戦一時停止から設定・別文書到着の実UIは未確認。
 
 主担当と入力修正担当1体で分担。モデルID・推論設定は取得不可のため未確認。最終build/再監査/main/公開はこの記録時点では後続。
+
+対象322961b857f7cf1bf1b2e6fc9e4c13729023c400をpush。再監査ZIP menu-shutter-audit-322961b857f7.zip（277ファイル、1961851 bytes、SHA256 10a9b1ed5b29abb12d479a288804f69efa5b62b0ff73510bd51735fd4331855e）を既存通常Chatへ送信、応答開始確認。commit後build205modules・Worker production dry-run成功。追加で実基地の上書き確認表示・閉じる演出を844×390で確認、dialog文字16px/ボタン40pxが複製でも一致（base-dialog-final.json/png）。実際の別文書移動で?coop=1の協力入口へ到達、到着帯の途中フレームは未捕捉。開発サーバーのみで通信サーバー未起動のため公開部屋取得Failed to fetchは通信検証扱いにしない。PRはMERGEABLE/CLEAN、main855c9c2から変更なし。
