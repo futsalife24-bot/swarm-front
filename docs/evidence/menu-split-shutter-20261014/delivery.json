@@ -1,0 +1,204 @@
+{
+  "at": "2026-10-14T14:23:37.804Z",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "health": {
+    "status": 200,
+    "body": {
+      "ok": true,
+      "transport": "websocket",
+      "authority": "durable-object"
+    }
+  },
+  "pass": true,
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "local": "480a41ba0ca0608c8878ae27133a0084b24afa20e207aefc15ebc9143eb489c0",
+      "remote": "480a41ba0ca0608c8878ae27133a0084b24afa20e207aefc15ebc9143eb489c0",
+      "pass": true
+    },
+    {
+      "file": "front.html",
+      "status": 200,
+      "local": "57af512944cabd4ecea698daa1e9e25ae7bab4a31337b1c38d7db502a8f09454",
+      "remote": "57af512944cabd4ecea698daa1e9e25ae7bab4a31337b1c38d7db502a8f09454",
+      "pass": true
+    },
+    {
+      "file": "sw.js",
+      "status": 200,
+      "local": "cda986fdea0ed741110f22d38e4bef437e0ccb0d33ba83299db4f9f1d70bf54c",
+      "remote": "cda986fdea0ed741110f22d38e4bef437e0ccb0d33ba83299db4f9f1d70bf54c",
+      "pass": true
+    },
+    {
+      "file": "assets/cloud-save-CnpNY5Lp.css",
+      "status": 200,
+      "local": "2555bd0e208dd93f5607c2c3675c635d32504772acdfb2c244f8ff1adddf0c43",
+      "remote": "2555bd0e208dd93f5607c2c3675c635d32504772acdfb2c244f8ff1adddf0c43",
+      "pass": true
+    },
+    {
+      "file": "assets/cloud-save-DFSSxIt_.js",
+      "status": 200,
+      "local": "c409bbd73d090b63d1437f775cbcda2c31b3730e62af161843ffd82284917c5d",
+      "remote": "c409bbd73d090b63d1437f775cbcda2c31b3730e62af161843ffd82284917c5d",
+      "pass": true
+    },
+    {
+      "file": "assets/front-BLFiUzwF.js",
+      "status": 200,
+      "local": "bd48daecfc4296627804706138ee5969d14d3792b60acd5759b8b99a05de9a69",
+      "remote": "bd48daecfc4296627804706138ee5969d14d3792b60acd5759b8b99a05de9a69",
+      "pass": true
+    },
+    {
+      "file": "assets/front-CfbWKfsS.css",
+      "status": 200,
+      "local": "e63b21f942ef9da20c9f199f7704af4595bb2e4af97c8061fbf7d855b69dad4b",
+      "remote": "e63b21f942ef9da20c9f199f7704af4595bb2e4af97c8061fbf7d855b69dad4b",
+      "pass": true
+    },
+    {
+      "file": "assets/game-select-BBcbApPk.css",
+      "status": 200,
+      "local": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75",
+      "remote": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75",
+      "pass": true
+    },
+    {
+      "file": "assets/game-select-C_hurkRg.js",
+      "status": 200,
+      "local": "86cb35dbce5172f1242d35c17db215b9273835f52ed84d9cc54f81bcb319898b",
+      "remote": "86cb35dbce5172f1242d35c17db215b9273835f52ed84d9cc54f81bcb319898b",
+      "pass": true
+    },
+    {
+      "file": "assets/hud-CheuEnMQ.js",
+      "status": 200,
+      "local": "7fa3a27da47b773b590bdadc7fca493e4687c41361e08f6e28a67254a9125b92",
+      "remote": "7fa3a27da47b773b590bdadc7fca493e4687c41361e08f6e28a67254a9125b92",
+      "pass": true
+    },
+    {
+      "file": "assets/hud-KJkCjEBB.css",
+      "status": 200,
+      "local": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3",
+      "remote": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3",
+      "pass": true
+    },
+    {
+      "file": "assets/legacy-BapLvtCt.js",
+      "status": 200,
+      "local": "d81973787c5d30c9e7f468a06c3a0667375c8cb2785dcba875542aa8f4976532",
+      "remote": "d81973787c5d30c9e7f468a06c3a0667375c8cb2785dcba875542aa8f4976532",
+      "pass": true
+    },
+    {
+      "file": "assets/legacy-CPbai1ZT.css",
+      "status": 200,
+      "local": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "remote": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "pass": true
+    },
+    {
+      "file": "assets/main-BOIn8V8d.css",
+      "status": 200,
+      "local": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "remote": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "pass": true
+    },
+    {
+      "file": "assets/main-BtxdhPrg.js",
+      "status": 200,
+      "local": "57b4152929fd0e302ff43f6c273c2986e2ae1c07528fb92e321b6cb9aea51363",
+      "remote": "57b4152929fd0e302ff43f6c273c2986e2ae1c07528fb92e321b6cb9aea51363",
+      "pass": true
+    },
+    {
+      "file": "assets/playtest-app-CU5IufCk.css",
+      "status": 200,
+      "local": "f8dd2dc94f98d22ff4906c0ff444e119d3eb9f0847b66d56941305824879cee9",
+      "remote": "f8dd2dc94f98d22ff4906c0ff444e119d3eb9f0847b66d56941305824879cee9",
+      "pass": true
+    },
+    {
+      "file": "assets/playtest-app-DJqOE1n3.js",
+      "status": 200,
+      "local": "eddf2211d687e4a7650d9eb26a21a4b3c84feaf241d4ea63424324bd9ce3e007",
+      "remote": "eddf2211d687e4a7650d9eb26a21a4b3c84feaf241d4ea63424324bd9ce3e007",
+      "pass": true
+    },
+    {
+      "file": "assets/room-browser-D0N6sL-J.css",
+      "status": 200,
+      "local": "8268ae33bacf789ea99164175788749fa3b40497e940d2ef1e4a1c588f70754f",
+      "remote": "8268ae33bacf789ea99164175788749fa3b40497e940d2ef1e4a1c588f70754f",
+      "pass": true
+    },
+    {
+      "file": "assets/room-browser-iSzD4kMy.js",
+      "status": 200,
+      "local": "ca8387db0be246626d3c5bb99a4b79235351b74f61c71ae2447890288e8a8c69",
+      "remote": "ca8387db0be246626d3c5bb99a4b79235351b74f61c71ae2447890288e8a8c69",
+      "pass": true
+    },
+    {
+      "file": "assets/save-writer-6ccprsHO.css",
+      "status": 200,
+      "local": "e40c4ebae34cd465c956204dd5b402c39f69198cdb75666088f43dbfaebc18f8",
+      "remote": "e40c4ebae34cd465c956204dd5b402c39f69198cdb75666088f43dbfaebc18f8",
+      "pass": true
+    },
+    {
+      "file": "assets/save-writer-B5fAL5ib.js",
+      "status": 200,
+      "local": "057b350ffabfb8a478d3fb1ae54c0e948f724bc7f938fcb2432b1cbe28f71fc3",
+      "remote": "057b350ffabfb8a478d3fb1ae54c0e948f724bc7f938fcb2432b1cbe28f71fc3",
+      "pass": true
+    },
+    {
+      "file": "assets/training-app-CvH1ORC8.js",
+      "status": 200,
+      "local": "2ae950edc554baf5e30e5d4fa1fad99f702069f2dbb0926f9df91fbb0bf95d88",
+      "remote": "2ae950edc554baf5e30e5d4fa1fad99f702069f2dbb0926f9df91fbb0bf95d88",
+      "pass": true
+    },
+    {
+      "file": "assets/weapon-sharing-D90Df-rS.js",
+      "status": 200,
+      "local": "d77eebb4e1df903ed13370a3e8da779b9c142887a4d8f02b10be187329698d82",
+      "remote": "d77eebb4e1df903ed13370a3e8da779b9c142887a4d8f02b10be187329698d82",
+      "pass": true
+    },
+    {
+      "file": "assets/weapon-workshop-ui-Dapw2p0o.js",
+      "status": 200,
+      "local": "e62c1e2250b32c23892ff586502f720801c6ba36143f3b0ed8dc86e70a8d0aaa",
+      "remote": "e62c1e2250b32c23892ff586502f720801c6ba36143f3b0ed8dc86e70a8d0aaa",
+      "pass": true
+    },
+    {
+      "file": "assets/weapon-workshop-ui-DcrNx5_f.css",
+      "status": 200,
+      "local": "54b0113b25beec14355965bf59fadd6a15b4edff106eca7310db75380d8adcfe",
+      "remote": "54b0113b25beec14355965bf59fadd6a15b4edff106eca7310db75380d8adcfe",
+      "pass": true
+    },
+    {
+      "file": "assets/zoom-guard-CYxqEXnM.js",
+      "status": 200,
+      "local": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "remote": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "pass": true
+    },
+    {
+      "file": "assets/ui/title-atmosphere-v1.png",
+      "status": 200,
+      "local": "9d8f3639f04927d1cad543d059b71c3a3c268ef6aa84e896dba08b2496e7189e",
+      "remote": "9d8f3639f04927d1cad543d059b71c3a3c268ef6aa84e896dba08b2496e7189e",
+      "pass": true
+    }
+  ]
+}

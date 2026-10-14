@@ -85,3 +85,13 @@ OSとゲーム内の演出軽減設定を尊重し、非表示化・画面サイ
 ## 最終独立監査合格
 
 通常Chatが6970c7fa931c91517aa8e67d21f022fd0096961cを合格判定、必須P0/P1/P2すべて0。前回不具合を旧版/修正版の同じChromium操作で比較し解消、一般10・入力9・タイトル12・追加フォーカス/保持20ケース成功。route/限定型検査成功。入力単体は互換runnerでありVitest再実行ではない。全文audit-final.txt。未確認範囲・任意のiframe継続回帰追加を区別する。以降は記録だけの変更で製品コードは同SHAを維持し、通常merge/既存Worker公開へ進む。
+
+## 公開完了（2026-10-14）
+
+- 実装PR187を通常merge。公開ソースmain: 1da4bc83b33dcad3b30faa4e1e040c00b8819fcc。監査対象6970c7fとの差分は監査記録とmergeだけ。
+- mainからbuild205modules成功、既存Worker production dry-run成功。既存swarm-frontへ公開、Version d5dfa448-6108-4db3-a5d0-0a0c01a7725c。公開先 https://swarm-front.melosalife-24.workers.dev/front 。
+- HTML/JS/CSS等27ファイルの配信SHA256一致、health 200/ok:true（delivery.json）。正式ロゴv2 PNGも配信SHA一致（logo-delivery.json）。
+- 公開版を既存のゲームタブで再読込し、タイトル入口→ホーム→基地→ホーム→更新履歴→ホームを確認。履歴に分割シャッターと通知ロゴ修正の2項目あり。公開画面証拠published-changelog.png。通知欄自体のAndroid実機確認は未実施。
+- 新規公開タブは既存タブとの保存ガードが働いたため閉じ、ホームで待機していた既存タブを再利用。ゲーム進行・デッキ保存値は変更せず。
+- 今回の正規作業場所をmainへ戻すため、別worktree swarm-soldier-motionはcleanを確認し元HEAD855c9c2のままdetach（ファイル変更なし）。このリポジトリでmainを同期して公開した。
+- 公開記録だけを別PRへ保存しmainへ反映する。①〜⑤の後続課題は今回の範囲外。
