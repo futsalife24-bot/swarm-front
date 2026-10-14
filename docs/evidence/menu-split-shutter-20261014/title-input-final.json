@@ -14,6 +14,6 @@
     "動きを減らす設定",
     "再表示/設定変更時の取消"
   ],
-  "generatedAt": "2026-10-14T13:50:14.016Z",
+  "generatedAt": "2026-10-14T13:59:31.648Z",
   "scope": "isolated real-browser behavioral fixture; actual game UI verified separately"
 }

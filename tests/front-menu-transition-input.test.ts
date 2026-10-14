@@ -3,6 +3,8 @@ import { guardMenuTransitionInput } from "../src/client/menu-transition-input";
 
 function fixture() {
   const target = new EventTarget();
+  const view = new EventTarget();
+  Object.assign(target, { defaultView: view, hidden: false });
   vi.stubGlobal("document", target);
   let active = true;
   const dispose = guardMenuTransitionInput(() => active);
@@ -14,6 +16,15 @@ function fixture() {
   };
   return {
     fire,
+    loseFocus: (mode: string) => {
+      if (mode === "blur") view.dispatchEvent(new Event("blur"));
+      else {
+        Object.assign(target, { hidden: true });
+        target.dispatchEvent(new Event("visibilitychange"));
+        Object.assign(target, { hidden: false });
+        target.dispatchEvent(new Event("visibilitychange"));
+      }
+    },
     finish: () => {
       active = false;
       dispose();
@@ -26,6 +37,43 @@ describe("シャッターをまたぐ操作の終端", () => {
     vi.unstubAllGlobals();
     vi.useRealTimers();
   });
+
+  it.each(["blur", "hidden"])(
+    "%s後に画面外解放が欠落しても別キーとATクリックを許可する",
+    (mode) => {
+      const { fire, finish, loseFocus } = fixture();
+      fire("keydown", { code: "Enter", repeat: false });
+      fire("pointerdown", { pointerId: 10 });
+      loseFocus(mode);
+      finish();
+      expect(fire("click", { detail: 0 })).toBe(false);
+      expect(fire("keydown", { code: "Space", repeat: false })).toBe(false);
+      expect(fire("keyup", { code: "Space" })).toBe(false);
+      expect(fire("click", { detail: 0 })).toBe(false);
+      expect(fire("pointerdown", { pointerId: 10 })).toBe(false);
+      expect(fire("pointerup", { pointerId: 10 })).toBe(false);
+      expect(fire("click", { pointerId: 10, detail: 1 })).toBe(false);
+    },
+  );
+
+  it.each(["blur", "hidden"])(
+    "%s後も保持中のrepeatとup由来クリックは遮断する",
+    (mode) => {
+      vi.useFakeTimers();
+      const { fire, finish, loseFocus } = fixture();
+      fire("keydown", { code: "Enter", repeat: false });
+      fire("pointerdown", { pointerId: 10 });
+      loseFocus(mode);
+      finish();
+      expect(fire("keydown", { code: "Enter", repeat: true })).toBe(true);
+      expect(fire("keyup", { code: "Enter" })).toBe(true);
+      expect(fire("click", { detail: 0 })).toBe(true);
+      expect(fire("pointerup", { pointerId: 10 })).toBe(true);
+      expect(fire("click", { pointerId: 10, detail: 1 })).toBe(true);
+      vi.runOnlyPendingTimers();
+      expect(fire("click", { detail: 0 })).toBe(false);
+    },
+  );
 
   it("遷移元Enterを保持し、最初のrepeatが演出終了後でも遮断する", () => {
     const target = new EventTarget();

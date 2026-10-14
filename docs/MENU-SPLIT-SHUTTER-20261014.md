@@ -75,3 +75,9 @@ OSとゲーム内の演出軽減設定を尊重し、非表示化・画面サイ
 対象322961b857f7cf1bf1b2e6fc9e4c13729023c400をpush。再監査ZIP menu-shutter-audit-322961b857f7.zip（277ファイル、1961851 bytes、SHA256 10a9b1ed5b29abb12d479a288804f69efa5b62b0ff73510bd51735fd4331855e）を既存通常Chatへ送信、応答開始確認。commit後build205modules・Worker production dry-run成功。追加で実基地の上書き確認表示・閉じる演出を844×390で確認、dialog文字16px/ボタン40pxが複製でも一致（base-dialog-final.json/png）。実際の別文書移動で?coop=1の協力入口へ到達、到着帯の途中フレームは未捕捉。開発サーバーのみで通信サーバー未起動のため公開部屋取得Failed to fetchは通信検証扱いにしない。PRはMERGEABLE/CLEAN、main855c9c2から変更なし。
 
 監査待機中の追加タイトル回帰: 旧fixtureはwindowへ直接keyup/pointerupを送り、documentの共通入力監視を通らない不自然な入力経路だった。またclosed dialog表示検出の修正後に、まだ帯が表示中のクリックを許容する古い期待が残っていた。fixtureを対象ボタン/documentからbubbleする解放イベント、freshキーの対になるkeyup、dialog取消直後の遮断と帯終了後の復帰へ修正。ゲーム本体コードは322961bから変更なし。実ブラウザ12項目成功、title-input-final.json。開発用モジュールが旧版となった原因は既存service workerのcache-first（本番ビルドはhash付asset）；新規ポート/未使用fixtureパスで最終コードを検証した。
+
+## 2026-10-14 フォーカス復帰の再修正
+
+322961bの正式再監査はP0=0/P1=0/P2=1。P2-02/03/04と通知画像差分は解消確認、P2-01Rだけ残った。演出中Space→別文書で離す→戻って新規Enterでクリックが遮断される（逆方向と到着演出でも再現）。全文audit-second.txt。
+
+共通ガードのblur/hidden時に遮断中のキー・pointerを保留集合へ移し、通常clickを一括で止める集合から除外。画面外解放を見失っても別キー/支援技術click/新規pointerを許可し、まだ保持中のrepeat/解放は保留集合で抑止する。releasedフラグとタイマーも中断時に解除。型・入力単体10件・到着印チェック成功。新規ポートの実ブラウザで入力9項目、修正済みタイトルfixture12項目成功。input-regression-focus-final.json/title-input-final.json。構築イベントの限界と実機未確認は前記の通り。

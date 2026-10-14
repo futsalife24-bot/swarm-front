@@ -1,0 +1,15 @@
+{
+  "pass": true,
+  "checks": [
+    "自然終了: 長押しの解放・クリック遮断と新規タップ復帰",
+    "resize解除: 長押しの解放・クリック遮断と新規タップ復帰",
+    "Enter: 演出中押下・終了後repeat/keyup/click遮断",
+    "Space: 演出中押下・終了後repeat/keyup/click遮断",
+    "遷移元Enter保持: 最初のrepeatが演出終了後でも遮断",
+    "blur: 画面外解放が欠落してもAT・別キー・新規pointerが復帰",
+    "blur: 保持中のrepeat・キー解放・pointer解放の漏れなし",
+    "hidden: 画面外解放が欠落してもAT・別キー・新規pointerが復帰",
+    "hidden: 保持中のrepeat・キー解放・pointer解放の漏れなし"
+  ],
+  "note": "実DOMへ構築イベントを送る回帰検証。実機の信頼済み入力とは別。"
+}

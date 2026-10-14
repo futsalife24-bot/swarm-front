@@ -10,18 +10,35 @@ export function guardMenuTransitionInput(active: () => boolean) {
     const sources = guard.sources;
     const pointers = new Set<number>();
     const keys = new Set<string>();
+    const suspendedKeys = new Set<string>();
+    const suspendedPointers = new Set<number>();
     const downKeys = new Set<string>();
     const downPointers = new Set<number>();
     guard.captureHeld = () => {
       downKeys.forEach((key) => keys.add(key));
       downPointers.forEach((id) => pointers.add(id));
     };
-    document.defaultView?.addEventListener("blur", () => {
-      downKeys.clear();
-      downPointers.clear();
-    });
     const releasedPointers = new Map<number, ReturnType<typeof setTimeout>>();
     let releasedKey = false;
+    let releasedKeyTimer: ReturnType<typeof setTimeout> | undefined;
+    const suspend = () => {
+      // Releases outside this document may never arrive. Retain only enough
+      // information to reject a resumed gesture, not unrelated fresh clicks.
+      keys.forEach((key) => suspendedKeys.add(key));
+      pointers.forEach((id) => suspendedPointers.add(id));
+      keys.clear();
+      pointers.clear();
+      downKeys.clear();
+      downPointers.clear();
+      releasedPointers.forEach((timer) => clearTimeout(timer));
+      releasedPointers.clear();
+      clearTimeout(releasedKeyTimer);
+      releasedKey = false;
+    };
+    document.defaultView?.addEventListener("blur", suspend);
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) suspend();
+    });
     const blocked = () => [...sources].some((source) => source());
     const stop = (event: Event) => {
       event.preventDefault();
@@ -29,6 +46,7 @@ export function guardMenuTransitionInput(active: () => boolean) {
     };
     const forgetPointer = (id: number) => {
       pointers.delete(id);
+      suspendedPointers.delete(id);
       clearTimeout(releasedPointers.get(id));
       releasedPointers.delete(id);
     };
@@ -48,7 +66,9 @@ export function guardMenuTransitionInput(active: () => boolean) {
       "pointerup",
       (event) => {
         downPointers.delete(event.pointerId);
-        if (!pointers.delete(event.pointerId)) return;
+        const held = pointers.delete(event.pointerId);
+        const suspended = suspendedPointers.delete(event.pointerId);
+        if (!held && !suspended) return;
         stop(event);
         releasedPointers.set(
           event.pointerId,
@@ -63,7 +83,11 @@ export function guardMenuTransitionInput(active: () => boolean) {
       "pointercancel",
       (event) => {
         downPointers.delete(event.pointerId);
-        if (pointers.has(event.pointerId)) stop(event);
+        if (
+          pointers.has(event.pointerId) ||
+          suspendedPointers.has(event.pointerId)
+        )
+          stop(event);
         forgetPointer(event.pointerId);
       },
       true,
@@ -75,9 +99,11 @@ export function guardMenuTransitionInput(active: () => boolean) {
         downKeys.add(key);
         if (!event.repeat) {
           keys.delete(key);
+          suspendedKeys.delete(key);
           releasedKey = false;
         }
-        if (!blocked() && !keys.has(key)) return;
+        if (!blocked() && !keys.has(key) && !suspendedKeys.has(key)) return;
+        suspendedKeys.delete(key);
         keys.add(key);
         stop(event);
       },
@@ -86,12 +112,16 @@ export function guardMenuTransitionInput(active: () => boolean) {
     document.addEventListener(
       "keyup",
       (event) => {
-        downKeys.delete(event.code || event.key);
-        if (!keys.delete(event.code || event.key)) return;
+        const key = event.code || event.key;
+        downKeys.delete(key);
+        const held = keys.delete(key);
+        const suspended = suspendedKeys.delete(key);
+        if (!held && !suspended) return;
         stop(event);
         releasedKey = true;
         // Space's default click is dispatched as part of keyup.
-        setTimeout(() => {
+        clearTimeout(releasedKeyTimer);
+        releasedKeyTimer = setTimeout(() => {
           releasedKey = false;
         }, 0);
       },
