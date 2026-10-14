@@ -23,3 +23,5 @@
 入力の新規8ケース＋既存タイトル1件、型、build/dry-run成功。公開用ビルドでclip-path:none、通常遷移、低モーション時の実ダブルクリック後も作戦選択を開かずメニューで停止し、その後の設定操作が可能なことを確認。設定はOFFへ復元。
 
 [局所検証ページ](evidence/title-dot-entry-20261014/probe.html)は本物の共通タイトル・全画面ガードを使用し、ソロ処理だけカウンターへ代替したテスト用。製品ビルド入口には含めない。タッチ端末相当のmaxTouchPoints=1と実際のクリックでFullscreen APIを実行し、150ms時点でfullscreen=true/entryOpen=true/前面=true、1100msで入口除去/soloフォーカス/誤起動0を確認。[結果](evidence/title-dot-entry-20261014/fullscreen-probe.json)。390×844で開始ボタンへのEnterとフォーカス、844×390へ戻したロゴ表示とEnter遷移を確認。円の実計算の終点でアニメーションだけ停止する局所検証で1280×720/844×390の四隅被覆を撮影。実スマートフォンそのもの、Safari/Firefox、物理キーボードの長押しは担当側で未確認（長押しは入力状態の自動試験）。修正版の独立再監査・main反映・公開は未完了。
+
+修正版576386fの製品/front.htmlでもSpace→メニュー→ソロ作戦選択を確認。初回dry-runはビルドexit0だが標準ログ書込みのみEPERMがあり、通常権限で再確認してログ保存を含めexit0（input-fix-dryrun-confirmed.log）。
