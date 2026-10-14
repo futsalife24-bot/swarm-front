@@ -1,3 +1,7 @@
+# 現在地: 分割シャッター実装・最終検証と独立監査準備（2026-10-14）
+
+本人選択の分割シャッターを共通メニュー遷移へ実装。branch `codex/menu-split-shutter-20261014`、base `855c9c2ef4b5613c8bcb831e590f44dcd4de5937`。型・関連11件・ブラウザ回帰8項目・タイトル入力12項目成功。1280幅/844幅の実画面往復を確認。[詳細](MENU-SPLIT-SHUTTER-20261014.md)。最終build、独立監査、main反映、公開は未完了。採用済みロゴ入口は維持。①〜⑤には未着手。
+
 # 現在地: TAP START・通信ノイズ・ドット縮小を公開完了（2026-10-14）
 
 [PR185](https://github.com/futsalife24-bot/swarm-front/pull/185)を通常merge。公開ソース `16ff61383e281ac87e5cf25f72fb74ceceeeddf5`、Worker Version `4c97a5f1-4fd2-4d1e-8842-fdd6711e321b`。[公開版](https://swarm-front.melosalife-24.workers.dev/front)。ロゴ下のTAP START、6.8秒周期の短い横ずれと走査線、タップ時に120msで58%へ縮小してから全画面へ広がる動きを追加。低モーション対応。
