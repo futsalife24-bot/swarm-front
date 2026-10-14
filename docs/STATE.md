@@ -1,3 +1,12 @@
+# 現在地: PR183の最終再監査を送信済み、iab応答障害で判定取得待ち（2026-10-14）
+
+実装対象 `0a4e61a3d1b5f63af4ec182678ee868dd0a8964a`、branch `codex/title-dot-entry-20261014`、base `0932140fa228213bd3dd110cf3750ee35028e3d3`。[PR183](https://github.com/futsalife24-bot/swarm-front/pull/183)、[監査Chat](https://chatgpt.com/c/6aced8f6-8cac-83ee-907b-8996b8ab3335)。残ったP2-02の遅い連続クリックだけ追加修正し、関連11件・型・build・Worker dry-runは成功。合成DOM試験で450msのdetail=2遮断と750msの新規単発を確認。独立監査の最終判定・main反映・公開は未完了。
+
+差分資料 `title-click-tail-0a4e61a.zip`（88333 bytes、SHA256 `7ce3132b46353847a46f50b7ed7d66a40367d44853d9da09a986710b65005685`）を同じChatへ送信し応答開始を確認。[送信画面](evidence/title-dot-entry-20261014/click-tail-audit-request.jpg)。その後iabタブ8のDOM取得が2回タイムアウト。公式復旧手順に従い同ブラウザの新タブ13で同じChatを開いたが、読込み後のDOM取得と画像取得もタイムアウトしブラウザ操作環境がリセットされた。別経路への切替・重複依頼・監査代替はしていない。別件の下書きは承認後に未送信のまま復元一致済み。
+
+停止理由: 必須独立監査の最終判定を、iab応答障害で取得できない。
+再開条件: iabの応答が回復したら同じ監査Chatの最終回答を取得する。必須指摘がなければ通常merge→mainの公開ビルド→既存Worker公開→配信/UI確認→公開記録main反映。修正指摘があれば同じChatで再監査。
+
 # 現在地: ロゴ入口PR183の再監査で残った遅い連打のP2を修正（2026-10-14）
 
 [独立監査](https://chatgpt.com/c/6aced8f6-8cac-83ee-907b-8996b8ab3335)で1db2fceのP2-01/03と基本・回帰45件は通過。低モーションで450ms後のclick(detail=2)がメニューへ流れるP2-02だけ残ったため、共通rootが入口由来の連続clickを遮断し、次の新規操作で解除する処理を追加。関連11件とDOM結合試験を確認。[詳細](TITLE-DOT-ENTRY-20261014.md)。追加修正版0a4e61a3d1b5f63af4ec182678ee868dd0a8964aは同じChatへ送信済み、最終判定待ち。main反映・公開は未完了。
