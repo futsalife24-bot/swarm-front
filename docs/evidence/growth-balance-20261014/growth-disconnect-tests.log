@@ -1,0 +1,17 @@
+
+> swarm-front@0.1.0 test
+> vitest run tests/front-disconnect-survival.test.ts
+
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  09:01:56
+   Duration  6.02s (transform 49%, import 49%, tests 2%, worker 1%)
+
+  Transform  transforming modules took 2.49s · 49% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

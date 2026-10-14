@@ -1,0 +1,70 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+xxx
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/front-campaign-receipt.test.ts > banks a cooperative clear once across the clear banner, result and later settings write
+AssertionError: expected 240 to be 120 // Object.is equality
+
+- Expected
++ Received
+
+- 120
++ 240
+
+ ❯ tests/front-campaign-receipt.test.ts:30:26
+     28|   storeResult();
+     29|   const repeated = loadProgress("normal", storage)!;
+     30|   expect(repeated.coins).toBe(first.coins);
+       |                          ^
+     31|   expect(repeated.points).toBe(first.points);
+     32|   expect(repeated.materials).toBe(first.materials);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/front-campaign-receipt.test.ts > does not roll back campaign powder when settings are the first write after a clear
+AssertionError: expected +0 to be 4 // Object.is equality
+
+- Expected
++ Received
+
+- 4
++ 0
+
+ ❯ tests/front-campaign-receipt.test.ts:50:51
+     48|   shared.volume = 0.5;
+     49|   persistSharedCoopSave(shared, storage);
+     50|   expect(loadProgress("normal", storage)!.powder).toBe(4);
+       |                                                   ^
+     51|   expect(loadProgress("normal", storage)!.receipts).toContain("coop-ca…
+     52| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/front-campaign-receipt.test.ts > publishes the campaign receipt to the caller only after a successful retry
+AssertionError: expected 240 to be 120 // Object.is equality
+
+- Expected
++ Received
+
+- 120
++ 240
+
+ ❯ tests/front-campaign-receipt.test.ts:64:50
+     62|   persistSharedCoopSave(next, storage, { run: "retry-run", stage: 2 });
+     63|   persistSharedCoopSave(next, storage, { run: "retry-run", stage: 2 });
+     64|   expect(loadProgress("normal", storage)!.coins).toBe(120);
+       |                                                  ^
+     65|   expect(loadProgress("normal", storage)!.powder).toBe(4);
+     66| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed (3)
+   Start at  09:02:46
+   Duration  5.08s (import 63%, transform 33%, tests 3%, worker 1%)
+

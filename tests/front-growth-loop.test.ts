@@ -383,5 +383,6 @@ describe("permanent growth loop", () => {
     expect(read.missions["2:normal"][0]).toBe(true);
     persistSharedCoopSave(next, s, { run: "coop", stage: 2 });
     expect(loadProgress("normal", s)!.powder).toBe(4);
+    expect(loadProgress("normal", s)!.coins).toBe(120);
   });
 });

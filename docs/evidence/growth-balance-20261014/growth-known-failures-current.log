@@ -1,0 +1,77 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+·····xx·········x···············
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/weapon-stat-marks.test.ts [ tests/weapon-stat-marks.test.ts ]
+ReferenceError: document is not defined
+ ❯ src/client/weapon-help.ts:123:1
+    121|
+    122| // Capture before row selection handlers: help never equips or selects…
+    123| document.addEventListener(
+       | ^
+    124|   "click",
+    125|   (event) => {
+ ❯ src/client/gear-weapon-list.ts:2:1
+ ❯ tests/weapon-stat-marks.test.ts:11:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/aim.test.ts > camera-aligned authoritative shots > sends accurate rockets through the center target at near/far and elevated angles
+AssertionError: expected 1.8750000000000022 to be close to 1.25, received difference is 0.6250000000000022, but expected 5e-7
+ ❯ tests/aim.test.ts:127:32
+    125|           shot.target.z - e.z,
+    126|         );
+    127|         expect(targetDistance).toBeCloseTo(1.25, 6);
+       |                                ^
+    128|       }
+    129|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/maps.test.ts > 晶脈の地底巣 has connected walkable passages and safe enemy entries
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/maps.test.ts:103:74
+    101|         spawn(w, kind);
+    102|         const e = w.enemies.at(-1)!;
+    103|         expect(blocked(e.x, e.z, ENEMIES[kind].radius, e.y, map.blocks…
+       |                                                                          ^
+    104|           false,
+    105|         );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  tests/render.test.ts > uses a short moving bullet, bounds the blast ring and releases finished effects
+AssertionError: expected -6 to be close to -7.5, received difference is 1.5, but expected 0.005
+ ❯ tests/render.test.ts:32:34
+     30|   ).toBeLessThan(1);
+     31|   fx.update(0.05);
+     32|   expect(bullet.mesh.position.z).toBeCloseTo(-7.5);
+       |                                  ^
+     33|   fx.event({ id: 2, type: "burst", x: 0, y: 0, z: 0, radius: 3.5 });
+     34|   fx.update(0.25);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  4 failed | 1 passed (5)
+      Tests  3 failed | 29 passed (32)
+   Start at  09:07:05
+   Duration  48.79s (import 47%, transform 34%, tests 18%, worker 1%)
+
+     Import  86 modules were evaluated 110 times · 17.24s total, 47% of tracked time
+             ~3.76s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation
+

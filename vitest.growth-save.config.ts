@@ -4,6 +4,7 @@ export default defineConfig({
     include: [
       "tests/playtest-vault.test.ts",
       "tests/front-growth-loop.test.ts",
+      "tests/front-campaign-receipt.test.ts",
       "tests/shared-armory.test.ts",
       "tests/save-regression.test.ts",
     ],

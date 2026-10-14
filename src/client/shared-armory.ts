@@ -85,7 +85,7 @@ export function persistSharedCoopSave(
   soldier(updated).equipped = [...next.equipped];
   updated.locks = [...(next.favorites ?? [])];
   updated.powder = next.powder ?? 0;
-  updated.receipts = [...next.receipts];
+  updated.receipts = [...new Set([...s.receipts, ...next.receipts])];
   updated.weeklyPending = [
     ...new Set([
       ...(s.weeklyPending ?? []),
@@ -102,7 +102,7 @@ export function persistSharedCoopSave(
     )
       throw Error("進撃の確定結果が不正です。");
     const receipt = `coop-campaign:${campaign.run}`;
-    if (!updated.receipts.includes(receipt)) {
+    if (!s.receipts.includes(receipt)) {
       const key = `${normalSaveId(campaign.stage)}:normal`;
       const flags = updated.missions[key] ?? [false, false, false];
       if (!flags[0]) {
@@ -117,8 +117,9 @@ export function persistSharedCoopSave(
   }
   validateProgress(updated);
   persistProgress(updated, storage);
-  next.sharedRevision = updated.revision;
   const committed = project(updated);
-  next.protectedWeapons = committed.protectedWeapons;
+  // Publish the complete committed projection after storage succeeds. The caller
+  // reuses this object for the result screen and later preference writes.
+  Object.assign(next, committed);
   baselines.set(next.sharedRevision!, fingerprint(committed));
 }

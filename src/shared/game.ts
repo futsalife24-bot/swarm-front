@@ -1671,6 +1671,8 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       endSoloTick(w);
       return;
     }
+    // 前線作戦の全滅判定は、この共通戦闘tickの後に作戦側で行う。
+    if (w.front) return;
     finish(w, false, "部隊が全員ダウンしました");
     return;
   }

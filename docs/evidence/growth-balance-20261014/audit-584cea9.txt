@@ -1,0 +1,375 @@
+heading "ChatGPT の発言:" [level=4]
+    - heading "再監査判定：要修正" [level=1]
+    - paragraph:
+      - strong: 対象SHA：584cea9317a542a14117fc69c890d44aeec83082
+      - text: 比較元として提示されたmain：0cc37830f2e883d8140deba6d55ec8adae8b46a1
+    - table:
+      - rowgroup:
+        - row "必須修正 件数":
+          - columnheader "必須修正"
+          - columnheader "件数"
+      - rowgroup:
+        - row "P0 0":
+          - cell "P0"
+          - cell "0"
+        - row "P1 1":
+          - cell "P1":
+            - strong: P1
+          - cell "1":
+            - strong: "1"
+        - row "P2 0":
+          - cell "P2"
+          - cell "0"
+    - button "表をコピー":
+    - button "表を展開":
+    - paragraph:
+      - strong: 現対象の通常merge・既存WorkerへのPR175一式の公開は不可と判断します。
+    - paragraph:
+      - text: 今回の人数HP・進度係数について、独立検証した範囲では適用漏れや二重適用を確認しませんでした。一方、
+      - strong: 協力進撃の報酬保存で、コインの二重付与と獲得武装片の消失を独立再現しました。
+      - text: 同じ根本原因のため、必須P1を1件として扱います。
+    - paragraph: これは今回の3係数変更による新規不具合ではありませんが、PR175のmainへの導入範囲に含まれます。前回の当該経路に対する「重複防止に問題なし」という評価は撤回します。
+    - paragraph:
+      - button "pr175-re-audit-584cea9-evidence.zip をダウンロード":
+        - text: 独立再実行のコード・ログ・結果JSON・行番号付きソース抜粋
+    - separator
+    - heading "1. 必須P1-01：協力進撃の保存後、画面側の状態が更新されず、報酬が重複・巻き戻る" [level=2]
+    - heading "該当ファイルと根拠" [level=3]
+    - paragraph: 以下のパスは、添付ZIPの source/ 以下です。
+    - table:
+      - rowgroup:
+        - row "ファイル：行 実際の処理":
+          - columnheader "ファイル：行"
+          - columnheader "実際の処理"
+      - rowgroup:
+        - row "src/client/shared-armory.ts:87–88 画面側の next.powder と next.receipts で保存対象を上書きします。":
+          - cell "src/client/shared-armory.ts:87–88"
+          - cell "画面側の next.powder と next.receipts で保存対象を上書きします。"
+        - row "同：104–115 上書き後のreceipt一覧で重複判定し、未受取ならcoins・powderを加算します。":
+          - cell "同：104–115"
+          - cell "上書き後のreceipt一覧で重複判定し、未受取ならcoins・powderを加算します。"
+        - row "同：119–123 保存成功後、next に反映するのはrevisionと保護武器情報だけです。加算済みpowderと追加済みreceiptを反映しません。":
+          - cell "同：119–123"
+          - cell "保存成功後、next に反映するのはrevisionと保護武器情報だけです。加算済みpowderと追加済みreceiptを反映しません。":
+            - text: 保存成功後、next に反映するのはrevisionと保護武器情報だけです。
+            - strong: 加算済みpowderと追加済みreceiptを反映しません。
+        - row "src/main.ts:1552–1561 クリア演出開始時に報酬を保存します。":
+          - cell "src/main.ts:1552–1561"
+          - cell "クリア演出開始時に報酬を保存します。"
+        - row "同：1570–1577 保存後も、確定内容が反映されていない next を画面側の save に保持します。":
+          - cell "同：1570–1577"
+          - cell "保存後も、確定内容が反映されていない next を画面側の save に保持します。"
+        - row "同：1598–1599、1813–1816 約3.2秒後の結果画面で、同じ報酬保存をもう一度呼びます。":
+          - cell "同：1598–1599、1813–1816"
+          - cell "約3.2秒後の結果画面で、同じ報酬保存をもう一度呼びます。"
+        - row "同：404–408、1276–1298 お気に入りなどの通常操作でも、この画面側状態を保存します。":
+          - cell "同：404–408、1276–1298"
+          - cell "お気に入りなどの通常操作でも、この画面側状態を保存します。"
+    - button "表をコピー":
+    - button "表を展開":
+    - paragraph:
+      - strong: receiptを保存しているだけでは防げません。そのreceiptを次の呼び出しで古い一覧に戻してから、重複判定しています。
+      - text: revisionだけは新しくなるため、revisionによる競合検出でも止まりません。
+    - heading "独立再現結果" [level=3]
+    - paragraph: 対象の実保存関数を、模擬Storage上で通常の呼び出し順に実行しました。ST2報酬の例です。
+    - table:
+      - rowgroup:
+        - row "操作 保存済みcoins 保存済みpowder campaign受取記録":
+          - columnheader "操作"
+          - columnheader "保存済みcoins"
+          - columnheader "保存済みpowder"
+          - columnheader "campaign受取記録"
+      - rowgroup:
+        - row "初期状態 0 0 なし":
+          - cell "初期状態"
+          - cell "0"
+          - cell "0"
+          - cell "なし"
+        - row "クリア演出開始相当の初回保存 120 4 あり":
+          - cell "クリア演出開始相当の初回保存"
+          - cell "120"
+          - cell "4"
+          - cell "あり"
+        - row "結果画面相当の同一結果再保存 240 4 あり":
+          - cell "結果画面相当の同一結果再保存"
+          - cell "240":
+            - strong: "240"
+          - cell "4"
+          - cell "あり"
+        - row "続けて設定変更相当の通常保存 240 0 消失":
+          - cell "続けて設定変更相当の通常保存"
+          - cell "240"
+          - cell "0":
+            - strong: "0"
+          - cell "消失":
+            - strong: 消失
+    - button "表をコピー":
+    - button "表を展開":
+    - paragraph:
+      - text: これは
+      - strong: 保存関数の独立実行による再現
+      - text: です。アプリ全体を操作した画面通しの再現ではありません。ただし、初回保存と結果画面での再保存が通常経路に存在することは、上記 main.ts の処理で確認しました。
+    - heading "影響・必須理由" [level=3]
+    - paragraph: 特別な不正操作を必要とせず、通常のクリアから結果表示への遷移でコインが重複します。また、その後の保存操作で獲得した武装片が失われます。
+    - paragraph:
+      - text: したがって、仮設定のバランスや任意の計測機能の問題ではなく、
+      - strong: 恒久残高と報酬受取記録の整合性を壊す保存不具合
+      - text: です。
+    - heading "修正案" [level=3]
+    - paragraph:
+      - text: 保存成功時に、
+      - strong: 確定した保存内容の投影全体を呼び出し側へ返して置き換える
+      - text: など、revisionだけ更新された古い状態を残さないようにしてください。あわせて、campaign報酬の重複判定は保存済みの正本を基準にし、通常保存で確定receiptや残高を巻き戻さない構造が必要です。
+    - paragraph: 回帰試験では「初回保存→結果再表示→保存失敗と再試行→お気に入り・設定保存→再読み込み」を通し、coins・powder・receipt・武器数を照合してください。
+    - paragraph:
+      - text: なお、提出テストの tests/front-growth-loop.test.ts:370–385 は、初回にcoinsを検査していますが、
+      - strong: 2回目の保存後はpowderだけを検査しています。
+      - text: そのため、今回再現したcoinsの二重付与を見逃します。
+    - separator
+    - heading "2. 人数HP・再接続・成長処理で確認できたこと" [level=2]
+    - paragraph: 以下は、ソース照合と独立実行を組み合わせた確認です。P1の保存不具合を除き、挙げた条件では期待した結果になりました。
+    - table:
+      - rowgroup:
+        - row "対象 根拠・確認結果":
+          - columnheader "対象"
+          - columnheader "根拠・確認結果"
+      - rowgroup:
+        - row "人数HP倍率 game.ts:406–413 で出撃時に固定。738–747 の敵生成で適用。1〜4人の 1／1.75／2.5／3.25倍を確認しました。出撃時プレイヤーHPは160のままです。":
+          - cell "人数HP倍率":
+            - strong: 人数HP倍率
+          - cell "game.ts:406–413 で出撃時に固定。738–747 の敵生成で適用。1〜4人の 1／1.75／2.5／3.25倍を確認しました。出撃時プレイヤーHPは160のままです。":
+            - text: game.ts:406–413 で出撃時に固定。738–747 の敵生成で適用。1〜4人の
+            - strong: 1／1.75／2.5／3.25倍
+            - text: を確認しました。出撃時プレイヤーHPは160のままです。
+        - row "生存の進度・時間倍率 front-survival.ts:19–28、front-run.ts:474–506。人数倍率に進度HP倍率と180秒ごとの倍率が重なり、それぞれ一度だけ掛かることを36条件で確認しました。攻撃力・出現頻度も対象の新係数です。":
+          - cell "生存の進度・時間倍率":
+            - strong: 生存の進度・時間倍率
+          - cell "front-survival.ts:19–28、front-run.ts:474–506。人数倍率に進度HP倍率と180秒ごとの倍率が重なり、それぞれ一度だけ掛かることを36条件で確認しました。攻撃力・出現頻度も対象の新係数です。"
+        - row "切断・ダウン・復活・再接続 server/worker.ts:1139–1201、1718–1724、1774–1795。既存敵の残HPと以後の生成倍率を維持しました。31秒の切断で離脱者がダウンする条件、戦闘中の復帰制限、結果猶予内の報酬再抽選防止も確認しました。":
+          - cell "切断・ダウン・復活・再接続":
+            - strong: 切断・ダウン・復活・再接続
+          - cell "server/worker.ts:1139–1201、1718–1724、1774–1795。既存敵の残HPと以後の生成倍率を維持しました。31秒の切断で離脱者がダウンする条件、戦闘中の復帰制限、結果猶予内の報酬再抽選防止も確認しました。"
+        - row "出撃時の進度固定 server/worker.ts:1544–1562、front-run.ts:242–254。部隊長ST3・参加者ST25の構成で、開始後の情報更新や再接続によってST3の基準が変わらないことを確認しました。":
+          - cell "出撃時の進度固定":
+            - strong: 出撃時の進度固定
+          - cell "server/worker.ts:1544–1562、front-run.ts:242–254。部隊長ST3・参加者ST25の構成で、開始後の情報更新や再接続によってST3の基準が変わらないことを確認しました。"
+        - row "旧world・旧run 保存済み倍率2.65のworldと、旧run経路の倍率1.55を継続させ、既存倍率が新式へ置き換わらないことを確認しました。":
+          - cell "旧world・旧run":
+            - strong: 旧world・旧run
+          - cell "保存済み倍率2.65のworldと、旧run経路の倍率1.55を継続させ、既存倍率が新式へ置き換わらないことを確認しました。"
+        - row "生存報酬・保存失敗 front-campaign.ts:174–220、254–290。保存失敗後の回復、報酬確定後のキュー削除失敗、上限超過武器の保留、死亡・任意帰還の扱いを確認しました。協力進撃のP1とは別経路です。":
+          - cell "生存報酬・保存失敗":
+            - strong: 生存報酬・保存失敗
+          - cell "front-campaign.ts:174–220、254–290。保存失敗後の回復、報酬確定後のキュー削除失敗、上限超過武器の保留、死亡・任意帰還の扱いを確認しました。協力進撃のP1とは別経路です。":
+            - text: front-campaign.ts:174–220、254–290。保存失敗後の回復、報酬確定後のキュー削除失敗、上限超過武器の保留、死亡・任意帰還の扱いを確認しました。
+            - strong: 協力進撃のP1とは別経路です。
+        - row "旧端末形式の成長削除 growth-save-guard.ts:6–49、server/player-vault.ts:302–350。実ハンドラを模擬Storageで呼び、成長情報・武器Lv・改造・対象receiptを欠落させる更新を409で拒否し、保存内容を保持しました。":
+          - cell "旧端末形式の成長削除":
+            - strong: 旧端末形式の成長削除
+          - cell "growth-save-guard.ts:6–49、server/player-vault.ts:302–350。実ハンドラを模擬Storageで呼び、成長情報・武器Lv・改造・対象receiptを欠落させる更新を409で拒否し、保存内容を保持しました。"
+        - row "初期成長とラン内育成 ST1で3片→生存Lv2武器→3片で初改造を確認しました。恒久改造とラン内強化の分離、種別変換後の保持も、選んだ試験条件では成立しました。":
+          - cell "初期成長とラン内育成":
+            - strong: 初期成長とラン内育成
+          - cell "ST1で3片→生存Lv2武器→3片で初改造を確認しました。恒久改造とラン内強化の分離、種別変換後の保持も、選んだ試験条件では成立しました。"
+    - button "表をコピー":
+    - button "表を展開":
+    - heading "旧world互換の重要な限界" [level=3]
+    - paragraph:
+      - strong: 「保存済み倍率を保持する」と「Worker再起動時も無中断で続行する」は別です。
+    - paragraph:
+      - text: server/worker.ts:930–934 は、保存されたworldが戦闘中かつ未pauseの場合、中断扱いにしてworldとfrontRunを破棄します。Roomの復元試験で継続を確認したのは、
+      - strong: paused状態で保存されたworld
+      - text: です。進行中の全ルームについて、公開・再起動をまたいだ継続を保証していません。
+    - separator
+    - heading "3. 私自身の独立再実行と、提出証拠の確認" [level=2]
+    - heading "独立して実行したもの" [level=3]
+    - table:
+      - rowgroup:
+        - row "実行内容 結果 範囲":
+          - columnheader "実行内容"
+          - columnheader "結果"
+          - columnheader "範囲"
+      - rowgroup:
+        - row "ZIP・manifest検査 一致 12,293,750 bytes、393項目、申告SHA256一致。manifest掲載392ファイルも全一致。監査終了後も再確認しました。":
+          - cell "ZIP・manifest検査"
+          - cell "一致":
+            - strong: 一致
+          - cell "12,293,750 bytes、393項目、申告SHA256一致。manifest掲載392ファイルも全一致。監査終了後も再確認しました。"
+        - row "3差分のblob照合・逆適用検査 成功 新側blobを52／42／7ファイル照合。git apply --reverse --check は3本とも終了0。":
+          - cell "3差分のblob照合・逆適用検査"
+          - cell "成功":
+            - strong: 成功
+          - cell "新側blobを52／42／7ファイル照合。git apply --reverse --check は3本とも終了0。"
+        - row "node transpile.cjs 289ファイル変換成功 既存TypeScript 5.8.3で実行用の別コピーを作成。型検査・本番buildではありません。":
+          - cell "node transpile.cjs"
+          - cell "289ファイル変換成功"
+          - cell "既存TypeScript 5.8.3で実行用の別コピーを作成。型検査・本番buildではありません。":
+            - text: 既存TypeScript 5.8.3で実行用の別コピーを作成。
+            - strong: 型検査・本番buildではありません。
+        - row "node core-checks.mjs 19群中17成功・2失敗 445 assertions到達。失敗2件は、同じP1のcoins重複とpowder消失です。":
+          - cell "node core-checks.mjs"
+          - cell "19群中17成功・2失敗":
+            - strong: 19群中17成功・2失敗
+          - cell "445 assertions到達。失敗2件は、同じP1のcoins重複とpowder消失です。"
+        - row "node … room-checks.mjs 6群成功 実Room実装に対する出撃・切断・復帰・保存復元・報酬確認。Storage・socket・DurableObject環境は模擬です。":
+          - cell "node … room-checks.mjs"
+          - cell "6群成功":
+            - strong: 6群成功
+          - cell "実Room実装に対する出撃・切断・復帰・保存復元・報酬確認。Storage・socket・DurableObject環境は模擬です。"
+        - row "node pilot-checks.mjs 4条件一致 選んだ4条件を再実行し、提出JSONと全項目一致。98条件全部の再実行ではありません。":
+          - cell "node pilot-checks.mjs"
+          - cell "4条件一致":
+            - strong: 4条件一致
+          - cell "選んだ4条件を再実行し、提出JSONと全項目一致。98条件全部の再実行ではありません。"
+        - row "python browser-checks-offline.py 7群成功 実Chromiumの隔離画面で、同一key、取消、旧タイマー、古い画像callback、画像エラー、途中設定切替、破棄を確認しました。":
+          - cell "python browser-checks-offline.py"
+          - cell "7群成功":
+            - strong: 7群成功
+          - cell "実Chromiumの隔離画面で、同一key、取消、旧タイマー、古い画像callback、画像エラー、途中設定切替、破棄を確認しました。"
+        - row "node known-failures.mjs 既存不一致を一部再現 aimの距離期待値との不一致、地底巣でのHARROW生成位置問題。5ファイル全体の再実行ではありません。":
+          - cell "node known-failures.mjs"
+          - cell "既存不一致を一部再現"
+          - cell "aimの距離期待値との不一致、地底巣でのHARROW生成位置問題。5ファイル全体の再実行ではありません。"
+        - row "npm run typecheck 失敗・終了2 vite/client の型定義がないため停止。環境の依存不足であり、対象コードの型欠陥とは確定しませんが、成功には数えません。":
+          - cell "npm run typecheck"
+          - cell "失敗・終了2":
+            - strong: 失敗・終了2
+          - cell "vite/client の型定義がないため停止。環境の依存不足であり、対象コードの型欠陥とは確定しませんが、成功には数えません。":
+            - text: vite/client の型定義がないため停止。環境の依存不足であり、対象コードの型欠陥とは確定しませんが、
+            - strong: 成功には数えません。
+    - button "表をコピー":
+    - button "表を展開":
+    - paragraph:
+      - text: 実通信については、
+      - strong: 独立した本物のWorker／WebSocket試験は実行していません。
+      - text: Roomの実装を呼んだ試験と、実通信試験を混同していません。
+    - paragraph: ブラウザ試験も、844×390の隔離した演出コンポーネントです。実スマホや、アプリ全体の「タイトル→準備→強化→戦闘→一時停止」を独立に通した試験ではありません。
+    - heading "提出証拠として確認したもの" [level=3]
+    - paragraph: 保存59件、戦闘110件、通信10件のログと倍率assert追加後の3件ログ、Vite build・Worker dry-runの成功ログを読みました。これらを私自身の再実行成功には数えていません。
+    - paragraph:
+      - text: 文書には「通信13件成功後、3件を再実行」とありますが、
+      - strong: 同じ3件の再実行を足して16個の独立ケースとは扱いません。
+      - text: 型成功とアプリ全体の画面遷移も、提出報告としての扱いです。
+    - separator
+    - heading "4. 測定方法・結論の評価と任意指摘" [level=2]
+    - paragraph:
+      - text: 提出JSONの条件数は、旧36＋候補48＋延長14＝
+      - strong: 98条件
+      - text: でした。主な比較表の集計を再計算し、記載値との整合を確認しました。独立に再実行した4条件も一致しました。
+    - paragraph:
+      - text: ただし、認められるのは
+      - strong: 固定条件のpilot比較としての再現性
+      - text: です。「人間の勝率が改善した」「ソロと協力が釣り合った」とまでは言えません。
+    - paragraph: docs/GROWTH-BALANCE-20261014.md:5–8、33–40 の留保は妥当です。特に、進撃は専用ソロ進行ではなく共通戦闘経路であり、180秒時点の戦闘中は敗北ではありません。3人条件は候補側のみです。
+    - paragraph: 任意改善は次の範囲です。
+    - list:
+      - strong: 比較を広げること。
+      - text: 固定武器・既定カード・少数seedだけでなく、武器構成や選択を変えた確認を追加すると、今回の係数が有効な範囲を判断しやすくなります。
+      - strong: 測定値の名称を限定すること。
+      - text: taken はtick間の正のHP減少、spawned は観測した敵ID数です。実際の全被ダメージや全生成回数そのものとは区別してください。
+      - strong: 差分資料の完全性を補足すること。
+      - text: 旧監査差分を逆適用したコピーと前回ZIPの共通351ファイルを比べ、349一致・2不一致でした。対象は vitest.config.ts と docs/SWARM-GROWTH-REDESIGN.md です。パッチ単独を完全なGit tree差分の証明とは扱っていません。
+    - paragraph:
+      - strong: 任意のローカル経済集計は、引き続き公開後を含む推奨運用です。今回の必須実装には変更しません。
+    - separator
+    - heading "5. 既存5ファイル失敗・依存High5件の扱い" [level=2]
+    - heading "既存テスト失敗" [level=3]
+    - paragraph:
+      - text: 前回ZIPの実JSONを読み、旧baseでも同じ4 assertion failureと1 import suite failureが記録されていることを照合しました。ただし、今回のmain統合ではHARROWなどが変更されており、
+      - strong: 旧ログだけで現対象の全5ファイルの状態は確定できません。
+    - table:
+      - rowgroup:
+        - row "項目 今回の評価":
+          - columnheader "項目"
+          - columnheader "今回の評価"
+      - rowgroup:
+        - row "aim.test.ts 現ソースでも旧期待距離との不一致を独立確認しました。期待値側の問題か、照準・当たり判定の不整合かを全条件では切り分けていません。無害とは扱いません。":
+          - cell "aim.test.ts"
+          - cell "現ソースでも旧期待距離との不一致を独立確認しました。期待値側の問題か、照準・当たり判定の不整合かを全条件では切り分けていません。無害とは扱いません。"
+        - row "maps.test.ts 地底巣でHARROWを強制生成する条件の遮蔽物判定を再現しました。通常ST10編成にHARROWがないという限定情報だけで、全生成経路を安全とはしていません。":
+          - cell "maps.test.ts"
+          - cell "地底巣でHARROWを強制生成する条件の遮蔽物判定を再現しました。通常ST10編成にHARROWがないという限定情報だけで、全生成経路を安全とはしていません。"
+        - row "render.test.ts 弾・効果位置の不一致が旧ログにあります。現対象の全描画再現と実プレイへの影響は未確認です。":
+          - cell "render.test.ts"
+          - cell "弾・効果位置の不一致が旧ログにあります。現対象の全描画再現と実プレイへの影響は未確認です。"
+        - row "enemy-report-motion.test.ts HARROWの発射位置に関する旧不一致です。今回統合された実装・試験の変更もあるため、旧失敗の継続・解消とも断定しません。":
+          - cell "enemy-report-motion.test.ts"
+          - cell "HARROWの発射位置に関する旧不一致です。今回統合された実装・試験の変更もあるため、旧失敗の継続・解消とも断定しません。"
+        - row "weapon-stat-marks.test.ts document is not defined によるimport失敗です。性能表示の正常性を検証できていない状態であり、製品コードの性能計算が壊れている証明とは区別します。":
+          - cell "weapon-stat-marks.test.ts"
+          - cell "document is not defined によるimport失敗です。性能表示の正常性を検証できていない状態であり、製品コードの性能計算が壊れている証明とは区別します。"
+    - button "表をコピー":
+    - button "表を展開":
+    - heading "依存High5件" [level=3]
+    - paragraph: package.json と package-lock.json は前回ZIPとバイト一致し、提示mainからのパッチにも変更はありません。
+    - paragraph:
+      - text: ただし、
+      - strong: High5件のadvisory ID、具体的な依存経路、対象バージョン、公開Worker・開発・デプロイ経路への到達性を示すaudit生データは確認できませんでした。
+      - text: 新しい npm audit も実行していません。
+    - paragraph: したがって、評価は**「未解消との申告あり、具体的危険度は未確認」**です。前回の「公開阻害は低い」という評価は引き継ぎません。依存未変更だけでは、公開への影響なしとは判断できません。
+    - separator
+    - heading "6. 公開可否と残る限界" [level=2]
+    - table:
+      - rowgroup:
+        - row "判断対象 結論":
+          - columnheader "判断対象"
+          - columnheader "結論"
+      - rowgroup:
+        - row "今回の3係数変更 独立確認した条件では、必須の倍率不具合を確認しませんでした。":
+          - cell "今回の3係数変更"
+          - cell "独立確認した条件では、必須の倍率不具合を確認しませんでした。"
+        - row "対象SHAのPR175全体 要修正。P1-01が公開を止める理由です。":
+          - cell "対象SHAのPR175全体":
+            - strong: 対象SHAのPR175全体
+          - cell "要修正。P1-01が公開を止める理由です。":
+            - strong: 要修正。P1-01が公開を止める理由です。
+        - row "通常merge 現対象では不可。":
+          - cell "通常merge":
+            - strong: 通常merge
+          - cell "現対象では不可。":
+            - strong: 現対象では不可。
+        - row "既存Workerへの今回変更一式の公開 現対象では不可。":
+          - cell "既存Workerへの今回変更一式の公開":
+            - strong: 既存Workerへの今回変更一式の公開
+          - cell "現対象では不可。":
+            - strong: 現対象では不可。
+        - row "修正後 修正SHAで報酬保存の回帰確認・再監査が必要です。未実装の修正案を合格扱いにはしません。":
+          - cell "修正後"
+          - cell "修正SHAで報酬保存の回帰確認・再監査が必要です。未実装の修正案を合格扱いにはしません。"
+        - row "経済ログ実装 公開前必須ではありません。":
+          - cell "経済ログ実装"
+          - cell "公開前必須ではありません。"
+    - button "表をコピー":
+    - button "表を展開":
+    - paragraph: 既存5失敗とHigh5件は、P1修正後も別の残課題です。公開判断時には、未確認部分とその受入方針を明示する必要があります。根拠不足のまま、推測で必須コード修正件数を増やすことも、安全と認定することもしません。
+    - paragraph: 未同梱3D・音声を含む全描画、実スマホ、本番同期競合、実通信の独立再実行、専用ソロ進撃、全武器・全体試験、長期経済は未確認です。また、オンラインGitの現在main・対象treeは取得しておらず、今回のSHA確認は添付実物・manifest・差分との整合確認です。
+    - paragraph:
+      - strong: 結論は「係数調整の確認範囲は通ったが、PR175の協力進撃報酬に実再現できる保存不具合があるため、現SHAは公開不可」です。
+      - text: merge・deploy・外部への再送信は実施していません。
+    - button "shared-reward-reproduction.json のプレビューを開く"
+    - generic "shared-reward-reproduction.json"
+    - generic: コード
+    - button "ファイルをダウンロード":
+    - button "コピーする":
+    - button "共有":
+    - button "読み上げ":
+    - button "回答を再生成":
+    - button "その他のアクション":
+    - button "ソース":
+    - generic: ChatGPT は間違えることがあります。重要な情報は確認してください。
+    - button [active]:
+    - heading "最新の応答" [level=4]
+    - status
+    - button "ファイルなどを追加":
+    - textbox "ChatGPT に聞く":
+      - paragraph: ChatGPT に聞く
+    - button "ChatGPT モデルを選択":
+      - generic: Pro
+    - button "音声入力":
+    - button "音声会話を開始":
+- status
+- status: 回答が完了しました
+- status
+- status
+- status
+- status
