@@ -1,3 +1,6 @@
+# 現在地: 分割シャッターと通知ロゴを公開済み（2026-10-14）
+
+[PR187](https://github.com/futsalife24-bot/swarm-front/pull/187) merge済み。公開ソースmain 1da4bc83b33dcad3b30faa4e1e040c00b8819fcc、Worker Version d5dfa448-6108-4db3-a5d0-0a0c01a7725c。[公開版](https://swarm-front.melosalife-24.workers.dev/front)。監査対象6970c7fは必須P0/P1/P2=0。main build/dry-run/公開成功、配信27ファイル＋正式ロゴのSHA一致、health正常、公開版タイトル・基地往復・更新履歴を確認。[詳細](MENU-SPLIT-SHUTTER-20261014.md)。Android通知欄自体は未確認。①〜⑤は未着手。公開後の記録のみをmainへ反映して終了する。
 # 現在地: 最終独立監査合格、main反映・公開へ（2026-10-14）
 
 PR187、実装6970c7fa931c91517aa8e67d21f022fd0096961c。通常Chatの最終判定は合格、必須P0/P1/P2=0。独立ブラウザ一般10/入力9/タイトル12/追加20ケース成功。主担当の型・Vitest入力10件・BGM音声25件・build成功、Worker dry-runも前段成功。以後の差分は記録のみ。合格全文は [audit-final.txt](evidence/menu-split-shutter-20261014/audit-final.txt)。通常merge→mainからbuild→既存Worker公開→配信/UI確認へ続行。
