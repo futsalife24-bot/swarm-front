@@ -1,3 +1,9 @@
+# 現在地: ロゴのみの入口・ドット拡大遷移を公開完了（2026-10-14）
+
+[PR183](https://github.com/futsalife24-bot/swarm-front/pull/183)を通常merge。公開ソース `7cf5bcd64471e5e52942436e5cc5ca91a002b9e3`、Worker Version `4c549a0b-670a-45f1-a98c-f7a1a3ca6411`。[公開版](https://swarm-front.melosalife-24.workers.dev/front)。既存メニューの前にロゴだけの入口を表示し、タップでFRONT.のドットが広がって既存メニューへ遷移する。Enter/Space・低モーション・縦横切替・全画面化に対応し、開始時の連打/長押しの持越しを防止。
+
+独立監査0a4e61aは限定合格、必須P0/P1/P2各0。以後は記録文書のみ、公開ソースと監査対象の製品コード一致を確認。担当の関連11件・型・build/dry-run成功。配信54ファイルSHA一致、health200/ok:true。iab公開版でロゴ→入口除去→ソロ作戦選択を確認。[配信証拠](evidence/title-dot-entry-20261014/delivery.json)、[公開ロゴ](evidence/title-dot-entry-20261014/public-logo.jpg)、[詳細](TITLE-DOT-ENTRY-20261014.md)。実スマートフォン・Safari/Firefoxは未確認。⓪の残りの全メニュー演出相談と①〜⑤は今回の対象外として維持。
+
 # 現在地: タイトル入口の独立監査合格、main反映・公開へ（2026-10-14）
 
 再接続で[同じ監査Chat](https://chatgpt.com/c/6aced8f6-8cac-83ee-907b-8996b8ab3335)の最終回答を取得。対象0a4e61a3d1b5f63af4ec182678ee868dd0a8964aは限定合格、必須P0/P1/P2各0。450ms連打8件を含むOS入力13ケースと状態5件を独立確認。P2-01/03は不変で前回合格を維持。[原文](evidence/title-dot-entry-20261014/audit-0a4e61a.txt)。以後の差分は記録文書・証拠のみで製品コード不変。PR183の通常mergeと公開を進める。
