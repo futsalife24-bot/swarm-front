@@ -10,3 +10,6 @@
 
 ## 独立監査
 対象f54b992は限定合格、必須P0/P1/P2各0。53件通過。raw原文audit-f54b992.txt。任意改善のidle-844.jpg（ロゴ読込み前）はidle-844-loaded.jpgで補足し、型/11テストはconfirmed-checks.logにHEAD/終了コードを追加。製品変更なし。
+
+## 公開完了
+PR185をmain反映。公開ソース16ff61383e281ac87e5cf25f72fb74ceceeeddf5、Worker Version 4c97a5f1-4fd2-4d1e-8842-fdd6711e321b。mainからbuild/dry-run/deploy成功。54ファイル配信一致、health正常。iabでTAP START・6.8sノイズ設定・タップ後のソロ作戦選択を確認。
