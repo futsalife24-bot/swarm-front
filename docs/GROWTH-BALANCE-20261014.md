@@ -58,3 +58,7 @@
 ## 修正版の独立再監査結果
 
 09f9610bb9738e1135fc8540711a3fc04aff6bfeは技術上の限定合格、必須P0/P1/P2各0。旧SHAで報酬不具合を再現、新SHAで解消。監査側の独立実行はcore19群447assert、追加保存等15群、模擬環境の実Room6群＋30秒境界6群成功。実時間のWebSocket試験とは区別する。型検証は監査環境のvite/client不足で未完了、提出側の成功報告として扱う。既知失敗・依存High5・実機/長期の未確認を継続管理し、対象一致を条件に通常merge/既存Worker公開へ進行可。[全文](evidence/growth-balance-20261014/audit-09f9610.txt)。
+
+## 公開結果
+
+PR175を通常mergeし、公開ソースb4827bc6192019265467c1c51de0e9f21c5764dbから再build/dry-run後、既存Workerへ公開。Version f2879067-81ab-43ec-8fbd-034992f01bef。画面・JS/CSS・イベント画像の53ファイルがSHA一致、health200/ok:true。[配信JSON](evidence/growth-balance-20261014/delivery.json)。公開版iabで作戦選択、準備、強化選択、生存戦闘、17秒の無操作敗北、武器0/コイン0の結果保存表示、タイトル復帰を確認。人による勝率・長時間実戦の検証ではない。製品コードは監査対象09f9610と一致。ローカル場所はC:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a、GitHubはhttps://github.com/futsalife24-bot/swarm-front。
