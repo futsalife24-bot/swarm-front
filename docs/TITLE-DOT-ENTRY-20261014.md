@@ -34,3 +34,6 @@
 追加修正後の型チェックと公開用ビルドもexit 0。
 最終差分0a4e61aの再監査は送信済み。送信後にiabのDOM取得・新タブ復旧・画像取得がタイムアウトし、判定取得は外部障害で未完了。公開操作は未実施。追加修正後のWorker dry-runもexit 0（click-tail-dryrun.log）。
 再接続後に最終監査を取得。対象0a4e61aは限定合格、必須P0/P1/P2各0。OS入力13ケースと状態5件が成功、P2-01/03は不変で前回判定維持。原文audit-0a4e61a.txt。監査後の製品差分なし。
+
+## 公開完了
+PR183を通常merge。公開ソース7cf5bcd64471e5e52942436e5cc5ca91a002b9e3、Worker Version 4c549a0b-670a-45f1-a98c-f7a1a3ca6411。mainからbuild/dry-run/deploy成功。54配信ファイルSHA一致、health200/ok:true。公開版のロゴ表示→タップ→入口除去→既存ソロ作戦選択をiabで確認。公開記録のみを別PRでmainへ保存する。
