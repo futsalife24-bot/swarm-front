@@ -84,7 +84,7 @@
           }),
         );
         assert(button.classList.contains("title-pressed"), "タッチ押し込み");
-        window.dispatchEvent(
+        document.dispatchEvent(
           new PointerEvent("pointercancel", {
             bubbles: true,
             pointerType: "touch",
@@ -111,7 +111,7 @@
           other.classList.contains("title-pressed"),
           "前ボタンのfocusoutで次ボタンを解除しない",
         );
-        window.dispatchEvent(new PointerEvent("pointerup"));
+        other.dispatchEvent(new PointerEvent("pointerup", { bubbles: true }));
         assert(
           !other.classList.contains("title-pressed"),
           "次ボタンもpointerupで解除",
@@ -160,9 +160,9 @@
           bubbles: true,
           cancelable: true,
         });
-        window.dispatchEvent(repeated);
+        button.dispatchEvent(repeated);
         assert(repeated.defaultPrevented, "長押し決定の反復抑止");
-        window.dispatchEvent(
+        document.dispatchEvent(
           new KeyboardEvent("keyup", { key: "Enter", bubbles: true }),
         );
         const fresh = new KeyboardEvent("keydown", {
@@ -170,8 +170,11 @@
           bubbles: true,
           cancelable: true,
         });
-        window.dispatchEvent(fresh);
+        button.dispatchEvent(fresh);
         assert(!fresh.defaultPrevented, "解除後の新しい入力");
+        button.dispatchEvent(
+          new KeyboardEvent("keyup", { key: "Enter", bubbles: true }),
+        );
         results.push("長押し/入力解除");
         button = home();
         const before = calls;
@@ -203,7 +206,7 @@
         button = home(() => new Promise((resolve) => (finish = resolve)));
         const asyncBefore = calls;
         button.click();
-        window.dispatchEvent(
+        document.dispatchEvent(
           new KeyboardEvent("keyup", { key: "Enter", bubbles: true }),
         );
         button.click();
@@ -245,6 +248,12 @@
         await frame();
         closed.close();
         closed.remove();
+        root.querySelector("#other").click();
+        assert(
+          calls === dialogBefore + 1,
+          "dialog取消直後も表示中の帯を貫通しない",
+        );
+        await settled();
         root.querySelector("#other").click();
         assert(calls === dialogBefore + 2, "dialog取消後は再決定可能");
         results.push("closed dialog待機/取消後の解除");
