@@ -15,10 +15,15 @@
       padding: 12px;
     }
     #ui {
+      font-size: 14px;
       position: relative;
       width: 844px;
       height: 390px;
       overflow: auto;
+    }
+    #ui dialog button {
+      height: 40px;
+      font: inherit;
     }
     .menu-screen {
       padding: 12px;
@@ -121,6 +126,42 @@
         document.dispatchEvent(new Event("swarm-motion-preference"));
         assert(!document.querySelector(".split-shutter"), "設定変更で除去");
         results.push("dialogを閉じる・途中で軽減設定");
+        reset();
+        const existing = document.createElement("dialog");
+        existing.innerHTML = "<h2>上書き確認</h2><button>閉じる</button>";
+        root.querySelector(".menu-screen").append(existing);
+        root.querySelector("#go").id = "base-store";
+        root.querySelector("#base-store").onclick = () => existing.showModal();
+        root.querySelector("#base-store").click();
+        await frame();
+        assert(
+          document.querySelector(".split-shutter"),
+          "事前配置dialogのopen監視",
+        );
+        await wait(600);
+        const dialogFont = getComputedStyle(existing).fontSize;
+        const buttonHeight = existing
+          .querySelector("button")
+          .getBoundingClientRect().height;
+        existing.querySelector("button").onclick = () => existing.close();
+        existing.querySelector("button").click();
+        await frame();
+        const frozenDialog = document
+          .querySelector(".split-shutter")
+          .firstElementChild.shadowRoot.querySelector("#ui dialog[open]");
+        assert(frozenDialog, "dialogの祖先構造保持");
+        assert(
+          getComputedStyle(frozenDialog).fontSize === dialogFont,
+          "dialog継承フォント保持",
+        );
+        assert(
+          frozenDialog.querySelector("button").getBoundingClientRect()
+            .height === buttonHeight,
+          "dialogボタン高さ保持",
+        );
+        results.push(
+          "事前配置の上書き確認・閉じる際の祖先CSSと文字/ボタン寸法保持",
+        );
         reset();
         document.documentElement.dataset.menuReducedMotion = "true";
         root.querySelector("#go").onclick = () => render("設定");

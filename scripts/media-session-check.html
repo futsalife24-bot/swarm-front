@@ -28,6 +28,9 @@
       const a = m?.artwork?.[0];
       document.querySelector("#result").textContent = JSON.stringify(
         {
+          mediaSessionSupported: "mediaSession" in navigator,
+          mediaMetadataSupported: typeof MediaMetadata !== "undefined",
+          metadataAssigned: !!m,
           title: m?.title,
           artwork: a,
           playbackState: navigator.mediaSession?.playbackState,
@@ -36,7 +39,7 @@
         null,
         2,
       );
-      if (a) document.querySelector("#art").src = a.src;
+      document.querySelector("#art").src = a?.src ?? "/icon-swarm-v2-512.png";
     };
   </script>
 </html>

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" /><title>分割シャッター入力終端検証</title>
+  <style>
+    body {
+      color: #e3edee;
+      background: #0c1820;
+      font: 16px system-ui;
+    }
+    button {
+      padding: 12px;
+    }
+    #ui {
+      width: 844px;
+      height: 390px;
+    }
+    .menu-screen {
+      padding: 12px;
+      background: #183038;
+    }
+    pre {
+      white-space: pre-wrap;
+    }
+  </style>
+  <button id="run">検証開始</button>
+  <pre id="result">未実施</pre>
+  <main id="ui"></main>
+  <script type="module">
+    import { mountScreenTransitions } from "/src/client/screen-transition.ts";
+    const root = document.querySelector("#ui"),
+      output = document.querySelector("#result");
+    const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    const frame = () => new Promise(requestAnimationFrame);
+    const assert = (value, label) => {
+      if (!value) throw Error(label);
+    };
+    async function waitForShutterEnd() {
+      const deadline = performance.now() + 3000;
+      while (document.querySelector(".split-shutter") && performance.now() < deadline)
+        await wait(50);
+      assert(!document.querySelector(".split-shutter"), "演出終了（最大3秒待機）");
+    }
+    let calls = 0;
+    function render(name) {
+      root.innerHTML = `<section class="menu-screen"><h1>${name}</h1><button id="go">次へ</button></section>`;
+      root.querySelector("button").onclick = () => {
+        calls++;
+        render("工房");
+      };
+    }
+    function event(type, fields = {}) {
+      const Ctor = type.startsWith("key") ? KeyboardEvent : PointerEvent;
+      const e = new Ctor(type, { bubbles: true, cancelable: true, ...fields });
+      root.querySelector("button").dispatchEvent(e);
+      return e.defaultPrevented;
+    }
+    async function start(before) {
+      window.dispatchEvent(new Event("resize"));
+      render("基地");
+      calls = 0;
+      before?.();
+      root.querySelector("button").click();
+      await frame();
+      assert(document.querySelector(".split-shutter"), "演出開始");
+    }
+    mountScreenTransitions(root);
+    document.querySelector("#run").onclick = async () => {
+      const checks = [];
+      output.textContent = "検証中";
+      try {
+        for (const mode of ["自然終了", "resize解除"]) {
+          await start();
+          assert(
+            event("pointerdown", { pointerId: 41 }),
+            "演出中pointerdown遮断",
+          );
+          if (mode === "自然終了") await waitForShutterEnd();
+          else window.dispatchEvent(new Event("resize"));
+          assert(!document.querySelector(".split-shutter"), "演出終了");
+          assert(event("pointerup", { pointerId: 41 }), "終了後pointerup遮断");
+          assert(
+            event("click", { pointerId: 41, detail: 1 }),
+            "終了後click遮断",
+          );
+          assert(calls === 1, "遷移先が実行されない");
+          assert(
+            !event("pointerdown", { pointerId: 41 }),
+            "新規pointerdown許可",
+          );
+          assert(!event("pointerup", { pointerId: 41 }), "新規pointerup許可");
+          assert(
+            !event("click", { pointerId: 41, detail: 1 }),
+            "新規click許可",
+          );
+          assert(calls === 2, "新規タップ実行");
+          checks.push(`${mode}: 長押しの解放・クリック遮断と新規タップ復帰`);
+        }
+        for (const code of ["Enter", "Space"]) {
+          await start();
+          assert(
+            event("keydown", { code, key: code === "Space" ? " " : code }),
+            "演出中keydown遮断",
+          );
+          await waitForShutterEnd();
+          assert(event("keydown", { code, repeat: true }), "終了後repeat遮断");
+          assert(event("keyup", { code }), "終了後keyup遮断");
+          assert(event("click", { detail: 0 }), "keyup由来click遮断");
+          assert(calls === 1, "長押しキーで遷移先を実行しない");
+          await wait(0);
+          assert(!event("keydown", { code, repeat: false }), "新規キー許可");
+          event("keyup", { code });
+          assert(!event("click", { detail: 0 }), "新規キーclick許可");
+          checks.push(`${code}: 演出中押下・終了後repeat/keyup/click遮断`);
+        }
+        await start(() =>
+          assert(
+            !event("keydown", { code: "Enter", key: "Enter" }),
+            "遷移元Enter許可",
+          ),
+        );
+        await waitForShutterEnd();
+        assert(
+          event("keydown", { code: "Enter", repeat: true }),
+          "遷移元保持の遅いrepeat遮断",
+        );
+        assert(event("click", { detail: 0 }), "遷移元保持のclick遮断");
+        event("keyup", { code: "Enter" });
+        await wait(0);
+        assert(calls === 1, "遷移元Enter長押しの漏れなし");
+        assert(
+          !event("keydown", { code: "Enter", repeat: false }),
+          "新規Enter許可",
+        );
+        event("keyup", { code: "Enter" });
+        assert(!event("click", { detail: 0 }), "新規Enter click許可");
+        checks.push("遷移元Enter保持: 最初のrepeatが演出終了後でも遮断");
+        output.textContent = JSON.stringify(
+          {
+            pass: true,
+            checks,
+            note: "実DOMへ構築イベントを送る回帰検証。実機の信頼済み入力とは別。",
+          },
+          null,
+          2,
+        );
+      } catch (error) {
+        output.textContent = JSON.stringify(
+          { pass: false, checks, error: String(error) },
+          null,
+          2,
+        );
+      }
+    };
+  </script>
+</html>

@@ -1,4 +1,5 @@
 import "./screen-transition.css";
+import { guardMenuTransitionInput } from "./menu-transition-input";
 
 const mounted = new WeakSet<HTMLElement>();
 const menuSelector =
@@ -53,7 +54,12 @@ function freeze(source: HTMLElement): HTMLElement {
       originals.push(node as HTMLElement);
       copies.push(clone as HTMLElement);
     }
-    if (node instanceof HTMLElement && node !== source) {
+    if (
+      node instanceof HTMLElement &&
+      node !== source &&
+      !node.matches("dialog[open]") &&
+      !node.querySelector("dialog[open]")
+    ) {
       const rect = node.getBoundingClientRect();
       if (
         (rect.height > 0 && (rect.top >= bottom || rect.bottom <= top)) ||
@@ -130,6 +136,7 @@ export function mountScreenTransitions(root: HTMLElement) {
     if (!reduced() && !document.hidden) snapshotStyles();
   }, 0);
   let overlay: HTMLElement | undefined;
+  const inputGuard = guardMenuTransitionInput(() => !!overlay);
   let pending: MutationObserver | undefined;
   let active: MutationObserver | undefined;
   let expiry: ReturnType<typeof setTimeout> | undefined;
@@ -181,7 +188,7 @@ export function mountScreenTransitions(root: HTMLElement) {
     const button = target.closest("button");
     if (
       button?.matches(
-        "[data-front-slot],[data-equip],[data-lock],[data-accessory-equip],[data-accessory-lock],#base-upgrades,#base-fusions,#base-store,#base-load,#front-save-pool,[data-growth-plus],[data-growth-minus]",
+        "[data-front-slot],[data-equip],[data-lock],[data-accessory-equip],[data-accessory-lock],#base-upgrades,#base-fusions,#front-save-pool,[data-growth-plus],[data-growth-minus]",
       )
     )
       return;
@@ -192,9 +199,11 @@ export function mountScreenTransitions(root: HTMLElement) {
     const body = document.body.cloneNode(false) as HTMLElement;
     scene.append(body);
     const frozenRoot = freeze(root);
-    frozenRoot.querySelectorAll("dialog").forEach((node) => node.remove());
     body.append(frozenRoot);
     if (dialog) {
+      // Keep the dialog's ancestor selectors and inherited typography intact.
+      // Body-mounted dialogs already have the same ancestry in the snapshot.
+      if (!root.contains(dialog)) body.append(freeze(dialog));
       const backdrop = document.createElement("div");
       const style = getComputedStyle(dialog, "::backdrop");
       Object.assign(backdrop.style, {
@@ -202,8 +211,12 @@ export function mountScreenTransitions(root: HTMLElement) {
         inset: "0",
         background: style.background,
         backdropFilter: style.backdropFilter,
+        zIndex: "9999",
       });
-      body.append(backdrop, freeze(dialog));
+      const frozenDialog = Array.from(body.querySelectorAll("dialog[open]")).at(
+        -1,
+      );
+      frozenDialog?.before(backdrop);
     }
     // Native dialogs become static visual surfaces inside the inert shadow.
     for (const native of body.querySelectorAll<HTMLDialogElement>(
@@ -242,6 +255,7 @@ export function mountScreenTransitions(root: HTMLElement) {
       layer.setAttribute("popover", "manual");
       document.body.append(layer);
       overlay = layer;
+      inputGuard.captureHeld();
       try {
         layer.showPopover();
       } catch {
@@ -304,19 +318,14 @@ export function mountScreenTransitions(root: HTMLElement) {
     });
     pending.observe(root, { childList: true });
     pending.observe(document.body, { childList: true });
-    if (dialog)
-      pending.observe(dialog, { attributes: true, attributeFilter: ["open"] });
+    // showModal() on an existing closed dialog only changes its open attribute.
+    document
+      .querySelectorAll("dialog")
+      .forEach((node) =>
+        pending?.observe(node, { attributes: true, attributeFilter: ["open"] }),
+      );
     expiry = setTimeout(clear, 900);
   };
-  document.addEventListener(
-    "pointerdown",
-    (event) => {
-      if (!overlay) return;
-      event.preventDefault();
-      event.stopImmediatePropagation();
-    },
-    true,
-  );
   document.addEventListener("click", capture, true);
   document.addEventListener("keydown", capture, true);
   window.addEventListener("resize", clear);

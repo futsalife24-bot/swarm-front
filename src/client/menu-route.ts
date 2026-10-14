@@ -1,3 +1,5 @@
+import { guardMenuTransitionInput } from "./menu-transition-input";
+
 const ROUTE_KEY = "swarm-front-menu-route-v1";
 const REDUCED_KEY = "swarm-front-menu-reduced-motion-v1";
 const LIFETIME = 8000;
@@ -61,20 +63,14 @@ function revealMenuRoute() {
   let layer: HTMLElement | undefined;
   let timer: ReturnType<typeof setTimeout> | undefined;
   const animations: Animation[] = [];
-  const blockInput = (event: Event) => {
-    if (!layer) return;
-    event.preventDefault();
-    event.stopImmediatePropagation();
-  };
+  const releaseInputGuard = guardMenuTransitionInput(() => !!layer);
   const clear = () => {
     observer.disconnect();
     clearTimeout(timer);
     animations.forEach((animation) => animation.cancel());
     layer?.remove();
     layer = undefined;
-    document.removeEventListener("pointerdown", blockInput, true);
-    document.removeEventListener("click", blockInput, true);
-    document.removeEventListener("keydown", blockInput, true);
+    releaseInputGuard();
     document.removeEventListener("visibilitychange", clear);
     document.removeEventListener("swarm-motion-preference", clear);
     preference.removeEventListener("change", clear);
@@ -96,6 +92,7 @@ function revealMenuRoute() {
     observer.disconnect();
     clearTimeout(timer);
     layer = document.createElement("div");
+    releaseInputGuard.captureHeld();
     layer.className = "menu-route-shutter";
     layer.inert = true;
     layer.setAttribute("aria-hidden", "true");
@@ -133,9 +130,6 @@ function revealMenuRoute() {
     subtree: true,
   });
   document.addEventListener("visibilitychange", clear);
-  document.addEventListener("pointerdown", blockInput, true);
-  document.addEventListener("click", blockInput, true);
-  document.addEventListener("keydown", blockInput, true);
   document.addEventListener("swarm-motion-preference", clear);
   preference.addEventListener("change", clear);
   window.addEventListener("pagehide", clear);

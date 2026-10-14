@@ -3,7 +3,10 @@ import fs from "node:fs";
 import assert from "node:assert/strict";
 
 // Unit checks use DOM/event/storage substitutes, not a browser rendering check.
-const source = fs.readFileSync("src/client/menu-route.ts", "utf8");
+const guardSource = fs.readFileSync("src/client/menu-transition-input.ts", "utf8");
+const guardUrl = `data:text/javascript;base64,${Buffer.from(stripTypeScriptTypes(guardSource)).toString("base64")}`;
+const source = fs.readFileSync("src/client/menu-route.ts", "utf8")
+  .replace('"./menu-transition-input"', JSON.stringify(guardUrl));
 const encoded = Buffer.from(stripTypeScriptTypes(source)).toString("base64");
 const load = (name) => import(`data:text/javascript;base64,${encoded}#${name}`);
 const route = await load("no-dom");
@@ -95,8 +98,9 @@ for (const mode of ["resize", "fullscreenchange", "timeout"]) {
     disconnect() {}
   };
   await load(mode);
-  const fire = (type) => {
+  const fire = (type, fields = {}) => {
     const event = new Event(type, { cancelable: true });
+    Object.assign(event, fields);
     document.dispatchEvent(event);
     return event.defaultPrevented;
   };
@@ -105,9 +109,17 @@ for (const mode of ["resize", "fullscreenchange", "timeout"]) {
   observeCallback();
   for (const type of ["pointerdown", "click", "keydown"])
     assert.equal(fire(type), true, `表示中は${type}を遮断`);
+  fire("pointerdown", { pointerId: 77 });
+  fire("keydown", { code: "Enter", repeat: false });
   if (mode === "resize") window.dispatchEvent(new Event(mode));
   else if (mode === "fullscreenchange") document.dispatchEvent(new Event(mode));
   else [...timers.values()].find((timer) => timer.ms === 550).fn();
+  assert.equal(fire("pointerup", { pointerId: 77 }), true, `${mode}後の長押し解放を遮断`);
+  assert.equal(fire("click", { pointerId: 77, detail: 1 }), true, `${mode}後の長押しクリックを遮断`);
+  assert.equal(fire("keydown", { code: "Enter", repeat: true }), true, `${mode}後のキーリピートを遮断`);
+  assert.equal(fire("keyup", { code: "Enter" }), true, `${mode}後のキー解放を遮断`);
+  assert.equal(fire("click", { detail: 0 }), true, `${mode}後のキー由来クリックを遮断`);
+  fire("keydown", { code: "Enter", repeat: false });
   for (const type of ["pointerdown", "click", "keydown"])
     assert.equal(fire(type), false, `解除後は${type}を許可`);
   assert.equal(removed, 1);
