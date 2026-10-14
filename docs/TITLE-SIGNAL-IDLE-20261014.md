@@ -7,3 +7,6 @@
 型・関連11件・ビルド成功。公開用ビルドで案内表示→クリック→メニュー→ソロ作戦選択を確認。844×390の案内下端322.6pxで画面内。局所probeは既存UIと本物の演出を使い、ソロだけカウンターへ置換。requestAnimationFrameのDOM記録でscale1→0.58→拡大とタップ後prompt0/noise:noneを確認。低モーションでnoise/promptのanimation:none、Enterで入口解除を確認。noiseFrameは撮影のためCSS周期3秒地点で一時停止したテスト専用。実機スマホ/Safari/Firefox未確認。独立監査・main反映・公開は未完了。
 
 証拠: docs/evidence/title-signal-idle-20261014/。主担当モデルID/effortは取得不可、サブエージェント不使用。
+
+## 独立監査
+対象f54b992は限定合格、必須P0/P1/P2各0。53件通過。raw原文audit-f54b992.txt。任意改善のidle-844.jpg（ロゴ読込み前）はidle-844-loaded.jpgで補足し、型/11テストはconfirmed-checks.logにHEAD/終了コードを追加。製品変更なし。
