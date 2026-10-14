@@ -1,3 +1,9 @@
+# 現在地: TAP START・通信ノイズ・ドット縮小を公開完了（2026-10-14）
+
+[PR185](https://github.com/futsalife24-bot/swarm-front/pull/185)を通常merge。公開ソース `16ff61383e281ac87e5cf25f72fb74ceceeeddf5`、Worker Version `4c97a5f1-4fd2-4d1e-8842-fdd6711e321b`。[公開版](https://swarm-front.melosalife-24.workers.dev/front)。ロゴ下のTAP START、6.8秒周期の短い横ずれと走査線、タップ時に120msで58%へ縮小してから全画面へ広がる動きを追加。低モーション対応。
+
+独立監査f54b992は限定合格、必須P0/P1/P2各0。局所53件通過。担当の型・11件・build/dry-run成功。公開54ファイルSHA一致とhealth200/ok:true、iabでTAP START/ノイズ設定/入口終了後のソロ操作を確認。実機/Safari/Firefox未確認。監査後は証拠/記録のみで製品不変。[詳細](TITLE-SIGNAL-IDLE-20261014.md)、[配信証拠](evidence/title-signal-idle-20261014/delivery.json)。残る⓪全メニュー演出と①〜⑤の順は維持。
+
 # 現在地: TAP START・ノイズ・縮小演出の独立監査合格（2026-10-14）
 
 PR185、対象f54b99234c65668cfd148ec877d01b1a85b7d56cは限定合格、必須P0/P1/P2各0。追加演出/回復46・OS入力3・直接入口4の計53件通過。[原文](evidence/title-signal-idle-20261014/audit-f54b992.txt)。提出画像の読込み不足は任意改善として撮り直し、終了コード付き型/11テストの証拠も補足。製品差分は不変。通常main反映・公開へ進む。
