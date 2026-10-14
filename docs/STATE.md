@@ -1,3 +1,7 @@
+# 現在地: TAP START・待機ノイズ・ドット縮小を実装、監査準備（2026-10-14）
+
+本人指定の案内と待機演出を追加。タップ後は120msの縮小から既存の円拡大へ接続。型/関連11件/build、実メニュー操作・局所描画値・低モーションを確認。[詳細](TITLE-SIGNAL-IDLE-20261014.md)。独立監査/main/公開は未完了。
+
 # 現在地: ロゴのみの入口・ドット拡大遷移を公開完了（2026-10-14）
 
 [PR183](https://github.com/futsalife24-bot/swarm-front/pull/183)を通常merge。公開ソース `7cf5bcd64471e5e52942436e5cc5ca91a002b9e3`、Worker Version `4c549a0b-670a-45f1-a98c-f7a1a3ca6411`。[公開版](https://swarm-front.melosalife-24.workers.dev/front)。既存メニューの前にロゴだけの入口を表示し、タップでFRONT.のドットが広がって既存メニューへ遷移する。Enter/Space・低モーション・縦横切替・全画面化に対応し、開始時の連打/長押しの持越しを防止。

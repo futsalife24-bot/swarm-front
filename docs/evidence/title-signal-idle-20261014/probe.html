@@ -1,0 +1,41 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>タイトル入口の局所検証</title></head><body data-screen="title"><main id="ui"></main><div id="portrait" role="dialog" aria-modal="true" aria-label="ゲーム開始"><strong>SWARM FRONT</strong><button id="landscape-start">ゲームを開始</button><small id="landscape-status"></small></div><pre id="probe-result" style="position:fixed;bottom:0;left:0;z-index:10000;font-size:11px;color:white;background:#000"></pre><script type="module">
+import '/src/style.css';
+import '/src/menu-ui.css';
+import '/src/menu-theme.css';
+import '/src/client/home-screen.css';
+import {homeMarkup} from '/src/client/home-screen.ts';
+import {STAGES} from '/src/shared/stages.ts';
+import {installLandscapeGuard} from '/src/client/landscape.ts';
+import {mountTitleMotion} from '/src/client/title-motion.ts';
+const query=new URL(location.href).searchParams;
+// Freeze only the test animation at its real computed endpoint for corner inspection.
+if(query.has('cover')) {
+ const animate=Element.prototype.animate;
+ Element.prototype.animate=function(frames,options){const a=animate.call(this,frames,options);if(this.classList.contains('title-entry-dot')){a.pause();a.currentTime=options.duration;}return a;};
+}
+if(query.has('touch')) Object.defineProperty(navigator,'maxTouchPoints',{configurable:true,get:()=>1});
+if(query.has('reduced')) document.documentElement.dataset.menuReducedMotion='true';
+const root=document.getElementById('ui'); root.innerHTML=homeMarkup({stage:STAGES[0],inventoryCount:0});
+let solo=0; const rows=[];
+const record=(phase)=>{
+ const d=document.querySelector('.title-entry');
+ const top=document.elementFromPoint(innerWidth/2,innerHeight/2);
+ rows.push({phase,fullscreen:!!document.fullscreenElement,entryOpen:d?.open??false,opacity:d?getComputedStyle(d).opacity:null,front:!!top?.closest('.title-entry'),focus:document.activeElement?.id,solo});
+ document.getElementById('probe-result').textContent=JSON.stringify(rows,null,2);
+};
+root.querySelector('#solo').onclick=()=>{solo++;record('solo');};
+installLandscapeGuard(()=>{}); mountTitleMotion(root);
+document.querySelector('.title-entry-start').addEventListener('click',()=>{setTimeout(()=>record('150ms'),150);setTimeout(()=>record('1100ms'),1100);},{once:true});
+if(query.has('late')) document.querySelector('.title-entry-start').addEventListener('click',()=>{
+ setTimeout(()=>{const event=new MouseEvent('click',{bubbles:true,cancelable:true,detail:2});root.querySelector('#solo').dispatchEvent(event);record('late450 prevented='+event.defaultPrevented);},450);
+ setTimeout(()=>{root.querySelector('#solo').dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,detail:1}));record('fresh750');},750);
+},{once:true});
+document.getElementById('landscape-start').addEventListener('click',()=>record('portrait-start'));
+record('initial');
+const samples=[]; let recording=false;
+const sample=()=>{const d=document.querySelector('.title-entry-dot'), e=document.querySelector('.title-entry'); if(d&&e){samples.push({time:Math.round(performance.now()),scale:getComputedStyle(d).transform,visible:getComputedStyle(d).opacity,prompt:getComputedStyle(document.querySelector('.title-entry-prompt')).opacity,noise:getComputedStyle(document.querySelector('.title-entry-interference')).animationName});requestAnimationFrame(sample);}else{document.getElementById('probe-result').textContent=JSON.stringify({samples,solo});}};
+document.querySelector('.title-entry-start').addEventListener('click',()=>{if(!recording){recording=true;requestAnimationFrame(sample);}},{once:true});
+if(query.has('noiseFrame')) {const s=document.createElement('style');s.textContent='.title-entry-interference,.title-entry-mark::after{animation-delay:-3s;animation-play-state:paused}';document.head.append(s);}
+</script></body></html>
+
+
