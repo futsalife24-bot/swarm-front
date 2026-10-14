@@ -1,0 +1,37 @@
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 202 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/front.html                                2.93 kB │ gzip:   1.20 kB
+dist/index.html                                3.81 kB │ gzip:   1.35 kB
+dist/assets/legacy-CPbai1ZT.css                0.25 kB │ gzip:   0.13 kB
+dist/assets/cloud-save-D6ivyzww.css            0.73 kB │ gzip:   0.39 kB
+dist/assets/main-BOIn8V8d.css                  1.31 kB │ gzip:   0.66 kB
+dist/assets/save-writer-6ccprsHO.css           2.32 kB │ gzip:   0.88 kB
+dist/assets/game-select-BBcbApPk.css           4.77 kB │ gzip:   1.56 kB
+dist/assets/room-browser-D0N6sL-J.css          4.90 kB │ gzip:   1.35 kB
+dist/assets/playtest-app-CU5IufCk.css          8.53 kB │ gzip:   2.39 kB
+dist/assets/front-CfbWKfsS.css                23.42 kB │ gzip:   5.72 kB
+dist/assets/weapon-workshop-ui-BCBffw7T.css   35.90 kB │ gzip:   7.88 kB
+dist/assets/hud-KJkCjEBB.css                 108.02 kB │ gzip:  22.13 kB
+dist/assets/zoom-guard-CYxqEXnM.js             0.38 kB │ gzip:   0.21 kB
+dist/assets/training-app-Bb5GokGO.js           3.77 kB │ gzip:   1.94 kB
+dist/assets/room-browser-iSzD4kMy.js           4.31 kB │ gzip:   2.14 kB
+dist/assets/weapon-sharing-DteFY8rX.js         4.75 kB │ gzip:   2.54 kB
+dist/assets/game-select-I_UX56bX.js           11.83 kB │ gzip:   5.19 kB
+dist/assets/legacy-DmXRf04P.js                16.45 kB │ gzip:   6.51 kB
+dist/assets/save-writer-B5fAL5ib.js           32.61 kB │ gzip:  13.67 kB
+dist/assets/main-CyFfGEL8.js                  53.15 kB │ gzip:  18.76 kB
+dist/assets/weapon-workshop-ui-DlNuPNWn.js    65.06 kB │ gzip:  22.02 kB
+dist/assets/playtest-app-CtL-5zx-.js          80.09 kB │ gzip:  29.14 kB
+dist/assets/cloud-save-U4opufr0.js            82.40 kB │ gzip:  30.42 kB
+dist/assets/front-BDenF7bL.js                 97.42 kB │ gzip:  32.98 kB
+dist/assets/hud-Ld_MY_5r.js                  940.82 kB │ gzip: 264.70 kB
+
+✓ built in 2.60s
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.

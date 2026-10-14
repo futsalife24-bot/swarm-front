@@ -1,5 +1,14 @@
 let fullscreenRequest: Promise<void> | undefined;
 
+/** Let entry animation measure the viewport after the initiating touch settles. */
+export async function waitForFullscreenTransition() {
+  try {
+    await fullscreenRequest;
+  } catch {
+    // A rejected fullscreen request still leaves a usable windowed menu.
+  }
+}
+
 /** Keep native dialogs above an in-flight fullscreen transition from the same tap. */
 export function showModalAfterFullscreen(dialog: HTMLDialogElement) {
   const show = () => {

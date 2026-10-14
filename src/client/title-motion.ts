@@ -1,4 +1,6 @@
 import { mountScreenTransitions } from "./screen-transition";
+import { mountTitleEntry } from "./title-entry";
+import { consumeTitleEntryClick } from "./title-entry-input";
 
 /** Title entry only: presentation observes the existing actions, never delays them. */
 const mounted = new WeakMap<HTMLElement, () => void>();
@@ -21,6 +23,7 @@ export function trackTitleAction<T>(root: HTMLElement, action: () => T): T {
 }
 
 export function mountTitleMotion(root: HTMLElement) {
+  mountTitleEntry(root);
   mountScreenTransitions(root);
   const existing = mounted.get(root);
   if (existing) return existing();
@@ -162,6 +165,7 @@ export function mountTitleMotion(root: HTMLElement) {
   root.addEventListener(
     "click",
     (event) => {
+      if (consumeTitleEntryClick(root, event)) return;
       const button = buttonFor(event);
       if (!button) return;
       if (
