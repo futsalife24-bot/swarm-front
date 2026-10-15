@@ -1,0 +1,4 @@
+2026-10-15 会敵ムービー画面の回帰確認
+npx vitest run tests/encounter-film.test.ts: 1 file passed, 3 tests passed
+npm run typecheck: passed
+npx prettier --check src/client/encounter-film.ts tests/encounter-film.test.ts: passed

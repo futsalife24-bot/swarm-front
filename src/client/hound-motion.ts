@@ -5,6 +5,10 @@ import { leaperReportClip } from "./leaper-report-clip";
 import { enemyIdleClip } from "./enemy-idle-clip";
 import { enemyWindupClip } from "./enemy-windup-clip";
 import { trsPalette, TRS_PALETTE_GLSL } from "./motion-trs";
+import {
+  ENEMY_MOTION_FILES,
+  type EnemyMotionName,
+} from "./enemy-motion-assets";
 
 export type HoundClip =
   | "Idle"
@@ -48,15 +52,7 @@ export function loadHoundMotion(): Promise<HoundMotionAsset> {
   return loadEnemyMotion("hound");
 }
 export function loadEnemyMotion(
-  name:
-    | "hound"
-    | "leaper"
-    | "pleat"
-    | "prism"
-    | "ray"
-    | "foundry_zero"
-    | "calyx"
-    | "harrow",
+  name: EnemyMotionName,
   report = false,
 ): Promise<HoundMotionAsset> {
   const key = name + (report ? "_report" : "");
@@ -64,7 +60,7 @@ export function loadEnemyMotion(
   const request = new GLTFLoader()
     .loadAsync(
       // The service worker caches by URL. Version HARROW's path with its asset.
-      `${import.meta.env.BASE_URL}assets/enemies/${name}_motion_${name === "harrow" ? "v14" : name === "pleat" ? "v5" : name === "leaper" ? "v3" : "v1"}.glb${name === "calyx" ? "?rev=d1a7573d5976e284" : ""}`,
+      `${import.meta.env.BASE_URL}${ENEMY_MOTION_FILES[name]}`,
     )
     .then(({ scene: model, animations: clips }) => {
       // HARROW's authored forward is -X; production models face local -Z.

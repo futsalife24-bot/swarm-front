@@ -27,6 +27,8 @@ export default defineConfig({
       "tests/developer-auth.test.ts",
       "tests/briefing-cache.test.ts",
       "tests/encounter-camera.test.ts",
+      "tests/encounter-film.test.ts",
+      "tests/encounter-film-assets.test.ts",
       "tests/audio.test.ts",
       "tests/anomaly-voice.test.ts",
       "tests/anomaly-audio-lifecycle.test.ts",

@@ -1,0 +1,248 @@
+{
+  "recorded": "2026-10-15",
+  "rows": [
+    {
+      "key": "crawler",
+      "name": "PLEAT",
+      "file": "public/assets/encounters/report-v3/crawler-20261015.mp4",
+      "sha256": "5fdd8cbc8f66224d9b0e29f559825e13c8a74a0a00b7b28cb8ef4b85960d04b6",
+      "bytes": 1760141,
+      "duration": 11,
+      "stage": 1,
+      "camera": {
+        "distance": 8.469342498779298,
+        "fov": 40
+      },
+      "assets": [
+        {
+          "file": "public/assets/enemies/pleat_motion_v5.glb",
+          "sha256": "891dfa187cb1c0d54b92a47af962e693984ff9ba04198e5a3b7b95e763a8b018"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "capture": "webcodecs-vp9-frames",
+      "frameCount": 330,
+      "worldFrozen": true,
+      "allDecoded": true,
+      "idleAnimated": true
+    },
+    {
+      "key": "ant",
+      "name": "HOUND / VOLLEY",
+      "file": "public/assets/encounters/report-v3/ant-20261015.mp4",
+      "sha256": "c99de7b5a41722f18cba5f616b6f8ede3021d380784ba654d0250fe2635ff089",
+      "bytes": 1539179,
+      "duration": 11,
+      "stage": 1,
+      "camera": {
+        "distance": 11.79478628396988,
+        "fov": 40
+      },
+      "assets": [
+        {
+          "file": "public/assets/enemies/hound_motion_v1.glb",
+          "sha256": "ab0d39eb16a7de79a71810f625d2ef05a0246c211df78d0dce5be82a19f53a88"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "capture": "webcodecs-vp9-frames",
+      "frameCount": 330,
+      "worldFrozen": true,
+      "allDecoded": true,
+      "idleAnimated": true
+    },
+    {
+      "key": "spider",
+      "name": "HOUND / LEAPER",
+      "file": "public/assets/encounters/report-v3/spider-20261015.mp4",
+      "sha256": "18079378e93fe91b7828f4a6abd57ab7d408aada0ad482b0cdd27f0e8657ad25",
+      "bytes": 1648103,
+      "duration": 11,
+      "stage": 2,
+      "camera": {
+        "distance": 12.858500297069552,
+        "fov": 40
+      },
+      "assets": [
+        {
+          "file": "public/assets/enemies/leaper_motion_v3.glb",
+          "sha256": "7a57499b4e7ab82c9fe23155f6731d95213a4fb29835eaecf905e9cd939c38e3"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "capture": "webcodecs-vp9-frames",
+      "frameCount": 330,
+      "worldFrozen": true,
+      "allDecoded": true,
+      "idleAnimated": true
+    },
+    {
+      "key": "spitter",
+      "name": "PRISM",
+      "file": "public/assets/encounters/report-v3/spitter-20261015.mp4",
+      "sha256": "5cffaeed30aa207711629d0992047a910567a919499122648a117c64ebac75da",
+      "bytes": 2018023,
+      "duration": 11,
+      "stage": 3,
+      "camera": {
+        "distance": 13.259243953228,
+        "fov": 40
+      },
+      "assets": [
+        {
+          "file": "public/assets/enemies/prism_motion_v1.glb",
+          "sha256": "54439f79a6b552eff19413a82f164ddf3c2b4c37d3305ce332dc15e281c1450f"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "capture": "webcodecs-vp9-frames",
+      "frameCount": 330,
+      "worldFrozen": true,
+      "allDecoded": true,
+      "idleAnimated": true
+    },
+    {
+      "key": "boss",
+      "name": "FOUNDRY ZERO",
+      "file": "public/assets/encounters/report-v3/boss-20261015.mp4",
+      "sha256": "ed60fcf093553432f87fad2896a00e45602da5933343594078fe03144e222487",
+      "bytes": 1656747,
+      "duration": 11,
+      "stage": 4,
+      "camera": {
+        "distance": 69.46945783495904,
+        "fov": 40
+      },
+      "assets": [
+        {
+          "file": "public/assets/enemies/foundry_zero_motion_v1.glb",
+          "sha256": "a8e3b2921fac1000e30642227c4d5deb697f46777c7c5a5d85eb5fca892887cf"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "capture": "webcodecs-vp9-frames",
+      "frameCount": 330,
+      "worldFrozen": true,
+      "allDecoded": true,
+      "idleAnimated": true
+    },
+    {
+      "key": "hornet",
+      "name": "RAY",
+      "file": "public/assets/encounters/report-v3/hornet-20261015.mp4",
+      "sha256": "aa842551120fe0b0e68439ac408ad0f7f0ba71bd87415257acf8d081cc2d4838",
+      "bytes": 1453743,
+      "duration": 11,
+      "stage": 5,
+      "camera": {
+        "distance": 11.115856375694277,
+        "fov": 40
+      },
+      "assets": [
+        {
+          "file": "public/assets/enemies/ray_motion_v1.glb",
+          "sha256": "cb513efbbac681c6fbfde65f366a9b7ae3bdacfd87340605f771400fa9180d11"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "capture": "webcodecs-vp9-frames",
+      "frameCount": 330,
+      "worldFrozen": true,
+      "allDecoded": true,
+      "idleAnimated": true
+    },
+    {
+      "key": "worm",
+      "name": "CATENA",
+      "file": "public/assets/encounters/report-v3/worm-20261015.mp4",
+      "sha256": "e3b73bd91414d88d7347b37db2bed92e07ee5f9184cef7dddb3b34457b113f07",
+      "bytes": 1281989,
+      "duration": 11,
+      "stage": 6,
+      "camera": {
+        "distance": 57.11689969757572,
+        "fov": 40
+      },
+      "assets": [
+        {
+          "file": "public/assets/enemies/foundry_zero_mechanical_legs_v2.glb",
+          "sha256": "cefb976551d55167ba6b2ecf7ec9c7144105d890a85cb1c5335e24db90c275ab"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "capture": "webcodecs-vp9-frames",
+      "frameCount": 330,
+      "worldFrozen": true,
+      "allDecoded": true,
+      "idleAnimated": true
+    },
+    {
+      "key": "calyx",
+      "name": "CALYX",
+      "file": "public/assets/encounters/report-v3/calyx-20261015.mp4",
+      "sha256": "8557f014331033c8fca5c80d4b68932d1a8a75908f3df7c36e9c0ccce6fbe4a7",
+      "bytes": 1155454,
+      "duration": 11,
+      "stage": 7,
+      "camera": {
+        "distance": 6.419850425720215,
+        "fov": 40
+      },
+      "assets": [
+        {
+          "file": "public/assets/enemies/calyx_motion_v1.glb",
+          "sha256": "d1a7573d5976e28492be14e8fbe25c880ea93ed96946c7859c8c3f558089d9ad"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "capture": "webcodecs-vp9-frames",
+      "frameCount": 330,
+      "worldFrozen": true,
+      "allDecoded": true,
+      "idleAnimated": true
+    },
+    {
+      "key": "harrow",
+      "name": "HARROW",
+      "file": "public/assets/encounters/report-v3/harrow-20261015.mp4",
+      "sha256": "81161e9bbbd3f1917b79195a49ee61b7d5afaaffc8aa896c451de305c1ff3daf",
+      "bytes": 3051535,
+      "duration": 20,
+      "stage": 20,
+      "camera": {
+        "distance": 88.13437644767757,
+        "fov": 40
+      },
+      "assets": [
+        {
+          "file": "public/assets/enemies/harrow_motion_v14.glb",
+          "sha256": "0385b7c0198d47125a0779544726787c6076bc7213bd61382221eb0c6592d5ae"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "capture": "webcodecs-vp9-frames",
+      "frameCount": 600,
+      "worldFrozen": true,
+      "allDecoded": true,
+      "idleAnimated": true
+    }
+  ]
+}
