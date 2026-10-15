@@ -1,4 +1,8 @@
-# 現在地: エネミーレポートの試聴音量を30％低減して公開済み（2026-10-16）
+# 現在地: PLEATのレイ接地・壁面歩行を実装、公開準備（2026-10-16）
+
+既存4脚を維持し、床→壁→天井→薄い縁の裏側をレイ探索/IKで連続移動。前脚先行と後脚の寄せ、支持面からの胴体バネ、実外套寸法の押出し、権威状態/軽量姿勢配信を実装。base `967473edae08e20fee891c9b2313fce50ea9d886`、branch `codex/pleat-surface-walk-20261016`。型・関連93件・実Worker通信2件成功。Chromeで本番StructureMotion/実GLBの壁・天井・縁を確認。独立監査なしの最新方針を維持。次は実装commit、通常PR/main反映、既存Worker公開・配信確認。[詳細](PLEAT-SURFACE-WALK-20261016.md)。④⑤の要相談は継続。
+
+# 履歴: エネミーレポートの試聴音量を30％低減して公開済み（2026-10-16）
 
 本人依頼に従い`src/client/bestiary.ts`の試聴専用Audioへ、既存の設定音量をclampした後で0.7倍を適用。全ANOMALYの試聴が対象で、戦闘音声・BGM・保存設定は不変。base `67c8a04091d5a9191ae3a2ae13f7be5f2e945b95`、branch `codex/report-voice-volume-20261016`。[PR193](https://github.com/futsalife24-bot/swarm-front/pull/193)を通常merge。公開ソース `a6609763f42b1391c4b7ad6aa0da39180712e066`、Worker `eeba1cfc-eb85-4bbc-a318-c489a5b92ced`。型・既存音声17件・整形・build 212 modules・dry-run 422 assets成功。配信27ファイルSHA一致、health 200/ok:true。Windows Vitestの同時実行で一時SSRのENOENTが出た対象は単独再実行で5件成功。UI構造・音声素材は不変で実聴比較は未実施。証拠 [配信確認](evidence/report-voice-20261016/delivery.json)。小規模な局所変更として単独実施、実モデル/推論設定は未確認。
 

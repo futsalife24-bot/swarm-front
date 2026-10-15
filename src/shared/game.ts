@@ -187,6 +187,7 @@ export interface Player {
   safe: number;
 }
 export interface Enemy extends WormNode {
+  pleat?: import("./pleat-locomotion").PleatState;
   harrow?: import("./harrow").HarrowAttack;
   harrowAirborne?: boolean;
   harrowSwitchAt?: number;
@@ -1003,7 +1004,8 @@ export function finish(w: World, win: boolean, reason = "") {
   w.harrowMissiles = [];
 }
 // Where a shot has to pass to hit: the unit's own centre, lifted by how high it floats.
-export const eye = (e: Enemy) => e.y + ENEMIES[e.kind].aim * enemySize(e);
+export const eye = (e: Enemy) =>
+  e.pleat?.body.y ?? e.y + ENEMIES[e.kind].aim * enemySize(e);
 export const enemyBodies = (e: Enemy) =>
   [
     {
@@ -1744,6 +1746,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     // Repair pre-relief checkpoint heights before targeting or movement.
     // This also covers dormant enemies and segmented chains.
     for (const node of wormNodes(e)) {
+      if (e.kind === "crawler" && e.pleat) continue;
       const blocks = mapFor(w).blocks;
       const ground = groundHeight(node.x, node.z, blocks);
       const radius =
@@ -1888,7 +1891,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
             type: "burst",
             x: e.x + (ax / length) * 1.25,
             z: e.z + (az / length) * 1.25,
-            y: 0.3,
+            y: e.pleat?.body.y ?? e.y + 0.3,
             radius: 1.25,
           });
           for (const p of living) {
@@ -2019,6 +2022,10 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
                 ? 24
                 : 2.6) &&
       (e.kind !== "spider" || ((e.jump ?? 0) <= 0 && (e.perch ?? 0) <= 0)) &&
+      (e.kind !== "crawler" ||
+        (Math.abs((t.y ?? 0) - e.y) < 2.5 &&
+          !e.pleat?.transfer &&
+          !e.pleat?.settling)) &&
       (e.kind === "hornet"
         ? rayVisible(e, t, mapFor(w).blocks)
         : visible(e, t, mapFor(w).blocks))

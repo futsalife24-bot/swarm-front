@@ -26,6 +26,23 @@ const renderNumbers = new Set([
 export function encodeState(data: unknown): string {
   const weapons = new WeakSet<object>();
   return JSON.stringify(data, function (key, value) {
+    // Replicate solved PLEAT contacts/pose, not server-only ray search and springs.
+    // Persisted World still retains the complete controller state.
+    if (key === "pleat" && value)
+      return {
+        body: value.body,
+        up: value.up,
+        forward: value.forward,
+        poseForward: value.poseForward,
+        scale: value.scale,
+        feet: value.feet.map(
+          (f: { point: unknown; normal: unknown; planted: boolean }) => ({
+            point: f.point,
+            normal: f.normal,
+            planted: f.planted,
+          }),
+        ),
+      };
     const inWeapon = weapons.has(this);
     if (value && typeof value === "object") {
       if (
