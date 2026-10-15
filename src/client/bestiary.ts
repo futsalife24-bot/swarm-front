@@ -93,7 +93,8 @@ export function openBestiary(
   backgroundMusic().setReport(true);
   const voicePlayer = new Audio();
   voicePlayer.preload = "none";
-  voicePlayer.volume = Math.max(0, Math.min(1, options.voiceVolume ?? 0.35));
+  voicePlayer.volume =
+    Math.max(0, Math.min(1, options.voiceVolume ?? 0.35)) * 0.7;
   const stopVoice = () => {
     voicePlayer.pause();
     voicePlayer.currentTime = 0;
