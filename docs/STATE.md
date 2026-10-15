@@ -1,6 +1,6 @@
-# 現在地: エネミーレポートの試聴音量を30％下げる調整（2026-10-16）
+# 現在地: エネミーレポートの試聴音量を30％低減して公開済み（2026-10-16）
 
-本人依頼に従い`src/client/bestiary.ts`の試聴専用Audioへ、既存の設定音量をclampした後で0.7倍を適用。全ANOMALYの試聴が対象で、戦闘音声・BGM・保存設定は不変。base `67c8a04091d5a9191ae3a2ae13f7be5f2e945b95`、branch `codex/report-voice-volume-20261016`。公開結果は完了後に追記。小規模な局所変更として単独実施、実モデル/推論設定は未確認。
+本人依頼に従い`src/client/bestiary.ts`の試聴専用Audioへ、既存の設定音量をclampした後で0.7倍を適用。全ANOMALYの試聴が対象で、戦闘音声・BGM・保存設定は不変。base `67c8a04091d5a9191ae3a2ae13f7be5f2e945b95`、branch `codex/report-voice-volume-20261016`。[PR193](https://github.com/futsalife24-bot/swarm-front/pull/193)を通常merge。公開ソース `a6609763f42b1391c4b7ad6aa0da39180712e066`、Worker `eeba1cfc-eb85-4bbc-a318-c489a5b92ced`。型・既存音声17件・整形・build 212 modules・dry-run 422 assets成功。配信27ファイルSHA一致、health 200/ok:true。Windows Vitestの同時実行で一時SSRのENOENTが出た対象は単独再実行で5件成功。UI構造・音声素材は不変で実聴比較は未実施。証拠 [配信確認](evidence/report-voice-20261016/delivery.json)。小規模な局所変更として単独実施、実モデル/推論設定は未確認。
 
 # 履歴: HARROW全動作の表示・全9種会敵映像を公開完了（2026-10-15）
 
