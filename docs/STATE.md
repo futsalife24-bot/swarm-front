@@ -1,4 +1,8 @@
-# 現在地: ①〜③を公開完了、④⑤は具体案の相談待ち（2026-10-15）
+# 現在地: HARROW全動作の表示と全9種会敵映像を検証済み、main反映・公開へ（2026-10-15）
+
+HARROWはレポートのカメラだけ変更し、全17クリップで姿勢別画角・本体追従を実装。全9種の会敵映像を現行Renderer/GLBから1280×720・固定30fpsで再生成（通常11秒、HARROW20秒）。LEAPER v3/HARROW v14を反映し、素材/動画SHAによる旧版検出を追加。型・HARROW素材7件・モーション10件・全9映像照合1件・再生画面3件成功。実ChromeでHARROW11攻撃/3横画面、全9動画の正常再生と閉じる操作を確認。branch `codex/harrow-report-motion-scale-20261015`、base `c167a87419da11cf49ca029e168c1155f707e5db`。main反映・公開はこれから。詳細 [更新記録](ENEMY-REPORT-REFRESH-20261015.md)。独立Chat監査は最新方針に従い追加しない。④⑤は元の要相談を維持。
+
+# 履歴: ①〜③を公開完了、④⑤は具体案の相談待ち（2026-10-15）
 
 [PR189](https://github.com/futsalife24-bot/swarm-front/pull/189)を通常merge。公開ソースmain `f22fa8ca839a41ae34bcde09d7e492b9a3674b09`、Worker Version `39597d2c-e561-49a3-b387-398a29355a63`。[公開版](https://swarm-front.melosalife-24.workers.dev/front)。通常FOUNDRY ZERO／連結CATENAの独立レポート・声・映像・解禁、HARROW初期拡大、PLEAT〜HARROWの遭遇順を反映。生存側の未遭遇解禁漏れも修正。
 

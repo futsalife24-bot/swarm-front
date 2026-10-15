@@ -1,9 +1,11 @@
-import { menuDialog } from "./menu-ui";
+import { closeMenuDialog, menuDialog } from "./menu-ui";
+import { waitForFullscreenTransition } from "./landscape";
 import {
   ENEMY_REPORT_NAMES,
   type EnemyReportId,
 } from "../shared/enemy-identity";
 import "./encounter-film.css";
+import { ENCOUNTER_FILM_FILES } from "./encounter-film-files";
 
 export const encounterFilms = ENEMY_REPORT_NAMES;
 export type EncounterFilm = keyof typeof encounterFilms;
@@ -28,15 +30,7 @@ export function showEncounterFilm(
   const retry = d.querySelector<HTMLButtonElement>(".film-retry")!;
   d.querySelector("h2")!.id = "report-film-title";
   d.setAttribute("aria-labelledby", "report-film-title");
-  const file =
-    key === "harrow"
-      ? "harrow-v8"
-      : key === "calyx"
-        ? "calyx-v5"
-        : key === "worm"
-          ? "worm-catena-v1"
-          : key;
-  const source = `${import.meta.env.BASE_URL}assets/encounters/report-v2/${file}.mp4`;
+  const source = `${import.meta.env.BASE_URL}${ENCOUNTER_FILM_FILES[key]}`;
   video.dataset.source = source;
   let request: AbortController | undefined;
   let objectUrl: string | undefined;
@@ -85,7 +79,7 @@ export function showEncounterFilm(
   retry.onclick = () => {
     void load();
   };
-  const closeWithReport = () => d.close();
+  const closeWithReport = () => closeMenuDialog(d);
   owner.addEventListener("close", closeWithReport, { once: true });
   d.addEventListener(
     "close",
@@ -99,5 +93,7 @@ export function showEncounterFilm(
     },
     { once: true },
   );
-  void load();
+  void waitForFullscreenTransition().then(() => {
+    if (d.open) void load();
+  });
 }

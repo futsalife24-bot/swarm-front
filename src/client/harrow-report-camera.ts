@@ -37,6 +37,69 @@ export const HARROW_POSE_FRAMES = {
   move: hydrate(HARROW_REPORT_PROFILE.move),
 };
 
+type MotionSupport = readonly (readonly [number, number])[];
+type MotionSample = {
+  center: readonly number[];
+  horizontal: MotionSupport;
+  vertical: MotionSupport;
+};
+type MotionProfile = { duration: number; frames: readonly MotionSample[] };
+const motionProfiles = HARROW_REPORT_PROFILE.motion as unknown as Record<
+  string,
+  MotionProfile
+>;
+const loopingClips = new Set<HoundClip>(["Idle", "Locomotion", "Flight"]);
+
+function supportDistance(
+  frame: MotionSample,
+  verticalTangent: number,
+  aspect: number,
+) {
+  let distance = 0;
+  for (const [points, tangent] of [
+    [frame.horizontal, verticalTangent * aspect],
+    [frame.vertical, verticalTangent],
+  ] as const)
+    for (const [extent, depth] of points)
+      distance = Math.max(distance, depth + (1.12 * extent) / tangent);
+  return distance;
+}
+
+/** Body-only framing at the report pose's authored sample time. */
+export function harrowMotionFrame(
+  clip: HoundClip,
+  sample: number,
+  verticalFov: number,
+  aspect: number,
+): { center: T.Vector3; distance: number } {
+  const profile = motionProfiles[clip];
+  if (!profile)
+    throw new Error(`Missing HARROW report motion profile: ${clip}`);
+  const duration = profile.duration;
+  const time = loopingClips.has(clip)
+    ? ((sample % duration) + duration) % duration
+    : T.MathUtils.clamp(sample, 0, duration);
+  const index = (time / duration) * (profile.frames.length - 1);
+  const from = Math.floor(index);
+  const to = Math.min(from + 1, profile.frames.length - 1);
+  const blend = index - from;
+  const a = profile.frames[from];
+  const b = profile.frames[to];
+  const center = new T.Vector3(...(a.center as [number, number, number])).lerp(
+    new T.Vector3(...(b.center as [number, number, number])),
+    blend,
+  );
+  const tangent = Math.tan(T.MathUtils.degToRad(verticalFov / 2));
+  return {
+    center,
+    distance: T.MathUtils.lerp(
+      supportDistance(a, tangent, aspect),
+      supportDistance(b, tangent, aspect),
+      blend,
+    ),
+  };
+}
+
 export function harrowProfileDistance(
   frame: HarrowPoseFrame,
   verticalFov: number,

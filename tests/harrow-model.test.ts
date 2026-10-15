@@ -4,14 +4,19 @@ import { expect, it } from "vitest";
 import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { HARROW, harrowMissileOrigins } from "../src/shared/harrow";
-import { HARROW_FLIGHT_CYCLE } from "../src/shared/harrow-motion";
+import {
+  HARROW_FLIGHT_CYCLE,
+  harrowSpinRotation,
+} from "../src/shared/harrow-motion";
 import {
   HARROW_REPORT_DIRECTION,
   HARROW_POSE_FRAMES,
+  harrowMotionFrame,
   harrowProfileDistance,
   projectedBoxDistance,
 } from "../src/client/harrow-report-camera";
 import { HARROW_REPORT_PROFILE } from "../src/client/harrow-report-camera-profile";
+import { HARROW_REPORT_SEQUENCE } from "../src/client/enemy-report-motion";
 
 async function model() {
   const bytes = readFileSync("public/assets/enemies/harrow_motion_v14.glb");
@@ -34,6 +39,8 @@ it("matches the shipped HARROW asset and frames both complete motion clips", asy
   );
   expect(HARROW_REPORT_PROFILE.source.rotationY).toBe(-Math.PI / 2);
   expect(HARROW_REPORT_PROFILE.source.samplesPerClip).toBe(13);
+  expect(HARROW_REPORT_PROFILE.source.spinWind).toBe(HARROW.spinWind);
+  expect(HARROW_REPORT_PROFILE.source.spinTurn).toBe(HARROW.spinTurn);
   const asset = await model();
   asset.scene.rotation.y = HARROW_REPORT_PROFILE.source.rotationY;
   asset.scene.updateMatrixWorld(true);
@@ -99,6 +106,135 @@ it("matches the shipped HARROW asset and frames both complete motion clips", asy
       mixer.uncacheRoot(asset.scene);
     }
 });
+
+it("tracks every report clip's actual intermediate skinned poses", async () => {
+  const asset = await model();
+  asset.scene.rotation.y = HARROW_REPORT_PROFILE.source.rotationY;
+  asset.scene.updateMatrixWorld(true);
+  const meshes: T.SkinnedMesh[] = [];
+  asset.scene.traverse((object) => {
+    if (object instanceof T.SkinnedMesh) meshes.push(object);
+  });
+  const mixer = new T.AnimationMixer(asset.scene);
+  const world = new T.Vector3();
+  const projected = new T.Vector3();
+  const yAxis = new T.Vector3(0, 1, 0);
+  let minimum = { occupied: Infinity, clip: "", phase: -1, aspect: 0 };
+  const clips = new Set([
+    "Idle",
+    "Locomotion",
+    ...HARROW_REPORT_SEQUENCE.map((phase) => phase.clip),
+  ]);
+  expect(Object.keys(HARROW_REPORT_PROFILE.motion).sort()).toEqual(
+    [...clips].sort(),
+  );
+  for (const clipName of clips) {
+    const clip = asset.animations.find((item) => item.name === clipName)!;
+    expect(clip, clipName).toBeDefined();
+    const steps =
+      clipName === "Spin"
+        ? HARROW_REPORT_PROFILE.source.spinSamples - 1
+        : HARROW_REPORT_PROFILE.source.motionSamples - 1;
+    mixer.stopAllAction();
+    const action = mixer.clipAction(clip).reset();
+    if (!["Idle", "Locomotion", "Flight"].includes(clipName)) {
+      action.setLoop(T.LoopOnce, 1);
+      action.clampWhenFinished = true;
+    }
+    action.play();
+    for (let phase = 0; phase < steps; phase++) {
+      const sample = (clip.duration * (phase + 0.5)) / steps;
+      mixer.setTime(sample);
+      asset.scene.updateMatrixWorld(true);
+      const views = [
+        [949, 240],
+        [327, 206],
+        [303, 212],
+        [231, 182],
+      ].map(([width, height]) => {
+        const { center, distance } = harrowMotionFrame(
+          clipName,
+          sample,
+          38,
+          width / height,
+        );
+        const camera = new T.PerspectiveCamera(38, width / height, 0.01, 500);
+        camera.position
+          .copy(HARROW_REPORT_DIRECTION)
+          .multiplyScalar(distance)
+          .add(center);
+        camera.lookAt(center);
+        camera.updateMatrixWorld();
+        return {
+          camera,
+          minX: Infinity,
+          maxX: -Infinity,
+          minY: Infinity,
+          maxY: -Infinity,
+        };
+      });
+      for (const mesh of meshes) {
+        const count = mesh.geometry.getAttribute("position").count;
+        for (let i = 0; i < count; i++) {
+          mesh.getVertexPosition(i, world).applyMatrix4(mesh.matrixWorld);
+          if (clipName === "Spin")
+            world.applyAxisAngle(yAxis, harrowSpinRotation(sample));
+          for (const view of views) {
+            projected.copy(world).project(view.camera);
+            view.minX = Math.min(view.minX, projected.x);
+            view.maxX = Math.max(view.maxX, projected.x);
+            view.minY = Math.min(view.minY, projected.y);
+            view.maxY = Math.max(view.maxY, projected.y);
+          }
+        }
+      }
+      for (const view of views) {
+        const max = Math.max(
+          Math.abs(view.minX),
+          Math.abs(view.maxX),
+          Math.abs(view.minY),
+          Math.abs(view.maxY),
+        );
+        const occupied = Math.max(
+          (view.maxX - view.minX) / 2,
+          (view.maxY - view.minY) / 2,
+        );
+        if (occupied < minimum.occupied)
+          minimum = {
+            occupied,
+            clip: clipName,
+            phase,
+            aspect: view.camera.aspect,
+          };
+        expect(
+          max,
+          `${clipName} ${phase}/${steps} aspect ${view.camera.aspect}`,
+        ).toBeLessThan(1);
+        expect(
+          occupied,
+          `${clipName} ${phase}/${steps} aspect ${view.camera.aspect}`,
+        ).toBeGreaterThan(0.4);
+      }
+    }
+  }
+  expect(minimum.occupied, JSON.stringify(minimum)).toBeGreaterThan(0.5);
+  const spinStart = harrowMotionFrame("Spin", 0, 38, 949 / 240);
+  const idleStart = harrowMotionFrame("Idle", 0, 38, 949 / 240);
+  expect(spinStart.distance).toBeLessThan(idleStart.distance * 1.25);
+  expect(harrowMotionFrame("Spin", -1, 38, 949 / 240).distance).toBeCloseTo(
+    spinStart.distance,
+  );
+  expect(
+    harrowMotionFrame(
+      "Idle",
+      HARROW_REPORT_PROFILE.motion.Idle.duration,
+      38,
+      949 / 240,
+    ).distance,
+  ).toBeCloseTo(idleStart.distance);
+  mixer.stopAllAction();
+  mixer.uncacheRoot(asset.scene);
+}, 120_000);
 
 it("the shipped HARROW clips finish at their authoritative attack transitions", async () => {
   const asset = await model();

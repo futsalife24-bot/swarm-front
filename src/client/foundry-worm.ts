@@ -10,8 +10,9 @@ import {
 } from "../shared/foundry-defs";
 import { FoundryWormGait } from "./foundry-worm-gait";
 import { windupPressure } from "./enemy-windup-clip";
+import { FOUNDRY_WORM_FILE } from "./enemy-motion-assets";
 
-export const FOUNDRY_WORM_ASSET = `${import.meta.env.BASE_URL}assets/enemies/foundry_zero_mechanical_legs_v2.glb`;
+export const FOUNDRY_WORM_ASSET = `${import.meta.env.BASE_URL}${FOUNDRY_WORM_FILE}`;
 
 const UNIT_NAMES = [
   "FZ_HEAD",

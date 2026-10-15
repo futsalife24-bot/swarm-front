@@ -1,0 +1,83 @@
+[
+  {
+    "currentTime": 11,
+    "duration": 11,
+    "error": null,
+    "paused": true,
+    "ready": 4,
+    "source": "/assets/encounters/report-v3/crawler-20261015.mp4?v=5fdd8cbc8f66",
+    "title": "PLEAT — 会敵ムービー"
+  },
+  {
+    "currentTime": 11,
+    "duration": 11,
+    "error": null,
+    "paused": true,
+    "ready": 4,
+    "source": "/assets/encounters/report-v3/ant-20261015.mp4?v=c99de7b5a417",
+    "title": "HOUND / VOLLEY — 会敵ムービー"
+  },
+  {
+    "currentTime": 11,
+    "duration": 11,
+    "error": null,
+    "paused": true,
+    "ready": 4,
+    "source": "/assets/encounters/report-v3/spider-20261015.mp4?v=18079378e93f",
+    "title": "HOUND / LEAPER — 会敵ムービー"
+  },
+  {
+    "currentTime": 11,
+    "duration": 11,
+    "error": null,
+    "paused": true,
+    "ready": 4,
+    "source": "/assets/encounters/report-v3/spitter-20261015.mp4?v=5cffaeed30aa",
+    "title": "PRISM — 会敵ムービー"
+  },
+  {
+    "currentTime": 0.104475,
+    "duration": 11,
+    "error": null,
+    "paused": false,
+    "ready": 4,
+    "source": "/assets/encounters/report-v3/boss-20261015.mp4?v=ed60fcf09355",
+    "title": "FOUNDRY ZERO — 会敵ムービー"
+  },
+  {
+    "currentTime": 0.121474,
+    "duration": 11,
+    "error": null,
+    "paused": false,
+    "ready": 4,
+    "source": "/assets/encounters/report-v3/hornet-20261015.mp4?v=aa842551120f",
+    "title": "RAY — 会敵ムービー"
+  },
+  {
+    "currentTime": 0.061479,
+    "duration": 11,
+    "error": null,
+    "paused": false,
+    "ready": 4,
+    "source": "/assets/encounters/report-v3/worm-20261015.mp4?v=e3b73bd91414",
+    "title": "CATENA — 会敵ムービー"
+  },
+  {
+    "currentTime": 0.063351,
+    "duration": 11,
+    "error": null,
+    "paused": false,
+    "ready": 4,
+    "source": "/assets/encounters/report-v3/calyx-20261015.mp4?v=8557f0143310",
+    "title": "CALYX — 会敵ムービー"
+  },
+  {
+    "currentTime": 0.088385,
+    "duration": 20,
+    "error": null,
+    "paused": false,
+    "ready": 4,
+    "source": "/assets/encounters/report-v3/harrow-20261015.mp4?v=81161e9bbbd3",
+    "title": "HARROW — 会敵ムービー"
+  }
+]
