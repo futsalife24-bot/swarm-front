@@ -81,6 +81,10 @@ v14実素材の検証では外接箱距離56〜59に対して投影距離30〜36
 
 公開アカウント: 2026-10-15に既存アカウントのWorkers Plans画面で「無料・0ドル・現在の計画」を確認（`cloudflare-free.png`、`cloudflare-plan-ui.txt`）。CLI契約APIは`subscriptions`がHTTP 403であり、`account-settings`の`standard`だけをFreeの根拠にしていない。既存OAuthによる当日UTC 00:00〜06:07のアカウント全Workers使用量は81 requests、0 errors、85 subrequests（`account-plan.json`）。DO使用量は未取得。契約・権限・サービス構成の変更なし。
 
+## 最終独立判定
+
+対象 `9a4476a325c96b5cf21dbeb974a92298975fe4c6` は合格、必須P0=0/P1=0/P2=0。P2-01解消。監査側の独立試験24条件、限定DOM 30シナリオ・144表示チェックを通過。原文は `audit-final.txt`。描画・音声を代替した隔離DOMであり、実ページ全体/実機/実WebGL/型/元の試験/本番buildとdry-runの独立再実行ではない。主担当の実確認と区別する。以降の差分は文書・証拠のみで製品不変。
+
 ## 後続④⑤
 
 [基地・チュートリアルの相談案](BASE-TUTORIAL-PROPOSAL-20261015.md)と比較モックを用意し、本人へ方向性を質問済み。本番コード・初回保存には未反映。
