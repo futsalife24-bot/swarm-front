@@ -36,7 +36,7 @@ import { FrontSettings } from "./front-settings";
 import { hudMarkup, updateCooldowns } from "./hud";
 import { Minimap } from "./minimap";
 import { frontUpgradeStrip, frontUpgradeDetails } from "./front-upgrade-ui";
-import { openBestiary } from "./bestiary";
+import { openFrontBestiary } from "./front-report-access";
 import { CHANGELOG } from "./changelog";
 import { frontUpgradeCardMarkup } from "./front-upgrade-ui";
 import { homeMarkup } from "./home-screen";
@@ -277,7 +277,7 @@ function home() {
     "強化候補・融合条件・進行";
   $("open-armory").onclick = () => base();
   $("open-bestiary").onclick = () =>
-    openBestiary({ voiceVolume: sound.effectsVolume });
+    openFrontBestiary(progressStorage, sound.effectsVolume);
   $("home-settings").onclick = () => menuSettings(home);
   $("home-tutorial").textContent = "操作ガイド";
   $("home-tutorial").onclick = () =>

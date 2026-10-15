@@ -1,0 +1,74 @@
+[
+  {
+    "scenario": "normal",
+    "key": "boss",
+    "films": 1,
+    "name": "FOUNDRY ZERO",
+    "note": "機構型",
+    "status": "待機モーションを再生中",
+    "voices": 1
+  },
+  {
+    "scenario": "normal",
+    "key": "worm",
+    "films": 0,
+    "name": "？？？",
+    "note": "未遭遇",
+    "status": "遭遇すると観察できます",
+    "voices": 0
+  },
+  {
+    "scenario": "linked",
+    "key": "boss",
+    "films": 0,
+    "name": "？？？",
+    "note": "未遭遇",
+    "status": "遭遇すると観察できます",
+    "voices": 0
+  },
+  {
+    "scenario": "linked",
+    "key": "worm",
+    "films": 1,
+    "name": "CATENA",
+    "note": "機構型",
+    "status": "モデルを読み込み中…",
+    "voices": 2
+  },
+  {
+    "scenario": "coop",
+    "key": "boss",
+    "films": 1,
+    "name": "FOUNDRY ZERO",
+    "note": "機構型",
+    "status": "待機モーションを再生中",
+    "voices": 1
+  },
+  {
+    "scenario": "coop",
+    "key": "worm",
+    "films": 0,
+    "name": "？？？",
+    "note": "協力で姿を確認",
+    "status": "モデルを読み込み中…",
+    "voices": 0
+  },
+  {
+    "scenario": "none",
+    "key": "boss",
+    "films": 0,
+    "name": "？？？",
+    "note": "未遭遇",
+    "status": "遭遇すると観察できます",
+    "voices": 0
+  },
+  {
+    "scenario": "none",
+    "key": "worm",
+    "films": 0,
+    "name": "？？？",
+    "note": "未遭遇",
+    "status": "遭遇すると観察できます",
+    "voices": 0
+  }
+]

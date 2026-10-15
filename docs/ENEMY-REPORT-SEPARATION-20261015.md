@@ -67,6 +67,14 @@ v14実素材の検証では外接箱距離56〜59に対して投影距離30〜36
 
 サブエージェント3体へ①構造分離・②カメラ・④⑤具体案を分担。指定モデルは `gpt-6-sol` / `medium`、実行側の実設定は未確認。主担当の実モデルID/推論設定も未確認。自己レビューと統合は主担当、必須の通常Chat監査は別工程。
 
+## 生存タイトルの解禁修正と公開準備
+
+初回監査の途中報告で、生存側 `front-app.ts` のレポート入口だけ遭遇記録を渡さず、全種をソロ解禁する既定値へ落ちる問題を確認。`front-report-access.ts` で通常保存の遭遇記録を読み取り専用で渡すよう修正した。保存なし/不正時は空記録にし、レポート閲覧による保存の移行・上書きを行わない。`boss`/`worm`/`coop`は保持する。
+
+型・新規5条件・既存識別2件成功。主担当Chromeで新ヘルパーを通した8解禁条件、協力CATENAの黒いシルエットと名前/声/映画なし、実際の `/front.html` タイトル入口で全未遭遇の非解禁を確認。証拠は `front-access-checks.json`、`front-coop-silhouette.png`、`front-title-locked.png`。監査最終結果受領・修正版の再提出は継続中。
+
+公開アカウント: 2026-10-15に既存アカウントのWorkers Plans画面で「無料・0ドル・現在の計画」を確認（`cloudflare-free.png`、`cloudflare-plan-ui.txt`）。CLI契約APIは`subscriptions`がHTTP 403であり、`account-settings`の`standard`だけをFreeの根拠にしていない。既存OAuthによる当日UTC 00:00〜06:07のアカウント全Workers使用量は81 requests、0 errors、85 subrequests（`account-plan.json`）。DO使用量は未取得。契約・権限・サービス構成の変更なし。
+
 ## 後続④⑤
 
 [基地・チュートリアルの相談案](BASE-TUTORIAL-PROPOSAL-20261015.md)と比較モックを用意し、本人へ方向性を質問済み。本番コード・初回保存には未反映。

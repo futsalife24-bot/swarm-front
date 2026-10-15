@@ -1,0 +1,26 @@
+{
+  "checkedAtUtc": "2026-10-15T06:07:22.081077+00:00",
+  "source": "Cloudflare API with existing Wrangler OAuth",
+  "endpoints": {
+    "workers/account-settings": {
+      "httpStatus": 200,
+      "default_usage_model": "standard"
+    },
+    "subscriptions": {
+      "httpStatus": 403
+    }
+  },
+  "workersUsageUtcToday": {
+    "periodStartUtc": "2026-10-15T00:00:00+00:00",
+    "periodEndUtc": "2026-10-15T06:07:48.984682+00:00",
+    "scope": "all account Workers",
+    "httpStatus": 200,
+    "rowCount": 1,
+    "limit": 10000,
+    "sum": {
+      "requests": 81,
+      "errors": 0,
+      "subrequests": 85
+    }
+  }
+}

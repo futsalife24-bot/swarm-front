@@ -1,0 +1,81 @@
+support
+    - generic: サポート
+  - button "ユーザーメニュー":
+- banner:
+  - generic: 計算する
+  - heading "労働者の計画" [level=1]:
+    - generic: 労働者の計画
+- heading "無料" [level=2]:
+  - generic: 無料
+- generic: 0ドル
+- paragraph:
+  - generic: 個人使用および簡単な用途向け
+- button "現在の計画" [disabled]:
+  - generic: 現在の計画
+- heading "有料" [level=2]:
+  - generic: 有料
+- generic: 5ドル
+- generic: / 月
+- generic: + 使用量
+- paragraph:
+  - generic: ビジネス用途およびスケーリングアプリケーション向け
+- button "アップグレード":
+  - generic: アップグレード
+- heading "企業" [level=2]:
+  - generic: 企業
+- generic: 話し合いましょう
+- paragraph:
+  - generic: ミッションクリティカルなアプリケーションを大規模に展開する場合
+- link "お問い合わせ":
+  - /url: https://www.cloudflare.com/resource/contact-enterprise-sales/
+  - generic: お問い合わせ
+- region "ハイライト":
+  - heading "ハイライト" [level=2]:
+    - generic: ハイライト
+  - heading "含まれる" [level=3]:
+    - generic: 含まれる
+  - list:
+    - generic: 1日あたり10万件のリクエスト
+    - generic: リクエストごとに最大10ミリ秒のCPU時間
+    - generic: コミュニティのサポート
+  - heading "すべて無料" [level=3]:
+    - generic: すべて無料
+  - list:
+    - generic: 月間1,000万件のリクエストが含まれ、その後は100万件あたり0.30ドル。
+    - generic: リクエストごとに最大5分間のCPU時間
+    - generic: 標準チケットサポート
+    - generic: コンテナとメール送信機能が含まれています
+  - heading "有料コンテンツすべて" [level=3]:
+    - generic: 有料コンテンツすべて
+  - list:
+    - generic: すべての製品に対するカスタム価格設定と制限
+    - generic: 優先サポート
+    - generic: 専任アカウントチーム
+    - generic: 高度なコンプライアンスとセキュリティ
+    - generic: カスタムモデルの展開
+    - generic: 強化されたログプッシュ
+    - generic: プラットフォーム労働者の基本料金が免除されます
+- heading "計算する" [level=2]:
+  - generic: 計算する
+- table:
+  - rowgroup:
+    - row "メトリック 無料 有料 企業":
+      - columnheader "メトリック":
+        - generic: メトリック
+      - columnheader "無料":
+        - generic: 無料
+      - columnheader "有料":
+        - generic: 有料
+      - columnheader "企業":
+        - generic: 企業
+  - rowgroup:
+    - row "労働者":
+      - columnheader "労働者":
+        - generic: 労働者
+    - row "リクエスト 1日あたり10万 100万件のリクエストあたり0.30ドル カスタム":
+      - rowheader "リクエスト":
+        - generic: リクエスト
+      - cell "1日あたり10万":
+        - generic: 1日あたり10万
+      - cell "100万件のリクエストあたり0.30ドル":
+        - g
