@@ -1,0 +1,69 @@
+{
+  "base": "https://swarm-front.melosalife-24.workers.dev/",
+  "checkedAt": "2026-10-15T13:58:12.410Z",
+  "results": [
+    {
+      "key": "crawler",
+      "status": 200,
+      "bytes": 1760141,
+      "sha256": "5fdd8cbc8f66224d9b0e29f559825e13c8a74a0a00b7b28cb8ef4b85960d04b6",
+      "match": true
+    },
+    {
+      "key": "ant",
+      "status": 200,
+      "bytes": 1539179,
+      "sha256": "c99de7b5a41722f18cba5f616b6f8ede3021d380784ba654d0250fe2635ff089",
+      "match": true
+    },
+    {
+      "key": "spider",
+      "status": 200,
+      "bytes": 1648103,
+      "sha256": "18079378e93fe91b7828f4a6abd57ab7d408aada0ad482b0cdd27f0e8657ad25",
+      "match": true
+    },
+    {
+      "key": "spitter",
+      "status": 200,
+      "bytes": 2018023,
+      "sha256": "5cffaeed30aa207711629d0992047a910567a919499122648a117c64ebac75da",
+      "match": true
+    },
+    {
+      "key": "boss",
+      "status": 200,
+      "bytes": 1656747,
+      "sha256": "ed60fcf093553432f87fad2896a00e45602da5933343594078fe03144e222487",
+      "match": true
+    },
+    {
+      "key": "hornet",
+      "status": 200,
+      "bytes": 1453743,
+      "sha256": "aa842551120fe0b0e68439ac408ad0f7f0ba71bd87415257acf8d081cc2d4838",
+      "match": true
+    },
+    {
+      "key": "worm",
+      "status": 200,
+      "bytes": 1281989,
+      "sha256": "e3b73bd91414d88d7347b37db2bed92e07ee5f9184cef7dddb3b34457b113f07",
+      "match": true
+    },
+    {
+      "key": "calyx",
+      "status": 200,
+      "bytes": 1155454,
+      "sha256": "8557f014331033c8fca5c80d4b68932d1a8a75908f3df7c36e9c0ccce6fbe4a7",
+      "match": true
+    },
+    {
+      "key": "harrow",
+      "status": 200,
+      "bytes": 3051535,
+      "sha256": "81161e9bbbd3f1917b79195a49ee61b7d5afaaffc8aa896c451de305c1ff3daf",
+      "match": true
+    }
+  ]
+}
