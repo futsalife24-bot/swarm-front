@@ -68,6 +68,7 @@ import { menuDialog } from "./menu-ui";
 import { RewardedAdSession, type AdOutcome } from "./rewarded-ad";
 
 import { openBestiary } from "./bestiary";
+import { ENEMY_REPORT_NAMES, enemyReportId } from "../shared/enemy-identity";
 import { developerProgress } from "./developer-mode";
 import {
   developerAuthorized,
@@ -646,7 +647,7 @@ function encounter() {
   const soldier = world.players.find((p) => p.id === "solo");
   if (!soldier || soldier.hp <= 0) return;
   for (const e of world.enemies) {
-    const key = e.segments ? "worm" : e.kind;
+    const key = enemyReportId(e);
     if (save.encounters[key] === "solo") continue;
     if (view.spawnEffects.active(e.id)) continue;
     // Let the normal renderer place an asynchronously loaded model before freezing it.
@@ -691,10 +692,7 @@ function encounter() {
       d.dataset.enemy = key;
       const title = d.querySelector("h2")!;
       const [family, variant] = names[key].split(" / ");
-      title.innerHTML =
-        key === "worm"
-          ? 'FOUNDRY ZERO<span class="pt-intro-variant">連結炉</span>'
-          : `${esc(family)}${variant ? `<span class="pt-intro-variant">${esc(variant)}</span>` : ""}`;
+      title.innerHTML = `${esc(family)}${variant ? `<span class="pt-intro-variant">${esc(variant)}</span>` : ""}`;
       d.querySelector(".eyebrow")!.textContent = "ANOMALY // FIRST CONTACT";
       const oldPosition = view.camera.position.clone(),
         oldQuaternion = view.camera.quaternion.clone(),
@@ -1158,17 +1156,7 @@ let filter = "all",
   encounterActive = false,
   loadReady = false;
 const adSession = new RewardedAdSession();
-const names: Record<Enemy["kind"] | "worm", string> = {
-  harrow: "HARROW",
-  calyx: "CALYX",
-  crawler: "PLEAT",
-  ant: "HOUND / VOLLEY",
-  spider: "HOUND / LEAPER",
-  spitter: "PRISM",
-  hornet: "RAY",
-  boss: "FOUNDRY ZERO",
-  worm: "FOUNDRY ZERO 連結炉",
-};
+const names = ENEMY_REPORT_NAMES;
 const preferences = createPlaytestPreferences(controls, sound, view, minimap);
 installZoomGuard();
 installLandscapeGuard(() => pause());

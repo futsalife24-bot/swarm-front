@@ -3,6 +3,7 @@ import { CAVE_BLOCKS } from "./cave";
 import { MAP_SCALE } from "./arena";
 import { BLOCKS, type Block } from "./map-blocks";
 import { BRANCH_15 } from "./campaign";
+import { ENEMY_REPORT_NAMES } from "./enemy-identity";
 
 export interface ArenaMap {
   assetIndex?: number;
@@ -197,7 +198,7 @@ const plans = [
   {
     name: "形成炉迎撃",
     map: 3,
-    brief: "初のFOUNDRY ZERO。護衛を倒して攻撃の隙を作る。",
+    brief: `初の${ENEMY_REPORT_NAMES.boss}。護衛を倒して攻撃の隙を作る。`,
     waves: [
       wave({ crawler: 16, ant: 12 }, [], 0.75),
       wave({ crawler: 12, ant: 8 }, ["crown"], 1.3),
@@ -216,7 +217,7 @@ const plans = [
   {
     name: "装甲回廊",
     map: 1,
-    brief: "連結炉が初登場。長い胴体と護衛をまとめて狙う。",
+    brief: `${ENEMY_REPORT_NAMES.worm}が初登場。長い胴体と護衛をまとめて狙う。`,
     waves: [
       wave({ crawler: 18, spider: 14 }, [], 0.75),
       wave({ ant: 16, spitter: 8 }, ["worm"], 1.2),
@@ -236,7 +237,7 @@ const plans = [
   {
     name: "開幕の王",
     map: 1,
-    brief: "開始直後にFOUNDRY ZERO。撃破後にも掃討戦が続く。",
+    brief: `開始直後に${ENEMY_REPORT_NAMES.boss}。撃破後にも掃討戦が続く。`,
     waves: [
       wave({ crawler: 12, hornet: 8 }, ["crown"], 1.1),
       wave({ ant: 16, spider: 12, spitter: 8 }, [], 0.8),
@@ -256,7 +257,7 @@ const plans = [
   {
     name: "地底の反攻",
     map: 5,
-    brief: "中盤の連結炉を越え、最後は雑魚の増援を掃討。",
+    brief: `中盤の${ENEMY_REPORT_NAMES.worm}を越え、最後は雑魚の増援を掃討。`,
     waves: [
       wave({ ant: 22, spider: 14 }, [], 0.7),
       wave({ crawler: 16, spitter: 10 }, ["worm"], 1),
@@ -266,7 +267,7 @@ const plans = [
   {
     name: "双冠の門",
     map: 2,
-    brief: "FOUNDRY ZERO2体が初めて同時出現。片側から崩す。",
+    brief: `${ENEMY_REPORT_NAMES.boss}2体が初めて同時出現。片側から崩す。`,
     waves: [
       wave({ crawler: 18, ant: 16, hornet: 10 }, [], 0.7),
       wave({ ant: 14, spitter: 8 }, ["crown", "crown"], 1.2),
@@ -287,7 +288,7 @@ const plans = [
   {
     name: "異形共闘",
     map: 4,
-    brief: "通常型と連結炉型が同時出現。間に挟まれない。",
+    brief: `${ENEMY_REPORT_NAMES.boss}と${ENEMY_REPORT_NAMES.worm}が同時出現。間に挟まれない。`,
     waves: [
       wave({ spider: 20, spitter: 10, hornet: 16 }, [], 0.7),
       wave({ ant: 16, hornet: 8 }, ["crown", "worm"], 1.15),
@@ -307,7 +308,7 @@ const plans = [
   {
     name: "重装迎撃線",
     map: 3,
-    brief: "地上混成を突破し、連結炉を迎撃。クリアで15-Aを解放。",
+    brief: `地上混成を突破し、${ENEMY_REPORT_NAMES.worm}を迎撃。クリアで15-Aを解放。`,
     waves: [
       wave({ ant: 18, spider: 12, calyx: 2 }),
       wave({ spitter: 10, hornet: 8 }, ["worm"], 1),
@@ -316,7 +317,7 @@ const plans = [
   {
     name: "晶脈突破",
     map: 5,
-    brief: "地底の射線を確保し、連結炉と護衛を突破。",
+    brief: `地底の射線を確保し、${ENEMY_REPORT_NAMES.worm}と護衛を突破。`,
     waves: [
       wave({ spider: 18, spitter: 12 }),
       wave({ crawler: 16, hornet: 12 }),

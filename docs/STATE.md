@@ -1,3 +1,9 @@
+# 現在地: ①〜③実装・検証、命名と④⑤を相談中（2026-10-15）
+
+branch `codex/enemy-report-separation-20261015`、base `672efb4832344ddd45b8ca8d22c9e7cfd62c26f4`。通常型/連結型を独立9項目へ分離、HARROW初期画角の拡大、PLEATからHARROWまでの遭遇順固定を実装。型と関連76件成功。実Chromeのローカル画面で独立解禁8条件、9モデル、HARROW11攻撃切替と横画面3寸法を確認。初回姿勢解析を事前生成へ改善後、型・関連44件・素材SHA/再現照合・844画面を再確認。[詳細と証拠](ENEMY-REPORT-SEPARATION-20261015.md)。
+
+①は候補として通常FOUNDRY ZERO／連結CATENAを画面・作戦説明・音声欄・会敵動画まで反映（本人の正式採用回答は未取得）。④⑤は[相談用の具体案とモック](BASE-TUTORIAL-PROPOSAL-20261015.md)を作成し、本人へ質問済み。監査用iabが利用不可、タスク前面表示を依頼済み。独立Chat監査・main反映・公開は未完了。既存公開版は10/14のまま。必要検証と保存→iab復旧後に通常Chat監査→合格後main/公開へ進める。
+
 # 現在地: 分割シャッターと通知ロゴを公開済み（2026-10-14）
 
 [PR187](https://github.com/futsalife24-bot/swarm-front/pull/187) merge済み。公開ソースmain 1da4bc83b33dcad3b30faa4e1e040c00b8819fcc、Worker Version d5dfa448-6108-4db3-a5d0-0a0c01a7725c。[公開版](https://swarm-front.melosalife-24.workers.dev/front)。監査対象6970c7fは必須P0/P1/P2=0。main build/dry-run/公開成功、配信27ファイル＋正式ロゴのSHA一致、health正常、公開版タイトル・基地往復・更新履歴を確認。[詳細](MENU-SPLIT-SHUTTER-20261014.md)。Android通知欄自体は未確認。①〜⑤は未着手。公開後の記録のみをmainへ反映して終了する。

@@ -1,17 +1,11 @@
 import { menuDialog } from "./menu-ui";
+import {
+  ENEMY_REPORT_NAMES,
+  type EnemyReportId,
+} from "../shared/enemy-identity";
 import "./encounter-film.css";
 
-export const encounterFilms = {
-  harrow: "HARROW",
-  calyx: "CALYX",
-  crawler: "PLEAT",
-  ant: "HOUND / VOLLEY",
-  spider: "HOUND / LEAPER",
-  spitter: "PRISM",
-  hornet: "RAY",
-  boss: "FOUNDRY ZERO",
-  worm: "FOUNDRY ZERO 連結炉",
-} as const;
+export const encounterFilms = ENEMY_REPORT_NAMES;
 export type EncounterFilm = keyof typeof encounterFilms;
 
 export function hasEncounterFilm(key: string): key is EncounterFilm {
@@ -20,7 +14,7 @@ export function hasEncounterFilm(key: string): key is EncounterFilm {
 
 /** Movies are fetched only when requested, not when the report or game opens. */
 export function showEncounterFilm(
-  key: EncounterFilm,
+  key: EnemyReportId,
   owner: HTMLDialogElement,
 ) {
   const d = menuDialog(
@@ -35,7 +29,13 @@ export function showEncounterFilm(
   d.querySelector("h2")!.id = "report-film-title";
   d.setAttribute("aria-labelledby", "report-film-title");
   const file =
-    key === "harrow" ? "harrow-v8" : key === "calyx" ? "calyx-v5" : key;
+    key === "harrow"
+      ? "harrow-v8"
+      : key === "calyx"
+        ? "calyx-v5"
+        : key === "worm"
+          ? "worm-catena-v1"
+          : key;
   const source = `${import.meta.env.BASE_URL}assets/encounters/report-v2/${file}.mp4`;
   video.dataset.source = source;
   let request: AbortController | undefined;

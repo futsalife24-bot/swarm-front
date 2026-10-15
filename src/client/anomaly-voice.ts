@@ -1,4 +1,5 @@
 import type { Enemy, World } from "../shared/game";
+import { ENEMY_REPORT_NAMES } from "../shared/enemy-identity";
 
 /** Original non-verbal vocal identities, shared by combat and the listening list. */
 export const ANOMALY_VOICES = {
@@ -32,7 +33,7 @@ export const ANOMALY_VOICES = {
     description: "鋭い息が断続的に震え、後半で細い笛声へ収束する。",
   },
   boss: {
-    name: "FOUNDRY ZERO",
+    name: ENEMY_REPORT_NAMES.boss,
     description: "低い殻鳴りの後、重い金属がたわむ長い軋みが残る。",
   },
 } as const satisfies Record<
@@ -42,12 +43,12 @@ export const ANOMALY_VOICES = {
 export const ANOMALY_VOICE_PROFILES = {
   ...ANOMALY_VOICES,
   "boss-linked": {
-    name: "連結個体・連結中",
+    name: `${ENEMY_REPORT_NAMES.worm}・連結中`,
     description:
       "複数の空洞が唸る、長く膨らむ重い息。異なる響きがうねり、底へ沈む。",
   },
   "boss-separated": {
-    name: "連結個体・分離後",
+    name: `${ENEMY_REPORT_NAMES.worm}・分離後`,
     description:
       "硬い顎を鳴らすような、荒い破裂声。ばらついた短い連声から擦れた叫びへ変わる。",
   },

@@ -1,4 +1,9 @@
 import { expect, it } from "vitest";
+import * as T from "three";
+import {
+  harrowReportBounds,
+  projectedBoxDistance,
+} from "../src/client/harrow-report-camera";
 import {
   addPlayer,
   createWorld,
@@ -803,6 +808,48 @@ it("28m pressure reach does not expand the old 21.2m ground or airborne close-at
   expect(e.harrow).toBeUndefined();
   expect(e.harrowAirborne).toBe(true);
   expect(e.y).toBe(HARROW.flightHeight);
+});
+
+it("fits HARROW's wide rest shape inside horizontal and vertical camera limits", () => {
+  const halfSize = new T.Vector3(10, 2.5, 3);
+  const direction = new T.Vector3(0.65, 0.4, -0.65).normalize();
+  for (const aspect of [0.8, 1, 2.5, 4]) {
+    const distance = projectedBoxDistance(halfSize, direction, 38, aspect);
+    if (aspect === 2.5) {
+      const oldDistance =
+        (halfSize.length() * 1.25 * 1.12) / Math.sin(T.MathUtils.degToRad(19));
+      expect(distance).toBeLessThan(oldDistance * 0.8);
+    }
+    const camera = new T.PerspectiveCamera(38, aspect, 0.01, 500);
+    camera.position.copy(direction).multiplyScalar(distance);
+    camera.lookAt(0, 0, 0);
+    camera.updateMatrixWorld();
+    for (const x of [-1, 1])
+      for (const y of [-1, 1])
+        for (const z of [-1, 1]) {
+          const projected = new T.Vector3(
+            x * halfSize.x,
+            y * halfSize.y,
+            z * halfSize.z,
+          ).project(camera);
+          expect(Math.abs(projected.x)).toBeLessThan(0.92);
+          expect(Math.abs(projected.y)).toBeLessThan(0.92);
+        }
+  }
+});
+
+it("frames a selected HARROW attack without including every flight path", () => {
+  const rest = new T.Box3(new T.Vector3(-10, -2, -3), new T.Vector3(10, 3, 3));
+  const spin = harrowReportBounds(rest, "Spin");
+  const takeoff = harrowReportBounds(rest, "Takeoff");
+  const bomb = harrowReportBounds(rest, "BombPass");
+  const all = harrowReportBounds(rest);
+  expect(spin.max.y).toBe(rest.max.y);
+  expect(spin.min.z).toBeLessThan(rest.min.z);
+  expect(takeoff.max.y).toBeGreaterThan(HARROW.flightHeight / HARROW.scale);
+  expect(bomb.min.z).toBeLessThan(-40 / HARROW.scale);
+  expect(all.containsBox(takeoff)).toBe(true);
+  expect(all.containsBox(bomb)).toBe(true);
 });
 
 it("an unupgraded 160 HP soldier survives one ST25 medium dive through real ticks", () => {

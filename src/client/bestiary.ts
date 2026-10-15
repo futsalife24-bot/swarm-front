@@ -1,7 +1,11 @@
 import { backgroundMusic } from "./bgm";
 import { menuAnalyze } from "./menu-effects";
 import { showModalAfterFullscreen } from "./landscape";
-import { ENEMIES } from "../shared/defs";
+import {
+  ENEMY_REPORT_NAMES,
+  type EnemyReportId,
+} from "../shared/enemy-identity";
+import { ENEMY_REPORT_ORDER } from "../shared/enemy-report-order";
 import "./bestiary.css";
 import { createEnemyViewer } from "./enemy-viewer";
 import type { HoundClip } from "./hound-motion";
@@ -9,64 +13,52 @@ import { hasEncounterFilm, showEncounterFilm } from "./encounter-film";
 import { ANOMALY_VOICE_PROFILES, ANOMALY_VOICE_PATH } from "./anomaly-voice";
 
 type EnemyType = "生物型" | "異構型" | "機構型";
-const entries: Record<
-  keyof typeof ENEMIES,
-  [string, EnemyType, string, string]
-> = {
+const entries: Record<EnemyReportId, [EnemyType, string, string]> = {
   harrow: [
-    "HARROW",
     "異構型",
     "地上では短く突進し、翼爪から山なりの弾と直射弾を放ちます。地面すれすれまで伏せ、その場で一回転する攻撃も見られます。空中では山なり弾を放ち、標的の上空を直線に通過しながら左右二列へ爆撃します。急降下では二脚の爪を先行させ、地面に爪形の予兆が現れます。",
     "長い首から胴体へ連なる鱗の被覆と、喉から腹を覆う装甲。細い後脚で歩き、支柱で組まれた翼を広げて高く飛び上がります。地上と空中を行き来し、飛行中に大きく損傷すると体勢を崩して落下します。",
   ],
   calyx: [
-    "CALYX",
     "生物型",
     "前の花弁を開いて振り下ろします。また、前方の花粉嚢から花粉弾を放ち、着弾地点に花粉がドーム状に広がって周囲を覆う様子が観察されています。",
     "灰緑に赤茶の斑が混じる丸い蕾。三本の曲線の根を支えに、兵士側へ傾いたコマのように回転し、その周囲を回ります。五枚の花弁の奥に花粉嚢を隠しています。",
   ],
   ant: [
-    "HOUND / VOLLEY",
     "異構型",
     "扇状にエネルギー弾を放ちます。接近した対象にはパルスを発します。",
     "五脚と浮遊する背骨を持つHOUNDの派生個体。地上を回り込みます。",
   ],
   spider: [
-    "HOUND / LEAPER",
     "異構型",
     "着地に続いて、周囲へパルスを発します。",
     "五脚を縮めて跳躍し、壁を足場に再び飛び出します。",
   ],
   crawler: [
-    "PLEAT",
     "生物型",
     "胸部の襞が開き、姿勢を沈めます。襞が閉じると、地面に沿って前方へ衝撃波が走ります。",
     "獣の背を思わせる乾いた被覆。その下の支持肢は、外から見える体形と一致しません。低く追跡する途中で背が折り重なり、硬化した層が金属のように光ります。",
   ],
   spitter: [
-    "PRISM",
     "異構型",
     "照準した地点へ、低速の強いエネルギー弾を放ちます。",
     "浮遊する非対称多面体。離れた間合いを保ち、射線が通る遠い隊員を優先します。",
   ],
   hornet: [
-    "RAY",
     "生物型",
     "離れた隊員へ照準を向け、斜め下へ電撃杭を放ちます。発射に先立ち、中央の縦穴に光が集まります。",
     "エイのような平面、ウナギを思わせる推進尾と中央の縦穴。羽ばたかず空中を遊泳し、隊員の上方を旋回します。",
   ],
   boss: [
-    "FOUNDRY ZERO",
     "機構型",
     "隊員の集まる場所へ予兆が広がり、周囲を攻撃します。損傷すると周囲の物質からPRISMを形成し、前脚と上体を高く持ち上げ、踏み下ろしと同時に攻撃します。",
     "壁・レール・リングからなる移動工場。大きな支持脚で身体を支え、隊員の集まる場所へ向きを変えます。",
   ],
-};
-const foundryWormReport = {
-  attack:
+  worm: [
+    "機構型",
     "頭部と各節の発光器官が隊員へ向き、光を集めてから細いレーザーを放ちます。頭部を失うと、そのとき頭部側につながっていた残存節と同じ数の個体が現れます。現れる種類はマップによって異なります。",
-  movement:
     "ミミズのようにうねり、多数の脚で地面を這う機械型の巨体。ひとつの頭部に七つの胴節がつながり、広い範囲を移動します。胴節が壊れるとその位置で分離し、両側の鎖が加速して隊員を追います。",
+  ],
 };
 
 export function openBestiary(
@@ -81,10 +73,10 @@ export function openBestiary(
   const dialog = document.createElement("dialog");
   dialog.className = "bestiary";
   dialog.setAttribute("aria-labelledby", "bestiary-title");
-  dialog.innerHTML = `<header><div><div class="eyebrow">ANOMALOUS STRUCTURES</div><h2 id="bestiary-title">エネミーレポート</h2></div><button type="button" id="report-close" autofocus>タイトルへ戻る</button></header><div class="report-layout"><nav class="enemy-list" aria-label="敵の一覧"><p class="report-scroll-guide">${Object.keys(ENEMIES).length}種の敵 · 一覧は上下にスクロール ↕</p>${Object.entries(
-    entries,
-  )
-    .map(([key, [knownName, knownRole]], index) => {
+  dialog.innerHTML = `<header><div><div class="eyebrow">ANOMALOUS STRUCTURES</div><h2 id="bestiary-title">エネミーレポート</h2></div><button type="button" id="report-close" autofocus>タイトルへ戻る</button></header><div class="report-layout"><nav class="enemy-list" aria-label="敵の一覧"><p class="report-scroll-guide">${ENEMY_REPORT_ORDER.length}種の敵 · 一覧は上下にスクロール ↕</p>${ENEMY_REPORT_ORDER.map(
+    (key, index) => {
+      const [knownRole] = entries[key];
+      const knownName = ENEMY_REPORT_NAMES[key];
       const name = access(key) === "solo" ? knownName : "？？？";
       const role =
         access(key) === "solo"
@@ -93,10 +85,10 @@ export function openBestiary(
             ? "協力で姿を確認"
             : "未遭遇";
       return `<button type="button" data-enemy="${key}" aria-pressed="false"><span class="eyebrow">${String(index + 1).padStart(2, "0")}</span><span><strong>${name}</strong><small>${role}</small></span><span aria-hidden="true">›</span></button>`;
-    })
-    .join(
-      "",
-    )}</nav><section class="report-detail" aria-label="選択した敵の解説"><div class="specimen"><div class="specimen-label eyebrow">3D SPECIMEN</div><div class="enemy-viewport"></div><p class="viewer-hint">ドラッグで回転 · ピンチ / ホイールで拡大</p></div><article class="enemy-description" tabindex="0" aria-label="敵の解説。上下にスクロールできます" aria-live="polite"></article></section></div>`;
+    },
+  ).join(
+    "",
+  )}</nav><section class="report-detail" aria-label="選択した敵の解説"><div class="specimen"><div class="specimen-label eyebrow">3D SPECIMEN</div><div class="enemy-viewport"></div><p class="viewer-hint">ドラッグで回転 · ピンチ / ホイールで拡大</p></div><article class="enemy-description" tabindex="0" aria-label="敵の解説。上下にスクロールできます" aria-live="polite"></article></section></div>`;
   document.body.append(dialog);
   showModalAfterFullscreen(dialog);
   backgroundMusic().setReport(true);
@@ -172,17 +164,13 @@ export function openBestiary(
       (harrowPicker.value || undefined) as HoundClip | undefined,
     );
   const article = dialog.querySelector<HTMLElement>("article")!;
-  const showModel = (
-    key: keyof typeof ENEMIES,
-    worm: boolean,
-    visible: boolean,
-  ) => {
+  const showModel = (key: EnemyReportId, visible: boolean) => {
     viewport.querySelector(".menu-fx-mosaic")?.remove();
     analysisPending = true;
     if (visible) {
       try {
         viewer ??= createEnemyViewer(viewport);
-        viewer.show(key, worm);
+        viewer.show(key === "worm" ? "boss" : key, key === "worm");
       } catch {
         viewport.dataset.asset = "error";
         viewport.innerHTML =
@@ -194,17 +182,15 @@ export function openBestiary(
       viewport.innerHTML = "";
       viewport.dataset.asset = "locked";
     }
-    viewport.style.filter =
-      access(worm ? "worm" : key) === "coop" ? "brightness(0)" : "";
+    viewport.style.filter = access(key) === "coop" ? "brightness(0)" : "";
   };
-  function select(key: keyof typeof ENEMIES, worm = false) {
+  function select(key: EnemyReportId) {
     stopVoice();
-    const state = access(worm ? "worm" : key);
+    const state = access(key);
     harrowPicker.hidden = key !== "harrow" || state !== "solo";
     harrowPicker.value = "";
-    const [name, role, attack, movement] = entries[key];
-    const copy =
-      worm && key === "boss" ? foundryWormReport : { attack, movement };
+    const name = ENEMY_REPORT_NAMES[key];
+    const [role, attack, movement] = entries[key];
     dialog
       .querySelectorAll<HTMLButtonElement>("[data-enemy]")
       .forEach((button) =>
@@ -213,15 +199,14 @@ export function openBestiary(
           String(button.dataset.enemy === key),
         ),
       );
-    article.innerHTML = `<div class="eyebrow">${role}</div><h3>${name}</h3>${key === "boss" ? `<div class="specimen-forms"><button type="button" data-worm="false" aria-pressed="${!worm}">通常型</button><button type="button" data-worm="true" aria-pressed="${worm}">連結炉形態</button></div>` : ""}<p class="report-scroll-guide">解説の続きは上下にスクロール ↕</p><h4>攻撃方法</h4><p>${copy.attack}</p><h4>移動方法</h4><p>${copy.movement}</p>`;
+    article.innerHTML = `<div class="eyebrow">${role}</div><h3>${name}</h3><p class="report-scroll-guide">解説の続きは上下にスクロール ↕</p><h4>攻撃方法</h4><p>${attack}</p><h4>移動方法</h4><p>${movement}</p>`;
     article.scrollTop = 0;
     const film = document.createElement("button");
     film.type = "button";
     film.className = "report-film-open";
     film.textContent = "会敵ムービー";
-    const filmKey = worm ? "worm" : key;
-    if (hasEncounterFilm(filmKey)) {
-      film.onclick = () => showEncounterFilm(filmKey, dialog);
+    if (hasEncounterFilm(key)) {
+      film.onclick = () => showEncounterFilm(key, dialog);
       article.querySelector("h3")!.after(film);
     }
     if (state !== "solo") {
@@ -242,7 +227,7 @@ export function openBestiary(
       const voice = document.createElement("div");
       voice.className = "report-voices";
       const profiles: (keyof typeof ANOMALY_VOICE_PROFILES)[] =
-        worm && key === "boss" ? ["boss-linked", "boss-separated"] : [key];
+        key === "worm" ? ["boss-linked", "boss-separated"] : [key];
       const buttons: { button: HTMLButtonElement; label: string }[] = [];
       const resetLabels = () => {
         for (const { button, label } of buttons) button.textContent = label;
@@ -285,25 +270,13 @@ export function openBestiary(
       voicePlayer.onended = resetLabels;
       article.querySelector("h3")!.after(voice);
     }
-    showModel(key, worm, !!state);
-    article.querySelectorAll<HTMLButtonElement>("[data-worm]").forEach(
-      (button) =>
-        (button.onclick = () => {
-          select(key, button.dataset.worm === "true");
-          article
-            .querySelector<HTMLButtonElement>(
-              `[data-worm="${button.dataset.worm}"]`,
-            )
-            ?.focus({ preventScroll: true });
-        }),
-    );
+    showModel(key, !!state);
   }
   dialog
     .querySelectorAll<HTMLButtonElement>("[data-enemy]")
     .forEach(
       (button) =>
-        (button.onclick = () =>
-          select(button.dataset.enemy as keyof typeof ENEMIES)),
+        (button.onclick = () => select(button.dataset.enemy as EnemyReportId)),
     );
   dialog.querySelector<HTMLButtonElement>("#report-close")!.onclick = () =>
     dialog.close();

@@ -17,8 +17,9 @@ try{
   const paths=[html.match(/src="([^"]+\.js)"/)[1],html.match(/href="([^"]+\.css)"/)[1],'/assets/enemies/pleat_motion_v5.glb','/assets/enemies/leaper_motion_v2.glb','/assets/enemies/hound_motion_v1.glb'];
   const hashes={};for(const path of paths){const response=await page.request.get(base+path);assert.equal(response.status(),200);hashes[path]=hash(await response.body());assert.equal(hashes[path],hash(readFileSync('dist'+path)))}
   await page.locator('#open-bestiary').click();
-  for(const kind of ['crawler','spider','ant','spitter','hornet','boss','worm']){
-   if(kind==='worm')await page.locator('[data-worm="true"]').click();else await page.locator(`[data-enemy="${kind}"]`).click();
+  assert.equal(await page.locator('[data-enemy]').count(),9);
+  for(const kind of ['crawler','ant','spider','spitter','boss','hornet','worm','calyx','harrow']){
+   await page.locator(`[data-enemy="${kind}"]`).click();
    await page.waitForFunction(()=>document.querySelector('.enemy-viewport')?.dataset.asset==='ready');
    for(const mode of ['move','attack','idle']){await page.locator(`button[data-motion="${mode}"]`).click();assert.equal(await page.locator('.enemy-viewport').getAttribute('data-motion'),mode)}
    if(['crawler','spider','worm'].includes(kind))await page.screenshot({path:`${out}/${label}-${width}-${kind}.png`});

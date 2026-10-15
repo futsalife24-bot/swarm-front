@@ -1,0 +1,90 @@
+[
+  {
+    "asset": "loading",
+    "film": true,
+    "filter": "",
+    "forms": 0,
+    "id": "boss",
+    "list": "FOUNDRY ZERO",
+    "scenario": "normal",
+    "title": "FOUNDRY ZERO",
+    "voices": 1
+  },
+  {
+    "asset": "locked",
+    "film": false,
+    "filter": "",
+    "forms": 0,
+    "id": "worm",
+    "list": "？？？",
+    "scenario": "normal",
+    "title": "？？？",
+    "voices": 0
+  },
+  {
+    "asset": "locked",
+    "film": false,
+    "filter": "",
+    "forms": 0,
+    "id": "boss",
+    "list": "？？？",
+    "scenario": "linked",
+    "title": "？？？",
+    "voices": 0
+  },
+  {
+    "asset": "loading",
+    "film": true,
+    "filter": "",
+    "forms": 0,
+    "id": "worm",
+    "list": "FOUNDRY ZERO 連結炉",
+    "scenario": "linked",
+    "title": "FOUNDRY ZERO 連結炉",
+    "voices": 2
+  },
+  {
+    "asset": "ready",
+    "film": true,
+    "filter": "",
+    "forms": 0,
+    "id": "boss",
+    "list": "FOUNDRY ZERO",
+    "scenario": "coop",
+    "title": "FOUNDRY ZERO",
+    "voices": 1
+  },
+  {
+    "asset": "loading",
+    "film": false,
+    "filter": "brightness(0)",
+    "forms": 0,
+    "id": "worm",
+    "list": "？？？",
+    "scenario": "coop",
+    "title": "？？？",
+    "voices": 0
+  },
+  {
+    "asset": "locked",
+    "film": false,
+    "filter": "",
+    "forms": 0,
+    "id": "boss",
+    "list": "？？？",
+    "scenario": "none",
+    "title": "？？？",
+    "voices": 0
+  },
+  {
+    "asset": "locked",
+    "film": false,
+    "filter": "",
+    "forms": 0,
+    "id": "worm",
+    "list": "？？？",
+    "scenario": "none",
+    "title": "？？？",
+    "voices": 0
+  }
+]
