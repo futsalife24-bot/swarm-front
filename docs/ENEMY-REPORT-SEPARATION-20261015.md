@@ -1,0 +1,90 @@
+# エネミーレポートの分離・表示・遭遇順（2026-10-15）
+
+正本: https://github.com/futsalife24-bot/swarm-front.git 。作業場所: `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a`。
+
+- branch: `codex/enemy-report-separation-20261015`
+- base: `672efb4832344ddd45b8ca8d22c9e7cfd62c26f4`
+- 実装commit: `4c63f185be9a01b779901846d6496e72f8c254fc`、[下書きPR189](https://github.com/futsalife24-bot/swarm-front/pull/189)。後続commitは検証記録のみ。
+- 状態: ①の独立項目化と候補名CATENA・②HARROW初期表示・③遭遇順を実装し自己検証。候補名への意見、④⑤の方針は本人へ相談中。独立監査・main反映・公開は未完了。
+
+## ① 通常型と連結型の分離
+
+通常型と連結型をレポートの独立した2項目へ分離。全9種にし、旧形態切替ボタンを除去した。説明・3Dモデル・会敵映像・声・未遭遇/協力のシルエット表示は各項目の遭遇キーで判定する。
+
+`src/shared/enemy-identity.ts` を名前と識別の共通入口にし、ソロの初遭遇表示と協力の記録でも使う。既存セーブの `boss`/`worm` を維持する。戦闘の `Enemy.kind` やネットワーク形式、数値は変更しない。`boss` と `segments` の組合せを従来どおり連結個体へ対応させるため、旧保存の解禁を失わない。
+
+命名: 通常FOUNDRY ZERO／連結CATENAを候補として本人へ相談済み。①には名前を含む分離が依頼されているため、返答待ちの間もレビュー可能な候補として共通名・静的試聴ページ・作戦説明・会敵映像内の焼込み名まで反映。本人がCATENAを正式採用したとの記録ではない。
+
+会敵映像: 旧 `worm.mp4` は原本として保持し、`worm-catena-v1.mp4` を作成。旧名の出始めは60フレーム目（2秒）。名前が出る直前の59フレーム目はカメラ到着後で、タイトル領域には静止した背景だけがあるため、その背景を使って旧文字を除去してCATENAを合成した。ゲームモデル・動き・下部説明は維持。`scripts/retitle-catena-film.mjs --ffmpeg <既存実行ファイル>` で再現可能。1280×720、30fps、320フレーム、10.666667秒、全デコード成功。参照URLを変え旧キャッシュとの混同を避ける。Chromeで末尾まで再生・errorなし・新名を確認。
+
+## ② HARROWの初期表示
+
+横に広いモデルの外接箱には、実際のモデルが存在しない角が含まれる。HARROWの待機/移動の13時点の実頂点を既定カメラ方向へ投影した範囲で距離を決定する。解析は `scripts/generate-harrow-report-profile.mjs` で制作時に実行し、結果だけを約29KBの `harrow-report-camera-profile.ts` に保存。実行時の骨複製・全頂点走査をなくした。共有素材・戦闘の骨/数値は変更しない。
+
+v14実素材の検証では外接箱距離56〜59に対して投影距離30〜36。待機/移動各24時点（サンプル間も含む）の頂点が画面内に収まることを確認。素材SHA256・軸補正・生成データの再現を照合。攻撃は選んだ動作の移動・飛行・弾道を含む範囲へ切り替える。
+
+初稿の実行時解析はNode計測で待機238.9ms＋移動219.2ms、計458.1ms、配列領域約38.4MiBだった。スマホ実測ではないが初回メインスレッド負荷が確認できたため、事前生成へ変更した。最終版はこの解析を実行時に行わず、初稿の数値を最終版や実機の性能と表現しない。
+
+## ③ 指定された遭遇順
+
+`src/shared/enemy-report-order.ts` に順序を固定した。未遭遇であっても位置は動かさない。現在の通常作戦編成の初登場順をテストで照合する。
+
+1. PLEAT
+2. HOUND / VOLLEY
+3. HOUND / LEAPER
+4. PRISM
+5. FOUNDRY ZERO
+6. RAY
+7. CATENA（候補名）
+8. CALYX
+9. HARROW
+
+## 自己検証
+
+- `npm run typecheck`: 成功（クライアント・Worker）。
+- 識別/旧保存キー/遭遇順/音声/会敵カメラ: 4ファイル22件成功。
+- HARROW戦闘/実素材/レポートモーション: 3ファイル54件成功。
+- 実Chromeのローカル検証: 9種の選択とモデル読込み成功、通常のみ/連結のみ/通常ソロ＋連結協力/全未遭遇の2項目×4条件で独立解禁を確認、HARROW11攻撃の切替と待機復帰を確認。
+- 844×390、iframeで実測した667×375・1280×720のHARROW待機を目視。横はみ出しなし。`docs/evidence/enemy-report-20261015/`に証拠。
+- 事前生成への変更後、型・HARROW戦闘/実素材44件・生成データ`--check`成功。844×390の実Chromeで待機と移動を再確認。`harrow-final-844.png`が最終方式の画面。
+- 旧切替を参照していた検証スクリプト6本のセレクター・項目数・動画名を更新し、`node --check`成功。スクリプトのブラウザ実行はしていない。旧`check-report-films.mjs`のv1画面/保存形式や一部起動前提は今回以前の古さとして残る。今回の画面証拠は新しい検証ページとcua_replの実操作による。
+- 命名と作戦説明の最終更新後、型と識別/順序/音声/会敵カメラ22件を再確認。実装commit後の `npm run build` は209 modules成功、`npm run server:build:production` は412 assets・exit 0。新動画のpublicとdistのSHA256一致。これは公開配信の確認ではない。
+- 実Android/Safari/Firefox・人のドラッグ/ピンチ操作・全攻撃の全フレームは未検証。初回モデルロード時の待機は含む。合成/局所検証を実機確認と扱わない。
+
+## 実行環境と保留
+
+アプリ内ブラウザは一覧に存在せず、`getBrowser('2')`/`createBrowserTab('iab',...)`は利用不可。`open_in_codex`はqueuedだった。後述の本人許可により監査経路の障害は解消済み。
+
+後の接続再確認もChromeのみだったため、今回だけChromeの通常Chatで同じ独立監査を行う経路変更を本人へ質問した。2026-10-15、本人が「今回だけChromeの通常Chatで監査する（推奨）」と回答し、この案件に限る変更を明示許可。以後はChromeの新規通常Chatへ送信する。これは恒久的な経路変更ではない。適用根拠は `docs/skills/swarm-front-audit-release/SKILL.md` の「Chrome拡張版・OSのネイティブ操作・Work・Codexサブエージェントへ勝手に切り替えない」であり、今回の本人許可で例外を確定した。監査合格後の通常merge・既存Worker公開は従来の継続承認を維持する。
+
+監査準備: `.codex-remote-attachments/prepare-enemy-report-audit.py` は保存済みHEADから全src/server・関連試験・9モデル・通常/連結動画・証拠・実差分を選び、完全SHAとファイル別SHA256を入れたZIPを作る。個人下書き、秘密値、依存キャッシュ、無関係な素材は含めない。Git履歴自体は同梱しないため通常Vite設定の履歴生成には正規Git checkoutが必要。局所UIは付属のレポート検証HTMLで確認できる。
+
+監査送信済み: [通常Chat](https://chatgpt.com/c/6ad06a66-e514-83e8-adfa-bca32638ad76)、対象 `9adbc7f1a26fdaf615561cfb7f1861afa50968b5`。ZIPは28,166,593 bytes、SHA256 `778c848b5b98c0145c4b2005b5fc5bffe195008f18196e153faffc754275a84f`、293ファイル。`audit-request.png`に送信証拠。監査側は整合性確認済み、依存取得の名前解決エラーで型/Vitest再実行不可との途中報告。最終結果は未受領。
+
+本人の最新指示により、次回以降の通常タスクは独立Chat監査を必須にせず実装と自己検証を優先する。今回送信済みの監査は継続。AGENTS・WORKFLOW・正本スキルを更新し、個人スキルとのSHA一致を `audit-policy-sync.json` に記録。Hooks・CI・権限制御は変更していない。
+
+子担当が端末Playwrightで実行した確認は `ERR_NETWORK_ACCESS_DENIED` で画面到達前に失敗し、停止済み。主担当はcua_replのChromeでローカル画面だけ確認した。一部CDP応答時間切れは状態取得/新規タブで復旧。ビューポート指定が対象タブに反映されない例があったため、寸法固定iframeの実測を使用した。
+
+サブエージェント3体へ①構造分離・②カメラ・④⑤具体案を分担。指定モデルは `gpt-6-sol` / `medium`、実行側の実設定は未確認。主担当の実モデルID/推論設定も未確認。自己レビューと統合は主担当、必須の通常Chat監査は別工程。
+
+## 生存タイトルの解禁修正と公開準備
+
+初回監査の途中報告で、生存側 `front-app.ts` のレポート入口だけ遭遇記録を渡さず、全種をソロ解禁する既定値へ落ちる問題を確認。`front-report-access.ts` で通常保存の遭遇記録を読み取り専用で渡すよう修正した。保存なし/不正時は空記録にし、レポート閲覧による保存の移行・上書きを行わない。`boss`/`worm`/`coop`は保持する。
+
+初回最終判定は要修正、P0=0/P1=0/P2=1（P2-01、原文 `audit-initial.txt`）。同指摘の予防策として `openBestiary` の記録省略も未遭遇へ変更し、開発ページの全解禁は明示された記録だけにした。読取り例外を加えた6条件と型検査成功。Chromeで記録未指定・通常タイトルの新規進行からも全9種未遭遇を確認（`missing-access.txt`、`normal-title-locked.txt`）。ローカル検証用の新規進行だけを通常UIで作成し、本番保存は操作していない。
+
+修正版 `9a4476a325c96b5cf21dbeb974a92298975fe4c6` を同じ通常Chatへ再提出し応答開始を確認。差分ZIPは199,256 bytes、SHA256 `be359479881e9f839d32949e9ffef0477721911791b0a5aa59f75b7c132429f7`。前回ZIPと修正3製品ファイル/試験/証拠から再監査。最終buildは210 modules、Worker production dry-runは412 assetsで成功。証拠の段階と動画生成環境は `evidence-index.json` に整理し、初稿の記録と最終版を区別した。
+
+修正版dry-runは梱包とexit 0を確認した一方、制限環境からAppDataへのWrangler診断ログ保存はEPERMで失敗した。標準出力の成功とログ保存失敗を区別し、main反映後の公開前dry-runは通常の許可済み実行環境で行う。
+
+型・新規5条件・既存識別2件成功。主担当Chromeで新ヘルパーを通した8解禁条件、協力CATENAの黒いシルエットと名前/声/映画なし、実際の `/front.html` タイトル入口で全未遭遇の非解禁を確認。証拠は `front-access-checks.json`、`front-coop-silhouette.png`、`front-title-locked.png`。監査最終結果受領・修正版の再提出は継続中。
+
+公開アカウント: 2026-10-15に既存アカウントのWorkers Plans画面で「無料・0ドル・現在の計画」を確認（`cloudflare-free.png`、`cloudflare-plan-ui.txt`）。CLI契約APIは`subscriptions`がHTTP 403であり、`account-settings`の`standard`だけをFreeの根拠にしていない。既存OAuthによる当日UTC 00:00〜06:07のアカウント全Workers使用量は81 requests、0 errors、85 subrequests（`account-plan.json`）。DO使用量は未取得。契約・権限・サービス構成の変更なし。
+
+## 最終独立判定
+
+対象 `9a4476a325c96b5cf21dbeb974a92298975fe4c6` は合格、必須P0=0/P1=0/P2=0。P2-01解消。監査側の独立試験24条件、限定DOM 30シナリオ・144表示チェックを通過。原文は `audit-final.txt`。描画・音声を代替した隔離DOMであり、実ページ全体/実機/実WebGL/型/元の試験/本番buildとdry-runの独立再実行ではない。主担当の実確認と区別する。以降の差分は文書・証拠のみで製品不変。
+
+## 後続④⑤
+
+[基地・チュートリアルの相談案](BASE-TUTORIAL-PROPOSAL-20261015.md)と比較モックを用意し、本人へ方向性を質問済み。本番コード・初回保存には未反映。

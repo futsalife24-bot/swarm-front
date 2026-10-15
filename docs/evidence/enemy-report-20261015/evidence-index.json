@@ -1,0 +1,19 @@
+{
+  "implementation": "4c63f185be9a01b779901846d6496e72f8c254fc",
+  "accessFix": "9a4476a325c96b5cf21dbeb974a92298975fe4c6",
+  "notes": [
+    "access-checks.jsonは最終命名前の履歴。旧表示名を正式名として参照しない。",
+    "harrow-idle-844/667/1280.pngは実行時解析の初稿、harrow-final-844.pngが事前生成へ改善後の最終方式。画角計算は同一。",
+    "front-access-checks.jsonとfront-coop-silhouette.pngはb0cc1e7の生存入口修正。記録省略時の追加修正は9a4476a、missing-access.txtとnormal-title-locked.txtで確認。",
+    "最終素材と画角はアクセス修正で変更していない。テスト件数の再実行は重複として扱い合算しない。",
+    "各証拠はローカルChromeとNodeでの確認。公開配信と実Android確認は別に記録する。"
+  ],
+  "movie": {
+    "path": "public/assets/encounters/report-v2/worm-catena-v1.mp4",
+    "sha256": "39b25074f8146efcb24a486365742e91fc25137c2f338474c74836e8c19a0ac6",
+    "generator": "scripts/retitle-catena-film.mjs",
+    "ffmpeg": "9.0.1-essentials_build-www.gyan.dev",
+    "font": "public/assets/fonts/rajdhani/Rajdhani-Bold.ttf",
+    "fontSha256": "691470dd3286a14e9677940d0bf75796179841ba5215cbda1a2c8910a3226afd"
+  }
+}

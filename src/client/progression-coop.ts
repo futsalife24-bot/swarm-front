@@ -1,4 +1,5 @@
 import type { World } from "../shared/game";
+import { enemyReportId } from "../shared/enemy-identity";
 import { loadProgress, persistProgress } from "./progression-save";
 // The limited co-op exception records silhouettes only; no new combat or loot
 // settings are transmitted to the legacy authoritative server.
@@ -8,7 +9,7 @@ export function recordCoopEncounters(w: World) {
   if (!s) return;
   let changed = false;
   for (const e of w.enemies) {
-    const key = e.segments ? "worm" : e.kind;
+    const key = enemyReportId(e);
     if (!s.encounters[key]) {
       s.encounters[key] = "coop";
       changed = true;

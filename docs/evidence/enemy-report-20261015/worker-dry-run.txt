@@ -1,0 +1,20 @@
+
+> swarm-front@0.1.0 server:build:production
+> wrangler deploy --dry-run --config wrangler.production.jsonc --outdir dist-worker-production
+
+
+ ⛅️ wrangler 4.129.0
+────────────────────
+
+Cloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md
+✨ Read 412 files from the assets directory C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\dist
+Total Upload: 380.09 KiB / gzip: 94.26 KiB
+Your Worker has access to the following bindings:
+Binding                                                  Resource
+env.ROOMS (Room)                                         Durable Object
+env.GATE (Gate)                                          Durable Object
+env.PROJECT_HUB (project-hub)                            Worker
+env.TURNSTILE_SITE_KEY (公開サイトキーの値のみ省略)      Environment Variable
+
+--dry-run: exiting now.
+exit_code=0

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>エネミーレポートの独立記録・表示確認</title>
+    <link rel="stylesheet" href="/src/style.css" />
+    <link rel="stylesheet" href="/src/menu-ui.css" />
+    <link rel="stylesheet" href="/src/menu-theme.css" />
+  </head>
+  <body>
+    <label
+      >確認する遭遇記録
+      <select id="scenario">
+        <option value="all">全種ソロ遭遇</option>
+        <option value="normal">通常型のみソロ遭遇</option>
+        <option value="linked">連結型のみソロ遭遇</option>
+        <option value="coop">通常型ソロ・連結型協力遭遇</option>
+        <option value="none">全種未遭遇</option>
+      </select>
+    </label>
+    <button type="button" id="open">レポートを開く</button>
+    <button type="button" id="front-open">生存入口から開く</button>
+    <button type="button" id="missing-open">記録未指定で開く</button>
+    <pre id="errors" aria-label="画面のエラー">エラーなし</pre>
+    <script type="module">
+      import { ENEMY_REPORT_ORDER } from "/src/shared/enemy-report-order.ts";
+      import { openBestiary } from "/src/client/bestiary.ts";
+      import { openFrontBestiary } from "/src/client/front-report-access.ts";
+      import {
+        freshProgress,
+        newSaveKey,
+      } from "/src/client/progression-save.ts";
+      const scenarios = {
+        all: Object.fromEntries(ENEMY_REPORT_ORDER.map((id) => [id, "solo"])),
+        normal: { boss: "solo" },
+        linked: { worm: "solo" },
+        coop: { boss: "solo", worm: "coop" },
+        none: {},
+      };
+      // This isolated page never reads or writes player progress.
+      document.getElementById("open").onclick = () =>
+        openBestiary({
+          encounters: scenarios[document.getElementById("scenario").value],
+          voiceVolume: 0,
+        });
+      document.getElementById("front-open").onclick = () => {
+        const save = freshProgress("normal");
+        save.encounters = scenarios[document.getElementById("scenario").value];
+        openFrontBestiary(
+          {
+            getItem: (key) =>
+              key === newSaveKey("normal") ? JSON.stringify(save) : null,
+          },
+          0,
+        );
+      };
+      document.getElementById("missing-open").onclick = () => openBestiary();
+      const errors = [];
+      const record = (event) => {
+        errors.push(String(event.message ?? event.reason));
+        document.getElementById("errors").textContent = errors.join("\n");
+      };
+      window.addEventListener("error", record);
+      window.addEventListener("unhandledrejection", record);
+    </script>
+  </body>
+</html>

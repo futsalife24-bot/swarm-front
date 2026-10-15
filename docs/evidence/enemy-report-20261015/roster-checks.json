@@ -1,0 +1,74 @@
+[
+  {
+    "asset": "ready",
+    "canvas": 1,
+    "error": "エラーなし",
+    "id": "crawler",
+    "selected": "crawler",
+    "title": "PLEAT"
+  },
+  {
+    "asset": "ready",
+    "canvas": 1,
+    "error": "エラーなし",
+    "id": "ant",
+    "selected": "ant",
+    "title": "HOUND / VOLLEY"
+  },
+  {
+    "asset": "ready",
+    "canvas": 1,
+    "error": "エラーなし",
+    "id": "spider",
+    "selected": "spider",
+    "title": "HOUND / LEAPER"
+  },
+  {
+    "asset": "ready",
+    "canvas": 1,
+    "error": "エラーなし",
+    "id": "spitter",
+    "selected": "spitter",
+    "title": "PRISM"
+  },
+  {
+    "asset": "ready",
+    "canvas": 1,
+    "error": "エラーなし",
+    "id": "boss",
+    "selected": "boss",
+    "title": "FOUNDRY ZERO"
+  },
+  {
+    "asset": "ready",
+    "canvas": 1,
+    "error": "エラーなし",
+    "id": "hornet",
+    "selected": "hornet",
+    "title": "RAY"
+  },
+  {
+    "asset": "ready",
+    "canvas": 1,
+    "error": "エラーなし",
+    "id": "worm",
+    "selected": "worm",
+    "title": "FOUNDRY ZERO 連結炉"
+  },
+  {
+    "asset": "ready",
+    "canvas": 1,
+    "error": "エラーなし",
+    "id": "calyx",
+    "selected": "calyx",
+    "title": "CALYX"
+  },
+  {
+    "asset": "ready",
+    "canvas": 1,
+    "error": "エラーなし",
+    "id": "harrow",
+    "selected": "harrow",
+    "title": "HARROW"
+  }
+]

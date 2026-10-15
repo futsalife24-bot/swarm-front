@@ -2,7 +2,6 @@ import * as T from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { enemyGeometry } from "./enemy-model";
 import type { Enemy } from "../shared/game";
-import { HARROW, harrowMissilePosition } from "../shared/harrow";
 import { harrowSpinRotation } from "../shared/harrow-motion";
 import {
   loadEnemyMotion,
@@ -16,9 +15,16 @@ import {
   ReportEffects,
   reportPose,
   reportWorm,
-  reportHarrowMissiles,
   type ReportMotion,
 } from "./enemy-report-motion";
+import {
+  HARROW_REPORT_DIRECTION,
+  HARROW_POSE_FRAMES,
+  harrowProfileDistance,
+  harrowReportBounds,
+  projectedBoxDistance,
+  type HarrowPoseFrame,
+} from "./harrow-report-camera";
 
 export function createEnemyViewer(host: HTMLElement) {
   const renderer = new T.WebGLRenderer({ antialias: true, alpha: true });
@@ -61,45 +67,19 @@ export function createEnemyViewer(host: HTMLElement) {
   scene.add(effects.root);
   const transform = new T.Matrix4();
   const restBounds = new T.Box3();
+  let harrowFrames:
+    { idle: HarrowPoseFrame; move: HarrowPoseFrame } | undefined;
   function fitSpecimen() {
-    const bounds = restBounds.clone();
-    if (kind === "harrow" && mode === "attack") {
-      bounds.union(
-        restBounds
-          .clone()
-          .translate(new T.Vector3(0, HARROW.flightHeight / HARROW.scale, 0)),
-      );
-      bounds.union(
-        restBounds
-          .clone()
-          .translate(
-            new T.Vector3(
-              0,
-              HARROW.flightHeight / HARROW.scale,
-              -40 / HARROW.scale,
-            ),
-          ),
-      );
-      for (const missile of [
-        ...reportHarrowMissiles(),
-        ...reportHarrowMissiles(false, "snipe"),
-        ...reportHarrowMissiles(true, "bomb"),
-      ]) {
-        for (let step = 0; step <= 20; step++) {
-          const p = harrowMissilePosition(
-            missile,
-            missile.launch + ((missile.impact - missile.launch) * step) / 20,
-          );
-          bounds.expandByPoint(
-            new T.Vector3(p.x, p.y, p.z).multiplyScalar(1 / HARROW.scale),
-          );
-        }
-      }
-    }
+    const posed =
+      kind === "harrow" && mode !== "attack" ? harrowFrames?.[mode] : undefined;
+    const bounds = posed
+      ? posed.bounds.clone()
+      : kind === "harrow" && mode === "attack"
+        ? harrowReportBounds(restBounds, selectedHarrowAttack)
+        : restBounds.clone();
     model.position.copy(bounds.getCenter(new T.Vector3()).negate());
-    radius =
-      bounds.getBoundingSphere(new T.Sphere()).radius *
-      (kind === "harrow" ? 1.25 : 1);
+    radius = bounds.getBoundingSphere(new T.Sphere()).radius;
+    bounds.getSize(halfSize).multiplyScalar(0.5);
   }
   function animatePose() {
     if (motion) {
@@ -148,7 +128,18 @@ export function createEnemyViewer(host: HTMLElement) {
         Math.sin(T.MathUtils.degToRad(19)) /
         Math.min(1, camera.aspect)) *
       1.12;
-    if (wormForm) {
+    if (kind === "harrow" && motion) {
+      const posed = mode !== "attack" ? harrowFrames?.[mode] : undefined;
+      distance = posed
+        ? harrowProfileDistance(posed, camera.fov, camera.aspect)
+        : projectedBoxDistance(
+            halfSize,
+            HARROW_REPORT_DIRECTION,
+            camera.fov,
+            camera.aspect,
+          );
+      camera.position.copy(HARROW_REPORT_DIRECTION).multiplyScalar(distance);
+    } else if (wormForm) {
       // Fit the long body's projected corners from the head side.
       const direction = new T.Vector3(1, 0.58, -0.9).normalize();
       const right = new T.Vector3(direction.z, 0, -direction.x).normalize();
@@ -173,7 +164,10 @@ export function createEnemyViewer(host: HTMLElement) {
     } else
       camera.position.set(distance * 0.65, distance * 0.4, -distance * 0.65);
     controls.target.set(0, 0, 0);
-    controls.minDistance = radius * 1.2;
+    controls.minDistance =
+      kind === "harrow" && motion
+        ? Math.min(radius * 1.2, distance * 0.55)
+        : radius * 1.2;
     controls.maxDistance = distance * 3;
     camera.far = Math.max(500, distance * 5);
     camera.updateProjectionMatrix();
@@ -189,6 +183,7 @@ export function createEnemyViewer(host: HTMLElement) {
   });
   resize.observe(host);
   function clear() {
+    harrowFrames = undefined;
     foundryIdle = undefined;
     foundry?.dispose();
     foundry = undefined;
@@ -280,6 +275,7 @@ export function createEnemyViewer(host: HTMLElement) {
             model.add(motion.group);
             const bounds = new T.Box3().setFromObject(asset.model);
             restBounds.copy(bounds);
+            if (kind === "harrow") harrowFrames = HARROW_POSE_FRAMES;
             fitSpecimen();
             host.dataset.asset = "ready";
             animatePose();

@@ -1,9 +1,17 @@
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { HARROW, harrowMissileOrigins } from "../src/shared/harrow";
 import { HARROW_FLIGHT_CYCLE } from "../src/shared/harrow-motion";
+import {
+  HARROW_REPORT_DIRECTION,
+  HARROW_POSE_FRAMES,
+  harrowProfileDistance,
+  projectedBoxDistance,
+} from "../src/client/harrow-report-camera";
+import { HARROW_REPORT_PROFILE } from "../src/client/harrow-report-camera-profile";
 
 async function model() {
   const bytes = readFileSync("public/assets/enemies/harrow_motion_v14.glb");
@@ -18,6 +26,79 @@ async function model() {
     "",
   );
 }
+
+it("matches the shipped HARROW asset and frames both complete motion clips", async () => {
+  const bytes = readFileSync("public/assets/enemies/harrow_motion_v14.glb");
+  expect(createHash("sha256").update(bytes).digest("hex")).toBe(
+    HARROW_REPORT_PROFILE.source.sha256,
+  );
+  expect(HARROW_REPORT_PROFILE.source.rotationY).toBe(-Math.PI / 2);
+  expect(HARROW_REPORT_PROFILE.source.samplesPerClip).toBe(13);
+  const asset = await model();
+  asset.scene.rotation.y = HARROW_REPORT_PROFILE.source.rotationY;
+  asset.scene.updateMatrixWorld(true);
+  const meshes: T.SkinnedMesh[] = [];
+  asset.scene.traverse((object) => {
+    if (object instanceof T.SkinnedMesh) meshes.push(object);
+  });
+  for (const [clipName, frame] of [
+    ["Idle", HARROW_POSE_FRAMES.idle],
+    ["Locomotion", HARROW_POSE_FRAMES.move],
+  ] as const)
+    for (const [width, height] of [
+      [949, 240],
+      [327, 206],
+    ]) {
+      const center = frame.bounds.getCenter(new T.Vector3());
+      const halfSize = frame.bounds
+        .getSize(new T.Vector3())
+        .multiplyScalar(0.5);
+      const aspect = width / height;
+      const boxDistance = projectedBoxDistance(
+        halfSize,
+        HARROW_REPORT_DIRECTION,
+        38,
+        aspect,
+      );
+      const distance = harrowProfileDistance(frame, 38, aspect);
+      expect(boxDistance).toBeGreaterThan(55);
+      expect(boxDistance).toBeLessThan(60);
+      expect(distance).toBeGreaterThan(30);
+      expect(distance).toBeLessThan(36);
+      const camera = new T.PerspectiveCamera(38, aspect, 0.01, 500);
+      camera.position
+        .copy(HARROW_REPORT_DIRECTION)
+        .multiplyScalar(distance)
+        .add(center);
+      camera.lookAt(center);
+      camera.updateMatrixWorld();
+      const mixer = new T.AnimationMixer(asset.scene);
+      const clip = asset.animations.find((c) => c.name === clipName)!;
+      mixer.clipAction(clip).play();
+      const point = new T.Vector3();
+      // Check phases between the sampled poses as well as the sampled phases.
+      let maxProjected = 0;
+      for (let phase = 0; phase < 24; phase++) {
+        mixer.setTime((clip.duration * phase) / 24);
+        asset.scene.updateMatrixWorld(true);
+        for (const mesh of meshes) {
+          const count = mesh.geometry.getAttribute("position").count;
+          for (let i = 0; i < count; i++) {
+            mesh.getVertexPosition(i, point).applyMatrix4(mesh.matrixWorld);
+            point.project(camera);
+            maxProjected = Math.max(
+              maxProjected,
+              Math.abs(point.x),
+              Math.abs(point.y),
+            );
+          }
+        }
+      }
+      expect(maxProjected).toBeLessThan(1);
+      mixer.stopAllAction();
+      mixer.uncacheRoot(asset.scene);
+    }
+});
 
 it("the shipped HARROW clips finish at their authoritative attack transitions", async () => {
   const asset = await model();

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" />
+  <title>レポートの横画面寸法確認</title>
+  <style>
+    body {
+      background: #07131b;
+      color: #e4edf1;
+      font: 16px sans-serif;
+    }
+    iframe {
+      display: block;
+      border: 1px solid #789;
+      margin-top: 12px;
+    }
+  </style>
+  <label
+    >画面寸法
+    <select id="size">
+      <option value="667,375">667 × 375</option>
+      <option value="844,390">844 × 390</option>
+      <option value="1280,720">1280 × 720</option>
+    </select>
+  </label>
+  <iframe
+    title="レポート検証画面"
+    src="./enemy-report-review.html"
+    width="667"
+    height="375"
+  ></iframe>
+  <script>
+    document.getElementById("size").onchange = (event) => {
+      const [width, height] = event.target.value.split(",");
+      const frame = document.querySelector("iframe");
+      frame.width = width;
+      frame.height = height;
+    };
+  </script>
+</html>

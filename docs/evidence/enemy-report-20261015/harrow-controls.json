@@ -1,0 +1,79 @@
+[
+  {
+    "asset": "ready",
+    "clip": "Dash",
+    "errors": "エラーなし",
+    "motion": "attack",
+    "status": "攻撃モーションを繰り返し再生中"
+  },
+  {
+    "asset": "ready",
+    "clip": "Threat",
+    "errors": "エラーなし",
+    "motion": "attack",
+    "status": "攻撃モーションを繰り返し再生中"
+  },
+  {
+    "asset": "ready",
+    "clip": "Snipe",
+    "errors": "エラーなし",
+    "motion": "attack",
+    "status": "攻撃モーションを繰り返し再生中"
+  },
+  {
+    "asset": "ready",
+    "clip": "Spin",
+    "errors": "エラーなし",
+    "motion": "attack",
+    "status": "攻撃モーションを繰り返し再生中"
+  },
+  {
+    "asset": "ready",
+    "clip": "Takeoff",
+    "errors": "エラーなし",
+    "motion": "attack",
+    "status": "攻撃モーションを繰り返し再生中"
+  },
+  {
+    "asset": "ready",
+    "clip": "TakeoffB",
+    "errors": "エラーなし",
+    "motion": "attack",
+    "status": "攻撃モーションを繰り返し再生中"
+  },
+  {
+    "asset": "ready",
+    "clip": "TakeoffC",
+    "errors": "エラーなし",
+    "motion": "attack",
+    "status": "攻撃モーションを繰り返し再生中"
+  },
+  {
+    "asset": "ready",
+    "clip": "TakeoffD",
+    "errors": "エラーなし",
+    "motion": "attack",
+    "status": "攻撃モーションを繰り返し再生中"
+  },
+  {
+    "asset": "ready",
+    "clip": "AirThreat",
+    "errors": "エラーなし",
+    "motion": "attack",
+    "status": "攻撃モーションを繰り返し再生中"
+  },
+  {
+    "asset": "ready",
+    "clip": "BombPass",
+    "errors": "エラーなし",
+    "motion": "attack",
+    "status": "攻撃モーションを繰り返し再生中"
+  },
+  {
+    "asset": "ready",
+    "clip": "Dive",
+    "errors": "エラーなし",
+    "motion": "attack",
+    "status": "攻撃モーションを繰り返し再生中"
+  }
+]

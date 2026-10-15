@@ -1,13 +1,15 @@
 ---
 name: swarm-front-audit-release
-description: Swarm Frontの変更をアプリ内ブラウザの通常Chatで独立監査し、指摘修正・再監査・main反映・既存Worker公開・配信確認まで進める。Swarm Frontの監査・公開・リリース時に使用する。
+description: Swarm Frontで明示依頼された独立Chat監査と、main反映・既存Worker公開・配信確認を進める。監査・公開・リリース時に使用する。
 ---
 
 # Swarm Frontの監査・公開
 
-## 固定する経路
+2026-10-15の本人指示「監査も次回以降はしなくていいから実装を優先して。」により、次回以降の通常タスクに独立Chat監査を自動追加しない。自己検証、必要なテスト・ビルド・実UI確認、CI、ブランチ保護、通常main反映、既存Worker公開・配信確認は維持する。以下の監査経路・資料・判定手順は、独立Chat監査を明示依頼された場合だけ適用する。過去の監査実績は消さない。
 
-- 2026-09-16ユーザー指示。監査は **Codexアプリ内ブラウザ（iab）→通常の新規Chat→監査ZIPを直接添付→独立判定→指摘修正・同じChatで再監査→main反映→公開確認** に固定する。
+## 固定する経路（独立Chat監査を明示依頼された場合）
+
+- 2026-09-16ユーザー指示に基づき、明示依頼された監査は **Codexアプリ内ブラウザ（iab）→通常の新規Chat→監査ZIPを直接添付→独立判定→指摘修正・同じChatで再監査→main反映→公開確認** に固定する。
 - 最初から `cua.createBrowserTab("iab", "https://chatgpt.com/", { visible: false })` を使う。既存の同タスクの監査Chatがある場合だけそのタブ/URLを再利用する。初回はcua_replの初期化規則に従う。
 - Chrome拡張版・OSのネイティブ操作・Work・Codexサブエージェントへ勝手に切り替えない。今回の成功経路はiabの標準filechooser。Chromeの「ファイルURLアクセス」変更やPC操作をユーザーに求めない。
 - iabで障害が発生したら、現在の画面と公式のブラウザツール手順を確認して最小限の復旧を試す。別経路への無断変更やセキュリティ制限の回避はしない。
@@ -29,10 +31,10 @@ description: Swarm Frontの変更をアプリ内ブラウザの通常Chatで独�
 
 ## mergeから公開まで
 
-1. 最新mainとPRチェック/保護を確認。監査後の変更が記録文書だけなら差分を明示し、実装変更があれば再監査する。管理者バイパスをしない。
+1. 最新mainとPRチェック/保護を確認。独立監査を実施した場合は、監査後の変更が記録文書だけなら差分を明示し、実装変更があれば再監査する。管理者バイパスをしない。
 2. 通常PR merge。更新履歴の具体的な日本語説明はmerge本文の `Player-Note: ...` に保持する。mainへ同期してmerge後HEADから公開用ビルドを作る。
 3. 既存の `wrangler.production.jsonc` に従ってdry-runと既存Worker公開。新規サービス・課金・移行を勝手に追加しない。
 4. 公開ソースSHA・Worker Versionを記録。配信ファイルのSHA、health、変更に応じた実ブラウザ確認を行う。ソースmain反映と公開を別々に確認する。
-5. 公開記録はcommit/pushしてmainへ反映。ローカルmain/origin/mainの一致とcleanを確認して報告。停止時は対象SHA・PR・監査Chat・資料・具体的な障害・再開条件をSTATE先頭に残す。
+5. 公開記録はcommit/pushしてmainへ反映。ローカルmain/origin/mainの一致とcleanを確認して報告。停止時は対象SHA・PR・具体的な障害・再開条件をSTATE先頭に残し、監査を実施した場合は監査Chat・資料も記す。
 
 このスキルの正本はリポジトリの `docs/skills/swarm-front-audit-release/SKILL.md`。個人スキルへ同一内容を配置し、更新時は両者のハッシュ一致を確認する。

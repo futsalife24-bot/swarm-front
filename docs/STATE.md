@@ -1,3 +1,19 @@
+# 現在地: ①〜③の再監査合格、main反映・公開へ（2026-10-15）
+
+対象 `9a4476a325c96b5cf21dbeb974a92298975fe4c6` の最終判定は合格、必須P0/P1/P2=0。監査側の独立24条件、限定DOM 30シナリオ・144表示チェック成功。実WebGL等の限界は維持。原文 [audit-final.txt](evidence/enemy-report-20261015/audit-final.txt)。以後は記録だけで製品不変。通常merge→main build/dry-run→既存Worker公開→配信/UI確認へ進む。
+
+初回監査の確定判定はP0=0/P1=0/P2=1。生存タイトルのレポートへ遭遇記録を渡す修正（b0cc1e7）と、記録省略時も未遭遇へ倒す予防修正（9a4476a）を実装。型・対象6件、実Chromeの両入口/8解禁条件/協力シルエットを確認。修正版 `9a4476a325c96b5cf21dbeb974a92298975fe4c6` を同じChatへ再提出・応答開始確認済み。build 210 modules、Worker dry-run 412 assets成功。最終判定→main/公開へ継続中。既存Cloudflare Free契約を管理画面で確認済み。
+
+branch `codex/enemy-report-separation-20261015`、base `672efb4832344ddd45b8ca8d22c9e7cfd62c26f4`。通常型/連結型を独立9項目へ分離、HARROW初期画角の拡大、PLEATからHARROWまでの遭遇順固定を実装。型と関連76件成功。実Chromeのローカル画面で独立解禁8条件、9モデル、HARROW11攻撃切替と横画面3寸法を確認。初回姿勢解析を事前生成へ改善後、型・関連44件・素材SHA/再現照合・844画面を再確認。[詳細と証拠](ENEMY-REPORT-SEPARATION-20261015.md)。
+
+実装 `4c63f185be9a01b779901846d6496e72f8c254fc` をpushし、[下書きPR189](https://github.com/futsalife24-bot/swarm-front/pull/189)を作成。最終型・識別等22件、公開用build（209 modules）、Worker production dry-run（412 assets）、新動画の配布物SHA一致まで成功。以後は検証記録だけ。未完了は独立Chat監査、main反映、既存Worker公開、公開配信/UI確認。
+
+①は候補として通常FOUNDRY ZERO／連結CATENAを画面・作戦説明・音声欄・会敵動画まで反映（本人の正式採用回答は未取得）。④⑤は[相談用の具体案とモック](BASE-TUTORIAL-PROPOSAL-20261015.md)を作成し、本人へ質問済み。既存公開版は10/14のまま。
+
+2026-10-15本人回答「今回だけChromeの通常Chatで監査する（推奨）」に従い、対象 `9adbc7f1a26fdaf615561cfb7f1861afa50968b5` の資料を[通常Chat](https://chatgpt.com/c/6ad06a66-e514-83e8-adfa-bca32638ad76)へ送信済み。独立判定待ち。監査側ではZIP整合性を確認、依存取得が名前解決エラーのため型・Vitestの再実行は不可との途中報告。最終判定ではない。main/公開準備を並行し、結果確認・必須修正/再監査・main/公開まで継続する。④⑤は相談回答を反映して着手する。
+
+最新本人指示「監査も次回以降はしなくていいから実装を優先して。」をAGENTS・WORKFLOW・公開スキルへ反映。次回以降の通常タスクは独立監査を自動追加しない。自己検証・CI・保護・通常公開手順は維持。個人スキルとの同一性も照合済み（`audit-policy-sync.json`）。今回の送信済み監査は継続する。
+
 # 現在地: 分割シャッターと通知ロゴを公開済み（2026-10-14）
 
 [PR187](https://github.com/futsalife24-bot/swarm-front/pull/187) merge済み。公開ソースmain 1da4bc83b33dcad3b30faa4e1e040c00b8819fcc、Worker Version d5dfa448-6108-4db3-a5d0-0a0c01a7725c。[公開版](https://swarm-front.melosalife-24.workers.dev/front)。監査対象6970c7fは必須P0/P1/P2=0。main build/dry-run/公開成功、配信27ファイル＋正式ロゴのSHA一致、health正常、公開版タイトル・基地往復・更新履歴を確認。[詳細](MENU-SPLIT-SHUTTER-20261014.md)。Android通知欄自体は未確認。①〜⑤は未着手。公開後の記録のみをmainへ反映して終了する。

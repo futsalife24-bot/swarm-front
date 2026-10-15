@@ -1,0 +1,40 @@
+
+> swarm-front@0.1.0 server:build:production
+> wrangler deploy --dry-run --config wrangler.production.jsonc --outdir dist-worker-production
+
+
+ ⛅️ wrangler 4.129.0
+────────────────────
+X [ERROR] Failed to write to log file Error: EPERM: operation not permitted, open 'C:\Users\futsa\AppData\Roaming\xdg.config\.wrangler\logs\wrangler-2026-10-15_06-28-16_413.log'
+
+      at async open (node:internal/fs/promises:697:25)
+      at async writeFile (node:internal/fs/promises:1317:14)
+      at async C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\node_modules\wrangler\wrangler-dist\cli.js:62686:7
+      at async Mutex.runWith (C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\node_modules\miniflare\dist\src\index.js:54769:16)
+      at async appendToDebugLogFile (C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\node_modules\wrangler\wrangler-dist\cli.js:62683:3) {
+    errno: -4048,
+    code: 'EPERM',
+    syscall: 'open',
+    path: 'C:\\Users\\futsa\\AppData\\Roaming\\xdg.config\\.wrangler\\logs\\wrangler-2026-10-15_06-28-16_413.log'
+  }
+
+
+X [ERROR] Would have written:
+
+  --- 2026-10-15T06:28:17.172Z debug
+  🪵  Writing logs to "C:\Users\futsa\AppData\Roaming\xdg.config\.wrangler\logs\wrangler-2026-10-15_06-28-16_413.log"
+  ---
+
+
+
+✨ Read 412 files from the assets directory C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\dist
+Total Upload: 380.09 KiB / gzip: 94.26 KiB
+Your Worker has access to the following bindings:
+Binding                                                  Resource
+env.ROOMS (Room)                                         Durable Object
+env.GATE (Gate)                                          Durable Object
+env.PROJECT_HUB (project-hub)                            Worker
+env.TURNSTILE_SITE_KEY [public value omitted]
+
+--dry-run: exiting now.
+🪵  Logs were written to "C:\Users\futsa\AppData\Roaming\xdg.config\.wrangler\logs\wrangler-2026-10-15_06-28-16_413.log"

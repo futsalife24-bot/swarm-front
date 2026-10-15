@@ -1,0 +1,5 @@
+
+> swarm-front@0.1.0 typecheck
+> tsc -p tsconfig.json && tsc -p tsconfig.worker.json
+
+exit_code=0

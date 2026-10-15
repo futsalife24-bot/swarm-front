@@ -212,14 +212,6 @@
   color: #a8bbc5;
   margin-top: 14px;
 }
-.specimen-forms {
-  display: flex;
-  gap: 6px;
-}
-.specimen-forms button {
-  font-size: 12px;
-  padding: 7px 10px;
-}
 @media (orientation: landscape) and (max-height: 550px) {
   .bestiary header {
     padding: 8px 12px;

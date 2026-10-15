@@ -28,7 +28,7 @@ try{
  }
  // Both legacy bestiary forms use the same movies, with the report kept open.
  const page=await b.newPage({viewport:{width:844,height:390},serviceWorkers:'block'});await page.goto(base);await page.locator('#open-bestiary').click();
- for(const key of kinds){if(key==='worm')await page.locator('[data-worm="true"]').click();else await page.locator(`[data-enemy="${key}"]`).click();await page.locator('.report-film-open').click();await page.waitForFunction(()=>document.querySelector('.report-film-dialog video')?.readyState>=2);assert.ok((await page.locator('.report-film-dialog video').getAttribute('data-source')).endsWith('/'+key+'.mp4'));await page.locator('.report-film-dialog .dialog-close').click()}
+ for(const key of kinds){await page.locator(`[data-enemy="${key}"]`).click();await page.locator('.report-film-open').click();await page.waitForFunction(()=>document.querySelector('.report-film-dialog video')?.readyState>=2);assert.ok((await page.locator('.report-film-dialog video').getAttribute('data-source')).endsWith('/'+key+'.mp4'));await page.locator('.report-film-dialog .dialog-close').click()}
  // A network failure offers a working retry without closing the report.
  await page.route('**/assets/encounters/**',r=>r.fulfill({status:404,body:'missing'}));await page.locator('.report-film-open').click();await page.locator('.film-retry').waitFor();await page.unroute('**/assets/encounters/**');await page.locator('.film-retry').click();await page.waitForFunction(()=>document.querySelector('.report-film-dialog video')?.currentTime>.2);await page.locator('.report-film-dialog .dialog-close').click();await page.locator('#report-close').click();await page.close();
  if(published){

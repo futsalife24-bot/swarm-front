@@ -9,8 +9,9 @@ try {
 for(const [width,height] of [[844,390],[1280,720]]){
  const page=await browser.newPage({viewport:{width,height},serviceWorkers:'block'}),errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base);await page.locator('#open-bestiary').waitFor();await page.locator('h1').click();await page.waitForTimeout(400);await page.locator('#open-bestiary').click();
- for(const kind of ['crawler','ant','spider','spitter','hornet','boss','worm']){
-  if(kind==='worm')await page.locator('[data-worm="true"]').click();else await page.locator(`[data-enemy="${kind}"]`).click();
+ assert.equal(await page.locator('[data-enemy]').count(),9);
+ for(const kind of ['crawler','ant','spider','spitter','boss','hornet','worm','calyx','harrow']){
+  await page.locator(`[data-enemy="${kind}"]`).click();
   await page.waitForFunction(()=>document.querySelector('.enemy-viewport')?.dataset.asset==='ready',null,{timeout:90000});
   await page.locator('button[data-motion="idle"]').click();await page.waitForTimeout(300);
   const a=await page.locator('.enemy-viewport').screenshot();await page.waitForTimeout(1200);const b=await page.locator('.enemy-viewport').screenshot({path:`${out}/${label}-${kind}-${width}.png`});assert.ok(!a.equals(b),kind+' idle motion');

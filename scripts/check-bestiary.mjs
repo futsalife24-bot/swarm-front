@@ -19,10 +19,10 @@ try {
   await page.locator('#open-bestiary').click();
   const dialog=page.getByRole('dialog');
   await dialog.getByRole('heading',{name:'エネミーレポート',exact:true}).waitFor();
-  assert.equal(await dialog.locator('[data-enemy]').count(),6);
+  assert.equal(await dialog.locator('[data-enemy]').count(),9);
   await dialog.locator('canvas').waitFor();
   await page.waitForTimeout(200);
-  for(const key of ['ant','spider','crawler','spitter','hornet','boss']) {
+  for(const key of ['crawler','ant','spider','spitter','boss','hornet','worm','calyx','harrow']) {
    await dialog.locator(`[data-enemy="${key}"]`).click();
    assert.equal(await dialog.locator(`[data-enemy="${key}"]`).getAttribute('aria-pressed'),'true');
    assert.equal(await dialog.locator('dl').count(),0);
@@ -31,7 +31,7 @@ try {
    assert.doesNotMatch(await dialog.locator('article').innerText(),/[0-9０-９]|ステージ|基本HP|基本攻撃力|通常速度/);
    if(width===1280) await page.screenshot({path:`${dir}/${key}.png`});
   }
-  await dialog.locator('[data-worm="true"]').click();
+  await dialog.locator('[data-enemy="worm"]').click();
   await page.screenshot({path:`${dir}/worm-${width}.png`});
   const canvas=dialog.locator('canvas');
   const before=await canvas.screenshot();
