@@ -1,0 +1,44 @@
+{
+  "filmButtons": 0,
+  "heading": "？？？",
+  "names": [
+    {
+      "key": "crawler",
+      "text": "01？？？未遭遇›"
+    },
+    {
+      "key": "ant",
+      "text": "02？？？未遭遇›"
+    },
+    {
+      "key": "spider",
+      "text": "03？？？未遭遇›"
+    },
+    {
+      "key": "spitter",
+      "text": "04？？？未遭遇›"
+    },
+    {
+      "key": "boss",
+      "text": "05？？？未遭遇›"
+    },
+    {
+      "key": "hornet",
+      "text": "06？？？未遭遇›"
+    },
+    {
+      "key": "worm",
+      "text": "07？？？未遭遇›"
+    },
+    {
+      "key": "calyx",
+      "text": "08？？？未遭遇›"
+    },
+    {
+      "key": "harrow",
+      "text": "09？？？未遭遇›"
+    }
+  ],
+  "status": "遭遇すると観察できます",
+  "voiceButtons": 0
+}

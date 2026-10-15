@@ -4,8 +4,8 @@
 
 - branch: `codex/enemy-report-separation-20261015`
 - base: `672efb4832344ddd45b8ca8d22c9e7cfd62c26f4`
-- 実装commit: `4c63f185be9a01b779901846d6496e72f8c254fc`、[下書きPR189](https://github.com/futsalife24-bot/swarm-front/pull/189)。後続commitは検証記録のみ。
-- 状態: ①の独立項目化と候補名CATENA・②HARROW初期表示・③遭遇順を実装し自己検証。候補名への意見、④⑤の方針は本人へ相談中。独立監査・main反映・公開は未完了。
+- 実装commit: `4c63f185be9a01b779901846d6496e72f8c254fc`、アクセス修正 `9a4476a325c96b5cf21dbeb974a92298975fe4c6`。[PR189](https://github.com/futsalife24-bot/swarm-front/pull/189)を通常merge済み。
+- 状態: ①の独立項目化とCATENA名・②HARROW初期表示・③遭遇順は検証・独立監査・main反映・既存Worker公開まで完了。CATENAは命名を含む本人依頼に対する提示案として反映しており、正式採用の回答を受けたとの記録ではない。④⑤は相談資料まで。
 
 ## ① 通常型と連結型の分離
 
@@ -84,6 +84,15 @@ v14実素材の検証では外接箱距離56〜59に対して投影距離30〜36
 ## 最終独立判定
 
 対象 `9a4476a325c96b5cf21dbeb974a92298975fe4c6` は合格、必須P0=0/P1=0/P2=0。P2-01解消。監査側の独立試験24条件、限定DOM 30シナリオ・144表示チェックを通過。原文は `audit-final.txt`。描画・音声を代替した隔離DOMであり、実ページ全体/実機/実WebGL/型/元の試験/本番buildとdry-runの独立再実行ではない。主担当の実確認と区別する。以降の差分は文書・証拠のみで製品不変。
+
+## 公開結果
+
+- 公開ソースmain: `f22fa8ca839a41ae34bcde09d7e492b9a3674b09`。
+- Worker Version: `39597d2c-e561-49a3-b387-398a29355a63`、既存 `swarm-front` Worker、既存Free契約。
+- mainでbuild 210 modules・production dry-run 412 assets成功。公開17更新assets、356既存assetsを再利用。mainでのdry-runはAppDataログ保存エラーなし。
+- 配信HTML/JS/CSS/SW/タイトル素材27ファイルと、新CATENA映像・音声一覧2ファイルのSHA256がすべて一致。health 200/ok:true。`delivery.json`、`delivery-extra.json`。
+- 公開Chromeでタイトルからメニューへ、9項目の固定順、CATENA未遭遇の名前/声/映像非解禁、更新履歴の今回3項目を確認。`public-report.json`、`public-changelog.txt`、`public-changelog.png`。本番セーブを変更して全解禁する検証は行っていない。
+- 正式配信と実機の全操作検証は別。実Android/Safari/Firefox・全攻撃全フレーム・人のピンチは未確認。
 
 ## 後続④⑤
 

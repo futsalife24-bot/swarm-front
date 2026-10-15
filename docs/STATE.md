@@ -1,4 +1,12 @@
-# 現在地: ①〜③の再監査合格、main反映・公開へ（2026-10-15）
+# 現在地: ①〜③を公開完了、④⑤は具体案の相談待ち（2026-10-15）
+
+[PR189](https://github.com/futsalife24-bot/swarm-front/pull/189)を通常merge。公開ソースmain `f22fa8ca839a41ae34bcde09d7e492b9a3674b09`、Worker Version `39597d2c-e561-49a3-b387-398a29355a63`。[公開版](https://swarm-front.melosalife-24.workers.dev/front)。通常FOUNDRY ZERO／連結CATENAの独立レポート・声・映像・解禁、HARROW初期拡大、PLEAT〜HARROWの遭遇順を反映。生存側の未遭遇解禁漏れも修正。
+
+最終監査9a4476aは合格・必須P0/P1/P2=0。main build 210 modules・dry-run 412 assets・公開成功。配信29ファイルSHA一致、health 200/ok:true、公開Chromeでタイトル・9項目順/未遭遇の非解禁・更新履歴を確認。実Android/Safari/Firefox未確認。[詳細](ENEMY-REPORT-SEPARATION-20261015.md)。公開後の変更は記録のみ。
+
+残り④基地のブラッシュアップ・⑤初回チュートリアルは、元の本人指定「要相談」に従って[具体案](BASE-TUTORIAL-PROPOSAL-20261015.md)と[比較モック](previews/base-tutorial-20261015.html)を用意済み。既存2×2カードを保った各画面の整理と、通常ST1の操作→報酬→基地→協力入口までの任意ガイド案。相談回答を受けたら製品実装へ進む。次回以降の通常作業は本人指示により独立Chat監査を自動追加せず、自己検証・通常main反映・既存Worker公開を継続する。
+
+# 履歴: ①〜③の再監査合格、main反映・公開へ（2026-10-15）
 
 対象 `9a4476a325c96b5cf21dbeb974a92298975fe4c6` の最終判定は合格、必須P0/P1/P2=0。監査側の独立24条件、限定DOM 30シナリオ・144表示チェック成功。実WebGL等の限界は維持。原文 [audit-final.txt](evidence/enemy-report-20261015/audit-final.txt)。以後は記録だけで製品不変。通常merge→main build/dry-run→既存Worker公開→配信/UI確認へ進む。
 
