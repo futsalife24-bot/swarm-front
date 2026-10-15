@@ -1,6 +1,6 @@
-# 現在地: PLEATのレイ接地・壁面歩行を実装、公開準備（2026-10-16）
+# 現在地: PLEATのレイ接地・壁面歩行を公開済み（2026-10-16）
 
-既存4脚を維持し、床→壁→天井→薄い縁の裏側をレイ探索/IKで連続移動。前脚先行と後脚の寄せ、支持面からの胴体バネ、実外套寸法の押出し、権威状態/軽量姿勢配信を実装。base `967473edae08e20fee891c9b2313fce50ea9d886`、branch `codex/pleat-surface-walk-20261016`。型・関連93件・実Worker通信2件成功。Chromeで本番StructureMotion/実GLBの壁・天井・縁を確認。独立監査なしの最新方針を維持。次は実装commit、通常PR/main反映、既存Worker公開・配信確認。[詳細](PLEAT-SURFACE-WALK-20261016.md)。④⑤の要相談は継続。
+既存4脚を維持し、床→壁→天井→薄い縁の裏側をレイ探索/IKで連続移動。前脚先行と後脚の寄せ、支持面からの胴体バネ、実外套寸法の押出し、権威状態/軽量姿勢配信を実装。base `967473edae08e20fee891c9b2313fce50ea9d886`、実装 `f71240224a2d66dfd6b8ae19027fe2b92a0b947c`。[PR195](https://github.com/futsalife24-bot/swarm-front/pull/195)を通常merge、公開ソース `e19d61d1afd62504fcd6f86e1edc268b42bcf930`、Worker `afeae4ab-9908-4231-b7ad-ddb3fc7b0b98`。型・関連93件・実Worker通信2件成功。Chromeで本番StructureMotion/実GLBの壁・天井・縁を確認。main build216 modules・dry-run422 assets、配信27ファイルSHA一致/health200成功。公開の新規タブでは既存ゲームタブ保護画面の起動を確認し、保存権を奪う操作は行わず。Android実機未確認。独立監査なしの最新方針を維持。[詳細](PLEAT-SURFACE-WALK-20261016.md)。④⑤の要相談は継続。
 
 # 履歴: エネミーレポートの試聴音量を30％低減して公開済み（2026-10-16）
 

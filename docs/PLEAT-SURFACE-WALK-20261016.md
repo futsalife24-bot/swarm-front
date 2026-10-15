@@ -35,4 +35,12 @@ base: `967473edae08e20fee891c9b2313fce50ea9d886`
 
 branch: `codex/pleat-surface-walk-20261016`
 
-主担当と子2体で共有制御・地形レイ・既存リグ描画を分担。実モデルID・推論設定は未確認。独立Chat監査は最新の本人方針に従い追加しない。公開結果は検証完了後に記録する。
+主担当と子2体で共有制御・地形レイ・既存リグ描画を分担。実モデルID・推論設定は未確認。独立Chat監査は最新の本人方針に従い追加しない。
+
+## 公開結果
+
+- 実装 `f71240224a2d66dfd6b8ae19027fe2b92a0b947c`、[PR195](https://github.com/futsalife24-bot/swarm-front/pull/195)を通常merge。merge時点の最新mainとの差分競合なし、GitHubのチェック一覧は空で保護迂回なし。
+- 公開ソースmain `e19d61d1afd62504fcd6f86e1edc268b42bcf930`、Worker `afeae4ab-9908-4231-b7ad-ddb3fc7b0b98`。
+- main build216 modules、Worker dry-run422 assets成功。既存の大きなJSチャンク警告あり。Chromeの既存パレット関数にコンパイラ警告2件あり、描画エラーなし。
+- [配信照合](evidence/pleat-surface-20261016/delivery.json): 27ファイルSHA一致、health200/ok:true。[公開先](https://swarm-front.melosalife-24.workers.dev/front)。新規タブで既存ゲームタブの保存保護画面が起動することを確認。既存タブの保存権を奪わず、公開版での実戦操作は未実施。ローカル実GLB/本番描画と実Worker通信は検証済み。
+- 目視で見つけた後外套の壁接触は実GLBの範囲から前後球を拡大して修正。連続移動中の後端が壁/板へ入らない回帰確認と敵41件・権威8件を再実施して成功。
