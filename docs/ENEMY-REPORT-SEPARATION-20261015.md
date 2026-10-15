@@ -73,6 +73,10 @@ v14実素材の検証では外接箱距離56〜59に対して投影距離30〜36
 
 初回最終判定は要修正、P0=0/P1=0/P2=1（P2-01、原文 `audit-initial.txt`）。同指摘の予防策として `openBestiary` の記録省略も未遭遇へ変更し、開発ページの全解禁は明示された記録だけにした。読取り例外を加えた6条件と型検査成功。Chromeで記録未指定・通常タイトルの新規進行からも全9種未遭遇を確認（`missing-access.txt`、`normal-title-locked.txt`）。ローカル検証用の新規進行だけを通常UIで作成し、本番保存は操作していない。
 
+修正版 `9a4476a325c96b5cf21dbeb974a92298975fe4c6` を同じ通常Chatへ再提出し応答開始を確認。差分ZIPは199,256 bytes、SHA256 `be359479881e9f839d32949e9ffef0477721911791b0a5aa59f75b7c132429f7`。前回ZIPと修正3製品ファイル/試験/証拠から再監査。最終buildは210 modules、Worker production dry-runは412 assetsで成功。証拠の段階と動画生成環境は `evidence-index.json` に整理し、初稿の記録と最終版を区別した。
+
+修正版dry-runは梱包とexit 0を確認した一方、制限環境からAppDataへのWrangler診断ログ保存はEPERMで失敗した。標準出力の成功とログ保存失敗を区別し、main反映後の公開前dry-runは通常の許可済み実行環境で行う。
+
 型・新規5条件・既存識別2件成功。主担当Chromeで新ヘルパーを通した8解禁条件、協力CATENAの黒いシルエットと名前/声/映画なし、実際の `/front.html` タイトル入口で全未遭遇の非解禁を確認。証拠は `front-access-checks.json`、`front-coop-silhouette.png`、`front-title-locked.png`。監査最終結果受領・修正版の再提出は継続中。
 
 公開アカウント: 2026-10-15に既存アカウントのWorkers Plans画面で「無料・0ドル・現在の計画」を確認（`cloudflare-free.png`、`cloudflare-plan-ui.txt`）。CLI契約APIは`subscriptions`がHTTP 403であり、`account-settings`の`standard`だけをFreeの根拠にしていない。既存OAuthによる当日UTC 00:00〜06:07のアカウント全Workers使用量は81 requests、0 errors、85 subrequests（`account-plan.json`）。DO使用量は未取得。契約・権限・サービス構成の変更なし。
