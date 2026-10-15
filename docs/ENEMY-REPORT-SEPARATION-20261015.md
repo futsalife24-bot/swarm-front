@@ -53,11 +53,15 @@ v14実素材の検証では外接箱距離56〜59に対して投影距離30〜36
 
 ## 実行環境と保留
 
-アプリ内ブラウザは一覧に存在せず、`getBrowser('2')`/`createBrowserTab('iab',...)`は利用不可。`open_in_codex`はqueued。このタスクの表示を本人へ依頼済み。通常Chatの独立監査は未依頼で、Chromeの画面検証を監査の代わりにしない。
+アプリ内ブラウザは一覧に存在せず、`getBrowser('2')`/`createBrowserTab('iab',...)`は利用不可。`open_in_codex`はqueuedだった。後述の本人許可により監査経路の障害は解消済み。
 
 後の接続再確認もChromeのみだったため、今回だけChromeの通常Chatで同じ独立監査を行う経路変更を本人へ質問した。2026-10-15、本人が「今回だけChromeの通常Chatで監査する（推奨）」と回答し、この案件に限る変更を明示許可。以後はChromeの新規通常Chatへ送信する。これは恒久的な経路変更ではない。適用根拠は `docs/skills/swarm-front-audit-release/SKILL.md` の「Chrome拡張版・OSのネイティブ操作・Work・Codexサブエージェントへ勝手に切り替えない」であり、今回の本人許可で例外を確定した。監査合格後の通常merge・既存Worker公開は従来の継続承認を維持する。
 
 監査準備: `.codex-remote-attachments/prepare-enemy-report-audit.py` は保存済みHEADから全src/server・関連試験・9モデル・通常/連結動画・証拠・実差分を選び、完全SHAとファイル別SHA256を入れたZIPを作る。個人下書き、秘密値、依存キャッシュ、無関係な素材は含めない。Git履歴自体は同梱しないため通常Vite設定の履歴生成には正規Git checkoutが必要。局所UIは付属のレポート検証HTMLで確認できる。
+
+監査送信済み: [通常Chat](https://chatgpt.com/c/6ad06a66-e514-83e8-adfa-bca32638ad76)、対象 `9adbc7f1a26fdaf615561cfb7f1861afa50968b5`。ZIPは28,166,593 bytes、SHA256 `778c848b5b98c0145c4b2005b5fc5bffe195008f18196e153faffc754275a84f`、293ファイル。`audit-request.png`に送信証拠。監査側は整合性確認済み、依存取得の名前解決エラーで型/Vitest再実行不可との途中報告。最終結果は未受領。
+
+本人の最新指示により、次回以降の通常タスクは独立Chat監査を必須にせず実装と自己検証を優先する。今回送信済みの監査は継続。AGENTS・WORKFLOW・正本スキルを更新し、個人スキルとのSHA一致を `audit-policy-sync.json` に記録。Hooks・CI・権限制御は変更していない。
 
 子担当が端末Playwrightで実行した確認は `ERR_NETWORK_ACCESS_DENIED` で画面到達前に失敗し、停止済み。主担当はcua_replのChromeでローカル画面だけ確認した。一部CDP応答時間切れは状態取得/新規タブで復旧。ビューポート指定が対象タブに反映されない例があったため、寸法固定iframeの実測を使用した。
 

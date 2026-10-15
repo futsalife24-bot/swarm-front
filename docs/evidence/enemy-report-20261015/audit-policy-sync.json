@@ -1,0 +1,8 @@
+{
+  "userInstruction": "監査も次回以降はしなくていいから実装を優先して。",
+  "scope": "Swarm Frontの次回以降の通常タスク",
+  "beforeSha256": "814d0f8a1069dc043b9280fd27d2f9984774118992a736bd73e09578c8777392",
+  "afterSha256": "b7212c2aef373c6c63b903d6f40fdb4603925404345f522272e70cc6150b38f0",
+  "canonicalMatchesPersonal": true,
+  "hooksChanged": false
+}
