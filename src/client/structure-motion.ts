@@ -7,6 +7,8 @@ import {
 } from "./hound-motion";
 import { STRUCTURE_TIMING } from "../shared/structure-timing";
 import { HARROW_MOVE_SPEED } from "../shared/harrow-motion";
+import { PleatProcedural } from "./pleat-procedural";
+import type { PleatState } from "../shared/pleat-locomotion";
 export const STRUCTURE_ASSETS = {
   harrow: "harrow",
   calyx: "calyx",
@@ -25,6 +27,7 @@ export function harrowTakeoffClip(seed = 0): HoundClip {
 }
 export type StructureVisualKind = keyof typeof STRUCTURE_ASSETS;
 export type StructureInput = HoundVisualInput & {
+  pleat?: PleatState;
   slot: number;
   calyx?: import("../shared/calyx").CalyxAttack;
   harrow?: import("../shared/harrow").HarrowAttack;
@@ -58,6 +61,10 @@ export class StructureMotionController {
           : STRUCTURE_TIMING[this.kind === "spider" ? "crawler" : this.kind];
     inputs.forEach((e, i) => {
       alive.add(e.id);
+      if (this.kind === "crawler" && e.pleat) {
+        this.states.delete(e.id);
+        return;
+      }
       let s = this.states.get(e.id);
       if (!s) {
         s = {
@@ -189,6 +196,7 @@ export class StructureMotionController {
 }
 /** One GPU palette per species, independently timed instances. Never mutates World. */
 export class StructureMotion {
+  private pleat?: PleatProcedural;
   batch?: HoundMotionBatch;
   readonly controller: StructureMotionController;
   readonly loading: Promise<void>;
@@ -206,6 +214,7 @@ export class StructureMotion {
     this.loading = loadEnemyMotion(STRUCTURE_ASSETS[kind])
       .then((asset) => {
         this.batch = new HoundMotionBatch(asset, capacity);
+        if (kind === "crawler") this.pleat = new PleatProcedural(this.batch);
         this.batch.group.name =
           STRUCTURE_ASSETS[kind].toUpperCase() + "_PRODUCTION";
         scene.add(this.batch.group);
@@ -220,6 +229,7 @@ export class StructureMotion {
     if (!b || !this.enabled) {
       source.visible = true;
       this.controller.states.clear();
+      this.pleat?.clear();
       b?.finish(0);
       return;
     }
@@ -229,6 +239,11 @@ export class StructureMotion {
       source.getMatrixAt(e.slot, this.matrix);
       if (source.instanceColor) source.getColorAt(e.slot, this.color);
       else this.color.set(0xffffff);
+      if (e.pleat && this.pleat) {
+        this.pleat.update(i, e.pleat, dt, e.wind, e.cool, this.color, e.id);
+        if (source.visible) source.setMatrixAt(e.slot, this.zero);
+        return;
+      }
       b.setTransform(i, this.matrix, this.color);
       if (source.visible) source.setMatrixAt(e.slot, this.zero);
     });
@@ -237,5 +252,6 @@ export class StructureMotion {
       source.computeBoundingSphere();
     }
     b.finish(inputs.length);
+    this.pleat?.retain(new Set(inputs.map((e) => e.id)));
   }
 }

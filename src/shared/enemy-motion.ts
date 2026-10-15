@@ -5,6 +5,9 @@ import { blocked, roofHeight, visible } from "./game";
 import { ENEMIES } from "./defs";
 import { groundHeight } from "./terrain";
 import { mapFor } from "./stages";
+import { createPleat, stepPleat } from "./pleat-locomotion";
+import { surfaceRay } from "./surface-ray";
+import { enemySize } from "./enemy-size";
 
 // Per-enemy random sequence keeps loot randomness independent from steering.
 export function pursuitDirection(w: World, e: Enemy, t: Player) {
@@ -94,6 +97,64 @@ export function pursuitDirection(w: World, e: Enemy, t: Player) {
 export function specialMotion(w: World, e: Enemy, t: Player, dt: number) {
   const blocks = mapFor(w).blocks;
   const def = ENEMIES[e.kind];
+  if (e.kind === "crawler") {
+    const world = {
+      ray: (
+        origin: import("./surface-math").V3,
+        direction: import("./surface-math").V3,
+        distance: number,
+      ) => surfaceRay(origin, direction, distance, blocks),
+    };
+    const direction = pursuitDirection(w, e, t);
+    const s = (e.pleat ??= createPleat(
+      { x: e.x, y: e.y, z: e.z },
+      { x: direction.x, y: 0, z: direction.z },
+      enemySize(e),
+      world,
+    ));
+    const distance = Math.hypot(
+      t.x - s.body.x,
+      (t.y ?? 0) + 0.8 - s.body.y,
+      t.z - s.body.z,
+    );
+    if (
+      !e.lungeWait &&
+      distance < 10 &&
+      distance > 3 &&
+      s.normal.y > 0.8 &&
+      !s.transfer
+    ) {
+      e.lunge = 0.35;
+      e.lungeWait = 2;
+    }
+    // On a wall the target projection can point through the solid. Continue the
+    // transported heading until the next reachable surface, rather than reverse.
+    const aboveTarget =
+      s.anchor.y > (t.y ?? 0) + 1 &&
+      Math.hypot(t.x - s.anchor.x, t.z - s.anchor.z) < 2.5 * s.scale;
+    const input =
+      Math.abs(s.normal.y) < 0.5
+        ? { x: 0, y: s.forward.y < -0.05 ? -1 : 1, z: 0 }
+        : s.normal.y < 0 || aboveTarget
+          ? s.forward
+          : { x: direction.x, y: (t.y ?? 0) - s.anchor.y, z: direction.z };
+    const stopped = e.wind > 0 || (distance < 2 && !s.transfer && !s.settling);
+    stepPleat(
+      s,
+      input,
+      stopped
+        ? 0
+        : def.speed * enemySpeedFactor(e) * ((e.lunge ?? 0) > 0 ? 2.2 : 1),
+      dt,
+      world,
+    );
+    // Existing combat coordinates describe feet altitude. Keep body centre equal
+    // to (x,y+.8*scale,z), including on ceilings, so aim/hits follow the creature.
+    e.x = s.body.x;
+    e.y = s.body.y - 0.8 * s.scale;
+    e.z = s.body.z;
+    return true;
+  }
   if (e.kind !== "spider") return false;
   e.jumpWait = Math.max(0, (e.jumpWait ?? 0) - dt);
   e.wallCooldown = Math.max(0, (e.wallCooldown ?? 0) - dt);

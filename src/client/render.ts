@@ -1168,6 +1168,7 @@ export class Renderer {
           if (inputs && !e.segments)
             inputs.push({
               slot: n,
+              pleat: e.pleat,
               calyx: e.calyx,
               harrow: e.harrow,
               harrowAirborne: e.harrowAirborne,

@@ -44,6 +44,13 @@ export type HoundMotionAsset = {
   ranges: Record<HoundClip, ClipRange>;
   meshes: T.SkinnedMesh[];
   bones: number;
+  proceduralRest?: {
+    names: string[];
+    world: T.Matrix4[];
+    inverseBind: T.Matrix4[];
+    prefix: T.Matrix4;
+    bind: T.Matrix4;
+  };
 };
 const cached = new Map<string, Promise<HoundMotionAsset>>();
 
@@ -150,6 +157,20 @@ export function loadEnemyMotion(
       )
         throw new Error("Unexpected enemy skin binding");
       const ranges = {} as Record<HoundClip, ClipRange>;
+      let proceduralRest: HoundMotionAsset["proceduralRest"];
+      if (name === "pleat") {
+        skeleton.pose();
+        model.updateMatrixWorld(true);
+        proceduralRest = {
+          names: skeleton.bones.map((bone) => bone.name),
+          world: skeleton.bones.map((bone) => bone.matrixWorld.clone()),
+          inverseBind: skeleton.boneInverses.map((matrix) => matrix.clone()),
+          prefix: meshes[0].matrixWorld
+            .clone()
+            .multiply(meshes[0].bindMatrixInverse),
+          bind: meshes[0].bindMatrix.clone(),
+        };
+      }
       let rows = 0;
       for (const name of clipNames) {
         const duration = clips.find((c) => c.name === name)!.duration,
@@ -247,6 +268,7 @@ export function loadEnemyMotion(
         ranges,
         meshes: drawMeshes,
         bones,
+        proceduralRest,
         trsParents: trsAtlas
           ? skeleton.bones.map((b) =>
               skeleton.bones.indexOf(b.parent as T.Bone),
@@ -277,11 +299,35 @@ export class HoundMotionBatch {
   readonly poseA: T.InstancedBufferAttribute;
   readonly poseB: T.InstancedBufferAttribute;
   readonly blend: T.InstancedBufferAttribute;
+  private proceduralAtlas?: T.DataTexture;
+  private proceduralStart = 0;
+  private fullPaletteUpload = true;
   constructor(
     readonly asset: HoundMotionAsset,
     readonly capacity: number,
   ) {
     this.group.name = "HOUND_MOTION_DEBUG";
+    if (asset.proceduralRest) {
+      this.proceduralStart = asset.atlas.image.height;
+      const data = new Float32Array(
+        (this.proceduralStart + capacity) * asset.bones * 16,
+      );
+      data.set(asset.atlas.image.data as Float32Array);
+      this.proceduralAtlas = new T.DataTexture(
+        data,
+        asset.bones * 4,
+        this.proceduralStart + capacity,
+        T.RGBAFormat,
+        T.FloatType,
+      );
+      this.proceduralAtlas.minFilter = this.proceduralAtlas.magFilter =
+        T.NearestFilter;
+      this.proceduralAtlas.generateMipmaps = false;
+      this.proceduralAtlas.needsUpdate = true;
+      this.proceduralAtlas.onUpdate = () => {
+        this.fullPaletteUpload = false;
+      };
+    }
     this.poseA = new T.InstancedBufferAttribute(
       new Float32Array(capacity * 3),
       3,
@@ -301,9 +347,14 @@ export class HoundMotionBatch {
       geometry.setAttribute("houndBlend", this.blend);
       const material = (source.material as T.MeshStandardMaterial).clone();
       material.onBeforeCompile = (shader) => {
-        shader.uniforms.houndPalette = { value: asset.trsAtlas ?? asset.atlas };
+        shader.uniforms.houndPalette = {
+          value: this.proceduralAtlas ?? asset.trsAtlas ?? asset.atlas,
+        };
         shader.uniforms.houndPaletteSize = {
-          value: new T.Vector2(asset.bones * 4, asset.atlas.image.height),
+          value: new T.Vector2(
+            asset.bones * 4,
+            this.proceduralAtlas?.image.height ?? asset.atlas.image.height,
+          ),
         };
         if (asset.trsAtlas) {
           shader.uniforms.houndParents = { value: asset.trsParents };
@@ -397,6 +448,13 @@ objectNormal=mat3(houndSkin)*objectNormal;
   ) {
     if (slot < 0 || slot >= this.capacity)
       throw new RangeError("HOUND instance capacity");
+    // Legacy report clips share this texture. Include their immutable rows when
+    // sampled, including after a WebGL context restoration.
+    if (this.proceduralAtlas) {
+      this.fullPaletteUpload = true;
+      this.proceduralAtlas.clearUpdateRanges();
+      this.proceduralAtlas.needsUpdate = true;
+    }
     this.sample(this.poseA, slot, from, fromTime);
     this.sample(this.poseB, slot, clip, time);
     this.blend.setX(slot, T.MathUtils.clamp(mix, 0, 1));
@@ -406,6 +464,34 @@ objectNormal=mat3(houndSkin)*objectNormal;
       p.setMatrixAt(slot, matrix);
       if (color) p.setColorAt(slot, color);
     }
+  }
+  setProceduralPose(slot: number, matrices: readonly T.Matrix4[]) {
+    if (
+      !this.proceduralAtlas ||
+      slot < 0 ||
+      slot >= this.capacity ||
+      matrices.length !== this.asset.bones
+    )
+      throw new RangeError("Invalid procedural enemy palette");
+    const row = this.proceduralStart + slot;
+    const data = this.proceduralAtlas.image.data as Float32Array;
+    matrices.forEach((matrix, bone) =>
+      matrix.toArray(data, (row * this.asset.bones + bone) * 16),
+    );
+    this.poseA.setXYZ(slot, row, row, 0);
+    this.poseB.setXYZ(slot, row, row, 0);
+    this.blend.setX(slot, 1);
+    if (
+      !this.fullPaletteUpload &&
+      !this.proceduralAtlas.updateRanges.some(
+        (range) => range.start === row * this.asset.bones * 16,
+      )
+    )
+      this.proceduralAtlas.addUpdateRange(
+        row * this.asset.bones * 16,
+        this.asset.bones * 16,
+      );
+    this.proceduralAtlas.needsUpdate = true;
   }
   finish(count: number) {
     if (count > this.capacity) throw new RangeError("HOUND instance capacity");
@@ -422,6 +508,7 @@ objectNormal=mat3(houndSkin)*objectNormal;
     }
   }
   dispose() {
+    this.proceduralAtlas?.dispose();
     for (const p of this.parts) {
       p.geometry.dispose();
       (p.material as T.Material).dispose();
