@@ -24,7 +24,11 @@
 
 型・HARROW実素材7件・モーション10件・全9映像の現行素材/動画SHA照合1件・映像ダイアログ3件が成功。全動画の330/600フレーム連続時刻、30fps、全デコード、カメラが止まった後の待機動作変化を確認。9種の比較画像で画角・名称・字幕・現行造形を確認し、実Chromeの844×390レポートから全9種を再生してreadyState 4・errorなしを確認した。映像ダイアログを閉じて正常にレポートへ戻れる。全画面切替の完了前に読み込み結果が破棄される問題も、表示後の取得開始と終了時のキャンセルで修正した。
 
-証拠: `docs/evidence/harrow-report-motion-scale-20261015/`、`docs/evidence/encounter-films-current-20261015/`。raw IVFは再生成可能なローカル中間物として`dist-validation/current-encounters-20261015/`に保管し、配信用MP4・生成スクリプト・マニフェストをGit管理する。main反映・公開配信確認は完了後に追記する。
+証拠: `docs/evidence/harrow-report-motion-scale-20261015/`、`docs/evidence/encounter-films-current-20261015/`。raw IVFは再生成可能なローカル中間物として`dist-validation/current-encounters-20261015/`に保管し、配信用MP4・生成スクリプト・マニフェストをGit管理する。
+
+実装`6097bb0e1c001afcfe517fede817072db9bb477b`を[PR191](https://github.com/futsalife24-bot/swarm-front/pull/191)で通常merge。公開ソース`b144b70a9884aa359efb540c1fe0b252c4884eba`、Worker Version `773499bc-37c0-40ce-a649-dcea29a8ecef`。mainからbuild 212 modules、Worker dry-run 422 assetsを確認して既存Workerへ公開。動画9/9とアプリ27/27のSHA一致、health 200/ok:true、公開LEAPER動画のChrome直接再生（11秒・readyState 4・errorなし）を確認した。GitHubのstatus checksは設定なし、mergeState CLEAN/MERGEABLEを確認し通常mergeした。
+
+公開後のゲーム内再操作では、既存ユーザータブの再読み込みを自動承認レビューが保存状態消失の可能性で拒否したため実施しなかった。既存タブの操作・保存保護の回避は行わず、ローカル実UI、公開バイトの完全一致、公開動画の別タブ直接再生で確認した。実Android/Safari/Firefoxは未確認。公開後の変更はこの記録と配信証拠だけ。
 
 開始base: `c167a87419da11cf49ca029e168c1155f707e5db`。branch: `codex/harrow-report-motion-scale-20261015`。
 

@@ -1,0 +1,22 @@
+{
+  "source": "b144b70a9884aa359efb540c1fe0b252c4884eba",
+  "implementation": "6097bb0e1c001afcfe517fede817072db9bb477b",
+  "base": "c167a87419da11cf49ca029e168c1155f707e5db",
+  "pr": "https://github.com/futsalife24-bot/swarm-front/pull/191",
+  "workerVersion": "773499bc-37c0-40ce-a649-dcea29a8ecef",
+  "url": "https://swarm-front.melosalife-24.workers.dev/front",
+  "checkedAt": "2026-10-15T14:01:08.8598802Z",
+  "buildModules": 212,
+  "dryRunAssets": 422,
+  "publishedMovieMatches": 9,
+  "publishedAppMatches": 27,
+  "health": 200,
+  "localBrowserMovieChecks": 9,
+  "publicDirectMovie": "spider",
+  "publicDirectMovieDuration": 11,
+  "publicDirectMovieError": null,
+  "productionGameReload": "not performed: automatic approval review refused reloading the existing user tab to protect game state",
+  "actualAndroid": "not tested",
+  "independentChatAudit": "not requested under current user policy",
+  "ci": "no GitHub status checks configured; normal merge was CLEAN/MERGEABLE"
+}
