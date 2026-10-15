@@ -1,4 +1,8 @@
-# 現在地: HARROW全動作の表示・全9種会敵映像を公開完了（2026-10-15）
+# 現在地: エネミーレポートの試聴音量を30％下げる調整（2026-10-16）
+
+本人依頼に従い`src/client/bestiary.ts`の試聴専用Audioへ、既存の設定音量をclampした後で0.7倍を適用。全ANOMALYの試聴が対象で、戦闘音声・BGM・保存設定は不変。base `67c8a04091d5a9191ae3a2ae13f7be5f2e945b95`、branch `codex/report-voice-volume-20261016`。公開結果は完了後に追記。小規模な局所変更として単独実施、実モデル/推論設定は未確認。
+
+# 履歴: HARROW全動作の表示・全9種会敵映像を公開完了（2026-10-15）
 
 HARROWはレポートのカメラだけ変更し、全17クリップで姿勢別画角・本体追従を実装。全9種の会敵映像を現行Renderer/GLBから1280×720・固定30fpsで再生成（通常11秒、HARROW20秒）。LEAPER v3/HARROW v14を反映し、素材/動画SHAによる旧版検出を追加。型・HARROW素材7件・モーション10件・全9映像照合1件・再生画面3件成功。実ChromeでHARROW11攻撃/3横画面、全9動画の正常再生と閉じる操作を確認。[PR191](https://github.com/futsalife24-bot/swarm-front/pull/191)を通常merge、公開ソースmain `b144b70a9884aa359efb540c1fe0b252c4884eba`、Worker `773499bc-37c0-40ce-a649-dcea29a8ecef`。build 212 modules・dry-run 422 assets、動画9/9とアプリ27/27の配信SHA一致、health 200/ok:true、公開LEAPER動画の直接再生を確認。既存ゲームタブのreloadは保存保護を理由に自動承認レビューで拒否され未実施。実Android未確認。詳細 [更新記録](ENEMY-REPORT-REFRESH-20261015.md)。独立Chat監査は最新方針に従い追加しない。④⑤は元の要相談を維持。
 
