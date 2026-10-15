@@ -21,6 +21,7 @@
     </label>
     <button type="button" id="open">レポートを開く</button>
     <button type="button" id="front-open">生存入口から開く</button>
+    <button type="button" id="missing-open">記録未指定で開く</button>
     <pre id="errors" aria-label="画面のエラー">エラーなし</pre>
     <script type="module">
       import { ENEMY_REPORT_ORDER } from "/src/shared/enemy-report-order.ts";
@@ -54,6 +55,7 @@
           0,
         );
       };
+      document.getElementById("missing-open").onclick = () => openBestiary();
       const errors = [];
       const record = (event) => {
         errors.push(String(event.message ?? event.reason));

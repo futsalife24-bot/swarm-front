@@ -40,6 +40,16 @@ describe("front title report access", () => {
     },
   );
 
+  it("keeps reports locked when storage reads are denied", () => {
+    const storage = {
+      getItem: () => {
+        throw new Error("storage denied");
+      },
+    };
+    openFrontBestiary(storage, 0.2);
+    expect(report).toHaveBeenCalledWith({ encounters: {}, voiceVolume: 0.2 });
+  });
+
   it.each([null, "{bad save"])(
     "keeps all reports locked when normal progress is missing or invalid",
     (raw) => {

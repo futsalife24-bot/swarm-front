@@ -68,8 +68,7 @@ export function openBestiary(
     voiceVolume?: number;
   } = {},
 ) {
-  const access = (key: string) =>
-    options.encounters ? options.encounters[key] : "solo";
+  const access = (key: string) => options.encounters?.[key];
   const dialog = document.createElement("dialog");
   dialog.className = "bestiary";
   dialog.setAttribute("aria-labelledby", "bestiary-title");

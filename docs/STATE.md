@@ -1,5 +1,7 @@
 # 現在地: ①〜③をPR189へ保存、Chrome通常Chatで監査中（2026-10-15）
 
+初回監査の確定判定はP0=0/P1=0/P2=1。生存タイトルのレポートへ遭遇記録を渡す修正（b0cc1e7）と、記録省略時も未遭遇へ倒す予防修正を実装。型・対象6件、実Chromeの両入口/8解禁条件/協力シルエットを確認。修正版の再確認→main/公開へ継続中。既存Cloudflare Free契約を管理画面で確認済み。
+
 branch `codex/enemy-report-separation-20261015`、base `672efb4832344ddd45b8ca8d22c9e7cfd62c26f4`。通常型/連結型を独立9項目へ分離、HARROW初期画角の拡大、PLEATからHARROWまでの遭遇順固定を実装。型と関連76件成功。実Chromeのローカル画面で独立解禁8条件、9モデル、HARROW11攻撃切替と横画面3寸法を確認。初回姿勢解析を事前生成へ改善後、型・関連44件・素材SHA/再現照合・844画面を再確認。[詳細と証拠](ENEMY-REPORT-SEPARATION-20261015.md)。
 
 実装 `4c63f185be9a01b779901846d6496e72f8c254fc` をpushし、[下書きPR189](https://github.com/futsalife24-bot/swarm-front/pull/189)を作成。最終型・識別等22件、公開用build（209 modules）、Worker production dry-run（412 assets）、新動画の配布物SHA一致まで成功。以後は検証記録だけ。未完了は独立Chat監査、main反映、既存Worker公開、公開配信/UI確認。

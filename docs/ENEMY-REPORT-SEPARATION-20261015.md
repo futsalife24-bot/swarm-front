@@ -71,6 +71,8 @@ v14実素材の検証では外接箱距離56〜59に対して投影距離30〜36
 
 初回監査の途中報告で、生存側 `front-app.ts` のレポート入口だけ遭遇記録を渡さず、全種をソロ解禁する既定値へ落ちる問題を確認。`front-report-access.ts` で通常保存の遭遇記録を読み取り専用で渡すよう修正した。保存なし/不正時は空記録にし、レポート閲覧による保存の移行・上書きを行わない。`boss`/`worm`/`coop`は保持する。
 
+初回最終判定は要修正、P0=0/P1=0/P2=1（P2-01、原文 `audit-initial.txt`）。同指摘の予防策として `openBestiary` の記録省略も未遭遇へ変更し、開発ページの全解禁は明示された記録だけにした。読取り例外を加えた6条件と型検査成功。Chromeで記録未指定・通常タイトルの新規進行からも全9種未遭遇を確認（`missing-access.txt`、`normal-title-locked.txt`）。ローカル検証用の新規進行だけを通常UIで作成し、本番保存は操作していない。
+
 型・新規5条件・既存識別2件成功。主担当Chromeで新ヘルパーを通した8解禁条件、協力CATENAの黒いシルエットと名前/声/映画なし、実際の `/front.html` タイトル入口で全未遭遇の非解禁を確認。証拠は `front-access-checks.json`、`front-coop-silhouette.png`、`front-title-locked.png`。監査最終結果受領・修正版の再提出は継続中。
 
 公開アカウント: 2026-10-15に既存アカウントのWorkers Plans画面で「無料・0ドル・現在の計画」を確認（`cloudflare-free.png`、`cloudflare-plan-ui.txt`）。CLI契約APIは`subscriptions`がHTTP 403であり、`account-settings`の`standard`だけをFreeの根拠にしていない。既存OAuthによる当日UTC 00:00〜06:07のアカウント全Workers使用量は81 requests、0 errors、85 subrequests（`account-plan.json`）。DO使用量は未取得。契約・権限・サービス構成の変更なし。
