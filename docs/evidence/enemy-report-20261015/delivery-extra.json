@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-15T06:44:06.914Z",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "pass": true,
+  "checks": [
+    {
+      "file": "anomaly-voices.html",
+      "status": 200,
+      "local": "041ae76658ff785de3bed305438eec4127396a20d0a7c440a4e8d23464dd14bb",
+      "remote": "041ae76658ff785de3bed305438eec4127396a20d0a7c440a4e8d23464dd14bb",
+      "bytes": 6870,
+      "contentType": "text/html",
+      "pass": true
+    },
+    {
+      "file": "assets/encounters/report-v2/worm-catena-v1.mp4",
+      "status": 200,
+      "local": "39b25074f8146efcb24a486365742e91fc25137c2f338474c74836e8c19a0ac6",
+      "remote": "39b25074f8146efcb24a486365742e91fc25137c2f338474c74836e8c19a0ac6",
+      "bytes": 2204716,
+      "contentType": "video/mp4",
+      "pass": true
+    }
+  ]
+}
