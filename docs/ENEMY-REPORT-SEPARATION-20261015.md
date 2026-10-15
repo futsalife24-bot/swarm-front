@@ -4,6 +4,7 @@
 
 - branch: `codex/enemy-report-separation-20261015`
 - base: `672efb4832344ddd45b8ca8d22c9e7cfd62c26f4`
+- 実装commit: `4c63f185be9a01b779901846d6496e72f8c254fc`、[下書きPR189](https://github.com/futsalife24-bot/swarm-front/pull/189)。後続commitは検証記録のみ。
 - 状態: ①の独立項目化と候補名CATENA・②HARROW初期表示・③遭遇順を実装し自己検証。候補名への意見、④⑤の方針は本人へ相談中。独立監査・main反映・公開は未完了。
 
 ## ① 通常型と連結型の分離
@@ -47,11 +48,16 @@ v14実素材の検証では外接箱距離56〜59に対して投影距離30〜36
 - 844×390、iframeで実測した667×375・1280×720のHARROW待機を目視。横はみ出しなし。`docs/evidence/enemy-report-20261015/`に証拠。
 - 事前生成への変更後、型・HARROW戦闘/実素材44件・生成データ`--check`成功。844×390の実Chromeで待機と移動を再確認。`harrow-final-844.png`が最終方式の画面。
 - 旧切替を参照していた検証スクリプト6本のセレクター・項目数・動画名を更新し、`node --check`成功。スクリプトのブラウザ実行はしていない。旧`check-report-films.mjs`のv1画面/保存形式や一部起動前提は今回以前の古さとして残る。今回の画面証拠は新しい検証ページとcua_replの実操作による。
+- 命名と作戦説明の最終更新後、型と識別/順序/音声/会敵カメラ22件を再確認。実装commit後の `npm run build` は209 modules成功、`npm run server:build:production` は412 assets・exit 0。新動画のpublicとdistのSHA256一致。これは公開配信の確認ではない。
 - 実Android/Safari/Firefox・人のドラッグ/ピンチ操作・全攻撃の全フレームは未検証。初回モデルロード時の待機は含む。合成/局所検証を実機確認と扱わない。
 
 ## 実行環境と保留
 
 アプリ内ブラウザは一覧に存在せず、`getBrowser('2')`/`createBrowserTab('iab',...)`は利用不可。`open_in_codex`はqueued。このタスクの表示を本人へ依頼済み。通常Chatの独立監査は未依頼で、Chromeの画面検証を監査の代わりにしない。
+
+後の接続再確認もChromeのみだったため、今回だけChromeの通常Chatで同じ独立監査を行う経路変更を本人へ質問した。2026-10-15、本人が「今回だけChromeの通常Chatで監査する（推奨）」と回答し、この案件に限る変更を明示許可。以後はChromeの新規通常Chatへ送信する。これは恒久的な経路変更ではない。適用根拠は `docs/skills/swarm-front-audit-release/SKILL.md` の「Chrome拡張版・OSのネイティブ操作・Work・Codexサブエージェントへ勝手に切り替えない」であり、今回の本人許可で例外を確定した。監査合格後の通常merge・既存Worker公開は従来の継続承認を維持する。
+
+監査準備: `.codex-remote-attachments/prepare-enemy-report-audit.py` は保存済みHEADから全src/server・関連試験・9モデル・通常/連結動画・証拠・実差分を選び、完全SHAとファイル別SHA256を入れたZIPを作る。個人下書き、秘密値、依存キャッシュ、無関係な素材は含めない。Git履歴自体は同梱しないため通常Vite設定の履歴生成には正規Git checkoutが必要。局所UIは付属のレポート検証HTMLで確認できる。
 
 子担当が端末Playwrightで実行した確認は `ERR_NETWORK_ACCESS_DENIED` で画面到達前に失敗し、停止済み。主担当はcua_replのChromeでローカル画面だけ確認した。一部CDP応答時間切れは状態取得/新規タブで復旧。ビューポート指定が対象タブに反映されない例があったため、寸法固定iframeの実測を使用した。
 
