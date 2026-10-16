@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-16T18:27:04.898Z",
+  "generated": "2026-10-16T19:15:17.473Z",
   "ffmpeg": "9.0.1-essentials_build-www.gyan.dev",
   "files": [
     {
@@ -9,8 +9,8 @@
     },
     {
       "file": "capture-log.json",
-      "bytes": 434763,
-      "sha256": "bd3ee8b08f5b49773d449628d613106e03545f3b59f78144c4a2edbede890b25"
+      "bytes": 434767,
+      "sha256": "decd87607bebade06c1ce53181637c0858d2ce5c312cc1a55f7cd2afc30e6398"
     },
     {
       "file": "concept-vs-master.jpg",
@@ -24,13 +24,18 @@
     },
     {
       "file": "game-states-1280x720.jpg",
-      "bytes": 320041,
-      "sha256": "f43f9a6160338cfe051a71832a6c08e9c7d9bec2efb14ce72afdb6f97177cadb"
+      "bytes": 319990,
+      "sha256": "feb5f64a9de57f5073858bb671360aaf67cdb9da97c87e3526e07b3ffcbbd9d2"
     },
     {
       "file": "game-states-844x390.jpg",
-      "bytes": 156470,
-      "sha256": "19e2e52b446f0128f144b10a09786c0ccfb2e809e7b6ceb98a71bb4238f79dd3"
+      "bytes": 156383,
+      "sha256": "2275a79d789ac8f20ddbcac49a97401f50f8251e5d9854ff35d2738587c94740"
+    },
+    {
+      "file": "independent-review.md",
+      "bytes": 18997,
+      "sha256": "c7c105177f217946ca4936ba2281033ec7942c5b7d5592852d8df42cf0de546e"
     },
     {
       "file": "master-report.json",
@@ -54,108 +59,108 @@
     },
     {
       "file": "motion-burst-sheet.jpg",
-      "bytes": 146627,
-      "sha256": "386708184acb512e69eca8f73facb0cb2eac6f67e234954376e525fb34ff392f"
+      "bytes": 162076,
+      "sha256": "8631e718cdf9add0c67f78c2cab17dea73d0a0fbc244fbae95eaf3609fc8c455"
     },
     {
       "file": "motion-burst.mp4",
-      "bytes": 1448165,
-      "sha256": "6742239372528627861664629fc38a099fa24b47c6c26388c4652b12ef87e708"
+      "bytes": 1419092,
+      "sha256": "679b7f18836ac1d81c52181345727a9317c42da3939329acc568b1354c73f3a4"
     },
     {
       "file": "motion-death-sheet.jpg",
-      "bytes": 142407,
-      "sha256": "a6fee4c7b6245757ed479d8c3619ae8f5d411315d2c757552915d75d089c3d40"
+      "bytes": 142328,
+      "sha256": "eaec64fd449132bb02e3c45263ed62a5a8d1f8643545f8238d406efc66f08ed8"
     },
     {
       "file": "motion-death.mp4",
-      "bytes": 389151,
-      "sha256": "f6a3fd2b81a8d5986088f45483fe369635b79a28e3a3b89dacb13ae57b6d5ebe"
+      "bytes": 389065,
+      "sha256": "1591a38a388b4d121f64d6f83d9bcd65c994adc8e1fde4605b76d1e2741ce03e"
     },
     {
       "file": "motion-dodge-sheet.jpg",
-      "bytes": 151807,
-      "sha256": "65383d8b08a7e872fea75f72eb47b040642da971d5730cddf2ff28091f7d81ab"
+      "bytes": 151816,
+      "sha256": "b01a3cb933eab787d026642449ec81b82fe4672c1d90189ef258d488a0c7316b"
     },
     {
       "file": "motion-dodge.mp4",
-      "bytes": 390136,
-      "sha256": "0a0ebddd0718ee424f710b90c5f2943e2bede3a121fc1937b41bd026899d2a7f"
+      "bytes": 391675,
+      "sha256": "300a9761729a52918bf2fa08171c110e9fbbea0c12d6068a918ec64a6b3620fa"
     },
     {
       "file": "motion-hit-sheet.jpg",
-      "bytes": 165760,
-      "sha256": "73588a838e576e52844ce37b47410726791d16851ae88db1d5497a46e009b058"
+      "bytes": 165805,
+      "sha256": "a687506b8e681183eb226187de9c9bac1077f1e29e4e2326e476a7f0be01bb22"
     },
     {
       "file": "motion-hit.mp4",
-      "bytes": 439389,
-      "sha256": "f01d5bad50df61ccb694eb5311a5b2c86ae93ff7735a0668931ce87ebfe21e46"
+      "bytes": 439253,
+      "sha256": "4a09481a507fd1e834fb7363e1ccceaaf20199b850898cac11ef0bfafc64726d"
     },
     {
       "file": "motion-multi-sheet.jpg",
-      "bytes": 159694,
-      "sha256": "feb87b4ce92f766defc6fea2267a75795c117cf9082e0f4f7fbd7bffc90aeb39"
+      "bytes": 175432,
+      "sha256": "8aa5f52ee31fc4d2a461237e44ae34db2b1a7c1e1c9635df37463ae161b05f92"
     },
     {
       "file": "motion-multi.mp4",
-      "bytes": 1216369,
-      "sha256": "ce2080e294e532e2c57e34e3cf9c5bf7a038989d7e669ca0367a79d7f5d18fb3"
+      "bytes": 1183682,
+      "sha256": "e9c5ddfbff6c1542657521ff36e555a4fc1b1c8ea9539a85dfe563d012771827"
     },
     {
       "file": "motion-pause-sheet.jpg",
-      "bytes": 170103,
-      "sha256": "5d86eece858bd99cc327c44b8f634d9cd676d989cfa5da4b05af390605ee681e"
+      "bytes": 170155,
+      "sha256": "959796c64f08ae8ad2c941d8be4baa934b9e0a7aca65d91e165c0b2612af3359"
     },
     {
       "file": "motion-pause.mp4",
-      "bytes": 210057,
-      "sha256": "1f064f8d9e3f5994920b65850595150d37b2ce17686c93010d7e41212f4939e3"
+      "bytes": 213439,
+      "sha256": "e5f9cc769b16aed1f4f398de361bd50bbe614c3b69ef4bd1bf78621f5cb0ad11"
     },
     {
       "file": "motion-rifle-sheet.jpg",
-      "bytes": 142808,
-      "sha256": "3f304532f9176445b111a1e3e0fc62527fe31174047c68767bc7a6c4053c2b08"
+      "bytes": 157734,
+      "sha256": "00bbbff8a2e88accf6fce1b019fb0bd1fea7a2844888f1fb7361b8aa4ce270d1"
     },
     {
       "file": "motion-rifle.mp4",
-      "bytes": 1060534,
-      "sha256": "d477a0bbd502e914d8b8bff12ed95f1a064d62e84ce99a2dd713703c029f9502"
+      "bytes": 1029099,
+      "sha256": "2a853829d542e2d5aec5bf90e41014d886a8ed748782cd099e5d622004121d02"
     },
     {
       "file": "motion-shotgun-sheet.jpg",
-      "bytes": 138754,
-      "sha256": "1d4343f158f591d7887ba184f178001d3e36d80c6e1d96abf1106a749d84491b"
+      "bytes": 152958,
+      "sha256": "da5a039fd6103f883a97ea884973045dac7e6429200363278e8edc6d3ae7a3c4"
     },
     {
       "file": "motion-shotgun.mp4",
-      "bytes": 686234,
-      "sha256": "ec40558cc5169478dc4539979f20fe833f9f3883c1d03130943b4d04dfad80b7"
+      "bytes": 673873,
+      "sha256": "455fc1346847aa61fc7ce0003e32465d422b3376f83eb9015a858fa7e2db2285"
     },
     {
       "file": "motion-smg-sheet.jpg",
-      "bytes": 167669,
-      "sha256": "087b401269608111e34f08be484f7767bc5ecc852546a9dca096a650e9c87f6b"
+      "bytes": 167622,
+      "sha256": "dae64a9635bf6bdfb1232692c947a4c78f86c8fac87fc78d2fc7e87791cd1370"
     },
     {
       "file": "motion-smg.mp4",
-      "bytes": 1055586,
-      "sha256": "b4f7d6a225553ac8bba05c23da99afb03afbd0d87dfec9f8923fa1dc49afc84a"
+      "bytes": 1062459,
+      "sha256": "2dfbf473616f10c782c8b4bf535521fe5d99757356ba1d726b4589a9b6c497f0"
     },
     {
       "file": "motion-sniper-sheet.jpg",
-      "bytes": 141374,
-      "sha256": "9f340c3afe5a25946da2c88f0ded8ecb27aaa9295f6424701b7b7fb4cc4f4abb"
+      "bytes": 155922,
+      "sha256": "5ea2ccff14d5f5ce79c2281d891f4596342b5ceb0ee1e8b67c62583cd1b33c16"
     },
     {
       "file": "motion-sniper.mp4",
-      "bytes": 688679,
-      "sha256": "d170dcebb787eb944dbb846e7d418276e4488072e48f7678ed18c3943aa1fd4d"
+      "bytes": 677005,
+      "sha256": "e4a58118ef08740383edcdce9f41e21154b187d7499e88b946a1803afccef728"
     },
     {
       "file": "network.json",
-      "bytes": 2628,
-      "sha256": "6e962224ec48872a4a40de1cc39c1be0036374e467587bfd20ea7b9855371cc3"
+      "bytes": 2764,
+      "sha256": "22478e2af699d6fb5ce46bbcb7e36921f6756419976c3ee475eebea82d4265e4"
     },
     {
       "file": "review.html",

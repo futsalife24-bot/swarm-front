@@ -230,6 +230,18 @@ function volleyYaw(e: Enemy, s: BastionState, count: number) {
 function enter(w: World, s: BastionState, phase: BastionPhase) {
   s.phase = phase;
   s.phaseAt = w.time;
+  // 相が変わったtickでは、その後の被弾（爆風・誘爆は敵の処理より後）に新しい相の
+  // 軽減率を使う。連続判定と加算の上限はtickの最初の被弾のまま変えない。
+  if (s.tickAt === w.time) s.tickReduction = bastionReduction(s);
+}
+
+/**
+ * 弾の高さ bulletY のレーン上で、支持面 groundY に立つ隊員が実際に当たる片側の幅。
+ * 敵弾の判定（game.ts: 胴 y+1.2 と弾の距離が 1m 未満）と同じ式。0 なら当たらない。
+ */
+export function bastionLaneHalfWidth(bulletY: number, groundY: number) {
+  const dy = groundY + 1.2 - bulletY;
+  return Math.sqrt(Math.max(0, 1 - dy * dy));
 }
 
 export function stepBastion(

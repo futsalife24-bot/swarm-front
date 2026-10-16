@@ -12,10 +12,13 @@ import {
 } from "../src/shared/game";
 import {
   BASTION,
+  bastionLaneHalfWidth,
   bastionLanes,
   bastionReduction,
   bastionTier,
+  stepBastion,
 } from "../src/shared/bastion";
+import { BastionView } from "../src/client/bastion-view";
 import { prepareState } from "../src/shared/state-wire";
 import { mapFor } from "../src/shared/stages";
 import { enemyReportId } from "../src/shared/enemy-identity";
@@ -89,7 +92,7 @@ describe("BASTION hardening", () => {
     );
   });
 
-  it("caps the gain rate: 0→75 needs at least 0.8 s of chained hits", () => {
+  it("caps the gain rate: 0→75 needs at least 0.95 s of chained hits", () => {
     for (const interval of [0.045, 0.07, 0.13]) {
       const { w, e } = setup();
       e.hp = e.maxHp = 1e6;
@@ -106,7 +109,8 @@ describe("BASTION hardening", () => {
         if (e.bastion!.armor >= 75 && reached === Infinity)
           reached = w.time - start;
       }
-      expect(reached, String(interval)).toBeGreaterThanOrEqual(0.8 - 1e-9);
+      // 最初の被弾は起点だけ。+8 が 0.1 秒に1回なので 75 には10回＝0.05+0.9秒。
+      expect(reached, String(interval)).toBeGreaterThanOrEqual(0.95 - 1e-9);
       expect(reached, String(interval)).toBeLessThan(2);
     }
   });
@@ -180,6 +184,38 @@ describe("BASTION hardening", () => {
     const hit = w.events.filter((v) => v.type === "hit").at(-1)!;
     expect(hit.guard).toBe(3);
     expect(hit.amount).toBe(4);
+  });
+
+  it("a phase change mid-tick switches the reduction for later hits of that tick", () => {
+    const { w, e } = setup();
+    e.hp = e.maxHp = 1e6;
+    const s = e.bastion!;
+    Object.assign(s, {
+      armor: 100,
+      phase: "warn",
+      phaseAt: w.time - BASTION.warn,
+      volley: { count: 12, turn: 0, x: 0, y: 1.7, z: 0 },
+      aimReadyAt: 1e9,
+    });
+    tick(w); // warn の終わりで発射し、同じtickで open へ移る
+    expect(s.phase).toBe("open");
+    // step() 内の直撃（敵の処理より前）は 60%、相が変わった後の爆風は 0%。
+    w.time += DT;
+    s.phase = "warn";
+    s.phaseAt = w.time - BASTION.warn;
+    s.armor = 100;
+    s.volley = { count: 12, turn: 0, x: 0, y: 1.7, z: 0 };
+    let before = e.hp;
+    hurtEnemy(w, e, 100, "p0", 0, "rifle");
+    expect(before - e.hp).toBeCloseTo(40, 6);
+    const p = w.players[0];
+    stepBastion(w, e, p, DT);
+    expect(s.phase).toBe("open");
+    before = e.hp;
+    hurtEnemy(w, e, 100, "p0");
+    expect(before - e.hp).toBeCloseTo(100, 6);
+    // 硬化の加算は開放中なので増えない。
+    expect(s.armor).toBe(0);
   });
 
   it("zero damage neither chains nor delays recovery", () => {
@@ -325,6 +361,14 @@ describe("BASTION counter volley", () => {
     }
   });
 
+  it("draws the danger strip as wide as the actual hit for the ground a soldier stands on", () => {
+    // 弾の高さ1.7m。胴（+1.2m）との差で当たる片側の幅が変わる。
+    expect(2 * bastionLaneHalfWidth(1.7, 0)).toBeCloseTo(2 * Math.sqrt(0.75), 9);
+    expect(bastionLaneHalfWidth(1.7, 0.5)).toBeCloseTo(1, 9); // 0.5m高い面は2.0m幅
+    expect(bastionLaneHalfWidth(1.7, -0.5)).toBe(0); // 0.5m低い面は頭上を通る
+    expect(bastionLaneHalfWidth(1.7, 1.6)).toBe(0); // 1m以上高い面は足元を通る
+  });
+
   it("adjacent lanes leave a 2 m wide gap beyond 3.9 m even at full volley", () => {
     const gap = (r: number, n: number) => 2 * r * Math.sin(Math.PI / n) - 2;
     expect(gap(3.9, BASTION.volley.full)).toBeGreaterThan(0);
@@ -343,6 +387,20 @@ describe("BASTION integration", () => {
       JSON.parse(JSON.stringify(e.bastion)),
     );
     expect(enemyReportId(e)).toBeUndefined();
+  });
+
+  it("does not download the model until a BASTION is actually in the battle", async () => {
+    const view = new BastionView("http://127.0.0.1:9/never-served.glb");
+    const empty = createWorld("no-bastion", 1, 1);
+    view.begin(empty, mapFor(empty).blocks);
+    expect(view.loading).toBeUndefined();
+    const { w } = setup();
+    view.begin(w, mapFor(w).blocks);
+    expect(view.loading).toBeInstanceOf(Promise);
+    await view.loading; // 失敗しても例外にせず、簡易形状のまま描く
+    expect(view.ready).toBe(false);
+    expect(view.error).toBeTruthy();
+    view.clear();
   });
 
   it("spikes extend the hit body only as far as their roots", () => {

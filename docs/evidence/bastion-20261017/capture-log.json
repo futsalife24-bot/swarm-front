@@ -32,7 +32,7 @@
     "spikes": 0.667,
     "loose": 0,
     "open": 0,
-    "band": -2.517,
+    "band": -2.5,
     "seam": "ffc461",
     "port": "ffc461"
    },
@@ -86,7 +86,7 @@
     "spikes": 0,
     "loose": 0,
     "open": 1,
-    "band": 2.27,
+    "band": 2.275,
     "seam": "c4edff",
     "port": "c4edff"
    },
@@ -122,7 +122,7 @@
     "spikes": 0.667,
     "loose": 0,
     "open": 0,
-    "band": -2.5,
+    "band": -2.517,
     "seam": "ffc461",
     "port": "ffc461"
    },
@@ -284,7 +284,7 @@
     "spikes": 0,
     "loose": 1,
     "open": 0,
-    "band": 2.27,
+    "band": 2.275,
     "seam": "c4edff",
     "port": "c4edff"
    },
@@ -302,7 +302,7 @@
     "spikes": 0.667,
     "loose": 0,
     "open": 0,
-    "band": -2.5,
+    "band": -2.517,
     "seam": "ffc461",
     "port": "ffc461"
    },
@@ -371,8 +371,8 @@
    "seconds": 12,
    "label": "SMG連射：硬化→予備動作→赤予告→斉射→開放→回復→再硬化",
    "frames": 360,
-   "bytes": 8929443,
-   "sha256": "11587a2a60ca3b89dfc6a258e7e5d9fee00d2c5eda1904849674441cf497c9fb",
+   "bytes": 8939809,
+   "sha256": "7c3b0f31c6ecc41b4b8567184067d53d2102ce8ee554c60ca3ded09524b70769",
    "samples": [
     {
      "time": 0.033,
@@ -3640,8 +3640,8 @@
    "seconds": 12,
    "label": "AR連射",
    "frames": 360,
-   "bytes": 7539035,
-   "sha256": "23b3ce0cedc2d3f1c39685ddd04b86e34c8ab9a987d50d51d1e68370c0a2de07",
+   "bytes": 8980350,
+   "sha256": "f73ad1bb8bdaf9dae6af17a809c2ea39887ce46c44ec8ff2cbb7d7721659d7ad",
    "samples": [
     {
      "time": 0.033,
@@ -6909,8 +6909,8 @@
    "seconds": 12,
    "label": "AR断続（0.36秒撃って1.44秒休む）",
    "frames": 360,
-   "bytes": 8678700,
-   "sha256": "a9541d6860c6d1506b643b5567a8df033ee4863c5ab200de7ed58173fb5248ac",
+   "bytes": 9144479,
+   "sha256": "9ab639094857eb63a4e4bafc4022e5d2bec787ba0a2b3756d3fa0520d55b1b47",
    "samples": [
     {
      "time": 0.033,
@@ -10162,8 +10162,8 @@
    "seconds": 6,
    "label": "単発（スナイパー）：連続にならず硬化しない",
    "frames": 180,
-   "bytes": 3868196,
-   "sha256": "a7d52e418d1e223c34c24bbdc53974dc698aa2e509291edf1b79b846eff6f795",
+   "bytes": 4538538,
+   "sha256": "89ec5c10b837d832641bb5d1a2495b34e6860a231ce027c07d5d312762444f58",
    "samples": [
     {
      "time": 0.033,
@@ -11795,8 +11795,8 @@
    "seconds": 6,
    "label": "散弾：1発ごとに最大1段まで",
    "frames": 180,
-   "bytes": 3869963,
-   "sha256": "359aa73f1c5a7ad775cfcb01cf2706b53049081394c8074c3ba4a80d3927873a",
+   "bytes": 4555382,
+   "sha256": "910671c75dcd0a238c4c9b70e9d3efb958cda3a3a7c4319e7e7bfd717a658b3b",
    "samples": [
     {
      "time": 0.033,
@@ -13428,8 +13428,8 @@
    "seconds": 12,
    "label": "3体：硬化・照準弾は個体ごと",
    "frames": 360,
-   "bytes": 7421215,
-   "sha256": "3499ce0e1197fb4f02ddc88b3bd70ac3300237b0ce69e54e5347a69216fe7d1f",
+   "bytes": 8974115,
+   "sha256": "6dbd1decdf1dc6a0921369ca3e6d5e28d13b8e7dc3664652ed5cfc95a3d5857e",
    "samples": [
     {
      "time": 0.033,
@@ -20357,8 +20357,8 @@
    "seconds": 5,
    "label": "赤予告を見てレーンの隙間へ横移動",
    "frames": 150,
-   "bytes": 3837605,
-   "sha256": "b55c62dacbb270d71d0130cd1498a80c5508a0627f6ea1e8aa3e2eb5b25b3c9d",
+   "bytes": 3828109,
+   "sha256": "8ba34c59c12cc3c1c24204a20b07119f5e18f5df567a73182958568b38507f33",
    "samples": [
     {
      "time": 0.033,
@@ -21728,8 +21728,8 @@
    "seconds": 5,
    "label": "レーン上に立ったまま被弾",
    "frames": 150,
-   "bytes": 3853862,
-   "sha256": "6b461db1d9e53c25f44653032ccdca155b33f0ce123f17f7a58c6bf39dc4cbf3",
+   "bytes": 3880989,
+   "sha256": "2edb6fd58f839f8584d8bfa20bb50e511bcd71151be7ab86572d45eb0e85d0a6",
    "samples": [
     {
      "time": 0.033,
@@ -23099,8 +23099,8 @@
    "seconds": 4,
    "label": "赤予告中に1秒間一時停止（世界の時刻・弾・予告が止まる）",
    "frames": 120,
-   "bytes": 2986049,
-   "sha256": "29b6bd0001f529b097ad0c44937e2f9239bfe62d6b973947c083d745b7b7b86f",
+   "bytes": 2996378,
+   "sha256": "e37b0c113684a158b7e6b71de534562dc80d0d3f6eed68776ea9b8e54eb9e725",
    "samples": [
     {
      "time": 0.033,
@@ -24210,8 +24210,8 @@
    "seconds": 5,
    "label": "予備動作中に撃破→発射なし→再出現は硬化0",
    "frames": 150,
-   "bytes": 3853875,
-   "sha256": "213bd72bcecde4abc628e48d6a728dee52ba54d2858b43a78df920ce2497748c",
+   "bytes": 3921344,
+   "sha256": "c90e86a5aaf013978afcdadb44eae34a51d8e54e3fe7a1c5c4bc843a28a5ca76",
    "samples": [
     {
      "time": 0.033,

@@ -84,6 +84,32 @@ async function preset() {
     const warn = bastion(phases.warn).bastion;
     assert.equal(warn.volley.count, 12);
     assert.equal(bastion(phases.brace).bastion.volley, undefined);
+    // 配信された赤予告（volley）から求めたレーンと、配信された実弾の位置・向きの照合。
+    // 発射口は中心から1.05m、弾は水平。配信の0.01丸めの範囲で一致すること。
+    const lanes = Array.from({ length: warn.volley.count }, (_, i) => {
+      const yaw = warn.volley.turn + (i * Math.PI * 2) / warn.volley.count;
+      return {
+        yaw,
+        x: warn.volley.x + Math.sin(yaw) * 1.05,
+        z: warn.volley.z + Math.cos(yaw) * 1.05,
+      };
+    });
+    let maxOffset = 0,
+      maxAngle = 0;
+    for (const q of fired.projectiles.filter((q) => q.style === "bastion")) {
+      const yaw = Math.atan2(q.dx, q.dz);
+      const lane = lanes
+        .map((l) => ({ l, d: Math.abs(Math.atan2(Math.sin(yaw - l.yaw), Math.cos(yaw - l.yaw))) }))
+        .sort((a, b) => a.d - b.d)[0];
+      const rx = q.x - lane.l.x,
+        rz = q.z - lane.l.z;
+      const offset = Math.abs(rx * Math.cos(lane.l.yaw) - rz * Math.sin(lane.l.yaw));
+      maxOffset = Math.max(maxOffset, offset);
+      maxAngle = Math.max(maxAngle, lane.d);
+      assert.ok(Math.abs(q.y - warn.volley.y) <= 0.011, "round height");
+    }
+    assert.ok(maxOffset <= 0.02, `lane offset ${maxOffset}`);
+    assert.ok(maxAngle <= 0.002, `lane angle ${maxAngle}`);
     const timeline = {
       brace: phases.brace.time,
       warn: phases.warn.time,
@@ -95,6 +121,7 @@ async function preset() {
     return {
       timeline,
       committedVolley: warn.volley,
+      laneMatch: { maxOffsetM: +maxOffset.toFixed(4), maxAngleRad: +maxAngle.toFixed(5) },
       firedRounds: 12,
       matchingTick: fired.time,
       peerMatches: true,
