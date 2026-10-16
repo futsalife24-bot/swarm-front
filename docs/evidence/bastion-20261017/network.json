@@ -1,0 +1,204 @@
+{
+  "pass": true,
+  "realLocalWorker": true,
+  "clients": 2,
+  "preset": {
+    "timeline": {
+      "brace": 0.1,
+      "warn": 0.9,
+      "open": 1.7
+    },
+    "committedVolley": {
+      "count": 12,
+      "turn": 0.16407189579969586,
+      "x": 0,
+      "y": 1.7,
+      "z": 0
+    },
+    "firedRounds": 12,
+    "matchingTick": 1.7,
+    "peerMatches": true,
+    "openState": {
+      "armor": 0,
+      "phase": "open",
+      "phaseAt": 1.6500000000000008,
+      "readyAt": 7.65,
+      "counters": 1,
+      "aimReadyAt": 1000000000,
+      "hitAt": 0
+    }
+  },
+  "fire": {
+    "hardenedAt": 1.3,
+    "volleyAt": 2.9,
+    "volleyRounds": 12,
+    "peerMatchesAtHardened": true,
+    "sharedHitEvents": 44,
+    "amountsByGuard": {
+      "0": [
+        24
+      ],
+      "1": [
+        19
+      ],
+      "2": [
+        14
+      ],
+      "3": [
+        10
+      ]
+    },
+    "armorSeries": [
+      [
+        0,
+        0,
+        "guard"
+      ],
+      [
+        0.1,
+        0,
+        "guard"
+      ],
+      [
+        0.2,
+        8,
+        "guard"
+      ],
+      [
+        0.3,
+        16,
+        "guard"
+      ],
+      [
+        0.4,
+        24,
+        "guard"
+      ],
+      [
+        0.5,
+        24,
+        "guard"
+      ],
+      [
+        0.6,
+        32,
+        "guard"
+      ],
+      [
+        0.7,
+        40,
+        "guard"
+      ],
+      [
+        0.8,
+        48,
+        "guard"
+      ],
+      [
+        0.9,
+        48,
+        "guard"
+      ],
+      [
+        1,
+        56,
+        "guard"
+      ],
+      [
+        1.1,
+        64,
+        "guard"
+      ],
+      [
+        1.2,
+        72,
+        "guard"
+      ],
+      [
+        1.3,
+        80,
+        "brace"
+      ],
+      [
+        1.4,
+        80,
+        "brace"
+      ],
+      [
+        1.5,
+        88,
+        "brace"
+      ],
+      [
+        1.6,
+        96,
+        "brace"
+      ],
+      [
+        1.7,
+        100,
+        "brace"
+      ],
+      [
+        1.8,
+        100,
+        "brace"
+      ],
+      [
+        1.9,
+        100,
+        "brace"
+      ],
+      [
+        2,
+        100,
+        "brace"
+      ],
+      [
+        2.1,
+        100,
+        "warn"
+      ],
+      [
+        2.2,
+        100,
+        "warn"
+      ],
+      [
+        2.3,
+        100,
+        "warn"
+      ],
+      [
+        2.4,
+        100,
+        "warn"
+      ],
+      [
+        2.5,
+        100,
+        "warn"
+      ],
+      [
+        2.6,
+        100,
+        "warn"
+      ],
+      [
+        2.7,
+        100,
+        "warn"
+      ],
+      [
+        2.8,
+        100,
+        "warn"
+      ],
+      [
+        2.9,
+        0,
+        "open"
+      ]
+    ]
+  }
+}

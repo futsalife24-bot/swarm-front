@@ -9,9 +9,14 @@ const SIZES = [
 export const enemyStatSize = (enemy: { size?: number }) => enemy.size ?? 1;
 export const enemySize = (enemy: { size?: number; kind?: string }) =>
   enemyStatSize(enemy) *
-  (enemy.kind === "harrow" ? HARROW_SCALE : enemy.kind === "calyx" ? 1 : 1.5);
+  (enemy.kind === "harrow"
+    ? HARROW_SCALE
+    : enemy.kind === "calyx" || enemy.kind === "bastion"
+      ? 1
+      : 1.5);
 export function spawnSize(kind: string, worm: boolean, ordinal: number) {
-  return kind === "calyx" || kind === "harrow"
+  // BASTIONは装甲・弾の寸法を個体差なしで読ませる。
+  return kind === "calyx" || kind === "harrow" || kind === "bastion"
     ? 1
     : kind === "boss" && !worm
       ? 2

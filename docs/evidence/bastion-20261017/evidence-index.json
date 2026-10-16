@@ -1,0 +1,188 @@
+{
+  "generated": "2026-10-16T18:24:58.635Z",
+  "ffmpeg": "9.0.1-essentials_build-www.gyan.dev",
+  "files": [
+    {
+      "file": "capture-log.json",
+      "bytes": 434763,
+      "sha256": "bd3ee8b08f5b49773d449628d613106e03545f3b59f78144c4a2edbede890b25"
+    },
+    {
+      "file": "concept-vs-master.jpg",
+      "bytes": 759311,
+      "sha256": "148beb28d2173335ec446d279affd1ed7e5162f9d6aaaf2446e58c91d102c5af"
+    },
+    {
+      "file": "game-report.json",
+      "bytes": 5949,
+      "sha256": "287dc1bede8c475f2de5b7a95bfe0ba50a4294079fc6ac251b5d38ae637a30a5"
+    },
+    {
+      "file": "game-states-1280x720.jpg",
+      "bytes": 320041,
+      "sha256": "f43f9a6160338cfe051a71832a6c08e9c7d9bec2efb14ce72afdb6f97177cadb"
+    },
+    {
+      "file": "game-states-844x390.jpg",
+      "bytes": 156470,
+      "sha256": "19e2e52b446f0128f144b10a09786c0ccfb2e809e7b6ceb98a71bb4238f79dd3"
+    },
+    {
+      "file": "master-report.json",
+      "bytes": 425,
+      "sha256": "daeb2ac0c81165f512fbd2b57fbee441fbcdac5abf5b64a1f3d8a488a4a68661"
+    },
+    {
+      "file": "master-silhouette_sheet.jpg",
+      "bytes": 134493,
+      "sha256": "5c4d824cf233c4428127426a7d04ca98e6b9245b1105ace638d0ed20cdac1ad5"
+    },
+    {
+      "file": "master-states_sheet.jpg",
+      "bytes": 303698,
+      "sha256": "dd35bfb4dc4e6c9dcf9aabbebcad828ac19bdc07336923a0eef4c97d6ead3815"
+    },
+    {
+      "file": "master-views_sheet.jpg",
+      "bytes": 196572,
+      "sha256": "e253225a2b13aaab0def5115bfa593e93a556ed07b8dbc5138bdea9c0f9168e2"
+    },
+    {
+      "file": "motion-burst-sheet.jpg",
+      "bytes": 146627,
+      "sha256": "386708184acb512e69eca8f73facb0cb2eac6f67e234954376e525fb34ff392f"
+    },
+    {
+      "file": "motion-burst.mp4",
+      "bytes": 1448165,
+      "sha256": "6742239372528627861664629fc38a099fa24b47c6c26388c4652b12ef87e708"
+    },
+    {
+      "file": "motion-death-sheet.jpg",
+      "bytes": 142407,
+      "sha256": "a6fee4c7b6245757ed479d8c3619ae8f5d411315d2c757552915d75d089c3d40"
+    },
+    {
+      "file": "motion-death.mp4",
+      "bytes": 389151,
+      "sha256": "f6a3fd2b81a8d5986088f45483fe369635b79a28e3a3b89dacb13ae57b6d5ebe"
+    },
+    {
+      "file": "motion-dodge-sheet.jpg",
+      "bytes": 151807,
+      "sha256": "65383d8b08a7e872fea75f72eb47b040642da971d5730cddf2ff28091f7d81ab"
+    },
+    {
+      "file": "motion-dodge.mp4",
+      "bytes": 390136,
+      "sha256": "0a0ebddd0718ee424f710b90c5f2943e2bede3a121fc1937b41bd026899d2a7f"
+    },
+    {
+      "file": "motion-hit-sheet.jpg",
+      "bytes": 165760,
+      "sha256": "73588a838e576e52844ce37b47410726791d16851ae88db1d5497a46e009b058"
+    },
+    {
+      "file": "motion-hit.mp4",
+      "bytes": 439389,
+      "sha256": "f01d5bad50df61ccb694eb5311a5b2c86ae93ff7735a0668931ce87ebfe21e46"
+    },
+    {
+      "file": "motion-multi-sheet.jpg",
+      "bytes": 159694,
+      "sha256": "feb87b4ce92f766defc6fea2267a75795c117cf9082e0f4f7fbd7bffc90aeb39"
+    },
+    {
+      "file": "motion-multi.mp4",
+      "bytes": 1216369,
+      "sha256": "ce2080e294e532e2c57e34e3cf9c5bf7a038989d7e669ca0367a79d7f5d18fb3"
+    },
+    {
+      "file": "motion-pause-sheet.jpg",
+      "bytes": 170103,
+      "sha256": "5d86eece858bd99cc327c44b8f634d9cd676d989cfa5da4b05af390605ee681e"
+    },
+    {
+      "file": "motion-pause.mp4",
+      "bytes": 210057,
+      "sha256": "1f064f8d9e3f5994920b65850595150d37b2ce17686c93010d7e41212f4939e3"
+    },
+    {
+      "file": "motion-rifle-sheet.jpg",
+      "bytes": 142808,
+      "sha256": "3f304532f9176445b111a1e3e0fc62527fe31174047c68767bc7a6c4053c2b08"
+    },
+    {
+      "file": "motion-rifle.mp4",
+      "bytes": 1060534,
+      "sha256": "d477a0bbd502e914d8b8bff12ed95f1a064d62e84ce99a2dd713703c029f9502"
+    },
+    {
+      "file": "motion-shotgun-sheet.jpg",
+      "bytes": 138754,
+      "sha256": "1d4343f158f591d7887ba184f178001d3e36d80c6e1d96abf1106a749d84491b"
+    },
+    {
+      "file": "motion-shotgun.mp4",
+      "bytes": 686234,
+      "sha256": "ec40558cc5169478dc4539979f20fe833f9f3883c1d03130943b4d04dfad80b7"
+    },
+    {
+      "file": "motion-smg-sheet.jpg",
+      "bytes": 167669,
+      "sha256": "087b401269608111e34f08be484f7767bc5ecc852546a9dca096a650e9c87f6b"
+    },
+    {
+      "file": "motion-smg.mp4",
+      "bytes": 1055586,
+      "sha256": "b4f7d6a225553ac8bba05c23da99afb03afbd0d87dfec9f8923fa1dc49afc84a"
+    },
+    {
+      "file": "motion-sniper-sheet.jpg",
+      "bytes": 141374,
+      "sha256": "9f340c3afe5a25946da2c88f0ded8ecb27aaa9295f6424701b7b7fb4cc4f4abb"
+    },
+    {
+      "file": "motion-sniper.mp4",
+      "bytes": 688679,
+      "sha256": "d170dcebb787eb944dbb846e7d418276e4488072e48f7678ed18c3943aa1fd4d"
+    },
+    {
+      "file": "network.json",
+      "bytes": 2628,
+      "sha256": "6e962224ec48872a4a40de1cc39c1be0036374e467587bfd20ea7b9855371cc3"
+    },
+    {
+      "file": "review.html",
+      "bytes": 7224,
+      "sha256": "ca4c1cd017a4288f666457aa0eb420f21e036338a5de618130143d73c40ad8c5"
+    }
+  ],
+  "sources": [
+    {
+      "file": "public/assets/enemies/bastion_v1.glb",
+      "bytes": 1554584,
+      "sha256": "8dedf5952722556cd6e649e9a2ea8270bb7fee7e1aa795140b6ce738658e799a"
+    },
+    {
+      "file": "assets\\blender\\candidates\\bastion\\model-v1\\bastion_v1.glb",
+      "bytes": 1554584,
+      "sha256": "8dedf5952722556cd6e649e9a2ea8270bb7fee7e1aa795140b6ce738658e799a"
+    },
+    {
+      "file": "assets\\blender\\candidates\\bastion\\model-v1\\bastion_master.blend",
+      "bytes": 2703521,
+      "sha256": "61d694a9ef867d83c53e41d1b3249910444c8262d343cb2fb0c38c887ad525fa"
+    },
+    {
+      "file": "assets\\blender\\candidates\\bastion\\model-v1\\bastion_game.blend",
+      "bytes": 2621173,
+      "sha256": "f2f81c3ede9baddc897f52218b7f64283d7cfd6add1d15e64a974a63991a021a"
+    },
+    {
+      "file": "assets\\blender\\candidates\\bastion\\model-v1\\build_bastion.py",
+      "bytes": 38592,
+      "sha256": "fe403844703cd486304d7f3fcb3480f3640b64d1fc12e6210b98a4f4a66083c7"
+    }
+  ]
+}

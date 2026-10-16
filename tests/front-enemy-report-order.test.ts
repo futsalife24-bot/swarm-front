@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { ENEMIES } from "../src/shared/defs";
+import { REPORTLESS_ENEMIES } from "../src/shared/enemy-identity";
 import { ENEMY_REPORT_ORDER } from "../src/shared/enemy-report-order";
 import { STAGES } from "../src/shared/stages";
 
@@ -23,8 +24,11 @@ describe("エネミーレポートの遭遇順", () => {
     expect(ENEMY_REPORT_ORDER[0]).toBe("crawler");
     expect(ENEMY_REPORT_ORDER.at(-1)).toBe("harrow");
     expect(new Set(ENEMY_REPORT_ORDER).size).toBe(ENEMY_REPORT_ORDER.length);
+    // レポート未制作のローカル候補（REPORTLESS_ENEMIES）は載せない。
     expect([...ENEMY_REPORT_ORDER].sort()).toEqual(
-      [...Object.keys(ENEMIES), "worm"].sort(),
+      [...Object.keys(ENEMIES), "worm"]
+        .filter((k) => !(REPORTLESS_ENEMIES as readonly string[]).includes(k))
+        .sort(),
     );
   });
 });

@@ -1,5 +1,6 @@
 import { afterEach, expect, it, vi } from "vitest";
 import { ENEMIES } from "../src/shared/defs";
+import { REPORTLESS_ENEMIES } from "../src/shared/enemy-identity";
 import { developerProgress } from "../src/client/developer-mode";
 import { freshProgress } from "../src/client/progression-save";
 
@@ -9,7 +10,11 @@ it("unlocks CALYX and every report enemy in the developer sandbox", () => {
   const save = developerProgress();
   expect(save.encounters.calyx).toBe("solo");
   for (const kind of [...Object.keys(ENEMIES), "worm"])
-    expect(save.encounters[kind], kind).toBe("solo");
+    expect(save.encounters[kind], kind).toBe(
+      (REPORTLESS_ENEMIES as readonly string[]).includes(kind)
+        ? undefined
+        : "solo",
+    );
 });
 
 it("keeps developer encounters disposable and normal progress locked", () => {

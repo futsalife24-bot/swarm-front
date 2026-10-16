@@ -16,6 +16,14 @@ import {
 } from "./rebuild-combat";
 import { stepCalyx, stepPollen, advancePollen } from "./calyx";
 import {
+  BASTION,
+  bastionDamage,
+  bastionGuard,
+  bastionSpikes,
+  createBastion,
+  stepBastion,
+} from "./bastion";
+import {
   HARROW,
   stepHarrow,
   stepHarrowMissiles,
@@ -193,6 +201,7 @@ export interface Enemy extends WormNode {
   harrowSwitchAt?: number;
   harrowAirDamage?: number;
   calyx?: import("./calyx").CalyxAttack;
+  bastion?: import("./bastion").BastionState;
   pollenReadyAt?: number;
   defenseAggroUntil?: number;
   size?: number; // Fixed at spawn and replicated in authoritative snapshots.
@@ -234,7 +243,7 @@ export interface Enemy extends WormNode {
 export interface Projectile {
   frontShot?: number;
   frontSlot?: number;
-  style?: "stake" | "laser" | "pollen";
+  style?: "stake" | "laser" | "pollen" | "bastion";
   id: number;
   x: number;
   z: number;
@@ -272,6 +281,8 @@ export interface Event {
     | "calyxSlam";
   // Damage dealt, on hit and kill events, for the floating numbers.
   amount?: number;
+  /** BASTION: the armor step (1-3) that reduced this hit; drives the deflection sparks. */
+  guard?: number;
   // On a shot: the round ended on a wall or a body rather than running out of
   // range. Carried here because two weapons of the same family can be equipped
   // at once, and the family alone cannot say which one fired.
@@ -768,6 +779,8 @@ export function spawn(
       : {}),
   };
   if (enemy.segments) placeWormOnGround(w, enemy);
+  // 硬化値・タイマーは個体ごとに新規作成し、再生成へ持ち越さない。
+  if (kind === "bastion") enemy.bastion = createBastion(w);
   if (kind === "harrow") {
     enemy.y += HARROW.flightHeight;
     enemy.harrowAirborne = true;
@@ -904,6 +917,8 @@ export function hurtEnemy(
   if (w.defense && (w.front || owner === w.players[0]?.id))
     e.defenseAggroUntil = w.time + 4;
   e.active = true;
+  // 全ての武器・爆風・副次効果がここを通る。軽減と硬化の加算は bastion.ts。
+  if (e.bastion) damage = bastionDamage(w, e, damage);
   let impact = { x: e.x, y: eye(e), z: e.z };
   if (e.segments) {
     initWorm(e);
@@ -928,12 +943,14 @@ export function hurtEnemy(
   } else e.hp -= damage;
   staggerHarrow(w, e, damage);
   e.hurt = 0.15;
+  const guard = e.bastion && damage > 0 ? bastionGuard(e.bastion) : 0;
   event(w, {
     type: "hit",
     enemyKind: e.kind,
     weapon,
     ...impact,
     owner,
+    ...(guard ? { guard } : {}),
     amount: Math.round(damage),
     ...(attribution ? { rebuild: attribution } : {}),
   });
@@ -1012,7 +1029,10 @@ export const enemyBodies = (e: Enemy) =>
       x: e.x,
       y: eye(e),
       z: e.z,
-      radius: ENEMIES[e.kind].radius * enemySize(e),
+      // BASTIONは展開したトゲの根元側まで当たる。
+      radius:
+        ENEMIES[e.kind].radius * enemySize(e) +
+        (e.bastion ? BASTION.spikePad * bastionSpikes(e.bastion) : 0),
       part: 0,
       partHp: e.partHp,
     },
@@ -1799,6 +1819,10 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     }
     if (e.kind === "calyx") {
       stepCalyx(w, e, t, living, dt);
+      continue;
+    }
+    if (e.kind === "bastion") {
+      stepBastion(w, e, t, dt);
       continue;
     }
     if (e.segments) {

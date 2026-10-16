@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BASTION 比較</title>
+<style>
+  :root { --bg: #f2f1ee; --fg: #1d2024; --muted: #5d636b; --line: #d4d2cc; --card: #fff; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #15181c; --fg: #e9e7e2; --muted: #a2a8b0; --line: #2d3238; --card: #1d2126; } }
+  body { margin: 0; padding: 16px; background: var(--bg); color: var(--fg); font: 14px/1.6 system-ui, sans-serif; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  h2 { font-size: 16px; margin: 28px 0 8px; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
+  p, li { color: var(--muted); max-width: 1000px; }
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 8px; }
+  .wide { display: grid; gap: 8px; }
+  figure { margin: 0; background: var(--card); border: 1px solid var(--line); padding: 6px; }
+  figure img, figure video { width: 100%; display: block; }
+  figcaption { font-size: 12px; color: var(--muted); padding-top: 4px; }
+  table { border-collapse: collapse; max-width: 1000px; }
+  td, th { border: 1px solid var(--line); padding: 4px 8px; vertical-align: top; text-align: left; }
+</style>
+<h1>BASTION（仮称）model-v1 — コンセプトと実モデル・実ゲーム視点の比較</h1>
+<p>ローカル候補（未merge・未公開）。仕様と仮値は <code>docs/BASTION.md</code>。コンセプトは画像生成による別担当の絵コンテで、実モデルの成果ではない。master は Blender 5.2.1 の実モデルを同じカメラ・照明で描いた実レンダー、実ゲーム視点は軽量GLBをゲームの Renderer・肩越しカメラで描いた画面、動画は実 step() を1/30秒ずつ進めた固定30fpsの録画。</p>
+
+<h2>1. コンセプト（上段・生成画像・未承認）と master 実レンダー（下段・同じカメラ/照明の5状態）</h2>
+<div class="wide">
+  <figure><img src="concept-vs-master.jpg" alt="" /><figcaption>上: concept-v4。下: 左から 通常／硬化（段階2）／予備動作／赤い危険予告／開放</figcaption></figure>
+</div>
+<div class="row">
+  <figure><img src="master-views_sheet.jpg" alt="" /><figcaption>通常状態の正面・側面・背面・上面（正面は継ぎ目と赤道帯の十字）</figcaption></figure>
+  <figure><img src="master-silhouette_sheet.jpg" alt="" /><figcaption>単色の輪郭（通常・硬化・予備動作・開放）</figcaption></figure>
+</div>
+
+<h2>2. 実ゲーム視点（軽量GLB・実Renderer・同じカメラ）</h2>
+<div class="wide">
+  <figure><img src="game-states-1280x720.jpg" alt="" /><figcaption>1280×720。上段12m・下段7m。左から 通常／硬化／予備動作／赤予告（地面の危険帯と弾の高さの芯線）／開放（コアの光）</figcaption></figure>
+  <figure><img src="game-states-844x390.jpg" alt="" /><figcaption>844×390（横画面スマホ相当）。同じ並び</figcaption></figure>
+</div>
+
+<h2>3. 動作（実 step・実 Renderer・固定30fps。下端の帯は検証表示でゲームUIではない）</h2>
+<div class="row">
+  <figure><video src="motion-smg.mp4" controls muted playsinline></video><figcaption>SMG連射：硬化→予備動作→赤予告→12発→開放→回復→再硬化→発射から6秒後に2回目</figcaption></figure>
+  <figure><video src="motion-rifle.mp4" controls muted playsinline></video><figcaption>AR連射</figcaption></figure>
+  <figure><video src="motion-burst.mp4" controls muted playsinline></video><figcaption>AR断続（0.36秒撃って1.44秒休む）：休みが短いと少しずつ積み上がる</figcaption></figure>
+  <figure><video src="motion-sniper.mp4" controls muted playsinline></video><figcaption>スナイパー：連続にならず硬化しない</figcaption></figure>
+  <figure><video src="motion-shotgun.mp4" controls muted playsinline></video><figcaption>散弾：1発は1回の被弾。0.8秒間隔では硬化しない</figcaption></figure>
+  <figure><video src="motion-multi.mp4" controls muted playsinline></video><figcaption>3体：撃たれた1体だけが硬化・反撃。他の2体は照準弾</figcaption></figure>
+  <figure><video src="motion-dodge.mp4" controls muted playsinline></video><figcaption>赤予告を見て隙間へ横移動：被弾なし</figcaption></figure>
+  <figure><video src="motion-hit.mp4" controls muted playsinline></video><figcaption>レーン上に立ったまま：1発（12）被弾</figcaption></figure>
+  <figure><video src="motion-pause.mp4" controls muted playsinline></video><figcaption>赤予告中に1秒一時停止：時刻・予告・弾が止まり、再開後に残り時間で発射</figcaption></figure>
+  <figure><video src="motion-death.mp4" controls muted playsinline></video><figcaption>予備動作中に撃破：発射なし。再出現は硬化0</figcaption></figure>
+</div>
+<p>各動画の時刻別フレーム一覧は <code>motion-*-sheet.jpg</code>、状態の時系列は <code>capture-log.json</code>、協力（実ローカルWorker・2クライアント）の結果は <code>network.json</code>。</p>
+
+<h2>4. コンセプトとの差（目視）</h2>
+<table>
+  <tr><th>項目</th><th>コンセプト</th><th>実モデル v1</th></tr>
+  <tr><td>輪郭・比率</td><td>ほぼ真球。v4 は硬化で角張った塊状の装甲へ変形</td><td>真球。硬化は装甲の変形ではなく、トゲの展開と継ぎ目の密着で表す（有限の部品を動かす方針）。塊状の装甲変形は再現していない</td></tr>
+  <tr><td>装甲の分割</td><td>v1：上下4枚の曲面。v4：多数の多角形プレート</td><td>上下各4枚＋極側の冠パネル＋赤道帯。v4 の細かい多角形分割は採用せず</td></tr>
+  <tr><td>接合部</td><td>暗い機械的な関節が継ぎ目に連なり、間から光が漏れる</td><td>継ぎ目に暗い関節リンクを連ね（master 7度間隔、ゲーム版14度間隔）、リンクの間から継ぎ目の光が漏れる。子午線リブ・トゲの受け座も暗い金属。v4 ほど密な機械の詰まりはない</td></tr>
+  <tr><td>厚み</td><td>厚い装甲</td><td>8.5cmの殻＋面取り、冠パネルは一段厚い。開放時に断面の厚みが見える</td></tr>
+  <tr><td>材質</td><td>灰白の乾いた石・陶器状、細かなひび、茶色の斑点</td><td>灰白の塗装＋細かなひび・錆の斑点・縁の欠けと露出金属・凹部の汚れ（master）。ゲーム版は1024の焼き込みでひびが粗くなる</td></tr>
+  <tr><td>トゲ</td><td>v4：太い楔状のトゲが段階的にせり出す</td><td>10本（装甲8＋極2）。段階ごとに1/3→2/3→全展開、最大0.5m。受け座が硬化の色で光る</td></tr>
+  <tr><td>赤い予告</td><td>赤道の発射口列が赤く光る</td><td>同じ（発射口12個）。ゲームでは実弾と同じレーンの地面の危険帯と弾道の芯線を追加</td></tr>
+  <tr><td>開放</td><td>装甲が外れてコアが露出</td><td>8枚が蝶番で外へ70度開き、正面の2枚が左右へ分かれて発光コアが見える</td></tr>
+</table>
+</html>

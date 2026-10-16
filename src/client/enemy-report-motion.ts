@@ -1,5 +1,6 @@
 import * as T from "three";
 import type { Enemy } from "../shared/game";
+import type { ReportEnemyKind } from "../shared/enemy-identity";
 import type { HoundClip } from "./hound-motion";
 import { STRUCTURE_TIMING } from "../shared/structure-timing";
 import { CALYX, calyxMuzzle } from "../shared/calyx";
@@ -274,7 +275,7 @@ export function reportHarrowMissiles(
 
 /** Isolated inspection timeline. Does not receive or mutate the active World. */
 export function reportPose(
-  kind: Enemy["kind"],
+  kind: ReportEnemyKind,
   mode: ReportMotion,
   time: number,
   selectedHarrowAttack?: HoundClip,
@@ -409,7 +410,7 @@ export class ReportEffects {
     this.root.add(this.ring, ...this.bolts, ...this.beams, this.harrow.root);
   }
   update(
-    kind: Enemy["kind"],
+    kind: ReportEnemyKind,
     worm: boolean,
     mode: ReportMotion,
     time: number,

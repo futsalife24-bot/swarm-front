@@ -2,6 +2,7 @@ import * as T from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { enemyGeometry } from "./enemy-model";
 import type { Enemy } from "../shared/game";
+import type { ReportEnemyKind } from "../shared/enemy-identity";
 import { harrowSpinRotation } from "../shared/harrow-motion";
 import {
   loadEnemyMotion,
@@ -55,7 +56,7 @@ export function createEnemyViewer(host: HTMLElement) {
   let foundry: FoundryWormView | undefined;
   let foundryIdle: ReturnType<FoundryWormView["inspectionIdle"]> | undefined;
   let wormForm = false;
-  let kind: Enemy["kind"] = "crawler";
+  let kind: ReportEnemyKind = "crawler";
   let mode: ReportMotion = "idle",
     time = 0,
     last = 0;
@@ -214,7 +215,7 @@ export function createEnemyViewer(host: HTMLElement) {
     }
   }
   return {
-    show(selectedKind: Enemy["kind"], worm = false) {
+    show(selectedKind: ReportEnemyKind, worm = false) {
       kind = selectedKind;
       mode = "idle";
       selectedHarrowAttack = undefined;

@@ -1,4 +1,8 @@
-# 現在地: PLEATのレイ接地・壁面歩行を公開済み（2026-10-16）
+# 現在地: 新敵BASTION（仮称・浮遊装甲球）をローカル候補として実装・検証（2026-10-17、未push・未merge・未公開）
+
+本人依頼の新種（撃たれ続けると硬化し、一定時間で解除、硬化に応じた反撃と開放）を `codex/bastion-hardening-20261016`（base `da41b38774b22a8aac4ce7ec8d2bcd18de6fb008`、worktree `C:/Users/futsa/Documents/Codex/2026-10-16/swarm-bastion`）に実装。共有ロジック `src/shared/bastion.ts`、`hurtEnemy` への1か所の接続、剛体GLB表示 `src/client/bastion-view.ts`、Blender生成器 `assets/blender/candidates/bastion/model-v1/build_bastion.py`（master約24.7万三角形・ゲーム版17,636三角形）。仕様・仮値・根拠・既知の問題は [BASTION.md](BASTION.md)、比較画像・固定30fps動画10本・通信検証は [evidence/bastion-20261017](evidence/bastion-20261017/review.html)。単体19件、実ローカルWorker2クライアント（実射撃入力で硬化・軽減・12発・被弾イベント一致）成功。自然出現・レポート・声・会敵動画は未登録/未制作。本人の見た目・数値の承認は未取得。依頼範囲どおりローカル候補で停止。独立レビューは別セッションへ依頼。再開条件: 本人の見た目・数値の判断と、独立レビュー結果の確認。
+
+# 履歴: PLEATのレイ接地・壁面歩行を公開済み（2026-10-16）
 
 既存4脚を維持し、床→壁→天井→薄い縁の裏側をレイ探索/IKで連続移動。前脚先行と後脚の寄せ、支持面からの胴体バネ、実外套寸法の押出し、権威状態/軽量姿勢配信を実装。base `967473edae08e20fee891c9b2313fce50ea9d886`、実装 `f71240224a2d66dfd6b8ae19027fe2b92a0b947c`。[PR195](https://github.com/futsalife24-bot/swarm-front/pull/195)を通常merge、公開ソース `e19d61d1afd62504fcd6f86e1edc268b42bcf930`、Worker `afeae4ab-9908-4231-b7ad-ddb3fc7b0b98`。型・関連93件・実Worker通信2件成功。Chromeで本番StructureMotion/実GLBの壁・天井・縁を確認。main build216 modules・dry-run422 assets、配信27ファイルSHA一致/health200成功。公開の新規タブでは既存ゲームタブ保護画面の起動を確認し、保存権を奪う操作は行わず。Android実機未確認。独立監査なしの最新方針を維持。[詳細](PLEAT-SURFACE-WALK-20261016.md)。④⑤の要相談は継続。
 
