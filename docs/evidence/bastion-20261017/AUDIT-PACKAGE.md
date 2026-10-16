@@ -7,8 +7,8 @@
 - リポジトリ: https://github.com/futsalife24-bot/swarm-front （ブランチは未push。ローカルのみ）
 - branch: `codex/bastion-hardening-20261016`
 - base: `da41b38774b22a8aac4ce7ec8d2bcd18de6fb008`（開始時の origin/main）
-- 実装 commit: `4a75d3a0dc175e8aa687dd7477b204c76916e00b`
-- 添付ZIP（ローカル）: `dist-validation/bastion/audit/bastion-audit-4a75d3a.zip`。中身は base..実装 の差分パッチ、変更後の全ソース（変更・追加ファイル）、GLB、master/ゲーム版 .blend、生成器、証拠フォルダ一式。SHA-256 は ZIP と同じ場所の `bastion-audit-4a75d3a.sha256.txt`。
+- 実装 commit: `4a75d3a0dc175e8aa687dd7477b204c76916e00b`（初版）＋ `582dd8c2682c8e21c0c33f11a16bfa44566a2f7d`（別セッションの独立レビューへの対応）。監査対象は `582dd8c`
+- 添付ZIP（ローカル）: `dist-validation/bastion/audit/bastion-audit-582dd8c.zip`。中身は base..`582dd8c` の差分パッチ、変更後の全ソース（変更・追加ファイル）、GLB、master/ゲーム版 .blend、生成器、証拠フォルダ一式（別セッションのレビュー結果 `independent-review.md` を含む）。SHA-256 は ZIP と同じ場所の `bastion-audit-582dd8c.sha256.txt`。
 
 ## 依頼文（そのまま使える形）
 
@@ -28,9 +28,9 @@
 ## 実装担当が実行した検証（自己検証。独立監査ではない）
 
 - `npm run typecheck`（クライアント・Worker）成功。
-- `npx vitest run`: 1118件中1112件合格。失敗6件（照準・BGM復帰2・RAY・地底マップ・描画）は base でも同じく失敗する既存の不具合。`vitest.front.config.ts` 192件合格。`tests/bastion.test.ts` 19件合格。
+- `npx vitest run`: 1121件中1115件合格。失敗6件（照準・BGM復帰2・RAY・地底マップ・描画）と読込段階で失敗する `weapon-stat-marks.test.ts` は base でも同じく失敗する既存の不具合。`vitest.front.config.ts` 192件合格。`tests/bastion.test.ts` 22件合格。
 - `npm run build`、`npm run server:build`（dry-run）成功。
-- 実ローカルWorker（`wrangler.test.jsonc`）2クライアント: 硬化100からの 予備動作0.8秒→赤予告0.8秒→12発→開放、両者の同一tickで敵・弾が一致。硬化0から2人の実射撃入力で1.3秒に75以上→2.9秒に12発、共有被弾イベント44件で段階ごとのダメージ 24/19/14/10。結果 `network.json`。
+- 実ローカルWorker（`wrangler.test.jsonc`）2クライアント: 硬化100からの 予備動作0.8秒→赤予告0.8秒→12発→開放、両者の同一tickで敵・弾が一致。配信された予告レーンと実弾の位置・向きのずれは最大2.1mm／0.00054rad。硬化0から2人の実射撃入力で1.3秒に75以上→2.9秒に12発、共有被弾イベント44件で段階ごとのダメージ 24/19/14/10。結果 `network.json`。
 - 実 Renderer（ヘッドレス Chrome、SwiftShader）: 5状態×2距離×2寸法の静止画、固定30fpsの動画10本（全フレームのデコード数を照合）。`capture-log.json`。
 - Node の実 `step()` による撃破時間シミュレーション（`docs/BASTION.md`）。
 
@@ -50,4 +50,4 @@ npx vite --host 127.0.0.1 --port 5196 --strictPort                              
 
 - Android/iPhone 実機、Safari/Firefox、GPU実機でのフレームレートと負荷は未測定。
 - 本人の見た目・数値の承認は未取得。自然出現・レポート・声・会敵動画は未制作。
-- 独立レビューは別セッション（Claude Code の別セッション）へ依頼。結果は `independent-review.md`（届いた場合）。これは通常Chatでの独立監査の代わりではない。
+- 別セッション（Claude Code）の独立レビューは条件付き合格・P0/P1なし（`independent-review.md`、対象 `4a75d3a`）。P2と7件のP3は `582dd8c` で対応、2件は既知の問題として記録（`docs/BASTION.md` の対応表）。これは通常Chatでの独立監査の代わりではない。

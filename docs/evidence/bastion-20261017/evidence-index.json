@@ -1,11 +1,11 @@
 {
-  "generated": "2026-10-16T19:15:17.473Z",
+  "generated": "2026-10-16T19:22:45.767Z",
   "ffmpeg": "9.0.1-essentials_build-www.gyan.dev",
   "files": [
     {
       "file": "AUDIT-PACKAGE.md",
-      "bytes": 5123,
-      "sha256": "3f741e98462df40ed1c1a4799b88bfeb7e58a89b80292039624de9da90494632"
+      "bytes": 5614,
+      "sha256": "8fcc6b33bb01b17a9c322fcb8bc07ea9d1748144a9b566f22baecee367a25220"
     },
     {
       "file": "capture-log.json",
