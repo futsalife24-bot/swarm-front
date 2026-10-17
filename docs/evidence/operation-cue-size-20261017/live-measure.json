@@ -1,0 +1,39 @@
+{
+ "base": "https://swarm-front.melosalife-24.workers.dev",
+ "at": "2026-10-17T08:23:33.556Z",
+ "rows": [
+  {
+   "size": "667x375",
+   "cue": "srv-sortie",
+   "w": 321,
+   "h": 112,
+   "hRatio": 0.3,
+   "maxHeight": "30dvh"
+  },
+  {
+   "size": "844x390",
+   "cue": "srv-sortie",
+   "w": 334,
+   "h": 117,
+   "hRatio": 0.3,
+   "maxHeight": "30dvh"
+  },
+  {
+   "size": "915x412",
+   "cue": "srv-sortie",
+   "w": 353,
+   "h": 124,
+   "hRatio": 0.3,
+   "maxHeight": "30dvh"
+  },
+  {
+   "size": "1280x720",
+   "cue": "srv-sortie",
+   "w": 617,
+   "h": 216,
+   "hRatio": 0.3,
+   "maxHeight": "30dvh"
+  }
+ ],
+ "image": "live-844x390.jpg（844x390のみ保存）"
+}

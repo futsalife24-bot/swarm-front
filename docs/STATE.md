@@ -1,6 +1,8 @@
-# 現在地: 作戦演出（出撃など7種類）の表示サイズを修正（2026-10-17）
+# 現在地: 作戦演出（出撃など7種類）の表示サイズを修正して公開済み（2026-10-17）
 
-本人依頼「出撃のサイズがでかすぎる（他の文字でも同じ？）」。7種類共通の `.operation-cue.has-image` が幅100%基準で、横画面スマホでは帯の高さが画面の62〜78%（1280×720でも47%）を占めていた。`src/client/operation-cue.css` だけを変更し、帯の高さを画面の30%までに制限（幅は比率から決定、最大960px・安全領域・位置・動作は不変）。844×390 は 844×295→334×117。E2Eに5寸法×3種類の寸法試験を追加し合格、実画像7種×2版も合格。既存の失敗2件（タイトル画面が試験の操作を遮る）は変更前でも同じ。[詳細と証拠](OPERATION-CUE-SIZE-20261017.md)。branch `codex/operation-cue-size-20261017`、base `da41b38774b22a8aac4ce7ec8d2bcd18de6fb008`。main反映・公開は本記録の後に実施。
+本人依頼「出撃のサイズがでかすぎる（他の文字でも同じ？）」。7種類共通の `.operation-cue.has-image` が幅100%基準で、横画面スマホでは帯の高さが画面の62〜78%（1280×720でも47%）を占めていた。`src/client/operation-cue.css` だけを変更し、帯の高さを画面の30%までに制限（幅は比率から決定、最大960px・安全領域・位置・動作は不変）。844×390 は 844×295→334×117。E2Eに5寸法×3種類の寸法試験を追加し合格、実画像7種×2版も合格。既存の失敗2件（タイトル画面が試験の操作を遮る）は変更前でも同じ。[詳細と証拠](OPERATION-CUE-SIZE-20261017.md)。branch `codex/operation-cue-size-20261017`、base `da41b38774b22a8aac4ce7ec8d2bcd18de6fb008`、実装 `d4728da4d23ab6ed705f6de724d97047edd4de58`。
+
+[PR197](https://github.com/futsalife24-bot/swarm-front/pull/197)を通常merge（必須CI・ブランチ保護の設定はなし）。公開ソースmain `8f21cecfebfe2a5280fd24fa003898c727494945`、Worker `572d5fc9-172e-4c43-876d-47e3246ac78b`（前版 `afeae4ab-9908-4231-b7ad-ddb3fc7b0b98`）。main build・production dry-run（422 assets）成功。配信27ファイルSHA一致・health 200/ok:true（[delivery.json](evidence/operation-cue-size-20261017/delivery.json)）。公開版の実際のソロ出撃で `srv-sortie` の高さが667×375〜1280×720の4寸法すべてで画面の30%（[計測](evidence/operation-cue-size-20261017/live-measure.json)、[844×390画面](evidence/operation-cue-size-20261017/live-844x390.jpg)）。更新履歴にPlayer-Noteの説明が入ったことをbuild成果物で確認。wranglerは本人指示によりChromeのCloudflare OAuthで認可（このPCのwrangler設定に保存）。Android/iPhone実機は未確認。独立Chat監査なしの最新方針を維持。
 
 別件のローカル候補: 新敵BASTION（仮称・浮遊装甲球）は `codex/bastion-hardening-20261016`（worktree `C:/Users/futsa/Documents/Codex/2026-10-16/swarm-bastion`、未push・未merge・未公開）。本人依頼によりローカル候補で停止。仕様と状態はそのブランチの `docs/BASTION.md` と `docs/STATE.md` 先頭。
 

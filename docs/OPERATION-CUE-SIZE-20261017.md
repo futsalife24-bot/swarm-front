@@ -28,3 +28,9 @@
 - 既存の失敗2件（`mobile image is decorative and skip stays in menu flow` と `OS reduce loads the received PNG only and mobile menu remains operable`）は、変更前のコードでも同じく失敗する。タイトル画面のダイアログが試験中のボタン操作を遮るためで、今回の寸法とは無関係（未修正）。
 - 型チェック、単体 `tests/front-operation-cue.test.ts` 7件、整形チェック。
 - 実機（Android/iPhone）は未確認。ヘッドレス Chrome の寸法・画面で確認。
+
+## 公開
+
+- [PR197](https://github.com/futsalife24-bot/swarm-front/pull/197) を通常merge。公開ソース main `8f21cecfebfe2a5280fd24fa003898c727494945`、既存Worker `swarm-front` の Version `572d5fc9-172e-4c43-876d-47e3246ac78b`。
+- 配信照合: 27ファイルのSHAがbuild成果物と一致、`/api/health` 200（[delivery.json](evidence/operation-cue-size-20261017/delivery.json)）。
+- 公開版 `https://swarm-front.melosalife-24.workers.dev/front?solo=1` で実際に出撃し、`srv-sortie` の帯を計測: 667×375 で 321×112、844×390 で 334×117、915×412 で 353×124、1280×720 で 617×216。すべて高さ比30%（[live-measure.json](evidence/operation-cue-size-20261017/live-measure.json)、[844×390の画面](evidence/operation-cue-size-20261017/live-844x390.jpg)）。
