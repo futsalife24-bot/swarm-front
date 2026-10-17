@@ -19,10 +19,23 @@
   font-size: clamp(16px, 3vw, 25px);
   padding: 8px 14px;
 }
+/* 帯の高さを画面の高さの一定割合までに抑え、幅は 960:336 の比率から決める。
+   幅いっぱいだと横画面のスマホで高さが画面の6〜8割を占めていた。
+   安全領域を除いた画面幅と最大960pxの上限は従来どおり。 */
 .operation-cue.has-image {
-  width: 100%;
+  --operation-cue-max-height: 30vh;
+  width: min(
+    calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right)),
+    960px,
+    calc(var(--operation-cue-max-height) * 960 / 336)
+  );
   max-width: 960px;
   aspect-ratio: 960/336;
+}
+@supports (height: 1dvh) {
+  .operation-cue.has-image {
+    --operation-cue-max-height: 30dvh;
+  }
 }
 .operation-cue img {
   position: absolute;

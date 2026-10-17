@@ -96,6 +96,7 @@ test("mobile image is decorative and skip stays in menu flow", async ({
   await expect(image).toHaveCSS("pointer-events", "none");
   const bounds = await page.locator(".operation-cue").boundingBox();
   expect(bounds!.width).toBeLessThanOrEqual(667);
+  expect(bounds!.height).toBeLessThanOrEqual(390 * 0.3 + 1);
   expect(bounds!.width / bounds!.height).toBeCloseTo(20 / 7, 1);
   expect(
     await page
@@ -105,6 +106,37 @@ test("mobile image is decorative and skip stays in menu flow", async ({
   await page.locator(".operation-cue-skip").click();
   await expect(page.locator(".operation-cue")).toHaveCount(0);
 });
+
+// 横画面のスマホで幅いっぱいにすると、帯の高さが画面の6〜8割を占めていた。
+for (const [width, height] of [
+  [667, 375],
+  [844, 390],
+  [915, 412],
+  [1280, 720],
+  [1920, 1080],
+] as const)
+  test(`banner stays within 30% of the ${width}x${height} viewport height`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height });
+    for (const id of ["adv-sortie", "srv-sortie", "adv-complete"]) {
+      await page.evaluate(
+        (id) => (window as any).cueRenderer.show(id, { key: `size:${id}` }),
+        id,
+      );
+      await page.clock.runFor(1);
+      await expect(page.locator(".operation-cue")).toHaveClass(/is-loaded/);
+      const bounds = (await page.locator(".operation-cue").boundingBox())!;
+      expect(bounds.height).toBeLessThanOrEqual(height * 0.3 + 1);
+      expect(bounds.height).toBeGreaterThanOrEqual(
+        Math.min(height * 0.3, 336) - 2,
+      );
+      expect(bounds.width).toBeLessThanOrEqual(Math.min(width, 960));
+      expect(bounds.width / bounds.height).toBeCloseTo(20 / 7, 1);
+      expect(bounds.y).toBeLessThanOrEqual(8.5);
+      expect(bounds.x + bounds.width / 2).toBeCloseTo(width / 2, 0);
+    }
+  });
 
 test("reduced motion never requests APNG and mid-display switching releases it", async ({
   page,

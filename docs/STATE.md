@@ -1,4 +1,10 @@
-# 現在地: PLEATのレイ接地・壁面歩行を公開済み（2026-10-16）
+# 現在地: 作戦演出（出撃など7種類）の表示サイズを修正（2026-10-17）
+
+本人依頼「出撃のサイズがでかすぎる（他の文字でも同じ？）」。7種類共通の `.operation-cue.has-image` が幅100%基準で、横画面スマホでは帯の高さが画面の62〜78%（1280×720でも47%）を占めていた。`src/client/operation-cue.css` だけを変更し、帯の高さを画面の30%までに制限（幅は比率から決定、最大960px・安全領域・位置・動作は不変）。844×390 は 844×295→334×117。E2Eに5寸法×3種類の寸法試験を追加し合格、実画像7種×2版も合格。既存の失敗2件（タイトル画面が試験の操作を遮る）は変更前でも同じ。[詳細と証拠](OPERATION-CUE-SIZE-20261017.md)。branch `codex/operation-cue-size-20261017`、base `da41b38774b22a8aac4ce7ec8d2bcd18de6fb008`。main反映・公開は本記録の後に実施。
+
+別件のローカル候補: 新敵BASTION（仮称・浮遊装甲球）は `codex/bastion-hardening-20261016`（worktree `C:/Users/futsa/Documents/Codex/2026-10-16/swarm-bastion`、未push・未merge・未公開）。本人依頼によりローカル候補で停止。仕様と状態はそのブランチの `docs/BASTION.md` と `docs/STATE.md` 先頭。
+
+# 履歴: PLEATのレイ接地・壁面歩行を公開済み（2026-10-16）
 
 既存4脚を維持し、床→壁→天井→薄い縁の裏側をレイ探索/IKで連続移動。前脚先行と後脚の寄せ、支持面からの胴体バネ、実外套寸法の押出し、権威状態/軽量姿勢配信を実装。base `967473edae08e20fee891c9b2313fce50ea9d886`、実装 `f71240224a2d66dfd6b8ae19027fe2b92a0b947c`。[PR195](https://github.com/futsalife24-bot/swarm-front/pull/195)を通常merge、公開ソース `e19d61d1afd62504fcd6f86e1edc268b42bcf930`、Worker `afeae4ab-9908-4231-b7ad-ddb3fc7b0b98`。型・関連93件・実Worker通信2件成功。Chromeで本番StructureMotion/実GLBの壁・天井・縁を確認。main build216 modules・dry-run422 assets、配信27ファイルSHA一致/health200成功。公開の新規タブでは既存ゲームタブ保護画面の起動を確認し、保存権を奪う操作は行わず。Android実機未確認。独立監査なしの最新方針を維持。[詳細](PLEAT-SURFACE-WALK-20261016.md)。④⑤の要相談は継続。
 
