@@ -6,6 +6,7 @@ import {
   hurtEnemy,
   neutral,
   spawn,
+  start,
   step,
   type Enemy,
   type World,
@@ -20,8 +21,33 @@ import {
 } from "../src/shared/bastion";
 import { BastionView } from "../src/client/bastion-view";
 import { prepareState } from "../src/shared/state-wire";
-import { mapFor } from "../src/shared/stages";
+import {
+  ELEVATED_MAPS,
+  HARROW_BRANCH,
+  MAPS,
+  STAGES,
+  mapFor,
+  stageFor,
+  troopAt,
+  troopCount,
+} from "../src/shared/stages";
 import { enemyReportId } from "../src/shared/enemy-identity";
+import { ENEMIES } from "../src/shared/defs";
+import {
+  FRONT_RUN_CONFIG,
+  chooseFrontUpgrade,
+  createFrontRun,
+  stepFrontRun,
+  type FrontMode,
+  type FrontRun,
+} from "../src/shared/front-run";
+import { initSolo } from "../src/shared/solo-progression";
+import { campaignNumber, normalSaveId } from "../src/shared/campaign";
+import { blankLevels, freshProgress } from "../src/client/progression-save";
+import {
+  readBattleCheckpoint,
+  writeBattleCheckpoint,
+} from "../src/client/battle-checkpoint";
 
 const DT = 0.05;
 
@@ -177,7 +203,9 @@ describe("BASTION hardening", () => {
     e.bastion!.readyAt = 1e9;
     tick(w);
     hurtEnemy(w, e, 10, "p0", 0, "rifle");
-    expect(w.events.filter((v) => v.type === "hit").at(-1)!.guard).toBeUndefined();
+    expect(
+      w.events.filter((v) => v.type === "hit").at(-1)!.guard,
+    ).toBeUndefined();
     e.bastion!.armor = 80;
     tick(w);
     hurtEnemy(w, e, 10, "p0", 0, "rifle");
@@ -327,7 +355,11 @@ describe("BASTION counter volley", () => {
     expect(w.projectiles.filter((q) => q.style === "bastion")).toHaveLength(0);
     const again = spawn(w, "bastion", 0, 0)!;
     expect(again.id).not.toBe(e.id);
-    expect(again.bastion).toMatchObject({ armor: 0, phase: "guard", counters: 0 });
+    expect(again.bastion).toMatchObject({
+      armor: 0,
+      phase: "guard",
+      counters: 0,
+    });
   });
 
   it("two bastions keep independent armor and timers", () => {
@@ -349,8 +381,7 @@ describe("BASTION counter volley", () => {
       tick(w);
       while (e.bastion!.phase === "brace") tick(w);
       const lane = bastionLanes(e.bastion!.volley!, mapFor(w).blocks)[0];
-      const yaw =
-        lane.yaw + (onLane ? 0 : Math.PI / BASTION.volley.low);
+      const yaw = lane.yaw + (onLane ? 0 : Math.PI / BASTION.volley.low);
       Object.assign(p, {
         x: e.x + Math.sin(yaw) * 8,
         z: e.z + Math.cos(yaw) * 8,
@@ -363,7 +394,10 @@ describe("BASTION counter volley", () => {
 
   it("draws the danger strip as wide as the actual hit for the ground a soldier stands on", () => {
     // 弾の高さ1.7m。胴（+1.2m）との差で当たる片側の幅が変わる。
-    expect(2 * bastionLaneHalfWidth(1.7, 0)).toBeCloseTo(2 * Math.sqrt(0.75), 9);
+    expect(2 * bastionLaneHalfWidth(1.7, 0)).toBeCloseTo(
+      2 * Math.sqrt(0.75),
+      9,
+    );
     expect(bastionLaneHalfWidth(1.7, 0.5)).toBeCloseTo(1, 9); // 0.5m高い面は2.0m幅
     expect(bastionLaneHalfWidth(1.7, -0.5)).toBe(0); // 0.5m低い面は頭上を通る
     expect(bastionLaneHalfWidth(1.7, 1.6)).toBe(0); // 1m以上高い面は足元を通る
@@ -437,6 +471,158 @@ describe("BASTION integration", () => {
       expect(e.hp, kind).toBeLessThan(1e6);
       if (kind === "rifle") expect(e.bastion!.armor).toBeGreaterThanOrEqual(75);
       else expect(e.bastion!.armor).toBe(0);
+    }
+  });
+});
+
+describe("BASTION の出現（生存戦）", () => {
+  function survival(mode: FrontMode = "survival") {
+    const run = createFrontRun({
+      runId: "bastion-" + mode,
+      seed: 4321,
+      fusion: true,
+      mode,
+      players: [{ id: "p0" }],
+    });
+    const offer = run.upgrades.p0.offer!;
+    chooseFrontUpgrade(
+      run,
+      "p0",
+      {
+        runId: run.world.run,
+        offerId: offer.id,
+        revision: offer.revision,
+        requestId: "first",
+        cardId: offer.defaultCardId,
+      },
+      0,
+    );
+    expect(run.phase).toBe("combat");
+    return run;
+  }
+  const pending = (run: FrontRun) =>
+    run.pendingSpawns.filter((p) => p.kinds.includes("bastion"));
+  // 予告と通常の出現だけを見るため、時刻を直接進めて1tickずつ回す。
+  function at(run: FrontRun, time: number) {
+    run.world.time = time;
+    run.world.players[0].hp = 1e6;
+    stepFrontRun(run, {}, DT, time);
+  }
+
+  it("出撃90秒から予告し、体力は通常敵の半減を受けず、同時1体・45秒間隔", () => {
+    const run = survival();
+    at(run, BASTION.survival.from - 0.2);
+    expect(pending(run)).toHaveLength(0);
+    at(run, BASTION.survival.from);
+    expect(pending(run)).toHaveLength(1);
+    expect(run.bastionAt).toBeCloseTo(
+      BASTION.survival.from + BASTION.survival.every,
+    );
+    at(run, pending(run)[0].at);
+    const bastion = run.world.enemies.find((e) => e.kind === "bastion")!;
+    expect(bastion?.bastion?.phase).toBe("guard");
+    const crawler = run.world.enemies.find((e) => e.kind === "crawler")!;
+    const ratio = (e: Enemy) => e.maxHp / (ENEMIES[e.kind].hp * e.size);
+    expect(ratio(bastion)).toBeCloseTo(
+      ratio(crawler) / FRONT_RUN_CONFIG.normalHpMultiplier,
+    );
+    // 生存中は間隔を過ぎても2体目を出さない。
+    at(run, run.bastionAt! + 1);
+    expect(pending(run)).toHaveLength(0);
+    expect(run.world.enemies.filter((e) => e.kind === "bastion")).toHaveLength(
+      1,
+    );
+    // 撃破後は次の時刻から再び予告する。
+    hurtEnemy(run.world, bastion, bastion.hp + 1, "p0");
+    at(run, run.world.time + DT);
+    expect(
+      run.world.enemies.some((e) => e.kind === "bastion" && e.hp > 0),
+    ).toBe(false);
+    at(run, run.world.time + DT);
+    expect(pending(run)).toHaveLength(1);
+  });
+
+  it("防衛・デイリーには出さない", () => {
+    for (const mode of ["defense", "daily"] as const) {
+      const run = survival(mode);
+      at(run, 200);
+      expect(pending(run), mode).toHaveLength(0);
+      expect(run.bastionAt, mode).toBeUndefined();
+    }
+  });
+
+  it("撃破の経験値は6", () => {
+    const run = survival();
+    at(run, BASTION.survival.from);
+    at(run, pending(run)[0].at);
+    const bastion = run.world.enemies.find((e) => e.kind === "bastion")!;
+    const before = run.world.front!.orbs.reduce((sum, o) => sum + o.value, 0);
+    hurtEnemy(run.world, bastion, bastion.hp + 1, "p0");
+    const after = run.world.front!.orbs.reduce((sum, o) => sum + o.value, 0);
+    expect(after - before).toBe(6);
+  });
+});
+
+describe("BASTION の出現（攻略）", () => {
+  it("21・23・24の第2波だけに入り、増援・デイリー防衛の候補にならない", () => {
+    expect(
+      STAGES.filter((s) => s.waves.some((w) => w.troops.bastion)).map(
+        (s) => s.id,
+      ),
+    ).toEqual([21, 23, 24]);
+    for (const stage of STAGES) {
+      expect(stage.waves[0].troops.bastion ?? 0).toBe(0);
+      const wave = stage.waves.find((w) => w.troops.bastion);
+      if (!wave) continue;
+      const order = Array.from({ length: troopCount(wave) }, (_, i) =>
+        troopAt(wave, i),
+      );
+      // 波の序盤に出る（実機で確認しやすく、波の最後まで残らない）。
+      expect(order.indexOf("bastion")).toBeLessThan(6);
+    }
+    expect(HARROW_BRANCH.waves.some((w) => w.troops.bastion)).toBe(false);
+    for (const map of [...MAPS, ...ELEVATED_MAPS])
+      expect(map.foundryAllowed ?? []).not.toContain("bastion");
+  });
+
+  it("ソロの実進行で第2波に出現し、戦闘途中保存から同じ状態で再開できる", () => {
+    for (const number of [21, 23, 24]) {
+      const values = new Map<string, string>();
+      const storage = {
+        getItem: (k: string) => values.get(k) ?? null,
+        setItem: (k: string, v: string) => void values.set(k, v),
+        removeItem: (k: string) => void values.delete(k),
+      };
+      const progress = freshProgress("normal");
+      const id = normalSaveId(number);
+      const w = createWorld(
+        "bastion-campaign-" + number,
+        11,
+        campaignNumber(id),
+      );
+      initSolo(w, id, "normal", false, blankLevels());
+      addPlayer(w, "solo", progress.inventory.slice(0, 2));
+      start(w);
+      let bastion: Enemy | undefined;
+      for (let i = 0; i < 4000 && !bastion && w.phase === "battle"; i++) {
+        w.players[0].hp = 1e6;
+        step(w, { solo: neutral() });
+        bastion = w.enemies.find((e) => e.kind === "bastion" && e.hp > 0);
+        // 試験用に他の敵を片付けて波を進める（戦闘の勝敗を調べる試験ではない）。
+        for (const e of w.enemies)
+          if (e.kind !== "bastion" && e.hp > 0)
+            hurtEnemy(w, e, e.hp + 1, "solo");
+      }
+      expect(bastion, String(number)).toBeDefined();
+      expect(w.wave).toBe(2);
+      expect(mapFor(w).blocks).toBe(MAPS[stageFor(w).map].blocks);
+      expect(bastion!.bastion?.phase).toBe("guard");
+      expect(writeBattleCheckpoint(w, progress, storage)).toBe(true);
+      const resumed = readBattleCheckpoint(progress, storage)?.world;
+      expect(resumed, String(number)).toBeDefined();
+      expect(
+        resumed!.enemies.find((e) => e.id === bastion!.id)?.bastion,
+      ).toEqual(JSON.parse(JSON.stringify(bastion!.bastion)));
     }
   });
 });

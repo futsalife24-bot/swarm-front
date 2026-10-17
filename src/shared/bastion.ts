@@ -51,6 +51,11 @@ export const BASTION = {
   /** トゲ展開分の当たり判定の拡張（半径m、最大）。最大0.5m突出するトゲの太い根元側。 */
   spikePad: 0.25,
   muzzle: 1.05,
+  /**
+   * 生存戦での出現（仮値）。出撃からこの秒数以降、同時1体まで、
+   * 前回の出現予告からこの間隔をあける。体力は通常敵の半減を受けない。
+   */
+  survival: { from: 90, every: 45, preload: 60 },
 } as const;
 
 export type BastionPhase = "guard" | "brace" | "warn" | "open";
@@ -77,7 +82,14 @@ export interface BastionState {
   volley?: { count: number; turn: number; x: number; y: number; z: number };
   aim?: {
     started: number;
-    committed?: { x: number; y: number; z: number; tx: number; ty: number; tz: number };
+    committed?: {
+      x: number;
+      y: number;
+      z: number;
+      tx: number;
+      ty: number;
+      tz: number;
+    };
   };
   aimReadyAt: number;
 }
@@ -222,7 +234,8 @@ export function bastionAimLane(
 
 // 個体IDと反撃回数だけで決まる。発射ごとにレーンがずれ、乱数列は消費しない。
 function volleyYaw(e: Enemy, s: BastionState, count: number) {
-  let n = Math.imul(e.id + 97, 374761393) ^ Math.imul(s.counters + 11, 668265263);
+  let n =
+    Math.imul(e.id + 97, 374761393) ^ Math.imul(s.counters + 11, 668265263);
   n = Math.imul(n ^ (n >>> 13), 1274126177);
   return ((((n ^ (n >>> 16)) >>> 0) / 4294967296) * Math.PI * 2) / count;
 }
@@ -244,12 +257,7 @@ export function bastionLaneHalfWidth(bulletY: number, groundY: number) {
   return Math.sqrt(Math.max(0, 1 - dy * dy));
 }
 
-export function stepBastion(
-  w: World,
-  e: Enemy,
-  target: Player,
-  dt: number,
-) {
+export function stepBastion(w: World, e: Enemy, target: Player, dt: number) {
   const s = (e.bastion ??= createBastion(w)),
     blocks = mapFor(w).blocks,
     age = w.time - s.phaseAt;

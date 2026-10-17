@@ -13,8 +13,7 @@ import type { Block } from "../shared/map-blocks";
 import { supportHeight } from "../shared/terrain";
 
 /** assets/blender/candidates/bastion/model-v1/build_bastion.py の書出し（SHA-256 先頭12桁）。 */
-export const BASTION_ASSET =
-  "assets/enemies/bastion_v1.glb?rev=8dedf5952722";
+export const BASTION_ASSET = "assets/enemies/bastion_v1.glb?rev=8dedf5952722";
 
 /** GLBの extras.rig（build_bastion.py の P と各部品の軸）。 */
 interface Rig {
@@ -27,7 +26,12 @@ interface Unit {
   body: T.Object3D;
   bandNode: T.Object3D;
   coreNode: T.Object3D;
-  plates: { node: T.Object3D; hinge: T.Vector3; axis: T.Vector3; loose: T.Vector3 }[];
+  plates: {
+    node: T.Object3D;
+    hinge: T.Vector3;
+    axis: T.Vector3;
+    loose: T.Vector3;
+  }[];
   spikes: { node: T.Object3D; rest: T.Vector3; dir: T.Vector3 }[];
   seam: T.MeshStandardMaterial;
   port: T.MeshStandardMaterial;
@@ -53,9 +57,18 @@ const ORANGE = new T.Color(1, 0.42, 0.05);
 const RED = new T.Color(1, 0.06, 0.05);
 const CORE = new T.Color(0.55, 0.9, 1);
 
-function approach(value: number, target: number, up: number, down: number, dt: number) {
+function approach(
+  value: number,
+  target: number,
+  up: number,
+  down: number,
+  dt: number,
+) {
   const rate = target > value ? up : down;
-  return value + Math.sign(target - value) * Math.min(Math.abs(target - value), rate * dt);
+  return (
+    value +
+    Math.sign(target - value) * Math.min(Math.abs(target - value), rate * dt)
+  );
 }
 function wrap(a: number) {
   return Math.atan2(Math.sin(a), Math.cos(a));
@@ -70,7 +83,10 @@ export class BastionView {
   readonly root = new T.Group();
   ready = false;
   error?: string;
-  /** 最初に BASTION が戦場に現れた時だけ読み込む（出現しない作戦では取得しない）。 */
+  /**
+   * 戦場に BASTION が現れた時（攻略は出撃準備、生存戦は出現の少し前）だけ読み込む。
+   * 出現しない作戦では取得しない。
+   */
   loading?: Promise<void>;
   private template?: T.Object3D;
   private rig?: Rig;
@@ -140,7 +156,12 @@ export class BastionView {
   constructor(
     private readonly url = `${import.meta.env.BASE_URL}${BASTION_ASSET}`,
   ) {
-    for (const mesh of [this.lanes, this.laneCores, this.sparks, this.flashes]) {
+    for (const mesh of [
+      this.lanes,
+      this.laneCores,
+      this.sparks,
+      this.flashes,
+    ]) {
       mesh.count = 0;
       mesh.frustumCulled = false;
       mesh.instanceMatrix.setUsage(T.DynamicDrawUsage);
@@ -155,7 +176,8 @@ export class BastionView {
       .then((gltf) => {
         const root = gltf.scene.getObjectByName("BASTION_ROOT");
         const rig = root?.userData.rig;
-        if (!root || typeof rig !== "string") throw Error("BASTION rig missing");
+        if (!root || typeof rig !== "string")
+          throw Error("BASTION rig missing");
         this.rig = JSON.parse(rig) as Rig;
         root.traverse((o) => {
           if ((o as T.Mesh).isMesh) {
@@ -265,7 +287,11 @@ export class BastionView {
       const life = 0.14 + 0.08 * Math.random();
       this.sparkState.push({
         p: point.clone(),
-        v: dir.clone().add(side).normalize().multiplyScalar(5 + 4 * Math.random()),
+        v: dir
+          .clone()
+          .add(side)
+          .normalize()
+          .multiplyScalar(5 + 4 * Math.random()),
         life,
         max: life,
         color,
@@ -299,7 +325,10 @@ export class BastionView {
       this.dummy.scale.setScalar(1);
       this.dummy.updateMatrix();
       this.sparks.setMatrixAt(n, this.dummy.matrix);
-      this.sparks.setColorAt(n++, s.color.clone().multiplyScalar(s.life / s.max));
+      this.sparks.setColorAt(
+        n++,
+        s.color.clone().multiplyScalar(s.life / s.max),
+      );
     }
     this.sparks.count = n;
     let f = 0;
@@ -328,7 +357,16 @@ export class BastionView {
   /** 毎フレームの開始。危険帯を作り直し、火花を進め、全個体を未配置にする。 */
   begin(w: World | null, blocks: Block[], dt = 0) {
     this.animateSparks(dt);
-    if (!this.loading && w?.enemies.some((e) => e.kind === "bastion")) this.load();
+    // 生存戦は出現の少し前から読み込み、予告中に簡易形状が出ないようにする。
+    if (
+      !this.loading &&
+      w &&
+      (w.enemies.some((e) => e.kind === "bastion") ||
+        (w.front?.growthVersion === 3 &&
+          !w.defense &&
+          w.time >= BASTION.survival.preload))
+    )
+      this.load();
     for (const u of this.units.values()) u.seen = false;
     let n = 0,
       c = 0;
@@ -343,8 +381,17 @@ export class BastionView {
       const dx = b.x - a.x,
         dy = b.y - a.y,
         dz = b.z - a.z;
-      this.dummy.position.set((a.x + b.x) / 2, (a.y + b.y) / 2, (a.z + b.z) / 2);
-      this.dummy.rotation.set(-Math.atan2(dy, Math.hypot(dx, dz)), Math.atan2(dx, dz), 0, "YXZ");
+      this.dummy.position.set(
+        (a.x + b.x) / 2,
+        (a.y + b.y) / 2,
+        (a.z + b.z) / 2,
+      );
+      this.dummy.rotation.set(
+        -Math.atan2(dy, Math.hypot(dx, dz)),
+        Math.atan2(dx, dz),
+        0,
+        "YXZ",
+      );
       this.dummy.scale.set(width, height, Math.hypot(dx, dy, dz));
       this.dummy.updateMatrix();
       mesh.setMatrixAt(index, this.dummy.matrix);
@@ -383,7 +430,14 @@ export class BastionView {
       }
       // 実際の弾道（高さ）を示す芯線。
       if (c < this.laneCores.instanceMatrix.count)
-        box(this.laneCores, c++, from, to, 0.05 + 0.04 * charge, 0.05 + 0.04 * charge);
+        box(
+          this.laneCores,
+          c++,
+          from,
+          to,
+          0.05 + 0.04 * charge,
+          0.05 + 0.04 * charge,
+        );
     };
     for (const e of w?.enemies ?? []) {
       const s = e.bastion;
@@ -407,7 +461,8 @@ export class BastionView {
         const l = bastionAimLane(s.aim.committed, blocks);
         const charge = Math.min(
           1,
-          (w!.time - s.aim.started - BASTION.aimWind / 2) / (BASTION.aimWind / 2),
+          (w!.time - s.aim.started - BASTION.aimWind / 2) /
+            (BASTION.aimWind / 2),
         );
         lane(l.from, l.to, charge);
       }
@@ -435,7 +490,8 @@ export class BastionView {
     const age = time - s.phaseAt;
     // 段階が上がった瞬間は一度だけ強く光って膨らむ（遠目でも段階の変化が分かる）。
     if (u.tier < 0) u.tier = tier;
-    if (tier > u.tier && (s.phase === "guard" || s.phase === "brace")) u.pulse = 1;
+    if (tier > u.tier && (s.phase === "guard" || s.phase === "brace"))
+      u.pulse = 1;
     u.tier = s.phase === "open" ? 0 : tier;
     u.pulse = Math.max(0, u.pulse - dt / 0.3);
     const flare = 1 + 1.2 * u.pulse;
@@ -445,7 +501,8 @@ export class BastionView {
     u.root.position.set(position.x, position.y, position.z);
     u.root.rotation.set(0, heading + Math.PI, 0);
     // 装甲: 段階0では最初の数発から締まり始め、段階1で密着する。
-    const looseTarget = s.phase === "guard" ? Math.max(0, 1 - s.armor / BASTION.tiers[0]) : 0;
+    const looseTarget =
+      s.phase === "guard" ? Math.max(0, 1 - s.armor / BASTION.tiers[0]) : 0;
     u.loose01 = approach(u.loose01, looseTarget, 1.5, 6, dt);
     // 段階が上がるたびに素早くせり出し、予備動作（0.8秒）の前半で全展開に達する。
     u.spikes01 = approach(u.spikes01, bastionSpikes(s), 2.5, 2, dt);
@@ -485,7 +542,10 @@ export class BastionView {
       u.band += (nearest - u.band) * Math.min(1, dt * 16);
       u.bandSpeed = 0;
     } else {
-      const speed = s.phase === "brace" ? 1.5 + 9 * Math.min(1, age / BASTION.brace) : 0.3 + 0.25 * tier;
+      const speed =
+        s.phase === "brace"
+          ? 1.5 + 9 * Math.min(1, age / BASTION.brace)
+          : 0.3 + 0.25 * tier;
       u.bandSpeed = approach(u.bandSpeed, speed, 12, 6, dt);
       u.band += u.bandSpeed * dt;
     }
@@ -536,7 +596,8 @@ export class BastionView {
     u.port.emissive.copy(port);
     u.port.emissiveIntensity = portStrength * flare;
     u.core.emissive.copy(CORE);
-    u.core.emissiveIntensity = 0.25 + u.open01 * (1.2 + 0.3 * Math.sin(time * 9));
+    u.core.emissiveIntensity =
+      0.25 + u.open01 * (1.2 + 0.3 * Math.sin(time * 9));
     u.coreNode.scale.setScalar(1 + u.open01 * 0.08 * Math.sin(time * 9));
     u.halo.visible = u.open01 > 0.01;
     u.halo.material.opacity = u.open01 * (0.3 + 0.08 * Math.sin(time * 9));

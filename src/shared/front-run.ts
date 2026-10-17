@@ -23,6 +23,7 @@ import {
   type Enemy,
 } from "./game";
 import { mapFor, stageFor } from "./stages";
+import { BASTION } from "./bastion";
 import {
   finalizeFrontSurvivalRewards,
   frontSurvivalDifficulty,
@@ -114,6 +115,8 @@ export interface FrontRun {
   spawnIndex: number;
   pendingSpawns: { x: number; z: number; at: number; kinds: Enemy["kind"][] }[];
   pendingBoss: { x: number; z: number; at: number } | null;
+  /** 生存戦で次の BASTION を予告できる最短の戦闘時刻。 */
+  bastionAt?: number;
   metrics: {
     thresholdReachedAt: (number | null)[];
     selectedAt: {
@@ -478,7 +481,7 @@ function schedule(run: FrontRun) {
       const e = spawn(w, kind, x, pending.z, "crown", run.spawnIndex++);
       if (e) {
         e.hp *=
-          FRONT_RUN_CONFIG.normalHpMultiplier *
+          (kind === "bastion" ? 1 : FRONT_RUN_CONFIG.normalHpMultiplier) *
           (run.fusion ? 1 + Math.floor(w.time / 180) * 0.35 : 1) *
           (run.fusion && run.mode === "survival"
             ? frontSurvivalDifficulty(run.clearedStage ?? 0).hpScale
@@ -534,6 +537,42 @@ function schedule(run: FrontRun) {
       z: point.z,
     }),
   );
+}
+/** 生存戦だけ BASTION を同時1体まで予告・出現させる。防衛・デイリーには出さない。 */
+function scheduleBastion(run: FrontRun) {
+  const w = run.world,
+    { from, every } = BASTION.survival;
+  if (
+    !run.fusion ||
+    run.mode !== "survival" ||
+    w.time < (run.bastionAt ?? from)
+  )
+    return;
+  if (
+    w.enemies.some((e) => e.kind === "bastion" && e.hp > 0) ||
+    run.pendingSpawns.some((p) => p.kinds.includes("bastion")) ||
+    w.enemies.length +
+      run.pendingSpawns.reduce((sum, p) => sum + p.kinds.length, 0) >=
+      (w.front!.enemyCap ?? 24)
+  )
+    return;
+  const candidates = INGRESS.filter((p) => safePoint(w, "bastion", p.x, p.z));
+  if (!candidates.length) return;
+  const point = candidates[run.spawnIndex % candidates.length];
+  run.pendingSpawns.push({
+    ...point,
+    at: w.time + FRONT_RUN_CONFIG.spawnWarning,
+    kinds: ["bastion"],
+  });
+  run.bastionAt = w.time + every;
+  event(w, {
+    type: "burst",
+    silent: true,
+    radius: 2,
+    x: point.x,
+    y: 0.1,
+    z: point.z,
+  });
 }
 function spawnBoss(run: FrontRun) {
   if (run.bossId !== null) return;
@@ -674,6 +713,7 @@ export function stepFrontRun(
   }
   if (run.finalResupplyDone) spawnBoss(run);
   schedule(run);
+  scheduleBastion(run);
   step(
     w,
     inputs,

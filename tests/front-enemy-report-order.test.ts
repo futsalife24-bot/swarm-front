@@ -10,7 +10,12 @@ describe("エネミーレポートの遭遇順", () => {
     for (const stage of STAGES) {
       for (const wave of stage.waves) {
         for (const [kind, count] of Object.entries(wave.troops)) {
-          if (count > 0) encountered.add(kind);
+          // レポート未制作の種（REPORTLESS_ENEMIES）は編成に入っても載せない。
+          if (
+            count > 0 &&
+            !(REPORTLESS_ENEMIES as readonly string[]).includes(kind)
+          )
+            encountered.add(kind);
         }
         for (const boss of wave.bosses) {
           encountered.add(boss === "crown" ? "boss" : boss);

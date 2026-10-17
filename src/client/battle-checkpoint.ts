@@ -65,9 +65,15 @@ function validPlan(plan: StagePlan | undefined): plan is StagePlan {
         !Array.isArray(w.troops) &&
         Object.entries(w.troops).every(
           ([kind, count]) =>
-            ["crawler", "ant", "spider", "spitter", "hornet", "calyx"].includes(
-              kind,
-            ) &&
+            [
+              "crawler",
+              "ant",
+              "spider",
+              "spitter",
+              "hornet",
+              "calyx",
+              "bastion",
+            ].includes(kind) &&
             Number.isInteger(count) &&
             count >= 0,
         ),
