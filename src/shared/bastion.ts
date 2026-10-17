@@ -52,11 +52,16 @@ export const BASTION = {
   spikePad: 0.25,
   muzzle: 1.05,
   /**
-   * 生存戦での出現（仮値）。出撃からこの秒数以降、同時1体まで、
-   * 前回の出現予告からこの間隔をあける。体力は通常敵の半減を受けない。
+   * 生存戦での出現（仮値）。出撃からこの秒数以降、前回の出現予告からこの間隔をあけ、
+   * 同時は1体から `moreAt` の各時刻で1体ずつ増やす。体力は通常敵の半減を受けない。
    */
-  survival: { from: 90, every: 45, preload: 60 },
+  survival: { from: 60, every: 30, preload: 30, moreAt: [180, 420] },
 } as const;
+
+/** 生存戦でこの戦闘時刻に同時に出せる BASTION の数。 */
+export function bastionSurvivalCap(time: number) {
+  return 1 + BASTION.survival.moreAt.filter((at) => time >= at).length;
+}
 
 export type BastionPhase = "guard" | "brace" | "warn" | "open";
 export interface BastionState {

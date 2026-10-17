@@ -14,6 +14,7 @@ import {
 } from "../src/shared/game";
 import {
   BASTION,
+  bastionSurvivalCap,
   bastionLaneHalfWidth,
   bastionLanes,
   bastionReduction,
@@ -510,7 +511,7 @@ describe("BASTION の出現（生存戦）", () => {
     stepFrontRun(run, {}, DT, time);
   }
 
-  it("出撃90秒から予告し、体力は通常敵の半減を受けず、同時1体・45秒間隔", () => {
+  it("出現時刻から予告し、体力は通常敵の半減を受けず、序盤は同時1体", () => {
     const run = survival();
     at(run, BASTION.survival.from - 0.2);
     expect(pending(run)).toHaveLength(0);
@@ -541,6 +542,52 @@ describe("BASTION の出現（生存戦）", () => {
     ).toBe(false);
     at(run, run.world.time + DT);
     expect(pending(run)).toHaveLength(1);
+  });
+
+  it("同時数は3分で2体・7分で3体まで増え、予告の間隔を守り、同じ入口に重ねない", () => {
+    expect(BASTION.survival).toMatchObject({
+      from: 60,
+      every: 30,
+      moreAt: [180, 420],
+    });
+    expect([0, 179.9, 180, 419.9, 420, 3000].map(bastionSurvivalCap)).toEqual([
+      1, 1, 2, 2, 3, 3,
+    ]);
+    const run = survival();
+    const warned: number[] = [];
+    const most = new Map<number, number>();
+    for (let t = 1; t <= 600; t += 0.5) {
+      // 他の敵の上限で止まらないよう片付ける（出現規則だけを調べる試験）。
+      run.world.enemies = run.world.enemies.filter((e) => e.kind === "bastion");
+      const before = pending(run).length;
+      at(run, t);
+      const live = run.world.enemies.filter(
+        (e) => e.kind === "bastion" && e.hp > 0,
+      );
+      const queued = pending(run);
+      if (queued.length > before) {
+        warned.push(t);
+        const point = queued.at(-1)!;
+        for (const b of live)
+          expect(
+            Math.hypot(b.x - point.x, b.z - point.z),
+          ).toBeGreaterThanOrEqual(8);
+      }
+      const total = live.length + queued.length;
+      expect(total, `t=${t}`).toBeLessThanOrEqual(bastionSurvivalCap(t));
+      const band = t < 180 ? 1 : t < 420 ? 2 : 3;
+      most.set(band, Math.max(most.get(band) ?? 0, live.length));
+    }
+    expect(warned[0]).toBe(BASTION.survival.from);
+    for (let i = 1; i < warned.length; i++)
+      expect(warned[i] - warned[i - 1]).toBeGreaterThanOrEqual(
+        BASTION.survival.every,
+      );
+    expect([...most.entries()].sort()).toEqual([
+      [1, 1],
+      [2, 2],
+      [3, 3],
+    ]);
   });
 
   it("防衛・デイリーには出さない", () => {
