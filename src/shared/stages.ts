@@ -207,10 +207,10 @@ const plans = [
   {
     name: "倉庫上空",
     map: 1,
-    brief: "RAYが初登場。地上と上空の狙いを切り替える。",
+    brief: "RAYが初登場。第2波の浮遊装甲球は撃ち続けると硬化、撃ち止めで解除。",
     waves: [
       wave({ crawler: 12, hornet: 8 }, [], 0.8),
-      wave({ ant: 16, hornet: 12 }, [], 0.75),
+      wave({ ant: 16, hornet: 12, bastion: 1 }, [], 0.75),
       wave({ spider: 14, spitter: 10, hornet: 8 }, [], 0.75),
     ],
   },
@@ -250,7 +250,7 @@ const plans = [
     brief: "空中のRAYと遠距離のエネルギー弾を同時に処理。",
     waves: [
       wave({ spider: 12, hornet: 16 }, [], 0.85),
-      wave({ spitter: 12, hornet: 16 }, [], 0.85),
+      wave({ spitter: 12, hornet: 16, bastion: 1 }, [], 0.85),
       wave({ ant: 18, spitter: 10, hornet: 12 }, ["crown"], 0.95),
     ],
   },
@@ -292,7 +292,7 @@ const plans = [
     waves: [
       wave({ spider: 20, spitter: 10, hornet: 16 }, [], 0.7),
       wave({ ant: 16, hornet: 8 }, ["crown", "worm"], 1.15),
-      wave({ ant: 22, spitter: 14, hornet: 14 }, [], 0.6),
+      wave({ ant: 22, spitter: 14, hornet: 14, bastion: 2 }, [], 0.6),
     ],
   },
   {
@@ -311,7 +311,7 @@ const plans = [
     brief: `地上混成を突破し、${ENEMY_REPORT_NAMES.worm}を迎撃。クリアで15-Aを解放。`,
     waves: [
       wave({ ant: 18, spider: 12, calyx: 2 }),
-      wave({ spitter: 10, hornet: 8 }, ["worm"], 1),
+      wave({ spitter: 10, hornet: 8, bastion: 1 }, ["worm"], 1),
     ],
   },
   {
@@ -365,10 +365,10 @@ const plans = [
   {
     name: "残響の街区",
     map: 0,
-    brief: "第2波に浮遊装甲球。撃ち続けると硬化、撃ち止めで解除。",
+    brief: "分散した群れを短い三波で掃討。",
     waves: [
       wave({ crawler: 22, ant: 16 }),
-      wave({ spider: 18, spitter: 14, bastion: 1 }),
+      wave({ spider: 18, spitter: 14, bastion: 2 }),
       wave({ hornet: 18, ant: 12, calyx: 3 }),
     ],
   },
@@ -387,7 +387,7 @@ const plans = [
     brief: "空中群と地上群が交互に押し寄せる。",
     waves: [
       wave({ hornet: 22, spitter: 10 }),
-      wave({ ant: 24, spider: 18, calyx: 3, bastion: 1 }),
+      wave({ ant: 24, spider: 18, calyx: 3, bastion: 2 }),
       wave({ crawler: 16, hornet: 12 }, ["worm"], 1),
     ],
   },
@@ -397,7 +397,7 @@ const plans = [
     brief: "前衛を崩し、最後の双炉を突破する。",
     waves: [
       wave({ crawler: 20, spider: 16, calyx: 3 }),
-      wave({ ant: 18, spitter: 12, bastion: 2 }),
+      wave({ ant: 18, spitter: 12, bastion: 3 }),
       wave({ hornet: 12, spitter: 8 }, ["worm", "crown"], 1.1),
     ],
   },
@@ -407,7 +407,7 @@ const plans = [
     brief: "混成群の奥でHARROWとの最終戦に挑む。",
     waves: [
       wave({ ant: 20, spider: 16, calyx: 3 }),
-      wave({ hornet: 16, spitter: 12 }),
+      wave({ hornet: 16, spitter: 12, bastion: 2 }),
       wave({ crawler: 16, spitter: 8 }, ["harrow"], 1.1),
     ],
   },
