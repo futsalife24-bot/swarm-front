@@ -23,7 +23,7 @@ import {
   type Enemy,
 } from "./game";
 import { mapFor, stageFor } from "./stages";
-import { BASTION } from "./bastion";
+import { BASTION, bastionSurvivalCap } from "./bastion";
 import {
   finalizeFrontSurvivalRewards,
   frontSurvivalDifficulty,
@@ -538,7 +538,7 @@ function schedule(run: FrontRun) {
     }),
   );
 }
-/** 生存戦だけ BASTION を同時1体まで予告・出現させる。防衛・デイリーには出さない。 */
+/** 生存戦だけ BASTION を時間に応じた同時数まで予告・出現させる。防衛・デイリーには出さない。 */
 function scheduleBastion(run: FrontRun) {
   const w = run.world,
     { from, every } = BASTION.survival;
@@ -548,15 +548,23 @@ function scheduleBastion(run: FrontRun) {
     w.time < (run.bastionAt ?? from)
   )
     return;
+  const alive = w.enemies.filter((e) => e.kind === "bastion" && e.hp > 0),
+    pending = run.pendingSpawns.filter((p) => p.kinds.includes("bastion"));
   if (
-    w.enemies.some((e) => e.kind === "bastion" && e.hp > 0) ||
-    run.pendingSpawns.some((p) => p.kinds.includes("bastion")) ||
+    alive.length + pending.length >= bastionSurvivalCap(w.time) ||
     w.enemies.length +
       run.pendingSpawns.reduce((sum, p) => sum + p.kinds.length, 0) >=
       (w.front!.enemyCap ?? 24)
   )
     return;
-  const candidates = INGRESS.filter((p) => safePoint(w, "bastion", p.x, p.z));
+  // 生存中・予告中の個体と同じ入口には重ねない。
+  const candidates = INGRESS.filter(
+    (p) =>
+      safePoint(w, "bastion", p.x, p.z) &&
+      [...alive, ...pending].every(
+        (b) => Math.hypot(b.x - p.x, b.z - p.z) >= 8,
+      ),
+  );
   if (!candidates.length) return;
   const point = candidates[run.spawnIndex % candidates.length];
   run.pendingSpawns.push({
