@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   addPlayer,
+  blocked,
   createWorld,
   enemyBodies,
   hurtEnemy,
@@ -564,12 +565,20 @@ describe("BASTION の出現（生存戦）", () => {
 });
 
 describe("BASTION の出現（攻略）", () => {
-  it("21・23・24の第2波だけに入り、増援・デイリー防衛の候補にならない", () => {
+  const BASTION_STAGES = [5, 9, 13, 15, 21, 23, 24, 25];
+  it("ST5から8作戦（計14体）に入り、第1波・高所・洞窟・増援・デイリー防衛には入らない", () => {
+    const stages = STAGES.filter((s) => s.waves.some((w) => w.troops.bastion));
+    expect(stages.map((s) => s.id)).toEqual(BASTION_STAGES);
     expect(
-      STAGES.filter((s) => s.waves.some((w) => w.troops.bastion)).map(
-        (s) => s.id,
-      ),
-    ).toEqual([21, 23, 24]);
+      stages
+        .flatMap((s) => s.waves)
+        .reduce((sum, w) => sum + (w.troops.bastion ?? 0), 0),
+    ).toBe(14);
+    // 未検証の高所マップ・洞窟（天井）には出さない。
+    for (const stage of stages) {
+      expect(stage.elevated, String(stage.id)).toBe(false);
+      expect(MAPS[stage.map].biome, String(stage.id)).not.toBe("cave");
+    }
     for (const stage of STAGES) {
       expect(stage.waves[0].troops.bastion ?? 0).toBe(0);
       const wave = stage.waves.find((w) => w.troops.bastion);
@@ -585,44 +594,68 @@ describe("BASTION の出現（攻略）", () => {
       expect(map.foundryAllowed ?? []).not.toContain("bastion");
   });
 
-  it("ソロの実進行で第2波に出現し、戦闘途中保存から同じ状態で再開できる", () => {
-    for (const number of [21, 23, 24]) {
-      const values = new Map<string, string>();
-      const storage = {
-        getItem: (k: string) => values.get(k) ?? null,
-        setItem: (k: string, v: string) => void values.set(k, v),
-        removeItem: (k: string) => void values.delete(k),
-      };
-      const progress = freshProgress("normal");
-      const id = normalSaveId(number);
-      const w = createWorld(
-        "bastion-campaign-" + number,
-        11,
-        campaignNumber(id),
-      );
-      initSolo(w, id, "normal", false, blankLevels());
-      addPlayer(w, "solo", progress.inventory.slice(0, 2));
-      start(w);
-      let bastion: Enemy | undefined;
-      for (let i = 0; i < 4000 && !bastion && w.phase === "battle"; i++) {
-        w.players[0].hp = 1e6;
-        step(w, { solo: neutral() });
-        bastion = w.enemies.find((e) => e.kind === "bastion" && e.hp > 0);
-        // 試験用に他の敵を片付けて波を進める（戦闘の勝敗を調べる試験ではない）。
-        for (const e of w.enemies)
-          if (e.kind !== "bastion" && e.hp > 0)
-            hurtEnemy(w, e, e.hp + 1, "solo");
+  it("ソロの実進行で予定の波に全数が壁に重ならず出現し、戦闘途中保存から同じ状態で再開できる", () => {
+    for (const number of BASTION_STAGES)
+      for (const seed of [11, 12, 13]) {
+        const label = `ST${number} seed=${seed}`;
+        const values = new Map<string, string>();
+        const storage = {
+          getItem: (k: string) => values.get(k) ?? null,
+          setItem: (k: string, v: string) => void values.set(k, v),
+          removeItem: (k: string) => void values.delete(k),
+        };
+        const progress = freshProgress("normal");
+        const id = normalSaveId(number);
+        const w = createWorld(
+          "bastion-campaign-" + number,
+          seed,
+          campaignNumber(id),
+        );
+        initSolo(w, id, "normal", false, blankLevels());
+        addPlayer(w, "solo", progress.inventory.slice(0, 2));
+        start(w);
+        const plan = stageFor(w);
+        const waveIndex = plan.waves.findIndex((x) => x.troops.bastion);
+        const expected = plan.waves[waveIndex].troops.bastion!;
+        const seen = new Map<number, Enemy>();
+        for (
+          let i = 0;
+          i < 6000 && seen.size < expected && w.phase === "battle";
+          i++
+        ) {
+          w.players[0].hp = 1e6;
+          step(w, { solo: neutral() });
+          for (const e of w.enemies)
+            if (e.kind === "bastion" && !seen.has(e.id)) {
+              seen.set(e.id, e);
+              // 出現した位置（足元の高さ・基本半径）で既存の壁と重ならない。
+              expect(
+                blocked(
+                  e.x,
+                  e.z,
+                  ENEMIES.bastion.radius,
+                  e.y,
+                  mapFor(w).blocks,
+                ),
+                `${label} (${e.x.toFixed(1)}, ${e.z.toFixed(1)})`,
+              ).toBe(false);
+            }
+          // 試験用に他の敵を片付けて波を進める（戦闘の勝敗を調べる試験ではない）。
+          for (const e of w.enemies)
+            if (e.kind !== "bastion" && e.hp > 0)
+              hurtEnemy(w, e, e.hp + 1, "solo");
+        }
+        expect(seen.size, label).toBe(expected);
+        expect(w.wave, label).toBe(waveIndex + 1);
+        expect(mapFor(w).blocks).toBe(MAPS[plan.map].blocks);
+        if (seed !== 11) continue;
+        const bastion = [...seen.values()][0];
+        expect(writeBattleCheckpoint(w, progress, storage), label).toBe(true);
+        const resumed = readBattleCheckpoint(progress, storage)?.world;
+        expect(resumed, label).toBeDefined();
+        expect(
+          resumed!.enemies.find((e) => e.id === bastion.id)?.bastion,
+        ).toEqual(JSON.parse(JSON.stringify(bastion.bastion)));
       }
-      expect(bastion, String(number)).toBeDefined();
-      expect(w.wave).toBe(2);
-      expect(mapFor(w).blocks).toBe(MAPS[stageFor(w).map].blocks);
-      expect(bastion!.bastion?.phase).toBe("guard");
-      expect(writeBattleCheckpoint(w, progress, storage)).toBe(true);
-      const resumed = readBattleCheckpoint(progress, storage)?.world;
-      expect(resumed, String(number)).toBeDefined();
-      expect(
-        resumed!.enemies.find((e) => e.id === bastion!.id)?.bastion,
-      ).toEqual(JSON.parse(JSON.stringify(bastion!.bastion)));
-    }
   });
 });
