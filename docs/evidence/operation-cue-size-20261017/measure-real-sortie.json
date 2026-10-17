@@ -1,0 +1,50 @@
+[
+ {
+  "variant": "before",
+  "size": "915x412",
+  "w": 915,
+  "h": 320,
+  "hRatio": 0.777,
+  "file": "real-before-915x412.png"
+ },
+ {
+  "variant": "after",
+  "size": "915x412",
+  "w": 353,
+  "h": 124,
+  "hRatio": 0.3,
+  "file": "real-after-915x412.png"
+ },
+ {
+  "variant": "before",
+  "size": "844x390",
+  "w": 844,
+  "h": 295,
+  "hRatio": 0.757,
+  "file": "real-before-844x390.png"
+ },
+ {
+  "variant": "after",
+  "size": "844x390",
+  "w": 334,
+  "h": 117,
+  "hRatio": 0.3,
+  "file": "real-after-844x390.png"
+ },
+ {
+  "variant": "before",
+  "size": "1280x720",
+  "w": 960,
+  "h": 336,
+  "hRatio": 0.467,
+  "file": "real-before-1280x720.png"
+ },
+ {
+  "variant": "after",
+  "size": "1280x720",
+  "w": 617,
+  "h": 216,
+  "hRatio": 0.3,
+  "file": "real-after-1280x720.png"
+ }
+]
