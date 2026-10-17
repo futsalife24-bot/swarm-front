@@ -8,6 +8,7 @@ export function enemyGeometry(kind: Enemy["kind"], segment = false) {
   const shell = {
     harrow: 0x537478,
     calyx: 0x77755b,
+    bastion: 0xb9b4aa,
     ant: 0x9e6550,
     spider: 0x696e91,
     crawler: 0x557984,
@@ -128,7 +129,22 @@ export function enemyGeometry(kind: Enemy["kind"], segment = false) {
       gait,
     );
   }
-  if (kind === "calyx") {
+  if (kind === "bastion") {
+    // GLB読込前・失敗時だけ。外殻球と赤道帯の輪郭で浮遊装甲球と分かる形。
+    add(new T.IcosahedronGeometry(1, 2), shell, 0, 1.7, 0, 0.98, 0.98, 0.98);
+    add(
+      new T.TorusGeometry(1, 0.1, 6, 24),
+      dark,
+      0,
+      1.7,
+      0,
+      1,
+      1,
+      1,
+      Math.PI / 2,
+    );
+    ring(0, 1.7, -0.99, 0.18);
+  } else if (kind === "calyx") {
     oval(shell, 0, 1.5, 0, 0.6, 0.8, 0.6);
     for (let i = 0; i < 5; i++) {
       const a = (i * Math.PI * 2) / 5;

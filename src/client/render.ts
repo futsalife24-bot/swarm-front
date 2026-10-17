@@ -1,4 +1,5 @@
 import { CalyxEffects } from "./calyx-effects";
+import { BastionView } from "./bastion-view";
 import { HarrowEffects } from "./harrow-effects";
 import { redWarningDuringWind } from "./attack-telegraph";
 import { foundryLaserWarningLine } from "./foundry-laser-warning";
@@ -213,10 +214,10 @@ export class Renderer {
         matrix.copy(head.matrixWorld);
       }
     } else {
-      const motion = this.structures.get(enemy.kind);
+      const motion = this.structures.get(enemy.kind as StructureVisualKind);
       const index =
         this.structureInputs
-          .get(enemy.kind)
+          .get(enemy.kind as StructureVisualKind)
           ?.findIndex((e) => e.id === enemy.id) ?? -1;
       if (motion?.batch && index >= 0)
         motion.batch.parts[0].getMatrixAt(index, matrix);
@@ -229,11 +230,11 @@ export class Renderer {
     if (enemy.segments) {
       return this.foundryWorms.get(enemy.id)?.view?.inspectionIdle();
     }
-    const motion = this.structures.get(enemy.kind);
+    const motion = this.structures.get(enemy.kind as StructureVisualKind);
     const batch = motion?.batch;
     const index =
       this.structureInputs
-        .get(enemy.kind)
+        .get(enemy.kind as StructureVisualKind)
         ?.findIndex((e) => e.id === enemy.id) ?? -1;
     if (!batch || index < 0) return;
     const attributes = [batch.poseA, batch.poseB, batch.blend];
@@ -268,6 +269,7 @@ export class Renderer {
   readonly structures = new Map<StructureVisualKind, StructureMotion>();
   private calyxEffects = new CalyxEffects();
   private harrowEffects = new HarrowEffects();
+  readonly bastion = new BastionView();
   private structureInputs = new Map<StructureVisualKind, StructureInput[]>();
   enemyGlbDebug = new Map<string, import("./enemy-glb-debug").EnemyGlbDebug>();
   houndDebug?: import("./hound-glb-debug").HoundGlbDebug;
@@ -562,7 +564,8 @@ export class Renderer {
         roughness: 0.24,
         metalness: 0.15,
       }),
-      100,
+      // 100発の弾上限＋予告済みBASTION斉射の超過分。
+      160,
     );
     this.drops = new T.InstancedMesh(
       dropGeometry(false),
@@ -629,6 +632,7 @@ export class Renderer {
       this.houndWarnings,
       this.calyxEffects.root,
       this.harrowEffects.root,
+      this.bastion.root,
     );
     this.resize();
     for (const kind of Object.keys(STRUCTURE_ASSETS) as StructureVisualKind[]) {
@@ -968,6 +972,8 @@ export class Renderer {
       this.crawlerAim.clear();
       this.structures.get("crawler")?.controller.states.clear();
       this.combat.clear();
+      // 敵IDは作戦ごとに振り直されるので、前の作戦の表示を引き継がない。
+      this.bastion.clear();
     }
     if (w) {
       this.foundryTime += animate ? Math.max(0, Math.min(0.1, dt)) : 0;
@@ -985,11 +991,15 @@ export class Renderer {
           for (let part = 0; part < 7; part++)
             this.foundryHeadings.delete(`${key}:segment:${part}`);
         }
-    } else this.clearFoundryWorms();
+    } else {
+      this.clearFoundryWorms();
+      this.bastion.clear();
+    }
     this.foundryWarnings.count = 0;
     this.defenseVisual.update(w, dt);
     this.calyxEffects.update(w);
     this.harrowEffects.update(w);
+    this.bastion.begin(w, activeMap.blocks, animate ? dt : 0);
     const active = new Set(w?.players.map((p) => p.id));
     for (const [key, m] of this.players)
       if (!active.has(key)) {
@@ -1107,6 +1117,12 @@ export class Renderer {
           const previousHoundX = v.x,
             previousHoundZ = v.z;
           v.lerp(new T.Vector3(e.x, e.y, e.z), 1 - Math.exp(-dt * 12));
+          if (kind === "bastion" && this.bastion.ready) {
+            v.y = e.y;
+            this.visual.set(key, v);
+            // GLB表示に置き換え、簡易形状のインスタンスは描かない。
+            if (this.bastion.place(e, v, w.time, animate ? dt : 0)) continue;
+          }
           if (e.kind === "boss" && e.segments) {
             const foundry = this.foundryWorm(e.id);
             if (foundry.view) {
@@ -1469,6 +1485,7 @@ export class Renderer {
             );
           }
         }
+        if (kind === "bastion") this.bastion.end(w);
         this.bossBody.count = bodyCount;
         syncDynamicInstances(this.bossBody);
         if (this.bossBody.instanceColor)
@@ -1521,16 +1538,19 @@ export class Renderer {
           );
           return;
         }
+        // 予告済みのBASTION斉射は既存の100発上限を一時的に超え得る。表示枠で止める。
+        if (projectileCount >= this.projectiles.instanceMatrix.count) return;
         const i = projectileCount++;
+        const orb = q.style === "bastion";
         this.instance(
           this.projectiles,
           i,
           q.x,
           q.y,
           q.z,
-          q.rocket ? 0.2 : q.style === "stake" ? 0.07 : 0.24,
-          q.rocket ? 0.2 : q.style === "stake" ? 0.07 : 0.19,
-          q.rocket ? 0.65 : q.style === "stake" ? 0.85 : 0.3,
+          q.rocket ? 0.2 : q.style === "stake" ? 0.07 : orb ? 0.3 : 0.24,
+          q.rocket ? 0.2 : q.style === "stake" ? 0.07 : orb ? 0.3 : 0.19,
+          q.rocket ? 0.65 : q.style === "stake" ? 0.85 : orb ? 0.42 : 0.3,
           -Math.atan2(q.dy, Math.hypot(q.dx, q.dz)),
           Math.atan2(q.dx, q.dz),
         );
@@ -1539,7 +1559,9 @@ export class Renderer {
           new T.Color(
             q.style === "pollen"
               ? 0xc3a443
-              : q.rocket
+              : q.style === "bastion"
+                ? 0xff5a2e
+                : q.rocket
                 ? 0xffbc77
                 : q.owner === "enemy"
                   ? 0x65edff
@@ -1598,6 +1620,11 @@ export class Renderer {
               size: 0.5,
             });
         }
+        if (e.type === "hit" && e.guard)
+          this.bastion.spark(
+            e,
+            e.owner ? this.players.get(e.owner)?.position : undefined,
+          );
         if (e.type === "hit" && e.amount && this.damageNumbers !== "off") {
           const mine = e.owner === id;
           if (mine || this.damageNumbers === "all")

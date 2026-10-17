@@ -153,7 +153,7 @@ export const ELEVATED_MAPS: ArenaMap[] = MAPS.map((source, index) => {
 });
 
 export type TroopKind =
-  "calyx" | "crawler" | "ant" | "spider" | "spitter" | "hornet";
+  "calyx" | "crawler" | "ant" | "spider" | "spitter" | "hornet" | "bastion";
 export type BossForm = "crown" | "worm" | "harrow";
 export interface Wave {
   troops: Partial<Record<TroopKind, number>>;
@@ -365,10 +365,10 @@ const plans = [
   {
     name: "残響の街区",
     map: 0,
-    brief: "分散した群れを短い三波で掃討。",
+    brief: "第2波に浮遊装甲球。撃ち続けると硬化、撃ち止めで解除。",
     waves: [
       wave({ crawler: 22, ant: 16 }),
-      wave({ spider: 18, spitter: 14 }),
+      wave({ spider: 18, spitter: 14, bastion: 1 }),
       wave({ hornet: 18, ant: 12, calyx: 3 }),
     ],
   },
@@ -387,7 +387,7 @@ const plans = [
     brief: "空中群と地上群が交互に押し寄せる。",
     waves: [
       wave({ hornet: 22, spitter: 10 }),
-      wave({ ant: 24, spider: 18, calyx: 3 }),
+      wave({ ant: 24, spider: 18, calyx: 3, bastion: 1 }),
       wave({ crawler: 16, hornet: 12 }, ["worm"], 1),
     ],
   },
@@ -397,7 +397,7 @@ const plans = [
     brief: "前衛を崩し、最後の双炉を突破する。",
     waves: [
       wave({ crawler: 20, spider: 16, calyx: 3 }),
-      wave({ ant: 18, spitter: 12 }),
+      wave({ ant: 18, spitter: 12, bastion: 2 }),
       wave({ hornet: 12, spitter: 8 }, ["worm", "crown"], 1.1),
     ],
   },
@@ -445,13 +445,14 @@ export const HARROW_BRANCH = {
 export type StagePlan = (typeof STAGES)[number];
 // Explicit per-map permission lists, derived only from that map's existing
 // normal-enemy rosters. Bosses can never recursively fabricate more bosses.
+// BASTION is a planned heavy unit, never a foundry reinforcement.
 for (const [mapId, map] of MAPS.entries())
   map.foundryAllowed = [
     ...new Set(
       STAGES.filter((stage) => stage.map === mapId).flatMap((stage) =>
         stage.waves.flatMap((wave) =>
           Object.entries(wave.troops)
-            .filter(([, count]) => count > 0)
+            .filter(([kind, count]) => count > 0 && kind !== "bastion")
             .map(([kind]) => kind as TroopKind),
         ),
       ),

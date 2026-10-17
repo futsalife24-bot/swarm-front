@@ -13,6 +13,7 @@ import {
   start,
 } from "../src/shared/game";
 import { ENEMIES } from "../src/shared/defs";
+import { REPORTLESS_ENEMIES } from "../src/shared/enemy-identity";
 import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 
@@ -63,8 +64,11 @@ describe("ANOMALY vocal transitions", () => {
     expect(hashes.size).toBe(Object.keys(ANOMALY_VOICE_PROFILES).length * 2);
   });
   it("covers every current species", () => {
+    // 声素材のないローカル候補（REPORTLESS_ENEMIES）だけを除く。
     expect(Object.keys(ANOMALY_VOICES).sort()).toEqual(
-      Object.keys(ENEMIES).sort(),
+      Object.keys(ENEMIES)
+        .filter((k) => !(REPORTLESS_ENEMIES as readonly string[]).includes(k))
+        .sort(),
     );
   });
   it.each(["crawler", "ant", "spider", "spitter", "hornet", "boss"] as const)(

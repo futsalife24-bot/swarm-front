@@ -1,10 +1,14 @@
-# 現在地: 作戦演出（出撃など7種類）の表示サイズを修正して公開済み（2026-10-17）
+# 現在地: 新敵BASTION（仮称・浮遊装甲球）を生存戦・攻略へ出現させる（2026-10-17）
+
+本人依頼「BASTIONも公開までやって、実機チェックするから」（出現先は本人回答「生存戦と攻略の両方」）。ローカル候補だった `codex/bastion-hardening-20261016` に最新mainを取り込み、出現を追加。生存戦は出撃90秒以降・同時1体・前回の予告から45秒（体力は通常敵の半減なし、経験値6）、攻略はST21・23の第2波に1体、ST24の第2波に2体。防衛・デイリー・FOUNDRY ZERO の増援候補・HARROW分岐には出さない。GLB は攻略の出撃準備と生存戦60秒以降に先読み。数値は仮値で[BASTION.md「出現」](BASTION.md)に根拠。型・関連テスト（出現5件含む）・全体1120/1126（失敗6件は変更前と同じ既存）・前線192・保存147・草原/雪峡の採用編成740件成功。生存戦の実画面（一時的に出現5秒へ短縮して撮影、コミットなし）で予告→出現→硬化→赤予告→斉射→開放→撃破→45秒後の次個体を確認。攻略の実画面と協力の生存戦は未確認。main反映・公開は本記録の後に実施。
+
+本人依頼の新種（撃たれ続けると硬化し、一定時間で解除、硬化に応じた反撃と開放）を `codex/bastion-hardening-20261016`（base `da41b38774b22a8aac4ce7ec8d2bcd18de6fb008`、worktree `C:/Users/futsa/Documents/Codex/2026-10-16/swarm-bastion`）に実装。共有ロジック `src/shared/bastion.ts`、`hurtEnemy` への1か所の接続、剛体GLB表示 `src/client/bastion-view.ts`、Blender生成器 `assets/blender/candidates/bastion/model-v1/build_bastion.py`（master約24.7万三角形・ゲーム版17,636三角形）。仕様・仮値・根拠・既知の問題は [BASTION.md](BASTION.md)、比較画像・固定30fps動画10本・通信検証は [evidence/bastion-20261017](evidence/bastion-20261017/review.html)。単体22件、実ローカルWorker2クライアント（実射撃入力で硬化・軽減・12発・被弾イベント一致、予告レーンと実弾の照合）成功。別セッションの独立レビュー（[independent-review.md](evidence/bastion-20261017/independent-review.md)）は条件付き合格・P0/P1なし。P2（出現前のGLB読込）とP3の7件を修正し、P3の2件は既知の問題として記録（[対応表](BASTION.md)）。人間・通常Chatの独立監査ではない（その後の最新方針どおり、公開に通常Chat監査は追加しない）。レポート・声・会敵動画は未制作。本人の見た目・数値の承認は実機確認待ち。
+
+# 履歴: 作戦演出（出撃など7種類）の表示サイズを修正して公開済み（2026-10-17）
 
 本人依頼「出撃のサイズがでかすぎる（他の文字でも同じ？）」。7種類共通の `.operation-cue.has-image` が幅100%基準で、横画面スマホでは帯の高さが画面の62〜78%（1280×720でも47%）を占めていた。`src/client/operation-cue.css` だけを変更し、帯の高さを画面の30%までに制限（幅は比率から決定、最大960px・安全領域・位置・動作は不変）。844×390 は 844×295→334×117。E2Eに5寸法×3種類の寸法試験を追加し合格、実画像7種×2版も合格。既存の失敗2件（タイトル画面が試験の操作を遮る）は変更前でも同じ。[詳細と証拠](OPERATION-CUE-SIZE-20261017.md)。branch `codex/operation-cue-size-20261017`、base `da41b38774b22a8aac4ce7ec8d2bcd18de6fb008`、実装 `d4728da4d23ab6ed705f6de724d97047edd4de58`。
 
 [PR197](https://github.com/futsalife24-bot/swarm-front/pull/197)を通常merge（必須CI・ブランチ保護の設定はなし）。公開ソースmain `8f21cecfebfe2a5280fd24fa003898c727494945`、Worker `572d5fc9-172e-4c43-876d-47e3246ac78b`（前版 `afeae4ab-9908-4231-b7ad-ddb3fc7b0b98`）。main build・production dry-run（422 assets）成功。配信27ファイルSHA一致・health 200/ok:true（[delivery.json](evidence/operation-cue-size-20261017/delivery.json)）。公開版の実際のソロ出撃で `srv-sortie` の高さが667×375〜1280×720の4寸法すべてで画面の30%（[計測](evidence/operation-cue-size-20261017/live-measure.json)、[844×390画面](evidence/operation-cue-size-20261017/live-844x390.jpg)）。更新履歴にPlayer-Noteの説明が入ったことをbuild成果物で確認。wranglerは本人指示によりChromeのCloudflare OAuthで認可（このPCのwrangler設定に保存）。Android/iPhone実機は未確認。独立Chat監査なしの最新方針を維持。
-
-別件のローカル候補: 新敵BASTION（仮称・浮遊装甲球）は `codex/bastion-hardening-20261016`（worktree `C:/Users/futsa/Documents/Codex/2026-10-16/swarm-bastion`、未push・未merge・未公開）。本人依頼によりローカル候補で停止。仕様と状態はそのブランチの `docs/BASTION.md` と `docs/STATE.md` 先頭。
 
 # 履歴: PLEATのレイ接地・壁面歩行を公開済み（2026-10-16）
 

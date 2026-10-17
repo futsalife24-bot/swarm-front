@@ -28,14 +28,19 @@ it("preserves combat factors while applying authored species display scales", ()
     for (const worm of [false, true]) {
       original.forEach((factor, slot) => {
         const previous =
-          kind === "calyx" || kind === "harrow"
+          kind === "calyx" || kind === "harrow" || kind === "bastion"
             ? 1
             : kind === "boss" && !worm
               ? 2
               : factor;
         const enemy = { kind, size: spawnSize(kind, worm, slot) };
         expect(enemySize(enemy)).toBeCloseTo(
-          previous * (kind === "harrow" ? 1.95 : kind === "calyx" ? 1 : 1.5),
+          previous *
+            (kind === "harrow"
+              ? 1.95
+              : kind === "calyx" || kind === "bastion"
+                ? 1
+                : 1.5),
         );
         expect(enemyStatSize(enemy)).toBe(previous);
         expect(enemySpeedFactor(enemy)).toBe(previous <= 1 ? 1.5 : 1);

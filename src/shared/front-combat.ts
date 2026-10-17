@@ -189,9 +189,11 @@ export function recordFrontKill(
   const value =
     e.kind === "boss" || e.kind === "harrow"
       ? 20
-      : e.kind === "spitter"
-        ? 3
-        : 2;
+      : e.kind === "bastion"
+        ? 6
+        : e.kind === "spitter"
+          ? 3
+          : 2;
   if (r.orbs.length >= 160) r.orbs[0].value += value;
   else {
     const blocks = mapFor(w).blocks;

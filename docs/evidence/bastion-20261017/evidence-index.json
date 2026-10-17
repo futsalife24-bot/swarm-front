@@ -1,0 +1,198 @@
+{
+  "generated": "2026-10-16T19:22:45.767Z",
+  "ffmpeg": "9.0.1-essentials_build-www.gyan.dev",
+  "files": [
+    {
+      "file": "AUDIT-PACKAGE.md",
+      "bytes": 5614,
+      "sha256": "8fcc6b33bb01b17a9c322fcb8bc07ea9d1748144a9b566f22baecee367a25220"
+    },
+    {
+      "file": "capture-log.json",
+      "bytes": 434767,
+      "sha256": "decd87607bebade06c1ce53181637c0858d2ce5c312cc1a55f7cd2afc30e6398"
+    },
+    {
+      "file": "concept-vs-master.jpg",
+      "bytes": 759311,
+      "sha256": "148beb28d2173335ec446d279affd1ed7e5162f9d6aaaf2446e58c91d102c5af"
+    },
+    {
+      "file": "game-report.json",
+      "bytes": 5949,
+      "sha256": "287dc1bede8c475f2de5b7a95bfe0ba50a4294079fc6ac251b5d38ae637a30a5"
+    },
+    {
+      "file": "game-states-1280x720.jpg",
+      "bytes": 319990,
+      "sha256": "feb5f64a9de57f5073858bb671360aaf67cdb9da97c87e3526e07b3ffcbbd9d2"
+    },
+    {
+      "file": "game-states-844x390.jpg",
+      "bytes": 156383,
+      "sha256": "2275a79d789ac8f20ddbcac49a97401f50f8251e5d9854ff35d2738587c94740"
+    },
+    {
+      "file": "independent-review.md",
+      "bytes": 18997,
+      "sha256": "c7c105177f217946ca4936ba2281033ec7942c5b7d5592852d8df42cf0de546e"
+    },
+    {
+      "file": "master-report.json",
+      "bytes": 425,
+      "sha256": "daeb2ac0c81165f512fbd2b57fbee441fbcdac5abf5b64a1f3d8a488a4a68661"
+    },
+    {
+      "file": "master-silhouette_sheet.jpg",
+      "bytes": 134493,
+      "sha256": "5c4d824cf233c4428127426a7d04ca98e6b9245b1105ace638d0ed20cdac1ad5"
+    },
+    {
+      "file": "master-states_sheet.jpg",
+      "bytes": 303698,
+      "sha256": "dd35bfb4dc4e6c9dcf9aabbebcad828ac19bdc07336923a0eef4c97d6ead3815"
+    },
+    {
+      "file": "master-views_sheet.jpg",
+      "bytes": 196572,
+      "sha256": "e253225a2b13aaab0def5115bfa593e93a556ed07b8dbc5138bdea9c0f9168e2"
+    },
+    {
+      "file": "motion-burst-sheet.jpg",
+      "bytes": 162076,
+      "sha256": "8631e718cdf9add0c67f78c2cab17dea73d0a0fbc244fbae95eaf3609fc8c455"
+    },
+    {
+      "file": "motion-burst.mp4",
+      "bytes": 1419092,
+      "sha256": "679b7f18836ac1d81c52181345727a9317c42da3939329acc568b1354c73f3a4"
+    },
+    {
+      "file": "motion-death-sheet.jpg",
+      "bytes": 142328,
+      "sha256": "eaec64fd449132bb02e3c45263ed62a5a8d1f8643545f8238d406efc66f08ed8"
+    },
+    {
+      "file": "motion-death.mp4",
+      "bytes": 389065,
+      "sha256": "1591a38a388b4d121f64d6f83d9bcd65c994adc8e1fde4605b76d1e2741ce03e"
+    },
+    {
+      "file": "motion-dodge-sheet.jpg",
+      "bytes": 151816,
+      "sha256": "b01a3cb933eab787d026642449ec81b82fe4672c1d90189ef258d488a0c7316b"
+    },
+    {
+      "file": "motion-dodge.mp4",
+      "bytes": 391675,
+      "sha256": "300a9761729a52918bf2fa08171c110e9fbbea0c12d6068a918ec64a6b3620fa"
+    },
+    {
+      "file": "motion-hit-sheet.jpg",
+      "bytes": 165805,
+      "sha256": "a687506b8e681183eb226187de9c9bac1077f1e29e4e2326e476a7f0be01bb22"
+    },
+    {
+      "file": "motion-hit.mp4",
+      "bytes": 439253,
+      "sha256": "4a09481a507fd1e834fb7363e1ccceaaf20199b850898cac11ef0bfafc64726d"
+    },
+    {
+      "file": "motion-multi-sheet.jpg",
+      "bytes": 175432,
+      "sha256": "8aa5f52ee31fc4d2a461237e44ae34db2b1a7c1e1c9635df37463ae161b05f92"
+    },
+    {
+      "file": "motion-multi.mp4",
+      "bytes": 1183682,
+      "sha256": "e9c5ddfbff6c1542657521ff36e555a4fc1b1c8ea9539a85dfe563d012771827"
+    },
+    {
+      "file": "motion-pause-sheet.jpg",
+      "bytes": 170155,
+      "sha256": "959796c64f08ae8ad2c941d8be4baa934b9e0a7aca65d91e165c0b2612af3359"
+    },
+    {
+      "file": "motion-pause.mp4",
+      "bytes": 213439,
+      "sha256": "e5f9cc769b16aed1f4f398de361bd50bbe614c3b69ef4bd1bf78621f5cb0ad11"
+    },
+    {
+      "file": "motion-rifle-sheet.jpg",
+      "bytes": 157734,
+      "sha256": "00bbbff8a2e88accf6fce1b019fb0bd1fea7a2844888f1fb7361b8aa4ce270d1"
+    },
+    {
+      "file": "motion-rifle.mp4",
+      "bytes": 1029099,
+      "sha256": "2a853829d542e2d5aec5bf90e41014d886a8ed748782cd099e5d622004121d02"
+    },
+    {
+      "file": "motion-shotgun-sheet.jpg",
+      "bytes": 152958,
+      "sha256": "da5a039fd6103f883a97ea884973045dac7e6429200363278e8edc6d3ae7a3c4"
+    },
+    {
+      "file": "motion-shotgun.mp4",
+      "bytes": 673873,
+      "sha256": "455fc1346847aa61fc7ce0003e32465d422b3376f83eb9015a858fa7e2db2285"
+    },
+    {
+      "file": "motion-smg-sheet.jpg",
+      "bytes": 167622,
+      "sha256": "dae64a9635bf6bdfb1232692c947a4c78f86c8fac87fc78d2fc7e87791cd1370"
+    },
+    {
+      "file": "motion-smg.mp4",
+      "bytes": 1062459,
+      "sha256": "2dfbf473616f10c782c8b4bf535521fe5d99757356ba1d726b4589a9b6c497f0"
+    },
+    {
+      "file": "motion-sniper-sheet.jpg",
+      "bytes": 155922,
+      "sha256": "5ea2ccff14d5f5ce79c2281d891f4596342b5ceb0ee1e8b67c62583cd1b33c16"
+    },
+    {
+      "file": "motion-sniper.mp4",
+      "bytes": 677005,
+      "sha256": "e4a58118ef08740383edcdce9f41e21154b187d7499e88b946a1803afccef728"
+    },
+    {
+      "file": "network.json",
+      "bytes": 2764,
+      "sha256": "22478e2af699d6fb5ce46bbcb7e36921f6756419976c3ee475eebea82d4265e4"
+    },
+    {
+      "file": "review.html",
+      "bytes": 7224,
+      "sha256": "ca4c1cd017a4288f666457aa0eb420f21e036338a5de618130143d73c40ad8c5"
+    }
+  ],
+  "sources": [
+    {
+      "file": "public/assets/enemies/bastion_v1.glb",
+      "bytes": 1554584,
+      "sha256": "8dedf5952722556cd6e649e9a2ea8270bb7fee7e1aa795140b6ce738658e799a"
+    },
+    {
+      "file": "assets\\blender\\candidates\\bastion\\model-v1\\bastion_v1.glb",
+      "bytes": 1554584,
+      "sha256": "8dedf5952722556cd6e649e9a2ea8270bb7fee7e1aa795140b6ce738658e799a"
+    },
+    {
+      "file": "assets\\blender\\candidates\\bastion\\model-v1\\bastion_master.blend",
+      "bytes": 2703521,
+      "sha256": "61d694a9ef867d83c53e41d1b3249910444c8262d343cb2fb0c38c887ad525fa"
+    },
+    {
+      "file": "assets\\blender\\candidates\\bastion\\model-v1\\bastion_game.blend",
+      "bytes": 2621173,
+      "sha256": "f2f81c3ede9baddc897f52218b7f64283d7cfd6add1d15e64a974a63991a021a"
+    },
+    {
+      "file": "assets\\blender\\candidates\\bastion\\model-v1\\build_bastion.py",
+      "bytes": 38592,
+      "sha256": "fe403844703cd486304d7f3fcb3480f3640b64d1fc12e6210b98a4f4a66083c7"
+    }
+  ]
+}

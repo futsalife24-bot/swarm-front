@@ -9,6 +9,7 @@ import {
   type AccessoryKind,
 } from "../shared/progression";
 import { freshProgress, validateProgress } from "./progression-save";
+import { REPORTLESS_ENEMIES } from "../shared/enemy-identity";
 
 /** Disposable local sandbox. Never reads or writes normal/test player saves. */
 export function developerProgress() {
@@ -36,7 +37,8 @@ export function developerProgress() {
     for (const difficulty of ["normal", "medium"] as const)
       save.missions[missionKey(stage, difficulty)] = [true, true, true];
   for (const kind of [...Object.keys(ENEMIES), "worm"])
-    save.encounters[kind] = "solo";
+    if (!(REPORTLESS_ENEMIES as readonly string[]).includes(kind))
+      save.encounters[kind] = "solo";
   for (const kind of Object.keys(ACCESSORY_NAMES) as AccessoryKind[])
     for (let rarity = 1; rarity <= 6; rarity++)
       save.accessories.push({

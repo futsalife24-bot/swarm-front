@@ -648,7 +648,8 @@ function encounter() {
   if (!soldier || soldier.hp <= 0) return;
   for (const e of world.enemies) {
     const key = enemyReportId(e);
-    if (save.encounters[key] === "solo") continue;
+    if (!key || e.kind === "bastion" || save.encounters[key] === "solo")
+      continue;
     if (view.spawnEffects.active(e.id)) continue;
     // Let the normal renderer place an asynchronously loaded model before freezing it.
     const visual = e.segments

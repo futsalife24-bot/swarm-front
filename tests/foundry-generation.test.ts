@@ -161,17 +161,19 @@ it("pending generation survives the original boss and blocks final victory, incl
 
 it("permission lists use every existing normal type on that map and never a boss", () => {
   for (const [index, map] of MAPS.entries()) {
+    // BASTION is a planned heavy unit in the roster, never a reinforcement.
     const expected = new Set(
       STAGES.filter((s) => s.map === index).flatMap((s) =>
         s.waves.flatMap((w) =>
           Object.entries(w.troops)
-            .filter(([, n]) => n > 0)
+            .filter(([kind, n]) => n > 0 && kind !== "bastion")
             .map(([kind]) => kind),
         ),
       ),
     );
     expect(new Set(map.foundryAllowed)).toEqual(expected);
     expect(map.foundryAllowed).not.toContain("boss");
+    expect(map.foundryAllowed).not.toContain("bastion");
   }
 });
 

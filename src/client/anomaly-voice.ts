@@ -1,5 +1,8 @@
 import type { Enemy, World } from "../shared/game";
-import { ENEMY_REPORT_NAMES } from "../shared/enemy-identity";
+import {
+  ENEMY_REPORT_NAMES,
+  type ReportlessEnemyKind,
+} from "../shared/enemy-identity";
 
 /** Original non-verbal vocal identities, shared by combat and the listening list. */
 export const ANOMALY_VOICES = {
@@ -37,7 +40,7 @@ export const ANOMALY_VOICES = {
     description: "低い殻鳴りの後、重い金属がたわむ長い軋みが残る。",
   },
 } as const satisfies Record<
-  Enemy["kind"],
+  Exclude<Enemy["kind"], ReportlessEnemyKind>,
   { name: string; description: string }
 >;
 export const ANOMALY_VOICE_PROFILES = {
@@ -55,7 +58,9 @@ export const ANOMALY_VOICE_PROFILES = {
 } as const;
 export function anomalyVoiceProfile(
   e: Enemy,
-): keyof typeof ANOMALY_VOICE_PROFILES {
+): keyof typeof ANOMALY_VOICE_PROFILES | undefined {
+  // 声素材のないローカル候補は無音のまま（攻撃予兆は描画で伝える）。
+  if (e.kind === "bastion") return undefined;
   return e.kind === "boss" && e.segments
     ? e.fractured
       ? "boss-separated"
@@ -128,7 +133,15 @@ export class AnomalyVoice {
       const prev = this.previous.get(e.id),
         now = observe(e);
       this.previous.set(e.id, now);
-      if (!audible || !prev || e.hp <= 0 || e.active === false || !p) continue;
+      if (
+        !audible ||
+        !prev ||
+        e.hp <= 0 ||
+        e.active === false ||
+        !p ||
+        !anomalyVoiceProfile(e)
+      )
+        continue;
       const began =
         (now.attack && now.attack !== prev.attack) ||
         (!e.harrow && !e.calyx && now.wind > 0 && prev.wind <= 0) ||

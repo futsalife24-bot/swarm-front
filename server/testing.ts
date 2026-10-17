@@ -227,6 +227,36 @@ export class TestRoom extends Room {
           Object.assign(p, { x: 0, y: 0, z: 12, hp: 10000 });
         const e = spawn(w, "calyx", 0, 0)!;
         Object.assign(e, { active: true, cool: 0 });
+      } else if (u.searchParams.get("case") === "bastion-fire") {
+        // 硬化0の1体。2人の実入力（初期装備AR）だけで硬化・反撃まで進める。
+        // ロビー経由でない隊員は装備が空なので、初期装備と十分な弾薬を持たせる。
+        w.players.forEach((p, i) =>
+          Object.assign(p, {
+            x: i * 2 - 1,
+            y: 0,
+            z: 10,
+            hp: 10000,
+            weapons: structuredClone(STARTERS.slice(0, 2)),
+            slot: 0,
+            ammo: [9999, 9999],
+          }),
+        );
+        const e = spawn(w, "bastion", 0, 0)!;
+        e.active = true;
+        e.hp = e.maxHp = 1e6;
+        e.bastion!.aimReadyAt = 1e9;
+      } else if (u.searchParams.get("case") === "bastion") {
+        // 硬化済みの1体。通常のstep・弾・配信で予兆→赤予告→発射→開放まで進む。
+        w.players.forEach((p, i) =>
+          Object.assign(p, { x: i * 2, y: 0, z: 10, hp: 10000 }),
+        );
+        const e = spawn(w, "bastion", 0, 0)!;
+        e.active = true;
+        Object.assign(e.bastion!, {
+          armor: 100,
+          hitAt: w.time,
+          aimReadyAt: 1e9,
+        });
       } else if (u.searchParams.get("case") === "trooper") {
         w.players.forEach((p, i) => {
           p.x = i * 1.5;
@@ -354,7 +384,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result)$/.exec(
         u.pathname,
       );
     if (match && req.method === "POST") {

@@ -10,7 +10,7 @@ export function recordCoopEncounters(w: World) {
   let changed = false;
   for (const e of w.enemies) {
     const key = enemyReportId(e);
-    if (!s.encounters[key]) {
+    if (key && !s.encounters[key]) {
       s.encounters[key] = "coop";
       changed = true;
     }

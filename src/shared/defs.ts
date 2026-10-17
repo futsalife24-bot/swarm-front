@@ -335,6 +335,8 @@ export const ENEMIES = {
     cruise: 0,
   },
   calyx: { hp: 360, speed: 0.65, radius: 0.9, damage: 24, aim: 1.4, cruise: 0 },
+  // BASTION（仮称）: 実際の移動・弾・硬化は src/shared/bastion.ts の仮値。
+  bastion: { hp: 340, speed: 2, radius: 1, damage: 12, aim: 1.7, cruise: 0 },
   ant: { hp: 85, speed: 4.1, radius: 1.25, damage: 8, aim: 1.2, cruise: 0 },
   spider: { hp: 95, speed: 4.8, radius: 1.5, damage: 15, aim: 1, cruise: 0 },
   crawler: {

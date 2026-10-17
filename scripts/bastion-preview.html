@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><title>BASTION 検証</title
+  ><style>
+    body {
+      margin: 0;
+      background: #172026;
+      color: #fff;
+      font: 13px sans-serif;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+    }
+    aside {
+      position: fixed;
+      left: 8px;
+      top: 8px;
+      max-width: 360px;
+      background: #172026d0;
+      padding: 8px;
+    }
+    aside.hidden {
+      display: none;
+    }
+    button {
+      padding: 5px 7px;
+      margin: 2px;
+    }
+    pre {
+      white-space: pre-wrap;
+      font-size: 10.5px;
+      max-height: 230px;
+      overflow: auto;
+      margin: 4px 0 0;
+    }
+    #damage {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+    }
+    .damage-number {
+      position: absolute;
+      font: bold 15px sans-serif;
+      color: #fff6c8;
+      text-shadow: 0 1px 2px #000;
+    }</style
+  ><canvas></canvas>
+  <div id="damage"></div>
+  <aside id="panel">
+    BASTION（仮称）/ 実ゲームの描画・共有ロジック・肩越しカメラ（検証用の初期配置のみ）
+    <div>
+      <button data-mode="smg">SMG連射</button><button data-mode="rifle">AR連射</button
+      ><button data-mode="burst">AR断続</button><button data-mode="shotgun">散弾</button
+      ><button data-mode="sniper">単発</button><button data-mode="counter">反撃</button
+      ><button data-mode="multi">複数体</button><button data-mode="idle">待機</button>
+      <button data-mode="dodge">赤予告を回避</button><button data-mode="hit">レーン上で被弾</button
+      ><button data-mode="death">予兆中に撃破→再出現</button>
+      <button data-pose="normal">固定:通常</button><button data-pose="hardened">固定:硬化</button
+      ><button data-pose="brace">固定:予備動作</button><button data-pose="warn">固定:赤予告</button
+      ><button data-pose="open">固定:開放</button>
+      <button id="pause">一時停止</button><button id="hide">UIを隠す</button>
+    </div>
+    <pre id="status">読込中</pre>
+  </aside>
+  <script type="module" src="./bastion-preview.ts"></script>
+</html>

@@ -63,6 +63,10 @@ export async function prepareBattle(
     Promise.all([
       loadStandardTrooper(),
       ...(world.defense ? [view.defenseVisual.load()] : []),
+      // 失敗しても簡易形状で戦えるため、BASTIONの読込は準備の失敗にしない。
+      ...(stageFor(world).waves.some((wave) => wave.troops.bastion)
+        ? [view.bastion.load()]
+        : []),
       loadProgressionWeapons(world.players.flatMap((p) => p.weapons)),
     ]),
   );

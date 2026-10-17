@@ -1,0 +1,22 @@
+{
+  "blender": "5.2.1 LTS",
+  "triangles": 246992,
+  "params": {
+    "hover": 1.7,
+    "r_out": 1.0,
+    "shell": 0.085,
+    "band_el": 7.0,
+    "plate_el0": 8.6,
+    "plate_el1": 77.0,
+    "hub_el": 79.0,
+    "seam_gap": 1.7,
+    "loose": 0.035,
+    "spike_len": 0.62,
+    "spike_half": 0.135,
+    "spike_ext": 0.5,
+    "spike_el": 44.0,
+    "open_max": 70.0,
+    "ports": 12,
+    "hinge_r": 0.955
+  }
+}

@@ -23,6 +23,7 @@ const AR_HITS: Record<Enemy["kind"], string> = {
   spitter: "impactHard", // PRISM: hard facets — HIT-07.
   boss: "impactHard", // FOUNDRY ZERO, including linked segments.
   hornet: "impactSoft", // RAY: flexible covering — HIT-10.
+  bastion: "impactHard", // BASTION: closed armor plates.
 };
 
 export interface Cue {
