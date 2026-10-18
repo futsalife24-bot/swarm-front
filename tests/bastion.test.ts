@@ -14,7 +14,8 @@ import {
 } from "../src/shared/game";
 import {
   BASTION,
-  bastionShotFactor,
+  bastionRapidFactor,
+  bastionShot,
   bastionSurvivalCap,
   bastionLaneHalfWidth,
   bastionLanes,
@@ -478,14 +479,21 @@ describe("BASTION integration", () => {
   });
 });
 
-describe("BASTION の実弾耐性", () => {
-  // 実際の step() で、指定の武器を撃ち続けて与えたダメージを測る。
-  function fire(kind: string, until: (w: World, e: Enemy) => boolean) {
+describe("BASTION の連射耐性", () => {
+  // 実際の step() で、指定の武器を撃ち（fire=false の間は止め）、BASTION への命中量を集める。
+  function fire(
+    kind: string,
+    until: (w: World, e: Enemy) => boolean,
+    shooting: (w: World) => boolean = () => true,
+  ) {
     const { w, e } = setup(1, 12);
+    e.bastion!.readyAt = 1e9; // 反撃・開放を除いて耐性だけを見る
     const p = w.players[0];
     const weapon = { id: "a", kind, rarity: 0, power: 1, effect: "none" };
     p.weapons = [weapon, { ...weapon, id: "b" }] as typeof p.weapons;
     p.ammo = [stats(p.weapons[0]).mag, stats(p.weapons[1]).mag];
+    const hits: { time: number; amount: number }[] = [];
+    let seen = w.eventSerial;
     for (let i = 0; i < 2000 && !until(w, e); i++) {
       p.hp = 1e9;
       const yaw = Math.atan2(e.x - p.x, -(e.z - p.z));
@@ -493,31 +501,40 @@ describe("BASTION の実弾耐性", () => {
         e.y + BASTION.hover - ((p.y ?? 0) + 1.5),
         Math.hypot(e.x - p.x, e.z - p.z),
       );
-      step(w, { p0: { ...neutral(), fire: true, yaw, pitch } }, DT);
+      step(w, { p0: { ...neutral(), fire: shooting(w), yaw, pitch } }, DT);
+      for (const ev of w.events)
+        if (ev.id > seen && ev.type === "hit" && ev.enemyKind === "bastion")
+          hits.push({ time: w.time, amount: ev.amount ?? 0 });
+      seen = w.eventSerial;
     }
-    return { w, e, p };
+    return { w, e, p, hits };
   }
-  function withResist<T>(value: number, run: () => T) {
-    const config = BASTION as { bulletResist: number };
-    const saved = config.bulletResist;
-    config.bulletResist = value;
+  function withStep<T>(value: number, run: () => T) {
+    const config = BASTION.rapid as { step: number };
+    const saved = config.step;
+    config.step = value;
     try {
       return run();
     } finally {
-      config.bulletResist = saved;
+      config.step = saved;
     }
   }
 
-  it("実弾の直撃だけに0.4倍。レーザーと他の敵には掛けない", () => {
-    expect(BASTION.bulletResist).toBe(0.4);
-    const bastion = { bastion: {} };
-    for (const kind of ["rifle", "smg", "shotgun", "slug", "sniper", "kick"])
-      expect(bastionShotFactor(bastion, kind), kind).toBe(0.4);
-    expect(bastionShotFactor(bastion, "laser")).toBe(1);
-    expect(bastionShotFactor({}, "rifle")).toBe(1);
+  it("1発目は100%、以降0.7倍ずつ下がり、10発目でARはほぼ1ダメージ", () => {
+    expect(BASTION.rapid).toEqual({ step: 0.7, floor: 0.04 });
+    expect([1, 2, 3, 10].map((n) => +bastionRapidFactor(n).toFixed(3))).toEqual(
+      [1, 0.7, 0.49, 0.04],
+    );
+    expect(24 * bastionRapidFactor(10)).toBeLessThan(1.01);
+    const { hits } = fire("rifle", (w) => w.players[0].ammo[0] === 0);
+    const a = hits.map((h) => h.amount);
+    expect(a[0]).toBeGreaterThanOrEqual(20);
+    expect(a[1] / a[0]).toBeCloseTo(0.7, 1);
+    for (let i = 1; i < 10; i++) expect(a[i]).toBeLessThanOrEqual(a[i - 1]);
+    for (const amount of a.slice(9)) expect(amount).toBe(1);
   });
 
-  it("標準のARの1マガジン（32発）を撃ち切っても倒れず、HPの7割未満しか減らない", () => {
+  it("標準のARの1マガジン（32発）を撃ち切っても倒れず、HPの半分も減らない", () => {
     const { e, p } = fire(
       "rifle",
       (w, e) => e.hp <= 0 || w.players[0].ammo[0] === 0,
@@ -525,21 +542,53 @@ describe("BASTION の実弾耐性", () => {
     expect(stats(p.weapons[0]).mag).toBe(32);
     expect(p.ammo[0]).toBe(0);
     expect(e.hp).toBeGreaterThan(0);
-    expect(ENEMIES.bastion.hp - e.hp).toBeLessThan(ENEMIES.bastion.hp * 0.7);
+    expect(ENEMIES.bastion.hp - e.hp).toBeLessThan(ENEMIES.bastion.hp * 0.5);
   });
 
-  it("爆発（ロケット）とレーザーのダメージは耐性の有無で変わらず、ARだけが変わる", () => {
-    const dealt = (kind: string, resist: number) =>
-      withResist(resist, () => {
+  it("撃ち止めて間が空くと次の1発は再び100%", () => {
+    // 3発撃って0.5秒止め、また撃つ。
+    let fired = 0;
+    const { hits } = fire(
+      "rifle",
+      (w) => w.time >= 1.6,
+      (w) => (fired++, w.time < 0.3 || w.time >= 0.8),
+    );
+    expect(fired).toBeGreaterThan(0);
+    const first = hits[0].amount;
+    const resumed = hits.find((h) => h.time >= 0.8)!;
+    expect(hits.filter((h) => h.time < 0.8).at(-1)!.amount).toBeLessThan(first);
+    expect(resumed.amount).toBe(first);
+  });
+
+  it("散弾・スナイパーは連続にならず毎回100%、散弾の全ペレットは1発として数える", () => {
+    for (const kind of ["shotgun", "sniper"]) {
+      const { e, hits } = fire(kind, (w) => w.time >= 3.5);
+      expect(hits.length, kind).toBeGreaterThan(2);
+      expect(e.bastion!.streak, kind).toBe(1);
+      const byTick = new Map<number, number>();
+      for (const h of hits)
+        byTick.set(h.time, (byTick.get(h.time) ?? 0) + h.amount);
+      const totals = [...byTick.values()];
+      expect(Math.min(...totals) / Math.max(...totals), kind).toBeGreaterThan(
+        0.5,
+      );
+    }
+  });
+
+  it("爆発（ロケット）とレーザーは連射耐性の有無で同じダメージ、ARだけが変わる", () => {
+    const dealt = (kind: string, value: number) =>
+      withStep(value, () => {
         const { e } = fire(kind, (w) => w.time >= 3);
         return e.maxHp - e.hp;
       });
     for (const kind of ["rocket", "laser"])
-      expect(dealt(kind, 0.4), kind).toBeCloseTo(dealt(kind, 1), 6);
-    expect(dealt("rifle", 0.4)).toBeLessThan(dealt("rifle", 1) * 0.6);
+      expect(dealt(kind, 0.7), kind).toBeCloseTo(dealt(kind, 1), 6);
+    expect(dealt("rifle", 0.7)).toBeLessThan(dealt("rifle", 1) * 0.5);
+    const { w, e } = setup();
+    expect(bastionShot(w, e, "laser")).toBe(1);
+    expect(e.bastion!.shot).toBeUndefined();
   });
 });
-
 describe("BASTION の出現（生存戦）", () => {
   function survival(mode: FrontMode = "survival") {
     const run = createFrontRun({
@@ -676,14 +725,14 @@ describe("BASTION の出現（生存戦）", () => {
 
 describe("BASTION の出現（攻略）", () => {
   const BASTION_STAGES = [5, 9, 13, 15, 21, 23, 24, 25];
-  it("ST5から8作戦（計13体）に入り、第1波・高所・洞窟・増援・デイリー防衛には入らない", () => {
+  it("ST5から8作戦（計14体）に入り、第1波・高所・洞窟・増援・デイリー防衛には入らない", () => {
     const stages = STAGES.filter((s) => s.waves.some((w) => w.troops.bastion));
     expect(stages.map((s) => s.id)).toEqual(BASTION_STAGES);
     expect(
       stages
         .flatMap((s) => s.waves)
         .reduce((sum, w) => sum + (w.troops.bastion ?? 0), 0),
-    ).toBe(13);
+    ).toBe(14);
     // 未検証の高所マップ・洞窟（天井）には出さない。
     for (const stage of stages) {
       expect(stage.elevated, String(stage.id)).toBe(false);
