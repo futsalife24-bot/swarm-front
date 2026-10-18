@@ -1,6 +1,8 @@
-# 現在地: BASTIONの反撃弾を弾速3倍・射程2倍に変更（2026-10-18）
+# 現在地: BASTIONの反撃弾を弾速3倍・射程2倍に変更して公開済み（2026-10-18、本人の実機確認待ち）
 
 本人「BAATIONの反撃の弾の速度は3倍くらいにしてもいいと思う。射程も2倍くらいに伸ばして。」。反撃の放射弾を 9m/s・18m → 27m/s・36m に変更（`src/shared/bastion.ts` の `bulletSpeed`・`bulletRange`）。赤予告の帯も同じ `bastionLanes` から描くので36mまで伸びる。1tickで1.35m進むため、`style:"bastion"` の敵弾だけ通過した線分で被弾を判定（`src/shared/game.ts` の `segmentDistance`、他の敵弾は従来どおり）。予告帯の描画枠を768→1152（36m×12レーン×同時3体＋照準弾）。通常時の単発照準弾（11m/s・26m）は「反撃」ではないので変更なし。branch `codex/bastion-counter-speed-20261018`、base `f78c7a6472a8ff13dde13ef2ee5873c0084d8faf`。確認: 単体36件（30m先のレーン上で命中・射程外は無傷・1tickの両端が1m超でも通過線0.8mなら命中、線分判定を外すと失敗することも確認）、型。全体はST25の制限時間クリア試験だけが新たに不合格（seed 814で179.4秒に体力0）。予告を避けない通常ボットのST25勝率を10シードで比較すると変更前7/10・変更後6/10で、変更前から乱数次第で負ける試験。ST25のBASTION数は本人の「数も増やして」を優先して2体のまま。他の失敗7件（既存6件と、変更前mainでも読込で落ちる `weapon-stat-marks`）は変更前と同じ。実ブラウザ（検証ページ、844×390）で36mの赤予告、発射0.4秒後の弾、30m先の隊員へ約1.03秒で命中を確認（[証拠](evidence/bastion-counter-speed-20261018/check.json)）。
+
+[PR211](https://github.com/futsalife24-bot/swarm-front/pull/211)を通常merge。公開ソースmain `6f61ea8789d483f8ab857b6c9251256705dbe685`、Worker `89dc55c2-1021-46a7-97a2-12a2979d419d`（前版 `1d573630-d237-41ac-b046-37b94e7a55b6`）。main build 219 modules。配信27ファイルSHA一致・health 200（[delivery.json](evidence/bastion-counter-speed-release-20261018/delivery.json)）、公開版のJSがbuildとSHA一致し 27m/s・36m を含み旧値なし（[live.json](evidence/bastion-counter-speed-release-20261018/live.json)）。次: 本人の実機確認。ST25が厳しすぎる場合の案はBASTIONを1体に減らすこと。
 
 # 履歴: BASTIONを正式名にし、エネミーレポート・声・会敵ムービー・初遭遇演出を追加して公開済み（2026-10-18）
 
