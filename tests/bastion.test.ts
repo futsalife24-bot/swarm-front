@@ -410,6 +410,75 @@ describe("BASTION counter volley", () => {
     }
   });
 
+  it("fires counter rounds at 27 m/s out to 36 m and still hits near a lane edge", () => {
+    expect(BASTION.bulletSpeed).toBe(27);
+    expect(BASTION.bulletRange).toBe(36);
+    const probe = hardened(80);
+    tick(probe.w);
+    while (probe.e.bastion!.phase === "brace") tick(probe.w);
+    const lanes = bastionLanes(
+      probe.e.bastion!.volley!,
+      mapFor(probe.w).blocks,
+    );
+    const open = lanes.reduce((a, b) => (b.length > a.length ? b : a));
+    expect(open.length).toBeGreaterThan(30);
+    // 1tickで1.35m進むので、終点だけの判定だと縁ぎりぎりの兵士を飛び越える。
+    for (const [along, expected] of [
+      [4, true],
+      [open.length - 1.5, true],
+      ...(open.length >= BASTION.bulletRange - 1e-6
+        ? [[BASTION.bulletRange + 3, false]]
+        : []),
+    ] as [number, boolean][])
+      for (const side of [0.6, 0.3]) {
+        const { w, e } = hardened(80);
+        const p = w.players[0];
+        tick(w);
+        while (e.bastion!.phase === "brace") tick(w);
+        const lane = bastionLanes(e.bastion!.volley!, mapFor(w).blocks).find(
+          (l) => Math.abs(l.yaw - open.yaw) < 1e-9,
+        )!;
+        const fx = Math.sin(lane.yaw),
+          fz = Math.cos(lane.yaw);
+        Object.assign(p, {
+          x: lane.from.x + fx * along + fz * side,
+          z: lane.from.z + fz * along - fx * side,
+          hp: 1000,
+        });
+        tick(w, Math.round((BASTION.warn + 2) / DT));
+        expect(p.hp < 1000, `${along} ${side}`).toBe(expected);
+      }
+  });
+
+  it("a round that passes within 1 m between two ticks still hits", () => {
+    for (const style of ["bastion", undefined] as const) {
+      const { w, e } = hardened(0);
+      e.bastion!.readyAt = 1e9;
+      const p = w.players[0];
+      tick(w);
+      p.hp = 1000;
+      const step = BASTION.bulletSpeed * DT;
+      // 始点・終点とも胴から1m超（約1.05m）、通過線は0.8m。
+      w.projectiles.push({
+        id: ++w.serial,
+        x: p.x - step / 2,
+        y: (p.y ?? 0) + 1.2,
+        z: p.z + 0.8,
+        dx: BASTION.bulletSpeed,
+        dy: 0,
+        dz: 0,
+        life: 1,
+        owner: "enemy",
+        damage: 12,
+        rocket: false,
+        ...(style ? { style } : {}),
+      });
+      tick(w);
+      // 他の敵弾は従来どおり位置だけで判定する。
+      expect(p.hp < 1000, String(style)).toBe(style === "bastion");
+    }
+  });
+
   it("draws the danger strip as wide as the actual hit for the ground a soldier stands on", () => {
     // 弾の高さ1.7m。胴（+1.2m）との差で当たる片側の幅が変わる。
     expect(2 * bastionLaneHalfWidth(1.7, 0)).toBeCloseTo(

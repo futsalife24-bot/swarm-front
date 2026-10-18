@@ -108,7 +108,8 @@ export class BastionView {
   private readonly lanes = new T.InstancedMesh(
     new T.BoxGeometry(1, 1, 1),
     this.laneMaterial,
-    768,
+    // 射程36m・1.5m刻みで12レーン×24区間。同時3体の斉射と照準弾まで欠けない数。
+    1152,
   );
   private readonly laneCores = new T.InstancedMesh(
     new T.BoxGeometry(1, 1, 1),

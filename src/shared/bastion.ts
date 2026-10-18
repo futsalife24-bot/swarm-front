@@ -39,8 +39,8 @@ export const BASTION = {
   open: 2.2,
   counterCooldown: 6,
   volley: { low: 6, full: 12 },
-  bulletSpeed: 9,
-  bulletRange: 18,
+  bulletSpeed: 27,
+  bulletRange: 36,
   bulletDamage: 12,
   /** 通常時の単発照準弾。PRISMより遅く、反撃より弱い。 */
   aimWind: 1.2,
