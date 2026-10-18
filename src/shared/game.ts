@@ -1509,6 +1509,39 @@ export function playerVerticalStep(
   }
   return airborne;
 }
+/** Distance from a point to the part of this tick's move a round covered (it now sits at the end). */
+function segmentDistance(
+  x: number,
+  y: number,
+  z: number,
+  q: { x: number; y: number; z: number },
+  dx: number,
+  dy: number,
+  dz: number,
+  covered: number,
+) {
+  const f = Math.min(1, covered);
+  const sx = dx * f,
+    sy = dy * f,
+    sz = dz * f;
+  const length = sx * sx + sy * sy + sz * sz;
+  const t =
+    length > 0
+      ? Math.max(
+          0,
+          Math.min(
+            1,
+            ((x - q.x) * sx + (y - q.y) * sy + (z - q.z) * sz) / length + 1,
+          ),
+        )
+      : 1;
+  return Math.hypot(
+    q.x - sx * (1 - t) - x,
+    q.y - sy * (1 - t) - y,
+    q.z - sz * (1 - t) - z,
+  );
+}
+
 export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   if (w.phase !== "battle") return;
   if (!w.players.some((p) => p.connected)) return;
@@ -2219,10 +2252,24 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
         }
       }
     } else {
+      // BASTION's rounds move over 1m per tick, so they test the whole
+      // segment they crossed instead of only the end point.
+      const swept = q.style === "bastion";
       for (const p of living)
         if (
           !hit &&
-          Math.hypot(p.x - q.x, p.z - q.z, (p.y ?? 0) + 1.2 - q.y) < 1
+          (swept
+            ? segmentDistance(
+                p.x,
+                (p.y ?? 0) + 1.2,
+                p.z,
+                q,
+                dx,
+                dy,
+                dz,
+                wall / dist,
+              )
+            : Math.hypot(p.x - q.x, p.z - q.z, (p.y ?? 0) + 1.2 - q.y)) < 1
         ) {
           hurtPlayer(w, p, q.damage);
           hit = true;
