@@ -1,0 +1,26 @@
+[
+  {
+    "file": "assets/audio/anomaly-voice-v3/bastion-0.wav",
+    "status": 200,
+    "match": true,
+    "sha256": "3d6b0dc01b5d00295149f80e0d78ec3c77cc2eccdfd8ce54e4275017218d5c30"
+  },
+  {
+    "file": "assets/audio/anomaly-voice-v3/bastion-1.wav",
+    "status": 200,
+    "match": true,
+    "sha256": "ae7425e61adbac83a208c10d1d0bffef7722601a037f9edd62c2ae50153c374d"
+  },
+  {
+    "file": "assets/encounters/report-v3/bastion-20261018.mp4",
+    "status": 200,
+    "match": true,
+    "sha256": "79f14d199441a290678eb8cb9acef0087607b72100f54c4dd627ea50a87ab850"
+  },
+  {
+    "file": "assets/enemies/bastion_v1.glb",
+    "status": 200,
+    "match": true,
+    "sha256": "8dedf5952722556cd6e649e9a2ea8270bb7fee7e1aa795140b6ce738658e799a"
+  }
+]
