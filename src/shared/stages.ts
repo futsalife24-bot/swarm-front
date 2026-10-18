@@ -407,7 +407,7 @@ const plans = [
     brief: "混成群の奥でHARROWとの最終戦に挑む。",
     waves: [
       wave({ ant: 20, spider: 16, calyx: 3 }),
-      wave({ hornet: 16, spitter: 12, bastion: 2 }),
+      wave({ hornet: 16, spitter: 12, bastion: 1 }),
       wave({ crawler: 16, spitter: 8 }, ["harrow"], 1.1),
     ],
   },
