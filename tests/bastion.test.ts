@@ -35,7 +35,21 @@ import {
   troopAt,
   troopCount,
 } from "../src/shared/stages";
-import { enemyReportId } from "../src/shared/enemy-identity";
+import {
+  ENEMY_REPORT_NAMES,
+  REPORTLESS_ENEMIES,
+  enemyReportId,
+} from "../src/shared/enemy-identity";
+import { ENEMY_REPORT_ORDER } from "../src/shared/enemy-report-order";
+import {
+  ANOMALY_VOICE_PATH,
+  AnomalyVoice,
+  anomalyVoiceProfile,
+} from "../src/client/anomaly-voice";
+import { ENCOUNTER_FILM_FILES } from "../src/client/encounter-film-files";
+import { hasEncounterFilm } from "../src/client/encounter-film";
+import { bastionReportState } from "../src/client/bastion-report";
+import { existsSync } from "node:fs";
 import { ENEMIES, stats } from "../src/shared/defs";
 import {
   FRONT_RUN_CONFIG,
@@ -415,7 +429,7 @@ describe("BASTION counter volley", () => {
 });
 
 describe("BASTION integration", () => {
-  it("survives the snapshot encoder and stays out of encounter records", () => {
+  it("survives the snapshot encoder and is a report target named BASTION", () => {
     const { w, e } = setup();
     e.bastion!.armor = 62.5;
     const packet = JSON.parse(
@@ -424,7 +438,54 @@ describe("BASTION integration", () => {
     expect(packet.world.enemies[0].bastion).toEqual(
       JSON.parse(JSON.stringify(e.bastion)),
     );
-    expect(enemyReportId(e)).toBeUndefined();
+    expect(enemyReportId(e)).toBe("bastion");
+    expect(ENEMY_REPORT_NAMES.bastion).toBe("BASTION");
+    expect(REPORTLESS_ENEMIES).toEqual([]);
+    // 遭遇順: ST5 で RAY の後に初登場、CATENA（ST6）より前。
+    expect(ENEMY_REPORT_ORDER.indexOf("bastion")).toBe(
+      ENEMY_REPORT_ORDER.indexOf("hornet") + 1,
+    );
+  });
+
+  it("has its own voice, report film and report specimen script", () => {
+    const voice = anomalyVoiceProfile({ kind: "bastion" } as Enemy);
+    expect(voice).toBe("bastion");
+    for (const variant of [0, 1])
+      expect(
+        existsSync(`public/${ANOMALY_VOICE_PATH}bastion-${variant}.wav`),
+      ).toBe(true);
+    // 戦闘中: 予兆（wind）の開始で BASTION の声を1回鳴らす。
+    const { w, e } = setup();
+    const listener = new AnomalyVoice();
+    listener.collect(w, "p0", true);
+    listener.collect(w, "p0", true);
+    e.wind = BASTION.aimWind;
+    w.time += 0.05;
+    expect(listener.collect(w, "p0", true).map((c) => c.type)).toEqual([
+      `anomaly:bastion-${e.id % 2}`,
+    ]);
+    expect(hasEncounterFilm("bastion")).toBe(true);
+    expect(
+      existsSync("public/" + ENCOUNTER_FILM_FILES.bastion.split("?")[0]),
+    ).toBe(true);
+    // 図鑑の攻撃: 硬化→予備動作→赤予告（12発分の確定）→開放→照準弾の順。
+    const phases = Array.from({ length: 90 }, (_, i) => {
+      const { state } = bastionReportState("attack", i / 10);
+      return state.aim ? (state.aim.committed ? "aimed" : "aim") : state.phase;
+    }).filter((p, i, all) => p !== all[i - 1]);
+    expect(phases).toEqual([
+      "guard",
+      "brace",
+      "warn",
+      "open",
+      "guard",
+      "aim",
+      "aimed",
+      "guard",
+    ]);
+    expect(bastionReportState("attack", 2.5).state.volley?.count).toBe(12);
+    expect(bastionReportState("attack", 1.2).state.armor).toBeGreaterThan(75);
+    expect(bastionReportState("idle", 3).state.phase).toBe("guard");
   });
 
   it("does not download the model until a BASTION is actually in the battle", async () => {

@@ -23,6 +23,7 @@ import {
   HARROW_POSE_FRAMES,
   harrowMotionFrame,
 } from "./harrow-report-camera";
+import { BastionSpecimen, BASTION_REPORT_BOUNDS } from "./bastion-report";
 
 export function createEnemyViewer(host: HTMLElement) {
   const renderer = new T.WebGLRenderer({ antialias: true, alpha: true });
@@ -55,6 +56,7 @@ export function createEnemyViewer(host: HTMLElement) {
     motion: HoundMotionBatch | undefined;
   let foundry: FoundryWormView | undefined;
   let foundryIdle: ReturnType<FoundryWormView["inspectionIdle"]> | undefined;
+  let bastion: BastionSpecimen | undefined;
   let wormForm = false;
   let kind: ReportEnemyKind = "crawler";
   let mode: ReportMotion = "idle",
@@ -133,6 +135,9 @@ export function createEnemyViewer(host: HTMLElement) {
       }
       foundry.root.position.z = mode === "move" ? time * 4.2 : 0;
     }
+    // BASTION は戦闘と同じ表示を台本の状態で動かす（弾・危険帯も標本側で描く）。
+    if (bastion) bastion.update(mode, time);
+    if (kind === "bastion") return;
     effects.root.position.copy(model.position);
     effects.update(kind, wormForm, mode, time, selectedHarrowAttack);
   }
@@ -207,6 +212,8 @@ export function createEnemyViewer(host: HTMLElement) {
     foundryIdle = undefined;
     foundry?.dispose();
     foundry = undefined;
+    bastion?.dispose();
+    bastion = undefined;
     motion?.dispose();
     motion = undefined;
     for (const child of [...model.children]) {
@@ -279,6 +286,30 @@ export function createEnemyViewer(host: HTMLElement) {
           .catch(() => {
             if (ticket === generation) host.dataset.asset = "error";
           });
+      if (kind === "bastion") {
+        const specimen = new BastionSpecimen();
+        void specimen
+          .load()
+          .then(() => {
+            if (disposed || ticket !== generation) {
+              specimen.dispose();
+              return;
+            }
+            clear();
+            model.position.set(0, 0, 0);
+            bastion = specimen;
+            model.add(specimen.root);
+            restBounds.copy(BASTION_REPORT_BOUNDS);
+            fitSpecimen();
+            host.dataset.asset = "ready";
+            animatePose();
+            reset();
+          })
+          .catch(() => {
+            specimen.dispose();
+            if (ticket === generation) host.dataset.asset = "error";
+          });
+      }
       if (!worm && kind in STRUCTURE_ASSETS)
         void loadEnemyMotion(
           STRUCTURE_ASSETS[kind as StructureVisualKind],

@@ -29,7 +29,7 @@ const CONTRACTS = [
     entryStage: 2,
     foundryStage: 15,
     branch: true,
-    // BASTION は ST24 の編成だけ。増援（foundry）の候補には入れない。
+    // BASTION は ST15・24・25 の編成だけ。増援（foundry）の候補には入れない。
     troops: [
       "crawler",
       "ant",
@@ -49,7 +49,7 @@ const CONTRACTS = [
     entryStage: 13,
     foundryStage: 13,
     branch: false,
-    // BASTION は ST23 の編成だけ。増援（foundry）の候補には入れない。
+    // BASTION は ST13・23 の編成だけ。増援（foundry）の候補には入れない。
     troops: [
       "crawler",
       "ant",

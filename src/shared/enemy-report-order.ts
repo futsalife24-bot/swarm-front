@@ -8,6 +8,7 @@ export const ENEMY_REPORT_ORDER = [
   "spitter",
   "boss",
   "hornet",
+  "bastion",
   "worm",
   "calyx",
   "harrow",

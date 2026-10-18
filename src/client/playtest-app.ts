@@ -648,19 +648,22 @@ function encounter() {
   if (!soldier || soldier.hp <= 0) return;
   for (const e of world.enemies) {
     const key = enemyReportId(e);
-    if (!key || e.kind === "bastion" || save.encounters[key] === "solo")
-      continue;
+    if (!key || save.encounters[key] === "solo") continue;
     if (view.spawnEffects.active(e.id)) continue;
     // Let the normal renderer place an asynchronously loaded model before freezing it.
-    const visual = e.segments
-      ? view.foundryWorms.get(e.id)
-      : view.structures.get(e.kind);
-    if (
-      e.segments
-        ? !(visual && (("view" in visual && visual.view) || visual.error))
-        : !(visual && (("batch" in visual && visual.batch) || visual.error))
-    )
-      continue;
+    if (e.kind === "bastion") {
+      if (!view.bastion.placed(e.id) && !view.bastion.error) continue;
+    } else {
+      const visual = e.segments
+        ? view.foundryWorms.get(e.id)
+        : view.structures.get(e.kind);
+      if (
+        e.segments
+          ? !(visual && (("view" in visual && visual.view) || visual.error))
+          : !(visual && (("batch" in visual && visual.batch) || visual.error))
+      )
+        continue;
+    }
     const pos = new T.Vector3(e.x, eye(e), e.z),
       projected = pos.clone().project(view.camera);
     if (
