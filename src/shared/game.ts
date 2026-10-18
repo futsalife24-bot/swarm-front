@@ -19,6 +19,7 @@ import {
   BASTION,
   bastionDamage,
   bastionGuard,
+  bastionShotFactor,
   bastionSpikes,
   createBastion,
   stepBastion,
@@ -1401,35 +1402,24 @@ export function fire(w: World, p: Player, i: Input, airborne = false) {
           (frontShot?.extraPierce ?? 0),
       );
     for (const h of hits) {
+      // 実弾の直撃だけ。爆風・レーザー・副次効果は別の経路で、この倍率を受けない。
+      const dealt =
+        def.damage *
+        falloff(weapon.kind, h.along) *
+        bastionShotFactor(h.e, weapon.kind);
       if (frontShot)
         frontManualHit(
           w,
           h.e,
-          def.damage * falloff(weapon.kind, h.along) * frontShot.damageFactor,
+          dealt * frontShot.damageFactor,
           p.id,
           frontShot.id,
           h.part,
           family,
         );
       else if (w.rebuild)
-        rebuildManualHit(
-          w,
-          h.e,
-          def.damage * falloff(weapon.kind, h.along),
-          p.id,
-          rebuildShot,
-          h.part,
-          family,
-        );
-      else
-        hurtEnemy(
-          w,
-          h.e,
-          def.damage * falloff(weapon.kind, h.along),
-          p.id,
-          h.part,
-          family,
-        );
+        rebuildManualHit(w, h.e, dealt, p.id, rebuildShot, h.part, family);
+      else hurtEnemy(w, h.e, dealt, p.id, h.part, family);
       if (
         EFFECT_POOLS[weapon.kind].includes("repel") &&
         weapon.effect === "repel" &&

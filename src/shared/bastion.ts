@@ -52,11 +52,22 @@ export const BASTION = {
   spikePad: 0.25,
   muzzle: 1.05,
   /**
+   * 実弾（銃弾）への耐性。発射時に当たりが決まる弾（AR・SMG・散弾・スラッグ・
+   * スナイパーなど）の直撃だけに掛ける。爆発・レーザー・副次効果には掛けない。
+   * 硬化の軽減とは別に、硬化より先に掛かる。
+   */
+  bulletResist: 0.4,
+  /**
    * 生存戦での出現（仮値）。出撃からこの秒数以降、前回の出現予告からこの間隔をあけ、
    * 同時は1体から `moreAt` の各時刻で1体ずつ増やす。体力は通常敵の半減を受けない。
    */
   survival: { from: 60, every: 30, preload: 30, moreAt: [180, 420] },
 } as const;
+
+/** 実弾の直撃に掛ける倍率。BASTION 以外・レーザーは 1。 */
+export function bastionShotFactor(e: { bastion?: unknown }, weapon: string) {
+  return e.bastion && weapon !== "laser" ? BASTION.bulletResist : 1;
+}
 
 /** 生存戦でこの戦闘時刻に同時に出せる BASTION の数。 */
 export function bastionSurvivalCap(time: number) {
