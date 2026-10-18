@@ -24,6 +24,7 @@ import {
 } from "../src/shared/enemy-identity";
 import { ENEMY_REPORT_ORDER } from "../src/shared/enemy-report-order";
 import { mapFor, STAGES, TRAINING_MAP } from "../src/shared/stages";
+import { BASTION_ASSET } from "../src/client/bastion-view";
 import { supportHeight } from "../src/shared/terrain";
 
 type Scene = {
@@ -76,6 +77,7 @@ const observations: Record<EnemyReportId, string> = {
   hornet: "エイのような平面、ウナギを思わせる推進尾と中央の縦穴。",
   worm: "ミミズのようにうねり、多数の脚で地面を這う機械型の巨体。",
   calyx: "灰緑に赤茶の斑が混じる丸い蕾。",
+  bastion: "上下の装甲板と回転する帯に覆われた、宙に浮かぶ球体。",
   harrow: "細い後脚で歩き、支柱で組まれた翼を広げて高く飛び上がります。",
 };
 
@@ -129,7 +131,16 @@ function cameraFor(current: Scene, choice: CameraChoice) {
 }
 function animatedBodyBounds(enemy: Enemy, idle: Scene["idle"]) {
   const bounds = new T.Box3().makeEmpty();
-  if (enemy.segments) {
+  if (enemy.kind === "bastion") {
+    // 浮遊の上下を含めた外形。待機中はトゲも装甲の開きもない。
+    for (const seconds of [0, 1, 2, 3, 4]) {
+      idle.update(seconds);
+      const box = view.bastion.bounds(enemy.id);
+      if (!box) throw Error("BASTIONの現行モデルがありません");
+      bounds.union(box);
+    }
+    idle.update(0);
+  } else if (enemy.segments) {
     const worm = view.foundryWorms.get(enemy.id)?.view;
     if (!worm) throw Error("CATENAの現行モデルがありません");
     for (const seconds of [0, 1.5, 3, 4.5, 6]) {
@@ -220,7 +231,9 @@ async function loadedAsset(key: EnemyReportId) {
   const file =
     key === "worm"
       ? FOUNDRY_WORM_FILE
-      : ENEMY_MOTION_FILES[STRUCTURE_ASSETS[key]];
+      : key === "bastion"
+        ? BASTION_ASSET
+        : ENEMY_MOTION_FILES[STRUCTURE_ASSETS[key]];
   const expected = new URL(`${import.meta.env.BASE_URL}${file}`, location.href);
   const entry = performance.getEntriesByType("resource").find((item) => {
     const url = new URL(item.name);
@@ -307,12 +320,18 @@ async function prepare(key: EnemyReportId) {
       false,
       false,
     );
-    const assetReady = enemy.segments
-      ? !!view.foundryWorms.get(enemy.id)?.view
-      : !!view.structures.get(enemy.kind)?.batch;
-    const assetError = enemy.segments
-      ? view.foundryWorms.get(enemy.id)?.error
-      : view.structures.get(enemy.kind)?.error;
+    const assetReady =
+      enemy.kind === "bastion"
+        ? view.bastion.placed(enemy.id)
+        : enemy.segments
+          ? !!view.foundryWorms.get(enemy.id)?.view
+          : !!view.structures.get(enemy.kind)?.batch;
+    const assetError =
+      enemy.kind === "bastion"
+        ? view.bastion.error
+        : enemy.segments
+          ? view.foundryWorms.get(enemy.id)?.error
+          : view.structures.get(enemy.kind)?.error;
     const mapState = view.mapAssets.status[mapIndex];
     const distantState = view.mapAssets.distantStatus[mapIndex];
     const diagnostic = () =>

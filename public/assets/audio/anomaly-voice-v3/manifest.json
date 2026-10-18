@@ -165,6 +165,22 @@
       "rms_dbfs": -14.81,
       "sha256": "2b94158d1d83ae4c7449066e0c20cd32dff14349d6baffb08e6933e687701938",
       "description": "硬い顎を鳴らすような、荒い破裂声。ばらついた短い連声から擦れた叫びへ変わる。"
+    },
+    {
+      "file": "bastion-0.wav",
+      "seconds": 1.55,
+      "peak_dbfs": -3.8,
+      "rms_dbfs": -14.19,
+      "sha256": "3d6b0dc01b5d00295149f80e0d78ec3c77cc2eccdfd8ce54e4275017218d5c30",
+      "description": "装甲の奥で唸る低い共鳴。帯が回るように音程がせり上がり、板が締まる硬い打音で途切れる。"
+    },
+    {
+      "file": "bastion-1.wav",
+      "seconds": 1.55,
+      "peak_dbfs": -3.77,
+      "rms_dbfs": -14.18,
+      "sha256": "ae7425e61adbac83a208c10d1d0bffef7722601a037f9edd62c2ae50153c374d",
+      "description": "装甲の奥で唸る低い共鳴。帯が回るように音程がせり上がり、板が締まる硬い打音で途切れる。"
     }
   ],
   "auditions": [

@@ -9,13 +9,19 @@ import { ENCOUNTER_FILM_FILES } from "../src/client/encounter-film-files";
 import { STRUCTURE_ASSETS } from "../src/client/structure-motion";
 import { ENEMY_REPORT_NAMES } from "../src/shared/enemy-identity";
 import { ENEMY_REPORT_ORDER } from "../src/shared/enemy-report-order";
+import { BASTION_ASSET } from "../src/client/bastion-view";
 
-const manifest = JSON.parse(
-  readFileSync(
-    "docs/evidence/encounter-films-current-20261015/manifest.json",
-    "utf8",
-  ),
-);
+// 2026-10-15 の9種と、2026-10-18 に追加した BASTION を報告順に合わせて照合する。
+const read = (file: string) => JSON.parse(readFileSync(file, "utf8"));
+const rows = [
+  ...read("docs/evidence/encounter-films-current-20261015/manifest.json").rows,
+  ...read("docs/evidence/encounter-films-bastion-20261018/manifest.json").rows,
+];
+const manifest = {
+  rows: ENEMY_REPORT_ORDER.map((key) =>
+    rows.find((row: { key: string }) => row.key === key),
+  ).filter(Boolean),
+};
 const hash = (file: string) =>
   createHash("sha256").update(readFileSync(file)).digest("hex");
 
@@ -28,7 +34,9 @@ it("every report film matches the shipped model, name and encoded video", () => 
     const model =
       key === "worm"
         ? FOUNDRY_WORM_FILE
-        : ENEMY_MOTION_FILES[STRUCTURE_ASSETS[key]];
+        : key === "bastion"
+          ? BASTION_ASSET
+          : ENEMY_MOTION_FILES[STRUCTURE_ASSETS[key]];
     const modelFile = "public/" + model.split("?")[0];
     expect(row.name, key).toBe(ENEMY_REPORT_NAMES[key]);
     expect(row.assets, key).toContainEqual({

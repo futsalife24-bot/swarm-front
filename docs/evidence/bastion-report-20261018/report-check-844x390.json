@@ -1,0 +1,48 @@
+{
+ "errors": [
+  "Failed to load resource: the server responded with a status of 404 (Not Found)",
+  "Failed to load resource: the server responded with a status of 404 (Not Found)"
+ ],
+ "requests": [
+  {
+   "url": "/src/client/bastion-report.ts?t=1792294866005",
+   "status": 200
+  },
+  {
+   "url": "/src/shared/bastion.ts",
+   "status": 200
+  },
+  {
+   "url": "/src/client/bastion-view.ts",
+   "status": 200
+  },
+  {
+   "url": "/assets/enemies/bastion_v1.glb?rev=8dedf5952722",
+   "status": 200
+  },
+  {
+   "url": "/assets/audio/anomaly-voice-v3/bastion-0.wav",
+   "status": 206
+  },
+  {
+   "url": "/assets/encounters/report-v3/bastion-20261018.mp4?v=79f14d199441",
+   "status": 200
+  }
+ ],
+ "checks": {
+  "listText": "07 BASTION 機構型 ›",
+  "listIndex": 6,
+  "article": "機構型\nBASTION\n声を聴く\n\n装甲の奥で唸る低い共鳴。帯が回るように音程がせり上がり、板が締まる硬い打音で途切れる。\n\n会敵ムービー\n\n解説の続きは上下にスクロール ↕\n\n攻撃方法\n\n帯の発射口が赤く光って弾道が示された後、隊員へ単発の弾を放ちます。短い間隔で撃たれ続けると装甲が締まってトゲがせり出し、続けて当たる銃弾ほど弾かれます。硬化しきると帯が高速で回りながら震え、地面へ赤い危険帯が放射状に伸びた後、全方位へ弾を放ちます。放射の直後は装甲が開き、内部のコアが露出します。\n\n移動方法\n\n上下の装甲板と回転する帯に覆われた球体。地面から浮いたまま一定の距離を保ち、隊員の周りを回ります。硬化するほど動きが遅くなり、撃たれない時間が続くと装甲が緩んで元に戻ります。爆発やレーザー、間を空けた射撃は硬化の影響を受けにくいことが観察されています。",
+  "voiceLabel": "BASTIONの声を聴く",
+  "voiceSrc": "http://127.0.0.1:5196/assets/audio/bgm-v1/report.mp3",
+  "filmButton": 1,
+  "film": {
+   "src": "blob:/339fbcc8-8008-4bd0-957d-d85c874b4126",
+   "time": 1.51,
+   "duration": 11,
+   "w": 1280,
+   "h": 720,
+   "error": null
+  }
+ }
+}

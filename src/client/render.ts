@@ -206,6 +206,7 @@ export function poseSoldier(
 export class Renderer {
   /** Authored GLB forward is local -Z; use the rendered transform, including held attack yaw. */
   encounterFront(enemy: Readonly<Enemy>) {
+    if (enemy.kind === "bastion") return this.bastion.front(enemy.id);
     const matrix = new T.Matrix4();
     if (enemy.segments) {
       const head = this.foundryWorms.get(enemy.id)?.view?.units[0];
@@ -227,6 +228,8 @@ export class Renderer {
 
   /** Separate visual clock for one introduction; combat state and other instances stay frozen. */
   encounterIdle(enemy: Readonly<Enemy>) {
+    if (enemy.kind === "bastion")
+      return this.bastion.inspectionIdle(enemy as Enemy);
     if (enemy.segments) {
       return this.foundryWorms.get(enemy.id)?.view?.inspectionIdle();
     }
@@ -1562,10 +1565,10 @@ export class Renderer {
               : q.style === "bastion"
                 ? 0xff5a2e
                 : q.rocket
-                ? 0xffbc77
-                : q.owner === "enemy"
-                  ? 0x65edff
-                  : 0xa5e568,
+                  ? 0xffbc77
+                  : q.owner === "enemy"
+                    ? 0x65edff
+                    : 0xa5e568,
           ),
         );
       });

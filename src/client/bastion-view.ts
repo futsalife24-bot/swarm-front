@@ -624,6 +624,75 @@ export class BastionView {
     this.sparks.count = this.flashes.count = 0;
   }
 
+  /** 配置済み個体の外形（会敵ムービーのカメラ合わせ用）。 */
+  bounds(id: number) {
+    const u = this.units.get(id);
+    if (!u) return undefined;
+    u.root.updateMatrixWorld(true);
+    return new T.Box3().setFromObject(u.root, true);
+  }
+
+  /** 読込済みのモデルで一度でも配置された個体か（会敵演出を始めてよいか）。 */
+  placed(id: number) {
+    return this.units.has(id);
+  }
+
+  /** 個体の正面（隊員側）。他の敵と同じく描画姿勢の (0,0,-1) を世界方向へ。 */
+  front(id: number) {
+    const u = this.units.get(id);
+    const direction = new T.Vector3(0, 0, -1);
+    if (!u) return direction;
+    u.root.updateWorldMatrix(true, false);
+    return direction.transformDirection(u.root.matrixWorld);
+  }
+
+  /**
+   * 会敵演出: 戦闘の状態は止めたまま、この個体だけ待機の浮遊と帯の回転を進める。
+   * 次の通常描画で戦闘側の姿勢に戻るので、restore は何もしなくてよい。
+   */
+  inspectionIdle(e: Enemy) {
+    const u = this.units.get(e.id);
+    if (!u) return;
+    const position = u.root.position.clone();
+    let last = 0;
+    return {
+      update: (time: number) => {
+        this.place(e, position, time, Math.max(0, Math.min(0.1, time - last)));
+        last = time;
+      },
+      restore: () => {},
+    };
+  }
+
+  /** 図鑑など一時的な表示の後始末。共有の形状・材質と読み込んだモデルも破棄する。 */
+  dispose() {
+    this.clear();
+    for (const mesh of [
+      this.lanes,
+      this.laneCores,
+      this.sparks,
+      this.flashes,
+    ]) {
+      mesh.geometry.dispose();
+      (mesh.material as T.Material).dispose();
+      mesh.dispose();
+    }
+    this.laneMaterial.dispose();
+    this.coreMaterial.dispose();
+    this.haloGeometry.dispose();
+    this.template?.traverse((o) => {
+      const mesh = o as T.Mesh;
+      if (!mesh.isMesh) return;
+      mesh.geometry.dispose();
+      for (const m of [mesh.material].flat() as T.MeshStandardMaterial[]) {
+        for (const map of [m.map, m.normalMap, m.roughnessMap, m.metalnessMap])
+          map?.dispose();
+        m.dispose();
+      }
+    });
+    this.root.removeFromParent();
+  }
+
   /** 検証用: 個体の表示状態。 */
   inspect(id: number) {
     const u = this.units.get(id);

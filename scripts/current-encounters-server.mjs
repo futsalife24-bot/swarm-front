@@ -12,6 +12,7 @@ const keys = new Set([
   "hornet",
   "worm",
   "calyx",
+  "bastion",
   "harrow",
 ]);
 const origin = "http://127.0.0.1:5202";

@@ -1,0 +1,44 @@
+{
+ "prepared": {
+  "placed": false,
+  "recorded": null
+ },
+ "begun": {
+  "active": true,
+  "recorded": "solo",
+  "modalCount": 1,
+  "soldierHp": 160,
+  "spawnActive": false,
+  "placed": true,
+  "projected": [
+   -0.02,
+   -0.06,
+   0.99
+  ],
+  "enemy": [
+   -1,
+   0,
+   24
+  ],
+  "player": [
+   -1,
+   0,
+   34
+  ],
+  "cam": [
+   -0.2,
+   2.9,
+   39
+  ]
+ },
+ "title": "BASTION",
+ "enemy": "bastion",
+ "phases": [
+  "freeze",
+  "bars",
+  "zoom",
+  "text"
+ ],
+ "errors": [],
+ "closed": 0
+}

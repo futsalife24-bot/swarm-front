@@ -321,6 +321,15 @@ export function reportPose(
       cycle: sample,
     };
   }
+  // BASTION は骨格の再生ではなく bastion-report.ts の台本で動かす。
+  if (kind === "bastion")
+    return {
+      clip: "Idle" as HoundClip,
+      sample: time,
+      height: 0,
+      impact: 1,
+      cycle: time,
+    };
   const base =
     STRUCTURE_TIMING[kind === "ant" || kind === "spider" ? "crawler" : kind];
   const spec = kind === "ant" ? { ...base, impact: 0.8, duration: 1.55 } : base;

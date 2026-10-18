@@ -18,11 +18,13 @@ RECIPES = {
     "spitter": (1.72, "殻が擦れて裂けるような声。ざらついた響きが不規則にせり上がり、砕けて止まる。"),
     "boss-linked": (2.15, "複数の空洞が唸る、長く膨らむ重い息。異なる響きがうねり、底へ沈む。"),
     "boss-separated": (1.68, "硬い顎を鳴らすような、荒い破裂声。ばらついた短い連声から擦れた叫びへ変わる。"),
+    # 2026-10-18追加。既存20声のPCMは変えない（このキーだけ新規に生成）。
+    "bastion": (1.55, "装甲の奥で唸る低い共鳴。帯が回るように音程がせり上がり、板が締まる硬い打音で途切れる。"),
 }
 
 
 def render(kind, variant):
-    if kind not in ("spitter", "boss-linked", "boss-separated"):
+    if kind not in ("spitter", "boss-linked", "boss-separated", "bastion"):
         return v2.render(kind, variant)
     duration = RECIPES[kind][0]
     t = v2.timeline(duration)
@@ -57,6 +59,23 @@ def render(kind, variant):
             env *= 1 - .55 * gate(t, .87, 1.19, .13, .15)
         pressure = .68 + .32 * np.sin(osc(17 + 8 * np.sin(TAU * .61 * t))) ** 2
         x *= env * pressure
+    elif kind == "bastion":
+        # 機構型。喉や息ではなく、金属殻の低い共鳴と回転する帯のうねり、
+        # 末尾に装甲板が締まる二連の硬い打音。声帯的な母音は使わない。
+        peak = .9 if variant == 0 else .74
+        f0 = np.interp(t, [0, peak, 1.3, duration], [62, 118, 134, 70])
+        ph = osc(f0)
+        hum = np.sin(ph) + .55 * np.sin(2.01 * ph + .4) + .32 * np.sin(3.97 * ph)
+        spin_rate = np.interp(t, [0, 1.25, duration], [5, 19 if variant == 0 else 23, 8])
+        spin = .55 + .45 * np.sin(osc(spin_rate)) ** 2
+        shell = tract(noise(rng, n, 180, 4200), [(420, 90, 1), (1180, 160, .55), (2650, 300, .3)])
+        x = (hum * .6 + shell * .5) * spin * gate(t, .03, 1.30, .12, .22)
+        hits = [1.28, 1.36] if variant == 0 else [1.22, 1.33]
+        for i, start in enumerate(hits):
+            age = np.maximum(t - start, 0)
+            ring = np.sin(osc(np.full(n, 1730.0 + i * 410))) * np.exp(-age * 30)
+            ring += noise(rng, n, 900, 6000) * np.exp(-age * 80)
+            x += ring * (t >= start) * (1 - .25 * i) * .9
     else:
         # 分離後は群れの息から乾いた顎の破裂・掠れた叫びへ。等間隔にはしない。
         x = np.zeros(n)

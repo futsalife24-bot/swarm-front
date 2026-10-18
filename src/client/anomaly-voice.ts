@@ -14,6 +14,11 @@ export const ANOMALY_VOICES = {
     name: "CALYX",
     description: "空洞へ吸い込む息が膨らみ、口を閉じるように急に止まる。",
   },
+  bastion: {
+    name: "BASTION",
+    description:
+      "装甲の奥で唸る低い共鳴。帯が回るように音程がせり上がり、板が締まる硬い打音で途切れる。",
+  },
   ant: {
     name: "HOUND / VOLLEY",
     description: "乾いた短い二連吠え。二声の間に明確な間を置く。",
@@ -59,8 +64,6 @@ export const ANOMALY_VOICE_PROFILES = {
 export function anomalyVoiceProfile(
   e: Enemy,
 ): keyof typeof ANOMALY_VOICE_PROFILES | undefined {
-  // 声素材のないローカル候補は無音のまま（攻撃予兆は描画で伝える）。
-  if (e.kind === "bastion") return undefined;
   return e.kind === "boss" && e.segments
     ? e.fractured
       ? "boss-separated"

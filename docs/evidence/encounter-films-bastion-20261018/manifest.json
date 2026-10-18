@@ -1,0 +1,32 @@
+{
+  "recorded": "2026-10-18",
+  "rows": [
+    {
+      "key": "bastion",
+      "name": "BASTION",
+      "file": "public/assets/encounters/report-v3/bastion-20261018.mp4",
+      "sha256": "79f14d199441a290678eb8cb9acef0087607b72100f54c4dd627ea50a87ab850",
+      "bytes": 1688424,
+      "duration": 11,
+      "stage": 5,
+      "camera": {
+        "distance": 6.26744924926758,
+        "fov": 40
+      },
+      "assets": [
+        {
+          "file": "public/assets/enemies/bastion_v1.glb",
+          "sha256": "8dedf5952722556cd6e649e9a2ea8270bb7fee7e1aa795140b6ce738658e799a"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "capture": "webcodecs-vp9-frames",
+      "frameCount": 330,
+      "worldFrozen": true,
+      "allDecoded": true,
+      "idleAnimated": true
+    }
+  ]
+}
