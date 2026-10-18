@@ -52,11 +52,13 @@ export const BASTION = {
   spikePad: 0.25,
   muzzle: 1.05,
   /**
-   * 実弾（銃弾）への耐性。発射時に当たりが決まる弾（AR・SMG・散弾・スラッグ・
-   * スナイパーなど）の直撃だけに掛ける。爆発・レーザー・副次効果には掛けない。
-   * 硬化の軽減とは別に、硬化より先に掛かる。
+   * 連射への耐性。発射時に当たりが決まる実弾（AR・SMG・散弾・スラッグ・
+   * スナイパー・キック）の直撃だけ。chainWindow 以内に続いた n 発目は
+   * step^(n-1) 倍（下限 floor、1発あたり最低1ダメージ）。間が空くと1発目に戻る。
+   * 実弾には硬化の段階軽減を重ねない。爆発・レーザー・副次効果は対象外
+   * （従来どおり硬化の段階軽減だけ）。
    */
-  bulletResist: 0.4,
+  rapid: { step: 0.7, floor: 0.04 },
   /**
    * 生存戦での出現（仮値）。出撃からこの秒数以降、前回の出現予告からこの間隔をあけ、
    * 同時は1体から `moreAt` の各時刻で1体ずつ増やす。体力は通常敵の半減を受けない。
@@ -64,9 +66,36 @@ export const BASTION = {
   survival: { from: 60, every: 30, preload: 30, moreAt: [180, 420] },
 } as const;
 
-/** 実弾の直撃に掛ける倍率。BASTION 以外・レーザーは 1。 */
-export function bastionShotFactor(e: { bastion?: unknown }, weapon: string) {
-  return e.bastion && weapon !== "laser" ? BASTION.bulletResist : 1;
+/** 連射耐性で n 発目（1始まり）に掛ける倍率。 */
+export function bastionRapidFactor(n: number) {
+  return Math.max(
+    BASTION.rapid.floor,
+    BASTION.rapid.step ** Math.max(0, n - 1),
+  );
+}
+
+/**
+ * 実弾の直撃の直前に呼ぶ。連続命中数を進めて倍率を返し、続く hurtEnemy で
+ * 硬化の段階軽減を重ねないよう印を付ける。BASTION 以外・レーザーは 1 で印なし。
+ * 同じtickの命中（散弾の全ペレット・協力の同時射撃）は1発として数える。
+ */
+export function bastionShot(
+  w: World,
+  e: { bastion?: BastionState },
+  weapon: string,
+) {
+  const s = e.bastion;
+  if (!s || weapon === "laser") return 1;
+  if (s.streakTick !== w.time) {
+    const chained =
+      s.streakAt !== undefined &&
+      w.time - s.streakAt <= BASTION.chainWindow + 1e-9;
+    s.streak = chained ? (s.streak ?? 0) + 1 : 1;
+    s.streakTick = w.time;
+  }
+  s.streakAt = w.time;
+  s.shot = bastionRapidFactor(s.streak ?? 1);
+  return s.shot;
 }
 
 /** 生存戦でこの戦闘時刻に同時に出せる BASTION の数。 */
@@ -91,6 +120,14 @@ export interface BastionState {
   tickChained?: boolean;
   readyAt: number;
   counters: number;
+  /** 連射耐性: 連続命中数、最後の実弾命中時刻、数を進めたtick。 */
+  streak?: number;
+  streakAt?: number;
+  streakTick?: number;
+  /** 直前の bastionShot の倍率。続く bastionDamage が1回だけ読んで消す。 */
+  shot?: number;
+  /** 直近の被弾に適用した段階（0〜3）。被弾イベントの装甲火花に使う。 */
+  guard?: number;
   /**
    * 赤い予告の開始時に確定し、発射まで変えない。
    * `turn` は配信で丸められない名前。予告と実弾の向きを全員で一致させる。
@@ -169,15 +206,24 @@ export function bastionDamage(w: World, e: Enemy, damage: number) {
     s.gainAt = w.time;
   }
   s.hitAt = w.time;
-  return damage * (1 - (s.tickReduction ?? 0));
+  const shot = s.shot;
+  s.shot = undefined;
+  if (shot !== undefined) {
+    // 実弾は連射耐性を発射側で掛け済み。段階軽減は重ねない。
+    s.guard = shot >= 1 ? 0 : shot > 0.35 ? 1 : shot > 0.1 ? 2 : 3;
+    return damage;
+  }
+  const reduction = s.tickReduction ?? 0;
+  s.guard =
+    reduction > 0
+      ? (BASTION.reduction as readonly number[]).indexOf(reduction)
+      : 0;
+  return damage * (1 - reduction);
 }
 
-/** 直近の被弾に適用した軽減の段階（0〜3）。被弾イベントの装甲火花に使う。 */
+/** 直近の被弾に適用した段階（0〜3）。被弾イベントの装甲火花に使う。 */
 export function bastionGuard(s: BastionState) {
-  const reduction = s.tickReduction ?? 0;
-  return reduction > 0
-    ? (BASTION.reduction as readonly number[]).indexOf(reduction)
-    : 0;
+  return s.guard ?? 0;
 }
 
 function bulletOrigin(c: { x: number; y: number; z: number }, yaw: number) {

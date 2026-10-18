@@ -19,7 +19,7 @@ import {
   BASTION,
   bastionDamage,
   bastionGuard,
-  bastionShotFactor,
+  bastionShot,
   bastionSpikes,
   createBastion,
   stepBastion,
@@ -1402,11 +1402,10 @@ export function fire(w: World, p: Player, i: Input, airborne = false) {
           (frontShot?.extraPierce ?? 0),
       );
     for (const h of hits) {
-      // 実弾の直撃だけ。爆風・レーザー・副次効果は別の経路で、この倍率を受けない。
-      const dealt =
-        def.damage *
-        falloff(weapon.kind, h.along) *
-        bastionShotFactor(h.e, weapon.kind);
+      // BASTION の連射耐性は実弾の直撃だけ。爆風・レーザー・副次効果は別の経路。
+      const rapid = bastionShot(w, h.e, weapon.kind);
+      let dealt = def.damage * falloff(weapon.kind, h.along);
+      if (rapid < 1) dealt = Math.max(1, dealt * rapid);
       if (frontShot)
         frontManualHit(
           w,
@@ -1420,6 +1419,8 @@ export function fire(w: World, p: Player, i: Input, airborne = false) {
       else if (w.rebuild)
         rebuildManualHit(w, h.e, dealt, p.id, rebuildShot, h.part, family);
       else hurtEnemy(w, h.e, dealt, p.id, h.part, family);
+      // 撃破済みなどで hurtEnemy まで届かなかった印を、後の爆風へ持ち越さない。
+      if (h.e.bastion) h.e.bastion.shot = undefined;
       if (
         EFFECT_POOLS[weapon.kind].includes("repel") &&
         weapon.effect === "repel" &&
