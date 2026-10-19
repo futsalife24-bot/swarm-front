@@ -79,8 +79,12 @@ describe("fixed body-centre shot presentation", () => {
     const flash = fx.items.find((item) => item.kind === "flash")!;
     expect(bullet.mesh.position.distanceTo(muzzle)).toBeLessThan(1e-9);
     expect(flash.mesh.position.distanceTo(muzzle)).toBeLessThan(1e-9);
-    const endpoint = muzzle.clone().addScaledVector(bullet.velocity, bullet.duration);
-    expect(endpoint.distanceTo(new T.Vector3(event.tx, event.ty, event.tz))).toBeLessThan(1e-9);
+    const endpoint = muzzle
+      .clone()
+      .addScaledVector(bullet.velocity, bullet.duration);
+    expect(
+      endpoint.distanceTo(new T.Vector3(event.tx, event.ty, event.tz)),
+    ).toBeLessThan(1e-9);
     // The flash stays on the muzzle as the soldier moves; the round does not.
     muzzle.set(4.6, 3.2, 5.0);
     fx.update(0.02);
@@ -92,13 +96,22 @@ describe("fixed body-centre shot presentation", () => {
     const body = new T.Vector3(4, 2, 6);
     fx.event(shot(), body, () => null);
     const flash = fx.items.find((item) => item.kind === "flash")!;
-    expect(flash.mesh.position.distanceTo(new T.Vector3(4, 3.5, 6))).toBeLessThan(1e-9);
+    expect(
+      flash.mesh.position.distanceTo(new T.Vector3(4, 3.5, 6)),
+    ).toBeLessThan(1e-9);
   });
 
   it("finds a weapon's muzzle at the far end of its barrel axis", () => {
     // Root at the grip; stock 0.25 m behind, barrel 0.8 m forward (-z) and above the grip.
     const gun = new T.Group();
-    const add = (w: number, h: number, d: number, x: number, y: number, z: number) => {
+    const add = (
+      w: number,
+      h: number,
+      d: number,
+      x: number,
+      y: number,
+      z: number,
+    ) => {
       const m = new T.Mesh(new T.BoxGeometry(w, h, d));
       m.position.set(x, y, z);
       gun.add(m);

@@ -1012,6 +1012,28 @@ export class Renderer {
         this.players.delete(key);
       }
     if (w) {
+      // Shots not yet drawn, per owner: the soldier is posed onto their line
+      // before the tracer leaves its muzzle below.
+      const shotLines = new Map<
+        string,
+        { x: number; y: number; z: number }[]
+      >();
+      for (const e of w.events) {
+        if (e.id <= this.lastEvent || e.type !== "shot" || !e.owner) continue;
+        const o = { x: e.x, y: e.y ?? 1.5, z: e.z },
+          t = { x: e.tx ?? e.x, y: e.ty ?? o.y, z: e.tz ?? e.z };
+        const length = Math.hypot(t.x - o.x, t.y - o.y, t.z - o.z);
+        if (length < 1e-4) continue;
+        // A projectile launch only carries a 2 m direction marker.
+        const reach = length < 3 ? 30 / length : 1;
+        const line = shotLines.get(e.owner) ?? [];
+        line.push({
+          x: o.x + (t.x - o.x) * reach,
+          y: o.y + (t.y - o.y) * reach,
+          z: o.z + (t.z - o.z) * reach,
+        });
+        shotLines.set(e.owner, line);
+      }
       for (const [playerIndex, p] of w.players.entries()) {
         let m = this.players.get(p.id);
         const target = p.id === id && predict ? predict : p;
@@ -1060,7 +1082,10 @@ export class Renderer {
         ].join(":");
         m.userData.poseElapsed =
           (m.userData.poseElapsed ?? 0) + (animate ? dt : 0);
-        const shot = p.cool > (m.userData.poseCool ?? 0) + 0.025;
+        const shotLine = shotLines.get(p.id);
+        if (shotLine)
+          (m.userData.trooper as StandardTrooper | undefined)?.aimAt(shotLine);
+        const shot = !!shotLine || p.cool > (m.userData.poseCool ?? 0) + 0.025;
         // Other soldiers arrive as 20 Hz yaw snapshots: ease the drawn facing
         // between them (presentation only). A new shot snaps it to the reported
         // aim so the muzzle matches the shot. The local soldier uses the camera aim.
@@ -1610,7 +1635,8 @@ export class Renderer {
       for (const e of w.events.filter((e) => e.id > this.lastEvent)) {
         this.lastEvent = Math.max(this.lastEvent, e.id);
         const shooter = e.owner ? this.players.get(e.owner) : undefined;
-        const trooper = shooter?.userData.trooper as StandardTrooper | undefined;
+        const trooper = shooter?.userData.trooper as
+          StandardTrooper | undefined;
         this.combat.event(
           e,
           shooter?.position,

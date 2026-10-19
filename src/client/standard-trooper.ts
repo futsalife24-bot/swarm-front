@@ -254,34 +254,62 @@ export function loadStandardTrooper(reviewAssetUrl?: string) {
   return import.meta.env.DEV && reviewAssetUrl ? load() : (loading ??= load());
 }
 
-const muzzleCache = new WeakMap<T.Object3D, T.Vector3>();
+// Seconds the barrel stays on the last shot line, then eases back to the input aim.
+const SHOT_AIM_HOLD = 0.45,
+  SHOT_AIM_RELEASE = 0.3;
+const boreCache = new WeakMap<
+  T.Object3D,
+  { muzzle: T.Vector3; forward: T.Vector3 }
+>();
+const boreOf = (gun: T.Object3D) => {
+  let bore = boreCache.get(gun);
+  if (!bore) boreCache.set(gun, (bore = weaponBore(gun)));
+  return bore;
+};
 /**
  * Muzzle point in the weapon root's own space. The barrel is the longest axis;
  * the muzzle is the centroid of the vertices in the last 3 % of that axis at
  * the end farther from the grip socket (the root origin).
  */
 export function weaponMuzzle(gun: T.Object3D) {
+  return weaponBore(gun).muzzle;
+}
+/** Muzzle point and firing direction (unit, along the barrel axis) in weapon space. */
+export function weaponBore(gun: T.Object3D) {
   gun.updateWorldMatrix(true, true);
   const toRoot = gun.matrixWorld.clone().invert();
   const points: T.Vector3[] = [];
   gun.traverse((o) => {
     const mesh = o as T.Mesh;
-    const position = mesh.isMesh ? mesh.geometry?.getAttribute("position") : undefined;
+    const position = mesh.isMesh
+      ? mesh.geometry?.getAttribute("position")
+      : undefined;
     if (!position) return;
     const toLocal = toRoot.clone().multiply(mesh.matrixWorld);
     for (let i = 0; i < position.count; i++)
-      points.push(new T.Vector3().fromBufferAttribute(position, i).applyMatrix4(toLocal));
+      points.push(
+        new T.Vector3().fromBufferAttribute(position, i).applyMatrix4(toLocal),
+      );
   });
-  if (!points.length) return new T.Vector3();
+  if (!points.length)
+    return { muzzle: new T.Vector3(), forward: new T.Vector3(0, 0, -1) };
   const box = new T.Box3().setFromPoints(points);
   const size = box.getSize(new T.Vector3());
-  const axis = size.x >= size.y && size.x >= size.z ? "x" : size.y >= size.z ? "y" : "z";
-  const end = Math.abs(box.max[axis]) >= Math.abs(box.min[axis]) ? box.max[axis] : box.min[axis];
+  const axis =
+    size.x >= size.y && size.x >= size.z ? "x" : size.y >= size.z ? "y" : "z";
+  const end =
+    Math.abs(box.max[axis]) >= Math.abs(box.min[axis])
+      ? box.max[axis]
+      : box.min[axis];
   const band = size[axis] * 0.03;
   const tip = points.filter((p) => Math.abs(p[axis] - end) <= band);
-  const muzzle = tip.reduce((sum, p) => sum.add(p), new T.Vector3()).divideScalar(tip.length);
+  const muzzle = tip
+    .reduce((sum, p) => sum.add(p), new T.Vector3())
+    .divideScalar(tip.length);
   muzzle[axis] = end;
-  return muzzle;
+  const forward = new T.Vector3();
+  forward[axis] = Math.sign(end) || 1;
+  return { muzzle, forward };
 }
 
 /** Character clips and weapon profiles are independent of authoritative combat rules. */
@@ -318,6 +346,8 @@ export class StandardTrooper {
   private runStride = TROOPER_RUN_STRIDE;
   private walking = false;
   private aimProgress = 0;
+  private shotAim: T.Vector3 | null = null;
+  private shotAimAge = 10;
   private readonly combat: boolean;
   private contactLocks: {
     key: string;
@@ -800,6 +830,11 @@ export class StandardTrooper {
       this.lowerMode = "";
       this.basePose = [];
       this.rollRecovery = 0;
+      // Keep a line set for this frame: the first shot of a run arrives with it.
+      if (this.shotAimAge > 0) {
+        this.shotAim = null;
+        this.shotAimAge = 10;
+      }
     }
     const dx = fresh ? 0 : motion.x - prev.x,
       dz = fresh ? 0 : motion.z - prev.z;
@@ -1174,6 +1209,25 @@ export class StandardTrooper {
       );
       this.model.updateMatrixWorld(true);
     }
+    // Hold the barrel on the last shot line, then ease back to the input aim.
+    const shotAimWeight =
+      1 -
+      T.MathUtils.smoothstep(
+        this.shotAimAge,
+        SHOT_AIM_HOLD,
+        SHOT_AIM_HOLD + SHOT_AIM_RELEASE,
+      );
+    if (
+      this.shotAim &&
+      shotAimWeight > 0 &&
+      mode.startsWith("normal_") &&
+      !rolling &&
+      p.hp > 0
+    ) {
+      this.alignBarrel(this.shotAim, shotAimWeight);
+      this.model.updateMatrixWorld(true);
+    }
+    this.shotAimAge += dt;
     this.lockContacts(
       this.locomotion / runDuration,
       runClip === "Walk",
@@ -1278,13 +1332,77 @@ export class StandardTrooper {
   muzzle(out = new T.Vector3()): T.Vector3 | null {
     const gun = this.weapons.find((o) => o.parent === this.hand);
     if (!gun) return null;
-    let local = muzzleCache.get(gun);
-    if (!local) {
-      local = weaponMuzzle(gun);
-      muzzleCache.set(gun, local);
-    }
     gun.updateWorldMatrix(true, false);
-    return out.copy(local).applyMatrix4(gun.matrixWorld);
+    return out.copy(boreOf(gun).muzzle).applyMatrix4(gun.matrixWorld);
+  }
+  /** World firing direction of the hand-held barrel (presentation only). */
+  barrel(out = new T.Vector3()): T.Vector3 | null {
+    const gun = this.weapons.find((o) => o.parent === this.hand);
+    if (!gun) return null;
+    gun.updateWorldMatrix(true, false);
+    return out.copy(boreOf(gun).forward).transformDirection(gun.matrixWorld);
+  }
+  /**
+   * Points the reported shots hit (one per pellet). The next poses turn the
+   * upper body so the barrel lies on the drawn shot line, which the aim assist
+   * or a bot can bend away from the input pitch.
+   */
+  aimAt(points: readonly { x: number; y: number; z: number }[]) {
+    if (!points.length) return;
+    const sum = new T.Vector3();
+    for (const p of points) sum.add(new T.Vector3(p.x, p.y, p.z));
+    this.shotAim = sum.divideScalar(points.length);
+    this.shotAimAge = 0;
+  }
+  // Rotate the spine (about world up, then about the barrel's horizontal
+  // normal) until the barrel points from the muzzle at `target`.
+  private alignBarrel(target: T.Vector3, weight: number) {
+    const gun = this.weapons.find((o) => o.parent === this.hand);
+    const spine = this.model.getObjectByName("Spine");
+    if (!gun || !spine?.parent) return;
+    // The renderer turns the outer group to the facing just before posing.
+    this.model.updateWorldMatrix(true, true);
+    const start = spine.quaternion.clone();
+    const up = new T.Vector3(0, 1, 0);
+    const rotate = (worldAxis: T.Vector3, angle: number) => {
+      const axis = worldAxis
+        .clone()
+        .applyQuaternion(
+          spine.parent!.getWorldQuaternion(new T.Quaternion()).invert(),
+        )
+        .normalize();
+      spine.quaternion.premultiply(
+        new T.Quaternion().setFromAxisAngle(axis, angle),
+      );
+      spine.updateWorldMatrix(false, true);
+    };
+    for (let k = 0; k < 4; k++) {
+      const muzzle = this.muzzle()!,
+        forward = this.barrel()!;
+      const want = target.clone().sub(muzzle);
+      if (want.lengthSq() < 0.25) break;
+      want.normalize();
+      // Very close shots would fold the soldier in half; hold a sane range.
+      const wantPitch = T.MathUtils.clamp(Math.asin(want.y), -0.95, 1.25);
+      const yawError = Math.atan2(
+        forward.z * want.x - forward.x * want.z,
+        forward.x * want.x + forward.z * want.z,
+      );
+      const pitchError =
+        wantPitch - Math.asin(T.MathUtils.clamp(forward.y, -1, 1));
+      if (Math.abs(yawError) < 0.002 && Math.abs(pitchError) < 0.002) break;
+      rotate(up, T.MathUtils.clamp(yawError, -0.8, 0.8));
+      const level = this.barrel()!.setY(0);
+      if (level.lengthSq() < 1e-6) break;
+      rotate(
+        level.normalize().cross(up),
+        T.MathUtils.clamp(pitchError, -0.8, 0.8),
+      );
+    }
+    if (weight < 1) {
+      spine.quaternion.copy(start.slerp(spine.quaternion, weight));
+      spine.updateWorldMatrix(false, true);
+    }
   }
   dispose() {
     for (const glow of this.weaponGlows) glow.dispose();

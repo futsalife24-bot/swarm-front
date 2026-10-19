@@ -197,7 +197,12 @@ export class CombatEffects {
         anchor,
       );
       const flash = this.items[this.items.length - 1];
-      if (muzzle && follow && flash?.kind === "flash" && flash.shotAnchor === anchor)
+      if (
+        muzzle &&
+        follow &&
+        flash?.kind === "flash" &&
+        flash.shotAnchor === anchor
+      )
         flash.shotFollow = follow;
     }
     if (e.type === "burst" && e.frontEffect === "mine-set") {
