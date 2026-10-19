@@ -117,7 +117,7 @@ export class FrontSettings {
       })
       .join(
         "",
-      )}<label>ジャイロ<button id="front-setting-gyro" role="switch" aria-label="ジャイロ" aria-checked="${p.gyroEnabled}">${p.gyroEnabled ? "オン" : "オフ"}</button></label><label>描画品質<select id="front-setting-quality"><option value="1">標準</option><option value="0.65">軽量</option></select></label><label>描画上限<select id="front-setting-frameRate"><option value="60">60fps</option><option value="30">30fps</option></select></label><label>画面演出<button id="front-setting-motion" role="switch" aria-label="動きを抑える" aria-checked="${getMenuReducedMotion()}">${getMenuReducedMotion() ? "動きを抑える：オン" : "動きを抑える：オフ"}</button></label><button id="front-setting-layout">操作ボタンの配置</button></div><p id="front-settings-status" role="status"></p></section>`;
+      )}<label>ジャイロ<button id="front-setting-gyro" role="switch" aria-label="ジャイロ" aria-checked="${p.gyroEnabled}">${p.gyroEnabled ? "オン" : "オフ"}</button></label><label>描画品質<select id="front-setting-quality"><option value="1">標準</option><option value="0.65">軽量</option></select></label><label>描画上限<select id="front-setting-frameRate"><option value="60">60fps</option><option value="30">30fps</option></select></label><label>動きを抑える<button id="front-setting-motion" role="switch" aria-label="動きを抑える" aria-checked="${getMenuReducedMotion()}">${getMenuReducedMotion() ? "オン" : "オフ"}</button></label><button id="front-setting-layout">操作ボタンの配置</button></div><p id="front-settings-status" role="status"></p></section>`;
     const status = root.querySelector<HTMLElement>("#front-settings-status")!;
     status.textContent = this.error || "変更はこの端末に自動保存されます。";
     const write = (next: FrontPreferences) => {
@@ -171,8 +171,8 @@ export class FrontSettings {
       const enabled = !getMenuReducedMotion();
       setMenuReducedMotion(enabled);
       motion.setAttribute("aria-checked", String(enabled));
-      motion.textContent = `動きを抑える：${enabled ? "オン" : "オフ"}`;
-      status.textContent = "画面演出の設定を保存しました。";
+      motion.textContent = enabled ? "オン" : "オフ";
+      status.textContent = "動きを抑える設定を保存しました。";
     };
     gyro.onclick = async () => {
       const enabled = !this.preferences.gyroEnabled;
