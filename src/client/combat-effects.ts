@@ -33,6 +33,8 @@ type Effect = {
   size: number;
   velocity: T.Vector3;
   shotAnchor?: T.Vector3;
+  /** Muzzle the emission flash stays on (real soldier model). */
+  shotFollow?: (out: T.Vector3) => T.Vector3 | null;
   kind:
     | "bullet"
     | "trail"
@@ -134,20 +136,30 @@ export class CombatEffects {
         size,
         velocity,
         shotAnchor,
+        shotFollow: undefined,
         kind,
       }),
     );
   }
-  event(e: Event, renderedBody?: T.Vector3) {
+  event(
+    e: Event,
+    renderedBody?: T.Vector3,
+    renderedMuzzle?: (out: T.Vector3) => T.Vector3 | null,
+  ) {
     if (e.type === "shot") {
-      // Player shots use the same fixed body-centre origin as authority, but in
-      // rendered space. Snapshot coordinates otherwise jump ahead of the body
-      // on a strafe. Secondary hits retain their own world-space origin.
+      // Player shots are drawn in rendered space so a strafe never shows them
+      // ahead of the body. With the real soldier model they leave the drawn
+      // muzzle; otherwise the authority's fixed body-centre height (1.5 m).
+      // Hits stay at the authority's endpoint. Secondary hits keep their own origin.
       const anchor =
         e.owner !== "enemy" && !e.frontEffect ? renderedBody : undefined;
-      const start = anchor
-        ? new T.Vector3(anchor.x, anchor.y + 1.5, anchor.z)
-        : new T.Vector3(e.x, e.y, e.z);
+      const follow = anchor ? renderedMuzzle : undefined;
+      const muzzle = follow?.(new T.Vector3()) ?? null;
+      const start = muzzle
+        ? muzzle
+        : anchor
+          ? new T.Vector3(anchor.x, anchor.y + 1.5, anchor.z)
+          : new T.Vector3(e.x, e.y, e.z);
       const delta = new T.Vector3(e.tx!, e.ty!, e.tz!).sub(start);
       const distance = delta.length();
       const dir = delta.normalize();
@@ -184,6 +196,14 @@ export class CombatEffects {
         new T.Vector3(),
         anchor,
       );
+      const flash = this.items[this.items.length - 1];
+      if (
+        muzzle &&
+        follow &&
+        flash?.kind === "flash" &&
+        flash.shotAnchor === anchor
+      )
+        flash.shotFollow = follow;
     }
     if (e.type === "burst" && e.frontEffect === "mine-set") {
       this.add("ring", e.x, e.y, e.z, 1.1, 0.32, 0x65ffe2);
@@ -334,7 +354,9 @@ export class CombatEffects {
         e.kind === "billow" ? expand(e.age) - expand(previousAge) : dt,
       );
       // Only the brief emission flash follows the body; fired rounds never do.
-      if (e.shotAnchor)
+      if (e.shotFollow && e.shotFollow(e.mesh.position)) {
+        // stays on the drawn muzzle
+      } else if (e.shotAnchor)
         e.mesh.position.set(
           e.shotAnchor.x,
           e.shotAnchor.y + 1.5,
