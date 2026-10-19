@@ -1,4 +1,14 @@
-# 現在地: BASTIONの反撃弾を弾速3倍・射程2倍に変更して公開済み（2026-10-18、本人の実機確認待ち）
+# 現在地: 射撃を銃口から出し上半身を射撃線へ向ける修正と、ゲーム内PVのv13差し替えを公開済み（2026-10-19、本人の実機確認待ち）
+
+本人指摘（PV制作中）「リアルになった兵士のアップで射撃が頭から発射されているのが露呈」「銃口から弾は出ているが銃の向きと発射角が合ってない。上下エイムで向けられるように」、本人「これで公開！ゲーム内のPVを見るところも差し替えて。」。
+
+- [PR213](https://github.com/futsalife24-bot/swarm-front/pull/213)（`9f43e43`・`653d293`）: 実兵士モデルの弾道と発射炎を手持ち武器の銃口から出す（武器の最長軸の先端、`weaponBore`）。上半身の上下はカメラ入力のpitchにしか従わず、エイムアシストや自動照準で曲がった射撃線に追従していなかったため、描画側で各兵士へ新しい射撃線を姿勢更新前に渡し（`render.ts`）、Spineを回して銃身が銃口→着弾点を向くようにした（`StandardTrooper.aimAt/alignBarrel`、0.45秒保持→0.3秒で入力エイムへ戻る）。見た目のみで、当たり判定・権威の原点・着弾点・通信は不変。単体 `front-shot-origin` 9件・`front-soldier-shot-aim` 4件。全体の失敗は既存7件（既存6件＋ST25）と読込失敗1件（`weapon-stat-marks`）で変更前と同じ。PV撮影環境（本番Renderer）で毎発の銃身と射撃線の角度差を実測: ライフル最大0.15°・ロケット最大0.1°・散弾は広がりの範囲（平均約3°）。
+- [PR214](https://github.com/futsalife24-bot/swarm-front/pull/214)（`59face0`）: 設定「PVを見る」の動画を `swarm-front-pv-v10.mp4` から `swarm-front-pv-v13.mp4`（本人承認のPV v13＝レビュー版v5、30秒・1920×1080・48fps、音声はv10と同一、13,070,271 bytes、v10と同じCRF24・最大4Mbps）へ。v10は配信物から外した（Git履歴に残る）。出典・再現は `public/assets/video/README.md`。確認スクリプト `scripts/check-ingame-pv.mjs`。PVの撮影・編集ツールはリポジトリ外（MediaWork、ローカルbranch `claude/pv-v13-20261019`）。
+- 注意: PR213のmergeで `Player-Note:` が改行されず題名行に入ったため、PR214のmerge本文に同じ文を行頭から記した（更新履歴は行頭の `Player-Note:` だけを拾う）。
+
+PR213・PR214を通常merge。公開ソースmain `a9ede4d`、Worker `57f36bd8-d3d9-4df9-9590-4b54fa593e96`（前版 `89dc55c2-1021-46a7-97a2-12a2979d419d`）。production dry-run 426 assets成功。配信26ファイル（動画含む）SHA一致・`/api/health` 200、旧 `pv-v10.mp4` は配信されない（[delivery.json](evidence/muzzle-pv-release-20261019/delivery.json)）。公開版の兵士描画JSがbuildとSHA一致し射撃線追従のコードを含む（[live.json](evidence/muzzle-pv-release-20261019/live.json)）。公開版の実ブラウザ（844×390）でタイトル→設定→PVを見る→再生: v13・1920×1080・30秒・再生中・SHA一致・エラーなし（[pv-live.json](evidence/muzzle-pv-release-20261019/pv-live.json)、[画面](evidence/muzzle-pv-release-20261019/pv-live-844x390.jpg)）。公開版での戦闘中の銃口・エイムの目視、実機スマホは未確認。次: 本人の実機確認。
+
+# 履歴: BASTIONの反撃弾を弾速3倍・射程2倍に変更して公開済み（2026-10-18）
 
 本人「BAATIONの反撃の弾の速度は3倍くらいにしてもいいと思う。射程も2倍くらいに伸ばして。」。反撃の放射弾を 9m/s・18m → 27m/s・36m に変更（`src/shared/bastion.ts` の `bulletSpeed`・`bulletRange`）。赤予告の帯も同じ `bastionLanes` から描くので36mまで伸びる。1tickで1.35m進むため、`style:"bastion"` の敵弾だけ通過した線分で被弾を判定（`src/shared/game.ts` の `segmentDistance`、他の敵弾は従来どおり）。予告帯の描画枠を768→1152（36m×12レーン×同時3体＋照準弾）。通常時の単発照準弾（11m/s・26m）は「反撃」ではないので変更なし。branch `codex/bastion-counter-speed-20261018`、base `f78c7a6472a8ff13dde13ef2ee5873c0084d8faf`。確認: 単体36件（30m先のレーン上で命中・射程外は無傷・1tickの両端が1m超でも通過線0.8mなら命中、線分判定を外すと失敗することも確認）、型。全体はST25の制限時間クリア試験だけが新たに不合格（seed 814で179.4秒に体力0）。予告を避けない通常ボットのST25勝率を10シードで比較すると変更前7/10・変更後6/10で、変更前から乱数次第で負ける試験。ST25のBASTION数は本人の「数も増やして」を優先して2体のまま。他の失敗7件（既存6件と、変更前mainでも読込で落ちる `weapon-stat-marks`）は変更前と同じ。実ブラウザ（検証ページ、844×390）で36mの赤予告、発射0.4秒後の弾、30m先の隊員へ約1.03秒で命中を確認（[証拠](evidence/bastion-counter-speed-20261018/check.json)）。
 
