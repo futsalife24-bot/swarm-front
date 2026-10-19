@@ -1,0 +1,28 @@
+{
+ "at": "2026-10-19T13:06:51.111Z",
+ "origin": "http://127.0.0.1:5402",
+ "track": "pv-v13",
+ "width": 1920,
+ "height": 1080,
+ "duration": 30,
+ "currentTime": 1.511678,
+ "paused": false,
+ "error": null,
+ "requests": [
+  {
+   "url": "http://127.0.0.1:5402/assets/video/swarm-front-pv-v13.mp4",
+   "status": 200
+  }
+ ],
+ "file": {
+  "blob": true,
+  "bytes": 13070271,
+  "sha256": "cc36d92231f3928cda81a4d08780f223bcc3d6ecbcfda67f444a7502c580ef46"
+ },
+ "expectedSha256": "cc36d92231f3928cda81a4d08780f223bcc3d6ecbcfda67f444a7502c580ef46",
+ "errors": [
+  "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5402' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+  "Failed to load resource: net::ERR_FAILED"
+ ],
+ "pass": true
+}
