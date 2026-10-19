@@ -254,6 +254,36 @@ export function loadStandardTrooper(reviewAssetUrl?: string) {
   return import.meta.env.DEV && reviewAssetUrl ? load() : (loading ??= load());
 }
 
+const muzzleCache = new WeakMap<T.Object3D, T.Vector3>();
+/**
+ * Muzzle point in the weapon root's own space. The barrel is the longest axis;
+ * the muzzle is the centroid of the vertices in the last 3 % of that axis at
+ * the end farther from the grip socket (the root origin).
+ */
+export function weaponMuzzle(gun: T.Object3D) {
+  gun.updateWorldMatrix(true, true);
+  const toRoot = gun.matrixWorld.clone().invert();
+  const points: T.Vector3[] = [];
+  gun.traverse((o) => {
+    const mesh = o as T.Mesh;
+    const position = mesh.isMesh ? mesh.geometry?.getAttribute("position") : undefined;
+    if (!position) return;
+    const toLocal = toRoot.clone().multiply(mesh.matrixWorld);
+    for (let i = 0; i < position.count; i++)
+      points.push(new T.Vector3().fromBufferAttribute(position, i).applyMatrix4(toLocal));
+  });
+  if (!points.length) return new T.Vector3();
+  const box = new T.Box3().setFromPoints(points);
+  const size = box.getSize(new T.Vector3());
+  const axis = size.x >= size.y && size.x >= size.z ? "x" : size.y >= size.z ? "y" : "z";
+  const end = Math.abs(box.max[axis]) >= Math.abs(box.min[axis]) ? box.max[axis] : box.min[axis];
+  const band = size[axis] * 0.03;
+  const tip = points.filter((p) => Math.abs(p[axis] - end) <= band);
+  const muzzle = tip.reduce((sum, p) => sum.add(p), new T.Vector3()).divideScalar(tip.length);
+  muzzle[axis] = end;
+  return muzzle;
+}
+
 /** Character clips and weapon profiles are independent of authoritative combat rules. */
 export class StandardTrooper {
   readonly model: T.Group;
@@ -1239,6 +1269,22 @@ export class StandardTrooper {
       heavy,
       run,
     };
+  }
+  /**
+   * World position of the hand-held weapon's muzzle (presentation only).
+   * The barrel is the weapon's longest axis; the muzzle is its end farther from
+   * the grip socket at the weapon root. Null while no weapon is in the hand.
+   */
+  muzzle(out = new T.Vector3()): T.Vector3 | null {
+    const gun = this.weapons.find((o) => o.parent === this.hand);
+    if (!gun) return null;
+    let local = muzzleCache.get(gun);
+    if (!local) {
+      local = weaponMuzzle(gun);
+      muzzleCache.set(gun, local);
+    }
+    gun.updateWorldMatrix(true, false);
+    return out.copy(local).applyMatrix4(gun.matrixWorld);
   }
   dispose() {
     for (const glow of this.weaponGlows) glow.dispose();

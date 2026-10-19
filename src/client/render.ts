@@ -1609,9 +1609,13 @@ export class Renderer {
       syncDynamicInstances(this.healDrops);
       for (const e of w.events.filter((e) => e.id > this.lastEvent)) {
         this.lastEvent = Math.max(this.lastEvent, e.id);
+        const shooter = e.owner ? this.players.get(e.owner) : undefined;
+        const trooper = shooter?.userData.trooper as StandardTrooper | undefined;
         this.combat.event(
           e,
-          e.owner ? this.players.get(e.owner)?.position : undefined,
+          shooter?.position,
+          // Real soldier model: tracer and flash leave the drawn muzzle.
+          trooper ? (out) => trooper.muzzle(out) : undefined,
         );
         if (e.type === "kill") {
           for (let n = 0; n < 4 && this.effects.length < 100; n++)

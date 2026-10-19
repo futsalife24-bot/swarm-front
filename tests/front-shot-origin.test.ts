@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import * as T from "three";
 import { CombatEffects } from "../src/client/combat-effects";
+import { weaponMuzzle } from "../src/client/standard-trooper";
 import type { Event } from "../src/shared/game";
 import { addPlayer, createWorld, fire, neutral } from "../src/shared/game";
 import { STARTERS } from "../src/shared/defs";
@@ -67,6 +68,49 @@ describe("fixed body-centre shot presentation", () => {
       expect(event).toEqual(original);
     });
   }
+
+  it("leaves the drawn muzzle with the real soldier model and keeps the authority endpoint", () => {
+    const fx = new CombatEffects(new T.Scene());
+    const body = new T.Vector3(4, 2, 6);
+    const muzzle = new T.Vector3(4.3, 3.1, 5.2);
+    const event = shot();
+    fx.event(event, body, (out) => out.copy(muzzle));
+    const bullet = fx.items.find((item) => item.kind === "bullet")!;
+    const flash = fx.items.find((item) => item.kind === "flash")!;
+    expect(bullet.mesh.position.distanceTo(muzzle)).toBeLessThan(1e-9);
+    expect(flash.mesh.position.distanceTo(muzzle)).toBeLessThan(1e-9);
+    const endpoint = muzzle.clone().addScaledVector(bullet.velocity, bullet.duration);
+    expect(endpoint.distanceTo(new T.Vector3(event.tx, event.ty, event.tz))).toBeLessThan(1e-9);
+    // The flash stays on the muzzle as the soldier moves; the round does not.
+    muzzle.set(4.6, 3.2, 5.0);
+    fx.update(0.02);
+    expect(flash.mesh.position.distanceTo(muzzle)).toBeLessThan(1e-9);
+  });
+
+  it("falls back to the body-centre height while no weapon is in the hand", () => {
+    const fx = new CombatEffects(new T.Scene());
+    const body = new T.Vector3(4, 2, 6);
+    fx.event(shot(), body, () => null);
+    const flash = fx.items.find((item) => item.kind === "flash")!;
+    expect(flash.mesh.position.distanceTo(new T.Vector3(4, 3.5, 6))).toBeLessThan(1e-9);
+  });
+
+  it("finds a weapon's muzzle at the far end of its barrel axis", () => {
+    // Root at the grip; stock 0.25 m behind, barrel 0.8 m forward (-z) and above the grip.
+    const gun = new T.Group();
+    const add = (w: number, h: number, d: number, x: number, y: number, z: number) => {
+      const m = new T.Mesh(new T.BoxGeometry(w, h, d));
+      m.position.set(x, y, z);
+      gun.add(m);
+    };
+    add(0.08, 0.12, 0.5, 0, 0.02, 0); // receiver around the grip
+    add(0.03, 0.03, 0.6, 0, 0.06, -0.55); // barrel, ends at z = -0.85
+    add(0.06, 0.16, 0.06, 0, -0.1, 0.05); // magazine below
+    const tip = weaponMuzzle(gun);
+    expect(tip.z).toBeCloseTo(-0.85, 6);
+    expect(tip.y).toBeCloseTo(0.06, 2);
+    expect(tip.x).toBeCloseTo(0, 6);
+  });
 
   it("preserves world-space effects when no body exists, for enemies and secondary shots", () => {
     for (const event of [
