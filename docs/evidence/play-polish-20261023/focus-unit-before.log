@@ -1,0 +1,46 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+ ❯ tests/front-controls-lifecycle.test.ts (10 tests | 2 failed) 12ms
+   ❯ 戦闘入力の独立した解放と中断 (10)
+     × focusの通知が届かなくても読取時に解除する 8ms
+     × hiddenの通知が届かなくても読取時に解除する 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/front-controls-lifecycle.test.ts > 戦闘入力の独立した解放と中断 > focusの通知が届かなくても読取時に解除する
+ FAIL  tests/front-controls-lifecycle.test.ts > 戦闘入力の独立した解放と中断 > hiddenの通知が届かなくても読取時に解除する
+AssertionError: expected { mx: +0, mz: 1, yaw: 0.8, …(9) } to match object { mx: +0, mz: +0, fire: false, …(3) }
+(6 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "fire": false,
+-   "jump": false,
++   "fire": true,
++   "jump": true,
+    "mx": 0,
+-   "mz": 0,
++   "mz": 1,
+    "pitch": -0.2,
+    "yaw": 0.8,
+  }
+
+ ❯ tests/front-controls-lifecycle.test.ts:72:29
+     70|     if (mode === "focus") Object.assign(doc, { hasFocus: () => false }…
+     71|     else Object.assign(doc, { hidden: true });
+     72|     expect(controls.read()).toMatchObject({ mx: 0, mz: 0, fire: false,…
+       |                             ^
+     73|     expect(controls.touches.size).toBe(0);
+     74|     expect(controls.keys.size).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 8 passed (10)
+   Start at  13:04:33
+   Duration  1.83s (import 81%, transform 18%, tests 1%)
+

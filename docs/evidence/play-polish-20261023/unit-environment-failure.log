@@ -1,0 +1,66 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+ ❯ tests/front-soldier-shot-aim.test.ts (0 test)
+ ❯ tests/training.test.ts (0 test)
+ ❯ tests/front-network-input.test.ts (0 test)
+ ❯ tests/front-shot-origin.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/front-network-input.test.ts [ tests/front-network-input.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{c7943728-1517-43ef-9753-a733d411e049}\AC\Temp\b1a26ydQtnaU3c6RbwbYl\ssr\243f8ffb21149467c1e6745f1b9ec8d767b24a96'
+ ❯ src/client/front-network.ts:1:1
+      1| import { FRONT_BASE_IDS, type FrontUpgradeId } from "../shared/front-u…
+       | ^
+      2| import type { FrontRunView } from "../shared/front-run";
+      3| import {
+ ❯ tests/front-network-input.test.ts:2:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/front-shot-origin.test.ts [ tests/front-shot-origin.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{c7943728-1517-43ef-9753-a733d411e049}\AC\Temp\b1a26ydQtnaU3c6RbwbYl\ssr\0a34d5909db1edb3a3134ad496684e3ebce4c4b7'
+ ❯ tests/front-shot-origin.test.ts:4:1
+      2| import * as T from "three";
+      3| import { CombatEffects } from "../src/client/combat-effects";
+      4| import { weaponMuzzle } from "../src/client/standard-trooper";
+       | ^
+      5| import type { Event } from "../src/shared/game";
+      6| import { addPlayer, createWorld, fire, neutral } from "../src/shared/g…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/front-soldier-shot-aim.test.ts [ tests/front-soldier-shot-aim.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{c7943728-1517-43ef-9753-a733d411e049}\AC\Temp\b1a26ydQtnaU3c6RbwbYl\ssr\de5bc5f814d8533ca2ff51be369a4a6a06992896'
+ ❯ src/client/progression-weapons.ts:3:1
+      1| import * as T from "three";
+      2| import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+      3| import { modelOf, type Weapon } from "../shared/defs";
+       | ^
+      4| import type { NewWeapon } from "../shared/progression";
+      5| const models = new Map<string, T.Group>(),
+ ❯ src/client/standard-trooper.ts:3:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  tests/training.test.ts [ tests/training.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{c7943728-1517-43ef-9753-a733d411e049}\AC\Temp\b1a26ydQtnaU3c6RbwbYl\ssr\9f81c7e05f2405971f45269a13734e2479e47cf4'
+ ❯ src/shared/training.ts:1:1
+      1| import { createWorld, addPlayer, spawn, step, type Input } from "./gam…
+       | ^
+      2| import { STARTERS, type Weapon } from "./defs";
+      3| export const TARGETS = [
+ ❯ tests/training.test.ts:2:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  4 failed | 2 passed (6)
+      Tests  14 passed (14)
+   Start at  02:10:12
+   Duration  3.08s (transform 66%, import 29%, worker 4%, tests 1%)
+
+    Isolate  6 workers spawned · ~187ms startup each (spawn + environment, per file)
+             at least ~934ms faster with isolate: false — reuses workers across files instead of one per file
+

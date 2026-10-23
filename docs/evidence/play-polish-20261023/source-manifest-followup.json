@@ -1,0 +1,186 @@
+{
+  "branch": "claude/motion-toggle-balance-20261019",
+  "base": "a3d8f076935620b2c264825bb3b849c544e2842f",
+  "head": "a3d8f076935620b2c264825bb3b849c544e2842f",
+  "state": "追加範囲の修正・自己検証・証拠・状態記録が完了。未コミット・独立監査未実施・未公開",
+  "scope": [
+    "密集計測の切り分け",
+    "非フォーカス/非表示時の入力保護",
+    "実配置の追加ブラウザ検証"
+  ],
+  "changedSincePriorManifest": [
+    "src/client/input.ts",
+    "tests/front-controls-lifecycle.test.ts",
+    "scripts/check-play-polish-dense.mjs"
+  ],
+  "files": [
+    {
+      "path": "src/client/input.ts",
+      "sha256": "596510279E03C32B319E4F54A8FBB15516F2DBBF7F11E8DEA1E028D15483BC05"
+    },
+    {
+      "path": "src/client/minimap.ts",
+      "sha256": "668873F5508ACB6DD378B6CDB429DBE4AA8392DDAF97CA7DE4EA401AC48F326F"
+    },
+    {
+      "path": "src/client/combat-effects.ts",
+      "sha256": "A9FAE508847D2D93018479926E47A4F5C901E1ED95C556D0B59A285C51DF7478"
+    },
+    {
+      "path": "tests/front-controls-lifecycle.test.ts",
+      "sha256": "826FBA2541C45E449A1CECAA63CA5C9C56E643D7D2A9BE02BA47562F594B55B2"
+    },
+    {
+      "path": "tests/front-minimap-mates.test.ts",
+      "sha256": "FE08B22F2FA27F91B0827DA16B675847E262E05EEFB49923A590AA01DE40A4AD"
+    },
+    {
+      "path": "tests/front-effects-reuse.test.ts",
+      "sha256": "4404CA5170A51716877B9E4684EE527DC1F6D4D0979297DB90D437AFB6AD5317"
+    },
+    {
+      "path": "scripts/check-play-polish-input.mjs",
+      "sha256": "396CE77E65915D004297CDA4C97078133EDE15E6BE67A8E5F2531FA28D4C1C71"
+    },
+    {
+      "path": "scripts/check-play-polish-harrow.mjs",
+      "sha256": "6FA199ADE326FF9FDA3869AB79BF9E9FDA11B1A7079C0742AB5DCAF531262B9B"
+    },
+    {
+      "path": "scripts/check-play-polish-effects.mjs",
+      "sha256": "EF43F6114CECE87D30FCF9A2DA1863DF4EAE93BEA1C61022DE6CFAB81EA9C264"
+    },
+    {
+      "path": "scripts/check-play-polish-dense.mjs",
+      "sha256": "504B9F0C7DAAB5491E2974EE78BD331F421260D65C311CDD652022018755D498"
+    },
+    {
+      "path": "scripts/measure-play-polish.test.ts",
+      "sha256": "D642D3D62CED94F364823B4D069C7F34C5FA06810A4ADF7567B32404ADDAD002"
+    },
+    {
+      "path": "scripts/vitest.play-polish.config.mjs",
+      "sha256": "5296360B77D97A76B437FA62C77481345C3C2FB443EEC74884052EFCAD888BFF"
+    },
+    {
+      "path": "scripts/check-save-safety.mjs",
+      "sha256": "8EAA0D17D18C7D664EF89804D9E24CB09E2498D49915734B418720B47EB76C75"
+    },
+    {
+      "path": "scripts/check-save-fixtures.mjs",
+      "sha256": "712BB4421FA98C2F1E33F03AD4125DBB7BC56FCDCA8CFDC3E0D5F1DB4917B5CC"
+    },
+    {
+      "path": "scripts/check-recovery-receipts.mjs",
+      "sha256": "97EA10E01C7E6A2D4FC889C473337350C3F0D509D7672905D6B7542B80CEF3AF"
+    },
+    {
+      "path": "scripts/check-battle-checkpoint.mjs",
+      "sha256": "92C9E74F8F11339E895796A888B6F8C23F3878E4C52804C9F17788AC490E770B"
+    },
+    {
+      "path": "scripts/run-save-regression.mjs",
+      "sha256": "AAC912A177D1E72DC668480D55A51F95C83CE694A94E5ADA215171AF9875EE3A"
+    },
+    {
+      "path": "scripts/check-play-polish-mobile.mjs",
+      "sha256": "EAE732337F95DC2B23089949584BF4051C4095B7A8947C56B9342D6842C52D98"
+    },
+    {
+      "path": "docs/STATE.md",
+      "sha256": "759CC82676D9A457FA3EA247952CE6D2D99C5E00FFBFA3FA721B7CEDA42A22EF"
+    },
+    {
+      "path": "docs/PLAY-POLISH-20261023.md",
+      "sha256": "F8E359E74EF98941D05D51A7289B2E56A58714FA3BF0E5083D1247F8117A49B3"
+    },
+    {
+      "path": "docs/evidence/play-polish-20261023/README.md",
+      "sha256": "A92E6FDBC5AB2521C9CEF33A852D49F26D79A393184C280581B51C47526A6692"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "docs/evidence/play-polish-20261023/dense-native-final.json",
+      "sha256": "6E78E6FD27CFCFA580F20A10A4B933CA236EF8E30B81EBEF7CE22CBDC29CA5F8"
+    },
+    {
+      "path": "docs/evidence/play-polish-20261023/dense-swiftshader-incomplete.json",
+      "sha256": "8651E29486CF2AA751473624B7EA94AEFAD3598DACF4039EB82F7FE7B4C27710"
+    },
+    {
+      "path": "docs/evidence/play-polish-20261023/dense-software-no-draw.json",
+      "sha256": "0E12D029EE159D37E37898A8995A0820391E4B874715BF2AAFDE2C984118A128"
+    },
+    {
+      "path": "docs/evidence/play-polish-20261023/mobile-final.json",
+      "sha256": "A58574B6A70C55C187EAAA31E442623A5CC8BC6EA241645635D612197773D999"
+    },
+    {
+      "path": "docs/evidence/play-polish-20261023/mobile-focus-before.json",
+      "sha256": "BC527BFEB176BAB8BF32E58769E73BA93439B380028B2208515300739CA7CAEC"
+    },
+    {
+      "path": "docs/evidence/play-polish-20261023/focus-unit-before.log",
+      "sha256": "462BCD920A06DAD458603F208C8B89CD2FDAE2E44AE91AA45FC2DDA5A8A664AA"
+    },
+    {
+      "path": "docs/evidence/play-polish-20261023/focus-unit-after.log",
+      "sha256": "C64A22BDAC68FDC93600144CFEE1A65C923130E85A76ADD86709CD3CDF460EB3"
+    },
+    {
+      "path": "docs/evidence/play-polish-20261023/layout-followup.log",
+      "sha256": "362316647DE2EBE241731EDBF9D200CB4AEB82634CC3CE855D6D099E560A077E"
+    },
+    {
+      "path": "docs/evidence/play-polish-20261023/typecheck-followup.log",
+      "sha256": "2A3CECD9A5B890521CF83E8F3569D517890E9AC6B980F39F5E23A7AA2F1632BC"
+    },
+    {
+      "path": "docs/evidence/play-polish-20261023/build-followup.log",
+      "sha256": "1378BB9769E992EBAD91939091D81667795A10C36AB8E88C0A2D61AB5B5101B9"
+    },
+    {
+      "path": "docs/evidence/play-polish-20261023/dense-before.png",
+      "sha256": "7859D1B9A75CDCE7E0E3FAF2B701F8A65117D02849F6E14B5333C242AB86B934"
+    },
+    {
+      "path": "docs/evidence/play-polish-20261023/dense-after.png",
+      "sha256": "7859D1B9A75CDCE7E0E3FAF2B701F8A65117D02849F6E14B5333C242AB86B934"
+    },
+    {
+      "path": "docs/evidence/play-polish-20261023/mobile-568x320.png",
+      "sha256": "25FF11712907F3234A8EEBCEF81542C9E4D4814EAD808C955B1DA6E1CB759707"
+    },
+    {
+      "path": "docs/evidence/play-polish-20261023/mobile-844x390.png",
+      "sha256": "415D2BD0CE4F50088010921A1B08E76AB2F331ACB5DCA48DF0B7FBAD406FEE4F"
+    },
+    {
+      "path": "docs/evidence/play-polish-20261023/input-followup.patch",
+      "sha256": "F21FB5DCE20A5E13F0250C19014C79DADCDB144021A9512D611309AA6319A233"
+    }
+  ],
+  "publicationNote": "私用保管庫のメタデータを公開用コピーから除外。元manifestは元worktreeに保持。filesの文書ハッシュは公開記録追加前の元作業時点。",
+  "staged": false,
+  "excludedExisting": [
+    "AGENTS.md",
+    "ARGON_ADAPTER.md",
+    "CLAUDE.md",
+    "PROJECT_CONTEXT.md",
+    "PROJECT_RULES.md",
+    "docs/agent-handoff/",
+    "assets/blender/candidates/bastion/concept-v2/",
+    "assets/blender/candidates/bastion/concept-v3/"
+  ],
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "未確認",
+  "subagents": 0,
+  "remaining": [
+    "HARROW全攻撃/画面端/密集の予告確認",
+    "音の実聴",
+    "後半/移動/協力人数の武器比較",
+    "本人の実スマホ確認",
+    "訓練場本体/新数値/報酬変更/別候補採用は承認後"
+  ]
+}

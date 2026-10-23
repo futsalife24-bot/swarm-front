@@ -1,0 +1,189 @@
+{
+  "passed": true,
+  "errors": [],
+  "views": [
+    {
+      "status": {
+        "mode": "spin",
+        "time": 0.6,
+        "hp": 10000,
+        "height": 5.293691158294678,
+        "scale": 1.95,
+        "movementSpeed": 0.64,
+        "attack": "Spin",
+        "spinRotation": 0,
+        "overview": false,
+        "sideView": false,
+        "frontView": false,
+        "paused": true,
+        "recording": false,
+        "missiles": 0,
+        "model": "GLB loaded",
+        "assetURL": "http://127.0.0.1:60242/assets/enemies/harrow_motion_v14.glb",
+        "clips": [
+          "Idle",
+          "Locomotion",
+          "Lunge",
+          "Threat",
+          "AirThreat",
+          "Spin",
+          "Takeoff",
+          "Flight",
+          "Glide",
+          "Dive",
+          "StaggerFall",
+          "Land",
+          "Dash",
+          "Snipe",
+          "BombPass",
+          "TakeoffB",
+          "TakeoffC",
+          "TakeoffD"
+        ],
+        "drawBatches": 3,
+        "pose": {
+          "clip": "Spin",
+          "time": 0.6,
+          "from": "Idle",
+          "fromTime": 0.14285714285714285,
+          "blend": 0.6,
+          "wind": 0,
+          "cool": 999
+        },
+        "palettePose": [
+          1868,
+          1869,
+          0
+        ]
+      },
+      "camera": [
+        0.7653439632463026,
+        10.124889931136728,
+        28.97473757926914
+      ],
+      "worldTime": 0.6
+    },
+    {
+      "status": {
+        "mode": "spin",
+        "time": 1.15,
+        "hp": 9884.08,
+        "height": 5.293691158294678,
+        "scale": 1.95,
+        "movementSpeed": 0.64,
+        "attack": "Spin",
+        "spinRotation": 0,
+        "overview": false,
+        "sideView": false,
+        "frontView": false,
+        "paused": true,
+        "recording": false,
+        "missiles": 0,
+        "model": "GLB loaded",
+        "assetURL": "http://127.0.0.1:60242/assets/enemies/harrow_motion_v14.glb",
+        "clips": [
+          "Idle",
+          "Locomotion",
+          "Lunge",
+          "Threat",
+          "AirThreat",
+          "Spin",
+          "Takeoff",
+          "Flight",
+          "Glide",
+          "Dive",
+          "StaggerFall",
+          "Land",
+          "Dash",
+          "Snipe",
+          "BombPass",
+          "TakeoffB",
+          "TakeoffC",
+          "TakeoffD"
+        ],
+        "drawBatches": 3,
+        "pose": {
+          "clip": "Spin",
+          "time": 1.15,
+          "from": "Idle",
+          "fromTime": 0.14285714285714285,
+          "blend": 1.15,
+          "wind": 0,
+          "cool": 999
+        },
+        "palettePose": [
+          1901,
+          1902,
+          0
+        ]
+      },
+      "camera": [
+        0.7653439632463026,
+        10.124889879640822,
+        28.974735761100966
+      ],
+      "worldTime": 1.15
+    },
+    {
+      "status": {
+        "mode": "spin",
+        "time": 1.67,
+        "hp": 9884.08,
+        "height": 5.293691158294678,
+        "scale": 1.95,
+        "movementSpeed": 0.64,
+        "attack": "Spin",
+        "spinRotation": 3.1415926535897767,
+        "overview": false,
+        "sideView": false,
+        "frontView": false,
+        "paused": true,
+        "recording": false,
+        "missiles": 0,
+        "model": "GLB loaded",
+        "assetURL": "http://127.0.0.1:60242/assets/enemies/harrow_motion_v14.glb",
+        "clips": [
+          "Idle",
+          "Locomotion",
+          "Lunge",
+          "Threat",
+          "AirThreat",
+          "Spin",
+          "Takeoff",
+          "Flight",
+          "Glide",
+          "Dive",
+          "StaggerFall",
+          "Land",
+          "Dash",
+          "Snipe",
+          "BombPass",
+          "TakeoffB",
+          "TakeoffC",
+          "TakeoffD"
+        ],
+        "drawBatches": 3,
+        "pose": {
+          "clip": "Spin",
+          "time": 1.674999999999998,
+          "from": "Idle",
+          "fromTime": 0.14285714285714285,
+          "blend": 1.674999999999998,
+          "wind": 0,
+          "cool": 999
+        },
+        "palettePose": [
+          1932,
+          1933,
+          0.5
+        ]
+      },
+      "camera": [
+        0.7653439632463026,
+        10.124889879640822,
+        28.974735761100966
+      ],
+      "worldTime": 1.674999999999998
+    }
+  ]
+}

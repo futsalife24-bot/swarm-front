@@ -1,0 +1,86 @@
+{
+  "branch": "claude/motion-toggle-balance-20261019",
+  "base": "a3d8f076935620b2c264825bb3b849c544e2842f",
+  "head": "a3d8f076935620b2c264825bb3b849c544e2842f",
+  "state": "未コミット。独立監査・公開は未実施",
+  "files": [
+    {
+      "path": "src/client/input.ts",
+      "sha256": "2C5591E0F96023EF96AC25BB74BC021C1C09ACB1D5AE4EB8068BFFC0A8B9434D"
+    },
+    {
+      "path": "src/client/minimap.ts",
+      "sha256": "668873F5508ACB6DD378B6CDB429DBE4AA8392DDAF97CA7DE4EA401AC48F326F"
+    },
+    {
+      "path": "src/client/combat-effects.ts",
+      "sha256": "A9FAE508847D2D93018479926E47A4F5C901E1ED95C556D0B59A285C51DF7478"
+    },
+    {
+      "path": "tests/front-controls-lifecycle.test.ts",
+      "sha256": "8636B4C799B3AA11566992F1B960B7346136810127D515D2350C3D417C06FF99"
+    },
+    {
+      "path": "tests/front-minimap-mates.test.ts",
+      "sha256": "FE08B22F2FA27F91B0827DA16B675847E262E05EEFB49923A590AA01DE40A4AD"
+    },
+    {
+      "path": "tests/front-effects-reuse.test.ts",
+      "sha256": "4404CA5170A51716877B9E4684EE527DC1F6D4D0979297DB90D437AFB6AD5317"
+    },
+    {
+      "path": "scripts/check-play-polish-input.mjs",
+      "sha256": "396CE77E65915D004297CDA4C97078133EDE15E6BE67A8E5F2531FA28D4C1C71"
+    },
+    {
+      "path": "scripts/check-play-polish-harrow.mjs",
+      "sha256": "6FA199ADE326FF9FDA3869AB79BF9E9FDA11B1A7079C0742AB5DCAF531262B9B"
+    },
+    {
+      "path": "scripts/check-play-polish-effects.mjs",
+      "sha256": "EF43F6114CECE87D30FCF9A2DA1863DF4EAE93BEA1C61022DE6CFAB81EA9C264"
+    },
+    {
+      "path": "scripts/check-play-polish-dense.mjs",
+      "sha256": "024E1C0530418EB78929533910221C06C64E7B58786D1B5BBBD391C5470DE00D"
+    },
+    {
+      "path": "scripts/measure-play-polish.test.ts",
+      "sha256": "D642D3D62CED94F364823B4D069C7F34C5FA06810A4ADF7567B32404ADDAD002"
+    },
+    {
+      "path": "scripts/vitest.play-polish.config.mjs",
+      "sha256": "5296360B77D97A76B437FA62C77481345C3C2FB443EEC74884052EFCAD888BFF"
+    },
+    {
+      "path": "scripts/check-save-safety.mjs",
+      "sha256": "8EAA0D17D18C7D664EF89804D9E24CB09E2498D49915734B418720B47EB76C75"
+    },
+    {
+      "path": "scripts/check-save-fixtures.mjs",
+      "sha256": "712BB4421FA98C2F1E33F03AD4125DBB7BC56FCDCA8CFDC3E0D5F1DB4917B5CC"
+    },
+    {
+      "path": "scripts/check-recovery-receipts.mjs",
+      "sha256": "97EA10E01C7E6A2D4FC889C473337350C3F0D509D7672905D6B7542B80CEF3AF"
+    },
+    {
+      "path": "scripts/check-battle-checkpoint.mjs",
+      "sha256": "92C9E74F8F11339E895796A888B6F8C23F3878E4C52804C9F17788AC490E770B"
+    },
+    {
+      "path": "scripts/run-save-regression.mjs",
+      "sha256": "AAC912A177D1E72DC668480D55A51F95C83CE694A94E5ADA215171AF9875EE3A"
+    }
+  ],
+  "excludedExisting": [
+    "AGENTS.md",
+    "ARGON_ADAPTER.md",
+    "CLAUDE.md",
+    "PROJECT_CONTEXT.md",
+    "PROJECT_RULES.md",
+    "docs/agent-handoff/",
+    "assets/blender/candidates/bastion/concept-v2/",
+    "assets/blender/candidates/bastion/concept-v3/"
+  ]
+}

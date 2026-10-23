@@ -1,0 +1,15 @@
+密集計測開始: before 1/4
+描画ページ作成
+ローカルページ読込
+描画モジュール読込
+固定フレーム計測
+file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/scripts/check-play-polish-dense.mjs:145
+          () => reject(new Error("密集計測が180秒以内に完了しませんでした")),
+                       ^
+
+Error: 密集計測が180秒以内に完了しませんでした
+    at Timeout._onTimeout (file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/scripts/check-play-polish-dense.mjs:145:24)
+    at listOnTimeout (node:internal/timers:635:17)
+    at process.processTimers (node:internal/timers:571:7)
+
+Node.js v24.19.0

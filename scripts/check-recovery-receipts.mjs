@@ -49,6 +49,31 @@ async function ready() {
     null,
   );
 }
+async function waitMenuReady() {
+  const transition = page.locator(".split-shutter, .menu-route-shutter");
+  await transition.waitFor({ state: "visible", timeout: 1500 }).catch(() => {});
+  await transition.waitFor({ state: "detached" });
+}
+async function openGear() {
+  await page.locator("#solo").waitFor();
+  await waitMenuReady();
+  const titleStart = page.locator(
+    "dialog.title-entry[open] .title-entry-start",
+  );
+  if (await titleStart.count()) {
+    await titleStart.click();
+    await page.locator("dialog.title-entry").waitFor({ state: "detached" });
+  }
+  await page.locator("#solo").click();
+  await waitMenuReady();
+  const operation = page.locator("dialog.operation-picker-dialog[open]");
+  assert.equal(await operation.count(), 1);
+  await operation
+    .locator('[data-operation="advance"]')
+    .click({ noWaitAfter: true });
+  await page.locator("#pt-start").waitFor();
+  await waitMenuReady();
+}
 async function replay(journal) {
   await page.evaluate(
     ({ key, journal }) => sessionStorage.setItem(key, JSON.stringify(journal)),
@@ -170,7 +195,11 @@ try {
       `${out}/${scenario}-fixture.json`,
       JSON.stringify(fixture, null, 2),
     );
-    assert.equal(fixture.latest.powder, fixture.powderAfterX);
+    // 既存仕様: 勝利ごとに武装片2+ST番号。後続ST2勝利では4増える。
+    assert.equal(
+      fixture.latest.powder,
+      fixture.powderAfterX + (scenario === "same-run" ? 0 : 4),
+    );
     assert.ok(!ids(fixture.latest).includes(fixture.xId));
     await page.goto(origin);
     await ready();
@@ -187,8 +216,7 @@ try {
       ids(recovered).filter((id) => id === fixture.yId).length,
       scenario === "unreceived-once" ? 1 : 0,
     );
-    await page.locator("#solo").click();
-    await page.locator("#pt-start").waitFor();
+    await openGear();
     await page.screenshot({ path: `${out}/${scenario}-recovered.png` });
     const repeated = await replay(fixture.journal);
     assert.deepEqual(
@@ -233,8 +261,7 @@ try {
       assert.equal(afterChangedReplay.coins, settled.coins);
       const again = await replay(changedJournal);
       assert.deepEqual(again, afterChangedReplay);
-      await page.locator("#solo").click();
-      await page.locator("#pt-start").waitFor();
+      await openGear();
       await page.screenshot({
         path: `${out}/${scenario}-after-dismantle-replay.png`,
       });

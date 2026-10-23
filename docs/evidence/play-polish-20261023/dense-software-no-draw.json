@@ -1,0 +1,323 @@
+{
+  "passed": true,
+  "browser": "155.0.8059.85",
+  "head": "a3d8f076935620b2c264825bb3b849c544e2842f",
+  "seed": 4520,
+  "viewport": [
+    844,
+    390
+  ],
+  "gpu": "swiftshader",
+  "draw": false,
+  "warmup": 30,
+  "samples": 60,
+  "trials": [
+    {
+      "label": "before",
+      "enemies": 97,
+      "frames": 60,
+      "p50": 16.700000002980232,
+      "p95": 17.899999998509884,
+      "max": 18.100000001490116,
+      "stalls50": 0,
+      "cpuP95": 1.1000000014901161,
+      "arrayReplacements": 90,
+      "active": 145,
+      "renderInfo": {
+        "frame": 0,
+        "calls": 0,
+        "triangles": 0,
+        "points": 0,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 0,
+        "textures": 0
+      },
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "elapsed": 2037.7000000029802,
+      "hidden": false,
+      "pixelRatio": 1,
+      "longTasks": [],
+      "pendingAssets": 0,
+      "assetErrors": [],
+      "heapBytes": 38215360,
+      "heapBeforeBytes": 19344928
+    },
+    {
+      "label": "after",
+      "enemies": 97,
+      "frames": 60,
+      "p50": 16.5,
+      "p95": 18.19999999552965,
+      "max": 18.700000002980232,
+      "stalls50": 0,
+      "cpuP95": 1.3999999985098839,
+      "arrayReplacements": 1,
+      "active": 145,
+      "renderInfo": {
+        "frame": 0,
+        "calls": 0,
+        "triangles": 0,
+        "points": 0,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 0,
+        "textures": 0
+      },
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "elapsed": 2065.2999999970198,
+      "hidden": false,
+      "pixelRatio": 1,
+      "longTasks": [],
+      "pendingAssets": 0,
+      "assetErrors": [],
+      "heapBytes": 37725300,
+      "heapBeforeBytes": 19325464
+    },
+    {
+      "label": "after",
+      "enemies": 97,
+      "frames": 60,
+      "p50": 16.700000002980232,
+      "p95": 17.799999997019768,
+      "max": 18.399999998509884,
+      "stalls50": 0,
+      "cpuP95": 2.399999998509884,
+      "arrayReplacements": 1,
+      "active": 145,
+      "renderInfo": {
+        "frame": 0,
+        "calls": 0,
+        "triangles": 0,
+        "points": 0,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 0,
+        "textures": 0
+      },
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "elapsed": 2018.7000000029802,
+      "hidden": false,
+      "pixelRatio": 1,
+      "longTasks": [],
+      "pendingAssets": 0,
+      "assetErrors": [],
+      "heapBytes": 39563096,
+      "heapBeforeBytes": 19309680
+    },
+    {
+      "label": "before",
+      "enemies": 97,
+      "frames": 60,
+      "p50": 16.600000001490116,
+      "p95": 18.100000001490116,
+      "max": 18.200000002980232,
+      "stalls50": 0,
+      "cpuP95": 2.0999999940395355,
+      "arrayReplacements": 90,
+      "active": 145,
+      "renderInfo": {
+        "frame": 0,
+        "calls": 0,
+        "triangles": 0,
+        "points": 0,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 0,
+        "textures": 0
+      },
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "elapsed": 2050.7999999970198,
+      "hidden": false,
+      "pixelRatio": 1,
+      "longTasks": [],
+      "pendingAssets": 0,
+      "assetErrors": [],
+      "heapBytes": 39758784,
+      "heapBeforeBytes": 19394604
+    }
+  ],
+  "errors": [],
+  "progress": [
+    {
+      "label": "before",
+      "trial": 0,
+      "stage": "construct",
+      "hidden": false
+    },
+    {
+      "label": "before",
+      "trial": 0,
+      "stage": "ready",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "enemies": 97,
+      "elapsed": 37.29999999701977
+    },
+    {
+      "label": "before",
+      "trial": 0,
+      "stage": "frame",
+      "frame": 0,
+      "elapsed": 148.20000000298023,
+      "cpu": 110.30000000447035,
+      "pendingAssets": 1,
+      "geometries": 0
+    },
+    {
+      "label": "before",
+      "trial": 0,
+      "stage": "frame",
+      "frame": 30,
+      "elapsed": 1037.6000000014901,
+      "cpu": 0.7000000029802322,
+      "pendingAssets": 0,
+      "geometries": 0
+    },
+    {
+      "label": "before",
+      "trial": 0,
+      "stage": "frame",
+      "frame": 60,
+      "elapsed": 1537.7000000029802,
+      "cpu": 0.6000000014901161,
+      "pendingAssets": 0,
+      "geometries": 0
+    },
+    {
+      "label": "after",
+      "trial": 1,
+      "stage": "construct",
+      "hidden": false
+    },
+    {
+      "label": "after",
+      "trial": 1,
+      "stage": "ready",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "enemies": 97,
+      "elapsed": 35.5
+    },
+    {
+      "label": "after",
+      "trial": 1,
+      "stage": "frame",
+      "frame": 0,
+      "elapsed": 150.39999999850988,
+      "cpu": 114.5,
+      "pendingAssets": 1,
+      "geometries": 0
+    },
+    {
+      "label": "after",
+      "trial": 1,
+      "stage": "frame",
+      "frame": 30,
+      "elapsed": 1066.5,
+      "cpu": 0.8999999985098839,
+      "pendingAssets": 0,
+      "geometries": 0
+    },
+    {
+      "label": "after",
+      "trial": 1,
+      "stage": "frame",
+      "frame": 60,
+      "elapsed": 1566.1000000014901,
+      "cpu": 0.7000000029802322,
+      "pendingAssets": 0,
+      "geometries": 0
+    },
+    {
+      "label": "after",
+      "trial": 2,
+      "stage": "construct",
+      "hidden": false
+    },
+    {
+      "label": "after",
+      "trial": 2,
+      "stage": "ready",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "enemies": 97,
+      "elapsed": 39.100000001490116
+    },
+    {
+      "label": "after",
+      "trial": 2,
+      "stage": "frame",
+      "frame": 0,
+      "elapsed": 154.39999999850988,
+      "cpu": 115,
+      "pendingAssets": 1,
+      "geometries": 0
+    },
+    {
+      "label": "after",
+      "trial": 2,
+      "stage": "frame",
+      "frame": 30,
+      "elapsed": 1020,
+      "cpu": 1.3999999985098839,
+      "pendingAssets": 0,
+      "geometries": 0
+    },
+    {
+      "label": "after",
+      "trial": 2,
+      "stage": "frame",
+      "frame": 60,
+      "elapsed": 1520.5,
+      "cpu": 2.1999999955296516,
+      "pendingAssets": 0,
+      "geometries": 0
+    },
+    {
+      "label": "before",
+      "trial": 3,
+      "stage": "construct",
+      "hidden": false
+    },
+    {
+      "label": "before",
+      "trial": 3,
+      "stage": "ready",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "enemies": 97,
+      "elapsed": 36.29999999701977
+    },
+    {
+      "label": "before",
+      "trial": 3,
+      "stage": "frame",
+      "frame": 0,
+      "elapsed": 148.70000000298023,
+      "cpu": 112,
+      "pendingAssets": 1,
+      "geometries": 0
+    },
+    {
+      "label": "before",
+      "trial": 3,
+      "stage": "frame",
+      "frame": 30,
+      "elapsed": 1053.5,
+      "cpu": 1.7999999970197678,
+      "pendingAssets": 0,
+      "geometries": 0
+    },
+    {
+      "label": "before",
+      "trial": 3,
+      "stage": "frame",
+      "frame": 60,
+      "elapsed": 1553.2000000029802,
+      "cpu": 1.3000000044703484,
+      "pendingAssets": 0,
+      "geometries": 0
+    }
+  ]
+}

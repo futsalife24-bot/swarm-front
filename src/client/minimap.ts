@@ -155,8 +155,8 @@ export class Minimap {
     }
     c.drawImage(this.base, 0, 0);
     c.restore();
-    // Keep the complete enemy mark inside the rim, preserving its bearing.
-    const enemyAt = (
+    // 敵も味方も方角を保ち、マーク全体を縁の内側に収める。
+    const markerAt = (
       wx: number,
       wz: number,
       radius: number,
@@ -175,7 +175,7 @@ export class Minimap {
     for (const e of w.enemies) {
       for (const segment of e.segments ?? []) {
         if (segment.partHp === 0) continue;
-        const [sx, sy] = enemyAt(
+        const [sx, sy] = markerAt(
           segment.x,
           segment.z,
           markerAbove(segment, self) ? 3.05 : 2.5,
@@ -186,7 +186,7 @@ export class Minimap {
       }
       if (e.partHp === 0) continue;
       const r = e.kind === "boss" || e.kind === "harrow" ? 4 : 1.6,
-        [x, y] = enemyAt(
+        [x, y] = markerAt(
           e.x,
           e.z,
           markerAbove(e, self) ? r + 0.8 + 1.1 / 2 : r,
@@ -198,7 +198,7 @@ export class Minimap {
     }
     for (const p of w.players) {
       if (!p.connected || p.id === id) continue;
-      const [x, y] = at(p.x, p.z);
+      const [x, y] = markerAt(p.x, p.z, p.hp > 0 ? 2.4 : 4 + 1.4 / 2);
       if (p.hp > 0) this.dot(x, y, 2.4, COLORS.mate);
       // A downed mate is the one thing on this map worth walking towards.
       else if (p.down > 0) this.ring(x, y, 4, COLORS.downed, 1.4);

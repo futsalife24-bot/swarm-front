@@ -24,6 +24,7 @@ export class Controls {
   keys = new Set<string>();
   queued = new Set<string>();
   touches = new Map<number, { role: string; x: number; y: number }>();
+  private resetInput: () => void;
   constructor() {
     ensureScopeControls();
     const controls = document.querySelector("#controls")!;
@@ -46,6 +47,7 @@ export class Controls {
       this.mouseAim = false;
       el("move").querySelector("span")!.setAttribute("style", "");
     };
+    this.resetInput = reset;
     window.addEventListener("blur", reset);
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) reset();
@@ -131,23 +133,34 @@ export class Controls {
         e.target === document.querySelector("#world") ||
         e.target === el("look")
       ) {
-        this.input.fire = e.button === 0;
+        if (e.button === 0) this.input.fire = true;
         if (e.button === 2) this.mouseAim = true;
         if (e.button === 0) (e.target as HTMLElement).requestPointerLock?.();
       }
     });
     window.addEventListener("pointerup", (e) => {
-      if (e.pointerType === "mouse") this.input.fire = false;
+      if (e.pointerType === "mouse" && e.button === 0) this.input.fire = false;
       if (e.pointerType === "mouse" && e.button === 2) this.mouseAim = false;
     });
-    window.addEventListener("pointercancel", () => {
-      this.mouseAim = false;
+    window.addEventListener("pointercancel", (e) => {
+      if (e.pointerType === "mouse") {
+        this.input.fire = false;
+        this.mouseAim = false;
+      }
     });
     window.addEventListener("pointermove", (e) => {
+      // 複数ボタンの一部だけを離すとpointerupではなくpointermoveが届く。
+      if (e.pointerType === "mouse") {
+        if ((e.buttons & 1) === 0)
+          this.input.fire = [...this.touches.values()].some(
+            (t) => t.role === "fire",
+          );
+        if ((e.buttons & 2) === 0) this.mouseAim = false;
+      }
       if (
         this.enabled &&
         e.pointerType === "mouse" &&
-        (document.pointerLockElement || e.buttons === 2)
+        (document.pointerLockElement || (e.buttons & 2) !== 0)
       ) {
         this.look(e.movementX, e.movementY);
       }
@@ -259,6 +272,7 @@ export class Controls {
       this.input[key] = [...this.touches.values()].some((t) => t.role === key);
   }
   read(): Input {
+    if (document.hidden || !document.hasFocus()) this.resetInput();
     const i = { ...this.input };
     if (
       this.keys.has("KeyW") ||

@@ -1,0 +1,80 @@
+{
+  "label": "before",
+  "browser": "155.0.8059.85",
+  "platform": "win32",
+  "renderer": "SwiftShader",
+  "viewport": [
+    844,
+    390
+  ],
+  "fixedDt": 0.016666666666666666,
+  "warmup": 120,
+  "samples": 600,
+  "enemyRepresentations": 97,
+  "effectsPerFrame": 12,
+  "measurements": [
+    {
+      "frames": 600,
+      "frameP50": 16.699999999254942,
+      "frameP95": 18,
+      "stallsOver50ms": 0,
+      "maxFrame": 18.59999999962747,
+      "cpuP50": 0.6000000014901161,
+      "cpuP95": 0.900000000372529,
+      "heaps": [
+        10000000,
+        10000000,
+        10000000,
+        10000000,
+        10000000,
+        10000000
+      ],
+      "arrayReplacements": 720,
+      "active": 148,
+      "drawCalls": 245,
+      "geometries": 3
+    },
+    {
+      "frames": 600,
+      "frameP50": 16.699999999254942,
+      "frameP95": 18,
+      "stallsOver50ms": 0,
+      "maxFrame": 18.700000001117587,
+      "cpuP50": 0.7000000011175871,
+      "cpuP95": 1,
+      "heaps": [
+        10000000,
+        10000000,
+        10000000,
+        10000000,
+        10000000,
+        10000000
+      ],
+      "arrayReplacements": 720,
+      "active": 148,
+      "drawCalls": 245,
+      "geometries": 3
+    },
+    {
+      "frames": 600,
+      "frameP50": 16.600000001490116,
+      "frameP95": 18,
+      "stallsOver50ms": 0,
+      "maxFrame": 18.40000000037253,
+      "cpuP50": 0.8000000007450581,
+      "cpuP95": 1,
+      "heaps": [
+        10000000,
+        10000000,
+        10000000,
+        10000000,
+        10000000,
+        10000000
+      ],
+      "arrayReplacements": 720,
+      "active": 148,
+      "drawCalls": 245,
+      "geometries": 3
+    }
+  ]
+}

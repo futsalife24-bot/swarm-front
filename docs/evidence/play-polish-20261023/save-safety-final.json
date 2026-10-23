@@ -1,0 +1,167 @@
+{
+  "command": "node scripts/check-save-safety.mjs http://127.0.0.1:53062",
+  "head": "a3d8f076935620b2c264825bb3b849c544e2842f",
+  "status": "M AGENTS.md\n M docs/STATE.md\n M scripts/check-battle-checkpoint.mjs\n M scripts/check-recovery-receipts.mjs\n M scripts/check-save-fixtures.mjs\n M scripts/check-save-safety.mjs\n M scripts/run-save-regression.mjs\n M src/client/combat-effects.ts\n M src/client/input.ts\n M src/client/minimap.ts\n?? ARGON_ADAPTER.md\n?? CLAUDE.md\n?? PROJECT_CONTEXT.md\n?? PROJECT_RULES.md\n?? assets/blender/candidates/bastion/concept-v2/\n?? assets/blender/candidates/bastion/concept-v3/\n?? docs/PLAY-POLISH-20261023.md\n?? docs/agent-handoff/\n?? docs/evidence/play-polish-20261023/\n?? scripts/check-play-polish-dense.mjs\n?? scripts/check-play-polish-effects.mjs\n?? scripts/check-play-polish-harrow.mjs\n?? scripts/check-play-polish-input.mjs\n?? scripts/measure-play-polish.test.ts\n?? scripts/vitest.play-polish.config.mjs\n?? tests/front-controls-lifecycle.test.ts\n?? tests/front-effects-reuse.test.ts\n?? tests/front-minimap-mates.test.ts",
+  "code": {
+    "src/bootstrap.ts": "8c719e76aa5bd32a9c05128af9f06efe1617563067de3100835015d662218f84",
+    "src/client/save-writer.ts": "328080a2393f42f01898b830c440460bc9b410eb667c700baec0ef576ce75f57",
+    "src/client/progression-save.ts": "791da435f0de91b83ef41060594aeb81d249d7556a78aba9db4997999595f478",
+    "src/client/shared-armory.ts": "f92e26cb4b17bf5750d0e2a7f73d63944eeb0c7224a66dab1d76d4bee4cfd6a5",
+    "src/client/save-recovery.ts": "94f30b403bc75e7889163edfcde140d7b9de1c586f482940091be1ff56e225d8",
+    "src/client/playtest-app.ts": "d82d627e8e192ed3325dd11b047658f3ef4cd2ed16573bce902bce31f63c10c0",
+    "src/main.ts": "31328bd3f140f42c8569f493666f5ab14081f84512665d6a2acaee9b5a7606b5",
+    "scripts/check-save-safety.mjs": "8eaa0d17d18c7d664ef89804d9e24cb09e2498d49915734b418720b47eb76c75"
+  },
+  "fixture": "Real installed Chrome, actual Web Locks and localStorage. Storage fixtures seed progress; exact historical modules are bundled from git including their historical imports. No game storage or Web Locks mocks.",
+  "cases": [
+    {
+      "name": "single-writer-normal-coop",
+      "passed": true,
+      "reward": "audit-single-writer-reward",
+      "browserLockSnapshot": {
+        "held": [
+          {
+            "clientId": "58660D28B88775DFD3C22D2F9ED51ED8",
+            "mode": "exclusive",
+            "name": "swarm-front-shared-save-writer-v3"
+          }
+        ],
+        "pending": []
+      },
+      "independentProfileAllowed": true,
+      "screenshots": [
+        "second-normal-blocked.png",
+        "second-coop-blocked.png",
+        "normal-reacquired.png",
+        "coop-reacquired.png"
+      ]
+    },
+    {
+      "name": "historical-157df95-actual-persist",
+      "passed": true,
+      "historicalHead": "157df9549cbce64f936a120034f9ca4a6b985b59",
+      "historicalFiles": {
+        "./src/client/progression-save.ts": "feb919dfb3d24a3610cabd033eb1db4c0630470bcd41cfb05a5ec066fa8a5f2c",
+        "src/shared/defs.ts": "9d8a0161d9575dbc987497b2fd956df83d74292044cd4614102bd8f9d72da452",
+        "src/shared/progression.ts": "fd0dfe53bb2e408706cf58f9808db1944f777542020d93d4f19b813038594c5c",
+        "src/shared/map-blocks.ts": "ee5114318d4d34feb2ed5aa5c3fb5ad95aaae0dc6fe02549b097bee26eacbf71",
+        "src/shared/stages.ts": "73b7be8fa06b5b03db68b670a47f85c0d99d0d19a5c513bd00eedd68f478007e",
+        "src/shared/arena.ts": "e7b9703be4a50ebda7b7e62e5cf265eb6e8a605344c4145ce9b104235915cfa5",
+        "src/shared/terrain.ts": "67c9e466c53e547f27cdbcaa3903dbaa3360a0483dded8d89e227bf961bb9d8f",
+        "src/shared/cave.ts": "ef1128da7100213f9e5a331b21653c269c6f11aa0f6abb1f689b2c0580e39d1a"
+      },
+      "bundleSha256": "dac700d3f5977c5d857346f8f7aec8ee9b29dab289e3807fa6673d6f8f418900",
+      "oldCoinsAfterWrite": 5,
+      "newCoinsAfterReload": 17,
+      "reward": "audit-after-migration-157df95",
+      "screenshot": "historical-157df95-reward-preserved.png"
+    },
+    {
+      "name": "historical-d947dd8-actual-persist",
+      "passed": true,
+      "historicalHead": "d947dd86190bddc019da12de9e00e12649e31088",
+      "historicalFiles": {
+        "./src/client/progression-save.ts": "e5324021d7813e9b9fef32129e807650fcf84ddb46e796568cb65b0ac6d39d47",
+        "src/client/save.ts": "21e8cfa1a2a3b4a90d05c9b9ce2c48e0898558e5ac8f2ef3c6e2bdd33f06a693",
+        "src/shared/progression.ts": "a071275f4c3f4baa4b1c1d2b01cc70fc7168147190d32c16e4e970a98757f806",
+        "src/shared/defs.ts": "de351425e8f65c04b59419f32fe3870920e19bdb71b5a27e9da71837840a84de",
+        "src/shared/stages.ts": "73b7be8fa06b5b03db68b670a47f85c0d99d0d19a5c513bd00eedd68f478007e",
+        "src/shared/map-blocks.ts": "ee5114318d4d34feb2ed5aa5c3fb5ad95aaae0dc6fe02549b097bee26eacbf71",
+        "src/shared/arena.ts": "e7b9703be4a50ebda7b7e62e5cf265eb6e8a605344c4145ce9b104235915cfa5",
+        "src/shared/terrain.ts": "67c9e466c53e547f27cdbcaa3903dbaa3360a0483dded8d89e227bf961bb9d8f",
+        "src/shared/cave.ts": "ef1128da7100213f9e5a331b21653c269c6f11aa0f6abb1f689b2c0580e39d1a"
+      },
+      "bundleSha256": "c4ee7d9cc62d49c5468d05a50a1fb8ebd63cc5a113d015dbea6fd71e624e6dfa",
+      "oldCoinsAfterWrite": 5,
+      "newCoinsAfterReload": 17,
+      "reward": "audit-after-migration-d947dd8",
+      "screenshot": "historical-d947dd8-reward-preserved.png"
+    },
+    {
+      "name": "result-conflict-click",
+      "passed": true,
+      "run": "audit-conflict-run-click",
+      "reward": "audit-conflict-reward-click",
+      "journalSurvivedUntilRecovery": true,
+      "controls": [
+        "pt-recover-result",
+        "pt-export-unsaved"
+      ],
+      "staleEquipmentNotApplied": true,
+      "reloadDidNotDuplicate": true,
+      "coins": 123,
+      "fixture": "Synthetic saved result; out-of-band newer save without this run; real reward-choice click triggers typed conflict. Actual journal/recovery/download UI.",
+      "screenshots": [
+        "result-conflict-click.png",
+        "result-recovered-click.png"
+      ],
+      "export": "unsaved-result-click.json"
+    },
+    {
+      "name": "result-conflict-reload",
+      "passed": true,
+      "run": "audit-conflict-run-reload",
+      "reward": "audit-conflict-reward-reload",
+      "journalSurvivedUntilRecovery": true,
+      "controls": [
+        "pt-recover-result",
+        "pt-export-unsaved"
+      ],
+      "staleEquipmentNotApplied": true,
+      "reloadDidNotDuplicate": true,
+      "coins": 123,
+      "fixture": "Synthetic saved result; out-of-band newer save without this run; real reward-choice click triggers typed conflict. Actual journal/recovery/download UI.",
+      "screenshots": [
+        "result-conflict-reload.png",
+        "result-recovered-reload.png"
+      ],
+      "export": "unsaved-result-reload.json"
+    },
+    {
+      "name": "result-conflict-quota-reload",
+      "passed": true,
+      "run": "audit-conflict-run-quota-reload",
+      "reward": "audit-conflict-reward-quota-reload",
+      "journalSurvivedUntilRecovery": true,
+      "controls": [
+        "pt-recover-result",
+        "pt-export-unsaved"
+      ],
+      "staleEquipmentNotApplied": true,
+      "reloadDidNotDuplicate": true,
+      "coins": 123,
+      "fixture": "Synthetic saved result; out-of-band newer save without this run; real reward-choice click triggers typed conflict. Actual journal/recovery/download UI.",
+      "screenshots": [
+        "result-conflict-quota-reload.png",
+        "result-recovered-quota-reload.png"
+      ],
+      "export": "unsaved-result-quota-reload.json",
+      "quotaEvidence": {
+        "fillerCharacters": 5241753,
+        "actualQuotaExceededErrors": 12
+      },
+      "failedRecoveryJournalExport": "quota-retained-journal.json",
+      "quotaScreenshot": "quota-recovery-blocked.png"
+    },
+    {
+      "name": "non-result-conflict-reload-and-retry",
+      "passed": true,
+      "screenshot": "settings-conflict.png",
+      "fixture": "Intentional out-of-band revision/coin update; actual lock-button action and reload/retry UI."
+    }
+  ],
+  "browser": "155.0.8059.85",
+  "codeAtFinish": {
+    "src/bootstrap.ts": "8c719e76aa5bd32a9c05128af9f06efe1617563067de3100835015d662218f84",
+    "src/client/save-writer.ts": "328080a2393f42f01898b830c440460bc9b410eb667c700baec0ef576ce75f57",
+    "src/client/progression-save.ts": "791da435f0de91b83ef41060594aeb81d249d7556a78aba9db4997999595f478",
+    "src/client/shared-armory.ts": "f92e26cb4b17bf5750d0e2a7f73d63944eeb0c7224a66dab1d76d4bee4cfd6a5",
+    "src/client/save-recovery.ts": "94f30b403bc75e7889163edfcde140d7b9de1c586f482940091be1ff56e225d8",
+    "src/client/playtest-app.ts": "d82d627e8e192ed3325dd11b047658f3ef4cd2ed16573bce902bce31f63c10c0",
+    "src/main.ts": "31328bd3f140f42c8569f493666f5ab14081f84512665d6a2acaee9b5a7606b5",
+    "scripts/check-save-safety.mjs": "8eaa0d17d18c7d664ef89804d9e24cb09e2498d49915734b418720b47eb76c75"
+  },
+  "passed": true,
+  "errors": [],
+  "finishedAt": "2026-10-22T18:03:29.535Z"
+}

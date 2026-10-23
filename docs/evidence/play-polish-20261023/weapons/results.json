@@ -1,0 +1,3835 @@
+{
+  "head": "a3d8f076935620b2c264825bb3b849c544e2842f",
+  "seeds": [
+    814,
+    723
+  ],
+  "dt": 0.05,
+  "conditions": {
+    "level": 1,
+    "rarity": 0,
+    "mods": {},
+    "effect": "none",
+    "assaySeconds": 20,
+    "assayEnemy": "ant, frozen position and attack, enlarged HP",
+    "advanceStage": 2,
+    "advanceHorizon": 180,
+    "survivalClearedStage": 0,
+    "survivalHorizon": 90,
+    "coopPartner": "rifle",
+    "pilot": "tests/bot pilot; weapon slot fixed; approach visible target beyond max(14m, 70% of weapon range); dodge priority",
+    "upgradeChoice": "actual default offered card"
+  },
+  "nominal": [
+    {
+      "kind": "rifle",
+      "damage": 24,
+      "interval": 0.13,
+      "mag": 32,
+      "reload": 1.65,
+      "range": 65,
+      "pellets": 1
+    },
+    {
+      "kind": "smg",
+      "damage": 13,
+      "interval": 0.07,
+      "mag": 45,
+      "reload": 1.5,
+      "range": 38,
+      "pellets": 1
+    },
+    {
+      "kind": "shotgun",
+      "damage": 19,
+      "interval": 0.8,
+      "mag": 7,
+      "reload": 2.1,
+      "range": 23,
+      "pellets": 8
+    },
+    {
+      "kind": "slug",
+      "damage": 110,
+      "interval": 0.85,
+      "mag": 6,
+      "reload": 2.2,
+      "range": 45,
+      "pellets": 1
+    },
+    {
+      "kind": "rocket",
+      "damage": 170,
+      "interval": 1.15,
+      "mag": 2,
+      "reload": 2.7,
+      "range": 75,
+      "pellets": 1
+    },
+    {
+      "kind": "heavy",
+      "damage": 430,
+      "interval": 1.7,
+      "mag": 1,
+      "reload": 4,
+      "range": 80,
+      "pellets": 1
+    },
+    {
+      "kind": "sniper",
+      "damage": 165,
+      "interval": 1.05,
+      "mag": 6,
+      "reload": 2.4,
+      "range": 140,
+      "pellets": 1
+    },
+    {
+      "kind": "grenade",
+      "damage": 90,
+      "interval": 0.6,
+      "mag": 5,
+      "reload": 2.6,
+      "range": 55,
+      "pellets": 1
+    },
+    {
+      "kind": "sticky",
+      "damage": 135,
+      "interval": 0.8,
+      "mag": 4,
+      "reload": 2.9,
+      "range": 50,
+      "pellets": 1
+    },
+    {
+      "kind": "laser",
+      "damage": 8,
+      "interval": 0.045,
+      "mag": 120,
+      "reload": 3,
+      "range": 95,
+      "pellets": 1
+    },
+    {
+      "kind": "kick",
+      "damage": 34,
+      "interval": 0.9,
+      "mag": 3,
+      "reload": 2.4,
+      "range": 14,
+      "pellets": 5
+    }
+  ],
+  "rows": [
+    {
+      "type": "assay",
+      "kind": "rifle",
+      "seed": 814,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2856,
+      "shotEvents": 119,
+      "manualHitEvents": 119,
+      "directDamageRounded": 2856,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 99,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "rifle",
+      "seed": 814,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2440.5254228964914,
+      "shotEvents": 119,
+      "manualHitEvents": 119,
+      "directDamageRounded": 2499,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 99,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "rifle",
+      "seed": 814,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2856,
+      "shotEvents": 119,
+      "manualHitEvents": 119,
+      "directDamageRounded": 2856,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 99,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "rifle",
+      "seed": 814,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2440.525445698644,
+      "shotEvents": 119,
+      "manualHitEvents": 119,
+      "directDamageRounded": 2499,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 99,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "rifle",
+      "seed": 723,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2856,
+      "shotEvents": 119,
+      "manualHitEvents": 119,
+      "directDamageRounded": 2856,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 99,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "rifle",
+      "seed": 723,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2440.5249986493727,
+      "shotEvents": 119,
+      "manualHitEvents": 119,
+      "directDamageRounded": 2499,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 99,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "rifle",
+      "seed": 723,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2856,
+      "shotEvents": 119,
+      "manualHitEvents": 119,
+      "directDamageRounded": 2856,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 99,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "rifle",
+      "seed": 723,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2440.5251705307746,
+      "shotEvents": 119,
+      "manualHitEvents": 119,
+      "directDamageRounded": 2499,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 99,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "smg",
+      "seed": 814,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2638.8320576304104,
+      "shotEvents": 203,
+      "manualHitEvents": 203,
+      "directDamageRounded": 2639,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 120,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "smg",
+      "seed": 814,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 1451.5496360540856,
+      "shotEvents": 203,
+      "manualHitEvents": 203,
+      "directDamageRounded": 1421,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 120,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "smg",
+      "seed": 814,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2638.832020267262,
+      "shotEvents": 203,
+      "manualHitEvents": 203,
+      "directDamageRounded": 2639,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 120,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "smg",
+      "seed": 814,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 1451.5495424852706,
+      "shotEvents": 203,
+      "manualHitEvents": 203,
+      "directDamageRounded": 1421,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 120,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "smg",
+      "seed": 723,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2638.8334788696375,
+      "shotEvents": 203,
+      "manualHitEvents": 203,
+      "directDamageRounded": 2639,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 120,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "smg",
+      "seed": 723,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 1451.5531893542502,
+      "shotEvents": 203,
+      "manualHitEvents": 203,
+      "directDamageRounded": 1421,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 120,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "smg",
+      "seed": 723,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2638.8330715493066,
+      "shotEvents": 203,
+      "manualHitEvents": 203,
+      "directDamageRounded": 2639,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 120,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "smg",
+      "seed": 723,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 1451.552170561743,
+      "shotEvents": 203,
+      "manualHitEvents": 203,
+      "directDamageRounded": 1421,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 120,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "shotgun",
+      "seed": 814,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2099.5908030563733,
+      "shotEvents": 168,
+      "manualHitEvents": 168,
+      "directDamageRounded": 2079,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 112,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "shotgun",
+      "seed": 814,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 0,
+      "shotEvents": 168,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 112,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "shotgun",
+      "seed": 814,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 3995.2139542158693,
+      "shotEvents": 168,
+      "manualHitEvents": 334,
+      "directDamageRounded": 3973,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 112,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "shotgun",
+      "seed": 814,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 0,
+      "shotEvents": 168,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 112,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "shotgun",
+      "seed": 723,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2099.5816133548506,
+      "shotEvents": 168,
+      "manualHitEvents": 168,
+      "directDamageRounded": 2079,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 112,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "shotgun",
+      "seed": 723,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 0,
+      "shotEvents": 168,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 112,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "shotgun",
+      "seed": 723,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 3982.7513413993875,
+      "shotEvents": 168,
+      "manualHitEvents": 333,
+      "directDamageRounded": 3962,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 112,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "shotgun",
+      "seed": 723,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 0,
+      "shotEvents": 168,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 112,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "slug",
+      "seed": 814,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2090,
+      "shotEvents": 19,
+      "manualHitEvents": 19,
+      "directDamageRounded": 2090,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 132,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "slug",
+      "seed": 814,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 1785.9747281632153,
+      "shotEvents": 19,
+      "manualHitEvents": 19,
+      "directDamageRounded": 1786,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 132,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "slug",
+      "seed": 814,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 4180,
+      "shotEvents": 19,
+      "manualHitEvents": 38,
+      "directDamageRounded": 4180,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 132,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "slug",
+      "seed": 814,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 3846.9006283135386,
+      "shotEvents": 19,
+      "manualHitEvents": 42,
+      "directDamageRounded": 3845,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 132,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "slug",
+      "seed": 723,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2090,
+      "shotEvents": 19,
+      "manualHitEvents": 19,
+      "directDamageRounded": 2090,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 132,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "slug",
+      "seed": 723,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 1785.9866403831402,
+      "shotEvents": 19,
+      "manualHitEvents": 19,
+      "directDamageRounded": 1786,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 132,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "slug",
+      "seed": 723,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 4180,
+      "shotEvents": 19,
+      "manualHitEvents": 38,
+      "directDamageRounded": 4180,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 132,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "slug",
+      "seed": 723,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 4213.123923901934,
+      "shotEvents": 19,
+      "manualHitEvents": 46,
+      "directDamageRounded": 4213,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 132,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "rocket",
+      "seed": 814,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 1702.998732817825,
+      "shotEvents": 11,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 1705,
+      "netDamageTaken": 0,
+      "reloadTicks": 275,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "rocket",
+      "seed": 814,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 1586.3833404157776,
+      "shotEvents": 11,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 1590,
+      "netDamageTaken": 0,
+      "reloadTicks": 275,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "rocket",
+      "seed": 814,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 4115.113806460984,
+      "shotEvents": 11,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 4114,
+      "netDamageTaken": 0,
+      "reloadTicks": 275,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "rocket",
+      "seed": 814,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 3839.6448187797796,
+      "shotEvents": 11,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 3850,
+      "netDamageTaken": 0,
+      "reloadTicks": 275,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "rocket",
+      "seed": 723,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 1702.998732817825,
+      "shotEvents": 11,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 1705,
+      "netDamageTaken": 0,
+      "reloadTicks": 275,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "rocket",
+      "seed": 723,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 1586.3833404157776,
+      "shotEvents": 11,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 1590,
+      "netDamageTaken": 0,
+      "reloadTicks": 275,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "rocket",
+      "seed": 723,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 4115.113806460984,
+      "shotEvents": 11,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 4114,
+      "netDamageTaken": 0,
+      "reloadTicks": 275,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "rocket",
+      "seed": 723,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 3839.6448187797796,
+      "shotEvents": 11,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 3850,
+      "netDamageTaken": 0,
+      "reloadTicks": 275,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "heavy",
+      "seed": 814,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2008.3091104635969,
+      "shotEvents": 5,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 2010,
+      "netDamageTaken": 0,
+      "reloadTicks": 395,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "heavy",
+      "seed": 814,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2008.6266467074165,
+      "shotEvents": 5,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 2010,
+      "netDamageTaken": 0,
+      "reloadTicks": 395,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "heavy",
+      "seed": 814,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 5360.109430465382,
+      "shotEvents": 5,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 5360,
+      "netDamageTaken": 0,
+      "reloadTicks": 395,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "heavy",
+      "seed": 814,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 5360.860714024166,
+      "shotEvents": 5,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 5360,
+      "netDamageTaken": 0,
+      "reloadTicks": 395,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "heavy",
+      "seed": 723,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2008.3091104635969,
+      "shotEvents": 5,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 2010,
+      "netDamageTaken": 0,
+      "reloadTicks": 395,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "heavy",
+      "seed": 723,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2008.6266467074165,
+      "shotEvents": 5,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 2010,
+      "netDamageTaken": 0,
+      "reloadTicks": 395,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "heavy",
+      "seed": 723,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 5360.109430465382,
+      "shotEvents": 5,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 5360,
+      "netDamageTaken": 0,
+      "reloadTicks": 395,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "heavy",
+      "seed": 723,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 5360.860714024166,
+      "shotEvents": 5,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 5360,
+      "netDamageTaken": 0,
+      "reloadTicks": 395,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "sniper",
+      "seed": 814,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2805,
+      "shotEvents": 17,
+      "manualHitEvents": 17,
+      "directDamageRounded": 2805,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 98,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "sniper",
+      "seed": 814,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2805,
+      "shotEvents": 17,
+      "manualHitEvents": 17,
+      "directDamageRounded": 2805,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 98,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "sniper",
+      "seed": 814,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2805,
+      "shotEvents": 17,
+      "manualHitEvents": 17,
+      "directDamageRounded": 2805,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 98,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "sniper",
+      "seed": 814,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2805,
+      "shotEvents": 17,
+      "manualHitEvents": 17,
+      "directDamageRounded": 2805,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 98,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "sniper",
+      "seed": 723,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2805,
+      "shotEvents": 17,
+      "manualHitEvents": 17,
+      "directDamageRounded": 2805,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 98,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "sniper",
+      "seed": 723,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2805,
+      "shotEvents": 17,
+      "manualHitEvents": 17,
+      "directDamageRounded": 2805,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 98,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "sniper",
+      "seed": 723,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2805,
+      "shotEvents": 17,
+      "manualHitEvents": 17,
+      "directDamageRounded": 2805,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 98,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "sniper",
+      "seed": 723,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2805,
+      "shotEvents": 17,
+      "manualHitEvents": 17,
+      "directDamageRounded": 2805,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 98,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "grenade",
+      "seed": 814,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 1329.4270789577859,
+      "shotEvents": 20,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 1331,
+      "netDamageTaken": 0,
+      "reloadTicks": 204,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "grenade",
+      "seed": 814,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 0,
+      "shotEvents": 20,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 204,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "grenade",
+      "seed": 814,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 3148.7524407824967,
+      "shotEvents": 20,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 3148,
+      "netDamageTaken": 0,
+      "reloadTicks": 204,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "grenade",
+      "seed": 814,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 0,
+      "shotEvents": 20,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 204,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "grenade",
+      "seed": 723,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 1334.094224358094,
+      "shotEvents": 20,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 1335,
+      "netDamageTaken": 0,
+      "reloadTicks": 204,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "grenade",
+      "seed": 723,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 0,
+      "shotEvents": 20,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 204,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "grenade",
+      "seed": 723,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 3223.4187592635863,
+      "shotEvents": 20,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 3217,
+      "netDamageTaken": 0,
+      "reloadTicks": 204,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "grenade",
+      "seed": 723,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 0,
+      "shotEvents": 20,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 204,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "sticky",
+      "seed": 814,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 1394.4038755776128,
+      "shotEvents": 16,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 1392,
+      "netDamageTaken": 0,
+      "reloadTicks": 208,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "sticky",
+      "seed": 814,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 0,
+      "shotEvents": 16,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 208,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "sticky",
+      "seed": 814,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2356.1173021011055,
+      "shotEvents": 16,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 2354,
+      "netDamageTaken": 0,
+      "reloadTicks": 208,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "sticky",
+      "seed": 814,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 0,
+      "shotEvents": 16,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 208,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "sticky",
+      "seed": 723,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 1394.384602341568,
+      "shotEvents": 16,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 1392,
+      "netDamageTaken": 0,
+      "reloadTicks": 208,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "sticky",
+      "seed": 723,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 0,
+      "shotEvents": 16,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 208,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "sticky",
+      "seed": 723,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2356.7147825347492,
+      "shotEvents": 16,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 2357,
+      "netDamageTaken": 0,
+      "reloadTicks": 208,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "sticky",
+      "seed": 723,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 0,
+      "shotEvents": 16,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 208,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "laser",
+      "seed": 814,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2472,
+      "shotEvents": 309,
+      "manualHitEvents": 309,
+      "directDamageRounded": 2472,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 122,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "laser",
+      "seed": 814,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2472,
+      "shotEvents": 309,
+      "manualHitEvents": 309,
+      "directDamageRounded": 2472,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 122,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "laser",
+      "seed": 814,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 4944,
+      "shotEvents": 309,
+      "manualHitEvents": 618,
+      "directDamageRounded": 4944,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 122,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "laser",
+      "seed": 814,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 4944,
+      "shotEvents": 309,
+      "manualHitEvents": 618,
+      "directDamageRounded": 4944,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 122,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "laser",
+      "seed": 723,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2472,
+      "shotEvents": 309,
+      "manualHitEvents": 309,
+      "directDamageRounded": 2472,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 122,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "laser",
+      "seed": 723,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 2472,
+      "shotEvents": 309,
+      "manualHitEvents": 309,
+      "directDamageRounded": 2472,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 122,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "laser",
+      "seed": 723,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 4944,
+      "shotEvents": 309,
+      "manualHitEvents": 618,
+      "directDamageRounded": 4944,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 122,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "laser",
+      "seed": 723,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 4944,
+      "shotEvents": 309,
+      "manualHitEvents": 618,
+      "directDamageRounded": 4944,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 122,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "kick",
+      "seed": 814,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 111.80241168441717,
+      "shotEvents": 75,
+      "manualHitEvents": 5,
+      "directDamageRounded": 110,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 220,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "kick",
+      "seed": 814,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 0,
+      "shotEvents": 75,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 220,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "kick",
+      "seed": 814,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 111.79598292359151,
+      "shotEvents": 75,
+      "manualHitEvents": 5,
+      "directDamageRounded": 110,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 220,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "kick",
+      "seed": 814,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 0,
+      "shotEvents": 75,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 220,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "kick",
+      "seed": 723,
+      "targets": 1,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 111.83461387921125,
+      "shotEvents": 75,
+      "manualHitEvents": 5,
+      "directDamageRounded": 110,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 220,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "kick",
+      "seed": 723,
+      "targets": 1,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 0,
+      "shotEvents": 75,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 220,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "kick",
+      "seed": 723,
+      "targets": 3,
+      "distance": 12,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 111.86249408393633,
+      "shotEvents": 75,
+      "manualHitEvents": 5,
+      "directDamageRounded": 110,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 220,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "assay",
+      "kind": "kick",
+      "seed": 723,
+      "targets": 3,
+      "distance": 30,
+      "seconds": 20.00000000000015,
+      "exactHpLoss": 0,
+      "shotEvents": 75,
+      "manualHitEvents": 0,
+      "directDamageRounded": 0,
+      "secondaryDamageRounded": 0,
+      "netDamageTaken": 0,
+      "reloadTicks": 220,
+      "rangeApproachTicks": 0,
+      "outOfRangeFireTicks": 0
+    },
+    {
+      "type": "sortie",
+      "kind": "rifle",
+      "seed": 814,
+      "count": 1,
+      "mode": "advance",
+      "seconds": 71.2499999999981,
+      "result": "victory",
+      "clearTime": 71.2499999999981,
+      "kills": 44,
+      "playerKills": [
+        44
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 267,
+          "manualHitEvents": 267,
+          "directDamageRounded": 4647,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 264,
+          "rangeApproachTicks": 250,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "rifle",
+      "seed": 814,
+      "count": 1,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 162,
+      "playerKills": [
+        162
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 491,
+          "manualHitEvents": 491,
+          "directDamageRounded": 8340,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 503,
+          "rangeApproachTicks": 375,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 0
+        },
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 70.44999999999814
+        },
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 70.69999999999813
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "rifle",
+      "seed": 814,
+      "count": 2,
+      "mode": "advance",
+      "seconds": 70.29999999999815,
+      "result": "victory",
+      "clearTime": 70.29999999999815,
+      "kills": 44,
+      "playerKills": [
+        25,
+        19
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 261,
+          "manualHitEvents": 261,
+          "directDamageRounded": 3988,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 8.568000000000012,
+          "reloadTicks": 264,
+          "rangeApproachTicks": 366,
+          "outOfRangeFireTicks": 0
+        },
+        "p1": {
+          "shotEvents": 261,
+          "manualHitEvents": 252,
+          "directDamageRounded": 3825,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 264,
+          "rangeApproachTicks": 365,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "rifle",
+      "seed": 814,
+      "count": 2,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 169,
+      "playerKills": [
+        77,
+        92
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 470,
+          "manualHitEvents": 470,
+          "directDamageRounded": 7557,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 462,
+          "rangeApproachTicks": 446,
+          "outOfRangeFireTicks": 0
+        },
+        "p1": {
+          "shotEvents": 470,
+          "manualHitEvents": 427,
+          "directDamageRounded": 6700,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 462,
+          "rangeApproachTicks": 427,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 0
+        },
+        {
+          "playerId": "p1",
+          "cardId": "boost-coil",
+          "time": 0
+        },
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 70.64999999999813
+        },
+        {
+          "playerId": "p1",
+          "cardId": "boost-coil",
+          "time": 70.64999999999813
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "rifle",
+      "seed": 723,
+      "count": 1,
+      "mode": "advance",
+      "seconds": 71.74999999999807,
+      "result": "victory",
+      "clearTime": 71.74999999999807,
+      "kills": 44,
+      "playerKills": [
+        44
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 294,
+          "manualHitEvents": 294,
+          "directDamageRounded": 4542,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 297,
+          "rangeApproachTicks": 410,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "rifle",
+      "seed": 723,
+      "count": 1,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 162,
+      "playerKills": [
+        162
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 491,
+          "manualHitEvents": 491,
+          "directDamageRounded": 8340,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 503,
+          "rangeApproachTicks": 375,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 0
+        },
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 70.44999999999814
+        },
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 70.69999999999813
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "rifle",
+      "seed": 723,
+      "count": 2,
+      "mode": "advance",
+      "seconds": 68.99999999999822,
+      "result": "victory",
+      "clearTime": 68.99999999999822,
+      "kills": 44,
+      "playerKills": [
+        25,
+        19
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 266,
+          "manualHitEvents": 266,
+          "directDamageRounded": 4010,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 264,
+          "rangeApproachTicks": 422,
+          "outOfRangeFireTicks": 0
+        },
+        "p1": {
+          "shotEvents": 268,
+          "manualHitEvents": 254,
+          "directDamageRounded": 3825,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 264,
+          "rangeApproachTicks": 422,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "rifle",
+      "seed": 723,
+      "count": 2,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 169,
+      "playerKills": [
+        76,
+        93
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 470,
+          "manualHitEvents": 470,
+          "directDamageRounded": 7557,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 462,
+          "rangeApproachTicks": 446,
+          "outOfRangeFireTicks": 0
+        },
+        "p1": {
+          "shotEvents": 470,
+          "manualHitEvents": 427,
+          "directDamageRounded": 6701,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 462,
+          "rangeApproachTicks": 427,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 0
+        },
+        {
+          "playerId": "p1",
+          "cardId": "blast-radius",
+          "time": 0
+        },
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 70.64999999999813
+        },
+        {
+          "playerId": "p1",
+          "cardId": "blast-radius",
+          "time": 70.64999999999813
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "smg",
+      "seed": 814,
+      "count": 1,
+      "mode": "advance",
+      "seconds": 88.89999999999709,
+      "result": "victory",
+      "clearTime": 88.89999999999709,
+      "kills": 44,
+      "playerKills": [
+        44
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 743,
+          "manualHitEvents": 547,
+          "directDamageRounded": 4435,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 480,
+          "rangeApproachTicks": 877,
+          "outOfRangeFireTicks": 327
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "smg",
+      "seed": 814,
+      "count": 1,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 141,
+      "playerKills": [
+        141
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 871,
+          "manualHitEvents": 816,
+          "directDamageRounded": 6783,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 570,
+          "rangeApproachTicks": 489,
+          "outOfRangeFireTicks": 98
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 0
+        },
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 34.0500000000002
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "smg",
+      "seed": 814,
+      "count": 2,
+      "mode": "advance",
+      "seconds": 74.39999999999792,
+      "result": "victory",
+      "clearTime": 74.39999999999792,
+      "kills": 44,
+      "playerKills": [
+        16,
+        28
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 523,
+          "manualHitEvents": 321,
+          "directDamageRounded": 2409,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 330,
+          "rangeApproachTicks": 802,
+          "outOfRangeFireTicks": 379
+        },
+        "p1": {
+          "shotEvents": 301,
+          "manualHitEvents": 299,
+          "directDamageRounded": 5334,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 297,
+          "rangeApproachTicks": 212,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "smg",
+      "seed": 814,
+      "count": 2,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 159,
+      "playerKills": [
+        70,
+        89
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 797,
+          "manualHitEvents": 632,
+          "directDamageRounded": 5119,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 514,
+          "rangeApproachTicks": 916,
+          "outOfRangeFireTicks": 345
+        },
+        "p1": {
+          "shotEvents": 476,
+          "manualHitEvents": 475,
+          "directDamageRounded": 8060,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 462,
+          "rangeApproachTicks": 243,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 0
+        },
+        {
+          "playerId": "p1",
+          "cardId": "boost-coil",
+          "time": 0
+        },
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 67.49999999999831
+        },
+        {
+          "playerId": "p1",
+          "cardId": "boost-coil",
+          "time": 67.49999999999831
+        },
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 69.64999999999819
+        },
+        {
+          "playerId": "p1",
+          "cardId": "boost-coil",
+          "time": 69.64999999999819
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "smg",
+      "seed": 723,
+      "count": 1,
+      "mode": "advance",
+      "seconds": 80.54999999999757,
+      "result": "victory",
+      "clearTime": 80.54999999999757,
+      "kills": 44,
+      "playerKills": [
+        44
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 672,
+          "manualHitEvents": 520,
+          "directDamageRounded": 4387,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 420,
+          "rangeApproachTicks": 711,
+          "outOfRangeFireTicks": 316
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "smg",
+      "seed": 723,
+      "count": 1,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 141,
+      "playerKills": [
+        141
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 871,
+          "manualHitEvents": 816,
+          "directDamageRounded": 6783,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 570,
+          "rangeApproachTicks": 489,
+          "outOfRangeFireTicks": 98
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 0
+        },
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 34.0500000000002
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "smg",
+      "seed": 723,
+      "count": 2,
+      "mode": "advance",
+      "seconds": 71.2499999999981,
+      "result": "victory",
+      "clearTime": 71.2499999999981,
+      "kills": 44,
+      "playerKills": [
+        16,
+        28
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 526,
+          "manualHitEvents": 281,
+          "directDamageRounded": 2437,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 330,
+          "rangeApproachTicks": 707,
+          "outOfRangeFireTicks": 435
+        },
+        "p1": {
+          "shotEvents": 303,
+          "manualHitEvents": 301,
+          "directDamageRounded": 5278,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 297,
+          "rangeApproachTicks": 262,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "smg",
+      "seed": 723,
+      "count": 2,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 159,
+      "playerKills": [
+        70,
+        89
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 797,
+          "manualHitEvents": 632,
+          "directDamageRounded": 5119,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 514,
+          "rangeApproachTicks": 916,
+          "outOfRangeFireTicks": 345
+        },
+        "p1": {
+          "shotEvents": 476,
+          "manualHitEvents": 475,
+          "directDamageRounded": 8060,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 462,
+          "rangeApproachTicks": 243,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 0
+        },
+        {
+          "playerId": "p1",
+          "cardId": "blast-radius",
+          "time": 0
+        },
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 67.49999999999831
+        },
+        {
+          "playerId": "p1",
+          "cardId": "blast-radius",
+          "time": 67.49999999999831
+        },
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 69.64999999999819
+        },
+        {
+          "playerId": "p1",
+          "cardId": "blast-radius",
+          "time": 69.64999999999819
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "shotgun",
+      "seed": 814,
+      "count": 1,
+      "mode": "advance",
+      "seconds": 99.3499999999965,
+      "result": "victory",
+      "clearTime": 99.3499999999965,
+      "kills": 44,
+      "playerKills": [
+        44
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 752,
+          "manualHitEvents": 421,
+          "directDamageRounded": 4395,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 546,
+          "rangeApproachTicks": 1136,
+          "outOfRangeFireTicks": 643
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "shotgun",
+      "seed": 814,
+      "count": 1,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 130,
+      "playerKills": [
+        130
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 728,
+          "manualHitEvents": 594,
+          "directDamageRounded": 6345,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 526,
+          "rangeApproachTicks": 430,
+          "outOfRangeFireTicks": 126
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 0
+        },
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 27.70000000000026
+        },
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 53.74999999999908
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "shotgun",
+      "seed": 814,
+      "count": 2,
+      "mode": "advance",
+      "seconds": 78.74999999999767,
+      "result": "victory",
+      "clearTime": 78.74999999999767,
+      "kills": 44,
+      "playerKills": [
+        13,
+        31
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 520,
+          "manualHitEvents": 200,
+          "directDamageRounded": 2006,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 378,
+          "rangeApproachTicks": 868,
+          "outOfRangeFireTicks": 621
+        },
+        "p1": {
+          "shotEvents": 351,
+          "manualHitEvents": 350,
+          "directDamageRounded": 5853,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 330,
+          "rangeApproachTicks": 379,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "shotgun",
+      "seed": 814,
+      "count": 2,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 158,
+      "playerKills": [
+        54,
+        104
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 728,
+          "manualHitEvents": 439,
+          "directDamageRounded": 3995,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 514,
+          "rangeApproachTicks": 1363,
+          "outOfRangeFireTicks": 678
+        },
+        "p1": {
+          "shotEvents": 479,
+          "manualHitEvents": 478,
+          "directDamageRounded": 8690,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 462,
+          "rangeApproachTicks": 390,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 0
+        },
+        {
+          "playerId": "p1",
+          "cardId": "boost-coil",
+          "time": 0
+        },
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 53.29999999999911
+        },
+        {
+          "playerId": "p1",
+          "cardId": "boost-coil",
+          "time": 53.29999999999911
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "shotgun",
+      "seed": 723,
+      "count": 1,
+      "mode": "advance",
+      "seconds": 90.649999999997,
+      "result": "victory",
+      "clearTime": 90.649999999997,
+      "kills": 44,
+      "playerKills": [
+        44
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 720,
+          "manualHitEvents": 420,
+          "directDamageRounded": 4426,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 504,
+          "rangeApproachTicks": 1033,
+          "outOfRangeFireTicks": 623
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "shotgun",
+      "seed": 723,
+      "count": 1,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 124,
+      "playerKills": [
+        124
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 728,
+          "manualHitEvents": 606,
+          "directDamageRounded": 6219,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 526,
+          "rangeApproachTicks": 572,
+          "outOfRangeFireTicks": 134
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 0
+        },
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 27.85000000000026
+        },
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 66.29999999999838
+        },
+        {
+          "playerId": "p0",
+          "cardId": "recovery-pack",
+          "time": 73.34999999999798
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "shotgun",
+      "seed": 723,
+      "count": 2,
+      "mode": "advance",
+      "seconds": 78.69999999999767,
+      "result": "victory",
+      "clearTime": 78.69999999999767,
+      "kills": 44,
+      "playerKills": [
+        10,
+        34
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 552,
+          "manualHitEvents": 176,
+          "directDamageRounded": 1728,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 378,
+          "rangeApproachTicks": 1014,
+          "outOfRangeFireTicks": 794
+        },
+        "p1": {
+          "shotEvents": 352,
+          "manualHitEvents": 350,
+          "directDamageRounded": 6092,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 359,
+          "rangeApproachTicks": 265,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "shotgun",
+      "seed": 723,
+      "count": 2,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 156,
+      "playerKills": [
+        64,
+        92
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 728,
+          "manualHitEvents": 518,
+          "directDamageRounded": 4793,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 522,
+          "rangeApproachTicks": 1279,
+          "outOfRangeFireTicks": 561
+        },
+        "p1": {
+          "shotEvents": 466,
+          "manualHitEvents": 466,
+          "directDamageRounded": 8336,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 467,
+          "rangeApproachTicks": 233,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 0
+        },
+        {
+          "playerId": "p1",
+          "cardId": "blast-radius",
+          "time": 0
+        },
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 51.54999999999921
+        },
+        {
+          "playerId": "p1",
+          "cardId": "blast-radius",
+          "time": 51.54999999999921
+        },
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 88.7999999999971
+        },
+        {
+          "playerId": "p1",
+          "cardId": "blast-radius",
+          "time": 88.7999999999971
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "rocket",
+      "seed": 814,
+      "count": 1,
+      "mode": "advance",
+      "seconds": 113.54999999999569,
+      "result": "victory",
+      "clearTime": 113.54999999999569,
+      "kills": 44,
+      "playerKills": [
+        44
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 54,
+          "manualHitEvents": 0,
+          "directDamageRounded": 0,
+          "secondaryDamageRounded": 6944,
+          "netDamageTaken": 0,
+          "reloadTicks": 1465,
+          "rangeApproachTicks": 114,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "rocket",
+      "seed": 814,
+      "count": 1,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 93,
+      "playerKills": [
+        93
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 46,
+          "manualHitEvents": 94,
+          "directDamageRounded": 10955,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 1241,
+          "rangeApproachTicks": 1,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 0
+        },
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 40.64999999999983
+        },
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 71.84999999999806
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "rocket",
+      "seed": 814,
+      "count": 2,
+      "mode": "advance",
+      "seconds": 74.09999999999793,
+      "result": "victory",
+      "clearTime": 74.09999999999793,
+      "kills": 44,
+      "playerKills": [
+        9,
+        35
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 35,
+          "manualHitEvents": 0,
+          "directDamageRounded": 0,
+          "secondaryDamageRounded": 2356,
+          "netDamageTaken": 0,
+          "reloadTicks": 935,
+          "rangeApproachTicks": 133,
+          "outOfRangeFireTicks": 0
+        },
+        "p1": {
+          "shotEvents": 324,
+          "manualHitEvents": 324,
+          "directDamageRounded": 5877,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 330,
+          "rangeApproachTicks": 327,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "rocket",
+      "seed": 814,
+      "count": 2,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 150,
+      "playerKills": [
+        43,
+        107
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 46,
+          "manualHitEvents": 46,
+          "directDamageRounded": 5739,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 1241,
+          "rangeApproachTicks": 12,
+          "outOfRangeFireTicks": 0
+        },
+        "p1": {
+          "shotEvents": 500,
+          "manualHitEvents": 500,
+          "directDamageRounded": 9756,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 495,
+          "rangeApproachTicks": 122,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 0
+        },
+        {
+          "playerId": "p1",
+          "cardId": "boost-coil",
+          "time": 0
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "rocket",
+      "seed": 723,
+      "count": 1,
+      "mode": "advance",
+      "seconds": 127.19999999999492,
+      "result": "victory",
+      "clearTime": 127.19999999999492,
+      "kills": 44,
+      "playerKills": [
+        44
+      ],
+      "hp": [
+        150.616
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 60,
+          "manualHitEvents": 0,
+          "directDamageRounded": 0,
+          "secondaryDamageRounded": 7128,
+          "netDamageTaken": 9.383999999999986,
+          "reloadTicks": 1614,
+          "rangeApproachTicks": 64,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "rocket",
+      "seed": 723,
+      "count": 1,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 93,
+      "playerKills": [
+        93
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 46,
+          "manualHitEvents": 94,
+          "directDamageRounded": 10955,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 1241,
+          "rangeApproachTicks": 1,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 0
+        },
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 40.64999999999983
+        },
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 71.84999999999806
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "rocket",
+      "seed": 723,
+      "count": 2,
+      "mode": "advance",
+      "seconds": 79.79999999999761,
+      "result": "victory",
+      "clearTime": 79.79999999999761,
+      "kills": 44,
+      "playerKills": [
+        14,
+        30
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 38,
+          "manualHitEvents": 0,
+          "directDamageRounded": 0,
+          "secondaryDamageRounded": 2172,
+          "netDamageTaken": 0,
+          "reloadTicks": 1009,
+          "rangeApproachTicks": 162,
+          "outOfRangeFireTicks": 0
+        },
+        "p1": {
+          "shotEvents": 378,
+          "manualHitEvents": 378,
+          "directDamageRounded": 6753,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 363,
+          "rangeApproachTicks": 319,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "rocket",
+      "seed": 723,
+      "count": 2,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 147,
+      "playerKills": [
+        39,
+        108
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 46,
+          "manualHitEvents": 44,
+          "directDamageRounded": 5005,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 1245,
+          "rangeApproachTicks": 12,
+          "outOfRangeFireTicks": 0
+        },
+        "p1": {
+          "shotEvents": 500,
+          "manualHitEvents": 500,
+          "directDamageRounded": 9725,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 499,
+          "rangeApproachTicks": 102,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 0
+        },
+        {
+          "playerId": "p1",
+          "cardId": "blast-radius",
+          "time": 0
+        },
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 75.44999999999786
+        },
+        {
+          "playerId": "p1",
+          "cardId": "blast-radius",
+          "time": 75.44999999999786
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "sniper",
+      "seed": 814,
+      "count": 1,
+      "mode": "advance",
+      "seconds": 67.79999999999829,
+      "result": "victory",
+      "clearTime": 67.79999999999829,
+      "kills": 44,
+      "playerKills": [
+        44
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 45,
+          "manualHitEvents": 45,
+          "directDamageRounded": 7425,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 343,
+          "rangeApproachTicks": 0,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "sniper",
+      "seed": 814,
+      "count": 1,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 70,
+      "playerKills": [
+        70
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 70,
+          "manualHitEvents": 70,
+          "directDamageRounded": 11550,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 539,
+          "rangeApproachTicks": 0,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 0
+        },
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 55.499999999998984
+        },
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 76.09999999999782
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "sniper",
+      "seed": 814,
+      "count": 2,
+      "mode": "advance",
+      "seconds": 64.89999999999846,
+      "result": "victory",
+      "clearTime": 64.89999999999846,
+      "kills": 44,
+      "playerKills": [
+        30,
+        14
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 38,
+          "manualHitEvents": 38,
+          "directDamageRounded": 6270,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 294,
+          "rangeApproachTicks": 0,
+          "outOfRangeFireTicks": 0
+        },
+        "p1": {
+          "shotEvents": 202,
+          "manualHitEvents": 193,
+          "directDamageRounded": 3037,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 198,
+          "rangeApproachTicks": 239,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "sniper",
+      "seed": 814,
+      "count": 2,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 154,
+      "playerKills": [
+        66,
+        88
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 70,
+          "manualHitEvents": 70,
+          "directDamageRounded": 11255,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 539,
+          "rangeApproachTicks": 0,
+          "outOfRangeFireTicks": 0
+        },
+        "p1": {
+          "shotEvents": 491,
+          "manualHitEvents": 482,
+          "directDamageRounded": 9055,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 500,
+          "rangeApproachTicks": 134,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 0
+        },
+        {
+          "playerId": "p1",
+          "cardId": "boost-coil",
+          "time": 0
+        },
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 75.84999999999783
+        },
+        {
+          "playerId": "p1",
+          "cardId": "boost-coil",
+          "time": 75.84999999999783
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "sniper",
+      "seed": 723,
+      "count": 1,
+      "mode": "advance",
+      "seconds": 72.59999999999802,
+      "result": "victory",
+      "clearTime": 72.59999999999802,
+      "kills": 44,
+      "playerKills": [
+        44
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 45,
+          "manualHitEvents": 45,
+          "directDamageRounded": 7425,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 343,
+          "rangeApproachTicks": 0,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "sniper",
+      "seed": 723,
+      "count": 1,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 70,
+      "playerKills": [
+        70
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 70,
+          "manualHitEvents": 70,
+          "directDamageRounded": 11550,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 539,
+          "rangeApproachTicks": 0,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 0
+        },
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 55.499999999998984
+        },
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 76.09999999999782
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "sniper",
+      "seed": 723,
+      "count": 2,
+      "mode": "advance",
+      "seconds": 64.0499999999985,
+      "result": "victory",
+      "clearTime": 64.0499999999985,
+      "kills": 44,
+      "playerKills": [
+        33,
+        11
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 40,
+          "manualHitEvents": 40,
+          "directDamageRounded": 6600,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 294,
+          "rangeApproachTicks": 0,
+          "outOfRangeFireTicks": 0
+        },
+        "p1": {
+          "shotEvents": 216,
+          "manualHitEvents": 208,
+          "directDamageRounded": 3028,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 198,
+          "rangeApproachTicks": 349,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "sniper",
+      "seed": 723,
+      "count": 2,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 153,
+      "playerKills": [
+        66,
+        87
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 70,
+          "manualHitEvents": 70,
+          "directDamageRounded": 11255,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 539,
+          "rangeApproachTicks": 0,
+          "outOfRangeFireTicks": 0
+        },
+        "p1": {
+          "shotEvents": 491,
+          "manualHitEvents": 482,
+          "directDamageRounded": 9033,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 499,
+          "rangeApproachTicks": 140,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 0
+        },
+        {
+          "playerId": "p1",
+          "cardId": "blast-radius",
+          "time": 0
+        },
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 70.94999999999811
+        },
+        {
+          "playerId": "p1",
+          "cardId": "blast-radius",
+          "time": 70.94999999999811
+        },
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 71.79999999999806
+        },
+        {
+          "playerId": "p1",
+          "cardId": "blast-radius",
+          "time": 71.79999999999806
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "laser",
+      "seed": 814,
+      "count": 1,
+      "mode": "advance",
+      "seconds": 66.19999999999838,
+      "result": "victory",
+      "clearTime": 66.19999999999838,
+      "kills": 44,
+      "playerKills": [
+        44
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 496,
+          "manualHitEvents": 549,
+          "directDamageRounded": 4392,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 244,
+          "rangeApproachTicks": 0,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "laser",
+      "seed": 814,
+      "count": 1,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 173,
+      "playerKills": [
+        173
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 830,
+          "manualHitEvents": 1028,
+          "directDamageRounded": 8074,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 366,
+          "rangeApproachTicks": 0,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 0
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "laser",
+      "seed": 814,
+      "count": 2,
+      "mode": "advance",
+      "seconds": 58.19999999999883,
+      "result": "victory",
+      "clearTime": 58.19999999999883,
+      "kills": 44,
+      "playerKills": [
+        28,
+        16
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 480,
+          "manualHitEvents": 579,
+          "directDamageRounded": 4632,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 195,
+          "rangeApproachTicks": 0,
+          "outOfRangeFireTicks": 0
+        },
+        "p1": {
+          "shotEvents": 205,
+          "manualHitEvents": 197,
+          "directDamageRounded": 2989,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 198,
+          "rangeApproachTicks": 333,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "laser",
+      "seed": 814,
+      "count": 2,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 172,
+      "playerKills": [
+        87,
+        85
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 902,
+          "manualHitEvents": 1059,
+          "directDamageRounded": 8309,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 427,
+          "rangeApproachTicks": 0,
+          "outOfRangeFireTicks": 0
+        },
+        "p1": {
+          "shotEvents": 384,
+          "manualHitEvents": 366,
+          "directDamageRounded": 5735,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 372,
+          "rangeApproachTicks": 467,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "boost-coil",
+          "time": 0
+        },
+        {
+          "playerId": "p1",
+          "cardId": "boost-coil",
+          "time": 0
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "laser",
+      "seed": 723,
+      "count": 1,
+      "mode": "advance",
+      "seconds": 58.649999999998805,
+      "result": "victory",
+      "clearTime": 58.649999999998805,
+      "kills": 44,
+      "playerKills": [
+        44
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 523,
+          "manualHitEvents": 549,
+          "directDamageRounded": 4392,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 244,
+          "rangeApproachTicks": 0,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "laser",
+      "seed": 723,
+      "count": 1,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 173,
+      "playerKills": [
+        173
+      ],
+      "hp": [
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 830,
+          "manualHitEvents": 1028,
+          "directDamageRounded": 8074,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 366,
+          "rangeApproachTicks": 0,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 0
+        }
+      ]
+    },
+    {
+      "type": "sortie",
+      "kind": "laser",
+      "seed": 723,
+      "count": 2,
+      "mode": "advance",
+      "seconds": 67.04999999999833,
+      "result": "victory",
+      "clearTime": 67.04999999999833,
+      "kills": 44,
+      "playerKills": [
+        27,
+        17
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 2,
+      "players": {
+        "p0": {
+          "shotEvents": 563,
+          "manualHitEvents": 609,
+          "directDamageRounded": 4872,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 244,
+          "rangeApproachTicks": 0,
+          "outOfRangeFireTicks": 0
+        },
+        "p1": {
+          "shotEvents": 205,
+          "manualHitEvents": 199,
+          "directDamageRounded": 2778,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 198,
+          "rangeApproachTicks": 374,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": []
+    },
+    {
+      "type": "sortie",
+      "kind": "laser",
+      "seed": 723,
+      "count": 2,
+      "mode": "survival",
+      "seconds": 90.04999999999703,
+      "result": "battle",
+      "clearTime": null,
+      "kills": 172,
+      "playerKills": [
+        87,
+        85
+      ],
+      "hp": [
+        160,
+        160
+      ],
+      "wave": 1,
+      "players": {
+        "p0": {
+          "shotEvents": 902,
+          "manualHitEvents": 1059,
+          "directDamageRounded": 8309,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 427,
+          "rangeApproachTicks": 0,
+          "outOfRangeFireTicks": 0
+        },
+        "p1": {
+          "shotEvents": 384,
+          "manualHitEvents": 366,
+          "directDamageRounded": 5735,
+          "secondaryDamageRounded": 0,
+          "netDamageTaken": 0,
+          "reloadTicks": 372,
+          "rangeApproachTicks": 467,
+          "outOfRangeFireTicks": 0
+        }
+      },
+      "picks": [
+        {
+          "playerId": "p0",
+          "cardId": "burst-cell",
+          "time": 0
+        },
+        {
+          "playerId": "p1",
+          "cardId": "blast-radius",
+          "time": 0
+        }
+      ]
+    }
+  ],
+  "replay": true,
+  "caveats": [
+    "assay is artificial and separate from moving sorties",
+    "hit events per shot is not hit probability for pellets/piercing/explosions",
+    "two seeds and early slices do not estimate general win rate",
+    "no human, four player, late game, or all rarity/roll coverage",
+    "medic is support equipment and excluded from damage comparison"
+  ]
+}

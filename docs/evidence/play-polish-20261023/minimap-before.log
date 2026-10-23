@@ -1,0 +1,39 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a
+
+ ❯ tests/front-minimap-mates.test.ts (3 tests | 2 failed) 11ms
+   × 遠くの味方とダウンした味方は縁の内側に残る（回転=false） 7ms
+   × 遠くの味方とダウンした味方は縁の内側に残る（回転=true） 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/front-minimap-mates.test.ts > 遠くの味方とダウンした味方は縁の内側に残る（回転=false）
+AssertionError: expected -0.5957446808510638 to be greater than or equal to 0
+ ❯ tests/front-minimap-mates.test.ts:43:24
+     41|   expect(rings).toHaveBeenCalledTimes(1);
+     42|   for (const [x, y, radius] of [...dots.mock.calls, ...rings.mock.call…
+     43|     expect(x - radius).toBeGreaterThanOrEqual(0);
+       |                        ^
+     44|     expect(y - radius).toBeGreaterThanOrEqual(0);
+     45|     expect(x + radius).toBeLessThanOrEqual(map.canvas.width);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/front-minimap-mates.test.ts > 遠くの味方とダウンした味方は縁の内側に残る（回転=true）
+AssertionError: expected 253.8285714285714 to be less than or equal to 160
+ ❯ tests/front-minimap-mates.test.ts:45:24
+     43|     expect(x - radius).toBeGreaterThanOrEqual(0);
+     44|     expect(y - radius).toBeGreaterThanOrEqual(0);
+     45|     expect(x + radius).toBeLessThanOrEqual(map.canvas.width);
+       |                        ^
+     46|     expect(y + radius).toBeLessThanOrEqual(map.canvas.height);
+     47|     if (rotates) expect(Math.hypot(x - map.canvas.width / 2, y - map.c…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  02:15:45
+   Duration  282ms (transform 62%, import 23%, tests 10%, worker 5%)
+
