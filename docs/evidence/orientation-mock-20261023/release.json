@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-10-23T14:44:36.016Z",
+  "sourceSha": "0a1437f0e31593e4c7276ee614162b9f73a484ff",
+  "mockUrl": "https://swarm-front-orientation-mock.melosalife-24.workers.dev",
+  "swarm-front": [
+    {
+      "version_id": "57f36bd8-d3d9-4df9-9590-4b54fa593e96",
+      "percentage": 100
+    }
+  ],
+  "swarm-front-orientation-mock": [
+    {
+      "version_id": "32ec0642-3411-417b-a02d-cf539e0861c2",
+      "percentage": 100
+    }
+  ]
+}

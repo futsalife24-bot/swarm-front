@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-10-23T14:42:22.422Z",
+  "source": "Cloudflare Dashboard: Workers plans / Workers & Pages",
+  "plan": "Free",
+  "price": "$0",
+  "selected": "Current plan (disabled button under Free)",
+  "requestsToday": 180,
+  "requestsDailyLimit": 100000,
+  "login": "existing Google account; save email and login method unchecked",
+  "approval": "User explicitly permitted existing Cloudflare login in this thread",
+  "newContract": false,
+  "planChange": false
+}

@@ -1,6 +1,8 @@
 # 縦横プレイの分離モック
 
-2026-10-23。本人承認の「本編から分離し、スマホで手触りを確認する」仕様。ローカル実装・自己検証を完了。専用HTTPS配信は契約確認待ち。
+2026-10-23。本人承認の「本編から分離し、スマホで手触りを確認する」仕様。実装・自己検証・専用HTTPS配信と照合を完了。本人の実スマホでの手触り確認待ち。
+
+試遊URL: https://swarm-front-orientation-mock.melosalife-24.workers.dev/
 
 - 基準: main `7cf9f0ebbefd2cdf361a90623efa10a6e26ab19a`。
 - 専用branch: `codex/orientation-mock-20261023`。
@@ -52,7 +54,7 @@ npm run preview:orientation-mock
 - 320×568、390×844、640×280、844×390で操作領域44px以上・画面内・中央hit-test・HUD非重複を確認。武器一覧は320、390、640、844pxの通常／整理を確認。キーボード高さだけの変化と、合成safe areaも確認。
 - 全6シナリオで禁止通信の**試行**ゼロ、WebSocket生成ゼロ、SW登録ゼロ、Cache Storageゼロ、本編Storageアクセスゼロ、sentinel保持、ページ例外／HTTP失敗ゼロを判定。拒否された通信をアプリが握り潰してもテストは失敗する。
 - 配置編集で縦横のdraft保持・片側だけ保存・試し撃ち後の戦闘状態の完全復帰を確認。
-- 専用Worker dry-run: 346配布ファイル、No bindings。公開処理は未実施。
+- 専用Worker dry-run: 346配布ファイル、No bindings。実装commitから再ビルドし、専用Workerへ公開済み。
 - 既存aim/renderの関連試験は46通過・2失敗。失敗2件（aimのrocket距離1.25期待/1.875、renderの弾位置−7.5期待/−6）は基準SHAの独立抽出でも同じ。今回の回帰と混同せず、既存テストは変更していない。
 - chunkサイズ警告が残る。publicDirを無効にしたためフォント／タイトル背景のビルド時解決警告が出るが、許可リスト経由の実HTTP取得を確認済み。
 
@@ -64,21 +66,26 @@ npm run preview:orientation-mock
 
 子の呼出し指定は `gpt-6-astra` / `xhigh`（メニュー実装・批判レビュー）。主担当の実モデル／推論設定は取得不可のため未確認。
 
-## 専用HTTPS配信の残条件
+## 専用HTTPS配信の結果
 
-配信先は承認済みの新規 `swarm-front-orientation-mock`。本番 `swarm-front` の現在のVersionは `57f36bd8-d3d9-4df9-9590-4b54fa593e96`（2026-10-23読取）。本番のmain反映・Worker更新は対象外。
+配信先は承認済みの新規 `swarm-front-orientation-mock`。公開ソース `0a1437f0e31593e4c7276ee614162b9f73a484ff`、専用Worker Version `32ec0642-3411-417b-a02d-cf539e0861c2`。本番 `swarm-front` のVersionは公開前後とも `57f36bd8-d3d9-4df9-9590-4b54fa593e96` のまま100%。本番main反映・Worker更新は行っていない。
 
-今回CLIの保存済みOAuthは利用可能。一方、契約APIは403、接続できるDashboardはログアウト状態。`account-settings.standard` をFree契約の証明には使わない。[無料運用の条件](FREE-TIER.md) が求める現在の契約確認と、以前の新規ログイン禁止が残るため、専用配信を保留している。未公開なのでHTTPS URLは未発行。
+本人の「許可する」で既存Cloudflareへのログイン承認を受領。端末へのメール／ログイン方法保存をオフにして既存Googleアカウントからログインし、Workers plansの **Free・$0・Current plan** を画面で確認。当日アカウント使用量180/100,000 requests。契約API403や `account-settings.standard` をFreeの根拠には使っていない。CLI OAuthは途中で期限切れになったが、通常のWranglerによる既存認証の更新で復旧した。新規契約・有料化・権限追加はなし。
 
 静的Assetsのリクエスト・保管は公式上追加料金なしで、今回の設定に実行WorkerやDBはない。ただし既存契約確認を省略する根拠にはしない。[Cloudflare公式料金](https://developers.cloudflare.com/workers/static-assets/billing-and-limitations/)
 
-再開は既存Cloudflareアカウントへのログイン許可とFree契約確認後。新規契約・有料化・権限追加は行わない。次を専用branchのcleanな実装から実施する。
+公開時のコマンドは以下。今後の再配信では、対象実装と既存契約条件を確認して専用設定だけを使う。
 
 ```powershell
 npm run build:orientation-mock
 npx wrangler deploy --dry-run --config wrangler.orientation-mock.jsonc --outdir dist-mock-worker
 npx wrangler deploy --config wrangler.orientation-mock.jsonc
 node scripts/check-orientation-mock-delivery.mjs <デプロイ結果の専用HTTPS URL>
+node scripts/check-orientation-mock-live.mjs <デプロイ結果の専用HTTPS URL>
 ```
 
-公開後にHTML/JS/CSS/主要素材のSHA、CSP/noindex、API/SW/manifestの404、POST非対応を照合し、公開版の縦横操作と本番Version不変を確認する。URLをAndroid Chromeで開き、全画面→射撃場→3点操作→端末回転→配置編集→大型／密集戦の順に本人の手触りを評価する。
+公開後の配信検査12項目が成功。HTML/JS/CSS/アイコン/背景/フォントの6ファイルSHA一致、CSP/noindex、API2経路・SW・manifest・本編入口の404、POST405を確認。新しいChrome環境で公開版のメニュー→実射撃による敵HP減少→横回転による入力解除とrun保持→縦配置保存→HARROWモデル表示が成功し、ページ例外・HTTP失敗・禁止通信・WebSocket各0、SW/Cache各0、保存キーはモック専用のみ。
+
+証拠: `delivery-live.json`、`live.json`、`release.json`、`account-confirmed.json` と公開版画像を [検証記録](evidence/orientation-mock-20261023/README.md) に保存。今回の配信後追加コードは公開照合スクリプトだけで、配信物のゲーム実装は上記SHAのまま。
+
+次はURLをAndroid Chromeで開き、全画面→射撃場→3点操作→端末回転→配置編集→大型／密集戦の順に本人の手触りを評価する。Android実機の合格をこの公開検証から推測しない。

@@ -1,12 +1,13 @@
-# 現在地: 縦横プレイの分離モック（2026-10-23、専用HTTPS配信待ち）
+# 現在地: 縦横プレイの分離モック（2026-10-23、専用HTTPS公開済み）
 
 本人承認の全画面・実操作モックを `codex/orientation-mock-20261023` に実装。base `7cf9f0ebbefd2cdf361a90623efa10a6e26ab19a`、作業場所 `C:/Users/futsa/.codex/worktrees/orientation-mock/swarm-rebuild-p1a`。通常main・本番Workerは今回変更しない。詳細は [仕様と結果](ORIENTATION-MOCK.md)、[証拠](evidence/orientation-mock-20261023/README.md)。
 
 - 自動／縦／横、縦横別の配置編集・保存、実射撃場と3戦闘場面、36メニュー画面。回転時の旧入力解除と戦闘保持、試し撃ち後の元世界復帰、本編保存・API・SWの分離を実装。
 - 型・単体32件・モックbuild・通常build・E2E6件・大型戦調整後の該当E2E・専用Worker dry-runが成功。関連aim/renderの2失敗は基準SHAでも同じ。実Androidの手触りは未確認。
 - Astra子の批判レビュー指摘を修正・再確認。子の指定 `gpt-6-astra/xhigh`、主担当実設定は未確認。通常Chatの独立監査ではない。
-- 停止理由: CLI保存済み認証は利用可能だが契約API403、Dashboard未ログイン。無料契約の現在確認と以前の新規ログイン禁止が残るため、承認済み新規 `swarm-front-orientation-mock` の専用公開を保留。HTTPS URLは未発行。
-- 再開条件: 既存Cloudflareアカウントへのログイン許可後、Free確認→専用設定のみdeploy→配信SHA・公開画面・本番Version不変を確認。新規契約・有料化・本番の公開は行わない。
+- 本人のログイン許可後、既存CloudflareのFree・$0・Current plan、当日180/100,000 requestsを管理画面で確認。専用公開ソース `0a1437f0e31593e4c7276ee614162b9f73a484ff`、Worker Version `32ec0642-3411-417b-a02d-cf539e0861c2`。
+- 試遊URL: https://swarm-front-orientation-mock.melosalife-24.workers.dev/ 。配信検査12項目（6ファイルSHA一致含む）、公開版Chromeの射撃・縦横切替・配置保存・大型敵表示が成功。本番Versionは公開前後とも `57f36bd8-d3d9-4df9-9590-4b54fa593e96` で不変。新規契約・有料化なし。
+- 次: 本人のAndroid実機で手触りを確認。物理ジャイロ、native回転ロック、実キーボード、連続プレイの性能は未確認。専用branchのまま保持し、本編統合は別作業。
 
 # 前回記録: 遊びの改善の公開準備（2026-10-23）
 

@@ -10,6 +10,15 @@
 - `build-isolation.json` / `module-graph.json`: 配布素材の明示許可・未公開6件の除外・本編bootstrapや通信入口を含まない依存グラフ。
 - `delivery.json`: **ローカル**配信の6ファイルSHA一致と、API/SW/manifest等5経路の404。公開版の確認ではない。
 - `account-before.json`: 秘密情報を含めない契約確認結果。CLI認証は利用可能、契約API403、Dashboard未ログイン。本番Versionを読取記録。
+- `account-confirmed.json`: 本人のログイン承認後、管理画面でFree・$0・Current planと当日180/100,000 requestsを確認した記録。
+- `delivery-live.json`: 公開HTTPSの6ファイルSHA一致、CSP/noindex、5経路404、POST405の12項目。
+- `live.json`: 公開版Chromeで射撃・回転時入力解除・run保持・縦配置保存・HARROW読込が成功。禁止通信・ページ例外・HTTP失敗・SW等はゼロ。
+- `release.json`: 公開実装SHA、専用Worker Version、本番Version不変のAPI照合。
+
+公開: https://swarm-front-orientation-mock.melosalife-24.workers.dev/ 。公開ソース `0a1437f0e31593e4c7276ee614162b9f73a484ff`、専用Version `32ec0642-3411-417b-a02d-cf539e0861c2`。
+
+![公開版の横射撃場](live-training-844.png)
+![公開版の縦大型戦](live-boss-390.png)
 
 単体32件・型・モックbuild・通常build・Worker dry-run通過。E2E6件通過後、大型戦の初期位置／視点変更に対応する戦闘表示テストを再実行し通過。大型敵のロード完了を待って撮影した。既存aim/render失敗2件は基準SHAの独立抽出でも再現したため今回の変更では修正していない。
 

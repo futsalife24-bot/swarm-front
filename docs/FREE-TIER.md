@@ -1,5 +1,11 @@
 # 無料運用の前提と見積もり
 
+## 2026-10-23 分離モック公開時の確認
+
+本人の既存Cloudflareへのログイン許可後、Workers plansで「Free・$0・Current plan」を確認。Workers & Pagesの当日アカウント使用量は180/100,000 requests。新規契約・有料化・権限追加なし。専用 `swarm-front-orientation-mock` は静的Assetsだけでbindingなし。本番WorkerのVersion不変も確認。[契約確認記録](evidence/orientation-mock-20261023/account-confirmed.json)、[公開記録](ORIENTATION-MOCK.md)。DO使用量は今回の静的配信では消費せず、既存DOの使用量は未取得。
+
+以下は過去時点の確認と見積もり。過去の使用量を現在値として扱わない。
+
 現行確認日: 2026-10-15。既存CloudflareアカウントのWorkers Plansで「無料・0ドル・現在の計画」を確認。既存 `swarm-front` Workerは公開運用中。新規契約・費用・権限変更なし。当日UTC 00:00〜06:07のアカウント全Workersは81 requests、0 errors、85 subrequests。DO使用量はこの確認では未取得。[画面証拠](evidence/enemy-report-20261015/cloudflare-free.png)、[API取得記録](evidence/enemy-report-20261015/account-plan.json)。契約APIの`subscriptions`は権限不足で403のため、`account-settings`の`standard`をFreeの根拠にせず管理画面で確認した。
 
 以下の見積もり・上限表は2026-09-06時点の設計記録。現在の使用量を表すものではない。
