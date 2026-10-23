@@ -1,0 +1,142 @@
+{
+  "before": {
+    "scene": "skirmish",
+    "active": false,
+    "paused": true,
+    "time": 1.6000000000000008,
+    "run": "mock-skirmish-1792746357196",
+    "phase": "battle",
+    "player": {
+      "x": 0,
+      "z": 16,
+      "yaw": 0.05983536916181125,
+      "pitch": 0.1057179473168242,
+      "hp": 160,
+      "ammo": [
+        32,
+        9
+      ],
+      "kills": 0
+    },
+    "enemyCount": 10,
+    "enemyHp": 788.75,
+    "input": {
+      "mx": 0,
+      "mz": 0,
+      "yaw": 0,
+      "pitch": 0,
+      "fire": false,
+      "reload": false,
+      "dodge": false,
+      "jump": false,
+      "swap": false,
+      "revive": false,
+      "seq": 32,
+      "cameraAim": true
+    },
+    "touches": 0,
+    "queued": 0,
+    "scoped": false,
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "screenAngle": 0,
+      "insets": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "mode": "portrait",
+      "revision": 5
+    },
+    "fov": 108.09109530050114,
+    "aspect": 0.46208530805687204,
+    "fallback": false,
+    "fps": 4,
+    "frameSamples": 18,
+    "loaded": false,
+    "enemyModels": [
+      "harrow",
+      "calyx",
+      "crawler",
+      "ant",
+      "spider",
+      "spitter",
+      "hornet",
+      "boss"
+    ]
+  },
+  "after": {
+    "scene": "skirmish",
+    "active": false,
+    "paused": true,
+    "time": 1.6000000000000008,
+    "run": "mock-skirmish-1792746357196",
+    "phase": "battle",
+    "player": {
+      "x": 0,
+      "z": 16,
+      "yaw": 0.05983536916181125,
+      "pitch": 0.1057179473168242,
+      "hp": 160,
+      "ammo": [
+        32,
+        9
+      ],
+      "kills": 0
+    },
+    "enemyCount": 10,
+    "enemyHp": 788.75,
+    "input": {
+      "mx": 0,
+      "mz": 0,
+      "yaw": 0,
+      "pitch": 0,
+      "fire": false,
+      "reload": false,
+      "dodge": false,
+      "jump": false,
+      "swap": false,
+      "revive": false,
+      "seq": 39,
+      "cameraAim": true
+    },
+    "touches": 0,
+    "queued": 0,
+    "scoped": false,
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "screenAngle": 0,
+      "insets": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "mode": "portrait",
+      "revision": 12
+    },
+    "fov": 108.09109530050114,
+    "aspect": 0.46208530805687204,
+    "fallback": false,
+    "fps": 9,
+    "frameSamples": 10,
+    "loaded": true,
+    "enemyModels": [
+      "harrow",
+      "calyx",
+      "crawler",
+      "ant",
+      "spider",
+      "spitter",
+      "hornet",
+      "boss"
+    ]
+  },
+  "saved": {
+    "p": "{\"version\":1,\"opacity\":0.8,\"secondScope\":false,\"buttons\":{\"move\":{\"x\":0.1497326203208556,\"y\":0.7049180327868853,\"size\":1,\"opacity\":0.4},\"fire\":{\"x\":0.8502673796791443,\"y\":0.7049180327868853,\"size\":1},\"dodge\":{\"x\":0.6577540106951871,\"y\":0.8688524590163934,\"size\":1},\"jump\":{\"x\":0.7647058823529411,\"y\":0.39344262295081966,\"size\":1},\"reload\":{\"x\":0.9144385026737968,\"y\":0.16393442622950818,\"size\":1},\"swap\":{\"x\":0.9144385026737968,\"y\":0.39344262295081966,\"size\":1},\"revive\":{\"x\":0.5721925133689839,\"y\":0.16393442622950818,\"size\":1},\"pause\":{\"x\":0.5,\"y\":0.5,\"size\":1},\"scope\":{\"x\":0.7647058823529411,\"y\":0.16393442622950818,\"size\":1},\"scope2\":{\"x\":0.1497326203208556,\"y\":0.16393442622950818,\"size\":1}}}",
+    "l": null
+  }
+}

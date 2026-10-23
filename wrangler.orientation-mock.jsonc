@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "swarm-front-orientation-mock",
+  "compatibility_date": "2026-10-23",
+  "workers_dev": true,
+  "send_metrics": false,
+  "assets": {
+    "directory": "./dist-orientation-mock",
+    "not_found_handling": "none",
+    "html_handling": "auto-trailing-slash",
+  },
+}

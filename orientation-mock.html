@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-visual"
+    />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="theme-color" content="#102632" />
+    <title>SWARM FRONT · 縦横プレイモック</title>
+  </head>
+  <body class="orientation-mock playtest">
+    <canvas id="world"></canvas>
+    <main id="ui"></main>
+    <div id="hud" hidden>
+      <div class="mock-hud-panel">
+        <div class="mock-hud-main">
+          <b id="mock-hp"></b><span id="mock-ammo"></span
+          ><small id="mock-battle-info"></small>
+        </div>
+        <div id="mock-party"></div>
+        <div id="mock-mission" hidden>
+          任務・XP・強化表示デモ Lv.30
+          <progress max="100" value="72" aria-label="経験値デモ"></progress>
+        </div>
+        <div id="mock-upgrade-strip" hidden></div>
+      </div>
+      <div class="crosshair">+</div>
+    </div>
+    <canvas id="minimap" hidden></canvas>
+    <div id="damage"></div>
+    <div id="scope-overlay" hidden><span></span></div>
+    <button id="pause" hidden aria-label="一時停止">Ⅱ</button>
+    <div id="pause-menu" hidden></div>
+    <div id="controls" hidden>
+      <div id="look" aria-label="照準操作"></div>
+      <div id="move" aria-label="移動"><span></span></div>
+      <button id="fire">射撃</button><button id="dodge">回避</button
+      ><button id="jump">ジャンプ</button><button id="reload">装填</button
+      ><button id="swap">切替</button><button id="revive">蘇生</button
+      ><button id="scope">スコープ</button
+      ><button id="scope2" hidden>スコープ2</button>
+    </div>
+    <aside id="mock-bar">
+      <b>縦横モック</b><span id="mock-dimensions"></span
+      ><button id="mock-catalog">画面一覧</button
+      ><button id="mock-fullscreen">全画面</button>
+    </aside>
+    <button id="mock-training-exit" hidden>配置編集に戻る</button>
+    <script type="module" src="/src/client/orientation-mock/app.ts"></script>
+  </body>
+</html>

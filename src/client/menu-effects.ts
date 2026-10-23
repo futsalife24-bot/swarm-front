@@ -4,7 +4,11 @@ import "./menu-effects.css";
 // Presentation never waits on an effect, changes saved values, or handles input.
 // Importable without a DOM (unit tests load menus that use these effects).
 const dom = typeof window !== "undefined" && typeof document !== "undefined";
-const REDUCED_MOTION_KEY = "swarm-front-menu-reduced-motion-v1";
+declare const __ORIENTATION_MOCK__: boolean;
+const REDUCED_MOTION_KEY =
+  typeof __ORIENTATION_MOCK__ !== "undefined" && __ORIENTATION_MOCK__
+    ? "swarm-front-orientation-mock-v1:menu-reduced-motion"
+    : "swarm-front-menu-reduced-motion-v1";
 if (dom) {
   try {
     if (localStorage.getItem(REDUCED_MOTION_KEY) === "true")

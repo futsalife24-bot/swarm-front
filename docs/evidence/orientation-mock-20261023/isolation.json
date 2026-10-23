@@ -1,0 +1,104 @@
+[
+  {
+    "title": "battle presets and control hit areas",
+    "forbidden": [],
+    "pageErrors": [],
+    "httpFailures": [],
+    "webSockets": [],
+    "storageAccessCount": 29,
+    "foreignStorage": [],
+    "sentinels": [
+      "production-sentinel",
+      "keep"
+    ],
+    "sw": 0,
+    "socketAttempts": 0,
+    "registrations": 0,
+    "cacheKeys": []
+  },
+  {
+    "title": "keyboard resize keeps profile; 180-degree rotation clears captures; safe areas remain usable",
+    "forbidden": [],
+    "pageErrors": [],
+    "httpFailures": [],
+    "webSockets": [],
+    "storageAccessCount": 15,
+    "foreignStorage": [],
+    "sentinels": [
+      "production-sentinel",
+      "keep"
+    ],
+    "sw": 0,
+    "socketAttempts": 0,
+    "registrations": 0,
+    "cacheKeys": []
+  },
+  {
+    "title": "all screens rotate without production storage or network",
+    "forbidden": [],
+    "pageErrors": [],
+    "httpFailures": [],
+    "webSockets": [],
+    "storageAccessCount": 208,
+    "foreignStorage": [],
+    "sentinels": [
+      "production-sentinel",
+      "keep"
+    ],
+    "sw": 0,
+    "socketAttempts": 0,
+    "registrations": 0,
+    "cacheKeys": []
+  },
+  {
+    "title": "layout trial restores battle and stores only the active orientation",
+    "forbidden": [],
+    "pageErrors": [],
+    "httpFailures": [],
+    "webSockets": [],
+    "storageAccessCount": 20,
+    "foreignStorage": [],
+    "sentinels": [
+      "production-sentinel",
+      "keep"
+    ],
+    "sw": 0,
+    "socketAttempts": 0,
+    "registrations": 0,
+    "cacheKeys": []
+  },
+  {
+    "title": "weapon rows retain the compact shared baseline in both orientations",
+    "forbidden": [],
+    "pageErrors": [],
+    "httpFailures": [],
+    "webSockets": [],
+    "storageAccessCount": 25,
+    "foreignStorage": [],
+    "sentinels": [
+      "production-sentinel",
+      "keep"
+    ],
+    "sw": 0,
+    "socketAttempts": 0,
+    "registrations": 0,
+    "cacheKeys": []
+  },
+  {
+    "title": "real movement, aiming, fire, rotation cancellation and pause",
+    "forbidden": [],
+    "pageErrors": [],
+    "httpFailures": [],
+    "webSockets": [],
+    "storageAccessCount": 10,
+    "foreignStorage": [],
+    "sentinels": [
+      "production-sentinel",
+      "keep"
+    ],
+    "sw": 0,
+    "socketAttempts": 0,
+    "registrations": 0,
+    "cacheKeys": []
+  }
+]

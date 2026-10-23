@@ -394,7 +394,14 @@ export class Renderer {
   caveLamp = new T.PointLight(0xffd9aa, 55, 28, 1.5);
   mapAssets!: MapAssets;
   frames: number[] = [];
-  constructor(canvas: HTMLCanvasElement, enemyCapacity = 80) {
+  constructor(
+    canvas: HTMLCanvasElement,
+    enemyCapacity = 80,
+    private viewportOptions?: {
+      measure: () => { width: number; height: number };
+      fov: (verticalFov: number, aspect: number) => number;
+    },
+  ) {
     this.renderer = new T.WebGLRenderer({
       canvas,
       antialias: false,
@@ -760,9 +767,11 @@ export class Renderer {
           );
       });
     }
-    window.addEventListener("resize", () => this.resize());
+    if (!this.viewportOptions)
+      window.addEventListener("resize", () => this.resize());
     // Fullscreen and browser-bar changes can settle after the window event.
-    window.visualViewport?.addEventListener("resize", () => this.resize());
+    if (!this.viewportOptions)
+      window.visualViewport?.addEventListener("resize", () => this.resize());
   }
   instance(
     mesh: T.InstancedMesh,
@@ -783,22 +792,26 @@ export class Renderer {
     mesh.setMatrixAt(i, this.dummy.matrix);
   }
   resize() {
-    this.viewportWidth = innerWidth;
-    this.viewportHeight = innerHeight;
+    const { width, height } = this.viewportOptions?.measure() ?? {
+      width: innerWidth,
+      height: innerHeight,
+    };
+    this.viewportWidth = width;
+    this.viewportHeight = height;
     this.renderer.setPixelRatio(
       Math.min(devicePixelRatio, 1.5) *
         this.quality *
         this.adaptiveQuality.scale,
     );
-    this.renderer.setSize(innerWidth, innerHeight);
-    this.camera.aspect = innerWidth / innerHeight;
+    this.renderer.setSize(width, height);
+    this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
     // The sight ray ends at the canvas centre. HUD layers are 100dvh tall, which
     // some Android fullscreen states report taller than innerHeight; a CSS 50%
     // then drew the crosshair below the real aim point, so shots read high.
     const root = document.documentElement.style;
-    root.setProperty("--view-center-x", innerWidth / 2 + "px");
-    root.setProperty("--view-center-y", innerHeight / 2 + "px");
+    root.setProperty("--view-center-x", width / 2 + "px");
+    root.setProperty("--view-center-y", height / 2 + "px");
   }
   private viewportWidth = innerWidth;
   private viewportHeight = innerHeight;
@@ -931,9 +944,11 @@ export class Renderer {
     const localAim = w && local ? cameraShot(w, local, { yaw, pitch }) : null;
     scoped = scoped && !!local && local.hp > 0 && local.swapCd <= 0;
     const held = local?.weapons[local.slot];
-    const fov = scoped
+    const baseFov = scoped
       ? scopeFov(held ? zoomOf(held.kind) : undefined)
       : NORMAL_FOV;
+    const fov =
+      this.viewportOptions?.fov(baseFov, this.camera.aspect) ?? baseFov;
     if (this.camera.fov !== fov) {
       this.camera.fov = fov;
       this.camera.updateProjectionMatrix();

@@ -25,11 +25,17 @@ export class Controls {
   queued = new Set<string>();
   touches = new Map<number, { role: string; x: number; y: number }>();
   private resetInput: () => void;
-  constructor() {
+  constructor(options: { releaseOnReset?: boolean } = {}) {
     ensureScopeControls();
     const controls = document.querySelector("#controls")!;
     const el = (id: string) => document.getElementById(id)!;
     const reset = () => {
+      if (options.releaseOnReset)
+        for (const [pointerId, touch] of this.touches) {
+          const target = document.getElementById(touch.role);
+          if (target?.hasPointerCapture(pointerId))
+            target.releasePointerCapture(pointerId);
+        }
       this.motionAt = 0;
       this.keys.clear();
       this.queued.clear();
@@ -97,6 +103,7 @@ export class Controls {
     });
     window.addEventListener("keydown", (e) => {
       if (!this.enabled) return;
+      if (options.releaseOnReset && e.repeat && !this.keys.has(e.code)) return;
       if (
         [
           "Space",

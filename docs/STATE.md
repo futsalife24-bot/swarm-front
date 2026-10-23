@@ -1,4 +1,14 @@
-# 現在地: 遊びの改善の公開準備（2026-10-23）
+# 現在地: 縦横プレイの分離モック（2026-10-23、専用HTTPS配信待ち）
+
+本人承認の全画面・実操作モックを `codex/orientation-mock-20261023` に実装。base `7cf9f0ebbefd2cdf361a90623efa10a6e26ab19a`、作業場所 `C:/Users/futsa/.codex/worktrees/orientation-mock/swarm-rebuild-p1a`。通常main・本番Workerは今回変更しない。詳細は [仕様と結果](ORIENTATION-MOCK.md)、[証拠](evidence/orientation-mock-20261023/README.md)。
+
+- 自動／縦／横、縦横別の配置編集・保存、実射撃場と3戦闘場面、36メニュー画面。回転時の旧入力解除と戦闘保持、試し撃ち後の元世界復帰、本編保存・API・SWの分離を実装。
+- 型・単体32件・モックbuild・通常build・E2E6件・大型戦調整後の該当E2E・専用Worker dry-runが成功。関連aim/renderの2失敗は基準SHAでも同じ。実Androidの手触りは未確認。
+- Astra子の批判レビュー指摘を修正・再確認。子の指定 `gpt-6-astra/xhigh`、主担当実設定は未確認。通常Chatの独立監査ではない。
+- 停止理由: CLI保存済み認証は利用可能だが契約API403、Dashboard未ログイン。無料契約の現在確認と以前の新規ログイン禁止が残るため、承認済み新規 `swarm-front-orientation-mock` の専用公開を保留。HTTPS URLは未発行。
+- 再開条件: 既存Cloudflareアカウントへのログイン許可後、Free確認→専用設定のみdeploy→配信SHA・公開画面・本番Version不変を確認。新規契約・有料化・本番の公開は行わない。
+
+# 前回記録: 遊びの改善の公開準備（2026-10-23）
 
 本人の「公開して」を受け、最新main `d460f896f6c16980d14fb4f783f61c260c34c476` から `codex/play-polish-release-20261023` / `dist-r/` へ今回の改善だけを分離。元worktree・別担当差分と未公開の設定変更 `a3d8f07` は保持し今回に含めない。公開用検証・PR・Worker反映・配信確認は [公開記録](PLAY-POLISH-RELEASE-20261023.md) へ記録する。現段階で公開成功とは扱わない。
 

@@ -1,0 +1,56 @@
+{
+  "origin": "http://127.0.0.1:5197",
+  "checkedAt": "2026-10-23T09:10:37.653Z",
+  "results": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "b4387224fb5645b5d57a0fdb43ae8e3c063a9c0eb5b173c5613f6a9ff3c179f7"
+    },
+    {
+      "path": "icon-swarm-v2-512.png",
+      "status": 200,
+      "sha256": "71ce7bf3b6a397968bc1f105ad61d11b719e1c815112b5af453051e5d04b7b84"
+    },
+    {
+      "path": "assets/ui/title-atmosphere-v1.png",
+      "status": 200,
+      "sha256": "9d8f3639f04927d1cad543d059b71c3a3c268ef6aa84e896dba08b2496e7189e"
+    },
+    {
+      "path": "assets/fonts/rajdhani/Rajdhani-Bold.ttf",
+      "status": 200,
+      "sha256": "691470dd3286a14e9677940d0bf75796179841ba5215cbda1a2c8910a3226afd"
+    },
+    {
+      "path": "assets/orientation-mock-Dd9rNFV1.js",
+      "status": 200,
+      "sha256": "8a38f81adf1c005ee1ca3a5fb3aace7d2c8d0f75806e9c74d2585ef9ce9c9e97"
+    },
+    {
+      "path": "assets/orientation-mock-KmCRo0CV.css",
+      "status": 200,
+      "sha256": "ef01a4860e215eb4589376c5e3712b5225fa97f4b5d5db6152684842ff51a7cd"
+    },
+    {
+      "path": "/api",
+      "status": 404
+    },
+    {
+      "path": "/api/health",
+      "status": 404
+    },
+    {
+      "path": "/sw.js",
+      "status": 404
+    },
+    {
+      "path": "/manifest.webmanifest",
+      "status": 404
+    },
+    {
+      "path": "/front.html",
+      "status": 404
+    }
+  ]
+}

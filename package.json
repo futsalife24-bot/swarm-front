@@ -4,6 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build:orientation-mock": "vite build --config vite.orientation-mock.config.ts",
+    "preview:orientation-mock": "vite preview --config vite.orientation-mock.config.ts",
+    "test:orientation-mock": "vitest run --config vitest.orientation-mock.config.ts",
+    "test:orientation-mock:e2e": "playwright test --config playwright.orientation-mock.config.ts",
     "setup:local": "node scripts/setup-local.mjs",
     "dev": "vite --host 127.0.0.1",
     "server": "wrangler dev --local --ip 127.0.0.1 --port 8787",

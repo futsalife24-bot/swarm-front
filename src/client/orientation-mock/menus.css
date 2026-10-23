@@ -1,0 +1,1065 @@
+@import "../playtest.css";
+@import "../rebuild.css";
+@import "../front.css";
+@import "../gear-weapon-list.css";
+@import "../bestiary.css";
+@import "../coop-lobby.css";
+
+body.orientation-mock
+  :is(
+    .mock-weapon-dialog,
+    .base-confirm,
+    .workshop-confirm,
+    .weapon-help-dialog
+  ) {
+  max-width: calc(
+    100vw - max(10px, var(--safe-left, 0px)) - max(10px, var(--safe-right, 0px))
+  );
+  max-height: calc(
+    100dvh - max(10px, var(--safe-top, 0px)) -
+      max(10px, var(--safe-bottom, 0px))
+  );
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+/* Scope all adaptations to the separate mock entry. Shared production styles stay intact. */
+body.orientation-mock #ui .mock-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: none;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+body.orientation-mock #ui .mock-menu > * {
+  flex-shrink: 0;
+  min-width: 0;
+  max-width: 100%;
+}
+body.orientation-mock #ui .mock-menu :is(h1, h2, h3, p) {
+  margin: 0;
+}
+body.orientation-mock #ui .mock-menu h1 {
+  font-size: clamp(18px, 3vw, 24px);
+}
+body.orientation-mock #ui .mock-menu h2 {
+  font-size: 18px;
+}
+body.orientation-mock #ui .mock-menu p {
+  line-height: 1.55;
+}
+body.orientation-mock #ui .mock-menu .menu-header {
+  display: flex;
+  position: relative;
+  top: auto;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 0 0 5px;
+  min-height: 38px;
+  background: transparent;
+}
+body.orientation-mock #ui .mock-menu .menu-header nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+body.orientation-mock #ui .mock-menu :is(button, input, select) {
+  max-width: 100%;
+}
+body.orientation-mock #ui .mock-menu button {
+  min-height: 38px;
+  font-size: 13px;
+  padding: 7px 10px;
+}
+body.orientation-mock #ui .mock-menu button[aria-pressed="true"] {
+  border-color: #a8f0d0;
+  background: #31574e;
+}
+body.orientation-mock #ui .mock-menu label {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+body.orientation-mock #ui .mock-menu :is(input, select) {
+  min-height: 40px;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+body.orientation-mock #ui .mock-menu :is(.mock-menu-status, .fine) {
+  font-size: 12px;
+  color: #b2c6ce;
+}
+body.orientation-mock #ui .mock-menu-status:empty {
+  display: none;
+}
+.mock-demo-note {
+  border-left: 3px solid var(--gold);
+  padding: 5px 9px;
+  background: #4d41273d;
+  font-size: 12px;
+}
+.mock-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.mock-option-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.mock-option-grid > :is(button, article) {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+  padding: 16px;
+  border: 1px solid #5b7f895e;
+  background: linear-gradient(120deg, #23424e, #142a35);
+  min-width: 0;
+}
+.mock-option-grid > button small {
+  color: #b9d8dd;
+}
+.mock-intro {
+  display: grid;
+  gap: 16px;
+  width: min(100%, 720px);
+  margin: auto;
+}
+.mock-intro form {
+  display: grid;
+  gap: 10px;
+}
+.mock-wallet {
+  padding: 6px 10px;
+  background: #243b44;
+  color: #ebdaac;
+  font-size: 13px;
+}
+.mock-menu dl,
+.mock-weapon-dialog dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 20px;
+  margin: 12px 0;
+}
+.mock-menu dd,
+.mock-weapon-dialog dd {
+  margin: 0;
+  font-weight: 700;
+}
+.mock-menu dt,
+.mock-weapon-dialog dt {
+  color: #9fb9c5;
+}
+
+body.orientation-mock #ui .mock-home {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  min-height: 100%;
+  padding: 12px 20px;
+  box-sizing: border-box;
+}
+body.orientation-mock #ui .mock-home .title {
+  display: block;
+  padding: 0;
+  min-width: 0;
+}
+body.orientation-mock #ui .mock-home .title-logo {
+  width: 100%;
+  margin: 12px 0;
+  line-height: 1;
+}
+body.orientation-mock #ui .mock-home .title-logo svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 155px;
+}
+body.orientation-mock #ui .mock-home .tagline {
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 8px 0;
+}
+body.orientation-mock #ui .mock-home .home-operation {
+  margin-top: 12px;
+  padding: 9px 12px;
+}
+body.orientation-mock #ui .mock-home .home-operation h2 {
+  font-size: 18px;
+  margin: 4px 0;
+}
+body.orientation-mock #ui .mock-home .command-heading {
+  padding-bottom: 6px;
+}
+body.orientation-mock #ui .mock-home .title-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  margin: 8px 0;
+  max-width: none;
+}
+body.orientation-mock #ui .mock-home .title-actions button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  text-align: left;
+  padding: 9px;
+  min-height: 62px;
+  min-width: 0;
+}
+body.orientation-mock #ui .mock-home .title-actions :is(#solo, #coop) {
+  grid-column: 1/-1;
+}
+body.orientation-mock #ui .mock-home .title-actions button > span {
+  min-width: 0;
+  flex: 1;
+}
+body.orientation-mock #ui .mock-home .title-actions :is(small, b, em) {
+  display: block;
+  float: none;
+  white-space: normal;
+}
+body.orientation-mock #ui .mock-home .title-actions small {
+  font-size: 9px;
+}
+body.orientation-mock #ui .mock-home .title-actions b {
+  font-size: 14px;
+}
+body.orientation-mock #ui .mock-home .title-actions em {
+  font-size: 11px;
+  font-style: normal;
+  margin-top: 3px;
+}
+body.orientation-mock #ui .mock-home .menu-icon {
+  width: 27px;
+  height: 27px;
+  flex: none;
+}
+body.orientation-mock #ui .mock-home .home-utilities,
+body.orientation-mock #ui .mock-home .home-challenges {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin: 5px 0;
+}
+body.orientation-mock
+  #ui
+  .mock-home
+  :is(.home-utilities, .home-challenges)
+  button {
+  min-height: 34px;
+  padding: 5px 8px;
+  font-size: 11px;
+}
+body.orientation-mock #ui .mock-home .fine {
+  margin: 7px 0 0;
+  font-size: 10px;
+}
+body.orientation-mock #ui .mock-home .home-footer {
+  position: static;
+  grid-column: 1/-1;
+  justify-self: end;
+}
+body.orientation-mock #ui .mock-home .home-footer button {
+  min-height: 30px;
+  font-size: 11px;
+  padding: 4px 8px;
+}
+
+.mock-operation-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 16px;
+  min-height: 0;
+  flex: 1 !important;
+}
+.mock-operation-list {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 0;
+}
+body.orientation-mock #ui .mock-operation-list button {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  text-align: left;
+  gap: 2px 6px;
+  padding: 7px;
+}
+.mock-operation-list small {
+  grid-column: 2;
+  font-size: 10px;
+  color: #b2c7cf;
+}
+.mock-operation-detail {
+  padding: 10px;
+  overflow: auto;
+}
+body.orientation-mock #ui .mock-operation-detail p {
+  margin-top: 10px;
+}
+.mock-loadout-bar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+body.orientation-mock #ui .mock-loadout-bar > button {
+  flex: none;
+  padding: 4px 8px;
+}
+body.orientation-mock #ui .mock-loadout-bar [data-slot] {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  min-width: 0;
+}
+.mock-loadout-bar [data-slot] small {
+  font-size: 10px;
+}
+.mock-loadout-bar [data-slot] b {
+  font-size: 11px;
+}
+.mock-loadout-bar label {
+  flex: 1;
+}
+body.orientation-mock #ui .mock-loadout-bar select {
+  height: 36px;
+  min-height: 36px;
+  font-size: 11px;
+}
+.mock-gear-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.mock-gear-footer small {
+  margin-right: auto;
+  font-size: 10px;
+}
+body.orientation-mock.playtest #ui .mock-menu .gear-weapon-list {
+  flex: 1 1 auto;
+  min-height: 100px;
+  max-height: none;
+  --gear-identity: 174px;
+}
+body.orientation-mock.playtest #ui .mock-menu .gear-weapon-list.is-organizing {
+  --gear-identity: 194px;
+}
+body.orientation-mock.playtest #ui .mock-menu .gear-weapon-list .pt-weapon-row {
+  display: grid;
+  grid-template-columns: var(--gear-identity) minmax(316px, 1fr) 28px;
+  width: max(100%, calc(var(--gear-identity) + 344px));
+  height: 30px;
+  min-height: 30px;
+  margin: 0 0 2px;
+}
+body.orientation-mock.playtest
+  #ui
+  .mock-menu
+  .gear-weapon-list
+  .pt-weapon-head {
+  height: 20px;
+  min-height: 20px;
+}
+body.orientation-mock.playtest
+  #ui
+  .mock-menu
+  .gear-weapon-list
+  .pt-stat-scroll {
+  overflow: visible;
+}
+body.orientation-mock.playtest #ui .mock-menu .gear-weapon-list .pt-identity {
+  position: sticky;
+  left: 0;
+}
+body.orientation-mock.playtest
+  #ui
+  .mock-menu
+  .gear-weapon-list
+  .pt-identity
+  > button {
+  min-height: 28px;
+  height: 28px;
+  padding: 0;
+}
+body.orientation-mock.playtest #ui .mock-menu .gear-weapon-list .pt-identity b {
+  font-size: 12px;
+}
+body.orientation-mock.playtest #ui .mock-menu .gear-weapon-list [data-lock],
+body.orientation-mock.playtest
+  #ui
+  .mock-menu
+  .gear-weapon-list
+  .gear-pinned-label {
+  position: sticky;
+  right: 0;
+  min-height: 28px;
+  height: 28px;
+  width: 28px;
+  padding: 0;
+  font-size: 10px;
+}
+body.orientation-mock.playtest #ui .mock-menu .gear-weapon-list .pt-stat-inner {
+  min-width: 316px;
+  grid-template-columns: var(--gear-stats);
+  height: 28px;
+  min-height: 0;
+}
+body.orientation-mock.playtest
+  #ui
+  .mock-menu
+  .gear-weapon-list
+  .pt-weapon-head
+  .pt-stat-inner {
+  height: 18px;
+}
+body.orientation-mock.playtest #ui .mock-menu .gear-weapon-list [data-check] {
+  width: 16px;
+  min-width: 16px;
+  height: 16px;
+  min-height: 16px;
+}
+.mock-weapon-dialog {
+  width: min(560px, calc(100% - 20px));
+  max-height: calc(100dvh - 20px);
+  padding: 16px;
+  overflow: auto;
+  box-sizing: border-box;
+  background: #102630;
+  color: #e4edf1;
+  border: 1px solid #70919e;
+}
+.mock-weapon-dialog::backdrop {
+  background: #030a10df;
+}
+.mock-weapon-dialog header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.mock-weapon-dialog h2 {
+  font-size: 20px;
+  margin: 0;
+}
+.mock-weapon-dialog button {
+  min-height: 42px;
+}
+.mock-weapon-dialog .gear-lock-icon {
+  width: 24px;
+  height: 24px;
+}
+
+body.orientation-mock #ui .mock-decks .base-deck-bar {
+  flex-wrap: wrap;
+}
+body.orientation-mock #ui .mock-decks .base-deck-bar :is(input, select) {
+  width: 150px;
+}
+body.orientation-mock #ui .mock-decks .base-workbench {
+  flex: 1 1 auto;
+  min-height: 200px;
+}
+body.orientation-mock #ui .mock-decks .base-tile button {
+  min-height: 46px;
+  font-size: 12px;
+  padding: 4px;
+  border: 0;
+  background: transparent;
+  min-width: 0;
+}
+body.orientation-mock #ui .mock-decks .base-tile .base-check-toggle {
+  width: 24px;
+  min-height: 24px;
+  height: 24px;
+  flex: none;
+  padding: 0;
+  align-self: center;
+}
+body.orientation-mock
+  #ui
+  .mock-decks
+  .base-tile-pick
+  > :is(img, .front-atlas-icon) {
+  width: 34px;
+  height: 34px;
+}
+body.orientation-mock #ui .mock-decks .base-detail {
+  overflow: auto;
+  min-width: 0;
+}
+body.orientation-mock #ui .mock-decks #front-pool-status {
+  font-size: 12px;
+}
+body.orientation-mock #ui .mock-workshop .workshop-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+body.orientation-mock #ui .mock-workshop .workshop-actions section {
+  padding: 10px;
+}
+body.orientation-mock #ui .mock-soldier .pt-growth {
+  flex: 1 1 auto;
+  min-height: 240px;
+}
+body.orientation-mock #ui .mock-soldier .growth-inspector {
+  overflow: auto;
+}
+body.orientation-mock #ui .mock-soldier .growth-steps {
+  flex-wrap: wrap;
+}
+body.orientation-mock #ui .mock-soldier .growth-steps button {
+  min-width: 45px;
+  padding: 5px;
+}
+.mock-menu .room-browser-columns {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.2fr);
+  gap: 12px;
+}
+.mock-menu .room-create {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+.mock-menu .room-browse {
+  min-width: 0;
+}
+.mock-menu .room-browse header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.mock-menu .room-list-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 10px 0;
+  gap: 3px 8px;
+  border-bottom: 1px solid #5b7f895e;
+}
+.mock-menu .room-list-row small {
+  grid-column: 1;
+  font-size: 11px;
+}
+.mock-menu .room-list-row button {
+  grid-row: 1/3;
+  grid-column: 2;
+}
+#mock-room-join,
+#mock-chat-form {
+  display: flex;
+  gap: 6px;
+}
+#mock-room-join {
+  margin: 8px 0;
+}
+.mock-lobby-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.mock-lobby-title span {
+  font-size: 12px;
+}
+.mock-squad {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+}
+.mock-squad article {
+  padding: 12px 8px;
+  border: 1px solid #5b7f895e;
+  background: #18313b;
+}
+.mock-squad h3 {
+  margin: 8px 0 !important;
+  font-size: 16px;
+}
+.mock-squad small {
+  display: block;
+  font-size: 10px;
+  margin-top: 10px;
+}
+.mock-chat-log {
+  flex: 1 1 auto !important;
+  min-height: 100px;
+  overflow: auto;
+}
+.mock-chat-log p {
+  padding: 12px;
+  border-bottom: 1px solid #5b7f895e;
+  overflow-wrap: anywhere;
+}
+.mock-chat-log strong {
+  display: block;
+  color: var(--mint);
+  font-size: 12px;
+}
+body.orientation-mock #ui .mock-upgrade {
+  overflow: hidden;
+}
+.mock-upgrade-deadline {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 12px;
+}
+.mock-upgrade-deadline b {
+  color: #f5d992;
+}
+body.orientation-mock #ui .mock-upgrade-cards {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  align-content: start;
+}
+body.orientation-mock #ui .mock-upgrade-cards .rebuild-card {
+  min-height: 180px;
+  padding: 10px;
+  gap: 5px;
+}
+body.orientation-mock #ui .mock-upgrade-cards .rebuild-card-icon {
+  width: 60px;
+  height: 60px;
+}
+body.orientation-mock #ui .mock-upgrade-cards .rebuild-card strong {
+  font-size: 18px;
+}
+.mock-result-heading {
+  text-align: center;
+  padding: 5px 0;
+}
+.mock-result-heading h2 {
+  color: var(--gold);
+  font-size: 28px !important;
+}
+.mock-result-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.mock-result-stats > div {
+  text-align: center;
+  padding: 8px;
+  background: #1a323c;
+}
+.mock-result-stats b {
+  display: block;
+  font-size: 23px;
+}
+.mock-result-stats small {
+  color: #adc7d1;
+}
+.mock-mission-list,
+.mock-voice-list {
+  display: grid;
+  gap: 7px;
+}
+.mock-mission-list article,
+.mock-voice-list article {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #5b7f895e;
+}
+.mock-mission-list article > div,
+.mock-voice-list article > div {
+  min-width: 0;
+}
+.mock-mission-list progress {
+  width: min(100%, 300px);
+  height: 7px;
+  accent-color: #a8f0d0;
+}
+.mock-voice-list h2 {
+  font-size: 16px !important;
+}
+.mock-voice-list p {
+  font-size: 12px;
+}
+.mock-voice-list .mock-button-row {
+  flex: none;
+}
+body.orientation-mock #ui .mock-bestiary .report-layout {
+  flex: 1 1 auto;
+  min-height: 0;
+  grid-template-columns: minmax(150px, 0.7fr) minmax(0, 2fr);
+}
+body.orientation-mock #ui .mock-bestiary .report-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: auto;
+}
+body.orientation-mock #ui .mock-bestiary .specimen {
+  height: max(180px, 30dvh);
+  min-height: 180px;
+  flex: none;
+}
+body.orientation-mock #ui .mock-bestiary .enemy-list {
+  padding: 3px 6px 3px 0;
+}
+body.orientation-mock #ui .mock-bestiary .enemy-list button {
+  min-height: 43px;
+  padding: 7px;
+  gap: 7px;
+  margin-bottom: 4px;
+}
+.mock-bestiary .enemy-description {
+  padding: 8px;
+  overflow: visible;
+}
+.mock-bestiary .enemy-description p {
+  font-size: 13px;
+  margin-top: 8px !important;
+}
+.mock-bestiary .viewer-hint,
+.mock-bestiary #mock-model-status {
+  font-size: 10px;
+  text-align: center;
+}
+.mock-video {
+  min-height: 120px;
+  flex: 1 1 auto !important;
+  display: grid;
+  place-items: center;
+  background: #02080c;
+}
+.mock-video video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 62dvh;
+  object-fit: contain;
+}
+
+/* The viewport controller keeps this profile stable while the keyboard is open. */
+html[data-mock-orientation="portrait"] {
+  body.orientation-mock #ui .mock-menu {
+    padding: 8px;
+    gap: 7px;
+  }
+  body.orientation-mock #ui .mock-menu > .menu-header {
+    position: sticky;
+    top: -8px;
+    z-index: 4;
+    background: #102630;
+    padding: 4px 0 7px;
+  }
+  body.orientation-mock #ui .mock-menu > .menu-header h1 {
+    font-size: 19px;
+  }
+  body.orientation-mock #ui .mock-home {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 12px;
+    gap: 12px;
+  }
+  body.orientation-mock #ui .mock-home .title-logo svg {
+    max-height: 100px;
+  }
+  body.orientation-mock #ui .mock-home .title > .eyebrow {
+    font-size: 9px;
+  }
+  body.orientation-mock #ui .mock-home .title > .eyebrow span {
+    display: inline-block;
+  }
+  body.orientation-mock #ui .mock-home .tagline {
+    margin: 4px 0;
+    font-size: 12px;
+  }
+  body.orientation-mock #ui .mock-home .home-operation {
+    margin-top: 8px;
+    padding: 7px 10px;
+  }
+  body.orientation-mock #ui .mock-home .home-operation small {
+    display: none;
+  }
+  body.orientation-mock #ui .mock-home .home-footer {
+    grid-column: 1;
+  }
+  .mock-option-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 7px;
+  }
+  .mock-option-grid > :is(button, article) {
+    padding: 12px;
+    gap: 6px;
+  }
+  .mock-intro {
+    margin: 8px auto;
+    gap: 12px;
+  }
+  .mock-operation-layout {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+  }
+  .mock-operation-list {
+    flex: none;
+    max-height: 45dvh;
+  }
+  .mock-operation-detail {
+    flex: none;
+    padding: 7px;
+  }
+  .mock-loadout-bar {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  body.orientation-mock #ui .mock-loadout-bar [data-slot] {
+    flex: 1 1 45%;
+    justify-content: flex-start;
+    padding: 4px 6px;
+  }
+  .mock-loadout-bar label {
+    flex: 1 1 40%;
+  }
+  body.orientation-mock.playtest #ui .mock-menu .gear-weapon-list,
+  body.orientation-mock.playtest
+    #ui
+    .mock-menu
+    .gear-weapon-list.is-organizing {
+    --gear-identity: 174px;
+    min-height: 160px;
+  }
+  body.orientation-mock.playtest
+    #ui
+    .mock-menu
+    .gear-weapon-list.is-organizing {
+    --gear-identity: 194px;
+  }
+  body.orientation-mock.playtest #ui .mock-menu .gear-weapon-list .pt-identity {
+    gap: 2px;
+    padding: 0 2px;
+  }
+  body.orientation-mock.playtest #ui .mock-menu .gear-weapon-list .gear-rarity {
+    width: 20px;
+    font-size: 8px;
+  }
+  body.orientation-mock.playtest
+    #ui
+    .mock-menu
+    .gear-weapon-list
+    .pt-identity
+    b {
+    font-size: 10px;
+  }
+  .mock-gear-footer {
+    flex-wrap: wrap;
+  }
+  .mock-gear-footer small {
+    flex: 1 1 100%;
+  }
+  body.orientation-mock #ui .mock-decks .base-workbench {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    flex: none;
+  }
+  body.orientation-mock #ui .mock-decks #base-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-height: 45dvh;
+  }
+  body.orientation-mock #ui .mock-decks .base-detail {
+    overflow: visible;
+  }
+  body.orientation-mock #ui .mock-decks .base-deck-bar :is(input, select) {
+    width: calc(50% - 5px);
+  }
+  body.orientation-mock #ui .mock-decks .base-service {
+    font-size: 10px;
+  }
+  body.orientation-mock #ui .mock-workshop .workshop-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  body.orientation-mock #ui .mock-soldier .pt-growth {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: visible;
+    flex: none;
+  }
+  body.orientation-mock #ui .mock-soldier .growth-radar {
+    height: 230px;
+    min-height: 230px;
+    width: 100%;
+  }
+  body.orientation-mock #ui .mock-soldier .growth-inspector {
+    overflow: visible;
+  }
+  .mock-menu .room-browser-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mock-squad {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  body.orientation-mock #ui .mock-upgrade-cards {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 7px;
+  }
+  body.orientation-mock #ui .mock-upgrade-cards .rebuild-card {
+    display: grid;
+    grid-template-columns: 54px 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 3px 8px;
+    min-height: 108px;
+    text-align: left;
+    padding: 8px;
+    justify-items: start;
+    align-content: center;
+  }
+  body.orientation-mock #ui .mock-upgrade-cards .rebuild-card-icon {
+    grid-column: 1;
+    grid-row: 1/4;
+    width: 50px;
+    height: 50px;
+    align-self: center;
+  }
+  body.orientation-mock #ui .mock-upgrade-cards .front-acquisition {
+    grid-column: 2;
+    position: static;
+  }
+  body.orientation-mock #ui .mock-upgrade-cards .rebuild-card-kind {
+    grid-column: 2;
+    font-size: 10px;
+  }
+  body.orientation-mock #ui .mock-upgrade-cards .rebuild-card strong {
+    grid-column: 2;
+    font-size: 16px;
+  }
+  body.orientation-mock #ui .mock-upgrade-cards .rebuild-card-description {
+    grid-column: 2;
+    font-size: 11px;
+  }
+  body.orientation-mock #ui .mock-bestiary .report-layout {
+    display: flex;
+    flex-direction: column;
+    flex: none;
+  }
+  body.orientation-mock #ui .mock-bestiary .enemy-list {
+    display: flex;
+    gap: 4px;
+    max-height: none;
+    overflow: auto;
+    border: 0;
+    padding: 0 0 4px;
+    flex: none;
+  }
+  body.orientation-mock #ui .mock-bestiary .enemy-list button {
+    flex: 0 0 auto;
+    width: auto;
+    padding: 7px;
+    min-height: 40px;
+  }
+  body.orientation-mock #ui .mock-bestiary .enemy-list strong {
+    font-size: 11px;
+  }
+  body.orientation-mock #ui .mock-bestiary .specimen {
+    height: 240px;
+  }
+  .mock-voice-list article {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .mock-result-stats {
+    gap: 3px;
+  }
+  .mock-result-stats > div {
+    padding: 6px 2px;
+  }
+  .mock-result-stats b {
+    font-size: 21px;
+  }
+  .mock-result-stats small {
+    font-size: 10px;
+  }
+  .mock-mission-list article {
+    padding: 8px;
+  }
+  body.orientation-mock #ui .mock-mission-list h2 {
+    font-size: 15px;
+  }
+  .mock-video video {
+    max-height: 48dvh;
+  }
+}
+html[data-mock-orientation="landscape"] {
+  @media (max-height: 450px) {
+    body.orientation-mock #ui .mock-home {
+      padding: 6px 10px;
+      gap: 10px;
+    }
+    body.orientation-mock #ui .mock-home .title-logo svg {
+      max-height: 100px;
+    }
+    body.orientation-mock #ui .mock-home .title-actions button {
+      min-height: 48px;
+      padding: 5px 8px;
+    }
+    body.orientation-mock #ui .mock-home .title-actions em {
+      display: none;
+    }
+    body.orientation-mock #ui .mock-home .home-operation {
+      margin-top: 8px;
+    }
+    body.orientation-mock #ui .mock-home .home-operation small {
+      display: none;
+    }
+    body.orientation-mock #ui .mock-home .home-footer {
+      margin-top: -8px;
+    }
+    body.orientation-mock #ui .mock-menu {
+      padding: 6px 8px;
+      gap: 5px;
+    }
+    body.orientation-mock #ui .mock-menu .menu-header {
+      min-height: 34px;
+      padding-bottom: 2px;
+    }
+    body.orientation-mock #ui .mock-menu .menu-header button {
+      min-height: 34px;
+    }
+    body.orientation-mock #ui .mock-upgrade-cards .rebuild-card {
+      min-height: 150px;
+      padding: 7px;
+    }
+    body.orientation-mock #ui .mock-upgrade-cards .rebuild-card-icon {
+      width: 45px;
+      height: 45px;
+    }
+    .mock-upgrade-deadline {
+      padding: 0;
+    }
+    .mock-result-heading h2 {
+      font-size: 22px !important;
+    }
+    .mock-result-stats > div {
+      padding: 4px;
+    }
+  }
+}

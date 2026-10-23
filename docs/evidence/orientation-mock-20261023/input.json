@@ -1,0 +1,274 @@
+{
+  "before": {
+    "scene": "training",
+    "active": true,
+    "paused": false,
+    "time": 1.1500000000000004,
+    "run": "training",
+    "phase": "battle",
+    "player": {
+      "x": 0,
+      "z": 16,
+      "yaw": 0.05790886581951888,
+      "pitch": 0.10234212352411842,
+      "hp": 160,
+      "ammo": [
+        32,
+        9
+      ],
+      "kills": 0
+    },
+    "enemyCount": 4,
+    "enemyHp": 40000,
+    "input": {
+      "mx": 0,
+      "mz": 0,
+      "yaw": 0,
+      "pitch": 0,
+      "fire": false,
+      "reload": false,
+      "dodge": false,
+      "jump": false,
+      "swap": false,
+      "revive": false,
+      "seq": 23,
+      "cameraAim": true
+    },
+    "touches": 0,
+    "queued": 0,
+    "scoped": false,
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "screenAngle": 0,
+      "insets": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "mode": "portrait",
+      "revision": 3
+    },
+    "fov": 108.09109530050114,
+    "aspect": 0.46208530805687204,
+    "fallback": false,
+    "fps": 4,
+    "frameSamples": 17,
+    "loaded": true,
+    "enemyModels": [
+      "harrow",
+      "calyx",
+      "crawler",
+      "ant",
+      "spider",
+      "spitter",
+      "hornet",
+      "boss"
+    ]
+  },
+  "held": {
+    "scene": "training",
+    "active": true,
+    "paused": false,
+    "time": 1.6500000000000008,
+    "run": "training",
+    "phase": "battle",
+    "player": {
+      "x": 0.0660607336605381,
+      "z": 15.267974741236184,
+      "yaw": 0.15013204999840107,
+      "pitch": 0.10623757581057953,
+      "hp": 160,
+      "ammo": [
+        29,
+        9
+      ],
+      "kills": 0
+    },
+    "enemyCount": 4,
+    "enemyHp": 39935.2,
+    "input": {
+      "mx": 0,
+      "mz": 0.7,
+      "yaw": 0.08999999999999998,
+      "pitch": 0,
+      "fire": true,
+      "reload": false,
+      "dodge": false,
+      "jump": false,
+      "swap": false,
+      "revive": false,
+      "seq": 33,
+      "cameraAim": true
+    },
+    "touches": 3,
+    "queued": 0,
+    "scoped": false,
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "screenAngle": 0,
+      "insets": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "mode": "portrait",
+      "revision": 3
+    },
+    "fov": 108.09109530050114,
+    "aspect": 0.46208530805687204,
+    "fallback": false,
+    "fps": 9,
+    "frameSamples": 42,
+    "loaded": true,
+    "enemyModels": [
+      "harrow",
+      "calyx",
+      "crawler",
+      "ant",
+      "spider",
+      "spitter",
+      "hornet",
+      "boss"
+    ]
+  },
+  "rotated": {
+    "scene": "training",
+    "active": true,
+    "paused": false,
+    "time": 1.6500000000000008,
+    "run": "training",
+    "phase": "battle",
+    "player": {
+      "x": 0.0660607336605381,
+      "z": 15.267974741236184,
+      "yaw": 0.15013204999840107,
+      "pitch": 0.10623757581057953,
+      "hp": 160,
+      "ammo": [
+        29,
+        9
+      ],
+      "kills": 0
+    },
+    "enemyCount": 4,
+    "enemyHp": 39935.2,
+    "input": {
+      "mx": 0,
+      "mz": 0,
+      "yaw": 0.08999999999999998,
+      "pitch": 0,
+      "fire": false,
+      "reload": false,
+      "dodge": false,
+      "jump": false,
+      "swap": false,
+      "revive": false,
+      "seq": 33,
+      "cameraAim": true
+    },
+    "touches": 0,
+    "queued": 0,
+    "scoped": false,
+    "viewport": {
+      "width": 844,
+      "height": 390,
+      "screenAngle": 90,
+      "insets": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "mode": "landscape",
+      "revision": 4
+    },
+    "fov": 65,
+    "aspect": 2.164102564102564,
+    "fallback": false,
+    "fps": 10,
+    "frameSamples": 45,
+    "loaded": true,
+    "enemyModels": [
+      "harrow",
+      "calyx",
+      "crawler",
+      "ant",
+      "spider",
+      "spitter",
+      "hornet",
+      "boss"
+    ]
+  },
+  "pause": {
+    "scene": "training",
+    "active": false,
+    "paused": true,
+    "time": 1.850000000000001,
+    "run": "training",
+    "phase": "battle",
+    "player": {
+      "x": 0.0660607336605381,
+      "z": 15.267974741236184,
+      "yaw": 0.15013204999840107,
+      "pitch": 0.10623757581057953,
+      "hp": 160,
+      "ammo": [
+        29,
+        9
+      ],
+      "kills": 0
+    },
+    "enemyCount": 4,
+    "enemyHp": 39935.2,
+    "input": {
+      "mx": 0,
+      "mz": 0,
+      "yaw": 0.08999999999999998,
+      "pitch": 0,
+      "fire": false,
+      "reload": false,
+      "dodge": false,
+      "jump": false,
+      "swap": false,
+      "revive": false,
+      "seq": 37,
+      "cameraAim": true
+    },
+    "touches": 0,
+    "queued": 0,
+    "scoped": false,
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "screenAngle": 0,
+      "insets": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "mode": "portrait",
+      "revision": 6
+    },
+    "fov": 108.09109530050114,
+    "aspect": 0.46208530805687204,
+    "fallback": false,
+    "fps": 11,
+    "frameSamples": 56,
+    "loaded": true,
+    "enemyModels": [
+      "harrow",
+      "calyx",
+      "crawler",
+      "ant",
+      "spider",
+      "spitter",
+      "hornet",
+      "boss"
+    ]
+  }
+}
