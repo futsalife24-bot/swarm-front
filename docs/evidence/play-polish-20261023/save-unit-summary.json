@@ -1,0 +1,52 @@
+[
+  {
+    "file": "save-regression",
+    "exit": 0,
+    "tail": "RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a\r\n\r\n\r\n Test Files  1 passed (1)\r\n      Tests  9 passed (9)\r\n   Start at  02:11:22\r\n   Duration  621ms (import 61%, transform 35%, tests 2%, worker 1%)"
+  },
+  {
+    "file": "shared-armory",
+    "exit": 0,
+    "tail": "RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a\r\n\r\n\r\n Test Files  1 passed (1)\r\n      Tests  23 passed (23)\r\n   Start at  02:11:24\r\n   Duration  935ms (import 47%, transform 33%, tests 19%, worker 1%)"
+  },
+  {
+    "file": "armory",
+    "exit": 0,
+    "tail": "RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a\r\n\r\n\r\n Test Files  1 passed (1)\r\n      Tests  6 passed (6)\r\n   Start at  02:11:25\r\n   Duration  513ms (import 64%, transform 33%, tests 2%, worker 1%)"
+  },
+  {
+    "file": "game",
+    "exit": 0,
+    "tail": "RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a\r\n\r\n\r\n Test Files  1 passed (1)\r\n      Tests  35 passed (35)\r\n   Start at  02:11:27\r\n   Duration  3.22s (tests 77%, transform 13%, import 10%)"
+  },
+  {
+    "file": "p1",
+    "exit": 0,
+    "tail": "RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a\r\n\r\n\r\n Test Files  1 passed (1)\r\n      Tests  11 passed (11)\r\n   Start at  02:11:31\r\n   Duration  1.08s (transform 50%, import 31%, tests 18%, worker 1%)"
+  },
+  {
+    "file": "training",
+    "exit": 0,
+    "tail": "RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a\r\n\r\n\r\n Test Files  1 passed (1)\r\n      Tests  2 passed (2)\r\n   Start at  02:11:33\r\n   Duration  865ms (transform 53%, import 40%, tests 7%, worker 1%)"
+  },
+  {
+    "file": "playtest",
+    "exit": 0,
+    "tail": "RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a\r\n\r\n\r\n Test Files  1 passed (1)\r\n      Tests  11 passed (11)\r\n   Start at  02:11:35\r\n   Duration  2.10s (tests 58%, transform 23%, import 19%)"
+  },
+  {
+    "file": "playtest-checkpoint",
+    "exit": 0,
+    "tail": "RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a\r\n\r\n\r\n Test Files  1 passed (1)\r\n      Tests  44 passed (44)\r\n   Start at  02:11:38\r\n   Duration  1.09s (transform 49%, import 31%, tests 19%, worker 1%)"
+  },
+  {
+    "file": "playtest-boundaries",
+    "exit": 0,
+    "tail": "RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a\r\n\r\n\r\n Test Files  1 passed (1)\r\n      Tests  4 passed (4)\r\n   Start at  02:11:40\r\n   Duration  932ms (transform 59%, import 38%, tests 2%, worker 1%)"
+  },
+  {
+    "file": "playtest-economy",
+    "exit": 0,
+    "tail": "RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a\r\n\r\n\r\n Test Files  1 passed (1)\r\n      Tests  2 passed (2)\r\n   Start at  02:11:41\r\n   Duration  896ms (tests 43%, import 34%, transform 22%, worker 1%)"
+  }
+]

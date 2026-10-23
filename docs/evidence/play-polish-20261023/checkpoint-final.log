@@ -1,0 +1,10 @@
+3:10:32 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+3:10:49 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (196,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)
+3:10:49 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (179,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)
+3:10:50 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+3:10:52 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (196,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)
+3:10:53 [vite] (client) [console.warn] THREE.WebGLProgram: Program Info Log: (179,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)
+3:10:59 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+3:11:08 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+3:11:17 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+checkpoint: 0

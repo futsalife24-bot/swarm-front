@@ -119,9 +119,32 @@ async function seed(c) {
   }, legacyKey);
   await p.close();
 }
+async function waitMenuReady(p) {
+  const transition = p.locator(".split-shutter, .menu-route-shutter");
+  await transition.waitFor({ state: "visible", timeout: 1500 }).catch(() => {});
+  await transition.waitFor({ state: "detached" });
+}
 async function solo(p) {
+  await p.locator("#solo").waitFor();
+  await waitMenuReady(p);
+  const titleStart = p.locator("dialog.title-entry[open] .title-entry-start");
+  if (await titleStart.count()) {
+    await titleStart.click();
+    await p.locator("dialog.title-entry").waitFor({ state: "detached" });
+  }
   await p.locator("#solo").click();
+  await waitMenuReady(p);
+  const operation = p.locator("dialog.operation-picker-dialog[open]");
+  assert.equal(
+    await operation.count(),
+    1,
+    "Expected one solo operation picker",
+  );
+  await operation
+    .locator('[data-operation="advance"]')
+    .click({ noWaitAfter: true });
   await p.locator("#pt-start").waitFor();
+  await waitMenuReady(p);
 }
 async function reward(p, id) {
   return p.evaluate(

@@ -1,0 +1,39 @@
+
+> swarm-front@0.1.0 test:save:browser
+> node scripts/run-save-regression.mjs
+
+2:48:40 [vite] (client) [optimizer] scanning dependencies...
+2:48:43 [vite] (client) [optimizer] bundling dependencies...
+2:48:48 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+2:48:53 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+2:48:53 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+2:48:54 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+2:49:11 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+2:49:13 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+2:49:17 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+2:49:21 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+2:49:25 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+2:49:30 [vite] (client) [console.warn] Service Worker registration blocked by Playwright
+node:internal/fs/watchers:323
+    const error = new UVException({
+                  ^
+
+Error: EBUSY: resource busy or locked, watch 'C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\dist-validation\save-regression\2026-10-22T17-48-24-817Z\safety\unsaved-result-click.json'
+    at FSWatcher.<computed> (node:internal/fs/watchers:323:19)
+    at Object.watch (node:fs:2609:36)
+    at createFsWatchInstance (file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/node_modules/vite/dist/node/chunks/node.js:9429:16)
+    at setFsWatchListener (file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/node_modules/vite/dist/node/chunks/node.js:9471:14)
+    at NodeFsHandler._watchWithNodeFs (file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/node_modules/vite/dist/node/chunks/node.js:9586:20)
+    at NodeFsHandler._handleFile (file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/node_modules/vite/dist/node/chunks/node.js:9630:24)
+    at NodeFsHandler._addToNodeFs (file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/node_modules/vite/dist/node/chunks/node.js:9804:26)
+Emitted 'error' event on FSWatcher instance at:
+    at FSWatcher._handleError (file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/node_modules/vite/dist/node/chunks/node.js:10606:146)
+    at NodeFsHandler._addToNodeFs (file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/node_modules/vite/dist/node/chunks/node.js:9809:18) {
+  errno: -4082,
+  syscall: 'watch',
+  code: 'EBUSY',
+  path: 'C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\dist-validation\\save-regression\\2026-10-22T17-48-24-817Z\\safety\\unsaved-result-click.json',
+  filename: 'C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\dist-validation\\save-regression\\2026-10-22T17-48-24-817Z\\safety\\unsaved-result-click.json'
+}
+
+Node.js v24.19.0

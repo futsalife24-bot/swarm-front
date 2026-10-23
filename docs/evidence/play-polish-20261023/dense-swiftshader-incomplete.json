@@ -1,0 +1,49 @@
+{
+  "passed": false,
+  "browser": "155.0.8059.85",
+  "head": "a3d8f076935620b2c264825bb3b849c544e2842f",
+  "seed": 4520,
+  "viewport": [
+    844,
+    390
+  ],
+  "gpu": "swiftshader",
+  "draw": true,
+  "warmup": 0,
+  "samples": 60,
+  "trials": [],
+  "errors": [],
+  "progress": [
+    {
+      "label": "before",
+      "trial": 0,
+      "stage": "construct",
+      "hidden": false
+    },
+    {
+      "label": "before",
+      "trial": 0,
+      "stage": "ready",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "enemies": 97,
+      "elapsed": 37.20000000298023
+    },
+    {
+      "label": "before",
+      "trial": 0,
+      "stage": "frame",
+      "frame": 0,
+      "elapsed": 359.70000000298023,
+      "cpu": 322.30000000447035
+    },
+    {
+      "label": "before",
+      "trial": 0,
+      "stage": "frame",
+      "frame": 30,
+      "elapsed": 11657.89999999851,
+      "cpu": 7
+    }
+  ],
+  "failure": "Error: 密集計測が25000ms以内に完了しませんでした\n    at Timeout.<anonymous> (file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/scripts/check-play-polish-dense.mjs:175:24)\n    at listOnTimeout (node:internal/timers:635:17)\n    at process.processTimers (node:internal/timers:571:7)"
+}

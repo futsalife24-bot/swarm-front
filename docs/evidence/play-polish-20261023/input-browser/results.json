@@ -1,0 +1,56 @@
+{
+  "cases": [
+    "実マウス左右同時押しと左の先行解放",
+    "CDP三点タッチ・範囲外移動・個別解放・取消",
+    "合成blurで保持入力解除"
+  ],
+  "errors": [],
+  "passed": true,
+  "browser": "155.0.8059.85",
+  "touchStart": {
+    "state": {
+      "mx": 0.6,
+      "mz": 0,
+      "yaw": 0,
+      "pitch": 0,
+      "fire": true,
+      "reload": false,
+      "dodge": true,
+      "jump": false,
+      "swap": false,
+      "revive": false,
+      "seq": 4,
+      "cameraAim": true
+    },
+    "events": [
+      {
+        "type": "pointerdown",
+        "id": 2,
+        "target": "move",
+        "x": 70,
+        "y": 190
+      },
+      {
+        "type": "pointermove",
+        "id": 2,
+        "target": "move",
+        "x": 100,
+        "y": 190
+      },
+      {
+        "type": "pointerdown",
+        "id": 3,
+        "target": "fire",
+        "x": 540,
+        "y": 190
+      },
+      {
+        "type": "pointerdown",
+        "id": 4,
+        "target": "dodge",
+        "x": 690,
+        "y": 190
+      }
+    ]
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "head": "a3d8f076935620b2c264825bb3b849c544e2842f",
+  "status": "M AGENTS.md\n M docs/STATE.md\n M scripts/check-battle-checkpoint.mjs\n M scripts/check-recovery-receipts.mjs\n M scripts/check-save-fixtures.mjs\n M scripts/check-save-safety.mjs\n M scripts/run-save-regression.mjs\n M src/client/combat-effects.ts\n M src/client/input.ts\n M src/client/minimap.ts\n?? ARGON_ADAPTER.md\n?? CLAUDE.md\n?? PROJECT_CONTEXT.md\n?? PROJECT_RULES.md\n?? assets/blender/candidates/bastion/concept-v2/\n?? assets/blender/candidates/bastion/concept-v3/\n?? docs/PLAY-POLISH-20261023.md\n?? docs/agent-handoff/\n?? docs/evidence/play-polish-20261023/\n?? scripts/check-play-polish-dense.mjs\n?? scripts/check-play-polish-effects.mjs\n?? scripts/check-play-polish-harrow.mjs\n?? scripts/check-play-polish-input.mjs\n?? scripts/measure-play-polish.test.ts\n?? scripts/vitest.play-polish.config.mjs\n?? tests/front-controls-lifecycle.test.ts\n?? tests/front-effects-reuse.test.ts\n?? tests/front-minimap-mates.test.ts",
+  "command": "node scripts/check-recovery-receipts.mjs http://127.0.0.1:53062",
+  "code": {
+    "src/bootstrap.ts": "8c719e76aa5bd32a9c05128af9f06efe1617563067de3100835015d662218f84",
+    "src/client/progression-save.ts": "791da435f0de91b83ef41060594aeb81d249d7556a78aba9db4997999595f478",
+    "src/client/save-recovery.ts": "94f30b403bc75e7889163edfcde140d7b9de1c586f482940091be1ff56e225d8",
+    "src/client/playtest-app.ts": "d82d627e8e192ed3325dd11b047658f3ef4cd2ed16573bce902bce31f63c10c0",
+    "src/client/shared-armory.ts": "f92e26cb4b17bf5750d0e2a7f73d63944eeb0c7224a66dab1d76d4bee4cfd6a5",
+    "src/client/save-writer.ts": "328080a2393f42f01898b830c440460bc9b410eb667c700baec0ef576ce75f57",
+    "scripts/check-recovery-receipts.mjs": "97ea10e01c7e6a2d4fc889c473337350c3f0d509d7672905d6b7542b80cef3af"
+  },
+  "cases": [
+    {
+      "scenario": "same-run",
+      "passed": true,
+      "x": "audit-receipt-same-run-collected-x",
+      "y": "audit-receipt-same-run-unreceived-y",
+      "xAbsentAfterRecovery": true,
+      "powderBeforeRecovery": 6,
+      "powderAfterRecovery": 6,
+      "coinsUnchanged": true,
+      "replayUnchanged": true,
+      "fixture": "same-run-fixture.json",
+      "screenshot": "same-run-recovered.png",
+      "recoveredSha256": "3a2e1b42e2320b0c0f76e996c55d8d0e994ef551fb973bc446ad83cadbc00ee4"
+    },
+    {
+      "scenario": "later-run",
+      "passed": true,
+      "x": "audit-receipt-later-run-collected-x",
+      "y": "audit-receipt-later-run-unreceived-y",
+      "xAbsentAfterRecovery": true,
+      "powderBeforeRecovery": 10,
+      "powderAfterRecovery": 10,
+      "coinsUnchanged": true,
+      "replayUnchanged": true,
+      "fixture": "later-run-fixture.json",
+      "screenshot": "later-run-recovered.png",
+      "recoveredSha256": "a69c62fc990f915689beab79f9039b03323071ebf892791f29b1a76ff1c3689c"
+    },
+    {
+      "scenario": "unreceived-once",
+      "passed": true,
+      "x": "audit-receipt-unreceived-once-collected-x",
+      "y": "audit-receipt-unreceived-once-unreceived-y",
+      "xAbsentAfterRecovery": true,
+      "powderBeforeRecovery": 10,
+      "powderAfterRecovery": 10,
+      "coinsUnchanged": true,
+      "replayUnchanged": true,
+      "yRecoveredExactlyOnce": true,
+      "powderAfterYDismantle": 13,
+      "changedFingerprintDidNotResurrect": true,
+      "fixture": "unreceived-once-fixture.json",
+      "screenshot": "unreceived-once-recovered.png",
+      "recoveredSha256": "17482ad1aab76131d4f89881ed91af31a97254f30dff87cb92e30bc791be764e"
+    }
+  ],
+  "fixture": "Actual Chrome, Web Locks, localStorage and startup journal recovery. Synthetic battle history is generated with production freshProgress/grantResult/appendCollected/prepareChoice/chooseReward/dismantle APIs. Only initial storage snapshots and stale journal replay are injected; no save/recovery/transport mocks. No live battle or Worker behavior is claimed by this script.",
+  "browser": "155.0.8059.85",
+  "codeAtFinish": {
+    "src/bootstrap.ts": "8c719e76aa5bd32a9c05128af9f06efe1617563067de3100835015d662218f84",
+    "src/client/progression-save.ts": "791da435f0de91b83ef41060594aeb81d249d7556a78aba9db4997999595f478",
+    "src/client/save-recovery.ts": "94f30b403bc75e7889163edfcde140d7b9de1c586f482940091be1ff56e225d8",
+    "src/client/playtest-app.ts": "d82d627e8e192ed3325dd11b047658f3ef4cd2ed16573bce902bce31f63c10c0",
+    "src/client/shared-armory.ts": "f92e26cb4b17bf5750d0e2a7f73d63944eeb0c7224a66dab1d76d4bee4cfd6a5",
+    "src/client/save-writer.ts": "328080a2393f42f01898b830c440460bc9b410eb667c700baec0ef576ce75f57",
+    "scripts/check-recovery-receipts.mjs": "97ea10e01c7e6a2d4fc889c473337350c3f0d509d7672905d6b7542b80cef3af"
+  },
+  "passed": true,
+  "errors": [],
+  "finishedAt": "2026-10-22T18:04:02.183Z"
+}

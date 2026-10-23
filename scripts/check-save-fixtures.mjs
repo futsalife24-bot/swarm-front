@@ -125,7 +125,19 @@ try {
     try {
       await page.locator("#solo").waitFor();
       assert.equal(await read(page), null);
+      await page.locator("dialog.title-entry[open] .title-entry-start").click();
+      await page.locator("dialog.title-entry").waitFor({ state: "detached" });
       await page.locator("#solo").click();
+      const shutter = page.locator(".split-shutter");
+      await shutter
+        .waitFor({ state: "visible", timeout: 1500 })
+        .catch(() => {});
+      await shutter.waitFor({ state: "detached" });
+      const operation = page.locator("dialog.operation-picker-dialog[open]");
+      assert.equal(await operation.count(), 1);
+      await operation
+        .locator('[data-operation="advance"]')
+        .click({ noWaitAfter: true });
       await page.locator("#pt-confirm").waitFor();
       assert.equal(await read(page), null);
       results.cases.push({ name: "absent-progress-onboarding", passed: true });

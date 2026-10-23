@@ -1,0 +1,406 @@
+BEFORE PAUSE {
+  screen: 'battle',
+  paused: false,
+  hp: 160,
+  text: '戦場を準備中100%自動回復と回復ドロップを活用しましょう。タップで戦場へ'
+} []
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+... Skipped lines
+
+  {
+    campaignPlan: {
+      brief: 'HOUNDと散射派生で移動・射撃の基本を確認。ボスなし。',
+      damage: 1,
+      dropRate: 0.05,
+...
+              lift: 0.33,
+-             local: undefined,
+              normal: {
+                x: 0,
+                y: 1,
+                z: 0
+              },
+...
+              },
+-             targetLocal: undefined,
+              targetNormal: {
+                x: 0,
+                y: 1,
+                z: 0
+              },
+...
+              lift: 0.33,
+-             local: undefined,
+              normal: {
+                x: 0,
+                y: 1,
+                z: 0
+              },
+...
+              },
+-             targetLocal: undefined,
+              targetNormal: {
+                x: 0,
+                y: 1,
+                z: 0
+              },
+
+    at file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/scripts/check-battle-checkpoint.mjs:118:12 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: {
+    stage: 1,
+    run: '50023e68-7db7-461b-98f4-7c56db8351ce',
+    seed: 3298911172,
+    time: 0.44999999999999996,
+    phase: 'battle',
+    players: [
+      {
+        id: 'solo',
+        accentSlot: 0,
+        x: -1,
+        z: 34,
+        yaw: -0.018990451839431453,
+        pitch: -0.03345773831927887,
+        hp: 160,
+        down: 0,
+        revive: 0,
+        weapons: [
+          {
+            id: 'v2-starter-rifle',
+            kind: 'rifle',
+            rarity: 0,
+            power: 1,
+            effect: 'none',
+            format: 2,
+            variance: [Object],
+            testData: false,
+            acquired: 0
+          },
+          {
+            id: 'v2-starter-shotgun',
+            kind: 'shotgun',
+            rarity: 0,
+            power: 1,
+            effect: 'none',
+            format: 2,
+            variance: [Object],
+            testData: false,
+            acquired: 1
+          }
+        ],
+        slot: 0,
+        ammo: [ 32, 7 ],
+        reload: 0,
+        cool: 0,
+        evade: 0,
+        evadeCd: 0,
+        swapCd: 0,
+        kills: 0,
+        connected: true,
+        ack: 3,
+        hurt: 0,
+        safe: 0.44999999999999996,
+        y: 0,
+        heavyHit: 0,
+        jumpHeld: false
+      }
+    ],
+    enemies: [
+      {
+        id: 1,
+        size: 1,
+        kind: 'crawler',
+        x: -9.197495089669673,
+        y: -0.005410994172241335,
+        z: 91.58699877922339,
+        hp: 75,
+        maxHp: 75,
+        cool: 1.318087611533701,
+        wind: 0,
+        tx: 0,
+        tz: 0,
+        hurt: 0,
+        targetId: 'solo',
+        lungeWait: 0,
+        lunge: 0,
+        steerAngle: 0.8463826020248234,
+        steerUntil: 0.9330778523581102,
+        pleat: {
+          anchor: { x: -8.891565894252432, y: 0, z: 90.61381292819132 },
+          normal: { x: 0, y: 1, z: 0 },
+          poseForward: {
+            x: 0.16039731112777894,
+            y: 0.043026808431410005,
+            z: -0.9861142917224076
+          },
+          forward: { x: 0.1597209299852841, y: 0, z: -0.9871622078081372 },
+          body: {
+            x: -9.197495089669673,
+            y: 1.1945890058277588,
+            z: 91.58699877922339
+          },
+          up: {
+            x: 0.03141359042478764,
+            y: 0.9983208466821936,
+            z: 0.04866901906112292
+          },
+          velocity: {
+            x: 0.8553744411379487,
+            y: 0.04327150729642931,
+            z: -2.2248067706437418
+          },
+          travel: { x: 0.8385348824227279, y: 0, z: -5.182601590992704 },
+          feet: [ [Object], [Object], [Object], [Object] ],
+          scale: 1.5,
+          phase: 0.651111111111111,
+          speed: 5.25,
+          settling: false,
+          switches: 0
+        }
+      }
+    ],
+    projectiles: [],
+    events: [],
+    drops: [],
+    pending: { solo: [] },
+    rewards: {},
+    wave: 1,
+    spawned: 1,
+    waveKills: 0,
+    nextSpawn: 0.9500000000000001,
+    waveAt: 0,
+    waveClearAt: null,
+    serial: 1,
+    eventSerial: 0,
+    totalKills: 0,
+    scale: 1,
+    reason: '',
+    solo: {
+      stage: 1,
+      difficulty: 'normal',
+      test: false,
+      levels: { hp: 0, aim: 0, move: 0, swap: 0 },
+      medkit: true,
+      revived: false,
+      invincible: 0,
+      branchReached: false,
+      waveCompleteAt: null,
+      bossSpawned: 0,
+      plannedKills: 0,
+      collection: 0,
+      acquired: 3
+    },
+    pollen: [],
+    campaignPlan: {
+      name: '前哨掃討',
+      map: 0,
+      brief: 'HOUNDと散射派生で移動・射撃の基本を確認。ボスなし。',
+      waves: [
+        {
+          troops: { crawler: 12 },
+          bosses: [],
+          interval: 0.9,
+          guards: 3
+        },
+        {
+          troops: { crawler: 12, ant: 8 },
+          bosses: [],
+          interval: 0.8,
+          guards: 3
+        }
+      ],
+      elevated: false,
+      id: 1,
+      hp: 1,
+      damage: 1,
+      dropRate: 0.05,
+      lootExponent: 1.25
+    },
+    enemyOrdinal: 1,
+    harrowMissiles: [],
+    foundrySpawns: []
+  },
+  expected: {
+    stage: 1,
+    run: '50023e68-7db7-461b-98f4-7c56db8351ce',
+    seed: 3298911172,
+    time: 0.44999999999999996,
+    phase: 'battle',
+    players: [
+      {
+        id: 'solo',
+        accentSlot: 0,
+        x: -1,
+        z: 34,
+        yaw: -0.018990451839431453,
+        pitch: -0.03345773831927887,
+        hp: 160,
+        down: 0,
+        revive: 0,
+        weapons: [
+          {
+            id: 'v2-starter-rifle',
+            kind: 'rifle',
+            rarity: 0,
+            power: 1,
+            effect: 'none',
+            format: 2,
+            variance: [Object],
+            testData: false,
+            acquired: 0
+          },
+          {
+            id: 'v2-starter-shotgun',
+            kind: 'shotgun',
+            rarity: 0,
+            power: 1,
+            effect: 'none',
+            format: 2,
+            variance: [Object],
+            testData: false,
+            acquired: 1
+          }
+        ],
+        slot: 0,
+        ammo: [ 32, 7 ],
+        reload: 0,
+        cool: 0,
+        evade: 0,
+        evadeCd: 0,
+        swapCd: 0,
+        kills: 0,
+        connected: true,
+        ack: 3,
+        hurt: 0,
+        safe: 0.44999999999999996,
+        y: 0,
+        heavyHit: 0,
+        jumpHeld: false
+      }
+    ],
+    enemies: [
+      {
+        id: 1,
+        size: 1,
+        kind: 'crawler',
+        x: -9.197495089669673,
+        y: -0.005410994172241335,
+        z: 91.58699877922339,
+        hp: 75,
+        maxHp: 75,
+        cool: 1.318087611533701,
+        wind: 0,
+        tx: 0,
+        tz: 0,
+        hurt: 0,
+        targetId: 'solo',
+        lungeWait: 0,
+        lunge: 0,
+        steerAngle: 0.8463826020248234,
+        steerUntil: 0.9330778523581102,
+        pleat: {
+          anchor: { x: -8.891565894252432, y: 0, z: 90.61381292819132 },
+          normal: { x: 0, y: 1, z: 0 },
+          poseForward: {
+            x: 0.16039731112777894,
+            y: 0.043026808431410005,
+            z: -0.9861142917224076
+          },
+          forward: { x: 0.1597209299852841, y: 0, z: -0.9871622078081372 },
+          body: {
+            x: -9.197495089669673,
+            y: 1.1945890058277588,
+            z: 91.58699877922339
+          },
+          up: {
+            x: 0.03141359042478764,
+            y: 0.9983208466821936,
+            z: 0.04866901906112292
+          },
+          velocity: {
+            x: 0.8553744411379487,
+            y: 0.04327150729642931,
+            z: -2.2248067706437418
+          },
+          travel: { x: 0.8385348824227279, y: 0, z: -5.182601590992704 },
+          feet: [ [Object], [Object], [Object], [Object] ],
+          scale: 1.5,
+          phase: 0.651111111111111,
+          speed: 5.25,
+          settling: false,
+          switches: 0
+        }
+      }
+    ],
+    projectiles: [],
+    events: [],
+    drops: [],
+    pending: { solo: [] },
+    rewards: {},
+    wave: 1,
+    spawned: 1,
+    waveKills: 0,
+    nextSpawn: 0.9500000000000001,
+    waveAt: 0,
+    waveClearAt: null,
+    serial: 1,
+    eventSerial: 0,
+    totalKills: 0,
+    scale: 1,
+    reason: '',
+    solo: {
+      stage: 1,
+      difficulty: 'normal',
+      test: false,
+      levels: { hp: 0, aim: 0, move: 0, swap: 0 },
+      medkit: true,
+      revived: false,
+      invincible: 0,
+      branchReached: false,
+      waveCompleteAt: null,
+      bossSpawned: 0,
+      plannedKills: 0,
+      collection: 0,
+      acquired: 3
+    },
+    pollen: [],
+    campaignPlan: {
+      name: '前哨掃討',
+      map: 0,
+      brief: 'HOUNDと散射派生で移動・射撃の基本を確認。ボスなし。',
+      waves: [
+        {
+          troops: { crawler: 12 },
+          bosses: [],
+          interval: 0.9,
+          guards: 3
+        },
+        {
+          troops: { crawler: 12, ant: 8 },
+          bosses: [],
+          interval: 0.8,
+          guards: 3
+        }
+      ],
+      elevated: false,
+      id: 1,
+      hp: 1,
+      damage: 1,
+      dropRate: 0.05,
+      lootExponent: 1.25
+    },
+    enemyOrdinal: 1,
+    harrowMissiles: [],
+    foundrySpawns: []
+  },
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

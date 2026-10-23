@@ -1,0 +1,28 @@
+diff --git a/src/client/input.ts b/src/client/input.ts
+index 6ae5544..a38a9ff 100644
+--- a/src/client/input.ts
++++ b/src/client/input.ts
+@@ -24,6 +24,7 @@ export class Controls {
+   keys = new Set<string>();
+   queued = new Set<string>();
+   touches = new Map<number, { role: string; x: number; y: number }>();
++  private resetInput: () => void;
+   constructor() {
+     ensureScopeControls();
+     const controls = document.querySelector("#controls")!;
+@@ -46,6 +47,7 @@ export class Controls {
+       this.mouseAim = false;
+       el("move").querySelector("span")!.setAttribute("style", "");
+     };
++    this.resetInput = reset;
+     window.addEventListener("blur", reset);
+     document.addEventListener("visibilitychange", () => {
+       if (document.hidden) reset();
+@@ -270,6 +272,7 @@ export class Controls {
+       this.input[key] = [...this.touches.values()].some((t) => t.role === key);
+   }
+   read(): Input {
++    if (document.hidden || !document.hasFocus()) this.resetInput();
+     const i = { ...this.input };
+     if (
+       this.keys.has("KeyW") ||

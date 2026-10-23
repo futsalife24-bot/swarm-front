@@ -16,16 +16,39 @@ p.setDefaultTimeout(60000);
 const errors = [];
 p.on("pageerror", (e) => errors.push(e.message));
 const key = "swarm-front-battle-checkpoint-v1";
+async function waitMenuReady() {
+  const transition = p.locator(".split-shutter, .menu-route-shutter");
+  await transition.waitFor({ state: "visible", timeout: 1500 }).catch(() => {});
+  await transition.waitFor({ state: "detached" });
+}
 try {
   await p.goto(origin);
   if (await p.locator("#landscape-start").isVisible())
     await p.locator("#landscape-start").click();
-  await p.locator("#solo").click();
+  await p.locator(":light(#solo)").waitFor();
+  await p.locator("dialog.title-entry[open] .title-entry-start").click();
+  await p.locator("dialog.title-entry").waitFor({ state: "detached" });
+  await p.locator(":light(#solo)").click();
+  await waitMenuReady();
   await p.locator("#player-name").fill("復帰検証");
   await p.locator("#player-name-form button[type=submit]").click();
-  await p.locator("#pt-confirm").click();
-  await p.locator("#pt-start").click();
-  await p.locator("#pt-enter").click();
+  await waitMenuReady();
+  await p.locator(":light(#solo)").waitFor();
+  if ((await p.locator("dialog.operation-picker-dialog[open]").count()) === 0) {
+    await p.locator(":light(#solo)").click();
+    await waitMenuReady();
+  }
+  await p.locator("dialog.operation-picker-dialog[open]").waitFor();
+  await p
+    .locator('dialog.operation-picker-dialog[open] [data-operation="advance"]')
+    .click({ noWaitAfter: true });
+  await p.locator(":light(#pt-confirm)").waitFor();
+  await waitMenuReady();
+  await p.locator(":light(#pt-confirm)").click();
+  await waitMenuReady();
+  await p.locator(":light(#pt-start)").click();
+  await waitMenuReady();
+  await p.locator(":light(#pt-enter)").click();
   // First-encounter loading can finish after the tutorial. Wait for a real
   // active battle, handling its ordinary controls instead of a fixed 2s delay.
   const deadline = Date.now() + 60000;
@@ -66,13 +89,21 @@ try {
     await p.reload();
     if (await p.locator("#landscape-start").isVisible())
       await p.locator("#landscape-start").click();
-    await p.locator("#pt-resume-battle").waitFor();
+    await p.locator(":light(#pt-resume-battle)").waitFor();
+    await waitMenuReady();
     await p.screenshot({ path: out + "/resume-prompt.png" });
-    await p.locator("#pt-resume-battle").click();
-    await p.locator("#pt-enter").waitFor({ state: "visible" });
+    await p.locator(":light(#pt-resume-battle)").click();
+    await p.locator("dialog.menu-dialog[open]").waitFor({ state: "detached" });
+    await p.locator(":light(#pt-enter)").waitFor({ state: "visible" });
+    const titleStart = p.locator("dialog.title-entry[open] .title-entry-start");
+    if (await titleStart.count()) {
+      await titleStart.click();
+      await p.locator("dialog.title-entry").waitFor({ state: "detached" });
+    }
+    await waitMenuReady();
     const prepared = await p.evaluate(() => window.__playtest.world);
     assert.deepEqual(prepared, before.world);
-    await p.locator("#pt-enter").click();
+    await p.locator(":light(#pt-enter)").click();
     await p.waitForFunction(
       (previousTime) => window.__playtest.world.time > previousTime + 0.1,
       before.world.time,
@@ -84,7 +115,11 @@ try {
       key,
     );
     assert.equal(resumed.paused, true);
-    assert.deepEqual(persisted.world, resumed.world);
+    // JSON保存ではundefinedは省かれる。保存可能なWorld全項目を同じ表現で厳密照合する。
+    assert.deepEqual(
+      persisted.world,
+      JSON.parse(JSON.stringify(resumed.world)),
+    );
     assert.equal(persisted.progress, JSON.stringify(resumed.save));
     assert(
       persisted.savedAt > before.savedAt,
@@ -173,7 +208,7 @@ try {
     };
   });
   await p.reload();
-  await p.locator("#solo").waitFor();
+  await p.locator(":light(#solo)").waitFor();
   const after = await p.evaluate(async (input) => {
     const { loadProgress, grantResult } =
       await import("/src/client/progression-save.ts");

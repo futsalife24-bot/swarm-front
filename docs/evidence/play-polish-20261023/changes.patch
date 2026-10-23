@@ -1,0 +1,348 @@
+diff --git a/scripts/check-battle-checkpoint.mjs b/scripts/check-battle-checkpoint.mjs
+index ade5e49..8a04ed2 100644
+--- a/scripts/check-battle-checkpoint.mjs
++++ b/scripts/check-battle-checkpoint.mjs
+@@ -16,16 +16,39 @@ p.setDefaultTimeout(60000);
+ const errors = [];
+ p.on("pageerror", (e) => errors.push(e.message));
+ const key = "swarm-front-battle-checkpoint-v1";
++async function waitMenuReady() {
++  const transition = p.locator(".split-shutter, .menu-route-shutter");
++  await transition.waitFor({ state: "visible", timeout: 1500 }).catch(() => {});
++  await transition.waitFor({ state: "detached" });
++}
+ try {
+   await p.goto(origin);
+   if (await p.locator("#landscape-start").isVisible())
+     await p.locator("#landscape-start").click();
+-  await p.locator("#solo").click();
++  await p.locator(":light(#solo)").waitFor();
++  await p.locator("dialog.title-entry[open] .title-entry-start").click();
++  await p.locator("dialog.title-entry").waitFor({ state: "detached" });
++  await p.locator(":light(#solo)").click();
++  await waitMenuReady();
+   await p.locator("#player-name").fill("復帰検証");
+   await p.locator("#player-name-form button[type=submit]").click();
+-  await p.locator("#pt-confirm").click();
+-  await p.locator("#pt-start").click();
+-  await p.locator("#pt-enter").click();
++  await waitMenuReady();
++  await p.locator(":light(#solo)").waitFor();
++  if ((await p.locator("dialog.operation-picker-dialog[open]").count()) === 0) {
++    await p.locator(":light(#solo)").click();
++    await waitMenuReady();
++  }
++  await p.locator("dialog.operation-picker-dialog[open]").waitFor();
++  await p
++    .locator('dialog.operation-picker-dialog[open] [data-operation="advance"]')
++    .click({ noWaitAfter: true });
++  await p.locator(":light(#pt-confirm)").waitFor();
++  await waitMenuReady();
++  await p.locator(":light(#pt-confirm)").click();
++  await waitMenuReady();
++  await p.locator(":light(#pt-start)").click();
++  await waitMenuReady();
++  await p.locator(":light(#pt-enter)").click();
+   // First-encounter loading can finish after the tutorial. Wait for a real
+   // active battle, handling its ordinary controls instead of a fixed 2s delay.
+   const deadline = Date.now() + 60000;
+@@ -66,13 +89,21 @@ try {
+     await p.reload();
+     if (await p.locator("#landscape-start").isVisible())
+       await p.locator("#landscape-start").click();
+-    await p.locator("#pt-resume-battle").waitFor();
++    await p.locator(":light(#pt-resume-battle)").waitFor();
++    await waitMenuReady();
+     await p.screenshot({ path: out + "/resume-prompt.png" });
+-    await p.locator("#pt-resume-battle").click();
+-    await p.locator("#pt-enter").waitFor({ state: "visible" });
++    await p.locator(":light(#pt-resume-battle)").click();
++    await p.locator("dialog.menu-dialog[open]").waitFor({ state: "detached" });
++    await p.locator(":light(#pt-enter)").waitFor({ state: "visible" });
++    const titleStart = p.locator("dialog.title-entry[open] .title-entry-start");
++    if (await titleStart.count()) {
++      await titleStart.click();
++      await p.locator("dialog.title-entry").waitFor({ state: "detached" });
++    }
++    await waitMenuReady();
+     const prepared = await p.evaluate(() => window.__playtest.world);
+     assert.deepEqual(prepared, before.world);
+-    await p.locator("#pt-enter").click();
++    await p.locator(":light(#pt-enter)").click();
+     await p.waitForFunction(
+       (previousTime) => window.__playtest.world.time > previousTime + 0.1,
+       before.world.time,
+@@ -84,7 +115,11 @@ try {
+       key,
+     );
+     assert.equal(resumed.paused, true);
+-    assert.deepEqual(persisted.world, resumed.world);
++    // JSON保存ではundefinedは省かれる。保存可能なWorld全項目を同じ表現で厳密照合する。
++    assert.deepEqual(
++      persisted.world,
++      JSON.parse(JSON.stringify(resumed.world)),
++    );
+     assert.equal(persisted.progress, JSON.stringify(resumed.save));
+     assert(
+       persisted.savedAt > before.savedAt,
+@@ -173,7 +208,7 @@ try {
+     };
+   });
+   await p.reload();
+-  await p.locator("#solo").waitFor();
++  await p.locator(":light(#solo)").waitFor();
+   const after = await p.evaluate(async (input) => {
+     const { loadProgress, grantResult } =
+       await import("/src/client/progression-save.ts");
+diff --git a/scripts/check-recovery-receipts.mjs b/scripts/check-recovery-receipts.mjs
+index b681159..1a07a38 100644
+--- a/scripts/check-recovery-receipts.mjs
++++ b/scripts/check-recovery-receipts.mjs
+@@ -49,6 +49,31 @@ async function ready() {
+     null,
+   );
+ }
++async function waitMenuReady() {
++  const transition = page.locator(".split-shutter, .menu-route-shutter");
++  await transition.waitFor({ state: "visible", timeout: 1500 }).catch(() => {});
++  await transition.waitFor({ state: "detached" });
++}
++async function openGear() {
++  await page.locator("#solo").waitFor();
++  await waitMenuReady();
++  const titleStart = page.locator(
++    "dialog.title-entry[open] .title-entry-start",
++  );
++  if (await titleStart.count()) {
++    await titleStart.click();
++    await page.locator("dialog.title-entry").waitFor({ state: "detached" });
++  }
++  await page.locator("#solo").click();
++  await waitMenuReady();
++  const operation = page.locator("dialog.operation-picker-dialog[open]");
++  assert.equal(await operation.count(), 1);
++  await operation
++    .locator('[data-operation="advance"]')
++    .click({ noWaitAfter: true });
++  await page.locator("#pt-start").waitFor();
++  await waitMenuReady();
++}
+ async function replay(journal) {
+   await page.evaluate(
+     ({ key, journal }) => sessionStorage.setItem(key, JSON.stringify(journal)),
+@@ -170,7 +195,11 @@ try {
+       `${out}/${scenario}-fixture.json`,
+       JSON.stringify(fixture, null, 2),
+     );
+-    assert.equal(fixture.latest.powder, fixture.powderAfterX);
++    // 既存仕様: 勝利ごとに武装片2+ST番号。後続ST2勝利では4増える。
++    assert.equal(
++      fixture.latest.powder,
++      fixture.powderAfterX + (scenario === "same-run" ? 0 : 4),
++    );
+     assert.ok(!ids(fixture.latest).includes(fixture.xId));
+     await page.goto(origin);
+     await ready();
+@@ -187,8 +216,7 @@ try {
+       ids(recovered).filter((id) => id === fixture.yId).length,
+       scenario === "unreceived-once" ? 1 : 0,
+     );
+-    await page.locator("#solo").click();
+-    await page.locator("#pt-start").waitFor();
++    await openGear();
+     await page.screenshot({ path: `${out}/${scenario}-recovered.png` });
+     const repeated = await replay(fixture.journal);
+     assert.deepEqual(
+@@ -233,8 +261,7 @@ try {
+       assert.equal(afterChangedReplay.coins, settled.coins);
+       const again = await replay(changedJournal);
+       assert.deepEqual(again, afterChangedReplay);
+-      await page.locator("#solo").click();
+-      await page.locator("#pt-start").waitFor();
++      await openGear();
+       await page.screenshot({
+         path: `${out}/${scenario}-after-dismantle-replay.png`,
+       });
+diff --git a/scripts/check-save-fixtures.mjs b/scripts/check-save-fixtures.mjs
+index 1e15e91..c2c7a70 100644
+--- a/scripts/check-save-fixtures.mjs
++++ b/scripts/check-save-fixtures.mjs
+@@ -125,7 +125,19 @@ try {
+     try {
+       await page.locator("#solo").waitFor();
+       assert.equal(await read(page), null);
++      await page.locator("dialog.title-entry[open] .title-entry-start").click();
++      await page.locator("dialog.title-entry").waitFor({ state: "detached" });
+       await page.locator("#solo").click();
++      const shutter = page.locator(".split-shutter");
++      await shutter
++        .waitFor({ state: "visible", timeout: 1500 })
++        .catch(() => {});
++      await shutter.waitFor({ state: "detached" });
++      const operation = page.locator("dialog.operation-picker-dialog[open]");
++      assert.equal(await operation.count(), 1);
++      await operation
++        .locator('[data-operation="advance"]')
++        .click({ noWaitAfter: true });
+       await page.locator("#pt-confirm").waitFor();
+       assert.equal(await read(page), null);
+       results.cases.push({ name: "absent-progress-onboarding", passed: true });
+diff --git a/scripts/check-save-safety.mjs b/scripts/check-save-safety.mjs
+index 4c91eba..d048124 100644
+--- a/scripts/check-save-safety.mjs
++++ b/scripts/check-save-safety.mjs
+@@ -119,9 +119,32 @@ async function seed(c) {
+   }, legacyKey);
+   await p.close();
+ }
++async function waitMenuReady(p) {
++  const transition = p.locator(".split-shutter, .menu-route-shutter");
++  await transition.waitFor({ state: "visible", timeout: 1500 }).catch(() => {});
++  await transition.waitFor({ state: "detached" });
++}
+ async function solo(p) {
++  await p.locator("#solo").waitFor();
++  await waitMenuReady(p);
++  const titleStart = p.locator("dialog.title-entry[open] .title-entry-start");
++  if (await titleStart.count()) {
++    await titleStart.click();
++    await p.locator("dialog.title-entry").waitFor({ state: "detached" });
++  }
+   await p.locator("#solo").click();
++  await waitMenuReady(p);
++  const operation = p.locator("dialog.operation-picker-dialog[open]");
++  assert.equal(
++    await operation.count(),
++    1,
++    "Expected one solo operation picker",
++  );
++  await operation
++    .locator('[data-operation="advance"]')
++    .click({ noWaitAfter: true });
+   await p.locator("#pt-start").waitFor();
++  await waitMenuReady(p);
+ }
+ async function reward(p, id) {
+   return p.evaluate(
+diff --git a/scripts/run-save-regression.mjs b/scripts/run-save-regression.mjs
+index e607433..6a47789 100644
+--- a/scripts/run-save-regression.mjs
++++ b/scripts/run-save-regression.mjs
+@@ -41,7 +41,13 @@ let server;
+ try {
+   // Allocate an isolated loopback port; never reuse another task's dev server.
+   server = await createServer({
+-    server: { host: "127.0.0.1", port: 0, strictPort: true },
++    cacheDir: `${out}/vite-cache`,
++    server: {
++      host: "127.0.0.1",
++      port: 0,
++      strictPort: true,
++      watch: { ignored: ["**/dist-validation/**"] },
++    },
+     clearScreen: false,
+   });
+   await server.listen();
+diff --git a/src/client/combat-effects.ts b/src/client/combat-effects.ts
+index 1d0580b..2244e08 100644
+--- a/src/client/combat-effects.ts
++++ b/src/client/combat-effects.ts
+@@ -395,7 +395,11 @@ export class CombatEffects {
+         else e.mesh.material.dispose();
+       }
+     }
+-    this.items = this.items.filter((e) => e.age < e.duration);
++    // 生存中の順序を保って詰め直し、毎フレームの配列生成を避ける。
++    let active = 0;
++    for (const e of this.items)
++      if (e.age < e.duration) this.items[active++] = e;
++    this.items.length = active;
+   }
+   clear() {
+     for (const e of [...this.items, ...this.spare]) {
+diff --git a/src/client/input.ts b/src/client/input.ts
+index 7538322..6ae5544 100644
+--- a/src/client/input.ts
++++ b/src/client/input.ts
+@@ -131,23 +131,34 @@ export class Controls {
+         e.target === document.querySelector("#world") ||
+         e.target === el("look")
+       ) {
+-        this.input.fire = e.button === 0;
++        if (e.button === 0) this.input.fire = true;
+         if (e.button === 2) this.mouseAim = true;
+         if (e.button === 0) (e.target as HTMLElement).requestPointerLock?.();
+       }
+     });
+     window.addEventListener("pointerup", (e) => {
+-      if (e.pointerType === "mouse") this.input.fire = false;
++      if (e.pointerType === "mouse" && e.button === 0) this.input.fire = false;
+       if (e.pointerType === "mouse" && e.button === 2) this.mouseAim = false;
+     });
+-    window.addEventListener("pointercancel", () => {
+-      this.mouseAim = false;
++    window.addEventListener("pointercancel", (e) => {
++      if (e.pointerType === "mouse") {
++        this.input.fire = false;
++        this.mouseAim = false;
++      }
+     });
+     window.addEventListener("pointermove", (e) => {
++      // 複数ボタンの一部だけを離すとpointerupではなくpointermoveが届く。
++      if (e.pointerType === "mouse") {
++        if ((e.buttons & 1) === 0)
++          this.input.fire = [...this.touches.values()].some(
++            (t) => t.role === "fire",
++          );
++        if ((e.buttons & 2) === 0) this.mouseAim = false;
++      }
+       if (
+         this.enabled &&
+         e.pointerType === "mouse" &&
+-        (document.pointerLockElement || e.buttons === 2)
++        (document.pointerLockElement || (e.buttons & 2) !== 0)
+       ) {
+         this.look(e.movementX, e.movementY);
+       }
+diff --git a/src/client/minimap.ts b/src/client/minimap.ts
+index a26f3d6..7d26c33 100644
+--- a/src/client/minimap.ts
++++ b/src/client/minimap.ts
+@@ -155,8 +155,8 @@ export class Minimap {
+     }
+     c.drawImage(this.base, 0, 0);
+     c.restore();
+-    // Keep the complete enemy mark inside the rim, preserving its bearing.
+-    const enemyAt = (
++    // 敵も味方も方角を保ち、マーク全体を縁の内側に収める。
++    const markerAt = (
+       wx: number,
+       wz: number,
+       radius: number,
+@@ -175,7 +175,7 @@ export class Minimap {
+     for (const e of w.enemies) {
+       for (const segment of e.segments ?? []) {
+         if (segment.partHp === 0) continue;
+-        const [sx, sy] = enemyAt(
++        const [sx, sy] = markerAt(
+           segment.x,
+           segment.z,
+           markerAbove(segment, self) ? 3.05 : 2.5,
+@@ -186,7 +186,7 @@ export class Minimap {
+       }
+       if (e.partHp === 0) continue;
+       const r = e.kind === "boss" || e.kind === "harrow" ? 4 : 1.6,
+-        [x, y] = enemyAt(
++        [x, y] = markerAt(
+           e.x,
+           e.z,
+           markerAbove(e, self) ? r + 0.8 + 1.1 / 2 : r,
+@@ -198,7 +198,7 @@ export class Minimap {
+     }
+     for (const p of w.players) {
+       if (!p.connected || p.id === id) continue;
+-      const [x, y] = at(p.x, p.z);
++      const [x, y] = markerAt(p.x, p.z, p.hp > 0 ? 2.4 : 4 + 1.4 / 2);
+       if (p.hp > 0) this.dot(x, y, 2.4, COLORS.mate);
+       // A downed mate is the one thing on this map worth walking towards.
+       else if (p.down > 0) this.ring(x, y, 4, COLORS.downed, 1.4);

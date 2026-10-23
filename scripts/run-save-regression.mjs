@@ -41,7 +41,13 @@ let server;
 try {
   // Allocate an isolated loopback port; never reuse another task's dev server.
   server = await createServer({
-    server: { host: "127.0.0.1", port: 0, strictPort: true },
+    cacheDir: `${out}/vite-cache`,
+    server: {
+      host: "127.0.0.1",
+      port: 0,
+      strictPort: true,
+      watch: { ignored: ["**/dist-validation/**"] },
+    },
     clearScreen: false,
   });
   await server.listen();

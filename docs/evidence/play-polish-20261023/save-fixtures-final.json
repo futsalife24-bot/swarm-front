@@ -1,0 +1,60 @@
+{
+  "startedAt": "2026-10-22T17:57:20.251Z",
+  "cases": [
+    {
+      "name": "inventory-v1",
+      "passed": true,
+      "reloads": 3,
+      "revision": 4
+    },
+    {
+      "name": "progress-v2",
+      "passed": true,
+      "reloads": 3,
+      "revision": 4
+    },
+    {
+      "name": "shared-v2",
+      "passed": true,
+      "reloads": 3,
+      "revision": 4
+    },
+    {
+      "name": "invalid-truncated",
+      "passed": true,
+      "exportedUnchanged": true
+    },
+    {
+      "name": "invalid-null",
+      "passed": true,
+      "exportedUnchanged": true
+    },
+    {
+      "name": "invalid-missing",
+      "passed": true,
+      "exportedUnchanged": true
+    },
+    {
+      "name": "invalid-future",
+      "passed": true,
+      "exportedUnchanged": true
+    },
+    {
+      "name": "invalid-incomplete",
+      "passed": true,
+      "exportedUnchanged": true
+    },
+    {
+      "name": "absent-progress-onboarding",
+      "passed": true
+    },
+    {
+      "name": "corrupt-checkpoint-preserves-progress",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "browser": "155.0.8059.85",
+  "errors": [],
+  "finishedAt": "2026-10-22T17:58:00.606Z"
+}

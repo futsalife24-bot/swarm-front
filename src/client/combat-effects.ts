@@ -395,7 +395,11 @@ export class CombatEffects {
         else e.mesh.material.dispose();
       }
     }
-    this.items = this.items.filter((e) => e.age < e.duration);
+    // 生存中の順序を保って詰め直し、毎フレームの配列生成を避ける。
+    let active = 0;
+    for (const e of this.items)
+      if (e.age < e.duration) this.items[active++] = e;
+    this.items.length = active;
   }
   clear() {
     for (const e of [...this.items, ...this.spare]) {
