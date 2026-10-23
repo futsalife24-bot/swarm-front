@@ -18,7 +18,9 @@
 
 公開用の関連単体24件（入力・ミニマップ・演出・network-inputの17件、配置7件）、client/worker型チェックが成功。製品と試験スクリプト18件は元manifestとSHA256一致。元HEADだけにある設定2ファイルは未変更。証拠の秘密形式検査は検出0。ソース・文書のdiffチェックを行い、生ログの末尾空行・Vite出力の空白警告とは区別する。生ログは証拠保持のため加工しない。
 
-Cloudflare CLIは通常実行・既存作業環境読込後とも未認証。標準保存先3か所に認証ファイルなし、該当環境変数もprocess/user両方で未設定。新規ログイン・一時アカウントは実行していない。既存GitHubコネクターは利用可能。Cloudflareプラグイン候補は見つからなかった。ブラウザDashboardはsnapshotが2回とも `Preview automation snapshot timed out after 15000ms.` で、既存ログインの有無は未確認。
+実装commit `e613d45957d7ca0c660210d92bfdadb92ac87107` 後のproduction build・Worker production dry-runが成功。既存の大きいchunk警告あり。生ログは `docs/evidence/play-polish-release-20261023/`。
+
+Cloudflare CLIは通常実行・既存作業環境読込後とも未認証。標準保存先3か所に認証ファイルなし、該当環境変数もprocess/user両方で未設定。新規ログイン・一時アカウントは実行していない。既存GitHubコネクターは利用可能。Cloudflareプラグイン候補は見つからなかった。ブラウザDashboardはsnapshotが2回とも `Preview automation snapshot timed out after 15000ms.`。その後の読み取りで `/login` とpassword欄を確認し、既存ログイン状態ではなかった。開いた確認タブは閉じた。
 
 GitHub rulesetsは0件。branch protection詳細は既存接続の403により閲覧不可で、保護なしとは判断しない。通常PR mergeでサーバー側の保護を守り、バイパスしない。
 
