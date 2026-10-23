@@ -1,0 +1,159 @@
+{
+ "base": "https://swarm-front-orientation-mock.melosalife-24.workers.dev/",
+ "timing": {
+  "homeVisibleMs": 3172,
+  "homeIdleMs": 3451,
+  "trainingActiveMs": 2900,
+  "trainingSoldierLoadedMs": 6826,
+  "trainingIdleMs": 6827,
+  "trainingFps": 60,
+  "bossActiveMs": 1418,
+  "bossSoldierLoadedMs": 1497,
+  "bossIdleMs": 1560,
+  "bossFps": 30,
+  "denseActiveMs": 603,
+  "denseSoldierLoadedMs": 680,
+  "denseIdleMs": 681,
+  "denseFps": 27
+ },
+ "phases": {
+  "home": {
+   "count": 68,
+   "bytes": 5682718,
+   "top": [
+    [
+     1033194,
+     "assets/ui/title-logo-v2.png",
+     ""
+    ],
+    [
+     470217,
+     "assets/orientation-mock-Dd9rNFV1.js",
+     "zstd"
+    ],
+    [
+     138445,
+     "assets/audio/anomaly-voice-v3/boss-linked-0.wav",
+     ""
+    ],
+    [
+     138445,
+     "assets/audio/anomaly-voice-v3/boss-linked-1.wav",
+     ""
+    ],
+    [
+     135245,
+     "assets/audio/anomaly-voice-v3/boss-0.wav",
+     ""
+    ],
+    [
+     135238,
+     "assets/audio/anomaly-voice-v3/boss-1.wav",
+     ""
+    ],
+    [
+     131277,
+     "assets/audio/rocket-final-v1/rocketBurst.wav",
+     ""
+    ],
+    [
+     119249,
+     "assets/audio/anomaly-voice-v3/harrow-1.wav",
+     ""
+    ]
+   ],
+   "byExt": {
+    "other": 1875,
+    "js": 470217,
+    "css": 47144,
+    "wav": 4129607,
+    "png": 1033194,
+    "ico": 681
+   },
+   "mb": 5.42
+  },
+  "training": {
+   "count": 12,
+   "bytes": 43413632,
+   "top": [
+    [
+     15344223,
+     "assets/characters/swarm-soldier.glb?v=d1028fd14cb42cfab2a0c484c57fa99032dc73609f8c3a08684abdec76f35269",
+     ""
+    ],
+    [
+     14154242,
+     "assets/enemies/harrow_motion_v14.glb",
+     ""
+    ],
+    [
+     4395779,
+     "assets/enemies/pleat_motion_v5.glb",
+     ""
+    ],
+    [
+     3803942,
+     "assets/enemies/leaper_motion_v3.glb",
+     ""
+    ],
+    [
+     1886455,
+     "assets/enemies/foundry_zero_motion_v1.glb",
+     ""
+    ],
+    [
+     793106,
+     "assets/weapons/realism-v2/rifle_0.glb",
+     ""
+    ],
+    [
+     629875,
+     "assets/enemies/calyx_motion_v1.glb?rev=d1a7573d5976e284",
+     ""
+    ],
+    [
+     606744,
+     "assets/enemies/hound_motion_v1.glb",
+     ""
+    ]
+   ],
+   "byExt": {
+    "glb": 43413632
+   },
+   "mb": 41.4
+  },
+  "boss": {
+   "count": 4,
+   "bytes": 17872283,
+   "top": [
+    [
+     14597226,
+     "assets/maps/map_0_v1.glb",
+     ""
+    ],
+    [
+     2755756,
+     "assets/maps/distant_0_v1.glb",
+     ""
+    ],
+    [
+     518626,
+     "icon-swarm-v2-512.png",
+     ""
+    ],
+    [
+     675,
+     "favicon.ico",
+     ""
+    ]
+   ],
+   "byExt": {
+    "glb": 17352982,
+    "png": 518626,
+    "ico": 675
+   },
+   "mb": 17.04
+  }
+ },
+ "heapMB": 322.1
+}

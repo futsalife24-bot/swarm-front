@@ -12,6 +12,9 @@ import type { MockViewport } from "./viewport";
 
 export class MockLayouts {
   drafts = new Map<LayoutMode, Layout>();
+  // The stored value a draft started from. Recomputing the other side's
+  // default with the current viewport's size reported untouched drafts dirty.
+  private baselines = new Map<LayoutMode, string>();
   constructor(private store: MockStore) {}
   saved(v: ViewportSnapshot): Layout {
     try {
@@ -25,8 +28,21 @@ export class MockLayouts {
     }
   }
   draft(v: ViewportSnapshot) {
-    if (!this.drafts.has(v.mode)) this.drafts.set(v.mode, this.saved(v));
+    if (!this.drafts.has(v.mode)) {
+      const saved = this.saved(v);
+      this.drafts.set(v.mode, saved);
+      this.baselines.set(v.mode, JSON.stringify(saved));
+    }
     return this.drafts.get(v.mode)!;
+  }
+  dirty() {
+    return [...this.drafts].some(
+      ([mode, layout]) => JSON.stringify(layout) !== this.baselines.get(mode),
+    );
+  }
+  discard() {
+    this.drafts.clear();
+    this.baselines.clear();
   }
   effective(v: ViewportSnapshot, draft = false) {
     let layout = draft ? this.draft(v) : this.saved(v);
@@ -38,9 +54,10 @@ export class MockLayouts {
     const layout = this.draft(v),
       problem = layoutProblem(resolveMockLayout(layout, v), v);
     if (problem) return problem;
-    return this.store.write(`layout-${v.mode}`, layout)
-      ? ""
-      : "保存できませんでした。編集内容はこの画面に保持しています。";
+    if (!this.store.write(`layout-${v.mode}`, layout))
+      return "保存できませんでした。編集内容はこの画面に保持しています。";
+    this.baselines.set(v.mode, JSON.stringify(layout));
+    return "";
   }
   place(v: ViewportSnapshot, draft = false) {
     const result = this.effective(v, draft);
@@ -67,9 +84,9 @@ export function mountLayoutEditor(
   root: HTMLElement,
   viewport: MockViewport,
   layouts: MockLayouts,
-  actions: { back: () => void; test: () => void },
+  actions: { back: () => void; test: () => void; fullscreen: () => void },
 ) {
-  root.innerHTML = `<section class="mock-layout-editor"><header class="mock-editor-panel"><b id="layout-mode"></b><p>ボタンをドラッグ。回転すると、もう片方の編集中の配置へ切り替わります。</p><div class="mock-toolbar"><button id="layout-back">戻る</button><button id="layout-save">この向きを保存</button><button id="layout-test">試し撃ち</button><button id="layout-default">この向きを標準に</button></div><div class="mock-toolbar"><label>選択ボタン <select id="layout-select"></select></label><label>大きさ <input id="layout-size" type="range" min="0.7" max="1.4" step="0.05"></label><label>濃さ <input id="layout-opacity" type="range" min="0.4" max="1" step="0.05"></label><label><input id="layout-scope2" type="checkbox">スコープ2</label></div><p id="layout-status" role="status"></p></header><div id="layout-ghosts"></div><span class="mock-reticle">＋</span></section>`;
+  root.innerHTML = `<section class="mock-layout-editor"><header class="mock-editor-panel"><b id="layout-mode"></b><p>ボタンをドラッグ。回転すると、もう片方の編集中の配置へ切り替わります。</p><div class="mock-toolbar"><button id="layout-back">戻る</button><button id="layout-save">この向きを保存</button><button id="layout-test">試し撃ち</button><button id="layout-default">この向きを標準に</button><button id="layout-fullscreen">全画面</button></div><div class="mock-toolbar"><label>選択ボタン <select id="layout-select"></select></label><label>大きさ <input id="layout-size" type="range" min="0.7" max="1.4" step="0.05"></label><label>濃さ <input id="layout-opacity" type="range" min="0.4" max="1" step="0.05"></label><label><input id="layout-scope2" type="checkbox">スコープ2</label></div><p id="layout-status" role="status"></p></header><div id="layout-ghosts"></div><span class="mock-reticle">＋</span></section>`;
   const get = (id: string) => root.querySelector<HTMLElement>(`#${id}`)!;
   const ghosts = get("layout-ghosts"),
     status = get("layout-status"),
@@ -183,13 +200,9 @@ export function mountLayoutEditor(
       "この向きの配置を保存しました。もう片方の保存内容はそのままです。";
   };
   get("layout-test").onclick = actions.test;
+  get("layout-fullscreen").onclick = actions.fullscreen;
   get("layout-back").onclick = () => {
-    const dirty = [...layouts.drafts].some(
-      ([mode, l]) =>
-        JSON.stringify(l) !==
-        JSON.stringify(layouts.saved({ ...viewport.snapshot, mode })),
-    );
-    if (!dirty) {
+    if (!layouts.dirty()) {
       actions.back();
       return;
     }
@@ -202,7 +215,7 @@ export function mountLayoutEditor(
     dialog.querySelector<HTMLElement>("[data-keep]")!.onclick = () =>
       dialog.remove();
     dialog.querySelector<HTMLElement>("[data-discard]")!.onclick = () => {
-      layouts.drafts.clear();
+      layouts.discard();
       dialog.remove();
       actions.back();
     };

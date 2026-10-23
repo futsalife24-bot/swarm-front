@@ -1,4 +1,14 @@
-# 現在地: 縦横プレイの分離モック（2026-10-23、専用HTTPS公開済み）
+# 現在地: 縦横プレイの分離モック（2026-10-24 Claude Code監査・修正済み、修正版は未公開）
+
+2026-10-24、本人指定のClaude Codeが `e9a8ac4` を独立監査し、`claude/orientation-mock-audit-20261024` で修正。作業場所 `C:/Users/futsa/.codex/worktrees/orientation-mock-audit/swarm-rebuild-p1a`。詳細は [監査と修正](ORIENTATION-MOCK.md#claude-code独立監査と修正2026-10-24)、[証拠](evidence/orientation-mock-audit-20261024/README.md)。
+
+- 修正: 横915×412で配置編集パネルが「スコープ」「切替」を覆う、射撃場からの試し撃ち／再出撃で最初の射撃・命中表示と音が破棄される、敗北しても「作戦完了」、自動向きが`lock("any")`、未編集でも未保存確認、PVへ通常導線なし、非表示後の戦闘音声、強化3択の期限切れ固定。
+- 自己検証: 型、専用単体34件、モックbuild、E2E9件（追加3件含む）、通常production build、専用Worker dry-run（346ファイル・bindingなし）。aim/renderの既知2失敗は基準SHAでも同値。
+- 修正版は未公開。公開URLは旧版 `0a1437f` / Version `32ec0642-3411-417b-a02d-cf539e0861c2` のまま。Wrangler CLI認証の期限切れと、無料契約確認のDashboardログインに本人許可が必要なため停止。
+- 本人判断待ち: 大型・密集戦の通常導線、無操作約10秒で敗北する試遊難度、初回通信量（タイトル5.42MB・射撃場41.4MB）、Androidの戻る操作。
+- 次: 本人がログインを許可したら契約確認→公開→配信照合。Android実機の手触りは引き続き未確認。
+
+# 前回記録: 縦横プレイの分離モック（2026-10-23、専用HTTPS公開済み）
 
 本人承認の全画面・実操作モックを `codex/orientation-mock-20261023` に実装。base `7cf9f0ebbefd2cdf361a90623efa10a6e26ab19a`、作業場所 `C:/Users/futsa/.codex/worktrees/orientation-mock/swarm-rebuild-p1a`。通常main・本番Workerは今回変更しない。詳細は [仕様と結果](ORIENTATION-MOCK.md)、[証拠](evidence/orientation-mock-20261023/README.md)。
 

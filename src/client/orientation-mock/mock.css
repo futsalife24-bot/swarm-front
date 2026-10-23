@@ -369,6 +369,13 @@ body.orientation-mock #ui.mock-layout-root {
   position: fixed;
   inset: 0;
   pointer-events: none;
+  /* Every placed button must stay draggable, even under the editor panel. */
+  z-index: 3;
+}
+/* The portrait pause slot sits where the top bar is; in battle the bar moves
+   away, so the editor hides it and offers full screen in its own toolbar. */
+body.orientation-mock[data-mock-scene="layout"] #mock-bar {
+  display: none;
 }
 .mock-ghost {
   position: absolute;
@@ -436,10 +443,12 @@ html[data-mock-orientation="portrait"] {
     max-height: calc(var(--mock-height) / 2 - var(--safe-top) - 104px);
   }
 }
-@media (max-height: 400px) {
+/* Phone landscape heights (about 360–430px, e.g. 915×412) need the compact
+   panel; the full-width one covered the default scope and swap buttons. */
+@media (max-height: 500px) {
   html[data-mock-orientation="landscape"] {
     .mock-editor-panel {
-      max-height: 90px;
+      max-height: clamp(90px, calc(var(--mock-height) * 0.3), 124px);
       right: 35%;
       top: calc(var(--safe-top) + 36px);
       font-size: 10px;

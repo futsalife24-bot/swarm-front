@@ -1,0 +1,26 @@
+{
+ "boss": {
+  "seconds": 17,
+  "screen": "result",
+  "phase": "defeat",
+  "worldTime": 10,
+  "hp": 0,
+  "heading": "作戦失敗"
+ },
+ "skirmish": {
+  "seconds": 13,
+  "screen": "result",
+  "phase": "defeat",
+  "worldTime": 9,
+  "hp": 0,
+  "heading": "作戦失敗"
+ },
+ "dense": {
+  "seconds": 16,
+  "screen": "result",
+  "phase": "defeat",
+  "worldTime": 11,
+  "hp": 0,
+  "heading": "作戦失敗"
+ }
+}

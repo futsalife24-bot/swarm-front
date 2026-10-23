@@ -101,6 +101,25 @@ describe("isolated storage", () => {
     expect(broken.read("x", { fallback: true })).toEqual({ fallback: true });
     expect(broken.write("x", 1)).toBe(false);
   });
+  it("untouched drafts in both orientations are not reported as unsaved", () => {
+    const store = createMockStore({
+        getItem: () => null,
+        setItem: () => {},
+      }),
+      layouts = new MockLayouts(store);
+    layouts.draft(view(390, 844));
+    layouts.draft(view(844, 390));
+    expect(layouts.dirty()).toBe(false);
+    layouts.draft(view(390, 844)).opacity = 0.5;
+    expect(layouts.dirty()).toBe(true);
+    expect(layouts.save(view(390, 844))).toBe("");
+    expect(layouts.dirty()).toBe(false);
+    layouts.draft(view(844, 390)).secondScope = true;
+    expect(layouts.dirty()).toBe(true);
+    layouts.discard();
+    expect(layouts.dirty()).toBe(false);
+    expect(layouts.drafts.size).toBe(0);
+  });
 });
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -145,6 +164,32 @@ describe("native orientation requests", () => {
     await vi.advanceTimersByTimeAsync(1);
     expect(values.at(-1)).toBe("landscape-primary");
     expect(controller.preference).toBe("landscape");
+  });
+  it("automatic follows the device setting by unlocking, never a full-sensor lock", async () => {
+    vi.useFakeTimers();
+    let lateResolve: () => void = () => {};
+    const lock = vi.fn(
+      (_value: string) =>
+        new Promise<void>((resolve) => (lateResolve = resolve)),
+    );
+    const controller = new MockOrientation(orientationEnvironment(lock));
+    const unlock = (
+      screen.orientation as unknown as { unlock: ReturnType<typeof vi.fn> }
+    ).unlock;
+    expect(lock).not.toHaveBeenCalled();
+    expect(controller.status).toBe("端末の回転設定に従います。");
+    controller.set("landscape");
+    controller.set("auto");
+    expect(controller.status).toBe("端末の回転設定に従います。");
+    const unlocks = unlock.mock.calls.length;
+    // A landscape lock that lands after the switch must be released again.
+    lateResolve();
+    await vi.advanceTimersByTimeAsync(1);
+    expect(unlock.mock.calls.length).toBeGreaterThan(unlocks);
+    expect(lock.mock.calls.map(([value]) => value)).toEqual([
+      "landscape-primary",
+    ]);
+    expect(controller.status).toBe("端末の回転設定に従います。");
   });
   it("failure reports fallback without changing desired orientation", async () => {
     vi.useFakeTimers();

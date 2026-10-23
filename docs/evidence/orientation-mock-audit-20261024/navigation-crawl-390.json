@@ -1,0 +1,242 @@
+{
+ "reached": [
+  "accessories",
+  "armory",
+  "base",
+  "battle-skirmish",
+  "battle-training",
+  "bestiary",
+  "changelog",
+  "chat",
+  "cloud",
+  "decks",
+  "encounter",
+  "gear",
+  "gear-detail",
+  "home",
+  "invite",
+  "layout",
+  "leave",
+  "lobby",
+  "mode",
+  "operations",
+  "pause",
+  "recovery",
+  "restore",
+  "result",
+  "rooms",
+  "save-error",
+  "settings",
+  "soldier",
+  "start",
+  "tutorial",
+  "upgrade",
+  "upgrades",
+  "voices",
+  "weekly",
+  "workshop"
+ ],
+ "dead": [
+  "settings: 全画面で遊ぶ",
+  "operations: ST01前哨掃討灰明の街区",
+  "operations: ST19雪峡の封鎖線白嶺の雪峡",
+  "operations: ST22蒼鉄再侵攻蒼鉄の工業区",
+  "gear: 武器1AR-9 リーフ",
+  "armory: 武器1AR-9 リーフ",
+  "decks: 誘爆核爆発",
+  "accessories: SSR軽量ブーツ移動速度 +6%装備",
+  "layout: この向きを標準に",
+  "layout: 全画面",
+  "layout: 移動",
+  "layout: 射撃",
+  "layout: 回避",
+  "layout: ジャンプ",
+  "layout: 装填",
+  "layout: 切替",
+  "layout: 蘇生",
+  "layout: 一時停止",
+  "layout: スコープ",
+  "battle-skirmish: Ⅱ",
+  "chat: 送信"
+ ],
+ "edges": {
+  "home": [
+   "SOLO OPERATIONソロ：進→mode",
+   "CO-OP / 1–4 PLAYER→rooms",
+   "BASE基地武器・アクセサリ・育成・→base",
+   "FIELD INTELLIGENCE→bestiary",
+   "週任務→weekly",
+   "初回開始を見る→start",
+   "チュートリアル→tutorial",
+   "設定・操作→settings",
+   "更新履歴→changelog"
+  ],
+  "mode": [
+   "戻る→home",
+   "CAMPAIGN進撃作戦を選び、波ご→operations",
+   "SURVIVAL生存強化と融合で部隊→gear",
+   "TRAINING訓練場移動・照準・射→battle-training"
+  ],
+  "rooms": [
+   "戻る→home",
+   "デモ部屋を作る→lobby",
+   "入る→lobby",
+   "入る→lobby",
+   "入る→lobby"
+  ],
+  "base": [
+   "出撃準備→gear",
+   "戻る→home",
+   "出撃準備武器2枠を選び、性能を確認→gear",
+   "武器庫所持武器24丁・ロックと整理→armory",
+   "強化・デッキ候補を編成して融合を狙う→decks",
+   "兵士の育成HP・照準・移動・武器切替→soldier",
+   "装身具補助効果を選択・装備→accessories",
+   "武器工房武装片で変換・改造→workshop"
+  ],
+  "bestiary": [
+   "戻る→home",
+   "声を聴く→voices",
+   "会敵ムービー→encounter"
+  ],
+  "weekly": [
+   "戻る→home"
+  ],
+  "start": [
+   "戻る→home",
+   "登録して進む→mode"
+  ],
+  "tutorial": [
+   "戻る→home",
+   "訓練場で試す→battle-training",
+   "操作配置を調整→layout",
+   "設定を開く→settings"
+  ],
+  "settings": [
+   "戻る→home",
+   "ボタン配置・試し撃ち→layout"
+  ],
+  "changelog": [
+   "戻る→home"
+  ],
+  "operations": [
+   "出撃準備→gear",
+   "戻る→mode",
+   "この作戦の出撃準備→gear"
+  ],
+  "gear": [
+   "戻る→base",
+   "出撃→battle-skirmish",
+   "工房→workshop",
+   "兵士→soldier"
+  ],
+  "battle-training": [
+   "Ⅱ→pause"
+  ],
+  "lobby": [
+   "戻る→rooms",
+   "装備→gear",
+   "チャット→chat",
+   "招待→invite",
+   "デモ出撃→battle-skirmish"
+  ],
+  "armory": [
+   "戻る→base",
+   "出撃→battle-skirmish",
+   "工房→workshop",
+   "兵士→soldier"
+  ],
+  "decks": [
+   "戻る→base"
+  ],
+  "soldier": [
+   "戻る→base",
+   "装身具→accessories",
+   "装備へ→gear"
+  ],
+  "accessories": [
+   "兵士→soldier",
+   "戻る→base"
+  ],
+  "workshop": [
+   "戻る→armory"
+  ],
+  "voices": [
+   "戻る→bestiary"
+  ],
+  "encounter": [
+   "戻る→bestiary"
+  ],
+  "layout": [
+   "戻る→settings",
+   "試し撃ち→battle-training"
+  ],
+  "battle-skirmish": [],
+  "pause": [
+   "戻る→home",
+   "再開→battle-training",
+   "設定→settings",
+   "操作配置→layout",
+   "現在の強化→upgrades",
+   "強化3択→upgrade",
+   "作戦から離脱→leave"
+  ],
+  "chat": [
+   "戻る→lobby"
+  ],
+  "invite": [
+   "戻る→lobby",
+   "部屋一覧へ→rooms"
+  ],
+  "upgrades": [
+   "戦闘へ戻る→battle-training",
+   "戻る→pause"
+  ],
+  "upgrade": [
+   "戻る→pause",
+   "↑段階アップ2 → 3段階 · 爆発→battle-training",
+   "＋新規獲得未取得 → 1段階 · 貫→battle-training",
+   "＋新規獲得未取得 → 1段階 · 補→battle-training",
+   "現在の強化→upgrades"
+  ],
+  "leave": [
+   "戻る→pause",
+   "戦闘に戻る→battle-training",
+   "離脱して戦利品へ→recovery"
+  ],
+  "recovery": [
+   "戻る→pause",
+   "LRRL-2 コメット→gear-detail",
+   "NRL-2 コメット→gear-detail",
+   "NRL-9 メテオ→gear-detail",
+   "回収して結果へ→result",
+   "タイトルへ→home",
+   "保存失敗の表示→save-error"
+  ],
+  "gear-detail": [
+   "工房へ→workshop"
+  ],
+  "result": [
+   "戻る→pause",
+   "LRRL-2 コメット→gear-detail",
+   "NRL-2 コメット→gear-detail",
+   "NRL-9 メテオE2→gear-detail",
+   "次の出撃準備→gear",
+   "タイトルへ→home",
+   "保存失敗の表示→save-error"
+  ],
+  "save-error": [
+   "戻る→home",
+   "復旧方法を見る→restore",
+   "結果を確認→result"
+  ],
+  "restore": [
+   "戻る→save-error",
+   "比較を開く→cloud"
+  ],
+  "cloud": [
+   "戻る→restore"
+  ]
+ },
+ "errors": []
+}

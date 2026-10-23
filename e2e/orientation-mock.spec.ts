@@ -334,6 +334,141 @@ test("layout trial restores battle and stores only the active orientation", asyn
   );
 });
 
+test("layout editor keeps every control draggable and asks only after real edits", async ({
+  page,
+}) => {
+  await page.goto("/#layout");
+  const blocked: Record<string, string[]> = {};
+  for (const [width, height] of [
+    [320, 568],
+    [390, 844],
+    [640, 280],
+    [844, 390],
+    [915, 412],
+  ]) {
+    await page.setViewportSize({ width, height });
+    await expect(page.locator("#layout-mode")).toContainText(
+      width < height ? "縦" : "横",
+    );
+    blocked[`${width}x${height}`] = await page.evaluate(() =>
+      [...document.querySelectorAll<HTMLElement>("[data-control]")]
+        .filter((ghost) => {
+          const r = ghost.getBoundingClientRect();
+          return [
+            [r.x + r.width / 2, r.y + r.height / 2],
+            [r.x + 6, r.y + r.height / 2],
+            [r.right - 6, r.y + r.height / 2],
+            [r.x + r.width / 2, r.y + 6],
+            [r.x + r.width / 2, r.bottom - 6],
+          ].some(
+            ([x, y]) =>
+              document.elementFromPoint(x, y)?.closest("[data-control]") !==
+              ghost,
+          );
+        })
+        .map((ghost) => ghost.dataset.control!),
+    );
+    await expect(page.locator("#layout-fullscreen")).toBeVisible();
+  }
+  expect(blocked).toEqual({
+    "320x568": [],
+    "390x844": [],
+    "640x280": [],
+    "844x390": [],
+    "915x412": [],
+  });
+  // Visiting both orientations without editing is not an unsaved change.
+  await page.locator("#layout-back").click();
+  await expect(page.locator("dialog[open]")).toHaveCount(0);
+  await expect(page.locator("#settings-back")).toBeVisible();
+});
+
+test("a layout trial from the range renders its own shots and restores the range", async ({
+  page,
+  context,
+}) => {
+  await page.goto("/#battle-training");
+  await expect
+    .poll(async () => (await snapshot(page)).battle.loaded, { timeout: 30000 })
+    .toBe(true);
+  const cdp = await context.newCDPSession(page);
+  const hold = async (id: number, ms: number) => {
+    const f = (await page.locator("#fire").boundingBox())!;
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchStart",
+      touchPoints: [{ id, x: f.x + f.width / 2, y: f.y + f.height / 2 }],
+    });
+    await page.waitForTimeout(ms);
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchEnd",
+      touchPoints: [],
+    });
+  };
+  await hold(1, 4000);
+  await page.locator("#pause").click();
+  const range = (await snapshot(page)).battle;
+  expect(range.events.serial).toBeGreaterThan(20);
+  await page.locator("[data-menu-layout]").click();
+  await page.locator("#layout-test").click();
+  await expect(page.locator("#mock-training-exit")).toBeVisible();
+  await hold(2, 1500);
+  const rendered = async () => {
+    const { events } = (await snapshot(page)).battle;
+    return events.rendered === events.serial;
+  };
+  const trial = (await snapshot(page)).battle;
+  expect(trial.run).not.toBe(range.run);
+  expect(trial.events.serial).toBeGreaterThan(0);
+  expect(trial.events.serial).toBeLessThan(range.events.serial);
+  // Shots of the trial world are drawn, not skipped by the range's cursor.
+  await expect.poll(rendered).toBe(true);
+  await page.locator("#mock-training-exit").click();
+  // Compare while still paused; resuming advances the world immediately.
+  const restored = (await snapshot(page)).battle;
+  expect(restored.run).toBe(range.run);
+  expect(restored.time).toBe(range.time);
+  await page.locator("#layout-back").click();
+  await page.locator("[data-menu-resume]").click();
+  await hold(3, 1000);
+  expect((await snapshot(page)).battle.events.serial).toBeGreaterThan(
+    range.events.serial,
+  );
+  await expect.poll(rendered).toBe(true);
+});
+
+test("a real defeat is reported as a failure and PV opens from settings", async ({
+  page,
+}) => {
+  await page.goto("/#battle-skirmish");
+  await expect
+    .poll(async () => (await snapshot(page)).screen, { timeout: 120000 })
+    .toBe("result");
+  const ended = (await snapshot(page)).battle;
+  expect(ended.phase).toBe("defeat");
+  await expect(page.locator(".mock-result-heading h2")).toHaveText("作戦失敗");
+  await expect(page.locator(".mock-result-heading p")).toContainText(
+    "小規模戦",
+  );
+  await expect(page.locator(".mock-result-stats b").first()).toHaveText(
+    String(ended.player.kills),
+  );
+  await expect(page.locator(".mock-menu .fine").last()).toContainText(
+    "デモ表示",
+  );
+  // The catalog demo keeps its fictional values once a new battle starts.
+  await page.locator('[data-screen="gear"]').first().click();
+  await page.locator('[data-battle="skirmish"]').click();
+  await expect(page.locator("#fire")).toBeVisible();
+  await page.locator("#pause").click();
+  await go(page, "result");
+  await expect(page.locator(".mock-result-heading h2")).toHaveText("作戦完了");
+  await go(page, "settings");
+  await page.locator("#settings-pv").click();
+  await expect(page.locator(".mock-video video")).toBeVisible();
+  await page.locator('[data-screen="settings"]').click();
+  await expect(page.locator("#settings-pv")).toBeVisible();
+});
+
 test("keyboard resize keeps profile; 180-degree rotation clears captures; safe areas remain usable", async ({
   page,
   context,

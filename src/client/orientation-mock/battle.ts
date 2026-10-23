@@ -40,6 +40,7 @@ export class MockBattle {
     yaw: number;
     pitch: number;
   };
+  private runs = 0;
   private accumulator = 0;
   private previous = performance.now();
   private frames: number[] = [];
@@ -111,7 +112,11 @@ export class MockBattle {
     this.world =
       scene === "training"
         ? createTrainingWorld(weapons)
-        : createWorld(`mock-${scene}-${Date.now()}`, 731);
+        : createWorld("", 731);
+    // Renderer and audio track delivered events per run. Every training world
+    // is created as "training", so a trial or restart reused the old cursor
+    // and silently dropped its first shots and hits.
+    this.world.run = `mock-${scene}-${++this.runs}`;
     if (scene !== "training") {
       const p = addPlayer(this.world, "training", weapons);
       p.x = 0;
@@ -181,6 +186,8 @@ export class MockBattle {
     this.controls.enabled = false;
     this.controls.reset();
     this.accumulator = 0;
+    // The frame loop stops updating audio while hidden; end combat voices now.
+    this.sound.update(this.world, "training", this.controls.input.yaw, false);
     for (const id of [
       "controls",
       "hud",
@@ -246,6 +253,10 @@ export class MockBattle {
         hp: p.hp,
         ammo: [...p.ammo],
         kills: p.kills,
+      },
+      events: {
+        serial: w.eventSerial,
+        rendered: this.view?.lastEvent ?? 0,
       },
       enemyCount: w.enemies.length,
       enemyHp: w.enemies.reduce((n, e) => n + e.hp, 0),

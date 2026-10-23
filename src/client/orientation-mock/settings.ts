@@ -54,9 +54,14 @@ export function mountSettings(
   store: MockStore,
   orientation: MockOrientation,
   controls: Controls,
-  actions: { back: () => void; layout: () => void; changed: () => void },
+  actions: {
+    back: () => void;
+    layout: () => void;
+    pv: () => void;
+    changed: () => void;
+  },
 ) {
-  root.innerHTML = `<section class="mock-page mock-settings"><header><button id="settings-back">戻る</button><h1>設定 <small>モック専用</small></h1></header><div id="orientation-setting"></div><button id="settings-fullscreen">全画面で遊ぶ</button><button id="settings-layout">ボタン配置・試し撃ち</button><div id="settings-fields"></div><p id="settings-status" role="status"></p></section>`;
+  root.innerHTML = `<section class="mock-page mock-settings"><header><button id="settings-back">戻る</button><h1>設定 <small>モック専用</small></h1></header><div id="orientation-setting"></div><button id="settings-fullscreen">全画面で遊ぶ</button><button id="settings-layout">ボタン配置・試し撃ち</button><button id="settings-pv">PVを見る</button><div id="settings-fields"></div><p id="settings-status" role="status"></p></section>`;
   const fields = root.querySelector("#settings-fields")!,
     status = root.querySelector("#settings-status")!;
   const ranges = [
@@ -115,6 +120,7 @@ export function mountSettings(
     });
   root.querySelector<HTMLElement>("#settings-back")!.onclick = actions.back;
   root.querySelector<HTMLElement>("#settings-layout")!.onclick = actions.layout;
+  root.querySelector<HTMLElement>("#settings-pv")!.onclick = actions.pv;
   root.querySelector<HTMLElement>("#settings-fullscreen")!.onclick = () =>
     void orientation.fullscreen();
   return orientation.mount(

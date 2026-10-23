@@ -46,9 +46,19 @@ export interface MockMenuActions {
   openSettings(): void;
   openLayout(): void;
   resume(): void;
+  /** Set only when a real mock battle ended; rewards stay demo values. */
+  battleResult(): MockBattleResult | undefined;
+  pvBack(): string;
   read<T>(key: string, fallback: T): T;
   write(key: string, value: unknown): boolean;
   sound: Sound;
+}
+
+export interface MockBattleResult {
+  victory: boolean;
+  scene: string;
+  kills: number;
+  time: number;
 }
 
 export const SCREEN_CATALOG: readonly {
@@ -590,8 +600,10 @@ export function mountMockMenu(
         '<button data-menu-resume class="primary">戦闘へ戻る</button>',
       );
     else {
-      const deadline =
-        actions.read("upgrade-deadline", 0) || Date.now() + 20000;
+      // Keep the countdown across sub-screens, but start a new demo choice
+      // once it has expired so later visits can still show the timer.
+      const stored = actions.read("upgrade-deadline", 0);
+      const deadline = stored > Date.now() ? stored : Date.now() + 20000;
       actions.write("upgrade-deadline", deadline);
       let rerolls = actions.read("upgrade-rerolls", 2);
       const choices: FrontUpgradeId[] = [
@@ -653,9 +665,20 @@ export function mountMockMenu(
       "pause",
     );
   } else if (screen === "recovery" || screen === "result") {
+    // A real battle reports its own outcome, time and kills. The demo values
+    // stay for the catalog and the withdrawal flow.
+    const real = screen === "result" ? actions.battleResult() : undefined;
+    const clock = (seconds: number) =>
+      `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(Math.floor(seconds % 60)).padStart(2, "0")}`;
+    const heading =
+      screen === "recovery"
+        ? ["RECOVERY", "回収品を確認"]
+        : real && !real.victory
+          ? ["OPERATION FAILED", "作戦失敗"]
+          : ["OPERATION COMPLETE", "作戦完了"];
     shell(
       screen === "result" ? "作戦結果" : "戦利品回収",
-      `<div class="mock-result-heading"><span class="eyebrow">${screen === "result" ? "OPERATION COMPLETE" : "RECOVERY"}</span><h2>${screen === "result" ? "作戦完了" : "回収品を確認"}</h2><p>${esc(actions.read("player-name", "隊員メロ"))} · ST5 · 03:24</p></div><div class="mock-result-stats"><div><small>撃破</small><b>128</b></div><div><small>功績</small><b>+40</b></div><div><small>コイン</small><b>+320</b></div><div><small>戦利品</small><b>3丁</b></div></div>${gearWeaponRows(save.inventory.slice(8, 11), save, false, new Set())}<p class="fine">架空の作戦結果です。本番の進行・報酬は更新しません。</p><div class="mock-button-row">${screen === "recovery" ? button("result", "回収して結果へ", true) : button("gear", "次の出撃準備", true)}${button("home", "タイトルへ")}${button("save-error", "保存失敗の表示")}</div>`,
+      `<div class="mock-result-heading"><span class="eyebrow">${heading[0]}</span><h2>${heading[1]}</h2><p>${esc(actions.read("player-name", "隊員メロ"))} · ${real ? `${esc(real.scene)} · ${clock(real.time)}` : "ST5 · 03:24"}</p></div><div class="mock-result-stats"><div><small>撃破</small><b>${real ? real.kills : 128}</b></div><div><small>功績</small><b>+40</b></div><div><small>コイン</small><b>+320</b></div><div><small>戦利品</small><b>3丁</b></div></div>${gearWeaponRows(save.inventory.slice(8, 11), save, false, new Set())}<p class="fine">${real ? "勝敗・時間・撃破数は今回の戦闘の値です。功績・コイン・戦利品はデモ表示で、本番の進行・報酬は更新しません。" : "架空の作戦結果です。本番の進行・報酬は更新しません。"}</p><div class="mock-button-row">${screen === "recovery" ? button("result", "回収して結果へ", true) : button("gear", "次の出撃準備", true)}${button("home", "タイトルへ")}${button("save-error", "保存失敗の表示")}</div>`,
       "pause",
     );
     on("[data-lock]", (e) => {
@@ -835,7 +858,7 @@ export function mountMockMenu(
     shell(
       screen === "pv" ? "SWARM FRONT · PV" : "会敵ムービー",
       `${screen === "encounter" ? `<label>敵を選択<select id="mock-film-enemy">${ENEMY_REPORT_ORDER.map((id) => `<option value="${id}" ${id === key ? "selected" : ""}>${ENEMY_REPORT_NAMES[id]}</option>`).join("")}</select></label>` : ""}<div class="mock-video"><video controls playsinline preload="metadata" src="${base}${screen === "pv" ? "assets/video/swarm-front-pv-v13.mp4" : ENCOUNTER_FILM_FILES[key]}" aria-label="${screen === "pv" ? "PV" : "会敵ムービー"}"></video></div><p>再生ボタンで映像を開始。端末を回して表示の収まりを確認できます。</p>`,
-      screen === "pv" ? "home" : "bestiary",
+      screen === "pv" ? actions.pvBack() : "bestiary",
     );
     const video = root.querySelector("video")!;
     video.addEventListener("error", () =>

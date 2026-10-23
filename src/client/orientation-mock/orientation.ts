@@ -48,7 +48,7 @@ export class MockOrientation {
     const actual = screen.orientation?.type;
     this.target =
       this.preference === "auto"
-        ? "any"
+        ? undefined
         : actual?.startsWith(this.preference)
           ? actual
           : `${this.preference}-primary`;
@@ -69,11 +69,23 @@ export class MockOrientation {
       this.emit();
       return;
     }
+    if (this.preference === "auto") {
+      // lock("any") maps to a full-sensor lock on Android Chrome, which
+      // rotates even when the OS rotation lock is on. Unlocking restores the
+      // device setting that the status text promises.
+      try {
+        native.unlock();
+      } catch {
+        /* Nothing is locked where unlock is unsupported. */
+      }
+      this.status = "端末の回転設定に従います。";
+      this.emit();
+      return;
+    }
     this.status = "向きを変更しています…";
     this.emit();
     let timeout: ReturnType<typeof setTimeout> | undefined;
     try {
-      if (this.preference === "auto") native.unlock();
       const locking = native.lock!(direction);
       // A late success may have physically applied an old native lock. Reapply
       // the latest preference, but never block a new choice on that old promise.
@@ -92,20 +104,15 @@ export class MockOrientation {
       if (current())
         this.status = !completed
           ? "設定は保存済みです。適用を確認できません。端末の回転設定をご確認ください。"
-          : this.preference === "auto"
-            ? "端末の回転設定に従います。"
-            : `${this.preference === "portrait" ? "縦" : "横"}向きに固定しました。`;
+          : `${this.preference === "portrait" ? "縦" : "横"}向きに固定しました。`;
     } catch (error) {
       if (
         current() &&
         !(error instanceof DOMException && error.name === "AbortError")
       )
-        this.status =
-          this.preference === "auto"
-            ? "端末の回転設定に従います。"
-            : document.fullscreenElement
-              ? "この環境では固定できません。端末の回転ロックを利用してください。現在の向きで遊べます。"
-              : "設定は保存済みです。全画面で再適用します。固定できない場合は端末の回転ロックを利用してください。";
+        this.status = document.fullscreenElement
+          ? "この環境では固定できません。端末の回転ロックを利用してください。現在の向きで遊べます。"
+          : "設定は保存済みです。全画面で再適用します。固定できない場合は端末の回転ロックを利用してください。";
     } finally {
       clearTimeout(timeout);
     }

@@ -9,7 +9,12 @@ import { MockOrientation } from "./orientation";
 import { MockLayouts, mountLayoutEditor } from "./layouts";
 import { mountSettings, readSettings } from "./settings";
 import { MockBattle, type BattleScene } from "./battle";
-import { mountMockMenu, SCREEN_CATALOG, type MockMenuActions } from "./menus";
+import {
+  mountMockMenu,
+  SCREEN_CATALOG,
+  type MockBattleResult,
+  type MockMenuActions,
+} from "./menus";
 import "./mock.css";
 import { mockProgress } from "./fixtures";
 import { newSaveKey, validateProgress } from "../progression-save";
@@ -29,10 +34,27 @@ let cleanup: (() => void) | undefined,
   screen = "home",
   settingsReturn = "home",
   layoutReturn = "settings",
+  pvReturn = "home",
+  battleResult: MockBattleResult | undefined,
   navigation = 0;
+const sceneNames: Record<BattleScene, string> = {
+  training: "射撃場",
+  skirmish: "小規模戦",
+  boss: "大型戦",
+  dense: "密集戦",
+};
 const battle = new MockBattle(viewport, layouts, settings, sound, {
   pause: () => open("pause"),
-  result: () => open("result"),
+  result: () => {
+    const s = battle.snapshot();
+    battleResult = {
+      victory: s.phase === "victory",
+      scene: sceneNames[s.scene],
+      kills: s.player.kills,
+      time: s.time,
+    };
+    open("result");
+  },
   exitTraining: () => {
     battle.endTrial();
     open("layout");
@@ -43,9 +65,9 @@ const catalog = [
   ...SCREEN_CATALOG,
   { id: "settings", label: "設定・画面の向き", group: "操作確認" },
   { id: "layout", label: "縦横の配置編集", group: "操作確認" },
-  ...scenes.map((id, i) => ({
+  ...scenes.map((id) => ({
     id: `battle-${id}`,
-    label: ["実射撃場", "実小規模戦", "実大型戦", "実密集戦"][i],
+    label: `実${sceneNames[id]}`,
     group: "操作確認",
   })),
 ];
@@ -61,6 +83,8 @@ const actions: MockMenuActions = {
     open("layout");
   },
   resume,
+  battleResult: () => battleResult,
+  pvBack: () => pvReturn,
   read: (key, fallback) => store.read(key, fallback),
   write: (key, value) => store.write(key, value),
   sound,
@@ -86,6 +110,7 @@ function open(id: string) {
     start(id.slice(7) as BattleScene);
     return;
   }
+  if (id === "pv" && screen !== "settings") pvReturn = "home";
   prepare(id);
   history.replaceState(null, "", `#${id}`);
   if (id === "settings") {
@@ -101,6 +126,10 @@ function open(id: string) {
           layoutReturn = "settings";
           open("layout");
         },
+        pv: () => {
+          pvReturn = "settings";
+          open("pv");
+        },
         changed: () => battle.applySettings(),
       },
     );
@@ -108,6 +137,7 @@ function open(id: string) {
     cleanup = mountLayoutEditor(root, viewport, layouts, {
       back: () => open(layoutReturn),
       test: () => start("training", true),
+      fullscreen: () => void orientation.fullscreen(),
     });
   } else if (id === "catalog") {
     root.innerHTML =
@@ -137,6 +167,7 @@ function open(id: string) {
   root.scrollLeft = 0;
 }
 function start(scene: BattleScene, draft = false) {
+  battleResult = undefined;
   prepare("battle");
   root.innerHTML =
     '<div class="mock-loading" role="status">戦場を準備しています…</div>';

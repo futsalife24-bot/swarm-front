@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-10-24",
+  "scenario": "390x844 Chrome: 射撃場で約6秒射撃 → 一時停止 → 操作配置 → 試し撃ちで1.5秒射撃",
+  "metric": "events.serial = 試し撃ち世界の発生イベント番号、events.rendered = 描画側が処理済みとみなした番号",
+  "before": {
+    "build": "e9a8ac4 + 診断値(snapshot.events)のみ追加",
+    "range": { "serial": 70, "rendered": 70 },
+    "trialWhileFiring": { "serial": 22, "rendered": 70 },
+    "meaning": "試し撃ち世界の1〜70番の射撃・命中イベントが描画・効果音を通らず破棄される"
+  },
+  "after": {
+    "build": "修正版（各戦闘世界に固有run）",
+    "range": { "serial": 68, "rendered": 68 },
+    "trialWhileFiring": { "serial": 22, "rendered": 22 }
+  },
+  "regression": "e2e/orientation-mock.spec.ts「a layout trial from the range renders its own shots and restores the range」"
+}
