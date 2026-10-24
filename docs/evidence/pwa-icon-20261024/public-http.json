@@ -1,0 +1,225 @@
+{
+  "checkedAt": "2026-10-24T03:33:21.074Z",
+  "base": "https://swarm-front.melosalife-24.workers.dev/",
+  "sourceSha": "28f172bc2ff068ccb1752de07c13ee9785f940df",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "7fffa75e335f919b4e575c00ffc3684d83470fe02721bdc9a773aab58b40482e",
+      "bytes": 3810,
+      "contentType": "text/html",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": null
+    },
+    {
+      "file": "front.html",
+      "status": 200,
+      "sha256": "adfecc29dd26f0e39d5c8dc2f65d3e620ad680bd92cb7a168d2145b326d9dc86",
+      "bytes": 2939,
+      "contentType": "text/html",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": null
+    },
+    {
+      "file": "manifest.webmanifest",
+      "status": 200,
+      "sha256": "a395e41a6419798be87fb74999412078387866aca0e9db0e15a3cf69d52e4cf6",
+      "bytes": 792,
+      "contentType": "application/manifest+json",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "W/\"d2aa90ab5b8e75a03c99346b172ba83a\""
+    },
+    {
+      "file": "sw.js",
+      "status": 200,
+      "sha256": "cda986fdea0ed741110f22d38e4bef437e0ccb0d33ba83299db4f9f1d70bf54c",
+      "bytes": 3403,
+      "contentType": "text/javascript",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "W/\"0dd53b3d63eb1bdefc5b59315636e166\""
+    },
+    {
+      "file": "icon-swarm-v4-64.png",
+      "status": 200,
+      "sha256": "49bd3f6aa22e4410ea4ce92873a1f960e932c66a339d9f1accc37230ef03dcb3",
+      "bytes": 11048,
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "\"3e21e1ea42a898ef2fde14db40915166\""
+    },
+    {
+      "file": "icon-swarm-v4-180.png",
+      "status": 200,
+      "sha256": "011d0ba169b1d5325ac5e809eaa5a7a302aa7885b8dec73001068ad939d00e98",
+      "bytes": 74779,
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "\"6fc22541fade92f5acad0da57be730b5\""
+    },
+    {
+      "file": "icon-swarm-v4-192.png",
+      "status": 200,
+      "sha256": "abfe8b0da1d1665e928701f0ef1e06f4cc119c52911445092fc9bc47bb0c87e2",
+      "bytes": 86143,
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "\"ba8c1154199b0e476d7df5848087f2dd\""
+    },
+    {
+      "file": "icon-swarm-v4-512.png",
+      "status": 200,
+      "sha256": "0e469688f9f566178c594dd0557d3097f24c174a9f48efeec4913beed8c929fd",
+      "bytes": 539155,
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "\"f693fbfda99e83fd4799dd372165a36e\""
+    },
+    {
+      "file": "icon-swarm-v4-512-maskable.png",
+      "status": 200,
+      "sha256": "9158e3e3c1ec01aac92374645390c6872c9c5fef79dbde84309efc86c7074c0e",
+      "bytes": 417504,
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "\"d90b484800b8c6006b5c32919a0a3f78\""
+    },
+    {
+      "file": "icon-swarm-v3-512.png",
+      "status": 200,
+      "sha256": "0fdc83301cbabc6b63dab0b0bdd869b73466dff478efdce8d0e117c5229aa575",
+      "bytes": 429952,
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "\"c675528da4bd30652e156d6954117693\""
+    },
+    {
+      "file": "assets/legacy-BYZXxoTC.js",
+      "status": 200,
+      "sha256": "35b083a2254a92bdc0bfe23b817ceb87225ff7d20eed66e5b7339a2cbe2ec41e",
+      "bytes": 16454,
+      "contentType": "text/javascript",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "W/\"5702ea05fe3f1e0cf1579db293b42800\""
+    },
+    {
+      "file": "assets/save-writer-U4UKYcEK.js",
+      "status": 200,
+      "sha256": "59e43bbc29cff17c878a1f54e622f271b2214207cd5bc65ce0b7314f75ee4927",
+      "bytes": 33021,
+      "contentType": "text/javascript",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "W/\"282a67aaa7944d70a07cea5604657584\""
+    },
+    {
+      "file": "assets/save-writer-6ccprsHO.css",
+      "status": 200,
+      "sha256": "e40c4ebae34cd465c956204dd5b402c39f69198cdb75666088f43dbfaebc18f8",
+      "bytes": 2328,
+      "contentType": "text/css",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "W/\"bcc37df756cb23fbd8f9377457650cab\""
+    },
+    {
+      "file": "assets/legacy-CPbai1ZT.css",
+      "status": 200,
+      "sha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "bytes": 259,
+      "contentType": "text/css",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "W/\"3176713b916bb72ed8a4fd7c1bc23205\""
+    },
+    {
+      "file": "assets/front-QlooR1ZA.js",
+      "status": 200,
+      "sha256": "edd4c17016e03d468f9c81efbc6cdb9e2b44828cc5d1790ba3e92f687c57de1a",
+      "bytes": 98232,
+      "contentType": "text/javascript",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "W/\"68be07001177eb834bfb78b23701154c\""
+    },
+    {
+      "file": "assets/hud-Dc8zLnmD.js",
+      "status": 200,
+      "sha256": "ea55d66c2d594aa9a22d33a44b206c655019c008c319bbe755ecfc4c56cf962b",
+      "bytes": 979680,
+      "contentType": "text/javascript",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "W/\"4cec7ca2c669e69bfb4ad15644a15110\""
+    },
+    {
+      "file": "assets/cloud-save-DQMH4CxX.js",
+      "status": 200,
+      "sha256": "d887b91525ad099cdb642976de1c403ffe244694437f2576a9071fa9508f5d54",
+      "bytes": 96048,
+      "contentType": "text/javascript",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "W/\"009bf069c27d92782501085e6af3f08f\""
+    },
+    {
+      "file": "assets/room-browser-BkKGr8S2.js",
+      "status": 200,
+      "sha256": "ec1d41f22c138f9e9129fec5379125088f83473fb566a0800497603323368079",
+      "bytes": 4315,
+      "contentType": "text/javascript",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "W/\"a452a4d4b7983984c962cc8aee2ecf5d\""
+    },
+    {
+      "file": "assets/weapon-workshop-ui-yDvi3VvH.js",
+      "status": 200,
+      "sha256": "1b75b07e6d0cfa9beef45c707eeb723b7b5bf01c365c0d87afe9b66e06e53ec0",
+      "bytes": 447410,
+      "contentType": "text/javascript",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "W/\"f81a26ea6ee631ae5325e37a8b4cbf36\""
+    },
+    {
+      "file": "assets/hud-KJkCjEBB.css",
+      "status": 200,
+      "sha256": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3",
+      "bytes": 108021,
+      "contentType": "text/css",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "W/\"1ab0afe66b0d904e34b985b7235222c3\""
+    },
+    {
+      "file": "assets/cloud-save-JJ_IZvHQ.css",
+      "status": 200,
+      "sha256": "885d28d99d2fd5e2cd6caba86893b22c8ef03a6eec40d333c8058ee08a7bd8e6",
+      "bytes": 2243,
+      "contentType": "text/css",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "W/\"354dd1ba97aa2aadad64334b8cb12eb7\""
+    },
+    {
+      "file": "assets/room-browser-D0N6sL-J.css",
+      "status": 200,
+      "sha256": "8268ae33bacf789ea99164175788749fa3b40497e940d2ef1e4a1c588f70754f",
+      "bytes": 4904,
+      "contentType": "text/css",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "W/\"297021da57bd5bb940665e7cb020fe5e\""
+    },
+    {
+      "file": "assets/weapon-workshop-ui-19tKwTO6.css",
+      "status": 200,
+      "sha256": "07b6043857f41259f794674088eaf3e8b5b722094b158ab12ec6cefd75fc8b02",
+      "bytes": 37201,
+      "contentType": "text/css",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "W/\"a082024e9ab9d4df35a160af8c006730\""
+    },
+    {
+      "file": "assets/front-CfbWKfsS.css",
+      "status": 200,
+      "sha256": "e63b21f942ef9da20c9f199f7704af4595bb2e4af97c8061fbf7d855b69dad4b",
+      "bytes": 23420,
+      "contentType": "text/css",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "etag": "W/\"58bb010ea9a1c6356068d83928f03f7b\""
+    }
+  ],
+  "health": "200, ok=true",
+  "androidDevice": "未確認"
+}

@@ -1,6 +1,8 @@
 # 無料運用の前提と見積もり
 
-現行確認日: 2026-10-15。既存CloudflareアカウントのWorkers Plansで「無料・0ドル・現在の計画」を確認。既存 `swarm-front` Workerは公開運用中。新規契約・費用・権限変更なし。当日UTC 00:00〜06:07のアカウント全Workersは81 requests、0 errors、85 subrequests。DO使用量はこの確認では未取得。[画面証拠](evidence/enemy-report-20261015/cloudflare-free.png)、[API取得記録](evidence/enemy-report-20261015/account-plan.json)。契約APIの`subscriptions`は権限不足で403のため、`account-settings`の`standard`をFreeの根拠にせず管理画面で確認した。
+現行確認日: 2026-10-24。既存DashboardセッションでWorkers PlansのFree / $0 / Current planを確認。アカウント全Workersの当日使用量は60 / 100,000 requests、当月表示8.72k requests / CPU 5.79k ms。DO使用量は未取得。新規認証・契約・権限変更なし。確認値は公開前の表示で、以後の使用量を保証しない。[確認記録](evidence/pwa-icon-20261024/publication-preflight.json)、[公開結果](PWA-ICON-20261024.md)。
+
+前回確認日: 2026-10-15。既存CloudflareアカウントのWorkers Plansで「無料・0ドル・現在の計画」を確認。既存 `swarm-front` Workerは公開運用中。新規契約・費用・権限変更なし。当日UTC 00:00〜06:07のアカウント全Workersは81 requests、0 errors、85 subrequests。DO使用量はこの確認では未取得。[画面証拠](evidence/enemy-report-20261015/cloudflare-free.png)、[API取得記録](evidence/enemy-report-20261015/account-plan.json)。契約APIの`subscriptions`は権限不足で403のため、`account-settings`の`standard`をFreeの根拠にせず管理画面で確認した。
 
 以下の見積もり・上限表は2026-09-06時点の設計記録。現在の使用量を表すものではない。
 

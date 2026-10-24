@@ -1,10 +1,12 @@
-# 現在地: PWAアイコンのローカル差し替え完了・未公開（2026-10-24）
+# 現在地: PWAアイコンだけを本番公開済み（2026-10-24）
 
-本人提供のDrive PNGを実目視し、原本を変更せずv4の通常4サイズとmaskableを生成。月の旧原本を参照していたmanifest/favicon/Apple用を更新した。専用branch `codex/pwa-user-icon-20261024`、base main `7cf9f0ebbefd2cdf361a90623efa10a6e26ab19a`、worktree `C:/Users/futsa/Documents/Codex/2026-10-24/task/swarm-front-pwa-icon`。元のClaude名branchと既存差分は保持。
+本人提供のSWARM FRONTロゴへmanifest/favicon/Appleを変更し、実装6454379をPR217で通常merge。main実装mergeは9c5b68ae9e5493ceb0bb3be88d969c97d5f781f8。本人の11:45 JST「公開して！」に基づき公開した。
 
-型、通常/Pages build、Worker dry-run、PWA E2E 2件、ローカルChromeのinstallability/配信照合/旧キャッシュ更新が成功。主タイトルはmaskable安全領域内。id省略/start_url/scope・SW・セーブ・戦闘は変更なし。詳細・証拠・再開手順は [PWAアイコン記録](PWA-ICON-20261024.md)。
+本番とmainの差を確認し、PR216の未公開ゲーム修正3ファイルを今回に混ぜないため、本番a9ede4dから公開branch codex/pwa-icon-only-release-20261024を分離。公開ソース `28f172bc2ff068ccb1752de07c13ee9785f940df`、Worker Version `9d06378b-ff89-46fe-9f7a-45ed8484a48e`、2026-10-24 12:32 JST、100%配信。mainのPR216は戻さず、今回も未公開。
 
-今回はpush・merge・公開・新規認証を行わない。Android実機と本番の新アイコン表示は未確認。次は今回の公開禁止解除後、最新main照合・通常PR/CI・既存Workerへの反映・実機確認。Library転送のWindows障害は本人が別途提供したDrive原本で解消した。
+公開SHAの型・build・dry-run・ローカルChrome、公開HTTP24ファイルSHA一致・health200・新ロゴ実目視・公開Chromeのinstallability/旧キャッシュ更新/保存保持が成功。CIは未設定。新規認証・権限追加なし、既存Free/$0契約と当日60/100,000 requestsを確認。src/server/SW/保存/依存/設定と元worktreeの既存差分は保持。詳細と証拠は [PWAアイコン記録](PWA-ICON-20261024.md)。
+
+公開作業のブロッカーなし。Android実機の追加画面と既存インストールの更新表示は未確認。セーブデータ・キャッシュの全削除は行わない。次は本人の実機表示確認。PR216の公開は別の承認範囲で扱う。
 
 # 前回記録: 遊びの改善の公開準備（2026-10-23）
 

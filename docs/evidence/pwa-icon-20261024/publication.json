@@ -1,0 +1,43 @@
+{
+  "implementationSha": "6454379d0bfb41c4011e6cb5c0aba3e0f78178ff",
+  "pr": 217,
+  "mainImplementationMerge": "9c5b68ae9e5493ceb0bb3be88d969c97d5f781f8",
+  "publishedSourceSha": "28f172bc2ff068ccb1752de07c13ee9785f940df",
+  "publishedBranch": "codex/pwa-icon-only-release-20261024",
+  "productionBase": "a9ede4d94c8947257287f12770ee72c56acc5375",
+  "excludedUnpublishedPR": 216,
+  "unchangedSourceTrees": [
+    "src/",
+    "server/"
+  ],
+  "unchangedFiles": [
+    "public/sw.js",
+    "package.json",
+    "package-lock.json",
+    "wrangler.production.jsonc",
+    "vite.config.ts"
+  ],
+  "workerVersion": "9d06378b-ff89-46fe-9f7a-45ed8484a48e",
+  "trafficPercent": 100,
+  "deploymentCreatedAt": "2026-10-24T03:32:15.439Z",
+  "httpCheckedAt": "2026-10-24T03:33:21.074Z",
+  "matchedFiles": 24,
+  "health": "200, ok=true",
+  "chromeRoutes": [
+    "/",
+    "/?playtest=1"
+  ],
+  "installabilityErrors": 0,
+  "oldV3CacheUpgrade": "合格",
+  "unrelatedCacheAndStorage": "保持",
+  "CI": {
+    "implementationCheckRuns": 0,
+    "releaseCheckRuns": 0,
+    "statusContexts": 0,
+    "result": "未設定。CI合格とは扱わない。"
+  },
+  "androidDeviceTest": "未確認",
+  "newAuthentication": false,
+  "newPermissions": false,
+  "deploymentSuccess": true
+}

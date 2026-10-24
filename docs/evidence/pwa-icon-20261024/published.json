@@ -1,0 +1,87 @@
+{
+  "rows": [
+    {
+      "query": "",
+      "decoded": [
+        {
+          "src": "icon-swarm-v4-192.png",
+          "w": 192,
+          "h": 192,
+          "opaque": null
+        },
+        {
+          "src": "icon-swarm-v4-512.png",
+          "w": 512,
+          "h": 512,
+          "opaque": null
+        },
+        {
+          "src": "icon-swarm-v4-512-maskable.png",
+          "w": 512,
+          "h": 512,
+          "opaque": true
+        },
+        {
+          "src": "apple",
+          "w": 180,
+          "h": 180
+        }
+      ],
+      "installability": {
+        "installabilityErrors": []
+      }
+    },
+    {
+      "query": "?playtest=1",
+      "decoded": [
+        {
+          "src": "icon-swarm-v4-192.png",
+          "w": 192,
+          "h": 192,
+          "opaque": null
+        },
+        {
+          "src": "icon-swarm-v4-512.png",
+          "w": 512,
+          "h": 512,
+          "opaque": null
+        },
+        {
+          "src": "icon-swarm-v4-512-maskable.png",
+          "w": 512,
+          "h": 512,
+          "opaque": true
+        },
+        {
+          "src": "apple",
+          "w": 180,
+          "h": 180
+        }
+      ],
+      "installability": {
+        "installabilityErrors": []
+      }
+    }
+  ],
+  "upgrade": {
+    "icons": [
+      "icon-swarm-v4-192.png",
+      "icon-swarm-v4-512.png",
+      "icon-swarm-v4-512-maskable.png"
+    ],
+    "width": 512,
+    "height": 512,
+    "oldIconRetained": true,
+    "otherCache": "keep",
+    "storage": "keep"
+  },
+  "files": [
+    "index.html",
+    "manifest.webmanifest",
+    "icon-swarm-v4-64.png",
+    "icon-swarm-v4-192.png",
+    "icon-swarm-v4-512.png",
+    "icon-swarm-v4-512-maskable.png",
+    "icon-swarm-v4-180.png"
+  ]
+}
