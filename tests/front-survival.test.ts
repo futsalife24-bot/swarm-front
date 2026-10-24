@@ -10,9 +10,11 @@ import {
   finalizeFrontSurvivalRewards,
   frontSurvivalDifficulty,
   frontSurvivalRewardCount,
+  frontSurvivalTimeScale,
   validFrontClearedStage,
 } from "../src/shared/front-survival";
 import { STARTERS, validBattleWeapon } from "../src/shared/defs";
+import { stageFor } from "../src/shared/stages";
 import {
   addPlayer,
   createWorld,
@@ -46,6 +48,50 @@ describe("front survival rewards and difficulty", () => {
     expect(make(10).world.campaignPlan!.damage).toBeGreaterThan(
       make(5).world.campaignPlan!.damage,
     );
+  });
+
+  it("starts above the campaign baseline and keeps rising with time", () => {
+    const base = frontSurvivalDifficulty(0);
+    expect(base.hpScale).toBeGreaterThan(1);
+    expect(base.damageScale).toBeGreaterThan(1);
+    expect(base.spawnScale).toBeGreaterThan(1);
+    expect(frontSurvivalTimeScale(119.9)).toEqual({ hp: 1, damage: 1 });
+    expect(frontSurvivalTimeScale(240).hp).toBeCloseTo(1.7);
+    expect(frontSurvivalTimeScale(600).damage).toBeCloseTo(1.4);
+    const run = make(0);
+    const plain = stageFor({ stage: run.world.stage }).damage;
+    expect(run.world.campaignPlan!.damage).toBeCloseTo(
+      plain * base.damageScale,
+    );
+    run.phase = "combat";
+    run.world.time = 600;
+    stepFrontRun(run, {}, 0.05, 600);
+    expect(run.world.campaignPlan!.damage).toBeCloseTo(
+      plain * base.damageScale * 1.4,
+    );
+  });
+
+  it("sends ranged enemies early and three per wave after five minutes", () => {
+    const run = make(0);
+    run.phase = "combat";
+    run.world.time = 300;
+    run.nextSpawnAt = 0;
+    stepFrontRun(run, {}, 0.05, 300);
+    const wave = run.pendingSpawns.find((p) => !p.kinds.includes("bastion"));
+    expect(wave!.kinds).toHaveLength(3);
+    const early = make(0);
+    early.phase = "combat";
+    const kinds = new Set<string>();
+    for (let index = 0; index < 8; index++) {
+      early.world.time = 61 + index;
+      early.world.enemies = [];
+      early.pendingSpawns = [];
+      early.nextSpawnAt = 0;
+      early.spawnIndex = index;
+      stepFrontRun(early, {}, 0.05, 61 + index);
+      early.pendingSpawns.forEach((p) => p.kinds.forEach((k) => kinds.add(k)));
+    }
+    expect(kinds.has("spitter")).toBe(true);
   });
 
   it("grants a first-minute weapon, kill bonuses, and a 30-weapon cap", () => {

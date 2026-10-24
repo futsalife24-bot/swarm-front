@@ -160,7 +160,9 @@ describe("party enemy health", () => {
       const baselineRatio =
         baseline.enemy.maxHp / baseEnemyHp(baseline.world, baseline.enemy);
       expect(baselineRatio).toBeCloseTo(
-        baseline.world.scale * FRONT_RUN_CONFIG.normalHpMultiplier,
+        baseline.world.scale *
+          FRONT_RUN_CONFIG.normalHpMultiplier *
+          frontSurvivalDifficulty(0).hpScale,
       );
       for (const clearedStage of [10, 25]) {
         const sample = scheduledFusionEnemy(count, clearedStage);
@@ -168,7 +170,8 @@ describe("party enemy health", () => {
           sample.enemy.maxHp / baseEnemyHp(sample.world, sample.enemy);
         expect(sample.world.scale).toBe(baseline.world.scale);
         expect(ratio / baselineRatio).toBeCloseTo(
-          frontSurvivalDifficulty(clearedStage).hpScale,
+          frontSurvivalDifficulty(clearedStage).hpScale /
+            frontSurvivalDifficulty(0).hpScale,
         );
       }
     }

@@ -28,6 +28,7 @@ import {
   finalizeFrontSurvivalRewards,
   frontSurvivalDifficulty,
   frontSurvivalRewardCount,
+  frontSurvivalTimeScale,
   frontSurvivalWeaponLevel,
   validFrontClearedStage,
 } from "./front-survival";
@@ -200,13 +201,11 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
   if (options.fusion) {
     world.front.growthVersion = 3;
     if (options.catalogVersion !== 1) world.front.catalogVersion = 2;
-    if (mode === "survival") {
-      const difficulty = frontSurvivalDifficulty(options.clearedStage ?? 0);
+    if (mode === "survival")
       world.campaignPlan = {
         ...stageFor(world),
-        damage: stageFor(world).damage * difficulty.damageScale,
+        damage: survivalDamage(world, options.clearedStage ?? 0),
       };
-    }
   }
   const upgrades: Record<string, FrontUpgradeState> = {};
   options.players.forEach((member, index) => {
@@ -469,9 +468,20 @@ function safePoint(w: World, kind: Enemy["kind"], x: number, z: number) {
     !blocked(x, z, radius, supportHeight(x, z, blocks) + cruise, blocks)
   );
 }
+/** 生存戦の敵の攻撃力。進度で決まる倍率に、経過時間の上乗せを重ねる。 */
+function survivalDamage(w: World, clearedStage: number) {
+  return (
+    stageFor({ stage: w.stage }).damage *
+    frontSurvivalDifficulty(clearedStage).damageScale *
+    frontSurvivalTimeScale(w.time).damage
+  );
+}
 function schedule(run: FrontRun) {
   const w = run.world;
   const enemyCap = w.front!.enemyCap ?? 24;
+  const survival = !!run.fusion && run.mode === "survival";
+  if (survival && w.campaignPlan)
+    w.campaignPlan.damage = survivalDamage(w, run.clearedStage ?? 0);
   run.pendingSpawns = run.pendingSpawns.filter((pending) => {
     if (pending.at > w.time) return true;
     pending.kinds.forEach((kind, index) => {
@@ -482,10 +492,12 @@ function schedule(run: FrontRun) {
       if (e) {
         e.hp *=
           (kind === "bastion" ? 1 : FRONT_RUN_CONFIG.normalHpMultiplier) *
-          (run.fusion ? 1 + Math.floor(w.time / 180) * 0.35 : 1) *
-          (run.fusion && run.mode === "survival"
-            ? frontSurvivalDifficulty(run.clearedStage ?? 0).hpScale
-            : 1);
+          (survival
+            ? frontSurvivalTimeScale(w.time).hp *
+              frontSurvivalDifficulty(run.clearedStage ?? 0).hpScale
+            : run.fusion
+              ? 1 + Math.floor(w.time / 180) * 0.35
+              : 1);
         e.maxHp = e.hp;
         e.active = true;
         w.spawned++;
@@ -504,16 +516,21 @@ function schedule(run: FrontRun) {
     w.time +
     (run.finalResupplyDone ? 7 : w.time < 90 ? 4 : w.time < 210 ? 3.5 : 3) /
       (FRONT_RUN_CONFIG.spawnMultiplier *
-        (run.fusion && run.mode === "survival"
+        (survival
           ? frontSurvivalDifficulty(run.clearedStage ?? 0).spawnScale
           : 1));
+  // 生存戦は射撃型・飛行型が早く多く混ざり、5分以降は1回に3体ずつ来る。
+  const [spitterAt, spitterEvery, hornetAt, hornetEvery] = survival
+    ? [60, 4, 150, 5]
+    : [120, 6, 210, 8];
   const kinds: Enemy["kind"][] = [
     "crawler",
-    w.time >= 120 && run.spawnIndex % 6 === 0
+    w.time >= spitterAt && run.spawnIndex % spitterEvery === 0
       ? "spitter"
-      : w.time >= 210 && run.spawnIndex % 8 === 0
+      : w.time >= hornetAt && run.spawnIndex % hornetEvery === 0
         ? "hornet"
         : "crawler",
+    ...(survival && w.time >= 300 ? (["crawler"] as const) : []),
   ];
   const ingress =
     run.mode === "daily"

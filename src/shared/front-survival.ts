@@ -22,10 +22,16 @@ export function frontSurvivalDifficulty(clearedStage: number) {
   return {
     clearedStage,
     weaponLevel: frontSurvivalWeaponLevel(clearedStage),
-    hpScale: 1 + clearedStage * 0.055,
-    damageScale: 1 + clearedStage * 0.025,
-    spawnScale: 1 + clearedStage * 0.03,
+    hpScale: 1.25 + clearedStage * 0.07,
+    damageScale: 1.3 + clearedStage * 0.045,
+    spawnScale: 1.25 + clearedStage * 0.04,
   };
+}
+
+/** Survival-only pressure that keeps rising every two minutes of the run. */
+export function frontSurvivalTimeScale(seconds: number) {
+  const steps = Math.floor(Math.max(0, seconds) / 120);
+  return { hp: 1 + steps * 0.35, damage: 1 + steps * 0.08 };
 }
 
 /** One weapon per minute, plus one per 30 kills after a minute and a kill. */

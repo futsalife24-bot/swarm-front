@@ -1,0 +1,281 @@
+{
+  "seconds": 600,
+  "rows": [
+    {
+      "mode": "survival",
+      "stage": 0,
+      "count": 1,
+      "seed": 814,
+      "seconds": 600,
+      "result": "battle",
+      "kills": 1001,
+      "playerKills": [
+        1001
+      ],
+      "hp": [
+        160
+      ],
+      "taken": 315.15,
+      "spawned": 1094,
+      "maxEnemies": 96,
+      "scale": 1,
+      "selections": 6
+    },
+    {
+      "mode": "survival",
+      "stage": 0,
+      "count": 1,
+      "seed": 723,
+      "seconds": 273.7,
+      "result": "defeat",
+      "kills": 507,
+      "playerKills": [
+        507
+      ],
+      "hp": [
+        0
+      ],
+      "taken": 161.8,
+      "spawned": 600,
+      "maxEnemies": 96,
+      "scale": 1,
+      "selections": 5
+    },
+    {
+      "mode": "survival",
+      "stage": 0,
+      "count": 4,
+      "seed": 814,
+      "seconds": 600,
+      "result": "battle",
+      "kills": 1281,
+      "playerKills": [
+        296,
+        332,
+        303,
+        350
+      ],
+      "hp": [
+        160,
+        160,
+        192,
+        160
+      ],
+      "taken": 240,
+      "spawned": 1377,
+      "maxEnemies": 96,
+      "scale": 3.25,
+      "selections": 16
+    },
+    {
+      "mode": "survival",
+      "stage": 0,
+      "count": 4,
+      "seed": 723,
+      "seconds": 600,
+      "result": "battle",
+      "kills": 1247,
+      "playerKills": [
+        299,
+        313,
+        314,
+        321
+      ],
+      "hp": [
+        147.7,
+        160,
+        192,
+        160
+      ],
+      "taken": 208.8,
+      "spawned": 1343,
+      "maxEnemies": 96,
+      "scale": 3.25,
+      "selections": 16
+    },
+    {
+      "mode": "survival",
+      "stage": 10,
+      "count": 1,
+      "seed": 814,
+      "seconds": 236.1,
+      "result": "defeat",
+      "kills": 509,
+      "playerKills": [
+        509
+      ],
+      "hp": [
+        0
+      ],
+      "taken": 240.5,
+      "spawned": 604,
+      "maxEnemies": 96,
+      "scale": 1,
+      "selections": 3
+    },
+    {
+      "mode": "survival",
+      "stage": 10,
+      "count": 1,
+      "seed": 723,
+      "seconds": 271.3,
+      "result": "defeat",
+      "kills": 570,
+      "playerKills": [
+        570
+      ],
+      "hp": [
+        0
+      ],
+      "taken": 171.4,
+      "spawned": 662,
+      "maxEnemies": 96,
+      "scale": 1,
+      "selections": 2
+    },
+    {
+      "mode": "survival",
+      "stage": 10,
+      "count": 4,
+      "seed": 814,
+      "seconds": 600,
+      "result": "battle",
+      "kills": 1683,
+      "playerKills": [
+        365,
+        384,
+        354,
+        580
+      ],
+      "hp": [
+        131.45,
+        160,
+        192,
+        160
+      ],
+      "taken": 342.85,
+      "spawned": 1770,
+      "maxEnemies": 96,
+      "scale": 3.25,
+      "selections": 20
+    },
+    {
+      "mode": "survival",
+      "stage": 10,
+      "count": 4,
+      "seed": 723,
+      "seconds": 600,
+      "result": "battle",
+      "kills": 1416,
+      "playerKills": [
+        330,
+        371,
+        349,
+        366
+      ],
+      "hp": [
+        100.51,
+        160,
+        192,
+        70.78
+      ],
+      "taken": 802.16,
+      "spawned": 1511,
+      "maxEnemies": 96,
+      "scale": 3.25,
+      "selections": 20
+    },
+    {
+      "mode": "survival",
+      "stage": 25,
+      "count": 1,
+      "seed": 814,
+      "seconds": 166.05,
+      "result": "defeat",
+      "kills": 404,
+      "playerKills": [
+        404
+      ],
+      "hp": [
+        0
+      ],
+      "taken": 160,
+      "spawned": 499,
+      "maxEnemies": 96,
+      "scale": 1,
+      "selections": 3
+    },
+    {
+      "mode": "survival",
+      "stage": 25,
+      "count": 1,
+      "seed": 723,
+      "seconds": 159.15,
+      "result": "defeat",
+      "kills": 394,
+      "playerKills": [
+        394
+      ],
+      "hp": [
+        0
+      ],
+      "taken": 164.95,
+      "spawned": 485,
+      "maxEnemies": 96,
+      "scale": 1,
+      "selections": 3
+    },
+    {
+      "mode": "survival",
+      "stage": 25,
+      "count": 4,
+      "seed": 814,
+      "seconds": 600,
+      "result": "battle",
+      "kills": 1744,
+      "playerKills": [
+        438,
+        447,
+        399,
+        460
+      ],
+      "hp": [
+        115,
+        160,
+        130.25,
+        160
+      ],
+      "taken": 463.81,
+      "spawned": 1839,
+      "maxEnemies": 96,
+      "scale": 3.25,
+      "selections": 8
+    },
+    {
+      "mode": "survival",
+      "stage": 25,
+      "count": 4,
+      "seed": 723,
+      "seconds": 600,
+      "result": "battle",
+      "kills": 1481,
+      "playerKills": [
+        354,
+        371,
+        357,
+        399
+      ],
+      "hp": [
+        59.88,
+        160,
+        176,
+        160
+      ],
+      "taken": 1417.15,
+      "spawned": 1573,
+      "maxEnemies": 96,
+      "scale": 3.25,
+      "selections": 8
+    }
+  ]
+}
