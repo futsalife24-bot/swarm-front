@@ -1,0 +1,26 @@
+{
+  "observedAt": "2026-10-24T03:24:00Z",
+  "implementationSha": "6454379d0bfb41c4011e6cb5c0aba3e0f78178ff",
+  "implementationPR": 217,
+  "mainMergeSha": "9c5b68ae9e5493ceb0bb3be88d969c97d5f781f8",
+  "checkRuns": 0,
+  "statusContexts": 0,
+  "ci": "未設定",
+  "productionBase": "a9ede4d94c8947257287f12770ee72c56acc5375",
+  "beforeWorkerVersion": "57f36bd8-d3d9-4df9-9590-4b54fa593e96",
+  "deploymentBranch": "codex/pwa-icon-only-release-20261024",
+  "cloudflarePlan": {
+    "source": "既存Dashboardセッション",
+    "plan": "Free",
+    "price": "$0",
+    "currentPlan": true,
+    "requestsToday": 60,
+    "dailyLimit": 100000,
+    "monthRequestsDisplayed": "8.72k",
+    "monthCPUmsDisplayed": "5.79k",
+    "durableObjectUsage": "未取得"
+  },
+  "newAuthentication": false,
+  "permissionChange": false,
+  "androidDeviceTest": "未確認"
+}

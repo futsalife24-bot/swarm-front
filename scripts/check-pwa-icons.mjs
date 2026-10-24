@@ -3,9 +3,11 @@ const base=process.env.ICON_SITE||'http://127.0.0.1:5354',label=base.startsWith(
 const browser=await chromium.launchPersistentContext(`${out}/profile-${label}`,{channel:'chrome'}),rows=[];
 try {
  for(const query of ['','?playtest=1']) {
-  const page=await browser.newPage();await page.goto(base+'/'+query);await page.locator('#home-developer').waitFor();
+  const page=await browser.newPage();await page.goto(base+'/'+query);await page.locator('#solo').waitFor();
   const cdp=await page.context().newCDPSession(page);const manifest=await cdp.send('Page.getAppManifest');const parsed=JSON.parse(manifest.data);
   assert.equal(parsed.display,'fullscreen');assert.equal(parsed.orientation,'landscape');assert.equal(parsed.start_url,'./');
+  assert.equal(parsed.scope,'./');assert.equal(Object.hasOwn(parsed,'id'),false);
+  assert.deepEqual(parsed.icons.map(icon=>icon.src),['icon-swarm-v4-192.png','icon-swarm-v4-512.png','icon-swarm-v4-512-maskable.png']);
   for(const size of [192,512])assert.ok(parsed.icons.some(i=>i.type==='image/png'&&i.sizes===`${size}x${size}`&&i.purpose==='any'));
   assert.ok(parsed.icons.some(i=>i.sizes==='512x512'&&i.purpose==='maskable'));
   const decoded=await page.evaluate(async()=>{
@@ -22,8 +24,30 @@ try {
   const installability=await cdp.send('Page.getInstallabilityErrors');assert.deepEqual(installability.installabilityErrors,[]);
   rows.push({query,decoded,installability});await page.close();
  }
- const files=['index.html','manifest.webmanifest','icon-swarm-v3-64.png','icon-swarm-v3-192.png','icon-swarm-v3-512.png','icon-swarm-v3-512-maskable.png','icon-swarm-v3-180.png'];
+ // 旧manifest・旧アイコンが残る更新前の状態を、検証専用プロファイル内だけで再現する。
+ const upgradePage=await browser.newPage();await upgradePage.goto(base+'/');
+ await upgradePage.evaluate(()=>navigator.serviceWorker.ready);await upgradePage.reload();
+ await upgradePage.waitForFunction(()=>Boolean(navigator.serviceWorker.controller));
+ const upgrade=await upgradePage.evaluate(async()=>{
+  const manifestUrl=new URL('manifest.webmanifest',location.href);
+  const cache=await caches.open('swarm-front-shell-v1');
+  await cache.put(manifestUrl,new Response(JSON.stringify({icons:[{src:'icon-swarm-v3-512.png'}]})));
+  const oldIconUrl=new URL('icon-swarm-v3-512.png',location.href);
+  await cache.put(oldIconUrl,await fetch(oldIconUrl));
+  const unrelated=await caches.open('unrelated-pwa-icon-check');
+  const markerUrl=new URL('pwa-icon-check-marker',location.href);
+  await unrelated.put(markerUrl,new Response('keep'));
+  localStorage.setItem('pwa-icon-check-marker','keep');
+  const refreshed=await(await fetch(manifestUrl)).json();
+  const icon=new Image();icon.src=new URL(refreshed.icons.find(i=>i.purpose==='any'&&i.sizes==='512x512').src,manifestUrl);await icon.decode();
+  return {icons:refreshed.icons.map(i=>i.src),width:icon.width,height:icon.height,oldIconRetained:Boolean(await cache.match(oldIconUrl)),otherCache:await(await unrelated.match(markerUrl)).text(),storage:localStorage.getItem('pwa-icon-check-marker')};
+ });
+ assert.ok(upgrade.icons.every(src=>src.startsWith('icon-swarm-v4-')));
+ assert.equal(upgrade.width,512);assert.equal(upgrade.height,512);
+ assert.equal(upgrade.oldIconRetained,true);assert.equal(upgrade.otherCache,'keep');assert.equal(upgrade.storage,'keep');
+ await upgradePage.close();
+ const files=['index.html','manifest.webmanifest','icon-swarm-v4-64.png','icon-swarm-v4-192.png','icon-swarm-v4-512.png','icon-swarm-v4-512-maskable.png','icon-swarm-v4-180.png'];
  for(const file of files){const r=await fetch(base+'/'+file,{cache:'no-store'});assert.equal(r.status,200);assert.ok(Buffer.from(await r.arrayBuffer()).equals(fs.readFileSync('dist/'+file)));}
  assert.equal((await (await fetch(base+'/api/health')).json()).ok,true);
- fs.writeFileSync(`${out}/${label}.json`,JSON.stringify({rows,files},null,2));console.log('PASS',label,'both routes: decoded icons, installability, 7 file matches, health');
+ fs.writeFileSync(`${out}/${label}.json`,JSON.stringify({rows,upgrade,files},null,2));console.log('PASS',label,'both routes: decoded icons, installability, cached-v3 upgrade, storage preservation, 7 file matches, health');
 }finally{await browser.close()}

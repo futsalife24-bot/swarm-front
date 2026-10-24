@@ -17,7 +17,24 @@ test("PWA manifest installs an app shell that reopens solo offline", async ({
   });
   expect(manifest.icons).toEqual(
     expect.arrayContaining([
-      expect.objectContaining({ src: "icon.svg", purpose: "any maskable" }),
+      expect.objectContaining({
+        src: "icon-swarm-v4-192.png",
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "any",
+      }),
+      expect.objectContaining({
+        src: "icon-swarm-v4-512.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "any",
+      }),
+      expect.objectContaining({
+        src: "icon-swarm-v4-512-maskable.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "maskable",
+      }),
     ]),
   );
   await page.evaluate(() => navigator.serviceWorker.ready);
@@ -31,7 +48,7 @@ test("PWA manifest installs an app shell that reopens solo offline", async ({
   try {
     await page.reload();
     await expect(
-      page.getByRole("button", { name: "ソロで出撃準備" }),
+      page.getByRole("button", { name: "ソロ：進撃 または 生存", exact: true }),
     ).toBeVisible();
   } finally {
     await page.context().setOffline(false);
@@ -41,7 +58,9 @@ test("PWA manifest installs an app shell that reopens solo offline", async ({
 test("Pages subpath serves a scoped PWA manifest and worker", async ({
   page,
 }) => {
-  await page.goto("http://127.0.0.1:4186/swarm-front/");
+  const pagesUrl =
+    process.env.PWA_PAGES_URL || "http://127.0.0.1:4186/swarm-front/";
+  await page.goto(pagesUrl);
   const result = await page.evaluate(async () => {
     const manifest = await (await fetch("manifest.webmanifest")).json();
     const registration = await navigator.serviceWorker.ready;
@@ -49,5 +68,5 @@ test("Pages subpath serves a scoped PWA manifest and worker", async ({
   });
   expect(result.manifest.start_url).toBe("./");
   expect(result.manifest.scope).toBe("./");
-  expect(result.scope).toBe("http://127.0.0.1:4186/swarm-front/");
+  expect(result.scope).toBe(pagesUrl);
 });
