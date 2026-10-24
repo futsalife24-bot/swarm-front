@@ -1,4 +1,12 @@
-# 現在地: 遊びの改善の公開準備（2026-10-23）
+# 現在地: PWAアイコンのローカル差し替え完了・未公開（2026-10-24）
+
+本人提供のDrive PNGを実目視し、原本を変更せずv4の通常4サイズとmaskableを生成。月の旧原本を参照していたmanifest/favicon/Apple用を更新した。専用branch `codex/pwa-user-icon-20261024`、base main `7cf9f0ebbefd2cdf361a90623efa10a6e26ab19a`、worktree `C:/Users/futsa/Documents/Codex/2026-10-24/task/swarm-front-pwa-icon`。元のClaude名branchと既存差分は保持。
+
+型、通常/Pages build、Worker dry-run、PWA E2E 2件、ローカルChromeのinstallability/配信照合/旧キャッシュ更新が成功。主タイトルはmaskable安全領域内。id省略/start_url/scope・SW・セーブ・戦闘は変更なし。詳細・証拠・再開手順は [PWAアイコン記録](PWA-ICON-20261024.md)。
+
+今回はpush・merge・公開・新規認証を行わない。Android実機と本番の新アイコン表示は未確認。次は今回の公開禁止解除後、最新main照合・通常PR/CI・既存Workerへの反映・実機確認。Library転送のWindows障害は本人が別途提供したDrive原本で解消した。
+
+# 前回記録: 遊びの改善の公開準備（2026-10-23）
 
 本人の「公開して」を受け、最新main `d460f896f6c16980d14fb4f783f61c260c34c476` から `codex/play-polish-release-20261023` / `dist-r/` へ今回の改善だけを分離。元worktree・別担当差分と未公開の設定変更 `a3d8f07` は保持し今回に含めない。公開用検証・PR・Worker反映・配信確認は [公開記録](PLAY-POLISH-RELEASE-20261023.md) へ記録する。現段階で公開成功とは扱わない。
 

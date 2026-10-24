@@ -1,0 +1,68 @@
+{
+  "sourceSha256": "7229dc0ab2eed9b0f518c2c32f3a123976b87a831ac573be1edf1aa0d3611b64",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "outputs": [
+    {
+      "file": "icon-swarm-v4-64.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "49bd3f6aa22e4410ea4ce92873a1f960e932c66a339d9f1accc37230ef03dcb3",
+      "bytes": 11048,
+      "opaque": true
+    },
+    {
+      "file": "icon-swarm-v4-180.png",
+      "size": [
+        180,
+        180
+      ],
+      "sha256": "011d0ba169b1d5325ac5e809eaa5a7a302aa7885b8dec73001068ad939d00e98",
+      "bytes": 74779,
+      "opaque": true
+    },
+    {
+      "file": "icon-swarm-v4-192.png",
+      "size": [
+        192,
+        192
+      ],
+      "sha256": "abfe8b0da1d1665e928701f0ef1e06f4cc119c52911445092fc9bc47bb0c87e2",
+      "bytes": 86143,
+      "opaque": true
+    },
+    {
+      "file": "icon-swarm-v4-512.png",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "0e469688f9f566178c594dd0557d3097f24c174a9f48efeec4913beed8c929fd",
+      "bytes": 539155,
+      "opaque": true
+    },
+    {
+      "file": "icon-swarm-v4-512-maskable.png",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "9158e3e3c1ec01aac92374645390c6872c9c5fef79dbde84309efc86c7074c0e",
+      "bytes": 417504,
+      "opaque": true
+    }
+  ],
+  "maskableTitleBounds": [
+    150,
+    380,
+    1100,
+    810
+  ],
+  "maskableTitleMaxRadius": 188.47625706375348,
+  "safeRadius": 204.8,
+  "pillow": "12.3.0"
+}
