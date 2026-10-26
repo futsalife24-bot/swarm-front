@@ -34,3 +34,12 @@
 Dash/爆撃の4視点24画面取得成功。資産・実行時エラー0。密集Dash、密集爆撃、壁爆撃の3画面を再目視し、密集で上部の目印が見え、壁は貫通しないことを確認。証拠: [検証情報](evidence/harrow-beacon-release-20261026/verification.json)、[表示状態](evidence/harrow-beacon-release-20261026/results.json)。
 
 公開前build成功。既存の500kB超chunk警告は残存。対象4ファイルPrettier成功。
+
+## 公開完了
+
+- PR219: https://github.com/futsalife24-bot/swarm-front/pull/219 。実装39fc988、PR head 8dc8e8bab0ecacd66a85b072a200459797b431ad、merge/main e91d7953bfda10150b4d14a9e5fcf8fe03d7841d。check-runs/statuses各0、mergeable=clean。通常merge、保護回避なし。
+- main/origin/main/HEAD一致・cleanから本番buildとdry-run成功（431 assets）。Worker Version `7a87e0e4-6d27-44cc-83ea-d29aa5395ea6`。直前Versionは `9d06378b-ff89-46fe-9f7a-45ed8484a48e`。
+- 公開先: https://swarm-front.melosalife-24.workers.dev 。HTML/JS/CSS/manifest/アイコン27ファイルのSHAが公開ビルドと一致、health200/ok。 [配信照合](evidence/harrow-beacon-release-20261026/delivery.json)、[ビルドSHA](evidence/harrow-beacon-release-20261026/build-manifest.json)。
+- 実セーブを使わないため、公開ファイルをGETのみで取得する127.0.0.1:5201の隔離オリジンで実Chrome844×390を確認。出撃準備→タイトル→更新履歴、HARROWの今回項目表示、例外0。[画面](evidence/harrow-beacon-release-20261026/live-changelog.jpg)。公開ドメイン上の戦闘やオンライン参加を検証したものではない。
+- CLIは既存認証を利用。契約APIは403だったため、本人が既存アカウントへの管理画面ログインを追加承認。Workers Free/0ドル/現在の計画、本日の155/100,000 requestsを画面確認。DO使用量未取得。新規契約・権限変更なし。[確認記録](evidence/harrow-beacon-release-20261026/account-observation.json)。
+- 最新mainのPWAアイコン・生存難易度調整を保持して公開。募集画面は別branchへ保存して含めていない。元worktreeの未コミット成果も保持。独立監査は未実施。

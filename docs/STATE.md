@@ -1,3 +1,9 @@
+# 現在地: HARROW立体予告の公開完了（2026-10-26）
+
+[PR219](https://github.com/futsalife24-bot/swarm-front/pull/219)を通常merge。公開ソースmain e91d7953bfda10150b4d14a9e5fcf8fe03d7841d、Worker Version 7a87e0e4-6d27-44cc-83ea-d29aa5395ea6。27配信ファイルのSHA一致、health200/ok、配信版を読取専用の隔離オリジンでChrome表示し更新履歴・起動エラー0を確認。実セーブは使用していない。既存mainのPWAアイコン・生存難易度調整も含む。詳細は [公開記録](HARROW-BEACON-RELEASE-20261026.md)。
+
+追加依頼のマルチ募集画面は別branch codex/coop-recruitment-20261026 の作業中候補875d7b0。今回の公開には含めない。フリーは一覧選択方式で本人回答済み。実機・実聴・長時間混戦は引き続き未確認。
+
 # 現在地: HARROW立体予告の公開準備（2026-10-26）
 
 本人の採用・公開承認を受け、最新main e455c24からDash両端と爆撃着弾地点の立体目印だけを統合。関連62件と型成功。元worktreeの未コミット成果は保持。詳細・公開状態・未確認範囲は [公開記録](HARROW-BEACON-RELEASE-20261026.md)。
