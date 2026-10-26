@@ -1,0 +1,162 @@
+{
+  "source": "b39851cafac72ff3f8cb55720c5e0e55b5382249",
+  "workerVersion": "be5906cc-c4a8-4fd5-b68c-0a6aabe8434a",
+  "date": "2026-10-26T13:31:22.121Z",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "health": {
+    "status": 200,
+    "ok": true
+  },
+  "files": [
+    {
+      "path": "anomaly-voices.html",
+      "sha256": "041ae76658ff785de3bed305438eec4127396a20d0a7c440a4e8d23464dd14bb",
+      "bytes": 6870
+    },
+    {
+      "path": "assets/cloud-save-De0bXFEZ.js",
+      "sha256": "9ffd0feff5d975b738d3453d10fc3bd8b03fc75c8f96b2e6e5ccb7fe6789f1e4",
+      "bytes": 96928
+    },
+    {
+      "path": "assets/cloud-save-JJ_IZvHQ.css",
+      "sha256": "885d28d99d2fd5e2cd6caba86893b22c8ef03a6eec40d333c8058ee08a7bd8e6",
+      "bytes": 2243
+    },
+    {
+      "path": "assets/front-BLBkfa2K.js",
+      "sha256": "740c9f3983bb09d42403a4187188a31b5166022823d798f9a28b9189d68afd84",
+      "bytes": 98804
+    },
+    {
+      "path": "assets/front-CfbWKfsS.css",
+      "sha256": "e63b21f942ef9da20c9f199f7704af4595bb2e4af97c8061fbf7d855b69dad4b",
+      "bytes": 23420
+    },
+    {
+      "path": "assets/game-select-BBcbApPk.css",
+      "sha256": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75",
+      "bytes": 4775
+    },
+    {
+      "path": "assets/game-select-D0AqqMJO.js",
+      "sha256": "2c9a2591bc5e1fe5a72e2d9fda950355f58097cf51a619eb69a37ab2177d4d44",
+      "bytes": 11836
+    },
+    {
+      "path": "assets/hud-CicI9IQX.js",
+      "sha256": "fc1221d9e980e1e7f57064ce17054adebfc81a3ef5ad93307cc0e8c344be204c",
+      "bytes": 981331
+    },
+    {
+      "path": "assets/hud-KJkCjEBB.css",
+      "sha256": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3",
+      "bytes": 108021
+    },
+    {
+      "path": "assets/legacy-BFR0qrMR.js",
+      "sha256": "d2b93053da33e5f2df7c39a0e77224be7ecb4c4dee470177638fb1c4abc122f1",
+      "bytes": 16455
+    },
+    {
+      "path": "assets/legacy-CPbai1ZT.css",
+      "sha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "bytes": 259
+    },
+    {
+      "path": "assets/main-BOIn8V8d.css",
+      "sha256": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "bytes": 1316
+    },
+    {
+      "path": "assets/main-CFvwKSJp.js",
+      "sha256": "098669ee011268ecfd2cf3ef79e667a2ed14a9282222b640b67efd865c2aab11",
+      "bytes": 53497
+    },
+    {
+      "path": "assets/playtest-app-BSe7ruvK.js",
+      "sha256": "62ddde4e02e3c7162ac5882e5d65f88f086a2a074eff8c6182d3e1d52101f489",
+      "bytes": 79943
+    },
+    {
+      "path": "assets/playtest-app-CU5IufCk.css",
+      "sha256": "f8dd2dc94f98d22ff4906c0ff444e119d3eb9f0847b66d56941305824879cee9",
+      "bytes": 8530
+    },
+    {
+      "path": "assets/room-browser-CUD_9yvn.css",
+      "sha256": "bb1c35456ca36748fa4ef0d22eb5929fd9dd44da5440d699818aeb7f32ccfcda",
+      "bytes": 5561
+    },
+    {
+      "path": "assets/room-browser-Cpstmo6s.js",
+      "sha256": "18b5797a3009912fb89d0f5f871cc17ac8a933bff6f0d9b32eace8ead629d5ee",
+      "bytes": 6303
+    },
+    {
+      "path": "assets/save-writer-6ccprsHO.css",
+      "sha256": "e40c4ebae34cd465c956204dd5b402c39f69198cdb75666088f43dbfaebc18f8",
+      "bytes": 2328
+    },
+    {
+      "path": "assets/save-writer-BRtvGKim.js",
+      "sha256": "2012b2e80d19e5574083573a9dc04b8c52c9176ac59b2234de0285972d70b8bc",
+      "bytes": 33281
+    },
+    {
+      "path": "assets/training-app-81HwcaUu.js",
+      "sha256": "b50a4ad8742c1499463421725dadc905935e02af5e046148813b857c764fddef",
+      "bytes": 3767
+    },
+    {
+      "path": "assets/weapon-sharing-Bp2cIgUh.js",
+      "sha256": "51cd52f434f94069b361e3bec417b5b51dced5523129a013458e8d5bf38f8eaa",
+      "bytes": 4753
+    },
+    {
+      "path": "assets/weapon-workshop-ui-19tKwTO6.css",
+      "sha256": "07b6043857f41259f794674088eaf3e8b5b722094b158ab12ec6cefd75fc8b02",
+      "bytes": 37201
+    },
+    {
+      "path": "assets/weapon-workshop-ui-hM4LfeUE.js",
+      "sha256": "88aea57f20c43be22bac12cde1b76f2714783e0c73321709e59e17918326cd61",
+      "bytes": 447411
+    },
+    {
+      "path": "assets/zoom-guard-CYxqEXnM.js",
+      "sha256": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "bytes": 387
+    },
+    {
+      "path": "briefing/index.html",
+      "sha256": "c727868b6a291da432efcf21e48a2cfb35ceae5b1cd136c4c18427d0476c46bc",
+      "bytes": 59139
+    },
+    {
+      "path": "briefing/slides.html",
+      "sha256": "9b6e9fedf6a3a15134d4634b5c5c46a6648da831a41bcfd2aa3add0ab07d63a5",
+      "bytes": 5351501
+    },
+    {
+      "path": "front.html",
+      "sha256": "46c2b412b8485732b215b55e6a18fb36b43c14b8a5c37b30f9c03089d9bb0f5f",
+      "bytes": 2939
+    },
+    {
+      "path": "index.html",
+      "sha256": "0b66acaf926303f73cc4a4bdb112d568d3354356510f6fce95f6c1a8a700e438",
+      "bytes": 3810
+    },
+    {
+      "path": "manifest.webmanifest",
+      "sha256": "a395e41a6419798be87fb74999412078387866aca0e9db0e15a3cf69d52e4cf6",
+      "bytes": 792
+    },
+    {
+      "path": "sw.js",
+      "sha256": "cda986fdea0ed741110f22d38e4bef437e0ccb0d33ba83299db4f9f1d70bf54c",
+      "bytes": 3403
+    }
+  ]
+}
