@@ -48,7 +48,12 @@ import { operationCueForResult } from "./operation-cue-assets";
 import { frontResultTitle } from "./front-result-title";
 import { openWeaponWorkshop } from "./weapon-workshop-ui";
 import type { NewWeapon } from "../shared/progression";
-import { roomBrowserMarkup, bindRoomBrowser } from "./room-browser";
+import {
+  roomBrowserMarkup,
+  bindRoomBrowser,
+  setRoomBrowserBusy,
+} from "./room-browser";
+import { frontRoomInvite } from "./room-invite";
 import { FrontNetwork, loadFrontNetworkSession } from "./front-network";
 import { startWithSaveWriter } from "./save-writer";
 import { installCloudSync } from "./cloud-save";
@@ -655,24 +660,13 @@ function rooms() {
   document.body.dataset.screen = "rooms";
   document.body.classList.remove("playtest");
   screen = "rooms";
+  // 生存の募集入口。進撃は共通タイトルの別導線を維持する。
+  mode = "survival";
   $("ui").innerHTML = roomBrowserMarkup(endpoint(), status).replace(
     "CO-OP / SQUAD",
-    "改装版 · 1〜4人",
+    "生存 · 1〜4人",
   );
   $("home").onclick = home;
-  const modeLabel = document.createElement("label");
-  modeLabel.innerHTML = `作戦<select id="front-room-mode">${Object.entries(
-    modeNames,
-  )
-    .map(
-      ([value, name]) =>
-        `<option value="${value}" ${value === mode ? "selected" : ""}>${name}</option>`,
-    )
-    .join("")}</select>`;
-  $("ui").querySelector(".room-create")!.insertBefore(modeLabel, $("launch"));
-  $("front-room-mode").onchange = () => {
-    mode = ($("front-room-mode") as HTMLSelectElement).value as FrontMode;
-  };
   const current = $("ui").firstElementChild as HTMLElement;
   bindRoomBrowser(
     current,
@@ -683,7 +677,7 @@ function rooms() {
   );
   $("launch").onclick = async () => {
     const button = $("launch") as HTMLButtonElement;
-    button.disabled = true;
+    setRoomBrowserBusy(current, true);
     try {
       const target = new URL(($("endpoint") as HTMLInputElement).value);
       if (
@@ -705,7 +699,7 @@ function rooms() {
             mode,
           },
         );
-        connectRoom(code, net.endpoint);
+        if (current.isConnected) connectRoom(code, net.endpoint);
       } finally {
         net.close();
         turnstileToken = "";
@@ -713,7 +707,7 @@ function rooms() {
     } catch (error) {
       notice((error as Error).message, 5);
       if (button.isConnected) {
-        button.disabled = false;
+        setRoomBrowserBusy(current, false);
         void mountHumanCheck();
       }
     }
@@ -812,7 +806,7 @@ function paintLobby() {
   document.body.classList.remove("playtest");
   document.body.dataset.screen = "lobby";
   $("ui").innerHTML =
-    `<section class="panel front-lobby"><header><h1>${modeNames[net.mode]} · 協力部隊</h1><nav><button id="front-edit-loadout">装備変更</button><button id="front-leave">部屋を退出</button></nav></header><p>部屋ID <b>${esc(net.roomId || "接続中")}</b> <button id="front-copy">招待をコピー</button>${net.mode === "survival" ? " · 出撃から60分で帰還・保存猶予2分" : ""}</p><div class="front-members">${net.members
+    `<section class="panel front-lobby"><header><h1>${modeNames[net.mode]} · 協力部隊</h1><nav><button id="front-edit-loadout">装備変更</button><button id="front-leave">部屋を退出</button></nav></header><div class="front-room-share"><span>招待用パスワード <b id="front-room-password">${esc(net.roomId || "接続中")}</b></span><button id="front-copy-password" ${net.roomId ? "" : "disabled"}>パスワードをコピー</button><button id="front-copy" ${net.roomId ? "" : "disabled"}>招待リンクをコピー</button></div><p class="fine">どちらか一方を仲間へ共有してください。${net.mode === "survival" ? " 出撃から60分で帰還・保存猶予2分。" : ""}</p><div class="front-members">${net.members
       .filter((m) => m.connected)
       .map(
         (m) =>
@@ -831,11 +825,23 @@ function paintLobby() {
   };
   $("front-start").onclick = () => net.send({ type: "start" });
   $("front-copy").onclick = () => {
-    const url = new URL(location.href);
-    url.searchParams.set("frontRoom", net.roomId);
-    void navigator.clipboard.writeText(url.href).then(
-      () => notice("招待をコピーしました"),
-      () => notice(`部屋ID：${net.roomId}`, 8),
+    const url = frontRoomInvite(location.href, net.roomId);
+    if (!url) return;
+    void navigator.clipboard.writeText(url).then(
+      () => notice("招待リンクをコピーしました"),
+      () =>
+        notice(
+          "コピーできません。画面の招待用パスワードを共有してください。",
+          8,
+        ),
+    );
+  };
+  $("front-copy-password").onclick = () => {
+    if (!net.roomId) return;
+    void navigator.clipboard.writeText(net.roomId).then(
+      () => notice("招待用パスワードをコピーしました"),
+      () =>
+        notice("コピーできません。画面の8文字を選択して共有してください。", 8),
     );
   };
 }
@@ -1373,7 +1379,7 @@ startWithSaveWriter(async () => {
   if (invitation && /^[A-Fa-f0-9]{8}$/.test(invitation)) {
     rooms();
     ($("room-id") as HTMLInputElement).value = invitation;
-    notice("部屋IDを確認し、参加を押してください", 5);
+    notice("招待先を確認し、参加を押してください", 5);
   }
   requestAnimationFrame(frame);
 });

@@ -153,10 +153,45 @@
 }
 .room-browser .room-browser-columns {
   display: grid;
-  grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.3fr);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);
   gap: 14px;
   min-height: 0;
   flex: 1;
+}
+.room-browser [hidden] {
+  display: none !important;
+}
+.room-browser .room-access {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.room-browser .room-access button {
+  flex: 1;
+  min-height: 40px;
+}
+.room-browser .room-access button[aria-pressed="true"] {
+  border-color: var(--mint);
+  background: #24504d;
+  color: #fff;
+}
+.room-browser #room-access-help {
+  flex-shrink: 0;
+}
+.front-room-share {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+#front-room-password {
+  user-select: all;
+  letter-spacing: 0.1em;
+  color: var(--mint);
+}
+.front-room-share button {
+  min-height: 40px;
 }
 .room-browser .room-create,
 .room-browser .room-browse {
@@ -300,6 +335,14 @@ body #ui .room-browser label {
   align-items: center;
 }
 body #ui .room-browser .room-create {
+  overflow: hidden;
+}
+.room-create-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
 }
 body #ui .room-browser .coop-advanced .join {
@@ -311,6 +354,7 @@ body #ui .room-browser > .coop-advanced {
 }
 body #ui .room-browser #launch {
   min-height: 40px;
+  flex-shrink: 0;
 }
 @media (max-width: 700px) {
   body #ui .panel.room-entry.room-browser {
