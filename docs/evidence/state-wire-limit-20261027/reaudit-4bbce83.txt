@@ -1,0 +1,248 @@
+Swarm Front 生存戦・状態送信上限 フェーズ1 独立再監査
+対象: PR #223 / 修正後HEAD 4bbce832b2d87fed524949d4ac45a37a1944b395
+監査日: 2026-10-27 JST
+
+1. 判定
+
+合格（下記の互換対象・確認範囲に対するソース再監査）。
+前回のP2-01、P2-02は解消。新たに確認した必須修正は0件。
+
+互換対象は、基点7c33c87の旧画面（stateOmissionsの能力通知なし）と、修正後4bbce83の新画面。初回監査版636dcd4を開いたまま継続するケースには、後述の角度復元非互換が残る。636dcd4も継続利用のサポート対象に含める場合、この判定は要修正となる。同梱revision.patchには初回版・修正版ともmain反映・公開未完了と記録されており、現時点では未公開の開発版間の制約として扱った。実配信状態を独立確認したという意味ではない。
+
+実装側の自己レビュー、120件・12件・13件の成功主張を、そのまま独立成功として数えていない。添付実ソースを読み、監査側の合成入力・検査スクリプトと隔離ローカルWorkerで確認した。実装、commit、merge、公開は行っていない。元ZIPの265ファイルは検証後もすべて同一バイト列である。
+
+2. 対象SHA・資料の同一性
+
+基点:
+  7c33c877ff87e4ca18043d902c14bb316d7e3067
+初回監査HEAD:
+  636dcd48780fb25b20d74b79967e4edc85c8f4e6
+修正後HEAD:
+  4bbce832b2d87fed524949d4ac45a37a1944b395
+対象ZIP:
+  audit-4bbce83.zip / 1,341,669 bytes
+実測SHA-256:
+  89a22b09596b48e6d3ef145be116010dc2b2a42ab05e2dd918a286e9e48e7d9b
+  依頼値と一致。ZIP CRC検査も成功。
+
+確認資料:
+・src/shared/state-wire.ts、src/client/state-omissions.ts、および両受信経路network.ts / front-network.ts
+・BASTIONの権威処理、レーン計算、BastionView、衝突・被弾処理
+・FOUNDRYの権威部位HP、wormChains、FoundryWormView.update、Renderer.foundryWarning
+・server/worker.ts、server/testing.ts、通常・production・testのWrangler設定
+・scripts/state-wire-fixture.ts、measure-state-wire.test.ts、関連単体・両統合試験
+・audit/changes.patch（基点から）、audit/revision.patch（初回監査から）
+・docs/STATE-WIRE-LIMIT-20261027.md、証拠README、旧manifest、revision-manifest、同梱の初回監査報告
+・実装側の固定画面画像・測定記録は補助資料として扱い、今回撮影した実画面とは数えていない。
+
+revision-manifestの6エントリーは実ファイルSHA-256と一致。旧manifestはREADMEどおり初回監査HEADの歴史的な証拠であり、修正後ハッシュと取り違えていない。
+全差分26項目中25項目、修正差分10項目中9項目は、現在の実ファイル、差分hunk、Git blobハッシュ接頭辞の整合を確認。残りは両方ともZIPに実ファイルのないdocs/STATE.mdで、差分本文だけを確認した。実行コードの対象差分に未照合ファイルはない。
+基点state-wire.tsは同梱差分から逆適用で復元し、以前の添付から復元した基点とも一致。修正差分を逆適用した主要ファイルは初回監査ZIPの実ファイルと一致した。
+
+ZIPにGitオブジェクトはないため、GitHub上のPR状態、完全なcommit tree、配信中バージョンを独立認証したものではない。上記HEADは依頼・添付記録に対応する対象識別子であり、添付内容の同一性はZIPハッシュとファイル照合で確認した。
+
+3. 独立再現結果
+
+3.1 P2-01: BASTION確定斉射方向 — 解消
+
+関係箇所:
+・src/shared/state-wire.ts:6 / 12: Float64と2個のuint32の相互変換
+・同:72 / 75: wire側volleyにturnBitsを追加
+・同:98 / 130 / 176 / 188: 旧画面の確定volley.turnだけ精度を維持
+・同:198 / 245: 新旧×装備全量/キャッシュの4系統を分離
+・src/client/state-omissions.ts:10 / 17: キャッシュ格納・表示通知より前に復元
+・src/client/network.ts:269、src/client/front-network.ts:298: 両実受信経路から復元
+
+境界角21例、実際のstepBastionが確定した方向2,000例で、新画面の復元角は元のFloat64と一致。旧画面では承認された数値turnの例外が働き、turnBitsは送られない。負のゼロは新画面で保持、旧JSONでは0になるが方向差は生じない。
+
+前回の平地の再現点を、同じ権威処理と描画計算で再確認した。
+・元角度: 0.4049998011283004 rad
+・通常の2桁turn: 0.4
+・予告帯半幅: 0.8660254037844386 m
+・前回の点から丸め後予告中心線まで: 0.9752323002429399 m（帯の外）
+・修正後の新画面・旧画面: 約0.8 m（帯の内）
+・同じ権威ゲーム処理ではHP160→148。実弾・被弾を弱めて問題を隠していない。
+
+前回の壁角の再現条件では、丸め角による予告長9.807044283832386 mが、修正後の両形式では権威と同じ36 mになった。
+実際のBastionView.beginとThree.jsの行列生成も実行。平地・壁角とも、新旧の受信後に生成される予告レーン/コアの行列は元角度の参照計算と一致した。平地では参照288レーン片・12コアに対し丸めのみの対照290片、壁角では参照288片に対し対照273片となり、対照が差を検出できることも確認した。
+これはCPU側の実描画計算であり、GLB読み込みを抑制した検査である。WebGLの画像や実画面を今回撮影したとは扱わない。
+
+両Networkクラスの実受信コールバックで、各9状態、全量・装備キャッシュ・新旧形式・省略・復帰・不正bitsを通した。実Workerとは別に、これらのWebSocketだけを代替した検査である。
+実worker.tsのRoom.broadcastもコンテキスト/ソケット代替で実行し、生存戦/旧版ルーム、新旧送信順、初回全量/次回キャッシュ/同じbroadcast中の混在を48パケットで検査。角度形式、受信者情報、装備キャッシュに混線はなかった。実workerdの混在試験は後述の改装版12件にも含まれる。
+
+整数表現の不正値:
+配列以外、長さ不正、負数、uint32超過、小数、非数値、NaN/Infinityに復元されるビット列等の23例を検査。例外を投げず、既存のturnへフォールバックした。
+直接呼び出しで作る疎配列はArray.someが穴を読み飛ばすため別の扱いになるが、JSON通信では穴がnullとなり拒否される。現在のネットワーク経路の必須不具合とは判定しない。
+
+権威非破壊:
+送信処理を8回通したWorldと未送信の対照Worldから、実stepBastionで斉射を発射。12発の弾の方向を含む全項目と発射後World全体が一致した。権威WorldにturnBitsは追加されない。
+
+既存座標丸めとの区別:
+開始点(0.0049, 1.7049, 0.0049)は送信後(0, 1.7, 0)となり、約0.008487 mの位置差は残る。これは基点から存在した座標2桁化の影響。今回解消したのは追加されたturn量子化起因の誤差であり、あらゆる壁接触・座標・通信遅延で予告と実弾が完全一致すると保証するものではない。
+
+3.2 P2-02: 微小正HPが0になる問題 — 解消
+
+関係箇所:
+・src/shared/state-wire.ts:137 / 139 / 140: 正のhp/partHpで丸め結果が0の場合だけ0.01
+・src/client/foundry-worm.ts:74 / 427 / 437: 部位生存、表示、連結
+・src/client/render.ts:858 / 1362: 予告登録と部位表示
+
+頭部＋7節の全8部位について、0 / 0.001 / 0.004 / 0.005 / 0.006 / 0.02 / undefinedの56条件を検査した。
+
+入力              送信値        対象部位と連結 / レーザー予告
+0                 0             対象部位を隠し、隣接連結だけ切断 / 7部位分
+0.001、0.004       0.01          対象部位・全連結を維持 / 8部位分
+0.005、0.006       0.01          対象部位・全連結を維持 / 8部位分
+0.02              0.02          対象部位・全連結を維持 / 8部位分
+undefined         キー省略       既存の生存扱い・全連結を維持 / 8部位分
+
+他の7部位は生存させた条件での数値である。実際のFoundryWormView.updateとThree.js Object3Dのvisible、wormChainsを使い、実Renderer.foundryWarningが登録する対象を検査した。歩容計算・GLB資産と最終描画呼び出しは代替しており、実画面の検証とは分ける。
+
+前回の実ダメージ経路も頭部・中間節・尾節の3条件で再現した。初期部位HP1050に42発×24と2発×20.998の実hurtEnemy処理を行い、権威partHp=0.003999999999997783が残る。初回監査版では送信0・予告7部位分、修正後は送信0.01・予告8部位分となり、部位連結も戻った。
+通常hpもNumber.MIN_VALUEを含む7境界を検査し、プレイヤー・敵とも正数を0と誤送信しない。権威の実HPは変更されない。
+
+3.3 送信上限・選別順・必要情報
+
+固定条件は4人・混在96体（PLEAT48）・オーブ160・弾180・演出120。同じfixtureを基点復元ソースと修正後ソースに与え、UTF-8実バイト数を独立測定した。
+
+基点全量                         133,705 bytes
+基点の旧方式で演出を削除後       116,534 bytes
+修正後                            65,160 bytes
+
+修正後は演出120、オーブ160、敵32を省略し、弾180を維持。受信者の位置・個別情報を含む実パケットで判定している。日本語・絵文字の受信者情報を含む検査も実施し、JavaScript文字列長とUTF-8バイト長を取り違えていない。
+実sendEncodedの抽出実行で65,536 bytesは送信、削減不能の65,537 bytesは4009を確認。
+選別は古い演出→遠いオーブ→遠い敵。同距離ではIDを用いる。受信者別の位置・metadataを変えて結果とキャッシュの分離を確認した。演出内部は新しいIDの末尾集合を残し、種類別の重要度は付けていない。古いreviveより新しいhitを残す条件も再現した。これは今回の変更で導入された優先順位不具合ではない。
+
+固定fixtureの6体のBASTIONに確定斉射を追加した条件も別途検査。新旧、全量/装備キャッシュ、両送信順の16パケットで、新画面はすべて上限内（ちょうど65,536 bytesの例も含む）、元角度復元、弾180維持、World非破壊を確認。旧画面向けは全量の敵・オーブを保持して上限超過となり、従来の最終切断経路になる。この追加条件の数値を固定65,160 bytesの条件とは混同していない。
+
+敵は送信用射影で必要項目へ絞られ、PLEATの接地・姿勢、HARROWの動作時刻・区間、CALYX、BASTION、FOUNDRYの描画に用いる項目が残る。今回の修正で新たな内部コントローラ状態の流出、必要描画項目の脱落は確認しなかった。
+武器判定後はWeakSetで子オブジェクト・配列へ精度保持が伝播する。深い入れ子、入れ子内にhp/partHpというキーがある例、全量から装備キャッシュへの復元を新旧形式で検査し、値を保持した。
+サーバー時刻・戦闘権威・受信上限の変更は修正差分にない。初回からの時刻整合と受信上限は関連単体・統合試験で再確認した。BASTIONのphaseAtなど、承認例外でない小数が旧画面だけ高精度化されることもなかった。
+
+3.4 省略状態・キャッシュ寿命
+
+初回から未受信の敵/オーブ:
+省略IDだけでは位置・種別を作れないため、表示されない。架空の個体を補完しない。最初の実データを受信した時点で表示される。今回の「省略を理由に既存表示を即消滅させない」対策は、未受信個体の初回可視性を保証するものではない。
+
+連続省略:
+1,000回の省略で、最後に受信した位置・HP・攻撃状態を保持。今回のturn復元もキャッシュ格納前に行われ、復元済み角度が保持される。保持位置は古い位置であり、現在位置の外挿やTTLによる失効はない。危険な動作の古い表示が残り得るというフェーズ1の制約は継続する。
+
+復帰:
+新しい実データで位置・HP・攻撃状態・角度を置き換える。
+
+死亡・取得:
+次の権威スナップショットで実体と省略IDの両方から消えれば、キャッシュからも除去。以後の省略IDだけで復活させない。
+
+接続・run切替:
+新run、再接続、新しいキャッシュで旧個体を持ち越さない。両Networkクラスで再接続前の古いソケットからの遅延メッセージも無視した。
+
+装備:
+初回全量、同じ接続での省略、装備更新、run切替、再接続・attachmentからの復帰を検査。復帰時には装備送信済み状態を復元しないため、最初の装備を欠落させない。
+
+旧画面:
+省略能力通知がない画面には敵・オーブの部分送信をしない。密集状態で演出を削っても収まらない場合は4009が残る。「旧画面でも同じ密集状態を継続できる」という互換性ではない。
+
+3.5 能力通知とWorker/fixtureの境界
+
+helloは数値1だけでstateOmissionsが有効。未指定、null、boolean、0、2、文字列"1"、配列、objectを含む10条件を実Workerメソッドで確認。attachment復元はboolean trueだけ有効で、8条件を確認した。
+
+本体server/worker.ts、両Network、Wrangler設定、package/lockは初回監査から変更されていない。fixtureの新しい斉射状態セットアップはserver/testing.ts側に追加され、本体へ混入していない。
+通常wrangler.jsoncからWorker本体をdry-run bundle化した結果にも、TestRoom/TestGate、fixtureルート、front-wire-bastion/front-wire-dense、X-Test-Client、fixture生成関数の参照が入らないことを検索した。これはproduction設定そのものの完全build成功とは別の確認である。
+
+3.6 実行した標準試験と環境上の未完
+
+実行環境: Linux、Node 24.22.1、Vitest 5.0.0、Wrangler 4.129.0。
+package.jsonとpackage-lock.jsonが初回ZIPと同一であることを確認して、その監査用依存を使用した。
+製品ソースは編集せず、監査スクリプトを別ディレクトリに置いた。実ローカルWorkerには監査用の一時的な合成鍵を用い、実セーブ・本番資格情報は使用していない。
+
+client/worker typecheck: 成功。
+
+関連単体、ファイル別:
+・state-wire:          4 / 4
+・front-wire-pressure:10 / 10
+・front-feedback:      7 / 7
+・pleat-authority:     8 / 8
+・harrow:             38 / 38
+・calyx:              16 / 17
+・bastion:            35 / 36
+合計118 / 120成功。
+残2件はZIPにないCALYX GLB、BASTION音声資産へのアクセスで失敗。独立120件成功とは記載しない。WindowsのSSR一時ファイルENOENTは本環境では再現・原因調査していない。
+
+隔離ローカルWorker・改装版: 12 / 12成功。
+新旧画面混在の実WebSocket試験を含む。143秒の通し実行。
+
+別の隔離ローカルWorker・旧版: 12 / 13成功。
+残1件はtests/network.test.ts:568の証拠出力用git rev-parse HEADが、Git履歴のないZIP展開先で失敗。直前までの武器輸送・報酬・保存・再装備・不正装備拒否のassertには到達・通過しているが、テスト全体を成功とは数えない。104秒の通し実行。
+実装側で記録された負荷fixtureの応答待ち失敗は今回の通し試験では再現しなかった。その原因が判明・解決したとは判定していない。
+
+client build: ZIPにindex.htmlがなく失敗。独立成功なし。
+production設定のWorker dry-run: 指定されたdist資産がZIPにないため失敗。独立成功なし。
+通常設定のWorker本体dry-run: 成功（426.91 KiB、gzip 108.88 KiB）。
+buildに必要なファイルを推測で補って成功数を増やしていない。
+
+4. 必須指摘
+
+P0/P1/P2の新規必須指摘: 0件（1節の互換対象に対して）。
+
+前回P2-01:
+重要度P2 / 確定turnの丸めで予告帯外被弾・壁角の予告短縮が生じる条件。
+送信bits＋両受信復元と、承認された旧画面turn精度例外で解消。修正後の追加必須変更なし。
+
+前回P2-02:
+重要度P2 / 正のhpまたはpartHpが0へ丸められる条件。
+正数の最小送信値0.01で解消。0/正数/undefined、実部位連結・予告登録を確認。修正後の追加必須変更なし。
+
+互換範囲を636dcd4の継続利用まで拡張する場合の指摘:
+重要度P2。
+箇所: server/worker.ts:1212、src/shared/state-wire.ts:245、初回版のsrc/client/state-omissions.ts。
+条件: 636dcd4クライアントはstateOmissions:1を通知するがturnBitsを復元しない。4bbce83サーバーが新形式を選ぶため、角度0.4049998011283004が0.4のまま描画される。
+影響: 前回の壁角例で予告9.807 m、権威36 mの差が残る。
+最小案: 角度bits対応を別の能力として通知・保持し、未対応画面には承認された正確なturnを返す。既存stateOmissionsを敵/オーブ省略能力の判定として分離維持する。未公開の開発画面だけを対象とするなら、修正後画面への読み直しを運用前提として明示する。
+
+5. 任意事項
+
+・今後のプロトコル拡張では、省略能力と角度bits能力を別々に管理すると、途中版や段階配信の互換対象を明確にできる。
+・ZIP単体で実行できる監査用試験は、Git情報の証拠保存と機能assertを分離すると再現結果を読みやすい。実Git SHAを取得できない場合は「不明」と記録し、別値で偽装しない。
+・旧版の負荷fixture応答待ち失敗は、負荷状態・状態遷移・応答時刻を残して原因を追跡する余地がある。今回再現しなかったことだけで偶発事象と断定しない。
+・省略中の位置・姿勢が古いこと、初回未受信個体は表示されないことは、次フェーズでの可視性・通信設計の検討対象。今回の状態保持を現在位置の正しさと同一視しない。
+・restoreTurnを将来JSON以外にも公開するなら、疎配列を明示的に拒否する補強は可能。現行の実通信ではJSON変換後に拒否されるため、今回の必須項目ではない。
+
+6. 未確認範囲
+
+・実スマホ、実インターネット複数人、長時間実戦、長時間のCPU/メモリー安定性。
+・オーブの実画面、GLB/音声を含む完全なブラウザー描画、GPUラスタライズ。
+・実装側のclient build・production dry-run成功の独立再現。必要なindex.html、dist、public資産が対象ZIPにない。
+・WindowsのVitest一括ENOENT、実装側の旧版fixture初回待ち失敗の原因。
+・GitHubの実PR状態、mainへの反映・公開状況、636dcd4画面が配信・継続利用されているか。
+・合成条件を実戦での敵編成頻度・通信量分布・体感に一般化すること。
+・既存の座標丸めと遅延を含めた、全条件の予告と当たり判定の完全一致。
+
+7. 監査側の再現物
+
+作業基点:
+  /workspace/scratch/d074bf66a2f7/
+展開ソース:
+  audit-4bbce83/
+監査出力:
+  audit-work-4bbce83/
+
+主な結果ファイル:
+・parent/final-integrity.json
+・parent/patch-verification.json
+・parent/serializer-audit.mjs / serializer-result.json
+・parent/dense-active-volley-results.json
+・precision/precision-reaudit.mjs / precision-reaudit-result.json
+・precision/network-render-reaudit.mjs / network-render-reaudit-result.json
+・precision/authority-fire-reaudit.mjs / authority-fire-reaudit-result.json
+・receiver/receiver-reaudit.mjs / receiver-results.json
+・receiver/network-reaudit.mjs / network-results.txt
+・worker/worker-check.mjs / worker-check-result.json
+・各ファイルのvitest.log、legacy-integration.log
+
+標準コマンド:
+  npm run typecheck
+  node node_modules/vitest/vitest.mjs run --config vitest.front-integration.config.ts
+  node node_modules/vitest/vitest.mjs run --config vitest.integration.config.ts
+統合試験はwrangler.test.jsoncで起動した異なる隔離状態ディレクトリのローカルWorkerを使用し、環境変数で127.0.0.1:8789を明示した。
+
+検証終了後、監査用Workerを停止し、監査側で追加した一時的な.dev.varsを削除した。元ZIP全265ファイルの最終バイト照合は差分0件。
