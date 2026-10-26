@@ -29,4 +29,10 @@ base main `e91d7953bfda10150b4d14a9e5fcf8fe03d7841d`、branch `codex/coop-recrui
 
 ## 公開と残件
 
-公開前build・Worker dry-run・通常PR・配信確認は確認後に追記。既存の500kB超chunk警告は残る。実スマホ、OSの共有先選択、実インターネットの複数端末、本番Turnstileを完了する作成フローは未確認。独立監査は未実施。主担当モデルID/推論設定は未確認、子なし。
+[PR221](https://github.com/futsalife24-bot/swarm-front/pull/221)を通常merge。対象head `306df5ddee990c65295897af24186552a9eaef80`、公開ソースmain `b39851cafac72ff3f8cb55720c5e0e55b5382249`。merge前のチェック/ステータスは0件、mergeable cleanを確認し、バイパスなし。merge後clean mainからbuild・既存Worker dry-run・公開成功。
+
+Worker Version `be5906cc-c4a8-4fd5-b68c-0a6aabe8434a`、公開先 https://swarm-front.melosalife-24.workers.dev 。[配信証拠](evidence/coop-recruitment-20261026/delivery.json)の30ファイル（HTML/JS/CSS/manifest/icon）はSHA一致、health200/ok。試験用接続先8788の混入なし。配信版をGET専用ローカル中継5201で実Chrome表示し、生存/進撃の2方式、進撃の切替・空一覧・エラー0を確認。[招待](evidence/coop-recruitment-20261026/live-private.jpg)、[フリー](evidence/coop-recruitment-20261026/live-free.jpg)。隔離オリジンのため本番ドメインの人間確認・保存環境とは異なる。本番に試験部屋は作成していない。
+
+既存アカウントへのログインは本人が明示承認。管理画面の現在プラン無料/0ドル、当日155/100000リクエスト、10月1〜26日9.42kリクエストを公開前に確認。契約・権限・料金設定変更なし。HARROW公開時の確認記録を再利用し、DO使用量は未取得。
+
+既存の500kB超chunk警告は残る。実スマホ、OSの共有先選択、実インターネットの複数端末、本番Turnstileを完了する作成フローは未確認。独立監査は未実施。主担当モデルID/推論設定は未確認、子なし。
