@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-26T13:06:53.111Z",
+  "source": "既存アカウントのCloudflare管理画面",
+  "plan": "Workers Free / 0ドル / 現在の計画",
+  "todayRequests": 155,
+  "dailyRequestLimit": 100000,
+  "monthRequests": "9.42k",
+  "monthCpu": "6.13k ms",
+  "durableObjectUsage": "未取得",
+  "credentials": "記録しない",
+  "changes": "契約・権限・料金設定変更なし"
+}
