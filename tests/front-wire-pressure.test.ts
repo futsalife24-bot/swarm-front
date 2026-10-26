@@ -4,6 +4,8 @@ import { stripTypeScriptTypes } from "node:module";
 import { runInNewContext } from "node:vm";
 import { denseWireFixture } from "../scripts/state-wire-fixture";
 import { encodeState, prepareState } from "../src/shared/state-wire";
+import { bastionLanes } from "../src/shared/bastion";
+import { wormChains } from "../src/shared/worm";
 import { StateOmissionCache } from "../src/client/state-omissions";
 import { FrontNetwork } from "../src/client/front-network";
 import { Network } from "../src/client/network";
@@ -181,8 +183,14 @@ describe("密集時の状態送信", () => {
           ? new FrontNetwork("http://127.0.0.1")
           : new Network("http://127.0.0.1");
         const seen: number[][] = [];
-        net.onWorld = (world) =>
+        const turns: (number | undefined)[] = [];
+        net.onWorld = (world) => {
           seen.push(world.enemies.map((enemy) => enemy.id));
+          turns.push(
+            world.enemies.find((enemy) => enemy.kind === "bastion")?.bastion
+              ?.volley?.turn,
+          );
+        };
         net.connect("test");
         const socket = net.ws as unknown as Socket;
         socket.onopen?.();
@@ -193,10 +201,21 @@ describe("密集時の状態送信", () => {
           token: "test",
           ...(front ? { ruleset: "front-v1", frontOpening: 2 } : {}),
         });
-        const { w } = denseWireFixture(0);
-        w.enemies = w.enemies.slice(0, 2);
+        const { w, ids, metadata } = denseWireFixture(0);
+        const bastion = w.enemies.find((enemy) => enemy.kind === "bastion")!;
+        bastion.bastion!.volley = {
+          count: 6,
+          turn: 0.4049998011283004,
+          x: 0,
+          y: 2,
+          z: 0,
+        };
+        w.enemies = [w.enemies[0], bastion];
         w.front!.orbs = [];
         const missing = w.enemies[1].id;
+        const wireWorld = JSON.parse(
+          prepareState(w, 0, metadata).packet(ids[0]),
+        ).world;
         const state = (world: typeof w, omitted?: object) =>
           socket.message({
             type: "state",
@@ -205,14 +224,17 @@ describe("密集時の状態送信", () => {
             preparationGeneration: 0,
             omitted,
           });
-        state(w);
-        const shorter = structuredClone(w);
+        state(wireWorld);
+        const shorter = structuredClone(wireWorld);
         shorter.enemies.pop();
         state(shorter, { enemies: [missing], orbs: [] });
         state(shorter);
         expect(seen[0]).toContain(missing);
         expect(seen[1]).toContain(missing);
         expect(seen[2]).not.toContain(missing);
+        expect(turns[0]).toBe(0.4049998011283004);
+        expect(turns[1]).toBe(0.4049998011283004);
+        expect(turns[2]).toBeUndefined();
         clearInterval(net.timer);
       }
     } finally {
@@ -314,5 +336,113 @@ describe("密集時の状態送信", () => {
         rolls: { mag: 1.234567 },
       },
     });
+  });
+
+  it("残りHPが微小でも生存状態とFOUNDRYの予告を維持する", () => {
+    const { w, ids, metadata } = denseWireFixture(0);
+    w.events = [];
+    w.front!.orbs = [];
+    const worm = w.enemies.find((e) => e.kind === "boss")!;
+    w.enemies = [worm];
+    w.players[0].hp = 0.001;
+    worm.hp = 0.001;
+    worm.partHp = 0.004;
+    worm.segments![0].partHp = 0.004;
+    worm.segments![1].partHp = 0;
+    worm.segments![2].partHp = 0.005;
+    worm.segments![3].partHp = undefined;
+    const before = JSON.stringify(w);
+    const packet = JSON.parse(prepareState(w, 0, metadata).packet(ids[0]));
+    expect(packet.world.players[0].hp).toBeGreaterThan(0);
+    expect(packet.world.enemies[0].hp).toBeGreaterThan(0);
+    expect(packet.world.enemies[0].partHp).toBe(0.01);
+    expect(packet.world.enemies[0].segments[0].partHp).toBe(0.01);
+    expect(packet.world.enemies[0].segments[1].partHp).toBe(0);
+    expect(packet.world.enemies[0].segments[2].partHp).toBe(0.01);
+    expect(packet.world.enemies[0].segments[3]).not.toHaveProperty("partHp");
+    expect(wormChains(packet.world.enemies[0])).toEqual(wormChains(worm));
+    expect(JSON.stringify(w)).toBe(before);
+  });
+
+  it("BASTIONの予告方向は送受信後も権威側の弾道に一致する", () => {
+    const { w, ids, metadata } = denseWireFixture(0);
+    w.events = [];
+    w.front!.orbs = [];
+    const bastion = w.enemies.find((e) => e.kind === "bastion")!;
+    w.enemies = [bastion];
+    bastion.bastion!.volley = {
+      count: 6,
+      turn: 0.4049998011283004,
+      x: 1,
+      y: 2,
+      z: 3,
+    };
+    const before = JSON.stringify(w);
+    // 壁の端を狙うと、丸め誤差だけでも予告の長さが大きく変わる。
+    const blocks = [{ x: 3.25, z: 14, w: 4, d: 2, h: 3 }];
+    const expected = bastionLanes(bastion.bastion!.volley!, blocks);
+    const packet = JSON.parse(prepareState(w, 0, metadata).packet(ids[0]));
+    expect(packet.world.enemies[0].bastion.volley.turn).toBe(0.4);
+    const rounded = bastionLanes(
+      packet.world.enemies[0].bastion.volley,
+      blocks,
+    );
+    expect(rounded[0].length).toBeLessThan(expected[0].length);
+    expect(
+      packet.world.enemies[0].bastion.volley.turnBits.every(Number.isInteger),
+    ).toBe(true);
+    new StateOmissionCache().restore(packet.world, packet.omitted);
+    const actual = bastionLanes(packet.world.enemies[0].bastion.volley, blocks);
+    expect(actual).toEqual(expected);
+    expect(JSON.stringify(w)).toBe(before);
+  });
+
+  it("新旧画面が混在しても斉射方向の精度を各画面に合わせる", () => {
+    const { w, ids, metadata } = denseWireFixture(0);
+    w.events = [];
+    w.front!.orbs = [];
+    const bastion = w.enemies.find((enemy) => enemy.kind === "bastion")!;
+    w.enemies = [bastion];
+    bastion.bastion!.phaseAt = 8.123456;
+    bastion.bastion!.volley = {
+      count: 6,
+      turn: 0.4049998011283004,
+      x: 1,
+      y: 2,
+      z: 3,
+    };
+    const before = JSON.stringify(w);
+    const blocks = [{ x: 3.25, z: 14, w: 4, d: 2, h: 3 }];
+    const expected = bastionLanes(bastion.bastion!.volley!, blocks);
+    // 生存と旧版ルーム、装備キャッシュ、送信順の両方で混在を再現する。
+    for (const world of [w, { ...w, front: undefined }]) {
+      for (const equipmentCached of [false, true]) {
+        for (const order of [
+          [true, false, true],
+          [false, true, false],
+        ]) {
+          const state = prepareState(world, 0, metadata);
+          for (const supported of order) {
+            const packet = JSON.parse(
+              state.packet(ids[0], equipmentCached, -1, undefined, supported),
+            );
+            const projected = packet.world.enemies[0].bastion;
+            expect(projected.phaseAt).toBe(8.12);
+            if (supported) {
+              expect(projected.volley.turn).toBe(0.4);
+              expect(projected.volley.turnBits.every(Number.isInteger)).toBe(
+                true,
+              );
+              new StateOmissionCache().restore(packet.world, packet.omitted);
+            } else {
+              expect(projected.volley.turn).toBe(bastion.bastion!.volley!.turn);
+              expect(projected.volley).not.toHaveProperty("turnBits");
+            }
+            expect(bastionLanes(projected.volley, blocks)).toEqual(expected);
+          }
+        }
+      }
+    }
+    expect(JSON.stringify(w)).toBe(before);
   });
 });

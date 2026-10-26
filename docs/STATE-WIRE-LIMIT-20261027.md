@@ -8,7 +8,7 @@
 
 新クライアントは `stateOmissions: 1` をhelloで通知し、サーバーはWebSocketのattachmentにも能力を保持する。旧クライアントは従来どおり演出だけ省略し、必要情報だけで収まらない時は最終手段の4009切断が残る。旧版ルーム（frontなし）は従来の上限処理を維持。弾など削減対象外だけで上限を超えた場合も4009は残る。既存装備キャッシュの初回・再接続条件は維持。
 
-武器とその入れ子の能力値は従来通り丸めない。その他の送信小数は2桁に丸め、整数は維持する。サーバーの期限は変えず、生存戦の送信する帰還時刻と復帰期限だけ同じ10ms精度で整合させる。
+武器とその入れ子の能力値は従来通り丸めない。その他の送信小数は2桁に丸め、整数は維持する。例外として本人が承認した、旧画面に送るBASTIONの確定斉射角だけは従来精度を維持する。サーバーの期限は変えず、生存戦の送信する帰還時刻と復帰期限だけ同じ10ms精度で整合させる。
 
 ## 敵の送信項目
 
@@ -16,7 +16,11 @@
 
 **送らない敵項目と理由:** `harrowSwitchAt, harrowAirDamage, pollenReadyAt, defenseAggroUntil, foundryTriggered, foundrySource, navigation, lungeWait, steerUntil, steerAngle, wallCooldown, jumpFrom, jumpWait, flightUntil, flightHeight` は権威側の制御・再出現・移動計画・待ち時間で、上記クライアントの表示/音は直接参照しない。頭と節の `route, trail, trailOwner, trailOffset, groundPath, groundGoal, groundRepathAt, groundChasing` はFOUNDRYの経路履歴で、表示に必要な解決済み位置・向きは別に送る。HARROWの `fired, hitIds` は権威側の発射済み・命中済み管理。BASTIONの `hitAt, gainAt, tickAt, tickReduction, tickChained, readyAt, counters, streak, streakAt, streakTick, shot, guard, aimReadyAt` は権威側の耐性・内部タイマーで、描画に必要な装甲・予告は維持する。PLEATの `anchor, normal, velocity, travel, transfer, settling, switches` や足の制御目標・内部時間は従来から送っていない。これらをWorldから削除する処理ではない。
 
-数値丸めは予告の精度にも影響する。例としてBASTIONの斉射向き `turn` の最大丸め誤差0.005radは36m先で約0.18mに相当する。位置・向きの2桁化は本人指定だが、この影響が実画面の予告として十分かは未確認。独立監査で判定対象とする。
+独立監査では `636dcd48780fb25b20d74b79967e4edc85c8f4e6` を「要修正」と判定。BASTIONの斉射向きの丸めで、赤い予告の外でも被弾するP2と、FOUNDRYの正の部位HPが0に丸められ予告が消えるP2を再現した。監査先: https://chatgpt.com/c/6adfcc01-02f8-83e8-bfb9-c4c7d95f0d56 。監査側の独立実行範囲と未確認は同回答を参照。
+
+正の `hp` / `partHp` が0になる場合は送信値を0.01とし、生存・部位破壊の判定を保つ。BASTIONの `turn` は新画面には通常の2桁値に加えて浮動小数点のビット列を整数2個で送り、受信時に正確な方向を復元する。本人が2026-10-27に旧画面だけの精度例外を承認したため、能力通知のない旧画面には確定斉射の `turn` だけ従来精度で送る。新旧の送信文字列キャッシュは分離する。いずれも権威Worldや弾道は変えない。再現テストは新旧画面の送信順・装備キャッシュ・生存と旧版ルーム・壁際のレーン・部位の連結状態を検査した。修正後の独立再監査は未実施。
+
+修正後、client/worker型・client build・production設定のWorker dry-runが成功。関連単体はファイル別に120件成功。隔離Workerの改装版12件は新旧画面混在の実WebSocketを含め成功、旧版13件も通し直して成功した。固定合成条件のサイズは65,160バイトのまま。Windows上のVitest一括実行2回はSSR一時ファイルENOENTで失敗し、ファイル別に切り替えた。以前の旧版実通信1回は作業中のソース編集でWorkerが再読込され、13件中1件が応答待ちで失敗した。今回の旧版全体の最初の実行も13件中1件が負荷fixtureの応答待ちで失敗し、同じ試験の単独再実行と、受付履歴を分けた新Workerでの13件通し直しは成功した。後者の最初の失敗原因は未確定。基点にも蘇生直後の放置判定はあるが、今回の失敗との因果関係は確認していない。
 
 ## 固定条件のサイズ
 
@@ -38,6 +42,6 @@ client/worker型とbuild成功。関連単体7ファイル117件成功（混雑�
 
 実Rendererのローカル合成画面で、[省略前](evidence/state-wire-limit-20261027/visual-before.png)、[省略中](evidence/state-wire-limit-20261027/visual-omitted.png)、[サーバーからの消滅後](evidence/state-wire-limit-20261027/visual-removed.png)を目視し、画面エラー0。`scripts/state-wire-visual.html` で再現できる。敵1体の表示と内部オーブ数を確認したもので、オーブ自体の描画、実戦の移動、実スマホは未確認。
 
-本人が独立監査を希望。監査用資料の準備・送信・独立判定は別状態として扱う。実スマホ・実インターネット多人数・長時間の実戦は未確認。機能追加・描画負荷改善・オーブ差分送信・敵の低頻度化は未実装。
+実スマホ・実インターネット多人数・長時間の実戦は未確認。機能追加・描画負荷改善・オーブ差分送信・敵の低頻度化は未実装。
 
 フェーズ2案（未着手）: 敵の種類/maxHp/size等の不変値を初回のみ配信、オーブの追加・削除差分、遠方敵の低頻度送信、`render.ts` のVector3再利用と種類分類の1回化、爆炎のスマホ向け大きさ・同時数上限。復帰・欠落・世代交代の整合と視認性を設計してから別途判断する。

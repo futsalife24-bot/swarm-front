@@ -1,4 +1,5 @@
 import type { Enemy, World } from "../shared/game";
+import { restoreTurn } from "../shared/state-wire";
 
 /** 省略された個体だけを保持し、次の確定状態で消えた個体は取り除く。 */
 export class StateOmissionCache {
@@ -7,6 +8,14 @@ export class StateOmissionCache {
   private orbs = new Map<number, NonNullable<World["front"]>["orbs"][number]>();
 
   restore(world: World, omitted: unknown) {
+    for (const enemy of world.enemies) {
+      const volley = enemy.bastion?.volley as
+        | (NonNullable<NonNullable<Enemy["bastion"]>["volley"]> & {
+            turnBits?: unknown;
+          })
+        | undefined;
+      if (volley) volley.turn = restoreTurn(volley.turnBits) ?? volley.turn;
+    }
     if (world.run !== this.run) {
       this.run = world.run;
       this.enemies.clear();

@@ -1,5 +1,29 @@
 import type { Enemy, World, Player } from "./game";
 
+const turnView = new DataView(new ArrayBuffer(8));
+
+/** 確定斉射の角度を、精度を失わず整数2個として送る。 */
+function turnBits(turn: number): [number, number] {
+  turnView.setFloat64(0, turn);
+  return [turnView.getUint32(0), turnView.getUint32(4)];
+}
+
+/** 不正な表現は無視し、従来の角度をそのまま使う。 */
+export function restoreTurn(bits: unknown): number | undefined {
+  if (
+    !Array.isArray(bits) ||
+    bits.length !== 2 ||
+    bits.some(
+      (part) => !Number.isInteger(part) || part < 0 || part > 0xffffffff,
+    )
+  )
+    return undefined;
+  turnView.setUint32(0, bits[0]);
+  turnView.setUint32(4, bits[1]);
+  const turn = turnView.getFloat64(0);
+  return Number.isFinite(turn) ? turn : undefined;
+}
+
 /** 描画に必要な情報だけを送る。権威側の敵データは変更しない。 */
 function wireEnemy(e: Enemy) {
   return {
@@ -45,7 +69,11 @@ function wireEnemy(e: Enemy) {
       armor: e.bastion.armor,
       phase: e.bastion.phase,
       phaseAt: e.bastion.phaseAt,
-      volley: e.bastion.volley,
+      volley: e.bastion.volley && {
+        ...e.bastion.volley,
+        // 壁際を含め予告と実弾の方向を揃える。
+        turnBits: turnBits(e.bastion.volley.turn),
+      },
       aim: e.bastion.aim,
     },
     pleat: e.pleat,
@@ -63,6 +91,14 @@ function wireEnemy(e: Enemy) {
 
 /** 武器能力は端数も含めて維持し、その他の小数は小数点以下2桁にする。 */
 export function encodeState(data: unknown): string {
+  return encodeStateWithLegacyTurn(data);
+}
+
+/** 旧画面の確定斉射だけは、承認された例外として元の精度を保つ。 */
+function encodeStateWithLegacyTurn(
+  data: unknown,
+  exactVolley?: object,
+): string {
   const weapons = new WeakSet<object>();
   return JSON.stringify(data, function (key, value) {
     // Replicate solved PLEAT contacts/pose, not server-only ray search and springs.
@@ -91,12 +127,20 @@ export function encodeState(data: unknown): string {
         weapons.add(value);
       return value;
     }
-    return !inWeapon &&
+    if (this === exactVolley && key === "turn") return value;
+    if (
+      !inWeapon &&
       typeof value === "number" &&
       !Number.isInteger(value) &&
       Math.abs(value) < Number.MAX_VALUE / 100
-      ? Math.round(value * 100) / 100
-      : value;
+    ) {
+      const rounded = Math.round(value * 100) / 100;
+      // 微小な正のHPが0になると、生存中の敵や部位が撃破扱いになる。
+      return (key === "hp" || key === "partHp") && value > 0 && rounded === 0
+        ? 0.01
+        : rounded;
+    }
+    return value;
   });
 }
 
@@ -127,9 +171,34 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
   const allEnemiesWire = commonEnemies
     .map((enemy) => enemyWires.get(enemy.id)!)
     .join(",");
+  const modernEnemySet = { byId: enemyWires, all: allEnemiesWire };
+  let legacyEnemySet: typeof modernEnemySet | undefined;
+  const getLegacyEnemySet = () => {
+    if (legacyEnemySet) return legacyEnemySet;
+    let byId: Map<number, string> | undefined;
+    for (const enemy of commonEnemies) {
+      const volley = enemy.bastion?.volley;
+      if (!volley) continue;
+      const { turnBits: _turnBits, ...legacyVolley } = volley;
+      const projected = {
+        ...enemy,
+        bastion: { ...enemy.bastion!, volley: legacyVolley },
+      };
+      byId ??= new Map(enemyWires);
+      byId.set(enemy.id, encodeStateWithLegacyTurn(projected, legacyVolley));
+    }
+    return (legacyEnemySet = byId
+      ? {
+          byId,
+          all: commonEnemies.map((enemy) => byId!.get(enemy.id)!).join(","),
+        }
+      : modernEnemySet);
+  };
   const eventWires = commonEvents.map((event) => encodeState(event));
   const full = new Map<number, string>();
   const cached = new Map<number, string>();
+  const legacyFull = new Map<number, string>();
+  const legacyCached = new Map<number, string>();
   const tail = encodeState(metadata).slice(1, -1);
   return {
     equipmentKey: JSON.stringify([
@@ -173,12 +242,21 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
         orbs?: NonNullable<World["front"]>["orbs"],
         omitted?: { enemies: number[]; orbs: number[] },
       ) => {
-        const cache = equipmentCached ? cached : full;
+        const cache = partialSupported
+          ? equipmentCached
+            ? cached
+            : full
+          : equipmentCached
+            ? legacyCached
+            : legacyFull;
+        const enemySet = partialSupported
+          ? modernEnemySet
+          : getLegacyEnemySet();
         let encoded = enemies ? undefined : cache.get(count);
         if (encoded === undefined) {
           const enemyWire = enemies
-            ? enemies.map((enemy) => enemyWires.get(enemy.id)!).join(",")
-            : allEnemiesWire;
+            ? enemies.map((enemy) => enemySet.byId.get(enemy.id)!).join(",")
+            : enemySet.all;
           const eventWire = count ? eventWires.slice(-count).join(",") : "";
           encoded = `${commonPrefix},"players":${equipmentCached ? cachedPlayerWire : playerWire},"enemies":[${enemyWire}],"events":[${eventWire}]`;
           if (!enemies) cache.set(count, encoded);

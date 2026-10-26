@@ -49,6 +49,23 @@ export class TestRoom extends Room {
     }
     if (u.pathname === "/fixture") {
       this.stop();
+      if (u.searchParams.get("case") === "front-wire-bastion") {
+        const run = this.saved.frontRun;
+        if (!run || run.mode !== "survival")
+          return new Response("生存戦が必要です", { status: 409 });
+        run.world.enemies = [];
+        const enemy = spawn(run.world, "bastion", 0, 0)!;
+        enemy.bastion!.phase = "warn";
+        enemy.bastion!.volley = {
+          count: 6,
+          turn: 0.4049998011283004,
+          x: 1,
+          y: 2,
+          z: 3,
+        };
+        this.broadcast();
+        return Response.json({ ok: true });
+      }
       if (u.searchParams.get("case") === "front-wire-dense") {
         const run = this.saved.frontRun;
         if (!run || run.mode !== "survival" || run.world.players.length !== 4)
@@ -396,7 +413,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-wire-dense)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-wire-dense|front-wire-bastion)$/.exec(
         u.pathname,
       );
     if (match && req.method === "POST") {

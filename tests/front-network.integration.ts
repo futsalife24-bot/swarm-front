@@ -8,6 +8,7 @@ import {
   FRONT_INITIAL_CARDS,
 } from "../src/shared/front-upgrades";
 import { neutral } from "../src/shared/game";
+import { restoreTurn } from "../src/shared/state-wire";
 const base = process.env.SWARM_TEST_SERVER_URL ?? "http://127.0.0.1:8789",
   clients: Client[] = [];
 class Client {
@@ -103,12 +104,19 @@ async function team(
   count: number,
   mode = "defense",
   growth: boolean | 3 = true,
-  stateOmissions = false,
+  stateOmissions: boolean | boolean[] = false,
 ) {
   const entry = await room(mode),
     members: Client[] = [];
   for (let i = 0; i < count; i++) {
-    const c = new Client(entry.code, "", growth, 2, 2, stateOmissions);
+    const c = new Client(
+      entry.code,
+      "",
+      growth,
+      2,
+      2,
+      Array.isArray(stateOmissions) ? stateOmissions[i] : stateOmissions,
+    );
     await c.wait((m) => m.type === "welcome");
     members.push(c);
     c.send({
@@ -149,6 +157,44 @@ async function team(
   return { entry, members, states };
 }
 describe("改装版の実通信", () => {
+  it("新旧画面が混在する実通信でもBASTIONの予告方向を維持する", async () => {
+    const { entry, members } = await team(2, "survival", 3, [true, false]);
+    const offsets = members.map((member) => member.messages.length);
+    const response = await fetch(
+      `${base}/fixtures/${entry.code}/front-wire-bastion`,
+      { method: "POST" },
+    );
+    expect(response.status).toBe(200);
+    const packets = await Promise.all(
+      members.map((member, index) =>
+        member.wait(
+          (m) =>
+            m.type === "state" &&
+            m.world.enemies.some((e: any) => e.kind === "bastion"),
+          offsets[index],
+        ),
+      ),
+    );
+    const modern = packets[0].world.enemies[0].bastion.volley;
+    const legacy = packets[1].world.enemies[0].bastion.volley;
+    expect(modern.turn).toBe(0.4);
+    expect(restoreTurn(modern.turnBits)).toBe(0.4049998011283004);
+    expect(legacy.turn).toBe(0.4049998011283004);
+    expect(legacy).not.toHaveProperty("turnBits");
+    expect(
+      members.every((member) => member.ws.readyState === WebSocket.OPEN),
+    ).toBe(true);
+    const snapshot = await fetch(`${base}/fixtures/${entry.code}/snapshot`, {
+      method: "POST",
+    });
+    const authority = await snapshot.json();
+    expect(authority.world.enemies[0].bastion.volley.turn).toBe(
+      0.4049998011283004,
+    );
+    expect(authority.world.enemies[0].bastion.volley).not.toHaveProperty(
+      "turnBits",
+    );
+  });
   it("4人の密集状態を省略可能なクライアントへ送り、切断せず権威状態を維持する", async () => {
     const { entry, members } = await team(4, "survival", 3, true);
     const offsets = members.map((member) => member.messages.length);
