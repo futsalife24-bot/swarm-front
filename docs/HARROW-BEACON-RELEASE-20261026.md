@@ -33,3 +33,4 @@
 
 Dash/爆撃の4視点24画面取得成功。資産・実行時エラー0。密集Dash、密集爆撃、壁爆撃の3画面を再目視し、密集で上部の目印が見え、壁は貫通しないことを確認。証拠: [検証情報](evidence/harrow-beacon-release-20261026/verification.json)、[表示状態](evidence/harrow-beacon-release-20261026/results.json)。
 
+公開前build成功。既存の500kB超chunk警告は残存。対象4ファイルPrettier成功。
