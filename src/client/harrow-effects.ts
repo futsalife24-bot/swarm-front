@@ -10,6 +10,7 @@ import { supportHeight } from "../shared/terrain";
 import type { Block } from "../shared/defs";
 import { TerrainProjectedMarkers } from "./terrain-projected-marker";
 import { HarrowSpinEffects } from "./harrow-spin-effects";
+import { HarrowWarningBeacons } from "./harrow-warning-beacons";
 import {
   redWarningAfterStart,
   redWarningBeforeLaunch,
@@ -95,6 +96,7 @@ export class HarrowEffects {
   private readonly up = new T.Vector3(0, 1, 0);
   private readonly unit = new T.Vector3(1, 1, 1);
   private readonly spin = new HarrowSpinEffects();
+  private readonly beacons = new HarrowWarningBeacons();
   constructor() {
     this.clawOutlineGeometry.setAttribute(
       "position",
@@ -127,6 +129,7 @@ export class HarrowEffects {
       this.dashFills,
     );
     this.root.add(this.spin.root);
+    this.root.add(this.beacons);
   }
   update(
     w:
@@ -139,6 +142,7 @@ export class HarrowEffects {
           >)
       | null,
   ) {
+    this.beacons.begin();
     let markers = 0,
       bodies = 0,
       warnings = 0,
@@ -169,6 +173,7 @@ export class HarrowEffects {
           attack.kind === "Dash" && redWarningAfterStart(age, HARROW.dashWind);
         if (!spin && !dive && !dash) continue;
         if (dash) {
+          const firstDisc = dashDiscs;
           const from = attack.from ?? enemy;
           const position = { x: from.x, y: from.y, z: from.z };
           const interval = HARROW.dashDistance / 60;
@@ -187,6 +192,13 @@ export class HarrowEffects {
               dashDiscs++,
               position,
               HARROW.dashRadius,
+              blocks,
+            );
+          }
+          if (dashDiscs > firstDisc) {
+            this.beacons.addMarker(this.dashFills.ringInfo(firstDisc)!, blocks);
+            this.beacons.addMarker(
+              this.dashFills.ringInfo(dashDiscs - 1)!,
               blocks,
             );
           }
@@ -218,13 +230,20 @@ export class HarrowEffects {
         if (
           markers < this.capacity &&
           redWarningBeforeLaunch(w.time, missile.launch, wind)
-        )
+        ) {
           this.markers.setRing(
             markers++,
             missile.target,
             missile.radius,
             blocks,
           );
+          // 爆撃だけを補助。発射元が次の動作へ移っても着弾までは既存予告と揃える。
+          if (
+            missile.trajectory === "straight" &&
+            missile.radius === HARROW.bombRadius
+          )
+            this.beacons.addMarker(missile.target, blocks);
+        }
         if (w.time < missile.launch) continue;
         const p = harrowMissilePosition(missile, w.time);
         const next = harrowMissilePosition(
@@ -246,6 +265,7 @@ export class HarrowEffects {
     this.warnings.setCount(warnings);
     this.clawFills.setCount(claws);
     this.dashFills.setCount(dashDiscs);
+    this.beacons.finish();
     if (!claws) this.clawOutlineGeometry.setDrawRange(0, 0);
     for (const mesh of [this.bodies, this.tails])
       mesh.instanceMatrix.needsUpdate = true;
@@ -302,6 +322,7 @@ export class HarrowEffects {
     position.needsUpdate = true;
   }
   dispose() {
+    this.beacons.dispose();
     this.spin.dispose();
     for (const mesh of [
       this.markers,

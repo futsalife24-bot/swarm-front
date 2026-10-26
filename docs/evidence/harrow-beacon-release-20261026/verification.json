@@ -1,0 +1,27 @@
+{
+  "clientTypecheck": "passed",
+  "files": [
+    {
+      "sha256": "6f43259e8557c20976822f4d147d68c5019e9673f646d2472e3bd7640c086976",
+      "path": "src/client/harrow-effects.ts"
+    },
+    {
+      "sha256": "9ed391e57cb0b7f56bba54d6cfc3f1053c62783d89d0cc7b926cd89088b2f2b7",
+      "path": "src/client/harrow-warning-beacons.ts"
+    },
+    {
+      "sha256": "738ae40ac2ec4f73354f5f94631946de6c505ed06ad5c90e3ed95381df62a61b",
+      "path": "tests/front-harrow-beacons.test.ts"
+    },
+    {
+      "sha256": "3b05dcc1099855a899254330b7c9af5b0b65dc3e5cc384ae9aa5efacbcd675c2",
+      "path": "scripts/check-play-polish-harrow-matrix.mjs"
+    }
+  ],
+  "base": "e455c2473e575f5d4782311b91bb9ffc70ceb548",
+  "workerTypecheck": "passed",
+  "tests": 62,
+  "visualReview": "密集Dash・密集爆撃・壁爆撃の3画面を再目視。元版24画面の目視済み記録も保持。",
+  "limitations": "実スマホ、実聴、動く実戦、長時間性能、独立監査は未確認",
+  "browserFrames": 24
+}
