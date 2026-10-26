@@ -8,10 +8,12 @@ const key = /^ROOM_CREATION_KEY="([a-f0-9]{64})"/m.exec(
 )?.[1];
 assert(key, "既存のローカル試験キーが必要です");
 const sockets = [];
-const record = { checks: [], rooms: [] };
+const front = !process.argv.includes("--campaign");
+const query = front ? "?ruleset=front-v1" : "";
+const record = { operation: front ? "生存" : "進撃", checks: [], rooms: [] };
 async function connect(code) {
   const ws = new WebSocket(
-    `${base.replace("http", "ws")}/rooms/${code}?ruleset=front-v1`,
+    `${base.replace("http", "ws")}/rooms/${code}${query}`,
   );
   sockets.push(ws);
   return new Promise((resolve, reject) => {
@@ -20,9 +22,9 @@ async function connect(code) {
       ws.send(
         JSON.stringify({
           type: "hello",
-          frontGrowth: 3,
-          frontCatalog: 2,
-          frontOpening: 2,
+          ...(front
+            ? { frontGrowth: 3, frontCatalog: 2, frontOpening: 2 }
+            : {}),
         }),
       );
     ws.onmessage = (event) => {
@@ -50,17 +52,14 @@ try {
       body: JSON.stringify({
         name: listed ? "検証フリー部隊" : "検証招待部隊",
         listed,
-        ruleset: "front-v1",
-        mode: "survival",
+        ...(front ? { ruleset: "front-v1", mode: "survival" } : {}),
       }),
     });
     assert.equal(response.status, 200);
     const entry = await response.json();
     const host = await connect(entry.code);
     assert.equal(host.roomId, entry.roomId);
-    const resolved = await fetch(
-      `${base}/rooms/${entry.roomId}?ruleset=front-v1`,
-    );
+    const resolved = await fetch(`${base}/rooms/${entry.roomId}${query}`);
     assert.equal(resolved.status, 200);
     const { code } = await resolved.json();
     assert.equal(code, entry.code);
@@ -75,8 +74,7 @@ try {
   // ディレクトリ更新はRoomから非同期で届くため、上限付きで待つ。
   let rooms = [];
   for (let i = 0; i < 30; i++) {
-    rooms = (await (await fetch(`${base}/rooms?ruleset=front-v1`)).json())
-      .rooms;
+    rooms = (await (await fetch(`${base}/rooms${query}`)).json()).rooms;
     if (
       rooms.some((r) => r.roomId === record.rooms[1].roomId && r.players === 2)
     )
@@ -93,12 +91,14 @@ try {
     "公開部屋は2人で一覧に出る",
     "内部コードは一覧に出ない",
   );
-  const other = await fetch(`${base}/rooms/${record.rooms[0].roomId}`);
+  const other = await fetch(
+    `${base}/rooms/${record.rooms[0].roomId}${front ? "" : "?ruleset=front-v1"}`,
+  );
   assert.equal(other.status, 404);
-  record.checks.push("旧版ルールとの分離を維持");
+  record.checks.push("進撃・生存のルール分離を維持");
   fs.mkdirSync("dist-validation/coop-recruitment", { recursive: true });
   fs.writeFileSync(
-    "dist-validation/coop-recruitment/network.json",
+    `dist-validation/coop-recruitment/network-${front ? "survival" : "campaign"}.json`,
     JSON.stringify(record, null, 2),
   );
   console.log(`${record.checks.length}条件成功（実Worker・実WebSocket）`);

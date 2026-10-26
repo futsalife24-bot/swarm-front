@@ -335,6 +335,14 @@ body #ui .room-browser label {
   align-items: center;
 }
 body #ui .room-browser .room-create {
+  overflow: hidden;
+}
+.room-create-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
 }
 body #ui .room-browser .coop-advanced .join {

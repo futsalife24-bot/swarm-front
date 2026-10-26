@@ -10,13 +10,20 @@ const esc = (s: string) =>
         c
       ]!,
   );
+export function setRoomBrowserBusy(root: HTMLElement, busy: boolean) {
+  root.dataset.roomBusy = String(busy);
+  for (const button of root.querySelectorAll<HTMLButtonElement>(
+    "[data-room-access], #launch, #room-join, #room-refresh",
+  ))
+    button.disabled = busy;
+}
 /** 招待で集まる部屋と、一覧から入る部屋を切り替える。 */
 export function roomBrowserMarkup(endpoint: string, status: string) {
   return `<section class="panel room-entry room-browser"><header><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力プレイ</h1></div><button id="home">タイトルへ</button></header>
   <div class="room-access" role="group" aria-label="募集方法"><button type="button" data-room-access="private" aria-pressed="true">パスワード付き</button><button type="button" data-room-access="public" aria-pressed="false">フリーマッチング</button></div>
   <p id="room-access-help" class="fine">招待リンクか参加用パスワードを共有して、仲間と集まります。一覧には表示されません。</p>
   <input id="room-visibility" type="hidden" value="private">
-  <div class="room-browser-columns"><section class="room-create"><h2>部屋を作る</h2><label>部屋名<input id="room-name" maxlength="24" value="協力部隊" autocomplete="off"></label><div id="turnstile-room-create" aria-label="ルーム作成の人間確認"></div><p id="turnstile-status" class="fine"></p><button class="primary" id="launch">部屋を作る ↗</button></section>
+  <div class="room-browser-columns"><section class="room-create"><div class="room-create-fields"><h2>部屋を作る</h2><label>部屋名<input id="room-name" maxlength="24" value="協力部隊" autocomplete="off"></label><div id="turnstile-room-create" aria-label="ルーム作成の人間確認"></div><p id="turnstile-status" class="fine"></p></div><button class="primary" id="launch">部屋を作る ↗</button></section>
   <section class="room-browse"><header><h2 id="room-browse-title">招待で参加する</h2><button id="room-refresh" hidden>更新</button></header><form id="room-join-form"><label class="sr-only" for="room-id">参加用パスワードまたは招待リンク</label><input id="room-id" maxlength="2048" placeholder="参加用パスワード / 招待リンク" autocomplete="off" autocapitalize="off" spellcheck="false"><button id="room-join" type="submit">参加</button></form><p id="room-list-status" role="status">部屋主から届いた8文字のパスワードか招待リンクを入力してください。</p><div id="room-list" aria-label="公開部屋一覧" hidden></div></section></div>
   <details class="coop-advanced"><summary>接続先を手動設定（開発用）</summary><div class="join"><input id="endpoint" aria-label="協力サーバー" value="${esc(endpoint)}"><input id="creation-key" type="password" aria-label="ローカル作成キー" placeholder="ローカル作成キー" autocomplete="off" maxlength="256"></div></details><p class="status" role="status">${esc(status)}</p></section>`;
 }
@@ -66,7 +73,7 @@ export function bindRoomBrowser(
     return value;
   }
   async function enter(value: string) {
-    if (joining) return;
+    if (joining || root.dataset.roomBusy === "true") return;
     revision++;
     refreshButton.disabled = false;
     const id = parseRoomEntry(value, location.href, ruleset);
@@ -76,6 +83,11 @@ export function bindRoomBrowser(
       return;
     }
     joining = true;
+    root.dataset.roomBusy = "true";
+    const launch = root.querySelector<HTMLButtonElement>("#launch")!;
+    const launchWasDisabled = launch.disabled;
+    launch.disabled = true;
+    root.querySelector<HTMLButtonElement>("#room-join")!.disabled = true;
     for (const button of accessButtons) button.disabled = true;
     try {
       status.textContent = "部屋を確認しています…";
@@ -90,11 +102,19 @@ export function bindRoomBrowser(
       if (root.isConnected) status.textContent = (e as Error).message;
     } finally {
       joining = false;
+      root.dataset.roomBusy = "false";
+      launch.disabled = launchWasDisabled;
+      root.querySelector<HTMLButtonElement>("#room-join")!.disabled = false;
       for (const button of accessButtons) button.disabled = false;
     }
   }
   async function refresh() {
-    if (joining || visibility.value !== "public") return;
+    if (
+      joining ||
+      root.dataset.roomBusy === "true" ||
+      visibility.value !== "public"
+    )
+      return;
     const current = ++revision;
     refreshButton.disabled = true;
     status.textContent = "公開部屋を探しています…";
@@ -126,11 +146,12 @@ export function bindRoomBrowser(
       if (root.isConnected && current === revision)
         status.textContent = (e as Error).message;
     } finally {
-      if (current === revision) refreshButton.disabled = false;
+      if (current === revision)
+        refreshButton.disabled = root.dataset.roomBusy === "true";
     }
   }
   function selectAccess(access: string) {
-    if (joining) return;
+    if (joining || root.dataset.roomBusy === "true") return;
     const isPublic = access === "public";
     visibility.value = isPublic ? "public" : "private";
     revision++;

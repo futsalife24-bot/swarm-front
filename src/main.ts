@@ -29,7 +29,11 @@ import { playerName, addPlayerNameSetting } from "./client/player-profile";
 import { enhanceGameSelects, syncGameSelects } from "./client/game-select";
 import { updateScopeButtons } from "./client/layout";
 import "./client/coop-lobby.css";
-import { roomBrowserMarkup, bindRoomBrowser } from "./client/room-browser";
+import {
+  roomBrowserMarkup,
+  bindRoomBrowser,
+  setRoomBrowserBusy,
+} from "./client/room-browser";
 import { homeMarkup } from "./client/home-screen";
 import { navigateMenu } from "./client/menu-route";
 import { mountScreenTransitions } from "./client/screen-transition";
@@ -1020,6 +1024,9 @@ function solo() {
   void loadBattle(true);
 }
 async function connect(create: boolean, restore = false, joinCode?: string) {
+  const entry = ui.querySelector<HTMLElement>(".room-browser");
+  if (create && entry?.dataset.roomBusy === "true") return;
+  if (create && entry) setRoomBrowserBusy(entry, true);
   const requestedStage = selectedStage;
   status = "接続中…";
   const previous = restore ? loadNetworkSession() : null;
@@ -1115,6 +1122,7 @@ async function connect(create: boolean, restore = false, joinCode?: string) {
       if (create) network!.send({ type: "stage", stage: requestedStage });
       myId = network!.id;
     };
+    const creatingNetwork = network;
     if (create) {
       const options = {
         name:
@@ -1139,6 +1147,11 @@ async function connect(create: boolean, restore = false, joinCode?: string) {
     }
     if (!/^[a-f0-9]{32}$/.test(code))
       throw new Error("招待コードは32文字の英数字です");
+    if (create && entry && !entry.isConnected) {
+      creatingNetwork.close();
+      if (network === creatingNetwork) network = undefined;
+      return;
+    }
     netFatal = false;
     network.connect(code, token);
     lobby();

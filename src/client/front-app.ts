@@ -48,7 +48,11 @@ import { operationCueForResult } from "./operation-cue-assets";
 import { frontResultTitle } from "./front-result-title";
 import { openWeaponWorkshop } from "./weapon-workshop-ui";
 import type { NewWeapon } from "../shared/progression";
-import { roomBrowserMarkup, bindRoomBrowser } from "./room-browser";
+import {
+  roomBrowserMarkup,
+  bindRoomBrowser,
+  setRoomBrowserBusy,
+} from "./room-browser";
 import { frontRoomInvite } from "./room-invite";
 import { FrontNetwork, loadFrontNetworkSession } from "./front-network";
 import { startWithSaveWriter } from "./save-writer";
@@ -673,7 +677,7 @@ function rooms() {
   );
   $("launch").onclick = async () => {
     const button = $("launch") as HTMLButtonElement;
-    button.disabled = true;
+    setRoomBrowserBusy(current, true);
     try {
       const target = new URL(($("endpoint") as HTMLInputElement).value);
       if (
@@ -695,7 +699,7 @@ function rooms() {
             mode,
           },
         );
-        connectRoom(code, net.endpoint);
+        if (current.isConnected) connectRoom(code, net.endpoint);
       } finally {
         net.close();
         turnstileToken = "";
@@ -703,7 +707,7 @@ function rooms() {
     } catch (error) {
       notice((error as Error).message, 5);
       if (button.isConnected) {
-        button.disabled = false;
+        setRoomBrowserBusy(current, false);
         void mountHumanCheck();
       }
     }
