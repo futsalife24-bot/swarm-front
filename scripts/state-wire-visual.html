@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>状態省略の描画確認</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #101820;
+        color: white;
+        font: 16px sans-serif;
+      }
+      canvas {
+        width: 100%;
+        height: calc(100% - 48px);
+        display: block;
+      }
+      header {
+        height: 48px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      button {
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <button id="original">受信前</button><button id="omitted">省略中</button
+      ><button id="removed">サーバーから消滅</button><span id="status"></span>
+    </header>
+    <canvas></canvas>
+    <script type="module" src="./state-wire-visual.ts"></script>
+  </body>
+</html>

@@ -12,6 +12,7 @@ import type { World, Input } from "../shared/game";
 import type { Weapon } from "../shared/defs";
 import { validStage } from "../shared/stages";
 import { EquipmentCache } from "../shared/state-wire";
+import { StateOmissionCache } from "./state-omissions";
 import type { RoomOptions } from "../shared/room-directory";
 export interface Member {
   id: string;
@@ -159,6 +160,7 @@ export class FrontNetwork {
     this.usesInputAck = false;
     this.inFlightInputs = [];
     const equipmentCache = new EquipmentCache();
+    const omissionCache = new StateOmissionCache();
     let welcomed = false;
     let firstState = true;
     const timeout = setTimeout(() => {
@@ -172,6 +174,7 @@ export class FrontNetwork {
         type: "hello",
         clearedStage: this.clearedStage,
         equipmentCache: 1,
+        stateOmissions: 1,
         frontGrowth: 3,
         frontCatalog: 2,
         frontOpening: 2,
@@ -292,6 +295,7 @@ export class FrontNetwork {
         this.serverNow = m.serverNow;
         if (Number.isFinite(m.serverNow))
           this.clockOffset = m.serverNow - Date.now() / 1000;
+        omissionCache.restore(m.world, m.omitted);
         this.onWorld(m.world, firstState);
         firstState = false;
       } else if (m.type === "lobby") {

@@ -11,13 +11,20 @@ import { createHash } from "node:crypto";
 import { pilot } from "./bot";
 import { Network } from "../src/client/network";
 const base = process.env.SWARM_TEST_ENDPOINT || "http://127.0.0.1:8787";
+// テスト用Workerではケースごとに接続元を分け、実際の受付制限を維持する。
+const testClient = () =>
+  createHash("sha256")
+    .update(expect.getState().currentTestName ?? "legacy-integration")
+    .digest("hex");
 class Client {
   ws: WebSocket;
   messages: any[] = [];
   id = "";
   token = "";
   constructor(code: string, token = "", endpoint = base) {
-    this.ws = new WebSocket(`${endpoint.replace("http", "ws")}/rooms/${code}`);
+    this.ws = new WebSocket(
+      `${endpoint.replace("http", "ws")}/rooms/${code}?testClient=${testClient()}`,
+    );
     this.ws.onopen = () =>
       this.send({ type: "hello", ...(token ? { token } : {}) });
     this.ws.onmessage = (e) => {
@@ -248,7 +255,9 @@ describe("isolated real-Workers fixtures (not full-mission proof)", () => {
         m.world.phase === "victory" &&
         m.world.run === clear.world.run,
     );
-    expect(clear.world.rewards[a.id].length).toBeGreaterThan(0);
+    // 現行仕様は各人3個。両者の報酬数とIDの一意性を個別に検証する。
+    expect(clear.world.rewards[a.id]).toHaveLength(3);
+    expect(other.world.rewards[b.id]).toHaveLength(3);
     expect(Object.keys(clear.world.rewards)).toEqual([a.id]);
     expect(Object.keys(other.world.rewards)).toEqual([b.id]);
     expect(
@@ -257,7 +266,7 @@ describe("isolated real-Workers fixtures (not full-mission proof)", () => {
           (w) => w.id,
         ),
       ).size,
-    ).toBe(4);
+    ).toBe(6);
     const token = a.token,
       id = a.id;
     a.close();
@@ -298,7 +307,10 @@ describe("isolated real-Workers fixtures (not full-mission proof)", () => {
 });
 async function room(endpoint = base) {
   const r = await fetch(`${endpoint}/rooms`, {
-    headers: { "X-Room-Creation-Key": localCreationKey() },
+    headers: {
+      "X-Room-Creation-Key": localCreationKey(),
+      "X-Test-Client": testClient(),
+    },
     method: "POST",
     signal: AbortSignal.timeout(7000),
   });

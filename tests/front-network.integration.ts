@@ -21,6 +21,7 @@ class Client {
     growth: boolean | 3 = true,
     catalog = 2,
     opening = 2,
+    stateOmissions = false,
   ) {
     this.ws = new WebSocket(
       `${base.replace("http", "ws")}/rooms/${code}?ruleset=front-v1&testClient=${createHash(
@@ -35,6 +36,7 @@ class Client {
         ...(growth ? { frontGrowth: growth === 3 ? 3 : 2 } : {}),
         ...(growth === 3 && catalog === 2 ? { frontCatalog: 2 } : {}),
         ...(growth === 3 && opening === 2 ? { frontOpening: 2 } : {}),
+        ...(stateOmissions ? { stateOmissions: 1 } : {}),
         ...(token ? { token } : {}),
       });
     this.ws.onmessage = (e) => {
@@ -101,11 +103,12 @@ async function team(
   count: number,
   mode = "defense",
   growth: boolean | 3 = true,
+  stateOmissions = false,
 ) {
   const entry = await room(mode),
     members: Client[] = [];
   for (let i = 0; i < count; i++) {
-    const c = new Client(entry.code, "", growth);
+    const c = new Client(entry.code, "", growth, 2, 2, stateOmissions);
     await c.wait((m) => m.type === "welcome");
     members.push(c);
     c.send({
@@ -146,6 +149,42 @@ async function team(
   return { entry, members, states };
 }
 describe("改装版の実通信", () => {
+  it("4人の密集状態を省略可能なクライアントへ送り、切断せず権威状態を維持する", async () => {
+    const { entry, members } = await team(4, "survival", 3, true);
+    const offsets = members.map((member) => member.messages.length);
+    const response = await fetch(
+      `${base}/fixtures/${entry.code}/front-wire-dense`,
+      { method: "POST" },
+    );
+    expect(response.status).toBe(200);
+    const packets = await Promise.all(
+      members.map((member, index) =>
+        member.wait((m) => m.type === "state" && m.omitted, offsets[index]),
+      ),
+    );
+    for (let i = 0; i < members.length; i++) {
+      expect(members[i].ws.readyState).toBe(WebSocket.OPEN);
+      expect(Buffer.byteLength(JSON.stringify(packets[i]))).toBeLessThanOrEqual(
+        65536,
+      );
+      expect(packets[i].world.projectiles).toHaveLength(180);
+      expect(packets[i].omitted.orbs.length).toBeGreaterThan(0);
+      expect(
+        packets[i].world.enemies.length + packets[i].omitted.enemies.length,
+      ).toBe(96);
+      expect(
+        packets[i].world.front.orbs.length + packets[i].omitted.orbs.length,
+      ).toBe(160);
+    }
+    const snapshotResponse = await fetch(
+      `${base}/fixtures/${entry.code}/snapshot`,
+      { method: "POST" },
+    );
+    const authority = await snapshotResponse.json();
+    expect(authority.world.enemies).toHaveLength(96);
+    expect(authority.world.front.orbs).toHaveLength(160);
+    expect(authority.world.projectiles).toHaveLength(180);
+  });
   it("開幕世代：旧形式の固定指定を拒否し、トークンを保って更新後に出撃できる", async () => {
     const entry = await room("survival"),
       old = new Client(entry.code, "", 3, 2, 1);

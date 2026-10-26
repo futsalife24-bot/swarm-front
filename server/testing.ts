@@ -11,6 +11,7 @@ import {
 } from "../src/shared/harrow";
 import { groundHeight } from "../src/shared/terrain";
 import { mapFor } from "../src/shared/stages";
+import { populateDenseWireWorld } from "../scripts/state-wire-fixture";
 import production, { Room, Gate } from "./worker";
 import {
   addPlayer,
@@ -48,6 +49,17 @@ export class TestRoom extends Room {
     }
     if (u.pathname === "/fixture") {
       this.stop();
+      if (u.searchParams.get("case") === "front-wire-dense") {
+        const run = this.saved.frontRun;
+        if (!run || run.mode !== "survival" || run.world.players.length !== 4)
+          return new Response("4人の生存戦が必要です", { status: 409 });
+        populateDenseWireWorld(
+          run.world,
+          run.world.players.map((p) => p.id),
+        );
+        this.broadcast();
+        return Response.json({ ok: true });
+      }
       if (u.searchParams.get("case") === "front-growth-result") {
         const run = this.saved.frontRun;
         if (!run?.fusion || run.mode !== "survival")
@@ -384,7 +396,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-wire-dense)$/.exec(
         u.pathname,
       );
     if (match && req.method === "POST") {

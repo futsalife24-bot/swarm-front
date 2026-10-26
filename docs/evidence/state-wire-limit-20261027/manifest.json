@@ -1,0 +1,92 @@
+{
+  "base": "7c33c877ff87e4ca18043d902c14bb316d7e3067",
+  "conditions": {
+    "seed": 4520,
+    "players": 4,
+    "enemies": 96,
+    "pleat": 48,
+    "orbs": 160,
+    "projectiles": 180,
+    "events": 120
+  },
+  "bytes": {
+    "beforeFull": 133705,
+    "beforeEventTrim": 116534,
+    "phase1": 65160
+  },
+  "omitted": {
+    "enemies": 32,
+    "orbs": 160,
+    "events": 120
+  },
+  "files": [
+    {
+      "path": "src/shared/state-wire.ts",
+      "sha256": "4d2c0e8de617d13c52ddfe2274874c0eb03a6f3049d6557c47dffc7f31304002"
+    },
+    {
+      "path": "src/client/state-omissions.ts",
+      "sha256": "8987ae34de9f281d6553ce5d845e319c729970495b4df42b56aefcc01d1839dd"
+    },
+    {
+      "path": "src/client/front-network.ts",
+      "sha256": "800493ebcdfd31af93652b29e02ea133d7950d4281f6c3ee1ae1414ad01fb7be"
+    },
+    {
+      "path": "src/client/network.ts",
+      "sha256": "bf91b9de6783961f4d2602474e135ddd30c12218edceaffef2df4539bea58618"
+    },
+    {
+      "path": "server/worker.ts",
+      "sha256": "3964ca86274ee580341a8214e50dff1df1d250af3fa9fb4dfc559c6d59492eb2"
+    },
+    {
+      "path": "server/testing.ts",
+      "sha256": "a48bc015100963632444af392c5a08372209abeb462a8d3f65a0e1a99c01c62a"
+    },
+    {
+      "path": "scripts/state-wire-fixture.ts",
+      "sha256": "6c7e09d18d7552ab84bf64acc3d13dc175498b80bc230ea185d4cc6cc7e40353"
+    },
+    {
+      "path": "scripts/measure-state-wire.test.ts",
+      "sha256": "72547fcf96590ff54662c9e41dd1522c7f1be7da6a412c02469f90f7a65ede14"
+    },
+    {
+      "path": "scripts/state-wire-visual.ts",
+      "sha256": "d4f9d7fe864e6c5ad97e2e85aebe0bd3252838908df9d801a05a74a4ff72cabf"
+    },
+    {
+      "path": "scripts/state-wire-visual.html",
+      "sha256": "72604eab1b65a8c8459d5a805048fc319f5004240b98ffc20ea283e40b8278b3"
+    },
+    {
+      "path": "tests/front-wire-pressure.test.ts",
+      "sha256": "0f9f230074f8aed609de8a9a77f59b7383046b898f7f1e655ed555b03530fbe4"
+    },
+    {
+      "path": "tests/front-network.integration.ts",
+      "sha256": "a186fe95c38341f5f02c41ae2642da942c81b72669809f1daf69828c128cf230"
+    },
+    {
+      "path": "tests/network.test.ts",
+      "sha256": "450f3e1bd780cddeb44039bf1e996bf88a33d2e71996d5d6dc1b67ebcd79c737"
+    },
+    {
+      "path": "tests/front-feedback.test.ts",
+      "sha256": "93ff5479d424c13ecd3b58ee8b5fb886aed04f04973c071096a986b0197005e7"
+    },
+    {
+      "path": "tests/pleat-authority.test.ts",
+      "sha256": "be90932748030d919e50c50917f6720052ec5847381c9444c7be965306a4b86e"
+    },
+    {
+      "path": "tests/bastion.test.ts",
+      "sha256": "56955c7102b544b1c9da6d810f3a8d29bab8d509b030205c1f0299daf06be5eb"
+    },
+    {
+      "path": "tests/harrow.test.ts",
+      "sha256": "8e1d2ca78f70bb850ed72fda886ba3125b19b9753243862507021842cd67ddc6"
+    }
+  ]
+}
