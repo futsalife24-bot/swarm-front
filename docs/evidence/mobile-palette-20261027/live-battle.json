@@ -1,0 +1,19 @@
+{
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "checkedAt": "2026-10-27T22:33:56.863Z",
+  "errors": [],
+  "passed": true,
+  "palettes": [
+    {
+      "width": 1280,
+      "height": 37
+    }
+  ],
+  "hud": "HP\n160 / 160\n生存戦 · 0:13\n経験値 0/12\nAR-9 リーフ · 1/2\n残弾\n32 / 32\n強化 1/6枠\n1\n+",
+  "canvas": {
+    "x": 0,
+    "y": 0,
+    "width": 844,
+    "height": 390
+  }
+}
