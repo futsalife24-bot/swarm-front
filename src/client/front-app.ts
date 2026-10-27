@@ -1,3 +1,4 @@
+import { BattleFps } from "./battle-fps";
 import {
   readFrontFusionDiscovery,
   recordFrontFusionDiscovery,
@@ -126,6 +127,7 @@ const view = new Renderer(
   $("world") as HTMLCanvasElement,
   FRONT_RUN_CONFIG.enemyCap + 1,
 );
+const battleFps = new BattleFps();
 const settings = new FrontSettings(controls, sound, view);
 const minimap = new Minimap();
 let soldierLiveReview: import("./soldier-live-review").LiveReview | undefined;
@@ -1334,6 +1336,12 @@ function frame(time: number) {
         Math.min(view.consumed(world.run), sound.consumed(world.run)),
       );
   }
+  battleFps.update(
+    time,
+    view.renderer.info.render.frame,
+    screen === "battle" && ready,
+    active,
+  );
 }
 window.addEventListener(
   "keydown",
