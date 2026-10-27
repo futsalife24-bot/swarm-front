@@ -54,6 +54,7 @@ import {
   setRoomBrowserBusy,
 } from "./room-browser";
 import { frontRoomInvite } from "./room-invite";
+import { roomAccessInfo } from "./room-access";
 import { FrontNetwork, loadFrontNetworkSession } from "./front-network";
 import { startWithSaveWriter } from "./save-writer";
 import { installCloudSync } from "./cloud-save";
@@ -803,10 +804,11 @@ function connectRoom(code: string, target: string, token = "") {
 function paintLobby() {
   if (!network || screen !== "lobby") return;
   const net = network;
+  const access = roomAccessInfo(net.roomListed);
   document.body.classList.remove("playtest");
   document.body.dataset.screen = "lobby";
   $("ui").innerHTML =
-    `<section class="panel front-lobby"><header><h1>${modeNames[net.mode]} · 協力部隊</h1><nav><button id="front-edit-loadout">装備変更</button><button id="front-leave">部屋を退出</button></nav></header><div class="front-room-share"><span>招待用パスワード <b id="front-room-password">${esc(net.roomId || "接続中")}</b></span><button id="front-copy-password" ${net.roomId ? "" : "disabled"}>パスワードをコピー</button><button id="front-copy" ${net.roomId ? "" : "disabled"}>招待リンクをコピー</button></div><p class="fine">どちらか一方を仲間へ共有してください。${net.mode === "survival" ? " 出撃から60分で帰還・保存猶予2分。" : ""}</p><div class="front-members">${net.members
+    `<section class="panel front-lobby"><header><h1>${modeNames[net.mode]} · 協力部隊</h1><nav><button id="front-edit-loadout">装備変更</button><button id="front-leave">部屋を退出</button></nav></header><div class="front-room-access"><strong class="room-access-label" data-access="${access.state}">${access.label}</strong><span>${access.detail}</span></div><div class="front-room-share"><span>${net.roomListed === true ? "直接招待用パスワード" : "招待用パスワード"} <b id="front-room-password">${esc(net.roomId || "接続中")}</b></span><button id="front-copy-password" ${net.roomId ? "" : "disabled"}>パスワードをコピー</button><button id="front-copy" ${net.roomId ? "" : "disabled"}>招待リンクをコピー</button></div><p class="fine">${net.roomListed === true ? "直接招待する場合は、どちらか一方を共有できます。" : net.roomListed === false ? "どちらか一方を仲間へ共有してください。" : "必要に応じて、どちらか一方を共有できます。"}${net.mode === "survival" ? " 出撃から60分で帰還・保存猶予2分。" : ""}</p><div class="front-members">${net.members
       .filter((m) => m.connected)
       .map(
         (m) =>

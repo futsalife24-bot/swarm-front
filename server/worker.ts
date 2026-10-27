@@ -1238,6 +1238,7 @@ export class Room extends DurableObject<Env> {
         token: member.token,
         roomId: this.saved.directory?.roomId,
         roomName: this.saved.directory?.name,
+        listed: this.saved.directory?.listed,
         ...(this.saved.directory?.ruleset
           ? {
               ruleset: this.saved.directory.ruleset,

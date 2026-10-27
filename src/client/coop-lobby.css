@@ -178,6 +178,31 @@
 .room-browser #room-access-help {
   flex-shrink: 0;
 }
+.room-access-label {
+  display: inline-block;
+  padding: 3px 8px;
+  border: 1px solid #78939d88;
+  border-radius: 4px;
+  color: #dbe8e5;
+  background: #253b41;
+  font-size: 14px;
+  line-height: 1.4;
+  vertical-align: middle;
+}
+.room-access-label[data-access="public"] {
+  border-color: #93dfc1;
+  background: #24504d;
+  color: #e4fff5;
+}
+.front-room-access {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin-top: 10px;
+  color: #cfdfdc;
+  font-size: 13px;
+}
 .front-room-share {
   display: flex;
   flex-wrap: wrap;
@@ -192,6 +217,19 @@
 }
 .front-room-share button {
   min-height: 40px;
+}
+@media (max-height: 450px) and (orientation: landscape) {
+  .front-game .front-lobby {
+    padding: 12px 16px;
+  }
+  .front-lobby .front-room-access,
+  .front-lobby .front-room-share {
+    margin-top: 5px;
+  }
+  .front-lobby > p,
+  .front-lobby .front-members p {
+    margin: 6px 0;
+  }
 }
 .room-browser .room-create,
 .room-browser .room-browse {

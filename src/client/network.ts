@@ -81,6 +81,7 @@ export class Network {
   code = "";
   roomId = "";
   roomName = "";
+  roomListed: boolean | undefined;
   retry = 0;
   closed = false;
   last = 0;
@@ -131,6 +132,7 @@ export class Network {
     return (await res.json()).code as string;
   }
   connect(code: string, token = "") {
+    this.roomListed = undefined;
     if (this.code !== code) {
       this.messages = [];
       this.members = [];
@@ -231,6 +233,7 @@ export class Network {
         this.usesInputAck = m.inputAck === true;
         this.roomId = typeof m.roomId === "string" ? m.roomId : "";
         this.roomName = typeof m.roomName === "string" ? m.roomName : "";
+        this.roomListed = typeof m.listed === "boolean" ? m.listed : undefined;
         this.token = m.token;
         this.retry = 0;
         // Keep identity in this tab across reloads. Never put the token in URLs or logs.
