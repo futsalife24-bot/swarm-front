@@ -28,6 +28,15 @@ repoのcwdから `node docs/evidence/mobile-palette-20261027/measure-pleat.mjs -
 
 ## 公開状態
 
-自己検証完了、公開承認待ち。製品修正はローカルcommit fa857cbへ保存済み（その操作は承認レビューで許可）。その後、証拠スクリプト末尾整理のcommitとpushの複合申請は自動承認レビューが拒否。理由は会話開始時のcommit/push/外部送信禁止の撤回承認が今回の修正にはないという判定。拒否操作は実行されていない。末尾整理とこの状態記録はローカル未コミット。PR作成・push・merge・公開は未実施。再開には今回の修正/記録のcommit・既存GitHub送信・通常main反映・既存Worker公開の本人承認が必要。管理画面で2026-10-27に既存Workers Free/$0/current plan、当日234/100000 requestsを確認。契約・設定は変更なし。main反映・配信確認は成功後に追記する。
+以下は承認前の履歴（現在は公開済み）。自己検証完了時は公開承認待ち。製品修正はローカルcommit fa857cbへ保存済み（その操作は承認レビューで許可）。その後、証拠スクリプト末尾整理のcommitとpushの複合申請は自動承認レビューが拒否。理由は会話開始時のcommit/push/外部送信禁止の撤回承認が今回の修正にはないという判定。拒否操作は実行されていない。末尾整理とこの状態記録はローカル未コミット。PR作成・push・merge・公開は未実施。再開には今回の修正/記録のcommit・既存GitHub送信・通常main反映・既存Worker公開の本人承認が必要。管理画面で2026-10-27に既存Workers Free/$0/current plan、当日234/100000 requestsを確認。契約・設定は変更なし。main反映・配信確認は成功後に追記する。
 
 2026-10-28: 本人が直前の具体的なcommit/push/main反映/既存Worker公開の質問へ「承認」と回答。拒否の承認不足は解消し、同じ通常手順で再開する。
+
+
+## 公開完了（2026-10-28）
+
+PR227を通常mergeし、main e881c3d89dbdccdc7ef9daaf7f207435d2007038からproduction build/dry-run後、既存Workerへ公開。Version 4f6fdc3e-f76e-4503-8c06-fde4ca045e70。GitHubチェック0件（CI成功とは扱わない）。既存Workers Free/$0/current plan、当日341/100000 requestsを既存管理画面で確認。契約・設定変更なし。
+
+`delivery.json`の33ファイルがビルドとSHA一致、health 200/ok。`live-battle.json`とPNGは配信コードをGET専用中継・空Chromeプロファイル・844×390・タッチ有効で実行した結果。生存13秒、1280×37の新しい姿勢テクスチャ、ページ例外0。画像も目視確認。実セーブ・本番部屋は使用せず、OPPOや協力実戦の改善証明には用いない。
+
+公開確認スクリプト2本とmanifestは実行時のまま保存。再現時はこれらをrepoのdist-mobile-diagnosis/へ配置し、公開ソースのproduction buildを用意して `node dist-mobile-diagnosis/verify-delivery.mjs <Worker Version>`、`node dist-mobile-diagnosis/check-live-battle.mjs`。公開版が後日変わればSHA一致は期待しない。
