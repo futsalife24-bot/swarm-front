@@ -912,6 +912,7 @@ export class Room extends DurableObject<Env> {
       window: number;
       seq: number;
       equipmentCache?: boolean;
+      stateOmissions?: boolean;
       equipmentKey?: string;
     }
   >();
@@ -935,13 +936,17 @@ export class Room extends DurableObject<Env> {
         }
       }
       for (const ws of ctx.getWebSockets()) {
-        const a = ws.deserializeAttachment() as { id: string };
+        const a = ws.deserializeAttachment() as {
+          id: string;
+          stateOmissions?: boolean;
+        };
         this.sockets.set(ws, {
           id: a.id,
           at: Date.now(),
           count: 0,
           window: Date.now(),
           seq: -1,
+          stateOmissions: a.stateOmissions === true,
         });
       }
     });
@@ -985,6 +990,18 @@ export class Room extends DurableObject<Env> {
           this.frontResultExpiresAt() ?? Infinity,
         )
       : this.saved.created + LIMITS.roomMs;
+  }
+  /** 送信時の帰還時刻と復帰期限を同じ精度で表示する。権威側の期限は変えない。 */
+  private wireRoomExpiresAt() {
+    const run = this.saved.frontRun;
+    if (
+      run?.fusion &&
+      run.mode === "survival" &&
+      Number.isFinite(run.returnAt) &&
+      this.frontResultExpiresAt() === undefined
+    )
+      return (Math.round(run.returnAt! * 100) / 100) * 1000 + 120000;
+    return this.roomExpiresAt();
   }
   async persist() {
     await this.ctx.storage.put("room", this.saved);
@@ -1192,8 +1209,9 @@ export class Room extends DurableObject<Env> {
       member.gone = 0;
       s.id = member.id;
       s.equipmentCache = m.equipmentCache === 1;
+      s.stateOmissions = m.stateOmissions === 1;
       s.at = now;
-      ws.serializeAttachment({ id: s.id });
+      ws.serializeAttachment({ id: s.id, stateOmissions: s.stateOmissions });
       const p = this.saved.world?.players.find((p) => p.id === s.id);
       if (p) p.connected = true;
       if (this.saved.frontRun)
@@ -1214,7 +1232,7 @@ export class Room extends DurableObject<Env> {
       );
       this.send(ws, {
         type: "welcome",
-        expiresAt: this.roomExpiresAt(),
+        expiresAt: this.wireRoomExpiresAt(),
         inputAck: true,
         id: member.id,
         token: member.token,
@@ -1672,10 +1690,16 @@ export class Room extends DurableObject<Env> {
             ? {
                 frontView: getFrontRunView(this.saved.frontRun, s.id),
                 serverNow: Date.now() / 1000,
-                expiresAt: this.roomExpiresAt(),
+                expiresAt: this.wireRoomExpiresAt(),
               }
             : undefined;
-        const payload = state!.packet(s.id, cached, s.seq, recipientMetadata);
+        const payload = state!.packet(
+          s.id,
+          cached,
+          s.seq,
+          recipientMetadata,
+          s.stateOmissions === true,
+        );
         if (this.sendEncoded(ws, payload)) s.equipmentKey = state!.equipmentKey;
       } else this.send(ws, { type: "lobby", ...metadata });
     }

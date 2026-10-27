@@ -520,8 +520,9 @@ it("checkpoint replay keeps missile timing exact and wire packets preserve every
   expect(wire.harrowMissiles).toHaveLength(10);
   for (const [i, missile] of wire.harrowMissiles!.entries()) {
     const original = w.harrowMissiles![i];
-    expect(missile.launch).toBe(original.launch);
-    expect(missile.impact).toBe(original.impact);
+    // 保存状態は厳密なまま、配信時刻だけ小数2桁に揃える。
+    expect(missile.launch).toBe(Math.round(original.launch * 100) / 100);
+    expect(missile.impact).toBe(Math.round(original.impact * 100) / 100);
     expect(missile.owner).toBe(original.owner);
     for (const axis of ["x", "y", "z"] as const)
       expect(

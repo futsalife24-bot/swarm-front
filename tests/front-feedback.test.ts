@@ -219,7 +219,8 @@ describe("戦闘フィードバックの回帰", () => {
         });
         const finalState = JSON.parse(wire);
         expect(finalState.frontView).toEqual(getFrontRunView(r, id));
-        expect(finalState.serverNow).toBe(1791000000.123);
+        // 状態送信は時刻も小数2桁に揃える。期待値は丸め後の正確な値。
+        expect(finalState.serverNow).toBe(1791000000.12);
         expect(finalState.members).toHaveLength(4);
         expect(new TextEncoder().encode(wire).length).toBeLessThanOrEqual(
           65536,
@@ -278,6 +279,7 @@ describe("戦闘フィードバックの回帰", () => {
         directory: { ruleset: "front-v1", mode: "interception" },
       };
       worker.roomExpiresAt = () => 3600000;
+      worker.wireRoomExpiresAt = () => 3600000;
       worker.frontResultExpiresAt = () => undefined;
       worker.sentEvent = 0;
       worker.publishDirectory = () => {};

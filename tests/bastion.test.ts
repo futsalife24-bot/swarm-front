@@ -504,9 +504,14 @@ describe("BASTION integration", () => {
     const packet = JSON.parse(
       prepareState(w, 0, { room: "test" }).packet("p0"),
     );
-    expect(packet.world.enemies[0].bastion).toEqual(
-      JSON.parse(JSON.stringify(e.bastion)),
-    );
+    expect(packet.world.enemies[0].bastion).toEqual({
+      armor: 62.5,
+      phase: e.bastion!.phase,
+      phaseAt: e.bastion!.phaseAt,
+    });
+    // 硬化の連続判定は権威側に残し、描画に不要な内部時刻は配信しない。
+    expect(packet.world.enemies[0].bastion).not.toHaveProperty("readyAt");
+    expect(e.bastion!.readyAt).toBeDefined();
     expect(enemyReportId(e)).toBe("bastion");
     expect(ENEMY_REPORT_NAMES.bastion).toBe("BASTION");
     expect(REPORTLESS_ENEMIES).toEqual([]);

@@ -1,0 +1,49 @@
+{
+  "base": "7c33c877ff87e4ca18043d902c14bb316d7e3067",
+  "initialAuditHead": "636dcd48780fb25b20d74b79967e4edc85c8f4e6",
+  "conditions": {
+    "seed": 4520,
+    "players": 4,
+    "enemies": 96,
+    "pleat": 48,
+    "orbs": 160,
+    "projectiles": 180,
+    "events": 120
+  },
+  "bytes": {
+    "beforeFull": 133705,
+    "beforeEventTrim": 116534,
+    "phase1": 65160
+  },
+  "omitted": {
+    "enemies": 32,
+    "orbs": 160,
+    "events": 120
+  },
+  "files": [
+    {
+      "path": "src/shared/state-wire.ts",
+      "sha256": "fc16306097eb33794aaa839773c0d0e0ff387346ea2bad4643150244fd23b647"
+    },
+    {
+      "path": "src/client/state-omissions.ts",
+      "sha256": "83b02bc77995d2cebd83af14b5723c9f65afbac8804ff970556f48fee56b6ff2"
+    },
+    {
+      "path": "server/testing.ts",
+      "sha256": "46e846a59ddc2f933ca02cc168a276dfe3328095da03152014866171d81231c4"
+    },
+    {
+      "path": "tests/front-wire-pressure.test.ts",
+      "sha256": "e28a0cd9ee56c14a3776ac33c3738b277d614bfe6dc40d36d78ba49b96e617ea"
+    },
+    {
+      "path": "tests/front-network.integration.ts",
+      "sha256": "3bd00336ae959def56edfd655168b51e277a646ba03ef267a20a5bf388a81dc5"
+    },
+    {
+      "path": "docs/evidence/state-wire-limit-20261027/audit-636dcd4.txt",
+      "sha256": "17b0ff124b88ee4bf75cc8648fef833ca6a54274ae4a74c5bbcd8549b99104de"
+    }
+  ]
+}

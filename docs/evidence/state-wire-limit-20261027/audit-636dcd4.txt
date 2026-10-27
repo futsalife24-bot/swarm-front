@@ -1,0 +1,243 @@
+Swarm Front 生存戦・状態送信上限 フェーズ1 独立監査結果
+監査日：2026-10-27（日本時間）
+
+1. 判定
+
+要修正。
+今回差分に起因する必須指摘：P0 0件／P1 0件／P2 2件。
+
+容量削減と省略キャッシュの主要経路は独立検証で確認できた。ただし、送信時の丸めにより、BASTIONで予告帯の外に被弾領域が生じ、FOUNDRYでは未破壊の部位を破壊済みとして表示する。どちらも攻撃予告を信頼できるかに関わるため、現HEADを合格とはしない。
+
+実装、commit、merge、公開は行っていない。添付された262ファイルは監査後も全て元ZIPのバイト列と一致している。依存取得、合成入力、監査用スクリプト、ローカル試験用の一時鍵と状態だけを追加した。
+実装担当者の自己検証を独立監査済みとは扱っていない。以下で「独立実行」と記したものだけが今回の再現結果である。
+
+2. 対象SHA、確認資料、検証結果
+
+対象PR：https://github.com/futsalife24-bot/swarm-front/pull/223
+基点：7c33c877ff87e4ca18043d902c14bb316d7e3067
+対象HEAD：636dcd48780fb25b20d74b79967e4edc85c8f4e6
+添付：audit-636dcd4.zip
+サイズ：1,103,631 bytes
+SHA-256：a6bc6ece0d5bd1faa1e1341ef89541a22a50aa319e7f7ad1f5ed64ca02603cc7
+
+整合性
+- 指定ZIPハッシュとの完全一致を独立確認。
+- 271 entries（262ファイル、9ディレクトリ）、全ZIP CRC正常。
+- docs/evidence/state-wire-limit-20261027/manifest.json の17対象ファイルのSHA-256が全て一致。
+- audit/changes.patch の18変更ファイルについて、HEADのGit blobハッシュ接頭辞と差分文脈を照合。差分を逆適用して復元した基点側も、差分記載のblobハッシュ接頭辞に一致。
+- 容量比較の基点state-wire.tsは添付差分から復元したもの。GitHubのコミットツリーを別経路で取得したものではない。対象SHAとZIP内容の対応は提供情報を前提とする。
+- 復元した基点state-wire.tsのSHA-256：78d8e804b2b86ac0a44556f0db705e6eb42dc49e7f9a9ec61fb09561964534dc
+
+実際に確認した主要資料
+- audit/README.md、audit/changes.patch
+- docs/STATE-WIRE-LIMIT-20261027.md
+- docs/evidence/state-wire-limit-20261027/README.md、manifest.json、PNG3枚
+- src/shared/state-wire.ts
+- src/client/state-omissions.ts、front-network.ts、network.ts
+- server/worker.ts、server/testing.ts
+- scripts/state-wire-fixture.ts、measure-state-wire.test.ts、state-wire-visual.ts、state-wire-visual.html、vitest.state-wire.config.ts
+- tests/state-wire.test.ts、front-wire-pressure.test.ts、front-feedback.test.ts、pleat-authority.test.ts、harrow.test.ts、calyx.test.ts、bastion.test.ts
+- tests/front-network.integration.ts、network.test.ts、credentials.ts、bot.ts
+- package.json、package-lock.json、client/worker用tsconfig、Vitest設定、Wrangler通常/production/test設定
+- 依存先のgame.ts、bastion.ts、harrow.ts、calyx.ts、worm.ts、front-run.ts、defs.ts、敵移動・部位・予告用共有関数
+- 消費側のrender.ts、bastion-view.ts、foundry-worm.ts、foundry-laser-warning.ts、structure-motion.ts、harrow-effects.ts、calyx-effects.ts、PLEAT描画、HUD・ミニマップ・戦闘音等の関係箇所
+
+独立実行環境
+Node v24.22.1、添付lockfileのVitest 5.0.0、Wrangler 4.129.0等。
+依存は監査用コピーへ取得。インストールスクリプトは無効化。
+実通信は127.0.0.1のwrangler.test.jsonc／TestRoom／TestGateを使用。本番・実セーブ・実インターネット対戦には接続していない。
+
+独立結果
+
+項目：client/worker型検査
+結果：npm run typecheck 成功。
+
+項目：関連単体7ファイル117件
+結果：115成功、2件は素材不足で完了できず。
+未完1：tests/bastion.test.ts の「has its own voice, report film and report specimen script」。public配下のBASTION音声がZIPにない。
+未完2：tests/calyx.test.ts の「ships the pinned CALYX GLB with four clips and 16 bones」。public/assets/enemies/calyx_motion_v1.glbがZIPにない。
+この2件を成功扱いにはしていない。今回の製品コード欠陥件数にも加算していない。
+
+項目：改装版の実ローカルWorker／WebSocket
+結果：tests/front-network.integration.ts の11件全成功。実行時間142.42秒。
+4接続の固定密集送信、帰還時刻と期限、結果への再接続、旧世代画面、個人設定等を、添付テストのまま再実行。
+
+項目：旧版の実ローカルWorker／WebSocket
+結果：13件中12件完了、1件は通信・性能assert後のGit証拠保存で未完。
+初回は11成功、2失敗。1件目はtests/network.test.ts:288の証拠保存先dist-validation/evidenceがないことが原因。保存先が作られた後、その1件だけ再実行して成功（4.15秒）。
+残る1件はtests/network.test.ts:568のgit rev-parse HEADが、.gitを含まないZIPで失敗。武器性能、報酬、保存・再装備、無効武器拒否のassertまでは到達したが、テスト全体は成功扱いにしない。架空のGit情報を注入して通過させてはいない。
+
+項目：build／dry-run
+結果：client buildはindex.htmlがZIPにないため入口解決で停止。
+production設定のdry-runはassets.directoryのdistがないため停止。
+通常設定wrangler.jsoncでのWorker本体dry-runは成功（425.21 KiB、gzip 108.35 KiB）。これは公開操作ではない。
+本体の静的importと生成bundleを確認し、TestRoom、TestGate、state-wire-fixture、populateDenseWireWorld、fixture経路、X-Test-Clientの混入は確認しなかった。
+
+固定合成条件の容量
+4人、混在敵96体（PLEAT48）、オーブ160、弾180、演出120、seed4520、未キャッシュ装備、受信者1人。
+- 基点・演出全量：133,705 bytes
+- 基点・演出削除後：116,534 bytes
+- HEAD・最終送信：65,160 bytes
+- HEAD省略：演出120、オーブ160、敵32。弾180を保持。
+上記3容量は独立再現で実装側記録と完全一致した。基点は添付差分からの復元である。
+
+UTF-8と優先順位の追加独立確認
+- 日本語と絵文字を含む受信者別metadataを使い、JavaScript文字数よりUTF-8バイト数が大きくなる条件で確認。
+- 実sendEncodedで65,536 bytesは送信、65,537 bytesは4009・未送信。
+- recipientMetadata、inputAck、private pending/rewardsも最終サイズ判定に含まれる。
+- 演出は古いものから落とし、新しい末尾を最大限残す。敵・オーブの省略に進む時点では演出は0。
+- 受信者の三次元位置から近いオーブを残し、オーブを全て落としても足りない場合に近い敵を残す。同距離はIDで決定。
+- 受信者を変えて生成しても、共通文字列キャッシュに私有情報・受信者metadataが混ざらないことを確認。
+- 弾900など削減対象外だけで収まらない場合は4009。Worldの弾や敵自体は削らない。
+
+Worker本体ロジックの追加独立確認
+Nodeから実worker.tsを読み込み、DurableObject基底・context・socketだけを監査用アダプターにした検証。実workerd通信とは区別する。
+- 実Room.broadcast()の4人分の生文字列：65,408／65,127／65,306／65,086 bytes。全員上限内。
+- これにはfrontView／serverNow／expiresAt等を含むため、前掲の65,160-byte固定測定と同じ条件ではない。
+- 初回装備full、次回cached、attachmentから再生成した接続の初回fullを確認。
+- helloのstateOmissions:1だけが有効。attachmentではboolean trueだけを復元。旧attachmentや不正な型では省略を有効化しない。
+- 旧画面（省略能力通知なし）へ同じ密集状態を送ると4009。過大payloadは送信されず、Worldの96敵・160オーブは保持。
+- frontなし旧版ルームは新しい敵・オーブ間引きを使用しない。
+
+受信キャッシュの追加独立確認
+実StateOmissionCache、実FrontNetwork／Networkの受信経路をNode VMで実行。socketのみstubにした14項目が成功。
+- 初回未受信の省略IDは個体を生成しない。
+- 1000回連続省略でも最後の個体・座標・HP・攻撃状態を保持。
+- 再受信した個体は新しい座標・状態へ置換。
+- 死亡／取得で本体と省略一覧の双方からIDが消えれば、次のstateで除去。
+- 一度除去した個体は、後でIDだけが現れても復活しない。
+- 省略metadataなしは全量stateとして扱う。
+- run変更、再接続で保持内容を初期化。旧socketの遅着は無視。
+- 重複・不正IDで個体が重複しない。
+- キャッシュは今回受信と今回省略の既知個体から毎回作り直され、過去の死亡個体が累積する構造ではない。
+
+敵投影・精度・権威
+- 今回削除された敵の経路履歴、探索状態、発射・命中管理等について、調査した描画・音・警告とその共有関数に必要な参照の脱落は確認しなかった。
+- PLEATの解決済み身体・姿勢・足接地点と法線を維持。
+- HARROWの攻撃種・開始時刻・移動点・進捗、CALYXの描画で使うfired等、BASTIONの装甲・段階・確定斉射・照準、FOUNDRY節の位置・部位HP・向き・レーザー予告項目は存在する。存在していても数値の意味が変わる2件は後述。
+- 武器のrolls／varianceと、さらに深いオブジェクト・配列を含む小数値がそのまま保持されることを実encodeStateで確認。
+- prepareStateとpacketの前後で権威WorldのJSON一致を確認。broadcastに元からある送信済みイベントのretire処理とは区別した。
+- 通常規模の秒単位時刻を0.01秒に丸める誤差は各時刻で約5ms以下、二時刻の差では約10ms以下。今回の独立検証では、これだけを原因とする追加必須不具合は特定していない。
+- 帰還表示期限の整合処理は権威側の期限を変更していない。改装版実通信テストでも整合が通った。
+
+旧版テスト修正の評価
+- game.ts:1011の既存処理は各人の報酬を3個まで補充する。game.tsは今回差分に含まれない。
+- tests/network.test.ts:258は2人各3個、受信者自身だけのrewardsキー、計6個の一意IDを検査する。単なる条件緩和ではなく、実装との不一致の訂正として妥当。
+- ケース別接続元はtesting.tsの既存試験adapterだけで実現し、製品Workerの受付閾値を緩和していない。
+- 記録で照合対象とされるfront-campaign-weapon-cap.test.tsはZIPにないため、その別ファイルとの照合自体は未確認。
+
+3. 必須指摘
+
+P2-01：BASTIONの確定斉射方向を丸めると、赤い予告帯の外で実弾が当たる
+
+原因ファイル／行
+- src/shared/state-wire.ts:98：全非武器小数の2桁丸め。volley.turnも新たに対象になる。
+- src/shared/state-wire.ts:48：確定斉射を送信。
+
+関連する契約・消費箇所
+- src/shared/bastion.ts:133：「turnは配信で丸めず、予告と実弾の向きを一致」の既存設計。
+- src/shared/bastion.ts:243：turnから各斉射の方向を算出。
+- src/shared/bastion.ts:350、354、356：権威側は丸め前の斉射から弾を生成。
+- src/client/bastion-view.ts:420、427：危険帯は実際の当たり幅そのもので、方向誤差を吸収する余白がない。
+- src/client/bastion-view.ts:450：受信した斉射情報から予告レーンを生成。
+- src/shared/game.ts:2272：実弾の掃引軌道から胴までの距離1m未満で命中。
+
+再現条件と独立結果
+実stepBastionで敵ID597、反撃回数0、装甲100の確定斉射を生成した。
+権威turn＝0.4049998011283004 rad。
+実prepareState後のturn＝0.4 rad。
+角度差＝約0.0049998011 rad。
+
+平地の弾高1.7mでは赤帯の半幅は0.8660254038m。
+砲口から34m先、実軌道から横へ0.8mの点は、受信予告軌道から0.9752323002m離れ、赤帯の外へ0.1092068965m出ている。
+一方、権威側の胴までの三次元距離は0.9433981132mで命中範囲内。同じ実軌道の弾を平坦な合成状態へ置き、製品game.stepを実行するとHP160→148になった。
+36mの弾道と砲口の1.05mオフセットを含めた終点差は0.1852424389m。依頼文の「最大約0.18m」と整合する。
+
+補足の合成反例
+製品bastionLanes／wallDistanceに同じ方向差を与え、高さ3m・幅4m・奥行2mの壁角を配置すると、実レーン36mに対して予告レーン9.807044mとなった。単に予告幅を0.19m広げるだけでは、遮蔽で短くなった予告を回復できない。
+この壁は境界を検査するための人工配置であり、現行マップや実戦で同じ26.19mの差が発生した証拠ではない。
+
+影響・必須とする理由
+危険帯の外へ出たと判断できる位置で被弾し、予告の意味が変わる。帯の幅が約1.73mあることは、誤差を許容する根拠にはならない。その幅は余裕を含む装飾ではなく、元の被弾幅を示しているためである。
+「非武器は2桁」という要求に機械的に従っていても、「BASTIONの予告を維持」と両立できていない現状は要修正と判断する。
+
+最小修正案
+- 最小の変更は、確定斉射のturnだけ送信精度の例外として明文化し、基点の非丸めへ戻すこと。これは今回の角度誤差を除く案であり、「武器以外は2桁」の仕様調整が必要。監査側で黙って例外を認めるものではない。
+- 2桁を厳守する場合は、方向・始点の誤差範囲を全て覆う保守的な危険帯を描き、壁の遮蔽もその範囲で評価する設計が必要。単純な一定幅の拡張だけでは不十分。
+- 整数の固定小数点表現を追加する案では、既存turnを読む旧画面の互換経路も必要になる。
+- 権威World側の確定方向を送信都合で丸める案は、戦闘維持・World非破壊の条件を変えるので採用前提にしない。
+- turnの例外は今回増えた角度誤差への最小対処。基点から存在する座標2桁化を含めた全条件の完全一致まで保証するものではない。
+
+修正確認に必要な最小回帰
+境界に近い方向の斉射、予告帯外の被弾点、壁角、旧画面経路を確認する。Worldと実弾方向を変更せず、修正後の予告が必要な危険領域を覆うことを確認する。
+
+P2-02：FOUNDRYの正のpartHpが0へ丸められ、未破壊の部位とレーザー予告を失う
+
+原因ファイル／行
+- src/shared/state-wire.ts:98：新たにpartHpへも2桁丸めを適用。
+- src/shared/state-wire.ts:30、56：頭部と各節のpartHpを送信。
+
+影響箇所
+- src/client/foundry-worm.ts:74、427、437：正のpartHpを生存条件として、部位と接続部の表示を決定。
+- src/client/render.ts:858：partHp===0の部位のレーザー予告を登録しない。
+- src/client/render.ts:1339、1362：代替描画でも0の頭部や節を表示しない。
+- src/shared/worm.ts:55：0は破壊済みとして連続した身体を分断する。
+
+再現条件と独立結果
+合成したFOUNDRY7節を製品initWormで初期化し、部位3のHP1050から開始。
+実hurtEnemyとfalloffを使用。通常rifleの24ダメージを42回、続いて距離28.8795833333m相当の20.998ダメージを2回与えると、部位HPは0.003999999999997783となる。まだ正数であり未破壊。
+基点encoderはこの正数を維持するが、HEADは0を送信する。
+権威と基点の連続部位は[0,1,2,3,4,5,6,7]。HEADの受信値では[0,1,2]と[4,5,6,7]に誤分断される。
+同じ合成pulseAim／acidAtを与え、製品Renderer.foundryWarningを抽出して描画呼出しだけstub化した実行では、レーザー予告の登録が基点1本→HEAD0本となった。
+送信前後の権威Worldは不変。
+
+影響・必須とする理由
+サーバー上で生存する部位を、クライアントは破壊済みと解釈する。容量が足りて全量送信される場合にも発生するため、省略キャッシュの復元では防げない。部位の存在と攻撃予告を失う新規回帰である。
+実GPU画面や実戦の発生率は未確認だが、新旧encoderの差と実描画ロジックの予告欠落は独立再現した。
+
+最小修正案
+送信用の頭部partHpと各節partHpに限り、正数を丸めた結果が0になる場合は0.01を送る。真の0とundefinedは維持する。Worldは変更しない。
+これは非武器2桁という条件と両立する。時刻・方向など全ての正数へ一律に下限を付ける修正は行わない。
+同じhpの微小正数丸めは基点にも存在するため、今回の新規必須件数には含めていない。
+
+修正確認に必要な最小回帰
+partHpが0、0より大きく0.005未満、0.005以上、undefinedの頭部・節を送り、生存/破壊分類とレーザー予告の登録が権威と一致することを確認する。
+
+4. 任意事項・確認された仕様上の限界
+
+R1 HARROWの離陸バリエーション
+state-wire.ts:98でflapSeedも丸める。structure-motion.ts:26はfloor(seed*4)で4種の離陸clipを選ぶため、実関数で0.249→0.25はTakeoff→TakeoffB、0.499→0.5はB→C、0.749→0.75はC→Dへ変わった。
+戦闘権威や飛行という動作種は変わらず、全受信者で同じ選択になるため任意改善とした。元のバリエーションも維持するなら、送信投影でfloor(seed*4)/4等の区分代表値を送れば2桁条件と両立できる。
+
+R2 演出内の優先順位
+容量削減は古い順であり、死亡・蘇生等のイベント種別に特別な優先順位はない。独立した境界入力で、古いreviveが落ち、新しいhitが残ることを確認した。状態自体はWorldに残り、これを今回差分の必須欠陥とはしていない。重要な音・通知を優先したい場合は別途方針を明示する余地がある。
+
+R3 実通信のサイズ証拠
+添付front-network.integration.ts:167は受信JSONを再文字列化して測定する。現serializerでは整合するが、受信した生文字列のUTF-8長を直接記録した方が将来も強い検証になる。今回の追加Workerロジック試験と上限境界検証は生文字列で測定した。
+
+R4 初回から省略された未受信個体
+state-omissions.ts:28は過去に受信した個体だけを復元する。最初から送られず、その後も省略され続ける敵・オーブは表示できない。これは独立再現済みの仕様上の限界。全個体の初回表示・一定時間内の更新を保証する方式ではない。
+
+R5 保持中の古い位置・攻撃状態
+連続省略時は最後の座標・HP・攻撃状態を期限なしで保持する。次に本体を受信するまで位置を更新しない。
+world.timeは進むため、描画全体が静止する意味ではない。BASTIONは保持されたwarn状態から古い予告が出続けることがあり、HARROW/CALYXは時間範囲を過ぎて予告が消える。低頻度更新、更新順の循環、古さの表示等は次フェーズの検討事項であり、今回の明示された方式に追加必須要件として持ち込んでいない。
+
+R6 旧画面の容量超過
+省略非対応クライアントには敵・オーブの部分stateを送らない。演出削除だけで収まらない場合は4009が残る。独立Workerロジック試験で確認済み。
+旧クライアント互換は「安全な全量送信と従来の上限切断を維持する」意味で成立し、旧画面でも同じ密集状態を継続できる保証ではない。
+
+5. 未確認範囲・証拠の限界
+
+- 実スマホ、実インターネットの複数人数対戦、長時間実戦、実Worker本番のCPU時間・描画FPS・実戦での密集頻度。
+- オーブが実画面でどう保持・復帰・取得されるかの独立視覚検証。
+- BASTION予告帯のGPU実画面撮影、壁角反例の現行マップでの発生頻度。
+- FOUNDRYの微小正数部位の実GPU表示と実戦での発生率。
+- 全ての敵・地形・武器組合せの描画網羅。必要項目の検索と主要分岐の照合であり、全画面を再生した保証ではない。
+- PNG3枚は実装担当者が作成した証拠を今回閲覧したもの。敵1体が省略中に残り、サーバー消滅後に消えることと表示カウントは読める。独立した撮影ではなく、オーブそのものの描画証拠でもない。
+- state-wire-visual.tsはRenderer.renderだけを呼ぶ。オーブの実描画確認を行ったとは判断しない。
+- 密集Worker fixtureはtimerを止めて1回のsnapshotを送るため、移動中の長時間省略・復帰や実戦性能の証拠ではない。連続保持は別のNode受信テストで確認した。
+- ZIPにpublic素材、index.html、dist、Git履歴、記録で参照される一部の別テストがない。素材2単体、client build、production全体dry-run、旧版1件のGit証拠保存は完了していない。
+- 実装側の「117件全成功」「旧版13件全成功」「client build成功」「画面エラー0」を、そのまま今回の独立成功へ置き換えていない。
+
+再監査の焦点
+P2-01の予告精度方針を明確にした上で角度境界・遮蔽・旧画面を再確認し、P2-02の正数partHpが0へ化けないことを確認する。容量境界、固定条件のバイト数、World非破壊、武器の入れ子精度を変更差分に合わせて再検証する。

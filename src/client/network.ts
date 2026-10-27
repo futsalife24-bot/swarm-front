@@ -10,6 +10,7 @@ import type { World, Input } from "../shared/game";
 import type { Weapon } from "../shared/defs";
 import { validStage } from "../shared/stages";
 import { EquipmentCache } from "../shared/state-wire";
+import { StateOmissionCache } from "./state-omissions";
 import type { RoomOptions } from "../shared/room-directory";
 export interface Member {
   id: string;
@@ -149,6 +150,7 @@ export class Network {
     this.usesInputAck = false;
     this.inFlightInputs = [];
     const equipmentCache = new EquipmentCache();
+    const omissionCache = new StateOmissionCache();
     let welcomed = false;
     let firstState = true;
     const timeout = setTimeout(() => {
@@ -161,6 +163,7 @@ export class Network {
       this.send({
         type: "hello",
         equipmentCache: 1,
+        stateOmissions: 1,
         name: this.playerName,
         ...(this.token ? { token: this.token } : {}),
       });
@@ -263,6 +266,7 @@ export class Network {
           this.assetReady = false;
         }
         this.members = m.members;
+        omissionCache.restore(m.world, m.omitted);
         this.onWorld(m.world, firstState);
         firstState = false;
       } else if (m.type === "lobby") {
