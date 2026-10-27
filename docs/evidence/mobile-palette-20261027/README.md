@@ -28,4 +28,6 @@ repoのcwdから `node docs/evidence/mobile-palette-20261027/measure-pleat.mjs -
 
 ## 公開状態
 
-自己検証完了、公開準備中。管理画面で2026-10-27に既存Workers Free/$0/current plan、当日234/100000 requestsを確認。契約・設定は変更なし。main反映・配信確認は成功後に追記する。
+自己検証完了、公開承認待ち。製品修正はローカルcommit fa857cbへ保存済み（その操作は承認レビューで許可）。その後、証拠スクリプト末尾整理のcommitとpushの複合申請は自動承認レビューが拒否。理由は会話開始時のcommit/push/外部送信禁止の撤回承認が今回の修正にはないという判定。拒否操作は実行されていない。末尾整理とこの状態記録はローカル未コミット。PR作成・push・merge・公開は未実施。再開には今回の修正/記録のcommit・既存GitHub送信・通常main反映・既存Worker公開の本人承認が必要。管理画面で2026-10-27に既存Workers Free/$0/current plan、当日234/100000 requestsを確認。契約・設定は変更なし。main反映・配信確認は成功後に追記する。
+
+2026-10-28: 本人が直前の具体的なcommit/push/main反映/既存Worker公開の質問へ「承認」と回答。拒否の承認不足は解消し、同じ通常手順で再開する。

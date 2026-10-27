@@ -70,5 +70,3 @@ for(const count of [1,4]){
     console.log(JSON.stringify({...trial,clients:trial.clients.map(({rows,...rest})=>rest)}));
   }finally{clearInterval(timer);for(const c of members){c.measuring=false;c.ws.close();}}
 }
-
-
