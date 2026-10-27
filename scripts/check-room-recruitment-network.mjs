@@ -59,11 +59,13 @@ try {
     const entry = await response.json();
     const host = await connect(entry.code);
     assert.equal(host.roomId, entry.roomId);
+    assert.equal(host.listed, listed, "部屋主へ正しい募集方式が届く");
     const resolved = await fetch(`${base}/rooms/${entry.roomId}${query}`);
     assert.equal(resolved.status, 200);
     const { code } = await resolved.json();
     assert.equal(code, entry.code);
-    await connect(code);
+    const guest = await connect(code);
+    assert.equal(guest.listed, listed, "参加者へ正しい募集方式が届く");
     record.rooms.push({ listed, roomId: entry.roomId });
     record.checks.push(
       listed

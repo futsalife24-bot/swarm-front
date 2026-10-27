@@ -29,6 +29,7 @@ import { playerName, addPlayerNameSetting } from "./client/player-profile";
 import { enhanceGameSelects, syncGameSelects } from "./client/game-select";
 import { updateScopeButtons } from "./client/layout";
 import "./client/coop-lobby.css";
+import { roomAccessInfo } from "./client/room-access";
 import {
   roomBrowserMarkup,
   bindRoomBrowser,
@@ -1176,17 +1177,18 @@ function lobby() {
   const present = members.filter((m) => m.connected);
   const host = present[0]?.id;
   const isHost = Boolean(network?.id && host === network.id);
+  const access = roomAccessInfo(network?.roomListed);
   const stage = STAGES[(network?.stage ?? selectedStage) - 1];
   selectedStage = stage.id;
   const online = network?.ws?.readyState === 1 && !network?.retry;
   const canStart =
     online && isHost && present.length > 0 && present.every((m) => m.ready);
-  ui.innerHTML = `<section class="panel lobby"><header class="lobby-header"><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力ロビー</h1></div><div class="lobby-share"><button id="share">招待リンクを共有</button><span id="invite-feedback" role="status"></span></div><span>${present.length} / 4 人</span><button id="leave-lobby">退出</button></header><div class="lobby-workspace"><section class="lobby-mission" aria-label="出撃ステージ"><div class="eyebrow">OPERATION ${String(stage.id).padStart(2, "0")}</div><h2>${esc(MAPS[stage.map].name)}</h2><strong>${esc(stage.name)}</strong><label>ホストが選択<select id="lobby-stage" ${!online || !isHost ? "disabled" : ""}>${stageOptions()}</select></label><div class="mission-facts"><span>${stage.waves.length} WAVES</span><span>道中ドロップ ${Math.round(stage.dropRate * 100)}%</span></div><p>${esc(stage.brief)}</p><div class="lobby-actions"><p class="status" role="status">${!online ? esc(status) : canStart ? "全員の準備が整いました" : isHost ? "隊員の準備完了を待っています" : "ホストの出撃を待っています"}</p><button id="back">出撃準備・装備変更</button><button class="primary" id="begin" ${canStart ? "" : "disabled"}>全員で出撃 ↗</button></div></section><section class="lobby-squad" aria-label="参加メンバー"><div class="squad-heading"><h2>参加メンバー</h2><small>装備 / 状況</small></div><div class="squad-cards">${Array.from(
+  ui.innerHTML = `<section class="panel lobby"><header class="lobby-header"><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力ロビー <span class="room-access-label" data-access="${access.state}">${access.label}</span></h1></div><div class="lobby-share"><button id="share">招待リンクを共有</button><span id="invite-feedback" role="status"></span></div><span>${present.length} / 4 人</span><button id="leave-lobby">退出</button></header><div class="lobby-workspace"><section class="lobby-mission" aria-label="出撃ステージ"><div class="eyebrow">OPERATION ${String(stage.id).padStart(2, "0")}</div><h2>${esc(MAPS[stage.map].name)}</h2><strong>${esc(stage.name)}</strong><label>ホストが選択<select id="lobby-stage" ${!online || !isHost ? "disabled" : ""}>${stageOptions()}</select></label><div class="mission-facts"><span>${stage.waves.length} WAVES</span><span>道中ドロップ ${Math.round(stage.dropRate * 100)}%</span></div><p>${esc(stage.brief)}</p><div class="lobby-actions"><p class="status" role="status">${!online ? esc(status) : canStart ? "全員の準備が整いました" : isHost ? "隊員の準備完了を待っています" : "ホストの出撃を待っています"}</p><button id="back">出撃準備・装備変更</button><button class="primary" id="begin" ${canStart ? "" : "disabled"}>全員で出撃 ↗</button></div></section><section class="lobby-squad" aria-label="参加メンバー"><div class="squad-heading"><h2>参加メンバー</h2><small>装備 / 状況</small></div><div class="squad-cards">${Array.from(
     { length: 4 },
     (_, i) => {
       const m = members[i];
       if (!m)
-        return `<article class="squad-member empty"><span class="member-number">0${i + 1}</span><div><b>参加待ち</b><small>招待リンクから参加できます</small></div></article>`;
+        return `<article class="squad-member empty"><span class="member-number">0${i + 1}</span><div><b>参加待ち</b><small>${network?.roomListed === true ? "部屋一覧から参加できます" : "招待リンクから参加できます"}</small></div></article>`;
       return `<article data-fx-member="${esc(m.id)}" class="squad-member ${m.id === network?.id ? "self" : ""}"><div class="member-heading"><b><span class="member-number">0${i + 1}</span> ${esc(m.name || `隊員 ${String(i + 1).padStart(2, "0")}`)}${m.id === network?.id ? "（あなた）" : ""}</b><small>${m.id === host ? "HOST" : "MEMBER"}</small><span class="member-status ${m.connected && m.ready ? "is-ready" : "is-preparing"}">${!m.connected ? "切断中" : m.ready ? "準備完了" : "準備中…"}</span></div><div class="member-weapons">${[
         0, 1,
       ]
@@ -1207,7 +1209,7 @@ function lobby() {
   if (network?.roomId)
     ui.querySelector(".lobby-header h1")!.insertAdjacentHTML(
       "afterend",
-      `<div class="lobby-room"><small class="lobby-room-name">${esc(network.roomName)}</small><span class="lobby-room-id">招待用パスワード <code id="room-code">${esc(network.roomId)}</code><button id="copy" aria-label="パスワードをコピー" title="パスワードをコピー"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/></svg></button><span id="room-id-feedback" role="status"></span></span></div>`,
+      `<div class="lobby-room"><small class="lobby-room-name">${esc(network.roomName)}</small><span class="lobby-room-id">${network.roomListed === true ? "直接招待用パスワード" : "招待用パスワード"} <code id="room-code">${esc(network.roomId)}</code><button id="copy" aria-label="パスワードをコピー" title="パスワードをコピー"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/></svg></button><span id="room-id-feedback" role="status"></span></span></div>`,
     );
   chatInput.value = draft;
   if (focused) {
