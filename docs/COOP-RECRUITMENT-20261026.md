@@ -44,3 +44,11 @@ Worker Version `be5906cc-c4a8-4fd5-b68c-0a6aabe8434a`、公開先 https://swarm-
 生存の狭い横画面で新しい表示により出撃ボタンが隠れる条件を検出し、待機画面の余白を縮めた。隔離Worker・実WebSocketで公開/非公開の部屋主と参加者へ正しい方式が届くことを生存・進撃で確認。隔離Chromeで2モード×2方式×2寸法の8条件、主要操作の画面内配置と重なりなし、パスワードコピー・生存リンクコピー、画面エラー0を確認した。[画像と条件](evidence/free-lobby-20261027/README.md)。本人の実セーブや本番試験部屋は使用していない。
 
 関連単体11件（募集方式と旧サーバー3、ディレクトリ2、招待3、入力3）、client/worker型、build、production設定のWorker dry-run、整形、差分検査成功。buildには既存の大きいchunk警告がある。初回のネットワーク試験は方式情報が未送信で失敗し、修正後に成功。画面検証の途中失敗と兵士モデルの警告は証拠READMEへ記録。実スマホ・本番の多人数実戦は未確認。独立監査は未依頼・未実施。
+
+## 2026-10-27 待機画面の公開
+
+本人が修正と公開記録のpush・通常PRによるmain反映・既存Worker公開を承認し、[PR225](https://github.com/futsalife24-bot/swarm-front/pull/225)を通常merge。公開ソースmain `b8101d8f63d9e858ee4a5c48a24bfaf8bf3c0a62`、Worker Version `1dcad41f-6622-46fd-a7c3-d815bc531184`、公開先 https://swarm-front.melosalife-24.workers.dev 。merge対象head `31e50fd34de8242723fdf6eba9dc6ce360b38d05` と公開ソースのツリーは一致。GitHubチェック・ステータスは0件で、CI成功とは扱わない。
+
+公開ソースのclean mainからbuildとproduction設定のWorker dry-runが成功。公開先のhealth 200/ok、[配信33ファイル](evidence/free-lobby-20261027/delivery.json)のSHA-256がbuildと一致。公開ファイルをGET専用ローカル中継で読み、隔離Workerと空のChromeプロファイルを使って、生存の公開・非公開×844×390/640×360の4条件、進撃の公開一覧から参加×2サイズを確認した。募集方式と主要操作の画面内表示・非重複、パスワードコピーと生存の招待リンクコピーを確認し、画面エラー0。[公開版の確認手順と証拠](evidence/free-lobby-20261027/README.md)。本番試験部屋・本人の実セーブは使用していない。
+
+公開前に本人承認済みの既存CloudflareアカウントでWorkersのFree/0ドル、当日177/100,000リクエストを確認。Durable Objects画面の当日値は2.01kリクエスト、222 GB秒、SQL読取2.13k行・書込248行、SQL保存540.67kB。公開前のRoom集計にはエラー2件が表示されていたが、原因や本修正との関係は未確認。集計には表示の遅れがあり得る。契約・権限・料金設定の変更はしていない。

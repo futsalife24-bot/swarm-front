@@ -1,0 +1,160 @@
+{
+  "results": [
+    {
+      "mode": "survival",
+      "listed": true,
+      "width": 844,
+      "height": 390,
+      "checks": {
+        "overflow": false,
+        "boxes": [
+          {
+            "selector": ".room-access-label",
+            "left": 29,
+            "right": 129.703125,
+            "top": 106.546875,
+            "bottom": 134.140625
+          },
+          {
+            "selector": "#front-copy-password",
+            "left": 270.890625,
+            "right": 418.921875,
+            "top": 139.140625,
+            "bottom": 188.140625
+          },
+          {
+            "selector": "#front-copy",
+            "left": 426.921875,
+            "right": 582.9375,
+            "top": 139.140625,
+            "bottom": 188.140625
+          },
+          {
+            "selector": "#front-start",
+            "left": 29,
+            "right": 103,
+            "top": 288.453125,
+            "bottom": 337.453125
+          }
+        ]
+      }
+    },
+    {
+      "mode": "survival",
+      "listed": true,
+      "width": 640,
+      "height": 360,
+      "checks": {
+        "overflow": false,
+        "boxes": [
+          {
+            "selector": ".room-access-label",
+            "left": 29,
+            "right": 129.703125,
+            "top": 91.546875,
+            "bottom": 119.140625
+          },
+          {
+            "selector": "#front-copy-password",
+            "left": 270.890625,
+            "right": 418.921875,
+            "top": 124.140625,
+            "bottom": 173.140625
+          },
+          {
+            "selector": "#front-copy",
+            "left": 426.921875,
+            "right": 582.9375,
+            "top": 124.140625,
+            "bottom": 173.140625
+          },
+          {
+            "selector": "#front-start",
+            "left": 29,
+            "right": 103,
+            "top": 273.453125,
+            "bottom": 322.453125
+          }
+        ]
+      }
+    },
+    {
+      "mode": "survival",
+      "listed": false,
+      "width": 844,
+      "height": 390,
+      "checks": {
+        "overflow": false,
+        "boxes": [
+          {
+            "selector": ".room-access-label",
+            "left": 29,
+            "right": 124.359375,
+            "top": 106.546875,
+            "bottom": 134.140625
+          },
+          {
+            "selector": "#front-copy-password",
+            "left": 235.96875,
+            "right": 384,
+            "top": 139.140625,
+            "bottom": 188.140625
+          },
+          {
+            "selector": "#front-copy",
+            "left": 392,
+            "right": 548.015625,
+            "top": 139.140625,
+            "bottom": 188.140625
+          },
+          {
+            "selector": "#front-start",
+            "left": 29,
+            "right": 103,
+            "top": 288.453125,
+            "bottom": 337.453125
+          }
+        ]
+      }
+    },
+    {
+      "mode": "survival",
+      "listed": false,
+      "width": 640,
+      "height": 360,
+      "checks": {
+        "overflow": false,
+        "boxes": [
+          {
+            "selector": ".room-access-label",
+            "left": 29,
+            "right": 124.359375,
+            "top": 91.546875,
+            "bottom": 119.140625
+          },
+          {
+            "selector": "#front-copy-password",
+            "left": 235.96875,
+            "right": 384,
+            "top": 124.140625,
+            "bottom": 173.140625
+          },
+          {
+            "selector": "#front-copy",
+            "left": 392,
+            "right": 548.015625,
+            "top": 124.140625,
+            "bottom": 173.140625
+          },
+          {
+            "selector": "#front-start",
+            "left": 29,
+            "right": 103,
+            "top": 273.453125,
+            "bottom": 322.453125
+          }
+        ]
+      }
+    }
+  ]
+}
