@@ -1,5 +1,13 @@
 # 生存戦の状態送信上限：フェーズ1（2026-10-27）
 
+## 公開結果
+
+本人がPR223のmain反映と既存Worker公開を明示承認し、[PR223](https://github.com/futsalife24-bot/swarm-front/pull/223)を通常merge。公開ソースmainは `ba26e79c4d92a957c13457d7c40cf7303aef4309`、Worker Versionは `17e056d1-2bd1-4b9f-bb21-567e5169e3a5`、公開先は https://swarm-front.melosalife-24.workers.dev 。独立再監査後のPR最終HEAD `e86bac79c652e13d6fede94f41e645f5fd11ff60` からmergeまでのツリー差分はなく、再監査対象 `4bbce832b2d87fed524949d4ac45a37a1944b395` 以降の差分は文書のみ。GitHubのチェック・ステータスは0件で、CI成功とは扱わない。
+
+公開ソースのclean mainからclient buildとproduction設定のdry-runが成功。既存Workerへ公開後、[配信証拠](evidence/state-wire-limit-20261027/delivery.json)のHTML・JS・CSS・manifest・アイコンなど33ファイルはbuildとSHA-256一致、`/api/health` は200/ok。公開版をGET専用のローカル中継（隔離オリジン）で実ブラウザ表示し、[更新履歴](evidence/state-wire-limit-20261027/published-changelog.png)と[生存の協力募集画面](evidence/state-wire-limit-20261027/published-survival-menu.png)を確認、画面エラー0。本人の実セーブは使わず、本番試験部屋も作成していない。これは実スマホ・本番での多人数戦闘や長時間の性能確認ではない。
+
+公開前に本人承認済みの既存Cloudflareアカウントで、WorkersのFree/0ドルと当日66/100,000リクエストを確認。Durable Objectsの画面値は当日874リクエスト、10 GB秒、SQL読取830行・書込94行、SQL保存540.67kB。集計時刻・表示の遅れはあり得る。契約・権限・料金設定は変更していない。
+
 ## 対象と方式
 
 基点はmain `7c33c877ff87e4ca18043d902c14bb316d7e3067`。生存戦の96体・オーブ密集で64KiBを超える問題への対処。権威World、敵数・判定・報酬、クライアント受信上限は変更しない。

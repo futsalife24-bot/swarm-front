@@ -1,0 +1,281 @@
+{
+  "checkedAt": "2026-10-27T05:03:32.294Z",
+  "source": "ba26e79c4d92a957c13457d7c40cf7303aef4309",
+  "workerVersion": "17e056d1-2bd1-4b9f-bb21-567e5169e3a5",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "health": {
+    "status": 200,
+    "body": {
+      "ok": true,
+      "transport": "websocket",
+      "authority": "durable-object"
+    }
+  },
+  "pass": true,
+  "checks": [
+    {
+      "path": "anomaly-voices.html",
+      "status": 200,
+      "bytes": 6870,
+      "localSha256": "041ae76658ff785de3bed305438eec4127396a20d0a7c440a4e8d23464dd14bb",
+      "publicSha256": "041ae76658ff785de3bed305438eec4127396a20d0a7c440a4e8d23464dd14bb",
+      "pass": true
+    },
+    {
+      "path": "assets/cloud-save-BBiSZ6Zy.js",
+      "status": 200,
+      "bytes": 97070,
+      "localSha256": "d01143337aa992c58306ba64ace77b1d1391250ed05fe8ccfa124604070d8904",
+      "publicSha256": "d01143337aa992c58306ba64ace77b1d1391250ed05fe8ccfa124604070d8904",
+      "pass": true
+    },
+    {
+      "path": "assets/cloud-save-JJ_IZvHQ.css",
+      "status": 200,
+      "bytes": 2243,
+      "localSha256": "885d28d99d2fd5e2cd6caba86893b22c8ef03a6eec40d333c8058ee08a7bd8e6",
+      "publicSha256": "885d28d99d2fd5e2cd6caba86893b22c8ef03a6eec40d333c8058ee08a7bd8e6",
+      "pass": true
+    },
+    {
+      "path": "assets/front-B7UKBT1S.js",
+      "status": 200,
+      "bytes": 98859,
+      "localSha256": "b97b27af022d169e2556c513ae0cf7d4bd469ad425c168960813fd398ed8ba2b",
+      "publicSha256": "b97b27af022d169e2556c513ae0cf7d4bd469ad425c168960813fd398ed8ba2b",
+      "pass": true
+    },
+    {
+      "path": "assets/front-CfbWKfsS.css",
+      "status": 200,
+      "bytes": 23420,
+      "localSha256": "e63b21f942ef9da20c9f199f7704af4595bb2e4af97c8061fbf7d855b69dad4b",
+      "publicSha256": "e63b21f942ef9da20c9f199f7704af4595bb2e4af97c8061fbf7d855b69dad4b",
+      "pass": true
+    },
+    {
+      "path": "assets/game-select-BBcbApPk.css",
+      "status": 200,
+      "bytes": 4775,
+      "localSha256": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75",
+      "publicSha256": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75",
+      "pass": true
+    },
+    {
+      "path": "assets/game-select-CSU_Dc4I.js",
+      "status": 200,
+      "bytes": 11837,
+      "localSha256": "4aa123879f13b293be6a8d0aadaad978399a3a987e374a9dd4be2bef0cb5e360",
+      "publicSha256": "4aa123879f13b293be6a8d0aadaad978399a3a987e374a9dd4be2bef0cb5e360",
+      "pass": true
+    },
+    {
+      "path": "assets/hud-B3r2V75c.js",
+      "status": 200,
+      "bytes": 981334,
+      "localSha256": "4752d931f2648e03e0caa19d0e519b9780b266fa75fb7dbb04c68130e7c0c11e",
+      "publicSha256": "4752d931f2648e03e0caa19d0e519b9780b266fa75fb7dbb04c68130e7c0c11e",
+      "pass": true
+    },
+    {
+      "path": "assets/hud-KJkCjEBB.css",
+      "status": 200,
+      "bytes": 108021,
+      "localSha256": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3",
+      "publicSha256": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3",
+      "pass": true
+    },
+    {
+      "path": "assets/legacy-CPbai1ZT.css",
+      "status": 200,
+      "bytes": 259,
+      "localSha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "publicSha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "pass": true
+    },
+    {
+      "path": "assets/legacy-CT62SdFM.js",
+      "status": 200,
+      "bytes": 16516,
+      "localSha256": "939be2801ed9d9913e9449e66ab646d76a3ad7cff78a8cc61f5fdda5ee246ad5",
+      "publicSha256": "939be2801ed9d9913e9449e66ab646d76a3ad7cff78a8cc61f5fdda5ee246ad5",
+      "pass": true
+    },
+    {
+      "path": "assets/main-BOIn8V8d.css",
+      "status": 200,
+      "bytes": 1316,
+      "localSha256": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "publicSha256": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "pass": true
+    },
+    {
+      "path": "assets/main-C57SXvJq.js",
+      "status": 200,
+      "bytes": 53496,
+      "localSha256": "16a75d708250fe027d41552c0586b7fb5e4a4aecc0ca844d6cddabd311ed45cd",
+      "publicSha256": "16a75d708250fe027d41552c0586b7fb5e4a4aecc0ca844d6cddabd311ed45cd",
+      "pass": true
+    },
+    {
+      "path": "assets/playtest-app-CU5IufCk.css",
+      "status": 200,
+      "bytes": 8530,
+      "localSha256": "f8dd2dc94f98d22ff4906c0ff444e119d3eb9f0847b66d56941305824879cee9",
+      "publicSha256": "f8dd2dc94f98d22ff4906c0ff444e119d3eb9f0847b66d56941305824879cee9",
+      "pass": true
+    },
+    {
+      "path": "assets/playtest-app-nP540_y9.js",
+      "status": 200,
+      "bytes": 79943,
+      "localSha256": "1969c6305c29b132d0f967b6105809ffafe3972cf9b7c75b6344495125e6325f",
+      "publicSha256": "1969c6305c29b132d0f967b6105809ffafe3972cf9b7c75b6344495125e6325f",
+      "pass": true
+    },
+    {
+      "path": "assets/room-browser-BJA7R959.js",
+      "status": 200,
+      "bytes": 6303,
+      "localSha256": "8b6c4b56d4f4ae92f08f491b59d265a32e27e546cf16f7c1599dadb769459694",
+      "publicSha256": "8b6c4b56d4f4ae92f08f491b59d265a32e27e546cf16f7c1599dadb769459694",
+      "pass": true
+    },
+    {
+      "path": "assets/room-browser-CUD_9yvn.css",
+      "status": 200,
+      "bytes": 5561,
+      "localSha256": "bb1c35456ca36748fa4ef0d22eb5929fd9dd44da5440d699818aeb7f32ccfcda",
+      "publicSha256": "bb1c35456ca36748fa4ef0d22eb5929fd9dd44da5440d699818aeb7f32ccfcda",
+      "pass": true
+    },
+    {
+      "path": "assets/save-writer-1KPK4PTi.js",
+      "status": 200,
+      "bytes": 34135,
+      "localSha256": "5db415209b88921629bcf4de8665315476ab1f16f89812a3857dd139c04288be",
+      "publicSha256": "5db415209b88921629bcf4de8665315476ab1f16f89812a3857dd139c04288be",
+      "pass": true
+    },
+    {
+      "path": "assets/save-writer-6ccprsHO.css",
+      "status": 200,
+      "bytes": 2328,
+      "localSha256": "e40c4ebae34cd465c956204dd5b402c39f69198cdb75666088f43dbfaebc18f8",
+      "publicSha256": "e40c4ebae34cd465c956204dd5b402c39f69198cdb75666088f43dbfaebc18f8",
+      "pass": true
+    },
+    {
+      "path": "assets/training-app-Dfw0d8Aw.js",
+      "status": 200,
+      "bytes": 3767,
+      "localSha256": "c61d6274f03f42cf99c09dd87a9fa54976239e8d42a3f224ead82093c22a8a41",
+      "publicSha256": "c61d6274f03f42cf99c09dd87a9fa54976239e8d42a3f224ead82093c22a8a41",
+      "pass": true
+    },
+    {
+      "path": "assets/weapon-sharing-Cl2O75SZ.js",
+      "status": 200,
+      "bytes": 4753,
+      "localSha256": "821ac35c0abc976d0290a1db5803739fb5d254b52a87dfacc5f9b9bf3f9a62ad",
+      "publicSha256": "821ac35c0abc976d0290a1db5803739fb5d254b52a87dfacc5f9b9bf3f9a62ad",
+      "pass": true
+    },
+    {
+      "path": "assets/weapon-workshop-ui-19tKwTO6.css",
+      "status": 200,
+      "bytes": 37201,
+      "localSha256": "07b6043857f41259f794674088eaf3e8b5b722094b158ab12ec6cefd75fc8b02",
+      "publicSha256": "07b6043857f41259f794674088eaf3e8b5b722094b158ab12ec6cefd75fc8b02",
+      "pass": true
+    },
+    {
+      "path": "assets/weapon-workshop-ui-4TQwF_rH.js",
+      "status": 200,
+      "bytes": 447412,
+      "localSha256": "d34c3407b653854c5dbbb1d7211179c624a3ab02549b4037d933b4f2e6f643a2",
+      "publicSha256": "d34c3407b653854c5dbbb1d7211179c624a3ab02549b4037d933b4f2e6f643a2",
+      "pass": true
+    },
+    {
+      "path": "assets/zoom-guard-CYxqEXnM.js",
+      "status": 200,
+      "bytes": 387,
+      "localSha256": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "publicSha256": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "pass": true
+    },
+    {
+      "path": "briefing/index.html",
+      "status": 200,
+      "bytes": 59139,
+      "localSha256": "c727868b6a291da432efcf21e48a2cfb35ceae5b1cd136c4c18427d0476c46bc",
+      "publicSha256": "c727868b6a291da432efcf21e48a2cfb35ceae5b1cd136c4c18427d0476c46bc",
+      "pass": true
+    },
+    {
+      "path": "briefing/slides.html",
+      "status": 200,
+      "bytes": 5351501,
+      "localSha256": "9b6e9fedf6a3a15134d4634b5c5c46a6648da831a41bcfd2aa3add0ab07d63a5",
+      "publicSha256": "9b6e9fedf6a3a15134d4634b5c5c46a6648da831a41bcfd2aa3add0ab07d63a5",
+      "pass": true
+    },
+    {
+      "path": "front.html",
+      "status": 200,
+      "bytes": 2939,
+      "localSha256": "ba479a1e8c2214f387134f26e9b9a7df8234917dcdf092e13f9eaf0fb6f4ed89",
+      "publicSha256": "ba479a1e8c2214f387134f26e9b9a7df8234917dcdf092e13f9eaf0fb6f4ed89",
+      "pass": true
+    },
+    {
+      "path": "icon-swarm-v4-192.png",
+      "status": 200,
+      "bytes": 86143,
+      "localSha256": "abfe8b0da1d1665e928701f0ef1e06f4cc119c52911445092fc9bc47bb0c87e2",
+      "publicSha256": "abfe8b0da1d1665e928701f0ef1e06f4cc119c52911445092fc9bc47bb0c87e2",
+      "pass": true
+    },
+    {
+      "path": "icon-swarm-v4-512-maskable.png",
+      "status": 200,
+      "bytes": 417504,
+      "localSha256": "9158e3e3c1ec01aac92374645390c6872c9c5fef79dbde84309efc86c7074c0e",
+      "publicSha256": "9158e3e3c1ec01aac92374645390c6872c9c5fef79dbde84309efc86c7074c0e",
+      "pass": true
+    },
+    {
+      "path": "icon-swarm-v4-512.png",
+      "status": 200,
+      "bytes": 539155,
+      "localSha256": "0e469688f9f566178c594dd0557d3097f24c174a9f48efeec4913beed8c929fd",
+      "publicSha256": "0e469688f9f566178c594dd0557d3097f24c174a9f48efeec4913beed8c929fd",
+      "pass": true
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 3810,
+      "localSha256": "f810d80fcc2337a1a6accfb2985da5aae5acc0b03eacfd7b1833596f25f91c68",
+      "publicSha256": "f810d80fcc2337a1a6accfb2985da5aae5acc0b03eacfd7b1833596f25f91c68",
+      "pass": true
+    },
+    {
+      "path": "manifest.webmanifest",
+      "status": 200,
+      "bytes": 792,
+      "localSha256": "a395e41a6419798be87fb74999412078387866aca0e9db0e15a3cf69d52e4cf6",
+      "publicSha256": "a395e41a6419798be87fb74999412078387866aca0e9db0e15a3cf69d52e4cf6",
+      "pass": true
+    },
+    {
+      "path": "sw.js",
+      "status": 200,
+      "bytes": 3403,
+      "localSha256": "cda986fdea0ed741110f22d38e4bef437e0ccb0d33ba83299db4f9f1d70bf54c",
+      "publicSha256": "cda986fdea0ed741110f22d38e4bef437e0ccb0d33ba83299db4f9f1d70bf54c",
+      "pass": true
+    }
+  ]
+}

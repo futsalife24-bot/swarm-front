@@ -10,4 +10,6 @@
 
 `reaudit-4bbce83.txt` は修正後HEAD `4bbce832b2d87fed524949d4ac45a37a1944b395` の独立再監査原本（SHA-256 `0dc0455aa3fbe068f189d967d7b27009f9dffe7eb6ede13b84543094dc01cba3`）。基点の旧画面と修正後の新画面を対象に合格、必須指摘0件。未公開の初回監査版を開いた画面には再読込が必要。独立実行で完了できなかった素材・Git・build、および実スマホ等の限界は報告原本を参照。
 
+`delivery.json` は公開ソース `ba26e79c4d92a957c13457d7c40cf7303aef4309` とWorker Version `17e056d1-2bd1-4b9f-bb21-567e5169e3a5` の配信33ファイルのハッシュ照合およびhealth結果。`published-changelog.png` / `published-survival-menu.png` は公開ファイルをGET専用のローカル中継で表示した隔離ブラウザの画面。実スマホや本番ルームでの検証ではない。
+
 テスト範囲・初回失敗と再実行・精度の懸念は [詳細記録](../../STATE-WIRE-LIMIT-20261027.md) を参照。
