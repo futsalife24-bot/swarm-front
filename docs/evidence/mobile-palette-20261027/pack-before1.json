@@ -1,0 +1,204 @@
+{
+  "passed": true,
+  "browser": "155.0.8059.85",
+  "head": "518c97261fdff13e4f70b7f11ef970a8e9af43c7",
+  "seed": 4520,
+  "viewport": [
+    844,
+    390
+  ],
+  "gpu": "native",
+  "draw": true,
+  "warmup": 120,
+  "samples": 180,
+  "trials": [
+    {
+      "label": "after",
+      "textureCalls": 17640,
+      "sections": {
+        "harrow": {
+          "p95": 0.10000002384185791,
+          "mean": 0.030000000529819066
+        },
+        "calyx": {
+          "p95": 0.10000002384185791,
+          "mean": 0.011666667461395264
+        },
+        "crawler": {
+          "p95": 3.899999976158142,
+          "mean": 1.9866666651434368
+        },
+        "ant": {
+          "p95": 0,
+          "mean": 0.004444444841808743
+        },
+        "spider": {
+          "p95": 0.10000002384185791,
+          "mean": 0.007222222950723436
+        },
+        "spitter": {
+          "p95": 0,
+          "mean": 0.00388888849152459
+        },
+        "hornet": {
+          "p95": 0,
+          "mean": 0.004444443848397997
+        },
+        "boss": {
+          "p95": 0.09999996423721313,
+          "mean": 0.005555556217829386
+        },
+        "gpuSubmit": {
+          "p95": 6.599999964237213,
+          "mean": 3.5727777782413694
+        }
+      },
+      "enemies": 96,
+      "frames": 180,
+      "p50": 16.69999998807907,
+      "p95": 17.400000035762787,
+      "max": 18.600000023841858,
+      "stalls50": 0,
+      "cpuP95": 12.099999964237213,
+      "arrayReplacements": 1,
+      "active": 148,
+      "renderInfo": {
+        "frame": 300,
+        "calls": 200,
+        "triangles": 1393648,
+        "points": 0,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 78,
+        "textures": 29
+      },
+      "renderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "elapsed": 9074.600000023842,
+      "hidden": false,
+      "pixelRatio": 1,
+      "longTasks": [],
+      "pendingAssets": 0,
+      "assetErrors": [],
+      "heapBytes": 39397664,
+      "heapBeforeBytes": 19379116
+    }
+  ],
+  "errors": [],
+  "progress": [
+    {
+      "label": "after",
+      "trial": 0,
+      "stage": "construct",
+      "hidden": false
+    },
+    {
+      "label": "after",
+      "trial": 0,
+      "stage": "ready",
+      "renderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "enemies": 96,
+      "elapsed": 70
+    },
+    {
+      "label": "after",
+      "trial": 0,
+      "stage": "frame",
+      "frame": 0,
+      "elapsed": 1133.9000000357628,
+      "cpu": 1062.300000011921,
+      "pendingAssets": 1,
+      "geometries": 36
+    },
+    {
+      "label": "after",
+      "trial": 0,
+      "stage": "frame",
+      "frame": 30,
+      "elapsed": 4397.300000011921,
+      "cpu": 594.6999999880791,
+      "pendingAssets": 0,
+      "geometries": 78
+    },
+    {
+      "label": "after",
+      "trial": 0,
+      "stage": "frame",
+      "frame": 60,
+      "elapsed": 5083.5,
+      "cpu": 9.800000011920929,
+      "pendingAssets": 0,
+      "geometries": 78
+    },
+    {
+      "label": "after",
+      "trial": 0,
+      "stage": "frame",
+      "frame": 90,
+      "elapsed": 5579.600000023842,
+      "cpu": 6.400000035762787,
+      "pendingAssets": 0,
+      "geometries": 78
+    },
+    {
+      "label": "after",
+      "trial": 0,
+      "stage": "frame",
+      "frame": 120,
+      "elapsed": 6083,
+      "cpu": 9.099999964237213,
+      "pendingAssets": 0,
+      "geometries": 78
+    },
+    {
+      "label": "after",
+      "trial": 0,
+      "stage": "frame",
+      "frame": 150,
+      "elapsed": 6583.400000035763,
+      "cpu": 10.100000023841858,
+      "pendingAssets": 0,
+      "geometries": 78
+    },
+    {
+      "label": "after",
+      "trial": 0,
+      "stage": "frame",
+      "frame": 180,
+      "elapsed": 7081.400000035763,
+      "cpu": 8.200000047683716,
+      "pendingAssets": 0,
+      "geometries": 78
+    },
+    {
+      "label": "after",
+      "trial": 0,
+      "stage": "frame",
+      "frame": 210,
+      "elapsed": 7581.699999988079,
+      "cpu": 8.299999952316284,
+      "pendingAssets": 0,
+      "geometries": 78
+    },
+    {
+      "label": "after",
+      "trial": 0,
+      "stage": "frame",
+      "frame": 240,
+      "elapsed": 8078.199999988079,
+      "cpu": 4.799999952316284,
+      "pendingAssets": 0,
+      "geometries": 78
+    },
+    {
+      "label": "after",
+      "trial": 0,
+      "stage": "frame",
+      "frame": 270,
+      "elapsed": 8581,
+      "cpu": 7.699999988079071,
+      "pendingAssets": 0,
+      "geometries": 78
+    }
+  ]
+}

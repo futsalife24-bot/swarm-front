@@ -72,6 +72,44 @@ function frame(state: PleatState, q: T.Quaternion) {
   return state;
 }
 describe("PLEAT actual rig procedural skinning", () => {
+  it("横並びの境界と最大個体数でも全骨行列と既存クリップを保持する", () => {
+    const batch = new HoundMotionBatch(asset, 96);
+    const shader = {
+      uniforms: {},
+      vertexShader: "#include <common>",
+    } as Parameters<T.Material["onBeforeCompile"]>[0];
+    (batch.parts[0].material as T.Material).onBeforeCompile(
+      shader,
+      {} as T.WebGLRenderer,
+    );
+    const palette = shader.uniforms.houndPalette.value as T.DataTexture;
+    const pixels = palette.image.data as Float32Array;
+    expect(palette.image.width).toBeLessThanOrEqual(2048);
+    expect(palette.image.height).toBeLessThan(96);
+    expect(pixels.slice(0, asset.atlas.image.data.length)).toEqual(
+      asset.atlas.image.data,
+    );
+    for (let slot = 0; slot < 96; slot++) {
+      const matrices = Array.from({ length: asset.bones }, (_, bone) =>
+        new T.Matrix4().makeTranslation(slot, bone, slot + bone),
+      );
+      batch.setProceduralPose(slot, matrices);
+    }
+    // 全個体を書いた後に照合し、行境界で隣の個体を壊す不具合も検出する。
+    for (let slot = 0; slot < 96; slot++) {
+      const row = batch.poseA.getX(slot);
+      for (let bone = 0; bone < asset.bones; bone++) {
+        const matrix = new T.Matrix4().fromArray(
+          pixels,
+          (row * asset.bones + bone) * 16,
+        );
+        expect(matrix.elements).toEqual(
+          new T.Matrix4().makeTranslation(slot, bone, slot + bone).elements,
+        );
+      }
+    }
+    batch.dispose();
+  });
   it("keeps the four authored limb lengths, including unreachable and coincident targets", () => {
     const r = asset.proceduralRest!;
     expect(asset.bones).toBe(20);
