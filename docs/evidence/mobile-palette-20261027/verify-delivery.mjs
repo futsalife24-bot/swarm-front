@@ -33,5 +33,3 @@ const result = { checkedAt: new Date().toISOString(), source: input.gitHead, wor
 writeFileSync('dist-mobile-diagnosis/delivery.json', JSON.stringify(result, null, 2) + '\n');
 console.log(JSON.stringify({ pass, health, files: checks.length, failed: checks.filter(item => !item.pass) }));
 if (!pass) process.exitCode = 1;
-
-
