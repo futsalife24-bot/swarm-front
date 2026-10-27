@@ -302,6 +302,7 @@ export class HoundMotionBatch {
   private proceduralAtlas?: T.DataTexture;
   private proceduralStart = 0;
   private fullPaletteUpload = true;
+  private paletteRowsPerLine = 1;
   constructor(
     readonly asset: HoundMotionAsset,
     readonly capacity: number,
@@ -309,14 +310,22 @@ export class HoundMotionBatch {
     this.group.name = "HOUND_MOTION_DEBUG";
     if (asset.proceduralRest) {
       this.proceduralStart = asset.atlas.image.height;
-      const data = new Float32Array(
-        (this.proceduralStart + capacity) * asset.bones * 16,
+      // 接地姿勢を横に並べ、隣接する敵の更新を同じGPU転送へまとめる。
+      // WebGL2の最低保証幅2048以内に収め、論理行と骨行列の順序は保つ。
+      this.paletteRowsPerLine = Math.max(
+        1,
+        Math.min(16, Math.floor(2048 / (asset.bones * 4))),
       );
+      const width = asset.bones * 4 * this.paletteRowsPerLine;
+      const height = Math.ceil(
+        (this.proceduralStart + capacity) / this.paletteRowsPerLine,
+      );
+      const data = new Float32Array(width * height * 4);
       data.set(asset.atlas.image.data as Float32Array);
       this.proceduralAtlas = new T.DataTexture(
         data,
-        asset.bones * 4,
-        this.proceduralStart + capacity,
+        width,
+        height,
         T.RGBAFormat,
         T.FloatType,
       );
@@ -352,7 +361,7 @@ export class HoundMotionBatch {
         };
         shader.uniforms.houndPaletteSize = {
           value: new T.Vector2(
-            asset.bones * 4,
+            this.proceduralAtlas?.image.width ?? asset.bones * 4,
             this.proceduralAtlas?.image.height ?? asset.atlas.image.height,
           ),
         };
@@ -376,7 +385,7 @@ ${
     ? TRS_PALETTE_GLSL
     : `
 mat4 houndBone(float bone,float row) {
-  vec2 uv=vec2(bone*4.0+.5,row+.5)/houndPaletteSize;
+  vec2 uv=${this.paletteRowsPerLine === 1 ? "vec2(bone*4.0+.5,row+.5)" : `vec2(mod(row,${this.paletteRowsPerLine.toFixed(1)})*${(asset.bones * 4).toFixed(1)}+bone*4.0+.5,floor(row/${this.paletteRowsPerLine.toFixed(1)})+.5)`}/houndPaletteSize;
   vec2 dx=vec2(1.0/houndPaletteSize.x,0.0);
   return mat4(texture2D(houndPalette,uv),texture2D(houndPalette,uv+dx),texture2D(houndPalette,uv+dx*2.0),texture2D(houndPalette,uv+dx*3.0));
 }
@@ -408,7 +417,9 @@ objectNormal=mat3(houndSkin)*objectNormal;
       material.customProgramCacheKey = () =>
         asset.trsAtlas
           ? "calyx-motion-local-trs-v1"
-          : "hound-motion-palette-v1";
+          : this.proceduralAtlas
+            ? `hound-motion-palette-v2-${this.paletteRowsPerLine}-${asset.bones}`
+            : "hound-motion-palette-v1";
       const part = new T.InstancedMesh(geometry, material, capacity);
       part.name = source.name;
       part.count = 0;
