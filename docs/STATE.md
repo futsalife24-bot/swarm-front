@@ -1,3 +1,9 @@
+# 現在地: 戦闘FPS表示を追加（2026-10-28、公開承認待ち）
+
+生存・進撃の戦闘画面左下に小さく実測FPSを表示。約1秒集計、停止中は「— FPS」。基点e1fd800d41b8f8fa5266345353ecffe0d940f34a、branch codex/battle-fps-20261028。型/build/dry-run、実Chrome横画面2サイズ・30/60設定・停止復帰・長停止計算を確認。[証拠](evidence/battle-fps-20261028/README.md)。実OPPO未確認。元rootの差分保持。
+
+commit/push/PR作成の申請を自動承認レビューが冒頭の禁止と今回の明示承認不足を理由に拒否。操作未実施、未stage・未commit。再開条件は今回のFPS変更と記録のcommit/push/通常main反映/既存Worker公開の本人承認。
+
 # 現在地: スマホ描画の姿勢転送を集約・公開（2026-10-28）
 
 [PR227](https://github.com/futsalife24-bot/swarm-front/pull/227)を本人承認後に通常merge。公開ソースmain `e881c3d89dbdccdc7ef9daaf7f207435d2007038`、既存Worker Version `4f6fdc3e-f76e-4503-8c06-fde4ca045e70`。配信33ファイルのSHA一致、health 200/ok。配信版をGET専用中継・空プロファイルで起動し、生存13秒、1280幅の新しい姿勢テクスチャ、画面エラー0を確認。実セーブ・本番部屋は不使用。GitHubチェックは0件でCI成功とは扱わない。

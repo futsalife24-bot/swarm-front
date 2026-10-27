@@ -719,3 +719,19 @@ body.front-game #ui .front-initial label {
 .front-fusion-heading {
   grid-column: 1 / -1;
 }
+
+/* 操作を遮らず、安全領域の内側に小さく表示する。 */
+.battle-fps {
+  position: fixed;
+  left: calc(env(safe-area-inset-left, 0px) + 6px);
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 4px);
+  z-index: 20;
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: rgb(0 0 0 / 55%);
+  color: #e5eeef;
+  font: 11px/1.3 monospace;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  user-select: none;
+}

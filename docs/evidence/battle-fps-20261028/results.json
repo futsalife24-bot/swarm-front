@@ -1,0 +1,38 @@
+{
+  "results": [
+    {
+      "width": 844,
+      "height": 390,
+      "frameRate": 60,
+      "reading": "60 FPS",
+      "box": {
+        "x": 6,
+        "y": 369.703125,
+        "width": 44,
+        "height": 16.296875
+      },
+      "paused": "— FPS",
+      "errors": []
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "frameRate": 30,
+      "reading": "30 FPS",
+      "box": {
+        "x": 6,
+        "y": 339.703125,
+        "width": 44,
+        "height": 16.296875
+      },
+      "paused": "— FPS",
+      "errors": []
+    }
+  ],
+  "sample": {
+    "thirty": "30 FPS",
+    "stall": "1 FPS",
+    "pause": "— FPS",
+    "resume": "60 FPS"
+  }
+}
