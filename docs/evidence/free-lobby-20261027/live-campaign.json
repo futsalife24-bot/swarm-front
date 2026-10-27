@@ -1,0 +1,78 @@
+{
+  "results": [
+    {
+      "mode": "campaign",
+      "listed": true,
+      "width": 844,
+      "height": 390,
+      "boxes": [
+        {
+          "selector": ".room-access-label",
+          "left": 123.640625,
+          "right": 226.984375,
+          "top": 26,
+          "bottom": 53.59375
+        },
+        {
+          "selector": "#copy",
+          "left": 288.625,
+          "right": 324.625,
+          "top": 55.59375,
+          "bottom": 91.59375
+        },
+        {
+          "selector": "#share",
+          "left": 350.625,
+          "right": 460.9375,
+          "top": 40.796875,
+          "bottom": 74.796875
+        },
+        {
+          "selector": "#leave-lobby",
+          "left": 769,
+          "right": 819,
+          "top": 40.796875,
+          "bottom": 74.796875
+        }
+      ]
+    },
+    {
+      "mode": "campaign",
+      "listed": true,
+      "width": 640,
+      "height": 360,
+      "boxes": [
+        {
+          "selector": ".room-access-label",
+          "left": 123.640625,
+          "right": 226.984375,
+          "top": 26,
+          "bottom": 53.59375
+        },
+        {
+          "selector": "#copy",
+          "left": 258.921875,
+          "right": 294.921875,
+          "top": 55.59375,
+          "bottom": 91.59375
+        },
+        {
+          "selector": "#share",
+          "left": 312.921875,
+          "right": 423.234375,
+          "top": 40.796875,
+          "bottom": 74.796875
+        },
+        {
+          "selector": "#leave-lobby",
+          "left": 565,
+          "right": 615,
+          "top": 40.796875,
+          "bottom": 74.796875
+        }
+      ]
+    }
+  ],
+  "join": "公開一覧から隔離部屋へ参加",
+  "errors": []
+}
