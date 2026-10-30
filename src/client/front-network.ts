@@ -13,7 +13,8 @@ import type { Weapon } from "../shared/defs";
 import { validStage } from "../shared/stages";
 import { EquipmentCache } from "../shared/state-wire";
 import { restoreStateTuples } from "../shared/state-tuples";
-import { StateChunkAssembler } from "../shared/state-chunks";
+import { StateChunkReceiver } from "./state-chunk-receiver";
+import { ConnectionDiagnostics } from "./connection-diagnostics";
 import { StateOmissionCache } from "./state-omissions";
 import { StateReceipt } from "./state-receipt";
 import { InputWindow } from "./input-window";
@@ -117,6 +118,8 @@ export class FrontNetwork {
   equip: Weapon[] = [];
   upgradePool: FrontUpgradeId[] = [...FRONT_BASE_IDS];
   clearedStage = 0;
+  private chunks: StateChunkReceiver | undefined;
+  readonly diagnostics = new ConnectionDiagnostics();
   private inputAt = -Infinity;
   private pendingInput: Input | undefined;
   private usesInputAck = false;
@@ -158,6 +161,8 @@ export class FrontNetwork {
     return (await res.json()).code as string;
   }
   connect(code: string, token = "") {
+    this.diagnostics.reset();
+    this.chunks?.close();
     this.inputLoop.stop();
     this.stateReceipt.configure(false);
     this.roomListed = undefined;
@@ -182,7 +187,14 @@ export class FrontNetwork {
     this.inputWindow.configure(false);
     const equipmentCache = new EquipmentCache();
     const omissionCache = new StateOmissionCache();
-    const chunks = new StateChunkAssembler();
+    const chunks = new StateChunkReceiver(() => {
+      if (!this.closed && this.ws === ws && ws.readyState === 1) {
+        this.inputLoop.stop();
+        this.stateReceipt.configure(false);
+        ws.close(1000, "戦況データを再取得します");
+      }
+    });
+    this.chunks = chunks;
     let welcomed = false;
     let firstState = true;
     const timeout = setTimeout(() => {
@@ -215,6 +227,7 @@ export class FrontNetwork {
       try {
         // Framing owns the unchanged per-message cap and clears corrupt assembly.
         m = chunks.read(e.data);
+        if (m === undefined) return;
         if (!restoreStateTuples(m)) return;
         if (!m || typeof m !== "object" || typeof m.type !== "string") return;
         if (
@@ -269,6 +282,7 @@ export class FrontNetwork {
         welcomed = true;
         if (m.ruleset !== "front-v1") {
           this.closed = true;
+          chunks.close();
           ws.close();
           this.onStatus("改装版の部屋ではありません", true);
           return;
@@ -286,13 +300,13 @@ export class FrontNetwork {
         this.roomName = typeof m.roomName === "string" ? m.roomName : "";
         this.roomListed = typeof m.listed === "boolean" ? m.listed : undefined;
         this.token = m.token;
-        this.retry = 0;
         this.rememberSession(
           Number.isFinite(m.expiresAt) ? m.expiresAt : Date.now() + 3600000,
         );
         if (m.frontOpening !== 2) {
           // 古いWorkerへ新形式を送らず、復帰トークンを保持して更新を案内する。
           this.closed = true;
+          chunks.close();
           ws.close();
           this.onStatus(
             "通信先の強化ルールが旧版です。少し待って画面を再読み込みしてください",
@@ -313,6 +327,8 @@ export class FrontNetwork {
         if (!this.closed && this.ws === ws && ws.readyState === 1)
           this.inputLoop.start();
       } else if (m.type === "state") {
+        this.diagnostics.state();
+        this.retry = 0;
         this.stateReceipt.receive(m.stateId);
         if (this.usesInputAck && Number.isSafeInteger(m.inputAck)) {
           this.inputWindow.acknowledge(m.inputAck, m.inputReceivedAt);
@@ -336,6 +352,7 @@ export class FrontNetwork {
         this.onWorld(m.world, firstState);
         firstState = false;
       } else if (m.type === "lobby") {
+        this.retry = 0;
         if (validStage(m.stage) && this.stage !== m.stage) {
           this.stage = m.stage;
           this.assetReady = false;
@@ -354,6 +371,7 @@ export class FrontNetwork {
           );
         this.onChat();
       } else if (m.type === "error") {
+        chunks.close();
         this.inputLoop.stop();
         this.stateReceipt.configure(false);
         this.closed = true;
@@ -363,9 +381,11 @@ export class FrontNetwork {
           // The fatal server response is still shown when storage is unavailable.
         }
         this.onStatus(m.reason, true);
-      } else if (m.type === "notice") this.onStatus(m.reason, false);
+      } else if (m.type === "pong") this.diagnostics.pong();
+      else if (m.type === "notice") this.onStatus(m.reason, false);
     };
     ws.onclose = (e) => {
+      chunks.close();
       clearTimeout(timeout);
       if (this.closed || this.ws !== ws) return;
       this.inputLoop.stop();
@@ -412,8 +432,16 @@ export class FrontNetwork {
     }
   }
   send(value: unknown) {
-    if (this.ws?.readyState === 1)
+    if (this.ws?.readyState === 1) {
       this.ws.send(JSON.stringify(this.stateReceipt.attach(value)));
+      if (
+        value &&
+        typeof value === "object" &&
+        "type" in value &&
+        value.type === "ping"
+      )
+        this.diagnostics.ping();
+    }
   }
   setInputSource(source?: NetworkInputSource) {
     this.inputLoop.setInputSource(source);
@@ -501,6 +529,9 @@ export class FrontNetwork {
     return true;
   }
   close() {
+    this.diagnostics.reset();
+    this.chunks?.close();
+    this.chunks = undefined;
     this.inputLoop.close();
     this.stateReceipt.configure(false);
     this.closed = true;

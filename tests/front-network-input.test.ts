@@ -2,7 +2,9 @@ import { afterEach, expect, it, vi } from "vitest";
 import { FrontNetwork } from "../src/client/front-network";
 import { Network } from "../src/client/network";
 import { InputWindow } from "../src/client/input-window";
-import { neutral } from "../src/shared/game";
+import { neutral, createWorld, addPlayer } from "../src/shared/game";
+import { encodeStateChunks } from "../src/shared/state-chunks";
+import { StateDelivery, deliverState } from "../server/state-delivery";
 
 it("上り滞留の連続悪化だけを抑え、時計差と下り到着待ちを判定に混ぜない", () => {
   const window = new InputWindow();
@@ -49,6 +51,7 @@ it("入力受信時刻が不明なら4件へ戻し、新接続では新しい時
 
 class Socket {
   static last: Socket;
+  static all: Socket[] = [];
   readyState = 1;
   bufferedAmount = 0;
   sent: any[] = [];
@@ -57,6 +60,7 @@ class Socket {
   onclose?: (event: { code: number }) => void;
   constructor(_url: string) {
     Socket.last = this;
+    Socket.all.push(this);
   }
   send(message: string) {
     this.sent.push(JSON.parse(message));
@@ -75,6 +79,7 @@ class Socket {
 const networks: (FrontNetwork | Network)[] = [];
 afterEach(() => {
   networks.splice(0).forEach((net) => net.close());
+  Socket.all = [];
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
   vi.useRealTimers();
@@ -493,5 +498,211 @@ it.each([false, true])(
     vi.advanceTimersByTime(1);
     expect(source).toHaveBeenCalledTimes(2);
     expect(ws.inputs()).toHaveLength(2);
+  },
+);
+
+function recoveryWelcome(ws: Socket) {
+  ws.onopen?.();
+  ws.receive({
+    type: "welcome",
+    ruleset: "front-v1",
+    frontOpening: 2,
+    id: "p",
+    token: "test",
+    stateFlow: true,
+    inputAck: true,
+  });
+}
+function recoveryState(stateId: number, large = false) {
+  const world = createWorld("chunk-recovery", 1);
+  addPlayer(world, "p");
+  world.phase = "battle";
+  return {
+    type: "state",
+    stateId,
+    inputAck: 0,
+    members: [],
+    preparationGeneration: 0,
+    world,
+    ...(large ? { padding: "q".repeat(70000) } : {}),
+  };
+}
+function receiveWire(ws: Socket, wire: string) {
+  ws.receive(JSON.parse(wire));
+}
+
+it.each([false, true])(
+  "2枠分の組立放棄はpongに隠されず、通常再接続で最新Worldへ復帰する（legacy=%s）",
+  (legacy) => {
+    const { net, ws } = setup(true, true, legacy);
+    const worlds = vi.fn();
+    net.onWorld = worlds;
+    const oldDelivery = new StateDelivery(true);
+    const queued: string[] = [];
+    for (const id of [101, 102]) {
+      expect(
+        deliverState(
+          oldDelivery,
+          id,
+          0,
+          () => encodeStateChunks(JSON.stringify(recoveryState(id, true)), id)!,
+          (part) => {
+            queued.push(part);
+            return true;
+          },
+        ),
+      ).toBe("sent");
+    }
+    expect(oldDelivery.inFlight).toEqual([101, 102]);
+    receiveWire(ws, queued[0]);
+    vi.advanceTimersByTime(1500);
+    ws.receive({ type: "pong" });
+    vi.advanceTimersByTime(500);
+    expect(ws.readyState).toBe(1);
+    expect(worlds).not.toHaveBeenCalled();
+    expect(ws.sent.some((m) => m.stateAck !== undefined)).toBe(false);
+    vi.advanceTimersByTime(1);
+    expect(ws.readyState).toBe(3);
+    expect(net.closed).toBe(false);
+    expect(net.token).toBe("test");
+    vi.advanceTimersByTime(500);
+    const next = Socket.last;
+    expect(next).not.toBe(ws);
+    recoveryWelcome(next);
+    queued.slice(1).forEach((part) => receiveWire(ws, part)); // 旧socketは現接続へ影響しない。
+    const delivery = new StateDelivery(true);
+    expect(
+      deliverState(
+        delivery,
+        103,
+        0,
+        () => [JSON.stringify(recoveryState(103))],
+        (part) => {
+          receiveWire(next, part);
+          return true;
+        },
+      ),
+    ).toBe("sent");
+    vi.advanceTimersByTime(100);
+    const ack = next.sent.find((m) => m.type === "stateAck");
+    expect(ack.stateAck).toBe(103);
+    expect(delivery.acknowledge(ack.stateAck)).toBe(true);
+    expect(delivery.inFlight).toEqual([]);
+    expect(worlds).toHaveBeenCalledTimes(1);
+    expect(net.retry).toBe(0);
+  },
+);
+
+it.each([false, true])(
+  "正常fragmentは期限まで待ち、旧形式・静かなロビーは切断しない（legacy=%s）",
+  (legacy) => {
+    const { net, ws } = setup(false, false, legacy);
+    const worlds = vi.fn();
+    net.onWorld = worlds;
+    const parts = encodeStateChunks(JSON.stringify(recoveryState(1, true)), 1)!;
+    receiveWire(ws, parts[0]);
+    vi.advanceTimersByTime(1999);
+    expect(ws.readyState).toBe(1);
+    parts.slice(1).forEach((part) => receiveWire(ws, part));
+    expect(worlds).toHaveBeenCalledTimes(1);
+    ws.receive(recoveryState(2)); // 旧serverの単一messageも従来通り。
+    expect(worlds).toHaveBeenCalledTimes(2);
+    ws.receive({ type: "lobby", members: [], preparationGeneration: 0 });
+    for (let i = 0; i < 6; i++) {
+      vi.advanceTimersByTime(5000);
+      ws.receive({ type: "pong" });
+    }
+    expect(ws.readyState).toBe(1);
+    expect(net.retry).toBe(0);
+  },
+);
+
+it.each([false, true])(
+  "welcomeだけでは再試行上限を戻さず、破損反復は既存5回で止まる（legacy=%s）",
+  (legacy) => {
+    const { net, ws } = setup(true, true, legacy);
+    const statuses = vi.fn();
+    net.onStatus = statuses;
+    const bad = JSON.parse(
+      encodeStateChunks(JSON.stringify(recoveryState(1, true)), 1)![0],
+    );
+    bad.version = 2;
+    let current = ws;
+    const waits = [500, 1000, 2000, 4000, 6000];
+    for (let attempt = 0; attempt < 6; attempt++) {
+      current.receive(bad);
+      expect(current.readyState).toBe(3);
+      if (attempt < 5) {
+        vi.advanceTimersByTime(waits[attempt] - 1);
+        expect(Socket.last).toBe(current);
+        vi.advanceTimersByTime(1);
+        current = Socket.last;
+        recoveryWelcome(current);
+      }
+    }
+    expect(Socket.all).toHaveLength(6);
+    expect(net.closed).toBe(true);
+    expect(net.token).toBe("test");
+    vi.advanceTimersByTime(30000);
+    expect(Socket.all).toHaveLength(6);
+    expect(statuses).toHaveBeenLastCalledWith(
+      expect.stringContaining("復帰できません"),
+      true,
+    );
+  },
+);
+
+it.each([false, true])(
+  "故意close・fatal・新connectは古い期限timerを回収する（legacy=%s）",
+  (legacy) => {
+    const { net, ws } = setup(true, true, legacy);
+    const first = encodeStateChunks(
+      JSON.stringify(recoveryState(1, true)),
+      1,
+    )![0];
+    receiveWire(ws, first);
+    net.connect("ABC123");
+    const current = Socket.last;
+    recoveryWelcome(current);
+    vi.advanceTimersByTime(2100);
+    expect(current.readyState).toBe(1);
+    receiveWire(current, first);
+    current.receive({ type: "error", reason: "test fatal" });
+    vi.advanceTimersByTime(3000);
+    expect(Socket.last).toBe(current);
+    expect(net.closed).toBe(true);
+    net.connect("ABC123");
+    const last = Socket.last;
+    recoveryWelcome(last);
+    receiveWire(last, first);
+    net.close();
+    vi.advanceTimersByTime(5000);
+    expect(Socket.last).toBe(last);
+  },
+);
+
+it.each([false, true])(
+  "再接続後は旧equipment cacheを使わず完全stateを待つ（legacy=%s）",
+  (legacy) => {
+    const { net, ws } = setup(true, true, legacy);
+    const worlds = vi.fn();
+    net.onWorld = worlds;
+    ws.receive(recoveryState(1));
+    expect(worlds).toHaveBeenCalledTimes(1);
+    net.connect("ABC123");
+    const next = Socket.last;
+    recoveryWelcome(next);
+    const cached: any = recoveryState(2);
+    cached.equipmentCached = true;
+    cached.world.players.forEach((p: any) => delete p.weapons);
+    next.receive(cached);
+    expect(next.readyState).toBe(3);
+    expect(worlds).toHaveBeenCalledTimes(1);
+    vi.advanceTimersByTime(500);
+    const full = Socket.last;
+    recoveryWelcome(full);
+    full.receive(recoveryState(3));
+    expect(worlds).toHaveBeenCalledTimes(2);
+    expect(net.retry).toBe(0);
   },
 );

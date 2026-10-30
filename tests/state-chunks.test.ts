@@ -349,6 +349,9 @@ describe("上限付きsnapshot分割", () => {
           .slice(1)
           .forEach((part) => ws.message(part));
         expect(received).toHaveLength(1);
+        expect(ws.readyState).toBe(3); // 欠落片は再接続で回復する。
+        net.connect("test");
+        ws = net.ws as unknown as Socket;
         encodeStateChunks(wire, 1)!.forEach((part) => ws.message(part));
         expect(received).toHaveLength(2);
         w.enemies = w.enemies.slice(0, 1);
@@ -364,4 +367,23 @@ describe("上限付きsnapshot分割", () => {
       }
     },
   );
+});
+
+it("正常な未完成と期限超過・checksum破損を明確に区別する", () => {
+  const parts = frames();
+  const receiver = new StateChunkAssembler();
+  receiver.read(parts[0], 100);
+  expect(receiver.failed).toBe(false);
+  expect(receiver.deadline).toBe(2100);
+  expect(receiver.expire(2100)).toBe(false);
+  expect(receiver.expire(2101)).toBe(true);
+  expect(receiver.failed).toBe(true);
+  expect(receiver.deadline).toBeUndefined();
+  expect(roundTrip(frames(2), receiver, 2200)).toHaveLength(1);
+  expect(receiver.failed).toBe(false);
+  const broken = frames(3).map((part) =>
+    change(part, (value) => (value.checksum ^= 1)),
+  );
+  expect(roundTrip(broken, receiver, 2300)).toHaveLength(0);
+  expect(receiver.failed).toBe(true);
 });

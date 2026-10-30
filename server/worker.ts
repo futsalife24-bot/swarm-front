@@ -1948,7 +1948,13 @@ export class Room extends DurableObject<Env> {
     void this.persist().catch(() => {});
     this.broadcast();
   }
-  webSocketClose(ws: WebSocket) {
+  webSocketClose(ws: WebSocket, code: number, reason: string) {
+    // 自動応答済みなら無操作。未応答のランタイムでもclose handshakeを完了する。
+    try {
+      ws.close(code, reason);
+    } catch {
+      // 異常切断の予約コードなどでcloseできなくても、部屋の切断処理は行う。
+    }
     this.disconnected(ws);
   }
   webSocketError(ws: WebSocket) {

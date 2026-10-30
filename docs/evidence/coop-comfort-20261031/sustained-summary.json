@@ -1,0 +1,118 @@
+{
+  "method": "Actual front entry, 1-player cooperative room, real local Worker/WebSocket. Added latency is each direction on WebSocket only; room HTTP uses direct local Worker. No save/game-state fixture. Empty profile with name preference only.",
+  "sources": {
+    "src/client/front-app.ts": "c026300e8803fd9d108106a562a46daf65acf00d137099a94bf6eba8d7560240",
+    "src/client/input.ts": "10394277cf088861e98545d7f599f41b559a29020846cf2a57aa80d7a3b2dd6c",
+    "src/client/front-local-motion.ts": "98a5fba92d5368e2f0c5c5fe21654ab2889d0e39dda4b4bc40c4f6ba26c02be9"
+  },
+  "touchAndActions": false,
+  "sustained": true,
+  "runs": [
+    {
+      "latencyEachDirectionMs": 300,
+      "connectionLabel": "60 FPS · 往復 664ms · 更新 3/s",
+      "trials": [
+        {
+          "code": "KeyW",
+          "alive": true,
+          "frames": 222,
+          "authorityStates": 10,
+          "targetBacksteps": 0,
+          "targetStops": 17,
+          "fallbackFrames": 6,
+          "maxFrameMs": 41.200000047683716,
+          "maxDisplayAuthorityGapM": 3.116092195558661
+        },
+        {
+          "code": "KeyS",
+          "alive": true,
+          "frames": 222,
+          "authorityStates": 12,
+          "targetBacksteps": 0,
+          "targetStops": 28,
+          "fallbackFrames": 4,
+          "maxFrameMs": 26.59999990463257,
+          "maxDisplayAuthorityGapM": 4.039474289517521
+        },
+        {
+          "code": "KeyD",
+          "alive": true,
+          "frames": 222,
+          "authorityStates": 10,
+          "targetBacksteps": 0,
+          "targetStops": 28,
+          "fallbackFrames": 5,
+          "maxFrameMs": 26.799999952316284,
+          "maxDisplayAuthorityGapM": 3.1458998449006534
+        },
+        {
+          "code": "KeyA",
+          "alive": true,
+          "frames": 222,
+          "authorityStates": 10,
+          "targetBacksteps": 0,
+          "targetStops": 24,
+          "fallbackFrames": 11,
+          "maxFrameMs": 32.5,
+          "maxDisplayAuthorityGapM": 3.3627091795982267
+        }
+      ],
+      "link": {
+        "latencyMs": 300,
+        "bytesPerSecond": null,
+        "upBytesPerSecond": null,
+        "downBytesPerSecond": null,
+        "payloadBandwidthOnly": true,
+        "perMessageDeflate": false,
+        "queueLimitBytes": 4194304,
+        "queueLimitMessages": 8192,
+        "waitLimitMs": 30000,
+        "accepted": 1,
+        "activeConnections": 0,
+        "rejectedUpgrades": 0,
+        "rejectedHttp": 0,
+        "closed": true,
+        "connections": [
+          {
+            "id": 1,
+            "up": {
+              "receivedMessages": 325,
+              "receivedBytes": 54868,
+              "sentMessages": 321,
+              "sentBytes": 54171,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 1233,
+              "queuedPeakMessages": 7,
+              "maxScheduledDelayMs": 300.00000000000364,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 697
+            },
+            "down": {
+              "receivedMessages": 82,
+              "receivedBytes": 649393,
+              "sentMessages": 81,
+              "sentBytes": 631786,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 34055,
+              "queuedPeakMessages": 3,
+              "maxScheduledDelayMs": 300.00000000000364,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 17607
+            },
+            "socketErrors": 0,
+            "closed": true,
+            "browserCloseCode": 1006,
+            "upstreamCloseCode": 1006,
+            "failure": null,
+            "browserExtensions": "",
+            "upstreamExtensions": ""
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "passed": true
+}

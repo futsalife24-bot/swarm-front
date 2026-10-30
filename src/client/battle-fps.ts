@@ -1,3 +1,8 @@
+import {
+  connectionLabel,
+  type ConnectionSample,
+} from "./connection-diagnostics";
+
 /** 実際の描画回数を実時間で集計する。ゲーム側のdt上限の影響を受けない。 */
 export class BattleFps {
   private readonly label = document.createElement("div");
@@ -17,6 +22,7 @@ export class BattleFps {
     renderedFrames: number,
     visible: boolean,
     active: boolean,
+    connection?: ConnectionSample,
   ) {
     this.label.hidden = !visible;
     if (!visible || !active || document.hidden) {
@@ -31,7 +37,7 @@ export class BattleFps {
     }
     const elapsed = now - this.start;
     if (elapsed < 1000) return;
-    this.label.textContent = `${Math.round(((renderedFrames - this.firstFrame) * 1000) / elapsed)} FPS`;
+    this.label.textContent = `${Math.round(((renderedFrames - this.firstFrame) * 1000) / elapsed)} FPS${connection ? connectionLabel(connection) : ""}`;
     this.start = now;
     this.firstFrame = renderedFrames;
   }
