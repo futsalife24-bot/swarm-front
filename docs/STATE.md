@@ -6,17 +6,18 @@
 
 追加の120秒検査で入力ACK待ち4件による700〜740msの送信空白を発見。同梱ACKの応答順序を修正し、入力の受信時刻に基づく4/16件の適応窓を追加した。固定16件とstate作成時刻での判定は対照検査で問題を確認し不採用。受信時刻版の4人120秒は猶予外ack=0全員0、送信間隔最大176ms以内。上り1000B/sで操作解除の受理確認0.83〜1.06秒。極端な遅延を快適と保証しない。[原因・対照・限界](evidence/coop-comfort-20261030/input-continuity.md)。
 
-BASTIONのモデル・halo・火花・閃光も出撃前に準備し、初登場での新shader待ちを観測しなくなった。見た目・戦闘ルールは変更なし。ただし120秒のRAF間隔150msと、CPU診断追試499.9msが各1件残り、原因は切分け中。render自体の全期間最大はそれぞれ57.1/56.1ms、pilotは2.1/2ms。これを解消済みや実機の快適さの証明にはしない。
+BASTIONのモデル・halo・火花・閃光も出撃前に準備し、初登場での新shader待ちを観測しなくなった。見た目・戦闘ルールは変更なし。ただし120秒のRAF間隔150msと、CPU診断追試499.9msが各1件残る。後者は約96.2%がidleで途中も通信受信が動き、JS全体の停止やrender単体では説明できない。RAF呼出し待ちの原因は未確定で、解消済みや実機の快適さの証明にはしない。
 
 最新の関連単体92件（BASTION準備5件含む）、既存BASTION36件、client/worker型、実通信2件、旧互換6件、回線helper10件は成功。成功済みの既存検査と、今回追加で判明した問題を分けて記録している。
 
-PWA事前ダウンロード・起動時の横向き案内・Safari向け音量修正も実装済み。先行実装100ad9eのbuildで150件保存・中断再開・再訪追加DL0・更新1件取得・オフライン生存出撃・localStorage不変を確認。音声45件とChrome実MP3の音量変更も確認。最新追加修正を含むbuild/PWA再検査はこれから実施する。iOS Safari実機は未確認。[PWA](evidence/coop-comfort-20261030/pwa-implementation.md)、[音量と起動](evidence/coop-comfort-20261030/mobile-start-audio.md)。
+PWA事前ダウンロード・起動時の横向き案内・Safari向け音量修正も実装済み。先行実装100ad9eのbuildで150件保存・中断再開・再訪追加DL0・更新1件取得・オフライン生存出撃・localStorage不変を確認。音声45件とChrome実MP3の音量変更も確認。追加修正c5521c1のbuild・Worker production dry-run・同じPWA全項目の再検査も成功。検査側のbuild完了前起動による途中失敗も記録し、確定buildで再実行した。iOS Safari実機は未確認。[PWA](evidence/coop-comfort-20261030/pwa-implementation.md)、[音量と起動](evidence/coop-comfort-20261030/mobile-start-audio.md)。
 
-基点main `3e1dc640e15d747cc2a06ac72c59833db2072f74`、branch `codex/coop-comfort-ready-20261030`、worktree `C:/Users/futsa/.codex/worktrees/coop-comfort-20261030/swarm-rebuild-p1a`。先行の実装100ad9e・検証fe098e7・承認境界38cf846を[下書きPR231](https://github.com/futsalife24-bot/swarm-front/pull/231)へ保存済み。今回の追加差分は同じbranchで検証・保存する。元root・別worktree・旧branchの成果は保持。
+基点main `3e1dc640e15d747cc2a06ac72c59833db2072f74`、branch `codex/coop-comfort-ready-20261030`、worktree `C:/Users/futsa/.codex/worktrees/coop-comfort-20261030/swarm-rebuild-p1a`。先行の実装100ad9e・検証fe098e7・承認境界38cf846を[下書きPR231](https://github.com/futsalife24-bot/swarm-front/pull/231)へ保存済み。最新追加実装は `c5521c1f73134eec37e3eff18806058dabe170bd`。同HEADから最終buildを生成し、以後は検証文書・画像だけを追加commitする。保存先は同じbranchとPR231。元root・別worktree・旧branchの成果は保持。
 
 当初の公開GitHub pushは自動承認レビューに拒否されたが、その後本人の「許可と承認します」を受けてpushと下書きPRを作成した。この追加承認はコード・検証資料の公開GitHub保存までで、main反映・既存Worker公開は別途確認中、未回答。PRはdraft/open/unmerged。先行headのGitHub checks/statusesは0件でCI成功とは記さない。独立監査は未実施。主担当の実モデル/effortは未確認、実装補助は呼出指定gpt-6.1-sol/high（実行設定値は未確認）。
 
-残件: 単発RAF間隔の診断、追加修正の最終buildと保存、公開承認、実スマホ・Safari音量・実回線複数端末・長時間/発熱。完全解消やgoal完了とは扱わない。
+停止理由: 原因を確認できた修正のローカル検証と保存準備は完了。今回の承認は下書きPRまでで、通常main反映・既存Worker公開の追加承認が未回答。単発RAF待ちの原因と実スマホ・Safari音量・実回線複数端末・長時間/発熱は未確認。完全解消やgoal完了とは扱わない。
+再開条件: 本人の公開承認後に最新main・保護/必要チェックを確認して既存公開手順へ進む。実機の端末/OS/ブラウザ・人数・症状も確認し、残る描画待ちを対象環境で照合する。許可前にmerge/deployしない。
 
 # 前回記録: 戦闘FPS表示を公開（2026-10-28）
 

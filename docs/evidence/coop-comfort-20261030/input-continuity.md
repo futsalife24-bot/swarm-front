@@ -53,10 +53,16 @@
 
 上り1000B/s・下り16MiB/s・各方向75msの最終30秒（`live-input-receipt-slow-up/`）では、15秒で解除を決めてから受理確認まで0.83〜1.06秒。初期を含む受理応答最大は約2.38秒で、極端に細い上りを快適とはしない。死亡したclientもあるため、解除後の人物動作の遅延と同一視しない。通常4人120秒・細い上り30秒ともsource hash前後一致、画面/GL例外・途中切断0。
 
-旧通信の既存6件も成功（対象外7件skip）。回線helperは上り/下りの独立制限を加えたecho10件に成功。32KB等の通信サイズは未圧縮payloadの診断条件で、実回線TCPの帯域や料金ではない。
+旧通信の既存6件も成功（対象外7件skip）。回線helperは上り/下りの独立制限を加えたecho10件に成功。[単体・実通信結果](input-validation-results.json)、[helper結果](link-shaper-asymmetric-results.json)。通信制限は未圧縮payloadの診断条件で、実回線TCPの帯域や料金ではない。
 
-150ms frameはgame54.9/crawler49で1回だけ。全期間のrender処理最大57.1ms、pilot最大2.1ms、当該時刻のshader追加0、戦闘中50ms超GL呼出し0。通信専用3clientのRAF最大は19ms以内。render単体・pilot単体・新shaderが150msを占めたという証拠はなく、全process共通停止の証拠もない。GC・別callback・ブラウザ/OS/driverのどれかはこのログでは確定できない。追加のCPU診断を別試行として保存する。
+150ms frameはgame54.9/crawler49で1回だけ。全期間のrender処理最大57.1ms、pilot最大2.1ms、当該時刻のshader追加0、監視対象の戦闘中50ms超GL呼出し0。通信専用3clientのRAF最大は19ms以内。render単体・pilot単体・新shaderが150msを占めたという証拠はなく、全process共通停止の証拠もない。GC・別callback・ブラウザ/OS/driverのどれかはこのログでは確定できない。
+
+CPU診断を付けた追加120秒（`live-input-receipt-profile/`）ではRAF間隔499.9msを1件記録した。入力をframeで送る検査clientには、この間の送信停止と猶予外ack=0が1件ある。通常連携の回帰が全部0だったと一般化しない。render全最大56.1ms・pilot2ms。profileとWorld受信ログ13点を約±0.1msで照合すると、長間隔の約481ms（96.2%）はidleで、途中の2回のWorld受信処理も実行されている。JavaScript main thread全体が500ms一括停止したという説明とも合わない。RAF/描画の呼出し待ちが中心だが、GPU/compositor/OS/可視性のどれかはCPU profileでは確定できない。
+
+検査用の1秒ごとの`getError`は製品render外で、既存GL監視対象にも入っていない。この呼出しの約53msは上の長間隔終了後にあり、499.9ms本体とは分ける。[CPU集計](cpu-profile-analysis.json)、[再集計script](analyze-cpu-profile.mjs)。時刻の照合残差は約0.1msだが、sampling約1〜2msの位置ずれを見込む推定であり、直接共有timestampの計測ではない。CPU診断を性能改善率の測定として使わず、150ms・350ms・499.9msが同じ原因とも断定しない。原因不明の単発RAF待ちと実機確認は残件とし、根拠のない戦闘・描画コード変更や数値の丸めで隠さない。
 
 各試行の比較は [結果JSON](input-continuity-results.json)、集計は [再集計script](summarize-input-continuity.mjs)。`node docs/evidence/coop-comfort-20261030/summarize-input-continuity.mjs` でローカル原本から再集計できる。通常の120秒は `SWARM_LIVE_SECONDS=120 / SWARM_LIVE_RENDER_CLIENTS=1 / SWARM_LIVE_NETWORK_TIMING=1 / SWARM_LIVE_DIAGNOSTICS=1 / SWARM_LIVE_LINK_LATENCY_MS=75 / SWARM_LIVE_LINK_BYTES_PER_SECOND=131072`。細い上りは30秒、`SWARM_LIVE_UP_BYTES_PER_SECOND=1000 / SWARM_LIVE_LINK_BYTES_PER_SECOND=16777216 / SWARM_LIVE_RELEASE_AFTER=15`。出力先は `SWARM_LIVE_OUTPUT` で毎回別にする。CPU診断だけ `SWARM_LIVE_PROFILE=1` を追加する。
 
 実スマホ、Safariの音量、実回線複数端末、長時間の発熱は未確認。極端に細い上りの初期学習、時計ジャンプ、256KiB上限、2秒の分割期限は限界として残る。別seedの比較であり、実機の改善率や完全解消を保証しない。
+
+実装commitは `c5521c1f73134eec37e3eff18806058dabe170bd`。同HEADのbuild・Worker production dry-runと [最新PWA統合検査](pwa-implementation.md#入力継続とbastion準備を含む統合確認) は成功。以後のcommitは検証文書と画像だけ。main反映・本番公開・実機確認は未実施。

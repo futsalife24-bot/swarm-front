@@ -1,0 +1,337 @@
+{
+  "profileDurationMs": 122390.558,
+  "measurementDurationMs": 120019,
+  "alignment": {
+    "method": "profileのnet.onWorld連続区間の先頭と、既存samples.msの受信時刻を独立照合",
+    "boundWithoutAlignmentMs": [
+      0,
+      2371.5580000000045
+    ],
+    "markerCount": 13,
+    "matchedCount": 13,
+    "profileMinusMeasurementMs": 923.7670000476573,
+    "observedResidualMs": [
+      -0.0920000114638242,
+      0.09599997618352063
+    ],
+    "precisionNote": "残差は約0.1msだが、CPU sampling約1〜2msの位置ずれを見込む推定。直接のProfiler/live.begin共有timestampではない。",
+    "matched": [
+      {
+        "profileMs": 1593.8409999999972,
+        "measurementMs": 670,
+        "residualMs": 0.07399995233981826
+      },
+      {
+        "profileMs": 2438.787,
+        "measurementMs": 1515.0999999642372,
+        "residualMs": -0.0800000118947537
+      },
+      {
+        "profileMs": 9409.757000000012,
+        "measurementMs": 8486,
+        "residualMs": -0.010000047645007726
+      },
+      {
+        "profileMs": 16937.263,
+        "measurementMs": 16013.399999976158,
+        "residualMs": 0.09599997618352063
+      },
+      {
+        "profileMs": 35636.56699999997,
+        "measurementMs": 34712.799999952316,
+        "residualMs": 0
+      },
+      {
+        "profileMs": 38689.45899999999,
+        "measurementMs": 37765.69999998808,
+        "residualMs": -0.008000035748409573
+      },
+      {
+        "profileMs": 39047.20500000001,
+        "measurementMs": 38123.5,
+        "residualMs": -0.06200004764832556
+      },
+      {
+        "profileMs": 51989.58300000021,
+        "measurementMs": 51065.89999997616,
+        "residualMs": -0.08400002360576764
+      },
+      {
+        "profileMs": 56456.27500000043,
+        "measurementMs": 55532.59999996424,
+        "residualMs": -0.0920000114638242
+      },
+      {
+        "profileMs": 73486.07300000032,
+        "measurementMs": 72562.29999995232,
+        "residualMs": 0.006000000343192369
+      },
+      {
+        "profileMs": 83776.91400000059,
+        "measurementMs": 82853.09999996424,
+        "residualMs": 0.04699998869909905
+      },
+      {
+        "profileMs": 105820.70499999957,
+        "measurementMs": 104896.89999997616,
+        "residualMs": 0.03799997575697489
+      },
+      {
+        "profileMs": 112343.27599999924,
+        "measurementMs": 111419.5,
+        "residualMs": 0.008999951591249555
+      }
+    ]
+  },
+  "longFrame": {
+    "measurementEndMs": 86735.09999995232,
+    "durationMs": 499.90000000000873,
+    "gameTime": 84.5
+  },
+  "frameIntervalsAroundMs": [
+    16.70000000001164,
+    16.69999999999709,
+    16.39999999999418,
+    16.69999999999709,
+    499.90000000000873,
+    50.19999999999709,
+    16.60000000000582,
+    16.5,
+    16.69999999999709,
+    16.80000000000291
+  ],
+  "longInterval": {
+    "measurementMs": [
+      86235.19999995231,
+      86735.09999995232
+    ],
+    "profileRelativeMs": [
+      87158.96699999998,
+      87658.86699999997
+    ],
+    "sampleWeightedCategoryMs": {
+      "product-render": 11.993000000729808,
+      "other-native-or-program": 5.273000000001048,
+      "idle": 481.0179999992688,
+      "receive": 1.6159999999945285
+    },
+    "sampleWeightedCategoryPercent": {
+      "product-render": 2.3990798161091416,
+      "other-native-or-program": 1.0548109621926296,
+      "idle": 96.22284456876584,
+      "receive": 0.323264652929486
+    },
+    "topFunctionsMs": [
+      [
+        "(idle)",
+        481.0179999992688
+      ],
+      [
+        "(program)",
+        5.273000000001048
+      ],
+      [
+        "WebGLRenderer.renderBufferDirect",
+        1.7960000007442432
+      ],
+      [
+        "setValueM3",
+        1.7409999999945285
+      ],
+      [
+        "getParameters",
+        1.739000000001397
+      ],
+      [
+        "gl.<computed>",
+        1.7329999999928987
+      ],
+      [
+        "seqWithValue",
+        1.7100000000064028
+      ],
+      [
+        "render",
+        1.7069999999948777
+      ],
+      [
+        "read",
+        1.6159999999945285
+      ],
+      [
+        "arraysEqual",
+        1.5669999999954598
+      ]
+    ]
+  },
+  "window84to88": {
+    "measurementMs": [
+      84000,
+      88000
+    ],
+    "profileRelativeMs": [
+      84923.76700004766,
+      88923.76700004766
+    ],
+    "sampleWeightedCategoryMs": {
+      "idle": 1990.0319999998756,
+      "other-native-or-program": 144.20899999997346,
+      "product-render": 1696.0910000001895,
+      "gc": 10.224000000001979,
+      "receive": 23.36600000000908,
+      "harness-frame-other": 54.457999999969616,
+      "pilot": 23.45199999997567,
+      "harness-getError": 58.16800000000512
+    },
+    "sampleWeightedCategoryPercent": {
+      "idle": 49.750799999996886,
+      "other-native-or-program": 3.6052249999993364,
+      "product-render": 42.402275000004735,
+      "gc": 0.25560000000004945,
+      "receive": 0.584150000000227,
+      "harness-frame-other": 1.3614499999992404,
+      "pilot": 0.5862999999993918,
+      "harness-getError": 1.454200000000128
+    },
+    "topFunctionsMs": [
+      [
+        "(idle)",
+        1990.0319999998756
+      ],
+      [
+        "bufferSubData",
+        151.7670000000944
+      ],
+      [
+        "(program)",
+        142.49099999997998
+      ],
+      [
+        "multiplyMatrices",
+        132.70300000002317
+      ],
+      [
+        "WebGLRenderer.renderBufferDirect",
+        70.32900000004156
+      ],
+      [
+        "updateWorldMatrix",
+        68.93900000001304
+      ],
+      [
+        "getParameters",
+        64.67100000001665
+      ],
+      [
+        "render",
+        64.66900000002352
+      ],
+      [
+        "update",
+        60.08699999994133
+      ],
+      [
+        "getError",
+        58.16800000000512
+      ],
+      [
+        "updateMatrixWorld",
+        57.191000000035274
+      ],
+      [
+        "projectObject",
+        50.5109999999986
+      ]
+    ]
+  },
+  "longestGetErrorRuns": [
+    {
+      "id": 546,
+      "name": "getError",
+      "start": 87667.51800000077,
+      "end": 87720.41600000077,
+      "ms": 52.89800000000105,
+      "samples": 33,
+      "measurementStartMs": 86743.7509999531,
+      "measurementEndMs": 86796.64899995312
+    },
+    {
+      "id": 546,
+      "name": "getError",
+      "start": 115747.041999999,
+      "end": 115767.318999999,
+      "ms": 20.277000000001863,
+      "samples": 12,
+      "measurementStartMs": 114823.27499995133,
+      "measurementEndMs": 114843.55199995133
+    },
+    {
+      "id": 546,
+      "name": "getError",
+      "start": 84431.66700000058,
+      "end": 84447.88100000059,
+      "ms": 16.214000000007218,
+      "samples": 10,
+      "measurementStartMs": 83507.89999995293,
+      "measurementEndMs": 83524.11399995294
+    }
+  ],
+  "longestGcRuns": [
+    {
+      "id": 45,
+      "name": "(garbage collector)",
+      "start": 109757.36799999919,
+      "end": 109784.88599999918,
+      "ms": 27.51799999999639,
+      "samples": 19
+    },
+    {
+      "id": 45,
+      "name": "(garbage collector)",
+      "start": 112602.29699999912,
+      "end": 112609.14899999912,
+      "ms": 6.851999999998952,
+      "samples": 4
+    },
+    {
+      "id": 45,
+      "name": "(garbage collector)",
+      "start": 112627.4699999991,
+      "end": 112633.39499999909,
+      "ms": 5.9249999999883585,
+      "samples": 4
+    }
+  ],
+  "receiveDuringRafGap": [
+    {
+      "ms": 86393.29999995232,
+      "gameTime": 84.15
+    },
+    {
+      "ms": 86717.59999996424,
+      "gameTime": 84.5
+    }
+  ],
+  "receiptDuringRafGap": [
+    {
+      "ms": 86393.39999997616
+    },
+    {
+      "ms": 86717.79999995232
+    }
+  ],
+  "inputSendsDuringRafGap": 0,
+  "shaderTransitionsNear": [],
+  "otherClientRafMaxMs": [
+    17.6,
+    17.6,
+    17.7
+  ],
+  "conclusion": [
+    "499.9ms RAF間隔は約481msのidleサンプルが中心。GC/getError/getProgramInfoLogの重なりなし。",
+    "同間隔中にもWorld/receipt callbackが2回動き、renderFrameは固定。主JS thread全体の連続500ms停止とは合わない。",
+    "最長getError約52.9msは長間隔の終わりから約8.7ms後。検査harnessのframe直下の処理で、499.9ms本体と区別する。",
+    "idleはアプリJSが観測されていない意味であり、PC/GPU/OS全体の無負荷を示さない。RAF/描画通知の停止理由（compositor/GPU/OS scheduling/visibility等）は本profileだけで確定できない。",
+    "以前の150ms/350msと同原因である根拠はない。"
+  ]
+}
