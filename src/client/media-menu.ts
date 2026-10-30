@@ -1,9 +1,11 @@
 import { backgroundMusic, type MusicTrack } from "./bgm";
 import { menuMotion } from "./menu-effects";
 import { closeMenuDialog, menuDialog } from "./menu-ui";
+import { MediaVolume } from "./media-volume";
 import { MediaPlayback } from "./media-playback";
 import "./media-menu.css";
 import { SOLDIER_VOICES, SOLDIER_PATH } from "./soldier-voice";
+import { openAssetDownloadMenu } from "./asset-download-menu";
 
 export const SOUND_TEST_TRACKS: readonly { id: MusicTrack; label: string }[] = [
   { id: "title", label: "タイトル / 戦線の灯" },
@@ -30,14 +32,26 @@ export function mountMediaMenu(
 ) {
   const entries = document.createElement("nav");
   entries.className = "settings-media";
-  entries.setAttribute("aria-label", "音楽・映像");
+  entries.setAttribute("aria-label", "データ保存・音楽・映像");
   entries.innerHTML =
-    '<button type="button" data-sound-test>サウンドテスト</button><button type="button" data-pv>PVを見る</button>';
+    '<button type="button" data-download-menu>データを事前ダウンロード</button><button type="button" data-sound-test>サウンドテスト</button><button type="button" data-pv>PVを見る</button>';
   const panel = owner.querySelector("#settings-save");
   const name = panel?.querySelector(".player-name-setting");
   if (name) name.after(entries);
   else (panel ?? owner.querySelector(".menu-dialog-body"))!.append(entries);
   let active: HTMLDialogElement | undefined;
+  entries.querySelector<HTMLButtonElement>("[data-download-menu]")!.onclick =
+    () => {
+      if (active) return;
+      active = openAssetDownloadMenu(owner);
+      active.addEventListener(
+        "close",
+        () => {
+          active = undefined;
+        },
+        { once: true },
+      );
+    };
   const open = (video: boolean) => {
     if (active) return;
     const d = menuDialog(
@@ -52,11 +66,15 @@ export function mountMediaMenu(
     d.setAttribute("aria-labelledby", "media-dialog-title");
     const release = backgroundMusic().suspend();
     const media = d.querySelector<HTMLMediaElement>("audio,video")!;
+    const output = new MediaVolume(media);
+    const unlockOutput = () => output.unlock();
+    const gestures = ["pointerdown", "touchend", "click", "keydown"];
+    for (const event of gestures) media.addEventListener(event, unlockOutput);
     const level = d.querySelector<HTMLInputElement>('input[type="range"]')!;
     level.value = String(video ? volume() : musicVolume());
     const applyVolume = () => {
-      media.volume = Number(level.value) * (video ? 1 : 0.55);
-      media.muted = Number(level.value) === 0;
+      output.volume = Number(level.value) * (video ? 1 : 0.55);
+      output.unlock();
     };
     level.oninput = applyVolume;
     applyVolume();
@@ -116,8 +134,10 @@ export function mountMediaMenu(
         applyVolume();
         load(true);
       };
-    d.querySelector<HTMLButtonElement>("[data-play]")!.onclick = () =>
+    d.querySelector<HTMLButtonElement>("[data-play]")!.onclick = () => {
+      output.unlock();
       playback.play();
+    };
     d.querySelector<HTMLButtonElement>("[data-pause]")!.onclick = () =>
       playback.pause();
     d.querySelector<HTMLButtonElement>("[data-reload]")!.onclick = () => load();
@@ -132,6 +152,9 @@ export function mountMediaMenu(
         for (const event of ["pause", "ended", "waiting", "emptied", "error"])
           media.removeEventListener(event, stopIndicator);
         playback.dispose();
+        for (const event of gestures)
+          media.removeEventListener(event, unlockOutput);
+        output.dispose();
         release();
         active = undefined;
       },

@@ -389,7 +389,13 @@ mat4 houndBone(float bone,float row) {
   vec2 dx=vec2(1.0/houndPaletteSize.x,0.0);
   return mat4(texture2D(houndPalette,uv),texture2D(houndPalette,uv+dx),texture2D(houndPalette,uv+dx*2.0),texture2D(houndPalette,uv+dx*3.0));
 }
-mat4 houndPose(float bone,vec3 p) { return houndBone(bone,p.x)*(1.0-p.z)+houndBone(bone,p.y)*p.z; }
+mat4 houndPose(float bone,vec3 p) {
+  // Procedural poses use the same row at both ends. Fetch that matrix once;
+  // preserve interpolation for every genuinely intermediate clip sample.
+  if(p.x==p.y || p.z==0.0) return houndBone(bone,p.x);
+  if(p.z==1.0) return houndBone(bone,p.y);
+  return houndBone(bone,p.x)*(1.0-p.z)+houndBone(bone,p.y)*p.z;
+}
 mat4 houndMatrix(float bone) {
   if(houndBlend>.9999) return houndPose(bone,houndPoseB);
   if(houndBlend<.0001) return houndPose(bone,houndPoseA);
@@ -418,12 +424,16 @@ objectNormal=mat3(houndSkin)*objectNormal;
         asset.trsAtlas
           ? "calyx-motion-local-trs-v1"
           : this.proceduralAtlas
-            ? `hound-motion-palette-v2-${this.paletteRowsPerLine}-${asset.bones}`
-            : "hound-motion-palette-v1";
+            ? `hound-motion-palette-v3-${this.paletteRowsPerLine}-${asset.bones}`
+            : "hound-motion-palette-v2";
       const part = new T.InstancedMesh(geometry, material, capacity);
       part.name = source.name;
       part.count = 0;
       part.instanceMatrix.setUsage(T.DynamicDrawUsage);
+      // First combat tint must not change the shader compiled by prepareBattle.
+      // setColorAt allocates white for every slot; unseen instances stay neutral.
+      part.setColorAt(0, new T.Color(0xffffff));
+      part.instanceColor!.setUsage(T.DynamicDrawUsage);
       // Conservative animated envelope, not the neutral geometry bounds.
       const bounds = new T.Box3()
         .setFromObject(asset.model)

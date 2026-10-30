@@ -1,0 +1,61 @@
+# PWA事前保存の実装と検査
+
+2026-10-30。本人の「それはぜひ実装してほしい」による追加範囲。同期用branch `codex/coop-comfort-ready-20261030`、基点 `3e1dc640e15d747cc2a06ac72c59833db2072f74`。公開・実スマホ検証は未実施。
+
+## 操作と保存対象
+
+タイトルの「設定・操作」→「データを事前ダウンロード」。本体・共通素材を基本に、進撃の戦場6種と現行生存の戦場1種、任意のBGM・会敵ムービーを選ぶ。容量と保存済み件数を見て保存を開始する。自動の大容量ダウンロードは行わない。
+
+既存PWAは訪問・使用したファイルの遅延キャッシュを持つが、選択したデータ一式を準備する機能はなかった。今回、実ローダーの参照から対象一覧を生成。旧原本・旧未使用モデル・削除歴のあるモードのための素材を単にpublic配下にあるという理由では追加しない。[対象調査と個別容量](pwa-prefetch-research.md)。
+
+## 振る舞い
+
+- 同一オリジン・アプリ配下の許可した静的ファイルに限定。API、認証、管理画面、実セーブを対象にしない。URLの版queryを維持。
+- `swarm-front-preload-v1`にファイル単位で保存。実byte数とSHA256を照合した成功ファイルだけ保存済みとする。既存遅延cacheも内容が一致した場合に再利用。
+- 1件ずつ取得し、中断・画面を閉じた場合は未完了分を中止する。完了したファイルは保持する。次回は一致する内容を省略し、変更・未保存分だけ処理する。
+- 保存したHTMLは依存JS/CSS・選択素材の後に更新。途中で失敗した場合、未完成の新しい入口を先に公開しない。旧cacheをまとめて削除しない。
+- Service Workerが保存した素材を再利用。通常のHTML・一覧は通信で更新を確認し、オフラインでは保存済みへ戻る。root/indexとfrontの入口を別々に扱う。保存済み音声・動画の単一Rangeにも対応。
+- 保存容量はブラウザーの見積り。空き容量不足・通信・版不一致は保存済み扱いにせず案内。セーブ・操作設定には書かない。画面を閉じると取得を止め、戦闘中の新規ダウンロード入口は追加しない。
+
+## 限界
+
+PWA事前保存は転送待ちを減らす機能。GLBの解釈、GPUへの転送とシェーダー準備は出撃時に必要で、既存prepareBattleを維持する。マルチの通信、端末の描画負荷、サーバーの計算は別の改善対象。選んでいない戦場・任意音楽等は通信が必要な場合がある。ブラウザーの容量管理や本人のデータ消去でcacheが消える場合もある。開発サーバーの変換前本体は保存済みとせず、build版で全JS/CSS/HTMLを対象にする。
+
+根拠: [Cache API](https://developer.mozilla.org/en-US/docs/Web/API/Cache)、[StorageManager.estimate](https://developer.mozilla.org/en-US/docs/Web/API/StorageManager/estimate)、[Service Workerの利用](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers)。
+
+## 検査状況
+
+- 本体storeのURL範囲・重複/競合・初回/差分・中断再開・破損・遅延cache再利用・容量不足・一覧オフラインfallbackを検査。2026-10-30時点で生成器・関連同期/命中/描画と合わせ9ファイル112件成功。型チェック両方成功。
+- 実Chromeの隔離プロファイル・本番build・実Service Worker/CacheStorageを使う `scripts/check-asset-download.mjs` を追加。本人のセーブを使わず、保存前後のlocalStorage不変も検査する。実スマホではなく844×390/640×360の寸法検査。
+- 実ブラウザ検査は成功。150ファイル（本体33、共通116、生存戦場1）を実CacheStorageへ保存。最新再検査は2ファイル完了で中断し、再開後に150件が揃った。2回目の追加ダウンロード0、localStorage前後不変、画面例外0。
+- 同一URLの更新も追加検査。隔離HTTPサーバー上だけで共通PNG1件の内容・一覧hashを更新し、通常の再保存操作でその1件だけを取得、新hashのCacheStorage応答へ置換したことを確認。実素材・distは変更しない。合成更新であり、実配信済みの版とは区別する。
+- 通信を無効にしてrootの起動・再読み込み、front.htmlの起動、生存側設定の保存入口、保存音声のRange 206/20bytes、生存ソロ出撃→初期強化選択→兵士・地形の実描画まで成功。[結果JSON](pwa-browser-results.json)、[640×360の画面](pwa-menu-640.png)、[844×390の保存済み画面](pwa-saved-844.png)。先行検査はGPU初使用準備・横向き案内・音量修正を含むHEAD `8d8c15595e37013f9dd9384a113d2b8e996c8ae2` のbuild revision `c61c56b9c35adbce24357eb88351997bf93decf5009aadf91f87c2b7e1ea3620`（2026-10-30 04:00 UTC開始）。約98.9MBの選択内容に対し、ブラウザーの使用量は既存cache/overheadを含むため同じ値にはならない。
+- 全画面・要求一覧・結果原本は `dist-validation/coop-comfort-20261030/pwa/`。実Android/iOS/PWAインストール、通信ありの実ユーザー環境、本番配信は未確認。
+
+## 検査で判明した問題と対応
+
+1. 初回タイトル遷移と設定切替の途中に検証スクリプトが次のクリックを送信し、既存入力guardが拒否。DOMのtitle/切替幕が消えてから通常クリックする手順へ修正。製品の入力guardは解除しない。
+2. browserのfetchをclassメソッドとして呼ぶと失敗するため、標準fetchを関数として呼ぶラッパーへ修正。Node単体だけでは検出できなかった。
+3. タイトルの既存footer非表示ルールが操作欄に作用した。専用divに変更。横スマホで一覧に重なるsticky操作欄は、一覧のスクロール外へ分離。
+4. Vite後続hookがJSを変更して、生成時のmanifestと実配信ファイルが一致しなかった。内容照合がこの不一致を拒否できた。最終出力から生成し、build終了時にも全件再照合する方式へ修正。実Vite後続書換えを含む生成器16回帰と、実プロジェクトのbuild・ブラウザ150ファイル保存で解消を確認。
+5. 既存E2Eの古い出撃手順を参考にした初回は、現行の「進撃/生存」作戦選択を飛ばして失敗。現行の通常操作で生存を選ぶ手順へ修正し、オフライン出撃まで再検証した。製品の作戦選択は変更しない。
+
+## 送信制御を含む最終統合確認
+
+実装HEAD `100ad9efac36e9f3653151cc1f0cb8d66765ce4f` から再buildし、revision `2aaaa2e5b523637139a65cad3037e4a2ee471a9fe602b024394707d1f8654193` を実Chromeで確認した（2026-10-30 05:05 UTC開始）。231 modules、build成功6.76秒。既存の500kB超bundle警告は残る。Worker production dry-runも成功443.00KiB / gzip113.26KiBで、公開は実行していない。
+
+2件で中断後150件を保存、再訪追加DL0、同一URL更新1件のみ取得。通信なしのroot起動・再読込、front入口・設定、Range206/20bytes、生存ソロ出撃が成功。localStorage前後一致、画面例外0。原本は別の `dist-validation/coop-comfort-20261030/pwa-flow/` に保存し、先行結果を残した。[結果](pwa-flow-browser-results.json)、[640幅の保存画面](pwa-flow-menu-640.png)、[通信なしの生存ソロ](pwa-flow-offline-survival.png)。2画像を目視し、保存画面の操作・説明と兵士/地形の実描画を確認。実スマホ・iOS Safari/PWA、実ユーザーの保存データ、本番配信の検査ではない。
+
+## 入力継続とBASTION準備を含む統合確認
+
+実装 `c5521c1f73134eec37e3eff18806058dabe170bd`、build revision `70a1fc3ac3acde4cbf8c929c6bda86763184f85c97cd2d8366a5c4871118ea9c`。232 modules/10.59秒でbuild成功、既存500kB警告は残る。Worker production dry-run成功443.39KiB/gzip113.35KiB。公開は未実施。
+
+2026-10-30 06:19 UTC開始の実Chrome検査で、2件後に中断、再開後150/150件保存、再訪追加DL0、同じURL更新1件、オフライン両入口/再読込/生存ソロ出撃、Range206/20bytes、localStorage前後不変、画面例外0を確認。[結果](pwa-input-browser-results.json)、[640幅](pwa-input-menu-640.png)、[通信なし生存](pwa-input-offline-survival.png)。2画像を目視し、保存画面の文字と操作、兵士/地形の表示を確認した。原本は `dist-validation/coop-comfort-20261030/pwa-input-final/`。
+
+直前の `pwa-input-receipt/` は担当の実行順序誤りでbuild完了前に検査を開始し、manifestからの選択数0とブラウザ保存150の不一致で失敗した。製品回帰の証拠ではなく、この試行は採用しない。build終了・exit0・確定revisionを確認してから別出力先で上記の全検査をやり直した。失敗ログを保持し、製品のチェックは緩めていない。実機未確認の範囲は先行記録と同じ。
+
+## 入力採取を分離した追加版の統合確認
+
+実装 `94b73469464d6bafc3865a49140792afdc0c8939`、build revision `85f2d47ad9354517973e36155a1612e0adff876ca88639d629d164a16491f1dd`。233 modules/6.18秒、既存500kB超bundle警告あり。Worker production dry-runは443.39KiB/gzip113.35KiBで成功。公開はしていない。
+
+buildのexit0後、2026-10-30 07:27 UTC開始の実Chrome検査で、2件後の中断から150件保存へ再開、再訪追加DL0、同一URL更新1件、オフライン両入口/再読込/生存ソロ出撃、Range206/20bytes、localStorage前後不変、画面例外0を確認。[結果](pwa-input-loop-browser-results.json)、[640幅の保存画面](pwa-input-loop-menu-640.png)、[通信なし生存](pwa-input-loop-offline-survival.png)。2画像の文字・操作と兵士/地形の表示を目視した。原本は`dist-validation/coop-comfort-20261030/pwa-input-loop/`。先行成果を上書きせず別保存。実スマホ/Safariや本番配信の確認には読み替えない。

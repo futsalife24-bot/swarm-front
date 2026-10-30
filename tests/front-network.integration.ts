@@ -9,6 +9,8 @@ import {
 } from "../src/shared/front-upgrades";
 import { neutral } from "../src/shared/game";
 import { restoreTurn } from "../src/shared/state-wire";
+import { restoreStateTuples } from "../src/shared/state-tuples";
+import { StateChunkAssembler } from "../src/shared/state-chunks";
 const base = process.env.SWARM_TEST_SERVER_URL ?? "http://127.0.0.1:8789",
   clients: Client[] = [];
 class Client {
@@ -16,6 +18,11 @@ class Client {
   messages: any[] = [];
   id = "";
   token = "";
+  tuplePackets = 0;
+  decodeErrors = 0;
+  maxPacketBytes = 0;
+  chunkPackets = 0;
+  chunks = new StateChunkAssembler();
   constructor(
     code: string,
     token = "",
@@ -23,6 +30,9 @@ class Client {
     catalog = 2,
     opening = 2,
     stateOmissions = false,
+    stateTuples = false,
+    stateChunks = false,
+    stateFlow = false,
   ) {
     this.ws = new WebSocket(
       `${base.replace("http", "ws")}/rooms/${code}?ruleset=front-v1&testClient=${createHash(
@@ -38,10 +48,25 @@ class Client {
         ...(growth === 3 && catalog === 2 ? { frontCatalog: 2 } : {}),
         ...(growth === 3 && opening === 2 ? { frontOpening: 2 } : {}),
         ...(stateOmissions ? { stateOmissions: 1 } : {}),
+        ...(stateTuples ? { stateTuples: 1 } : {}),
+        ...(stateChunks ? { stateChunks: 1 } : {}),
+        ...(stateFlow ? { stateFlow: 1 } : {}),
         ...(token ? { token } : {}),
       });
     this.ws.onmessage = (e) => {
-      const m = JSON.parse(String(e.data));
+      const raw = JSON.parse(String(e.data));
+      if (raw.type === "stateChunk") this.chunkPackets++;
+      const m: any = this.chunks.read(String(e.data));
+      this.maxPacketBytes = Math.max(
+        this.maxPacketBytes,
+        new TextEncoder().encode(String(e.data)).length,
+      );
+      if (!m) return;
+      if (m.stateEncoding === "tuples-v1") this.tuplePackets++;
+      if (!restoreStateTuples(m)) {
+        this.decodeErrors++;
+        return;
+      }
       this.messages.push(m);
       if (m.type === "welcome") {
         this.id = m.id;
@@ -105,6 +130,9 @@ async function team(
   mode = "defense",
   growth: boolean | 3 = true,
   stateOmissions: boolean | boolean[] = false,
+  stateTuples: boolean | boolean[] = false,
+  stateChunks: boolean | boolean[] = false,
+  stateFlow: boolean | boolean[] = false,
 ) {
   const entry = await room(mode),
     members: Client[] = [];
@@ -116,6 +144,9 @@ async function team(
       2,
       2,
       Array.isArray(stateOmissions) ? stateOmissions[i] : stateOmissions,
+      Array.isArray(stateTuples) ? stateTuples[i] : stateTuples,
+      Array.isArray(stateChunks) ? stateChunks[i] : stateChunks,
+      Array.isArray(stateFlow) ? stateFlow[i] : stateFlow,
     );
     await c.wait((m) => m.type === "welcome");
     members.push(c);
@@ -157,8 +188,191 @@ async function team(
   return { entry, members, states };
 }
 describe("改装版の実通信", () => {
+  it("同梱stateAckで解放した最初の状態に同じ入力の最新seqを含める", async () => {
+    const { members } = await team(1, "survival", 3, false, false, false, true);
+    const c = members[0];
+    const handled = new Set<string>();
+    let preparing = true;
+    const onMessage = c.ws.onmessage!;
+    c.ws.onmessage = (e) => {
+      onMessage.call(c.ws, e);
+      const m = c.messages.at(-1);
+      if (!preparing || m?.type !== "state") return;
+      c.send({ type: "stateAck", stateAck: m.stateId });
+      const offer = m.frontView.offer;
+      if (offer && !handled.has(offer.id)) {
+        handled.add(offer.id);
+        c.choose(m);
+      }
+    };
+    c.send({ type: "stateAck", stateAck: c.latest().stateId });
+    await c.wait(
+      (m) =>
+        m.type === "state" &&
+        m.frontView.phase === "combat" &&
+        m.serverNow >= m.frontView.resumeUntil,
+    );
+    preparing = false;
+    // No more ACKs: let the two snapshot credits fill and mark the peer dirty.
+    await new Promise((r) => setTimeout(r, 300));
+    const before = c.messages.length;
+    const last = c.latest();
+    const seq = 777;
+    const sentAt = Date.now() / 1000;
+    c.send({
+      type: "input",
+      stateAck: last.stateId,
+      input: { ...neutral(), seq, mx: 1 },
+    });
+    const first = await c.wait((m) => m.type === "state", before);
+    // Checking the first released snapshot matters: the old ordering sent -1
+    // here and only acknowledged seq 777 in a later periodic snapshot.
+    expect(first.inputAck).toBe(seq);
+    expect(first.inputReceivedAt).toBeGreaterThanOrEqual(sentAt);
+    expect(first.inputReceivedAt).toBeLessThanOrEqual(first.serverNow);
+    const applied = await c.wait(
+      (m) =>
+        m.type === "state" &&
+        m.world.players.find((p: any) => p.id === c.id)?.ack === seq,
+      before,
+    );
+    expect(applied.world.players.find((p: any) => p.id === c.id).x).not.toBe(
+      first.world.players.find((p: any) => p.id === c.id).x,
+    );
+    await new Promise((r) => setTimeout(r, 350));
+    const delayedStart = c.messages.length;
+    c.send({ type: "stateAck", stateAck: c.latest().stateId });
+    const delayed = await c.wait((m) => m.type === "state", delayedStart);
+    expect(delayed.inputAck).toBe(seq);
+    expect(delayed.inputReceivedAt).toBe(first.inputReceivedAt);
+    expect(delayed.serverNow - delayed.inputReceivedAt).toBeGreaterThan(0.3);
+    expect(c.ws.readyState).toBe(WebSocket.OPEN);
+  });
+  it("受信待ちを2状態に制限し、旧接続を止めず、最後の結果と再接続を届ける", async () => {
+    const { entry, members } = await team(
+      2,
+      "survival",
+      3,
+      false,
+      false,
+      false,
+      [true, false],
+    );
+    const [slow, legacy] = members;
+    expect(slow.messages.find((m) => m.type === "welcome").stateFlow).toBe(
+      true,
+    );
+    expect(
+      legacy.messages.find((m) => m.type === "welcome").stateFlow,
+    ).toBeUndefined();
+    const states = () => slow.messages.filter((m) => m.type === "state");
+    await slow.wait((m) => m.type === "state" && states().length === 2);
+    const last = states().at(-1).stateId;
+    expect(Number.isSafeInteger(last)).toBe(true);
+    const legacyBefore = legacy.messages.length;
+    await new Promise((r) => setTimeout(r, 300));
+    expect(states()).toHaveLength(2);
+    expect(legacy.messages.length).toBeGreaterThan(legacyBefore);
+    const response = await fetch(
+      `${base}/fixtures/${entry.code}/front-growth-result`,
+      { method: "POST" },
+    );
+    expect(response.status).toBe(200);
+    await legacy.wait((m) => m.type === "state" && m.world.phase === "defeat");
+    expect(states()).toHaveLength(2);
+    slow.send({ type: "stateAck", stateAck: last + 1000000 });
+    await new Promise((r) => setTimeout(r, 150));
+    expect(states()).toHaveLength(2);
+    slow.send({ type: "stateAck", stateAck: last });
+    const final = await slow.wait(
+      (m) => m.type === "state" && m.world.phase === "defeat",
+    );
+    expect(final.stateId).toBeGreaterThan(last);
+    expect(final.frontView.phase).toBe("defeat");
+    // Leave the final snapshot unacknowledged: a new socket gets fresh credit.
+    slow.ws.close();
+    const rejoined = new Client(
+      entry.code,
+      slow.token,
+      3,
+      2,
+      2,
+      false,
+      false,
+      false,
+      true,
+    );
+    await rejoined.wait((m) => m.type === "welcome" && m.stateFlow === true);
+    const restored = await rejoined.wait(
+      (m) => m.type === "state" && m.world.phase === "defeat",
+    );
+    expect(rejoined.id).toBe(slow.id);
+    expect(restored.world.run).toBe(final.world.run);
+    expect(rejoined.ws.readyState).toBe(WebSocket.OPEN);
+  });
+  it("分割対応4人へ合成1000弾の全戦況を原子的に復元する", async () => {
+    const { entry, members } = await team(4, "survival", 3, true, true, true);
+    const offsets = members.map((member) => member.messages.length);
+    const response = await fetch(
+      `${base}/fixtures/${entry.code}/front-wire-overflow`,
+      { method: "POST" },
+    );
+    expect(response.status).toBe(200);
+    const packets = await Promise.all(
+      members.map((member, index) =>
+        member.wait(
+          (m) => m.type === "state" && m.world.projectiles.length === 1000,
+          offsets[index],
+        ),
+      ),
+    );
+    for (const [index, packet] of packets.entries()) {
+      expect(packet.world.enemies).toHaveLength(96);
+      expect(packet.world.front.orbs).toHaveLength(160);
+      expect(packet.omitted?.enemies ?? []).toHaveLength(0);
+      expect(packet.world.enemies).toEqual(packets[0].world.enemies);
+      expect(members[index].chunkPackets).toBeGreaterThan(1);
+      expect(members[index].decodeErrors).toBe(0);
+      expect(members[index].maxPacketBytes).toBeLessThanOrEqual(65536);
+      expect(members[index].ws.readyState).toBe(WebSocket.OPEN);
+    }
+  });
+  it("配列対応4人へ400弾・全96敵・160オーブを省略せず送る", async () => {
+    const { entry, members } = await team(4, "survival", 3, true, true);
+    const offsets = members.map((member) => member.messages.length);
+    const response = await fetch(
+      `${base}/fixtures/${entry.code}/front-wire-heavy`,
+      { method: "POST" },
+    );
+    expect(response.status).toBe(200);
+    const packets = await Promise.all(
+      members.map((member, index) =>
+        member.wait(
+          (m) => m.type === "state" && m.world.projectiles.length === 400,
+          offsets[index],
+        ),
+      ),
+    );
+    for (const [index, packet] of packets.entries()) {
+      expect(packet.world.enemies).toHaveLength(96);
+      expect(packet.world.front.orbs).toHaveLength(160);
+      expect(packet.omitted?.enemies ?? []).toHaveLength(0);
+      expect(packet.omitted?.orbs ?? []).toHaveLength(0);
+      expect(packet.world.enemies).toEqual(packets[0].world.enemies);
+      expect(members[index].tuplePackets).toBeGreaterThan(0);
+      expect(members[index].decodeErrors).toBe(0);
+      expect(members[index].maxPacketBytes).toBeLessThanOrEqual(65536);
+      expect(members[index].ws.readyState).toBe(WebSocket.OPEN);
+    }
+  });
   it("新旧画面が混在する実通信でもBASTIONの予告方向を維持する", async () => {
-    const { entry, members } = await team(2, "survival", 3, [true, false]);
+    const { entry, members } = await team(
+      2,
+      "survival",
+      3,
+      [true, false],
+      [true, false],
+    );
     const offsets = members.map((member) => member.messages.length);
     const response = await fetch(
       `${base}/fixtures/${entry.code}/front-wire-bastion`,
@@ -181,6 +395,9 @@ describe("改装版の実通信", () => {
     expect(restoreTurn(modern.turnBits)).toBe(0.4049998011283004);
     expect(legacy.turn).toBe(0.4049998011283004);
     expect(legacy).not.toHaveProperty("turnBits");
+    expect(members[0].tuplePackets).toBeGreaterThan(0);
+    expect(members[1].tuplePackets).toBe(0);
+    expect(members.every((member) => member.decodeErrors === 0)).toBe(true);
     expect(
       members.every((member) => member.ws.readyState === WebSocket.OPEN),
     ).toBe(true);

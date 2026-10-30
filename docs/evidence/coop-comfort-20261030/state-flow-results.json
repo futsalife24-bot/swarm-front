@@ -1,0 +1,1910 @@
+{
+  "context": "実ローカルWorker。4接続、通常入力。回線制限は各方向の未圧縮payload帯域であり実回線bpsではない。機能成功と快適性を区別。異なるseedの試行で性能保証はしない。",
+  "trials": [
+    {
+      "path": "live-link-128k-ready",
+      "passed": true,
+      "sourcesStable": true,
+      "seconds": 30,
+      "renderClients": 1,
+      "linkConfig": {
+        "latencyMs": 75,
+        "bytesPerSecond": 131072
+      },
+      "sourceBefore": {
+        "server/worker.ts": "d6dfab6310558f5ed142676d6593a5fcd0ae1fb34bdda9b263d7e612eeed6406",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "679dcdf3e30d65d854d017508f131b03a4c3a923a0c39824cca486b91644669d",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "1e111f7ca7e73a9f7f34cbb75b5a617da55be02928d685ef432eb3beeaef1dd2",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "fa521799b277e9f8b72ea2d5f3fd066464dab6321d1f192a240bc63998efbdf1",
+        "scripts/local-websocket-shaper.mjs": "71eaadb66a868bbc190659768e78bda26686c5a22a26055c7b31a0a42bfc88e1"
+      },
+      "errors": [],
+      "wire": [
+        {
+          "states": 291,
+          "chunks": 0,
+          "maxBytes": 16370,
+          "omittedMax": 0,
+          "closes": 0
+        },
+        {
+          "states": 291,
+          "chunks": 0,
+          "maxBytes": 16462,
+          "omittedMax": 0,
+          "closes": 0
+        },
+        {
+          "states": 291,
+          "chunks": 0,
+          "maxBytes": 16413,
+          "omittedMax": 0,
+          "closes": 0
+        },
+        {
+          "states": 291,
+          "chunks": 0,
+          "maxBytes": 16462,
+          "omittedMax": 0,
+          "closes": 0
+        }
+      ],
+      "clients": [
+        {
+          "client": 0,
+          "gameSeconds": 28.85,
+          "worldIntervals": {
+            "samples": 290,
+            "p50": 103.1,
+            "p95": 126.1,
+            "max": 138.1
+          },
+          "frames": {
+            "samples": 1798,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 33.5
+          },
+          "ackObservedRtt": {
+            "samples": 245,
+            "p50": 298.1,
+            "p95": 812.2,
+            "max": 1341.3
+          },
+          "receiptAckRtt": {
+            "samples": 245,
+            "p50": 298.3,
+            "p95": 812.4,
+            "max": 1341.5
+          },
+          "counters": {
+            "updates": 291,
+            "firsts": 0,
+            "sent": 306,
+            "fire": 284,
+            "move": 306,
+            "reloadSent": 3,
+            "reloadStarted": 6,
+            "ammoSpentObserved": 129,
+            "shotsObserved": 134,
+            "hitsObserved": 81,
+            "invalidInputs": 0,
+            "neutralAck": 6,
+            "maxUnacked": 4
+          },
+          "errors": [],
+          "glErrors": [],
+          "webSocketExtensions": ""
+        },
+        {
+          "client": 1,
+          "gameSeconds": 28.85,
+          "worldIntervals": {
+            "samples": 290,
+            "p50": 105.8,
+            "p95": 126.1,
+            "max": 128.4
+          },
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.1
+          },
+          "ackObservedRtt": {
+            "samples": 239,
+            "p50": 297.1,
+            "p95": 818.3,
+            "max": 1342.6
+          },
+          "receiptAckRtt": {
+            "samples": 239,
+            "p50": 297.4,
+            "p95": 818.7,
+            "max": 1342.8
+          },
+          "counters": {
+            "updates": 291,
+            "firsts": 0,
+            "sent": 306,
+            "fire": 284,
+            "move": 306,
+            "reloadSent": 3,
+            "reloadStarted": 6,
+            "ammoSpentObserved": 131,
+            "shotsObserved": 136,
+            "hitsObserved": 79,
+            "invalidInputs": 0,
+            "neutralAck": 8,
+            "maxUnacked": 4
+          },
+          "errors": [],
+          "glErrors": [],
+          "webSocketExtensions": ""
+        },
+        {
+          "client": 2,
+          "gameSeconds": 28.85,
+          "worldIntervals": {
+            "samples": 290,
+            "p50": 105.4,
+            "p95": 125.4,
+            "max": 141.5
+          },
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.3
+          },
+          "ackObservedRtt": {
+            "samples": 238,
+            "p50": 298,
+            "p95": 830,
+            "max": 1323.6
+          },
+          "receiptAckRtt": {
+            "samples": 238,
+            "p50": 298.3,
+            "p95": 830.4,
+            "max": 1323.7
+          },
+          "counters": {
+            "updates": 291,
+            "firsts": 0,
+            "sent": 303,
+            "fire": 281,
+            "move": 303,
+            "reloadSent": 3,
+            "reloadStarted": 6,
+            "ammoSpentObserved": 129,
+            "shotsObserved": 134,
+            "hitsObserved": 114,
+            "invalidInputs": 0,
+            "neutralAck": 9,
+            "maxUnacked": 4
+          },
+          "errors": [],
+          "glErrors": [],
+          "webSocketExtensions": ""
+        },
+        {
+          "client": 3,
+          "gameSeconds": 28.85,
+          "worldIntervals": {
+            "samples": 290,
+            "p50": 106.3,
+            "p95": 125.3,
+            "max": 131.6
+          },
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.1
+          },
+          "ackObservedRtt": {
+            "samples": 239,
+            "p50": 297.5,
+            "p95": 829.9,
+            "max": 1337.2
+          },
+          "receiptAckRtt": {
+            "samples": 239,
+            "p50": 297.8,
+            "p95": 830.4,
+            "max": 1337.3
+          },
+          "counters": {
+            "updates": 291,
+            "firsts": 0,
+            "sent": 303,
+            "fire": 280,
+            "move": 303,
+            "reloadSent": 3,
+            "reloadStarted": 6,
+            "ammoSpentObserved": 129,
+            "shotsObserved": 134,
+            "hitsObserved": 77,
+            "invalidInputs": 0,
+            "neutralAck": 7,
+            "maxUnacked": 4
+          },
+          "errors": [],
+          "glErrors": [],
+          "webSocketExtensions": ""
+        }
+      ],
+      "link": {
+        "latencyMs": 75,
+        "bytesPerSecond": 131072,
+        "payloadBandwidthOnly": true,
+        "perMessageDeflate": false,
+        "queueLimitBytes": 4194304,
+        "queueLimitMessages": 8192,
+        "waitLimitMs": 30000,
+        "accepted": 4,
+        "activeConnections": 0,
+        "rejectedUpgrades": 0,
+        "rejectedHttp": 0,
+        "closed": true,
+        "connections": [
+          {
+            "id": 1,
+            "up": {
+              "receivedMessages": 321,
+              "receivedBytes": 67745,
+              "sentMessages": 321,
+              "sentBytes": 67745,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 531,
+              "queuedPeakMessages": 3,
+              "maxScheduledDelayMs": 79.05120849609375,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "down": {
+              "receivedMessages": 339,
+              "receivedBytes": 3685315,
+              "sentMessages": 326,
+              "sentBytes": 3460395,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 242730,
+              "queuedPeakMessages": 14,
+              "maxScheduledDelayMs": 1771.4718278320288,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 224920
+            },
+            "socketErrors": 0,
+            "closed": true,
+            "browserCloseCode": 1000,
+            "upstreamCloseCode": null,
+            "failure": null,
+            "browserExtensions": "",
+            "upstreamExtensions": ""
+          },
+          {
+            "id": 2,
+            "up": {
+              "receivedMessages": 320,
+              "receivedBytes": 67713,
+              "sentMessages": 320,
+              "sentBytes": 67713,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 531,
+              "queuedPeakMessages": 3,
+              "maxScheduledDelayMs": 79.05120849609375,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "down": {
+              "receivedMessages": 338,
+              "receivedBytes": 3708175,
+              "sentMessages": 323,
+              "sentBytes": 3448611,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 259564,
+              "queuedPeakMessages": 15,
+              "maxScheduledDelayMs": 1859.0572120117213,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 259564
+            },
+            "socketErrors": 0,
+            "closed": true,
+            "browserCloseCode": 1000,
+            "upstreamCloseCode": null,
+            "failure": null,
+            "browserExtensions": "",
+            "upstreamExtensions": ""
+          },
+          {
+            "id": 3,
+            "up": {
+              "receivedMessages": 317,
+              "receivedBytes": 67067,
+              "sentMessages": 317,
+              "sentBytes": 67067,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 531,
+              "queuedPeakMessages": 3,
+              "maxScheduledDelayMs": 79.05120849609375,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "down": {
+              "receivedMessages": 336,
+              "receivedBytes": 3715587,
+              "sentMessages": 320,
+              "sentBytes": 3454664,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 260923,
+              "queuedPeakMessages": 16,
+              "maxScheduledDelayMs": 1862.35032832031,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 260923
+            },
+            "socketErrors": 0,
+            "closed": true,
+            "browserCloseCode": 1000,
+            "upstreamCloseCode": null,
+            "failure": null,
+            "browserExtensions": "",
+            "upstreamExtensions": ""
+          },
+          {
+            "id": 4,
+            "up": {
+              "receivedMessages": 316,
+              "receivedBytes": 66958,
+              "sentMessages": 316,
+              "sentBytes": 66958,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 531,
+              "queuedPeakMessages": 3,
+              "maxScheduledDelayMs": 79.05120849609375,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "down": {
+              "receivedMessages": 334,
+              "receivedBytes": 3727263,
+              "sentMessages": 318,
+              "sentBytes": 3450252,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 277011,
+              "queuedPeakMessages": 16,
+              "maxScheduledDelayMs": 1990.6249660156245,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 277011
+            },
+            "socketErrors": 0,
+            "closed": true,
+            "browserCloseCode": 1000,
+            "upstreamCloseCode": null,
+            "failure": null,
+            "browserExtensions": "",
+            "upstreamExtensions": ""
+          }
+        ]
+      }
+    },
+    {
+      "path": "live-link-128k-flow",
+      "passed": true,
+      "sourcesStable": true,
+      "seconds": 30,
+      "renderClients": 1,
+      "linkConfig": {
+        "latencyMs": 75,
+        "bytesPerSecond": 131072
+      },
+      "sourceBefore": {
+        "server/worker.ts": "ca3d0300460653d6f1768edad273164814c733fc2b8ea79288e1d3ebdb99941c",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "server/state-delivery.ts": "4e36a7644b7590cb3b863de872b235b4ed1f58d8b6f6cea248ff3a99fff0de1d",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "9c505a9b60880d8b6e3a06b553bf0f23120a1f7491ae4734f932281413a5efe5",
+        "src/client/state-receipt.ts": "a636d4d1aea402cf2a87fbbf6915c6311dd050374056d3775951bf47693c6124",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "1e111f7ca7e73a9f7f34cbb75b5a617da55be02928d685ef432eb3beeaef1dd2",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "000be46a8ad66d2f51d0b386519a6d792c6eecef0391d14d92d0a8d8019abf81",
+        "scripts/local-websocket-shaper.mjs": "71eaadb66a868bbc190659768e78bda26686c5a22a26055c7b31a0a42bfc88e1"
+      },
+      "errors": [],
+      "wire": [
+        {
+          "states": 217,
+          "chunks": 0,
+          "maxBytes": 17135,
+          "omittedMax": 0,
+          "closes": 0,
+          "negotiatedStateFlow": true
+        },
+        {
+          "states": 216,
+          "chunks": 0,
+          "maxBytes": 16922,
+          "omittedMax": 0,
+          "closes": 0,
+          "negotiatedStateFlow": true
+        },
+        {
+          "states": 212,
+          "chunks": 0,
+          "maxBytes": 16776,
+          "omittedMax": 0,
+          "closes": 0,
+          "negotiatedStateFlow": true
+        },
+        {
+          "states": 216,
+          "chunks": 0,
+          "maxBytes": 17067,
+          "omittedMax": 0,
+          "closes": 0,
+          "negotiatedStateFlow": true
+        }
+      ],
+      "clients": [
+        {
+          "client": 0,
+          "gameSeconds": 29.8,
+          "worldIntervals": {
+            "samples": 216,
+            "p50": 135.4,
+            "p95": 193.7,
+            "max": 271
+          },
+          "frames": {
+            "samples": 1800,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 33.4
+          },
+          "ackObservedRtt": {
+            "samples": 211,
+            "p50": 382.4,
+            "p95": 475.6,
+            "max": 501.3
+          },
+          "receiptAckRtt": {
+            "samples": 211,
+            "p50": 382.4,
+            "p95": 475.9,
+            "max": 501.8
+          },
+          "counters": {
+            "updates": 217,
+            "firsts": 0,
+            "sent": 292,
+            "fire": 272,
+            "move": 292,
+            "reloadSent": 3,
+            "reloadStarted": 6,
+            "ammoSpentObserved": 134,
+            "shotsObserved": 142,
+            "hitsObserved": 108,
+            "invalidInputs": 0,
+            "neutralAck": 2,
+            "maxUnacked": 5
+          },
+          "errors": [],
+          "glErrors": [],
+          "webSocketExtensions": ""
+        },
+        {
+          "client": 1,
+          "gameSeconds": 29.799999999999997,
+          "worldIntervals": {
+            "samples": 215,
+            "p50": 137.5,
+            "p95": 197.6,
+            "max": 261.5
+          },
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.2
+          },
+          "ackObservedRtt": {
+            "samples": 210,
+            "p50": 381.2,
+            "p95": 466,
+            "max": 516.3
+          },
+          "receiptAckRtt": {
+            "samples": 210,
+            "p50": 381.4,
+            "p95": 466.4,
+            "max": 516.6
+          },
+          "counters": {
+            "updates": 216,
+            "firsts": 0,
+            "sent": 291,
+            "fire": 271,
+            "move": 291,
+            "reloadSent": 3,
+            "reloadStarted": 6,
+            "ammoSpentObserved": 133,
+            "shotsObserved": 142,
+            "hitsObserved": 157,
+            "invalidInputs": 0,
+            "neutralAck": 2,
+            "maxUnacked": 4
+          },
+          "errors": [],
+          "glErrors": [],
+          "webSocketExtensions": ""
+        },
+        {
+          "client": 2,
+          "gameSeconds": 29.75,
+          "worldIntervals": {
+            "samples": 211,
+            "p50": 138.3,
+            "p95": 208.3,
+            "max": 265.3
+          },
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.2
+          },
+          "ackObservedRtt": {
+            "samples": 200,
+            "p50": 382.7,
+            "p95": 466.3,
+            "max": 502
+          },
+          "receiptAckRtt": {
+            "samples": 200,
+            "p50": 382.9,
+            "p95": 466.9,
+            "max": 502.2
+          },
+          "counters": {
+            "updates": 212,
+            "firsts": 0,
+            "sent": 288,
+            "fire": 269,
+            "move": 288,
+            "reloadSent": 3,
+            "reloadStarted": 6,
+            "ammoSpentObserved": 135,
+            "shotsObserved": 143,
+            "hitsObserved": 88,
+            "invalidInputs": 0,
+            "neutralAck": 2,
+            "maxUnacked": 5
+          },
+          "errors": [],
+          "glErrors": [],
+          "webSocketExtensions": ""
+        },
+        {
+          "client": 3,
+          "gameSeconds": 29.700000000000003,
+          "worldIntervals": {
+            "samples": 215,
+            "p50": 137.8,
+            "p95": 190.9,
+            "max": 239.7
+          },
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.2
+          },
+          "ackObservedRtt": {
+            "samples": 210,
+            "p50": 385.2,
+            "p95": 460.7,
+            "max": 532.5
+          },
+          "receiptAckRtt": {
+            "samples": 210,
+            "p50": 385.4,
+            "p95": 460.9,
+            "max": 532.8
+          },
+          "counters": {
+            "updates": 216,
+            "firsts": 0,
+            "sent": 291,
+            "fire": 272,
+            "move": 291,
+            "reloadSent": 3,
+            "reloadStarted": 6,
+            "ammoSpentObserved": 133,
+            "shotsObserved": 141,
+            "hitsObserved": 95,
+            "invalidInputs": 0,
+            "neutralAck": 2,
+            "maxUnacked": 5
+          },
+          "errors": [],
+          "glErrors": [],
+          "webSocketExtensions": ""
+        }
+      ],
+      "link": {
+        "latencyMs": 75,
+        "bytesPerSecond": 131072,
+        "payloadBandwidthOnly": true,
+        "perMessageDeflate": false,
+        "queueLimitBytes": 4194304,
+        "queueLimitMessages": 8192,
+        "waitLimitMs": 30000,
+        "accepted": 4,
+        "activeConnections": 0,
+        "rejectedUpgrades": 0,
+        "rejectedHttp": 0,
+        "closed": true,
+        "connections": [
+          {
+            "id": 1,
+            "up": {
+              "receivedMessages": 316,
+              "receivedBytes": 71090,
+              "sentMessages": 316,
+              "sentBytes": 71090,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 531,
+              "queuedPeakMessages": 3,
+              "maxScheduledDelayMs": 79.05120849609375,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "down": {
+              "receivedMessages": 248,
+              "receivedBytes": 2627735,
+              "sentMessages": 247,
+              "sentBytes": 2611090,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 34108,
+              "queuedPeakMessages": 3,
+              "maxScheduledDelayMs": 224.79053945312626,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 16645
+            },
+            "socketErrors": 0,
+            "closed": true,
+            "browserCloseCode": 1000,
+            "upstreamCloseCode": null,
+            "failure": null,
+            "browserExtensions": "",
+            "upstreamExtensions": ""
+          },
+          {
+            "id": 2,
+            "up": {
+              "receivedMessages": 313,
+              "receivedBytes": 70862,
+              "sentMessages": 313,
+              "sentBytes": 70862,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 531,
+              "queuedPeakMessages": 3,
+              "maxScheduledDelayMs": 79.05120849609375,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "down": {
+              "receivedMessages": 245,
+              "receivedBytes": 2619592,
+              "sentMessages": 245,
+              "sentBytes": 2619592,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 34048,
+              "queuedPeakMessages": 3,
+              "maxScheduledDelayMs": 246.64142500000162,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "socketErrors": 0,
+            "closed": true,
+            "browserCloseCode": 1000,
+            "upstreamCloseCode": null,
+            "failure": null,
+            "browserExtensions": "",
+            "upstreamExtensions": ""
+          },
+          {
+            "id": 3,
+            "up": {
+              "receivedMessages": 319,
+              "receivedBytes": 70552,
+              "sentMessages": 319,
+              "sentBytes": 70552,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 531,
+              "queuedPeakMessages": 3,
+              "maxScheduledDelayMs": 79.05120849609375,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "down": {
+              "receivedMessages": 239,
+              "receivedBytes": 2568005,
+              "sentMessages": 239,
+              "sentBytes": 2568005,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 35064,
+              "queuedPeakMessages": 3,
+              "maxScheduledDelayMs": 279.90578984375315,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "socketErrors": 0,
+            "closed": true,
+            "browserCloseCode": 1000,
+            "upstreamCloseCode": null,
+            "failure": null,
+            "browserExtensions": "",
+            "upstreamExtensions": ""
+          },
+          {
+            "id": 4,
+            "up": {
+              "receivedMessages": 316,
+              "receivedBytes": 71289,
+              "sentMessages": 316,
+              "sentBytes": 71289,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 531,
+              "queuedPeakMessages": 3,
+              "maxScheduledDelayMs": 79.05120849609375,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "down": {
+              "receivedMessages": 241,
+              "receivedBytes": 2608623,
+              "sentMessages": 241,
+              "sentBytes": 2608623,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 33861,
+              "queuedPeakMessages": 3,
+              "maxScheduledDelayMs": 240.70512822266028,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "socketErrors": 0,
+            "closed": true,
+            "browserCloseCode": 1000,
+            "upstreamCloseCode": null,
+            "failure": null,
+            "browserExtensions": "",
+            "upstreamExtensions": ""
+          }
+        ]
+      }
+    },
+    {
+      "path": "live-flow-direct",
+      "passed": true,
+      "sourcesStable": true,
+      "seconds": 30,
+      "renderClients": 1,
+      "linkConfig": null,
+      "sourceBefore": {
+        "server/worker.ts": "ca3d0300460653d6f1768edad273164814c733fc2b8ea79288e1d3ebdb99941c",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "server/state-delivery.ts": "4e36a7644b7590cb3b863de872b235b4ed1f58d8b6f6cea248ff3a99fff0de1d",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "9c505a9b60880d8b6e3a06b553bf0f23120a1f7491ae4734f932281413a5efe5",
+        "src/client/state-receipt.ts": "a636d4d1aea402cf2a87fbbf6915c6311dd050374056d3775951bf47693c6124",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "1e111f7ca7e73a9f7f34cbb75b5a617da55be02928d685ef432eb3beeaef1dd2",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "000be46a8ad66d2f51d0b386519a6d792c6eecef0391d14d92d0a8d8019abf81"
+      },
+      "errors": [],
+      "wire": [
+        {
+          "states": 300,
+          "chunks": 0,
+          "maxBytes": 15493,
+          "omittedMax": 0,
+          "closes": 0,
+          "negotiatedStateFlow": true
+        },
+        {
+          "states": 300,
+          "chunks": 0,
+          "maxBytes": 15632,
+          "omittedMax": 0,
+          "closes": 0,
+          "negotiatedStateFlow": true
+        },
+        {
+          "states": 300,
+          "chunks": 0,
+          "maxBytes": 15493,
+          "omittedMax": 0,
+          "closes": 0,
+          "negotiatedStateFlow": true
+        },
+        {
+          "states": 300,
+          "chunks": 0,
+          "maxBytes": 15493,
+          "omittedMax": 0,
+          "closes": 0,
+          "negotiatedStateFlow": true
+        }
+      ],
+      "clients": [
+        {
+          "client": 0,
+          "gameSeconds": 29.85,
+          "worldIntervals": {
+            "samples": 299,
+            "p50": 99.9,
+            "p95": 119,
+            "max": 133.4
+          },
+          "frames": {
+            "samples": 1799,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 33
+          },
+          "ackObservedRtt": {
+            "samples": 299,
+            "p50": 46.6,
+            "p95": 83.2,
+            "max": 113.8
+          },
+          "receiptAckRtt": {
+            "samples": 299,
+            "p50": 46.9,
+            "p95": 83.6,
+            "max": 113.9
+          },
+          "counters": {
+            "updates": 300,
+            "firsts": 0,
+            "sent": 522,
+            "fire": 479,
+            "move": 522,
+            "reloadSent": 3,
+            "reloadStarted": 6,
+            "ammoSpentObserved": 135,
+            "shotsObserved": 141,
+            "hitsObserved": 129,
+            "invalidInputs": 0,
+            "neutralAck": 0,
+            "maxUnacked": 3
+          },
+          "errors": [],
+          "glErrors": [],
+          "webSocketExtensions": "permessage-deflate; client_max_window_bits=15"
+        },
+        {
+          "client": 1,
+          "gameSeconds": 29.85,
+          "worldIntervals": {
+            "samples": 299,
+            "p50": 99.9,
+            "p95": 116.7,
+            "max": 125.7
+          },
+          "frames": {
+            "samples": 1800,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 19.9
+          },
+          "ackObservedRtt": {
+            "samples": 299,
+            "p50": 47.5,
+            "p95": 83.3,
+            "max": 94.1
+          },
+          "receiptAckRtt": {
+            "samples": 299,
+            "p50": 47.6,
+            "p95": 83.7,
+            "max": 94.6
+          },
+          "counters": {
+            "updates": 300,
+            "firsts": 0,
+            "sent": 517,
+            "fire": 471,
+            "move": 517,
+            "reloadSent": 3,
+            "reloadStarted": 6,
+            "ammoSpentObserved": 135,
+            "shotsObserved": 141,
+            "hitsObserved": 172,
+            "invalidInputs": 0,
+            "neutralAck": 0,
+            "maxUnacked": 3
+          },
+          "errors": [],
+          "glErrors": [],
+          "webSocketExtensions": "permessage-deflate; client_max_window_bits=15"
+        },
+        {
+          "client": 2,
+          "gameSeconds": 29.85,
+          "worldIntervals": {
+            "samples": 299,
+            "p50": 99.8,
+            "p95": 116.2,
+            "max": 125
+          },
+          "frames": {
+            "samples": 1800,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 19.9
+          },
+          "ackObservedRtt": {
+            "samples": 299,
+            "p50": 50.5,
+            "p95": 86.2,
+            "max": 107.8
+          },
+          "receiptAckRtt": {
+            "samples": 299,
+            "p50": 50.8,
+            "p95": 86.5,
+            "max": 108
+          },
+          "counters": {
+            "updates": 300,
+            "firsts": 0,
+            "sent": 518,
+            "fire": 475,
+            "move": 518,
+            "reloadSent": 3,
+            "reloadStarted": 6,
+            "ammoSpentObserved": 136,
+            "shotsObserved": 142,
+            "hitsObserved": 124,
+            "invalidInputs": 0,
+            "neutralAck": 0,
+            "maxUnacked": 3
+          },
+          "errors": [],
+          "glErrors": [],
+          "webSocketExtensions": "permessage-deflate; client_max_window_bits=15"
+        },
+        {
+          "client": 3,
+          "gameSeconds": 29.85,
+          "worldIntervals": {
+            "samples": 299,
+            "p50": 99.7,
+            "p95": 116.4,
+            "max": 125.6
+          },
+          "frames": {
+            "samples": 1800,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 20
+          },
+          "ackObservedRtt": {
+            "samples": 299,
+            "p50": 48,
+            "p95": 86.9,
+            "max": 98.5
+          },
+          "receiptAckRtt": {
+            "samples": 299,
+            "p50": 48.2,
+            "p95": 87.1,
+            "max": 99.1
+          },
+          "counters": {
+            "updates": 300,
+            "firsts": 0,
+            "sent": 517,
+            "fire": 474,
+            "move": 517,
+            "reloadSent": 3,
+            "reloadStarted": 6,
+            "ammoSpentObserved": 135,
+            "shotsObserved": 141,
+            "hitsObserved": 119,
+            "invalidInputs": 0,
+            "neutralAck": 0,
+            "maxUnacked": 3
+          },
+          "errors": [],
+          "glErrors": [],
+          "webSocketExtensions": "permessage-deflate; client_max_window_bits=15"
+        }
+      ]
+    },
+    {
+      "path": "live-flow-four-render",
+      "passed": true,
+      "sourcesStable": true,
+      "seconds": 45,
+      "renderClients": 4,
+      "linkConfig": null,
+      "sourceBefore": {
+        "server/worker.ts": "ca3d0300460653d6f1768edad273164814c733fc2b8ea79288e1d3ebdb99941c",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "server/state-delivery.ts": "4e36a7644b7590cb3b863de872b235b4ed1f58d8b6f6cea248ff3a99fff0de1d",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "9c505a9b60880d8b6e3a06b553bf0f23120a1f7491ae4734f932281413a5efe5",
+        "src/client/state-receipt.ts": "a636d4d1aea402cf2a87fbbf6915c6311dd050374056d3775951bf47693c6124",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "1e111f7ca7e73a9f7f34cbb75b5a617da55be02928d685ef432eb3beeaef1dd2",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "000be46a8ad66d2f51d0b386519a6d792c6eecef0391d14d92d0a8d8019abf81"
+      },
+      "errors": [],
+      "wire": [
+        {
+          "states": 450,
+          "chunks": 0,
+          "maxBytes": 15660,
+          "omittedMax": 0,
+          "closes": 0,
+          "negotiatedStateFlow": true
+        },
+        {
+          "states": 448,
+          "chunks": 0,
+          "maxBytes": 15707,
+          "omittedMax": 0,
+          "closes": 0,
+          "negotiatedStateFlow": true
+        },
+        {
+          "states": 448,
+          "chunks": 0,
+          "maxBytes": 15614,
+          "omittedMax": 0,
+          "closes": 0,
+          "negotiatedStateFlow": true
+        },
+        {
+          "states": 448,
+          "chunks": 0,
+          "maxBytes": 15614,
+          "omittedMax": 0,
+          "closes": 0,
+          "negotiatedStateFlow": true
+        }
+      ],
+      "clients": [
+        {
+          "client": 0,
+          "gameSeconds": 44.550000000000004,
+          "worldIntervals": {
+            "samples": 449,
+            "p50": 99.7,
+            "p95": 121.5,
+            "max": 285.2
+          },
+          "frames": {
+            "samples": 2460,
+            "p50": 16.7,
+            "p95": 33.3,
+            "max": 66.9
+          },
+          "ackObservedRtt": {
+            "samples": 441,
+            "p50": 63.6,
+            "p95": 146.4,
+            "max": 525.7
+          },
+          "receiptAckRtt": {
+            "samples": 442,
+            "p50": 63.9,
+            "p95": 146.8,
+            "max": 471.7
+          },
+          "counters": {
+            "updates": 450,
+            "firsts": 0,
+            "sent": 735,
+            "fire": 699,
+            "move": 735,
+            "reloadSent": 4,
+            "reloadStarted": 9,
+            "ammoSpentObserved": 209,
+            "shotsObserved": 218,
+            "hitsObserved": 206,
+            "invalidInputs": 0,
+            "neutralAck": 2,
+            "maxUnacked": 6
+          },
+          "errors": [],
+          "glErrors": [],
+          "webSocketExtensions": "permessage-deflate; client_max_window_bits=15"
+        },
+        {
+          "client": 1,
+          "gameSeconds": 44.550000000000004,
+          "worldIntervals": {
+            "samples": 447,
+            "p50": 99.9,
+            "p95": 124.8,
+            "max": 295.7
+          },
+          "frames": {
+            "samples": 2472,
+            "p50": 16.7,
+            "p95": 33.3,
+            "max": 83.3
+          },
+          "ackObservedRtt": {
+            "samples": 440,
+            "p50": 64.1,
+            "p95": 143.4,
+            "max": 449.5
+          },
+          "receiptAckRtt": {
+            "samples": 443,
+            "p50": 64.7,
+            "p95": 145.8,
+            "max": 487.4
+          },
+          "counters": {
+            "updates": 448,
+            "firsts": 0,
+            "sent": 737,
+            "fire": 700,
+            "move": 737,
+            "reloadSent": 4,
+            "reloadStarted": 9,
+            "ammoSpentObserved": 204,
+            "shotsObserved": 218,
+            "hitsObserved": 283,
+            "invalidInputs": 0,
+            "neutralAck": 1,
+            "maxUnacked": 6
+          },
+          "errors": [],
+          "glErrors": [],
+          "webSocketExtensions": "permessage-deflate; client_max_window_bits=15"
+        },
+        {
+          "client": 2,
+          "gameSeconds": 44.550000000000004,
+          "worldIntervals": {
+            "samples": 447,
+            "p50": 99.6,
+            "p95": 125.6,
+            "max": 285.9
+          },
+          "frames": {
+            "samples": 2425,
+            "p50": 16.7,
+            "p95": 33.3,
+            "max": 66.6
+          },
+          "ackObservedRtt": {
+            "samples": 442,
+            "p50": 64.1,
+            "p95": 136.3,
+            "max": 572.3
+          },
+          "receiptAckRtt": {
+            "samples": 443,
+            "p50": 64.2,
+            "p95": 136.5,
+            "max": 572.4
+          },
+          "counters": {
+            "updates": 448,
+            "firsts": 0,
+            "sent": 729,
+            "fire": 696,
+            "move": 729,
+            "reloadSent": 4,
+            "reloadStarted": 9,
+            "ammoSpentObserved": 211,
+            "shotsObserved": 220,
+            "hitsObserved": 196,
+            "invalidInputs": 0,
+            "neutralAck": 0,
+            "maxUnacked": 4
+          },
+          "errors": [],
+          "glErrors": [],
+          "webSocketExtensions": "permessage-deflate; client_max_window_bits=15"
+        },
+        {
+          "client": 3,
+          "gameSeconds": 44.550000000000004,
+          "worldIntervals": {
+            "samples": 447,
+            "p50": 99.9,
+            "p95": 128.1,
+            "max": 285.6
+          },
+          "frames": {
+            "samples": 2446,
+            "p50": 16.7,
+            "p95": 33.3,
+            "max": 100
+          },
+          "ackObservedRtt": {
+            "samples": 440,
+            "p50": 64.3,
+            "p95": 155.3,
+            "max": 518.2
+          },
+          "receiptAckRtt": {
+            "samples": 442,
+            "p50": 64.6,
+            "p95": 155.6,
+            "max": 518.1
+          },
+          "counters": {
+            "updates": 448,
+            "firsts": 0,
+            "sent": 729,
+            "fire": 694,
+            "move": 729,
+            "reloadSent": 4,
+            "reloadStarted": 9,
+            "ammoSpentObserved": 209,
+            "shotsObserved": 218,
+            "hitsObserved": 190,
+            "invalidInputs": 0,
+            "neutralAck": 1,
+            "maxUnacked": 5
+          },
+          "errors": [],
+          "glErrors": [],
+          "webSocketExtensions": "permessage-deflate; client_max_window_bits=15"
+        }
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "path": "state-flow-unit.json",
+      "success": true,
+      "passed": 81,
+      "failed": 0,
+      "skipped": 0,
+      "tests": [
+        {
+          "name": "通常の混雑では短押しを保持し、移動は最新値で送る",
+          "status": "passed"
+        },
+        {
+          "name": "中断すると未送信タップを破棄し、再開後の新しいタップは送る",
+          "status": "passed"
+        },
+        {
+          "name": "中断しても送信間隔と4件のack待ち上限をリセットしない",
+          "status": "passed"
+        },
+        {
+          "name": "keeps thirty seconds of combat within one tick despite callback and work latency",
+          "status": "passed"
+        },
+        {
+          "name": "uses separate fixed ticks to recover a short stall and bounds a long suspension",
+          "status": "passed"
+        },
+        {
+          "name": "drops old debt on resume and handles a backwards system clock",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 100 byteを片上限内で正確に往復する",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 65536 byteを片上限内で正確に往復する",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 65537 byteを片上限内で正確に往復する",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 262144 byteを片上限内で正確に往復する",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 256KiB超と不正なsnapshot番号は分割しない",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 日本語・絵文字・引用符・逆斜線もUTF8境界と各片上限を維持する",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 最後の片まで部分Worldを返さず、受信期限は最初の片から2秒",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 不正版を拒否し、次の正常snapshotで復帰する",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 過大片数を拒否し、次の正常snapshotで復帰する",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 片数0を拒否し、次の正常snapshotで復帰する",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 不正indexを拒否し、次の正常snapshotで復帰する",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 非整数snapshotを拒否し、次の正常snapshotで復帰する",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 全体上限超を拒否し、次の正常snapshotで復帰する",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 全体byte不一致を拒否し、次の正常snapshotで復帰する",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 checksum不一致を拒否し、次の正常snapshotで復帰する",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 同長内容破損を拒否し、次の正常snapshotで復帰する",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 不正Unicodeを拒否し、次の正常snapshotで復帰する",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 余分な項目を拒否し、次の正常snapshotで復帰する",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 後半片の内容破損・JSON破損も途中Worldを公開しない",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 順序逆転・重複・古いsnapshot・欠落片は受理しない",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 新しいsnapshotまたは通常stateが古い未完snapshotを置き換える",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 実UTF8で64KiB超の単一messageとstate以外の組立結果を拒否する",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 96体の壁面PLEAT・295弾・160オーブを省略なしで往復する",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 接続単位で組み立て、旧serverと再接続へ対応する: 通常",
+          "status": "passed"
+        },
+        {
+          "name": "上限付きsnapshot分割 接続単位で組み立て、旧serverと再接続へ対応する: 生存",
+          "status": "passed"
+        },
+        {
+          "name": "connection-local snapshot delivery limits a negotiated connection to two actual unacknowledged snapshots",
+          "status": "passed"
+        },
+        {
+          "name": "connection-local snapshot delivery accepts only real sent IDs and cumulatively releases exactly through that ID",
+          "status": "passed"
+        },
+        {
+          "name": "connection-local snapshot delivery one ACK opens one slot without releasing a later in-flight snapshot",
+          "status": "passed"
+        },
+        {
+          "name": "connection-local snapshot delivery coalesces many dirty ticks to the latest World for only the acknowledged peer",
+          "status": "passed"
+        },
+        {
+          "name": "connection-local snapshot delivery delivers the dirty final result when ACK arrives after the tick loop stopped",
+          "status": "passed"
+        },
+        {
+          "name": "connection-local snapshot delivery partial chunk sends do not earn snapshot credits or advance events",
+          "status": "passed"
+        },
+        {
+          "name": "connection-local snapshot delivery does not send an outer snapshot superseded by a disconnect-triggered broadcast",
+          "status": "passed"
+        },
+        {
+          "name": "connection-local snapshot delivery keeps legacy connections unrestricted and ignores their ACK fields",
+          "status": "passed"
+        },
+        {
+          "name": "connection-local snapshot delivery restores bounded same-WS credits but gives a true reconnect a fresh window",
+          "status": "passed"
+        },
+        {
+          "name": "connection-local snapshot delivery rejects corrupt attachments and cannot manufacture credits from them",
+          "status": "passed"
+        },
+        {
+          "name": "connection-local snapshot delivery attachment and inFlight snapshots cannot mutate the active window",
+          "status": "passed"
+        },
+        {
+          "name": "connection-local snapshot delivery resets per-run event positions without losing old snapshot ACK credits",
+          "status": "passed"
+        },
+        {
+          "name": "per-connection bounded event retirement retains undelivered events for a blocked peer and permits common duplicates",
+          "status": "passed"
+        },
+        {
+          "name": "per-connection bounded event retirement does not make the 160-event buffer unbounded when a peer stalls forever",
+          "status": "passed"
+        },
+        {
+          "name": "per-connection bounded event retirement legacy peers participate in retirement and disconnected peers stop retaining",
+          "status": "passed"
+        },
+        {
+          "name": "旧サーバーへの新しい通知は交渉が成立するまで送らない",
+          "status": "passed"
+        },
+        {
+          "name": "受信した最新番号を通常入力へ同梱し、元の入力と送信頻度を変えない",
+          "status": "passed"
+        },
+        {
+          "name": "大量の受信でも無入力時の通知は10Hz以内で、重複・不正番号を無視する",
+          "status": "passed"
+        },
+        {
+          "name": "切断時に待ち通知を消し、新接続では小さい番号も受け取る",
+          "status": "passed"
+        },
+        {
+          "name": "20Hzの通常入力中はACK専用メッセージを増やさない",
+          "status": "passed"
+        },
+        {
+          "name": "front接続は検証済みstateだけを通知し、退出時にtimerを残さない",
+          "status": "passed"
+        },
+        {
+          "name": "legacy接続は検証済みstateだけを通知し、退出時にtimerを残さない",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple 従来wire値へ可逆で、PLEAT・HP保護・武器端数・角度ビット列を維持する",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple 次の受信者の準備で共通の敵・弾・オーブtupleを再JSON化しない",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple 96敵・PLEAT48・4人・160オーブ・400弾で敵を省略せず容量内（装備cache=false）",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple 96敵・PLEAT48・4人・160オーブ・400弾で敵を省略せず容量内（装備cache=true）",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple 400弾へ実frontView・時刻・最長名・31予告の合成余裕を足しても全数が届く",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple 交渉前は従来形式、同じ準備の新旧送信順・装備cacheで符号列を混同しない",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple マーカー欠落を例外なしで拒否し、途中復元しない",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple 角度ビット破損を例外なしで拒否し、途中復元しない",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple owner表なしを例外なしで拒否し、途中復元しない",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple owner表重複を例外なしで拒否し、途中復元しない",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple owner不正indexを例外なしで拒否し、途中復元しない",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple owner負indexを例外なしで拒否し、途中復元しない",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple 不正版を例外なしで拒否し、途中復元しない",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple 負のmaskを例外なしで拒否し、途中復元しない",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple 範囲外maskを例外なしで拒否し、途中復元しない",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple 欠落値を例外なしで拒否し、途中復元しない",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple 余分な値を例外なしで拒否し、途中復元しない",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple 数値破損を例外なしで拒否し、途中復元しない",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple PLEAT破損を例外なしで拒否し、途中復元しない",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple オーブ破損を例外なしで拒否し、途中復元しない",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple 大量敵を例外なしで拒否し、途中復元しない",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple 深い入れ子を例外なしで拒否し、途中復元しない",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple 新クライアントは旧サーバー、tuple、省略cache、破損受信へ対応する: class Network {\n\tendpoint;\n\tws;\n\tid = \"\";\n\ttoken = \"\";\n\tcode = \"\";\n\troomId = \"\";\n\troomName = \"\";\n\troomListed;\n\tretry = 0;\n\tclosed = false;\n\tlast = 0;\n\tmembers = [];\n\tstage = 1;\n\tpreparing = false;\n\tassetReady = false;\n\tpreparationGeneration = 0;\n\tplayerName = __vite_ssr_import_0__.DEFAULT_PLAYER_NAME;\n\tmessages = [];\n\tonChat = () => {};\n\tonWorld = () => {};\n\tonLobby = () => {};\n\tonStatus = () => {};\n\tready = () => {};\n\ttimer;\n\tequip = [];\n\tinputAt = -Infinity;\n\tpendingInput;\n\tusesInputAck = false;\n\tinFlightInputs = [];\n\tstateReceipt = new __vite_ssr_import_6__.StateReceipt(() => this.send({ type: \"stateAck\" }));\n\tconstructor(endpoint) {\n\t\tthis.endpoint = endpoint;\n\t\tthis.timer = setInterval(() => {\n\t\t\tif (this.ws?.readyState === 1 && this.id) this.send({ type: \"ping\" });\n\t\t\tif (this.ws?.readyState === 1 && Date.now() - this.last > 12e3) this.ws.close();\n\t\t}, 5e3);\n\t}\n\tasync create(turnstileToken, localCreationKey = \"\", options) {\n\t\tconst headers = {};\n\t\tif (turnstileToken) headers[\"X-Turnstile-Token\"] = turnstileToken;\n\t\tif (localCreationKey) headers[\"X-Room-Creation-Key\"] = localCreationKey;\n\t\tconst res = await fetch(`${this.endpoint}/rooms`, {\n\t\t\tmethod: \"POST\",\n\t\t\theaders,\n\t\t\tbody: options ? JSON.stringify(options) : undefined,\n\t\t\tredirect: \"error\",\n\t\t\tsignal: AbortSignal.timeout(7e3)\n\t\t});\n\t\tif (!res.ok) throw new Error((await res.json()).error ?? \"通信サーバーに接続できません\");\n\t\treturn (await res.json()).code;\n\t}\n\tconnect(code, token = \"\") {\n\t\tthis.stateReceipt.configure(false);\n\t\tthis.roomListed = undefined;\n\t\tif (this.code !== code) {\n\t\t\tthis.messages = [];\n\t\t\tthis.members = [];\n\t\t\tthis.assetReady = false;\n\t\t};\n\t\tthis.assetReady = false;\n\t\tthis.code = code;\n\t\tthis.token = token;\n\t\tthis.closed = false;\n\t\tthis.last = Date.now();\n\t\tconst ws = new WebSocket(`${this.endpoint.replace(/^http/, \"ws\")}/rooms/${code}`);\n\t\tthis.ws = ws;\n\t\tthis.inputAt = -Infinity;\n\t\tthis.pendingInput = undefined;\n\t\tthis.usesInputAck = false;\n\t\tthis.inFlightInputs = [];\n\t\tconst equipmentCache = new __vite_ssr_import_2__.EquipmentCache();\n\t\tconst omissionCache = new __vite_ssr_import_5__.StateOmissionCache();\n\t\tconst chunks = new __vite_ssr_import_4__.StateChunkAssembler();\n\t\tlet welcomed = false;\n\t\tlet firstState = true;\n\t\tconst timeout = setTimeout(() => {\n\t\t\tif (!welcomed) {\n\t\t\t\tws.close();\n\t\t\t\tthis.onStatus(\"接続がタイムアウトしました。装備画面に戻れます\", false);\n\t\t\t}\n\t\t}, 7e3);\n\t\tws.onopen = () => {\n\t\t\tthis.send({\n\t\t\t\ttype: \"hello\",\n\t\t\t\tequipmentCache: 1,\n\t\t\t\tstateOmissions: 1,\n\t\t\t\tstateTuples: 1,\n\t\t\t\tstateChunks: 1,\n\t\t\t\tstateFlow: 1,\n\t\t\t\tname: this.playerName,\n\t\t\t\t...this.token ? { token: this.token } : {}\n\t\t\t});\n\t\t};\n\t\tws.onmessage = (e) => {\n\t\t\tif (this.ws !== ws) return;\n\t\t\tthis.last = Date.now();\n\t\t\tlet m;\n\t\t\ttry {\n\t\t\t\t// Framing owns the unchanged per-message cap and clears corrupt assembly.\n\t\t\t\tm = chunks.read(e.data);\n\t\t\t\tif (!(0,__vite_ssr_import_3__.restoreStateTuples)(m)) return;\n\t\t\t\tif (!m || typeof m !== \"object\" || typeof m.type !== \"string\") return;\n\t\t\t\tif (m.type === \"welcome\" && (typeof m.id !== \"string\" || typeof m.token !== \"string\")) return;\n\t\t\t\tif ((m.type === \"state\" || m.type === \"lobby\") && (!Number.isSafeInteger(m.preparationGeneration) || m.preparationGeneration < 0 || !Array.isArray(m.members) || !m.members.every((p) => p && typeof p.id === \"string\" && typeof p.connected === \"boolean\" && typeof p.ready === \"boolean\"))) return;\n\t\t\t\tif (m.type === \"state\" && (!m.world || ![\n\t\t\t\t\t\"battle\",\n\t\t\t\t\t\"victory\",\n\t\t\t\t\t\"defeat\"\n\t\t\t\t].includes(m.world.phase) || !Array.isArray(m.world.players) || !Array.isArray(m.world.enemies))) return;\n\t\t\t\tif ((m.type === \"error\" || m.type === \"notice\") && typeof m.reason !== \"string\") return;\n\t\t\t} catch {\n\t\t\t\treturn;\n\t\t\t};\n\t\t\tif (m.type === \"state\" && !equipmentCache.restore(m.world, m.equipmentCached === true)) {\n\t\t\t\tws.close();\n\t\t\t\treturn;\n\t\t\t};\n\t\t\tif (m.type === \"state\" || m.type === \"lobby\") {\n\t\t\t\tif (this.preparationGeneration !== m.preparationGeneration) {\n\t\t\t\t\tthis.preparationGeneration = m.preparationGeneration;\n\t\t\t\t\tthis.assetReady = false;\n\t\t\t\t}\n\t\t\t};\n\t\t\tif (m.type === \"welcome\") {\n\t\t\t\twelcomed = true;\n\t\t\t\tclearTimeout(timeout);\n\t\t\t\tthis.id = m.id;\n\t\t\t\tthis.usesInputAck = m.inputAck === true;\n\t\t\t\tthis.stateReceipt.configure(m.stateFlow === true);\n\t\t\t\tthis.roomId = typeof m.roomId === \"string\" ? m.roomId : \"\";\n\t\t\t\tthis.roomName = typeof m.roomName === \"string\" ? m.roomName : \"\";\n\t\t\t\tthis.roomListed = typeof m.listed === \"boolean\" ? m.listed : undefined;\n\t\t\t\tthis.token = m.token;\n\t\t\t\tthis.retry = 0;\n\t\t\t\t// Keep identity in this tab across reloads. Never put the token in URLs or logs.\n\t\t\t\ttry {\n\t\t\t\t\tconst stored = JSON.stringify({\n\t\t\t\t\t\tversion: 1,\n\t\t\t\t\t\tendpoint: this.endpoint,\n\t\t\t\t\t\tcode: this.code,\n\t\t\t\t\t\ttoken: this.token,\n\t\t\t\t\t\texpiresAt: Date.now() + 60 * 60 * 1e3\n\t\t\t\t\t});\n\t\t\t\t\tsessionStorage.setItem(NETWORK_SESSION_KEY, stored);\n\t\t\t\t\tlocalStorage.setItem(NETWORK_SESSION_KEY, stored);\n\t\t\t\t} catch {};\n\t\t\t\tthis.onStatus(\"接続済み\", false);\n\t\t\t\tthis.send({\n\t\t\t\t\ttype: \"equip\",\n\t\t\t\t\tweapons: this.equip,\n\t\t\t\t\tready: !this.preparing && this.assetReady,\n\t\t\t\t\tstage: this.stage,\n\t\t\t\t\tpreparationGeneration: this.preparationGeneration\n\t\t\t\t});\n\t\t\t\tthis.ready();\n\t\t\t} else if (m.type === \"state\") {\n\t\t\t\tthis.stateReceipt.receive(m.stateId);\n\t\t\t\tif (this.usesInputAck && Number.isSafeInteger(m.inputAck)) this.inFlightInputs = this.inFlightInputs.filter((seq) => seq > m.inputAck);\n\t\t\t\tif ((0,__vite_ssr_import_1__.validStage)(m.stage) && this.stage !== m.stage) {\n\t\t\t\t\tthis.stage = m.stage;\n\t\t\t\t\tthis.assetReady = false;\n\t\t\t\t};\n\t\t\t\tthis.members = m.members;\n\t\t\t\tomissionCache.restore(m.world, m.omitted);\n\t\t\t\tthis.onWorld(m.world, firstState);\n\t\t\t\tfirstState = false;\n\t\t\t} else if (m.type === \"lobby\") {\n\t\t\t\tif ((0,__vite_ssr_import_1__.validStage)(m.stage) && this.stage !== m.stage) {\n\t\t\t\t\tthis.stage = m.stage;\n\t\t\t\t\tthis.assetReady = false;\n\t\t\t\t};\n\t\t\t\tthis.members = m.members;\n\t\t\t\tthis.onLobby();\n\t\t\t} else if (m.type === \"chatHistory\" && Array.isArray(m.messages)) {\n\t\t\t\tthis.messages = m.messages.filter((0,__vite_ssr_import_0__.isChatMessage)).slice(-__vite_ssr_import_0__.CHAT_HISTORY_LIMIT);\n\t\t\t\tthis.onChat();\n\t\t\t} else if (m.type === \"chat\" && (0,__vite_ssr_import_0__.isChatMessage)(m.message)) {\n\t\t\t\tif (!this.messages.some((entry) => entry.id === m.message.id)) this.messages = [...this.messages, m.message].slice(-__vite_ssr_import_0__.CHAT_HISTORY_LIMIT);\n\t\t\t\tthis.onChat();\n\t\t\t} else if (m.type === \"error\") {\n\t\t\t\tthis.stateReceipt.configure(false);\n\t\t\t\tthis.closed = true;\n\t\t\t\ttry {\n\t\t\t\t\tclearNetworkSession();\n\t\t\t\t} catch {};\n\t\t\t\tthis.onStatus(m.reason, true);\n\t\t\t} else if (m.type === \"notice\") this.onStatus(m.reason, false);\n\t\t};\n\t\tws.onclose = (e) => {\n\t\t\tclearTimeout(timeout);\n\t\t\tif (this.closed || this.ws !== ws) return;\n\t\t\tthis.stateReceipt.configure(false);\n\t\t\tif (e.code >= 4e3) {\n\t\t\t\tthis.closed = true;\n\t\t\t\tthis.onStatus(e.reason || \"復帰できません。装備画面へ戻ってください\", true);\n\t\t\t\treturn;\n\t\t\t};\n\t\t\tif (this.retry >= 5) {\n\t\t\t\tthis.closed = true;\n\t\t\t\tthis.onStatus(\"復帰できませんでした。装備画面へ戻ってください\", true);\n\t\t\t\treturn;\n\t\t\t};\n\t\t\tconst wait = [\n\t\t\t\t500,\n\t\t\t\t1e3,\n\t\t\t\t2e3,\n\t\t\t\t4e3,\n\t\t\t\t6e3\n\t\t\t][this.retry++];\n\t\t\tthis.onStatus(`通信切断 · 再接続 ${this.retry}/5（未確定品は勝利まで保存されません）`, false);\n\t\t\tsetTimeout(() => {\n\t\t\t\tif (!this.closed) this.connect(code, this.token);\n\t\t\t}, wait);\n\t\t};\n\t\tws.onerror = () => {};\n\t}\n\tsend(value) {\n\t\tif (this.ws?.readyState === 1) this.ws.send(JSON.stringify(this.stateReceipt.attach(value)));\n\t}\n\tinput(input) {\n\t\tif (this.ws?.readyState !== 1) return;\n\t\tconst pending = this.pendingInput;\n\t\tthis.pendingInput = {\n\t\t\t...input,\n\t\t\treload: input.reload || !!pending?.reload,\n\t\t\tswap: input.swap || !!pending?.swap,\n\t\t\tdodge: input.dodge || !!pending?.dodge,\n\t\t\tjump: input.jump || !!pending?.jump\n\t\t};\n\t\tconst now = performance.now();\n\t\t// Rendering stalls must not produce a burst of catch-up packets. Keep taps.\n\t\tif (now - this.inputAt < 50 || this.ws.bufferedAmount > 4096 || this.usesInputAck && this.inFlightInputs.length >= 4) return;\n\t\tthis.send({\n\t\t\ttype: \"input\",\n\t\t\tinput: this.pendingInput\n\t\t});\n\t\tif (this.usesInputAck) this.inFlightInputs.push(this.pendingInput.seq);\n\t\tthis.inputAt = now;\n\t\tthis.pendingInput = undefined;\n\t}\n\tequipment(weapons) {\n\t\tthis.equip = weapons;\n\t\tthis.assetReady = false;\n\t\tthis.send({\n\t\t\ttype: \"equip\",\n\t\t\tweapons,\n\t\t\tready: !this.preparing && this.assetReady,\n\t\t\tstage: this.stage,\n\t\t\tpreparationGeneration: this.preparationGeneration\n\t\t});\n\t}\n\tpreparation(preparing) {\n\t\tthis.preparing = preparing;\n\t\tthis.send({\n\t\t\ttype: \"ready\",\n\t\t\tready: !preparing && this.assetReady,\n\t\t\tstage: this.stage,\n\t\t\tpreparationGeneration: this.preparationGeneration\n\t\t});\n\t}\n\tsetAssetReady(ready, generation = this.preparationGeneration) {\n\t\tif (generation !== this.preparationGeneration) return;\n\t\tthis.assetReady = ready;\n\t\tthis.send({\n\t\t\ttype: \"ready\",\n\t\t\tready: ready && !this.preparing,\n\t\t\tstage: this.stage,\n\t\t\tpreparationGeneration: this.preparationGeneration\n\t\t});\n\t}\n\tsetPlayerName(name) {\n\t\tthis.playerName = (0,__vite_ssr_import_0__.normalizePlayerName)(name) || __vite_ssr_import_0__.DEFAULT_PLAYER_NAME;\n\t\tif (this.id) this.send({\n\t\t\ttype: \"profile\",\n\t\t\tname: this.playerName\n\t\t});\n\t}\n\tchatSentAt = 0;\n\tsendChat(text) {\n\t\tconst normalized = (0,__vite_ssr_import_0__.normalizeChatText)(text);\n\t\tif (!normalized || !this.id || this.closed || this.ws?.readyState !== 1 || Date.now() - this.chatSentAt < 1100) return false;\n\t\tthis.chatSentAt = Date.now();\n\t\tthis.send({\n\t\t\ttype: \"chat\",\n\t\t\ttext: normalized\n\t\t});\n\t\treturn true;\n\t}\n\tclose() {\n\t\tthis.stateReceipt.configure(false);\n\t\tthis.closed = true;\n\t\tclearInterval(this.timer);\n\t\tthis.ws?.close(1e3, \"退出\");\n\t\tclearNetworkSession();\n\t}\n}",
+          "status": "passed"
+        },
+        {
+          "name": "丸め後の状態tuple 新クライアントは旧サーバー、tuple、省略cache、破損受信へ対応する: class FrontNetwork {\n\tendpoint;\n\tws;\n\tid = \"\";\n\ttoken = \"\";\n\tcode = \"\";\n\troomId = \"\";\n\troomName = \"\";\n\troomListed;\n\tretry = 0;\n\tclosed = false;\n\tlast = 0;\n\tmembers = [];\n\tstage = 1;\n\tpreparing = false;\n\tassetReady = false;\n\tpreparationGeneration = 0;\n\tplayerName = __vite_ssr_import_1__.DEFAULT_PLAYER_NAME;\n\tmessages = [];\n\tonChat = () => {};\n\tonWorld = () => {};\n\tfrontView;\n\tserverNow = 0;\n\tclockOffset = 0;\n\tmode = \"survival\";\n\tonLobby = () => {};\n\tonStatus = () => {};\n\tready = () => {};\n\ttimer;\n\tequip = [];\n\tupgradePool = [...__vite_ssr_import_0__.FRONT_BASE_IDS];\n\tclearedStage = 0;\n\tinputAt = -Infinity;\n\tpendingInput;\n\tusesInputAck = false;\n\tinFlightInputs = [];\n\tstateReceipt = new __vite_ssr_import_7__.StateReceipt(() => this.send({ type: \"stateAck\" }));\n\tconstructor(endpoint) {\n\t\tthis.endpoint = endpoint;\n\t\tthis.timer = setInterval(() => {\n\t\t\tif (this.ws?.readyState === 1 && this.id) this.send({ type: \"ping\" });\n\t\t\tif (this.ws?.readyState === 1 && Date.now() - this.last > 12e3) this.ws.close();\n\t\t}, 5e3);\n\t}\n\tasync create(turnstileToken, localCreationKey = \"\", options) {\n\t\tconst headers = {};\n\t\tif (turnstileToken) headers[\"X-Turnstile-Token\"] = turnstileToken;\n\t\tif (localCreationKey) headers[\"X-Room-Creation-Key\"] = localCreationKey;\n\t\tconst res = await fetch(`${this.endpoint}/rooms`, {\n\t\t\tmethod: \"POST\",\n\t\t\theaders,\n\t\t\tbody: JSON.stringify({\n\t\t\t\t...options,\n\t\t\t\truleset: \"front-v1\"\n\t\t\t}),\n\t\t\tredirect: \"error\",\n\t\t\tsignal: AbortSignal.timeout(7e3)\n\t\t});\n\t\tif (!res.ok) throw new Error((await res.json()).error ?? \"通信サーバーに接続できません\");\n\t\treturn (await res.json()).code;\n\t}\n\tconnect(code, token = \"\") {\n\t\tthis.stateReceipt.configure(false);\n\t\tthis.roomListed = undefined;\n\t\tif (this.code !== code) {\n\t\t\tthis.messages = [];\n\t\t\tthis.members = [];\n\t\t\tthis.assetReady = false;\n\t\t};\n\t\tthis.assetReady = false;\n\t\tthis.code = code;\n\t\tthis.token = token;\n\t\tthis.closed = false;\n\t\tthis.last = Date.now();\n\t\tconst ws = new WebSocket(`${this.endpoint.replace(/^http/, \"ws\")}/rooms/${code}?ruleset=front-v1`);\n\t\tthis.ws = ws;\n\t\tthis.inputAt = -Infinity;\n\t\tthis.pendingInput = undefined;\n\t\tthis.usesInputAck = false;\n\t\tthis.inFlightInputs = [];\n\t\tconst equipmentCache = new __vite_ssr_import_3__.EquipmentCache();\n\t\tconst omissionCache = new __vite_ssr_import_6__.StateOmissionCache();\n\t\tconst chunks = new __vite_ssr_import_5__.StateChunkAssembler();\n\t\tlet welcomed = false;\n\t\tlet firstState = true;\n\t\tconst timeout = setTimeout(() => {\n\t\t\tif (!welcomed) {\n\t\t\t\tws.close();\n\t\t\t\tthis.onStatus(\"接続がタイムアウトしました。装備画面に戻れます\", false);\n\t\t\t}\n\t\t}, 7e3);\n\t\tws.onopen = () => {\n\t\t\tthis.send({\n\t\t\t\ttype: \"hello\",\n\t\t\t\tclearedStage: this.clearedStage,\n\t\t\t\tequipmentCache: 1,\n\t\t\t\tstateOmissions: 1,\n\t\t\t\tstateTuples: 1,\n\t\t\t\tstateChunks: 1,\n\t\t\t\tstateFlow: 1,\n\t\t\t\tfrontGrowth: 3,\n\t\t\t\tfrontCatalog: 2,\n\t\t\t\tfrontOpening: 2,\n\t\t\t\tname: this.playerName,\n\t\t\t\t...this.token ? { token: this.token } : {}\n\t\t\t});\n\t\t};\n\t\tws.onmessage = (e) => {\n\t\t\tif (this.closed || this.ws !== ws) return;\n\t\t\tthis.last = Date.now();\n\t\t\tlet m;\n\t\t\ttry {\n\t\t\t\t// Framing owns the unchanged per-message cap and clears corrupt assembly.\n\t\t\t\tm = chunks.read(e.data);\n\t\t\t\tif (!(0,__vite_ssr_import_4__.restoreStateTuples)(m)) return;\n\t\t\t\tif (!m || typeof m !== \"object\" || typeof m.type !== \"string\") return;\n\t\t\t\tif (m.type === \"welcome\" && (typeof m.id !== \"string\" || typeof m.token !== \"string\")) return;\n\t\t\t\tif ((m.type === \"state\" || m.type === \"lobby\") && (!Number.isSafeInteger(m.preparationGeneration) || m.preparationGeneration < 0 || !Array.isArray(m.members) || !m.members.every((p) => p && typeof p.id === \"string\" && typeof p.connected === \"boolean\" && typeof p.ready === \"boolean\"))) return;\n\t\t\t\tif (m.type === \"state\" && (!m.world || ![\n\t\t\t\t\t\"battle\",\n\t\t\t\t\t\"victory\",\n\t\t\t\t\t\"defeat\"\n\t\t\t\t].includes(m.world.phase) || !Array.isArray(m.world.players) || !Array.isArray(m.world.enemies))) return;\n\t\t\t\tif ((m.type === \"error\" || m.type === \"notice\") && typeof m.reason !== \"string\") return;\n\t\t\t} catch {\n\t\t\t\treturn;\n\t\t\t};\n\t\t\tif (m.type === \"state\" && !equipmentCache.restore(m.world, m.equipmentCached === true)) {\n\t\t\t\tws.close();\n\t\t\t\treturn;\n\t\t\t};\n\t\t\tif (m.type === \"state\" || m.type === \"lobby\") {\n\t\t\t\tif (this.preparationGeneration !== m.preparationGeneration) {\n\t\t\t\t\tthis.preparationGeneration = m.preparationGeneration;\n\t\t\t\t\tthis.assetReady = false;\n\t\t\t\t}\n\t\t\t};\n\t\t\tif (m.type === \"welcome\") {\n\t\t\t\twelcomed = true;\n\t\t\t\tif (m.ruleset !== \"front-v1\") {\n\t\t\t\t\tthis.closed = true;\n\t\t\t\t\tws.close();\n\t\t\t\t\tthis.onStatus(\"改装版の部屋ではありません\", true);\n\t\t\t\t\treturn;\n\t\t\t\t};\n\t\t\t\tthis.mode = m.mode === \"daily\" || m.mode === \"defense\" ? m.mode : \"survival\";\n\t\t\t\tclearTimeout(timeout);\n\t\t\t\tthis.id = m.id;\n\t\t\t\tthis.usesInputAck = m.inputAck === true;\n\t\t\t\tthis.stateReceipt.configure(m.stateFlow === true);\n\t\t\t\tthis.roomId = typeof m.roomId === \"string\" ? m.roomId : \"\";\n\t\t\t\tthis.roomName = typeof m.roomName === \"string\" ? m.roomName : \"\";\n\t\t\t\tthis.roomListed = typeof m.listed === \"boolean\" ? m.listed : undefined;\n\t\t\t\tthis.token = m.token;\n\t\t\t\tthis.retry = 0;\n\t\t\t\tthis.rememberSession(Number.isFinite(m.expiresAt) ? m.expiresAt : Date.now() + 36e5);\n\t\t\t\tif (m.frontOpening !== 2) {\n\t\t\t\t\t// 古いWorkerへ新形式を送らず、復帰トークンを保持して更新を案内する。\n\t\t\t\t\tthis.closed = true;\n\t\t\t\t\tws.close();\n\t\t\t\t\tthis.onStatus(\"通信先の強化ルールが旧版です。少し待って画面を再読み込みしてください\", true);\n\t\t\t\t\treturn;\n\t\t\t\t};\n\t\t\t\tthis.onStatus(\"接続済み\", false);\n\t\t\t\tthis.send({\n\t\t\t\t\ttype: \"equip\",\n\t\t\t\t\tupgradePool: this.upgradePool,\n\t\t\t\t\tweapons: this.equip,\n\t\t\t\t\tready: !this.preparing && this.assetReady,\n\t\t\t\t\tstage: this.stage,\n\t\t\t\t\tpreparationGeneration: this.preparationGeneration\n\t\t\t\t});\n\t\t\t\tthis.ready();\n\t\t\t} else if (m.type === \"state\") {\n\t\t\t\tthis.stateReceipt.receive(m.stateId);\n\t\t\t\tif (this.usesInputAck && Number.isSafeInteger(m.inputAck)) this.inFlightInputs = this.inFlightInputs.filter((seq) => seq > m.inputAck);\n\t\t\t\tif ((0,__vite_ssr_import_2__.validStage)(m.stage) && this.stage !== m.stage) {\n\t\t\t\t\tthis.stage = m.stage;\n\t\t\t\t\tthis.assetReady = false;\n\t\t\t\t};\n\t\t\t\tthis.members = m.members;\n\t\t\t\tthis.frontView = m.frontView;\n\t\t\t\tif (Number.isFinite(m.expiresAt)) this.rememberSession(m.expiresAt);\n\t\t\t\telse if (this.frontView?.returnAt != null) this.rememberSession(this.frontView.returnAt * 1e3 + 12e4);\n\t\t\t\tthis.serverNow = m.serverNow;\n\t\t\t\tif (Number.isFinite(m.serverNow)) this.clockOffset = m.serverNow - Date.now() / 1e3;\n\t\t\t\tomissionCache.restore(m.world, m.omitted);\n\t\t\t\tthis.onWorld(m.world, firstState);\n\t\t\t\tfirstState = false;\n\t\t\t} else if (m.type === \"lobby\") {\n\t\t\t\tif ((0,__vite_ssr_import_2__.validStage)(m.stage) && this.stage !== m.stage) {\n\t\t\t\t\tthis.stage = m.stage;\n\t\t\t\t\tthis.assetReady = false;\n\t\t\t\t};\n\t\t\t\tthis.members = m.members;\n\t\t\t\tthis.onLobby();\n\t\t\t} else if (m.type === \"chatHistory\" && Array.isArray(m.messages)) {\n\t\t\t\tthis.messages = m.messages.filter((0,__vite_ssr_import_1__.isChatMessage)).slice(-__vite_ssr_import_1__.CHAT_HISTORY_LIMIT);\n\t\t\t\tthis.onChat();\n\t\t\t} else if (m.type === \"chat\" && (0,__vite_ssr_import_1__.isChatMessage)(m.message)) {\n\t\t\t\tif (!this.messages.some((entry) => entry.id === m.message.id)) this.messages = [...this.messages, m.message].slice(-__vite_ssr_import_1__.CHAT_HISTORY_LIMIT);\n\t\t\t\tthis.onChat();\n\t\t\t} else if (m.type === \"error\") {\n\t\t\t\tthis.stateReceipt.configure(false);\n\t\t\t\tthis.closed = true;\n\t\t\t\ttry {\n\t\t\t\t\tclearFrontNetworkSession();\n\t\t\t\t} catch {};\n\t\t\t\tthis.onStatus(m.reason, true);\n\t\t\t} else if (m.type === \"notice\") this.onStatus(m.reason, false);\n\t\t};\n\t\tws.onclose = (e) => {\n\t\t\tclearTimeout(timeout);\n\t\t\tif (this.closed || this.ws !== ws) return;\n\t\t\tthis.stateReceipt.configure(false);\n\t\t\tif (e.code >= 4e3) {\n\t\t\t\tthis.closed = true;\n\t\t\t\tthis.onStatus(e.reason || \"復帰できません。装備画面へ戻ってください\", true);\n\t\t\t\treturn;\n\t\t\t};\n\t\t\tif (this.retry >= 5) {\n\t\t\t\tthis.closed = true;\n\t\t\t\tthis.onStatus(\"復帰できませんでした。装備画面へ戻ってください\", true);\n\t\t\t\treturn;\n\t\t\t};\n\t\t\tconst wait = [\n\t\t\t\t500,\n\t\t\t\t1e3,\n\t\t\t\t2e3,\n\t\t\t\t4e3,\n\t\t\t\t6e3\n\t\t\t][this.retry++];\n\t\t\tthis.onStatus(`通信切断 · 再接続 ${this.retry}/5`, false);\n\t\t\tsetTimeout(() => {\n\t\t\t\tif (!this.closed) this.connect(code, this.token);\n\t\t\t}, wait);\n\t\t};\n\t\tws.onerror = () => {};\n\t}\n\trememberedExpiry = 0;\n\trememberSession(expiresAt) {\n\t\tif (this.rememberedExpiry === expiresAt) return;\n\t\ttry {\n\t\t\tconst stored = JSON.stringify({\n\t\t\t\tversion: 1,\n\t\t\t\tendpoint: this.endpoint,\n\t\t\t\tcode: this.code,\n\t\t\t\ttoken: this.token,\n\t\t\t\texpiresAt\n\t\t\t});\n\t\t\tsessionStorage.setItem(FRONT_NETWORK_SESSION_KEY, stored);\n\t\t\tlocalStorage.setItem(FRONT_NETWORK_SESSION_KEY, stored);\n\t\t\tthis.rememberedExpiry = expiresAt;\n\t\t} catch {}\n\t}\n\tsend(value) {\n\t\tif (this.ws?.readyState === 1) this.ws.send(JSON.stringify(this.stateReceipt.attach(value)));\n\t}\n\tdiscardPendingInput() {\n\t\t// 中断前の未送信タップだけ破棄。送信済み入力のack待ちと送信間隔は維持する。\n\t\tthis.pendingInput = undefined;\n\t}\n\tinput(input) {\n\t\tif (this.ws?.readyState !== 1) return;\n\t\tconst pending = this.pendingInput;\n\t\tthis.pendingInput = {\n\t\t\t...input,\n\t\t\treload: input.reload || !!pending?.reload,\n\t\t\tswap: input.swap || !!pending?.swap,\n\t\t\tdodge: input.dodge || !!pending?.dodge,\n\t\t\tjump: input.jump || !!pending?.jump\n\t\t};\n\t\tconst now = performance.now();\n\t\t// Rendering stalls must not produce a burst of catch-up packets. Keep taps.\n\t\tif (now - this.inputAt < 50 || this.ws.bufferedAmount > 4096 || this.usesInputAck && this.inFlightInputs.length >= 4) return;\n\t\tthis.send({\n\t\t\ttype: \"input\",\n\t\t\tinput: this.pendingInput\n\t\t});\n\t\tif (this.usesInputAck) this.inFlightInputs.push(this.pendingInput.seq);\n\t\tthis.inputAt = now;\n\t\tthis.pendingInput = undefined;\n\t}\n\tequipment(weapons) {\n\t\tthis.equip = weapons;\n\t\tthis.assetReady = false;\n\t\tthis.send({\n\t\t\ttype: \"equip\",\n\t\t\tclearedStage: this.clearedStage,\n\t\t\tupgradePool: this.upgradePool,\n\t\t\tweapons,\n\t\t\tready: !this.preparing && this.assetReady,\n\t\t\tstage: this.stage,\n\t\t\tpreparationGeneration: this.preparationGeneration\n\t\t});\n\t}\n\tpreparation(preparing) {\n\t\tthis.preparing = preparing;\n\t\tthis.send({\n\t\t\ttype: \"ready\",\n\t\t\tready: !preparing && this.assetReady,\n\t\t\tstage: this.stage,\n\t\t\tpreparationGeneration: this.preparationGeneration\n\t\t});\n\t}\n\tsetAssetReady(ready, generation = this.preparationGeneration) {\n\t\tif (generation !== this.preparationGeneration) return;\n\t\tthis.assetReady = ready;\n\t\tthis.send({\n\t\t\ttype: \"ready\",\n\t\t\tready: ready && !this.preparing,\n\t\t\tstage: this.stage,\n\t\t\tpreparationGeneration: this.preparationGeneration\n\t\t});\n\t}\n\tsetPlayerName(name) {\n\t\tthis.playerName = (0,__vite_ssr_import_1__.normalizePlayerName)(name) || __vite_ssr_import_1__.DEFAULT_PLAYER_NAME;\n\t\tif (this.id) this.send({\n\t\t\ttype: \"profile\",\n\t\t\tname: this.playerName\n\t\t});\n\t}\n\tchatSentAt = 0;\n\tsendChat(text) {\n\t\tconst normalized = (0,__vite_ssr_import_1__.normalizeChatText)(text);\n\t\tif (!normalized || !this.id || this.closed || this.ws?.readyState !== 1 || Date.now() - this.chatSentAt < 1100) return false;\n\t\tthis.chatSentAt = Date.now();\n\t\tthis.send({\n\t\t\ttype: \"chat\",\n\t\t\ttext: normalized\n\t\t});\n\t\treturn true;\n\t}\n\tclose() {\n\t\tthis.stateReceipt.configure(false);\n\t\tthis.closed = true;\n\t\tclearInterval(this.timer);\n\t\tthis.ws?.close(1e3, \"退出\");\n\t\tclearFrontNetworkSession();\n\t}\n}",
+          "status": "passed"
+        },
+        {
+          "name": "marks the first restored state on every connection, suppressing old reload speech",
+          "status": "passed"
+        },
+        {
+          "name": "shares encoding but isolates loot and preserves exact nested weapon values",
+          "status": "passed"
+        },
+        {
+          "name": "paces catch-up inputs without losing action taps",
+          "status": "passed"
+        },
+        {
+          "name": "bounds unacknowledged inputs and releases retained taps after acknowledgement",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "state-flow-integration.json",
+      "success": true,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 14,
+      "tests": [
+        {
+          "name": "改装版の実通信 受信待ちを2状態に制限し、旧接続を止めず、最後の結果と再接続を届ける",
+          "status": "passed"
+        },
+        {
+          "name": "改装版の実通信 分割対応4人へ合成1000弾の全戦況を原子的に復元する",
+          "status": "skipped"
+        },
+        {
+          "name": "改装版の実通信 配列対応4人へ400弾・全96敵・160オーブを省略せず送る",
+          "status": "skipped"
+        },
+        {
+          "name": "改装版の実通信 新旧画面が混在する実通信でもBASTIONの予告方向を維持する",
+          "status": "skipped"
+        },
+        {
+          "name": "改装版の実通信 4人の密集状態を省略可能なクライアントへ送り、切断せず権威状態を維持する",
+          "status": "skipped"
+        },
+        {
+          "name": "改装版の実通信 開幕世代：旧形式の固定指定を拒否し、トークンを保って更新後に出撃できる",
+          "status": "skipped"
+        },
+        {
+          "name": "改装版の実通信 開幕世代：装備済みロビーへ旧画面が戻りequipを送らなくても混在出撃を止める",
+          "status": "skipped"
+        },
+        {
+          "name": "改装版の実通信 開幕世代：進行中の作戦は旧画面の復帰でも抽選し直さず、取得も保持",
+          "status": "skipped"
+        },
+        {
+          "name": "改装版の実通信 新候補を設定したロビーへ旧画面で戻ると出撃を止め、更新後に同じ設定で出撃できる",
+          "status": "skipped"
+        },
+        {
+          "name": "改装版の実通信 融合規則：4人の個人設定・持込性能・再接続・途中変更禁止",
+          "status": "skipped"
+        },
+        {
+          "name": "改装版の実通信 60分の帰還境界で全員へ戦果を配信し、結果へ再接続できる",
+          "status": "skipped"
+        },
+        {
+          "name": "改装版の実通信 旧版の一覧・解決・接続と分離し、作成認証を維持する",
+          "status": "skipped"
+        },
+        {
+          "name": "改装版の実通信 4人で停止・個別選択・性能標準化・再接続・重複防止・再開を確認する",
+          "status": "skipped"
+        },
+        {
+          "name": "改装版の実通信 2人の共通期限15秒で未選択・切断者を確定し、復帰しても増殖しない",
+          "status": "skipped"
+        },
+        {
+          "name": "改装版の実通信 旧画面だけの部隊は7回ルールで出撃し、新作戦へ古い画面で復帰すると更新案内を返す",
+          "status": "skipped"
+        }
+      ]
+    },
+    {
+      "path": "legacy-flow/results.json",
+      "success": true,
+      "passed": 6,
+      "failed": 0,
+      "skipped": 7,
+      "tests": [
+        {
+          "name": "P1 admission and reconnect regressions over real Workers requires credentials even with a forged/missing Origin; fake codes consume no global slots",
+          "status": "skipped"
+        },
+        {
+          "name": "P1 admission and reconnect regressions over real Workers keeps disconnected HP/ammo/timers, pauses all-disconnected, resumes identical state within 30 seconds",
+          "status": "skipped"
+        },
+        {
+          "name": "P1 admission and reconnect regressions over real Workers retains the 30-second disconnected participant expiry",
+          "status": "skipped"
+        },
+        {
+          "name": "isolated real-Workers fixtures (not full-mission proof) keeps an idle downed ally connected and revivable, then persists and replays individual rewards safely",
+          "status": "skipped"
+        },
+        {
+          "name": "real local workerd WebSocket authority accepts four participants and rejects the fifth, without BroadcastChannel",
+          "status": "passed"
+        },
+        {
+          "name": "real local workerd WebSocket authority two sockets share enemy HP, kills, phase and reconnect identity; late joins rejected",
+          "status": "passed"
+        },
+        {
+          "name": "real local workerd WebSocket authority rejects invalid input, oversized packets and flooding",
+          "status": "passed"
+        },
+        {
+          "name": "lobby social and asset readiness over real Workers preserves normal v2 and legacy weapon stats across real cooperative transport and rejects invalid v2",
+          "status": "passed"
+        },
+        {
+          "name": "lobby social and asset readiness over real Workers rejects stale readiness after ABA stage changes, peer equipment and reconnect",
+          "status": "passed"
+        },
+        {
+          "name": "lobby social and asset readiness over real Workers client blocks immediate chat repeats and clears readiness when equipment changes",
+          "status": "passed"
+        },
+        {
+          "name": "lobby social and asset readiness over real Workers changes stage after victory, shares rematch equipment and waits for renewed readiness",
+          "status": "skipped"
+        },
+        {
+          "name": "lobby social and asset readiness over real Workers authenticates names and chat, limits spam, isolates rooms and gates changed stages",
+          "status": "skipped"
+        },
+        {
+          "name": "lobby social and asset readiness over real Workers retains only the newest 50 messages and synchronizes reconnect without identity leakage",
+          "status": "skipped"
+        }
+      ]
+    }
+  ],
+  "fixture": {
+    "passed": true,
+    "context": "同一PCの4独立ブラウザ・実ローカルWorker・密集fixture。実スマホ/本番回線の証明ではない。",
+    "errors": [],
+    "trials": [
+      {
+        "client": 0,
+        "enemies": 96,
+        "orbs": 160,
+        "projectiles": 400,
+        "projectileInstances": 400,
+        "gpuError": 0,
+        "structureCount": 89,
+        "frames": 153,
+        "frameP50": 33.400000000001455,
+        "frameP95": 66.69999999999709,
+        "frameMax": 100,
+        "over50": 26,
+        "inputPackets": 107,
+        "packetMax": 65408,
+        "tuplePackets": 86,
+        "omittedMax": 0,
+        "errors": []
+      },
+      {
+        "client": 1,
+        "enemies": 96,
+        "orbs": 160,
+        "projectiles": 400,
+        "projectileInstances": 400,
+        "gpuError": 0,
+        "structureCount": 89,
+        "frames": 163,
+        "frameP50": 33.400000000001455,
+        "frameP95": 66.60000000000218,
+        "frameMax": 100,
+        "over50": 27,
+        "inputPackets": 117,
+        "packetMax": 65408,
+        "tuplePackets": 92,
+        "omittedMax": 0,
+        "errors": []
+      },
+      {
+        "client": 2,
+        "enemies": 96,
+        "orbs": 160,
+        "projectiles": 400,
+        "projectileInstances": 400,
+        "gpuError": 0,
+        "structureCount": 89,
+        "frames": 174,
+        "frameP50": 33.400000000001455,
+        "frameP95": 66.5,
+        "frameMax": 133.40000000000146,
+        "over50": 23,
+        "inputPackets": 123,
+        "packetMax": 65408,
+        "tuplePackets": 99,
+        "omittedMax": 0,
+        "errors": []
+      },
+      {
+        "client": 3,
+        "enemies": 96,
+        "orbs": 160,
+        "projectiles": 400,
+        "projectileInstances": 400,
+        "gpuError": 0,
+        "structureCount": 89,
+        "frames": 177,
+        "frameP50": 33.400000000001455,
+        "frameP95": 66.70000000000073,
+        "frameMax": 133.40000000000146,
+        "over50": 24,
+        "inputPackets": 119,
+        "packetMax": 65408,
+        "tuplePackets": 95,
+        "omittedMax": 0,
+        "errors": []
+      }
+    ],
+    "chunked": [
+      {
+        "client": 0,
+        "enemies": 96,
+        "projectiles": 1000,
+        "projectileInstances": 1000,
+        "chunks": 14,
+        "frameMaxBytes": 17040,
+        "gpuError": 0
+      },
+      {
+        "client": 1,
+        "enemies": 96,
+        "projectiles": 1000,
+        "projectileInstances": 1000,
+        "chunks": 18,
+        "frameMaxBytes": 17040,
+        "gpuError": 0
+      },
+      {
+        "client": 2,
+        "enemies": 96,
+        "projectiles": 1000,
+        "projectileInstances": 1000,
+        "chunks": 25,
+        "frameMaxBytes": 17040,
+        "gpuError": 0
+      },
+      {
+        "client": 3,
+        "enemies": 96,
+        "projectiles": 1000,
+        "projectileInstances": 1000,
+        "chunks": 36,
+        "frameMaxBytes": 17040,
+        "gpuError": 0
+      }
+    ],
+    "stallRecovery": {
+      "blockedMs": 500,
+      "completeWorld": true
+    },
+    "reconnect": {
+      "freshWorld": true,
+      "enemies": 96,
+      "projectiles": 1000
+    }
+  }
+}

@@ -1,0 +1,521 @@
+{
+  "passed": true,
+  "tests": [
+    {
+      "name": "loopback configuration constraints",
+      "ms": 0.8932000000000073,
+      "rejected": 6
+    },
+    {
+      "name": "HTTP and Origin/path/query rejection",
+      "ms": 32.7183,
+      "metrics": {
+        "latencyMs": 0,
+        "bytesPerSecond": null,
+        "upBytesPerSecond": null,
+        "downBytesPerSecond": null,
+        "payloadBandwidthOnly": true,
+        "perMessageDeflate": false,
+        "queueLimitBytes": 4194304,
+        "queueLimitMessages": 8192,
+        "waitLimitMs": 30000,
+        "accepted": 0,
+        "activeConnections": 0,
+        "rejectedUpgrades": 4,
+        "rejectedHttp": 1,
+        "closed": true,
+        "connections": []
+      }
+    },
+    {
+      "name": "FIFO text/binary contents with bandwidth and latency",
+      "ms": 304.21979999999996,
+      "receivedMs": [
+        175.32489999999999,
+        242.71170000000004,
+        289.3021
+      ],
+      "metrics": {
+        "latencyMs": 35,
+        "bytesPerSecond": 20000,
+        "upBytesPerSecond": 20000,
+        "downBytesPerSecond": 20000,
+        "payloadBandwidthOnly": true,
+        "perMessageDeflate": false,
+        "queueLimitBytes": 4194304,
+        "queueLimitMessages": 8192,
+        "waitLimitMs": 30000,
+        "accepted": 1,
+        "activeConnections": 0,
+        "rejectedUpgrades": 0,
+        "rejectedHttp": 0,
+        "closed": true,
+        "connections": [
+          {
+            "id": 1,
+            "up": {
+              "receivedMessages": 3,
+              "receivedBytes": 3000,
+              "sentMessages": 3,
+              "sentBytes": 3000,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 3000,
+              "queuedPeakMessages": 3,
+              "maxScheduledDelayMs": 184.63000000000002,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "down": {
+              "receivedMessages": 3,
+              "receivedBytes": 3000,
+              "sentMessages": 3,
+              "sentBytes": 3000,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 2000,
+              "queuedPeakMessages": 2,
+              "maxScheduledDelayMs": 90.14980000000003,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "socketErrors": 0,
+            "closed": true,
+            "browserCloseCode": 1005,
+            "upstreamCloseCode": 1006,
+            "failure": null,
+            "browserExtensions": "",
+            "upstreamExtensions": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "latency is pipelined rather than compounded per message",
+      "ms": 157.4069,
+      "receivedMs": [
+        144.90159999999997,
+        144.9106,
+        144.9142,
+        144.91709999999995,
+        144.92059999999998
+      ],
+      "spreadMs": 0.019000000000005457,
+      "metrics": {
+        "latencyMs": 60,
+        "bytesPerSecond": null,
+        "upBytesPerSecond": null,
+        "downBytesPerSecond": null,
+        "payloadBandwidthOnly": true,
+        "perMessageDeflate": false,
+        "queueLimitBytes": 4194304,
+        "queueLimitMessages": 8192,
+        "waitLimitMs": 30000,
+        "accepted": 1,
+        "activeConnections": 0,
+        "rejectedUpgrades": 0,
+        "rejectedHttp": 0,
+        "closed": true,
+        "connections": [
+          {
+            "id": 1,
+            "up": {
+              "receivedMessages": 5,
+              "receivedBytes": 5,
+              "sentMessages": 5,
+              "sentBytes": 5,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 5,
+              "queuedPeakMessages": 5,
+              "maxScheduledDelayMs": 60,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "down": {
+              "receivedMessages": 5,
+              "receivedBytes": 5,
+              "sentMessages": 5,
+              "sentBytes": 5,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 5,
+              "queuedPeakMessages": 5,
+              "maxScheduledDelayMs": 60,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "socketErrors": 0,
+            "closed": true,
+            "browserCloseCode": 1006,
+            "upstreamCloseCode": 1006,
+            "failure": null,
+            "browserExtensions": "",
+            "upstreamExtensions": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "uplink and downlink bandwidth limits remain independent",
+      "ms": 1099.6916,
+      "metrics": {
+        "latencyMs": 10,
+        "bytesPerSecond": 20000,
+        "upBytesPerSecond": 2000,
+        "downBytesPerSecond": 20000,
+        "payloadBandwidthOnly": true,
+        "perMessageDeflate": false,
+        "queueLimitBytes": 4194304,
+        "queueLimitMessages": 8192,
+        "waitLimitMs": 30000,
+        "accepted": 1,
+        "activeConnections": 0,
+        "rejectedUpgrades": 0,
+        "rejectedHttp": 0,
+        "closed": true,
+        "connections": [
+          {
+            "id": 1,
+            "up": {
+              "receivedMessages": 2,
+              "receivedBytes": 2000,
+              "sentMessages": 2,
+              "sentBytes": 2000,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 2000,
+              "queuedPeakMessages": 2,
+              "maxScheduledDelayMs": 1009.9772,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "down": {
+              "receivedMessages": 2,
+              "receivedBytes": 2000,
+              "sentMessages": 2,
+              "sentBytes": 2000,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 1000,
+              "queuedPeakMessages": 1,
+              "maxScheduledDelayMs": 60,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "socketErrors": 0,
+            "closed": true,
+            "browserCloseCode": 1006,
+            "upstreamCloseCode": 1006,
+            "failure": null,
+            "browserExtensions": "",
+            "upstreamExtensions": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "upstream final payload drains before normal close",
+      "ms": 109.90419999999995,
+      "messages": 1,
+      "code": 1000,
+      "metrics": {
+        "latencyMs": 45,
+        "bytesPerSecond": 20000,
+        "upBytesPerSecond": 20000,
+        "downBytesPerSecond": 20000,
+        "payloadBandwidthOnly": true,
+        "perMessageDeflate": false,
+        "queueLimitBytes": 4194304,
+        "queueLimitMessages": 8192,
+        "waitLimitMs": 30000,
+        "accepted": 1,
+        "activeConnections": 0,
+        "rejectedUpgrades": 0,
+        "rejectedHttp": 0,
+        "closed": true,
+        "connections": [
+          {
+            "id": 1,
+            "up": {
+              "receivedMessages": 1,
+              "receivedBytes": 5,
+              "sentMessages": 1,
+              "sentBytes": 5,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 5,
+              "queuedPeakMessages": 1,
+              "maxScheduledDelayMs": 45.25,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "down": {
+              "receivedMessages": 1,
+              "receivedBytes": 5,
+              "sentMessages": 1,
+              "sentBytes": 5,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 5,
+              "queuedPeakMessages": 1,
+              "maxScheduledDelayMs": 45.25,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "socketErrors": 0,
+            "closed": true,
+            "browserCloseCode": 1000,
+            "upstreamCloseCode": 1000,
+            "failure": null,
+            "browserExtensions": "",
+            "upstreamExtensions": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "over-30-second scheduled backlog fails explicitly",
+      "ms": 10.12130000000002,
+      "code": 1013,
+      "metrics": {
+        "latencyMs": 0,
+        "bytesPerSecond": 1,
+        "upBytesPerSecond": 1,
+        "downBytesPerSecond": 1,
+        "payloadBandwidthOnly": true,
+        "perMessageDeflate": false,
+        "queueLimitBytes": 4194304,
+        "queueLimitMessages": 8192,
+        "waitLimitMs": 30000,
+        "accepted": 1,
+        "activeConnections": 0,
+        "rejectedUpgrades": 0,
+        "rejectedHttp": 0,
+        "closed": true,
+        "connections": [
+          {
+            "id": 1,
+            "up": {
+              "receivedMessages": 1,
+              "receivedBytes": 31,
+              "sentMessages": 0,
+              "sentBytes": 0,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 0,
+              "queuedPeakMessages": 0,
+              "maxScheduledDelayMs": 30999.999999999996,
+              "overflows": 1,
+              "sendErrors": 0,
+              "droppedBytes": 31
+            },
+            "down": {
+              "receivedMessages": 0,
+              "receivedBytes": 0,
+              "sentMessages": 0,
+              "sentBytes": 0,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 0,
+              "queuedPeakMessages": 0,
+              "maxScheduledDelayMs": 0,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "socketErrors": 1,
+            "closed": true,
+            "browserCloseCode": 1013,
+            "upstreamCloseCode": 1006,
+            "failure": {
+              "direction": "up",
+              "kind": "overflow"
+            },
+            "browserExtensions": "",
+            "upstreamExtensions": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "4MiB queue boundary rejects a third 2MiB message",
+      "ms": 27.355999999999995,
+      "code": 1013,
+      "metrics": {
+        "latencyMs": 1500,
+        "bytesPerSecond": null,
+        "upBytesPerSecond": null,
+        "downBytesPerSecond": null,
+        "payloadBandwidthOnly": true,
+        "perMessageDeflate": false,
+        "queueLimitBytes": 4194304,
+        "queueLimitMessages": 8192,
+        "waitLimitMs": 30000,
+        "accepted": 1,
+        "activeConnections": 0,
+        "rejectedUpgrades": 0,
+        "rejectedHttp": 0,
+        "closed": true,
+        "connections": [
+          {
+            "id": 1,
+            "up": {
+              "receivedMessages": 3,
+              "receivedBytes": 6291456,
+              "sentMessages": 0,
+              "sentBytes": 0,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 4194304,
+              "queuedPeakMessages": 2,
+              "maxScheduledDelayMs": 1500.0000000000002,
+              "overflows": 1,
+              "sendErrors": 0,
+              "droppedBytes": 6291456
+            },
+            "down": {
+              "receivedMessages": 0,
+              "receivedBytes": 0,
+              "sentMessages": 0,
+              "sentBytes": 0,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 0,
+              "queuedPeakMessages": 0,
+              "maxScheduledDelayMs": 0,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "socketErrors": 1,
+            "closed": true,
+            "browserCloseCode": 1013,
+            "upstreamCloseCode": 1006,
+            "failure": {
+              "direction": "up",
+              "kind": "overflow"
+            },
+            "browserExtensions": "",
+            "upstreamExtensions": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "normal browser closing race discards pending downlink without transport failure",
+      "ms": 151.81360000000018,
+      "code": 1000,
+      "metrics": {
+        "latencyMs": 40,
+        "bytesPerSecond": 20000,
+        "upBytesPerSecond": 20000,
+        "downBytesPerSecond": 20000,
+        "payloadBandwidthOnly": true,
+        "perMessageDeflate": false,
+        "queueLimitBytes": 4194304,
+        "queueLimitMessages": 8192,
+        "waitLimitMs": 30000,
+        "accepted": 1,
+        "activeConnections": 0,
+        "rejectedUpgrades": 0,
+        "rejectedHttp": 0,
+        "closed": true,
+        "connections": [
+          {
+            "id": 1,
+            "up": {
+              "receivedMessages": 1,
+              "receivedBytes": 6,
+              "sentMessages": 1,
+              "sentBytes": 6,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 6,
+              "queuedPeakMessages": 1,
+              "maxScheduledDelayMs": 40.299999999999955,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "down": {
+              "receivedMessages": 2,
+              "receivedBytes": 36,
+              "sentMessages": 1,
+              "sentBytes": 6,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 30,
+              "queuedPeakMessages": 1,
+              "maxScheduledDelayMs": 41.5,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 30
+            },
+            "socketErrors": 0,
+            "closed": true,
+            "browserCloseCode": 1000,
+            "upstreamCloseCode": 1000,
+            "failure": null,
+            "browserExtensions": "",
+            "upstreamExtensions": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "close cancels pending timers/sockets and releases bound port",
+      "ms": 37.8741,
+      "closeMs": 4.686800000000176,
+      "metrics": {
+        "latencyMs": 500,
+        "bytesPerSecond": 1000,
+        "upBytesPerSecond": 1000,
+        "downBytesPerSecond": 1000,
+        "payloadBandwidthOnly": true,
+        "perMessageDeflate": false,
+        "queueLimitBytes": 4194304,
+        "queueLimitMessages": 8192,
+        "waitLimitMs": 30000,
+        "accepted": 1,
+        "activeConnections": 0,
+        "rejectedUpgrades": 0,
+        "rejectedHttp": 0,
+        "closed": true,
+        "connections": [
+          {
+            "id": 1,
+            "up": {
+              "receivedMessages": 1,
+              "receivedBytes": 7,
+              "sentMessages": 0,
+              "sentBytes": 0,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 7,
+              "queuedPeakMessages": 1,
+              "maxScheduledDelayMs": 507,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 7
+            },
+            "down": {
+              "receivedMessages": 0,
+              "receivedBytes": 0,
+              "sentMessages": 0,
+              "sentBytes": 0,
+              "queuedBytes": 0,
+              "queuedPeakBytes": 0,
+              "queuedPeakMessages": 0,
+              "maxScheduledDelayMs": 0,
+              "overflows": 0,
+              "sendErrors": 0,
+              "droppedBytes": 0
+            },
+            "socketErrors": 0,
+            "closed": true,
+            "browserCloseCode": 1006,
+            "upstreamCloseCode": 1006,
+            "failure": null,
+            "browserExtensions": "",
+            "upstreamExtensions": ""
+          }
+        ]
+      }
+    }
+  ],
+  "errors": []
+}

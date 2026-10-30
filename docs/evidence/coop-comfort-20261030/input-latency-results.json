@@ -1,0 +1,740 @@
+{
+  "purpose": "入力の受信確認と戦況への反映、同一PCの描画負荷を切り分ける",
+  "limitations": [
+    "各試行のseedと敵密度は異なる。4画面同時試験では同PC上で読み取り調査も行っておりGPUだけの因果や性能改善率は証明しない。",
+    "描画なしは通信診断専用。1描画は4人の実通信を維持するが実スマホや実インターネットの代用ではない。",
+    "functionalChecksPassedは無効入力/切断/例外などの機能検査で、快適さの合格ではない。",
+    "localSnapshotAgeMsは同一ホストの時計差だけ。実回線で時計同期が保証された数値ではない。"
+  ],
+  "trials": [
+    {
+      "trial": "live-ack-timing",
+      "sourceHead": "bf30da332b6636bc51cbf935912ea0d323de93e6",
+      "sourceHashes": {
+        "server/worker.ts": "d6dfab6310558f5ed142676d6593a5fcd0ae1fb34bdda9b263d7e612eeed6406",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "679dcdf3e30d65d854d017508f131b03a4c3a923a0c39824cca486b91644669d",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "1e111f7ca7e73a9f7f34cbb75b5a617da55be02928d685ef432eb3beeaef1dd2",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "4cb51f8a69ccf2374e76b91e9154936a2127f60617fa91e3358d18246974a9b3"
+      },
+      "sourcesStable": true,
+      "functionalChecksPassed": true,
+      "durationSeconds": 45,
+      "preparations": [
+        {
+          "ms": 43085.89999997616,
+          "actors": 4,
+          "preparationRestored": true,
+          "programCount": 38
+        },
+        {
+          "ms": 42974.59999996424,
+          "actors": 4,
+          "preparationRestored": true,
+          "programCount": 38
+        },
+        {
+          "ms": 43284.60000002384,
+          "actors": 4,
+          "preparationRestored": true,
+          "programCount": 38
+        },
+        {
+          "ms": 43099.30000001192,
+          "actors": 4,
+          "preparationRestored": true,
+          "programCount": 38
+        }
+      ],
+      "clients": [
+        {
+          "client": 0,
+          "maxEnemies": 47.0,
+          "gameSeconds": 40,
+          "frames": {
+            "samples": 2189,
+            "p50": 16.7,
+            "p95": 33.5,
+            "max": 216.3
+          },
+          "worldIntervals": {
+            "samples": 400,
+            "p50": 86.9,
+            "p95": 350.8,
+            "max": 614.4
+          },
+          "appliedAckRtt": {
+            "samples": 196,
+            "p50": 269.6,
+            "p95": 2392.7,
+            "max": 4384.9
+          },
+          "receivedAckRtt": {
+            "samples": 196,
+            "p50": 269.8,
+            "p95": 2392.9,
+            "max": 4385.5
+          },
+          "neutralAck": 117,
+          "phaseChanges": [
+            {
+              "ms": 106.10000002384186,
+              "phase": "combat",
+              "time": 0.1,
+              "resumeUntil": 1793333814.33,
+              "serverNow": 1793333814.42
+            }
+          ],
+          "localSnapshotAgeMs": null
+        },
+        {
+          "client": 1,
+          "maxEnemies": 47.0,
+          "gameSeconds": 40,
+          "frames": {
+            "samples": 2189,
+            "p50": 16.7,
+            "p95": 33.5,
+            "max": 199.6
+          },
+          "worldIntervals": {
+            "samples": 400,
+            "p50": 86,
+            "p95": 371,
+            "max": 757.9
+          },
+          "appliedAckRtt": {
+            "samples": 183,
+            "p50": 298.7,
+            "p95": 2699.1,
+            "max": 4532.9
+          },
+          "receivedAckRtt": {
+            "samples": 183,
+            "p50": 299,
+            "p95": 2700.7,
+            "max": 4533.5
+          },
+          "neutralAck": 129,
+          "phaseChanges": [
+            {
+              "ms": 87.10000002384186,
+              "phase": "combat",
+              "time": 0.1,
+              "resumeUntil": 1793333814.33,
+              "serverNow": 1793333814.42
+            }
+          ],
+          "localSnapshotAgeMs": null
+        },
+        {
+          "client": 2,
+          "maxEnemies": 47.0,
+          "gameSeconds": 40,
+          "frames": {
+            "samples": 2152,
+            "p50": 16.7,
+            "p95": 33.6,
+            "max": 200.2
+          },
+          "worldIntervals": {
+            "samples": 400,
+            "p50": 84.9,
+            "p95": 364.3,
+            "max": 739.6
+          },
+          "appliedAckRtt": {
+            "samples": 192,
+            "p50": 316.1,
+            "p95": 2905.9,
+            "max": 4668.9
+          },
+          "receivedAckRtt": {
+            "samples": 192,
+            "p50": 316.8,
+            "p95": 2906.8,
+            "max": 4669.4
+          },
+          "neutralAck": 122,
+          "phaseChanges": [
+            {
+              "ms": 116.69999998807907,
+              "phase": "combat",
+              "time": 0.1,
+              "resumeUntil": 1793333814.33,
+              "serverNow": 1793333814.42
+            }
+          ],
+          "localSnapshotAgeMs": null
+        },
+        {
+          "client": 3,
+          "maxEnemies": 47.0,
+          "gameSeconds": 40,
+          "frames": {
+            "samples": 2044,
+            "p50": 16.7,
+            "p95": 33.6,
+            "max": 233.5
+          },
+          "worldIntervals": {
+            "samples": 400,
+            "p50": 82.4,
+            "p95": 360.8,
+            "max": 659.3
+          },
+          "appliedAckRtt": {
+            "samples": 184,
+            "p50": 338.7,
+            "p95": 2879.5,
+            "max": 4587.1
+          },
+          "receivedAckRtt": {
+            "samples": 185,
+            "p50": 338.8,
+            "p95": 2879.6,
+            "max": 4587.3
+          },
+          "neutralAck": 131,
+          "phaseChanges": [
+            {
+              "ms": 100.30000001192093,
+              "phase": "combat",
+              "time": 0.1,
+              "resumeUntil": 1793333814.33,
+              "serverNow": 1793333814.42
+            }
+          ],
+          "localSnapshotAgeMs": null
+        }
+      ],
+      "wire": [
+        {
+          "states": 401,
+          "chunks": 0,
+          "maxBytes": 23424,
+          "omittedMax": 0,
+          "closes": 0
+        },
+        {
+          "states": 401,
+          "chunks": 0,
+          "maxBytes": 23653,
+          "omittedMax": 0,
+          "closes": 0
+        },
+        {
+          "states": 401,
+          "chunks": 0,
+          "maxBytes": 23562,
+          "omittedMax": 0,
+          "closes": 0
+        },
+        {
+          "states": 401,
+          "chunks": 0,
+          "maxBytes": 23561,
+          "omittedMax": 0,
+          "closes": 0
+        }
+      ]
+    },
+    {
+      "trial": "live-ack-no-render",
+      "sourceHead": "bf30da332b6636bc51cbf935912ea0d323de93e6",
+      "sourceHashes": {
+        "server/worker.ts": "d6dfab6310558f5ed142676d6593a5fcd0ae1fb34bdda9b263d7e612eeed6406",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "679dcdf3e30d65d854d017508f131b03a4c3a923a0c39824cca486b91644669d",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "1e111f7ca7e73a9f7f34cbb75b5a617da55be02928d685ef432eb3beeaef1dd2",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "8b62fea689b08d3dbf421fe669ef46eb0c68ffffe080e95eec77949743489427"
+      },
+      "sourcesStable": true,
+      "functionalChecksPassed": true,
+      "durationSeconds": 30,
+      "preparations": [
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        }
+      ],
+      "clients": [
+        {
+          "client": 0,
+          "maxEnemies": 16.0,
+          "gameSeconds": 29.8,
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.2
+          },
+          "worldIntervals": {
+            "samples": 299,
+            "p50": 99.8,
+            "p95": 111.2,
+            "max": 129.1
+          },
+          "appliedAckRtt": {
+            "samples": 298,
+            "p50": 46.9,
+            "p95": 79,
+            "max": 88.9
+          },
+          "receivedAckRtt": {
+            "samples": 298,
+            "p50": 47.1,
+            "p95": 79.1,
+            "max": 89.1
+          },
+          "neutralAck": 0,
+          "phaseChanges": [
+            {
+              "ms": 58,
+              "phase": "combat",
+              "time": 0,
+              "resumeUntil": 1793333979.14,
+              "serverNow": 1793333979.01
+            }
+          ],
+          "localSnapshotAgeMs": null
+        },
+        {
+          "client": 1,
+          "maxEnemies": 16.0,
+          "gameSeconds": 29.8,
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.2
+          },
+          "worldIntervals": {
+            "samples": 299,
+            "p50": 99.8,
+            "p95": 111.5,
+            "max": 135.2
+          },
+          "appliedAckRtt": {
+            "samples": 298,
+            "p50": 46.3,
+            "p95": 80.5,
+            "max": 102.3
+          },
+          "receivedAckRtt": {
+            "samples": 298,
+            "p50": 46.5,
+            "p95": 80.6,
+            "max": 102.9
+          },
+          "neutralAck": 0,
+          "phaseChanges": [
+            {
+              "ms": 58,
+              "phase": "combat",
+              "time": 0,
+              "resumeUntil": 1793333979.14,
+              "serverNow": 1793333979.01
+            }
+          ],
+          "localSnapshotAgeMs": null
+        },
+        {
+          "client": 2,
+          "maxEnemies": 16.0,
+          "gameSeconds": 29.8,
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.2
+          },
+          "worldIntervals": {
+            "samples": 299,
+            "p50": 99.7,
+            "p95": 111.6,
+            "max": 134.8
+          },
+          "appliedAckRtt": {
+            "samples": 298,
+            "p50": 46.2,
+            "p95": 78.8,
+            "max": 91.1
+          },
+          "receivedAckRtt": {
+            "samples": 298,
+            "p50": 46.4,
+            "p95": 79.1,
+            "max": 91.4
+          },
+          "neutralAck": 0,
+          "phaseChanges": [
+            {
+              "ms": 57.80000001192093,
+              "phase": "combat",
+              "time": 0,
+              "resumeUntil": 1793333979.14,
+              "serverNow": 1793333979.01
+            }
+          ],
+          "localSnapshotAgeMs": null
+        },
+        {
+          "client": 3,
+          "maxEnemies": 16.0,
+          "gameSeconds": 29.8,
+          "frames": {
+            "samples": 1791,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 150.1
+          },
+          "worldIntervals": {
+            "samples": 299,
+            "p50": 99.9,
+            "p95": 111.7,
+            "max": 184.1
+          },
+          "appliedAckRtt": {
+            "samples": 297,
+            "p50": 44.5,
+            "p95": 79.9,
+            "max": 89.9
+          },
+          "receivedAckRtt": {
+            "samples": 297,
+            "p50": 44.6,
+            "p95": 80.3,
+            "max": 90.2
+          },
+          "neutralAck": 1,
+          "phaseChanges": [
+            {
+              "ms": 68.5,
+              "phase": "combat",
+              "time": 0,
+              "resumeUntil": 1793333979.14,
+              "serverNow": 1793333979.01
+            }
+          ],
+          "localSnapshotAgeMs": null
+        }
+      ],
+      "wire": [
+        {
+          "states": 300,
+          "chunks": 0,
+          "maxBytes": 14826,
+          "omittedMax": 0,
+          "closes": 0
+        },
+        {
+          "states": 300,
+          "chunks": 0,
+          "maxBytes": 14641,
+          "omittedMax": 0,
+          "closes": 0
+        },
+        {
+          "states": 300,
+          "chunks": 0,
+          "maxBytes": 14688,
+          "omittedMax": 0,
+          "closes": 0
+        },
+        {
+          "states": 300,
+          "chunks": 0,
+          "maxBytes": 14734,
+          "omittedMax": 0,
+          "closes": 0
+        }
+      ]
+    },
+    {
+      "trial": "live-ack-one-render",
+      "sourceHead": "bf30da332b6636bc51cbf935912ea0d323de93e6",
+      "sourceHashes": {
+        "server/worker.ts": "d6dfab6310558f5ed142676d6593a5fcd0ae1fb34bdda9b263d7e612eeed6406",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "679dcdf3e30d65d854d017508f131b03a4c3a923a0c39824cca486b91644669d",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "1e111f7ca7e73a9f7f34cbb75b5a617da55be02928d685ef432eb3beeaef1dd2",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "8876400151abc79c17f686b4b1f8903834b92f1a1467789969b8a1dd69c652bb"
+      },
+      "sourcesStable": true,
+      "functionalChecksPassed": true,
+      "durationSeconds": 30,
+      "preparations": [
+        {
+          "ms": 13704.200000047684,
+          "actors": 4,
+          "preparationRestored": true,
+          "programCount": 38
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        }
+      ],
+      "clients": [
+        {
+          "client": 0,
+          "maxEnemies": 16.0,
+          "gameSeconds": 29.8,
+          "frames": {
+            "samples": 1797,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 50
+          },
+          "worldIntervals": {
+            "samples": 299,
+            "p50": 100,
+            "p95": 117.6,
+            "max": 140.9
+          },
+          "appliedAckRtt": {
+            "samples": 298,
+            "p50": 46.4,
+            "p95": 82.1,
+            "max": 96.1
+          },
+          "receivedAckRtt": {
+            "samples": 298,
+            "p50": 46.6,
+            "p95": 82.3,
+            "max": 96.3
+          },
+          "neutralAck": 0,
+          "phaseChanges": [
+            {
+              "ms": 16.899999976158142,
+              "phase": "combat",
+              "time": 0,
+              "resumeUntil": 1793334087.68,
+              "serverNow": 1793334087.53
+            }
+          ],
+          "localSnapshotAgeMs": {
+            "count": 300,
+            "p50": 4.0,
+            "p95": 16.0,
+            "max": 29.0
+          }
+        },
+        {
+          "client": 1,
+          "maxEnemies": 16.0,
+          "gameSeconds": 29.8,
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.3
+          },
+          "worldIntervals": {
+            "samples": 299,
+            "p50": 99.9,
+            "p95": 117.3,
+            "max": 125.1
+          },
+          "appliedAckRtt": {
+            "samples": 298,
+            "p50": 47.8,
+            "p95": 81,
+            "max": 94.7
+          },
+          "receivedAckRtt": {
+            "samples": 298,
+            "p50": 47.9,
+            "p95": 81.4,
+            "max": 95.1
+          },
+          "neutralAck": 0,
+          "phaseChanges": [
+            {
+              "ms": 16.599999964237213,
+              "phase": "combat",
+              "time": 0,
+              "resumeUntil": 1793334087.68,
+              "serverNow": 1793334087.53
+            }
+          ],
+          "localSnapshotAgeMs": {
+            "count": 300,
+            "p50": 3.0,
+            "p95": 9.0,
+            "max": 13.0
+          }
+        },
+        {
+          "client": 2,
+          "maxEnemies": 16.0,
+          "gameSeconds": 29.8,
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.2
+          },
+          "worldIntervals": {
+            "samples": 299,
+            "p50": 99.8,
+            "p95": 117,
+            "max": 125.2
+          },
+          "appliedAckRtt": {
+            "samples": 298,
+            "p50": 47.3,
+            "p95": 80.7,
+            "max": 98.6
+          },
+          "receivedAckRtt": {
+            "samples": 298,
+            "p50": 47.5,
+            "p95": 81,
+            "max": 98.8
+          },
+          "neutralAck": 0,
+          "phaseChanges": [
+            {
+              "ms": 17.5,
+              "phase": "combat",
+              "time": 0,
+              "resumeUntil": 1793334087.68,
+              "serverNow": 1793334087.53
+            }
+          ],
+          "localSnapshotAgeMs": {
+            "count": 300,
+            "p50": 3.0,
+            "p95": 9.0,
+            "max": 14.0
+          }
+        },
+        {
+          "client": 3,
+          "maxEnemies": 16.0,
+          "gameSeconds": 29.8,
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.2
+          },
+          "worldIntervals": {
+            "samples": 299,
+            "p50": 99.9,
+            "p95": 117.1,
+            "max": 125.1
+          },
+          "appliedAckRtt": {
+            "samples": 298,
+            "p50": 46.6,
+            "p95": 81,
+            "max": 96.3
+          },
+          "receivedAckRtt": {
+            "samples": 298,
+            "p50": 46.7,
+            "p95": 81.3,
+            "max": 96.7
+          },
+          "neutralAck": 0,
+          "phaseChanges": [
+            {
+              "ms": 17.100000023841858,
+              "phase": "combat",
+              "time": 0,
+              "resumeUntil": 1793334087.68,
+              "serverNow": 1793334087.53
+            }
+          ],
+          "localSnapshotAgeMs": {
+            "count": 300,
+            "p50": 3.0,
+            "p95": 8.0,
+            "max": 10.0
+          }
+        }
+      ],
+      "wire": [
+        {
+          "states": 300,
+          "chunks": 0,
+          "maxBytes": 14688,
+          "omittedMax": 0,
+          "closes": 0
+        },
+        {
+          "states": 300,
+          "chunks": 0,
+          "maxBytes": 14735,
+          "omittedMax": 0,
+          "closes": 0
+        },
+        {
+          "states": 300,
+          "chunks": 0,
+          "maxBytes": 14735,
+          "omittedMax": 0,
+          "closes": 0
+        },
+        {
+          "states": 300,
+          "chunks": 0,
+          "maxBytes": 14735,
+          "omittedMax": 0,
+          "closes": 0
+        }
+      ]
+    }
+  ]
+}

@@ -13,6 +13,7 @@
       type="image/png"
       sizes="64x64"
     />
+    <link rel="stylesheet" href="/src/client/landscape.css" />
     <title>SWARM FRONT · 改装版</title>
     <meta
       name="description"
@@ -48,6 +49,12 @@
     </button>
     <main id="ui" data-testid="rebuild-overlay"></main>
     <div id="rebuild-notice" role="status" aria-live="polite" hidden></div>
+    <div id="portrait" role="dialog" aria-modal="true" aria-label="ゲーム開始" aria-describedby="landscape-guide landscape-status">
+      <strong>SWARM FRONT</strong>
+      <p id="landscape-guide">端末を横向きにしてお楽しみください</p>
+      <button id="landscape-start" type="button">ゲームを開始</button>
+      <small id="landscape-status" role="status">画面が回らない場合は、端末の画面回転ロックを解除してください。</small>
+    </div>
     <script type="module" src="/src/client/front-app.ts"></script>
   </body>
 </html>

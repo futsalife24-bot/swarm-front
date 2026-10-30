@@ -10,7 +10,15 @@ import type { World, Input } from "../shared/game";
 import type { Weapon } from "../shared/defs";
 import { validStage } from "../shared/stages";
 import { EquipmentCache } from "../shared/state-wire";
+import { restoreStateTuples } from "../shared/state-tuples";
+import { StateChunkAssembler } from "../shared/state-chunks";
 import { StateOmissionCache } from "./state-omissions";
+import { StateReceipt } from "./state-receipt";
+import { InputWindow } from "./input-window";
+import {
+  NetworkInputLoop,
+  type NetworkInputSource,
+} from "./network-input-loop";
 import type { RoomOptions } from "../shared/room-directory";
 export interface Member {
   id: string;
@@ -103,6 +111,14 @@ export class Network {
   private pendingInput: Input | undefined;
   private usesInputAck = false;
   private inFlightInputs: number[] = [];
+  private inputWindow = new InputWindow();
+  private inputLoop = new NetworkInputLoop(
+    (input) => this.input(input),
+    () => this.discardPendingInput(),
+  );
+  private stateReceipt = new StateReceipt(() =>
+    this.send({ type: "stateAck" }),
+  );
   constructor(public endpoint: string) {
     this.timer = setInterval(() => {
       if (this.ws?.readyState === 1 && this.id) this.send({ type: "ping" });
@@ -132,6 +148,8 @@ export class Network {
     return (await res.json()).code as string;
   }
   connect(code: string, token = "") {
+    this.inputLoop.stop();
+    this.stateReceipt.configure(false);
     this.roomListed = undefined;
     if (this.code !== code) {
       this.messages = [];
@@ -151,8 +169,10 @@ export class Network {
     this.pendingInput = undefined;
     this.usesInputAck = false;
     this.inFlightInputs = [];
+    this.inputWindow.configure(false);
     const equipmentCache = new EquipmentCache();
     const omissionCache = new StateOmissionCache();
+    const chunks = new StateChunkAssembler();
     let welcomed = false;
     let firstState = true;
     const timeout = setTimeout(() => {
@@ -162,21 +182,26 @@ export class Network {
       }
     }, 7000);
     ws.onopen = () => {
+      if (this.closed || this.ws !== ws) return;
       this.send({
         type: "hello",
         equipmentCache: 1,
         stateOmissions: 1,
+        stateTuples: 1,
+        stateChunks: 1,
+        stateFlow: 1,
         name: this.playerName,
         ...(this.token ? { token: this.token } : {}),
       });
     };
     ws.onmessage = (e) => {
-      if (this.ws !== ws) return;
+      if (this.closed || this.ws !== ws) return;
       this.last = Date.now();
-      let m;
+      let m: any; // Parsed data still passes the existing runtime guards below.
       try {
-        if (typeof e.data !== "string" || e.data.length > 65536) return;
-        m = JSON.parse(e.data);
+        // Framing owns the unchanged per-message cap and clears corrupt assembly.
+        m = chunks.read(e.data);
+        if (!restoreStateTuples(m)) return;
         if (!m || typeof m !== "object" || typeof m.type !== "string") return;
         if (
           m.type === "welcome" &&
@@ -231,6 +256,10 @@ export class Network {
         clearTimeout(timeout);
         this.id = m.id;
         this.usesInputAck = m.inputAck === true;
+        this.stateReceipt.configure(m.stateFlow === true);
+        // Keep a bounded window without starving a healthy uplink while
+        // receipt ACKs share a slow snapshot downlink. Server expiry stays 250ms.
+        this.inputWindow.configure(m.stateFlow === true);
         this.roomId = typeof m.roomId === "string" ? m.roomId : "";
         this.roomName = typeof m.roomName === "string" ? m.roomName : "";
         this.roomListed = typeof m.listed === "boolean" ? m.listed : undefined;
@@ -259,11 +288,16 @@ export class Network {
           preparationGeneration: this.preparationGeneration,
         });
         this.ready();
+        if (!this.closed && this.ws === ws && ws.readyState === 1)
+          this.inputLoop.start();
       } else if (m.type === "state") {
-        if (this.usesInputAck && Number.isSafeInteger(m.inputAck))
+        this.stateReceipt.receive(m.stateId);
+        if (this.usesInputAck && Number.isSafeInteger(m.inputAck)) {
+          this.inputWindow.acknowledge(m.inputAck, m.inputReceivedAt);
           this.inFlightInputs = this.inFlightInputs.filter(
             (seq) => seq > m.inputAck,
           );
+        }
         if (validStage(m.stage) && this.stage !== m.stage) {
           this.stage = m.stage;
           this.assetReady = false;
@@ -291,6 +325,8 @@ export class Network {
           );
         this.onChat();
       } else if (m.type === "error") {
+        this.inputLoop.stop();
+        this.stateReceipt.configure(false);
         this.closed = true;
         try {
           clearNetworkSession();
@@ -303,6 +339,8 @@ export class Network {
     ws.onclose = (e) => {
       clearTimeout(timeout);
       if (this.closed || this.ws !== ws) return;
+      this.inputLoop.stop();
+      this.stateReceipt.configure(false);
       if (e.code >= 4000) {
         this.closed = true;
         this.onStatus(
@@ -322,13 +360,23 @@ export class Network {
         false,
       );
       setTimeout(() => {
-        if (!this.closed) this.connect(code, this.token);
+        if (!this.closed && this.ws === ws) this.connect(code, this.token);
       }, wait);
     };
-    ws.onerror = () => {};
+    ws.onerror = () => {
+      if (this.ws === ws) this.inputLoop.stop();
+    };
   }
   send(value: unknown) {
-    if (this.ws?.readyState === 1) this.ws.send(JSON.stringify(value));
+    if (this.ws?.readyState === 1)
+      this.ws.send(JSON.stringify(this.stateReceipt.attach(value)));
+  }
+  setInputSource(source?: NetworkInputSource) {
+    this.inputLoop.setInputSource(source);
+  }
+  discardPendingInput() {
+    // 中断前の未送信タップだけ破棄。送信済み入力のack待ちと送信間隔は維持する。
+    this.pendingInput = undefined;
   }
   input(input: Input) {
     if (this.ws?.readyState !== 1) return;
@@ -345,11 +393,15 @@ export class Network {
     if (
       now - this.inputAt < 50 ||
       this.ws.bufferedAmount > 4096 ||
-      (this.usesInputAck && this.inFlightInputs.length >= 4)
+      (this.usesInputAck &&
+        this.inFlightInputs.length >= this.inputWindow.limit)
     )
       return;
     this.send({ type: "input", input: this.pendingInput });
-    if (this.usesInputAck) this.inFlightInputs.push(this.pendingInput.seq);
+    if (this.usesInputAck) {
+      this.inFlightInputs.push(this.pendingInput.seq);
+      this.inputWindow.sent(this.pendingInput.seq);
+    }
     this.inputAt = now;
     this.pendingInput = undefined;
   }
@@ -403,6 +455,8 @@ export class Network {
     return true;
   }
   close() {
+    this.inputLoop.close();
+    this.stateReceipt.configure(false);
     this.closed = true;
     clearInterval(this.timer);
     this.ws?.close(1000, "退出");

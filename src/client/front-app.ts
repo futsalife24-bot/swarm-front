@@ -1,3 +1,4 @@
+import { installLandscapeGuard } from "./landscape";
 import { BattleFps } from "./battle-fps";
 import {
   readFrontFusionDiscovery,
@@ -367,7 +368,7 @@ function menuDialog(title: string, content: string, back: () => void) {
 }
 function menuSettings(back: () => void) {
   cancelOperationCue();
-  settings.open($("ui"), back);
+  settings.open($("ui"), back, "保存して戻る", true);
 }
 function base(back: () => void = home) {
   cancelOperationCue();
@@ -736,6 +737,16 @@ function connectRoom(code: string, target: string, token = "") {
   screen = "lobby";
   ready = false;
   const net = network;
+  let inputReady = false;
+  net.setInputSource(() =>
+    network === net &&
+    inputReady &&
+    controls.enabled &&
+    canOperateBattle() &&
+    document.hasFocus()
+      ? controls.read()
+      : undefined,
+  );
   net.clearedStage = highestClearedStage(
     readFrontCampaign(progressStorage).save,
   );
@@ -745,6 +756,10 @@ function connectRoom(code: string, target: string, token = "") {
   net.upgradePool = frontLoadout.pool;
   net.onStatus = (message, fatal) => {
     status = message;
+    if (fatal || net.retry > 0) {
+      inputReady = false;
+      clearInput();
+    }
     if (fatal && info?.phase !== "victory" && info?.phase !== "defeat") {
       connectionFatal = message;
       clearInput();
@@ -773,6 +788,7 @@ function connectRoom(code: string, target: string, token = "") {
     const previousLevels = info?.levels;
     world = snapshot;
     info = net.frontView;
+    inputReady = true;
     observeFusions();
     const newFusions = FRONT_FUSION_IDS.filter(
       (f) => info!.levels[f] > 0 && !previousLevels?.[f],
@@ -1186,6 +1202,19 @@ function paintBattle() {
   if (countdown && info.selectionDeadline !== null)
     countdown.textContent = `残り ${Math.max(0, Math.ceil(info.selectionDeadline - now()))}秒`;
 }
+function canOperateBattle() {
+  return (
+    screen === "battle" &&
+    ready &&
+    !gate.paused &&
+    !document.hidden &&
+    !!info &&
+    (info.phase === "combat" || info.phase === "boss") &&
+    now() >= info.resumeUntil &&
+    !choiceFeedbackUntil &&
+    (!network || (!network.closed && network.ws?.readyState === 1))
+  );
+}
 function frame(time: number) {
   requestAnimationFrame(frame);
   const wallDt = Math.max(0, (time - previous) / 1000),
@@ -1196,16 +1225,7 @@ function frame(time: number) {
     overlayKey = "";
     clearInput();
   }
-  let active =
-    screen === "battle" &&
-    ready &&
-    !gate.paused &&
-    !document.hidden &&
-    !!info &&
-    (info.phase === "combat" || info.phase === "boss") &&
-    now() >= info.resumeUntil &&
-    !choiceFeedbackUntil &&
-    (!network || (!network.closed && network.ws?.readyState === 1));
+  let active = canOperateBattle();
   controls.enabled = active;
   controls.setScopeAvailable(active);
   soldierLiveReview?.beforeFrame(world, id, active);
@@ -1232,7 +1252,7 @@ function frame(time: number) {
       stepFrontRun(localRun, {}, 0.05, now());
     }
     setView();
-  } else if (network && active) network.input(controls.read());
+  }
   $("controls").hidden = !active;
   $("minimap").hidden =
     screen !== "battle" ||
@@ -1371,6 +1391,10 @@ window.addEventListener("resize", () => placeControls(settings.layout));
 window.visualViewport?.addEventListener("resize", () =>
   placeControls(settings.layout),
 );
+installLandscapeGuard(() => {
+  clearInput();
+  pause();
+});
 startWithSaveWriter(async () => {
   installCloudSync();
   try {

@@ -459,6 +459,7 @@ function setScreen(name: string) {
   controls.enabled = name === "battle" && !paused;
   if (!controls.enabled) {
     controls.reset();
+    network?.discardPendingInput();
     if (document.pointerLockElement) void document.exitPointerLock();
   }
   hud.hidden = name !== "battle";
@@ -1049,11 +1050,23 @@ async function connect(create: boolean, restore = false, joinCode?: string) {
       throw new Error("サーバーURLを確認してください");
     network?.close();
     network = new Network(endpoint.replace(/\/$/, ""));
+    const connectedNetwork = network;
+    let inputReady = false;
+    network.setInputSource(() =>
+      network === connectedNetwork && inputReady
+        ? readOnlineInput()
+        : undefined,
+    );
     network.equip = equipped();
     network.playerName = playerName();
     network.onChat = renderLobbyChat;
     network.onStatus = (s, fatal) => {
-      if (fatal || network!.retry > 0) sound.resetSpeech();
+      if (fatal || network!.retry > 0) {
+        inputReady = false;
+        controls.reset();
+        network?.discardPendingInput();
+        sound.resetSpeech();
+      }
       status = s;
       netFatal = fatal;
       if (fatal) {
@@ -1079,7 +1092,11 @@ async function connect(create: boolean, restore = false, joinCode?: string) {
       syncGameSelects(ui);
     };
     network.onWorld = (w, firstState) => {
-      if (firstState) sound.resetSpeech();
+      if (firstState) {
+        controls.reset();
+        sound.resetSpeech();
+      }
+      inputReady = true;
       try {
         recordCoopEncounters(w);
       } catch {
@@ -1649,6 +1666,7 @@ function result() {
 let paused = false;
 installLandscapeGuard(() => {
   controls.reset();
+  network?.discardPendingInput();
   if (screen === "battle" && !paused) openPause();
 });
 function closePause() {
@@ -1675,6 +1693,7 @@ function openPause(confirming = false) {
   paused = true;
   controls.enabled = false;
   controls.reset();
+  network?.discardPendingInput();
   if (document.pointerLockElement) void document.exitPointerLock();
   const pending = (world?.pending[myId] ?? []).length;
   const menu = $("pause-menu");
@@ -1767,6 +1786,37 @@ $("pause").onclick = () => openPause(false);
 let last = performance.now(),
   acc = 0,
   hudAt = 0;
+function readOnlineInput() {
+  if (
+    mode !== "coop" ||
+    screen !== "battle" ||
+    !world ||
+    world.phase !== "battle" ||
+    paused ||
+    !controls.enabled ||
+    document.hidden ||
+    !document.hasFocus() ||
+    !network ||
+    network.closed ||
+    network.ws?.readyState !== 1
+  )
+    return;
+  const input = controls.read();
+  const p = world.players.find((p) => p.id === myId);
+  if (predicted && p?.hp) {
+    const n = Math.max(1, Math.hypot(input.mx, input.mz)),
+      distance = (p.evade > 0 ? MOVE_SPEED.dodge : MOVE_SPEED.walk) * 0.05;
+    predictPlayerMove(
+      predicted,
+      ((input.mx * Math.cos(input.yaw) + input.mz * Math.sin(input.yaw)) / n) *
+        distance,
+      ((input.mx * Math.sin(input.yaw) - input.mz * Math.cos(input.yaw)) / n) *
+        distance,
+      mapFor(world).blocks,
+    );
+  }
+  return input;
+}
 function frame(now: number) {
   // Keep the next frame alive even if one simulation/render callback throws.
   // Otherwise menus still respond, but retreat and every later sortie freeze.
@@ -1791,32 +1841,14 @@ function updateFrame(now: number) {
       scopePlayer.swapCd <= 0,
   );
   if (screen === "battle" && world && !(paused && mode === "solo")) {
-    while (acc >= 0.05) {
-      const input = document.hidden ? neutral() : controls.read();
-      if (mode === "solo") {
+    if (mode === "solo") {
+      while (acc >= 0.05) {
+        const input = document.hidden ? neutral() : controls.read();
         step(world, { [myId]: input });
         sound.update(world, myId, controls.input.yaw, !paused);
-      } else {
-        network?.input(input);
-        const p = world.players.find((p) => p.id === myId);
-        if (predicted && p?.hp && network?.ws?.readyState === 1) {
-          const n = Math.max(1, Math.hypot(input.mx, input.mz)),
-            distance =
-              (p.evade > 0 ? MOVE_SPEED.dodge : MOVE_SPEED.walk) * 0.05;
-          predictPlayerMove(
-            predicted,
-            ((input.mx * Math.cos(input.yaw) + input.mz * Math.sin(input.yaw)) /
-              n) *
-              distance,
-            ((input.mx * Math.sin(input.yaw) - input.mz * Math.cos(input.yaw)) /
-              n) *
-              distance,
-            mapFor(world).blocks,
-          );
-        }
+        acc -= 0.05;
       }
-      acc -= 0.05;
-    }
+    } else acc = 0;
     if (world.phase === "victory" || world.phase === "defeat") finishMission();
     else if (now - hudAt > 100) {
       hudAt = now;
@@ -1897,6 +1929,11 @@ document.addEventListener("change", (event) => {
   }
 });
 window.addEventListener("resize", () => placeControls(layout));
+window.addEventListener("blur", () => network?.discardPendingInput());
+window.addEventListener("pagehide", () => network?.discardPendingInput());
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) network?.discardPendingInput();
+});
 window.visualViewport?.addEventListener("resize", () => placeControls(layout));
 window.addEventListener("hashchange", () => {
   if (

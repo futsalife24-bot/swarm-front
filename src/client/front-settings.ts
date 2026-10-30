@@ -14,6 +14,7 @@ import {
   type Layout,
 } from "./layout";
 import { openLayoutEditor } from "./layout-editor";
+import { openAssetDownloadMenu } from "./asset-download-menu";
 
 export const FRONT_SETTINGS_KEY = "swarm-front-rebuild-settings-v1";
 export interface FrontPreferences {
@@ -98,7 +99,12 @@ export class FrontSettings {
     this.view.resize();
     placeControls(this.layout);
   }
-  open(root: HTMLElement, onExit: () => void, backLabel = "保存して戻る") {
+  open(
+    root: HTMLElement,
+    onExit: () => void,
+    backLabel = "保存して戻る",
+    allowDownloads = false,
+  ) {
     this.opened = true;
     document.body.dataset.screen = "battle";
     const p = this.preferences;
@@ -119,6 +125,16 @@ export class FrontSettings {
         "",
       )}<label>ジャイロ<button id="front-setting-gyro" role="switch" aria-label="ジャイロ" aria-checked="${p.gyroEnabled}">${p.gyroEnabled ? "オン" : "オフ"}</button></label><label>描画品質<select id="front-setting-quality"><option value="1">標準</option><option value="0.65">軽量</option></select></label><label>描画上限<select id="front-setting-frameRate"><option value="60">60fps</option><option value="30">30fps</option></select></label><label>画面演出<button id="front-setting-motion" role="switch" aria-label="動きを抑える" aria-checked="${getMenuReducedMotion()}">${getMenuReducedMotion() ? "動きを抑える：オン" : "動きを抑える：オフ"}</button></label><button id="front-setting-layout">操作ボタンの配置</button></div><p id="front-settings-status" role="status"></p></section>`;
     const status = root.querySelector<HTMLElement>("#front-settings-status")!;
+    if (allowDownloads) {
+      const download = document.createElement("button");
+      download.type = "button";
+      download.dataset.downloadMenu = "";
+      download.textContent = "データを事前ダウンロード";
+      download.onclick = () => {
+        openAssetDownloadMenu();
+      };
+      root.querySelector(".front-settings-grid")!.append(download);
+    }
     status.textContent = this.error || "変更はこの端末に自動保存されます。";
     const write = (next: FrontPreferences) => {
       try {
@@ -206,7 +222,7 @@ export class FrontSettings {
             this.layout = value;
             placeControls(value);
           },
-          () => this.open(root, onExit, backLabel),
+          () => this.open(root, onExit, backLabel, allowDownloads),
           {
             config: () => ({}),
             enabled: false,

@@ -8,6 +8,47 @@ import {
 import { EVADE_DURATION } from "../src/shared/defs";
 import type { Player } from "../src/shared/game";
 import { CombatEffects } from "../src/client/combat-effects";
+import { EnemySpawnEffects } from "../src/client/enemy-spawn-effects";
+import { createWorld, start, spawn } from "../src/shared/game";
+
+it.each(["crawler", "hornet"] as const)(
+  "%sの出現素材を非表示で準備し、演出の終了後も再利用できる",
+  (kind) => {
+    const scene = new T.Scene();
+    const effects = new EnemySpawnEffects(scene);
+    const prepared = [...scene.children];
+    expect(prepared.every((object) => !object.visible)).toBe(true);
+    const materials: T.MeshBasicMaterial[] = [];
+    for (const root of prepared)
+      root.traverse((object) => {
+        if (object instanceof T.Mesh) materials.push(object.material);
+      });
+    expect(materials.some((material) => material.map !== null)).toBe(true);
+    let preparedDisposed = 0;
+    for (const material of materials)
+      material.addEventListener("dispose", () => preparedDisposed++);
+    const world = createWorld("arrival-preparation", 11, 1);
+    start(world);
+    world.enemies = [];
+    spawn(world, kind, 0, 0);
+    const snapshot = JSON.stringify(world);
+    effects.update(world, 0.05, true, new T.PerspectiveCamera());
+    expect(JSON.stringify(world)).toBe(snapshot);
+    expect(effects.items.size).toBe(1);
+    const effect = [...effects.items.values()][0];
+    expect(materials).not.toContain(effect.dust.material);
+    expect(materials.some((m) => m.map === effect.dust.material.map)).toBe(
+      true,
+    );
+    let activeDisposed = 0;
+    effect.dust.material.addEventListener("dispose", () => activeDisposed++);
+    effects.clear();
+    expect(activeDisposed).toBe(1);
+    expect(preparedDisposed).toBe(0);
+    expect(effects.items.size).toBe(0);
+    expect(scene.children).toEqual(prepared);
+  },
+);
 
 it("uses a short moving bullet, bounds the blast ring and releases finished effects", () => {
   const scene = new T.Scene();
@@ -29,7 +70,8 @@ it("uses a short moving bullet, bounds the blast ring and releases finished effe
     bullet.mesh.geometry.boundingBox!.getSize(new T.Vector3()).y,
   ).toBeLessThan(1);
   fx.update(0.05);
-  expect(bullet.mesh.position.z).toBeCloseTo(-7.5);
+  // The current tracer travels at 120 m/s; this is visual motion, not hit timing.
+  expect(bullet.mesh.position.z).toBeCloseTo(-6);
   fx.event({ id: 2, type: "burst", x: 0, y: 0, z: 0, radius: 3.5 });
   fx.update(0.25);
   expect(fx.items.find((e) => e.kind === "ring")!.mesh.scale.x).toBe(3.5);

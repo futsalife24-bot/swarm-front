@@ -1,0 +1,8 @@
+{
+  "scope": "local test Worker handshake only; no gameplay or production",
+  "priorAttempt": "Expired previous local test room returned HTTP 410; created a new local room",
+  "offeredPerMessageDeflate": true,
+  "negotiated": "permessage-deflate; client_max_window_bits=15",
+  "opened": true,
+  "extensions": "permessage-deflate"
+}

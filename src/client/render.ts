@@ -62,6 +62,10 @@ const box = new T.BoxGeometry(1, 1, 1),
   cone = new T.ConeGeometry(1, 1, 5),
   cylinder = new T.CylinderGeometry(1, 1, 1, 6);
 
+// Matches the bounded received-state projectile budget. A draw buffer must not
+// silently hide valid rounds or ask WebGL to read beyond its instance storage.
+const PROJECTILE_CAPACITY = 4096;
+
 // InstancedMesh keeps a cached bounding sphere for frustum culling. Updating
 // instance matrices does not invalidate that cache, so moving enemies could be
 // culled while their game entities remained active.
@@ -529,7 +533,7 @@ export class Renderer {
     this.foundryLasers = new T.InstancedMesh(
       box,
       new T.MeshBasicMaterial({ color: 0xcaffff }),
-      100,
+      PROJECTILE_CAPACITY,
     );
     this.foundryLaserGlow = new T.InstancedMesh(
       box,
@@ -540,7 +544,7 @@ export class Renderer {
         depthWrite: false,
         blending: T.AdditiveBlending,
       }),
-      100,
+      PROJECTILE_CAPACITY,
     );
     for (const beam of [
       this.foundryWarnings,
@@ -567,8 +571,7 @@ export class Renderer {
         roughness: 0.24,
         metalness: 0.15,
       }),
-      // 100発の弾上限＋予告済みBASTION斉射の超過分。
-      160,
+      PROJECTILE_CAPACITY,
     );
     this.drops = new T.InstancedMesh(
       dropGeometry(false),
@@ -1534,6 +1537,7 @@ export class Renderer {
         laserCount = 0;
       w.projectiles.forEach((q) => {
         if (q.style === "laser") {
+          if (laserCount >= this.foundryLasers.instanceMatrix.count) return;
           const length = Math.max(0.001, Math.hypot(q.dx, q.dy, q.dz));
           const x = q.x - (q.dx / length) * 0.6,
             y = q.y - (q.dy / length) * 0.6,
@@ -1566,7 +1570,7 @@ export class Renderer {
           );
           return;
         }
-        // 予告済みのBASTION斉射は既存の100発上限を一時的に超え得る。表示枠で止める。
+        // Defensive bound for an invalid snapshot; all accepted rounds fit.
         if (projectileCount >= this.projectiles.instanceMatrix.count) return;
         const i = projectileCount++;
         const orb = q.style === "bastion";

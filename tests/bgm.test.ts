@@ -130,3 +130,89 @@ describe("map battle music", () => {
     expect(musicForScreen("down", false, world)).toBeNull();
   });
 });
+
+describe("streaming media gain on Safari", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+  });
+  const setup = async () => {
+    const { MediaVolume } = await import("../src/client/media-volume");
+    const media = { volume: 1, muted: false } as HTMLMediaElement;
+    const parameter = { value: 0, setTargetAtTime: vi.fn() };
+    const destination = {};
+    const gain = { gain: parameter, connect: vi.fn(), disconnect: vi.fn() };
+    const source = { connect: vi.fn(), disconnect: vi.fn() };
+    const context = {
+      state: "suspended",
+      currentTime: 4,
+      destination,
+      createGain: vi.fn(() => gain),
+      createMediaElementSource: vi.fn(() => source),
+      resume: vi.fn(() => Promise.resolve()),
+      close: vi.fn(() => Promise.resolve()),
+    };
+    const create = vi.fn(function () {
+      return context;
+    });
+    vi.stubGlobal("AudioContext", create);
+    return {
+      media,
+      output: new MediaVolume(media),
+      context,
+      gain,
+      source,
+      create,
+    };
+  };
+  it("routes actual media through one gain graph and resumes that graph on later gestures", async () => {
+    const { media, output, context, gain, source, create } = await setup();
+    output.volume = 0.2;
+    expect(create).not.toHaveBeenCalled();
+    output.unlock();
+    expect(context.createMediaElementSource).toHaveBeenCalledExactlyOnceWith(
+      media,
+    );
+    expect(source.connect).toHaveBeenCalledExactlyOnceWith(gain);
+    expect(gain.connect).toHaveBeenCalledExactlyOnceWith(context.destination);
+    expect(gain.gain.value).toBe(0.2);
+    expect(media.volume).toBe(1);
+    output.volume = 0.05;
+    expect(gain.gain.setTargetAtTime).toHaveBeenLastCalledWith(0.05, 4, 0.015);
+    output.unlock();
+    expect(create).toHaveBeenCalledTimes(1);
+    expect(context.resume).toHaveBeenCalledTimes(2);
+    output.volume = 0;
+    expect(media.muted).toBe(true);
+    output.volume = 0.5;
+    expect(media.muted).toBe(false);
+    expect(media.volume).toBe(1);
+    output.dispose();
+    output.dispose();
+    output.unlock();
+    expect(source.disconnect).toHaveBeenCalledTimes(1);
+    expect(gain.disconnect).toHaveBeenCalledTimes(1);
+    expect(context.close).toHaveBeenCalledTimes(1);
+    expect(create).toHaveBeenCalledTimes(1);
+  });
+  it("closes incomplete graphs and can retry without retaining failed contexts", async () => {
+    const { output, context, create } = await setup();
+    context.createMediaElementSource.mockImplementationOnce(() => {
+      throw new Error("unavailable");
+    });
+    output.unlock();
+    expect(context.close).toHaveBeenCalledTimes(1);
+    output.unlock();
+    expect(create).toHaveBeenCalledTimes(2);
+    expect(context.createMediaElementSource).toHaveBeenCalledTimes(2);
+  });
+  it("retains native playback and mute when Web Audio is unavailable", async () => {
+    const { media, output } = await setup();
+    vi.stubGlobal("AudioContext", undefined);
+    output.volume = 0.2;
+    expect(() => output.unlock()).not.toThrow();
+    expect(media.volume).toBe(0.2);
+    output.volume = 0;
+    expect(media.muted).toBe(true);
+  });
+});
