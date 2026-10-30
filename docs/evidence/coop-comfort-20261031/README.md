@@ -32,7 +32,7 @@
 
 ## 状態・残件
 
-branch `codex/coop-sustained-response-20261031`、base `e13cd1dc39fed69a424760754370fa43ba707d75`。公開結果は後述のリリース記録に追記する。ローカル証拠は同worktree内 `dist-validation/coop-comfort-20261031/`。公開保存するのはコード、手順、個人情報を含まない集計と検査画面のみ。
+branch `codex/coop-sustained-response-20261031`、base `e13cd1dc39fed69a424760754370fa43ba707d75`。[公開結果とソースSHA](release.md)を記録済み。ローカル証拠は同worktree内 `dist-validation/coop-comfort-20261031/`。公開保存するのはコード、手順、個人情報を含まない集計と検査画面のみ。
 
 主担当の実モデルID/推論設定は取得不可・未確認。補助は既存の通信診断担当へ委任（記録上の呼出指定 gpt-6.1-sol/high、実行設定値は未確認）。独立監査は依頼されておらず未実施。自己レビューを独立監査として数えない。
 
