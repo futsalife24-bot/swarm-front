@@ -19,15 +19,39 @@ const output =
   process.env.SWARM_LIVE_OUTPUT ?? "dist-validation/coop-comfort-20261030/live";
 const diagnostics = process.env.SWARM_LIVE_DIAGNOSTICS === "1";
 const profileEnabled = diagnostics && process.env.SWARM_LIVE_PROFILE === "1";
+const networkTiming = process.env.SWARM_LIVE_NETWORK_TIMING === "1";
+const renderEnabled = process.env.SWARM_LIVE_RENDER !== "0";
+const renderClients = renderEnabled
+  ? Number(process.env.SWARM_LIVE_RENDER_CLIENTS ?? 4)
+  : 0;
+assert.ok(
+  Number.isInteger(renderClients) && renderClients >= 0 && renderClients <= 4,
+);
+const linkLatencyMs = Number(process.env.SWARM_LIVE_LINK_LATENCY_MS ?? 0);
+const linkBytesPerSecond = Number(
+  process.env.SWARM_LIVE_LINK_BYTES_PER_SECOND ?? 0,
+);
+assert.ok(
+  Number.isFinite(linkLatencyMs) && linkLatencyMs >= 0 && linkLatencyMs <= 1000,
+);
+assert.ok(
+  linkBytesPerSecond === 0 ||
+    (Number.isFinite(linkBytesPerSecond) &&
+      linkBytesPerSecond >= 16384 &&
+      linkBytesPerSecond <= 16 * 1024 * 1024),
+);
+const shapeLink = linkLatencyMs > 0 || linkBytesPerSecond > 0;
 fs.mkdirSync(output, { recursive: true });
 const files = [
   "server/worker.ts",
   "server/room-clock.ts",
+  "server/state-delivery.ts",
   "src/shared/game.ts",
   "src/shared/state-wire.ts",
   "src/shared/state-tuples.ts",
   "src/shared/state-chunks.ts",
   "src/client/front-network.ts",
+  "src/client/state-receipt.ts",
   "src/client/render.ts",
   "src/client/hound-motion.ts",
   "src/client/enemy-spawn-effects.ts",
@@ -35,6 +59,7 @@ const files = [
   "tests/bot.ts",
   "src/style.css",
   "scripts/check-coop-live.mjs",
+  ...(shapeLink ? ["scripts/local-websocket-shaper.mjs"] : []),
 ];
 const hashes = () =>
   Object.fromEntries(
@@ -63,8 +88,19 @@ const result = {
   secondsRequested: seconds,
   diagnostics,
   profileEnabled,
+  networkTiming,
+  renderEnabled,
+  renderClients,
+  linkConfig: shapeLink
+    ? {
+        latencyMs: linkLatencyMs,
+        bytesPerSecond: linkBytesPerSecond || 16 * 1024 * 1024,
+      }
+    : null,
   method:
-    "4 independent Chrome processes, isolated blank profiles, real FrontNetwork+Renderer+prepareBattle, normal survival room, legal pilot movement/fire/reload, no fixture API, no Sound; local PC aggregate load is not smartphone performance",
+    "4 independent Chrome processes, isolated blank profiles, real FrontNetwork, normal survival room, legal pilot movement/fire/reload, no fixture API, no Sound; " +
+    renderClients +
+    " clients use real Renderer+prepareBattle, the others are network-only diagnostic clients; local PC aggregate load is not smartphone performance",
   endpoint,
   origin,
   sourceBefore,
@@ -82,6 +118,7 @@ const result = {
     maxBytes: 0,
     omittedMax: 0,
     closes: 0,
+    negotiatedStateFlow: false,
   })),
 };
 function recordError(entry) {
@@ -110,7 +147,7 @@ import {neutral,validInput} from './src/shared/game';
 import {clampPitch} from './src/shared/aim';
 import {stats} from './src/shared/defs';
 import {pilot} from './tests/bot';
-window.boot=(endpoint,code,index,diagnostics)=>{
+window.boot=(endpoint,code,index,diagnostics,networkTiming,renderEnabled)=>{
   if(!validInput({...neutral(),seq:1}))throw Error('neutral Input contract failed');
   if(!document.getElementById('damage'))throw Error('Product damage DOM required');
   const view=new Renderer(document.querySelector('canvas'),120);
@@ -132,7 +169,8 @@ window.boot=(endpoint,code,index,diagnostics)=>{
   net.equip=frontTemporaryWeapons('live',String(index),['rifle','smg']);
   let world,seq=0,previous=performance.now(),measuring=false,began=0,lastWorld=0,lastSample=0,nextReload=0;
   let lastPilotAt=-Infinity,cachedInput=neutral(),previousReload=0,previousAmmo,lastEvent=0,lastPhase='',highestAck=0;
-  const sentAt=new Map(),chosen=new Set(),frames=[],renderCpu=[],pilotCpu=[],intervals=[],ackRtt=[],samples=[],phases=[],statuses=[],errors=[],glErrors=[];
+  const sentAt=new Map(),receivedSentAt=new Map(),chosen=new Set(),frames=[],renderCpu=[],pilotCpu=[],intervals=[],ackRtt=[],ackEvents=[],receiptAckRtt=[],receiptAckEvents=[],samples=[],phases=[],statuses=[],errors=[],glErrors=[];
+  let highestReceiptAck=0;
   const counters={updates:0,firsts:0,sent:0,fire:0,move:0,reloadSent:0,reloadStarted:0,ammoSpentObserved:0,shotsObserved:0,hitsObserved:0,invalidInputs:0,neutralAck:0,maxUnacked:0};
   const clean=(v)=>String(v).replace(/[a-f0-9]{32,64}/gi,'[redacted]');
   const send=net.send.bind(net);
@@ -140,6 +178,7 @@ window.boot=(endpoint,code,index,diagnostics)=>{
     if(value?.type==='input'&&measuring){
       counters.sent++;if(value.input.fire)counters.fire++;if(value.input.mx||value.input.mz)counters.move++;if(value.input.reload)counters.reloadSent++;
       sentAt.set(value.input.seq,performance.now());counters.maxUnacked=Math.max(counters.maxUnacked,sentAt.size);
+      if(networkTiming)receivedSentAt.set(value.input.seq,performance.now());
     }
     return send(value);
   };
@@ -156,16 +195,24 @@ window.boot=(endpoint,code,index,diagnostics)=>{
         if(previousAmmo!==undefined&&p.ammo[p.slot]<previousAmmo)counters.ammoSpentObserved+=previousAmmo-p.ammo[p.slot];
         previousReload=p.reload;previousAmmo=p.ammo[p.slot];
         if(p.ack===0&&counters.sent>0&&(phase==='combat'||phase==='boss'))counters.neutralAck++;
-        if(Number.isSafeInteger(p.ack)&&p.ack>highestAck){if(sentAt.has(p.ack))ackRtt.push(now-sentAt.get(p.ack));highestAck=p.ack;for(const key of sentAt.keys())if(key<=p.ack)sentAt.delete(key);}
+        if(Number.isSafeInteger(p.ack)&&p.ack>highestAck){if(sentAt.has(p.ack)){const rtt=now-sentAt.get(p.ack);ackRtt.push(rtt);if(networkTiming)ackEvents.push({seq:p.ack,ms:now-began,sentMs:sentAt.get(p.ack)-began,rtt,gameTime:value.time,phase,resumeUntil:net.frontView?.resumeUntil,serverNow:net.serverNow});}highestAck=p.ack;for(const key of sentAt.keys())if(key<=p.ack)sentAt.delete(key);}
       }
       for(const event of value.events){if(event.id<=lastEvent)continue;if(event.owner===net.id){if(event.type==='shot')counters.shotsObserved++;if(event.type==='hit')counters.hitsObserved++;}lastEvent=Math.max(lastEvent,event.id);}
-      samples.push({ms:now-began,time:value.time,phase,enemies:value.enemies.length,projectiles:value.projectiles.length,totalKills:value.totalKills,hp:p?.hp,kills:p?.kills,ammo:p?.ammo[p.slot],reload:p?.reload,ack:p?.ack,highestSent:seq,unacked:sentAt.size,buffered:net.ws?.bufferedAmount??0,
+      samples.push({ms:now-began,...(networkTiming?{receivedEpochMs:Date.now(),serverNow:net.serverNow}:{}),time:value.time,phase,enemies:value.enemies.length,projectiles:value.projectiles.length,totalKills:value.totalKills,hp:p?.hp,kills:p?.kills,ammo:p?.ammo[p.slot],reload:p?.reload,ack:p?.ack,highestSent:seq,unacked:sentAt.size,buffered:net.ws?.bufferedAmount??0,
         drawCalls:view.renderer.info.render.calls,triangles:view.renderer.info.render.triangles,renderFrame:view.renderer.info.render.frame,adaptiveScale:view.adaptiveQuality.scale});
     }
     const offer=net.frontView?.offer;
     if(offer&&!chosen.has(offer.id)){chosen.add(offer.id);net.send({type:'frontChoose',request:{runId:value.run,offerId:offer.id,revision:offer.revision,requestId:offer.id+':'+net.id,cardId:offer.defaultCardId}});}
   };
   net.connect(code);
+  if(networkTiming)net.ws.addEventListener('message',event=>{
+    if(!measuring)return;
+    const value=JSON.parse(event.data);
+    if(value.type!=='state'||!Number.isSafeInteger(value.inputAck)||value.inputAck<=highestReceiptAck)return;
+    const now=performance.now(),sent=receivedSentAt.get(value.inputAck);
+    if(sent!==undefined){const rtt=now-sent;receiptAckRtt.push(rtt);receiptAckEvents.push({seq:value.inputAck,ms:now-began,sentMs:sent-began,rtt,receivedEpochMs:Date.now(),serverNow:value.serverNow,phase:value.frontView?.phase,appliedAck:world?.players.find(p=>p.id===net.id)?.ack});}
+    highestReceiptAck=value.inputAck;for(const key of receivedSentAt.keys())if(key<=value.inputAck)receivedSentAt.delete(key);
+  });
   function frame(now){
     requestAnimationFrame(frame);
     const wallDt=Math.max(0,(now-previous)/1000),dt=Math.min(.1,wallDt);previous=now;
@@ -188,7 +235,7 @@ window.boot=(endpoint,code,index,diagnostics)=>{
     if(newKinds.length){for(const kind of newKinds)seenKinds.add(kind);diagnostic.snapshots.push(snapshot('before-first-'+newKinds.join('+')));}
     diagnosticPhase='render';
     const start=performance.now();
-    view.render(world,net.id,dt,cachedInput.yaw,cachedInput.pitch,undefined,active);
+    if(renderEnabled)view.render(world,net.id,dt,cachedInput.yaw,cachedInput.pitch,undefined,active);
     const durationMs=performance.now()-start;diagnosticPhase='between-frames';
     if(measuring&&view.renderer.info.render.frame!==before)renderCpu.push(durationMs);
     if(diagnostics){
@@ -201,6 +248,7 @@ window.boot=(endpoint,code,index,diagnostics)=>{
   }requestAnimationFrame(frame);
   window.live={
     prepare:async()=>{
+      if(!renderEnabled){net.setAssetReady(true);return{ms:0,preparationSkippedForNetworkIsolation:true};}
       const run=createFrontRun({runId:'live-preview',seed:4520,mode:'survival',fusion:true,clearedStage:0,players:net.members.filter(m=>m.connected).map(m=>({id:m.id,equipment:net.equip}))},Date.now()/1000);
       diagnosticPhase='prepare';
       if(diagnostics)diagnostic.snapshots.push(snapshot('before-prepare'));
@@ -212,13 +260,13 @@ window.boot=(endpoint,code,index,diagnostics)=>{
       diagnosticPhase='prepared';
       net.setAssetReady(true);return{ms:performance.now()-start,actors:run.world.players.length,preparationRestored,programCount:view.renderer.info.programs.length,...(diagnostics?{batches:batchInfo()}: {})};
     },
-    ready:()=>!!net.id&&net.members.filter(m=>m.connected).length===4,
+    ready:()=>!!net.id&&net.members.length===4&&net.members.every(m=>m.connected&&m.weapons?.length===2),
     allReady:()=>net.members.length===4&&net.members.every(m=>m.ready),
     start:()=>net.send({type:'start'}),phase:()=>net.frontView?.phase,
     begin:()=>{measuring=true;began=performance.now();lastWorld=0;lastPhase='';nextReload=began+9000;lastEvent=world?.eventSerial??0;return{at:began,time:world?.time};},
     progress:()=>({updates:counters.updates,time:world?.time,phase:net.frontView?.phase,hp:world?.players.find(p=>p.id===net.id)?.hp,kills:world?.players.find(p=>p.id===net.id)?.kills}),
     failureState:()=>({ready:net.assetReady,closed:net.closed,ws:net.ws?.readyState,generation:net.preparationGeneration,members:net.members.map(m=>({connected:m.connected,ready:m.ready})),statuses,errors,diagnostic}),
-    end:()=>{measuring=false;const gl=view.renderer.getContext(),debug=gl.getExtension('WEBGL_debug_renderer_info');return{wallMs:performance.now()-began,counters,frames,renderCpu,pilotCpu,intervals,ackRtt,samples,phases,statuses,errors,glErrors,diagnostic,remainingUnacked:sentAt.size,renderer:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER),viewport:{width:innerWidth,height:innerHeight},renderSize:{width:view.renderer.domElement.width,height:view.renderer.domElement.height}};},
+    end:()=>{measuring=false;const gl=view.renderer.getContext(),debug=gl.getExtension('WEBGL_debug_renderer_info');return{wallMs:performance.now()-began,counters,frames,renderCpu,pilotCpu,intervals,ackRtt,ackEvents,receiptAckRtt,receiptAckEvents,samples,phases,statuses,errors,glErrors,diagnostic,remainingUnacked:sentAt.size,webSocketExtensions:net.ws?.extensions??null,renderer:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER),viewport:{width:innerWidth,height:innerHeight},renderSize:{width:view.renderer.domElement.width,height:view.renderer.domElement.height}};},
     close:()=>net.close(),
   };
 };`,
@@ -242,6 +290,10 @@ fs.writeFileSync(
       seconds,
       diagnostics,
       profileEnabled,
+      networkTiming,
+      renderEnabled,
+      renderClients,
+      linkConfig: result.linkConfig,
       method: result.method,
       sourceBefore,
     },
@@ -290,10 +342,20 @@ const server = createServer((request, response) => {
 });
 let measuring = false,
   serverStarted = false,
-  profiler;
+  profiler,
+  shaper;
 try {
   const health = await fetch(endpoint + "/api/health");
   assert.equal(health.status, 200, "Local Worker unavailable");
+  if (shapeLink) {
+    const { createLocalWebSocketShaper } =
+      await import("./local-websocket-shaper.mjs");
+    shaper = await createLocalWebSocketShaper({
+      upstream: endpoint,
+      origin,
+      ...result.linkConfig,
+    });
+  }
   await new Promise((resolve, reject) => {
     server.once("error", reject);
     server.listen(5186, "127.0.0.1", resolve);
@@ -354,9 +416,11 @@ try {
     });
     page.on("websocket", (socket) => {
       socket.on("framereceived", ({ payload }) => {
-        if (!measuring) return;
         const text = payload.toString();
         const m = JSON.parse(text);
+        if (m.type === "welcome")
+          result.wire[index].negotiatedStateFlow = m.stateFlow === true;
+        if (!measuring) return;
         if (m.type === "state" || m.type === "stateChunk") {
           const w = result.wire[index];
           w.states += m.type === "state" ? 1 : 0;
@@ -381,9 +445,16 @@ try {
     await page.goto(origin + "/live");
     await page.addScriptTag({ content: javascript });
     await page.evaluate(
-      ({ endpoint, code, index, diagnostics }) =>
-        boot(endpoint, code, index, diagnostics),
-      { endpoint, code, index, diagnostics },
+      ({ endpoint, code, index, diagnostics, networkTiming, renderEnabled }) =>
+        boot(endpoint, code, index, diagnostics, networkTiming, renderEnabled),
+      {
+        endpoint: shaper?.endpoint ?? endpoint,
+        code,
+        index,
+        diagnostics,
+        networkTiming,
+        renderEnabled: index < renderClients,
+      },
     );
   }
   await Promise.all(
@@ -468,11 +539,13 @@ try {
       pilotCpu: summary(data.pilotCpu),
       worldIntervals: summary(data.intervals),
       ackObservedRtt: summary(data.ackRtt),
+      receiptAckRtt: summary(data.receiptAckRtt),
       counters: data.counters,
       phases: data.phases,
       first,
       last,
       remainingUnacked: data.remainingUnacked,
+      webSocketExtensions: data.webSocketExtensions,
       diagnostic: data.diagnostic,
       errors: data.errors,
       glErrors: data.glErrors,
@@ -496,7 +569,9 @@ try {
         client.errors.length === 0 &&
         client.glErrors.length === 0,
     ) &&
-    result.wire.every((w) => w.closes === 0 && w.maxBytes <= 65536);
+    result.wire.every(
+      (w) => w.closes === 0 && w.maxBytes <= 65536 && w.negotiatedStateFlow,
+    );
 } catch (error) {
   result.failure = redact(error.stack ?? error);
   result.failureStates = await Promise.all(
@@ -520,6 +595,18 @@ try {
   result.headAfter = execFileSync("git", ["rev-parse", "HEAD"], {
     encoding: "utf8",
   }).trim();
+  for (const page of pages)
+    await page.evaluate(() => live?.close()).catch(() => {});
+  for (const browser of browsers) await browser.close().catch(() => {});
+  if (shaper) {
+    await shaper.close();
+    result.link = shaper.metrics;
+    if (shaper.metrics.connections.some((connection) => connection.failure)) {
+      result.passed = false;
+      process.exitCode = 1;
+    }
+  }
+  if (serverStarted) await new Promise((resolve) => server.close(resolve));
   fs.writeFileSync(
     path.join(output, "results.json"),
     JSON.stringify(result, null, 2),
@@ -537,6 +624,7 @@ try {
         worldIntervals: c.worldIntervals,
         frames: c.frames,
         ackObservedRtt: c.ackObservedRtt,
+        receiptAckRtt: c.receiptAckRtt,
         counters: c.counters,
         firstHp: c.first?.hp,
         lastHp: c.last?.hp,
@@ -544,8 +632,4 @@ try {
       })),
     }),
   );
-  for (const page of pages)
-    await page.evaluate(() => live?.close()).catch(() => {});
-  for (const browser of browsers) await browser.close().catch(() => {});
-  if (serverStarted) await new Promise((resolve) => server.close(resolve));
 }

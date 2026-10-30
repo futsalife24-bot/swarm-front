@@ -32,6 +32,7 @@ class Client {
     stateOmissions = false,
     stateTuples = false,
     stateChunks = false,
+    stateFlow = false,
   ) {
     this.ws = new WebSocket(
       `${base.replace("http", "ws")}/rooms/${code}?ruleset=front-v1&testClient=${createHash(
@@ -49,6 +50,7 @@ class Client {
         ...(stateOmissions ? { stateOmissions: 1 } : {}),
         ...(stateTuples ? { stateTuples: 1 } : {}),
         ...(stateChunks ? { stateChunks: 1 } : {}),
+        ...(stateFlow ? { stateFlow: 1 } : {}),
         ...(token ? { token } : {}),
       });
     this.ws.onmessage = (e) => {
@@ -130,6 +132,7 @@ async function team(
   stateOmissions: boolean | boolean[] = false,
   stateTuples: boolean | boolean[] = false,
   stateChunks: boolean | boolean[] = false,
+  stateFlow: boolean | boolean[] = false,
 ) {
   const entry = await room(mode),
     members: Client[] = [];
@@ -143,6 +146,7 @@ async function team(
       Array.isArray(stateOmissions) ? stateOmissions[i] : stateOmissions,
       Array.isArray(stateTuples) ? stateTuples[i] : stateTuples,
       Array.isArray(stateChunks) ? stateChunks[i] : stateChunks,
+      Array.isArray(stateFlow) ? stateFlow[i] : stateFlow,
     );
     await c.wait((m) => m.type === "welcome");
     members.push(c);
@@ -184,6 +188,68 @@ async function team(
   return { entry, members, states };
 }
 describe("改装版の実通信", () => {
+  it("受信待ちを2状態に制限し、旧接続を止めず、最後の結果と再接続を届ける", async () => {
+    const { entry, members } = await team(
+      2,
+      "survival",
+      3,
+      false,
+      false,
+      false,
+      [true, false],
+    );
+    const [slow, legacy] = members;
+    expect(slow.messages.find((m) => m.type === "welcome").stateFlow).toBe(
+      true,
+    );
+    expect(
+      legacy.messages.find((m) => m.type === "welcome").stateFlow,
+    ).toBeUndefined();
+    const states = () => slow.messages.filter((m) => m.type === "state");
+    await slow.wait((m) => m.type === "state" && states().length === 2);
+    const last = states().at(-1).stateId;
+    expect(Number.isSafeInteger(last)).toBe(true);
+    const legacyBefore = legacy.messages.length;
+    await new Promise((r) => setTimeout(r, 300));
+    expect(states()).toHaveLength(2);
+    expect(legacy.messages.length).toBeGreaterThan(legacyBefore);
+    const response = await fetch(
+      `${base}/fixtures/${entry.code}/front-growth-result`,
+      { method: "POST" },
+    );
+    expect(response.status).toBe(200);
+    await legacy.wait((m) => m.type === "state" && m.world.phase === "defeat");
+    expect(states()).toHaveLength(2);
+    slow.send({ type: "stateAck", stateAck: last + 1000000 });
+    await new Promise((r) => setTimeout(r, 150));
+    expect(states()).toHaveLength(2);
+    slow.send({ type: "stateAck", stateAck: last });
+    const final = await slow.wait(
+      (m) => m.type === "state" && m.world.phase === "defeat",
+    );
+    expect(final.stateId).toBeGreaterThan(last);
+    expect(final.frontView.phase).toBe("defeat");
+    // Leave the final snapshot unacknowledged: a new socket gets fresh credit.
+    slow.ws.close();
+    const rejoined = new Client(
+      entry.code,
+      slow.token,
+      3,
+      2,
+      2,
+      false,
+      false,
+      false,
+      true,
+    );
+    await rejoined.wait((m) => m.type === "welcome" && m.stateFlow === true);
+    const restored = await rejoined.wait(
+      (m) => m.type === "state" && m.world.phase === "defeat",
+    );
+    expect(rejoined.id).toBe(slow.id);
+    expect(restored.world.run).toBe(final.world.run);
+    expect(rejoined.ws.readyState).toBe(WebSocket.OPEN);
+  });
   it("分割対応4人へ合成1000弾の全戦況を原子的に復元する", async () => {
     const { entry, members } = await team(4, "survival", 3, true, true, true);
     const offsets = members.map((member) => member.messages.length);

@@ -14,7 +14,8 @@ import { createHash } from "node:crypto";
 
 // Production build, real service worker + CacheStorage, isolated temporary profile.
 const root = path.resolve("dist"),
-  out = "dist-validation/coop-comfort-20261030/pwa";
+  out =
+    process.env.SWARM_PWA_OUTPUT ?? "dist-validation/coop-comfort-20261030/pwa";
 mkdirSync(out, { recursive: true });
 const manifest = JSON.parse(
   readFileSync(path.join(root, "asset-download-manifest.json"), "utf8"),

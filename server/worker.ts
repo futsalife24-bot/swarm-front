@@ -52,6 +52,11 @@ import {
 } from "./player-vault";
 import { DurableObject } from "cloudflare:workers";
 import { RoomClock } from "./room-clock";
+import {
+  StateDelivery,
+  deliverState,
+  minimumSentEvent,
+} from "./state-delivery";
 import { creationAccess, turnstileAccess } from "./auth";
 import { LIMITS, validBattleWeapon, type Weapon } from "../src/shared/defs";
 import type { NewWeapon } from "../src/shared/progression";
@@ -917,6 +922,7 @@ export class Room extends DurableObject<Env> {
       stateOmissions?: boolean;
       stateTuples?: boolean;
       stateChunks?: boolean;
+      stateDelivery: StateDelivery;
       equipmentKey?: string;
     }
   >();
@@ -926,7 +932,6 @@ export class Room extends DurableObject<Env> {
   private timerGeneration = 0;
   private stateSnapshot = 0;
   ticks = 0;
-  sentEvent = 0;
   persisting = false;
   constructor(ctx: DurableObjectState, env: Env) {
     super(ctx, env);
@@ -948,6 +953,8 @@ export class Room extends DurableObject<Env> {
           stateOmissions?: boolean;
           stateTuples?: boolean;
           stateChunks?: boolean;
+          stateFlow?: boolean;
+          stateDelivery?: unknown;
         };
         this.sockets.set(ws, {
           id: a.id,
@@ -958,7 +965,15 @@ export class Room extends DurableObject<Env> {
           stateOmissions: a.stateOmissions === true,
           stateTuples: a.stateTuples === true,
           stateChunks: a.stateChunks === true,
+          stateDelivery: new StateDelivery(
+            a.stateFlow === true,
+            a.stateDelivery,
+          ),
         });
+        this.stateSnapshot = Math.max(
+          this.stateSnapshot,
+          this.sockets.get(ws)!.stateDelivery.lastSent,
+        );
       }
     });
   }
@@ -1055,6 +1070,7 @@ export class Room extends DurableObject<Env> {
       count: 0,
       window: Date.now(),
       seq: -1,
+      stateDelivery: new StateDelivery(false),
     });
     setTimeout(() => {
       if (this.sockets.get(server)?.id === "") {
@@ -1224,12 +1240,8 @@ export class Room extends DurableObject<Env> {
       s.stateTuples = m.stateTuples === 1;
       s.stateChunks = m.stateChunks === 1;
       s.at = now;
-      ws.serializeAttachment({
-        id: s.id,
-        stateOmissions: s.stateOmissions,
-        stateTuples: s.stateTuples,
-        stateChunks: s.stateChunks,
-      });
+      s.stateDelivery = new StateDelivery(m.stateFlow === 1);
+      this.rememberSocket(ws);
       const p = this.saved.world?.players.find((p) => p.id === s.id);
       if (p) p.connected = true;
       if (this.saved.frontRun)
@@ -1252,6 +1264,7 @@ export class Room extends DurableObject<Env> {
         type: "welcome",
         expiresAt: this.wireRoomExpiresAt(),
         inputAck: true,
+        ...(s.stateDelivery.enabled ? { stateFlow: true } : {}),
         id: member.id,
         token: member.token,
         roomId: this.saved.directory?.roomId,
@@ -1273,6 +1286,12 @@ export class Room extends DurableObject<Env> {
       if (this.saved.world?.phase === "battle") this.run();
       return;
     }
+    if (s.stateDelivery.acknowledge(m.stateAck)) {
+      this.rememberSocket(ws);
+      // Only the peer whose credit opened gets the coalesced latest World.
+      if (s.stateDelivery.dirty) this.broadcast(ws);
+    }
+    if (m.type === "stateAck" && s.stateDelivery.enabled) return;
     const member = this.saved.members.find((p) => p.id === s.id)!;
     s.at = now;
     if (m.type === "profile") {
@@ -1650,7 +1669,10 @@ export class Room extends DurableObject<Env> {
       this.saved.resultExpiresAt = undefined;
       this.saved.world = world;
       this.saved.paused = false;
-      this.sentEvent = 0;
+      for (const [peer, identity] of this.sockets) {
+        identity.stateDelivery.resetEvents(world.run);
+        this.rememberSocket(peer);
+      }
       this.inputs = {};
       await this.persist();
       await this.ctx.storage.setAlarm(this.roomExpiresAt());
@@ -1668,9 +1690,49 @@ export class Room extends DurableObject<Env> {
       this.error(ws, "未対応のメッセージ");
     }
   }
-  broadcast() {
+  private rememberSocket(ws: WebSocket) {
+    const s = this.sockets.get(ws);
+    if (!s) return;
+    // Same-WS hibernation can happen after ticks stop with a dirty final result.
+    // This bounded attachment is not part of Saved or the user's save schema.
+    ws.serializeAttachment({
+      id: s.id,
+      stateOmissions: s.stateOmissions,
+      stateTuples: s.stateTuples,
+      stateChunks: s.stateChunks,
+      stateFlow: s.stateDelivery.enabled,
+      stateDelivery: s.stateDelivery.snapshot(),
+    });
+  }
+  private eventFloor(w: World) {
+    return minimumSentEvent(
+      [...this.sockets.values()]
+        .filter((s) => s.id)
+        .map((s) => s.stateDelivery),
+      w.eventSerial,
+    );
+  }
+  broadcast(target?: WebSocket) {
     this.publishDirectory();
     const w = this.saved.world;
+    if (w)
+      for (const s of this.sockets.values())
+        if (s.id) s.stateDelivery.resetEvents(w.run);
+    const recipients = [...this.sockets].filter(([ws, s]) => {
+      if (!s.id || (target && ws !== target)) return false;
+      if (w && s.stateDelivery.full) {
+        if (!s.stateDelivery.dirty) {
+          s.stateDelivery.begin();
+          this.rememberSocket(ws);
+        }
+        return false;
+      }
+      return true;
+    });
+    if (!recipients.length) {
+      if (w) retireEvents(w, this.eventFloor(w));
+      return;
+    }
     const members = this.saved.members.map((p) => ({
       id: p.id,
       name: p.name || DEFAULT_PLAYER_NAME,
@@ -1696,47 +1758,57 @@ export class Room extends DurableObject<Env> {
           }
         : {}),
     };
-    const state = w ? prepareState(w, this.sentEvent, metadata) : undefined;
+    const state = w ? prepareState(w, this.eventFloor(w), metadata) : undefined;
     this.stateSnapshot = Math.max(Date.now(), this.stateSnapshot + 1);
-    for (const [ws, s] of this.sockets) {
-      if (!s.id) continue;
+    const stateId = this.stateSnapshot;
+    for (const [ws, s] of recipients) {
+      if (!this.sockets.has(ws)) continue;
       if (w) {
-        const cached =
-          !!s.equipmentCache &&
-          w.phase === "battle" &&
-          s.equipmentKey === state!.equipmentKey;
-        const recipientMetadata =
-          this.saved.frontRun && this.saved.frontRun.upgrades[s.id]
-            ? {
-                frontView: getFrontRunView(this.saved.frontRun, s.id),
-                serverNow: Date.now() / 1000,
-                expiresAt: this.wireRoomExpiresAt(),
-              }
-            : undefined;
-        const payload = state!.packet(
-          s.id,
-          cached,
-          s.seq,
-          recipientMetadata,
-          s.stateOmissions === true,
-          s.stateTuples === true,
-          s.stateChunks === true,
+        const result = deliverState(
+          s.stateDelivery,
+          stateId,
+          w.eventSerial,
+          () => {
+            const cached =
+              !!s.equipmentCache &&
+              w.phase === "battle" &&
+              s.equipmentKey === state!.equipmentKey;
+            const frontMetadata =
+              this.saved.frontRun && this.saved.frontRun.upgrades[s.id]
+                ? {
+                    frontView: getFrontRunView(this.saved.frontRun, s.id),
+                    serverNow: Date.now() / 1000,
+                    expiresAt: this.wireRoomExpiresAt(),
+                  }
+                : undefined;
+            const recipientMetadata = s.stateDelivery.enabled
+              ? { ...frontMetadata, stateId }
+              : frontMetadata;
+            const payload = state!.packet(
+              s.id,
+              cached,
+              s.seq,
+              recipientMetadata,
+              s.stateOmissions === true,
+              s.stateTuples === true,
+              s.stateChunks === true,
+            );
+            const chunks = s.stateChunks
+              ? encodeStateChunks(payload, stateId)
+              : [payload];
+            // Oversized snapshots retain the existing 4009 fallback; a partial
+            // send must not advance equipment/event delivery or acquire a credit.
+            return chunks ?? [payload];
+          },
+          (part) => this.sendEncoded(ws, part) === true,
         );
-        const chunks = s.stateChunks
-          ? encodeStateChunks(payload, this.stateSnapshot)
-          : [payload];
-        // Oversized logical snapshots keep the existing 4009 failure. Never
-        // acknowledge cached equipment after a partially sent snapshot.
-        if ((chunks ?? [payload]).every((part) => this.sendEncoded(ws, part)))
-          s.equipmentKey = state!.equipmentKey;
+        if (result === "sent") s.equipmentKey = state!.equipmentKey;
+        this.rememberSocket(ws);
       } else this.send(ws, { type: "lobby", ...metadata });
     }
-    if (w) {
-      this.sentEvent = w.eventSerial;
-      // Sent events only take up room the next tick's events need.
-      retireEvents(w, this.sentEvent);
-    }
+    if (w) retireEvents(w, this.eventFloor(w));
   }
+
   run() {
     if (this.timer) return;
     const generation = ++this.timerGeneration;

@@ -15,6 +15,7 @@ import { EquipmentCache } from "../shared/state-wire";
 import { restoreStateTuples } from "../shared/state-tuples";
 import { StateChunkAssembler } from "../shared/state-chunks";
 import { StateOmissionCache } from "./state-omissions";
+import { StateReceipt } from "./state-receipt";
 import type { RoomOptions } from "../shared/room-directory";
 export interface Member {
   id: string;
@@ -115,6 +116,9 @@ export class FrontNetwork {
   private pendingInput: Input | undefined;
   private usesInputAck = false;
   private inFlightInputs: number[] = [];
+  private stateReceipt = new StateReceipt(() =>
+    this.send({ type: "stateAck" }),
+  );
   constructor(public endpoint: string) {
     this.timer = setInterval(() => {
       if (this.ws?.readyState === 1 && this.id) this.send({ type: "ping" });
@@ -144,6 +148,7 @@ export class FrontNetwork {
     return (await res.json()).code as string;
   }
   connect(code: string, token = "") {
+    this.stateReceipt.configure(false);
     this.roomListed = undefined;
     if (this.code !== code) {
       this.messages = [];
@@ -182,6 +187,7 @@ export class FrontNetwork {
         stateOmissions: 1,
         stateTuples: 1,
         stateChunks: 1,
+        stateFlow: 1,
         frontGrowth: 3,
         frontCatalog: 2,
         frontOpening: 2,
@@ -259,6 +265,7 @@ export class FrontNetwork {
         clearTimeout(timeout);
         this.id = m.id;
         this.usesInputAck = m.inputAck === true;
+        this.stateReceipt.configure(m.stateFlow === true);
         this.roomId = typeof m.roomId === "string" ? m.roomId : "";
         this.roomName = typeof m.roomName === "string" ? m.roomName : "";
         this.roomListed = typeof m.listed === "boolean" ? m.listed : undefined;
@@ -288,6 +295,7 @@ export class FrontNetwork {
         });
         this.ready();
       } else if (m.type === "state") {
+        this.stateReceipt.receive(m.stateId);
         if (this.usesInputAck && Number.isSafeInteger(m.inputAck))
           this.inFlightInputs = this.inFlightInputs.filter(
             (seq) => seq > m.inputAck,
@@ -326,6 +334,7 @@ export class FrontNetwork {
           );
         this.onChat();
       } else if (m.type === "error") {
+        this.stateReceipt.configure(false);
         this.closed = true;
         try {
           clearFrontNetworkSession();
@@ -338,6 +347,7 @@ export class FrontNetwork {
     ws.onclose = (e) => {
       clearTimeout(timeout);
       if (this.closed || this.ws !== ws) return;
+      this.stateReceipt.configure(false);
       if (e.code >= 4000) {
         this.closed = true;
         this.onStatus(
@@ -378,7 +388,8 @@ export class FrontNetwork {
     }
   }
   send(value: unknown) {
-    if (this.ws?.readyState === 1) this.ws.send(JSON.stringify(value));
+    if (this.ws?.readyState === 1)
+      this.ws.send(JSON.stringify(this.stateReceipt.attach(value)));
   }
   discardPendingInput() {
     // 中断前の未送信タップだけ破棄。送信済み入力のack待ちと送信間隔は維持する。
@@ -459,6 +470,7 @@ export class FrontNetwork {
     return true;
   }
   close() {
+    this.stateReceipt.configure(false);
     this.closed = true;
     clearInterval(this.timer);
     this.ws?.close(1000, "退出");

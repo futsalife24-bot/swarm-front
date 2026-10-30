@@ -13,6 +13,7 @@ import { EquipmentCache } from "../shared/state-wire";
 import { restoreStateTuples } from "../shared/state-tuples";
 import { StateChunkAssembler } from "../shared/state-chunks";
 import { StateOmissionCache } from "./state-omissions";
+import { StateReceipt } from "./state-receipt";
 import type { RoomOptions } from "../shared/room-directory";
 export interface Member {
   id: string;
@@ -105,6 +106,9 @@ export class Network {
   private pendingInput: Input | undefined;
   private usesInputAck = false;
   private inFlightInputs: number[] = [];
+  private stateReceipt = new StateReceipt(() =>
+    this.send({ type: "stateAck" }),
+  );
   constructor(public endpoint: string) {
     this.timer = setInterval(() => {
       if (this.ws?.readyState === 1 && this.id) this.send({ type: "ping" });
@@ -134,6 +138,7 @@ export class Network {
     return (await res.json()).code as string;
   }
   connect(code: string, token = "") {
+    this.stateReceipt.configure(false);
     this.roomListed = undefined;
     if (this.code !== code) {
       this.messages = [];
@@ -171,6 +176,7 @@ export class Network {
         stateOmissions: 1,
         stateTuples: 1,
         stateChunks: 1,
+        stateFlow: 1,
         name: this.playerName,
         ...(this.token ? { token: this.token } : {}),
       });
@@ -237,6 +243,7 @@ export class Network {
         clearTimeout(timeout);
         this.id = m.id;
         this.usesInputAck = m.inputAck === true;
+        this.stateReceipt.configure(m.stateFlow === true);
         this.roomId = typeof m.roomId === "string" ? m.roomId : "";
         this.roomName = typeof m.roomName === "string" ? m.roomName : "";
         this.roomListed = typeof m.listed === "boolean" ? m.listed : undefined;
@@ -266,6 +273,7 @@ export class Network {
         });
         this.ready();
       } else if (m.type === "state") {
+        this.stateReceipt.receive(m.stateId);
         if (this.usesInputAck && Number.isSafeInteger(m.inputAck))
           this.inFlightInputs = this.inFlightInputs.filter(
             (seq) => seq > m.inputAck,
@@ -297,6 +305,7 @@ export class Network {
           );
         this.onChat();
       } else if (m.type === "error") {
+        this.stateReceipt.configure(false);
         this.closed = true;
         try {
           clearNetworkSession();
@@ -309,6 +318,7 @@ export class Network {
     ws.onclose = (e) => {
       clearTimeout(timeout);
       if (this.closed || this.ws !== ws) return;
+      this.stateReceipt.configure(false);
       if (e.code >= 4000) {
         this.closed = true;
         this.onStatus(
@@ -334,7 +344,8 @@ export class Network {
     ws.onerror = () => {};
   }
   send(value: unknown) {
-    if (this.ws?.readyState === 1) this.ws.send(JSON.stringify(value));
+    if (this.ws?.readyState === 1)
+      this.ws.send(JSON.stringify(this.stateReceipt.attach(value)));
   }
   input(input: Input) {
     if (this.ws?.readyState !== 1) return;
@@ -409,6 +420,7 @@ export class Network {
     return true;
   }
   close() {
+    this.stateReceipt.configure(false);
     this.closed = true;
     clearInterval(this.timer);
     this.ws?.close(1000, "退出");

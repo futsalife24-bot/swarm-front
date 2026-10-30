@@ -27,6 +27,8 @@ export default defineConfig({
       "tests/state-wire.test.ts",
       "tests/state-tuples.test.ts",
       "tests/state-chunks.test.ts",
+      "tests/state-delivery.test.ts",
+      "tests/state-receipt.test.ts",
       "tests/room-directory.test.ts",
       "tests/shared-armory.test.ts",
       "tests/social.test.ts",

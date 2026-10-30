@@ -14,7 +14,9 @@ import assert from "node:assert/strict";
 // Isolated browser contexts + real FrontNetwork/Renderer + local Worker only.
 const origin = "http://127.0.0.1:5186",
   endpoint = "http://127.0.0.1:8793";
-const out = "dist-validation/coop-comfort-20261030/browser";
+const out =
+  process.env.SWARM_COOP_OUTPUT ??
+  "dist-validation/coop-comfort-20261030/browser";
 mkdirSync(out, { recursive: true });
 mkdirSync("dist-mobile-network", { recursive: true });
 writeFileSync(
