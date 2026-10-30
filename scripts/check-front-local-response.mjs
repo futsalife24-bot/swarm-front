@@ -12,6 +12,8 @@ const latencies = (process.env.SWARM_RESPONSE_LATENCIES ?? "0,150")
   .split(",")
   .map(Number);
 const touchAndActions = process.env.SWARM_RESPONSE_ACTIONS === "1";
+const sustained = process.env.SWARM_RESPONSE_SUSTAINED === "1";
+assert(!(sustained && touchAndActions));
 assert(latencies.every((x) => Number.isFinite(x) && x >= 0 && x <= 500));
 mkdirSync(out, { recursive: true });
 const key = /^ROOM_CREATION_KEY="([a-f0-9]{64})"$/m.exec(
@@ -33,13 +35,15 @@ const result = {
     "Actual front entry, 1-player cooperative room, real local Worker/WebSocket. Added latency is each direction on WebSocket only; room HTTP uses direct local Worker. No save/game-state fixture. Empty profile with name preference only.",
   sources,
   touchAndActions,
+  sustained,
   runs: [],
   errors: [],
   passed: false,
 };
 const browser = await chromium.launch({
   channel: "chrome",
-  args: ["--use-angle=d3d11"],
+  args:
+    process.env.SWARM_RESPONSE_DEFAULT_GPU === "1" ? [] : ["--use-angle=d3d11"],
 });
 try {
   for (const latency of latencies) {
@@ -90,7 +94,7 @@ try {
           addEventListener(
             type,
             (e) => {
-              if (["KeyW", "KeyD"].includes(e.code))
+              if (["KeyW", "KeyS", "KeyD", "KeyA"].includes(e.code))
                 window.__response.keys.push({
                   type,
                   code: e.code,
@@ -210,16 +214,24 @@ try {
               evade: p.evade,
               verticalSpeed: p.verticalSpeed ?? 0,
               predict: !!args[3],
+              px: args[3]?.x,
+              pz: args[3]?.z,
             });
           return value;
         };
       });
       await page.waitForTimeout(1200);
-      for (const code of ["KeyW", "KeyD", "KeyW"]) {
+      await page.evaluate(() => {
+        window.__response.keys = [];
+        window.__response.sent = [];
+      });
+      for (const code of sustained
+        ? ["KeyW", "KeyS", "KeyD", "KeyA"]
+        : ["KeyW", "KeyD", "KeyW"]) {
         await page.keyboard.down(code);
-        await page.waitForTimeout(500);
+        await page.waitForTimeout(sustained ? 4000 : 500);
         await page.keyboard.up(code);
-        await page.waitForTimeout(1300);
+        await page.waitForTimeout(sustained ? 100 : 1300);
       }
       let actions;
       if (touchAndActions) {
@@ -273,6 +285,7 @@ try {
         );
         assert.equal(actions.unsafePredictionFrames, 0);
       }
+      if (sustained) await page.waitForTimeout(1800);
       await page.screenshot({ path: `${out}/battle-${latency}.png` });
       const trace = await page.evaluate(() => window.__response),
         trials = [];
@@ -282,6 +295,41 @@ try {
         );
         const before = trace.frames.filter((f) => f.ms < start.ms).at(-1);
         assert(before && stop);
+        if (sustained) {
+          // 継続移動では次の入力へ反転するため、短押し用の停止誤差を流用しない。
+          // この検査は視点を操作せず、初期yaw=0のW/S/D/Aを使う。
+          const frames = trace.frames.filter(
+            (f) => f.ms > start.ms + 200 && f.ms < stop.ms - 100,
+          );
+          const axis = ["KeyW", "KeyS"].includes(start.code) ? "z" : "x",
+            sign = ["KeyW", "KeyA"].includes(start.code) ? -1 : 1;
+          const steps = frames.slice(1).map((f, i) => ({
+            dt: f.ms - frames[i].ms,
+            target:
+              Number.isFinite(f["p" + axis]) &&
+              Number.isFinite(frames[i]["p" + axis])
+                ? (f["p" + axis] - frames[i]["p" + axis]) * sign
+                : null,
+            authority: (f[axis] - frames[i][axis]) * sign,
+          }));
+          const predicted = steps.filter((s) => s.target !== null);
+          trials.push({
+            code: start.code,
+            alive: frames.every((f) => f.hp > 0),
+            frames: frames.length,
+            authorityStates: steps.filter((s) => Math.abs(s.authority) > 0.001)
+              .length,
+            targetBacksteps: predicted.filter((s) => s.target < -0.05).length,
+            targetStops: predicted.filter((s) => Math.abs(s.target) < 0.005)
+              .length,
+            fallbackFrames: frames.filter((f) => !f.predict).length,
+            maxFrameMs: Math.max(...steps.map((s) => s.dt)),
+            maxDisplayAuthorityGapM: Math.max(
+              ...frames.map((f) => Math.hypot(f.vx - f.x, f.vz - f.z)),
+            ),
+          });
+          continue;
+        }
         const after = trace.frames.filter(
           (f) => f.ms >= start.ms && f.ms < stop.ms + 1200,
         );
@@ -325,6 +373,7 @@ try {
       }
       const run = {
         latencyEachDirectionMs: latency,
+        connectionLabel: await page.locator(".battle-fps").innerText(),
         trials,
         trace,
         actions,
@@ -332,14 +381,15 @@ try {
       };
       result.runs.push(run);
       console.log(JSON.stringify({ latency, trials }));
-      assert.equal(trials.length, touchAndActions ? 4 : 3);
+      assert.equal(trials.length, touchAndActions || sustained ? 4 : 3);
       assert(
         trials.every(
           (t) =>
-            t.visibleMoveMs !== null &&
-            t.authorityMoveMs !== null &&
-            t.alive &&
-            t.stopFinalErrorM < 0.1,
+            (sustained
+              ? t.frames > 100
+              : t.visibleMoveMs !== null &&
+                t.authorityMoveMs !== null &&
+                t.stopFinalErrorM < 0.1) && t.alive,
         ),
       );
     } catch (e) {

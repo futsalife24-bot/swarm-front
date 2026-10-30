@@ -114,15 +114,32 @@ interface Pending {
 export class StateChunkAssembler {
   private pending: Pending | undefined;
   private highest = -1;
+  private failedRead = false;
+  get failed() {
+    return this.failedRead;
+  }
+  get deadline() {
+    return this.pending
+      ? this.pending.started + STATE_CHUNK_TIMEOUT_MS
+      : undefined;
+  }
+  expire(now = performance.now()) {
+    if (
+      this.pending &&
+      (!Number.isFinite(now) ||
+        now < this.pending.started ||
+        now - this.pending.started > STATE_CHUNK_TIMEOUT_MS)
+    ) {
+      this.reject();
+      return true;
+    }
+    return false;
+  }
   read(input: unknown, now = performance.now()): unknown | undefined {
+    this.failedRead = false;
     try {
       if (!Number.isFinite(now)) return this.reject();
-      if (
-        this.pending &&
-        (now < this.pending.started ||
-          now - this.pending.started > STATE_CHUNK_TIMEOUT_MS)
-      )
-        this.pending = undefined;
+      if (this.expire(now)) return undefined;
       if (
         typeof input !== "string" ||
         input.length > STATE_MESSAGE_BYTES ||
@@ -186,18 +203,19 @@ export class StateChunkAssembler {
       pending.data.push(message.data);
       if (pending.data.length !== pending.total) return undefined;
       this.pending = undefined;
-      if (pending.received !== pending.size) return undefined;
+      if (pending.received !== pending.size) return this.reject();
       const complete = pending.data.join("");
-      if (checksum(complete) !== pending.checksum) return undefined;
+      if (checksum(complete) !== pending.checksum) return this.reject();
       const snapshot: unknown = JSON.parse(complete);
       return record(snapshot) && snapshot.type === "state"
         ? snapshot
-        : undefined;
+        : this.reject();
     } catch {
       return this.reject();
     }
   }
   private reject(): undefined {
+    this.failedRead = true;
     this.pending = undefined;
     return undefined;
   }

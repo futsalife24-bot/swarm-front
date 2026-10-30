@@ -1376,6 +1376,7 @@ function frame(time: number) {
     view.renderer.info.render.frame,
     screen === "battle" && ready,
     active,
+    network?.diagnostics.read(),
   );
 }
 window.addEventListener(
