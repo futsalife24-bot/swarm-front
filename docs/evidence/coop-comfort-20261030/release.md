@@ -1,6 +1,18 @@
-# 実機確認用公開の準備（2026-10-30）
+# 実機確認用公開の結果（2026-10-30）
 
 本人の「承認します、実機確認するので。」で通常main反映・既存Worker公開を追加承認。新規費用・契約・権限変更は行わない。高負荷の入力の途切れを完全解消したという承認には読み替えない。
+
+## 公開完了
+
+本人が現在の契約を「無料」と回答したため、既存Workerへ公開を実行。sourceは`3f5a3f0f68c315836e1af036a61071997c04920f`、Versionは`130fc18b-e2d5-4aed-9d2e-fa34a4d58d69`。先行公開準備記録のmain `78fc776`との差分はdocsのみ。実行前にcleanなsourceへ戻し、buildの35ファイルhash不変を確認した。build/dry-runの成功済み結果を使用し、ゲーム変更なしで繰り返さない。[公開ログ](release-deploy.txt)。
+
+2026-10-30 18:20 JSTに本体35ファイルの配信SHA一致・health200/okを確認。[配信照合](release-delivery.json)。公開先は https://swarm-front.melosalife-24.workers.dev/ 。
+
+配信コードをGET専用のローカル中継と空Chromeで起動。390×844でroot/frontの縦向き案内、844×390へ回転後の事前保存11パックと容量表示、生存ソロ出撃→初期強化選択→兵士/敵/地形描画、60 FPS・画面例外0を確認した。画像も目視確認。[結果](release-public-ui.json)、[縦向き](release-portrait.png)、[事前保存](release-download-menu.png)、[生存](release-survival.png)、[再現script](check-release-public.mjs)。これは配信コードの起動検査で、本人の実セーブ・本番協力部屋・iOS Safariは使用していない。Service Workerはこのスモーク検査ではblockし、事前保存完遂/オフラインは先行の統合検査結果と区別する。
+
+初回の検査scriptは存在しない`front-settings-close`を指定して失敗。ID修正後も画面遷移用の影DOMコピーへ7件一致したため、既存手順と同じlight DOM限定と遷移完了待ちへ修正。製品コードは変更せず、最終実行exit0/全条件成功。途中の失敗原本は`dist-validation/coop-comfort-20261030/release/public-ui/first-attempt.json`と`second-attempt.json`に保持。
+
+以下の阻害要因と再開手順は公開前の履歴で、今回の本人回答によって解消済み。実機の快適さ・Safari音量・高負荷の残件まで解消済みとは扱わない。
 
 ## 完了した操作
 
