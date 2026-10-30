@@ -12,6 +12,7 @@ export default defineConfig({
       "tests/harrow-effects.test.ts",
       "tests/calyx.test.ts",
       "tests/bastion.test.ts",
+      "tests/bastion-preparation.test.ts",
       "tests/motion-trs.test.ts",
       "tests/drone-camera.test.ts",
       "tests/project-hub.test.ts",

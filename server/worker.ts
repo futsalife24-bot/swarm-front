@@ -918,6 +918,7 @@ export class Room extends DurableObject<Env> {
       count: number;
       window: number;
       seq: number;
+      inputReceivedAt?: number;
       equipmentCache?: boolean;
       stateOmissions?: boolean;
       stateTuples?: boolean;
@@ -1286,10 +1287,12 @@ export class Room extends DurableObject<Env> {
       if (this.saved.world?.phase === "battle") this.run();
       return;
     }
-    if (s.stateDelivery.acknowledge(m.stateAck)) {
+    const stateAcknowledged = s.stateDelivery.acknowledge(m.stateAck);
+    if (stateAcknowledged) {
       this.rememberSocket(ws);
-      // Only the peer whose credit opened gets the coalesced latest World.
-      if (s.stateDelivery.dirty) this.broadcast(ws);
+      // Inputs must update receipt seq and retained intent before releasing
+      // the dirty snapshot; otherwise its inputAck is already one input old.
+      if (m.type !== "input" && s.stateDelivery.dirty) this.broadcast(ws);
     }
     if (m.type === "stateAck" && s.stateDelivery.enabled) return;
     const member = this.saved.members.find((p) => p.id === s.id)!;
@@ -1335,44 +1338,54 @@ export class Room extends DurableObject<Env> {
       for (const [peer, identity] of this.sockets)
         if (identity.id) this.send(peer, { type: "chat", message });
     } else if (m.type === "input") {
-      if (!validInput(m.input)) {
-        this.error(ws, "入力値が不正です");
-        return;
+      try {
+        if (!validInput(m.input)) {
+          this.error(ws, "入力値が不正です");
+          return;
+        }
+        if (m.input.seq <= s.seq) return;
+        s.seq = m.input.seq;
+        s.inputReceivedAt = now / 1000;
+        if (
+          this.saved.frontRun &&
+          (this.saved.frontRun.phase === "selection" ||
+            now / 1000 < this.saved.frontRun.resumeUntil)
+        ) {
+          delete this.inputs[s.id];
+          return;
+        }
+        const previous = this.inputs[s.id]?.i;
+        if (
+          m.input.mx ||
+          m.input.mz ||
+          m.input.fire ||
+          m.input.revive ||
+          m.input.dodge ||
+          m.input.jump ||
+          m.input.swap ||
+          m.input.reload ||
+          Math.abs(m.input.yaw - (previous?.yaw ?? 0)) > 0.01
+        )
+          member.last = now;
+        // Retain one-shot actions until the next server tick consumes them.
+        this.inputs[s.id] = {
+          i: {
+            ...m.input,
+            swap: m.input.swap || previous?.swap || false,
+            dodge: m.input.dodge || previous?.dodge || false,
+            jump: m.input.jump || previous?.jump || false,
+            reload: m.input.reload || previous?.reload || false,
+          },
+          at: now,
+        };
+      } finally {
+        if (
+          stateAcknowledged &&
+          s.stateDelivery.dirty &&
+          this.sockets.get(ws) === s
+        )
+          this.broadcast(ws);
       }
-      if (m.input.seq <= s.seq) return;
-      s.seq = m.input.seq;
-      if (
-        this.saved.frontRun &&
-        (this.saved.frontRun.phase === "selection" ||
-          now / 1000 < this.saved.frontRun.resumeUntil)
-      ) {
-        delete this.inputs[s.id];
-        return;
-      }
-      const previous = this.inputs[s.id]?.i;
-      if (
-        m.input.mx ||
-        m.input.mz ||
-        m.input.fire ||
-        m.input.revive ||
-        m.input.dodge ||
-        m.input.jump ||
-        m.input.swap ||
-        m.input.reload ||
-        Math.abs(m.input.yaw - (previous?.yaw ?? 0)) > 0.01
-      )
-        member.last = now;
-      // Retain one-shot actions until the next server tick consumes them.
-      this.inputs[s.id] = {
-        i: {
-          ...m.input,
-          swap: m.input.swap || previous?.swap || false,
-          dodge: m.input.dodge || previous?.dodge || false,
-          jump: m.input.jump || previous?.jump || false,
-          reload: m.input.reload || previous?.reload || false,
-        },
-        at: now,
-      };
     } else if (m.type === "frontChoose" || m.type === "frontReroll") {
       const run = this.saved.frontRun;
       if (!run || !m.request || typeof m.request !== "object") return;
@@ -1782,7 +1795,11 @@ export class Room extends DurableObject<Env> {
                   }
                 : undefined;
             const recipientMetadata = s.stateDelivery.enabled
-              ? { ...frontMetadata, stateId }
+              ? {
+                  ...frontMetadata,
+                  stateId,
+                  inputReceivedAt: s.inputReceivedAt,
+                }
               : frontMetadata;
             const payload = state!.packet(
               s.id,

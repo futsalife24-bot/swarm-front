@@ -91,6 +91,7 @@ export class BastionView {
   private template?: T.Object3D;
   private rig?: Rig;
   private readonly units = new Map<number, Unit>();
+  private preparationUnit?: Unit;
   // 地面の危険帯（実際の当たり幅）と、弾の高さを示す細い芯線。
   private readonly laneMaterial = new T.MeshBasicMaterial({
     color: 0xff283b,
@@ -168,6 +169,23 @@ export class BastionView {
       mesh.instanceMatrix.setUsage(T.DynamicDrawUsage);
       this.root.add(mesh);
     }
+    // First-hit effects use instance colors; allocate that shader variant before
+    // battle rather than changing the material program on the first spark.
+    for (const mesh of [this.sparks, this.flashes]) {
+      mesh.setColorAt(0, new T.Color(0xffffff));
+      mesh.instanceColor!.setUsage(T.DynamicDrawUsage);
+    }
+  }
+
+  /** Dedicated hidden model and effect meshes for the loading-screen draw. */
+  get preparationRoots(): T.Object3D[] {
+    return [
+      ...(this.preparationUnit ? [this.preparationUnit.root] : []),
+      this.lanes,
+      this.laneCores,
+      this.sparks,
+      this.flashes,
+    ];
   }
 
   /** GLB の読込を一度だけ始める。読込前・失敗時は描画側が既存の簡易形状を描く。 */
@@ -187,6 +205,12 @@ export class BastionView {
           }
         });
         this.template = root;
+        this.preparationUnit = this.create(-1);
+        if (this.preparationUnit) {
+          this.preparationUnit.root.visible = false;
+          // Warm the open-core halo too; only its preparation parent is hidden.
+          this.preparationUnit.halo.visible = true;
+        }
         this.ready = true;
       })
       .catch((error) => {
@@ -620,6 +644,7 @@ export class BastionView {
   /** 作戦の切替・終了。個体の表示と、前の作戦の火花・閃光を残さず消す。 */
   clear() {
     this.end(null);
+    if (this.preparationUnit) this.preparationUnit.root.visible = false;
     this.sparkState.length = 0;
     this.flashState.length = 0;
     this.sparks.count = this.flashes.count = 0;
@@ -668,6 +693,13 @@ export class BastionView {
   /** 図鑑など一時的な表示の後始末。共有の形状・材質と読み込んだモデルも破棄する。 */
   dispose() {
     this.clear();
+    if (this.preparationUnit) {
+      const u = this.preparationUnit;
+      this.root.remove(u.root);
+      for (const material of [u.seam, u.port, u.core, u.halo.material])
+        material.dispose();
+      this.preparationUnit = undefined;
+    }
     for (const mesh of [
       this.lanes,
       this.laneCores,

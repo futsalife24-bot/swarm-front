@@ -5,7 +5,9 @@ import { once } from "node:events";
 import { performance } from "node:perf_hooks";
 import WebSocket, { WebSocketServer } from "ws";
 import { createLocalWebSocketShaper } from "../../../scripts/local-websocket-shaper.mjs";
-const out = "dist-validation/coop-comfort-20261030/link-shaper-recheck";
+const out =
+  process.env.SWARM_SHAPER_OUTPUT ??
+  "dist-validation/coop-comfort-20261030/link-shaper-recheck";
 fs.mkdirSync(out, { recursive: true });
 const origin = "http://127.0.0.1:5186";
 const room = "/rooms/" + "a".repeat(32) + "?ruleset=front-v1";
@@ -148,6 +150,37 @@ try {
       spreadMs: times.at(-1) - times[0],
       metrics: h.metrics,
     };
+  });
+  await test("uplink and downlink bandwidth limits remain independent", async () => {
+    for (const bad of [{ upBytesPerSecond: 0 }, { downBytesPerSecond: -1 }])
+      await assert.rejects(
+        createLocalWebSocketShaper({ upstream, origin, ...bad }),
+      );
+    const h = await helper({
+      latencyMs: 10,
+      bytesPerSecond: 20000,
+      upBytesPerSecond: 2000,
+    });
+    const ws = await open(h.endpoint);
+    const received = [];
+    const done = new Promise((resolve) =>
+      ws.on("message", (data) => {
+        received.push(Buffer.from(data));
+        if (received.length === 2) resolve();
+      }),
+    );
+    ws.send("a".repeat(1000));
+    ws.send("b".repeat(1000));
+    await done;
+    assert.equal(received[0].toString(), "a".repeat(1000));
+    assert.equal(received[1].toString(), "b".repeat(1000));
+    const record = h.metrics.connections[0];
+    assert.equal(record.up.sentBytes, 2000);
+    assert.equal(record.down.sentBytes, 2000);
+    assert.ok(record.up.maxScheduledDelayMs > 900);
+    assert.ok(record.down.maxScheduledDelayMs < 150);
+    await h.close();
+    return { metrics: h.metrics };
   });
   await test("upstream final payload drains before normal close", async () => {
     const h = await helper({ latencyMs: 45, bytesPerSecond: 20000 });

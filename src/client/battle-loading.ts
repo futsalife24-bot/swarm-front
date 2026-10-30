@@ -60,14 +60,15 @@ export async function prepareBattle(
   await nextPreparationFrame();
   check();
   progress(5);
+  const prepareBastion =
+    (world.front?.growthVersion === 3 && !world.defense) ||
+    stageFor(world).waves.some((wave) => wave.troops.bastion);
   await wait(
     Promise.all([
       loadStandardTrooper(),
       ...(world.defense ? [view.defenseVisual.load()] : []),
       // 失敗しても簡易形状で戦えるため、BASTIONの読込は準備の失敗にしない。
-      ...(stageFor(world).waves.some((wave) => wave.troops.bastion)
-        ? [view.bastion.load()]
-        : []),
+      ...(prepareBastion ? [view.bastion.load()] : []),
       loadProgressionWeapons(world.players.flatMap((p) => p.weapons)),
     ]),
   );
@@ -145,6 +146,7 @@ export async function prepareBattle(
       s.batch ? [s.batch.group] : [],
     ),
     ...view.spawnEffects.preparationRoots,
+    ...(prepareBastion ? view.bastion.preparationRoots : []),
   ];
   const visibility = roots.map((root) => [root, root.visible] as const);
   const viewport = view.renderer.getViewport(new Vector4());

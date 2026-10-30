@@ -31,6 +31,23 @@ const linkLatencyMs = Number(process.env.SWARM_LIVE_LINK_LATENCY_MS ?? 0);
 const linkBytesPerSecond = Number(
   process.env.SWARM_LIVE_LINK_BYTES_PER_SECOND ?? 0,
 );
+const upBytesPerSecond = Number(
+  process.env.SWARM_LIVE_UP_BYTES_PER_SECOND ?? 0,
+);
+const releaseAfterSeconds = Number(process.env.SWARM_LIVE_RELEASE_AFTER ?? 0);
+const inputWindowOverride = Number(
+  process.env.SWARM_LIVE_INPUT_WINDOW_OVERRIDE ?? 0,
+);
+assert.ok([0, 4, 16].includes(inputWindowOverride));
+assert.ok(
+  Number.isFinite(upBytesPerSecond) &&
+    upBytesPerSecond >= 0 &&
+    upBytesPerSecond <= 16 * 1024 * 1024,
+);
+assert.ok(
+  releaseAfterSeconds === 0 ||
+    (releaseAfterSeconds >= 5 && releaseAfterSeconds < seconds),
+);
 assert.ok(
   Number.isFinite(linkLatencyMs) && linkLatencyMs >= 0 && linkLatencyMs <= 1000,
 );
@@ -40,7 +57,8 @@ assert.ok(
       linkBytesPerSecond >= 16384 &&
       linkBytesPerSecond <= 16 * 1024 * 1024),
 );
-const shapeLink = linkLatencyMs > 0 || linkBytesPerSecond > 0;
+const shapeLink =
+  linkLatencyMs > 0 || linkBytesPerSecond > 0 || upBytesPerSecond > 0;
 fs.mkdirSync(output, { recursive: true });
 const files = [
   "server/worker.ts",
@@ -52,10 +70,12 @@ const files = [
   "src/shared/state-chunks.ts",
   "src/client/front-network.ts",
   "src/client/state-receipt.ts",
+  "src/client/input-window.ts",
   "src/client/render.ts",
   "src/client/hound-motion.ts",
   "src/client/enemy-spawn-effects.ts",
   "src/client/battle-loading.ts",
+  "src/client/bastion-view.ts",
   "tests/bot.ts",
   "src/style.css",
   "scripts/check-coop-live.mjs",
@@ -91,10 +111,13 @@ const result = {
   networkTiming,
   renderEnabled,
   renderClients,
+  releaseAfterSeconds,
+  inputWindowOverride,
   linkConfig: shapeLink
     ? {
         latencyMs: linkLatencyMs,
         bytesPerSecond: linkBytesPerSecond || 16 * 1024 * 1024,
+        ...(upBytesPerSecond ? { upBytesPerSecond } : {}),
       }
     : null,
   method:
@@ -169,16 +192,17 @@ window.boot=(endpoint,code,index,diagnostics,networkTiming,renderEnabled)=>{
   net.equip=frontTemporaryWeapons('live',String(index),['rifle','smg']);
   let world,seq=0,previous=performance.now(),measuring=false,began=0,lastWorld=0,lastSample=0,nextReload=0;
   let lastPilotAt=-Infinity,cachedInput=neutral(),previousReload=0,previousAmmo,lastEvent=0,lastPhase='',highestAck=0;
-  const sentAt=new Map(),receivedSentAt=new Map(),chosen=new Set(),frames=[],renderCpu=[],pilotCpu=[],intervals=[],ackRtt=[],ackEvents=[],receiptAckRtt=[],receiptAckEvents=[],samples=[],phases=[],statuses=[],errors=[],glErrors=[];
+  const sentAt=new Map(),receivedSentAt=new Map(),chosen=new Set(),frames=[],renderCpu=[],pilotCpu=[],intervals=[],ackRtt=[],ackEvents=[],inputEvents=[],longFrames=[],receiptAckRtt=[],receiptAckEvents=[],samples=[],phases=[],statuses=[],errors=[],glErrors=[];
   let highestReceiptAck=0;
   const counters={updates:0,firsts:0,sent:0,fire:0,move:0,reloadSent:0,reloadStarted:0,ammoSpentObserved:0,shotsObserved:0,hitsObserved:0,invalidInputs:0,neutralAck:0,maxUnacked:0};
   const clean=(v)=>String(v).replace(/[a-f0-9]{32,64}/gi,'[redacted]');
   const send=net.send.bind(net);
   net.send=(value)=>{
     if(value?.type==='input'&&measuring){
+      if(${releaseAfterSeconds}>0&&performance.now()-began>=${releaseAfterSeconds}*1000)value={...value,input:{...neutral(),seq:value.input.seq}};
       counters.sent++;if(value.input.fire)counters.fire++;if(value.input.mx||value.input.mz)counters.move++;if(value.input.reload)counters.reloadSent++;
       sentAt.set(value.input.seq,performance.now());counters.maxUnacked=Math.max(counters.maxUnacked,sentAt.size);
-      if(networkTiming)receivedSentAt.set(value.input.seq,performance.now());
+      if(networkTiming){receivedSentAt.set(value.input.seq,performance.now());inputEvents.push({seq:value.input.seq,ms:performance.now()-began,epochMs:Date.now(),gameTime:world?.time,phase:net.frontView?.phase,resumeUntil:net.frontView?.resumeUntil,serverNow:net.serverNow,inputWindow:net.inputWindow.limit,fire:value.input.fire,moving:!!(value.input.mx||value.input.mz)});}
     }
     return send(value);
   };
@@ -198,7 +222,7 @@ window.boot=(endpoint,code,index,diagnostics,networkTiming,renderEnabled)=>{
         if(Number.isSafeInteger(p.ack)&&p.ack>highestAck){if(sentAt.has(p.ack)){const rtt=now-sentAt.get(p.ack);ackRtt.push(rtt);if(networkTiming)ackEvents.push({seq:p.ack,ms:now-began,sentMs:sentAt.get(p.ack)-began,rtt,gameTime:value.time,phase,resumeUntil:net.frontView?.resumeUntil,serverNow:net.serverNow});}highestAck=p.ack;for(const key of sentAt.keys())if(key<=p.ack)sentAt.delete(key);}
       }
       for(const event of value.events){if(event.id<=lastEvent)continue;if(event.owner===net.id){if(event.type==='shot')counters.shotsObserved++;if(event.type==='hit')counters.hitsObserved++;}lastEvent=Math.max(lastEvent,event.id);}
-      samples.push({ms:now-began,...(networkTiming?{receivedEpochMs:Date.now(),serverNow:net.serverNow}:{}),time:value.time,phase,enemies:value.enemies.length,projectiles:value.projectiles.length,totalKills:value.totalKills,hp:p?.hp,kills:p?.kills,ammo:p?.ammo[p.slot],reload:p?.reload,ack:p?.ack,highestSent:seq,unacked:sentAt.size,buffered:net.ws?.bufferedAmount??0,
+      samples.push({ms:now-began,...(networkTiming?{receivedEpochMs:Date.now(),serverNow:net.serverNow,resumeUntil:net.frontView?.resumeUntil}:{}),time:value.time,phase,enemies:value.enemies.length,projectiles:value.projectiles.length,totalKills:value.totalKills,hp:p?.hp,x:p?.x,z:p?.z,kills:p?.kills,ammo:p?.ammo[p.slot],reload:p?.reload,ack:p?.ack,highestSent:seq,unacked:sentAt.size,buffered:net.ws?.bufferedAmount??0,inputWindow:net.inputWindow.limit,
         drawCalls:view.renderer.info.render.calls,triangles:view.renderer.info.render.triangles,renderFrame:view.renderer.info.render.frame,adaptiveScale:view.adaptiveQuality.scale});
     }
     const offer=net.frontView?.offer;
@@ -216,6 +240,7 @@ window.boot=(endpoint,code,index,diagnostics,networkTiming,renderEnabled)=>{
   function frame(now){
     requestAnimationFrame(frame);
     const wallDt=Math.max(0,(now-previous)/1000),dt=Math.min(.1,wallDt);previous=now;
+    if(networkTiming&&measuring&&wallDt>.1)longFrames.push({ms:now-began,durationMs:wallDt*1000,gameTime:world?.time,phase:net.frontView?.phase,enemyKinds:enemyInfo()});
     if(measuring)frames.push(wallDt*1000);
     if(!world)return;
     const phase=net.frontView?.phase,p=world.players.find(p=>p.id===net.id);
@@ -254,7 +279,7 @@ window.boot=(endpoint,code,index,diagnostics,networkTiming,renderEnabled)=>{
       if(diagnostics)diagnostic.snapshots.push(snapshot('before-prepare'));
       const worldBefore=JSON.stringify(run.world);
       const start=performance.now();await prepareBattle(view,run.world,net.id,()=>false);
-      const preparationRestored=JSON.stringify(run.world)===worldBefore&&[...view.structures.values()].every(s=>!s.batch||(s.batch.group.visible===false&&s.batch.parts.every(p=>p.count===0)))&&view.spawnEffects.preparationRoots.every(root=>!root.visible)&&!view.renderer.getScissorTest();
+      const preparationRestored=JSON.stringify(run.world)===worldBefore&&[...view.structures.values()].every(s=>!s.batch||(s.batch.group.visible===false&&s.batch.parts.every(p=>p.count===0)))&&view.spawnEffects.preparationRoots.every(root=>!root.visible)&&view.bastion.preparationRoots.every(root=>root.isInstancedMesh?root.count===0:!root.visible)&&!view.renderer.getScissorTest();
       if(!preparationRestored)throw Error('Preparation changed preview World or left temporary draws enabled');
       if(diagnostics)diagnostic.snapshots.push(snapshot('after-prepare'));
       diagnosticPhase='prepared';
@@ -263,10 +288,10 @@ window.boot=(endpoint,code,index,diagnostics,networkTiming,renderEnabled)=>{
     ready:()=>!!net.id&&net.members.length===4&&net.members.every(m=>m.connected&&m.weapons?.length===2),
     allReady:()=>net.members.length===4&&net.members.every(m=>m.ready),
     start:()=>net.send({type:'start'}),phase:()=>net.frontView?.phase,
-    begin:()=>{measuring=true;began=performance.now();lastWorld=0;lastPhase='';nextReload=began+9000;lastEvent=world?.eventSerial??0;return{at:began,time:world?.time};},
+    begin:()=>{if(${inputWindowOverride}>0)Object.defineProperty(net.inputWindow,"limit",{get:()=>${inputWindowOverride}});measuring=true;began=performance.now();lastWorld=0;lastPhase='';nextReload=began+9000;lastEvent=world?.eventSerial??0;return{at:began,time:world?.time};},
     progress:()=>({updates:counters.updates,time:world?.time,phase:net.frontView?.phase,hp:world?.players.find(p=>p.id===net.id)?.hp,kills:world?.players.find(p=>p.id===net.id)?.kills}),
     failureState:()=>({ready:net.assetReady,closed:net.closed,ws:net.ws?.readyState,generation:net.preparationGeneration,members:net.members.map(m=>({connected:m.connected,ready:m.ready})),statuses,errors,diagnostic}),
-    end:()=>{measuring=false;const gl=view.renderer.getContext(),debug=gl.getExtension('WEBGL_debug_renderer_info');return{wallMs:performance.now()-began,counters,frames,renderCpu,pilotCpu,intervals,ackRtt,ackEvents,receiptAckRtt,receiptAckEvents,samples,phases,statuses,errors,glErrors,diagnostic,remainingUnacked:sentAt.size,webSocketExtensions:net.ws?.extensions??null,renderer:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER),viewport:{width:innerWidth,height:innerHeight},renderSize:{width:view.renderer.domElement.width,height:view.renderer.domElement.height}};},
+    end:()=>{measuring=false;const gl=view.renderer.getContext(),debug=gl.getExtension('WEBGL_debug_renderer_info');return{wallMs:performance.now()-began,counters,frames,renderCpu,pilotCpu,intervals,ackRtt,ackEvents,inputEvents,longFrames,receiptAckRtt,receiptAckEvents,samples,phases,statuses,errors,glErrors,diagnostic,remainingUnacked:sentAt.size,webSocketExtensions:net.ws?.extensions??null,renderer:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER),viewport:{width:innerWidth,height:innerHeight},renderSize:{width:view.renderer.domElement.width,height:view.renderer.domElement.height}};},
     close:()=>net.close(),
   };
 };`,

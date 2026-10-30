@@ -1,0 +1,573 @@
+[
+  {
+    "name": "input-receipt-unit",
+    "success": true,
+    "passed": 92,
+    "failed": 0,
+    "skipped": 0,
+    "files": [
+      {
+        "name": "bastion-preparation.test.ts",
+        "status": "passed",
+        "assertions": [
+          {
+            "title": "allocates full-capacity dynamic spark/flash colors before a first hit and draws zero instances",
+            "status": "passed"
+          },
+          {
+            "title": "keeps one reusable hidden model outside normal units and includes its visible halo",
+            "status": "passed"
+          },
+          {
+            "title": "preserves preparation resources hidden across real placement, clear and repeated preparation",
+            "status": "passed"
+          },
+          {
+            "title": "disposes preparation-owned clone/halo materials without prematurely releasing shared geometry or textures",
+            "status": "passed"
+          },
+          {
+            "title": "returns the same particle-only roots after model load failure so the ordinary fallback remains available",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "name": "front-network-input.test.ts",
+        "status": "passed",
+        "assertions": [
+          {
+            "title": "上り滞留の連続悪化だけを抑え、時計差と下り到着待ちを判定に混ぜない",
+            "status": "passed"
+          },
+          {
+            "title": "入力受信時刻が不明なら4件へ戻し、新接続では新しい時計差を学習する",
+            "status": "passed"
+          },
+          {
+            "title": "通常の混雑では短押しを保持し、移動は最新値で送る",
+            "status": "passed"
+          },
+          {
+            "title": "中断すると未送信タップを破棄し、再開後の新しいタップは送る",
+            "status": "passed"
+          },
+          {
+            "title": "中断しても送信間隔と4件のack待ち上限をリセットしない",
+            "status": "passed"
+          },
+          {
+            "title": "遅い下り応答900msでも操作送信を250ms以上空けない（legacy=false）",
+            "status": "passed"
+          },
+          {
+            "title": "遅い下り応答900msでも操作送信を250ms以上空けない（legacy=true）",
+            "status": "passed"
+          },
+          {
+            "title": "ACKが途絶えれば16件で停止し、受信後は最新移動と保持した短押しだけ送る（legacy=false）",
+            "status": "passed"
+          },
+          {
+            "title": "ACKが途絶えれば16件で停止し、受信後は最新移動と保持した短押しだけ送る（legacy=true）",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "name": "room-clock.test.ts",
+        "status": "passed",
+        "assertions": [
+          {
+            "title": "keeps thirty seconds of combat within one tick despite callback and work latency",
+            "status": "passed"
+          },
+          {
+            "title": "uses separate fixed ticks to recover a short stall and bounds a long suspension",
+            "status": "passed"
+          },
+          {
+            "title": "drops old debt on resume and handles a backwards system clock",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "name": "state-chunks.test.ts",
+        "status": "passed",
+        "assertions": [
+          {
+            "title": "100 byteを片上限内で正確に往復する",
+            "status": "passed"
+          },
+          {
+            "title": "65536 byteを片上限内で正確に往復する",
+            "status": "passed"
+          },
+          {
+            "title": "65537 byteを片上限内で正確に往復する",
+            "status": "passed"
+          },
+          {
+            "title": "262144 byteを片上限内で正確に往復する",
+            "status": "passed"
+          },
+          {
+            "title": "256KiB超と不正なsnapshot番号は分割しない",
+            "status": "passed"
+          },
+          {
+            "title": "日本語・絵文字・引用符・逆斜線もUTF8境界と各片上限を維持する",
+            "status": "passed"
+          },
+          {
+            "title": "最後の片まで部分Worldを返さず、受信期限は最初の片から2秒",
+            "status": "passed"
+          },
+          {
+            "title": "不正版を拒否し、次の正常snapshotで復帰する",
+            "status": "passed"
+          },
+          {
+            "title": "過大片数を拒否し、次の正常snapshotで復帰する",
+            "status": "passed"
+          },
+          {
+            "title": "片数0を拒否し、次の正常snapshotで復帰する",
+            "status": "passed"
+          },
+          {
+            "title": "不正indexを拒否し、次の正常snapshotで復帰する",
+            "status": "passed"
+          },
+          {
+            "title": "非整数snapshotを拒否し、次の正常snapshotで復帰する",
+            "status": "passed"
+          },
+          {
+            "title": "全体上限超を拒否し、次の正常snapshotで復帰する",
+            "status": "passed"
+          },
+          {
+            "title": "全体byte不一致を拒否し、次の正常snapshotで復帰する",
+            "status": "passed"
+          },
+          {
+            "title": "checksum不一致を拒否し、次の正常snapshotで復帰する",
+            "status": "passed"
+          },
+          {
+            "title": "同長内容破損を拒否し、次の正常snapshotで復帰する",
+            "status": "passed"
+          },
+          {
+            "title": "不正Unicodeを拒否し、次の正常snapshotで復帰する",
+            "status": "passed"
+          },
+          {
+            "title": "余分な項目を拒否し、次の正常snapshotで復帰する",
+            "status": "passed"
+          },
+          {
+            "title": "後半片の内容破損・JSON破損も途中Worldを公開しない",
+            "status": "passed"
+          },
+          {
+            "title": "順序逆転・重複・古いsnapshot・欠落片は受理しない",
+            "status": "passed"
+          },
+          {
+            "title": "新しいsnapshotまたは通常stateが古い未完snapshotを置き換える",
+            "status": "passed"
+          },
+          {
+            "title": "実UTF8で64KiB超の単一messageとstate以外の組立結果を拒否する",
+            "status": "passed"
+          },
+          {
+            "title": "96体の壁面PLEAT・295弾・160オーブを省略なしで往復する",
+            "status": "passed"
+          },
+          {
+            "title": "接続単位で組み立て、旧serverと再接続へ対応する: 通常",
+            "status": "passed"
+          },
+          {
+            "title": "接続単位で組み立て、旧serverと再接続へ対応する: 生存",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "name": "state-delivery.test.ts",
+        "status": "passed",
+        "assertions": [
+          {
+            "title": "limits a negotiated connection to two actual unacknowledged snapshots",
+            "status": "passed"
+          },
+          {
+            "title": "accepts only real sent IDs and cumulatively releases exactly through that ID",
+            "status": "passed"
+          },
+          {
+            "title": "one ACK opens one slot without releasing a later in-flight snapshot",
+            "status": "passed"
+          },
+          {
+            "title": "coalesces many dirty ticks to the latest World for only the acknowledged peer",
+            "status": "passed"
+          },
+          {
+            "title": "delivers the dirty final result when ACK arrives after the tick loop stopped",
+            "status": "passed"
+          },
+          {
+            "title": "partial chunk sends do not earn snapshot credits or advance events",
+            "status": "passed"
+          },
+          {
+            "title": "does not send an outer snapshot superseded by a disconnect-triggered broadcast",
+            "status": "passed"
+          },
+          {
+            "title": "keeps legacy connections unrestricted and ignores their ACK fields",
+            "status": "passed"
+          },
+          {
+            "title": "restores bounded same-WS credits but gives a true reconnect a fresh window",
+            "status": "passed"
+          },
+          {
+            "title": "rejects corrupt attachments and cannot manufacture credits from them",
+            "status": "passed"
+          },
+          {
+            "title": "attachment and inFlight snapshots cannot mutate the active window",
+            "status": "passed"
+          },
+          {
+            "title": "resets per-run event positions without losing old snapshot ACK credits",
+            "status": "passed"
+          },
+          {
+            "title": "retains undelivered events for a blocked peer and permits common duplicates",
+            "status": "passed"
+          },
+          {
+            "title": "does not make the 160-event buffer unbounded when a peer stalls forever",
+            "status": "passed"
+          },
+          {
+            "title": "legacy peers participate in retirement and disconnected peers stop retaining",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "name": "state-receipt.test.ts",
+        "status": "passed",
+        "assertions": [
+          {
+            "title": "旧サーバーへの新しい通知は交渉が成立するまで送らない",
+            "status": "passed"
+          },
+          {
+            "title": "受信した最新番号を通常入力へ同梱し、元の入力と送信頻度を変えない",
+            "status": "passed"
+          },
+          {
+            "title": "大量の受信でも無入力時の通知は10Hz以内で、重複・不正番号を無視する",
+            "status": "passed"
+          },
+          {
+            "title": "切断時に待ち通知を消し、新接続では小さい番号も受け取る",
+            "status": "passed"
+          },
+          {
+            "title": "20Hzの通常入力中はACK専用メッセージを増やさない",
+            "status": "passed"
+          },
+          {
+            "title": "front接続は検証済みstateだけを通知し、退出時にtimerを残さない",
+            "status": "passed"
+          },
+          {
+            "title": "legacy接続は検証済みstateだけを通知し、退出時にtimerを残さない",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "name": "state-tuples.test.ts",
+        "status": "passed",
+        "assertions": [
+          {
+            "title": "従来wire値へ可逆で、PLEAT・HP保護・武器端数・角度ビット列を維持する",
+            "status": "passed"
+          },
+          {
+            "title": "次の受信者の準備で共通の敵・弾・オーブtupleを再JSON化しない",
+            "status": "passed"
+          },
+          {
+            "title": "96敵・PLEAT48・4人・160オーブ・400弾で敵を省略せず容量内（装備cache=false）",
+            "status": "passed"
+          },
+          {
+            "title": "96敵・PLEAT48・4人・160オーブ・400弾で敵を省略せず容量内（装備cache=true）",
+            "status": "passed"
+          },
+          {
+            "title": "400弾へ実frontView・時刻・最長名・31予告の合成余裕を足しても全数が届く",
+            "status": "passed"
+          },
+          {
+            "title": "交渉前は従来形式、同じ準備の新旧送信順・装備cacheで符号列を混同しない",
+            "status": "passed"
+          },
+          {
+            "title": "マーカー欠落を例外なしで拒否し、途中復元しない",
+            "status": "passed"
+          },
+          {
+            "title": "角度ビット破損を例外なしで拒否し、途中復元しない",
+            "status": "passed"
+          },
+          {
+            "title": "owner表なしを例外なしで拒否し、途中復元しない",
+            "status": "passed"
+          },
+          {
+            "title": "owner表重複を例外なしで拒否し、途中復元しない",
+            "status": "passed"
+          },
+          {
+            "title": "owner不正indexを例外なしで拒否し、途中復元しない",
+            "status": "passed"
+          },
+          {
+            "title": "owner負indexを例外なしで拒否し、途中復元しない",
+            "status": "passed"
+          },
+          {
+            "title": "不正版を例外なしで拒否し、途中復元しない",
+            "status": "passed"
+          },
+          {
+            "title": "負のmaskを例外なしで拒否し、途中復元しない",
+            "status": "passed"
+          },
+          {
+            "title": "範囲外maskを例外なしで拒否し、途中復元しない",
+            "status": "passed"
+          },
+          {
+            "title": "欠落値を例外なしで拒否し、途中復元しない",
+            "status": "passed"
+          },
+          {
+            "title": "余分な値を例外なしで拒否し、途中復元しない",
+            "status": "passed"
+          },
+          {
+            "title": "数値破損を例外なしで拒否し、途中復元しない",
+            "status": "passed"
+          },
+          {
+            "title": "PLEAT破損を例外なしで拒否し、途中復元しない",
+            "status": "passed"
+          },
+          {
+            "title": "オーブ破損を例外なしで拒否し、途中復元しない",
+            "status": "passed"
+          },
+          {
+            "title": "大量敵を例外なしで拒否し、途中復元しない",
+            "status": "passed"
+          },
+          {
+            "title": "深い入れ子を例外なしで拒否し、途中復元しない",
+            "status": "passed"
+          },
+          {
+            "title": "新クライアントは旧サーバー、tuple、省略cache、破損受信へ対応する: class Network {\n\tendpoint;\n\tws;\n\tid = \"\";\n\ttoken = \"\";\n\tcode = \"\";\n\troomId = \"\";\n\troomName = \"\";\n\troomListed;\n\tretry = 0;\n\tclosed = false;\n\tlast = 0;\n\tmembers = [];\n\tstage = 1;\n\tpreparing = false;\n\tassetReady = false;\n\tpreparationGeneration = 0;\n\tplayerName = __vite_ssr_import_0__.DEFAULT_PLAYER_NAME;\n\tmessages = [];\n\tonChat = () => {};\n\tonWorld = () => {};\n\tonLobby = () => {};\n\tonStatus = () => {};\n\tready = () => {};\n\ttimer;\n\tequip = [];\n\tinputAt = -Infinity;\n\tpendingInput;\n\tusesInputAck = false;\n\tinFlightInputs = [];\n\tinputWindow = new __vite_ssr_import_7__.InputWindow();\n\tstateReceipt = new __vite_ssr_import_6__.StateReceipt(() => this.send({ type: \"stateAck\" }));\n\tconstructor(endpoint) {\n\t\tthis.endpoint = endpoint;\n\t\tthis.timer = setInterval(() => {\n\t\t\tif (this.ws?.readyState === 1 && this.id) this.send({ type: \"ping\" });\n\t\t\tif (this.ws?.readyState === 1 && Date.now() - this.last > 12e3) this.ws.close();\n\t\t}, 5e3);\n\t}\n\tasync create(turnstileToken, localCreationKey = \"\", options) {\n\t\tconst headers = {};\n\t\tif (turnstileToken) headers[\"X-Turnstile-Token\"] = turnstileToken;\n\t\tif (localCreationKey) headers[\"X-Room-Creation-Key\"] = localCreationKey;\n\t\tconst res = await fetch(`${this.endpoint}/rooms`, {\n\t\t\tmethod: \"POST\",\n\t\t\theaders,\n\t\t\tbody: options ? JSON.stringify(options) : undefined,\n\t\t\tredirect: \"error\",\n\t\t\tsignal: AbortSignal.timeout(7e3)\n\t\t});\n\t\tif (!res.ok) throw new Error((await res.json()).error ?? \"通信サーバーに接続できません\");\n\t\treturn (await res.json()).code;\n\t}\n\tconnect(code, token = \"\") {\n\t\tthis.stateReceipt.configure(false);\n\t\tthis.roomListed = undefined;\n\t\tif (this.code !== code) {\n\t\t\tthis.messages = [];\n\t\t\tthis.members = [];\n\t\t\tthis.assetReady = false;\n\t\t};\n\t\tthis.assetReady = false;\n\t\tthis.code = code;\n\t\tthis.token = token;\n\t\tthis.closed = false;\n\t\tthis.last = Date.now();\n\t\tconst ws = new WebSocket(`${this.endpoint.replace(/^http/, \"ws\")}/rooms/${code}`);\n\t\tthis.ws = ws;\n\t\tthis.inputAt = -Infinity;\n\t\tthis.pendingInput = undefined;\n\t\tthis.usesInputAck = false;\n\t\tthis.inFlightInputs = [];\n\t\tthis.inputWindow.configure(false);\n\t\tconst equipmentCache = new __vite_ssr_import_2__.EquipmentCache();\n\t\tconst omissionCache = new __vite_ssr_import_5__.StateOmissionCache();\n\t\tconst chunks = new __vite_ssr_import_4__.StateChunkAssembler();\n\t\tlet welcomed = false;\n\t\tlet firstState = true;\n\t\tconst timeout = setTimeout(() => {\n\t\t\tif (!welcomed) {\n\t\t\t\tws.close();\n\t\t\t\tthis.onStatus(\"接続がタイムアウトしました。装備画面に戻れます\", false);\n\t\t\t}\n\t\t}, 7e3);\n\t\tws.onopen = () => {\n\t\t\tthis.send({\n\t\t\t\ttype: \"hello\",\n\t\t\t\tequipmentCache: 1,\n\t\t\t\tstateOmissions: 1,\n\t\t\t\tstateTuples: 1,\n\t\t\t\tstateChunks: 1,\n\t\t\t\tstateFlow: 1,\n\t\t\t\tname: this.playerName,\n\t\t\t\t...this.token ? { token: this.token } : {}\n\t\t\t});\n\t\t};\n\t\tws.onmessage = (e) => {\n\t\t\tif (this.ws !== ws) return;\n\t\t\tthis.last = Date.now();\n\t\t\tlet m;\n\t\t\ttry {\n\t\t\t\t// Framing owns the unchanged per-message cap and clears corrupt assembly.\n\t\t\t\tm = chunks.read(e.data);\n\t\t\t\tif (!(0,__vite_ssr_import_3__.restoreStateTuples)(m)) return;\n\t\t\t\tif (!m || typeof m !== \"object\" || typeof m.type !== \"string\") return;\n\t\t\t\tif (m.type === \"welcome\" && (typeof m.id !== \"string\" || typeof m.token !== \"string\")) return;\n\t\t\t\tif ((m.type === \"state\" || m.type === \"lobby\") && (!Number.isSafeInteger(m.preparationGeneration) || m.preparationGeneration < 0 || !Array.isArray(m.members) || !m.members.every((p) => p && typeof p.id === \"string\" && typeof p.connected === \"boolean\" && typeof p.ready === \"boolean\"))) return;\n\t\t\t\tif (m.type === \"state\" && (!m.world || ![\n\t\t\t\t\t\"battle\",\n\t\t\t\t\t\"victory\",\n\t\t\t\t\t\"defeat\"\n\t\t\t\t].includes(m.world.phase) || !Array.isArray(m.world.players) || !Array.isArray(m.world.enemies))) return;\n\t\t\t\tif ((m.type === \"error\" || m.type === \"notice\") && typeof m.reason !== \"string\") return;\n\t\t\t} catch {\n\t\t\t\treturn;\n\t\t\t};\n\t\t\tif (m.type === \"state\" && !equipmentCache.restore(m.world, m.equipmentCached === true)) {\n\t\t\t\tws.close();\n\t\t\t\treturn;\n\t\t\t};\n\t\t\tif (m.type === \"state\" || m.type === \"lobby\") {\n\t\t\t\tif (this.preparationGeneration !== m.preparationGeneration) {\n\t\t\t\t\tthis.preparationGeneration = m.preparationGeneration;\n\t\t\t\t\tthis.assetReady = false;\n\t\t\t\t}\n\t\t\t};\n\t\t\tif (m.type === \"welcome\") {\n\t\t\t\twelcomed = true;\n\t\t\t\tclearTimeout(timeout);\n\t\t\t\tthis.id = m.id;\n\t\t\t\tthis.usesInputAck = m.inputAck === true;\n\t\t\t\tthis.stateReceipt.configure(m.stateFlow === true);\n\t\t\t\t// Keep a bounded window without starving a healthy uplink while\n\t\t\t\t// receipt ACKs share a slow snapshot downlink. Server expiry stays 250ms.\n\t\t\t\tthis.inputWindow.configure(m.stateFlow === true);\n\t\t\t\tthis.roomId = typeof m.roomId === \"string\" ? m.roomId : \"\";\n\t\t\t\tthis.roomName = typeof m.roomName === \"string\" ? m.roomName : \"\";\n\t\t\t\tthis.roomListed = typeof m.listed === \"boolean\" ? m.listed : undefined;\n\t\t\t\tthis.token = m.token;\n\t\t\t\tthis.retry = 0;\n\t\t\t\t// Keep identity in this tab across reloads. Never put the token in URLs or logs.\n\t\t\t\ttry {\n\t\t\t\t\tconst stored = JSON.stringify({\n\t\t\t\t\t\tversion: 1,\n\t\t\t\t\t\tendpoint: this.endpoint,\n\t\t\t\t\t\tcode: this.code,\n\t\t\t\t\t\ttoken: this.token,\n\t\t\t\t\t\texpiresAt: Date.now() + 60 * 60 * 1e3\n\t\t\t\t\t});\n\t\t\t\t\tsessionStorage.setItem(NETWORK_SESSION_KEY, stored);\n\t\t\t\t\tlocalStorage.setItem(NETWORK_SESSION_KEY, stored);\n\t\t\t\t} catch {};\n\t\t\t\tthis.onStatus(\"接続済み\", false);\n\t\t\t\tthis.send({\n\t\t\t\t\ttype: \"equip\",\n\t\t\t\t\tweapons: this.equip,\n\t\t\t\t\tready: !this.preparing && this.assetReady,\n\t\t\t\t\tstage: this.stage,\n\t\t\t\t\tpreparationGeneration: this.preparationGeneration\n\t\t\t\t});\n\t\t\t\tthis.ready();\n\t\t\t} else if (m.type === \"state\") {\n\t\t\t\tthis.stateReceipt.receive(m.stateId);\n\t\t\t\tif (this.usesInputAck && Number.isSafeInteger(m.inputAck)) {\n\t\t\t\t\tthis.inputWindow.acknowledge(m.inputAck, m.inputReceivedAt);\n\t\t\t\t\tthis.inFlightInputs = this.inFlightInputs.filter((seq) => seq > m.inputAck);\n\t\t\t\t};\n\t\t\t\tif ((0,__vite_ssr_import_1__.validStage)(m.stage) && this.stage !== m.stage) {\n\t\t\t\t\tthis.stage = m.stage;\n\t\t\t\t\tthis.assetReady = false;\n\t\t\t\t};\n\t\t\t\tthis.members = m.members;\n\t\t\t\tomissionCache.restore(m.world, m.omitted);\n\t\t\t\tthis.onWorld(m.world, firstState);\n\t\t\t\tfirstState = false;\n\t\t\t} else if (m.type === \"lobby\") {\n\t\t\t\tif ((0,__vite_ssr_import_1__.validStage)(m.stage) && this.stage !== m.stage) {\n\t\t\t\t\tthis.stage = m.stage;\n\t\t\t\t\tthis.assetReady = false;\n\t\t\t\t};\n\t\t\t\tthis.members = m.members;\n\t\t\t\tthis.onLobby();\n\t\t\t} else if (m.type === \"chatHistory\" && Array.isArray(m.messages)) {\n\t\t\t\tthis.messages = m.messages.filter((0,__vite_ssr_import_0__.isChatMessage)).slice(-__vite_ssr_import_0__.CHAT_HISTORY_LIMIT);\n\t\t\t\tthis.onChat();\n\t\t\t} else if (m.type === \"chat\" && (0,__vite_ssr_import_0__.isChatMessage)(m.message)) {\n\t\t\t\tif (!this.messages.some((entry) => entry.id === m.message.id)) this.messages = [...this.messages, m.message].slice(-__vite_ssr_import_0__.CHAT_HISTORY_LIMIT);\n\t\t\t\tthis.onChat();\n\t\t\t} else if (m.type === \"error\") {\n\t\t\t\tthis.stateReceipt.configure(false);\n\t\t\t\tthis.closed = true;\n\t\t\t\ttry {\n\t\t\t\t\tclearNetworkSession();\n\t\t\t\t} catch {};\n\t\t\t\tthis.onStatus(m.reason, true);\n\t\t\t} else if (m.type === \"notice\") this.onStatus(m.reason, false);\n\t\t};\n\t\tws.onclose = (e) => {\n\t\t\tclearTimeout(timeout);\n\t\t\tif (this.closed || this.ws !== ws) return;\n\t\t\tthis.stateReceipt.configure(false);\n\t\t\tif (e.code >= 4e3) {\n\t\t\t\tthis.closed = true;\n\t\t\t\tthis.onStatus(e.reason || \"復帰できません。装備画面へ戻ってください\", true);\n\t\t\t\treturn;\n\t\t\t};\n\t\t\tif (this.retry >= 5) {\n\t\t\t\tthis.closed = true;\n\t\t\t\tthis.onStatus(\"復帰できませんでした。装備画面へ戻ってください\", true);\n\t\t\t\treturn;\n\t\t\t};\n\t\t\tconst wait = [\n\t\t\t\t500,\n\t\t\t\t1e3,\n\t\t\t\t2e3,\n\t\t\t\t4e3,\n\t\t\t\t6e3\n\t\t\t][this.retry++];\n\t\t\tthis.onStatus(`通信切断 · 再接続 ${this.retry}/5（未確定品は勝利まで保存されません）`, false);\n\t\t\tsetTimeout(() => {\n\t\t\t\tif (!this.closed) this.connect(code, this.token);\n\t\t\t}, wait);\n\t\t};\n\t\tws.onerror = () => {};\n\t}\n\tsend(value) {\n\t\tif (this.ws?.readyState === 1) this.ws.send(JSON.stringify(this.stateReceipt.attach(value)));\n\t}\n\tinput(input) {\n\t\tif (this.ws?.readyState !== 1) return;\n\t\tconst pending = this.pendingInput;\n\t\tthis.pendingInput = {\n\t\t\t...input,\n\t\t\treload: input.reload || !!pending?.reload,\n\t\t\tswap: input.swap || !!pending?.swap,\n\t\t\tdodge: input.dodge || !!pending?.dodge,\n\t\t\tjump: input.jump || !!pending?.jump\n\t\t};\n\t\tconst now = performance.now();\n\t\t// Rendering stalls must not produce a burst of catch-up packets. Keep taps.\n\t\tif (now - this.inputAt < 50 || this.ws.bufferedAmount > 4096 || this.usesInputAck && this.inFlightInputs.length >= this.inputWindow.limit) return;\n\t\tthis.send({\n\t\t\ttype: \"input\",\n\t\t\tinput: this.pendingInput\n\t\t});\n\t\tif (this.usesInputAck) {\n\t\t\tthis.inFlightInputs.push(this.pendingInput.seq);\n\t\t\tthis.inputWindow.sent(this.pendingInput.seq);\n\t\t};\n\t\tthis.inputAt = now;\n\t\tthis.pendingInput = undefined;\n\t}\n\tequipment(weapons) {\n\t\tthis.equip = weapons;\n\t\tthis.assetReady = false;\n\t\tthis.send({\n\t\t\ttype: \"equip\",\n\t\t\tweapons,\n\t\t\tready: !this.preparing && this.assetReady,\n\t\t\tstage: this.stage,\n\t\t\tpreparationGeneration: this.preparationGeneration\n\t\t});\n\t}\n\tpreparation(preparing) {\n\t\tthis.preparing = preparing;\n\t\tthis.send({\n\t\t\ttype: \"ready\",\n\t\t\tready: !preparing && this.assetReady,\n\t\t\tstage: this.stage,\n\t\t\tpreparationGeneration: this.preparationGeneration\n\t\t});\n\t}\n\tsetAssetReady(ready, generation = this.preparationGeneration) {\n\t\tif (generation !== this.preparationGeneration) return;\n\t\tthis.assetReady = ready;\n\t\tthis.send({\n\t\t\ttype: \"ready\",\n\t\t\tready: ready && !this.preparing,\n\t\t\tstage: this.stage,\n\t\t\tpreparationGeneration: this.preparationGeneration\n\t\t});\n\t}\n\tsetPlayerName(name) {\n\t\tthis.playerName = (0,__vite_ssr_import_0__.normalizePlayerName)(name) || __vite_ssr_import_0__.DEFAULT_PLAYER_NAME;\n\t\tif (this.id) this.send({\n\t\t\ttype: \"profile\",\n\t\t\tname: this.playerName\n\t\t});\n\t}\n\tchatSentAt = 0;\n\tsendChat(text) {\n\t\tconst normalized = (0,__vite_ssr_import_0__.normalizeChatText)(text);\n\t\tif (!normalized || !this.id || this.closed || this.ws?.readyState !== 1 || Date.now() - this.chatSentAt < 1100) return false;\n\t\tthis.chatSentAt = Date.now();\n\t\tthis.send({\n\t\t\ttype: \"chat\",\n\t\t\ttext: normalized\n\t\t});\n\t\treturn true;\n\t}\n\tclose() {\n\t\tthis.stateReceipt.configure(false);\n\t\tthis.closed = true;\n\t\tclearInterval(this.timer);\n\t\tthis.ws?.close(1e3, \"退出\");\n\t\tclearNetworkSession();\n\t}\n}",
+            "status": "passed"
+          },
+          {
+            "title": "新クライアントは旧サーバー、tuple、省略cache、破損受信へ対応する: class FrontNetwork {\n\tendpoint;\n\tws;\n\tid = \"\";\n\ttoken = \"\";\n\tcode = \"\";\n\troomId = \"\";\n\troomName = \"\";\n\troomListed;\n\tretry = 0;\n\tclosed = false;\n\tlast = 0;\n\tmembers = [];\n\tstage = 1;\n\tpreparing = false;\n\tassetReady = false;\n\tpreparationGeneration = 0;\n\tplayerName = __vite_ssr_import_1__.DEFAULT_PLAYER_NAME;\n\tmessages = [];\n\tonChat = () => {};\n\tonWorld = () => {};\n\tfrontView;\n\tserverNow = 0;\n\tclockOffset = 0;\n\tmode = \"survival\";\n\tonLobby = () => {};\n\tonStatus = () => {};\n\tready = () => {};\n\ttimer;\n\tequip = [];\n\tupgradePool = [...__vite_ssr_import_0__.FRONT_BASE_IDS];\n\tclearedStage = 0;\n\tinputAt = -Infinity;\n\tpendingInput;\n\tusesInputAck = false;\n\tinFlightInputs = [];\n\tinputWindow = new __vite_ssr_import_8__.InputWindow();\n\tstateReceipt = new __vite_ssr_import_7__.StateReceipt(() => this.send({ type: \"stateAck\" }));\n\tconstructor(endpoint) {\n\t\tthis.endpoint = endpoint;\n\t\tthis.timer = setInterval(() => {\n\t\t\tif (this.ws?.readyState === 1 && this.id) this.send({ type: \"ping\" });\n\t\t\tif (this.ws?.readyState === 1 && Date.now() - this.last > 12e3) this.ws.close();\n\t\t}, 5e3);\n\t}\n\tasync create(turnstileToken, localCreationKey = \"\", options) {\n\t\tconst headers = {};\n\t\tif (turnstileToken) headers[\"X-Turnstile-Token\"] = turnstileToken;\n\t\tif (localCreationKey) headers[\"X-Room-Creation-Key\"] = localCreationKey;\n\t\tconst res = await fetch(`${this.endpoint}/rooms`, {\n\t\t\tmethod: \"POST\",\n\t\t\theaders,\n\t\t\tbody: JSON.stringify({\n\t\t\t\t...options,\n\t\t\t\truleset: \"front-v1\"\n\t\t\t}),\n\t\t\tredirect: \"error\",\n\t\t\tsignal: AbortSignal.timeout(7e3)\n\t\t});\n\t\tif (!res.ok) throw new Error((await res.json()).error ?? \"通信サーバーに接続できません\");\n\t\treturn (await res.json()).code;\n\t}\n\tconnect(code, token = \"\") {\n\t\tthis.stateReceipt.configure(false);\n\t\tthis.roomListed = undefined;\n\t\tif (this.code !== code) {\n\t\t\tthis.messages = [];\n\t\t\tthis.members = [];\n\t\t\tthis.assetReady = false;\n\t\t};\n\t\tthis.assetReady = false;\n\t\tthis.code = code;\n\t\tthis.token = token;\n\t\tthis.closed = false;\n\t\tthis.last = Date.now();\n\t\tconst ws = new WebSocket(`${this.endpoint.replace(/^http/, \"ws\")}/rooms/${code}?ruleset=front-v1`);\n\t\tthis.ws = ws;\n\t\tthis.inputAt = -Infinity;\n\t\tthis.pendingInput = undefined;\n\t\tthis.usesInputAck = false;\n\t\tthis.inFlightInputs = [];\n\t\tthis.inputWindow.configure(false);\n\t\tconst equipmentCache = new __vite_ssr_import_3__.EquipmentCache();\n\t\tconst omissionCache = new __vite_ssr_import_6__.StateOmissionCache();\n\t\tconst chunks = new __vite_ssr_import_5__.StateChunkAssembler();\n\t\tlet welcomed = false;\n\t\tlet firstState = true;\n\t\tconst timeout = setTimeout(() => {\n\t\t\tif (!welcomed) {\n\t\t\t\tws.close();\n\t\t\t\tthis.onStatus(\"接続がタイムアウトしました。装備画面に戻れます\", false);\n\t\t\t}\n\t\t}, 7e3);\n\t\tws.onopen = () => {\n\t\t\tthis.send({\n\t\t\t\ttype: \"hello\",\n\t\t\t\tclearedStage: this.clearedStage,\n\t\t\t\tequipmentCache: 1,\n\t\t\t\tstateOmissions: 1,\n\t\t\t\tstateTuples: 1,\n\t\t\t\tstateChunks: 1,\n\t\t\t\tstateFlow: 1,\n\t\t\t\tfrontGrowth: 3,\n\t\t\t\tfrontCatalog: 2,\n\t\t\t\tfrontOpening: 2,\n\t\t\t\tname: this.playerName,\n\t\t\t\t...this.token ? { token: this.token } : {}\n\t\t\t});\n\t\t};\n\t\tws.onmessage = (e) => {\n\t\t\tif (this.closed || this.ws !== ws) return;\n\t\t\tthis.last = Date.now();\n\t\t\tlet m;\n\t\t\ttry {\n\t\t\t\t// Framing owns the unchanged per-message cap and clears corrupt assembly.\n\t\t\t\tm = chunks.read(e.data);\n\t\t\t\tif (!(0,__vite_ssr_import_4__.restoreStateTuples)(m)) return;\n\t\t\t\tif (!m || typeof m !== \"object\" || typeof m.type !== \"string\") return;\n\t\t\t\tif (m.type === \"welcome\" && (typeof m.id !== \"string\" || typeof m.token !== \"string\")) return;\n\t\t\t\tif ((m.type === \"state\" || m.type === \"lobby\") && (!Number.isSafeInteger(m.preparationGeneration) || m.preparationGeneration < 0 || !Array.isArray(m.members) || !m.members.every((p) => p && typeof p.id === \"string\" && typeof p.connected === \"boolean\" && typeof p.ready === \"boolean\"))) return;\n\t\t\t\tif (m.type === \"state\" && (!m.world || ![\n\t\t\t\t\t\"battle\",\n\t\t\t\t\t\"victory\",\n\t\t\t\t\t\"defeat\"\n\t\t\t\t].includes(m.world.phase) || !Array.isArray(m.world.players) || !Array.isArray(m.world.enemies))) return;\n\t\t\t\tif ((m.type === \"error\" || m.type === \"notice\") && typeof m.reason !== \"string\") return;\n\t\t\t} catch {\n\t\t\t\treturn;\n\t\t\t};\n\t\t\tif (m.type === \"state\" && !equipmentCache.restore(m.world, m.equipmentCached === true)) {\n\t\t\t\tws.close();\n\t\t\t\treturn;\n\t\t\t};\n\t\t\tif (m.type === \"state\" || m.type === \"lobby\") {\n\t\t\t\tif (this.preparationGeneration !== m.preparationGeneration) {\n\t\t\t\t\tthis.preparationGeneration = m.preparationGeneration;\n\t\t\t\t\tthis.assetReady = false;\n\t\t\t\t}\n\t\t\t};\n\t\t\tif (m.type === \"welcome\") {\n\t\t\t\twelcomed = true;\n\t\t\t\tif (m.ruleset !== \"front-v1\") {\n\t\t\t\t\tthis.closed = true;\n\t\t\t\t\tws.close();\n\t\t\t\t\tthis.onStatus(\"改装版の部屋ではありません\", true);\n\t\t\t\t\treturn;\n\t\t\t\t};\n\t\t\t\tthis.mode = m.mode === \"daily\" || m.mode === \"defense\" ? m.mode : \"survival\";\n\t\t\t\tclearTimeout(timeout);\n\t\t\t\tthis.id = m.id;\n\t\t\t\tthis.usesInputAck = m.inputAck === true;\n\t\t\t\tthis.stateReceipt.configure(m.stateFlow === true);\n\t\t\t\t// Keep a bounded window without starving a healthy uplink while\n\t\t\t\t// receipt ACKs share a slow snapshot downlink. Server expiry stays 250ms.\n\t\t\t\tthis.inputWindow.configure(m.stateFlow === true);\n\t\t\t\tthis.roomId = typeof m.roomId === \"string\" ? m.roomId : \"\";\n\t\t\t\tthis.roomName = typeof m.roomName === \"string\" ? m.roomName : \"\";\n\t\t\t\tthis.roomListed = typeof m.listed === \"boolean\" ? m.listed : undefined;\n\t\t\t\tthis.token = m.token;\n\t\t\t\tthis.retry = 0;\n\t\t\t\tthis.rememberSession(Number.isFinite(m.expiresAt) ? m.expiresAt : Date.now() + 36e5);\n\t\t\t\tif (m.frontOpening !== 2) {\n\t\t\t\t\t// 古いWorkerへ新形式を送らず、復帰トークンを保持して更新を案内する。\n\t\t\t\t\tthis.closed = true;\n\t\t\t\t\tws.close();\n\t\t\t\t\tthis.onStatus(\"通信先の強化ルールが旧版です。少し待って画面を再読み込みしてください\", true);\n\t\t\t\t\treturn;\n\t\t\t\t};\n\t\t\t\tthis.onStatus(\"接続済み\", false);\n\t\t\t\tthis.send({\n\t\t\t\t\ttype: \"equip\",\n\t\t\t\t\tupgradePool: this.upgradePool,\n\t\t\t\t\tweapons: this.equip,\n\t\t\t\t\tready: !this.preparing && this.assetReady,\n\t\t\t\t\tstage: this.stage,\n\t\t\t\t\tpreparationGeneration: this.preparationGeneration\n\t\t\t\t});\n\t\t\t\tthis.ready();\n\t\t\t} else if (m.type === \"state\") {\n\t\t\t\tthis.stateReceipt.receive(m.stateId);\n\t\t\t\tif (this.usesInputAck && Number.isSafeInteger(m.inputAck)) {\n\t\t\t\t\tthis.inputWindow.acknowledge(m.inputAck, m.inputReceivedAt);\n\t\t\t\t\tthis.inFlightInputs = this.inFlightInputs.filter((seq) => seq > m.inputAck);\n\t\t\t\t};\n\t\t\t\tif ((0,__vite_ssr_import_2__.validStage)(m.stage) && this.stage !== m.stage) {\n\t\t\t\t\tthis.stage = m.stage;\n\t\t\t\t\tthis.assetReady = false;\n\t\t\t\t};\n\t\t\t\tthis.members = m.members;\n\t\t\t\tthis.frontView = m.frontView;\n\t\t\t\tif (Number.isFinite(m.expiresAt)) this.rememberSession(m.expiresAt);\n\t\t\t\telse if (this.frontView?.returnAt != null) this.rememberSession(this.frontView.returnAt * 1e3 + 12e4);\n\t\t\t\tthis.serverNow = m.serverNow;\n\t\t\t\tif (Number.isFinite(m.serverNow)) this.clockOffset = m.serverNow - Date.now() / 1e3;\n\t\t\t\tomissionCache.restore(m.world, m.omitted);\n\t\t\t\tthis.onWorld(m.world, firstState);\n\t\t\t\tfirstState = false;\n\t\t\t} else if (m.type === \"lobby\") {\n\t\t\t\tif ((0,__vite_ssr_import_2__.validStage)(m.stage) && this.stage !== m.stage) {\n\t\t\t\t\tthis.stage = m.stage;\n\t\t\t\t\tthis.assetReady = false;\n\t\t\t\t};\n\t\t\t\tthis.members = m.members;\n\t\t\t\tthis.onLobby();\n\t\t\t} else if (m.type === \"chatHistory\" && Array.isArray(m.messages)) {\n\t\t\t\tthis.messages = m.messages.filter((0,__vite_ssr_import_1__.isChatMessage)).slice(-__vite_ssr_import_1__.CHAT_HISTORY_LIMIT);\n\t\t\t\tthis.onChat();\n\t\t\t} else if (m.type === \"chat\" && (0,__vite_ssr_import_1__.isChatMessage)(m.message)) {\n\t\t\t\tif (!this.messages.some((entry) => entry.id === m.message.id)) this.messages = [...this.messages, m.message].slice(-__vite_ssr_import_1__.CHAT_HISTORY_LIMIT);\n\t\t\t\tthis.onChat();\n\t\t\t} else if (m.type === \"error\") {\n\t\t\t\tthis.stateReceipt.configure(false);\n\t\t\t\tthis.closed = true;\n\t\t\t\ttry {\n\t\t\t\t\tclearFrontNetworkSession();\n\t\t\t\t} catch {};\n\t\t\t\tthis.onStatus(m.reason, true);\n\t\t\t} else if (m.type === \"notice\") this.onStatus(m.reason, false);\n\t\t};\n\t\tws.onclose = (e) => {\n\t\t\tclearTimeout(timeout);\n\t\t\tif (this.closed || this.ws !== ws) return;\n\t\t\tthis.stateReceipt.configure(false);\n\t\t\tif (e.code >= 4e3) {\n\t\t\t\tthis.closed = true;\n\t\t\t\tthis.onStatus(e.reason || \"復帰できません。装備画面へ戻ってください\", true);\n\t\t\t\treturn;\n\t\t\t};\n\t\t\tif (this.retry >= 5) {\n\t\t\t\tthis.closed = true;\n\t\t\t\tthis.onStatus(\"復帰できませんでした。装備画面へ戻ってください\", true);\n\t\t\t\treturn;\n\t\t\t};\n\t\t\tconst wait = [\n\t\t\t\t500,\n\t\t\t\t1e3,\n\t\t\t\t2e3,\n\t\t\t\t4e3,\n\t\t\t\t6e3\n\t\t\t][this.retry++];\n\t\t\tthis.onStatus(`通信切断 · 再接続 ${this.retry}/5`, false);\n\t\t\tsetTimeout(() => {\n\t\t\t\tif (!this.closed) this.connect(code, this.token);\n\t\t\t}, wait);\n\t\t};\n\t\tws.onerror = () => {};\n\t}\n\trememberedExpiry = 0;\n\trememberSession(expiresAt) {\n\t\tif (this.rememberedExpiry === expiresAt) return;\n\t\ttry {\n\t\t\tconst stored = JSON.stringify({\n\t\t\t\tversion: 1,\n\t\t\t\tendpoint: this.endpoint,\n\t\t\t\tcode: this.code,\n\t\t\t\ttoken: this.token,\n\t\t\t\texpiresAt\n\t\t\t});\n\t\t\tsessionStorage.setItem(FRONT_NETWORK_SESSION_KEY, stored);\n\t\t\tlocalStorage.setItem(FRONT_NETWORK_SESSION_KEY, stored);\n\t\t\tthis.rememberedExpiry = expiresAt;\n\t\t} catch {}\n\t}\n\tsend(value) {\n\t\tif (this.ws?.readyState === 1) this.ws.send(JSON.stringify(this.stateReceipt.attach(value)));\n\t}\n\tdiscardPendingInput() {\n\t\t// 中断前の未送信タップだけ破棄。送信済み入力のack待ちと送信間隔は維持する。\n\t\tthis.pendingInput = undefined;\n\t}\n\tinput(input) {\n\t\tif (this.ws?.readyState !== 1) return;\n\t\tconst pending = this.pendingInput;\n\t\tthis.pendingInput = {\n\t\t\t...input,\n\t\t\treload: input.reload || !!pending?.reload,\n\t\t\tswap: input.swap || !!pending?.swap,\n\t\t\tdodge: input.dodge || !!pending?.dodge,\n\t\t\tjump: input.jump || !!pending?.jump\n\t\t};\n\t\tconst now = performance.now();\n\t\t// Rendering stalls must not produce a burst of catch-up packets. Keep taps.\n\t\tif (now - this.inputAt < 50 || this.ws.bufferedAmount > 4096 || this.usesInputAck && this.inFlightInputs.length >= this.inputWindow.limit) return;\n\t\tthis.send({\n\t\t\ttype: \"input\",\n\t\t\tinput: this.pendingInput\n\t\t});\n\t\tif (this.usesInputAck) {\n\t\t\tthis.inFlightInputs.push(this.pendingInput.seq);\n\t\t\tthis.inputWindow.sent(this.pendingInput.seq);\n\t\t};\n\t\tthis.inputAt = now;\n\t\tthis.pendingInput = undefined;\n\t}\n\tequipment(weapons) {\n\t\tthis.equip = weapons;\n\t\tthis.assetReady = false;\n\t\tthis.send({\n\t\t\ttype: \"equip\",\n\t\t\tclearedStage: this.clearedStage,\n\t\t\tupgradePool: this.upgradePool,\n\t\t\tweapons,\n\t\t\tready: !this.preparing && this.assetReady,\n\t\t\tstage: this.stage,\n\t\t\tpreparationGeneration: this.preparationGeneration\n\t\t});\n\t}\n\tpreparation(preparing) {\n\t\tthis.preparing = preparing;\n\t\tthis.send({\n\t\t\ttype: \"ready\",\n\t\t\tready: !preparing && this.assetReady,\n\t\t\tstage: this.stage,\n\t\t\tpreparationGeneration: this.preparationGeneration\n\t\t});\n\t}\n\tsetAssetReady(ready, generation = this.preparationGeneration) {\n\t\tif (generation !== this.preparationGeneration) return;\n\t\tthis.assetReady = ready;\n\t\tthis.send({\n\t\t\ttype: \"ready\",\n\t\t\tready: ready && !this.preparing,\n\t\t\tstage: this.stage,\n\t\t\tpreparationGeneration: this.preparationGeneration\n\t\t});\n\t}\n\tsetPlayerName(name) {\n\t\tthis.playerName = (0,__vite_ssr_import_1__.normalizePlayerName)(name) || __vite_ssr_import_1__.DEFAULT_PLAYER_NAME;\n\t\tif (this.id) this.send({\n\t\t\ttype: \"profile\",\n\t\t\tname: this.playerName\n\t\t});\n\t}\n\tchatSentAt = 0;\n\tsendChat(text) {\n\t\tconst normalized = (0,__vite_ssr_import_1__.normalizeChatText)(text);\n\t\tif (!normalized || !this.id || this.closed || this.ws?.readyState !== 1 || Date.now() - this.chatSentAt < 1100) return false;\n\t\tthis.chatSentAt = Date.now();\n\t\tthis.send({\n\t\t\ttype: \"chat\",\n\t\t\ttext: normalized\n\t\t});\n\t\treturn true;\n\t}\n\tclose() {\n\t\tthis.stateReceipt.configure(false);\n\t\tthis.closed = true;\n\t\tclearInterval(this.timer);\n\t\tthis.ws?.close(1e3, \"退出\");\n\t\tclearFrontNetworkSession();\n\t}\n}",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "name": "state-wire.test.ts",
+        "status": "passed",
+        "assertions": [
+          {
+            "title": "marks the first restored state on every connection, suppressing old reload speech",
+            "status": "passed"
+          },
+          {
+            "title": "shares encoding but isolates loot and preserves exact nested weapon values",
+            "status": "passed"
+          },
+          {
+            "title": "paces catch-up inputs without losing action taps",
+            "status": "passed"
+          },
+          {
+            "title": "bounds unacknowledged inputs and releases retained taps after acknowledgement",
+            "status": "passed"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "input-receipt-integration",
+    "success": true,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 14,
+    "files": [
+      {
+        "name": "front-network.integration.ts",
+        "status": "passed",
+        "assertions": [
+          {
+            "title": "同梱stateAckで解放した最初の状態に同じ入力の最新seqを含める",
+            "status": "passed"
+          },
+          {
+            "title": "受信待ちを2状態に制限し、旧接続を止めず、最後の結果と再接続を届ける",
+            "status": "passed"
+          },
+          {
+            "title": "分割対応4人へ合成1000弾の全戦況を原子的に復元する",
+            "status": "skipped"
+          },
+          {
+            "title": "配列対応4人へ400弾・全96敵・160オーブを省略せず送る",
+            "status": "skipped"
+          },
+          {
+            "title": "新旧画面が混在する実通信でもBASTIONの予告方向を維持する",
+            "status": "skipped"
+          },
+          {
+            "title": "4人の密集状態を省略可能なクライアントへ送り、切断せず権威状態を維持する",
+            "status": "skipped"
+          },
+          {
+            "title": "開幕世代：旧形式の固定指定を拒否し、トークンを保って更新後に出撃できる",
+            "status": "skipped"
+          },
+          {
+            "title": "開幕世代：装備済みロビーへ旧画面が戻りequipを送らなくても混在出撃を止める",
+            "status": "skipped"
+          },
+          {
+            "title": "開幕世代：進行中の作戦は旧画面の復帰でも抽選し直さず、取得も保持",
+            "status": "skipped"
+          },
+          {
+            "title": "新候補を設定したロビーへ旧画面で戻ると出撃を止め、更新後に同じ設定で出撃できる",
+            "status": "skipped"
+          },
+          {
+            "title": "融合規則：4人の個人設定・持込性能・再接続・途中変更禁止",
+            "status": "skipped"
+          },
+          {
+            "title": "60分の帰還境界で全員へ戦果を配信し、結果へ再接続できる",
+            "status": "skipped"
+          },
+          {
+            "title": "旧版の一覧・解決・接続と分離し、作成認証を維持する",
+            "status": "skipped"
+          },
+          {
+            "title": "4人で停止・個別選択・性能標準化・再接続・重複防止・再開を確認する",
+            "status": "skipped"
+          },
+          {
+            "title": "2人の共通期限15秒で未選択・切断者を確定し、復帰しても増殖しない",
+            "status": "skipped"
+          },
+          {
+            "title": "旧画面だけの部隊は7回ルールで出撃し、新作戦へ古い画面で復帰すると更新案内を返す",
+            "status": "skipped"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "legacy-input-integration",
+    "success": true,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 7,
+    "files": [
+      {
+        "name": "network.test.ts",
+        "status": "passed",
+        "assertions": [
+          {
+            "title": "requires credentials even with a forged/missing Origin; fake codes consume no global slots",
+            "status": "skipped"
+          },
+          {
+            "title": "keeps disconnected HP/ammo/timers, pauses all-disconnected, resumes identical state within 30 seconds",
+            "status": "skipped"
+          },
+          {
+            "title": "retains the 30-second disconnected participant expiry",
+            "status": "skipped"
+          },
+          {
+            "title": "keeps an idle downed ally connected and revivable, then persists and replays individual rewards safely",
+            "status": "skipped"
+          },
+          {
+            "title": "accepts four participants and rejects the fifth, without BroadcastChannel",
+            "status": "passed"
+          },
+          {
+            "title": "two sockets share enemy HP, kills, phase and reconnect identity; late joins rejected",
+            "status": "passed"
+          },
+          {
+            "title": "rejects invalid input, oversized packets and flooding",
+            "status": "passed"
+          },
+          {
+            "title": "preserves normal v2 and legacy weapon stats across real cooperative transport and rejects invalid v2",
+            "status": "passed"
+          },
+          {
+            "title": "rejects stale readiness after ABA stage changes, peer equipment and reconnect",
+            "status": "passed"
+          },
+          {
+            "title": "client blocks immediate chat repeats and clears readiness when equipment changes",
+            "status": "passed"
+          },
+          {
+            "title": "changes stage after victory, shares rematch equipment and waits for renewed readiness",
+            "status": "skipped"
+          },
+          {
+            "title": "authenticates names and chat, limits spam, isolates rooms and gates changed stages",
+            "status": "skipped"
+          },
+          {
+            "title": "retains only the newest 50 messages and synchronizes reconnect without identity leakage",
+            "status": "skipped"
+          }
+        ]
+      }
+    ]
+  }
+]

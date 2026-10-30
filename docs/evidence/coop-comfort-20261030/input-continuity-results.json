@@ -1,0 +1,2894 @@
+{
+  "method": "4 local Chrome processes with blank profiles, legal pilot controls and real Worker; 1 renderer, 3 network-only clients. Link limits apply to uncompressed payload. Different seeds, not matched performance trials. functionalPass is not a smoothness guarantee.",
+  "activeDefinition": "combat, more than one second after resumeUntil; gaps require both endpoints within the same resume interval. Includes dead players; no claim of end-to-end physical action latency.",
+  "trials": [
+    {
+      "name": "live-flow-input-trace",
+      "functionalPass": true,
+      "sourcesStable": true,
+      "sourceHashes": {
+        "server/worker.ts": "ca3d0300460653d6f1768edad273164814c733fc2b8ea79288e1d3ebdb99941c",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "server/state-delivery.ts": "4e36a7644b7590cb3b863de872b235b4ed1f58d8b6f6cea248ff3a99fff0de1d",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "9c505a9b60880d8b6e3a06b553bf0f23120a1f7491ae4734f932281413a5efe5",
+        "src/client/state-receipt.ts": "a636d4d1aea402cf2a87fbbf6915c6311dd050374056d3775951bf47693c6124",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "1e111f7ca7e73a9f7f34cbb75b5a617da55be02928d685ef432eb3beeaef1dd2",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "ddf11be5067c634bc79dc37cca76d26480c10373da5c48c5b7cb1d41e7094752",
+        "scripts/local-websocket-shaper.mjs": "71eaadb66a868bbc190659768e78bda26686c5a22a26055c7b31a0a42bfc88e1"
+      },
+      "secondsRequested": 120,
+      "profileEnabled": false,
+      "renderClients": 1,
+      "linkConfig": {
+        "latencyMs": 75,
+        "bytesPerSecond": 131072
+      },
+      "inputWindowOverride": 0,
+      "preparations": [
+        {
+          "ms": 12538.100000023842,
+          "actors": 4,
+          "preparationRestored": true,
+          "programCount": 38
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        }
+      ],
+      "errors": [],
+      "clients": [
+        {
+          "client": 0,
+          "gameSeconds": 117.30000000000001,
+          "frames": {
+            "samples": 7189,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 50
+          },
+          "renderCpu": {
+            "samples": 7189,
+            "p50": 5.7,
+            "p95": 10.8,
+            "max": 63.7
+          },
+          "ackObservedRtt": {
+            "samples": 454,
+            "p50": 477.1,
+            "p95": 678,
+            "max": 798.5
+          },
+          "receiptAckRtt": {
+            "samples": 498,
+            "p50": 496.8,
+            "p95": 765.2,
+            "max": 875.4
+          },
+          "activeSamples": 579,
+          "zeroAckOutsideResume": 131,
+          "activeInputGapsMs": {
+            "count": 768,
+            "p50": 116.40000003576279,
+            "p95": 499.9000000357628,
+            "max": 716.5
+          },
+          "activeInputGapsOver250Ms": 64,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 117.4,
+            "phase": "combat",
+            "hp": 21.48,
+            "enemies": 90
+          }
+        },
+        {
+          "client": 1,
+          "gameSeconds": 117.25,
+          "frames": {
+            "samples": 7201,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.6
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 422,
+            "p50": 461.2,
+            "p95": 659.7,
+            "max": 825.3
+          },
+          "receiptAckRtt": {
+            "samples": 453,
+            "p50": 472.6,
+            "p95": 710.7,
+            "max": 879.7
+          },
+          "activeSamples": 572,
+          "zeroAckOutsideResume": 161,
+          "activeInputGapsMs": {
+            "count": 759,
+            "p50": 83.5,
+            "p95": 566.8999999761581,
+            "max": 739.5
+          },
+          "activeInputGapsOver250Ms": 92,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 117.35,
+            "phase": "combat",
+            "hp": 5.79,
+            "enemies": 90
+          }
+        },
+        {
+          "client": 2,
+          "gameSeconds": 117.10000000000001,
+          "frames": {
+            "samples": 7201,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.6
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 425,
+            "p50": 456.6,
+            "p95": 686.3,
+            "max": 775.7
+          },
+          "receiptAckRtt": {
+            "samples": 475,
+            "p50": 472.3,
+            "p95": 773.5,
+            "max": 898.9
+          },
+          "activeSamples": 575,
+          "zeroAckOutsideResume": 160,
+          "activeInputGapsMs": {
+            "count": 761,
+            "p50": 100.19999998807907,
+            "p95": 527,
+            "max": 733.2000000476837
+          },
+          "activeInputGapsOver250Ms": 82,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 117.2,
+            "phase": "combat",
+            "hp": 10.76,
+            "enemies": 91
+          }
+        },
+        {
+          "client": 3,
+          "gameSeconds": 117.25,
+          "frames": {
+            "samples": 7201,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.7
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 426,
+            "p50": 463.7,
+            "p95": 650.1,
+            "max": 721.5
+          },
+          "receiptAckRtt": {
+            "samples": 442,
+            "p50": 469.9,
+            "p95": 668.6,
+            "max": 726.8
+          },
+          "activeSamples": 575,
+          "zeroAckOutsideResume": 159,
+          "activeInputGapsMs": {
+            "count": 757,
+            "p50": 84,
+            "p95": 569.1999999880791,
+            "max": 700.1999999880791
+          },
+          "activeInputGapsOver250Ms": 79,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 117.4,
+            "phase": "combat",
+            "hp": 52.09,
+            "enemies": 90
+          }
+        }
+      ]
+    },
+    {
+      "name": "live-input-window-16",
+      "functionalPass": true,
+      "sourcesStable": true,
+      "sourceHashes": {
+        "server/worker.ts": "a7038376fb1f5cee9cc3f4454038a0c333563d3429341b4ceebc74d2f5d09d33",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "server/state-delivery.ts": "4e36a7644b7590cb3b863de872b235b4ed1f58d8b6f6cea248ff3a99fff0de1d",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "1cac90f1886cc988812db5a23da10d88bd2ece3e2ddf3c12c6e972c44fbaf1e7",
+        "src/client/state-receipt.ts": "a636d4d1aea402cf2a87fbbf6915c6311dd050374056d3775951bf47693c6124",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "1e111f7ca7e73a9f7f34cbb75b5a617da55be02928d685ef432eb3beeaef1dd2",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "86a95d156a49d29b4e13c42454f821d8a2cc3e5752cd1506d39eef28b001fe38",
+        "scripts/local-websocket-shaper.mjs": "f099a4c55b91a4aa73309e5aaf14e7a331ead409b6caed67159840c7469c0205"
+      },
+      "secondsRequested": 120,
+      "profileEnabled": false,
+      "renderClients": 1,
+      "linkConfig": {
+        "latencyMs": 75,
+        "bytesPerSecond": 131072
+      },
+      "releaseAfterSeconds": 0,
+      "inputWindowOverride": 0,
+      "preparations": [
+        {
+          "ms": 12633.300000011921,
+          "actors": 4,
+          "preparationRestored": true,
+          "programCount": 38
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        }
+      ],
+      "errors": [],
+      "clients": [
+        {
+          "client": 0,
+          "gameSeconds": 117.64999999999999,
+          "frames": {
+            "samples": 7171,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 350.1
+          },
+          "renderCpu": {
+            "samples": 7142,
+            "p50": 6,
+            "p95": 11.1,
+            "max": 96.7
+          },
+          "ackObservedRtt": {
+            "samples": 658,
+            "p50": 388.2,
+            "p95": 473.3,
+            "max": 639.5
+          },
+          "receiptAckRtt": {
+            "samples": 667,
+            "p50": 325.4,
+            "p95": 408.5,
+            "max": 575.4
+          },
+          "activeSamples": 641,
+          "zeroAckOutsideResume": 1,
+          "activeInputGapsMs": {
+            "count": 1935,
+            "p50": 61.89999997615814,
+            "p95": 66.90000003576279,
+            "max": 365.60000002384186
+          },
+          "activeInputGapsOver250Ms": 1,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [
+            {
+              "ms": 111089.40000001193,
+              "durationMs": 350.1000000000058,
+              "gameTime": 108.8,
+              "phase": "combat",
+              "enemyKinds": {
+                "bastion": 1,
+                "spitter": 13,
+                "crawler": 34
+              }
+            }
+          ],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 117.8,
+            "phase": "combat",
+            "hp": 102.06,
+            "enemies": 47
+          }
+        },
+        {
+          "client": 1,
+          "gameSeconds": 117.7,
+          "frames": {
+            "samples": 7201,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 20.6
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 655,
+            "p50": 387.4,
+            "p95": 474.1,
+            "max": 694.7
+          },
+          "receiptAckRtt": {
+            "samples": 664,
+            "p50": 327.8,
+            "p95": 409.1,
+            "max": 553.6
+          },
+          "activeSamples": 637,
+          "zeroAckOutsideResume": 0,
+          "activeInputGapsMs": {
+            "count": 1944,
+            "p50": 61.80000001192093,
+            "p95": 66.90000003576279,
+            "max": 70
+          },
+          "activeInputGapsOver250Ms": 0,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 117.8,
+            "phase": "combat",
+            "hp": 89.22,
+            "enemies": 47
+          }
+        },
+        {
+          "client": 2,
+          "gameSeconds": 117.7,
+          "frames": {
+            "samples": 7201,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 19.5
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 662,
+            "p50": 380.9,
+            "p95": 462.9,
+            "max": 713.6
+          },
+          "receiptAckRtt": {
+            "samples": 672,
+            "p50": 322.1,
+            "p95": 403.1,
+            "max": 549.1
+          },
+          "activeSamples": 644,
+          "zeroAckOutsideResume": 1,
+          "activeInputGapsMs": {
+            "count": 1939,
+            "p50": 62.69999998807907,
+            "p95": 66.90000003576279,
+            "max": 70.39999997615814
+          },
+          "activeInputGapsOver250Ms": 0,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 117.8,
+            "phase": "combat",
+            "hp": 116.27,
+            "enemies": 47
+          }
+        },
+        {
+          "client": 3,
+          "gameSeconds": 117.5,
+          "frames": {
+            "samples": 7201,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 19.6
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 661,
+            "p50": 383.6,
+            "p95": 470.9,
+            "max": 599.8
+          },
+          "receiptAckRtt": {
+            "samples": 670,
+            "p50": 324.6,
+            "p95": 404.6,
+            "max": 534.4
+          },
+          "activeSamples": 643,
+          "zeroAckOutsideResume": 0,
+          "activeInputGapsMs": {
+            "count": 1936,
+            "p50": 63.10000002384186,
+            "p95": 66.90000003576279,
+            "max": 70.69999998807907
+          },
+          "activeInputGapsOver250Ms": 0,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 117.6,
+            "phase": "combat",
+            "hp": 0,
+            "enemies": 47
+          }
+        }
+      ]
+    },
+    {
+      "name": "live-input-window-slow-up",
+      "functionalPass": true,
+      "sourcesStable": true,
+      "sourceHashes": {
+        "server/worker.ts": "a7038376fb1f5cee9cc3f4454038a0c333563d3429341b4ceebc74d2f5d09d33",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "server/state-delivery.ts": "4e36a7644b7590cb3b863de872b235b4ed1f58d8b6f6cea248ff3a99fff0de1d",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "1cac90f1886cc988812db5a23da10d88bd2ece3e2ddf3c12c6e972c44fbaf1e7",
+        "src/client/state-receipt.ts": "a636d4d1aea402cf2a87fbbf6915c6311dd050374056d3775951bf47693c6124",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "1e111f7ca7e73a9f7f34cbb75b5a617da55be02928d685ef432eb3beeaef1dd2",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "86a95d156a49d29b4e13c42454f821d8a2cc3e5752cd1506d39eef28b001fe38",
+        "scripts/local-websocket-shaper.mjs": "f099a4c55b91a4aa73309e5aaf14e7a331ead409b6caed67159840c7469c0205"
+      },
+      "secondsRequested": 30,
+      "profileEnabled": false,
+      "renderClients": 1,
+      "linkConfig": {
+        "latencyMs": 75,
+        "bytesPerSecond": 16777216,
+        "upBytesPerSecond": 1000
+      },
+      "releaseAfterSeconds": 15,
+      "inputWindowOverride": 0,
+      "preparations": [
+        {
+          "ms": 16301.199999988079,
+          "actors": 4,
+          "preparationRestored": true,
+          "programCount": 38
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        }
+      ],
+      "errors": [],
+      "clients": [
+        {
+          "client": 0,
+          "gameSeconds": 28.849999999999998,
+          "frames": {
+            "samples": 1798,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 50.1
+          },
+          "renderCpu": {
+            "samples": 1735,
+            "p50": 5.8,
+            "p95": 10.7,
+            "max": 41
+          },
+          "ackObservedRtt": {
+            "samples": 28,
+            "p50": 2528.5,
+            "p95": 3683.9,
+            "max": 3693.7
+          },
+          "receiptAckRtt": {
+            "samples": 29,
+            "p50": 2147,
+            "p95": 3174.6,
+            "max": 3190.3
+          },
+          "activeSamples": 27,
+          "zeroAckOutsideResume": 1,
+          "activeInputGapsMs": {
+            "count": 152,
+            "p50": 66.09999996423721,
+            "p95": 1033.1000000238419,
+            "max": 1500.1000000238419
+          },
+          "activeInputGapsOver250Ms": 21,
+          "releaseReceiptSinceIntentMs": 2298.5,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 28.9,
+            "phase": "combat",
+            "hp": 160,
+            "enemies": 56
+          }
+        },
+        {
+          "client": 1,
+          "gameSeconds": 29,
+          "frames": {
+            "samples": 1802,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.2
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 29,
+            "p50": 2479.5,
+            "p95": 3659.4,
+            "max": 3663.8
+          },
+          "receiptAckRtt": {
+            "samples": 29,
+            "p50": 2011.6,
+            "p95": 2923.9,
+            "max": 2958.5
+          },
+          "activeSamples": 27,
+          "zeroAckOutsideResume": 0,
+          "activeInputGapsMs": {
+            "count": 152,
+            "p50": 66.19999998807907,
+            "p95": 1000.1000000238419,
+            "max": 1583.2000000476837
+          },
+          "activeInputGapsOver250Ms": 23,
+          "releaseReceiptSinceIntentMs": 2824.699999988079,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 29.1,
+            "phase": "combat",
+            "hp": 160,
+            "enemies": 58
+          }
+        },
+        {
+          "client": 2,
+          "gameSeconds": 29.7,
+          "frames": {
+            "samples": 1802,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.1
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 25,
+            "p50": 2560.8,
+            "p95": 3776.3,
+            "max": 3805.2
+          },
+          "receiptAckRtt": {
+            "samples": 26,
+            "p50": 2165.7,
+            "p95": 3374.6,
+            "max": 3378.1
+          },
+          "activeSamples": 43,
+          "zeroAckOutsideResume": 19,
+          "activeInputGapsMs": {
+            "count": 118,
+            "p50": 65.59999996423721,
+            "p95": 1299.0999999642372,
+            "max": 1984.199999988079
+          },
+          "activeInputGapsOver250Ms": 14,
+          "releaseReceiptSinceIntentMs": 3406.899999976158,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 29.8,
+            "phase": "combat",
+            "hp": 0,
+            "enemies": 58
+          }
+        },
+        {
+          "client": 3,
+          "gameSeconds": 29.25,
+          "frames": {
+            "samples": 1802,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.1
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 29,
+            "p50": 2494.4,
+            "p95": 3659.4,
+            "max": 3697.8
+          },
+          "receiptAckRtt": {
+            "samples": 29,
+            "p50": 2019.3,
+            "p95": 2941.4,
+            "max": 2941.5
+          },
+          "activeSamples": 27,
+          "zeroAckOutsideResume": 0,
+          "activeInputGapsMs": {
+            "count": 152,
+            "p50": 65.89999997615814,
+            "p95": 1050.2000000476837,
+            "max": 1666.699999988079
+          },
+          "activeInputGapsOver250Ms": 26,
+          "releaseReceiptSinceIntentMs": 3166.800000011921,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 29.35,
+            "phase": "combat",
+            "hp": 83.3,
+            "enemies": 58
+          }
+        }
+      ]
+    },
+    {
+      "name": "live-input-window-4-slow-up",
+      "functionalPass": true,
+      "sourcesStable": true,
+      "sourceHashes": {
+        "server/worker.ts": "a7038376fb1f5cee9cc3f4454038a0c333563d3429341b4ceebc74d2f5d09d33",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "server/state-delivery.ts": "4e36a7644b7590cb3b863de872b235b4ed1f58d8b6f6cea248ff3a99fff0de1d",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "1cac90f1886cc988812db5a23da10d88bd2ece3e2ddf3c12c6e972c44fbaf1e7",
+        "src/client/state-receipt.ts": "a636d4d1aea402cf2a87fbbf6915c6311dd050374056d3775951bf47693c6124",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "1e111f7ca7e73a9f7f34cbb75b5a617da55be02928d685ef432eb3beeaef1dd2",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "232a6edf89a1ebac6381e5beb24fe1e216f32fed7e68bf751a443e5617810d26",
+        "scripts/local-websocket-shaper.mjs": "f099a4c55b91a4aa73309e5aaf14e7a331ead409b6caed67159840c7469c0205"
+      },
+      "secondsRequested": 30,
+      "profileEnabled": false,
+      "renderClients": 1,
+      "linkConfig": {
+        "latencyMs": 75,
+        "bytesPerSecond": 16777216,
+        "upBytesPerSecond": 1000
+      },
+      "releaseAfterSeconds": 15,
+      "inputWindowOverride": 4,
+      "preparations": [
+        {
+          "ms": 15131.900000035763,
+          "actors": 4,
+          "preparationRestored": true,
+          "programCount": 38
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        }
+      ],
+      "errors": [],
+      "clients": [
+        {
+          "client": 0,
+          "gameSeconds": 29.5,
+          "frames": {
+            "samples": 1790,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 133.2
+          },
+          "renderCpu": {
+            "samples": 1789,
+            "p50": 6.2,
+            "p95": 11.7,
+            "max": 28.1
+          },
+          "ackObservedRtt": {
+            "samples": 89,
+            "p50": 843.8,
+            "p95": 1192.5,
+            "max": 1207.3
+          },
+          "receiptAckRtt": {
+            "samples": 89,
+            "p50": 643.7,
+            "p95": 943.6,
+            "max": 946.8
+          },
+          "activeSamples": 89,
+          "zeroAckOutsideResume": 2,
+          "activeInputGapsMs": {
+            "count": 141,
+            "p50": 82.89999997615814,
+            "p95": 681.4000000357628,
+            "max": 700.6000000238419
+          },
+          "activeInputGapsOver250Ms": 37,
+          "releaseReceiptSinceIntentMs": 939.8000000119209,
+          "longFrames": [
+            {
+              "ms": 27743.4,
+              "durationMs": 133.20000000000437,
+              "gameTime": 27.6,
+              "phase": "combat",
+              "enemyKinds": {
+                "crawler": 51
+              }
+            }
+          ],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 29.65,
+            "phase": "combat",
+            "hp": 0,
+            "enemies": 55
+          }
+        },
+        {
+          "client": 1,
+          "gameSeconds": 29.5,
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.1
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 90,
+            "p50": 834.3,
+            "p95": 1174.4,
+            "max": 1189.8
+          },
+          "receiptAckRtt": {
+            "samples": 90,
+            "p50": 647.2,
+            "p95": 930.6,
+            "max": 955.7
+          },
+          "activeSamples": 89,
+          "zeroAckOutsideResume": 1,
+          "activeInputGapsMs": {
+            "count": 147,
+            "p50": 134.5,
+            "p95": 466.5,
+            "max": 483.5
+          },
+          "activeInputGapsOver250Ms": 54,
+          "releaseReceiptSinceIntentMs": 908.5,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 29.65,
+            "phase": "combat",
+            "hp": 134,
+            "enemies": 55
+          }
+        },
+        {
+          "client": 2,
+          "gameSeconds": 29.65,
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.2
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 83,
+            "p50": 842,
+            "p95": 1195.8,
+            "max": 1214.8
+          },
+          "receiptAckRtt": {
+            "samples": 83,
+            "p50": 647.7,
+            "p95": 948,
+            "max": 962.9
+          },
+          "activeSamples": 94,
+          "zeroAckOutsideResume": 13,
+          "activeInputGapsMs": {
+            "count": 130,
+            "p50": 99.80000001192093,
+            "p95": 686,
+            "max": 716.8000000119209
+          },
+          "activeInputGapsOver250Ms": 34,
+          "releaseReceiptSinceIntentMs": 1001.3999999761581,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 29.75,
+            "phase": "combat",
+            "hp": 0,
+            "enemies": 55
+          }
+        },
+        {
+          "client": 3,
+          "gameSeconds": 29.7,
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.1
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 91,
+            "p50": 844.5,
+            "p95": 1186.1,
+            "max": 1197.5
+          },
+          "receiptAckRtt": {
+            "samples": 90,
+            "p50": 662.7,
+            "p95": 938.1,
+            "max": 962.1
+          },
+          "activeSamples": 90,
+          "zeroAckOutsideResume": 1,
+          "activeInputGapsMs": {
+            "count": 143,
+            "p50": 117,
+            "p95": 483.60000002384186,
+            "max": 533.3999999761581
+          },
+          "activeInputGapsOver250Ms": 42,
+          "releaseReceiptSinceIntentMs": 1032.9000000357628,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 29.8,
+            "phase": "combat",
+            "hp": 0,
+            "enemies": 55
+          }
+        }
+      ]
+    },
+    {
+      "name": "live-input-adaptive-slow-up",
+      "functionalPass": true,
+      "sourcesStable": true,
+      "sourceHashes": {
+        "server/worker.ts": "f123c65a0147062feb8fd7c1c5ce9520188928c6d2c7a59b89b8187fbc59f113",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "server/state-delivery.ts": "4e36a7644b7590cb3b863de872b235b4ed1f58d8b6f6cea248ff3a99fff0de1d",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "f63578a3de693f99f3acbe311c46534ce2fd85b6a13dfe67a2098698b956fed2",
+        "src/client/state-receipt.ts": "a636d4d1aea402cf2a87fbbf6915c6311dd050374056d3775951bf47693c6124",
+        "src/client/input-window.ts": "76a9131606de7c31f6286b32c92fdc1ded8e22b3a659067b75ab1207a2b1bae0",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "1e111f7ca7e73a9f7f34cbb75b5a617da55be02928d685ef432eb3beeaef1dd2",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "fc77d22d54fc9e4393663b6a15d24809f4669293f4a4e9e72b41890bc52976e3",
+        "scripts/local-websocket-shaper.mjs": "f099a4c55b91a4aa73309e5aaf14e7a331ead409b6caed67159840c7469c0205"
+      },
+      "secondsRequested": 30,
+      "profileEnabled": false,
+      "renderClients": 1,
+      "linkConfig": {
+        "latencyMs": 75,
+        "bytesPerSecond": 16777216,
+        "upBytesPerSecond": 1000
+      },
+      "releaseAfterSeconds": 15,
+      "inputWindowOverride": 0,
+      "preparations": [
+        {
+          "ms": 13673.700000047684,
+          "actors": 4,
+          "preparationRestored": true,
+          "programCount": 38
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        }
+      ],
+      "errors": [],
+      "clients": [
+        {
+          "client": 0,
+          "gameSeconds": 29.7,
+          "frames": {
+            "samples": 1799,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 49.9
+          },
+          "renderCpu": {
+            "samples": 1780,
+            "p50": 6.1,
+            "p95": 11.3,
+            "max": 31.1
+          },
+          "ackObservedRtt": {
+            "samples": 82,
+            "p50": 838.6,
+            "p95": 1198.2,
+            "max": 2647
+          },
+          "receiptAckRtt": {
+            "samples": 83,
+            "p50": 639.3,
+            "p95": 998.6,
+            "max": 2647.3
+          },
+          "activeSamples": 83,
+          "zeroAckOutsideResume": 2,
+          "activeInputGapsMs": {
+            "count": 138,
+            "p50": 100.10000002384186,
+            "p95": 699.3000000119209,
+            "max": 2649.800000011921
+          },
+          "activeInputGapsOver250Ms": 44,
+          "releaseReceiptSinceIntentMs": 949.3000000119209,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 29.75,
+            "phase": "combat",
+            "hp": 10.7,
+            "enemies": 58
+          }
+        },
+        {
+          "client": 1,
+          "gameSeconds": 29.7,
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 18.1
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 82,
+            "p50": 847.5,
+            "p95": 1193.4,
+            "max": 2322.9
+          },
+          "receiptAckRtt": {
+            "samples": 86,
+            "p50": 653,
+            "p95": 954,
+            "max": 2323.1
+          },
+          "activeSamples": 84,
+          "zeroAckOutsideResume": 4,
+          "activeInputGapsMs": {
+            "count": 136,
+            "p50": 83.5,
+            "p95": 699,
+            "max": 766.3999999761581
+          },
+          "activeInputGapsOver250Ms": 31,
+          "releaseReceiptSinceIntentMs": 929.6999999880791,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 29.8,
+            "phase": "combat",
+            "hp": 74.2,
+            "enemies": 58
+          }
+        },
+        {
+          "client": 2,
+          "gameSeconds": 29.7,
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 18
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 75,
+            "p50": 825.6,
+            "p95": 1195.4,
+            "max": 2336.5
+          },
+          "receiptAckRtt": {
+            "samples": 79,
+            "p50": 655.3,
+            "p95": 988.9,
+            "max": 2336.6
+          },
+          "activeSamples": 91,
+          "zeroAckOutsideResume": 18,
+          "activeInputGapsMs": {
+            "count": 121,
+            "p50": 132.69999998807907,
+            "p95": 464.5,
+            "max": 483.39999997615814
+          },
+          "activeInputGapsOver250Ms": 47,
+          "releaseReceiptSinceIntentMs": 673.1000000238419,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 29.8,
+            "phase": "combat",
+            "hp": 0,
+            "enemies": 58
+          }
+        },
+        {
+          "client": 3,
+          "gameSeconds": 29.5,
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 18
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 84,
+            "p50": 835.6,
+            "p95": 1206.9,
+            "max": 2224.4
+          },
+          "receiptAckRtt": {
+            "samples": 85,
+            "p50": 659.5,
+            "p95": 944.8,
+            "max": 1622.1
+          },
+          "activeSamples": 84,
+          "zeroAckOutsideResume": 2,
+          "activeInputGapsMs": {
+            "count": 139,
+            "p50": 133,
+            "p95": 466.5999999642372,
+            "max": 1133
+          },
+          "activeInputGapsOver250Ms": 52,
+          "releaseReceiptSinceIntentMs": 1000.7000000476837,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 29.55,
+            "phase": "combat",
+            "hp": 13.95,
+            "enemies": 58
+          }
+        }
+      ]
+    },
+    {
+      "name": "live-input-adaptive-long",
+      "functionalPass": true,
+      "sourcesStable": true,
+      "sourceHashes": {
+        "server/worker.ts": "f123c65a0147062feb8fd7c1c5ce9520188928c6d2c7a59b89b8187fbc59f113",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "server/state-delivery.ts": "4e36a7644b7590cb3b863de872b235b4ed1f58d8b6f6cea248ff3a99fff0de1d",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "f63578a3de693f99f3acbe311c46534ce2fd85b6a13dfe67a2098698b956fed2",
+        "src/client/state-receipt.ts": "a636d4d1aea402cf2a87fbbf6915c6311dd050374056d3775951bf47693c6124",
+        "src/client/input-window.ts": "76a9131606de7c31f6286b32c92fdc1ded8e22b3a659067b75ab1207a2b1bae0",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "1e111f7ca7e73a9f7f34cbb75b5a617da55be02928d685ef432eb3beeaef1dd2",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "ac24a59bde3ba1dabeadf289f0af97df9d2960d00b0926c7f0ef9ed5d6b2f322",
+        "scripts/local-websocket-shaper.mjs": "f099a4c55b91a4aa73309e5aaf14e7a331ead409b6caed67159840c7469c0205"
+      },
+      "secondsRequested": 120,
+      "profileEnabled": false,
+      "renderClients": 1,
+      "linkConfig": {
+        "latencyMs": 75,
+        "bytesPerSecond": 131072
+      },
+      "releaseAfterSeconds": 0,
+      "inputWindowOverride": 0,
+      "preparations": [
+        {
+          "ms": 13803.300000011921,
+          "actors": 4,
+          "preparationRestored": true,
+          "programCount": 38
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        }
+      ],
+      "errors": [],
+      "clients": [
+        {
+          "client": 0,
+          "gameSeconds": 116.55,
+          "frames": {
+            "samples": 7193,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 66.7
+          },
+          "renderCpu": {
+            "samples": 7155,
+            "p50": 6.9,
+            "p95": 12.8,
+            "max": 65.1
+          },
+          "ackObservedRtt": {
+            "samples": 602,
+            "p50": 426.6,
+            "p95": 513.2,
+            "max": 664.6
+          },
+          "receiptAckRtt": {
+            "samples": 614,
+            "p50": 368.5,
+            "p95": 447.9,
+            "max": 550.8
+          },
+          "activeSamples": 584,
+          "zeroAckOutsideResume": 0,
+          "activeInputGapsMs": {
+            "count": 1917,
+            "p50": 52.30000001192093,
+            "p95": 66.89999997615814,
+            "max": 71.5
+          },
+          "activeInputGapsOver250Ms": 0,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [
+            {
+              "ms": 152,
+              "gameTime": 0.15,
+              "enemyKinds": {},
+              "durationMs": 31.69999998807907,
+              "beforeCount": 38,
+              "afterCount": 39,
+              "added": [
+                {
+                  "id": 38,
+                  "name": ""
+                }
+              ]
+            },
+            {
+              "ms": 62653.89999997616,
+              "gameTime": 61.75,
+              "enemyKinds": {
+                "crawler": 51,
+                "bastion": 1
+              },
+              "durationMs": 65.10000002384186,
+              "beforeCount": 39,
+              "afterCount": 40,
+              "added": [
+                {
+                  "id": 39,
+                  "name": "BASTION_armor"
+                }
+              ]
+            },
+            {
+              "ms": 72037.19999998808,
+              "gameTime": 71.2,
+              "enemyKinds": {
+                "crawler": 53,
+                "bastion": 1,
+                "spitter": 4
+              },
+              "durationMs": 32,
+              "beforeCount": 40,
+              "afterCount": 41,
+              "added": [
+                {
+                  "id": 40,
+                  "name": ""
+                }
+              ]
+            },
+            {
+              "ms": 72749.30000001192,
+              "gameTime": 71.8,
+              "enemyKinds": {
+                "crawler": 50,
+                "bastion": 1,
+                "spitter": 5
+              },
+              "durationMs": 60.200000047683716,
+              "beforeCount": 41,
+              "afterCount": 42,
+              "added": [
+                {
+                  "id": 41,
+                  "name": ""
+                }
+              ]
+            },
+            {
+              "ms": 77913.39999997616,
+              "gameTime": 76.25,
+              "enemyKinds": {
+                "crawler": 50,
+                "bastion": 1,
+                "spitter": 7
+              },
+              "durationMs": 40.30000001192093,
+              "beforeCount": 42,
+              "afterCount": 43,
+              "added": [
+                {
+                  "id": 42,
+                  "name": ""
+                }
+              ]
+            }
+          ],
+          "slowGlCalls": [
+            {
+              "name": "texSubImage2D",
+              "durationMs": 58.69999998807907,
+              "phase": "prepare",
+              "ms": null,
+              "enemyKinds": {}
+            },
+            {
+              "name": "texSubImage2D",
+              "durationMs": 76.30000001192093,
+              "phase": "prepare",
+              "ms": null,
+              "enemyKinds": {}
+            },
+            {
+              "name": "texSubImage2D",
+              "durationMs": 1187.7999999523163,
+              "phase": "prepare",
+              "ms": null,
+              "enemyKinds": {}
+            },
+            {
+              "name": "texSubImage2D",
+              "durationMs": 144,
+              "phase": "prepare",
+              "ms": null,
+              "enemyKinds": {}
+            },
+            {
+              "name": "getProgramInfoLog",
+              "durationMs": 53.69999998807907,
+              "phase": "render",
+              "ms": 62648.69999998808,
+              "gameTime": 61.75,
+              "enemyKinds": {
+                "crawler": 51,
+                "bastion": 1
+              }
+            }
+          ],
+          "lastCombat": {
+            "time": 116.7,
+            "phase": "combat",
+            "hp": 0,
+            "enemies": 64
+          }
+        },
+        {
+          "client": 1,
+          "gameSeconds": 116.80000000000001,
+          "frames": {
+            "samples": 7202,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.7
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 608,
+            "p50": 425,
+            "p95": 504.1,
+            "max": 636.8
+          },
+          "receiptAckRtt": {
+            "samples": 620,
+            "p50": 363.5,
+            "p95": 438.3,
+            "max": 510.9
+          },
+          "activeSamples": 590,
+          "zeroAckOutsideResume": 0,
+          "activeInputGapsMs": {
+            "count": 1925,
+            "p50": 51.10000002384186,
+            "p95": 66.80000001192093,
+            "max": 71.5
+          },
+          "activeInputGapsOver250Ms": 0,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 116.9,
+            "phase": "combat",
+            "hp": 120.26,
+            "enemies": 64
+          }
+        },
+        {
+          "client": 2,
+          "gameSeconds": 116.85000000000001,
+          "frames": {
+            "samples": 7202,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.6
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 608,
+            "p50": 422.5,
+            "p95": 507.8,
+            "max": 655.1
+          },
+          "receiptAckRtt": {
+            "samples": 620,
+            "p50": 366.8,
+            "p95": 437.6,
+            "max": 506
+          },
+          "activeSamples": 591,
+          "zeroAckOutsideResume": 0,
+          "activeInputGapsMs": {
+            "count": 1919,
+            "p50": 54.19999998807907,
+            "p95": 66.89999997615814,
+            "max": 73.90000003576279
+          },
+          "activeInputGapsOver250Ms": 0,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 116.95,
+            "phase": "combat",
+            "hp": 42.92,
+            "enemies": 64
+          }
+        },
+        {
+          "client": 3,
+          "gameSeconds": 116.8,
+          "frames": {
+            "samples": 7202,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.6
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 605,
+            "p50": 426.5,
+            "p95": 504.3,
+            "max": 611.4
+          },
+          "receiptAckRtt": {
+            "samples": 617,
+            "p50": 369.5,
+            "p95": 441.9,
+            "max": 519.3
+          },
+          "activeSamples": 587,
+          "zeroAckOutsideResume": 0,
+          "activeInputGapsMs": {
+            "count": 1914,
+            "p50": 53.19999998807907,
+            "p95": 66.89999997615814,
+            "max": 72.5
+          },
+          "activeInputGapsOver250Ms": 0,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 116.85,
+            "phase": "combat",
+            "hp": 145.57,
+            "enemies": 64
+          }
+        }
+      ]
+    },
+    {
+      "name": "live-bastion-warm-adaptive",
+      "functionalPass": true,
+      "sourcesStable": true,
+      "sourceHashes": {
+        "server/worker.ts": "f123c65a0147062feb8fd7c1c5ce9520188928c6d2c7a59b89b8187fbc59f113",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "server/state-delivery.ts": "4e36a7644b7590cb3b863de872b235b4ed1f58d8b6f6cea248ff3a99fff0de1d",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "f63578a3de693f99f3acbe311c46534ce2fd85b6a13dfe67a2098698b956fed2",
+        "src/client/state-receipt.ts": "a636d4d1aea402cf2a87fbbf6915c6311dd050374056d3775951bf47693c6124",
+        "src/client/input-window.ts": "76a9131606de7c31f6286b32c92fdc1ded8e22b3a659067b75ab1207a2b1bae0",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "44d98eea48182fc186d1ec0d3c2cafae31013c960d1812b00a975fa74f0f4df5",
+        "src/client/bastion-view.ts": "c4eca7ceb52ba2ee3959dc62836123273252fd80cd1aa5e0a2e1a48c601f18af",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "03d42b996de204d0aaf1d4f9e28a8322b189a4afe802bf819bcadccd2d6f5ab6",
+        "scripts/local-websocket-shaper.mjs": "f099a4c55b91a4aa73309e5aaf14e7a331ead409b6caed67159840c7469c0205"
+      },
+      "secondsRequested": 120,
+      "profileEnabled": false,
+      "renderClients": 1,
+      "linkConfig": {
+        "latencyMs": 75,
+        "bytesPerSecond": 131072
+      },
+      "releaseAfterSeconds": 0,
+      "inputWindowOverride": 0,
+      "preparations": [
+        {
+          "ms": 13315.600000023842,
+          "actors": 4,
+          "preparationRestored": true,
+          "programCount": 41
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        }
+      ],
+      "errors": [],
+      "clients": [
+        {
+          "client": 0,
+          "gameSeconds": 116.05,
+          "frames": {
+            "samples": 7190,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 66.6
+          },
+          "renderCpu": {
+            "samples": 7117,
+            "p50": 6.2,
+            "p95": 11.6,
+            "max": 61.7
+          },
+          "ackObservedRtt": {
+            "samples": 546,
+            "p50": 428.7,
+            "p95": 631.1,
+            "max": 968.8
+          },
+          "receiptAckRtt": {
+            "samples": 563,
+            "p50": 371.7,
+            "p95": 573,
+            "max": 867.4
+          },
+          "activeSamples": 537,
+          "zeroAckOutsideResume": 6,
+          "activeInputGapsMs": {
+            "count": 1864,
+            "p50": 57.69999998807907,
+            "p95": 66.90000003576279,
+            "max": 833.2000000476837
+          },
+          "activeInputGapsOver250Ms": 7,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [
+            {
+              "ms": 167.19999998807907,
+              "gameTime": 0.15,
+              "enemyKinds": {},
+              "durationMs": 28.900000035762787,
+              "beforeCount": 41,
+              "afterCount": 42,
+              "added": [
+                {
+                  "id": 41,
+                  "name": ""
+                }
+              ]
+            },
+            {
+              "ms": 83975.09999996424,
+              "gameTime": 82.15,
+              "enemyKinds": {
+                "crawler": 79,
+                "bastion": 1,
+                "spitter": 1
+              },
+              "durationMs": 61.69999998807907,
+              "beforeCount": 42,
+              "afterCount": 43,
+              "added": [
+                {
+                  "id": 42,
+                  "name": ""
+                }
+              ]
+            }
+          ],
+          "slowGlCalls": [
+            {
+              "name": "texSubImage2D",
+              "durationMs": 104.10000002384186,
+              "phase": "prepare",
+              "ms": null,
+              "enemyKinds": {}
+            },
+            {
+              "name": "texSubImage2D",
+              "durationMs": 128.5,
+              "phase": "prepare",
+              "ms": null,
+              "enemyKinds": {}
+            },
+            {
+              "name": "texSubImage2D",
+              "durationMs": 844.3000000119209,
+              "phase": "prepare",
+              "ms": null,
+              "enemyKinds": {}
+            },
+            {
+              "name": "texSubImage2D",
+              "durationMs": 175,
+              "phase": "prepare",
+              "ms": null,
+              "enemyKinds": {}
+            }
+          ],
+          "lastCombat": {
+            "time": 116.2,
+            "phase": "combat",
+            "hp": 130.8,
+            "enemies": 91
+          }
+        },
+        {
+          "client": 1,
+          "gameSeconds": 116,
+          "frames": {
+            "samples": 7201,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.5
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 548,
+            "p50": 425.5,
+            "p95": 636.3,
+            "max": 928.2
+          },
+          "receiptAckRtt": {
+            "samples": 564,
+            "p50": 365.9,
+            "p95": 564.9,
+            "max": 861
+          },
+          "activeSamples": 539,
+          "zeroAckOutsideResume": 5,
+          "activeInputGapsMs": {
+            "count": 1890,
+            "p50": 51.5,
+            "p95": 66.90000003576279,
+            "max": 866.3999999761581
+          },
+          "activeInputGapsOver250Ms": 5,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 116.1,
+            "phase": "combat",
+            "hp": 160,
+            "enemies": 91
+          }
+        },
+        {
+          "client": 2,
+          "gameSeconds": 115.85,
+          "frames": {
+            "samples": 7201,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.4
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 542,
+            "p50": 428.7,
+            "p95": 640.4,
+            "max": 953.1
+          },
+          "receiptAckRtt": {
+            "samples": 557,
+            "p50": 373.6,
+            "p95": 570.8,
+            "max": 953.3
+          },
+          "activeSamples": 532,
+          "zeroAckOutsideResume": 6,
+          "activeInputGapsMs": {
+            "count": 1868,
+            "p50": 51.89999997615814,
+            "p95": 66.90000003576279,
+            "max": 966.9000000357628
+          },
+          "activeInputGapsOver250Ms": 6,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 116,
+            "phase": "combat",
+            "hp": 160,
+            "enemies": 91
+          }
+        },
+        {
+          "client": 3,
+          "gameSeconds": 116.10000000000001,
+          "frames": {
+            "samples": 7201,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.5
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 544,
+            "p50": 428.3,
+            "p95": 643.6,
+            "max": 920.7
+          },
+          "receiptAckRtt": {
+            "samples": 563,
+            "p50": 372.7,
+            "p95": 574.4,
+            "max": 921.5
+          },
+          "activeSamples": 537,
+          "zeroAckOutsideResume": 8,
+          "activeInputGapsMs": {
+            "count": 1849,
+            "p50": 63.19999998807907,
+            "p95": 67,
+            "max": 923
+          },
+          "activeInputGapsOver250Ms": 9,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 116.2,
+            "phase": "combat",
+            "hp": 122.5,
+            "enemies": 91
+          }
+        }
+      ]
+    },
+    {
+      "name": "live-input-receipt-long",
+      "functionalPass": true,
+      "sourcesStable": true,
+      "sourceHashes": {
+        "server/worker.ts": "2a533ba2d3cc7bf32a6dc1545708c12f8ff461c496780c37551f9686903b8930",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "server/state-delivery.ts": "4e36a7644b7590cb3b863de872b235b4ed1f58d8b6f6cea248ff3a99fff0de1d",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "578ad0ae71a081713086f3bf7a33fb4b18f91eaa9283e109c9d11a7c8ec4a26e",
+        "src/client/state-receipt.ts": "a636d4d1aea402cf2a87fbbf6915c6311dd050374056d3775951bf47693c6124",
+        "src/client/input-window.ts": "1a249dc5fb1559dbd01a404aa980a5b6d405d47ce7878c28e3a18beebea73350",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "44d98eea48182fc186d1ec0d3c2cafae31013c960d1812b00a975fa74f0f4df5",
+        "src/client/bastion-view.ts": "c4eca7ceb52ba2ee3959dc62836123273252fd80cd1aa5e0a2e1a48c601f18af",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "03d42b996de204d0aaf1d4f9e28a8322b189a4afe802bf819bcadccd2d6f5ab6",
+        "scripts/local-websocket-shaper.mjs": "f099a4c55b91a4aa73309e5aaf14e7a331ead409b6caed67159840c7469c0205"
+      },
+      "secondsRequested": 120,
+      "profileEnabled": false,
+      "renderClients": 1,
+      "linkConfig": {
+        "latencyMs": 75,
+        "bytesPerSecond": 131072
+      },
+      "releaseAfterSeconds": 0,
+      "inputWindowOverride": 0,
+      "preparations": [
+        {
+          "ms": 14879.900000035763,
+          "actors": 4,
+          "preparationRestored": true,
+          "programCount": 41
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        }
+      ],
+      "errors": [],
+      "clients": [
+        {
+          "client": 0,
+          "gameSeconds": 116.35,
+          "frames": {
+            "samples": 7187,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 150
+          },
+          "renderCpu": {
+            "samples": 7076,
+            "p50": 6.3,
+            "p95": 11.6,
+            "max": 57.1
+          },
+          "ackObservedRtt": {
+            "samples": 568,
+            "p50": 429,
+            "p95": 596.8,
+            "max": 778
+          },
+          "receiptAckRtt": {
+            "samples": 580,
+            "p50": 368.8,
+            "p95": 527.9,
+            "max": 665.4
+          },
+          "activeSamples": 552,
+          "zeroAckOutsideResume": 0,
+          "activeInputGapsMs": {
+            "count": 1920,
+            "p50": 52.30000001192093,
+            "p95": 66.89999997615814,
+            "max": 175.69999998807907
+          },
+          "activeInputGapsOver250Ms": 0,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [
+            {
+              "ms": 55638.00000003577,
+              "durationMs": 150,
+              "gameTime": 54.9,
+              "phase": "combat",
+              "enemyKinds": {
+                "crawler": 49
+              }
+            }
+          ],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [
+            {
+              "ms": 160.4000000357628,
+              "gameTime": 0.15,
+              "enemyKinds": {},
+              "durationMs": 22.80000001192093,
+              "beforeCount": 41,
+              "afterCount": 42,
+              "added": [
+                {
+                  "id": 41,
+                  "name": ""
+                }
+              ]
+            },
+            {
+              "ms": 92667.70000004768,
+              "gameTime": 91,
+              "enemyKinds": {
+                "crawler": 69,
+                "bastion": 1,
+                "spitter": 1
+              },
+              "durationMs": 57.10000002384186,
+              "beforeCount": 42,
+              "afterCount": 43,
+              "added": [
+                {
+                  "id": 42,
+                  "name": ""
+                }
+              ]
+            }
+          ],
+          "slowGlCalls": [
+            {
+              "name": "texSubImage2D",
+              "durationMs": 89.09999996423721,
+              "phase": "prepare",
+              "ms": null,
+              "enemyKinds": {}
+            },
+            {
+              "name": "texSubImage2D",
+              "durationMs": 77.69999998807907,
+              "phase": "prepare",
+              "ms": null,
+              "enemyKinds": {}
+            },
+            {
+              "name": "texSubImage2D",
+              "durationMs": 980.5,
+              "phase": "prepare",
+              "ms": null,
+              "enemyKinds": {}
+            },
+            {
+              "name": "texSubImage2D",
+              "durationMs": 82.79999995231628,
+              "phase": "prepare",
+              "ms": null,
+              "enemyKinds": {}
+            }
+          ],
+          "lastCombat": {
+            "time": 116.5,
+            "phase": "combat",
+            "hp": 147,
+            "enemies": 84
+          }
+        },
+        {
+          "client": 1,
+          "gameSeconds": 116.30000000000001,
+          "frames": {
+            "samples": 7201,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 18.7
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 569,
+            "p50": 431.2,
+            "p95": 604.1,
+            "max": 758.2
+          },
+          "receiptAckRtt": {
+            "samples": 581,
+            "p50": 373.1,
+            "p95": 526.4,
+            "max": 662.7
+          },
+          "activeSamples": 552,
+          "zeroAckOutsideResume": 0,
+          "activeInputGapsMs": {
+            "count": 1906,
+            "p50": 63.69999998807907,
+            "p95": 66.90000003576279,
+            "max": 70.90000003576279
+          },
+          "activeInputGapsOver250Ms": 0,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 116.4,
+            "phase": "combat",
+            "hp": 160,
+            "enemies": 85
+          }
+        },
+        {
+          "client": 2,
+          "gameSeconds": 116.14999999999999,
+          "frames": {
+            "samples": 7201,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 18.7
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 566,
+            "p50": 427.2,
+            "p95": 591.4,
+            "max": 844.9
+          },
+          "receiptAckRtt": {
+            "samples": 578,
+            "p50": 370.3,
+            "p95": 527.4,
+            "max": 727.9
+          },
+          "activeSamples": 549,
+          "zeroAckOutsideResume": 0,
+          "activeInputGapsMs": {
+            "count": 1906,
+            "p50": 62.19999998807907,
+            "p95": 67,
+            "max": 99.80000001192093
+          },
+          "activeInputGapsOver250Ms": 0,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 116.3,
+            "phase": "combat",
+            "hp": 160,
+            "enemies": 86
+          }
+        },
+        {
+          "client": 3,
+          "gameSeconds": 116.35,
+          "frames": {
+            "samples": 7201,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 18.8
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 567,
+            "p50": 433.4,
+            "p95": 591.1,
+            "max": 791.6
+          },
+          "receiptAckRtt": {
+            "samples": 579,
+            "p50": 371.8,
+            "p95": 527.6,
+            "max": 693.3
+          },
+          "activeSamples": 551,
+          "zeroAckOutsideResume": 0,
+          "activeInputGapsMs": {
+            "count": 1914,
+            "p50": 54,
+            "p95": 66.90000003576279,
+            "max": 101.5
+          },
+          "activeInputGapsOver250Ms": 0,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 116.5,
+            "phase": "combat",
+            "hp": 138.05,
+            "enemies": 84
+          }
+        }
+      ]
+    },
+    {
+      "name": "live-input-receipt-slow-up",
+      "functionalPass": true,
+      "sourcesStable": true,
+      "sourceHashes": {
+        "server/worker.ts": "2a533ba2d3cc7bf32a6dc1545708c12f8ff461c496780c37551f9686903b8930",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "server/state-delivery.ts": "4e36a7644b7590cb3b863de872b235b4ed1f58d8b6f6cea248ff3a99fff0de1d",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "578ad0ae71a081713086f3bf7a33fb4b18f91eaa9283e109c9d11a7c8ec4a26e",
+        "src/client/state-receipt.ts": "a636d4d1aea402cf2a87fbbf6915c6311dd050374056d3775951bf47693c6124",
+        "src/client/input-window.ts": "1a249dc5fb1559dbd01a404aa980a5b6d405d47ce7878c28e3a18beebea73350",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "44d98eea48182fc186d1ec0d3c2cafae31013c960d1812b00a975fa74f0f4df5",
+        "src/client/bastion-view.ts": "c4eca7ceb52ba2ee3959dc62836123273252fd80cd1aa5e0a2e1a48c601f18af",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "03d42b996de204d0aaf1d4f9e28a8322b189a4afe802bf819bcadccd2d6f5ab6",
+        "scripts/local-websocket-shaper.mjs": "f099a4c55b91a4aa73309e5aaf14e7a331ead409b6caed67159840c7469c0205"
+      },
+      "secondsRequested": 30,
+      "profileEnabled": false,
+      "renderClients": 1,
+      "linkConfig": {
+        "latencyMs": 75,
+        "bytesPerSecond": 16777216,
+        "upBytesPerSecond": 1000
+      },
+      "releaseAfterSeconds": 15,
+      "inputWindowOverride": 0,
+      "preparations": [
+        {
+          "ms": 14158.100000023842,
+          "actors": 4,
+          "preparationRestored": true,
+          "programCount": 41
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        }
+      ],
+      "errors": [],
+      "clients": [
+        {
+          "client": 0,
+          "gameSeconds": 29.5,
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.1
+          },
+          "renderCpu": {
+            "samples": 1644,
+            "p50": 5.3,
+            "p95": 9.5,
+            "max": 31.4
+          },
+          "ackObservedRtt": {
+            "samples": 82,
+            "p50": 828.2,
+            "p95": 1209.4,
+            "max": 2363.8
+          },
+          "receiptAckRtt": {
+            "samples": 85,
+            "p50": 658.4,
+            "p95": 961.2,
+            "max": 1645.4
+          },
+          "activeSamples": 84,
+          "zeroAckOutsideResume": 4,
+          "activeInputGapsMs": {
+            "count": 139,
+            "p50": 133.10000002384186,
+            "p95": 466.60000002384186,
+            "max": 1032.9000000357628
+          },
+          "activeInputGapsOver250Ms": 50,
+          "releaseReceiptSinceIntentMs": 1049,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 29.6,
+            "phase": "combat",
+            "hp": 160,
+            "enemies": 56
+          }
+        },
+        {
+          "client": 1,
+          "gameSeconds": 29.6,
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.1
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 84,
+            "p50": 831.4,
+            "p95": 1187.6,
+            "max": 2375.6
+          },
+          "receiptAckRtt": {
+            "samples": 86,
+            "p50": 643.5,
+            "p95": 938.3,
+            "max": 2375.7
+          },
+          "activeSamples": 85,
+          "zeroAckOutsideResume": 2,
+          "activeInputGapsMs": {
+            "count": 140,
+            "p50": 133.89999997615814,
+            "p95": 466.60000002384186,
+            "max": 2049.599999964237
+          },
+          "activeInputGapsOver250Ms": 54,
+          "releaseReceiptSinceIntentMs": 832.1000000238419,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 29.75,
+            "phase": "combat",
+            "hp": 85.9,
+            "enemies": 56
+          }
+        },
+        {
+          "client": 2,
+          "gameSeconds": 29.65,
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.2
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 69,
+            "p50": 836.8,
+            "p95": 1480.3,
+            "max": 2252.5
+          },
+          "receiptAckRtt": {
+            "samples": 71,
+            "p50": 670.4,
+            "p95": 1116.7,
+            "max": 1641.8
+          },
+          "activeSamples": 96,
+          "zeroAckOutsideResume": 28,
+          "activeInputGapsMs": {
+            "count": 111,
+            "p50": 133.10000002384186,
+            "p95": 483.89999997615814,
+            "max": 999.9000000357628
+          },
+          "activeInputGapsOver250Ms": 43,
+          "releaseReceiptSinceIntentMs": 983.1999999880791,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 29.75,
+            "phase": "combat",
+            "hp": 0,
+            "enemies": 56
+          }
+        },
+        {
+          "client": 3,
+          "gameSeconds": 29.65,
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.1
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 83,
+            "p50": 829.8,
+            "p95": 1193,
+            "max": 2313.7
+          },
+          "receiptAckRtt": {
+            "samples": 83,
+            "p50": 648.9,
+            "p95": 955.5,
+            "max": 1592
+          },
+          "activeSamples": 86,
+          "zeroAckOutsideResume": 5,
+          "activeInputGapsMs": {
+            "count": 132,
+            "p50": 134.29999995231628,
+            "p95": 467.0999999642372,
+            "max": 1032.5
+          },
+          "activeInputGapsOver250Ms": 51,
+          "releaseReceiptSinceIntentMs": 1060.7000000476837,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 29.75,
+            "phase": "combat",
+            "hp": 0,
+            "enemies": 56
+          }
+        }
+      ]
+    },
+    {
+      "name": "live-input-receipt-profile",
+      "functionalPass": true,
+      "sourcesStable": true,
+      "sourceHashes": {
+        "server/worker.ts": "2a533ba2d3cc7bf32a6dc1545708c12f8ff461c496780c37551f9686903b8930",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "server/state-delivery.ts": "4e36a7644b7590cb3b863de872b235b4ed1f58d8b6f6cea248ff3a99fff0de1d",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "578ad0ae71a081713086f3bf7a33fb4b18f91eaa9283e109c9d11a7c8ec4a26e",
+        "src/client/state-receipt.ts": "a636d4d1aea402cf2a87fbbf6915c6311dd050374056d3775951bf47693c6124",
+        "src/client/input-window.ts": "1a249dc5fb1559dbd01a404aa980a5b6d405d47ce7878c28e3a18beebea73350",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "44d98eea48182fc186d1ec0d3c2cafae31013c960d1812b00a975fa74f0f4df5",
+        "src/client/bastion-view.ts": "c4eca7ceb52ba2ee3959dc62836123273252fd80cd1aa5e0a2e1a48c601f18af",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "03d42b996de204d0aaf1d4f9e28a8322b189a4afe802bf819bcadccd2d6f5ab6",
+        "scripts/local-websocket-shaper.mjs": "f099a4c55b91a4aa73309e5aaf14e7a331ead409b6caed67159840c7469c0205"
+      },
+      "secondsRequested": 120,
+      "profileEnabled": true,
+      "renderClients": 1,
+      "linkConfig": {
+        "latencyMs": 75,
+        "bytesPerSecond": 131072
+      },
+      "releaseAfterSeconds": 0,
+      "inputWindowOverride": 0,
+      "preparations": [
+        {
+          "ms": 13586.300000011921,
+          "actors": 4,
+          "preparationRestored": true,
+          "programCount": 41
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        },
+        {
+          "ms": 0,
+          "preparationSkippedForNetworkIsolation": true
+        }
+      ],
+      "errors": [],
+      "clients": [
+        {
+          "client": 0,
+          "gameSeconds": 116.85000000000001,
+          "frames": {
+            "samples": 7166,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 499.9
+          },
+          "renderCpu": {
+            "samples": 7135,
+            "p50": 7,
+            "p95": 13.3,
+            "max": 56.1
+          },
+          "ackObservedRtt": {
+            "samples": 613,
+            "p50": 412.1,
+            "p95": 514.5,
+            "max": 643.5
+          },
+          "receiptAckRtt": {
+            "samples": 627,
+            "p50": 352.8,
+            "p95": 445.6,
+            "max": 515.6
+          },
+          "activeSamples": 598,
+          "zeroAckOutsideResume": 1,
+          "activeInputGapsMs": {
+            "count": 1917,
+            "p50": 57.40000003576279,
+            "p95": 66.90000003576279,
+            "max": 76.09999996423721
+          },
+          "activeInputGapsOver250Ms": 0,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [
+            {
+              "ms": 86735.09999995232,
+              "durationMs": 499.90000000000873,
+              "gameTime": 84.5,
+              "phase": "combat",
+              "enemyKinds": {
+                "crawler": 43,
+                "bastion": 1
+              }
+            }
+          ],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [
+            {
+              "ms": 178.0999999642372,
+              "gameTime": 0.1,
+              "enemyKinds": {},
+              "durationMs": 44,
+              "beforeCount": 41,
+              "afterCount": 42,
+              "added": [
+                {
+                  "id": 41,
+                  "name": ""
+                }
+              ]
+            },
+            {
+              "ms": 69577.29999995232,
+              "gameTime": 68.8,
+              "enemyKinds": {
+                "crawler": 38,
+                "bastion": 1,
+                "spitter": 1
+              },
+              "durationMs": 56.09999996423721,
+              "beforeCount": 42,
+              "afterCount": 43,
+              "added": [
+                {
+                  "id": 42,
+                  "name": ""
+                }
+              ]
+            }
+          ],
+          "slowGlCalls": [
+            {
+              "name": "texSubImage2D",
+              "durationMs": 54.700000047683716,
+              "phase": "prepare",
+              "ms": null,
+              "enemyKinds": {}
+            },
+            {
+              "name": "texSubImage2D",
+              "durationMs": 61.5,
+              "phase": "prepare",
+              "ms": null,
+              "enemyKinds": {}
+            },
+            {
+              "name": "texSubImage2D",
+              "durationMs": 858.1999999880791,
+              "phase": "prepare",
+              "ms": null,
+              "enemyKinds": {}
+            },
+            {
+              "name": "texSubImage2D",
+              "durationMs": 108.09999996423721,
+              "phase": "prepare",
+              "ms": null,
+              "enemyKinds": {}
+            }
+          ],
+          "lastCombat": {
+            "time": 116.95,
+            "phase": "combat",
+            "hp": 160,
+            "enemies": 65
+          }
+        },
+        {
+          "client": 1,
+          "gameSeconds": 116.80000000000001,
+          "frames": {
+            "samples": 7201,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.6
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 615,
+            "p50": 411.5,
+            "p95": 506.2,
+            "max": 629.7
+          },
+          "receiptAckRtt": {
+            "samples": 628,
+            "p50": 353.9,
+            "p95": 446.5,
+            "max": 555.3
+          },
+          "activeSamples": 595,
+          "zeroAckOutsideResume": 0,
+          "activeInputGapsMs": {
+            "count": 1919,
+            "p50": 51.799999952316284,
+            "p95": 66.90000003576279,
+            "max": 73.80000001192093
+          },
+          "activeInputGapsOver250Ms": 0,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 116.9,
+            "phase": "combat",
+            "hp": 168,
+            "enemies": 66
+          }
+        },
+        {
+          "client": 2,
+          "gameSeconds": 116.64999999999999,
+          "frames": {
+            "samples": 7201,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.6
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 608,
+            "p50": 413.5,
+            "p95": 518.8,
+            "max": 651.6
+          },
+          "receiptAckRtt": {
+            "samples": 621,
+            "p50": 355.5,
+            "p95": 456,
+            "max": 583.9
+          },
+          "activeSamples": 589,
+          "zeroAckOutsideResume": 0,
+          "activeInputGapsMs": {
+            "count": 1920,
+            "p50": 51.299999952316284,
+            "p95": 66.89999997615814,
+            "max": 72.10000002384186
+          },
+          "activeInputGapsOver250Ms": 0,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 116.8,
+            "phase": "combat",
+            "hp": 160,
+            "enemies": 68
+          }
+        },
+        {
+          "client": 3,
+          "gameSeconds": 116.6,
+          "frames": {
+            "samples": 7201,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.7
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "ackObservedRtt": {
+            "samples": 614,
+            "p50": 409.2,
+            "p95": 508.4,
+            "max": 619.8
+          },
+          "receiptAckRtt": {
+            "samples": 626,
+            "p50": 353.6,
+            "p95": 442.6,
+            "max": 524.9
+          },
+          "activeSamples": 594,
+          "zeroAckOutsideResume": 0,
+          "activeInputGapsMs": {
+            "count": 1926,
+            "p50": 51.10000002384186,
+            "p95": 66.80000001192093,
+            "max": 70.89999997615814
+          },
+          "activeInputGapsOver250Ms": 0,
+          "releaseReceiptSinceIntentMs": null,
+          "longFrames": [],
+          "errors": [],
+          "glErrors": [],
+          "programTransitions": [],
+          "slowGlCalls": [],
+          "lastCombat": {
+            "time": 116.75,
+            "phase": "combat",
+            "hp": 192,
+            "enemies": 68
+          }
+        }
+      ]
+    }
+  ]
+}

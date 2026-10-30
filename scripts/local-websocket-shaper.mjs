@@ -50,19 +50,25 @@ export async function createLocalWebSocketShaper({
   origin,
   latencyMs = 0,
   bytesPerSecond = Infinity,
+  upBytesPerSecond = bytesPerSecond,
+  downBytesPerSecond = bytesPerSecond,
 }) {
   const upstreamUrl = localUrl(upstream, "upstream");
   const originUrl = localUrl(origin, "origin");
   if (!Number.isFinite(latencyMs) || latencyMs < 0 || latencyMs > WAIT_MS)
     throw new RangeError("latencyMs must be 0..30000");
-  if (!(
-    bytesPerSecond === Infinity ||
-    (Number.isFinite(bytesPerSecond) && bytesPerSecond > 0)
-  ))
+  if (
+    ![bytesPerSecond, upBytesPerSecond, downBytesPerSecond].every(
+      (rate) => rate === Infinity || (Number.isFinite(rate) && rate > 0),
+    )
+  )
     throw new RangeError("bytesPerSecond must be positive or Infinity");
   const metrics = {
     latencyMs,
     bytesPerSecond: bytesPerSecond === Infinity ? null : bytesPerSecond,
+    upBytesPerSecond: upBytesPerSecond === Infinity ? null : upBytesPerSecond,
+    downBytesPerSecond:
+      downBytesPerSecond === Infinity ? null : downBytesPerSecond,
     payloadBandwidthOnly: true,
     perMessageDeflate: false,
     queueLimitBytes: QUEUE_BYTES,
@@ -149,6 +155,7 @@ export async function createLocalWebSocketShaper({
       terminateTimer = setTimeout(stop, 250);
     }
     function queue(direction, socket) {
+      const rate = direction === "up" ? upBytesPerSecond : downBytesPerSecond;
       const m = record[direction];
       const items = [];
       const pending = new Set();
@@ -254,8 +261,7 @@ export async function createLocalWebSocketShaper({
         const now = performance.now();
         m.receivedMessages++;
         m.receivedBytes += buffer.length;
-        const end =
-          Math.max(now, available) + (buffer.length / bytesPerSecond) * 1000;
+        const end = Math.max(now, available) + (buffer.length / rate) * 1000;
         const due = end + latencyMs,
           delay = due - now;
         m.maxScheduledDelayMs = Math.max(m.maxScheduledDelayMs, delay);

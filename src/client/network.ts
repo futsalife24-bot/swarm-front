@@ -14,6 +14,7 @@ import { restoreStateTuples } from "../shared/state-tuples";
 import { StateChunkAssembler } from "../shared/state-chunks";
 import { StateOmissionCache } from "./state-omissions";
 import { StateReceipt } from "./state-receipt";
+import { InputWindow } from "./input-window";
 import type { RoomOptions } from "../shared/room-directory";
 export interface Member {
   id: string;
@@ -106,6 +107,7 @@ export class Network {
   private pendingInput: Input | undefined;
   private usesInputAck = false;
   private inFlightInputs: number[] = [];
+  private inputWindow = new InputWindow();
   private stateReceipt = new StateReceipt(() =>
     this.send({ type: "stateAck" }),
   );
@@ -158,6 +160,7 @@ export class Network {
     this.pendingInput = undefined;
     this.usesInputAck = false;
     this.inFlightInputs = [];
+    this.inputWindow.configure(false);
     const equipmentCache = new EquipmentCache();
     const omissionCache = new StateOmissionCache();
     const chunks = new StateChunkAssembler();
@@ -244,6 +247,9 @@ export class Network {
         this.id = m.id;
         this.usesInputAck = m.inputAck === true;
         this.stateReceipt.configure(m.stateFlow === true);
+        // Keep a bounded window without starving a healthy uplink while
+        // receipt ACKs share a slow snapshot downlink. Server expiry stays 250ms.
+        this.inputWindow.configure(m.stateFlow === true);
         this.roomId = typeof m.roomId === "string" ? m.roomId : "";
         this.roomName = typeof m.roomName === "string" ? m.roomName : "";
         this.roomListed = typeof m.listed === "boolean" ? m.listed : undefined;
@@ -274,10 +280,12 @@ export class Network {
         this.ready();
       } else if (m.type === "state") {
         this.stateReceipt.receive(m.stateId);
-        if (this.usesInputAck && Number.isSafeInteger(m.inputAck))
+        if (this.usesInputAck && Number.isSafeInteger(m.inputAck)) {
+          this.inputWindow.acknowledge(m.inputAck, m.inputReceivedAt);
           this.inFlightInputs = this.inFlightInputs.filter(
             (seq) => seq > m.inputAck,
           );
+        }
         if (validStage(m.stage) && this.stage !== m.stage) {
           this.stage = m.stage;
           this.assetReady = false;
@@ -362,11 +370,15 @@ export class Network {
     if (
       now - this.inputAt < 50 ||
       this.ws.bufferedAmount > 4096 ||
-      (this.usesInputAck && this.inFlightInputs.length >= 4)
+      (this.usesInputAck &&
+        this.inFlightInputs.length >= this.inputWindow.limit)
     )
       return;
     this.send({ type: "input", input: this.pendingInput });
-    if (this.usesInputAck) this.inFlightInputs.push(this.pendingInput.seq);
+    if (this.usesInputAck) {
+      this.inFlightInputs.push(this.pendingInput.seq);
+      this.inputWindow.sent(this.pendingInput.seq);
+    }
     this.inputAt = now;
     this.pendingInput = undefined;
   }

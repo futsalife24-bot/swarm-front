@@ -188,6 +188,66 @@ async function team(
   return { entry, members, states };
 }
 describe("改装版の実通信", () => {
+  it("同梱stateAckで解放した最初の状態に同じ入力の最新seqを含める", async () => {
+    const { members } = await team(1, "survival", 3, false, false, false, true);
+    const c = members[0];
+    const handled = new Set<string>();
+    let preparing = true;
+    const onMessage = c.ws.onmessage!;
+    c.ws.onmessage = (e) => {
+      onMessage.call(c.ws, e);
+      const m = c.messages.at(-1);
+      if (!preparing || m?.type !== "state") return;
+      c.send({ type: "stateAck", stateAck: m.stateId });
+      const offer = m.frontView.offer;
+      if (offer && !handled.has(offer.id)) {
+        handled.add(offer.id);
+        c.choose(m);
+      }
+    };
+    c.send({ type: "stateAck", stateAck: c.latest().stateId });
+    await c.wait(
+      (m) =>
+        m.type === "state" &&
+        m.frontView.phase === "combat" &&
+        m.serverNow >= m.frontView.resumeUntil,
+    );
+    preparing = false;
+    // No more ACKs: let the two snapshot credits fill and mark the peer dirty.
+    await new Promise((r) => setTimeout(r, 300));
+    const before = c.messages.length;
+    const last = c.latest();
+    const seq = 777;
+    const sentAt = Date.now() / 1000;
+    c.send({
+      type: "input",
+      stateAck: last.stateId,
+      input: { ...neutral(), seq, mx: 1 },
+    });
+    const first = await c.wait((m) => m.type === "state", before);
+    // Checking the first released snapshot matters: the old ordering sent -1
+    // here and only acknowledged seq 777 in a later periodic snapshot.
+    expect(first.inputAck).toBe(seq);
+    expect(first.inputReceivedAt).toBeGreaterThanOrEqual(sentAt);
+    expect(first.inputReceivedAt).toBeLessThanOrEqual(first.serverNow);
+    const applied = await c.wait(
+      (m) =>
+        m.type === "state" &&
+        m.world.players.find((p: any) => p.id === c.id)?.ack === seq,
+      before,
+    );
+    expect(applied.world.players.find((p: any) => p.id === c.id).x).not.toBe(
+      first.world.players.find((p: any) => p.id === c.id).x,
+    );
+    await new Promise((r) => setTimeout(r, 350));
+    const delayedStart = c.messages.length;
+    c.send({ type: "stateAck", stateAck: c.latest().stateId });
+    const delayed = await c.wait((m) => m.type === "state", delayedStart);
+    expect(delayed.inputAck).toBe(seq);
+    expect(delayed.inputReceivedAt).toBe(first.inputReceivedAt);
+    expect(delayed.serverNow - delayed.inputReceivedAt).toBeGreaterThan(0.3);
+    expect(c.ws.readyState).toBe(WebSocket.OPEN);
+  });
   it("受信待ちを2状態に制限し、旧接続を止めず、最後の結果と再接続を届ける", async () => {
     const { entry, members } = await team(
       2,

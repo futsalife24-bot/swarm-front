@@ -1,21 +1,23 @@
-# 現在地: マルチ快適化を実装・下書きPRへ保存（2026-10-30）
+# 現在地: マルチ快適化を追加修正・公開前の検証（2026-10-30）
 
-本人の最優先goalはマルチの軽量化・位置ずれ・着弾抜け・敵消失の解消。正式goalはactive。バディ5体は改善完了後の次優先タスクへ保存し、まだ実装しない。[目標と完了条件](COOP-COMFORT-GOAL-20261030.md)、[BACKLOG](BACKLOG.md)。
+最優先goalはactive。マルチの軽量化・位置ずれ・着弾抜け・敵消失を改善してから、追加バディ5体へ進む。バディは次優先として保存済み、未実装。[目標と完了条件](COOP-COMFORT-GOAL-20261030.md)、[BACKLOG](BACKLOG.md)。
 
-時計の累積遅延、実体弾の共有上限による空発射、ロケットの点判定、通常弾/光線の描画上限を修正。戦況の可逆配列化と上限付き分割により、実4ブラウザで合成96敵/1000弾/160オーブを省略せず復元・描画し、500ms停止からの復帰と再接続を確認。敵のGPU初使用を出撃前へ準備し、以前の初出現6秒停止を最終試行では再現せず。ただし初回準備の待ち時間は残り、実機での負担は未確認。[全体の根拠](evidence/coop-comfort-20261030/README.md)。
+時計の累積遅延、実体弾の共有上限による空発射、ロケットの点判定、描画上限、敵情報の省略を修正。可逆配列化・上限付き分割・未ACK2状態の送信制御を実装。合成96敵/1000弾/160オーブを実4ブラウザで復元・描画し、500ms停止からの復帰・再接続を確認した。[全体の根拠](evidence/coop-comfort-20261030/README.md)。
 
-追加調査で遅い回線への古い戦況の滞留を確認し、接続ごとの未ACKを2状態に制限、空きができた接続へ最新の完全なWorldを配信する方式を追加。各方向75ms/131,072B/sの未圧縮payload制限で最大入力適用応答1.34秒→0.53秒。通常回線1画面では最大114ms、4画面45秒検査では最大572ms・ゲーム進行44.55秒。異なるseedの比較なので実機の改善率とはしない。関連81件と両型、新しい実通信1件（旧接続共存・最後の結果・再接続）、既存互換6件、大量描画の再確認が成功。[送信制御と限界](evidence/coop-comfort-20261030/state-flow.md)。
+追加の120秒検査で入力ACK待ち4件による700〜740msの送信空白を発見。同梱ACKの応答順序を修正し、入力の受信時刻に基づく4/16件の適応窓を追加した。固定16件とstate作成時刻での判定は対照検査で問題を確認し不採用。受信時刻版の4人120秒は猶予外ack=0全員0、送信間隔最大176ms以内。上り1000B/sで操作解除の受理確認0.83〜1.06秒。極端な遅延を快適と保証しない。[原因・対照・限界](evidence/coop-comfort-20261030/input-continuity.md)。
 
-本人依頼のPWA事前ダウンロード、起動時の横向き案内、Safari向けの音量修正も実装済み。先行buildでは150ファイル保存・中断再開・再訪追加DL0・同一URL更新1件取得・オフライン両入口と生存ソロ出撃・localStorage不変を確認。音声45件、Chromeで実MP3の25%・無音・復帰、Context中断復帰・close/reopenを確認。Safari実機は未確認。送信制御を含む実装100ad9eから最終build/PWA再検査も成功（150件保存・再訪0・更新1件・オフライン生存出撃・画面例外0）。Worker production dry-run成功。[PWA](evidence/coop-comfort-20261030/pwa-implementation.md)、[音量と起動](evidence/coop-comfort-20261030/mobile-start-audio.md)。
+BASTIONのモデル・halo・火花・閃光も出撃前に準備し、初登場での新shader待ちを観測しなくなった。見た目・戦闘ルールは変更なし。ただし120秒のRAF間隔150msと、CPU診断追試499.9msが各1件残り、原因は切分け中。render自体の全期間最大はそれぞれ57.1/56.1ms、pilotは2.1/2ms。これを解消済みや実機の快適さの証明にはしない。
 
-基点main `3e1dc640e15d747cc2a06ac72c59833db2072f74`、branch `codex/coop-comfort-ready-20261030`、worktree `C:/Users/futsa/.codex/worktrees/coop-comfort-20261030/swarm-rebuild-p1a`。実装HEAD `100ad9efac36e9f3653151cc1f0cb8d66765ce4f`。最終ビルドは同HEADから生成し、検証記録だけを追加commitする。元root・別worktree・旧branchの成果は保持。
+最新の関連単体92件（BASTION準備5件含む）、既存BASTION36件、client/worker型、実通信2件、旧互換6件、回線helper10件は成功。成功済みの既存検査と、今回追加で判明した問題を分けて記録している。
 
-公開GitHubへのpushは一度自動承認レビューに拒否されたが、その後本人の「許可と承認します」を受けてpushと[下書きPR231](https://github.com/futsalife24-bot/swarm-front/pull/231)を作成した。今回の追加承認はコード・検証資料の公開GitHub保存と下書きPRに限り、merge・本番反映は未実施。独立レビューは未実施。実スマホ・iOS Safari・実回線複数端末・長時間/発熱の確認は残り、「完全解消」やgoal完了とは扱わない。主担当の実モデル/effortは未確認、実装補助の呼出指定はgpt-6.1-sol/high（実行設定値は未確認）。
+PWA事前ダウンロード・起動時の横向き案内・Safari向け音量修正も実装済み。先行実装100ad9eのbuildで150件保存・中断再開・再訪追加DL0・更新1件取得・オフライン生存出撃・localStorage不変を確認。音声45件とChrome実MP3の音量変更も確認。最新追加修正を含むbuild/PWA再検査はこれから実施する。iOS Safari実機は未確認。[PWA](evidence/coop-comfort-20261030/pwa-implementation.md)、[音量と起動](evidence/coop-comfort-20261030/mobile-start-audio.md)。
 
-保存照合: 実装100ad9e、最終統合検査記録fe098e7までGitHubのPR231へpushし、リモートSHA一致・worktree cleanを確認。PRはdraft/open/unmerged、対象headのGitHub checks/statusesは0件（CI成功とは記さない）。共有ノートの進捗1行も更新・読み戻しし、既存の他の差分は保持してノート全体はstage/pushしていない。
+基点main `3e1dc640e15d747cc2a06ac72c59833db2072f74`、branch `codex/coop-comfort-ready-20261030`、worktree `C:/Users/futsa/.codex/worktrees/coop-comfort-20261030/swarm-rebuild-p1a`。先行の実装100ad9e・検証fe098e7・承認境界38cf846を[下書きPR231](https://github.com/futsalife24-bot/swarm-front/pull/231)へ保存済み。今回の追加差分は同じbranchで検証・保存する。元root・別worktree・旧branchの成果は保持。
 
-停止理由: 許可済みのローカル実装・検証・公開GitHub保存は完了。今回の承認範囲は下書きPRまでなので、実機確認に向けた通常main反映・既存Worker公開の追加承認を本人へ確認中。実機の改善は未確認でgoalはactiveのまま。
-再開条件: 本人がmain反映・既存Worker公開を許可したら、最新mainとの差分・保護/必要チェックを確認し、既存の公開手順へ進む。端末名・OS/ブラウザ・参加人数・症状の確認は継続して必要。許可前にmerge/deployしない。
+当初の公開GitHub pushは自動承認レビューに拒否されたが、その後本人の「許可と承認します」を受けてpushと下書きPRを作成した。この追加承認はコード・検証資料の公開GitHub保存までで、main反映・既存Worker公開は別途確認中、未回答。PRはdraft/open/unmerged。先行headのGitHub checks/statusesは0件でCI成功とは記さない。独立監査は未実施。主担当の実モデル/effortは未確認、実装補助は呼出指定gpt-6.1-sol/high（実行設定値は未確認）。
+
+残件: 単発RAF間隔の診断、追加修正の最終buildと保存、公開承認、実スマホ・Safari音量・実回線複数端末・長時間/発熱。完全解消やgoal完了とは扱わない。
+
 # 前回記録: 戦闘FPS表示を公開（2026-10-28）
 
 [PR229](https://github.com/futsalife24-bot/swarm-front/pull/229)を本人承認後に通常merge。公開ソースmain `6ebb80b88ebd25a676097c9820902445b15b4dea`、既存Worker Version `1750b255-3318-4c05-831f-5e772fe2d9c9`。生存・進撃の戦闘画面左下に実測FPSを約1秒ごと表示、停止中は「— FPS」。配信33ファイルSHA一致・health正常。空プロファイル/GET専用中継の配信版生存起動で「60 FPS」・画面例外0を確認。[証拠](evidence/battle-fps-20261028/README.md)。実OPPO未確認。型/build/dry-run、横画面2サイズ、30/60設定、停止復帰・長停止計算は成功。GitHubチェック0件でCI成功とは扱わない。root既存差分を保持。
