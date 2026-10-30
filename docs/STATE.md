@@ -10,6 +10,8 @@
 
 基点は `3e1dc640e15d747cc2a06ac72c59833db2072f74`、専用worktreeは `C:/Users/futsa/.codex/worktrees/coop-comfort-20261030/swarm-rebuild-p1a`。同期用branchは `codex/coop-comfort-ready-20261030`。未同期だった作業記録のbranchは手元に保持し、本人限定資料のリンクを含まない現在の成果を新しいbranchにまとめる。元rootと別worktreeの未コミット成果を保持。実機情報と今回の独立レビュー要否を本人へ確認中。実機・実回線で直ったとは扱わない。バディの実装はまだ行わない。
 
+同期状態: 実装 `8d8c155`、最終統合検査記録 `7a2fd27850dcb716e72f02bc69056b536b8e2c09` までローカルcommit済み。専用branchへのpushは自動承認レビューが「公開GitHubへの送信は当初の外部公開禁止に反する」と実行前に拒否した。push・PR作成・merge・本番反映は未実施。公開GitHubへのコード・検証資料保存と下書きPRに限る承認を本人へ確認中。承認が来るまで別経路で送信しない。正式goalはactiveのまま、完了・一時停止にはしていない。
+
 # 前回記録: 戦闘FPS表示を公開（2026-10-28）
 
 [PR229](https://github.com/futsalife24-bot/swarm-front/pull/229)を本人承認後に通常merge。公開ソースmain `6ebb80b88ebd25a676097c9820902445b15b4dea`、既存Worker Version `1750b255-3318-4c05-831f-5e772fe2d9c9`。生存・進撃の戦闘画面左下に実測FPSを約1秒ごと表示、停止中は「— FPS」。配信33ファイルSHA一致・health正常。空プロファイル/GET専用中継の配信版生存起動で「60 FPS」・画面例外0を確認。[証拠](evidence/battle-fps-20261028/README.md)。実OPPO未確認。型/build/dry-run、横画面2サイズ、30/60設定、停止復帰・長停止計算は成功。GitHubチェック0件でCI成功とは扱わない。root既存差分を保持。
