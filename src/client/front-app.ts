@@ -31,6 +31,7 @@ import { battleLoadingMarkup } from "./loading-screen";
 import * as T from "three";
 import { Renderer } from "./render";
 import { Controls } from "./input";
+import { FrontLocalMotion } from "./front-local-motion";
 import { Sound } from "./audio";
 import { prepareBattle } from "./battle-loading";
 import { placeControls, updateScopeButtons } from "./layout";
@@ -118,6 +119,7 @@ const esc = (s: string) =>
       ]!,
   );
 const controls = new Controls(),
+  localMotion = new FrontLocalMotion(),
   sound = new Sound(),
   gate = createRebuildUiGate();
 const progressStorage = {
@@ -183,6 +185,7 @@ const familyNames = {
   generic: "補強",
 };
 function clearInput() {
+  localMotion.reset();
   controls.enabled = false;
   controls.reset();
   network?.discardPendingInput();
@@ -738,15 +741,18 @@ function connectRoom(code: string, target: string, token = "") {
   ready = false;
   const net = network;
   let inputReady = false;
-  net.setInputSource(() =>
-    network === net &&
-    inputReady &&
-    controls.enabled &&
-    canOperateBattle() &&
-    document.hasFocus()
-      ? controls.read()
-      : undefined,
-  );
+  net.setInputSource(() => {
+    const input =
+      network === net &&
+      inputReady &&
+      controls.enabled &&
+      canOperateBattle() &&
+      document.hasFocus()
+        ? controls.read()
+        : undefined;
+    if (input) localMotion.sample(input);
+    return input;
+  });
   net.clearedStage = highestClearedStage(
     readFrontCampaign(progressStorage).save,
   );
@@ -809,6 +815,7 @@ function connectRoom(code: string, target: string, token = "") {
       now() < info.resumeUntil
     )
       clearInput();
+    localMotion.receive(snapshot, id, performance.now());
     if (first) {
       void loadBattle();
     } else if (screen !== "loading") {
@@ -1226,6 +1233,14 @@ function frame(time: number) {
     clearInput();
   }
   let active = canOperateBattle();
+  const predictedPosition = network
+    ? localMotion.update(
+        controls.previewMovement(),
+        wallDt,
+        active && !document.hidden && document.hasFocus(),
+        performance.now(),
+      )
+    : undefined;
   controls.enabled = active;
   controls.setScopeAvailable(active);
   soldierLiveReview?.beforeFrame(world, id, active);
@@ -1342,7 +1357,7 @@ function frame(time: number) {
         dt,
         controls.input.yaw,
         controls.input.pitch,
-        undefined,
+        predictedPosition,
         active,
         controls.scoped,
         controls.aiming,

@@ -3,7 +3,7 @@ import {mkdirSync,writeFileSync} from 'node:fs';
 import assert from 'node:assert/strict';
 import {chromium} from '@playwright/test';
 const base='https://swarm-front.melosalife-24.workers.dev';
-const out='dist-validation/coop-comfort-20261030/release/public-ui';
+const out=process.env.SWARM_PUBLIC_UI_OUTPUT??'dist-validation/coop-comfort-20261030/release/public-ui';
 mkdirSync(out,{recursive:true});
 const server=createServer(async(req,res)=>{
  if(req.method!=='GET'){res.writeHead(405).end();return;}

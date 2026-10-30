@@ -1,0 +1,237 @@
+{
+  "description": "協力部屋1人の実Worker/実WebSocket検査。実スマホではなく、各部屋seed/ホスト負荷は同一固定ではない。",
+  "base": "72c50f5f79c6c0a6dec3f49f39cf0c4e88b45b93",
+  "results": [
+    {
+      "name": "baseline-v3",
+      "passed": true,
+      "sources": null,
+      "errors": [],
+      "runs": [
+        {
+          "latencyEachDirectionMs": 0,
+          "trials": [
+            {
+              "code": "KeyW",
+              "sendMs": 22.600000023841858,
+              "visibleMoveMs": 118.20000004768372,
+              "authorityMoveMs": 118.20000004768372,
+              "alive": true
+            },
+            {
+              "code": "KeyD",
+              "sendMs": 33.19999998807907,
+              "visibleMoveMs": 103.5,
+              "authorityMoveMs": 103.5,
+              "alive": true
+            },
+            {
+              "code": "KeyW",
+              "sendMs": 20.399999976158142,
+              "visibleMoveMs": 72.59999996423721,
+              "authorityMoveMs": 72.59999996423721,
+              "alive": true
+            }
+          ],
+          "actions": null
+        },
+        {
+          "latencyEachDirectionMs": 150,
+          "trials": [
+            {
+              "code": "KeyW",
+              "sendMs": 15.5,
+              "visibleMoveMs": 415.5999999642372,
+              "authorityMoveMs": 392,
+              "alive": true
+            },
+            {
+              "code": "KeyD",
+              "sendMs": 14.099999964237213,
+              "visibleMoveMs": 421.2999999523163,
+              "authorityMoveMs": 421.2999999523163,
+              "alive": true
+            },
+            {
+              "code": "KeyW",
+              "sendMs": 52.69999998807907,
+              "visibleMoveMs": 476.5,
+              "authorityMoveMs": 476.5,
+              "alive": true
+            }
+          ],
+          "actions": null
+        }
+      ]
+    },
+    {
+      "name": "candidate-v1",
+      "passed": true,
+      "sources": {
+        "src/client/front-app.ts": "e3677eec41f3469238643ee5d522a2dd3be718a7517fe7bb6db14868abc25bc0",
+        "src/client/input.ts": "10394277cf088861e98545d7f599f41b559a29020846cf2a57aa80d7a3b2dd6c",
+        "src/client/front-local-motion.ts": "98a5fba92d5368e2f0c5c5fe21654ab2889d0e39dda4b4bc40c4f6ba26c02be9"
+      },
+      "errors": [],
+      "runs": [
+        {
+          "latencyEachDirectionMs": 0,
+          "trials": [
+            {
+              "code": "KeyW",
+              "sendMs": 32,
+              "visibleMoveMs": 10.599999964237213,
+              "authorityMoveMs": 102.30000001192093,
+              "alive": true,
+              "predictedFrames": 103,
+              "stopFinalErrorM": 2.1880275369312585E-11,
+              "stopForwardTravelM": 0.13483371077928386,
+              "stopBacktrackM": 0,
+              "maxDisplayAuthorityGapM": 0.6923667797075606
+            },
+            {
+              "code": "KeyD",
+              "sendMs": 50.299999952316284,
+              "visibleMoveMs": 7.5,
+              "authorityMoveMs": 159.29999995231628,
+              "alive": true,
+              "predictedFrames": 103,
+              "stopFinalErrorM": 2.0623225349872006E-10,
+              "stopForwardTravelM": 0.2146594698949954,
+              "stopBacktrackM": 0.04490444474452748,
+              "maxDisplayAuthorityGapM": 0.7255079021901438
+            },
+            {
+              "code": "KeyW",
+              "sendMs": 12.199999988079071,
+              "visibleMoveMs": 11.199999988079071,
+              "authorityMoveMs": 142.29999995231628,
+              "alive": true,
+              "predictedFrames": 103,
+              "stopFinalErrorM": 1.040416419684226E-09,
+              "stopForwardTravelM": 0.5248427511980048,
+              "stopBacktrackM": 0,
+              "maxDisplayAuthorityGapM": 0.6097613335941694
+            }
+          ],
+          "actions": null
+        },
+        {
+          "latencyEachDirectionMs": 150,
+          "trials": [
+            {
+              "code": "KeyW",
+              "sendMs": 27.600000023841858,
+              "visibleMoveMs": 14.899999976158142,
+              "authorityMoveMs": 437.19999998807907,
+              "alive": true,
+              "predictedFrames": 103,
+              "stopFinalErrorM": 1.0038281317292785E-10,
+              "stopForwardTravelM": 0.17923983714668523,
+              "stopBacktrackM": 0,
+              "maxDisplayAuthorityGapM": 3.1281035443359446
+            },
+            {
+              "code": "KeyD",
+              "sendMs": 35.39999997615814,
+              "visibleMoveMs": 16.30000001192093,
+              "authorityMoveMs": 457.39999997615814,
+              "alive": true,
+              "predictedFrames": 101,
+              "stopFinalErrorM": 1.6604601027718724E-10,
+              "stopForwardTravelM": 0.2195102659332046,
+              "stopBacktrackM": 0,
+              "maxDisplayAuthorityGapM": 3.1137151970605688
+            },
+            {
+              "code": "KeyW",
+              "sendMs": 50.60000002384186,
+              "visibleMoveMs": 19.600000023841858,
+              "authorityMoveMs": 650.3999999761581,
+              "alive": true,
+              "predictedFrames": 103,
+              "stopFinalErrorM": 5.997957686079485E-11,
+              "stopForwardTravelM": 0.10594697698720035,
+              "stopBacktrackM": 0,
+              "maxDisplayAuthorityGapM": 3.1323605344513163
+            }
+          ],
+          "actions": null
+        }
+      ]
+    },
+    {
+      "name": "touch-actions",
+      "passed": true,
+      "sources": {
+        "src/client/front-app.ts": "e3677eec41f3469238643ee5d522a2dd3be718a7517fe7bb6db14868abc25bc0",
+        "src/client/input.ts": "10394277cf088861e98545d7f599f41b559a29020846cf2a57aa80d7a3b2dd6c",
+        "src/client/front-local-motion.ts": "98a5fba92d5368e2f0c5c5fe21654ab2889d0e39dda4b4bc40c4f6ba26c02be9"
+      },
+      "errors": [],
+      "runs": [
+        {
+          "latencyEachDirectionMs": 150,
+          "trials": [
+            {
+              "code": "KeyW",
+              "sendMs": 82.19999998807907,
+              "visibleMoveMs": 18.19999998807907,
+              "authorityMoveMs": 645.6999999880791,
+              "alive": true,
+              "predictedFrames": 85,
+              "stopFinalErrorM": 8.772227085174222E-06,
+              "stopForwardTravelM": 0.8313445075326352,
+              "stopBacktrackM": 0,
+              "maxDisplayAuthorityGapM": 3.0776083844445115
+            },
+            {
+              "code": "KeyD",
+              "sendMs": 49.59999996423721,
+              "visibleMoveMs": 18.30000001192093,
+              "authorityMoveMs": 511.5999999642372,
+              "alive": true,
+              "predictedFrames": 92,
+              "stopFinalErrorM": 5.658605513991777E-06,
+              "stopForwardTravelM": 0.39622821823943455,
+              "stopBacktrackM": 0,
+              "maxDisplayAuthorityGapM": 2.769916335946515
+            },
+            {
+              "code": "KeyW",
+              "sendMs": 61.40000003576279,
+              "visibleMoveMs": 11,
+              "authorityMoveMs": 596,
+              "alive": true,
+              "predictedFrames": 95,
+              "stopFinalErrorM": 4.950959464622429E-07,
+              "stopForwardTravelM": 0.5095667799976855,
+              "stopBacktrackM": 0,
+              "maxDisplayAuthorityGapM": 3.084890815597279
+            },
+            {
+              "code": "TouchMove",
+              "sendMs": 11.899999976158142,
+              "visibleMoveMs": 10.099999964237213,
+              "authorityMoveMs": 441.5999999642372,
+              "alive": true,
+              "predictedFrames": 103,
+              "stopFinalErrorM": 2.4019875493053178E-06,
+              "stopForwardTravelM": 0.8220824169858738,
+              "stopBacktrackM": 0,
+              "maxDisplayAuthorityGapM": 3.0594487453010504
+            }
+          ],
+          "actions": {
+            "jumpSent": 1,
+            "dodgeSent": 1,
+            "airborneFrames": 40,
+            "dodgeFrames": 9,
+            "unsafePredictionFrames": 0,
+            "alive": true
+          }
+        }
+      ]
+    }
+  ]
+}
