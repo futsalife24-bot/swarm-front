@@ -1,4 +1,10 @@
 import type { Enemy, World, Player } from "./game";
+import {
+  STATE_TUPLE_ENCODING,
+  packEnemyTuple,
+  packProjectileTuple,
+  packOrbTuple,
+} from "./state-tuples";
 
 const turnView = new DataView(new ArrayBuffer(8));
 
@@ -161,6 +167,24 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
     ...commonRest
   } = common;
   const commonPrefix = encodeState(commonRest).slice(0, -1);
+  const owners = [
+    ...new Set([
+      ...common.projectiles.map((projectile) => projectile.owner),
+      ...commonEnemies.flatMap((enemy) =>
+        enemy.targetId === undefined ? [] : [enemy.targetId],
+      ),
+    ]),
+  ];
+  const ownerWire = JSON.stringify(owners);
+  let tuplePrefix: string | undefined;
+  const getTuplePrefix = () => {
+    if (tuplePrefix !== undefined) return tuplePrefix;
+    const rounded = JSON.parse(commonPrefix + "}");
+    rounded.projectiles = rounded.projectiles.map((projectile: unknown) =>
+      packProjectileTuple(projectile, owners),
+    );
+    return (tuplePrefix = JSON.stringify(rounded).slice(0, -1));
+  };
   const playerWire = encodeState(commonPlayers);
   const cachedPlayerWire = encodeState(
     commonPlayers.map(({ weapons, ...p }) => p),
@@ -194,11 +218,43 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
         }
       : modernEnemySet);
   };
+  const tupleEnemies = new Map<boolean, typeof modernEnemySet>();
+  const getTupleEnemies = (modern: boolean) => {
+    const previous = tupleEnemies.get(modern);
+    if (previous) return previous;
+    const source = modern ? modernEnemySet : getLegacyEnemySet();
+    const byId = new Map(
+      [...source.byId].map(([id, wire]) => [
+        id,
+        JSON.stringify(packEnemyTuple(JSON.parse(wire), owners)),
+      ]),
+    );
+    const result = {
+      byId,
+      all: commonEnemies.map((e) => byId.get(e.id)!).join(","),
+    };
+    tupleEnemies.set(modern, result);
+    return result;
+  };
+  const orbWires = new Map(
+    (front?.orbs ?? []).map((orb) => [orb.id, encodeState(orb)]),
+  );
+  let tupleOrbs: typeof orbWires | undefined;
+  const getOrbWires = (tuples: boolean) => {
+    if (!tuples) return orbWires;
+    return (tupleOrbs ??= new Map(
+      [...orbWires].map(([id, wire]) => [
+        id,
+        JSON.stringify(packOrbTuple(JSON.parse(wire))),
+      ]),
+    ));
+  };
   const eventWires = commonEvents.map((event) => encodeState(event));
   const full = new Map<number, string>();
   const cached = new Map<number, string>();
   const legacyFull = new Map<number, string>();
   const legacyCached = new Map<number, string>();
+  const tupleCaches = new Map<string, Map<number, string>>();
   const tail = encodeState(metadata).slice(1, -1);
   return {
     equipmentKey: JSON.stringify([
@@ -211,64 +267,70 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
       inputAck = -1,
       recipientMetadata?: object,
       partialSupported = true,
+      tupleSupported = false,
+      chunksSupported = false,
     ) {
       // 受信者別の戦況・時刻も含め、実際に送る最終データで容量を判定する。
       const recipientTail = recipientMetadata
         ? encodeState({ ...metadata, ...recipientMetadata }).slice(1, -1)
         : tail;
-      const personalData = {
-        ...(front
-          ? {
-              front: {
-                ...front,
-                // 描画に使う印は受信者自身の分だけ。サーバーの判定状態は維持する。
-                players: Object.fromEntries(
-                  Object.entries(front.players).map(([owner, p]) => [
-                    owner,
-                    { ...p, statuses: owner === id ? p.statuses : {} },
-                  ]),
-                ),
-              },
-            }
-          : {}),
+      // Encode recipient-specific fields once. Orbs have shared pre-encoded rows,
+      // so fitting different subsets never re-encodes the front/equipment trees.
+      const personal = encodeState({
         pending: { [id]: pending[id] ?? [] },
         rewards: { [id]: rewards[id] ?? [] },
         drops: drops.filter((d) => d.owner === id),
-      };
-      const personal = encodeState(personalData).slice(1, -1);
+      }).slice(1, -1);
+      const frontPrefix = front
+        ? encodeState({
+            ...front,
+            orbs: undefined,
+            players: Object.fromEntries(
+              Object.entries(front.players).map(([owner, p]) => [
+                owner,
+                { ...p, statuses: owner === id ? p.statuses : {} },
+              ]),
+            ),
+          }).slice(0, -1)
+        : "";
+      const orbSet = getOrbWires(tupleSupported);
+      const allOrbs = [...orbSet.values()].join(",");
       const packetWith = (
         count: number,
         enemies?: ReturnType<typeof wireEnemy>[],
         orbs?: NonNullable<World["front"]>["orbs"],
         omitted?: { enemies: number[]; orbs: number[] },
       ) => {
-        const cache = partialSupported
+        let cache = partialSupported
           ? equipmentCached
             ? cached
             : full
           : equipmentCached
             ? legacyCached
             : legacyFull;
-        const enemySet = partialSupported
-          ? modernEnemySet
-          : getLegacyEnemySet();
+        if (tupleSupported) {
+          const key = `${partialSupported}:${equipmentCached}`;
+          if (!tupleCaches.has(key)) tupleCaches.set(key, new Map());
+          cache = tupleCaches.get(key)!;
+        }
+        const enemySet = tupleSupported
+          ? getTupleEnemies(partialSupported)
+          : partialSupported
+            ? modernEnemySet
+            : getLegacyEnemySet();
         let encoded = enemies ? undefined : cache.get(count);
         if (encoded === undefined) {
           const enemyWire = enemies
             ? enemies.map((enemy) => enemySet.byId.get(enemy.id)!).join(",")
             : enemySet.all;
           const eventWire = count ? eventWires.slice(-count).join(",") : "";
-          encoded = `${commonPrefix},"players":${equipmentCached ? cachedPlayerWire : playerWire},"enemies":[${enemyWire}],"events":[${eventWire}]`;
+          encoded = `${tupleSupported ? getTuplePrefix() : commonPrefix},"players":${equipmentCached ? cachedPlayerWire : playerWire},"enemies":[${enemyWire}],"events":[${eventWire}]`;
           if (!enemies) cache.set(count, encoded);
         }
-        const own =
-          orbs && personalData.front
-            ? encodeState({
-                ...personalData,
-                front: { ...personalData.front, orbs },
-              }).slice(1, -1)
-            : personal;
-        return `{"type":"state","equipmentCached":${equipmentCached},"inputAck":${inputAck},"world":${encoded},${own}}${recipientTail ? `,${recipientTail}` : ""}${omitted ? `,"omitted":${JSON.stringify(omitted)}` : ""}}`;
+        const own = front
+          ? `"front":${frontPrefix},"orbs":[${orbs ? orbs.map((orb) => orbSet.get(orb.id)!).join(",") : allOrbs}]},${personal}`
+          : personal;
+        return `{"type":"state"${tupleSupported ? `,"stateEncoding":"${STATE_TUPLE_ENCODING}","stateOwners":${ownerWire}` : ""},"equipmentCached":${equipmentCached},"inputAck":${inputAck},"world":${encoded},${own}}${recipientTail ? `,${recipientTail}` : ""}${omitted ? `,"omitted":${JSON.stringify(omitted)}` : ""}}`;
       };
       const packet = packetWith(common.events.length);
       if (!front || new TextEncoder().encode(packet).length <= 65536)
@@ -285,7 +347,8 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
       const withoutEvents = packetWith(low);
       if (
         new TextEncoder().encode(withoutEvents).length <= 65536 ||
-        !partialSupported
+        !partialSupported ||
+        chunksSupported
       )
         return withoutEvents;
 

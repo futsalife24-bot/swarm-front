@@ -10,6 +10,8 @@ import type { World, Input } from "../shared/game";
 import type { Weapon } from "../shared/defs";
 import { validStage } from "../shared/stages";
 import { EquipmentCache } from "../shared/state-wire";
+import { restoreStateTuples } from "../shared/state-tuples";
+import { StateChunkAssembler } from "../shared/state-chunks";
 import { StateOmissionCache } from "./state-omissions";
 import type { RoomOptions } from "../shared/room-directory";
 export interface Member {
@@ -153,6 +155,7 @@ export class Network {
     this.inFlightInputs = [];
     const equipmentCache = new EquipmentCache();
     const omissionCache = new StateOmissionCache();
+    const chunks = new StateChunkAssembler();
     let welcomed = false;
     let firstState = true;
     const timeout = setTimeout(() => {
@@ -166,6 +169,8 @@ export class Network {
         type: "hello",
         equipmentCache: 1,
         stateOmissions: 1,
+        stateTuples: 1,
+        stateChunks: 1,
         name: this.playerName,
         ...(this.token ? { token: this.token } : {}),
       });
@@ -173,10 +178,11 @@ export class Network {
     ws.onmessage = (e) => {
       if (this.ws !== ws) return;
       this.last = Date.now();
-      let m;
+      let m: any; // Parsed data still passes the existing runtime guards below.
       try {
-        if (typeof e.data !== "string" || e.data.length > 65536) return;
-        m = JSON.parse(e.data);
+        // Framing owns the unchanged per-message cap and clears corrupt assembly.
+        m = chunks.read(e.data);
+        if (!restoreStateTuples(m)) return;
         if (!m || typeof m !== "object" || typeof m.type !== "string") return;
         if (
           m.type === "welcome" &&

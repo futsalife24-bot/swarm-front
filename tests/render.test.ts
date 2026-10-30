@@ -29,7 +29,8 @@ it("uses a short moving bullet, bounds the blast ring and releases finished effe
     bullet.mesh.geometry.boundingBox!.getSize(new T.Vector3()).y,
   ).toBeLessThan(1);
   fx.update(0.05);
-  expect(bullet.mesh.position.z).toBeCloseTo(-7.5);
+  // The current tracer travels at 120 m/s; this is visual motion, not hit timing.
+  expect(bullet.mesh.position.z).toBeCloseTo(-6);
   fx.event({ id: 2, type: "burst", x: 0, y: 0, z: 0, radius: 3.5 });
   fx.update(0.25);
   expect(fx.items.find((e) => e.kind === "ring")!.mesh.scale.x).toBe(3.5);

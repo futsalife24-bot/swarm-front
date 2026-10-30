@@ -367,7 +367,7 @@ function menuDialog(title: string, content: string, back: () => void) {
 }
 function menuSettings(back: () => void) {
   cancelOperationCue();
-  settings.open($("ui"), back);
+  settings.open($("ui"), back, "保存して戻る", true);
 }
 function base(back: () => void = home) {
   cancelOperationCue();

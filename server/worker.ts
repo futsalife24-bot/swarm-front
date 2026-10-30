@@ -51,6 +51,7 @@ import {
   validCloudSave,
 } from "./player-vault";
 import { DurableObject } from "cloudflare:workers";
+import { RoomClock } from "./room-clock";
 import { creationAccess, turnstileAccess } from "./auth";
 import { LIMITS, validBattleWeapon, type Weapon } from "../src/shared/defs";
 import type { NewWeapon } from "../src/shared/progression";
@@ -67,6 +68,7 @@ import {
   type World,
 } from "../src/shared/game";
 import { encodeState, prepareState } from "../src/shared/state-wire";
+import { encodeStateChunks } from "../src/shared/state-chunks";
 import {
   roomOptions,
   normalizeRoomId,
@@ -913,11 +915,16 @@ export class Room extends DurableObject<Env> {
       seq: number;
       equipmentCache?: boolean;
       stateOmissions?: boolean;
+      stateTuples?: boolean;
+      stateChunks?: boolean;
       equipmentKey?: string;
     }
   >();
   inputs: Record<string, { i: Input; at: number }> = {};
-  timer: ReturnType<typeof setInterval> | undefined;
+  timer: ReturnType<typeof setTimeout> | undefined;
+  private clock = new RoomClock();
+  private timerGeneration = 0;
+  private stateSnapshot = 0;
   ticks = 0;
   sentEvent = 0;
   persisting = false;
@@ -939,6 +946,8 @@ export class Room extends DurableObject<Env> {
         const a = ws.deserializeAttachment() as {
           id: string;
           stateOmissions?: boolean;
+          stateTuples?: boolean;
+          stateChunks?: boolean;
         };
         this.sockets.set(ws, {
           id: a.id,
@@ -947,6 +956,8 @@ export class Room extends DurableObject<Env> {
           window: Date.now(),
           seq: -1,
           stateOmissions: a.stateOmissions === true,
+          stateTuples: a.stateTuples === true,
+          stateChunks: a.stateChunks === true,
         });
       }
     });
@@ -1210,8 +1221,15 @@ export class Room extends DurableObject<Env> {
       s.id = member.id;
       s.equipmentCache = m.equipmentCache === 1;
       s.stateOmissions = m.stateOmissions === 1;
+      s.stateTuples = m.stateTuples === 1;
+      s.stateChunks = m.stateChunks === 1;
       s.at = now;
-      ws.serializeAttachment({ id: s.id, stateOmissions: s.stateOmissions });
+      ws.serializeAttachment({
+        id: s.id,
+        stateOmissions: s.stateOmissions,
+        stateTuples: s.stateTuples,
+        stateChunks: s.stateChunks,
+      });
       const p = this.saved.world?.players.find((p) => p.id === s.id);
       if (p) p.connected = true;
       if (this.saved.frontRun)
@@ -1679,6 +1697,7 @@ export class Room extends DurableObject<Env> {
         : {}),
     };
     const state = w ? prepareState(w, this.sentEvent, metadata) : undefined;
+    this.stateSnapshot = Math.max(Date.now(), this.stateSnapshot + 1);
     for (const [ws, s] of this.sockets) {
       if (!s.id) continue;
       if (w) {
@@ -1700,8 +1719,16 @@ export class Room extends DurableObject<Env> {
           s.seq,
           recipientMetadata,
           s.stateOmissions === true,
+          s.stateTuples === true,
+          s.stateChunks === true,
         );
-        if (this.sendEncoded(ws, payload)) s.equipmentKey = state!.equipmentKey;
+        const chunks = s.stateChunks
+          ? encodeStateChunks(payload, this.stateSnapshot)
+          : [payload];
+        // Oversized logical snapshots keep the existing 4009 failure. Never
+        // acknowledge cached equipment after a partially sent snapshot.
+        if ((chunks ?? [payload]).every((part) => this.sendEncoded(ws, part)))
+          s.equipmentKey = state!.equipmentKey;
       } else this.send(ws, { type: "lobby", ...metadata });
     }
     if (w) {
@@ -1712,13 +1739,26 @@ export class Room extends DurableObject<Env> {
   }
   run() {
     if (this.timer) return;
-    this.timer = setInterval(() => {
-      void this.tick();
-    }, 50);
+    const generation = ++this.timerGeneration;
+    const scheduledTick = async () => {
+      if (generation !== this.timerGeneration) return;
+      try {
+        await this.tick();
+      } finally {
+        // stop/resume during an awaited persist must not spawn a second timer.
+        if (generation === this.timerGeneration && this.timer)
+          this.timer = setTimeout(
+            scheduledTick,
+            this.clock.nextDelay(Date.now()),
+          );
+      }
+    };
+    this.timer = setTimeout(scheduledTick, this.clock.start(Date.now()));
   }
   stop() {
+    this.timerGeneration++;
     if (this.timer) {
-      clearInterval(this.timer);
+      clearTimeout(this.timer);
       this.timer = undefined;
     }
   }

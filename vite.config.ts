@@ -1,7 +1,9 @@
 import { defineConfig } from "vite";
 import { fileURLToPath } from "node:url";
 import { generateChangelog } from "./scripts/automatic-changelog.mjs";
+import { assetDownloadManifestPlugin } from "./scripts/asset-download-manifest.mjs";
 export default defineConfig({
+  plugins: [assetDownloadManifestPlugin()],
   define: {
     __AUTO_CHANGELOG__: JSON.stringify(
       generateChangelog(fileURLToPath(new URL(".", import.meta.url))),

@@ -1321,31 +1321,32 @@ export function fire(w: World, p: Player, i: Input, airborne = false) {
       dy = Math.sin(pi);
     if ("speed" in def && def.speed) {
       const speed = def.speed;
-      if (w.projectiles.length < 100)
-        w.projectiles.push({
-          id: ++w.serial,
-          x: p.x,
-          z: p.z,
-          y: (p.y ?? 0) + 1.5,
-          dx: dx * speed,
-          dz: dz * speed,
-          dy: dy * speed,
-          // An arcing round is pulled down, so it needs longer in the air than
-          // its range divided by its speed to reach that range at all.
-          life: (def.range / speed) * (shape.gravity ? 2.2 : 1),
-          owner: p.id,
-          damage:
-            def.damage *
-            (w.front?.growthVersion === 3 ? (frontShot?.damageFactor ?? 1) : 1),
-          rocket: true,
-          chain: weapon.effect === "chain",
-          radius: def.radius,
-          family,
-          ...(w.front?.growthVersion === 3 && frontShot
-            ? { frontShot: frontShot.id, frontSlot: p.slot }
-            : {}),
-          ...(shape.gravity ? { gravity: shape.gravity } : {}),
-        });
+      // Accepted player shots have their own cadence, ammo and lifetime bounds.
+      // Enemy volleys must not consume their projectile capacity.
+      w.projectiles.push({
+        id: ++w.serial,
+        x: p.x,
+        z: p.z,
+        y: (p.y ?? 0) + 1.5,
+        dx: dx * speed,
+        dz: dz * speed,
+        dy: dy * speed,
+        // An arcing round is pulled down, so it needs longer in the air than
+        // its range divided by its speed to reach that range at all.
+        life: (def.range / speed) * (shape.gravity ? 2.2 : 1),
+        owner: p.id,
+        damage:
+          def.damage *
+          (w.front?.growthVersion === 3 ? (frontShot?.damageFactor ?? 1) : 1),
+        rocket: true,
+        chain: weapon.effect === "chain",
+        radius: def.radius,
+        family,
+        ...(w.front?.growthVersion === 3 && frontShot
+          ? { frontShot: frontShot.id, frontSlot: p.slot }
+          : {}),
+        ...(shape.gravity ? { gravity: shape.gravity } : {}),
+      });
       event(w, {
         type: "shot",
         weapon: family,
@@ -1508,6 +1509,28 @@ export function playerVerticalStep(
     } else p.y = nextY;
   }
   return airborne;
+}
+/** First entry into a body along a player's projectile move, as a tick fraction. */
+function projectileSphereEntry(
+  q: { x: number; y: number; z: number },
+  dx: number,
+  dy: number,
+  dz: number,
+  body: { x: number; y: number; z: number; radius: number },
+  covered: number,
+) {
+  const x = q.x - body.x,
+    y = q.y - body.y,
+    z = q.z - body.z,
+    c = x * x + y * y + z * z - body.radius * body.radius;
+  if (c <= 0) return 0;
+  const a = dx * dx + dy * dy + dz * dz;
+  if (a === 0) return undefined;
+  const b = x * dx + y * dy + z * dz,
+    discriminant = b * b - a * c;
+  if (b >= 0 || discriminant < 0) return undefined;
+  const entry = (-b - Math.sqrt(discriminant)) / a;
+  return entry >= 0 && entry <= covered ? entry : undefined;
 }
 /** Distance from a point to the part of this tick's move a round covered (it now sits at the end). */
 function segmentDistance(
@@ -2111,34 +2134,71 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       dz = q.dz * dt,
       dy = q.dy * dt - 0.5 * (q.gravity ?? 0) * dt * dt,
       dist = Math.hypot(dx, dy, dz);
-    const wall = wallDistance(
-      q.x,
-      q.y,
-      q.z,
-      dx / dist,
-      dy / dist,
-      dz / dist,
-      dist,
-      mapFor(w).blocks,
-    );
-    q.x += dx * Math.min(1, wall / dist);
-    q.z += dz * Math.min(1, wall / dist);
-    q.y += dy * Math.min(1, wall / dist);
+    const blocks = mapFor(w).blocks;
+    const wall =
+      q.rocket && dist === 0
+        ? 0
+        : wallDistance(
+            q.x,
+            q.y,
+            q.z,
+            dx / dist,
+            dy / dist,
+            dz / dist,
+            dist,
+            blocks,
+          );
+    let covered = q.rocket && dist === 0 ? 0 : Math.min(1, wall / dist);
+    let direct: Enemy | undefined;
+    let surfaceHit = wall < dist;
+    if (q.rocket) {
+      // wallDistance already clips terrain rays. Flat ground also stops a round
+      // at the crossing, rather than at a later endpoint beneath the floor.
+      const underFloor = (fraction: number) =>
+        q.y + dy * fraction <=
+        groundHeight(q.x + dx * fraction, q.z + dz * fraction, blocks);
+      if (underFloor(0)) {
+        covered = 0;
+        surfaceHit = true;
+      } else if (underFloor(covered)) {
+        let low = 0,
+          high = covered;
+        for (let n = 0; n < 20; n++) {
+          const middle = (low + high) / 2;
+          if (underFloor(middle)) high = middle;
+          else low = middle;
+        }
+        covered = high;
+        surfaceHit = true;
+      }
+      // Scan every body before moving the round. A nearer intersection wins
+      // regardless of enemy order; an obstacle wins an exact-distance tie.
+      if (q.life > 0)
+        for (const e of w.enemies) {
+          if (e.hp <= 0) continue;
+          for (const body of enemyBodies(e)) {
+            const entry = projectileSphereEntry(q, dx, dy, dz, body, covered);
+            if (
+              entry !== undefined &&
+              (entry < covered ||
+                (entry === covered &&
+                  (direct ? e.id < direct.id : !surfaceHit)))
+            ) {
+              covered = entry;
+              direct = e;
+            }
+          }
+        }
+    }
+    q.x += dx * covered;
+    q.z += dz * covered;
+    q.y += dy * covered;
     q.dy -= (q.gravity ?? 0) * dt;
     q.life -= dt;
-    const floor = groundHeight(q.x, q.z, mapFor(w).blocks);
-    let hit = wall < dist || q.y <= floor || q.life <= 0;
+    const floor = groundHeight(q.x, q.z, blocks);
+    let hit = surfaceHit || q.y <= floor || q.life <= 0;
     q.y = Math.max(floor, q.y);
     if (q.rocket) {
-      const direct = !hit
-        ? w.enemies.find(
-            (e) =>
-              e.hp > 0 &&
-              enemyBodies(e).some(
-                (b) => Math.hypot(b.x - q.x, b.z - q.z, b.y - q.y) < b.radius,
-              ),
-          )
-        : undefined;
       hit ||= !!direct;
       if (hit) {
         // Rounds fired before weapons carried their own blast read as the

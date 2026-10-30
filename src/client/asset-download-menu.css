@@ -1,0 +1,107 @@
+body .download-dialog {
+  width: min(820px, calc(100vw - 24px));
+}
+body .download-dialog > header {
+  padding: 8px 14px;
+}
+body .download-dialog h2 {
+  font-size: 18px;
+}
+body .download-dialog .menu-dialog-body {
+  padding: 8px 14px;
+}
+.download-dialog .download-intro {
+  font-size: 12px;
+  margin: 0 0 8px;
+}
+.download-packs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+body .download-dialog .download-packs .download-pack {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: start;
+  gap: 3px 7px;
+  padding: 8px;
+  border: 1px solid #63777b;
+  border-radius: 4px;
+  margin: 0;
+  min-height: 44px;
+  cursor: pointer;
+}
+.download-pack input {
+  margin: 2px 0;
+  width: 18px;
+  height: 18px;
+}
+.download-pack strong {
+  display: block;
+  font-size: 13px;
+}
+.download-pack small {
+  display: block;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #c3d1d2;
+}
+.download-pack-state {
+  grid-column: 2;
+  font-size: 11px;
+  color: #a9e8d0;
+}
+.download-controls {
+  flex: none;
+  background: #17252b;
+  border-top: 1px solid #63777b;
+  padding: 8px 14px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 10px;
+}
+.download-summary {
+  font-size: 12px;
+  align-self: center;
+}
+.download-actions {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.download-actions button {
+  min-height: 40px;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+.download-controls progress {
+  width: 100%;
+  height: 9px;
+  accent-color: #9ed9bb;
+}
+body .download-controls .download-status {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.download-controls > small {
+  grid-column: 1 / -1;
+  font-size: 10px;
+  line-height: 1.4;
+  color: #c3d1d2;
+}
+@media (max-width: 560px) {
+  .download-packs {
+    grid-template-columns: 1fr;
+  }
+  .download-controls {
+    grid-template-columns: 1fr;
+  }
+  .download-actions {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}

@@ -38,6 +38,14 @@ export class TestGate extends Gate {
   }
 }
 export class TestRoom extends Room {
+  private fixedWire = false;
+  override async tick() {
+    if (this.fixedWire) {
+      if (++this.ticks % 2 === 0) this.broadcast();
+      return;
+    }
+    await super.tick();
+  }
   override async fetch(req: Request) {
     const u = new URL(req.url);
     if (u.pathname === "/snapshot") {
@@ -49,6 +57,7 @@ export class TestRoom extends Room {
     }
     if (u.pathname === "/fixture") {
       this.stop();
+      this.fixedWire = false;
       if (u.searchParams.get("case") === "front-wire-bastion") {
         const run = this.saved.frontRun;
         if (!run || run.mode !== "survival")
@@ -66,15 +75,32 @@ export class TestRoom extends Room {
         this.broadcast();
         return Response.json({ ok: true });
       }
-      if (u.searchParams.get("case") === "front-wire-dense") {
+      if (
+        u.searchParams.get("case") === "front-wire-dense" ||
+        u.searchParams.get("case") === "front-wire-heavy" ||
+        u.searchParams.get("case") === "front-wire-overflow"
+      ) {
         const run = this.saved.frontRun;
         if (!run || run.mode !== "survival" || run.world.players.length !== 4)
           return new Response("4人の生存戦が必要です", { status: 409 });
         populateDenseWireWorld(
           run.world,
           run.world.players.map((p) => p.id),
+          u.searchParams.get("case") === "front-wire-overflow"
+            ? 1000
+            : u.searchParams.get("case") === "front-wire-heavy"
+              ? 400
+              : 180,
         );
         this.broadcast();
+        // Keep the test object alive and broadcast fixed snapshots. This fixture
+        // measures transport/rendering, deliberately not simulation or balance.
+        if (u.searchParams.get("case") !== "front-wire-dense") {
+          for (const [index, projectile] of run.world.projectiles.entries())
+            if (index % 2) projectile.style = "bastion";
+          this.fixedWire = true;
+          this.run();
+        }
         return Response.json({ ok: true });
       }
       if (u.searchParams.get("case") === "front-growth-result") {
@@ -413,7 +439,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-wire-dense|front-wire-bastion)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion)$/.exec(
         u.pathname,
       );
     if (match && req.method === "POST") {

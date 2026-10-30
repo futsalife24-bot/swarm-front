@@ -1,0 +1,20 @@
+{
+  "revision": "536db5cadf00f469d8bfde12e7e949ff86998ef7374b02ba05611f20ba5a5af2",
+  "started": "2026-10-30T02:43:37.240Z",
+  "pausedFiles": 3,
+  "savedFiles": 150,
+  "selectedFiles": 150,
+  "secondVisitDownloads": 0,
+  "rootOffline": true,
+  "rootOfflineReload": true,
+  "offlineRange": {
+    "status": 206,
+    "bytes": 20,
+    "range": "bytes 10-29/71724"
+  },
+  "frontOffline": true,
+  "frontSettingsEntry": true,
+  "survivalOfflineStarted": true,
+  "pageErrors": [],
+  "pass": true
+}
