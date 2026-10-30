@@ -6,11 +6,12 @@
 
 追加調査で遅い回線への古い戦況の滞留を確認し、接続ごとの未ACKを2状態に制限、空きができた接続へ最新の完全なWorldを配信する方式を追加。各方向75ms/131,072B/sの未圧縮payload制限で最大入力適用応答1.34秒→0.53秒。通常回線1画面では最大114ms、4画面45秒検査では最大572ms・ゲーム進行44.55秒。異なるseedの比較なので実機の改善率とはしない。関連81件と両型、新しい実通信1件（旧接続共存・最後の結果・再接続）、既存互換6件、大量描画の再確認が成功。[送信制御と限界](evidence/coop-comfort-20261030/state-flow.md)。
 
-本人依頼のPWA事前ダウンロード、起動時の横向き案内、Safari向けの音量修正も実装済み。先行buildでは150ファイル保存・中断再開・再訪追加DL0・同一URL更新1件取得・オフライン両入口と生存ソロ出撃・localStorage不変を確認。音声45件、Chromeで実MP3の25%・無音・復帰、Context中断復帰・close/reopenを確認。Safari実機は未確認。今回の送信制御を含む最終build/PWA再検査を続行中。[PWA](evidence/coop-comfort-20261030/pwa-implementation.md)、[音量と起動](evidence/coop-comfort-20261030/mobile-start-audio.md)。
+本人依頼のPWA事前ダウンロード、起動時の横向き案内、Safari向けの音量修正も実装済み。先行buildでは150ファイル保存・中断再開・再訪追加DL0・同一URL更新1件取得・オフライン両入口と生存ソロ出撃・localStorage不変を確認。音声45件、Chromeで実MP3の25%・無音・復帰、Context中断復帰・close/reopenを確認。Safari実機は未確認。送信制御を含む実装100ad9eから最終build/PWA再検査も成功（150件保存・再訪0・更新1件・オフライン生存出撃・画面例外0）。Worker production dry-run成功。[PWA](evidence/coop-comfort-20261030/pwa-implementation.md)、[音量と起動](evidence/coop-comfort-20261030/mobile-start-audio.md)。
 
-基点main `3e1dc640e15d747cc2a06ac72c59833db2072f74`、branch `codex/coop-comfort-ready-20261030`、worktree `C:/Users/futsa/.codex/worktrees/coop-comfort-20261030/swarm-rebuild-p1a`。保存済みHEAD `bf30da332b6636bc51cbf935912ea0d323de93e6` へ今回の追加修正・検証を積み上げる。元root・別worktree・旧branchの成果は保持。
+基点main `3e1dc640e15d747cc2a06ac72c59833db2072f74`、branch `codex/coop-comfort-ready-20261030`、worktree `C:/Users/futsa/.codex/worktrees/coop-comfort-20261030/swarm-rebuild-p1a`。実装HEAD `100ad9efac36e9f3653151cc1f0cb8d66765ce4f`。最終ビルドは同HEADから生成し、検証記録だけを追加commitする。元root・別worktree・旧branchの成果は保持。
 
 公開GitHubへのpushは一度自動承認レビューに拒否されたが、その後本人の「許可と承認します」を受けてpushと[下書きPR231](https://github.com/futsalife24-bot/swarm-front/pull/231)を作成した。今回の追加承認はコード・検証資料の公開GitHub保存と下書きPRに限り、merge・本番反映は未実施。独立レビューは未実施。実スマホ・iOS Safari・実回線複数端末・長時間/発熱の確認は残り、「完全解消」やgoal完了とは扱わない。主担当の実モデル/effortは未確認、実装補助の呼出指定はgpt-6.1-sol/high（実行設定値は未確認）。
+
 # 前回記録: 戦闘FPS表示を公開（2026-10-28）
 
 [PR229](https://github.com/futsalife24-bot/swarm-front/pull/229)を本人承認後に通常merge。公開ソースmain `6ebb80b88ebd25a676097c9820902445b15b4dea`、既存Worker Version `1750b255-3318-4c05-831f-5e772fe2d9c9`。生存・進撃の戦闘画面左下に実測FPSを約1秒ごと表示、停止中は「— FPS」。配信33ファイルSHA一致・health正常。空プロファイル/GET専用中継の配信版生存起動で「60 FPS」・画面例外0を確認。[証拠](evidence/battle-fps-20261028/README.md)。実OPPO未確認。型/build/dry-run、横画面2サイズ、30/60設定、停止復帰・長停止計算は成功。GitHubチェック0件でCI成功とは扱わない。root既存差分を保持。

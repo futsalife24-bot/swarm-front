@@ -29,7 +29,7 @@ PWA事前保存は転送待ちを減らす機能。GLBの解釈、GPUへの転�
 - 実Chromeの隔離プロファイル・本番build・実Service Worker/CacheStorageを使う `scripts/check-asset-download.mjs` を追加。本人のセーブを使わず、保存前後のlocalStorage不変も検査する。実スマホではなく844×390/640×360の寸法検査。
 - 実ブラウザ検査は成功。150ファイル（本体33、共通116、生存戦場1）を実CacheStorageへ保存。最新再検査は2ファイル完了で中断し、再開後に150件が揃った。2回目の追加ダウンロード0、localStorage前後不変、画面例外0。
 - 同一URLの更新も追加検査。隔離HTTPサーバー上だけで共通PNG1件の内容・一覧hashを更新し、通常の再保存操作でその1件だけを取得、新hashのCacheStorage応答へ置換したことを確認。実素材・distは変更しない。合成更新であり、実配信済みの版とは区別する。
-- 通信を無効にしてrootの起動・再読み込み、front.htmlの起動、生存側設定の保存入口、保存音声のRange 206/20bytes、生存ソロ出撃→初期強化選択→兵士・地形の実描画まで成功。[結果JSON](pwa-browser-results.json)、[640×360の画面](pwa-menu-640.png)、[844×390の保存済み画面](pwa-saved-844.png)。最新検査はGPU初使用準備・横向き案内・音量修正を含むHEAD `8d8c15595e37013f9dd9384a113d2b8e996c8ae2` のbuild revision `c61c56b9c35adbce24357eb88351997bf93decf5009aadf91f87c2b7e1ea3620`（2026-10-30 04:00 UTC開始）。約98.9MBの選択内容に対し、ブラウザーの使用量は既存cache/overheadを含むため同じ値にはならない。
+- 通信を無効にしてrootの起動・再読み込み、front.htmlの起動、生存側設定の保存入口、保存音声のRange 206/20bytes、生存ソロ出撃→初期強化選択→兵士・地形の実描画まで成功。[結果JSON](pwa-browser-results.json)、[640×360の画面](pwa-menu-640.png)、[844×390の保存済み画面](pwa-saved-844.png)。先行検査はGPU初使用準備・横向き案内・音量修正を含むHEAD `8d8c15595e37013f9dd9384a113d2b8e996c8ae2` のbuild revision `c61c56b9c35adbce24357eb88351997bf93decf5009aadf91f87c2b7e1ea3620`（2026-10-30 04:00 UTC開始）。約98.9MBの選択内容に対し、ブラウザーの使用量は既存cache/overheadを含むため同じ値にはならない。
 - 全画面・要求一覧・結果原本は `dist-validation/coop-comfort-20261030/pwa/`。実Android/iOS/PWAインストール、通信ありの実ユーザー環境、本番配信は未確認。
 
 ## 検査で判明した問題と対応
@@ -39,3 +39,9 @@ PWA事前保存は転送待ちを減らす機能。GLBの解釈、GPUへの転�
 3. タイトルの既存footer非表示ルールが操作欄に作用した。専用divに変更。横スマホで一覧に重なるsticky操作欄は、一覧のスクロール外へ分離。
 4. Vite後続hookがJSを変更して、生成時のmanifestと実配信ファイルが一致しなかった。内容照合がこの不一致を拒否できた。最終出力から生成し、build終了時にも全件再照合する方式へ修正。実Vite後続書換えを含む生成器16回帰と、実プロジェクトのbuild・ブラウザ150ファイル保存で解消を確認。
 5. 既存E2Eの古い出撃手順を参考にした初回は、現行の「進撃/生存」作戦選択を飛ばして失敗。現行の通常操作で生存を選ぶ手順へ修正し、オフライン出撃まで再検証した。製品の作戦選択は変更しない。
+
+## 送信制御を含む最終統合確認
+
+実装HEAD `100ad9efac36e9f3653151cc1f0cb8d66765ce4f` から再buildし、revision `2aaaa2e5b523637139a65cad3037e4a2ee471a9fe602b024394707d1f8654193` を実Chromeで確認した（2026-10-30 05:05 UTC開始）。231 modules、build成功6.76秒。既存の500kB超bundle警告は残る。Worker production dry-runも成功443.00KiB / gzip113.26KiBで、公開は実行していない。
+
+2件で中断後150件を保存、再訪追加DL0、同一URL更新1件のみ取得。通信なしのroot起動・再読込、front入口・設定、Range206/20bytes、生存ソロ出撃が成功。localStorage前後一致、画面例外0。原本は別の `dist-validation/coop-comfort-20261030/pwa-flow/` に保存し、先行結果を残した。[結果](pwa-flow-browser-results.json)、[640幅の保存画面](pwa-flow-menu-640.png)、[通信なしの生存ソロ](pwa-flow-offline-survival.png)。2画像を目視し、保存画面の操作・説明と兵士/地形の実描画を確認。実スマホ・iOS Safari/PWA、実ユーザーの保存データ、本番配信の検査ではない。

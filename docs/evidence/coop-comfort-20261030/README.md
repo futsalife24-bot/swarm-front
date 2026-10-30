@@ -1,6 +1,6 @@
 # マルチ快適化の調査・検証（進行中）
 
-2026-10-30。基点main `3e1dc640e15d747cc2a06ac72c59833db2072f74`。調査開始branchは `codex/coop-comfort-20261030`、現在の成果保存branchは `codex/coop-comfort-ready-20261030`（実装 `8d8c155`）。作業場所は `C:/Users/futsa/.codex/worktrees/coop-comfort-20261030/swarm-rebuild-p1a`。独立監査・公開・実スマホ検証は未実施。当初のpush拒否後、本人が公開GitHubへの保存と下書きPRを承認し、[PR231](https://github.com/futsalife24-bot/swarm-front/pull/231)へ同期した。merge・本番反映は今回の追加承認に含めず未実施。
+2026-10-30。基点main `3e1dc640e15d747cc2a06ac72c59833db2072f74`。調査開始branchは `codex/coop-comfort-20261030`、現在の成果保存branchは `codex/coop-comfort-ready-20261030`（最新実装 `100ad9e`）。作業場所は `C:/Users/futsa/.codex/worktrees/coop-comfort-20261030/swarm-rebuild-p1a`。独立監査・公開・実スマホ検証は未実施。当初のpush拒否後、本人が公開GitHubへの保存と下書きPRを承認し、[PR231](https://github.com/futsalife24-bot/swarm-front/pull/231)へ同期した。merge・本番反映は今回の追加承認に含めず未実施。
 
 ## 確認した不具合と修正
 

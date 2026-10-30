@@ -55,3 +55,5 @@
 検査helperの再現は [9件のecho検査](link-shaper-check.mjs)、[成功結果](link-shaper-results.json)。`node docs/evidence/coop-comfort-20261030/link-shaper-check.mjs` は別のローカル `link-shaper-recheck/` へ結果を保存する。遅延の非累積、順序・byte一致、容量上限、最終messageの前後関係、正常close競合と全接続回収を含む。
 
 実スマートフォン、iOS Safariの実音量、複数端末の実回線、長時間の負荷と端末の発熱は未確認。遅い回線では更新頻度が下がるので、補間を含む体感確認が必要。256KiB上限と2秒の分割組立期限は維持され、極端に遅い回線の無制限な復元は保証しない。初回GPU準備の待ち時間も実機評価が残る。独立レビューは未実施、主担当の自己レビューと実装補助担当の検証を独立監査とは呼ばない。
+
+最終実装commitは `100ad9efac36e9f3653151cc1f0cb8d66765ce4f`。同HEADのVite buildとWorker production dry-runが成功し、[PWA最終統合確認](pwa-implementation.md#送信制御を含む最終統合確認)も成功した。公開はしていない。検査helperの可搬scriptは初回に別出力先の作成が不足して結果保存だけENOENTになったため、mkdirを補い全9件を再実行して成功した。原本ログも保持している。
