@@ -14,9 +14,9 @@ BASTIONのモデル・halo・火花・閃光も出撃前に準備し、初登場
 
 先行の受信時刻版で関連単体92件（BASTION準備5件含む）、既存BASTION36件、client/worker型、実通信2件、旧互換6件、回線helper10件は成功。成功済みの既存検査と、その後の追加検査・判明した問題を分けて記録している。
 
-PWA事前ダウンロード・起動時の横向き案内・Safari向け音量修正も実装済み。先行実装100ad9eのbuildで150件保存・中断再開・再訪追加DL0・更新1件取得・オフライン生存出撃・localStorage不変を確認。音声45件とChrome実MP3の音量変更も確認。追加修正c5521c1のbuild・Worker production dry-run・同じPWA全項目の再検査も成功。検査側のbuild完了前起動による途中失敗も記録し、確定buildで再実行した。iOS Safari実機は未確認。[PWA](evidence/coop-comfort-20261030/pwa-implementation.md)、[音量と起動](evidence/coop-comfort-20261030/mobile-start-audio.md)。
+PWA事前ダウンロード・起動時の横向き案内・Safari向け音量修正も実装済み。先行実装100ad9eのbuildで150件保存・中断再開・再訪追加DL0・更新1件取得・オフライン生存出撃・localStorage不変を確認。音声45件とChrome実MP3の音量変更も確認。追加修正c5521c1と入力採取分離94b7346の各build・Worker production dry-run・同じPWA全項目の再検査も成功。途中失敗も記録し、最新はbuild完了/exit0を確認したrevisionで開始した。iOS Safari実機は未確認。[PWA](evidence/coop-comfort-20261030/pwa-implementation.md)、[音量と起動](evidence/coop-comfort-20261030/mobile-start-audio.md)。
 
-基点main `3e1dc640e15d747cc2a06ac72c59833db2072f74`、branch `codex/coop-comfort-ready-20261030`、worktree `C:/Users/futsa/.codex/worktrees/coop-comfort-20261030/swarm-rebuild-p1a`。先行の実装100ad9e・検証fe098e7・承認境界38cf846、受信時刻版 `c5521c1f73134eec37e3eff18806058dabe170bd`・最終検証 `029d1ab519b4ba751eb275e4ff048605319b4e46` を[下書きPR231](https://github.com/futsalife24-bot/swarm-front/pull/231)へ保存済み。入力採取の分離は029d1ab後の追加変更。実装保存後の新build/PWA統合確認を行い、同じbranchとPR231へ保存する。元root・別worktree・旧branchの成果は保持。
+基点main `3e1dc640e15d747cc2a06ac72c59833db2072f74`、branch `codex/coop-comfort-ready-20261030`、worktree `C:/Users/futsa/.codex/worktrees/coop-comfort-20261030/swarm-rebuild-p1a`。先行の実装100ad9e・検証fe098e7・承認境界38cf846、受信時刻版 `c5521c1f73134eec37e3eff18806058dabe170bd`・最終検証 `029d1ab519b4ba751eb275e4ff048605319b4e46` を[下書きPR231](https://github.com/futsalife24-bot/swarm-front/pull/231)へ保存済み。最新の入力採取分離は `94b73469464d6bafc3865a49140792afdc0c8939`、同HEADのbuild revision `85f2d47ad9354517973e36155a1612e0adff876ca88639d629d164a16491f1dd`でPWA統合確認成功。以後は検証文書・画像の追加のみ。保存先は同じbranch/PR231で、main反映とは区別する。元root・別worktree・旧branchの成果は保持。
 
 当初の公開GitHub pushは自動承認レビューに拒否されたが、その後本人の「許可と承認します」を受けてpushと下書きPRを作成した。この追加承認はコード・検証資料の公開GitHub保存までで、main反映・既存Worker公開は別途確認中、未回答。PRはdraft/open/unmerged。先行headのGitHub checks/statusesは0件でCI成功とは記さない。独立監査は未実施。主担当の実モデル/effortは未確認、実装補助は呼出指定gpt-6.1-sol/high（実行設定値は未確認）。
 

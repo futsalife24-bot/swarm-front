@@ -53,3 +53,9 @@ PWA事前保存は転送待ちを減らす機能。GLBの解釈、GPUへの転�
 2026-10-30 06:19 UTC開始の実Chrome検査で、2件後に中断、再開後150/150件保存、再訪追加DL0、同じURL更新1件、オフライン両入口/再読込/生存ソロ出撃、Range206/20bytes、localStorage前後不変、画面例外0を確認。[結果](pwa-input-browser-results.json)、[640幅](pwa-input-menu-640.png)、[通信なし生存](pwa-input-offline-survival.png)。2画像を目視し、保存画面の文字と操作、兵士/地形の表示を確認した。原本は `dist-validation/coop-comfort-20261030/pwa-input-final/`。
 
 直前の `pwa-input-receipt/` は担当の実行順序誤りでbuild完了前に検査を開始し、manifestからの選択数0とブラウザ保存150の不一致で失敗した。製品回帰の証拠ではなく、この試行は採用しない。build終了・exit0・確定revisionを確認してから別出力先で上記の全検査をやり直した。失敗ログを保持し、製品のチェックは緩めていない。実機未確認の範囲は先行記録と同じ。
+
+## 入力採取を分離した追加版の統合確認
+
+実装 `94b73469464d6bafc3865a49140792afdc0c8939`、build revision `85f2d47ad9354517973e36155a1612e0adff876ca88639d629d164a16491f1dd`。233 modules/6.18秒、既存500kB超bundle警告あり。Worker production dry-runは443.39KiB/gzip113.35KiBで成功。公開はしていない。
+
+buildのexit0後、2026-10-30 07:27 UTC開始の実Chrome検査で、2件後の中断から150件保存へ再開、再訪追加DL0、同一URL更新1件、オフライン両入口/再読込/生存ソロ出撃、Range206/20bytes、localStorage前後不変、画面例外0を確認。[結果](pwa-input-loop-browser-results.json)、[640幅の保存画面](pwa-input-loop-menu-640.png)、[通信なし生存](pwa-input-loop-offline-survival.png)。2画像の文字・操作と兵士/地形の表示を目視した。原本は`dist-validation/coop-comfort-20261030/pwa-input-loop/`。先行成果を上書きせず別保存。実スマホ/Safariや本番配信の確認には読み替えない。
