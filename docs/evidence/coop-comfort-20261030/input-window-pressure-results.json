@@ -1,0 +1,6108 @@
+{
+  "method": "Real local Worker, four isolated Chrome processes and ordinary pilot input. Different room seeds and host load: not a matched performance comparison. Functional pass does not prove input continuity or phone performance. Applied-ACK unacked counts are distinct from receipt-ACK inFlight.",
+  "activeDefinition": "For World samples: alive, combat/boss and serverNow > resumeUntil + 1. For send gaps: both ends in that phase/grace with unchanged resumeUntil. Synthetic release uses the first outbound neutral and its receipt ACK; it is not visible character response.",
+  "trials": [
+    {
+      "name": "live-input-loop",
+      "functionalPass": true,
+      "sourceHashes": {
+        "server/worker.ts": "2a533ba2d3cc7bf32a6dc1545708c12f8ff461c496780c37551f9686903b8930",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "server/state-delivery.ts": "4e36a7644b7590cb3b863de872b235b4ed1f58d8b6f6cea248ff3a99fff0de1d",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "1f5fdc97fed27003c63cc8599dd17cf68043f5948290e2fddfaa0fa091ca89d9",
+        "src/client/state-receipt.ts": "a636d4d1aea402cf2a87fbbf6915c6311dd050374056d3775951bf47693c6124",
+        "src/client/input-window.ts": "1a249dc5fb1559dbd01a404aa980a5b6d405d47ce7878c28e3a18beebea73350",
+        "src/client/network-input-loop.ts": "83a3c33e97127f84194135b1ab0b7cc8919ede4683327c7b996f74d27207e567",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "44d98eea48182fc186d1ec0d3c2cafae31013c960d1812b00a975fa74f0f4df5",
+        "src/client/bastion-view.ts": "c4eca7ceb52ba2ee3959dc62836123273252fd80cd1aa5e0a2e1a48c601f18af",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "fa126ae90881635dec9b97d5becbfe9660ced8b463bda91045505bbf4f3f5058"
+      },
+      "sourcesStable": true,
+      "seconds": 45,
+      "renderClients": 4,
+      "glProbeMode": "interval-uninstrumented",
+      "linkConfig": null,
+      "errors": [],
+      "clients": [
+        {
+          "client": 0,
+          "gameSeconds": 44.55,
+          "frames": {
+            "samples": 2364,
+            "p50": 16.7,
+            "p95": 33.4,
+            "max": 416.6
+          },
+          "renderCpu": {
+            "samples": 2331,
+            "p50": 10.7,
+            "p95": 17.7,
+            "max": 55.2
+          },
+          "receiptAckRtt": {
+            "samples": 426,
+            "p50": 67.8,
+            "p95": 251.9,
+            "max": 456.5
+          },
+          "inputContinuityPass": false,
+          "zeroAckOutsideResume": [],
+          "inputGaps": {
+            "count": 686,
+            "p50": 58,
+            "p95": 91.80000001192093,
+            "max": 286
+          },
+          "inputGapsOver250": [
+            {
+              "fromMs": 21161.400000035763,
+              "toMs": 21447.400000035763,
+              "durationMs": 286,
+              "window": 4
+            }
+          ],
+          "receiptExcess": {
+            "count": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "windowTransitions": [],
+          "glProbeCosts": {
+            "count": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "glProbes": null,
+          "longFrames": [
+            {
+              "ms": 39391.200000035766,
+              "durationMs": 416.6000000000058,
+              "gameTime": 39.4,
+              "phase": "combat",
+              "enemyKinds": {
+                "crawler": 17
+              }
+            }
+          ],
+          "releaseReceiptSinceIntentMs": null,
+          "errors": [],
+          "glErrors": []
+        },
+        {
+          "client": 1,
+          "gameSeconds": 44.55,
+          "frames": {
+            "samples": 2366,
+            "p50": 16.7,
+            "p95": 33.4,
+            "max": 383.3
+          },
+          "renderCpu": {
+            "samples": 2288,
+            "p50": 11,
+            "p95": 18.2,
+            "max": 66.6
+          },
+          "receiptAckRtt": {
+            "samples": 424,
+            "p50": 69.3,
+            "p95": 241.7,
+            "max": 510.9
+          },
+          "inputContinuityPass": false,
+          "zeroAckOutsideResume": [
+            {
+              "ms": 21515.399999976158,
+              "gameTime": 21.5,
+              "window": 4,
+              "appliedAckUnacked": 5
+            }
+          ],
+          "inputGaps": {
+            "count": 681,
+            "p50": 58.30000001192093,
+            "p95": 82.30000001192093,
+            "max": 263.5
+          },
+          "inputGapsOver250": [
+            {
+              "fromMs": 21004.80000001192,
+              "toMs": 21268.30000001192,
+              "durationMs": 263.5,
+              "window": 4
+            }
+          ],
+          "receiptExcess": {
+            "count": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "windowTransitions": [],
+          "glProbeCosts": {
+            "count": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "glProbes": null,
+          "longFrames": [
+            {
+              "ms": 39393.20000002385,
+              "durationMs": 383.3000000000029,
+              "gameTime": 39.4,
+              "phase": "combat",
+              "enemyKinds": {
+                "crawler": 17
+              }
+            }
+          ],
+          "releaseReceiptSinceIntentMs": null,
+          "errors": [],
+          "glErrors": []
+        },
+        {
+          "client": 2,
+          "gameSeconds": 44.55,
+          "frames": {
+            "samples": 2311,
+            "p50": 16.7,
+            "p95": 33.4,
+            "max": 466.6
+          },
+          "renderCpu": {
+            "samples": 2244,
+            "p50": 10.7,
+            "p95": 18.2,
+            "max": 41.9
+          },
+          "receiptAckRtt": {
+            "samples": 423,
+            "p50": 70.3,
+            "p95": 230.8,
+            "max": 483.9
+          },
+          "inputContinuityPass": false,
+          "zeroAckOutsideResume": [],
+          "inputGaps": {
+            "count": 677,
+            "p50": 58,
+            "p95": 84.59999996423721,
+            "max": 277.10000002384186
+          },
+          "inputGapsOver250": [
+            {
+              "fromMs": 29803.599999964237,
+              "toMs": 30080.69999998808,
+              "durationMs": 277.10000002384186,
+              "window": 4
+            }
+          ],
+          "receiptExcess": {
+            "count": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "windowTransitions": [],
+          "glProbeCosts": {
+            "count": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "glProbes": null,
+          "longFrames": [
+            {
+              "ms": 39440.3,
+              "durationMs": 466.6000000000058,
+              "gameTime": 39.4,
+              "phase": "combat",
+              "enemyKinds": {
+                "crawler": 17
+              }
+            }
+          ],
+          "releaseReceiptSinceIntentMs": null,
+          "errors": [],
+          "glErrors": []
+        },
+        {
+          "client": 3,
+          "gameSeconds": 44.55,
+          "frames": {
+            "samples": 2307,
+            "p50": 16.7,
+            "p95": 33.4,
+            "max": 450
+          },
+          "renderCpu": {
+            "samples": 2270,
+            "p50": 10.7,
+            "p95": 17.6,
+            "max": 64.6
+          },
+          "receiptAckRtt": {
+            "samples": 428,
+            "p50": 71.7,
+            "p95": 226.8,
+            "max": 596.2
+          },
+          "inputContinuityPass": false,
+          "zeroAckOutsideResume": [
+            {
+              "ms": 22144,
+              "gameTime": 22.1,
+              "window": 4,
+              "appliedAckUnacked": 4
+            }
+          ],
+          "inputGaps": {
+            "count": 688,
+            "p50": 57.39999997615814,
+            "p95": 82.89999997615814,
+            "max": 412
+          },
+          "inputGapsOver250": [
+            {
+              "fromMs": 21395.299999952316,
+              "toMs": 21807.299999952316,
+              "durationMs": 412,
+              "window": 4
+            }
+          ],
+          "receiptExcess": {
+            "count": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "windowTransitions": [],
+          "glProbeCosts": {
+            "count": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "glProbes": null,
+          "longFrames": [
+            {
+              "ms": 39461.5,
+              "durationMs": 450,
+              "gameTime": 39.4,
+              "phase": "combat",
+              "enemyKinds": {
+                "crawler": 17
+              }
+            }
+          ],
+          "releaseReceiptSinceIntentMs": null,
+          "errors": [],
+          "glErrors": []
+        }
+      ]
+    },
+    {
+      "name": "live-window-diagnostic",
+      "functionalPass": true,
+      "sourceHashes": {
+        "server/worker.ts": "2a533ba2d3cc7bf32a6dc1545708c12f8ff461c496780c37551f9686903b8930",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "server/state-delivery.ts": "4e36a7644b7590cb3b863de872b235b4ed1f58d8b6f6cea248ff3a99fff0de1d",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "1f5fdc97fed27003c63cc8599dd17cf68043f5948290e2fddfaa0fa091ca89d9",
+        "src/client/state-receipt.ts": "a636d4d1aea402cf2a87fbbf6915c6311dd050374056d3775951bf47693c6124",
+        "src/client/input-window.ts": "1a249dc5fb1559dbd01a404aa980a5b6d405d47ce7878c28e3a18beebea73350",
+        "src/client/network-input-loop.ts": "83a3c33e97127f84194135b1ab0b7cc8919ede4683327c7b996f74d27207e567",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "44d98eea48182fc186d1ec0d3c2cafae31013c960d1812b00a975fa74f0f4df5",
+        "src/client/bastion-view.ts": "c4eca7ceb52ba2ee3959dc62836123273252fd80cd1aa5e0a2e1a48c601f18af",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "f8b61d994e3493556eda26d239fb354bcf7ddd88446ee2ffc11ffbd12e4bedb3"
+      },
+      "sourcesStable": true,
+      "seconds": 45,
+      "renderClients": 4,
+      "glProbeMode": "interval",
+      "linkConfig": null,
+      "errors": [],
+      "clients": [
+        {
+          "client": 0,
+          "gameSeconds": 44.65,
+          "frames": {
+            "samples": 2428,
+            "p50": 16.7,
+            "p95": 33.3,
+            "max": 83.4
+          },
+          "renderCpu": {
+            "samples": 2405,
+            "p50": 11.4,
+            "p95": 18.3,
+            "max": 81.8
+          },
+          "receiptAckRtt": {
+            "samples": 443,
+            "p50": 63.1,
+            "p95": 158.3,
+            "max": 215.2
+          },
+          "inputContinuityPass": true,
+          "zeroAckOutsideResume": [],
+          "inputGaps": {
+            "count": 701,
+            "p50": 58.30000001192093,
+            "p95": 81,
+            "max": 182.69999998807907
+          },
+          "inputGapsOver250": [],
+          "receiptExcess": {
+            "count": 444,
+            "p50": 10,
+            "p95": 80,
+            "max": 181
+          },
+          "windowTransitions": [
+            {
+              "ms": 30379.600000023842,
+              "seq": 497,
+              "excessMs": 159,
+              "before": 16,
+              "after": 4,
+              "receiptInFlightAfterAck": 2
+            },
+            {
+              "ms": 31443.400000035763,
+              "seq": 516,
+              "excessMs": 14,
+              "before": 4,
+              "after": 16,
+              "receiptInFlightAfterAck": 0
+            }
+          ],
+          "glProbeCosts": {
+            "count": 45,
+            "p50": 28.5,
+            "p95": 54,
+            "max": 68
+          },
+          "glProbes": [
+            {
+              "label": "interval",
+              "ms": 17.80000001192093,
+              "durationMs": 0.800000011920929,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 984.2000000476837,
+              "durationMs": 0.7999999523162842,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 1985.1000000238419,
+              "durationMs": 16.600000023841858,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 2993.800000011921,
+              "durationMs": 5.300000011920929,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 3996.300000011921,
+              "durationMs": 28.400000035762787,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 5060.800000011921,
+              "durationMs": 1.699999988079071,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 6040,
+              "durationMs": 8.600000023841858,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 7023.400000035763,
+              "durationMs": 24.69999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 8038.300000011921,
+              "durationMs": 33.80000001192093,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 9041.700000047684,
+              "durationMs": 41.799999952316284,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 10053.400000035763,
+              "durationMs": 10.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 11066.600000023842,
+              "durationMs": 43.89999997615814,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 12092.600000023842,
+              "durationMs": 34.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 13112.800000011921,
+              "durationMs": 58.69999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 14133.400000035763,
+              "durationMs": 47.69999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 15155.600000023842,
+              "durationMs": 38.89999997615814,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 16151.600000023842,
+              "durationMs": 28.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 17160.5,
+              "durationMs": 1.7000000476837158,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 18169.700000047684,
+              "durationMs": 6.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 19162,
+              "durationMs": 33,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 20174.5,
+              "durationMs": 5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 21201.600000023842,
+              "durationMs": 1.399999976158142,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 22206.600000023842,
+              "durationMs": 54,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 23198.200000047684,
+              "durationMs": 37.89999997615814,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 24214.700000047684,
+              "durationMs": 48.09999996423721,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 25223.400000035763,
+              "durationMs": 29.19999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 26229.200000047684,
+              "durationMs": 28.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 27231.100000023842,
+              "durationMs": 45.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 28244.100000023842,
+              "durationMs": 47.10000002384186,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 29236.100000023842,
+              "durationMs": 24.100000023841858,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 30231.100000023842,
+              "durationMs": 52,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 31255.80000001192,
+              "durationMs": 15.100000023841858,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 32271.700000047684,
+              "durationMs": 28.799999952316284,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 33288.30000001192,
+              "durationMs": 45.69999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 34275.10000002384,
+              "durationMs": 9.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 35280.90000003576,
+              "durationMs": 18.80000001192093,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 36293.30000001192,
+              "durationMs": 10.600000023841858,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 37295.200000047684,
+              "durationMs": 34.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 38299.80000001192,
+              "durationMs": 22.600000023841858,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 39295.700000047684,
+              "durationMs": 19.599999964237213,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 40314,
+              "durationMs": 68,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 41328.10000002384,
+              "durationMs": 37.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 42325.700000047684,
+              "durationMs": 0.7999999523162842,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 43331.10000002384,
+              "durationMs": 27,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 44332.30000001192,
+              "durationMs": 48.40000003576279,
+              "error": 0
+            },
+            {
+              "label": "end",
+              "ms": 45046.90000003576,
+              "durationMs": 28.899999976158142,
+              "error": 0
+            }
+          ],
+          "longFrames": [],
+          "releaseReceiptSinceIntentMs": null,
+          "errors": [],
+          "glErrors": []
+        },
+        {
+          "client": 1,
+          "gameSeconds": 44.65,
+          "frames": {
+            "samples": 2435,
+            "p50": 16.7,
+            "p95": 33.3,
+            "max": 83.3
+          },
+          "renderCpu": {
+            "samples": 2391,
+            "p50": 11.4,
+            "p95": 18.6,
+            "max": 69.2
+          },
+          "receiptAckRtt": {
+            "samples": 440,
+            "p50": 61.6,
+            "p95": 144.6,
+            "max": 225.4
+          },
+          "inputContinuityPass": true,
+          "zeroAckOutsideResume": [],
+          "inputGaps": {
+            "count": 703,
+            "p50": 58.200000047683716,
+            "p95": 78.60000002384186,
+            "max": 130.69999998807907
+          },
+          "inputGapsOver250": [],
+          "receiptExcess": {
+            "count": 441,
+            "p50": 10,
+            "p95": 95,
+            "max": 203
+          },
+          "windowTransitions": [
+            {
+              "ms": 30331.399999976158,
+              "seq": 496,
+              "excessMs": 175,
+              "before": 16,
+              "after": 4,
+              "receiptInFlightAfterAck": 3
+            },
+            {
+              "ms": 31450.599999964237,
+              "seq": 517,
+              "excessMs": 5,
+              "before": 4,
+              "after": 16,
+              "receiptInFlightAfterAck": 0
+            }
+          ],
+          "glProbeCosts": {
+            "count": 45,
+            "p50": 28.5,
+            "p95": 56.69999998807907,
+            "max": 66
+          },
+          "glProbes": [
+            {
+              "label": "interval",
+              "ms": 15.599999964237213,
+              "durationMs": 2.300000011920929,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 1008,
+              "durationMs": 2,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 2008.5,
+              "durationMs": 1.5999999642372131,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 3009.899999976158,
+              "durationMs": 0.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 4007.5,
+              "durationMs": 18.799999952316284,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 5033.5,
+              "durationMs": 0.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 6023.5,
+              "durationMs": 16.799999952316284,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 7007.099999964237,
+              "durationMs": 29.600000023841858,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 8016.199999988079,
+              "durationMs": 17.399999976158142,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 9023.299999952316,
+              "durationMs": 28.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 10036.699999988079,
+              "durationMs": 37.19999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 11030.199999988079,
+              "durationMs": 8.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 12056.5,
+              "durationMs": 47.59999996423721,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 13060,
+              "durationMs": 29.899999976158142,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 14052,
+              "durationMs": 32.19999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 15044.299999952316,
+              "durationMs": 47.40000003576279,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 16041.799999952316,
+              "durationMs": 19.100000023841858,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 17063.399999976158,
+              "durationMs": 49.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 18067,
+              "durationMs": 30.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 19079.799999952316,
+              "durationMs": 0.800000011920929,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 20057.799999952316,
+              "durationMs": 34.200000047683716,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 21060.399999976158,
+              "durationMs": 19.80000001192093,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 22067.299999952316,
+              "durationMs": 28.80000001192093,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 23058.899999976158,
+              "durationMs": 26.899999976158142,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 24053.899999976158,
+              "durationMs": 20.80000001192093,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 25057.69999998808,
+              "durationMs": 50.19999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 26057,
+              "durationMs": 51.89999997615814,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 27061.19999998808,
+              "durationMs": 25.899999976158142,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 28071,
+              "durationMs": 56.69999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 29068.69999998808,
+              "durationMs": 35.59999996423721,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 30074.099999964237,
+              "durationMs": 43.40000003576279,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 31064.899999976158,
+              "durationMs": 29.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 32071.5,
+              "durationMs": 33.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 33068.59999996424,
+              "durationMs": 13.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 34076.19999998808,
+              "durationMs": 1.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 35083,
+              "durationMs": 58.799999952316284,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 36093.299999952316,
+              "durationMs": 41.90000003576279,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 37091.69999998808,
+              "durationMs": 13.099999964237213,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 38086.89999997616,
+              "durationMs": 24.100000023841858,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 39093.69999998808,
+              "durationMs": 31.69999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 40122.299999952316,
+              "durationMs": 19.200000047683716,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 41119.799999952316,
+              "durationMs": 10.200000047683716,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 42133.89999997616,
+              "durationMs": 66,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 43125.5,
+              "durationMs": 15.799999952316284,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 44124.5,
+              "durationMs": 29.69999998807907,
+              "error": 0
+            },
+            {
+              "label": "end",
+              "ms": 45061.19999998808,
+              "durationMs": 18,
+              "error": 0
+            }
+          ],
+          "longFrames": [],
+          "releaseReceiptSinceIntentMs": null,
+          "errors": [],
+          "glErrors": []
+        },
+        {
+          "client": 2,
+          "gameSeconds": 44.65,
+          "frames": {
+            "samples": 2401,
+            "p50": 16.7,
+            "p95": 33.3,
+            "max": 83.4
+          },
+          "renderCpu": {
+            "samples": 2358,
+            "p50": 11.5,
+            "p95": 18.5,
+            "max": 71.9
+          },
+          "receiptAckRtt": {
+            "samples": 441,
+            "p50": 63.3,
+            "p95": 154.7,
+            "max": 399.7
+          },
+          "inputContinuityPass": false,
+          "zeroAckOutsideResume": [
+            {
+              "ms": 10078.400000035763,
+              "gameTime": 10.15,
+              "window": 16,
+              "appliedAckUnacked": 6
+            }
+          ],
+          "inputGaps": {
+            "count": 699,
+            "p50": 59,
+            "p95": 79.09999996423721,
+            "max": 116.90000003576279
+          },
+          "inputGapsOver250": [],
+          "receiptExcess": {
+            "count": 441,
+            "p50": 10,
+            "p95": 90,
+            "max": 304
+          },
+          "windowTransitions": [
+            {
+              "ms": 30513.600000023842,
+              "seq": 497,
+              "excessMs": 167,
+              "before": 16,
+              "after": 4,
+              "receiptInFlightAfterAck": 2
+            },
+            {
+              "ms": 31444.600000023842,
+              "seq": 514,
+              "excessMs": 8,
+              "before": 4,
+              "after": 16,
+              "receiptInFlightAfterAck": 1
+            }
+          ],
+          "glProbeCosts": {
+            "count": 45,
+            "p50": 30.599999964237213,
+            "p95": 58.59999996423721,
+            "max": 66.09999996423721
+          },
+          "glProbes": [
+            {
+              "label": "interval",
+              "ms": 14.100000023841858,
+              "durationMs": 0.8999999761581421,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 990.1000000238419,
+              "durationMs": 0.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 1990.199999988079,
+              "durationMs": 10.200000047683716,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 2990.100000023842,
+              "durationMs": 0.699999988079071,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 4019.900000035763,
+              "durationMs": 22.099999964237213,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 5031.100000023842,
+              "durationMs": 1.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 6042.199999988079,
+              "durationMs": 22,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 7033,
+              "durationMs": 15,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 8038.900000035763,
+              "durationMs": 33.19999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 9049.300000011921,
+              "durationMs": 23,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 10046.400000035763,
+              "durationMs": 30.599999964237213,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 11029.400000035763,
+              "durationMs": 11.299999952316284,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 12070.100000023842,
+              "durationMs": 36,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 13064.300000011921,
+              "durationMs": 25.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 14072.300000011921,
+              "durationMs": 34.60000002384186,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 15066.300000011921,
+              "durationMs": 38.19999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 16065.400000035763,
+              "durationMs": 50.19999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 17065.80000001192,
+              "durationMs": 48.80000001192093,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 18068.5,
+              "durationMs": 51.80000001192093,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 19075.600000023842,
+              "durationMs": 7.899999976158142,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 20070,
+              "durationMs": 21.400000035762787,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 21069,
+              "durationMs": 1.4000000357627869,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 22083.900000035763,
+              "durationMs": 27.799999952316284,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 23099.5,
+              "durationMs": 46.69999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 24103.900000035763,
+              "durationMs": 17.69999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 25120.19999998808,
+              "durationMs": 46.700000047683716,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 26134.900000035763,
+              "durationMs": 47.59999996423721,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 27138.600000023842,
+              "durationMs": 44.39999997615814,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 28132.600000023842,
+              "durationMs": 66.09999996423721,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 29143.100000023842,
+              "durationMs": 40.19999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 30157.600000023842,
+              "durationMs": 58.59999996423721,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 31145.100000023842,
+              "durationMs": 42.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 32144,
+              "durationMs": 18.30000001192093,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 33167.80000001192,
+              "durationMs": 33,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 34149.10000002384,
+              "durationMs": 3.599999964237213,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 35151.19999998808,
+              "durationMs": 45.700000047683716,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 36167.40000003576,
+              "durationMs": 20.099999964237213,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 37167.19999998808,
+              "durationMs": 13.100000023841858,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 38171.40000003576,
+              "durationMs": 48.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 39190.19999998808,
+              "durationMs": 19.400000035762787,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 40206.40000003576,
+              "durationMs": 33.59999996423721,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 41204.69999998808,
+              "durationMs": 64.40000003576279,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 42202.19999998808,
+              "durationMs": 31.80000001192093,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 43203.80000001192,
+              "durationMs": 20.100000023841858,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 44220.10000002384,
+              "durationMs": 36.39999997615814,
+              "error": 0
+            },
+            {
+              "label": "end",
+              "ms": 45065.90000003576,
+              "durationMs": 26.799999952316284,
+              "error": 0
+            }
+          ],
+          "longFrames": [],
+          "releaseReceiptSinceIntentMs": null,
+          "errors": [],
+          "glErrors": []
+        },
+        {
+          "client": 3,
+          "gameSeconds": 44.65,
+          "frames": {
+            "samples": 2396,
+            "p50": 16.7,
+            "p95": 33.4,
+            "max": 83.3
+          },
+          "renderCpu": {
+            "samples": 2389,
+            "p50": 11.2,
+            "p95": 18.1,
+            "max": 63.5
+          },
+          "receiptAckRtt": {
+            "samples": 445,
+            "p50": 63.6,
+            "p95": 146.5,
+            "max": 250.8
+          },
+          "inputContinuityPass": true,
+          "zeroAckOutsideResume": [],
+          "inputGaps": {
+            "count": 711,
+            "p50": 57.40000003576279,
+            "p95": 75.60000002384186,
+            "max": 152.19999998807907
+          },
+          "inputGapsOver250": [],
+          "receiptExcess": {
+            "count": 446,
+            "p50": 10,
+            "p95": 76,
+            "max": 156
+          },
+          "windowTransitions": [],
+          "glProbeCosts": {
+            "count": 45,
+            "p50": 28.399999976158142,
+            "p95": 57.69999998807907,
+            "max": 73.5
+          },
+          "glProbes": [
+            {
+              "label": "interval",
+              "ms": 13.900000035762787,
+              "durationMs": 3.899999976158142,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 1001.2000000476837,
+              "durationMs": 1.899999976158142,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 2008,
+              "durationMs": 4.100000023841858,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 3016.300000011921,
+              "durationMs": 2.800000011920929,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 4021,
+              "durationMs": 49.60000002384186,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 5049.900000035763,
+              "durationMs": 0.3999999761581421,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 6047.100000023842,
+              "durationMs": 32.30000001192093,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 7035.100000023842,
+              "durationMs": 28.399999976158142,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 8045.400000035763,
+              "durationMs": 25.80000001192093,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 9079.5,
+              "durationMs": 20.700000047683716,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 10069,
+              "durationMs": 50,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 11068.900000035763,
+              "durationMs": 15,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 12091.900000035763,
+              "durationMs": 39.39999997615814,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 13091.300000011921,
+              "durationMs": 34.30000001192093,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 14088.100000023842,
+              "durationMs": 37.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 15096.100000023842,
+              "durationMs": 50.80000001192093,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 16092.200000047684,
+              "durationMs": 30.899999976158142,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 17083.5,
+              "durationMs": 14.400000035762787,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 18089.200000047684,
+              "durationMs": 19.799999952316284,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 19095.900000035763,
+              "durationMs": 1.800000011920929,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 20112.600000023842,
+              "durationMs": 26,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 21101.400000035763,
+              "durationMs": 12.899999976158142,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 22124.100000023842,
+              "durationMs": 40.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 23131.30000001192,
+              "durationMs": 45.60000002384186,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 24119.200000047684,
+              "durationMs": 57.69999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 25139.400000035763,
+              "durationMs": 37.09999996423721,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 26139.400000035763,
+              "durationMs": 27.399999976158142,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 27150.80000001192,
+              "durationMs": 73.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 28134.900000035763,
+              "durationMs": 34.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 29140.400000035763,
+              "durationMs": 36.69999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 30180.900000035763,
+              "durationMs": 51.19999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 31166.5,
+              "durationMs": 33.40000003576279,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 32160,
+              "durationMs": 18.600000023841858,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 33159.40000003576,
+              "durationMs": 12.399999976158142,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 34152.10000002384,
+              "durationMs": 10.800000011920929,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 35170.60000002384,
+              "durationMs": 20.30000001192093,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 36180.60000002384,
+              "durationMs": 0.8999999761581421,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 37186,
+              "durationMs": 13.200000047683716,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 38180.30000001192,
+              "durationMs": 22.80000001192093,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 39171.200000047684,
+              "durationMs": 46.299999952316284,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 40176.80000001192,
+              "durationMs": 44.5,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 41182.10000002384,
+              "durationMs": 41.30000001192093,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 42186.10000002384,
+              "durationMs": 29.19999998807907,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 43174.200000047684,
+              "durationMs": 28.299999952316284,
+              "error": 0
+            },
+            {
+              "label": "interval",
+              "ms": 44191.80000001192,
+              "durationMs": 66.90000003576279,
+              "error": 0
+            },
+            {
+              "label": "end",
+              "ms": 45060.40000003576,
+              "durationMs": 43.5,
+              "error": 0
+            }
+          ],
+          "longFrames": [],
+          "releaseReceiptSinceIntentMs": null,
+          "errors": [],
+          "glErrors": []
+        }
+      ]
+    },
+    {
+      "name": "live-window-end-probe",
+      "functionalPass": true,
+      "sourceHashes": {
+        "server/worker.ts": "2a533ba2d3cc7bf32a6dc1545708c12f8ff461c496780c37551f9686903b8930",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "server/state-delivery.ts": "4e36a7644b7590cb3b863de872b235b4ed1f58d8b6f6cea248ff3a99fff0de1d",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "1f5fdc97fed27003c63cc8599dd17cf68043f5948290e2fddfaa0fa091ca89d9",
+        "src/client/state-receipt.ts": "a636d4d1aea402cf2a87fbbf6915c6311dd050374056d3775951bf47693c6124",
+        "src/client/input-window.ts": "1a249dc5fb1559dbd01a404aa980a5b6d405d47ce7878c28e3a18beebea73350",
+        "src/client/network-input-loop.ts": "83a3c33e97127f84194135b1ab0b7cc8919ede4683327c7b996f74d27207e567",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "44d98eea48182fc186d1ec0d3c2cafae31013c960d1812b00a975fa74f0f4df5",
+        "src/client/bastion-view.ts": "c4eca7ceb52ba2ee3959dc62836123273252fd80cd1aa5e0a2e1a48c601f18af",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "f8b61d994e3493556eda26d239fb354bcf7ddd88446ee2ffc11ffbd12e4bedb3"
+      },
+      "sourcesStable": true,
+      "seconds": 45,
+      "renderClients": 4,
+      "glProbeMode": "end",
+      "linkConfig": null,
+      "errors": [],
+      "clients": [
+        {
+          "client": 0,
+          "gameSeconds": 42.800000000000004,
+          "frames": {
+            "samples": 2230,
+            "p50": 16.7,
+            "p95": 33.4,
+            "max": 250.6
+          },
+          "renderCpu": {
+            "samples": 2149,
+            "p50": 10.5,
+            "p95": 33.1,
+            "max": 115
+          },
+          "receiptAckRtt": {
+            "samples": 192,
+            "p50": 374.9,
+            "p95": 891.8,
+            "max": 1273.1
+          },
+          "inputContinuityPass": false,
+          "zeroAckOutsideResume": [
+            {
+              "ms": 2285.100000023842,
+              "gameTime": 2.3,
+              "window": 4,
+              "appliedAckUnacked": 4
+            },
+            {
+              "ms": 2740,
+              "gameTime": 2.6,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 3489.600000023842,
+              "gameTime": 2.9,
+              "window": 4,
+              "appliedAckUnacked": 8
+            },
+            {
+              "ms": 3557.600000023842,
+              "gameTime": 2.95,
+              "window": 4,
+              "appliedAckUnacked": 8
+            },
+            {
+              "ms": 6157.900000035763,
+              "gameTime": 5.5,
+              "window": 4,
+              "appliedAckUnacked": 4
+            },
+            {
+              "ms": 7250.699999988079,
+              "gameTime": 6.5,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 9057.5,
+              "gameTime": 8,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 9231.800000011921,
+              "gameTime": 8.15,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 9752.800000011921,
+              "gameTime": 8.65,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 12499.699999988079,
+              "gameTime": 11.55,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 12794,
+              "gameTime": 11.85,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 13812.900000035763,
+              "gameTime": 12.8,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 14881.900000035763,
+              "gameTime": 13.65,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 15193.900000035763,
+              "gameTime": 14.05,
+              "window": 4,
+              "appliedAckUnacked": 8
+            },
+            {
+              "ms": 15384.300000011921,
+              "gameTime": 14.4,
+              "window": 4,
+              "appliedAckUnacked": 9
+            },
+            {
+              "ms": 16595,
+              "gameTime": 15.65,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 17629.80000001192,
+              "gameTime": 16.6,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 18064.19999998808,
+              "gameTime": 17,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 18480.5,
+              "gameTime": 17.4,
+              "window": 4,
+              "appliedAckUnacked": 9
+            },
+            {
+              "ms": 19390.100000023842,
+              "gameTime": 17.85,
+              "window": 4,
+              "appliedAckUnacked": 10
+            },
+            {
+              "ms": 19620.30000001192,
+              "gameTime": 18.25,
+              "window": 4,
+              "appliedAckUnacked": 12
+            },
+            {
+              "ms": 20013.400000035763,
+              "gameTime": 18.75,
+              "window": 4,
+              "appliedAckUnacked": 14
+            },
+            {
+              "ms": 20479.600000023842,
+              "gameTime": 19.15,
+              "window": 4,
+              "appliedAckUnacked": 15
+            },
+            {
+              "ms": 20980,
+              "gameTime": 19.55,
+              "window": 4,
+              "appliedAckUnacked": 17
+            },
+            {
+              "ms": 21390.400000035763,
+              "gameTime": 19.95,
+              "window": 4,
+              "appliedAckUnacked": 19
+            },
+            {
+              "ms": 21646.5,
+              "gameTime": 20.2,
+              "window": 4,
+              "appliedAckUnacked": 20
+            },
+            {
+              "ms": 23162.19999998808,
+              "gameTime": 21.6,
+              "window": 4,
+              "appliedAckUnacked": 4
+            },
+            {
+              "ms": 23617.400000035763,
+              "gameTime": 22,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 24383,
+              "gameTime": 22.4,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 24642.80000001192,
+              "gameTime": 22.8,
+              "window": 4,
+              "appliedAckUnacked": 9
+            },
+            {
+              "ms": 24904.80000001192,
+              "gameTime": 23.45,
+              "window": 4,
+              "appliedAckUnacked": 10
+            },
+            {
+              "ms": 25571.5,
+              "gameTime": 24.25,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 25901.100000023842,
+              "gameTime": 24.6,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 26246.19999998808,
+              "gameTime": 25,
+              "window": 4,
+              "appliedAckUnacked": 8
+            },
+            {
+              "ms": 26582.69999998808,
+              "gameTime": 25.3,
+              "window": 4,
+              "appliedAckUnacked": 10
+            },
+            {
+              "ms": 27567.69999998808,
+              "gameTime": 26.3,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 28196.19999998808,
+              "gameTime": 26.9,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 28569.600000023842,
+              "gameTime": 27.3,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 29118.600000023842,
+              "gameTime": 27.6,
+              "window": 4,
+              "appliedAckUnacked": 8
+            },
+            {
+              "ms": 29668.19999998808,
+              "gameTime": 28.2,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 29933.80000001192,
+              "gameTime": 28.55,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 33922.80000001192,
+              "gameTime": 32.25,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 34086.30000001192,
+              "gameTime": 32.55,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 35681.30000001192,
+              "gameTime": 34.2,
+              "window": 4,
+              "appliedAckUnacked": 4
+            },
+            {
+              "ms": 36199.60000002384,
+              "gameTime": 34.8,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 36613.5,
+              "gameTime": 35.1,
+              "window": 4,
+              "appliedAckUnacked": 8
+            },
+            {
+              "ms": 37059.80000001192,
+              "gameTime": 35.5,
+              "window": 4,
+              "appliedAckUnacked": 9
+            },
+            {
+              "ms": 37440.69999998808,
+              "gameTime": 35.85,
+              "window": 4,
+              "appliedAckUnacked": 11
+            },
+            {
+              "ms": 38204.80000001192,
+              "gameTime": 36.3,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 38639.40000003576,
+              "gameTime": 36.7,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 39137.30000001192,
+              "gameTime": 37.15,
+              "window": 4,
+              "appliedAckUnacked": 9
+            },
+            {
+              "ms": 40405.5,
+              "gameTime": 38.75,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 42188.80000001192,
+              "gameTime": 40.6,
+              "window": 4,
+              "appliedAckUnacked": 6
+            }
+          ],
+          "inputGaps": {
+            "count": 289,
+            "p50": 80.19999998807907,
+            "p95": 413.19999998807907,
+            "max": 901.3999999761581
+          },
+          "inputGapsOver250": [
+            {
+              "fromMs": 1878.1000000238419,
+              "toMs": 2163,
+              "durationMs": 284.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 2393.5,
+              "toMs": 2741.699999988079,
+              "durationMs": 348.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 2817.5,
+              "toMs": 3558.900000035763,
+              "durationMs": 741.4000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 6852,
+              "toMs": 7283.5,
+              "durationMs": 431.5,
+              "window": 4
+            },
+            {
+              "fromMs": 8146.100000023842,
+              "toMs": 8649.100000023842,
+              "durationMs": 503,
+              "window": 4
+            },
+            {
+              "fromMs": 8649.100000023842,
+              "toMs": 9062.300000011921,
+              "durationMs": 413.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 12215.300000011921,
+              "toMs": 12549.5,
+              "durationMs": 334.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 13145,
+              "toMs": 13458.900000035763,
+              "durationMs": 313.9000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 14385.800000011921,
+              "toMs": 14898.100000023842,
+              "durationMs": 512.3000000119209,
+              "window": 4
+            },
+            {
+              "fromMs": 16023.5,
+              "toMs": 16290.800000011921,
+              "durationMs": 267.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 17260.69999998808,
+              "toMs": 17678.19999998808,
+              "durationMs": 417.5,
+              "window": 4
+            },
+            {
+              "fromMs": 17747.600000023842,
+              "toMs": 18118.30000001192,
+              "durationMs": 370.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 18182.30000001192,
+              "toMs": 18514.600000023842,
+              "durationMs": 332.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 18514.600000023842,
+              "toMs": 19416,
+              "durationMs": 901.3999999761581,
+              "window": 4
+            },
+            {
+              "fromMs": 19776.900000035763,
+              "toMs": 20035.19999998808,
+              "durationMs": 258.2999999523163,
+              "window": 4
+            },
+            {
+              "fromMs": 20035.19999998808,
+              "toMs": 20545.80000001192,
+              "durationMs": 510.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 20601.30000001192,
+              "toMs": 21010.19999998808,
+              "durationMs": 408.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 21063.30000001192,
+              "toMs": 21402.600000023842,
+              "durationMs": 339.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 22188.69999998808,
+              "toMs": 22494.30000001192,
+              "durationMs": 305.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 22550.69999998808,
+              "toMs": 22832.5,
+              "durationMs": 281.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 23163.69999998808,
+              "toMs": 23623.30000001192,
+              "durationMs": 459.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 23678.19999998808,
+              "toMs": 24398.30000001192,
+              "durationMs": 720.1000000238419,
+              "window": 4
+            },
+            {
+              "fromMs": 25219.600000023842,
+              "toMs": 25601.19999998808,
+              "durationMs": 381.5999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 25601.19999998808,
+              "toMs": 25956.30000001192,
+              "durationMs": 355.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 26331.600000023842,
+              "toMs": 26585.19999998808,
+              "durationMs": 253.5999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 26585.19999998808,
+              "toMs": 26880.69999998808,
+              "durationMs": 295.5,
+              "window": 4
+            },
+            {
+              "fromMs": 27246.600000023842,
+              "toMs": 27570.30000001192,
+              "durationMs": 323.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 27884.80000001192,
+              "toMs": 28227.5,
+              "durationMs": 342.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 28227.5,
+              "toMs": 28612.30000001192,
+              "durationMs": 384.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 28663.5,
+              "toMs": 29130.5,
+              "durationMs": 467,
+              "window": 4
+            },
+            {
+              "fromMs": 29407.5,
+              "toMs": 29699.600000023842,
+              "durationMs": 292.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 30635,
+              "toMs": 30945.400000035763,
+              "durationMs": 310.4000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 31948.100000023842,
+              "toMs": 32228.400000035763,
+              "durationMs": 280.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 33270.10000002384,
+              "toMs": 33944.69999998808,
+              "durationMs": 674.5999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 34666,
+              "toMs": 35028.19999998808,
+              "durationMs": 362.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 35096.69999998808,
+              "toMs": 35355.80000001192,
+              "durationMs": 259.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 35414.5,
+              "toMs": 35705.40000003576,
+              "durationMs": 290.9000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 35705.40000003576,
+              "toMs": 36001.60000002384,
+              "durationMs": 296.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 36293.69999998808,
+              "toMs": 36634,
+              "durationMs": 340.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 36634,
+              "toMs": 37125.69999998808,
+              "durationMs": 491.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 37185.19999998808,
+              "toMs": 37483.19999998808,
+              "durationMs": 298,
+              "window": 4
+            },
+            {
+              "fromMs": 37766.40000003576,
+              "toMs": 38220.40000003576,
+              "durationMs": 454,
+              "window": 4
+            },
+            {
+              "fromMs": 38275.10000002384,
+              "toMs": 38684.90000003576,
+              "durationMs": 409.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 38735.80000001192,
+              "toMs": 39183.30000001192,
+              "durationMs": 447.5,
+              "window": 4
+            },
+            {
+              "fromMs": 40116.60000002384,
+              "toMs": 40407.60000002384,
+              "durationMs": 291,
+              "window": 4
+            }
+          ],
+          "receiptExcess": {
+            "count": 192,
+            "p50": 280,
+            "p95": 673,
+            "max": 805
+          },
+          "windowTransitions": [
+            {
+              "ms": 773.6000000238419,
+              "seq": 7,
+              "excessMs": 278,
+              "before": 16,
+              "after": 4,
+              "receiptInFlightAfterAck": 3
+            },
+            {
+              "ms": 3816,
+              "seq": 47,
+              "excessMs": 0,
+              "before": 4,
+              "after": 16,
+              "receiptInFlightAfterAck": 1
+            },
+            {
+              "ms": 5569.199999988079,
+              "seq": 68,
+              "excessMs": 176,
+              "before": 16,
+              "after": 4,
+              "receiptInFlightAfterAck": 4
+            }
+          ],
+          "glProbeCosts": {
+            "count": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "glProbes": [
+            {
+              "label": "end",
+              "ms": 45036.90000003576,
+              "durationMs": 48.09999996423721,
+              "error": 0
+            }
+          ],
+          "longFrames": [
+            {
+              "ms": -15.19999999999709,
+              "durationMs": 133.20000000000437,
+              "gameTime": 0.15,
+              "phase": "combat",
+              "enemyKinds": {}
+            },
+            {
+              "ms": 234.8000000000029,
+              "durationMs": 166.70000000000437,
+              "gameTime": 0.35,
+              "phase": "combat",
+              "enemyKinds": {}
+            },
+            {
+              "ms": 2152.0999999999985,
+              "durationMs": 250.59999999999854,
+              "gameTime": 2.05,
+              "phase": "combat",
+              "enemyKinds": {
+                "crawler": 2
+              }
+            }
+          ],
+          "releaseReceiptSinceIntentMs": null,
+          "errors": [],
+          "glErrors": []
+        },
+        {
+          "client": 1,
+          "gameSeconds": 42.550000000000004,
+          "frames": {
+            "samples": 2191,
+            "p50": 16.7,
+            "p95": 33.4,
+            "max": 182.4
+          },
+          "renderCpu": {
+            "samples": 2191,
+            "p50": 10.4,
+            "p95": 30.7,
+            "max": 79.9
+          },
+          "receiptAckRtt": {
+            "samples": 190,
+            "p50": 381.3,
+            "p95": 868,
+            "max": 1273.9
+          },
+          "inputContinuityPass": false,
+          "zeroAckOutsideResume": [
+            {
+              "ms": 2312.399999976158,
+              "gameTime": 2.2,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 2542.199999988079,
+              "gameTime": 2.55,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 3261.599999964237,
+              "gameTime": 2.8,
+              "window": 4,
+              "appliedAckUnacked": 8
+            },
+            {
+              "ms": 3677.5,
+              "gameTime": 2.95,
+              "window": 4,
+              "appliedAckUnacked": 10
+            },
+            {
+              "ms": 7443.5,
+              "gameTime": 6.6,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 9062.199999988079,
+              "gameTime": 8.05,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 9895.399999976158,
+              "gameTime": 8.7,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 12529.300000011921,
+              "gameTime": 11.4,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 12871.300000011921,
+              "gameTime": 11.75,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 13743,
+              "gameTime": 12.65,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 15230.099999964237,
+              "gameTime": 13.75,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 15501.099999964237,
+              "gameTime": 14.25,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 17887.69999998808,
+              "gameTime": 16.75,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 18319.80000001192,
+              "gameTime": 17.15,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 18796.69999998808,
+              "gameTime": 17.55,
+              "window": 4,
+              "appliedAckUnacked": 8
+            },
+            {
+              "ms": 19208.69999998808,
+              "gameTime": 18,
+              "window": 4,
+              "appliedAckUnacked": 10
+            },
+            {
+              "ms": 19607.599999964237,
+              "gameTime": 18.4,
+              "window": 4,
+              "appliedAckUnacked": 12
+            },
+            {
+              "ms": 20355.899999976158,
+              "gameTime": 18.8,
+              "window": 4,
+              "appliedAckUnacked": 13
+            },
+            {
+              "ms": 20880.80000001192,
+              "gameTime": 19.2,
+              "window": 4,
+              "appliedAckUnacked": 15
+            },
+            {
+              "ms": 21246.099999964237,
+              "gameTime": 19.7,
+              "window": 4,
+              "appliedAckUnacked": 17
+            },
+            {
+              "ms": 21608.69999998808,
+              "gameTime": 20.1,
+              "window": 4,
+              "appliedAckUnacked": 18
+            },
+            {
+              "ms": 21795.5,
+              "gameTime": 20.25,
+              "window": 4,
+              "appliedAckUnacked": 20
+            },
+            {
+              "ms": 22360.80000001192,
+              "gameTime": 20.85,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 23031.399999976158,
+              "gameTime": 21.4,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 23429.399999976158,
+              "gameTime": 21.8,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 23923.099999964237,
+              "gameTime": 22.2,
+              "window": 4,
+              "appliedAckUnacked": 9
+            },
+            {
+              "ms": 24278,
+              "gameTime": 22.6,
+              "window": 4,
+              "appliedAckUnacked": 11
+            },
+            {
+              "ms": 24863,
+              "gameTime": 23,
+              "window": 4,
+              "appliedAckUnacked": 12
+            },
+            {
+              "ms": 25076.599999964237,
+              "gameTime": 23.3,
+              "window": 4,
+              "appliedAckUnacked": 14
+            },
+            {
+              "ms": 25350.899999976158,
+              "gameTime": 23.75,
+              "window": 4,
+              "appliedAckUnacked": 16
+            },
+            {
+              "ms": 25853.30000001192,
+              "gameTime": 24.45,
+              "window": 4,
+              "appliedAckUnacked": 17
+            },
+            {
+              "ms": 26458.80000001192,
+              "gameTime": 24.85,
+              "window": 4,
+              "appliedAckUnacked": 4
+            },
+            {
+              "ms": 27021.5,
+              "gameTime": 25.5,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 28080.69999998808,
+              "gameTime": 26.65,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 28441.5,
+              "gameTime": 27.05,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 28808.099999964237,
+              "gameTime": 27.45,
+              "window": 4,
+              "appliedAckUnacked": 8
+            },
+            {
+              "ms": 29949.099999964237,
+              "gameTime": 28.25,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 30073.69999998808,
+              "gameTime": 28.6,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 31357.099999964237,
+              "gameTime": 30,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 31757.5,
+              "gameTime": 30.4,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 32636.80000001192,
+              "gameTime": 31.25,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 33445.39999997616,
+              "gameTime": 32.05,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 34115.80000001192,
+              "gameTime": 32.75,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 35145.80000001192,
+              "gameTime": 33.6,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 35806,
+              "gameTime": 34.25,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 36402.89999997616,
+              "gameTime": 34.8,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 36999.69999998808,
+              "gameTime": 35.55,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 37634.30000001192,
+              "gameTime": 35.9,
+              "window": 4,
+              "appliedAckUnacked": 4
+            },
+            {
+              "ms": 38539.30000001192,
+              "gameTime": 36.8,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 39131.80000001192,
+              "gameTime": 37.3,
+              "window": 4,
+              "appliedAckUnacked": 4
+            },
+            {
+              "ms": 40374.59999996424,
+              "gameTime": 38.6,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 41939.69999998808,
+              "gameTime": 40.25,
+              "window": 4,
+              "appliedAckUnacked": 5
+            }
+          ],
+          "inputGaps": {
+            "count": 285,
+            "p50": 81.80000001192093,
+            "p95": 438.9000000357628,
+            "max": 782.6999999880791
+          },
+          "inputGapsOver250": [
+            {
+              "fromMs": 2542.899999976158,
+              "toMs": 3262.699999988079,
+              "durationMs": 719.8000000119209,
+              "window": 4
+            },
+            {
+              "fromMs": 3329,
+              "toMs": 3788.699999988079,
+              "durationMs": 459.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 6793.5,
+              "toMs": 7133.099999964237,
+              "durationMs": 339.5999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 8434.699999988079,
+              "toMs": 9110.800000011921,
+              "durationMs": 676.1000000238419,
+              "window": 4
+            },
+            {
+              "fromMs": 9360.599999964237,
+              "toMs": 9807.199999988079,
+              "durationMs": 446.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 12246.599999964237,
+              "toMs": 12589.599999964237,
+              "durationMs": 343,
+              "window": 4
+            },
+            {
+              "fromMs": 12589.599999964237,
+              "toMs": 12896.699999988079,
+              "durationMs": 307.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 13929.5,
+              "toMs": 14240.399999976158,
+              "durationMs": 310.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 14292.399999976158,
+              "toMs": 14947.099999964237,
+              "durationMs": 654.6999999880791,
+              "window": 4
+            },
+            {
+              "fromMs": 15244.300000011921,
+              "toMs": 15504.899999976158,
+              "durationMs": 260.5999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 15762.199999988079,
+              "toMs": 16039.199999988079,
+              "durationMs": 277,
+              "window": 4
+            },
+            {
+              "fromMs": 17205.69999998808,
+              "toMs": 17491.5,
+              "durationMs": 285.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 17569.399999976158,
+              "toMs": 17920,
+              "durationMs": 350.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 17974.099999964237,
+              "toMs": 18341.399999976158,
+              "durationMs": 367.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 18341.399999976158,
+              "toMs": 18797.80000001192,
+              "durationMs": 456.4000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 18871.69999998808,
+              "toMs": 19242,
+              "durationMs": 370.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 19324.80000001192,
+              "toMs": 19608.30000001192,
+              "durationMs": 283.5,
+              "window": 4
+            },
+            {
+              "fromMs": 19608.30000001192,
+              "toMs": 20391,
+              "durationMs": 782.6999999880791,
+              "window": 4
+            },
+            {
+              "fromMs": 20442.19999998808,
+              "toMs": 20912.099999964237,
+              "durationMs": 469.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 20989,
+              "toMs": 21284.599999964237,
+              "durationMs": 295.5999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 21284.599999964237,
+              "toMs": 21632.399999976158,
+              "durationMs": 347.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 22092.899999976158,
+              "toMs": 22403.19999998808,
+              "durationMs": 310.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 22458,
+              "toMs": 22710.69999998808,
+              "durationMs": 252.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 22770.69999998808,
+              "toMs": 23086.899999976158,
+              "durationMs": 316.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 23086.899999976158,
+              "toMs": 23463.80000001192,
+              "durationMs": 376.9000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 23548,
+              "toMs": 23971.80000001192,
+              "durationMs": 423.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 24028.30000001192,
+              "toMs": 24309.899999976158,
+              "durationMs": 281.5999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 24309.899999976158,
+              "toMs": 24878.599999964237,
+              "durationMs": 568.6999999880791,
+              "window": 4
+            },
+            {
+              "fromMs": 25384,
+              "toMs": 25893.5,
+              "durationMs": 509.5,
+              "window": 4
+            },
+            {
+              "fromMs": 26459.69999998808,
+              "toMs": 26818.19999998808,
+              "durationMs": 358.5,
+              "window": 4
+            },
+            {
+              "fromMs": 27192.5,
+              "toMs": 27475.899999976158,
+              "durationMs": 283.39999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 27807.69999998808,
+              "toMs": 28097.899999976158,
+              "durationMs": 290.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 28097.899999976158,
+              "toMs": 28442.099999964237,
+              "durationMs": 344.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 28527.599999964237,
+              "toMs": 28824.19999998808,
+              "durationMs": 296.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 29384.80000001192,
+              "toMs": 29980.30000001192,
+              "durationMs": 595.5,
+              "window": 4
+            },
+            {
+              "fromMs": 31107.30000001192,
+              "toMs": 31409.399999976158,
+              "durationMs": 302.0999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 33122,
+              "toMs": 33497.09999996424,
+              "durationMs": 375.0999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 33782,
+              "toMs": 34127.89999997616,
+              "durationMs": 345.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 34354.89999997616,
+              "toMs": 34979.09999996424,
+              "durationMs": 624.1999999880791,
+              "window": 4
+            },
+            {
+              "fromMs": 35222.30000001192,
+              "toMs": 35510.80000001192,
+              "durationMs": 288.5,
+              "window": 4
+            },
+            {
+              "fromMs": 35510.80000001192,
+              "toMs": 35808.19999998808,
+              "durationMs": 297.39999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 35859.5,
+              "toMs": 36145.5,
+              "durationMs": 286,
+              "window": 4
+            },
+            {
+              "fromMs": 36427.80000001192,
+              "toMs": 37006,
+              "durationMs": 578.1999999880791,
+              "window": 4
+            },
+            {
+              "fromMs": 37060.89999997616,
+              "toMs": 37499.80000001192,
+              "durationMs": 438.9000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 37671.69999998808,
+              "toMs": 38067.89999997616,
+              "durationMs": 396.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 38135.19999998808,
+              "toMs": 38587.59999996424,
+              "durationMs": 452.39999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 40138.89999997616,
+              "toMs": 40434.19999998808,
+              "durationMs": 295.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 41961.80000001192,
+              "toMs": 42238.80000001192,
+              "durationMs": 277,
+              "window": 4
+            },
+            {
+              "fromMs": 44222.59999996424,
+              "toMs": 44504.09999996424,
+              "durationMs": 281.5,
+              "window": 4
+            }
+          ],
+          "receiptExcess": {
+            "count": 191,
+            "p50": 295,
+            "p95": 713,
+            "max": 1075
+          },
+          "windowTransitions": [
+            {
+              "ms": 775.1999999880791,
+              "seq": 6,
+              "excessMs": 269,
+              "before": 16,
+              "after": 4,
+              "receiptInFlightAfterAck": 4
+            },
+            {
+              "ms": 4029.899999976158,
+              "seq": 55,
+              "excessMs": 3,
+              "before": 4,
+              "after": 16,
+              "receiptInFlightAfterAck": 0
+            },
+            {
+              "ms": 5452.599999964237,
+              "seq": 75,
+              "excessMs": 187,
+              "before": 16,
+              "after": 4,
+              "receiptInFlightAfterAck": 3
+            }
+          ],
+          "glProbeCosts": {
+            "count": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "glProbes": [
+            {
+              "label": "end",
+              "ms": 45146.39999997616,
+              "durationMs": 49.60000002384186,
+              "error": 0
+            }
+          ],
+          "longFrames": [
+            {
+              "ms": 2478.999999988082,
+              "durationMs": 182.40000000000146,
+              "gameTime": 2.2,
+              "phase": "combat",
+              "enemyKinds": {
+                "crawler": 1
+              }
+            }
+          ],
+          "releaseReceiptSinceIntentMs": null,
+          "errors": [],
+          "glErrors": []
+        },
+        {
+          "client": 2,
+          "gameSeconds": 42.6,
+          "frames": {
+            "samples": 2220,
+            "p50": 16.7,
+            "p95": 33.5,
+            "max": 200
+          },
+          "renderCpu": {
+            "samples": 2220,
+            "p50": 10.5,
+            "p95": 30.4,
+            "max": 90
+          },
+          "receiptAckRtt": {
+            "samples": 191,
+            "p50": 386.6,
+            "p95": 878.6,
+            "max": 1335.9
+          },
+          "inputContinuityPass": false,
+          "zeroAckOutsideResume": [
+            {
+              "ms": 1190.5,
+              "gameTime": 1.25,
+              "window": 4,
+              "appliedAckUnacked": 4
+            },
+            {
+              "ms": 2406.2000000476837,
+              "gameTime": 2.45,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 3074.100000023842,
+              "gameTime": 2.75,
+              "window": 4,
+              "appliedAckUnacked": 8
+            },
+            {
+              "ms": 3623.5,
+              "gameTime": 2.95,
+              "window": 4,
+              "appliedAckUnacked": 9
+            },
+            {
+              "ms": 7156.600000023842,
+              "gameTime": 6.35,
+              "window": 4,
+              "appliedAckUnacked": 4
+            },
+            {
+              "ms": 7418.100000023842,
+              "gameTime": 6.7,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 7502.100000023842,
+              "gameTime": 6.85,
+              "window": 4,
+              "appliedAckUnacked": 8
+            },
+            {
+              "ms": 9067.5,
+              "gameTime": 8.1,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 9745.800000011921,
+              "gameTime": 8.75,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 12601,
+              "gameTime": 11.6,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 12874.600000023842,
+              "gameTime": 11.9,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 14201.800000011921,
+              "gameTime": 13.2,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 14633.200000047684,
+              "gameTime": 13.55,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 15062.900000035763,
+              "gameTime": 13.95,
+              "window": 4,
+              "appliedAckUnacked": 9
+            },
+            {
+              "ms": 17508,
+              "gameTime": 16.5,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 17982.600000023842,
+              "gameTime": 16.9,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 18419.30000001192,
+              "gameTime": 17.3,
+              "window": 4,
+              "appliedAckUnacked": 9
+            },
+            {
+              "ms": 18898.80000001192,
+              "gameTime": 17.75,
+              "window": 4,
+              "appliedAckUnacked": 10
+            },
+            {
+              "ms": 19279.5,
+              "gameTime": 18.15,
+              "window": 4,
+              "appliedAckUnacked": 12
+            },
+            {
+              "ms": 19647.900000035763,
+              "gameTime": 18.55,
+              "window": 4,
+              "appliedAckUnacked": 14
+            },
+            {
+              "ms": 20009.400000035763,
+              "gameTime": 18.95,
+              "window": 4,
+              "appliedAckUnacked": 15
+            },
+            {
+              "ms": 20415.700000047684,
+              "gameTime": 19.35,
+              "window": 4,
+              "appliedAckUnacked": 17
+            },
+            {
+              "ms": 21390.400000035763,
+              "gameTime": 19.75,
+              "window": 4,
+              "appliedAckUnacked": 19
+            },
+            {
+              "ms": 21553.700000047684,
+              "gameTime": 20.15,
+              "window": 4,
+              "appliedAckUnacked": 20
+            },
+            {
+              "ms": 22332.700000047684,
+              "gameTime": 20.9,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 23019.700000047684,
+              "gameTime": 21.45,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 23418,
+              "gameTime": 21.85,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 23865.600000023842,
+              "gameTime": 22.25,
+              "window": 4,
+              "appliedAckUnacked": 9
+            },
+            {
+              "ms": 24254.200000047684,
+              "gameTime": 22.65,
+              "window": 4,
+              "appliedAckUnacked": 11
+            },
+            {
+              "ms": 24552.600000023842,
+              "gameTime": 23.05,
+              "window": 4,
+              "appliedAckUnacked": 12
+            },
+            {
+              "ms": 24853.900000035763,
+              "gameTime": 23.35,
+              "window": 4,
+              "appliedAckUnacked": 14
+            },
+            {
+              "ms": 25820.200000047684,
+              "gameTime": 24.15,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 26437.700000047684,
+              "gameTime": 24.95,
+              "window": 4,
+              "appliedAckUnacked": 4
+            },
+            {
+              "ms": 26752,
+              "gameTime": 25.25,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 26999.700000047684,
+              "gameTime": 25.55,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 27644.5,
+              "gameTime": 26.25,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 28292.100000023842,
+              "gameTime": 26.85,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 28657.200000047684,
+              "gameTime": 27.2,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 28951.700000047684,
+              "gameTime": 27.55,
+              "window": 4,
+              "appliedAckUnacked": 9
+            },
+            {
+              "ms": 29179.200000047684,
+              "gameTime": 27.85,
+              "window": 4,
+              "appliedAckUnacked": 10
+            },
+            {
+              "ms": 29474.700000047684,
+              "gameTime": 28.1,
+              "window": 4,
+              "appliedAckUnacked": 12
+            },
+            {
+              "ms": 29990.30000001192,
+              "gameTime": 28.7,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 31379.100000023842,
+              "gameTime": 30.05,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 33635.60000002384,
+              "gameTime": 32.2,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 33987.700000047684,
+              "gameTime": 32.5,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 34145.200000047684,
+              "gameTime": 32.85,
+              "window": 4,
+              "appliedAckUnacked": 8
+            },
+            {
+              "ms": 34741.60000002384,
+              "gameTime": 33.35,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 35042.30000001192,
+              "gameTime": 33.7,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 35976.10000002384,
+              "gameTime": 34.35,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 36620.80000001192,
+              "gameTime": 35.05,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 37057.60000002384,
+              "gameTime": 35.4,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 37474.10000002384,
+              "gameTime": 35.8,
+              "window": 4,
+              "appliedAckUnacked": 8
+            },
+            {
+              "ms": 38133.40000003576,
+              "gameTime": 36.25,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 38514.10000002384,
+              "gameTime": 36.65,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 38846.80000001192,
+              "gameTime": 37.1,
+              "window": 4,
+              "appliedAckUnacked": 8
+            },
+            {
+              "ms": 39109.5,
+              "gameTime": 37.45,
+              "window": 4,
+              "appliedAckUnacked": 10
+            },
+            {
+              "ms": 40619.200000047684,
+              "gameTime": 38.9,
+              "window": 4,
+              "appliedAckUnacked": 4
+            }
+          ],
+          "inputGaps": {
+            "count": 284,
+            "p50": 91.89999997615814,
+            "p95": 384.19999998807907,
+            "max": 928.9000000357628
+          },
+          "inputGapsOver250": [
+            {
+              "fromMs": 2193,
+              "toMs": 2456.400000035763,
+              "durationMs": 263.4000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 2586.400000035763,
+              "toMs": 3075.100000023842,
+              "durationMs": 488.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 3075.100000023842,
+              "toMs": 3675.800000011921,
+              "durationMs": 600.6999999880791,
+              "window": 4
+            },
+            {
+              "fromMs": 5852.900000035763,
+              "toMs": 6103.400000035763,
+              "durationMs": 250.5,
+              "window": 4
+            },
+            {
+              "fromMs": 6698.100000023842,
+              "toMs": 7170.800000011921,
+              "durationMs": 472.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 8183.700000047684,
+              "toMs": 8533.700000047684,
+              "durationMs": 350,
+              "window": 4
+            },
+            {
+              "fromMs": 8597.300000011921,
+              "toMs": 9098.300000011921,
+              "durationMs": 501,
+              "window": 4
+            },
+            {
+              "fromMs": 9252.400000035763,
+              "toMs": 9550.600000023842,
+              "durationMs": 298.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 12096.900000035763,
+              "toMs": 12366.700000047684,
+              "durationMs": 269.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 12366.700000047684,
+              "toMs": 12639.300000011921,
+              "durationMs": 272.5999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 13951,
+              "toMs": 14288.200000047684,
+              "durationMs": 337.2000000476837,
+              "window": 4
+            },
+            {
+              "fromMs": 14339.100000023842,
+              "toMs": 14665.800000011921,
+              "durationMs": 326.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 14717,
+              "toMs": 15066.700000047684,
+              "durationMs": 349.7000000476837,
+              "window": 4
+            },
+            {
+              "fromMs": 15066.700000047684,
+              "toMs": 15352.700000047684,
+              "durationMs": 286,
+              "window": 4
+            },
+            {
+              "fromMs": 15444.600000023842,
+              "toMs": 15756.700000047684,
+              "durationMs": 312.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 17180.30000001192,
+              "toMs": 17509.100000023842,
+              "durationMs": 328.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 17570.900000035763,
+              "toMs": 18020.5,
+              "durationMs": 449.5999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 18083.400000035763,
+              "toMs": 18438.900000035763,
+              "durationMs": 355.5,
+              "window": 4
+            },
+            {
+              "fromMs": 18438.900000035763,
+              "toMs": 18917.600000023842,
+              "durationMs": 478.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 18968.700000047684,
+              "toMs": 19311.200000047684,
+              "durationMs": 342.5,
+              "window": 4
+            },
+            {
+              "fromMs": 19367.900000035763,
+              "toMs": 19676.900000035763,
+              "durationMs": 309,
+              "window": 4
+            },
+            {
+              "fromMs": 19676.900000035763,
+              "toMs": 20054.80000001192,
+              "durationMs": 377.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 20108.5,
+              "toMs": 20445.700000047684,
+              "durationMs": 337.2000000476837,
+              "window": 4
+            },
+            {
+              "fromMs": 20498.5,
+              "toMs": 21427.400000035763,
+              "durationMs": 928.9000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 21833.200000047684,
+              "toMs": 22103.30000001192,
+              "durationMs": 270.0999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 22103.30000001192,
+              "toMs": 22360,
+              "durationMs": 256.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 22417.600000023842,
+              "toMs": 22671.700000047684,
+              "durationMs": 254.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 22722.600000023842,
+              "toMs": 23065.5,
+              "durationMs": 342.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 23065.5,
+              "toMs": 23467.600000023842,
+              "durationMs": 402.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 23532.900000035763,
+              "toMs": 23904.100000023842,
+              "durationMs": 371.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 23965.30000001192,
+              "toMs": 24304.80000001192,
+              "durationMs": 339.5,
+              "window": 4
+            },
+            {
+              "fromMs": 24304.80000001192,
+              "toMs": 24608,
+              "durationMs": 303.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 25056.30000001192,
+              "toMs": 25867,
+              "durationMs": 810.6999999880791,
+              "window": 4
+            },
+            {
+              "fromMs": 26475.200000047684,
+              "toMs": 26784.400000035763,
+              "durationMs": 309.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 27905.600000023842,
+              "toMs": 28342.600000023842,
+              "durationMs": 437,
+              "window": 4
+            },
+            {
+              "fromMs": 28404.80000001192,
+              "toMs": 28697.400000035763,
+              "durationMs": 292.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 29237.5,
+              "toMs": 29527.200000047684,
+              "durationMs": 289.7000000476837,
+              "window": 4
+            },
+            {
+              "fromMs": 30197.80000001192,
+              "toMs": 30573.30000001192,
+              "durationMs": 375.5,
+              "window": 4
+            },
+            {
+              "fromMs": 32238.600000023842,
+              "toMs": 32503.400000035763,
+              "durationMs": 264.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 32991.40000003576,
+              "toMs": 33314.5,
+              "durationMs": 323.0999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 33368.10000002384,
+              "toMs": 33662.30000001192,
+              "durationMs": 294.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 33744,
+              "toMs": 34016.5,
+              "durationMs": 272.5,
+              "window": 4
+            },
+            {
+              "fromMs": 34481.30000001192,
+              "toMs": 34742.30000001192,
+              "durationMs": 261,
+              "window": 4
+            },
+            {
+              "fromMs": 34742.30000001192,
+              "toMs": 35062.80000001192,
+              "durationMs": 320.5,
+              "window": 4
+            },
+            {
+              "fromMs": 35401.90000003576,
+              "toMs": 36000.10000002384,
+              "durationMs": 598.1999999880791,
+              "window": 4
+            },
+            {
+              "fromMs": 36284.80000001192,
+              "toMs": 36669,
+              "durationMs": 384.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 36721.10000002384,
+              "toMs": 37071.90000003576,
+              "durationMs": 350.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 37071.90000003576,
+              "toMs": 37488.10000002384,
+              "durationMs": 416.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 37725.40000003576,
+              "toMs": 38135.60000002384,
+              "durationMs": 410.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 38135.60000002384,
+              "toMs": 38551.90000003576,
+              "durationMs": 416.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 38613.60000002384,
+              "toMs": 38902.60000002384,
+              "durationMs": 289,
+              "window": 4
+            },
+            {
+              "fromMs": 39717.200000047684,
+              "toMs": 39993.30000001192,
+              "durationMs": 276.0999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 40340.200000047684,
+              "toMs": 40643.90000003576,
+              "durationMs": 303.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 41575.40000003576,
+              "toMs": 41886.80000001192,
+              "durationMs": 311.39999997615814,
+              "window": 4
+            }
+          ],
+          "receiptExcess": {
+            "count": 191,
+            "p50": 286,
+            "p95": 716,
+            "max": 1081
+          },
+          "windowTransitions": [
+            {
+              "ms": 630.3000000119209,
+              "seq": 6,
+              "excessMs": 224,
+              "before": 16,
+              "after": 4,
+              "receiptInFlightAfterAck": 4
+            },
+            {
+              "ms": 3986.600000023842,
+              "seq": 54,
+              "excessMs": 0,
+              "before": 4,
+              "after": 16,
+              "receiptInFlightAfterAck": 1
+            },
+            {
+              "ms": 5638.300000011921,
+              "seq": 74,
+              "excessMs": 232,
+              "before": 16,
+              "after": 4,
+              "receiptInFlightAfterAck": 4
+            }
+          ],
+          "glProbeCosts": {
+            "count": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "glProbes": [
+            {
+              "label": "end",
+              "ms": 45084.40000003576,
+              "durationMs": 35.19999998807907,
+              "error": 0
+            }
+          ],
+          "longFrames": [
+            {
+              "ms": 2188.600000011924,
+              "durationMs": 200,
+              "gameTime": 2.1,
+              "phase": "combat",
+              "enemyKinds": {
+                "crawler": 2
+              }
+            }
+          ],
+          "releaseReceiptSinceIntentMs": null,
+          "errors": [],
+          "glErrors": []
+        },
+        {
+          "client": 3,
+          "gameSeconds": 42.85,
+          "frames": {
+            "samples": 2201,
+            "p50": 16.7,
+            "p95": 33.4,
+            "max": 166.7
+          },
+          "renderCpu": {
+            "samples": 2134,
+            "p50": 10.4,
+            "p95": 31.4,
+            "max": 136.9
+          },
+          "receiptAckRtt": {
+            "samples": 189,
+            "p50": 415.9,
+            "p95": 874.9,
+            "max": 1278.7
+          },
+          "inputContinuityPass": false,
+          "zeroAckOutsideResume": [
+            {
+              "ms": 2491.300000011921,
+              "gameTime": 2.4,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 3146.5,
+              "gameTime": 2.7,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 3641,
+              "gameTime": 2.95,
+              "window": 4,
+              "appliedAckUnacked": 9
+            },
+            {
+              "ms": 7195.100000023842,
+              "gameTime": 6.45,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 9097.900000035763,
+              "gameTime": 8.1,
+              "window": 4,
+              "appliedAckUnacked": 4
+            },
+            {
+              "ms": 9596.900000035763,
+              "gameTime": 8.55,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 12510.700000047684,
+              "gameTime": 11.35,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 12827.900000035763,
+              "gameTime": 11.7,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 13663.400000035763,
+              "gameTime": 12.6,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 14902.900000035763,
+              "gameTime": 13.7,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 15174.700000047684,
+              "gameTime": 14.1,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 15440.100000023842,
+              "gameTime": 14.45,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 16826.200000047684,
+              "gameTime": 15.75,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 17664.700000047684,
+              "gameTime": 16.4,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 18147,
+              "gameTime": 16.8,
+              "window": 4,
+              "appliedAckUnacked": 8
+            },
+            {
+              "ms": 18540.400000035763,
+              "gameTime": 17.2,
+              "window": 4,
+              "appliedAckUnacked": 9
+            },
+            {
+              "ms": 19028.700000047684,
+              "gameTime": 17.65,
+              "window": 4,
+              "appliedAckUnacked": 10
+            },
+            {
+              "ms": 19412.900000035763,
+              "gameTime": 18.05,
+              "window": 4,
+              "appliedAckUnacked": 13
+            },
+            {
+              "ms": 19681.900000035763,
+              "gameTime": 18.45,
+              "window": 4,
+              "appliedAckUnacked": 14
+            },
+            {
+              "ms": 20059.400000035763,
+              "gameTime": 18.85,
+              "window": 4,
+              "appliedAckUnacked": 15
+            },
+            {
+              "ms": 20541.30000001192,
+              "gameTime": 19.25,
+              "window": 4,
+              "appliedAckUnacked": 18
+            },
+            {
+              "ms": 21011.30000001192,
+              "gameTime": 19.6,
+              "window": 4,
+              "appliedAckUnacked": 19
+            },
+            {
+              "ms": 21462.600000023842,
+              "gameTime": 20,
+              "window": 4,
+              "appliedAckUnacked": 20
+            },
+            {
+              "ms": 22872.80000001192,
+              "gameTime": 21.25,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 23211.200000047684,
+              "gameTime": 21.65,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 23629.5,
+              "gameTime": 22.05,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 24028,
+              "gameTime": 22.45,
+              "window": 4,
+              "appliedAckUnacked": 10
+            },
+            {
+              "ms": 24426.200000047684,
+              "gameTime": 22.85,
+              "window": 4,
+              "appliedAckUnacked": 11
+            },
+            {
+              "ms": 24704.900000035763,
+              "gameTime": 23.2,
+              "window": 4,
+              "appliedAckUnacked": 12
+            },
+            {
+              "ms": 24922.900000035763,
+              "gameTime": 23.5,
+              "window": 4,
+              "appliedAckUnacked": 15
+            },
+            {
+              "ms": 25874.200000047684,
+              "gameTime": 24.35,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 26194.900000035763,
+              "gameTime": 24.7,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 26830.900000035763,
+              "gameTime": 25.1,
+              "window": 4,
+              "appliedAckUnacked": 8
+            },
+            {
+              "ms": 27029.5,
+              "gameTime": 25.4,
+              "window": 4,
+              "appliedAckUnacked": 11
+            },
+            {
+              "ms": 27154,
+              "gameTime": 25.8,
+              "window": 4,
+              "appliedAckUnacked": 12
+            },
+            {
+              "ms": 27731.100000023842,
+              "gameTime": 26.2,
+              "window": 4,
+              "appliedAckUnacked": 7
+            },
+            {
+              "ms": 28473.5,
+              "gameTime": 27.15,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 28838.900000035763,
+              "gameTime": 27.5,
+              "window": 4,
+              "appliedAckUnacked": 8
+            },
+            {
+              "ms": 29979.30000001192,
+              "gameTime": 28.65,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 30940,
+              "gameTime": 29.6,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 32248.5,
+              "gameTime": 30.95,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 32711.100000023842,
+              "gameTime": 31.35,
+              "window": 4,
+              "appliedAckUnacked": 4
+            },
+            {
+              "ms": 33583.90000003576,
+              "gameTime": 32.15,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 33946,
+              "gameTime": 32.45,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 34161.40000003576,
+              "gameTime": 32.8,
+              "window": 4,
+              "appliedAckUnacked": 9
+            },
+            {
+              "ms": 34709.5,
+              "gameTime": 33.3,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 35028.60000002384,
+              "gameTime": 33.7,
+              "window": 4,
+              "appliedAckUnacked": 8
+            },
+            {
+              "ms": 35698.80000001192,
+              "gameTime": 34.3,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 36197.5,
+              "gameTime": 34.85,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 37044,
+              "gameTime": 35.2,
+              "window": 4,
+              "appliedAckUnacked": 6
+            },
+            {
+              "ms": 37499.40000003576,
+              "gameTime": 35.6,
+              "window": 4,
+              "appliedAckUnacked": 9
+            },
+            {
+              "ms": 37643.60000002384,
+              "gameTime": 35.9,
+              "window": 4,
+              "appliedAckUnacked": 10
+            },
+            {
+              "ms": 38257.5,
+              "gameTime": 36.55,
+              "window": 4,
+              "appliedAckUnacked": 11
+            },
+            {
+              "ms": 38961.200000047684,
+              "gameTime": 37,
+              "window": 4,
+              "appliedAckUnacked": 4
+            },
+            {
+              "ms": 39168.30000001192,
+              "gameTime": 37.35,
+              "window": 4,
+              "appliedAckUnacked": 5
+            },
+            {
+              "ms": 40433.700000047684,
+              "gameTime": 38.8,
+              "window": 4,
+              "appliedAckUnacked": 5
+            }
+          ],
+          "inputGaps": {
+            "count": 287,
+            "p50": 79.60000002384186,
+            "p95": 383.7999999523163,
+            "max": 859.1000000238419
+          },
+          "inputGapsOver250": [
+            {
+              "fromMs": 2217.800000011921,
+              "toMs": 2492.300000011921,
+              "durationMs": 274.5,
+              "window": 4
+            },
+            {
+              "fromMs": 2633.2000000476837,
+              "toMs": 3147.7000000476837,
+              "durationMs": 514.5,
+              "window": 4
+            },
+            {
+              "fromMs": 3198.7000000476837,
+              "toMs": 3676.2000000476837,
+              "durationMs": 477.5,
+              "window": 4
+            },
+            {
+              "fromMs": 6808.100000023842,
+              "toMs": 7237,
+              "durationMs": 428.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 8340.900000035763,
+              "toMs": 8606.600000023842,
+              "durationMs": 265.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 8606.600000023842,
+              "toMs": 9098.700000047684,
+              "durationMs": 492.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 9360.100000023842,
+              "toMs": 9643.100000023842,
+              "durationMs": 283,
+              "window": 4
+            },
+            {
+              "fromMs": 12511.300000011921,
+              "toMs": 12860.100000023842,
+              "durationMs": 348.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 13905.600000023842,
+              "toMs": 14238.900000035763,
+              "durationMs": 333.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 14593.400000035763,
+              "toMs": 14903.700000047684,
+              "durationMs": 310.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 14903.700000047684,
+              "toMs": 15222.600000023842,
+              "durationMs": 318.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 15686.900000035763,
+              "toMs": 15972.900000035763,
+              "durationMs": 286,
+              "window": 4
+            },
+            {
+              "fromMs": 16194.400000035763,
+              "toMs": 16497.30000001192,
+              "durationMs": 302.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 17077.100000023842,
+              "toMs": 17344.700000047684,
+              "durationMs": 267.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 17344.700000047684,
+              "toMs": 17716.700000047684,
+              "durationMs": 372,
+              "window": 4
+            },
+            {
+              "fromMs": 17850.200000047684,
+              "toMs": 18152.400000035763,
+              "durationMs": 302.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 18152.400000035763,
+              "toMs": 18582.700000047684,
+              "durationMs": 430.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 18582.700000047684,
+              "toMs": 19112.600000023842,
+              "durationMs": 529.8999999761581,
+              "window": 4
+            },
+            {
+              "fromMs": 19431.700000047684,
+              "toMs": 19704.30000001192,
+              "durationMs": 272.5999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 19704.30000001192,
+              "toMs": 20105.80000001192,
+              "durationMs": 401.5,
+              "window": 4
+            },
+            {
+              "fromMs": 20223,
+              "toMs": 20560.900000035763,
+              "durationMs": 337.9000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 20560.900000035763,
+              "toMs": 21026.700000047684,
+              "durationMs": 465.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 21026.700000047684,
+              "toMs": 21512.30000001192,
+              "durationMs": 485.5999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 21650.30000001192,
+              "toMs": 21925.700000047684,
+              "durationMs": 275.4000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 21925.700000047684,
+              "toMs": 22309.5,
+              "durationMs": 383.7999999523163,
+              "window": 4
+            },
+            {
+              "fromMs": 22588.5,
+              "toMs": 22876.600000023842,
+              "durationMs": 288.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 22876.600000023842,
+              "toMs": 23228.700000047684,
+              "durationMs": 352.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 23228.700000047684,
+              "toMs": 23673.700000047684,
+              "durationMs": 445,
+              "window": 4
+            },
+            {
+              "fromMs": 23792.5,
+              "toMs": 24072.30000001192,
+              "durationMs": 279.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 24072.30000001192,
+              "toMs": 24455.700000047684,
+              "durationMs": 383.4000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 24455.700000047684,
+              "toMs": 24706.700000047684,
+              "durationMs": 251,
+              "window": 4
+            },
+            {
+              "fromMs": 25169.200000047684,
+              "toMs": 25540.400000035763,
+              "durationMs": 371.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 25893.400000035763,
+              "toMs": 26197.200000047684,
+              "durationMs": 303.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 26197.200000047684,
+              "toMs": 26848.700000047684,
+              "durationMs": 651.5,
+              "window": 4
+            },
+            {
+              "fromMs": 27156.5,
+              "toMs": 27474.700000047684,
+              "durationMs": 318.2000000476837,
+              "window": 4
+            },
+            {
+              "fromMs": 27769.200000047684,
+              "toMs": 28125.200000047684,
+              "durationMs": 356,
+              "window": 4
+            },
+            {
+              "fromMs": 28125.200000047684,
+              "toMs": 28476.900000035763,
+              "durationMs": 351.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 28845,
+              "toMs": 29132.100000023842,
+              "durationMs": 287.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 29132.100000023842,
+              "toMs": 29450.900000035763,
+              "durationMs": 318.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 29651.700000047684,
+              "toMs": 30012.900000035763,
+              "durationMs": 361.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 31228.30000001192,
+              "toMs": 31610.900000035763,
+              "durationMs": 382.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 31943.30000001192,
+              "toMs": 32295.400000035763,
+              "durationMs": 352.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 33265.60000002384,
+              "toMs": 33619.30000001192,
+              "durationMs": 353.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 33619.30000001192,
+              "toMs": 33978,
+              "durationMs": 358.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 34399.200000047684,
+              "toMs": 34755.700000047684,
+              "durationMs": 356.5,
+              "window": 4
+            },
+            {
+              "fromMs": 35057,
+              "toMs": 35340.200000047684,
+              "durationMs": 283.2000000476837,
+              "window": 4
+            },
+            {
+              "fromMs": 35340.200000047684,
+              "toMs": 35731.700000047684,
+              "durationMs": 391.5,
+              "window": 4
+            },
+            {
+              "fromMs": 36221,
+              "toMs": 37080.10000002384,
+              "durationMs": 859.1000000238419,
+              "window": 4
+            },
+            {
+              "fromMs": 37198.90000003576,
+              "toMs": 37524,
+              "durationMs": 325.0999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 37694.700000047684,
+              "toMs": 38268,
+              "durationMs": 573.2999999523163,
+              "window": 4
+            },
+            {
+              "fromMs": 38377.60000002384,
+              "toMs": 38650.80000001192,
+              "durationMs": 273.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 38650.80000001192,
+              "toMs": 38975.80000001192,
+              "durationMs": 325,
+              "window": 4
+            },
+            {
+              "fromMs": 40199.700000047684,
+              "toMs": 40488.60000002384,
+              "durationMs": 288.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 41158.200000047684,
+              "toMs": 41477.40000003576,
+              "durationMs": 319.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 41874,
+              "toMs": 42162.40000003576,
+              "durationMs": 288.4000000357628,
+              "window": 4
+            }
+          ],
+          "receiptExcess": {
+            "count": 189,
+            "p50": 295,
+            "p95": 620,
+            "max": 1070
+          },
+          "windowTransitions": [
+            {
+              "ms": 815.7000000476837,
+              "seq": 7,
+              "excessMs": 224,
+              "before": 16,
+              "after": 4,
+              "receiptInFlightAfterAck": 3
+            },
+            {
+              "ms": 3980.800000011921,
+              "seq": 55,
+              "excessMs": 0,
+              "before": 4,
+              "after": 16,
+              "receiptInFlightAfterAck": 0
+            },
+            {
+              "ms": 5423.600000023842,
+              "seq": 77,
+              "excessMs": 159,
+              "before": 16,
+              "after": 4,
+              "receiptInFlightAfterAck": 3
+            }
+          ],
+          "glProbeCosts": {
+            "count": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "glProbes": [
+            {
+              "label": "end",
+              "ms": 45107.40000003576,
+              "durationMs": 32.5,
+              "error": 0
+            }
+          ],
+          "longFrames": [
+            {
+              "ms": 178.10000002384186,
+              "durationMs": 150,
+              "gameTime": 0.25,
+              "phase": "combat",
+              "enemyKinds": {}
+            },
+            {
+              "ms": 278.30000002383895,
+              "durationMs": 100.19999999999709,
+              "gameTime": 0.25,
+              "phase": "combat",
+              "enemyKinds": {}
+            },
+            {
+              "ms": 2361.5000000238433,
+              "durationMs": 166.70000000000437,
+              "gameTime": 2.1,
+              "phase": "combat",
+              "enemyKinds": {
+                "crawler": 2
+              }
+            },
+            {
+              "ms": 2628.2000000238404,
+              "durationMs": 150.09999999999854,
+              "gameTime": 2.4,
+              "phase": "combat",
+              "enemyKinds": {
+                "crawler": 3
+              }
+            }
+          ],
+          "releaseReceiptSinceIntentMs": null,
+          "errors": [],
+          "glErrors": []
+        }
+      ]
+    },
+    {
+      "name": "live-window-slow-up-diagnostic",
+      "functionalPass": true,
+      "sourceHashes": {
+        "server/worker.ts": "2a533ba2d3cc7bf32a6dc1545708c12f8ff461c496780c37551f9686903b8930",
+        "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+        "server/state-delivery.ts": "4e36a7644b7590cb3b863de872b235b4ed1f58d8b6f6cea248ff3a99fff0de1d",
+        "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+        "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+        "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+        "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+        "src/client/front-network.ts": "1f5fdc97fed27003c63cc8599dd17cf68043f5948290e2fddfaa0fa091ca89d9",
+        "src/client/state-receipt.ts": "a636d4d1aea402cf2a87fbbf6915c6311dd050374056d3775951bf47693c6124",
+        "src/client/input-window.ts": "1a249dc5fb1559dbd01a404aa980a5b6d405d47ce7878c28e3a18beebea73350",
+        "src/client/network-input-loop.ts": "83a3c33e97127f84194135b1ab0b7cc8919ede4683327c7b996f74d27207e567",
+        "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+        "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+        "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+        "src/client/battle-loading.ts": "44d98eea48182fc186d1ec0d3c2cafae31013c960d1812b00a975fa74f0f4df5",
+        "src/client/bastion-view.ts": "c4eca7ceb52ba2ee3959dc62836123273252fd80cd1aa5e0a2e1a48c601f18af",
+        "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+        "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+        "scripts/check-coop-live.mjs": "f8b61d994e3493556eda26d239fb354bcf7ddd88446ee2ffc11ffbd12e4bedb3",
+        "scripts/local-websocket-shaper.mjs": "f099a4c55b91a4aa73309e5aaf14e7a331ead409b6caed67159840c7469c0205"
+      },
+      "sourcesStable": true,
+      "seconds": 30,
+      "renderClients": 1,
+      "glProbeMode": "end",
+      "linkConfig": {
+        "latencyMs": 75,
+        "bytesPerSecond": 16777216,
+        "upBytesPerSecond": 1000
+      },
+      "errors": [],
+      "clients": [
+        {
+          "client": 0,
+          "gameSeconds": 29.6,
+          "frames": {
+            "samples": 1799,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 33.4
+          },
+          "renderCpu": {
+            "samples": 1732,
+            "p50": 5.6,
+            "p95": 10.6,
+            "max": 41.9
+          },
+          "receiptAckRtt": {
+            "samples": 75,
+            "p50": 621.4,
+            "p95": 927.2,
+            "max": 2345.2
+          },
+          "inputContinuityPass": false,
+          "zeroAckOutsideResume": [
+            {
+              "ms": 3951.899999976158,
+              "gameTime": 3.8,
+              "window": 4,
+              "appliedAckUnacked": 4
+            },
+            {
+              "ms": 12982.599999964237,
+              "gameTime": 12.85,
+              "window": 4,
+              "appliedAckUnacked": 5
+            }
+          ],
+          "inputGaps": {
+            "count": 119,
+            "p50": 115.5,
+            "p95": 489.9000000357628,
+            "max": 1860.800000011921
+          },
+          "inputGapsOver250": [
+            {
+              "fromMs": 1368.5999999642372,
+              "toMs": 3229.399999976158,
+              "durationMs": 1860.800000011921,
+              "window": 4
+            },
+            {
+              "fromMs": 3229.399999976158,
+              "toMs": 3777.399999976158,
+              "durationMs": 548,
+              "window": 4
+            },
+            {
+              "fromMs": 3990.5,
+              "toMs": 4259.799999952316,
+              "durationMs": 269.2999999523163,
+              "window": 4
+            },
+            {
+              "fromMs": 4259.799999952316,
+              "toMs": 4949.5,
+              "durationMs": 689.7000000476837,
+              "window": 4
+            },
+            {
+              "fromMs": 5174.699999988079,
+              "toMs": 5457.599999964237,
+              "durationMs": 282.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 5457.599999964237,
+              "toMs": 6109.299999952316,
+              "durationMs": 651.6999999880791,
+              "window": 4
+            },
+            {
+              "fromMs": 6625.799999952316,
+              "toMs": 7293.899999976158,
+              "durationMs": 668.1000000238419,
+              "window": 4
+            },
+            {
+              "fromMs": 7413.899999976158,
+              "toMs": 7810.5,
+              "durationMs": 396.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 7864.099999964237,
+              "toMs": 8257.5,
+              "durationMs": 393.4000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 8525.099999964237,
+              "toMs": 8976.899999976158,
+              "durationMs": 451.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 9034.5,
+              "toMs": 9426.799999952316,
+              "durationMs": 392.2999999523163,
+              "window": 4
+            },
+            {
+              "fromMs": 9710.099999964237,
+              "toMs": 10146.599999964237,
+              "durationMs": 436.5,
+              "window": 4
+            },
+            {
+              "fromMs": 10205.599999964237,
+              "toMs": 10604.699999988079,
+              "durationMs": 399.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 10889.799999952316,
+              "toMs": 11326.599999964237,
+              "durationMs": 436.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 11377.599999964237,
+              "toMs": 11828,
+              "durationMs": 450.4000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 12055.599999964237,
+              "toMs": 12523.299999952316,
+              "durationMs": 467.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 12590.399999976158,
+              "toMs": 12983.599999964237,
+              "durationMs": 393.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 13254.699999988079,
+              "toMs": 13695,
+              "durationMs": 440.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 13755.699999988079,
+              "toMs": 14190.5,
+              "durationMs": 434.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 14424.099999964237,
+              "toMs": 14914,
+              "durationMs": 489.9000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 14973.5,
+              "toMs": 15356.199999988079,
+              "durationMs": 382.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 15625.799999952316,
+              "toMs": 16008.199999988079,
+              "durationMs": 382.4000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 16522.69999998808,
+              "toMs": 16844.799999952316,
+              "durationMs": 322.0999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 16896.799999952316,
+              "toMs": 17179.299999952316,
+              "durationMs": 282.5,
+              "window": 4
+            },
+            {
+              "fromMs": 17352.299999952316,
+              "toMs": 17700,
+              "durationMs": 347.7000000476837,
+              "window": 4
+            },
+            {
+              "fromMs": 18157.599999964237,
+              "toMs": 18555.799999952316,
+              "durationMs": 398.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 19007.599999964237,
+              "toMs": 19344.69999998808,
+              "durationMs": 337.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 19407.299999952316,
+              "toMs": 19700.69999998808,
+              "durationMs": 293.4000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 19857.299999952316,
+              "toMs": 20194.19999998808,
+              "durationMs": 336.9000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 20248.099999964237,
+              "toMs": 20531.099999964237,
+              "durationMs": 283,
+              "window": 4
+            },
+            {
+              "fromMs": 20707.599999964237,
+              "toMs": 20993.899999976158,
+              "durationMs": 286.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 21046,
+              "toMs": 21343.399999976158,
+              "durationMs": 297.39999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 21523,
+              "toMs": 21875.19999998808,
+              "durationMs": 352.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 21938.799999952316,
+              "toMs": 22205.799999952316,
+              "durationMs": 267,
+              "window": 4
+            },
+            {
+              "fromMs": 22376.19999998808,
+              "toMs": 22663,
+              "durationMs": 286.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 22723.5,
+              "toMs": 23009.299999952316,
+              "durationMs": 285.7999999523163,
+              "window": 4
+            },
+            {
+              "fromMs": 23184.799999952316,
+              "toMs": 23506.69999998808,
+              "durationMs": 321.9000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 23559.5,
+              "toMs": 23856,
+              "durationMs": 296.5,
+              "window": 4
+            },
+            {
+              "fromMs": 24023.299999952316,
+              "toMs": 24358.099999964237,
+              "durationMs": 334.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 24410.19999998808,
+              "toMs": 24698.399999976158,
+              "durationMs": 288.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 24881,
+              "toMs": 25159.399999976158,
+              "durationMs": 278.39999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 25214.799999952316,
+              "toMs": 25493.799999952316,
+              "durationMs": 279,
+              "window": 4
+            },
+            {
+              "fromMs": 25674.899999976158,
+              "toMs": 26023.5,
+              "durationMs": 348.60000002384186,
+              "window": 4
+            }
+          ],
+          "receiptExcess": {
+            "count": 75,
+            "p50": 191,
+            "p95": 502,
+            "max": 1748
+          },
+          "windowTransitions": [
+            {
+              "ms": 2414,
+              "seq": 13,
+              "excessMs": 977,
+              "before": 16,
+              "after": 4,
+              "receiptInFlightAfterAck": 8
+            }
+          ],
+          "glProbeCosts": {
+            "count": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "glProbes": [
+            {
+              "label": "end",
+              "ms": 30015.899999976158,
+              "durationMs": 11.399999976158142,
+              "error": 0
+            }
+          ],
+          "longFrames": [],
+          "releaseReceiptSinceIntentMs": 977.5999999642372,
+          "errors": [],
+          "glErrors": []
+        },
+        {
+          "client": 1,
+          "gameSeconds": 29.4,
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.1
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "receiptAckRtt": {
+            "samples": 85,
+            "p50": 631.8,
+            "p95": 928.6,
+            "max": 1753.7
+          },
+          "inputContinuityPass": false,
+          "zeroAckOutsideResume": [
+            {
+              "ms": 4273.5,
+              "gameTime": 4.15,
+              "window": 4,
+              "appliedAckUnacked": 4
+            },
+            {
+              "ms": 14676,
+              "gameTime": 14.55,
+              "window": 4,
+              "appliedAckUnacked": 5
+            }
+          ],
+          "inputGaps": {
+            "count": 137,
+            "p50": 155,
+            "p95": 443.10000002384186,
+            "max": 939.5999999642372
+          },
+          "inputGapsOver250": [
+            {
+              "fromMs": 2637.5,
+              "toMs": 3577.099999964237,
+              "durationMs": 939.5999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 3630.2999999523163,
+              "toMs": 4070.099999964237,
+              "durationMs": 439.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 4289.599999964237,
+              "toMs": 4791.5,
+              "durationMs": 501.9000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 4852.199999988079,
+              "toMs": 5235.5,
+              "durationMs": 383.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 5519.199999988079,
+              "toMs": 5965.599999964237,
+              "durationMs": 446.39999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 6018.599999964237,
+              "toMs": 6392.299999952316,
+              "durationMs": 373.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 6665.899999976158,
+              "toMs": 7103.599999964237,
+              "durationMs": 437.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 7164.399999976158,
+              "toMs": 7615.699999988079,
+              "durationMs": 451.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 7848.599999964237,
+              "toMs": 8291.699999988079,
+              "durationMs": 443.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 8349.799999952316,
+              "toMs": 8778.599999964237,
+              "durationMs": 428.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 9050.899999976158,
+              "toMs": 9472.799999952316,
+              "durationMs": 421.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 9535.899999976158,
+              "toMs": 9970.299999952316,
+              "durationMs": 434.39999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 10188.399999976158,
+              "toMs": 10672,
+              "durationMs": 483.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 10723.399999976158,
+              "toMs": 11119.599999964237,
+              "durationMs": 396.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 11401.299999952316,
+              "toMs": 11838.799999952316,
+              "durationMs": 437.5,
+              "window": 4
+            },
+            {
+              "fromMs": 11889.699999988079,
+              "toMs": 12322.299999952316,
+              "durationMs": 432.5999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 12540.299999952316,
+              "toMs": 13053,
+              "durationMs": 512.7000000476837,
+              "window": 4
+            },
+            {
+              "fromMs": 13119.299999952316,
+              "toMs": 13498.699999988079,
+              "durationMs": 379.4000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 13767,
+              "toMs": 14201.599999964237,
+              "durationMs": 434.5999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 14252.199999988079,
+              "toMs": 14685.099999964237,
+              "durationMs": 432.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 14945.799999952316,
+              "toMs": 15385.699999988079,
+              "durationMs": 439.9000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 15437.199999988079,
+              "toMs": 15869.5,
+              "durationMs": 432.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 16028,
+              "toMs": 16367.399999976158,
+              "durationMs": 339.39999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 16419.099999964237,
+              "toMs": 16693.69999998808,
+              "durationMs": 274.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 16866.099999964237,
+              "toMs": 17186.399999976158,
+              "durationMs": 320.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 17241.799999952316,
+              "toMs": 17558.799999952316,
+              "durationMs": 317,
+              "window": 4
+            },
+            {
+              "fromMs": 17716.599999964237,
+              "toMs": 18030,
+              "durationMs": 313.4000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 18086.099999964237,
+              "toMs": 18369,
+              "durationMs": 282.9000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 18535.799999952316,
+              "toMs": 18870.099999964237,
+              "durationMs": 334.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 18922,
+              "toMs": 19203,
+              "durationMs": 281,
+              "window": 4
+            },
+            {
+              "fromMs": 19370.799999952316,
+              "toMs": 19690.5,
+              "durationMs": 319.7000000476837,
+              "window": 4
+            },
+            {
+              "fromMs": 19749.099999964237,
+              "toMs": 20065.799999952316,
+              "durationMs": 316.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 20233.19999998808,
+              "toMs": 20569.69999998808,
+              "durationMs": 336.5,
+              "window": 4
+            },
+            {
+              "fromMs": 21061.5,
+              "toMs": 21389,
+              "durationMs": 327.5,
+              "window": 4
+            },
+            {
+              "fromMs": 21452.599999964237,
+              "toMs": 21735.399999976158,
+              "durationMs": 282.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 21847.799999952316,
+              "toMs": 22185.799999952316,
+              "durationMs": 338,
+              "window": 4
+            },
+            {
+              "fromMs": 22250.599999964237,
+              "toMs": 22530.599999964237,
+              "durationMs": 280,
+              "window": 4
+            },
+            {
+              "fromMs": 22688.69999998808,
+              "toMs": 23028.799999952316,
+              "durationMs": 340.0999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 23086.299999952316,
+              "toMs": 23349.599999964237,
+              "durationMs": 263.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 23516.599999964237,
+              "toMs": 23845.69999998808,
+              "durationMs": 329.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 23896.399999976158,
+              "toMs": 24231.19999998808,
+              "durationMs": 334.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 24402.5,
+              "toMs": 24734.599999964237,
+              "durationMs": 332.0999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 25236.399999976158,
+              "toMs": 25517.5,
+              "durationMs": 281.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 25569.299999952316,
+              "toMs": 25845.799999952316,
+              "durationMs": 276.5,
+              "window": 4
+            },
+            {
+              "fromMs": 26061.599999964237,
+              "toMs": 26346.299999952316,
+              "durationMs": 284.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 26401.5,
+              "toMs": 26672.599999964237,
+              "durationMs": 271.0999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 26901.5,
+              "toMs": 27170.799999952316,
+              "durationMs": 269.2999999523163,
+              "window": 4
+            },
+            {
+              "fromMs": 27230.69999998808,
+              "toMs": 27506.69999998808,
+              "durationMs": 276,
+              "window": 4
+            },
+            {
+              "fromMs": 27717.099999964237,
+              "toMs": 28053.5,
+              "durationMs": 336.4000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 28111.399999976158,
+              "toMs": 28394.599999964237,
+              "durationMs": 283.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 28568.099999964237,
+              "toMs": 28902.799999952316,
+              "durationMs": 334.69999998807907,
+              "window": 4
+            }
+          ],
+          "receiptExcess": {
+            "count": 85,
+            "p50": 143,
+            "p95": 395,
+            "max": 1217
+          },
+          "windowTransitions": [
+            {
+              "ms": 2671.2999999523163,
+              "seq": 15,
+              "excessMs": 1217,
+              "before": 16,
+              "after": 4,
+              "receiptInFlightAfterAck": 7
+            }
+          ],
+          "glProbeCosts": {
+            "count": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "glProbes": [
+            {
+              "label": "end",
+              "ms": 30016.69999998808,
+              "durationMs": 0.5,
+              "error": 0
+            }
+          ],
+          "longFrames": [],
+          "releaseReceiptSinceIntentMs": 1009.2999999523163,
+          "errors": [],
+          "glErrors": []
+        },
+        {
+          "client": 2,
+          "gameSeconds": 29.55,
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.2
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "receiptAckRtt": {
+            "samples": 80,
+            "p50": 613.2,
+            "p95": 1018.1,
+            "max": 2391.1
+          },
+          "inputContinuityPass": false,
+          "zeroAckOutsideResume": [
+            {
+              "ms": 6088.699999988079,
+              "gameTime": 5.95,
+              "window": 4,
+              "appliedAckUnacked": 4
+            },
+            {
+              "ms": 20062.899999976158,
+              "gameTime": 19.9,
+              "window": 4,
+              "appliedAckUnacked": 4
+            }
+          ],
+          "inputGaps": {
+            "count": 137,
+            "p50": 102.69999998807907,
+            "p95": 699.7000000476837,
+            "max": 2405
+          },
+          "inputGapsOver250": [
+            {
+              "fromMs": 3272.300000011921,
+              "toMs": 5677.300000011921,
+              "durationMs": 2405,
+              "window": 4
+            },
+            {
+              "fromMs": 5851,
+              "toMs": 6113.100000023842,
+              "durationMs": 262.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 6113.100000023842,
+              "toMs": 6386,
+              "durationMs": 272.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 6386,
+              "toMs": 7102,
+              "durationMs": 716,
+              "window": 4
+            },
+            {
+              "fromMs": 7321.100000023842,
+              "toMs": 7582,
+              "durationMs": 260.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 7582,
+              "toMs": 8302.5,
+              "durationMs": 720.5,
+              "window": 4
+            },
+            {
+              "fromMs": 8752.899999976158,
+              "toMs": 9452.600000023842,
+              "durationMs": 699.7000000476837,
+              "window": 4
+            },
+            {
+              "fromMs": 9900.600000023842,
+              "toMs": 10629.300000011921,
+              "durationMs": 728.6999999880791,
+              "window": 4
+            },
+            {
+              "fromMs": 10838.699999988079,
+              "toMs": 11103.399999976158,
+              "durationMs": 264.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 11103.399999976158,
+              "toMs": 11819.899999976158,
+              "durationMs": 716.5,
+              "window": 4
+            },
+            {
+              "fromMs": 12038.199999988079,
+              "toMs": 12319.399999976158,
+              "durationMs": 281.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 12319.399999976158,
+              "toMs": 12986,
+              "durationMs": 666.6000000238419,
+              "window": 4
+            },
+            {
+              "fromMs": 13484.100000023842,
+              "toMs": 14198.800000011921,
+              "durationMs": 714.6999999880791,
+              "window": 4
+            },
+            {
+              "fromMs": 14405.699999988079,
+              "toMs": 14670.300000011921,
+              "durationMs": 264.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 14670.300000011921,
+              "toMs": 15365.600000023842,
+              "durationMs": 695.3000000119209,
+              "window": 4
+            },
+            {
+              "fromMs": 15802.699999988079,
+              "toMs": 16302.300000011921,
+              "durationMs": 499.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 16693.5,
+              "toMs": 17151.399999976158,
+              "durationMs": 457.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 17585.69999998808,
+              "toMs": 18019.30000001192,
+              "durationMs": 433.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 18397.899999976158,
+              "toMs": 18869.80000001192,
+              "durationMs": 471.9000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 19035.899999976158,
+              "toMs": 19703.399999976158,
+              "durationMs": 667.5,
+              "window": 4
+            },
+            {
+              "fromMs": 20086.399999976158,
+              "toMs": 20436.100000023842,
+              "durationMs": 349.7000000476837,
+              "window": 4
+            },
+            {
+              "fromMs": 20487.100000023842,
+              "toMs": 20766.5,
+              "durationMs": 279.39999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 20922.100000023842,
+              "toMs": 21265,
+              "durationMs": 342.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 21316.19999998808,
+              "toMs": 21593.80000001192,
+              "durationMs": 277.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 21766.19999998808,
+              "toMs": 22085.899999976158,
+              "durationMs": 319.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 22137.19999998808,
+              "toMs": 22419.100000023842,
+              "durationMs": 281.9000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 22586.69999998808,
+              "toMs": 22933.80000001192,
+              "durationMs": 347.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 23378,
+              "toMs": 23731.600000023842,
+              "durationMs": 353.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 23782.399999976158,
+              "toMs": 24052.69999998808,
+              "durationMs": 270.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 24215.600000023842,
+              "toMs": 24589.5,
+              "durationMs": 373.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 24650.899999976158,
+              "toMs": 24922.80000001192,
+              "durationMs": 271.9000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 25085.899999976158,
+              "toMs": 25406.69999998808,
+              "durationMs": 320.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 25467.69999998808,
+              "toMs": 25746.19999998808,
+              "durationMs": 278.5,
+              "window": 4
+            },
+            {
+              "fromMs": 25964.19999998808,
+              "toMs": 26230.5,
+              "durationMs": 266.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 26281.600000023842,
+              "toMs": 26569.80000001192,
+              "durationMs": 288.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 26735.19999998808,
+              "toMs": 27052.899999976158,
+              "durationMs": 317.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 27105.600000023842,
+              "toMs": 27401.600000023842,
+              "durationMs": 296,
+              "window": 4
+            },
+            {
+              "fromMs": 27555.69999998808,
+              "toMs": 27903.19999998808,
+              "durationMs": 347.5,
+              "window": 4
+            },
+            {
+              "fromMs": 27956.100000023842,
+              "toMs": 28235.80000001192,
+              "durationMs": 279.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 28403.5,
+              "toMs": 28736.399999976158,
+              "durationMs": 332.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 28789,
+              "toMs": 29069.600000023842,
+              "durationMs": 280.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 29243.19999998808,
+              "toMs": 29573.899999976158,
+              "durationMs": 330.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 29635.69999998808,
+              "toMs": 29920.100000023842,
+              "durationMs": 284.4000000357628,
+              "window": 4
+            }
+          ],
+          "receiptExcess": {
+            "count": 80,
+            "p50": 231,
+            "p95": 534,
+            "max": 1698
+          },
+          "windowTransitions": [
+            {
+              "ms": 3302.5,
+              "seq": 19,
+              "excessMs": 1481,
+              "before": 16,
+              "after": 4,
+              "receiptInFlightAfterAck": 11
+            }
+          ],
+          "glProbeCosts": {
+            "count": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "glProbes": [
+            {
+              "label": "end",
+              "ms": 30016.100000023842,
+              "durationMs": 0.3999999761581421,
+              "error": 0
+            }
+          ],
+          "longFrames": [],
+          "releaseReceiptSinceIntentMs": 758.6999999880791,
+          "errors": [],
+          "glErrors": []
+        },
+        {
+          "client": 3,
+          "gameSeconds": 29.65,
+          "frames": {
+            "samples": 1801,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 17.1
+          },
+          "renderCpu": {
+            "samples": 0,
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "receiptAckRtt": {
+            "samples": 77,
+            "p50": 608.2,
+            "p95": 962.1,
+            "max": 2672.9
+          },
+          "inputContinuityPass": false,
+          "zeroAckOutsideResume": [
+            {
+              "ms": 6243.5,
+              "gameTime": 6.1,
+              "window": 4,
+              "appliedAckUnacked": 4
+            },
+            {
+              "ms": 10726,
+              "gameTime": 10.6,
+              "window": 4,
+              "appliedAckUnacked": 5
+            }
+          ],
+          "inputGaps": {
+            "count": 130,
+            "p50": 111.5,
+            "p95": 472.80000001192093,
+            "max": 2718.099999964237
+          },
+          "inputGapsOver250": [
+            {
+              "fromMs": 3119.100000023842,
+              "toMs": 5837.199999988079,
+              "durationMs": 2718.099999964237,
+              "window": 4
+            },
+            {
+              "fromMs": 6002.699999988079,
+              "toMs": 6284.699999988079,
+              "durationMs": 282,
+              "window": 4
+            },
+            {
+              "fromMs": 6284.699999988079,
+              "toMs": 6555.899999976158,
+              "durationMs": 271.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 6555.899999976158,
+              "toMs": 7186,
+              "durationMs": 630.1000000238419,
+              "window": 4
+            },
+            {
+              "fromMs": 7692.199999988079,
+              "toMs": 8412.100000023842,
+              "durationMs": 719.9000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 8618,
+              "toMs": 8894.300000011921,
+              "durationMs": 276.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 8894.300000011921,
+              "toMs": 9567.800000011921,
+              "durationMs": 673.5,
+              "window": 4
+            },
+            {
+              "fromMs": 10045.699999988079,
+              "toMs": 10743.699999988079,
+              "durationMs": 698,
+              "window": 4
+            },
+            {
+              "fromMs": 10848.800000011921,
+              "toMs": 11244.100000023842,
+              "durationMs": 395.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 11502.899999976158,
+              "toMs": 11951.100000023842,
+              "durationMs": 448.2000000476837,
+              "window": 4
+            },
+            {
+              "fromMs": 12001.800000011921,
+              "toMs": 12435.300000011921,
+              "durationMs": 433.5,
+              "window": 4
+            },
+            {
+              "fromMs": 12664.800000011921,
+              "toMs": 13137.600000023842,
+              "durationMs": 472.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 13199.100000023842,
+              "toMs": 13632.800000011921,
+              "durationMs": 433.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 13852.399999976158,
+              "toMs": 14311,
+              "durationMs": 458.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 14362.899999976158,
+              "toMs": 14801.899999976158,
+              "durationMs": 439,
+              "window": 4
+            },
+            {
+              "fromMs": 15062.899999976158,
+              "toMs": 15536.800000011921,
+              "durationMs": 473.9000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 15802.100000023842,
+              "toMs": 16118.600000023842,
+              "durationMs": 316.5,
+              "window": 4
+            },
+            {
+              "fromMs": 16176.699999988079,
+              "toMs": 16459.600000023842,
+              "durationMs": 282.9000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 16631.899999976158,
+              "toMs": 16959.399999976158,
+              "durationMs": 327.5,
+              "window": 4
+            },
+            {
+              "fromMs": 17421.5,
+              "toMs": 17751.100000023842,
+              "durationMs": 329.60000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 17802.69999998808,
+              "toMs": 18121,
+              "durationMs": 318.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 18295.69999998808,
+              "toMs": 18616.5,
+              "durationMs": 320.80000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 18669.30000001192,
+              "toMs": 18952,
+              "durationMs": 282.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 19112.30000001192,
+              "toMs": 19437,
+              "durationMs": 324.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 19488.399999976158,
+              "toMs": 19769.100000023842,
+              "durationMs": 280.7000000476837,
+              "window": 4
+            },
+            {
+              "fromMs": 19937.5,
+              "toMs": 20269.80000001192,
+              "durationMs": 332.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 20326.19999998808,
+              "toMs": 20610.100000023842,
+              "durationMs": 283.9000000357628,
+              "window": 4
+            },
+            {
+              "fromMs": 20785.80000001192,
+              "toMs": 21122.899999976158,
+              "durationMs": 337.0999999642372,
+              "window": 4
+            },
+            {
+              "fromMs": 21620.5,
+              "toMs": 21937.399999976158,
+              "durationMs": 316.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 22000.30000001192,
+              "toMs": 22281,
+              "durationMs": 280.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 22439.69999998808,
+              "toMs": 22805,
+              "durationMs": 365.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 23269.100000023842,
+              "toMs": 23619,
+              "durationMs": 349.89999997615814,
+              "window": 4
+            },
+            {
+              "fromMs": 24124.399999976158,
+              "toMs": 24453.69999998808,
+              "durationMs": 329.30000001192093,
+              "window": 4
+            },
+            {
+              "fromMs": 24511.19999998808,
+              "toMs": 24776.19999998808,
+              "durationMs": 265,
+              "window": 4
+            },
+            {
+              "fromMs": 24953.80000001192,
+              "toMs": 25235.30000001192,
+              "durationMs": 281.5,
+              "window": 4
+            },
+            {
+              "fromMs": 25292.80000001192,
+              "toMs": 25574.30000001192,
+              "durationMs": 281.5,
+              "window": 4
+            },
+            {
+              "fromMs": 25789.30000001192,
+              "toMs": 26128.5,
+              "durationMs": 339.19999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 26180.399999976158,
+              "toMs": 26452.899999976158,
+              "durationMs": 272.5,
+              "window": 4
+            },
+            {
+              "fromMs": 26621.5,
+              "toMs": 26941.600000023842,
+              "durationMs": 320.10000002384186,
+              "window": 4
+            },
+            {
+              "fromMs": 26992.30000001192,
+              "toMs": 27268.80000001192,
+              "durationMs": 276.5,
+              "window": 4
+            },
+            {
+              "fromMs": 27432.100000023842,
+              "toMs": 27763.80000001192,
+              "durationMs": 331.69999998807907,
+              "window": 4
+            },
+            {
+              "fromMs": 27819.69999998808,
+              "toMs": 28100.399999976158,
+              "durationMs": 280.69999998807907,
+              "window": 4
+            }
+          ],
+          "receiptExcess": {
+            "count": 77,
+            "p50": 183,
+            "p95": 509,
+            "max": 2068
+          },
+          "windowTransitions": [
+            {
+              "ms": 3522.199999988079,
+              "seq": 45,
+              "excessMs": 406,
+              "before": 16,
+              "after": 4,
+              "receiptInFlightAfterAck": 10
+            }
+          ],
+          "glProbeCosts": {
+            "count": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "glProbes": [
+            {
+              "label": "end",
+              "ms": 30015.69999998808,
+              "durationMs": 0.30000001192092896,
+              "error": 0
+            }
+          ],
+          "longFrames": [],
+          "releaseReceiptSinceIntentMs": 1086.5,
+          "errors": [],
+          "glErrors": []
+        }
+      ]
+    }
+  ]
+}

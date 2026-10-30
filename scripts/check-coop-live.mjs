@@ -20,6 +20,8 @@ const output =
 const diagnostics = process.env.SWARM_LIVE_DIAGNOSTICS === "1";
 const profileEnabled = diagnostics && process.env.SWARM_LIVE_PROFILE === "1";
 const networkTiming = process.env.SWARM_LIVE_NETWORK_TIMING === "1";
+const glProbeMode = process.env.SWARM_LIVE_GL_PROBE ?? "interval";
+assert.ok(["interval", "end"].includes(glProbeMode));
 const renderEnabled = process.env.SWARM_LIVE_RENDER !== "0";
 const renderClients = renderEnabled
   ? Number(process.env.SWARM_LIVE_RENDER_CLIENTS ?? 4)
@@ -110,6 +112,7 @@ const result = {
   diagnostics,
   profileEnabled,
   networkTiming,
+  glProbeMode,
   renderEnabled,
   renderClients,
   releaseAfterSeconds,
@@ -193,10 +196,21 @@ window.boot=(endpoint,code,index,diagnostics,networkTiming,renderEnabled)=>{
   net.equip=frontTemporaryWeapons('live',String(index),['rifle','smg']);
   let world,seq=0,previous=performance.now(),measuring=false,began=0,lastWorld=0,lastSample=0,nextReload=0;
   let cachedInput=neutral(),previousReload=0,previousAmmo,lastEvent=0,lastPhase='',highestAck=0;
-  const sentAt=new Map(),receivedSentAt=new Map(),chosen=new Set(),frames=[],renderCpu=[],pilotCpu=[],intervals=[],ackRtt=[],ackEvents=[],inputEvents=[],longFrames=[],receiptAckRtt=[],receiptAckEvents=[],samples=[],phases=[],statuses=[],errors=[],glErrors=[];
+  const sentAt=new Map(),receivedSentAt=new Map(),chosen=new Set(),frames=[],renderCpu=[],pilotCpu=[],intervals=[],ackRtt=[],ackEvents=[],inputEvents=[],inputWindowEvents=[],glProbes=[],longFrames=[],receiptAckRtt=[],receiptAckEvents=[],samples=[],phases=[],statuses=[],errors=[],glErrors=[];
   let highestReceiptAck=0;
   const counters={updates:0,firsts:0,sent:0,fire:0,move:0,reloadSent:0,reloadStarted:0,ammoSpentObserved:0,shotsObserved:0,hitsObserved:0,invalidInputs:0,neutralAck:0,maxUnacked:0};
   const clean=(v)=>String(v).replace(/[a-f0-9]{32,64}/gi,'[redacted]');
+  const acknowledge=net.inputWindow.acknowledge.bind(net.inputWindow);
+  net.inputWindow.acknowledge=(seq,receivedAt)=>{
+    const sent=net.inputWindow.sentAt.get(seq),before=net.inputWindow.limit;
+    acknowledge(seq,receivedAt);
+    if(networkTiming&&measuring&&sent!==undefined)inputWindowEvents.push({ms:performance.now()-began,seq,sentEpochMs:sent,receivedServerMs:typeof receivedAt==='number'?receivedAt*1000:null,excessMs:typeof receivedAt==='number'?receivedAt*1000-sent-net.inputWindow.minimumLag:null,before,after:net.inputWindow.limit});
+  };
+  function probeGl(label){
+    const at=performance.now(),error=view.renderer.getContext().getError(),durationMs=performance.now()-at;
+    glProbes.push({label,ms:at-began,durationMs,error});
+    if(error)glErrors.push({ms:at-began,error});
+  }
   const send=net.send.bind(net);
   net.send=(value)=>{
     if(value?.type==='input'&&measuring){
@@ -275,7 +289,7 @@ window.boot=(endpoint,code,index,diagnostics,networkTiming,renderEnabled)=>{
       if(added.length&&diagnostic.programTransitions.length<128)diagnostic.programTransitions.push({ms:measuring?performance.now()-began:null,gameTime:world.time,enemyKinds:enemyInfo(),durationMs,beforeCount:beforePrograms.length,afterCount:view.renderer.info.programs.length,added});
       if(durationMs>500&&diagnostic.slowRenders.length<128)diagnostic.slowRenders.push({...snapshot('render-over-500ms'),durationMs,beforeProgramIds:beforePrograms,addedProgramIds:added.map(p=>p.id)});
     }
-    if(measuring&&now-lastSample>=1000){const error=view.renderer.getContext().getError();if(error)glErrors.push({ms:now-began,error});lastSample=now;}
+    if(measuring&&${JSON.stringify(glProbeMode)}==='interval'&&now-lastSample>=1000){probeGl('interval');lastSample=now;}
   }requestAnimationFrame(frame);
   window.live={
     prepare:async()=>{
@@ -297,7 +311,7 @@ window.boot=(endpoint,code,index,diagnostics,networkTiming,renderEnabled)=>{
     begin:()=>{if(${inputWindowOverride}>0)Object.defineProperty(net.inputWindow,"limit",{get:()=>${inputWindowOverride}});measuring=true;began=performance.now();lastWorld=0;lastPhase='';nextReload=began+9000;lastEvent=world?.eventSerial??0;return{at:began,time:world?.time};},
     progress:()=>({updates:counters.updates,time:world?.time,phase:net.frontView?.phase,hp:world?.players.find(p=>p.id===net.id)?.hp,kills:world?.players.find(p=>p.id===net.id)?.kills}),
     failureState:()=>({ready:net.assetReady,closed:net.closed,ws:net.ws?.readyState,generation:net.preparationGeneration,members:net.members.map(m=>({connected:m.connected,ready:m.ready})),statuses,errors,diagnostic}),
-    end:()=>{measuring=false;const gl=view.renderer.getContext(),debug=gl.getExtension('WEBGL_debug_renderer_info');return{wallMs:performance.now()-began,counters,frames,renderCpu,pilotCpu,intervals,ackRtt,ackEvents,inputEvents,longFrames,receiptAckRtt,receiptAckEvents,samples,phases,statuses,errors,glErrors,diagnostic,remainingUnacked:sentAt.size,webSocketExtensions:net.ws?.extensions??null,renderer:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER),viewport:{width:innerWidth,height:innerHeight},renderSize:{width:view.renderer.domElement.width,height:view.renderer.domElement.height}};},
+    end:()=>{const wallMs=performance.now()-began;measuring=false;probeGl('end');const gl=view.renderer.getContext(),debug=gl.getExtension('WEBGL_debug_renderer_info');return{wallMs,counters,frames,renderCpu,pilotCpu,intervals,ackRtt,ackEvents,inputEvents,inputWindowEvents,glProbes,longFrames,receiptAckRtt,receiptAckEvents,samples,phases,statuses,errors,glErrors,diagnostic,remainingUnacked:sentAt.size,webSocketExtensions:net.ws?.extensions??null,renderer:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER),viewport:{width:innerWidth,height:innerHeight},renderSize:{width:view.renderer.domElement.width,height:view.renderer.domElement.height}};},
     close:()=>net.close(),
   };
 };`,

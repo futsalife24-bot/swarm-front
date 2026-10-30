@@ -1,6 +1,6 @@
 # マルチ快適化の調査・検証（進行中）
 
-最新追加: [描画待ちと操作入力の分離](network-input.md)。先行の120秒で見つかった入力送信の空白、入力受信時刻による適応窓、BASTIONの追加準備は [追加検証](input-continuity.md) を参照。下記100ad9eは先行実装の記録で、追加修正の最新状態は [STATE](../../STATE.md) を正とする。
+最新追加: [高負荷で残る入力の途切れ・計測負荷の対照](input-window-pressure.md)。ゲーム実装を変えず、未解決と不採用理由を記録した。先行の[描画待ちと操作入力の分離](network-input.md)、120秒で見つかった入力送信の空白・受信時刻による適応窓・BASTION準備の[追加検証](input-continuity.md)も参照。下記100ad9eは先行実装の記録で、最新状態は [STATE](../../STATE.md) を正とする。
 
 2026-10-30。基点main `3e1dc640e15d747cc2a06ac72c59833db2072f74`。調査開始branchは `codex/coop-comfort-20261030`、現在の成果保存branchは `codex/coop-comfort-ready-20261030`（最新実装 `100ad9e`）。作業場所は `C:/Users/futsa/.codex/worktrees/coop-comfort-20261030/swarm-rebuild-p1a`。独立監査・公開・実スマホ検証は未実施。当初のpush拒否後、本人が公開GitHubへの保存と下書きPRを承認し、[PR231](https://github.com/futsalife24-bot/swarm-front/pull/231)へ同期した。merge・本番反映は今回の追加承認に含めず未実施。
 
