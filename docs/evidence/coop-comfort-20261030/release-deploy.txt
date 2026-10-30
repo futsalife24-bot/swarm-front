@@ -31,11 +31,11 @@ Uploaded 18 of 18 assets
 Total Upload: 443.39 KiB / gzip: 113.35 KiB
 Worker Startup Time: 319 ms
 Your Worker has access to the following bindings:
-Binding                                                  Resource                  
-env.ROOMS (Room)                                         Durable Object            
-env.GATE (Gate)                                          Durable Object            
-env.PROJECT_HUB (project-hub)                            Worker                    
-env.TURNSTILE_SITE_KEY ("0x4AAAAAAEqP4GMKnl-xNQKK")      Environment Variable      
+Binding                                                  Resource
+env.ROOMS (Room)                                         Durable Object
+env.GATE (Gate)                                          Durable Object
+env.PROJECT_HUB (project-hub)                            Worker
+env.TURNSTILE_SITE_KEY ("0x4AAAAAAEqP4GMKnl-xNQKK")      Environment Variable
 
 Uploaded swarm-front (10.84 sec)
 Deployed swarm-front triggers (0.84 sec)
