@@ -1,0 +1,27 @@
+{
+  "checkedAt": "2026-10-30T08:45:07.599Z",
+  "source": "既存Wrangler OAuthによる読み取りAPI",
+  "endpoints": {
+    "subscriptions": {
+      "status": 403,
+      "success": false
+    },
+    "workers/account-settings": {
+      "status": 200,
+      "success": true,
+      "default_usage_model": "standard"
+    }
+  },
+  "usage": {
+    "status": 200,
+    "start": "2026-10-30T00:00:00.000Z",
+    "end": "2026-10-30T08:45:08.564Z",
+    "scope": "アカウント全Workers",
+    "rows": 1,
+    "totals": {
+      "requests": 173,
+      "errors": 0,
+      "subrequests": 186
+    }
+  }
+}
