@@ -1,5 +1,7 @@
 # 無料運用の前提と見積もり
 
+2026-10-30の公開前確認: 本人が現在も「無料」と回答。管理画面/APIでの契約再取得ではなく本人確認として記録する。既存OAuthで当日UTC 00:00〜08:45の全Workersは173 requests・0 errors・186 subrequests。subscriptionsは403で、standardをFreeの根拠にはしない。新規契約・料金・権限変更なし。[今回の確認と公開記録](evidence/coop-comfort-20261030/release.md)。以下は過去の管理画面確認と見積もり。
+
 現行確認日: 2026-10-15。既存CloudflareアカウントのWorkers Plansで「無料・0ドル・現在の計画」を確認。既存 `swarm-front` Workerは公開運用中。新規契約・費用・権限変更なし。当日UTC 00:00〜06:07のアカウント全Workersは81 requests、0 errors、85 subrequests。DO使用量はこの確認では未取得。[画面証拠](evidence/enemy-report-20261015/cloudflare-free.png)、[API取得記録](evidence/enemy-report-20261015/account-plan.json)。契約APIの`subscriptions`は権限不足で403のため、`account-settings`の`standard`をFreeの根拠にせず管理画面で確認した。
 
 以下の見積もり・上限表は2026-09-06時点の設計記録。現在の使用量を表すものではない。
