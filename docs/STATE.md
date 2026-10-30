@@ -12,6 +12,10 @@
 
 公開GitHubへのpushは一度自動承認レビューに拒否されたが、その後本人の「許可と承認します」を受けてpushと[下書きPR231](https://github.com/futsalife24-bot/swarm-front/pull/231)を作成した。今回の追加承認はコード・検証資料の公開GitHub保存と下書きPRに限り、merge・本番反映は未実施。独立レビューは未実施。実スマホ・iOS Safari・実回線複数端末・長時間/発熱の確認は残り、「完全解消」やgoal完了とは扱わない。主担当の実モデル/effortは未確認、実装補助の呼出指定はgpt-6.1-sol/high（実行設定値は未確認）。
 
+保存照合: 実装100ad9e、最終統合検査記録fe098e7までGitHubのPR231へpushし、リモートSHA一致・worktree cleanを確認。PRはdraft/open/unmerged、対象headのGitHub checks/statusesは0件（CI成功とは記さない）。共有ノートの進捗1行も更新・読み戻しし、既存の他の差分は保持してノート全体はstage/pushしていない。
+
+停止理由: 許可済みのローカル実装・検証・公開GitHub保存は完了。今回の承認範囲は下書きPRまでなので、実機確認に向けた通常main反映・既存Worker公開の追加承認を本人へ確認中。実機の改善は未確認でgoalはactiveのまま。
+再開条件: 本人がmain反映・既存Worker公開を許可したら、最新mainとの差分・保護/必要チェックを確認し、既存の公開手順へ進む。端末名・OS/ブラウザ・参加人数・症状の確認は継続して必要。許可前にmerge/deployしない。
 # 前回記録: 戦闘FPS表示を公開（2026-10-28）
 
 [PR229](https://github.com/futsalife24-bot/swarm-front/pull/229)を本人承認後に通常merge。公開ソースmain `6ebb80b88ebd25a676097c9820902445b15b4dea`、既存Worker Version `1750b255-3318-4c05-831f-5e772fe2d9c9`。生存・進撃の戦闘画面左下に実測FPSを約1秒ごと表示、停止中は「— FPS」。配信33ファイルSHA一致・health正常。空プロファイル/GET専用中継の配信版生存起動で「60 FPS」・画面例外0を確認。[証拠](evidence/battle-fps-20261028/README.md)。実OPPO未確認。型/build/dry-run、横画面2サイズ、30/60設定、停止復帰・長停止計算は成功。GitHubチェック0件でCI成功とは扱わない。root既存差分を保持。
