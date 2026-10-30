@@ -30,7 +30,7 @@ dist/assets/cloud-save-Cmya1nWV.js           108.68 kB │ gzip:  39.84 kB
 dist/assets/weapon-workshop-ui-CGsS_LS2.js   447.45 kB │ gzip: 153.03 kB
 dist/assets/hud-3x0eRG6q.js                  984.74 kB │ gzip: 279.80 kB
 
-[plugin builtin:vite-reporter] 
+[plugin builtin:vite-reporter]
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
@@ -44,4 +44,3 @@ Additional hook time came from the hooks below and from hooks under 1s.
   - vite:css transform (28 calls)
   - vite:build-html transform (2 calls)
 See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
-
