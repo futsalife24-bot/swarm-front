@@ -58,6 +58,28 @@ function fixture() {
 afterEach(() => vi.unstubAllGlobals());
 
 describe("戦闘入力の独立した解放と中断", () => {
+  it("表示用の歩行読取は送信番号と一度だけの操作を消費しない", () => {
+    const { controls, view, fire, touch } = fixture();
+    touch("pointerdown", "move", 1);
+    touch("pointermove", "move", 1, 50);
+    touch("pointerdown", "jump", 2);
+    const seq = controls.input.seq;
+    const touchMove = controls.previewMovement();
+    expect(touchMove.mx).not.toBe(0);
+    fire(view, "keydown", { code: "KeyW", repeat: false });
+    expect(controls.previewMovement()).toMatchObject({ mx: 0, mz: 1 });
+    expect(controls.previewMovement()).toMatchObject({ mx: 0, mz: 1 });
+    expect(controls.input.seq).toBe(seq);
+    expect(controls.read()).toMatchObject({
+      mx: 0,
+      mz: 1,
+      jump: true,
+      seq: seq + 1,
+    });
+    expect(controls.read().jump).toBe(false);
+    fire(view, "keyup", { code: "KeyW" });
+    expect(controls.previewMovement()).toEqual(touchMove);
+  });
   it.each(["focus", "hidden"])(
     "%sの通知が届かなくても読取時に解除する",
     (mode) => {

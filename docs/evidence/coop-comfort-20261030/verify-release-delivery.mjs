@@ -1,7 +1,7 @@
 import {readFileSync, writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
-const output='dist-validation/coop-comfort-20261030/release';
+const output=process.env.SWARM_RELEASE_OUTPUT??'dist-validation/coop-comfort-20261030/release';
 const base='https://swarm-front.melosalife-24.workers.dev';
 const manifest=JSON.parse(readFileSync('dist/asset-download-manifest.json','utf8'));
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');

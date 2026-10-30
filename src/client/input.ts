@@ -271,9 +271,10 @@ export class Controls {
     for (const key of ["fire", "reload", "swap", "dodge", "revive"] as const)
       this.input[key] = [...this.touches.values()].some((t) => t.role === key);
   }
-  read(): Input {
-    if (document.hidden || !document.hasFocus()) this.resetInput();
-    const i = { ...this.input };
+  /** 表示用。送信番号や一度だけの操作を消費せず、今の歩行方向を読む。 */
+  previewMovement() {
+    const i = { mx: this.input.mx, mz: this.input.mz, yaw: this.input.yaw };
+    if (document.hidden || !document.hasFocus()) return { ...i, mx: 0, mz: 0 };
     if (
       this.keys.has("KeyW") ||
       this.keys.has("KeyS") ||
@@ -283,6 +284,11 @@ export class Controls {
       i.mx = Number(this.keys.has("KeyD")) - Number(this.keys.has("KeyA"));
       i.mz = Number(this.keys.has("KeyW")) - Number(this.keys.has("KeyS"));
     }
+    return i;
+  }
+  read(): Input {
+    if (document.hidden || !document.hasFocus()) this.resetInput();
+    const i = { ...this.input, ...this.previewMovement() };
     i.reload = this.queued.has("reload");
     i.swap = this.queued.has("swap");
     if (i.swap) this.scoped = false;
