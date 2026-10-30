@@ -44,8 +44,8 @@
 - [MDN: createMediaElementSource](https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/createMediaElementSource) はHTMLメディア音声を処理グラフへ通す方法とGainNodeでの音量調整を説明する。
 - [WebKit: iOS media policies](https://webkit.org/blog/6784/new-video-policies-for-ios/) はclick/touchend/keydownの直接操作内での再生を説明する。BGMには既存pointerdown/keydownに加えてclick/touchendの再開を接続した。試聴の再生ボタン・ネイティブ操作も同期unlockする。
 - Safari/iPhone/iPad実機、ホーム画面PWA、音声割込み・画面ロックからの復帰、実音量スライダーの実聴は未確認。Windows上のPlaywright WebKit実行ファイルも未配置（webkit-2359/Playwright.exeが存在しない）。追加DL・インストールはしていない。
-- 主担当が製品build・PWA配布素材照合を統合検査する。ここではdev変換された実ソースを確認した。
+- 分担検査ではdev変換された実ソースを確認した。主担当が実装HEAD `8d8c15595e37013f9dd9384a113d2b8e996c8ae2` の製品build・配布素材照合と、実Service Workerでの150件保存・オフライン出撃まで統合検査し成功した。詳細は [PWA検査](pwa-implementation.md)。
 
-変更ファイル: index.html、front.html、src/client/landscape.css（新規）、src/client/landscape.ts、src/client/front-app.ts、src/client/media-volume.ts（新規）、src/client/bgm.ts、src/client/media-menu.ts、src/client/bestiary.ts、tests/bgm.test.ts、scripts/check-mobile-start-audio.mjs（新規）、本証拠MD/JSON/PNG。全てこの担当の未コミット変更。commit/pushは主担当へ引き継ぐ。
+変更ファイル: index.html、front.html、src/client/landscape.css（新規）、src/client/landscape.ts、src/client/front-app.ts、src/client/media-volume.ts（新規）、src/client/bgm.ts、src/client/media-menu.ts、src/client/bestiary.ts、tests/bgm.test.ts、scripts/check-mobile-start-audio.mjs（新規）、本証拠MD/JSON/PNG。主担当が `8d8c155` に統合・commit済み。公開・Safari実機検査とは区別する。
 
 実モデルID・推論設定は取得不可のため未確認。状態正本/共有記憶の記録は主担当へ引き継ぐ。

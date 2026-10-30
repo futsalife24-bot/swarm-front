@@ -6,7 +6,7 @@
 
 本人がPWA事前ダウンロードの追加実装を明示。既存PWAに容量・保存状態、共通素材/選択戦場/任意メディア、中断再開・内容照合・差分更新を追加。関連単体・両型検査・build・Worker dry-run成功。最終build全件照合を組み込み、実Chromeで150ファイル保存、中断再開、再訪追加DL0、localStorage不変、通信なしの両入口起動・生存ソロ出撃を確認。横2サイズの画面を目視。公開・実機確認は未了。[PWAの実装と検査](evidence/coop-comfort-20261030/pwa-implementation.md)。
 
-追加依頼の起動時横向き案内とSafari音量も修正。通常/生存直入口のJS前の縦画面案内と回転、BGM/試聴/敵声のGainNode経路を追加。音声関連45件、Chrome実MP3の25%・無音・復帰、試聴のContext中断復帰/close/reopenが成功。Safari実機は未確認。GPU・音声をまとめた最終build/PWA検査は実施予定。[音量と起動の証拠](evidence/coop-comfort-20261030/mobile-start-audio.md)。
+追加依頼の起動時横向き案内とSafari音量も修正。通常/生存直入口のJS前の縦画面案内と回転、BGM/試聴/敵声のGainNode経路を追加。音声関連45件、Chrome実MP3の25%・無音・復帰、試聴のContext中断復帰/close/reopenが成功。Safari実機は未確認。GPU・音声をまとめた実装HEAD `8d8c15595e37013f9dd9384a113d2b8e996c8ae2` の最終build/PWA検査も成功（150件保存、再訪0件・同一URL更新1件だけ取得、オフライン両入口・生存ソロ出撃、画面例外0）。[音量と起動の証拠](evidence/coop-comfort-20261030/mobile-start-audio.md)。
 
 基点は `3e1dc640e15d747cc2a06ac72c59833db2072f74`、専用worktreeは `C:/Users/futsa/.codex/worktrees/coop-comfort-20261030/swarm-rebuild-p1a`。同期用branchは `codex/coop-comfort-ready-20261030`。未同期だった作業記録のbranchは手元に保持し、本人限定資料のリンクを含まない現在の成果を新しいbranchにまとめる。元rootと別worktreeの未コミット成果を保持。実機情報と今回の独立レビュー要否を本人へ確認中。実機・実回線で直ったとは扱わない。バディの実装はまだ行わない。
 
