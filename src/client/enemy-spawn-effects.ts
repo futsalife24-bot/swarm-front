@@ -44,7 +44,37 @@ export class EnemySpawnEffects {
   private run: string | undefined;
   private time = 0;
   private dummy = new T.Object3D();
-  constructor(private scene: T.Scene) {}
+  private templates = new Map<boolean, T.Group>();
+  /** Hidden representatives used only during the loading screen's GPU warm-up. */
+  get preparationRoots() {
+    return [...this.templates.values()];
+  }
+  constructor(private scene: T.Scene) {
+    // compileAsync traverses hidden objects. Retain these exact variants so
+    // first arrival does not compile textured/instanced shaders during combat,
+    // and disposing the last finished arrival does not evict their programs.
+    for (const teleport of [false, true]) {
+      const root = new T.Group();
+      root.name = "ARRIVAL_PREPARATION";
+      root.visible = false;
+      const material = (soft: boolean) =>
+        new T.MeshBasicMaterial({
+          color: 0xffffff,
+          transparent: true,
+          depthWrite: false,
+          side: T.DoubleSide,
+          blending: teleport ? T.AdditiveBlending : T.NormalBlending,
+          ...(soft ? { map: cloudTexture } : {}),
+        });
+      root.add(
+        new T.Mesh(ringGeometry, material(false)),
+        new T.InstancedMesh(cloudGeometry, material(true), 12),
+        new T.InstancedMesh(stoneGeometry, material(false), 12),
+      );
+      this.templates.set(teleport, root);
+      scene.add(root);
+    }
+  }
 
   active(id: number) {
     return this.items.has(id);
@@ -102,25 +132,21 @@ export class EnemySpawnEffects {
         : mapFor(w).biome === "snow"
           ? 0xcbd7de
           : 0x998370;
-      const makeMaterial = (soft: boolean) =>
-        new T.MeshBasicMaterial({
-          color,
-          transparent: true,
-          depthWrite: false,
-          side: T.DoubleSide,
-          blending: teleport ? T.AdditiveBlending : T.NormalBlending,
-          ...(soft ? { map: cloudTexture } : {}),
-        });
+      const templates = this.templates.get(teleport)!.children as T.Mesh<
+        T.BufferGeometry,
+        T.MeshBasicMaterial
+      >[];
+      const makeMaterial = (index: number) => {
+        const material = templates[index].material.clone();
+        material.color.setHex(color);
+        return material;
+      };
       const rings = Array.from(
         { length: teleport ? 2 : 1 },
-        () => new T.Mesh(ringGeometry, makeMaterial(false)),
+        () => new T.Mesh(ringGeometry, makeMaterial(0)),
       );
-      const dust = new T.InstancedMesh(cloudGeometry, makeMaterial(true), 12);
-      const stones = new T.InstancedMesh(
-        stoneGeometry,
-        makeMaterial(false),
-        12,
-      );
+      const dust = new T.InstancedMesh(cloudGeometry, makeMaterial(1), 12);
+      const stones = new T.InstancedMesh(stoneGeometry, makeMaterial(2), 12);
       for (const mesh of [...rings, dust, stones]) {
         mesh.frustumCulled = false;
         this.scene.add(mesh);

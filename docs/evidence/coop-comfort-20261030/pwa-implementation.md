@@ -1,6 +1,6 @@
 # PWA事前保存の実装と検査
 
-2026-10-30。本人の「それはぜひ実装してほしい」による追加範囲。専用branch `codex/coop-comfort-20261030`、基点 `3e1dc640e15d747cc2a06ac72c59833db2072f74`。公開・実スマホ検証は未実施。
+2026-10-30。本人の「それはぜひ実装してほしい」による追加範囲。同期用branch `codex/coop-comfort-ready-20261030`、基点 `3e1dc640e15d747cc2a06ac72c59833db2072f74`。公開・実スマホ検証は未実施。
 
 ## 操作と保存対象
 
@@ -27,8 +27,9 @@ PWA事前保存は転送待ちを減らす機能。GLBの解釈、GPUへの転�
 
 - 本体storeのURL範囲・重複/競合・初回/差分・中断再開・破損・遅延cache再利用・容量不足・一覧オフラインfallbackを検査。2026-10-30時点で生成器・関連同期/命中/描画と合わせ9ファイル112件成功。型チェック両方成功。
 - 実Chromeの隔離プロファイル・本番build・実Service Worker/CacheStorageを使う `scripts/check-asset-download.mjs` を追加。本人のセーブを使わず、保存前後のlocalStorage不変も検査する。実スマホではなく844×390/640×360の寸法検査。
-- 実ブラウザ検査は成功。150ファイル（本体33、共通116、生存戦場1）を実CacheStorageへ保存。3ファイル完了で中断し、再開後に150件が揃った。2回目の追加ダウンロード0、localStorage前後不変、画面例外0。
-- 通信を無効にしてrootの起動・再読み込み、front.htmlの起動、生存側設定の保存入口、保存音声のRange 206/20bytes、生存ソロ出撃→初期強化選択→兵士・地形の実描画まで成功。[結果JSON](pwa-browser-results.json)、[640×360の画面](pwa-menu-640.png)、[844×390の保存済み画面](pwa-saved-844.png)。build revision `536db5cadf00f469d8bfde12e7e949ff86998ef7374b02ba05611f20ba5a5af2`。約98.9MBの選択内容に対し、ブラウザーの使用量は既存cache/overheadを含むため同じ値にはならない。
+- 実ブラウザ検査は成功。150ファイル（本体33、共通116、生存戦場1）を実CacheStorageへ保存。最新再検査は2ファイル完了で中断し、再開後に150件が揃った。2回目の追加ダウンロード0、localStorage前後不変、画面例外0。
+- 同一URLの更新も追加検査。隔離HTTPサーバー上だけで共通PNG1件の内容・一覧hashを更新し、通常の再保存操作でその1件だけを取得、新hashのCacheStorage応答へ置換したことを確認。実素材・distは変更しない。合成更新であり、実配信済みの版とは区別する。
+- 通信を無効にしてrootの起動・再読み込み、front.htmlの起動、生存側設定の保存入口、保存音声のRange 206/20bytes、生存ソロ出撃→初期強化選択→兵士・地形の実描画まで成功。[結果JSON](pwa-browser-results.json)、[640×360の画面](pwa-menu-640.png)、[844×390の保存済み画面](pwa-saved-844.png)。最新検査はHEAD `6155983` のbuild revision `313d2490abd70894d277d89607ba3a2355804089cde27f4e1abab17fa8d858f7`。約98.9MBの選択内容に対し、ブラウザーの使用量は既存cache/overheadを含むため同じ値にはならない。
 - 全画面・要求一覧・結果原本は `dist-validation/coop-comfort-20261030/pwa/`。実Android/iOS/PWAインストール、通信ありの実ユーザー環境、本番配信は未確認。
 
 ## 検査で判明した問題と対応

@@ -1,3 +1,4 @@
+import { installLandscapeGuard } from "./landscape";
 import { BattleFps } from "./battle-fps";
 import {
   readFrontFusionDiscovery,
@@ -1371,6 +1372,10 @@ window.addEventListener("resize", () => placeControls(settings.layout));
 window.visualViewport?.addEventListener("resize", () =>
   placeControls(settings.layout),
 );
+installLandscapeGuard(() => {
+  clearInput();
+  pause();
+});
 startWithSaveWriter(async () => {
   installCloudSync();
   try {

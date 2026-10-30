@@ -4,6 +4,7 @@ import { mapFor, stageFor } from "../shared/stages";
 import { VIEW_MAPS } from "./map-assets";
 import { loadStandardTrooper } from "./standard-trooper";
 import { loadProgressionWeapons } from "./progression-weapons";
+import { InstancedMesh, Vector4 } from "three";
 
 // Background tabs can suspend animation frames. Keep preparation and its deadline alive.
 const nextPreparationFrame = () =>
@@ -123,6 +124,88 @@ export async function prepareBattle(
   progress(85);
   pending = "描画の準備";
   await wait(view.renderer.compileAsync(view.scene, view.camera));
+  // Three 0.185.1 defers uniform/attribute discovery to first use. Without
+  // KHR_parallel_shader_compile, compileAsync may resolve before the driver
+  // finishes linking; transparent two-sided variants also need both programs.
+  // Finish this work behind the loading screen, preserving shader diagnostics.
+  const programs = [...(view.renderer.info.programs ?? [])];
+  for (let i = 0; i < programs.length; i++) {
+    check();
+    programs[i].getUniforms();
+    progress(Math.round(85 + (8 * (i + 1)) / programs.length));
+    await nextPreparationFrame();
+  }
+  check();
+  // Some drivers defer GPU work until an actual draw, even after link/uniform
+  // preparation. Draw one representative of each enemy/arrival behind loading,
+  // then wait for its GPU fence without blocking the browser with gl.finish().
+  // World, animation state, transforms and the normal viewport stay unchanged.
+  const roots = [
+    ...[...view.structures.values()].flatMap((s) =>
+      s.batch ? [s.batch.group] : [],
+    ),
+    ...view.spawnEffects.preparationRoots,
+  ];
+  const visibility = roots.map((root) => [root, root.visible] as const);
+  const viewport = view.renderer.getViewport(new Vector4());
+  const scissor = view.renderer.getScissor(new Vector4());
+  const scissorTest = view.renderer.getScissorTest();
+  const warmCamera = view.camera.clone();
+  warmCamera.position.set(0, 2, 7);
+  warmCamera.lookAt(0, 1, 0);
+  warmCamera.updateMatrixWorld();
+  const gl = view.renderer.getContext();
+  if (!("fenceSync" in gl))
+    throw new Error("このブラウザーでは描画を準備できません。");
+  // Warm one group at a time and yield between groups. A single large first
+  // render can block message/ping handling long enough to disconnect a lobby.
+  for (const [index, root] of roots.entries()) {
+    check();
+    const instances: [InstancedMesh, number, boolean][] = [];
+    let fence: WebGLSync | null = null;
+    try {
+      for (const [other] of visibility) other.visible = false;
+      root.visible = true;
+      root.traverse((object) => {
+        if (object instanceof InstancedMesh) {
+          instances.push([object, object.count, object.frustumCulled]);
+          object.count = Math.min(1, object.instanceMatrix.count);
+          object.frustumCulled = false;
+        }
+      });
+      view.renderer.setViewport(0, 0, 64, 64);
+      view.renderer.setScissor(0, 0, 64, 64);
+      view.renderer.setScissorTest(true);
+      view.renderer.render(view.scene, warmCamera);
+      fence = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+      if (!fence) throw new Error("描画を準備できません。再試行してください。");
+      gl.flush();
+    } finally {
+      for (const [object, count, culled] of instances) {
+        object.count = count;
+        object.frustumCulled = culled;
+      }
+      for (const [object, visible] of visibility) object.visible = visible;
+      view.renderer.setViewport(viewport);
+      view.renderer.setScissor(scissor);
+      view.renderer.setScissorTest(scissorTest);
+    }
+    try {
+      while (true) {
+        check();
+        const result = gl.clientWaitSync(fence, 0, 0);
+        if (result === gl.WAIT_FAILED)
+          throw new Error("描画を準備できません。再試行してください。");
+        if (result !== gl.TIMEOUT_EXPIRED) break;
+        await nextPreparationFrame();
+      }
+    } finally {
+      gl.deleteSync(fence);
+    }
+    // Allow queued lobby states and input events to run even on a warm GPU.
+    progress(Math.round(93 + (6 * (index + 1)) / roots.length));
+    await nextPreparationFrame();
+  }
   check();
   view.renderer.render(view.scene, view.camera);
   progress(100);

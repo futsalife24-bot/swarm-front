@@ -1,0 +1,261 @@
+{
+  "passed": true,
+  "method": "4 independent Chrome processes, isolated blank profiles, real FrontNetwork+Renderer+prepareBattle, normal survival room, legal pilot movement/fire/reload, no fixture API, no Sound; local PC aggregate load is not smartphone performance",
+  "head": "61559830890c8e69eab28e85ec218159033cab29",
+  "sourceHashes": {
+    "server/worker.ts": "d6dfab6310558f5ed142676d6593a5fcd0ae1fb34bdda9b263d7e612eeed6406",
+    "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+    "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+    "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+    "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+    "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+    "src/client/front-network.ts": "679dcdf3e30d65d854d017508f131b03a4c3a923a0c39824cca486b91644669d",
+    "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+    "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+    "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+    "src/client/battle-loading.ts": "863ddeae6c8af71a9d81df43106b79f49195b6fcad5137796bd3eeb32b51b14e",
+    "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+    "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+    "scripts/check-coop-live.mjs": "1312b1984e4367abdc9846d9999c6c2672bdd38478a9234842b059d73929889c"
+  },
+  "sourcesStable": true,
+  "preparation": [
+    {
+      "ms": 41315.69999998808,
+      "actors": 4,
+      "restored": true
+    },
+    {
+      "ms": 41406.69999998808,
+      "actors": 4,
+      "restored": true
+    },
+    {
+      "ms": 42536.30000001192,
+      "actors": 4,
+      "restored": true
+    },
+    {
+      "ms": 42698.39999997616,
+      "actors": 4,
+      "restored": true
+    }
+  ],
+  "clients": [
+    {
+      "client": 0,
+      "gameSeconds": 59.7,
+      "frames": {
+        "samples": 3138,
+        "p50": 16.7,
+        "p95": 33.4,
+        "max": 83.4
+      },
+      "renderCpu": {
+        "samples": 3088,
+        "p50": 12.5,
+        "p95": 19.3,
+        "max": 52.5
+      },
+      "worldIntervals": {
+        "samples": 597,
+        "p50": 99.8,
+        "p95": 127.9,
+        "max": 360.9
+      },
+      "ackObservedRtt": {
+        "samples": 579,
+        "p50": 72.9,
+        "p95": 231.5,
+        "max": 850.9
+      },
+      "counters": {
+        "updates": 598,
+        "firsts": 0,
+        "sent": 957,
+        "fire": 887,
+        "move": 957,
+        "reloadSent": 6,
+        "reloadStarted": 12,
+        "ammoSpentObserved": 276,
+        "shotsObserved": 288,
+        "hitsObserved": 337,
+        "invalidInputs": 0,
+        "neutralAck": 2,
+        "maxUnacked": 4
+      },
+      "glErrors": [],
+      "errors": [],
+      "slowRenders": 0
+    },
+    {
+      "client": 1,
+      "gameSeconds": 59.7,
+      "frames": {
+        "samples": 3036,
+        "p50": 16.7,
+        "p95": 33.4,
+        "max": 83.4
+      },
+      "renderCpu": {
+        "samples": 3002,
+        "p50": 12.6,
+        "p95": 21.1,
+        "max": 70.6
+      },
+      "worldIntervals": {
+        "samples": 597,
+        "p50": 99.7,
+        "p95": 128.7,
+        "max": 365.2
+      },
+      "ackObservedRtt": {
+        "samples": 583,
+        "p50": 70.6,
+        "p95": 236.5,
+        "max": 864.5
+      },
+      "counters": {
+        "updates": 598,
+        "firsts": 0,
+        "sent": 952,
+        "fire": 885,
+        "move": 952,
+        "reloadSent": 6,
+        "reloadStarted": 13,
+        "ammoSpentObserved": 280,
+        "shotsObserved": 292,
+        "hitsObserved": 287,
+        "invalidInputs": 0,
+        "neutralAck": 2,
+        "maxUnacked": 4
+      },
+      "glErrors": [],
+      "errors": [],
+      "slowRenders": 0
+    },
+    {
+      "client": 2,
+      "gameSeconds": 59.7,
+      "frames": {
+        "samples": 3045,
+        "p50": 16.7,
+        "p95": 33.4,
+        "max": 83.3
+      },
+      "renderCpu": {
+        "samples": 2991,
+        "p50": 12.2,
+        "p95": 20.8,
+        "max": 59.1
+      },
+      "worldIntervals": {
+        "samples": 597,
+        "p50": 99.5,
+        "p95": 128.3,
+        "max": 382.3
+      },
+      "ackObservedRtt": {
+        "samples": 584,
+        "p50": 73.7,
+        "p95": 214.9,
+        "max": 1085.2
+      },
+      "counters": {
+        "updates": 598,
+        "firsts": 0,
+        "sent": 952,
+        "fire": 881,
+        "move": 952,
+        "reloadSent": 6,
+        "reloadStarted": 12,
+        "ammoSpentObserved": 276,
+        "shotsObserved": 288,
+        "hitsObserved": 374,
+        "invalidInputs": 0,
+        "neutralAck": 4,
+        "maxUnacked": 4
+      },
+      "glErrors": [],
+      "errors": [],
+      "slowRenders": 0
+    },
+    {
+      "client": 3,
+      "gameSeconds": 59.7,
+      "frames": {
+        "samples": 2986,
+        "p50": 16.7,
+        "p95": 33.4,
+        "max": 149.9
+      },
+      "renderCpu": {
+        "samples": 2967,
+        "p50": 12.2,
+        "p95": 21.6,
+        "max": 82.3
+      },
+      "worldIntervals": {
+        "samples": 597,
+        "p50": 100.1,
+        "p95": 134,
+        "max": 369.4
+      },
+      "ackObservedRtt": {
+        "samples": 571,
+        "p50": 72.8,
+        "p95": 211.5,
+        "max": 830.4
+      },
+      "counters": {
+        "updates": 598,
+        "firsts": 0,
+        "sent": 951,
+        "fire": 885,
+        "move": 951,
+        "reloadSent": 6,
+        "reloadStarted": 13,
+        "ammoSpentObserved": 279,
+        "shotsObserved": 291,
+        "hitsObserved": 227,
+        "invalidInputs": 0,
+        "neutralAck": 4,
+        "maxUnacked": 4
+      },
+      "glErrors": [],
+      "errors": [],
+      "slowRenders": 0
+    }
+  ],
+  "wire": [
+    {
+      "states": 598,
+      "chunks": 0,
+      "maxBytes": 15004,
+      "omittedMax": 0,
+      "closes": 0
+    },
+    {
+      "states": 598,
+      "chunks": 0,
+      "maxBytes": 14909,
+      "omittedMax": 0,
+      "closes": 0
+    },
+    {
+      "states": 598,
+      "chunks": 0,
+      "maxBytes": 14956,
+      "omittedMax": 0,
+      "closes": 0
+    },
+    {
+      "states": 598,
+      "chunks": 0,
+      "maxBytes": 14864,
+      "omittedMax": 0,
+      "closes": 0
+    }
+  ],
+  "errors": []
+}

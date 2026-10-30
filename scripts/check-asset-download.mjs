@@ -10,6 +10,7 @@ import {
 } from "node:fs";
 import path from "node:path";
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 
 // Production build, real service worker + CacheStorage, isolated temporary profile.
 const root = path.resolve("dist"),
@@ -21,6 +22,7 @@ const manifest = JSON.parse(
 const origin = "http://127.0.0.1:5186",
   requests = [],
   errors = [];
+const overrides = new Map(); // Isolated HTTP update test; never modifies dist.
 const mime = {
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript",
@@ -56,8 +58,15 @@ const server = createServer(async (req, res) => {
     "content-type",
     mime[path.extname(file)] ?? "application/octet-stream",
   );
-  res.setHeader("content-length", statSync(file).size);
+  res.setHeader(
+    "content-length",
+    overrides.get(url.pathname)?.length ?? statSync(file).size,
+  );
   res.setHeader("cache-control", "no-store");
+  if (overrides.has(url.pathname)) {
+    res.end(overrides.get(url.pathname));
+    return;
+  }
   const stream = createReadStream(file);
   stream.on("error", () => res.destroy());
   res.on("close", () => stream.destroy());
@@ -204,6 +213,53 @@ try {
     downloadCount,
   );
   results.secondVisitDownloads = 0;
+  // A same-URL asset update must bypass both the SW and HTTP caches and fetch
+  // only the changed file. A trailing PNG byte is harmless but changes its hash.
+  const updated = structuredClone(manifest);
+  const changed = updated.packs
+    .find((p) => p.id === "common")
+    .assets.find((a) => a.url === "assets/ui/weapon-locked.png");
+  assert.ok(changed);
+  const changedBody = Buffer.concat([
+    readFileSync(path.join(root, changed.url)),
+    Buffer.from([0]),
+  ]);
+  changed.bytes = changedBody.length;
+  changed.sha256 = createHash("sha256").update(changedBody).digest("hex");
+  updated.revision = createHash("sha256")
+    .update(JSON.stringify({ version: updated.version, packs: updated.packs }))
+    .digest("hex");
+  overrides.set("/" + changed.url, changedBody);
+  overrides.set(
+    "/asset-download-manifest.json",
+    Buffer.from(JSON.stringify(updated)),
+  );
+  await page.locator(".download-dialog .dialog-close").click();
+  await settled();
+  await page.locator("dialog[open] .dialog-close").click();
+  await settled();
+  await openMenu();
+  const beforeUpdate = requests.filter((url) =>
+    url.includes("__swarm_asset"),
+  ).length;
+  await page.locator("[data-download]").click();
+  await page
+    .getByText("選んだデータを保存しました。次回から再利用します。", {
+      exact: true,
+    })
+    .waitFor({ timeout: 30000 });
+  results.sameUrlUpdateDownloads =
+    requests.filter((url) => url.includes("__swarm_asset")).length -
+    beforeUpdate;
+  assert.equal(results.sameUrlUpdateDownloads, 1);
+  results.sameUrlUpdateHash = await page.evaluate(
+    async (url) =>
+      (
+        await (await caches.open("swarm-front-preload-v1")).match(url)
+      ).headers.get("x-swarm-asset-sha256"),
+    new URL(changed.url, origin).href,
+  );
+  assert.equal(results.sameUrlUpdateHash, changed.sha256);
   await context.setOffline(true);
   await page.goto(origin, { waitUntil: "domcontentloaded" });
   await page.locator("#home-settings").waitFor({ timeout: 30000 });

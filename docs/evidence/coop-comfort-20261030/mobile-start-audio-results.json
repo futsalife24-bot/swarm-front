@@ -1,0 +1,60 @@
+{
+  "browser": "156.0.8078.48",
+  "preboot": [
+    {
+      "path": "/",
+      "guide": true,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "path": "/front.html",
+      "guide": true,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      }
+    }
+  ],
+  "orientation": [
+    {
+      "path": "/",
+      "portrait": true,
+      "unsupportedFallback": true,
+      "landscapeMenu": true,
+      "returnedPortrait": true
+    },
+    {
+      "path": "/front.html",
+      "portrait": true,
+      "unsupportedFallback": true,
+      "landscapeMenu": true,
+      "returnedPortrait": true
+    }
+  ],
+  "audio": {
+    "full": 0.037529841441810166,
+    "quarter": 0.009591191032620315,
+    "mute": 0,
+    "restored": 0.038067182666819424,
+    "ratio": 0.255561725393682,
+    "restoreRatio": 1.0143177057074009,
+    "elementVolume": 1,
+    "contexts": 1,
+    "track": "prepare",
+    "contextState": "running",
+    "mp3": true
+  },
+  "errors": [],
+  "preview": {
+    "resumeAfterSuspension": true,
+    "firstGraphClosed": true,
+    "reopenedWithNewGraph": true
+  }
+}

@@ -1,6 +1,7 @@
 import { backgroundMusic, type MusicTrack } from "./bgm";
 import { menuMotion } from "./menu-effects";
 import { closeMenuDialog, menuDialog } from "./menu-ui";
+import { MediaVolume } from "./media-volume";
 import { MediaPlayback } from "./media-playback";
 import "./media-menu.css";
 import { SOLDIER_VOICES, SOLDIER_PATH } from "./soldier-voice";
@@ -65,11 +66,15 @@ export function mountMediaMenu(
     d.setAttribute("aria-labelledby", "media-dialog-title");
     const release = backgroundMusic().suspend();
     const media = d.querySelector<HTMLMediaElement>("audio,video")!;
+    const output = new MediaVolume(media);
+    const unlockOutput = () => output.unlock();
+    const gestures = ["pointerdown", "touchend", "click", "keydown"];
+    for (const event of gestures) media.addEventListener(event, unlockOutput);
     const level = d.querySelector<HTMLInputElement>('input[type="range"]')!;
     level.value = String(video ? volume() : musicVolume());
     const applyVolume = () => {
-      media.volume = Number(level.value) * (video ? 1 : 0.55);
-      media.muted = Number(level.value) === 0;
+      output.volume = Number(level.value) * (video ? 1 : 0.55);
+      output.unlock();
     };
     level.oninput = applyVolume;
     applyVolume();
@@ -129,8 +134,10 @@ export function mountMediaMenu(
         applyVolume();
         load(true);
       };
-    d.querySelector<HTMLButtonElement>("[data-play]")!.onclick = () =>
+    d.querySelector<HTMLButtonElement>("[data-play]")!.onclick = () => {
+      output.unlock();
       playback.play();
+    };
     d.querySelector<HTMLButtonElement>("[data-pause]")!.onclick = () =>
       playback.pause();
     d.querySelector<HTMLButtonElement>("[data-reload]")!.onclick = () => load();
@@ -145,6 +152,9 @@ export function mountMediaMenu(
         for (const event of ["pause", "ended", "waiting", "emptied", "error"])
           media.removeEventListener(event, stopIndicator);
         playback.dispose();
+        for (const event of gestures)
+          media.removeEventListener(event, unlockOutput);
+        output.dispose();
         release();
         active = undefined;
       },

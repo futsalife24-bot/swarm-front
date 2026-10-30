@@ -1,0 +1,46 @@
+/* Loaded by the document before the game modules or save-writer lock settle. */
+#portrait {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  box-sizing: border-box;
+  padding: 24px;
+  background: #0d2334;
+  color: #e3edee;
+  font:
+    20px/1.5 Inter,
+    "Segoe UI",
+    "Yu Gothic",
+    sans-serif;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  gap: 15px;
+}
+#landscape-guide {
+  margin: 0;
+}
+#portrait small {
+  font-size: 12px;
+  max-width: 32em;
+}
+#landscape-start {
+  border: 1px solid #78939d5c;
+  border-radius: 4px;
+  background: #233943;
+  color: #edf4f2;
+  padding: 13px 20px;
+  font: inherit;
+  font-weight: 650;
+}
+@media (orientation: portrait) {
+  body > :not(#portrait) {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+  #portrait {
+    display: flex;
+  }
+}

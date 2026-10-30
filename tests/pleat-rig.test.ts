@@ -72,6 +72,24 @@ function frame(state: PleatState, q: T.Quaternion) {
   return state;
 }
 describe("PLEAT actual rig procedural skinning", () => {
+  it("初出現の色指定でも準備済みの属性を保持し、未使用個体を着色しない", () => {
+    const batch = new HoundMotionBatch(asset, 3);
+    const attributes = batch.parts.map((part) => part.instanceColor);
+    expect(attributes.every((color) => color !== null)).toBe(true);
+    batch.setTransform(1, new T.Matrix4(), new T.Color(0.25, 0.5, 0.75));
+    batch.finish(2);
+    batch.parts.forEach((part, index) => {
+      expect(part.instanceColor).toBe(attributes[index]);
+      const color = new T.Color();
+      for (const slot of [0, 2]) {
+        part.getColorAt(slot, color);
+        expect(color.toArray()).toEqual([1, 1, 1]);
+      }
+      part.getColorAt(1, color);
+      expect(color.toArray()).toEqual([0.25, 0.5, 0.75]);
+    });
+    batch.dispose();
+  });
   it("横並びの境界と最大個体数でも全骨行列と既存クリップを保持する", () => {
     const batch = new HoundMotionBatch(asset, 96);
     const shader = {

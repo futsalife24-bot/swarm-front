@@ -1,3 +1,4 @@
+import { MediaVolume } from "./media-volume";
 import { stageFor } from "../shared/stages";
 import { setGameMediaMetadata } from "./media-session";
 
@@ -47,6 +48,7 @@ export function musicForScreen(
 /** One streaming player: no multi-megabyte decoded buffers or overlapping tracks. */
 export class BackgroundMusic {
   private player: HTMLAudioElement;
+  private output: MediaVolume;
   private scene: MusicTrack | null = null;
   private report = false;
   private current: MusicTrack | null = null;
@@ -59,7 +61,8 @@ export class BackgroundMusic {
     setGameMediaMetadata();
     this.player = new Audio();
     this.player.preload = "none";
-    this.player.volume = this.level * 0.55;
+    this.output = new MediaVolume(this.player);
+    this.output.volume = this.level * 0.55;
     this.player.dataset.bgm = "true";
     this.player.hidden = true;
     document.body.append(this.player);
@@ -82,15 +85,17 @@ export class BackgroundMusic {
     window.addEventListener("pagehide", () => this.player.pause());
     window.addEventListener("pageshow", () => this.sync());
     document.addEventListener("pointerdown", () => this.unlock(), true);
+    document.addEventListener("touchend", () => this.unlock(), true);
+    document.addEventListener("click", () => this.unlock(), true);
     document.addEventListener("keydown", () => this.unlock(), true);
   }
   set volume(value: number) {
     this.level = Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : 0;
-    this.player.volume = this.level * 0.55;
-    this.player.muted = this.level === 0;
+    this.output.volume = this.level * 0.55;
     this.sync();
   }
   unlock() {
+    this.output.unlock();
     this.unlocked = true;
     this.sync();
   }

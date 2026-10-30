@@ -1,3 +1,4 @@
+import { MediaVolume } from "./media-volume";
 import { backgroundMusic } from "./bgm";
 import { menuAnalyze } from "./menu-effects";
 import { showModalAfterFullscreen } from "./landscape";
@@ -98,7 +99,8 @@ export function openBestiary(
   backgroundMusic().setReport(true);
   const voicePlayer = new Audio();
   voicePlayer.preload = "none";
-  voicePlayer.volume =
+  const voiceOutput = new MediaVolume(voicePlayer);
+  voiceOutput.volume =
     Math.max(0, Math.min(1, options.voiceVolume ?? 0.35)) * 0.7;
   const stopVoice = () => {
     voicePlayer.pause();
@@ -263,6 +265,7 @@ export function openBestiary(
           voicePlayer.src = `${import.meta.env.BASE_URL}${ANOMALY_VOICE_PATH}${profile}-${variant}.wav`;
           variant = 1 - variant;
           button.textContent = "再生中…";
+          voiceOutput.unlock();
           void voicePlayer.play().catch(() => {
             if (request === playback) button.textContent = "再試聴する";
           });
@@ -288,6 +291,7 @@ export function openBestiary(
   dialog.addEventListener("close", () => {
     stopVoice();
     voicePlayer.removeAttribute("src");
+    voiceOutput.dispose();
     document.removeEventListener("visibilitychange", hideVoice);
     playbackObserver.disconnect();
     viewer?.dispose();

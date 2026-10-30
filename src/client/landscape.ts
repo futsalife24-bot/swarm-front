@@ -80,7 +80,7 @@ export function installLandscapeGuard(onPortrait: () => void) {
       const locked = await lock();
       document.getElementById("landscape-status")!.textContent = locked
         ? ""
-        : "このブラウザでは画面を自動で切り替えられません。";
+        : "このブラウザでは画面を自動で切り替えられません。画面回転ロックを解除して、端末を横向きにしてください。";
       sync();
     } finally {
       starting = false;
@@ -99,6 +99,7 @@ export function installLandscapeGuard(onPortrait: () => void) {
   };
   document.addEventListener("pointerup", keepFullscreen, { capture: true });
   document.addEventListener("click", keepFullscreen, { capture: true });
+  document.getElementById("landscape-start")!.onclick = () => void start();
   portrait.addEventListener("change", sync);
   document.addEventListener("fullscreenchange", () => void lock());
   document.addEventListener("visibilitychange", () => {

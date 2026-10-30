@@ -430,6 +430,10 @@ objectNormal=mat3(houndSkin)*objectNormal;
       part.name = source.name;
       part.count = 0;
       part.instanceMatrix.setUsage(T.DynamicDrawUsage);
+      // First combat tint must not change the shader compiled by prepareBattle.
+      // setColorAt allocates white for every slot; unseen instances stay neutral.
+      part.setColorAt(0, new T.Color(0xffffff));
+      part.instanceColor!.setUsage(T.DynamicDrawUsage);
       // Conservative animated envelope, not the neutral geometry bounds.
       const bounds = new T.Box3()
         .setFromObject(asset.model)

@@ -1,10 +1,12 @@
 {
-  "revision": "536db5cadf00f469d8bfde12e7e949ff86998ef7374b02ba05611f20ba5a5af2",
-  "started": "2026-10-30T02:43:37.240Z",
-  "pausedFiles": 3,
+  "revision": "313d2490abd70894d277d89607ba3a2355804089cde27f4e1abab17fa8d858f7",
+  "started": "2026-10-30T03:07:38.996Z",
+  "pausedFiles": 2,
   "savedFiles": 150,
   "selectedFiles": 150,
   "secondVisitDownloads": 0,
+  "sameUrlUpdateDownloads": 1,
+  "sameUrlUpdateHash": "afc38925fc7f912bfcb01abf0da5a15e9b2fccd5285a24870002305880691e50",
   "rootOffline": true,
   "rootOfflineReload": true,
   "offlineRange": {
