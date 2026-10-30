@@ -1,0 +1,216 @@
+{
+  "source": "914dffe8d19b1e261a3d5be98656bf2e4f6c4fe3",
+  "revision": "55d2bf3e2a3e8b1bd45c24ce83df1e425e0f40b712415a2b7baee9f7d136b601",
+  "files": [
+    {
+      "url": "assets/cloud-save-Cmya1nWV.js",
+      "path": "assets/cloud-save-Cmya1nWV.js",
+      "bytes": 108687,
+      "sha256": "d2e5412e700d506d6b23793850f02a6d3033fed9df7c5898a8c4cfd4dbc7a0fa"
+    },
+    {
+      "url": "assets/cloud-save-DcXqSdJa.css",
+      "path": "assets/cloud-save-DcXqSdJa.css",
+      "bytes": 3784,
+      "sha256": "5cb52a5a0cd5cc34af5d72d03596e59b199aa61b3aaf49961b7603c5024a5d63"
+    },
+    {
+      "url": "assets/fonts/rajdhani/Rajdhani-Bold.ttf",
+      "path": "assets/fonts/rajdhani/Rajdhani-Bold.ttf",
+      "bytes": 400680,
+      "sha256": "691470dd3286a14e9677940d0bf75796179841ba5215cbda1a2c8910a3226afd"
+    },
+    {
+      "url": "assets/front-2or3ZGxH.js",
+      "path": "assets/front-2or3ZGxH.js",
+      "bytes": 105669,
+      "sha256": "bdf6a9c26c1b138a0253368c182b0f875332308cd838e374158878161f1a0755"
+    },
+    {
+      "url": "assets/front-BbdaF3Yu.css",
+      "path": "assets/front-BbdaF3Yu.css",
+      "bytes": 23745,
+      "sha256": "044093671373e9e31078a97aa2d38d4f6b2a2e9d7fe568046b59363e8d9a4a2a"
+    },
+    {
+      "url": "assets/game-select-BBcbApPk.css",
+      "path": "assets/game-select-BBcbApPk.css",
+      "bytes": 4775,
+      "sha256": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75"
+    },
+    {
+      "url": "assets/game-select-D9aFmqG9.js",
+      "path": "assets/game-select-D9aFmqG9.js",
+      "bytes": 12284,
+      "sha256": "4fc20f874b2e2d5abfa5d3b8be9eff8ddaf14a57a6eae70da039f4461de4f787"
+    },
+    {
+      "url": "assets/hud-3x0eRG6q.js",
+      "path": "assets/hud-3x0eRG6q.js",
+      "bytes": 984740,
+      "sha256": "3a807b9c27737daac9fb532ce838771f820fb7cd4eceac2983eae305dfbdd32a"
+    },
+    {
+      "url": "assets/hud-KJkCjEBB.css",
+      "path": "assets/hud-KJkCjEBB.css",
+      "bytes": 108021,
+      "sha256": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3"
+    },
+    {
+      "url": "assets/legacy-BBO18L4B.js",
+      "path": "assets/legacy-BBO18L4B.js",
+      "bytes": 17568,
+      "sha256": "28c1d970bc2e40dd1070bb0cdfe1ca99eb06d87a577508970a09f0be9fe8ba07"
+    },
+    {
+      "url": "assets/legacy-CPbai1ZT.css",
+      "path": "assets/legacy-CPbai1ZT.css",
+      "bytes": 259,
+      "sha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9"
+    },
+    {
+      "url": "assets/main-BOIn8V8d.css",
+      "path": "assets/main-BOIn8V8d.css",
+      "bytes": 1316,
+      "sha256": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027"
+    },
+    {
+      "url": "assets/main-SPcAlT8l.js",
+      "path": "assets/main-SPcAlT8l.js",
+      "bytes": 54281,
+      "sha256": "5c06425434610985dbb03b4ae64b6bff4b8887cc896a345ba792605ac80e8f6c"
+    },
+    {
+      "url": "assets/playtest-app-CU5IufCk.css",
+      "path": "assets/playtest-app-CU5IufCk.css",
+      "bytes": 8530,
+      "sha256": "f8dd2dc94f98d22ff4906c0ff444e119d3eb9f0847b66d56941305824879cee9"
+    },
+    {
+      "url": "assets/playtest-app-oqccmkV4.js",
+      "path": "assets/playtest-app-oqccmkV4.js",
+      "bytes": 79946,
+      "sha256": "144883db6f2ef2270418bb99325c2d55b2ca6f70941762334fdb97acda68bc18"
+    },
+    {
+      "url": "assets/room-access-B6Wij6Xb.js",
+      "path": "assets/room-access-B6Wij6Xb.js",
+      "bytes": 6713,
+      "sha256": "be2a4985286b76a533336283069a5988c3a0405ef2a39885aca72600cba19588"
+    },
+    {
+      "url": "assets/room-access-yhwSGRfS.css",
+      "path": "assets/room-access-yhwSGRfS.css",
+      "bytes": 6199,
+      "sha256": "0a8e81264eda85c6c30461dfc30cb44d65569f7e48865d92bcea3c34d4eeae04"
+    },
+    {
+      "url": "assets/save-writer-BUUOzIBn.css",
+      "path": "assets/save-writer-BUUOzIBn.css",
+      "bytes": 2949,
+      "sha256": "4e91d064f9a5b74cf809d7b17d6e3529fdd161528f02d2f949cb0ff9b443d5dc"
+    },
+    {
+      "url": "assets/save-writer-uz7l0Ihl.js",
+      "path": "assets/save-writer-uz7l0Ihl.js",
+      "bytes": 42123,
+      "sha256": "eb486aa0081cf327d4056176996fad4ba0d868bb8f71c7e4e4379830d9ea377f"
+    },
+    {
+      "url": "assets/training-app-CQQeXx1r.js",
+      "path": "assets/training-app-CQQeXx1r.js",
+      "bytes": 3772,
+      "sha256": "fd49a3594434fcfd016fb2481beb5e4d30c224f91c579ef2886af24b00af65d4"
+    },
+    {
+      "url": "assets/weapon-sharing-vMYVXmjV.js",
+      "path": "assets/weapon-sharing-vMYVXmjV.js",
+      "bytes": 4753,
+      "sha256": "58e1b6e75e95f9eb504b9f7c25998f07641afa2cc1c90a32c100d7e9c3f99eeb"
+    },
+    {
+      "url": "assets/weapon-workshop-ui-19tKwTO6.css",
+      "path": "assets/weapon-workshop-ui-19tKwTO6.css",
+      "bytes": 37201,
+      "sha256": "07b6043857f41259f794674088eaf3e8b5b722094b158ab12ec6cefd75fc8b02"
+    },
+    {
+      "url": "assets/weapon-workshop-ui-CGsS_LS2.js",
+      "path": "assets/weapon-workshop-ui-CGsS_LS2.js",
+      "bytes": 447450,
+      "sha256": "d809f2bff40e63ee03036d5970a42b09867dcf48edce4f0d37674c3e5610d939"
+    },
+    {
+      "url": "assets/zoom-guard-CYxqEXnM.js",
+      "path": "assets/zoom-guard-CYxqEXnM.js",
+      "bytes": 387,
+      "sha256": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b"
+    },
+    {
+      "url": "front.html",
+      "path": "front.html",
+      "bytes": 3434,
+      "sha256": "b3646d0d6d05d295ccf3d2639225e36078cff8d8a38ac56876dc9433c594182e"
+    },
+    {
+      "url": "icon-swarm-v2-512.png",
+      "path": "icon-swarm-v2-512.png",
+      "bytes": 517806,
+      "sha256": "71ce7bf3b6a397968bc1f105ad61d11b719e1c815112b5af453051e5d04b7b84"
+    },
+    {
+      "url": "icon-swarm-v4-180.png",
+      "path": "icon-swarm-v4-180.png",
+      "bytes": 74779,
+      "sha256": "011d0ba169b1d5325ac5e809eaa5a7a302aa7885b8dec73001068ad939d00e98"
+    },
+    {
+      "url": "icon-swarm-v4-192.png",
+      "path": "icon-swarm-v4-192.png",
+      "bytes": 86143,
+      "sha256": "abfe8b0da1d1665e928701f0ef1e06f4cc119c52911445092fc9bc47bb0c87e2"
+    },
+    {
+      "url": "icon-swarm-v4-512-maskable.png",
+      "path": "icon-swarm-v4-512-maskable.png",
+      "bytes": 417504,
+      "sha256": "9158e3e3c1ec01aac92374645390c6872c9c5fef79dbde84309efc86c7074c0e"
+    },
+    {
+      "url": "icon-swarm-v4-512.png",
+      "path": "icon-swarm-v4-512.png",
+      "bytes": 539155,
+      "sha256": "0e469688f9f566178c594dd0557d3097f24c174a9f48efeec4913beed8c929fd"
+    },
+    {
+      "url": "icon-swarm-v4-64.png",
+      "path": "icon-swarm-v4-64.png",
+      "bytes": 11048,
+      "sha256": "49bd3f6aa22e4410ea4ce92873a1f960e932c66a339d9f1accc37230ef03dcb3"
+    },
+    {
+      "url": "index.html",
+      "path": "index.html",
+      "bytes": 4041,
+      "sha256": "b967d688b1df0f0dea4add53fbe3234b2b3c01dc82c3b9a8caf9f6f8a83ee84e"
+    },
+    {
+      "url": "manifest.webmanifest",
+      "path": "manifest.webmanifest",
+      "bytes": 792,
+      "sha256": "a395e41a6419798be87fb74999412078387866aca0e9db0e15a3cf69d52e4cf6"
+    },
+    {
+      "url": "asset-download-manifest.json",
+      "path": "asset-download-manifest.json",
+      "bytes": 37635,
+      "sha256": "e0f3b019c48670d1905ac7f55b1d808f2d3af4bce68aadcdc77a70f78d8b9374"
+    },
+    {
+      "url": "sw.js",
+      "path": "sw.js",
+      "bytes": 5681,
+      "sha256": "32df8fbaf4e428fd5e6ea43ca2dc69a74823f07fa7eb7cd5b380e7e5adcb85ae"
+    }
+  ]
+}

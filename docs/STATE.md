@@ -1,10 +1,14 @@
-# 現在地: 公開後の実機で「重い・改善を感じない」、快適化は未達（2026-10-30）
+# 現在地: 協力の歩行応答修正を公開、実機の快適化は継続確認（2026-10-30）
 
 本人から公開後の実機動画と「重いです、特に改善も感じない。事前ダウンロードで変わるの？」という報告を受領。公開工程・PC検証の成功を体感改善の達成に読み替えない。動画から半秒ごとに取り出した戦闘場面の表示は59〜60FPSで、これだけでは操作応答・状態更新・GPU完了・瞬間的な引っ掛かりを区別できない。事前保存は主に素材取得待ちを短くする機能で、継続する戦闘の重さを解消する前提にはしない。[実機報告と再調査](evidence/coop-comfort-20261030/device-feedback.md)。
 
-追加回答で **協力部屋を立てて1人出撃、OPPO Find X8・携帯回線** と確認した。生存協力では自機の歩行表示もサーバー応答待ちだった。実Worker/実WebSocket・片道150ms追加で歩き始め415.6〜476.5msを再現し、表示専用の接地歩行予測で14.9〜19.6msへ短縮した。通信/命中結果自体の遅延は残る。branch `codex/coop-local-response-20261030`、base `72c50f5f79c6c0a6dec3f49f39cf0c4e88b45b93`。公開前の検証中。[変更と比較・限界](evidence/coop-comfort-20261030/local-response.md)。添付動画と切り出し画像はローカルだけに保持し、公開しない。
+追加回答で **協力部屋を立てて1人出撃、OPPO Find X8・携帯回線** と確認した。生存協力では自機の歩行表示もサーバー応答待ちだった。実Worker/実WebSocket・片道150ms追加で歩き始め415.6〜476.5msを再現し、表示専用の接地歩行予測で14.9〜19.6msへ短縮した。通信/命中結果自体の遅延は残る。branch `codex/coop-local-response-20261030`、base `72c50f5f79c6c0a6dec3f49f39cf0c4e88b45b93`、実装 `5f30849f38f3e89ffe8f9b64540e3b58a7422af6`。[変更と比較・限界](evidence/coop-comfort-20261030/local-response.md)。添付動画と切り出し画像はローカルだけに保持し、公開しない。
 
-## 公開済みの内容
+[PR235](https://github.com/futsalife24-bot/swarm-front/pull/235)を通常mergeし、source main `914dffe8d19b1e261a3d5be98656bf2e4f6c4fe3`、Worker Version `1139433e-da86-4147-88c4-ebec0157e8f2` を公開した。関連167件、client/Worker型、書式、merge前後build・production dry-run成功。公開35ファイルSHA一致、health200/ok、空Chromeの配信版生存起動・画面例外0。実機とは区別する。GitHub checks/statuses0件でCI成功とは記さない。無料契約は本人確認済み、当日アカウント全Workers215 requests/errors0（10:24 UTCまで）。新規費用・契約・権限変更なし。[配信証拠](evidence/coop-comfort-20261030/local-response-release-delivery.json)。
+
+残件: 同じOPPO/携帯回線/協力1人で歩行・停止・射撃・敵密集時の体感、複数実スマホ、発熱/長時間、Safari音量。快適化goalは未完了、バディ実装は保留。記録用branch `codex/coop-local-response-release-20261030` は公開後の証拠のみ。主担当の実モデル/effortは未確認、補助は呼出指定Sol/high。実セーブ・他人の部屋は不使用。
+
+## 前回公開の内容
 
 本人から「承認します、実機確認するので。」と追加承認を受け、[PR231](https://github.com/futsalife24-bot/swarm-front/pull/231)を通常merge。main `3f5a3f0f68c315836e1af036a61071997c04920f`、merge後のbuild・production dry-run成功。公開承認待ちは解消済み。以下の古い承認待ち記録は履歴として保持。
 

@@ -46,3 +46,15 @@
 自機の歩き出しを早くする修正を採用し、敵モデル簡略化や入力窓の拡大を根拠なしに追加しない。本人の端末・携帯回線で歩行、停止、射撃/命中、敵密集時の体感を再確認する。長時間の発熱、複数実端末、Safari音量は引き続き未確認。追加バディは快適化達成後。
 
 主担当の実モデル/推論設定は取得不可で未確認。既存補助への呼出指定は `gpt-6.1-sol/high`、実行設定値は未確認。補助が表示計算と単体検査、主担当が結線・比較・自己レビューを担当。独立監査の実施とは扱わない。
+
+## 公開結果
+
+[PR235](https://github.com/futsalife24-bot/swarm-front/pull/235)、実装 `5f30849f38f3e89ffe8f9b64540e3b58a7422af6` を通常merge。公開sourceは `914dffe8d19b1e261a3d5be98656bf2e4f6c4fe3`、Worker Versionは `1139433e-da86-4147-88c4-ebec0157e8f2`。[ゲーム](https://swarm-front.melosalife-24.workers.dev/)。
+
+- merge後build: 234 modules / 5.33秒、既存の500kB超警告。production dry-run: 443.39KiB / gzip113.35KiB。どちらもexit0。[build](local-response-release-build.txt)、[dry-run](local-response-release-dry-run.txt)、[deploy](local-response-release-deploy.txt)。
+- PWA revision `55d2bf3e2a3e8b1bd45c24ce83df1e425e0f40b712415a2b7baee9f7d136b601`。[本体35ファイルのmanifest](local-response-release-manifest.json)と[配信SHA/healthの一致](local-response-release-delivery.json)。以前の公開証拠は上書きしていない。
+- 配信コードをGET専用中継・空Chromeで確認。両入口の横向き案内、事前保存11パック、生存起動、844×390の兵士/敵/地形/操作UI、画面例外0。検査PCの60FPSをOPPOの体感証明にはしない。[数値/UI記録](local-response-public-ui.json)、[画面](local-response-public-survival.png)。今回、PWA全150件の再保存・実Safariは再検査していない。
+- 対象HEADのchecks/statusesは0件、branch API protected=false/rulesets=[]。CI成功・独立監査合格の表現は使わず、管理者バイパスもしていない。
+- 無料契約は今回の本人回答を継承。10:24 UTCまでの全Workersは215 requests・errors0・subrequests236。subscriptions403は継続し、standardを無料契約の証明にしていない。[読み取り結果](local-response-release-account.json)。新規費用・契約変更なし。
+
+公開後はオンラインで再読み込みし、同じ協力1人条件で歩行と停止を確認する。サイトデータの削除やセーブ初期化は不要。今回の修正・検証・公開は完了だが、本人端末での全症状解消と大目標の達成は未確認。
