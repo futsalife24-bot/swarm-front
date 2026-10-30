@@ -1,6 +1,10 @@
-# 現在地: マルチ快適化を追加修正・公開前の検証（2026-10-30）
+# 現在地: マルチの操作採取を描画待ちから分離・公開前の検証（2026-10-30）
 
 最優先goalはactive。マルチの軽量化・位置ずれ・着弾抜け・敵消失を改善してから、追加バディ5体へ進む。バディは次優先として保存済み、未実装。[目標と完了条件](COOP-COMFORT-GOAL-20261030.md)、[BACKLOG](BACKLOG.md)。
+
+最新追加は生存・進撃の入力採取をRAFから50ms周期へ分離。描画callbackを1000ms保留した実画面検査で、解除から送信まで生存733.2→13.9ms、進撃736.4→52.6ms。一時停止・縦画面で送信停止、再接続後の古い操作再送0。単体43件・client/worker型成功。実タブfocusはPlaywrightの強制設定を解除できず未確認として明記。4人45秒の全画面描画では射撃・装填・命中・切断0を確認したが、同一PCの4画面負荷で入力間隔最大264〜412ms、猶予外ack=0が0/1/0/1件残る。機能成功を快適さの完全合格としない。[追加修正・比較・限界](evidence/coop-comfort-20261030/network-input.md)。
+
+追加の4接続/描画1画面・各方向75ms/131,072B/s・60秒では猶予外ack=0全員0、入力最大間隔67〜75ms、描画frame p95 16.9ms/最大33.4ms、画面/GL例外・切断0。回線条件下の適用ACK最大504〜523msは残る。実スマホの完全解消を証明するものではない。
 
 時計の累積遅延、実体弾の共有上限による空発射、ロケットの点判定、描画上限、敵情報の省略を修正。可逆配列化・上限付き分割・未ACK2状態の送信制御を実装。合成96敵/1000弾/160オーブを実4ブラウザで復元・描画し、500ms停止からの復帰・再接続を確認した。[全体の根拠](evidence/coop-comfort-20261030/README.md)。
 
@@ -8,11 +12,11 @@
 
 BASTIONのモデル・halo・火花・閃光も出撃前に準備し、初登場での新shader待ちを観測しなくなった。見た目・戦闘ルールは変更なし。ただし120秒のRAF間隔150msと、CPU診断追試499.9msが各1件残る。後者は約96.2%がidleで途中も通信受信が動き、JS全体の停止やrender単体では説明できない。RAF呼出し待ちの原因は未確定で、解消済みや実機の快適さの証明にはしない。
 
-最新の関連単体92件（BASTION準備5件含む）、既存BASTION36件、client/worker型、実通信2件、旧互換6件、回線helper10件は成功。成功済みの既存検査と、今回追加で判明した問題を分けて記録している。
+先行の受信時刻版で関連単体92件（BASTION準備5件含む）、既存BASTION36件、client/worker型、実通信2件、旧互換6件、回線helper10件は成功。成功済みの既存検査と、その後の追加検査・判明した問題を分けて記録している。
 
 PWA事前ダウンロード・起動時の横向き案内・Safari向け音量修正も実装済み。先行実装100ad9eのbuildで150件保存・中断再開・再訪追加DL0・更新1件取得・オフライン生存出撃・localStorage不変を確認。音声45件とChrome実MP3の音量変更も確認。追加修正c5521c1のbuild・Worker production dry-run・同じPWA全項目の再検査も成功。検査側のbuild完了前起動による途中失敗も記録し、確定buildで再実行した。iOS Safari実機は未確認。[PWA](evidence/coop-comfort-20261030/pwa-implementation.md)、[音量と起動](evidence/coop-comfort-20261030/mobile-start-audio.md)。
 
-基点main `3e1dc640e15d747cc2a06ac72c59833db2072f74`、branch `codex/coop-comfort-ready-20261030`、worktree `C:/Users/futsa/.codex/worktrees/coop-comfort-20261030/swarm-rebuild-p1a`。先行の実装100ad9e・検証fe098e7・承認境界38cf846を[下書きPR231](https://github.com/futsalife24-bot/swarm-front/pull/231)へ保存済み。最新追加実装は `c5521c1f73134eec37e3eff18806058dabe170bd`。同HEADから最終buildを生成し、以後は検証文書・画像だけを追加commitする。保存先は同じbranchとPR231。元root・別worktree・旧branchの成果は保持。
+基点main `3e1dc640e15d747cc2a06ac72c59833db2072f74`、branch `codex/coop-comfort-ready-20261030`、worktree `C:/Users/futsa/.codex/worktrees/coop-comfort-20261030/swarm-rebuild-p1a`。先行の実装100ad9e・検証fe098e7・承認境界38cf846、受信時刻版 `c5521c1f73134eec37e3eff18806058dabe170bd`・最終検証 `029d1ab519b4ba751eb275e4ff048605319b4e46` を[下書きPR231](https://github.com/futsalife24-bot/swarm-front/pull/231)へ保存済み。入力採取の分離は029d1ab後の追加変更。実装保存後の新build/PWA統合確認を行い、同じbranchとPR231へ保存する。元root・別worktree・旧branchの成果は保持。
 
 当初の公開GitHub pushは自動承認レビューに拒否されたが、その後本人の「許可と承認します」を受けてpushと下書きPRを作成した。この追加承認はコード・検証資料の公開GitHub保存までで、main反映・既存Worker公開は別途確認中、未回答。PRはdraft/open/unmerged。先行headのGitHub checks/statusesは0件でCI成功とは記さない。独立監査は未実施。主担当の実モデル/effortは未確認、実装補助は呼出指定gpt-6.1-sol/high（実行設定値は未確認）。
 

@@ -65,4 +65,4 @@ CPU診断を付けた追加120秒（`live-input-receipt-profile/`）ではRAF間
 
 実スマホ、Safariの音量、実回線複数端末、長時間の発熱は未確認。極端に細い上りの初期学習、時計ジャンプ、256KiB上限、2秒の分割期限は限界として残る。別seedの比較であり、実機の改善率や完全解消を保証しない。
 
-実装commitは `c5521c1f73134eec37e3eff18806058dabe170bd`。同HEADのbuild・Worker production dry-runと [最新PWA統合検査](pwa-implementation.md#入力継続とbastion準備を含む統合確認) は成功。以後のcommitは検証文書と画像だけ。main反映・本番公開・実機確認は未実施。
+本段階の実装commitは `c5521c1f73134eec37e3eff18806058dabe170bd`。同HEADのbuild・Worker production dry-runと [PWA統合検査](pwa-implementation.md#入力継続とbastion準備を含む統合確認) は成功し、029d1abまで検証文書と画像を保存した。その後、残るRAF待ちが操作送信を止める経路へ[入力採取の分離](network-input.md)を追加した。新しい変更と検査はそちらを参照。main反映・本番公開・実機確認は未実施。

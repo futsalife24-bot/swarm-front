@@ -79,7 +79,15 @@ afterEach(() => {
   vi.unstubAllGlobals();
   vi.useRealTimers();
 });
-function setup(ack = false, stateFlow = false, legacy = false) {
+function setup(
+  ack = false,
+  stateFlow = false,
+  legacy = false,
+  options: {
+    source?: () => ReturnType<typeof neutral> | undefined;
+    welcome?: boolean;
+  } = {},
+) {
   vi.useFakeTimers();
   const values = new Map<string, string>();
   const storage = {
@@ -90,31 +98,35 @@ function setup(ack = false, stateFlow = false, legacy = false) {
   vi.stubGlobal("sessionStorage", storage);
   vi.stubGlobal("localStorage", storage);
   vi.stubGlobal("WebSocket", Socket);
-  let now = 1000;
-  vi.spyOn(performance, "now").mockImplementation(() => now);
+  const clockStart = Date.now();
+  const now = () => 1000 + Date.now() - clockStart;
+  vi.spyOn(performance, "now").mockImplementation(now);
   const net = legacy
     ? new Network("http://localhost:8789")
     : new FrontNetwork("http://localhost:8789");
   networks.push(net);
+  net.setInputSource(options.source);
   net.connect("ABC123");
   const ws = Socket.last;
   ws.onopen?.();
-  ws.receive({
-    type: "welcome",
-    ruleset: "front-v1",
-    id: "p",
-    token: "test",
-    frontOpening: 2,
-    inputAck: ack,
-    stateFlow,
-    expiresAt: Date.now() + 60000,
-  });
+  const welcome = () =>
+    ws.receive({
+      type: "welcome",
+      ruleset: "front-v1",
+      id: "p",
+      token: "test",
+      frontOpening: 2,
+      inputAck: ack,
+      stateFlow,
+      expiresAt: Date.now() + 60000,
+    });
+  if (options.welcome !== false) welcome();
   return {
     net,
     ws,
-    now: () => now,
+    now,
+    welcome,
     advance: (ms = 60) => {
-      now += ms;
       vi.setSystemTime(Date.now() + ms);
     },
   };
@@ -273,5 +285,213 @@ it.each([false, true])(
       net.input({ ...neutral(), seq });
     }
     expect(next.inputs()).toHaveLength(4);
+  },
+);
+
+it.each([false, true])(
+  "RAFなしでwelcome後だけ20Hz採取し、重複welcomeでも増殖しない（legacy=%s）",
+  (legacy) => {
+    let seq = 0;
+    const source = vi.fn(() => ({
+      ...neutral(),
+      seq: ++seq,
+      mx: 1,
+      fire: true,
+    }));
+    const { ws, welcome } = setup(false, false, legacy, {
+      source,
+      welcome: false,
+    });
+    vi.advanceTimersByTime(200);
+    expect(source).not.toHaveBeenCalled();
+    welcome();
+    welcome();
+    vi.advanceTimersByTime(250);
+    expect(source).toHaveBeenCalledTimes(5);
+    expect(ws.inputs().map((input) => input.seq)).toEqual([1, 2, 3, 4, 5]);
+  },
+);
+
+it.each([false, true])(
+  "周期採取でもheld・短押し・解除を保持し、無効なsourceは保留タップを破棄する（legacy=%s）",
+  (legacy) => {
+    let seq = 0;
+    let active = true;
+    let fire = true;
+    let tap = true;
+    const source = () =>
+      active
+        ? {
+            ...neutral(),
+            seq: ++seq,
+            fire,
+            mx: fire ? 1 : -1,
+            reload: tap,
+            swap: tap,
+            dodge: tap,
+            jump: tap,
+          }
+        : undefined;
+    const { net, ws } = setup(false, false, legacy, { source });
+    ws.bufferedAmount = 5000;
+    vi.advanceTimersByTime(50);
+    tap = false;
+    fire = false;
+    ws.bufferedAmount = 0;
+    vi.advanceTimersByTime(50);
+    expect(ws.inputs()[0]).toMatchObject({
+      seq: 2,
+      mx: -1,
+      fire: false,
+      reload: true,
+      swap: true,
+      dodge: true,
+      jump: true,
+    });
+    vi.advanceTimersByTime(50);
+    expect(ws.inputs()[1]).toMatchObject({
+      seq: 3,
+      mx: -1,
+      fire: false,
+      reload: false,
+      swap: false,
+      dodge: false,
+      jump: false,
+    });
+    ws.bufferedAmount = 5000;
+    tap = true;
+    vi.advanceTimersByTime(50);
+    active = false;
+    vi.advanceTimersByTime(50);
+    tap = false;
+    active = true;
+    ws.bufferedAmount = 0;
+    vi.advanceTimersByTime(50);
+    expect(ws.inputs().at(-1)).toMatchObject({
+      seq: 5,
+      reload: false,
+      swap: false,
+      dodge: false,
+      jump: false,
+    });
+    net.setInputSource(undefined);
+    vi.advanceTimersByTime(200);
+    expect(ws.inputs()).toHaveLength(3);
+  },
+);
+
+it.each([false, true])(
+  "binding解除は保留だけ消し、50ms間隔とACK窓を維持する（legacy=%s）",
+  (legacy) => {
+    let seq = 0;
+    const source = () => ({ ...neutral(), seq: ++seq });
+    const { net, ws } = setup(true, false, legacy, { source });
+    vi.advanceTimersByTime(50);
+    net.setInputSource(undefined);
+    net.input({ ...neutral(), seq: ++seq });
+    expect(ws.inputs()).toHaveLength(1);
+    net.setInputSource(source);
+    vi.advanceTimersByTime(150);
+    expect(ws.inputs()).toHaveLength(4);
+    ws.bufferedAmount = 5000;
+    net.input({ ...neutral(), seq: ++seq, dodge: true });
+    net.setInputSource(undefined);
+    ws.bufferedAmount = 0;
+    net.setInputSource(source);
+    vi.advanceTimersByTime(100);
+    expect(ws.inputs()).toHaveLength(4);
+    ws.receive({
+      type: "state",
+      inputAck: 5,
+      members: [],
+      preparationGeneration: 0,
+      world: { run: "loop-resume", phase: "battle", players: [], enemies: [] },
+    });
+    vi.advanceTimersByTime(50);
+    expect(ws.inputs()).toHaveLength(5);
+    expect(ws.inputs().at(-1).dodge).toBe(false);
+  },
+);
+
+it.each([false, true])(
+  "切断中は採取せず、再接続はsourceを維持しcloseはbindingを解放する（legacy=%s）",
+  (legacy) => {
+    let seq = 0;
+    const source = vi.fn(() => ({ ...neutral(), seq: ++seq }));
+    const { net, ws } = setup(false, false, legacy, { source });
+    vi.advanceTimersByTime(100);
+    expect(source).toHaveBeenCalledTimes(2);
+    ws.close();
+    vi.advanceTimersByTime(500);
+    const next = Socket.last;
+    expect(next).not.toBe(ws);
+    vi.advanceTimersByTime(100);
+    expect(source).toHaveBeenCalledTimes(2);
+    const welcome = {
+      type: "welcome",
+      ruleset: "front-v1",
+      frontOpening: 2,
+      id: "p",
+      token: "test",
+    };
+    ws.receive(welcome);
+    vi.advanceTimersByTime(100);
+    expect(source).toHaveBeenCalledTimes(2);
+    next.onopen?.();
+    next.receive(welcome);
+    next.receive(welcome);
+    vi.advanceTimersByTime(100);
+    expect(source).toHaveBeenCalledTimes(4);
+    net.close();
+    vi.advanceTimersByTime(100);
+    expect(source).toHaveBeenCalledTimes(4);
+    net.connect("ABC123");
+    Socket.last.receive(welcome);
+    vi.advanceTimersByTime(100);
+    expect(source).toHaveBeenCalledTimes(4);
+  },
+);
+
+it.each([false, true])(
+  "致命errorは周期採取を止め、その後のwelcomeでも再開しない（legacy=%s）",
+  (legacy) => {
+    const source = vi.fn(() => neutral());
+    const { ws } = setup(false, false, legacy, { source });
+    vi.advanceTimersByTime(50);
+    ws.receive({ type: "error", reason: "test fatal" });
+    ws.receive({
+      type: "welcome",
+      ruleset: "front-v1",
+      frontOpening: 2,
+      id: "p",
+      token: "test",
+    });
+    vi.advanceTimersByTime(250);
+    expect(source).toHaveBeenCalledTimes(1);
+  },
+);
+
+it.each([false, true])(
+  "長いevent loop停止後も一回だけ採取し、callback終了から50ms空ける（legacy=%s）",
+  (legacy) => {
+    let seq = 0;
+    let blocked = true;
+    const source = vi.fn(() => {
+      if (blocked) {
+        blocked = false;
+        // callback中に3秒経過した状態を再現。追いつきループは作らない。
+        vi.setSystemTime(Date.now() + 3000);
+      }
+      return { ...neutral(), seq: ++seq };
+    });
+    const { ws } = setup(false, false, legacy, { source });
+    vi.advanceTimersByTime(50);
+    expect(source).toHaveBeenCalledTimes(1);
+    expect(ws.inputs()).toHaveLength(1);
+    vi.advanceTimersByTime(49);
+    expect(source).toHaveBeenCalledTimes(1);
+    vi.advanceTimersByTime(1);
+    expect(source).toHaveBeenCalledTimes(2);
+    expect(ws.inputs()).toHaveLength(2);
   },
 );

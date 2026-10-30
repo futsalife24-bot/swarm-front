@@ -17,6 +17,10 @@ import { StateChunkAssembler } from "../shared/state-chunks";
 import { StateOmissionCache } from "./state-omissions";
 import { StateReceipt } from "./state-receipt";
 import { InputWindow } from "./input-window";
+import {
+  NetworkInputLoop,
+  type NetworkInputSource,
+} from "./network-input-loop";
 import type { RoomOptions } from "../shared/room-directory";
 export interface Member {
   id: string;
@@ -118,6 +122,10 @@ export class FrontNetwork {
   private usesInputAck = false;
   private inFlightInputs: number[] = [];
   private inputWindow = new InputWindow();
+  private inputLoop = new NetworkInputLoop(
+    (input) => this.input(input),
+    () => this.discardPendingInput(),
+  );
   private stateReceipt = new StateReceipt(() =>
     this.send({ type: "stateAck" }),
   );
@@ -150,6 +158,7 @@ export class FrontNetwork {
     return (await res.json()).code as string;
   }
   connect(code: string, token = "") {
+    this.inputLoop.stop();
     this.stateReceipt.configure(false);
     this.roomListed = undefined;
     if (this.code !== code) {
@@ -183,6 +192,7 @@ export class FrontNetwork {
       }
     }, 7000);
     ws.onopen = () => {
+      if (this.closed || this.ws !== ws) return;
       this.send({
         type: "hello",
         clearedStage: this.clearedStage,
@@ -300,6 +310,8 @@ export class FrontNetwork {
           preparationGeneration: this.preparationGeneration,
         });
         this.ready();
+        if (!this.closed && this.ws === ws && ws.readyState === 1)
+          this.inputLoop.start();
       } else if (m.type === "state") {
         this.stateReceipt.receive(m.stateId);
         if (this.usesInputAck && Number.isSafeInteger(m.inputAck)) {
@@ -342,6 +354,7 @@ export class FrontNetwork {
           );
         this.onChat();
       } else if (m.type === "error") {
+        this.inputLoop.stop();
         this.stateReceipt.configure(false);
         this.closed = true;
         try {
@@ -355,6 +368,7 @@ export class FrontNetwork {
     ws.onclose = (e) => {
       clearTimeout(timeout);
       if (this.closed || this.ws !== ws) return;
+      this.inputLoop.stop();
       this.stateReceipt.configure(false);
       if (e.code >= 4000) {
         this.closed = true;
@@ -372,10 +386,12 @@ export class FrontNetwork {
       const wait = [500, 1000, 2000, 4000, 6000][this.retry++];
       this.onStatus(`通信切断 · 再接続 ${this.retry}/5`, false);
       setTimeout(() => {
-        if (!this.closed) this.connect(code, this.token);
+        if (!this.closed && this.ws === ws) this.connect(code, this.token);
       }, wait);
     };
-    ws.onerror = () => {};
+    ws.onerror = () => {
+      if (this.ws === ws) this.inputLoop.stop();
+    };
   }
   private rememberedExpiry = 0;
   private rememberSession(expiresAt: number) {
@@ -398,6 +414,9 @@ export class FrontNetwork {
   send(value: unknown) {
     if (this.ws?.readyState === 1)
       this.ws.send(JSON.stringify(this.stateReceipt.attach(value)));
+  }
+  setInputSource(source?: NetworkInputSource) {
+    this.inputLoop.setInputSource(source);
   }
   discardPendingInput() {
     // 中断前の未送信タップだけ破棄。送信済み入力のack待ちと送信間隔は維持する。
@@ -482,6 +501,7 @@ export class FrontNetwork {
     return true;
   }
   close() {
+    this.inputLoop.close();
     this.stateReceipt.configure(false);
     this.closed = true;
     clearInterval(this.timer);

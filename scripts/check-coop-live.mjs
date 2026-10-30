@@ -71,6 +71,7 @@ const files = [
   "src/client/front-network.ts",
   "src/client/state-receipt.ts",
   "src/client/input-window.ts",
+  "src/client/network-input-loop.ts",
   "src/client/render.ts",
   "src/client/hound-motion.ts",
   "src/client/enemy-spawn-effects.ts",
@@ -121,7 +122,7 @@ const result = {
       }
     : null,
   method:
-    "4 independent Chrome processes, isolated blank profiles, real FrontNetwork, normal survival room, legal pilot movement/fire/reload, no fixture API, no Sound; " +
+    "4 independent Chrome processes, isolated blank profiles, real FrontNetwork and NetworkInputLoop, normal survival room, legal pilot movement/fire/reload sampled independently of RAF, no fixture API, no Sound; " +
     renderClients +
     " clients use real Renderer+prepareBattle, the others are network-only diagnostic clients; local PC aggregate load is not smartphone performance",
   endpoint,
@@ -191,7 +192,7 @@ window.boot=(endpoint,code,index,diagnostics,networkTiming,renderEnabled)=>{
   const net=new FrontNetwork(endpoint); net.clearedStage=0;
   net.equip=frontTemporaryWeapons('live',String(index),['rifle','smg']);
   let world,seq=0,previous=performance.now(),measuring=false,began=0,lastWorld=0,lastSample=0,nextReload=0;
-  let lastPilotAt=-Infinity,cachedInput=neutral(),previousReload=0,previousAmmo,lastEvent=0,lastPhase='',highestAck=0;
+  let cachedInput=neutral(),previousReload=0,previousAmmo,lastEvent=0,lastPhase='',highestAck=0;
   const sentAt=new Map(),receivedSentAt=new Map(),chosen=new Set(),frames=[],renderCpu=[],pilotCpu=[],intervals=[],ackRtt=[],ackEvents=[],inputEvents=[],longFrames=[],receiptAckRtt=[],receiptAckEvents=[],samples=[],phases=[],statuses=[],errors=[],glErrors=[];
   let highestReceiptAck=0;
   const counters={updates:0,firsts:0,sent:0,fire:0,move:0,reloadSent:0,reloadStarted:0,ammoSpentObserved:0,shotsObserved:0,hitsObserved:0,invalidInputs:0,neutralAck:0,maxUnacked:0};
@@ -237,23 +238,28 @@ window.boot=(endpoint,code,index,diagnostics,networkTiming,renderEnabled)=>{
     if(sent!==undefined){const rtt=now-sent;receiptAckRtt.push(rtt);receiptAckEvents.push({seq:value.inputAck,ms:now-began,sentMs:sent-began,rtt,receivedEpochMs:Date.now(),serverNow:value.serverNow,phase:value.frontView?.phase,appliedAck:world?.players.find(p=>p.id===net.id)?.ack});}
     highestReceiptAck=value.inputAck;for(const key of receivedSentAt.keys())if(key<=value.inputAck)receivedSentAt.delete(key);
   });
+  function inputActive(){
+    if(!world)return false;
+    const phase=net.frontView?.phase,p=world.players.find(p=>p.id===net.id);
+    return !document.hidden&&!net.closed&&net.ws?.readyState===1&&p?.hp>0&&(phase==='combat'||phase==='boss')&&Date.now()/1000+net.clockOffset>=net.frontView.resumeUntil;
+  }
+  net.setInputSource(()=>{
+    if(!inputActive())return;
+    const now=performance.now(),p=world.players.find(p=>p.id===net.id);
+    const start=performance.now();cachedInput=pilot(world,net.id);if(measuring)pilotCpu.push(performance.now()-start);
+    if(measuring&&now>=nextReload&&p.ammo[p.slot]<stats(p.weapons[p.slot]).mag&&p.reload<=0&&p.swapCd<=0){cachedInput.reload=true;nextReload=now+9000;}
+    const input={...cachedInput,seq:++seq,yaw:Math.atan2(Math.sin(cachedInput.yaw),Math.cos(cachedInput.yaw)),pitch:clampPitch(cachedInput.pitch)};
+    cachedInput.reload=false;
+    if(validInput(input))return input;
+    counters.invalidInputs++;errors.push('invalid pilot input');
+  });
   function frame(now){
     requestAnimationFrame(frame);
     const wallDt=Math.max(0,(now-previous)/1000),dt=Math.min(.1,wallDt);previous=now;
     if(networkTiming&&measuring&&wallDt>.1)longFrames.push({ms:now-began,durationMs:wallDt*1000,gameTime:world?.time,phase:net.frontView?.phase,enemyKinds:enemyInfo()});
     if(measuring)frames.push(wallDt*1000);
     if(!world)return;
-    const phase=net.frontView?.phase,p=world.players.find(p=>p.id===net.id);
-    const active=!document.hidden&&!net.closed&&net.ws?.readyState===1&&p?.hp>0&&(phase==='combat'||phase==='boss')&&Date.now()/1000+net.clockOffset>=net.frontView.resumeUntil;
-    if(active){
-      if(now-lastPilotAt>=50){
-        const start=performance.now();cachedInput=pilot(world,net.id);if(measuring)pilotCpu.push(performance.now()-start);lastPilotAt=now;
-        if(measuring&&now>=nextReload&&p.ammo[p.slot]<stats(p.weapons[p.slot]).mag&&p.reload<=0&&p.swapCd<=0){cachedInput.reload=true;nextReload=now+9000;}
-      }
-      const input={...cachedInput,seq:++seq,yaw:Math.atan2(Math.sin(cachedInput.yaw),Math.cos(cachedInput.yaw)),pitch:clampPitch(cachedInput.pitch)};
-      if(validInput(input))net.input(input);else{counters.invalidInputs++;errors.push('invalid pilot input');}
-      cachedInput.reload=false;
-    }
+    const active=inputActive();
     const before=view.renderer.info.render.frame;
     const beforePrograms=diagnostics?view.renderer.info.programs.map(p=>p.id):[];
     const newKinds=diagnostics?[...new Set(world.enemies.map(e=>e.kind))].filter(kind=>!seenKinds.has(kind)):[];
@@ -394,7 +400,9 @@ try {
     method: "POST",
     headers: {
       "X-Room-Creation-Key": key,
-      "X-Test-Client": "live-" + Date.now(),
+      "X-Test-Client": createHash("sha256")
+        .update("live-" + Date.now())
+        .digest("hex"),
     },
     body: JSON.stringify({
       name: "隔離通常生存検証",

@@ -15,6 +15,10 @@ import { StateChunkAssembler } from "../shared/state-chunks";
 import { StateOmissionCache } from "./state-omissions";
 import { StateReceipt } from "./state-receipt";
 import { InputWindow } from "./input-window";
+import {
+  NetworkInputLoop,
+  type NetworkInputSource,
+} from "./network-input-loop";
 import type { RoomOptions } from "../shared/room-directory";
 export interface Member {
   id: string;
@@ -108,6 +112,10 @@ export class Network {
   private usesInputAck = false;
   private inFlightInputs: number[] = [];
   private inputWindow = new InputWindow();
+  private inputLoop = new NetworkInputLoop(
+    (input) => this.input(input),
+    () => this.discardPendingInput(),
+  );
   private stateReceipt = new StateReceipt(() =>
     this.send({ type: "stateAck" }),
   );
@@ -140,6 +148,7 @@ export class Network {
     return (await res.json()).code as string;
   }
   connect(code: string, token = "") {
+    this.inputLoop.stop();
     this.stateReceipt.configure(false);
     this.roomListed = undefined;
     if (this.code !== code) {
@@ -173,6 +182,7 @@ export class Network {
       }
     }, 7000);
     ws.onopen = () => {
+      if (this.closed || this.ws !== ws) return;
       this.send({
         type: "hello",
         equipmentCache: 1,
@@ -185,7 +195,7 @@ export class Network {
       });
     };
     ws.onmessage = (e) => {
-      if (this.ws !== ws) return;
+      if (this.closed || this.ws !== ws) return;
       this.last = Date.now();
       let m: any; // Parsed data still passes the existing runtime guards below.
       try {
@@ -278,6 +288,8 @@ export class Network {
           preparationGeneration: this.preparationGeneration,
         });
         this.ready();
+        if (!this.closed && this.ws === ws && ws.readyState === 1)
+          this.inputLoop.start();
       } else if (m.type === "state") {
         this.stateReceipt.receive(m.stateId);
         if (this.usesInputAck && Number.isSafeInteger(m.inputAck)) {
@@ -313,6 +325,7 @@ export class Network {
           );
         this.onChat();
       } else if (m.type === "error") {
+        this.inputLoop.stop();
         this.stateReceipt.configure(false);
         this.closed = true;
         try {
@@ -326,6 +339,7 @@ export class Network {
     ws.onclose = (e) => {
       clearTimeout(timeout);
       if (this.closed || this.ws !== ws) return;
+      this.inputLoop.stop();
       this.stateReceipt.configure(false);
       if (e.code >= 4000) {
         this.closed = true;
@@ -346,14 +360,23 @@ export class Network {
         false,
       );
       setTimeout(() => {
-        if (!this.closed) this.connect(code, this.token);
+        if (!this.closed && this.ws === ws) this.connect(code, this.token);
       }, wait);
     };
-    ws.onerror = () => {};
+    ws.onerror = () => {
+      if (this.ws === ws) this.inputLoop.stop();
+    };
   }
   send(value: unknown) {
     if (this.ws?.readyState === 1)
       this.ws.send(JSON.stringify(this.stateReceipt.attach(value)));
+  }
+  setInputSource(source?: NetworkInputSource) {
+    this.inputLoop.setInputSource(source);
+  }
+  discardPendingInput() {
+    // 中断前の未送信タップだけ破棄。送信済み入力のack待ちと送信間隔は維持する。
+    this.pendingInput = undefined;
   }
   input(input: Input) {
     if (this.ws?.readyState !== 1) return;
@@ -432,6 +455,7 @@ export class Network {
     return true;
   }
   close() {
+    this.inputLoop.close();
     this.stateReceipt.configure(false);
     this.closed = true;
     clearInterval(this.timer);

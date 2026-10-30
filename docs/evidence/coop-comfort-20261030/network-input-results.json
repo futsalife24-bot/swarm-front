@@ -1,0 +1,1714 @@
+{
+  "meaning": "Release delay is local key/mouse release to outbound WebSocket input, not server acceptance or displayed movement. RAF-only delay does not simulate a JavaScript main-thread block. Prior front baseline overall failed later on a separate legacy room quota; its completed front measurement is retained explicitly.",
+  "baseline": [
+    {
+      "source": "input-ui-baseline-ready",
+      "baseline": true,
+      "overallPassed": false,
+      "buildRevision": "70a1fc3ac3acde4cbf8c929c6bda86763184f85c97cd2d8366a5c4871118ea9c",
+      "method": "Actual entry pages and real local Worker; blank profiles; normal joins/buttons/keyboard/mouse. 1000ms synthetic RAF delivery delay only. Baseline serves prior production build; modified run serves current Vite sources.",
+      "sourceBefore": {
+        "src/client/front-app.ts": "7fd0b5ab760cde5f810323806a0d6803d77c2566283c01893c0da5113f6b0dee",
+        "src/main.ts": "e190a4f84f68e375e0c4bff2c6e4f126c9bd55b816127cc958d6d0f9fc42b037",
+        "src/client/front-network.ts": "1f5fdc97fed27003c63cc8599dd17cf68043f5948290e2fddfaa0fa091ca89d9",
+        "src/client/network.ts": "72954982d240a5cfe9d7be5e3a3e22684df66f6564e2d6b934dad2711463ba64",
+        "src/client/network-input-loop.ts": "83a3c33e97127f84194135b1ab0b7cc8919ede4683327c7b996f74d27207e567",
+        "src/client/input.ts": "596510279e03c32b319e4f54a8fbb15516f2dbbf7f11e8dea1e028d15483bc05"
+      },
+      "errors": [],
+      "runs": [
+        {
+          "mode": "front",
+          "duringRafHold": 0,
+          "releaseDelayMs": 733.1999999880791,
+          "heldCallbacks": 1,
+          "pauses": [
+            {
+              "kind": "menu",
+              "sentAfter80Ms": 0
+            },
+            {
+              "kind": "portrait",
+              "sentAfter80Ms": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "source": "input-ui-baseline-legacy-profile",
+      "baseline": true,
+      "overallPassed": true,
+      "buildRevision": "70a1fc3ac3acde4cbf8c929c6bda86763184f85c97cd2d8366a5c4871118ea9c",
+      "method": "Actual entry pages and real local Worker; blank profiles; normal joins/buttons/keyboard/mouse. 1000ms synthetic RAF delivery delay only. Baseline serves prior production build; modified run serves current Vite sources.",
+      "sourceBefore": {
+        "src/client/front-app.ts": "7fd0b5ab760cde5f810323806a0d6803d77c2566283c01893c0da5113f6b0dee",
+        "src/main.ts": "e190a4f84f68e375e0c4bff2c6e4f126c9bd55b816127cc958d6d0f9fc42b037",
+        "src/client/front-network.ts": "1f5fdc97fed27003c63cc8599dd17cf68043f5948290e2fddfaa0fa091ca89d9",
+        "src/client/network.ts": "72954982d240a5cfe9d7be5e3a3e22684df66f6564e2d6b934dad2711463ba64",
+        "src/client/network-input-loop.ts": "83a3c33e97127f84194135b1ab0b7cc8919ede4683327c7b996f74d27207e567",
+        "src/client/input.ts": "596510279e03c32b319e4f54a8fbb15516f2dbbf7f11e8dea1e028d15483bc05",
+        "scripts/check-network-input-ui.mjs": "a4c60e0379296ea4985eb713c4b71c1e7cf1f59468f7820665a662b37060ba93"
+      },
+      "sourcesStable": true,
+      "errors": [],
+      "runs": [
+        {
+          "mode": "legacy",
+          "duringRafHold": 0,
+          "releaseDelayMs": 736.4000000357628,
+          "heldCallbacks": 1,
+          "pauses": [
+            {
+              "kind": "menu",
+              "sentAfter80Ms": 3
+            },
+            {
+              "kind": "portrait",
+              "sentAfter80Ms": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "modified": {
+    "source": "input-ui-separated-complete",
+    "baseline": false,
+    "overallPassed": true,
+    "method": "Actual entry pages and real local Worker; disposable profiles with a player-name preference only; normal joins/buttons/keyboard/mouse. 1000ms synthetic RAF delivery delay only. Baseline serves prior production build; modified run serves current Vite sources.",
+    "sourceBefore": {
+      "src/client/front-app.ts": "7fd0b5ab760cde5f810323806a0d6803d77c2566283c01893c0da5113f6b0dee",
+      "src/main.ts": "674f8e25e390b82ee6d016954f373ec3994d7ff922ff68dc117ad728dea1295c",
+      "src/client/front-network.ts": "1f5fdc97fed27003c63cc8599dd17cf68043f5948290e2fddfaa0fa091ca89d9",
+      "src/client/network.ts": "72954982d240a5cfe9d7be5e3a3e22684df66f6564e2d6b934dad2711463ba64",
+      "src/client/network-input-loop.ts": "83a3c33e97127f84194135b1ab0b7cc8919ede4683327c7b996f74d27207e567",
+      "src/client/input.ts": "596510279e03c32b319e4f54a8fbb15516f2dbbf7f11e8dea1e028d15483bc05",
+      "scripts/check-network-input-ui.mjs": "0ab2e87cc1048221364627a649a3d980e950302db0d817f5028d5de124fc0ec6"
+    },
+    "sourcesStable": true,
+    "nativeFocusVerified": false,
+    "errors": [],
+    "runs": [
+      {
+        "mode": "front",
+        "duringRafHold": 14,
+        "releaseDelayMs": 13.900000035762787,
+        "heldCallbacks": 1,
+        "pauses": [
+          {
+            "kind": "menu",
+            "sentAfter80Ms": 0
+          },
+          {
+            "kind": "portrait",
+            "sentAfter80Ms": 0
+          },
+          {
+            "kind": "focus-loss",
+            "verified": false,
+            "reason": "Playwright forced focus remained active despite the separate CDP session disabling its own focus emulation; native tab focus is unverified."
+          }
+        ],
+        "reconnect": {
+          "disconnectedAt": 20112.80000001192,
+          "resumedAt": 32183.80000001192,
+          "sampleCount": 20,
+          "noReplayedActions": true
+        }
+      },
+      {
+        "mode": "legacy",
+        "duringRafHold": 15,
+        "releaseDelayMs": 52.60000002384186,
+        "heldCallbacks": 1,
+        "pauses": [
+          {
+            "kind": "menu",
+            "sentAfter80Ms": 0
+          },
+          {
+            "kind": "portrait",
+            "sentAfter80Ms": 0
+          },
+          {
+            "kind": "focus-loss",
+            "verified": false,
+            "reason": "Playwright forced focus remained active despite the separate CDP session disabling its own focus emulation; native tab focus is unverified."
+          }
+        ],
+        "reconnect": {
+          "disconnectedAt": 25186.900000035763,
+          "resumedAt": 35887.5,
+          "sampleCount": 18,
+          "noReplayedActions": true
+        }
+      }
+    ]
+  },
+  "units": {
+    "success": true,
+    "passed": 43,
+    "failed": 0,
+    "files": [
+      {
+        "name": "front-network-input.test.ts",
+        "status": "passed",
+        "assertions": [
+          {
+            "title": "上り滞留の連続悪化だけを抑え、時計差と下り到着待ちを判定に混ぜない",
+            "status": "passed"
+          },
+          {
+            "title": "入力受信時刻が不明なら4件へ戻し、新接続では新しい時計差を学習する",
+            "status": "passed"
+          },
+          {
+            "title": "通常の混雑では短押しを保持し、移動は最新値で送る",
+            "status": "passed"
+          },
+          {
+            "title": "中断すると未送信タップを破棄し、再開後の新しいタップは送る",
+            "status": "passed"
+          },
+          {
+            "title": "中断しても送信間隔と4件のack待ち上限をリセットしない",
+            "status": "passed"
+          },
+          {
+            "title": "遅い下り応答900msでも操作送信を250ms以上空けない（legacy=false）",
+            "status": "passed"
+          },
+          {
+            "title": "遅い下り応答900msでも操作送信を250ms以上空けない（legacy=true）",
+            "status": "passed"
+          },
+          {
+            "title": "ACKが途絶えれば16件で停止し、受信後は最新移動と保持した短押しだけ送る（legacy=false）",
+            "status": "passed"
+          },
+          {
+            "title": "ACKが途絶えれば16件で停止し、受信後は最新移動と保持した短押しだけ送る（legacy=true）",
+            "status": "passed"
+          },
+          {
+            "title": "RAFなしでwelcome後だけ20Hz採取し、重複welcomeでも増殖しない（legacy=false）",
+            "status": "passed"
+          },
+          {
+            "title": "RAFなしでwelcome後だけ20Hz採取し、重複welcomeでも増殖しない（legacy=true）",
+            "status": "passed"
+          },
+          {
+            "title": "周期採取でもheld・短押し・解除を保持し、無効なsourceは保留タップを破棄する（legacy=false）",
+            "status": "passed"
+          },
+          {
+            "title": "周期採取でもheld・短押し・解除を保持し、無効なsourceは保留タップを破棄する（legacy=true）",
+            "status": "passed"
+          },
+          {
+            "title": "binding解除は保留だけ消し、50ms間隔とACK窓を維持する（legacy=false）",
+            "status": "passed"
+          },
+          {
+            "title": "binding解除は保留だけ消し、50ms間隔とACK窓を維持する（legacy=true）",
+            "status": "passed"
+          },
+          {
+            "title": "切断中は採取せず、再接続はsourceを維持しcloseはbindingを解放する（legacy=false）",
+            "status": "passed"
+          },
+          {
+            "title": "切断中は採取せず、再接続はsourceを維持しcloseはbindingを解放する（legacy=true）",
+            "status": "passed"
+          },
+          {
+            "title": "致命errorは周期採取を止め、その後のwelcomeでも再開しない（legacy=false）",
+            "status": "passed"
+          },
+          {
+            "title": "致命errorは周期採取を止め、その後のwelcomeでも再開しない（legacy=true）",
+            "status": "passed"
+          },
+          {
+            "title": "長いevent loop停止後も一回だけ採取し、callback終了から50ms空ける（legacy=false）",
+            "status": "passed"
+          },
+          {
+            "title": "長いevent loop停止後も一回だけ採取し、callback終了から50ms空ける（legacy=true）",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "name": "state-delivery.test.ts",
+        "status": "passed",
+        "assertions": [
+          {
+            "title": "limits a negotiated connection to two actual unacknowledged snapshots",
+            "status": "passed"
+          },
+          {
+            "title": "accepts only real sent IDs and cumulatively releases exactly through that ID",
+            "status": "passed"
+          },
+          {
+            "title": "one ACK opens one slot without releasing a later in-flight snapshot",
+            "status": "passed"
+          },
+          {
+            "title": "coalesces many dirty ticks to the latest World for only the acknowledged peer",
+            "status": "passed"
+          },
+          {
+            "title": "delivers the dirty final result when ACK arrives after the tick loop stopped",
+            "status": "passed"
+          },
+          {
+            "title": "partial chunk sends do not earn snapshot credits or advance events",
+            "status": "passed"
+          },
+          {
+            "title": "does not send an outer snapshot superseded by a disconnect-triggered broadcast",
+            "status": "passed"
+          },
+          {
+            "title": "keeps legacy connections unrestricted and ignores their ACK fields",
+            "status": "passed"
+          },
+          {
+            "title": "restores bounded same-WS credits but gives a true reconnect a fresh window",
+            "status": "passed"
+          },
+          {
+            "title": "rejects corrupt attachments and cannot manufacture credits from them",
+            "status": "passed"
+          },
+          {
+            "title": "attachment and inFlight snapshots cannot mutate the active window",
+            "status": "passed"
+          },
+          {
+            "title": "resets per-run event positions without losing old snapshot ACK credits",
+            "status": "passed"
+          },
+          {
+            "title": "retains undelivered events for a blocked peer and permits common duplicates",
+            "status": "passed"
+          },
+          {
+            "title": "does not make the 160-event buffer unbounded when a peer stalls forever",
+            "status": "passed"
+          },
+          {
+            "title": "legacy peers participate in retirement and disconnected peers stop retaining",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "name": "state-receipt.test.ts",
+        "status": "passed",
+        "assertions": [
+          {
+            "title": "旧サーバーへの新しい通知は交渉が成立するまで送らない",
+            "status": "passed"
+          },
+          {
+            "title": "受信した最新番号を通常入力へ同梱し、元の入力と送信頻度を変えない",
+            "status": "passed"
+          },
+          {
+            "title": "大量の受信でも無入力時の通知は10Hz以内で、重複・不正番号を無視する",
+            "status": "passed"
+          },
+          {
+            "title": "切断時に待ち通知を消し、新接続では小さい番号も受け取る",
+            "status": "passed"
+          },
+          {
+            "title": "20Hzの通常入力中はACK専用メッセージを増やさない",
+            "status": "passed"
+          },
+          {
+            "title": "front接続は検証済みstateだけを通知し、退出時にtimerを残さない",
+            "status": "passed"
+          },
+          {
+            "title": "legacy接続は検証済みstateだけを通知し、退出時にtimerを残さない",
+            "status": "passed"
+          }
+        ]
+      }
+    ]
+  },
+  "live": {
+    "passed": true,
+    "method": "4 independent Chrome processes, isolated blank profiles, real FrontNetwork and NetworkInputLoop, normal survival room, legal pilot movement/fire/reload sampled independently of RAF, no fixture API, no Sound; 4 clients use real Renderer+prepareBattle, the others are network-only diagnostic clients; local PC aggregate load is not smartphone performance",
+    "secondsRequested": 45,
+    "renderClients": 4,
+    "linkConfig": null,
+    "sourceBefore": {
+      "server/worker.ts": "2a533ba2d3cc7bf32a6dc1545708c12f8ff461c496780c37551f9686903b8930",
+      "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+      "server/state-delivery.ts": "4e36a7644b7590cb3b863de872b235b4ed1f58d8b6f6cea248ff3a99fff0de1d",
+      "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+      "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+      "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+      "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+      "src/client/front-network.ts": "1f5fdc97fed27003c63cc8599dd17cf68043f5948290e2fddfaa0fa091ca89d9",
+      "src/client/state-receipt.ts": "a636d4d1aea402cf2a87fbbf6915c6311dd050374056d3775951bf47693c6124",
+      "src/client/input-window.ts": "1a249dc5fb1559dbd01a404aa980a5b6d405d47ce7878c28e3a18beebea73350",
+      "src/client/network-input-loop.ts": "83a3c33e97127f84194135b1ab0b7cc8919ede4683327c7b996f74d27207e567",
+      "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+      "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+      "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+      "src/client/battle-loading.ts": "44d98eea48182fc186d1ec0d3c2cafae31013c960d1812b00a975fa74f0f4df5",
+      "src/client/bastion-view.ts": "c4eca7ceb52ba2ee3959dc62836123273252fd80cd1aa5e0a2e1a48c601f18af",
+      "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+      "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+      "scripts/check-coop-live.mjs": "fa126ae90881635dec9b97d5becbfe9660ced8b463bda91045505bbf4f3f5058"
+    },
+    "sourcesStable": true,
+    "errors": [],
+    "wire": [
+      {
+        "states": 436,
+        "chunks": 0,
+        "maxBytes": 16133,
+        "omittedMax": 0,
+        "closes": 0,
+        "negotiatedStateFlow": true
+      },
+      {
+        "states": 436,
+        "chunks": 0,
+        "maxBytes": 16701,
+        "omittedMax": 0,
+        "closes": 0,
+        "negotiatedStateFlow": true
+      },
+      {
+        "states": 434,
+        "chunks": 0,
+        "maxBytes": 16709,
+        "omittedMax": 0,
+        "closes": 0,
+        "negotiatedStateFlow": true
+      },
+      {
+        "states": 434,
+        "chunks": 0,
+        "maxBytes": 16709,
+        "omittedMax": 0,
+        "closes": 0,
+        "negotiatedStateFlow": true
+      }
+    ],
+    "clients": [
+      {
+        "client": 0,
+        "wallMs": 45060.90000003576,
+        "gameSeconds": 44.55,
+        "receiveWindowMs": 44933.5,
+        "frames": {
+          "samples": 2364,
+          "p50": 16.7,
+          "p95": 33.4,
+          "max": 416.6
+        },
+        "renderCpu": {
+          "samples": 2331,
+          "p50": 10.7,
+          "p95": 17.7,
+          "max": 55.2
+        },
+        "pilotCpu": {
+          "samples": 742,
+          "p50": 0.1,
+          "p95": 0.3,
+          "max": 3.1
+        },
+        "worldIntervals": {
+          "samples": 435,
+          "p50": 100.1,
+          "p95": 147.7,
+          "max": 260.4
+        },
+        "ackObservedRtt": {
+          "samples": 422,
+          "p50": 67.5,
+          "p95": 324.1,
+          "max": 598.5
+        },
+        "receiptAckRtt": {
+          "samples": 426,
+          "p50": 67.8,
+          "p95": 251.9,
+          "max": 456.5
+        },
+        "counters": {
+          "updates": 436,
+          "firsts": 0,
+          "sent": 718,
+          "fire": 675,
+          "move": 718,
+          "reloadSent": 4,
+          "reloadStarted": 9,
+          "ammoSpentObserved": 210,
+          "shotsObserved": 220,
+          "hitsObserved": 212,
+          "invalidInputs": 0,
+          "neutralAck": 1,
+          "maxUnacked": 8
+        },
+        "phases": [
+          {
+            "ms": 63.5,
+            "phase": "combat",
+            "time": 0.1,
+            "resumeUntil": 1793344758.6,
+            "serverNow": 1793344758.64
+          },
+          {
+            "ms": 41500.40000003576,
+            "phase": "selection",
+            "time": 41.45,
+            "resumeUntil": 1793344758.6,
+            "serverNow": 1793344800.05
+          },
+          {
+            "ms": 41675.700000047684,
+            "phase": "combat",
+            "time": 41.45,
+            "resumeUntil": 1793344800.4,
+            "serverNow": 1793344800.25
+          }
+        ],
+        "first": {
+          "ms": 63.5,
+          "receivedEpochMs": 1793344758649,
+          "serverNow": 1793344758.64,
+          "resumeUntil": 1793344758.6,
+          "time": 0.1,
+          "phase": "combat",
+          "enemies": 0,
+          "projectiles": 0,
+          "totalKills": 0,
+          "hp": 160,
+          "x": -3,
+          "z": 8,
+          "kills": 0,
+          "ammo": 32,
+          "reload": 0,
+          "ack": 0,
+          "highestSent": 1,
+          "unacked": 1,
+          "buffered": 0,
+          "inputWindow": 16,
+          "drawCalls": 109,
+          "triangles": 766134,
+          "renderFrame": 27,
+          "adaptiveScale": 1
+        },
+        "last": {
+          "ms": 44997,
+          "receivedEpochMs": 1793344803582,
+          "serverNow": 1793344803.56,
+          "resumeUntil": 1793344800.4,
+          "time": 44.65,
+          "phase": "combat",
+          "enemies": 16,
+          "projectiles": 0,
+          "totalKills": 87,
+          "hp": 160,
+          "x": 9.3,
+          "z": 17.89,
+          "kills": 24,
+          "ammo": 23,
+          "reload": 0,
+          "ack": 738,
+          "highestSent": 741,
+          "unacked": 3,
+          "buffered": 0,
+          "inputWindow": 16,
+          "drawCalls": 115,
+          "triangles": 894948,
+          "renderFrame": 2351,
+          "adaptiveScale": 0.9
+        },
+        "remainingUnacked": 4,
+        "webSocketExtensions": "permessage-deflate; client_max_window_bits=15",
+        "diagnostic": {
+          "snapshots": [],
+          "programTransitions": [],
+          "slowRenders": [],
+          "slowGlCalls": []
+        },
+        "errors": [],
+        "glErrors": [],
+        "renderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "viewport": {
+          "width": 844,
+          "height": 390
+        },
+        "renderSize": {
+          "width": 759,
+          "height": 351
+        },
+        "zeroAckOutsideResume": 0,
+        "inputGapMaxMs": 286,
+        "inputGapsOver250Ms": 1
+      },
+      {
+        "client": 1,
+        "wallMs": 45050.69999998808,
+        "gameSeconds": 44.55,
+        "receiveWindowMs": 44925.39999997616,
+        "frames": {
+          "samples": 2366,
+          "p50": 16.7,
+          "p95": 33.4,
+          "max": 383.3
+        },
+        "renderCpu": {
+          "samples": 2288,
+          "p50": 11,
+          "p95": 18.2,
+          "max": 66.6
+        },
+        "pilotCpu": {
+          "samples": 740,
+          "p50": 0.2,
+          "p95": 0.3,
+          "max": 3
+        },
+        "worldIntervals": {
+          "samples": 435,
+          "p50": 100.2,
+          "p95": 145.6,
+          "max": 264.2
+        },
+        "ackObservedRtt": {
+          "samples": 418,
+          "p50": 68.3,
+          "p95": 320.5,
+          "max": 681.7
+        },
+        "receiptAckRtt": {
+          "samples": 424,
+          "p50": 69.3,
+          "p95": 241.7,
+          "max": 510.9
+        },
+        "counters": {
+          "updates": 436,
+          "firsts": 0,
+          "sent": 713,
+          "fire": 671,
+          "move": 713,
+          "reloadSent": 4,
+          "reloadStarted": 9,
+          "ammoSpentObserved": 209,
+          "shotsObserved": 218,
+          "hitsObserved": 187,
+          "invalidInputs": 0,
+          "neutralAck": 3,
+          "maxUnacked": 8
+        },
+        "phases": [
+          {
+            "ms": 57.10000002384186,
+            "phase": "combat",
+            "time": 0.1,
+            "resumeUntil": 1793344758.6,
+            "serverNow": 1793344758.65
+          },
+          {
+            "ms": 41490.69999998808,
+            "phase": "selection",
+            "time": 41.45,
+            "resumeUntil": 1793344758.6,
+            "serverNow": 1793344800.06
+          },
+          {
+            "ms": 41717.89999997616,
+            "phase": "combat",
+            "time": 41.45,
+            "resumeUntil": 1793344800.4,
+            "serverNow": 1793344800.31
+          }
+        ],
+        "first": {
+          "ms": 57.10000002384186,
+          "receivedEpochMs": 1793344758658,
+          "serverNow": 1793344758.65,
+          "resumeUntil": 1793344758.6,
+          "time": 0.1,
+          "phase": "combat",
+          "enemies": 0,
+          "projectiles": 0,
+          "totalKills": 0,
+          "hp": 160,
+          "x": -1,
+          "z": 8,
+          "kills": 0,
+          "ammo": 32,
+          "reload": 0,
+          "ack": 0,
+          "highestSent": 0,
+          "unacked": 0,
+          "buffered": 0,
+          "inputWindow": 16,
+          "drawCalls": 109,
+          "triangles": 766134,
+          "renderFrame": 24,
+          "adaptiveScale": 1
+        },
+        "last": {
+          "ms": 44982.5,
+          "receivedEpochMs": 1793344803582,
+          "serverNow": 1793344803.56,
+          "resumeUntil": 1793344800.4,
+          "time": 44.65,
+          "phase": "combat",
+          "enemies": 16,
+          "projectiles": 0,
+          "totalKills": 87,
+          "hp": 160,
+          "x": 7.38,
+          "z": 12.28,
+          "kills": 17,
+          "ammo": 24,
+          "reload": 0,
+          "ack": 736,
+          "highestSent": 739,
+          "unacked": 3,
+          "buffered": 0,
+          "inputWindow": 16,
+          "drawCalls": 154,
+          "triangles": 869790,
+          "renderFrame": 2306,
+          "adaptiveScale": 0.9
+        },
+        "remainingUnacked": 4,
+        "webSocketExtensions": "permessage-deflate; client_max_window_bits=15",
+        "diagnostic": {
+          "snapshots": [],
+          "programTransitions": [],
+          "slowRenders": [],
+          "slowGlCalls": []
+        },
+        "errors": [],
+        "glErrors": [],
+        "renderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "viewport": {
+          "width": 844,
+          "height": 390
+        },
+        "renderSize": {
+          "width": 759,
+          "height": 351
+        },
+        "zeroAckOutsideResume": 1,
+        "inputGapMaxMs": 263.5,
+        "inputGapsOver250Ms": 1
+      },
+      {
+        "client": 2,
+        "wallMs": 45070.80000001192,
+        "gameSeconds": 44.55,
+        "receiveWindowMs": 44948.89999997616,
+        "frames": {
+          "samples": 2311,
+          "p50": 16.7,
+          "p95": 33.4,
+          "max": 466.6
+        },
+        "renderCpu": {
+          "samples": 2244,
+          "p50": 10.7,
+          "p95": 18.2,
+          "max": 41.9
+        },
+        "pilotCpu": {
+          "samples": 739,
+          "p50": 0.2,
+          "p95": 0.3,
+          "max": 9.2
+        },
+        "worldIntervals": {
+          "samples": 433,
+          "p50": 100.7,
+          "p95": 149.3,
+          "max": 305.2
+        },
+        "ackObservedRtt": {
+          "samples": 421,
+          "p50": 69.7,
+          "p95": 301.7,
+          "max": 545.9
+        },
+        "receiptAckRtt": {
+          "samples": 423,
+          "p50": 70.3,
+          "p95": 230.8,
+          "max": 483.9
+        },
+        "counters": {
+          "updates": 434,
+          "firsts": 0,
+          "sent": 710,
+          "fire": 665,
+          "move": 710,
+          "reloadSent": 4,
+          "reloadStarted": 9,
+          "ammoSpentObserved": 208,
+          "shotsObserved": 217,
+          "hitsObserved": 191,
+          "invalidInputs": 0,
+          "neutralAck": 1,
+          "maxUnacked": 7
+        },
+        "phases": [
+          {
+            "ms": 62.69999998807907,
+            "phase": "combat",
+            "time": 0.1,
+            "resumeUntil": 1793344758.6,
+            "serverNow": 1793344758.64
+          },
+          {
+            "ms": 41532.69999998808,
+            "phase": "selection",
+            "time": 41.45,
+            "resumeUntil": 1793344758.6,
+            "serverNow": 1793344800.06
+          },
+          {
+            "ms": 41702.5,
+            "phase": "combat",
+            "time": 41.45,
+            "resumeUntil": 1793344800.4,
+            "serverNow": 1793344800.28
+          }
+        ],
+        "first": {
+          "ms": 62.69999998807907,
+          "receivedEpochMs": 1793344758649,
+          "serverNow": 1793344758.64,
+          "resumeUntil": 1793344758.6,
+          "time": 0.1,
+          "phase": "combat",
+          "enemies": 0,
+          "projectiles": 0,
+          "totalKills": 0,
+          "hp": 160,
+          "x": 0.75,
+          "z": 8.25,
+          "kills": 0,
+          "ammo": 32,
+          "reload": 0,
+          "ack": 1,
+          "highestSent": 1,
+          "unacked": 0,
+          "buffered": 0,
+          "inputWindow": 16,
+          "drawCalls": 109,
+          "triangles": 766134,
+          "renderFrame": 25,
+          "adaptiveScale": 1
+        },
+        "last": {
+          "ms": 45011.59999996424,
+          "receivedEpochMs": 1793344803598,
+          "serverNow": 1793344803.57,
+          "resumeUntil": 1793344800.4,
+          "time": 44.65,
+          "phase": "combat",
+          "enemies": 16,
+          "projectiles": 0,
+          "totalKills": 87,
+          "hp": 160,
+          "x": 9.44,
+          "z": 17.5,
+          "kills": 23,
+          "ammo": 23,
+          "reload": 0,
+          "ack": 736,
+          "highestSent": 738,
+          "unacked": 2,
+          "buffered": 0,
+          "inputWindow": 16,
+          "drawCalls": 118,
+          "triangles": 894954,
+          "renderFrame": 2263,
+          "adaptiveScale": 1
+        },
+        "remainingUnacked": 3,
+        "webSocketExtensions": "permessage-deflate; client_max_window_bits=15",
+        "diagnostic": {
+          "snapshots": [],
+          "programTransitions": [],
+          "slowRenders": [],
+          "slowGlCalls": []
+        },
+        "errors": [],
+        "glErrors": [],
+        "renderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "viewport": {
+          "width": 844,
+          "height": 390
+        },
+        "renderSize": {
+          "width": 844,
+          "height": 390
+        },
+        "zeroAckOutsideResume": 0,
+        "inputGapMaxMs": 277.10000002384186,
+        "inputGapsOver250Ms": 1
+      },
+      {
+        "client": 3,
+        "wallMs": 45065.299999952316,
+        "gameSeconds": 44.55,
+        "receiveWindowMs": 44938.80000001192,
+        "frames": {
+          "samples": 2307,
+          "p50": 16.7,
+          "p95": 33.4,
+          "max": 450
+        },
+        "renderCpu": {
+          "samples": 2270,
+          "p50": 10.7,
+          "p95": 17.6,
+          "max": 64.6
+        },
+        "pilotCpu": {
+          "samples": 747,
+          "p50": 0.2,
+          "p95": 0.4,
+          "max": 8
+        },
+        "worldIntervals": {
+          "samples": 433,
+          "p50": 100,
+          "p95": 151.4,
+          "max": 433.1
+        },
+        "ackObservedRtt": {
+          "samples": 420,
+          "p50": 70.5,
+          "p95": 321.9,
+          "max": 730.4
+        },
+        "receiptAckRtt": {
+          "samples": 428,
+          "p50": 71.7,
+          "p95": 226.8,
+          "max": 596.2
+        },
+        "counters": {
+          "updates": 434,
+          "firsts": 0,
+          "sent": 722,
+          "fire": 677,
+          "move": 722,
+          "reloadSent": 4,
+          "reloadStarted": 9,
+          "ammoSpentObserved": 207,
+          "shotsObserved": 216,
+          "hitsObserved": 176,
+          "invalidInputs": 0,
+          "neutralAck": 2,
+          "maxUnacked": 12
+        },
+        "phases": [
+          {
+            "ms": 75.59999996423721,
+            "phase": "combat",
+            "time": 0.1,
+            "resumeUntil": 1793344758.6,
+            "serverNow": 1793344758.65
+          },
+          {
+            "ms": 41545,
+            "phase": "selection",
+            "time": 41.45,
+            "resumeUntil": 1793344758.6,
+            "serverNow": 1793344800.07
+          },
+          {
+            "ms": 41729.799999952316,
+            "phase": "combat",
+            "time": 41.45,
+            "resumeUntil": 1793344800.4,
+            "serverNow": 1793344800.29
+          }
+        ],
+        "first": {
+          "ms": 75.59999996423721,
+          "receivedEpochMs": 1793344758658,
+          "serverNow": 1793344758.65,
+          "resumeUntil": 1793344758.6,
+          "time": 0.1,
+          "phase": "combat",
+          "enemies": 0,
+          "projectiles": 0,
+          "totalKills": 0,
+          "hp": 160,
+          "x": 2.75,
+          "z": 8.25,
+          "kills": 0,
+          "ammo": 32,
+          "reload": 0,
+          "ack": 1,
+          "highestSent": 1,
+          "unacked": 0,
+          "buffered": 0,
+          "inputWindow": 16,
+          "drawCalls": 108,
+          "triangles": 765918,
+          "renderFrame": 25,
+          "adaptiveScale": 1
+        },
+        "last": {
+          "ms": 45014.39999997616,
+          "receivedEpochMs": 1793344803596,
+          "serverNow": 1793344803.57,
+          "resumeUntil": 1793344800.4,
+          "time": 44.65,
+          "phase": "combat",
+          "enemies": 16,
+          "projectiles": 0,
+          "totalKills": 87,
+          "hp": 160,
+          "x": 8.18,
+          "z": 18.43,
+          "kills": 23,
+          "ammo": 23,
+          "reload": 0,
+          "ack": 744,
+          "highestSent": 746,
+          "unacked": 2,
+          "buffered": 0,
+          "inputWindow": 16,
+          "drawCalls": 118,
+          "triangles": 894954,
+          "renderFrame": 2289,
+          "adaptiveScale": 1
+        },
+        "remainingUnacked": 3,
+        "webSocketExtensions": "permessage-deflate; client_max_window_bits=15",
+        "diagnostic": {
+          "snapshots": [],
+          "programTransitions": [],
+          "slowRenders": [],
+          "slowGlCalls": []
+        },
+        "errors": [],
+        "glErrors": [],
+        "renderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "viewport": {
+          "width": 844,
+          "height": 390
+        },
+        "renderSize": {
+          "width": 844,
+          "height": 390
+        },
+        "zeroAckOutsideResume": 1,
+        "inputGapMaxMs": 412,
+        "inputGapsOver250Ms": 1
+      }
+    ]
+  },
+  "singleRenderer": {
+    "passed": true,
+    "method": "4 independent Chrome processes, isolated blank profiles, real FrontNetwork and NetworkInputLoop, normal survival room, legal pilot movement/fire/reload sampled independently of RAF, no fixture API, no Sound; 1 clients use real Renderer+prepareBattle, the others are network-only diagnostic clients; local PC aggregate load is not smartphone performance",
+    "secondsRequested": 60,
+    "renderClients": 1,
+    "linkConfig": {
+      "latencyMs": 75,
+      "bytesPerSecond": 131072
+    },
+    "sourceBefore": {
+      "server/worker.ts": "2a533ba2d3cc7bf32a6dc1545708c12f8ff461c496780c37551f9686903b8930",
+      "server/room-clock.ts": "7de3cbfa1abf5c0e7f92a7f720ddeb6a5ef634e4c5e128aeee9f2fbeab32ceb6",
+      "server/state-delivery.ts": "4e36a7644b7590cb3b863de872b235b4ed1f58d8b6f6cea248ff3a99fff0de1d",
+      "src/shared/game.ts": "dc2157bdbe4c8cc93bf10ac399fa28de12db375191d3b7a673b052d618da08cc",
+      "src/shared/state-wire.ts": "e77b9f852335ade147ec69296588032aad96efceda132773d5c41db6d7e00ffc",
+      "src/shared/state-tuples.ts": "e8b6d8ac225f68c0863bf206d9eddb5582439247a8f0703b5dbf5f954fea7d09",
+      "src/shared/state-chunks.ts": "1a0de738f0c6dc058b0275bc969321fe275763d89e75e622c3196254326bd95c",
+      "src/client/front-network.ts": "1f5fdc97fed27003c63cc8599dd17cf68043f5948290e2fddfaa0fa091ca89d9",
+      "src/client/state-receipt.ts": "a636d4d1aea402cf2a87fbbf6915c6311dd050374056d3775951bf47693c6124",
+      "src/client/input-window.ts": "1a249dc5fb1559dbd01a404aa980a5b6d405d47ce7878c28e3a18beebea73350",
+      "src/client/network-input-loop.ts": "83a3c33e97127f84194135b1ab0b7cc8919ede4683327c7b996f74d27207e567",
+      "src/client/render.ts": "8ec96bf8d263a1949e279de88113a0d9c8b1f23fd61ad678971b81f3fd0f8829",
+      "src/client/hound-motion.ts": "343573c4556e2ee749e01e515363b1147830f64a00f0294c09f0f8d6c459f742",
+      "src/client/enemy-spawn-effects.ts": "f1d38dd0d46913bb7445bf0fdaae8aabd5e2b01139d30afea6de26b7a63064b2",
+      "src/client/battle-loading.ts": "44d98eea48182fc186d1ec0d3c2cafae31013c960d1812b00a975fa74f0f4df5",
+      "src/client/bastion-view.ts": "c4eca7ceb52ba2ee3959dc62836123273252fd80cd1aa5e0a2e1a48c601f18af",
+      "tests/bot.ts": "c26bd05b1c3ff870906f4629c59521fb301ae1773c71b3dcf5a2723821e09869",
+      "src/style.css": "8c1f53533936763aa222c4c80b5b4edded40a4de0e5487036ede4df95b90d3ec",
+      "scripts/check-coop-live.mjs": "fa126ae90881635dec9b97d5becbfe9660ced8b463bda91045505bbf4f3f5058",
+      "scripts/local-websocket-shaper.mjs": "f099a4c55b91a4aa73309e5aaf14e7a331ead409b6caed67159840c7469c0205"
+    },
+    "sourcesStable": true,
+    "errors": [],
+    "wire": [
+      {
+        "states": 347,
+        "chunks": 0,
+        "maxBytes": 26890,
+        "omittedMax": 0,
+        "closes": 0,
+        "negotiatedStateFlow": true
+      },
+      {
+        "states": 351,
+        "chunks": 0,
+        "maxBytes": 26534,
+        "omittedMax": 0,
+        "closes": 0,
+        "negotiatedStateFlow": true
+      },
+      {
+        "states": 352,
+        "chunks": 0,
+        "maxBytes": 26802,
+        "omittedMax": 0,
+        "closes": 0,
+        "negotiatedStateFlow": true
+      },
+      {
+        "states": 353,
+        "chunks": 0,
+        "maxBytes": 26868,
+        "omittedMax": 0,
+        "closes": 0,
+        "negotiatedStateFlow": true
+      }
+    ],
+    "clients": [
+      {
+        "client": 0,
+        "wallMs": 60052.40000003576,
+        "gameSeconds": 59.1,
+        "receiveWindowMs": 59910.700000047684,
+        "frames": {
+          "samples": 3600,
+          "p50": 16.7,
+          "p95": 16.9,
+          "max": 33.4
+        },
+        "renderCpu": {
+          "samples": 3532,
+          "p50": 5.5,
+          "p95": 10.2,
+          "max": 39.8
+        },
+        "pilotCpu": {
+          "samples": 1059,
+          "p50": 0.1,
+          "p95": 0.3,
+          "max": 1.6
+        },
+        "worldIntervals": {
+          "samples": 347,
+          "p50": 173.4,
+          "p95": 249.2,
+          "max": 286.3
+        },
+        "ackObservedRtt": {
+          "samples": 341,
+          "p50": 360.4,
+          "p95": 462.4,
+          "max": 504.1
+        },
+        "receiptAckRtt": {
+          "samples": 344,
+          "p50": 308.2,
+          "p95": 403.8,
+          "max": 452.1
+        },
+        "counters": {
+          "updates": 348,
+          "firsts": 0,
+          "sent": 1059,
+          "fire": 1031,
+          "move": 1059,
+          "reloadSent": 6,
+          "reloadStarted": 12,
+          "ammoSpentObserved": 281,
+          "shotsObserved": 297,
+          "hitsObserved": 190,
+          "invalidInputs": 0,
+          "neutralAck": 5,
+          "maxUnacked": 17
+        },
+        "phases": [
+          {
+            "ms": 121.69999998807907,
+            "phase": "combat",
+            "time": 0.15,
+            "resumeUntil": 1793344935.07,
+            "serverNow": 1793344935.23
+          },
+          {
+            "ms": 41173.40000003576,
+            "phase": "selection",
+            "time": 41,
+            "resumeUntil": 1793344935.07,
+            "serverNow": 1793344976.17
+          },
+          {
+            "ms": 41801.10000002384,
+            "phase": "combat",
+            "time": 41.05,
+            "resumeUntil": 1793344976.76,
+            "serverNow": 1793344976.81
+          }
+        ],
+        "first": {
+          "ms": 121.69999998807907,
+          "receivedEpochMs": 1793344935370,
+          "serverNow": 1793344935.23,
+          "resumeUntil": 1793344935.07,
+          "time": 0.15,
+          "phase": "combat",
+          "enemies": 0,
+          "projectiles": 0,
+          "totalKills": 0,
+          "hp": 160,
+          "x": -3,
+          "z": 8,
+          "kills": 0,
+          "ammo": 32,
+          "reload": 0,
+          "ack": 0,
+          "highestSent": 3,
+          "unacked": 2,
+          "buffered": 0,
+          "inputWindow": 16,
+          "drawCalls": 109,
+          "triangles": 766134,
+          "renderFrame": 42,
+          "adaptiveScale": 1
+        },
+        "last": {
+          "ms": 60032.40000003576,
+          "receivedEpochMs": 1793344995280,
+          "serverNow": 1793344994.99,
+          "resumeUntil": 1793344976.76,
+          "time": 59.25,
+          "phase": "combat",
+          "enemies": 49,
+          "projectiles": 0,
+          "totalKills": 89,
+          "hp": 160,
+          "x": 5.67,
+          "z": 21.34,
+          "kills": 25,
+          "ammo": 2,
+          "reload": 0,
+          "ack": 1052,
+          "highestSent": 1060,
+          "unacked": 8,
+          "buffered": 0,
+          "inputWindow": 16,
+          "drawCalls": 122,
+          "triangles": 1332642,
+          "renderFrame": 3568,
+          "adaptiveScale": 1
+        },
+        "remainingUnacked": 8,
+        "webSocketExtensions": "",
+        "diagnostic": {
+          "snapshots": [],
+          "programTransitions": [],
+          "slowRenders": [],
+          "slowGlCalls": []
+        },
+        "errors": [],
+        "glErrors": [],
+        "renderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "viewport": {
+          "width": 844,
+          "height": 390
+        },
+        "renderSize": {
+          "width": 844,
+          "height": 390
+        },
+        "zeroAckOutsideResume": 0,
+        "inputGapMaxMs": 74.5,
+        "inputGapsOver250Ms": 0
+      },
+      {
+        "client": 1,
+        "wallMs": 60041.30000001192,
+        "gameSeconds": 58.949999999999996,
+        "receiveWindowMs": 59783.30000001192,
+        "frames": {
+          "samples": 3602,
+          "p50": 16.7,
+          "p95": 16.9,
+          "max": 17.6
+        },
+        "renderCpu": {
+          "samples": 0,
+          "p50": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "pilotCpu": {
+          "samples": 1086,
+          "p50": 0.2,
+          "p95": 0.4,
+          "max": 3.7
+        },
+        "worldIntervals": {
+          "samples": 350,
+          "p50": 173.5,
+          "p95": 235.3,
+          "max": 267.7
+        },
+        "ackObservedRtt": {
+          "samples": 344,
+          "p50": 365.2,
+          "p95": 453.5,
+          "max": 504.2
+        },
+        "receiptAckRtt": {
+          "samples": 348,
+          "p50": 313.1,
+          "p95": 395.3,
+          "max": 425.7
+        },
+        "counters": {
+          "updates": 351,
+          "firsts": 0,
+          "sent": 1086,
+          "fire": 1058,
+          "move": 1086,
+          "reloadSent": 6,
+          "reloadStarted": 12,
+          "ammoSpentObserved": 279,
+          "shotsObserved": 295,
+          "hitsObserved": 198,
+          "invalidInputs": 0,
+          "neutralAck": 4,
+          "maxUnacked": 16
+        },
+        "phases": [
+          {
+            "ms": 66.19999998807907,
+            "phase": "combat",
+            "time": 0.1,
+            "resumeUntil": 1793344935.07,
+            "serverNow": 1793344935.18
+          },
+          {
+            "ms": 41087.19999998808,
+            "phase": "selection",
+            "time": 41,
+            "resumeUntil": 1793344935.07,
+            "serverNow": 1793344976.08
+          },
+          {
+            "ms": 41679.90000003576,
+            "phase": "combat",
+            "time": 41,
+            "resumeUntil": 1793344976.76,
+            "serverNow": 1793344976.69
+          }
+        ],
+        "first": {
+          "ms": 66.19999998807907,
+          "receivedEpochMs": 1793344935315,
+          "serverNow": 1793344935.18,
+          "resumeUntil": 1793344935.07,
+          "time": 0.1,
+          "phase": "combat",
+          "enemies": 0,
+          "projectiles": 0,
+          "totalKills": 0,
+          "hp": 160,
+          "x": -1,
+          "z": 8,
+          "kills": 0,
+          "ammo": 32,
+          "reload": 0,
+          "ack": 0,
+          "highestSent": 2,
+          "unacked": 2,
+          "buffered": 0,
+          "inputWindow": 16,
+          "drawCalls": 0,
+          "triangles": 0,
+          "renderFrame": 0,
+          "adaptiveScale": 1
+        },
+        "last": {
+          "ms": 59849.5,
+          "receivedEpochMs": 1793344995097,
+          "serverNow": 1793344994.79,
+          "resumeUntil": 1793344976.76,
+          "time": 59.05,
+          "phase": "combat",
+          "enemies": 50,
+          "projectiles": 0,
+          "totalKills": 88,
+          "hp": 160,
+          "x": 6.51,
+          "z": 21.11,
+          "kills": 18,
+          "ammo": 3,
+          "reload": 0,
+          "ack": 1075,
+          "highestSent": 1082,
+          "unacked": 7,
+          "buffered": 0,
+          "inputWindow": 16,
+          "drawCalls": 0,
+          "triangles": 0,
+          "renderFrame": 0,
+          "adaptiveScale": 1
+        },
+        "remainingUnacked": 11,
+        "webSocketExtensions": "",
+        "diagnostic": {
+          "snapshots": [],
+          "programTransitions": [],
+          "slowRenders": [],
+          "slowGlCalls": []
+        },
+        "errors": [],
+        "glErrors": [],
+        "renderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "viewport": {
+          "width": 844,
+          "height": 390
+        },
+        "renderSize": {
+          "width": 844,
+          "height": 390
+        },
+        "zeroAckOutsideResume": 0,
+        "inputGapMaxMs": 67.69999998807907,
+        "inputGapsOver250Ms": 0
+      },
+      {
+        "client": 2,
+        "wallMs": 60041.39999997616,
+        "gameSeconds": 59,
+        "receiveWindowMs": 59795.10000002384,
+        "frames": {
+          "samples": 3602,
+          "p50": 16.7,
+          "p95": 16.9,
+          "max": 17.4
+        },
+        "renderCpu": {
+          "samples": 0,
+          "p50": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "pilotCpu": {
+          "samples": 1087,
+          "p50": 0.2,
+          "p95": 0.4,
+          "max": 1.2
+        },
+        "worldIntervals": {
+          "samples": 351,
+          "p50": 173.8,
+          "p95": 232.8,
+          "max": 270.7
+        },
+        "ackObservedRtt": {
+          "samples": 345,
+          "p50": 363.9,
+          "p95": 452.3,
+          "max": 493.1
+        },
+        "receiptAckRtt": {
+          "samples": 349,
+          "p50": 308.4,
+          "p95": 394.6,
+          "max": 446.3
+        },
+        "counters": {
+          "updates": 352,
+          "firsts": 0,
+          "sent": 1087,
+          "fire": 1058,
+          "move": 1087,
+          "reloadSent": 6,
+          "reloadStarted": 12,
+          "ammoSpentObserved": 279,
+          "shotsObserved": 295,
+          "hitsObserved": 211,
+          "invalidInputs": 0,
+          "neutralAck": 4,
+          "maxUnacked": 18
+        },
+        "phases": [
+          {
+            "ms": 84.59999996423721,
+            "phase": "combat",
+            "time": 0.1,
+            "resumeUntil": 1793344935.07,
+            "serverNow": 1793344935.2
+          },
+          {
+            "ms": 41166,
+            "phase": "selection",
+            "time": 41,
+            "resumeUntil": 1793344935.07,
+            "serverNow": 1793344976.15
+          },
+          {
+            "ms": 41738.39999997616,
+            "phase": "combat",
+            "time": 41,
+            "resumeUntil": 1793344976.76,
+            "serverNow": 1793344976.75
+          }
+        ],
+        "first": {
+          "ms": 84.59999996423721,
+          "receivedEpochMs": 1793344935333,
+          "serverNow": 1793344935.2,
+          "resumeUntil": 1793344935.07,
+          "time": 0.1,
+          "phase": "combat",
+          "enemies": 0,
+          "projectiles": 0,
+          "totalKills": 0,
+          "hp": 160,
+          "x": 1,
+          "z": 8,
+          "kills": 0,
+          "ammo": 32,
+          "reload": 0,
+          "ack": 0,
+          "highestSent": 2,
+          "unacked": 2,
+          "buffered": 0,
+          "inputWindow": 16,
+          "drawCalls": 0,
+          "triangles": 0,
+          "renderFrame": 0,
+          "adaptiveScale": 1
+        },
+        "last": {
+          "ms": 59879.69999998808,
+          "receivedEpochMs": 1793344995127,
+          "serverNow": 1793344994.84,
+          "resumeUntil": 1793344976.76,
+          "time": 59.1,
+          "phase": "combat",
+          "enemies": 50,
+          "projectiles": 0,
+          "totalKills": 88,
+          "hp": 160,
+          "x": 5.6,
+          "z": 21.39,
+          "kills": 26,
+          "ammo": 3,
+          "reload": 0,
+          "ack": 1077,
+          "highestSent": 1084,
+          "unacked": 7,
+          "buffered": 0,
+          "inputWindow": 16,
+          "drawCalls": 0,
+          "triangles": 0,
+          "renderFrame": 0,
+          "adaptiveScale": 1
+        },
+        "remainingUnacked": 10,
+        "webSocketExtensions": "",
+        "diagnostic": {
+          "snapshots": [],
+          "programTransitions": [],
+          "slowRenders": [],
+          "slowGlCalls": []
+        },
+        "errors": [],
+        "glErrors": [],
+        "renderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "viewport": {
+          "width": 844,
+          "height": 390
+        },
+        "renderSize": {
+          "width": 844,
+          "height": 390
+        },
+        "zeroAckOutsideResume": 0,
+        "inputGapMaxMs": 66.80000001192093,
+        "inputGapsOver250Ms": 0
+      },
+      {
+        "client": 3,
+        "wallMs": 60040.19999998808,
+        "gameSeconds": 59,
+        "receiveWindowMs": 59846.30000001192,
+        "frames": {
+          "samples": 3602,
+          "p50": 16.7,
+          "p95": 16.9,
+          "max": 17.5
+        },
+        "renderCpu": {
+          "samples": 0,
+          "p50": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "pilotCpu": {
+          "samples": 1085,
+          "p50": 0.2,
+          "p95": 0.4,
+          "max": 2.3
+        },
+        "worldIntervals": {
+          "samples": 352,
+          "p50": 173.8,
+          "p95": 230.5,
+          "max": 281.9
+        },
+        "ackObservedRtt": {
+          "samples": 346,
+          "p50": 365.3,
+          "p95": 453.7,
+          "max": 522.5
+        },
+        "receiptAckRtt": {
+          "samples": 349,
+          "p50": 310.7,
+          "p95": 392,
+          "max": 445.5
+        },
+        "counters": {
+          "updates": 353,
+          "firsts": 0,
+          "sent": 1085,
+          "fire": 1056,
+          "move": 1085,
+          "reloadSent": 6,
+          "reloadStarted": 12,
+          "ammoSpentObserved": 279,
+          "shotsObserved": 294,
+          "hitsObserved": 176,
+          "invalidInputs": 0,
+          "neutralAck": 5,
+          "maxUnacked": 20
+        },
+        "phases": [
+          {
+            "ms": 105.30000001192093,
+            "phase": "combat",
+            "time": 0.15,
+            "resumeUntil": 1793344935.07,
+            "serverNow": 1793344935.22
+          },
+          {
+            "ms": 41183.89999997616,
+            "phase": "selection",
+            "time": 41,
+            "resumeUntil": 1793344935.07,
+            "serverNow": 1793344976.19
+          },
+          {
+            "ms": 41798.10000002384,
+            "phase": "combat",
+            "time": 41.05,
+            "resumeUntil": 1793344976.76,
+            "serverNow": 1793344976.8
+          }
+        ],
+        "first": {
+          "ms": 105.30000001192093,
+          "receivedEpochMs": 1793344935355,
+          "serverNow": 1793344935.22,
+          "resumeUntil": 1793344935.07,
+          "time": 0.15,
+          "phase": "combat",
+          "enemies": 0,
+          "projectiles": 0,
+          "totalKills": 0,
+          "hp": 168,
+          "x": 3,
+          "z": 8,
+          "kills": 0,
+          "ammo": 32,
+          "reload": 0,
+          "ack": 0,
+          "highestSent": 2,
+          "unacked": 2,
+          "buffered": 0,
+          "inputWindow": 16,
+          "drawCalls": 0,
+          "triangles": 0,
+          "renderFrame": 0,
+          "adaptiveScale": 1
+        },
+        "last": {
+          "ms": 59951.60000002384,
+          "receivedEpochMs": 1793344995201,
+          "serverNow": 1793344994.91,
+          "resumeUntil": 1793344976.76,
+          "time": 59.15,
+          "phase": "combat",
+          "enemies": 50,
+          "projectiles": 0,
+          "totalKills": 88,
+          "hp": 176,
+          "x": -0.02,
+          "z": 20.43,
+          "kills": 20,
+          "ammo": 3,
+          "reload": 0,
+          "ack": 1075,
+          "highestSent": 1083,
+          "unacked": 8,
+          "buffered": 0,
+          "inputWindow": 16,
+          "drawCalls": 0,
+          "triangles": 0,
+          "renderFrame": 0,
+          "adaptiveScale": 1
+        },
+        "remainingUnacked": 10,
+        "webSocketExtensions": "",
+        "diagnostic": {
+          "snapshots": [],
+          "programTransitions": [],
+          "slowRenders": [],
+          "slowGlCalls": []
+        },
+        "errors": [],
+        "glErrors": [],
+        "renderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "viewport": {
+          "width": 844,
+          "height": 390
+        },
+        "renderSize": {
+          "width": 844,
+          "height": 390
+        },
+        "zeroAckOutsideResume": 0,
+        "inputGapMaxMs": 66.89999997615814,
+        "inputGapsOver250Ms": 0
+      }
+    ]
+  }
+}
