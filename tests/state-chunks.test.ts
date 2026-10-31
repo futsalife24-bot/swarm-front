@@ -387,3 +387,20 @@ it("正常な未完成と期限超過・checksum破損を明確に区別する",
   expect(roundTrip(broken, receiver, 2300)).toHaveLength(0);
   expect(receiver.failed).toBe(true);
 });
+
+it("大きい差分も全分割片を揃えてから渡す", () => {
+  const payload = {
+    type: "stateDelta",
+    version: 1,
+    base: 1,
+    stateId: 2,
+    patch: ["x".repeat(90000)],
+  };
+  const frames = encodeStateChunks(JSON.stringify(payload), 2)!;
+  expect(frames.length).toBeGreaterThan(1);
+  const assembler = new StateChunkAssembler();
+  frames
+    .slice(0, -1)
+    .forEach((frame) => expect(assembler.read(frame)).toBeUndefined());
+  expect(assembler.read(frames.at(-1)!)).toEqual(payload);
+});

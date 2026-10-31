@@ -706,3 +706,39 @@ it.each([false, true])(
     expect(net.retry).toBe(0);
   },
 );
+
+it.each([false, true])(
+  "独立した受信確認は戦況なしでも送信枠を開け、戦況の受信数を増やさない legacy=%s",
+  (legacy) => {
+    const { net, ws, advance } = setup(true, true, legacy);
+    for (let seq = 1; seq <= 20; seq++) {
+      advance();
+      net.input({ ...neutral(), seq });
+    }
+    expect(ws.inputs()).toHaveLength(16);
+    ws.receive({
+      type: "inputReceipt",
+      inputAck: 16,
+      inputReceivedAt: Date.now() / 1000,
+    });
+    advance();
+    net.input({ ...neutral(), seq: 21 });
+    expect(ws.inputs()).toHaveLength(17);
+    expect(net.diagnostics.read().updatesPerSecond).toBeUndefined();
+  },
+);
+
+it.each([false, true])(
+  "基準の欠けた差分は無言で停止せず接続を閉じる legacy=%s",
+  (legacy) => {
+    const { ws } = setup(true, true, legacy);
+    ws.receive({
+      type: "stateDelta",
+      version: 1,
+      base: 1,
+      stateId: 2,
+      patch: [null, null, null, null, null, null],
+    });
+    expect(ws.readyState).toBe(3);
+  },
+);

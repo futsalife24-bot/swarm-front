@@ -1,3 +1,9 @@
+# 現在地: 操作受信確認・戦況差分・遅延計測（2026-11-01）
+
+本人の「それ全部進めて」により3項目を実装。戦況2枠が詰まっても小さい操作受信確認を返し、ACK済み状態を基準に差分配送、端末/サーバーの有限標本の診断を追加。既存認証・保存・戦闘ルール・入力期限・流量制限を維持。基点 `98c4dc2656f543d809d41db6bb36058a6e4c76c8`、branch `codex/coop-response-delta-20261101`、作業場所 `dist-h`。元rootの既存差分は保持。
+
+関連単体134件・実Worker統合20件・型・production build/dry-run成功。実画面の下りpayloadは比較で約26〜27%減。ただし適用p95は最終反復で118→159ms、片道300ms追加で880→920msとなり、快適化達成とは扱わない。異なるseed/負荷のため因果未確定。実スマホ・実回線多人数・長時間は未確認。[証拠・制約](evidence/coop-response-20261101/README.md)。通常公開手順で反映予定。主担当の実モデル/推論設定未確認、補助Sol/high指定1体（実行値未確認）、独立監査ではない。
+
 # 公開完了: 生存戦のランダム出現・大量出現（2026-10-31）
 
 本人の明示承認後、[PR #241](https://github.com/futsalife24-bot/swarm-front/pull/241)を通常mergeし、公開ソース `6d6c1557a9e2fedc3570bff4ccd35d676dcacdc7` を既存Worker Version `6e380bf9-d909-4a9c-b8d9-cf528ca263b0` へ公開。merge後build・production dry-run成功、配信35ファイルSHA一致・health 200/ok。GitHubチェック表示0件でCI合格とは扱わない。

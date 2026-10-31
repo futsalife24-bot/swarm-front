@@ -53,3 +53,23 @@ it("未応答が上限を超えたら未測定に戻し、メモリを増やさ�
   d.pong(500);
   expect(d.read(500).roundTripMs).toBe(100);
 });
+
+it("受信・適用・描画提出を区別し、時計差なしで上限付きに集計する", () => {
+  const d = new ConnectionDiagnostics();
+  d.sampled(1, 100);
+  d.sent(1, 3, 120);
+  d.receipt(1, 180);
+  d.receipt(1, 190);
+  d.applied(1, 300);
+  d.rendered(320);
+  d.rendered(340);
+  const s = d.details().samples;
+  expect(s.sampleToSendMs.max).toBe(20);
+  expect(s.sendToReceiptMs).toEqual({ count: 1, p95: 60, max: 60 });
+  expect(s.sendToAppliedStateMs.max).toBe(180);
+  expect(s.sendToRenderSubmissionMs.max).toBe(200);
+  for (let i = 0; i < 1000; i++) d.scheduling(i);
+  expect(d.details().samples.inputTimerLagMs.count).toBe(128);
+  d.reset();
+  expect(d.details().samples).toEqual({});
+});

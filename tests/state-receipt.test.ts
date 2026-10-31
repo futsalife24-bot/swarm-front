@@ -169,3 +169,33 @@ it.each(["front", "legacy"])(
     }
   },
 );
+
+it("新方式のACKは初回待ちを省き、単独通知を10Hzに抑える", () => {
+  const { ack, messages } = receipt();
+  ack.configure(true, true);
+  ack.receive(1, true);
+  vi.advanceTimersByTime(1);
+  expect(messages).toHaveLength(1);
+  for (let id = 2; id <= 100; id++) {
+    ack.receive(id, true);
+    vi.advanceTimersByTime(1);
+  }
+  expect(messages.length).toBeLessThanOrEqual(2);
+  vi.advanceTimersByTime(100);
+  expect(messages.at(-1)).toEqual({ type: "stateAck", stateAck: 100 });
+});
+
+it("新方式でも正常な更新は入力へ同梱し、専用通知を増やさない", () => {
+  const { ack, messages } = receipt();
+  ack.configure(true, true);
+  for (let id = 1; id <= 10; id++) {
+    ack.receive(id, false);
+    vi.advanceTimersByTime(50);
+    expect(ack.attach({ type: "input" })).toEqual({
+      type: "input",
+      stateAck: id,
+    });
+    vi.advanceTimersByTime(50);
+  }
+  expect(messages).toEqual([]);
+});

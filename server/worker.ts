@@ -72,6 +72,7 @@ import {
   type Input,
   type World,
 } from "../src/shared/game";
+import { StateDeltaSender } from "../src/shared/state-delta";
 import { encodeState, prepareState } from "../src/shared/state-wire";
 import { encodeStateChunks } from "../src/shared/state-chunks";
 import {
@@ -919,10 +920,14 @@ export class Room extends DurableObject<Env> {
       window: number;
       seq: number;
       inputReceivedAt?: number;
+      inputReceipt?: boolean;
+      receiptAt?: number;
+      networkTiming?: boolean;
       equipmentCache?: boolean;
       stateOmissions?: boolean;
       stateTuples?: boolean;
       stateChunks?: boolean;
+      stateDelta?: StateDeltaSender;
       stateDelivery: StateDelivery;
       equipmentKey?: string;
     }
@@ -932,6 +937,8 @@ export class Room extends DurableObject<Env> {
   private clock = new RoomClock();
   private timerGeneration = 0;
   private stateSnapshot = 0;
+  private lastTickMs = 0;
+  private lastEncodeMs = 0;
   ticks = 0;
   persisting = false;
   constructor(ctx: DurableObjectState, env: Env) {
@@ -954,7 +961,10 @@ export class Room extends DurableObject<Env> {
           stateOmissions?: boolean;
           stateTuples?: boolean;
           stateChunks?: boolean;
+          stateDelta?: boolean;
           stateFlow?: boolean;
+          inputReceipt?: boolean;
+          networkTiming?: boolean;
           stateDelivery?: unknown;
         };
         this.sockets.set(ws, {
@@ -966,6 +976,10 @@ export class Room extends DurableObject<Env> {
           stateOmissions: a.stateOmissions === true,
           stateTuples: a.stateTuples === true,
           stateChunks: a.stateChunks === true,
+          stateDelta:
+            a.stateDelta === true ? new StateDeltaSender() : undefined,
+          inputReceipt: a.inputReceipt === true,
+          networkTiming: a.networkTiming === true,
           stateDelivery: new StateDelivery(
             a.stateFlow === true,
             a.stateDelivery,
@@ -1240,8 +1254,17 @@ export class Room extends DurableObject<Env> {
       s.stateOmissions = m.stateOmissions === 1;
       s.stateTuples = m.stateTuples === 1;
       s.stateChunks = m.stateChunks === 1;
+      s.inputReceipt = m.inputReceipt === 1;
+      s.networkTiming = m.networkTiming === 1;
       s.at = now;
       s.stateDelivery = new StateDelivery(m.stateFlow === 1);
+      s.stateDelta =
+        m.stateDelta === 1 &&
+        s.stateDelivery.enabled &&
+        s.stateChunks &&
+        s.stateTuples
+          ? new StateDeltaSender()
+          : undefined;
       this.rememberSocket(ws);
       const p = this.saved.world?.players.find((p) => p.id === s.id);
       if (p) p.connected = true;
@@ -1265,6 +1288,8 @@ export class Room extends DurableObject<Env> {
         type: "welcome",
         expiresAt: this.wireRoomExpiresAt(),
         inputAck: true,
+        ...(s.stateDelta ? { stateDelta: true } : {}),
+        ...(s.inputReceipt ? { inputReceipt: true } : {}),
         ...(s.stateDelivery.enabled ? { stateFlow: true } : {}),
         id: member.id,
         token: member.token,
@@ -1289,6 +1314,7 @@ export class Room extends DurableObject<Env> {
     }
     const stateAcknowledged = s.stateDelivery.acknowledge(m.stateAck);
     if (stateAcknowledged) {
+      s.stateDelta?.acknowledge(m.stateAck);
       this.rememberSocket(ws);
       // Inputs must update receipt seq and retained intent before releasing
       // the dirty snapshot; otherwise its inputAck is already one input old.
@@ -1346,6 +1372,21 @@ export class Room extends DurableObject<Env> {
         if (m.input.seq <= s.seq) return;
         s.seq = m.input.seq;
         s.inputReceivedAt = now / 1000;
+        // Receipt only, not proof of simulation/application. Never consumes state credit.
+        // At most 10 Hz, only while state credit is blocked. Healthy state traffic
+        // already carries receipts; avoid redundant per-message scheduling cost.
+        if (
+          s.inputReceipt &&
+          (!s.stateDelivery.enabled || s.stateDelivery.full) &&
+          now - (s.receiptAt ?? -Infinity) >= 100
+        ) {
+          s.receiptAt = now;
+          this.send(ws, {
+            type: "inputReceipt",
+            inputAck: s.seq,
+            inputReceivedAt: s.inputReceivedAt,
+          });
+        }
         if (
           this.saved.frontRun &&
           (this.saved.frontRun.phase === "selection" ||
@@ -1713,6 +1754,9 @@ export class Room extends DurableObject<Env> {
       stateOmissions: s.stateOmissions,
       stateTuples: s.stateTuples,
       stateChunks: s.stateChunks,
+      stateDelta: !!s.stateDelta,
+      inputReceipt: s.inputReceipt,
+      networkTiming: s.networkTiming,
       stateFlow: s.stateDelivery.enabled,
       stateDelivery: s.stateDelivery.snapshot(),
     });
@@ -1799,9 +1843,20 @@ export class Room extends DurableObject<Env> {
                   ...frontMetadata,
                   stateId,
                   inputReceivedAt: s.inputReceivedAt,
+                  ...(s.networkTiming
+                    ? {
+                        networkTiming: {
+                          tickMs: this.lastTickMs,
+                          previousEncodeMs: this.lastEncodeMs,
+                          clockDroppedMs: this.clock.droppedMs,
+                          stateInFlight: s.stateDelivery.inFlight.length,
+                        },
+                      }
+                    : {}),
                 }
               : frontMetadata;
-            const payload = state!.packet(
+            const encodingStarted = performance.now();
+            let payload = state!.packet(
               s.id,
               cached,
               s.seq,
@@ -1810,6 +1865,14 @@ export class Room extends DurableObject<Env> {
               s.stateTuples === true,
               s.stateChunks === true,
             );
+            if (s.stateDelta) {
+              try {
+                payload = s.stateDelta.encode(payload, stateId);
+              } catch {
+                s.stateDelta.reset();
+              } // Full packet keeps the existing size-limit/close path.
+            }
+            this.lastEncodeMs = performance.now() - encodingStarted;
             const chunks = s.stateChunks
               ? encodeStateChunks(payload, stateId)
               : [payload];
@@ -1820,6 +1883,7 @@ export class Room extends DurableObject<Env> {
           (part) => this.sendEncoded(ws, part) === true,
         );
         if (result === "sent") s.equipmentKey = state!.equipmentKey;
+        if (result === "failed") s.stateDelta?.reset();
         this.rememberSocket(ws);
       } else this.send(ws, { type: "lobby", ...metadata });
     }
@@ -1880,6 +1944,7 @@ export class Room extends DurableObject<Env> {
     if (now > this.roomExpiresAt()) {
       finish(w, false, "ルームの有効期限が切れました");
     }
+    const stepStarted = performance.now();
     const active = Object.fromEntries(
       Object.entries(this.inputs).map(([id, v]) => [
         id,
@@ -1899,6 +1964,7 @@ export class Room extends DurableObject<Env> {
       v.i.jump = false;
       v.i.reload = false;
     }
+    this.lastTickMs = performance.now() - stepStarted;
     this.ticks++;
     if (w.phase !== "battle") {
       this.markFrontResult();

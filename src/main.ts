@@ -1897,6 +1897,7 @@ function updateFrame(now: number) {
     controls.scoped,
     controls.aiming,
   );
+  network?.diagnostics.rendered();
   // Solo has no host to retire sent events: drop what both the picture and
   // the sound have taken, so the buffer only holds what is still owed.
   if (mode === "solo" && screen === "battle" && world)
@@ -2010,3 +2011,10 @@ if (import.meta.env.DEV)
       equipped: [...save.equipped],
     }),
   });
+
+if (new URLSearchParams(location.search).get("networkDiagnostics") === "1") {
+  Object.defineProperty(window, "swarmNetworkDiagnostics", {
+    configurable: true,
+    value: () => network?.diagnostics.details(),
+  });
+}

@@ -12,6 +12,7 @@ export class NetworkInputLoop {
   constructor(
     private consume: (input: Input) => void,
     private discard: () => void,
+    private scheduling?: (lag: number) => void,
   ) {}
 
   setInputSource(source?: NetworkInputSource) {
@@ -46,7 +47,9 @@ export class NetworkInputLoop {
 
   private schedule() {
     if (!this.running || !this.source || this.timer !== undefined) return;
+    const due = performance.now() + 50;
     this.timer = setTimeout(() => {
+      this.scheduling?.(Math.max(0, performance.now() - due));
       this.timer = undefined;
       const generation = this.generation;
       try {

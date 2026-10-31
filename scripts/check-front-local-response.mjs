@@ -23,6 +23,10 @@ assert(key);
 const sources = Object.fromEntries(
   [
     "src/client/front-app.ts",
+    "src/client/front-network.ts",
+    "src/client/connection-diagnostics.ts",
+    "src/shared/state-delta.ts",
+    "server/worker.ts",
     "src/client/input.ts",
     "src/client/front-local-motion.ts",
   ].map((path) => [
@@ -36,6 +40,9 @@ const result = {
   sources,
   touchAndActions,
   sustained,
+  legacyNegotiation: process.env.SWARM_RESPONSE_LEGACY === "1",
+  bandwidth: Number(process.env.SWARM_RESPONSE_BANDWIDTH ?? 0),
+  injectedStallMs: Number(process.env.SWARM_RESPONSE_STALL_MS ?? 0),
   runs: [],
   errors: [],
   passed: false,
@@ -51,14 +58,23 @@ try {
       upstream,
       origin,
       latencyMs: latency,
+      ...(process.env.SWARM_RESPONSE_BANDWIDTH
+        ? { bytesPerSecond: Number(process.env.SWARM_RESPONSE_BANDWIDTH) }
+        : {}),
     });
     const context = await browser.newContext({
-      viewport: { width: 844, height: 390 },
+      viewport: {
+        width: Number(process.env.SWARM_RESPONSE_WIDTH ?? 844),
+        height: 390,
+      },
       serviceWorkers: "block",
       hasTouch: touchAndActions,
     });
     let page;
     try {
+      await context.addInitScript((disabled) => {
+        window.__disableResponseOptimizations = disabled;
+      }, process.env.SWARM_RESPONSE_LEGACY === "1");
       await context.addInitScript(() => {
         localStorage.setItem("swarm-front-player-name-v1", "応答検査隊員");
         window.__response = { frames: [], keys: [], sent: [] };
@@ -107,6 +123,11 @@ try {
         WebSocket.prototype.send = function (data) {
           try {
             const m = JSON.parse(data);
+            if (m.type === "hello" && window.__disableResponseOptimizations) {
+              delete m.inputReceipt;
+              delete m.stateDelta;
+              data = JSON.stringify(m);
+            }
             if (m.type === "input")
               window.__response.sent.push({
                 ms: performance.now(),
@@ -164,7 +185,9 @@ try {
       });
       assert.equal(response.status, 200);
       const room = await response.json();
-      await page.goto(origin + "/front.html?frontRoom=" + room.roomId);
+      await page.goto(
+        origin + "/front.html?networkDiagnostics=1&frontRoom=" + room.roomId,
+      );
       if (await page.locator(".title-entry-start").isVisible())
         await page.locator(".title-entry-start").click();
       await page.locator("#room-id").waitFor();
@@ -225,6 +248,15 @@ try {
         window.__response.keys = [];
         window.__response.sent = [];
       });
+      const stallMs = Number(process.env.SWARM_RESPONSE_STALL_MS ?? 0);
+      assert(stallMs >= 0 && stallMs <= 1000);
+      if (stallMs)
+        await page.evaluate((ms) => {
+          setTimeout(() => {
+            const until = performance.now() + ms;
+            while (performance.now() < until) {}
+          }, 15000);
+        }, stallMs);
       for (const code of sustained
         ? ["KeyW", "KeyS", "KeyD", "KeyA"]
         : ["KeyW", "KeyD", "KeyW"]) {
@@ -287,6 +319,22 @@ try {
       }
       if (sustained) await page.waitForTimeout(1800);
       await page.screenshot({ path: `${out}/battle-${latency}.png` });
+      const networkDiagnostics = await page.evaluate(() =>
+        window.swarmNetworkDiagnostics?.(),
+      );
+      assert(
+        networkDiagnostics,
+        "diagnostics must be collected from the running app, never re-import its entry",
+      );
+      writeFileSync(
+        `${out}/diagnostics-${latency}.json`,
+        JSON.stringify(networkDiagnostics, null, 2),
+      );
+      if (stallMs)
+        assert(
+          networkDiagnostics.samples.inputTimerLagMs.max >= stallMs - 100,
+          "injected main-thread stall must be observed",
+        );
       const trace = await page.evaluate(() => window.__response),
         trials = [];
       for (const start of trace.keys.filter((k) => k.type === "keydown")) {
