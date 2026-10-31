@@ -1,3 +1,9 @@
+# 現在地: 生存戦のランダム出現・大量出現（2026-10-31）
+
+本人依頼により、生存戦の通常敵とBASTIONの出現地点を隊員周囲の安全な位置から抽選。戦闘時間2分ごとに最大24体の包囲リングと一点集中を交互に予告・出現させ、同時96体上限と既存敵を維持。空きや安全地点が不足すると最大15秒待って減数・見送り。[仕様・検証・限界](evidence/survival-random-waves-20261031/README.md)。
+
+基点 `b852a0110da3c9165664e843c96cbd736a9f758f`、branch `codex/survival-random-waves-20261031`。関連70件・隔離Workerの2人実通信・型・build・dry-run成功。実戦画面の2分/4分をfixtureで検証し各24体、画面例外0。実スマホ・実回線複数端末・長時間・難易度確認は未実施。公開前。主担当のモデルID・推論設定未確認、子なし。
+
 # 公開完了: 生存戦のPLEAT壁停止・協力ロビー統一（2026-10-31）
 
 本人の明示承認後、[PR #239](https://github.com/futsalife24-bot/swarm-front/pull/239) を通常mergeし、公開ソース `dfbf1c4b8ea4578108332560f4cb9cdfd325a0e0` を既存Worker Version `ef3f7245-6296-4917-b67e-53a7ad3308d5` へ公開。merge後build・production dry-run成功、配信35ファイルのSHA一致・health 200/ok。GitHubのchecks/statusesは0件でありCI合格とは扱わない。
