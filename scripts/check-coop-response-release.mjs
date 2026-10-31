@@ -24,6 +24,7 @@ const paths = [
   "index.html",
   "front.html",
   "sw.js",
+  "asset-download-manifest.json",
   ...readdirSync("dist/assets")
     .filter((p) => /\.(js|css)$/.test(p))
     .map((p) => "assets/" + p),
@@ -63,6 +64,9 @@ try {
     return route.continue();
   });
   const page = await context.newPage();
+  await context.addInitScript(() => {
+    localStorage.setItem("swarm-front-player-name-v1", "配信検査隊員");
+  });
   page.setDefaultTimeout(90000);
   page.on("pageerror", (e) => result.errors.push(e.message));
   await page.goto(base + "/front?solo=1&networkDiagnostics=1");
