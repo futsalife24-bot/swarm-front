@@ -1,0 +1,333 @@
+{
+  "checkedAt": "2026-10-31T04:46:58.044Z",
+  "source": "dfbf1c4b8ea4578108332560f4cb9cdfd325a0e0",
+  "revision": "7c5d9dcc66fc5fa88770317da62a7fae410ae9c5415246b31b181dd6dcd11337",
+  "workerVersion": "ef3f7245-6296-4917-b67e-53a7ad3308d5",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "pass": true,
+  "health": {
+    "status": 200,
+    "body": {
+      "ok": true,
+      "transport": "websocket",
+      "authority": "durable-object"
+    }
+  },
+  "checks": [
+    {
+      "url": "assets/cloud-save-DcXqSdJa.css",
+      "path": "assets/cloud-save-DcXqSdJa.css",
+      "bytes": 3784,
+      "sha256": "5cb52a5a0cd5cc34af5d72d03596e59b199aa61b3aaf49961b7603c5024a5d63",
+      "status": 200,
+      "publicSha256": "5cb52a5a0cd5cc34af5d72d03596e59b199aa61b3aaf49961b7603c5024a5d63",
+      "pass": true
+    },
+    {
+      "url": "assets/fonts/rajdhani/Rajdhani-Bold.ttf",
+      "path": "assets/fonts/rajdhani/Rajdhani-Bold.ttf",
+      "bytes": 400680,
+      "sha256": "691470dd3286a14e9677940d0bf75796179841ba5215cbda1a2c8910a3226afd",
+      "status": 200,
+      "publicSha256": "691470dd3286a14e9677940d0bf75796179841ba5215cbda1a2c8910a3226afd",
+      "pass": true
+    },
+    {
+      "url": "assets/cloud-save-Bv6G_CdQ.js",
+      "path": "assets/cloud-save-Bv6G_CdQ.js",
+      "bytes": 109005,
+      "sha256": "0ba2d83f821da78679a88c6916200cbc8fcb1a1147f68b1929fea5737db0efe7",
+      "status": 200,
+      "publicSha256": "0ba2d83f821da78679a88c6916200cbc8fcb1a1147f68b1929fea5737db0efe7",
+      "pass": true
+    },
+    {
+      "url": "assets/game-select-BBcbApPk.css",
+      "path": "assets/game-select-BBcbApPk.css",
+      "bytes": 4775,
+      "sha256": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75",
+      "status": 200,
+      "publicSha256": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75",
+      "pass": true
+    },
+    {
+      "url": "assets/front-BbdaF3Yu.css",
+      "path": "assets/front-BbdaF3Yu.css",
+      "bytes": 23745,
+      "sha256": "044093671373e9e31078a97aa2d38d4f6b2a2e9d7fe568046b59363e8d9a4a2a",
+      "status": 200,
+      "publicSha256": "044093671373e9e31078a97aa2d38d4f6b2a2e9d7fe568046b59363e8d9a4a2a",
+      "pass": true
+    },
+    {
+      "url": "assets/front-bYVhTik4.js",
+      "path": "assets/front-bYVhTik4.js",
+      "bytes": 109486,
+      "sha256": "8c9bcad62804f7b38b754b21b5963def5450bc669735c305a6f9e79b6edf898d",
+      "status": 200,
+      "publicSha256": "8c9bcad62804f7b38b754b21b5963def5450bc669735c305a6f9e79b6edf898d",
+      "pass": true
+    },
+    {
+      "url": "assets/hud-KJkCjEBB.css",
+      "path": "assets/hud-KJkCjEBB.css",
+      "bytes": 108021,
+      "sha256": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3",
+      "status": 200,
+      "publicSha256": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3",
+      "pass": true
+    },
+    {
+      "url": "assets/game-select-DvRQoofA.js",
+      "path": "assets/game-select-DvRQoofA.js",
+      "bytes": 12284,
+      "sha256": "b14901df231b9aac80033272217ef4097f4f0b9e8e91eddb6c06cabc15d3125d",
+      "status": 200,
+      "publicSha256": "b14901df231b9aac80033272217ef4097f4f0b9e8e91eddb6c06cabc15d3125d",
+      "pass": true
+    },
+    {
+      "url": "assets/legacy-CPbai1ZT.css",
+      "path": "assets/legacy-CPbai1ZT.css",
+      "bytes": 259,
+      "sha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "status": 200,
+      "publicSha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "pass": true
+    },
+    {
+      "url": "assets/legacy-jumUgubA.js",
+      "path": "assets/legacy-jumUgubA.js",
+      "bytes": 18077,
+      "sha256": "97226e08c7428ac70545519d427c1b034c0f8602538824d59083060dd2fd07ef",
+      "status": 200,
+      "publicSha256": "97226e08c7428ac70545519d427c1b034c0f8602538824d59083060dd2fd07ef",
+      "pass": true
+    },
+    {
+      "url": "assets/main-BOIn8V8d.css",
+      "path": "assets/main-BOIn8V8d.css",
+      "bytes": 1316,
+      "sha256": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "status": 200,
+      "publicSha256": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "pass": true
+    },
+    {
+      "url": "assets/hud-BRoRy4q3.js",
+      "path": "assets/hud-BRoRy4q3.js",
+      "bytes": 985014,
+      "sha256": "b2e954251bfb9e96a3b3095a83da3a945fb0d9daff18e1e53ad9683bda3c1b7a",
+      "status": 200,
+      "publicSha256": "b2e954251bfb9e96a3b3095a83da3a945fb0d9daff18e1e53ad9683bda3c1b7a",
+      "pass": true
+    },
+    {
+      "url": "assets/main-NN3kdpkp.js",
+      "path": "assets/main-NN3kdpkp.js",
+      "bytes": 54281,
+      "sha256": "5e5ffa39070a1fce736b0935bd0d57e680be1346c466247a23f8d6f2ab73f826",
+      "status": 200,
+      "publicSha256": "5e5ffa39070a1fce736b0935bd0d57e680be1346c466247a23f8d6f2ab73f826",
+      "pass": true
+    },
+    {
+      "url": "assets/room-access-DE2BpATi.js",
+      "path": "assets/room-access-DE2BpATi.js",
+      "bytes": 6713,
+      "sha256": "996cf8ce20132f73412b4d992703df98315d88c14ed4d128844bf4b9e01e484b",
+      "status": 200,
+      "publicSha256": "996cf8ce20132f73412b4d992703df98315d88c14ed4d128844bf4b9e01e484b",
+      "pass": true
+    },
+    {
+      "url": "assets/playtest-app-CU5IufCk.css",
+      "path": "assets/playtest-app-CU5IufCk.css",
+      "bytes": 8530,
+      "sha256": "f8dd2dc94f98d22ff4906c0ff444e119d3eb9f0847b66d56941305824879cee9",
+      "status": 200,
+      "publicSha256": "f8dd2dc94f98d22ff4906c0ff444e119d3eb9f0847b66d56941305824879cee9",
+      "pass": true
+    },
+    {
+      "url": "assets/playtest-app-CmdHYL8N.js",
+      "path": "assets/playtest-app-CmdHYL8N.js",
+      "bytes": 79944,
+      "sha256": "1523afb5a480cb92b869b09831bee526a991763c378c96eb1b282286d1c6322e",
+      "status": 200,
+      "publicSha256": "1523afb5a480cb92b869b09831bee526a991763c378c96eb1b282286d1c6322e",
+      "pass": true
+    },
+    {
+      "url": "assets/save-writer-BUUOzIBn.css",
+      "path": "assets/save-writer-BUUOzIBn.css",
+      "bytes": 2949,
+      "sha256": "4e91d064f9a5b74cf809d7b17d6e3529fdd161528f02d2f949cb0ff9b443d5dc",
+      "status": 200,
+      "publicSha256": "4e91d064f9a5b74cf809d7b17d6e3529fdd161528f02d2f949cb0ff9b443d5dc",
+      "pass": true
+    },
+    {
+      "url": "assets/save-writer-ipA8SU6T.js",
+      "path": "assets/save-writer-ipA8SU6T.js",
+      "bytes": 44289,
+      "sha256": "63986a595f40c3e996157a902e7c7450a6d0ddd1a9e5aea2124e6f8baa6861e5",
+      "status": 200,
+      "publicSha256": "63986a595f40c3e996157a902e7c7450a6d0ddd1a9e5aea2124e6f8baa6861e5",
+      "pass": true
+    },
+    {
+      "url": "assets/room-access-Dk_b2XLl.css",
+      "path": "assets/room-access-Dk_b2XLl.css",
+      "bytes": 6497,
+      "sha256": "d41d7de7180be2faa28b9244f7068bfaf90f3d176bc8b6a8f26a4912365104e2",
+      "status": 200,
+      "publicSha256": "d41d7de7180be2faa28b9244f7068bfaf90f3d176bc8b6a8f26a4912365104e2",
+      "pass": true
+    },
+    {
+      "url": "assets/weapon-sharing-CrvVr8_S.js",
+      "path": "assets/weapon-sharing-CrvVr8_S.js",
+      "bytes": 4753,
+      "sha256": "e7183913dc998c490da29d48e35702ba1689d030e8175a32ecbd9e9016e787b5",
+      "status": 200,
+      "publicSha256": "e7183913dc998c490da29d48e35702ba1689d030e8175a32ecbd9e9016e787b5",
+      "pass": true
+    },
+    {
+      "url": "assets/training-app-BlWpvuU0.js",
+      "path": "assets/training-app-BlWpvuU0.js",
+      "bytes": 3772,
+      "sha256": "247f011efa084ab0a55adac35595fbc3234a15b2cc6eb7ccc2400443066ce3d5",
+      "status": 200,
+      "publicSha256": "247f011efa084ab0a55adac35595fbc3234a15b2cc6eb7ccc2400443066ce3d5",
+      "pass": true
+    },
+    {
+      "url": "assets/weapon-workshop-ui-19tKwTO6.css",
+      "path": "assets/weapon-workshop-ui-19tKwTO6.css",
+      "bytes": 37201,
+      "sha256": "07b6043857f41259f794674088eaf3e8b5b722094b158ab12ec6cefd75fc8b02",
+      "status": 200,
+      "publicSha256": "07b6043857f41259f794674088eaf3e8b5b722094b158ab12ec6cefd75fc8b02",
+      "pass": true
+    },
+    {
+      "url": "assets/zoom-guard-CYxqEXnM.js",
+      "path": "assets/zoom-guard-CYxqEXnM.js",
+      "bytes": 387,
+      "sha256": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "status": 200,
+      "publicSha256": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "pass": true
+    },
+    {
+      "url": "icon-swarm-v2-512.png",
+      "path": "icon-swarm-v2-512.png",
+      "bytes": 517806,
+      "sha256": "71ce7bf3b6a397968bc1f105ad61d11b719e1c815112b5af453051e5d04b7b84",
+      "status": 200,
+      "publicSha256": "71ce7bf3b6a397968bc1f105ad61d11b719e1c815112b5af453051e5d04b7b84",
+      "pass": true
+    },
+    {
+      "url": "icon-swarm-v4-180.png",
+      "path": "icon-swarm-v4-180.png",
+      "bytes": 74779,
+      "sha256": "011d0ba169b1d5325ac5e809eaa5a7a302aa7885b8dec73001068ad939d00e98",
+      "status": 200,
+      "publicSha256": "011d0ba169b1d5325ac5e809eaa5a7a302aa7885b8dec73001068ad939d00e98",
+      "pass": true
+    },
+    {
+      "url": "icon-swarm-v4-192.png",
+      "path": "icon-swarm-v4-192.png",
+      "bytes": 86143,
+      "sha256": "abfe8b0da1d1665e928701f0ef1e06f4cc119c52911445092fc9bc47bb0c87e2",
+      "status": 200,
+      "publicSha256": "abfe8b0da1d1665e928701f0ef1e06f4cc119c52911445092fc9bc47bb0c87e2",
+      "pass": true
+    },
+    {
+      "url": "assets/weapon-workshop-ui-Bmqp0Zrr.js",
+      "path": "assets/weapon-workshop-ui-Bmqp0Zrr.js",
+      "bytes": 447450,
+      "sha256": "86f37e6927b8c2d35fd3ec00f30f017ff9d41cbc31a5b3de647622b31b92505f",
+      "status": 200,
+      "publicSha256": "86f37e6927b8c2d35fd3ec00f30f017ff9d41cbc31a5b3de647622b31b92505f",
+      "pass": true
+    },
+    {
+      "url": "front.html",
+      "path": "front.html",
+      "bytes": 3434,
+      "sha256": "d96ecff7f4b3755178873b5cbc31e2884a304d4be0a12c30ab172dfee8662385",
+      "status": 200,
+      "publicSha256": "d96ecff7f4b3755178873b5cbc31e2884a304d4be0a12c30ab172dfee8662385",
+      "pass": true
+    },
+    {
+      "url": "icon-swarm-v4-64.png",
+      "path": "icon-swarm-v4-64.png",
+      "bytes": 11048,
+      "sha256": "49bd3f6aa22e4410ea4ce92873a1f960e932c66a339d9f1accc37230ef03dcb3",
+      "status": 200,
+      "publicSha256": "49bd3f6aa22e4410ea4ce92873a1f960e932c66a339d9f1accc37230ef03dcb3",
+      "pass": true
+    },
+    {
+      "url": "icon-swarm-v4-512.png",
+      "path": "icon-swarm-v4-512.png",
+      "bytes": 539155,
+      "sha256": "0e469688f9f566178c594dd0557d3097f24c174a9f48efeec4913beed8c929fd",
+      "status": 200,
+      "publicSha256": "0e469688f9f566178c594dd0557d3097f24c174a9f48efeec4913beed8c929fd",
+      "pass": true
+    },
+    {
+      "url": "manifest.webmanifest",
+      "path": "manifest.webmanifest",
+      "bytes": 792,
+      "sha256": "a395e41a6419798be87fb74999412078387866aca0e9db0e15a3cf69d52e4cf6",
+      "status": 200,
+      "publicSha256": "a395e41a6419798be87fb74999412078387866aca0e9db0e15a3cf69d52e4cf6",
+      "pass": true
+    },
+    {
+      "url": "index.html",
+      "path": "index.html",
+      "bytes": 4041,
+      "sha256": "2cb8909bd57ddf064e7552f6f427e6cf19c0ced37c4c079f2ff3aba8791e91fa",
+      "status": 200,
+      "publicSha256": "2cb8909bd57ddf064e7552f6f427e6cf19c0ced37c4c079f2ff3aba8791e91fa",
+      "pass": true
+    },
+    {
+      "url": "sw.js",
+      "path": "sw.js",
+      "bytes": 5681,
+      "sha256": "32df8fbaf4e428fd5e6ea43ca2dc69a74823f07fa7eb7cd5b380e7e5adcb85ae",
+      "status": 200,
+      "publicSha256": "32df8fbaf4e428fd5e6ea43ca2dc69a74823f07fa7eb7cd5b380e7e5adcb85ae",
+      "pass": true
+    },
+    {
+      "url": "asset-download-manifest.json",
+      "path": "asset-download-manifest.json",
+      "bytes": 37635,
+      "sha256": "a3300d7ede5528d515542c5107b3b9a8f0b19c2a804edb4a410cd9183564fa9d",
+      "status": 200,
+      "publicSha256": "a3300d7ede5528d515542c5107b3b9a8f0b19c2a804edb4a410cd9183564fa9d",
+      "pass": true
+    },
+    {
+      "url": "icon-swarm-v4-512-maskable.png",
+      "path": "icon-swarm-v4-512-maskable.png",
+      "bytes": 417504,
+      "sha256": "9158e3e3c1ec01aac92374645390c6872c9c5fef79dbde84309efc86c7074c0e",
+      "status": 200,
+      "publicSha256": "9158e3e3c1ec01aac92374645390c6872c9c5fef79dbde84309efc86c7074c0e",
+      "pass": true
+    }
+  ]
+}
