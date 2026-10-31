@@ -50,7 +50,7 @@ import { showOperationCue, cancelOperationCue } from "./operation-cue";
 import { operationCueForResult } from "./operation-cue-assets";
 import { frontResultTitle } from "./front-result-title";
 import { openWeaponWorkshop } from "./weapon-workshop-ui";
-import type { NewWeapon } from "../shared/progression";
+import { weaponGrade, type NewWeapon } from "../shared/progression";
 import {
   roomBrowserMarkup,
   bindRoomBrowser,
@@ -784,6 +784,7 @@ function connectRoom(code: string, target: string, token = "") {
     paintLobby();
     void prepareLobby();
   };
+  net.onChat = renderFrontLobbyChat;
   net.onWorld = (snapshot, first) => {
     if (!net.frontView || snapshot.front?.version !== "front-v1") {
       notice("改装版の戦場を確認できません");
@@ -826,22 +827,88 @@ function connectRoom(code: string, target: string, token = "") {
   net.connect(code, token);
   paintLobby();
 }
+function renderFrontLobbyChat() {
+  const log = document.getElementById("chat-log");
+  if (!log || !network) return;
+  const atBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 36;
+  const ids = new Set(
+    [...log.children].map((row) => (row as HTMLElement).dataset.id),
+  );
+  for (const message of network.messages) {
+    if (ids.has(message.id)) continue;
+    const row = document.createElement("li");
+    row.dataset.id = message.id;
+    const name = document.createElement("b");
+    name.textContent = message.name;
+    const text = document.createElement("span");
+    text.textContent = message.text;
+    row.append(name, text);
+    log.append(row);
+  }
+  while (log.children.length > 50) log.firstElementChild?.remove();
+  if (atBottom) log.scrollTop = log.scrollHeight;
+}
 function paintLobby() {
   if (!network || screen !== "lobby") return;
   const net = network;
   const access = roomAccessInfo(net.roomListed);
+  const previousInput = document.getElementById(
+    "chat-input",
+  ) as HTMLInputElement | null;
+  const draft = previousInput?.value ?? "";
+  const focused = document.activeElement === previousInput;
+  const selection = previousInput?.selectionStart ?? draft.length;
+  const members = net.members;
+  const present = members.filter((m) => m.connected);
+  const host = present[0]?.id;
+  const online = net.ws?.readyState === 1 && !net.retry;
+  const canStart =
+    online &&
+    host === net.id &&
+    present.length > 0 &&
+    present.every((m) => m.ready);
   document.body.classList.remove("playtest");
   document.body.dataset.screen = "lobby";
   $("ui").innerHTML =
-    `<section class="panel front-lobby"><header><h1>${modeNames[net.mode]} · 協力部隊</h1><nav><button id="front-edit-loadout">装備変更</button><button id="front-leave">部屋を退出</button></nav></header><div class="front-room-access"><strong class="room-access-label" data-access="${access.state}">${access.label}</strong><span>${access.detail}</span></div><div class="front-room-share"><span>${net.roomListed === true ? "直接招待用パスワード" : "招待用パスワード"} <b id="front-room-password">${esc(net.roomId || "接続中")}</b></span><button id="front-copy-password" ${net.roomId ? "" : "disabled"}>パスワードをコピー</button><button id="front-copy" ${net.roomId ? "" : "disabled"}>招待リンクをコピー</button></div><p class="fine">${net.roomListed === true ? "直接招待する場合は、どちらか一方を共有できます。" : net.roomListed === false ? "どちらか一方を仲間へ共有してください。" : "必要に応じて、どちらか一方を共有できます。"}${net.mode === "survival" ? " 出撃から60分で帰還・保存猶予2分。" : ""}</p><div class="front-members">${net.members
-      .filter((m) => m.connected)
-      .map(
-        (m) =>
-          `<p data-fx-member="${esc(m.id)}">${esc(m.name ?? "隊員")} · ${m.ready ? "準備完了" : "読み込み中"}</p>`,
-      )
-      .join(
-        "",
-      )}</div><p class="status">${esc(status)}</p><button class="primary" id="front-start" ${net.members.find((m) => m.connected)?.id !== net.id || !net.members.filter((m) => m.connected).every((m) => m.ready) ? "disabled" : ""}>出撃</button></section>`;
+    `<section class="panel lobby front-lobby front-unified-lobby"><header class="lobby-header"><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力ロビー <span class="room-access-label" data-access="${access.state}">${access.label}</span></h1><div class="lobby-room"><small class="lobby-room-name">${esc(net.roomName)}</small><span class="lobby-room-id">${net.roomListed === true ? "直接招待用パスワード" : "招待用パスワード"} <code id="front-room-password">${esc(net.roomId || "接続中")}</code><button id="front-copy-password" aria-label="パスワードをコピー" title="パスワードをコピー" ${net.roomId ? "" : "disabled"}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/></svg></button></span></div></div><div class="lobby-share"><button id="front-copy" ${net.roomId ? "" : "disabled"}>招待リンクを共有</button></div><span>${present.length} / 4 人</span><button id="front-leave">退出</button></header><div class="lobby-workspace"><section class="lobby-mission" aria-label="出撃情報"><div class="eyebrow">SURVIVAL</div><h2>${esc(modeNames[net.mode])}</h2><p>${net.mode === "survival" ? "出撃から60分で帰還・保存猶予2分。" : "協力して作戦に挑みます。"}</p><p class="front-room-access fine">${esc(access.detail)}${net.roomListed === true ? " 直接招待する場合はパスワードまたはリンクを共有できます。" : ""}</p><div class="lobby-actions"><p class="status" role="status">${!online ? esc(status) : canStart ? "全員の準備が整いました" : host === net.id ? (status.startsWith("戦場を準備中") ? esc(status) : "隊員の準備完了を待っています") : "ホストの出撃を待っています"}</p><button id="front-edit-loadout">出撃準備・装備変更</button><button class="primary" id="front-start" ${canStart ? "" : "disabled"}>全員で出撃 ↗</button></div></section><section class="lobby-squad" aria-label="参加メンバー"><div class="squad-heading"><h2>参加メンバー</h2><small>装備 / 状況</small></div><div class="squad-cards">${Array.from(
+      { length: 4 },
+      (_, i) => {
+        const m = members[i];
+        if (!m)
+          return `<article class="squad-member empty"><span class="member-number">0${i + 1}</span><div><b>参加待ち</b><small>${net.roomListed === true ? "部屋一覧から参加できます" : "招待リンクから参加できます"}</small></div></article>`;
+        return `<article data-fx-member="${esc(m.id)}" class="squad-member ${m.id === net.id ? "self" : ""}"><div class="member-heading"><b><span class="member-number">0${i + 1}</span> ${esc(m.name || `隊員 ${i + 1}`)}${m.id === net.id ? "（あなた）" : ""}</b><span class="member-status ${m.connected && m.ready ? "is-ready" : "is-preparing"}">${!m.connected ? "切断中" : m.ready ? "準備完了" : "準備中…"}</span></div><div class="member-weapons">${[
+          0, 1,
+        ]
+          .map((slot) => {
+            const w = m.weapons?.[slot];
+            return `<span><small>${slot + 1}</small> ${w ? `${weaponGrade(w)} · ${esc(WEAPONS[w.kind].name)}` : "装備を確認中"}</span>`;
+          })
+          .join("")}</div></article>`;
+      },
+    ).join(
+      "",
+    )}</div></section><section class="lobby-chat" aria-label="部隊チャット"><h2>チャット</h2><ol id="chat-log" role="log" aria-live="polite" aria-relevant="additions"></ol><form id="chat-form"><label class="sr-only" for="chat-input">メッセージ</label><input id="chat-input" maxlength="400" autocomplete="off" placeholder="メッセージを入力…" ${online ? "" : "disabled"}><button type="submit" ${online ? "" : "disabled"}>送信</button><p id="chat-status" role="status"></p></form></section></div></section>`;
+  const chatInput = $("chat-input") as HTMLInputElement;
+  chatInput.value = draft;
+  if (focused) {
+    chatInput.focus();
+    chatInput.setSelectionRange(selection, selection);
+  }
+  $("chat-form").onsubmit = (event) => {
+    event.preventDefault();
+    if (!chatInput.value.trim()) return;
+    if (Array.from(chatInput.value.trim()).length > 200) {
+      $("chat-status").textContent = "200文字以内で入力してください。";
+      return;
+    }
+    if (net.sendChat(chatInput.value)) {
+      chatInput.value = "";
+      $("chat-status").textContent = "";
+    } else
+      $("chat-status").textContent =
+        "少し待ってから送信してください。接続中のロビーで送信できます。";
+  };
+  renderFrontLobbyChat();
   squadEffects(net, net.members, [
     ...$("ui").querySelectorAll("[data-fx-member]"),
   ]);
