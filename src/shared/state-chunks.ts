@@ -150,7 +150,10 @@ export class StateChunkAssembler {
       const message: unknown = JSON.parse(input);
       if (!record(message) || message.type !== "stateChunk") {
         // A newer ordinary state supersedes an unfinished large state.
-        if (record(message) && message.type === "state")
+        if (
+          record(message) &&
+          (message.type === "state" || message.type === "stateDelta")
+        )
           this.pending = undefined;
         return message;
       }
@@ -207,7 +210,8 @@ export class StateChunkAssembler {
       const complete = pending.data.join("");
       if (checksum(complete) !== pending.checksum) return this.reject();
       const snapshot: unknown = JSON.parse(complete);
-      return record(snapshot) && snapshot.type === "state"
+      return record(snapshot) &&
+        (snapshot.type === "state" || snapshot.type === "stateDelta")
         ? snapshot
         : this.reject();
     } catch {

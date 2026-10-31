@@ -1,3 +1,4 @@
+import { StateDeltaReceiver } from "../src/shared/state-delta";
 /** 実際のローカル Worker と WebSocket。通信モックは使用しない。 */
 import { afterEach, describe, it, expect } from "vitest";
 import { createHash } from "node:crypto";
@@ -22,6 +23,8 @@ class Client {
   decodeErrors = 0;
   maxPacketBytes = 0;
   chunkPackets = 0;
+  deltaPackets = 0;
+  delta = new StateDeltaReceiver();
   chunks = new StateChunkAssembler();
   constructor(
     code: string,
@@ -33,6 +36,7 @@ class Client {
     stateTuples = false,
     stateChunks = false,
     stateFlow = false,
+    optimized = false,
   ) {
     this.ws = new WebSocket(
       `${base.replace("http", "ws")}/rooms/${code}?ruleset=front-v1&testClient=${createHash(
@@ -51,12 +55,17 @@ class Client {
         ...(stateTuples ? { stateTuples: 1 } : {}),
         ...(stateChunks ? { stateChunks: 1 } : {}),
         ...(stateFlow ? { stateFlow: 1 } : {}),
+        ...(optimized
+          ? { stateDelta: 1, inputReceipt: 1, networkTiming: 1 }
+          : {}),
         ...(token ? { token } : {}),
       });
     this.ws.onmessage = (e) => {
       const raw = JSON.parse(String(e.data));
       if (raw.type === "stateChunk") this.chunkPackets++;
-      const m: any = this.chunks.read(String(e.data));
+      const assembled: any = this.chunks.read(String(e.data));
+      if (assembled?.type === "stateDelta") this.deltaPackets++;
+      const m: any = optimized ? this.delta.decode(assembled) : assembled;
       this.maxPacketBytes = Math.max(
         this.maxPacketBytes,
         new TextEncoder().encode(String(e.data)).length,
@@ -133,6 +142,7 @@ async function team(
   stateTuples: boolean | boolean[] = false,
   stateChunks: boolean | boolean[] = false,
   stateFlow: boolean | boolean[] = false,
+  optimized: boolean | boolean[] = false,
 ) {
   const entry = await room(mode),
     members: Client[] = [];
@@ -147,6 +157,7 @@ async function team(
       Array.isArray(stateTuples) ? stateTuples[i] : stateTuples,
       Array.isArray(stateChunks) ? stateChunks[i] : stateChunks,
       Array.isArray(stateFlow) ? stateFlow[i] : stateFlow,
+      Array.isArray(optimized) ? optimized[i] : optimized,
     );
     await c.wait((m) => m.type === "welcome");
     members.push(c);
@@ -940,4 +951,134 @@ describe("改装版の実通信", () => {
     const error = await c.wait((m) => m.type === "notice");
     expect(error.reason).toContain("再読み込み");
   });
+});
+
+it("新通信は戦況2枠が埋まっても入力受信確認を返し、差分で復帰する", async () => {
+  const { members, states } = await team(
+    1,
+    "survival",
+    3,
+    true,
+    true,
+    true,
+    true,
+    true,
+  );
+  const c = members[0];
+  const first = states[0];
+  c.send({ type: "stateAck", stateAck: first.stateId });
+  c.choose(first);
+  const combat = await c.wait(
+    (m) => m.type === "state" && m.frontView.phase === "combat",
+  );
+  c.send({ type: "stateAck", stateAck: combat.stateId });
+  await new Promise((r) => setTimeout(r, 500));
+  const before = c.messages.length;
+  c.send({ type: "input", input: { ...neutral(), seq: 123, mx: 1 } });
+  const receipt = await c.wait(
+    (m) => m.type === "inputReceipt" && m.inputAck === 123,
+    before,
+  );
+  expect(receipt.inputReceivedAt).toBeGreaterThan(0);
+  expect(
+    c.messages.slice(before).filter((m) => m.type === "state"),
+  ).toHaveLength(0);
+  const last = c.messages.findLast((m) => m.type === "state");
+  c.send({ type: "stateAck", stateAck: last.stateId });
+  const recovered = await c.wait(
+    (m) => m.type === "state" && m.inputAck === 123,
+    before,
+  );
+  expect(recovered.world.players.find((p: any) => p.id === c.id)).toBeTruthy();
+  expect(c.deltaPackets).toBeGreaterThan(0);
+  expect(c.decodeErrors).toBe(0);
+  expect(recovered.networkTiming.tickMs).toBeGreaterThanOrEqual(0);
+});
+
+it("新旧4人の固定密集戦況を欠落なく復元する", async () => {
+  const { entry, members, states } = await team(
+    4,
+    "survival",
+    3,
+    true,
+    true,
+    true,
+    true,
+    [false, true, true, true],
+  );
+  let seq = 0;
+  const tick = setInterval(() => {
+    for (const c of members) {
+      const last = c.messages.findLast((m) => m.type === "state");
+      if (last && c.ws.readyState === 1)
+        c.send({
+          type: "input",
+          input: { ...neutral(), seq: ++seq },
+          stateAck: last.stateId,
+        });
+    }
+  }, 100);
+  try {
+    members.forEach((c, i) => c.choose(states[i]));
+    await members[0].wait(
+      (m) => m.type === "state" && m.frontView.phase === "combat",
+    );
+    const offsets = members.map((c) => c.messages.length);
+    const response = await fetch(
+      base + "/fixtures/" + entry.code + "/front-wire-heavy",
+      { method: "POST" },
+    );
+    expect(response.status).toBe(200);
+    for (let i = 0; i < members.length; i++) {
+      const c = members[i];
+      const m = await c.wait(
+        (m) => m.type === "state" && m.world.projectiles.length === 400,
+        offsets[i],
+      );
+      expect(m.world.enemies).toHaveLength(96);
+      expect(m.world.front.orbs).toHaveLength(160);
+      expect(c.decodeErrors).toBe(0);
+    }
+    await new Promise((r) => setTimeout(r, 350));
+    expect(members[0].deltaPackets).toBe(0);
+    expect(members.slice(1).every((c) => c.deltaPackets > 0)).toBe(true);
+  } finally {
+    clearInterval(tick);
+  }
+});
+
+it("新通信の通常戦闘へ再接続すると全量から再開する", async () => {
+  const { entry, members, states } = await team(
+    1,
+    "survival",
+    3,
+    true,
+    true,
+    true,
+    true,
+    true,
+  );
+  const old = members[0];
+  old.choose(states[0]);
+  old.send({ type: "stateAck", stateAck: states[0].stateId });
+  await old.wait((m) => m.type === "state" && m.frontView.phase === "combat");
+  old.ws.close();
+  await new Promise((r) => setTimeout(r, 100));
+  const restored = new Client(
+    entry.code,
+    old.token,
+    3,
+    2,
+    2,
+    true,
+    true,
+    true,
+    true,
+    true,
+  );
+  await restored.wait((m) => m.type === "welcome");
+  const first = await restored.wait((m) => m.type === "state");
+  expect(restored.id).toBe(old.id);
+  expect(first.world.run).toBe(states[0].world.run);
+  expect(restored.deltaPackets).toBe(0);
 });

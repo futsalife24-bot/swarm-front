@@ -14,6 +14,7 @@ import { restoreStateTuples } from "../shared/state-tuples";
 import { StateChunkReceiver } from "./state-chunk-receiver";
 import { ConnectionDiagnostics } from "./connection-diagnostics";
 import { StateOmissionCache } from "./state-omissions";
+import { StateDeltaReceiver } from "../shared/state-delta";
 import { StateReceipt } from "./state-receipt";
 import { InputWindow } from "./input-window";
 import {
@@ -118,6 +119,7 @@ export class Network {
   private inputLoop = new NetworkInputLoop(
     (input) => this.input(input),
     () => this.discardPendingInput(),
+    (lag) => this.diagnostics.scheduling(lag),
   );
   private stateReceipt = new StateReceipt(() =>
     this.send({ type: "stateAck" }),
@@ -175,6 +177,7 @@ export class Network {
     this.usesInputAck = false;
     this.inFlightInputs = [];
     this.inputWindow.configure(false);
+    const delta = new StateDeltaReceiver();
     const equipmentCache = new EquipmentCache();
     const omissionCache = new StateOmissionCache();
     const chunks = new StateChunkReceiver(() => {
@@ -202,6 +205,9 @@ export class Network {
         stateTuples: 1,
         stateChunks: 1,
         stateFlow: 1,
+        stateDelta: 1,
+        inputReceipt: 1,
+        networkTiming: 1,
         name: this.playerName,
         ...(this.token ? { token: this.token } : {}),
       });
@@ -209,11 +215,18 @@ export class Network {
     ws.onmessage = (e) => {
       if (this.closed || this.ws !== ws) return;
       this.last = Date.now();
+      const processingStarted = performance.now();
       let m: any; // Parsed data still passes the existing runtime guards below.
       try {
         // Framing owns the unchanged per-message cap and clears corrupt assembly.
         m = chunks.read(e.data);
         if (m === undefined) return;
+        try {
+          m = delta.decode(m);
+        } catch {
+          chunks.reject();
+          return;
+        }
         if (!restoreStateTuples(m)) return;
         if (!m || typeof m !== "object" || typeof m.type !== "string") return;
         if (
@@ -269,7 +282,10 @@ export class Network {
         clearTimeout(timeout);
         this.id = m.id;
         this.usesInputAck = m.inputAck === true;
-        this.stateReceipt.configure(m.stateFlow === true);
+        this.stateReceipt.configure(
+          m.stateFlow === true,
+          m.inputReceipt === true,
+        );
         // Keep a bounded window without starving a healthy uplink while
         // receipt ACKs share a slow snapshot downlink. Server expiry stays 250ms.
         this.inputWindow.configure(m.stateFlow === true);
@@ -303,15 +319,25 @@ export class Network {
         if (!this.closed && this.ws === ws && ws.readyState === 1)
           this.inputLoop.start();
       } else if (m.type === "state") {
+        const connection = this.diagnostics.read();
+        const delayedState =
+          (connection.stateAgeMs ?? 0) > 200 ||
+          (connection.roundTripMs ?? 0) > 200;
         this.diagnostics.state();
+        this.diagnostics.server(m.networkTiming);
+        const applied = m.world.players.find(
+          (p: { id: string }) => p.id === this.id,
+        )?.ack;
         this.retry = 0;
-        this.stateReceipt.receive(m.stateId);
+        this.stateReceipt.receive(m.stateId, delayedState);
         if (this.usesInputAck && Number.isSafeInteger(m.inputAck)) {
           this.inputWindow.acknowledge(m.inputAck, m.inputReceivedAt);
+          this.diagnostics.receipt(m.inputAck);
           this.inFlightInputs = this.inFlightInputs.filter(
             (seq) => seq > m.inputAck,
           );
         }
+        this.diagnostics.applied(applied);
         if (validStage(m.stage) && this.stage !== m.stage) {
           this.stage = m.stage;
           this.assetReady = false;
@@ -319,6 +345,7 @@ export class Network {
         this.members = m.members;
         omissionCache.restore(m.world, m.omitted);
         this.onWorld(m.world, firstState);
+        this.diagnostics.processed(performance.now() - processingStarted);
         firstState = false;
       } else if (m.type === "lobby") {
         this.retry = 0;
@@ -350,6 +377,16 @@ export class Network {
           // The fatal server response is still shown when storage is unavailable.
         }
         this.onStatus(m.reason, true);
+      } else if (
+        m.type === "inputReceipt" &&
+        this.usesInputAck &&
+        Number.isSafeInteger(m.inputAck)
+      ) {
+        this.inputWindow.acknowledge(m.inputAck, m.inputReceivedAt);
+        this.inFlightInputs = this.inFlightInputs.filter(
+          (seq) => seq > m.inputAck,
+        );
+        this.diagnostics.receipt(m.inputAck);
       } else if (m.type === "pong") this.diagnostics.pong();
       else if (m.type === "notice") this.onStatus(m.reason, false);
     };
@@ -406,6 +443,7 @@ export class Network {
   }
   input(input: Input) {
     if (this.ws?.readyState !== 1) return;
+    this.diagnostics.sampled(input.seq);
     const pending = this.pendingInput;
     this.pendingInput = {
       ...input,
@@ -423,6 +461,7 @@ export class Network {
         this.inFlightInputs.length >= this.inputWindow.limit)
     )
       return;
+    this.diagnostics.sent(this.pendingInput.seq, this.inFlightInputs.length);
     this.send({ type: "input", input: this.pendingInput });
     if (this.usesInputAck) {
       this.inFlightInputs.push(this.pendingInput.seq);

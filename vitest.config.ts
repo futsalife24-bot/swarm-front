@@ -30,6 +30,7 @@ export default defineConfig({
       "tests/state-chunks.test.ts",
       "tests/state-delivery.test.ts",
       "tests/state-receipt.test.ts",
+      "tests/state-delta.test.ts",
       "tests/room-directory.test.ts",
       "tests/shared-armory.test.ts",
       "tests/social.test.ts",

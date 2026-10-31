@@ -1,0 +1,39 @@
+{
+  "method": "実Workerと通常UIで出撃。初回接続の戦況JSON末尾へ空白を追加し、意味を変えず製品の分割器で分割。各片を750msずつ遅らせる合成輸送障害。実携帯回線の再現ではない。",
+  "passed": true,
+  "errors": [],
+  "recovery": {
+    "connections": 2,
+    "injected": 2,
+    "samePlayer": true,
+    "tokenReused": true,
+    "closeCode": 1000,
+    "requestedCloseCode": 1000,
+    "recoveryRequestMs": 2008.5,
+    "firstRecoveredStateMs": 2595.60000000149,
+    "reconnectedWorlds": 3,
+    "welcomeToRecoveryMs": 17869.69999999553
+  },
+  "labels": [
+    {
+      "width": 844,
+      "text": "60 FPS · 往復 11ms · 更新 10/s",
+      "box": {
+        "x": 6,
+        "y": 369.703125,
+        "width": 188,
+        "height": 16.296875
+      }
+    },
+    {
+      "width": 640,
+      "text": "60 FPS · 往復 18ms · 更新 10/s",
+      "box": {
+        "x": 6,
+        "y": 369.703125,
+        "width": 188,
+        "height": 16.296875
+      }
+    }
+  ]
+}

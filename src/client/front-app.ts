@@ -1430,6 +1430,7 @@ function frame(time: number) {
         controls.aiming,
       );
       soldierLiveReview?.capture(world, id);
+      network?.diagnostics.rendered();
       lastRenderKey = renderKey;
     }
     if (localRun)
@@ -1445,6 +1446,14 @@ function frame(time: number) {
     active,
     network?.diagnostics.read(),
   );
+}
+
+/** Local bounded counters only; no tokens, names, save contents or automatic upload. */
+if (new URLSearchParams(location.search).get("networkDiagnostics") === "1") {
+  Object.defineProperty(window, "swarmNetworkDiagnostics", {
+    configurable: true,
+    value: () => network?.diagnostics.details(),
+  });
 }
 window.addEventListener(
   "keydown",

@@ -6,6 +6,95 @@ export interface ConnectionSample {
 
 /** 既存通信だけを測る。サーバー時計や描画FPSから遅延を推測しない。 */
 export class ConnectionDiagnostics {
+  private inputs = new Map<
+    number,
+    { sampled: number; sent?: number; received?: boolean }
+  >();
+  private samples: Record<string, number[]> = {};
+  private serverTiming: Record<string, number> = {};
+  private awaitingRender: number | undefined;
+
+  /** Bounded, local-only observations; no identity, input contents or wall-clock offsets. */
+  private observe(key: string, value: number) {
+    if (!Number.isFinite(value) || value < 0) return;
+    const values = (this.samples[key] ??= []);
+    values.push(value);
+    if (values.length > 128) values.shift();
+  }
+  sampled(seq: number, now = performance.now()) {
+    if (!Number.isSafeInteger(seq) || this.inputs.has(seq)) return;
+    this.inputs.set(seq, { sampled: now });
+    while (this.inputs.size > 64)
+      this.inputs.delete(this.inputs.keys().next().value!);
+  }
+  sent(seq: number, inFlight: number, now = performance.now()) {
+    const input = this.inputs.get(seq);
+    if (input) {
+      input.sent = now;
+      this.observe("sampleToSendMs", now - input.sampled);
+    }
+    this.observe("inputInFlight", inFlight);
+  }
+  receipt(seq: number, now = performance.now()) {
+    const input = this.inputs.get(seq);
+    if (input?.sent !== undefined && !input.received) {
+      this.observe("sendToReceiptMs", now - input.sent);
+      input.received = true;
+    }
+  }
+  applied(seq: number, now = performance.now()) {
+    const input = this.inputs.get(seq);
+    if (input?.sent !== undefined) {
+      this.observe("sendToAppliedStateMs", now - input.sent);
+      this.awaitingRender = input.sent;
+    }
+    for (const key of this.inputs.keys())
+      if (key <= seq) this.inputs.delete(key);
+  }
+  rendered(now = performance.now()) {
+    if (this.awaitingRender === undefined) return;
+    this.observe("sendToRenderSubmissionMs", now - this.awaitingRender);
+    this.awaitingRender = undefined;
+  }
+  processed(ms: number) {
+    this.observe("receiveProcessingMs", ms);
+  }
+  scheduling(ms: number) {
+    this.observe("inputTimerLagMs", ms);
+  }
+  server(value: unknown) {
+    if (!value || typeof value !== "object") return;
+    for (const key of [
+      "tickMs",
+      "previousEncodeMs",
+      "clockDroppedMs",
+      "stateInFlight",
+    ]) {
+      const n = (value as Record<string, unknown>)[key];
+      if (typeof n === "number" && Number.isFinite(n) && n >= 0) {
+        this.serverTiming[key] = n;
+        this.observe(`server.${key}`, n);
+      }
+    }
+  }
+  details() {
+    return {
+      server: { ...this.serverTiming },
+      samples: Object.fromEntries(
+        Object.entries(this.samples).map(([key, values]) => {
+          const sorted = [...values].sort((a, b) => a - b);
+          return [
+            key,
+            {
+              count: sorted.length,
+              p95: sorted[Math.ceil(sorted.length * 0.95) - 1],
+              max: sorted.at(-1),
+            },
+          ];
+        }),
+      ),
+    };
+  }
   private pings: number[] = [];
   private states: number[] = [];
   private firstState: number | undefined;
@@ -15,6 +104,10 @@ export class ConnectionDiagnostics {
   private pingOverflow = false;
 
   reset() {
+    this.inputs.clear();
+    this.samples = {};
+    this.serverTiming = {};
+    this.awaitingRender = undefined;
     this.pings = [];
     this.states = [];
     this.firstState = this.lastState = undefined;
@@ -44,6 +137,8 @@ export class ConnectionDiagnostics {
 
   state(now = performance.now()) {
     if (!Number.isFinite(now)) return;
+    if (this.lastState !== undefined)
+      this.observe("stateGapMs", now - this.lastState);
     this.firstState ??= now;
     this.lastState = now;
     this.states.push(now);

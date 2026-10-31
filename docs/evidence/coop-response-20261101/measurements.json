@@ -1,0 +1,1724 @@
+[
+  {
+    "case": "legacy-final",
+    "passed": true,
+    "errors": [],
+    "sources": {
+      "src/client/front-app.ts": "a277cb0b10ff60f42cad63413daf66f4312d753b6e69a4f9418ea54729fb78f7",
+      "src/client/input.ts": "10394277cf088861e98545d7f599f41b559a29020846cf2a57aa80d7a3b2dd6c",
+      "src/client/front-local-motion.ts": "98a5fba92d5368e2f0c5c5fe21654ab2889d0e39dda4b4bc40c4f6ba26c02be9"
+    },
+    "runs": [
+      {
+        "latencyEachDirectionMs": 0,
+        "label": "51 FPS · 往復 77ms · 更新 10/s",
+        "diagnostics": {
+          "server": {
+            "tickMs": 17,
+            "previousEncodeMs": 2,
+            "clockDroppedMs": 0,
+            "stateInFlight": 0
+          },
+          "samples": {
+            "inputTimerLagMs": {
+              "count": 128,
+              "p95": 17.5,
+              "max": 35
+            },
+            "server.tickMs": {
+              "count": 128,
+              "p95": 38,
+              "max": 54
+            },
+            "server.previousEncodeMs": {
+              "count": 128,
+              "p95": 3,
+              "max": 6
+            },
+            "server.clockDroppedMs": {
+              "count": 128,
+              "p95": 0,
+              "max": 0
+            },
+            "server.stateInFlight": {
+              "count": 128,
+              "p95": 1,
+              "max": 1
+            },
+            "receiveProcessingMs": {
+              "count": 128,
+              "p95": 3.7000000029802322,
+              "max": 4.399999998509884
+            },
+            "stateGapMs": {
+              "count": 128,
+              "p95": 135.80000000447035,
+              "max": 148.29999999701977
+            },
+            "sampleToSendMs": {
+              "count": 128,
+              "p95": 0.10000000149011612,
+              "max": 0.10000000149011612
+            },
+            "inputInFlight": {
+              "count": 128,
+              "p95": 2,
+              "max": 3
+            },
+            "sendToReceiptMs": {
+              "count": 128,
+              "p95": 118.10000000149012,
+              "max": 144.89999999850988
+            },
+            "sendToAppliedStateMs": {
+              "count": 128,
+              "p95": 118.10000000149012,
+              "max": 144.89999999850988
+            },
+            "sendToRenderSubmissionMs": {
+              "count": 128,
+              "p95": 137,
+              "max": 159.10000000149012
+            }
+          }
+        },
+        "trials": [
+          {
+            "code": "KeyW",
+            "alive": true,
+            "frames": 221,
+            "authorityStates": 37,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 48.5,
+            "maxDisplayAuthorityGapM": 1.0810842415047865
+          },
+          {
+            "code": "KeyS",
+            "alive": true,
+            "frames": 221,
+            "authorityStates": 36,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 25.700000002980232,
+            "maxDisplayAuthorityGapM": 1.4540584576042637
+          },
+          {
+            "code": "KeyD",
+            "alive": true,
+            "frames": 224,
+            "authorityStates": 37,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 27.5,
+            "maxDisplayAuthorityGapM": 0.9202484678129818
+          },
+          {
+            "code": "KeyA",
+            "alive": true,
+            "frames": 211,
+            "authorityStates": 37,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 34.20000000298023,
+            "maxDisplayAuthorityGapM": 1.1752036961507193
+          }
+        ],
+        "downBytes": 1979656,
+        "downMessages": 228
+      },
+      {
+        "latencyEachDirectionMs": 300,
+        "label": "55 FPS · 往復 666ms · 更新 3/s",
+        "diagnostics": {
+          "server": {
+            "tickMs": 43,
+            "previousEncodeMs": 1,
+            "clockDroppedMs": 0,
+            "stateInFlight": 1
+          },
+          "samples": {
+            "inputTimerLagMs": {
+              "count": 128,
+              "p95": 17.700000002980232,
+              "max": 22
+            },
+            "server.tickMs": {
+              "count": 63,
+              "p95": 41,
+              "max": 45
+            },
+            "server.previousEncodeMs": {
+              "count": 63,
+              "p95": 3,
+              "max": 4
+            },
+            "server.clockDroppedMs": {
+              "count": 63,
+              "p95": 0,
+              "max": 0
+            },
+            "server.stateInFlight": {
+              "count": 63,
+              "p95": 1,
+              "max": 1
+            },
+            "receiveProcessingMs": {
+              "count": 63,
+              "p95": 3.600000001490116,
+              "max": 68.60000000149012
+            },
+            "stateGapMs": {
+              "count": 62,
+              "p95": 617.2999999970198,
+              "max": 640.1000000014901
+            },
+            "sampleToSendMs": {
+              "count": 128,
+              "p95": 0.10000000149011612,
+              "max": 0.20000000298023224
+            },
+            "inputInFlight": {
+              "count": 128,
+              "p95": 15,
+              "max": 15
+            },
+            "sendToReceiptMs": {
+              "count": 56,
+              "p95": 708.7000000029802,
+              "max": 841.2999999970198
+            },
+            "sendToAppliedStateMs": {
+              "count": 50,
+              "p95": 880.2999999970198,
+              "max": 920.9000000059605
+            },
+            "sendToRenderSubmissionMs": {
+              "count": 50,
+              "p95": 895.2999999970198,
+              "max": 935.2000000029802
+            }
+          }
+        },
+        "trials": [
+          {
+            "code": "KeyW",
+            "alive": true,
+            "frames": 224,
+            "authorityStates": 9,
+            "targetBacksteps": 0,
+            "targetStops": 12,
+            "fallbackFrames": 24,
+            "maxFrameMs": 28.799999997019768,
+            "maxDisplayAuthorityGapM": 3.1215096079058213
+          },
+          {
+            "code": "KeyS",
+            "alive": true,
+            "frames": 223,
+            "authorityStates": 9,
+            "targetBacksteps": 0,
+            "targetStops": 23,
+            "fallbackFrames": 12,
+            "maxFrameMs": 25.5,
+            "maxDisplayAuthorityGapM": 3.8692314745612304
+          },
+          {
+            "code": "KeyD",
+            "alive": true,
+            "frames": 220,
+            "authorityStates": 8,
+            "targetBacksteps": 0,
+            "targetStops": 9,
+            "fallbackFrames": 30,
+            "maxFrameMs": 32.70000000298023,
+            "maxDisplayAuthorityGapM": 3.150902112092507
+          },
+          {
+            "code": "KeyA",
+            "alive": true,
+            "frames": 212,
+            "authorityStates": 11,
+            "targetBacksteps": 0,
+            "targetStops": 13,
+            "fallbackFrames": 13,
+            "maxFrameMs": 30.399999998509884,
+            "maxDisplayAuthorityGapM": 3.904260005337239
+          }
+        ],
+        "downBytes": 633008,
+        "downMessages": 76
+      }
+    ]
+  },
+  {
+    "case": "release-candidate",
+    "passed": true,
+    "errors": [],
+    "sources": {
+      "src/client/front-app.ts": "8c719166d2d32a20f5b08e96dd299b15d8f9f9b2592caa25bbad631a4d26c683",
+      "src/client/front-network.ts": "d9ae8ac9dd21b615f4ed6d7216be7f45a01567e3d5fa4546c18e9e10ee4be5a3",
+      "src/client/connection-diagnostics.ts": "1e37fa76e9baeda0b139afd1d81568c557f00351baa1e51ec98e9c8540e0da4e",
+      "src/shared/state-delta.ts": "1729f2aa066d1b857d2b88bc8420fadcd04d285f7b7c90fd9dcdb760706968f2",
+      "server/worker.ts": "d032eaf810f926ca222228bb34a1d0aa2e8538b28dc71e8c6cd8a98f1227e981",
+      "src/client/input.ts": "10394277cf088861e98545d7f599f41b559a29020846cf2a57aa80d7a3b2dd6c",
+      "src/client/front-local-motion.ts": "98a5fba92d5368e2f0c5c5fe21654ab2889d0e39dda4b4bc40c4f6ba26c02be9"
+    },
+    "runs": [
+      {
+        "latencyEachDirectionMs": 0,
+        "label": "53 FPS · 往復 68ms · 更新 6/s",
+        "diagnostics": {
+          "server": {
+            "tickMs": 281,
+            "previousEncodeMs": 5,
+            "clockDroppedMs": 0,
+            "stateInFlight": 1
+          },
+          "samples": {
+            "inputTimerLagMs": {
+              "count": 128,
+              "p95": 23.5,
+              "max": 39.70000000298023
+            },
+            "server.tickMs": {
+              "count": 128,
+              "p95": 49,
+              "max": 281
+            },
+            "server.previousEncodeMs": {
+              "count": 128,
+              "p95": 6,
+              "max": 8
+            },
+            "server.clockDroppedMs": {
+              "count": 128,
+              "p95": 0,
+              "max": 0
+            },
+            "server.stateInFlight": {
+              "count": 128,
+              "p95": 1,
+              "max": 1
+            },
+            "receiveProcessingMs": {
+              "count": 128,
+              "p95": 4.700000002980232,
+              "max": 6.799999997019768
+            },
+            "stateGapMs": {
+              "count": 128,
+              "p95": 149.79999999701977,
+              "max": 434.40000000596046
+            },
+            "sampleToSendMs": {
+              "count": 128,
+              "p95": 0.10000000149011612,
+              "max": 0.10000000149011612
+            },
+            "inputInFlight": {
+              "count": 128,
+              "p95": 4,
+              "max": 9
+            },
+            "sendToReceiptMs": {
+              "count": 128,
+              "p95": 159.39999999850988,
+              "max": 647.6999999955297
+            },
+            "sendToAppliedStateMs": {
+              "count": 128,
+              "p95": 159.39999999850988,
+              "max": 647.6999999955297
+            },
+            "sendToRenderSubmissionMs": {
+              "count": 128,
+              "p95": 171.79999999701977,
+              "max": 658
+            }
+          }
+        },
+        "trials": [
+          {
+            "code": "KeyW",
+            "alive": true,
+            "frames": 222,
+            "authorityStates": 36,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 23.399999998509884,
+            "maxDisplayAuthorityGapM": 0.7845585268881621
+          },
+          {
+            "code": "KeyS",
+            "alive": true,
+            "frames": 221,
+            "authorityStates": 38,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 38.29999999701977,
+            "maxDisplayAuthorityGapM": 1.5214330071177642
+          },
+          {
+            "code": "KeyD",
+            "alive": true,
+            "frames": 222,
+            "authorityStates": 37,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 27.899999998509884,
+            "maxDisplayAuthorityGapM": 0.8987966023042626
+          },
+          {
+            "code": "KeyA",
+            "alive": true,
+            "frames": 210,
+            "authorityStates": 36,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 31.799999997019768,
+            "maxDisplayAuthorityGapM": 2.3444812709105447
+          }
+        ],
+        "downBytes": 1453038,
+        "downMessages": 238
+      },
+      {
+        "latencyEachDirectionMs": 300,
+        "label": "46 FPS · 往復 623ms · 更新 3/s",
+        "diagnostics": {
+          "server": {
+            "tickMs": 51,
+            "previousEncodeMs": 9,
+            "clockDroppedMs": 0,
+            "stateInFlight": 1
+          },
+          "samples": {
+            "inputTimerLagMs": {
+              "count": 128,
+              "p95": 19.30000000447035,
+              "max": 30.899999998509884
+            },
+            "server.tickMs": {
+              "count": 65,
+              "p95": 41,
+              "max": 60
+            },
+            "server.previousEncodeMs": {
+              "count": 65,
+              "p95": 8,
+              "max": 10
+            },
+            "server.clockDroppedMs": {
+              "count": 65,
+              "p95": 0,
+              "max": 0
+            },
+            "server.stateInFlight": {
+              "count": 65,
+              "p95": 1,
+              "max": 1
+            },
+            "receiveProcessingMs": {
+              "count": 65,
+              "p95": 6.600000001490116,
+              "max": 168
+            },
+            "stateGapMs": {
+              "count": 64,
+              "p95": 474.69999999552965,
+              "max": 621.9000000059605
+            },
+            "sampleToSendMs": {
+              "count": 128,
+              "p95": 0.10000000149011612,
+              "max": 0.20000000298023224
+            },
+            "inputInFlight": {
+              "count": 128,
+              "p95": 14,
+              "max": 15
+            },
+            "sendToReceiptMs": {
+              "count": 128,
+              "p95": 916.6000000014901,
+              "max": 993
+            },
+            "sendToAppliedStateMs": {
+              "count": 57,
+              "p95": 919.5,
+              "max": 1101.6000000014901
+            },
+            "sendToRenderSubmissionMs": {
+              "count": 57,
+              "p95": 940.1000000014901,
+              "max": 1121.2000000029802
+            }
+          }
+        },
+        "trials": [
+          {
+            "code": "KeyW",
+            "alive": true,
+            "frames": 223,
+            "authorityStates": 10,
+            "targetBacksteps": 0,
+            "targetStops": 34,
+            "fallbackFrames": 0,
+            "maxFrameMs": 37,
+            "maxDisplayAuthorityGapM": 3.149990406484135
+          },
+          {
+            "code": "KeyS",
+            "alive": true,
+            "frames": 223,
+            "authorityStates": 12,
+            "targetBacksteps": 0,
+            "targetStops": 3,
+            "fallbackFrames": 2,
+            "maxFrameMs": 26.19999999552965,
+            "maxDisplayAuthorityGapM": 3.555360666999711
+          },
+          {
+            "code": "KeyD",
+            "alive": true,
+            "frames": 219,
+            "authorityStates": 9,
+            "targetBacksteps": 0,
+            "targetStops": 8,
+            "fallbackFrames": 1,
+            "maxFrameMs": 34.900000005960464,
+            "maxDisplayAuthorityGapM": 3.7961708477292473
+          },
+          {
+            "code": "KeyA",
+            "alive": true,
+            "frames": 205,
+            "authorityStates": 12,
+            "targetBacksteps": 0,
+            "targetStops": 4,
+            "fallbackFrames": 2,
+            "maxFrameMs": 41.29999999701977,
+            "maxDisplayAuthorityGapM": 3.83558321829688
+          }
+        ],
+        "downBytes": 467539,
+        "downMessages": 229
+      }
+    ]
+  },
+  {
+    "case": "optimized",
+    "passed": true,
+    "errors": [],
+    "sources": {
+      "src/client/front-app.ts": "a277cb0b10ff60f42cad63413daf66f4312d753b6e69a4f9418ea54729fb78f7",
+      "src/client/input.ts": "10394277cf088861e98545d7f599f41b559a29020846cf2a57aa80d7a3b2dd6c",
+      "src/client/front-local-motion.ts": "98a5fba92d5368e2f0c5c5fe21654ab2889d0e39dda4b4bc40c4f6ba26c02be9"
+    },
+    "runs": [
+      {
+        "latencyEachDirectionMs": 0,
+        "label": "48 FPS · 往復 24ms · 更新 10/s",
+        "diagnostics": {
+          "server": {
+            "tickMs": 12,
+            "previousEncodeMs": 2,
+            "clockDroppedMs": 0,
+            "stateInFlight": 0
+          },
+          "samples": {
+            "inputTimerLagMs": {
+              "count": 128,
+              "p95": 20.100000001490116,
+              "max": 26.80000000447035
+            },
+            "server.tickMs": {
+              "count": 128,
+              "p95": 39,
+              "max": 51
+            },
+            "server.previousEncodeMs": {
+              "count": 128,
+              "p95": 11,
+              "max": 14
+            },
+            "server.clockDroppedMs": {
+              "count": 128,
+              "p95": 0,
+              "max": 0
+            },
+            "server.stateInFlight": {
+              "count": 128,
+              "p95": 1,
+              "max": 1
+            },
+            "receiveProcessingMs": {
+              "count": 128,
+              "p95": 5.300000004470348,
+              "max": 6.600000001490116
+            },
+            "stateGapMs": {
+              "count": 128,
+              "p95": 191,
+              "max": 333.8999999985099
+            },
+            "sampleToSendMs": {
+              "count": 128,
+              "p95": 0.10000000149011612,
+              "max": 0.10000000149011612
+            },
+            "inputInFlight": {
+              "count": 128,
+              "p95": 5,
+              "max": 9
+            },
+            "sendToReceiptMs": {
+              "count": 128,
+              "p95": 412.09999999403954,
+              "max": 518.3999999985099
+            },
+            "sendToAppliedStateMs": {
+              "count": 128,
+              "p95": 387.19999999552965,
+              "max": 640.1999999955297
+            },
+            "sendToRenderSubmissionMs": {
+              "count": 128,
+              "p95": 401.79999999701977,
+              "max": 653.1999999955297
+            }
+          }
+        },
+        "trials": [
+          {
+            "code": "KeyW",
+            "alive": true,
+            "frames": 221,
+            "authorityStates": 37,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 74.29999999701977,
+            "maxDisplayAuthorityGapM": 0.8903785486176483
+          },
+          {
+            "code": "KeyS",
+            "alive": true,
+            "frames": 224,
+            "authorityStates": 38,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 28.799999997019768,
+            "maxDisplayAuthorityGapM": 1.3630114494141772
+          },
+          {
+            "code": "KeyD",
+            "alive": true,
+            "frames": 224,
+            "authorityStates": 37,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 28.399999998509884,
+            "maxDisplayAuthorityGapM": 0.9548271028520006
+          },
+          {
+            "code": "KeyA",
+            "alive": true,
+            "frames": 213,
+            "authorityStates": 34,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 33,
+            "maxDisplayAuthorityGapM": 2.3772098645600477
+          }
+        ],
+        "downBytes": 1350516,
+        "downMessages": 378
+      },
+      {
+        "latencyEachDirectionMs": 300,
+        "label": "53 FPS · 往復 665ms · 更新 2/s",
+        "diagnostics": {
+          "server": {
+            "tickMs": 18,
+            "previousEncodeMs": 3,
+            "clockDroppedMs": 0,
+            "stateInFlight": 1
+          },
+          "samples": {
+            "inputTimerLagMs": {
+              "count": 128,
+              "p95": 21.099999994039536,
+              "max": 31.5
+            },
+            "server.tickMs": {
+              "count": 66,
+              "p95": 35,
+              "max": 39
+            },
+            "server.previousEncodeMs": {
+              "count": 66,
+              "p95": 9,
+              "max": 13
+            },
+            "server.clockDroppedMs": {
+              "count": 66,
+              "p95": 0,
+              "max": 0
+            },
+            "server.stateInFlight": {
+              "count": 66,
+              "p95": 1,
+              "max": 1
+            },
+            "receiveProcessingMs": {
+              "count": 66,
+              "p95": 5.100000001490116,
+              "max": 123.5
+            },
+            "stateGapMs": {
+              "count": 65,
+              "p95": 573.6000000014901,
+              "max": 612.5999999940395
+            },
+            "sampleToSendMs": {
+              "count": 128,
+              "p95": 0.10000000149011612,
+              "max": 0.10000000149011612
+            },
+            "inputInFlight": {
+              "count": 128,
+              "p95": 13,
+              "max": 13
+            },
+            "sendToReceiptMs": {
+              "count": 128,
+              "p95": 707.5,
+              "max": 746
+            },
+            "sendToAppliedStateMs": {
+              "count": 59,
+              "p95": 744.6000000014901,
+              "max": 798.6000000014901
+            },
+            "sendToRenderSubmissionMs": {
+              "count": 59,
+              "p95": 759,
+              "max": 809.2999999970198
+            }
+          }
+        },
+        "trials": [
+          {
+            "code": "KeyW",
+            "alive": true,
+            "frames": 222,
+            "authorityStates": 10,
+            "targetBacksteps": 0,
+            "targetStops": 41,
+            "fallbackFrames": 17,
+            "maxFrameMs": 29.100000001490116,
+            "maxDisplayAuthorityGapM": 3.1499974428573863
+          },
+          {
+            "code": "KeyS",
+            "alive": true,
+            "frames": 223,
+            "authorityStates": 12,
+            "targetBacksteps": 0,
+            "targetStops": 20,
+            "fallbackFrames": 18,
+            "maxFrameMs": 25.200000002980232,
+            "maxDisplayAuthorityGapM": 3.1460983862537297
+          },
+          {
+            "code": "KeyD",
+            "alive": true,
+            "frames": 224,
+            "authorityStates": 11,
+            "targetBacksteps": 0,
+            "targetStops": 12,
+            "fallbackFrames": 8,
+            "maxFrameMs": 30.400000005960464,
+            "maxDisplayAuthorityGapM": 3.1149305919276618
+          },
+          {
+            "code": "KeyA",
+            "alive": true,
+            "frames": 210,
+            "authorityStates": 11,
+            "targetBacksteps": 0,
+            "targetStops": 20,
+            "fallbackFrames": 9,
+            "maxFrameMs": 28,
+            "maxDisplayAuthorityGapM": 4.718706235077974
+          }
+        ],
+        "downBytes": 480456,
+        "downMessages": 243
+      }
+    ]
+  },
+  {
+    "case": "optimized-final",
+    "passed": true,
+    "errors": [],
+    "sources": {
+      "src/client/front-app.ts": "8c719166d2d32a20f5b08e96dd299b15d8f9f9b2592caa25bbad631a4d26c683",
+      "src/client/front-network.ts": "c4a24d538bec808c61952b680b67f00e88bb56be5c0a8b0207516d1a86598ec1",
+      "src/client/connection-diagnostics.ts": "1e37fa76e9baeda0b139afd1d81568c557f00351baa1e51ec98e9c8540e0da4e",
+      "src/shared/state-delta.ts": "1729f2aa066d1b857d2b88bc8420fadcd04d285f7b7c90fd9dcdb760706968f2",
+      "server/worker.ts": "d032eaf810f926ca222228bb34a1d0aa2e8538b28dc71e8c6cd8a98f1227e981",
+      "src/client/input.ts": "10394277cf088861e98545d7f599f41b559a29020846cf2a57aa80d7a3b2dd6c",
+      "src/client/front-local-motion.ts": "98a5fba92d5368e2f0c5c5fe21654ab2889d0e39dda4b4bc40c4f6ba26c02be9"
+    },
+    "runs": [
+      {
+        "latencyEachDirectionMs": 0,
+        "label": "47 FPS · 往復 202ms · 更新 10/s",
+        "diagnostics": {
+          "server": {
+            "tickMs": 16,
+            "previousEncodeMs": 3,
+            "clockDroppedMs": 0,
+            "stateInFlight": 0
+          },
+          "samples": {
+            "inputTimerLagMs": {
+              "count": 128,
+              "p95": 17.099999994039536,
+              "max": 35.5
+            },
+            "server.tickMs": {
+              "count": 128,
+              "p95": 39,
+              "max": 55
+            },
+            "server.previousEncodeMs": {
+              "count": 128,
+              "p95": 5,
+              "max": 10
+            },
+            "server.clockDroppedMs": {
+              "count": 128,
+              "p95": 0,
+              "max": 0
+            },
+            "server.stateInFlight": {
+              "count": 128,
+              "p95": 1,
+              "max": 1
+            },
+            "receiveProcessingMs": {
+              "count": 128,
+              "p95": 4.600000001490116,
+              "max": 5.200000002980232
+            },
+            "stateGapMs": {
+              "count": 128,
+              "p95": 142.5,
+              "max": 170.39999999850988
+            },
+            "sampleToSendMs": {
+              "count": 128,
+              "p95": 0.10000000149011612,
+              "max": 0.29999999701976776
+            },
+            "inputInFlight": {
+              "count": 128,
+              "p95": 3,
+              "max": 3
+            },
+            "sendToReceiptMs": {
+              "count": 128,
+              "p95": 146,
+              "max": 206.89999999850988
+            },
+            "sendToAppliedStateMs": {
+              "count": 128,
+              "p95": 145.5,
+              "max": 177.29999999701977
+            },
+            "sendToRenderSubmissionMs": {
+              "count": 128,
+              "p95": 158.30000000447035,
+              "max": 190.29999999701977
+            }
+          }
+        },
+        "trials": [
+          {
+            "code": "KeyW",
+            "alive": true,
+            "frames": 222,
+            "authorityStates": 38,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 33.19999999552965,
+            "maxDisplayAuthorityGapM": 1.1008972252026368
+          },
+          {
+            "code": "KeyS",
+            "alive": true,
+            "frames": 223,
+            "authorityStates": 37,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 26.600000001490116,
+            "maxDisplayAuthorityGapM": 1.8056812927284938
+          },
+          {
+            "code": "KeyD",
+            "alive": true,
+            "frames": 222,
+            "authorityStates": 37,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 27.600000001490116,
+            "maxDisplayAuthorityGapM": 1.020820394927487
+          },
+          {
+            "code": "KeyA",
+            "alive": true,
+            "frames": 217,
+            "authorityStates": 36,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 30.80000000447035,
+            "maxDisplayAuthorityGapM": 1.395366062420877
+          }
+        ],
+        "downBytes": 1475041,
+        "downMessages": 233
+      },
+      {
+        "latencyEachDirectionMs": 300,
+        "label": "57 FPS · 往復 698ms · 更新 2/s",
+        "diagnostics": {
+          "server": {
+            "tickMs": 24,
+            "previousEncodeMs": 3,
+            "clockDroppedMs": 0,
+            "stateInFlight": 1
+          },
+          "samples": {
+            "inputTimerLagMs": {
+              "count": 128,
+              "p95": 15.300000004470348,
+              "max": 25.80000000447035
+            },
+            "server.tickMs": {
+              "count": 66,
+              "p95": 31,
+              "max": 34
+            },
+            "server.previousEncodeMs": {
+              "count": 66,
+              "p95": 5,
+              "max": 7
+            },
+            "server.clockDroppedMs": {
+              "count": 66,
+              "p95": 0,
+              "max": 0
+            },
+            "server.stateInFlight": {
+              "count": 66,
+              "p95": 1,
+              "max": 1
+            },
+            "receiveProcessingMs": {
+              "count": 66,
+              "p95": 5.100000001490116,
+              "max": 138.20000000298023
+            },
+            "stateGapMs": {
+              "count": 65,
+              "p95": 553.8000000044703,
+              "max": 628.5
+            },
+            "sampleToSendMs": {
+              "count": 128,
+              "p95": 0.10000000149011612,
+              "max": 0.10000000149011612
+            },
+            "inputInFlight": {
+              "count": 128,
+              "p95": 12,
+              "max": 13
+            },
+            "sendToReceiptMs": {
+              "count": 128,
+              "p95": 690.3000000044703,
+              "max": 744.6999999955297
+            },
+            "sendToAppliedStateMs": {
+              "count": 59,
+              "p95": 738.1999999955297,
+              "max": 744.6999999955297
+            },
+            "sendToRenderSubmissionMs": {
+              "count": 59,
+              "p95": 750.1999999955297,
+              "max": 761.5
+            }
+          }
+        },
+        "trials": [
+          {
+            "code": "KeyW",
+            "alive": true,
+            "frames": 223,
+            "authorityStates": 10,
+            "targetBacksteps": 0,
+            "targetStops": 44,
+            "fallbackFrames": 4,
+            "maxFrameMs": 27.399999998509884,
+            "maxDisplayAuthorityGapM": 3.1499990411489556
+          },
+          {
+            "code": "KeyS",
+            "alive": true,
+            "frames": 224,
+            "authorityStates": 10,
+            "targetBacksteps": 0,
+            "targetStops": 46,
+            "fallbackFrames": 5,
+            "maxFrameMs": 27.299999997019768,
+            "maxDisplayAuthorityGapM": 3.1499377794525483
+          },
+          {
+            "code": "KeyD",
+            "alive": true,
+            "frames": 222,
+            "authorityStates": 10,
+            "targetBacksteps": 0,
+            "targetStops": 19,
+            "fallbackFrames": 7,
+            "maxFrameMs": 25.899999998509884,
+            "maxDisplayAuthorityGapM": 3.9779869477135685
+          },
+          {
+            "code": "KeyA",
+            "alive": true,
+            "frames": 213,
+            "authorityStates": 12,
+            "targetBacksteps": 0,
+            "targetStops": 27,
+            "fallbackFrames": 8,
+            "maxFrameMs": 32.79999999701977,
+            "maxDisplayAuthorityGapM": 4.302573650243154
+          }
+        ],
+        "downBytes": 476054,
+        "downMessages": 237
+      }
+    ]
+  },
+  {
+    "case": "optimized-coalesced",
+    "passed": true,
+    "errors": [],
+    "sources": {
+      "src/client/front-app.ts": "8c719166d2d32a20f5b08e96dd299b15d8f9f9b2592caa25bbad631a4d26c683",
+      "src/client/front-network.ts": "538bbd02f89a7a726136d01cf19d18111ca7a323b607562941c92dbaa80de712",
+      "src/client/connection-diagnostics.ts": "1e37fa76e9baeda0b139afd1d81568c557f00351baa1e51ec98e9c8540e0da4e",
+      "src/shared/state-delta.ts": "1729f2aa066d1b857d2b88bc8420fadcd04d285f7b7c90fd9dcdb760706968f2",
+      "server/worker.ts": "d032eaf810f926ca222228bb34a1d0aa2e8538b28dc71e8c6cd8a98f1227e981",
+      "src/client/input.ts": "10394277cf088861e98545d7f599f41b559a29020846cf2a57aa80d7a3b2dd6c",
+      "src/client/front-local-motion.ts": "98a5fba92d5368e2f0c5c5fe21654ab2889d0e39dda4b4bc40c4f6ba26c02be9"
+    },
+    "runs": [
+      {
+        "latencyEachDirectionMs": 0,
+        "label": "50 FPS · 往復 41ms · 更新 9/s",
+        "diagnostics": {
+          "server": {
+            "tickMs": 24,
+            "previousEncodeMs": 2,
+            "clockDroppedMs": 0,
+            "stateInFlight": 0
+          },
+          "samples": {
+            "inputTimerLagMs": {
+              "count": 128,
+              "p95": 17.5,
+              "max": 26.600000001490116
+            },
+            "server.tickMs": {
+              "count": 128,
+              "p95": 39,
+              "max": 47
+            },
+            "server.previousEncodeMs": {
+              "count": 128,
+              "p95": 6,
+              "max": 7
+            },
+            "server.clockDroppedMs": {
+              "count": 128,
+              "p95": 0,
+              "max": 0
+            },
+            "server.stateInFlight": {
+              "count": 128,
+              "p95": 1,
+              "max": 1
+            },
+            "receiveProcessingMs": {
+              "count": 128,
+              "p95": 4.5,
+              "max": 5.299999997019768
+            },
+            "stateGapMs": {
+              "count": 128,
+              "p95": 139.69999999552965,
+              "max": 160.79999999701977
+            },
+            "sampleToSendMs": {
+              "count": 128,
+              "p95": 0.10000000149011612,
+              "max": 0.10000000149011612
+            },
+            "inputInFlight": {
+              "count": 128,
+              "p95": 2,
+              "max": 3
+            },
+            "sendToReceiptMs": {
+              "count": 128,
+              "p95": 133,
+              "max": 176.89999999850988
+            },
+            "sendToAppliedStateMs": {
+              "count": 128,
+              "p95": 129.89999999850988,
+              "max": 220.29999999701977
+            },
+            "sendToRenderSubmissionMs": {
+              "count": 128,
+              "p95": 142.29999999701977,
+              "max": 226.69999999552965
+            }
+          }
+        },
+        "trials": [
+          {
+            "code": "KeyW",
+            "alive": true,
+            "frames": 222,
+            "authorityStates": 37,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 38.900000005960464,
+            "maxDisplayAuthorityGapM": 0.5982819603498442
+          },
+          {
+            "code": "KeyS",
+            "alive": true,
+            "frames": 224,
+            "authorityStates": 37,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 24.900000005960464,
+            "maxDisplayAuthorityGapM": 0.7371968646447584
+          },
+          {
+            "code": "KeyD",
+            "alive": true,
+            "frames": 222,
+            "authorityStates": 37,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 26.100000001490116,
+            "maxDisplayAuthorityGapM": 0.7308807546698765
+          },
+          {
+            "code": "KeyA",
+            "alive": true,
+            "frames": 213,
+            "authorityStates": 37,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 28.899999998509884,
+            "maxDisplayAuthorityGapM": 1.5093218987638142
+          }
+        ],
+        "downBytes": 1444821,
+        "downMessages": 231
+      }
+    ]
+  },
+  {
+    "case": "optimized-final-300",
+    "passed": true,
+    "errors": [],
+    "sources": {
+      "src/client/front-app.ts": "8c719166d2d32a20f5b08e96dd299b15d8f9f9b2592caa25bbad631a4d26c683",
+      "src/client/front-network.ts": "538bbd02f89a7a726136d01cf19d18111ca7a323b607562941c92dbaa80de712",
+      "src/client/connection-diagnostics.ts": "1e37fa76e9baeda0b139afd1d81568c557f00351baa1e51ec98e9c8540e0da4e",
+      "src/shared/state-delta.ts": "1729f2aa066d1b857d2b88bc8420fadcd04d285f7b7c90fd9dcdb760706968f2",
+      "server/worker.ts": "d032eaf810f926ca222228bb34a1d0aa2e8538b28dc71e8c6cd8a98f1227e981",
+      "src/client/input.ts": "10394277cf088861e98545d7f599f41b559a29020846cf2a57aa80d7a3b2dd6c",
+      "src/client/front-local-motion.ts": "98a5fba92d5368e2f0c5c5fe21654ab2889d0e39dda4b4bc40c4f6ba26c02be9"
+    },
+    "runs": [
+      {
+        "latencyEachDirectionMs": 300,
+        "label": "51 FPS · 往復 666ms · 更新 3/s",
+        "diagnostics": {
+          "server": {
+            "tickMs": 47,
+            "previousEncodeMs": 4,
+            "clockDroppedMs": 0,
+            "stateInFlight": 1
+          },
+          "samples": {
+            "inputTimerLagMs": {
+              "count": 128,
+              "p95": 19.799999997019768,
+              "max": 50.20000000298023
+            },
+            "server.tickMs": {
+              "count": 65,
+              "p95": 47,
+              "max": 53
+            },
+            "server.previousEncodeMs": {
+              "count": 65,
+              "p95": 6,
+              "max": 8
+            },
+            "server.clockDroppedMs": {
+              "count": 65,
+              "p95": 0,
+              "max": 0
+            },
+            "server.stateInFlight": {
+              "count": 65,
+              "p95": 1,
+              "max": 1
+            },
+            "receiveProcessingMs": {
+              "count": 65,
+              "p95": 4.9000000059604645,
+              "max": 139
+            },
+            "stateGapMs": {
+              "count": 64,
+              "p95": 518.5,
+              "max": 628.2999999970198
+            },
+            "sampleToSendMs": {
+              "count": 128,
+              "p95": 0.10000000149011612,
+              "max": 0.10000000149011612
+            },
+            "inputInFlight": {
+              "count": 128,
+              "p95": 13,
+              "max": 15
+            },
+            "sendToReceiptMs": {
+              "count": 128,
+              "p95": 785.6000000014901,
+              "max": 1166.7999999970198
+            },
+            "sendToAppliedStateMs": {
+              "count": 57,
+              "p95": 825.2000000029802,
+              "max": 855.3999999985099
+            },
+            "sendToRenderSubmissionMs": {
+              "count": 57,
+              "p95": 838.7000000029802,
+              "max": 870.3999999985099
+            }
+          }
+        },
+        "trials": [
+          {
+            "code": "KeyW",
+            "alive": true,
+            "frames": 220,
+            "authorityStates": 10,
+            "targetBacksteps": 0,
+            "targetStops": 37,
+            "fallbackFrames": 1,
+            "maxFrameMs": 38.899999998509884,
+            "maxDisplayAuthorityGapM": 3.1499942029660204
+          },
+          {
+            "code": "KeyS",
+            "alive": true,
+            "frames": 224,
+            "authorityStates": 10,
+            "targetBacksteps": 0,
+            "targetStops": 47,
+            "fallbackFrames": 0,
+            "maxFrameMs": 24.799999997019768,
+            "maxDisplayAuthorityGapM": 3.1499900442735616
+          },
+          {
+            "code": "KeyD",
+            "alive": true,
+            "frames": 222,
+            "authorityStates": 10,
+            "targetBacksteps": 0,
+            "targetStops": 9,
+            "fallbackFrames": 1,
+            "maxFrameMs": 30.099999994039536,
+            "maxDisplayAuthorityGapM": 3.574832876863991
+          },
+          {
+            "code": "KeyA",
+            "alive": true,
+            "frames": 209,
+            "authorityStates": 11,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 2,
+            "maxFrameMs": 32.20000000298023,
+            "maxDisplayAuthorityGapM": 2.8252517650540128
+          }
+        ],
+        "downBytes": 472894,
+        "downMessages": 232
+      }
+    ]
+  },
+  {
+    "case": "legacy-bandwidth",
+    "passed": true,
+    "errors": [],
+    "sources": {
+      "src/client/front-app.ts": "8c719166d2d32a20f5b08e96dd299b15d8f9f9b2592caa25bbad631a4d26c683",
+      "src/client/front-network.ts": "538bbd02f89a7a726136d01cf19d18111ca7a323b607562941c92dbaa80de712",
+      "src/client/connection-diagnostics.ts": "1e37fa76e9baeda0b139afd1d81568c557f00351baa1e51ec98e9c8540e0da4e",
+      "src/shared/state-delta.ts": "1729f2aa066d1b857d2b88bc8420fadcd04d285f7b7c90fd9dcdb760706968f2",
+      "server/worker.ts": "d032eaf810f926ca222228bb34a1d0aa2e8538b28dc71e8c6cd8a98f1227e981",
+      "src/client/input.ts": "10394277cf088861e98545d7f599f41b559a29020846cf2a57aa80d7a3b2dd6c",
+      "src/client/front-local-motion.ts": "98a5fba92d5368e2f0c5c5fe21654ab2889d0e39dda4b4bc40c4f6ba26c02be9"
+    },
+    "runs": [
+      {
+        "latencyEachDirectionMs": 75,
+        "label": "60 FPS · 往復 219ms · 更新 5/s",
+        "diagnostics": {
+          "server": {
+            "tickMs": 30,
+            "previousEncodeMs": 1,
+            "clockDroppedMs": 0,
+            "stateInFlight": 1
+          },
+          "samples": {
+            "inputTimerLagMs": {
+              "count": 128,
+              "p95": 17.799999997019768,
+              "max": 37.099999994039536
+            },
+            "server.tickMs": {
+              "count": 128,
+              "p95": 37,
+              "max": 46
+            },
+            "server.previousEncodeMs": {
+              "count": 128,
+              "p95": 3,
+              "max": 6
+            },
+            "server.clockDroppedMs": {
+              "count": 128,
+              "p95": 0,
+              "max": 0
+            },
+            "server.stateInFlight": {
+              "count": 128,
+              "p95": 1,
+              "max": 1
+            },
+            "receiveProcessingMs": {
+              "count": 128,
+              "p95": 3.4000000059604645,
+              "max": 4.199999995529652
+            },
+            "stateGapMs": {
+              "count": 128,
+              "p95": 241.5,
+              "max": 270.40000000596046
+            },
+            "sampleToSendMs": {
+              "count": 128,
+              "p95": 0.10000000149011612,
+              "max": 0.19999999552965164
+            },
+            "inputInFlight": {
+              "count": 128,
+              "p95": 8,
+              "max": 9
+            },
+            "sendToReceiptMs": {
+              "count": 128,
+              "p95": 336.69999999552965,
+              "max": 379.6000000014901
+            },
+            "sendToAppliedStateMs": {
+              "count": 128,
+              "p95": 400.6000000014901,
+              "max": 453.6000000014901
+            },
+            "sendToRenderSubmissionMs": {
+              "count": 128,
+              "p95": 415.5,
+              "max": 469.5
+            }
+          }
+        },
+        "trials": [
+          {
+            "code": "KeyW",
+            "alive": true,
+            "frames": 223,
+            "authorityStates": 27,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 24.200000002980232,
+            "maxDisplayAuthorityGapM": 2.6138871507671766
+          },
+          {
+            "code": "KeyS",
+            "alive": true,
+            "frames": 224,
+            "authorityStates": 26,
+            "targetBacksteps": 0,
+            "targetStops": 6,
+            "fallbackFrames": 0,
+            "maxFrameMs": 25.100000001490116,
+            "maxDisplayAuthorityGapM": 3.0834283763058288
+          },
+          {
+            "code": "KeyD",
+            "alive": true,
+            "frames": 218,
+            "authorityStates": 23,
+            "targetBacksteps": 0,
+            "targetStops": 2,
+            "fallbackFrames": 0,
+            "maxFrameMs": 29.30000000447035,
+            "maxDisplayAuthorityGapM": 2.9588237966179487
+          },
+          {
+            "code": "KeyA",
+            "alive": true,
+            "frames": 196,
+            "authorityStates": 21,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 1,
+            "maxFrameMs": 78.5,
+            "maxDisplayAuthorityGapM": 2.6449659685384956
+          }
+        ],
+        "downBytes": 1349504,
+        "downMessages": 158
+      }
+    ]
+  },
+  {
+    "case": "optimized-bandwidth",
+    "passed": true,
+    "errors": [],
+    "sources": {
+      "src/client/front-app.ts": "8c719166d2d32a20f5b08e96dd299b15d8f9f9b2592caa25bbad631a4d26c683",
+      "src/client/front-network.ts": "538bbd02f89a7a726136d01cf19d18111ca7a323b607562941c92dbaa80de712",
+      "src/client/connection-diagnostics.ts": "1e37fa76e9baeda0b139afd1d81568c557f00351baa1e51ec98e9c8540e0da4e",
+      "src/shared/state-delta.ts": "1729f2aa066d1b857d2b88bc8420fadcd04d285f7b7c90fd9dcdb760706968f2",
+      "server/worker.ts": "d032eaf810f926ca222228bb34a1d0aa2e8538b28dc71e8c6cd8a98f1227e981",
+      "src/client/input.ts": "10394277cf088861e98545d7f599f41b559a29020846cf2a57aa80d7a3b2dd6c",
+      "src/client/front-local-motion.ts": "98a5fba92d5368e2f0c5c5fe21654ab2889d0e39dda4b4bc40c4f6ba26c02be9"
+    },
+    "runs": [
+      {
+        "latencyEachDirectionMs": 75,
+        "label": "55 FPS · 往復 272ms · 更新 3/s",
+        "diagnostics": {
+          "server": {
+            "tickMs": 50,
+            "previousEncodeMs": 4,
+            "clockDroppedMs": 0,
+            "stateInFlight": 1
+          },
+          "samples": {
+            "inputTimerLagMs": {
+              "count": 128,
+              "p95": 24.700000002980232,
+              "max": 38.80000000447035
+            },
+            "server.tickMs": {
+              "count": 128,
+              "p95": 33,
+              "max": 50
+            },
+            "server.previousEncodeMs": {
+              "count": 128,
+              "p95": 5,
+              "max": 7
+            },
+            "server.clockDroppedMs": {
+              "count": 128,
+              "p95": 0,
+              "max": 0
+            },
+            "server.stateInFlight": {
+              "count": 128,
+              "p95": 1,
+              "max": 1
+            },
+            "receiveProcessingMs": {
+              "count": 128,
+              "p95": 3.899999998509884,
+              "max": 4.5
+            },
+            "stateGapMs": {
+              "count": 128,
+              "p95": 228.29999999701977,
+              "max": 346.69999999552965
+            },
+            "sampleToSendMs": {
+              "count": 128,
+              "p95": 0.10000000149011612,
+              "max": 0.10000000149011612
+            },
+            "inputInFlight": {
+              "count": 128,
+              "p95": 7,
+              "max": 8
+            },
+            "sendToReceiptMs": {
+              "count": 128,
+              "p95": 374.20000000298023,
+              "max": 519.7999999970198
+            },
+            "sendToAppliedStateMs": {
+              "count": 128,
+              "p95": 407.79999999701977,
+              "max": 637.1000000014901
+            },
+            "sendToRenderSubmissionMs": {
+              "count": 128,
+              "p95": 422.69999999552965,
+              "max": 648.3999999985099
+            }
+          }
+        },
+        "trials": [
+          {
+            "code": "KeyW",
+            "alive": true,
+            "frames": 222,
+            "authorityStates": 31,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 40.70000000298023,
+            "maxDisplayAuthorityGapM": 2.4182213220159277
+          },
+          {
+            "code": "KeyS",
+            "alive": true,
+            "frames": 222,
+            "authorityStates": 30,
+            "targetBacksteps": 0,
+            "targetStops": 1,
+            "fallbackFrames": 0,
+            "maxFrameMs": 24.19999999552965,
+            "maxDisplayAuthorityGapM": 2.9048039295519743
+          },
+          {
+            "code": "KeyD",
+            "alive": true,
+            "frames": 222,
+            "authorityStates": 24,
+            "targetBacksteps": 0,
+            "targetStops": 1,
+            "fallbackFrames": 0,
+            "maxFrameMs": 27.399999998509884,
+            "maxDisplayAuthorityGapM": 2.909729607806941
+          },
+          {
+            "code": "KeyA",
+            "alive": true,
+            "frames": 221,
+            "authorityStates": 24,
+            "targetBacksteps": 0,
+            "targetStops": 6,
+            "fallbackFrames": 0,
+            "maxFrameMs": 32,
+            "maxDisplayAuthorityGapM": 3.0731617187087776
+          }
+        ],
+        "downBytes": 981760,
+        "downMessages": 305
+      }
+    ]
+  },
+  {
+    "case": "stall",
+    "passed": true,
+    "errors": [],
+    "sources": {
+      "src/client/front-app.ts": "8c719166d2d32a20f5b08e96dd299b15d8f9f9b2592caa25bbad631a4d26c683",
+      "src/client/front-network.ts": "538bbd02f89a7a726136d01cf19d18111ca7a323b607562941c92dbaa80de712",
+      "src/client/connection-diagnostics.ts": "1e37fa76e9baeda0b139afd1d81568c557f00351baa1e51ec98e9c8540e0da4e",
+      "src/shared/state-delta.ts": "1729f2aa066d1b857d2b88bc8420fadcd04d285f7b7c90fd9dcdb760706968f2",
+      "server/worker.ts": "d032eaf810f926ca222228bb34a1d0aa2e8538b28dc71e8c6cd8a98f1227e981",
+      "src/client/input.ts": "10394277cf088861e98545d7f599f41b559a29020846cf2a57aa80d7a3b2dd6c",
+      "src/client/front-local-motion.ts": "98a5fba92d5368e2f0c5c5fe21654ab2889d0e39dda4b4bc40c4f6ba26c02be9"
+    },
+    "runs": [
+      {
+        "latencyEachDirectionMs": 0,
+        "label": "58 FPS · 往復 15ms · 更新 10/s",
+        "diagnostics": {
+          "server": {
+            "tickMs": 25,
+            "previousEncodeMs": 4,
+            "clockDroppedMs": 0,
+            "stateInFlight": 0
+          },
+          "samples": {
+            "inputTimerLagMs": {
+              "count": 128,
+              "p95": 24.100000001490116,
+              "max": 502
+            },
+            "server.tickMs": {
+              "count": 128,
+              "p95": 43,
+              "max": 50
+            },
+            "server.previousEncodeMs": {
+              "count": 128,
+              "p95": 6,
+              "max": 7
+            },
+            "server.clockDroppedMs": {
+              "count": 128,
+              "p95": 0,
+              "max": 0
+            },
+            "server.stateInFlight": {
+              "count": 128,
+              "p95": 1,
+              "max": 1
+            },
+            "receiveProcessingMs": {
+              "count": 128,
+              "p95": 4.299999997019768,
+              "max": 4.600000001490116
+            },
+            "stateGapMs": {
+              "count": 128,
+              "p95": 142.39999999850988,
+              "max": 630.2000000029802
+            },
+            "sampleToSendMs": {
+              "count": 128,
+              "p95": 0.10000000149011612,
+              "max": 0.10000000149011612
+            },
+            "inputInFlight": {
+              "count": 128,
+              "p95": 2,
+              "max": 3
+            },
+            "sendToReceiptMs": {
+              "count": 128,
+              "p95": 121.29999999701977,
+              "max": 578.3000000044703
+            },
+            "sendToAppliedStateMs": {
+              "count": 128,
+              "p95": 124.30000000447035,
+              "max": 578.3000000044703
+            },
+            "sendToRenderSubmissionMs": {
+              "count": 128,
+              "p95": 134.80000000447035,
+              "max": 601.4000000059605
+            }
+          }
+        },
+        "trials": [
+          {
+            "code": "KeyW",
+            "alive": true,
+            "frames": 223,
+            "authorityStates": 36,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 25.5,
+            "maxDisplayAuthorityGapM": 0.5864069590257346
+          },
+          {
+            "code": "KeyS",
+            "alive": true,
+            "frames": 222,
+            "authorityStates": 37,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 31.19999999552965,
+            "maxDisplayAuthorityGapM": 0.6666047990974349
+          },
+          {
+            "code": "KeyD",
+            "alive": true,
+            "frames": 223,
+            "authorityStates": 37,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 0,
+            "maxFrameMs": 30.399999998509884,
+            "maxDisplayAuthorityGapM": 1.1438547491932987
+          },
+          {
+            "code": "KeyA",
+            "alive": true,
+            "frames": 191,
+            "authorityStates": 32,
+            "targetBacksteps": 0,
+            "targetStops": 0,
+            "fallbackFrames": 2,
+            "maxFrameMs": 517.1999999955297,
+            "maxDisplayAuthorityGapM": 1.9013528546926288
+          }
+        ],
+        "downBytes": 1401748,
+        "downMessages": 230
+      }
+    ]
+  }
+]
