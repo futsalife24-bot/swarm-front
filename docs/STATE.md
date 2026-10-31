@@ -1,3 +1,9 @@
+# 公開完了: 生存戦のPLEAT壁停止・協力ロビー統一（2026-10-31）
+
+本人の明示承認後、[PR #239](https://github.com/futsalife24-bot/swarm-front/pull/239) を通常mergeし、公開ソース `dfbf1c4b8ea4578108332560f4cb9cdfd325a0e0` を既存Worker Version `ef3f7245-6296-4917-b67e-53a7ad3308d5` へ公開。merge後build・production dry-run成功、配信35ファイルのSHA一致・health 200/ok。GitHubのchecks/statusesは0件でありCI合格とは扱わない。
+
+配信コードをGET専用中継・隔離Worker・空Chromeで確認。844×390と640×360の2人部屋作成・一覧参加・準備・チャット送受信・退出が成功、画面例外0。実スマホ・実インターネット複数端末・長時間実戦・全地形は未確認。本人確認済み無料契約、当日UTC 00:00〜04:45の全Workersは85 requests・errors 0・subrequests 105。DO個別使用量未確認。新規費用・契約・権限変更なし。元rootの未保存差分は保持。主担当のモデルID・推論設定未確認、子なし。詳細: [公開確認](evidence/survival-wall-lobby-20261031/README.md)。
+
 # 現在地: 生存戦のPLEAT壁停止・協力ロビー統一（2026-10-31）
 
 本人の画像指摘に対応。PLEATが生存戦の薄い外壁を越える際、地面と壁上面の平行な足場を同一視して移行が止まる問題を修正。生存協力ロビーを進撃と同じ3列・参加者4枠・装備/準備状態・チャットへ統一し、募集方式・招待・出撃準備を維持。
