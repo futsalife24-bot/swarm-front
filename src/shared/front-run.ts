@@ -114,6 +114,10 @@ export interface FrontRun {
   resumeUntil: number;
   nextSpawnAt: number;
   spawnIndex: number;
+  /** Independent, persistent spawn randomness; combat and loot keep their own sequence. */
+  survivalSpawnSeed?: number;
+  survivalWaveIndex?: number;
+  survivalWaveRetryAt?: number;
   pendingSpawns: { x: number; z: number; at: number; kinds: Enemy["kind"][] }[];
   pendingBoss: { x: number; z: number; at: number } | null;
   /** 生存戦で次の BASTION を予告できる最短の戦闘時刻。 */
@@ -268,6 +272,9 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
     resumeUntil: 0,
     nextSpawnAt: 0,
     spawnIndex: 0,
+    ...(options.fusion && mode === "survival"
+      ? { survivalSpawnSeed: (seed ^ 0x8b8b8b8b) >>> 0, survivalWaveIndex: 0 }
+      : {}),
     pendingSpawns: [],
     pendingBoss: null,
     metrics: {
@@ -468,6 +475,136 @@ function safePoint(w: World, kind: Enemy["kind"], x: number, z: number) {
     !blocked(x, z, radius, supportHeight(x, z, blocks) + cruise, blocks)
   );
 }
+const SURVIVAL_WAVE_INTERVAL = 120;
+const SURVIVAL_WAVE_SIZE = 24;
+const SURVIVAL_WAVE_RESERVE_SECONDS = 12;
+const SURVIVAL_WAVE_GRACE = 15;
+
+function survivalSpawnRandom(run: FrontRun) {
+  const seed = run.survivalSpawnSeed ?? (run.world.seed ^ 0x8b8b8b8b) >>> 0;
+  run.survivalSpawnSeed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+  return run.survivalSpawnSeed / 4294967296;
+}
+
+// Survival uses the walled defense yard. Do not place enemies outside the
+// perimeter or within the existing safety distance of any living player.
+function survivalSpawnPoint(
+  run: FrontRun,
+  kinds: Enemy["kind"][],
+  avoid: readonly { x: number; z: number }[] = [],
+) {
+  const players = run.world.players.filter((p) => p.hp > 0 && p.connected);
+  if (!players.length) return undefined;
+  for (let attempt = 0; attempt < 48; attempt++) {
+    const player =
+      players[Math.floor(survivalSpawnRandom(run) * players.length)];
+    const angle = survivalSpawnRandom(run) * Math.PI * 2;
+    const distance = 23 + survivalSpawnRandom(run) * 20;
+    const point = {
+      x: player.x + Math.cos(angle) * distance,
+      z: player.z + Math.sin(angle) * distance,
+    };
+    if (
+      avoid.every(
+        (other) => Math.hypot(point.x - other.x, point.z - other.z) >= 8,
+      ) &&
+      kinds.every((kind, index) => {
+        const x = point.x + index * 2.7;
+        return (
+          Math.abs(x) < 46 &&
+          Math.abs(point.z) < 46 &&
+          safePoint(run.world, kind, x, point.z)
+        );
+      })
+    )
+      return point;
+  }
+  return undefined;
+}
+
+function queueSurvivalWave(run: FrontRun) {
+  if (!run.fusion || run.mode !== "survival") return;
+  const w = run.world;
+  // Older saved runs start with the next future wave, rather than replaying
+  // every event they missed before this feature was added.
+  const index = (run.survivalWaveIndex ??= Math.floor(
+    w.time / SURVIVAL_WAVE_INTERVAL,
+  ));
+  const at = (index + 1) * SURVIVAL_WAVE_INTERVAL;
+  if (w.time < at) return;
+  if (w.time > at + SURVIVAL_WAVE_GRACE) {
+    run.survivalWaveIndex = Math.floor(w.time / SURVIVAL_WAVE_INTERVAL);
+    return;
+  }
+  if (w.time < (run.survivalWaveRetryAt ?? 0)) return;
+  const pending = run.pendingSpawns.reduce((sum, p) => sum + p.kinds.length, 0);
+  const available = (w.front!.enemyCap ?? 24) - w.enemies.length - pending;
+  if (available < 8) {
+    run.survivalWaveRetryAt = w.time + 1;
+    return;
+  }
+  const players = w.players.filter((p) => p.hp > 0 && p.connected);
+  if (!players.length) return;
+  const player = players[Math.floor(survivalSpawnRandom(run) * players.length)];
+  const rotation = survivalSpawnRandom(run) * Math.PI * 2;
+  const ring = index % 2 === 0;
+  const radius = 24 + survivalSpawnRandom(run) * 4;
+  const center = ring
+    ? player
+    : {
+        x: player.x + Math.cos(rotation) * radius,
+        z: player.z + Math.sin(rotation) * radius,
+      };
+  const points: { x: number; z: number; kind: Enemy["kind"] }[] = [];
+  for (
+    let i = 0;
+    i < SURVIVAL_WAVE_SIZE * 5 &&
+    points.length < Math.min(SURVIVAL_WAVE_SIZE, available);
+    i++
+  ) {
+    const angle = ring
+      ? rotation + ((i % SURVIVAL_WAVE_SIZE) * Math.PI * 2) / SURVIVAL_WAVE_SIZE
+      : survivalSpawnRandom(run) * Math.PI * 2;
+    const distance = ring
+      ? radius + Math.floor(i / SURVIVAL_WAVE_SIZE) * 1.5
+      : Math.sqrt(survivalSpawnRandom(run)) * 8;
+    const point = {
+      x: center.x + Math.cos(angle) * distance,
+      z: center.z + Math.sin(angle) * distance,
+    };
+    const kind: Enemy["kind"] = points.length % 6 === 5 ? "spitter" : "crawler";
+    if (
+      Math.abs(point.x) >= 46 ||
+      Math.abs(point.z) >= 46 ||
+      !safePoint(w, kind, point.x, point.z) ||
+      points.some((p) => Math.hypot(p.x - point.x, p.z - point.z) < 2.4)
+    )
+      continue;
+    points.push({ ...point, kind });
+  }
+  if (points.length < 8 && w.time < at + SURVIVAL_WAVE_GRACE) {
+    run.survivalWaveRetryAt = w.time + 1;
+    return;
+  }
+  run.survivalWaveRetryAt = undefined;
+  run.survivalWaveIndex = index + 1;
+  for (const point of points) {
+    run.pendingSpawns.push({
+      x: point.x,
+      z: point.z,
+      at: w.time + FRONT_RUN_CONFIG.spawnWarning,
+      kinds: [point.kind],
+    });
+    event(w, {
+      type: "burst",
+      silent: true,
+      radius: 2,
+      x: point.x,
+      y: 0.1,
+      z: point.z,
+    });
+  }
+}
 /** 生存戦の敵の攻撃力。進度で決まる倍率に、経過時間の上乗せを重ねる。 */
 function survivalDamage(w: World, clearedStage: number) {
   return (
@@ -505,11 +642,21 @@ function schedule(run: FrontRun) {
     });
     return false;
   });
+  const nextWave =
+    ((run.survivalWaveIndex ?? Math.floor(w.time / SURVIVAL_WAVE_INTERVAL)) +
+      1) *
+    SURVIVAL_WAVE_INTERVAL;
+  const normalCap =
+    survival &&
+    w.time >= nextWave - SURVIVAL_WAVE_RESERVE_SECONDS &&
+    w.time <= nextWave + SURVIVAL_WAVE_GRACE
+      ? enemyCap - Math.min(SURVIVAL_WAVE_SIZE, Math.floor(enemyCap / 3))
+      : enemyCap;
   if (
     w.time < run.nextSpawnAt ||
     w.enemies.length +
       run.pendingSpawns.reduce((sum, p) => sum + p.kinds.length, 0) >=
-      enemyCap
+      normalCap
   )
     return;
   run.nextSpawnAt =
@@ -536,13 +683,17 @@ function schedule(run: FrontRun) {
     run.mode === "daily"
       ? [INGRESS[frontDailySeed(run.day) % INGRESS.length]]
       : INGRESS;
-  const candidates = ingress.filter((point) =>
-    kinds.every((kind, index) =>
-      safePoint(w, kind, point.x + index * 2.7, point.z),
-    ),
-  );
-  if (!candidates.length) return;
-  const point = candidates[run.spawnIndex % candidates.length];
+  const candidates = survival
+    ? []
+    : ingress.filter((point) =>
+        kinds.every((kind, index) =>
+          safePoint(w, kind, point.x + index * 2.7, point.z),
+        ),
+      );
+  const point = survival
+    ? survivalSpawnPoint(run, kinds)
+    : candidates[run.spawnIndex % candidates.length];
+  if (!point) return;
   run.pendingSpawns.push({ ...point, at: w.time + 1.5, kinds });
   kinds.forEach((_, index) =>
     event(w, {
@@ -574,16 +725,12 @@ function scheduleBastion(run: FrontRun) {
       (w.front!.enemyCap ?? 24)
   )
     return;
-  // 生存中・予告中の個体と同じ入口には重ねない。
-  const candidates = INGRESS.filter(
-    (p) =>
-      safePoint(w, "bastion", p.x, p.z) &&
-      [...alive, ...pending].every(
-        (b) => Math.hypot(b.x - p.x, b.z - p.z) >= 8,
-      ),
-  );
-  if (!candidates.length) return;
-  const point = candidates[run.spawnIndex % candidates.length];
+  // 生存中・予告中の個体には重ねない。
+  const point = survivalSpawnPoint(run, ["bastion"], [...alive, ...pending]);
+  if (!point) {
+    run.bastionAt = w.time + 1;
+    return;
+  }
   run.pendingSpawns.push({
     ...point,
     at: w.time + FRONT_RUN_CONFIG.spawnWarning,
@@ -737,6 +884,7 @@ export function stepFrontRun(
     return run;
   }
   if (run.finalResupplyDone) spawnBoss(run);
+  queueSurvivalWave(run);
   schedule(run);
   scheduleBastion(run);
   step(

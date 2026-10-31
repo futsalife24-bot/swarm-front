@@ -58,6 +58,26 @@ export class TestRoom extends Room {
     if (u.pathname === "/fixture") {
       this.stop();
       this.fixedWire = false;
+      if (
+        ["front-survival-wave", "front-survival-cluster"].includes(
+          u.searchParams.get("case") ?? "",
+        )
+      ) {
+        const run = this.saved.frontRun;
+        if (!run?.fusion || run.mode !== "survival")
+          return new Response("生存戦が必要です", { status: 409 });
+        run.phase = "combat";
+        const cluster = u.searchParams.get("case") === "front-survival-cluster";
+        run.world.time = cluster ? 239.95 : 119.95;
+        run.world.enemies = [];
+        run.pendingSpawns = [];
+        run.survivalWaveIndex = cluster ? 1 : 0;
+        run.survivalWaveRetryAt = undefined;
+        run.nextSpawnAt = 1e9;
+        run.bastionAt = 1e9;
+        this.run();
+        return Response.json({ ok: true });
+      }
       if (u.searchParams.get("case") === "front-wire-bastion") {
         const run = this.saved.frontRun;
         if (!run || run.mode !== "survival")
@@ -439,7 +459,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion|front-survival-wave|front-survival-cluster)$/.exec(
         u.pathname,
       );
     if (match && req.method === "POST") {

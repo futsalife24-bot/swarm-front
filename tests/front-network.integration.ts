@@ -188,6 +188,41 @@ async function team(
   return { entry, members, states };
 }
 describe("改装版の実通信", () => {
+  it("生存戦の大量出現予告と敵を2人へ配信する", async () => {
+    const { entry, members, states } = await team(2, "survival", 3);
+    members.forEach((c, i) => c.choose(states[i]));
+    await members[0].wait(
+      (m) => m.type === "state" && m.frontView.phase === "combat",
+    );
+    const start = members.map((c) => c.messages.length);
+    const fixture = await fetch(
+      base + "/fixtures/" + entry.code + "/front-survival-wave",
+      { method: "POST" },
+    );
+    expect(fixture.status).toBe(200);
+    const warnings = await Promise.all(
+      members.map((c, i) =>
+        c.wait(
+          (m) => m.type === "state" && m.frontView.spawnWarnings.length >= 8,
+          start[i],
+          10000,
+        ),
+      ),
+    );
+    expect(warnings[0].frontView.spawnWarnings).toEqual(
+      warnings[1].frontView.spawnWarnings,
+    );
+    for (const [i, c] of members.entries()) {
+      const result = await c.wait(
+        (m) => m.type === "state" && m.world.enemies.length >= 8,
+        start[i],
+        10000,
+      );
+      expect(result.world.enemies.length).toBeLessThanOrEqual(96);
+      expect(c.maxPacketBytes).toBeLessThanOrEqual(64 * 1024);
+      expect(c.decodeErrors).toBe(0);
+    }
+  });
   it("同梱stateAckで解放した最初の状態に同じ入力の最新seqを含める", async () => {
     const { members } = await team(1, "survival", 3, false, false, false, true);
     const c = members[0];
