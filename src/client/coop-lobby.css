@@ -402,3 +402,18 @@ body #ui .room-browser #launch {
     gap: 10px;
   }
 }
+.front-game .front-lobby.front-unified-lobby {
+  width: min(1440px, calc(100% - 20px));
+  max-height: calc(100% - 20px);
+  overflow: hidden;
+}
+.front-unified-lobby #front-copy-password {
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  min-width: 36px;
+  min-height: 36px;
+}
+.front-unified-lobby #front-room-password {
+  white-space: nowrap;
+}

@@ -330,6 +330,19 @@ function step(
   const phaseBefore = s.phase;
   s.phase = (s.phase + frequency * dt) % 1;
   let landed = 0;
+  // Parallel floors can face the same way while being metres apart (for
+  // example the yard ground and the top of its thin perimeter wall).
+  const onAnchorPlane = (foot: PleatFoot) =>
+    dot(foot.normal, s.normal) > 0.8 &&
+    Math.abs(dot(sub(foot.point, s.anchor), s.normal)) < 0.3 * scale;
+  if (s.settling)
+    for (const foot of s.feet)
+      if (
+        foot.planted &&
+        dot(foot.normal, s.normal) > 0.8 &&
+        Math.abs(dot(sub(foot.point, s.anchor), s.normal)) > scale
+      )
+        foot.reachable = false;
   // Four-legged PLEAT has fewer supports than the eight-legged reference.
   // Gather its rear pair beneath the body BEFORE probing, so the final old
   // support is not a full stride behind the corner and cannot deadlock the IK.
@@ -414,7 +427,7 @@ function step(
     if (transfer && !transfer.prepared) continue;
     if (transfer && i >= 2) continue;
     if (transfer && dot(foot.normal, transfer.normal) > 0.8) continue;
-    if (s.settling && !transfer && dot(foot.normal, s.normal) > 0.8) continue;
+    if (s.settling && !transfer && onAnchorPlane(foot)) continue;
     const n = transfer?.normal ?? s.normal,
       f = transfer?.forward ?? s.forward;
     let target = add(
@@ -435,7 +448,7 @@ function step(
       hip = pleatHip(s, i),
       reach = (i < 2 ? 1.912 : 1.842) * scale;
     const wrapped = (phaseBefore + foot.phase) % 1 > (s.phase + foot.phase) % 1;
-    const wrongSurface = s.settling && dot(foot.normal, s.normal) < 0.8;
+    const wrongSurface = s.settling && !onAnchorPlane(foot);
     if (
       !transfer &&
       !wrongSurface &&
@@ -444,7 +457,11 @@ function step(
       !(speed < 0.01 && drift > 0.22 * scale)
     )
       continue;
+    const onSettlingPlane = (hit: SurfaceHit) =>
+      !s.settling ||
+      Math.abs(dot(sub(hit.point, s.anchor), s.normal)) < 0.3 * scale;
     let hit = pleatFoothold(s, i, target, world, n);
+    if (hit && !onSettlingPlane(hit)) hit = undefined;
     if (!hit) {
       // The face of a thin lip cannot fit a full stride. Shorten only the probe,
       // then perform the next surface change; never retarget an airborne foot.
@@ -460,6 +477,7 @@ function step(
           ),
         );
         hit = pleatFoothold(s, i, short, world, n);
+        if (hit && !onSettlingPlane(hit)) hit = undefined;
         if (hit) break;
       }
     }
@@ -475,7 +493,11 @@ function step(
           mul(n, -1),
           0.8 * scale,
         );
-        if (candidate && dot(candidate.normal, n) > 0.8) {
+        if (
+          candidate &&
+          dot(candidate.normal, n) > 0.8 &&
+          onSettlingPlane(candidate)
+        ) {
           hit = candidate;
           break;
         }
@@ -535,9 +557,7 @@ function step(
   }
   if (
     s.settling &&
-    s.feet.every(
-      (f) => f.planted && f.reachable && dot(f.normal, s.normal) > 0.8,
-    )
+    s.feet.every((f) => f.planted && f.reachable && onAnchorPlane(f))
   )
     s.settling = false;
   // 4. Support-weighted normal and Newell foot plane, body/anchor blend prevents deadlock.
