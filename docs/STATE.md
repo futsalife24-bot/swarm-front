@@ -1,3 +1,9 @@
+# 公開完了: 生存戦のランダム出現・大量出現（2026-10-31）
+
+本人の明示承認後、[PR #241](https://github.com/futsalife24-bot/swarm-front/pull/241)を通常mergeし、公開ソース `6d6c1557a9e2fedc3570bff4ccd35d676dcacdc7` を既存Worker Version `6e380bf9-d909-4a9c-b8d9-cf528ca263b0` へ公開。merge後build・production dry-run成功、配信35ファイルSHA一致・health 200/ok。GitHubチェック表示0件でCI合格とは扱わない。
+
+配信コードをGET専用中継・空Chromeで生存戦へ出撃し、画面例外0。包囲・集中の各24体と2人への配信は公開前の隔離Worker/画面で検証したもので、本番の2分・4分経過や実スマホ・実回線多人数・長時間・難易度は未確認。本人確認済み無料契約、当日UTC 00:00〜08:29の全Workersは137 requests・errors 0・subrequests 160。DO個別使用量未確認。[公開証拠](evidence/survival-random-waves-20261031/RELEASE.md)。既存root差分を保持。モデルID・推論設定未確認、子なし。
+
 # 現在地: 生存戦のランダム出現・大量出現（2026-10-31）
 
 本人依頼により、生存戦の通常敵とBASTIONの出現地点を隊員周囲の安全な位置から抽選。戦闘時間2分ごとに最大24体の包囲リングと一点集中を交互に予告・出現させ、同時96体上限と既存敵を維持。空きや安全地点が不足すると最大15秒待って減数・見送り。[仕様・検証・限界](evidence/survival-random-waves-20261031/README.md)。
