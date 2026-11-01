@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "scope": "新たに確認した固定ch36での測定より前に取得した3記録。ch36への正確な反映時刻は不明。",
+  "rttQuantiles": "Successだけを昇順に並べたnearest-rank。単位ms。TimedOutのms=0は含めない。",
+  "elapsedQuantiles": "TimedOutのendAt-atを昇順に並べたnearest-rank。単位ms。",
+  "records": [
+    {
+      "source": "dist-validation/lag-live-20261101/route-1793541146840/probes.json",
+      "context": "配置変更なし。",
+      "firstAtUtc": "2026-11-01T13:52:26.871Z",
+      "lastAtUtc": "2026-11-01T13:55:26.705Z",
+      "endAtPresent": 1126,
+      "endAtMissing": 0,
+      "gateway": {
+        "count": 563,
+        "success": 518,
+        "timedOut": 45,
+        "timeoutPercent": 7.99,
+        "successRttMs": { "p50": 1, "p95": 52, "max": 390 },
+        "timedOutElapsedMs": { "min": 15, "p50": 267, "p95": 436, "max": 504, "under500Count": 44 },
+        "utcQuarterBoundary1s": { "attempts": 60, "timedOut": 18 }
+      },
+      "internet": {
+        "count": 563,
+        "success": 542,
+        "timedOut": 21,
+        "timeoutPercent": 3.73,
+        "successRttMs": { "p50": 10, "p95": 67, "max": 497 },
+        "timedOutElapsedMs": { "min": 7, "p50": 500, "p95": 510, "max": 512, "under500Count": 10 }
+      },
+      "gatewayCadence": "開始3.3秒付近から約15秒ごとの12周期すべてに、目標時刻±0.5秒以内のTimedOut開始あり。"
+    },
+    {
+      "source": "dist-validation/lag-live-20261101/route-1793543064252/probes.json",
+      "context": "直前60秒baseline。",
+      "firstAtUtc": "2026-11-01T14:24:24.322Z",
+      "lastAtUtc": "2026-11-01T14:25:24.121Z",
+      "endAtPresent": 378,
+      "endAtMissing": 0,
+      "gateway": {
+        "count": 189,
+        "success": 175,
+        "timedOut": 14,
+        "timeoutPercent": 7.41,
+        "successRttMs": { "p50": 1, "p95": 25, "max": 351 },
+        "timedOutElapsedMs": { "min": 17, "p50": 235, "p95": 423, "max": 423, "under500Count": 14 },
+        "utcQuarterBoundary1s": { "attempts": 20, "timedOut": 3 }
+      },
+      "internet": {
+        "count": 189,
+        "success": 182,
+        "timedOut": 7,
+        "timeoutPercent": 3.7,
+        "successRttMs": { "p50": 11, "p95": 72, "max": 357 },
+        "timedOutElapsedMs": { "min": 11, "p50": 14, "p95": 503, "max": 503, "under500Count": 5 }
+      },
+      "gatewayCadence": "開始5.8秒付近から約15秒ごとの4周期すべてに、目標時刻±1.1秒以内のTimedOut開始あり。"
+    },
+    {
+      "source": "dist-validation/lag-live-20261101/route-1793543460434/probes.json",
+      "context": "ルーター設定操作中。後からch36の保存値を確認したが、反映時刻が不明なため全期間を変更前ch52とは断定できない。",
+      "firstAtUtc": "2026-11-01T14:31:00.475Z",
+      "lastAtUtc": "2026-11-01T14:34:00.522Z",
+      "endAtPresent": 1100,
+      "endAtMissing": 0,
+      "gateway": {
+        "count": 550,
+        "success": 501,
+        "timedOut": 49,
+        "timeoutPercent": 8.91,
+        "successRttMs": { "p50": 1, "p95": 38, "max": 443 },
+        "timedOutElapsedMs": { "min": 17, "p50": 233, "p95": 471, "max": 502, "under500Count": 47 },
+        "utcQuarterBoundary1s": { "attempts": 62, "timedOut": 21 }
+      },
+      "internet": {
+        "count": 550,
+        "success": 528,
+        "timedOut": 22,
+        "timeoutPercent": 4.0,
+        "successRttMs": { "p50": 11, "p95": 114, "max": 447 },
+        "timedOutElapsedMs": { "min": 3, "p50": 138, "p95": 505, "max": 511, "under500Count": 15 }
+      },
+      "gatewayCadence": "開始0秒付近から約15秒ごとの13周期すべてに、目標時刻±0.5秒以内のTimedOut開始あり。"
+    }
+  ],
+  "periodicity": "各試行のgateway TimedOut開始はUTCの00/15/30/45秒近傍に集中。境界±1秒の失敗率は、配置変更なし18/60対その他27/503、直前60秒3/20対その他11/169、設定操作中21/62対その他28/488。周期外にも追加失敗がある。",
+  "limits": [
+    "全2604行にendAtがあり、Ping.Send呼出の経過はendAt-atで確認できる。timeout指定は500msだがTimedOutでも実経過は一定でなく、各timeoutを500ms継続と仮定しない。",
+    "ICMPの失敗はWi-Fi電波切断、ルーター故障、ゲーム停止のいずれかを単独では証明しない。",
+    "3記録は固定ch36を確認してからのafter測定ではない。設定操作中の記録はch52とch36が混在した可能性を否定できない。",
+    "同じ15秒周期の各失敗は独立標本ではなく、周期性を有意差検定のp値として扱わない。"
+  ]
+}

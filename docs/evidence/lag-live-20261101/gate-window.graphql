@@ -1,0 +1,16 @@
+query($account: String!, $gateNamespace: String!) {
+  viewer { accounts(filter:{accountTag:$account}) {
+    cloudAdmission: durableObjectsInvocationsAdaptiveGroups(filter:{datetime_geq:"2026-11-01T11:39:00Z",datetime_lt:"2026-11-01T11:42:00Z",namespaceId:$gateNamespace,name:"cloud-admission"},limit:500,orderBy:[datetime_ASC]) {
+      dimensions { datetime status type }
+      sum { errors requests wallTime }
+      avg { sampleInterval }
+    }
+    directory: durableObjectsInvocationsAdaptiveGroups(filter:{datetime_geq:"2026-11-01T11:39:00Z",datetime_lt:"2026-11-01T11:42:00Z",namespaceId:$gateNamespace,name:"admission"},limit:500,orderBy:[datetime_ASC]) {
+      dimensions { datetime status type }
+      sum { errors requests wallTime }
+      avg { sampleInterval }
+    }
+  } }
+  periodicTime: __type(name:"AccountDurableObjectsPeriodicGroupsDimensions") { fields { name description } }
+  invocationTime: __type(name:"AccountDurableObjectsInvocationsAdaptiveGroupsDimensions") { fields { name description } }
+}
