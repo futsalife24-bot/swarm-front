@@ -1290,6 +1290,7 @@ function canOperateBattle() {
   );
 }
 function frame(time: number) {
+  network?.diagnostics.frame(time, document.hidden);
   requestAnimationFrame(frame);
   const wallDt = Math.max(0, (time - previous) / 1000),
     dt = Math.min(0.1, wallDt);
@@ -1476,6 +1477,7 @@ window.addEventListener("blur", () => {
   if (screen === "battle") pause();
 });
 document.addEventListener("visibilitychange", () => {
+  network?.diagnostics.visibility(document.hidden);
   if (document.hidden && screen === "battle") pause();
 });
 window.addEventListener("pagehide", clearInput);

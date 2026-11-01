@@ -742,3 +742,57 @@ it.each([false, true])(
     expect(ws.readyState).toBe(3);
   },
 );
+
+it("4008はトークンを保持して1秒後に復帰し、古いタップを再送しない", () => {
+  const { net, ws } = setup(true, true);
+  ws.bufferedAmount = 5000;
+  net.input({ ...neutral(), seq: 1, dodge: true });
+  ws.receive({ type: "error", reason: "送信頻度の上限", code: 4008 });
+  expect(net.closed).toBe(false);
+  expect(sessionStorage.getItem("swarm-front-rebuild-session")).not.toBeNull();
+  ws.readyState = 3;
+  ws.onclose?.({ code: 4008 });
+  vi.advanceTimersByTime(999);
+  expect(Socket.last).toBe(ws);
+  vi.advanceTimersByTime(1);
+  const next = Socket.last;
+  expect(next).not.toBe(ws);
+  next.onopen?.();
+  expect(next.sent[0].token).toBe("test");
+  next.receive({
+    type: "welcome",
+    ruleset: "front-v1",
+    id: "p",
+    token: "test",
+    frontOpening: 2,
+    inputAck: true,
+    stateFlow: true,
+  });
+  net.input({ ...neutral(), seq: 2 });
+  expect(next.inputs()[0].dodge).toBe(false);
+});
+it("4008復帰を2回で打ち切り、明示退出後は再接続しない", () => {
+  const { net } = setup(true, true);
+  for (let n = 0; n < 2; n++) {
+    const ws = Socket.last;
+    ws.receive({ type: "error", reason: "送信頻度の上限", code: 4008 });
+    ws.readyState = 3;
+    ws.onclose?.({ code: 4008 });
+    vi.advanceTimersByTime(1100);
+    Socket.last.onopen?.();
+  }
+  Socket.last.receive({ type: "error", reason: "送信頻度の上限", code: 4008 });
+  expect(net.closed).toBe(true);
+  expect(sessionStorage.getItem("swarm-front-rebuild-session")).toBeNull();
+});
+it("認証等の4001は復帰扱いにせず、4008待機中の退出は再接続を取消す", () => {
+  const { net, ws } = setup(true, true);
+  ws.readyState = 3;
+  ws.onclose?.({ code: 4008 });
+  net.close();
+  vi.advanceTimersByTime(3000);
+  expect(Socket.last).toBe(ws);
+  const other = setup(true, true);
+  other.ws.receive({ type: "error", reason: "認証不可", code: 4001 });
+  expect(other.net.closed).toBe(true);
+});

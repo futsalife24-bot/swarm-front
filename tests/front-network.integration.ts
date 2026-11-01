@@ -24,6 +24,7 @@ class Client {
   maxPacketBytes = 0;
   chunkPackets = 0;
   deltaPackets = 0;
+  deltaVersions = new Set<number>();
   compactPackets = 0;
   delta = new StateDeltaReceiver();
   chunks = new StateChunkAssembler();
@@ -39,6 +40,7 @@ class Client {
     stateFlow = false,
     optimized = false,
     pleatPose: number | undefined = undefined,
+    playerDelta = false,
   ) {
     this.ws = new WebSocket(
       `${base.replace("http", "ws")}/rooms/${code}?ruleset=front-v1&testClient=${createHash(
@@ -61,13 +63,17 @@ class Client {
           ? { stateDelta: 1, inputReceipt: 1, networkTiming: 1 }
           : {}),
         ...(pleatPose !== undefined ? { pleatPose } : {}),
+        ...(playerDelta ? { stateDeltaPlayers: 1 } : {}),
         ...(token ? { token } : {}),
       });
     this.ws.onmessage = (e) => {
       const raw = JSON.parse(String(e.data));
       if (raw.type === "stateChunk") this.chunkPackets++;
       const assembled: any = this.chunks.read(String(e.data));
-      if (assembled?.type === "stateDelta") this.deltaPackets++;
+      if (assembled?.type === "stateDelta") {
+        this.deltaPackets++;
+        this.deltaVersions.add(assembled.version);
+      }
       const m: any = optimized ? this.delta.decode(assembled) : assembled;
       this.maxPacketBytes = Math.max(
         this.maxPacketBytes,
@@ -148,6 +154,7 @@ async function team(
   stateFlow: boolean | boolean[] = false,
   optimized: boolean | boolean[] = false,
   pleatPose: (number | undefined)[] = [],
+  playerDelta: boolean[] = [],
 ) {
   const entry = await room(mode),
     members: Client[] = [];
@@ -164,6 +171,7 @@ async function team(
       Array.isArray(stateFlow) ? stateFlow[i] : stateFlow,
       Array.isArray(optimized) ? optimized[i] : optimized,
       pleatPose[i],
+      playerDelta[i],
     );
     await c.wait((m) => m.type === "welcome");
     members.push(c);
@@ -1103,6 +1111,7 @@ it("PLEAT姿勢の新旧JSON・tuple4人が混在しても全量・差分を復�
     true,
     [false, false, true, true],
     [undefined, 1, 2, 1],
+    [false, false, false, true],
   );
   let seq = 0;
   const timer = setInterval(() => {
@@ -1146,6 +1155,8 @@ it("PLEAT姿勢の新旧JSON・tuple4人が混在しても全量・差分を復�
     expect(members[2].deltaPackets).toBeGreaterThan(0);
     expect(members[3].deltaPackets).toBeGreaterThan(0);
     expect(members[0].chunkPackets).toBeGreaterThan(0);
+    expect([...members[2].deltaVersions]).toEqual([1]);
+    expect([...members[3].deltaVersions]).toEqual([2]);
   } finally {
     clearInterval(timer);
   }

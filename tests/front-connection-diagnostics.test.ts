@@ -73,3 +73,48 @@ it("受信・適用・描画提出を区別し、時計差なしで上限付き�
   d.reset();
   expect(d.details().samples).toEqual({});
 });
+
+it("時系列は4096件で有界、取得結果から内部を変更できず再接続も区別する", () => {
+  const d = new ConnectionDiagnostics();
+  for (let n = 0; n < 5000; n++) d.event("input", n, n);
+  const result = d.details();
+  expect(result.timeline).toHaveLength(4096);
+  expect(result.overwritten).toBe(904);
+  expect(result.timeline[0].value).toBe(904);
+  result.timeline[0].value = -1;
+  expect(d.details().timeline[0].value).toBe(904);
+  d.reset();
+  expect(d.details().timeline.at(-1)?.kind).toBe("connect");
+  d.state(6000, 1700000000000);
+  expect(d.details().timeline.at(-1)).toEqual({
+    at: 6000,
+    kind: "state",
+    value: 1700000000000,
+  });
+});
+it("描画の間引き記録でも長い空白とvisibility変化を残す", () => {
+  const d = new ConnectionDiagnostics();
+  for (let n = 0; n < 60; n++) d.frame(n * 16, false);
+  d.frame(2200, true);
+  const rows = d.details().timeline;
+  expect(rows.filter((r) => r.kind === "frame").length).toBeLessThan(8);
+  expect(rows.at(-1)).toEqual({ at: 2200, kind: "frame", value: 1256 });
+  expect(rows.some((r) => r.kind === "visibility" && r.value === 1)).toBe(true);
+});
+
+it("RAFが止まってもvisibilityイベントを記録する", () => {
+  const d = new ConnectionDiagnostics();
+  d.frame(0, false);
+  d.visibility(true, 10);
+  d.visibility(false, 5000);
+  expect(
+    d
+      .details()
+      .timeline.filter((r) => r.kind === "visibility")
+      .map((r) => [r.at, r.value]),
+  ).toEqual([
+    [0, 0],
+    [10, 1],
+    [5000, 0],
+  ]);
+});

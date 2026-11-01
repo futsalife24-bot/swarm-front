@@ -6,6 +6,9 @@ type ObjectValue = Record<string, any>;
 type Snapshot = { id: number; json: string; safe: boolean; tuples: boolean };
 type SendSnapshot = Snapshot & { value: ObjectValue; size: number };
 type ObjectPatch = [ObjectValue, string[]] | null;
+// Player rows reuse old indices, send [row] for new IDs, or update properties
+// with [oldIndex, set, removed]. This shape is only sent in negotiated v2.
+type PlayerPatch = (number | any[])[] | null;
 // An unchanged row is its old index; a full row is [row]; otherwise
 // [oldIndex, fieldIndex, value, ...] updates a tuple with the same mask and ID.
 type RowPatch = (number | any[])[] | null;
@@ -17,6 +20,7 @@ type Patch = [
   RowPatch,
   RowPatch,
 ];
+type PatchV2 = [...Patch, PlayerPatch];
 const encoder = new TextEncoder();
 const bytes = (value: string) => encoder.encode(value).length;
 const record = (value: unknown): value is ObjectValue =>
@@ -120,6 +124,21 @@ function tupleState(value: ObjectValue) {
     [value.world.enemies, value.world.projectiles].every(tupleRows)
   );
 }
+function playerRows(rows: unknown): rows is ObjectValue[] {
+  return (
+    Array.isArray(rows) &&
+    rows.length <= 4 &&
+    rows.every(
+      (row) =>
+        record(row) &&
+        Object.hasOwn(row, "id") &&
+        typeof row.id === "string" &&
+        row.id.length > 0 &&
+        row.id.length <= 128,
+    ) &&
+    new Set(rows.map((row) => row.id)).size === rows.length
+  );
+}
 function objectPatch(
   base: ObjectValue,
   next: ObjectValue,
@@ -164,17 +183,43 @@ function rowPatch(base: any[][], next: any[][]): RowPatch {
   });
   return changed ? rows : null;
 }
-function makePatch(base: ObjectValue, next: ObjectValue): Patch {
+function playerPatch(base: ObjectValue[], next: ObjectValue[]): PlayerPatch {
+  let changed = base.length !== next.length;
+  let indices: Map<string, number> | undefined;
+  const rows = next.map((player, position) => {
+    let index: number | undefined = position;
+    if (base[position]?.id !== player.id) {
+      indices ??= new Map(base.map((old, at) => [old.id, at]));
+      index = indices.get(player.id);
+    }
+    if (index !== position) changed = true;
+    if (index === undefined) return [player];
+    const changes = objectPatch(base[index], player, ["id"]);
+    if (changes === null) return index;
+    changed = true;
+    const partial = [index, ...changes];
+    return bytes(JSON.stringify(partial)) < bytes(JSON.stringify([player]))
+      ? partial
+      : [player];
+  });
+  return changed ? rows : null;
+}
+function makePatch(
+  base: ObjectValue,
+  next: ObjectValue,
+  version: 1 | 2,
+): Patch | PatchV2 {
   const front = record(base.world.front) && record(next.world.front);
   const orbs =
     front &&
     tupleRows(base.world.front.orbs) &&
     tupleRows(next.world.front.orbs);
-  return [
+  const patch: Patch = [
     objectPatch(base, next, ["world", "stateId"]),
     objectPatch(base.world, next.world, [
       "enemies",
       "projectiles",
+      ...(version === 2 ? ["players"] : []),
       ...(front ? ["front"] : []),
     ]),
     front
@@ -184,6 +229,9 @@ function makePatch(base: ObjectValue, next: ObjectValue): Patch {
     rowPatch(base.world.projectiles, next.world.projectiles),
     orbs ? rowPatch(base.world.front.orbs, next.world.front.orbs) : null,
   ];
+  return version === 2
+    ? [...patch, playerPatch(base.world.players, next.world.players)]
+    : patch;
 }
 function applyObject(target: ObjectValue, patch: unknown, skip: string[]) {
   if (patch === null) return;
@@ -254,10 +302,32 @@ function applyRows(base: unknown, patch: unknown): any[][] {
     invalid();
   return rows;
 }
+function applyPlayers(base: unknown, patch: unknown): ObjectValue[] {
+  if (!playerRows(base)) invalid();
+  if (patch === null) return base;
+  if (!Array.isArray(patch) || patch.length > 4) invalid();
+  const rows = patch.map((entry) => {
+    if (integer(entry)) {
+      if (!base[entry]) invalid();
+      return base[entry];
+    }
+    if (!Array.isArray(entry)) invalid();
+    if (entry.length === 1 && record(entry[0])) return entry[0];
+    if (entry.length !== 3 || !integer(entry[0]) || !base[entry[0]]) invalid();
+    const row = { ...base[entry[0]] };
+    applyObject(row, [entry[1], entry[2]], ["id"]);
+    return row;
+  });
+  if (!playerRows(rows)) invalid();
+  return rows;
+}
 
 /** One connection: one ACKed base plus at most two unacknowledged snapshots.
  * encode reserves a slot; reset after a failed WebSocket send before retrying. */
 export class StateDeltaSender {
+  constructor(readonly version: 1 | 2 = STATE_DELTA_VERSION) {
+    if (version !== 1 && version !== 2) invalid();
+  }
   private base: SendSnapshot | undefined;
   private pending: SendSnapshot[] = [];
   private highest = -1;
@@ -266,16 +336,23 @@ export class StateDeltaSender {
     const next = snapshot(payload, stateId);
     if (stateId <= this.highest || this.pending.length >= 2) invalid();
     let result = payload;
-    if (this.base?.tuples && next.tuples && this.sinceFull < 49) {
+    if (
+      this.base?.tuples &&
+      next.tuples &&
+      this.sinceFull < 49 &&
+      (this.version === 1 ||
+        (playerRows(this.base.value.world.players) &&
+          playerRows(next.value.world.players)))
+    ) {
       // Structural limits apply to the optional compression path. A legal
       // full snapshot still passes through when it exceeds this work budget.
       try {
         const message = {
           type: "stateDelta",
-          version: STATE_DELTA_VERSION,
+          version: this.version,
           base: this.base.id,
           stateId,
-          patch: makePatch(this.base.value, next.value),
+          patch: makePatch(this.base.value, next.value, this.version),
         };
         // Wrapping changed nested values adds depth/nodes. A valid full state
         // must never become an unreadable delta at the receiver's limits.
@@ -320,12 +397,12 @@ export class StateDeltaReceiver {
       bounded(message);
       if (
         Object.keys(message).length !== 5 ||
-        message.version !== STATE_DELTA_VERSION ||
+        (message.version !== 1 && message.version !== 2) ||
         !integer(message.base) ||
         !integer(message.stateId) ||
         message.base >= message.stateId ||
         !Array.isArray(message.patch) ||
-        message.patch.length !== 6 ||
+        message.patch.length !== (message.version === 2 ? 7 : 6) ||
         bytes(JSON.stringify(message)) > STATE_SNAPSHOT_BYTES
       )
         invalid();
@@ -333,9 +410,14 @@ export class StateDeltaReceiver {
       if (!base) invalid();
       value = JSON.parse(base.json);
       if (!base.tuples) invalid();
-      const [top, world, front, enemies, projectiles, orbs] = message.patch;
+      const [top, world, front, enemies, projectiles, orbs, players] =
+        message.patch;
       applyObject(value, top, ["world", "stateId", "type"]);
-      applyObject(value.world, world, ["enemies", "projectiles"]);
+      applyObject(value.world, world, [
+        "enemies",
+        "projectiles",
+        ...(message.version === 2 ? ["players"] : []),
+      ]);
       applyObject(value.world.front, front, orbs === null ? [] : ["orbs"]);
       value.world.enemies = applyRows(value.world.enemies, enemies);
       value.world.projectiles = applyRows(value.world.projectiles, projectiles);
@@ -343,6 +425,8 @@ export class StateDeltaReceiver {
         if (!record(value.world.front)) invalid();
         value.world.front.orbs = applyRows(value.world.front.orbs, orbs);
       }
+      if (message.version === 2)
+        value.world.players = applyPlayers(value.world.players, players);
       value.stateId = message.stateId;
     }
     const stored = snapshot(JSON.stringify(value), value.stateId, value);

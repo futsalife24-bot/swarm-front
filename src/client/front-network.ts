@@ -97,6 +97,7 @@ export class FrontNetwork {
   roomName = "";
   roomListed: boolean | undefined;
   retry = 0;
+  private rateLimitRetries = 0;
   closed = false;
   last = 0;
   members: Member[] = [];
@@ -164,6 +165,7 @@ export class FrontNetwork {
   }
   connect(code: string, token = "") {
     this.diagnostics.reset();
+    if (this.code !== code || !token) this.rateLimitRetries = 0;
     this.chunks?.close();
     this.inputLoop.stop();
     this.stateReceipt.configure(false);
@@ -218,6 +220,7 @@ export class FrontNetwork {
         stateChunks: 1,
         stateFlow: 1,
         stateDelta: 1,
+        stateDeltaPlayers: 1,
         inputReceipt: 1,
         networkTiming: 1,
         frontGrowth: 3,
@@ -348,7 +351,7 @@ export class FrontNetwork {
         const delayedState =
           (connection.stateAgeMs ?? 0) > 200 ||
           (connection.roundTripMs ?? 0) > 200;
-        this.diagnostics.state();
+        this.diagnostics.state(performance.now(), m.stateId);
         this.diagnostics.server(m.networkTiming);
         const applied = m.world.players.find(
           (p: { id: string }) => p.id === this.id,
@@ -399,6 +402,11 @@ export class FrontNetwork {
           );
         this.onChat();
       } else if (m.type === "error") {
+        if (m.code === 4008 && this.token && this.rateLimitRetries < 2) {
+          this.inputLoop.stop();
+          this.stateReceipt.configure(false);
+          return; // Server close drives bounded recovery; never replay old input.
+        }
         chunks.close();
         this.inputLoop.stop();
         this.stateReceipt.configure(false);
@@ -428,7 +436,11 @@ export class FrontNetwork {
       if (this.closed || this.ws !== ws) return;
       this.inputLoop.stop();
       this.stateReceipt.configure(false);
-      if (e.code >= 4000) {
+      this.diagnostics.event("close", e.code);
+      const recoverRateLimit =
+        e.code === 4008 && !!this.token && this.rateLimitRetries < 2;
+      if (recoverRateLimit) this.rateLimitRetries++;
+      if (e.code >= 4000 && !recoverRateLimit) {
         this.closed = true;
         this.onStatus(
           e.reason || "復帰できません。装備画面へ戻ってください",
@@ -441,7 +453,10 @@ export class FrontNetwork {
         this.onStatus("復帰できませんでした。装備画面へ戻ってください", true);
         return;
       }
-      const wait = [500, 1000, 2000, 4000, 6000][this.retry++];
+      const wait = Math.max(
+        recoverRateLimit ? 1000 : 0,
+        [500, 1000, 2000, 4000, 6000][this.retry++],
+      );
       this.onStatus(`通信切断 · 再接続 ${this.retry}/5`, false);
       setTimeout(() => {
         if (!this.closed && this.ws === ws) this.connect(code, this.token);
