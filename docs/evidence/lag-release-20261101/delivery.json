@@ -1,0 +1,209 @@
+{
+  "checkedAt": "2026-11-01T11:36:19.742Z",
+  "source": "334c736b000c635e719f4b9d2b9b78d2c55eb697",
+  "workerVersion": "3f46e046-54d3-412c-9659-a5a498c6d07d",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "checks": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "localSha256": "59c7ad0aa504bcfdbb01808853f2ebbb7adbd594bc2e7931b40658891e69e44d",
+      "publicSha256": "59c7ad0aa504bcfdbb01808853f2ebbb7adbd594bc2e7931b40658891e69e44d",
+      "match": true
+    },
+    {
+      "path": "front.html",
+      "status": 200,
+      "localSha256": "75e10ba7dd6f1ddf151ed0f9868dc3c24181b9fd68472f47a8108bad260960b4",
+      "publicSha256": "75e10ba7dd6f1ddf151ed0f9868dc3c24181b9fd68472f47a8108bad260960b4",
+      "match": true
+    },
+    {
+      "path": "sw.js",
+      "status": 200,
+      "localSha256": "32df8fbaf4e428fd5e6ea43ca2dc69a74823f07fa7eb7cd5b380e7e5adcb85ae",
+      "publicSha256": "32df8fbaf4e428fd5e6ea43ca2dc69a74823f07fa7eb7cd5b380e7e5adcb85ae",
+      "match": true
+    },
+    {
+      "path": "asset-download-manifest.json",
+      "status": 200,
+      "localSha256": "1307381574259243b6a81760a70ebaa62c20c36c435a5620fedb9bafa3c069ac",
+      "publicSha256": "1307381574259243b6a81760a70ebaa62c20c36c435a5620fedb9bafa3c069ac",
+      "match": true
+    },
+    {
+      "path": "assets/cloud-save-DcXqSdJa.css",
+      "status": 200,
+      "localSha256": "5cb52a5a0cd5cc34af5d72d03596e59b199aa61b3aaf49961b7603c5024a5d63",
+      "publicSha256": "5cb52a5a0cd5cc34af5d72d03596e59b199aa61b3aaf49961b7603c5024a5d63",
+      "match": true
+    },
+    {
+      "path": "assets/cloud-save-gXPZIsg_.js",
+      "status": 200,
+      "localSha256": "58ab33a23e3489ecad2315ea9dffbdfa342c231277ae4def2aa6fab3afe9f0d2",
+      "publicSha256": "58ab33a23e3489ecad2315ea9dffbdfa342c231277ae4def2aa6fab3afe9f0d2",
+      "match": true
+    },
+    {
+      "path": "assets/front-BbdaF3Yu.css",
+      "status": 200,
+      "localSha256": "044093671373e9e31078a97aa2d38d4f6b2a2e9d7fe568046b59363e8d9a4a2a",
+      "publicSha256": "044093671373e9e31078a97aa2d38d4f6b2a2e9d7fe568046b59363e8d9a4a2a",
+      "match": true
+    },
+    {
+      "path": "assets/front-BpYHv5N7.js",
+      "status": 200,
+      "localSha256": "105cd263cf63e029d9583679c7cc4dc35492c6ef47c51a58b90137f2994dab23",
+      "publicSha256": "105cd263cf63e029d9583679c7cc4dc35492c6ef47c51a58b90137f2994dab23",
+      "match": true
+    },
+    {
+      "path": "assets/game-select-BBcbApPk.css",
+      "status": 200,
+      "localSha256": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75",
+      "publicSha256": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75",
+      "match": true
+    },
+    {
+      "path": "assets/game-select-Bf3m_frP.js",
+      "status": 200,
+      "localSha256": "1df68cb104b5d54be6d517fbed4de7dbe121048ef7aa3227e944bce3cdd09be2",
+      "publicSha256": "1df68cb104b5d54be6d517fbed4de7dbe121048ef7aa3227e944bce3cdd09be2",
+      "match": true
+    },
+    {
+      "path": "assets/hud-DE_We5C4.js",
+      "status": 200,
+      "localSha256": "3c3fa5e3d107eaf3111e30fea47d460db83addb0ff97e0ea4986c7a8ec226fee",
+      "publicSha256": "3c3fa5e3d107eaf3111e30fea47d460db83addb0ff97e0ea4986c7a8ec226fee",
+      "match": true
+    },
+    {
+      "path": "assets/hud-KJkCjEBB.css",
+      "status": 200,
+      "localSha256": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3",
+      "publicSha256": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3",
+      "match": true
+    },
+    {
+      "path": "assets/legacy-CPbai1ZT.css",
+      "status": 200,
+      "localSha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "publicSha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "match": true
+    },
+    {
+      "path": "assets/legacy-DR6k6zpL.js",
+      "status": 200,
+      "localSha256": "ffe1864ead29254e1e7d5ffbaa73b571be2cdf29fcc1b1373f217cc2bc47b241",
+      "publicSha256": "ffe1864ead29254e1e7d5ffbaa73b571be2cdf29fcc1b1373f217cc2bc47b241",
+      "match": true
+    },
+    {
+      "path": "assets/main-BOIn8V8d.css",
+      "status": 200,
+      "localSha256": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "publicSha256": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "match": true
+    },
+    {
+      "path": "assets/main-DBR9DW7r.js",
+      "status": 200,
+      "localSha256": "a0110ed4fbce585c2f227862f4916bf76a0fd5ca5368ee884a38e59f5556b670",
+      "publicSha256": "a0110ed4fbce585c2f227862f4916bf76a0fd5ca5368ee884a38e59f5556b670",
+      "match": true
+    },
+    {
+      "path": "assets/playtest-app-CU5IufCk.css",
+      "status": 200,
+      "localSha256": "f8dd2dc94f98d22ff4906c0ff444e119d3eb9f0847b66d56941305824879cee9",
+      "publicSha256": "f8dd2dc94f98d22ff4906c0ff444e119d3eb9f0847b66d56941305824879cee9",
+      "match": true
+    },
+    {
+      "path": "assets/playtest-app-dTuj_-Qu.js",
+      "status": 200,
+      "localSha256": "693c9e93ed72cce13884cde9987b45c73628e785f51350cf14f267a956eaa816",
+      "publicSha256": "693c9e93ed72cce13884cde9987b45c73628e785f51350cf14f267a956eaa816",
+      "match": true
+    },
+    {
+      "path": "assets/room-access-Dk_b2XLl.css",
+      "status": 200,
+      "localSha256": "d41d7de7180be2faa28b9244f7068bfaf90f3d176bc8b6a8f26a4912365104e2",
+      "publicSha256": "d41d7de7180be2faa28b9244f7068bfaf90f3d176bc8b6a8f26a4912365104e2",
+      "match": true
+    },
+    {
+      "path": "assets/room-access-z5qvgIWs.js",
+      "status": 200,
+      "localSha256": "75220b7d4421cd612b2ab9fd344194eb3d2655f4e1a73b3ff85de566dd282ab3",
+      "publicSha256": "75220b7d4421cd612b2ab9fd344194eb3d2655f4e1a73b3ff85de566dd282ab3",
+      "match": true
+    },
+    {
+      "path": "assets/save-writer-BUUOzIBn.css",
+      "status": 200,
+      "localSha256": "4e91d064f9a5b74cf809d7b17d6e3529fdd161528f02d2f949cb0ff9b443d5dc",
+      "publicSha256": "4e91d064f9a5b74cf809d7b17d6e3529fdd161528f02d2f949cb0ff9b443d5dc",
+      "match": true
+    },
+    {
+      "path": "assets/save-writer-BwTiYFmk.js",
+      "status": 200,
+      "localSha256": "d021eb61453343289b7127700ed86ceae6b4b942b36035708bc46389a446ecde",
+      "publicSha256": "d021eb61453343289b7127700ed86ceae6b4b942b36035708bc46389a446ecde",
+      "match": true
+    },
+    {
+      "path": "assets/training-app-UhLUK5wZ.js",
+      "status": 200,
+      "localSha256": "43f2057754a99be67ee5f821a20b0c5ced1fe74a3f1ccd55b5c3725b3b199f75",
+      "publicSha256": "43f2057754a99be67ee5f821a20b0c5ced1fe74a3f1ccd55b5c3725b3b199f75",
+      "match": true
+    },
+    {
+      "path": "assets/weapon-sharing-wKVaqBiR.js",
+      "status": 200,
+      "localSha256": "0ce333c6990a70a1fc60da717ef2232caf9e80dd0f963a01e45a19b348ea8cae",
+      "publicSha256": "0ce333c6990a70a1fc60da717ef2232caf9e80dd0f963a01e45a19b348ea8cae",
+      "match": true
+    },
+    {
+      "path": "assets/weapon-workshop-ui-19tKwTO6.css",
+      "status": 200,
+      "localSha256": "07b6043857f41259f794674088eaf3e8b5b722094b158ab12ec6cefd75fc8b02",
+      "publicSha256": "07b6043857f41259f794674088eaf3e8b5b722094b158ab12ec6cefd75fc8b02",
+      "match": true
+    },
+    {
+      "path": "assets/weapon-workshop-ui-DjylaD_N.js",
+      "status": 200,
+      "localSha256": "83efd86bd66eff5b277176b9ac66153f5fdea4e6d30fbac8308d73789906fa7a",
+      "publicSha256": "83efd86bd66eff5b277176b9ac66153f5fdea4e6d30fbac8308d73789906fa7a",
+      "match": true
+    },
+    {
+      "path": "assets/zoom-guard-CYxqEXnM.js",
+      "status": 200,
+      "localSha256": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "publicSha256": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "match": true
+    }
+  ],
+  "errors": [],
+  "passed": true,
+  "scope": "公開ファイルSHA照合と空Chromeのソロ起動。本人セーブ・本番部屋は不使用。協力通信は別途隔離Workerで検証。",
+  "health": {
+    "status": 200,
+    "body": {
+      "ok": true,
+      "transport": "websocket",
+      "authority": "durable-object"
+    }
+  },
+  "soloStarted": true
+}
