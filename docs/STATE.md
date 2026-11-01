@@ -4,7 +4,7 @@
 
 base `27076b2cbdb48cdb4f0af707ffd3f96a9e73aee2`、製品commit `23a45783ac841cdf7e35a30a5e073974c312058e`、branch `codex/lag-resilience-20261101`、worktree `task-lag-fix`。元root・他担当worktree・共有状態正本には触れず、このbranchのSTATEだけを追記。
 
-GitHub保存は自動承認レビューが今回のコード・証拠送信の明示承認不足を理由に拒否。未push。再開にはこの専用branchのpush承認が必要。ローカル検証記録 `0cd97d994b936aaffc9af99dac006032461a6c53`、製品コードは上記commitから不変。
+GitHub保存は当初、自動承認レビューで拒否。その後、本人がpush確認へ「はい」と明示承認し、2026-11-01に専用branchへpush成功（送信HEAD `335ca90dd2eea32e05f00f1b79bfd3b5c585b04d`）。merge・公開は承認範囲外で未実施。ローカル検証記録 `0cd97d994b936aaffc9af99dac006032461a6c53`、製品コードは上記commitから不変。
 
 関連単体116件、実Worker2項目（旧JSON/v1/v2混在・枠詰まり時入力確認）、両型、製品build/Worker dry-run成功。実画面の通常/上り停止/下り停止/4008復帰で画面例外0。4008後は1056.1msで状態を再受理し、読み込み完了後の新しい射撃338件を確認。同じ状態を20step更新する符号化比較は約7.49%減、復元同値。スマホ・実Wi-Fi・長時間・根因解消は未確認。merge/公開は本人の明示承認条件を維持し未実施。次は実機の同じ停止を記録・確認し、公開承認後に通常手順で反映。主担当モデル/effort未確認、通信差分の補助へgpt-6-sol/high指定（実行値未確認）、独立Chat監査ではない。
 
