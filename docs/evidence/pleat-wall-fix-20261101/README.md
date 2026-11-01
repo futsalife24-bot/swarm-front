@@ -13,7 +13,7 @@
 ## 承認・Git
 
 - 本人の「はい」により、狭所で低い姿勢を保ち空間へ出てから姿勢変更する方針（経路・所要時間への影響を含む）を承認。merge・本番公開は未実施。
-- [PR #247](https://github.com/futsalife24-bot/swarm-front/pull/247) を記録用から修正内容へ更新する。PR #246のbranchがbase。
+- [PR #247](https://github.com/futsalife24-bot/swarm-front/pull/247) に修正を追加。実装commitは `66ec4e9d07ed77473eb465bc9c38fbb28b518f76`。PR #246のbranchがbase。
 - branch: `codex/pleat-wall-acceptance-20261101`。branch base: `640de79613c585c22c0b06e696942ed357af359e`、修正着手前HEAD: `1c5230b2c87b3d79dc7b26f57dc9e118dd07d9d0`。
 - worktree: `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-pleat-acceptance`。元root・dist-h・Claude・通信担当の既存差分は保持。
 - 主担当の実モデルID・推論設定は未確認。子なし。自己検証であり独立監査ではない。
@@ -68,7 +68,7 @@ HP・攻撃力・敵数・通常速度設定・ボス・他ANOMALYは変更し�
 - 60走行の比較1件成功。修正後20走行は侵入0・到達・整姿勢完了・移動量上限をassert。
 - 96体の比較1件成功。型チェック、比較ページの単独型チェック成功。
 - PC Chromeの修正前・低姿勢・外側回転・登頂を844×390で確認、ページ例外0。[描画記録](visual-check.json)。既存シェーダーのコンパイル警告はあり、警告ゼロという意味ではない。
-- 最終commitのクライアントbuild / Worker dry-runは保存後に実施して追記する。GitHub CI合格とは扱わない。
+- 実装commit `66ec4e9d07ed77473eb465bc9c38fbb28b518f76` からクライアントbuild / Worker dry-run成功。Worker dry-runは455.95KiB（gzip116.66KiB）。クライアントの大きいchunk警告は残る。GitHub CIは未確認で、ローカル成功をCI合格とは扱わない。
 
 ## 未確認と適用限界
 
