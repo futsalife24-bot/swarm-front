@@ -29,7 +29,7 @@ PLEAT v5実体は11304三角形/18784頂点、4メッシュ/4材質、20骨。In
 
 `node scripts/measure-enemy-motion.mjs` は理想定速/反転モデルの比較で実機計測ではない。100ms受信で現行のフレーム移動量CV0.649、平均遅れ75.5ms。100ms上限の速度外挿はCV0、遅れ33.9msになる一方、反転時最大誤差0.373→0.531mへ悪化。固定時間補間は遅延追加を伴う。停止根因と別で射撃位置ずれを悪化させるため、製品への外挿採用は見送った。ポリゴン削減も現時点ではこの15秒周期停止の解決と称さない。
 
-## 追加診断（実装・検証中、未公開）
+## 追加診断（公開済み、実機記録待ち）
 
 実行build SHAと端末条件、受信メッセージ/受理状態/描画間隔/入力確認/クラウド同期確認の有限時系列を端末からJSON保存する。部屋ID・token・名前・入力内容・保存本文を含めず、自動送信しない。400ms超の受理空白の直前を6件まで保持する。
 
@@ -75,10 +75,32 @@ Cloudflare同期時計/ゲートの制約は [公式DO規則](https://developers
 
 ## 本人への進捗表示
 
-本人の希望で以降10%刻みに報告する。割合は改善率/所要時間予測ではなく、確認済み工程の目安。現在20%: 10%=新動画/周期の把握、20%=端末/サーバー診断の実装・既知停止の記録検証。次30%=タッチ操作で診断保存を確認して診断版公開。以後の目安は40%=実機時系列取得、50%=原因の再現/反証による特定、60%=原因に対応する修正、70%=同条件ローカル前後比較・回帰確認、80%=修正版公開/配信確認、90%=実機同条件前後確認、100%=残る問題を解消し快適な実機動作を確認。証拠不足の段階を完了へ繰り上げない。
+本人の希望で以降10%刻みに報告する。割合は改善率/所要時間予測ではなく、確認済み工程の目安。現在30%: 10%=新動画/周期の把握、20%=端末/サーバー診断の実装・既知停止の記録検証、30%=設定のタッチ操作と診断保存を検証し診断版公開。以後の目安は40%=実機時系列取得、50%=原因の再現/反証による特定、60%=原因に対応する修正、70%=同条件ローカル前後比較・回帰確認、80%=修正版公開/配信確認、90%=実機同条件前後確認、100%=残る問題を解消し快適な実機動作を確認。証拠不足の段階を完了へ繰り上げない。
 
 
 動画の追加目視: `ffmpeg -ss 61.8 -t 1.8 ... -vf "fps=8,scale=594:-1,tile=3x5"` の `freeze62.jpg` で、視点/自分の表示が動く間も残弾24・時計1:29が固定され、その後残弾15/時計1:30に進むことを確認。`-ss 46.8 -t 2.8` の `freeze48.jpg` は強化選択終了→59FPS/更新待ち1201ms→状態再開で、再開後もしばらく古い1201ms表示が残る。HUD表示の残留を停止継続と扱わない。切出しはGit除外の同動画保存先。
 
 
 タッチ設定追加確認: 844×390/640×360で詳細診断のオフ→オン→オフ、保存値null→1→0、版f87a35c案内を確認（[settings-touch.json](settings-touch.json)）。最初の操作無反応は画面遷移の入力ガード中だったため、試験をレイヤー終了待機へ修正しassert付きで合格。CSS変更なし。先行のタッチ2条件/PC fine844のpause実クリックも成功。通常PC86秒試行のpause失敗を恒常的なCSS不具合とは断定しない。
+
+## 診断版の公開記録
+
+[PR #251](https://github.com/futsalife24-bot/swarm-front/pull/251) を通常merge。実装head `1c0a20af1529272df6e847a50272117052faec16` とmerge後ソース `b645183c1d60d3eeb351b8e142d206f08f05683a` のツリー一致を確認。GitHubチェック0件でありCI合格とは扱わない。既存Worker Versionは `54e4881b-82d0-4091-88af-47d3ab9a957f`。
+
+2026-11-01 21:25:35 JSTに公開27ファイルSHA一致、health 200/ok、空Chromeの844×390でソロ起動・移動・画面例外0、実行clientBuildが上記ソースSHAと一致。[配信検査](delivery.json)、[公開画面](published-844.png)。公開ビルドとWorker dry-run成功（462.63KiB、gzip118.27KiB）。既存の500KB超chunk警告は残る。診断は既定オフで、停止の根因修正・実機改善は未確認。
+
+```powershell
+node node_modules/vite/bin/vite.js build
+node node_modules/wrangler/bin/wrangler.js deploy --config wrangler.production.jsonc --dry-run
+node node_modules/wrangler/bin/wrangler.js deploy --config wrangler.production.jsonc
+$env:SWARM_RELEASE_EVIDENCE='docs/evidence/lag-root-cause-20261101'
+$env:SWARM_WORKER_VERSION='54e4881b-82d0-4091-88af-47d3ab9a957f'
+$env:SWARM_EXPECT_BUILD='1'
+node scripts/check-coop-response-release.mjs
+```
+
+本人にはホーム画面版を再読込→タイトル「設定・操作」から詳細診断オン→版b645183確認→同じWi-Fiで約1分プレイし症状後に一時停止→「通信診断を保存」→JSON共有を依頼。クラウド保存利用の本人回答は「分からない」で、未使用とは扱わず実際のrequestイベントで判断する。診断には自動アップロード・保存本文・認証値を含めない。
+
+公開記録branch `codex/lag-diagnostic-release-20261101`、ローカル `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-lag-fix`。GitHub正本は https://github.com/futsalife24-bot/swarm-front 。実機記録後は端末の受信・描画・クラウド送信と、サーバーtick・保存・送信呼出・ACKの順序を照合する。
+
+ローカル解析器 `scripts/analyze-network-diagnostics.mjs` は保存JSONを読むだけで通信しない。`node scripts/analyze-network-diagnostics.mjs dist-validation/lag-root-cause-20261101/runs/down-pause-frozen/diagnostic-export.json` の結果を [injected-diagnostic-analysis.json](injected-diagnostic-analysis.json) に保存。サブエージェントの独立読み取りレビューにより、別々の有限履歴を混ぜた接続全体の相対遅延計算を取り除き、各incidentの連続記録内だけを基準にした。server historyは時刻の近い候補として列挙し、自動的な因果対応とは扱わない。結果/再出撃/選択中の状態空白も含み得るため動画・操作状態との照合を要する。現packetの送信履歴は含まれず、HTTPの開始が離れているとcloudNearが空でも送信待ちは否定できない。既知の注入4件は約658/1255/643/583ms、各server履歴の最大tick間隔63/62/62/74ms、保存開始0・clockDropped0で注入条件に整合。実機の根因証明とは区別する。

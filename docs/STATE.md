@@ -2,7 +2,9 @@
 
 本人の新動画はOPPO Find X8/Wi-Fi/ホーム画面版、更新後撮影との申告。約17/32/48/62/77秒で戦況更新停止候補、約48秒は59FPSで更新待ち1201ms。撮影は前回公開後で、旧版と断定する証拠なし。goalをactiveに設定し、実機同等条件で快適さの確認まで継続。必要な修正・公開、モデルのポリゴン/動作滑らかさ軽量化を本人承認済み。
 
-branch `codex/lag-root-cause-20261101`、基点 `aaf436cd126d360546682c49ad2304c82c3303c2`、worktree `task-lag-fix`。診断保存UI・build識別・端末/サーバー有限時系列を追加し実通信検証中。通常PC86秒で400ms超空白0、下り停止注入では約1.25秒の空白とサーバー履歴/保存成功。単体54件・型・実Worker混在1項目成功。修正による実機改善は未確認。[調査記録](evidence/lag-root-cause-20261101/README.md)。主担当実モデル/effort未確認、描画/PWAとサーバー担当へgpt-6-sol/high指定2体（実行値未確認）。
+進捗30%: [PR #251](https://github.com/futsalife24-bot/swarm-front/pull/251) を通常mergeし、診断保存UI・build識別・端末/サーバー有限時系列を公開。公開ソース `b645183c1d60d3eeb351b8e142d206f08f05683a`、Worker Version `54e4881b-82d0-4091-88af-47d3ab9a957f`。公開27ファイルSHA一致、health 200/ok、空Chromeソロ起動・移動・例外0、実行clientBuild一致。診断は既定オフ。本人へ版b645183確認・詳細診断オン・同じWi-Fiで症状後JSON保存共有を依頼。クラウド保存利用は本人にも不明で、未使用とは断定しない。goalはactiveのまま。
+
+調査基点 `aaf436cd126d360546682c49ad2304c82c3303c2`、公開記録branch `codex/lag-diagnostic-release-20261101`、worktree `task-lag-fix`。通常PC86秒で400ms超空白0、下り停止注入では約1.25秒の空白とサーバー履歴/保存成功。単体54件・型・実Worker混在1項目・タッチ設定2サイズ・build/dry-run成功。GitHubチェック0件でCI合格とは扱わない。実機原因・修正による実機改善は未確認。[調査記録](evidence/lag-root-cause-20261101/README.md)。主担当実モデル/effort未確認、描画/PWAとサーバー担当へgpt-6-sol/high指定2体（実行値未確認）。
 
 # 公開完了: 更新停止への耐性改善（2026-11-01）
 
