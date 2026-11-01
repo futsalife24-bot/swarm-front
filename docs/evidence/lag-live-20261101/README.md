@@ -1,5 +1,9 @@
 # 本番の更新停止とWi-Fi経路の照合（2026-11-01）
 
+機器確認の追記: 写真から `BUFFALO WSR-3200AX4S/NBK`、管理画面のログイン前表示から `Version 1.47` を確認。[公式の現行ファームウェア](https://www.buffalo.jp/support/download/detail/?dl_contents_id=62205)も1.47で、更新は実施しない。本人はケーブルが短く設置場所の移動はできないと回答。5GHz ch52はDFS対象だが、典型的なレーダー検知後の約60秒停止と今回の約1秒は異なり、根因と断定しない。ログイン後に現在のチャンネル設定・帯域誘導等を読む方針。ブラウザー操作規則に従い、写真の管理用情報を当該ルーターへ入力してログイン・設定確認する許可を本人へ依頼した。パスワード未入力、設定変更・再起動なし。写真・SSID・MAC・暗号化キー・管理パスワードはGit記録に含めない。先の型番未確認は解消。
+
+本人の追加回答: OPPOのモバイル回線による協力1人・約1分では「正直カクつかなかった」。同端末のWi-Fiでは何度も停止しており、共通Wi-Fi経路を優先する判断を補強する。端末JSONや回線以外の完全同一条件は未検証、1分で長時間の快適性は証明しない。工程目安は60%へ更新。本人提供の機器写真はTV裏の狭い配置を示すが、故障・過熱・干渉原因を写真だけで断定しない。接続先の未ログイン画面はBUFFALOと確認、型番未取得。認証・設定変更・再起動は行っていない。
+
 保存済み実装HEADは `c8e8c2ca5a4f0f8e541103d56ca270bf48ea3fef`、[ドラフトPR #254](https://github.com/futsalife24-bot/swarm-front/pull/254)。remote一致・worktree cleanを確認。GitHubチェック0件で、CI合格とは扱わない。実装commit後のproduction buildとWorker dry-run（467.68KiB、gzip119.59KiB）も成功。既存のchunkサイズ警告は継続。本番は比較条件を固定するため未更新、merge未実施。
 
 公開クライアント/サーバーの対象ソースは `b645183c1d60d3eeb351b8e142d206f08f05683a`、Worker Versionは `54e4881b-82d0-4091-88af-47d3ab9a957f`。作業基点はmain `852906439faf895796adef1cd7efe1a24f6819de`、branchは `codex/lag-live-trace-20261101`、worktreeは `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-lag-fix`。GitHub正本は https://github.com/futsalife24-bot/swarm-front 。本節は原因調査の記録で、スマホで快適になったという完了報告ではない。
