@@ -3,6 +3,7 @@
 本人の引継ぎ依頼に基づく通信側の実装。PR #245 https://github.com/futsalife24-bot/swarm-front/pull/245 は未merge・未公開で、HEADが引継ぎと一致することを確認した。
 
 - 基点: `51bda91e91829a912e661f8809a8b2070a0e2aac`（PR #245）。その基点mainは `3035376932bbf3e0734e181b7040827bf033b80d`。
+- 実装commit: `1dcd5c95455635829f94fe623dc12b61592cf184`、[Draft PR #246](https://github.com/futsalife24-bot/swarm-front/pull/246)（baseはPR #245のbranch、merge禁止のまま）。
 - branch: `codex/pleat-pose-wire-20261101`
 - worktree: `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-pleat-wire`
 - リポジトリ: https://github.com/futsalife24-bot/swarm-front
