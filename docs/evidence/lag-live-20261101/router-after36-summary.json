@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "source": "dist-validation/lag-live-20261101/route-1793546725628/probes.json",
+  "context": "測定開始直前、新規ログイン後のルーター保存値ch36とPC実radio ch36を確認済み。180秒のping記録。",
+  "firstAtUtc": "2026-11-01T15:25:25.801Z",
+  "lastEndAtUtc": "2026-11-01T15:28:25.569Z",
+  "endAtPresent": 1300,
+  "endAtMissing": 0,
+  "rttQuantiles": "Successだけを昇順に並べたnearest-rank。単位ms。TimedOutのms=0は含めない。",
+  "elapsedQuantiles": "TimedOutのendAt-atを昇順に並べたnearest-rank。単位ms。",
+  "gateway": {
+    "count": 650,
+    "success": 648,
+    "timedOut": 2,
+    "otherStatus": 0,
+    "timeoutPercent": 0.31,
+    "successRttMs": { "p50": 1, "p95": 5, "max": 105 },
+    "timedOutElapsedMs": { "min": 17, "p50": 17, "p95": 31, "max": 31, "under500Count": 2 },
+    "utcQuarterBoundary1s": { "attempts": 89, "timedOut": 0 },
+    "timedOutStartsUtc": ["2026-11-01T15:26:39.533Z", "2026-11-01T15:27:43.061Z"]
+  },
+  "internet": {
+    "count": 650,
+    "success": 642,
+    "timedOut": 8,
+    "otherStatus": 0,
+    "timeoutPercent": 1.23,
+    "successRttMs": { "p50": 11, "p95": 18, "max": 258 },
+    "timedOutElapsedMs": { "min": 6, "p50": 13, "p95": 62, "max": 62, "under500Count": 8 },
+    "utcQuarterBoundary1s": { "attempts": 89, "timedOut": 0 }
+  },
+  "comparisonToPreChange60s": {
+    "source": "dist-validation/lag-live-20261101/route-1793543064252/probes.json",
+    "gateway": {
+      "before": { "timedOut": 14, "count": 189, "timeoutPercent": 7.41, "successRttP95Ms": 25, "utcQuarterBoundary1sTimedOut": 3 },
+      "after": { "timedOut": 2, "count": 650, "timeoutPercent": 0.31, "successRttP95Ms": 5, "utcQuarterBoundary1sTimedOut": 0 }
+    },
+    "internet": {
+      "before": { "timedOut": 7, "count": 189, "timeoutPercent": 3.7, "successRttP95Ms": 72 },
+      "after": { "timedOut": 8, "count": 650, "timeoutPercent": 1.23, "successRttP95Ms": 18 }
+    }
+  },
+  "periodicity": "ch36確認後の約180秒では、gateway TimedOut開始は2回のみで間隔63.528秒。UTCの00/15/30/45秒境界±1秒に開始した失敗はgateway・internetとも0/89試行。以前の約15秒周期のgateway失敗は、この標本では観測されない。",
+  "limits": [
+    "前の60秒記録と後の180秒記録は長さと時刻が異なる観測比較で、ch36変更だけが改善原因と断定できない。",
+    "ルーター設定操作中の別180秒記録はch36反映時刻が不明で、全期間を変更前として扱わない。",
+    "pingのTimedOutは指定500msを必ず消費したわけではない。各行のendAt-atを実測値とする。",
+    "ICMPの改善だけではゲーム中の配送停止解消やスマホ側の改善を証明しない。"
+  ]
+}

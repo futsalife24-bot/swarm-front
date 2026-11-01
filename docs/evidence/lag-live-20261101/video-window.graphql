@@ -1,0 +1,16 @@
+query($account: String!, $namespace: String!) {
+  viewer { accounts(filter:{accountTag:$account}) {
+    periodic: durableObjectsPeriodicGroups(filter:{datetime_geq:"2026-11-01T11:39:00Z",datetime_lt:"2026-11-01T11:42:00Z",namespaceId:$namespace},limit:500,orderBy:[datetime_ASC]) {
+      count
+      dimensions { datetime objectId coloCode }
+      avg { sampleInterval }
+      sum { cpuTime activeTime duration inboundWebsocketMsgCount outboundWebsocketMsgCount exceededCpuErrors exceededMemoryErrors fatalInternalErrors rowsRead rowsWritten subrequests }
+      max { activeWebsocketConnections memoryUsageBytes }
+    }
+    invocations: durableObjectsInvocationsAdaptiveGroups(filter:{datetime_geq:"2026-11-01T11:39:00Z",datetime_lt:"2026-11-01T11:42:00Z",namespaceId:$namespace},limit:500,orderBy:[datetime_ASC]) {
+      dimensions { datetime objectId coloCode status type scriptVersion }
+      sum { errors requests wallTime }
+    }
+  } }
+  units: __type(name:"AccountDurableObjectsPeriodicGroupsSum") { fields { name description } }
+}
