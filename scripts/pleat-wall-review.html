@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>PLEAT 公開前確認</title
+  ><style>
+    body {
+      margin: 0;
+      background: #091419;
+      color: #ecf5f0;
+      font: 17px system-ui;
+      overflow: hidden;
+    }
+    #title,
+    #stats {
+      position: absolute;
+      left: 16px;
+      background: #091419dd;
+      padding: 8px 12px;
+      z-index: 2;
+      white-space: pre-line;
+    }
+    #title {
+      top: 8px;
+    }
+    #stats {
+      bottom: 6px;
+      font-size: 15px;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+  <div id="title"></div>
+  <div id="stats"></div>
+  <script type="module" src="./pleat-wall-review.ts"></script>
+</html>

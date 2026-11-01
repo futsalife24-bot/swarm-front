@@ -29,3 +29,7 @@ __pycache__/
 /assets/blender/candidates/**/adoption/published/
 /assets/blender/candidates/**/turn-fix/published/
 /assets/blender/candidates/harrow/charakuru-20261011/review/animation-trial/
+
+# Generated historical controller for the acceptance reproduction.
+/scripts/.acceptance-courses/
+/docs/evidence/pleat-wall-acceptance-20261101/*.webm

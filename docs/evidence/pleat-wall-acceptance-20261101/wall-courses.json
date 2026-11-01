@@ -1,0 +1,6768 @@
+{
+ "base": "3035376932bbf3e0734e181b7040827bf033b80d",
+ "method": "dt=0.05(20Hz)、入力は進行方向、最大60秒。胴体4点の固体内サンプル数と重複を除いたtick数を別々に数える。全メッシュの衝突判定ではない",
+ "rows": [
+  {
+   "course": "生存戦の薄い外壁(厚さ2m・高さ4m)を越えて内側の地面へ",
+   "scale": 1.2,
+   "version": "before",
+   "reached": true,
+   "seconds": 10.95,
+   "longestStillSeconds": 0.05,
+   "maxBodyMovePerTick": 0.495,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 1.6,
+     "end": 2.95,
+     "duration": 1.35,
+     "switches": 1
+    },
+    {
+     "start": 3.5500000000000003,
+     "end": 5,
+     "duration": 1.4500000000000002,
+     "switches": 2
+    },
+    {
+     "start": 5.3500000000000005,
+     "end": 6.7,
+     "duration": 1.35,
+     "switches": 3
+    },
+    {
+     "start": 8.700000000000001,
+     "end": 10.100000000000001,
+     "duration": 1.4000000000000001,
+     "switches": 4
+    }
+   ],
+   "transitions": [
+    {
+     "start": 1.6500000000000001,
+     "convex": false,
+     "switch": 2.6500000000000004,
+     "ready": 3
+    },
+    {
+     "start": 3.6,
+     "convex": true,
+     "switch": 4.6000000000000005,
+     "ready": 5.050000000000001
+    },
+    {
+     "start": 5.4,
+     "convex": true,
+     "switch": 6.4,
+     "ready": 6.75
+    },
+    {
+     "start": 8.75,
+     "convex": false,
+     "switch": 9.8,
+     "ready": 10.15
+    }
+   ],
+   "attackGatedSeconds": 5.55,
+   "raysPerSecond": 1373
+  },
+  {
+   "course": "生存戦の薄い外壁(厚さ2m・高さ4m)を越えて内側の地面へ",
+   "scale": 1.2,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 11.75,
+   "longestStillSeconds": 0.65,
+   "maxBodyMovePerTick": 0.354,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 2.15,
+     "end": 2.9000000000000004,
+     "duration": 0.75,
+     "switches": 1
+    },
+    {
+     "start": 4,
+     "end": 5.800000000000001,
+     "duration": 1.8,
+     "switches": 2
+    },
+    {
+     "start": 6.25,
+     "end": 8.05,
+     "duration": 1.8,
+     "switches": 3
+    },
+    {
+     "start": 9.600000000000001,
+     "end": 10.350000000000001,
+     "duration": 0.75,
+     "switches": 4
+    }
+   ],
+   "transitions": [
+    {
+     "start": 2.2,
+     "convex": false,
+     "switch": 2.5500000000000003,
+     "ready": 2.95
+    },
+    {
+     "start": 4.05,
+     "convex": true,
+     "switch": 5.4,
+     "ready": 5.8500000000000005
+    },
+    {
+     "start": 6.300000000000001,
+     "convex": true,
+     "switch": 7.65,
+     "ready": 8.1
+    },
+    {
+     "start": 9.65,
+     "convex": false,
+     "switch": 10,
+     "ready": 10.4
+    }
+   ],
+   "attackGatedSeconds": 5.1,
+   "raysPerSecond": 102
+  },
+  {
+   "course": "生存戦の薄い外壁(厚さ2m・高さ4m)を越えて内側の地面へ",
+   "scale": 1.5,
+   "version": "before",
+   "reached": true,
+   "seconds": 9.6,
+   "longestStillSeconds": 0.75,
+   "maxBodyMovePerTick": 0.577,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 1.4000000000000001,
+     "end": 2.85,
+     "duration": 1.4500000000000002,
+     "switches": 1
+    },
+    {
+     "start": 3.3000000000000003,
+     "end": 4.75,
+     "duration": 1.4500000000000002,
+     "switches": 2
+    },
+    {
+     "start": 5,
+     "end": 6.75,
+     "duration": 1.75,
+     "switches": 3
+    },
+    {
+     "start": 7.550000000000001,
+     "end": 8.9,
+     "duration": 1.35,
+     "switches": 4
+    }
+   ],
+   "transitions": [
+    {
+     "start": 1.4500000000000002,
+     "convex": false,
+     "switch": 2.5500000000000003,
+     "ready": 2.9000000000000004
+    },
+    {
+     "start": 3.35,
+     "convex": true,
+     "switch": 4.45,
+     "ready": 4.800000000000001
+    },
+    {
+     "start": 5.050000000000001,
+     "convex": true,
+     "switch": 6.45,
+     "ready": 6.800000000000001
+    },
+    {
+     "start": 7.6000000000000005,
+     "convex": false,
+     "switch": 8.6,
+     "ready": 8.950000000000001
+    }
+   ],
+   "attackGatedSeconds": 6,
+   "raysPerSecond": 1396
+  },
+  {
+   "course": "生存戦の薄い外壁(厚さ2m・高さ4m)を越えて内側の地面へ",
+   "scale": 1.5,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 9.9,
+   "longestStillSeconds": 0.65,
+   "maxBodyMovePerTick": 0.49,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 1.7000000000000002,
+     "end": 2.45,
+     "duration": 0.75,
+     "switches": 1
+    },
+    {
+     "start": 3.1,
+     "end": 4.9,
+     "duration": 1.8,
+     "switches": 2
+    },
+    {
+     "start": 5.1000000000000005,
+     "end": 6.9,
+     "duration": 1.8,
+     "switches": 3
+    },
+    {
+     "start": 8.1,
+     "end": 8.85,
+     "duration": 0.75,
+     "switches": 4
+    }
+   ],
+   "transitions": [
+    {
+     "start": 1.75,
+     "convex": false,
+     "switch": 2.0500000000000003,
+     "ready": 2.5
+    },
+    {
+     "start": 3.1500000000000004,
+     "convex": true,
+     "switch": 4.55,
+     "ready": 4.95
+    },
+    {
+     "start": 5.15,
+     "convex": true,
+     "switch": 6.5,
+     "ready": 6.95
+    },
+    {
+     "start": 8.15,
+     "convex": false,
+     "switch": 8.450000000000001,
+     "ready": 8.9
+    }
+   ],
+   "attackGatedSeconds": 5.1,
+   "raysPerSecond": 92
+  },
+  {
+   "course": "生存戦の薄い外壁(厚さ2m・高さ4m)を越えて内側の地面へ",
+   "scale": 2.25,
+   "version": "before",
+   "reached": true,
+   "seconds": 7.4,
+   "longestStillSeconds": 0.7,
+   "maxBodyMovePerTick": 0.666,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 0.75,
+     "end": 2.1,
+     "duration": 1.35,
+     "switches": 1
+    },
+    {
+     "start": 2.15,
+     "end": 3.3000000000000003,
+     "duration": 1.1500000000000001,
+     "switches": 2
+    },
+    {
+     "start": 3.35,
+     "end": 5.1000000000000005,
+     "duration": 1.75,
+     "switches": 3
+    },
+    {
+     "start": 5.550000000000001,
+     "end": 6.95,
+     "duration": 1.4000000000000001,
+     "switches": 4
+    }
+   ],
+   "transitions": [
+    {
+     "start": 0.8,
+     "convex": false,
+     "switch": 1.8,
+     "ready": 2.15
+    },
+    {
+     "start": 2.2,
+     "convex": true,
+     "switch": 3,
+     "ready": 3.35
+    },
+    {
+     "start": 3.4000000000000004,
+     "convex": true,
+     "switch": 4.75,
+     "ready": 5.15
+    },
+    {
+     "start": 5.6000000000000005,
+     "convex": false,
+     "switch": 6.65,
+     "ready": 7
+    }
+   ],
+   "attackGatedSeconds": 5.65,
+   "raysPerSecond": 1394
+  },
+  {
+   "course": "生存戦の薄い外壁(厚さ2m・高さ4m)を越えて内側の地面へ",
+   "scale": 2.25,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 7.05,
+   "longestStillSeconds": 0.45,
+   "maxBodyMovePerTick": 0.732,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 0.8500000000000001,
+     "end": 5.2,
+     "duration": 4.3500000000000005,
+     "switches": 3
+    },
+    {
+     "start": 5.75,
+     "end": 6.5,
+     "duration": 0.75,
+     "switches": 4
+    }
+   ],
+   "transitions": [
+    {
+     "start": 0.9,
+     "convex": false,
+     "switch": 1.25
+    },
+    {
+     "start": 1.6500000000000001,
+     "convex": true,
+     "switch": 3.0500000000000003
+    },
+    {
+     "start": 3.45,
+     "convex": true,
+     "switch": 4.800000000000001,
+     "ready": 5.25
+    },
+    {
+     "start": 5.800000000000001,
+     "convex": false,
+     "switch": 6.1000000000000005,
+     "ready": 6.550000000000001
+    }
+   ],
+   "attackGatedSeconds": 5.1,
+   "raysPerSecond": 65
+  },
+  {
+   "course": "生存戦の薄い外壁(厚さ2m・高さ4m)を越えて内側の地面へ",
+   "scale": 3,
+   "version": "before",
+   "reached": true,
+   "seconds": 7.45,
+   "longestStillSeconds": 0.7,
+   "maxBodyMovePerTick": 1.12,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 0.45,
+     "end": 3.6,
+     "duration": 3.1500000000000004,
+     "switches": 2
+    },
+    {
+     "start": 3.6500000000000004,
+     "end": 5.550000000000001,
+     "duration": 1.9000000000000001,
+     "switches": 3
+    },
+    {
+     "start": 5.75,
+     "end": 7.15,
+     "duration": 1.4000000000000001,
+     "switches": 4
+    }
+   ],
+   "transitions": [
+    {
+     "start": 0.5,
+     "convex": false,
+     "switch": 1.55
+    },
+    {
+     "start": 1.9000000000000001,
+     "convex": true,
+     "switch": 3.3000000000000003,
+     "ready": 3.6500000000000004
+    },
+    {
+     "start": 3.7,
+     "convex": true,
+     "switch": 5.050000000000001,
+     "ready": 5.6000000000000005
+    },
+    {
+     "start": 5.800000000000001,
+     "convex": false,
+     "switch": 6.8500000000000005,
+     "ready": 7.2
+    }
+   ],
+   "attackGatedSeconds": 6.45,
+   "raysPerSecond": 1436
+  },
+  {
+   "course": "生存戦の薄い外壁(厚さ2m・高さ4m)を越えて内側の地面へ",
+   "scale": 3,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 6.55,
+   "longestStillSeconds": 0.3,
+   "maxBodyMovePerTick": 0.974,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 0.7000000000000001,
+     "end": 5.050000000000001,
+     "duration": 4.3500000000000005,
+     "switches": 3
+    },
+    {
+     "start": 5.3500000000000005,
+     "end": 6.1000000000000005,
+     "duration": 0.75,
+     "switches": 4
+    }
+   ],
+   "transitions": [
+    {
+     "start": 0.75,
+     "convex": false,
+     "switch": 1.05
+    },
+    {
+     "start": 1.5,
+     "convex": true,
+     "switch": 2.85
+    },
+    {
+     "start": 3.3000000000000003,
+     "convex": true,
+     "switch": 4.65,
+     "ready": 5.1000000000000005
+    },
+    {
+     "start": 5.4,
+     "convex": false,
+     "switch": 5.7,
+     "ready": 6.15
+    }
+   ],
+   "attackGatedSeconds": 5.1,
+   "raysPerSecond": 57
+  },
+  {
+   "course": "床→壁→屋上(高さ5m+サイズ)",
+   "scale": 1.2,
+   "version": "before",
+   "reached": true,
+   "seconds": 6.95,
+   "longestStillSeconds": 0.05,
+   "maxBodyMovePerTick": 0.178,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 2.5,
+     "end": 3.85,
+     "duration": 1.35,
+     "switches": 1
+    }
+   ],
+   "transitions": [
+    {
+     "start": 2.5500000000000003,
+     "convex": false,
+     "switch": 3.5500000000000003,
+     "ready": 3.9000000000000004
+    },
+    {
+     "start": 5.8500000000000005,
+     "convex": true,
+     "switch": 6.95
+    }
+   ],
+   "attackGatedSeconds": 2.5,
+   "raysPerSecond": 1392
+  },
+  {
+   "course": "床→壁→屋上(高さ5m+サイズ)",
+   "scale": 1.2,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 7.95,
+   "longestStillSeconds": 0.6,
+   "maxBodyMovePerTick": 0.393,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 3.3000000000000003,
+     "end": 4.05,
+     "duration": 0.75,
+     "switches": 1
+    }
+   ],
+   "transitions": [
+    {
+     "start": 3.35,
+     "convex": false,
+     "switch": 3.6500000000000004,
+     "ready": 4.1000000000000005
+    },
+    {
+     "start": 6.550000000000001,
+     "convex": true,
+     "switch": 7.95
+    }
+   ],
+   "attackGatedSeconds": 2.2,
+   "raysPerSecond": 121
+  },
+  {
+   "course": "床→壁→屋上(高さ5m+サイズ)",
+   "scale": 1.5,
+   "version": "before",
+   "reached": true,
+   "seconds": 6.1,
+   "longestStillSeconds": 0.05,
+   "maxBodyMovePerTick": 0.225,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 2.35,
+     "end": 3.75,
+     "duration": 1.4000000000000001,
+     "switches": 1
+    }
+   ],
+   "transitions": [
+    {
+     "start": 2.4000000000000004,
+     "convex": false,
+     "switch": 3.45,
+     "ready": 3.8000000000000003
+    },
+    {
+     "start": 5.050000000000001,
+     "convex": true,
+     "switch": 6.1000000000000005
+    }
+   ],
+   "attackGatedSeconds": 2.5,
+   "raysPerSecond": 1382
+  },
+  {
+   "course": "床→壁→屋上(高さ5m+サイズ)",
+   "scale": 1.5,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 6.65,
+   "longestStillSeconds": 0.65,
+   "maxBodyMovePerTick": 0.488,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 2.6500000000000004,
+     "end": 3.4000000000000004,
+     "duration": 0.75,
+     "switches": 1
+    }
+   ],
+   "transitions": [
+    {
+     "start": 2.7,
+     "convex": false,
+     "switch": 3,
+     "ready": 3.45
+    },
+    {
+     "start": 5.300000000000001,
+     "convex": true,
+     "switch": 6.65
+    }
+   ],
+   "attackGatedSeconds": 2.15,
+   "raysPerSecond": 114
+  },
+  {
+   "course": "床→壁→屋上(高さ5m+サイズ)",
+   "scale": 2.25,
+   "version": "before",
+   "reached": true,
+   "seconds": 4.55,
+   "longestStillSeconds": 0,
+   "maxBodyMovePerTick": 0.246,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 1.3,
+     "end": 2.75,
+     "duration": 1.4500000000000002,
+     "switches": 1
+    }
+   ],
+   "transitions": [
+    {
+     "start": 1.35,
+     "convex": false,
+     "switch": 2.45,
+     "ready": 2.8000000000000003
+    },
+    {
+     "start": 3.5,
+     "convex": true,
+     "switch": 4.55
+    }
+   ],
+   "attackGatedSeconds": 2.55,
+   "raysPerSecond": 1360
+  },
+  {
+   "course": "床→壁→屋上(高さ5m+サイズ)",
+   "scale": 2.25,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 4.4,
+   "longestStillSeconds": 0.55,
+   "maxBodyMovePerTick": 0.732,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 1.4500000000000002,
+     "end": 2.2,
+     "duration": 0.75,
+     "switches": 1
+    }
+   ],
+   "transitions": [
+    {
+     "start": 1.5,
+     "convex": false,
+     "switch": 1.8,
+     "ready": 2.25
+    },
+    {
+     "start": 3.0500000000000003,
+     "convex": true,
+     "switch": 4.4
+    }
+   ],
+   "attackGatedSeconds": 2.15,
+   "raysPerSecond": 90
+  },
+  {
+   "course": "床→壁→屋上(高さ5m+サイズ)",
+   "scale": 3,
+   "version": "before",
+   "reached": true,
+   "seconds": 3.7,
+   "longestStillSeconds": 0,
+   "maxBodyMovePerTick": 0.293,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 1.05,
+     "end": 2.4000000000000004,
+     "duration": 1.35,
+     "switches": 1
+    }
+   ],
+   "transitions": [
+    {
+     "start": 1.1,
+     "convex": false,
+     "switch": 2.1,
+     "ready": 2.45
+    },
+    {
+     "start": 2.7,
+     "convex": true,
+     "switch": 3.7
+    }
+   ],
+   "attackGatedSeconds": 2.4,
+   "raysPerSecond": 1342
+  },
+  {
+   "course": "床→壁→屋上(高さ5m+サイズ)",
+   "scale": 3,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 3.85,
+   "longestStillSeconds": 0.3,
+   "maxBodyMovePerTick": 0.877,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 1.25,
+     "end": 2,
+     "duration": 0.75,
+     "switches": 1
+    }
+   ],
+   "transitions": [
+    {
+     "start": 1.3,
+     "convex": false,
+     "switch": 1.6500000000000001,
+     "ready": 2.0500000000000003
+    },
+    {
+     "start": 2.5,
+     "convex": true,
+     "switch": 3.85
+    }
+   ],
+   "attackGatedSeconds": 2.15,
+   "raysPerSecond": 81
+  },
+  {
+   "course": "屋上(高さ4m)の縁→壁を下る→床",
+   "scale": 1.2,
+   "version": "before",
+   "reached": true,
+   "seconds": 5.8,
+   "longestStillSeconds": 0.05,
+   "maxBodyMovePerTick": 0.469,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 2.0500000000000003,
+     "end": 3.4000000000000004,
+     "duration": 1.35,
+     "switches": 1
+    }
+   ],
+   "transitions": [
+    {
+     "start": 2.1,
+     "convex": true,
+     "switch": 3.1,
+     "ready": 3.45
+    },
+    {
+     "start": 4.800000000000001,
+     "convex": false,
+     "switch": 5.800000000000001
+    }
+   ],
+   "attackGatedSeconds": 2.4,
+   "raysPerSecond": 1386
+  },
+  {
+   "course": "屋上(高さ4m)の縁→壁を下る→床",
+   "scale": 1.2,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 6.5,
+   "longestStillSeconds": 0,
+   "maxBodyMovePerTick": 0.353,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 2.75,
+     "end": 4.55,
+     "duration": 1.8,
+     "switches": 1
+    }
+   ],
+   "transitions": [
+    {
+     "start": 2.8000000000000003,
+     "convex": true,
+     "switch": 4.15,
+     "ready": 4.6000000000000005
+    },
+    {
+     "start": 6.15,
+     "convex": false,
+     "switch": 6.5
+    }
+   ],
+   "attackGatedSeconds": 2.2,
+   "raysPerSecond": 113
+  },
+  {
+   "course": "屋上(高さ4m)の縁→壁を下る→床",
+   "scale": 1.5,
+   "version": "before",
+   "reached": true,
+   "seconds": 5.2,
+   "longestStillSeconds": 0.05,
+   "maxBodyMovePerTick": 0.624,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 1.8,
+     "end": 3.2,
+     "duration": 1.4000000000000001,
+     "switches": 1
+    }
+   ],
+   "transitions": [
+    {
+     "start": 1.85,
+     "convex": true,
+     "switch": 2.85,
+     "ready": 3.25
+    },
+    {
+     "start": 4.05,
+     "convex": false,
+     "switch": 5.2
+    }
+   ],
+   "attackGatedSeconds": 2.6,
+   "raysPerSecond": 1373
+  },
+  {
+   "course": "屋上(高さ4m)の縁→壁を下る→床",
+   "scale": 1.5,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 5.55,
+   "longestStillSeconds": 0,
+   "maxBodyMovePerTick": 0.441,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 2.15,
+     "end": 3.95,
+     "duration": 1.8,
+     "switches": 1
+    }
+   ],
+   "transitions": [
+    {
+     "start": 2.2,
+     "convex": true,
+     "switch": 3.6,
+     "ready": 4
+    },
+    {
+     "start": 5.2,
+     "convex": false,
+     "switch": 5.550000000000001
+    }
+   ],
+   "attackGatedSeconds": 2.2,
+   "raysPerSecond": 105
+  },
+  {
+   "course": "屋上(高さ4m)の縁→壁を下る→床",
+   "scale": 2.25,
+   "version": "before",
+   "reached": true,
+   "seconds": 4.15,
+   "longestStillSeconds": 0,
+   "maxBodyMovePerTick": 0.866,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 1,
+     "end": 2.45,
+     "duration": 1.4500000000000002,
+     "switches": 1
+    }
+   ],
+   "transitions": [
+    {
+     "start": 1.05,
+     "convex": true,
+     "switch": 2.15,
+     "ready": 2.5
+    },
+    {
+     "start": 3.0500000000000003,
+     "convex": false,
+     "switch": 4.15
+    }
+   ],
+   "attackGatedSeconds": 2.6,
+   "raysPerSecond": 1356
+  },
+  {
+   "course": "屋上(高さ4m)の縁→壁を下る→床",
+   "scale": 2.25,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 3.85,
+   "longestStillSeconds": 0,
+   "maxBodyMovePerTick": 0.732,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 1.1500000000000001,
+     "end": 2.95,
+     "duration": 1.8,
+     "switches": 1
+    }
+   ],
+   "transitions": [
+    {
+     "start": 1.2000000000000002,
+     "convex": true,
+     "switch": 2.5500000000000003,
+     "ready": 3
+    },
+    {
+     "start": 3.5500000000000003,
+     "convex": false,
+     "switch": 3.85
+    }
+   ],
+   "attackGatedSeconds": 2.15,
+   "raysPerSecond": 81
+  },
+  {
+   "course": "屋上(高さ4m)の縁→壁を下る→床",
+   "scale": 3,
+   "version": "before",
+   "reached": true,
+   "seconds": 3.6,
+   "longestStillSeconds": 0,
+   "maxBodyMovePerTick": 1.903,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 0.75,
+     "end": 2.2,
+     "duration": 1.4500000000000002,
+     "switches": 1
+    }
+   ],
+   "transitions": [
+    {
+     "start": 0.8,
+     "convex": true,
+     "switch": 1.9000000000000001,
+     "ready": 2.25
+    },
+    {
+     "start": 2.5,
+     "convex": false,
+     "switch": 3.6
+    }
+   ],
+   "attackGatedSeconds": 2.6,
+   "raysPerSecond": 1337
+  },
+  {
+   "course": "屋上(高さ4m)の縁→壁を下る→床",
+   "scale": 3,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 3.45,
+   "longestStillSeconds": 0,
+   "maxBodyMovePerTick": 0.971,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 0.9500000000000001,
+     "end": 2.75,
+     "duration": 1.8,
+     "switches": 1
+    }
+   ],
+   "transitions": [
+    {
+     "start": 1,
+     "convex": true,
+     "switch": 2.4000000000000004,
+     "ready": 2.8000000000000003
+    },
+    {
+     "start": 3.1500000000000004,
+     "convex": false,
+     "switch": 3.45
+    }
+   ],
+   "attackGatedSeconds": 2.15,
+   "raysPerSecond": 71
+  },
+  {
+   "course": "床→壁→天井→薄板(厚さ0.3m)の外縁→板の上",
+   "scale": 1.2,
+   "version": "before",
+   "reached": true,
+   "seconds": 13,
+   "longestStillSeconds": 0.7,
+   "maxBodyMovePerTick": 0.472,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 2.4000000000000004,
+     "end": 3.8000000000000003,
+     "duration": 1.4000000000000001,
+     "switches": 1
+    },
+    {
+     "start": 4.9,
+     "end": 6.25,
+     "duration": 1.35,
+     "switches": 2
+    }
+   ],
+   "transitions": [
+    {
+     "start": 2.45,
+     "convex": false,
+     "switch": 3.5,
+     "ready": 3.85
+    },
+    {
+     "start": 4.95,
+     "convex": false,
+     "switch": 5.95,
+     "ready": 6.300000000000001
+    },
+    {
+     "start": 10.100000000000001,
+     "convex": true,
+     "switch": 11.25
+    },
+    {
+     "start": 11.600000000000001,
+     "convex": true,
+     "switch": 13
+    }
+   ],
+   "attackGatedSeconds": 5.7,
+   "raysPerSecond": 1418
+  },
+  {
+   "course": "床→壁→天井→薄板(厚さ0.3m)の外縁→板の上",
+   "scale": 1.2,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 12.4,
+   "longestStillSeconds": 0.75,
+   "maxBodyMovePerTick": 0.392,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 2.5500000000000003,
+     "end": 3.3000000000000003,
+     "duration": 0.75,
+     "switches": 1
+    },
+    {
+     "start": 4.6000000000000005,
+     "end": 5.3500000000000005,
+     "duration": 0.75,
+     "switches": 2
+    }
+   ],
+   "transitions": [
+    {
+     "start": 2.6,
+     "convex": false,
+     "switch": 2.95,
+     "ready": 3.35
+    },
+    {
+     "start": 4.65,
+     "convex": false,
+     "switch": 4.95,
+     "ready": 5.4
+    },
+    {
+     "start": 9.35,
+     "convex": true,
+     "switch": 10.700000000000001
+    },
+    {
+     "start": 11.15,
+     "convex": true,
+     "switch": 12.4
+    }
+   ],
+   "attackGatedSeconds": 4.6,
+   "raysPerSecond": 109
+  },
+  {
+   "course": "床→壁→天井→薄板(厚さ0.3m)の外縁→板の上",
+   "scale": 1.5,
+   "version": "before",
+   "reached": true,
+   "seconds": 12.15,
+   "longestStillSeconds": 0.65,
+   "maxBodyMovePerTick": 0.597,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 2.2,
+     "end": 3.6500000000000004,
+     "duration": 1.4500000000000002,
+     "switches": 1
+    },
+    {
+     "start": 4.4,
+     "end": 5.9,
+     "duration": 1.5,
+     "switches": 2
+    },
+    {
+     "start": 9.3,
+     "end": 10.700000000000001,
+     "duration": 1.4000000000000001,
+     "switches": 3
+    }
+   ],
+   "transitions": [
+    {
+     "start": 2.25,
+     "convex": false,
+     "switch": 3.35,
+     "ready": 3.7
+    },
+    {
+     "start": 4.45,
+     "convex": false,
+     "switch": 5.6000000000000005,
+     "ready": 5.95
+    },
+    {
+     "start": 9.35,
+     "convex": true,
+     "switch": 10.4,
+     "ready": 10.75
+    },
+    {
+     "start": 10.8,
+     "convex": true,
+     "switch": 12.15
+    }
+   ],
+   "attackGatedSeconds": 5.75,
+   "raysPerSecond": 1412
+  },
+  {
+   "course": "床→壁→天井→薄板(厚さ0.3m)の外縁→板の上",
+   "scale": 1.5,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 11.5,
+   "longestStillSeconds": 0.9,
+   "maxBodyMovePerTick": 0.489,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [
+    {
+     "start": 2.35,
+     "end": 3.1,
+     "duration": 0.75,
+     "switches": 1
+    },
+    {
+     "start": 4,
+     "end": 4.75,
+     "duration": 0.75,
+     "switches": 2
+    }
+   ],
+   "transitions": [
+    {
+     "start": 2.4000000000000004,
+     "convex": false,
+     "switch": 2.7,
+     "ready": 3.1500000000000004
+    },
+    {
+     "start": 4.05,
+     "convex": false,
+     "switch": 4.3500000000000005,
+     "ready": 4.800000000000001
+    },
+    {
+     "start": 8.35,
+     "convex": true,
+     "switch": 9.700000000000001
+    },
+    {
+     "start": 10.15,
+     "convex": true,
+     "switch": 11.5
+    }
+   ],
+   "attackGatedSeconds": 4.7,
+   "raysPerSecond": 104
+  },
+  {
+   "course": "床→壁→天井→薄板(厚さ0.3m)の外縁→板の上",
+   "scale": 2.25,
+   "version": "before",
+   "reached": true,
+   "seconds": 9.7,
+   "longestStillSeconds": 0.75,
+   "maxBodyMovePerTick": 0.847,
+   "pointSamplesInsideSolid": 6,
+   "uniqueTicksInsideSolid": 6,
+   "contacts": [
+    {
+     "time": 3,
+     "point": {
+      "x": 0.008383854186023706,
+      "y": 4.115404822724075,
+      "z": -3.155458545663146
+     },
+     "local": [
+      0,
+      -0.78
+     ],
+     "solid": "block",
+     "body": {
+      "x": 0.0781923379886265,
+      "y": 2.83013001253253,
+      "z": -1.9624705164372582
+     },
+     "up": {
+      "x": 0.10102371150061365,
+      "y": 0.6797652588181697,
+      "z": 0.7264388498824298
+     },
+     "forward": {
+      "x": -0.039776913847636916,
+      "y": 0.7323503191974617,
+      "z": -0.6797652588181698
+     },
+     "anchor": {
+      "x": 0,
+      "y": 1.8,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "settling": true,
+     "switches": 1
+    },
+    {
+     "time": 3.0500000000000003,
+     "point": {
+      "x": -0.00021002472173226212,
+      "y": 4.062042949011341,
+      "z": -2.2098074055009116
+     },
+     "local": [
+      0.244,
+      -0.434
+     ],
+     "solid": "block",
+     "body": {
+      "x": -0.010430705609313654,
+      "y": 2.955211551244295,
+      "z": -2.0372587323699927
+     },
+     "up": {
+      "x": 0.048456364560615965,
+      "y": 0.6179026420410153,
+      "z": 0.7847600306414069
+     },
+     "forward": {
+      "x": -0.016776101644850765,
+      "y": 0.7860756244613712,
+      "z": -0.6179026420410151
+     },
+     "anchor": {
+      "x": 0,
+      "y": 1.8,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "settling": true,
+     "switches": 1
+    },
+    {
+     "time": 3.1,
+     "point": {
+      "x": -0.0760372091807014,
+      "y": 4.194955952381964,
+      "z": -2.1585819735984866
+     },
+     "local": [
+      0.244,
+      -0.434
+     ],
+     "solid": "block",
+     "body": {
+      "x": -0.074858897061245,
+      "y": 3.077456197855817,
+      "z": -2.0801845232920533
+     },
+     "up": {
+      "x": -0.004595142356526838,
+      "y": 0.5498661463160444,
+      "z": 0.835240148581392
+     },
+     "forward": {
+      "x": 0.0013767752527156431,
+      "y": 0.8352516540692665,
+      "z": -0.5498661463160445
+     },
+     "anchor": {
+      "x": 0,
+      "y": 1.8,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "settling": true,
+     "switches": 1
+    },
+    {
+     "time": 4,
+     "point": {
+      "x": 0.31798898698238276,
+      "y": 4.065160364441739,
+      "z": -0.7341346430415085
+     },
+     "local": [
+      0.244,
+      -0.434
+     ],
+     "solid": "block",
+     "body": {
+      "x": 0.32846040179146974,
+      "y": 3.461613097015886,
+      "z": -1.6778370831436216
+     },
+     "up": {
+      "x": 0.2745606653266723,
+      "y": -0.43023023242260994,
+      "z": 0.8599525499496828
+     },
+     "forward": {
+      "x": -0.1650847107766821,
+      "y": 0.859952549949683,
+      "z": 0.4829375219454554
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": -2.2
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "settling": true,
+     "switches": 2
+    },
+    {
+     "time": 4.1000000000000005,
+     "point": {
+      "x": 0.26948589242648996,
+      "y": 4.180917993945507,
+      "z": -0.3538254096741311
+     },
+     "local": [
+      0.244,
+      -0.434
+     ],
+     "solid": "block",
+     "body": {
+      "x": 0.2523249171920151,
+      "y": 3.757851601528526,
+      "z": -1.3909722548876153
+     },
+     "up": {
+      "x": 0.21794715225128714,
+      "y": -0.5993771199151781,
+      "z": 0.7702247119819908
+     },
+     "forward": {
+      "x": -0.10495853697028344,
+      "y": 0.7702247119819907,
+      "z": 0.6290767827295147
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": -2.2
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "settling": true,
+     "switches": 2
+    },
+    {
+     "time": 4.15,
+     "point": {
+      "x": 0.24616454494902473,
+      "y": 4.047944857648859,
+      "z": -0.17744109135906516
+     },
+     "local": [
+      0.244,
+      -0.434
+     ],
+     "solid": "block",
+     "body": {
+      "x": 0.22137940274633758,
+      "y": 3.7219233139896195,
+      "z": -1.2489115294935194
+     },
+     "up": {
+      "x": 0.18622631903022707,
+      "y": -0.6753769983567053,
+      "z": 0.7135724687732418
+     },
+     "forward": {
+      "x": -0.0793170578032847,
+      "y": 0.7135724687732417,
+      "z": 0.6960769613701429
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": -2.2
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "settling": true,
+     "switches": 2
+    }
+   ],
+   "gates": [
+    {
+     "start": 1.6,
+     "end": 3.1,
+     "duration": 1.5,
+     "switches": 1
+    },
+    {
+     "start": 3.1500000000000004,
+     "end": 4.3,
+     "duration": 1.1500000000000001,
+     "switches": 2
+    }
+   ],
+   "transitions": [
+    {
+     "start": 1.6500000000000001,
+     "convex": false,
+     "switch": 2.8000000000000003,
+     "ready": 3.1500000000000004
+    },
+    {
+     "start": 3.2,
+     "convex": false,
+     "switch": 4,
+     "ready": 4.3500000000000005
+    },
+    {
+     "start": 6.800000000000001,
+     "convex": true,
+     "switch": 7.95
+    },
+    {
+     "start": 8.3,
+     "convex": true,
+     "switch": 9.700000000000001
+    }
+   ],
+   "attackGatedSeconds": 5.6,
+   "raysPerSecond": 1407
+  },
+  {
+   "course": "床→壁→天井→薄板(厚さ0.3m)の外縁→板の上",
+   "scale": 2.25,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 9.35,
+   "longestStillSeconds": 1.2,
+   "maxBodyMovePerTick": 0.702,
+   "pointSamplesInsideSolid": 12,
+   "uniqueTicksInsideSolid": 12,
+   "contacts": [
+    {
+     "time": 2.15,
+     "point": {
+      "x": 0,
+      "y": 4.070202698404994,
+      "z": -1.7162688123392207
+     },
+     "local": [
+      0.244,
+      -0.434
+     ],
+     "solid": "block",
+     "body": {
+      "x": 0,
+      "y": 2.960701741761182,
+      "z": -1.8710618264143593
+     },
+     "up": {
+      "x": 0,
+      "y": 0.36492247576001735,
+      "z": 0.931037908296531
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.9310379082965311,
+      "z": -0.36492247576001746
+     },
+     "anchor": {
+      "x": 0,
+      "y": 0,
+      "z": -1.3908950617283953
+     },
+     "normal": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 1.8,
+       "z": -4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:0",
+      "age": 0.3,
+      "convex": false,
+      "from": {
+       "x": 0,
+       "y": 1.8,
+       "z": -1.3908950617283953
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 0,
+       "z": -4
+      },
+      "duration": 0.4584927983539094
+     },
+     "settling": false,
+     "switches": 0
+    },
+    {
+     "time": 2.85,
+     "point": {
+      "x": 0,
+      "y": 4.216089379513627,
+      "z": -1.35828770218284
+     },
+     "local": [
+      0.244,
+      -0.434
+     ],
+     "solid": "block",
+     "body": {
+      "x": 0,
+      "y": 3.47577407769794,
+      "z": -2.1990531295747777
+     },
+     "up": {
+      "x": 0,
+      "y": -0.3303504247281047,
+      "z": 0.943858356366018
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.943858356366018,
+      "z": 0.3303504247281044
+     },
+     "anchor": {
+      "x": 0,
+      "y": 1.8,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4,
+       "z": -2.2
+      },
+      "normal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "surface": "block:1",
+      "age": 0.11666666666666667,
+      "convex": false,
+      "from": {
+       "x": 0,
+       "y": 1.8,
+       "z": -2.2
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": -4
+      },
+      "duration": 0.35
+     },
+     "settling": false,
+     "switches": 1
+    },
+    {
+     "time": 6.75,
+     "point": {
+      "x": 0,
+      "y": -0.06374472275460574,
+      "z": 1.2805949801928875
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 2.3971245427778927,
+      "z": 3.618284642649722
+     },
+     "up": {
+      "x": 0,
+      "y": -0.8199303711037941,
+      "z": 0.5724632621763551
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.5724632621763555,
+      "z": 0.8199303711037943
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 1.3904320987654324
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.135,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.6166666666666667,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 2.2,
+       "z": 1.3904320987654324
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 6.800000000000001,
+     "point": {
+      "x": 0,
+      "y": -0.22981421117910505,
+      "z": 1.8347488271942827
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 2.461759107888244,
+      "z": 3.9026229935991865
+     },
+     "up": {
+      "x": 0,
+      "y": -0.7556539014535457,
+      "z": 0.6549711300645509
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.6549711300645511,
+      "z": 0.7556539014535457
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 1.3904320987654324
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.135,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.6666666666666667,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 2.2,
+       "z": 1.3904320987654324
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 6.8500000000000005,
+     "point": {
+      "x": 0,
+      "y": -0.35913491717350254,
+      "z": 2.405930179019392
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 2.537790462936575,
+      "z": 4.1746850636979005
+     },
+     "up": {
+      "x": 0,
+      "y": -0.6814234609681075,
+      "z": 0.7318893815613435
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.7318893815613436,
+      "z": 0.6814234609681075
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 1.3904320987654324
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.135,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.7166666666666668,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 2.2,
+       "z": 1.3904320987654324
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 6.9,
+     "point": {
+      "x": 0,
+      "y": -0.4423803790011118,
+      "z": 2.9770425740250177
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 2.6251048328214037,
+      "z": 4.430041189045067
+     },
+     "up": {
+      "x": 0,
+      "y": -0.6003385910292783,
+      "z": 0.7997459447355649
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.7997459447355648,
+      "z": 0.6003385910292784
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 1.3904320987654324
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.135,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.7666666666666668,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 2.2,
+       "z": 1.3904320987654324
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 6.95,
+     "point": {
+      "x": 0,
+      "y": -0.47553727945989666,
+      "z": 3.529863705445051
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 2.7231882251712993,
+      "z": 4.665128276380789
+     },
+     "up": {
+      "x": 0,
+      "y": -0.5163637230180044,
+      "z": 0.8563693744821718
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.8563693744821718,
+      "z": 0.5163637230180044
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 1.3904320987654324
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.135,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.8166666666666669,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 2.2,
+       "z": 1.3904320987654324
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 7,
+     "point": {
+      "x": 0,
+      "y": -0.46023919580522676,
+      "z": 4.048033081301546
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 2.831110904815081,
+      "z": 4.877300839716578
+     },
+     "up": {
+      "x": 0,
+      "y": -0.4334992762774255,
+      "z": 0.9011539144158165
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.9011539144158163,
+      "z": 0.43349927627742574
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 1.3904320987654324
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.135,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.8666666666666669,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 2.2,
+       "z": 1.3904320987654324
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 7.050000000000001,
+     "point": {
+      "x": 0,
+      "y": -0.4025534256841552,
+      "z": 4.519270922670691
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 2.9475231229832723,
+      "z": 5.064850997516303
+     },
+     "up": {
+      "x": 0,
+      "y": -0.3550751281115625,
+      "z": 0.934837768490639
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.9348377684906392,
+      "z": 0.3550751281115626
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 1.3904320987654324
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.135,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.916666666666667,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 2.2,
+       "z": 1.3904320987654324
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 7.1000000000000005,
+     "point": {
+      "x": 0,
+      "y": -0.31106830724486834,
+      "z": 4.9361911643667185
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 3.070662207902745,
+      "z": 5.2269990441077265
+     },
+     "up": {
+      "x": 0,
+      "y": -0.2834008219505565,
+      "z": 0.9590015506336521
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.959001550633652,
+      "z": 0.2834008219505564
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 1.3904320987654324
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.135,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.966666666666667,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 2.2,
+       "z": 1.3904320987654324
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 7.15,
+     "point": {
+      "x": 0,
+      "y": -0.1951597949046615,
+      "z": 5.295894962487182
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 3.198371086714813,
+      "z": 5.3638556532941095
+     },
+     "up": {
+      "x": 0,
+      "y": -0.21977084678698763,
+      "z": 0.9755515234484188
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.9755515234484187,
+      "z": 0.21977084678698774
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 1.3904320987654324
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.135,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 1.016666666666667,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 2.2,
+       "z": 1.3904320987654324
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 7.2,
+     "point": {
+      "x": 0,
+      "y": -0.06386902359510671,
+      "z": 5.598931941391225
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 3.328128284564821,
+      "z": 5.4763564077974145
+     },
+     "up": {
+      "x": 0,
+      "y": -0.16468114715445198,
+      "z": 0.9863468557114653
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.9863468557114652,
+      "z": 0.16468114715445212
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 1.3904320987654324
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.135,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 1.066666666666667,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 2.2,
+       "z": 1.3904320987654324
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    }
+   ],
+   "gates": [
+    {
+     "start": 1.85,
+     "end": 3.45,
+     "duration": 1.6,
+     "switches": 2
+    }
+   ],
+   "transitions": [
+    {
+     "start": 1.9000000000000001,
+     "convex": false,
+     "switch": 2.35
+    },
+    {
+     "start": 2.75,
+     "convex": false,
+     "switch": 3.1,
+     "ready": 3.5
+    },
+    {
+     "start": 6.15,
+     "convex": true,
+     "switch": 7.550000000000001
+    },
+    {
+     "start": 7.95,
+     "convex": true,
+     "switch": 9.35
+    }
+   ],
+   "attackGatedSeconds": 4.85,
+   "raysPerSecond": 89
+  },
+  {
+   "course": "床→壁→天井→薄板(厚さ0.3m)の外縁→板の上",
+   "scale": 3,
+   "version": "before",
+   "reached": true,
+   "seconds": 8.05,
+   "longestStillSeconds": 0.6,
+   "maxBodyMovePerTick": 1.132,
+   "pointSamplesInsideSolid": 27,
+   "uniqueTicksInsideSolid": 26,
+   "contacts": [
+    {
+     "time": 2.2,
+     "point": {
+      "x": 0.4883539872309559,
+      "y": 4.197399101022127,
+      "z": -1.4966719227886998
+     },
+     "local": [
+      0.244,
+      -0.434
+     ],
+     "solid": "block",
+     "body": {
+      "x": 0.5113487622471977,
+      "y": 2.9792404729693316,
+      "z": -0.6326182223611839
+     },
+     "up": {
+      "x": 0.24295942151889477,
+      "y": 0.8858556438693306,
+      "z": 0.39526003810157434
+     },
+     "forward": {
+      "x": -0.15425581533646143,
+      "y": 0.4375670481877464,
+      "z": -0.8858556438693305
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "settling": true,
+     "switches": 1
+    },
+    {
+     "time": 2.35,
+     "point": {
+      "x": 0.0675707888355824,
+      "y": 4.252479554729366,
+      "z": -2.8860834979215166
+     },
+     "local": [
+      0,
+      -0.78
+     ],
+     "solid": "block",
+     "body": {
+      "x": 0.23533352758953854,
+      "y": 2.705668433768699,
+      "z": -1.1382760086486912
+     },
+     "up": {
+      "x": 0.1579780065839158,
+      "y": 0.7469262774670192,
+      "z": 0.645866925507905
+     },
+     "forward": {
+      "x": -0.07169347809998126,
+      "y": 0.6610303935729347,
+      "z": -0.7469262774670193
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "settling": true,
+     "switches": 1
+    },
+    {
+     "time": 2.35,
+     "point": {
+      "x": 0.2576285199227893,
+      "y": 4.113080041306518,
+      "z": -1.637999432438964
+     },
+     "local": [
+      0.244,
+      -0.434
+     ],
+     "solid": "block",
+     "body": {
+      "x": 0.23533352758953854,
+      "y": 2.705668433768699,
+      "z": -1.1382760086486912
+     },
+     "up": {
+      "x": 0.1579780065839158,
+      "y": 0.7469262774670192,
+      "z": 0.645866925507905
+     },
+     "forward": {
+      "x": -0.07169347809998126,
+      "y": 0.6610303935729347,
+      "z": -0.7469262774670193
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "settling": true,
+     "switches": 1
+    },
+    {
+     "time": 2.5500000000000003,
+     "point": {
+      "x": -0.16853702821479508,
+      "y": -0.05276402587203721,
+      "z": 1.4764623458183317
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": -0.11403320490088262,
+      "y": 3.3791849235232383,
+      "z": -1.4731050363563545
+     },
+     "up": {
+      "x": -0.026478937829959217,
+      "y": 0.48681442618420934,
+      "z": 0.8731039916930493
+     },
+     "forward": {
+      "x": 0.006881801001346281,
+      "y": 0.8734783084163666,
+      "z": -0.4868144261842092
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "settling": false,
+     "switches": 1
+    },
+    {
+     "time": 2.6,
+     "point": {
+      "x": -0.07183485771522956,
+      "y": -0.15760221066758495,
+      "z": 1.0688069171635979
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": -0.032395007030956935,
+      "y": 3.5512973943335027,
+      "z": -1.5242029590614767
+     },
+     "up": {
+      "x": -0.02161255217384143,
+      "y": 0.39734608134397004,
+      "z": 0.9174142953045392
+     },
+     "forward": {
+      "x": 0.0044787727593081405,
+      "y": 0.9176579058860452,
+      "z": -0.3973460813439698
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4,
+       "z": -1.5999999999999996
+      },
+      "normal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "surface": "block:1",
+      "age": 0.05,
+      "convex": false,
+      "prepared": false
+     },
+     "settling": false,
+     "switches": 1
+    },
+    {
+     "time": 2.6500000000000004,
+     "point": {
+      "x": 0.02833902831268175,
+      "y": -0.24075245422523617,
+      "z": 0.6504583548328837
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0.054723471949707454,
+      "y": 3.7081703923091998,
+      "z": -1.5600855178944453
+     },
+     "up": {
+      "x": -0.01653022104056253,
+      "y": 0.3039075858040936,
+      "z": 0.9525580985341933
+     },
+     "forward": {
+      "x": 0.0025728604813432675,
+      "y": 0.9526980422356665,
+      "z": -0.3039075858040933
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4,
+       "z": -1.5999999999999996
+      },
+      "normal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "surface": "block:1",
+      "age": 0.09999999999999999,
+      "convex": false,
+      "prepared": false
+     },
+     "settling": false,
+     "switches": 1
+    },
+    {
+     "time": 2.7,
+     "point": {
+      "x": 0.1014580708131865,
+      "y": -0.30138394679717706,
+      "z": 0.22447401709661285
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0.1169261182970305,
+      "y": 3.848236494309874,
+      "z": -1.5815168284653365
+     },
+     "up": {
+      "x": -0.011282725402810919,
+      "y": 0.20743254612535403,
+      "z": 0.9781842561171373
+     },
+     "forward": {
+      "x": 0.0011831074129222627,
+      "y": 0.978248608005553,
+      "z": -0.2074325461253548
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4,
+       "z": -1.5999999999999996
+      },
+      "normal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "surface": "block:1",
+      "age": 0.15,
+      "convex": false,
+      "prepared": false
+     },
+     "settling": false,
+     "switches": 1
+    },
+    {
+     "time": 2.75,
+     "point": {
+      "x": 0.07405552939790594,
+      "y": -0.33396764065106455,
+      "z": -0.14034134480044202
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0.08221862132497196,
+      "y": 3.9499541750243607,
+      "z": -1.5994983757982635
+     },
+     "up": {
+      "x": -0.006875027261447796,
+      "y": 0.12639715659197415,
+      "z": 0.9919558925706414
+     },
+     "forward": {
+      "x": 0.0004362465557497342,
+      "y": 0.9919796210076125,
+      "z": -0.12639715659197573
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4,
+       "z": -1.5999999999999996
+      },
+      "normal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "surface": "block:1",
+      "age": 0.19999999999999998,
+      "convex": false,
+      "prepared": true
+     },
+     "settling": false,
+     "switches": 1
+    },
+    {
+     "time": 2.8000000000000003,
+     "point": {
+      "x": 0.019360590473927918,
+      "y": -0.3459924410045421,
+      "z": -0.3581065528432086
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0.023857155268492213,
+      "y": 4.005338358881652,
+      "z": -1.6019281038973905
+     },
+     "up": {
+      "x": -0.004177003330157447,
+      "y": 0.07679407279847299,
+      "z": 0.9970382254588851
+     },
+     "forward": {
+      "x": 0.00016062241259396672,
+      "y": 0.9970469620752391,
+      "z": -0.07679407279847361
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4,
+       "z": -1.5999999999999996
+      },
+      "normal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "surface": "block:1",
+      "age": 0.24999999999999997,
+      "convex": false,
+      "prepared": true
+     },
+     "settling": false,
+     "switches": 1
+    },
+    {
+     "time": 2.85,
+     "point": {
+      "x": -0.024195291395178183,
+      "y": -0.3504212581337267,
+      "z": -0.48951661403597324
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": -0.021636438533313436,
+      "y": 4.0365343137386045,
+      "z": -1.6011848481284847
+     },
+     "up": {
+      "x": -0.002535063347947186,
+      "y": 0.04660705867420477,
+      "z": 0.9989100838091288
+     },
+     "forward": {
+      "x": 0.00005910813455674274,
+      "y": 0.9989132988342718,
+      "z": -0.0466070586742086
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4,
+       "z": -1.5999999999999996
+      },
+      "normal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "surface": "block:1",
+      "age": 0.3,
+      "convex": false,
+      "prepared": true
+     },
+     "settling": false,
+     "switches": 1
+    },
+    {
+     "time": 2.9000000000000004,
+     "point": {
+      "x": -0.05283623321807663,
+      "y": -0.35205122492263197,
+      "z": -0.5693135644808793
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": -0.05134642639929069,
+      "y": 4.05455872430305,
+      "z": -1.600322068743046
+     },
+     "up": {
+      "x": -0.0015379468973953966,
+      "y": 0.02827510458180934,
+      "z": 0.9995989961880856
+     },
+     "forward": {
+      "x": 0.000021747165030606257,
+      "y": 0.9996001790655844,
+      "z": -0.028275104581813523
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4,
+       "z": -1.5999999999999996
+      },
+      "normal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "surface": "block:1",
+      "age": 0.35,
+      "convex": false,
+      "prepared": true
+     },
+     "settling": false,
+     "switches": 1
+    },
+    {
+     "time": 2.95,
+     "point": {
+      "x": -0.07027317360815442,
+      "y": -0.35265095040758965,
+      "z": -0.617925466338744
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": -0.06939249958216942,
+      "y": 4.0651578857561415,
+      "z": -1.599840081530375
+     },
+     "up": {
+      "x": -0.0009328907750087807,
+      "y": 0.01715116709910494,
+      "z": 0.9998524727088194
+     },
+     "forward": {
+      "x": 0.000008000672942499928,
+      "y": 0.9998529078835183,
+      "z": -0.01715116709910704
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4,
+       "z": -1.5999999999999996
+      },
+      "normal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "surface": "block:1",
+      "age": 0.39999999999999997,
+      "convex": false,
+      "prepared": true
+     },
+     "settling": false,
+     "switches": 1
+    },
+    {
+     "time": 3,
+     "point": {
+      "x": -0.0804978140036062,
+      "y": -0.35287158983514644,
+      "z": -0.6475822802739564
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": -0.07997210821465955,
+      "y": 4.071463326027747,
+      "z": -1.5996601530921268
+     },
+     "up": {
+      "x": -0.000565844446882758,
+      "y": 0.010403032081108795,
+      "z": 0.9999457268990058
+     },
+     "forward": {
+      "x": 0.000002943328838715398,
+      "y": 0.9999458869933193,
+      "z": -0.01040303208111664
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4,
+       "z": -1.5999999999999996
+      },
+      "normal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "surface": "block:1",
+      "age": 0.44999999999999996,
+      "convex": false,
+      "prepared": true
+     },
+     "settling": false,
+     "switches": 1
+    },
+    {
+     "time": 3.0500000000000003,
+     "point": {
+      "x": -0.08637468864438552,
+      "y": -0.3529527602702007,
+      "z": -0.6656836279223305
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": -0.08605894295229338,
+      "y": 4.075242265266585,
+      "z": -1.5996433251877682
+     },
+     "up": {
+      "x": -0.0003432059305002464,
+      "y": 0.0063098300691826655,
+      "z": 0.9999800339277715
+     },
+     "forward": {
+      "x": 0.00000108279635970066,
+      "y": 0.999980092823515,
+      "z": -0.006309830069209942
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4,
+       "z": -1.5999999999999996
+      },
+      "normal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "surface": "block:1",
+      "age": 0.49999999999999994,
+      "convex": false,
+      "prepared": true
+     },
+     "settling": false,
+     "switches": 1
+    },
+    {
+     "time": 3.1,
+     "point": {
+      "x": 0.07783795654540504,
+      "y": -0.34613769244691195,
+      "z": -0.9787391215222441
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0.03637112748207418,
+      "y": 4.143864393001962,
+      "z": -1.5438530699894595
+     },
+     "up": {
+      "x": 0.05624853037854128,
+      "y": -0.07596517688443631,
+      "z": 0.9955226741421668
+     },
+     "forward": {
+      "x": 0.0021412583355046306,
+      "y": 0.9971081721225925,
+      "z": 0.07596517688443567
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4,
+       "z": -1.5999999999999996
+      },
+      "normal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "surface": "block:1",
+      "age": 0.55,
+      "convex": false,
+      "prepared": true
+     },
+     "settling": false,
+     "switches": 1
+    },
+    {
+     "time": 3.1500000000000004,
+     "point": {
+      "x": 0.24353776466402863,
+      "y": -0.32329397459636944,
+      "z": -1.2768477458828278
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0.18138763059721433,
+      "y": 4.197877632679667,
+      "z": -1.4674695137806872
+     },
+     "up": {
+      "x": 0.11227824996533252,
+      "y": -0.15748116490137493,
+      "z": 0.9811183808725776
+     },
+     "forward": {
+      "x": 0.008925115110910457,
+      "y": 0.9874816580684236,
+      "z": 0.15748116490137481
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4,
+       "z": -1.5999999999999996
+      },
+      "normal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "surface": "block:1",
+      "age": 0.6000000000000002,
+      "convex": false,
+      "prepared": true
+     },
+     "settling": false,
+     "switches": 1
+    },
+    {
+     "time": 3.2,
+     "point": {
+      "x": 0.3490062604080835,
+      "y": -0.2846443192449115,
+      "z": -1.5955943084322939
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0.28747478903505197,
+      "y": 4.236737495163698,
+      "z": -1.409819266067143
+     },
+     "up": {
+      "x": 0.16718612239272512,
+      "y": -0.23742365317497105,
+      "z": 0.9569110770559278
+     },
+     "forward": {
+      "x": 0.0202839773375682,
+      "y": 0.9711944033901864,
+      "z": 0.23742365317497102
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4,
+       "z": -1.5999999999999996
+      },
+      "normal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "surface": "block:1",
+      "age": 0.6500000000000004,
+      "convex": false,
+      "prepared": true
+     },
+     "settling": false,
+     "switches": 1
+    },
+    {
+     "time": 3.25,
+     "point": {
+      "x": 0.3995578319250472,
+      "y": -0.24053439669681254,
+      "z": -1.8713088082037983
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0.3548612177527213,
+      "y": 4.257286779372065,
+      "z": -1.3725113735793748
+     },
+     "up": {
+      "x": 0.21177637229720947,
+      "y": -0.30239017862737394,
+      "z": 0.9293605048668351
+     },
+     "forward": {
+      "x": 0.03319187621311364,
+      "y": 0.9526061511575276,
+      "z": 0.30239017862737394
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4,
+       "z": -1.5999999999999996
+      },
+      "normal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "surface": "block:1",
+      "age": 0.7000000000000005,
+      "convex": false,
+      "prepared": true
+     },
+     "settling": false,
+     "switches": 1
+    },
+    {
+     "time": 3.3000000000000003,
+     "point": {
+      "x": 0.4223949353496832,
+      "y": -0.20866496598860707,
+      "z": -2.036923803667653
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0.3950970053648773,
+      "y": 4.264403329073232,
+      "z": -1.3498234829494058
+     },
+     "up": {
+      "x": 0.23812223127528362,
+      "y": -0.34079615551158277,
+      "z": 0.9094810516778266
+     },
+     "forward": {
+      "x": 0.04249905537902595,
+      "y": 0.9391761340027843,
+      "z": 0.3407961555115828
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4,
+       "z": -1.5999999999999996
+      },
+      "normal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "surface": "block:1",
+      "age": 0.7500000000000007,
+      "convex": false,
+      "prepared": true
+     },
+     "settling": false,
+     "switches": 1
+    },
+    {
+     "time": 3.35,
+     "point": {
+      "x": 0.43250833530245125,
+      "y": -0.1874947712839008,
+      "z": -2.136904171817815
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0.4183855274676987,
+      "y": 4.2667411715081895,
+      "z": -1.336420123108589
+     },
+     "up": {
+      "x": 0.25380855885408976,
+      "y": -0.36367098789491414,
+      "z": 0.8962837876565365
+     },
+     "forward": {
+      "x": 0.0486756306917124,
+      "y": 0.9302548551554574,
+      "z": 0.36367098789491387
+     },
+     "anchor": {
+      "x": 0,
+      "y": 2.4000000000000004,
+      "z": -4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4,
+       "z": -1.5999999999999996
+      },
+      "normal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "surface": "block:1",
+      "age": 0.8000000000000008,
+      "convex": false,
+      "prepared": true
+     },
+     "settling": false,
+     "switches": 1
+    },
+    {
+     "time": 3.4000000000000004,
+     "point": {
+      "x": 1.340035428968694,
+      "y": -0.06686709862169771,
+      "z": -2.185745551272881
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0.41185280409614006,
+      "y": 4.198407954406406,
+      "z": -0.9911335904668561
+     },
+     "up": {
+      "x": 0.25198083683785666,
+      "y": -0.40388559369948623,
+      "z": 0.8794214490609761
+     },
+     "forward": {
+      "x": -0.15784573448296252,
+      "y": 0.8794214490609763,
+      "z": 0.44911316952080943
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": -1.5999999999999996
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "settling": true,
+     "switches": 2
+    },
+    {
+     "time": 3.6500000000000004,
+     "point": {
+      "x": 0.15750058962135005,
+      "y": 4.184872847024429,
+      "z": 1.4230698785710387
+     },
+     "local": [
+      0.244,
+      -0.434
+     ],
+     "solid": "block",
+     "body": {
+      "x": 0.1348396025138293,
+      "y": 3.9582890153849566,
+      "z": -0.0531327656830923
+     },
+     "up": {
+      "x": 0.08000702662834029,
+      "y": -0.7844255701903766,
+      "z": 0.6150409746688383
+     },
+     "forward": {
+      "x": -0.027576156977284442,
+      "y": 0.6150409746688384,
+      "z": 0.7880127886302161
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": -1.5999999999999996
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "settling": true,
+     "switches": 2
+    },
+    {
+     "time": 3.85,
+     "point": {
+      "x": 0.12781903667454053,
+      "y": 4.0763929593349815,
+      "z": 2.8542606423179215
+     },
+     "local": [
+      0,
+      -0.78
+     ],
+     "solid": "block",
+     "body": {
+      "x": 0.12892437317693525,
+      "y": 3.4243837872786362,
+      "z": 0.6069327139136985
+     },
+     "up": {
+      "x": 0.003323406681749914,
+      "y": -0.960390916503406,
+      "z": 0.2786363983146775
+     },
+     "forward": {
+      "x": -0.00047236602666441677,
+      "y": 0.2786363983146773,
+      "z": 0.9603965506000953
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": -1.475
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 4.3,
+     "point": {
+      "x": 0.022643788474065243,
+      "y": 4.166960677138024,
+      "z": 2.804242368826623
+     },
+     "local": [
+      0,
+      -0.78
+     ],
+     "solid": "block",
+     "body": {
+      "x": 0.0033778129317203476,
+      "y": 3.4628296538486514,
+      "z": 0.5727790990800948
+     },
+     "up": {
+      "x": -0.053413605255784306,
+      "y": -0.9521553135820308,
+      "z": 0.300910693713407
+     },
+     "forward": {
+      "x": 0.008233322881343973,
+      "y": 0.3009106937134072,
+      "z": 0.9536167819429606
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": -0.8000000000000016
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 4.3500000000000005,
+     "point": {
+      "x": 0.01810789207605266,
+      "y": 4.245456539038063,
+      "z": 2.760012635207918
+     },
+     "local": [
+      0,
+      -0.78
+     ],
+     "solid": "block",
+     "body": {
+      "x": 0.005519800582588636,
+      "y": 3.497062748256211,
+      "z": 0.5429541619439127
+     },
+     "up": {
+      "x": -0.03274730818489053,
+      "y": -0.9469100715638087,
+      "z": 0.3198264063170307
+     },
+     "forward": {
+      "x": 0.00537952627925813,
+      "y": 0.31982640631703085,
+      "z": 0.9474608860102586
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": -0.7250000000000015
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 4.5,
+     "point": {
+      "x": 0.02223463065938771,
+      "y": 4.262656100737581,
+      "z": 2.750164160445335
+     },
+     "local": [
+      0,
+      -0.78
+     ],
+     "solid": "block",
+     "body": {
+      "x": 0.029552216561996518,
+      "y": 3.5046257455039167,
+      "z": 0.536358289669651
+     },
+     "up": {
+      "x": 0.01878449041443703,
+      "y": -0.9458895503587591,
+      "z": 0.3239445962537031
+     },
+     "forward": {
+      "x": -0.0031271734626533375,
+      "y": 0.3239445962537027,
+      "z": 0.9460708849468735
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": -0.5000000000000013
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 4.55,
+     "point": {
+      "x": 0.1438565989054777,
+      "y": 4.050922551536763,
+      "z": 2.8648102095094505
+     },
+     "local": [
+      0,
+      -0.78
+     ],
+     "solid": "block",
+     "body": {
+      "x": 0.17590076080887476,
+      "y": 3.4107498799799534,
+      "z": 0.6143097935397653
+     },
+     "up": {
+      "x": 0.09795106754541155,
+      "y": -0.9568493250478797,
+      "z": 0.2735780647678677
+     },
+     "forward": {
+      "x": -0.013694086283503014,
+      "y": 0.2735780647678673,
+      "z": 0.9617523145169595
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": -0.42500000000000127
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "settling": false,
+     "switches": 2
+    }
+   ],
+   "gates": [
+    {
+     "start": 1.05,
+     "end": 2.5,
+     "duration": 1.4500000000000002,
+     "switches": 1
+    },
+    {
+     "start": 2.5500000000000003,
+     "end": 3.7,
+     "duration": 1.1500000000000001,
+     "switches": 2
+    }
+   ],
+   "transitions": [
+    {
+     "start": 1.1,
+     "convex": false,
+     "switch": 2.2,
+     "ready": 2.5500000000000003
+    },
+    {
+     "start": 2.6,
+     "convex": false,
+     "switch": 3.4000000000000004,
+     "ready": 3.75
+    },
+    {
+     "start": 5.25,
+     "convex": true,
+     "switch": 6.300000000000001
+    },
+    {
+     "start": 6.65,
+     "convex": true,
+     "switch": 8.05
+    }
+   ],
+   "attackGatedSeconds": 5.45,
+   "raysPerSecond": 1404
+  },
+  {
+   "course": "床→壁→天井→薄板(厚さ0.3m)の外縁→板の上",
+   "scale": 3,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 8.15,
+   "longestStillSeconds": 1.55,
+   "maxBodyMovePerTick": 1.32,
+   "pointSamplesInsideSolid": 38,
+   "uniqueTicksInsideSolid": 34,
+   "contacts": [
+    {
+     "time": 5.300000000000001,
+     "point": {
+      "x": 0,
+      "y": -0.1429219619868798,
+      "z": -2.5110015820622644
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 1.6334928925063779,
+      "z": 1.6513946346301944
+     },
+     "up": {
+      "x": 0,
+      "y": -0.9797035584152161,
+      "z": 0.20045183368720573
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.2004518336872061,
+      "z": 0.9797035584152161
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.36666666666666664,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 5.3500000000000005,
+     "point": {
+      "x": 0,
+      "y": -0.3761373932941037,
+      "z": -2.054694470003816
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 1.6568174215828082,
+      "z": 1.9886069929925785
+     },
+     "up": {
+      "x": 0,
+      "y": -0.965268806093146,
+      "z": 0.2612587452766172
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.2612587452766174,
+      "z": 0.965268806093146
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.41666666666666663,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 5.4,
+     "point": {
+      "x": 0,
+      "y": -0.630082018107949,
+      "z": -1.5340013337133405
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 1.689827436004072,
+      "z": 2.351769133609925
+     },
+     "up": {
+      "x": 0,
+      "y": -0.9438583563660186,
+      "z": 0.33035042472810344
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.33035042472810283,
+      "z": 0.9438583563660188
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.4666666666666666,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 5.45,
+     "point": {
+      "x": 0,
+      "y": -0.8968814856014076,
+      "z": -0.9506150704159229
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 1.734227127760143,
+      "z": 2.731566275565648
+     },
+     "up": {
+      "x": 0,
+      "y": -0.9135491963450102,
+      "z": 0.4067282457088348
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.40672824570883437,
+      "z": 0.9135491963450102
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.5166666666666666,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 5.5,
+     "point": {
+      "x": 0,
+      "y": -1.1647961802539435,
+      "z": -0.30773524467846247
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 1.7915025907224302,
+      "z": 3.1188504578428655
+     },
+     "up": {
+      "x": 0,
+      "y": -0.8725999781401474,
+      "z": 0.48843554144821827
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.4884355414482183,
+      "z": 0.8725999781401474
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.5666666666666667,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 5.550000000000001,
+     "point": {
+      "x": 0,
+      "y": -0.059870975834488416,
+      "z": 2.333730907357653
+     },
+     "local": [
+      0.302,
+      0.687
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 1.8628327237310063,
+      "z": 3.5049556866708134
+     },
+     "up": {
+      "x": 0,
+      "y": -0.8199303711037995,
+      "z": 0.5724632621763476
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.5724632621763475,
+      "z": 0.8199303711037995
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.6166666666666667,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 5.550000000000001,
+     "point": {
+      "x": 0,
+      "y": -1.4183262969789605,
+      "z": 0.3880361367283376
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 1.8628327237310063,
+      "z": 3.5049556866708134
+     },
+     "up": {
+      "x": 0,
+      "y": -0.8199303711037995,
+      "z": 0.5724632621763476
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.5724632621763475,
+      "z": 0.8199303711037995
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.6166666666666667,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 5.6000000000000005,
+     "point": {
+      "x": 0,
+      "y": -0.08550578991115931,
+      "z": 2.917948076854815
+     },
+     "local": [
+      0.302,
+      0.687
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 1.9490121438687915,
+      "z": 3.881946923912092
+     },
+     "up": {
+      "x": 0,
+      "y": -0.7556539014535466,
+      "z": 0.6549711300645501
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.65497113006455,
+      "z": 0.7556539014535466
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.6666666666666667,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 5.6000000000000005,
+     "point": {
+      "x": 0,
+      "y": -1.6397522815543366,
+      "z": 1.1247813687055488
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 1.9490121438687915,
+      "z": 3.881946923912092
+     },
+     "up": {
+      "x": 0,
+      "y": -0.7556539014535466,
+      "z": 0.6549711300645501
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.65497113006455,
+      "z": 0.7556539014535466
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.6666666666666667,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 5.65,
+     "point": {
+      "x": 0,
+      "y": -0.07540638710793157,
+      "z": 3.501491677671803
+     },
+     "local": [
+      0.302,
+      0.687
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 2.050387283927103,
+      "z": 4.2428136510324945
+     },
+     "up": {
+      "x": 0,
+      "y": -0.6814234609681074,
+      "z": 0.731889381561344
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.7318893815613436,
+      "z": 0.6814234609681074
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.7166666666666668,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 5.65,
+     "point": {
+      "x": 0,
+      "y": -1.8121798895529997,
+      "z": 1.8844738047944842
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 2.050387283927103,
+      "z": 4.2428136510324945
+     },
+     "up": {
+      "x": 0,
+      "y": -0.6814234609681074,
+      "z": 0.731889381561344
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.7318893815613436,
+      "z": 0.6814234609681074
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.7166666666666668,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 5.7,
+     "point": {
+      "x": 0,
+      "y": -0.025376711803003715,
+      "z": 4.0688870363085075
+     },
+     "local": [
+      0.302,
+      0.687
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 2.1668064437695227,
+      "z": 4.581615046489424
+     },
+     "up": {
+      "x": 0,
+      "y": -0.6003385910292767,
+      "z": 0.7997459447355659
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.7997459447355659,
+      "z": 0.6003385910292767
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.7666666666666668,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 5.7,
+     "point": {
+      "x": 0,
+      "y": -1.9231738386605013,
+      "z": 2.644283559796034
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 2.1668064437695227,
+      "z": 4.581615046489424
+     },
+     "up": {
+      "x": 0,
+      "y": -0.6003385910292767,
+      "z": 0.7997459447355659
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.7997459447355659,
+      "z": 0.6003385910292767
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.7666666666666668,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 5.75,
+     "point": {
+      "x": 0,
+      "y": -1.9673830392748388,
+      "z": 3.379895296140984
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 2.297584300233415,
+      "z": 4.893581390721987
+     },
+     "up": {
+      "x": 0,
+      "y": -0.5163637230180083,
+      "z": 0.8563693744821692
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.8563693744821693,
+      "z": 0.5163637230180084
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.8166666666666669,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 5.800000000000001,
+     "point": {
+      "x": 0,
+      "y": -1.9469855944036816,
+      "z": 4.069484379364406
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 2.441481206423396,
+      "z": 5.175174723917778
+     },
+     "up": {
+      "x": 0,
+      "y": -0.43349927627742496,
+      "z": 0.9011539144158166
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.9011539144158166,
+      "z": 0.43349927627742485
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.8666666666666669,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 5.8500000000000005,
+     "point": {
+      "x": 0,
+      "y": -1.8700712342433832,
+      "z": 4.696670640143392
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 2.596697497313185,
+      "z": 5.424110739937547
+     },
+     "up": {
+      "x": 0,
+      "y": -0.35507512811156394,
+      "z": 0.9348377684906385
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.9348377684906385,
+      "z": 0.35507512811156383
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.916666666666667,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 5.9,
+     "point": {
+      "x": 0,
+      "y": -1.7480910763250752,
+      "z": 5.25159937709789
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 2.76088294387174,
+      "z": 5.639343216752587
+     },
+     "up": {
+      "x": 0,
+      "y": -0.28340082195056027,
+      "z": 0.9590015506336508
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.9590015506336509,
+      "z": 0.2834008219505602
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 0.966666666666667,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 5.95,
+     "point": {
+      "x": 0,
+      "y": -1.593546393205287,
+      "z": 5.730397581531021
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 2.931161448954011,
+      "z": 5.821011835940302
+     },
+     "up": {
+      "x": 0,
+      "y": -0.21977084678699743,
+      "z": 0.9755515234484163
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.9755515234484163,
+      "z": 0.21977084678699743
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 1.016666666666667,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 6,
+     "point": {
+      "x": 0,
+      "y": -1.4184920314595337,
+      "z": 6.133787994980104
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 3.104171046087036,
+      "z": 5.970353950188337
+     },
+     "up": {
+      "x": 0,
+      "y": -0.1646811471544477,
+      "z": 0.986346855711466
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.986346855711466,
+      "z": 0.16468114715444773
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 1.066666666666667,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 6.050000000000001,
+     "point": {
+      "x": 0,
+      "y": -1.233851244444939,
+      "z": 6.465557018699862
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 3.276119241230218,
+      "z": 6.089580665269233
+     },
+     "up": {
+      "x": 0,
+      "y": -0.11810611945390115,
+      "z": 0.9930009791271813
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.9930009791271813,
+      "z": 0.11810611945390113
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 1.1166666666666671,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 6.1000000000000005,
+     "point": {
+      "x": 0,
+      "y": -1.0492743926309798,
+      "z": 6.731241803498775
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 3.4428537237864942,
+      "z": 6.181717476747364
+     },
+     "up": {
+      "x": 0,
+      "y": -0.07974522228288641,
+      "z": 0.9968152785361252
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.9968152785361253,
+      "z": 0.07974522228288652
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 1.1666666666666672,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 6.15,
+     "point": {
+      "x": 0,
+      "y": -0.8732623842458307,
+      "z": 6.937124047441336
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 3.5999484640920607,
+      "z": 6.250409618939796
+     },
+     "up": {
+      "x": 0,
+      "y": -0.0492079392946612,
+      "z": 0.9987885555563665
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.9987885555563665,
+      "z": 0.04920793929466125
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 1.2166666666666672,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 6.2,
+     "point": {
+      "x": 0,
+      "y": -0.7133630096040253,
+      "z": 7.0894749909042325
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 3.7428052086795542,
+      "z": 6.299692229406274
+     },
+     "up": {
+      "x": 0,
+      "y": -0.02614064851708708,
+      "z": 0.9996582748595172
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.9996582748595172,
+      "z": 0.02614064851708709
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 1.2666666666666673,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 6.25,
+     "point": {
+      "x": 0,
+      "y": -0.5763366850788056,
+      "z": 7.193953042042738
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 3.8667703807199114,
+      "z": 6.33372539667814
+     },
+     "up": {
+      "x": 0,
+      "y": -0.010312174314220322,
+      "z": 0.999946828116832
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.9999468281168321,
+      "z": 0.010312174314220247
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 1.3166666666666673,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 6.300000000000001,
+     "point": {
+      "x": 0,
+      "y": -0.4682452773166883,
+      "z": 7.25505931058125
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 3.9672673904979465,
+      "z": 6.356494135618462
+     },
+     "up": {
+      "x": 0,
+      "y": -0.0016764889101696656,
+      "z": 0.9999985946914797
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.9999985946914796,
+      "z": 0.0016764889101697322
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4,
+      "z": 0.5457264957264966
+     },
+     "normal": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.18,
+       "z": 4
+      },
+      "normal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "forward": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "surface": "block:1",
+      "age": 1.3666666666666674,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 1.5999999999999996,
+       "z": 0.5457264957264966
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": -1,
+       "z": 0
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 2
+    },
+    {
+     "time": 6.3500000000000005,
+     "point": {
+      "x": 0,
+      "y": -0.39393527427581265,
+      "z": 7.277473378053418
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 4.040064725724228,
+      "z": 6.371473378053419
+     },
+     "up": {
+      "x": 0,
+      "y": -4.573967073151497e-14,
+      "z": 1
+     },
+     "forward": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4.18,
+      "z": 4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "settling": true,
+     "switches": 3
+    },
+    {
+     "time": 6.4,
+     "point": {
+      "x": 0,
+      "y": -0.3457701785068572,
+      "z": 7.287297058889944
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 4.088229821493184,
+      "z": 6.3812970588899445
+     },
+     "up": {
+      "x": 0,
+      "y": -4.573967073151497e-14,
+      "z": 1
+     },
+     "forward": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4.18,
+      "z": 4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "settling": true,
+     "switches": 3
+    },
+    {
+     "time": 6.45,
+     "point": {
+      "x": 0,
+      "y": -0.3141682079252526,
+      "z": 7.293737870149182
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 4.1198317920747884,
+      "z": 6.3877378701491825
+     },
+     "up": {
+      "x": 0,
+      "y": -4.573967073151497e-14,
+      "z": 1
+     },
+     "forward": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4.18,
+      "z": 4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "settling": true,
+     "switches": 3
+    },
+    {
+     "time": 6.5,
+     "point": {
+      "x": 0,
+      "y": -0.29344787126506944,
+      "z": 7.297960637325712
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 4.140552128734972,
+      "z": 6.391960637325712
+     },
+     "up": {
+      "x": 0,
+      "y": -4.573967073151497e-14,
+      "z": 1
+     },
+     "forward": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4.18,
+      "z": 4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "settling": true,
+     "switches": 3
+    },
+    {
+     "time": 6.550000000000001,
+     "point": {
+      "x": 0,
+      "y": -0.2798630252138743,
+      "z": 7.300729190656532
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 4.154136974786167,
+      "z": 6.394729190656532
+     },
+     "up": {
+      "x": 0,
+      "y": -4.573967073151497e-14,
+      "z": 1
+     },
+     "forward": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4.18,
+      "z": 4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "settling": true,
+     "switches": 3
+    },
+    {
+     "time": 6.6000000000000005,
+     "point": {
+      "x": 0,
+      "y": -0.2709564530829027,
+      "z": 7.30254432420429
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 4.163043546917138,
+      "z": 6.3965443242042905
+     },
+     "up": {
+      "x": 0,
+      "y": -4.573967073151497e-14,
+      "z": 1
+     },
+     "forward": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4.18,
+      "z": 4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "settling": true,
+     "switches": 3
+    },
+    {
+     "time": 6.65,
+     "point": {
+      "x": 0,
+      "y": -0.2651170791274948,
+      "z": 7.303734371626384
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 4.168882920872546,
+      "z": 6.397734371626385
+     },
+     "up": {
+      "x": 0,
+      "y": -4.573967073151497e-14,
+      "z": 1
+     },
+     "forward": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4.18,
+      "z": 4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "settling": true,
+     "switches": 3
+    },
+    {
+     "time": 6.7,
+     "point": {
+      "x": 0,
+      "y": -0.26128863799539115,
+      "z": 7.304514596787828
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 4.17271136200465,
+      "z": 6.3985145967878285
+     },
+     "up": {
+      "x": 0,
+      "y": -4.573967073151497e-14,
+      "z": 1
+     },
+     "forward": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4.18,
+      "z": 4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "settling": true,
+     "switches": 3
+    },
+    {
+     "time": 6.75,
+     "point": {
+      "x": 0,
+      "y": -0.2582805907880239,
+      "z": 7.305026026466642
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 4.175337101084048,
+      "z": 6.399026107128624
+     },
+     "up": {
+      "x": 0,
+      "y": 0.0004219736511351113,
+      "z": 0.9999999109691149
+     },
+     "forward": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4.18,
+      "z": 4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.3,
+       "z": 3.82
+      },
+      "normal": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": -1
+      },
+      "surface": "block:1",
+      "age": 0.01666666666666667,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 4.18,
+       "z": 6.4
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4.3,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 3
+    },
+    {
+     "time": 6.800000000000001,
+     "point": {
+      "x": 0,
+      "y": -0.24416862284784902,
+      "z": 7.334724675759279
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 4.18372687326474,
+      "z": 6.399345888579591
+     },
+     "up": {
+      "x": 0,
+      "y": 0.006630289041623693,
+      "z": 0.9999780193920388
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.9999780193920388,
+      "z": -0.006630289041610593
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4.18,
+      "z": 4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.3,
+       "z": 3.82
+      },
+      "normal": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": -1
+      },
+      "surface": "block:1",
+      "age": 0.06666666666666668,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 4.18,
+       "z": 6.4
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4.3,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 3
+    },
+    {
+     "time": 6.8500000000000005,
+     "point": {
+      "x": 0,
+      "y": -0.2072749797980471,
+      "z": 7.394164122202014
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 4.207651678960413,
+      "z": 6.399370375848588
+     },
+     "up": {
+      "x": 0,
+      "y": 0.020066796820023047,
+      "z": 0.9997986415600812
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.9997986415600812,
+      "z": -0.020066796820025344
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4.18,
+      "z": 4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.3,
+       "z": 3.82
+      },
+      "normal": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": -1
+      },
+      "surface": "block:1",
+      "age": 0.11666666666666667,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 4.18,
+       "z": 6.4
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4.3,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 3
+    },
+    {
+     "time": 6.9,
+     "point": {
+      "x": 0,
+      "y": -0.14083988714837403,
+      "z": 7.484385552736057
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 4.252608211383365,
+      "z": 6.398657315326794
+     },
+     "up": {
+      "x": 0,
+      "y": 0.040703442817340986,
+      "z": 0.9991712714759245
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.9991712714759248,
+      "z": -0.040703442817337766
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4.18,
+      "z": 4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.3,
+       "z": 3.82
+      },
+      "normal": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": -1
+      },
+      "surface": "block:1",
+      "age": 0.16666666666666666,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 4.18,
+       "z": 6.4
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4.3,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 3
+    },
+    {
+     "time": 6.95,
+     "point": {
+      "x": 0,
+      "y": -0.040525686649739434,
+      "z": 7.604912617509848
+     },
+     "local": [
+      0.302,
+      1.478
+     ],
+     "solid": "ground",
+     "body": {
+      "x": 0,
+      "y": 4.320736781002075,
+      "z": 6.396367339809592
+     },
+     "up": {
+      "x": 0,
+      "y": 0.06871601836604195,
+      "z": 0.9976362607784052
+     },
+     "forward": {
+      "x": 0,
+      "y": 0.9976362607784052,
+      "z": -0.06871601836604005
+     },
+     "anchor": {
+      "x": 0,
+      "y": 4.18,
+      "z": 4
+     },
+     "normal": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+     },
+     "transfer": {
+      "point": {
+       "x": 0,
+       "y": 4.3,
+       "z": 3.82
+      },
+      "normal": {
+       "x": 0,
+       "y": 1,
+       "z": 0
+      },
+      "forward": {
+       "x": 0,
+       "y": 0,
+       "z": -1
+      },
+      "surface": "block:1",
+      "age": 0.21666666666666665,
+      "convex": true,
+      "from": {
+       "x": 0,
+       "y": 4.18,
+       "z": 6.4
+      },
+      "fromNormal": {
+       "x": 0,
+       "y": 0,
+       "z": 1
+      },
+      "pivot": {
+       "x": 0,
+       "y": 4.3,
+       "z": 4
+      },
+      "duration": 1.4
+     },
+     "settling": false,
+     "switches": 3
+    }
+   ],
+   "gates": [
+    {
+     "start": 1.3,
+     "end": 3.2,
+     "duration": 1.9000000000000001,
+     "switches": 2
+    }
+   ],
+   "transitions": [
+    {
+     "start": 1.35,
+     "convex": false,
+     "switch": 1.9500000000000002
+    },
+    {
+     "start": 2.35,
+     "convex": false,
+     "switch": 2.8000000000000003,
+     "ready": 3.25
+    },
+    {
+     "start": 4.95,
+     "convex": true,
+     "switch": 6.3500000000000005
+    },
+    {
+     "start": 6.75,
+     "convex": true,
+     "switch": 8.15
+    }
+   ],
+   "attackGatedSeconds": 5.15,
+   "raysPerSecond": 73
+  },
+  {
+   "course": "低い段差(0.2m)へ上がる",
+   "scale": 1.2,
+   "version": "before",
+   "reached": true,
+   "seconds": 3.1,
+   "longestStillSeconds": 0.05,
+   "maxBodyMovePerTick": 0.178,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [],
+   "transitions": [],
+   "attackGatedSeconds": 0,
+   "raysPerSecond": 1452
+  },
+  {
+   "course": "低い段差(0.2m)へ上がる",
+   "scale": 1.2,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 4.15,
+   "longestStillSeconds": 0,
+   "maxBodyMovePerTick": 0.109,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [],
+   "transitions": [],
+   "attackGatedSeconds": 0,
+   "raysPerSecond": 160
+  },
+  {
+   "course": "低い段差(0.2m)へ上がる",
+   "scale": 1.5,
+   "version": "before",
+   "reached": true,
+   "seconds": 3.15,
+   "longestStillSeconds": 0.05,
+   "maxBodyMovePerTick": 0.225,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [],
+   "transitions": [],
+   "attackGatedSeconds": 0,
+   "raysPerSecond": 1450
+  },
+  {
+   "course": "低い段差(0.2m)へ上がる",
+   "scale": 1.5,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 3.5,
+   "longestStillSeconds": 0,
+   "maxBodyMovePerTick": 0.124,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [],
+   "transitions": [],
+   "attackGatedSeconds": 0,
+   "raysPerSecond": 160
+  },
+  {
+   "course": "低い段差(0.2m)へ上がる",
+   "scale": 2.25,
+   "version": "before",
+   "reached": true,
+   "seconds": 2.1,
+   "longestStillSeconds": 0,
+   "maxBodyMovePerTick": 0.251,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [],
+   "transitions": [],
+   "attackGatedSeconds": 0,
+   "raysPerSecond": 1454
+  },
+  {
+   "course": "低い段差(0.2m)へ上がる",
+   "scale": 2.25,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 2.25,
+   "longestStillSeconds": 0,
+   "maxBodyMovePerTick": 0.186,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [],
+   "transitions": [],
+   "attackGatedSeconds": 0,
+   "raysPerSecond": 160
+  },
+  {
+   "course": "低い段差(0.2m)へ上がる",
+   "scale": 3,
+   "version": "before",
+   "reached": true,
+   "seconds": 2.05,
+   "longestStillSeconds": 0,
+   "maxBodyMovePerTick": 0.272,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [],
+   "transitions": [],
+   "attackGatedSeconds": 0,
+   "raysPerSecond": 1453
+  },
+  {
+   "course": "低い段差(0.2m)へ上がる",
+   "scale": 3,
+   "version": "lightweight",
+   "reached": true,
+   "seconds": 2.3,
+   "longestStillSeconds": 0,
+   "maxBodyMovePerTick": 0.186,
+   "pointSamplesInsideSolid": 0,
+   "uniqueTicksInsideSolid": 0,
+   "contacts": [],
+   "gates": [],
+   "transitions": [],
+   "attackGatedSeconds": 0,
+   "raysPerSecond": 160
+  }
+ ]
+}

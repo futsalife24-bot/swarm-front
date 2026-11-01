@@ -1,3 +1,9 @@
+# 要修正・仕様判断待ち: PLEATの公開前受入確認（2026-11-01、Codex）
+
+本人の「1から進めて。出先のスマホで確認」により、PR #245/#246を含む基点 `640de79613c585c22c0b06e696942ed357af359e` から `task-pleat-acceptance` / `codex/pleat-wall-acceptance-20261101` で調査。ゲーム本体は無変更、merge・公開なし。5コース×4サイズ×旧新40走行で全到達だが、大型3の後端が地面へ旧最大0.353m・軽量版1.967m侵入。大型2.25は薄板への接触も残る。旧記録の点サンプル数とtick数の混同を分離。床→壁の攻撃抑止フラグ継続は旧1.35〜1.45秒→新0.75秒で、settling後の待ちより移行本体の短縮が主因。実被弾差は未計測。
+
+狭所で姿勢を低く保ち、空間へ出てから姿勢を変える案を本人へ提示中。経路・所要時間にも作用するため返答前には実装しない。独立準備として再現・スマホ向け比較資料・既存移動11件・型を確認。再現テスト成功は侵入ゼロの合格ではない。元root・dist-h・Claudeと通信担当のworktreeを保持。詳細と再開手順は [受入記録](evidence/pleat-wall-acceptance-20261101/README.md)。実機・実回線・GPU・実戦被弾未確認。主担当実モデル/推論設定未確認、子なし。
+
 # 実装・検証完了、未merge: PLEATの能力交渉付き姿勢通信（2026-11-01、Codex）
 
 [Draft PR #246](https://github.com/futsalife24-bot/swarm-front/pull/246)、実装commit `1dcd5c95455635829f94fe623dc12b61592cf184`。PRのbaseはClaudeのbranchで今回の差分だけを表示。本人のClaude引継ぎに基づきPR #245 HEAD `51bda91e91829a912e661f8809a8b2070a0e2aac` から独立worktree `task-pleat-wire`、branch `codex/pleat-pose-wire-20261101` で実装。新端末にはup/poseForwardの6数値、旧端末には互換feet付き形式。既存の差分・ACK・分割・復旧、速度・戦闘・他ANOMALYは変更していない。元root・dist-h・Claudeの作業場所を保持。依頼の明示境界に従い本人承認までmerge・公開しない。
