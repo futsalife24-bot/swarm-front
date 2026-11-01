@@ -20,6 +20,7 @@
 - GitHub: https://github.com/futsalife24-bot/swarm-front
 - 旧方式: main基点 `3035376932bbf3e0734e181b7040827bf033b80d`。
 - 軽量版: PR #245 / #246を含む `640de79613c585c22c0b06e696942ed357af359e`。移動コードはPR #245 HEADと同一。
+- 記録用 [Draft PR #247](https://github.com/futsalife24-bot/swarm-front/pull/247)、証拠commit `6cde0e66fa2d0a655179d8555cfd2742c0a061d3`。PR #246のbranchをbaseにし、今回の記録差分だけを表示。
 - 担当branch: `codex/pleat-wall-acceptance-20261101`、baseは上記640de79。
 - 担当worktree: `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-pleat-acceptance`。
 - 元root、dist-h、Claudeのworktree、通信担当worktreeを変更していない。主担当の実モデルID・推論設定は未確認、子なし。
