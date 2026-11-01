@@ -182,7 +182,7 @@ describe("PLEAT body locomotion", () => {
     }
   });
   it("goes floor → wall → ceiling and round a thin slab's outside edge onto its roof", () => {
-    for (const scale of [1, 1.5]) {
+    for (const scale of [1, 1.5, 2.25, 3]) {
       const blocks = [
         { x: 0, z: -5, w: 16, d: 2, h: 8 },
         { x: 0, z: 0, w: 16, d: 8, h: 4.3, terrainBase: 4 },
@@ -198,7 +198,13 @@ describe("PLEAT body locomotion", () => {
       const result = run(s, blocks, 120, 1.5, (s) => {
         if (s.normal.y < -0.9) ceiling = true;
         if (ceiling && s.normal.z > 0.9 && s.anchor.z > 3.9) outside = true;
-        return outside && s.normal.y > 0.9 && s.anchor.y > 4.2;
+        return (
+          outside &&
+          s.normal.y > 0.9 &&
+          s.anchor.y > 4.2 &&
+          s.body.y > 4.3 &&
+          !s.poseHeld
+        );
       });
       expect(
         { ceiling, outside, done: result.done },

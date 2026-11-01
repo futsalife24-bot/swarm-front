@@ -2096,7 +2096,8 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       (e.kind !== "crawler" ||
         (Math.abs((t.y ?? 0) - e.y) < 2.5 &&
           !e.pleat?.transfer &&
-          !e.pleat?.settling)) &&
+          !e.pleat?.settling &&
+          !e.pleat?.poseHeld)) &&
       (e.kind === "hornet"
         ? rayVisible(e, t, mapFor(w).blocks)
         : visible(e, t, mapFor(w).blocks))

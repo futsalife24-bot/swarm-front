@@ -33,3 +33,5 @@ __pycache__/
 # Generated historical controller for the acceptance reproduction.
 /scripts/.acceptance-courses/
 /docs/evidence/pleat-wall-acceptance-20261101/*.webm
+
+/docs/evidence/pleat-wall-fix-20261101/*.webm
