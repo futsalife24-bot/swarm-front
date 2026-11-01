@@ -1,3 +1,5 @@
+import { isPleatPoseTuple, restorePleatPose } from "./pleat-pose-wire";
+
 /** Lossless layout change for already-rounded state JSON. Bump for schema changes. */
 export const STATE_TUPLE_ENCODING = "tuples-v1";
 
@@ -158,7 +160,13 @@ function packPleat(key: string, value: unknown): unknown {
   return value;
 }
 function packEnemyField(key: string, value: unknown): unknown {
-  if (key === "pleat") return pack(value, PLEAT, packPleat);
+  if (key === "pleat") {
+    if (Array.isArray(value)) {
+      if (!isPleatPoseTuple(value)) invalid();
+      return value;
+    }
+    return pack(value, PLEAT, packPleat);
+  }
   if (key === "pulseAim") return pack(value, VECTOR);
   if (key === "segments") {
     if (!Array.isArray(value) || value.length > 64) invalid();
@@ -279,7 +287,11 @@ function unpackVector(value: unknown, budget: Budget) {
     invalid();
   return { x: value[0], y: value[1], z: value[2] };
 }
-function unpackPleat(value: unknown, budget: Budget) {
+function unpackPleat(value: unknown, budget: Budget, compact: boolean) {
+  if (compact && isPleatPoseTuple(value)) {
+    budget.take();
+    return value;
+  }
   return unpack(value, PLEAT, PLEAT, budget, (key, item) => {
     if (["body", "up", "forward", "poseForward"].includes(key))
       return unpackVector(item, budget);
@@ -305,6 +317,7 @@ function unpackEnemy(
   value: unknown,
   budget: Budget,
   owners: readonly string[],
+  compact: boolean,
 ) {
   return unpack(
     value,
@@ -344,7 +357,7 @@ function unpackEnemy(
           invalid();
       }
       if (key === "targetId") return restoreOwner(item, owners);
-      if (key === "pleat") return unpackPleat(item, budget);
+      if (key === "pleat") return unpackPleat(item, budget, compact);
       if (key === "pulseAim") return unpack(item, VECTOR, ["x", "z"], budget);
       if (key !== "segments") return item;
       if (!Array.isArray(item) || item.length > 64) invalid();
@@ -380,6 +393,13 @@ function list(
 /** Call inside the existing JSON receive guard, before World validation/caches. */
 export function restoreStateTuples(packet: unknown): boolean {
   if (!record(packet)) return false;
+  if (
+    packet.type === "state" &&
+    packet.pleatPose !== undefined &&
+    packet.pleatPose !== 1
+  )
+    return false;
+  const compact = packet.type === "state" && packet.pleatPose === 1;
   if (packet.stateEncoding === undefined) {
     // Existing servers remain compatible, but unmarked tuple arrays are invalid.
     if (packet.stateOwners !== undefined) return false;
@@ -392,7 +412,22 @@ export function restoreStateTuples(packet: unknown): boolean {
       ])
         if (Array.isArray(items) && items.some(Array.isArray)) return false;
     }
-    return true;
+    try {
+      if (
+        packet.type === "state" &&
+        record(packet.world) &&
+        Array.isArray(packet.world.enemies)
+      ) {
+        packet.world.enemies = packet.world.enemies.map((enemy) => {
+          if (!record(enemy)) invalid();
+          return restorePleatPose(enemy, compact);
+        });
+      }
+      if (packet.type === "state") delete packet.pleatPose;
+      return true;
+    } catch {
+      return false;
+    }
   }
   try {
     if (
@@ -417,7 +452,7 @@ export function restoreStateTuples(packet: unknown): boolean {
       invalid();
     const world = packet.world;
     const enemies = list(world.enemies, 512, (item) =>
-      unpackEnemy(item, budget, owners),
+      restorePleatPose(unpackEnemy(item, budget, owners, compact), compact),
     );
     const projectiles = list(world.projectiles, 4096, (item) =>
       unpack(item, PROJECTILE, PROJECTILE.slice(0, 11), budget, (key, item) =>
@@ -436,6 +471,7 @@ export function restoreStateTuples(packet: unknown): boolean {
     if (record(front)) front.orbs = orbs;
     delete packet.stateEncoding;
     delete packet.stateOwners;
+    delete packet.pleatPose;
     return true;
   } catch {
     return false;

@@ -1,3 +1,9 @@
+# 実装・検証完了、未merge: PLEATの能力交渉付き姿勢通信（2026-11-01、Codex）
+
+本人のClaude引継ぎに基づきPR #245 HEAD `51bda91e91829a912e661f8809a8b2070a0e2aac` から独立worktree `task-pleat-wire`、branch `codex/pleat-pose-wire-20261101` で実装。新端末にはup/poseForwardの6数値、旧端末には互換feet付き形式。既存の差分・ACK・分割・復旧、速度・戦闘・他ANOMALYは変更していない。元root・dist-h・Claudeの作業場所を保持。依頼の明示境界に従い本人承認までmerge・公開しない。
+
+同じ96体/20秒/200状態で、全量tuple合計5,782,357→2,419,625B（58.16%減）、毎状態ACKの差分・分割込み4,577,098→1,189,646B（74.01%減）。圧縮前の制御条件で、実回線・実機改善や745ms根因の証明ではない。旧版encoder/decoderとの一致を含む関連135件、実Worker統合21件、型・build・Worker dry-run・変更コード書式成功。空Chromeの生存包囲24体（PLEAT20体）で新形式の復元/描画、844/640横画面、例外0。実機・旧端末実画面・本番hibernation等未確認。[実装と証拠](evidence/pleat-pose-wire-20261101/README.md)。主担当実モデル/推論設定未確認、子なし。
+
 # 未merge: PLEATの量産向け軽量化（2026-11-01、Claude Code）
 
 本人依頼でPLEATをサーバーの胴体中心の移動と端末の足の演出へ分離。branch `claude/pleat-lightweight-20261101`、基点 `3035376932bbf3e0734e181b7040827bf033b80d`、worktree `task-pleat-lightweight`。依頼範囲はcommit/push・引継ぎまでで、main反映・公開はしていない。
