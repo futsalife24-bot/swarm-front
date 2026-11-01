@@ -1,3 +1,8 @@
+import {
+  downloadNetworkDiagnostics,
+  diagnosticBuild,
+  networkDiagnosticsEnabled,
+} from "./diagnostic-export";
 import { installLandscapeGuard } from "./landscape";
 import { BattleFps } from "./battle-fps";
 import {
@@ -693,7 +698,10 @@ function rooms() {
         target.password
       )
         throw Error("接続先を確認してください");
-      const net = new FrontNetwork(target.href.replace(/\/$/, ""));
+      const net = new FrontNetwork(
+        target.href.replace(/\/$/, ""),
+        networkDiagnosticsEnabled(),
+      );
       try {
         const code = await net.create(
           turnstileToken,
@@ -732,7 +740,7 @@ function rooms() {
 function connectRoom(code: string, target: string, token = "") {
   connectionFatal = "";
   network?.close();
-  network = new FrontNetwork(target);
+  network = new FrontNetwork(target, networkDiagnosticsEnabled());
   localRun = null;
   world = null;
   info = null;
@@ -1113,7 +1121,12 @@ function paintOverlay() {
     info.phase !== "victory" &&
     info.phase !== "defeat"
   ) {
-    ui.innerHTML = `<section class="pause-card rebuild-panel front-pause"><header><h1>${network ? "操作を停止中" : "一時停止"}</h1><button id="front-resume" class="primary">再開</button></header>${network || info.returnAt != null ? `<p class="front-pause-note">${gate.pauseReason}${info.returnAt !== null && info.returnAt !== undefined ? ` · 帰還まで ${formatRebuildTime(Math.max(0, info.returnAt - now()))}` : ""}</p>` : ""}${frontUpgradeDetails(info, import.meta.env.BASE_URL, discoveredFusions)}<div class="pause-actions"><button id="front-settings">設定・操作</button><button id="front-leave">タイトルへ</button></div></section>`;
+    ui.innerHTML = `<section class="pause-card rebuild-panel front-pause"><header><h1>${network ? "操作を停止中" : "一時停止"}</h1><button id="front-resume" class="primary">再開</button></header>${network || info.returnAt != null ? `<p class="front-pause-note">${gate.pauseReason}${info.returnAt !== null && info.returnAt !== undefined ? ` · 帰還まで ${formatRebuildTime(Math.max(0, info.returnAt - now()))}` : ""}</p>` : ""}${frontUpgradeDetails(info, import.meta.env.BASE_URL, discoveredFusions)}<div class="pause-actions"><button id="front-settings">設定・操作</button>${network ? '<button id="front-diagnostics">通信診断を保存</button>' : ""}<button id="front-leave">タイトルへ</button></div></section>`;
+    document
+      .getElementById("front-diagnostics")
+      ?.addEventListener("click", () => {
+        downloadNetworkDiagnostics(network?.diagnostics.details());
+      });
     $("front-settings").onclick = () =>
       settings.open(ui, () => {
         overlayKey = "";
@@ -1449,11 +1462,31 @@ function frame(time: number) {
   );
 }
 
+window.addEventListener("swarm-cloud-sync-trace", (event) => {
+  const detail = (
+    event as CustomEvent<
+      number | { phase: number; bytes?: number; status?: number }
+    >
+  ).detail;
+  if (typeof detail === "number")
+    network?.diagnostics.event(
+      detail === 0 ? "cloudStart" : "cloudEnd",
+      detail,
+    );
+  else if (detail?.phase === 2)
+    network?.diagnostics.event("cloudRequest", detail.bytes ?? 0);
+  else if (detail?.phase === 3)
+    network?.diagnostics.event("cloudResponse", detail.status ?? 0);
+});
+
 /** Local bounded counters only; no tokens, names, save contents or automatic upload. */
-if (new URLSearchParams(location.search).get("networkDiagnostics") === "1") {
+if (networkDiagnosticsEnabled()) {
   Object.defineProperty(window, "swarmNetworkDiagnostics", {
     configurable: true,
-    value: () => network?.diagnostics.details(),
+    value: () => ({
+      ...network?.diagnostics.details(),
+      build: diagnosticBuild,
+    }),
   });
 }
 window.addEventListener(

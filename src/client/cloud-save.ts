@@ -75,6 +75,12 @@ async function call(
   body?: unknown,
 ) {
   const { id, token } = parseCode(code);
+  const serialized = body === undefined ? undefined : JSON.stringify(body);
+  window.dispatchEvent(
+    new CustomEvent("swarm-cloud-sync-trace", {
+      detail: { phase: 2, bytes: serialized?.length ?? 0 },
+    }),
+  );
   const response = await fetch(`/api/cloud/${id}/${action}`, {
     method: body === undefined ? "GET" : "POST",
     cache: "no-store",
@@ -84,8 +90,13 @@ async function call(
       Authorization: "Bearer " + token,
       ...(body === undefined ? {} : { "Content-Type": "application/json" }),
     },
-    ...(body === undefined ? {} : { body: JSON.stringify(body) }),
+    ...(serialized === undefined ? {} : { body: serialized }),
   });
+  window.dispatchEvent(
+    new CustomEvent("swarm-cloud-sync-trace", {
+      detail: { phase: 3, status: response.status },
+    }),
+  );
   const data = await response.json();
   if (!response.ok) {
     lastError = data.error ?? "クラウドに接続できません。";
@@ -165,6 +176,9 @@ export function syncCloud(): Promise<void> {
   }));
 }
 async function performCloudSync() {
+  window.dispatchEvent(
+    new CustomEvent("swarm-cloud-sync-trace", { detail: 0 }),
+  );
   busy = true;
   try {
     assertSaveWriter(localStorage);
@@ -234,6 +248,9 @@ async function performCloudSync() {
     if (status !== "conflict") announce("offline");
   } finally {
     busy = false;
+    window.dispatchEvent(
+      new CustomEvent("swarm-cloud-sync-trace", { detail: 1 }),
+    );
   }
 }
 

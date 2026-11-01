@@ -1,0 +1,35 @@
+{
+  "head": "f87a35c6b605dd1326bbcdefcc7a0c3e9756d47f",
+  "results": [
+    {
+      "width": 844,
+      "height": 390,
+      "hasTouch": true,
+      "settings": {
+        "beforeToggle": "通信の詳細診断：オフ",
+        "afterOn": "通信の詳細診断：オン",
+        "afterOff": "通信の詳細診断：オフ",
+        "storageOn": "1",
+        "storageOff": "0",
+        "handler": "function",
+        "statusOn": "次の接続から適用。停止後に一時停止画面の「通信診断を保存」を押してください。版 f87a35c",
+        "status": "次の接続から適用。停止後に一時停止画面の「通信診断を保存」を押してください。版 f87a35c"
+      }
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "hasTouch": true,
+      "settings": {
+        "beforeToggle": "通信の詳細診断：オフ",
+        "afterOn": "通信の詳細診断：オン",
+        "afterOff": "通信の詳細診断：オフ",
+        "storageOn": "1",
+        "storageOff": "0",
+        "handler": "function",
+        "statusOn": "次の接続から適用。停止後に一時停止画面の「通信診断を保存」を押してください。版 f87a35c",
+        "status": "次の接続から適用。停止後に一時停止画面の「通信診断を保存」を押してください。版 f87a35c"
+      }
+    }
+  ]
+}

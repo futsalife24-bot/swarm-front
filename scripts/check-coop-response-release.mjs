@@ -71,6 +71,15 @@ try {
   page.setDefaultTimeout(90000);
   page.on("pageerror", (e) => result.errors.push(e.message));
   await page.goto(base + "/front?solo=1&networkDiagnostics=1");
+  if (process.env.SWARM_EXPECT_BUILD === "1") {
+    await page.waitForFunction(
+      () => typeof window.swarmNetworkDiagnostics === "function",
+    );
+    result.clientBuild = await page.evaluate(
+      () => window.swarmNetworkDiagnostics().build,
+    );
+    assert.equal(result.clientBuild, result.source);
+  }
   await page.locator("#front-launch").click();
   await page.locator(".rebuild-card[data-card]").first().click();
   await page.locator("#controls").waitFor({ state: "visible" });

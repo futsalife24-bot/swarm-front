@@ -7,6 +7,37 @@ export interface ConnectionSample {
 /** 既存通信だけを測る。サーバー時計や描画FPSから遅延を推測しない。 */
 export class ConnectionDiagnostics {
   private timeline: { at: number; kind: string; value: number }[] = [];
+  private trace: unknown[] = [];
+  private traceHistories: unknown[] = [];
+  private incidents: {
+    at: number;
+    gapMs: number;
+    timeline: { at: number; kind: string; value: number }[];
+  }[] = [];
+  serverTrace(value: unknown) {
+    // Accept numeric observations only; never retain arbitrary server payloads.
+    if (!value || typeof value !== "object") return;
+    const clean = (v: unknown, depth = 0): unknown => {
+      if (typeof v === "number" && Number.isFinite(v)) return v;
+      if (depth < 3 && Array.isArray(v))
+        return v.slice(0, 128).map((x) => clean(x, depth + 1));
+      if (depth < 3 && v && typeof v === "object")
+        return Object.fromEntries(
+          Object.entries(v)
+            .filter(([k]) => /^[a-zA-Z][a-zA-Z0-9]{0,30}$/.test(k))
+            .slice(0, 20)
+            .map(([k, x]) => [k, clean(x, depth + 1)]),
+        );
+      return null;
+    };
+    const observation = { at: performance.now(), data: clean(value) };
+    this.trace.push(observation);
+    if (Array.isArray((value as { history?: unknown }).history)) {
+      this.traceHistories.push(observation);
+      if (this.traceHistories.length > 6) this.traceHistories.shift();
+    }
+    if (this.trace.length > 16) this.trace.shift();
+  }
   private cursor = 0;
   private overwritten = 0;
   private lastFrame: number | undefined;
@@ -15,6 +46,12 @@ export class ConnectionDiagnostics {
   /** Numeric, bounded and local-only. No commands, identity or tokens. */
   event(
     kind:
+      | "message"
+      | "decodeReject"
+      | "cloudRequest"
+      | "cloudResponse"
+      | "cloudStart"
+      | "cloudEnd"
       | "connect"
       | "close"
       | "state"
@@ -133,6 +170,9 @@ export class ConnectionDiagnostics {
         ...this.timeline.slice(0, this.cursor),
       ].map((row) => ({ ...row })),
       overwritten: this.overwritten,
+      incidents: structuredClone(this.incidents),
+      serverTrace: structuredClone(this.trace),
+      serverTraceHistories: structuredClone(this.traceHistories),
       server: { ...this.serverTiming },
       samples: Object.fromEntries(
         Object.entries(this.samples).map(([key, values]) => {
@@ -194,8 +234,20 @@ export class ConnectionDiagnostics {
   state(now = performance.now(), stateId?: number) {
     if (Number.isSafeInteger(stateId)) this.event("state", stateId!, now);
     if (!Number.isFinite(now)) return;
-    if (this.lastState !== undefined)
-      this.observe("stateGapMs", now - this.lastState);
+    if (this.lastState !== undefined) {
+      const gapMs = now - this.lastState;
+      this.observe("stateGapMs", gapMs);
+      if (gapMs > 400) {
+        const timeline = [
+          ...this.timeline.slice(this.cursor),
+          ...this.timeline.slice(0, this.cursor),
+        ]
+          .slice(-256)
+          .map((row) => ({ ...row }));
+        this.incidents.push({ at: now, gapMs, timeline });
+        if (this.incidents.length > 6) this.incidents.shift();
+      }
+    }
     this.firstState ??= now;
     this.lastState = now;
     this.states.push(now);

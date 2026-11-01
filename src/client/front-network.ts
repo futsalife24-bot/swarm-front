@@ -135,7 +135,10 @@ export class FrontNetwork {
   private stateReceipt = new StateReceipt(() =>
     this.send({ type: "stateAck" }),
   );
-  constructor(public endpoint: string) {
+  constructor(
+    public endpoint: string,
+    public networkTrace = false,
+  ) {
     this.timer = setInterval(() => {
       if (this.ws?.readyState === 1 && this.id) this.send({ type: "ping" });
       if (this.ws?.readyState === 1 && Date.now() - this.last > 12000)
@@ -223,6 +226,7 @@ export class FrontNetwork {
         stateDeltaPlayers: 1,
         inputReceipt: 1,
         networkTiming: 1,
+        ...(this.networkTrace ? { networkTrace: 1 } : {}),
         frontGrowth: 3,
         frontCatalog: 2,
         frontOpening: 2,
@@ -234,6 +238,10 @@ export class FrontNetwork {
       if (this.closed || this.ws !== ws) return;
       this.last = Date.now();
       const processingStarted = performance.now();
+      this.diagnostics.event(
+        "message",
+        typeof e.data === "string" ? e.data.length : 0,
+      );
       let m: any; // Parsed data still passes the existing runtime guards below.
       try {
         // Framing owns the unchanged per-message cap and clears corrupt assembly.
@@ -242,10 +250,14 @@ export class FrontNetwork {
         try {
           m = delta.decode(m);
         } catch {
+          this.diagnostics.event("decodeReject", 1);
           chunks.reject();
           return;
         }
-        if (!restoreStateTuples(m)) return;
+        if (!restoreStateTuples(m)) {
+          this.diagnostics.event("decodeReject", 2);
+          return;
+        }
         if (!m || typeof m !== "object" || typeof m.type !== "string") return;
         if (
           m.type === "welcome" &&
@@ -353,6 +365,7 @@ export class FrontNetwork {
           (connection.roundTripMs ?? 0) > 200;
         this.diagnostics.state(performance.now(), m.stateId);
         this.diagnostics.server(m.networkTiming);
+        this.diagnostics.serverTrace(m.networkTiming?.roomTrace);
         const applied = m.world.players.find(
           (p: { id: string }) => p.id === this.id,
         )?.ack;

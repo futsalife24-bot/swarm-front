@@ -1,3 +1,8 @@
+import {
+  diagnosticBuild,
+  networkDiagnosticsEnabled,
+  setNetworkDiagnostics,
+} from "./diagnostic-export";
 import type { Controls } from "./input";
 import {
   getMenuReducedMotion,
@@ -134,6 +139,25 @@ export class FrontSettings {
         openAssetDownloadMenu();
       };
       root.querySelector(".front-settings-grid")!.append(download);
+    }
+    if (allowDownloads) {
+      const trace = document.createElement("button");
+      trace.type = "button";
+      trace.id = "front-setting-network-trace";
+      const label = () => {
+        trace.textContent = `通信の詳細診断：${networkDiagnosticsEnabled() ? "オン" : "オフ"}`;
+      };
+      label();
+      trace.onclick = () => {
+        try {
+          setNetworkDiagnostics(!networkDiagnosticsEnabled());
+          label();
+          status.textContent = `次の接続から適用。停止後に一時停止画面の「通信診断を保存」を押してください。版 ${diagnosticBuild.slice(0, 7)}`;
+        } catch {
+          status.textContent = "診断設定を保存できませんでした。";
+        }
+      };
+      root.querySelector(".front-settings-grid")!.append(trace);
     }
     status.textContent = this.error || "変更はこの端末に自動保存されます。";
     const write = (next: FrontPreferences) => {

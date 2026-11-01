@@ -52,6 +52,7 @@ import {
 } from "./player-vault";
 import { DurableObject } from "cloudflare:workers";
 import { RoomClock } from "./room-clock";
+import { RoomNetworkTrace, RoomTraceEvent } from "./room-network-trace";
 import {
   StateDelivery,
   deliverState,
@@ -923,6 +924,7 @@ export class Room extends DurableObject<Env> {
       inputReceipt?: boolean;
       receiptAt?: number;
       networkTiming?: boolean;
+      networkTrace?: RoomNetworkTrace;
       equipmentCache?: boolean;
       stateOmissions?: boolean;
       stateTuples?: boolean;
@@ -940,6 +942,9 @@ export class Room extends DurableObject<Env> {
   private stateSnapshot = 0;
   private lastTickMs = 0;
   private lastEncodeMs = 0;
+  private traceSockets = new Set<WebSocket>();
+  private previousTraceTickAt = 0;
+  private pendingTraceWrites = 0;
   ticks = 0;
   persisting = false;
   constructor(ctx: DurableObjectState, env: Env) {
@@ -968,6 +973,7 @@ export class Room extends DurableObject<Env> {
           stateFlow?: boolean;
           inputReceipt?: boolean;
           networkTiming?: boolean;
+          networkTrace?: boolean;
           stateDelivery?: unknown;
         };
         this.sockets.set(ws, {
@@ -986,6 +992,8 @@ export class Room extends DurableObject<Env> {
               : undefined,
           inputReceipt: a.inputReceipt === true,
           networkTiming: a.networkTiming === true,
+          networkTrace:
+            a.networkTrace === true ? new RoomNetworkTrace() : undefined,
           stateDelivery: new StateDelivery(
             a.stateFlow === true,
             a.stateDelivery,
@@ -995,6 +1003,7 @@ export class Room extends DurableObject<Env> {
           this.stateSnapshot,
           this.sockets.get(ws)!.stateDelivery.lastSent,
         );
+        if (a.networkTrace === true) this.traceSockets.add(ws);
       }
     });
   }
@@ -1051,7 +1060,23 @@ export class Room extends DurableObject<Env> {
     return this.roomExpiresAt();
   }
   async persist() {
-    await this.ctx.storage.put("room", this.saved);
+    this.pendingTraceWrites++;
+    this.traceAll(RoomTraceEvent.persistStart, this.pendingTraceWrites);
+    try {
+      await this.ctx.storage.put("room", this.saved);
+    } catch (error) {
+      this.pendingTraceWrites--;
+      this.traceAll(RoomTraceEvent.persistEnd, -1);
+      throw error;
+    }
+    this.pendingTraceWrites--;
+    this.traceAll(RoomTraceEvent.persistEnd, this.pendingTraceWrites);
+  }
+  private traceAll(code: Parameters<RoomNetworkTrace["record"]>[0], value = 0) {
+    if (!this.traceSockets.size) return;
+    const at = Date.now();
+    for (const ws of this.traceSockets)
+      this.sockets.get(ws)?.networkTrace?.record(code, this.ticks, value, at);
   }
   async fetch(req: Request) {
     if (new URL(req.url).pathname === "/init") {
@@ -1102,7 +1127,11 @@ export class Room extends DurableObject<Env> {
     return new Response(null, { status: 101, webSocket: client });
   }
   send(ws: WebSocket, data: unknown) {
-    return this.sendEncoded(ws, encodeState(data));
+    const trace = this.sockets.get(ws)?.networkTrace;
+    trace?.record(RoomTraceEvent.sendStart, this.ticks, -1);
+    const sent = this.sendEncoded(ws, encodeState(data));
+    trace?.record(RoomTraceEvent.sendEnd, this.ticks, sent === true ? 2 : 0);
+    return sent;
   }
   private sendEncoded(ws: WebSocket, payload: string) {
     try {
@@ -1267,6 +1296,11 @@ export class Room extends DurableObject<Env> {
       s.stateChunks = m.stateChunks === 1;
       s.inputReceipt = m.inputReceipt === 1;
       s.networkTiming = m.networkTiming === 1;
+      s.networkTrace =
+        s.networkTiming && m.networkTrace === 1 && m.stateChunks === 1
+          ? new RoomNetworkTrace()
+          : undefined;
+      if (s.networkTrace) this.traceSockets.add(ws);
       s.at = now;
       s.stateDelivery = new StateDelivery(m.stateFlow === 1);
       s.stateDelta =
@@ -1327,6 +1361,7 @@ export class Room extends DurableObject<Env> {
     }
     const stateAcknowledged = s.stateDelivery.acknowledge(m.stateAck);
     if (stateAcknowledged) {
+      s.networkTrace?.record(RoomTraceEvent.ack, this.ticks, m.stateAck);
       s.stateDelta?.acknowledge(m.stateAck);
       this.rememberSocket(ws);
       // Inputs must update receipt seq and retained intent before releasing
@@ -1772,6 +1807,7 @@ export class Room extends DurableObject<Env> {
       stateDeltaPlayers: s.stateDelta?.version === 2,
       inputReceipt: s.inputReceipt,
       networkTiming: s.networkTiming,
+      ...(s.networkTrace ? { networkTrace: true } : {}),
       stateFlow: s.stateDelivery.enabled,
       stateDelivery: s.stateDelivery.snapshot(),
     });
@@ -1805,6 +1841,7 @@ export class Room extends DurableObject<Env> {
       if (w) retireEvents(w, this.eventFloor(w));
       return;
     }
+    this.traceAll(RoomTraceEvent.broadcast, recipients.length);
     const members = this.saved.members.map((p) => ({
       id: p.id,
       name: p.name || DEFAULT_PLAYER_NAME,
@@ -1836,11 +1873,14 @@ export class Room extends DurableObject<Env> {
     for (const [ws, s] of recipients) {
       if (!this.sockets.has(ws)) continue;
       if (w) {
+        const trace = s.networkTrace;
+        let attachedTrace: ReturnType<RoomNetworkTrace["snapshot"]> | undefined;
         const result = deliverState(
           s.stateDelivery,
           stateId,
           w.eventSerial,
           () => {
+            trace?.record(RoomTraceEvent.encodeStart, this.ticks);
             const cached =
               !!s.equipmentCache &&
               w.phase === "battle" &&
@@ -1865,6 +1905,16 @@ export class Room extends DurableObject<Env> {
                           previousEncodeMs: this.lastEncodeMs,
                           clockDroppedMs: this.clock.droppedMs,
                           stateInFlight: s.stateDelivery.inFlight.length,
+                          ...(trace
+                            ? {
+                                roomTrace: (attachedTrace = trace.snapshot(
+                                  this.ticks,
+                                  this.clock.droppedMs,
+                                  this.pendingTraceWrites,
+                                  Date.now(),
+                                )),
+                              }
+                            : {}),
                         },
                       }
                     : {}),
@@ -1892,12 +1942,28 @@ export class Room extends DurableObject<Env> {
             const chunks = s.stateChunks
               ? encodeStateChunks(payload, stateId)
               : [payload];
+            trace?.record(
+              RoomTraceEvent.encodeEnd,
+              this.ticks,
+              chunks?.length ?? 0,
+            );
             // Oversized snapshots retain the existing 4009 fallback; a partial
             // send must not advance equipment/event delivery or acquire a credit.
             return chunks ?? [payload];
           },
-          (part) => this.sendEncoded(ws, part) === true,
+          (part) => {
+            trace?.record(RoomTraceEvent.sendStart, this.ticks, part.length);
+            const sent = this.sendEncoded(ws, part) === true;
+            trace?.record(RoomTraceEvent.sendEnd, this.ticks, sent ? 1 : 0);
+            return sent;
+          },
         );
+        if (result === "sent" && attachedTrace?.history)
+          trace?.sentHistory(
+            attachedTrace.sequence,
+            Date.now(),
+            attachedTrace.droppedMs,
+          );
         if (result === "sent") s.equipmentKey = state!.equipmentKey;
         if (result === "failed") s.stateDelta?.reset();
         this.rememberSocket(ws);
@@ -1935,6 +2001,13 @@ export class Room extends DurableObject<Env> {
     if (this.persisting) return;
     const w = this.saved.world,
       now = Date.now();
+    if (this.traceSockets.size) {
+      this.traceAll(
+        RoomTraceEvent.tick,
+        this.previousTraceTickAt ? now - this.previousTraceTickAt : 0,
+      );
+      this.previousTraceTickAt = now;
+    }
     if (!w || w.phase !== "battle") {
       this.stop();
       return;
@@ -1982,6 +2055,7 @@ export class Room extends DurableObject<Env> {
     }
     this.lastTickMs = performance.now() - stepStarted;
     this.ticks++;
+    this.traceAll(RoomTraceEvent.step);
     if (w.phase !== "battle") {
       this.markFrontResult();
       this.invalidatePreparation();
@@ -2010,6 +2084,7 @@ export class Room extends DurableObject<Env> {
   disconnected(ws: WebSocket) {
     const s = this.sockets.get(ws);
     this.sockets.delete(ws);
+    this.traceSockets.delete(ws);
     if (!s?.id) return;
     if ([...this.sockets.values()].some((a) => a.id === s.id)) return;
     const m = this.saved.members.find((p) => p.id === s.id);
