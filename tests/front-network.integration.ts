@@ -24,6 +24,7 @@ class Client {
   maxPacketBytes = 0;
   chunkPackets = 0;
   deltaPackets = 0;
+  compactPackets = 0;
   delta = new StateDeltaReceiver();
   chunks = new StateChunkAssembler();
   constructor(
@@ -37,6 +38,7 @@ class Client {
     stateChunks = false,
     stateFlow = false,
     optimized = false,
+    pleatPose: number | undefined = undefined,
   ) {
     this.ws = new WebSocket(
       `${base.replace("http", "ws")}/rooms/${code}?ruleset=front-v1&testClient=${createHash(
@@ -58,6 +60,7 @@ class Client {
         ...(optimized
           ? { stateDelta: 1, inputReceipt: 1, networkTiming: 1 }
           : {}),
+        ...(pleatPose !== undefined ? { pleatPose } : {}),
         ...(token ? { token } : {}),
       });
     this.ws.onmessage = (e) => {
@@ -71,6 +74,7 @@ class Client {
         new TextEncoder().encode(String(e.data)).length,
       );
       if (!m) return;
+      if (m.type === "state" && m.pleatPose === 1) this.compactPackets++;
       if (m.stateEncoding === "tuples-v1") this.tuplePackets++;
       if (!restoreStateTuples(m)) {
         this.decodeErrors++;
@@ -143,6 +147,7 @@ async function team(
   stateChunks: boolean | boolean[] = false,
   stateFlow: boolean | boolean[] = false,
   optimized: boolean | boolean[] = false,
+  pleatPose: (number | undefined)[] = [],
 ) {
   const entry = await room(mode),
     members: Client[] = [];
@@ -158,6 +163,7 @@ async function team(
       Array.isArray(stateChunks) ? stateChunks[i] : stateChunks,
       Array.isArray(stateFlow) ? stateFlow[i] : stateFlow,
       Array.isArray(optimized) ? optimized[i] : optimized,
+      pleatPose[i],
     );
     await c.wait((m) => m.type === "welcome");
     members.push(c);
@@ -1057,6 +1063,7 @@ it("新通信の通常戦闘へ再接続すると全量から再開する", asyn
     true,
     true,
     true,
+    [1],
   );
   const old = members[0];
   old.choose(states[0]);
@@ -1075,10 +1082,71 @@ it("新通信の通常戦闘へ再接続すると全量から再開する", asyn
     true,
     true,
     true,
+    1,
   );
   await restored.wait((m) => m.type === "welcome");
   const first = await restored.wait((m) => m.type === "state");
   expect(restored.id).toBe(old.id);
   expect(first.world.run).toBe(states[0].world.run);
   expect(restored.deltaPackets).toBe(0);
+  expect(restored.compactPackets).toBeGreaterThan(0);
+});
+
+it("PLEAT姿勢の新旧JSON・tuple4人が混在しても全量・差分を復元する", async () => {
+  const { entry, members } = await team(
+    4,
+    "survival",
+    3,
+    true,
+    [false, false, true, true],
+    true,
+    true,
+    [false, false, true, true],
+    [undefined, 1, 2, 1],
+  );
+  let seq = 0;
+  const timer = setInterval(() => {
+    for (const c of members) {
+      const state = c.messages.findLast((m) => m.type === "state");
+      if (state && c.ws.readyState === 1)
+        c.send({
+          type: "input",
+          input: { ...neutral(), seq: ++seq },
+          stateAck: state.stateId,
+        });
+    }
+  }, 100);
+  try {
+    const offsets = members.map((c) => c.messages.length);
+    const response = await fetch(
+      `${base}/fixtures/${entry.code}/front-wire-heavy`,
+      { method: "POST" },
+    );
+    expect(response.status).toBe(200);
+    for (let i = 0; i < members.length; i++) {
+      const c = members[i],
+        compact = i % 2 === 1;
+      const m = await c.wait(
+        (m) => m.type === "state" && m.world.projectiles.length === 400,
+        offsets[i],
+      );
+      expect(m.world.enemies).toHaveLength(96);
+      for (const e of m.world.enemies.filter(
+        (e: any) => e.kind === "crawler",
+      )) {
+        if (compact) {
+          expect(e.pleat.feet).toBeUndefined();
+          expect(e.pleat.body.x).toBe(e.x);
+        } else expect(e.pleat.feet).toHaveLength(4);
+      }
+      expect(c.decodeErrors).toBe(0);
+      expect(c.compactPackets > 0).toBe(compact);
+    }
+    await new Promise((r) => setTimeout(r, 350));
+    expect(members[2].deltaPackets).toBeGreaterThan(0);
+    expect(members[3].deltaPackets).toBeGreaterThan(0);
+    expect(members[0].chunkPackets).toBeGreaterThan(0);
+  } finally {
+    clearInterval(timer);
+  }
 });

@@ -926,6 +926,7 @@ export class Room extends DurableObject<Env> {
       equipmentCache?: boolean;
       stateOmissions?: boolean;
       stateTuples?: boolean;
+      pleatPose?: boolean;
       stateChunks?: boolean;
       stateDelta?: StateDeltaSender;
       stateDelivery: StateDelivery;
@@ -960,6 +961,7 @@ export class Room extends DurableObject<Env> {
           id: string;
           stateOmissions?: boolean;
           stateTuples?: boolean;
+          pleatPose?: boolean;
           stateChunks?: boolean;
           stateDelta?: boolean;
           stateFlow?: boolean;
@@ -975,6 +977,7 @@ export class Room extends DurableObject<Env> {
           seq: -1,
           stateOmissions: a.stateOmissions === true,
           stateTuples: a.stateTuples === true,
+          pleatPose: a.pleatPose === true,
           stateChunks: a.stateChunks === true,
           stateDelta:
             a.stateDelta === true ? new StateDeltaSender() : undefined,
@@ -1253,6 +1256,7 @@ export class Room extends DurableObject<Env> {
       s.equipmentCache = m.equipmentCache === 1;
       s.stateOmissions = m.stateOmissions === 1;
       s.stateTuples = m.stateTuples === 1;
+      s.pleatPose = m.pleatPose === 1;
       s.stateChunks = m.stateChunks === 1;
       s.inputReceipt = m.inputReceipt === 1;
       s.networkTiming = m.networkTiming === 1;
@@ -1289,6 +1293,7 @@ export class Room extends DurableObject<Env> {
         expiresAt: this.wireRoomExpiresAt(),
         inputAck: true,
         ...(s.stateDelta ? { stateDelta: true } : {}),
+        ...(s.pleatPose ? { pleatPose: 1 } : {}),
         ...(s.inputReceipt ? { inputReceipt: true } : {}),
         ...(s.stateDelivery.enabled ? { stateFlow: true } : {}),
         id: member.id,
@@ -1753,6 +1758,7 @@ export class Room extends DurableObject<Env> {
       id: s.id,
       stateOmissions: s.stateOmissions,
       stateTuples: s.stateTuples,
+      pleatPose: s.pleatPose,
       stateChunks: s.stateChunks,
       stateDelta: !!s.stateDelta,
       inputReceipt: s.inputReceipt,
@@ -1864,6 +1870,7 @@ export class Room extends DurableObject<Env> {
               s.stateOmissions === true,
               s.stateTuples === true,
               s.stateChunks === true,
+              s.pleatPose === true,
             );
             if (s.stateDelta) {
               try {

@@ -203,6 +203,7 @@ export class Network {
         equipmentCache: 1,
         stateOmissions: 1,
         stateTuples: 1,
+        pleatPose: 1,
         stateChunks: 1,
         stateFlow: 1,
         stateDelta: 1,

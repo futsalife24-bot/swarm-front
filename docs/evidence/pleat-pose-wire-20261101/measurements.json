@@ -1,0 +1,43 @@
+{
+  "seed": 11,
+  "enemies": 96,
+  "ticks": 400,
+  "snapshotHz": 10,
+  "durationSeconds": 20,
+  "maxBodyDifference": 0.007026418975009615,
+  "conditions": "Same authority simulation for all recipients; full equipment; uncompressed UTF-8 application bytes. Tuple streams include ACK-every-state delta and chunk framing. Not real-network latency or smartphone performance.",
+  "rows": [
+    {
+      "tuples": false,
+      "compact": false,
+      "packets": 200,
+      "fullBytes": 13763772,
+      "framedBytes": 16790424,
+      "lastFullBytes": 71216
+    },
+    {
+      "tuples": false,
+      "compact": true,
+      "packets": 200,
+      "fullBytes": 4641040,
+      "framedBytes": 4641040,
+      "lastFullBytes": 25563
+    },
+    {
+      "tuples": true,
+      "compact": false,
+      "packets": 200,
+      "fullBytes": 5782357,
+      "framedBytes": 4577098,
+      "lastFullBytes": 31172
+    },
+    {
+      "tuples": true,
+      "compact": true,
+      "packets": 200,
+      "fullBytes": 2419625,
+      "framedBytes": 1189646,
+      "lastFullBytes": 14319
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "scope": "隔離Worker・空Chrome・通常の部屋参加/出撃後に生存戦の包囲出現fixtureを使用。実機・実回線・旧端末画面ではない。",
+  "errors": [],
+  "passed": true,
+  "probe": {
+    "hello": true,
+    "welcome": true,
+    "rendered": 87,
+    "pleats": 20,
+    "enemies": 24
+  }
+}

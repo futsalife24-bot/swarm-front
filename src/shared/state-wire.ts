@@ -105,6 +105,7 @@ export function encodeState(data: unknown): string {
 function encodeStateWithLegacyTurn(
   data: unknown,
   exactVolley?: object,
+  pleatPoseSupported = false,
 ): string {
   const weapons = new WeakSet<object>();
   return JSON.stringify(data, function (key, value) {
@@ -112,7 +113,16 @@ function encodeStateWithLegacyTurn(
     // Persisted World still retains the complete controller state. The server no
     // longer solves feet; `feet` is derived from the body for clients that still
     // read it (current clients place their own feet and ignore this field).
-    if (key === "pleat" && value)
+    if (key === "pleat" && value) {
+      if (pleatPoseSupported && this.kind === "crawler")
+        return [
+          value.up.x,
+          value.up.y,
+          value.up.z,
+          value.poseForward.x,
+          value.poseForward.y,
+          value.poseForward.z,
+        ];
       return {
         body: value.body,
         up: value.up,
@@ -128,6 +138,7 @@ function encodeStateWithLegacyTurn(
           planted: f.planted,
         })),
       };
+    }
     const inWeapon = weapons.has(this);
     if (value && typeof value === "object") {
       if (
@@ -193,51 +204,44 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
   const cachedPlayerWire = encodeState(
     commonPlayers.map(({ weapons, ...p }) => p),
   );
-  const enemyWires = new Map(
-    commonEnemies.map((enemy) => [enemy.id, encodeState(enemy)]),
-  );
-  const allEnemiesWire = commonEnemies
-    .map((enemy) => enemyWires.get(enemy.id)!)
-    .join(",");
-  const modernEnemySet = { byId: enemyWires, all: allEnemiesWire };
-  let legacyEnemySet: typeof modernEnemySet | undefined;
-  const getLegacyEnemySet = () => {
-    if (legacyEnemySet) return legacyEnemySet;
-    let byId: Map<number, string> | undefined;
-    for (const enemy of commonEnemies) {
-      const volley = enemy.bastion?.volley;
-      if (!volley) continue;
-      const { turnBits: _turnBits, ...legacyVolley } = volley;
-      const projected = {
-        ...enemy,
-        bastion: { ...enemy.bastion!, volley: legacyVolley },
-      };
-      byId ??= new Map(enemyWires);
-      byId.set(enemy.id, encodeStateWithLegacyTurn(projected, legacyVolley));
-    }
-    return (legacyEnemySet = byId
-      ? {
-          byId,
-          all: commonEnemies.map((enemy) => byId!.get(enemy.id)!).join(","),
-        }
-      : modernEnemySet);
-  };
-  const tupleEnemies = new Map<boolean, typeof modernEnemySet>();
-  const getTupleEnemies = (modern: boolean) => {
-    const previous = tupleEnemies.get(modern);
+  // Lazily build each negotiated representation once per broadcast. New-only
+  // rooms never generate compatibility feet, and mixed peers cannot share caches.
+  type EnemySet = { byId: Map<number, string>; all: string };
+  const enemySets = new Map<string, EnemySet>();
+  const getEnemies = (
+    modern: boolean,
+    compact: boolean,
+    tuples: boolean,
+  ): EnemySet => {
+    const key = `${modern}:${compact}:${tuples}`;
+    const previous = enemySets.get(key);
     if (previous) return previous;
-    const source = modern ? modernEnemySet : getLegacyEnemySet();
     const byId = new Map(
-      [...source.byId].map(([id, wire]) => [
-        id,
-        JSON.stringify(packEnemyTuple(JSON.parse(wire), owners)),
-      ]),
+      commonEnemies.map((enemy) => {
+        let projected = enemy;
+        let exactVolley: object | undefined;
+        if (!modern && enemy.bastion?.volley) {
+          const { turnBits: _turnBits, ...volley } = enemy.bastion.volley;
+          projected = {
+            ...enemy,
+            bastion: { ...enemy.bastion, volley },
+          } as typeof enemy;
+          exactVolley = volley;
+        }
+        const wire = encodeStateWithLegacyTurn(projected, exactVolley, compact);
+        return [
+          enemy.id,
+          tuples
+            ? JSON.stringify(packEnemyTuple(JSON.parse(wire), owners))
+            : wire,
+        ] as const;
+      }),
     );
     const result = {
       byId,
       all: commonEnemies.map((e) => byId.get(e.id)!).join(","),
     };
-    tupleEnemies.set(modern, result);
+    enemySets.set(key, result);
     return result;
   };
   const orbWires = new Map(
@@ -273,6 +277,7 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
       partialSupported = true,
       tupleSupported = false,
       chunksSupported = false,
+      pleatPoseSupported = false,
     ) {
       // 受信者別の戦況・時刻も含め、実際に送る最終データで容量を判定する。
       const recipientTail = recipientMetadata
@@ -312,16 +317,16 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
           : equipmentCached
             ? legacyCached
             : legacyFull;
-        if (tupleSupported) {
-          const key = `${partialSupported}:${equipmentCached}`;
+        if (tupleSupported || pleatPoseSupported) {
+          const key = `${tupleSupported}:${partialSupported}:${equipmentCached}:${pleatPoseSupported}`;
           if (!tupleCaches.has(key)) tupleCaches.set(key, new Map());
           cache = tupleCaches.get(key)!;
         }
-        const enemySet = tupleSupported
-          ? getTupleEnemies(partialSupported)
-          : partialSupported
-            ? modernEnemySet
-            : getLegacyEnemySet();
+        const enemySet = getEnemies(
+          partialSupported,
+          pleatPoseSupported,
+          tupleSupported,
+        );
         let encoded = enemies ? undefined : cache.get(count);
         if (encoded === undefined) {
           const enemyWire = enemies
@@ -334,7 +339,7 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
         const own = front
           ? `"front":${frontPrefix},"orbs":[${orbs ? orbs.map((orb) => orbSet.get(orb.id)!).join(",") : allOrbs}]},${personal}`
           : personal;
-        return `{"type":"state"${tupleSupported ? `,"stateEncoding":"${STATE_TUPLE_ENCODING}","stateOwners":${ownerWire}` : ""},"equipmentCached":${equipmentCached},"inputAck":${inputAck},"world":${encoded},${own}}${recipientTail ? `,${recipientTail}` : ""}${omitted ? `,"omitted":${JSON.stringify(omitted)}` : ""}}`;
+        return `{"type":"state"${pleatPoseSupported ? `,"pleatPose":1` : ""}${tupleSupported ? `,"stateEncoding":"${STATE_TUPLE_ENCODING}","stateOwners":${ownerWire}` : ""},"equipmentCached":${equipmentCached},"inputAck":${inputAck},"world":${encoded},${own}}${recipientTail ? `,${recipientTail}` : ""}${omitted ? `,"omitted":${JSON.stringify(omitted)}` : ""}}`;
       };
       const packet = packetWith(common.events.length);
       if (!front || new TextEncoder().encode(packet).length <= 65536)

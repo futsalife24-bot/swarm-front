@@ -45,7 +45,7 @@ function smallFixture() {
   w.pending[fixture.ids[0]] = [weapon];
   return fixture;
 }
-function packet(tuples = true) {
+function packet(tuples = true, compact = false) {
   const { w, ids, metadata } = smallFixture();
   return JSON.parse(
     prepareState(w, 0, metadata).packet(
@@ -55,6 +55,8 @@ function packet(tuples = true) {
       undefined,
       true,
       tuples,
+      false,
+      compact,
     ),
   );
 }
@@ -395,6 +397,7 @@ describe("丸め後の状態tuple", () => {
         const ws = network.ws as unknown as Socket;
         ws.onopen?.();
         expect(ws.sent[0].stateTuples).toBe(1);
+        expect(ws.sent[0].pleatPose).toBe(1);
         ws.message(packet(false));
         ws.message(packet());
         expect(received).toHaveLength(2);
@@ -411,6 +414,13 @@ describe("丸め後の状態tuple", () => {
         expect(received).toHaveLength(3);
         ws.message(packet(false));
         expect(received).toHaveLength(4);
+        ws.message(packet(false, true));
+        ws.message(packet(true, true));
+        expect(received).toHaveLength(6);
+        for (const w of received.slice(4)) {
+          expect(w.enemies[0].pleat.feet).toBeUndefined();
+          expect(w.enemies[0].pleat.body.x).toBe(w.enemies[0].x);
+        }
       } finally {
         clearInterval(network.timer);
       }
