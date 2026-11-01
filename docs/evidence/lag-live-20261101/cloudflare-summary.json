@@ -1,0 +1,262 @@
+{
+  "source": "Cloudflare GraphQL read-only, swarm-front Room/Gate namespaces",
+  "queriedWindow": [
+    "2026-11-01T11:39:00Z",
+    "2026-11-01T11:42:00Z"
+  ],
+  "assumedVideoStart": "2026-11-01T11:39:43Z",
+  "caveats": [
+    "動画名の開始時刻を仮定。端末時計の差と厳密なRoom同定は未確認",
+    "周期集計は約1分。約1秒の停止やws.send後の端末到着は証明しない",
+    "invocationの秒bucketに件数があっても、その秒内の空白を否定しない",
+    "wallTimeはI/O待ちを含む複数呼出の合計で、CPUや停止時間ではない",
+    "サーバー版は確認できるが、スマホ側クライアントの版は未確認",
+    "cloudAdmissionの記録不在は未連携の証明ではなく、到達したHTTP保存要求が観測されなかったという意味"
+  ],
+  "periodicObjects": 1,
+  "invocationObjects": 1,
+  "serverVersions": [
+    "3f46e046-54d3-412c-9659-a5a498c6d07d"
+  ],
+  "statuses": [
+    "success"
+  ],
+  "invocationRequests": 2148,
+  "invocationErrors": 0,
+  "cpuSeconds": 10.47087,
+  "activeSeconds": 124.039779,
+  "periodic": [
+    {
+      "at": "2026-11-01T11:39:02Z",
+      "colo": "KIX",
+      "sampleInterval": 1,
+      "count": 1,
+      "cpuSeconds": 4.019832,
+      "activeSeconds": 59.521363,
+      "outboundMessages": 574,
+      "inboundMessages": 0,
+      "cpuErrors": 0,
+      "memoryErrors": 0,
+      "fatalErrors": 0,
+      "rowsWritten": 8,
+      "maxConnections": 1,
+      "maxMemoryBytes": 30758962
+    },
+    {
+      "at": "2026-11-01T11:40:02Z",
+      "colo": "KIX",
+      "sampleInterval": 1,
+      "count": 1,
+      "cpuSeconds": 6.025186,
+      "activeSeconds": 60.000081,
+      "outboundMessages": 619,
+      "inboundMessages": 0,
+      "cpuErrors": 0,
+      "memoryErrors": 0,
+      "fatalErrors": 0,
+      "rowsWritten": 5,
+      "maxConnections": 1,
+      "maxMemoryBytes": 45242194
+    },
+    {
+      "at": "2026-11-01T11:41:02Z",
+      "colo": "KIX",
+      "sampleInterval": 1,
+      "count": 1,
+      "cpuSeconds": 0.425852,
+      "activeSeconds": 4.518335,
+      "outboundMessages": 56,
+      "inboundMessages": 0,
+      "cpuErrors": 0,
+      "memoryErrors": 0,
+      "fatalErrors": 0,
+      "rowsWritten": 1,
+      "maxConnections": 1,
+      "maxMemoryBytes": 46435233
+    }
+  ],
+  "videoBuckets": 82,
+  "minimumRecordedRequestsPerVideoSecond": 5,
+  "candidateWindows": [
+    {
+      "videoSeconds": 17.2,
+      "at": "2026-11-01T11:40:00.000Z",
+      "buckets": [
+        {
+          "at": "2026-11-01T11:39:59Z",
+          "requests": 23,
+          "errors": 0,
+          "wallTimeUs": 1164319
+        },
+        {
+          "at": "2026-11-01T11:40:00Z",
+          "requests": 13,
+          "errors": 0,
+          "wallTimeUs": 688193
+        },
+        {
+          "at": "2026-11-01T11:40:01Z",
+          "requests": 28,
+          "errors": 0,
+          "wallTimeUs": 1424111
+        }
+      ]
+    },
+    {
+      "videoSeconds": 32.4,
+      "at": "2026-11-01T11:40:15.000Z",
+      "buckets": [
+        {
+          "at": "2026-11-01T11:40:14Z",
+          "requests": 12,
+          "errors": 0,
+          "wallTimeUs": 619366
+        },
+        {
+          "at": "2026-11-01T11:40:15Z",
+          "requests": 22,
+          "errors": 0,
+          "wallTimeUs": 1136937
+        },
+        {
+          "at": "2026-11-01T11:40:16Z",
+          "requests": 18,
+          "errors": 0,
+          "wallTimeUs": 879364
+        }
+      ]
+    },
+    {
+      "videoSeconds": 47,
+      "at": "2026-11-01T11:40:30.000Z",
+      "buckets": [
+        {
+          "at": "2026-11-01T11:40:29Z",
+          "requests": 19,
+          "errors": 0,
+          "wallTimeUs": 1031595
+        },
+        {
+          "at": "2026-11-01T11:40:30Z",
+          "requests": 6,
+          "errors": 0,
+          "wallTimeUs": 931617
+        },
+        {
+          "at": "2026-11-01T11:40:31Z",
+          "requests": 9,
+          "errors": 0,
+          "wallTimeUs": 1167971
+        }
+      ]
+    },
+    {
+      "videoSeconds": 62.2,
+      "at": "2026-11-01T11:40:45.000Z",
+      "buckets": [
+        {
+          "at": "2026-11-01T11:40:44Z",
+          "requests": 9,
+          "errors": 0,
+          "wallTimeUs": 488927
+        },
+        {
+          "at": "2026-11-01T11:40:45Z",
+          "requests": 31,
+          "errors": 0,
+          "wallTimeUs": 1589456
+        },
+        {
+          "at": "2026-11-01T11:40:46Z",
+          "requests": 9,
+          "errors": 0,
+          "wallTimeUs": 777180
+        }
+      ]
+    },
+    {
+      "videoSeconds": 77,
+      "at": "2026-11-01T11:41:00.000Z",
+      "buckets": [
+        {
+          "at": "2026-11-01T11:40:59Z",
+          "requests": 18,
+          "errors": 0,
+          "wallTimeUs": 938714
+        },
+        {
+          "at": "2026-11-01T11:41:00Z",
+          "requests": 17,
+          "errors": 0,
+          "wallTimeUs": 854248
+        },
+        {
+          "at": "2026-11-01T11:41:01Z",
+          "requests": 27,
+          "errors": 0,
+          "wallTimeUs": 1367006
+        }
+      ]
+    }
+  ],
+  "cloudAdmissionRows": 0,
+  "cloudAdmissionRequests": 0,
+  "directory": [
+    {
+      "at": "2026-11-01T11:39:00Z",
+      "requests": 1,
+      "errors": 0,
+      "sampleInterval": 1,
+      "wallTimeUs": 14865
+    },
+    {
+      "at": "2026-11-01T11:39:02Z",
+      "requests": 2,
+      "errors": 0,
+      "sampleInterval": 1,
+      "wallTimeUs": 21369
+    },
+    {
+      "at": "2026-11-01T11:39:07Z",
+      "requests": 2,
+      "errors": 0,
+      "sampleInterval": 1,
+      "wallTimeUs": 19802
+    },
+    {
+      "at": "2026-11-01T11:39:38Z",
+      "requests": 1,
+      "errors": 0,
+      "sampleInterval": 1,
+      "wallTimeUs": 12045
+    },
+    {
+      "at": "2026-11-01T11:40:08Z",
+      "requests": 1,
+      "errors": 0,
+      "sampleInterval": 1,
+      "wallTimeUs": 10990
+    },
+    {
+      "at": "2026-11-01T11:40:38Z",
+      "requests": 1,
+      "errors": 0,
+      "sampleInterval": 1,
+      "wallTimeUs": 11547
+    },
+    {
+      "at": "2026-11-01T11:41:06Z",
+      "requests": 1,
+      "errors": 0,
+      "sampleInterval": 1,
+      "wallTimeUs": 12446
+    },
+    {
+      "at": "2026-11-01T11:41:38Z",
+      "requests": 1,
+      "errors": 0,
+      "sampleInterval": 1,
+      "wallTimeUs": 59354
+    }
+  ]
+}

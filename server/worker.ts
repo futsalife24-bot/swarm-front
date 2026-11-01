@@ -53,6 +53,7 @@ import {
 import { DurableObject } from "cloudflare:workers";
 import { RoomClock } from "./room-clock";
 import { RoomNetworkTrace, RoomTraceEvent } from "./room-network-trace";
+import { RoomLagObserver, ROOM_LAG_LOG_PREFIX } from "./room-lag-observer";
 import {
   StateDelivery,
   deliverState,
@@ -945,6 +946,9 @@ export class Room extends DurableObject<Env> {
   private traceSockets = new Set<WebSocket>();
   private previousTraceTickAt = 0;
   private pendingTraceWrites = 0;
+  private lagObserver = new RoomLagObserver((row) => {
+    console.log(ROOM_LAG_LOG_PREFIX, JSON.stringify(row));
+  });
   ticks = 0;
   persisting = false;
   constructor(ctx: DurableObjectState, env: Env) {
@@ -1060,6 +1064,7 @@ export class Room extends DurableObject<Env> {
     return this.roomExpiresAt();
   }
   async persist() {
+    const startedAt = Date.now();
     this.pendingTraceWrites++;
     this.traceAll(RoomTraceEvent.persistStart, this.pendingTraceWrites);
     try {
@@ -1067,10 +1072,36 @@ export class Room extends DurableObject<Env> {
     } catch (error) {
       this.pendingTraceWrites--;
       this.traceAll(RoomTraceEvent.persistEnd, -1);
+      this.lagObserver.persist(
+        Date.now() - startedAt,
+        Date.now(),
+        this.lagContext(),
+      );
       throw error;
     }
     this.pendingTraceWrites--;
     this.traceAll(RoomTraceEvent.persistEnd, this.pendingTraceWrites);
+    this.lagObserver.persist(
+      Date.now() - startedAt,
+      Date.now(),
+      this.lagContext(),
+    );
+  }
+  private lagContext(now = Date.now()) {
+    const run = this.saved.frontRun;
+    return {
+      tick: this.ticks,
+      pendingWrites: this.pendingTraceWrites,
+      droppedMs: this.clock.droppedMs,
+      phase:
+        this.saved.world?.phase !== "battle"
+          ? 0
+          : run?.phase === "selection"
+            ? 2
+            : run && now / 1000 < run.resumeUntil
+              ? 3
+              : 1,
+    };
   }
   private traceAll(code: Parameters<RoomNetworkTrace["record"]>[0], value = 0) {
     if (!this.traceSockets.size) return;
@@ -1251,6 +1282,7 @@ export class Room extends DurableObject<Env> {
         for (const [old, a] of this.sockets)
           if (old !== ws && a.id === member.id) {
             old.close(4000, "別の接続で復帰しました");
+            this.lagObserver.remove(old);
             this.sockets.delete(old);
           }
       } else {
@@ -1361,6 +1393,7 @@ export class Room extends DurableObject<Env> {
     }
     const stateAcknowledged = s.stateDelivery.acknowledge(m.stateAck);
     if (stateAcknowledged) {
+      this.lagObserver.ack(ws, m.stateAck, now, this.lagContext(now));
       s.networkTrace?.record(RoomTraceEvent.ack, this.ticks, m.stateAck);
       s.stateDelta?.acknowledge(m.stateAck);
       this.rememberSocket(ws);
@@ -1420,6 +1453,7 @@ export class Room extends DurableObject<Env> {
         if (m.input.seq <= s.seq) return;
         s.seq = m.input.seq;
         s.inputReceivedAt = now / 1000;
+        this.lagObserver.input(ws, now);
         // Receipt only, not proof of simulation/application. Never consumes state credit.
         // At most 10 Hz, only while state credit is blocked. Healthy state traffic
         // already carries receipts; avoid redundant per-message scheduling cost.
@@ -1829,6 +1863,7 @@ export class Room extends DurableObject<Env> {
     const recipients = [...this.sockets].filter(([ws, s]) => {
       if (!s.id || (target && ws !== target)) return false;
       if (w && s.stateDelivery.full) {
+        this.lagObserver.hold(ws, Date.now(), this.lagContext());
         if (!s.stateDelivery.dirty) {
           s.stateDelivery.begin();
           this.rememberSocket(ws);
@@ -1964,7 +1999,11 @@ export class Room extends DurableObject<Env> {
             Date.now(),
             attachedTrace.droppedMs,
           );
-        if (result === "sent") s.equipmentKey = state!.equipmentKey;
+        if (result === "sent") {
+          s.equipmentKey = state!.equipmentKey;
+          if (s.stateDelivery.enabled)
+            this.lagObserver.sent(ws, stateId, Date.now());
+        }
         if (result === "failed") s.stateDelta?.reset();
         this.rememberSocket(ws);
       } else this.send(ws, { type: "lobby", ...metadata });
@@ -1974,6 +2013,7 @@ export class Room extends DurableObject<Env> {
 
   run() {
     if (this.timer) return;
+    this.lagObserver.start(Date.now());
     const generation = ++this.timerGeneration;
     const scheduledTick = async () => {
       if (generation !== this.timerGeneration) return;
@@ -1991,6 +2031,7 @@ export class Room extends DurableObject<Env> {
     this.timer = setTimeout(scheduledTick, this.clock.start(Date.now()));
   }
   stop() {
+    this.lagObserver.stop();
     this.timerGeneration++;
     if (this.timer) {
       clearTimeout(this.timer);
@@ -2012,6 +2053,7 @@ export class Room extends DurableObject<Env> {
       this.stop();
       return;
     }
+    this.lagObserver.tick(now, this.lagContext(now));
     for (const [ws, s] of this.sockets) {
       const player = w.players.find((p) => p.id === s.id);
       if (
@@ -2083,6 +2125,7 @@ export class Room extends DurableObject<Env> {
   }
   disconnected(ws: WebSocket) {
     const s = this.sockets.get(ws);
+    this.lagObserver.remove(ws);
     this.sockets.delete(ws);
     this.traceSockets.delete(ws);
     if (!s?.id) return;
