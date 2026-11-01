@@ -305,11 +305,32 @@ try {
   const started = Date.now();
   console.log("戦闘計測開始");
   const keys = ["KeyW", "KeyD", "KeyS", "KeyA"];
+  let connectionCount = await page.evaluate(
+    () => window.__lag.events.filter((e) => e.type === "ws-open").length,
+  );
   let k = 0,
     stallIndex = 0,
     ended = "";
   while (Date.now() - started < seconds * 1000) {
     const elapsed = Date.now() - started;
+    const opened = await page.evaluate(
+      () => window.__lag.events.filter((e) => e.type === "ws-open").length,
+    );
+    if (opened > connectionCount) {
+      connectionCount = opened;
+      // Reconnection intentionally releases held input. Verify a fresh user action.
+      await page.mouse.up();
+      await page.waitForFunction(() => {
+        const lastOpen = window.__lag.events
+          .filter((e) => e.type === "ws-open")
+          .at(-1);
+        return window.__lag.wsOut.some(
+          (e) => e.type === "input" && e.at > lastOpen.at + 500,
+        );
+      });
+      await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+      await page.mouse.down();
+    }
     if (condition === "rate-burst" && stallIndex === 0 && elapsed >= 12000) {
       stallIndex++;
       await page.evaluate(() => {
@@ -380,6 +401,10 @@ try {
     assert(
       result.trace.receipts.some((e) => e.at > close.at + 1000),
       "復帰後の状態受理が必要",
+    );
+    assert(
+      result.trace.wsOut.some((e) => e.fire && e.at > close.at + 1000),
+      "復帰後の新しい射撃が必要",
     );
   }
   result.diagnostics = await page.evaluate(() =>

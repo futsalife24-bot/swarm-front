@@ -1,0 +1,7 @@
+RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-lag-fix
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed | 19 skipped (21)
+   Start at  20:05:04
+   Duration  5.25s (tests 51%, import 31%, transform 17%)

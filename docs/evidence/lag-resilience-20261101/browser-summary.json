@@ -1,0 +1,112 @@
+[
+  {
+    "condition": "rate-burst",
+    "tracePath": "dist-validation\\lag-resilience-20261101\\runs\\rate-burst-recovery-verified\\trace.json",
+    "traceSha256": "482007551d016c9fcf97cd44654cb9ae1bf13b4760237dabd807d0fd8a907a9a",
+    "wallSeconds": 35.159,
+    "endedEarly": null,
+    "pageErrors": 0,
+    "connections": 2,
+    "closeCodes": [
+      4008
+    ],
+    "firingInputs": 565,
+    "recoveryToStateMs": 1056.1,
+    "firingInputsAfterRecovery": 338,
+    "acceptedStates": 343,
+    "allStateGapMaxMs": 1119.5,
+    "postInstrumentationRafMaxMs": 47.8,
+    "allStateGapP95Ms": 124.0,
+    "finalWorld": {
+      "at": 1793531869524.5,
+      "time": 32.9,
+      "hp": 160,
+      "ammo": "11/7",
+      "enemies": 52,
+      "active": true
+    },
+    "timelineRows": 1499,
+    "timelineOverwritten": 0
+  },
+  {
+    "condition": "up-pause-once",
+    "tracePath": "dist-validation\\lag-resilience-20261101\\runs\\up-pause-once-final\\trace.json",
+    "traceSha256": "e8b1512a326f04e85aa17adf49da4ee4396784780b43b219b42563983d7dc424",
+    "wallSeconds": 65.99,
+    "endedEarly": null,
+    "pageErrors": 0,
+    "connections": 1,
+    "closeCodes": [],
+    "firingInputs": 1093,
+    "recoveryToStateMs": null,
+    "firingInputsAfterRecovery": null,
+    "acceptedStates": 657,
+    "allStateGapMaxMs": 1143.1,
+    "postInstrumentationRafMaxMs": 77.3,
+    "allStateGapP95Ms": 126.1,
+    "finalWorld": {
+      "at": 1793531314698.9,
+      "time": 63.85,
+      "hp": 176,
+      "ammo": "0/7",
+      "enemies": 85,
+      "active": true
+    },
+    "timelineRows": 2814,
+    "timelineOverwritten": 0
+  },
+  {
+    "condition": "down-pause",
+    "tracePath": "dist-validation\\lag-resilience-20261101\\runs\\down-pause-final\\trace.json",
+    "traceSha256": "842ca3bf578c081092595626c5b7c3d96fe6c27b92cddffc2107a9a997ffc5cb",
+    "wallSeconds": 66.131,
+    "endedEarly": null,
+    "pageErrors": 0,
+    "connections": 1,
+    "closeCodes": [],
+    "firingInputs": 1054,
+    "recoveryToStateMs": null,
+    "firingInputsAfterRecovery": null,
+    "acceptedStates": 654,
+    "allStateGapMaxMs": 1251.5,
+    "postInstrumentationRafMaxMs": 69.6,
+    "allStateGapP95Ms": 125.9,
+    "finalWorld": {
+      "at": 1793531409469.6,
+      "time": 62.6,
+      "hp": 160,
+      "ammo": "0/7",
+      "enemies": 33,
+      "active": true
+    },
+    "timelineRows": 2767,
+    "timelineOverwritten": 0
+  },
+  {
+    "condition": "baseline",
+    "tracePath": "dist-validation\\lag-resilience-20261101\\runs\\baseline-final\\trace.json",
+    "traceSha256": "4af7693987c5273e19ea69a74c4eaf501995a2558458d005e2ba4efbacc14c3e",
+    "wallSeconds": 65.78,
+    "endedEarly": null,
+    "pageErrors": 0,
+    "connections": 1,
+    "closeCodes": [],
+    "firingInputs": 1062,
+    "recoveryToStateMs": null,
+    "firingInputsAfterRecovery": null,
+    "acceptedStates": 666,
+    "allStateGapMaxMs": 152.2,
+    "postInstrumentationRafMaxMs": 75.8,
+    "allStateGapP95Ms": 125.7,
+    "finalWorld": {
+      "at": 1793531507553,
+      "time": 61.55,
+      "hp": 160,
+      "ammo": "3/7",
+      "enemies": 29,
+      "active": true
+    },
+    "timelineRows": 2796,
+    "timelineOverwritten": 0
+  }
+]

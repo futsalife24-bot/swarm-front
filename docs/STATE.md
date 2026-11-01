@@ -1,3 +1,11 @@
+# 実装・PC検証済み、未merge/未公開: 更新停止への耐性改善（2026-11-01）
+
+本人の「有効なものから順に全て実装して」により、4096件の端末内時系列、遅延時ACKの同梱待ち、対応画面だけのプレイヤー差分v2、4008から最大2回の復帰を実装。敵数・難易度・入力失効・35件/秒の上限は維持。300msで入力枠を縮める案は下り遅延時の操作継続を損なうため不採用。詳細は [実装・検証記録](evidence/lag-resilience-20261101/README.md)。
+
+base `27076b2cbdb48cdb4f0af707ffd3f96a9e73aee2`、製品commit `23a45783ac841cdf7e35a30a5e073974c312058e`、branch `codex/lag-resilience-20261101`、worktree `task-lag-fix`。元root・他担当worktree・共有状態正本には触れず、このbranchのSTATEだけを追記。
+
+関連単体116件、実Worker2項目（旧JSON/v1/v2混在・枠詰まり時入力確認）、両型、製品build/Worker dry-run成功。実画面の通常/上り停止/下り停止/4008復帰で画面例外0。4008後は1056.1msで状態を再受理し、読み込み完了後の新しい射撃338件を確認。同じ状態を20step更新する符号化比較は約7.49%減、復元同値。スマホ・実Wi-Fi・長時間・根因解消は未確認。merge/公開は本人の明示承認条件を維持し未実施。次は実機の同じ停止を記録・確認し、公開承認後に通常手順で反映。主担当モデル/effort未確認、通信差分の補助へgpt-6-sol/high指定（実行値未確認）、独立Chat監査ではない。
+
 # 公開完了: PLEAT軽量化・通信圧縮・狭所移行（2026-11-01、Codex）
 
 本人の「公開して」でPR #245/#246/#247を通常merge。公開ソースmain `7f19ed5b3cb6dc05f7371ca0443e6f5028585217`、既存Worker Version `72a99834-f46f-46d3-ba47-c806f4d2876e`。統合後コードは検証済み #247 headと同一。関連174テスト・型・production build/dry-run成功。公開27ファイルSHA一致、health 200/ok、空Chromeの844×390でソロ起動・操作・例外0。GitHubチェック0件、CI合格とは扱わない。[公開記録](evidence/pleat-release-20261101/RELEASE.md)。公開記録branch `codex/pleat-release-20261101`、作業場所 `dist-h`。元root・他担当worktreeの差分は保持。

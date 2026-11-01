@@ -7,7 +7,7 @@ root = Path('dist-validation/lag-resilience-20261101/runs')
 out = Path('docs/evidence/lag-resilience-20261101')
 rows = []
 for name in ['rate-burst', 'up-pause-once', 'down-pause', 'baseline']:
-    path = root / (name + '-final') / 'trace.json'
+    path = root / (name + ('-recovery-verified' if name == 'rate-burst' else '-final')) / 'trace.json'
     raw = path.read_bytes()
     result = json.loads(raw)
     assert not result.get('failure'), (name, result.get('failure'))
@@ -26,6 +26,7 @@ for name in ['rate-burst', 'up-pause-once', 'down-pause', 'baseline']:
         assert len(result['link']['connections']) == 2
     else:
         assert not close, (name, close)
+    frames = [f for f in trace['frames'] if f >= trace['instrumentedAt']]
     receipts = trace['receipts']
     gaps = sorted(b['at'] - a['at'] for a, b in zip(receipts, receipts[1:]))
     rows.append({
@@ -35,6 +36,7 @@ for name in ['rate-burst', 'up-pause-once', 'down-pause', 'baseline']:
         'closeCodes': [e['code'] for e in close], 'firingInputs': len(fire),
         'recoveryToStateMs': recovery, 'firingInputsAfterRecovery': after_fire,
         'acceptedStates': len(receipts), 'allStateGapMaxMs': round(max(gaps), 1),
+        'postInstrumentationRafMaxMs': round(max(b-a for a,b in zip(frames,frames[1:])),1),
         'allStateGapP95Ms': round(gaps[int((len(gaps)-1)*.95)], 1),
         'finalWorld': trace['world'][-1],
         'timelineRows': len(result['diagnostics']['timeline']),
