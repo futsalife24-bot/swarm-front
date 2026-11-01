@@ -1,3 +1,9 @@
+# 公開完了: PLEAT軽量化・通信圧縮・狭所移行（2026-11-01、Codex）
+
+本人の「公開して」でPR #245/#246/#247を通常merge。公開ソースmain `7f19ed5b3cb6dc05f7371ca0443e6f5028585217`、既存Worker Version `72a99834-f46f-46d3-ba47-c806f4d2876e`。統合後コードは検証済み #247 headと同一。関連174テスト・型・production build/dry-run成功。公開27ファイルSHA一致、health 200/ok、空Chromeの844×390でソロ起動・操作・例外0。GitHubチェック0件、CI合格とは扱わない。[公開記録](evidence/pleat-release-20261101/RELEASE.md)。公開記録branch `codex/pleat-release-20261101`、作業場所 `dist-h`。元root・他担当worktreeの差分は保持。
+
+実スマホ・実回線協力・長時間・旧端末との本番混在は未確認。本人画像の公開前60FPS/往復150〜198ms/更新9〜10回毎秒を比較基準に、同じスマホで再読込後の生存1分/2分を確認する。ラグ解消とは報告しない。以下の未公開・判断待ちは当時の履歴で、この公開記録が現在地。主担当実モデル/推論設定未確認、子なし。
+
 # 修正済み・未merge/未公開: PLEATの狭所姿勢と壁移行（2026-11-01、Codex）
 
 本人の「はい」で、狭所は低い姿勢を保ち空間へ出てから姿勢変更する方針（経路・所要時間の変更を含む）を承認。[PR #247](https://github.com/futsalife24-bot/swarm-front/pull/247) の同じ担当branch `codex/pleat-wall-acceptance-20261101` / worktree `task-pleat-acceptance` に実装。実装commit `66ec4e9d07ed77473eb465bc9c38fbb28b518f76`。PR baseは #246 branch / `640de79613c585c22c0b06e696942ed357af359e`。merge・公開は未実施、元root・dist-h・Claude・通信担当の差分を保持。

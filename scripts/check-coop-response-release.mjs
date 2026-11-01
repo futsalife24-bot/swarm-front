@@ -5,7 +5,8 @@ import { execFileSync } from "node:child_process";
 import assert from "node:assert/strict";
 
 const base = "https://swarm-front.melosalife-24.workers.dev";
-const out = "docs/evidence/coop-response-20261101";
+const out =
+  process.env.SWARM_RELEASE_EVIDENCE || "docs/evidence/coop-response-20261101";
 const sha = (b) => createHash("sha256").update(b).digest("hex");
 const result = {
   checkedAt: new Date().toISOString(),
