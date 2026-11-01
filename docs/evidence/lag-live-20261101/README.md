@@ -1,5 +1,7 @@
 # 本番の更新停止とWi-Fi経路の照合（2026-11-01）
 
+保存済み実装HEADは `c8e8c2ca5a4f0f8e541103d56ca270bf48ea3fef`、[ドラフトPR #254](https://github.com/futsalife24-bot/swarm-front/pull/254)。remote一致・worktree cleanを確認。GitHubチェック0件で、CI合格とは扱わない。実装commit後のproduction buildとWorker dry-run（467.68KiB、gzip119.59KiB）も成功。既存のchunkサイズ警告は継続。本番は比較条件を固定するため未更新、merge未実施。
+
 公開クライアント/サーバーの対象ソースは `b645183c1d60d3eeb351b8e142d206f08f05683a`、Worker Versionは `54e4881b-82d0-4091-88af-47d3ab9a957f`。作業基点はmain `852906439faf895796adef1cd7efe1a24f6819de`、branchは `codex/lag-live-trace-20261101`、worktreeは `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-lag-fix`。GitHub正本は https://github.com/futsalife24-bot/swarm-front 。本節は原因調査の記録で、スマホで快適になったという完了報告ではない。
 
 ## 現時点の結論

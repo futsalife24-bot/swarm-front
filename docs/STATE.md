@@ -1,5 +1,7 @@
 # 調査再開・本番再現: 共通Wi-Fi経路の悪化を確認（2026-11-01）
 
+保存追記: 実装HEAD `c8e8c2ca5a4f0f8e541103d56ca270bf48ea3fef` を専用branchへpushし、[ドラフトPR #254](https://github.com/futsalife24-bot/swarm-front/pull/254)作成、remote一致・cleanを確認。実装commit後build/dry-run成功、GitHubチェック0件。比較条件を固定するためmerge/公開はまだ行っていない。モバイル回線の結果とWi-Fiルーター機種を本人へ確認中。
+
 本人の「なんとか再開して」から、Cloudflare既存アカウントの集計と本人提供の非公開部屋での本番PC計測を実施。公開ソースは `b645183c1d60d3eeb351b8e142d206f08f05683a`、Worker `54e4881b-82d0-4091-88af-47d3ab9a957f` のまま。作業branch `codex/lag-live-trace-20261101`、base main `852906439faf895796adef1cd7efe1a24f6819de`、場所 `task-lag-fix`。[照合記録・コマンド・証拠](evidence/lag-live-20261101/README.md)。
 
 初回25.41秒の切断は、計測スクリプトが強化選択待ちを終了と誤判定したもの。修正後、同じ公開版で120.419秒・例外0の本番測定を完了。700ms超の状態空白8件中7件で空白中開始のPC→ルーターpingがtimeout、残る1件は直前開始。同じ空白の7件で別HTTPSも遅れ、状態復帰の約2～7ms後に完了。PCゲームを閉じた後もルーターping390件中25件timeout。本人はPC/OPPOが同じSSIDで今回スマホも何度も停止と回答。PC～Wi-Fiルーターを含む経路を優先候補とし、故障箇所・スマホ根因は未確定。モバイル回線の協力1人比較を本人が実施可能と回答し、結果待ち。
