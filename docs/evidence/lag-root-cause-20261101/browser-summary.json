@@ -1,0 +1,41 @@
+[
+  {
+    "case": "baseline-frozen",
+    "seconds": 86.484,
+    "errors": [],
+    "exportVerified": false,
+    "failure": "locator.click: Timeout 70000ms exceeded.",
+    "maxAcceptedGapMs": 164.5,
+    "incidents": [],
+    "serverHistoryCount": 0,
+    "cloudChecks": 6
+  },
+  {
+    "case": "down-pause-frozen",
+    "seconds": 101.547,
+    "errors": [],
+    "exportVerified": true,
+    "failure": null,
+    "maxAcceptedGapMs": 1255.2001953125,
+    "incidents": [
+      {
+        "at": 67069.20000000298,
+        "gapMs": 657.7000000029802
+      },
+      {
+        "at": 87641.20000000298,
+        "gapMs": 1254.7999999970198
+      },
+      {
+        "at": 127037.79999999702,
+        "gapMs": 642.8999999910593
+      },
+      {
+        "at": 130122.29999999702,
+        "gapMs": 582.7999999970198
+      }
+    ],
+    "serverHistoryCount": 3,
+    "cloudChecks": 5
+  }
+]

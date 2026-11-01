@@ -118,3 +118,38 @@ it("RAFが止まってもvisibilityイベントを記録する", () => {
     [5000, 0],
   ]);
 });
+
+it("停止直前の観測を通常ringの上書き後も有限件数で保持する", () => {
+  const d = new ConnectionDiagnostics();
+  d.state(0, 1);
+  d.event("message", 100, 400);
+  d.state(1000, 2);
+  for (let i = 0; i < 5000; i++) d.event("input", i, 1100 + i);
+  expect(d.details().incidents[0]).toMatchObject({ at: 1000, gapMs: 1000 });
+  expect(
+    d.details().incidents[0].timeline.some((x) => x.kind === "message"),
+  ).toBe(true);
+  for (let i = 1; i < 10; i++) d.state(1000 + i * 1000, 2 + i);
+  expect(d.details().incidents).toHaveLength(6);
+  const details = d.details();
+  details.incidents[0].timeline.length = 0;
+  expect(d.details().incidents[0].timeline.length).toBeGreaterThan(0);
+});
+
+it("サーバー診断から文字列と無制限の配列を保存しない", () => {
+  const d = new ConnectionDiagnostics();
+  for (let i = 0; i < 20; i++)
+    d.serverTrace({
+      tick: i,
+      token: "private",
+      events: Array.from({ length: 200 }, () => [1, 2, 3]),
+    });
+  const rows = d.details().serverTrace as {
+    data: { tick: number; token: null; events: unknown[] };
+  }[];
+  expect(rows).toHaveLength(16);
+  expect(rows.at(-1)?.data.tick).toBe(19);
+  expect(rows.at(-1)?.data.token).toBeNull();
+  expect(rows.at(-1)?.data.events).toHaveLength(128);
+  expect(JSON.stringify(rows)).not.toContain("private");
+});

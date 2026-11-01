@@ -41,6 +41,7 @@ class Client {
     optimized = false,
     pleatPose: number | undefined = undefined,
     playerDelta = false,
+    networkTrace = false,
   ) {
     this.ws = new WebSocket(
       `${base.replace("http", "ws")}/rooms/${code}?ruleset=front-v1&testClient=${createHash(
@@ -64,6 +65,7 @@ class Client {
           : {}),
         ...(pleatPose !== undefined ? { pleatPose } : {}),
         ...(playerDelta ? { stateDeltaPlayers: 1 } : {}),
+        ...(networkTrace ? { networkTrace: 1 } : {}),
         ...(token ? { token } : {}),
       });
     this.ws.onmessage = (e) => {
@@ -155,6 +157,7 @@ async function team(
   optimized: boolean | boolean[] = false,
   pleatPose: (number | undefined)[] = [],
   playerDelta: boolean[] = [],
+  networkTrace: boolean[] = [],
 ) {
   const entry = await room(mode),
     members: Client[] = [];
@@ -172,6 +175,7 @@ async function team(
       Array.isArray(optimized) ? optimized[i] : optimized,
       pleatPose[i],
       playerDelta[i],
+      networkTrace[i],
     );
     await c.wait((m) => m.type === "welcome");
     members.push(c);
@@ -1112,6 +1116,7 @@ it("PLEAT姿勢の新旧JSON・tuple4人が混在しても全量・差分を復�
     [false, false, true, true],
     [undefined, 1, 2, 1],
     [false, false, false, true],
+    [false, false, false, true],
   );
   let seq = 0;
   const timer = setInterval(() => {
@@ -1150,6 +1155,27 @@ it("PLEAT姿勢の新旧JSON・tuple4人が混在しても全量・差分を復�
       }
       expect(c.decodeErrors).toBe(0);
       expect(c.compactPackets > 0).toBe(compact);
+      const trace = m.networkTiming?.roomTrace;
+      if (i === 3) {
+        expect(trace).toBeDefined();
+        expect(trace.version).toBe(1);
+        expect(trace.sendCalls).toBeGreaterThan(0);
+        expect(trace.pendingWrites).toBeGreaterThanOrEqual(0);
+        for (const [key, value] of Object.entries(trace))
+          if (key !== "history") expect(Number.isFinite(value)).toBe(true);
+        if (trace.history) {
+          expect(trace.history.length).toBeLessThanOrEqual(128);
+          expect(JSON.stringify(trace.history).length).toBeLessThanOrEqual(
+            8192,
+          );
+          expect(
+            trace.history.every(
+              (entry: unknown[]) =>
+                entry.length === 5 && entry.every(Number.isFinite),
+            ),
+          ).toBe(true);
+        }
+      } else expect(trace).toBeUndefined();
     }
     await new Promise((r) => setTimeout(r, 350));
     expect(members[2].deltaPackets).toBeGreaterThan(0);

@@ -16,7 +16,7 @@ const origin = "http://127.0.0.1:5317",
 const condition = process.argv[2] ?? "baseline";
 const seconds = Number(process.argv[3] ?? 180);
 const rep = process.env.LAG_REP ?? "1";
-const out = `dist-validation/lag-resilience-20261101/runs/${condition}-${rep}`;
+const out = `${process.env.LAG_OUT_ROOT ?? "dist-validation/lag-resilience-20261101/runs"}/${condition}-${rep}`;
 mkdirSync(out, { recursive: true });
 
 // 障害注入は1条件ずつ。自然発生の記録(baseline)と混ぜない。
@@ -410,6 +410,21 @@ try {
   result.diagnostics = await page.evaluate(() =>
     window.swarmNetworkDiagnostics?.(),
   );
+  if (process.env.LAG_CHECK_DIAGNOSTIC_EXPORT === "1") {
+    assert(result.diagnostics?.serverTrace?.length > 0, "サーバー診断が必要");
+    await page.keyboard.press("Escape");
+    const downloadPromise = page.waitForEvent("download");
+    await page.locator("#front-diagnostics").click();
+    const download = await downloadPromise;
+    await download.saveAs(`${out}/diagnostic-export.json`);
+    const exported = JSON.parse(
+      readFileSync(`${out}/diagnostic-export.json`, "utf8"),
+    );
+    assert.equal(exported.build, result.diagnostics.build);
+    assert(exported.observations.serverTrace.length > 0);
+    assert(!JSON.stringify(exported).includes(room.roomId), "部屋IDを含めない");
+    result.exportVerified = true;
+  }
 } catch (e) {
   result.failure = String(e?.stack ?? e).replace(
     /[a-f0-9]{32,64}/gi,
