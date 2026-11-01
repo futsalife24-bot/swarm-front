@@ -1,0 +1,172 @@
+{
+  "label": "after",
+  "scenario": {
+    "seed": 11,
+    "stage": 1,
+    "run": "pleat-load",
+    "ticks": 400,
+    "dt": 0.05,
+    "clientFramesPerTick": 3,
+    "input": "隊員は射撃なしで円を歩く(mx=cos(0.05t), mz=sin(0.05t))",
+    "placement": "半径14m起点・2m刻みの同心円24方位から建物外の点を順に採用",
+    "node": "v24.19.0"
+  },
+  "results": [
+    {
+      "enemies": 24,
+      "server": {
+        "stepPleatCalls": 9600,
+        "stepPleatMsTotal": 383.5,
+        "stepPleatUsPerCall": 39.9,
+        "raysTotal": 75536,
+        "raysPerEnemyPerSecond": 157.4,
+        "tickMedianMs": 0.97,
+        "tickP95Ms": 3.491,
+        "tickMaxMs": 31.673
+      },
+      "client": {
+        "viewerOffsetMeters": 0,
+        "frames": 1200,
+        "poseMedianMs": 0.163,
+        "poseP95Ms": 0.336,
+        "poseMaxMs": 5.395,
+        "clientRaysPerFrame": 2.92,
+        "perFrame": {
+          "near": 24,
+          "mid": 0,
+          "far": 0,
+          "posed": 24,
+          "probes": 2.92
+        }
+      },
+      "clientDistant": {
+        "viewerOffsetMeters": 60,
+        "frames": 1200,
+        "poseMedianMs": 0.056,
+        "poseP95Ms": 0.121,
+        "poseMaxMs": 0.558,
+        "clientRaysPerFrame": 0,
+        "perFrame": {
+          "near": 0,
+          "mid": 0.74,
+          "far": 23.26,
+          "posed": 7.02,
+          "probes": 0
+        }
+      },
+      "wire": {
+        "packetBytes": 18704,
+        "pleatBytes": 11847
+      },
+      "behaviour": {
+        "wallEnemyTicks": 0,
+        "stalledEnemyTicks": 0,
+        "playerHp": 1000000
+      }
+    },
+    {
+      "enemies": 48,
+      "server": {
+        "stepPleatCalls": 19200,
+        "stepPleatMsTotal": 591.9,
+        "stepPleatUsPerCall": 30.8,
+        "raysTotal": 151016,
+        "raysPerEnemyPerSecond": 157.3,
+        "tickMedianMs": 1.932,
+        "tickP95Ms": 2.785,
+        "tickMaxMs": 7.426
+      },
+      "client": {
+        "viewerOffsetMeters": 0,
+        "frames": 1200,
+        "poseMedianMs": 0.312,
+        "poseP95Ms": 0.382,
+        "poseMaxMs": 1.538,
+        "clientRaysPerFrame": 5.87,
+        "perFrame": {
+          "near": 48,
+          "mid": 0,
+          "far": 0,
+          "posed": 48,
+          "probes": 5.87
+        }
+      },
+      "clientDistant": {
+        "viewerOffsetMeters": 60,
+        "frames": 1200,
+        "poseMedianMs": 0.082,
+        "poseP95Ms": 0.399,
+        "poseMaxMs": 1.391,
+        "clientRaysPerFrame": 0,
+        "perFrame": {
+          "near": 0,
+          "mid": 2.06,
+          "far": 45.94,
+          "posed": 14.22,
+          "probes": 0
+        }
+      },
+      "wire": {
+        "packetBytes": 36535,
+        "pleatBytes": 23686
+      },
+      "behaviour": {
+        "wallEnemyTicks": 0,
+        "stalledEnemyTicks": 0,
+        "playerHp": 1000000
+      }
+    },
+    {
+      "enemies": 96,
+      "server": {
+        "stepPleatCalls": 38400,
+        "stepPleatMsTotal": 1729.3,
+        "stepPleatUsPerCall": 45,
+        "raysTotal": 301848,
+        "raysPerEnemyPerSecond": 157.2,
+        "tickMedianMs": 4.758,
+        "tickP95Ms": 12.524,
+        "tickMaxMs": 16.312
+      },
+      "client": {
+        "viewerOffsetMeters": 0,
+        "frames": 1200,
+        "poseMedianMs": 0.602,
+        "poseP95Ms": 1.721,
+        "poseMaxMs": 2.858,
+        "clientRaysPerFrame": 11.52,
+        "perFrame": {
+          "near": 94.87,
+          "mid": 1.13,
+          "far": 0,
+          "posed": 95.44,
+          "probes": 11.52
+        }
+      },
+      "clientDistant": {
+        "viewerOffsetMeters": 60,
+        "frames": 1200,
+        "poseMedianMs": 0.365,
+        "poseP95Ms": 1.238,
+        "poseMaxMs": 2.04,
+        "clientRaysPerFrame": 0,
+        "perFrame": {
+          "near": 0,
+          "mid": 5.05,
+          "far": 90.95,
+          "posed": 28.8,
+          "probes": 0
+        }
+      },
+      "wire": {
+        "packetBytes": 72326,
+        "pleatBytes": 47363
+      },
+      "behaviour": {
+        "wallEnemyTicks": 0,
+        "stalledEnemyTicks": 0,
+        "playerHp": 1000000
+      }
+    }
+  ]
+}

@@ -8,7 +8,9 @@ import {
 import { STRUCTURE_TIMING } from "../shared/structure-timing";
 import { HARROW_MOVE_SPEED } from "../shared/harrow-motion";
 import { PleatProcedural } from "./pleat-procedural";
-import type { PleatState } from "../shared/pleat-locomotion";
+import type { PleatPose } from "./pleat-procedural";
+import type { Block } from "../shared/map-blocks";
+import { surfaceRay } from "../shared/surface-ray";
 export const STRUCTURE_ASSETS = {
   harrow: "harrow",
   calyx: "calyx",
@@ -27,7 +29,7 @@ export function harrowTakeoffClip(seed = 0): HoundClip {
 }
 export type StructureVisualKind = keyof typeof STRUCTURE_ASSETS;
 export type StructureInput = HoundVisualInput & {
-  pleat?: PleatState;
+  pleat?: PleatPose;
   slot: number;
   calyx?: import("../shared/calyx").CalyxAttack;
   harrow?: import("../shared/harrow").HarrowAttack;
@@ -197,6 +199,7 @@ export class StructureMotionController {
 /** One GPU palette per species, independently timed instances. Never mutates World. */
 export class StructureMotion {
   private pleat?: PleatProcedural;
+  private blocks?: Block[];
   batch?: HoundMotionBatch;
   readonly controller: StructureMotionController;
   readonly loading: Promise<void>;
@@ -224,8 +227,23 @@ export class StructureMotion {
         console.warn("Enemy asset unavailable; using fallback", kind, e);
       });
   }
+  /** Renderer-placed PLEAT contacts of one instance (review page, diagnostics). */
+  pleatContacts(id: number) {
+    return this.pleat?.contacts(id);
+  }
+  /** Camera and map for PLEAT leg detail and footholds; other species ignore it. */
+  setSurroundings(viewer: T.Vector3, blocks: Block[]) {
+    if (!this.pleat) return;
+    this.pleat.setViewer(viewer);
+    if (blocks === this.blocks) return;
+    this.blocks = blocks;
+    this.pleat.setSurface((origin, direction, distance) =>
+      surfaceRay(origin, direction, distance, blocks),
+    );
+  }
   sync(source: T.InstancedMesh, inputs: readonly StructureInput[], dt: number) {
     const b = this.batch;
+    this.pleat?.beginFrame();
     if (!b || !this.enabled) {
       source.visible = true;
       this.controller.states.clear();

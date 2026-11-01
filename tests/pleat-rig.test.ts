@@ -7,7 +7,11 @@ import {
   type HoundMotionAsset,
 } from "../src/client/hound-motion";
 import { PleatProcedural, pleatKnee } from "../src/client/pleat-procedural";
-import { createPleat, type PleatState } from "../src/shared/pleat-locomotion";
+import {
+  createPleat,
+  stepPleat,
+  type PleatState,
+} from "../src/shared/pleat-locomotion";
 import { surfaceRay } from "../src/shared/surface-ray";
 
 let asset: HoundMotionAsset;
@@ -65,10 +69,6 @@ function frame(state: PleatState, q: T.Quaternion) {
   state.up = turn(state.up);
   state.forward = turn(state.forward);
   state.poseForward = turn(state.poseForward ?? { x: 0, y: 0, z: -1 });
-  for (const f of state.feet) {
-    f.point = turn(f.point);
-    f.normal = turn(f.normal);
-  }
   return state;
 }
 describe("PLEAT actual rig procedural skinning", () => {
@@ -155,7 +155,7 @@ describe("PLEAT actual rig procedural skinning", () => {
       }
     }
   });
-  it("places actual toe joints above their contact pads on ground, wall and ceiling without clip sampling", () => {
+  it("places actual toe joints above the renderer's own contacts on ground, wall and ceiling without clip sampling", () => {
     const batch = new HoundMotionBatch(asset, 1),
       rig = new PleatProcedural(batch);
     const clips = vi.spyOn(batch, "setPose").mockImplementation(() => {
@@ -174,6 +174,8 @@ describe("PLEAT actual rig procedural skinning", () => {
       batch.parts[0].getMatrixAt(0, transform);
       const skin = write.mock.lastCall![1];
       const r = asset.proceduralRest!;
+      const contacts = rig.contacts(0)!;
+      const up = new T.Vector3(s.up.x, s.up.y, s.up.z);
       for (const [i, name] of [
         "fore_L_toe",
         "fore_R_toe",
@@ -185,23 +187,115 @@ describe("PLEAT actual rig procedural skinning", () => {
           .setFromMatrixPosition(r.world[index])
           .applyMatrix4(skin[index])
           .applyMatrix4(transform);
-        const desired = new T.Vector3(
-          s.feet[i].point.x,
-          s.feet[i].point.y,
-          s.feet[i].point.z,
-        ).addScaledVector(
-          new T.Vector3(
-            s.feet[i].normal.x,
-            s.feet[i].normal.y,
-            s.feet[i].normal.z,
-          ),
-          0.07 * s.scale,
-        );
+        const desired = contacts[i].point
+          .clone()
+          .addScaledVector(contacts[i].normal, 0.07 * s.scale);
         expect(toe.distanceTo(desired)).toBeLessThan(1e-5);
+        // Without a map the contact sits on the plane under the body.
+        expect(
+          contacts[i].point
+            .clone()
+            .sub(new T.Vector3(s.body.x, s.body.y, s.body.z))
+            .dot(up),
+        ).toBeCloseTo(-0.8 * s.scale, 6);
       }
       expect(skin.every((m) => m.elements.every(Number.isFinite))).toBe(true);
     }
     expect(clips).not.toHaveBeenCalled();
+    batch.dispose();
+  });
+  it("steps diagonal pairs while walking, keeps two feet planted and within reach", () => {
+    const batch = new HoundMotionBatch(asset, 1),
+      rig = new PleatProcedural(batch);
+    const world = {
+      ray: (o: never, d: never, m: number) => surfaceRay(o, d, m, []),
+    };
+    const s = createPleat(
+      { x: 0, y: 0, z: 0 },
+      { x: 0, y: 0, z: -1 },
+      1.5,
+      world,
+    );
+    rig.setSurface((o, d, m) => surfaceRay(o, d, m, []));
+    let swings = 0,
+      previous = [true, true, true, true];
+    for (let frame = 0; frame < 360; frame++) {
+      if (frame % 3 === 0)
+        stepPleat(s, { x: 0, y: 0, z: -1 }, 5.25, 0.05, world);
+      rig.update(0, s, 1 / 60, 0, 0);
+      const contacts = rig.contacts(0)!;
+      const planted = contacts.map((c) => c.planted);
+      expect(planted.filter(Boolean).length).toBeGreaterThanOrEqual(2);
+      // Never two feet of the same side or end in the air together.
+      if (!planted[0]) expect(planted[1] && planted[2]).toBe(true);
+      if (!planted[3]) expect(planted[1] && planted[2]).toBe(true);
+      planted.forEach((p, i) => {
+        if (previous[i] && !p) swings++;
+      });
+      previous = planted;
+      const body = new T.Vector3(s.body.x, s.body.y, s.body.z);
+      for (const c of contacts) {
+        expect(c.point.distanceTo(body)).toBeLessThan(2.6 * s.scale);
+        expect(c.point.y).toBeGreaterThan(-1e-6);
+      }
+    }
+    expect(s.anchor.z).toBeLessThan(-8);
+    expect(swings).toBeGreaterThan(12);
+    batch.dispose();
+  });
+  it("probes footholds only near the camera and thins distant bone updates", () => {
+    const batch = new HoundMotionBatch(asset, 3),
+      rig = new PleatProcedural(batch);
+    let rays = 0;
+    rig.setSurface((o, d, m) => {
+      rays++;
+      return surfaceRay(o, d, m, []);
+    });
+    rig.setViewer({ x: 0, y: 1.5, z: 0 });
+    const write = vi.spyOn(batch, "setProceduralPose");
+    const world = {
+      ray: (o: never, d: never, m: number) => surfaceRay(o, d, m, []),
+    };
+    const states = [5, 30, 80].map((z) =>
+      createPleat({ x: 0, y: 0, z }, { x: 0, y: 0, z: -1 }, 1.5, world),
+    );
+    const posed = [0, 0, 0],
+      probes = [0, 0, 0];
+    for (let frame = 0; frame < 120; frame++) {
+      rig.beginFrame();
+      states.forEach((s, i) => {
+        if (frame % 3 === 0)
+          stepPleat(s, { x: 1, y: 0, z: 0 }, 5.25, 0.05, world);
+        const before = rays,
+          writes = write.mock.calls.length;
+        rig.update(i, s, 1 / 60, 0, 0, undefined, 10 + i);
+        probes[i] += rays - before;
+        posed[i] += write.mock.calls.length - writes;
+      });
+    }
+    expect(probes[0]).toBeGreaterThan(0);
+    expect(probes[1]).toBe(0);
+    expect(probes[2]).toBe(0);
+    expect(posed[0]).toBe(120);
+    expect(posed[1]).toBeLessThanOrEqual(61);
+    expect(posed[2]).toBeLessThanOrEqual(31);
+    expect(posed[2]).toBeGreaterThan(20);
+    batch.dispose();
+  });
+  it("ignores solved feet sent by an older authority and never mutates the pose", () => {
+    const batch = new HoundMotionBatch(asset, 1),
+      rig = new PleatProcedural(batch);
+    const s = fresh() as PleatState & { feet?: unknown };
+    s.feet = [0, 1, 2, 3].map(() => ({
+      point: { x: 99, y: 99, z: 99 },
+      normal: { x: 0, y: 1, z: 0 },
+      planted: true,
+    }));
+    const unchanged = JSON.stringify(s);
+    rig.update(0, s, 0, 0, 0);
+    rig.update(0, s, 1 / 60, 0, 0);
+    expect(JSON.stringify(s)).toBe(unchanged);
+    for (const c of rig.contacts(0)!) expect(c.point.y).toBeLessThan(1);
     batch.dispose();
   });
   it("keeps independent instance palette rows and honors transported poseForward", () => {

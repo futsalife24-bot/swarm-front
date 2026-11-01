@@ -5,6 +5,7 @@ import {
   packProjectileTuple,
   packOrbTuple,
 } from "./state-tuples";
+import { pleatContactFeet } from "./pleat-locomotion";
 
 const turnView = new DataView(new ArrayBuffer(8));
 
@@ -107,8 +108,10 @@ function encodeStateWithLegacyTurn(
 ): string {
   const weapons = new WeakSet<object>();
   return JSON.stringify(data, function (key, value) {
-    // Replicate solved PLEAT contacts/pose, not server-only ray search and springs.
-    // Persisted World still retains the complete controller state.
+    // Replicate the PLEAT body pose, not server-only surface search and springs.
+    // Persisted World still retains the complete controller state. The server no
+    // longer solves feet; `feet` is derived from the body for clients that still
+    // read it (current clients place their own feet and ignore this field).
     if (key === "pleat" && value)
       return {
         body: value.body,
@@ -116,13 +119,14 @@ function encodeStateWithLegacyTurn(
         forward: value.forward,
         poseForward: value.poseForward,
         scale: value.scale,
-        feet: value.feet.map(
-          (f: { point: unknown; normal: unknown; planted: boolean }) => ({
-            point: f.point,
-            normal: f.normal,
-            planted: f.planted,
-          }),
-        ),
+        feet: (Array.isArray(value.feet)
+          ? value.feet
+          : pleatContactFeet(value)
+        ).map((f: { point: unknown; normal: unknown; planted: boolean }) => ({
+          point: f.point,
+          normal: f.normal,
+          planted: f.planted,
+        })),
       };
     const inWeapon = weapons.has(this);
     if (value && typeof value === "object") {
