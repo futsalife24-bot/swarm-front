@@ -34,6 +34,9 @@ export interface PleatTransfer {
   duration?: number;
   /** Legacy four-foot controller flag (older saves); unused. */
   prepared?: boolean;
+  fromPoint?: V3;
+  fromUp?: V3;
+  exit?: { point: V3; stage: 0 | 1 | 2 };
 }
 /**
  * Authoritative PLEAT body. Server keeps only what movement and combat need:
@@ -57,6 +60,9 @@ export interface PleatState {
   /** Short hold after a surface change; combat waits for it like before. */
   settling: boolean;
   settle?: number;
+  /** Body pose is held low until there is room to turn; locomotion may continue. */
+  poseHeld?: boolean;
+  lowClearance?: { floor: number; ceiling: number };
   /** Previous support plane, kept until the whole body has cleared its edge. */
   trail?: { point: V3; normal: V3; convex: boolean };
   switches: number;
@@ -71,7 +77,7 @@ export const PLEAT_REST = [
   vec(0.86, 0, 1.16),
 ];
 const UP = vec(0, 1, 0);
-/** Substep for surface probing; four rays per substep at most. */
+/** Fixed substeps; extra body-clearance rays run only around surface changes. */
 const SUBSTEP = 1 / 30;
 const SETTLE = 0.4;
 function offset(s: PleatState, p: V3, up = s.normal, forward = s.forward) {
@@ -120,7 +126,9 @@ function prepareTransfer(s: PleatState, pace: number) {
   const t = s.transfer!;
   if (t.duration !== undefined) return;
   const height = 0.8 * s.scale;
-  t.from = add(s.anchor, mul(s.normal, height));
+  t.from = { ...s.body };
+  t.fromPoint = { ...s.anchor };
+  t.fromUp = { ...s.up };
   t.fromNormal = { ...s.normal };
   t.pivot = t.convex
     ? add(t.point, mul(s.normal, dot(sub(s.anchor, t.point), s.normal)))
@@ -130,7 +138,9 @@ function prepareTransfer(s: PleatState, pace: number) {
   // Polyline through the control point slightly overestimates the curve.
   const distance =
     (length(sub(control, t.from)) + length(sub(to, control))) * 0.85;
-  t.duration = clamp(distance / Math.max(1, pace), 0.35, 1.4);
+  // Concave corners previously spent about 1s transferring the front supports.
+  // Keep that combat hold instead of letting the body-only curve finish in .35s.
+  t.duration = clamp(distance / Math.max(1, pace), t.convex ? 0.35 : 1, 1.4);
   delete t.prepared;
 }
 /** Older saves carry the four-foot controller; keep its body and drop the legs. */
@@ -161,7 +171,7 @@ export function stepPleat(
 function switchSurface(s: PleatState) {
   const t = s.transfer!;
   s.trail = {
-    point: sub(t.from!, mul(t.fromNormal!, 0.8 * s.scale)),
+    point: t.fromPoint ?? sub(t.from!, mul(t.fromNormal!, 0.8 * s.scale)),
     normal: { ...t.fromNormal! },
     convex: t.convex,
   };
@@ -227,6 +237,114 @@ function keepClear(
   }
   return { lowA, lowB, margin };
 }
+/** Resolve the body against actual nearby surfaces, including a third floor/roof.
+ * Only used near surface changes. Failed turns retain the previous low pose;
+ * the support anchor can continue to the open side without forcing the body up.
+ */
+function fitPose(s: PleatState, world: PleatSurface): boolean {
+  const margin = 0.08 * s.scale;
+  for (let pass = 0; pass < 4; pass++) {
+    let clear = true;
+    for (const [y, z] of VOLUME) {
+      const offset = add(
+        mul(s.up, y * s.scale),
+        mul(s.poseForward, -z * s.scale),
+      );
+      const distance = length(offset);
+      if (distance < 1e-8) continue;
+      const direction = mul(offset, 1 / distance);
+      const hit = world.ray(s.body, direction, distance + margin);
+      if (!hit || dot(direction, hit.normal) >= -0.01) continue;
+      const penetration =
+        margin - dot(sub(add(s.body, offset), hit.point), hit.normal);
+      if (penetration > 1e-5) {
+        s.body = add(s.body, mul(hit.normal, penetration));
+        clear = false;
+      }
+    }
+    if (clear) return true;
+  }
+  return false;
+}
+/** Only for resuming an older snapshot whose body already intersects a surface. */
+function poseIntersects(s: PleatState, world: PleatSurface) {
+  for (const [y, z] of VOLUME) {
+    const offset = add(
+        mul(s.up, y * s.scale),
+        mul(s.poseForward, -z * s.scale),
+      ),
+      distance = length(offset);
+    if (distance < 1e-8) continue;
+    const hit = world.ray(s.body, mul(offset, 1 / distance), distance);
+    if (hit && hit.distance < distance - 1e-5) return true;
+  }
+  return false;
+}
+function constrainPose(
+  s: PleatState,
+  body: V3,
+  up: V3,
+  forward: V3,
+  dt: number,
+  world: PleatSurface,
+) {
+  const proposed = { ...s.body };
+  const limit = 4.5 * s.scale * dt;
+  const movement = sub(s.body, body);
+  if (length(movement) > limit) s.body = add(body, mul(unit(movement), limit));
+  // Do not let the body centre tunnel through a thin third surface.
+  const travel = sub(s.body, body),
+    distance = length(travel);
+  if (distance > 1e-8) {
+    const direction = mul(travel, 1 / distance),
+      hit = world.ray(body, direction, distance);
+    if (hit && dot(direction, hit.normal) < -0.01)
+      s.body = add(hit.point, mul(hit.normal, 0.08 * s.scale));
+  }
+  const safeCentre = { ...s.body };
+  if (fitPose(s, world) && length(sub(s.body, body)) <= limit + 1e-6) {
+    if (
+      dot(s.up, s.normal) > 0.99 &&
+      dot(s.poseForward, s.forward) > 0.99 &&
+      dot(sub(s.body, s.anchor), s.normal) >= 0.28 * s.scale
+    )
+      delete s.poseHeld;
+    else s.poseHeld = true;
+  } else {
+    s.body = safeCentre;
+    s.up = up;
+    // Turn along the low plane while its supporting anchor changes planes.
+    const want = tangent(s.forward, up);
+    s.poseForward = forward;
+    if (length(want) > 0.05) {
+      const angle = Math.atan2(
+        dot(cross(forward, unit(want)), up),
+        dot(forward, unit(want)),
+      );
+      s.poseForward = unit(
+        rotate(forward, up, clamp(angle, -2.8 * dt, 2.8 * dt)),
+      );
+    }
+    if (!fitPose(s, world) || length(sub(s.body, body)) > limit + 1e-6) {
+      s.body = body;
+      s.poseForward = forward;
+      // Reject newly invalid poses, but don't freeze an already-invalid saved pose.
+      // Move toward a collision-free position at the same bounded speed.
+      if (poseIntersects(s, world)) {
+        const recovery = { ...s, body: { ...body } };
+        if (fitPose(recovery, world)) {
+          const correction = sub(recovery.body, body);
+          s.body = add(
+            body,
+            mul(unit(correction), Math.min(limit, length(correction))),
+          );
+        }
+      }
+    }
+    s.poseHeld = true;
+  }
+  if (length(sub(s.body, proposed)) > 1e-6) s.velocity = vec();
+}
 function bezier(a: V3, b: V3, c: V3, u: number) {
   return add(
     add(mul(a, (1 - u) * (1 - u)), mul(b, 2 * u * (1 - u))),
@@ -242,7 +360,9 @@ function step(
 ) {
   const scale = s.scale,
     height = 0.8 * scale,
-    previous = { ...s.body };
+    previous = { ...s.body },
+    previousUp = { ...s.up },
+    previousForward = { ...s.poseForward };
   if (s.settling) {
     s.settle = (s.settle ?? 0) - dt;
     if (s.settle <= 0) {
@@ -350,7 +470,59 @@ function step(
   // 4. Body goal: above the anchor, or along the curve through the edge.
   let targetBody: V3, targetUp: V3;
   const t = s.transfer;
-  if (t) {
+  if (t && t.age === 0 && !s.lowClearance) {
+    const floor = world.ray(s.body, vec(0, -1, 0), 3 * scale),
+      roof = world.ray(s.body, UP, 3 * scale);
+    if (
+      floor &&
+      roof &&
+      floor.normal.y > 0.9 &&
+      roof.normal.y < -0.9 &&
+      roof.point.y - floor.point.y < 2.5 * scale
+    )
+      s.lowClearance = { floor: floor.point.y, ceiling: roof.point.y };
+  }
+  // Carry the tail (1.478 * scale) fully past the lip before pitching upright.
+  // Exit position and phase are serializable so reconnect/save resumes the route.
+  if (
+    t &&
+    s.lowClearance &&
+    t.convex &&
+    Math.abs(t.normal.y) < 0.1 &&
+    !t.exit
+  ) {
+    const point = add(t.point, mul(t.normal, 1.68 * scale));
+    point.y = s.body.y;
+    t.exit = { point, stage: 0 };
+  }
+  let exiting = false;
+  if (t?.exit && t.exit.stage < 2) {
+    exiting = true;
+    if (t.exit.stage === 0) {
+      targetBody = { ...t.exit.point };
+      targetUp = UP;
+      if (length(sub(s.body, targetBody)) < 0.08 * scale) {
+        t.exit.stage = 1;
+        t.exit.point.y = Math.max(
+          t.point.y,
+          (s.lowClearance?.floor ?? 0) + 1.6 * scale,
+        );
+      }
+    } else {
+      targetBody = { ...t.exit.point };
+      targetUp = t.normal;
+      if (
+        length(sub(s.body, targetBody)) < 0.08 * scale &&
+        dot(s.up, t.normal) > 0.99 &&
+        dot(s.poseForward, t.forward) > 0.99
+      ) {
+        t.exit.stage = 2;
+        t.from = { ...s.body };
+        t.fromUp = { ...s.up };
+        delete s.lowClearance;
+      }
+    }
+  } else if (t) {
     t.age += dt;
     const u = clamp(t.age / t.duration!, 0, 1),
       smooth = u * u * (3 - 2 * u);
@@ -358,7 +530,7 @@ function step(
       control = add(t.pivot!, mul(add(t.fromNormal!, t.normal), height));
     targetBody = bezier(t.from!, control, to, smooth);
     targetUp = unit(
-      add(mul(t.fromNormal!, 1 - smooth), mul(t.normal, smooth)),
+      add(mul(t.fromUp ?? t.fromNormal!, 1 - smooth), mul(t.normal, smooth)),
       t.normal,
     );
     if (u >= 1) switchSurface(s);
@@ -376,6 +548,14 @@ function step(
       if (room < height) targetBody = add(s.anchor, mul(s.normal, room));
     }
   }
+  if (s.lowClearance && (!t?.exit || t.exit.stage === 0)) {
+    targetUp = UP;
+    targetBody.y = clamp(
+      targetBody.y,
+      s.lowClearance.floor + 0.45 * scale,
+      s.lowClearance.ceiling - 0.45 * scale,
+    );
+  }
   // 5. Critically damped body follow; the curve and anchor already avoid solids.
   const omega = 14;
   s.velocity = add(
@@ -388,6 +568,8 @@ function step(
       dt,
     ),
   );
+  if (exiting && length(s.velocity) > Math.max(1, gait))
+    s.velocity = mul(unit(s.velocity), Math.max(1, gait));
   s.body = add(s.body, mul(s.velocity, dt));
   if (!s.transfer) {
     // Never let the follow lag drop the body into the support it grips.
@@ -402,20 +584,28 @@ function step(
       rotate(
         s.up,
         unit(cross(s.up, targetUp), unit(cross(s.up, s.poseForward))),
-        Math.min(
-          tilt,
-          Math.max(tilt * (1 - Math.exp(-10 * dt)), (t ? 6 : 2) * dt),
-        ),
+        Math.min(tilt, (t ? 6 : 2) * dt),
       ),
     );
-  s.poseForward = unit(transport(s.forward, s.normal, s.up), s.forward);
+  const poseHeading = unit(transport(s.forward, s.normal, s.up), s.forward);
+  if (!t && !s.settling && !s.poseHeld) s.poseForward = poseHeading;
+  else {
+    const carriedHeading = unit(transport(previousForward, previousUp, s.up));
+    const yaw = Math.atan2(
+      dot(cross(carriedHeading, poseHeading), s.up),
+      dot(carriedHeading, poseHeading),
+    );
+    s.poseForward = unit(
+      rotate(carriedHeading, s.up, clamp(yaw, -2.8 * dt, 2.8 * dt)),
+    );
+  }
   // 7. Body volume stays outside the planes around its edge.
   const edge = s.transfer;
   if (edge)
     keepClear(
       s,
       {
-        point: sub(edge.from!, mul(edge.fromNormal!, height)),
+        point: edge.fromPoint ?? sub(edge.from!, mul(edge.fromNormal!, height)),
         normal: edge.fromNormal!,
       },
       edge,
@@ -432,6 +622,9 @@ function step(
     if ((s.trail.convex ? lowA : lowB) > 2 * margin) delete s.trail;
   } else if (!edge)
     keepClear(s, { point: s.anchor, normal: s.normal }, undefined, false);
+  if (t || s.settling || s.trail || s.poseHeld)
+    constrainPose(s, previous, previousUp, previousForward, dt, world);
+  if (s.lowClearance) s.poseHeld = true;
   s.phase = (s.phase + length(sub(s.body, previous)) / (1.6 * scale)) % 1;
 }
 

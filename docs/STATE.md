@@ -1,3 +1,17 @@
+# 修正済み・未merge/未公開: PLEATの狭所姿勢と壁移行（2026-11-01、Codex）
+
+本人の「はい」で、狭所は低い姿勢を保ち空間へ出てから姿勢変更する方針（経路・所要時間の変更を含む）を承認。[PR #247](https://github.com/futsalife24-bot/swarm-front/pull/247) の同じ担当branch `codex/pleat-wall-acceptance-20261101` / worktree `task-pleat-acceptance` に実装。実装commit `66ec4e9d07ed77473eb465bc9c38fbb28b518f76`。PR baseは #246 branch / `640de79613c585c22c0b06e696942ed357af359e`。merge・公開は未実施、元root・dist-h・Claude・通信担当の差分を保持。
+
+低天井で水平姿勢を保ち、板外へ後端を出してから回転。移動・角速度を制限し、姿勢待ち中は新規攻撃を抑止するが近接相手がいても移行を止めない。凹角の切替本体は最低1秒にし、代表床→壁の抑止は0.75→1.40秒（旧四足1.35〜1.45）。侵入済み旧保存姿勢の復帰も確認。通常速度・HP・攻撃力・敵数・他ANOMALY・通信仕様は不変。
+
+4サイズ×5コース×3方式の60走行、修正後20走行は4代表点の侵入0・到達・整姿勢完了。大型3の薄板登頂は8.15→15.60秒へ延長。関連174件、型、比較ページ型、PC Chrome4場面・例外0。96体の通常配置は探索157.2回/体/秒のまま、tick中央値3.70〜4.09→3.85〜4.06ms、p95は6.60〜7.84→7.44〜8.59ms。薄板の大型は探索74→274回/秒へ増加。改善率や実機快適化を主張しない。実装commitからbuild/dry-run成功。GitHub CIは未確認。詳細・スマホ比較画像/動画は [修正記録](evidence/pleat-wall-fix-20261101/README.md)。全メッシュ/全地形・実機・実回線・長時間・GPU・大量壁越え同時発生・実戦被弾は未確認。主担当実モデル/推論設定未確認、子なし。
+
+# 要修正・仕様判断待ち: PLEATの公開前受入確認（2026-11-01、Codex）
+
+[Draft PR #247](https://github.com/futsalife24-bot/swarm-front/pull/247)、証拠commit `6cde0e66fa2d0a655179d8555cfd2742c0a061d3`。本人の「1から進めて。出先のスマホで確認」により、PR #245/#246を含む基点 `640de79613c585c22c0b06e696942ed357af359e` から `task-pleat-acceptance` / `codex/pleat-wall-acceptance-20261101` で調査。ゲーム本体は無変更、merge・公開なし。5コース×4サイズ×旧新40走行で全到達だが、大型3の後端が地面へ旧最大0.353m・軽量版1.967m侵入。大型2.25は薄板への接触も残る。旧記録の点サンプル数とtick数の混同を分離。床→壁の攻撃抑止フラグ継続は旧1.35〜1.45秒→新0.75秒で、settling後の待ちより移行本体の短縮が主因。実被弾差は未計測。
+
+狭所で姿勢を低く保ち、空間へ出てから姿勢を変える案を本人へ提示中。経路・所要時間にも作用するため返答前には実装しない。独立準備として再現・スマホ向け比較資料・既存移動11件・型を確認。再現テスト成功は侵入ゼロの合格ではない。元root・dist-h・Claudeと通信担当のworktreeを保持。詳細と再開手順は [受入記録](evidence/pleat-wall-acceptance-20261101/README.md)。実機・実回線・GPU・実戦被弾未確認。主担当実モデル/推論設定未確認、子なし。
+
 # 実装・検証完了、未merge: PLEATの能力交渉付き姿勢通信（2026-11-01、Codex）
 
 [Draft PR #246](https://github.com/futsalife24-bot/swarm-front/pull/246)、実装commit `1dcd5c95455635829f94fe623dc12b61592cf184`。PRのbaseはClaudeのbranchで今回の差分だけを表示。本人のClaude引継ぎに基づきPR #245 HEAD `51bda91e91829a912e661f8809a8b2070a0e2aac` から独立worktree `task-pleat-wire`、branch `codex/pleat-pose-wire-20261101` で実装。新端末にはup/poseForwardの6数値、旧端末には互換feet付き形式。既存の差分・ACK・分割・復旧、速度・戦闘・他ANOMALYは変更していない。元root・dist-h・Claudeの作業場所を保持。依頼の明示境界に従い本人承認までmerge・公開しない。

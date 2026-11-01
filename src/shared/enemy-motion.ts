@@ -138,7 +138,8 @@ export function specialMotion(w: World, e: Enemy, t: Player, dt: number) {
         : s.normal.y < 0 || aboveTarget
           ? s.forward
           : { x: direction.x, y: (t.y ?? 0) - s.anchor.y, z: direction.z };
-    const stopped = e.wind > 0 || (distance < 2 && !s.transfer && !s.settling);
+    const stopped =
+      e.wind > 0 || (distance < 2 && !s.transfer && !s.settling && !s.poseHeld);
     stepPleat(
       s,
       input,

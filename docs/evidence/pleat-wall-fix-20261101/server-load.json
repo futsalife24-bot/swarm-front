@@ -1,0 +1,53 @@
+{
+  "method": "都市seed11、96体、20秒、同じ歩行入力、両方式を1回ずつウォームアップ後、旧軽量/修正を交互に3回。実回線・実スマホではない",
+  "rows": [
+    {
+      "version": "before",
+      "repeat": 0,
+      "tickMedianMs": 3.851,
+      "tickP95Ms": 6.613,
+      "raysPerEnemyPerSecond": 157.2,
+      "stepPleatMsTotal": 1249.2
+    },
+    {
+      "version": "fixed",
+      "repeat": 0,
+      "tickMedianMs": 3.911,
+      "tickP95Ms": 7.651,
+      "raysPerEnemyPerSecond": 157.2,
+      "stepPleatMsTotal": 1312.7
+    },
+    {
+      "version": "fixed",
+      "repeat": 1,
+      "tickMedianMs": 4.059,
+      "tickP95Ms": 8.591,
+      "raysPerEnemyPerSecond": 157.2,
+      "stepPleatMsTotal": 1339.6
+    },
+    {
+      "version": "before",
+      "repeat": 1,
+      "tickMedianMs": 4.094,
+      "tickP95Ms": 7.841,
+      "raysPerEnemyPerSecond": 157.2,
+      "stepPleatMsTotal": 1370.8
+    },
+    {
+      "version": "before",
+      "repeat": 2,
+      "tickMedianMs": 3.698,
+      "tickP95Ms": 6.602,
+      "raysPerEnemyPerSecond": 157.2,
+      "stepPleatMsTotal": 1194
+    },
+    {
+      "version": "fixed",
+      "repeat": 2,
+      "tickMedianMs": 3.854,
+      "tickP95Ms": 7.443,
+      "raysPerEnemyPerSecond": 157.2,
+      "stepPleatMsTotal": 1315.7
+    }
+  ]
+}
