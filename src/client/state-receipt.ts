@@ -39,7 +39,7 @@ export class StateReceipt {
           }
         },
         this.immediate && urgent
-          ? Math.max(0, 100 - (performance.now() - this.lastStandalone))
+          ? Math.max(50, 100 - (performance.now() - this.lastStandalone))
           : 100,
       );
   }

@@ -1,0 +1,14 @@
+RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-lag-fix
+
+stdout | tests/state-delta.test.ts > ACK済み基準の状態差分 > 実ゲーム生成器のプレイヤー移動でv2の通信量を測り、v1と同じ状態へ復元する
+{"playerFullBytes":46328,"playerV1Bytes":2113,"playerV2Bytes":187}
+
+stdout | tests/state-delta.test.ts > ACK済み基準の状態差分 > 実ゲームを20step進めた全状態でv1/v2を復元し、同じACK順の合計通信量を測る
+{"playerSteps":20,"oldBytes":514142,"newBytes":475624,"deltas":20}
+
+---··------------
+
+ Test Files  1 passed (1)
+      Tests  2 passed | 15 skipped (17)
+   Start at  20:12:35
+   Duration  3.03s (import 53%, transform 31%, tests 16%)

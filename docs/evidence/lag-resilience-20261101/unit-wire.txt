@@ -1,0 +1,10 @@
+RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-lag-fix
+
+
+ Test Files  4 passed (4)
+      Tests  69 passed (69)
+   Start at  20:04:58
+   Duration  4.57s (import 64%, transform 20%, tests 16%)
+
+    Isolate  4 workers spawned · ~92ms startup each (spawn + environment, per file)
+             at least ~277ms faster with isolate: false — reuses workers across files instead of one per file

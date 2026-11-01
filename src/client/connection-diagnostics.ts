@@ -6,6 +6,53 @@ export interface ConnectionSample {
 
 /** 既存通信だけを測る。サーバー時計や描画FPSから遅延を推測しない。 */
 export class ConnectionDiagnostics {
+  private timeline: { at: number; kind: string; value: number }[] = [];
+  private cursor = 0;
+  private overwritten = 0;
+  private lastFrame: number | undefined;
+  private frameSample = -Infinity;
+  private hidden: boolean | undefined;
+  /** Numeric, bounded and local-only. No commands, identity or tokens. */
+  event(
+    kind:
+      | "connect"
+      | "close"
+      | "state"
+      | "input"
+      | "receipt"
+      | "pong"
+      | "frame"
+      | "visibility",
+    value: number,
+    at = performance.now(),
+  ) {
+    if (!Number.isFinite(at) || !Number.isFinite(value)) return;
+    const row = { at, kind, value };
+    if (this.timeline.length < 4096) this.timeline.push(row);
+    else {
+      this.timeline[this.cursor] = row;
+      this.cursor = (this.cursor + 1) % 4096;
+      this.overwritten++;
+    }
+  }
+  visibility(hidden: boolean, now = performance.now()) {
+    if (hidden !== this.hidden) {
+      this.event("visibility", hidden ? 1 : 0, now);
+      this.hidden = hidden;
+    }
+  }
+  frame(now: number, hidden: boolean) {
+    this.visibility(hidden, now);
+    if (
+      this.lastFrame !== undefined &&
+      (now - this.lastFrame > 50 || now - this.frameSample >= 250)
+    ) {
+      this.event("frame", now - this.lastFrame, now);
+      this.frameSample = now;
+    }
+    this.lastFrame = now;
+  }
+
   private inputs = new Map<
     number,
     { sampled: number; sent?: number; received?: boolean }
@@ -28,6 +75,7 @@ export class ConnectionDiagnostics {
       this.inputs.delete(this.inputs.keys().next().value!);
   }
   sent(seq: number, inFlight: number, now = performance.now()) {
+    this.event("input", seq, now);
     const input = this.inputs.get(seq);
     if (input) {
       input.sent = now;
@@ -36,6 +84,7 @@ export class ConnectionDiagnostics {
     this.observe("inputInFlight", inFlight);
   }
   receipt(seq: number, now = performance.now()) {
+    this.event("receipt", seq, now);
     const input = this.inputs.get(seq);
     if (input?.sent !== undefined && !input.received) {
       this.observe("sendToReceiptMs", now - input.sent);
@@ -79,6 +128,11 @@ export class ConnectionDiagnostics {
   }
   details() {
     return {
+      timeline: [
+        ...this.timeline.slice(this.cursor),
+        ...this.timeline.slice(0, this.cursor),
+      ].map((row) => ({ ...row })),
+      overwritten: this.overwritten,
       server: { ...this.serverTiming },
       samples: Object.fromEntries(
         Object.entries(this.samples).map(([key, values]) => {
@@ -104,6 +158,7 @@ export class ConnectionDiagnostics {
   private pingOverflow = false;
 
   reset() {
+    this.event("connect", 0);
     this.inputs.clear();
     this.samples = {};
     this.serverTiming = {};
@@ -132,10 +187,12 @@ export class ConnectionDiagnostics {
     const sent = this.pings.shift();
     if (sent === undefined || !Number.isFinite(now) || now < sent) return;
     this.roundTrip = now - sent;
+    this.event("pong", this.roundTrip, now);
     this.pongAt = now;
   }
 
-  state(now = performance.now()) {
+  state(now = performance.now(), stateId?: number) {
+    if (Number.isSafeInteger(stateId)) this.event("state", stateId!, now);
     if (!Number.isFinite(now)) return;
     if (this.lastState !== undefined)
       this.observe("stateGapMs", now - this.lastState);

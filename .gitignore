@@ -35,3 +35,6 @@ __pycache__/
 /docs/evidence/pleat-wall-acceptance-20261101/*.webm
 
 /docs/evidence/pleat-wall-fix-20261101/*.webm
+
+# Isolated lag validation cache.
+/.vite-lag/

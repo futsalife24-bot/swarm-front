@@ -964,6 +964,7 @@ export class Room extends DurableObject<Env> {
           pleatPose?: boolean;
           stateChunks?: boolean;
           stateDelta?: boolean;
+          stateDeltaPlayers?: boolean;
           stateFlow?: boolean;
           inputReceipt?: boolean;
           networkTiming?: boolean;
@@ -980,7 +981,9 @@ export class Room extends DurableObject<Env> {
           pleatPose: a.pleatPose === true,
           stateChunks: a.stateChunks === true,
           stateDelta:
-            a.stateDelta === true ? new StateDeltaSender() : undefined,
+            a.stateDelta === true
+              ? new StateDeltaSender(a.stateDeltaPlayers === true ? 2 : 1)
+              : undefined,
           inputReceipt: a.inputReceipt === true,
           networkTiming: a.networkTiming === true,
           stateDelivery: new StateDelivery(
@@ -1115,7 +1118,11 @@ export class Room extends DurableObject<Env> {
     }
   }
   error(ws: WebSocket, reason: string, code = 4001) {
-    this.send(ws, { type: "error", reason });
+    this.send(ws, {
+      type: "error",
+      reason,
+      ...(code === 4008 ? { code } : {}),
+    });
     ws.close(code, reason);
     this.disconnected(ws);
   }
@@ -1267,7 +1274,7 @@ export class Room extends DurableObject<Env> {
         s.stateDelivery.enabled &&
         s.stateChunks &&
         s.stateTuples
-          ? new StateDeltaSender()
+          ? new StateDeltaSender(m.stateDeltaPlayers === 1 ? 2 : 1)
           : undefined;
       this.rememberSocket(ws);
       const p = this.saved.world?.players.find((p) => p.id === s.id);
@@ -1293,6 +1300,7 @@ export class Room extends DurableObject<Env> {
         expiresAt: this.wireRoomExpiresAt(),
         inputAck: true,
         ...(s.stateDelta ? { stateDelta: true } : {}),
+        ...(s.stateDelta?.version === 2 ? { stateDeltaPlayers: true } : {}),
         ...(s.pleatPose ? { pleatPose: 1 } : {}),
         ...(s.inputReceipt ? { inputReceipt: true } : {}),
         ...(s.stateDelivery.enabled ? { stateFlow: true } : {}),
@@ -1761,6 +1769,7 @@ export class Room extends DurableObject<Env> {
       pleatPose: s.pleatPose,
       stateChunks: s.stateChunks,
       stateDelta: !!s.stateDelta,
+      stateDeltaPlayers: s.stateDelta?.version === 2,
       inputReceipt: s.inputReceipt,
       networkTiming: s.networkTiming,
       stateFlow: s.stateDelivery.enabled,

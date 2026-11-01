@@ -1,0 +1,5 @@
+baseline#final 接続1 最大21件/窓 (上限35) at=17.6s {"input":20,"ping":1} close=1000
+up-pause-once#final 接続1 最大30件/窓 (上限35) at=20.7s {"input":30} close=1000
+down-pause#final 接続1 最大20件/窓 (上限35) at=13.3s {"input":20} close=1000
+rate-burst#recovery-verified 接続1 最大59件/窓 (上限35) at=12.4s {"input":19,"ping":40} close=4008
+rate-burst#recovery-verified 接続2 最大20件/窓 (上限35) at=22.9s {"input":19,"ping":1} close=1000

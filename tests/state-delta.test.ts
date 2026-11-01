@@ -7,6 +7,7 @@ import { STATE_SNAPSHOT_BYTES } from "../src/shared/state-chunks";
 import { denseWireFixture } from "../scripts/state-wire-fixture";
 import { prepareState } from "../src/shared/state-wire";
 import { restoreStateTuples } from "../src/shared/state-tuples";
+import { neutral, step } from "../src/shared/game";
 
 const bytes = (value: string) => new TextEncoder().encode(value).length;
 function packet(stateId: number): any {
@@ -45,6 +46,219 @@ function setup() {
   return { sender, receiver };
 }
 describe("ACK済み基準の状態差分", () => {
+  it("v1を既定のまま保ち、v2だけプレイヤーの並替え・追加・削除・部分更新を復元する", () => {
+    const first = packet(1);
+    first.world.players = [
+      {
+        id: "隊員😀",
+        x: 1,
+        hp: 10,
+        weapons: [{ name: "長い装備".repeat(20) }],
+      },
+      { id: "second", x: 2, hp: 20, removed: true },
+    ];
+    const next = structuredClone(first);
+    next.stateId = 2;
+    next.world.players = [
+      { id: "second", x: 3, hp: 20 },
+      { id: "new", x: 4, hp: 30 },
+    ];
+    const oldSender = new StateDeltaSender(),
+      newSender = new StateDeltaSender(2),
+      receiver = new StateDeltaReceiver();
+    expect(oldSender.version).toBe(1);
+    expect(newSender.version).toBe(2);
+    expect(() => new StateDeltaSender(3 as any)).toThrow();
+    oldSender.encode(JSON.stringify(first), 1);
+    oldSender.acknowledge(1);
+    const oldWire = JSON.parse(oldSender.encode(JSON.stringify(next), 2));
+    expect(oldWire.version).toBe(1);
+    expect(oldWire.patch).toHaveLength(6);
+    receiver.decode(JSON.parse(newSender.encode(JSON.stringify(first), 1)));
+    newSender.acknowledge(1);
+    const wire = newSender.encode(JSON.stringify(next), 2),
+      delta = JSON.parse(wire);
+    expect(delta.version).toBe(2);
+    expect(delta.patch).toHaveLength(7);
+    expect(delta.patch[6][0]).toEqual([1, { x: 3 }, ["removed"]]);
+    expect(delta.patch[6][1]).toEqual([{ id: "new", x: 4, hp: 30 }]);
+    expect(receiver.decode(delta)).toEqual(next);
+    newSender.acknowledge(2);
+    const third = structuredClone(next);
+    third.stateId = 3;
+    third.world.players = [third.world.players[1], third.world.players[0]];
+    expect(
+      receiver.decode(JSON.parse(newSender.encode(JSON.stringify(third), 3))),
+    ).toEqual(third);
+  });
+  it("v2プレイヤー差分の不正参照・重複ID・ID変更・危険キーを拒否し履歴を保つ", () => {
+    const sender = new StateDeltaSender(2),
+      receiver = new StateDeltaReceiver();
+    const first = packet(1);
+    first.world.players = [
+      { id: "one", x: 1, hp: 10 },
+      { id: "two", x: 2, hp: 20 },
+    ];
+    receiver.decode(JSON.parse(sender.encode(JSON.stringify(first), 1)));
+    sender.acknowledge(1);
+    const next = structuredClone(first);
+    next.stateId = 2;
+    next.world.players[0].x = 3;
+    const valid = JSON.parse(sender.encode(JSON.stringify(next), 2));
+    expect(valid.version).toBe(2);
+    const invalidPatches = [
+      [999],
+      [0, 0],
+      Array.from({ length: 5 }, (_, index) => [{ id: String(index) }]),
+      [[0, { id: "changed" }, []], 1],
+      [[0, {}, ["id"]], 1],
+      [[0, {}, [], 1], 1],
+      [[{ x: 3 }], 1],
+      [[0, JSON.parse('{"__proto__":{"polluted":true}}'), []], 1],
+    ];
+    for (const players of invalidPatches) {
+      const bad = structuredClone(valid);
+      bad.patch[6] = players;
+      expect(() => receiver.decode(bad)).toThrow();
+    }
+    const worldChange = structuredClone(valid);
+    worldChange.patch[1] = [{ players: [] }, []];
+    expect(() => receiver.decode(worldChange)).toThrow();
+    const wrongLength = structuredClone(valid);
+    wrongLength.patch.pop();
+    expect(() => receiver.decode(wrongLength)).toThrow();
+    expect(receiver.decode(valid)).toEqual(next);
+    expect(({} as any).polluted).toBeUndefined();
+  });
+  it("v2でプレイヤーIDが不適格ならfullへ戻す", () => {
+    const sender = new StateDeltaSender(2);
+    sender.encode(JSON.stringify(packet(1)), 1);
+    sender.acknowledge(1);
+    expect(JSON.parse(sender.encode(JSON.stringify(packet(2)), 2)).type).toBe(
+      "state",
+    );
+    const tooMany = packet(1);
+    tooMany.world.players = Array.from({ length: 5 }, (_, index) => ({
+      id: String(index),
+    }));
+    const fiveSender = new StateDeltaSender(2);
+    fiveSender.encode(JSON.stringify(tooMany), 1);
+    fiveSender.acknowledge(1);
+    const next = structuredClone(tooMany);
+    next.stateId = 2;
+    expect(JSON.parse(fiveSender.encode(JSON.stringify(next), 2)).type).toBe(
+      "state",
+    );
+  });
+  it("実ゲーム生成器のプレイヤー移動でv2の通信量を測り、v1と同じ状態へ復元する", () => {
+    const { w, ids, metadata } = denseWireFixture(10);
+    const make = (stateId: number) =>
+      JSON.stringify({
+        ...JSON.parse(
+          prepareState(w, 0, metadata).packet(
+            ids[0],
+            false,
+            stateId,
+            undefined,
+            true,
+            true,
+          ),
+        ),
+        stateId,
+      });
+    const first = make(1),
+      oldSender = new StateDeltaSender(),
+      newSender = new StateDeltaSender(2),
+      receiver = new StateDeltaReceiver();
+    oldSender.encode(first, 1);
+    oldSender.acknowledge(1);
+    receiver.decode(JSON.parse(newSender.encode(first, 1)));
+    newSender.acknowledge(1);
+    w.time += 1 / 30;
+    w.players[0].x += 0.03;
+    w.players[0].z += 0.02;
+    w.players[0].yaw += 0.01;
+    w.players[1].x += 0.02;
+    const full = make(2),
+      oldWire = oldSender.encode(full, 2),
+      newWire = newSender.encode(full, 2);
+    expect(JSON.parse(oldWire).version).toBe(1);
+    expect(JSON.parse(newWire).version).toBe(2);
+    expect(receiver.decode(JSON.parse(newWire))).toEqual(JSON.parse(full));
+    expect(bytes(newWire)).toBeLessThan(bytes(oldWire));
+    console.info(
+      JSON.stringify({
+        playerFullBytes: bytes(full),
+        playerV1Bytes: bytes(oldWire),
+        playerV2Bytes: bytes(newWire),
+      }),
+    );
+  });
+  it("実ゲームを20step進めた全状態でv1/v2を復元し、同じACK順の合計通信量を測る", () => {
+    const { w, ids, metadata } = denseWireFixture(10);
+    // The fixture places boss worms without their required safe spawn path.
+    w.enemies = w.enemies.filter((enemy) => enemy.kind !== "boss");
+    const oldSender = new StateDeltaSender(),
+      newSender = new StateDeltaSender(2),
+      oldReceiver = new StateDeltaReceiver(),
+      newReceiver = new StateDeltaReceiver();
+    const make = (stateId: number) =>
+      JSON.stringify({
+        ...JSON.parse(
+          prepareState(w, 0, metadata).packet(
+            ids[0],
+            false,
+            stateId,
+            undefined,
+            true,
+            true,
+          ),
+        ),
+        stateId,
+      });
+    let oldBytes = 0,
+      newBytes = 0,
+      deltas = 0;
+    for (let stateId = 1; stateId <= 21; stateId++) {
+      if (stateId > 1) {
+        const inputs = Object.fromEntries(
+          ids.map((id, index) => [
+            id,
+            {
+              ...neutral(),
+              mx: index % 2 ? 1 : -1,
+              mz: 0.5,
+              yaw: index * 0.3,
+              fire: index === 0,
+              seq: stateId,
+            },
+          ]),
+        );
+        step(w, inputs, 0.05);
+      }
+      const full = make(stateId),
+        expected = JSON.parse(full),
+        oldWire = oldSender.encode(full, stateId),
+        newWire = newSender.encode(full, stateId),
+        oldMessage = JSON.parse(oldWire),
+        newMessage = JSON.parse(newWire);
+      expect(oldReceiver.decode(oldMessage)).toEqual(expected);
+      expect(newReceiver.decode(newMessage)).toEqual(expected);
+      if (newMessage.type === "stateDelta") {
+        expect(newMessage.version).toBe(2);
+        deltas++;
+      }
+      oldBytes += bytes(oldWire);
+      newBytes += bytes(newWire);
+      expect(oldSender.acknowledge(stateId)).toBe(true);
+      expect(newSender.acknowledge(stateId)).toBe(true);
+    }
+    expect(deltas).toBeGreaterThan(0);
+    expect(newBytes).toBeLessThan(oldBytes);
+    console.info(
+      JSON.stringify({ playerSteps: 20, oldBytes, newBytes, deltas }),
+    );
+  });
   it("浅い追加・削除、nested削除、Unicode、tuple追加・削除・並替え・ID再利用を復元する", () => {
     const { sender, receiver } = setup();
     const next = packet(2);

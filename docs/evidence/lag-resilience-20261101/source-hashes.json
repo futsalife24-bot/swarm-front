@@ -1,0 +1,12 @@
+{
+  "base": "27076b2cbdb48cdb4f0af707ffd3f96a9e73aee2",
+  "branch": "codex/lag-resilience-20261101",
+  "files": {
+    "server/worker.ts": "3044036ba9e46ea3d21a1482eb3dd35e713ec005fddc43f954c97f661f016147",
+    "src/client/front-app.ts": "5761bd0e872eb48cde1fde0036785d520cffefded8824e5a30aa5f4518467aba",
+    "src/client/front-network.ts": "758e30ec686312cc8eb39cd55489b74acb2af0d5f0f458aea6a08317bdc9d4d0",
+    "src/client/state-receipt.ts": "d2858b81e81d378563d5d5d882f6352c37250f11e322c69b8f78016e3a222d81",
+    "src/client/connection-diagnostics.ts": "330b0da99ccdd8abad8d50c2c37b61aa21d2da95ca36bc39999f5da692b01ae3",
+    "src/shared/state-delta.ts": "1e5198b2c7337b3bc5aa48d0667b9add88665f021e1d3e6b5f4fdac43d5855cd"
+  }
+}

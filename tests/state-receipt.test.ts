@@ -170,10 +170,12 @@ it.each(["front", "legacy"])(
   },
 );
 
-it("新方式のACKは初回待ちを省き、単独通知を10Hzに抑える", () => {
+it("遅い更新のACKも50ms同梱を待ち、単独通知を10Hzに抑える", () => {
   const { ack, messages } = receipt();
   ack.configure(true, true);
   ack.receive(1, true);
+  vi.advanceTimersByTime(49);
+  expect(messages).toHaveLength(0);
   vi.advanceTimersByTime(1);
   expect(messages).toHaveLength(1);
   for (let id = 2; id <= 100; id++) {
@@ -197,5 +199,17 @@ it("新方式でも正常な更新は入力へ同梱し、専用通知を増や�
     });
     vi.advanceTimersByTime(50);
   }
+  expect(messages).toEqual([]);
+});
+
+it("遅い更新でも50ms以内の入力に同梱して単独ACKを消す", () => {
+  const { ack, messages } = receipt();
+  ack.configure(true, true);
+  ack.receive(1, true);
+  vi.advanceTimersByTime(49);
+  expect(
+    ack.attach({ type: "input", input: { seq: 1, dodge: true } }),
+  ).toMatchObject({ stateAck: 1, input: { dodge: true } });
+  vi.advanceTimersByTime(200);
   expect(messages).toEqual([]);
 });
