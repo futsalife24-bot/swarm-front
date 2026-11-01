@@ -67,22 +67,8 @@ function wallFixture() {
       y: anchor.y + up.y * 0.8 * e.pleat.scale,
       z: anchor.z + up.z * 0.8 * e.pleat.scale,
     };
-    const forward = e.pleat.forward;
-    const side = {
-      x: up.y * forward.z - up.z * forward.y,
-      y: up.z * forward.x - up.x * forward.z,
-      z: up.x * forward.y - up.y * forward.x,
-    };
-    e.pleat.feet.forEach((foot) => {
-      const localX = foot.point.x - anchor.x,
-        localZ = foot.point.z - anchor.z;
-      foot.point = {
-        x: anchor.x + side.x * localX + forward.x * localZ,
-        y: anchor.y + side.y * localX + forward.y * localZ,
-        z: anchor.z + side.z * localX + forward.z * localZ,
-      };
-      foot.normal = { ...up };
-    });
+    // The authority keeps no feet; the wire derives four wall contacts from
+    // this tilted body, so the snapshot still carries the full PLEAT payload.
     w.front!.players[ids[0]].statuses[e.id] = {
       marked: true,
       hits: 12,

@@ -10,15 +10,43 @@ import {
 import { surfaceRay } from "../src/shared/surface-ray";
 import type { Block } from "../src/shared/map-blocks";
 
-const blocks: Block[] = [
-  { x: 0, z: -5, w: 16, d: 2, h: 8 },
-  { x: 0, z: 0, w: 16, d: 8, h: 4.3, terrainBase: 4 },
-];
+// ?course=slab（既定：壁→天井→薄板の外縁）| yard（生存戦の薄い外壁）| roof（屋上の縁→壁→床）
+// ?scale=1.5 で個体サイズ、?speed=3.5 で指示速度を変える。
+const query = new URLSearchParams(location.search);
+const course = query.get("course") ?? "slab";
+const scale = Number(query.get("scale") ?? 1);
+const speed = Number(query.get("speed") ?? 1.6);
+const courses: Record<
+  string,
+  { blocks: Block[]; start: { x: number; y: number; z: number } }
+> = {
+  slab: {
+    blocks: [
+      { x: 0, z: -5, w: 16, d: 2, h: 8 },
+      { x: 0, z: 0, w: 16, d: 8, h: 4.3, terrainBase: 4 },
+    ],
+    start: { x: 0, y: 0, z: 1 },
+  },
+  yard: {
+    blocks: [{ x: 0, z: 0, w: 16, d: 2, h: 4 }],
+    start: { x: 0, y: 0, z: 6 },
+  },
+  roof: {
+    blocks: [{ x: 0, z: 0, w: 12, d: 12, h: 4 }],
+    start: { x: 0, y: 4, z: 2 },
+  },
+};
+const blocks = courses[course]?.blocks ?? courses.slab.blocks;
 const surface: PleatSurface = {
   ray: (o, d, max) => surfaceRay(o, d, max, blocks),
 };
 const fresh = () =>
-  createPleat({ x: 0, y: 0, z: 1 }, { x: 0, y: 0, z: -1 }, 1, surface);
+  createPleat(
+    courses[course]?.start ?? courses.slab.start,
+    { x: 0, y: 0, z: -1 },
+    scale,
+    surface,
+  );
 let state = fresh(),
   time = 0,
   running = true,
@@ -93,7 +121,7 @@ const footMarkers = Array.from({ length: 4 }, () => {
 });
 function advance(seconds: number) {
   for (let elapsed = 0; elapsed < seconds - 1e-8; elapsed += 1 / 60) {
-    stepPleat(state, state.forward, 1.6, 1 / 60, surface);
+    stepPleat(state, state.forward, speed, 1 / 60, surface);
     time += 1 / 60;
   }
 }
@@ -164,6 +192,7 @@ function render(now: number) {
       accumulator -= 1 / 60;
     }
   }
+  motion.setSurroundings(camera.position, blocks);
   motion.sync(
     source,
     [
@@ -179,8 +208,12 @@ function render(now: number) {
     ],
     running ? dt : 0,
   );
+  // Feet are placed by the renderer now; show its contacts.
+  const contacts = motion.pleatContacts(1);
   footMarkers.forEach((mesh, i) => {
-    const foot = state.feet[i];
+    const foot = contacts?.[i];
+    mesh.visible = !!foot;
+    if (!foot) return;
     mesh.position.copy(foot.point);
     mesh.material.color.set(foot.planted ? 0x80ffd0 : 0xffb86a);
   });
@@ -207,7 +240,7 @@ function render(now: number) {
   controls.update();
   renderer.render(scene, camera);
   const n = state.normal;
-  stats.textContent = `経過 ${time.toFixed(2)} 秒　面の移行 ${state.switches} 回\n面法線 ${n.x.toFixed(2)} / ${n.y.toFixed(2)} / ${n.z.toFixed(2)}　描画 ${renderer.info.render.calls}\n接地　${["前左", "前右", "後左", "後右"].map((name, i) => `${name} ${state.feet[i].planted ? "●" : "○"}`).join("　")}\n${state.transfer ? `前脚で探索中 ${state.transfer.age.toFixed(2)} 秒` : state.settling ? "後脚を新しい面へ移動中" : "通常歩行"}`;
+  stats.textContent = `経過 ${time.toFixed(2)} 秒　面の移行 ${state.switches} 回　サイズ ${scale}\n面法線 ${n.x.toFixed(2)} / ${n.y.toFixed(2)} / ${n.z.toFixed(2)}　描画 ${renderer.info.render.calls}\n接地（端末側）　${["前左", "前右", "後左", "後右"].map((name, i) => `${name} ${contacts?.[i]?.planted ? "●" : "○"}`).join("　")}\n${state.transfer ? `縁を移行中 ${state.transfer.age.toFixed(2)} / ${state.transfer.duration?.toFixed(2)} 秒` : state.settling ? "新しい面で姿勢を整え中" : "通常歩行"}`;
   requestAnimationFrame(render);
 }
 requestAnimationFrame(render);

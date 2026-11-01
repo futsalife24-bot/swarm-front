@@ -1767,6 +1767,9 @@ export class Renderer {
       w ? this.houndVisualInputs : [],
       animate ? dt : 0,
     );
+    this.structures
+      .get("crawler")
+      ?.setSurroundings(this.camera.position, mapFor(w ?? {}).blocks);
     for (const [kind, motion] of this.structures)
       motion.sync(
         this.enemies.get(kind)!,

@@ -1,0 +1,136 @@
+{
+  "label": "before-run2",
+  "scenario": {
+    "seed": 11,
+    "stage": 1,
+    "run": "pleat-load",
+    "ticks": 400,
+    "dt": 0.05,
+    "clientFramesPerTick": 3,
+    "input": "隊員は射撃なしで円を歩く(mx=cos(0.05t), mz=sin(0.05t))",
+    "placement": "半径14m起点・2m刻みの同心円24方位から建物外の点を順に採用",
+    "node": "v24.19.0"
+  },
+  "results": [
+    {
+      "enemies": 24,
+      "server": {
+        "stepPleatCalls": 9600,
+        "stepPleatMsTotal": 3047.3,
+        "stepPleatUsPerCall": 317.4,
+        "raysTotal": 694181,
+        "raysPerEnemyPerSecond": 1446.2,
+        "tickMedianMs": 7.006,
+        "tickP95Ms": 18.602,
+        "tickMaxMs": 43.993
+      },
+      "client": {
+        "viewerOffsetMeters": 0,
+        "frames": 1200,
+        "poseMedianMs": 0.102,
+        "poseP95Ms": 0.35,
+        "poseMaxMs": 3.061,
+        "clientRaysPerFrame": 0,
+        "perFrame": {}
+      },
+      "clientDistant": {
+        "viewerOffsetMeters": 60,
+        "frames": 1200,
+        "poseMedianMs": 0.087,
+        "poseP95Ms": 0.187,
+        "poseMaxMs": 0.795,
+        "clientRaysPerFrame": 0,
+        "perFrame": {}
+      },
+      "wire": {
+        "packetBytes": 19023,
+        "pleatBytes": 12007
+      },
+      "behaviour": {
+        "wallEnemyTicks": 0,
+        "stalledEnemyTicks": 0,
+        "playerHp": 1000000
+      }
+    },
+    {
+      "enemies": 48,
+      "server": {
+        "stepPleatCalls": 19200,
+        "stepPleatMsTotal": 8675.4,
+        "stepPleatUsPerCall": 451.8,
+        "raysTotal": 1388368,
+        "raysPerEnemyPerSecond": 1446.2,
+        "tickMedianMs": 25.916,
+        "tickP95Ms": 37.667,
+        "tickMaxMs": 47.693
+      },
+      "client": {
+        "viewerOffsetMeters": 0,
+        "frames": 1200,
+        "poseMedianMs": 0.553,
+        "poseP95Ms": 0.965,
+        "poseMaxMs": 2.671,
+        "clientRaysPerFrame": 0,
+        "perFrame": {}
+      },
+      "clientDistant": {
+        "viewerOffsetMeters": 60,
+        "frames": 1200,
+        "poseMedianMs": 0.178,
+        "poseP95Ms": 0.69,
+        "poseMaxMs": 1.791,
+        "clientRaysPerFrame": 0,
+        "perFrame": {}
+      },
+      "wire": {
+        "packetBytes": 37248,
+        "pleatBytes": 24044
+      },
+      "behaviour": {
+        "wallEnemyTicks": 0,
+        "stalledEnemyTicks": 0,
+        "playerHp": 1000000
+      }
+    },
+    {
+      "enemies": 96,
+      "server": {
+        "stepPleatCalls": 38400,
+        "stepPleatMsTotal": 13873.6,
+        "stepPleatUsPerCall": 361.3,
+        "raysTotal": 2776893,
+        "raysPerEnemyPerSecond": 1446.3,
+        "tickMedianMs": 33.638,
+        "tickP95Ms": 63.447,
+        "tickMaxMs": 84.882
+      },
+      "client": {
+        "viewerOffsetMeters": 0,
+        "frames": 1200,
+        "poseMedianMs": 0.665,
+        "poseP95Ms": 1.408,
+        "poseMaxMs": 2.203,
+        "clientRaysPerFrame": 0,
+        "perFrame": {}
+      },
+      "clientDistant": {
+        "viewerOffsetMeters": 60,
+        "frames": 1200,
+        "poseMedianMs": 0.774,
+        "poseP95Ms": 1.668,
+        "poseMaxMs": 2.346,
+        "clientRaysPerFrame": 0,
+        "perFrame": {}
+      },
+      "wire": {
+        "packetBytes": 73302,
+        "pleatBytes": 48062
+      },
+      "behaviour": {
+        "wallEnemyTicks": 0,
+        "stalledEnemyTicks": 0,
+        "playerHp": 1000000
+      }
+    }
+  ]
+}
