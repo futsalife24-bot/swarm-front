@@ -1,5 +1,7 @@
 # 通常命中のドット調着弾をmainへ反映、公開前確認待ち（2026-11-02）
 
+公開再開依頼: 本人が「公開」と明示。2026-11-02 19:21 JSTのcua_replは再びブラウザー一覧0件・`Local browser use is disabled in Work settings`。既存OAuthの契約確認APIはHTTP 401、原因未特定。`wrangler whoami` では既存アカウントを確認できたが、同じ契約APIの再試行は自動承認レビューが直前の401と同じ原因の反復として拒否したため実行していない。権限変更・迂回なし。既存Workerの配信Versionは `54e4881b-82d0-4091-88af-47d3ab9a957f` のまま。無料プラン確認後に公開し配信確認する。本人の「公開」は操作承認であり、無料プランという事実の回答ではない。
+
 本人が比較動画を仮採用し「とりあえず何もないよりは実装してみて」と依頼。[PR #256](https://github.com/futsalife24-bot/swarm-front/pull/256) を通常merge、製品ソースmain `9e11e8c84fd4f406ce1fa47ebcf590fc87a4d6a4`。ローカル生存戦で通常入力による命中4件・着弾オブジェクト存在2回、画面例外0。型・関連単体・build・merge後production build / Worker dry-run成功。GitHubチェック0件をCI成功と扱わない。[根拠](evidence/pixel-impact-20261102/publication-pending.md)。
 
 停止理由: Cloudflareの現在の無料プランを確認する前に、cua_replのブラウザー一覧が0件で `Local browser use is disabled in Work settings`。実設定・根因は未確認。既存OAuthの読み取りAPIで当日UTC 00:00〜09:17の全Workers 111 requests・errors 0・subrequests 112を確認したが、プランの証明ではない。本人に現在の無料プラン確認を依頼中。既存Worker公開・配信確認は未実施。
