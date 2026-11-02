@@ -6,6 +6,8 @@
 
 `node scripts/check-pixel-impact-preview.mjs` はChromeで比較画面、遮蔽物越しの1条件と描画回数を確認する。画面エラー0、遮蔽物が完全に間にある条件で着弾の有無による画素差0。比較シーンのdraw callは0個で6、20個で26。GPU時間や実スマホの性能を示すものではない。近接した薄い壁、全敵・角度、実戦中の判読性、実機での見え方と負荷は未確認。
 
-型チェック、通常build、`tests/front-pixel-impact.test.ts` 3件、`tests/front-effects-reuse.test.ts` 1件を個別実行し成功。2ファイル同時実行はWindows sandboxの一時SSRファイルにENOENTが出て失敗し、単独実行でそれぞれ成功した。2ファイル同時実行の成功とは扱わない。実ゲームは `node scripts/check-pixel-impact-game.mjs` の隔離ルーティングでは出撃ボタン後も準備画面に残り、強化選択に到達せず、画面例外0。原因は未特定で、ゲームの通常起動を確認できたとは扱わない。ルートを使わない実ローカル配信で再確認が必要。
+型チェック、通常build、`tests/front-pixel-impact.test.ts` 3件、`tests/front-effects-reuse.test.ts` 1件を個別実行し成功。2ファイル同時実行はWindows sandboxの一時SSRファイルにENOENTが出て失敗し、単独実行でそれぞれ成功した。2ファイル同時実行の成功とは扱わない。隔離ルーティングの初回確認は出撃準備から進まず原因未特定。その後、`node scripts/check-pixel-impact-game.mjs` でbuild成果物を実ローカル配信し、Chromeのソロ生存戦へ出撃、画面エラー0件（[画面](game-start.png)）。実戦中の命中表示そのものは未確認。最初のローカル配信は20秒の待機上限で読み込み85%の途中に終了し、待機を延長した再実行で到達した。
+
+成功ログと画像の取得後、検証プロセスの終了処理が戻らず手動停止した。終了処理に接続の明示終了を追加したが、追加後のプロセス終了は再確認していない。
 
 比較対象の基点はmain `7b51667814e8066ed3242e080f1700c7b7c78421`、branch `codex/pixel-impact-20261102`。他エフェクトへの拡張と本番公開は行っていない。比較の本人評価と、その後の展開判断は未確認。モデルID・推論設定は取得できず未確認。
