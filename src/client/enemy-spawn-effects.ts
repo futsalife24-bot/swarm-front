@@ -4,23 +4,11 @@ import { ENEMIES } from "../shared/defs";
 import { enemySize } from "../shared/enemy-size";
 import { mapFor } from "../shared/stages";
 import { supportHeight } from "../shared/terrain";
+import { pixelDebrisTexture, pixelDustTexture } from "./pixel-particles";
 
 const ringGeometry = new T.RingGeometry(0.88, 1, 48);
-const stoneGeometry = new T.IcosahedronGeometry(1, 0);
+const stoneGeometry = new T.PlaneGeometry(2, 2);
 const cloudGeometry = new T.PlaneGeometry(2, 2);
-const pixels = new Uint8Array(32 * 32 * 4);
-for (let y = 0; y < 32; y++)
-  for (let x = 0; x < 32; x++) {
-    const i = (y * 32 + x) * 4;
-    pixels[i] = pixels[i + 1] = pixels[i + 2] = 255;
-    pixels[i + 3] = Math.round(
-      255 *
-        Math.pow(Math.max(0, 1 - Math.hypot(x - 15.5, y - 15.5) / 15.5), 1.4),
-    );
-  }
-const cloudTexture = new T.DataTexture(pixels, 32, 32);
-cloudTexture.needsUpdate = true;
-cloudTexture.magFilter = cloudTexture.minFilter = T.LinearFilter;
 
 export const spawnStyle = (e: Pick<Enemy, "kind">) =>
   e.kind === "hornet" || e.kind === "spitter" ? "teleport" : "burrow";
@@ -34,7 +22,7 @@ type Arrival = {
   origin: T.Vector3;
   rings: T.Mesh<T.RingGeometry, T.MeshBasicMaterial>[];
   dust: T.InstancedMesh<T.PlaneGeometry, T.MeshBasicMaterial>;
-  stones: T.InstancedMesh<T.IcosahedronGeometry, T.MeshBasicMaterial>;
+  stones: T.InstancedMesh<T.PlaneGeometry, T.MeshBasicMaterial>;
 };
 
 /** Presentation only: never writes an enemy, its transform, or its animation palette. */
@@ -57,19 +45,19 @@ export class EnemySpawnEffects {
       const root = new T.Group();
       root.name = "ARRIVAL_PREPARATION";
       root.visible = false;
-      const material = (soft: boolean) =>
+      const material = (map?: T.Texture) =>
         new T.MeshBasicMaterial({
           color: 0xffffff,
           transparent: true,
           depthWrite: false,
           side: T.DoubleSide,
           blending: teleport ? T.AdditiveBlending : T.NormalBlending,
-          ...(soft ? { map: cloudTexture } : {}),
+          ...(map ? { map } : {}),
         });
       root.add(
-        new T.Mesh(ringGeometry, material(false)),
-        new T.InstancedMesh(cloudGeometry, material(true), 12),
-        new T.InstancedMesh(stoneGeometry, material(false), 12),
+        new T.Mesh(ringGeometry, material()),
+        new T.InstancedMesh(cloudGeometry, material(pixelDustTexture), 12),
+        new T.InstancedMesh(stoneGeometry, material(pixelDebrisTexture), 12),
       );
       this.templates.set(teleport, root);
       scene.add(root);
@@ -205,7 +193,8 @@ export class EnemySpawnEffects {
           (e.teleport
             ? Math.cos(angle * 2) * fade
             : 0.08 + Math.max(0, 3.8 * p - 4 * p * p));
-      this.dummy.rotation.set(angle + p * 6, angle * 2, p * 4);
+      this.dummy.quaternion.copy(camera.quaternion);
+      this.dummy.rotateZ(angle + p * 4);
       this.dummy.scale.setScalar(r * (e.teleport ? 0.055 : 0.11) * fade);
       this.dummy.updateMatrix();
       e.stones.setMatrixAt(i, this.dummy.matrix);

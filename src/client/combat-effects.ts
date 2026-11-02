@@ -2,6 +2,7 @@ import { cleanCapture } from "./clean-capture";
 import * as T from "three";
 import type { Event, Projectile } from "../shared/game";
 import { pixelImpactTextures } from "./pixel-impact";
+import { pixelDustTexture, pixelFireTexture } from "./pixel-particles";
 
 const sphere = new T.IcosahedronGeometry(1, 1);
 const blastSphere = new T.SphereGeometry(1, 32, 20);
@@ -46,6 +47,9 @@ type Effect = {
     | "ring"
     | "spark"
     | "impact"
+    | "pixel-billow"
+    | "pixel-fire"
+    | "pixel-smoke"
     | "shell"
     | "billow";
 };
@@ -92,7 +96,10 @@ export class CombatEffects {
       kind === "fire" ||
       kind === "smoke" ||
       kind === "flash" ||
-      kind === "billow";
+      kind === "billow" ||
+      kind === "pixel-billow" ||
+      kind === "pixel-fire" ||
+      kind === "pixel-smoke";
     const pixel = kind === "impact";
     const spareIndex = this.spare.findIndex((e) => e.kind === kind);
     const reused =
@@ -118,7 +125,15 @@ export class CombatEffects {
             kind === "bullet" || kind === "flash" || kind === "spark"
               ? T.AdditiveBlending
               : T.NormalBlending,
-          map: pixel ? pixelImpactTextures[0] : soft ? cloudTexture : null,
+          map: pixel
+            ? pixelImpactTextures[0]
+            : kind === "pixel-billow" || kind === "pixel-fire"
+              ? pixelFireTexture
+              : kind === "pixel-smoke"
+                ? pixelDustTexture
+                : soft
+                  ? cloudTexture
+                  : null,
           side: flat ? T.DoubleSide : T.FrontSide,
         }),
       );
@@ -261,7 +276,7 @@ export class CombatEffects {
         const angle = i * Math.PI * (3 - Math.sqrt(5));
         const horizontal = Math.sqrt(1 - up * up);
         this.add(
-          "billow",
+          "pixel-billow",
           e.x,
           e.y,
           e.z,
@@ -280,7 +295,7 @@ export class CombatEffects {
         const angle = (i * Math.PI * 2) / sparks;
         const speed = radius * (0.6 + Math.random() * 0.4);
         this.add(
-          "fire",
+          "pixel-fire",
           e.x,
           Math.max(0.3, e.y),
           e.z,
@@ -295,7 +310,7 @@ export class CombatEffects {
         );
         if (i % 2 === 0)
           this.add(
-            "smoke",
+            "pixel-smoke",
             e.x,
             Math.max(0.4, e.y),
             e.z,
@@ -356,6 +371,9 @@ export class CombatEffects {
           e.kind === "smoke" ||
           e.kind === "flash" ||
           e.kind === "impact" ||
+          e.kind === "pixel-billow" ||
+          e.kind === "pixel-fire" ||
+          e.kind === "pixel-smoke" ||
           e.kind === "billow")
       )
         e.mesh.quaternion.copy(camera.quaternion);
@@ -376,7 +394,9 @@ export class CombatEffects {
         1 - Math.pow(1 - Math.min(1, age / 0.16), 3);
       e.mesh.position.addScaledVector(
         e.velocity,
-        e.kind === "billow" ? expand(e.age) - expand(previousAge) : dt,
+        e.kind === "billow" || e.kind === "pixel-billow"
+          ? expand(e.age) - expand(previousAge)
+          : dt,
       );
       // Only the brief emission flash follows the body; fired rounds never do.
       if (e.shotFollow && e.shotFollow(e.mesh.position)) {
@@ -391,22 +411,22 @@ export class CombatEffects {
       const scale =
         e.kind === "shell"
           ? expand(e.age)
-          : e.kind === "billow"
+          : e.kind === "billow" || e.kind === "pixel-billow"
             ? 0.4 + 0.6 * expand(e.age)
             : e.kind === "ring"
               ? Math.min(1, t * 4)
-              : e.kind === "smoke"
+              : e.kind === "smoke" || e.kind === "pixel-smoke"
                 ? 0.5 + t * 2.5
-                : e.kind === "fire"
+                : e.kind === "fire" || e.kind === "pixel-fire"
                   ? 0.6 + Math.sin(t * Math.PI) * 0.9
                   : 1;
       e.mesh.scale.setScalar(e.size * scale);
       e.mesh.material.opacity =
         (e.kind === "shell"
           ? 0.075
-          : e.kind === "billow"
+          : e.kind === "billow" || e.kind === "pixel-billow"
             ? 0.85
-            : e.kind === "smoke"
+            : e.kind === "smoke" || e.kind === "pixel-smoke"
               ? 0.42
               : 1) *
         (1 - t) *
