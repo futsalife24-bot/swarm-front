@@ -1,3 +1,11 @@
+# 通常命中のドット調着弾をmainへ反映、公開前確認待ち（2026-11-02）
+
+本人が比較動画を仮採用し「とりあえず何もないよりは実装してみて」と依頼。[PR #256](https://github.com/futsalife24-bot/swarm-front/pull/256) を通常merge、製品ソースmain `9e11e8c84fd4f406ce1fa47ebcf590fc87a4d6a4`。ローカル生存戦で通常入力による命中4件・着弾オブジェクト存在2回、画面例外0。型・関連単体・build・merge後production build / Worker dry-run成功。GitHubチェック0件をCI成功と扱わない。[根拠](evidence/pixel-impact-20261102/publication-pending.md)。
+
+停止理由: Cloudflareの現在の無料プランを確認する前に、cua_replのブラウザー一覧が0件で `Local browser use is disabled in Work settings`。実設定・根因は未確認。既存OAuthの読み取りAPIで当日UTC 00:00〜09:17の全Workers 111 requests・errors 0・subrequests 112を確認したが、プランの証明ではない。本人に現在の無料プラン確認を依頼中。既存Worker公開・配信確認は未実施。
+
+再開条件: 本人による現在も無料の確認、または対象セッションのブラウザー接続復旧後に管理画面で無料プラン確認。再開前に最新main・使用量・公開用buildとdry-runを照合し、既存Workerへ公開して配信確認する。準備用worktree `task-pixel-impact-release`、source `9e11e8c`。既存rootの未コミット/未追跡差分を保持。実スマホ負荷・実戦の全条件は未確認。主担当モデル/推論設定未確認、子なし。
+
 # 通常命中のドット調2Dエフェクトを比較試作（2026-11-02）
 
 本人はスマホ用比較動画を確認し「まぁありかな。とりあえず何もないよりは実装してみて」と仮採用。通常命中の1種類をゲーム本体に入れる。ローカル配信の生存戦で通常入力による命中4件と着弾オブジェクトの存在2回を確認。画面例外0。実機や戦闘中の全条件での視認性は未確認。公開手順を進行中。
