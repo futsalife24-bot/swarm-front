@@ -1,5 +1,7 @@
 # 通常命中のドット調エフェクト比較（2026-11-02）
 
+本人の「公開」「無料」の回答を受け、既存Workerへ公開済み。[公開記録](RELEASE.md)。以下は公開前の作業履歴。
+
 本人はスマホ向け比較動画を確認し「まぁありかな。とりあえず何もないよりは実装してみて」と仮採用。着弾1種類をゲーム本体で使用する。
 
 本人の仮採用後、[Draft PR #256](https://github.com/futsalife24-bot/swarm-front/pull/256) を作成。`npm run server:build:production` はexit 0でdry-run成功。Wranglerの作業用ログをユーザーフォルダーへ書き出す処理はEPERMの警告が出た。GitHubチェックは0件であり、CI合格を意味しない。公開は進行中。
