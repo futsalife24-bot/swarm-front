@@ -1,3 +1,11 @@
+# 爆風と ANOMALY 出現演出のドット調を公開（2026-11-02）
+
+本人の依頼で認証を通常更新し、既存Workerへ公開。製品ソースmain `4ccb0fdcb2003e92636bb79d3eb878f6513b1825`、Worker Version `ac5cf878-0c3a-40ff-8610-37c5266e28e2` が100%配信。公開27ファイルのSHA一致、health 200 / ok、最新mainからproduction build / Worker dry-run成功。[公開・配信照合](evidence/pixel-blast-spawn-20261102/RELEASE.md)。
+
+爆風の炎・煙と ANOMALY の地上型／転移型の出現煙・破片をドット調に変更。輪・判定・音・タイミングは維持。型・関連テスト・実モデルを使う簡易シーンの旧版比較、ローカル生存戦での演出生成を確認。[検証と限界](evidence/pixel-blast-spawn-20261102/README.md)。
+
+停止理由: 公開後の実ブラウザー確認はブラウザー一覧0件・接続不可のため未実施。再開条件: 対象元ブラウザー接続の復旧後に公開画面を確認、または本人のスマホ確認を受ける。実スマホ・実戦画面の演出視認性と負荷は未確認。主担当モデル/推論設定未確認、子なし。
+
 # 爆風と ANOMALY 出現演出のドット調（2026-11-02）
 
 本人の依頼で、爆風の炎・煙と ANOMALY の地上型／転移型の出現煙・破片をドット調に変更。[PR #260](https://github.com/futsalife24-bot/swarm-front/pull/260) を通常merge、製品ソースmain `f5c79d107e4b8543c8bed94c030b915cae31c7d1`。輪・判定・音・タイミングは維持。型・関連テスト・merge後production build / Worker dry-run、実モデルを使う簡易シーンの旧版比較、ローカル生存戦での演出生成を確認。[検証と限界](evidence/pixel-blast-spawn-20261102/README.md)。実スマホ・実戦画面の演出視認性は未確認。
