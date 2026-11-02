@@ -1,8 +1,8 @@
 # 爆風と ANOMALY 出現演出のドット調（2026-11-02）
 
-本人の依頼で、爆風の炎・煙と ANOMALY の地上型／転移型の出現煙・破片をドット調に変更。輪・判定・音・タイミングは維持。型・関連テスト・production build、実モデルを使う簡易シーンの旧版比較、ローカル生存戦での演出生成を確認。[検証と限界](evidence/pixel-blast-spawn-20261102/README.md)。実スマホ・実戦画面の演出視認性は未確認。
+本人の依頼で、爆風の炎・煙と ANOMALY の地上型／転移型の出現煙・破片をドット調に変更。[PR #260](https://github.com/futsalife24-bot/swarm-front/pull/260) を通常merge、製品ソースmain `f5c79d107e4b8543c8bed94c030b915cae31c7d1`。輪・判定・音・タイミングは維持。型・関連テスト・merge後production build / Worker dry-run、実モデルを使う簡易シーンの旧版比較、ローカル生存戦での演出生成を確認。[検証と限界](evidence/pixel-blast-spawn-20261102/README.md)。実スマホ・実戦画面の演出視認性は未確認。
 
-停止理由: 公開前の Cloudflare 使用量確認で HTTP 403 / code 9109 `Invalid access token`。再開条件: 正規の既存認証が復旧した後、使用量を確認して既存 Worker を公開し配信を照合する。公開後ブラウザーも接続不可で未確認。主担当モデル/推論設定未確認、子なし。
+停止理由: 公開前の Cloudflare 使用量確認で HTTP 403 / code 9109 `Invalid access token`。再開条件: 正規の既存認証が復旧した後、使用量を確認して既存 Worker を公開し配信を照合する。既存Workerへの今回の変更は未公開。cua_replのブラウザー一覧は0件で接続不可、公開後の画面確認も残る。主担当モデル/推論設定未確認、子なし。
 
 # 通常命中のドット調着弾を公開（2026-11-02）
 
