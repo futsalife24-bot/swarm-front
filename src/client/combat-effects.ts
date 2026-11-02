@@ -1,6 +1,7 @@
 import { cleanCapture } from "./clean-capture";
 import * as T from "three";
 import type { Event, Projectile } from "../shared/game";
+import { pixelImpactTextures } from "./pixel-impact";
 
 const sphere = new T.IcosahedronGeometry(1, 1);
 const blastSphere = new T.SphereGeometry(1, 32, 20);
@@ -35,6 +36,7 @@ type Effect = {
   shotAnchor?: T.Vector3;
   /** Muzzle the emission flash stays on (real soldier model). */
   shotFollow?: (out: T.Vector3) => T.Vector3 | null;
+  impactPlaced?: boolean;
   kind:
     | "bullet"
     | "trail"
@@ -43,6 +45,7 @@ type Effect = {
     | "smoke"
     | "ring"
     | "spark"
+    | "impact"
     | "shell"
     | "billow";
 };
@@ -51,10 +54,12 @@ type Effect = {
 export class CombatEffects {
   items: Effect[] = [];
   private spare: Effect[] = [];
+  private impactCount = 0;
   budget = 180;
   detail = 1;
   origin = new T.Vector3();
   trailTime = 0;
+  private impactOffset = new T.Vector3();
   constructor(
     private scene: T.Scene,
     private capture = cleanCapture,
@@ -70,6 +75,7 @@ export class CombatEffects {
     velocity = new T.Vector3(),
     shotAnchor?: T.Vector3,
   ) {
+    if (kind === "impact" && this.impactCount >= 24) return;
     if (
       (kind === "bullet" || kind === "trail") &&
       this.capture.tracerOpacity === 0
@@ -87,13 +93,14 @@ export class CombatEffects {
       kind === "smoke" ||
       kind === "flash" ||
       kind === "billow";
+    const pixel = kind === "impact";
     const spareIndex = this.spare.findIndex((e) => e.kind === kind);
     const reused =
       spareIndex < 0 ? undefined : this.spare.splice(spareIndex, 1)[0];
     const mesh =
       reused?.mesh ??
       new T.Mesh(
-        soft
+        soft || pixel
           ? cloud
           : flat
             ? ring
@@ -105,16 +112,18 @@ export class CombatEffects {
         new T.MeshBasicMaterial({
           color,
           transparent: true,
+          alphaTest: pixel ? 0.5 : 0,
           depthWrite: false,
           blending:
             kind === "bullet" || kind === "flash" || kind === "spark"
               ? T.AdditiveBlending
               : T.NormalBlending,
-          map: soft ? cloudTexture : null,
+          map: pixel ? pixelImpactTextures[0] : soft ? cloudTexture : null,
           side: flat ? T.DoubleSide : T.FrontSide,
         }),
       );
     mesh.material.color.setHex(color);
+    if (pixel) mesh.material.map = pixelImpactTextures[0];
     mesh.material.opacity =
       kind === "bullet" || kind === "trail" ? this.capture.tracerOpacity : 1;
     mesh.quaternion.identity();
@@ -128,6 +137,7 @@ export class CombatEffects {
         velocity.clone().normalize(),
       );
     this.scene.add(mesh);
+    if (kind === "impact") this.impactCount++;
     this.items.push(
       Object.assign(reused ?? {}, {
         mesh,
@@ -137,6 +147,7 @@ export class CombatEffects {
         velocity,
         shotAnchor,
         shotFollow: undefined,
+        impactPlaced: false,
         kind,
       }),
     );
@@ -146,6 +157,9 @@ export class CombatEffects {
     renderedBody?: T.Vector3,
     renderedMuzzle?: (out: T.Vector3) => T.Vector3 | null,
   ) {
+    if (e.type === "hit" && !e.guard && (e.amount ?? 0) > 0) {
+      this.add("impact", e.x, e.y, e.z, 0.42, 0.2, 0xffffff);
+    }
     if (e.type === "shot") {
       // Player shots are drawn in rendered space so a strafe never shows them
       // ahead of the body. With the real soldier model they leave the drawn
@@ -341,9 +355,20 @@ export class CombatEffects {
         (e.kind === "fire" ||
           e.kind === "smoke" ||
           e.kind === "flash" ||
+          e.kind === "impact" ||
           e.kind === "billow")
       )
         e.mesh.quaternion.copy(camera.quaternion);
+      if (camera && e.kind === "impact" && !e.impactPlaced) {
+        // Hit events carry the enemy's representative point, not a surface hit.
+        // A small camera-facing offset helps the effect clear the model while
+        // keeping normal depth testing against nearby scenery.
+        this.impactOffset
+          .subVectors(camera.position, e.mesh.position)
+          .normalize();
+        e.mesh.position.addScaledVector(this.impactOffset, 0.4);
+        e.impactPlaced = true;
+      }
       const previousAge = e.age;
       e.age += dt;
       const t = Math.min(1, e.age / e.duration);
@@ -388,7 +413,18 @@ export class CombatEffects {
         (e.kind === "bullet" || e.kind === "trail"
           ? this.capture.tracerOpacity
           : 1);
+      if (e.kind === "impact") {
+        e.mesh.material.opacity = 1;
+        e.mesh.material.map =
+          pixelImpactTextures[
+            Math.min(
+              pixelImpactTextures.length - 1,
+              Math.floor(t * pixelImpactTextures.length),
+            )
+          ];
+      }
       if (t === 1) {
+        if (e.kind === "impact") this.impactCount--;
         this.scene.remove(e.mesh);
         // Keep GPU programs/materials warm during sustained multi-player fire.
         if (this.spare.length < 180) this.spare.push(e);
@@ -408,6 +444,7 @@ export class CombatEffects {
     }
     this.items = [];
     this.spare = [];
+    this.impactCount = 0;
     this.trailTime = 0;
   }
 }

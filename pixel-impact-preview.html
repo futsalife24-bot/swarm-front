@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>着弾エフェクト比較</title>
+    <style>
+      body {
+        margin: 0;
+        background: #10151b;
+        color: #fff;
+        font: 16px sans-serif;
+      }
+      header {
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      h1 {
+        font-size: 18px;
+        margin: 0;
+      }
+      p {
+        margin: 0;
+        color: #c2d1d8;
+      }
+      button {
+        padding: 7px 12px;
+      }
+      .labels {
+        display: flex;
+        text-align: center;
+      }
+      .labels > div {
+        width: 50%;
+        padding: 8px 0;
+      }
+      canvas {
+        display: block;
+        width: 100%;
+        height: min(65vh, 500px);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>着弾エフェクト比較</h1>
+      <button id="pause">一時停止</button><button id="fire">もう一度</button>
+      <p>現行は通常命中にダメージ数値を表示。比較では数値を省略しています。</p>
+    </header>
+    <div class="labels">
+      <div>現行</div>
+      <div>ドット調・試作</div>
+    </div>
+    <canvas></canvas>
+    <script type="module" src="/scripts/pixel-impact-preview.ts"></script>
+  </body>
+</html>
