@@ -1,0 +1,175 @@
+{
+  "results": [
+    {
+      "seconds": 0.15,
+      "blast": 57,
+      "spriteBlast": 1,
+      "spriteArrivals": [
+        true,
+        true
+      ],
+      "arrivals": [
+        1,
+        1
+      ],
+      "origins": [
+        [
+          0,
+          0.08,
+          0
+        ],
+        [
+          0,
+          7.319375,
+          0
+        ]
+      ],
+      "enemies": [
+        {
+          "y": 0,
+          "kind": "crawler"
+        },
+        {
+          "y": 6.5,
+          "kind": "hornet"
+        }
+      ],
+      "modelCenters": [
+        [
+          0,
+          1.1,
+          1.1102230246251565e-16
+        ],
+        [
+          1.1102230246251565e-16,
+          7.6,
+          -5.551115123125783e-17
+        ]
+      ],
+      "calls": [
+        60,
+        13,
+        15
+      ]
+    },
+    {
+      "seconds": 0.4,
+      "blast": 57,
+      "spriteBlast": 1,
+      "spriteArrivals": [
+        true,
+        true
+      ],
+      "arrivals": [
+        1,
+        1
+      ],
+      "origins": [
+        [
+          0,
+          0.08,
+          0
+        ],
+        [
+          0,
+          7.319375,
+          0
+        ]
+      ],
+      "enemies": [
+        {
+          "y": 0,
+          "kind": "crawler"
+        },
+        {
+          "y": 6.5,
+          "kind": "hornet"
+        }
+      ],
+      "modelCenters": [
+        [
+          0,
+          1.1,
+          1.1102230246251565e-16
+        ],
+        [
+          1.1102230246251565e-16,
+          7.6,
+          -5.551115123125783e-17
+        ]
+      ],
+      "calls": [
+        60,
+        13,
+        15
+      ]
+    },
+    {
+      "seconds": 0.75,
+      "blast": 45,
+      "spriteBlast": 1,
+      "spriteArrivals": [
+        true,
+        true
+      ],
+      "arrivals": [
+        1,
+        1
+      ],
+      "origins": [
+        [
+          0,
+          0.08,
+          0
+        ],
+        [
+          0,
+          7.319375,
+          0
+        ]
+      ],
+      "enemies": [
+        {
+          "y": 0,
+          "kind": "crawler"
+        },
+        {
+          "y": 6.5,
+          "kind": "hornet"
+        }
+      ],
+      "modelCenters": [
+        [
+          0,
+          1.1,
+          1.1102230246251565e-16
+        ],
+        [
+          1.1102230246251565e-16,
+          7.6,
+          -5.551115123125783e-17
+        ]
+      ],
+      "calls": [
+        48,
+        13,
+        15
+      ]
+    }
+  ],
+  "crowd": {
+    "active": 24,
+    "stamps": 8,
+    "paused": true,
+    "ended": true,
+    "noReplay": true,
+    "unchanged": true
+  },
+  "occlusion": [
+    true,
+    true,
+    true
+  ],
+  "errors": [],
+  "scope": "独立比較シーン。実エフェクトクラスとHOUND/RAYモデル、簡易地面。実戦・実機ではない。"
+}

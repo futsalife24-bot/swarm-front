@@ -5,6 +5,7 @@ import { enemySize } from "../shared/enemy-size";
 import { mapFor } from "../shared/stages";
 import { supportHeight } from "../shared/terrain";
 import { pixelDebrisTexture, pixelDustTexture } from "./pixel-particles";
+import { pixelFxFrame, pixelFxTemplate } from "./pixelfx-atlas";
 
 const ringGeometry = new T.RingGeometry(0.88, 1, 48);
 const stoneGeometry = new T.PlaneGeometry(2, 2);
@@ -23,6 +24,7 @@ type Arrival = {
   rings: T.Mesh<T.RingGeometry, T.MeshBasicMaterial>[];
   dust: T.InstancedMesh<T.PlaneGeometry, T.MeshBasicMaterial>;
   stones: T.InstancedMesh<T.PlaneGeometry, T.MeshBasicMaterial>;
+  stamp?: T.Mesh<T.PlaneGeometry, T.MeshBasicMaterial>;
 };
 
 /** Presentation only: never writes an enemy, its transform, or its animation palette. */
@@ -54,10 +56,15 @@ export class EnemySpawnEffects {
           blending: teleport ? T.AdditiveBlending : T.NormalBlending,
           ...(map ? { map } : {}),
         });
+      const stampMaterial = material(
+        pixelFxTemplate(teleport ? "portal" : "burrow") ?? undefined,
+      );
+      stampMaterial.forceSinglePass = true;
       root.add(
         new T.Mesh(ringGeometry, material()),
         new T.InstancedMesh(cloudGeometry, material(pixelDustTexture), 12),
         new T.InstancedMesh(stoneGeometry, material(pixelDebrisTexture), 12),
+        new T.Mesh(cloudGeometry, stampMaterial),
       );
       this.templates.set(teleport, root);
       scene.add(root);
@@ -76,7 +83,12 @@ export class EnemySpawnEffects {
   }
 
   private remove(effect: Arrival) {
-    for (const mesh of [...effect.rings, effect.dust, effect.stones]) {
+    for (const mesh of [
+      ...effect.rings,
+      effect.dust,
+      effect.stones,
+      ...(effect.stamp ? [effect.stamp] : []),
+    ]) {
       this.scene.remove(mesh);
       mesh.material.dispose();
       if (mesh instanceof T.InstancedMesh) mesh.dispose();
@@ -102,6 +114,8 @@ export class EnemySpawnEffects {
     }
     // Prune dead IDs, while retaining completed arrivals for all living enemies.
     for (const id of this.seen) if (!alive.has(id)) this.seen.delete(id);
+    let stampSlots = 8;
+    for (const effect of this.items.values()) if (effect.stamp) stampSlots--;
     for (const e of w.enemies) {
       if (this.seen.has(e.id)) continue;
       this.seen.add(e.id);
@@ -135,7 +149,18 @@ export class EnemySpawnEffects {
       );
       const dust = new T.InstancedMesh(cloudGeometry, makeMaterial(1), 12);
       const stones = new T.InstancedMesh(stoneGeometry, makeMaterial(2), 12);
-      for (const mesh of [...rings, dust, stones]) {
+      const frame = pixelFxFrame(teleport ? "portal" : "burrow", 0);
+      // Snow retains its existing pale dust rather than introducing brown soil.
+      const stamp =
+        frame && stampSlots > 0 && (teleport || mapFor(w).biome !== "snow")
+          ? new T.Mesh(cloudGeometry, templates[3].material.clone())
+          : undefined;
+      if (stamp) {
+        stampSlots--;
+        stamp.material.map = frame;
+        stamp.material.color.setHex(0xffffff);
+      }
+      for (const mesh of [...rings, dust, stones, ...(stamp ? [stamp] : [])]) {
         mesh.frustumCulled = false;
         this.scene.add(mesh);
       }
@@ -149,6 +174,7 @@ export class EnemySpawnEffects {
         rings,
         dust,
         stones,
+        stamp,
       });
     }
     for (const effect of this.items.values()) this.draw(effect, camera);
@@ -167,6 +193,14 @@ export class EnemySpawnEffects {
       } else ring.scale.setScalar(r * (0.8 + p * 1.4));
       ring.material.opacity = fade * (e.teleport ? 0.85 : 0.25);
     });
+    if (e.stamp) {
+      e.stamp.position.copy(e.origin);
+      e.stamp.position.y += r * 0.6;
+      e.stamp.quaternion.copy(camera.quaternion);
+      e.stamp.scale.setScalar(r * 2.4);
+      e.stamp.material.map = pixelFxFrame(e.teleport ? "portal" : "burrow", p);
+      e.stamp.material.opacity = fade * 0.6;
+    }
     e.dust.material.opacity = fade * (e.teleport ? 0.85 : 0.95);
     e.stones.material.opacity = fade;
     for (let i = 0; i < 12; i++) {
