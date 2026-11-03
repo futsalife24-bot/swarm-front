@@ -1,3 +1,9 @@
+# PixelFXによる戦闘演出を公開（2026-11-03）
+
+本人指定のPixelFX素材を用いた発砲・着弾・爆風・酸・ANOMALY出現の演出を既存Workerへ公開。[PR #263](https://github.com/futsalife24-bot/swarm-front/pull/263)、公開ソース `e94b6909624c6fa9dc1dcfa190a15f94fc1b54f4`、Worker Version `c1aab6c2-0b8a-40b1-9a71-3b5e562b4616` が100%配信。公開30ファイル（画像・ライセンス含む）のSHA一致、health 200/ok、merge後production build / dry-run成功。[公開記録](evidence/pixelfx-battle-20261103/RELEASE.md)。
+
+停止理由: 公開後の実ブラウザーは一覧0件・接続不可のため未確認。再開条件: 対象元ブラウザーの接続復旧後に画面を確認、または本人のスマホ確認。実機の見え方・負荷も未確認。主担当モデル/推論設定未確認、子なし。
+
 # PixelFXによる戦闘演出（2026-11-03）
 
 本人が指定した[PixelFX](https://github.com/patch-gg/pixelfx)のMIT素材を利用し、発砲・着弾・爆風・酸・ANOMALYの地上／転移出現を強化。判定・音・危険範囲の輪と出現の寿命は維持。出現の追加絵は最大8体、既存上限は24体。素材のライセンス・NOTICEを配信に同梱。[出典と検証](evidence/pixelfx-battle-20261103/README.md)。
