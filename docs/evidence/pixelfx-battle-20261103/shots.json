@@ -1,0 +1,39 @@
+{
+  "states": [
+    {
+      "time": 0.02,
+      "result": [
+        {
+          "exists": true,
+          "mapped": true
+        },
+        {
+          "exists": true,
+          "mapped": true
+        },
+        {
+          "exists": true,
+          "mapped": true
+        }
+      ]
+    },
+    {
+      "time": 0.05,
+      "result": [
+        {
+          "exists": true,
+          "mapped": true
+        },
+        {
+          "exists": true,
+          "mapped": true
+        },
+        {
+          "exists": true,
+          "mapped": true
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

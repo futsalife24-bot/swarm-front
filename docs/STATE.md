@@ -1,3 +1,9 @@
+# PixelFXによる戦闘演出（2026-11-03）
+
+本人が指定した[PixelFX](https://github.com/patch-gg/pixelfx)のMIT素材を利用し、発砲・着弾・爆風・酸・ANOMALYの地上／転移出現を強化。判定・音・危険範囲の輪と出現の寿命は維持。出現の追加絵は最大8体、既存上限は24体。素材のライセンス・NOTICEを配信に同梱。[出典と検証](evidence/pixelfx-battle-20261103/README.md)。
+
+型・関連テスト40件・production build、実モデル比較・壁1条件・40体同時を確認。ローカル生存戦でPixelFX発砲4フレームと地上型出現2件を観測、画面例外0。命中や画角内の出現・爆風、転移出現の実戦表示、本人スマホ・実機負荷は未確認。公開準備中。主担当モデル/推論設定未確認、子なし。
+
 # 爆風と ANOMALY 出現演出のドット調を公開（2026-11-02）
 
 本人の依頼で認証を通常更新し、既存Workerへ公開。製品ソースmain `4ccb0fdcb2003e92636bb79d3eb878f6513b1825`、Worker Version `ac5cf878-0c3a-40ff-8610-37c5266e28e2` が100%配信。公開27ファイルのSHA一致、health 200 / ok、最新mainからproduction build / Worker dry-run成功。[公開・配信照合](evidence/pixel-blast-spawn-20261102/RELEASE.md)。

@@ -3,6 +3,7 @@ import * as T from "three";
 import type { Event, Projectile } from "../shared/game";
 import { pixelImpactTextures } from "./pixel-impact";
 import { pixelDustTexture, pixelFireTexture } from "./pixel-particles";
+import { pixelFxFrame } from "./pixelfx-atlas";
 
 const sphere = new T.IcosahedronGeometry(1, 1);
 const blastSphere = new T.SphereGeometry(1, 32, 20);
@@ -35,6 +36,7 @@ type Effect = {
   size: number;
   velocity: T.Vector3;
   shotAnchor?: T.Vector3;
+  shotDirection?: T.Vector3;
   /** Muzzle the emission flash stays on (real soldier model). */
   shotFollow?: (out: T.Vector3) => T.Vector3 | null;
   impactPlaced?: boolean;
@@ -47,6 +49,9 @@ type Effect = {
     | "ring"
     | "spark"
     | "impact"
+    | "muzzle"
+    | "pixel-blast"
+    | "pixel-acid"
     | "pixel-billow"
     | "pixel-fire"
     | "pixel-smoke"
@@ -85,7 +90,7 @@ export class CombatEffects {
       this.capture.tracerOpacity === 0
     )
       return;
-    const critical = kind === "bullet" || kind === "flash";
+    const critical = kind === "bullet" || kind === "flash" || kind === "muzzle";
     if (
       this.items.length >=
       (critical ? this.budget : Math.max(0, this.budget - 24))
@@ -96,6 +101,9 @@ export class CombatEffects {
       kind === "fire" ||
       kind === "smoke" ||
       kind === "flash" ||
+      kind === "muzzle" ||
+      kind === "pixel-blast" ||
+      kind === "pixel-acid" ||
       kind === "billow" ||
       kind === "pixel-billow" ||
       kind === "pixel-fire" ||
@@ -119,10 +127,13 @@ export class CombatEffects {
         new T.MeshBasicMaterial({
           color,
           transparent: true,
-          alphaTest: pixel ? 0.5 : 0,
+          alphaTest: pixel ? 0.1 : 0,
           depthWrite: false,
           blending:
-            kind === "bullet" || kind === "flash" || kind === "spark"
+            kind === "bullet" ||
+            kind === "flash" ||
+            kind === "muzzle" ||
+            kind === "spark"
               ? T.AdditiveBlending
               : T.NormalBlending,
           map: pixel
@@ -162,6 +173,7 @@ export class CombatEffects {
         velocity,
         shotAnchor,
         shotFollow: undefined,
+        shotDirection: undefined,
         impactPlaced: false,
         kind,
       }),
@@ -173,7 +185,7 @@ export class CombatEffects {
     renderedMuzzle?: (out: T.Vector3) => T.Vector3 | null,
   ) {
     if (e.type === "hit" && !e.guard && (e.amount ?? 0) > 0) {
-      this.add("impact", e.x, e.y, e.z, 0.42, 0.2, 0xffffff);
+      this.add("impact", e.x, e.y, e.z, 0.9, 0.2, 0xffffff);
     }
     if (e.type === "shot") {
       // Player shots are drawn in rendered space so a strafe never shows them
@@ -214,22 +226,28 @@ export class CombatEffects {
           color,
           dir.clone().multiplyScalar(120),
         );
+      const beforeFlash = this.items.length;
       this.add(
-        "flash",
+        "muzzle",
         anchor ? start.x : e.x + dir.x * 0.8,
         anchor ? start.y : e.y + dir.y * 0.8,
         anchor ? start.z : e.z + dir.z * 0.8,
-        0.3,
+        0.5,
         0.065,
         color,
         new T.Vector3(),
         anchor,
       );
-      const flash = this.items[this.items.length - 1];
+      const flash =
+        this.items.length > beforeFlash
+          ? this.items[this.items.length - 1]
+          : undefined;
+      if (flash?.kind === "muzzle" && flash.shotAnchor === anchor)
+        flash.shotDirection = dir.clone();
       if (
         muzzle &&
         follow &&
-        flash?.kind === "flash" &&
+        flash?.kind === "muzzle" &&
         flash.shotAnchor === anchor
       )
         flash.shotFollow = follow;
@@ -263,6 +281,8 @@ export class CombatEffects {
           0xffb76c,
         );
       this.add("shell", e.x, e.y, e.z, radius, 0.8, 0xffb45b);
+      if (!e.silent && pixelFxFrame("blast", 0))
+        this.add("pixel-blast", e.x, e.y, e.z, radius * 0.9, 0.8, 0xffffff);
       // Evenly distribute fire over the above-ground spherical cap, including its crown.
       // Velocity stores the final offset for these expanding billows.
       const bottom = Math.max(-1, -e.y / radius);
@@ -326,6 +346,8 @@ export class CombatEffects {
       }
     }
     if (e.type === "acid") {
+      if (pixelFxFrame("acid", 0))
+        this.add("pixel-acid", e.x, e.y + 0.25, e.z, 0.9, 0.4, 0xffffff);
       this.add("flash", e.x, e.y, e.z, 0.35, 0.12, 0xb4f4ff);
       for (let i = 0; i < 7; i++) {
         const a = (i * Math.PI * 2) / 7;
@@ -370,6 +392,9 @@ export class CombatEffects {
         (e.kind === "fire" ||
           e.kind === "smoke" ||
           e.kind === "flash" ||
+          e.kind === "muzzle" ||
+          e.kind === "pixel-blast" ||
+          e.kind === "pixel-acid" ||
           e.kind === "impact" ||
           e.kind === "pixel-billow" ||
           e.kind === "pixel-fire" ||
@@ -377,10 +402,20 @@ export class CombatEffects {
           e.kind === "billow")
       )
         e.mesh.quaternion.copy(camera.quaternion);
-      if (camera && e.kind === "impact" && !e.impactPlaced) {
-        // Hit events carry the enemy's representative point, not a surface hit.
-        // A small camera-facing offset helps the effect clear the model while
-        // keeping normal depth testing against nearby scenery.
+      if (camera && e.kind === "muzzle" && e.shotDirection) {
+        const m = camera.matrixWorld.elements,
+          d = e.shotDirection;
+        const x = d.x * m[0] + d.y * m[1] + d.z * m[2];
+        const y = d.x * m[4] + d.y * m[5] + d.z * m[6];
+        if (x * x + y * y > 0.0001) e.mesh.rotateZ(Math.atan2(y, x));
+      }
+      if (
+        camera &&
+        (e.kind === "impact" || e.kind === "pixel-blast") &&
+        !e.impactPlaced
+      ) {
+        // A small camera-facing offset helps the sprite clear the model or
+        // surrounding particles while keeping depth testing against scenery.
         this.impactOffset
           .subVectors(camera.position, e.mesh.position)
           .normalize();
@@ -433,15 +468,30 @@ export class CombatEffects {
         (e.kind === "bullet" || e.kind === "trail"
           ? this.capture.tracerOpacity
           : 1);
+      const spriteKind =
+        e.kind === "impact"
+          ? "impact"
+          : e.kind === "muzzle"
+            ? "muzzle"
+            : e.kind === "pixel-blast"
+              ? "blast"
+              : e.kind === "pixel-acid"
+                ? "acid"
+                : null;
+      const sprite = spriteKind && pixelFxFrame(spriteKind, t);
+      if (sprite) {
+        e.mesh.material.map = sprite;
+      }
       if (e.kind === "impact") {
         e.mesh.material.opacity = 1;
-        e.mesh.material.map =
-          pixelImpactTextures[
-            Math.min(
-              pixelImpactTextures.length - 1,
-              Math.floor(t * pixelImpactTextures.length),
-            )
-          ];
+        if (!sprite)
+          e.mesh.material.map =
+            pixelImpactTextures[
+              Math.min(
+                pixelImpactTextures.length - 1,
+                Math.floor(t * pixelImpactTextures.length),
+              )
+            ];
       }
       if (t === 1) {
         if (e.kind === "impact") this.impactCount--;
