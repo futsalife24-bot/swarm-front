@@ -1,3 +1,9 @@
+# 作戦演出の中央表示を公開（2026-11-03）
+
+出撃・作戦達成などの共通演出を画面中央に変更。[PR #265](https://github.com/futsalife24-bot/swarm-front/pull/265) を通常mergeし、公開ソース `7bb14c72e2f85a1566afb26fa9c866039f831502` を既存Workerへ公開。Version `960ec924-5794-4097-b608-c2ab5f5280f0` が100%配信。変更CSSを含む11ファイルが公開用buildと一致、`/api/health` は200 / ok。公開画面を隔離Chrome 844×390で表示し、画面例外0。
+
+関連テスト7件・クライアント型・merge後production build / Worker dry-run成功。本体の演出処理・CSS・7種類の画像と代替文字を隔離Chromeで3サイズ確認。ゲーム内の実戦闘中の演出、実スマホは未確認。localhost応答不良の根因は未解決。元worktreeの別件差分は保持。モデルID・推論設定未確認、子なし。
+
 # 作戦演出の中央表示を準備（2026-11-03）
 
 本人依頼により、出撃・作戦達成など共通演出の表示位置を画面中央へ変更。専用worktree `task-cue-center`、基点 `97ce0992c19f742d16faddca492697cc7cc21b8a`。関連テスト7件、クライアント型、production build、Worker dry-run成功（dry-runのログ出力で権限警告あり）。隔離Chromeで実CSS・7種類の画像・代替文字を3画面サイズで中央配置確認。実際のゲーム内演出表示と公開後の画面は未確認。実機未確認。主担当モデル・推論設定未確認、子なし。
