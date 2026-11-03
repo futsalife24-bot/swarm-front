@@ -6,6 +6,7 @@
 - 作業場所: `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/dist-h`
 - branch: `codex/shared-base-20261103`
 - base: `7b66bd63514e1e5d8d3881176714b4360eb2e85b`
+- 実装commit: `c2ecc7271a47d18948b59ada21e55bab3e9eeced`、既存GitHubへpush済み。[下書きPR #267](https://github.com/futsalife24-bot/swarm-front/pull/267)。main反映・公開は未実施。
 - 元rootと他worktreeの既存差分は保持。独立監査なし、実モデルID・推論設定未確認、子なし。
 
 ## 原因と変更

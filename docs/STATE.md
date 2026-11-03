@@ -4,6 +4,8 @@
 
 両型・production build・関連17単体・TypeScript書式・検証器構文・差分確認成功。UI検証器は入口へ追従する修正のみで未実行。実画面・実スマホ・main反映・公開は未実施。モデル/effort未確認、子なし。[変更・根拠・再開チェック](evidence/shared-base-20261103/README.md)。
 
+実装 `c2ecc7271a47d18948b59ada21e55bab3e9eeced` を既存GitHubへpushし、[下書きPR #267](https://github.com/futsalife24-bot/swarm-front/pull/267)へ保存。専用previewは停止。共有ノートは既存差分を保持して概要を追記し、同期は未確認。
+
 停止理由: `cua_repl` が現在のブラウザーURLを安全に判定できず、このターンのComputer Useを停止。別経路で迂回しない。
 再開条件: 安全にURLを確認できるUI接続の復旧後、基地→育成→カード→基地の往復と横画面2サイズを確認し、通常main反映・既存Worker公開へ進む。生存本体の改修は基地修正完了後。
 
