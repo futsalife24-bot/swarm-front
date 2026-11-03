@@ -1,3 +1,9 @@
+# 作戦演出の中央表示を準備（2026-11-03）
+
+本人依頼により、出撃・作戦達成など共通演出の表示位置を画面中央へ変更。専用worktree `task-cue-center`、基点 `97ce0992c19f742d16faddca492697cc7cc21b8a`。関連テスト7件、クライアント型、production build、Worker dry-run成功（dry-runのログ出力で権限警告あり）。隔離Chromeで実CSS・7種類の画像・代替文字を3画面サイズで中央配置確認。実際のゲーム内演出表示と公開後の画面は未確認。実機未確認。主担当モデル・推論設定未確認、子なし。
+
+下書き [PR #265](https://github.com/futsalife24-bot/swarm-front/pull/265)。localhostサーバーの応答不良は未解決だが、2026-11-03の再挑戦で本体の演出処理・CSS・画像を隔離Chromeへ読み込み、7種類と画像なしの代替文字を1280×582、844×390、640×360で中央表示確認。通信を介さない検証画面であり、実戦闘画面・実スマホは未確認。公開前のmain・保護条件を確認して通常merge、既存Worker公開・配信確認へ進む。元worktreeの既存差分は保持。
+
 # PixelFXによる戦闘演出を公開（2026-11-03）
 
 本人指定のPixelFX素材を用いた発砲・着弾・爆風・酸・ANOMALY出現の演出を既存Workerへ公開。[PR #263](https://github.com/futsalife24-bot/swarm-front/pull/263)、公開ソース `e94b6909624c6fa9dc1dcfa190a15f94fc1b54f4`、Worker Version `c1aab6c2-0b8a-40b1-9a71-3b5e562b4616` が100%配信。公開30ファイル（画像・ライセンス含む）のSHA一致、health 200/ok、merge後production build / dry-run成功。[公開記録](evidence/pixelfx-battle-20261103/RELEASE.md)。

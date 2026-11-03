@@ -1,9 +1,9 @@
 .operation-cue {
   position: fixed;
   z-index: 90;
-  top: max(8px, env(safe-area-inset-top));
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   color: #edfff5;
   max-width: calc(
     100vw - env(safe-area-inset-left) - env(safe-area-inset-right)
