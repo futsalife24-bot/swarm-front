@@ -63,7 +63,9 @@ try {
           ]);
         });
       }
-      await p.goto(origin + "/front.html", { waitUntil: "domcontentloaded" });
+      await p.goto(origin + "/front.html?solo=1", {
+        waitUntil: "domcontentloaded",
+      });
       // この既存検査は発見済みのレシピでデッキ編集を検証。未発見はcheck-fusion-discoveryで確認。
       await p.evaluate(() =>
         localStorage.setItem(
@@ -84,7 +86,7 @@ try {
           }),
         ),
       );
-      await p.locator("#open-armory").click();
+      await p.locator("#front-base").click();
       await p.locator(".base-tile").first().waitFor();
       const stopVideo =
         process.env.BASE_RECORD_VIDEO === "1"
@@ -156,9 +158,9 @@ try {
         0,
         String(await p.locator("#front-pool-status").allTextContents()),
       );
-      await p.locator("#open-armory").waitFor();
+      await p.locator("#front-base").waitFor();
       assert.equal(await p.locator(".base-confirm").count(), 0);
-      await p.locator("#open-armory").tap();
+      await p.locator("#front-base").tap();
       await p.locator('[data-pool="fuse"]').focus();
       assert.match(await p.locator("#base-detail-name").innerText(), /導火/);
       assert.equal(
@@ -217,7 +219,7 @@ try {
       );
       await p.locator("#base-back").tap();
       await p.locator("[data-confirm]").tap();
-      await p.locator("#open-armory").click();
+      await p.locator("#front-base").click();
       assert.equal(
         await p.locator('[data-pool="fuse"]').getAttribute("aria-checked"),
         "true",
@@ -391,7 +393,7 @@ try {
       assert.ok(metrics.grid.height >= 90 && metrics.detail.height >= 90);
       await stopVideo();
       await p.reload({ waitUntil: "domcontentloaded" });
-      await p.locator("#open-armory").click();
+      await p.locator("#front-base").click();
       assert.equal(
         await p.locator('[data-pool="fuse"]').getAttribute("aria-checked"),
         "false",

@@ -1969,12 +1969,16 @@ function base() {
       <button id="pt-base-weapons"><strong>武器</strong><span>一覧・比較・整理</span><small>${allWeapons(save).length}丁を所持</small></button>
       <button id="pt-base-accessories"><strong>アクセサリ</strong><span>作成・装備・合成</span><small>${save.accessories.length}個を所持</small></button>
       <button id="pt-base-growth"><strong>育成</strong><span>兵士の能力を強化</span><small>兵士ごとの成長を管理</small></button>
+      <button id="pt-base-survival"><strong>生存カード</strong><span>強化候補・デッキ設定</span><small>カードの効果・融合条件を確認</small></button>
       <button id="pt-base-workshop" disabled aria-describedby="pt-workshop-note"><strong>工房</strong><span>工事中</span><small id="pt-workshop-note">武器のグレードアップ施設を準備中</small></button>
     </div>`,
   );
   bind("pt-base-weapons", armory);
   bind("pt-base-accessories", accessories);
   bind("pt-base-growth", growth);
+  bind("pt-base-survival", () =>
+    navigateMenu(import.meta.env.BASE_URL + "front?cards=1"),
+  );
 }
 function armory() {
   setScreen("armory");
@@ -2368,6 +2372,14 @@ window.addEventListener("app-install-changed", () => {
   if (screen === "home" || screen === "intro") showHome(screen === "home");
 });
 loadMode("normal");
+if (
+  new URLSearchParams(location.search).get("base") === "1" &&
+  (screen === "intro" || screen === "home")
+) {
+  // Use the ordinary entry so new saves still require confirmation, while
+  // blocked saves and pending rewards retain their recovery screen.
+  $("open-armory").click();
+}
 if (
   new URLSearchParams(location.search).get("solo") === "1" &&
   (screen === "intro" ||
