@@ -2,7 +2,7 @@
 
 本人依頼により、出撃・作戦達成など共通演出の表示位置を画面中央へ変更。専用worktree `task-cue-center`、基点 `97ce0992c19f742d16faddca492697cc7cc21b8a`。関連テスト7件、クライアント型、production build、Worker dry-run成功（dry-runのログ出力で権限警告あり）。隔離Chromeで実CSS・7種類の画像・代替文字を3画面サイズで中央配置確認。実際のゲーム内演出表示と公開後の画面は未確認。実機未確認。主担当モデル・推論設定未確認、子なし。
 
-下書き [PR #265](https://github.com/futsalife24-bot/swarm-front/pull/265)。停止理由: Vite起動表示後もlocalhostへのブラウザ接続が120秒タイムアウト、curlも10秒で応答なし。依存走査を抑えた検証用サーバーでも同様。ゲーム本体の演出処理を経たUI確認未完了、main反映・公開なし。PRチェックは確認時に未報告。再開条件: localhost応答を復旧し、実演出の位置を確認後、CI・PR保護を確認して通常merge、既存Worker公開・配信確認を行う。元worktreeの既存差分は保持。
+下書き [PR #265](https://github.com/futsalife24-bot/swarm-front/pull/265)。localhostサーバーの応答不良は未解決だが、2026-11-03の再挑戦で本体の演出処理・CSS・画像を隔離Chromeへ読み込み、7種類と画像なしの代替文字を1280×582、844×390、640×360で中央表示確認。通信を介さない検証画面であり、実戦闘画面・実スマホは未確認。公開前のmain・保護条件を確認して通常merge、既存Worker公開・配信確認へ進む。元worktreeの既存差分は保持。
 
 # PixelFXによる戦闘演出を公開（2026-11-03）
 
