@@ -1,0 +1,30 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "production": true,
+    "prep": true,
+    "defenseTwoWeapons": true,
+    "cardReturn": true,
+    "battleOneWeapon": true,
+    "saveUnchanged": true,
+    "allOwnedNormalCards": 8,
+    "lockedNormalCards": 14,
+    "legacyLoadoutUnchanged": true,
+    "pageErrors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "production": true,
+    "prep": true,
+    "defenseTwoWeapons": true,
+    "cardReturn": true,
+    "battleOneWeapon": true,
+    "saveUnchanged": true,
+    "allOwnedNormalCards": 8,
+    "lockedNormalCards": 14,
+    "legacyLoadoutUnchanged": true,
+    "pageErrors": []
+  }
+]
