@@ -1,8 +1,10 @@
-# 生存カードの生成画像を4枚から組込（2026-11-04）
+# 生存カード4枚を生成画像と装甲枠で公開（2026-11-04）
 
 本人の「よし、次に進もう」に基づき、採用済み見本から火炎弾・氷結弾・連鎖雷・ヒートリアクターの絵4点と通常/融合の透明枠2点を内蔵画像生成で制作。文字・数値・段階・状態を画像と分離して基地/3択/取得一覧/HUDへ組み込んだ。配信用10点は約304KB。基地左の表示件数9/6枚と鎖を維持し、右の絵を拡大、除外チェックをスクロールに影響されない下端へ。残り30枚の絵は今後の制作対象。
 
-`task-survival-build` / `codex/survival-card-art-20261104`、base `548313c9c9a9cbd77f1d4f0d9c0f340bd1f22b76`。型・関連33件・カード6条件・基地2サイズ・防衛基地6条件・実装commit後の本番build/Worker dry-runは成功。main反映/公開確認を継続中。実スマホ・実戦通しプレイ・長時間負荷は未確認。戦闘・抽選・保存形式は変更していない。
+`task-survival-build` / `codex/survival-card-art-20261104`、base `548313c9c9a9cbd77f1d4f0d9c0f340bd1f22b76`。型・関連33件・カード6条件・基地2サイズ・防衛基地6条件・実装commit後/merge後の本番buildとWorker dry-runは成功。実スマホ・実戦通しプレイ・長時間負荷は未確認。戦闘・抽選・保存形式は変更していない。
+
+[PR #275](https://github.com/futsalife24-bot/swarm-front/pull/275)を通常merge。公開ソースmain `ca6ef92264f28b26217130e8ddc536a4e97b521f`、既存Worker Version `acb2caab-6cc1-4ff8-bd06-b3030406ecfe` は100%配信。新素材10点を含む61ファイルのSHA一致、health 200/ok。公開版も隔離Chrome2サイズで画像・融合・除外/解除/保存/再読込・固定チェックを確認し、ページ例外0。[公開記録](evidence/survival-card-art-20261104/RELEASE.md)。記録branchは `codex/survival-card-art-release-record-20261104`。検証サーバーは停止済み。
 
 素材とプロンプトは[制作記録](../design/survival-card-art/README.md)、検証は[今回の記録](evidence/survival-card-art-20261104/README.md)。元試作・バディ・rootの別差分は未編集。
 

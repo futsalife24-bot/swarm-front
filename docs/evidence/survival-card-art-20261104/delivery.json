@@ -1,0 +1,506 @@
+{
+  "source": "ca6ef92264f28b26217130e8ddc536a4e97b521f",
+  "origin": "https://swarm-front.melosalife-24.workers.dev",
+  "at": "2026-11-04T11:28:23.403Z",
+  "scope": "distの全HTML/JS/CSS/JSON/Webmanifestと新カード素材10点。未変更の画像・音声・3Dは対象外。",
+  "count": 61,
+  "matched": 61,
+  "health": {
+    "status": 200,
+    "body": {
+      "ok": true,
+      "transport": "websocket",
+      "authority": "durable-object"
+    }
+  },
+  "results": [
+    {
+      "file": "anomaly-voices.html",
+      "status": 200,
+      "bytes": 6870,
+      "local": "041ae76658ff785de3bed305438eec4127396a20d0a7c440a4e8d23464dd14bb",
+      "remote": "041ae76658ff785de3bed305438eec4127396a20d0a7c440a4e8d23464dd14bb",
+      "match": true
+    },
+    {
+      "file": "asset-download-manifest.json",
+      "status": 200,
+      "bytes": 39583,
+      "local": "f77a2bb90bc3ebaf28db9ac78bc977b07d573d6453862f64ac0049d6d6e5161c",
+      "remote": "f77a2bb90bc3ebaf28db9ac78bc977b07d573d6453862f64ac0049d6d6e5161c",
+      "match": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v1/manifest.json",
+      "status": 200,
+      "bytes": 3361,
+      "local": "0b1c2112aa7a816a4772b657885dbe173e661a73e11f15f8d84f9876a4f46283",
+      "remote": "0b1c2112aa7a816a4772b657885dbe173e661a73e11f15f8d84f9876a4f46283",
+      "match": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v2/manifest.json",
+      "status": 200,
+      "bytes": 6579,
+      "local": "30006e0e9726365f10def3e086453a5a5f0fdbb390ba5b21b7c69702bba495b6",
+      "remote": "30006e0e9726365f10def3e086453a5a5f0fdbb390ba5b21b7c69702bba495b6",
+      "match": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/manifest.json",
+      "status": 200,
+      "bytes": 10573,
+      "local": "50c2feed53a3bd415601e2938a1a7d899d567df436a807fa07e56636a29082d4",
+      "remote": "50c2feed53a3bd415601e2938a1a7d899d567df436a807fa07e56636a29082d4",
+      "match": true
+    },
+    {
+      "file": "assets/audio/ar-hit-v1/manifest.json",
+      "status": 200,
+      "bytes": 3084,
+      "local": "24f70008f8278fd8d9f00168734cdc0459d6e7a306694a5272b299de5dedb1aa",
+      "remote": "24f70008f8278fd8d9f00168734cdc0459d6e7a306694a5272b299de5dedb1aa",
+      "match": true
+    },
+    {
+      "file": "assets/audio/rocket-final-v1/manifest.json",
+      "status": 200,
+      "bytes": 793,
+      "local": "c99aed811a0907139fa98da8fcf9e20ae077284899c2c83a41afeb8ee535be8c",
+      "remote": "c99aed811a0907139fa98da8fcf9e20ae077284899c2c83a41afeb8ee535be8c",
+      "match": true
+    },
+    {
+      "file": "assets/audio/se-v1/manifest.json",
+      "status": 200,
+      "bytes": 7627,
+      "local": "d1ce5091f87dac461684f4972388a7699e3b9b0ddd270720e9bab82f9732f254",
+      "remote": "d1ce5091f87dac461684f4972388a7699e3b9b0ddd270720e9bab82f9732f254",
+      "match": true
+    },
+    {
+      "file": "assets/audio/selected-v1/manifest.json",
+      "status": 200,
+      "bytes": 1566,
+      "local": "8f65ab1b34a72bea39bccb2663158caf0ec2aa4a78c536d4f78064a7046a143f",
+      "remote": "8f65ab1b34a72bea39bccb2663158caf0ec2aa4a78c536d4f78064a7046a143f",
+      "match": true
+    },
+    {
+      "file": "assets/characters/standard_trooper_sprint_v8.json",
+      "status": 200,
+      "bytes": 684,
+      "local": "6200f869c2a872f56f67069caa962ddb71ffa8950eed55aaef1651cce3975cbc",
+      "remote": "6200f869c2a872f56f67069caa962ddb71ffa8950eed55aaef1651cce3975cbc",
+      "match": true
+    },
+    {
+      "file": "assets/characters/standard_trooper_v1.json",
+      "status": 200,
+      "bytes": 691,
+      "local": "7c9bf9c85bc862506ec73978795109d9526d852f25b5f5cc179c0ba89e6a78b8",
+      "remote": "7c9bf9c85bc862506ec73978795109d9526d852f25b5f5cc179c0ba89e6a78b8",
+      "match": true
+    },
+    {
+      "file": "assets/characters/standard_trooper_v10.blender.json",
+      "status": 200,
+      "bytes": 823,
+      "local": "f4b9fa83b9d6a5f34877d68374d4e791ae1cbd62b053e8e1f0667fc62736724c",
+      "remote": "f4b9fa83b9d6a5f34877d68374d4e791ae1cbd62b053e8e1f0667fc62736724c",
+      "match": true
+    },
+    {
+      "file": "assets/characters/standard_trooper_v10.json",
+      "status": 200,
+      "bytes": 1259,
+      "local": "28e7a6593f9d31d966a06aee46b81abe03f9e7388c023bcf8893b2b5727e2059",
+      "remote": "28e7a6593f9d31d966a06aee46b81abe03f9e7388c023bcf8893b2b5727e2059",
+      "match": true
+    },
+    {
+      "file": "assets/characters/standard_trooper_v2.json",
+      "status": 200,
+      "bytes": 691,
+      "local": "7c9bf9c85bc862506ec73978795109d9526d852f25b5f5cc179c0ba89e6a78b8",
+      "remote": "7c9bf9c85bc862506ec73978795109d9526d852f25b5f5cc179c0ba89e6a78b8",
+      "match": true
+    },
+    {
+      "file": "assets/characters/standard_trooper_v3.json",
+      "status": 200,
+      "bytes": 774,
+      "local": "1da9b1edb9c400f867cca9fc9852343207086afc316bfa0f72631dbe87c183b1",
+      "remote": "1da9b1edb9c400f867cca9fc9852343207086afc316bfa0f72631dbe87c183b1",
+      "match": true
+    },
+    {
+      "file": "assets/characters/standard_trooper_v4.json",
+      "status": 200,
+      "bytes": 18401,
+      "local": "089435c3b2ae8d46491c9f096a8c32fc425d5aca4cb28a0f572c9c6346ac9fc4",
+      "remote": "089435c3b2ae8d46491c9f096a8c32fc425d5aca4cb28a0f572c9c6346ac9fc4",
+      "match": true
+    },
+    {
+      "file": "assets/characters/standard_trooper_v5.json",
+      "status": 200,
+      "bytes": 1132,
+      "local": "5582f1966f51c7dc592ac7d272c0f73652569c6680be194baea5b3f0fd0ea663",
+      "remote": "5582f1966f51c7dc592ac7d272c0f73652569c6680be194baea5b3f0fd0ea663",
+      "match": true
+    },
+    {
+      "file": "assets/characters/standard_trooper_v9.json",
+      "status": 200,
+      "bytes": 1391,
+      "local": "1b9c2f4d2333127adb1185a1dcb5977e888931c4887963b413a25577cc07ca29",
+      "remote": "1b9c2f4d2333127adb1185a1dcb5977e888931c4887963b413a25577cc07ca29",
+      "match": true
+    },
+    {
+      "file": "assets/cloud-save-BbOUmLuJ.css",
+      "status": 200,
+      "bytes": 3758,
+      "local": "210675c63713e1125bbcd1ff64bf0e4c5e5697d6552f21fa589dbcba81aa5313",
+      "remote": "210675c63713e1125bbcd1ff64bf0e4c5e5697d6552f21fa589dbcba81aa5313",
+      "match": true
+    },
+    {
+      "file": "assets/cloud-save-Bslo_5ed.js",
+      "status": 200,
+      "bytes": 117160,
+      "local": "1cafc59efd76dd1aca31538cce57b828b9d7cedfc68b43242ccab5d9606a0404",
+      "remote": "1cafc59efd76dd1aca31538cce57b828b9d7cedfc68b43242ccab5d9606a0404",
+      "match": true
+    },
+    {
+      "file": "assets/event-banners/consumer-manifest.json",
+      "status": 200,
+      "bytes": 9901,
+      "local": "2b049a0ee15e63c00328c6d3c73a98094365216a1b873c6ab84e3fd2e00f05f0",
+      "remote": "2b049a0ee15e63c00328c6d3c73a98094365216a1b873c6ab84e3fd2e00f05f0",
+      "match": true
+    },
+    {
+      "file": "assets/event-banners/validation.json",
+      "status": 200,
+      "bytes": 4452,
+      "local": "7d825cccdc5ca6e30fdcca978fff04dc64f782f058dbe064af59f880d890bb8f",
+      "remote": "7d825cccdc5ca6e30fdcca978fff04dc64f782f058dbe064af59f880d890bb8f",
+      "match": true
+    },
+    {
+      "file": "assets/front-CzNNiLLp.css",
+      "status": 200,
+      "bytes": 38370,
+      "local": "84afaee1ae9e1964ada40158f0a257cf3cd64f7c662a5a6f1286c928d2acafd3",
+      "remote": "84afaee1ae9e1964ada40158f0a257cf3cd64f7c662a5a6f1286c928d2acafd3",
+      "match": true
+    },
+    {
+      "file": "assets/front-SXikS0Gq.js",
+      "status": 200,
+      "bytes": 124896,
+      "local": "94fb00b04650b8e76b5e0b378ac15b7e803f015b15e006c1dfc62c23f5798580",
+      "remote": "94fb00b04650b8e76b5e0b378ac15b7e803f015b15e006c1dfc62c23f5798580",
+      "match": true
+    },
+    {
+      "file": "assets/game-select-BBcbApPk.css",
+      "status": 200,
+      "bytes": 4775,
+      "local": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75",
+      "remote": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75",
+      "match": true
+    },
+    {
+      "file": "assets/game-select-C2tBuLu2.js",
+      "status": 200,
+      "bytes": 12284,
+      "local": "976fd377a9418c316d2377c328aa42fd174991a12b161b3a8e0d80adf9e167ae",
+      "remote": "976fd377a9418c316d2377c328aa42fd174991a12b161b3a8e0d80adf9e167ae",
+      "match": true
+    },
+    {
+      "file": "assets/hud-DVT03q4A.js",
+      "status": 200,
+      "bytes": 990349,
+      "local": "a5ade13626b7d2c0287c00d791272e179a1820d3204f8006789caa82d4a574a1",
+      "remote": "a5ade13626b7d2c0287c00d791272e179a1820d3204f8006789caa82d4a574a1",
+      "match": true
+    },
+    {
+      "file": "assets/hud-KJkCjEBB.css",
+      "status": 200,
+      "bytes": 108021,
+      "local": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3",
+      "remote": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3",
+      "match": true
+    },
+    {
+      "file": "assets/legacy-CPbai1ZT.css",
+      "status": 200,
+      "bytes": 259,
+      "local": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "remote": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "match": true
+    },
+    {
+      "file": "assets/legacy-yJE941Nr.js",
+      "status": 200,
+      "bytes": 18931,
+      "local": "bb4ded93d75021b16b0fae18f032dbfe4f7bbf177071cfab2fc28b5294a595e9",
+      "remote": "bb4ded93d75021b16b0fae18f032dbfe4f7bbf177071cfab2fc28b5294a595e9",
+      "match": true
+    },
+    {
+      "file": "assets/main-BOIn8V8d.css",
+      "status": 200,
+      "bytes": 1316,
+      "local": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "remote": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "match": true
+    },
+    {
+      "file": "assets/main-Cm5stFqv.js",
+      "status": 200,
+      "bytes": 54484,
+      "local": "701e0fea906b7e70f95fcf23e36edcdb25059886069015caf4f8637295b56411",
+      "remote": "701e0fea906b7e70f95fcf23e36edcdb25059886069015caf4f8637295b56411",
+      "match": true
+    },
+    {
+      "file": "assets/playtest-app-B7gB84Bm.css",
+      "status": 200,
+      "bytes": 10216,
+      "local": "72b6e32a5c2b8c2edf14b4d7442d343ade56b87ffbb2ab3fa16893958c34ef71",
+      "remote": "72b6e32a5c2b8c2edf14b4d7442d343ade56b87ffbb2ab3fa16893958c34ef71",
+      "match": true
+    },
+    {
+      "file": "assets/playtest-app-CKfvEQvf.js",
+      "status": 200,
+      "bytes": 83275,
+      "local": "5131534f82aa581c1ee0e049c04c3ae66c46b7860fc773be6c94adc86796592f",
+      "remote": "5131534f82aa581c1ee0e049c04c3ae66c46b7860fc773be6c94adc86796592f",
+      "match": true
+    },
+    {
+      "file": "assets/room-access-BWml07AA.js",
+      "status": 200,
+      "bytes": 6713,
+      "local": "7a2627adb9da4931a57cabc7fce6dae559f63cddc86de1a30eec33f55e14eff1",
+      "remote": "7a2627adb9da4931a57cabc7fce6dae559f63cddc86de1a30eec33f55e14eff1",
+      "match": true
+    },
+    {
+      "file": "assets/room-access-Dk_b2XLl.css",
+      "status": 200,
+      "bytes": 6497,
+      "local": "d41d7de7180be2faa28b9244f7068bfaf90f3d176bc8b6a8f26a4912365104e2",
+      "remote": "d41d7de7180be2faa28b9244f7068bfaf90f3d176bc8b6a8f26a4912365104e2",
+      "match": true
+    },
+    {
+      "file": "assets/save-writer-BUUOzIBn.css",
+      "status": 200,
+      "bytes": 2949,
+      "local": "4e91d064f9a5b74cf809d7b17d6e3529fdd161528f02d2f949cb0ff9b443d5dc",
+      "remote": "4e91d064f9a5b74cf809d7b17d6e3529fdd161528f02d2f949cb0ff9b443d5dc",
+      "match": true
+    },
+    {
+      "file": "assets/save-writer-Dpt1UmCX.js",
+      "status": 200,
+      "bytes": 62794,
+      "local": "d98cd134c94b26bcda276d6239c83c193d051a9169ba52c30f358bd1220047b4",
+      "remote": "d98cd134c94b26bcda276d6239c83c193d051a9169ba52c30f358bd1220047b4",
+      "match": true
+    },
+    {
+      "file": "assets/training-app-BKBHCmTj.js",
+      "status": 200,
+      "bytes": 3772,
+      "local": "9c20a499621ecf07100226133e3b16e42cb82a06a4fec71b5ad96acc72011168",
+      "remote": "9c20a499621ecf07100226133e3b16e42cb82a06a4fec71b5ad96acc72011168",
+      "match": true
+    },
+    {
+      "file": "assets/weapon-sharing-CH2cxRGw.js",
+      "status": 200,
+      "bytes": 4753,
+      "local": "8e819754f8c859eba68b3c659514948031f9f65725def99432a189b4e049b3ef",
+      "remote": "8e819754f8c859eba68b3c659514948031f9f65725def99432a189b4e049b3ef",
+      "match": true
+    },
+    {
+      "file": "assets/weapon-workshop-ui-B0bgkOhx.css",
+      "status": 200,
+      "bytes": 37201,
+      "local": "18f6aeb3d56b8f959cef516c8be67d8e2fbd6b3db86c8656ff32348bf2668998",
+      "remote": "18f6aeb3d56b8f959cef516c8be67d8e2fbd6b3db86c8656ff32348bf2668998",
+      "match": true
+    },
+    {
+      "file": "assets/weapon-workshop-ui-B4yavlUw.js",
+      "status": 200,
+      "bytes": 454112,
+      "local": "3db303c38df1e3f36914188eb0df3827e6ede5ff992e7222abe23053953f3390",
+      "remote": "3db303c38df1e3f36914188eb0df3827e6ede5ff992e7222abe23053953f3390",
+      "match": true
+    },
+    {
+      "file": "assets/weapons/progression-v1/manifest.json",
+      "status": 200,
+      "bytes": 3167,
+      "local": "a7701dc826e1667792f7b380d65af1b03215e2627760380c44383b05e41ae588",
+      "remote": "a7701dc826e1667792f7b380d65af1b03215e2627760380c44383b05e41ae588",
+      "match": true
+    },
+    {
+      "file": "assets/weapons/realism-v2/manifest.json",
+      "status": 200,
+      "bytes": 5117,
+      "local": "386265f8e50e7882d700fbab8f6d1326283c6def8fafd9e7ae300197a7b3c18e",
+      "remote": "386265f8e50e7882d700fbab8f6d1326283c6def8fafd9e7ae300197a7b3c18e",
+      "match": true
+    },
+    {
+      "file": "assets/zoom-guard-CYxqEXnM.js",
+      "status": 200,
+      "bytes": 387,
+      "local": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "remote": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "match": true
+    },
+    {
+      "file": "briefing/index.html",
+      "status": 200,
+      "bytes": 59139,
+      "local": "c727868b6a291da432efcf21e48a2cfb35ceae5b1cd136c4c18427d0476c46bc",
+      "remote": "c727868b6a291da432efcf21e48a2cfb35ceae5b1cd136c4c18427d0476c46bc",
+      "match": true
+    },
+    {
+      "file": "briefing/slides.html",
+      "status": 200,
+      "bytes": 5351501,
+      "local": "9b6e9fedf6a3a15134d4634b5c5c46a6648da831a41bcfd2aa3add0ab07d63a5",
+      "remote": "9b6e9fedf6a3a15134d4634b5c5c46a6648da831a41bcfd2aa3add0ab07d63a5",
+      "match": true
+    },
+    {
+      "file": "front.html",
+      "status": 200,
+      "bytes": 3434,
+      "local": "3c080f4559ce321cf4c3c65e1f7204b4ce14ab96cc6ae32f93d89db428f5af32",
+      "remote": "3c080f4559ce321cf4c3c65e1f7204b4ce14ab96cc6ae32f93d89db428f5af32",
+      "match": true
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "bytes": 4041,
+      "local": "61b832371de25eb53a9b6ef244aadec1bd1aab1174f5263423300957a4e304e7",
+      "remote": "61b832371de25eb53a9b6ef244aadec1bd1aab1174f5263423300957a4e304e7",
+      "match": true
+    },
+    {
+      "file": "manifest.webmanifest",
+      "status": 200,
+      "bytes": 792,
+      "local": "a395e41a6419798be87fb74999412078387866aca0e9db0e15a3cf69d52e4cf6",
+      "remote": "a395e41a6419798be87fb74999412078387866aca0e9db0e15a3cf69d52e4cf6",
+      "match": true
+    },
+    {
+      "file": "rebuild/card-art/chain-lightning-v1-thumb.webp",
+      "status": 200,
+      "bytes": 3262,
+      "local": "3525786ce0cbaef3d1f7f8b34ac831a832a10eedd39cbe91ae732a62d87242c0",
+      "remote": "3525786ce0cbaef3d1f7f8b34ac831a832a10eedd39cbe91ae732a62d87242c0",
+      "match": true
+    },
+    {
+      "file": "rebuild/card-art/chain-lightning-v1.webp",
+      "status": 200,
+      "bytes": 28486,
+      "local": "b5d233c1f5d1f4f5e10e764d6bdf6884b60a1fc009637940dfd2d07ffcb4800c",
+      "remote": "b5d233c1f5d1f4f5e10e764d6bdf6884b60a1fc009637940dfd2d07ffcb4800c",
+      "match": true
+    },
+    {
+      "file": "rebuild/card-art/fire-rounds-v1-thumb.webp",
+      "status": 200,
+      "bytes": 3092,
+      "local": "52a32a60cb1778bca180f31072cd482b8d80d5685cb0735090933739e689ea31",
+      "remote": "52a32a60cb1778bca180f31072cd482b8d80d5685cb0735090933739e689ea31",
+      "match": true
+    },
+    {
+      "file": "rebuild/card-art/fire-rounds-v1.webp",
+      "status": 200,
+      "bytes": 22250,
+      "local": "4b5ca2e2d3ac680d1100cc5f57a1f4feac514222a1085b714492b769e8ad7fb9",
+      "remote": "4b5ca2e2d3ac680d1100cc5f57a1f4feac514222a1085b714492b769e8ad7fb9",
+      "match": true
+    },
+    {
+      "file": "rebuild/card-art/frame-fusion-v1.webp",
+      "status": 200,
+      "bytes": 48072,
+      "local": "6ac6822ac425e2f59d674a0402fb7f1c7aa01a95007393e798cb95ba17bfe848",
+      "remote": "6ac6822ac425e2f59d674a0402fb7f1c7aa01a95007393e798cb95ba17bfe848",
+      "match": true
+    },
+    {
+      "file": "rebuild/card-art/frame-normal-v1.webp",
+      "status": 200,
+      "bytes": 28454,
+      "local": "2d55049573c9727603863e06be08c2f202257c8e7f57d228473a6283183ee1a0",
+      "remote": "2d55049573c9727603863e06be08c2f202257c8e7f57d228473a6283183ee1a0",
+      "match": true
+    },
+    {
+      "file": "rebuild/card-art/frost-rounds-v1-thumb.webp",
+      "status": 200,
+      "bytes": 4830,
+      "local": "8ffdb617a3ee87063a73e794aac10a438975545a649aea5709503fa7279d433a",
+      "remote": "8ffdb617a3ee87063a73e794aac10a438975545a649aea5709503fa7279d433a",
+      "match": true
+    },
+    {
+      "file": "rebuild/card-art/frost-rounds-v1.webp",
+      "status": 200,
+      "bytes": 38432,
+      "local": "c07fb61e41b092628ff62b73fde67ad5c96bf41f47910fc6502d8493769e27e4",
+      "remote": "c07fb61e41b092628ff62b73fde67ad5c96bf41f47910fc6502d8493769e27e4",
+      "match": true
+    },
+    {
+      "file": "rebuild/card-art/fusion-reactor-v1-thumb.webp",
+      "status": 200,
+      "bytes": 9318,
+      "local": "b3f7327112829e1f89c45b6bfd4f6e2041771851279878a08e2e96ae7fbb84ff",
+      "remote": "b3f7327112829e1f89c45b6bfd4f6e2041771851279878a08e2e96ae7fbb84ff",
+      "match": true
+    },
+    {
+      "file": "rebuild/card-art/fusion-reactor-v1.webp",
+      "status": 200,
+      "bytes": 117356,
+      "local": "462f12cb917c64fc1a98279aae6a9e9988fcfaf15158eac0b1ec35eae57ec1a2",
+      "remote": "462f12cb917c64fc1a98279aae6a9e9988fcfaf15158eac0b1ec35eae57ec1a2",
+      "match": true
+    },
+    {
+      "file": "sw.js",
+      "status": 200,
+      "bytes": 5681,
+      "local": "32df8fbaf4e428fd5e6ea43ca2dc69a74823f07fa7eb7cd5b380e7e5adcb85ae",
+      "remote": "32df8fbaf4e428fd5e6ea43ca2dc69a74823f07fa7eb7cd5b380e7e5adcb85ae",
+      "match": true
+    }
+  ]
+}
