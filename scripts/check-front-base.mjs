@@ -43,6 +43,9 @@ try {
         );
         imageReadiness.push({ stage, pending, waitedMs: Date.now() - started });
       };
+      // 準備画面へ戻る切替は旧画面の残像を0.55秒重ねる。残像の要素を数えないよう消えるまで待つ。
+      const settleTransition = () =>
+        p.locator(".split-shutter").waitFor({ state: "detached" });
       p.on("pageerror", (e) => errors.push(e.message));
       p.on("requestfailed", (r) =>
         console.error("通信失敗", r.url(), r.failure()?.errorText),
@@ -87,6 +90,8 @@ try {
         ),
       );
       await p.locator("#front-base").click();
+      await p.locator(".base-tile").first().waitFor();
+      await settleTransition();
       await p.locator(".base-tile").first().waitFor();
       const stopVideo =
         process.env.BASE_RECORD_VIDEO === "1"
@@ -150,6 +155,7 @@ try {
         initialStorage,
       );
       await p.locator("#base-back").tap();
+      await settleTransition();
       await p.screenshot({
         path: `${out}/inspect-return-${width}-${reducedMotion}.png`,
       });
@@ -159,8 +165,11 @@ try {
         String(await p.locator("#front-pool-status").allTextContents()),
       );
       await p.locator("#front-base").waitFor();
+      await settleTransition();
       assert.equal(await p.locator(".base-confirm").count(), 0);
       await p.locator("#front-base").tap();
+      await p.locator(".base-tile").first().waitFor();
+      await settleTransition();
       await p.locator('[data-pool="fuse"]').focus();
       assert.match(await p.locator("#base-detail-name").innerText(), /導火/);
       assert.equal(
@@ -178,6 +187,7 @@ try {
         "false",
       );
       await p.locator("#base-back").tap();
+      await settleTransition();
       assert.equal(
         await p.locator("#base-confirm-title").innerText(),
         "編集中の変更があります",
@@ -204,12 +214,15 @@ try {
       );
       await p.screenshot({ path: `${out}/exit-${width}-${reducedMotion}.png` });
       await p.locator("[data-cancel]").tap();
+      await settleTransition();
       assert.equal(
         await p.locator('[data-pool="fuse"]').getAttribute("aria-checked"),
         "false",
       );
       await p.locator("#base-back").tap();
+      await settleTransition();
       await p.keyboard.press("Escape");
+      await settleTransition();
       await p.locator(".base-confirm").waitFor({ state: "detached" });
       assert.equal(await p.locator(".base-confirm").count(), 0);
       assert.ok(
@@ -218,8 +231,14 @@ try {
           .evaluate((e) => e === document.activeElement),
       );
       await p.locator("#base-back").tap();
+      await settleTransition();
       await p.locator("[data-confirm]").tap();
+      await settleTransition();
+      await p.locator("#front-base").waitFor();
+      await settleTransition();
       await p.locator("#front-base").click();
+      await p.locator(".base-tile").first().waitFor();
+      await settleTransition();
       assert.equal(
         await p.locator('[data-pool="fuse"]').getAttribute("aria-checked"),
         "true",
@@ -280,6 +299,7 @@ try {
       );
       await p.locator("#base-name").fill("融合・爆発デッキ");
       await p.locator("#base-store").tap();
+      await settleTransition();
       assert.match(
         await p.locator("#front-pool-status").innerText(),
         /保存しました/,
@@ -305,9 +325,13 @@ try {
         active,
       );
       await p.locator("#base-load").tap();
+      await settleTransition();
       await p.locator(".base-confirm [data-cancel]").tap();
+      await settleTransition();
       await p.locator("#base-load").tap();
+      await settleTransition();
       await p.locator(".base-confirm [data-confirm]").tap();
+      await settleTransition();
       await p.locator("#front-save-pool").tap();
       assert.match(
         await p.locator("#front-pool-status").innerText(),
@@ -394,6 +418,8 @@ try {
       await stopVideo();
       await p.reload({ waitUntil: "domcontentloaded" });
       await p.locator("#front-base").click();
+      await p.locator(".base-tile").first().waitFor();
+      await settleTransition();
       assert.equal(
         await p.locator('[data-pool="fuse"]').getAttribute("aria-checked"),
         "false",
@@ -406,11 +432,15 @@ try {
       await p.locator("#base-name").fill("まだ保存していない名前");
       await p.locator("#front-save-pool").tap();
       await p.locator("#base-back").tap();
+      await settleTransition();
       await p.locator(".base-confirm").waitFor();
       await p.locator(".base-confirm [data-cancel]").tap();
+      await settleTransition();
       await p.locator("#base-load").tap();
+      await settleTransition();
       await p.locator(".base-confirm").waitFor();
       await p.locator(".base-confirm [data-cancel]").tap();
+      await settleTransition();
       assert.equal(
         await p.locator("#base-name").inputValue(),
         "まだ保存していない名前",
@@ -423,14 +453,29 @@ try {
         );
       assert.equal(await savedName(), "融合・爆発デッキ");
       await p.locator("#base-store").tap();
+      await settleTransition();
       await p.locator(".base-confirm [data-cancel]").tap();
+      await settleTransition();
       assert.equal(await savedName(), "融合・爆発デッキ");
       await p.locator("#base-store").tap();
+      await settleTransition();
       await p.locator(".base-confirm [data-confirm]").tap();
+      await settleTransition();
       assert.equal(await savedName(), "まだ保存していない名前");
       await p.locator("#base-back").tap();
+      await settleTransition();
       assert.equal(await p.locator(".base-confirm").count(), 0);
+      // カード設定は出撃準備から開いたので準備へ戻る。協力の確認はタイトル経由で続ける。
+      await p.locator("#front-back").waitFor();
+      await settleTransition();
+      await p.locator("#front-back").tap();
+      await settleTransition();
+      // 協力は進撃・生存の作戦選択を挟む。生存の部屋一覧を確認する。
       await p.locator("#coop").tap();
+      await settleTransition();
+      await p.locator('[data-operation="survival"]').tap();
+      await p.locator(".room-browser").waitFor();
+      await settleTransition();
       const coop = await p.evaluate(() => ({
         screen: document.body.dataset.screen,
         panel: document
