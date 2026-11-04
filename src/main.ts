@@ -25,6 +25,11 @@ import {
   persistSharedCoopSave,
 } from "./client/shared-armory";
 import { prepareBattle } from "./client/battle-loading";
+import {
+  environmentPreferencesFromSave,
+  loadEnvironmentPreferences,
+  saveEnvironmentPreferences,
+} from "./client/environment-preferences";
 import { playerName, addPlayerNameSetting } from "./client/player-profile";
 import { enhanceGameSelects, syncGameSelects } from "./client/game-select";
 import { updateScopeButtons } from "./client/layout";
@@ -246,8 +251,9 @@ async function prepareLobby() {
       lobbyPreview,
       connection.id,
       cancelled,
-      (percent) => {
-        preparationMessage = `戦場を準備中 ${percent}%`;
+      (percent, status) => {
+        if (cancelled()) return;
+        preparationMessage = `戦場を準備中 ${percent}% · ${status.stage} · 経過 ${status.elapsedSeconds}秒`;
         const line = ui.querySelector(".lobby-actions .status");
         if (line) line.textContent = preparationMessage;
       },
@@ -282,7 +288,7 @@ async function loadBattle(soloStart: boolean) {
   preparingKey = "";
   setScreen("loading");
   ui.innerHTML =
-    '<section class="panel battle-loading"><h1>戦場を準備中</h1><progress max="100" value="0"></progress><p id="load-status" role="status">マップ・兵士・武器を読み込んでいます</p><button id="load-cancel">出撃を中止</button></section>';
+    '<section class="panel battle-loading"><h1>戦場を準備中</h1><progress max="100" value="0"></progress><p id="load-status" role="status">マップ・兵士・武器を読み込んでいます</p><small>初回は準備に数十秒かかる場合があります。端末や通信環境によって変わります。</small><button id="load-cancel">出撃を中止</button></section>';
   $("load-cancel").onclick = () => {
     network?.close();
     network = undefined;
@@ -293,10 +299,18 @@ async function loadBattle(soloStart: boolean) {
     screen !== "loading" ||
     world?.run !== loadingWorld.run;
   try {
-    await prepareBattle(view, loadingWorld, myId, cancelled, (percent) => {
-      ui.querySelector<HTMLProgressElement>("progress")!.value = percent;
-      $("load-status").textContent = `戦場を準備中 ${percent}%`;
-    });
+    await prepareBattle(
+      view,
+      loadingWorld,
+      myId,
+      cancelled,
+      (percent, status) => {
+        if (cancelled()) return;
+        ui.querySelector<HTMLProgressElement>("progress")!.value = percent;
+        $("load-status").textContent =
+          `戦場を準備中 ${percent}% · ${status.stage} · 経過 ${status.elapsedSeconds}秒`;
+      },
+    );
     if (cancelled()) return;
     if (soloStart) start(loadingWorld);
     battle();
@@ -387,6 +401,16 @@ try {
   saveError = String((e as Error).message);
 }
 try {
+  const loaded = loadEnvironmentPreferences(
+    localStorage,
+    environmentPreferencesFromSave(save),
+  );
+  Object.assign(save, loaded.value);
+  if (loaded.warning) status = loaded.warning;
+} catch {
+  status = "共通の設定を読み込めませんでした。元データは残しています。";
+}
+try {
   view = new Renderer($("world") as HTMLCanvasElement);
   // Audio is driven by authoritative state, independently of rendering.
 } catch {
@@ -417,6 +441,30 @@ function write(next: Save) {
     return true;
   } catch (e) {
     status = (e as Error).message;
+    return false;
+  }
+}
+// Settings are independent of inventory/reward commits, with one storage write.
+function writePreferences(next: Save) {
+  try {
+    const value = saveEnvironmentPreferences(
+      environmentPreferencesFromSave(next),
+    );
+    Object.assign(save, value);
+    return true;
+  } catch {
+    status = "設定を保存できませんでした。変更前の設定を維持しています。";
+    const pause = document.querySelector(".pause-card");
+    if (pause) {
+      let line = pause.querySelector<HTMLElement>(".settings-status");
+      if (!line) {
+        line = document.createElement("p");
+        line.className = "settings-status";
+        line.setAttribute("role", "alert");
+        pause.append(line);
+      }
+      line.textContent = status;
+    }
     return false;
   }
 }
@@ -859,7 +907,7 @@ function openSettings(back: () => void) {
     dialog.querySelector("#settings-preferences")!.append(note);
   }
   const update = (next: Save) => {
-    const ok = write(next);
+    const ok = writePreferences(next);
     if (ok) configured();
     dialog.querySelector(".settings-status")!.textContent = ok
       ? "設定を保存しました。"
@@ -1739,25 +1787,26 @@ function openPause(confirming = false) {
   $("pause-resume").onclick = closePause;
   $("pause-leave").onclick = () => openPause(true);
   bindGyro("pause-", (next) => {
-    const ok = write(next);
+    const ok = writePreferences(next);
     if (ok) configured();
     return ok;
   });
   alignSettings(menu.querySelector(".pause-card")!);
   view.drone?.mount(menu.querySelector<HTMLElement>(".pause-settings")!);
   bindAimRanges("pause-", (next) => {
-    const ok = write(next);
+    const ok = writePreferences(next);
     if (ok) configured();
     return ok;
   });
   $("pause-quality").onchange = () => {
     const input = $("pause-quality") as HTMLSelectElement;
-    if (write({ ...save, quality: Number(input.value) })) configured();
+    if (writePreferences({ ...save, quality: Number(input.value) }))
+      configured();
     else input.value = String(save.quality);
   };
   $("pause-damage").onchange = () => {
     if (
-      write({
+      writePreferences({
         ...save,
         damageNumbers: ($("pause-damage") as HTMLSelectElement)
           .value as Save["damageNumbers"],
@@ -1767,13 +1816,15 @@ function openPause(confirming = false) {
   };
   $("pause-frame-rate").onchange = () => {
     const input = $("pause-frame-rate") as HTMLSelectElement;
-    if (write({ ...save, frameRate: Number(input.value) as 30 | 60 }))
+    if (
+      writePreferences({ ...save, frameRate: Number(input.value) as 30 | 60 })
+    )
       configured();
     else input.value = String(save.frameRate ?? 60);
   };
   $("pause-map").onchange = () => {
     if (
-      write({
+      writePreferences({
         ...save,
         mapRotates: ($("pause-map") as HTMLSelectElement).value === "follow",
       })

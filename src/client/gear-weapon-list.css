@@ -326,11 +326,8 @@
 .playtest #ui .gear-weapon-list .pt-weapon-head {
   z-index: 4;
 }
-.playtest #ui .gear-weapon-list .gear-pinned-row {
-  position: sticky;
-  top: 20px;
-  z-index: 3;
-  margin-bottom: 0;
+.playtest #ui .gear-weapon-list .is-selected-slot {
+  position: relative;
   --row-surface: #39483b;
   background: #39483b;
   border-color: #f0d991;
@@ -371,7 +368,7 @@
 }
 
 /* Paint above the sticky name/button backgrounds without changing column widths. */
-.playtest #ui .gear-weapon-list .gear-pinned-row::after {
+.playtest #ui .gear-weapon-list .is-selected-slot::after {
   content: "";
   position: absolute;
   inset: -1px;

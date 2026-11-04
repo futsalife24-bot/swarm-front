@@ -283,6 +283,18 @@
   padding: 6px 0;
   border-bottom: 1px solid #47626b;
 }
+.room-browser #room-list-status[data-state="error"] {
+  padding: 6px 8px;
+  border-left: 3px solid #efae87;
+  background: #39282b;
+  color: #ffddc8;
+}
+.room-browser #room-list-status[data-state="pending"] {
+  color: #ceeadb;
+}
+.room-browser #room-id[aria-invalid="true"] {
+  border-color: #efae87;
+}
 .room-browser .room-list-row strong,
 .room-browser .room-list-row small {
   overflow: hidden;

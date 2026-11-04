@@ -1,3 +1,4 @@
+import "./boot-screen";
 import {
   downloadNetworkDiagnostics,
   diagnosticBuild,
@@ -40,7 +41,10 @@ import {
   frontTreasureMarkup,
 } from "./front-reward-ui";
 import { gearSupplyRows, gearWeaponRows } from "./gear-weapon-list";
-import { battleLoadingMarkup } from "./loading-screen";
+import {
+  battleLoadingMarkup,
+  updateBattleLoadingStatus,
+} from "./loading-screen";
 import * as T from "three";
 import { Renderer } from "./render";
 import { Controls } from "./input";
@@ -620,7 +624,9 @@ async function loadBattle() {
         world,
         id,
         () => current !== loadSerial,
-        (n) => {
+        (n, status) => {
+          if (current !== loadSerial) return;
+          updateBattleLoadingStatus(status);
           const el = document.getElementById("pt-load-percent");
           const bar = document.getElementById(
             "pt-progress",
@@ -1044,9 +1050,9 @@ async function prepareLobby() {
         network !== net ||
         screen !== "lobby" ||
         net.preparationGeneration !== generation,
-      (percentage) => {
+      (percentage, detail) => {
         if (network !== net || net.preparationGeneration !== generation) return;
-        status = `戦場を準備中 ${percentage}%`;
+        status = `戦場を準備中 ${percentage}% · ${detail.stage} · 経過 ${detail.elapsedSeconds}秒`;
         paintLobby();
       },
     );

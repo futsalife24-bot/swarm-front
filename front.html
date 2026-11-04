@@ -7,6 +7,58 @@
       content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
     />
     <meta name="theme-color" content="#0c1820" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: #080e13;
+        color: #d9edf0;
+      }
+      #boot-screen {
+        position: fixed;
+        inset: 0;
+        z-index: 2147483646;
+        display: grid;
+        place-content: center;
+        gap: 1rem;
+        background: radial-gradient(ellipse at center, #15313a, #080e13 70%);
+        text-align: center;
+        font:
+          600 1rem system-ui,
+          sans-serif;
+        letter-spacing: 0.08em;
+      }
+      #boot-screen small {
+        color: #91b6bc;
+        font-size: 0.8rem;
+        font-weight: 400;
+        letter-spacing: 0;
+      }
+      #boot-screen::after {
+        content: "";
+        width: 2rem;
+        height: 2rem;
+        margin: 0 auto;
+        border: 2px solid #557d83;
+        border-top-color: #bce8de;
+        border-radius: 50%;
+        animation: boot-turn 1s linear infinite;
+      }
+      @keyframes boot-turn {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #boot-screen::after {
+          animation: none;
+        }
+      }
+      body:has(#ui > *) #boot-screen {
+        display: none;
+      }
+    </style>
     <link
       rel="icon"
       href="%BASE_URL%icon-swarm-v4-64.png"
@@ -21,6 +73,9 @@
     />
   </head>
   <body class="rebuild-p1a front-game" data-screen="battle">
+    <div id="boot-screen" role="status" aria-label="画面を読み込み中">
+      SWARM FRONT<small>画面を読み込んでいます</small>
+    </div>
     <canvas id="world" aria-label="三人称3D戦場"></canvas>
     <div id="hud" data-testid="rebuild-hud"></div>
     <canvas id="minimap" aria-label="戦場のミニマップ" hidden></canvas>
@@ -49,11 +104,19 @@
     </button>
     <main id="ui" data-testid="rebuild-overlay"></main>
     <div id="rebuild-notice" role="status" aria-live="polite" hidden></div>
-    <div id="portrait" role="dialog" aria-modal="true" aria-label="ゲーム開始" aria-describedby="landscape-guide landscape-status">
+    <div
+      id="portrait"
+      role="dialog"
+      aria-modal="true"
+      aria-label="ゲーム開始"
+      aria-describedby="landscape-guide landscape-status"
+    >
       <strong>SWARM FRONT</strong>
       <p id="landscape-guide">端末を横向きにしてお楽しみください</p>
       <button id="landscape-start" type="button">ゲームを開始</button>
-      <small id="landscape-status" role="status">画面が回らない場合は、端末の画面回転ロックを解除してください。</small>
+      <small id="landscape-status" role="status"
+        >画面が回らない場合は、端末の画面回転ロックを解除してください。</small
+      >
     </div>
     <script type="module" src="/src/client/front-app.ts"></script>
   </body>

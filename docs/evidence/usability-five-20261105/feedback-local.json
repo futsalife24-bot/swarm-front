@@ -1,0 +1,74 @@
+{
+  "results": [
+    {
+      "check": "進撃協力も設定を共有",
+      "progressUnchanged": true
+    },
+    {
+      "check": "参加",
+      "mode": "進撃",
+      "width": 844,
+      "height": 390,
+      "requests": 1,
+      "validJoin": true,
+      "fits": true,
+      "overflow": false
+    },
+    {
+      "check": "参加",
+      "mode": "進撃",
+      "width": 640,
+      "height": 360,
+      "requests": 1,
+      "validJoin": false,
+      "fits": true,
+      "overflow": false
+    },
+    {
+      "check": "参加",
+      "mode": "生存",
+      "width": 844,
+      "height": 390,
+      "requests": 1,
+      "validJoin": true,
+      "fits": true,
+      "overflow": false
+    },
+    {
+      "check": "参加",
+      "mode": "生存",
+      "width": 640,
+      "height": 360,
+      "requests": 1,
+      "validJoin": false,
+      "fits": true,
+      "overflow": false
+    },
+    {
+      "check": "設定の往復と再読み込み",
+      "width": 844,
+      "height": 390,
+      "progressUnchanged": true
+    },
+    {
+      "check": "設定保存に失敗したら値を維持"
+    },
+    {
+      "check": "設定の往復と再読み込み",
+      "width": 640,
+      "height": 360,
+      "progressUnchanged": true
+    },
+    {
+      "check": "起動前の読込表示",
+      "path": "/?base=1",
+      "cleared": true
+    },
+    {
+      "check": "起動前の読込表示",
+      "path": "/front?coop=1",
+      "cleared": true
+    }
+  ],
+  "errors": []
+}

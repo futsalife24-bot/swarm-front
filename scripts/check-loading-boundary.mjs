@@ -7,7 +7,7 @@ assert.ok(
   ["localhost", "127.0.0.1"].includes(new URL(base).hostname),
   "local only",
 );
-const out = "dist-validation/playability-six/loading";
+const out = "dist-validation/usability/loading";
 fs.mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({
   channel: "chrome",
@@ -23,22 +23,27 @@ const snapshot = (page) =>
       phase: d.world?.phase,
       map: d.mapAssets[0],
       trooper: d.trooper,
+      status: document.querySelector("#pt-load-stage")?.textContent,
+      progress: document.querySelector("#pt-progress")?.value,
+      retry: !!document.querySelector("#pt-load-retry"),
     };
   });
 async function launch(page) {
-  await page.goto(base);
-  if (await page.locator("#landscape-start").isVisible())
-    await page.locator("#landscape-start").click();
-  await page.locator("#solo").click();
-  await page.locator("#player-name").fill("読込検証隊員");
-  await page.locator("#player-name-form button[type=submit]").click();
-  if (await page.locator("#pt-confirm").isVisible())
-    await page.locator("#pt-confirm").click();
+  await page.addInitScript(() =>
+    localStorage.setItem("swarm-front-player-name-v1", "読込検証隊員"),
+  );
+  await page.goto(base + "/?solo=1");
+  await page.locator("#pt-start").waitFor();
+  await page.waitForFunction(
+    () => !document.querySelector(".split-shutter,.menu-route-shutter"),
+  );
   await page.locator("#pt-start").click();
   await page.locator(".pt-loading").waitFor();
 }
 try {
-  for (const scenario of ["delayed-map", "delayed-trooper", "failed-map"]) {
+  for (const scenario of process.argv.slice(3).length
+    ? process.argv.slice(3)
+    : ["delayed-map", "delayed-trooper", "failed-map"]) {
     const context = await browser.newContext({
       viewport: { width: 844, height: 390 },
       serviceWorkers: "block",
@@ -54,7 +59,7 @@ try {
     let intercepted = 0;
     const asset =
       scenario === "delayed-trooper"
-        ? "**/standard_trooper_v9.glb"
+        ? "**/swarm-soldier.glb*"
         : "**/assets/maps/map_0_v1.glb";
     await context.route(asset, async (route) => {
       intercepted++;
@@ -66,6 +71,7 @@ try {
     });
     const result = { scenario };
     try {
+      const began = performance.now();
       await launch(page);
       if (scenario.startsWith("delayed-")) {
         if (scenario === "delayed-map")
@@ -76,6 +82,9 @@ try {
         await page.waitForTimeout(3000);
         const held = await snapshot(page);
         assert.equal(held.screen, "loading");
+        assert.equal(held.retry, false);
+        assert.match(held.status, /経過 [1-9][0-9]*秒/);
+        assert.notEqual(held.status, before.status);
         assert.equal(held.time, before.time);
         if (scenario === "delayed-map")
           assert.notEqual(held.map.state, "ready");
@@ -84,6 +93,11 @@ try {
         release();
         await page.locator("#pt-enter").waitFor({ state: "visible" });
         const prepared = await snapshot(page);
+        result.preparationMs = Math.round(performance.now() - began);
+        assert.equal(prepared.progress, 100);
+        assert.match(prepared.status, /完了/);
+        assert.equal(prepared.retry, false);
+        await page.screenshot({ path: `${out}/${scenario}-100.png` });
         assert.equal(prepared.screen, "loading");
         assert.equal(prepared.time, 0);
         assert.equal(prepared.map.state, "ready");
@@ -136,6 +150,10 @@ try {
     } finally {
       release();
       results.push(result);
+      fs.writeFileSync(
+        `${out}/${scenario}.json`,
+        JSON.stringify(result, null, 2),
+      );
       fs.writeFileSync(`${out}/results.json`, JSON.stringify(results, null, 2));
       await context.close();
     }

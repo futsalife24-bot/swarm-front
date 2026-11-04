@@ -386,7 +386,7 @@ for (const viewport of [
     expect(layout.heights).toEqual([30, 30, 30]);
     if (viewport.width >= 844) expect(layout.scroll).toBeLessThanOrEqual(1);
     const fixed = await page
-      .locator("[data-pinned] .gear-pinned-label")
+      .locator(".is-selected-slot [data-lock]")
       .first()
       .boundingBox();
     await page
@@ -394,7 +394,7 @@ for (const viewport of [
       .evaluate((el) => (el.scrollLeft = 500));
     expect(
       (await page
-        .locator("[data-pinned] .gear-pinned-label")
+        .locator(".is-selected-slot [data-lock]")
         .first()
         .boundingBox())!.x,
     ).toBe(fixed!.x);

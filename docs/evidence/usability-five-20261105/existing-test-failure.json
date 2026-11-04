@@ -1,0 +1,13 @@
+{
+  "server/worker.ts": {
+    "headSha256": "04257b316865d9812e60436c40b7734a196f8d846df7f5b69de5637ed7623ed8",
+    "workSha256": "04257b316865d9812e60436c40b7734a196f8d846df7f5b69de5637ed7623ed8",
+    "unchanged": true
+  },
+  "tests/front-feedback.test.ts": {
+    "headSha256": "93ff5479d424c13ecd3b58ee8b5fb886aed04f04973c071096a986b0197005e7",
+    "workSha256": "93ff5479d424c13ecd3b58ee8b5fb886aed04f04973c071096a986b0197005e7",
+    "unchanged": true
+  },
+  "cause": "既存テストが broadcast() { を文字列検索するが、開始点HEADの実装は broadcast(target?: WebSocket) {。今回のserver/worker.tsと当該テストは未変更。"
+}

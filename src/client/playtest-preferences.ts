@@ -1,4 +1,9 @@
-import { fresh, parseSave, SAVE_KEY, type Save } from "./save";
+import {
+  defaultEnvironmentPreferences,
+  loadEnvironmentPreferences,
+  saveEnvironmentPreferences,
+  type EnvironmentPreferences,
+} from "./environment-preferences";
 import {
   getMenuReducedMotion,
   menuTrace,
@@ -9,47 +14,19 @@ import type { Sound } from "./audio";
 import type { Renderer } from "./render";
 import type { Minimap } from "./minimap";
 
-const KEY = "swarm-front-playtest-preferences-v1";
-type Preferences = Pick<
-  Save,
-  | "volume"
-  | "bgmVolume"
-  | "seVolume"
-  | "sensitivity"
-  | "fireSensitivity"
-  | "gyroEnabled"
-  | "gyroSensitivity"
-  | "quality"
-  | "frameRate"
-  | "mapRotates"
-  | "damageNumbers"
->;
-const pick = (s: Save): Preferences => ({
-  volume: s.volume,
-  bgmVolume: s.bgmVolume ?? 1,
-  seVolume: s.seVolume ?? 1,
-  sensitivity: s.sensitivity,
-  fireSensitivity: s.fireSensitivity ?? s.sensitivity,
-  gyroEnabled: s.gyroEnabled ?? false,
-  gyroSensitivity: s.gyroSensitivity ?? 1,
-  quality: s.quality,
-  frameRate: s.frameRate ?? 60,
-  mapRotates: s.mapRotates ?? false,
-  damageNumbers: s.damageNumbers ?? "self",
-});
+type Preferences = EnvironmentPreferences;
 export function createPlaytestPreferences(
   controls: Controls,
   sound: Sound,
   view: Renderer,
   minimap: Minimap,
 ) {
-  let value = pick(fresh()),
+  let value = defaultEnvironmentPreferences(),
     loadError = "";
   try {
-    const raw = localStorage.getItem(KEY);
-    value = raw
-      ? pick(parseSave(JSON.stringify({ ...fresh(), ...JSON.parse(raw) })))
-      : pick(parseSave(localStorage.getItem(SAVE_KEY)));
+    const loaded = loadEnvironmentPreferences();
+    value = loaded.value;
+    loadError = loaded.warning;
   } catch {
     loadError = "保存済みの設定を読めなかったため、初期設定で表示しています。";
   }
@@ -97,8 +74,7 @@ export function createPlaytestPreferences(
       }
       const update = (next: Preferences) => {
         try {
-          localStorage.setItem(KEY, JSON.stringify(next));
-          value = next;
+          value = saveEnvironmentPreferences(next);
           apply();
           status.textContent = "設定を保存しました。";
           menuTrace(status, true);
