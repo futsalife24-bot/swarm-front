@@ -1,0 +1,37 @@
+# オリハ試作03：尾先から円を描いて巻く
+
+2026-11-04。本人の「尻尾の先端から円を描きながらトグロを巻く。今は胴から輪を作りに行っている」に対応。
+
+[動作の連続画像](review/coil-sheet.png) ／ [16秒動画](review/oriha-motion.mp4) ／ [確認資料](review.html) ／ [blend](oriha.blend) ／ [GLB](oriha.glb)
+
+## 変更
+
+Coilの開始順序を変更。尾の一枚ひれが先行して円を描き、尾に近い節から頭側へ段階的に巻き込む。尾先の円運動中は少し上向きに傾ける。胴体の通常の波打ちはCoil開始時に重ねず、尾先の先行が見えるようにした。ほどいて初期姿勢へ戻る約4秒の動作。
+回転角の折り返しを補正し、角度の境界で急に逆回転しないようにした。Idle・Follow・Displayと形状を維持。
+
+## 実測・確認
+
+2,008三角形・1材質・1メッシュ・10骨・テクスチャ0枚。4クリップ。不透明・頂点色。
+GLB 377,792 bytes、blend 357,363 bytes。
+
+書き出したGLBを別途読み、Coilの回転が初期姿勢から1度を超える最初のフレームを測定。尾先4 → 尾側の節19 → 23 → 27 → 31 → 頭に近い節37の順を確認（30fps）。ループ終端の回転差0度。[順序検証](review/coil-order.json)
+GLB再読込みで境界差0m、色・階層・骨・4動作を確認。3フレーム間隔の最低点は地上0.3255m以上。[再読込み](review/roundtrip.json)
+四方向、Coil上視点と側面、兵士比較、844×390／640×360の0／1／4体を確認。[描画検証](review/validation.json)
+追加描画は1体あたり影なし1回、影あり2回。4体は協力4人各1体の仮定。負荷測定はFollowの同条件で比較。
+16秒・30fps・960×640の動画を更新。動画実再生、小画面のCoil選択・停止・再開を確認。[操作検証](review/ui-validation.json)
+
+実スマホ・実戦・密集・通信・エフェクト込み性能は未確認。自己接触の物理シミュレーションは使用していない。本人の動作採否は未確認。属性・能力は未決定。
+
+再現は[初版の手順](../oriha-lowpoly-v1/README.md)のフォルダ名を oriha-lowpoly-v3 に置換。動画は480フレーム／16秒。追加検証はBlender CLIで check-coil-order.py を実行。
+
+## 担当記録・共有ノートへの追記案
+
+Coilを尾先の円運動から開始し、尾側→胴側へ巻く順序に変更。GLB上でも動き始めの順番を数値照合。画像・動画・再読込み・描画・操作確認済み。共有STATEとMainVaultは直接変更せず本節を追記案とする。
+
+GitHub: https://github.com/futsalife24-bot/swarm-front
+専用ブランチ: codex/buddy-tatara-lowpoly-20261104
+開始HEAD: 48f2784560b7cca49dc4582f40e4250e46ab2a4c
+対象: assets/buddy/oriha-lowpoly-v3/ のみ。
+作業場所: C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-buddy-lowpoly
+既存個体・ゲーム・main・公開環境は無変更。
+実モデルID・推論設定は取得不可／未確認。子エージェント・独立監査なし。

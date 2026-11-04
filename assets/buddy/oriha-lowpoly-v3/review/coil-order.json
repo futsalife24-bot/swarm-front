@@ -1,0 +1,15 @@
+{
+  "motion": "Coil",
+  "threshold_degrees": 1,
+  "first_rotation_frame": {
+    "tail": 4,
+    "seg4": 19,
+    "seg3": 23,
+    "seg2": 27,
+    "seg1": 31,
+    "seg0": 37
+  },
+  "tail_to_body_order_verified": true,
+  "loop_rotation_max_error_degrees": 0.0,
+  "fps": 30
+}
