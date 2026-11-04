@@ -81,6 +81,19 @@ try {
             document.getElementById("ui").innerHTML =
               reward.frontLevelUpMarkup();
           },
+          owned() {
+            for (const id of FRONT_UPGRADE_IDS) view.levels[id] = 0;
+            for (const id of [
+              "fire-rounds",
+              "frost-rounds",
+              "chain-lightning",
+              "fusion-reactor",
+            ])
+              view.levels[id] = 2;
+            view.picks = 4;
+            document.getElementById("ui").innerHTML =
+              `<div style="display:flex;gap:12px;align-items:flex-start">${card.frontUpgradeStrip(view, "/")}${card.frontUpgradeDetails(view, "/")}</div>`;
+          },
         };
       });
       await page.evaluate(() => document.fonts.ready);
@@ -191,6 +204,26 @@ try {
       ).not.toBe("none");
       await page.screenshot({
         path: `${out}/${width}x${height}-${reducedMotion}-choices.png`,
+      });
+      await page.evaluate(() => window.cardFixture.owned());
+      await page
+        .locator(".sc-card img")
+        .evaluateAll((imgs) => Promise.all(imgs.map((img) => img.decode())));
+      const smallArt = await page.locator(".sc-card img").evaluateAll((imgs) =>
+        imgs.map((img) => ({
+          width: img.naturalWidth,
+          file: img.getAttribute("src"),
+        })),
+      );
+      expect(smallArt).toHaveLength(8);
+      expect(
+        smallArt.every(
+          (img) => img.width === 128 && img.file.endsWith("-thumb.webp"),
+        ),
+      ).toBe(true);
+      await page.screenshot({
+        path: `${out}/${width}x${height}-${reducedMotion}-owned.png`,
+        animations: "disabled",
       });
       await page.evaluate(() => {
         document.documentElement.dataset.menuReducedMotion = "true";

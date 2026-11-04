@@ -49,6 +49,15 @@ try {
         waitUntil: "domcontentloaded",
       });
       await page.locator(".front-base").waitFor();
+      await settle();
+      const visibleCards = await page.locator("#base-grid").evaluate((grid) => {
+        const area = grid.getBoundingClientRect();
+        return [...grid.children].filter((card) => {
+          const r = card.getBoundingClientRect();
+          return r.top >= area.top && r.bottom <= area.bottom;
+        }).length;
+      });
+      expect(visibleCards).toBeGreaterThanOrEqual(width === 844 ? 9 : 6);
       await expect(
         page.locator(
           "#base-grid input,#base-grid [role=checkbox],#base-grid small",
@@ -68,7 +77,7 @@ try {
         await expect(card).toHaveAttribute("data-kind", "normal");
         await expect(card.locator("img")).toHaveAttribute(
           "src",
-          new RegExp(`${id}\\.svg$`),
+          new RegExp(`${id}-v1-thumb\\.webp$`),
         );
         await expect
           .poll(() =>
@@ -80,6 +89,20 @@ try {
       }
       await expect(page.locator("#base-count")).toContainText("抽選 17/17種");
       await tap('[data-inspect="fire-rounds"]');
+      await expect(
+        page.locator("#base-detail img.sc-illustration"),
+      ).toHaveAttribute("src", /fire-rounds-v1\.webp$/);
+      const controlBefore = await page
+        .locator(".base-exclude-control")
+        .boundingBox();
+      await page.locator(".base-detail-scroll").evaluate((el) => {
+        el.scrollTop = el.scrollHeight;
+      });
+      const controlAfter = await page
+        .locator(".base-exclude-control")
+        .boundingBox();
+      expect(controlAfter).toEqual(controlBefore);
+      expect(controlAfter.height).toBeGreaterThanOrEqual(40);
       await tap(".base-exclude-control");
       await expect(page.locator("#base-exclude")).toBeChecked();
       await tap("#front-save-pool");
@@ -119,6 +142,42 @@ try {
       await page.locator(".front-base").waitFor();
       await expect(page.locator(".sc-exclusion-chains")).toHaveCount(0);
       await expect(page.locator("#base-count")).toContainText("抽選 17/17種");
+      await tap("#base-fusions");
+      await tap('[data-inspect="fusion-reactor"]');
+      await expect(page.locator("#base-detail")).toContainText("未発見の融合");
+      await expect(page.locator("#base-detail img")).toHaveCount(0);
+      // 発見済みの見た目だけを隔離保存で準備。実際の融合獲得の検証ではない。
+      await page.evaluate(() =>
+        localStorage.setItem(
+          "swarm-front-fusion-discovery-v1",
+          JSON.stringify({ version: 1, ids: ["fusion-reactor"] }),
+        ),
+      );
+      await page.reload();
+      await page.locator(".front-base").waitFor();
+      await tap("#base-fusions");
+      await tap('[data-inspect="fusion-reactor"]');
+      await expect(
+        page.locator("#base-detail img.sc-illustration"),
+      ).toHaveAttribute("src", /fusion-reactor-v1\.webp$/);
+      await page
+        .locator("#base-detail img")
+        .evaluateAll((imgs) => Promise.all(imgs.map((img) => img.decode())));
+      await expect(page.locator("#base-detail")).toContainText(
+        "ヒートリアクター",
+      );
+      const otherMotion = await page
+        .locator('#base-grid .sc-card:not([data-inspecting="true"])')
+        .evaluateAll(
+          (cards) =>
+            cards.flatMap((card) => card.getAnimations({ subtree: true }))
+              .length,
+        );
+      expect(otherMotion).toBe(0);
+      await page.screenshot({
+        path: `${out}/${width}-fusion.png`,
+        animations: "disabled",
+      });
       expect(errors).toEqual([]);
       results.push({
         width,
@@ -130,6 +189,11 @@ try {
         excludeSaveReload: true,
         removeSaveReload: true,
         noGridCheckboxOrSummary: true,
+        visibleCards,
+        fixedExclusionControl: true,
+        discoveredFusionArt: true,
+        unknownFusionHidden: true,
+        unselectedFusionStatic: true,
         errors,
       });
       console.log(`${width}x${height}: 属性3枚・画像・除外保存/解除 合格`);

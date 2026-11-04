@@ -1,0 +1,72 @@
+[
+  {
+    "file": "chain-lightning-v1.webp",
+    "size": 640,
+    "bytes": 28486,
+    "source": [1254, 1254],
+    "centerAlpha": 255
+  },
+  {
+    "file": "chain-lightning-v1-thumb.webp",
+    "size": 128,
+    "bytes": 3262,
+    "source": [1254, 1254],
+    "centerAlpha": 255
+  },
+  {
+    "file": "fire-rounds-v1.webp",
+    "size": 640,
+    "bytes": 22250,
+    "source": [1254, 1254],
+    "centerAlpha": 255
+  },
+  {
+    "file": "fire-rounds-v1-thumb.webp",
+    "size": 128,
+    "bytes": 3092,
+    "source": [1254, 1254],
+    "centerAlpha": 255
+  },
+  {
+    "file": "frame-fusion-v1.webp",
+    "size": 512,
+    "bytes": 48072,
+    "source": [1254, 1254],
+    "centerAlpha": 0
+  },
+  {
+    "file": "frame-normal-v1.webp",
+    "size": 512,
+    "bytes": 28454,
+    "source": [1254, 1254],
+    "centerAlpha": 0
+  },
+  {
+    "file": "frost-rounds-v1.webp",
+    "size": 640,
+    "bytes": 38432,
+    "source": [1254, 1254],
+    "centerAlpha": 255
+  },
+  {
+    "file": "frost-rounds-v1-thumb.webp",
+    "size": 128,
+    "bytes": 4830,
+    "source": [1254, 1254],
+    "centerAlpha": 255
+  },
+  {
+    "file": "fusion-reactor-v1.webp",
+    "size": 640,
+    "bytes": 117356,
+    "source": [1254, 1254],
+    "centerAlpha": 255
+  },
+  {
+    "file": "fusion-reactor-v1-thumb.webp",
+    "size": 128,
+    "bytes": 9318,
+    "source": [1254, 1254],
+    "centerAlpha": 255
+  }
+]

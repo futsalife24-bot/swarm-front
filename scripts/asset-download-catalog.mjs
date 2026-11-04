@@ -128,6 +128,17 @@ export function collectCurrentAssetPacks(root) {
       /"([a-z-]+)"/g,
     ),
   );
+  const cardArt = source("src/client/survival-card-art.ts");
+  const artIds = new Set(matches(cardArt, /^  "([a-z-]+)":/gm));
+  const artFiles = matches(cardArt, /"(rebuild\/card-art\/[^"\n]+\.webp)"/g);
+  if (artIds.size !== artFiles.length || !artFiles.length)
+    throw new Error("Survival card art catalog changed");
+  const cardFrames = matches(
+    source("src/client/survival-card.css"),
+    /url\("\/(rebuild\/card-art\/[^"\n]+\.webp)"\)/g,
+  );
+  if (cardFrames.length !== 2)
+    throw new Error("Survival card frame catalog changed");
   if (
     !source("src/client/gear-weapon-list.ts").includes(
       'assets/ui/weapon-${locked ? "locked" : "unlocked"}.png',
@@ -135,7 +146,7 @@ export function collectCurrentAssetPacks(root) {
   )
     throw new Error("Gear icon layout changed");
   const icons = ids
-    .filter((id) => !atlasIds.has(id))
+    .filter((id) => !atlasIds.has(id) && !artIds.has(id))
     .map(
       (id) => `rebuild/upgrades/${id}.${elementIds.has(id) ? "svg" : "png"}`,
     );
@@ -154,6 +165,8 @@ export function collectCurrentAssetPacks(root) {
     "assets/ui/weapon-unlocked.png",
     one(upgradeUi, /(rebuild\/upgrades\/fusion-atlas\.png)/g, "fusion atlas"),
     ...icons,
+    ...artFiles.flatMap((file) => [file, file.replace(".webp", "-thumb.webp")]),
+    ...cardFrames,
   ];
   const mapSource = source("src/shared/stages.ts");
   const names = matches(

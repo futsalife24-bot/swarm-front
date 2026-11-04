@@ -9,6 +9,7 @@ export interface SurvivalCardView {
   type: "ability" | "weapon" | "fusion";
   family: SurvivalCardFamily;
   iconMarkup: string;
+  largeIconMarkup?: string;
   description: string;
   level: { current: number; max: number; next?: number };
   acquisition?: "new" | "level-up" | "fusion-new" | "fusion-up";
@@ -74,9 +75,9 @@ const pips = ({ current, max, next }: SurvivalCardView["level"]) =>
 const attrs = (view: SurvivalCardView, size: "L" | "M" | "S" | "row") =>
   `data-size="${size}" data-kind="${view.kind}" data-type="${view.type}" data-family="${view.family}"${view.deck ? ` data-deck="${view.deck}"` : ""}${view.locked ? ' data-locked="true"' : ""}${view.undiscovered ? ' data-undiscovered="true"' : ""}${view.inspecting ? ' data-inspecting="true"' : ""}${view.level.current >= view.level.max ? ' data-max="true"' : ""}${view.acquisition ? ` data-acquisition="${view.acquisition}"` : ""}`;
 const shell = (inner: string) =>
-  `<span class="sc-ring" aria-hidden="true"></span><span class="sc-frame" aria-hidden="true"></span><span class="sc-face">${inner}</span>`;
-const art = (view: SurvivalCardView) =>
-  `<span class="sc-art">${view.undiscovered ? '<span class="sc-unknown" aria-hidden="true">？</span>' : view.iconMarkup}</span>`;
+  `<span class="sc-ring" aria-hidden="true"></span><span class="sc-frame" aria-hidden="true"></span><span class="sc-face">${inner}</span><span class="sc-ornament" aria-hidden="true"></span>`;
+const art = (view: SurvivalCardView, large = false) =>
+  `<span class="sc-art">${view.undiscovered ? '<span class="sc-unknown" aria-hidden="true">？</span>' : large ? (view.largeIconMarkup ?? view.iconMarkup) : view.iconMarkup}</span>`;
 const tag = (view: SurvivalCardView) =>
   `<span class="sc-kind-tag"${view.kind === "fusion" ? ' title="上位レア・融合"' : ""}>${kindName(view)}</span>`;
 const acquisition = {
@@ -97,7 +98,7 @@ export function renderSurvivalCardL(
     .join(" × ");
   const label = `${action[1]}・${levelText(view.level)}：${view.name}（${kindName(view)}・${familyName[view.family]}）：${view.description}${materials ? ` 素材：${materials}` : ""}`;
   const root = interactive ? "button" : "div";
-  return `<${root} ${interactive ? `type="button" data-card="${view.id}"` : 'role="img"'} class="sc-card" ${attrs(view, "L")} aria-label="${esc(label)}">${shell(`<span class="sc-top">${tag(view)}<span class="sc-acq"><b aria-hidden="true">${action[0]}</b>${action[1]}</span></span>${art(view)}<span class="sc-family">${glyph(view.family)}${familyName[view.family]}</span><strong class="sc-name">${esc(view.name)}</strong><span class="sc-level">${pips(view.level)}<span>${esc(levelText(view.level))}</span></span><span class="sc-desc">${esc(view.description)}</span>${view.materials?.length ? `<span class="sc-materials">${view.materials.map((material) => `<span>${material.iconMarkup}${esc(material.name)}</span>`).join('<b aria-hidden="true">×</b>')}</span>` : ""}`)}</${root}>`;
+  return `<${root} ${interactive ? `type="button" data-card="${view.id}"` : 'role="img"'} class="sc-card" ${attrs(view, "L")} aria-label="${esc(label)}">${shell(`<span class="sc-top">${tag(view)}<span class="sc-acq"><b aria-hidden="true">${action[0]}</b>${action[1]}</span></span>${art(view, true)}<span class="sc-family">${glyph(view.family)}${familyName[view.family]}</span><strong class="sc-name">${esc(view.name)}</strong><span class="sc-level">${pips(view.level)}<span>${esc(levelText(view.level))}</span></span><span class="sc-desc">${esc(view.description)}</span>${view.materials?.length ? `<span class="sc-materials">${view.materials.map((material) => `<span>${material.iconMarkup}${esc(material.name)}</span>`).join('<b aria-hidden="true">×</b>')}</span>` : ""}`)}</${root}>`;
 }
 
 const exclusionChains = (id: string) => {

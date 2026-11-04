@@ -1,5 +1,6 @@
 import type { FrontRunView } from "../shared/front-run";
 import { FRONT_ELEMENT_RULES } from "../shared/front-elements";
+import { survivalCardArt } from "./survival-card-art";
 import {
   renderSurvivalCardL,
   renderSurvivalCardM,
@@ -127,7 +128,15 @@ const atlasIds: readonly FrontUpgradeId[] = [
   "reserve-rounds",
   ...FRONT_FUSION_IDS.slice(0, 6),
 ];
-const icon = (id: FrontUpgradeId, base: string, card = false) => {
+const icon = (
+  id: FrontUpgradeId,
+  base: string,
+  card = false,
+  large = false,
+) => {
+  const artwork = survivalCardArt(id, base, large);
+  if (artwork)
+    return `<img class="sc-illustration${card ? " rebuild-card-icon" : ""}" src="${esc(artwork)}" alt="" width="${large ? 640 : 128}" height="${large ? 640 : 128}" decoding="async">`;
   const index = atlasIds.indexOf(id);
   return index < 0
     ? `<img class="${card ? "rebuild-card-icon" : ""}" src="${esc(frontUpgradeIcon(id, base))}" alt="" width="${card ? 96 : 32}" height="${card ? 96 : 32}">`
@@ -174,6 +183,7 @@ export function frontUpgradeCardView(
         : "weapon",
     family: d.element ?? d.family,
     iconMarkup: icon(id, base, true),
+    largeIconMarkup: icon(id, base, true, true),
     description: frontUpgradeEffect(id, 1),
     level: { current: 0, max: d.maxLevel },
     ...options,
