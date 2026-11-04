@@ -7,6 +7,7 @@
 - 作業場所: `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-survival-build`
 - branch: `codex/survival-build-core-20261104`。base: `24cbbae65568c9a034214a421e13627abfd886f9`。
 - 正本: https://github.com/futsalife24-bot/swarm-front 。この段階は下書き。main反映・公開は未実施。
+- 実装commit: `9dcdeea`。[下書きPR #269](https://github.com/futsalife24-bot/swarm-front/pull/269)へpush済み。
 - 原因: 武器の爆発・貫通などとカードの特徴が重なり、何をカードで伸ばすのか分かりにくかった。無属性の共通武器を出発点にして、カードで個性を作る。
 
 ## 実装
