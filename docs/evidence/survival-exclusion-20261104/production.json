@@ -1,0 +1,26 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "exclude": true,
+    "restore": true,
+    "remove": true,
+    "locked": true,
+    "cardClickReadOnly": true,
+    "noListSummary": true,
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "exclude": true,
+    "restore": true,
+    "remove": true,
+    "locked": true,
+    "cardClickReadOnly": true,
+    "noListSummary": true,
+    "errors": []
+  }
+]

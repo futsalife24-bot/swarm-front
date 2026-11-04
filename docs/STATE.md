@@ -2,7 +2,9 @@
 
 本人の画像付き指定に従い、生存カード一覧のチェックボックスを撤去。除外中だけ薄い鎖をカード全体に×字で掛け、操作は右詳細の「抽選から除外」へ移動した。追記指定で左の補足行も省き、画像・名前・分類だけに整理。鎖は正面と側面の輪を交互につなぎ金属の陰影を付けた。防衛の従来編集、保存形式、戦闘、通信は維持。
 
-型・関連14件・production build・生存操作/保存2サイズ・防衛6条件・書式/差分確認成功。実スマホは未確認。[変更と証拠](evidence/survival-exclusion-20261104/README.md)。作業場所 `task-survival-build`、branch `codex/survival-exclusion-chain-20261104`、base `71d4245`。通常公開の継続承認に従いmain反映・既存Worker公開へ進める。元試作・バディ・rootの別作業差分は保持。
+型・関連14件・production build・生存操作/保存2サイズ・防衛6条件・書式/差分確認成功。[PR #271](https://github.com/futsalife24-bot/swarm-front/pull/271)を通常mergeし、公開ソース `bf81e0866250b00726a7f2ae9aebd4d3cfe5e59a` からbuild/dry-run後に既存Workerへ公開。Version `afb484df-f22f-49c6-b401-068a4401a3f1` が100%配信、対象51ファイルのSHA一致、health 200/ok。公開版も隔離Chromeの844×390・640×360で除外/解除/保存/再読込、鎖、一覧のチェック/補足なしを確認し、ページ例外0。
+
+実スマホは未確認。[変更と証拠](evidence/survival-exclusion-20261104/README.md)、[公開記録](evidence/survival-exclusion-20261104/RELEASE.md)。作業場所 `task-survival-build`、実装branch `codex/survival-exclusion-chain-20261104`、記録branch `codex/survival-exclusion-release-record-20261104`。元試作・バディ・rootの別作業差分は保持。
 
 # 生存の成長ループ・抽選調整・専用難度を公開（2026-11-04）
 
