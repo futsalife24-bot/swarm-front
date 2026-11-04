@@ -1,0 +1,24 @@
+{
+  "changed_accessors": [
+    2,
+    3
+  ],
+  "color_accessors": [
+    3
+  ],
+  "unused_uv_accessors": [
+    2
+  ],
+  "positions_normals_indices_weights_skeleton_animation_identical": true,
+  "old_shell_linear_rgb": [
+    0.25,
+    0.018,
+    0.57
+  ],
+  "new_shell_linear_rgb": [
+    0.14,
+    0.075,
+    0.255
+  ],
+  "yellow_unchanged": true
+}
