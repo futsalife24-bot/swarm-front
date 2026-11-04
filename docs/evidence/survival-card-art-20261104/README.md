@@ -28,7 +28,9 @@
 - `BASE_ORIGIN=http://127.0.0.1:5186 BASE_OUTPUT=dist-validation/survival-card-art/defense-base node scripts/check-front-base.mjs`: 844×390・640×360・1220×413 × 通常/動き軽減、全6条件成功。防衛の候補チェック・デッキ保存/反映/再読込・融合素材・タッチ判定・画面寸法を維持。[結果](defense-base.json)。
 - 書式・`git diff --check` 成功。専用の開発サーバーは検証後に停止。
 
-本番build・dry-run、main反映と配信確認は後続記録で確定する。
+- 実装commit `9cd9ba589e1c32800e3f9ccdb65b7693182a4558` から `npm run build:production` / `npm run server:build:production` 成功。新素材10点と一括保存マニフェストの生成も成功。
+
+main反映と配信確認は公開記録で確定する。
 
 ## 残件と境界
 
