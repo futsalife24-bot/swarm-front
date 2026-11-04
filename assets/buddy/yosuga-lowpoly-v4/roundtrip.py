@@ -50,4 +50,3 @@ result['ground_samples_every_3_frames']=ground
 (out/'review').mkdir(exist_ok=True)
 (out/'review'/'roundtrip.json').write_text(json.dumps(result,indent=2),encoding='utf-8')
 print(json.dumps(result))
-

@@ -15,4 +15,3 @@ for(let i=0;i<360;i++){
  await page.screenshot({path:here+`review/frames/${String(i).padStart(4,'0')}.png`});
 }
 await browser.close();server.kill();console.log('360 frames / 30 fps / 12 seconds');
-

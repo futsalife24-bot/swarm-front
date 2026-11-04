@@ -35,4 +35,3 @@ for(const [width,height] of [[844,390],[640,360]]){
 fs.writeFileSync(path.join(out,'validation.json'),JSON.stringify({stats,errors,measurements,browser:await browser.version(),kind:'PC headless Chromium / CPU animation + render submission; not GPU or phone frame time'},null,2));
 if(errors.length)throw Error(errors.join('\n'));
 await browser.close();server.kill();console.log(JSON.stringify({stats,errors,measurements},null,2));
-

@@ -26,4 +26,3 @@ try{
  fs.writeFileSync(here+'review/ui-validation.json',JSON.stringify({viewport:[640,360],dropdowns:true,pauseResume:true,noHorizontalOverflow:true,video,errors},null,2));
  console.log(JSON.stringify(video));
 }finally{await browser.close();server.kill();}
-

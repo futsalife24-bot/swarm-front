@@ -206,6 +206,3 @@ stats={'triangles':len(mesh.data.polygons),'materials':1,'bones':len(arm.bones),
 (OUT/'model-stats.json').write_text(json.dumps(stats,indent=2),encoding='utf-8')
 rig.animation_data.action=bpy.data.actions['Idle'];bpy.ops.wm.save_as_mainfile(filepath=str(OUT/'yosuga.blend'))
 print('BUDDY_STATS',json.dumps(stats))
-
-
-

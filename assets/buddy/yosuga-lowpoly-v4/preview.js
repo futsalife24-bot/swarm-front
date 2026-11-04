@@ -54,4 +54,3 @@ window.buddy={source,renderer,scene,camera,buddies,mixers,soldier,setView,count,
  async measure(n,shadow){count(n);renderer.shadowMap.enabled=shadow;mixers.forEach(m=>m.setTime(0));const frames=[];for(let i=0;i<150;i++){await new Promise(requestAnimationFrame);const start=performance.now();mixers.forEach((m,j)=>{if(buddies[j].visible)m.update(1/60);});renderer.render(scene,camera);if(i>=30)frames.push(performance.now()-start);}frames.sort((a,b)=>a-b);return {n,shadow,cpuSubmitMedianMs:frames[60],cpuSubmitP95Ms:frames[114],calls:renderer.info.render.calls,triangles:renderer.info.render.triangles};}
 };
 window.ready=true;
-

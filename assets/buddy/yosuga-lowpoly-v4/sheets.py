@@ -21,4 +21,3 @@ sheet('eye-comparison.png',[('../yosuga-lowpoly-v3/review/front.png','前版：�
 sheet('directions.png',[(f'review/{n}.png',label) for n,label in [('front','正面'),('side','側面'),('back','背面'),('hero','斜め')]])
 sheet('motion-sheet.png',[(f'review/frames/{i:04}.png',label) for i,label in [(45,'首かしげ・尾の反応'),(105,'小刻みな踏み替え'),(225,'尾を開いて構える'),(315,'尾を開く・側面')]])
 sheet('game-sizes.png',[(f'review/game-{w}-{n}.png',f'{w}×{390 if w==844 else 360} / バディ{n}体') for w,n in [(844,1),(640,1),(844,4),(640,4)]],w=860,h=450)
-

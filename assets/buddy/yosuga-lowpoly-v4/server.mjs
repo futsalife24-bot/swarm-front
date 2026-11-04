@@ -14,4 +14,3 @@ http.createServer((req,res)=>{
   if(!file.startsWith(base+path.sep)){res.writeHead(403);res.end();return;}
   fs.readFile(file,(err,data)=>{res.writeHead(err?404:200,{'Content-Type':types[path.extname(file)]||'application/octet-stream','Cache-Control':'no-store'});res.end(err?'見つかりません':data);});
 }).listen(Number(process.env.BUDDY_PORT||4317),'127.0.0.1',()=>console.log('BUDDY_READY'));
-
