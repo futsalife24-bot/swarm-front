@@ -71,3 +71,5 @@ GitHub: https://github.com/futsalife24-bot/swarm-front 。ブランチ `codex/bu
 worktree: `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-buddy-lowpoly`。対象は本フォルダとタタラ色調整版 `../tatara-lowpoly-v3/` のみ。元repository・dist-h・他担当の差分を編集していない。
 共有STATE／MainVaultは直接編集せず、本節を追記案とする：「タタラの造形・動きの本人賛同を受け紫の彩度を調整。次のヨスガ1体を台形頭・二枚尾・小さな二足で試作し、3動作・素材・画像・動画を作成。ヨスガの外観採用は本人未確認。属性未割当・ゲーム統合・main反映・公開なし。実機性能未確認。」
 実モデルID・推論設定は取得不可／未確認。子エージェント・独立監査なし。
+
+素材・検証commit `708801c` を2026-11-04に既存originの専用ブランチへpush済み。後続の追記は納品記録のみ。[主担当への納品先](https://github.com/futsalife24-bot/swarm-front/tree/codex/buddy-tatara-lowpoly-20261104/assets/buddy/yosuga-lowpoly-v1)。
