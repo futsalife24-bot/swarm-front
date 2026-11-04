@@ -72,7 +72,28 @@ try {
     await expect(page.locator("[data-front-slot]")).toBeDisabled();
     await expect(page.locator(".gear-arsenal")).toContainText("生存戦ライフル");
     await expect(page.locator(".gear-arsenal")).toContainText(
-      "通常カード 22種類",
+      "獲得済みカード 16種類",
+    );
+    // 隔離したテスト保存だけに進撃1/3/5の突破記録を用意する。
+    // 実際の進撃クリア操作そのものを検証したとは扱わない。
+    if (width === 640) {
+      await page.evaluate(async () => {
+        const { loadProgress, persistProgress } =
+          await import("/src/client/progression-save.ts");
+        const save = loadProgress("normal");
+        save.missions = {
+          "1:normal": [true, false, false],
+          "3:normal": [true, false, false],
+          "5:normal": [true, false, false],
+        };
+        persistProgress(save);
+      });
+      await page.locator("#front-mode").selectOption("defense");
+      await page.locator("#front-mode").selectOption("survival");
+    }
+    const ownedCount = width === 640 ? 19 : 16;
+    await expect(page.locator(".gear-arsenal")).toContainText(
+      `獲得済みカード ${ownedCount}種類`,
     );
     const loadoutBefore = await page.evaluate(() =>
       localStorage.getItem("swarm-front-upgrade-loadout-v1"),
@@ -116,9 +137,16 @@ try {
     await expect(page.locator("[data-pool]")).toHaveCount(0);
     await expect(page.locator("#base-grid .base-tile")).toHaveCount(22);
     await expect(page.locator('#base-grid [data-locked="true"]')).toHaveCount(
-      0,
+      22 - ownedCount,
     );
-    await expect(page.locator("#base-count")).toContainText("22種類");
+    await expect(page.locator("#base-count")).toContainText(
+      `${ownedCount}/22種`,
+    );
+    const lockedCard = width === 640 ? "life-drain" : "boost-coil";
+    await tap(`[data-inspect="${lockedCard}"]`);
+    await expect(page.locator(".base-locked-note")).toContainText(
+      width === 640 ? "攻略2クリアで解放" : "攻略1クリアで解放",
+    );
     await screenshot("cards");
     await tap("#base-fusions");
     await expect(page.locator("#base-grid .base-tile")).toHaveCount(9);
@@ -161,7 +189,8 @@ try {
       cardReturn: true,
       battleOneWeapon: true,
       saveUnchanged: true,
-      allNormalCards: 22,
+      allOwnedNormalCards: ownedCount,
+      lockedNormalCards: 22 - ownedCount,
       legacyLoadoutUnchanged: true,
       pageErrors: errors,
     });

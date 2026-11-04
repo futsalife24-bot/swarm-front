@@ -2,7 +2,11 @@ import { createHash } from "node:crypto";
 import { afterEach, expect, it } from "vitest";
 import { localCreationKey } from "./credentials";
 import { STARTERS, stats } from "../src/shared/defs";
-import { FRONT_BASE_IDS, FRONT_FUSION_IDS } from "../src/shared/front-upgrades";
+import {
+  FRONT_BASE_IDS,
+  FRONT_FUSION_IDS,
+  FRONT_V2_UPGRADE_IDS,
+} from "../src/shared/front-upgrades";
 import { neutral } from "../src/shared/game";
 import { isFrontSurvivalWeapon } from "../src/shared/front-weapon";
 
@@ -10,6 +14,8 @@ import { isFrontSurvivalWeapon } from "../src/shared/front-weapon";
 const base = process.env.SWARM_TEST_SERVER_URL ?? "http://127.0.0.1:8807";
 const clients: Client[] = [];
 const narrowPool = FRONT_BASE_IDS.slice(0, 6);
+const initialPool = [...FRONT_V2_UPGRADE_IDS];
+const earnedPool = [...initialPool, FRONT_BASE_IDS[initialPool.length]];
 const testClient = () =>
   createHash("sha256")
     .update(expect.getState().currentTestName ?? "survival-build-integration")
@@ -164,8 +170,8 @@ it("新規生存戦は偽装装備を捨てて2人とも専用武器1本で進�
   const entry = await room();
   const host = new Client(entry.code, true);
   const guest = new Client(entry.code, true);
-  await equip(host, true, true, narrowPool);
-  await equip(guest, true, true, narrowPool);
+  await equip(host, true, true, earnedPool);
+  await equip(guest, true, true, initialPool);
   const lobby = await host.wait(
     (message) =>
       message.type === "lobby" &&
@@ -194,12 +200,13 @@ it("新規生存戦は偽装装備を捨てて2人とも専用武器1本で進�
   );
   expect(initial[0].world.front.survivalBuildVersion).toBe(1);
   const pools = await upgradePools(entry.code);
-  for (const client of [host, guest])
-    expect(pools[client.id]).toEqual(FRONT_BASE_IDS);
-  for (const state of initial) {
+  expect(pools[host.id]).toEqual(earnedPool);
+  expect(pools[guest.id]).toEqual(initialPool);
+  for (const [index, state] of initial.entries()) {
+    const pool = index === 0 ? earnedPool : initialPool;
     expect(
       state.frontView.offer.cardIds.every((id: string) =>
-        FRONT_BASE_IDS.includes(id as (typeof FRONT_BASE_IDS)[number]),
+        pool.includes(id as (typeof pool)[number]),
       ),
     ).toBe(true);
     expect(
@@ -302,6 +309,9 @@ it("新規則は不正な候補指定を拒み、省略時はサーバー既定�
       message.type === "lobby" && message.members?.[0]?.weapons.length === 1,
   );
   expect(isFrontSurvivalWeapon(lobby.members[0].weapons[0])).toBe(true);
+  await readyAndStart(client, [client]);
+  await client.wait((message) => message.type === "state");
+  expect((await upgradePools(entry.code))[client.id]).toEqual(initialPool);
 });
 
 it("新旧混在の出撃は拒否され、ロビーの装備を維持する", async () => {

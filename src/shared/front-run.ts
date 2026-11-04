@@ -51,6 +51,7 @@ import {
   FRONT_INITIAL_CARDS,
   FRONT_MAX_PICKS,
   FRONT_BASE_IDS,
+  FRONT_V2_UPGRADE_IDS,
   frontPickLimit,
   frontEffectiveLevels,
   type FrontUpgradeState,
@@ -240,7 +241,7 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
         ? FRONT_INITIAL_CARDS
         : (member.initialCards ?? FRONT_INITIAL_CARDS),
       dedicatedWeapon
-        ? FRONT_BASE_IDS
+        ? (member.pool ?? FRONT_V2_UPGRADE_IDS)
         : options.fusion
           ? (member.pool ?? FRONT_BASE_IDS)
           : undefined,

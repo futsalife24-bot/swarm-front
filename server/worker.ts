@@ -1,6 +1,6 @@
 import {
-  FRONT_BASE_IDS,
   FRONT_PREVIOUS_BASE_IDS,
+  FRONT_V2_UPGRADE_IDS,
   createFrontUpgradeState,
   type FrontUpgradeId,
 } from "../src/shared/front-upgrades";
@@ -1629,7 +1629,7 @@ export class Room extends DurableObject<Env> {
       ) {
         member.upgradePool =
           this.equipmentCount(member) === 1
-            ? [...FRONT_BASE_IDS]
+            ? [...(m.upgradePool ?? FRONT_V2_UPGRADE_IDS)]
             : [...m.upgradePool];
       }
       if (

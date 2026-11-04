@@ -39,15 +39,15 @@ export function openFrontBase(
   root: HTMLElement,
   storage: FrontStorage,
   back: () => void,
-  options: { allCards?: boolean } = {},
+  options: { allUnlocked?: boolean } = {},
 ) {
-  const allCards = options.allCards === true;
+  const allUnlocked = options.allUnlocked === true;
   const discovery = readFrontFusionDiscovery(storage);
   const known = (id: FrontUpgradeId) => discovery.ids.includes(id);
   const campaign = readFrontCampaign(storage),
     progress = readFrontProgress(storage).progress;
-  let draft = allCards
-      ? { pool: [...FRONT_BASE_IDS], error: campaign.error }
+  let draft = allUnlocked
+      ? { pool: [...campaign.unlocked], error: campaign.error }
       : readFrontLoadout(storage),
     decks = readFrontDecks(storage),
     slot = 0;
@@ -57,8 +57,7 @@ export function openFrontBase(
     nameDirty = false;
   const icon = (id: FrontUpgradeId) =>
     frontUpgradeIconMarkup(id, import.meta.env.BASE_URL);
-  const locked = (id: FrontUpgradeId) =>
-    !allCards && !campaign.unlocked.includes(id);
+  const locked = (id: FrontUpgradeId) => !campaign.unlocked.includes(id);
   const unlock = (id: FrontUpgradeId) =>
     `攻略${FRONT_CAMPAIGN_UNLOCKS.find((r) => r.ids.includes(id))?.stage ?? ""}クリアで解放`;
   root.innerHTML = `<section class="panel menu-screen pt-screen front-base" aria-label="生存カード設定・デッキ編成">
@@ -68,7 +67,7 @@ export function openFrontBase(
       <div class="base-catalog-heading"><div role="tablist" aria-label="強化と融合"><button id="base-upgrades" role="tab" aria-selected="true" aria-controls="base-grid">強化 ${FRONT_BASE_IDS.length}</button><button id="base-fusions" role="tab" aria-selected="false" aria-controls="base-grid" tabindex="-1">融合 ${FRONT_FUSION_IDS.length}</button></div><span id="base-fusion-count"></span></div>
       <div id="base-grid" role="tabpanel" aria-labelledby="base-upgrades" tabindex="0"></div>
     </section><aside id="base-detail" class="base-detail" aria-label="強化・融合の説明"></aside></div>
-    <p id="front-pool-status" role="status">${esc(draft.error || (!allCards && decks.error) || discovery.error || (allCards ? "通常カードはすべて抽選対象。融合は作戦中に素材2種を最大段階へ育てると出現します。" : "開幕も選んだ候補からランダム3択。候補は6種以上。出撃には「出撃にセット」。"))}</p>
+    <p id="front-pool-status" role="status">${esc(draft.error || (!allUnlocked && decks.error) || discovery.error || (allUnlocked ? "獲得済みカードが抽選対象。進撃突破で新カードを獲得。融合は素材育成後に出現します。" : "開幕も選んだ候補からランダム3択。候補は6種以上。出撃には「出撃にセット」。"))}</p>
   </section>`;
   const $ = <T extends HTMLElement = HTMLElement>(id: string) =>
     root.querySelector<T>(`#${id}`)!;
@@ -119,7 +118,7 @@ export function openFrontBase(
               .map((f) => {
                 const recipe = FRONT_FUSIONS[f],
                   ready = recipe.every((id) => draft.pool.includes(id));
-                return `<div class="base-recipe" data-ready="${ready}">${!fusion ? `<button data-detail="${f}" class="base-fusion-result">${icon(f)}<strong>${catalog[f].name}</strong><span aria-hidden="true">›</span></button>` : ""}<div class="base-recipe-materials">${recipe.map((id) => `<button data-detail="${id}" aria-label="${catalog[id].name}の効果を見る">${icon(id)}<span>${catalog[id].name}<small>${allCards ? "通常抽選対象" : locked(id) ? unlock(id) : draft.pool.includes(id) ? "✓ 候補に選択中" : "候補に未選択"}</small></span></button>`).join('<b aria-hidden="true">＋</b>')}</div><p>${allCards ? "作戦中に素材2種を最大段階まで育てよう" : ready ? "素材2種を候補に選択済み" : "素材を候補へ加えて、融合を狙おう"}</p>${allCards ? "" : `<button data-add-recipe="${f}" ${recipe.some(locked) || ready ? "disabled" : ""}>${recipe.some(locked) ? "未解放の素材あり" : ready ? "素材を選択済み" : "素材2種を候補に加える"}</button>`}</div>`;
+                return `<div class="base-recipe" data-ready="${ready}">${!fusion ? `<button data-detail="${f}" class="base-fusion-result">${icon(f)}<strong>${catalog[f].name}</strong><span aria-hidden="true">›</span></button>` : ""}<div class="base-recipe-materials">${recipe.map((id) => `<button data-detail="${id}" aria-label="${catalog[id].name}の効果を見る">${icon(id)}<span>${catalog[id].name}<small>${locked(id) ? unlock(id) : allUnlocked ? "獲得済み・抽選対象" : draft.pool.includes(id) ? "✓ 候補に選択中" : "候補に未選択"}</small></span></button>`).join('<b aria-hidden="true">＋</b>')}</div><p>${allUnlocked ? (recipe.some(locked) ? "未獲得の素材は進撃突破で獲得しよう" : "作戦中に素材2種を最大段階まで育てよう") : ready ? "素材2種を候補に選択済み" : "素材を候補へ加えて、融合を狙おう"}</p>${allUnlocked ? "" : `<button data-add-recipe="${f}" ${recipe.some(locked) || ready ? "disabled" : ""}>${recipe.some(locked) ? "未解放の素材あり" : ready ? "素材を選択済み" : "素材2種を候補に加える"}</button>`}</div>`;
               })
               .join("")
           : '<p class="base-no-recipe">この強化を素材にする発見済みの融合はありません。</p>'
@@ -148,8 +147,8 @@ export function openFrontBase(
     if (focus) $("base-detail-name").focus({ preventScroll: true });
   }
   function render() {
-    $("base-count").textContent = allCards
-      ? `通常カード ${FRONT_BASE_IDS.length}種類 · すべて抽選対象`
+    $("base-count").textContent = allUnlocked
+      ? `獲得済み ${draft.pool.length}/${FRONT_BASE_IDS.length}種 · すべて抽選対象`
       : `候補 ${draft.pool.length}種`;
     const readyCount = FRONT_FUSION_IDS.filter(
       (f) =>
@@ -169,14 +168,14 @@ export function openFrontBase(
           : locked(id);
         const note = fusion
           ? known(id)
-            ? allCards
+            ? allUnlocked
               ? "素材2種を最大段階へ"
               : `${FRONT_FUSIONS[id].filter((m) => draft.pool.includes(m)).length}/2 素材選択`
             : "？？ × ？？"
           : unavailable
             ? unlock(id)
             : families[d.family];
-        return `<div class="base-tile" data-family="${fusion ? "fusion" : d.family}" data-selected="${!allCards && active}" data-locked="${unavailable}">${fusion || allCards ? "" : `<button class="base-check-toggle" data-pool="${id}" role="checkbox" aria-checked="${active}" aria-label="${d.name}を候補に含める" ${unavailable ? 'aria-disabled="true"' : ""}><span class="base-checkbox" aria-hidden="true">${active ? "✓" : ""}</span></button>`}<button class="base-tile-pick" data-inspect="${id}" aria-label="${d.name}の${fusion ? "融合レシピ" : "効果・融合"}を見る">${fusion && !known(id) ? '<span class="base-undiscovered" aria-hidden="true">？</span>' : icon(id)}<span class="base-tile-text"><strong>${d.name}</strong><small>${note}</small></span>${fusion ? '<em aria-hidden="true">◇</em>' : ""}</button></div>`;
+        return `<div class="base-tile" data-family="${fusion ? "fusion" : d.family}" data-selected="${!allUnlocked && active}" data-locked="${unavailable}">${fusion || allUnlocked ? "" : `<button class="base-check-toggle" data-pool="${id}" role="checkbox" aria-checked="${active}" aria-label="${d.name}を候補に含める" ${unavailable ? 'aria-disabled="true"' : ""}><span class="base-checkbox" aria-hidden="true">${active ? "✓" : ""}</span></button>`}<button class="base-tile-pick" data-inspect="${id}" aria-label="${d.name}の${fusion ? "融合レシピ" : "効果・融合"}を見る">${fusion && !known(id) ? '<span class="base-undiscovered" aria-hidden="true">？</span>' : icon(id)}<span class="base-tile-text"><strong>${d.name}</strong><small>${note}</small></span>${fusion ? '<em aria-hidden="true">◇</em>' : ""}</button></div>`;
       })
       .join("");
     grid.scrollTop = scroll;
@@ -366,13 +365,12 @@ export function openFrontBase(
   slotOptions();
   name.value = decks.slots[slot]?.name ?? "";
   render();
-  if (allCards) {
+  if (allUnlocked) {
     root
       .querySelector(".front-base")!
       .setAttribute("aria-label", "生存カード一覧");
     $("front-save-pool").remove();
     const count = $("base-count");
-    count.textContent = `通常カード ${FRONT_BASE_IDS.length}種類 · すべて抽選対象`;
     root.querySelector(".base-deck-bar")!.replaceChildren(count);
   }
 }

@@ -3,6 +3,7 @@ import {
   FrontNetwork,
   FRONT_NETWORK_SESSION_KEY,
 } from "../src/client/front-network";
+import { FRONT_V2_UPGRADE_IDS } from "../src/shared/front-upgrades";
 
 // welcome判定だけの単体。旧/新画面の実通信はfront-network.integration.tsで別途検証する。
 class Socket {
@@ -48,6 +49,8 @@ for (const version of ["legacy", "opening-only", "current"] as const)
       ready = vi.fn();
     net.onStatus = status;
     net.ready = ready;
+    net.upgradePool = [...FRONT_V2_UPGRADE_IDS.slice(0, 6)];
+    net.survivalUpgradePool = [...FRONT_V2_UPGRADE_IDS, "boost-coil"];
     net.connect("ABC123");
     const socket = Socket.last;
     socket.onopen?.();
@@ -69,6 +72,11 @@ for (const version of ["legacy", "opening-only", "current"] as const)
       "resume-token",
     );
     expect(socket.sent.some((m) => m.type === "equip")).toBe(modern);
+    if (modern)
+      expect(socket.sent.find((m) => m.type === "equip").upgradePool).toEqual([
+        ...FRONT_V2_UPGRADE_IDS,
+        "boost-coil",
+      ]);
     expect(ready).toHaveBeenCalledTimes(modern ? 1 : 0);
     if (!modern) {
       expect(net.closed).toBe(true);

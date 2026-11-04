@@ -1,4 +1,8 @@
-import { FRONT_BASE_IDS, type FrontUpgradeId } from "../shared/front-upgrades";
+import {
+  FRONT_BASE_IDS,
+  FRONT_V2_UPGRADE_IDS,
+  type FrontUpgradeId,
+} from "../shared/front-upgrades";
 import { createFrontSurvivalWeapon } from "../shared/front-weapon";
 import type { FrontRunView } from "../shared/front-run";
 import {
@@ -120,6 +124,8 @@ export class FrontNetwork {
   timer: ReturnType<typeof setInterval>;
   equip: Weapon[] = [];
   upgradePool: FrontUpgradeId[] = [...FRONT_BASE_IDS];
+  /** 参加先の作戦がwelcomeで確定するまで、防衛の候補設定と分けて保持。 */
+  survivalUpgradePool: FrontUpgradeId[] = [...FRONT_V2_UPGRADE_IDS];
   clearedStage = 0;
   private chunks: StateChunkReceiver | undefined;
   readonly diagnostics = new ConnectionDiagnostics();
@@ -351,7 +357,7 @@ export class FrontNetwork {
         this.onStatus("接続済み", false);
         if (this.mode === "survival") {
           this.equip = [createFrontSurvivalWeapon("front-lobby", this.id)];
-          this.upgradePool = [...FRONT_BASE_IDS];
+          this.upgradePool = [...this.survivalUpgradePool];
         }
         this.send({
           type: "equip",

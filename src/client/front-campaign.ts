@@ -118,6 +118,13 @@ export function readFrontCampaign(storage: FrontStorage) {
 export interface FrontLoadout {
   pool: FrontUpgradeId[];
 }
+/** 生存は獲得済みの全種類を候補にする。旧デッキ設定は参照・変更しない。 */
+export function readFrontSurvivalLoadout(
+  storage: FrontStorage,
+): FrontLoadout & { error: string } {
+  const campaign = readFrontCampaign(storage);
+  return { pool: campaign.unlocked, error: campaign.error };
+}
 export function readFrontLoadout(
   storage: FrontStorage,
 ): FrontLoadout & { error: string } {

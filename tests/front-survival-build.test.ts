@@ -9,6 +9,7 @@ import { EquipmentCache } from "../src/shared/state-wire";
 import {
   FRONT_BASE_IDS,
   FRONT_FUSION_IDS,
+  FRONT_V2_UPGRADE_IDS,
   getEligibleFrontUpgrades,
 } from "../src/shared/front-upgrades";
 import {
@@ -51,25 +52,35 @@ it("専用武器は持込装備と進撃育成に左右されず、カードで�
   expect(stats(player.weapons[0]).name).toBe("生存戦ライフル");
 });
 
-it("新規則の通常カードは進撃進度や持込候補で制限せず、融合は初期には出ない", () => {
-  const narrowPool = FRONT_BASE_IDS.slice(0, 6);
+it("新規則は各人の獲得済み候補を保ち、省略時は初期16種で融合は初期には出ない", () => {
+  const initialPool = [...FRONT_V2_UPGRADE_IDS];
+  const earnedPool = [...initialPool, FRONT_BASE_IDS[initialPool.length]];
   expect(FRONT_BASE_IDS).toHaveLength(22);
-  for (const clearedStage of [0, 25]) {
-    const run = createFrontRun({
-      runId: `full-pool-${clearedStage}`,
-      seed: 1,
-      fusion: true,
-      survivalBuildVersion: 1,
-      clearedStage,
-      players: [{ id: "player", pool: narrowPool }],
-    });
-    expect(run.upgrades.player.pool).toEqual(FRONT_BASE_IDS);
-    expect(getEligibleFrontUpgrades(run.upgrades.player).sort()).toEqual(
-      [...FRONT_BASE_IDS].sort(),
+  expect(initialPool).toHaveLength(16);
+  const run = createFrontRun({
+    runId: "personal-pools",
+    seed: 1,
+    fusion: true,
+    survivalBuildVersion: 1,
+    clearedStage: 25,
+    players: [
+      { id: "host", pool: earnedPool },
+      { id: "guest", pool: initialPool },
+      { id: "default" },
+    ],
+  });
+  for (const [id, pool] of [
+    ["host", earnedPool],
+    ["guest", initialPool],
+    ["default", initialPool],
+  ] as const) {
+    expect(run.upgrades[id].pool).toEqual(pool);
+    expect(getEligibleFrontUpgrades(run.upgrades[id]).sort()).toEqual(
+      [...pool].sort(),
     );
     expect(
-      getEligibleFrontUpgrades(run.upgrades.player).some((id) =>
-        FRONT_FUSION_IDS.includes(id as (typeof FRONT_FUSION_IDS)[number]),
+      getEligibleFrontUpgrades(run.upgrades[id]).some((card) =>
+        FRONT_FUSION_IDS.includes(card as (typeof FRONT_FUSION_IDS)[number]),
       ),
     ).toBe(false);
   }
