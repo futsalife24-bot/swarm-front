@@ -1,0 +1,215 @@
+{
+  "at": "2026-11-04T15:25:23.337Z",
+  "origin": "https://swarm-front.melosalife-24.workers.dev",
+  "source": "5050c07828a3c1c92c74ede56378bfb924e5cfe3",
+  "assets": [
+    {
+      "path": "/anomaly-voices.html",
+      "sha256": "041ae76658ff785de3bed305438eec4127396a20d0a7c440a4e8d23464dd14bb"
+    },
+    {
+      "path": "/asset-download-manifest.json",
+      "sha256": "7f1d8530fa3c01712e9e423558a219365290e01b29acb57ebb1bc4c6b3f97ea0"
+    },
+    {
+      "path": "/assets/audio/anomaly-voice-v1/manifest.json",
+      "sha256": "0b1c2112aa7a816a4772b657885dbe173e661a73e11f15f8d84f9876a4f46283"
+    },
+    {
+      "path": "/assets/audio/anomaly-voice-v2/manifest.json",
+      "sha256": "30006e0e9726365f10def3e086453a5a5f0fdbb390ba5b21b7c69702bba495b6"
+    },
+    {
+      "path": "/assets/audio/anomaly-voice-v3/manifest.json",
+      "sha256": "50c2feed53a3bd415601e2938a1a7d899d567df436a807fa07e56636a29082d4"
+    },
+    {
+      "path": "/assets/audio/ar-hit-v1/manifest.json",
+      "sha256": "24f70008f8278fd8d9f00168734cdc0459d6e7a306694a5272b299de5dedb1aa"
+    },
+    {
+      "path": "/assets/audio/rocket-final-v1/manifest.json",
+      "sha256": "c99aed811a0907139fa98da8fcf9e20ae077284899c2c83a41afeb8ee535be8c"
+    },
+    {
+      "path": "/assets/audio/se-v1/manifest.json",
+      "sha256": "d1ce5091f87dac461684f4972388a7699e3b9b0ddd270720e9bab82f9732f254"
+    },
+    {
+      "path": "/assets/audio/selected-v1/manifest.json",
+      "sha256": "8f65ab1b34a72bea39bccb2663158caf0ec2aa4a78c536d4f78064a7046a143f"
+    },
+    {
+      "path": "/assets/characters/standard_trooper_sprint_v8.json",
+      "sha256": "6200f869c2a872f56f67069caa962ddb71ffa8950eed55aaef1651cce3975cbc"
+    },
+    {
+      "path": "/assets/characters/standard_trooper_v1.json",
+      "sha256": "7c9bf9c85bc862506ec73978795109d9526d852f25b5f5cc179c0ba89e6a78b8"
+    },
+    {
+      "path": "/assets/characters/standard_trooper_v10.blender.json",
+      "sha256": "f4b9fa83b9d6a5f34877d68374d4e791ae1cbd62b053e8e1f0667fc62736724c"
+    },
+    {
+      "path": "/assets/characters/standard_trooper_v10.json",
+      "sha256": "28e7a6593f9d31d966a06aee46b81abe03f9e7388c023bcf8893b2b5727e2059"
+    },
+    {
+      "path": "/assets/characters/standard_trooper_v2.json",
+      "sha256": "7c9bf9c85bc862506ec73978795109d9526d852f25b5f5cc179c0ba89e6a78b8"
+    },
+    {
+      "path": "/assets/characters/standard_trooper_v3.json",
+      "sha256": "1da9b1edb9c400f867cca9fc9852343207086afc316bfa0f72631dbe87c183b1"
+    },
+    {
+      "path": "/assets/characters/standard_trooper_v4.json",
+      "sha256": "089435c3b2ae8d46491c9f096a8c32fc425d5aca4cb28a0f572c9c6346ac9fc4"
+    },
+    {
+      "path": "/assets/characters/standard_trooper_v5.json",
+      "sha256": "5582f1966f51c7dc592ac7d272c0f73652569c6680be194baea5b3f0fd0ea663"
+    },
+    {
+      "path": "/assets/characters/standard_trooper_v9.json",
+      "sha256": "1b9c2f4d2333127adb1185a1dcb5977e888931c4887963b413a25577cc07ca29"
+    },
+    {
+      "path": "/assets/cloud-save-BbOUmLuJ.css",
+      "sha256": "210675c63713e1125bbcd1ff64bf0e4c5e5697d6552f21fa589dbcba81aa5313"
+    },
+    {
+      "path": "/assets/cloud-save-BMNjYCyM.js",
+      "sha256": "f89ff166c551f5aca9bf90eb14e5f6a473bd2e53fcf60cadd91dcfb3ac8e9d52"
+    },
+    {
+      "path": "/assets/event-banners/consumer-manifest.json",
+      "sha256": "2b049a0ee15e63c00328c6d3c73a98094365216a1b873c6ab84e3fd2e00f05f0"
+    },
+    {
+      "path": "/assets/event-banners/validation.json",
+      "sha256": "7d825cccdc5ca6e30fdcca978fff04dc64f782f058dbe064af59f880d890bb8f"
+    },
+    {
+      "path": "/assets/front-BhkpQYUY.js",
+      "sha256": "e5a4543dccfd784fa8c7937e77a334986bf1d343225c38a0620eb4527f2d452f"
+    },
+    {
+      "path": "/assets/front-CzNNiLLp.css",
+      "sha256": "84afaee1ae9e1964ada40158f0a257cf3cd64f7c662a5a6f1286c928d2acafd3"
+    },
+    {
+      "path": "/assets/game-select-BBcbApPk.css",
+      "sha256": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75"
+    },
+    {
+      "path": "/assets/game-select-D2dGtiif.js",
+      "sha256": "2a37d2815d4d08d36891df52d5c53ea09957033938c71abf052fdf39eeac8a81"
+    },
+    {
+      "path": "/assets/hud-Do5uHmBe.js",
+      "sha256": "c2f93947d0902792459c6bcaa49b6f53698ec9a40022839bf27c78f04f1a92f0"
+    },
+    {
+      "path": "/assets/hud-KJkCjEBB.css",
+      "sha256": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3"
+    },
+    {
+      "path": "/assets/legacy-BH6ntdGf.js",
+      "sha256": "10e10bdb994776553e3db9cf8391ae6d267f3cd236a082a1f8c3f950f27cadd6"
+    },
+    {
+      "path": "/assets/legacy-CPbai1ZT.css",
+      "sha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9"
+    },
+    {
+      "path": "/assets/main-BOIn8V8d.css",
+      "sha256": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027"
+    },
+    {
+      "path": "/assets/main-CUtebQLz.js",
+      "sha256": "e955a09b402e9cf2ba382b8d95985c2acef1531d3e1bbec79b0e3415417f3b6b"
+    },
+    {
+      "path": "/assets/playtest-app-B7gB84Bm.css",
+      "sha256": "72b6e32a5c2b8c2edf14b4d7442d343ade56b87ffbb2ab3fa16893958c34ef71"
+    },
+    {
+      "path": "/assets/playtest-app-DW4IVNCo.js",
+      "sha256": "68c9234d3417224fd8de0dc40819fe3b837e09a2b60766a6471673b9afcde596"
+    },
+    {
+      "path": "/assets/room-access-CsPpjnoo.js",
+      "sha256": "52cb77ab55aae46080e72f08c5236286a8ee449f2abb20742511bf200e3e0ea3"
+    },
+    {
+      "path": "/assets/room-access-n-8m8axW.css",
+      "sha256": "f45dc9e8a45cdc3a61d2274b3f69504f722c39b5b77d655209c54795afb70254"
+    },
+    {
+      "path": "/assets/save-writer-BUUOzIBn.css",
+      "sha256": "4e91d064f9a5b74cf809d7b17d6e3529fdd161528f02d2f949cb0ff9b443d5dc"
+    },
+    {
+      "path": "/assets/save-writer-okSGKk6Z.js",
+      "sha256": "f8b6519edce116d402d47b91c7a1f808d226a76d43beaf2cef708e03b61f33ec"
+    },
+    {
+      "path": "/assets/training-app-D9YN713j.js",
+      "sha256": "86e8ed331f0f1f36f1ff6b5f9967dd90c5506bb8fda146872eedd05d0544afa2"
+    },
+    {
+      "path": "/assets/weapon-sharing-CX0L0YML.js",
+      "sha256": "c3609e1a782e9095aeea801f242a05e8f9b43673fd494a19d321c3980c6f399a"
+    },
+    {
+      "path": "/assets/weapon-workshop-ui-Cs3vJBRj.js",
+      "sha256": "3a10e78c56a1fb0cbfbb5d4251a8154504e35ad518d7ae562152ee8d0114d8d0"
+    },
+    {
+      "path": "/assets/weapon-workshop-ui-D_6688M2.css",
+      "sha256": "a70cefe8caa4892a30621f79d74b67c96e1cdbcd3044c7d6ab828398d064164c"
+    },
+    {
+      "path": "/assets/weapons/progression-v1/manifest.json",
+      "sha256": "a7701dc826e1667792f7b380d65af1b03215e2627760380c44383b05e41ae588"
+    },
+    {
+      "path": "/assets/weapons/realism-v2/manifest.json",
+      "sha256": "386265f8e50e7882d700fbab8f6d1326283c6def8fafd9e7ae300197a7b3c18e"
+    },
+    {
+      "path": "/assets/zoom-guard-CYxqEXnM.js",
+      "sha256": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b"
+    },
+    {
+      "path": "/briefing/index.html",
+      "sha256": "c727868b6a291da432efcf21e48a2cfb35ceae5b1cd136c4c18427d0476c46bc"
+    },
+    {
+      "path": "/briefing/slides.html",
+      "sha256": "9b6e9fedf6a3a15134d4634b5c5c46a6648da831a41bcfd2aa3add0ab07d63a5"
+    },
+    {
+      "path": "/front.html",
+      "sha256": "749872b8f8451f7a32ff0dd7cf8ce1cbf28d68c40697fe18fac57904bda80433"
+    },
+    {
+      "path": "/index.html",
+      "sha256": "cf8b15a2d50c32ff03609389c99d8aa75cf921b67fe957e5959de99b90eb7c8f"
+    },
+    {
+      "path": "/manifest.webmanifest",
+      "sha256": "a395e41a6419798be87fb74999412078387866aca0e9db0e15a3cf69d52e4cf6"
+    },
+    {
+      "path": "/sw.js",
+      "sha256": "32df8fbaf4e428fd5e6ea43ca2dc69a74823f07fa7eb7cd5b380e7e5adcb85ae"
+    }
+  ],
+  "health": {
+    "status": 200,
+    "ok": true
+  }
+}

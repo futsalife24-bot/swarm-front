@@ -4,7 +4,9 @@
 
 作業場所 `task-survival-build`、branch `codex/usability-five-fixes-20261104`、base `3e518f40b8b207ff0dd6b41ae180671bb8de396a`。型・関連単体46件・武器一覧8条件・参加/設定/初期表示10項目・生存/防衛2サイズ・読込の遅延/失敗3条件を確認。既存通信検査1件は対象外の文字列検索が古く失敗しており、全件成功とはしていない。
 
-実装commit `b3915bf` 後の本番build・Worker dry-runも成功。次は通常PR・既存Worker公開と配信/実画面確認。実スマホ、約90秒の再現、速度短縮は未確認。[変更と証拠](evidence/usability-five-20261105/README.md)。root・バディ等の別作業は未編集。
+[PR #277](https://github.com/futsalife24-bot/swarm-front/pull/277)を通常merge。公開ソースmain `5050c07828a3c1c92c74ede56378bfb924e5cfe3` からbuild/dry-run成功後、既存Worker Version `404e56be-2ce1-45fe-8c23-09e02c3fc880` を100%配信。51ファイルのSHA一致・health 200/ok。公開版も隔離Chrome2サイズで参加/設定/初期表示8項目、防衛の3丁3行、生存の戦闘開始/一時停止/リタイアまで成功。ページ例外0。
+
+実スマホ、約90秒の再現、速度短縮は未確認。[変更と証拠](evidence/usability-five-20261105/README.md)、[公開記録](evidence/usability-five-20261105/RELEASE.md)。公開記録branchは `codex/usability-five-release-record-20261105`。検証サーバーは停止済み、root・バディ等の別作業は未編集。
 
 # 生存カード4枚を生成画像と装甲枠で公開（2026-11-04）
 
