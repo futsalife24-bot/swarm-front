@@ -34,8 +34,33 @@ body.front-game #ui .base-header button {
 .front-base .sc-card[data-excluded="true"] .sc-face {
   filter: saturate(0.45);
 }
-.front-base .sc-exclude[aria-checked="true"] {
-  color: #ffc68d;
+.front-base .base-exclude-control {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 40px;
+  margin: 8px 0;
+  padding: 6px 9px;
+  border: 1px solid #6e858b;
+  background: #132c36;
+  font-size: 13px;
+  cursor: pointer;
+}
+.base-exclude-control:has(:checked) {
+  color: #f0d6ad;
+  border-color: #ba9d74;
+}
+.base-exclude-control:has(:disabled) {
+  opacity: 0.6;
+  cursor: default;
+}
+.base-exclude-control input {
+  width: 22px;
+  height: 22px;
+  min-height: 22px;
+  margin: 0;
+  flex: none;
+  accent-color: #d1b88c;
 }
 body.front-game #ui .base-deck-bar :is(input, select, button) {
   min-width: 0;

@@ -145,19 +145,27 @@ try {
       await tap("#pt-base-survival");
       await page.locator(".front-base").waitFor();
       await expect(page.locator("#base-count")).toContainText("抽選 12/12種");
-      await tap('[data-pool="magnet"]');
-      await expect(page.locator('[data-pool="magnet"]')).toHaveAttribute(
-        "aria-checked",
-        "true",
-      );
-      await tap('[data-pool="armor"]');
+      await expect(
+        page.locator("#base-grid [role=checkbox], #base-grid input"),
+      ).toHaveCount(0);
+      await expect(page.locator("#base-grid small")).toHaveCount(0);
+      await tap('[data-inspect="magnet"]');
+      await expect(page.locator("#base-exclude")).not.toBeChecked();
+      await tap(".base-exclude-control");
+      await expect(page.locator("#base-exclude")).toBeChecked();
+      await expect(
+        page.locator('.sc-card[data-excluded="true"] .sc-exclusion-chains'),
+      ).toHaveCount(1);
+      await tap('[data-inspect="magnet"]');
+      await expect(page.locator("#base-exclude")).toBeChecked();
+      await tap('[data-inspect="armor"]');
+      await tap(".base-exclude-control");
       await expect(page.locator("#front-pool-status")).toContainText(
         "除外枠がいっぱい",
       );
-      await expect(page.locator('[data-pool="armor"]')).toHaveAttribute(
-        "aria-checked",
-        "false",
-      );
+      await expect(page.locator("#base-exclude")).not.toBeChecked();
+      await tap('[data-inspect="boost-coil"]');
+      await expect(page.locator("#base-exclude")).toBeDisabled();
       await tap("#base-back");
       await expect(page.locator("dialog.base-confirm")).toBeVisible();
       await settle();
@@ -171,14 +179,22 @@ try {
       await page.reload();
       await page.locator(".front-base").waitFor();
       await settle();
-      await expect(page.locator('[data-pool="magnet"]')).toHaveAttribute(
-        "aria-checked",
-        "true",
-      );
+      await tap('[data-inspect="magnet"]');
+      await expect(page.locator("#base-exclude")).toBeChecked();
+      // キーボードで解除→再指定。一覧を触るだけでは除外設定は変わらない。
+      await page.locator("#base-exclude").focus();
+      await page.keyboard.press("Space");
+      await expect(page.locator(".sc-exclusion-chains")).toHaveCount(0);
+      await page.keyboard.press("Space");
+      await expect(page.locator(".sc-exclusion-chains")).toHaveCount(1);
       await expect(page.locator("#base-count")).toContainText(
         "抽選 11/12種 · 除外 1/1",
       );
       await shot("exclusions");
+      await tap("#base-fusions");
+      await expect(page.locator("#base-exclude")).toHaveCount(0);
+      await expect(page.locator("#base-grid small")).toHaveCount(0);
+      await tap("#base-upgrades");
       const overflow = await page.locator(".base-header").evaluate((el) =>
         [...el.querySelectorAll("button")]
           .filter((e) => {
@@ -212,6 +228,9 @@ try {
         rerolls: 3,
         exclusions: 1,
         poolAfterExclusion: 11,
+        chainExclusion: true,
+        detailCheckboxOnly: true,
+        keyboardToggle: true,
         refundGuard: true,
         reload: true,
         pageErrors: errors,
