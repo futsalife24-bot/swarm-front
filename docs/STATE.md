@@ -4,7 +4,7 @@
 
 作業場所 `task-survival-build`、branch `codex/usability-five-fixes-20261104`、base `3e518f40b8b207ff0dd6b41ae180671bb8de396a`。型・関連単体46件・武器一覧8条件・参加/設定/初期表示10項目・生存/防衛2サイズ・読込の遅延/失敗3条件を確認。既存通信検査1件は対象外の文字列検索が古く失敗しており、全件成功とはしていない。
 
-次は実装commit後の本番build・通常PR・既存Worker公開と配信/実画面確認。実スマホ、約90秒の再現、速度短縮は未確認。[変更と証拠](evidence/usability-five-20261105/README.md)。root・バディ等の別作業は未編集。
+実装commit `b3915bf` 後の本番build・Worker dry-runも成功。次は通常PR・既存Worker公開と配信/実画面確認。実スマホ、約90秒の再現、速度短縮は未確認。[変更と証拠](evidence/usability-five-20261105/README.md)。root・バディ等の別作業は未編集。
 
 # 生存カード4枚を生成画像と装甲枠で公開（2026-11-04）
 
