@@ -30,7 +30,7 @@
 
 - 実装commit `9cd9ba589e1c32800e3f9ccdb65b7693182a4558` から `npm run build:production` / `npm run server:build:production` 成功。新素材10点と一括保存マニフェストの生成も成功。
 
-main反映と配信確認は公開記録で確定する。
+PR #275を通常mergeし、既存Workerへ公開済み。配信61ファイルの一致・health・公開UI2サイズの詳細は[公開記録](RELEASE.md)。
 
 ## 残件と境界
 
