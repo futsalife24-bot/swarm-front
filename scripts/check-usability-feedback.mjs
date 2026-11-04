@@ -330,11 +330,22 @@ try {
       await p.goto(origin + path, { waitUntil: "commit" });
       await expect(p.locator("#boot-screen")).toBeVisible();
       await expect(p.locator("#boot-screen")).toContainText("読み込んでいます");
+      const background = await p.evaluate(
+        () => getComputedStyle(document.documentElement).backgroundColor,
+      );
+      // 本番はJSを保留しても既存テーマのCSSが先に届く。両方の正規暗色を許容。
+      assert.ok(["rgb(8, 14, 19)", "rgb(12, 24, 32)"].includes(background));
       assert.equal(
-        await p.evaluate(
-          () => getComputedStyle(document.documentElement).backgroundColor,
-        ),
-        "rgb(8, 14, 19)",
+        await p.locator("#boot-screen").evaluate((el) => {
+          const r = el.getBoundingClientRect();
+          return (
+            r.left === 0 &&
+            r.top === 0 &&
+            r.width === innerWidth &&
+            r.height === innerHeight
+          );
+        }),
+        true,
       );
       await p.screenshot({
         path: `${out}/${path.includes("front") ? "front" : "base"}-boot.png`,
