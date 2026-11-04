@@ -1,0 +1,57 @@
+{
+  "knownUnrelated": "../usability-five-20261105/existing-test-failure.json",
+  "attempts": [
+    {
+      "step": "通常sandboxでgit fetch",
+      "result": "FETCH_HEADへの書込みがPermission denied。正式な昇格後にmainと素材branchを明示fetch成功。"
+    },
+    {
+      "step": "通常sandboxでVitest",
+      "result": "一時変換ファイルのENOENTで2suiteを読めず。通常Windows環境で同じ対象22件が成功。"
+    },
+    {
+      "step": "隔離Chrome",
+      "result": "起動直後にexitCode=0で終了。成功とは扱わない。導入済みEdgeの隔離プロファイルで後続確認。"
+    },
+    {
+      "step": "Playwright標準ブラウザー",
+      "result": "導入済み実体なし。新規インストールせず。"
+    },
+    {
+      "step": "ソロ初回",
+      "result": "タップで戦場への手動操作が検査に不足し、読み込み完了画面で待機。既存導線の操作を追加。"
+    },
+    {
+      "step": "検証中のHMR",
+      "result": "検証用observerの編集による再読込でExecution context was destroyed。以後、ソース編集と実画面検査を分離。"
+    },
+    {
+      "step": "ソロの時計と初遭遇",
+      "result": "初遭遇演出で通常renderが停止しGLB追加待機が時間切れ。検証時計を起動前へ揃え、既存のスキップして戦闘へを検査で操作。"
+    },
+    {
+      "step": "初期配置の画像",
+      "result": "横後方ではタタラが画面下で切れた。等倍のまま横前方へ配置を修正。修正前の協力画像を最終見た目の証拠に使わない。"
+    },
+    {
+      "step": "別worktreeの起動点検",
+      "result": "swarm-soldier-motionはdubious ownershipで未確認。safe.directory変更や設定回避を行わず、当該worktreeは未編集。"
+    },
+    {
+      "step": "固定Rendererの初回入力",
+      "result": "検査でSTARTERS3武器を兵士へ渡しattachで例外。製品と同じ2武器へ修正し、通常prepareBattleの完了を待って測定。"
+    },
+    {
+      "step": "協力離脱の回帰",
+      "result": "復帰猶予中はWorldに切断者が残るため外観も残った。既存connectedへ接続して解放し、関連34件と実WSの0体/1体を再確認。"
+    },
+    {
+      "step": "協力の予告画像",
+      "result": "fixture後は新作戦の読み込み画面だったため、予告の目視合格には使わない。別の固定Renderer条件で予告を確認する。"
+    },
+    {
+      "step": "負荷の初回比較",
+      "result": "静的影が再描画されず影追加を測れていなかった。また別のUI検査が並走したためCPU値を最終比較に使わない。各検査を閉じ、影を明示再描画する固定条件で測り直す。"
+    }
+  ]
+}
