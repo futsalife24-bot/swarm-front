@@ -1,4 +1,4 @@
-# 生存の成長ループ・抽選調整・専用難度（2026-11-04）
+# 生存の成長ループ・抽選調整・専用難度を公開（2026-11-04）
 
 本人の「お任せで一旦進めるだけ進めて」に基づき、専用ライフル・カード表示・カットイン・宝箱に続けて、初期構成と進撃報酬を実装。新規は8種＋2融合から、進撃1〜7で毎回2種追加。既存保存は旧所持カードを維持する。獲得済み全候補から出撃前の除外分だけを外す方式で、防衛の旧デッキは維持。
 
@@ -6,7 +6,9 @@
 
 専用武器生存の難度を進撃進度から分離し、時間で強くする。XP回収半径・序盤の密度・成長間隔を調整。素材を育てて融合を狙い、融合後の空き枠で次の構成へ進む。初期8種の機械入力3seedでは最初のXP14〜22秒、初融合93〜103秒。人間の遊び心地・勝率の実測ではない。
 
-型・関連単体102件・保存単体147件・実WS7件・保存実Chrome回帰セット・生存UI2サイズ・防衛表示6条件・本番build/Worker dry-run成功。新しい育成画面のボタン重なりを修正。検査のページ間演出待ち漏れも補い、最終UIと型を再確認した。[PR #269](https://github.com/futsalife24-bot/swarm-front/pull/269)、作業場所 `task-survival-build`、branch `codex/survival-build-core-20261104`。通常公開の継続承認に従い、main反映・既存Worker公開・配信確認へ進む。まだ公開済みではない。
+型・関連単体102件・保存単体147件・実WS7件・保存実Chrome回帰セット・生存UI2サイズ・防衛表示6条件・本番build/Worker dry-run成功。新しい育成画面のボタン重なりを修正。検査のページ間演出待ち漏れも補い、最終UIと型を再確認した。
+
+[PR #269](https://github.com/futsalife24-bot/swarm-front/pull/269)を通常mergeし、公開ソースmain `5708e80234108137ab40747173f97e89f64159f7` からbuild/dry-runを再実行。既存WorkerのVersion `461eb914-8134-4c69-832e-73d9aab5f355` が100%配信。配信中のHTML/JS/CSS/JSON/Webmanifest全51ファイルのSHA一致、health 200/ok。公開版の新規隔離Chrome2サイズで専用武器・初期8種・3択・保存不変を確認し、共通基地の導線34項目も成功、ページ例外0。公開記録は[RELEASE.md](evidence/survival-progression-20261104/RELEASE.md)。作業場所 `task-survival-build`。実装branchは `codex/survival-build-core-20261104`、記録branchは `codex/survival-release-record-20261104`。
 
 仕様・計測・保存互換・確認範囲は[検証記録](evidence/survival-progression-20261104/README.md)。火炎/氷結/電撃などの新属性とバディ制作は後続。実スマホ、長時間負荷、幅広い人間プレイヤーの難度、公開環境での複数人プレイは未確認。元試作・バディ・rootの別作業差分は保護。
 

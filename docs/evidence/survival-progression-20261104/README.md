@@ -2,6 +2,8 @@
 
 本人の「お任せで一旦進めるだけ進めて。熱中できるゲーム性」に基づき、専用ライフルから育てる生存戦の基本ループを実装。直前の[カード表示・報酬イベント](../survival-card-integration-20261104/README.md)と同じPRへ統合する。数値は主担当が選んだ初版であり、人間による遊びやすさ・継続率を実証したものではない。
 
+公開済み。main反映・配信照合・公開版の画面確認は[公開記録](RELEASE.md)を参照。
+
 - リポジトリ: https://github.com/futsalife24-bot/swarm-front
 - 作業場所: `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-survival-build`
 - branch: `codex/survival-build-core-20261104`、今回の変更前HEAD: `9e0678fad4144e82cb2d31c3117af1a504c32263`
