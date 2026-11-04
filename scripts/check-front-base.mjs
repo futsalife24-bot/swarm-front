@@ -45,7 +45,9 @@ try {
       };
       // 準備画面へ戻る切替は旧画面の残像を0.55秒重ねる。残像の要素を数えないよう消えるまで待つ。
       const settleTransition = () =>
-        p.locator(".split-shutter").waitFor({ state: "detached" });
+        p.waitForFunction(
+          () => !document.querySelector(".split-shutter, .menu-route-shutter"),
+        );
       p.on("pageerror", (e) => errors.push(e.message));
       p.on("requestfailed", (r) =>
         console.error("通信失敗", r.url(), r.failure()?.errorText),

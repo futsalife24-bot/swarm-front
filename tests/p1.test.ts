@@ -239,7 +239,10 @@ it("ignores malformed JSON and invalid message types without invoking UI callbac
     expect(network.ready).not.toHaveBeenCalled();
     expect(network.onLobby).not.toHaveBeenCalled();
     expect(network.onStatus).not.toHaveBeenCalled();
-    socket.onmessage!({
+    // 壊れたフレームを受けた接続は破棄される。新しい接続で正常応答が復帰する。
+    network.connect("a".repeat(32));
+    const reconnected = network.ws as unknown as Socket;
+    reconnected.onmessage!({
       data: JSON.stringify({
         type: "lobby",
         preparationGeneration: 1,

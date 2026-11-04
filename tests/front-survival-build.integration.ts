@@ -9,6 +9,10 @@ import {
 } from "../src/shared/front-upgrades";
 import { neutral } from "../src/shared/game";
 import { isFrontSurvivalWeapon } from "../src/shared/front-weapon";
+import {
+  frontSurvivalPlanLoadout,
+  type FrontSurvivalPlan,
+} from "../src/shared/front-progression";
 
 /** 実ローカル Worker への WebSocket 通信。 */
 const base = process.env.SWARM_TEST_SERVER_URL ?? "http://127.0.0.1:8807";
@@ -113,6 +117,7 @@ async function equip(
   modern: boolean,
   forged = false,
   pool = FRONT_BASE_IDS,
+  survivalPlan?: FrontSurvivalPlan,
 ) {
   await client.wait((message) => message.type === "welcome");
   const weapon = forged
@@ -130,6 +135,12 @@ async function equip(
   client.send({
     type: "equip",
     upgradePool: pool,
+    ...(survivalPlan
+      ? {
+          frontSurvivalPlan: survivalPlan,
+          clearedStage: survivalPlan.clearedStage,
+        }
+      : {}),
     weapons: modern
       ? [weapon]
       : [weapon, { ...STARTERS[1], id: `legacy-b-${client.id}` }],
@@ -141,6 +152,81 @@ async function equip(
         ?.length === (modern ? 1 : 2),
   );
 }
+
+it("各人の進撃・兵士適性から候補と再抽選を導出し、ホストの解放を他人へ配らない", async () => {
+  const entry = await room();
+  const host = new Client(entry.code, true);
+  const guest = new Client(entry.code, true);
+  const hostPlan: FrontSurvivalPlan = {
+    version: 1,
+    clearedStage: 7,
+    legacyCards: false,
+    training: { rerolls: 2, exclusions: 1 },
+    excluded: ["magnet", "armor"],
+  };
+  const guestPlan: FrontSurvivalPlan = {
+    version: 1,
+    clearedStage: 0,
+    legacyCards: false,
+    training: { rerolls: 0, exclusions: 0 },
+    excluded: [],
+  };
+  await equip(host, true, false, FRONT_BASE_IDS, hostPlan);
+  await equip(guest, true, false, FRONT_BASE_IDS, guestPlan);
+  await readyAndStart(host, [host, guest]);
+  const states = await Promise.all(
+    [host, guest].map((c) => c.wait((m) => m.type === "state")),
+  );
+  expect(states[0].frontView.rerollsRemaining).toBe(5);
+  expect(states[1].frontView.rerollsRemaining).toBe(1);
+  const pools = await upgradePools(entry.code);
+  expect(pools[host.id]).toEqual(frontSurvivalPlanLoadout(hostPlan).pool);
+  expect(pools[guest.id]).toEqual(frontSurvivalPlanLoadout(guestPlan).pool);
+  expect(pools[guest.id]).toHaveLength(8);
+  const token = host.token;
+  host.ws.close();
+  const restored = new Client(entry.code, true, token);
+  const rejoined = await restored.wait((m) => m.type === "state");
+  expect(rejoined.frontView.rerollsRemaining).toBe(5);
+  expect((await upgradePools(entry.code))[host.id]).toEqual(pools[host.id]);
+});
+
+it("不正な適性・未獲得の除外を拒否し、先に受け付けた設定を保持する", async () => {
+  const entry = await room();
+  const host = new Client(entry.code, true);
+  const p: FrontSurvivalPlan = {
+    version: 1,
+    clearedStage: 0,
+    legacyCards: false,
+    training: { rerolls: 0, exclusions: 0 },
+    excluded: [],
+  };
+  await equip(host, true, false, FRONT_BASE_IDS, p);
+  const generation = host.latestLobby().preparationGeneration;
+  for (const invalid of [
+    { ...p, training: { rerolls: 3, exclusions: 0 } },
+    { ...p, excluded: ["life-drain"] },
+  ]) {
+    const from = host.messages.length;
+    host.send({
+      type: "equip",
+      weapons: [{ ...STARTERS[0], id: "invalid-plan" }],
+      frontSurvivalPlan: invalid,
+      upgradePool: FRONT_BASE_IDS,
+    });
+    await host.wait(
+      (m) => m.type === "notice" && m.reason.includes("不正"),
+      from,
+    );
+    expect(host.latestLobby().preparationGeneration).toBe(generation);
+  }
+  await readyAndStart(host, [host]);
+  const state = await host.wait((m) => m.type === "state");
+  expect(state.frontView.rerollsRemaining).toBe(1);
+  expect((await upgradePools(entry.code))[host.id]).toEqual(
+    frontSurvivalPlanLoadout(p).pool,
+  );
+});
 
 async function readyAndStart(host: Client, members: Client[]) {
   const lobby = await host.wait(

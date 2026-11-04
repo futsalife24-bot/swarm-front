@@ -28,6 +28,7 @@ import { BASTION, bastionSurvivalCap } from "./bastion";
 import {
   finalizeFrontSurvivalRewards,
   frontSurvivalDifficulty,
+  frontDedicatedSurvivalScale,
   frontSurvivalRewardCount,
   frontSurvivalTimeScale,
   frontSurvivalWeaponLevel,
@@ -104,6 +105,7 @@ export interface FrontRunOptions {
     weapons?: readonly FrontWeaponKind[];
     initialCards?: readonly FrontUpgradeId[];
     pool?: readonly FrontUpgradeId[];
+    rerolls?: number;
     equipment?: readonly Weapon[];
   }[];
 }
@@ -212,7 +214,13 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
         !p.id ||
         p.id.length > 80 ||
         ["__proto__", "constructor", "prototype"].includes(p.id),
-    )
+    ) ||
+    (dedicatedWeapon &&
+      options.players.some(
+        (p) =>
+          p.rerolls !== undefined &&
+          (!Number.isSafeInteger(p.rerolls) || p.rerolls < 0 || p.rerolls > 5),
+      ))
   )
     throw new RangeError("作戦設定が不正です");
   const mode = options.mode ?? "survival",
@@ -226,7 +234,10 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
     mode === "daily" ? (seed % 3) + 1 : 1,
   );
   world.front = createFrontBattleState();
-  if (dedicatedWeapon) world.front.survivalBuildVersion = 1;
+  if (dedicatedWeapon) {
+    world.front.survivalBuildVersion = 1;
+    world.front.enemyCap = 48;
+  }
   if (options.fusion) {
     world.front.growthVersion = 3;
     if (options.catalogVersion !== 1) world.front.catalogVersion = 2;
@@ -260,6 +271,8 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
         : options.fusion
           ? (member.pool ?? FRONT_BASE_IDS)
           : undefined,
+      dedicatedWeapon ? (member.rerolls ?? 1) : undefined,
+      dedicatedWeapon,
     );
   });
   if (mode !== "survival") {
@@ -467,10 +480,16 @@ export function rerollFrontRunOffer(
   return true;
 }
 export const frontSurvivalThreshold = (n: number) => 12 + n * 24 + n * n * 8;
+export const frontDedicatedSurvivalThreshold = (n: number) =>
+  12 + n * 19 + n * n * 6;
 function updateRights(run: FrontRun) {
   let count = 0;
   (run.fusion
-    ? Array.from({ length: 119 }, (_, i) => frontSurvivalThreshold(i))
+    ? Array.from({ length: 119 }, (_, i) =>
+        run.world.front?.survivalBuildVersion === 1
+          ? frontDedicatedSurvivalThreshold(i)
+          : frontSurvivalThreshold(i),
+      )
     : FRONT_RUN_CONFIG.xpThresholds
   ).forEach((threshold, index) => {
     if (run.world.front!.xp >= threshold) {
@@ -578,6 +597,8 @@ function survivalSpawnPoint(
 function queueSurvivalWave(run: FrontRun) {
   if (!run.fusion || run.mode !== "survival") return;
   const w = run.world;
+  const waveSize =
+    w.front?.survivalBuildVersion === 1 ? 12 : SURVIVAL_WAVE_SIZE;
   // Older saved runs start with the next future wave, rather than replaying
   // every event they missed before this feature was added.
   const index = (run.survivalWaveIndex ??= Math.floor(
@@ -611,15 +632,14 @@ function queueSurvivalWave(run: FrontRun) {
   const points: { x: number; z: number; kind: Enemy["kind"] }[] = [];
   for (
     let i = 0;
-    i < SURVIVAL_WAVE_SIZE * 5 &&
-    points.length < Math.min(SURVIVAL_WAVE_SIZE, available);
+    i < waveSize * 5 && points.length < Math.min(waveSize, available);
     i++
   ) {
     const angle = ring
-      ? rotation + ((i % SURVIVAL_WAVE_SIZE) * Math.PI * 2) / SURVIVAL_WAVE_SIZE
+      ? rotation + ((i % waveSize) * Math.PI * 2) / waveSize
       : survivalSpawnRandom(run) * Math.PI * 2;
     const distance = ring
-      ? radius + Math.floor(i / SURVIVAL_WAVE_SIZE) * 1.5
+      ? radius + Math.floor(i / waveSize) * 1.5
       : Math.sqrt(survivalSpawnRandom(run)) * 8;
     const point = {
       x: center.x + Math.cos(angle) * distance,
@@ -662,14 +682,18 @@ function queueSurvivalWave(run: FrontRun) {
 function survivalDamage(w: World, clearedStage: number) {
   return (
     stageFor({ stage: w.stage }).damage *
-    frontSurvivalDifficulty(clearedStage).damageScale *
-    frontSurvivalTimeScale(w.time).damage
+    (w.front?.survivalBuildVersion === 1
+      ? frontDedicatedSurvivalScale(w.time).damage
+      : frontSurvivalDifficulty(clearedStage).damageScale *
+        frontSurvivalTimeScale(w.time).damage)
   );
 }
 function schedule(run: FrontRun) {
   const w = run.world;
   const enemyCap = w.front!.enemyCap ?? 24;
   const survival = !!run.fusion && run.mode === "survival";
+  const waveSize =
+    w.front?.survivalBuildVersion === 1 ? 12 : SURVIVAL_WAVE_SIZE;
   if (survival && w.campaignPlan)
     w.campaignPlan.damage = survivalDamage(w, run.clearedStage ?? 0);
   run.pendingSpawns = run.pendingSpawns.filter((pending) => {
@@ -683,8 +707,10 @@ function schedule(run: FrontRun) {
         e.hp *=
           (kind === "bastion" ? 1 : FRONT_RUN_CONFIG.normalHpMultiplier) *
           (survival
-            ? frontSurvivalTimeScale(w.time).hp *
-              frontSurvivalDifficulty(run.clearedStage ?? 0).hpScale
+            ? w.front?.survivalBuildVersion === 1
+              ? frontDedicatedSurvivalScale(w.time).hp
+              : frontSurvivalTimeScale(w.time).hp *
+                frontSurvivalDifficulty(run.clearedStage ?? 0).hpScale
             : run.fusion
               ? 1 + Math.floor(w.time / 180) * 0.35
               : 1);
@@ -703,7 +729,7 @@ function schedule(run: FrontRun) {
     survival &&
     w.time >= nextWave - SURVIVAL_WAVE_RESERVE_SECONDS &&
     w.time <= nextWave + SURVIVAL_WAVE_GRACE
-      ? enemyCap - Math.min(SURVIVAL_WAVE_SIZE, Math.floor(enemyCap / 3))
+      ? enemyCap - Math.min(waveSize, Math.floor(enemyCap / 3))
       : enemyCap;
   if (
     w.time < run.nextSpawnAt ||
@@ -717,7 +743,9 @@ function schedule(run: FrontRun) {
     (run.finalResupplyDone ? 7 : w.time < 90 ? 4 : w.time < 210 ? 3.5 : 3) /
       (FRONT_RUN_CONFIG.spawnMultiplier *
         (survival
-          ? frontSurvivalDifficulty(run.clearedStage ?? 0).spawnScale
+          ? w.front?.survivalBuildVersion === 1
+            ? frontDedicatedSurvivalScale(w.time).spawn
+            : frontSurvivalDifficulty(run.clearedStage ?? 0).spawnScale
           : 1));
   // 生存戦は射撃型・飛行型が早く多く混ざり、5分以降は1回に3体ずつ来る。
   const [spitterAt, spitterEvery, hornetAt, hornetEvery] = survival
@@ -1109,7 +1137,9 @@ export function getFrontRunView(run: FrontRun, id: string) {
       (run.fusion && !getEligibleFrontUpgrades(s).length)
         ? null
         : run.fusion
-          ? frontSurvivalThreshold(s.rightsGranted)
+          ? run.world.front?.survivalBuildVersion === 1
+            ? frontDedicatedSurvivalThreshold(s.rightsGranted)
+            : frontSurvivalThreshold(s.rightsGranted)
           : (FRONT_RUN_CONFIG.xpThresholds[s.rightsGranted] ?? null),
     picks: s.picks,
     levels: { ...s.levels },

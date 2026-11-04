@@ -146,7 +146,12 @@ export function frontUpgradeCardView(
   base: string,
   options: Pick<
     SurvivalCardView,
-    "deck" | "locked" | "undiscovered" | "fusionProgress" | "inspecting"
+    | "deck"
+    | "excluded"
+    | "locked"
+    | "undiscovered"
+    | "fusionProgress"
+    | "inspecting"
   > = {},
 ): SurvivalCardView {
   const d = FRONT_UPGRADE_CATALOG[id];

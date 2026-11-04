@@ -250,7 +250,8 @@ export function collectFrontXp(w: World, all = false) {
           .filter(
             (p) =>
               Math.hypot(p.x - orb.x, p.z - orb.z) <=
-              5 + 3 * (r.players[p.id]?.levels.magnet ?? 0),
+              (r.survivalBuildVersion === 1 ? 10 : 5) +
+                3 * (r.players[p.id]?.levels.magnet ?? 0),
           )
           .sort(
             (a, b) =>

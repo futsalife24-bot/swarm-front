@@ -14,7 +14,10 @@ import {
   saveFrontLoadout,
   validateFrontLoadout,
   FRONT_CAMPAIGN_UNLOCKS,
+  readFrontSurvivalLoadout,
+  saveFrontSurvivalExclusions,
 } from "./front-campaign";
+import { FRONT_SURVIVAL_UNLOCKS } from "../shared/front-progression";
 import { readFrontDecks, saveFrontDeck } from "./front-decks";
 import { readFrontProgress, type FrontStorage } from "./front-progress";
 import {
@@ -51,8 +54,10 @@ export function openFrontBase(
   const known = (id: FrontUpgradeId) => discovery.ids.includes(id);
   const campaign = readFrontCampaign(storage),
     progress = readFrontProgress(storage).progress;
+  const survival = readFrontSurvivalLoadout(storage);
+  const acquired = allUnlocked ? survival.unlocked : campaign.unlocked;
   let draft = allUnlocked
-      ? { pool: [...campaign.unlocked], error: campaign.error }
+      ? { pool: [...survival.pool], error: survival.error }
       : readFrontLoadout(storage),
     decks = readFrontDecks(storage),
     slot = 0;
@@ -62,9 +67,11 @@ export function openFrontBase(
     nameDirty = false;
   const icon = (id: FrontUpgradeId) =>
     frontUpgradeIconMarkup(id, import.meta.env.BASE_URL);
-  const locked = (id: FrontUpgradeId) => !campaign.unlocked.includes(id);
+  const locked = (id: FrontUpgradeId) => !acquired.includes(id);
   const unlock = (id: FrontUpgradeId) =>
-    `攻略${FRONT_CAMPAIGN_UNLOCKS.find((r) => r.ids.includes(id))?.stage ?? ""}クリアで解放`;
+    allUnlocked
+      ? `進撃${FRONT_SURVIVAL_UNLOCKS.find((r) => r.ids.includes(id))?.stage ?? ""}突破で解放`
+      : `攻略${FRONT_CAMPAIGN_UNLOCKS.find((r) => r.ids.includes(id))?.stage ?? ""}クリアで解放`;
   root.innerHTML = `<section class="panel menu-screen pt-screen front-base" aria-label="生存カード設定・デッキ編成">
     <header class="menu-header base-header"><h1>生存カード</h1><span class="base-service">${progress.wins}勝 · ${progress.credits}功績</span><nav><button id="front-save-pool" class="primary">出撃にセット</button><button id="base-back">戻る</button></nav></header>
     <div class="base-deck-bar"><label class="sr-only" for="base-slot">保存デッキ</label><select id="base-slot"></select><label class="sr-only" for="base-name">デッキ名</label><input id="base-name" maxlength="24" placeholder="デッキ名（24文字まで）"><button id="base-store">デッキ保存</button><button id="base-load">呼び出す</button><span id="base-count"></span></div>
@@ -72,7 +79,7 @@ export function openFrontBase(
       <div class="base-catalog-heading"><div role="tablist" aria-label="強化と融合"><button id="base-upgrades" role="tab" aria-selected="true" aria-controls="base-grid">強化 ${FRONT_BASE_IDS.length}</button><button id="base-fusions" role="tab" aria-selected="false" aria-controls="base-grid" tabindex="-1">融合 ${FRONT_FUSION_IDS.length}</button></div><span id="base-fusion-count"></span></div>
       <div id="base-grid" role="tabpanel" aria-labelledby="base-upgrades" tabindex="0"></div>
     </section><aside id="base-detail" class="base-detail" aria-label="強化・融合の説明"></aside></div>
-    <p id="front-pool-status" role="status">${esc(draft.error || (!allUnlocked && decks.error) || discovery.error || (allUnlocked ? "獲得済みカードが抽選対象。進撃突破で新カードを獲得。融合は素材育成後に出現します。" : "開幕も選んだ候補からランダム3択。候補は6種以上。出撃には「出撃にセット」。"))}</p>
+    <p id="front-pool-status" role="status">${esc(draft.error || (!allUnlocked && decks.error) || discovery.error || (allUnlocked ? "獲得済みから不要なカードを除外できます。再抽選は作戦ごとに回復。融合は素材育成後に出現。" : "開幕も選んだ候補からランダム3択。候補は6種以上。出撃には「出撃にセット」。"))}</p>
   </section>`;
   const $ = <T extends HTMLElement = HTMLElement>(id: string) =>
     root.querySelector<T>(`#${id}`)!;
@@ -94,7 +101,9 @@ export function openFrontBase(
   function changed() {
     loadoutDirty = true;
     message(
-      "編集中 · 出撃に使うには「出撃にセット」。デッキ保存で別の構成も残せます。",
+      allUnlocked
+        ? "編集中 · 「除外を保存」で次の出撃から反映します。"
+        : "編集中 · 出撃に使うには「出撃にセット」。デッキ保存で別の構成も残せます。",
     );
     render();
   }
@@ -112,11 +121,12 @@ export function openFrontBase(
     const recipes = isFrontFusion(selected)
       ? [selected]
       : FRONT_FUSION_IDS.filter(
-          (f) => known(f) && FRONT_FUSIONS[f].includes(selected),
+          (f) =>
+            (allUnlocked || known(f)) && FRONT_FUSIONS[f].includes(selected),
         );
     if (fusion && !known(selected)) {
       $("base-detail").innerHTML =
-        `<div class="base-detail-title"><div><small>未発見の融合</small><h2 id="base-detail-name" tabindex="-1">${d.name}</h2></div></div><p>${d.name}＝？？ × ？？</p><p>作戦中に初めて融合すると、素材と効果をここで確認できます。</p><p class="base-fusion-rule">融合元の能力をレベルMAXで融合可能。1枠空く</p>`;
+        `<div class="base-detail-title"><div><small>未発見の融合</small><h2 id="base-detail-name" tabindex="-1">${d.name}</h2></div></div><p>${d.name}＝${allUnlocked ? FRONT_FUSIONS[selected as (typeof FRONT_FUSION_IDS)[number]].map((id) => catalog[id].name).join(" × ") : "？？ × ？？"}</p><p>${allUnlocked ? "素材2種を最大段階へ育てると抽選に登場。初めて融合すると、完成形の詳しい効果を確認できます。" : "作戦中に初めて融合すると、素材と効果をここで確認できます。"}</p><p class="base-fusion-rule">融合元の能力をレベルMAXで融合可能。1枠空く</p>`;
       $("base-detail").scrollTop = 0;
       if (focus) $("base-detail-name").focus({ preventScroll: true });
       return;
@@ -131,10 +141,10 @@ export function openFrontBase(
               .map((f) => {
                 const recipe = FRONT_FUSIONS[f],
                   ready = recipe.every((id) => draft.pool.includes(id));
-                return `<div class="base-recipe" data-ready="${ready}">${!fusion ? `<button data-detail="${f}" class="base-fusion-result">${icon(f)}<strong>${catalog[f].name}</strong><span aria-hidden="true">›</span></button>` : ""}<div class="base-recipe-materials">${recipe.map((id) => `<button data-detail="${id}" aria-label="${catalog[id].name}の効果を見る">${icon(id)}<span>${catalog[id].name}<small>${locked(id) ? unlock(id) : allUnlocked ? "獲得済み・抽選対象" : draft.pool.includes(id) ? "✓ 候補に選択中" : "候補に未選択"}</small></span></button>`).join('<b aria-hidden="true">＋</b>')}</div><p>${allUnlocked ? (recipe.some(locked) ? "未獲得の素材は進撃突破で獲得しよう" : "作戦中に素材2種を最大段階まで育てよう") : ready ? "素材2種を候補に選択済み" : "素材を候補へ加えて、融合を狙おう"}</p>${allUnlocked ? "" : `<button data-add-recipe="${f}" ${recipe.some(locked) || ready ? "disabled" : ""}>${recipe.some(locked) ? "未解放の素材あり" : ready ? "素材を選択済み" : "素材2種を候補に加える"}</button>`}</div>`;
+                return `<div class="base-recipe" data-ready="${ready}">${!fusion ? `<button data-detail="${f}" class="base-fusion-result">${icon(f)}<strong>${catalog[f].name}</strong><span aria-hidden="true">›</span></button>` : ""}<div class="base-recipe-materials">${recipe.map((id) => `<button data-detail="${id}" aria-label="${catalog[id].name}の効果を見る">${icon(id)}<span>${catalog[id].name}<small>${locked(id) ? unlock(id) : allUnlocked ? (draft.pool.includes(id) ? "獲得済み・抽選対象" : "除外中・抽選されません") : draft.pool.includes(id) ? "✓ 候補に選択中" : "候補に未選択"}</small></span></button>`).join('<b aria-hidden="true">＋</b>')}</div><p>${allUnlocked ? (recipe.some(locked) ? "未獲得の素材は進撃突破で獲得しよう" : !ready ? "素材の除外を解除すると、この融合を狙えます" : "作戦中に素材2種を最大段階まで育てよう") : ready ? "素材2種を候補に選択済み" : "素材を候補へ加えて、融合を狙おう"}</p>${allUnlocked ? "" : `<button data-add-recipe="${f}" ${recipe.some(locked) || ready ? "disabled" : ""}>${recipe.some(locked) ? "未解放の素材あり" : ready ? "素材を選択済み" : "素材2種を候補に加える"}</button>`}</div>`;
               })
               .join("")
-          : '<p class="base-no-recipe">この強化を素材にする発見済みの融合はありません。</p>'
+          : `<p class="base-no-recipe">この強化を素材にする${allUnlocked ? "" : "発見済みの"}融合はありません。</p>`
       }<p class="base-fusion-rule">作戦中に素材2種をそれぞれ最大段階へ育てると、融合が抽選候補に登場。2枠が1枠になり、完成形はさらに3段階まで育成できます。</p></section>${fusion ? `<details class="base-ranks"><summary>融合後の詳しい効果</summary><p>1段階：${esc(frontUpgradeEffect(selected, 1))}</p><p>最大段階：${esc(frontUpgradeEffect(selected, 3))}</p></details>` : ""}`;
     $("base-detail")
       .querySelectorAll<HTMLButtonElement>("[data-detail]")
@@ -161,11 +171,12 @@ export function openFrontBase(
   }
   function render() {
     $("base-count").textContent = allUnlocked
-      ? `獲得済み ${draft.pool.length}/${FRONT_BASE_IDS.length}種 · すべて抽選対象`
+      ? `抽選 ${draft.pool.length}/${acquired.length}種 · 除外 ${acquired.length - draft.pool.length}/${survival.exclusions}`
       : `候補 ${draft.pool.length}種`;
     const readyCount = FRONT_FUSION_IDS.filter(
       (f) =>
-        known(f) && FRONT_FUSIONS[f].every((id) => draft.pool.includes(id)),
+        (allUnlocked || known(f)) &&
+        FRONT_FUSIONS[f].every((id) => draft.pool.includes(id)),
     ).length;
     $("base-fusion-count").textContent =
       `発見 ${discovery.ids.length}/${FRONT_FUSION_IDS.length} · 狙える融合 ${readyCount}`;
@@ -178,6 +189,8 @@ export function openFrontBase(
         return renderSurvivalCardM(
           frontUpgradeCardView(id, import.meta.env.BASE_URL, {
             deck: fusion || allUnlocked ? undefined : active ? "in" : "out",
+            excluded:
+              allUnlocked && !fusion ? !active && !locked(id) : undefined,
             locked: fusion
               ? known(id) && FRONT_FUSIONS[id].some(locked)
                 ? "未獲得の素材あり"
@@ -226,6 +239,20 @@ export function openFrontBase(
         selected = id;
         if (locked(id)) {
           message(unlock(id));
+          detail();
+          return;
+        }
+        if (
+          allUnlocked &&
+          draft.pool.includes(id) &&
+          (acquired.length - draft.pool.length >= survival.exclusions ||
+            draft.pool.length <= 6)
+        ) {
+          message(
+            survival.exclusions === 0
+              ? "除外は進撃2突破、または進撃1突破後の「育成 → 生存適性」で解放できます。"
+              : "除外枠がいっぱいです。ほかの除外を解除するか、育成で除外枠を増やしてください。候補は6種以上必要です。",
+          );
           detail();
           return;
         }
@@ -281,12 +308,19 @@ export function openFrontBase(
   }
   $("front-save-pool").onclick = () =>
     attempt(() => {
-      saveFrontLoadout(storage, draft);
+      if (allUnlocked)
+        saveFrontSurvivalExclusions(
+          storage,
+          acquired.filter((id) => !draft.pool.includes(id)),
+        );
+      else saveFrontLoadout(storage, draft);
       loadoutDirty = false;
       message(
-        nameDirty
-          ? "出撃にセットしました。デッキ名の変更は未保存です。"
-          : "出撃にセットしました。次のソロ・協力出撃から反映します。",
+        allUnlocked
+          ? "除外を保存しました。次のソロ・協力出撃から反映します。"
+          : nameDirty
+            ? "出撃にセットしました。デッキ名の変更は未保存です。"
+            : "出撃にセットしました。次のソロ・協力出撃から反映します。",
         true,
       );
     });
@@ -387,8 +421,17 @@ export function openFrontBase(
     root
       .querySelector(".front-base")!
       .setAttribute("aria-label", "生存カード一覧");
-    $("front-save-pool").remove();
+    $("front-save-pool").textContent = "除外を保存";
+    $("front-save-pool").toggleAttribute("disabled", !!survival.error);
+    root.querySelector(".base-service")!.textContent =
+      `再抽選 ${survival.rerolls}回`;
     const count = $("base-count");
     root.querySelector(".base-deck-bar")!.replaceChildren(count);
+    const next = document.createElement("small");
+    next.className = "base-next-unlock";
+    next.textContent = survival.next
+      ? `次は進撃${survival.next.stage}：${survival.next.ids.map((id) => catalog[id].name).join("・")}`
+      : "通常カードは全種類獲得済み";
+    count.before(next);
   }
 }

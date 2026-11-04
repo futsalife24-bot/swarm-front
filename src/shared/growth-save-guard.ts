@@ -3,6 +3,20 @@ export function preservesGrowthSave(
   previous: Record<string, unknown>,
   next: Record<string, unknown>,
 ) {
+  if (previous.survivalCardVersion === 1 && next.survivalCardVersion !== 1)
+    return false;
+  const oldSoldiers = (previous.soldiers ?? []) as Record<string, unknown>[];
+  const newSoldiers = (next.soldiers ?? []) as Record<string, unknown>[];
+  for (const p of oldSoldiers) {
+    const current = newSoldiers.find((s) => s.id === p.id);
+    if (
+      current &&
+      ["survivalTraining", "survivalExcluded"].some(
+        (key) => p[key] !== undefined && current[key] === undefined,
+      )
+    )
+      return false;
+  }
   const a = previous.survival as Record<string, number> | undefined;
   const b = next.survival as Record<string, number> | undefined;
   if (

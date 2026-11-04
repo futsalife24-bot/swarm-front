@@ -26,6 +26,17 @@ body.front-game #ui .base-header button {
   flex: none;
   min-width: 0;
 }
+.base-next-unlock {
+  color: #c5d7dc;
+  font-size: 11px;
+  min-width: 0;
+}
+.front-base .sc-card[data-excluded="true"] .sc-face {
+  filter: saturate(0.45);
+}
+.front-base .sc-exclude[aria-checked="true"] {
+  color: #ffc68d;
+}
 body.front-game #ui .base-deck-bar :is(input, select, button) {
   min-width: 0;
   min-height: 36px;

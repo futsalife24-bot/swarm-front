@@ -310,7 +310,7 @@ function home() {
   $("home-tutorial").onclick = () =>
     menuDialog(
       "操作と作戦",
-      `<p>左側で移動、右側で視点を操作。射撃・装填・回避を組み合わせて敵を倒します。ボタン配置とジャイロは「設定・操作」で変更できます。</p><p>パソコン：移動 WASD・射撃 クリック・装填 R・回避 Space・ジャンプ F・蘇生 E。武器2本の作戦はQで切替できます。</p><p>生存戦は専用ライフル1本から開始。獲得済みの通常カードすべてが抽選対象になり、ランダムな3択から強化を選びます。進撃を突破すると新しいカードが加わります。基地の「生存カード」で効果と融合素材を確認できます。防衛戦では従来の候補設定を使用します。</p><p>作戦中の強化は最大6枠。素材2種をそれぞれ最大段階まで育てると融合が抽選候補に登場し、2枠が1枠にまとまります。融合した強化も3段階まで育成できます。一時停止の強化状況でも素材と段階を確認できます。</p>`,
+      `<p>左側で移動、右側で視点を操作。射撃・装填・回避を組み合わせて敵を倒します。ボタン配置とジャイロは「設定・操作」で変更できます。</p><p>パソコン：移動 WASD・射撃 クリック・装填 R・回避 Space・ジャンプ F・蘇生 E。武器2本の作戦はQで切替できます。</p><p>生存戦は専用ライフル1本から開始。除外していない獲得済みの通常カードが抽選対象になり、ランダムな3択から強化を選びます。進撃を突破すると新しいカードが加わります。基地の「生存カード」で効果と融合素材を確認できます。防衛戦では従来の候補設定を使用します。</p><p>作戦中の強化は最大6枠。素材2種をそれぞれ最大段階まで育てると融合が抽選候補に登場し、2枠が1枠にまとまります。融合した強化も3段階まで育成できます。一時停止の強化状況でも素材と段階を確認できます。</p>`,
       home,
     );
   $("ui").querySelector(".fine")!.textContent =
@@ -359,7 +359,8 @@ function frontEquipment(targetMode = mode): Weapon[] {
 function frontWeaponRows() {
   if (mode === "survival") {
     const weapon = stats(frontEquipment()[0]);
-    return `<div class="front-menu-content"><h2>${esc(weapon.name)}</h2><p>生存戦専用の無属性ライフル。武器の特徴は、戦闘中に選ぶカードで育てます。</p><p>威力 ${weapon.damage} · 装弾 ${weapon.mag} · 装填 ${weapon.reload}秒</p><h2>獲得済みカード ${frontLoadout.pool.length}種類</h2><p>獲得済みの通常カードがすべて抽選対象です。進撃の突破で候補が増え、融合は素材を育てると出現します。</p><p>「生存カード」で効果と融合条件を確認できます。</p></div>`;
+    const growth = readFrontSurvivalLoadout(progressStorage);
+    return `<div class="front-menu-content"><h2>${esc(weapon.name)}</h2><p>生存戦専用の無属性ライフル。戦闘中のカードで育てます。</p><p>威力 ${weapon.damage} · 装弾 ${weapon.mag} · 装填 ${weapon.reload}秒</p><h2>獲得済みカード ${growth.unlocked.length}種類</h2><p>抽選 ${growth.pool.length}種 · 除外 ${growth.plan.excluded.length}/${growth.exclusions} · 再抽選 ${growth.rerolls}回</p><p>進撃突破で新カード。抽選の調整は基地へ。</p></div>`;
   }
   const save = readFrontCampaign(progressStorage).save;
   if (!save) return gearSupplyRows(kinds);
@@ -414,7 +415,7 @@ function base(back: () => void = home) {
 }
 const modeDetails: Record<FrontMode, string> = {
   survival:
-    "進撃の最高クリア進度で出撃時に難度と報酬Lvを固定。死亡・60分帰還・ソロ60秒後の任意帰還で戦果を持ち帰ります。武器は60秒以上かつ1撃破から、1分ごと＋30撃破ごとに1丁（最大30）。コインは1分10、最大300。途中退出は戦果なし、切断は作戦を継続し結果保存猶予2分。",
+    "敵の強さは生存時間とともに上昇。報酬Lvは出撃時の進撃最高クリア進度で固定。死亡・60分帰還・ソロ60秒後の任意帰還で戦果を持ち帰ります。武器は60秒以上かつ1撃破から、1分ごと＋30撃破ごとに1丁（最大30）。コインは1分10、最大300。途中退出は戦果なし、切断は作戦を継続し結果保存猶予2分。",
   defense:
     "拠点を守りながら最終大型を撃破。拠点破壊・部隊全滅・9分経過で作戦終了。",
   daily:
@@ -547,8 +548,14 @@ function prep(coop = false) {
       return;
     }
     frontLoadout = readModeLoadout();
+    if (frontLoadout.error) {
+      launchButton.disabled = false;
+      notice(frontLoadout.error, 5);
+      return;
+    }
     if (coop && network) {
       network.upgradePool = frontLoadout.pool;
+      network.survivalPlan = readFrontSurvivalLoadout(progressStorage).plan;
       network.equipment(frontEquipment());
       network.preparation(false);
       preparedGeneration = -1;
@@ -560,6 +567,10 @@ function prep(coop = false) {
 }
 async function solo() {
   frontLoadout = readModeLoadout();
+  if (frontLoadout.error) {
+    notice(frontLoadout.error, 5);
+    return;
+  }
   localRun = createFrontRun(
     {
       runId: crypto.randomUUID(),
@@ -575,6 +586,9 @@ async function solo() {
           id,
           equipment: frontEquipment(),
           pool: frontLoadout.pool,
+          ...(mode === "survival"
+            ? { rerolls: readFrontSurvivalLoadout(progressStorage).rerolls }
+            : {}),
         },
       ],
     },
@@ -792,7 +806,9 @@ function connectRoom(code: string, target: string, token = "") {
   net.preparing = true;
   // 参加先の作戦はwelcomeで確定する。生存戦はその時点で専用武器に置き換える。
   net.equip = frontEquipment("defense");
-  net.survivalUpgradePool = readFrontSurvivalLoadout(progressStorage).pool;
+  const survivalLoadout = readFrontSurvivalLoadout(progressStorage);
+  net.survivalUpgradePool = survivalLoadout.pool;
+  net.survivalPlan = survivalLoadout.plan;
   frontLoadout = readModeLoadout();
   net.upgradePool = frontLoadout.pool;
   net.onStatus = (message, fatal) => {

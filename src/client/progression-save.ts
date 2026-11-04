@@ -1,4 +1,11 @@
 import { assertSaveWriter } from "./save-writer";
+import { readFrontProgress } from "./front-progress";
+import {
+  validSurvivalTraining,
+  validSurvivalExclusions,
+  type FrontSurvivalTraining,
+} from "../shared/front-progression";
+import type { FrontUpgradeId } from "../shared/front-upgrades";
 import { campaignNumber } from "../shared/campaign";
 import { preservesGrowthSave } from "../shared/growth-save-guard";
 import {
@@ -58,6 +65,8 @@ export interface Soldier {
   levels: Record<Skill, number>;
   equipped: string[];
   accessory?: string;
+  survivalTraining?: FrontSurvivalTraining;
+  survivalExcluded?: FrontUpgradeId[];
 }
 export interface Receipt {
   powder?: number;
@@ -78,6 +87,8 @@ export interface Receipt {
   collectionDone: boolean;
 }
 export interface ProgressSave {
+  /** 未指定の既存保存は旧カード所持を維持。新規作成だけ新しい解放順を使う。 */
+  survivalCardVersion?: 1;
   survival?: {
     bestSeconds: number;
     bestKills: number;
@@ -198,6 +209,8 @@ export const accessoryProtected = (s: ProgressSave, id: string) =>
   s.soldiers.some((p) => p.accessory === id);
 export function validateProgress(s: ProgressSave) {
   const integer = (v: number) => Number.isSafeInteger(v) && v >= 0;
+  if (s?.survivalCardVersion !== undefined && s.survivalCardVersion !== 1)
+    throw Error("生存カードの保存形式が不正です。上書きを停止しました。");
   if (
     s?.survival &&
     (!Number.isFinite(s.survival.bestSeconds) ||
@@ -319,6 +332,10 @@ export function validateProgress(s: ProgressSave) {
     throw new Error("兵士・ロック保存が不正です");
   for (const p of s.soldiers)
     if (
+      (p.survivalTraining !== undefined &&
+        !validSurvivalTraining(p.survivalTraining)) ||
+      (p.survivalExcluded !== undefined &&
+        !validSurvivalExclusions(p.survivalExcluded)) ||
       !p.levels ||
       !SKILLS.every(
         (k) =>
@@ -580,6 +597,9 @@ export function initializeProgress(
     const existing = migrateSharedArmory(storage);
     if (existing) return existing;
     const created = freshProgress(mode);
+    const oldFront = readFrontProgress(storage);
+    if (oldFront.error) throw new Error(oldFront.error);
+    if (oldFront.progress.runs === 0) created.survivalCardVersion = 1;
     created.armoryMigration = 1;
     persistProgress(created, storage);
     return created;

@@ -29,7 +29,9 @@ for (const [width, height] of [
   const errors = [];
   p.on("pageerror", (e) => errors.push(e.message));
   const settle = () =>
-    p.locator(".split-shutter").waitFor({ state: "detached" });
+    p.waitForFunction(
+      () => !document.querySelector(".split-shutter, .menu-route-shutter"),
+    );
   // 初回のタイトル入場画面（タップで開始）を閉じる。表示されない場合は何もしない。
   const enterTitle = async () => {
     const start = p.locator(".title-entry-start");
@@ -140,7 +142,10 @@ for (const [width, height] of [
   // 2. 基地 → 生存カード → 基地
   await p.locator("#pt-base-survival").tap();
   await p.waitForURL(/\/front\?cards=1$/, { timeout: 60000 });
-  await p.locator(".front-base .base-tile").first().waitFor({ timeout: 60000 });
+  await p
+    .locator(".front-base .sc-card[data-size='M']")
+    .first()
+    .waitFor({ timeout: 60000 });
   await settle();
   ok(
     (await p.locator(".front-base h1").innerText()) === "生存カード",
@@ -214,7 +219,7 @@ for (const [width, height] of [
     `${tag} 生存準備のボタン名「生存カード」`,
   );
   await p.locator("#front-base").tap();
-  await p.locator(".front-base .base-tile").first().waitFor();
+  await p.locator(".front-base .sc-card[data-size='M']").first().waitFor();
   await settle();
   await p.locator("#base-back").tap();
   await p.locator(".front-prep").waitFor();

@@ -15,6 +15,10 @@ import "./playtest.css";
 import "./gear-weapon-list.css";
 import { growthMarkup, bindGrowthUI, growthConfirmation } from "./growth-ui";
 import {
+  openSurvivalTraining,
+  survivalBreakthroughRewardMarkup,
+} from "./front-tactics-ui";
+import {
   menuAssemble,
   menuEquip,
   menuGlow,
@@ -627,6 +631,10 @@ function result() {
     false,
   );
   bindList("result");
+  $("pt-result-retry").insertAdjacentHTML(
+    "beforebegin",
+    survivalBreakthroughRewardMarkup(save, r),
+  );
   bind("pt-result-home", home);
   bind("pt-result-retry", gear);
 }
@@ -2224,6 +2232,11 @@ function growth() {
   ui.querySelector(".pt-personnel")!.prepend(
     ui.querySelector(".resource-wallet")!,
   );
+  const tactics = document.createElement("button");
+  tactics.id = "pt-survival-tactics";
+  tactics.textContent = "生存適性";
+  tactics.onclick = () => openSurvivalTraining(save, dialog, commit, growth);
+  ui.querySelector(".pt-personnel")!.append(tactics);
   bind("pt-register", () => {
     const n = structuredClone(save);
     n.soldiers.push({

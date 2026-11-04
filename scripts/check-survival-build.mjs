@@ -2,6 +2,7 @@
 import { chromium, expect } from "@playwright/test";
 import fs from "node:fs";
 const origin = process.env.ORIGIN ?? "http://127.0.0.1:5197";
+const production = process.env.PRODUCTION === "1";
 const out = process.argv[2] ?? "dist-validation/survival-build";
 fs.mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({
@@ -14,6 +15,7 @@ try {
     [844, 390],
     [640, 360],
   ]) {
+    const earned = width === 640 && !production;
     const context = await browser.newContext({
       viewport: { width, height },
       hasTouch: true,
@@ -41,7 +43,9 @@ try {
     const errors = [];
     page.on("pageerror", (e) => errors.push(e.message));
     const settle = () =>
-      page.locator(".split-shutter").waitFor({ state: "detached" });
+      page.waitForFunction(
+        () => !document.querySelector(".split-shutter, .menu-route-shutter"),
+      );
     const tap = async (selector) => {
       await settle();
       await page.locator(selector).tap();
@@ -72,11 +76,11 @@ try {
     await expect(page.locator("[data-front-slot]")).toBeDisabled();
     await expect(page.locator(".gear-arsenal")).toContainText("生存戦ライフル");
     await expect(page.locator(".gear-arsenal")).toContainText(
-      "獲得済みカード 16種類",
+      "獲得済みカード 8種類",
     );
     // 隔離したテスト保存だけに進撃1/3/5の突破記録を用意する。
     // 実際の進撃クリア操作そのものを検証したとは扱わない。
-    if (width === 640) {
+    if (earned) {
       await page.evaluate(async () => {
         const { loadProgress, persistProgress } =
           await import("/src/client/progression-save.ts");
@@ -91,7 +95,7 @@ try {
       await page.locator("#front-mode").selectOption("defense");
       await page.locator("#front-mode").selectOption("survival");
     }
-    const ownedCount = width === 640 ? 19 : 16;
+    const ownedCount = earned ? 18 : 8;
     await expect(page.locator(".gear-arsenal")).toContainText(
       `獲得済みカード ${ownedCount}種類`,
     );
@@ -133,8 +137,8 @@ try {
     await expect(
       page.getByRole("heading", { name: "生存カード", exact: true }),
     ).toBeVisible();
-    await expect(page.locator("#front-save-pool")).toHaveCount(0);
-    await expect(page.locator("[data-pool]")).toHaveCount(0);
+    await expect(page.locator("#front-save-pool")).toHaveText("除外を保存");
+    await expect(page.locator("[data-pool]")).toHaveCount(22);
     await expect(
       page.locator('#base-grid > .sc-card[data-size="M"]'),
     ).toHaveCount(22);
@@ -142,12 +146,19 @@ try {
       22 - ownedCount,
     );
     await expect(page.locator("#base-count")).toContainText(
-      `${ownedCount}/22種`,
+      `抽選 ${ownedCount}/${ownedCount}種`,
     );
-    const lockedCard = width === 640 ? "life-drain" : "boost-coil";
+    await expect(page.locator("#base-fusion-count")).toContainText(
+      earned ? "狙える融合 8" : "狙える融合 2",
+    );
+    await tap('[data-inspect="reload"]');
+    await expect(
+      page.locator('.base-recipe [data-detail="magazine"]'),
+    ).toHaveCount(1);
+    const lockedCard = earned ? "burst-cell" : "boost-coil";
     await tap(`[data-inspect="${lockedCard}"]`);
     await expect(page.locator(".base-locked-note")).toContainText(
-      width === 640 ? "攻略2クリアで解放" : "攻略1クリアで解放",
+      earned ? "進撃6突破で解放" : "進撃3突破で解放",
     );
     await screenshot("cards");
     await tap("#base-fusions");
@@ -196,6 +207,7 @@ try {
     reports.push({
       width,
       height,
+      production,
       prep: true,
       defenseTwoWeapons: true,
       cardReturn: true,

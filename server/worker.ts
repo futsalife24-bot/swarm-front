@@ -21,6 +21,11 @@ import {
 import { validFrontClearedStage } from "../src/shared/front-survival";
 import { createFrontSurvivalWeapon } from "../src/shared/front-weapon";
 import {
+  validFrontSurvivalPlan,
+  frontSurvivalPlanLoadout,
+  type FrontSurvivalPlan,
+} from "../src/shared/front-progression";
+import {
   exportProjectAnalytics,
   forwardAnalytics,
   legacyEvent,
@@ -99,6 +104,7 @@ interface Env {
 }
 interface Member {
   frontSurvivalBuild?: 1;
+  frontSurvivalPlan?: FrontSurvivalPlan;
   frontClearedStage?: number;
   frontGrowth?: 2 | 3;
   frontCatalog?: 2;
@@ -1561,6 +1567,14 @@ export class Room extends DurableObject<Env> {
         }
         try {
           const dedicatedPool = this.equipmentCount(member) === 1;
+          if (
+            m.frontSurvivalPlan !== undefined &&
+            (!dedicatedPool ||
+              !validFrontSurvivalPlan(m.frontSurvivalPlan) ||
+              (m.clearedStage !== undefined &&
+                m.clearedStage !== m.frontSurvivalPlan.clearedStage))
+          )
+            throw new Error("生存の育成設定が不正です");
           if (!dedicatedPool && !Array.isArray(m.upgradePool))
             throw new Error();
           if (m.upgradePool !== undefined)
@@ -1627,9 +1641,15 @@ export class Room extends DurableObject<Env> {
         this.saved.directory?.ruleset === "front-v1" &&
         member.frontGrowth === 3
       ) {
+        member.frontSurvivalPlan =
+          this.equipmentCount(member) === 1 && m.frontSurvivalPlan
+            ? structuredClone(m.frontSurvivalPlan)
+            : undefined;
         member.upgradePool =
           this.equipmentCount(member) === 1
-            ? [...(m.upgradePool ?? FRONT_V2_UPGRADE_IDS)]
+            ? member.frontSurvivalPlan
+              ? frontSurvivalPlanLoadout(member.frontSurvivalPlan).pool
+              : [...(m.upgradePool ?? FRONT_V2_UPGRADE_IDS)]
             : [...m.upgradePool];
       }
       if (
@@ -1738,6 +1758,12 @@ export class Room extends DurableObject<Env> {
               weapons: p.weapons.map((w) => w.kind as FrontWeaponKind),
               equipment: p.weapons,
               pool: p.upgradePool ?? FRONT_PREVIOUS_BASE_IDS,
+              ...(p.frontSurvivalPlan
+                ? {
+                    rerolls: frontSurvivalPlanLoadout(p.frontSurvivalPlan)
+                      .rerolls,
+                  }
+                : {}),
               initialCards: p.initialCards,
             })),
           },

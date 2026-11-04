@@ -1,0 +1,140 @@
+{
+  "source": "vitest stdout: tests/front-survival-measure.test.ts, final cap48/wave12/pickup10m",
+  "pilot": "tests/bot.ts pilot() with reload input; ordinary pickup mode also pursues an orb within 18m when the nearest enemy is over 10m away",
+  "conditions": {
+    "ordinary_pickup": {
+      "environment": "SWARM_MEASURE_ORBS unset",
+      "records": [
+        {
+          "seed": 7,
+          "phase": "combat",
+          "combatTime": 300,
+          "firstXpAt": 15.200000000000081,
+          "picks": 19,
+          "firstFusion": 93.9999999999968,
+          "maxEnemies": 40,
+          "kills": 664,
+          "collectedXp": 1337,
+          "uncollectedXp": 78,
+          "hpLost": 30,
+          "hp": 192,
+          "deathAt": null,
+          "milestones": [
+            { "minute": 1, "picks": 5, "xp": 132, "enemies": 3, "hp": 160 },
+            { "minute": 3, "picks": 11, "xp": 648, "enemies": 18, "hp": 160 },
+            { "minute": 5, "picks": 19, "xp": 1337, "enemies": 13, "hp": 192 }
+          ],
+          "levels": { "blast-core": 3, "armor-piercer": 3, "armor": 4, "fusion-counter": 3 }
+        },
+        {
+          "seed": 47,
+          "phase": "combat",
+          "combatTime": 300,
+          "firstXpAt": 13.550000000000058,
+          "picks": 17,
+          "firstFusion": 102.64999999999631,
+          "maxEnemies": 48,
+          "kills": 632,
+          "collectedXp": 1273,
+          "uncollectedXp": 93,
+          "hpLost": 219,
+          "hp": 192,
+          "deathAt": null,
+          "milestones": [
+            { "minute": 1, "picks": 4, "xp": 120, "enemies": 0, "hp": 160 },
+            { "minute": 3, "picks": 10, "xp": 644, "enemies": 28, "hp": 104 },
+            { "minute": 5, "picks": 17, "xp": 1273, "enemies": 30, "hp": 192 }
+          ],
+          "levels": { "blast-core": 1, "armor-piercer": 3, "armor": 4, "fusion-counter": 3 }
+        },
+        {
+          "seed": 814,
+          "phase": "combat",
+          "combatTime": 300,
+          "firstXpAt": 21.750000000000174,
+          "picks": 19,
+          "firstFusion": 93.34999999999684,
+          "maxEnemies": 39,
+          "kills": 652,
+          "collectedXp": 1358,
+          "uncollectedXp": 51,
+          "hpLost": 88,
+          "hp": 155,
+          "deathAt": null,
+          "milestones": [
+            { "minute": 1, "picks": 4, "xp": 92, "enemies": 2, "hp": 160 },
+            { "minute": 3, "picks": 12, "xp": 690, "enemies": 21, "hp": 160 },
+            { "minute": 5, "picks": 19, "xp": 1358, "enemies": 29, "hp": 155 }
+          ],
+          "levels": { "blast-core": 3, "armor": 4, "magazine": 3, "fusion-counter": 3 }
+        }
+      ]
+    },
+    "no_orb_pursuit": {
+      "environment": "SWARM_MEASURE_ORBS=0",
+      "records": [
+        {
+          "seed": 7,
+          "phase": "defeat",
+          "combatTime": 219.4,
+          "firstXpAt": 31.000000000000306,
+          "picks": 7,
+          "firstFusion": 207.10000000001284,
+          "maxEnemies": 48,
+          "kills": 389,
+          "collectedXp": 282,
+          "uncollectedXp": 527,
+          "hpLost": 248,
+          "hp": 0,
+          "deathAt": 219.4,
+          "milestones": [
+            { "minute": 1, "picks": 3, "xp": 64, "enemies": 0, "hp": 160 },
+            { "minute": 3, "picks": 6, "xp": 228, "enemies": 41, "hp": 125 }
+          ],
+          "levels": { "fusion-counter": 1 }
+        },
+        {
+          "seed": 47,
+          "phase": "defeat",
+          "combatTime": 276,
+          "firstXpAt": 33.05000000000026,
+          "picks": 9,
+          "firstFusion": 128.84999999999505,
+          "maxEnemies": 48,
+          "kills": 518,
+          "collectedXp": 261,
+          "uncollectedXp": 825,
+          "hpLost": 256,
+          "hp": 0,
+          "deathAt": 276,
+          "milestones": [
+            { "minute": 1, "picks": 3, "xp": 50, "enemies": 1, "hp": 160 },
+            { "minute": 3, "picks": 8, "xp": 261, "enemies": 29, "hp": 160 }
+          ],
+          "levels": { "fusion-counter": 3 }
+        },
+        {
+          "seed": 814,
+          "phase": "combat",
+          "combatTime": 300,
+          "firstXpAt": 57.19999999999889,
+          "picks": 12,
+          "firstFusion": 150.24999999999991,
+          "maxEnemies": 48,
+          "kills": 620,
+          "collectedXp": 511,
+          "uncollectedXp": 834,
+          "hpLost": 242,
+          "hp": 128,
+          "deathAt": null,
+          "milestones": [
+            { "minute": 1, "picks": 2, "xp": 14, "enemies": 2, "hp": 160 },
+            { "minute": 3, "picks": 7, "xp": 286, "enemies": 34, "hp": 160 },
+            { "minute": 5, "picks": 12, "xp": 511, "enemies": 25, "hp": 128 }
+          ],
+          "levels": { "blast-core": 3, "fusion-counter": 3 }
+        }
+      ]
+    }
+  }
+}

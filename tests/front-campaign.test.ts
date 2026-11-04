@@ -30,7 +30,7 @@ it("生存は獲得済み全種類を候補にし、進撃突破で追加して�
   const s = storage(),
     p = freshProgress("normal");
   const initial = readFrontSurvivalLoadout(s);
-  expect(initial.pool).toHaveLength(16);
+  expect(initial.pool).toHaveLength(8);
   expect(initial.pool).not.toContain("boost-coil");
   const selected = { pool: initial.pool.slice(0, 6) };
   saveFrontLoadout(s, selected);
@@ -43,7 +43,7 @@ it("生存は獲得済み全種類を候補にし、進撃突破で追加して�
   const before = [...s.map];
   const survival = readFrontSurvivalLoadout(s);
   expect(survival.error).toBe("");
-  expect(survival.pool).toHaveLength(19);
+  expect(survival.pool).toHaveLength(22);
   expect(survival.pool).toEqual(
     expect.arrayContaining([
       ...initial.pool,
@@ -52,7 +52,7 @@ it("生存は獲得済み全種類を候補にし、進撃突破で追加して�
       "burst-cell",
     ]),
   );
-  expect(survival.pool).not.toContain("life-drain");
+  expect(survival.pool).toContain("life-drain");
   expect(readFrontLoadout(s).pool).toEqual(selected.pool);
   expect([...s.map]).toEqual(before);
 });
@@ -60,11 +60,11 @@ it("生存は壊れた旧デッキを使わず、壊れた攻略保存は上書�
   const s = storage();
   s.setItem(FRONT_LOADOUT_KEY, "bad");
   expect(readFrontSurvivalLoadout(s).error).toBe("");
-  expect(readFrontSurvivalLoadout(s).pool).toHaveLength(16);
+  expect(readFrontSurvivalLoadout(s).pool).toHaveLength(8);
   s.setItem(legacyProgressKey, "bad");
   const before = [...s.map];
   expect(readFrontSurvivalLoadout(s).error).toContain("読み込めません");
-  expect(readFrontSurvivalLoadout(s).pool).toHaveLength(16);
+  expect(readFrontSurvivalLoadout(s).pool).toHaveLength(8);
   expect([...s.map]).toEqual(before);
 });
 it.each([20, 21, 22])("解放済み候補%d種類を保存して再読込できる", (count) => {
