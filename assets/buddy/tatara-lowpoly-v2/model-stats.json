@@ -1,0 +1,14 @@
+{
+  "triangles": 1924,
+  "materials": 1,
+  "bones": 11,
+  "textures": 0,
+  "height_m": 0.6588,
+  "width_m": 1.35,
+  "clips": [
+    "Idle",
+    "Follow",
+    "Palm"
+  ],
+  "blender": "5.2.1 LTS"
+}

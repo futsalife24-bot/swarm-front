@@ -1,0 +1,11 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>タタラ｜ローポリ試作</title>
+<link rel="icon" href="data:,">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#202522;color:#eee9dc;font:14px system-ui}header{height:52px;display:flex;align-items:center;gap:14px;padding:8px 16px;border-bottom:1px solid #586053}header strong{font-size:18px}button,select{background:#384238;color:#fff;border:1px solid #697663;border-radius:5px;padding:7px}main{height:calc(100vh - 84px)}canvas{display:block;width:100%;height:100%}footer{height:32px;padding:6px 16px;color:#bac4b5;font-size:12px}#note{margin-left:auto;color:#d0c8b0;font-size:12px}@media(max-width:700px){header{gap:7px;padding:6px}header strong{font-size:14px}#note{display:none}button,select{padding:5px;font-size:12px}footer{font-size:10px;padding:6px}}
+</style>
+<style>body.game main{height:100vh}body.game header{position:fixed;top:0;left:0;right:0;z-index:2;background:#202522ed}body.game footer{position:fixed;bottom:0;left:0;right:0;background:#202522ed}</style>
+<header><strong>タタラ / 試作02</strong><select id="motion" aria-label="動作"><option value="Idle">待機</option><option value="Follow">移動・追従</option><option value="Palm">掌を前へ</option></select><select id="view" aria-label="視点"><option value="hero">斜め</option><option value="front">正面</option><option value="side">側面</option><option value="back">背面</option><option value="scale">兵士と比較</option><option value="game">通常距離</option></select><select id="count" aria-label="バディ数"><option value="1">1体</option><option value="0">なし</option><option value="4">4体・仮定</option></select><button id="pause">一時停止</button><span id="note">属性・能力は未決定</span></header>
+<main id="stage"></main><footer id="status">GLBを読み込み中…</footer>
+<script type="importmap">{"imports":{"three":"/deps/three/build/three.module.js","three/addons/":"/deps/three/examples/jsm/"}}</script>
+<script type="module" src="preview.js"></script></html>

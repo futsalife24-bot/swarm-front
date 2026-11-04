@@ -1,0 +1,17 @@
+{
+  "viewport": [
+    640,
+    360
+  ],
+  "dropdowns": true,
+  "pauseResume": true,
+  "noHorizontalOverflow": true,
+  "video": {
+    "duration": 12,
+    "width": 960,
+    "height": 640,
+    "currentTime": 1.0197,
+    "error": null
+  },
+  "errors": []
+}
