@@ -1,0 +1,26 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "normalFireInput": true,
+    "eventKinds": [
+      "burn",
+      "freeze",
+      "chain-lightning"
+    ],
+    "events": 9,
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "normalFireInput": true,
+    "eventKinds": [
+      "burn",
+      "freeze",
+      "chain-lightning"
+    ],
+    "events": 9,
+    "errors": []
+  }
+]

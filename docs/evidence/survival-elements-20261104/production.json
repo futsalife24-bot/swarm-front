@@ -1,0 +1,26 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "unlockedElements": 3,
+    "normalWeaponType": true,
+    "artLoaded": true,
+    "excludeSaveReload": true,
+    "removeSaveReload": true,
+    "noGridCheckboxOrSummary": true,
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "unlockedElements": 3,
+    "normalWeaponType": true,
+    "artLoaded": true,
+    "excludeSaveReload": true,
+    "removeSaveReload": true,
+    "noGridCheckboxOrSummary": true,
+    "errors": []
+  }
+]
