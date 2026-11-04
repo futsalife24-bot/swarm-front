@@ -133,6 +133,7 @@ export function openFrontBase(
     }
     $("base-detail").innerHTML =
       `<div class="base-detail-title ${fusion ? "is-fusion" : ""}">${icon(selected)}<div><small>${fusion ? "融合完成形" : `${families[d.family]} · 最大${d.maxLevel}段階`}</small><h2 id="base-detail-name" tabindex="-1">${d.name}</h2></div></div>
+      ${allUnlocked && !fusion ? `<label class="base-exclude-control"><input type="checkbox" id="base-exclude" aria-label="${esc(d.name)}を抽選から除外"${!locked(selected) && !draft.pool.includes(selected) ? " checked" : ""}${locked(selected) || draft.error ? " disabled" : ""}><span>抽選から除外</span></label>` : ""}
       <p class="base-effect">${esc(fusion ? d.description : frontUpgradeEffect(selected, 1))}</p>${fusion ? "" : `<details class="base-ranks"><summary>最大段階の効果</summary><p>${esc(frontUpgradeEffect(selected, d.maxLevel))}</p></details>`}
       ${!fusion && locked(selected) ? `<p class="base-locked-note">${unlock(selected)}</p>` : ""}
       <section class="base-recipes"><h3>${fusion ? "融合レシピ" : "この強化から狙える融合"}</h3>${
@@ -146,6 +147,30 @@ export function openFrontBase(
               .join("")
           : `<p class="base-no-recipe">この強化を素材にする${allUnlocked ? "" : "発見済みの"}融合はありません。</p>`
       }<p class="base-fusion-rule">作戦中に素材2種をそれぞれ最大段階へ育てると、融合が抽選候補に登場。2枠が1枠になり、完成形はさらに3段階まで育成できます。</p></section>${fusion ? `<details class="base-ranks"><summary>融合後の詳しい効果</summary><p>1段階：${esc(frontUpgradeEffect(selected, 1))}</p><p>最大段階：${esc(frontUpgradeEffect(selected, 3))}</p></details>` : ""}`;
+    const exclude = root.querySelector<HTMLInputElement>("#base-exclude");
+    if (exclude) {
+      const id = selected;
+      exclude.onchange = () => {
+        if (
+          exclude.checked &&
+          (acquired.length - draft.pool.length >= survival.exclusions ||
+            draft.pool.length <= 6)
+        ) {
+          exclude.checked = false;
+          message(
+            survival.exclusions === 0
+              ? "除外は進撃2突破、または進撃1突破後の「育成 → 生存適性」で解放できます。"
+              : "除外枠がいっぱいです。ほかの除外を解除するか、育成で除外枠を増やしてください。候補は6種以上必要です。",
+          );
+          return;
+        }
+        draft.pool = exclude.checked
+          ? draft.pool.filter((value) => value !== id)
+          : [...draft.pool, id];
+        changed();
+        $<HTMLInputElement>("base-exclude").focus({ preventScroll: true });
+      };
+    }
     $("base-detail")
       .querySelectorAll<HTMLButtonElement>("[data-detail]")
       .forEach(
@@ -206,6 +231,7 @@ export function openFrontBase(
               : undefined,
             inspecting: selected === id,
           }),
+          !allUnlocked,
         );
       })
       .join("");
@@ -239,20 +265,6 @@ export function openFrontBase(
         selected = id;
         if (locked(id)) {
           message(unlock(id));
-          detail();
-          return;
-        }
-        if (
-          allUnlocked &&
-          draft.pool.includes(id) &&
-          (acquired.length - draft.pool.length >= survival.exclusions ||
-            draft.pool.length <= 6)
-        ) {
-          message(
-            survival.exclusions === 0
-              ? "除外は進撃2突破、または進撃1突破後の「育成 → 生存適性」で解放できます。"
-              : "除外枠がいっぱいです。ほかの除外を解除するか、育成で除外枠を増やしてください。候補は6種以上必要です。",
-          );
           detail();
           return;
         }

@@ -93,8 +93,25 @@ export function renderSurvivalCardL(
   return `<${root} ${interactive ? `type="button" data-card="${view.id}"` : 'role="img"'} class="sc-card" ${attrs(view, "L")} aria-label="${esc(label)}">${shell(`<span class="sc-top">${tag(view)}<span class="sc-acq"><b aria-hidden="true">${action[0]}</b>${action[1]}</span></span>${art(view)}<span class="sc-family">${glyph(view.family)}${familyName[view.family]}</span><strong class="sc-name">${esc(view.name)}</strong><span class="sc-level">${pips(view.level)}<span>${esc(levelText(view.level))}</span></span><span class="sc-desc">${esc(view.description)}</span>${view.materials?.length ? `<span class="sc-materials">${view.materials.map((material) => `<span>${material.iconMarkup}${esc(material.name)}</span>`).join('<b aria-hidden="true">×</b>')}</span>` : ""}`)}</${root}>`;
 }
 
-/** 基地。deckを省くと獲得済み全候補の閲覧、指定時は候補編集。 */
-export function renderSurvivalCardM(view: SurvivalCardView): string {
+const exclusionChains = (id: string) => {
+  const metal = `sc-chain-metal-${id.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
+  // 正面と側面の輪を交互に重ね、隣の輪へ通した部分を暗い縁で分ける。
+  const links = Array.from({ length: 23 }, (_, i) => {
+    const front = i % 2 === 0;
+    const ring = front
+      ? "M-5-4H5a4 4 0 0 1 0 8H-5a4 4 0 0 1 0-8Z"
+      : "M-7-1.35H7a1.35 1.35 0 0 1 0 2.7H-7a1.35 1.35 0 0 1 0-2.7Z";
+    const glint = front ? "M-8-1a3 3 0 0 1 3-3H4" : "M-6-1.35H6";
+    return `<g transform="translate(${i * 12} 0)"><path class="sc-chain-shadow" d="${ring}"/><path class="sc-chain-metal" stroke="url(#${metal})" d="${ring}"/><path class="sc-chain-glint" d="${glint}"/></g>`;
+  }).join("");
+  return `<svg class="sc-exclusion-chains" viewBox="0 0 240 80" preserveAspectRatio="none" aria-hidden="true" focusable="false"><defs><linearGradient id="${metal}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dce6e8"/><stop offset=".28" stop-color="#8f9fa4"/><stop offset=".6" stop-color="#bdc9cc"/><stop offset="1" stop-color="#52666e"/></linearGradient></defs><g transform="rotate(18.435)">${links}</g><g transform="translate(0 80) rotate(-18.435)">${links}</g></svg>`;
+};
+
+/** 基地。生存の除外は鎖で表示し、操作は詳細欄。deck指定時は防衛の候補編集。 */
+export function renderSurvivalCardM(
+  view: SurvivalCardView,
+  showSummary = true,
+): string {
   const sub = view.undiscovered
     ? "？？ × ？？"
     : view.locked ||
@@ -103,12 +120,10 @@ export function renderSurvivalCardM(view: SurvivalCardView): string {
         ? `${view.excluded ? "除外中" : "抽選対象"} · 最大${view.level.max}段階`
         : `${familyName[view.family]} · 最大${view.level.max}段階`);
   const check =
-    view.excluded !== undefined
-      ? `<button type="button" class="sc-check sc-exclude" role="checkbox" aria-checked="${view.excluded}" data-pool="${view.id}" aria-label="${esc(view.name)}を抽選から除外"${view.locked ? ' aria-disabled="true"' : ""}><span class="sc-checkbox" aria-hidden="true">${view.locked ? "鍵" : view.excluded ? "−" : ""}</span></button>`
-      : view.deck
-        ? `<button type="button" class="sc-check" role="checkbox" aria-checked="${view.deck === "in"}" data-pool="${view.id}" aria-label="${esc(view.name)}を候補に含める"${view.locked ? ' aria-disabled="true"' : ""}><span class="sc-checkbox" aria-hidden="true">${view.locked ? "鍵" : view.deck === "in" ? "✓" : ""}</span></button>`
-        : "";
-  return `<div class="sc-card" ${attrs(view, "M")} ${view.excluded ? 'data-excluded="true"' : ""}>${shell(`<button type="button" class="sc-pick" data-inspect="${view.id}" aria-label="${esc(view.name)}の詳細を見る"${view.inspecting ? ' aria-current="true"' : ""}>${art(view)}<span class="sc-text">${tag(view)}<strong class="sc-name">${esc(view.name)}</strong><small>${esc(sub)}</small></span></button>${check}`)}</div>`;
+    view.deck && view.excluded === undefined
+      ? `<button type="button" class="sc-check" role="checkbox" aria-checked="${view.deck === "in"}" data-pool="${view.id}" aria-label="${esc(view.name)}を候補に含める"${view.locked ? ' aria-disabled="true"' : ""}><span class="sc-checkbox" aria-hidden="true">${view.locked ? "鍵" : view.deck === "in" ? "✓" : ""}</span></button>`
+      : "";
+  return `<div class="sc-card" ${attrs(view, "M")} ${view.excluded ? 'data-excluded="true"' : ""}>${shell(`<button type="button" class="sc-pick" data-inspect="${view.id}" aria-label="${view.excluded ? "除外中・" : ""}${esc(view.name)}の詳細を見る"${view.inspecting ? ' aria-current="true"' : ""}>${art(view)}<span class="sc-text">${tag(view)}<strong class="sc-name">${esc(view.name)}</strong>${showSummary ? `<small>${esc(sub)}</small>` : ""}</span></button>${check}`)}${view.excluded ? exclusionChains(view.id) : ""}</div>`;
 }
 
 /** 24px HUD。融合記号と段階数字を画像の上に残す。 */

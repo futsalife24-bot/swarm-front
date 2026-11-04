@@ -138,7 +138,8 @@ try {
       page.getByRole("heading", { name: "生存カード", exact: true }),
     ).toBeVisible();
     await expect(page.locator("#front-save-pool")).toHaveText("除外を保存");
-    await expect(page.locator("[data-pool]")).toHaveCount(22);
+    await expect(page.locator("[data-pool]")).toHaveCount(0);
+    await expect(page.locator("#base-grid small")).toHaveCount(0);
     await expect(
       page.locator('#base-grid > .sc-card[data-size="M"]'),
     ).toHaveCount(22);
