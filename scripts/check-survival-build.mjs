@@ -21,6 +21,22 @@ try {
       reducedMotion: "reduce",
     });
     const page = await context.newPage();
+    if (width === 640)
+      await page.addInitScript(() =>
+        localStorage.setItem(
+          "swarm-front-upgrade-loadout-v1",
+          JSON.stringify({
+            pool: [
+              "blast-core",
+              "fuse",
+              "compressed-charge",
+              "armor-piercer",
+              "ricochet",
+              "line-shot",
+            ],
+          }),
+        ),
+      );
     page.setDefaultTimeout(60000);
     const errors = [];
     page.on("pageerror", (e) => errors.push(e.message));
@@ -55,6 +71,12 @@ try {
     await expect(page.locator("[data-front-slot]")).toHaveCount(1);
     await expect(page.locator("[data-front-slot]")).toBeDisabled();
     await expect(page.locator(".gear-arsenal")).toContainText("生存戦ライフル");
+    await expect(page.locator(".gear-arsenal")).toContainText(
+      "通常カード 22種類",
+    );
+    const loadoutBefore = await page.evaluate(() =>
+      localStorage.getItem("swarm-front-upgrade-loadout-v1"),
+    );
     await expect(
       page.locator("[data-row], [data-front-weapon-row]"),
     ).toHaveCount(0);
@@ -80,12 +102,30 @@ try {
     await page.locator("#front-mode").selectOption("defense");
     await expect(page.locator("[data-front-slot]")).toHaveCount(2);
     await expect(page.locator('[data-front-slot="0"]')).toBeEnabled();
+    await tap("#front-base");
+    await expect(page.locator("#front-save-pool")).toBeVisible();
+    await expect(page.locator("[data-pool]")).toHaveCount(22);
+    await tap("#base-back");
     await page.locator("#front-mode").selectOption("survival");
     await expect(page.locator("[data-front-slot]")).toHaveCount(1);
     await tap("#front-base");
     await expect(
       page.getByRole("heading", { name: "生存カード", exact: true }),
     ).toBeVisible();
+    await expect(page.locator("#front-save-pool")).toHaveCount(0);
+    await expect(page.locator("[data-pool]")).toHaveCount(0);
+    await expect(page.locator("#base-grid .base-tile")).toHaveCount(22);
+    await expect(page.locator('#base-grid [data-locked="true"]')).toHaveCount(
+      0,
+    );
+    await expect(page.locator("#base-count")).toContainText("22種類");
+    await screenshot("cards");
+    await tap("#base-fusions");
+    await expect(page.locator("#base-grid .base-tile")).toHaveCount(9);
+    await expect(page.locator(".base-fusion-rule").first()).toContainText(
+      "MAX",
+    );
+    await tap("#base-upgrades");
     await page.getByRole("button", { name: "戻る", exact: true }).click();
     await expect(page.locator(".front-prep")).toBeVisible();
     await tap("#front-launch");
@@ -108,6 +148,11 @@ try {
     await expect(page.locator("#solo")).toBeVisible();
     expect(await saved()).toEqual(before);
     expect(errors).toEqual([]);
+    expect(
+      await page.evaluate(() =>
+        localStorage.getItem("swarm-front-upgrade-loadout-v1"),
+      ),
+    ).toBe(loadoutBefore);
     reports.push({
       width,
       height,
@@ -116,6 +161,8 @@ try {
       cardReturn: true,
       battleOneWeapon: true,
       saveUnchanged: true,
+      allNormalCards: 22,
+      legacyLoadoutUnchanged: true,
       pageErrors: errors,
     });
     await context.close();

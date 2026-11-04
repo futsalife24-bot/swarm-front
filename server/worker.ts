@@ -1,4 +1,5 @@
 import {
+  FRONT_BASE_IDS,
   FRONT_PREVIOUS_BASE_IDS,
   createFrontUpgradeState,
   type FrontUpgradeId,
@@ -1559,9 +1560,13 @@ export class Room extends DurableObject<Env> {
           return;
         }
         try {
-          if (!Array.isArray(m.upgradePool)) throw new Error();
-          createFrontUpgradeState("validate", 0, undefined, m.upgradePool);
+          const dedicatedPool = this.equipmentCount(member) === 1;
+          if (!dedicatedPool && !Array.isArray(m.upgradePool))
+            throw new Error();
+          if (m.upgradePool !== undefined)
+            createFrontUpgradeState("validate", 0, undefined, m.upgradePool);
           if (
+            !dedicatedPool &&
             member.frontCatalog !== 2 &&
             m.upgradePool?.some(
               (id: FrontUpgradeId) => !FRONT_PREVIOUS_BASE_IDS.includes(id),
@@ -1622,7 +1627,10 @@ export class Room extends DurableObject<Env> {
         this.saved.directory?.ruleset === "front-v1" &&
         member.frontGrowth === 3
       ) {
-        member.upgradePool = [...m.upgradePool];
+        member.upgradePool =
+          this.equipmentCount(member) === 1
+            ? [...FRONT_BASE_IDS]
+            : [...m.upgradePool];
       }
       if (
         this.saved.directory?.ruleset === "front-v1" &&

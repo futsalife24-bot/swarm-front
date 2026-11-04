@@ -349,8 +349,10 @@ export class FrontNetwork {
           return;
         }
         this.onStatus("接続済み", false);
-        if (this.mode === "survival")
+        if (this.mode === "survival") {
           this.equip = [createFrontSurvivalWeapon("front-lobby", this.id)];
+          this.upgradePool = [...FRONT_BASE_IDS];
+        }
         this.send({
           type: "equip",
           upgradePool: this.upgradePool,

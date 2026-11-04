@@ -98,6 +98,7 @@ import {
 } from "../shared/front-run";
 import {
   FRONT_UPGRADE_CATALOG,
+  FRONT_BASE_IDS,
   FRONT_FUSION_IDS,
   isFrontFusion,
   FRONT_FAMILY_CARDS,
@@ -299,7 +300,7 @@ function home() {
   $("home-tutorial").onclick = () =>
     menuDialog(
       "操作と作戦",
-      `<p>左側で移動、右側で視点を操作。射撃・装填・回避を組み合わせて敵を倒します。ボタン配置とジャイロは「設定・操作」で変更できます。</p><p>パソコン：移動 WASD・射撃 クリック・装填 R・切替 Q・回避 Space・ジャンプ F・蘇生 E。</p><p>基地の「生存カード」では強化の画像横の「?」から効果と融合素材を確認し、候補を6種以上選びます。開幕も選んだ候補からランダムに3種が提示され、その中から1つを選びます。デッキはこの端末に3枠保存でき、「出撃にセット」で次のソロ・協力へ反映します。</p><p>作戦中の強化は最大6枠。素材2種をそれぞれ最大段階まで育てると融合が抽選候補に登場し、2枠が1枠にまとまります。融合した強化も3段階まで育成できます。一時停止の強化状況でも素材と段階を確認できます。</p>`,
+      `<p>左側で移動、右側で視点を操作。射撃・装填・回避を組み合わせて敵を倒します。ボタン配置とジャイロは「設定・操作」で変更できます。</p><p>パソコン：移動 WASD・射撃 クリック・装填 R・回避 Space・ジャンプ F・蘇生 E。武器2本の作戦はQで切替できます。</p><p>生存戦は専用ライフル1本から開始。すべての通常カードが最初から抽選対象になり、ランダムな3択から強化を選びます。基地の「生存カード」で効果と融合素材を確認できます。防衛戦では従来の候補設定を使用します。</p><p>作戦中の強化は最大6枠。素材2種をそれぞれ最大段階まで育てると融合が抽選候補に登場し、2枠が1枠にまとまります。融合した強化も3段階まで育成できます。一時停止の強化状況でも素材と段階を確認できます。</p>`,
       home,
     );
   $("ui").querySelector(".fine")!.textContent =
@@ -319,7 +320,15 @@ function home() {
   mountTitleMotion($("ui"));
 }
 let selectedFrontSlot = 0;
-let frontLoadout = readFrontLoadout(progressStorage);
+function readModeLoadout() {
+  return mode === "survival"
+    ? {
+        pool: [...FRONT_BASE_IDS],
+        error: readFrontCampaign(progressStorage).error,
+      }
+    : readFrontLoadout(progressStorage);
+}
+let frontLoadout = readModeLoadout();
 let ownedEquipment: string[] = [];
 function frontEquipment(targetMode = mode): Weapon[] {
   if (targetMode === "survival")
@@ -343,7 +352,7 @@ function frontEquipment(targetMode = mode): Weapon[] {
 function frontWeaponRows() {
   if (mode === "survival") {
     const weapon = stats(frontEquipment()[0]);
-    return `<div class="front-menu-content"><h2>${esc(weapon.name)}</h2><p>生存戦専用の無属性ライフル。武器の特徴は、戦闘中に選ぶカードで育てます。</p><p>威力 ${weapon.damage} · 装弾 ${weapon.mag} · 装填 ${weapon.reload}秒</p><h2>強化候補 ${frontLoadout.pool.length}種類</h2><p>${frontLoadout.pool.map((card) => esc(FRONT_UPGRADE_CATALOG[card].name)).join("・")}</p><p>「生存カード」から候補を変更できます。</p></div>`;
+    return `<div class="front-menu-content"><h2>${esc(weapon.name)}</h2><p>生存戦専用の無属性ライフル。武器の特徴は、戦闘中に選ぶカードで育てます。</p><p>威力 ${weapon.damage} · 装弾 ${weapon.mag} · 装填 ${weapon.reload}秒</p><h2>通常カード ${frontLoadout.pool.length}種類</h2><p>すべての通常カードが最初から抽選対象です。融合カードは素材を育てると出現します。</p><p>「生存カード」で効果と融合条件を確認できます。</p></div>`;
   }
   const save = readFrontCampaign(progressStorage).save;
   if (!save) return gearSupplyRows(kinds);
@@ -387,7 +396,9 @@ function base(back: () => void = home) {
   cancelOperationCue();
   document.body.classList.add("playtest");
   document.body.dataset.screen = "prep";
-  openFrontBase($("ui"), progressStorage, back);
+  openFrontBase($("ui"), progressStorage, back, {
+    allCards: mode === "survival",
+  });
   const workshop = document.createElement("button");
   workshop.textContent = "武器工房";
   workshop.onclick = () =>
@@ -412,7 +423,7 @@ function animateFrontSelection() {
 }
 function prep(coop = false) {
   cancelOperationCue();
-  frontLoadout = readFrontLoadout(progressStorage);
+  frontLoadout = readModeLoadout();
   try {
     if (!readFrontCampaign(progressStorage).save)
       initializeProgress("normal", localStorage);
@@ -528,7 +539,7 @@ function prep(coop = false) {
       notice((error as Error).message, 5);
       return;
     }
-    frontLoadout = readFrontLoadout(progressStorage);
+    frontLoadout = readModeLoadout();
     if (coop && network) {
       network.upgradePool = frontLoadout.pool;
       network.equipment(frontEquipment());
@@ -541,7 +552,7 @@ function prep(coop = false) {
   };
 }
 async function solo() {
-  frontLoadout = readFrontLoadout(progressStorage);
+  frontLoadout = readModeLoadout();
   localRun = createFrontRun(
     {
       runId: crypto.randomUUID(),
@@ -775,7 +786,7 @@ function connectRoom(code: string, target: string, token = "") {
   net.preparing = true;
   // 参加先の作戦はwelcomeで確定する。生存戦はその時点で専用武器に置き換える。
   net.equip = frontEquipment("defense");
-  frontLoadout = readFrontLoadout(progressStorage);
+  frontLoadout = readModeLoadout();
   net.upgradePool = frontLoadout.pool;
   net.onStatus = (message, fatal) => {
     status = message;
@@ -1546,7 +1557,7 @@ startWithSaveWriter(async () => {
     campaignBootError =
       "攻略の保存を読み込めません。元データは保持しています。";
   }
-  frontLoadout = readFrontLoadout(progressStorage);
+  frontLoadout = readModeLoadout();
   placeControls(settings.layout);
   home();
   const navigation = new URL(location.href).searchParams;

@@ -51,6 +51,11 @@ export class TestRoom extends Room {
     if (u.pathname === "/snapshot") {
       return Response.json({
         world: this.saved.world,
+        frontUpgradePools: Object.fromEntries(
+          Object.entries(this.saved.frontRun?.upgrades ?? {}).map(
+            ([id, upgrade]) => [id, upgrade.pool ?? null],
+          ),
+        ),
         paused: this.saved.paused ?? false,
         running: !!this.timer,
       });
@@ -462,7 +467,11 @@ export default {
       /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion|front-survival-wave|front-survival-cluster)$/.exec(
         u.pathname,
       );
-    if (match && req.method === "POST") {
+    if (
+      match &&
+      (req.method === "POST" ||
+        (match[2] === "snapshot" && req.method === "GET"))
+    ) {
       return env.ROOMS.get(env.ROOMS.idFromName(match[1])).fetch(
         new Request(
           match[2] === "snapshot"

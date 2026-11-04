@@ -2,13 +2,14 @@ import { createHash } from "node:crypto";
 import { afterEach, expect, it } from "vitest";
 import { localCreationKey } from "./credentials";
 import { STARTERS, stats } from "../src/shared/defs";
-import { FRONT_BASE_IDS } from "../src/shared/front-upgrades";
+import { FRONT_BASE_IDS, FRONT_FUSION_IDS } from "../src/shared/front-upgrades";
 import { neutral } from "../src/shared/game";
 import { isFrontSurvivalWeapon } from "../src/shared/front-weapon";
 
 /** 実ローカル Worker への WebSocket 通信。 */
 const base = process.env.SWARM_TEST_SERVER_URL ?? "http://127.0.0.1:8807";
 const clients: Client[] = [];
+const narrowPool = FRONT_BASE_IDS.slice(0, 6);
 const testClient = () =>
   createHash("sha256")
     .update(expect.getState().currentTestName ?? "survival-build-integration")
@@ -94,7 +95,19 @@ async function room() {
   return (await response.json()) as { code: string };
 }
 
-async function equip(client: Client, modern: boolean, forged = false) {
+async function upgradePools(code: string): Promise<Record<string, string[]>> {
+  const response = await fetch(`${base}/fixtures/${code}/snapshot`);
+  expect(response.status).toBe(200);
+  const snapshot = await response.json();
+  return snapshot.frontUpgradePools;
+}
+
+async function equip(
+  client: Client,
+  modern: boolean,
+  forged = false,
+  pool = FRONT_BASE_IDS,
+) {
   await client.wait((message) => message.type === "welcome");
   const weapon = forged
     ? {
@@ -110,7 +123,7 @@ async function equip(client: Client, modern: boolean, forged = false) {
     : { ...STARTERS[0], id: `legacy-${client.id}` };
   client.send({
     type: "equip",
-    upgradePool: FRONT_BASE_IDS,
+    upgradePool: pool,
     weapons: modern
       ? [weapon]
       : [weapon, { ...STARTERS[1], id: `legacy-b-${client.id}` }],
@@ -151,8 +164,8 @@ it("新規生存戦は偽装装備を捨てて2人とも専用武器1本で進�
   const entry = await room();
   const host = new Client(entry.code, true);
   const guest = new Client(entry.code, true);
-  await equip(host, true, true);
-  await equip(guest, true, true);
+  await equip(host, true, true, narrowPool);
+  await equip(guest, true, true, narrowPool);
   const lobby = await host.wait(
     (message) =>
       message.type === "lobby" &&
@@ -180,7 +193,20 @@ it("新規生存戦は偽装装備を捨てて2人とも専用武器1本で進�
     ),
   );
   expect(initial[0].world.front.survivalBuildVersion).toBe(1);
+  const pools = await upgradePools(entry.code);
+  for (const client of [host, guest])
+    expect(pools[client.id]).toEqual(FRONT_BASE_IDS);
   for (const state of initial) {
+    expect(
+      state.frontView.offer.cardIds.every((id: string) =>
+        FRONT_BASE_IDS.includes(id as (typeof FRONT_BASE_IDS)[number]),
+      ),
+    ).toBe(true);
+    expect(
+      state.frontView.offer.cardIds.some((id: string) =>
+        FRONT_FUSION_IDS.includes(id as (typeof FRONT_FUSION_IDS)[number]),
+      ),
+    ).toBe(false);
     expect(state.world.players).toHaveLength(2);
     expect(
       state.world.players.every((player: any) => player.weapons.length === 1),
@@ -248,11 +274,34 @@ it("新規生存戦は偽装装備を捨てて2人とも専用武器1本で進�
 it("旧clientだけの新規runは従来の武器2本と能力を維持する", async () => {
   const entry = await room();
   const old = new Client(entry.code, false);
-  await equip(old, false);
+  await equip(old, false, false, narrowPool);
   await readyAndStart(old, [old]);
   const state = await old.wait((message) => message.type === "state");
   expect(state.world.front.survivalBuildVersion).toBeUndefined();
   expect(state.world.players[0].weapons).toHaveLength(2);
+  expect((await upgradePools(entry.code))[old.id]).toEqual(narrowPool);
+  expect(
+    state.frontView.offer.cardIds.every((id: string) =>
+      narrowPool.includes(id as (typeof narrowPool)[number]),
+    ),
+  ).toBe(true);
+});
+
+it("新規則は不正な候補指定を拒み、省略時はサーバー既定値で装備できる", async () => {
+  const entry = await room();
+  const client = new Client(entry.code, true);
+  await client.wait((message) => message.type === "welcome");
+  const weapons = [{ ...STARTERS[0], id: `test-${client.id}` }];
+  client.send({ type: "equip", weapons, upgradePool: ["armor"] });
+  expect(
+    (await client.wait((message) => message.type === "notice")).reason,
+  ).toContain("強化候補");
+  client.send({ type: "equip", weapons });
+  const lobby = await client.wait(
+    (message) =>
+      message.type === "lobby" && message.members?.[0]?.weapons.length === 1,
+  );
+  expect(isFrontSurvivalWeapon(lobby.members[0].weapons[0])).toBe(true);
 });
 
 it("新旧混在の出撃は拒否され、ロビーの装備を維持する", async () => {

@@ -239,7 +239,11 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
       mode === "daily" && !options.fusion
         ? FRONT_INITIAL_CARDS
         : (member.initialCards ?? FRONT_INITIAL_CARDS),
-      options.fusion ? (member.pool ?? FRONT_BASE_IDS) : undefined,
+      dedicatedWeapon
+        ? FRONT_BASE_IDS
+        : options.fusion
+          ? (member.pool ?? FRONT_BASE_IDS)
+          : undefined,
     );
   });
   if (mode !== "survival") {
