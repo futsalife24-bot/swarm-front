@@ -49,6 +49,8 @@ export interface FrontMine {
 }
 export interface FrontBattleState {
   version: "front-v1";
+  /** 新規の生存戦だけ専用武器を使う。既存作戦には後付けしない。 */
+  survivalBuildVersion?: 1;
   growthVersion?: 2 | 3;
   catalogVersion?: 2;
   /** 公開前から続く部隊は旧描画容量に合わせた24体を維持する。 */

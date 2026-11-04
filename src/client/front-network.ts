@@ -1,4 +1,5 @@
 import { FRONT_BASE_IDS, type FrontUpgradeId } from "../shared/front-upgrades";
+import { createFrontSurvivalWeapon } from "../shared/front-weapon";
 import type { FrontRunView } from "../shared/front-run";
 import {
   DEFAULT_PLAYER_NAME,
@@ -230,6 +231,7 @@ export class FrontNetwork {
         frontGrowth: 3,
         frontCatalog: 2,
         frontOpening: 2,
+        frontSurvivalBuild: 1,
         name: this.playerName,
         ...(this.token ? { token: this.token } : {}),
       });
@@ -335,7 +337,7 @@ export class FrontNetwork {
         this.rememberSession(
           Number.isFinite(m.expiresAt) ? m.expiresAt : Date.now() + 3600000,
         );
-        if (m.frontOpening !== 2) {
+        if (m.frontOpening !== 2 || m.frontSurvivalBuild !== 1) {
           // 古いWorkerへ新形式を送らず、復帰トークンを保持して更新を案内する。
           this.closed = true;
           chunks.close();
@@ -347,6 +349,8 @@ export class FrontNetwork {
           return;
         }
         this.onStatus("接続済み", false);
+        if (this.mode === "survival")
+          this.equip = [createFrontSurvivalWeapon("front-lobby", this.id)];
         this.send({
           type: "equip",
           upgradePool: this.upgradePool,

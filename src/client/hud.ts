@@ -191,7 +191,9 @@ export function hudMarkup(
     esc(def.name) +
     " · " +
     (p.slot + 1) +
-    '/2</span><div class="ammo-line"><span class="ammo-label">' +
+    "/" +
+    p.weapons.length +
+    '</span><div class="ammo-line"><span class="ammo-label">' +
     (p.reload > 0 ? "装填中" : p.ammo[p.slot] === 0 ? "弾切れ" : "残弾") +
     "</span><b>" +
     (p.reload > 0 ? p.reload.toFixed(1) : p.ammo[p.slot]) +

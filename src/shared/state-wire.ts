@@ -423,7 +423,10 @@ export class EquipmentCache {
     if (!cached) {
       if (
         world.players.some(
-          (p) => !Array.isArray(p.weapons) || p.weapons.length !== 2,
+          (p) =>
+            !Array.isArray(p.weapons) ||
+            p.weapons.length !==
+              (world.front?.survivalBuildVersion === 1 ? 1 : 2),
         )
       )
         return false;

@@ -104,7 +104,8 @@ import {
   FRONT_EVOLUTIONS,
   type FrontUpgradeId,
 } from "../shared/front-upgrades";
-import { WEAPONS, type Weapon } from "../shared/defs";
+import { stats, type Weapon } from "../shared/defs";
+import { createFrontSurvivalWeapon } from "../shared/front-weapon";
 import { STAGES } from "../shared/stages";
 import { retireEvents, eye, type World } from "../shared/game";
 import {
@@ -320,7 +321,9 @@ function home() {
 let selectedFrontSlot = 0;
 let frontLoadout = readFrontLoadout(progressStorage);
 let ownedEquipment: string[] = [];
-function frontEquipment(): Weapon[] {
+function frontEquipment(targetMode = mode): Weapon[] {
+  if (targetMode === "survival")
+    return [createFrontSurvivalWeapon("front-lobby", "front-client")];
   const campaign = readFrontCampaign(progressStorage);
   const save = campaign.save;
   if (save && save.inventory.length >= 2) {
@@ -338,6 +341,10 @@ function frontEquipment(): Weapon[] {
   return frontTemporaryWeapons("front-lobby", "front-client", kinds);
 }
 function frontWeaponRows() {
+  if (mode === "survival") {
+    const weapon = stats(frontEquipment()[0]);
+    return `<div class="front-menu-content"><h2>${esc(weapon.name)}</h2><p>生存戦専用の無属性ライフル。武器の特徴は、戦闘中に選ぶカードで育てます。</p><p>威力 ${weapon.damage} · 装弾 ${weapon.mag} · 装填 ${weapon.reload}秒</p><h2>強化候補 ${frontLoadout.pool.length}種類</h2><p>${frontLoadout.pool.map((card) => esc(FRONT_UPGRADE_CATALOG[card].name)).join("・")}</p><p>「生存カード」から候補を変更できます。</p></div>`;
+  }
   const save = readFrontCampaign(progressStorage).save;
   if (!save) return gearSupplyRows(kinds);
   const preview = structuredClone(save);
@@ -405,6 +412,7 @@ function animateFrontSelection() {
 }
 function prep(coop = false) {
   cancelOperationCue();
+  frontLoadout = readFrontLoadout(progressStorage);
   try {
     if (!readFrontCampaign(progressStorage).save)
       initializeProgress("normal", localStorage);
@@ -425,14 +433,14 @@ function prep(coop = false) {
                 `<option value="${value}" ${mode === value ? "selected" : ""}>${name}</option>`,
             )
             .join("")}</select>`
-    }</section><section class="equipment-select"><div class="section-label"><span>02 入替先</span><small>一覧タップで変更</small></div><div class="loadout-slots">${frontEquipment()
+    }</section><section class="equipment-select"><div class="section-label"><span>${mode === "survival" ? "02 専用武器" : "02 入替先"}</span><small>${mode === "survival" ? "カードで強化" : "一覧タップで変更"}</small></div><div class="loadout-slots">${frontEquipment()
       .map(
         (weapon, i) =>
-          `<button data-front-slot="${i}" aria-pressed="${selectedFrontSlot === i}"><span class="slot-number">0${i + 1}</span><span class="slot-info"><small>装備${i + 1} ${selectedFrontSlot === i ? "選択中" : ""}</small><b>${WEAPONS[weapon.kind].name}</b></span><i>入替先 ›</i></button>`,
+          `<button data-front-slot="${i}" ${mode === "survival" ? "disabled" : ""} aria-pressed="${selectedFrontSlot === i}"><span class="slot-number">0${i + 1}</span><span class="slot-info"><small>${mode === "survival" ? "生存戦専用" : `装備${i + 1} ${selectedFrontSlot === i ? "選択中" : ""}`}</small><b>${esc(stats(weapon).name)}</b></span><i>${mode === "survival" ? "固定" : "入替先 ›"}</i></button>`,
       )
       .join(
         "",
-      )}</div></section></aside><section class="gear-arsenal">${frontWeaponRows()}</section></div><footer class="gear-footer"><p class="status">装備${selectedFrontSlot + 1}を選択中 · 一覧タップで入替<small>${coop ? "準備完了後、部隊長が出撃します" : "攻略の所持武器と自分の強化候補を使用"}</small></p><button id="front-launch" class="primary">${coop ? "準備完了" : "ソロ出撃 ↗"}</button></footer></section>`;
+      )}</div></section></aside><section class="gear-arsenal">${frontWeaponRows()}</section></div><footer class="gear-footer"><p class="status">${mode === "survival" ? "専用武器1種類 · カードでビルドを育成" : `装備${selectedFrontSlot + 1}を選択中 · 一覧タップで入替`}<small>${coop ? "準備完了後、部隊長が出撃します" : mode === "survival" ? "生存カードの候補を確認して出撃" : "攻略の所持武器と自分の強化候補を使用"}</small></p><button id="front-launch" class="primary">${coop ? "準備完了" : "ソロ出撃 ↗"}</button></footer></section>`;
   $("ui")
     .querySelectorAll<HTMLButtonElement>("[data-front-slot]")
     .forEach((button) => {
@@ -507,6 +515,7 @@ function prep(coop = false) {
     try {
       const saved = readFrontCampaign(progressStorage).save;
       if (
+        mode !== "survival" &&
         saved &&
         soldier(saved).equipped.join("|") !== ownedEquipment.join("|")
       ) {
@@ -542,6 +551,7 @@ async function solo() {
         readFrontCampaign(progressStorage).save,
       ),
       fusion: true,
+      ...(mode === "survival" ? { survivalBuildVersion: 1 as const } : {}),
       players: [
         {
           id,
@@ -763,7 +773,8 @@ function connectRoom(code: string, target: string, token = "") {
     readFrontCampaign(progressStorage).save,
   );
   net.preparing = true;
-  net.equip = frontEquipment();
+  // 参加先の作戦はwelcomeで確定する。生存戦はその時点で専用武器に置き換える。
+  net.equip = frontEquipment("defense");
   frontLoadout = readFrontLoadout(progressStorage);
   net.upgradePool = frontLoadout.pool;
   net.onStatus = (message, fatal) => {
@@ -883,11 +894,11 @@ function paintLobby() {
         if (!m)
           return `<article class="squad-member empty"><span class="member-number">0${i + 1}</span><div><b>参加待ち</b><small>${net.roomListed === true ? "部屋一覧から参加できます" : "招待リンクから参加できます"}</small></div></article>`;
         return `<article data-fx-member="${esc(m.id)}" class="squad-member ${m.id === net.id ? "self" : ""}"><div class="member-heading"><b><span class="member-number">0${i + 1}</span> ${esc(m.name || `隊員 ${i + 1}`)}${m.id === net.id ? "（あなた）" : ""}</b><span class="member-status ${m.connected && m.ready ? "is-ready" : "is-preparing"}">${!m.connected ? "切断中" : m.ready ? "準備完了" : "準備中…"}</span></div><div class="member-weapons">${[
-          0, 1,
+          ...(net.mode === "survival" ? [0] : [0, 1]),
         ]
           .map((slot) => {
             const w = m.weapons?.[slot];
-            return `<span><small>${slot + 1}</small> ${w ? `${weaponGrade(w)} · ${esc(WEAPONS[w.kind].name)}` : "装備を確認中"}</span>`;
+            return `<span><small>${slot + 1}</small> ${w ? `${net.mode === "survival" ? "専用" : weaponGrade(w)} · ${esc(stats(w).name)}` : "装備を確認中"}</span>`;
           })
           .join("")}</div></article>`;
       },
@@ -955,7 +966,12 @@ async function prepareLobby() {
     return;
   const generation = net.preparationGeneration;
   const members = net.members.filter((member) => member.connected);
-  if (!members.length || members.some((member) => member.weapons?.length !== 2))
+  if (
+    !members.length ||
+    members.some(
+      (member) => member.weapons?.length !== (net.mode === "survival" ? 1 : 2),
+    )
+  )
     return;
   preparedGeneration = generation;
   const previousPreparation = lobbyPreparation;
@@ -969,6 +985,7 @@ async function prepareLobby() {
       fusion: true,
       seed: 1,
       mode: net.mode,
+      ...(net.mode === "survival" ? { survivalBuildVersion: 1 as const } : {}),
       players: members.map((member) => ({
         id: member.id,
         equipment: member.weapons!,
@@ -1235,7 +1252,7 @@ function paintBattle() {
     mission: `${modeNames[info.mode]} · ${formatRebuildTime(world.time)}`,
     detail: `経験値 ${info.xp}${info.nextXpThreshold === null ? "" : `/${info.nextXpThreshold}`}${world.defense ? ` · 拠点 ${Math.max(0, Math.ceil(world.defense.armory.hp))}` : ""}${info.returnAt != null && info.returnAt - now() <= 300 ? ` · 帰還まで ${formatRebuildTime(Math.max(0, info.returnAt - now()))}` : ""}${!(info.growthVersion === 3 && info.mode === "survival") && world.time >= 480 ? ` · 残り ${Math.max(0, Math.ceil(540 - world.time))}秒` : ""}`,
     weapon: `強化 ${info.growthVersion === 3 ? `${Object.values(info.levels).filter((n) => n > 0).length}/6枠` : `${info.picks}/${info.maxPicks}`}${info.growthVersion !== 3 && info.evolved.length ? ` · ${info.evolved.map((f) => FRONT_EVOLUTIONS[f].name).join("・")}` : ""}`,
-    help: `WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · F ジャンプ${world.players.length > 1 ? " · E 蘇生" : ""}`,
+    help: `WASD 移動 · マウス 照準/射撃 · R 装填${world.front?.survivalBuildVersion === 1 ? "" : " · Q 切替"} · SPACE 回避 · F ジャンプ${world.players.length > 1 ? " · E 蘇生" : ""}`,
   });
   const upgradeStrip = frontUpgradeStrip(info, import.meta.env.BASE_URL);
   if (lastHud !== hud + upgradeStrip) {
@@ -1348,6 +1365,7 @@ function frame(time: number) {
     setView();
   }
   $("controls").hidden = !active;
+  $("swap").hidden = world?.front?.survivalBuildVersion === 1;
   $("minimap").hidden =
     screen !== "battle" ||
     !ready ||

@@ -1,4 +1,5 @@
 import { frontAutomaticRequestId } from "./front-request-id";
+import { createFrontSurvivalWeapon } from "./front-weapon";
 import * as legacy from "./front-legacy-run";
 /** 改装版の権威状態。候補・乱数・要求履歴は World に載せない。 */
 import {
@@ -84,6 +85,7 @@ export interface FrontRunOptions {
   day?: string;
   fusion?: boolean;
   catalogVersion?: 1 | 2;
+  survivalBuildVersion?: 1;
   /** Campaign progress captured at sortie, authoritative host value in co-op. */
   clearedStage?: number;
   /** 協力部屋の掃除より前に帰還するサーバー時刻（秒）。 */
@@ -165,6 +167,10 @@ export function frontTemporaryWeapons(
   }));
 }
 export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
+  const dedicatedWeapon =
+    options.survivalBuildVersion === 1 &&
+    options.fusion === true &&
+    (options.mode ?? "survival") === "survival";
   if (
     !Number.isFinite(now) ||
     !Number.isInteger(options.seed) ||
@@ -175,7 +181,9 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
     options.players.length < 1 ||
     options.players.length > 4 ||
     new Set(options.players.map((p) => p.id)).size !== options.players.length ||
+    (options.survivalBuildVersion !== undefined && !dedicatedWeapon) ||
     (options.fusion &&
+      !dedicatedWeapon &&
       options.players.some(
         (p) =>
           p.equipment &&
@@ -202,6 +210,7 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
     mode === "daily" ? (seed % 3) + 1 : 1,
   );
   world.front = createFrontBattleState();
+  if (dedicatedWeapon) world.front.survivalBuildVersion = 1;
   if (options.fusion) {
     world.front.growthVersion = 3;
     if (options.catalogVersion !== 1) world.front.catalogVersion = 2;
@@ -216,9 +225,11 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
     const p = addPlayer(
       world,
       member.id,
-      options.fusion && member.equipment
-        ? structuredClone([...member.equipment])
-        : frontTemporaryWeapons(options.runId, member.id, member.weapons),
+      dedicatedWeapon
+        ? [createFrontSurvivalWeapon(options.runId, member.id)]
+        : options.fusion && member.equipment
+          ? structuredClone([...member.equipment])
+          : frontTemporaryWeapons(options.runId, member.id, member.weapons),
     );
     Object.assign(p, { x: (index - 1.5) * 2, z: 8, y: 0 });
     addFrontCombatPlayer(world, p.id);

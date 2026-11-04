@@ -54,6 +54,7 @@ it.each([Network, FrontNetwork])(
         token: "test",
         ruleset: "front-v1",
         frontOpening: 2,
+        frontSurvivalBuild: 1,
         listed: value,
       });
       expect(network.roomListed).toBe(

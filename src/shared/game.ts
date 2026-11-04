@@ -1611,7 +1611,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     if (p.safe > recoveryWait(w) && p.hp < hpCap * (w.solo ? 0.5 : 1))
       p.hp = Math.min(hpCap * (w.solo ? 0.5 : 1), p.hp + dt * 3);
     if (w.solo && p.reloadSlots)
-      for (let slot = 0; slot < 2; slot++)
+      for (let slot = 0; slot < p.weapons.length; slot++)
         if (slot !== p.slot && p.reloadSlots[slot] > 0) {
           p.reloadSlots[slot] = Math.max(0, p.reloadSlots[slot] - dt);
           if (p.reloadSlots[slot] === 0)
@@ -1630,7 +1630,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
           front.openingSlots.push(p.slot);
       }
     }
-    if (i.swap && p.swapCd <= 0) {
+    if (i.swap && p.swapCd <= 0 && p.weapons.length > 1) {
       if (w.solo) {
         p.reloadSlots ??= [0, 0];
         p.reloadSlots[p.slot] = Math.max(0, p.reload);

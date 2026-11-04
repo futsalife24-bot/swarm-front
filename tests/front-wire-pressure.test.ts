@@ -199,7 +199,9 @@ describe("密集時の状態送信", () => {
           type: "welcome",
           id: "p",
           token: "test",
-          ...(front ? { ruleset: "front-v1", frontOpening: 2 } : {}),
+          ...(front
+            ? { ruleset: "front-v1", frontOpening: 2, frontSurvivalBuild: 1 }
+            : {}),
         });
         const { w, ids, metadata } = denseWireFixture(0);
         const bastion = w.enemies.find((enemy) => enemy.kind === "bastion")!;

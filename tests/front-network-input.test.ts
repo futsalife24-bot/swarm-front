@@ -121,6 +121,7 @@ function setup(
       id: "p",
       token: "test",
       frontOpening: 2,
+      frontSurvivalBuild: 1,
       inputAck: ack,
       stateFlow,
       expiresAt: Date.now() + 60000,
@@ -281,6 +282,7 @@ it.each([false, true])(
       type: "welcome",
       ruleset: "front-v1",
       frontOpening: 2,
+      frontSurvivalBuild: 1,
       id: "p",
       token: "test",
       inputAck: true,
@@ -436,6 +438,7 @@ it.each([false, true])(
       type: "welcome",
       ruleset: "front-v1",
       frontOpening: 2,
+      frontSurvivalBuild: 1,
       id: "p",
       token: "test",
     };
@@ -468,6 +471,7 @@ it.each([false, true])(
       type: "welcome",
       ruleset: "front-v1",
       frontOpening: 2,
+      frontSurvivalBuild: 1,
       id: "p",
       token: "test",
     });
@@ -507,6 +511,7 @@ function recoveryWelcome(ws: Socket) {
     type: "welcome",
     ruleset: "front-v1",
     frontOpening: 2,
+    frontSurvivalBuild: 1,
     id: "p",
     token: "test",
     stateFlow: true,
@@ -765,6 +770,7 @@ it("4008はトークンを保持して1秒後に復帰し、古いタップを�
     id: "p",
     token: "test",
     frontOpening: 2,
+    frontSurvivalBuild: 1,
     inputAck: true,
     stateFlow: true,
   });

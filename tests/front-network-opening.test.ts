@@ -30,8 +30,9 @@ afterEach(() => {
   vi.unstubAllGlobals();
   vi.useRealTimers();
 });
-for (const modern of [false, true])
-  it(`開幕世代welcome：${modern ? "新Workerへ接続" : "旧Workerへequipを送らずトークン保持"}`, () => {
+for (const version of ["legacy", "opening-only", "current"] as const)
+  it(`welcome互換性：${version}`, () => {
+    const modern = version === "current";
     vi.useFakeTimers();
     const data = new Map<string, string>();
     const storage = {
@@ -50,14 +51,19 @@ for (const modern of [false, true])
     net.connect("ABC123");
     const socket = Socket.last;
     socket.onopen?.();
-    expect(socket.sent[0]).toMatchObject({ type: "hello", frontOpening: 2 });
+    expect(socket.sent[0]).toMatchObject({
+      type: "hello",
+      frontOpening: 2,
+      frontSurvivalBuild: 1,
+    });
     socket.receive({
       type: "welcome",
       ruleset: "front-v1",
       id: "player",
       token: "resume-token",
       expiresAt: Date.now() + 60000,
-      ...(modern ? { frontOpening: 2 } : {}),
+      ...(version !== "legacy" ? { frontOpening: 2 } : {}),
+      ...(modern ? { frontSurvivalBuild: 1 } : {}),
     });
     expect(JSON.parse(data.get(FRONT_NETWORK_SESSION_KEY)!).token).toBe(
       "resume-token",

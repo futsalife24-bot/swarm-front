@@ -18,6 +18,7 @@ import {
   type FrontWeaponKind,
 } from "../src/shared/front-run";
 import { validFrontClearedStage } from "../src/shared/front-survival";
+import { createFrontSurvivalWeapon } from "../src/shared/front-weapon";
 import {
   exportProjectAnalytics,
   forwardAnalytics,
@@ -96,6 +97,7 @@ interface Env {
   PROJECT_HUB_EXPORT_KEY?: string;
 }
 interface Member {
+  frontSurvivalBuild?: 1;
   frontClearedStage?: number;
   frontGrowth?: 2 | 3;
   frontCatalog?: 2;
@@ -1209,6 +1211,8 @@ export class Room extends DurableObject<Env> {
         return;
       }
       if (
+        (this.saved.frontRun?.world.front?.survivalBuildVersion === 1 &&
+          m.frontSurvivalBuild !== 1) ||
         (this.saved.frontRun?.world.front?.catalogVersion === 2 &&
           m.frontCatalog !== 2) ||
         (this.saved.frontRun?.world.front?.growthVersion === 3 &&
@@ -1276,6 +1280,8 @@ export class Room extends DurableObject<Env> {
         this.saved.members.push(member);
       }
       member.frontCatalog = m.frontCatalog === 2 ? 2 : undefined;
+      member.frontSurvivalBuild =
+        m.frontSurvivalBuild === 1 && m.frontGrowth === 3 ? 1 : undefined;
       member.frontOpening = m.frontOpening === 2 ? 2 : undefined;
       member.frontGrowth =
         m.frontGrowth === 3 ? 3 : m.frontGrowth === 2 ? 2 : undefined;
@@ -1348,6 +1354,7 @@ export class Room extends DurableObject<Env> {
               ruleset: this.saved.directory.ruleset,
               mode: this.saved.directory.mode,
               frontOpening: 2,
+              frontSurvivalBuild: 1,
             }
           : {}),
       });
@@ -1505,7 +1512,7 @@ export class Room extends DurableObject<Env> {
           return;
         const ready =
           m.ready &&
-          member.weapons.length === 2 &&
+          member.weapons.length === this.equipmentCount(member) &&
           m.stage === (this.saved.stage ?? 1);
         if (member.ready === ready) return;
         member.ready = ready;
@@ -1527,9 +1534,9 @@ export class Room extends DurableObject<Env> {
       }
       if (
         !Array.isArray(m.weapons) ||
-        m.weapons.length !== 2 ||
+        m.weapons.length !== this.equipmentCount(member) ||
         !m.weapons.every(validBattleWeapon) ||
-        m.weapons[0].id === m.weapons[1].id
+        (m.weapons.length === 2 && m.weapons[0].id === m.weapons[1].id)
       ) {
         this.error(ws, "武器定義が不正です");
         return;
@@ -1609,6 +1616,8 @@ export class Room extends DurableObject<Env> {
             }
           : {}),
       }));
+      if (this.equipmentCount(member) === 1)
+        member.weapons = [createFrontSurvivalWeapon("front-lobby", s.id)];
       if (
         this.saved.directory?.ruleset === "front-v1" &&
         member.frontGrowth === 3
@@ -1645,7 +1654,7 @@ export class Room extends DurableObject<Env> {
         !present.length ||
         present.some(
           (p) =>
-            p.weapons.length !== 2 ||
+            p.weapons.length !== this.equipmentCount(p) ||
             p.ready !== true ||
             p.readyGeneration !== (this.saved.preparationGeneration ?? 0),
         )
@@ -1663,6 +1672,9 @@ export class Room extends DurableObject<Env> {
       let world: World;
       if (this.saved.directory?.ruleset === "front-v1") {
         if (
+          (this.saved.directory.mode === "survival" &&
+            present.some((p) => p.frontSurvivalBuild === 1) &&
+            present.some((p) => p.frontSurvivalBuild !== 1)) ||
           (present.some((p) => p.frontGrowth === 3) &&
             present.some((p) => p.frontGrowth !== 3)) ||
           (present.some((p) => p.frontCatalog === 2) &&
@@ -1707,6 +1719,10 @@ export class Room extends DurableObject<Env> {
             fusion: present.every((p) => p.frontGrowth === 3),
             clearedStage: present[0]?.frontClearedStage ?? 0,
             catalogVersion: present.every((p) => p.frontCatalog === 2) ? 2 : 1,
+            ...(this.saved.directory.mode === "survival" &&
+            present.every((p) => p.frontSurvivalBuild === 1)
+              ? { survivalBuildVersion: 1 as const }
+              : {}),
             // 出撃前の時間を含めず、出撃開始から60分。
             returnAt: (now + LIMITS.roomMs) / 1000,
             players: present.map((p) => ({
@@ -1820,6 +1836,14 @@ export class Room extends DurableObject<Env> {
       w.eventSerial,
     );
   }
+  private equipmentCount(member: Member): number {
+    return this.saved.directory?.ruleset === "front-v1" &&
+      this.saved.directory.mode === "survival" &&
+      member.frontGrowth === 3 &&
+      member.frontSurvivalBuild === 1
+      ? 1
+      : 2;
+  }
   broadcast(target?: WebSocket) {
     this.publishDirectory();
     const w = this.saved.world;
@@ -1846,7 +1870,7 @@ export class Room extends DurableObject<Env> {
       id: p.id,
       name: p.name || DEFAULT_PLAYER_NAME,
       ready:
-        p.weapons.length === 2 &&
+        p.weapons.length === this.equipmentCount(p) &&
         p.ready === true &&
         p.readyGeneration === (this.saved.preparationGeneration ?? 0),
       ...(w?.phase !== "battle" ? { weapons: p.weapons } : {}),

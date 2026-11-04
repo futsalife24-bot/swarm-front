@@ -79,6 +79,11 @@ export interface Weapon {
   // Absent on weapons saved before rolls existed; those read as base values.
   rolls?: Partial<Record<Roll, number>>;
 }
+export const FRONT_SURVIVAL_WEAPON_NAME = "生存戦ライフル";
+export const FRONT_SURVIVAL_WEAPON_ID_PREFIX = "front-survival-";
+export function isFrontSurvivalWeapon(w: Weapon): boolean {
+  return w.id.startsWith(FRONT_SURVIVAL_WEAPON_ID_PREFIX);
+}
 // `family` is the mechanic; `falloff` picks the distance curve; `pierce` is how
 // many bodies one shot passes through before any special effect is considered.
 // `speed`/`gravity` make the shot a projectile, `zoom` a scoped weapon, and
@@ -402,6 +407,7 @@ export function stats(w: Weapon) {
   const roll = (key: Roll) => w.rolls?.[key] ?? 1;
   return applyWeaponGrowth(w, {
     ...d,
+    ...(isFrontSurvivalWeapon(w) ? { name: FRONT_SURVIVAL_WEAPON_NAME } : {}),
     damage: d.damage * w.power,
     // A rocket holds two rounds, so a percentage would round it to ruin; every
     // magazine keeps at least one and moves in whole rounds.
