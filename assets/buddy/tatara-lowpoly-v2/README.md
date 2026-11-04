@@ -69,6 +69,8 @@ node assets/buddy/tatara-lowpoly-v2/server.mjs
 GitHub: https://github.com/futsalife24-bot/swarm-front 。ブランチ `codex/buddy-tatara-lowpoly-20261104`、改訂の開始HEAD `1cdc9bcabdfef82ef2ddf9807313458079177496`。
 専用worktree: `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-buddy-lowpoly`。
 今回の変更対象は `assets/buddy/tatara-lowpoly-v2/` のみ。最終commitはこのフォルダの履歴と完了報告を参照。
+素材・検証commit `81bfcf3` を2026-11-04に既存originの専用ブランチへpush済み。後続は本納品記録の追記のみ。
+[主担当への納品先](https://github.com/futsalife24-bot/swarm-front/tree/codex/buddy-tatara-lowpoly-20261104/assets/buddy/tatara-lowpoly-v2)。共有ノート未編集、main・本番未反映。
 
 共有STATE／MainVaultは直接編集しない。追記案：「本人修正を受け、タタラの手首を独立化。下向きの掌を90度返して正面へ22cm押出し、呼吸・首・踏み替え・体重移動を追加。本人指定の黄・紫へ配色。初版を保持し、試作02へ納品。属性未割当・ゲーム統合と公開なし。実機未確認。」
 
