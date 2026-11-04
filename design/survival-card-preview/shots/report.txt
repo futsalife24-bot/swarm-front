@@ -1,0 +1,126 @@
+OK  844x390 base-upgrades: 横スクロールなし・画面外のカード 0
+OK  844x390 base-upgrades: 候補チェックの当たり判定 最小36px、詳細の高さ52px、全体表示 9枚
+OK  844x390 base-fusions: 横スクロールなし・画面外のカード 0
+OK  844x390 base-samples: 横スクロールなし・画面外のカード 0
+OK  844x390 base-samples: 候補チェックの当たり判定 最小36px、詳細の高さ52px、全体表示 9枚
+OK  844x390 run-opening: 横スクロールなし・画面外のカード 0
+OK  844x390 run-opening: 3択 3枚 265×270px 本文欠け0 重なり0 下端324/390
+OK  844x390 run-opening: 通常→登場は短い sc-enter のみ
+OK  844x390 run-levelup: 横スクロールなし・画面外のカード 0
+OK  844x390 run-levelup: 3択 3枚 265×270px 本文欠け0 重なり0 下端324/390
+OK  844x390 run-fusion: 横スクロールなし・画面外のカード 0
+OK  844x390 run-fusion: 3択 3枚 265×270px 本文欠け0 重なり0 下端324/390
+OK  844x390 run-samples: 横スクロールなし・画面外のカード 0
+OK  844x390 run-samples: 3択 3枚 265×270px 本文欠け0 重なり0 下端324/390
+OK  844x390 run-long: 横スクロールなし・画面外のカード 0
+OK  844x390 run-long: 3択 3枚 265×270px 本文欠け0 重なり0 下端324/390
+OK  844x390 run-picked: 横スクロールなし・画面外のカード 0
+OK  844x390 run-picked: 3択 3枚 265×270px 本文欠け0 重なり0 下端327/390
+OK  844x390 run-picked: 通常→決定時だけ sc-pick
+OK  844x390 run-disabled: 横スクロールなし・画面外のカード 0
+OK  844x390 run-disabled: 3択 3枚 265×270px 本文欠け0 重なり0 下端324/390
+OK  844x390 hud: 横スクロールなし・画面外のカード 0
+OK  844x390 owned: 横スクロールなし・画面外のカード 0
+OK  844x390 融合を含む3択で0.8秒後に動き続けるアニメーション 0件
+OK  844x390 操作: 候補の出し入れ（候補 16種→候補 15種）、詳細の切替（整列射）
+OK  844x390 操作: 未解放は出し入れせず解放条件を表示
+OK  844x390 操作: 3択を押すと決定・他は非選択
+OK  844x390 操作: 3択中に「現在の強化」を開ける
+OK  844x390 ページ例外 0件
+OK  844x390-reduce base-upgrades: 横スクロールなし・画面外のカード 0
+OK  844x390-reduce base-upgrades: 候補チェックの当たり判定 最小36px、詳細の高さ52px、全体表示 9枚
+OK  844x390-reduce base-fusions: 横スクロールなし・画面外のカード 0
+OK  844x390-reduce base-samples: 横スクロールなし・画面外のカード 0
+OK  844x390-reduce base-samples: 候補チェックの当たり判定 最小36px、詳細の高さ52px、全体表示 9枚
+OK  844x390-reduce run-opening: 横スクロールなし・画面外のカード 0
+OK  844x390-reduce run-opening: 3択 3枚 265×270px 本文欠け0 重なり0 下端324/390
+OK  844x390-reduce run-opening: 動きを減らす→カードのアニメーションなし（none）
+OK  844x390-reduce run-levelup: 横スクロールなし・画面外のカード 0
+OK  844x390-reduce run-levelup: 3択 3枚 265×270px 本文欠け0 重なり0 下端324/390
+OK  844x390-reduce run-levelup: 動きを減らす→カードのアニメーションなし（none）
+OK  844x390-reduce run-fusion: 横スクロールなし・画面外のカード 0
+OK  844x390-reduce run-fusion: 3択 3枚 265×270px 本文欠け0 重なり0 下端324/390
+OK  844x390-reduce run-fusion: 動きを減らす→カードのアニメーションなし（none）
+OK  844x390-reduce run-samples: 横スクロールなし・画面外のカード 0
+OK  844x390-reduce run-samples: 3択 3枚 265×270px 本文欠け0 重なり0 下端324/390
+OK  844x390-reduce run-samples: 動きを減らす→カードのアニメーションなし（none）
+OK  844x390-reduce run-long: 横スクロールなし・画面外のカード 0
+OK  844x390-reduce run-long: 3択 3枚 265×270px 本文欠け0 重なり0 下端324/390
+OK  844x390-reduce run-long: 動きを減らす→カードのアニメーションなし（none）
+OK  844x390-reduce run-picked: 横スクロールなし・画面外のカード 0
+OK  844x390-reduce run-picked: 3択 3枚 265×270px 本文欠け0 重なり0 下端324/390
+OK  844x390-reduce run-picked: 動きを減らす→カードのアニメーションなし（none）
+OK  844x390-reduce run-disabled: 横スクロールなし・画面外のカード 0
+OK  844x390-reduce run-disabled: 3択 3枚 265×270px 本文欠け0 重なり0 下端324/390
+OK  844x390-reduce run-disabled: 動きを減らす→カードのアニメーションなし（none）
+OK  844x390-reduce hud: 横スクロールなし・画面外のカード 0
+OK  844x390-reduce owned: 横スクロールなし・画面外のカード 0
+OK  844x390-reduce 融合を含む3択で0.8秒後に動き続けるアニメーション 0件
+OK  844x390-reduce 操作: 候補の出し入れ（候補 16種→候補 15種）、詳細の切替（整列射）
+OK  844x390-reduce 操作: 未解放は出し入れせず解放条件を表示
+OK  844x390-reduce 操作: 3択を押すと決定・他は非選択
+OK  844x390-reduce 操作: 3択中に「現在の強化」を開ける
+OK  844x390-reduce ページ例外 0件
+OK  640x360 base-upgrades: 横スクロールなし・画面外のカード 0
+OK  640x360 base-upgrades: 候補チェックの当たり判定 最小36px、詳細の高さ48px、全体表示 6枚
+OK  640x360 base-fusions: 横スクロールなし・画面外のカード 0
+OK  640x360 base-samples: 横スクロールなし・画面外のカード 0
+OK  640x360 base-samples: 候補チェックの当たり判定 最小36px、詳細の高さ48px、全体表示 6枚
+OK  640x360 run-opening: 横スクロールなし・画面外のカード 0
+OK  640x360 run-opening: 3択 3枚 203×262px 本文欠け0 重なり0 下端314/360
+OK  640x360 run-opening: 通常→登場は短い sc-enter のみ
+OK  640x360 run-levelup: 横スクロールなし・画面外のカード 0
+OK  640x360 run-levelup: 3択 3枚 203×262px 本文欠け0 重なり0 下端314/360
+OK  640x360 run-fusion: 横スクロールなし・画面外のカード 0
+OK  640x360 run-fusion: 3択 3枚 203×262px 本文欠け0 重なり0 下端314/360
+OK  640x360 run-samples: 横スクロールなし・画面外のカード 0
+OK  640x360 run-samples: 3択 3枚 203×262px 本文欠け0 重なり0 下端314/360
+OK  640x360 run-long: 横スクロールなし・画面外のカード 0
+OK  640x360 run-long: 3択 3枚 203×262px 本文欠け0 重なり0 下端314/360
+OK  640x360 run-picked: 横スクロールなし・画面外のカード 0
+OK  640x360 run-picked: 3択 3枚 203×262px 本文欠け0 重なり0 下端317/360
+OK  640x360 run-picked: 通常→決定時だけ sc-pick
+OK  640x360 run-disabled: 横スクロールなし・画面外のカード 0
+OK  640x360 run-disabled: 3択 3枚 203×262px 本文欠け0 重なり0 下端314/360
+OK  640x360 hud: 横スクロールなし・画面外のカード 0
+OK  640x360 owned: 横スクロールなし・画面外のカード 0
+OK  640x360 融合を含む3択で0.8秒後に動き続けるアニメーション 0件
+OK  640x360 操作: 候補の出し入れ（候補 16種→候補 15種）、詳細の切替（整列射）
+OK  640x360 操作: 未解放は出し入れせず解放条件を表示
+OK  640x360 操作: 3択を押すと決定・他は非選択
+OK  640x360 操作: 3択中に「現在の強化」を開ける
+OK  640x360 ページ例外 0件
+OK  640x360-reduce base-upgrades: 横スクロールなし・画面外のカード 0
+OK  640x360-reduce base-upgrades: 候補チェックの当たり判定 最小36px、詳細の高さ48px、全体表示 6枚
+OK  640x360-reduce base-fusions: 横スクロールなし・画面外のカード 0
+OK  640x360-reduce base-samples: 横スクロールなし・画面外のカード 0
+OK  640x360-reduce base-samples: 候補チェックの当たり判定 最小36px、詳細の高さ48px、全体表示 6枚
+OK  640x360-reduce run-opening: 横スクロールなし・画面外のカード 0
+OK  640x360-reduce run-opening: 3択 3枚 203×262px 本文欠け0 重なり0 下端314/360
+OK  640x360-reduce run-opening: 動きを減らす→カードのアニメーションなし（none）
+OK  640x360-reduce run-levelup: 横スクロールなし・画面外のカード 0
+OK  640x360-reduce run-levelup: 3択 3枚 203×262px 本文欠け0 重なり0 下端314/360
+OK  640x360-reduce run-levelup: 動きを減らす→カードのアニメーションなし（none）
+OK  640x360-reduce run-fusion: 横スクロールなし・画面外のカード 0
+OK  640x360-reduce run-fusion: 3択 3枚 203×262px 本文欠け0 重なり0 下端314/360
+OK  640x360-reduce run-fusion: 動きを減らす→カードのアニメーションなし（none）
+OK  640x360-reduce run-samples: 横スクロールなし・画面外のカード 0
+OK  640x360-reduce run-samples: 3択 3枚 203×262px 本文欠け0 重なり0 下端314/360
+OK  640x360-reduce run-samples: 動きを減らす→カードのアニメーションなし（none）
+OK  640x360-reduce run-long: 横スクロールなし・画面外のカード 0
+OK  640x360-reduce run-long: 3択 3枚 203×262px 本文欠け0 重なり0 下端314/360
+OK  640x360-reduce run-long: 動きを減らす→カードのアニメーションなし（none）
+OK  640x360-reduce run-picked: 横スクロールなし・画面外のカード 0
+OK  640x360-reduce run-picked: 3択 3枚 203×262px 本文欠け0 重なり0 下端314/360
+OK  640x360-reduce run-picked: 動きを減らす→カードのアニメーションなし（none）
+OK  640x360-reduce run-disabled: 横スクロールなし・画面外のカード 0
+OK  640x360-reduce run-disabled: 3択 3枚 203×262px 本文欠け0 重なり0 下端314/360
+OK  640x360-reduce run-disabled: 動きを減らす→カードのアニメーションなし（none）
+OK  640x360-reduce hud: 横スクロールなし・画面外のカード 0
+OK  640x360-reduce owned: 横スクロールなし・画面外のカード 0
+OK  640x360-reduce 融合を含む3択で0.8秒後に動き続けるアニメーション 0件
+OK  640x360-reduce 操作: 候補の出し入れ（候補 16種→候補 15種）、詳細の切替（整列射）
+OK  640x360-reduce 操作: 未解放は出し入れせず解放条件を表示
+OK  640x360-reduce 操作: 3択を押すと決定・他は非選択
+OK  640x360-reduce 操作: 3択中に「現在の強化」を開ける
+OK  640x360-reduce ページ例外 0件
