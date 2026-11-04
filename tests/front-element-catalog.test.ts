@@ -127,7 +127,7 @@ it("属性3枚は同レアの武器強化で、属性名・段階ごとの数値
     const markup = frontUpgradeCardMarkup(v, id, "/");
     expect(markup).toContain('data-kind="normal"');
     expect(markup).toContain('data-type="weapon"');
-    expect(markup).toContain(`${id}.svg`);
+    expect(markup).toContain(`${id}-v1.webp`);
   });
   expect(frontUpgradeEffect("fire-rounds", 3)).toContain("12ダメージ");
   expect(frontUpgradeEffect("frost-rounds", 3)).toContain("1秒凍結");

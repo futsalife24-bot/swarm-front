@@ -70,6 +70,40 @@
   z-index: -1;
   background: var(--sc-edge);
 }
+/* 文字のない生成枠を9分割で配置。四隅を保ち、中央にUIを重ねる。 */
+.sc-card .sc-ornament {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border: 20px solid transparent;
+  border-image-source: url("/rebuild/card-art/frame-normal-v1.webp");
+  border-image-slice: 20%;
+  border-image-width: 20px;
+  border-image-repeat: stretch;
+}
+.sc-card[data-type="ability"] .sc-ornament {
+  filter: hue-rotate(-55deg);
+}
+.sc-card[data-kind="fusion"] .sc-ornament {
+  border-image-source: url("/rebuild/card-art/frame-fusion-v1.webp");
+}
+.sc-card[data-size="M"] .sc-ornament,
+.sc-card[data-size="row"] .sc-ornament {
+  border-width: 10px;
+  border-image-width: 10px;
+}
+.sc-card[data-size="S"] .sc-ornament {
+  display: none;
+}
+/* 一覧は静かに保ち、選択した融合と3択で炎のきらめきを見せる。 */
+.sc-card[data-size="M"]:not([data-inspecting="true"]) .sc-frame::before,
+.sc-card[data-size="M"]:not([data-inspecting="true"]) .sc-ring {
+  animation: none;
+}
+.sc-card[data-size="M"]:not([data-inspecting="true"]) .sc-ring {
+  opacity: 0.18;
+}
 .sc-card[data-kind="fusion"] .sc-frame {
   overflow: hidden;
 }
@@ -160,6 +194,9 @@
   outline-offset: 3px;
   clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
   pointer-events: none;
+}
+.sc-card .sc-art:has(.sc-illustration)::after {
+  display: none;
 }
 .sc-card .sc-art {
   position: relative;
@@ -257,7 +294,7 @@ button.sc-card {
   flex-direction: column;
   align-items: stretch;
   gap: 4px;
-  padding: 7px 9px 8px;
+  padding: 10px 12px 11px;
 }
 .sc-card[data-size="L"] .sc-top {
   display: flex;
@@ -280,8 +317,8 @@ button.sc-card {
   width: 100%;
   height: auto;
   flex: 1 1 64px;
-  min-height: 48px;
-  max-height: 118px;
+  min-height: 38px;
+  max-height: 156px;
 }
 .sc-card[data-size="L"] .sc-art img,
 .sc-card[data-size="L"] .sc-art .front-atlas-icon {
@@ -291,6 +328,12 @@ button.sc-card {
   max-width: 94%;
   aspect-ratio: 1;
   margin: 0;
+}
+.sc-card[data-size="L"] .sc-art img.sc-illustration {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: contain;
 }
 .sc-card[data-size="L"] .sc-family {
   font-size: 10px;
@@ -409,7 +452,7 @@ button.sc-card {
   gap: 7px;
   min-width: 0;
   flex: 1;
-  padding: 3px 5px;
+  padding: 3px 6px;
   border: 0;
   background: none;
   color: inherit;
@@ -578,8 +621,8 @@ body.front-game #ui .sc-card > .sc-face > .sc-pick:hover {
 .front-game .rebuild-selection:has(.sc-card) {
   display: flex;
   flex-direction: column;
-  width: min(820px, calc(100vw - 24px));
-  height: min(316px, calc(100dvh - 24px));
+  width: min(760px, calc(100vw - 24px));
+  height: min(358px, calc(100dvh - 24px));
 }
 .front-game .rebuild-selection:has(.sc-card) > header {
   flex: none;
@@ -587,13 +630,13 @@ body.front-game #ui .sc-card > .sc-face > .sc-pick:hover {
 .front-game .rebuild-selection:has(.sc-card) .rebuild-cards {
   flex: 1;
   min-height: 0;
-  max-height: 270px;
+  max-height: 310px;
   align-items: stretch;
 }
 
 @media (max-width: 700px), (max-height: 370px) {
   .sc-card[data-size="L"] .sc-face {
-    padding: 6px 7px 7px;
+    padding: 8px 9px 9px;
     gap: 3px;
   }
   .sc-card[data-size="L"] .sc-name {
