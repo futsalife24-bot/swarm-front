@@ -1,4 +1,4 @@
-import { expect, it } from "vitest";
+import { afterAll, expect, it, vi } from "vitest";
 import { stats, ROLLS, type Kind } from "../src/shared/defs";
 import {
   makeWeapon,
@@ -9,6 +9,10 @@ import {
 } from "../src/shared/progression";
 import { freshProgress } from "../src/client/progression-save";
 import { gearWeaponRows } from "../src/client/gear-weapon-list";
+
+// 行のHTML検査ではヘルプのクリックは起こさない。登録先だけを用意する。
+vi.hoisted(() => vi.stubGlobal("document", new EventTarget()));
+afterAll(() => vi.unstubAllGlobals());
 
 const kinds: Kind[] = ["rifle", "shotgun", "rocket"];
 const legacy: StoredWeapon = {
@@ -128,7 +132,8 @@ it("uses rounded ammunition and excludes special effects without mutating saves 
   save.inventory[0] = legacy;
   save.soldiers[0].equipped[0] = legacy.id;
   const rows = gearWeaponRows([legacy], save, false, new Set(), 0);
-  expect(rows.match(/<sup>▼<\/sup>/g)).toHaveLength(10);
+  // 1丁1行。装備中でも比較用の複製を追加しない。
+  expect(rows.match(/<sup>▼<\/sup>/g)).toHaveLength(5);
   expect(rows).not.toContain("★");
   expect(JSON.stringify(legacy)).toBe(before);
   expect(stats(legacy)).toEqual(combat);

@@ -19,18 +19,34 @@ const nextPreparationFrame = () =>
     frame = requestAnimationFrame(finish);
   });
 
+export type BattleLoadingStatus = {
+  stage: string;
+  elapsedSeconds: number;
+};
+
 /** Covers downloads, actor attachment and the first GPU compile, with one deadline. */
 export async function prepareBattle(
   view: Renderer,
   world: World,
   id: string,
   cancelled: () => boolean,
-  progress: (value: number) => void = () => {},
+  progress: (value: number, status: BattleLoadingStatus) => void = () => {},
 ) {
   const began = performance.now();
   let pending = "素材";
+  let percentage = 0;
+  let lastReport = "";
+  const report = (value = percentage) => {
+    percentage = value;
+    const elapsedSeconds = Math.floor((performance.now() - began) / 1000);
+    const key = `${value}:${pending}:${elapsedSeconds}`;
+    if (key === lastReport) return;
+    lastReport = key;
+    progress(value, { stage: pending, elapsedSeconds });
+  };
   const check = () => {
     if (cancelled()) throw new Error("準備を中止しました");
+    report();
     if (performance.now() - began > 60000)
       throw new Error(
         `読み込みに時間がかかっています（${pending}）。通信を確認して再試行してください。`,
@@ -59,7 +75,7 @@ export async function prepareBattle(
   await nextPreparationFrame();
   await nextPreparationFrame();
   check();
-  progress(5);
+  report(5);
   const prepareBastion =
     (world.front?.growthVersion === 3 && !world.defense) ||
     stageFor(world).waves.some((wave) => wave.troops.bastion);
@@ -72,7 +88,8 @@ export async function prepareBattle(
       loadProgressionWeapons(world.players.flatMap((p) => p.weapons)),
     ]),
   );
-  progress(35);
+  pending = "敵の素材";
+  report(35);
   await wait(Promise.all([...view.structures.values()].map((s) => s.loading)));
   for (const wave of stageFor(world).waves) {
     for (const kind of [
@@ -83,7 +100,8 @@ export async function prepareBattle(
       if (error) throw new Error(error);
     }
   }
-  progress(55);
+  pending = "マップ・兵士";
+  report(55);
   const mapIndex = VIEW_MAPS.indexOf(mapFor(world));
   // A failed daily map download must be retryable without spending participation.
   if (world.defense && view.mapAssets.status[mapIndex].state === "error")
@@ -104,6 +122,7 @@ export async function prepareBattle(
             distant.state !== "ready"
           ? "遠景"
           : `兵士 ${models.filter((m) => m?.userData.trooper).length}/${models.length}`;
+    report();
     if (
       map.state === "error" ||
       distant.state === "error" ||
@@ -122,8 +141,8 @@ export async function prepareBattle(
       break;
     await nextPreparationFrame();
   }
-  progress(85);
-  pending = "描画の準備";
+  pending = "描画の準備（シェーダー）";
+  report(85);
   await wait(view.renderer.compileAsync(view.scene, view.camera));
   // Three 0.185.1 defers uniform/attribute discovery to first use. Without
   // KHR_parallel_shader_compile, compileAsync may resolve before the driver
@@ -133,7 +152,8 @@ export async function prepareBattle(
   for (let i = 0; i < programs.length; i++) {
     check();
     programs[i].getUniforms();
-    progress(Math.round(85 + (8 * (i + 1)) / programs.length));
+    pending = `描画の準備（プログラム ${i + 1}/${programs.length}）`;
+    report(Math.round(85 + (8 * (i + 1)) / programs.length));
     await nextPreparationFrame();
   }
   check();
@@ -162,6 +182,7 @@ export async function prepareBattle(
   // Warm one group at a time and yield between groups. A single large first
   // render can block message/ping handling long enough to disconnect a lobby.
   for (const [index, root] of roots.entries()) {
+    pending = `描画の準備（GPU ${index + 1}/${roots.length}）`;
     check();
     const instances: [InstancedMesh, number, boolean][] = [];
     let fence: WebGLSync | null = null;
@@ -205,10 +226,11 @@ export async function prepareBattle(
       gl.deleteSync(fence);
     }
     // Allow queued lobby states and input events to run even on a warm GPU.
-    progress(Math.round(93 + (6 * (index + 1)) / roots.length));
+    report(Math.round(93 + (6 * (index + 1)) / roots.length));
     await nextPreparationFrame();
   }
   check();
   view.renderer.render(view.scene, view.camera);
-  progress(100);
+  pending = "完了";
+  report(100);
 }

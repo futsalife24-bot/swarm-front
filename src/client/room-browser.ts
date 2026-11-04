@@ -41,6 +41,14 @@ export function bindRoomBrowser(
   const refreshButton = root.querySelector<HTMLButtonElement>("#room-refresh")!;
   const visibility = root.querySelector<HTMLInputElement>("#room-visibility")!;
   const joinForm = root.querySelector<HTMLFormElement>("#room-join-form")!;
+  const joinButton = root.querySelector<HTMLButtonElement>("#room-join")!;
+  const roomInput = root.querySelector<HTMLInputElement>("#room-id")!;
+  roomInput.setAttribute("aria-describedby", "room-list-status");
+  const message = (text: string, state = "info") => {
+    status.dataset.state = state;
+    status.setAttribute("role", state === "error" ? "alert" : "status");
+    status.textContent = text;
+  };
   const accessButtons = [
     ...root.querySelectorAll<HTMLButtonElement>("[data-room-access]"),
   ];
@@ -66,10 +74,23 @@ export function bindRoomBrowser(
         redirect: "error",
         cache: "no-store",
       },
-    );
-    const value = await response.json();
+    ).catch((error: Error) => {
+      throw new Error(
+        error.name === "TimeoutError"
+          ? "部屋の確認が時間切れになりました。通信を確認して、もう一度お試しください。"
+          : "サーバーに接続できません。通信を確認して、もう一度お試しください。",
+      );
+    });
+    const value = await response.json().catch(() => null);
     if (!response.ok)
-      throw new Error(value.error || "部屋情報を取得できませんでした");
+      throw new Error(
+        response.status === 404
+          ? "部屋が見つかりません。パスワードが違うか、部屋が終了しています。部屋主にご確認ください。"
+          : typeof value?.error === "string"
+            ? value.error
+            : "部屋情報を取得できませんでした。もう一度お試しください。",
+      );
+    if (!value) throw new Error("部屋情報を確認できませんでした。");
     return value;
   }
   async function enter(value: string) {
@@ -78,33 +99,47 @@ export function bindRoomBrowser(
     refreshButton.disabled = false;
     const id = parseRoomEntry(value, location.href, ruleset);
     if (!id) {
-      status.textContent =
-        "参加用パスワード（8文字）またはこのゲームの招待リンクを入力してください。";
+      roomInput.setAttribute("aria-invalid", "true");
+      message(
+        "入力エラー：パスワードは0〜9・A〜Fの8文字です。部屋主のパスワードか招待リンクをコピーしてください。",
+        "error",
+      );
       return;
     }
+    roomInput.removeAttribute("aria-invalid");
     joining = true;
     root.dataset.roomBusy = "true";
+    joinForm.setAttribute("aria-busy", "true");
+    roomInput.readOnly = true;
     const launch = root.querySelector<HTMLButtonElement>("#launch")!;
     const launchWasDisabled = launch.disabled;
     launch.disabled = true;
-    root.querySelector<HTMLButtonElement>("#room-join")!.disabled = true;
+    joinButton.disabled = true;
+    joinButton.textContent = "確認中…";
     for (const button of accessButtons) button.disabled = true;
     try {
-      status.textContent = "部屋を確認しています…";
+      message("部屋を確認しています…", "pending");
       const code =
         id.length === 32
           ? id.toLowerCase()
           : (await request(`/rooms/${id}`)).code;
       if (typeof code !== "string" || !/^[a-f0-9]{32}$/.test(code))
         throw new Error("部屋情報を確認できませんでした");
-      if (root.isConnected) await join(code);
+      if (root.isConnected) {
+        message("部隊に接続しています…", "pending");
+        await join(code);
+      }
     } catch (e) {
-      if (root.isConnected) status.textContent = (e as Error).message;
+      if (root.isConnected)
+        message(`参加できませんでした。${(e as Error).message}`, "error");
     } finally {
       joining = false;
       root.dataset.roomBusy = "false";
       launch.disabled = launchWasDisabled;
-      root.querySelector<HTMLButtonElement>("#room-join")!.disabled = false;
+      joinForm.setAttribute("aria-busy", "false");
+      roomInput.readOnly = false;
+      joinButton.disabled = false;
+      joinButton.textContent = "参加";
       for (const button of accessButtons) button.disabled = false;
     }
   }
@@ -117,7 +152,7 @@ export function bindRoomBrowser(
       return;
     const current = ++revision;
     refreshButton.disabled = true;
-    status.textContent = "公開部屋を探しています…";
+    message("公開部屋を探しています…", "pending");
     try {
       const data = await request("/rooms");
       if (!root.isConnected || current !== revision) return;
@@ -139,12 +174,14 @@ export function bindRoomBrowser(
         row.append(title, detail, button);
         list.append(row);
       }
-      status.textContent = list.children.length
-        ? `${list.children.length}件の公開部屋`
-        : "現在、参加できる公開部屋はありません。";
+      message(
+        list.children.length
+          ? `${list.children.length}件の公開部屋`
+          : "現在、参加できる公開部屋はありません。",
+      );
     } catch (e) {
       if (root.isConnected && current === revision)
-        status.textContent = (e as Error).message;
+        message((e as Error).message, "error");
     } finally {
       if (current === revision)
         refreshButton.disabled = root.dataset.roomBusy === "true";
@@ -170,9 +207,12 @@ export function bindRoomBrowser(
     root.querySelector("#room-access-help")!.textContent = isPublic
       ? "公開中の部屋から選んで参加できます。部屋を作ると、この一覧に公開されます。"
       : "招待リンクか参加用パスワードを共有して、仲間と集まります。一覧には表示されません。";
-    status.textContent = isPublic
-      ? "公開部屋を探しています…"
-      : "部屋主から届いた8文字のパスワードか招待リンクを入力してください。";
+    roomInput.removeAttribute("aria-invalid");
+    message(
+      isPublic
+        ? "公開部屋を探しています…"
+        : "部屋主から届いた8文字のパスワードか招待リンクを入力してください。",
+    );
     if (isPublic) void refresh();
   }
   for (const button of accessButtons)

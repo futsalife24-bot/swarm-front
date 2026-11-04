@@ -1,4 +1,7 @@
-import { battleLoadingMarkup } from "./loading-screen";
+import {
+  battleLoadingMarkup,
+  updateBattleLoadingStatus,
+} from "./loading-screen";
 import { backgroundMusic } from "./bgm";
 import { mountMediaMenu } from "./media-menu";
 import {
@@ -52,7 +55,7 @@ import {
   encounterVisible,
   harrowEncounterDistance,
 } from "./encounter-camera";
-import { prepareBattle } from "./battle-loading";
+import { prepareBattle, type BattleLoadingStatus } from "./battle-loading";
 import { addPlayerNameSetting } from "./player-profile";
 import { enhanceGameSelects } from "./game-select";
 import { stagePickerLabel, renderStageOption } from "./stage-picker";
@@ -231,10 +234,11 @@ async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
   ui.innerHTML = battleLoadingMarkup(true);
   ui.querySelector(".pt-loading p")!.textContent =
     tips[Math.floor(Math.random() * tips.length)];
-  const progress = (n: number) => {
+  const progress = (n: number, status: BattleLoadingStatus) => {
     if (generation !== loadingGeneration) return;
     ($("pt-progress") as HTMLProgressElement).value = n;
     $("pt-load-percent").textContent = `${n}%`;
+    updateBattleLoadingStatus(status);
   };
   try {
     await prepareBattle(
@@ -1856,46 +1860,43 @@ function bindList(context: string) {
     listScroll = list.scrollTop;
     perfScroll = list.scrollLeft;
   };
-  ui.querySelectorAll<HTMLElement>("[data-row],[data-pinned]").forEach(
-    (row) => {
+  ui.querySelectorAll<HTMLElement>("[data-row]").forEach((row) => {
+    if (
+      context === "gear" &&
+      !gearOrganizing &&
+      row.dataset.row !== soldier(save).equipped[selectedGearSlot] &&
+      save.inventory.some((w) => w.id === row.dataset.row)
+    ) {
+      const button = row.querySelector<HTMLButtonElement>("[data-detail]")!;
+      button.setAttribute(
+        "aria-label",
+        button
+          .getAttribute("aria-label")!
+          .replace(/ 詳細$/, " を装備" + (selectedGearSlot + 1) + "へ"),
+      );
+    }
+    let origin = { x: 0, y: 0 };
+    row.onpointerdown = (e) => {
+      origin = { x: e.clientX, y: e.clientY };
+    };
+    row.onclick = (e) => {
       if (
+        (e.target as Element).closest("[data-lock],[data-check]") ||
+        (e.detail !== 0 &&
+          Math.hypot(e.clientX - origin.x, e.clientY - origin.y) > 8)
+      )
+        return;
+      const w = allWeapons(save).find((w) => w.id === row.dataset.row)!;
+      if (
+        w.id !== soldier(save).equipped[selectedGearSlot] &&
         context === "gear" &&
         !gearOrganizing &&
-        save.inventory.some((w) => w.id === row.dataset.row)
-      ) {
-        const button = row.querySelector<HTMLButtonElement>("[data-detail]")!;
-        button.setAttribute(
-          "aria-label",
-          button
-            .getAttribute("aria-label")!
-            .replace(/ 詳細$/, " を装備" + (selectedGearSlot + 1) + "へ"),
-        );
-      }
-      let origin = { x: 0, y: 0 };
-      row.onpointerdown = (e) => {
-        origin = { x: e.clientX, y: e.clientY };
-      };
-      row.onclick = (e) => {
-        if (
-          (e.target as Element).closest("[data-lock],[data-check]") ||
-          (e.detail !== 0 &&
-            Math.hypot(e.clientX - origin.x, e.clientY - origin.y) > 8)
-        )
-          return;
-        const w = allWeapons(save).find(
-          (w) => w.id === (row.dataset.row ?? row.dataset.pinned),
-        )!;
-        if (
-          !row.dataset.pinned &&
-          context === "gear" &&
-          !gearOrganizing &&
-          save.inventory.some((item) => item.id === w.id)
-        )
-          equipWeapon(w.id, selectedGearSlot, gear);
-        else detail(w, context);
-      };
-    },
-  );
+        save.inventory.some((item) => item.id === w.id)
+      )
+        equipWeapon(w.id, selectedGearSlot, gear);
+      else detail(w, context);
+    };
+  });
   ui.querySelectorAll<HTMLButtonElement>("[data-lock]").forEach(
     (b) =>
       (b.onclick = (event) => {

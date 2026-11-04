@@ -126,6 +126,17 @@ try {
     await screenshot("prep");
     await page.locator("#front-mode").selectOption("defense");
     await expect(page.locator("[data-front-slot]")).toHaveCount(2);
+    await expect(page.locator("[data-row]")).toHaveCount(3);
+    await tap('[data-front-slot="1"]');
+    await tap('[data-row="v2-starter-rocket"]');
+    await expect(page.locator("[data-row]")).toHaveCount(3);
+    expect(
+      await page
+        .locator(".gear-weapon-list .pt-weapon-row:not(.pt-weapon-head)")
+        .count(),
+    ).toBe(3);
+    await tap('[data-front-slot="0"]');
+    await expect(page.locator("[data-row]")).toHaveCount(3);
     await expect(page.locator('[data-front-slot="0"]')).toBeEnabled();
     await tap("#front-base");
     await expect(page.locator("#front-save-pool")).toBeVisible();
@@ -184,6 +195,7 @@ try {
     await screenshot("choices");
     await tap("[data-card]:first-of-type");
     await expect(page.locator("#controls")).toBeVisible();
+    await expect(page.locator("#boot-screen")).toHaveCount(0);
     await expect(page.locator("#swap")).toBeHidden();
     await expect(page.locator('.sc-card[data-size="S"]')).toHaveCount(1);
     await expect(page.locator(".weapon-hud")).toContainText(

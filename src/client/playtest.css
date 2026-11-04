@@ -542,6 +542,14 @@ sup {
   justify-content: center;
   gap: 12px;
 }
+.pt-loading > small,
+.pt-loading #pt-load-stage {
+  max-width: 90%;
+  text-align: center;
+}
+.pt-loading > small {
+  color: #b4c8cf;
+}
 .pt-loading progress {
   width: min(80%, 650px);
   height: 20px;

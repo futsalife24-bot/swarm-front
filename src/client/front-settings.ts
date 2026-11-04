@@ -20,8 +20,14 @@ import {
 } from "./layout";
 import { openLayoutEditor } from "./layout-editor";
 import { openAssetDownloadMenu } from "./asset-download-menu";
+import {
+  FRONT_SETTINGS_KEY,
+  defaultEnvironmentPreferences,
+  loadEnvironmentPreferences,
+  saveEnvironmentPreferences,
+} from "./environment-preferences";
 
-export const FRONT_SETTINGS_KEY = "swarm-front-rebuild-settings-v1";
+export { FRONT_SETTINGS_KEY };
 export interface FrontPreferences {
   sensitivity: number;
   fireSensitivity: number;
@@ -30,7 +36,7 @@ export interface FrontPreferences {
   volume: number;
   bgmVolume: number;
   seVolume: number;
-  quality: number;
+  quality: 0.65 | 1;
   frameRate: 30 | 60;
 }
 export const defaultFrontPreferences = (): FrontPreferences => ({
@@ -69,6 +75,7 @@ export class FrontSettings {
   opened = false;
   layout: Layout = defaultLayout();
   preferences = defaultFrontPreferences();
+  private environment = defaultEnvironmentPreferences();
   private error = "";
   constructor(
     private controls: Controls,
@@ -76,9 +83,10 @@ export class FrontSettings {
     private view: Renderer,
   ) {
     try {
-      this.preferences = parseFrontPreferences(
-        localStorage.getItem(FRONT_SETTINGS_KEY),
-      );
+      const loaded = loadEnvironmentPreferences();
+      this.environment = loaded.value;
+      this.preferences = loaded.value;
+      this.error = loaded.warning;
     } catch {
       this.error =
         "設定を読み込めませんでした。元データを残し、初期値で動作しています。";
@@ -162,7 +170,10 @@ export class FrontSettings {
     status.textContent = this.error || "変更はこの端末に自動保存されます。";
     const write = (next: FrontPreferences) => {
       try {
-        localStorage.setItem(FRONT_SETTINGS_KEY, JSON.stringify(next));
+        this.environment = saveEnvironmentPreferences({
+          ...this.environment,
+          ...next,
+        });
         this.preferences = next;
         this.apply();
         this.error = "";

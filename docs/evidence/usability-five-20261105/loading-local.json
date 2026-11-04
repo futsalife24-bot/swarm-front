@@ -1,0 +1,178 @@
+[
+  {
+    "scenario": "delayed-map",
+    "preparationMs": 21871,
+    "before": {
+      "screen": "loading",
+      "time": 0,
+      "phase": "lobby",
+      "map": {
+        "state": "loading",
+        "error": ""
+      },
+      "trooper": {
+        "loaded": true,
+        "bones": 59
+      },
+      "status": "マップ · 経過 1秒",
+      "progress": 55,
+      "retry": false
+    },
+    "held": {
+      "screen": "loading",
+      "time": 0,
+      "phase": "lobby",
+      "map": {
+        "state": "loading",
+        "error": ""
+      },
+      "trooper": {
+        "loaded": true,
+        "bones": 59
+      },
+      "status": "マップ · 経過 4秒",
+      "progress": 55,
+      "retry": false
+    },
+    "prepared": {
+      "screen": "loading",
+      "time": 0,
+      "phase": "lobby",
+      "map": {
+        "state": "ready",
+        "error": ""
+      },
+      "trooper": {
+        "loaded": true,
+        "bones": 59
+      },
+      "status": "完了 · 経過 19秒",
+      "progress": 100,
+      "retry": false
+    },
+    "ready": {
+      "screen": "battle",
+      "time": 0,
+      "phase": "battle",
+      "map": {
+        "state": "ready",
+        "error": ""
+      },
+      "trooper": {
+        "loaded": true,
+        "bones": 59
+      },
+      "status": "完了 · 経過 19秒",
+      "progress": 100,
+      "retry": false
+    },
+    "intercepted": 1,
+    "errors": [],
+    "passed": true
+  },
+  {
+    "scenario": "delayed-trooper",
+    "preparationMs": 22642,
+    "before": {
+      "screen": "loading",
+      "time": 0,
+      "phase": "lobby",
+      "map": {
+        "state": "idle",
+        "error": ""
+      },
+      "trooper": {
+        "loaded": false,
+        "error": null
+      },
+      "status": "素材 · 経過 0秒",
+      "progress": 5,
+      "retry": false
+    },
+    "held": {
+      "screen": "loading",
+      "time": 0,
+      "phase": "lobby",
+      "map": {
+        "state": "idle",
+        "error": ""
+      },
+      "trooper": {
+        "loaded": false,
+        "error": null
+      },
+      "status": "素材 · 経過 3秒",
+      "progress": 5,
+      "retry": false
+    },
+    "prepared": {
+      "screen": "loading",
+      "time": 0,
+      "phase": "lobby",
+      "map": {
+        "state": "ready",
+        "error": ""
+      },
+      "trooper": {
+        "loaded": true,
+        "bones": 59
+      },
+      "status": "完了 · 経過 19秒",
+      "progress": 100,
+      "retry": false
+    },
+    "ready": {
+      "screen": "battle",
+      "time": 0.05,
+      "phase": "battle",
+      "map": {
+        "state": "ready",
+        "error": ""
+      },
+      "trooper": {
+        "loaded": true,
+        "bones": 59
+      },
+      "status": "完了 · 経過 19秒",
+      "progress": 100,
+      "retry": false
+    },
+    "intercepted": 1,
+    "errors": [],
+    "passed": true
+  },
+  {
+    "scenario": "failed-map",
+    "failed": {
+      "screen": "loading",
+      "time": 0,
+      "phase": "lobby",
+      "map": {
+        "state": "error",
+        "error": "TypeError: Failed to fetch"
+      },
+      "trooper": {
+        "loaded": true,
+        "bones": 59
+      },
+      "status": "マップ · 経過 0秒",
+      "progress": 55,
+      "retry": true
+    },
+    "returned": {
+      "screen": "home",
+      "map": {
+        "state": "error",
+        "error": "TypeError: Failed to fetch"
+      },
+      "trooper": {
+        "loaded": false,
+        "error": null
+      },
+      "retry": false
+    },
+    "intercepted": 1,
+    "errors": [],
+    "passed": true
+  }
+]

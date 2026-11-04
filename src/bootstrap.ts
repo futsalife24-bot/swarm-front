@@ -1,3 +1,4 @@
+import "./client/boot-screen";
 import { installCleanCapture } from "./client/clean-capture";
 import "./client/clean-capture.css";
 installCleanCapture();
