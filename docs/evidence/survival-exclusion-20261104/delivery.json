@@ -1,0 +1,426 @@
+{
+  "source": "bf81e0866250b00726a7f2ae9aebd4d3cfe5e59a",
+  "origin": "https://swarm-front.melosalife-24.workers.dev",
+  "at": "2026-11-04T07:58:19.820Z",
+  "scope": "dist内の全HTML・JS・CSS・JSON・Webmanifest。変更のない画像・音声・3D素材は対象外。",
+  "count": 51,
+  "matched": 51,
+  "health": {
+    "status": 200,
+    "body": {
+      "ok": true,
+      "transport": "websocket",
+      "authority": "durable-object"
+    }
+  },
+  "results": [
+    {
+      "file": "anomaly-voices.html",
+      "status": 200,
+      "bytes": 6870,
+      "local": "041ae76658ff785de3bed305438eec4127396a20d0a7c440a4e8d23464dd14bb",
+      "remote": "041ae76658ff785de3bed305438eec4127396a20d0a7c440a4e8d23464dd14bb",
+      "match": true
+    },
+    {
+      "file": "asset-download-manifest.json",
+      "status": 200,
+      "bytes": 37826,
+      "local": "ca58507fb337e8ee2048cfce400f972fc1d96a645cdec170cb5e234bcb88f647",
+      "remote": "ca58507fb337e8ee2048cfce400f972fc1d96a645cdec170cb5e234bcb88f647",
+      "match": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v1/manifest.json",
+      "status": 200,
+      "bytes": 3361,
+      "local": "0b1c2112aa7a816a4772b657885dbe173e661a73e11f15f8d84f9876a4f46283",
+      "remote": "0b1c2112aa7a816a4772b657885dbe173e661a73e11f15f8d84f9876a4f46283",
+      "match": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v2/manifest.json",
+      "status": 200,
+      "bytes": 6579,
+      "local": "30006e0e9726365f10def3e086453a5a5f0fdbb390ba5b21b7c69702bba495b6",
+      "remote": "30006e0e9726365f10def3e086453a5a5f0fdbb390ba5b21b7c69702bba495b6",
+      "match": true
+    },
+    {
+      "file": "assets/audio/anomaly-voice-v3/manifest.json",
+      "status": 200,
+      "bytes": 10573,
+      "local": "50c2feed53a3bd415601e2938a1a7d899d567df436a807fa07e56636a29082d4",
+      "remote": "50c2feed53a3bd415601e2938a1a7d899d567df436a807fa07e56636a29082d4",
+      "match": true
+    },
+    {
+      "file": "assets/audio/ar-hit-v1/manifest.json",
+      "status": 200,
+      "bytes": 3084,
+      "local": "24f70008f8278fd8d9f00168734cdc0459d6e7a306694a5272b299de5dedb1aa",
+      "remote": "24f70008f8278fd8d9f00168734cdc0459d6e7a306694a5272b299de5dedb1aa",
+      "match": true
+    },
+    {
+      "file": "assets/audio/rocket-final-v1/manifest.json",
+      "status": 200,
+      "bytes": 793,
+      "local": "c99aed811a0907139fa98da8fcf9e20ae077284899c2c83a41afeb8ee535be8c",
+      "remote": "c99aed811a0907139fa98da8fcf9e20ae077284899c2c83a41afeb8ee535be8c",
+      "match": true
+    },
+    {
+      "file": "assets/audio/se-v1/manifest.json",
+      "status": 200,
+      "bytes": 7627,
+      "local": "d1ce5091f87dac461684f4972388a7699e3b9b0ddd270720e9bab82f9732f254",
+      "remote": "d1ce5091f87dac461684f4972388a7699e3b9b0ddd270720e9bab82f9732f254",
+      "match": true
+    },
+    {
+      "file": "assets/audio/selected-v1/manifest.json",
+      "status": 200,
+      "bytes": 1566,
+      "local": "8f65ab1b34a72bea39bccb2663158caf0ec2aa4a78c536d4f78064a7046a143f",
+      "remote": "8f65ab1b34a72bea39bccb2663158caf0ec2aa4a78c536d4f78064a7046a143f",
+      "match": true
+    },
+    {
+      "file": "assets/characters/standard_trooper_sprint_v8.json",
+      "status": 200,
+      "bytes": 684,
+      "local": "6200f869c2a872f56f67069caa962ddb71ffa8950eed55aaef1651cce3975cbc",
+      "remote": "6200f869c2a872f56f67069caa962ddb71ffa8950eed55aaef1651cce3975cbc",
+      "match": true
+    },
+    {
+      "file": "assets/characters/standard_trooper_v1.json",
+      "status": 200,
+      "bytes": 691,
+      "local": "7c9bf9c85bc862506ec73978795109d9526d852f25b5f5cc179c0ba89e6a78b8",
+      "remote": "7c9bf9c85bc862506ec73978795109d9526d852f25b5f5cc179c0ba89e6a78b8",
+      "match": true
+    },
+    {
+      "file": "assets/characters/standard_trooper_v10.blender.json",
+      "status": 200,
+      "bytes": 823,
+      "local": "f4b9fa83b9d6a5f34877d68374d4e791ae1cbd62b053e8e1f0667fc62736724c",
+      "remote": "f4b9fa83b9d6a5f34877d68374d4e791ae1cbd62b053e8e1f0667fc62736724c",
+      "match": true
+    },
+    {
+      "file": "assets/characters/standard_trooper_v10.json",
+      "status": 200,
+      "bytes": 1259,
+      "local": "28e7a6593f9d31d966a06aee46b81abe03f9e7388c023bcf8893b2b5727e2059",
+      "remote": "28e7a6593f9d31d966a06aee46b81abe03f9e7388c023bcf8893b2b5727e2059",
+      "match": true
+    },
+    {
+      "file": "assets/characters/standard_trooper_v2.json",
+      "status": 200,
+      "bytes": 691,
+      "local": "7c9bf9c85bc862506ec73978795109d9526d852f25b5f5cc179c0ba89e6a78b8",
+      "remote": "7c9bf9c85bc862506ec73978795109d9526d852f25b5f5cc179c0ba89e6a78b8",
+      "match": true
+    },
+    {
+      "file": "assets/characters/standard_trooper_v3.json",
+      "status": 200,
+      "bytes": 774,
+      "local": "1da9b1edb9c400f867cca9fc9852343207086afc316bfa0f72631dbe87c183b1",
+      "remote": "1da9b1edb9c400f867cca9fc9852343207086afc316bfa0f72631dbe87c183b1",
+      "match": true
+    },
+    {
+      "file": "assets/characters/standard_trooper_v4.json",
+      "status": 200,
+      "bytes": 18401,
+      "local": "089435c3b2ae8d46491c9f096a8c32fc425d5aca4cb28a0f572c9c6346ac9fc4",
+      "remote": "089435c3b2ae8d46491c9f096a8c32fc425d5aca4cb28a0f572c9c6346ac9fc4",
+      "match": true
+    },
+    {
+      "file": "assets/characters/standard_trooper_v5.json",
+      "status": 200,
+      "bytes": 1132,
+      "local": "5582f1966f51c7dc592ac7d272c0f73652569c6680be194baea5b3f0fd0ea663",
+      "remote": "5582f1966f51c7dc592ac7d272c0f73652569c6680be194baea5b3f0fd0ea663",
+      "match": true
+    },
+    {
+      "file": "assets/characters/standard_trooper_v9.json",
+      "status": 200,
+      "bytes": 1391,
+      "local": "1b9c2f4d2333127adb1185a1dcb5977e888931c4887963b413a25577cc07ca29",
+      "remote": "1b9c2f4d2333127adb1185a1dcb5977e888931c4887963b413a25577cc07ca29",
+      "match": true
+    },
+    {
+      "file": "assets/cloud-save-BbOUmLuJ.css",
+      "status": 200,
+      "bytes": 3758,
+      "local": "210675c63713e1125bbcd1ff64bf0e4c5e5697d6552f21fa589dbcba81aa5313",
+      "remote": "210675c63713e1125bbcd1ff64bf0e4c5e5697d6552f21fa589dbcba81aa5313",
+      "match": true
+    },
+    {
+      "file": "assets/cloud-save-Cl9x8Lw1.js",
+      "status": 200,
+      "bytes": 116777,
+      "local": "71083630bcd26d85fe612f412eb0dd73859f2bdf73d35f94325564b6ddfd29ad",
+      "remote": "71083630bcd26d85fe612f412eb0dd73859f2bdf73d35f94325564b6ddfd29ad",
+      "match": true
+    },
+    {
+      "file": "assets/event-banners/consumer-manifest.json",
+      "status": 200,
+      "bytes": 9901,
+      "local": "2b049a0ee15e63c00328c6d3c73a98094365216a1b873c6ab84e3fd2e00f05f0",
+      "remote": "2b049a0ee15e63c00328c6d3c73a98094365216a1b873c6ab84e3fd2e00f05f0",
+      "match": true
+    },
+    {
+      "file": "assets/event-banners/validation.json",
+      "status": 200,
+      "bytes": 4452,
+      "local": "7d825cccdc5ca6e30fdcca978fff04dc64f782f058dbe064af59f880d890bb8f",
+      "remote": "7d825cccdc5ca6e30fdcca978fff04dc64f782f058dbe064af59f880d890bb8f",
+      "match": true
+    },
+    {
+      "file": "assets/front-BjSqjGHB.css",
+      "status": 200,
+      "bytes": 37053,
+      "local": "67a4704ea4f1181f989b1fc4d378246db8db5f04c36c2d54a6961a0ad57788c1",
+      "remote": "67a4704ea4f1181f989b1fc4d378246db8db5f04c36c2d54a6961a0ad57788c1",
+      "match": true
+    },
+    {
+      "file": "assets/front-cVpM0JdW.js",
+      "status": 200,
+      "bytes": 123017,
+      "local": "448ffdae654a6b8fd3762e78b5b6d50a8ada26d57a5f2f685968fc8e863b3c2d",
+      "remote": "448ffdae654a6b8fd3762e78b5b6d50a8ada26d57a5f2f685968fc8e863b3c2d",
+      "match": true
+    },
+    {
+      "file": "assets/game-select-BBcbApPk.css",
+      "status": 200,
+      "bytes": 4775,
+      "local": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75",
+      "remote": "c37cb7a5fbc114f2c4ad25cedb2acbefdd7d65e74ea43ab23a17963dd0dfdb75",
+      "match": true
+    },
+    {
+      "file": "assets/game-select-n5julTiv.js",
+      "status": 200,
+      "bytes": 12284,
+      "local": "2f4678737e8a25ae0978ae25d932231acacf61e52b24e3d9d84db3b00e851b5b",
+      "remote": "2f4678737e8a25ae0978ae25d932231acacf61e52b24e3d9d84db3b00e851b5b",
+      "match": true
+    },
+    {
+      "file": "assets/hud-DXMm4jmB.js",
+      "status": 200,
+      "bytes": 985833,
+      "local": "96c6fd48466f7e3073185128ef55c38ef00221a769ca9c9d0104134943829584",
+      "remote": "96c6fd48466f7e3073185128ef55c38ef00221a769ca9c9d0104134943829584",
+      "match": true
+    },
+    {
+      "file": "assets/hud-KJkCjEBB.css",
+      "status": 200,
+      "bytes": 108021,
+      "local": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3",
+      "remote": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3",
+      "match": true
+    },
+    {
+      "file": "assets/legacy-CPbai1ZT.css",
+      "status": 200,
+      "bytes": 259,
+      "local": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "remote": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "match": true
+    },
+    {
+      "file": "assets/legacy-Czxr9kFe.js",
+      "status": 200,
+      "bytes": 18931,
+      "local": "be24180e086adb11395dc7d6c5c87bb5e00662c4e01ebe58177289d50a091f64",
+      "remote": "be24180e086adb11395dc7d6c5c87bb5e00662c4e01ebe58177289d50a091f64",
+      "match": true
+    },
+    {
+      "file": "assets/main-BOIn8V8d.css",
+      "status": 200,
+      "bytes": 1316,
+      "local": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "remote": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "match": true
+    },
+    {
+      "file": "assets/main-C5zcuqMQ.js",
+      "status": 200,
+      "bytes": 54481,
+      "local": "9734a40939f314f1c11c46c7638380b832e7b5cc80c8c9ea477b29cd340f8ae6",
+      "remote": "9734a40939f314f1c11c46c7638380b832e7b5cc80c8c9ea477b29cd340f8ae6",
+      "match": true
+    },
+    {
+      "file": "assets/playtest-app-B7gB84Bm.css",
+      "status": 200,
+      "bytes": 10216,
+      "local": "72b6e32a5c2b8c2edf14b4d7442d343ade56b87ffbb2ab3fa16893958c34ef71",
+      "remote": "72b6e32a5c2b8c2edf14b4d7442d343ade56b87ffbb2ab3fa16893958c34ef71",
+      "match": true
+    },
+    {
+      "file": "assets/playtest-app-i2bwkQd_.js",
+      "status": 200,
+      "bytes": 83269,
+      "local": "8f480dca3f8fb1d00f50903517d65ca9c5055b3b2a017849f1af5f7af7c8bd20",
+      "remote": "8f480dca3f8fb1d00f50903517d65ca9c5055b3b2a017849f1af5f7af7c8bd20",
+      "match": true
+    },
+    {
+      "file": "assets/room-access-BWml07AA.js",
+      "status": 200,
+      "bytes": 6713,
+      "local": "7a2627adb9da4931a57cabc7fce6dae559f63cddc86de1a30eec33f55e14eff1",
+      "remote": "7a2627adb9da4931a57cabc7fce6dae559f63cddc86de1a30eec33f55e14eff1",
+      "match": true
+    },
+    {
+      "file": "assets/room-access-Dk_b2XLl.css",
+      "status": 200,
+      "bytes": 6497,
+      "local": "d41d7de7180be2faa28b9244f7068bfaf90f3d176bc8b6a8f26a4912365104e2",
+      "remote": "d41d7de7180be2faa28b9244f7068bfaf90f3d176bc8b6a8f26a4912365104e2",
+      "match": true
+    },
+    {
+      "file": "assets/save-writer-BUUOzIBn.css",
+      "status": 200,
+      "bytes": 2949,
+      "local": "4e91d064f9a5b74cf809d7b17d6e3529fdd161528f02d2f949cb0ff9b443d5dc",
+      "remote": "4e91d064f9a5b74cf809d7b17d6e3529fdd161528f02d2f949cb0ff9b443d5dc",
+      "match": true
+    },
+    {
+      "file": "assets/save-writer-Dpt1UmCX.js",
+      "status": 200,
+      "bytes": 62794,
+      "local": "d98cd134c94b26bcda276d6239c83c193d051a9169ba52c30f358bd1220047b4",
+      "remote": "d98cd134c94b26bcda276d6239c83c193d051a9169ba52c30f358bd1220047b4",
+      "match": true
+    },
+    {
+      "file": "assets/training-app-dHIcztuE.js",
+      "status": 200,
+      "bytes": 3772,
+      "local": "cf525354279faa3cede4063d7394e1d0adb95b29b32f23c4f83c1f6a5ec3f2b6",
+      "remote": "cf525354279faa3cede4063d7394e1d0adb95b29b32f23c4f83c1f6a5ec3f2b6",
+      "match": true
+    },
+    {
+      "file": "assets/weapon-sharing-UTmjlAGd.js",
+      "status": 200,
+      "bytes": 4753,
+      "local": "b19621933556014d8299c7b8a92a57fdcbc35e23db94741c2cde1eb8e3b58cab",
+      "remote": "b19621933556014d8299c7b8a92a57fdcbc35e23db94741c2cde1eb8e3b58cab",
+      "match": true
+    },
+    {
+      "file": "assets/weapon-workshop-ui-B0bgkOhx.css",
+      "status": 200,
+      "bytes": 37201,
+      "local": "18f6aeb3d56b8f959cef516c8be67d8e2fbd6b3db86c8656ff32348bf2668998",
+      "remote": "18f6aeb3d56b8f959cef516c8be67d8e2fbd6b3db86c8656ff32348bf2668998",
+      "match": true
+    },
+    {
+      "file": "assets/weapon-workshop-ui-uATkbtKR.js",
+      "status": 200,
+      "bytes": 454105,
+      "local": "6b4d4aa723f3198fd228b28d93fb1ada819217cf66ba54fc276c8f9dc47ae364",
+      "remote": "6b4d4aa723f3198fd228b28d93fb1ada819217cf66ba54fc276c8f9dc47ae364",
+      "match": true
+    },
+    {
+      "file": "assets/weapons/progression-v1/manifest.json",
+      "status": 200,
+      "bytes": 3167,
+      "local": "a7701dc826e1667792f7b380d65af1b03215e2627760380c44383b05e41ae588",
+      "remote": "a7701dc826e1667792f7b380d65af1b03215e2627760380c44383b05e41ae588",
+      "match": true
+    },
+    {
+      "file": "assets/weapons/realism-v2/manifest.json",
+      "status": 200,
+      "bytes": 5117,
+      "local": "386265f8e50e7882d700fbab8f6d1326283c6def8fafd9e7ae300197a7b3c18e",
+      "remote": "386265f8e50e7882d700fbab8f6d1326283c6def8fafd9e7ae300197a7b3c18e",
+      "match": true
+    },
+    {
+      "file": "assets/zoom-guard-CYxqEXnM.js",
+      "status": 200,
+      "bytes": 387,
+      "local": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "remote": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "match": true
+    },
+    {
+      "file": "briefing/index.html",
+      "status": 200,
+      "bytes": 59139,
+      "local": "c727868b6a291da432efcf21e48a2cfb35ceae5b1cd136c4c18427d0476c46bc",
+      "remote": "c727868b6a291da432efcf21e48a2cfb35ceae5b1cd136c4c18427d0476c46bc",
+      "match": true
+    },
+    {
+      "file": "briefing/slides.html",
+      "status": 200,
+      "bytes": 5351501,
+      "local": "9b6e9fedf6a3a15134d4634b5c5c46a6648da831a41bcfd2aa3add0ab07d63a5",
+      "remote": "9b6e9fedf6a3a15134d4634b5c5c46a6648da831a41bcfd2aa3add0ab07d63a5",
+      "match": true
+    },
+    {
+      "file": "front.html",
+      "status": 200,
+      "bytes": 3434,
+      "local": "92fc934f46879d3017a8263567ffd21f18a927682541e61c73f818c033182677",
+      "remote": "92fc934f46879d3017a8263567ffd21f18a927682541e61c73f818c033182677",
+      "match": true
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "bytes": 4041,
+      "local": "767b48eb9bb2c89282d3c14ac6adb7b56236938c8e044936305e1a9c9496c900",
+      "remote": "767b48eb9bb2c89282d3c14ac6adb7b56236938c8e044936305e1a9c9496c900",
+      "match": true
+    },
+    {
+      "file": "manifest.webmanifest",
+      "status": 200,
+      "bytes": 792,
+      "local": "a395e41a6419798be87fb74999412078387866aca0e9db0e15a3cf69d52e4cf6",
+      "remote": "a395e41a6419798be87fb74999412078387866aca0e9db0e15a3cf69d52e4cf6",
+      "match": true
+    },
+    {
+      "file": "sw.js",
+      "status": 200,
+      "bytes": 5681,
+      "local": "32df8fbaf4e428fd5e6ea43ca2dc69a74823f07fa7eb7cd5b380e7e5adcb85ae",
+      "remote": "32df8fbaf4e428fd5e6ea43ca2dc69a74823f07fa7eb7cd5b380e7e5adcb85ae",
+      "match": true
+    }
+  ]
+}
