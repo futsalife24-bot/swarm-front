@@ -46,6 +46,8 @@ export interface SurvivalSpoils {
   weapons: NewWeapon[];
   kills: number;
   clearedStage: number;
+  /** 作戦中の宝箱から得た攻略コイン。帰還結果で一度だけ受け取る。 */
+  treasureCoins?: number;
 }
 function validSpoils(value: SurvivalSpoils) {
   return (
@@ -55,6 +57,10 @@ function validSpoils(value: SurvivalSpoils) {
     Number.isInteger(value.clearedStage) &&
     value.clearedStage >= 0 &&
     value.clearedStage <= CAMPAIGN_COUNT &&
+    (value.treasureCoins === undefined ||
+      (Number.isSafeInteger(value.treasureCoins) &&
+        value.treasureCoins >= 0 &&
+        value.treasureCoins <= 10000)) &&
     Array.isArray(value.weapons) &&
     value.weapons.length <= 30 &&
     new Set(value.weapons.map((w) => w.id)).size === value.weapons.length &&
@@ -187,7 +193,7 @@ export function awardFrontCampaign(
     (!spoils || save.receipts.includes(`${receipt}:weapons`))
   )
     return 0;
-  const coins = frontCampaignCoins(seconds);
+  const coins = frontCampaignCoins(seconds) + (spoils?.treasureCoins ?? 0);
   const next = structuredClone(save);
   const addedCoins = save.receipts.includes(receipt) ? 0 : coins;
   if (!save.receipts.includes(receipt)) {

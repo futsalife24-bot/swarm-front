@@ -58,6 +58,8 @@ export interface FrontBattleState {
   players: Record<string, FrontPlayerCombat>;
   xp: number;
   orbs: { id: number; x: number; y: number; z: number; value: number }[];
+  /** New survival sorties only; each boss-class kill makes one shared pickup. */
+  chests?: { id: number; x: number; y: number; z: number }[];
   mines: FrontMine[];
   shotSerial: number;
   effectsThisTick: number;
@@ -158,6 +160,28 @@ function stateFor(w: World, e: Enemy, owner: string) {
     lastShot: -1,
   });
 }
+function nearestWalkableDrop(w: World, x: number, z: number) {
+  const blocks = mapFor(w).blocks;
+  const points = [{ x, z }];
+  // 空中・屋上で倒しても、建物の外側の歩ける地面へ落とす。
+  for (const b of blocks) {
+    const nearX = Math.max(b.x - b.w / 2, Math.min(b.x + b.w / 2, x));
+    const nearZ = Math.max(b.z - b.d / 2, Math.min(b.z + b.d / 2, z));
+    points.push(
+      { x: b.x - b.w / 2 - 0.8, z: nearZ },
+      { x: b.x + b.w / 2 + 0.8, z: nearZ },
+      { x: nearX, z: b.z - b.d / 2 - 0.8 },
+      { x: nearX, z: b.z + b.d / 2 + 0.8 },
+    );
+  }
+  points.push(...w.players.filter((p) => p.connected && p.hp > 0));
+  return points
+    .map((p) => ({ x: p.x, z: p.z, y: groundHeight(p.x, p.z, blocks) }))
+    .filter((p) => !blocked(p.x, p.z, 0.55, p.y + 0.01, blocks))
+    .sort(
+      (a, b) => Math.hypot(a.x - x, a.z - z) - Math.hypot(b.x - x, b.z - z),
+    )[0];
+}
 export function recordFrontKill(
   w: World,
   e: Enemy,
@@ -188,6 +212,17 @@ export function recordFrontKill(
     }
   }
   if (secondary && r.players[owner]) r.players[owner].secondaryKills++;
+  if (
+    r.survivalBuildVersion === 1 &&
+    (e.kind === "boss" || e.kind === "harrow" || e.kind === "bastion")
+  ) {
+    const point = nearestWalkableDrop(w, e.x, e.z);
+    if (point) {
+      const chests = (r.chests ??= []);
+      if (chests.length >= 128) chests.shift();
+      chests.push({ id: ++w.serial, ...point });
+    }
+  }
   const value =
     e.kind === "boss" || e.kind === "harrow"
       ? 20
@@ -198,27 +233,7 @@ export function recordFrontKill(
           : 2;
   if (r.orbs.length >= 160) r.orbs[0].value += value;
   else {
-    const blocks = mapFor(w).blocks;
-    const points = [{ x: e.x, z: e.z }];
-    // 空中・屋上で倒しても、建物の外側の歩ける地面へ落とす。
-    for (const b of blocks) {
-      const x = Math.max(b.x - b.w / 2, Math.min(b.x + b.w / 2, e.x));
-      const z = Math.max(b.z - b.d / 2, Math.min(b.z + b.d / 2, e.z));
-      points.push(
-        { x: b.x - b.w / 2 - 0.8, z },
-        { x: b.x + b.w / 2 + 0.8, z },
-        { x, z: b.z - b.d / 2 - 0.8 },
-        { x, z: b.z + b.d / 2 + 0.8 },
-      );
-    }
-    points.push(...w.players.filter((p) => p.connected && p.hp > 0));
-    const point = points
-      .map((p) => ({ x: p.x, z: p.z, y: groundHeight(p.x, p.z, blocks) }))
-      .filter((p) => !blocked(p.x, p.z, 0.55, p.y + 0.01, blocks))
-      .sort(
-        (a, b) =>
-          Math.hypot(a.x - e.x, a.z - e.z) - Math.hypot(b.x - e.x, b.z - e.z),
-      )[0];
+    const point = nearestWalkableDrop(w, e.x, e.z);
     if (point) r.orbs.push({ id: ++w.serial, ...point, value });
     else r.xp += value;
   }

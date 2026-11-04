@@ -1,0 +1,52 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "sequence": [
+      {
+        "state": "treasure",
+        "time": 25515.69999998808,
+        "choices": 0
+      },
+      {
+        "state": "level-up",
+        "time": 27914.5,
+        "choices": 0
+      },
+      {
+        "state": "choices",
+        "time": 28716.899999976158,
+        "choices": 3
+      }
+    ],
+    "noRerollReplay": true,
+    "upgradeFrom1To2": true,
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "sequence": [
+      {
+        "state": "treasure",
+        "time": 11608,
+        "choices": 0
+      },
+      {
+        "state": "level-up",
+        "time": 14004.599999964237,
+        "choices": 0
+      },
+      {
+        "state": "choices",
+        "time": 14805.199999988079,
+        "choices": 3
+      }
+    ],
+    "noRerollReplay": true,
+    "upgradeFrom1To2": true,
+    "errors": []
+  }
+]

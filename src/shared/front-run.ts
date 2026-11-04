@@ -48,6 +48,8 @@ import {
   rerollFrontUpgrade,
   canRerollFrontUpgrade,
   getEligibleFrontUpgrades,
+  awardFrontTreasureLevel,
+  drawFrontTreasureFallback,
   FRONT_INITIAL_CARDS,
   FRONT_MAX_PICKS,
   FRONT_BASE_IDS,
@@ -77,8 +79,14 @@ export const FRONT_RUN_CONFIG = {
   spawnWarning: 1.5,
   minSpawnDistance: 16,
   selectionSeconds: 15,
+  levelUpSeconds: 0.8,
+  treasureSeconds: 2.4,
   resumeSeconds: 0.2,
 } as const;
+export type FrontTreasureReward =
+  | { kind: "upgrade"; cardId: FrontUpgradeId; from: number; to: number }
+  | { kind: "heal"; amount: number }
+  | { kind: "coins"; amount: number };
 export interface FrontRunOptions {
   runId: string;
   seed: number;
@@ -106,8 +114,15 @@ export interface FrontRun {
   originalEquipment?: Record<string, Weapon[]>;
   clearedStage?: number;
   rewardEligible?: Record<string, boolean>;
+  treasureCoins?: Record<string, number>;
+  treasure?: {
+    id: number;
+    endsAt: number;
+    rewards: Record<string, FrontTreasureReward | null>;
+  };
+  levelUpAt?: Record<string, number>;
   upgrades: Record<string, FrontUpgradeState>;
-  phase: "selection" | "combat" | "boss" | "victory" | "defeat";
+  phase: "selection" | "combat" | "boss" | "treasure" | "victory" | "defeat";
   mode: FrontMode;
   day: string;
   boundaryIndex: number;
@@ -377,6 +392,7 @@ function resume(run: FrontRun, now: number) {
   run.phase = run.finalResupplyDone ? "boss" : "combat";
   run.selectionDeadline = null;
   run.resumeUntil = now + FRONT_RUN_CONFIG.resumeSeconds;
+  run.levelUpAt = undefined;
 }
 export function chooseFrontUpgrade(
   run: FrontRun,
@@ -413,6 +429,14 @@ export function chooseFrontUpgrade(
     automatic,
   });
   openOwed(run, id);
+  if (run.upgrades[id].offer && run.world.front?.survivalBuildVersion === 1) {
+    (run.levelUpAt ??= {})[id] = now;
+    if (run.selectionDeadline !== null)
+      run.selectionDeadline =
+        now +
+        FRONT_RUN_CONFIG.selectionSeconds +
+        FRONT_RUN_CONFIG.levelUpSeconds;
+  }
   if (Object.values(run.upgrades).every((s) => s.offer === null))
     resume(run, now);
   return true;
@@ -469,7 +493,20 @@ function resupply(run: FrontRun, at: number, now: number) {
   Object.keys(run.upgrades).forEach((id) => openOwed(run, id));
   if (Object.values(run.upgrades).some((s) => s.offer)) {
     run.phase = "selection";
-    run.selectionDeadline = run.world.players.length > 1 ? now + 15 : null;
+    if (run.world.front?.survivalBuildVersion === 1)
+      run.levelUpAt = Object.fromEntries(
+        Object.entries(run.upgrades)
+          .filter(([, state]) => state.offer?.kind === "additional")
+          .map(([id]) => [id, now]),
+      );
+    run.selectionDeadline =
+      run.world.players.length > 1
+        ? now +
+          FRONT_RUN_CONFIG.selectionSeconds +
+          (run.world.front?.survivalBuildVersion === 1
+            ? FRONT_RUN_CONFIG.levelUpSeconds
+            : 0)
+        : null;
   } else if (run.finalResupplyDone) resume(run, now);
 }
 const INGRESS = [
@@ -791,7 +828,62 @@ function spawnBoss(run: FrontRun) {
     z: boss.z,
   });
 }
+function collectFrontTreasure(run: FrontRun, now: number): boolean {
+  const w = run.world;
+  if (w.front?.survivalBuildVersion !== 1 || !w.front.chests?.length)
+    return false;
+  const chest = w.front.chests.find((item) =>
+    w.players.some(
+      (p) =>
+        p.connected &&
+        p.hp > 0 &&
+        Math.hypot(p.x - item.x, p.z - item.z) <= 2.5,
+    ),
+  );
+  if (!chest) return false;
+  w.front.chests = w.front.chests.filter((item) => item.id !== chest.id);
+  const rewards: Record<string, FrontTreasureReward | null> = {};
+  for (const p of w.players) {
+    if (p.hp <= 0 || !run.upgrades[p.id]) continue;
+    const awarded = awardFrontTreasureLevel(run.upgrades[p.id], chest.id);
+    if (awarded) {
+      run.upgrades[p.id] = awarded.state;
+      applyBuild(run, p.id);
+      rewards[p.id] = {
+        kind: "upgrade",
+        cardId: awarded.cardId,
+        from: awarded.from,
+        to: awarded.to,
+      };
+      continue;
+    }
+    const draw = drawFrontTreasureFallback(run.upgrades[p.id]);
+    run.upgrades[p.id] = draw.state;
+    if (draw.heal && p.hp < w.front.players[p.id].maxHp) {
+      const amount = Math.min(
+        w.front.players[p.id].maxHp - p.hp,
+        Math.ceil(w.front.players[p.id].maxHp * 0.25),
+      );
+      p.hp += amount;
+      rewards[p.id] = { kind: "heal", amount };
+    } else {
+      const amount = Math.min(10, 10000 - (run.treasureCoins?.[p.id] ?? 0));
+      (run.treasureCoins ??= {})[p.id] =
+        (run.treasureCoins?.[p.id] ?? 0) + amount;
+      rewards[p.id] = { kind: "coins", amount };
+    }
+  }
+  run.treasure = {
+    id: chest.id,
+    endsAt: now + FRONT_RUN_CONFIG.treasureSeconds,
+    rewards,
+  };
+  run.phase = "treasure";
+  return true;
+}
 function conclude(run: FrontRun, win: boolean, reason: string) {
+  run.treasure = undefined;
+  if (run.world.front?.survivalBuildVersion === 1) run.world.front.chests = [];
   finish(run.world, win, reason);
   if (run.fusion && run.mode === "survival")
     finalizeFrontSurvivalRewards(
@@ -816,7 +908,7 @@ export function returnFrontRun(run: FrontRun): boolean {
     run.mode !== "survival" ||
     run.world.players.length !== 1 ||
     run.world.time < 60 ||
-    (run.phase !== "combat" && run.phase !== "boss")
+    (run.phase !== "combat" && run.phase !== "boss" && run.phase !== "treasure")
   )
     return false;
   conclude(run, true, "生存作戦から帰還しました");
@@ -852,6 +944,11 @@ export function stepFrontRun(
   ) {
     conclude(run, true, "出撃から60分が経過したため、生存作戦から帰還しました");
     return run;
+  }
+  if (run.phase === "treasure") {
+    if (run.treasure && now < run.treasure.endsAt) return run;
+    run.treasure = undefined;
+    run.phase = run.finalResupplyDone ? "boss" : "combat";
   }
   if (run.phase === "selection") {
     if (run.selectionDeadline !== null && now >= run.selectionDeadline) {
@@ -908,6 +1005,7 @@ export function stepFrontRun(
     inputs,
     Math.min(0.1, dt, (boundary ?? Infinity) - w.time, timeout - w.time),
   );
+  if (w.phase === "battle" && collectFrontTreasure(run, now)) return run;
   collectFrontXp(w);
   updateRights(run);
   run.metrics.maxEnemies = Math.max(run.metrics.maxEnemies, w.enemies.length);
@@ -935,8 +1033,20 @@ export function stepFrontRun(
     Object.keys(run.upgrades).forEach((id) => openOwed(run, id));
     if (Object.values(run.upgrades).some((s) => s.offer)) {
       run.phase = "selection";
+      if (w.front?.survivalBuildVersion === 1)
+        run.levelUpAt = Object.fromEntries(
+          Object.entries(run.upgrades)
+            .filter(([, state]) => state.offer?.kind === "additional")
+            .map(([id]) => [id, now]),
+        );
       run.selectionDeadline =
-        w.players.length > 1 ? now + FRONT_RUN_CONFIG.selectionSeconds : null;
+        w.players.length > 1
+          ? now +
+            FRONT_RUN_CONFIG.selectionSeconds +
+            (w.front?.survivalBuildVersion === 1
+              ? FRONT_RUN_CONFIG.levelUpSeconds
+              : 0)
+          : null;
     }
   }
   return run;
@@ -954,6 +1064,13 @@ export function getFrontRunView(run: FrontRun, id: string) {
       maxPicks: 7,
       growthVersion: 1,
       returnAt: null as number | null,
+      treasure: null as {
+        id: number;
+        endsAt: number;
+        reward: FrontTreasureReward | null;
+      } | null,
+      treasureCoins: 0,
+      levelUpAt: null as number | null,
       levels: { ...createFrontUpgradeState("view", 0).levels, ...old.levels },
     };
   }
@@ -973,6 +1090,16 @@ export function getFrontRunView(run: FrontRun, id: string) {
     maxPicks: frontPickLimit(s),
     growthVersion: run.fusion ? 3 : 2,
     returnAt: run.returnAt ?? null,
+    treasure: run.treasure
+      ? {
+          id: run.treasure.id,
+          endsAt: run.treasure.endsAt,
+          reward: run.treasure.rewards[id] ?? null,
+        }
+      : null,
+    treasureCoins: run.treasureCoins?.[id] ?? 0,
+    levelUpAt:
+      offer?.kind === "additional" ? (run.levelUpAt?.[id] ?? null) : null,
     mode: run.mode,
     day: run.day,
     combatTime: run.world.time,

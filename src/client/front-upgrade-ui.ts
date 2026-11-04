@@ -1,4 +1,12 @@
 import type { FrontRunView } from "../shared/front-run";
+import {
+  renderSurvivalCardL,
+  renderSurvivalCardM,
+  renderSurvivalCardRow,
+  renderSurvivalCardS,
+  type SurvivalCardView,
+} from "./survival-card";
+export { renderSurvivalCardM } from "./survival-card";
 import * as legacyUi from "./front-legacy-upgrade-ui";
 import {
   FRONT_UPGRADE_CATALOG as legacyCatalog,
@@ -120,10 +128,63 @@ const icon = (id: FrontUpgradeId, base: string, card = false) => {
 /** 基地でも戦闘と同じ画像・アトラス切り出しを使う。 */
 export const frontUpgradeIconMarkup = icon;
 
+// 表示だけの分類。武器の数値・射撃/装填に働くものは武器強化、
+// 体力・回収・回避防御・独立した地雷は能力強化。同じ通常レア。
+const abilityCards: readonly FrontUpgradeId[] = [
+  "armor",
+  "magnet",
+  "afterimage-mine",
+  "emergency-armor",
+  "boost-coil",
+  "recovery-pack",
+  "life-drain",
+];
+
+/** 基地向けアダプター。deck省略で閲覧のみ、指定時は候補編集。 */
+export function frontUpgradeCardView(
+  id: FrontUpgradeId,
+  base: string,
+  options: Pick<
+    SurvivalCardView,
+    "deck" | "locked" | "undiscovered" | "fusionProgress" | "inspecting"
+  > = {},
+): SurvivalCardView {
+  const d = FRONT_UPGRADE_CATALOG[id];
+  return {
+    id,
+    name: d.name,
+    kind: isFrontFusion(id) ? "fusion" : "normal",
+    type: isFrontFusion(id)
+      ? "fusion"
+      : abilityCards.includes(id)
+        ? "ability"
+        : "weapon",
+    family: d.family,
+    iconMarkup: icon(id, base, true),
+    description: frontUpgradeEffect(id, 1),
+    level: { current: 0, max: d.maxLevel },
+    ...options,
+  };
+}
+
+function acquiredCardView(
+  id: FrontUpgradeId,
+  level: number,
+  base: string,
+): SurvivalCardView {
+  return {
+    ...frontUpgradeCardView(id, base),
+    description: frontUpgradeEffect(id, level),
+    level: { current: level, max: FRONT_UPGRADE_CATALOG[id].maxLevel },
+  };
+}
+
 export function frontUpgradeStrip(view: UpgradeView, base: string) {
   if (view.growthVersion === 1) return legacyUi.frontUpgradeStrip(view, base);
   const ids = acquired(view);
   if (!ids.length) return "";
+  if (view.growthVersion === 3)
+    return `<div class="front-upgrade-strip" role="list" aria-label="取得済み強化">${ids.map((id) => renderSurvivalCardS(acquiredCardView(id, view.levels[id], base))).join("")}</div>`;
   return `<div class="front-upgrade-strip" role="list" aria-label="取得済み強化">${ids
     .map((id) => {
       const d = FRONT_UPGRADE_CATALOG[id],
@@ -147,7 +208,9 @@ export function frontUpgradeDetails(
             const d = FRONT_UPGRADE_CATALOG[id],
               level = view.levels[id];
             const description = frontUpgradeEffect(id, level);
-            return `<li data-upgrade="${id}"${isFrontFusion(id) ? ' class="front-fused"' : ""}>${icon(id, base)}<div><h3>${esc(d.name)}${d.maxLevel > 1 ? `<small>${level}/${view.growthVersion === 1 && d.family !== "generic" ? 1 : d.maxLevel}段階</small>` : ""}</h3><p>${esc(description)}</p></div></li>`;
+            return view.growthVersion === 3
+              ? renderSurvivalCardRow(acquiredCardView(id, level, base))
+              : `<li data-upgrade="${id}"${isFrontFusion(id) ? ' class="front-fused"' : ""}>${icon(id, base)}<div><h3>${esc(d.name)}${d.maxLevel > 1 ? `<small>${level}/${view.growthVersion === 1 && d.family !== "generic" ? 1 : d.maxLevel}段階</small>` : ""}</h3><p>${esc(description)}</p></div></li>`;
           })
           .join("")}</ul>`
       : '<p class="front-upgrade-empty">まだ強化を取得していません。</p>'
@@ -217,6 +280,34 @@ export function frontUpgradeCardMarkup(
   id: FrontUpgradeId,
   base: string,
 ) {
+  if (view.growthVersion === 3) {
+    const copy = frontUpgradeCardCopy(view, id);
+    const current = view.levels[id] || 0;
+    return renderSurvivalCardL({
+      ...frontUpgradeCardView(id, base),
+      description: copy.description,
+      level: {
+        current,
+        next: current + 1,
+        max: FRONT_UPGRADE_CATALOG[id].maxLevel,
+      },
+      acquisition: isFrontFusion(id)
+        ? current
+          ? "fusion-up"
+          : "fusion-new"
+        : current
+          ? "level-up"
+          : "new",
+      ...(isFrontFusion(id)
+        ? {
+            materials: FRONT_FUSIONS[id].map((material) => ({
+              name: FRONT_UPGRADE_CATALOG[material].name,
+              iconMarkup: icon(material, base),
+            })),
+          }
+        : {}),
+    });
+  }
   const d = frontUpgradeCardCopy(view, id);
   const family = {
     explosion: "爆発",

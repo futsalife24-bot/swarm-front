@@ -135,7 +135,9 @@ try {
     ).toBeVisible();
     await expect(page.locator("#front-save-pool")).toHaveCount(0);
     await expect(page.locator("[data-pool]")).toHaveCount(0);
-    await expect(page.locator("#base-grid .base-tile")).toHaveCount(22);
+    await expect(
+      page.locator('#base-grid > .sc-card[data-size="M"]'),
+    ).toHaveCount(22);
     await expect(page.locator('#base-grid [data-locked="true"]')).toHaveCount(
       22 - ownedCount,
     );
@@ -149,7 +151,10 @@ try {
     );
     await screenshot("cards");
     await tap("#base-fusions");
-    await expect(page.locator("#base-grid .base-tile")).toHaveCount(9);
+    await expect(
+      page.locator('#base-grid > .sc-card[data-size="M"]'),
+    ).toHaveCount(9);
+    await screenshot("fusion-cards");
     await expect(page.locator(".base-fusion-rule").first()).toContainText(
       "MAX",
     );
@@ -161,9 +166,14 @@ try {
       timeout: 120000,
     });
     expect(await saved()).toEqual(before);
+    await expect(page.locator('.sc-card[data-size="L"]')).toHaveCount(3);
+    await expect(page.locator(".operation-cue")).toHaveCount(0);
+    await expect(page.locator(".front-level-up")).toHaveCount(0);
+    await screenshot("choices");
     await tap("[data-card]:first-of-type");
     await expect(page.locator("#controls")).toBeVisible();
     await expect(page.locator("#swap")).toBeHidden();
+    await expect(page.locator('.sc-card[data-size="S"]')).toHaveCount(1);
     await expect(page.locator(".weapon-hud")).toContainText(
       "生存戦ライフル · 1/1",
     );
@@ -171,6 +181,8 @@ try {
     await expect(page.locator(".weapon-hud")).toContainText("1/1");
     await screenshot("battle");
     await tap("#pause");
+    await expect(page.locator('.sc-card[data-size="row"]')).toHaveCount(1);
+    await screenshot("owned");
     await tap("#front-leave");
     await page.locator("#front-leave-confirm").click();
     await expect(page.locator("#solo")).toBeVisible();

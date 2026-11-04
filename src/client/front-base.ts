@@ -17,7 +17,12 @@ import {
 } from "./front-campaign";
 import { readFrontDecks, saveFrontDeck } from "./front-decks";
 import { readFrontProgress, type FrontStorage } from "./front-progress";
-import { frontUpgradeEffect, frontUpgradeIconMarkup } from "./front-upgrade-ui";
+import {
+  frontUpgradeCardView,
+  frontUpgradeEffect,
+  frontUpgradeIconMarkup,
+} from "./front-upgrade-ui";
+import { renderSurvivalCardM } from "./survival-card";
 import { menuMotion, menuTrace } from "./menu-effects";
 
 const esc = (s: string) =>
@@ -94,6 +99,14 @@ export function openFrontBase(
     render();
   }
   function detail(focus = false) {
+    root
+      .querySelectorAll<HTMLElement>("#base-grid [data-inspect]")
+      .forEach((button) => {
+        const inspecting = button.dataset.inspect === selected;
+        button.setAttribute("aria-current", String(inspecting));
+        button.closest<HTMLElement>(".sc-card")!.dataset.inspecting =
+          String(inspecting);
+      });
     const d = catalog[selected],
       fusion = isFrontFusion(selected);
     const recipes = isFrontFusion(selected)
@@ -160,22 +173,27 @@ export function openFrontBase(
       scroll = grid.scrollTop;
     grid.innerHTML = (tab === "upgrades" ? FRONT_BASE_IDS : FRONT_FUSION_IDS)
       .map((id) => {
-        const d = catalog[id],
-          fusion = isFrontFusion(id),
+        const fusion = isFrontFusion(id),
           active = draft.pool.includes(id);
-        const unavailable = fusion
-          ? !known(id) || FRONT_FUSIONS[id].some(locked)
-          : locked(id);
-        const note = fusion
-          ? known(id)
-            ? allUnlocked
-              ? "素材2種を最大段階へ"
-              : `${FRONT_FUSIONS[id].filter((m) => draft.pool.includes(m)).length}/2 素材選択`
-            : "？？ × ？？"
-          : unavailable
-            ? unlock(id)
-            : families[d.family];
-        return `<div class="base-tile" data-family="${fusion ? "fusion" : d.family}" data-selected="${!allUnlocked && active}" data-locked="${unavailable}">${fusion || allUnlocked ? "" : `<button class="base-check-toggle" data-pool="${id}" role="checkbox" aria-checked="${active}" aria-label="${d.name}を候補に含める" ${unavailable ? 'aria-disabled="true"' : ""}><span class="base-checkbox" aria-hidden="true">${active ? "✓" : ""}</span></button>`}<button class="base-tile-pick" data-inspect="${id}" aria-label="${d.name}の${fusion ? "融合レシピ" : "効果・融合"}を見る">${fusion && !known(id) ? '<span class="base-undiscovered" aria-hidden="true">？</span>' : icon(id)}<span class="base-tile-text"><strong>${d.name}</strong><small>${note}</small></span>${fusion ? '<em aria-hidden="true">◇</em>' : ""}</button></div>`;
+        return renderSurvivalCardM(
+          frontUpgradeCardView(id, import.meta.env.BASE_URL, {
+            deck: fusion || allUnlocked ? undefined : active ? "in" : "out",
+            locked: fusion
+              ? known(id) && FRONT_FUSIONS[id].some(locked)
+                ? "未獲得の素材あり"
+                : undefined
+              : locked(id)
+                ? unlock(id)
+                : undefined,
+            undiscovered: fusion && !known(id),
+            fusionProgress: fusion
+              ? allUnlocked
+                ? "素材2種を最大段階へ"
+                : `${FRONT_FUSIONS[id].filter((m) => draft.pool.includes(m)).length}/2 素材選択`
+              : undefined,
+            inspecting: selected === id,
+          }),
+        );
       })
       .join("");
     grid.scrollTop = scroll;

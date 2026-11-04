@@ -11,6 +11,7 @@ import {
 } from "./front-fusion-discovery";
 import { openFrontBase } from "./front-base";
 import { FrontMineVisuals } from "./front-mine-visuals";
+import { FrontChestVisuals } from "./front-chest-visuals";
 import {
   createSquadEffects,
   menuMotion,
@@ -31,6 +32,13 @@ import "./rebuild.css";
 import "./playtest.css";
 import "./gear-weapon-list.css";
 import "./front.css";
+import "./survival-card.css";
+import "./front-reward-ui.css";
+import {
+  frontLevelUpActive,
+  frontLevelUpMarkup,
+  frontTreasureMarkup,
+} from "./front-reward-ui";
 import { gearSupplyRows, gearWeaponRows } from "./gear-weapon-list";
 import { battleLoadingMarkup } from "./loading-screen";
 import * as T from "three";
@@ -160,6 +168,7 @@ let screen: "home" | "prep" | "rooms" | "lobby" | "battle" | "loading" = "home",
   id = "front-solo";
 let ready = false,
   overlayKey = "",
+  pendingSortieRun = "",
   accumulator = 0,
   previous = performance.now(),
   actionLockUntil = 0,
@@ -227,6 +236,7 @@ function setView() {
 }
 function leave() {
   loadSerial++;
+  pendingSortieRun = "";
   network?.close();
   network = null;
   localRun = null;
@@ -608,9 +618,8 @@ async function loadBattle() {
     if (current !== loadSerial) return;
     ready = true;
     screen = "battle";
-    showOperationCue(mode === "survival" ? "srv-sortie" : "adv-sortie", {
-      key: `${world.run}:sortie`,
-    });
+    // 初回3択を読み終えてから中央の出撃演出を出す。
+    pendingSortieRun = world.run;
     overlayKey = "";
     paintOverlay();
   } catch (error) {
@@ -1050,6 +1059,7 @@ function request(offer: NonNullable<FrontRunView["offer"]>) {
 function choose(cardId: FrontUpgradeId) {
   if (
     !info?.offer ||
+    frontLevelUpActive(info, now()) ||
     choiceFeedbackUntil ||
     performance.now() < actionLockUntil
   )
@@ -1120,6 +1130,8 @@ function paintOverlay() {
   )
     return;
   const offer = info.offer,
+    levelUp = frontLevelUpActive(info, now()),
+    treasureRevealed = !!info.treasure && now() >= info.treasure.endsAt - 1.95,
     key = [
       connectionFatal,
       world.run,
@@ -1129,11 +1141,16 @@ function paintOverlay() {
       info.picks,
       info.rerollsRemaining,
       info.resumeUntil > now(),
+      levelUp,
+      info.treasure?.id,
+      treasureRevealed,
       rewardText,
     ].join(":");
   if (key === overlayKey) return;
   overlayKey = key;
   const ui = $("ui");
+  if (info.phase === "selection" || info.phase === "treasure")
+    cancelOperationCue();
   ui.dataset.phase = info.phase;
   $("pause").hidden =
     gate.paused || info.phase === "victory" || info.phase === "defeat";
@@ -1186,6 +1203,14 @@ function paintOverlay() {
       };
       ui.querySelector("header")?.append(back);
     }
+  } else if (info.phase === "treasure") {
+    ui.innerHTML = frontTreasureMarkup(
+      info,
+      import.meta.env.BASE_URL,
+      treasureRevealed,
+    );
+  } else if (levelUp) {
+    ui.innerHTML = frontLevelUpMarkup();
   } else if (info.phase === "selection" && offer) {
     ui.innerHTML = `<section class="pause-card rebuild-panel rebuild-selection"><header><button id="front-choice-owned" aria-haspopup="dialog">現在の強化 ${info.growthVersion === 3 ? `${Object.values(info.levels).filter((n) => n > 0).length}/6枠` : `${info.picks}/${info.maxPicks}`}</button><h1 class="front-choice-title">強化を選べ</h1><div class="rebuild-selection-actions">${info.selectionDeadline !== null ? '<span id="front-countdown"></span>' : ""}${offer.kind === "additional" ? `<button id="rebuild-reroll" ${info.canReroll ? "" : "disabled"}>再抽選 残り${info.rerollsRemaining}</button>` : ""}</div></header><div class="rebuild-cards">${offer.cardIds
       .map((card) =>
@@ -1226,7 +1251,15 @@ function paintOverlay() {
         awardedRun = "";
         overlayKey = "";
       });
-  } else ui.replaceChildren();
+  } else {
+    ui.replaceChildren();
+    if (pendingSortieRun === world.run) {
+      pendingSortieRun = "";
+      showOperationCue(mode === "survival" ? "srv-sortie" : "adv-sortie", {
+        key: `${world.run}:sortie`,
+      });
+    }
+  }
 }
 const marks = new T.InstancedMesh(
   new T.TorusGeometry(0.62, 0.1, 4, 12),
@@ -1239,6 +1272,7 @@ const orbs = new T.InstancedMesh(
   160,
 );
 const mineVisuals = new FrontMineVisuals(view.scene);
+const chestVisuals = new FrontChestVisuals(view.scene);
 const marker = new T.Object3D();
 const warnings = new T.InstancedMesh(
   new T.TorusGeometry(1, 0.05, 4, 32),
@@ -1297,6 +1331,7 @@ function paintBattle() {
   orbs.count = count;
   orbs.instanceMatrix.needsUpdate = true;
   mineVisuals.update(state.mines, state.players, world.time, id);
+  chestVisuals.update(state.chests ?? []);
   count = 0;
   marker.rotation.set(Math.PI / 2, 0, 0);
   for (const warning of info.spawnWarnings) {
@@ -1416,6 +1451,7 @@ function frame(time: number) {
               weapons: (world.rewards[id] ?? []) as NewWeapon[],
               kills: world.players.find((p) => p.id === id)?.kills ?? 0,
               clearedStage: info.clearedStage,
+              treasureCoins: info.treasureCoins,
             }
           : undefined,
       );

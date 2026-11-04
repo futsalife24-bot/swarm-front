@@ -137,6 +137,33 @@ it("戦果を先に控え、保存失敗後の再起動で重複なく回復す�
   expect(recoverFrontCampaignRewards(s)).toBe(0);
   expect(JSON.parse(s.getItem(newSaveKey("normal"))!).coins).toBe(30);
 });
+it("宝箱コインを保存失敗後に回復し、再受信しても一度だけ加算する", () => {
+  const s = storage(),
+    p = freshProgress("normal");
+  p.armoryMigration = 1;
+  persistProgress(p, s);
+  const spoils = { weapons: [], kills: 1, clearedStage: 0, treasureCoins: 20 };
+  const failing = {
+    ...s,
+    setItem: (key: string, value: string) => {
+      if (key === newSaveKey("normal")) throw Error("quota");
+      s.setItem(key, value);
+    },
+  };
+  expect(() =>
+    queueFrontCampaignReward(failing, "chest-run", 125, spoils),
+  ).toThrow();
+  expect(recoverFrontCampaignRewards(s)).toBe(40);
+  expect(queueFrontCampaignReward(s, "chest-run", 125, spoils)).toBe(0);
+  expect(JSON.parse(s.getItem(newSaveKey("normal"))!).coins).toBe(40);
+  const before = [...s.map];
+  for (const treasureCoins of [-1, 1.5, 10001, NaN]) {
+    expect(() =>
+      awardFrontCampaign(s, "invalid-chest", 125, { ...spoils, treasureCoins }),
+    ).toThrow();
+  }
+  expect([...s.map]).toEqual(before);
+});
 it("個人候補の保存・再読込・設定外と未解放を拒否", () => {
   const s = storage(),
     v = readFrontLoadout(s);

@@ -144,8 +144,8 @@ export const FRONT_FUSIONS: Record<
 };
 export const isFrontFusion = (id: FrontUpgradeId): id is FrontFusionId =>
   (FRONT_FUSION_IDS as readonly string[]).includes(id);
-export const frontPickLimit = (s: { fusion?: boolean }) =>
-  s.fusion ? 120 : FRONT_MAX_PICKS;
+export const frontPickLimit = (s: { fusion?: boolean; bonusPicks?: number }) =>
+  s.fusion ? 120 + (s.bonusPicks ?? 0) : FRONT_MAX_PICKS;
 export const frontConsumed = (
   levels: Readonly<Record<FrontUpgradeId, number>>,
   id: FrontUpgradeId,
@@ -408,6 +408,8 @@ export interface FrontUpgradeState {
   readonly pool?: readonly FrontUpgradeId[];
   readonly revision: number;
   readonly picks: number;
+  /** Treasure levels do not consume XP selection rights. Absent on older runs. */
+  readonly bonusPicks?: number;
   readonly levels: Readonly<Record<FrontUpgradeId, number>>;
   readonly initialCardId: FrontUpgradeId | null;
   readonly initialCards: readonly FrontUpgradeId[];
@@ -616,7 +618,8 @@ export function isValidFrontUpgradeState(
   )
     return false;
   if (
-    !integerIn(value.picks, 0, value.fusion ? 120 : FRONT_MAX_PICKS) ||
+    !integerIn(value.bonusPicks ?? 0, 0, value.fusion ? 120 : 0) ||
+    !integerIn(value.picks, 0, frontPickLimit(value)) ||
     value.revision !== value.picks ||
     !integerIn(
       value.rightsGranted,
@@ -626,11 +629,7 @@ export function isValidFrontUpgradeState(
     !integerIn(value.rightsSpent, 0, value.rightsGranted) ||
     !integerIn(value.rerollsRemaining, 0, FRONT_MAX_REROLLS) ||
     !integerIn(value.rngState, 0, 0xffffffff) ||
-    !integerIn(
-      value.offerSerial,
-      1,
-      (value.fusion ? 120 : FRONT_MAX_PICKS) + FRONT_MAX_REROLLS,
-    )
+    !integerIn(value.offerSerial, 1, frontPickLimit(value) + FRONT_MAX_REROLLS)
   )
     return false;
   const stateIds = value.fusion
@@ -695,7 +694,7 @@ export function isValidFrontUpgradeState(
     !(state.initialCards as readonly unknown[]).includes(state.initialCardId) ||
     (state.levels[state.initialCardId!] < 1 &&
       !frontConsumed(state.levels, state.initialCardId!)) ||
-    state.picks !== state.rightsSpent + 1
+    state.picks !== state.rightsSpent + 1 + (state.bonusPicks ?? 0)
   )
     return false;
   if (
@@ -851,7 +850,11 @@ export function grantFrontUpgradeRights(
 ): FrontUpgradeState {
   requireValidState(state);
   if (
-    !integerIn(cumulativeRights, state.rightsGranted, frontPickLimit(state) - 1)
+    !integerIn(
+      cumulativeRights,
+      state.rightsGranted,
+      state.fusion ? 119 : FRONT_MAX_ADDITIONAL_RIGHTS,
+    )
   )
     throw new RangeError(
       "経験値による取得権は規定上限内の整数で、減らせません",
@@ -964,6 +967,59 @@ export function selectFrontUpgrade(
     ]),
   };
   return { ok: true, state: Object.freeze(next) };
+}
+
+/** One owned, unfinished card gains one level without spending an XP choice. */
+export function awardFrontTreasureLevel(
+  state: FrontUpgradeState,
+  chestId: number,
+): {
+  state: FrontUpgradeState;
+  cardId: FrontUpgradeId;
+  from: number;
+  to: number;
+} | null {
+  if (!isValidFrontUpgradeState(state) || state.offer !== null || !state.fusion)
+    return null;
+  const requestId = `treasure:${chestId}`;
+  if (state.processedRequestIds.includes(requestId)) return null;
+  const candidates = eligibleFor(state).filter((id) => state.levels[id] > 0);
+  if (!candidates.length) return null;
+  const rngState = (Math.imul(state.rngState, 1664525) + 1013904223) >>> 0;
+  const cardId =
+    candidates[Math.floor((rngState / 0x100000000) * candidates.length)];
+  const from = state.levels[cardId];
+  const levels = Object.freeze({ ...state.levels, [cardId]: from + 1 });
+  const next = Object.freeze({
+    ...state,
+    levels,
+    picks: state.picks + 1,
+    bonusPicks: (state.bonusPicks ?? 0) + 1,
+    revision: state.revision + 1,
+    rngState,
+    offerSerial: state.offerSerial + 1,
+    evolved: frontEvolvedFamilies({ levels }).length > 0,
+    processedRequestIds: Object.freeze([
+      ...state.processedRequestIds,
+      requestId,
+    ]),
+  });
+  if (!isValidFrontUpgradeState(next))
+    throw new Error("宝箱強化状態が不正です");
+  return { state: next, cardId, from, to: from + 1 };
+}
+
+export function drawFrontTreasureFallback(state: FrontUpgradeState): {
+  state: FrontUpgradeState;
+  heal: boolean;
+} {
+  if (!isValidFrontUpgradeState(state) || state.offer !== null)
+    throw new RangeError("宝箱抽選の状態が不正です");
+  const rngState = (Math.imul(state.rngState, 1664525) + 1013904223) >>> 0;
+  return {
+    state: Object.freeze({ ...state, rngState }),
+    heal: rngState < 0x80000000,
+  };
 }
 
 /** UI availability uses the same legal combinations as the authoritative action. */

@@ -4,6 +4,9 @@ import {
   frontUpgradeDetails,
   frontUpgradeStrip,
   frontUpgradeCardCopy,
+  frontUpgradeCardMarkup,
+  frontUpgradeCardView,
+  renderSurvivalCardM,
 } from "../src/client/front-upgrade-ui";
 import * as legacyUi from "../src/client/front-legacy-upgrade-ui";
 import { FRONT_UPGRADE_CATALOG as oldCatalog } from "../src/shared/front-legacy-upgrades";
@@ -15,6 +18,54 @@ const view = () =>
   );
 
 describe("強化状況の表示", () => {
+  it("新規則は通常/融合の共通カードを3択・HUD・取得一覧に使う", () => {
+    const v = view();
+    v.growthVersion = 3;
+    const normal = frontUpgradeCardMarkup(v, "armor", "/game/");
+    const fusion = frontUpgradeCardMarkup(v, "fusion-bastion", "/game/");
+    expect(normal).toContain('data-card="armor"');
+    expect(normal).toContain('data-kind="normal"');
+    expect(normal).toContain('data-type="ability"');
+    const weapon = frontUpgradeCardMarkup(v, "power-cell", "/game/");
+    expect(weapon).toContain('data-kind="normal"');
+    expect(weapon).toContain('data-type="weapon"');
+    expect(weapon).toContain("武器強化");
+    expect(normal).toContain('data-size="L"');
+    expect(normal).toContain("最大体力 +5%");
+    expect(fusion).toContain('data-kind="fusion"');
+    expect(fusion).toContain("◆");
+    expect(fusion).toContain("素材：装甲補強 × 生命回収");
+    v.levels.armor = 2;
+    v.levels["fusion-bastion"] = 1;
+    const strip = frontUpgradeStrip(v, "/game/");
+    expect(strip).toContain('data-size="S"');
+    expect(strip).toContain("◆");
+    expect(strip).toContain("装甲補強（能力強化） 2/4段階");
+    const details = frontUpgradeDetails(v, "/game/");
+    expect(details).toContain('data-upgrade="armor"');
+    expect(details).toContain('data-size="row"');
+    expect(details).toContain("2/4段階");
+  });
+
+  it("基地Mは閲覧のみと候補編集を分け、未発見の素材を伏せる", () => {
+    const readOnly = renderSurvivalCardM(frontUpgradeCardView("armor", "/"));
+    expect(readOnly).toContain('data-inspect="armor"');
+    expect(readOnly).not.toContain("data-pool=");
+    const editable = renderSurvivalCardM(
+      frontUpgradeCardView("armor", "/", { deck: "in", inspecting: true }),
+    );
+    expect(editable).toContain('data-pool="armor"');
+    expect(editable).toContain('role="checkbox" aria-checked="true"');
+    expect(editable).toContain('data-inspecting="true"');
+    const unknown = renderSurvivalCardM(
+      frontUpgradeCardView("fusion-bastion", "/", {
+        undiscovered: true,
+      }),
+    );
+    expect(unknown).toContain("？？ × ？？");
+    expect(unknown).not.toContain("生命回収");
+    expect(unknown).not.toContain("fusion-atlas.png");
+  });
   it("旧規則のHUD・停止詳細・全12カードは旧文言と段階規則を維持する", () => {
     const v = view();
     v.growthVersion = 1;

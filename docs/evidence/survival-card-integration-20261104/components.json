@@ -1,0 +1,56 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "cardDisplays": 66,
+    "noClipping": true,
+    "gameReducedMotion": true,
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "reduce",
+    "cardDisplays": 66,
+    "noClipping": true,
+    "gameReducedMotion": true,
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "no-preference",
+    "cardDisplays": 66,
+    "noClipping": true,
+    "gameReducedMotion": true,
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "cardDisplays": 66,
+    "noClipping": true,
+    "gameReducedMotion": true,
+    "errors": []
+  },
+  {
+    "width": 667,
+    "height": 320,
+    "reducedMotion": "no-preference",
+    "cardDisplays": 66,
+    "noClipping": true,
+    "gameReducedMotion": true,
+    "errors": []
+  },
+  {
+    "width": 667,
+    "height": 320,
+    "reducedMotion": "reduce",
+    "cardDisplays": 66,
+    "noClipping": true,
+    "gameReducedMotion": true,
+    "errors": []
+  }
+]
