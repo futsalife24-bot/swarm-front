@@ -1,0 +1,61 @@
+{
+  "bounds_max_error_m": 0.0,
+  "original_bounds": [
+    [
+      -0.4099999964237213,
+      -0.17599999904632568,
+      0.18000000715255737
+    ],
+    [
+      0.4099999964237213,
+      0.17399999499320984,
+      0.912380576133728
+    ]
+  ],
+  "imported_bounds": [
+    [
+      -0.4099999964237213,
+      -0.17599999904632568,
+      0.18000000715255737
+    ],
+    [
+      0.4099999964237213,
+      0.17399999499320984,
+      0.912380576133728
+    ]
+  ],
+  "bone_names": [
+    "root",
+    "body",
+    "cloak_L",
+    "cloak_R",
+    "head",
+    "rear_L",
+    "rear_R"
+  ],
+  "animation_vertex_max_displacement_m": {
+    "Display": 0.35433604568243027,
+    "Follow": 0.049277275800704956,
+    "Idle": 0.06122855842113495
+  },
+  "opaque": true,
+  "vertex_colors": true,
+  "textures": 0,
+  "materials": 1,
+  "triangles": 1428,
+  "glb_bytes": 288956,
+  "ground_samples_every_3_frames": {
+    "Idle": {
+      "min_z_m": 0.1424987018108368,
+      "frame": 73
+    },
+    "Follow": {
+      "min_z_m": 0.16131159663200378,
+      "frame": 31
+    },
+    "Display": {
+      "min_z_m": 0.14793384075164795,
+      "frame": 76
+    }
+  }
+}
