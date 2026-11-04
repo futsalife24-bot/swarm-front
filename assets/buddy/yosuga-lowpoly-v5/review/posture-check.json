@@ -1,0 +1,12 @@
+{
+  "body_forward_degrees": 15,
+  "head_translation_m": [
+    0.0,
+    -0.04951635003089905,
+    -0.015885889530181885
+  ],
+  "head_vertex_translation_max_error_m": 7.450580596923828e-09,
+  "body_vertex_transform_max_error_m": 6.146728992462158e-08,
+  "animation_head_orientation_max_delta_degrees": 0.0,
+  "frames_checked": 213
+}
