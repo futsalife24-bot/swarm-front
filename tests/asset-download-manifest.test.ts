@@ -211,6 +211,10 @@ describe("事前保存manifestの生成", () => {
       "movies",
     ]);
     const common = packs.find((p: any) => p.id === "common")!.urls;
+    for (const id of ["fire-rounds", "frost-rounds", "chain-lightning"]) {
+      expect(common).toContain(`rebuild/upgrades/${id}.svg`);
+      expect(common).not.toContain(`rebuild/upgrades/${id}.png`);
+    }
     expect(
       common.some((url: string) => /swarm-soldier\.glb\?v=[a-f0-9]+/.test(url)),
     ).toBe(true);

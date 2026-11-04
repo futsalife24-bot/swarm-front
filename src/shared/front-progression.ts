@@ -1,6 +1,6 @@
 import { CAMPAIGN_COUNT } from "./campaign";
 import {
-  FRONT_BASE_IDS,
+  FRONT_SURVIVAL_BASE_IDS,
   FRONT_V2_UPGRADE_IDS,
   type FrontUpgradeId,
 } from "./front-upgrades";
@@ -20,9 +20,9 @@ export const FRONT_SURVIVAL_UNLOCKS: readonly {
   stage: number;
   ids: readonly FrontUpgradeId[];
 }[] = [
-  { stage: 1, ids: ["fuse", "blast-radius"] },
-  { stage: 2, ids: ["ricochet", "opening-shot"] },
-  { stage: 3, ids: ["boost-coil", "emergency-armor"] },
+  { stage: 1, ids: ["fuse", "blast-radius", "fire-rounds"] },
+  { stage: 2, ids: ["ricochet", "opening-shot", "frost-rounds"] },
+  { stage: 3, ids: ["boost-coil", "emergency-armor", "chain-lightning"] },
   { stage: 4, ids: ["recovery-pack", "life-drain"] },
   { stage: 5, ids: ["power-cell", "reserve-rounds"] },
   { stage: 6, ids: ["compressed-charge", "burst-cell"] },
@@ -59,7 +59,7 @@ export function validSurvivalExclusions(v: unknown): v is FrontUpgradeId[] {
     Array.isArray(v) &&
     v.length <= 4 &&
     new Set(v).size === v.length &&
-    v.every((id) => FRONT_BASE_IDS.includes(id))
+    v.every((id) => FRONT_SURVIVAL_BASE_IDS.includes(id))
   );
 }
 /** 進撃で共通枠、兵士ごとの3pt配分で戦い方を選ぶ。費用なしで振り直せる。 */
@@ -94,7 +94,7 @@ export function frontSurvivalProgress(
   }
   const common = [2, 5].filter((n) => clearedStage >= n).length;
   return {
-    unlocked: FRONT_BASE_IDS.filter((id) => unlocked.has(id)),
+    unlocked: FRONT_SURVIVAL_BASE_IDS.filter((id) => unlocked.has(id)),
     points,
     rerolls: 1 + common + training.rerolls,
     exclusions: common + training.exclusions,

@@ -1,6 +1,7 @@
 import type { FrontUpgradeId, FrontFamily } from "../shared/front-upgrades";
+import type { FrontElement } from "../shared/front-elements";
 
-export type SurvivalCardFamily = FrontFamily | "generic";
+export type SurvivalCardFamily = FrontFamily | FrontElement | "generic";
 export interface SurvivalCardView {
   id: FrontUpgradeId;
   name: string;
@@ -33,8 +34,14 @@ const familyName: Record<SurvivalCardFamily, string> = {
   piercing: "貫通",
   interception: "迎撃",
   generic: "補強",
+  fire: "火炎",
+  ice: "氷結",
+  lightning: "電撃",
 };
 const familyGlyph: Record<SurvivalCardFamily, string> = {
+  fire: '<path d="M13 2c2 7-4 7-3 11-2-1-3-3-3-5-7 10 1 16 7 13 8-4 5-11 1-14 0 4-2 4-3 5 2-4 3-6 1-10Z" fill="currentColor"/>',
+  ice: '<path d="M12 2v20M3.3 7l17.4 10M3.3 17 20.7 7M8 4l4 3 4-3M8 20l4-3 4 3M3 11l4-1V6m14 7-4 1v4M3 13l4 1v4m14-7-4-1V6" fill="none" stroke="currentColor" stroke-width="1.5"/>',
+  lightning: '<path d="m14 1-11 13h8l-2 9 12-14h-8z" fill="currentColor"/>',
   explosion:
     '<path d="M12 2l2 5 5-2-2 5 5 2-5 2 2 5-5-2-2 5-2-5-5 2 2-5-5-2 5-2-2-5 5 2z" fill="currentColor"/>',
   piercing:

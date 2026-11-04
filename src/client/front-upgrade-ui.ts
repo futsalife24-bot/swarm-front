@@ -1,4 +1,5 @@
 import type { FrontRunView } from "../shared/front-run";
+import { FRONT_ELEMENT_RULES } from "../shared/front-elements";
 import {
   renderSurvivalCardL,
   renderSurvivalCardM,
@@ -18,6 +19,7 @@ import {
   FRONT_FUSION_IDS,
   isFrontFusion,
   FRONT_UPGRADE_IDS,
+  FRONT_ELEMENT_IDS,
   FRONT_EVOLUTIONS,
   FRONT_EVOLUTION_RECIPES,
   FRONT_MAX_PICKS,
@@ -37,7 +39,7 @@ const esc = (s: string) =>
 const acquired = (view: UpgradeView) =>
   FRONT_UPGRADE_IDS.filter((id) => view.levels[id] > 0);
 export const frontUpgradeIcon = (id: FrontUpgradeId, base: string) =>
-  `${base}rebuild/upgrades/${id}.png`;
+  `${base}rebuild/upgrades/${id}.${FRONT_ELEMENT_IDS.includes(id) ? "svg" : "png"}`;
 function fusionAbility(id: FrontUpgradeId, n: number): string {
   switch (id) {
     case "fusion-aegis":
@@ -67,6 +69,12 @@ export function frontUpgradeEffect(id: FrontUpgradeId, level: number): string {
   if (isFrontFusion(id))
     return `${fusionAbility(id, n)} ${FRONT_FUSIONS[id].map((material) => `${FRONT_UPGRADE_CATALOG[material].name}：${id === "fusion-collector" && material === "recovery-pack" ? `回収時${3 + n}HP回復（${3 - 0.5 * n}秒に1回）。` : id === "fusion-aegis" && material === "emergency-armor" ? `${2 + 0.5 * n}秒、被ダメージ −${(3 + n) * 10}%。` : frontUpgradeEffect(material, FRONT_UPGRADE_CATALOG[material].maxLevel + n)}`).join(" ")}`;
   switch (id) {
+    case "fire-rounds":
+      return `命中で${FRONT_ELEMENT_RULES.burnDuration}秒燃焼。${FRONT_ELEMENT_RULES.burnInterval}秒ごとに${FRONT_ELEMENT_RULES.burnDamage(n)}ダメージ。再命中は時間を更新。`;
+    case "frost-rounds":
+      return `命中で${FRONT_ELEMENT_RULES.freezeDuration(n)}秒凍結。解除後${FRONT_ELEMENT_RULES.freezeRecovery}秒は再凍結不可。ボス級・分節敵は停止無効。`;
+    case "chain-lightning":
+      return `3回命中ごとに最大${FRONT_ELEMENT_RULES.chainTargets(n)}体へ連鎖。各${FRONT_ELEMENT_RULES.chainDamage(n)}ダメージ・敵間${FRONT_ELEMENT_RULES.chainRange}m。壁越しには届かない。`;
     case "boost-coil":
       return `回避の待ち時間 −${Math.min(48, n * 8)}%。`;
     case "recovery-pack":
@@ -164,7 +172,7 @@ export function frontUpgradeCardView(
       : abilityCards.includes(id)
         ? "ability"
         : "weapon",
-    family: d.family,
+    family: d.element ?? d.family,
     iconMarkup: icon(id, base, true),
     description: frontUpgradeEffect(id, 1),
     level: { current: 0, max: d.maxLevel },

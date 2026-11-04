@@ -10,6 +10,7 @@ const blastSphere = new T.SphereGeometry(1, 32, 20);
 const ring = new T.RingGeometry(0.97, 1, 64);
 // Slim but long: reads as a fast round without covering the target.
 const slug = new T.CapsuleGeometry(0.04, 0.82, 2, 6);
+const arc = new T.CylinderGeometry(0.035, 0.035, 1, 4);
 const cloud = new T.PlaneGeometry(2, 2);
 // Procedural billowing alpha: soft edges and mottled density without asset downloads.
 const texels = new Uint8Array(64 * 64 * 4);
@@ -42,6 +43,7 @@ type Effect = {
   impactPlaced?: boolean;
   kind:
     | "bullet"
+    | "arc"
     | "trail"
     | "flash"
     | "fire"
@@ -121,15 +123,18 @@ export class CombatEffects {
             ? ring
             : kind === "shell"
               ? blastSphere
-              : kind === "bullet"
-                ? slug
-                : sphere,
+              : kind === "arc"
+                ? arc
+                : kind === "bullet"
+                  ? slug
+                  : sphere,
         new T.MeshBasicMaterial({
           color,
           transparent: true,
           alphaTest: pixel ? 0.1 : 0,
           depthWrite: false,
           blending:
+            kind === "arc" ||
             kind === "bullet" ||
             kind === "flash" ||
             kind === "muzzle" ||
@@ -156,6 +161,13 @@ export class CombatEffects {
     mesh.position.set(x, y, z);
     mesh.scale.setScalar(size);
     if (kind === "shell") mesh.material.opacity = 0.075;
+    if (kind === "arc") {
+      mesh.quaternion.setFromUnitVectors(
+        new T.Vector3(0, 1, 0),
+        velocity.clone().normalize(),
+      );
+      mesh.scale.set(size, velocity.length(), size);
+    }
     if (flat) mesh.rotation.x = -Math.PI / 2;
     if (kind === "bullet")
       mesh.quaternion.setFromUnitVectors(
@@ -184,6 +196,71 @@ export class CombatEffects {
     renderedBody?: T.Vector3,
     renderedMuzzle?: (out: T.Vector3) => T.Vector3 | null,
   ) {
+    if (e.frontEffect === "burn") {
+      this.add(
+        "pixel-fire",
+        e.x,
+        e.y + 0.7,
+        e.z,
+        0.8,
+        0.5,
+        0xffa445,
+        new T.Vector3(0, 0.8, 0),
+      );
+      if (this.detail >= 1)
+        this.add(
+          "spark",
+          e.x + 0.12,
+          e.y + 0.7,
+          e.z,
+          0.08,
+          0.3,
+          0xffe6a5,
+          new T.Vector3(0.2, 1.6, 0.1),
+        );
+      return;
+    }
+    if (e.frontEffect === "freeze") {
+      this.add("ring", e.x, e.y + 0.2, e.z, 1.3, 0.55, 0x87eaff);
+      for (let i = 0; i < (this.detail < 1 ? 2 : 4); i++) {
+        const angle = (i * Math.PI) / 2;
+        this.add(
+          "spark",
+          e.x + Math.cos(angle) * 0.8,
+          e.y + 0.5,
+          e.z + Math.sin(angle) * 0.8,
+          0.16,
+          0.6,
+          0xbcefff,
+        );
+      }
+      return;
+    }
+    if (
+      e.frontEffect === "chain-lightning" &&
+      e.tx !== undefined &&
+      e.ty !== undefined &&
+      e.tz !== undefined
+    ) {
+      const start = new T.Vector3(e.x, e.y + 0.7, e.z);
+      const end = new T.Vector3(e.tx, e.ty + 0.7, e.tz);
+      const delta = end.clone().sub(start);
+      const side = new T.Vector3(-delta.z, 0, delta.x)
+        .normalize()
+        .multiplyScalar(0.16);
+      let previous = start;
+      for (let i = 1; i <= 4; i++) {
+        const point = start.clone().lerp(end, i / 4);
+        if (i < 4) point.addScaledVector(side, i % 2 ? 1 : -1);
+        const segment = point.clone().sub(previous);
+        const mid = previous.clone().add(point).multiplyScalar(0.5);
+        if (segment.lengthSq() > 0.001)
+          this.add("arc", mid.x, mid.y, mid.z, 1.2, 0.26, 0xd5b2ff, segment);
+        previous = point;
+      }
+      this.add("spark", end.x, end.y, end.z, 0.2, 0.2, 0xf1dfff);
+      return;
+    }
     if (e.type === "hit" && !e.guard && (e.amount ?? 0) > 0) {
       this.add("impact", e.x, e.y, e.z, 0.9, 0.2, 0xffffff);
     }
@@ -427,12 +504,13 @@ export class CombatEffects {
       const t = Math.min(1, e.age / e.duration);
       const expand = (age: number) =>
         1 - Math.pow(1 - Math.min(1, age / 0.16), 3);
-      e.mesh.position.addScaledVector(
-        e.velocity,
-        e.kind === "billow" || e.kind === "pixel-billow"
-          ? expand(e.age) - expand(previousAge)
-          : dt,
-      );
+      if (e.kind !== "arc")
+        e.mesh.position.addScaledVector(
+          e.velocity,
+          e.kind === "billow" || e.kind === "pixel-billow"
+            ? expand(e.age) - expand(previousAge)
+            : dt,
+        );
       // Only the brief emission flash follows the body; fired rounds never do.
       if (e.shotFollow && e.shotFollow(e.mesh.position)) {
         // stays on the drawn muzzle
@@ -455,7 +533,9 @@ export class CombatEffects {
                 : e.kind === "fire" || e.kind === "pixel-fire"
                   ? 0.6 + Math.sin(t * Math.PI) * 0.9
                   : 1;
-      e.mesh.scale.setScalar(e.size * scale);
+      if (e.kind === "arc")
+        e.mesh.scale.set(e.size, e.velocity.length(), e.size);
+      else e.mesh.scale.setScalar(e.size * scale);
       e.mesh.material.opacity =
         (e.kind === "shell"
           ? 0.075

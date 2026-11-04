@@ -3,10 +3,15 @@
  * 旧版の保存形式・通信ペイロードには載せない。一時的な作戦状態を不変更新する。
  * 支給武器は全て弾倉・装填を持つ。乱数は明示した整数シードのみを使う。
  */
+import type { FrontElement } from "./front-elements";
+
 export type FrontExplosionUpgradeId =
   "blast-core" | "fuse" | "compressed-charge";
 export type FrontUpgradeId =
   | FrontExplosionUpgradeId
+  | "fire-rounds"
+  | "frost-rounds"
+  | "chain-lightning"
   | "armor-piercer"
   | "ricochet"
   | "line-shot"
@@ -70,6 +75,7 @@ export interface FrontUpgradeDefinition {
   readonly name: string;
   readonly description: string;
   readonly family: FrontFamily | "generic";
+  readonly element?: FrontElement;
   readonly maxLevel: number;
 }
 
@@ -125,9 +131,23 @@ export const FRONT_PREVIOUS_IDS: readonly FrontUpgradeId[] = [
   ...FRONT_PREVIOUS_BASE_IDS,
   ...FRONT_FUSION_IDS.slice(0, 6),
 ];
-export const FRONT_UPGRADE_IDS: readonly FrontUpgradeId[] = [
+/** 防衛と既存作戦の通常22種は維持。属性は新しい生存の候補だけに追加する。 */
+export const FRONT_ELEMENT_IDS: readonly FrontUpgradeId[] = [
+  "fire-rounds",
+  "frost-rounds",
+  "chain-lightning",
+];
+export const FRONT_SURVIVAL_BASE_IDS: readonly FrontUpgradeId[] = [
+  ...FRONT_BASE_IDS,
+  ...FRONT_ELEMENT_IDS,
+];
+export const FRONT_PRE_ELEMENT_IDS: readonly FrontUpgradeId[] = [
   ...FRONT_BASE_IDS,
   ...FRONT_FUSION_IDS,
+];
+export const FRONT_UPGRADE_IDS: readonly FrontUpgradeId[] = [
+  ...FRONT_PRE_ELEMENT_IDS,
+  ...FRONT_ELEMENT_IDS,
 ];
 export const FRONT_FUSIONS: Record<
   FrontFusionId,
@@ -170,6 +190,30 @@ export function frontEffectiveLevels(
 export const FRONT_UPGRADE_CATALOG: Readonly<
   Record<FrontUpgradeId, FrontUpgradeDefinition>
 > = Object.freeze({
+  "fire-rounds": Object.freeze({
+    id: "fire-rounds",
+    name: "火炎弾",
+    description: "命中した敵を3秒燃焼。連続命中は残り時間を更新する。",
+    family: "generic",
+    element: "fire",
+    maxLevel: 3,
+  }),
+  "frost-rounds": Object.freeze({
+    id: "frost-rounds",
+    name: "氷結弾",
+    description: "命中した通常敵を凍結。ボス級・分節敵には停止無効。",
+    family: "generic",
+    element: "ice",
+    maxLevel: 3,
+  }),
+  "chain-lightning": Object.freeze({
+    id: "chain-lightning",
+    name: "連鎖雷",
+    description: "3回命中ごとに近くの敵へ電撃が連鎖。貫通との組合せも有効。",
+    family: "generic",
+    element: "lightning",
+    maxLevel: 3,
+  }),
   "blast-core": Object.freeze({
     id: "blast-core",
     name: "誘爆核",
@@ -509,13 +553,15 @@ const families = Object.keys(FRONT_FAMILY_CARDS) as FrontFamily[];
 /** 出撃に持ち込む基礎強化。開幕もこの候補から抽選する。 */
 export function isValidFrontUpgradePool(
   value: unknown,
+  survival = false,
 ): value is FrontUpgradeId[] {
+  const ids = survival ? FRONT_SURVIVAL_BASE_IDS : FRONT_BASE_IDS;
   return (
     Array.isArray(value) &&
     value.length >= 6 &&
-    value.length <= FRONT_BASE_IDS.length &&
+    value.length <= ids.length &&
     new Set(value).size === value.length &&
-    value.every((id) => FRONT_BASE_IDS.includes(id))
+    value.every((id) => ids.includes(id))
   );
 }
 
@@ -665,7 +711,9 @@ export function isValidFrontUpgradeState(
   const stateIds = value.fusion
     ? Object.keys(value.levels).length === FRONT_PREVIOUS_IDS.length
       ? FRONT_PREVIOUS_IDS
-      : FRONT_UPGRADE_IDS
+      : Object.keys(value.levels).length === FRONT_PRE_ELEMENT_IDS.length
+        ? FRONT_PRE_ELEMENT_IDS
+        : FRONT_UPGRADE_IDS
     : FRONT_V2_UPGRADE_IDS;
   if (
     Object.keys(value.levels).length !== stateIds.length ||
@@ -681,7 +729,7 @@ export function isValidFrontUpgradeState(
   const state = value as unknown as FrontUpgradeState;
   if (
     state.fusion &&
-    (!isValidFrontUpgradePool(state.pool) ||
+    (!isValidFrontUpgradePool(state.pool, state.buildChoices === true) ||
       !state.pool.every((id) => stateIds.includes(id)) ||
       !state.initialCards.every((id) => state.pool!.includes(id)) ||
       FRONT_FUSION_IDS.some(
@@ -818,7 +866,7 @@ export function createFrontUpgradeState(
 ): FrontUpgradeState {
   if (!validId(runId) || !integerIn(seed, 0, 0xffffffff))
     throw new RangeError("作戦IDと32ビット整数シードが必要です");
-  if (pool !== undefined && !isValidFrontUpgradePool(pool))
+  if (pool !== undefined && !isValidFrontUpgradePool(pool, buildChoices))
     throw new RangeError("強化候補は重複のない基礎強化6種類以上が必要です");
   if (!integerIn(rerolls, 0, FRONT_REROLL_CAP) || (buildChoices && !pool))
     throw new RangeError("再抽選回数または新生存候補の設定が不正です");

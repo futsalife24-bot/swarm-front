@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <radialGradient id="halo"><stop stop-color="#b08aff" stop-opacity=".7"/><stop offset="1" stop-color="#211a37" stop-opacity="0"/></radialGradient>
+    <linearGradient id="steel" x2=".8" y2="1"><stop stop-color="#eee0ff"/><stop offset=".3" stop-color="#817792"/><stop offset=".6" stop-color="#27233b"/><stop offset="1" stop-color="#c4b5d6"/></linearGradient>
+    <linearGradient id="bolt" x2=".5" y2="1"><stop stop-color="#fff8ca"/><stop offset=".5" stop-color="#ecd4ff"/><stop offset="1" stop-color="#ae74f1"/></linearGradient>
+  </defs>
+  <rect width="128" height="128" fill="#101e26"/>
+  <circle cx="64" cy="65" r="63" fill="url(#halo)"/>
+  <path d="m64 9 45 26v58l-45 26-45-26V35Z" fill="#242338" stroke="url(#steel)" stroke-width="5"/>
+  <path d="m64 18 36 21v48l-36 22-36-22V39Z" fill="none" stroke="#8d72ac"/>
+  <circle cx="64" cy="64" r="34" fill="#1c2639" stroke="#6a5c91" stroke-width="7"/>
+  <circle cx="64" cy="64" r="30" fill="none" stroke="#dbbaff" stroke-width="1.5" stroke-dasharray="17 9"/>
+  <path d="m72 22-38 48h25l-6 37 42-54H69Z" fill="#6f36a5" stroke="#9c74d0" stroke-width="7"/>
+  <path d="m72 22-38 48h25l-6 37 42-54H69Z" fill="url(#bolt)" stroke="#fbf1ff" stroke-width="1.5"/>
+  <path d="m37 49-13 9 9 9-8 11m63-36 14 9-7 11 11 7M46 96l-13 3-3-9m54-7 13 6 5-5" fill="none" stroke="#dbb0ff" stroke-width="2"/>
+  <circle cx="26" cy="78" r="3" fill="#f1d5ff"/><circle cx="106" cy="69" r="3" fill="#f1d5ff"/>
+</svg>

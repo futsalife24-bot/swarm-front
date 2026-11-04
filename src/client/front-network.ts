@@ -237,7 +237,7 @@ export class FrontNetwork {
         networkTiming: 1,
         ...(this.networkTrace ? { networkTrace: 1 } : {}),
         frontGrowth: 3,
-        frontCatalog: 2,
+        frontCatalog: 3,
         frontOpening: 2,
         frontSurvivalBuild: 1,
         name: this.playerName,

@@ -2,6 +2,7 @@ import { readFrontFusionDiscovery } from "./front-fusion-discovery";
 import "./front-base.css";
 import {
   FRONT_BASE_IDS,
+  FRONT_SURVIVAL_BASE_IDS,
   FRONT_FUSIONS,
   FRONT_FUSION_IDS,
   FRONT_UPGRADE_CATALOG as catalog,
@@ -18,6 +19,7 @@ import {
   saveFrontSurvivalExclusions,
 } from "./front-campaign";
 import { FRONT_SURVIVAL_UNLOCKS } from "../shared/front-progression";
+import { FRONT_ELEMENT_NAMES } from "../shared/front-elements";
 import { readFrontDecks, saveFrontDeck } from "./front-decks";
 import { readFrontProgress, type FrontStorage } from "./front-progress";
 import {
@@ -50,6 +52,7 @@ export function openFrontBase(
   options: { allUnlocked?: boolean } = {},
 ) {
   const allUnlocked = options.allUnlocked === true;
+  const baseIds = allUnlocked ? FRONT_SURVIVAL_BASE_IDS : FRONT_BASE_IDS;
   const discovery = readFrontFusionDiscovery(storage);
   const known = (id: FrontUpgradeId) => discovery.ids.includes(id);
   const campaign = readFrontCampaign(storage),
@@ -76,7 +79,7 @@ export function openFrontBase(
     <header class="menu-header base-header"><h1>生存カード</h1><span class="base-service">${progress.wins}勝 · ${progress.credits}功績</span><nav><button id="front-save-pool" class="primary">出撃にセット</button><button id="base-back">戻る</button></nav></header>
     <div class="base-deck-bar"><label class="sr-only" for="base-slot">保存デッキ</label><select id="base-slot"></select><label class="sr-only" for="base-name">デッキ名</label><input id="base-name" maxlength="24" placeholder="デッキ名（24文字まで）"><button id="base-store">デッキ保存</button><button id="base-load">呼び出す</button><span id="base-count"></span></div>
     <div class="base-workbench"><section class="base-catalog" aria-label="強化候補">
-      <div class="base-catalog-heading"><div role="tablist" aria-label="強化と融合"><button id="base-upgrades" role="tab" aria-selected="true" aria-controls="base-grid">強化 ${FRONT_BASE_IDS.length}</button><button id="base-fusions" role="tab" aria-selected="false" aria-controls="base-grid" tabindex="-1">融合 ${FRONT_FUSION_IDS.length}</button></div><span id="base-fusion-count"></span></div>
+      <div class="base-catalog-heading"><div role="tablist" aria-label="強化と融合"><button id="base-upgrades" role="tab" aria-selected="true" aria-controls="base-grid">強化 ${baseIds.length}</button><button id="base-fusions" role="tab" aria-selected="false" aria-controls="base-grid" tabindex="-1">融合 ${FRONT_FUSION_IDS.length}</button></div><span id="base-fusion-count"></span></div>
       <div id="base-grid" role="tabpanel" aria-labelledby="base-upgrades" tabindex="0"></div>
     </section><aside id="base-detail" class="base-detail" aria-label="強化・融合の説明"></aside></div>
     <p id="front-pool-status" role="status">${esc(draft.error || (!allUnlocked && decks.error) || discovery.error || (allUnlocked ? "獲得済みから不要なカードを除外できます。再抽選は作戦ごとに回復。融合は素材育成後に出現。" : "開幕も選んだ候補からランダム3択。候補は6種以上。出撃には「出撃にセット」。"))}</p>
@@ -132,7 +135,7 @@ export function openFrontBase(
       return;
     }
     $("base-detail").innerHTML =
-      `<div class="base-detail-title ${fusion ? "is-fusion" : ""}">${icon(selected)}<div><small>${fusion ? "融合完成形" : `${families[d.family]} · 最大${d.maxLevel}段階`}</small><h2 id="base-detail-name" tabindex="-1">${d.name}</h2></div></div>
+      `<div class="base-detail-title ${fusion ? "is-fusion" : ""}">${icon(selected)}<div><small>${fusion ? "融合完成形" : `${d.element ? FRONT_ELEMENT_NAMES[d.element] : families[d.family]} · 最大${d.maxLevel}段階`}</small><h2 id="base-detail-name" tabindex="-1">${d.name}</h2></div></div>
       ${allUnlocked && !fusion ? `<label class="base-exclude-control"><input type="checkbox" id="base-exclude" aria-label="${esc(d.name)}を抽選から除外"${!locked(selected) && !draft.pool.includes(selected) ? " checked" : ""}${locked(selected) || draft.error ? " disabled" : ""}><span>抽選から除外</span></label>` : ""}
       <p class="base-effect">${esc(fusion ? d.description : frontUpgradeEffect(selected, 1))}</p>${fusion ? "" : `<details class="base-ranks"><summary>最大段階の効果</summary><p>${esc(frontUpgradeEffect(selected, d.maxLevel))}</p></details>`}
       ${!fusion && locked(selected) ? `<p class="base-locked-note">${unlock(selected)}</p>` : ""}
@@ -207,7 +210,7 @@ export function openFrontBase(
       `発見 ${discovery.ids.length}/${FRONT_FUSION_IDS.length} · 狙える融合 ${readyCount}`;
     const grid = $("base-grid"),
       scroll = grid.scrollTop;
-    grid.innerHTML = (tab === "upgrades" ? FRONT_BASE_IDS : FRONT_FUSION_IDS)
+    grid.innerHTML = (tab === "upgrades" ? baseIds : FRONT_FUSION_IDS)
       .map((id) => {
         const fusion = isFrontFusion(id),
           active = draft.pool.includes(id);

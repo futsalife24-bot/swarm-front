@@ -46,6 +46,15 @@
 .sc-card[data-family="generic"] {
   --sc-family: #a7cbd7;
 }
+.sc-card[data-family="fire"] {
+  --sc-family: #ff9b52;
+}
+.sc-card[data-family="ice"] {
+  --sc-family: #91eaff;
+}
+.sc-card[data-family="lightning"] {
+  --sc-family: #d7b0ff;
+}
 .sc-card .sc-ring,
 .sc-card .sc-frame {
   position: absolute;

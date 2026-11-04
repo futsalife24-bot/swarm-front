@@ -13,6 +13,13 @@ import { groundHeight } from "../src/shared/terrain";
 import { mapFor } from "../src/shared/stages";
 import { populateDenseWireWorld } from "../scripts/state-wire-fixture";
 import production, { Room, Gate } from "./worker";
+import { frontDedicatedSurvivalThreshold } from "../src/shared/front-run";
+import {
+  FRONT_ELEMENT_IDS,
+  FRONT_SURVIVAL_BASE_IDS,
+  frontEffectiveLevels,
+  isValidFrontUpgradeState,
+} from "../src/shared/front-upgrades";
 import {
   addPlayer,
   createWorld,
@@ -64,6 +71,92 @@ export class TestRoom extends Room {
     if (u.pathname === "/fixture") {
       this.stop();
       this.fixedWire = false;
+      if (u.searchParams.get("case") === "front-elements") {
+        const run = this.saved.frontRun;
+        const player = run?.world.players.find((p) => p.hp > 0);
+        const old = player && run?.upgrades[player.id];
+        if (
+          !run?.fusion ||
+          run.world.front?.survivalBuildVersion !== 1 ||
+          run.phase !== "combat" ||
+          !player ||
+          !old ||
+          old.picks !== 1 ||
+          old.offer
+        )
+          return new Response("初回選択直後の新生存が必要です", {
+            status: 409,
+          });
+        // 所持3属性と耐久の高い標的を準備するだけ。射撃入力・命中・伝送・描画は製品経路。
+        const upgraded = {
+          ...old,
+          pool: [...FRONT_SURVIVAL_BASE_IDS],
+          levels: { ...old.levels },
+          picks: old.picks + 3,
+          revision: old.revision + 3,
+          rightsGranted: old.rightsGranted + 3,
+          rightsSpent: old.rightsSpent + 3,
+          offerSerial: old.offerSerial + 3,
+          processedRequestIds: [
+            ...old.processedRequestIds,
+            "fixture-fire",
+            "fixture-ice",
+            "fixture-lightning",
+          ],
+        };
+        for (const id of FRONT_ELEMENT_IDS) upgraded.levels[id] = 1;
+        if (!isValidFrontUpgradeState(upgraded))
+          return new Response("属性準備が不正です", { status: 409 });
+        run.upgrades[player.id] = upgraded;
+        run.world.front.players[player.id].levels = frontEffectiveLevels(
+          upgraded.levels,
+        );
+        run.world.enemies = [];
+        run.pendingSpawns = [];
+        run.nextSpawnAt = run.bastionAt = 1e9;
+        run.world.front.xp = frontDedicatedSurvivalThreshold(
+          upgraded.rightsGranted - 1,
+        );
+        run.world.front.orbs = [];
+        const blocks = mapFor(run.world).blocks;
+        const offsets = [
+          [0, -7],
+          [-3, -8],
+          [3, -8],
+          [0, -11],
+        ];
+        const spot = [
+          { x: 0, z: 8 },
+          { x: 16, z: 16 },
+          { x: -30, z: -30 },
+        ].find((p) =>
+          [[0, 0], ...offsets].every(
+            ([x, z]) =>
+              !blocked(
+                p.x + x,
+                p.z + z,
+                1,
+                groundHeight(p.x + x, p.z + z, blocks) + 0.1,
+                blocks,
+              ),
+          ),
+        );
+        if (!spot)
+          return new Response("検査用の空き地がありません", { status: 409 });
+        Object.assign(player, spot, {
+          y: groundHeight(spot.x, spot.z, blocks),
+          yaw: 0,
+          hp: 500,
+        });
+        for (const [x, z] of offsets) {
+          const target = spawn(run.world, "ant", spot.x + x, spot.z + z)!;
+          target.hp = target.maxHp = 500;
+        }
+        await this.persist();
+        this.broadcast();
+        this.run();
+        return Response.json({ ok: true });
+      }
       if (
         u.searchParams.get("case") === "front-treasure" ||
         u.searchParams.get("case") === "front-treasure-drop"
@@ -522,7 +615,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion|front-survival-wave|front-survival-cluster|front-treasure|front-treasure-drop)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion|front-survival-wave|front-survival-cluster|front-treasure|front-treasure-drop|front-elements)$/.exec(
         u.pathname,
       );
     if (

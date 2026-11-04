@@ -4,6 +4,7 @@ import { localCreationKey } from "./credentials";
 import { STARTERS, stats } from "../src/shared/defs";
 import {
   FRONT_BASE_IDS,
+  FRONT_ELEMENT_IDS,
   FRONT_FUSION_IDS,
   FRONT_V2_UPGRADE_IDS,
 } from "../src/shared/front-upgrades";
@@ -32,7 +33,7 @@ class Client {
   token = "";
   closeCode = 0;
 
-  constructor(code: string, modern: boolean, token = "") {
+  constructor(code: string, modern: boolean, token = "", catalog = 3) {
     this.ws = new WebSocket(
       `${base.replace("http", "ws")}/rooms/${code}?ruleset=front-v1&testClient=${testClient()}`,
     );
@@ -40,7 +41,7 @@ class Client {
       this.send({
         type: "hello",
         frontGrowth: 3,
-        frontCatalog: 2,
+        frontCatalog: catalog,
         frontOpening: 2,
         inputReceipt: 1,
         ...(modern ? { frontSurvivalBuild: 1 } : {}),
@@ -415,4 +416,54 @@ it("新旧混在の出撃は拒否され、ロビーの装備を維持する", a
   expect(
     modern.latestLobby().members.map((member: any) => member.weapons.length),
   ).toEqual([1, 2]);
+});
+
+it("属性対応版の作戦へ更新前カタログから復帰すると、保存トークンを消さず更新を案内", async () => {
+  const entry = await room();
+  const host = new Client(entry.code, true);
+  await equip(host, true, false, FRONT_BASE_IDS, {
+    version: 1,
+    clearedStage: 3,
+    legacyCards: false,
+    training: { rerolls: 0, exclusions: 0 },
+    excluded: [],
+  });
+  await readyAndStart(host, [host]);
+  await host.wait((m) => m.type === "state");
+  const pools = await upgradePools(entry.code);
+  expect(FRONT_ELEMENT_IDS.every((id) => pools[host.id].includes(id))).toBe(
+    true,
+  );
+  const outdated = new Client(entry.code, true, host.token, 2);
+  const notice = await outdated.wait((m) => m.type === "notice");
+  expect(notice.reason).toContain("再読み込み");
+  await outdated.closed();
+  expect(
+    outdated.messages.some((m) => m.type === "error" || m.type === "state"),
+  ).toBe(false);
+});
+
+it("更新前カタログだけの出撃では属性を混ぜず、属性対応版との混在は案内して止める", async () => {
+  const entry = await room();
+  const old = new Client(entry.code, true, "", 2);
+  await equip(old, true, false, FRONT_BASE_IDS, {
+    version: 1,
+    clearedStage: 7,
+    legacyCards: false,
+    training: { rerolls: 0, exclusions: 0 },
+    excluded: [],
+  });
+  await readyAndStart(old, [old]);
+  await old.wait((m) => m.type === "state");
+  expect((await upgradePools(entry.code))[old.id]).toEqual(FRONT_BASE_IDS);
+  const mixed = await room();
+  const oldMixed = new Client(mixed.code, true, "", 2);
+  await equip(oldMixed, true);
+  const modern = new Client(mixed.code, true);
+  await equip(modern, true);
+  await readyAndStart(oldMixed, [oldMixed, modern]);
+  expect((await oldMixed.wait((m) => m.type === "notice")).reason).toContain(
+    "画面を更新",
+  );
+  expect(oldMixed.messages.some((m) => m.type === "state")).toBe(false);
 });

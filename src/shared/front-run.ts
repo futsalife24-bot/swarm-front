@@ -54,6 +54,7 @@ import {
   FRONT_INITIAL_CARDS,
   FRONT_MAX_PICKS,
   FRONT_BASE_IDS,
+  FRONT_ELEMENT_IDS,
   FRONT_V2_UPGRADE_IDS,
   frontPickLimit,
   frontEffectiveLevels,
@@ -94,7 +95,7 @@ export interface FrontRunOptions {
   mode?: FrontMode;
   day?: string;
   fusion?: boolean;
-  catalogVersion?: 1 | 2;
+  catalogVersion?: 1 | 2 | 3;
   survivalBuildVersion?: 1;
   /** Campaign progress captured at sortie, authoritative host value in co-op. */
   clearedStage?: number;
@@ -200,6 +201,12 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
     options.players.length > 4 ||
     new Set(options.players.map((p) => p.id)).size !== options.players.length ||
     (options.survivalBuildVersion !== undefined && !dedicatedWeapon) ||
+    (options.players.some((p) =>
+      p.pool?.some((id) => FRONT_ELEMENT_IDS.includes(id)),
+    ) &&
+      (!dedicatedWeapon ||
+        (options.catalogVersion !== undefined &&
+          options.catalogVersion < 3))) ||
     (options.fusion &&
       !dedicatedWeapon &&
       options.players.some(
@@ -240,7 +247,9 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
   }
   if (options.fusion) {
     world.front.growthVersion = 3;
-    if (options.catalogVersion !== 1) world.front.catalogVersion = 2;
+    if (options.catalogVersion !== 1)
+      world.front.catalogVersion =
+        options.catalogVersion ?? (dedicatedWeapon ? 3 : 2);
     if (mode === "survival")
       world.campaignPlan = {
         ...stageFor(world),
