@@ -281,5 +281,20 @@
     "warning.json",
     "assets.json",
     "failures.json"
-  ]
+  ],
+  "delivery": {
+    "implementationCommit": "e4829f9f2636cf289c1d9312d51e1c4971056c32",
+    "pr": "https://github.com/futsalife24-bot/swarm-front/pull/279",
+    "draft": true,
+    "push": true,
+    "build": "成功",
+    "workerDryRunAfterBuild": "成功",
+    "devUiExcludedFromProduction": true,
+    "ciChecksReported": 0,
+    "ciPassedClaim": false,
+    "merged": false,
+    "deployed": false,
+    "productionUiVerified": false,
+    "memory": "MainVault既存ノート末尾へ追記・読戻し、既存部分のbyte一致。ローカル保存のみ、同期未確認。"
+  }
 }
