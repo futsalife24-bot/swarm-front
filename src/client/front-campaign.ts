@@ -14,7 +14,15 @@ import {
   bank,
   allWeapons,
   weaponReceiptSnapshot,
+  soldier,
 } from "./progression-save";
+import {
+  emptySurvivalTraining,
+  frontSurvivalProgress,
+  frontSurvivalPlanLoadout,
+  type FrontSurvivalPlan,
+  type FrontSurvivalTraining,
+} from "../shared/front-progression";
 import { campaignNumber, CAMPAIGN_COUNT } from "../shared/campaign";
 import { validNewWeapon, type NewWeapon } from "../shared/progression";
 import { weaponLevel } from "../shared/weapon-growth";
@@ -46,6 +54,8 @@ export interface SurvivalSpoils {
   weapons: NewWeapon[];
   kills: number;
   clearedStage: number;
+  /** 作戦中の宝箱から得た攻略コイン。帰還結果で一度だけ受け取る。 */
+  treasureCoins?: number;
 }
 function validSpoils(value: SurvivalSpoils) {
   return (
@@ -55,6 +65,10 @@ function validSpoils(value: SurvivalSpoils) {
     Number.isInteger(value.clearedStage) &&
     value.clearedStage >= 0 &&
     value.clearedStage <= CAMPAIGN_COUNT &&
+    (value.treasureCoins === undefined ||
+      (Number.isSafeInteger(value.treasureCoins) &&
+        value.treasureCoins >= 0 &&
+        value.treasureCoins <= 10000)) &&
     Array.isArray(value.weapons) &&
     value.weapons.length <= 30 &&
     new Set(value.weapons.map((w) => w.id)).size === value.weapons.length &&
@@ -118,6 +132,69 @@ export function readFrontCampaign(storage: FrontStorage) {
 export interface FrontLoadout {
   pool: FrontUpgradeId[];
 }
+/** 生存は獲得済みの全種類を候補にする。旧デッキ設定は参照・変更しない。 */
+export function readFrontSurvivalLoadout(storage: FrontStorage) {
+  const campaign = readFrontCampaign(storage);
+  const save = campaign.save;
+  const p = save ? soldier(save) : null;
+  const plan: FrontSurvivalPlan = {
+    version: 1,
+    clearedStage: highestClearedStage(save),
+    legacyCards: save
+      ? save.survivalCardVersion !== 1
+      : readFrontProgress(storage).progress.runs > 0,
+    training: p?.survivalTraining ?? emptySurvivalTraining(),
+    excluded: [...(p?.survivalExcluded ?? [])],
+  };
+  try {
+    return { ...frontSurvivalPlanLoadout(plan), plan, error: campaign.error };
+  } catch {
+    const fallback = {
+      ...plan,
+      training: emptySurvivalTraining(),
+      excluded: [],
+    };
+    return {
+      ...frontSurvivalPlanLoadout(fallback),
+      plan: fallback,
+      error:
+        campaign.error ||
+        "生存の育成・除外設定を読み込めません。保存は上書きしていません。",
+    };
+  }
+}
+export function saveFrontSurvivalExclusions(
+  storage: FrontStorage,
+  excluded: FrontUpgradeId[],
+) {
+  const current = readFrontSurvivalLoadout(storage);
+  if (current.error) throw new Error(current.error);
+  frontSurvivalPlanLoadout({ ...current.plan, excluded });
+  const save =
+    loadProgress("normal", storage) ?? initializeProgress("normal", storage);
+  const next = structuredClone(save);
+  soldier(next).survivalExcluded = [...excluded];
+  persistProgress(next, storage);
+}
+/** 兵士ごとの生存適性。抽選を絞るか引き直すか、3ptの中で配分する。 */
+export function allocateSurvivalTraining(
+  save: ProgressSave,
+  training: FrontSurvivalTraining,
+) {
+  const progress = frontSurvivalProgress(
+    highestClearedStage(save),
+    save.survivalCardVersion !== 1,
+    training,
+  );
+  const current = soldier(save);
+  if ((current.survivalExcluded?.length ?? 0) > progress.exclusions)
+    throw new Error(
+      "先に生存カード画面で除外を減らしてください。配分変更後の除外枠を超えています。",
+    );
+  const next = structuredClone(save);
+  soldier(next).survivalTraining = { ...training };
+  return next;
+}
 export function readFrontLoadout(
   storage: FrontStorage,
 ): FrontLoadout & { error: string } {
@@ -180,7 +257,7 @@ export function awardFrontCampaign(
     (!spoils || save.receipts.includes(`${receipt}:weapons`))
   )
     return 0;
-  const coins = frontCampaignCoins(seconds);
+  const coins = frontCampaignCoins(seconds) + (spoils?.treasureCoins ?? 0);
   const next = structuredClone(save);
   const addedCoins = save.receipts.includes(receipt) ? 0 : coins;
   if (!save.receipts.includes(receipt)) {

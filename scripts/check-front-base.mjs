@@ -45,7 +45,9 @@ try {
       };
       // 準備画面へ戻る切替は旧画面の残像を0.55秒重ねる。残像の要素を数えないよう消えるまで待つ。
       const settleTransition = () =>
-        p.locator(".split-shutter").waitFor({ state: "detached" });
+        p.waitForFunction(
+          () => !document.querySelector(".split-shutter, .menu-route-shutter"),
+        );
       p.on("pageerror", (e) => errors.push(e.message));
       p.on("requestfailed", (r) =>
         console.error("通信失敗", r.url(), r.failure()?.errorText),
@@ -66,9 +68,18 @@ try {
           ]);
         });
       }
-      await p.goto(origin + "/front.html?solo=1", {
+      await p.goto(origin + "/front", {
         waitUntil: "domcontentloaded",
       });
+      await p.locator(".title-entry-start").waitFor();
+      await p.locator(".title-entry-start").tap();
+      await p.locator(".title-entry").waitFor({ state: "detached" });
+      await p.locator("#solo").tap();
+      await settleTransition();
+      await p.locator('[data-operation="survival"]').tap();
+      await p.locator("#front-mode").selectOption("defense");
+      await settleTransition();
+      assert.equal(await p.locator("#front-mode").inputValue(), "defense");
       // この既存検査は発見済みのレシピでデッキ編集を検証。未発見はcheck-fusion-discoveryで確認。
       await p.evaluate(() =>
         localStorage.setItem(
@@ -90,9 +101,9 @@ try {
         ),
       );
       await p.locator("#front-base").click();
-      await p.locator(".base-tile").first().waitFor();
+      await p.locator("#base-grid > .sc-card[data-size=M]").first().waitFor();
       await settleTransition();
-      await p.locator(".base-tile").first().waitFor();
+      await p.locator("#base-grid > .sc-card[data-size=M]").first().waitFor();
       const stopVideo =
         process.env.BASE_RECORD_VIDEO === "1"
           ? await recordMenuMotion(
@@ -103,7 +114,10 @@ try {
             )
           : async () => {};
       recordings.push(stopVideo);
-      assert.equal(await p.locator(".base-tile").count(), 22);
+      assert.equal(
+        await p.locator("#base-grid > .sc-card[data-size=M]").count(),
+        22,
+      );
       assert.equal(await p.locator("[data-help],.base-help").count(), 0);
       assert.equal(await p.locator('#base-grid [role="checkbox"]').count(), 22);
       const initialStorage = await p.evaluate(() =>
@@ -116,9 +130,9 @@ try {
             es.map((e) => [e.dataset.pool, e.getAttribute("aria-checked")]),
           );
       const beforeInspect = await selection();
-      // アイコン・名前・系統・余白は閲覧だけ。チェックの上下にも切替領域を広げない。
+      // アイコン・名前・系統・本文の余白は閲覧だけ。
       for (const selector of [
-        '[data-inspect="fuse"] > :is(img,.front-atlas-icon)',
+        '[data-inspect="fuse"] .sc-art :is(img,.front-atlas-icon)',
         '[data-inspect="fuse"] strong',
         '[data-inspect="fuse"] small',
       ]) {
@@ -132,17 +146,28 @@ try {
         inspectBox.y + inspectBox.height - 2,
       );
       const checkBox = await p.locator('[data-pool="fuse"]').boundingBox();
-      assert.equal(checkBox.width, 20);
-      assert.equal(checkBox.height, 20);
-      await p.touchscreen.tap(checkBox.x + checkBox.width / 2, checkBox.y - 4);
+      const cardBox = await p
+        .locator('[data-size="M"]:has([data-pool="fuse"])')
+        .boundingBox();
+      assert.ok(checkBox.width >= 36, "候補操作は36px以上の幅を持つ");
+      assert.ok(
+        checkBox.height >= cardBox.height - 6,
+        "候補操作はカードの全高に届く",
+      );
+      await p.touchscreen.tap(checkBox.x - 3, checkBox.y + checkBox.height / 2);
       assert.deepEqual(
         await selection(),
         beforeInspect,
-        "チェック枠の上の余白は閲覧のみ",
+        "候補操作域の左境界外は閲覧のみ",
       );
       await p.touchscreen.tap(
-        checkBox.x + checkBox.width / 2,
-        checkBox.y + checkBox.height + 4,
+        checkBox.x + checkBox.width + 3,
+        checkBox.y + checkBox.height / 2,
+      );
+      assert.deepEqual(
+        await selection(),
+        beforeInspect,
+        "候補操作域の右境界外も不変",
       );
       await p.locator('[data-inspect="fuse"]').focus();
       await p.keyboard.press("Space");
@@ -168,8 +193,27 @@ try {
       await settleTransition();
       assert.equal(await p.locator(".base-confirm").count(), 0);
       await p.locator("#front-base").tap();
-      await p.locator(".base-tile").first().waitFor();
+      await p.locator("#base-grid > .sc-card[data-size=M]").first().waitFor();
       await settleTransition();
+      // ここから編集検査。外して戻す操作は候補の順番も編集するため、
+      // 上の「閲覧だけで戻れる」検査と分けて実際の操作を確認する。
+      const checked = () =>
+        p.locator('[data-pool="fuse"]').getAttribute("aria-checked");
+      const initialChecked = await checked();
+      const editCheckBox = await p.locator('[data-pool="fuse"]').boundingBox();
+      for (const y of [
+        editCheckBox.y + 3,
+        editCheckBox.y + editCheckBox.height - 3,
+      ]) {
+        await p.touchscreen.tap(editCheckBox.x + editCheckBox.width / 2, y);
+        assert.notEqual(
+          await checked(),
+          initialChecked,
+          "候補操作域の端でも切替できる",
+        );
+        await p.touchscreen.tap(editCheckBox.x + editCheckBox.width / 2, y);
+        assert.equal(await checked(), initialChecked);
+      }
       await p.locator('[data-pool="fuse"]').focus();
       assert.match(await p.locator("#base-detail-name").innerText(), /導火/);
       assert.equal(
@@ -237,7 +281,7 @@ try {
       await p.locator("#front-base").waitFor();
       await settleTransition();
       await p.locator("#front-base").click();
-      await p.locator(".base-tile").first().waitFor();
+      await p.locator("#base-grid > .sc-card[data-size=M]").first().waitFor();
       await settleTransition();
       assert.equal(
         await p.locator('[data-pool="fuse"]').getAttribute("aria-checked"),
@@ -270,7 +314,9 @@ try {
         return {
           top: r.top,
           height: r.height,
-          fullyVisible: [...grid.querySelectorAll(".base-tile")].filter((e) => {
+          fullyVisible: [
+            ...grid.querySelectorAll(":scope > .sc-card[data-size=M]"),
+          ].filter((e) => {
             const b = e.getBoundingClientRect();
             return b.top >= r.top && b.bottom <= r.bottom + 1;
           }).length,
@@ -311,7 +357,10 @@ try {
         active,
       );
       await p.locator("#base-fusions").tap();
-      assert.equal(await p.locator(".base-tile").count(), 9);
+      assert.equal(
+        await p.locator("#base-grid > .sc-card[data-size=M]").count(),
+        9,
+      );
       assert.match(await p.locator("#base-detail").innerText(), /最大段階/);
       await p.locator('[data-add-recipe="fusion-collapse"]').tap();
       assert.match(
@@ -351,24 +400,24 @@ try {
       // フォーカスで説明を閲覧しても選択・保存が変わらず、画像が読み込まれる。
       await p.locator('[data-pool="fuse"]').focus();
       await waitForBaseImages("upgrades");
-      const checkboxes = await p.locator(".base-checkbox").evaluateAll((es) =>
+      const checkboxes = await p.locator(".sc-checkbox").evaluateAll((es) =>
         es.map((e) => {
           const b = e.getBoundingClientRect(),
             icon = e
-              .closest(".base-tile")
-              .querySelector(".base-tile-pick > :is(img,.front-atlas-icon)")
+              .closest(".sc-card[data-size=M]")
+              .querySelector(".sc-art :is(img,.front-atlas-icon)")
               .getBoundingClientRect();
           return {
             width: b.width,
             height: b.height,
             left: b.left,
-            iconLeft: icon.left,
+            iconRight: icon.right,
           };
         }),
       );
       assert.ok(
         checkboxes.every(
-          (b) => b.width >= 20 && b.height >= 20 && b.left < b.iconLeft,
+          (b) => b.width === 20 && b.height === 20 && b.left > b.iconRight,
         ),
       );
       await p.screenshot({ path: `${out}/base-${width}-${reducedMotion}.png` });
@@ -417,8 +466,17 @@ try {
       assert.ok(metrics.grid.height >= 90 && metrics.detail.height >= 90);
       await stopVideo();
       await p.reload({ waitUntil: "domcontentloaded" });
+      if (await p.locator(".title-entry-start").count()) {
+        await p.locator(".title-entry-start").tap();
+        await p.locator(".title-entry").waitFor({ state: "detached" });
+      }
+      await p.locator("#solo").tap();
+      await settleTransition();
+      await p.locator('[data-operation="survival"]').tap();
+      await p.locator("#front-mode").selectOption("defense");
+      await settleTransition();
       await p.locator("#front-base").click();
-      await p.locator(".base-tile").first().waitFor();
+      await p.locator("#base-grid > .sc-card[data-size=M]").first().waitFor();
       await settleTransition();
       assert.equal(
         await p.locator('[data-pool="fuse"]').getAttribute("aria-checked"),

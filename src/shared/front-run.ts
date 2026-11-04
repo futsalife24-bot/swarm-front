@@ -1,4 +1,5 @@
 import { frontAutomaticRequestId } from "./front-request-id";
+import { createFrontSurvivalWeapon } from "./front-weapon";
 import * as legacy from "./front-legacy-run";
 /** 改装版の権威状態。候補・乱数・要求履歴は World に載せない。 */
 import {
@@ -27,6 +28,7 @@ import { BASTION, bastionSurvivalCap } from "./bastion";
 import {
   finalizeFrontSurvivalRewards,
   frontSurvivalDifficulty,
+  frontDedicatedSurvivalScale,
   frontSurvivalRewardCount,
   frontSurvivalTimeScale,
   frontSurvivalWeaponLevel,
@@ -47,9 +49,12 @@ import {
   rerollFrontUpgrade,
   canRerollFrontUpgrade,
   getEligibleFrontUpgrades,
+  awardFrontTreasureLevel,
+  drawFrontTreasureFallback,
   FRONT_INITIAL_CARDS,
   FRONT_MAX_PICKS,
   FRONT_BASE_IDS,
+  FRONT_V2_UPGRADE_IDS,
   frontPickLimit,
   frontEffectiveLevels,
   type FrontUpgradeState,
@@ -75,8 +80,14 @@ export const FRONT_RUN_CONFIG = {
   spawnWarning: 1.5,
   minSpawnDistance: 16,
   selectionSeconds: 15,
+  levelUpSeconds: 0.8,
+  treasureSeconds: 2.4,
   resumeSeconds: 0.2,
 } as const;
+export type FrontTreasureReward =
+  | { kind: "upgrade"; cardId: FrontUpgradeId; from: number; to: number }
+  | { kind: "heal"; amount: number }
+  | { kind: "coins"; amount: number };
 export interface FrontRunOptions {
   runId: string;
   seed: number;
@@ -84,6 +95,7 @@ export interface FrontRunOptions {
   day?: string;
   fusion?: boolean;
   catalogVersion?: 1 | 2;
+  survivalBuildVersion?: 1;
   /** Campaign progress captured at sortie, authoritative host value in co-op. */
   clearedStage?: number;
   /** 協力部屋の掃除より前に帰還するサーバー時刻（秒）。 */
@@ -93,6 +105,7 @@ export interface FrontRunOptions {
     weapons?: readonly FrontWeaponKind[];
     initialCards?: readonly FrontUpgradeId[];
     pool?: readonly FrontUpgradeId[];
+    rerolls?: number;
     equipment?: readonly Weapon[];
   }[];
 }
@@ -103,8 +116,15 @@ export interface FrontRun {
   originalEquipment?: Record<string, Weapon[]>;
   clearedStage?: number;
   rewardEligible?: Record<string, boolean>;
+  treasureCoins?: Record<string, number>;
+  treasure?: {
+    id: number;
+    endsAt: number;
+    rewards: Record<string, FrontTreasureReward | null>;
+  };
+  levelUpAt?: Record<string, number>;
   upgrades: Record<string, FrontUpgradeState>;
-  phase: "selection" | "combat" | "boss" | "victory" | "defeat";
+  phase: "selection" | "combat" | "boss" | "treasure" | "victory" | "defeat";
   mode: FrontMode;
   day: string;
   boundaryIndex: number;
@@ -165,6 +185,10 @@ export function frontTemporaryWeapons(
   }));
 }
 export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
+  const dedicatedWeapon =
+    options.survivalBuildVersion === 1 &&
+    options.fusion === true &&
+    (options.mode ?? "survival") === "survival";
   if (
     !Number.isFinite(now) ||
     !Number.isInteger(options.seed) ||
@@ -175,7 +199,9 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
     options.players.length < 1 ||
     options.players.length > 4 ||
     new Set(options.players.map((p) => p.id)).size !== options.players.length ||
+    (options.survivalBuildVersion !== undefined && !dedicatedWeapon) ||
     (options.fusion &&
+      !dedicatedWeapon &&
       options.players.some(
         (p) =>
           p.equipment &&
@@ -188,7 +214,13 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
         !p.id ||
         p.id.length > 80 ||
         ["__proto__", "constructor", "prototype"].includes(p.id),
-    )
+    ) ||
+    (dedicatedWeapon &&
+      options.players.some(
+        (p) =>
+          p.rerolls !== undefined &&
+          (!Number.isSafeInteger(p.rerolls) || p.rerolls < 0 || p.rerolls > 5),
+      ))
   )
     throw new RangeError("作戦設定が不正です");
   const mode = options.mode ?? "survival",
@@ -202,6 +234,10 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
     mode === "daily" ? (seed % 3) + 1 : 1,
   );
   world.front = createFrontBattleState();
+  if (dedicatedWeapon) {
+    world.front.survivalBuildVersion = 1;
+    world.front.enemyCap = 48;
+  }
   if (options.fusion) {
     world.front.growthVersion = 3;
     if (options.catalogVersion !== 1) world.front.catalogVersion = 2;
@@ -216,9 +252,11 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
     const p = addPlayer(
       world,
       member.id,
-      options.fusion && member.equipment
-        ? structuredClone([...member.equipment])
-        : frontTemporaryWeapons(options.runId, member.id, member.weapons),
+      dedicatedWeapon
+        ? [createFrontSurvivalWeapon(options.runId, member.id)]
+        : options.fusion && member.equipment
+          ? structuredClone([...member.equipment])
+          : frontTemporaryWeapons(options.runId, member.id, member.weapons),
     );
     Object.assign(p, { x: (index - 1.5) * 2, z: 8, y: 0 });
     addFrontCombatPlayer(world, p.id);
@@ -228,7 +266,13 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
       mode === "daily" && !options.fusion
         ? FRONT_INITIAL_CARDS
         : (member.initialCards ?? FRONT_INITIAL_CARDS),
-      options.fusion ? (member.pool ?? FRONT_BASE_IDS) : undefined,
+      dedicatedWeapon
+        ? (member.pool ?? FRONT_V2_UPGRADE_IDS)
+        : options.fusion
+          ? (member.pool ?? FRONT_BASE_IDS)
+          : undefined,
+      dedicatedWeapon ? (member.rerolls ?? 1) : undefined,
+      dedicatedWeapon,
     );
   });
   if (mode !== "survival") {
@@ -361,6 +405,7 @@ function resume(run: FrontRun, now: number) {
   run.phase = run.finalResupplyDone ? "boss" : "combat";
   run.selectionDeadline = null;
   run.resumeUntil = now + FRONT_RUN_CONFIG.resumeSeconds;
+  run.levelUpAt = undefined;
 }
 export function chooseFrontUpgrade(
   run: FrontRun,
@@ -397,6 +442,14 @@ export function chooseFrontUpgrade(
     automatic,
   });
   openOwed(run, id);
+  if (run.upgrades[id].offer && run.world.front?.survivalBuildVersion === 1) {
+    (run.levelUpAt ??= {})[id] = now;
+    if (run.selectionDeadline !== null)
+      run.selectionDeadline =
+        now +
+        FRONT_RUN_CONFIG.selectionSeconds +
+        FRONT_RUN_CONFIG.levelUpSeconds;
+  }
   if (Object.values(run.upgrades).every((s) => s.offer === null))
     resume(run, now);
   return true;
@@ -427,10 +480,16 @@ export function rerollFrontRunOffer(
   return true;
 }
 export const frontSurvivalThreshold = (n: number) => 12 + n * 24 + n * n * 8;
+export const frontDedicatedSurvivalThreshold = (n: number) =>
+  12 + n * 19 + n * n * 6;
 function updateRights(run: FrontRun) {
   let count = 0;
   (run.fusion
-    ? Array.from({ length: 119 }, (_, i) => frontSurvivalThreshold(i))
+    ? Array.from({ length: 119 }, (_, i) =>
+        run.world.front?.survivalBuildVersion === 1
+          ? frontDedicatedSurvivalThreshold(i)
+          : frontSurvivalThreshold(i),
+      )
     : FRONT_RUN_CONFIG.xpThresholds
   ).forEach((threshold, index) => {
     if (run.world.front!.xp >= threshold) {
@@ -453,7 +512,20 @@ function resupply(run: FrontRun, at: number, now: number) {
   Object.keys(run.upgrades).forEach((id) => openOwed(run, id));
   if (Object.values(run.upgrades).some((s) => s.offer)) {
     run.phase = "selection";
-    run.selectionDeadline = run.world.players.length > 1 ? now + 15 : null;
+    if (run.world.front?.survivalBuildVersion === 1)
+      run.levelUpAt = Object.fromEntries(
+        Object.entries(run.upgrades)
+          .filter(([, state]) => state.offer?.kind === "additional")
+          .map(([id]) => [id, now]),
+      );
+    run.selectionDeadline =
+      run.world.players.length > 1
+        ? now +
+          FRONT_RUN_CONFIG.selectionSeconds +
+          (run.world.front?.survivalBuildVersion === 1
+            ? FRONT_RUN_CONFIG.levelUpSeconds
+            : 0)
+        : null;
   } else if (run.finalResupplyDone) resume(run, now);
 }
 const INGRESS = [
@@ -525,6 +597,8 @@ function survivalSpawnPoint(
 function queueSurvivalWave(run: FrontRun) {
   if (!run.fusion || run.mode !== "survival") return;
   const w = run.world;
+  const waveSize =
+    w.front?.survivalBuildVersion === 1 ? 12 : SURVIVAL_WAVE_SIZE;
   // Older saved runs start with the next future wave, rather than replaying
   // every event they missed before this feature was added.
   const index = (run.survivalWaveIndex ??= Math.floor(
@@ -558,15 +632,14 @@ function queueSurvivalWave(run: FrontRun) {
   const points: { x: number; z: number; kind: Enemy["kind"] }[] = [];
   for (
     let i = 0;
-    i < SURVIVAL_WAVE_SIZE * 5 &&
-    points.length < Math.min(SURVIVAL_WAVE_SIZE, available);
+    i < waveSize * 5 && points.length < Math.min(waveSize, available);
     i++
   ) {
     const angle = ring
-      ? rotation + ((i % SURVIVAL_WAVE_SIZE) * Math.PI * 2) / SURVIVAL_WAVE_SIZE
+      ? rotation + ((i % waveSize) * Math.PI * 2) / waveSize
       : survivalSpawnRandom(run) * Math.PI * 2;
     const distance = ring
-      ? radius + Math.floor(i / SURVIVAL_WAVE_SIZE) * 1.5
+      ? radius + Math.floor(i / waveSize) * 1.5
       : Math.sqrt(survivalSpawnRandom(run)) * 8;
     const point = {
       x: center.x + Math.cos(angle) * distance,
@@ -609,14 +682,18 @@ function queueSurvivalWave(run: FrontRun) {
 function survivalDamage(w: World, clearedStage: number) {
   return (
     stageFor({ stage: w.stage }).damage *
-    frontSurvivalDifficulty(clearedStage).damageScale *
-    frontSurvivalTimeScale(w.time).damage
+    (w.front?.survivalBuildVersion === 1
+      ? frontDedicatedSurvivalScale(w.time).damage
+      : frontSurvivalDifficulty(clearedStage).damageScale *
+        frontSurvivalTimeScale(w.time).damage)
   );
 }
 function schedule(run: FrontRun) {
   const w = run.world;
   const enemyCap = w.front!.enemyCap ?? 24;
   const survival = !!run.fusion && run.mode === "survival";
+  const waveSize =
+    w.front?.survivalBuildVersion === 1 ? 12 : SURVIVAL_WAVE_SIZE;
   if (survival && w.campaignPlan)
     w.campaignPlan.damage = survivalDamage(w, run.clearedStage ?? 0);
   run.pendingSpawns = run.pendingSpawns.filter((pending) => {
@@ -630,8 +707,10 @@ function schedule(run: FrontRun) {
         e.hp *=
           (kind === "bastion" ? 1 : FRONT_RUN_CONFIG.normalHpMultiplier) *
           (survival
-            ? frontSurvivalTimeScale(w.time).hp *
-              frontSurvivalDifficulty(run.clearedStage ?? 0).hpScale
+            ? w.front?.survivalBuildVersion === 1
+              ? frontDedicatedSurvivalScale(w.time).hp
+              : frontSurvivalTimeScale(w.time).hp *
+                frontSurvivalDifficulty(run.clearedStage ?? 0).hpScale
             : run.fusion
               ? 1 + Math.floor(w.time / 180) * 0.35
               : 1);
@@ -650,7 +729,7 @@ function schedule(run: FrontRun) {
     survival &&
     w.time >= nextWave - SURVIVAL_WAVE_RESERVE_SECONDS &&
     w.time <= nextWave + SURVIVAL_WAVE_GRACE
-      ? enemyCap - Math.min(SURVIVAL_WAVE_SIZE, Math.floor(enemyCap / 3))
+      ? enemyCap - Math.min(waveSize, Math.floor(enemyCap / 3))
       : enemyCap;
   if (
     w.time < run.nextSpawnAt ||
@@ -664,7 +743,9 @@ function schedule(run: FrontRun) {
     (run.finalResupplyDone ? 7 : w.time < 90 ? 4 : w.time < 210 ? 3.5 : 3) /
       (FRONT_RUN_CONFIG.spawnMultiplier *
         (survival
-          ? frontSurvivalDifficulty(run.clearedStage ?? 0).spawnScale
+          ? w.front?.survivalBuildVersion === 1
+            ? frontDedicatedSurvivalScale(w.time).spawn
+            : frontSurvivalDifficulty(run.clearedStage ?? 0).spawnScale
           : 1));
   // 生存戦は射撃型・飛行型が早く多く混ざり、5分以降は1回に3体ずつ来る。
   const [spitterAt, spitterEvery, hornetAt, hornetEvery] = survival
@@ -775,7 +856,62 @@ function spawnBoss(run: FrontRun) {
     z: boss.z,
   });
 }
+function collectFrontTreasure(run: FrontRun, now: number): boolean {
+  const w = run.world;
+  if (w.front?.survivalBuildVersion !== 1 || !w.front.chests?.length)
+    return false;
+  const chest = w.front.chests.find((item) =>
+    w.players.some(
+      (p) =>
+        p.connected &&
+        p.hp > 0 &&
+        Math.hypot(p.x - item.x, p.z - item.z) <= 2.5,
+    ),
+  );
+  if (!chest) return false;
+  w.front.chests = w.front.chests.filter((item) => item.id !== chest.id);
+  const rewards: Record<string, FrontTreasureReward | null> = {};
+  for (const p of w.players) {
+    if (p.hp <= 0 || !run.upgrades[p.id]) continue;
+    const awarded = awardFrontTreasureLevel(run.upgrades[p.id], chest.id);
+    if (awarded) {
+      run.upgrades[p.id] = awarded.state;
+      applyBuild(run, p.id);
+      rewards[p.id] = {
+        kind: "upgrade",
+        cardId: awarded.cardId,
+        from: awarded.from,
+        to: awarded.to,
+      };
+      continue;
+    }
+    const draw = drawFrontTreasureFallback(run.upgrades[p.id]);
+    run.upgrades[p.id] = draw.state;
+    if (draw.heal && p.hp < w.front.players[p.id].maxHp) {
+      const amount = Math.min(
+        w.front.players[p.id].maxHp - p.hp,
+        Math.ceil(w.front.players[p.id].maxHp * 0.25),
+      );
+      p.hp += amount;
+      rewards[p.id] = { kind: "heal", amount };
+    } else {
+      const amount = Math.min(10, 10000 - (run.treasureCoins?.[p.id] ?? 0));
+      (run.treasureCoins ??= {})[p.id] =
+        (run.treasureCoins?.[p.id] ?? 0) + amount;
+      rewards[p.id] = { kind: "coins", amount };
+    }
+  }
+  run.treasure = {
+    id: chest.id,
+    endsAt: now + FRONT_RUN_CONFIG.treasureSeconds,
+    rewards,
+  };
+  run.phase = "treasure";
+  return true;
+}
 function conclude(run: FrontRun, win: boolean, reason: string) {
+  run.treasure = undefined;
+  if (run.world.front?.survivalBuildVersion === 1) run.world.front.chests = [];
   finish(run.world, win, reason);
   if (run.fusion && run.mode === "survival")
     finalizeFrontSurvivalRewards(
@@ -800,7 +936,7 @@ export function returnFrontRun(run: FrontRun): boolean {
     run.mode !== "survival" ||
     run.world.players.length !== 1 ||
     run.world.time < 60 ||
-    (run.phase !== "combat" && run.phase !== "boss")
+    (run.phase !== "combat" && run.phase !== "boss" && run.phase !== "treasure")
   )
     return false;
   conclude(run, true, "生存作戦から帰還しました");
@@ -836,6 +972,11 @@ export function stepFrontRun(
   ) {
     conclude(run, true, "出撃から60分が経過したため、生存作戦から帰還しました");
     return run;
+  }
+  if (run.phase === "treasure") {
+    if (run.treasure && now < run.treasure.endsAt) return run;
+    run.treasure = undefined;
+    run.phase = run.finalResupplyDone ? "boss" : "combat";
   }
   if (run.phase === "selection") {
     if (run.selectionDeadline !== null && now >= run.selectionDeadline) {
@@ -892,6 +1033,7 @@ export function stepFrontRun(
     inputs,
     Math.min(0.1, dt, (boundary ?? Infinity) - w.time, timeout - w.time),
   );
+  if (w.phase === "battle" && collectFrontTreasure(run, now)) return run;
   collectFrontXp(w);
   updateRights(run);
   run.metrics.maxEnemies = Math.max(run.metrics.maxEnemies, w.enemies.length);
@@ -919,8 +1061,20 @@ export function stepFrontRun(
     Object.keys(run.upgrades).forEach((id) => openOwed(run, id));
     if (Object.values(run.upgrades).some((s) => s.offer)) {
       run.phase = "selection";
+      if (w.front?.survivalBuildVersion === 1)
+        run.levelUpAt = Object.fromEntries(
+          Object.entries(run.upgrades)
+            .filter(([, state]) => state.offer?.kind === "additional")
+            .map(([id]) => [id, now]),
+        );
       run.selectionDeadline =
-        w.players.length > 1 ? now + FRONT_RUN_CONFIG.selectionSeconds : null;
+        w.players.length > 1
+          ? now +
+            FRONT_RUN_CONFIG.selectionSeconds +
+            (w.front?.survivalBuildVersion === 1
+              ? FRONT_RUN_CONFIG.levelUpSeconds
+              : 0)
+          : null;
     }
   }
   return run;
@@ -938,6 +1092,13 @@ export function getFrontRunView(run: FrontRun, id: string) {
       maxPicks: 7,
       growthVersion: 1,
       returnAt: null as number | null,
+      treasure: null as {
+        id: number;
+        endsAt: number;
+        reward: FrontTreasureReward | null;
+      } | null,
+      treasureCoins: 0,
+      levelUpAt: null as number | null,
       levels: { ...createFrontUpgradeState("view", 0).levels, ...old.levels },
     };
   }
@@ -957,6 +1118,16 @@ export function getFrontRunView(run: FrontRun, id: string) {
     maxPicks: frontPickLimit(s),
     growthVersion: run.fusion ? 3 : 2,
     returnAt: run.returnAt ?? null,
+    treasure: run.treasure
+      ? {
+          id: run.treasure.id,
+          endsAt: run.treasure.endsAt,
+          reward: run.treasure.rewards[id] ?? null,
+        }
+      : null,
+    treasureCoins: run.treasureCoins?.[id] ?? 0,
+    levelUpAt:
+      offer?.kind === "additional" ? (run.levelUpAt?.[id] ?? null) : null,
     mode: run.mode,
     day: run.day,
     combatTime: run.world.time,
@@ -966,7 +1137,9 @@ export function getFrontRunView(run: FrontRun, id: string) {
       (run.fusion && !getEligibleFrontUpgrades(s).length)
         ? null
         : run.fusion
-          ? frontSurvivalThreshold(s.rightsGranted)
+          ? run.world.front?.survivalBuildVersion === 1
+            ? frontDedicatedSurvivalThreshold(s.rightsGranted)
+            : frontSurvivalThreshold(s.rightsGranted)
           : (FRONT_RUN_CONFIG.xpThresholds[s.rightsGranted] ?? null),
     picks: s.picks,
     levels: { ...s.levels },

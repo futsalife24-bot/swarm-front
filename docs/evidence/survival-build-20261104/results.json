@@ -1,0 +1,22 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "prep": true,
+    "defenseTwoWeapons": true,
+    "cardReturn": true,
+    "battleOneWeapon": true,
+    "saveUnchanged": true,
+    "pageErrors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "prep": true,
+    "defenseTwoWeapons": true,
+    "cardReturn": true,
+    "battleOneWeapon": true,
+    "saveUnchanged": true,
+    "pageErrors": []
+  }
+]

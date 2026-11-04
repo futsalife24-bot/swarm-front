@@ -34,6 +34,18 @@ export function frontSurvivalTimeScale(seconds: number) {
   return { hp: 1 + steps * 0.35, damage: 1 + steps * 0.08 };
 }
 
+/** New one-weapon survival pressure depends only on battle time, not campaign clears. */
+export function frontDedicatedSurvivalScale(seconds: number) {
+  const minutes = Math.max(0, seconds) / 60;
+  const early = Math.min(5, minutes);
+  const late = Math.max(0, minutes - 5);
+  return {
+    hp: 1.05 + early * 0.11 + late * 0.06,
+    damage: 0.85 + early * 0.05 + late * 0.02,
+    spawn: 0.85 + early * 0.05 + late * 0.015,
+  };
+}
+
 /** One weapon per minute, plus one per 30 kills after a minute and a kill. */
 export function frontSurvivalRewardCount(seconds: number, kills: number) {
   if (!Number.isFinite(seconds) || !Number.isFinite(kills)) return 0;

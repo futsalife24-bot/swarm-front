@@ -57,7 +57,7 @@ export function saveFrontRunRewards(
         ),
       );
       const count = spoils?.weapons.filter((w) => ids.has(w.id)).length ?? 0;
-      status.campaign = `攻略コイン +${frontCampaignCoins(campaignSeconds)}${spoils ? ` · 恒久武器 ${count}丁 保存済み（上限超過は保留） · 最高生存 ${Math.floor(stored?.survival?.bestSeconds ?? 0)}秒` : ""}`;
+      status.campaign = `攻略コイン +${frontCampaignCoins(campaignSeconds) + (spoils?.treasureCoins ?? 0)}${spoils?.treasureCoins ? `（宝箱 ${spoils.treasureCoins}枚を含む）` : ""}${spoils ? ` · 恒久武器 ${count}丁 保存済み（上限超過は保留） · 最高生存 ${Math.floor(stored?.survival?.bestSeconds ?? 0)}秒` : ""}`;
     } catch (error) {
       campaignError = (error as Error).message;
     }

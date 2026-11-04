@@ -1,0 +1,28 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "reducedMotion": "no-preference",
+    "initialCards": 8,
+    "stage2Cards": 12,
+    "rerolls": 3,
+    "exclusions": 1,
+    "poolAfterExclusion": 11,
+    "refundGuard": true,
+    "reload": true,
+    "pageErrors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "reducedMotion": "reduce",
+    "initialCards": 8,
+    "stage2Cards": 12,
+    "rerolls": 3,
+    "exclusions": 1,
+    "poolAfterExclusion": 11,
+    "refundGuard": true,
+    "reload": true,
+    "pageErrors": []
+  }
+]

@@ -1,4 +1,10 @@
-import { FRONT_BASE_IDS, type FrontUpgradeId } from "../shared/front-upgrades";
+import {
+  FRONT_BASE_IDS,
+  FRONT_V2_UPGRADE_IDS,
+  type FrontUpgradeId,
+} from "../shared/front-upgrades";
+import { createFrontSurvivalWeapon } from "../shared/front-weapon";
+import type { FrontSurvivalPlan } from "../shared/front-progression";
 import type { FrontRunView } from "../shared/front-run";
 import {
   DEFAULT_PLAYER_NAME,
@@ -119,6 +125,9 @@ export class FrontNetwork {
   timer: ReturnType<typeof setInterval>;
   equip: Weapon[] = [];
   upgradePool: FrontUpgradeId[] = [...FRONT_BASE_IDS];
+  /** 参加先の作戦がwelcomeで確定するまで、防衛の候補設定と分けて保持。 */
+  survivalUpgradePool: FrontUpgradeId[] = [...FRONT_V2_UPGRADE_IDS];
+  survivalPlan?: FrontSurvivalPlan;
   clearedStage = 0;
   private chunks: StateChunkReceiver | undefined;
   readonly diagnostics = new ConnectionDiagnostics();
@@ -230,6 +239,7 @@ export class FrontNetwork {
         frontGrowth: 3,
         frontCatalog: 2,
         frontOpening: 2,
+        frontSurvivalBuild: 1,
         name: this.playerName,
         ...(this.token ? { token: this.token } : {}),
       });
@@ -335,7 +345,7 @@ export class FrontNetwork {
         this.rememberSession(
           Number.isFinite(m.expiresAt) ? m.expiresAt : Date.now() + 3600000,
         );
-        if (m.frontOpening !== 2) {
+        if (m.frontOpening !== 2 || m.frontSurvivalBuild !== 1) {
           // 古いWorkerへ新形式を送らず、復帰トークンを保持して更新を案内する。
           this.closed = true;
           chunks.close();
@@ -347,9 +357,16 @@ export class FrontNetwork {
           return;
         }
         this.onStatus("接続済み", false);
+        if (this.mode === "survival") {
+          this.equip = [createFrontSurvivalWeapon("front-lobby", this.id)];
+          this.upgradePool = [...this.survivalUpgradePool];
+        }
         this.send({
           type: "equip",
           upgradePool: this.upgradePool,
+          ...(this.mode === "survival" && this.survivalPlan
+            ? { frontSurvivalPlan: this.survivalPlan }
+            : {}),
           weapons: this.equip,
           ready: !this.preparing && this.assetReady,
           stage: this.stage,
@@ -552,6 +569,9 @@ export class FrontNetwork {
       type: "equip",
       clearedStage: this.clearedStage,
       upgradePool: this.upgradePool,
+      ...(this.mode === "survival" && this.survivalPlan
+        ? { frontSurvivalPlan: this.survivalPlan }
+        : {}),
       weapons,
       ready: !this.preparing && this.assetReady,
       stage: this.stage,

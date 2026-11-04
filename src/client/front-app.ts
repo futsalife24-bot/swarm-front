@@ -11,6 +11,7 @@ import {
 } from "./front-fusion-discovery";
 import { openFrontBase } from "./front-base";
 import { FrontMineVisuals } from "./front-mine-visuals";
+import { FrontChestVisuals } from "./front-chest-visuals";
 import {
   createSquadEffects,
   menuMotion,
@@ -31,6 +32,13 @@ import "./rebuild.css";
 import "./playtest.css";
 import "./gear-weapon-list.css";
 import "./front.css";
+import "./survival-card.css";
+import "./front-reward-ui.css";
+import {
+  frontLevelUpActive,
+  frontLevelUpMarkup,
+  frontTreasureMarkup,
+} from "./front-reward-ui";
 import { gearSupplyRows, gearWeaponRows } from "./gear-weapon-list";
 import { battleLoadingMarkup } from "./loading-screen";
 import * as T from "three";
@@ -69,6 +77,7 @@ import { installCloudSync } from "./cloud-save";
 import {
   readFrontCampaign,
   readFrontLoadout,
+  readFrontSurvivalLoadout,
   recoverFrontCampaignRewards,
   highestClearedStage,
 } from "./front-campaign";
@@ -104,7 +113,8 @@ import {
   FRONT_EVOLUTIONS,
   type FrontUpgradeId,
 } from "../shared/front-upgrades";
-import { WEAPONS, type Weapon } from "../shared/defs";
+import { stats, type Weapon } from "../shared/defs";
+import { createFrontSurvivalWeapon } from "../shared/front-weapon";
 import { STAGES } from "../shared/stages";
 import { retireEvents, eye, type World } from "../shared/game";
 import {
@@ -158,6 +168,7 @@ let screen: "home" | "prep" | "rooms" | "lobby" | "battle" | "loading" = "home",
   id = "front-solo";
 let ready = false,
   overlayKey = "",
+  pendingSortieRun = "",
   accumulator = 0,
   previous = performance.now(),
   actionLockUntil = 0,
@@ -225,6 +236,7 @@ function setView() {
 }
 function leave() {
   loadSerial++;
+  pendingSortieRun = "";
   network?.close();
   network = null;
   localRun = null;
@@ -298,7 +310,7 @@ function home() {
   $("home-tutorial").onclick = () =>
     menuDialog(
       "操作と作戦",
-      `<p>左側で移動、右側で視点を操作。射撃・装填・回避を組み合わせて敵を倒します。ボタン配置とジャイロは「設定・操作」で変更できます。</p><p>パソコン：移動 WASD・射撃 クリック・装填 R・切替 Q・回避 Space・ジャンプ F・蘇生 E。</p><p>基地の「生存カード」では強化の画像横の「?」から効果と融合素材を確認し、候補を6種以上選びます。開幕も選んだ候補からランダムに3種が提示され、その中から1つを選びます。デッキはこの端末に3枠保存でき、「出撃にセット」で次のソロ・協力へ反映します。</p><p>作戦中の強化は最大6枠。素材2種をそれぞれ最大段階まで育てると融合が抽選候補に登場し、2枠が1枠にまとまります。融合した強化も3段階まで育成できます。一時停止の強化状況でも素材と段階を確認できます。</p>`,
+      `<p>左側で移動、右側で視点を操作。射撃・装填・回避を組み合わせて敵を倒します。ボタン配置とジャイロは「設定・操作」で変更できます。</p><p>パソコン：移動 WASD・射撃 クリック・装填 R・回避 Space・ジャンプ F・蘇生 E。武器2本の作戦はQで切替できます。</p><p>生存戦は専用ライフル1本から開始。除外していない獲得済みの通常カードが抽選対象になり、ランダムな3択から強化を選びます。進撃を突破すると新しいカードが加わります。基地の「生存カード」で効果と融合素材を確認できます。防衛戦では従来の候補設定を使用します。</p><p>作戦中の強化は最大6枠。素材2種をそれぞれ最大段階まで育てると融合が抽選候補に登場し、2枠が1枠にまとまります。融合した強化も3段階まで育成できます。一時停止の強化状況でも素材と段階を確認できます。</p>`,
       home,
     );
   $("ui").querySelector(".fine")!.textContent =
@@ -318,9 +330,16 @@ function home() {
   mountTitleMotion($("ui"));
 }
 let selectedFrontSlot = 0;
-let frontLoadout = readFrontLoadout(progressStorage);
+function readModeLoadout() {
+  return mode === "survival"
+    ? readFrontSurvivalLoadout(progressStorage)
+    : readFrontLoadout(progressStorage);
+}
+let frontLoadout = readModeLoadout();
 let ownedEquipment: string[] = [];
-function frontEquipment(): Weapon[] {
+function frontEquipment(targetMode = mode): Weapon[] {
+  if (targetMode === "survival")
+    return [createFrontSurvivalWeapon("front-lobby", "front-client")];
   const campaign = readFrontCampaign(progressStorage);
   const save = campaign.save;
   if (save && save.inventory.length >= 2) {
@@ -338,6 +357,11 @@ function frontEquipment(): Weapon[] {
   return frontTemporaryWeapons("front-lobby", "front-client", kinds);
 }
 function frontWeaponRows() {
+  if (mode === "survival") {
+    const weapon = stats(frontEquipment()[0]);
+    const growth = readFrontSurvivalLoadout(progressStorage);
+    return `<div class="front-menu-content"><h2>${esc(weapon.name)}</h2><p>生存戦専用の無属性ライフル。戦闘中のカードで育てます。</p><p>威力 ${weapon.damage} · 装弾 ${weapon.mag} · 装填 ${weapon.reload}秒</p><h2>獲得済みカード ${growth.unlocked.length}種類</h2><p>抽選 ${growth.pool.length}種 · 除外 ${growth.plan.excluded.length}/${growth.exclusions} · 再抽選 ${growth.rerolls}回</p><p>進撃突破で新カード。抽選の調整は基地へ。</p></div>`;
+  }
   const save = readFrontCampaign(progressStorage).save;
   if (!save) return gearSupplyRows(kinds);
   const preview = structuredClone(save);
@@ -380,7 +404,9 @@ function base(back: () => void = home) {
   cancelOperationCue();
   document.body.classList.add("playtest");
   document.body.dataset.screen = "prep";
-  openFrontBase($("ui"), progressStorage, back);
+  openFrontBase($("ui"), progressStorage, back, {
+    allUnlocked: mode === "survival",
+  });
   const workshop = document.createElement("button");
   workshop.textContent = "武器工房";
   workshop.onclick = () =>
@@ -389,7 +415,7 @@ function base(back: () => void = home) {
 }
 const modeDetails: Record<FrontMode, string> = {
   survival:
-    "進撃の最高クリア進度で出撃時に難度と報酬Lvを固定。死亡・60分帰還・ソロ60秒後の任意帰還で戦果を持ち帰ります。武器は60秒以上かつ1撃破から、1分ごと＋30撃破ごとに1丁（最大30）。コインは1分10、最大300。途中退出は戦果なし、切断は作戦を継続し結果保存猶予2分。",
+    "敵の強さは生存時間とともに上昇。報酬Lvは出撃時の進撃最高クリア進度で固定。死亡・60分帰還・ソロ60秒後の任意帰還で戦果を持ち帰ります。武器は60秒以上かつ1撃破から、1分ごと＋30撃破ごとに1丁（最大30）。コインは1分10、最大300。途中退出は戦果なし、切断は作戦を継続し結果保存猶予2分。",
   defense:
     "拠点を守りながら最終大型を撃破。拠点破壊・部隊全滅・9分経過で作戦終了。",
   daily:
@@ -405,6 +431,7 @@ function animateFrontSelection() {
 }
 function prep(coop = false) {
   cancelOperationCue();
+  frontLoadout = readModeLoadout();
   try {
     if (!readFrontCampaign(progressStorage).save)
       initializeProgress("normal", localStorage);
@@ -425,14 +452,14 @@ function prep(coop = false) {
                 `<option value="${value}" ${mode === value ? "selected" : ""}>${name}</option>`,
             )
             .join("")}</select>`
-    }</section><section class="equipment-select"><div class="section-label"><span>02 入替先</span><small>一覧タップで変更</small></div><div class="loadout-slots">${frontEquipment()
+    }</section><section class="equipment-select"><div class="section-label"><span>${mode === "survival" ? "02 専用武器" : "02 入替先"}</span><small>${mode === "survival" ? "カードで強化" : "一覧タップで変更"}</small></div><div class="loadout-slots">${frontEquipment()
       .map(
         (weapon, i) =>
-          `<button data-front-slot="${i}" aria-pressed="${selectedFrontSlot === i}"><span class="slot-number">0${i + 1}</span><span class="slot-info"><small>装備${i + 1} ${selectedFrontSlot === i ? "選択中" : ""}</small><b>${WEAPONS[weapon.kind].name}</b></span><i>入替先 ›</i></button>`,
+          `<button data-front-slot="${i}" ${mode === "survival" ? "disabled" : ""} aria-pressed="${selectedFrontSlot === i}"><span class="slot-number">0${i + 1}</span><span class="slot-info"><small>${mode === "survival" ? "生存戦専用" : `装備${i + 1} ${selectedFrontSlot === i ? "選択中" : ""}`}</small><b>${esc(stats(weapon).name)}</b></span><i>${mode === "survival" ? "固定" : "入替先 ›"}</i></button>`,
       )
       .join(
         "",
-      )}</div></section></aside><section class="gear-arsenal">${frontWeaponRows()}</section></div><footer class="gear-footer"><p class="status">装備${selectedFrontSlot + 1}を選択中 · 一覧タップで入替<small>${coop ? "準備完了後、部隊長が出撃します" : "攻略の所持武器と自分の強化候補を使用"}</small></p><button id="front-launch" class="primary">${coop ? "準備完了" : "ソロ出撃 ↗"}</button></footer></section>`;
+      )}</div></section></aside><section class="gear-arsenal">${frontWeaponRows()}</section></div><footer class="gear-footer"><p class="status">${mode === "survival" ? "専用武器1種類 · カードでビルドを育成" : `装備${selectedFrontSlot + 1}を選択中 · 一覧タップで入替`}<small>${coop ? "準備完了後、部隊長が出撃します" : mode === "survival" ? "生存カードの候補を確認して出撃" : "攻略の所持武器と自分の強化候補を使用"}</small></p><button id="front-launch" class="primary">${coop ? "準備完了" : "ソロ出撃 ↗"}</button></footer></section>`;
   $("ui")
     .querySelectorAll<HTMLButtonElement>("[data-front-slot]")
     .forEach((button) => {
@@ -507,6 +534,7 @@ function prep(coop = false) {
     try {
       const saved = readFrontCampaign(progressStorage).save;
       if (
+        mode !== "survival" &&
         saved &&
         soldier(saved).equipped.join("|") !== ownedEquipment.join("|")
       ) {
@@ -519,9 +547,15 @@ function prep(coop = false) {
       notice((error as Error).message, 5);
       return;
     }
-    frontLoadout = readFrontLoadout(progressStorage);
+    frontLoadout = readModeLoadout();
+    if (frontLoadout.error) {
+      launchButton.disabled = false;
+      notice(frontLoadout.error, 5);
+      return;
+    }
     if (coop && network) {
       network.upgradePool = frontLoadout.pool;
+      network.survivalPlan = readFrontSurvivalLoadout(progressStorage).plan;
       network.equipment(frontEquipment());
       network.preparation(false);
       preparedGeneration = -1;
@@ -532,7 +566,11 @@ function prep(coop = false) {
   };
 }
 async function solo() {
-  frontLoadout = readFrontLoadout(progressStorage);
+  frontLoadout = readModeLoadout();
+  if (frontLoadout.error) {
+    notice(frontLoadout.error, 5);
+    return;
+  }
   localRun = createFrontRun(
     {
       runId: crypto.randomUUID(),
@@ -542,11 +580,15 @@ async function solo() {
         readFrontCampaign(progressStorage).save,
       ),
       fusion: true,
+      ...(mode === "survival" ? { survivalBuildVersion: 1 as const } : {}),
       players: [
         {
           id,
           equipment: frontEquipment(),
           pool: frontLoadout.pool,
+          ...(mode === "survival"
+            ? { rerolls: readFrontSurvivalLoadout(progressStorage).rerolls }
+            : {}),
         },
       ],
     },
@@ -590,9 +632,8 @@ async function loadBattle() {
     if (current !== loadSerial) return;
     ready = true;
     screen = "battle";
-    showOperationCue(mode === "survival" ? "srv-sortie" : "adv-sortie", {
-      key: `${world.run}:sortie`,
-    });
+    // 初回3択を読み終えてから中央の出撃演出を出す。
+    pendingSortieRun = world.run;
     overlayKey = "";
     paintOverlay();
   } catch (error) {
@@ -763,8 +804,12 @@ function connectRoom(code: string, target: string, token = "") {
     readFrontCampaign(progressStorage).save,
   );
   net.preparing = true;
-  net.equip = frontEquipment();
-  frontLoadout = readFrontLoadout(progressStorage);
+  // 参加先の作戦はwelcomeで確定する。生存戦はその時点で専用武器に置き換える。
+  net.equip = frontEquipment("defense");
+  const survivalLoadout = readFrontSurvivalLoadout(progressStorage);
+  net.survivalUpgradePool = survivalLoadout.pool;
+  net.survivalPlan = survivalLoadout.plan;
+  frontLoadout = readModeLoadout();
   net.upgradePool = frontLoadout.pool;
   net.onStatus = (message, fatal) => {
     status = message;
@@ -883,11 +928,11 @@ function paintLobby() {
         if (!m)
           return `<article class="squad-member empty"><span class="member-number">0${i + 1}</span><div><b>参加待ち</b><small>${net.roomListed === true ? "部屋一覧から参加できます" : "招待リンクから参加できます"}</small></div></article>`;
         return `<article data-fx-member="${esc(m.id)}" class="squad-member ${m.id === net.id ? "self" : ""}"><div class="member-heading"><b><span class="member-number">0${i + 1}</span> ${esc(m.name || `隊員 ${i + 1}`)}${m.id === net.id ? "（あなた）" : ""}</b><span class="member-status ${m.connected && m.ready ? "is-ready" : "is-preparing"}">${!m.connected ? "切断中" : m.ready ? "準備完了" : "準備中…"}</span></div><div class="member-weapons">${[
-          0, 1,
+          ...(net.mode === "survival" ? [0] : [0, 1]),
         ]
           .map((slot) => {
             const w = m.weapons?.[slot];
-            return `<span><small>${slot + 1}</small> ${w ? `${weaponGrade(w)} · ${esc(WEAPONS[w.kind].name)}` : "装備を確認中"}</span>`;
+            return `<span><small>${slot + 1}</small> ${w ? `${net.mode === "survival" ? "専用" : weaponGrade(w)} · ${esc(stats(w).name)}` : "装備を確認中"}</span>`;
           })
           .join("")}</div></article>`;
       },
@@ -955,7 +1000,12 @@ async function prepareLobby() {
     return;
   const generation = net.preparationGeneration;
   const members = net.members.filter((member) => member.connected);
-  if (!members.length || members.some((member) => member.weapons?.length !== 2))
+  if (
+    !members.length ||
+    members.some(
+      (member) => member.weapons?.length !== (net.mode === "survival" ? 1 : 2),
+    )
+  )
     return;
   preparedGeneration = generation;
   const previousPreparation = lobbyPreparation;
@@ -969,6 +1019,7 @@ async function prepareLobby() {
       fusion: true,
       seed: 1,
       mode: net.mode,
+      ...(net.mode === "survival" ? { survivalBuildVersion: 1 as const } : {}),
       players: members.map((member) => ({
         id: member.id,
         equipment: member.weapons!,
@@ -1024,6 +1075,7 @@ function request(offer: NonNullable<FrontRunView["offer"]>) {
 function choose(cardId: FrontUpgradeId) {
   if (
     !info?.offer ||
+    frontLevelUpActive(info, now()) ||
     choiceFeedbackUntil ||
     performance.now() < actionLockUntil
   )
@@ -1094,6 +1146,8 @@ function paintOverlay() {
   )
     return;
   const offer = info.offer,
+    levelUp = frontLevelUpActive(info, now()),
+    treasureRevealed = !!info.treasure && now() >= info.treasure.endsAt - 1.95,
     key = [
       connectionFatal,
       world.run,
@@ -1103,11 +1157,16 @@ function paintOverlay() {
       info.picks,
       info.rerollsRemaining,
       info.resumeUntil > now(),
+      levelUp,
+      info.treasure?.id,
+      treasureRevealed,
       rewardText,
     ].join(":");
   if (key === overlayKey) return;
   overlayKey = key;
   const ui = $("ui");
+  if (info.phase === "selection" || info.phase === "treasure")
+    cancelOperationCue();
   ui.dataset.phase = info.phase;
   $("pause").hidden =
     gate.paused || info.phase === "victory" || info.phase === "defeat";
@@ -1160,6 +1219,14 @@ function paintOverlay() {
       };
       ui.querySelector("header")?.append(back);
     }
+  } else if (info.phase === "treasure") {
+    ui.innerHTML = frontTreasureMarkup(
+      info,
+      import.meta.env.BASE_URL,
+      treasureRevealed,
+    );
+  } else if (levelUp) {
+    ui.innerHTML = frontLevelUpMarkup();
   } else if (info.phase === "selection" && offer) {
     ui.innerHTML = `<section class="pause-card rebuild-panel rebuild-selection"><header><button id="front-choice-owned" aria-haspopup="dialog">現在の強化 ${info.growthVersion === 3 ? `${Object.values(info.levels).filter((n) => n > 0).length}/6枠` : `${info.picks}/${info.maxPicks}`}</button><h1 class="front-choice-title">強化を選べ</h1><div class="rebuild-selection-actions">${info.selectionDeadline !== null ? '<span id="front-countdown"></span>' : ""}${offer.kind === "additional" ? `<button id="rebuild-reroll" ${info.canReroll ? "" : "disabled"}>再抽選 残り${info.rerollsRemaining}</button>` : ""}</div></header><div class="rebuild-cards">${offer.cardIds
       .map((card) =>
@@ -1200,7 +1267,15 @@ function paintOverlay() {
         awardedRun = "";
         overlayKey = "";
       });
-  } else ui.replaceChildren();
+  } else {
+    ui.replaceChildren();
+    if (pendingSortieRun === world.run) {
+      pendingSortieRun = "";
+      showOperationCue(mode === "survival" ? "srv-sortie" : "adv-sortie", {
+        key: `${world.run}:sortie`,
+      });
+    }
+  }
 }
 const marks = new T.InstancedMesh(
   new T.TorusGeometry(0.62, 0.1, 4, 12),
@@ -1213,6 +1288,7 @@ const orbs = new T.InstancedMesh(
   160,
 );
 const mineVisuals = new FrontMineVisuals(view.scene);
+const chestVisuals = new FrontChestVisuals(view.scene);
 const marker = new T.Object3D();
 const warnings = new T.InstancedMesh(
   new T.TorusGeometry(1, 0.05, 4, 32),
@@ -1235,7 +1311,7 @@ function paintBattle() {
     mission: `${modeNames[info.mode]} · ${formatRebuildTime(world.time)}`,
     detail: `経験値 ${info.xp}${info.nextXpThreshold === null ? "" : `/${info.nextXpThreshold}`}${world.defense ? ` · 拠点 ${Math.max(0, Math.ceil(world.defense.armory.hp))}` : ""}${info.returnAt != null && info.returnAt - now() <= 300 ? ` · 帰還まで ${formatRebuildTime(Math.max(0, info.returnAt - now()))}` : ""}${!(info.growthVersion === 3 && info.mode === "survival") && world.time >= 480 ? ` · 残り ${Math.max(0, Math.ceil(540 - world.time))}秒` : ""}`,
     weapon: `強化 ${info.growthVersion === 3 ? `${Object.values(info.levels).filter((n) => n > 0).length}/6枠` : `${info.picks}/${info.maxPicks}`}${info.growthVersion !== 3 && info.evolved.length ? ` · ${info.evolved.map((f) => FRONT_EVOLUTIONS[f].name).join("・")}` : ""}`,
-    help: `WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · F ジャンプ${world.players.length > 1 ? " · E 蘇生" : ""}`,
+    help: `WASD 移動 · マウス 照準/射撃 · R 装填${world.front?.survivalBuildVersion === 1 ? "" : " · Q 切替"} · SPACE 回避 · F ジャンプ${world.players.length > 1 ? " · E 蘇生" : ""}`,
   });
   const upgradeStrip = frontUpgradeStrip(info, import.meta.env.BASE_URL);
   if (lastHud !== hud + upgradeStrip) {
@@ -1271,6 +1347,7 @@ function paintBattle() {
   orbs.count = count;
   orbs.instanceMatrix.needsUpdate = true;
   mineVisuals.update(state.mines, state.players, world.time, id);
+  chestVisuals.update(state.chests ?? []);
   count = 0;
   marker.rotation.set(Math.PI / 2, 0, 0);
   for (const warning of info.spawnWarnings) {
@@ -1348,6 +1425,7 @@ function frame(time: number) {
     setView();
   }
   $("controls").hidden = !active;
+  $("swap").hidden = world?.front?.survivalBuildVersion === 1;
   $("minimap").hidden =
     screen !== "battle" ||
     !ready ||
@@ -1389,6 +1467,7 @@ function frame(time: number) {
               weapons: (world.rewards[id] ?? []) as NewWeapon[],
               kills: world.players.find((p) => p.id === id)?.kills ?? 0,
               clearedStage: info.clearedStage,
+              treasureCoins: info.treasureCoins,
             }
           : undefined,
       );
@@ -1528,7 +1607,7 @@ startWithSaveWriter(async () => {
     campaignBootError =
       "攻略の保存を読み込めません。元データは保持しています。";
   }
-  frontLoadout = readFrontLoadout(progressStorage);
+  frontLoadout = readModeLoadout();
   placeControls(settings.layout);
   home();
   const navigation = new URL(location.href).searchParams;

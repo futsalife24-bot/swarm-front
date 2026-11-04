@@ -20,6 +20,7 @@ import {
   spawn,
   hurtEnemy,
   finish,
+  blocked,
 } from "../src/shared/game";
 export { Gate };
 export class TestGate extends Gate {
@@ -51,6 +52,11 @@ export class TestRoom extends Room {
     if (u.pathname === "/snapshot") {
       return Response.json({
         world: this.saved.world,
+        frontUpgradePools: Object.fromEntries(
+          Object.entries(this.saved.frontRun?.upgrades ?? {}).map(
+            ([id, upgrade]) => [id, upgrade.pool ?? null],
+          ),
+        ),
         paused: this.saved.paused ?? false,
         running: !!this.timer,
       });
@@ -58,6 +64,63 @@ export class TestRoom extends Room {
     if (u.pathname === "/fixture") {
       this.stop();
       this.fixedWire = false;
+      if (
+        u.searchParams.get("case") === "front-treasure" ||
+        u.searchParams.get("case") === "front-treasure-drop"
+      ) {
+        const run = this.saved.frontRun;
+        if (
+          !run?.fusion ||
+          run.mode !== "survival" ||
+          run.world.front?.survivalBuildVersion !== 1 ||
+          run.phase !== "combat"
+        )
+          return new Response("新規則の生存戦が必要です", { status: 409 });
+        const player = run.world.players.find((item) => item.hp > 0);
+        if (!player) return new Response("生存者が必要です", { status: 409 });
+        const dropOnly = u.searchParams.get("case") === "front-treasure-drop";
+        run.world.enemies = [];
+        run.pendingSpawns = [];
+        run.nextSpawnAt = 1e9;
+        run.bastionAt = 1e9;
+        if (!dropOnly) run.world.front.xp = 12;
+        let x = player.x;
+        let z = player.z;
+        if (dropOnly) {
+          const blocks = mapFor(run.world).blocks;
+          const forward = (px: number, pz: number) => ({
+            x: px + Math.sin(player.yaw) * 8,
+            z: pz - Math.cos(player.yaw) * 8,
+          });
+          const clear = (px: number, pz: number) => {
+            const py = groundHeight(px, pz, blocks);
+            return !blocked(px, pz, 0.55, py + 0.01, blocks);
+          };
+          const starts = [
+            { x, z },
+            ...[-20, -10, 0, 10, 20].flatMap((px) =>
+              [-20, -10, 0, 10, 20].map((pz) => ({ x: px, z: pz })),
+            ),
+          ];
+          const start = starts.find(
+            (point) =>
+              clear(point.x, point.z) &&
+              clear(forward(point.x, point.z).x, forward(point.x, point.z).z),
+          );
+          if (!start)
+            return new Response("撮影用の空き地がありません", { status: 409 });
+          player.x = start.x;
+          player.z = start.z;
+          player.y = groundHeight(start.x, start.z, blocks);
+          ({ x, z } = forward(start.x, start.z));
+        }
+        const enemy = spawn(run.world, "bastion", x, z)!;
+        hurtEnemy(run.world, enemy, enemy.hp + 1, player.id);
+        await this.persist();
+        this.broadcast();
+        this.run();
+        return Response.json({ ok: true });
+      }
       if (
         ["front-survival-wave", "front-survival-cluster"].includes(
           u.searchParams.get("case") ?? "",
@@ -459,10 +522,14 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion|front-survival-wave|front-survival-cluster)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion|front-survival-wave|front-survival-cluster|front-treasure|front-treasure-drop)$/.exec(
         u.pathname,
       );
-    if (match && req.method === "POST") {
+    if (
+      match &&
+      (req.method === "POST" ||
+        (match[2] === "snapshot" && req.method === "GET"))
+    ) {
       return env.ROOMS.get(env.ROOMS.idFromName(match[1])).fetch(
         new Request(
           match[2] === "snapshot"
