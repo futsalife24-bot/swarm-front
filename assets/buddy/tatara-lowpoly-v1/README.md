@@ -84,6 +84,8 @@ python assets/buddy/tatara-lowpoly-v1/sheets.py
 
 - GitHub: https://github.com/futsalife24-bot/swarm-front
 - ブランチ: `codex/buddy-tatara-lowpoly-20261104`。基点は上記24cbbae。最終commitはこのフォルダの履歴を参照。
+- 素材・検証のcommit: `1e58746`。2026-11-04、既存originの同名専用ブランチへpush成功。後続の本記録追記は素材・コードを変更しない。
+- 主担当への受渡し: [専用ブランチの担当フォルダ](https://github.com/futsalife24-bot/swarm-front/tree/codex/buddy-tatara-lowpoly-20261104/assets/buddy/tatara-lowpoly-v1)。本依頼のレビュー可能な試作納品は完了。次は本人による外観の採否判断で、ゲームへの統合は別担当。
 - ローカル: `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-buddy-lowpoly`
 - 変更は `assets/buddy/tatara-lowpoly-v1/` のみ。原本・GLB・再現コード・今回レビューに必要な小容量画像と動画をGit管理し、使い捨て連番・ログ・blendバックアップは除外。
 - `docs/STATE.md`／MainVaultへは直接書かず、本節を追記案として主担当へ渡す。「タタラ1体のローポリ試作と独立レビュー資料を作成、外観採用待ち。3動作とGLB往復・2解像度・0/1/4体描画を自己確認。属性未割当、ゲーム統合・main反映・公開なし。実機性能未確認。」
