@@ -9,7 +9,10 @@
 - 変更ファイル：`design/survival-card-preview/` 以下だけ。`src/`・`public/`・共有CSS・カード定義・設定・依存関係は変更していない。
 - mainへのmerge、実ゲームUIの置換、Worker公開はしていない（依頼どおり）。
 - 起動方法・方針・部品構成・データ項目・仮の仕様：[README.md](README.md)
-- 撮影画像と検査結果：`shots/`（`report.txt` は126項目すべてOK）
+- 撮影画像と検査結果：`shots/`（`report.txt` は130項目すべてOK）
+- スマホ確認用の非公開ページ：https://claude.ai/artifact/3Zgx5aERaft6PYwbzobJg9
+  - 所有者のアカウントでだけ開ける。
+  - 書き出しは `tools/build-artifact.mjs`、違いは README の「スマホで見る」。
 
 ## 組み込みの順番の提案（主担当の判断用）
 
@@ -37,7 +40,8 @@
 
 生存カードを見分けやすく選びたくなるカードにするため、独立したプレビューを branch `claude/survival-card-design-20261104`（基点 `24cbbae`）の `design/survival-card-preview/` に作った。
 - 構成：表示分類（仮）＝枠の形＋文字、系統・属性＝紋章＋絵柄、射撃方式＝矢印チップ、段階＝丸。基地（M）・3択（L）・取得一覧（row）・HUD（S）で同じ部品を使う。
-- 確認：844×390・640×360 × 動きの通常／軽減で126項目合格。
+- 確認：844×390・640×360 × 動きの通常／軽減で130項目合格。
+- スマホ確認用の非公開ページ（claude.ai）：https://claude.ai/artifact/3Zgx5aERaft6PYwbzobJg9
 - 変更範囲：実ゲームのコード・CSS・カード定義は不変。
 - 仮置き：分類の割当、属性、射撃方式、仮例カード。カードのゲーム仕様は主担当が決める。
 - 未確認：実スマホ、実ゲームへの組み込み。
@@ -50,6 +54,7 @@
 ## 生存カードのデザイン試作（2026-11-04、Claude Code、未merge）
 - branch claude/survival-card-design-20261104 の design/survival-card-preview/。HTMLを直接開くか、node design/survival-card-preview/serve.mjs で表示する。
 - 方針：分類（仮）は枠の形と文字ラベル、属性は紋章と絵柄、射撃方式は矢印、段階は丸。候補（デッキ）は四角いチェックで、作戦中の取得とは別の記号にする。常時の発光はなし。
-- 検査：2サイズ × 動きの通常／軽減で126項目合格。実スマホは未確認。
+- 検査：2サイズ × 動きの通常／軽減で130項目合格。実スマホは未確認。
+- スマホ確認用の非公開ページ：https://claude.ai/artifact/3Zgx5aERaft6PYwbzobJg9（縦向きでは、画面を回して横で見る表示を選べる）
 - 次の作業：主担当が分類・属性・カード仕様を決めて組み込む。開幕3択に「出撃」演出が重なる件を申し送った。
 ```

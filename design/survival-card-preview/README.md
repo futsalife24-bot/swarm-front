@@ -38,6 +38,32 @@ node design/survival-card-preview/tools/build-data.mjs
 node design/survival-card-preview/tools/capture.mjs
 ```
 
+### スマホで見る（非公開ページ）
+
+スマホ確認用に、claude.aiの非公開ページ（Artifact）として公開した。所有者のアカウントでサインインしたときだけ開ける。Workerやゲームの公開先には置いていない。
+
+- URL：https://claude.ai/artifact/3Zgx5aERaft6PYwbzobJg9
+- 公開版は次で書き出す。
+
+  ```
+  node design/survival-card-preview/tools/build-artifact.mjs --out <出力先> [--ffmpeg <ffmpegの場所>]
+  ```
+
+- 公開版の違い（本体の `card.css`・`card.js` の見た目は同じ）：
+  - カード画像を縮小した（1枚256px、融合の切り出し画像は768px）。全体は約20MBから約3MBになった。
+  - 画面幅の `@media` を、`#app` の大きさで判定する `@container` に置き換えた。
+  - 上書きの `artifact.css` を足した。
+  - 縦向きでは、ゲームと同じく横向きを案内する。案内からは次の2つを選べる。
+    - 「画面を回して横で見る」：回転ロックのまま、画面を90度回して横画面と同じ配置で表示する。
+    - 「縦のまま見る」
+  - URLでの場面指定は使えない。左下の「表示」で切り替える。
+- 書き出した版の確認（2026-11-04、Chrome、スマホ相当の画面）：
+  - 横向き：844×390・844×340・667×320
+  - 回転表示：390×844・360×740
+  - 縦のまま：390×844
+  - 結果：全場面で横スクロール・画像欠け・3択の本文の欠け・ページ例外なし。回転表示では、一時停止の一覧と3択の決定も操作できた。
+- 公開先の実際の表示と実スマホは未確認。回転表示でのスクロールの向きも未確認。
+
 ## デザイン方針
 
 現行の生存カードは、チェック付きの四角いタイルと、色帯だけの系統表示だった。同じカードが基地・3択・HUDで別の見た目になっていた。改修の方針は次のとおり。
@@ -92,6 +118,7 @@ node design/survival-card-preview/tools/capture.mjs
 | `card.js` | `SurvivalCard.render.L/M/S/row(view, iconBase)` が文字列を返す純関数。`emptySlot("S"\|"row")` も同じ |
 | `preview.css`・`preview.js` | プレビュー周辺（既存画面の写し・場面切替）。組み込みには使わない |
 | `samples.js` | デザイン用の仮例 |
+| `artifact.css` | スマホ確認用の公開版だけで読む上書き。組み込みには使わない |
 | `tools/` | データの書き出し・撮影検査 |
 
 組み込みでは、`front-upgrade-ui.ts` の `frontUpgradeCardMarkup`（3択）、`frontUpgradeStrip`（HUD）、`frontUpgradeDetails` の `li`（取得一覧）を置き換える想定。基地は `front-base.ts` の `.base-tile` を `render.M` に置き換える想定。
@@ -124,7 +151,7 @@ node design/survival-card-preview/tools/capture.mjs
 
 ## 確認結果
 
-確認は2026-11-04に、Chrome（Playwright）で次の条件で行った。844×390・640×360の2サイズ × 動きの通常／軽減で、全126項目に合格した（`shots/report.txt`）。
+確認は2026-11-04に、Chrome（Playwright）で次の条件で行った。844×390・640×360の2サイズ × 動きの通常／軽減で、全130項目に合格した（`shots/report.txt`）。
 
 - 横スクロールなし。カードは画面内に収まる。
 - 3択の本文が欠けない。3枚が重ならない。下端が画面内に収まる。
@@ -139,6 +166,8 @@ node design/survival-card-preview/tools/capture.mjs
   - 未解放のカードは出し入れせず、解放条件を表示する。
   - 3択で選ぶと「決定」と「選ばれなかった」の表示になる。
   - 3択中に「現在の強化」を開ける。
+  - 左下の「表示」を押すと操作パネルが開き、場面を切り替えられる。
+    - 初版（bbb83c2）では「表示」を押しても開かなかった。原因は、body の `data-scene` を場面切替と取り違えていたこと。
 - ページ例外は0件。
 - `index.html` を直接開いた場合も全場面が表示され、画像の欠けは0件。
 

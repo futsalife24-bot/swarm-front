@@ -1,0 +1,124 @@
+/* スマホで見るための公開版（claude.aiの非公開ページ）だけで読む上書き。
+ * tools/build-artifact.mjs が index.html と一緒に書き出す。ゲーム画面の写しなので暗い見た目に固定する。
+ * 公開先は文書の骨組みを足し、:root の上下に端末の安全領域ぶんの余白を入れる。100dvh ではなくその内側に合わせる。
+ * 書き出し時に card.css・preview.css の画面幅の @media を、#app の大きさで判定する @container stage に置き換える。
+ * 回転ロックのまま横で見る表示（#app を90度回す）でも、横画面と同じ配置になるようにするため。 */
+:root {
+  color-scheme: dark;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  background: #0c1820;
+  color: inherit;
+  font: inherit;
+}
+#app {
+  width: 100%;
+  height: 100%;
+  container: stage / size;
+}
+body[data-scene="compare"] #app {
+  height: auto;
+  min-height: 100%;
+  container-type: inline-size;
+}
+.pv-controls {
+  left: calc(6px + env(safe-area-inset-left, 0px));
+  bottom: calc(6px + env(safe-area-inset-bottom, 0px));
+}
+/* 縦のまま見る比較表：3択の大カードと小さいサイズの組を折り返す。 */
+@container stage (max-width: 460px) {
+  .pv-same {
+    flex-wrap: wrap;
+  }
+}
+
+/* 縦向きの案内。ゲーム本体（landscape.css）と同じく横向きを促す。
+ * 画面が回らないアプリ向けに、回転ロックのまま横で見る表示と、縦のまま見る表示を選べる。 */
+#pv-portrait {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  padding: 24px max(24px, env(safe-area-inset-right, 0px)) 24px
+    max(24px, env(safe-area-inset-left, 0px));
+  background: #0d2334;
+  color: #e3edee;
+  font:
+    20px/1.5 "Segoe UI",
+    "Yu Gothic",
+    sans-serif;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  text-align: center;
+}
+#pv-portrait p {
+  margin: 0;
+}
+#pv-portrait small {
+  max-width: 32em;
+  font-size: 12px;
+}
+#pv-portrait button {
+  min-height: 44px;
+  min-width: 220px;
+  padding: 10px 20px;
+  border: 1px solid #78939d5c;
+  border-radius: 4px;
+  background: #233943;
+  color: #edf4f2;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 650;
+}
+#pv-portrait button:first-of-type {
+  border-color: #b8edc5;
+}
+#pv-portrait button:focus-visible {
+  outline: 2px solid #b8edc5;
+  outline-offset: 2px;
+}
+@media (orientation: portrait) {
+  body:not([data-view]) > :not(#pv-portrait) {
+    visibility: hidden;
+  }
+  body:not([data-view]) #pv-portrait {
+    display: flex;
+  }
+  /* 回転ロックのまま横で見る：#app を時計回りに90度回し、端末の上下の安全領域を避けて縦長の画面いっぱいに置く。 */
+  body[data-view="rotate"] #app {
+    position: fixed;
+    top: env(safe-area-inset-top, 0px);
+    left: 100%;
+    width: calc(
+      100dvh - env(safe-area-inset-top, 0px) -
+        env(safe-area-inset-bottom, 0px)
+    );
+    height: 100vw;
+    min-height: 0;
+    overflow: hidden;
+    transform-origin: 0 0;
+    transform: rotate(90deg);
+  }
+  body[data-view="rotate"][data-scene="compare"] #app {
+    overflow-y: auto;
+  }
+  body[data-view="rotate"] .pv-controls {
+    left: 6px;
+    bottom: 6px;
+  }
+  body[data-view="rotate"] .pv-controls-body {
+    max-height: 80vw;
+  }
+  /* 一時停止の一覧（モーダル）は最前面に出て #app の回転を受けないので、個別に回す。 */
+  body[data-view="rotate"] .pv-owned-dialog[open] {
+    max-width: min(640px, 92dvh);
+    max-height: 88vw;
+    transform: rotate(90deg);
+  }
+}

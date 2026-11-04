@@ -7,7 +7,9 @@
   const SAMPLES = window.SURVIVAL_CARD_SAMPLES;
   const { render, emptySlot, esc, svg, SHOT, GLYPH, levelText } =
     window.SurvivalCard;
-  const ICONS = "../../public/rebuild/upgrades/";
+  // スマホ用の公開版（tools/build-artifact.mjs）は画像の場所とURL同期を差し替える。
+  const CFG = window.SC_PREVIEW || {};
+  const ICONS = CFG.iconBase || "../../public/rebuild/upgrades/";
   const real = new Map(DATA.cards.map((c) => [c.id, c]));
   const sample = new Map(SAMPLES.cards.map((c) => [c.id, c]));
   const params = new URLSearchParams(location.search);
@@ -513,6 +515,7 @@
     app.innerHTML = scene() + controls();
     const grid = app.querySelector(".pv-base .pv-grid");
     if (grid) grid.scrollTop = scroll;
+    if (CFG.syncUrl === false) return;
     const url = new URL(location.href);
     url.searchParams.set("scene", S.scene);
     if (S.scene === "run") url.searchParams.set("case", S.runCase);
@@ -520,8 +523,9 @@
     history.replaceState(null, "", url);
   }
   app.addEventListener("click", (e) => {
-    const t = e.target.closest("button, [data-scene]");
-    if (!t) return;
+    // body にも data-scene があるので、ボタン以外（「表示」の開閉など）を拾わないよう button に限る。
+    const t = e.target.closest("button");
+    if (!t || !app.contains(t)) return;
     if (t.dataset.scene) {
       S.scene = t.dataset.scene;
       S.picked = null;

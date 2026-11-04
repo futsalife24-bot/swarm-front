@@ -229,6 +229,18 @@ for (const [width, height] of [
       (await p.locator("#pv-owned-dialog .sc-card").count()) === 3,
       `${tag} 操作: 3択中に「現在の強化」を開ける`,
     );
+    // 操作：「表示」を押して操作パネルを開き、場面を切り替えられる。
+    await p.goto(`${page0}?scene=base${reduce ? "&motion=reduce" : ""}`, {
+      waitUntil: "load",
+    });
+    await p.locator(".pv-controls summary").tap();
+    const panelOpen = await p.locator(".pv-controls").evaluate((d) => d.open);
+    await p.locator('.pv-controls [data-scene="hud"]').tap();
+    ok(
+      panelOpen &&
+        (await p.evaluate(() => document.body.dataset.scene)) === "hud",
+      `${tag} 操作: 「表示」で操作パネルを開き、場面を切り替えられる`,
+    );
     ok(
       errors.length === 0,
       `${tag} ページ例外 ${errors.length}件 ${errors.slice(0, 2).join(" | ")}`,
