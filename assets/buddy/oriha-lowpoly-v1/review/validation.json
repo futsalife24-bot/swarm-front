@@ -1,0 +1,156 @@
+{
+  "stats": {
+    "tris": 2008,
+    "meshes": 1,
+    "bones": 10,
+    "clips": [
+      {
+        "name": "Display",
+        "duration": 2.8333332538604736,
+        "tracks": 30
+      },
+      {
+        "name": "Follow",
+        "duration": 1.2333333492279053,
+        "tracks": 30
+      },
+      {
+        "name": "Idle",
+        "duration": 3.0333333015441895,
+        "tracks": 30
+      }
+    ],
+    "soldierBounds": [
+      0.6869655473684172,
+      1.6371228478893103,
+      0.646693235842412
+    ],
+    "draw": 3,
+    "triangles": 4018
+  },
+  "errors": [],
+  "measurements": [
+    {
+      "width": 844,
+      "height": 390,
+      "n": 0,
+      "shadow": false,
+      "cpuSubmitMedianMs": 0.30000001192092896,
+      "cpuSubmitP95Ms": 0.699999988079071,
+      "calls": 4,
+      "triangles": 99304
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "n": 0,
+      "shadow": true,
+      "cpuSubmitMedianMs": 0.30000001192092896,
+      "cpuSubmitP95Ms": 0.800000011920929,
+      "calls": 6,
+      "triangles": 198606
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "n": 1,
+      "shadow": false,
+      "cpuSubmitMedianMs": 0.30000001192092896,
+      "cpuSubmitP95Ms": 0.6000000238418579,
+      "calls": 5,
+      "triangles": 101312
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "n": 1,
+      "shadow": true,
+      "cpuSubmitMedianMs": 0.3999999761581421,
+      "cpuSubmitP95Ms": 0.9000000357627869,
+      "calls": 8,
+      "triangles": 202622
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "n": 4,
+      "shadow": false,
+      "cpuSubmitMedianMs": 0.5,
+      "cpuSubmitP95Ms": 1.0999999642372131,
+      "calls": 8,
+      "triangles": 107336
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "n": 4,
+      "shadow": true,
+      "cpuSubmitMedianMs": 0.699999988079071,
+      "cpuSubmitP95Ms": 1.399999976158142,
+      "calls": 14,
+      "triangles": 214670
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "n": 0,
+      "shadow": false,
+      "cpuSubmitMedianMs": 0.30000001192092896,
+      "cpuSubmitP95Ms": 0.6000000238418579,
+      "calls": 4,
+      "triangles": 99304
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "n": 0,
+      "shadow": true,
+      "cpuSubmitMedianMs": 0.30000001192092896,
+      "cpuSubmitP95Ms": 0.800000011920929,
+      "calls": 6,
+      "triangles": 198606
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "n": 1,
+      "shadow": false,
+      "cpuSubmitMedianMs": 0.40000003576278687,
+      "cpuSubmitP95Ms": 0.800000011920929,
+      "calls": 5,
+      "triangles": 101312
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "n": 1,
+      "shadow": true,
+      "cpuSubmitMedianMs": 0.20000004768371582,
+      "cpuSubmitP95Ms": 0.6000000238418579,
+      "calls": 8,
+      "triangles": 202622
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "n": 4,
+      "shadow": false,
+      "cpuSubmitMedianMs": 0.40000003576278687,
+      "cpuSubmitP95Ms": 0.8999999761581421,
+      "calls": 8,
+      "triangles": 107336
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "n": 4,
+      "shadow": true,
+      "cpuSubmitMedianMs": 0.5,
+      "cpuSubmitP95Ms": 1.300000011920929,
+      "calls": 14,
+      "triangles": 214670
+    }
+  ],
+  "browser": "156.0.8078.80",
+  "kind": "PC headless Chromium / CPU animation + render submission; not GPU or phone frame time"
+}
