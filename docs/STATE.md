@@ -1,3 +1,22 @@
+# 基地の共通入口を公開（2026-11-04、Claude Code）
+
+生存タイトルの「基地」から育成・武器・アクセサリへ進めるようにした。生存カードは基地の1項目。
+
+- main反映：[PR #267](https://github.com/futsalife24-bot/swarm-front/pull/267) を通常mergeした（merge commit `1711cb360ca14b9471b244801e9ce094a66800cc`）。必須チェック・保護は設定されていない。
+- 公開：merge後のproduction buildとdry-runが成功した。既存WorkerのVersion `2e078d97-d9c4-4506-b697-4ffd9c201674` が100%配信。
+- 配信確認：
+  - 51ファイルのSHA-256が一致
+  - health 200 / ok
+  - 公開URLを隔離ブラウザーで開き、844×390・640×360で基地導線34項目すべて合格、例外0
+- 未確認：実スマホ。
+- 変更していないもの：武器・カード効果・難易度・保存形式。
+- 次の作業：生存本体の改修（専用武器1種類とカードによるビルド）。仕様の数値は未確定。
+- Codexのブラウザー無効の問題：未解決。
+  - 原因の位置：拒否しているのはホストアプリの許可応答。Chrome拡張やnative hostではない。
+  - 分かったこと：今日08:49のアプリ再起動後、別スレッドでChrome経由の操作が通っている記録がある。
+  - 未検証：Codex側の復旧。
+  - 記録：[公開記録](evidence/shared-base-20261103/RELEASE.md)、[切り分けと復旧手順](evidence/shared-base-20261103/README.md#codex側のブラウザー無効の切り分け2026-11-04claude-code)
+
 # 基地の共通入口を実ブラウザーで確認、main反映へ（2026-11-04、Claude Code）
 
 Codexから引き継いだ `dist-h`（branch `codex/shared-base-20261103`）の状況は次のとおり。
