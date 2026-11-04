@@ -11,7 +11,7 @@ const browser = await chromium.launch({
 });
 const report = [];
 const ok = (cond, msg) => {
-  report.push(`${cond ? "OK  " : "NG  "}${msg}`);
+  report.push(`${cond ? "OK  " : "NG  "}${msg}`.trimEnd());
   if (!cond) process.exitCode = 1;
 };
 
