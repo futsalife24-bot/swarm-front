@@ -7,12 +7,16 @@ import { waitForFullscreenTransition } from "./landscape";
 
 let shown = false;
 
-/** A single entry per document; direct operation/invitation links keep their route. */
+/** A single entry per document; direct operation/invitation/base links keep their route. */
 export function mountTitleEntry(root: HTMLElement) {
   if (shown) return;
   shown = true;
   const query = new URL(location.href).searchParams;
-  if (["solo", "coop", "frontRoom", "room"].some((key) => query.has(key)))
+  if (
+    ["solo", "coop", "frontRoom", "room", "base", "cards"].some((key) =>
+      query.has(key),
+    )
+  )
     return;
   const logo = root.querySelector<SVGElement>(".title-logo svg");
   if (!logo) return;

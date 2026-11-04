@@ -34,6 +34,7 @@ async function boot() {
   const launch = async () => {
     if (
       !developerRequested &&
+      url.searchParams.get("base") !== "1" &&
       (url.searchParams.get("coop") === "1" ||
         !!loadNetworkSession() ||
         /^[a-f0-9]{32}$/.test(url.hash.slice(1)))

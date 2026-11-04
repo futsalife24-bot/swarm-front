@@ -56,8 +56,8 @@ export function openFrontBase(
   const locked = (id: FrontUpgradeId) => !campaign.unlocked.includes(id);
   const unlock = (id: FrontUpgradeId) =>
     `攻略${FRONT_CAMPAIGN_UNLOCKS.find((r) => r.ids.includes(id))?.stage ?? ""}クリアで解放`;
-  root.innerHTML = `<section class="panel menu-screen pt-screen front-base" aria-label="基地・デッキ編成">
-    <header class="menu-header base-header"><h1>基地</h1><span class="base-service">${progress.wins}勝 · ${progress.credits}功績</span><nav><button id="front-save-pool" class="primary">出撃にセット</button><button id="base-back">戻る</button></nav></header>
+  root.innerHTML = `<section class="panel menu-screen pt-screen front-base" aria-label="生存カード設定・デッキ編成">
+    <header class="menu-header base-header"><h1>生存カード</h1><span class="base-service">${progress.wins}勝 · ${progress.credits}功績</span><nav><button id="front-save-pool" class="primary">出撃にセット</button><button id="base-back">戻る</button></nav></header>
     <div class="base-deck-bar"><label class="sr-only" for="base-slot">保存デッキ</label><select id="base-slot"></select><label class="sr-only" for="base-name">デッキ名</label><input id="base-name" maxlength="24" placeholder="デッキ名（24文字まで）"><button id="base-store">デッキ保存</button><button id="base-load">呼び出す</button><span id="base-count"></span></div>
     <div class="base-workbench"><section class="base-catalog" aria-label="強化候補">
       <div class="base-catalog-heading"><div role="tablist" aria-label="強化と融合"><button id="base-upgrades" role="tab" aria-selected="true" aria-controls="base-grid">強化 ${FRONT_BASE_IDS.length}</button><button id="base-fusions" role="tab" aria-selected="false" aria-controls="base-grid" tabindex="-1">融合 ${FRONT_FUSION_IDS.length}</button></div><span id="base-fusion-count"></span></div>
