@@ -44,3 +44,5 @@
 GitHub: https://github.com/futsalife24-bot/swarm-front 。ブランチ `codex/buddy-tatara-lowpoly-20261104`。開始HEAD `b27d4eaf872e2390430a77fc986aa394ca8b92c3`。
 worktree: `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-buddy-lowpoly`。
 実モデルID・推論設定は取得不可／未確認。子エージェント・独立監査なし。
+
+素材・検証commit `7f37d1e` を2026-11-04に既存originの専用ブランチへpush済み。後続は本納品記録のみ。
