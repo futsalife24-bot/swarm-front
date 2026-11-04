@@ -2,6 +2,8 @@
 
 本人の「次の作業やっといて」と既存の一任に基づき、合意済みのファンタジー属性から3種を実装する。戦闘・カード表示・解放・協力通信をつなぐ範囲。通常の同レア「武器強化（青）」で、融合の金枠とは区別する。
 
+公開済み。[main反映・配信照合・公開画面の確認](RELEASE.md)。
+
 - 正本: https://github.com/futsalife24-bot/swarm-front
 - 作業場所: `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-survival-build`
 - branch: `codex/survival-elements-20261104`
@@ -53,7 +55,7 @@
 - `SWARM_TEST_SERVER_URL=http://127.0.0.1:8807` を設定し、`tests/front-survival-build.integration.ts` を `vitest.front-integration.config.ts` で実行。
 - Vite 5186 / テストWorker 8807を起動し、`scripts/check-survival-elements.mjs`。任意で `CAPTURE_FRAMES=1` を指定すると実フレームを撮影。
 - `scripts/check-survival-elements-base.mjs` / `scripts/check-survival-progression.mjs`。既定の確認先は5186。`check-survival-build.mjs` / `check-survival-cards.mjs` には `ORIGIN=http://127.0.0.1:5186` を設定。
-- 公開ビルドは実装commit後・merge後それぞれ作成。公開ソースと配信確認は公開時に記録する。
+- 公開ビルドは実装commit後・merge後それぞれ作成済み。公開ソースと配信確認は[公開記録](RELEASE.md)を参照。
 
 結果: [部品6条件](cards.json)、[戦闘2サイズ](battle.json)、[進行/育成](progression.json)、[出撃/防衛](build-ui.json)、[属性3枚/保存](base-three.json)。画像: [3択640](cards-640.png)、[戦闘844](battle-844.png)、[戦闘640](battle-640.png)。HP500の戦闘画像は高耐久fixtureの画面であり、製品の初期体力ではない。
 

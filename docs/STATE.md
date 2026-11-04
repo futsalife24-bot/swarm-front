@@ -1,10 +1,12 @@
-# 生存の火炎・氷結・電撃を実装（2026-11-04）
+# 生存の火炎・氷結・電撃を公開（2026-11-04）
 
 本人の「次の作業やっといて」に基づき、火炎弾・氷結弾・連鎖雷を新しい専用武器生存へ追加。進撃1/2/3突破で順に獲得し、通常同レアの武器強化（青）として表示する。初期8種、既存所持品、防衛22種、融合9種は維持。属性の除外・保存・協力の新旧画面互換とSVGの一括保存も対応。
 
 型・関連116件・既存保存147件・実WS8件、カード表示6条件、実射撃/通信/描画・基地/保存・出撃/防衛の各2サイズを検証。氷結は初撃で停止、解除後2秒は全員共通の再凍結耐性。炎と電撃はモデルに隠れない高さへ調整。実スマホ・公開版の協力・人間の通し攻略/長時間のバランスは未確認。
 
-作業場所 `task-survival-build`、branch `codex/survival-elements-20261104`、base `a762d8762848ffbaa4578f3a37f522054e6380e8`。次は実装commit後のbuild、通常PR merge、merge後build/dry-run、既存Worker公開と配信/UI確認。仕様・再現手順・検証の区別は[今回の記録](evidence/survival-elements-20261104/README.md)。元試作・バディ・rootの別作業差分は未編集。
+[PR #273](https://github.com/futsalife24-bot/swarm-front/pull/273)を通常merge。公開ソース `3a8617abb471649bf15cd9f895becc9c6de929e3` からbuild/dry-run後、既存WorkerのVersion `a18ed173-8c1a-427b-9325-7deef87d2c59` を100%配信。対象54ファイルのSHA一致、health 200/ok。公開版も隔離Chrome2サイズで属性3枚・画像・除外/解除/保存/再読込を確認し、ページ例外0。検証サーバーは停止済み。
+
+作業場所 `task-survival-build`、実装branch `codex/survival-elements-20261104`、記録branch `codex/survival-elements-release-record-20261104`、base `a762d8762848ffbaa4578f3a37f522054e6380e8`。仕様と検証は[今回の記録](evidence/survival-elements-20261104/README.md)、配信と公開確認は[公開記録](evidence/survival-elements-20261104/RELEASE.md)。次は人間の実プレイで役割の違い・難度を評価し、属性融合や残りの属性へ派生する。元試作・バディ・rootの別作業差分は未編集。
 
 # 生存カードの除外を鎖表示と右詳細の操作へ（2026-11-04）
 
