@@ -5,6 +5,7 @@ import {
   frontDodgeEnded,
   frontReloadStarted,
   tickFrontEffects,
+  frontEnemyFrozen,
   recordFrontKill,
   type FrontBattleState,
 } from "./front-combat";
@@ -267,7 +268,16 @@ export interface Projectile {
 export interface Event {
   /** Keep the visual event without a combat sound (ANOMALY arrival cues). */
   silent?: boolean;
-  frontEffect?: "ricochet" | "interceptor" | "mine" | "mine-set" | "blast";
+  frontEffect?:
+    | "ricochet"
+    | "interceptor"
+    | "mine"
+    | "mine-set"
+    | "blast"
+    | "burn"
+    | "freeze"
+    | "chain-lightning";
+  duration?: number;
   rebuild?: RebuildAttribution;
   id: number;
   type:
@@ -1831,6 +1841,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     }
     e.hurt = Math.max(0, e.hurt - dt);
     if (w.training) continue;
+    if (frontEnemyFrozen(w, e)) continue;
     const t = w.defense
       ? defenseTarget(w, e, w.players)
       : selectStructureTarget(e, living, (p) =>

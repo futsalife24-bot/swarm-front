@@ -14,6 +14,7 @@ import {
 import { stats } from "./defs";
 import { mapFor } from "./stages";
 import { groundHeight } from "./terrain";
+import { FRONT_ELEMENT_RULES } from "./front-elements";
 import {
   FRONT_UPGRADE_IDS,
   frontEvolvedFamilies,
@@ -32,8 +33,20 @@ export interface FrontPlayerCombat {
   openingSlots: number[];
   armorUntil: number;
   recoveryAt?: number;
-  statuses: Record<number, { marked: boolean; hits: number; lastShot: number }>;
+  statuses: Record<
+    number,
+    {
+      marked: boolean;
+      hits: number;
+      lastShot: number;
+      burnUntil?: number;
+      burnNext?: number;
+      burnDamage?: number;
+    }
+  >;
   manualHits: number;
+  /** Hand hits across all enemies; absent in older sortie JSON. */
+  lightningHits?: number;
   effects: number;
   secondaryKills: number;
   firstEffectAt: number | null;
@@ -52,7 +65,7 @@ export interface FrontBattleState {
   /** 新規の生存戦だけ専用武器を使う。既存作戦には後付けしない。 */
   survivalBuildVersion?: 1;
   growthVersion?: 2 | 3;
-  catalogVersion?: 2;
+  catalogVersion?: 2 | 3;
   /** 公開前から続く部隊は旧描画容量に合わせた24体を維持する。 */
   enemyCap?: number;
   players: Record<string, FrontPlayerCombat>;
@@ -60,6 +73,8 @@ export interface FrontBattleState {
   orbs: { id: number; x: number; y: number; z: number; value: number }[];
   /** New survival sorties only; each boss-class kill makes one shared pickup. */
   chests?: { id: number; x: number; y: number; z: number }[];
+  /** Shared by all players so alternating shooters cannot freeze an enemy forever. */
+  freezes?: Record<number, { until: number; readyAt: number }>;
   mines: FrontMine[];
   shotSerial: number;
   effectsThisTick: number;
@@ -121,6 +136,7 @@ interface ShotLedger {
   kills: number;
   refund: boolean;
   pierce: boolean;
+  chainStarted?: boolean;
 }
 const ledgers = new WeakMap<FrontBattleState, Map<number, ShotLedger>>();
 function ledger(w: World, id: number, owner: string): ShotLedger {
@@ -159,6 +175,120 @@ function stateFor(w: World, e: Enemy, owner: string) {
     hits: 0,
     lastShot: -1,
   });
+}
+export function frontEnemyFrozen(w: World, e: Enemy): boolean {
+  return (
+    w.front?.survivalBuildVersion === 1 &&
+    (w.front.freezes?.[e.id]?.until ?? 0) > w.time
+  );
+}
+function applySurvivalElements(
+  w: World,
+  e: Enemy,
+  owner: string,
+  origin: number,
+) {
+  const battle = w.front!,
+    combat = battle.players[owner],
+    status = stateFor(w, e, owner);
+  const fire = Math.min(3, combat.levels["fire-rounds"] || 0);
+  if (fire && e.hp > 0) {
+    if (status.burnUntil === undefined || status.burnUntil <= w.time)
+      status.burnNext = w.time + FRONT_ELEMENT_RULES.burnInterval;
+    status.burnUntil = w.time + FRONT_ELEMENT_RULES.burnDuration;
+    status.burnDamage = FRONT_ELEMENT_RULES.burnDamage(fire);
+    if (spend(w))
+      event(w, {
+        type: "burst",
+        silent: true,
+        frontEffect: "burn",
+        owner,
+        x: e.x,
+        y: eye(e),
+        z: e.z,
+        radius: 0.5,
+      });
+  }
+  const frost = Math.min(3, combat.levels["frost-rounds"] || 0);
+  if (
+    frost &&
+    e.hp > 0 &&
+    !e.segments &&
+    !["boss", "harrow", "bastion", "calyx"].includes(e.kind)
+  ) {
+    const freezes = (battle.freezes ??= {}),
+      current = freezes[e.id];
+    if (w.time >= (current?.readyAt ?? 0) && spend(w)) {
+      const duration = FRONT_ELEMENT_RULES.freezeDuration(frost);
+      freezes[e.id] = {
+        until: w.time + duration,
+        readyAt: w.time + duration + FRONT_ELEMENT_RULES.freezeRecovery,
+      };
+      markEffect(w, owner);
+      event(w, {
+        type: "burst",
+        silent: true,
+        frontEffect: "freeze",
+        owner,
+        x: e.x,
+        y: eye(e),
+        z: e.z,
+        radius: 1,
+        duration,
+      });
+    }
+  }
+  const lightning = Math.min(3, combat.levels["chain-lightning"] || 0);
+  if (!lightning) return;
+  combat.lightningHits = (combat.lightningHits ?? 0) + 1;
+  if (combat.lightningHits < 3) return;
+  combat.lightningHits = 0;
+  const shot = ledger(w, origin, owner);
+  if (shot.chainStarted) return;
+  shot.chainStarted = true;
+  const visited = new Set([e.id]),
+    blocks = mapFor(w).blocks;
+  let from = e;
+  for (let hop = 0; hop < FRONT_ELEMENT_RULES.chainTargets(lightning); hop++) {
+    const target = w.enemies
+      .filter(
+        (candidate) =>
+          candidate.hp > 0 &&
+          !visited.has(candidate.id) &&
+          !shot.effected.has(`chain-lightning:${candidate.id}`) &&
+          Math.hypot(candidate.x - from.x, candidate.z - from.z) <=
+            FRONT_ELEMENT_RULES.chainRange &&
+          visible(from, candidate, blocks),
+      )
+      .sort(
+        (a, b) =>
+          Math.hypot(a.x - from.x, a.z - from.z) -
+            Math.hypot(b.x - from.x, b.z - from.z) || a.id - b.id,
+      )[0];
+    if (!target || !spend(w)) break;
+    const start = { x: from.x, y: eye(from), z: from.z };
+    visited.add(target.id);
+    shot.effected.add(`chain-lightning:${target.id}`);
+    hurtEnemy(w, target, FRONT_ELEMENT_RULES.chainDamage(lightning), owner);
+    if (target.hp <= 0) {
+      combat.secondaryKills++;
+      shot.kills++;
+      combat.maxChain = Math.max(combat.maxChain, shot.kills);
+    }
+    event(w, {
+      // Secondary arcs must not be interpreted as the soldier's aim/volley.
+      type: "burst",
+      silent: true,
+      frontEffect: "chain-lightning",
+      owner,
+      ...start,
+      tx: target.x,
+      ty: eye(target),
+      tz: target.z,
+    });
+    markEffect(w, owner);
+    from = target;
+  }
 }
 function nearestWalkableDrop(w: World, x: number, z: number) {
   const blocks = mapFor(w).blocks;
@@ -453,6 +583,8 @@ export function frontManualHit(
     if (counter) r.counterReady = false;
   }
   hurtEnemy(w, e, damage, owner, part, weapon);
+  if (fresh && w.front.survivalBuildVersion === 1)
+    applySurvivalElements(w, e, owner, origin);
   if (w.front.growthVersion === 3 && e.hp <= 0) {
     const p = w.players.find((p) => p.id === owner),
       slot = sourceSlot ?? p?.slot;
@@ -632,6 +764,42 @@ export function tickFrontEffects(w: World) {
   if (!w.front?.growthVersion) return legacy.tickFrontEffects(w);
   const r = w.front!;
   r.effectsThisTick = 0;
+  if (r.survivalBuildVersion === 1) {
+    for (const [owner, combat] of Object.entries(r.players))
+      for (const [id, status] of Object.entries(combat.statuses)) {
+        const target = w.enemies.find((e) => e.id === Number(id) && e.hp > 0);
+        if (
+          !target ||
+          status.burnNext === undefined ||
+          status.burnUntil === undefined
+        )
+          continue;
+        while (
+          status.burnNext <= w.time + 1e-9 &&
+          status.burnNext <= status.burnUntil + 1e-9 &&
+          target.hp > 0
+        ) {
+          if (!spend(w)) break;
+          status.burnNext += FRONT_ELEMENT_RULES.burnInterval;
+          hurtEnemy(w, target, status.burnDamage ?? 0, owner);
+          if (target.hp <= 0) combat.secondaryKills++;
+          markEffect(w, owner);
+          event(w, {
+            type: "burst",
+            silent: true,
+            frontEffect: "burn",
+            owner,
+            x: target.x,
+            y: eye(target),
+            z: target.z,
+            radius: 0.5,
+          });
+        }
+      }
+    for (const id of Object.keys(r.freezes ?? {}))
+      if (!w.enemies.some((e) => e.id === Number(id) && e.hp > 0))
+        delete r.freezes![Number(id)];
+  }
   for (const p of Object.values(r.players))
     for (const id of Object.keys(p.statuses))
       if (!w.enemies.some((e) => e.id === Number(id) && e.hp > 0))

@@ -116,8 +116,18 @@ export function collectCurrentAssetPacks(root) {
     ...matches(atlas, /"([a-z-]+)"/g),
     ...fusions.slice(0, atlasCount),
   ]);
-  if (!upgradeUi.includes("rebuild/upgrades/${id}.png"))
+  if (
+    !upgradeUi.includes(
+      'rebuild/upgrades/${id}.${FRONT_ELEMENT_IDS.includes(id) ? "svg" : "png"}',
+    )
+  )
     throw new Error("Upgrade icon layout changed");
+  const elementIds = new Set(
+    matches(
+      section(upgrade, "export const FRONT_ELEMENT_IDS", "];"),
+      /"([a-z-]+)"/g,
+    ),
+  );
   if (
     !source("src/client/gear-weapon-list.ts").includes(
       'assets/ui/weapon-${locked ? "locked" : "unlocked"}.png',
@@ -126,7 +136,9 @@ export function collectCurrentAssetPacks(root) {
     throw new Error("Gear icon layout changed");
   const icons = ids
     .filter((id) => !atlasIds.has(id))
-    .map((id) => `rebuild/upgrades/${id}.png`);
+    .map(
+      (id) => `rebuild/upgrades/${id}.${elementIds.has(id) ? "svg" : "png"}`,
+    );
   const ui = [
     one(
       source("src/client/home-screen.ts"),

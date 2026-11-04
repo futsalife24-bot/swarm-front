@@ -1,6 +1,9 @@
 import { expect, it } from "vitest";
 import { CAMPAIGN_COUNT } from "../src/shared/campaign";
-import { FRONT_BASE_IDS, FRONT_FUSIONS } from "../src/shared/front-upgrades";
+import {
+  FRONT_SURVIVAL_BASE_IDS,
+  FRONT_FUSIONS,
+} from "../src/shared/front-upgrades";
 import {
   FRONT_SURVIVAL_STARTERS,
   frontSurvivalProgress,
@@ -41,7 +44,7 @@ const plan = (clearedStage = 0): FrontSurvivalPlan => ({
   excluded: [],
 });
 
-it("初期8種に2融合があり、進撃1〜7の各突破で2種ずつ増えて全22種になる", () => {
+it("初期8種と2融合を維持し、進撃1〜3で属性も増え、7突破で全25種になる", () => {
   expect(FRONT_SURVIVAL_STARTERS).toHaveLength(8);
   expect(
     Object.values(FRONT_FUSIONS).filter((ids) =>
@@ -49,10 +52,12 @@ it("初期8種に2融合があり、進撃1〜7の各突破で2種ずつ増え�
     ),
   ).toHaveLength(2);
   for (let stage = 0; stage <= 7; stage++)
-    expect(frontSurvivalProgress(stage).unlocked).toHaveLength(8 + stage * 2);
-  expect(frontSurvivalProgress(7).unlocked).toEqual(FRONT_BASE_IDS);
+    expect(frontSurvivalProgress(stage).unlocked).toHaveLength(
+      8 + stage * 2 + Math.min(stage, 3),
+    );
+  expect(frontSurvivalProgress(7).unlocked).toEqual(FRONT_SURVIVAL_BASE_IDS);
   expect(frontSurvivalProgress(CAMPAIGN_COUNT).unlocked).toEqual(
-    FRONT_BASE_IDS,
+    FRONT_SURVIVAL_BASE_IDS,
   );
 });
 it("進撃報酬と3ptの配分が別で、両適性を最大にはできない", () => {

@@ -95,7 +95,7 @@ try {
       await page.locator("#front-mode").selectOption("defense");
       await page.locator("#front-mode").selectOption("survival");
     }
-    const ownedCount = earned ? 18 : 8;
+    const ownedCount = earned ? 21 : 8;
     await expect(page.locator(".gear-arsenal")).toContainText(
       `獲得済みカード ${ownedCount}種類`,
     );
@@ -142,9 +142,9 @@ try {
     await expect(page.locator("#base-grid small")).toHaveCount(0);
     await expect(
       page.locator('#base-grid > .sc-card[data-size="M"]'),
-    ).toHaveCount(22);
+    ).toHaveCount(25);
     await expect(page.locator('#base-grid [data-locked="true"]')).toHaveCount(
-      22 - ownedCount,
+      25 - ownedCount,
     );
     await expect(page.locator("#base-count")).toContainText(
       `抽選 ${ownedCount}/${ownedCount}種`,
@@ -215,7 +215,7 @@ try {
       battleOneWeapon: true,
       saveUnchanged: true,
       allOwnedNormalCards: ownedCount,
-      lockedNormalCards: 22 - ownedCount,
+      lockedNormalCards: 25 - ownedCount,
       legacyLoadoutUnchanged: true,
       pageErrors: errors,
     });

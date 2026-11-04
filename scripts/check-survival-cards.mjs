@@ -144,6 +144,19 @@ try {
         }
       }
       await page.evaluate(() =>
+        window.cardFixture.show(
+          ["fire-rounds", "frost-rounds", "chain-lightning"],
+          false,
+        ),
+      );
+      await page
+        .locator('.sc-card[data-size="L"] img')
+        .evaluateAll((imgs) => Promise.all(imgs.map((img) => img.decode())));
+      await page.screenshot({
+        path: `${out}/${width}x${height}-${reducedMotion}-elements.png`,
+        animations: "disabled",
+      });
+      await page.evaluate(() =>
         window.cardFixture.show(["armor", "fuse", "fusion-reactor"], true),
       );
       const animations = await page

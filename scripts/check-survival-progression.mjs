@@ -144,11 +144,26 @@ try {
       await tap("#pt-base");
       await tap("#pt-base-survival");
       await page.locator(".front-base").waitFor();
-      await expect(page.locator("#base-count")).toContainText("抽選 12/12種");
+      await expect(page.locator("#base-count")).toContainText("抽選 14/14種");
       await expect(
         page.locator("#base-grid [role=checkbox], #base-grid input"),
       ).toHaveCount(0);
       await expect(page.locator("#base-grid small")).toHaveCount(0);
+      await tap('[data-inspect="fire-rounds"]');
+      await expect(page.locator("#base-detail")).toContainText("火炎");
+      await expect(page.locator("#base-exclude")).toBeEnabled();
+      await tap(".base-exclude-control");
+      await expect(
+        page.locator(
+          '.sc-card[data-excluded="true"] [data-inspect="fire-rounds"]',
+        ),
+      ).toHaveCount(1);
+      await tap(".base-exclude-control");
+      await tap('[data-inspect="frost-rounds"]');
+      await expect(page.locator("#base-exclude")).toBeEnabled();
+      await tap('[data-inspect="chain-lightning"]');
+      await expect(page.locator("#base-exclude")).toBeDisabled();
+      await expect(page.locator("#base-detail")).toContainText("進撃3突破");
       await tap('[data-inspect="magnet"]');
       await expect(page.locator("#base-exclude")).not.toBeChecked();
       await tap(".base-exclude-control");
@@ -188,7 +203,7 @@ try {
       await page.keyboard.press("Space");
       await expect(page.locator(".sc-exclusion-chains")).toHaveCount(1);
       await expect(page.locator("#base-count")).toContainText(
-        "抽選 11/12種 · 除外 1/1",
+        "抽選 13/14種 · 除外 1/1",
       );
       await shot("exclusions");
       await tap("#base-fusions");
@@ -215,7 +230,7 @@ try {
       await page.locator(".front-prep").waitFor();
       await settle();
       await expect(page.locator(".gear-arsenal")).toContainText(
-        "抽選 11種 · 除外 1/1 · 再抽選 3回",
+        "抽選 13種 · 除外 1/1 · 再抽選 3回",
       );
       await shot("prep");
       expect(errors).toEqual([]);
@@ -224,10 +239,10 @@ try {
         height,
         reducedMotion,
         initialCards: 8,
-        stage2Cards: 12,
+        stage2Cards: 14,
         rerolls: 3,
         exclusions: 1,
-        poolAfterExclusion: 11,
+        poolAfterExclusion: 13,
         chainExclusion: true,
         detailCheckboxOnly: true,
         keyboardToggle: true,

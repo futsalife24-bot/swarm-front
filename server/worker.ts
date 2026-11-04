@@ -1,5 +1,6 @@
 import {
   FRONT_PREVIOUS_BASE_IDS,
+  FRONT_ELEMENT_IDS,
   FRONT_V2_UPGRADE_IDS,
   createFrontUpgradeState,
   type FrontUpgradeId,
@@ -107,7 +108,7 @@ interface Member {
   frontSurvivalPlan?: FrontSurvivalPlan;
   frontClearedStage?: number;
   frontGrowth?: 2 | 3;
-  frontCatalog?: 2;
+  frontCatalog?: 2 | 3;
   frontOpening?: 2;
   upgradePool?: FrontUpgradeId[];
   initialCards?: FrontUpgradeId[];
@@ -1220,8 +1221,11 @@ export class Room extends DurableObject<Env> {
       if (
         (this.saved.frontRun?.world.front?.survivalBuildVersion === 1 &&
           m.frontSurvivalBuild !== 1) ||
+        (this.saved.frontRun?.world.front?.catalogVersion === 3 &&
+          m.frontCatalog !== 3) ||
         (this.saved.frontRun?.world.front?.catalogVersion === 2 &&
-          m.frontCatalog !== 2) ||
+          m.frontCatalog !== 2 &&
+          m.frontCatalog !== 3) ||
         (this.saved.frontRun?.world.front?.growthVersion === 3 &&
           m.frontGrowth !== 3) ||
         (this.saved.frontRun?.world.front?.growthVersion === 2 &&
@@ -1286,7 +1290,8 @@ export class Room extends DurableObject<Env> {
         };
         this.saved.members.push(member);
       }
-      member.frontCatalog = m.frontCatalog === 2 ? 2 : undefined;
+      member.frontCatalog =
+        m.frontCatalog === 3 ? 3 : m.frontCatalog === 2 ? 2 : undefined;
       member.frontSurvivalBuild =
         m.frontSurvivalBuild === 1 && m.frontGrowth === 3 ? 1 : undefined;
       member.frontOpening = m.frontOpening === 2 ? 2 : undefined;
@@ -1578,10 +1583,24 @@ export class Room extends DurableObject<Env> {
           if (!dedicatedPool && !Array.isArray(m.upgradePool))
             throw new Error();
           if (m.upgradePool !== undefined)
-            createFrontUpgradeState("validate", 0, undefined, m.upgradePool);
+            createFrontUpgradeState(
+              "validate",
+              0,
+              undefined,
+              m.upgradePool,
+              undefined,
+              dedicatedPool && member.frontCatalog === 3,
+            );
+          if (
+            member.frontCatalog !== 3 &&
+            m.frontSurvivalPlan?.excluded.some((id: FrontUpgradeId) =>
+              FRONT_ELEMENT_IDS.includes(id),
+            )
+          )
+            throw new Error("画面を更新してください");
           if (
             !dedicatedPool &&
-            member.frontCatalog !== 2 &&
+            member.frontCatalog === undefined &&
             m.upgradePool?.some(
               (id: FrontUpgradeId) => !FRONT_PREVIOUS_BASE_IDS.includes(id),
             )
@@ -1651,6 +1670,10 @@ export class Room extends DurableObject<Env> {
               ? frontSurvivalPlanLoadout(member.frontSurvivalPlan).pool
               : [...(m.upgradePool ?? FRONT_V2_UPGRADE_IDS)]
             : [...m.upgradePool];
+        if (member.frontCatalog !== 3)
+          member.upgradePool = member.upgradePool.filter(
+            (id) => !FRONT_ELEMENT_IDS.includes(id),
+          );
       }
       if (
         this.saved.directory?.ruleset === "front-v1" &&
@@ -1705,11 +1728,10 @@ export class Room extends DurableObject<Env> {
             present.some((p) => p.frontSurvivalBuild !== 1)) ||
           (present.some((p) => p.frontGrowth === 3) &&
             present.some((p) => p.frontGrowth !== 3)) ||
-          (present.some((p) => p.frontCatalog === 2) &&
-            present.some((p) => p.frontCatalog !== 2)) ||
+          new Set(present.map((p) => p.frontCatalog ?? 1)).size > 1 ||
           present.some(
             (p) =>
-              p.frontCatalog !== 2 &&
+              p.frontCatalog === undefined &&
               p.upgradePool?.some(
                 (id) => !FRONT_PREVIOUS_BASE_IDS.includes(id),
               ),
@@ -1746,7 +1768,11 @@ export class Room extends DurableObject<Env> {
             mode: this.saved.directory.mode,
             fusion: present.every((p) => p.frontGrowth === 3),
             clearedStage: present[0]?.frontClearedStage ?? 0,
-            catalogVersion: present.every((p) => p.frontCatalog === 2) ? 2 : 1,
+            catalogVersion: present.every((p) => p.frontCatalog === 3)
+              ? 3
+              : present.every((p) => p.frontCatalog === 2)
+                ? 2
+                : 1,
             ...(this.saved.directory.mode === "survival" &&
             present.every((p) => p.frontSurvivalBuild === 1)
               ? { survivalBuildVersion: 1 as const }
