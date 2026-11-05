@@ -2,6 +2,8 @@
 
 本人依頼: 「生存モード終了時の獲得報酬画面がない」。2026-11-05。
 
+[PR #281](https://github.com/futsalife24-bot/swarm-front/pull/281)で通常main反映済み。mainからの配布物と通常ソロ2サイズも確認済み。既存Worker公開は現在の無料契約確認待ち。[反映・配布物・停止理由と再開](RELEASE.md)。
+
 確認した原因: `src/client/front-app.ts` の終了画面は時間・強化回数・連鎖・融合と保存結果の合計文のみで、獲得武器の一覧がない。既存の `saveFrontRunRewards` は報酬を保存している。報酬付与の不具合と断定していない。
 
 正本: https://github.com/futsalife24-bot/swarm-front 。作業場所 `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-survival-build`、branch `codex/survival-result-rewards-20261105`、開始時base/HEAD `aa0e1fe15284a42fe08bdbc7036ae0c506eb2f99`。開始時clean、最新mainから専用branchを作成。rootの既存差分と他worktreeは保持。
@@ -25,7 +27,7 @@
 - `npx vitest run --config vitest.front.config.ts tests/front-result-rewards.test.ts tests/front-reward-status.test.ts tests/front-survival.test.ts tests/front-reward-ui.test.ts`: 23件成功。初回の旧構成では一時変換ファイルのENOENTで既存2suite失敗、新規5件成功。TEMP/TMPを今回のrepo内 `dist-validation/survival-result-rewards/tmp` に限定して再実行し3suite/21件成功、接続後は宝箱表示の既存2件も加えて23件成功。テスト基準は変更なし。
 - 実ブラウザー初回はsandboxの `ERR_NETWORK_ACCESS_DENIED`。正式な権限経路で再実行したところ、Vite未起動で `ERR_CONNECTION_REFUSED`。標準ローダー `npm run dev -- --configLoader native --port 5186 --strictPort` の起動が約43秒で完了した後、同じ検査を実行し8条件成功。最初の失敗を成功に含めていない。
 - 現状版の実ソロ8条件では、帰還と全滅で武器3丁・攻略コイン30（宝箱10を含む）、短時間終了で武器0丁・宝箱10、保存失敗→再試行で失敗表示解消を確認。ページ例外0、戻るボタン全条件が画面内。[結果](baseline.json)、[帰還844](baseline-return-844.png)、[全滅640](baseline-defeat-640.png)。この画像は既存の終了演出が表示中の撮影で、演出終了後の最終レイアウトを検証したものではない。獲得武器の詳細一覧は現状に存在しない。fixtureによる時間短縮で、人の通し実プレイではない。
-- 製品への接続と実ソロ/実Workerの確認は実施済み。`npm run build -- --configLoader native` 成功、500KB超chunk警告あり。公開用のcommit後ビルド、通常PR/main反映、既存Worker公開・配信確認はこの段階では未完了。独立Chat監査は最新の通常方針に従い自動追加していない。
+- 製品への接続と実ソロ/実Workerの確認は実施済み。実装commit後/merge後mainの `npm run build -- --configLoader native` と既存Worker dry-run成功、500KB超chunk警告あり。通常PR/main反映も完了。既存Worker公開・配信確認だけは未完了。独立Chat監査は最新の通常方針に従い自動追加していない。
 - 最終CSSの再確認前、証拠JSONをdocsへコピーした際にViteの監視が `EBUSY` で停止し、検証2本は接続拒否で失敗した。サーバーログの対象ファイルを確認し、証拠書込みを止めてViteを再起動、Readyを確認して再実行した最終4条件が成功。恒久的なwatch/Hook/ルール変更はない。終了後は今回の5186/8807を停止し、待受0を確認。成功済みの保存/通信テストは不要に繰り返していない。
 
 ## 送信承認と公開前の制約の経過
