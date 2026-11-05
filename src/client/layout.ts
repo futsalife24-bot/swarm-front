@@ -1,3 +1,9 @@
+import {
+  BUDDY_SKILL_PLACEMENT,
+  pickBuddySkillPlacement,
+  type BuddySkillLabelSide,
+} from "./buddy-ui-placement";
+
 export const CONTROL_IDS = [
   "move",
   "fire",
@@ -9,6 +15,7 @@ export const CONTROL_IDS = [
   "pause",
   "scope",
   "scope2",
+  "buddy",
 ] as const;
 export type ControlId = (typeof CONTROL_IDS)[number];
 export const LABELS: Record<ControlId, string> = {
@@ -22,6 +29,7 @@ export const LABELS: Record<ControlId, string> = {
   pause: "一時停止",
   scope: "スコープ",
   scope2: "スコープ2",
+  buddy: "バディ",
 };
 export interface Placement {
   x: number;
@@ -52,6 +60,7 @@ export const defaultLayout = (): Layout => ({
     pause: { x: 0.5, y: 0.95, size: 0.7 },
     scope: { x: 0.77, y: 0.13, size: 1 },
     scope2: { x: 0.27, y: 0.35, size: 1 },
+    buddy: { x: 0.92, y: 0.86, size: 1 },
   },
 });
 export function parseLayout(raw: string | null): Layout {
@@ -67,6 +76,8 @@ export function parseLayout(raw: string | null): Layout {
     v.buttons.scope = defaultLayout().buttons.scope;
   if (v?.buttons && !v.buttons.scope2)
     v.buttons.scope2 = defaultLayout().buttons.scope2;
+  if (v?.buttons && !v.buttons.buddy)
+    v.buttons.buddy = defaultLayout().buttons.buddy;
   if (v && v.secondScope === undefined) v.secondScope = false;
   if (
     !v ||
@@ -117,28 +128,57 @@ export function resolveLayout(
   width: number,
   height: number,
   insets = NO_INSETS,
+  includeBuddy = true,
 ) {
   const a = arena(width, height, insets),
     scale = Math.max(0.85, Math.min(1.15, width / 900, height / 400));
-  return CONTROL_IDS.filter((id) => id !== "scope2" || layout.secondScope).map(
-    (id) => {
-      const b = layout.buttons[id],
-        base = id === "move" ? 112 : id === "fire" ? 84 : 56;
-      const size = Math.min(
-        a.height,
-        a.width,
-        Math.max(44, base * b.size * scale),
-      );
-      const x = Math.max(size / 2, Math.min(a.width - size / 2, b.x * a.width)),
-        y = Math.max(size / 2, Math.min(a.height - size / 2, b.y * a.height));
-      return {
-        id,
-        left: a.left + x - size / 2,
-        top: a.top + y - size / 2,
-        size,
-      };
-    },
-  );
+  const box = (
+    id: ControlId,
+    b: Placement,
+  ): {
+    id: ControlId;
+    left: number;
+    top: number;
+    size: number;
+    label?: BuddySkillLabelSide;
+  } => {
+    const base = id === "move" ? 112 : id === "fire" ? 84 : 56;
+    const size = Math.min(
+      a.height,
+      a.width,
+      Math.max(44, base * b.size * scale),
+    );
+    const x = Math.max(size / 2, Math.min(a.width - size / 2, b.x * a.width)),
+      y = Math.max(size / 2, Math.min(a.height - size / 2, b.y * a.height));
+    return {
+      id,
+      left: a.left + x - size / 2,
+      top: a.top + y - size / 2,
+      size,
+    };
+  };
+  const rects = CONTROL_IDS.filter(
+    (id) =>
+      (id !== "scope2" || layout.secondScope) &&
+      (id !== "buddy" || includeBuddy),
+  ).map((id) => box(id, layout.buttons[id]));
+  const buddy = layout.buttons.buddy;
+  if (
+    includeBuddy &&
+    buddy.x === BUDDY_SKILL_PLACEMENT.x &&
+    buddy.y === BUDDY_SKILL_PLACEMENT.y &&
+    buddy.size === BUDDY_SKILL_PLACEMENT.size
+  ) {
+    const { rect, placement } = pickBuddySkillPlacement(
+      rects.filter((r) => r.id !== "buddy"),
+      (p) => box("buddy", p),
+    );
+    rects[rects.findIndex((r) => r.id === "buddy")] = {
+      ...rect,
+      label: placement.label,
+    };
+  }
+  return rects;
 }
 export function overlaps(rects: ReturnType<typeof resolveLayout>) {
   return rects.some((a, i) =>
@@ -166,6 +206,19 @@ export function readInsets(): Insets {
 }
 /** Reuse the existing control appearance in every game entry point. */
 export function ensureScopeControls() {
+  if (!document.getElementById("buddy")) {
+    const controls = document.getElementById("controls");
+    if (controls) {
+      // The advance entry replaces this inert placeholder with its skill UI.
+      const buddy = document.createElement("button");
+      buddy.id = "buddy";
+      buddy.type = "button";
+      buddy.hidden = true;
+      buddy.textContent = LABELS.buddy;
+      buddy.setAttribute("aria-label", "バディ固有スキル");
+      controls.append(buddy);
+    }
+  }
   if (!document.getElementById("jump")) {
     const dodge = document.getElementById("dodge");
     if (dodge) {
@@ -207,7 +260,15 @@ export function placeControls(layout: Layout) {
   ensureScopeControls();
   const secondary = document.getElementById("scope2");
   if (secondary && !layout.secondScope) secondary.hidden = true;
-  let rects = resolveLayout(layout, innerWidth, innerHeight, readInsets());
+  const includeBuddy =
+    document.getElementById("buddy")?.dataset.buddyActive === "true";
+  let rects = resolveLayout(
+    layout,
+    innerWidth,
+    innerHeight,
+    readInsets(),
+    includeBuddy,
+  );
   const fallback = overlaps(rects);
   if (fallback)
     rects = resolveLayout(
@@ -215,9 +276,11 @@ export function placeControls(layout: Layout) {
       innerWidth,
       innerHeight,
       readInsets(),
+      includeBuddy,
     );
   for (const r of rects) {
     const el = document.getElementById(r.id)!;
+    if (r.id === "buddy") el.dataset.label = r.label ?? "below";
     Object.assign(el.style, {
       left: r.left + "px",
       top: r.top + "px",

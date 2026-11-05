@@ -101,6 +101,23 @@ export async function prepareBattle(
     }
   }
   pending = "マップ・兵士";
+  if (
+    world.buddies &&
+    !world.front &&
+    !world.rebuild &&
+    !world.defense &&
+    !world.training
+  ) {
+    pending = "バディ";
+    report(50);
+    try {
+      await wait(view.prepareBuddies(world));
+    } catch (error) {
+      view.cancelBuddyPreparation(world);
+      throw error;
+    }
+    pending = "マップ・兵士";
+  }
   report(55);
   const mapIndex = VIEW_MAPS.indexOf(mapFor(world));
   // A failed daily map download must be retryable without spending participation.

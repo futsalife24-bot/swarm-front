@@ -1,8 +1,44 @@
+import { BUDDY_IDS, validBuddyProgress } from "./buddy-progression";
+
 /** Reject older-client overwrites which strip the additive growth fields. */
 export function preservesGrowthSave(
   previous: Record<string, unknown>,
   next: Record<string, unknown>,
 ) {
+  if (previous.buddies !== undefined) {
+    const a = previous.buddies;
+    const b = next.buddies;
+    if (!validBuddyProgress(a) || !validBuddyProgress(b)) return false;
+    if (a.starterChosen && !b.starterChosen) return false;
+    if (
+      BUDDY_IDS.some((id) => {
+        const old = a.owned[id],
+          current = b.owned[id];
+        return (
+          old &&
+          (!current ||
+            current.xp < old.xp ||
+            current.breakthrough < old.breakthrough)
+        );
+      })
+    )
+      return false;
+    if (
+      a.runs.some((id) => !b.runs.includes(id)) ||
+      a.clearedStages.some((id) => !b.clearedStages.includes(id)) ||
+      a.draws.some(
+        (r) =>
+          !b.draws.some(
+            (q) =>
+              q.requestId === r.requestId &&
+              q.buddyId === r.buddyId &&
+              q.duplicate === r.duplicate &&
+              q.guaranteed === r.guaranteed,
+          ),
+      )
+    )
+      return false;
+  }
   if (previous.survivalCardVersion === 1 && next.survivalCardVersion !== 1)
     return false;
   const oldSoldiers = (previous.soldiers ?? []) as Record<string, unknown>[];

@@ -109,6 +109,7 @@ export class Controls {
           "KeyE",
           "KeyZ",
           "KeyF",
+          "KeyG",
         ].includes(e.code)
       )
         e.preventDefault();
@@ -121,6 +122,7 @@ export class Controls {
             KeyQ: "swap",
             Space: "dodge",
             KeyF: "jump",
+            KeyG: "buddySkill",
           } as Record<string, string>
         )[e.code];
         if (action) this.queued.add(action);
@@ -286,6 +288,10 @@ export class Controls {
     }
     return i;
   }
+  /** ClaudeのHUDボタンから呼ぶ。レイアウトと入力の責務を分離。 */
+  activateBuddySkill() {
+    if (this.enabled) this.queued.add("buddySkill");
+  }
   read(): Input {
     if (document.hidden || !document.hasFocus()) this.resetInput();
     const i = { ...this.input, ...this.previewMovement() };
@@ -294,6 +300,7 @@ export class Controls {
     if (i.swap) this.scoped = false;
     i.dodge = this.queued.has("dodge");
     i.jump = this.queued.has("jump");
+    i.buddySkill = this.queued.has("buddySkill");
     this.queued.clear();
     i.revive ||= this.keys.has("KeyE");
     i.seq = ++this.input.seq;

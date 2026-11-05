@@ -1,0 +1,95 @@
+/* プレビューだけで使う部分（場面切替・戦闘HUDの見本）。製品には入れない。 */
+.pt-buddy-screen {
+  display: flex;
+  flex-direction: column;
+}
+.pt-buddy {
+  flex: 1;
+  min-height: 0;
+}
+#pv-hud {
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(#07141d33, #07141d66),
+    url("./assets/battle-backdrop.jpg") center / cover no-repeat,
+    #24333a;
+  overflow: hidden;
+}
+.pv-hud-top {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 88px;
+  display: grid;
+  place-items: center;
+  border-bottom: 1px dashed #ffffff33;
+  color: #ffffff66;
+  font-size: 11px;
+}
+.pv-aim {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  width: 26px;
+  height: 26px;
+  border: 2px solid #ffffffaa;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.pv-ctl {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  border: 1px solid #ffffff55;
+  border-radius: 50%;
+  background: #0b171d66;
+  color: #ffffffaa;
+  font-size: 10px;
+}
+.pv-controls {
+  position: fixed;
+  left: calc(6px + env(safe-area-inset-left, 0px));
+  bottom: calc(6px + env(safe-area-inset-bottom, 0px));
+  z-index: 50;
+  font-size: 12px;
+  color: #ffd0e6;
+}
+.pv-controls summary {
+  list-style: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 26px;
+  border: 1px dashed #ffb4d8;
+  background: #26142099;
+  cursor: pointer;
+}
+.pv-controls summary::-webkit-details-marker {
+  display: none;
+}
+.pv-controls-body {
+  position: absolute;
+  left: 0;
+  bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 240px;
+  padding: 8px;
+  border: 1px dashed #ffb4d8;
+  background: #170d15f0;
+}
+.pv-controls-body label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pv-controls-body .pv-check {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+.pv-controls-body p {
+  margin: 0;
+  font-size: 11px;
+}

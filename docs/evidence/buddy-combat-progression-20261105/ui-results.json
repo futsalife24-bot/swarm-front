@@ -1,0 +1,23 @@
+{
+  "results": [
+    {
+      "width": 844,
+      "height": 390,
+      "starter": true,
+      "draws": 2,
+      "saveRetry": true,
+      "skillButton": true,
+      "retireXp": 0
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "starter": true,
+      "draws": 2,
+      "saveRetry": true,
+      "skillButton": true,
+      "retireXp": 0
+    }
+  ],
+  "errors": []
+}

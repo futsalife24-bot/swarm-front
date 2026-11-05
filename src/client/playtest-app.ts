@@ -1,4 +1,10 @@
 import {
+  createBuddyBattleState,
+  equipBattleBuddy,
+} from "../shared/buddy-combat";
+import { buddyLevel } from "../shared/buddy-progression";
+import { mountGameBuddyMenu, attachBuddySkill } from "./buddy-bindings";
+import {
   battleLoadingMarkup,
   updateBattleLoadingStatus,
 } from "./loading-screen";
@@ -223,6 +229,16 @@ async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
     p.equipped.map((id) => save.inventory.find((w) => w.id === id)!),
   );
   actor.hp = maxHp(world);
+  const selectedBuddy = save.buddies?.selected;
+  if (!daily && selectedBuddy && save.buddies?.owned[selectedBuddy]) {
+    world.buddies = createBuddyBattleState(world);
+    equipBattleBuddy(
+      world.buddies,
+      actor,
+      selectedBuddy,
+      buddyLevel(save.buddies.owned[selectedBuddy]!),
+    );
+  }
   if (daily) initDailyDefense(world, daily.day);
   if (resume) world = structuredClone(resume.world);
   const tips = [
@@ -453,6 +469,7 @@ function defeat() {
       save,
       {
         run: world.run,
+        buddyId: world.buddies?.entries.solo?.buddyId ?? null,
         stage: s.stage,
         difficulty: s.difficulty,
         win: false,
@@ -493,6 +510,7 @@ function victory() {
     save,
     {
       run: w.run,
+      buddyId: w.buddies?.entries.solo?.buddyId ?? null,
       stage: s.stage,
       difficulty: s.difficulty,
       win: true,
@@ -1017,6 +1035,11 @@ function frame(now: number) {
   const active = !document.hidden && !paused && !modalCount && !saving;
   controls.enabled = active && (screen === "battle" || screen === "collection");
   controls.setScopeAvailable(controls.enabled && !!world?.players[0]?.hp);
+  buddySkill.update(
+    screen === "battle" ? world : null,
+    "solo",
+    controls.enabled,
+  );
   updateScopeButtons(layout, {
     visible: controls.enabled,
     available: controls.scopeAvailable,
@@ -1137,6 +1160,10 @@ const ui = $("ui"),
   view = new Renderer($("world") as HTMLCanvasElement, 120),
   sound = new Sound(),
   minimap = new Minimap();
+const buddySkill = attachBuddySkill(controls, sound, () =>
+  placeControls(layout),
+);
+let activeBuddyMenu: ReturnType<typeof mountGameBuddyMenu> | undefined;
 document.body.classList.add("playtest");
 void document.fonts.load('700 32px "Rajdhani"').catch(() => {});
 let mode: SaveMode = "normal",
@@ -1368,6 +1395,8 @@ function commit(next: ProgressSave, after: () => void = () => {}) {
   return true;
 }
 function setScreen(next: string) {
+  activeBuddyMenu?.destroy();
+  activeBuddyMenu = undefined;
   if (next !== screen) {
     cancelOperationCue();
     if (next === "battle")
@@ -1414,13 +1443,15 @@ function header(title: string, body: string, nav = true) {
       ? "LOADOUT / SOLO"
       : screen === "base"
         ? "BASE"
-        : screen === "armory"
-          ? "ARSENAL"
-          : screen === "growth"
-            ? "PERSONNEL"
-            : screen === "accessories"
-              ? "EQUIPMENT"
-              : "OPERATION RESULTS";
+        : screen === "buddy"
+          ? "BUDDY"
+          : screen === "armory"
+            ? "ARSENAL"
+            : screen === "growth"
+              ? "PERSONNEL"
+              : screen === "accessories"
+                ? "EQUIPMENT"
+                : "OPERATION RESULTS";
   const panel =
     screen === "gear" ? "gear" : screen === "result" ? "result" : "armory";
   ui.innerHTML = `<section class="panel ${panel} menu-screen pt-screen"><header class="menu-header"><div><div class="eyebrow">${eyebrow}${developerMode ? " · 管理者モード" : mode === "test" ? " · TEST DATA" : ""}</div><h1>${esc(title)}</h1></div>${nav ? '<nav><button id="pt-gear">出撃準備</button><button id="pt-base">基地</button><button id="pt-home">タイトルへ</button></nav>' : ""}</header><p class="pt-status" role="status">${esc(notice)}</p>${["base", "armory", "growth", "accessories"].includes(screen) ? resourceWallet(save) : ""}${body}</section>`;
@@ -1978,6 +2009,7 @@ function base() {
       <button id="pt-base-weapons"><strong>武器</strong><span>一覧・比較・整理</span><small>${allWeapons(save).length}丁を所持</small></button>
       <button id="pt-base-accessories"><strong>アクセサリ</strong><span>作成・装備・合成</span><small>${save.accessories.length}個を所持</small></button>
       <button id="pt-base-growth"><strong>育成</strong><span>兵士の能力を強化</span><small>兵士ごとの成長を管理</small></button>
+      <button id="pt-base-buddy"><strong>バディ</strong><span>編成・育成・招集</span><small>進撃に同行する相棒</small></button>
       <button id="pt-base-survival"><strong>生存カード</strong><span>強化候補・デッキ設定</span><small>カードの効果・融合条件を確認</small></button>
       <button id="pt-base-workshop" disabled aria-describedby="pt-workshop-note"><strong>工房</strong><span>工事中</span><small id="pt-workshop-note">武器のグレードアップ施設を準備中</small></button>
     </div>`,
@@ -1985,8 +2017,23 @@ function base() {
   bind("pt-base-weapons", armory);
   bind("pt-base-accessories", accessories);
   bind("pt-base-growth", growth);
+  bind("pt-base-buddy", buddy);
   bind("pt-base-survival", () =>
     navigateMenu(import.meta.env.BASE_URL + "front?cards=1"),
+  );
+}
+function buddy() {
+  setScreen("buddy");
+  header("バディ", '<div class="pt-buddy"></div>');
+  ui.querySelector(".pt-screen")!.classList.add("pt-buddy-screen");
+  activeBuddyMenu = mountGameBuddyMenu(
+    ui.querySelector(".pt-buddy")!,
+    () => save,
+    (next) => {
+      save = next;
+    },
+    () => screen === "battle",
+    sound,
   );
 }
 function armory() {

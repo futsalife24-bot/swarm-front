@@ -1,0 +1,21 @@
+{
+  "results": [
+    {
+      "width": 844,
+      "height": 390,
+      "starter": true,
+      "draws": 2,
+      "saveRetry": true,
+      "uiOnly": true
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "starter": true,
+      "draws": 2,
+      "saveRetry": true,
+      "uiOnly": true
+    }
+  ],
+  "errors": []
+}

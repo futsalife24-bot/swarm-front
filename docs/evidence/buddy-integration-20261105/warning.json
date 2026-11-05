@@ -1,0 +1,67 @@
+{
+  "browser": "156.0.4314.58",
+  "results": [
+    {
+      "type": "harrow-dash-render-fixture",
+      "width": 844,
+      "height": 390,
+      "entries": [
+        {
+          "kind": "tatara",
+          "visible": true
+        }
+      ],
+      "warning": {
+        "kind": "Dash",
+        "started": -0.6000000000000001,
+        "fired": false,
+        "yaw": 0,
+        "from": {
+          "x": 0,
+          "y": 0,
+          "z": 22
+        },
+        "to": {
+          "x": 0,
+          "y": 0,
+          "z": 34
+        }
+      }
+    },
+    {
+      "type": "harrow-dash-render-fixture",
+      "width": 640,
+      "height": 360,
+      "entries": [
+        {
+          "kind": "tatara",
+          "visible": true
+        }
+      ],
+      "warning": {
+        "kind": "Dash",
+        "started": -0.6000000000000001,
+        "fired": false,
+        "yaw": 0,
+        "from": {
+          "x": 0,
+          "y": 0,
+          "z": 22
+        },
+        "to": {
+          "x": 0,
+          "y": 0,
+          "z": 34
+        }
+      }
+    },
+    {
+      "type": "released-memory",
+      "memory": {
+        "geometries": 667,
+        "textures": 1198
+      }
+    }
+  ],
+  "errors": []
+}

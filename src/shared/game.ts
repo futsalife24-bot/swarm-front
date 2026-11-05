@@ -1,3 +1,11 @@
+import {
+  tickBuddyCombat,
+  buddyDamageMultiplier,
+  buddyMoveMultiplier,
+  buddyEvadeCooldownMultiplier,
+  type BuddyBattleState,
+} from "./buddy-combat";
+import { buddyFollowTarget } from "./buddy-follow";
 import type { Block } from "./map-blocks";
 import {
   beginFrontShot,
@@ -136,6 +144,7 @@ import {
   type Weapon,
 } from "./defs";
 export interface Input {
+  buddySkill?: boolean;
   mx: number;
   mz: number;
   yaw: number;
@@ -266,6 +275,8 @@ export interface Projectile {
   family?: Family;
 }
 export interface Event {
+  /** バディの発射点/足元の表示。生存の属性状態とは分離する。 */
+  buddyEffect?: "attack" | "fire" | "wind" | "ice" | "lightning";
   /** Keep the visual event without a combat sound (ANOMALY arrival cues). */
   silent?: boolean;
   frontEffect?:
@@ -323,6 +334,7 @@ export interface Drop {
   weapon: Weapon;
 }
 export interface World {
+  buddies?: BuddyBattleState;
   /** Public, temporary P1a combat data only; private offers live outside World. */
   rebuild?: RebuildCombatState;
   front?: FrontBattleState;
@@ -854,7 +866,14 @@ export function hurtPlayer(w: World, p: Player, damage: number, heavy = false) {
     frontArmor && w.time < frontArmor.armorUntil
       ? Math.min(0.6, 0.1 * frontArmor.levels["emergency-armor"])
       : 0;
-  p.hp = Math.max(0, p.hp - damage * stageFor(w).damage * (1 - reduction));
+  p.hp = Math.max(
+    0,
+    p.hp -
+      damage *
+        stageFor(w).damage *
+        (1 - reduction) *
+        buddyDamageMultiplier(w, w.buddies, p.id),
+  );
   if (heavy) p.heavyHit = HEAVY_HIT_DURATION;
   p.hurt = 0.2;
   p.safe = 0;
@@ -1580,6 +1599,15 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   if (!w.players.some((p) => p.connected)) return;
   dt = Math.min(0.1, Math.max(0, dt));
   w.time += dt;
+  if (w.buddies)
+    tickBuddyCombat(w, w.buddies, inputs, dt, (p, b) =>
+      buddyFollowTarget(
+        { x: p.x, y: p.y ?? 0, z: p.z, yaw: p.yaw },
+        { tatara: 0.93, yosuga: 0.52, tobari: 0.43, oriha: 0.88 }[b.buddyId],
+        mapFor(w).blocks,
+        b.visible ? b : undefined,
+      ),
+    );
   if (w.front) tickFrontEffects(w);
   if (w.solo) w.solo.invincible = Math.max(0, w.solo.invincible - dt);
   for (const p of w.players) {
@@ -1663,6 +1691,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       p.evade = EVADE_DURATION;
       p.evadeCd =
         2.2 *
+        buddyEvadeCooldownMultiplier(w, w.buddies, p.id) *
         (1 -
           Math.min(
             0.48,
@@ -1674,7 +1703,9 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       speed =
         p.evade > 0
           ? MOVE_SPEED.dodge
-          : MOVE_SPEED.walk * (1 + 0.03 * (w.solo?.levels.move ?? 0));
+          : MOVE_SPEED.walk *
+            (1 + 0.03 * (w.solo?.levels.move ?? 0)) *
+            buddyMoveMultiplier(w, w.buddies, p.id);
     move(
       p,
       ((i.mx * Math.cos(i.yaw) + i.mz * Math.sin(i.yaw)) / norm) * speed * dt,
@@ -2378,6 +2409,7 @@ export function validInput(v: unknown): v is Input {
     i.pitch <= MAX_PITCH &&
     (i.cameraAim === undefined || typeof i.cameraAim === "boolean") &&
     (i.jump === undefined || typeof i.jump === "boolean") &&
+    (i.buddySkill === undefined || typeof i.buddySkill === "boolean") &&
     Number.isSafeInteger(i.seq) &&
     i.seq >= 0 &&
     ["fire", "reload", "dodge", "swap", "revive"].every(

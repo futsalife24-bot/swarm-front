@@ -1,0 +1,308 @@
+{
+  "date": "2026-11-05",
+  "base": "e8a637695887278e6a5a1fbe972743b97611a7bf",
+  "branch": "codex/buddy-game-integration-20261105",
+  "stage": "開発専用の外観・追従とライフサイクル。製品導線・属性・能力・装備保存・選択同期は未接続。",
+  "sourceHashes": {
+    "src/client/render.ts": "e41d029ebf96c3507deec347eecc0ec4581fa4b249dbead3993b07cf026c225f",
+    "src/client/buddy-assets.ts": "a1b14701b4ae9e9b722a42bb8c2c14a9d719070e4b7f4196a73f33e70bce3462",
+    "src/client/buddy-follow.ts": "4a8ff1e6877c72d33542727150bcc3e042687789f8152fc9db02952dc0e8af21",
+    "src/client/buddy-visuals.ts": "305429dbd72b6466bae472428fa4bdfd52d1b7f958f04f9a60e02b717d47d6e0",
+    "src/client/buddy-review.ts": "b01e67155d363c37505e9020dc699c7aa2aef60bd2e80c404376331c5ecf58df",
+    "tests/front-buddy-visuals.test.ts": "2cab94442ec1a69155606077483e7fe96c38f1bd7fab17c25fe5a3c953173d4c"
+  },
+  "browser": "156.0.4314.58",
+  "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "tests": {
+    "finalRelatedUnit": 34,
+    "unchangedElementAndUpgradeUnit": 15,
+    "typecheck": "成功",
+    "soloConditions": 38,
+    "soloErrors": [],
+    "lifecycleConditions": 6,
+    "lifecycleErrors": [],
+    "coopLogicConditions": 7,
+    "coopFixtureSetupOnly": 1,
+    "coopErrors": [],
+    "warningConditions": 2,
+    "warningErrors": [],
+    "clipScreenBoundsInside": true,
+    "clipBoundsAvoidCentre": true
+  },
+  "measurementConditions": {
+    "renderer": "製品Renderer",
+    "scene": "固定seed4520、stage1、市街地、実兵士4人・hornet6体、通常カメラ、物理時刻固定、アニメーション継続",
+    "warmupFramesPerCondition": 150,
+    "samplesPerCondition": 80,
+    "candidate": "タタラv3",
+    "shadowFalse": "影描画なし。通常製品は地形の静的影を利用し、バディの動的影を生成しない。",
+    "shadowTrue": "検証専用で地形を含め毎フレームの影を明示更新",
+    "capacityFour": "検証条件。製品の同行上限ではない。",
+    "gpuCompletionMeasured": false,
+    "phoneMeasured": false,
+    "connectedBuddyEffects": 0,
+    "parallelBrowserTestsDuringFinalMeasurement": false
+  },
+  "metrics": [
+    {
+      "width": 844,
+      "height": 390,
+      "shadows": false,
+      "count": 0,
+      "calls": [391],
+      "buddyUpdateMedianMs": 0,
+      "buddyUpdateP95Ms": 0.1,
+      "renderSubmitMedianMs": 28.8,
+      "renderSubmitP95Ms": 43.8,
+      "memory": {
+        "geometries": 666,
+        "textures": 1198
+      }
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "shadows": false,
+      "count": 1,
+      "calls": [392],
+      "buddyUpdateMedianMs": 0.5,
+      "buddyUpdateP95Ms": 0.7,
+      "renderSubmitMedianMs": 38.4,
+      "renderSubmitP95Ms": 43.6,
+      "memory": {
+        "geometries": 667,
+        "textures": 1199
+      }
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "shadows": false,
+      "count": 4,
+      "calls": [395],
+      "buddyUpdateMedianMs": 0.6,
+      "buddyUpdateP95Ms": 1.8,
+      "renderSubmitMedianMs": 22.5,
+      "renderSubmitP95Ms": 37.1,
+      "memory": {
+        "geometries": 670,
+        "textures": 1202
+      }
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "shadows": true,
+      "count": 0,
+      "calls": [967],
+      "buddyUpdateMedianMs": 0,
+      "buddyUpdateP95Ms": 0,
+      "renderSubmitMedianMs": 31.1,
+      "renderSubmitP95Ms": 37.5,
+      "memory": {
+        "geometries": 666,
+        "textures": 1198
+      }
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "shadows": true,
+      "count": 1,
+      "calls": [969],
+      "buddyUpdateMedianMs": 0.2,
+      "buddyUpdateP95Ms": 0.5,
+      "renderSubmitMedianMs": 36.9,
+      "renderSubmitP95Ms": 67.8,
+      "memory": {
+        "geometries": 667,
+        "textures": 1199
+      }
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "shadows": true,
+      "count": 4,
+      "calls": [975],
+      "buddyUpdateMedianMs": 0.6,
+      "buddyUpdateP95Ms": 1.5,
+      "renderSubmitMedianMs": 32.9,
+      "renderSubmitP95Ms": 73.1,
+      "memory": {
+        "geometries": 670,
+        "textures": 1202
+      }
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "shadows": false,
+      "count": 0,
+      "calls": [391],
+      "buddyUpdateMedianMs": 0,
+      "buddyUpdateP95Ms": 0,
+      "renderSubmitMedianMs": 25.4,
+      "renderSubmitP95Ms": 41.2,
+      "memory": {
+        "geometries": 666,
+        "textures": 1198
+      }
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "shadows": false,
+      "count": 1,
+      "calls": [392],
+      "buddyUpdateMedianMs": 0.2,
+      "buddyUpdateP95Ms": 0.5,
+      "renderSubmitMedianMs": 30.4,
+      "renderSubmitP95Ms": 40.2,
+      "memory": {
+        "geometries": 667,
+        "textures": 1199
+      }
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "shadows": false,
+      "count": 4,
+      "calls": [395],
+      "buddyUpdateMedianMs": 0.9,
+      "buddyUpdateP95Ms": 1.9,
+      "renderSubmitMedianMs": 28.5,
+      "renderSubmitP95Ms": 39.3,
+      "memory": {
+        "geometries": 670,
+        "textures": 1202
+      }
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "shadows": true,
+      "count": 0,
+      "calls": [967],
+      "buddyUpdateMedianMs": 0,
+      "buddyUpdateP95Ms": 0,
+      "renderSubmitMedianMs": 27.7,
+      "renderSubmitP95Ms": 51.6,
+      "memory": {
+        "geometries": 666,
+        "textures": 1198
+      }
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "shadows": true,
+      "count": 1,
+      "calls": [969],
+      "buddyUpdateMedianMs": 0.1,
+      "buddyUpdateP95Ms": 0.4,
+      "renderSubmitMedianMs": 31.5,
+      "renderSubmitP95Ms": 88.3,
+      "memory": {
+        "geometries": 667,
+        "textures": 1199
+      }
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "shadows": true,
+      "count": 4,
+      "calls": [975],
+      "buddyUpdateMedianMs": 0.3,
+      "buddyUpdateP95Ms": 0.6,
+      "renderSubmitMedianMs": 28.5,
+      "renderSubmitP95Ms": 38.3,
+      "memory": {
+        "geometries": 670,
+        "textures": 1202
+      }
+    }
+  ],
+  "baseline": {
+    "geometries": 666,
+    "textures": 1198
+  },
+  "released": {
+    "geometries": 666,
+    "textures": 1198
+  },
+  "coil": [
+    {
+      "type": "oriha-coil-full-loop",
+      "mixerTime": 0.016666666666666666,
+      "clip": "Coil",
+      "clipTime": 0.016666666666666666,
+      "duration": 4.0333333015441895
+    },
+    {
+      "type": "oriha-coil-full-loop",
+      "mixerTime": 1.016666666666668,
+      "clip": "Coil",
+      "clipTime": 1.016666666666668,
+      "duration": 4.0333333015441895
+    },
+    {
+      "type": "oriha-coil-full-loop",
+      "mixerTime": 3.016666666666661,
+      "clip": "Coil",
+      "clipTime": 3.016666666666661,
+      "duration": 4.0333333015441895
+    },
+    {
+      "type": "oriha-coil-full-loop",
+      "mixerTime": 4.0666666666666575,
+      "clip": "Coil",
+      "clipTime": 0.03333336512246821,
+      "duration": 4.0333333015441895
+    }
+  ],
+  "missing": [
+    "個体の属性・能力",
+    "入手と選択方法",
+    "装備保存と選択の権威同期",
+    "実スマホ/PWA",
+    "実回線複数端末",
+    "全地形/全角度/密集と長時間",
+    "属性エフェクト込み負荷"
+  ],
+  "evidence": [
+    "game.json",
+    "lifecycle.json",
+    "coop.json",
+    "render.json",
+    "warning.json",
+    "assets.json",
+    "failures.json"
+  ],
+  "delivery": {
+    "implementationCommit": "e4829f9f2636cf289c1d9312d51e1c4971056c32",
+    "pr": "https://github.com/futsalife24-bot/swarm-front/pull/279",
+    "draft": true,
+    "push": true,
+    "build": "成功",
+    "workerDryRunAfterBuild": "成功",
+    "devUiExcludedFromProduction": true,
+    "ciChecksReported": 0,
+    "ciPassedClaim": false,
+    "merged": false,
+    "deployed": false,
+    "productionUiVerified": false,
+    "memory": "MainVault既存ノート末尾へ追記・読戻し、既存部分のbyte一致。ローカル保存のみ、同期未確認。"
+  },
+  "confirmedDecisions": {
+    "date": "2026-11-05",
+    "battle": "通常はバディ自身が戦い、ボタンで固有スキルを発動",
+    "individuality": "タタラ:火炎/範囲攻撃、ヨスガ:風/回復、トバリ:氷結/防御支援、オリハ:電撃/身体強化。能力値は未決",
+    "buddyLimitPerPlayer": 1,
+    "buddyMaximumInExistingFourPlayerRoom": 4,
+    "newBattleImplementation": false,
+    "supportTargets": "回復・身体強化は持ち主に加えて近くの味方にも適用。範囲の中心・距離・効果詳細は未決。"
+  }
+}

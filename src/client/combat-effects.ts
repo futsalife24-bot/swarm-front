@@ -264,13 +264,26 @@ export class CombatEffects {
     if (e.type === "hit" && !e.guard && (e.amount ?? 0) > 0) {
       this.add("impact", e.x, e.y, e.z, 0.9, 0.2, 0xffffff);
     }
+    // 足元の細い輪だけに留め、兵士・照準・敵の予告を煙で隠さない。
+    if (e.buddyEffect && e.buddyEffect !== "attack") {
+      const color = {
+        fire: 0xff993e,
+        wind: 0x8eeac9,
+        ice: 0x8fd7ff,
+        lightning: 0xd4bbff,
+      }[e.buddyEffect];
+      this.add("ring", e.x, e.y + 0.06, e.z, e.radius ?? 1, 0.8, color);
+      return;
+    }
     if (e.type === "shot") {
       // Player shots are drawn in rendered space so a strafe never shows them
       // ahead of the body. With the real soldier model they leave the drawn
       // muzzle; otherwise the authority's fixed body-centre height (1.5 m).
       // Hits stay at the authority's endpoint. Secondary hits keep their own origin.
       const anchor =
-        e.owner !== "enemy" && !e.frontEffect ? renderedBody : undefined;
+        e.owner !== "enemy" && !e.frontEffect && !e.buddyEffect
+          ? renderedBody
+          : undefined;
       const follow = anchor ? renderedMuzzle : undefined;
       const muzzle = follow?.(new T.Vector3()) ?? null;
       const start = muzzle

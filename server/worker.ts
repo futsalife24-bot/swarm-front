@@ -82,6 +82,12 @@ import {
   type World,
 } from "../src/shared/game";
 import { StateDeltaSender } from "../src/shared/state-delta";
+import {
+  createBuddyBattleState,
+  equipBattleBuddy,
+  validBuddyEquipment,
+  type BuddyEquipment,
+} from "../src/shared/buddy-combat";
 import { encodeState, prepareState } from "../src/shared/state-wire";
 import { encodeStateChunks } from "../src/shared/state-chunks";
 import {
@@ -104,6 +110,7 @@ interface Env {
   PROJECT_HUB_EXPORT_KEY?: string;
 }
 interface Member {
+  buddy?: BuddyEquipment;
   frontSurvivalBuild?: 1;
   frontSurvivalPlan?: FrontSurvivalPlan;
   frontClearedStage?: number;
@@ -930,6 +937,7 @@ export class Room extends DurableObject<Env> {
       count: number;
       window: number;
       seq: number;
+      buddySkillHeld?: boolean;
       inputReceivedAt?: number;
       inputReceipt?: boolean;
       receiptAt?: number;
@@ -1483,9 +1491,14 @@ export class Room extends DurableObject<Env> {
             dodge: m.input.dodge || previous?.dodge || false,
             jump: m.input.jump || previous?.jump || false,
             reload: m.input.reload || previous?.reload || false,
+            buddySkill:
+              (m.input.buddySkill === true && !s.buddySkillHeld) ||
+              previous?.buddySkill ||
+              false,
           },
           at: now,
         };
+        s.buddySkillHeld = m.input.buddySkill === true;
       } finally {
         if (
           stateAcknowledged &&
@@ -1537,6 +1550,15 @@ export class Room extends DurableObject<Env> {
       this.broadcast();
     } else if (m.type === "equip") {
       if (this.saved.world?.phase === "battle") return;
+      if (
+        m.buddy !== undefined &&
+        m.buddy !== null &&
+        (!validBuddyEquipment(m.buddy) ||
+          this.saved.directory?.ruleset === "front-v1")
+      ) {
+        this.error(ws, "バディ装備が不正です");
+        return;
+      }
       if (
         m.clearedStage !== undefined &&
         !validFrontClearedStage(m.clearedStage)
@@ -1654,6 +1676,12 @@ export class Room extends DurableObject<Env> {
             }
           : {}),
       }));
+      // 旧クライアントの省略で保存済み選択を消さない。nullだけ明示解除。
+      if (m.buddy !== undefined)
+        member.buddy =
+          m.buddy === null
+            ? undefined
+            : { id: m.buddy.id, level: m.buddy.level };
       if (this.equipmentCount(member) === 1)
         member.weapons = [createFrontSurvivalWeapon("front-lobby", s.id)];
       if (
@@ -1840,6 +1868,19 @@ export class Room extends DurableObject<Env> {
           this.saved.stage ?? m.stage ?? 1,
         );
         for (const p of present) addPlayer(world, p.id, p.weapons);
+        if (present.some((p) => p.buddy)) {
+          world.buddies = createBuddyBattleState(world);
+          for (const member of present) {
+            const player = world.players.find((p) => p.id === member.id)!;
+            if (member.buddy)
+              equipBattleBuddy(
+                world.buddies,
+                player,
+                member.buddy.id,
+                member.buddy.level,
+              );
+          }
+        }
         for (const p of present) p.last = now;
         start(world);
       }
@@ -1934,6 +1975,7 @@ export class Room extends DurableObject<Env> {
         p.ready === true &&
         p.readyGeneration === (this.saved.preparationGeneration ?? 0),
       ...(w?.phase !== "battle" ? { weapons: p.weapons } : {}),
+      ...(p.buddy ? { buddy: p.buddy } : {}),
       connected: !p.gone,
     }));
     const metadata = {
@@ -2136,6 +2178,7 @@ export class Room extends DurableObject<Env> {
       v.i.dodge = false;
       v.i.jump = false;
       v.i.reload = false;
+      v.i.buddySkill = false;
     }
     this.lastTickMs = performance.now() - stepStarted;
     this.ticks++;

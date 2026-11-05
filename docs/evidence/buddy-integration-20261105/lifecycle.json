@@ -1,0 +1,4542 @@
+{
+  "browser": "156.0.4314.58",
+  "results": [
+    {
+      "type": "solo",
+      "width": 844,
+      "kind": "none",
+      "snapshot": {
+        "run": "4745140e-32ed-43e2-b069-88f485d33bac",
+        "phase": "battle",
+        "localId": "solo",
+        "players": [
+          {
+            "id": "solo",
+            "x": -1,
+            "y": 0,
+            "z": 34,
+            "hp": 160
+          }
+        ],
+        "entries": [],
+        "memory": {
+          "geometries": 658,
+          "textures": 1192
+        },
+        "calls": 341,
+        "shadow": true,
+        "samples": [
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 305,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 6,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 7,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 18,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 22,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 27,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 20,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 16,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 16,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 6,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 18,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 17,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 15,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 15,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 20,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 20,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 17,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 15,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 34,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 15,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 16,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 17,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 348,
+            "triangles": 546202
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 348,
+            "triangles": 546202
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 348,
+            "triangles": 546202
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 15,
+            "calls": 348,
+            "triangles": 546202
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 23,
+            "calls": 348,
+            "triangles": 546202
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 21,
+            "calls": 348,
+            "triangles": 546202
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 348,
+            "triangles": 546202
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 17,
+            "calls": 348,
+            "triangles": 546202
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 545912
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 341,
+            "triangles": 423770
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 341,
+            "triangles": 423770
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 341,
+            "triangles": 423770
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 341,
+            "triangles": 423770
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 341,
+            "triangles": 423770
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 341,
+            "triangles": 423770
+          }
+        ]
+      }
+    },
+    {
+      "type": "solo",
+      "width": 844,
+      "kind": "tatara",
+      "snapshot": {
+        "run": "4745140e-32ed-43e2-b069-88f485d33bac",
+        "phase": "battle",
+        "localId": "solo",
+        "players": [
+          {
+            "id": "solo",
+            "x": -1,
+            "y": 0,
+            "z": 34,
+            "hp": 160
+          }
+        ],
+        "entries": [
+          {
+            "key": "solo:review",
+            "owner": "solo",
+            "kind": "tatara",
+            "visible": true,
+            "loaded": true,
+            "motion": "Idle",
+            "position": [-3.201039799750371, 0, 32.22578924591388],
+            "scale": [1, 1, 1],
+            "rotation": 3.1533656340782477,
+            "clips": ["Follow", "Idle", "Palm"],
+            "animationTime": 0.112,
+            "screenBounds": {
+              "minX": -0.40166813993486433,
+              "maxX": -0.20318180945946065,
+              "minY": -0.6380157287744942,
+              "maxY": -0.3946696342169979
+            },
+            "bounds": [
+              1.3989927984044792, 0.650504164106169, 1.1614421617866526
+            ],
+            "screen": [
+              -0.29687725308698887, -0.47652840891756626, 0.9710963375536155
+            ]
+          }
+        ],
+        "memory": {
+          "geometries": 659,
+          "textures": 1193
+        },
+        "calls": 342,
+        "shadow": true,
+        "samples": [
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 18,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 22,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 27,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 20,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 16,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 16,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 6,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 523014
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 18,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 17,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 15,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 15,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 20,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 20,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 17,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 15,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 34,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 15,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 16,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 17,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 341,
+            "triangles": 534608
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 348,
+            "triangles": 546202
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 348,
+            "triangles": 546202
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 348,
+            "triangles": 546202
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 15,
+            "calls": 348,
+            "triangles": 546202
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 23,
+            "calls": 348,
+            "triangles": 546202
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 21,
+            "calls": 348,
+            "triangles": 546202
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 348,
+            "triangles": 546202
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 17,
+            "calls": 348,
+            "triangles": 546202
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 545912
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 341,
+            "triangles": 423770
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 341,
+            "triangles": 423770
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 341,
+            "triangles": 423770
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 341,
+            "triangles": 423770
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 341,
+            "triangles": 423770
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 341,
+            "triangles": 423770
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 341,
+            "triangles": 423770
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 341,
+            "triangles": 423770
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 341,
+            "triangles": 423770
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 425694
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 425694
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 425694
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 425694
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 425694
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 425694
+          }
+        ]
+      }
+    },
+    {
+      "type": "controls-follow-idle",
+      "snapshot": {
+        "run": "4745140e-32ed-43e2-b069-88f485d33bac",
+        "phase": "battle",
+        "localId": "solo",
+        "players": [
+          {
+            "id": "solo",
+            "x": 3.1999999999999993,
+            "y": 0,
+            "z": 34,
+            "hp": 160
+          }
+        ],
+        "entries": [
+          {
+            "key": "solo:review",
+            "owner": "solo",
+            "kind": "yosuga",
+            "visible": true,
+            "loaded": true,
+            "motion": "Idle",
+            "position": [1.4089276597344165, 0, 32.220962435417206],
+            "scale": [1, 1, 1],
+            "rotation": 3.153357348196951,
+            "clips": ["Display", "Follow", "Idle"],
+            "animationTime": 2.4960000000000018,
+            "screenBounds": {
+              "minX": -0.31074214013837725,
+              "maxX": -0.21602072407841091,
+              "minY": -0.6376337248069416,
+              "maxY": -0.3942552655937322
+            },
+            "bounds": [
+              0.595504762085254, 0.7855933396136926, 0.7303823481531992
+            ],
+            "screen": [
+              -0.25380981998008306, -0.4768498015222015, 0.9710789481873663
+            ]
+          }
+        ],
+        "memory": {
+          "geometries": 659,
+          "textures": 1193
+        },
+        "calls": 342,
+        "shadow": true,
+        "samples": [
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 433584
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 433584
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 433584
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 433584
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 433584
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 433294
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 433294
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 433294
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 491025
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 491025
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 491025
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 491025
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 491025
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 491025
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 502329
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 502329
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 502329
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 502329
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 502329
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 502329
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 502329
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 502039
+          }
+        ]
+      }
+    },
+    {
+      "type": "retire-clear",
+      "snapshot": {
+        "localId": "solo",
+        "entries": [],
+        "memory": {
+          "geometries": 654,
+          "textures": 1192
+        },
+        "calls": 257,
+        "shadow": true,
+        "samples": [
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 479431
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 491025
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 491025
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 491025
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 491025
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 491025
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 491025
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 490735
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 502329
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 502329
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 502329
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 502329
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 502329
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 502329
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 349,
+            "triangles": 502329
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 0,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 34,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 40,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 41,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 33,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 23,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 22,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 19,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 15,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 15,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 15,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 38,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 33,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 15,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 17,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 6,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 10,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 6,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 6,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 42,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 18,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 58,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 26,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 37,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 37,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 39,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 34,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 34,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 45,
+            "calls": 342,
+            "triangles": 502039
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 31,
+            "calls": 257,
+            "triangles": 229352
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 22,
+            "calls": 257,
+            "triangles": 229352
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 17,
+            "calls": 257,
+            "triangles": 229352
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 257,
+            "triangles": 229352
+          }
+        ]
+      }
+    },
+    {
+      "type": "new-run-reentry",
+      "snapshot": {
+        "run": "091490d4-c095-4492-936f-c0464f22cc2c",
+        "phase": "battle",
+        "localId": "solo",
+        "players": [
+          {
+            "id": "solo",
+            "x": -1,
+            "y": 0,
+            "z": 34,
+            "hp": 160
+          }
+        ],
+        "entries": [
+          {
+            "key": "solo:review",
+            "owner": "solo",
+            "kind": "yosuga",
+            "visible": true,
+            "loaded": true,
+            "motion": "Idle",
+            "position": [-2.7841457930884577, 0, 32.21407477099827],
+            "scale": [1, 1, 1],
+            "rotation": 3.445186170264956,
+            "clips": ["Display", "Follow", "Idle"],
+            "animationTime": 0.095,
+            "screenBounds": {
+              "minX": -0.31365901381576594,
+              "maxX": -0.2082064469723905,
+              "minY": -0.6423455726271328,
+              "maxY": -0.3956565092050377
+            },
+            "bounds": [
+              0.6755477386005446, 0.7749249800225947, 0.7860599710918166
+            ],
+            "screen": [
+              -0.2528160879024311, -0.47632415964585534, 0.9711073887269801
+            ]
+          }
+        ],
+        "memory": {
+          "geometries": 659,
+          "textures": 1195
+        },
+        "calls": 342,
+        "shadow": true,
+        "samples": [
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 6,
+            "calls": 257,
+            "triangles": 229352
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 6,
+            "calls": 257,
+            "triangles": 229352
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 6,
+            "calls": 257,
+            "triangles": 229352
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 6,
+            "calls": 257,
+            "triangles": 229352
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 7,
+            "calls": 257,
+            "triangles": 229352
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 6,
+            "calls": 257,
+            "triangles": 229352
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 6,
+            "calls": 257,
+            "triangles": 229352
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 7,
+            "calls": 257,
+            "triangles": 229352
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 257,
+            "triangles": 229352
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 257,
+            "triangles": 229352
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 257,
+            "triangles": 229352
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 257,
+            "triangles": 229352
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 257,
+            "triangles": 229352
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 327,
+            "triangles": 318573
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 205,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 7,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 7,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 16,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 29,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 18,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 15,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 31,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 28,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 22,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 21,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 16,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 16,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 18,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 17,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 19,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 19,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 18,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 28,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 15,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 7,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 18,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 17,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 18,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 19,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 19,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 14,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 11,
+            "calls": 341,
+            "triangles": 476429
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 341,
+            "triangles": 476429
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 476429
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 341,
+            "triangles": 476429
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 22,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 342,
+            "triangles": 477893
+          }
+        ]
+      }
+    },
+    {
+      "type": "second-retire-clear",
+      "snapshot": {
+        "localId": "solo",
+        "entries": [],
+        "memory": {
+          "geometries": 654,
+          "textures": 1194
+        },
+        "calls": 257,
+        "shadow": true,
+        "samples": [
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 16,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 18,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 17,
+            "calls": 330,
+            "triangles": 463107
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 19,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 19,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 18,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 28,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 15,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 7,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 18,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 17,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 18,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 19,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 19,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 10,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 14,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 12,
+            "calls": 330,
+            "triangles": 464835
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 11,
+            "calls": 341,
+            "triangles": 476429
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 341,
+            "triangles": 476429
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 13,
+            "calls": 341,
+            "triangles": 476429
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 341,
+            "triangles": 476429
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 22,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 14,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 10,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 23,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 9,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 7,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 8,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 7,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 8,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 12,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 7,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 6,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 10,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 11,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 8,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 1,
+            "renderSubmitMs": 7,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 9,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 8,
+            "calls": 342,
+            "triangles": 477893
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 7,
+            "calls": 257,
+            "triangles": 231080
+          },
+          {
+            "updateMs": 0,
+            "renderSubmitMs": 7,
+            "calls": 257,
+            "triangles": 231080
+          }
+        ]
+      }
+    }
+  ],
+  "errors": []
+}

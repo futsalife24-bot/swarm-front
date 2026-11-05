@@ -1,4 +1,11 @@
 import { assertSaveWriter } from "./save-writer";
+import {
+  freshBuddyProgress,
+  validBuddyProgress,
+  settleBuddyRun,
+  type BuddyProgress,
+  type BuddyId,
+} from "../shared/buddy-progression";
 import { readFrontProgress } from "./front-progress";
 import {
   validSurvivalTraining,
@@ -69,6 +76,8 @@ export interface Soldier {
   survivalExcluded?: FrontUpgradeId[];
 }
 export interface Receipt {
+  /** 作戦開始時の同行者。旧戦果では未指定。 */
+  buddyId?: BuddyId | null;
   powder?: number;
   run: string;
   stage: number;
@@ -87,6 +96,8 @@ export interface Receipt {
   collectionDone: boolean;
 }
 export interface ProgressSave {
+  /** 追加フィールド。旧保存は初回操作/進撃報酬時に初期化する。 */
+  buddies?: BuddyProgress;
   /** 未指定の既存保存は旧カード所持を維持。新規作成だけ新しい解放順を使う。 */
   survivalCardVersion?: 1;
   survival?: {
@@ -208,6 +219,8 @@ export const accessoryProtected = (s: ProgressSave, id: string) =>
   s.accessories.find((a) => a.id === id)?.locked ||
   s.soldiers.some((p) => p.accessory === id);
 export function validateProgress(s: ProgressSave) {
+  if (s?.buddies !== undefined && !validBuddyProgress(s.buddies))
+    throw Error("バディ保存の形式が不正です。上書きを停止しました。");
   const integer = (v: number) => Number.isSafeInteger(v) && v >= 0;
   if (s?.survivalCardVersion !== undefined && s.survivalCardVersion !== 1)
     throw Error("生存カードの保存形式が不正です。上書きを停止しました。");
@@ -565,7 +578,7 @@ export function persistProgress(
       )
     )
       throw new SaveConflictError(
-        "武器の恒久成長・生存記録を失う保存です。最新データを読み込んでください。",
+        "武器の恒久成長・生存・バディ記録を失う保存です。最新データを読み込んでください。",
       );
   }
   const next = { ...s, revision: (s.revision ?? 0) + 1 };
@@ -744,6 +757,14 @@ export function grantResult(
       ...new Set([...(n.weeklyPending ?? []), input.run]),
     ].slice(-128);
   n.result = r;
+  n.buddies = settleBuddyRun(n.buddies ?? freshBuddyProgress(), {
+    run: input.run,
+    stage: input.stage,
+    win: input.win,
+    buddyId: input.buddyId ?? null,
+    // 初期調整は全難度で反復クリア1単位。難度別の重みは後続調整。
+    repeatUnits: 1,
+  });
   n.weaponReceipts = weaponReceiptSnapshot(n);
   return n;
 }

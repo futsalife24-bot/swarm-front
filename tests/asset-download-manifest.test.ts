@@ -211,6 +211,18 @@ describe("事前保存manifestの生成", () => {
       "movies",
     ]);
     const common = packs.find((p: any) => p.id === "common")!.urls;
+    expect(
+      common.filter((url: string) => url.startsWith("assets/buddy/")),
+    ).toEqual([
+      "assets/buddy/oriha-v3.glb",
+      "assets/buddy/portraits/oriha.webp",
+      "assets/buddy/portraits/tatara.webp",
+      "assets/buddy/portraits/tobari.webp",
+      "assets/buddy/portraits/yosuga.webp",
+      "assets/buddy/tatara-v3.glb",
+      "assets/buddy/tobari-v7.glb",
+      "assets/buddy/yosuga-v5.glb",
+    ]);
     for (const id of [
       "fire-rounds",
       "frost-rounds",

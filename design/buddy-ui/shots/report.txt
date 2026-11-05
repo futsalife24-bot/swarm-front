@@ -1,0 +1,216 @@
+OK  844x390 starter: はみ出し・欠け・小さい押し所なし
+OK  844x390 roster: はみ出し・欠け・小さい押し所なし
+OK  844x390 roster-cap: はみ出し・欠け・小さい押し所なし
+OK  844x390 roster-short: はみ出し・欠け・小さい押し所なし
+OK  844x390 roster-max: はみ出し・欠け・小さい押し所なし
+OK  844x390 roster-unowned: はみ出し・欠け・小さい押し所なし
+OK  844x390 recruit: はみ出し・欠け・小さい押し所なし
+OK  844x390 recruit-short: はみ出し・欠け・小さい押し所なし
+OK  844x390 recruit-guarantee: はみ出し・欠け・小さい押し所なし
+OK  844x390 recruit-all: はみ出し・欠け・小さい押し所なし
+OK  844x390 recruit-busy: はみ出し・欠け・小さい押し所なし
+OK  844x390 result-new: はみ出し・欠け・小さい押し所なし
+OK  844x390 result-dup: はみ出し・欠け・小さい押し所なし
+OK  844x390 save-fail: はみ出し・欠け・小さい押し所なし
+OK  844x390 missing: はみ出し・欠け・小さい押し所なし
+OK  844x390 locked: はみ出し・欠け・小さい押し所なし
+OK  844x390 操作: 初回選択は選ぶまで確定不可、確定で同行中になる
+OK  844x390 操作: 同行の変更と解除
+OK  844x390 操作: 限界突破でLv上限 10→20（Lv10/ 20 次まで 380）
+OK  844x390 roster-short: 限界突破は押せず理由を表示
+OK  844x390 roster: 限界突破は押せず理由を表示
+OK  844x390 roster-max: 限界突破は押せず理由を表示
+OK  844x390 操作: 招集でチケット 3→2、結果を表示
+OK  844x390 操作: 結果を閉じると招集画面に戻る
+OK  844x390 recruit-short: 押せず、不足枚数と入手方法を表示
+OK  844x390 recruit-busy: 処理中表示・二重送信なし（送信1回）
+OK  844x390 save-fail: 失敗を表示し、同じ要求IDで再試行して成功
+OK  844x390 missing: 立ち絵の代わりに紋章（2箇所）、出現率なしで招集停止
+OK  844x390 locked: 同行変更を止め理由を表示
+OK  844x390 動き: 結果の登場 bd-reveal
+OK  844x390 動き: 常時動き続けるアニメーション 0件
+OK  844x390 音: 音量0で再生要求0件・結果は表示、通常は equip
+OK  844x390 HUD: 既存ボタンと重ならず画面内（53px）
+OK  844x390 HUD: 再使用待ちを数字と読み上げで表示（12秒）
+OK  844x390 HUD: 使用可能→押すと使用中・再使用待ち（20秒）
+OK  844x390 ページ例外 0件
+OK  844x390-reduce starter: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce roster: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce roster-cap: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce roster-short: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce roster-max: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce roster-unowned: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce recruit: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce recruit-short: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce recruit-guarantee: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce recruit-all: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce recruit-busy: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce result-new: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce result-dup: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce save-fail: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce missing: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce locked: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce 操作: 初回選択は選ぶまで確定不可、確定で同行中になる
+OK  844x390-reduce 操作: 同行の変更と解除
+OK  844x390-reduce 操作: 限界突破でLv上限 10→20（Lv10/ 20 次まで 380）
+OK  844x390-reduce roster-short: 限界突破は押せず理由を表示
+OK  844x390-reduce roster: 限界突破は押せず理由を表示
+OK  844x390-reduce roster-max: 限界突破は押せず理由を表示
+OK  844x390-reduce 操作: 招集でチケット 3→2、結果を表示
+OK  844x390-reduce 操作: 結果を閉じると招集画面に戻る
+OK  844x390-reduce recruit-short: 押せず、不足枚数と入手方法を表示
+OK  844x390-reduce recruit-busy: 処理中表示・二重送信なし（送信1回）
+OK  844x390-reduce save-fail: 失敗を表示し、同じ要求IDで再試行して成功
+OK  844x390-reduce missing: 立ち絵の代わりに紋章（2箇所）、出現率なしで招集停止
+OK  844x390-reduce locked: 同行変更を止め理由を表示
+OK  844x390-reduce 動き: 結果の登場 none
+OK  844x390-reduce 動き: 常時動き続けるアニメーション 0件
+OK  844x390-reduce 音: 音量0で再生要求0件・結果は表示、通常は equip
+OK  844x390-reduce HUD: 既存ボタンと重ならず画面内（53px）
+OK  844x390-reduce HUD: 再使用待ちを数字と読み上げで表示（12秒）
+OK  844x390-reduce HUD: 使用可能→押すと使用中・再使用待ち（20秒）
+OK  844x390-reduce ページ例外 0件
+OK  640x360 starter: はみ出し・欠け・小さい押し所なし
+OK  640x360 roster: はみ出し・欠け・小さい押し所なし
+OK  640x360 roster-cap: はみ出し・欠け・小さい押し所なし
+OK  640x360 roster-short: はみ出し・欠け・小さい押し所なし
+OK  640x360 roster-max: はみ出し・欠け・小さい押し所なし
+OK  640x360 roster-unowned: はみ出し・欠け・小さい押し所なし
+OK  640x360 recruit: はみ出し・欠け・小さい押し所なし
+OK  640x360 recruit-short: はみ出し・欠け・小さい押し所なし
+OK  640x360 recruit-guarantee: はみ出し・欠け・小さい押し所なし
+OK  640x360 recruit-all: はみ出し・欠け・小さい押し所なし
+OK  640x360 recruit-busy: はみ出し・欠け・小さい押し所なし
+OK  640x360 result-new: はみ出し・欠け・小さい押し所なし
+OK  640x360 result-dup: はみ出し・欠け・小さい押し所なし
+OK  640x360 save-fail: はみ出し・欠け・小さい押し所なし
+OK  640x360 missing: はみ出し・欠け・小さい押し所なし
+OK  640x360 locked: はみ出し・欠け・小さい押し所なし
+OK  640x360 操作: 初回選択は選ぶまで確定不可、確定で同行中になる
+OK  640x360 操作: 同行の変更と解除
+OK  640x360 操作: 限界突破でLv上限 10→20（Lv10/ 20 次まで 380）
+OK  640x360 roster-short: 限界突破は押せず理由を表示
+OK  640x360 roster: 限界突破は押せず理由を表示
+OK  640x360 roster-max: 限界突破は押せず理由を表示
+OK  640x360 操作: 招集でチケット 3→2、結果を表示
+OK  640x360 操作: 結果を閉じると招集画面に戻る
+OK  640x360 recruit-short: 押せず、不足枚数と入手方法を表示
+OK  640x360 recruit-busy: 処理中表示・二重送信なし（送信1回）
+OK  640x360 save-fail: 失敗を表示し、同じ要求IDで再試行して成功
+OK  640x360 missing: 立ち絵の代わりに紋章（2箇所）、出現率なしで招集停止
+OK  640x360 locked: 同行変更を止め理由を表示
+OK  640x360 動き: 結果の登場 bd-reveal
+OK  640x360 動き: 常時動き続けるアニメーション 0件
+OK  640x360 音: 音量0で再生要求0件・結果は表示、通常は equip
+OK  640x360 HUD: 既存ボタンと重ならず画面内（48px）
+OK  640x360 HUD: 再使用待ちを数字と読み上げで表示（12秒）
+OK  640x360 HUD: 使用可能→押すと使用中・再使用待ち（20秒）
+OK  640x360 ページ例外 0件
+OK  640x360-reduce starter: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce roster: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce roster-cap: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce roster-short: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce roster-max: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce roster-unowned: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce recruit: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce recruit-short: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce recruit-guarantee: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce recruit-all: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce recruit-busy: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce result-new: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce result-dup: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce save-fail: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce missing: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce locked: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce 操作: 初回選択は選ぶまで確定不可、確定で同行中になる
+OK  640x360-reduce 操作: 同行の変更と解除
+OK  640x360-reduce 操作: 限界突破でLv上限 10→20（Lv10/ 20 次まで 380）
+OK  640x360-reduce roster-short: 限界突破は押せず理由を表示
+OK  640x360-reduce roster: 限界突破は押せず理由を表示
+OK  640x360-reduce roster-max: 限界突破は押せず理由を表示
+OK  640x360-reduce 操作: 招集でチケット 3→2、結果を表示
+OK  640x360-reduce 操作: 結果を閉じると招集画面に戻る
+OK  640x360-reduce recruit-short: 押せず、不足枚数と入手方法を表示
+OK  640x360-reduce recruit-busy: 処理中表示・二重送信なし（送信1回）
+OK  640x360-reduce save-fail: 失敗を表示し、同じ要求IDで再試行して成功
+OK  640x360-reduce missing: 立ち絵の代わりに紋章（2箇所）、出現率なしで招集停止
+OK  640x360-reduce locked: 同行変更を止め理由を表示
+OK  640x360-reduce 動き: 結果の登場 none
+OK  640x360-reduce 動き: 常時動き続けるアニメーション 0件
+OK  640x360-reduce 音: 音量0で再生要求0件・結果は表示、通常は equip
+OK  640x360-reduce HUD: 既存ボタンと重ならず画面内（48px）
+OK  640x360-reduce HUD: 再使用待ちを数字と読み上げで表示（12秒）
+OK  640x360-reduce HUD: 使用可能→押すと使用中・再使用待ち（20秒）
+OK  640x360-reduce ページ例外 0件
+OK  844x390-fine 前提: pointer の判定 fine
+OK  844x390-fine #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 53x53）
+OK  844x390-fine 既存ボタン none・キー表示 block（PCは固有スキルだけ表示しキーGを添える）
+OK  844x390-fine 表示中の既存ボタン・移動スティック・一時停止と4px以上離れ画面内（最小 299.50px）
+OK  844x390-fine 紋章: ボタン寸法の 56.0%×56.0%・中心ずれ 0.0,0.0px
+OK  844x390-fine 位置: default（期待 default）・スキル名 below
+OK  844x390-fine スキル名も既存ボタンと4px以上離れ画面内
+OK  844x390-fine update(null)（hidden）で非表示: none
+OK  844x390-fine ページ例外 0件
+OK  844x390-coarse 前提: pointer の判定 coarse
+OK  844x390-coarse #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 53x53）
+OK  844x390-coarse 既存ボタン flex・キー表示 none（PCは固有スキルだけ表示しキーGを添える）
+OK  844x390-coarse 表示中の既存ボタン・移動スティック・一時停止と4px以上離れ画面内（最小 25.50px）
+OK  844x390-coarse 紋章: ボタン寸法の 56.0%×56.0%・中心ずれ 0.0,0.0px
+OK  844x390-coarse 位置: default（期待 default）・スキル名 below
+OK  844x390-coarse スキル名も既存ボタンと4px以上離れ画面内
+OK  844x390-coarse update(null)（hidden）で非表示: none
+OK  844x390-coarse ページ例外 0件
+OK  640x360-fine 前提: pointer の判定 fine
+OK  640x360-fine #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 48x48）
+OK  640x360-fine 既存ボタン none・キー表示 block（PCは固有スキルだけ表示しキーGを添える）
+OK  640x360-fine 表示中の既存ボタン・移動スティック・一時停止と4px以上離れ画面内（最小 216.27px）
+OK  640x360-fine 紋章: ボタン寸法の 56.0%×56.0%・中心ずれ 0.0,0.0px
+OK  640x360-fine 位置: default（期待 default）・スキル名 below
+OK  640x360-fine スキル名も既存ボタンと4px以上離れ画面内
+OK  640x360-fine update(null)（hidden）で非表示: none
+OK  640x360-fine ページ例外 0件
+OK  640x360-coarse 前提: pointer の判定 coarse
+OK  640x360-coarse #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 48x48）
+OK  640x360-coarse 既存ボタン flex・キー表示 none（PCは固有スキルだけ表示しキーGを添える）
+OK  640x360-coarse 表示中の既存ボタン・移動スティック・一時停止と4px以上離れ画面内（最小 22.34px）
+OK  640x360-coarse 紋章: ボタン寸法の 56.0%×56.0%・中心ずれ 0.0,0.0px
+OK  640x360-coarse 位置: default（期待 default）・スキル名 below
+OK  640x360-coarse スキル名も既存ボタンと4px以上離れ画面内
+OK  640x360-coarse update(null)（hidden）で非表示: none
+OK  640x360-coarse ページ例外 0件
+OK  740x300-safe-fine 前提: pointer の判定 fine
+OK  740x300-safe-fine #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 48x48）
+OK  740x300-safe-fine 既存ボタン none・キー表示 block（PCは固有スキルだけ表示しキーGを添える）
+OK  740x300-safe-fine 表示中の既存ボタン・移動スティック・一時停止と4px以上離れ画面内（最小 104.47px）
+OK  740x300-safe-fine 紋章: ボタン寸法の 56.0%×56.0%・中心ずれ 0.0,0.0px
+OK  740x300-safe-fine 位置: short（期待 short）・スキル名 left
+OK  740x300-safe-fine スキル名も既存ボタンと4px以上離れ画面内
+OK  740x300-safe-fine update(null)（hidden）で非表示: none
+OK  740x300-safe-fine ページ例外 0件
+OK  740x300-safe-coarse 前提: pointer の判定 coarse
+OK  740x300-safe-coarse #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 48x48）
+OK  740x300-safe-coarse 既存ボタン flex・キー表示 none（PCは固有スキルだけ表示しキーGを添える）
+OK  740x300-safe-coarse 表示中の既存ボタン・移動スティック・一時停止と4px以上離れ画面内（最小 11.80px）
+OK  740x300-safe-coarse 紋章: ボタン寸法の 56.0%×56.0%・中心ずれ 0.0,0.0px
+OK  740x300-safe-coarse 位置: short（期待 short）・スキル名 left
+OK  740x300-safe-coarse スキル名も既存ボタンと4px以上離れ画面内
+OK  740x300-safe-coarse update(null)（hidden）で非表示: none
+OK  740x300-safe-coarse ページ例外 0件
+OK  640x280-safe-fine 前提: pointer の判定 fine
+OK  640x280-safe-fine #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 48x48）
+OK  640x280-safe-fine 既存ボタン none・キー表示 block（PCは固有スキルだけ表示しキーGを添える）
+OK  640x280-safe-fine 表示中の既存ボタン・移動スティック・一時停止と4px以上離れ画面内（最小 86.41px）
+OK  640x280-safe-fine 紋章: ボタン寸法の 56.0%×56.0%・中心ずれ 0.0,0.0px
+OK  640x280-safe-fine 位置: short（期待 short）・スキル名 left
+OK  640x280-safe-fine スキル名も既存ボタンと4px以上離れ画面内
+OK  640x280-safe-fine update(null)（hidden）で非表示: none
+OK  640x280-safe-fine ページ例外 0件
+OK  640x280-safe-coarse 前提: pointer の判定 coarse
+OK  640x280-safe-coarse #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 48x48）
+OK  640x280-safe-coarse 既存ボタン flex・キー表示 none（PCは固有スキルだけ表示しキーGを添える）
+OK  640x280-safe-coarse 表示中の既存ボタン・移動スティック・一時停止と4px以上離れ画面内（最小 5.14px）
+OK  640x280-safe-coarse 紋章: ボタン寸法の 56.0%×56.0%・中心ずれ 0.0,0.0px
+OK  640x280-safe-coarse 位置: short（期待 short）・スキル名 left
+OK  640x280-safe-coarse スキル名も既存ボタンと4px以上離れ画面内
+OK  640x280-safe-coarse update(null)（hidden）で非表示: none
+OK  640x280-safe-coarse ページ例外 0件
