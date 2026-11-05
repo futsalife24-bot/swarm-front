@@ -202,7 +202,7 @@ const actions: BuddyUiActions = {
 4. **戦闘HUD**：
    - `const skill = createBuddySkillButton({ onActivate: () => controls.activateBuddySkill(), sound: (c) => sound.play(c), keyHint: "G" })` を `#controls` に追加する。
      - ボタンの id は既定で `buddy`。`CONTROL_IDS` に足すと、`placeControls` がそのまま位置・大きさ・不透明度を入れる。
-     - `keyHint: "V"` は PC（pointer: fine）でだけ右上に小さく出る。`aria-keyshortcuts` も付く。キー入力の接続は主担当の `Controls` 側。
+     - `keyHint: "G"` は PC（pointer: fine）でだけ右上に小さく出る（既存のDEVドローンのVと競合したため、主担当がGに変更）。`aria-keyshortcuts` も付く。キー入力の接続は主担当の `Controls` 側。
      - ポインターロック中のPCではマウスで押せない前提。主な操作はキー。
    - 毎フレーム `skill.update({...})` を呼ぶ。
      - `remaining` は `max(0, entry.skillReadyAt - world.time)`。時刻の基準は `buddy-combat.ts` と同じものを使う。
