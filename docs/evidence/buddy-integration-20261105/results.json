@@ -302,6 +302,7 @@
     "individuality": "回復・範囲攻撃・兵士の身体能力向上など。個体割当未決",
     "buddyLimitPerPlayer": 1,
     "buddyMaximumInExistingFourPlayerRoom": 4,
-    "newBattleImplementation": false
+    "newBattleImplementation": false,
+    "supportTargets": "回復・身体強化は持ち主に加えて近くの味方にも適用。範囲の中心・距離・効果詳細は未決。"
   }
 }
