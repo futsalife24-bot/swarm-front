@@ -1,0 +1,96 @@
+[
+  {
+    "phase": "before",
+    "total": 13,
+    "passed": 0,
+    "failed": 13,
+    "suites": [
+      {
+        "name": "foundry-weapons.test.ts",
+        "tests": 13,
+        "failures": [
+          {
+            "title": "rocketの実射が通常型FOUNDRY ZEROの表面へ直撃してHPを減らす",
+            "message": "AssertionError: expected 10500 to be less than 10500"
+          },
+          {
+            "title": "heavyの実射が通常型FOUNDRY ZEROの表面へ直撃してHPを減らす",
+            "message": "AssertionError: expected 10500 to be less than 10500"
+          },
+          {
+            "title": "grenadeの実射が通常型FOUNDRY ZEROの表面へ直撃してHPを減らす",
+            "message": "AssertionError: expected 10500 to be less than 10500"
+          },
+          {
+            "title": "stickyの実射が通常型FOUNDRY ZEROの表面へ直撃してHPを減らす",
+            "message": "AssertionError: expected 10500 to be less than 10500"
+          },
+          {
+            "title": "rocketの爆風は表面から減衰し、範囲外と壁の向こうは無効",
+            "message": "AssertionError: expected 0 to be greater than 0"
+          },
+          {
+            "title": "heavyの爆風は表面から減衰し、範囲外と壁の向こうは無効",
+            "message": "AssertionError: expected 0 to be greater than 0"
+          },
+          {
+            "title": "grenadeの爆風は表面から減衰し、範囲外と壁の向こうは無効",
+            "message": "AssertionError: expected 0 to be greater than 0"
+          },
+          {
+            "title": "stickyの爆風は表面から減衰し、範囲外と壁の向こうは無効",
+            "message": "AssertionError: expected 0 to be greater than 0"
+          },
+          {
+            "title": "rocketの連鎖爆発も通常型の表面へ届き、範囲外には届かない",
+            "message": "AssertionError: expected 0 to be greater than 0"
+          },
+          {
+            "title": "heavyの連鎖爆発も通常型の表面へ届き、範囲外には届かない",
+            "message": "AssertionError: expected 0 to be greater than 0"
+          },
+          {
+            "title": "grenadeの連鎖爆発も通常型の表面へ届き、範囲外には届かない",
+            "message": "AssertionError: expected 0 to be greater than 0"
+          },
+          {
+            "title": "stickyの連鎖爆発も通常型の表面へ届き、範囲外には届かない",
+            "message": "AssertionError: expected 0 to be greater than 0"
+          },
+          {
+            "title": "連結形態の大型頭部でも表面への爆発を受け、破壊済みの節を連鎖処理しても落ちない",
+            "message": "AssertionError: expected 590.625 to be less than 590.625"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "total": 117,
+    "passed": 117,
+    "failed": 0,
+    "suites": [
+      {
+        "name": "enemies.test.ts",
+        "tests": 41,
+        "failures": []
+      },
+      {
+        "name": "foundry-generation.test.ts",
+        "tests": 9,
+        "failures": []
+      },
+      {
+        "name": "foundry-weapons.test.ts",
+        "tests": 13,
+        "failures": []
+      },
+      {
+        "name": "harrow-weapons.test.ts",
+        "tests": 54,
+        "failures": []
+      }
+    ]
+  }
+]

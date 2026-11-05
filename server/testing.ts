@@ -1,7 +1,7 @@
 // Isolated integration fixtures. NEVER referenced by wrangler.jsonc or the browser.
 // They shorten setup of downed/result states; they are not evidence of full-mission balance.
 import { stageFor, troopCount } from "../src/shared/stages";
-import { STARTERS } from "../src/shared/defs";
+import { STARTERS, stats } from "../src/shared/defs";
 import {
   HARROW,
   harrowDiveRootForTarget,
@@ -537,17 +537,41 @@ export class TestRoom extends Room {
         spawn(w, "boss", 0, -15, "worm");
         hurtEnemy(w, w.enemies[0], 1e6, w.players[0].id, 4);
       } else if (u.searchParams.get("case") === "foundry") {
-        w.stage = 6;
-        w.players.forEach((p, i) => {
-          p.x = i * 3;
-          p.z = -32;
-          p.hp = 10000;
-        });
-        const boss = spawn(w, "boss", 0, -15, "worm")!;
-        hurtEnemy(w, boss, 1e6, w.players[0].id, 4);
-        boss.partHp = 1;
-        boss.hp =
-          1 + boss.segments!.reduce((sum, part) => sum + (part.partHp ?? 0), 0);
+        if (u.searchParams.get("form") === "explosive") {
+          const kind = u.searchParams.get("weapon") as
+            "rocket" | "heavy" | "grenade" | "sticky";
+          if (!["rocket", "heavy", "grenade", "sticky"].includes(kind))
+            return new Response("Unsupported test weapon", { status: 400 });
+          w.stage = 11;
+          w.wave = 2;
+          w.training = true;
+          w.players.forEach((p, i) => {
+            p.x = i * 3;
+            p.y = p.z = 0;
+            p.hp = 10000;
+            p.slot = 0;
+            p.weapons[0] = {
+              ...STARTERS[0],
+              id: `foundry-${kind}-${p.id}`,
+              kind,
+            };
+            p.ammo[0] = stats(p.weapons[0]).mag;
+          });
+          spawn(w, "boss", 0, -18, "crown")!.cool = 999;
+        } else {
+          w.stage = 6;
+          w.players.forEach((p, i) => {
+            p.x = i * 3;
+            p.z = -32;
+            p.hp = 10000;
+          });
+          const boss = spawn(w, "boss", 0, -15, "worm")!;
+          hurtEnemy(w, boss, 1e6, w.players[0].id, 4);
+          boss.partHp = 1;
+          boss.hp =
+            1 +
+            boss.segments!.reduce((sum, part) => sum + (part.partHp ?? 0), 0);
+        }
       } else if (u.searchParams.get("case") === "structures") {
         w.players.forEach((p, i) => {
           p.x = 0;
@@ -627,7 +651,15 @@ export default {
         new Request(
           match[2] === "snapshot"
             ? "https://internal/snapshot"
-            : `https://internal/fixture?case=${match[2]}`,
+            : `https://internal/fixture?${new URLSearchParams({
+                case: match[2],
+                ...(match[2] === "foundry"
+                  ? {
+                      form: u.searchParams.get("form") ?? "",
+                      weapon: u.searchParams.get("weapon") ?? "",
+                    }
+                  : {}),
+              })}`,
         ),
       );
     }
