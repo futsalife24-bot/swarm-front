@@ -1,10 +1,10 @@
-# 生存終了時の獲得報酬画面：main反映・公開前契約確認待ち（2026-11-05）
+# 生存終了時の獲得報酬画面：公開・配信確認済み（2026-11-05）
 
 本人指摘を修正。終了画面に攻略コイン・功績・今回の獲得武器を追加。武器は既存の1丁1行を継承し、レア/恒久Lv/効果/全性能/保存済/上限保留/未保存を表示。0丁の取得条件と保存再試行も維持。task-survival-build、branch codex/survival-result-rewards-20261105、base aa0e1fe15284a42fe08bdbc7036ae0c506eb2f99。本人「はい」で初回Claude送信を承認し、指定3ファイルの納品を受領。主担当がデータ・接続・保存/実WS検証を担当。保存処理/形式/報酬条件/戦闘/serverは無変更。
 
 型・関連23件、実ソロ8条件、実WS結果/再接続2サイズ、既存武器一覧8条件、30丁スクロール2サイズに合格。最終CSS/再試行位置も影響4条件を確認。実装e0aa6b1をPR281で通常merge、main 79f40795f84a33b94cc32fce697fd4b33dcf6407。実装commit後/merge後mainのbuild・既存Worker dry-run成功。同じmain配布物の通常ソロ（状態/時間/HP/配信JS改変なし）で全滅→報酬→タイトルを2サイズ確認、ページ例外0。今回の5186/8807/5197は停止・待受0。独立Chat監査は通常方針で未実施。
 
-公開だけ未実施。Cloudflareの既存OAuth標準更新後も契約読取403、本人へ現在もFreeかを質問済みで回答待ち。docs/FREE-TIER.mdの公開前条件を維持し権限拡大なし。当日UTC00:00〜12:03:59の全Workers使用量は正規GraphQLで224 requests/0 errors/239 subrequestsを確認。現在のFree確認後、通常の既存Worker公開・配信照合・公開UI確認へ進む。記録branch codex/survival-result-release-record-20261105。[反映結果・停止理由・再開手順](evidence/survival-result-rewards-20261105/RELEASE.md)、[実装検証](evidence/survival-result-rewards-20261105/README.md)、[Claude依頼と納品](SURVIVAL-RESULT-UI-HANDOFF-20261105.md)。root/他worktreeを保持。主担当モデルID/推論設定未確認、Codex子なし、Claude画面表示Opus 5.5/高。
+本人が「無料プランのまま」と回答し、重複確認を指摘。今回の回答を契約根拠に採用し、API403と本人確認済みの事実を分けて追加質問なしで公開。最新main 77db839a5ac32499c6f87025690d313d7991446cからbuild/dry-run後、既存Worker Version f1b67522-f910-4ea4-b528-83e4fe474b2bを100%公開。配信60ファイルSHA一致・health200/ok、公開版の通常ソロ2サイズで全滅→獲得報酬→タイトルを確認、ページ例外0。停止条件は解消。新規費用・契約/権限変更なし。当日UTC00:00〜12:03:59の全Workers224 requests/0 errors/239 subrequestsを正規APIで確認済み。記録branch codex/survival-result-published-20261105。[公開と確認根拠](evidence/survival-result-rewards-20261105/RELEASE.md)、[実装検証](evidence/survival-result-rewards-20261105/README.md)、[Claude依頼と納品](SURVIVAL-RESULT-UI-HANDOFF-20261105.md)。実スマホ/PWA・公開版の実回線協力は未確認。root/他worktreeを保持。主担当モデルID/推論設定未確認、Codex子なし、Claude画面表示Opus 5.5/高。
 
 # 進撃バディの戦闘・育成・招集とClaude UIを統合（2026-11-05、公開・配信確認済み）
 
