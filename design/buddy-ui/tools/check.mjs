@@ -440,6 +440,17 @@ for (const [w, h, safe, expect] of [
           labelHit: labelHit.map((o) => o.id),
           minGap: minGap === null ? "—" : minGap.toFixed(2),
           placement: b.dataset.placement,
+          icon: (() => {
+            const svg = b.querySelector(".bd-skill-icon svg");
+            if (!svg) return null;
+            const i = svg.getBoundingClientRect();
+            return {
+              w: i.width / r.width,
+              h: i.height / r.height,
+              cx: i.left + i.width / 2 - (r.left + r.width / 2),
+              cy: i.top + i.height / 2 - (r.top + r.height / 2),
+            };
+          })(),
           labelSide: b.dataset.label,
           labelIn:
             label.left >= 0 &&
@@ -471,11 +482,18 @@ for (const [w, h, safe, expect] of [
       pointer === "fine"
         ? s.fire === "none" && s.key === "block"
         : s.fire !== "none" && s.key === "none",
-      `${tag} 既存ボタン ${s.fire}・キー表示 ${s.key}（PCは固有スキルだけ表示しキーVを添える）`,
+      `${tag} 既存ボタン ${s.fire}・キー表示 ${s.key}（PCは固有スキルだけ表示しキーGを添える）`,
     );
     ok(
       !s.hit.length && s.inView,
       `${tag} 表示中の既存ボタン・移動スティック・一時停止と4px以上離れ画面内（最小 ${s.minGap}px）${s.hit.length ? " 重なり:" + s.hit : ""}`,
+    );
+    ok(
+      Math.abs(s.icon.w - 0.56) < 0.02 &&
+        Math.abs(s.icon.h - 0.56) < 0.02 &&
+        Math.abs(s.icon.cx) < 1 &&
+        Math.abs(s.icon.cy) < 1,
+      `${tag} 紋章: ボタン寸法の ${(s.icon.w * 100).toFixed(1)}%×${(s.icon.h * 100).toFixed(1)}%・中心ずれ ${s.icon.cx.toFixed(1)},${s.icon.cy.toFixed(1)}px`,
     );
     ok(
       s.placement === expect,

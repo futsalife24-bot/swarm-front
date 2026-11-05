@@ -144,64 +144,72 @@ OK  640x360-reduce HUD: 使用可能→押すと使用中・再使用待ち（20
 OK  640x360-reduce ページ例外 0件
 OK  844x390-fine 前提: pointer の判定 fine
 OK  844x390-fine #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 53x53）
-OK  844x390-fine 既存ボタン none・キー表示 block（PCは固有スキルだけ表示しキーVを添える）
+OK  844x390-fine 既存ボタン none・キー表示 block（PCは固有スキルだけ表示しキーGを添える）
 OK  844x390-fine 表示中の既存ボタン・移動スティック・一時停止と4px以上離れ画面内（最小 299.50px）
+OK  844x390-fine 紋章: ボタン寸法の 56.0%×56.0%・中心ずれ 0.0,0.0px
 OK  844x390-fine 位置: default（期待 default）・スキル名 below
 OK  844x390-fine スキル名も既存ボタンと4px以上離れ画面内
 OK  844x390-fine update(null)（hidden）で非表示: none
 OK  844x390-fine ページ例外 0件
 OK  844x390-coarse 前提: pointer の判定 coarse
 OK  844x390-coarse #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 53x53）
-OK  844x390-coarse 既存ボタン flex・キー表示 none（PCは固有スキルだけ表示しキーVを添える）
+OK  844x390-coarse 既存ボタン flex・キー表示 none（PCは固有スキルだけ表示しキーGを添える）
 OK  844x390-coarse 表示中の既存ボタン・移動スティック・一時停止と4px以上離れ画面内（最小 25.50px）
+OK  844x390-coarse 紋章: ボタン寸法の 56.0%×56.0%・中心ずれ 0.0,0.0px
 OK  844x390-coarse 位置: default（期待 default）・スキル名 below
 OK  844x390-coarse スキル名も既存ボタンと4px以上離れ画面内
 OK  844x390-coarse update(null)（hidden）で非表示: none
 OK  844x390-coarse ページ例外 0件
 OK  640x360-fine 前提: pointer の判定 fine
 OK  640x360-fine #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 48x48）
-OK  640x360-fine 既存ボタン none・キー表示 block（PCは固有スキルだけ表示しキーVを添える）
+OK  640x360-fine 既存ボタン none・キー表示 block（PCは固有スキルだけ表示しキーGを添える）
 OK  640x360-fine 表示中の既存ボタン・移動スティック・一時停止と4px以上離れ画面内（最小 216.27px）
+OK  640x360-fine 紋章: ボタン寸法の 56.0%×56.0%・中心ずれ 0.0,0.0px
 OK  640x360-fine 位置: default（期待 default）・スキル名 below
 OK  640x360-fine スキル名も既存ボタンと4px以上離れ画面内
 OK  640x360-fine update(null)（hidden）で非表示: none
 OK  640x360-fine ページ例外 0件
 OK  640x360-coarse 前提: pointer の判定 coarse
 OK  640x360-coarse #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 48x48）
-OK  640x360-coarse 既存ボタン flex・キー表示 none（PCは固有スキルだけ表示しキーVを添える）
+OK  640x360-coarse 既存ボタン flex・キー表示 none（PCは固有スキルだけ表示しキーGを添える）
 OK  640x360-coarse 表示中の既存ボタン・移動スティック・一時停止と4px以上離れ画面内（最小 22.34px）
+OK  640x360-coarse 紋章: ボタン寸法の 56.0%×56.0%・中心ずれ 0.0,0.0px
 OK  640x360-coarse 位置: default（期待 default）・スキル名 below
 OK  640x360-coarse スキル名も既存ボタンと4px以上離れ画面内
 OK  640x360-coarse update(null)（hidden）で非表示: none
 OK  640x360-coarse ページ例外 0件
 OK  740x300-safe-fine 前提: pointer の判定 fine
 OK  740x300-safe-fine #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 48x48）
-OK  740x300-safe-fine 既存ボタン none・キー表示 block（PCは固有スキルだけ表示しキーVを添える）
+OK  740x300-safe-fine 既存ボタン none・キー表示 block（PCは固有スキルだけ表示しキーGを添える）
 OK  740x300-safe-fine 表示中の既存ボタン・移動スティック・一時停止と4px以上離れ画面内（最小 104.47px）
+OK  740x300-safe-fine 紋章: ボタン寸法の 56.0%×56.0%・中心ずれ 0.0,0.0px
 OK  740x300-safe-fine 位置: short（期待 short）・スキル名 left
 OK  740x300-safe-fine スキル名も既存ボタンと4px以上離れ画面内
 OK  740x300-safe-fine update(null)（hidden）で非表示: none
 OK  740x300-safe-fine ページ例外 0件
 OK  740x300-safe-coarse 前提: pointer の判定 coarse
 OK  740x300-safe-coarse #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 48x48）
-OK  740x300-safe-coarse 既存ボタン flex・キー表示 none（PCは固有スキルだけ表示しキーVを添える）
+OK  740x300-safe-coarse 既存ボタン flex・キー表示 none（PCは固有スキルだけ表示しキーGを添える）
 OK  740x300-safe-coarse 表示中の既存ボタン・移動スティック・一時停止と4px以上離れ画面内（最小 11.80px）
+OK  740x300-safe-coarse 紋章: ボタン寸法の 56.0%×56.0%・中心ずれ 0.0,0.0px
 OK  740x300-safe-coarse 位置: short（期待 short）・スキル名 left
 OK  740x300-safe-coarse スキル名も既存ボタンと4px以上離れ画面内
 OK  740x300-safe-coarse update(null)（hidden）で非表示: none
 OK  740x300-safe-coarse ページ例外 0件
 OK  640x280-safe-fine 前提: pointer の判定 fine
 OK  640x280-safe-fine #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 48x48）
-OK  640x280-safe-fine 既存ボタン none・キー表示 block（PCは固有スキルだけ表示しキーVを添える）
+OK  640x280-safe-fine 既存ボタン none・キー表示 block（PCは固有スキルだけ表示しキーGを添える）
 OK  640x280-safe-fine 表示中の既存ボタン・移動スティック・一時停止と4px以上離れ画面内（最小 86.41px）
+OK  640x280-safe-fine 紋章: ボタン寸法の 56.0%×56.0%・中心ずれ 0.0,0.0px
 OK  640x280-safe-fine 位置: short（期待 short）・スキル名 left
 OK  640x280-safe-fine スキル名も既存ボタンと4px以上離れ画面内
 OK  640x280-safe-fine update(null)（hidden）で非表示: none
 OK  640x280-safe-fine ページ例外 0件
 OK  640x280-safe-coarse 前提: pointer の判定 coarse
 OK  640x280-safe-coarse #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 48x48）
-OK  640x280-safe-coarse 既存ボタン flex・キー表示 none（PCは固有スキルだけ表示しキーVを添える）
+OK  640x280-safe-coarse 既存ボタン flex・キー表示 none（PCは固有スキルだけ表示しキーGを添える）
 OK  640x280-safe-coarse 表示中の既存ボタン・移動スティック・一時停止と4px以上離れ画面内（最小 5.14px）
+OK  640x280-safe-coarse 紋章: ボタン寸法の 56.0%×56.0%・中心ずれ 0.0,0.0px
 OK  640x280-safe-coarse 位置: short（期待 short）・スキル名 left
 OK  640x280-safe-coarse スキル名も既存ボタンと4px以上離れ画面内
 OK  640x280-safe-coarse update(null)（hidden）で非表示: none
