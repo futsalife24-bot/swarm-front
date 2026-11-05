@@ -1,0 +1,5 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": { "noEmit": true },
+  "include": ["./*.ts", "./tools/*.ts", "../../src/client/buddy-ui.ts"]
+}

@@ -1,0 +1,144 @@
+OK  844x390 starter: はみ出し・欠け・小さい押し所なし
+OK  844x390 roster: はみ出し・欠け・小さい押し所なし
+OK  844x390 roster-cap: はみ出し・欠け・小さい押し所なし
+OK  844x390 roster-short: はみ出し・欠け・小さい押し所なし
+OK  844x390 roster-max: はみ出し・欠け・小さい押し所なし
+OK  844x390 roster-unowned: はみ出し・欠け・小さい押し所なし
+OK  844x390 recruit: はみ出し・欠け・小さい押し所なし
+OK  844x390 recruit-short: はみ出し・欠け・小さい押し所なし
+OK  844x390 recruit-guarantee: はみ出し・欠け・小さい押し所なし
+OK  844x390 recruit-all: はみ出し・欠け・小さい押し所なし
+OK  844x390 recruit-busy: はみ出し・欠け・小さい押し所なし
+OK  844x390 result-new: はみ出し・欠け・小さい押し所なし
+OK  844x390 result-dup: はみ出し・欠け・小さい押し所なし
+OK  844x390 save-fail: はみ出し・欠け・小さい押し所なし
+OK  844x390 missing: はみ出し・欠け・小さい押し所なし
+OK  844x390 locked: はみ出し・欠け・小さい押し所なし
+OK  844x390 操作: 初回選択は選ぶまで確定不可、確定で同行中になる
+OK  844x390 操作: 同行の変更と解除
+OK  844x390 操作: 限界突破でLv上限 10→20（Lv10/ 20 次まで 380）
+OK  844x390 roster-short: 限界突破は押せず理由を表示
+OK  844x390 roster: 限界突破は押せず理由を表示
+OK  844x390 roster-max: 限界突破は押せず理由を表示
+OK  844x390 操作: 招集でチケット 3→2、結果を表示
+OK  844x390 操作: 結果を閉じると招集画面に戻る
+OK  844x390 recruit-short: 押せず、不足枚数と入手方法を表示
+OK  844x390 recruit-busy: 処理中表示・二重送信なし（送信1回）
+OK  844x390 save-fail: 失敗を表示し、同じ要求IDで再試行して成功
+OK  844x390 missing: 立ち絵の代わりに紋章（2箇所）、出現率なしで招集停止
+OK  844x390 locked: 同行変更を止め理由を表示
+OK  844x390 動き: 結果の登場 bd-reveal
+OK  844x390 動き: 常時動き続けるアニメーション 0件
+OK  844x390 音: 音量0で再生要求0件・結果は表示、通常は equip
+OK  844x390 HUD: 既存ボタンと重ならず画面内（53px）
+OK  844x390 HUD: 再使用待ちを数字と読み上げで表示（12秒）
+OK  844x390 HUD: 使用可能→押すと使用中・再使用待ち（20秒）
+OK  844x390 ページ例外 0件
+OK  844x390-reduce starter: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce roster: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce roster-cap: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce roster-short: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce roster-max: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce roster-unowned: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce recruit: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce recruit-short: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce recruit-guarantee: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce recruit-all: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce recruit-busy: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce result-new: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce result-dup: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce save-fail: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce missing: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce locked: はみ出し・欠け・小さい押し所なし
+OK  844x390-reduce 操作: 初回選択は選ぶまで確定不可、確定で同行中になる
+OK  844x390-reduce 操作: 同行の変更と解除
+OK  844x390-reduce 操作: 限界突破でLv上限 10→20（Lv10/ 20 次まで 380）
+OK  844x390-reduce roster-short: 限界突破は押せず理由を表示
+OK  844x390-reduce roster: 限界突破は押せず理由を表示
+OK  844x390-reduce roster-max: 限界突破は押せず理由を表示
+OK  844x390-reduce 操作: 招集でチケット 3→2、結果を表示
+OK  844x390-reduce 操作: 結果を閉じると招集画面に戻る
+OK  844x390-reduce recruit-short: 押せず、不足枚数と入手方法を表示
+OK  844x390-reduce recruit-busy: 処理中表示・二重送信なし（送信1回）
+OK  844x390-reduce save-fail: 失敗を表示し、同じ要求IDで再試行して成功
+OK  844x390-reduce missing: 立ち絵の代わりに紋章（2箇所）、出現率なしで招集停止
+OK  844x390-reduce locked: 同行変更を止め理由を表示
+OK  844x390-reduce 動き: 結果の登場 none
+OK  844x390-reduce 動き: 常時動き続けるアニメーション 0件
+OK  844x390-reduce 音: 音量0で再生要求0件・結果は表示、通常は equip
+OK  844x390-reduce HUD: 既存ボタンと重ならず画面内（53px）
+OK  844x390-reduce HUD: 再使用待ちを数字と読み上げで表示（12秒）
+OK  844x390-reduce HUD: 使用可能→押すと使用中・再使用待ち（20秒）
+OK  844x390-reduce ページ例外 0件
+OK  640x360 starter: はみ出し・欠け・小さい押し所なし
+OK  640x360 roster: はみ出し・欠け・小さい押し所なし
+OK  640x360 roster-cap: はみ出し・欠け・小さい押し所なし
+OK  640x360 roster-short: はみ出し・欠け・小さい押し所なし
+OK  640x360 roster-max: はみ出し・欠け・小さい押し所なし
+OK  640x360 roster-unowned: はみ出し・欠け・小さい押し所なし
+OK  640x360 recruit: はみ出し・欠け・小さい押し所なし
+OK  640x360 recruit-short: はみ出し・欠け・小さい押し所なし
+OK  640x360 recruit-guarantee: はみ出し・欠け・小さい押し所なし
+OK  640x360 recruit-all: はみ出し・欠け・小さい押し所なし
+OK  640x360 recruit-busy: はみ出し・欠け・小さい押し所なし
+OK  640x360 result-new: はみ出し・欠け・小さい押し所なし
+OK  640x360 result-dup: はみ出し・欠け・小さい押し所なし
+OK  640x360 save-fail: はみ出し・欠け・小さい押し所なし
+OK  640x360 missing: はみ出し・欠け・小さい押し所なし
+OK  640x360 locked: はみ出し・欠け・小さい押し所なし
+OK  640x360 操作: 初回選択は選ぶまで確定不可、確定で同行中になる
+OK  640x360 操作: 同行の変更と解除
+OK  640x360 操作: 限界突破でLv上限 10→20（Lv10/ 20 次まで 380）
+OK  640x360 roster-short: 限界突破は押せず理由を表示
+OK  640x360 roster: 限界突破は押せず理由を表示
+OK  640x360 roster-max: 限界突破は押せず理由を表示
+OK  640x360 操作: 招集でチケット 3→2、結果を表示
+OK  640x360 操作: 結果を閉じると招集画面に戻る
+OK  640x360 recruit-short: 押せず、不足枚数と入手方法を表示
+OK  640x360 recruit-busy: 処理中表示・二重送信なし（送信1回）
+OK  640x360 save-fail: 失敗を表示し、同じ要求IDで再試行して成功
+OK  640x360 missing: 立ち絵の代わりに紋章（2箇所）、出現率なしで招集停止
+OK  640x360 locked: 同行変更を止め理由を表示
+OK  640x360 動き: 結果の登場 bd-reveal
+OK  640x360 動き: 常時動き続けるアニメーション 0件
+OK  640x360 音: 音量0で再生要求0件・結果は表示、通常は equip
+OK  640x360 HUD: 既存ボタンと重ならず画面内（48px）
+OK  640x360 HUD: 再使用待ちを数字と読み上げで表示（12秒）
+OK  640x360 HUD: 使用可能→押すと使用中・再使用待ち（20秒）
+OK  640x360 ページ例外 0件
+OK  640x360-reduce starter: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce roster: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce roster-cap: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce roster-short: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce roster-max: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce roster-unowned: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce recruit: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce recruit-short: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce recruit-guarantee: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce recruit-all: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce recruit-busy: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce result-new: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce result-dup: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce save-fail: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce missing: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce locked: はみ出し・欠け・小さい押し所なし
+OK  640x360-reduce 操作: 初回選択は選ぶまで確定不可、確定で同行中になる
+OK  640x360-reduce 操作: 同行の変更と解除
+OK  640x360-reduce 操作: 限界突破でLv上限 10→20（Lv10/ 20 次まで 380）
+OK  640x360-reduce roster-short: 限界突破は押せず理由を表示
+OK  640x360-reduce roster: 限界突破は押せず理由を表示
+OK  640x360-reduce roster-max: 限界突破は押せず理由を表示
+OK  640x360-reduce 操作: 招集でチケット 3→2、結果を表示
+OK  640x360-reduce 操作: 結果を閉じると招集画面に戻る
+OK  640x360-reduce recruit-short: 押せず、不足枚数と入手方法を表示
+OK  640x360-reduce recruit-busy: 処理中表示・二重送信なし（送信1回）
+OK  640x360-reduce save-fail: 失敗を表示し、同じ要求IDで再試行して成功
+OK  640x360-reduce missing: 立ち絵の代わりに紋章（2箇所）、出現率なしで招集停止
+OK  640x360-reduce locked: 同行変更を止め理由を表示
+OK  640x360-reduce 動き: 結果の登場 none
+OK  640x360-reduce 動き: 常時動き続けるアニメーション 0件
+OK  640x360-reduce 音: 音量0で再生要求0件・結果は表示、通常は equip
+OK  640x360-reduce HUD: 既存ボタンと重ならず画面内（48px）
+OK  640x360-reduce HUD: 再使用待ちを数字と読み上げで表示（12秒）
+OK  640x360-reduce HUD: 使用可能→押すと使用中・再使用待ち（20秒）
+OK  640x360-reduce ページ例外 0件
