@@ -213,6 +213,47 @@ const actions: BuddyUiActions = {
    - 足すと、既存の配置編集と `placeControls` で位置・大きさ・不透明度を扱える。
    - 既存の保存配置に `buddy` が無い場合は、`parseLayout` で標準配置を補う（`jump`・`pause` と同じ扱い）。
    - プレビューでは、この位置が既存の全ボタンと重ならないことを `resolveLayout` で確認した（844×390・640×360）。
+5a. **短い高さの配置（2026-11-05追加）**：既存ボタンは動かさず、固有スキルだけを逃がす。
+   - **決めた設計**：
+     - 本人が配置編集で動かしていない（`layout.buttons.buddy` が標準値のまま）とき、`pickBuddySkillPlacement(others, resolve)` で位置を選ぶ。
+     - 候補は2つ。
+       - `BUDDY_SKILL_PLACEMENT`：x0.92・y0.86・スキル名は下
+       - `BUDDY_SKILL_PLACEMENT_SHORT`：x0.64・y0.13（ジャンプの上）・スキル名は左
+     - 既存ボタン全てと4px以上離れる最初の候補を採る。
+     - 本人が動かした配置はそのまま使い、既存の `overlaps` → `defaultLayout` の扱いに任せる。
+   - **スキル名の位置**：短い高さ用の位置でスキル名を下に出すと、640×280でジャンプに重なる。そのため、`skill.setLabelSide(placement.label)` で左に出す。
+   - **試算**：主担当の未コミットの `layout.ts` と同じ式で計算した。
+     | 画面（安全領域） | 選ばれる位置 | 固有スキルと最も近い既存ボタンの間隔 | 既存ボタン同士の最小間隔 |
+     | --- | --- | --- | --- |
+     | 844×390（なし） | 標準 | 射撃 25.50px | 35.68px |
+     | 640×360（なし） | 標準 | 射撃 22.34px | 21.62px |
+     | 740×300（左16・右8・下6） | 短い高さ用 | ジャンプ 11.80px | 11.80px |
+     | 640×280（左16・右8・下6） | 短い高さ用 | ジャンプ 5.14px | 5.14px |
+     | 568×320（なし、参考） | 標準 | 射撃 9.94px | 12.26px |
+     | 932×430（左右59・下21、参考） | 標準 | 射撃 24.54px | 31.25px |
+     - 標準位置のままだと、740×300は射撃と1.88px、640×280は射撃と−4.32px（重なり）。
+     - 他の候補も試した。
+       - x0.5・y0.13：照準の真上に来るため不採用。
+       - x0.92・y0.34：全画面で射撃と重なるため不採用。
+   - **実画面での確認**：`shots/640x280-safe-coarse-hud-controls.png`・`740x300-safe-coarse-hud-controls.png`。
+     - ジャンプ・装填と同じ右手の帯に入る。照準の右上で、照準・兵士は隠さない。
+     - 遠くの敵が画面上部の中央寄りに来た場合は、一部にかかり得る。既存のジャンプ・装填も同じ帯にある。
+   - **PCの場合**：PC（pointer: fine）でも同じ選び方をする。既存ボタンは非表示だが、入力方法で位置を変えないため。
+   - **主担当側の接続**（`layout.ts` は編集していない）：
+
+     ```ts
+     // resolveLayout の中で、includeBuddy かつ buddy が標準値のときだけ
+     const others = rects.filter((r) => r.id !== "buddy");
+     const isDefault = (b: Placement) => b.x === 0.92 && b.y === 0.86 && b.size === 1;
+     if (includeBuddy && isDefault(layout.buttons.buddy)) {
+       const { rect, placement } = pickBuddySkillPlacement(others, (p) => box("buddy", p)); // box は既存と同じ式
+       // rects の buddy を rect に置き換え、placeControls で skill.setLabelSide(placement.label)
+     }
+     ```
+
+     - `box` は、既存の `size`・`x`・`y` のclamp式をそのまま使う関数。
+     - `BUDDY_SKILL_PLACEMENTS` は `buddy-ui.ts` から import する。値を `layout.ts` に写す場合も、試す順と label は揃える。
+     - 検査は弱めない。overlaps の4px基準と既存の必須サイズのままで通る。
 6. **CSSの読み込み**：`buddy-ui.ts` が `buddy-ui.css` を import する。既存の共有CSSは変更不要。
 7. **`#controls` 配下の局所CSS**（`buddy-ui.css` に同梱）：共有CSSの次の規則は、IDの詳細度で `.bd-skill-btn` に勝つ。そのため `#controls .bd-skill-btn` で同じ場所に限って上書きした。
    - `style.css` の `#controls button`（62px・背景・枠・padding）と、`button:hover` の背景
@@ -226,10 +267,13 @@ const actions: BuddyUiActions = {
 
 ## 確認結果（2026-11-05、Chrome／Playwright、開発サーバー上）
 
-`node design/buddy-ui/tools/check.mjs`：**168項目すべてOK**（`shots/report.txt`）。内訳は次のとおり。
+`node design/buddy-ui/tools/check.mjs`：**208項目すべてOK**（`shots/report.txt`）。内訳は次のとおり。
 
 - 844×390・640×360 × 動きの通常／軽減：144項目
-- 実CSSの `#controls` 配下 × 2サイズ × PC（pointer: fine）／タッチ（coarse）：24項目（2026-11-05追加）
+- 実CSSの `#controls` 配下 × 4画面（844×390・640×360・740×300と640×280は安全領域 左16・右8・下6）× PC（pointer: fine）／タッチ（coarse）：64項目（2026-11-05追加）
+  - 位置：短い2画面は短い高さ用、他は標準。
+  - ボタン本体もスキル名も、表示中の既存ボタンと4px以上離れ、画面内に収まる。
+  - 安全領域は、`readInsets` が読む `--safe-*` に `?safe=16,8,0,6` で入れて再現した。
   - HUDの場面は、`index.html` と同じ `#controls` の要素（移動・視点・射撃・回避・装填・切替・蘇生・スコープ、外側に一時停止）を使う。位置は実際の `placeControls(defaultLayout())` で決める。
   - その上に固有スキルボタンを置いて計算値を確かめた。
     - PC・タッチとも `display:grid`・`border-radius:50%`・`padding:0`・独自背景・枠0。
@@ -301,7 +345,7 @@ const actions: BuddyUiActions = {
 branch `claude/buddy-ui-20261105`（基点 `210adf9`）。
 - 内容：製品用の `src/client/buddy-ui.ts`・`.css` と、立ち絵4枚を追加した。プレビューと検査は `design/buddy-ui/`。
 - 画面：初回選択、編成・育成・突破、招集（確率・保証・不足・処理中・結果・被り・保存失敗）、戦闘HUDの固有スキル。
-- 確認：844×390・640×360 × 動きの通常／軽減、実CSSの #controls 配下の PC／タッチで168項目合格。
+- 確認：844×390・640×360 × 動きの通常／軽減と、実CSSの #controls 配下 × 4画面（短い高さ・安全領域を含む）× PC／タッチで208項目合格。
 - 未接続：playtest-app・layout・HUDへの接続は主担当（`design/buddy-ui/HANDOFF.md`）。
 - 未確認：実スマホ、実データとの結合。
 ```

@@ -376,12 +376,15 @@ for (const [w, h] of [
   }
 }
 // 製品の #controls と共有CSS（style.css・mobile-ui.css）の下で、PC（pointer: fine）とタッチ（coarse）を確かめる。
-for (const [w, h] of [
-  [844, 390],
-  [640, 360],
+// 短い高さ（640×280・740×300、安全領域 左16・右8・下6）は、既存ボタンを動かさず固有スキルだけ短い高さ用の位置へ移す。
+for (const [w, h, safe, expect] of [
+  [844, 390, "", "default"],
+  [640, 360, "", "default"],
+  [740, 300, "16,8,0,6", "short"],
+  [640, 280, "16,8,0,6", "short"],
 ]) {
   for (const pointer of ["fine", "coarse"]) {
-    const tag = `${w}x${h}-${pointer}`;
+    const tag = `${w}x${h}${safe ? "-safe" : ""}-${pointer}`;
     const ctx = await browser.newContext({
       viewport: { width: w, height: h },
       deviceScaleFactor: 1,
@@ -391,10 +394,13 @@ for (const [w, h] of [
     const errors = [];
     p.on("pageerror", (e) => errors.push(e.message));
     const look = async (extra) => {
-      await p.goto(`${base}?scene=hud&ui=0${extra}`, {
-        waitUntil: "load",
-        timeout: 240000,
-      });
+      await p.goto(
+        `${base}?scene=hud&ui=0${safe ? `&safe=${safe}` : ""}${extra}`,
+        {
+          waitUntil: "load",
+          timeout: 240000,
+        },
+      );
       await p.waitForTimeout(300);
       return p.evaluate(() => {
         const b = document.getElementById("buddy");
@@ -407,13 +413,19 @@ for (const [w, h] of [
         ]
           .filter((e) => getComputedStyle(e).display !== "none")
           .map((e) => ({ id: e.id, r: e.getBoundingClientRect() }));
-        const hit = others.filter(
-          (o) =>
-            r.left < o.r.right + 4 &&
-            r.right + 4 > o.r.left &&
-            r.top < o.r.bottom + 4 &&
-            r.bottom + 4 > o.r.top,
-        );
+        const gapOf = (a, o) =>
+          Math.max(
+            o.left - a.right,
+            a.left - o.right,
+            o.top - a.bottom,
+            a.top - o.bottom,
+          );
+        const hit = others.filter((o) => gapOf(r, o.r) < 4);
+        const label = b.querySelector(".bd-skill-name").getBoundingClientRect();
+        const labelHit = others.filter((o) => gapOf(label, o.r) < 4);
+        const minGap = others.length
+          ? Math.min(...others.map((o) => gapOf(r, o.r)))
+          : null;
         return {
           coarse: matchMedia("(pointer: coarse)").matches,
           display: cs.display,
@@ -425,6 +437,15 @@ for (const [w, h] of [
           fire: getComputedStyle(document.getElementById("fire")).display,
           key: getComputedStyle(b.querySelector(".bd-skill-key")).display,
           hit: hit.map((o) => o.id),
+          labelHit: labelHit.map((o) => o.id),
+          minGap: minGap === null ? "—" : minGap.toFixed(2),
+          placement: b.dataset.placement,
+          labelSide: b.dataset.label,
+          labelIn:
+            label.left >= 0 &&
+            label.right <= innerWidth &&
+            label.bottom <= innerHeight &&
+            label.top >= 88,
           inView:
             r.left >= 0 &&
             r.right <= innerWidth &&
@@ -454,9 +475,17 @@ for (const [w, h] of [
     );
     ok(
       !s.hit.length && s.inView,
-      `${tag} 表示中の既存ボタン・移動スティック・一時停止と重ならず画面内${s.hit.length ? " 重なり:" + s.hit : ""}`,
+      `${tag} 表示中の既存ボタン・移動スティック・一時停止と4px以上離れ画面内（最小 ${s.minGap}px）${s.hit.length ? " 重なり:" + s.hit : ""}`,
     );
-    if (w === 844)
+    ok(
+      s.placement === expect,
+      `${tag} 位置: ${s.placement}（期待 ${expect}）・スキル名 ${s.labelSide}`,
+    );
+    ok(
+      !s.labelHit.length && s.labelIn,
+      `${tag} スキル名も既存ボタンと4px以上離れ画面内${s.labelHit.length ? " 重なり:" + s.labelHit : ""}`,
+    );
+    if (w === 844 || safe)
       await p.screenshot({ path: `${out}/${tag}-hud-controls.png` });
     const none = await look("&none=1");
     ok(
