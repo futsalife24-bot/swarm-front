@@ -58,6 +58,7 @@ export default defineConfig({
       "tests/bgm-layout-return.test.ts",
       "tests/enemy-size.test.ts",
       "tests/foundry-generation.test.ts",
+      "tests/foundry-weapons.test.ts",
       "tests/foundry-movement.test.ts",
       "tests/aim.test.ts",
       "tests/standard-trooper.test.ts",

@@ -1,0 +1,82 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "kind": "rocket",
+    "beforeHp": 10500,
+    "afterHp": 10330,
+    "damage": 170,
+    "realWebSocket": true,
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "kind": "heavy",
+    "beforeHp": 10500,
+    "afterHp": 10070,
+    "damage": 430,
+    "realWebSocket": true,
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "kind": "grenade",
+    "beforeHp": 10500,
+    "afterHp": 10410,
+    "damage": 90,
+    "realWebSocket": true,
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "kind": "sticky",
+    "beforeHp": 10500,
+    "afterHp": 10365,
+    "damage": 135,
+    "realWebSocket": true,
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "kind": "rocket",
+    "beforeHp": 10500,
+    "afterHp": 10330,
+    "damage": 170,
+    "realWebSocket": true,
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "kind": "heavy",
+    "beforeHp": 10500,
+    "afterHp": 10070,
+    "damage": 430,
+    "realWebSocket": true,
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "kind": "grenade",
+    "beforeHp": 10500,
+    "afterHp": 10410,
+    "damage": 90,
+    "realWebSocket": true,
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "kind": "sticky",
+    "beforeHp": 10500,
+    "afterHp": 10365,
+    "damage": 135,
+    "realWebSocket": true,
+    "errors": []
+  }
+]

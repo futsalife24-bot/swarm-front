@@ -2267,11 +2267,13 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
               Number(a.part === 0) - Number(b.part === 0) || a.part - b.part,
           )) {
             const d = Math.hypot(b.x - q.x, b.z - q.z, b.y - q.y);
-            // HARROW's enlarged body can exceed a weapon's entire blast radius.
+            // HARROW and FOUNDRY ZERO can exceed a weapon's entire blast radius.
             // Measure its blast overlap at the same surface used for direct hits.
             // Keep the existing distance curve for every other enemy.
             const blastDistance =
-              e.kind === "harrow" ? Math.max(0, d - b.radius) : d;
+              e.kind === "harrow" || e.kind === "boss"
+                ? Math.max(0, d - b.radius)
+                : d;
             if (blastDistance >= blast) continue;
             const clear =
               d < 0.01 ||
@@ -2337,8 +2339,8 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
               eye(e) - eye(direct),
             );
             const blastDistance =
-              e.kind === "harrow"
-                ? Math.max(0, d - enemyBodies(e)[0].radius)
+              e.kind === "harrow" || e.kind === "boss"
+                ? Math.max(0, d - (enemyBodies(e)[0]?.radius ?? 0))
                 : d;
             if (
               e.hp > 0 &&
