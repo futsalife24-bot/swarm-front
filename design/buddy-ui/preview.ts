@@ -16,6 +16,7 @@ import {
   mountBuddyMenu,
   createBuddySkillButton,
   BUDDY_SKILL_PLACEMENT,
+  pickBuddySkillPlacement,
   type BuddyCatalogItem,
   type BuddyGrowthView,
   type BuddyUiState,
@@ -423,32 +424,49 @@ function mountHud() {
     keyHint: "V",
   });
   controlsEl.append(skill.element);
+  // 安全領域の再現：?safe=左,右,上,下（px）。layout.ts の readInsets が読む --safe-* に入れる。
+  const safe = (params.get("safe") ?? "").split(",").map(Number);
+  if (safe.length === 4 && safe.every(Number.isFinite))
+    ["left", "right", "top", "bottom"].forEach((k, i) =>
+      document.documentElement.style.setProperty(`--safe-${k}`, `${safe[i]}px`),
+    );
   const place = () => {
     placeControls(layout);
-    // 主担当が CONTROL_IDS に "buddy" を足した場合と同じ計算（resolveLayout と同式）で置く。
-    const a = arena(innerWidth, innerHeight, readInsets());
+    // 主担当が CONTROL_IDS に "buddy" を足した場合と同じ計算（resolveLayout と同式）で候補を箱にし、
+    // 既存ボタンを動かさずに最初に4px以上離れる候補を選ぶ。
+    const insets = readInsets();
+    const a = arena(innerWidth, innerHeight, insets);
     const scale = Math.max(
       0.85,
       Math.min(1.15, innerWidth / 900, innerHeight / 400),
     );
-    const size = Math.min(
-      a.height,
-      a.width,
-      Math.max(44, 56 * BUDDY_SKILL_PLACEMENT.size * scale),
-    );
-    const x = Math.max(
-      size / 2,
-      Math.min(a.width - size / 2, BUDDY_SKILL_PLACEMENT.x * a.width),
-    );
-    const y = Math.max(
-      size / 2,
-      Math.min(a.height - size / 2, BUDDY_SKILL_PLACEMENT.y * a.height),
-    );
+    const others = resolveLayout(layout, innerWidth, innerHeight, insets);
+    const chosen = pickBuddySkillPlacement(others, (b) => {
+      const size = Math.min(
+        a.height,
+        a.width,
+        Math.max(44, 56 * b.size * scale),
+      );
+      const x = Math.max(size / 2, Math.min(a.width - size / 2, b.x * a.width));
+      const y = Math.max(
+        size / 2,
+        Math.min(a.height - size / 2, b.y * a.height),
+      );
+      return {
+        id: "buddy",
+        left: a.left + x - size / 2,
+        top: a.top + y - size / 2,
+        size,
+      };
+    });
+    skill.setLabelSide(chosen.placement.label);
+    skill.element.dataset.placement =
+      chosen.placement === BUDDY_SKILL_PLACEMENT ? "default" : "short";
     Object.assign(skill.element.style, {
-      left: `${a.left + x - size / 2}px`,
-      top: `${a.top + y - size / 2}px`,
-      width: `${size}px`,
-      height: `${size}px`,
+      left: `${chosen.rect.left}px`,
+      top: `${chosen.rect.top}px`,
+      width: `${chosen.rect.size}px`,
+      height: `${chosen.rect.size}px`,
       opacity: String(layout.opacity),
     });
   };

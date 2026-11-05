@@ -987,6 +987,14 @@
   transform: translateX(-50%);
   pointer-events: none;
 }
+/* 短い高さ用の位置（ジャンプの上）では、下に出すとジャンプに重なるため左へ出す。 */
+.bd-skill-btn[data-label="left"] .bd-skill-name {
+  top: 50%;
+  right: 100%;
+  left: auto;
+  margin: 0 4px 0 0;
+  transform: translateY(-50%);
+}
 .bd-skill-btn[data-state="cooldown"] .bd-skill-icon,
 .bd-skill-btn[data-state="unavailable"] .bd-skill-icon {
   opacity: 0.35;
