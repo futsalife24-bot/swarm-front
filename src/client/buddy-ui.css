@@ -1010,6 +1010,58 @@
 .bd-skill-btn.is-ready-flash {
   animation: bd-ready 420ms cubic-bezier(0.2, 0.75, 0.25, 1);
 }
+.bd-skill-key {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  display: none;
+  min-width: 18px;
+  padding: 1px 4px;
+  border: 1px solid #d4e8e57f;
+  border-radius: 3px;
+  background: #0b171d;
+  color: #e3edee;
+  font:
+    700 11px/1.2 "Segoe UI",
+    sans-serif;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* 製品の #controls 配下では、既存の共有規則（style.css・mobile-ui.css の
+ * `#controls button` と、PC で全ボタンを隠す `@media (pointer: fine)`）が
+ * ID の詳細度で .bd-skill-btn に勝つ。共有CSSは変えず、ここで同じ場所に限って上書きする。
+ * - 表示：PC でも固有スキルは表示する。[hidden] は既存の display:flex より優先して隠す。
+ * - 形：既存の 62px・背景・枠・hover の色替え・transition を打ち消す（大きさは placeControls の inline 指定か --size）。 */
+#controls .bd-skill-btn {
+  display: grid;
+  place-items: center;
+  width: var(--size, 60px);
+  height: var(--size, 60px);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #0b171dcc;
+  color: var(--el, #e3edee);
+  font-size: 12px;
+  overflow: visible;
+  transition: none;
+}
+#controls .bd-skill-btn:hover,
+#controls .bd-skill-btn:active {
+  background: #0b171dcc;
+}
+#controls .bd-skill-btn[hidden] {
+  display: none;
+}
+@media (pointer: fine) {
+  #controls .bd-skill-btn:not([hidden]) {
+    display: grid;
+  }
+  #controls .bd-skill-btn .bd-skill-key {
+    display: block;
+  }
+}
 @keyframes bd-ready {
   0% {
     transform: scale(0.86);
