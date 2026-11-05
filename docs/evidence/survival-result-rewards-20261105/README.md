@@ -2,7 +2,7 @@
 
 本人依頼: 「生存モード終了時の獲得報酬画面がない」。2026-11-05。
 
-[PR #281](https://github.com/futsalife24-bot/swarm-front/pull/281)で通常main反映済み。mainからの配布物と通常ソロ2サイズも確認済み。既存Worker公開は現在の無料契約確認待ち。[反映・配布物・停止理由と再開](RELEASE.md)。
+[PR #281](https://github.com/futsalife24-bot/swarm-front/pull/281)で通常main反映済み。本人の無料プラン継続回答を受け、既存Workerへ公開。配信60ファイル一致・health正常、公開版の通常ソロ2サイズも確認済み。[反映・公開・配信確認](RELEASE.md)。
 
 確認した原因: `src/client/front-app.ts` の終了画面は時間・強化回数・連鎖・融合と保存結果の合計文のみで、獲得武器の一覧がない。既存の `saveFrontRunRewards` は報酬を保存している。報酬付与の不具合と断定していない。
 
@@ -27,7 +27,7 @@
 - `npx vitest run --config vitest.front.config.ts tests/front-result-rewards.test.ts tests/front-reward-status.test.ts tests/front-survival.test.ts tests/front-reward-ui.test.ts`: 23件成功。初回の旧構成では一時変換ファイルのENOENTで既存2suite失敗、新規5件成功。TEMP/TMPを今回のrepo内 `dist-validation/survival-result-rewards/tmp` に限定して再実行し3suite/21件成功、接続後は宝箱表示の既存2件も加えて23件成功。テスト基準は変更なし。
 - 実ブラウザー初回はsandboxの `ERR_NETWORK_ACCESS_DENIED`。正式な権限経路で再実行したところ、Vite未起動で `ERR_CONNECTION_REFUSED`。標準ローダー `npm run dev -- --configLoader native --port 5186 --strictPort` の起動が約43秒で完了した後、同じ検査を実行し8条件成功。最初の失敗を成功に含めていない。
 - 現状版の実ソロ8条件では、帰還と全滅で武器3丁・攻略コイン30（宝箱10を含む）、短時間終了で武器0丁・宝箱10、保存失敗→再試行で失敗表示解消を確認。ページ例外0、戻るボタン全条件が画面内。[結果](baseline.json)、[帰還844](baseline-return-844.png)、[全滅640](baseline-defeat-640.png)。この画像は既存の終了演出が表示中の撮影で、演出終了後の最終レイアウトを検証したものではない。獲得武器の詳細一覧は現状に存在しない。fixtureによる時間短縮で、人の通し実プレイではない。
-- 製品への接続と実ソロ/実Workerの確認は実施済み。実装commit後/merge後mainの `npm run build -- --configLoader native` と既存Worker dry-run成功、500KB超chunk警告あり。通常PR/main反映も完了。既存Worker公開・配信確認だけは未完了。独立Chat監査は最新の通常方針に従い自動追加していない。
+- 製品への接続と実ソロ/実Workerの確認は実施済み。実装commit後/merge後mainの `npm run build -- --configLoader native` と既存Worker dry-run成功、500KB超chunk警告あり。通常PR/main反映・既存Worker公開・配信確認も完了。独立Chat監査は最新の通常方針に従い自動追加していない。
 - 最終CSSの再確認前、証拠JSONをdocsへコピーした際にViteの監視が `EBUSY` で停止し、検証2本は接続拒否で失敗した。サーバーログの対象ファイルを確認し、証拠書込みを止めてViteを再起動、Readyを確認して再実行した最終4条件が成功。恒久的なwatch/Hook/ルール変更はない。終了後は今回の5186/8807を停止し、待受0を確認。成功済みの保存/通信テストは不要に繰り返していない。
 
 ## 送信承認と公開前の制約の経過
@@ -38,7 +38,7 @@
 
 本人の「はい」で初回の送信承認待ちは解消し、同じ既存Claudeチャットへ依頼を送信した。後続の検証結果を含む追加共有は、初回承認の範囲外として自動承認レビューに拒否され、送信していない。追加共有なしで主担当の製品検証と統合を継続した。
 
-Cloudflareの既存認証は最初HTTP401。Wrangler標準の `whoami` で同じ既存アカウント/権限の認証が更新され、契約読み取りはHTTP403になった。権限拡大やログイン再設定はしていない。ブラウザー一覧も取得不可（当該実行元から `Local browser use is disabled in Work settings`、native helper active request）。この文言だけで利用者の設定OFFや根因を断定していない。本人へ現在もFreeかを確認中。過去の2026-10-30本人確認を今回のAPI実取得と取り違えない。
+Cloudflareの既存認証は最初HTTP401。Wrangler標準の `whoami` で同じ既存アカウント/権限の認証が更新され、契約読み取りはHTTP403になった。権限拡大やログイン再設定はしていない。ブラウザー一覧も取得不可（当該実行元から `Local browser use is disabled in Work settings`、native helper active request）。この文言だけで利用者の設定OFFや根因を断定していない。本人が後続で「無料プランのまま」と明言し、同じ確認を繰り返されたと指摘。今回の本人回答を根拠として、追加の質問なしで公開した。API取得不能と本人確認済みの事実を混同しない。
 
 使用量は既存OAuthで別の正規GraphQL読取が成功。当日UTC 00:00〜12:03:59、アカウント全Workersで224 requests・0 errors・239 subrequests。[実取得](cloudflare-usage.json)。契約情報が得られた証拠とはしない。GitHubのmain保護/ruleset/Actions workflowは0件と読み取り確認し、保護やCIを変更していない。
 
