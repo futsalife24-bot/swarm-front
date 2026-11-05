@@ -299,7 +299,7 @@
   "confirmedDecisions": {
     "date": "2026-11-05",
     "battle": "通常はバディ自身が戦い、ボタンで固有スキルを発動",
-    "individuality": "回復・範囲攻撃・兵士の身体能力向上など。個体割当未決",
+    "individuality": "タタラ:火炎/範囲攻撃、ヨスガ:風/回復、トバリ:氷結/防御支援、オリハ:電撃/身体強化。能力値は未決",
     "buddyLimitPerPlayer": 1,
     "buddyMaximumInExistingFourPlayerRoom": 4,
     "newBattleImplementation": false,
