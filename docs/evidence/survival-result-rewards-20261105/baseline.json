@@ -1,0 +1,98 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "scenario": "return",
+    "baseline": true,
+    "layout": {
+      "visible": true,
+      "panelScroll": 200
+    },
+    "rewardText": "撤収完了\nタイトルへ\n演出をスキップ\n\n生存作戦から帰還しました\n\n2:05\n取得 1回\n最大 0連鎖\n\n融合なし\n\n功績 +100 · 攻略コイン +30（宝箱 10枚を含む） · 恒久武器 3丁 保存済み（上限超過は保留） · 最高生存 125秒",
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "scenario": "defeat",
+    "baseline": true,
+    "layout": {
+      "visible": true,
+      "panelScroll": 200
+    },
+    "rewardText": "戦闘終了\nタイトルへ\n演出をスキップ\n\n全員が倒れました\n\n2:05\n取得 1回\n最大 0連鎖\n\n融合なし\n\n功績 +20 · 攻略コイン +30（宝箱 10枚を含む） · 恒久武器 3丁 保存済み（上限超過は保留） · 最高生存 125秒",
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "scenario": "short",
+    "baseline": true,
+    "layout": {
+      "visible": true,
+      "panelScroll": 200
+    },
+    "rewardText": "戦闘終了\nタイトルへ\n演出をスキップ\n\n全員が倒れました\n\n0:20\n取得 1回\n最大 0連鎖\n\n融合なし\n\n功績 +20 · 攻略コイン +10（宝箱 10枚を含む） · 恒久武器 0丁 保存済み（上限超過は保留） · 最高生存 20秒",
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "scenario": "save-failure",
+    "baseline": true,
+    "layout": {
+      "visible": true,
+      "panelScroll": 200
+    },
+    "rewardText": "撤収完了\nタイトルへ\n\n生存作戦から帰還しました\n\n2:05\n取得 1回\n最大 0連鎖\n\n融合なし\n\n功績 +100 · 攻略コイン +30（宝箱 10枚を含む） · 恒久武器 3丁 保存済み（上限超過は保留） · 最高生存 125秒",
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "scenario": "return",
+    "baseline": true,
+    "layout": {
+      "visible": true,
+      "panelScroll": 218
+    },
+    "rewardText": "撤収完了\nタイトルへ\n演出をスキップ\n\n生存作戦から帰還しました\n\n2:05\n取得 1回\n最大 0連鎖\n\n融合なし\n\n功績 +100 · 攻略コイン +30（宝箱 10枚を含む） · 恒久武器 3丁 保存済み（上限超過は保留） · 最高生存 125秒",
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "scenario": "defeat",
+    "baseline": true,
+    "layout": {
+      "visible": true,
+      "panelScroll": 218
+    },
+    "rewardText": "戦闘終了\nタイトルへ\n演出をスキップ\n\n全員が倒れました\n\n2:05\n取得 1回\n最大 0連鎖\n\n融合なし\n\n功績 +20 · 攻略コイン +30（宝箱 10枚を含む） · 恒久武器 3丁 保存済み（上限超過は保留） · 最高生存 125秒",
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "scenario": "short",
+    "baseline": true,
+    "layout": {
+      "visible": true,
+      "panelScroll": 200
+    },
+    "rewardText": "戦闘終了\nタイトルへ\n演出をスキップ\n\n全員が倒れました\n\n0:20\n取得 1回\n最大 0連鎖\n\n融合なし\n\n功績 +20 · 攻略コイン +10（宝箱 10枚を含む） · 恒久武器 0丁 保存済み（上限超過は保留） · 最高生存 20秒",
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "scenario": "save-failure",
+    "baseline": true,
+    "layout": {
+      "visible": true,
+      "panelScroll": 218
+    },
+    "rewardText": "撤収完了\nタイトルへ\n\n生存作戦から帰還しました\n\n2:05\n取得 1回\n最大 0連鎖\n\n融合なし\n\n功績 +100 · 攻略コイン +30（宝箱 10枚を含む） · 恒久武器 3丁 保存済み（上限超過は保留） · 最高生存 125秒",
+    "errors": []
+  }
+]

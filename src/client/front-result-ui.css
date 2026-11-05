@@ -1,0 +1,302 @@
+/* 生存終了の「獲得報酬」。既存の終了section（.front-result-panel）と
+   出撃準備の1丁1行（gear-weapon-list.css）を継承する。戦闘中は body.playtest が
+   外れるため、行の寸法・列は .playtest #ui の既存値をここへ写す。新しい演出はなし。 */
+
+/* 報酬一覧がある時だけ、スクロールしても戻る操作が見えるよう見出しを固定する。 */
+.front-game .front-result-panel:has(.fr-rewards) > header {
+  position: sticky;
+  top: calc(-1 * var(--fr-panel-pad, 18px));
+  z-index: 6;
+  margin: calc(-1 * var(--fr-panel-pad, 18px))
+    calc(-1 * var(--fr-panel-pad-x, 22px)) 0;
+  padding: var(--fr-panel-pad, 18px) var(--fr-panel-pad-x, 22px) 4px;
+  /* 既存 .pause-card（menu-theme.css）の上端線と地色を、固定見出しの裏にも敷く。 */
+  background:
+    linear-gradient(90deg, #c1d3c7 0 28px, #566c6e 28px 76px, transparent 76px)
+      left top / 100% 2px no-repeat,
+    linear-gradient(110deg, #1a2a31, #0f1c24);
+  box-shadow:
+    inset 4px 0 #0b151aaa,
+    inset -4px 0 #0b151aaa,
+    inset 0 4px #0b151aaa;
+}
+.front-game .front-result-panel:has(.fr-rewards) > p {
+  margin: 6px 0;
+}
+.front-game .front-result-panel:has(.fr-rewards) .rebuild-result {
+  padding: 4px 0;
+}
+
+/* 保存失敗時の既存「保存を再試行」（主担当の表示）は、一覧が長くても下端に残す。
+   section直下にある時だけ（見出しへ移した場合は何もしない）。 */
+.front-game .front-result-panel:has(.fr-rewards) > #front-retry-save {
+  position: sticky;
+  bottom: 0;
+  z-index: 6;
+  box-shadow: 0 -8px 14px #0e1b23e6;
+}
+
+.fr-rewards {
+  margin: 8px 0 6px;
+  padding-top: 8px;
+  border-top: 1px solid #64858c6b;
+}
+.fr-rewards-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin-bottom: 6px;
+}
+.fr-rewards-head h2 {
+  margin: 0;
+  font-size: 15px;
+  line-height: 24px;
+  letter-spacing: 0.06em;
+  color: var(--mint, #8fe3bd);
+}
+.fr-rewards-sum {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.fr-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  min-height: 24px;
+  box-sizing: border-box;
+  padding: 3px 8px;
+  border: 1px solid #64858c6b;
+  border-left: 3px solid #75958e;
+  background: #17262e;
+  font-size: 12px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+.fr-chip b {
+  font-size: 14px;
+  color: #f2f6f4;
+  font-variant-numeric: tabular-nums;
+}
+.fr-chip small {
+  font-size: 11px;
+  color: #b4c5cc;
+}
+.fr-chip em {
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 700;
+}
+/* 保存状態は色だけでなく文字（保存済・獲得予定・未保存）でも示す。 */
+.fr-chip[data-state="stored"] {
+  border-left-color: #83d8b0;
+}
+.fr-chip[data-state="stored"] em {
+  color: #83d8b0;
+}
+.fr-chip[data-state="planned"] {
+  border-left-color: #b4c5cc;
+}
+.fr-chip[data-state="planned"] em {
+  color: #b4c5cc;
+}
+.fr-chip[data-state="unsaved"] {
+  border-left-color: #e8b468;
+}
+.fr-chip[data-state="unsaved"] em {
+  color: #e8b468;
+}
+.front-game .front-result-panel .fr-note {
+  margin: 4px 0 0;
+  font-size: 11px;
+  line-height: 1.45;
+  color: #b4c5cc;
+}
+
+/* ---- 1丁1行（gear-weapon-list.css の .playtest #ui 版と同じ寸法） ---- */
+.fr-rewards .gear-weapon-list {
+  --gear-identity: 174px;
+  --gear-stats: 66px minmax(62px, 1fr) minmax(30px, 1fr) minmax(48px, 1fr)
+    minmax(52px, 1fr) minmax(36px, 1fr);
+  flex: none;
+  overflow-x: auto;
+  overflow-y: visible;
+  isolation: isolate;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #829b8e #142329;
+}
+.fr-rewards .gear-weapon-list .pt-weapon-row {
+  grid-template-columns: var(--gear-identity) minmax(316px, 1fr) 48px;
+  width: max(100%, calc(var(--gear-identity) + 364px));
+  box-sizing: border-box;
+  height: 30px;
+  min-height: 30px;
+  margin: 0 0 2px;
+  padding: 0;
+  border: 1px solid #64858c6b;
+  border-left: 3px solid var(--weapon-tier, #75958e);
+  --row-surface: #1d2e34;
+  background: linear-gradient(110deg, #203038, #17262e);
+  box-shadow:
+    inset 0 1px #c4dacd0b,
+    inset 0 -1px #050f1644;
+}
+.fr-rewards .gear-weapon-list .pt-weapon-head {
+  position: static;
+  height: 20px;
+  min-height: 20px;
+  margin: 0;
+  border-color: #15262b;
+  --row-surface: #15262b;
+  background: var(--row-surface);
+  color: #a5bcc8;
+  font-size: 10px;
+  line-height: 16px;
+}
+.fr-rewards .gear-weapon-list .pt-stat-scroll {
+  overflow: visible;
+}
+.fr-rewards .gear-weapon-list .pt-stat-inner {
+  grid-template-columns: var(--gear-stats);
+  column-gap: 4px;
+  min-width: 316px;
+  min-height: 0;
+  height: 28px;
+  width: 100%;
+  padding: 0 3px;
+  box-sizing: border-box;
+}
+.fr-rewards .gear-weapon-list .pt-stat-inner > span {
+  font-size: 13px;
+  padding: 0;
+  white-space: nowrap;
+}
+.fr-rewards .gear-weapon-list .pt-weapon-head .pt-stat-inner {
+  height: 18px;
+}
+.fr-rewards .gear-weapon-list .pt-weapon-head .pt-stat-inner > span {
+  font-size: 10px;
+}
+.fr-rewards .gear-weapon-list .gear-effect {
+  font-size: 11px;
+  text-align: center;
+}
+.fr-rewards .gear-weapon-list .gear-effect .effect-help {
+  width: 100%;
+  height: 28px;
+  min-height: 28px;
+  padding: 0 2px;
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0;
+  border: 1px solid #557d8e;
+  border-radius: 3px;
+  background: #142f3b;
+  color: #bceeff;
+  clip-path: none;
+  box-shadow: none;
+}
+.fr-rewards .gear-weapon-list .effect-help::before,
+.fr-rewards .gear-weapon-list .effect-help::after {
+  display: none;
+}
+.fr-rewards .gear-weapon-list .pt-identity {
+  gap: 4px;
+  padding: 0 4px;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  height: 100%;
+  background: var(--row-surface);
+}
+.fr-rewards .gear-weapon-list .gear-row-name {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  width: 100%;
+}
+.fr-rewards .gear-weapon-list .pt-identity b {
+  font-size: 13px;
+  font-weight: 700;
+}
+.fr-rewards .gear-weapon-list .gear-rarity {
+  display: inline-block;
+  flex: none;
+  width: 24px;
+  text-align: center;
+  font-size: 9px;
+  line-height: 15px;
+}
+.fr-rewards .gear-weapon-list .gear-row-name .gear-rarity {
+  border: 1px solid currentColor;
+  border-radius: 2px;
+}
+.fr-rewards .gear-weapon-list .gear-level {
+  flex: none;
+  margin-left: auto;
+  font-size: 11px;
+  color: #c9f7e6;
+  font-variant-numeric: tabular-nums;
+}
+.fr-rewards .gear-weapon-list sup {
+  font-size: 8px;
+  margin-left: 1px;
+}
+/* ロック位置の状態。押せる見た目にしない（枠なし・文字）。 */
+.fr-rewards .gear-weapon-list .gear-lock-head,
+.fr-rewards .gear-weapon-list .gear-row-state {
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: var(--row-surface);
+  text-align: center;
+  white-space: nowrap;
+}
+.fr-rewards .gear-weapon-list .gear-row-state {
+  font-size: 11px;
+  font-weight: 700;
+  color: #83d8b0;
+}
+.fr-rewards .gear-weapon-list .gear-row-state[data-state="pending"] {
+  color: #ffd472;
+}
+.fr-rewards .gear-weapon-list .gear-row-state[data-state="unsaved"] {
+  color: #e8b468;
+}
+.fr-rewards .gear-weapon-list .pt-weapon-row[data-state="unsaved"] {
+  border-style: dashed solid dashed solid;
+}
+
+@media (max-height: 420px) {
+  .front-game .front-result-panel:has(.fr-rewards) {
+    --fr-panel-pad: 11px;
+    --fr-panel-pad-x: 15px;
+  }
+  .front-game .front-result-panel:has(.fr-rewards) > #front-retry-save {
+    min-height: 36px;
+    padding: 7px 16px;
+    font-size: 13px;
+  }
+}
+@media (max-height: 380px) {
+  .front-game .front-result-panel:has(.fr-rewards) > p {
+    margin: 3px 0;
+  }
+  .fr-rewards {
+    margin-top: 4px;
+    padding-top: 5px;
+  }
+  .fr-rewards-head {
+    margin-bottom: 4px;
+  }
+}

@@ -1,0 +1,82 @@
+[
+  {
+    "width": 1280,
+    "organizing": false,
+    "heading": 20,
+    "header": 41,
+    "visible": 12,
+    "checkedRows": 27,
+    "horizontal": 0.0,
+    "assertionsPassed": true
+  },
+  {
+    "width": 1280,
+    "organizing": true,
+    "heading": 20,
+    "header": 41,
+    "visible": 12,
+    "checkedRows": 27,
+    "horizontal": 0.0,
+    "assertionsPassed": true
+  },
+  {
+    "width": 915,
+    "organizing": false,
+    "heading": 20,
+    "header": 39,
+    "visible": 7,
+    "checkedRows": 27,
+    "horizontal": 0.0,
+    "assertionsPassed": true
+  },
+  {
+    "width": 915,
+    "organizing": true,
+    "heading": 20,
+    "header": 39,
+    "visible": 7,
+    "checkedRows": 27,
+    "horizontal": 0.0,
+    "assertionsPassed": true
+  },
+  {
+    "width": 844,
+    "organizing": false,
+    "heading": 20,
+    "header": 39,
+    "visible": 7,
+    "checkedRows": 27,
+    "horizontal": 0.0,
+    "assertionsPassed": true
+  },
+  {
+    "width": 844,
+    "organizing": true,
+    "heading": 20,
+    "header": 39,
+    "visible": 7,
+    "checkedRows": 27,
+    "horizontal": 0.0,
+    "assertionsPassed": true
+  },
+  {
+    "width": 640,
+    "organizing": false,
+    "heading": 20,
+    "header": 39,
+    "visible": 6,
+    "checkedRows": 27,
+    "horizontal": 135.0,
+    "assertionsPassed": true
+  },
+  {
+    "width": 640,
+    "organizing": true,
+    "heading": 20,
+    "header": 39,
+    "visible": 6,
+    "checkedRows": 27,
+    "horizontal": 155.0,
+    "assertionsPassed": true
+  }
+]

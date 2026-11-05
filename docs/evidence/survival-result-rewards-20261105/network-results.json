@@ -1,0 +1,18 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "weapons": 3,
+    "reconnectPreserved": true,
+    "noDuplicateRewards": true,
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "weapons": 3,
+    "reconnectPreserved": true,
+    "noDuplicateRewards": true,
+    "errors": []
+  }
+]

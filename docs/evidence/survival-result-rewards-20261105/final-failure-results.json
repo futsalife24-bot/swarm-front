@@ -1,0 +1,26 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "scenario": "save-failure",
+    "baseline": false,
+    "layout": {
+      "visible": true,
+      "panelScroll": 341
+    },
+    "rewardText": "撤収完了\nタイトルへ\n\n生存作戦から帰還しました\n\n2:05\n取得 1回\n最大 0連鎖\n\n融合なし\n\n獲得報酬\n攻略コイン\n+30\n宝箱10を含む\n保存済\n功績 +100\n武器\n3丁\n保存済3\nレア\n武器\n特殊効果\n威力\n装弾\n装填\n射程\n連射\n状態\nN\nMD-4 ブルーム\nLv1\nー\n10×7▲\n5\n2.41s▲\n51.7m▲\n▲\n0.9▼\n保存済\nN\nRL-2 コメット\nLv1\nー\n180▲\n2\n2.52s▲\n78.8m▲\n0.9▲\n保存済\nN\nAR-9 リーフ\nLv1\nー\n24\n32\n1.67s▼\n71.5m▲\n7.6▼\n保存済",
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "scenario": "save-failure",
+    "baseline": false,
+    "layout": {
+      "visible": true,
+      "panelScroll": 323
+    },
+    "rewardText": "撤収完了\nタイトルへ\n\n生存作戦から帰還しました\n\n2:05\n取得 1回\n最大 0連鎖\n\n融合なし\n\n獲得報酬\n攻略コイン\n+30\n宝箱10を含む\n保存済\n功績 +100\n武器\n3丁\n保存済3\nレア\n武器\n特殊効果\n威力\n装弾\n装填\n射程\n連射\n状態\nN\nSG-4 ブレイカー\nLv1\nー\n19×8▼\n7\n2.08s▲\n24.2m▲\n1.4▲\n▲\n保存済\nN\nSMG-3 ワスプ\nLv1\nー\n14▲\n45\n1.39s▲\n42.9m▲\n▲\n15.0▲\n保存済\nN\nSR-1 ソーン\nLv1\nー\n175▲\n6\n2.26s▲\n145.6m▲\n1.0\n保存済",
+    "errors": []
+  }
+]
