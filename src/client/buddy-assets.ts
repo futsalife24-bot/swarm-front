@@ -3,6 +3,7 @@ export const BUDDY_ASSETS = {
   tatara: {
     name: "タタラ",
     file: "tatara-v3.glb",
+    portrait: "tatara.webp",
     display: "Palm",
     radius: 0.93,
     locomotion: "walk",
@@ -10,6 +11,7 @@ export const BUDDY_ASSETS = {
   yosuga: {
     name: "ヨスガ",
     file: "yosuga-v5.glb",
+    portrait: "yosuga.webp",
     display: "Display",
     radius: 0.52,
     locomotion: "walk",
@@ -17,6 +19,7 @@ export const BUDDY_ASSETS = {
   tobari: {
     name: "トバリ",
     file: "tobari-v7.glb",
+    portrait: "tobari.webp",
     display: "Display",
     radius: 0.43,
     locomotion: "float",
@@ -24,6 +27,7 @@ export const BUDDY_ASSETS = {
   oriha: {
     name: "オリハ",
     file: "oriha-v3.glb",
+    portrait: "oriha.webp",
     display: "Display",
     radius: 0.88,
     locomotion: "float",
@@ -32,7 +36,7 @@ export const BUDDY_ASSETS = {
 export type BuddyKind = keyof typeof BUDDY_ASSETS;
 export type BuddyMotion = "Idle" | "Follow" | "Display" | "Coil";
 export interface BuddyAppearance {
-  /** 外観インスタンスと所有者を別に扱う。製品の同行上限は未決。 */
+  /** 外観インスタンスと所有者を別に扱う。製品は所有者1人につき1体。 */
   key: string;
   owner: string;
   kind: BuddyKind;

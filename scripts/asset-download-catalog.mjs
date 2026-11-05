@@ -36,6 +36,16 @@ export function collectCurrentAssetPacks(root) {
   ];
   if (actors.length !== 11)
     throw new Error("Enemy motion catalog changed; review current actors");
+  const buddies = matches(
+    source("src/client/buddy-assets.ts"),
+    /file: "([a-z0-9-]+\.glb)"/g,
+  ).map((file) => `assets/buddy/${file}`);
+  const buddyPortraits = matches(
+    source("src/client/buddy-assets.ts"),
+    /portrait: "([^"\n]+\.webp)"/g,
+  ).map((file) => `assets/buddy/portraits/${file}`);
+  if (buddies.length !== 4 || unique(buddies).length !== 4)
+    throw new Error("Buddy asset catalog changed; review adopted models");
   const weapons = ["rifle", "shotgun", "rocket"].flatMap((kind) =>
     Array.from(
       { length: 5 },
@@ -258,6 +268,8 @@ export function collectCurrentAssetPacks(root) {
       description: "現行の兵士・ANOMALY・武器・戦闘音・必要な画面素材。",
       urls: unique([
         ...actors,
+        ...buddies,
+        ...buddyPortraits,
         ...weapons,
         ...se,
         ...voices,

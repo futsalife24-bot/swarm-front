@@ -38,6 +38,7 @@ interface Entry extends BuddyAppearance {
   motion?: string;
   position?: BuddyPoint;
   error?: string;
+  loading?: Promise<void>;
 }
 /** 外観のみ。所有者の位置は実World／既存兵士描画を参照し、戦闘・保存を変更しない。 */
 export class BuddyVisuals {
@@ -80,7 +81,7 @@ export class BuddyVisuals {
     e.root.visible = false;
     this.entries.set(e.key, e);
     this.scene.add(e.root);
-    void this.load(e.kind)
+    e.loading = this.load(e.kind)
       .then((gltf) => {
         if (this.disposed || this.entries.get(e.key) !== e) {
           disposeBuddyModel(gltf.scene);
@@ -120,6 +121,32 @@ export class BuddyVisuals {
         }
       });
   }
+  /** 出撃準備だけが待つ。通常updateで追加された味方は非同期のまま表示する。 */
+  async prepare(world: World, soldiers: ReadonlyMap<string, T.Group>) {
+    for (const [key, entry] of this.entries) if (entry.error) this.remove(key);
+    this.update(
+      world,
+      Object.entries(world.buddies?.entries ?? {}).map(([owner, b]) => ({
+        key: owner,
+        owner,
+        kind: b.buddyId,
+      })),
+      0,
+      soldiers,
+      undefined,
+      true,
+    );
+    const entries = [...this.entries.values()];
+    await Promise.all(entries.map((entry) => entry.loading));
+    for (const entry of entries) {
+      if (this.entries.get(entry.key) !== entry)
+        throw Error("バディの準備を中止しました");
+      if (entry.error || !entry.model)
+        throw Error(
+          `${BUDDY_ASSETS[entry.kind].name}を読み込めません。通信を確認して再試行してください。${entry.error ?? ""}`,
+        );
+    }
+  }
   private play(e: Entry, motion: BuddyMotion) {
     const name = motion === "Display" ? BUDDY_ASSETS[e.kind].display : motion;
     const next = e.actions?.get(name);
@@ -135,6 +162,7 @@ export class BuddyVisuals {
     dt: number,
     soldiers: ReadonlyMap<string, T.Group>,
     reviewMotion?: BuddyMotion,
+    preparing = false,
   ) {
     if (this.disposed) return;
     // 生存・防衛・訓練・別rulesetに入れない。結果とロビーでも解放する。
@@ -144,7 +172,7 @@ export class BuddyVisuals {
       world.defense ||
       world.training ||
       world.rebuild ||
-      world.phase !== "battle"
+      (world.phase !== "battle" && !(preparing && world.phase === "lobby"))
     ) {
       this.clear();
       return;
@@ -178,12 +206,17 @@ export class BuddyVisuals {
         z: soldier?.position.z ?? p.z,
         yaw: p.yaw,
       };
-      const target = buddyFollowTarget(
-        owner,
-        BUDDY_ASSETS[e.kind].radius,
-        mapFor(world).blocks,
-        e.position,
-      );
+      const authoritative = world.buddies?.entries[p.id];
+      const target = authoritative
+        ? authoritative.visible
+          ? authoritative
+          : null
+        : buddyFollowTarget(
+            owner,
+            BUDDY_ASSETS[e.kind].radius,
+            mapFor(world).blocks,
+            e.position,
+          );
       e.root.visible = !!target && !!e.model;
       if (!target) {
         e.position = undefined;
@@ -215,7 +248,15 @@ export class BuddyVisuals {
           Math.cos(Math.PI - yaw - e.root.rotation.y),
         ) *
         (1 - Math.exp(-10 * delta));
-      this.play(e, reviewMotion ?? (speed > 0.15 ? "Follow" : "Idle"));
+      this.play(
+        e,
+        reviewMotion ??
+          (authoritative && world.time < authoritative.displayUntil
+            ? "Display"
+            : speed > 0.15
+              ? "Follow"
+              : "Idle"),
+      );
       e.mixer?.update(delta);
     }
   }

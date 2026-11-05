@@ -1,3 +1,8 @@
+import {
+  settleBuddyRun,
+  freshBuddyProgress,
+  type BuddyId,
+} from "../shared/buddy-progression";
 import { validWeapon, type Weapon } from "../shared/defs";
 import { validNewWeapon, type StoredWeapon } from "../shared/progression";
 import { fresh, type Save } from "./save";
@@ -49,7 +54,7 @@ export function loadSharedCoopSave(
 export function persistSharedCoopSave(
   next: Save,
   storage: StorageAccess = localStorage,
-  campaign?: { run: string; stage: number },
+  campaign?: { run: string; stage: number; buddyId?: BuddyId | null },
 ): void {
   const s = loadProgress("normal", storage);
   if (!s || !next.sharedArmory || next.sharedRevision === undefined)
@@ -112,6 +117,16 @@ export function persistSharedCoopSave(
       updated.missions[key] = [true, flags[1], flags[2]];
       updated.coins += victoryCoins(normalSaveId(campaign.stage), "normal");
       updated.powder += 2 + campaign.stage;
+      updated.buddies = settleBuddyRun(
+        updated.buddies ?? freshBuddyProgress(),
+        {
+          run: campaign.run,
+          stage: normalSaveId(campaign.stage),
+          win: true,
+          buddyId: campaign.buddyId ?? null,
+          repeatUnits: 1,
+        },
+      );
       updated.receipts.push(receipt);
     }
   }

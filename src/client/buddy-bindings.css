@@ -1,0 +1,9 @@
+/* Claude design/buddy-ui/preview.cssで確認した製品ホストの2規則。 */
+.pt-buddy-screen {
+  display: flex;
+  flex-direction: column;
+}
+.pt-buddy {
+  flex: 1;
+  min-height: 0;
+}

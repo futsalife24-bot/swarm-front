@@ -8,6 +8,10 @@ import {
 } from "../shared/social";
 import type { World, Input } from "../shared/game";
 import type { Weapon } from "../shared/defs";
+import {
+  validBuddyEquipment,
+  type BuddyEquipment,
+} from "../shared/buddy-combat";
 import { validStage } from "../shared/stages";
 import { EquipmentCache } from "../shared/state-wire";
 import { restoreStateTuples } from "../shared/state-tuples";
@@ -23,6 +27,7 @@ import {
 } from "./network-input-loop";
 import type { RoomOptions } from "../shared/room-directory";
 export interface Member {
+  buddy?: BuddyEquipment;
   id: string;
   name?: string;
   ready: boolean;
@@ -109,6 +114,7 @@ export class Network {
   ready: () => void = () => {};
   timer: ReturnType<typeof setInterval>;
   equip: Weapon[] = [];
+  buddy: BuddyEquipment | null = null;
   private chunks: StateChunkReceiver | undefined;
   readonly diagnostics = new ConnectionDiagnostics();
   private inputAt = -Infinity;
@@ -245,7 +251,8 @@ export class Network {
                 p &&
                 typeof p.id === "string" &&
                 typeof p.connected === "boolean" &&
-                typeof p.ready === "boolean",
+                typeof p.ready === "boolean" &&
+                (p.buddy === undefined || validBuddyEquipment(p.buddy)),
             ))
         )
           return;
@@ -312,6 +319,7 @@ export class Network {
         this.send({
           type: "equip",
           weapons: this.equip,
+          buddy: this.buddy,
           ready: !this.preparing && this.assetReady,
           stage: this.stage,
           preparationGeneration: this.preparationGeneration,
@@ -452,6 +460,7 @@ export class Network {
       swap: input.swap || !!pending?.swap,
       dodge: input.dodge || !!pending?.dodge,
       jump: input.jump || !!pending?.jump,
+      buddySkill: input.buddySkill || !!pending?.buddySkill,
     };
     const now = performance.now();
     // Rendering stalls must not produce a burst of catch-up packets. Keep taps.
@@ -471,12 +480,16 @@ export class Network {
     this.inputAt = now;
     this.pendingInput = undefined;
   }
-  equipment(weapons: Weapon[]) {
+  equipment(weapons: Weapon[], buddy: BuddyEquipment | null = this.buddy) {
+    if (buddy !== null && !validBuddyEquipment(buddy))
+      throw Error("バディ装備が不正です");
     this.equip = weapons;
+    this.buddy = buddy === null ? null : { ...buddy };
     this.assetReady = false;
     this.send({
       type: "equip",
       weapons,
+      buddy: this.buddy,
       ready: !this.preparing && this.assetReady,
       stage: this.stage,
       preparationGeneration: this.preparationGeneration,

@@ -1,0 +1,367 @@
+{
+  "browser": "156.0.4314.58",
+  "origin": "http://127.0.0.1:5196",
+  "results": [
+    {
+      "width": 844,
+      "height": 390,
+      "fixture": "隔離保存：タタラLv10・突破素材3・ヨスガ所持。報酬獲得過程は対象外。",
+      "before": {
+        "progress": {
+          "version": 1,
+          "owned": {
+            "tatara": {
+              "xp": 1620,
+              "breakthrough": 0
+            },
+            "yosuga": {
+              "xp": 0,
+              "breakthrough": 0
+            }
+          },
+          "selected": "tatara",
+          "starterChosen": true,
+          "tickets": 0,
+          "fragments": 3,
+          "repeatUnits": 0,
+          "pity": 0,
+          "clearedStages": [],
+          "runs": [],
+          "draws": []
+        },
+        "owned": {
+          "tatara": {
+            "level": 10,
+            "levelCap": 10,
+            "xpIntoLevel": 0,
+            "xpForNext": null,
+            "breakthrough": 0,
+            "breakthroughMax": 3,
+            "nextLevelCap": 20,
+            "breakthroughCost": 3
+          },
+          "yosuga": {
+            "level": 1,
+            "levelCap": 10,
+            "xpIntoLevel": 0,
+            "xpForNext": 20,
+            "breakthrough": 0,
+            "breakthroughMax": 3,
+            "nextLevelCap": 20,
+            "breakthroughCost": 3
+          }
+        }
+      },
+      "after": {
+        "progress": {
+          "version": 1,
+          "owned": {
+            "tatara": {
+              "xp": 1620,
+              "breakthrough": 1
+            },
+            "yosuga": {
+              "xp": 0,
+              "breakthrough": 0
+            }
+          },
+          "selected": "tatara",
+          "starterChosen": true,
+          "tickets": 0,
+          "fragments": 0,
+          "repeatUnits": 0,
+          "pity": 0,
+          "clearedStages": [],
+          "runs": [],
+          "draws": []
+        },
+        "owned": {
+          "tatara": {
+            "level": 10,
+            "levelCap": 20,
+            "xpIntoLevel": 0,
+            "xpForNext": 380,
+            "breakthrough": 1,
+            "breakthroughMax": 3,
+            "nextLevelCap": 30,
+            "breakthroughCost": 6
+          },
+          "yosuga": {
+            "level": 1,
+            "levelCap": 10,
+            "xpIntoLevel": 0,
+            "xpForNext": 20,
+            "breakthrough": 0,
+            "breakthroughMax": 3,
+            "nextLevelCap": 20,
+            "breakthroughCost": 3
+          }
+        },
+        "revision": 1
+      },
+      "reloaded": {
+        "progress": {
+          "version": 1,
+          "owned": {
+            "tatara": {
+              "xp": 1620,
+              "breakthrough": 1
+            },
+            "yosuga": {
+              "xp": 0,
+              "breakthrough": 0
+            }
+          },
+          "selected": "yosuga",
+          "starterChosen": true,
+          "tickets": 0,
+          "fragments": 0,
+          "repeatUnits": 0,
+          "pity": 0,
+          "clearedStages": [],
+          "runs": [],
+          "draws": []
+        },
+        "owned": {
+          "tatara": {
+            "level": 10,
+            "levelCap": 20,
+            "xpIntoLevel": 0,
+            "xpForNext": 380,
+            "breakthrough": 1,
+            "breakthroughMax": 3,
+            "nextLevelCap": 30,
+            "breakthroughCost": 6
+          },
+          "yosuga": {
+            "level": 1,
+            "levelCap": 10,
+            "xpIntoLevel": 0,
+            "xpForNext": 20,
+            "breakthrough": 0,
+            "breakthroughMax": 3,
+            "nextLevelCap": 20,
+            "breakthroughCost": 3
+          }
+        },
+        "revision": 2
+      },
+      "breakthroughUi": true,
+      "disabledSecondBreakthrough": true,
+      "equipUi": true,
+      "reloadPreserved": true
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "fixture": "隔離保存：タタラLv10・突破素材3・ヨスガ所持。報酬獲得過程は対象外。",
+      "before": {
+        "progress": {
+          "version": 1,
+          "owned": {
+            "tatara": {
+              "xp": 1620,
+              "breakthrough": 0
+            },
+            "yosuga": {
+              "xp": 0,
+              "breakthrough": 0
+            }
+          },
+          "selected": "tatara",
+          "starterChosen": true,
+          "tickets": 0,
+          "fragments": 3,
+          "repeatUnits": 0,
+          "pity": 0,
+          "clearedStages": [],
+          "runs": [],
+          "draws": []
+        },
+        "owned": {
+          "tatara": {
+            "level": 10,
+            "levelCap": 10,
+            "xpIntoLevel": 0,
+            "xpForNext": null,
+            "breakthrough": 0,
+            "breakthroughMax": 3,
+            "nextLevelCap": 20,
+            "breakthroughCost": 3
+          },
+          "yosuga": {
+            "level": 1,
+            "levelCap": 10,
+            "xpIntoLevel": 0,
+            "xpForNext": 20,
+            "breakthrough": 0,
+            "breakthroughMax": 3,
+            "nextLevelCap": 20,
+            "breakthroughCost": 3
+          }
+        }
+      },
+      "after": {
+        "progress": {
+          "version": 1,
+          "owned": {
+            "tatara": {
+              "xp": 1620,
+              "breakthrough": 1
+            },
+            "yosuga": {
+              "xp": 0,
+              "breakthrough": 0
+            }
+          },
+          "selected": "tatara",
+          "starterChosen": true,
+          "tickets": 0,
+          "fragments": 0,
+          "repeatUnits": 0,
+          "pity": 0,
+          "clearedStages": [],
+          "runs": [],
+          "draws": []
+        },
+        "owned": {
+          "tatara": {
+            "level": 10,
+            "levelCap": 20,
+            "xpIntoLevel": 0,
+            "xpForNext": 380,
+            "breakthrough": 1,
+            "breakthroughMax": 3,
+            "nextLevelCap": 30,
+            "breakthroughCost": 6
+          },
+          "yosuga": {
+            "level": 1,
+            "levelCap": 10,
+            "xpIntoLevel": 0,
+            "xpForNext": 20,
+            "breakthrough": 0,
+            "breakthroughMax": 3,
+            "nextLevelCap": 20,
+            "breakthroughCost": 3
+          }
+        },
+        "revision": 1
+      },
+      "reloaded": {
+        "progress": {
+          "version": 1,
+          "owned": {
+            "tatara": {
+              "xp": 1620,
+              "breakthrough": 1
+            },
+            "yosuga": {
+              "xp": 0,
+              "breakthrough": 0
+            }
+          },
+          "selected": "yosuga",
+          "starterChosen": true,
+          "tickets": 0,
+          "fragments": 0,
+          "repeatUnits": 0,
+          "pity": 0,
+          "clearedStages": [],
+          "runs": [],
+          "draws": []
+        },
+        "owned": {
+          "tatara": {
+            "level": 10,
+            "levelCap": 20,
+            "xpIntoLevel": 0,
+            "xpForNext": 380,
+            "breakthrough": 1,
+            "breakthroughMax": 3,
+            "nextLevelCap": 30,
+            "breakthroughCost": 6
+          },
+          "yosuga": {
+            "level": 1,
+            "levelCap": 10,
+            "xpIntoLevel": 0,
+            "xpForNext": 20,
+            "breakthrough": 0,
+            "breakthroughMax": 3,
+            "nextLevelCap": 20,
+            "breakthroughCost": 3
+          }
+        },
+        "revision": 2
+      },
+      "breakthroughUi": true,
+      "disabledSecondBreakthrough": true,
+      "equipUi": true,
+      "reloadPreserved": true
+    }
+  ],
+  "errors": [],
+  "browserMessages": [
+    {
+      "width": 844,
+      "type": "warning",
+      "message": "Service Worker registration blocked by Playwright"
+    },
+    {
+      "width": 844,
+      "type": "error",
+      "message": "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5196' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource."
+    },
+    {
+      "width": 844,
+      "type": "error",
+      "message": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "width": 844,
+      "type": "warning",
+      "message": "Service Worker registration blocked by Playwright"
+    },
+    {
+      "width": 844,
+      "type": "error",
+      "message": "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5196' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource."
+    },
+    {
+      "width": 844,
+      "type": "error",
+      "message": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "width": 640,
+      "type": "warning",
+      "message": "Service Worker registration blocked by Playwright"
+    },
+    {
+      "width": 640,
+      "type": "error",
+      "message": "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5196' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource."
+    },
+    {
+      "width": 640,
+      "type": "error",
+      "message": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "width": 640,
+      "type": "warning",
+      "message": "Service Worker registration blocked by Playwright"
+    },
+    {
+      "width": 640,
+      "type": "error",
+      "message": "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:5196' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource."
+    },
+    {
+      "width": 640,
+      "type": "error",
+      "message": "Failed to load resource: net::ERR_FAILED"
+    }
+  ]
+}

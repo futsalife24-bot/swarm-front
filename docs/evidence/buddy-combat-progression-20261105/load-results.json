@@ -1,0 +1,1300 @@
+{
+  "browser": "156.0.4314.58",
+  "results": [
+    {
+      "width": 844,
+      "height": 390,
+      "kinds": [],
+      "samples": [
+        {
+          "cpuStepAndRenderMs": 15,
+          "calls": 445,
+          "triangles": 1007220,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 17.800000000745058,
+          "calls": 445,
+          "triangles": 1007220,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 19,
+          "calls": 445,
+          "triangles": 1007220,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 26.599999997764826,
+          "calls": 445,
+          "triangles": 1007220,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 25.199999999254942,
+          "calls": 445,
+          "triangles": 1007220,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 17.5,
+          "calls": 445,
+          "triangles": 1007220,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 21.700000002980232,
+          "calls": 445,
+          "triangles": 1007220,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 25.5,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 16.199999999254942,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 9,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 14.5,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 20.5,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 30.100000001490116,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 48,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 47.5,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 47.899999998509884,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 59.600000001490116,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 28.5,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 30.600000001490116,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 12.5,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        }
+      ],
+      "entries": [],
+      "memory": {
+        "geometries": 666,
+        "textures": 1198
+      },
+      "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "skills": []
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "kinds": [
+        "tatara"
+      ],
+      "samples": [
+        {
+          "cpuStepAndRenderMs": 27.100000001490116,
+          "calls": 448,
+          "triangles": 1009400,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 60.099999997764826,
+          "calls": 448,
+          "triangles": 1009400,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 31.100000001490116,
+          "calls": 448,
+          "triangles": 1009400,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 28.199999999254942,
+          "calls": 448,
+          "triangles": 1009400,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 40,
+          "calls": 448,
+          "triangles": 1009400,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 19,
+          "calls": 448,
+          "triangles": 1009400,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 18.600000001490116,
+          "calls": 448,
+          "triangles": 1009400,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 13.800000000745058,
+          "calls": 394,
+          "triangles": 1006508,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 24.100000001490116,
+          "calls": 394,
+          "triangles": 1006508,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 20.800000000745058,
+          "calls": 394,
+          "triangles": 1006508,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 24.5,
+          "calls": 394,
+          "triangles": 1006508,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 18.799999997019768,
+          "calls": 394,
+          "triangles": 1006508,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 21.300000000745058,
+          "calls": 394,
+          "triangles": 1006508,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 18.699999999254942,
+          "calls": 394,
+          "triangles": 1006508,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 24.600000001490116,
+          "calls": 394,
+          "triangles": 1006508,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 9.899999998509884,
+          "calls": 392,
+          "triangles": 1006252,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 20,
+          "calls": 392,
+          "triangles": 1006252,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 24,
+          "calls": 392,
+          "triangles": 1006252,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 19.600000001490116,
+          "calls": 392,
+          "triangles": 1006252,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 34.69999999925494,
+          "calls": 392,
+          "triangles": 1006252,
+          "effects": 0
+        }
+      ],
+      "entries": [
+        {
+          "kind": "tatara",
+          "owner": "p0",
+          "visible": true,
+          "motion": "Palm"
+        }
+      ],
+      "memory": {
+        "geometries": 668,
+        "textures": 1199
+      },
+      "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "skills": [
+        {
+          "id": "tatara",
+          "lastSkillAt": 0.49999999999999994
+        }
+      ]
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "kinds": [
+        "tatara",
+        "yosuga",
+        "tobari",
+        "oriha"
+      ],
+      "samples": [
+        {
+          "cpuStepAndRenderMs": 40.29999999701977,
+          "calls": 457,
+          "triangles": 1014820,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 41.19999999925494,
+          "calls": 457,
+          "triangles": 1014820,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 29.100000001490116,
+          "calls": 457,
+          "triangles": 1014820,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 39.69999999925494,
+          "calls": 457,
+          "triangles": 1014820,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 34.80000000074506,
+          "calls": 457,
+          "triangles": 1014820,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 42.30000000074506,
+          "calls": 457,
+          "triangles": 1014820,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 37.69999999925494,
+          "calls": 457,
+          "triangles": 1014820,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 43.599999997764826,
+          "calls": 403,
+          "triangles": 1011928,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 35.5,
+          "calls": 403,
+          "triangles": 1011928,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 50.30000000074506,
+          "calls": 403,
+          "triangles": 1011928,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 43.400000002235174,
+          "calls": 403,
+          "triangles": 1011928,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 50.599999997764826,
+          "calls": 403,
+          "triangles": 1011928,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 74.80000000074506,
+          "calls": 403,
+          "triangles": 1011928,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 55.30000000074506,
+          "calls": 403,
+          "triangles": 1011928,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 47,
+          "calls": 403,
+          "triangles": 1011928,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 36.19999999925494,
+          "calls": 401,
+          "triangles": 1011032,
+          "effects": 6
+        },
+        {
+          "cpuStepAndRenderMs": 32.30000000074506,
+          "calls": 397,
+          "triangles": 1010908,
+          "effects": 2
+        },
+        {
+          "cpuStepAndRenderMs": 47.30000000074506,
+          "calls": 397,
+          "triangles": 1010908,
+          "effects": 2
+        },
+        {
+          "cpuStepAndRenderMs": 58.29999999701977,
+          "calls": 395,
+          "triangles": 1010904,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 53,
+          "calls": 395,
+          "triangles": 1010904,
+          "effects": 0
+        }
+      ],
+      "entries": [
+        {
+          "kind": "tatara",
+          "owner": "p0",
+          "visible": true,
+          "motion": "Palm"
+        },
+        {
+          "kind": "yosuga",
+          "owner": "p1",
+          "visible": true,
+          "motion": "Display"
+        },
+        {
+          "kind": "tobari",
+          "owner": "p2",
+          "visible": true,
+          "motion": "Display"
+        },
+        {
+          "kind": "oriha",
+          "owner": "p3",
+          "visible": true,
+          "motion": "Display"
+        }
+      ],
+      "memory": {
+        "geometries": 673,
+        "textures": 1202
+      },
+      "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "skills": [
+        {
+          "id": "tatara",
+          "lastSkillAt": 0.49999999999999994
+        },
+        {
+          "id": "yosuga",
+          "lastSkillAt": 0.49999999999999994
+        },
+        {
+          "id": "tobari",
+          "lastSkillAt": 0.49999999999999994
+        },
+        {
+          "id": "oriha",
+          "lastSkillAt": 0.49999999999999994
+        }
+      ]
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "kinds": [
+        "tatara",
+        "tatara",
+        "tatara",
+        "tatara"
+      ],
+      "samples": [
+        {
+          "cpuStepAndRenderMs": 29.199999999254942,
+          "calls": 457,
+          "triangles": 1015940,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 40.600000001490116,
+          "calls": 457,
+          "triangles": 1015940,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 52,
+          "calls": 457,
+          "triangles": 1015940,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 56.30000000074506,
+          "calls": 457,
+          "triangles": 1015940,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 26.599999997764826,
+          "calls": 457,
+          "triangles": 1015940,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 21,
+          "calls": 457,
+          "triangles": 1015940,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 18.5,
+          "calls": 457,
+          "triangles": 1015940,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 16.900000002235174,
+          "calls": 403,
+          "triangles": 1013048,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 16.800000000745058,
+          "calls": 403,
+          "triangles": 1013048,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 18.299999997019768,
+          "calls": 403,
+          "triangles": 1013048,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 16.300000000745058,
+          "calls": 403,
+          "triangles": 1013048,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 15.100000001490116,
+          "calls": 403,
+          "triangles": 1013048,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 15.800000000745058,
+          "calls": 403,
+          "triangles": 1013048,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 17.099999997764826,
+          "calls": 403,
+          "triangles": 1013048,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 13.699999999254942,
+          "calls": 403,
+          "triangles": 1013048,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 17.100000001490116,
+          "calls": 401,
+          "triangles": 1012152,
+          "effects": 6
+        },
+        {
+          "cpuStepAndRenderMs": 20.899999998509884,
+          "calls": 397,
+          "triangles": 1012028,
+          "effects": 2
+        },
+        {
+          "cpuStepAndRenderMs": 21.800000000745058,
+          "calls": 397,
+          "triangles": 1012028,
+          "effects": 2
+        },
+        {
+          "cpuStepAndRenderMs": 18.400000002235174,
+          "calls": 395,
+          "triangles": 1012024,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 25.799999997019768,
+          "calls": 395,
+          "triangles": 1012024,
+          "effects": 0
+        }
+      ],
+      "entries": [
+        {
+          "kind": "tatara",
+          "owner": "p0",
+          "visible": true,
+          "motion": "Palm"
+        },
+        {
+          "kind": "tatara",
+          "owner": "p1",
+          "visible": true,
+          "motion": "Palm"
+        },
+        {
+          "kind": "tatara",
+          "owner": "p2",
+          "visible": true,
+          "motion": "Palm"
+        },
+        {
+          "kind": "tatara",
+          "owner": "p3",
+          "visible": true,
+          "motion": "Palm"
+        }
+      ],
+      "memory": {
+        "geometries": 673,
+        "textures": 1202
+      },
+      "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "skills": [
+        {
+          "id": "tatara",
+          "lastSkillAt": 0.49999999999999994
+        },
+        {
+          "id": "tatara",
+          "lastSkillAt": 0.49999999999999994
+        },
+        {
+          "id": "tatara",
+          "lastSkillAt": 0.49999999999999994
+        },
+        {
+          "id": "tatara",
+          "lastSkillAt": 0.49999999999999994
+        }
+      ]
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "kinds": [],
+      "samples": [
+        {
+          "cpuStepAndRenderMs": 13.399999998509884,
+          "calls": 445,
+          "triangles": 1007220,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 11.699999999254942,
+          "calls": 445,
+          "triangles": 1007220,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 35.5,
+          "calls": 445,
+          "triangles": 1007220,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 46.69999999925494,
+          "calls": 445,
+          "triangles": 1007220,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 51.80000000074506,
+          "calls": 445,
+          "triangles": 1007220,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 52.5,
+          "calls": 445,
+          "triangles": 1007220,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 30.199999999254942,
+          "calls": 445,
+          "triangles": 1007220,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 38.600000001490116,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 12.399999998509884,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 15,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 11.399999998509884,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 8.100000001490116,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 12.199999999254942,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 12.900000002235174,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 19.5,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 31.399999998509884,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 29,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 26.800000000745058,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 35.899999998509884,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 10.300000000745058,
+          "calls": 391,
+          "triangles": 1004328,
+          "effects": 0
+        }
+      ],
+      "entries": [],
+      "memory": {
+        "geometries": 669,
+        "textures": 1198
+      },
+      "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "skills": []
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "kinds": [
+        "tatara"
+      ],
+      "samples": [
+        {
+          "cpuStepAndRenderMs": 37.79999999701977,
+          "calls": 448,
+          "triangles": 1009400,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 21.600000001490116,
+          "calls": 448,
+          "triangles": 1009400,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 24.699999999254942,
+          "calls": 448,
+          "triangles": 1009400,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 20.5,
+          "calls": 448,
+          "triangles": 1009400,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 19,
+          "calls": 448,
+          "triangles": 1009400,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 163.5,
+          "calls": 448,
+          "triangles": 1009400,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 44.69999999925494,
+          "calls": 448,
+          "triangles": 1009400,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 22.699999999254942,
+          "calls": 394,
+          "triangles": 1006508,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 18.5,
+          "calls": 394,
+          "triangles": 1006508,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 29.600000001490116,
+          "calls": 394,
+          "triangles": 1006508,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 18.099999997764826,
+          "calls": 394,
+          "triangles": 1006508,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 18.600000001490116,
+          "calls": 394,
+          "triangles": 1006508,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 15.399999998509884,
+          "calls": 394,
+          "triangles": 1006508,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 19.5,
+          "calls": 394,
+          "triangles": 1006508,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 18.300000000745058,
+          "calls": 394,
+          "triangles": 1006508,
+          "effects": 1
+        },
+        {
+          "cpuStepAndRenderMs": 17.900000002235174,
+          "calls": 392,
+          "triangles": 1006252,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 20.699999999254942,
+          "calls": 392,
+          "triangles": 1006252,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 19.600000001490116,
+          "calls": 392,
+          "triangles": 1006252,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 16.600000001490116,
+          "calls": 392,
+          "triangles": 1006252,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 16.899999998509884,
+          "calls": 392,
+          "triangles": 1006252,
+          "effects": 0
+        }
+      ],
+      "entries": [
+        {
+          "kind": "tatara",
+          "owner": "p0",
+          "visible": true,
+          "motion": "Palm"
+        }
+      ],
+      "memory": {
+        "geometries": 670,
+        "textures": 1199
+      },
+      "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "skills": [
+        {
+          "id": "tatara",
+          "lastSkillAt": 0.49999999999999994
+        }
+      ]
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "kinds": [
+        "tatara",
+        "yosuga",
+        "tobari",
+        "oriha"
+      ],
+      "samples": [
+        {
+          "cpuStepAndRenderMs": 19,
+          "calls": 457,
+          "triangles": 1014820,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 15.600000001490116,
+          "calls": 457,
+          "triangles": 1014820,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 33,
+          "calls": 457,
+          "triangles": 1014820,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 16.899999998509884,
+          "calls": 457,
+          "triangles": 1014820,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 18.100000001490116,
+          "calls": 457,
+          "triangles": 1014820,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 22,
+          "calls": 457,
+          "triangles": 1014820,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 14.699999999254942,
+          "calls": 457,
+          "triangles": 1014820,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 16,
+          "calls": 403,
+          "triangles": 1011928,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 22.199999999254942,
+          "calls": 403,
+          "triangles": 1011928,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 22.800000000745058,
+          "calls": 403,
+          "triangles": 1011928,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 37.5,
+          "calls": 403,
+          "triangles": 1011928,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 34.69999999925494,
+          "calls": 403,
+          "triangles": 1011928,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 20.300000000745058,
+          "calls": 403,
+          "triangles": 1011928,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 21.100000001490116,
+          "calls": 403,
+          "triangles": 1011928,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 24.699999999254942,
+          "calls": 403,
+          "triangles": 1011928,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 16.399999998509884,
+          "calls": 401,
+          "triangles": 1011032,
+          "effects": 6
+        },
+        {
+          "cpuStepAndRenderMs": 34.600000001490116,
+          "calls": 397,
+          "triangles": 1010908,
+          "effects": 2
+        },
+        {
+          "cpuStepAndRenderMs": 23.699999999254942,
+          "calls": 397,
+          "triangles": 1010908,
+          "effects": 2
+        },
+        {
+          "cpuStepAndRenderMs": 29,
+          "calls": 395,
+          "triangles": 1010904,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 12.5,
+          "calls": 395,
+          "triangles": 1010904,
+          "effects": 0
+        }
+      ],
+      "entries": [
+        {
+          "kind": "tatara",
+          "owner": "p0",
+          "visible": true,
+          "motion": "Palm"
+        },
+        {
+          "kind": "yosuga",
+          "owner": "p1",
+          "visible": true,
+          "motion": "Display"
+        },
+        {
+          "kind": "tobari",
+          "owner": "p2",
+          "visible": true,
+          "motion": "Display"
+        },
+        {
+          "kind": "oriha",
+          "owner": "p3",
+          "visible": true,
+          "motion": "Display"
+        }
+      ],
+      "memory": {
+        "geometries": 673,
+        "textures": 1202
+      },
+      "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "skills": [
+        {
+          "id": "tatara",
+          "lastSkillAt": 0.49999999999999994
+        },
+        {
+          "id": "yosuga",
+          "lastSkillAt": 0.49999999999999994
+        },
+        {
+          "id": "tobari",
+          "lastSkillAt": 0.49999999999999994
+        },
+        {
+          "id": "oriha",
+          "lastSkillAt": 0.49999999999999994
+        }
+      ]
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "kinds": [
+        "tatara",
+        "tatara",
+        "tatara",
+        "tatara"
+      ],
+      "samples": [
+        {
+          "cpuStepAndRenderMs": 17.599999997764826,
+          "calls": 457,
+          "triangles": 1015940,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 20.600000001490116,
+          "calls": 457,
+          "triangles": 1015940,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 20.300000000745058,
+          "calls": 457,
+          "triangles": 1015940,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 18.800000000745058,
+          "calls": 457,
+          "triangles": 1015940,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 52,
+          "calls": 457,
+          "triangles": 1015940,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 59,
+          "calls": 457,
+          "triangles": 1015940,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 55.69999999925494,
+          "calls": 457,
+          "triangles": 1015940,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 30.800000000745058,
+          "calls": 403,
+          "triangles": 1013048,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 29.600000001490116,
+          "calls": 403,
+          "triangles": 1013048,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 27.899999998509884,
+          "calls": 403,
+          "triangles": 1013048,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 24.800000000745058,
+          "calls": 403,
+          "triangles": 1013048,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 20.5,
+          "calls": 403,
+          "triangles": 1013048,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 17.5,
+          "calls": 403,
+          "triangles": 1013048,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 19.199999999254942,
+          "calls": 403,
+          "triangles": 1013048,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 16.099999997764826,
+          "calls": 403,
+          "triangles": 1013048,
+          "effects": 4
+        },
+        {
+          "cpuStepAndRenderMs": 16.900000002235174,
+          "calls": 401,
+          "triangles": 1012152,
+          "effects": 6
+        },
+        {
+          "cpuStepAndRenderMs": 17.5,
+          "calls": 397,
+          "triangles": 1012028,
+          "effects": 2
+        },
+        {
+          "cpuStepAndRenderMs": 18.800000000745058,
+          "calls": 397,
+          "triangles": 1012028,
+          "effects": 2
+        },
+        {
+          "cpuStepAndRenderMs": 18.699999999254942,
+          "calls": 395,
+          "triangles": 1012024,
+          "effects": 0
+        },
+        {
+          "cpuStepAndRenderMs": 17.099999997764826,
+          "calls": 395,
+          "triangles": 1012024,
+          "effects": 0
+        }
+      ],
+      "entries": [
+        {
+          "kind": "tatara",
+          "owner": "p0",
+          "visible": true,
+          "motion": "Palm"
+        },
+        {
+          "kind": "tatara",
+          "owner": "p1",
+          "visible": true,
+          "motion": "Palm"
+        },
+        {
+          "kind": "tatara",
+          "owner": "p2",
+          "visible": true,
+          "motion": "Palm"
+        },
+        {
+          "kind": "tatara",
+          "owner": "p3",
+          "visible": true,
+          "motion": "Palm"
+        }
+      ],
+      "memory": {
+        "geometries": 673,
+        "textures": 1202
+      },
+      "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "skills": [
+        {
+          "id": "tatara",
+          "lastSkillAt": 0.49999999999999994
+        },
+        {
+          "id": "tatara",
+          "lastSkillAt": 0.49999999999999994
+        },
+        {
+          "id": "tatara",
+          "lastSkillAt": 0.49999999999999994
+        },
+        {
+          "id": "tatara",
+          "lastSkillAt": 0.49999999999999994
+        }
+      ]
+    },
+    {
+      "cleared": {
+        "entries": 0,
+        "effects": 0
+      }
+    }
+  ],
+  "errors": []
+}

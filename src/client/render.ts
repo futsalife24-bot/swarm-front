@@ -1,3 +1,4 @@
+import { BuddyVisuals } from "./buddy-visuals";
 import { CalyxEffects } from "./calyx-effects";
 import { BastionView } from "./bastion-view";
 import { HarrowEffects } from "./harrow-effects";
@@ -208,6 +209,27 @@ export function poseSoldier(
   gun.rotation.x = -0.65 * tuck;
 }
 export class Renderer {
+  private buddies?: BuddyVisuals;
+  private buddyPreparationRun = "";
+  async prepareBuddies(world: World) {
+    if (
+      this.buddyReview ||
+      !world.buddies ||
+      world.front ||
+      world.rebuild ||
+      world.defense ||
+      world.training
+    )
+      return;
+    this.buddyPreparationRun = world.run;
+    this.buddies ??= new BuddyVisuals(this.scene);
+    await this.buddies.prepare(world, this.players);
+  }
+  cancelBuddyPreparation(world: World) {
+    if (this.buddyPreparationRun !== world.run) return;
+    this.buddyPreparationRun = "";
+    this.buddies?.clear();
+  }
   buddyReview?: {
     update(world: World | null, id: string, dt: number): void;
     afterRender(renderSubmitMs: number): void;
@@ -1799,6 +1821,23 @@ export class Renderer {
       fog.near = T.MathUtils.lerp(fog.near, Math.min(fog.near, 6), pollenHaze);
       fog.far = T.MathUtils.lerp(fog.far, Math.min(fog.far, 90), pollenHaze);
       fog.color.lerp(new T.Color(0xb8ad78), pollenHaze * 0.2);
+    }
+    if (!this.buddyReview && (w?.buddies || this.buddies)) {
+      if (!w || w.run !== this.buddyPreparationRun)
+        this.buddyPreparationRun = "";
+      this.buddies ??= new BuddyVisuals(this.scene);
+      this.buddies.update(
+        w,
+        Object.entries(w?.buddies?.entries ?? {}).map(([owner, b]) => ({
+          key: owner,
+          owner,
+          kind: b.buddyId,
+        })),
+        animate ? dt : 0,
+        this.players,
+        undefined,
+        !!w && w.run === this.buddyPreparationRun,
+      );
     }
     this.buddyReview?.update(w, id, animate ? dt : 0);
     if (draw) {

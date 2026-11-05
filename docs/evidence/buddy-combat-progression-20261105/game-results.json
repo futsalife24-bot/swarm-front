@@ -1,0 +1,151 @@
+{
+  "results": [
+    {
+      "kind": "tatara",
+      "before": {
+        "hp": 40,
+        "time": 1.5500000000000007,
+        "kind": "tatara"
+      },
+      "active": {
+        "buddy": {
+          "run": "7d1d1670-1c6e-47aa-bae4-9b4766836720",
+          "entries": {
+            "solo": {
+              "buddyId": "tatara",
+              "level": 1,
+              "x": -3.201039799750371,
+              "y": 0,
+              "z": 32.22578924591388,
+              "attackReadyAt": 0,
+              "skillReadyAt": 21.6,
+              "skillHeld": false,
+              "displayUntil": 2.6000000000000005,
+              "lastAttackAt": -1,
+              "lastSkillAt": 1.6000000000000008,
+              "healUntil": 0,
+              "healRate": 0,
+              "visible": true
+            }
+          },
+          "buffs": {}
+        },
+        "motion": "Palm"
+      },
+      "retireCleared": true
+    },
+    {
+      "kind": "yosuga",
+      "before": {
+        "hp": 40,
+        "time": 0.9500000000000003,
+        "kind": "yosuga"
+      },
+      "active": {
+        "buddy": {
+          "run": "c449a8b9-2cb0-40a2-843f-4c23187f2a81",
+          "entries": {
+            "solo": {
+              "buddyId": "yosuga",
+              "level": 1,
+              "x": -2.7910682130514517,
+              "y": 0,
+              "z": 32.220962435417206,
+              "attackReadyAt": 0,
+              "skillReadyAt": 26,
+              "skillHeld": false,
+              "displayUntil": 2,
+              "lastAttackAt": -1,
+              "lastSkillAt": 1.0000000000000002,
+              "healUntil": 6,
+              "healRate": 8,
+              "visible": true
+            }
+          },
+          "buffs": {}
+        },
+        "motion": "Display"
+      },
+      "retireCleared": true
+    },
+    {
+      "kind": "tobari",
+      "before": {
+        "hp": 40,
+        "time": 1.5500000000000007,
+        "kind": "tobari"
+      },
+      "active": {
+        "buddy": {
+          "run": "fe00039b-33d2-4d37-aaee-7e51c5049526",
+          "entries": {
+            "solo": {
+              "buddyId": "tobari",
+              "level": 1,
+              "x": -2.701074450117543,
+              "y": 0,
+              "z": 32.219902891649646,
+              "attackReadyAt": 0,
+              "skillReadyAt": 26.6,
+              "skillHeld": false,
+              "displayUntil": 2.6000000000000005,
+              "lastAttackAt": -1,
+              "lastSkillAt": 1.6000000000000008,
+              "healUntil": 0,
+              "healRate": 0,
+              "visible": true
+            }
+          },
+          "buffs": {
+            "solo": {
+              "guardUntil": 7.6000000000000005,
+              "boostUntil": 0
+            }
+          }
+        },
+        "motion": "Display"
+      },
+      "retireCleared": true
+    },
+    {
+      "kind": "oriha",
+      "before": {
+        "hp": 40,
+        "time": 1.7500000000000009,
+        "kind": "oriha"
+      },
+      "active": {
+        "buddy": {
+          "run": "3fa9cbe0-75c4-49f1-b66a-784c5ef65491",
+          "entries": {
+            "solo": {
+              "buddyId": "oriha",
+              "level": 1,
+              "x": -3.151043264787088,
+              "y": 0,
+              "z": 32.225200610487455,
+              "attackReadyAt": 0,
+              "skillReadyAt": 26.8,
+              "skillHeld": true,
+              "displayUntil": 2.8000000000000007,
+              "lastAttackAt": -1,
+              "lastSkillAt": 1.800000000000001,
+              "healUntil": 0,
+              "healRate": 0,
+              "visible": true
+            }
+          },
+          "buffs": {
+            "solo": {
+              "guardUntil": 0,
+              "boostUntil": 7.800000000000001
+            }
+          }
+        },
+        "motion": "Display"
+      },
+      "retireCleared": true
+    }
+  ],
+  "errors": []
+}

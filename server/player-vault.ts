@@ -1,5 +1,6 @@
 import { japanDay, japanWeek } from "../src/shared/calendar";
 import { preservesGrowthSave } from "../src/shared/growth-save-guard";
+import { validBuddyProgress } from "../src/shared/buddy-progression";
 import { validWeaponGrowth } from "../src/shared/weapon-growth";
 import type { Weapon } from "../src/shared/defs";
 import { beginDefense, type DefenseSave } from "../src/shared/daily-rewards";
@@ -51,6 +52,7 @@ export function validCloudSave(
 ): value is Record<string, unknown> {
   if (!value || typeof value !== "object" || Array.isArray(value)) return false;
   const s = value as Record<string, unknown>;
+  if (s.buddies !== undefined && !validBuddyProgress(s.buddies)) return false;
   const growth = s.survival as Record<string, number> | undefined;
   if (
     growth &&

@@ -1,3 +1,11 @@
+import { loadProgress } from "./client/progression-save";
+import { buddyLevel } from "./shared/buddy-progression";
+import { mountGameBuddyMenu, attachBuddySkill } from "./client/buddy-bindings";
+import {
+  createBuddyBattleState,
+  equipBattleBuddy,
+  buddyMoveMultiplier,
+} from "./shared/buddy-combat";
 import { predictPlayerMove } from "./client/player-prediction";
 import {
   createSquadEffects,
@@ -143,6 +151,10 @@ const ui = $("ui"),
   controls = new Controls(),
   minimap = new Minimap(),
   sound = new Sound();
+const buddySkill = attachBuddySkill(controls, sound, () =>
+  placeControls(layout),
+);
+let activeBuddyMenu: ReturnType<typeof mountGameBuddyMenu> | undefined;
 mountScreenTransitions(ui);
 interface InstallPromptEvent extends Event {
   prompt(): Promise<void>;
@@ -222,7 +234,12 @@ async function prepareLobby() {
       connection.stage,
       connection.members
         .filter((m) => m.connected)
-        .map((m) => [m.id, m.weapons?.map((w) => [w.id, w.kind, w.rarity])]),
+        .map((m) => [
+          m.id,
+          m.weapons?.map((w) => [w.id, w.kind, w.rarity]),
+          m.buddy?.id,
+          m.buddy?.level,
+        ]),
       save.quality,
     ]);
   const key = currentKey();
@@ -238,8 +255,18 @@ async function prepareLobby() {
   preparingKey = key;
   connection.setAssetReady(false);
   lobbyPreview = createWorld("preview", 1, connection.stage);
-  for (const member of members)
-    addPlayer(lobbyPreview, member.id, member.weapons!);
+  if (members.some((m) => m.buddy))
+    lobbyPreview.buddies = createBuddyBattleState(lobbyPreview);
+  for (const member of members) {
+    const player = addPlayer(lobbyPreview, member.id, member.weapons!);
+    if (member.buddy && lobbyPreview.buddies)
+      equipBattleBuddy(
+        lobbyPreview.buddies,
+        player,
+        member.buddy.id,
+        member.buddy.level,
+      );
+  }
   const cancelled = () =>
     generation !== loadingGeneration ||
     currentKey() !== key ||
@@ -480,6 +507,8 @@ const weaponName = (w: Weapon) => WEAPONS[w.kind].name;
 const equipped = () =>
   save.equipped.map((id) => save.inventory.find((w) => w.id === id)!);
 function setScreen(name: string) {
+  activeBuddyMenu?.destroy();
+  activeBuddyMenu = undefined;
   if (name !== screen) {
     cancelOperationCue();
     if (name === "battle")
@@ -781,6 +810,11 @@ function gear() {
     network = undefined;
     title();
   };
+  const buddyEntry = document.createElement("button");
+  buddyEntry.id = "gear-buddy";
+  buddyEntry.textContent = "バディ";
+  $("gear-settings").before(buddyEntry);
+  buddyEntry.onclick = buddy;
   $("launch").onclick = () => {
     sound.unlock();
     if (mode === "solo") solo();
@@ -810,7 +844,7 @@ function gear() {
       sound.unlock();
       sound.play("unequip");
       sound.play("equip", 1, 0, "equip", 0.12);
-      network?.equipment(equipped());
+      network?.equipment(equipped(), selectedBattleBuddy());
       status = `装備 ${activeSlot + 1} を変更しました。`;
     }
     gear();
@@ -1060,6 +1094,30 @@ function exportSave() {
   a.click();
   URL.revokeObjectURL(url);
 }
+function buddy() {
+  let progress = loadProgress("normal");
+  if (!progress) return;
+  setScreen("buddy");
+  ui.innerHTML =
+    '<section class="panel armory menu-screen pt-buddy-screen"><header class="menu-header"><div><div class="eyebrow">BUDDY</div><h1>バディ</h1></div><nav><button id="buddy-back">出撃準備へ</button></nav></header><div class="pt-buddy"></div></section>';
+  $("buddy-back").onclick = gear;
+  activeBuddyMenu = mountGameBuddyMenu(
+    ui.querySelector(".pt-buddy")!,
+    () => progress!,
+    (next) => {
+      progress = next;
+      save = loadSharedCoopSave();
+      network?.equipment(equipped(), selectedBattleBuddy());
+    },
+    () => world?.phase === "battle",
+    sound,
+  );
+}
+function selectedBattleBuddy() {
+  const b = loadProgress("normal")?.buddies;
+  const id = b?.selected;
+  return id && b?.owned[id] ? { id, level: buddyLevel(b.owned[id]!) } : null;
+}
 function solo() {
   mode = "solo";
   myId = "solo";
@@ -1068,7 +1126,12 @@ function solo() {
     crypto.getRandomValues(new Uint32Array(1))[0],
     selectedStage,
   );
-  addPlayer(world, myId, equipped());
+  const actor = addPlayer(world, myId, equipped());
+  const buddy = selectedBattleBuddy();
+  if (buddy) {
+    world.buddies = createBuddyBattleState(world);
+    equipBattleBuddy(world.buddies, actor, buddy.id, buddy.level);
+  }
   resultRun = "";
   controls.reset();
   void loadBattle(true);
@@ -1106,6 +1169,7 @@ async function connect(create: boolean, restore = false, joinCode?: string) {
         : undefined,
     );
     network.equip = equipped();
+    network.buddy = selectedBattleBuddy();
     network.playerName = playerName();
     network.onChat = renderLobbyChat;
     network.onStatus = (s, fatal) => {
@@ -1659,6 +1723,7 @@ function storeMissionRewards(w: World) {
     persistSharedCoopSave(next, localStorage, {
       run: w.run,
       stage: w.stage ?? 1,
+      buddyId: w.buddies?.entries[myId]?.buddyId ?? null,
     });
     save = next;
     saveError = "";
@@ -1856,7 +1921,11 @@ function readOnlineInput() {
   const p = world.players.find((p) => p.id === myId);
   if (predicted && p?.hp) {
     const n = Math.max(1, Math.hypot(input.mx, input.mz)),
-      distance = (p.evade > 0 ? MOVE_SPEED.dodge : MOVE_SPEED.walk) * 0.05;
+      distance =
+        (p.evade > 0
+          ? MOVE_SPEED.dodge
+          : MOVE_SPEED.walk * buddyMoveMultiplier(world, world.buddies, p.id)) *
+        0.05;
     predictPlayerMove(
       predicted,
       ((input.mx * Math.cos(input.yaw) + input.mz * Math.sin(input.yaw)) / n) *
@@ -1933,6 +2002,11 @@ function updateFrame(now: number) {
     scoped: controls.scoped,
   });
   $("scope-overlay").hidden = !controls.scoped;
+  buddySkill.update(
+    screen === "battle" ? world : null,
+    myId,
+    controls.enabled && !paused,
+  );
   sound.update(world, myId, controls.input.yaw, screen === "battle" && !paused);
   view.render(
     !["battle", "loading", "stage-clear", "result"].includes(screen) &&
