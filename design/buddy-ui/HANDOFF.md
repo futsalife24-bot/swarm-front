@@ -16,6 +16,7 @@
 | ファイル | 役割 |
 | --- | --- |
 | `src/client/buddy-ui.ts` | 製品用モジュール。`mountBuddyMenu`（初回選択・編成/育成・招集）と `createBuddySkillButton`（戦闘HUD） |
+| `src/client/buddy-ui-placement.ts` | 固有スキルの配置の値と純関数（DOM・CSS非依存。`layout.ts` から利用） |
 | `src/client/buddy-ui.css` | 上記の見た目。`.bd-` 接頭辞。既存の `menu-theme.css` の変数と `.resource-frame` を利用 |
 | `public/assets/buddy/portraits/{tatara,yosuga,tobari,oriha}.webp` | 採用GLBから書き出した立ち絵（320×320、透明、各3〜9KB）。素材の色・形は変えていない |
 | `design/buddy-ui/index.html`・`preview.ts`・`preview.css` | プレビュー。実際のゲームCSSと基地ヘッダーの構造の中で製品モジュールを表示 |
@@ -199,7 +200,7 @@ const actions: BuddyUiActions = {
    - 画面を離れるときは `destroy()` を呼ぶ。
 3. **出撃準備・出撃直前**：初回未選択のまま進撃へ入る場合の案内は、主担当の判断。UIは `starterChosen:false` で初回選択を出すだけ。
 4. **戦闘HUD**：
-   - `const skill = createBuddySkillButton({ onActivate: () => controls.activateBuddySkill(), sound: (c) => sound.play(c), keyHint: "V" })` を `#controls` に追加する。
+   - `const skill = createBuddySkillButton({ onActivate: () => controls.activateBuddySkill(), sound: (c) => sound.play(c), keyHint: "G" })` を `#controls` に追加する。
      - ボタンの id は既定で `buddy`。`CONTROL_IDS` に足すと、`placeControls` がそのまま位置・大きさ・不透明度を入れる。
      - `keyHint: "V"` は PC（pointer: fine）でだけ右上に小さく出る。`aria-keyshortcuts` も付く。キー入力の接続は主担当の `Controls` 側。
      - ポインターロック中のPCではマウスで押せない前提。主な操作はキー。
@@ -252,7 +253,7 @@ const actions: BuddyUiActions = {
      ```
 
      - `box` は、既存の `size`・`x`・`y` のclamp式をそのまま使う関数。
-     - `BUDDY_SKILL_PLACEMENTS` は `buddy-ui.ts` から import する。値を `layout.ts` に写す場合も、試す順と label は揃える。
+     - `BUDDY_SKILL_PLACEMENTS`・`pickBuddySkillPlacement`・`boxGap` は `src/client/buddy-ui-placement.ts` から import する。このファイルはDOM・CSSに依存しないため、`layout.ts` から読んでも他モードへバディUIのモジュールやCSSを引き込まない（`buddy-ui.ts` は同じものを再公開している）。値を `layout.ts` に写す場合も、試す順と label は揃える。
      - 検査は弱めない。overlaps の4px基準と既存の必須サイズのままで通る。
 6. **CSSの読み込み**：`buddy-ui.ts` が `buddy-ui.css` を import する。既存の共有CSSは変更不要。
 7. **`#controls` 配下の局所CSS**（`buddy-ui.css` に同梱）：共有CSSの次の規則は、IDの詳細度で `.bd-skill-btn` に勝つ。そのため `#controls .bd-skill-btn` で同じ場所に限って上書きした。
@@ -267,9 +268,13 @@ const actions: BuddyUiActions = {
 
 ## 確認結果（2026-11-05、Chrome／Playwright、開発サーバー上）
 
-`node design/buddy-ui/tools/check.mjs`：**208項目すべてOK**（`shots/report.txt`）。内訳は次のとおり。
+`node design/buddy-ui/tools/check.mjs`：**216項目すべてOK**（`shots/report.txt`）。内訳は次のとおり。
 
 - 844×390・640×360 × 動きの通常／軽減：144項目
+- 紋章（2026-11-05修正）：実ゲームの画像（`dist-validation/buddy-ui-game/844-hud-ready.png`）で極端に小さく見えた。
+  - 原因の見立て：`.bd-skill-icon` の `width/height:46%` が、ボタン寸法ではなく grid の行の内在サイズに掛かっていた。
+  - 修正：`position:absolute; inset:22%` にし、ボタン寸法の56%（輪の内径62%の内側）に固定した。線も少し太くした。
+  - 検査で、全画面・PC／タッチとも紋章の箱がボタン寸法の56.0%×56.0%、中心ずれ0pxになることを実測した。
 - 実CSSの `#controls` 配下 × 4画面（844×390・640×360・740×300と640×280は安全領域 左16・右8・下6）× PC（pointer: fine）／タッチ（coarse）：64項目（2026-11-05追加）
   - 位置：短い2画面は短い高さ用、他は標準。
   - ボタン本体もスキル名も、表示中の既存ボタンと4px以上離れ、画面内に収まる。
@@ -277,7 +282,7 @@ const actions: BuddyUiActions = {
   - HUDの場面は、`index.html` と同じ `#controls` の要素（移動・視点・射撃・回避・装填・切替・蘇生・スコープ、外側に一時停止）を使う。位置は実際の `placeControls(defaultLayout())` で決める。
   - その上に固有スキルボタンを置いて計算値を確かめた。
     - PC・タッチとも `display:grid`・`border-radius:50%`・`padding:0`・独自背景・枠0。
-    - PCでは既存ボタンが `none` のまま、固有スキルとキー表示「V」だけ出る。
+    - PCでは既存ボタンが `none` のまま、固有スキルとキー表示「G」だけ出る。
     - タッチでは既存ボタンが表示され、キー表示は出ない。
     - 表示中の既存ボタン・移動スティック・一時停止と重ならない。
     - `update(null)` で両方とも `display:none`。
@@ -345,7 +350,7 @@ const actions: BuddyUiActions = {
 branch `claude/buddy-ui-20261105`（基点 `210adf9`）。
 - 内容：製品用の `src/client/buddy-ui.ts`・`.css` と、立ち絵4枚を追加した。プレビューと検査は `design/buddy-ui/`。
 - 画面：初回選択、編成・育成・突破、招集（確率・保証・不足・処理中・結果・被り・保存失敗）、戦闘HUDの固有スキル。
-- 確認：844×390・640×360 × 動きの通常／軽減と、実CSSの #controls 配下 × 4画面（短い高さ・安全領域を含む）× PC／タッチで208項目合格。
+- 確認：844×390・640×360 × 動きの通常／軽減と、実CSSの #controls 配下 × 4画面（短い高さ・安全領域を含む）× PC／タッチで216項目合格。実ゲームへの接続検査（初回選択・招集・保存失敗の同ID再試行・HUD押下・再使用待ち・リタイア）は主担当が844×390・640×360で成功。
 - 未接続：playtest-app・layout・HUDへの接続は主担当（`design/buddy-ui/HANDOFF.md`）。
 - 未確認：実スマホ、実データとの結合。
 ```

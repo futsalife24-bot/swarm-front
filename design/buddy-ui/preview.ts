@@ -421,7 +421,7 @@ function mountHud() {
       actions.sound?.("menu");
     },
     sound: (c) => actions.sound?.(c),
-    keyHint: "V",
+    keyHint: "G",
   });
   controlsEl.append(skill.element);
   // 安全領域の再現：?safe=左,右,上,下（px）。layout.ts の readInsets が読む --safe-* に入れる。
