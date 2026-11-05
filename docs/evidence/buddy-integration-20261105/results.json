@@ -266,7 +266,6 @@
   "missing": [
     "個体の属性・能力",
     "入手と選択方法",
-    "1人の同行上限",
     "装備保存と選択の権威同期",
     "実スマホ/PWA",
     "実回線複数端末",
@@ -296,5 +295,13 @@
     "deployed": false,
     "productionUiVerified": false,
     "memory": "MainVault既存ノート末尾へ追記・読戻し、既存部分のbyte一致。ローカル保存のみ、同期未確認。"
+  },
+  "confirmedDecisions": {
+    "date": "2026-11-05",
+    "battle": "通常はバディ自身が戦い、ボタンで固有スキルを発動",
+    "individuality": "回復・範囲攻撃・兵士の身体能力向上など。個体割当未決",
+    "buddyLimitPerPlayer": 1,
+    "buddyMaximumInExistingFourPlayerRoom": 4,
+    "newBattleImplementation": false
   }
 }
