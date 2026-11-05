@@ -2,6 +2,8 @@
 
 2026-11-05。本人のST11・GL-6ホロウの画像付き指摘に対応。
 
+[PR #284](https://github.com/futsalife24-bot/swarm-front/pull/284)でmain反映し、既存Workerへ公開済み。60ファイルの配信一致・health正常・公開起動2サイズを確認。[公開記録](RELEASE.md)。
+
 正本 https://github.com/futsalife24-bot/swarm-front 。作業場所 `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-survival-build`。branch `codex/foundry-explosion-damage-20261105`、base `01860895d3311ed3d5a7989182fd84bb19ad2701`。開始時clean、root/他worktreeの差分を保持。
 
 ## 原因と修正
@@ -27,4 +29,4 @@
 
 本人がこの会話で「無料プランのまま」と確認済み。その回答を引き継ぎ、同じ確認を取り直さない。通常の継続承認に従い、必要検証・PR/main反映・既存Worker公開/配信確認まで進める。通常の独立Chat監査は2026-10-15の最新方針に従い自動追加しない。新規費用・契約/権限変更・新しい公開先は追加しない。
 
-この段階ではbuild/commit/push/main反映/Worker公開は未実施。結果は後続の公開記録へ記す。実スマホ/PWA、実回線の協力、人のST11通し攻略は未確認。主担当の実モデルID/推論設定は未確認、子なし。
+実装commit/通常PR/main反映、mainからのbuild/Worker dry-run・既存Worker公開・配信照合まで完了。実スマホ/PWA、実回線の協力、人のST11通し攻略は未確認。主担当の実モデルID/推論設定は未確認、子なし。
