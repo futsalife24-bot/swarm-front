@@ -142,3 +142,27 @@ OK  640x360-reduce HUD: 既存ボタンと重ならず画面内（48px）
 OK  640x360-reduce HUD: 再使用待ちを数字と読み上げで表示（12秒）
 OK  640x360-reduce HUD: 使用可能→押すと使用中・再使用待ち（20秒）
 OK  640x360-reduce ページ例外 0件
+OK  844x390-fine 前提: pointer の判定 fine
+OK  844x390-fine #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 53x53）
+OK  844x390-fine 既存ボタン none・キー表示 block（PCは固有スキルだけ表示しキーVを添える）
+OK  844x390-fine 表示中の既存ボタン・移動スティック・一時停止と重ならず画面内
+OK  844x390-fine update(null)（hidden）で非表示: none
+OK  844x390-fine ページ例外 0件
+OK  844x390-coarse 前提: pointer の判定 coarse
+OK  844x390-coarse #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 53x53）
+OK  844x390-coarse 既存ボタン flex・キー表示 none（PCは固有スキルだけ表示しキーVを添える）
+OK  844x390-coarse 表示中の既存ボタン・移動スティック・一時停止と重ならず画面内
+OK  844x390-coarse update(null)（hidden）で非表示: none
+OK  844x390-coarse ページ例外 0件
+OK  640x360-fine 前提: pointer の判定 fine
+OK  640x360-fine #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 48x48）
+OK  640x360-fine 既存ボタン none・キー表示 block（PCは固有スキルだけ表示しキーVを添える）
+OK  640x360-fine 表示中の既存ボタン・移動スティック・一時停止と重ならず画面内
+OK  640x360-fine update(null)（hidden）で非表示: none
+OK  640x360-fine ページ例外 0件
+OK  640x360-coarse 前提: pointer の判定 coarse
+OK  640x360-coarse #controls配下: 表示・円形・余白0・背景・枠なし（grid 50% 0px rgba(11, 23, 29, 0.8) 枠0px 48x48）
+OK  640x360-coarse 既存ボタン flex・キー表示 none（PCは固有スキルだけ表示しキーVを添える）
+OK  640x360-coarse 表示中の既存ボタン・移動スティック・一時停止と重ならず画面内
+OK  640x360-coarse update(null)（hidden）で非表示: none
+OK  640x360-coarse ページ例外 0件

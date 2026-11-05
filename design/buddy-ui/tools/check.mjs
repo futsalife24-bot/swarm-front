@@ -375,6 +375,98 @@ for (const [w, h] of [
     await ctx.close();
   }
 }
+// 製品の #controls と共有CSS（style.css・mobile-ui.css）の下で、PC（pointer: fine）とタッチ（coarse）を確かめる。
+for (const [w, h] of [
+  [844, 390],
+  [640, 360],
+]) {
+  for (const pointer of ["fine", "coarse"]) {
+    const tag = `${w}x${h}-${pointer}`;
+    const ctx = await browser.newContext({
+      viewport: { width: w, height: h },
+      deviceScaleFactor: 1,
+      ...(pointer === "coarse" ? { isMobile: true, hasTouch: true } : {}),
+    });
+    const p = await ctx.newPage();
+    const errors = [];
+    p.on("pageerror", (e) => errors.push(e.message));
+    const look = async (extra) => {
+      await p.goto(`${base}?scene=hud&ui=0${extra}`, {
+        waitUntil: "load",
+        timeout: 240000,
+      });
+      await p.waitForTimeout(300);
+      return p.evaluate(() => {
+        const b = document.getElementById("buddy");
+        const cs = getComputedStyle(b);
+        const r = b.getBoundingClientRect();
+        const others = [
+          ...document.querySelectorAll(
+            "#controls > button:not(#buddy), #move, #pause",
+          ),
+        ]
+          .filter((e) => getComputedStyle(e).display !== "none")
+          .map((e) => ({ id: e.id, r: e.getBoundingClientRect() }));
+        const hit = others.filter(
+          (o) =>
+            r.left < o.r.right + 4 &&
+            r.right + 4 > o.r.left &&
+            r.top < o.r.bottom + 4 &&
+            r.bottom + 4 > o.r.top,
+        );
+        return {
+          coarse: matchMedia("(pointer: coarse)").matches,
+          display: cs.display,
+          radius: cs.borderRadius,
+          padding: cs.padding,
+          bg: cs.backgroundColor,
+          border: cs.borderTopWidth,
+          size: `${Math.round(r.width)}x${Math.round(r.height)}`,
+          fire: getComputedStyle(document.getElementById("fire")).display,
+          key: getComputedStyle(b.querySelector(".bd-skill-key")).display,
+          hit: hit.map((o) => o.id),
+          inView:
+            r.left >= 0 &&
+            r.right <= innerWidth &&
+            r.bottom <= innerHeight &&
+            r.top >= 88,
+        };
+      });
+    };
+    const s = await look("&cd=12&freeze=1");
+    ok(
+      s.coarse === (pointer === "coarse"),
+      `${tag} 前提: pointer の判定 ${s.coarse ? "coarse" : "fine"}`,
+    );
+    ok(
+      s.display === "grid" &&
+        s.radius === "50%" &&
+        s.padding === "0px" &&
+        s.bg === "rgba(11, 23, 29, 0.8)" &&
+        s.border === "0px",
+      `${tag} #controls配下: 表示・円形・余白0・背景・枠なし（${s.display} ${s.radius} ${s.padding} ${s.bg} 枠${s.border} ${s.size}）`,
+    );
+    ok(
+      pointer === "fine"
+        ? s.fire === "none" && s.key === "block"
+        : s.fire !== "none" && s.key === "none",
+      `${tag} 既存ボタン ${s.fire}・キー表示 ${s.key}（PCは固有スキルだけ表示しキーVを添える）`,
+    );
+    ok(
+      !s.hit.length && s.inView,
+      `${tag} 表示中の既存ボタン・移動スティック・一時停止と重ならず画面内${s.hit.length ? " 重なり:" + s.hit : ""}`,
+    );
+    if (w === 844)
+      await p.screenshot({ path: `${out}/${tag}-hud-controls.png` });
+    const none = await look("&none=1");
+    ok(
+      none.display === "none",
+      `${tag} update(null)（hidden）で非表示: ${none.display}`,
+    );
+    ok(errors.length === 0, `${tag} ページ例外 ${errors.length}件`);
+    await ctx.close();
+  }
+}
 await browser.close();
 fs.writeFileSync(path.join(out, "report.txt"), report.join("\n") + "\n");
 console.log(

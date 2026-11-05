@@ -618,11 +618,18 @@ export const BUDDY_SKILL_PLACEMENT = { x: 0.92, y: 0.86, size: 1 } as const;
 export function createBuddySkillButton(options: {
   onActivate(): void;
   sound?(cue: BuddySoundCue): void;
+  /** layout.ts の placeControls が getElementById で配置するためのID。既定は "buddy"。 */
+  id?: string;
+  /** PC（pointer: fine）で添えるキー表示。例："V"。タッチ端末では出さない。 */
+  keyHint?: string;
 }) {
   const button = document.createElement("button");
   button.type = "button";
+  button.id = options.id ?? "buddy";
   button.className = "bd-skill-btn";
-  button.innerHTML = `<span class="bd-skill-ring" aria-hidden="true"></span><span class="bd-skill-icon" aria-hidden="true"></span><span class="bd-skill-sec" aria-hidden="true"></span><span class="bd-skill-name" aria-hidden="true"></span>`;
+  button.innerHTML = `<span class="bd-skill-ring" aria-hidden="true"></span><span class="bd-skill-icon" aria-hidden="true"></span><span class="bd-skill-sec" aria-hidden="true"></span><span class="bd-skill-name" aria-hidden="true"></span>${options.keyHint ? `<kbd class="bd-skill-key" aria-hidden="true">${esc(options.keyHint)}</kbd>` : ""}`;
+  if (options.keyHint)
+    button.setAttribute("aria-keyshortcuts", options.keyHint);
   let view: BuddySkillView | null = null;
   let wasReady = false;
   // 出撃直後に使用可能でも鳴らさない。待ち時間を経て使えるようになった時だけ知らせる。

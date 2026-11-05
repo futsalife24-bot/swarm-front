@@ -28,7 +28,8 @@ import {
   defaultLayout,
   resolveLayout,
   arena,
-  LABELS,
+  placeControls,
+  readInsets,
   type Layout,
 } from "../../src/client/layout";
 
@@ -399,19 +400,37 @@ function mountMenu() {
     );
 }
 
-/* ---------- 戦闘HUD（既存の操作ボタン配置の上に固有スキルを置く） ---------- */
+/* ---------- 戦闘HUD（製品と同じ #controls の構造と共有CSSの上に固有スキルを置く） ---------- */
 function mountHud() {
   document.body.dataset.screen = "battle";
   ui.hidden = true;
   const hud = document.getElementById("pv-hud")!;
   hud.hidden = false;
+  hud.innerHTML = `<div class="pv-hud-top">HUD（既存・高さ88px）</div><div class="pv-aim" aria-hidden="true"></div>`;
+  // index.html の #controls と同じ要素。位置は layout.ts の placeControls（実コード）で決める。
+  const wrap = document.createElement("div");
+  wrap.innerHTML = `<div id="controls"><div id="move" aria-label="移動スティック"><span></span></div><div id="look" aria-label="視点操作"></div><button id="fire">射撃</button><button id="dodge">回避</button><button id="reload">装填</button><button id="swap">切替</button><button id="revive">蘇生</button><button id="scope" type="button" aria-label="スコープ" aria-pressed="false" hidden>スコープ</button></div><button id="pause" class="pv-pause" type="button">Ⅱ</button>`;
+  document.body.append(...wrap.childNodes);
+  const controlsEl = document.getElementById("controls")!;
   const layout: Layout = defaultLayout();
-  const draw = () => {
-    const w = innerWidth,
-      h = innerHeight;
-    const rects = resolveLayout(layout, w, h);
-    const a = arena(w, h);
-    const scale = Math.max(0.85, Math.min(1.15, w / 900, h / 400));
+  const skill = createBuddySkillButton({
+    onActivate: () => {
+      remaining = CATALOG[0].cooldown;
+      active = 1.2;
+      actions.sound?.("menu");
+    },
+    sound: (c) => actions.sound?.(c),
+    keyHint: "V",
+  });
+  controlsEl.append(skill.element);
+  const place = () => {
+    placeControls(layout);
+    // 主担当が CONTROL_IDS に "buddy" を足した場合と同じ計算（resolveLayout と同式）で置く。
+    const a = arena(innerWidth, innerHeight, readInsets());
+    const scale = Math.max(
+      0.85,
+      Math.min(1.15, innerWidth / 900, innerHeight / 400),
+    );
     const size = Math.min(
       a.height,
       a.width,
@@ -425,43 +444,36 @@ function mountHud() {
       size / 2,
       Math.min(a.height - size / 2, BUDDY_SKILL_PLACEMENT.y * a.height),
     );
-    hud.innerHTML = `<div class="pv-hud-top">HUD（既存・高さ88px）</div><div class="pv-aim" aria-hidden="true"></div>${rects
-      .map(
-        (r) =>
-          `<span class="pv-ctl" data-ctl="${r.id}" style="left:${r.left}px;top:${r.top}px;width:${r.size}px;height:${r.size}px">${LABELS[r.id]}</span>`,
-      )
-      .join("")}`;
-    const btn = skill.element;
-    btn.style.left = `${a.left + x - size / 2}px`;
-    btn.style.top = `${a.top + y - size / 2}px`;
-    btn.style.setProperty("--size", `${size}px`);
-    hud.append(btn);
+    Object.assign(skill.element.style, {
+      left: `${a.left + x - size / 2}px`,
+      top: `${a.top + y - size / 2}px`,
+      width: `${size}px`,
+      height: `${size}px`,
+      opacity: String(layout.opacity),
+    });
   };
-  const skill = createBuddySkillButton({
-    onActivate: () => {
-      remaining = CATALOG[0].cooldown;
-      active = 1.2;
-      actions.sound?.("menu");
-    },
-    sound: (c) => actions.sound?.(c),
-  });
   let remaining = 0;
   let active = 0;
   const startAt = params.get("cd");
   if (startAt) remaining = Number(startAt);
-  const view = (): BuddySkillView => ({
-    id: "tatara",
-    name: "タタラ",
-    element: "fire",
-    skillName: "範囲攻撃",
-    cooldown: CATALOG[0].cooldown,
-    remaining,
-    activeRemaining: active,
-    unavailable: params.get("unavailable") === "1" ? "表示できない位置" : null,
-  });
+  const hiddenView = params.get("none") === "1";
+  const view = (): BuddySkillView | null =>
+    hiddenView
+      ? null
+      : {
+          id: "tatara",
+          name: "タタラ",
+          element: "fire",
+          skillName: "範囲攻撃",
+          cooldown: CATALOG[0].cooldown,
+          remaining,
+          activeRemaining: active,
+          unavailable:
+            params.get("unavailable") === "1" ? "表示できない位置" : null,
+        };
   skill.update(view());
-  draw();
-  addEventListener("resize", draw);
+  place();
+  addEventListener("resize", place);
   let last = performance.now();
   const freeze = params.get("freeze") === "1";
   const tick = (t: number) => {
@@ -477,7 +489,7 @@ function mountHud() {
   requestAnimationFrame(tick);
   (window as unknown as { __buddyHud: unknown }).__buddyHud = {
     rects: () => [
-      ...resolveLayout(layout, innerWidth, innerHeight),
+      ...resolveLayout(layout, innerWidth, innerHeight, readInsets()),
       (() => {
         const r = skill.element.getBoundingClientRect();
         return { id: "buddy", left: r.left, top: r.top, size: r.width };
@@ -485,7 +497,6 @@ function mountHud() {
     ],
   };
 }
-
 /* ---------- プレビューの場面切替（ゲーム画面には含めない） ---------- */
 function controls() {
   if (!showUi) return;
