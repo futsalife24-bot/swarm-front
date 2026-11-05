@@ -1,10 +1,10 @@
-# FOUNDRY ZEROの爆発ダメージ：修正・自己検証済み（2026-11-05）
+# FOUNDRY ZEROの爆発ダメージ：公開・配信確認済み（2026-11-05）
 
 本人のST11/GL-6画像付き指摘。通常型の当たり判定半径12mに対し、爆風が中心距離を使って直撃を範囲外にしていた。通常/連鎖爆風の2か所で既存HARROWの表面距離補正をFOUNDRY ZEROにも適用。壁遮蔽・他通常敵の距離式・武器数値/HP/報酬/保存は維持。task-survival-build / codex/foundry-explosion-damage-20261105、base01860895d3311ed3d5a7989182fd84bb19ad2701。
 
 新規13件の修正前失敗→修正後成功、既存関連を含め117件・型成功。実Worker/実WS/製品描画の2サイズ×4武器8条件で、ロケット170/重430/グレネード90/粘着135のHP減少を確認、画面例外0。配置/装備/照準だけtest専用fixture、通常攻略の証拠ではない。検証器の準備不備による初回停止と最終成功を区別。今回の5186/8807は停止・待受0。[原因・修正・証拠・検証条件](evidence/foundry-explosion-20261105/README.md)。
 
-build/commit/push/main反映/既存Worker公開はこれから。現在も無料プランという今回の本人回答を継承し、同じ確認は取り直さない。通常独立Chat監査は不要、保護/CI/公開手順は維持。root/他worktreeの差分を保持。主担当モデルID/推論設定未確認、子なし。
+実装567bbeae13ea63b43b45729e5eb3fd09b4a81f07をPR284で通常merge。公開ソースmain49cc8459181deeeb6611d4971f5535bc9a6f91f2からbuild/dry-run成功後、既存Worker Version7e99ceb9-4ea2-43b0-af65-b7ebd67d5809を100%公開。60ファイルSHA一致・health200/ok、公開版の通常入口を横画面2サイズ確認・例外0。ダメージ8条件は実ローカルWorkerでの確認で、公開ST11通し攻略ではない。現在も無料という同じ本人回答を継承し、再質問なし。当日全Workers258 requests/0 errors/279 subrequestsを正規APIで取得。新規費用・契約/権限変更なし。記録branch codex/foundry-explosion-published-20261105。[公開と検証範囲](evidence/foundry-explosion-20261105/RELEASE.md)。通常独立Chat監査は不要、保護/CI/公開手順は維持。実スマホ/PWA・実回線協力は未確認。root/他worktreeを保持。主担当モデルID/推論設定未確認、子なし。
 
 # 生存終了時の獲得報酬画面：公開・配信確認済み（2026-11-05）
 
