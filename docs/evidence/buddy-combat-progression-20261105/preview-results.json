@@ -1,0 +1,38 @@
+{
+  "origin": "http://127.0.0.1:5197",
+  "browser": "156.0.4314.58",
+  "conditions": "隔離新規保存。名前だけ入力補助、所持/HP/敵/時間や配信JSの変更なし。通常ソロ操作。",
+  "results": [
+    {
+      "width": 844,
+      "height": 390,
+      "starter": true,
+      "noFreeDraw": true,
+      "skillButton": true,
+      "glyph": {
+        "button": 52.5,
+        "glyphWidth": 29.40625,
+        "glyphHeight": 29.40625
+      },
+      "retireHidden": true,
+      "selectionKept": true,
+      "devReviewAbsent": true
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "starter": true,
+      "noFreeDraw": true,
+      "skillButton": true,
+      "glyph": {
+        "button": 47.59375,
+        "glyphWidth": 26.65625,
+        "glyphHeight": 26.65625
+      },
+      "retireHidden": true,
+      "selectionKept": true,
+      "devReviewAbsent": true
+    }
+  ],
+  "errors": []
+}
