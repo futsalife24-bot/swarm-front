@@ -35,6 +35,9 @@ import "./gear-weapon-list.css";
 import "./front.css";
 import "./survival-card.css";
 import "./front-reward-ui.css";
+import "./front-result-ui.css";
+import { frontResultRewardsMarkup } from "./front-result-ui";
+import { frontResultRewards } from "./front-result-rewards";
 import {
   frontLevelUpActive,
   frontLevelUpMarkup,
@@ -1265,7 +1268,22 @@ function paintOverlay() {
     ui.innerHTML =
       '<div class="rebuild-resume-cue" role="status">部隊の選択を待っています<span id="front-countdown"></span></div>';
   } else if (info.phase === "victory" || info.phase === "defeat") {
-    ui.innerHTML = `<section class="pause-card rebuild-panel"><header><h1>${frontResultTitle(info.mode, info.phase)}</h1><button id="front-leave" class="primary">タイトルへ</button></header><p>${esc(world.reason)}</p><div class="rebuild-result"><b>${formatRebuildTime(world.time)}</b><b>取得 ${info.picks}${info.growthVersion === 3 ? "回" : `/${info.maxPicks}`}</b><b>最大 ${info.maxChain}連鎖</b></div><p>${(info.growthVersion === 3 ? FRONT_FUSION_IDS.filter((f) => info!.levels[f] > 0).map((f) => FRONT_UPGRADE_CATALOG[f].name) : info.evolved.map((f) => FRONT_EVOLUTIONS[f].name)).join("・") || (info.growthVersion === 3 ? "融合なし" : "未進化")}</p><p>${esc(rewardText)}</p>${rewardError ? '<button id="front-retry-save">保存を再試行</button>' : ""}</section>`;
+    const survivalResult = info.mode === "survival" && info.growthVersion === 3;
+    const rewards = survivalResult
+      ? frontResultRewardsMarkup(
+          frontResultRewards(
+            world,
+            info,
+            id,
+            rewardStatus,
+            readFrontCampaign(progressStorage).save,
+          ),
+        )
+      : `<p>${esc(rewardText)}</p>`;
+    const retryButton = rewardError
+      ? '<button id="front-retry-save">保存を再試行</button>'
+      : "";
+    ui.innerHTML = `<section class="pause-card rebuild-panel front-result-panel"><header><h1>${frontResultTitle(info.mode, info.phase)}</h1>${survivalResult ? retryButton : ""}<button id="front-leave" class="primary">タイトルへ</button></header><p>${esc(world.reason)}</p><div class="rebuild-result"><b>${formatRebuildTime(world.time)}</b><b>取得 ${info.picks}${info.growthVersion === 3 ? "回" : `/${info.maxPicks}`}</b><b>最大 ${info.maxChain}連鎖</b></div><p>${(info.growthVersion === 3 ? FRONT_FUSION_IDS.filter((f) => info!.levels[f] > 0).map((f) => FRONT_UPGRADE_CATALOG[f].name) : info.evolved.map((f) => FRONT_EVOLUTIONS[f].name)).join("・") || (info.growthVersion === 3 ? "融合なし" : "未進化")}</p>${rewards}${survivalResult ? (rewardError ? `<p role="alert">${esc(rewardText)}</p>` : "") : retryButton}</section>`;
     $("front-leave").onclick = leave;
     document
       .getElementById("front-retry-save")

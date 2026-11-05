@@ -1,0 +1,98 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "scenario": "return",
+    "baseline": false,
+    "layout": {
+      "visible": true,
+      "panelScroll": 341
+    },
+    "rewardText": "撤収完了\nタイトルへ\n\n生存作戦から帰還しました\n\n2:05\n取得 1回\n最大 0連鎖\n\n融合なし\n\n獲得報酬\n攻略コイン\n+30\n宝箱10を含む\n保存済\n功績 +100\n武器\n3丁\n保存済3\nレア\n武器\n特殊効果\n威力\n装弾\n装填\n射程\n連射\n状態\nN\nSG-7 スパイク\nLv1\nー\n113▲\n6\n2.22s▼\n49.1m▲\n1.2▲\n保存済\nR\nSG-4 ブレイカー\nLv1\n撃退散弾\n23×8▲\n8\n1.71s▲\n25.1m▼\n1.7★\n保存済\nN\nLZ-2 グリム\nLv1\nー\n8▼\n120\n3.00s\n96m▲\n22.9▲\n保存済",
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "scenario": "defeat",
+    "baseline": false,
+    "layout": {
+      "visible": true,
+      "panelScroll": 341
+    },
+    "rewardText": "戦闘終了\nタイトルへ\n\n全員が倒れました\n\n2:05\n取得 1回\n最大 0連鎖\n\n融合なし\n\n獲得報酬\n攻略コイン\n+30\n宝箱10を含む\n保存済\n功績 +20\n武器\n3丁\n保存済3\nレア\n武器\n特殊効果\n威力\n装弾\n装填\n射程\n連射\n状態\nR\nRL-9 メテオ\nLv1\n誘爆弾頭\n534▲\n1\n3.41s▲\n92m\n0.7▲\n保存済\nR\nSG-7 スパイク\nLv1\n撃退散弾\n128▲\n7\n1.82s▲\n49.7m▼\n1.4▲\n保存済\nN\nSG-7 スパイク\nLv1\nー\n121▲\n6\n2.34s▼\n45m\n1.1▼\n保存済",
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "scenario": "short",
+    "baseline": false,
+    "layout": {
+      "visible": true,
+      "panelScroll": 241
+    },
+    "rewardText": "戦闘終了\nタイトルへ\n\n全員が倒れました\n\n0:20\n取得 1回\n最大 0連鎖\n\n融合なし\n\n獲得報酬\n攻略コイン\n+10\n宝箱10を含む\n保存済\n功績 +20\n武器\n0丁\n\n今回の武器はありません。武器は60秒以上かつ1撃破から獲得できます。",
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "scenario": "save-failure",
+    "baseline": false,
+    "layout": {
+      "visible": true,
+      "panelScroll": 341
+    },
+    "rewardText": "撤収完了\nタイトルへ\n\n生存作戦から帰還しました\n\n2:05\n取得 1回\n最大 0連鎖\n\n融合なし\n\n獲得報酬\n攻略コイン\n+30\n宝箱10を含む\n保存済\n功績 +100\n武器\n3丁\n保存済3\nレア\n武器\n特殊効果\n威力\n装弾\n装填\n射程\n連射\n状態\nN\nLZ-2 グリム\nLv1\nー\n9▲\n120\n3.00s\n88.3m▼\n21.3▼\n保存済\nN\nST-3 リンバー\nLv1\nー\n126▼\n4\n2.44s▲\n▲\n46m▼\n1.3▲\n保存済\nN\nSG-7 スパイク\nLv1\nー\n110\n6\n2.18s▲\n45m\n1.2▲\n保存済",
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "scenario": "return",
+    "baseline": false,
+    "layout": {
+      "visible": true,
+      "panelScroll": 323
+    },
+    "rewardText": "撤収完了\nタイトルへ\n\n生存作戦から帰還しました\n\n2:05\n取得 1回\n最大 0連鎖\n\n融合なし\n\n獲得報酬\n攻略コイン\n+30\n宝箱10を含む\n保存済\n功績 +100\n武器\n3丁\n保存済3\nレア\n武器\n特殊効果\n威力\n装弾\n装填\n射程\n連射\n状態\nN\nRL-9 メテオ\nLv1\nー\n421▼\n1\n3.81s▲\n73.6m▼\n0.6▲\n保存済\nR\nKB-6 ケストレル\nLv1\nー\n37×5▼\n3\n1.86s▲\n▲\n18m▲\n▲\n1.3▲\n保存済\nN\nSR-1 ソーン\nLv1\nー\n172▲\n6\n2.29s▲\n142.8m▲\n0.9▼\n保存済",
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "scenario": "defeat",
+    "baseline": false,
+    "layout": {
+      "visible": true,
+      "panelScroll": 323
+    },
+    "rewardText": "戦闘終了\nタイトルへ\n\n全員が倒れました\n\n2:05\n取得 1回\n最大 0連鎖\n\n融合なし\n\n獲得報酬\n攻略コイン\n+30\n宝箱10を含む\n保存済\n功績 +20\n武器\n3丁\n保存済3\nレア\n武器\n特殊効果\n威力\n装弾\n装填\n射程\n連射\n状態\nN\nSG-4 ブレイカー\nLv1\nー\n20×8▲\n7\n1.81s▲\n▲\n25.5m▲\n▲\n1.4▲\n▲\n保存済\nN\nKB-6 ケストレル\nLv1\nー\n36×5▲\n3\n2.31s▲\n15.1m▲\n1.2▲\n保存済\nN\nKB-6 ケストレル\nLv1\nー\n34×5▲\n3\n2.35s▲\n16.1m▲\n▲\n1.2▲\n保存済",
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "scenario": "short",
+    "baseline": false,
+    "layout": {
+      "visible": true,
+      "panelScroll": 223
+    },
+    "rewardText": "戦闘終了\nタイトルへ\n\n全員が倒れました\n\n0:20\n取得 1回\n最大 0連鎖\n\n融合なし\n\n獲得報酬\n攻略コイン\n+10\n宝箱10を含む\n保存済\n功績 +20\n武器\n0丁\n\n今回の武器はありません。武器は60秒以上かつ1撃破から獲得できます。",
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "scenario": "save-failure",
+    "baseline": false,
+    "layout": {
+      "visible": true,
+      "panelScroll": 323
+    },
+    "rewardText": "撤収完了\nタイトルへ\n\n生存作戦から帰還しました\n\n2:05\n取得 1回\n最大 0連鎖\n\n融合なし\n\n獲得報酬\n攻略コイン\n+30\n宝箱10を含む\n保存済\n功績 +100\n武器\n3丁\n保存済3\nレア\n武器\n特殊効果\n威力\n装弾\n装填\n射程\n連射\n状態\nR\nRL-9 メテオ\nLv1\n誘爆弾頭\n494\n1\n3.34s▲\n96.6m▲\n0.7▲\n保存済\nN\nSR-1 ソーン\nLv1\nー\n173▲\n6\n2.20s▲\n128.8m▼\n1.0▲\n保存済\nN\nRL-2 コメット\nLv1\nー\n185▲\n2\n2.90s▼\n78.8m▲\n0.8▼\n保存済",
+    "errors": []
+  }
+]
