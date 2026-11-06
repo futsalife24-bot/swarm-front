@@ -1,6 +1,6 @@
-# 生存宝箱の回復量を整数表示：実装・自己検証済み（2026-11-06）
+# 生存宝箱の回復量を整数表示：公開・配信確認済み（2026-11-06）
 
-本人画像の「HP +28.835476666666807」を、HP欄と同じ切り上げで「HP +29」に修正。回復処理・報酬値は変更せず表示のみ。task-survival-build / codex/treasure-heal-integer-20261106、base6e08f90badd2a444f1425d772ebbc694421e208e。型・関連2テスト成功、実表示関数/CSSの横画面2サイズで整数表記・収まり・例外0を確認（回復発生そのものはUI fixture）。既存Worker公開・配信照合へ進む。[検証・公開記録](evidence/treasure-heal-20261106/README.md)。通常方針どおり独立Chat監査なし。主担当の実モデルID/推論設定未確認、子なし。root/他worktreeの既存差分を保持。
+本人画像の「HP +28.835476666666807」を、HP欄と同じ切り上げで「HP +29」に修正。回復処理・報酬値は変更せず表示のみ。task-survival-build / codex/treasure-heal-integer-20261106、base6e08f90badd2a444f1425d772ebbc694421e208e。型・関連2テスト成功、実表示関数/CSSの横画面2サイズで整数表記・収まり・例外0を確認（回復発生そのものはUI fixture）。PR286でmain e7ca8a2201bfd92daf683915af8bf47da180befaへ通常反映し、mainのbuild/dry-run後に既存Worker Version91fc525c-dcdf-4042-96e8-049feab225c6を100%公開。配信60ファイルSHA一致・health200、公開入口2サイズで例外0。契約/権限/新規費用なし、無料継続回答を引き継ぎ再質問なし。今回の開発サーバー/隔離Chromeは終了。必須残作業なし。[検証・公開記録](evidence/treasure-heal-20261106/README.md)。通常方針どおり独立Chat監査なし。主担当の実モデルID/推論設定未確認、子なし。root/他worktreeの既存差分を保持。
 
 # FOUNDRY ZEROの爆発ダメージ：公開・配信確認済み（2026-11-05）
 
