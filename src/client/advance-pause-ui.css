@@ -1,0 +1,454 @@
+/* 進撃の停止メニュー・ダウン画面・pauseボタン（advance-pause-ui.ts の表示専用）。
+   既存の menu-dialog / pt-screen / ボタン（暗い紺・灰青、角型切欠き、灰緑の細枠）を
+   継承し、色だけでなく文字・階層・近接で整理する。新しい演出・画像・音はなし。 */
+
+/* ---------- 共通 ---------- */
+.ap-glyph {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ap-buddy {
+  --el: #9fb2b5;
+}
+.ap-buddy[data-element="fire"] {
+  --el: #ff9a5c;
+}
+.ap-buddy[data-element="wind"] {
+  --el: #93e8b6;
+}
+.ap-buddy[data-element="ice"] {
+  --el: #95d9ff;
+}
+.ap-buddy[data-element="lightning"] {
+  --el: #ffe27a;
+}
+
+/* ---------- 停止メニュー ---------- */
+.ap-pause {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(156px, 34%);
+  gap: 14px;
+  align-items: stretch;
+}
+.ap-buddy {
+  min-width: 0;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid #64858c6b;
+  border-left: 3px solid var(--el);
+  background: linear-gradient(110deg, #1d3039cc, #13232bcc);
+  line-height: 1.45;
+}
+.ap-buddy p {
+  margin: 0;
+}
+.ap-buddy-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+}
+.ap-buddy-kicker,
+.ap-skill-kicker {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: #a5bcc8;
+}
+.ap-buddy-head .ap-buddy-kicker {
+  flex-basis: 100%;
+}
+.ap-buddy-name {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #f2f6f4;
+}
+.ap-buddy-lv {
+  font-size: 12px;
+  color: #c9f7e6;
+  font-variant-numeric: tabular-nums;
+}
+.ap-buddy-lv b {
+  margin-left: 2px;
+  font-size: 16px;
+}
+.ap-element {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 7px 1px 5px;
+  border: 1px solid color-mix(in srgb, var(--el) 55%, transparent);
+  color: var(--el);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 18px;
+}
+.ap-skill {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #64858c4d;
+}
+.ap-skill-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+}
+.ap-skill-title b {
+  font-size: 15px;
+  color: var(--el);
+}
+.ap-skill-title small {
+  font-size: 11px;
+  color: #b4c5cc;
+}
+.menu-dialog .ap-skill-text {
+  margin-top: 2px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #d6e3e6;
+}
+.ap-skill-state {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 8px;
+  margin-top: 6px !important;
+  font-size: 12px;
+  font-weight: 700;
+}
+.ap-skill-state b {
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.ap-skill-state[data-state="ready"] {
+  color: #83d8b0;
+}
+.ap-skill-state[data-state="active"] {
+  color: var(--el);
+}
+.ap-skill-state[data-state="cooldown"] {
+  color: #d6e3e6;
+}
+.ap-skill-state[data-state="blocked"] {
+  color: #e8b468;
+}
+.ap-meter {
+  flex: 1 1 80px;
+  max-width: 160px;
+  height: 4px;
+  background: #0b151a;
+  border: 1px solid #64858c6b;
+}
+.ap-meter i {
+  display: block;
+  width: calc(var(--p) * 100%);
+  height: 100%;
+  background: #9fb2b5;
+}
+.menu-dialog .ap-skill-paused {
+  margin-top: 4px;
+  font-size: 11px;
+  color: #a5bcc8;
+}
+.ap-buddy-empty {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 4px !important;
+}
+.ap-buddy-empty strong {
+  font-size: 16px;
+  color: #e2eff0;
+}
+.ap-buddy-empty span {
+  font-size: 12px;
+  color: #b4c5cc;
+}
+.ap-buddy[data-status="unavailable"] .ap-buddy-empty strong {
+  color: #e8b468;
+}
+.ap-pause-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.menu-dialog .ap-pause-actions button {
+  width: 100%;
+  min-height: 44px;
+  margin: 0;
+}
+.menu-dialog .ap-pause-actions .ap-resume {
+  flex: 1 1 auto;
+  min-height: 56px;
+  font-size: 16px;
+}
+.menu-dialog .ap-pause-actions .ap-retire {
+  margin-top: 4px;
+  color: #f0c7a8;
+}
+/* 設定・操作を開くと既存処理が本文を「メニュー」欄へ移す。その列では縦1列。 */
+#settings-save .ap-pause {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+#settings-save .ap-pause-actions .ap-resume {
+  flex: none;
+  min-height: 44px;
+}
+/* 設定欄では説明文を省き、名前・Lv・スキル状態と操作だけを残す。 */
+#settings-save :is(.ap-skill-text, .ap-skill-paused) {
+  display: none;
+}
+.menu-dialog .ap-skill-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+@media (max-height: 420px) {
+  /* 既存の見出し構成（SWARM FRONT / 一時停止 / 閉じる）のまま余白だけ詰める。 */
+  body .menu-dialog:has(.ap-pause) > header {
+    padding: 7px 16px;
+  }
+  body .menu-dialog:has(.ap-pause) h2 {
+    margin-top: 1px;
+    font-size: 18px;
+  }
+  body .menu-dialog:has(.ap-pause) .dialog-close {
+    min-height: 34px;
+  }
+  body .menu-dialog:has(.ap-pause) .menu-dialog-body {
+    padding: 10px 14px;
+  }
+  .ap-pause {
+    gap: 10px;
+  }
+  .ap-buddy {
+    padding: 7px 10px;
+  }
+  /* 「同行バディ」を名前と同じ行へ寄せ、説明は2行まで。 */
+  .ap-buddy-head .ap-buddy-kicker {
+    flex-basis: auto;
+  }
+  .menu-dialog .ap-skill-text {
+    -webkit-line-clamp: 2;
+  }
+  .ap-skill-state {
+    margin-top: 3px !important;
+  }
+  .menu-dialog .ap-skill-paused {
+    margin-top: 2px;
+  }
+  .ap-buddy-name {
+    font-size: 18px;
+  }
+  .ap-skill {
+    margin-top: 5px;
+    padding-top: 5px;
+  }
+  .menu-dialog .ap-skill-text {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+}
+@media (max-height: 340px) {
+  /* 568×320級: 英字の小見出しだけ省き、見出し「一時停止」と閉じるは残す。 */
+  body .menu-dialog:has(.ap-pause) > header .eyebrow {
+    display: none;
+  }
+  body .menu-dialog:has(.ap-pause) .menu-dialog-body {
+    padding: 8px 12px;
+  }
+  .ap-buddy {
+    padding: 5px 9px;
+    line-height: 1.35;
+  }
+  .ap-buddy-name {
+    font-size: 17px;
+  }
+  .ap-skill {
+    margin-top: 4px;
+    padding-top: 4px;
+  }
+  .ap-pause-actions {
+    gap: 5px;
+  }
+  .menu-dialog .ap-pause-actions .ap-resume {
+    min-height: 48px;
+  }
+}
+@media (max-width: 600px) {
+  .ap-pause {
+    grid-template-columns: minmax(0, 1fr) 140px;
+  }
+}
+
+/* ---------- ダウン ---------- */
+/* 既存 pt-screen（menu-screen の p 規則）より強い指定で、状態・戦況・次の操作を
+   中央の1かたまりに寄せる。画面の高さに応じて文字と主操作を大きくする。 */
+.pt-screen .ap-down {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  grid-template-areas:
+    "state stats"
+    "next next";
+  align-content: center;
+  gap: clamp(10px, 3.6vh, 20px) 20px;
+  width: min(800px, 100%);
+  margin: 0 auto;
+}
+.pt-screen .ap-down p {
+  margin: 0;
+}
+.pt-screen .ap-down .ap-down-state {
+  grid-area: state;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.pt-screen .ap-down .ap-down-mark {
+  flex: none;
+  width: 12px;
+  align-self: stretch;
+  min-height: 56px;
+  background: repeating-linear-gradient(
+    -45deg,
+    #e8b468 0 6px,
+    #3a2c14 6px 12px
+  );
+  border: 1px solid #e8b46899;
+}
+.pt-screen .ap-down .ap-down-kicker {
+  font-size: clamp(12px, 3.6vh, 15px);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.14em;
+  color: #e8b468;
+}
+.pt-screen .ap-down .ap-down-lead {
+  font-size: clamp(18px, 6.6vh, 30px);
+  font-weight: 700;
+  line-height: 1.25;
+  color: #f2f6f4;
+}
+.pt-screen .ap-down .ap-down-stats {
+  grid-area: stats;
+  align-self: center;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  border: 1px solid #64858c6b;
+  background: #13232bcc;
+}
+.pt-screen .ap-down .ap-down-stats > div {
+  min-width: 0;
+  padding: clamp(6px, 2.2vh, 12px) 12px;
+}
+.pt-screen .ap-down .ap-down-stats > div + div {
+  border-left: 1px solid #64858c4d;
+}
+.pt-screen .ap-down .ap-down-stats dt {
+  font-size: 11px;
+  line-height: 1.4;
+  color: #a5bcc8;
+}
+.pt-screen .ap-down .ap-down-stats dd {
+  margin: 2px 0 0;
+  overflow: hidden;
+  font-size: clamp(15px, 5.4vh, 24px);
+  font-weight: 700;
+  line-height: 1.25;
+  color: #e2eff0;
+  font-variant-numeric: tabular-nums;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pt-screen .ap-down .ap-down-stats dd.is-missing {
+  color: #7f9499;
+}
+.pt-screen .ap-down .ap-down-next {
+  grid-area: next;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  padding-top: clamp(9px, 3vh, 16px);
+  border-top: 1px solid #64858c4d;
+}
+.pt-screen .ap-down #pt-defeat {
+  min-width: 240px;
+  min-height: clamp(46px, 14vh, 60px);
+  margin: 0;
+  font-size: 17px;
+}
+.pt-screen .ap-down .ap-down-hint {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #b4c5cc;
+}
+.pt-screen .ap-down #pt-ad-note:empty {
+  display: none;
+}
+.pt-screen .ap-down #pt-ad-note {
+  grid-column: 1 / -1;
+  font-size: 12px;
+  color: #ffd599;
+}
+@media (max-width: 620px) {
+  .pt-screen .ap-down {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "state"
+      "stats"
+      "next";
+  }
+  .pt-screen .ap-down .ap-down-mark {
+    min-height: 44px;
+  }
+}
+
+/* ---------- pauseボタン ---------- */
+/* 寸法・位置は既存 layout の inline 指定のまま。中身の並びと文字だけを変える。
+   hidden 中は既存どおり表示しない（[hidden] を上書きしない）。 */
+#pause:not([hidden]):has(> .ap-pause-bars) {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  letter-spacing: 0;
+  line-height: 1;
+  /* 背後の操作説明や地面に埋もれないよう、地を少し濃く・枠を少し明るく。 */
+  background-color: #0d1d25d9;
+  border-color: #a9c7c08c;
+  color: #eef6f2;
+}
+#pause .ap-pause-bars {
+  display: flex;
+  gap: 4px;
+  pointer-events: none;
+}
+#pause .ap-pause-bars i {
+  display: block;
+  width: 5px;
+  height: 15px;
+  border-radius: 1px;
+  background: currentColor;
+}
+#pause .ap-pause-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  pointer-events: none;
+}

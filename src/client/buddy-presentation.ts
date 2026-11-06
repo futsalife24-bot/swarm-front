@@ -15,12 +15,89 @@ import {
   buddyXpForLevel,
   freshBuddyProgress,
   validBuddyProgress,
+  isBuddyId,
   type BuddyId,
 } from "../shared/buddy-progression";
 import type { World } from "../shared/game";
 import { maxHp } from "../shared/solo-progression";
 
 const percent = (fraction: number) => Math.round(fraction * 100);
+
+export interface AdvanceBuddyView {
+  status: "present" | "none" | "unavailable";
+  name?: string;
+  level?: number | null;
+  elementLabel?: string;
+  skillName?: string;
+  skillText?: string;
+  cooldown?: number;
+  remaining?: number | null;
+  activeRemaining?: number | null;
+  unavailable?: string | null;
+}
+
+/** 停止画面は出撃中の実体だけを読む。保存中の選択や育成値へ置換しない。 */
+export function getAdvanceBuddyView(
+  world: World | null,
+  ownerId: string,
+): AdvanceBuddyView {
+  if (!world || !buddyMode(world)) return { status: "unavailable" };
+  const state = world.buddies;
+  if (!state) return { status: "none" };
+  if (state.run !== world.run || !state.entries)
+    return { status: "unavailable" };
+  const entry = state.entries[ownerId];
+  if (!entry) return { status: "none" };
+  if (!isBuddyId(entry.buddyId)) return { status: "unavailable" };
+  const owner = world.players.find((p) => p.id === ownerId);
+  if (!owner) return { status: "unavailable" };
+  const item = catalogItem(entry.buddyId);
+  const seconds = (until: number | undefined) =>
+    Number.isFinite(until) && Number.isFinite(world.time)
+      ? Math.max(0, until! - world.time)
+      : null;
+  const buff = state.buffs?.[ownerId];
+  const until =
+    entry.buddyId === "yosuga"
+      ? entry.healUntil
+      : entry.buddyId === "tobari"
+        ? state.buffs
+          ? (buff?.guardUntil ?? 0)
+          : undefined
+        : entry.buddyId === "oriha"
+          ? state.buffs
+            ? (buff?.boostUntil ?? 0)
+            : undefined
+          : 0;
+  return {
+    status: "present",
+    name: item.name,
+    level:
+      Number.isSafeInteger(entry.level) && entry.level >= 1 && entry.level <= 40
+        ? entry.level
+        : null,
+    elementLabel: item.elementLabel,
+    skillName: item.skillName,
+    skillText: item.skillText,
+    cooldown: item.cooldown,
+    remaining: seconds(entry.skillReadyAt),
+    activeRemaining:
+      !owner.connected || owner.hp <= 0
+        ? 0
+        : entry.buddyId === "tatara"
+          ? 0
+          : seconds(until),
+    unavailable: !owner.connected
+      ? "接続待ち"
+      : owner.hp <= 0
+        ? "戦闘不能"
+        : entry.visible === false
+          ? "バディが移動中です"
+          : entry.buddyId === "yosuga" && owner.hp >= maxHp(world)
+            ? "HPが満タンです"
+            : null,
+  };
+}
 /** 本人の役割・属性指定。外観色からの推測ではない。 */
 const identity = {
   tatara: { element: "fire", elementLabel: "火炎", role: "範囲攻撃" },
@@ -111,12 +188,12 @@ export function getBuddySkillView(
     world.buddies?.run !== world.run
   )
     return null;
-  const entry = world.buddies.entries[ownerId];
+  const entry = world.buddies.entries?.[ownerId];
   const owner = world.players.find((p) => p.id === ownerId);
-  if (!entry || !owner) return null;
+  if (!entry || !owner || !isBuddyId(entry.buddyId)) return null;
   const item = catalogItem(entry.buddyId);
   const alive = owner.connected && owner.hp > 0;
-  const buff = world.buddies.buffs[ownerId];
+  const buff = world.buddies.buffs?.[ownerId];
   const until =
     entry.buddyId === "yosuga"
       ? entry.healUntil
