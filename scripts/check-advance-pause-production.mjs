@@ -23,6 +23,9 @@ try {
     });
     page.setDefaultTimeout(60000);
     page.on("pageerror", (e) => errors.push(e.message));
+    await page.addLocatorHandler(page.locator("#pt-intro-skip"), async () => {
+      await page.locator("#pt-intro-skip").click();
+    });
     await page.addInitScript(() =>
       localStorage.setItem("swarm-front-player-name-v1", "公開停止検証"),
     );
