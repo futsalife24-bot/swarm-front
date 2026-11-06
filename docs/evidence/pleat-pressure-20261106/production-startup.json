@@ -1,0 +1,18 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "page": "coop-entry",
+    "status": 200,
+    "errors": [],
+    "noRoomCreated": true
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "page": "coop-entry",
+    "status": 200,
+    "errors": [],
+    "noRoomCreated": true
+  }
+]
