@@ -1,3 +1,7 @@
+# 生存宝箱の回復量を整数表示：実装・自己検証済み（2026-11-06）
+
+本人画像の「HP +28.835476666666807」を、HP欄と同じ切り上げで「HP +29」に修正。回復処理・報酬値は変更せず表示のみ。task-survival-build / codex/treasure-heal-integer-20261106、base6e08f90badd2a444f1425d772ebbc694421e208e。型・関連2テスト成功、実表示関数/CSSの横画面2サイズで整数表記・収まり・例外0を確認（回復発生そのものはUI fixture）。既存Worker公開・配信照合へ進む。[検証・公開記録](evidence/treasure-heal-20261106/README.md)。通常方針どおり独立Chat監査なし。主担当の実モデルID/推論設定未確認、子なし。root/他worktreeの既存差分を保持。
+
 # FOUNDRY ZEROの爆発ダメージ：公開・配信確認済み（2026-11-05）
 
 本人のST11/GL-6画像付き指摘。通常型の当たり判定半径12mに対し、爆風が中心距離を使って直撃を範囲外にしていた。通常/連鎖爆風の2か所で既存HARROWの表面距離補正をFOUNDRY ZEROにも適用。壁遮蔽・他通常敵の距離式・武器数値/HP/報酬/保存は維持。task-survival-build / codex/foundry-explosion-damage-20261105、base01860895d3311ed3d5a7989182fd84bb19ad2701。

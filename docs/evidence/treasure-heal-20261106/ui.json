@@ -1,0 +1,20 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "text": "HP +29",
+    "inputAmount": 28.835476666666807,
+    "unchanged": 28.835476666666807,
+    "errors": [],
+    "fixture": "実表示関数とCSS。戦闘・回復発生は再現していない"
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "text": "HP +29",
+    "inputAmount": 28.835476666666807,
+    "unchanged": 28.835476666666807,
+    "errors": [],
+    "fixture": "実表示関数とCSS。戦闘・回復発生は再現していない"
+  }
+]

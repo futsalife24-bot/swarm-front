@@ -41,7 +41,7 @@ export function frontTreasureMarkup(
       false,
     );
   } else if (revealed && reward && reward.kind !== "upgrade") {
-    result = `<div class="front-treasure-bonus"><b>${reward.kind === "heal" ? "＋" : "◈"}</b><strong>${reward.kind === "heal" ? `HP +${reward.amount}` : `コイン +${reward.amount}`}</strong><p>${reward.kind === "heal" ? "全カード最大 · 体力を回復" : "全カード最大 · 帰還時に受け取り"}</p></div>`;
+    result = `<div class="front-treasure-bonus"><b>${reward.kind === "heal" ? "＋" : "◈"}</b><strong>${reward.kind === "heal" ? `HP +${Math.ceil(reward.amount)}` : `コイン +${reward.amount}`}</strong><p>${reward.kind === "heal" ? "全カード最大 · 体力を回復" : "全カード最大 · 帰還時に受け取り"}</p></div>`;
   } else if (revealed)
     result = '<p class="front-treasure-wait">生存中の仲間が報酬を獲得</p>';
   return `<section class="front-treasure" data-revealed="${revealed}" role="status" aria-label="宝箱の報酬"><header><small>ボス撃破報酬</small><h1>${revealed ? "宝箱獲得" : "宝箱を開封"}</h1></header><div class="front-treasure-content">${result}</div></section>`;
