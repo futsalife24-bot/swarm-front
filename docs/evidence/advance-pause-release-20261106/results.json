@@ -1,0 +1,25 @@
+{
+  "origin": "https://swarm-front.melosalife-24.workers.dev",
+  "conditions": "公開配信JSを無変更で使用。隔離新規保存、名前だけ入力補助。所持は実UI選択、HP/時間/敵の変更なし。自然ダウン。",
+  "results": [
+    {
+      "width": 568,
+      "height": 320,
+      "buddy": false,
+      "pauseResume": true,
+      "settingsReturn": true,
+      "retireCancel": true,
+      "naturalDownToResult": true
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "buddy": true,
+      "pauseResume": true,
+      "settingsReturn": true,
+      "retireCancel": true,
+      "naturalDownToResult": true
+    }
+  ],
+  "errors": []
+}
