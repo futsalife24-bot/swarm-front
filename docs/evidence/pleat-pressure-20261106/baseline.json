@@ -1,0 +1,293 @@
+{
+  "seed": 11,
+  "stage": 1,
+  "initialHp": 1000000,
+  "results": [
+    {
+      "count": 24,
+      "mode": "walk",
+      "seconds": 20,
+      "hits": 0,
+      "firstHit": null,
+      "damage": 0,
+      "minDistance": 0.15644123262610513,
+      "lungeFrames": 1561,
+      "windFrames": 320
+    },
+    {
+      "count": 24,
+      "mode": "walk",
+      "seconds": 60,
+      "hits": 0,
+      "firstHit": null,
+      "damage": 0,
+      "minDistance": 0.15644123262610513,
+      "lungeFrames": 5281,
+      "windFrames": 336
+    },
+    {
+      "count": 24,
+      "mode": "turn",
+      "seconds": 20,
+      "hits": 0,
+      "firstHit": null,
+      "damage": 0,
+      "minDistance": 0.15644123262610513,
+      "lungeFrames": 838,
+      "windFrames": 288
+    },
+    {
+      "count": 24,
+      "mode": "turn",
+      "seconds": 60,
+      "hits": 0,
+      "firstHit": null,
+      "damage": 0,
+      "minDistance": 0.15340467233077865,
+      "lungeFrames": 2304,
+      "windFrames": 704
+    },
+    {
+      "count": 24,
+      "mode": "dodge",
+      "seconds": 20,
+      "hits": 0,
+      "firstHit": null,
+      "damage": 0,
+      "minDistance": 0.23922058296283893,
+      "lungeFrames": 1374,
+      "windFrames": 320
+    },
+    {
+      "count": 24,
+      "mode": "dodge",
+      "seconds": 60,
+      "hits": 0,
+      "firstHit": null,
+      "damage": 0,
+      "minDistance": 0.23922058296283893,
+      "lungeFrames": 4929,
+      "windFrames": 320
+    },
+    {
+      "count": 24,
+      "mode": "still",
+      "seconds": 20,
+      "hits": 122,
+      "firstHit": 4.449999999999992,
+      "damage": 1885.5,
+      "minDistance": 1.219413305798245,
+      "lungeFrames": 392,
+      "windFrames": 2823
+    },
+    {
+      "count": 24,
+      "mode": "still",
+      "seconds": 60,
+      "hits": 462,
+      "firstHit": 4.449999999999992,
+      "damage": 7135.5,
+      "minDistance": 1.219413305798245,
+      "lungeFrames": 392,
+      "windFrames": 10503
+    },
+    {
+      "count": 48,
+      "mode": "walk",
+      "seconds": 20,
+      "hits": 0,
+      "firstHit": null,
+      "damage": 0,
+      "minDistance": 0.0844783643465838,
+      "lungeFrames": 3029,
+      "windFrames": 656
+    },
+    {
+      "count": 48,
+      "mode": "walk",
+      "seconds": 60,
+      "hits": 0,
+      "firstHit": null,
+      "damage": 0,
+      "minDistance": 0.0844783643465838,
+      "lungeFrames": 10430,
+      "windFrames": 672
+    },
+    {
+      "count": 48,
+      "mode": "turn",
+      "seconds": 20,
+      "hits": 0,
+      "firstHit": null,
+      "damage": 0,
+      "minDistance": 0.15644123262610513,
+      "lungeFrames": 1617,
+      "windFrames": 544
+    },
+    {
+      "count": 48,
+      "mode": "turn",
+      "seconds": 60,
+      "hits": 0,
+      "firstHit": null,
+      "damage": 0,
+      "minDistance": 0.15340467233077865,
+      "lungeFrames": 4487,
+      "windFrames": 1360
+    },
+    {
+      "count": 48,
+      "mode": "dodge",
+      "seconds": 20,
+      "hits": 0,
+      "firstHit": null,
+      "damage": 0,
+      "minDistance": 0.14706956135954077,
+      "lungeFrames": 2674,
+      "windFrames": 688
+    },
+    {
+      "count": 48,
+      "mode": "dodge",
+      "seconds": 60,
+      "hits": 0,
+      "firstHit": null,
+      "damage": 0,
+      "minDistance": 0.14706956135954077,
+      "lungeFrames": 9729,
+      "windFrames": 688
+    },
+    {
+      "count": 48,
+      "mode": "still",
+      "seconds": 20,
+      "hits": 182,
+      "firstHit": 4.449999999999992,
+      "damage": 3637,
+      "minDistance": 0.7421729387947322,
+      "lungeFrames": 808,
+      "windFrames": 5415
+    },
+    {
+      "count": 48,
+      "mode": "still",
+      "seconds": 60,
+      "hits": 702,
+      "firstHit": 4.449999999999992,
+      "damage": 14117,
+      "minDistance": 0.7421729387947322,
+      "lungeFrames": 808,
+      "windFrames": 20775
+    },
+    {
+      "count": 96,
+      "mode": "walk",
+      "seconds": 20,
+      "hits": 0,
+      "firstHit": null,
+      "damage": 0,
+      "minDistance": 0.0844783643465838,
+      "lungeFrames": 5790,
+      "windFrames": 1360
+    },
+    {
+      "count": 96,
+      "mode": "walk",
+      "seconds": 60,
+      "hits": 0,
+      "firstHit": null,
+      "damage": 0,
+      "minDistance": 0.0844783643465838,
+      "lungeFrames": 20568,
+      "windFrames": 1376
+    },
+    {
+      "count": 96,
+      "mode": "turn",
+      "seconds": 20,
+      "hits": 0,
+      "firstHit": null,
+      "damage": 0,
+      "minDistance": 0.06832739340660353,
+      "lungeFrames": 3098,
+      "windFrames": 1056
+    },
+    {
+      "count": 96,
+      "mode": "turn",
+      "seconds": 60,
+      "hits": 0,
+      "firstHit": null,
+      "damage": 0,
+      "minDistance": 0.05072054534091863,
+      "lungeFrames": 8861,
+      "windFrames": 2672
+    },
+    {
+      "count": 96,
+      "mode": "dodge",
+      "seconds": 20,
+      "hits": 0,
+      "firstHit": null,
+      "damage": 0,
+      "minDistance": 0.14115577893079864,
+      "lungeFrames": 5149,
+      "windFrames": 1392
+    },
+    {
+      "count": 96,
+      "mode": "dodge",
+      "seconds": 60,
+      "hits": 0,
+      "firstHit": null,
+      "damage": 0,
+      "minDistance": 0.14115577893079864,
+      "lungeFrames": 19254,
+      "windFrames": 1424
+    },
+    {
+      "count": 96,
+      "mode": "still",
+      "seconds": 20,
+      "hits": 247,
+      "firstHit": 4.449999999999992,
+      "damage": 6841,
+      "minDistance": 0.7421729387947322,
+      "lungeFrames": 1624,
+      "windFrames": 10062
+    },
+    {
+      "count": 96,
+      "mode": "still",
+      "seconds": 60,
+      "hits": 987,
+      "firstHit": 4.449999999999992,
+      "damage": 28021,
+      "minDistance": 0.7421729387947322,
+      "lungeFrames": 1624,
+      "windFrames": 40782
+    }
+  ],
+  "speeds": [
+    {
+      "scale": 1,
+      "normal": 1.5225,
+      "lunge": 1.5246000000000002
+    },
+    {
+      "scale": 1.5,
+      "normal": 2.76675,
+      "lunge": 2.25225
+    },
+    {
+      "scale": 2.25,
+      "normal": 3.2025,
+      "lunge": 3.6844500000000004
+    },
+    {
+      "scale": 3,
+      "normal": 4.2997499999999995,
+      "lunge": 4.53915
+    }
+  ]
+}

@@ -83,6 +83,7 @@ import {
   type FoundrySpawnBatch,
 } from "./foundry-spawning";
 import { STRUCTURE_TIMING } from "./structure-timing";
+import { insidePleatStrike, pleatStrike } from "./pleat-strike";
 import {
   initWorm,
   moveWorm,
@@ -1610,6 +1611,9 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
     );
   if (w.front) tickFrontEffects(w);
   if (w.solo) w.solo.invincible = Math.max(0, w.solo.invincible - dt);
+  const previousPositions = new Map(
+    w.players.map((p) => [p.id, { x: p.x, z: p.z }]),
+  );
   for (const p of w.players) {
     if (!p.connected) continue;
     const i = inputs[p.id] ?? neutral();
@@ -1923,7 +1927,45 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       e.lunge = Math.max(0, (e.lunge ?? 0) - dt);
     }
     e.cool -= dt;
-    const special = specialMotion(w, e, t, dt);
+    const previous = previousPositions.get(t.id);
+    let target = t;
+    if (
+      e.kind === "crawler" &&
+      previous &&
+      dt > 0 &&
+      e.pleat &&
+      e.pleat.up.y > 0.95 &&
+      !e.pleat.transfer &&
+      !e.pleat.settling &&
+      !e.pleat.poseHeld
+    ) {
+      const vx = (t.x - previous.x) / dt,
+        vz = (t.z - previous.z) / dt;
+      const lead = 0.8 * Math.min(1, 8.4 / Math.max(0.001, Math.hypot(vx, vz)));
+      target = { ...t, x: t.x + vx * lead, z: t.z + vz * lead };
+    }
+    const special = specialMotion(w, e, target, dt);
+    const strike = e.kind === "crawler" ? e.pleat?.strike : undefined;
+    if (strike?.from) {
+      const area = {
+        ...strike.from,
+        dx: strike.dx,
+        dz: strike.dz,
+        travel: strike.travelled,
+      };
+      for (const p of living) {
+        if (
+          !strike.hit.includes(p.id) &&
+          insidePleatStrike(area, p) &&
+          visible(e, p, mapFor(w).blocks)
+        ) {
+          strike.hit.push(p.id);
+          hurtPlayer(w, p, def.damage);
+        }
+      }
+      if (strike.remaining <= 0) delete e.pleat!.strike;
+      continue;
+    }
     if (e.wind > 0) {
       if (e.kind === "hornet" && e.wind > 0.4) {
         const locked = living.find((p) => p.id === e.targetId);
@@ -1997,6 +2039,25 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
           }
           e.cool = 2.7;
         } else if (e.kind === "crawler") {
+          const area = pleatStrike(e, mapFor(w).blocks);
+          if (area.travel > 0 && e.pleat) {
+            e.pleat.strike = {
+              dx: area.dx,
+              dz: area.dz,
+              remaining: area.travel,
+              hit: [],
+              travelled: 0,
+            };
+            event(w, {
+              type: "burst",
+              x: e.x + area.dx * 1.25,
+              z: e.z + area.dz * 1.25,
+              y: e.pleat.body.y,
+              radius: 1.25,
+            });
+            e.cool = 1.2;
+            continue;
+          }
           const ax = e.tx - e.x,
             az = e.tz - e.z;
           const length = Math.max(0.001, Math.hypot(ax, az));
@@ -2155,6 +2216,14 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       e.tx = t.x;
       e.ty = t.y ?? 0;
       e.tz = t.z;
+      if (e.kind === "crawler" && target !== t) {
+        e.tx = target.x;
+        e.tz = target.z;
+        if (pleatStrike(e, mapFor(w).blocks).travel === 0) {
+          e.tx = t.x;
+          e.tz = t.z;
+        }
+      }
       if (e.kind === "boss") {
         const point = clusterPoint(living, 7, (p) =>
           visible(e, p, mapFor(w).blocks),

@@ -1,0 +1,14 @@
+[
+  {
+    "file": "tests-approach150.json",
+    "passed": 51,
+    "failed": 0,
+    "success": true
+  },
+  {
+    "file": "integration-tests.json",
+    "passed": 74,
+    "failed": 0,
+    "success": true
+  }
+]

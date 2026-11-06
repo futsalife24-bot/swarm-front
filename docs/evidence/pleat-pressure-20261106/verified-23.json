@@ -1,0 +1,117 @@
+{
+  "seed": 23,
+  "stage": 1,
+  "initialHp": 1000000,
+  "results": [
+    {
+      "count": 24,
+      "mode": "walk",
+      "seconds": 20,
+      "hits": 3,
+      "firstHit": 6.099999999999986,
+      "damage": 32,
+      "minDistance": 0.10817017565399692,
+      "lungeFrames": 1163,
+      "windFrames": 1128
+    },
+    {
+      "count": 24,
+      "mode": "walk",
+      "seconds": 60,
+      "hits": 12,
+      "firstHit": 6.099999999999986,
+      "damage": 117,
+      "minDistance": 0.10817017565399692,
+      "lungeFrames": 3452,
+      "windFrames": 3693
+    },
+    {
+      "count": 24,
+      "mode": "react",
+      "seconds": 20,
+      "hits": 4,
+      "firstHit": 17.95000000000012,
+      "damage": 46,
+      "minDistance": 0.06782363745892682,
+      "lungeFrames": 944,
+      "windFrames": 874
+    },
+    {
+      "count": 24,
+      "mode": "react",
+      "seconds": 60,
+      "hits": 6,
+      "firstHit": 17.95000000000012,
+      "damage": 65.5,
+      "minDistance": 0.05844148795595362,
+      "lungeFrames": 1847,
+      "windFrames": 1760
+    },
+    {
+      "count": 48,
+      "mode": "walk",
+      "seconds": 20,
+      "hits": 7,
+      "firstHit": 5.4999999999999885,
+      "damage": 71,
+      "minDistance": 0.07355511523830266,
+      "lungeFrames": 2299,
+      "windFrames": 2365
+    },
+    {
+      "count": 48,
+      "mode": "walk",
+      "seconds": 60,
+      "hits": 26,
+      "firstHit": 5.4999999999999885,
+      "damage": 249,
+      "minDistance": 0.0442093736957594,
+      "lungeFrames": 6775,
+      "windFrames": 7567
+    },
+    {
+      "count": 48,
+      "mode": "react",
+      "seconds": 20,
+      "hits": 0,
+      "firstHit": null,
+      "damage": 0,
+      "minDistance": 0.07397142772065118,
+      "lungeFrames": 2808,
+      "windFrames": 2271
+    },
+    {
+      "count": 48,
+      "mode": "react",
+      "seconds": 60,
+      "hits": 8,
+      "firstHit": 24.700000000000216,
+      "damage": 89.5,
+      "minDistance": 0.07397142772065118,
+      "lungeFrames": 4553,
+      "windFrames": 3904
+    }
+  ],
+  "speeds": [
+    {
+      "scale": 1,
+      "normal": 1.5225,
+      "lunge": 1.5246000000000002
+    },
+    {
+      "scale": 1.5,
+      "normal": 2.76675,
+      "lunge": 2.25225
+    },
+    {
+      "scale": 2.25,
+      "normal": 3.2025,
+      "lunge": 3.6844500000000004
+    },
+    {
+      "scale": 3,
+      "normal": 4.2997499999999995,
+      "lunge": 4.53915
+    }
+  ]
+}

@@ -572,6 +572,12 @@ export class TestRoom extends Room {
             1 +
             boss.segments!.reduce((sum, part) => sum + (part.partHp ?? 0), 0);
         }
+      } else if (u.searchParams.get("case") === "pleat-strike") {
+        for (const p of w.players) {
+          Object.assign(p, { x: 0, y: 0, z: 0, hp: 10000, safe: 0 });
+        }
+        const enemy = spawn(w, "crawler", 0, -2)!;
+        Object.assign(enemy, { active: true, cool: 2, size: 1 });
       } else if (u.searchParams.get("case") === "structures") {
         w.players.forEach((p, i) => {
           p.x = 0;
@@ -639,7 +645,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion|front-survival-wave|front-survival-cluster|front-treasure|front-treasure-drop|front-elements)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|pleat-strike|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion|front-survival-wave|front-survival-cluster|front-treasure|front-treasure-drop|front-elements)$/.exec(
         u.pathname,
       );
     if (
