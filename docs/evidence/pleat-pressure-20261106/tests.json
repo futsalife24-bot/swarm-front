@@ -10,5 +10,11 @@
     "passed": 74,
     "failed": 0,
     "success": true
+  },
+  {
+    "file": "buddy-tests.json",
+    "passed": 22,
+    "failed": 0,
+    "success": true
   }
 ]
