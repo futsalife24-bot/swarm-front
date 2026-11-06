@@ -39,3 +39,9 @@ Claude Codeの指定TS/CSSは回収・統合済み。Claude画面のget_window_s
 `screenshots/` の844×390・640×360・568×320は切替演出完了後に再取得。実装者が640/568の停止・ダウンを実ピクセル確認し、568でも3操作・スキル説明・戦況が画面内に収まることを確認。太いpauseアイコン＋停止ラベルの戦闘画面も確認。実機の安全領域は未検証で既存配置計算を維持。
 
 撮影用の `screenshots/results.json` も3サイズ成功・errors=[]。撮影時はREVISED=0なのでsettingsReturnAndRetireCancel=falseは「再実行していない」を表す（失敗ではない）。操作結果の正本はREVISED=1で実行した `final-ui/results.json`。
+
+## Claude納品回収完了
+
+最終コメントが依頼書へ追記され、`design/advance-pause-ui/` に検査器・変更前9枚・変更後22枚・結果JSONが納品された。上記の回収未完は解消。担当側は284項目成功・ページ例外0、844 PC/640タッチ/568タッチ/844タッチの疑似安全領域L44/R34/B21で確認。実値の押下と表示差替えfixtureを区別して記録している。主担当の3サイズ実操作結果は別の `final-ui/results.json`。Vite5194と担当の検査ブラウザも終了済みと報告。
+
+担当の確認事項にあるplannedKillsは作業中の旧接続を読んだ記述。最終実装はworld.totalKillsを使用しており、FOUNDRY生成分も含む総撃破を表示する。報酬側のplannedKillsは変更していない。
