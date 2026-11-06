@@ -1,0 +1,3322 @@
+[
+  {
+    "tag": "844-pc",
+    "pauseButton": {
+      "rect": [
+        400,
+        338,
+        44,
+        44
+      ],
+      "styleSize": [
+        "44px",
+        "44px"
+      ],
+      "hit": true,
+      "inside": true,
+      "aria": "一時停止メニュー",
+      "name": "停止"
+    }
+  },
+  {
+    "name": "844-pc:pause:中心で押せる",
+    "ok": true,
+    "detail": {
+      "rect": [
+        400,
+        338,
+        44,
+        44
+      ],
+      "styleSize": [
+        "44px",
+        "44px"
+      ],
+      "hit": true,
+      "inside": true,
+      "aria": "一時停止メニュー",
+      "name": "停止"
+    }
+  },
+  {
+    "name": "844-pc:pause:中身が枠内",
+    "ok": true,
+    "detail": {
+      "rect": [
+        400,
+        338,
+        44,
+        44
+      ],
+      "styleSize": [
+        "44px",
+        "44px"
+      ],
+      "hit": true,
+      "inside": true,
+      "aria": "一時停止メニュー",
+      "name": "停止"
+    }
+  },
+  {
+    "name": "844-pc:pause:寸法はlayoutの指定",
+    "ok": true,
+    "detail": {
+      "rect": [
+        400,
+        338,
+        44,
+        44
+      ],
+      "styleSize": [
+        "44px",
+        "44px"
+      ],
+      "hit": true,
+      "inside": true,
+      "aria": "一時停止メニュー",
+      "name": "停止"
+    }
+  },
+  {
+    "name": "844-pc:pause:aria維持",
+    "ok": true,
+    "detail": "一時停止メニュー"
+  },
+  {
+    "tag": "844-pc",
+    "label": "real",
+    "dialog": [
+      42,
+      55,
+      760,
+      281
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      84,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-pc:real:画面内",
+    "ok": true,
+    "detail": [
+      42,
+      55,
+      760,
+      281
+    ]
+  },
+  {
+    "name": "844-pc:real:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "844-pc:real:操作44px以上",
+    "ok": true,
+    "detail": [
+      84,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "844-pc:real:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-pc:real:同行バディ名",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-pc:real:本体スクロールなし",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "tag": "844-pc",
+    "label": "cooldown",
+    "dialog": [
+      42,
+      55,
+      760,
+      281
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      84,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nトバリ\nLv12\n氷結\n\n固有スキル\n防御支援\n再使用 25秒\n\n持ち主と5m内の味方を6秒、被ダメージ30%軽減。\n\n再使用まで\n12秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-pc:cooldown:画面内",
+    "ok": true,
+    "detail": [
+      42,
+      55,
+      760,
+      281
+    ]
+  },
+  {
+    "name": "844-pc:cooldown:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "844-pc:cooldown:操作44px以上",
+    "ok": true,
+    "detail": [
+      84,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "844-pc:cooldown:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nトバリ\nLv12\n氷結\n\n固有スキル\n防御支援\n再使用 25秒\n\n持ち主と5m内の味方を6秒、被ダメージ30%軽減。\n\n再使用まで\n12秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-pc:cooldown:再使用まで12秒",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nトバリ\nLv12\n氷結\n\n固有スキル\n防御支援\n再使用 25秒\n\n持ち主と5m内の味方を6秒、被ダメージ30%軽減。\n\n再使用まで\n12秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "844-pc",
+    "label": "active",
+    "dialog": [
+      42,
+      55,
+      760,
+      281
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      84,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nオリハ\nLv40\n電撃\n\n固有スキル\n身体強化\n再使用 25秒\n\n持ち主と5m内の味方を6秒、移動速度20%増・回避再使用20%短縮。\n\n効果中\n残り4秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-pc:active:画面内",
+    "ok": true,
+    "detail": [
+      42,
+      55,
+      760,
+      281
+    ]
+  },
+  {
+    "name": "844-pc:active:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "844-pc:active:操作44px以上",
+    "ok": true,
+    "detail": [
+      84,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "844-pc:active:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nオリハ\nLv40\n電撃\n\n固有スキル\n身体強化\n再使用 25秒\n\n持ち主と5m内の味方を6秒、移動速度20%増・回避再使用20%短縮。\n\n効果中\n残り4秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-pc:active:効果中",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nオリハ\nLv40\n電撃\n\n固有スキル\n身体強化\n再使用 25秒\n\n持ち主と5m内の味方を6秒、移動速度20%増・回避再使用20%短縮。\n\n効果中\n残り4秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "844-pc",
+    "label": "blocked",
+    "dialog": [
+      42,
+      55,
+      760,
+      281
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      84,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-pc:blocked:画面内",
+    "ok": true,
+    "detail": [
+      42,
+      55,
+      760,
+      281
+    ]
+  },
+  {
+    "name": "844-pc:blocked:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "844-pc:blocked:操作44px以上",
+    "ok": true,
+    "detail": [
+      84,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "844-pc:blocked:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-pc:blocked:理由",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "844-pc",
+    "label": "fire",
+    "dialog": [
+      42,
+      56,
+      760,
+      278
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      81,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nタタラ\nLv7\n火炎\n\n固有スキル\n範囲攻撃\n再使用 20秒\n\nバディ中心4mの敵へ火炎攻撃。\n\n再開後に使用可能\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-pc:fire:画面内",
+    "ok": true,
+    "detail": [
+      42,
+      56,
+      760,
+      278
+    ]
+  },
+  {
+    "name": "844-pc:fire:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "844-pc:fire:操作44px以上",
+    "ok": true,
+    "detail": [
+      81,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "844-pc:fire:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nタタラ\nLv7\n火炎\n\n固有スキル\n範囲攻撃\n再使用 20秒\n\nバディ中心4mの敵へ火炎攻撃。\n\n再開後に使用可能\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "844-pc",
+    "label": "missing",
+    "dialog": [
+      42,
+      69,
+      760,
+      253
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      56,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n同行バディ\n\n固有スキル\nスキル情報なし\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-pc:missing:画面内",
+    "ok": true,
+    "detail": [
+      42,
+      69,
+      760,
+      253
+    ]
+  },
+  {
+    "name": "844-pc:missing:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "844-pc:missing:操作44px以上",
+    "ok": true,
+    "detail": [
+      56,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "844-pc:missing:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n同行バディ\n\n固有スキル\nスキル情報なし\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "844-pc",
+    "label": "escape",
+    "dialog": [
+      42,
+      47,
+      760,
+      296
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      100,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n<b>長い名前のバディ&テスト</b>\nLv40\n未知<i>\n\n固有スキル\n\"引用\"<script>\n再使用 25秒\n\nとても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。\n\n再使用まで\n1秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-pc:escape:画面内",
+    "ok": true,
+    "detail": [
+      42,
+      47,
+      760,
+      296
+    ]
+  },
+  {
+    "name": "844-pc:escape:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "844-pc:escape:操作44px以上",
+    "ok": true,
+    "detail": [
+      100,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "844-pc:escape:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n<b>長い名前のバディ&テスト</b>\nLv40\n未知<i>\n\n固有スキル\n\"引用\"<script>\n再使用 25秒\n\nとても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。\n\n再使用まで\n1秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-pc:escape:タグを文字で表示",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n<b>長い名前のバディ&テスト</b>\nLv40\n未知<i>\n\n固有スキル\n\"引用\"<script"
+  },
+  {
+    "tag": "844-pc",
+    "label": "none",
+    "dialog": [
+      42,
+      69,
+      760,
+      253
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      56,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n同行なし\nこの出撃にはバディが同行していません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-pc:none:画面内",
+    "ok": true,
+    "detail": [
+      42,
+      69,
+      760,
+      253
+    ]
+  },
+  {
+    "name": "844-pc:none:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "844-pc:none:操作44px以上",
+    "ok": true,
+    "detail": [
+      56,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "844-pc:none:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n同行なし\nこの出撃にはバディが同行していません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-pc:none:同行なし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n同行なし\nこの出撃にはバディが同行していません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "844-pc",
+    "label": "unavailable",
+    "dialog": [
+      42,
+      69,
+      760,
+      253
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      56,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n情報を表示できません\n同行の状態を読み取れませんでした。戦闘はそのまま再開できます。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-pc:unavailable:画面内",
+    "ok": true,
+    "detail": [
+      42,
+      69,
+      760,
+      253
+    ]
+  },
+  {
+    "name": "844-pc:unavailable:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "844-pc:unavailable:操作44px以上",
+    "ok": true,
+    "detail": [
+      56,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "844-pc:unavailable:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n情報を表示できません\n同行の状態を読み取れませんでした。戦闘はそのまま再開できます。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-pc:unavailable:取得不可と区別",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n情報を表示できません\n同行の状態を読み取れませんでした。戦闘はそのまま再開できます。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "844-pc",
+    "settings": {
+      "save": [
+        586,
+        225
+      ],
+      "pause": [
+        597,
+        206
+      ],
+      "overflow": -8
+    }
+  },
+  {
+    "name": "844-pc:settings:メニュー欄に収まる",
+    "ok": true,
+    "detail": {
+      "save": [
+        586,
+        225
+      ],
+      "pause": [
+        597,
+        206
+      ],
+      "overflow": -8
+    }
+  },
+  {
+    "tag": "844-pc",
+    "label": "real",
+    "defeatHit": true,
+    "defeatH": 55,
+    "scroll": 0,
+    "downRect": [
+      25,
+      66,
+      794,
+      301
+    ],
+    "inViewport": true,
+    "adNote": true,
+    "pauseHidden": "none",
+    "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:02\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "844-pc:down-real:敗北を確定が押せる",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 55,
+      "scroll": 0,
+      "downRect": [
+        25,
+        66,
+        794,
+        301
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:02\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "844-pc:down-real:画面内・スクロールなし",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 55,
+      "scroll": 0,
+      "downRect": [
+        25,
+        66,
+        794,
+        301
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:02\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "844-pc:down-real:pt-ad-note維持",
+    "ok": true,
+    "detail": true
+  },
+  {
+    "name": "844-pc:down-real:保存済・復活を出さない",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:02\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "844-pc:down-real:undefined/NaNなし",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:02\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "844-pc:down:pause非表示を維持",
+    "ok": true,
+    "detail": "none"
+  },
+  {
+    "name": "844-pc:down-real:戦況の実値",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:02\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "tag": "844-pc",
+    "label": "missing",
+    "defeatHit": true,
+    "defeatH": 55,
+    "scroll": 0,
+    "downRect": [
+      25,
+      66,
+      794,
+      301
+    ],
+    "inViewport": true,
+    "adNote": true,
+    "pauseHidden": "none",
+    "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "844-pc:down-missing:敗北を確定が押せる",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 55,
+      "scroll": 0,
+      "downRect": [
+        25,
+        66,
+        794,
+        301
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "844-pc:down-missing:画面内・スクロールなし",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 55,
+      "scroll": 0,
+      "downRect": [
+        25,
+        66,
+        794,
+        301
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "844-pc:down-missing:pt-ad-note維持",
+    "ok": true,
+    "detail": true
+  },
+  {
+    "name": "844-pc:down-missing:保存済・復活を出さない",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "844-pc:down-missing:undefined/NaNなし",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "844-pc:down:pause非表示を維持",
+    "ok": true,
+    "detail": "none"
+  },
+  {
+    "name": "844-pc:down-missing:—表示",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "tag": "844-pc",
+    "label": "long",
+    "defeatHit": true,
+    "defeatH": 55,
+    "scroll": 0,
+    "downRect": [
+      25,
+      66,
+      794,
+      301
+    ],
+    "inViewport": true,
+    "adNote": true,
+    "pauseHidden": "none",
+    "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "844-pc:down-long:敗北を確定が押せる",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 55,
+      "scroll": 0,
+      "downRect": [
+        25,
+        66,
+        794,
+        301
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "844-pc:down-long:画面内・スクロールなし",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 55,
+      "scroll": 0,
+      "downRect": [
+        25,
+        66,
+        794,
+        301
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "844-pc:down-long:pt-ad-note維持",
+    "ok": true,
+    "detail": true
+  },
+  {
+    "name": "844-pc:down-long:保存済・復活を出さない",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "844-pc:down-long:undefined/NaNなし",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "844-pc:down:pause非表示を維持",
+    "ok": true,
+    "detail": "none"
+  },
+  {
+    "name": "844-pc:down:敗北を確定で結果へ",
+    "ok": true,
+    "detail": "result"
+  },
+  {
+    "name": "844-pc:ページ例外なし",
+    "ok": true,
+    "detail": []
+  },
+  {
+    "tag": "640-touch",
+    "pauseButton": {
+      "rect": [
+        298,
+        308,
+        44,
+        44
+      ],
+      "styleSize": [
+        "44px",
+        "44px"
+      ],
+      "hit": true,
+      "inside": true,
+      "aria": "一時停止メニュー",
+      "name": "停止"
+    }
+  },
+  {
+    "name": "640-touch:pause:中心で押せる",
+    "ok": true,
+    "detail": {
+      "rect": [
+        298,
+        308,
+        44,
+        44
+      ],
+      "styleSize": [
+        "44px",
+        "44px"
+      ],
+      "hit": true,
+      "inside": true,
+      "aria": "一時停止メニュー",
+      "name": "停止"
+    }
+  },
+  {
+    "name": "640-touch:pause:中身が枠内",
+    "ok": true,
+    "detail": {
+      "rect": [
+        298,
+        308,
+        44,
+        44
+      ],
+      "styleSize": [
+        "44px",
+        "44px"
+      ],
+      "hit": true,
+      "inside": true,
+      "aria": "一時停止メニュー",
+      "name": "停止"
+    }
+  },
+  {
+    "name": "640-touch:pause:寸法はlayoutの指定",
+    "ok": true,
+    "detail": {
+      "rect": [
+        298,
+        308,
+        44,
+        44
+      ],
+      "styleSize": [
+        "44px",
+        "44px"
+      ],
+      "hit": true,
+      "inside": true,
+      "aria": "一時停止メニュー",
+      "name": "停止"
+    }
+  },
+  {
+    "name": "640-touch:pause:aria維持",
+    "ok": true,
+    "detail": "一時停止メニュー"
+  },
+  {
+    "tag": "640-touch",
+    "label": "real",
+    "dialog": [
+      16,
+      40,
+      608,
+      281
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      84,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "640-touch:real:画面内",
+    "ok": true,
+    "detail": [
+      16,
+      40,
+      608,
+      281
+    ]
+  },
+  {
+    "name": "640-touch:real:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "640-touch:real:操作44px以上",
+    "ok": true,
+    "detail": [
+      84,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "640-touch:real:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "640-touch:real:同行バディ名",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "640-touch:real:本体スクロールなし",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "tag": "640-touch",
+    "label": "cooldown",
+    "dialog": [
+      16,
+      40,
+      608,
+      281
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      84,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nトバリ\nLv12\n氷結\n\n固有スキル\n防御支援\n再使用 25秒\n\n持ち主と5m内の味方を6秒、被ダメージ30%軽減。\n\n再使用まで\n12秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "640-touch:cooldown:画面内",
+    "ok": true,
+    "detail": [
+      16,
+      40,
+      608,
+      281
+    ]
+  },
+  {
+    "name": "640-touch:cooldown:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "640-touch:cooldown:操作44px以上",
+    "ok": true,
+    "detail": [
+      84,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "640-touch:cooldown:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nトバリ\nLv12\n氷結\n\n固有スキル\n防御支援\n再使用 25秒\n\n持ち主と5m内の味方を6秒、被ダメージ30%軽減。\n\n再使用まで\n12秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "640-touch:cooldown:再使用まで12秒",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nトバリ\nLv12\n氷結\n\n固有スキル\n防御支援\n再使用 25秒\n\n持ち主と5m内の味方を6秒、被ダメージ30%軽減。\n\n再使用まで\n12秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "640-touch",
+    "label": "active",
+    "dialog": [
+      16,
+      40,
+      608,
+      281
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      84,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nオリハ\nLv40\n電撃\n\n固有スキル\n身体強化\n再使用 25秒\n\n持ち主と5m内の味方を6秒、移動速度20%増・回避再使用20%短縮。\n\n効果中\n残り4秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "640-touch:active:画面内",
+    "ok": true,
+    "detail": [
+      16,
+      40,
+      608,
+      281
+    ]
+  },
+  {
+    "name": "640-touch:active:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "640-touch:active:操作44px以上",
+    "ok": true,
+    "detail": [
+      84,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "640-touch:active:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nオリハ\nLv40\n電撃\n\n固有スキル\n身体強化\n再使用 25秒\n\n持ち主と5m内の味方を6秒、移動速度20%増・回避再使用20%短縮。\n\n効果中\n残り4秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "640-touch:active:効果中",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nオリハ\nLv40\n電撃\n\n固有スキル\n身体強化\n再使用 25秒\n\n持ち主と5m内の味方を6秒、移動速度20%増・回避再使用20%短縮。\n\n効果中\n残り4秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "640-touch",
+    "label": "blocked",
+    "dialog": [
+      16,
+      40,
+      608,
+      281
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      84,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "640-touch:blocked:画面内",
+    "ok": true,
+    "detail": [
+      16,
+      40,
+      608,
+      281
+    ]
+  },
+  {
+    "name": "640-touch:blocked:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "640-touch:blocked:操作44px以上",
+    "ok": true,
+    "detail": [
+      84,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "640-touch:blocked:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "640-touch:blocked:理由",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "640-touch",
+    "label": "fire",
+    "dialog": [
+      16,
+      41,
+      608,
+      278
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      81,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nタタラ\nLv7\n火炎\n\n固有スキル\n範囲攻撃\n再使用 20秒\n\nバディ中心4mの敵へ火炎攻撃。\n\n再開後に使用可能\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "640-touch:fire:画面内",
+    "ok": true,
+    "detail": [
+      16,
+      41,
+      608,
+      278
+    ]
+  },
+  {
+    "name": "640-touch:fire:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "640-touch:fire:操作44px以上",
+    "ok": true,
+    "detail": [
+      81,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "640-touch:fire:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nタタラ\nLv7\n火炎\n\n固有スキル\n範囲攻撃\n再使用 20秒\n\nバディ中心4mの敵へ火炎攻撃。\n\n再開後に使用可能\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "640-touch",
+    "label": "missing",
+    "dialog": [
+      16,
+      54,
+      608,
+      253
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      56,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n同行バディ\n\n固有スキル\nスキル情報なし\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "640-touch:missing:画面内",
+    "ok": true,
+    "detail": [
+      16,
+      54,
+      608,
+      253
+    ]
+  },
+  {
+    "name": "640-touch:missing:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "640-touch:missing:操作44px以上",
+    "ok": true,
+    "detail": [
+      56,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "640-touch:missing:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n同行バディ\n\n固有スキル\nスキル情報なし\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "640-touch",
+    "label": "escape",
+    "dialog": [
+      16,
+      20,
+      608,
+      320
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      124,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n<b>長い名前のバディ&テスト</b>\nLv40\n未知<i>\n\n固有スキル\n\"引用\"<script>\n再使用 25秒\n\nとても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。\n\n再使用まで\n1秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "640-touch:escape:画面内",
+    "ok": true,
+    "detail": [
+      16,
+      20,
+      608,
+      320
+    ]
+  },
+  {
+    "name": "640-touch:escape:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "640-touch:escape:操作44px以上",
+    "ok": true,
+    "detail": [
+      124,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "640-touch:escape:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n<b>長い名前のバディ&テスト</b>\nLv40\n未知<i>\n\n固有スキル\n\"引用\"<script>\n再使用 25秒\n\nとても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。\n\n再使用まで\n1秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "640-touch:escape:タグを文字で表示",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n<b>長い名前のバディ&テスト</b>\nLv40\n未知<i>\n\n固有スキル\n\"引用\"<script"
+  },
+  {
+    "tag": "640-touch",
+    "label": "none",
+    "dialog": [
+      16,
+      54,
+      608,
+      253
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      56,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n同行なし\nこの出撃にはバディが同行していません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "640-touch:none:画面内",
+    "ok": true,
+    "detail": [
+      16,
+      54,
+      608,
+      253
+    ]
+  },
+  {
+    "name": "640-touch:none:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "640-touch:none:操作44px以上",
+    "ok": true,
+    "detail": [
+      56,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "640-touch:none:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n同行なし\nこの出撃にはバディが同行していません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "640-touch:none:同行なし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n同行なし\nこの出撃にはバディが同行していません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "640-touch",
+    "label": "unavailable",
+    "dialog": [
+      16,
+      54,
+      608,
+      253
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      56,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n情報を表示できません\n同行の状態を読み取れませんでした。戦闘はそのまま再開できます。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "640-touch:unavailable:画面内",
+    "ok": true,
+    "detail": [
+      16,
+      54,
+      608,
+      253
+    ]
+  },
+  {
+    "name": "640-touch:unavailable:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "640-touch:unavailable:操作44px以上",
+    "ok": true,
+    "detail": [
+      56,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "640-touch:unavailable:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n情報を表示できません\n同行の状態を読み取れませんでした。戦闘はそのまま再開できます。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "640-touch:unavailable:取得不可と区別",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n情報を表示できません\n同行の状態を読み取れませんでした。戦闘はそのまま再開できます。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "640-touch",
+    "settings": {
+      "save": [
+        437,
+        170
+      ],
+      "pause": [
+        448,
+        151
+      ],
+      "overflow": -8
+    }
+  },
+  {
+    "name": "640-touch:settings:メニュー欄に収まる",
+    "ok": true,
+    "detail": {
+      "save": [
+        437,
+        170
+      ],
+      "pause": [
+        448,
+        151
+      ],
+      "overflow": -8
+    }
+  },
+  {
+    "tag": "640-touch",
+    "label": "real",
+    "defeatHit": true,
+    "defeatH": 50,
+    "scroll": 0,
+    "downRect": [
+      25,
+      66,
+      590,
+      271
+    ],
+    "inViewport": true,
+    "adNote": true,
+    "pauseHidden": "none",
+    "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:03\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "640-touch:down-real:敗北を確定が押せる",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 50,
+      "scroll": 0,
+      "downRect": [
+        25,
+        66,
+        590,
+        271
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:03\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "640-touch:down-real:画面内・スクロールなし",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 50,
+      "scroll": 0,
+      "downRect": [
+        25,
+        66,
+        590,
+        271
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:03\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "640-touch:down-real:pt-ad-note維持",
+    "ok": true,
+    "detail": true
+  },
+  {
+    "name": "640-touch:down-real:保存済・復活を出さない",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:03\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "640-touch:down-real:undefined/NaNなし",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:03\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "640-touch:down:pause非表示を維持",
+    "ok": true,
+    "detail": "none"
+  },
+  {
+    "name": "640-touch:down-real:戦況の実値",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:03\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "tag": "640-touch",
+    "label": "missing",
+    "defeatHit": true,
+    "defeatH": 50,
+    "scroll": 0,
+    "downRect": [
+      25,
+      66,
+      590,
+      271
+    ],
+    "inViewport": true,
+    "adNote": true,
+    "pauseHidden": "none",
+    "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "640-touch:down-missing:敗北を確定が押せる",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 50,
+      "scroll": 0,
+      "downRect": [
+        25,
+        66,
+        590,
+        271
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "640-touch:down-missing:画面内・スクロールなし",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 50,
+      "scroll": 0,
+      "downRect": [
+        25,
+        66,
+        590,
+        271
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "640-touch:down-missing:pt-ad-note維持",
+    "ok": true,
+    "detail": true
+  },
+  {
+    "name": "640-touch:down-missing:保存済・復活を出さない",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "640-touch:down-missing:undefined/NaNなし",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "640-touch:down:pause非表示を維持",
+    "ok": true,
+    "detail": "none"
+  },
+  {
+    "name": "640-touch:down-missing:—表示",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "tag": "640-touch",
+    "label": "long",
+    "defeatHit": true,
+    "defeatH": 50,
+    "scroll": 0,
+    "downRect": [
+      25,
+      66,
+      590,
+      271
+    ],
+    "inViewport": true,
+    "adNote": true,
+    "pauseHidden": "none",
+    "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "640-touch:down-long:敗北を確定が押せる",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 50,
+      "scroll": 0,
+      "downRect": [
+        25,
+        66,
+        590,
+        271
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "640-touch:down-long:画面内・スクロールなし",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 50,
+      "scroll": 0,
+      "downRect": [
+        25,
+        66,
+        590,
+        271
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "640-touch:down-long:pt-ad-note維持",
+    "ok": true,
+    "detail": true
+  },
+  {
+    "name": "640-touch:down-long:保存済・復活を出さない",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "640-touch:down-long:undefined/NaNなし",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "640-touch:down:pause非表示を維持",
+    "ok": true,
+    "detail": "none"
+  },
+  {
+    "name": "640-touch:down:敗北を確定で結果へ",
+    "ok": true,
+    "detail": "result"
+  },
+  {
+    "name": "640-touch:ページ例外なし",
+    "ok": true,
+    "detail": []
+  },
+  {
+    "tag": "568-touch",
+    "pauseButton": {
+      "rect": [
+        262,
+        268,
+        44,
+        44
+      ],
+      "styleSize": [
+        "44px",
+        "44px"
+      ],
+      "hit": true,
+      "inside": true,
+      "aria": "一時停止メニュー",
+      "name": "停止"
+    }
+  },
+  {
+    "name": "568-touch:pause:中心で押せる",
+    "ok": true,
+    "detail": {
+      "rect": [
+        262,
+        268,
+        44,
+        44
+      ],
+      "styleSize": [
+        "44px",
+        "44px"
+      ],
+      "hit": true,
+      "inside": true,
+      "aria": "一時停止メニュー",
+      "name": "停止"
+    }
+  },
+  {
+    "name": "568-touch:pause:中身が枠内",
+    "ok": true,
+    "detail": {
+      "rect": [
+        262,
+        268,
+        44,
+        44
+      ],
+      "styleSize": [
+        "44px",
+        "44px"
+      ],
+      "hit": true,
+      "inside": true,
+      "aria": "一時停止メニュー",
+      "name": "停止"
+    }
+  },
+  {
+    "name": "568-touch:pause:寸法はlayoutの指定",
+    "ok": true,
+    "detail": {
+      "rect": [
+        262,
+        268,
+        44,
+        44
+      ],
+      "styleSize": [
+        "44px",
+        "44px"
+      ],
+      "hit": true,
+      "inside": true,
+      "aria": "一時停止メニュー",
+      "name": "停止"
+    }
+  },
+  {
+    "name": "568-touch:pause:aria維持",
+    "ok": true,
+    "detail": "一時停止メニュー"
+  },
+  {
+    "tag": "568-touch",
+    "label": "real",
+    "dialog": [
+      16,
+      30,
+      536,
+      260
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      76,
+      51,
+      51
+    ],
+    "text": "一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "568-touch:real:画面内",
+    "ok": true,
+    "detail": [
+      16,
+      30,
+      536,
+      260
+    ]
+  },
+  {
+    "name": "568-touch:real:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "568-touch:real:操作44px以上",
+    "ok": true,
+    "detail": [
+      76,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "568-touch:real:undefined/NaNなし",
+    "ok": true,
+    "detail": "一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "568-touch:real:同行バディ名",
+    "ok": true,
+    "detail": "一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "568-touch:real:本体スクロールなし",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "tag": "568-touch",
+    "label": "cooldown",
+    "dialog": [
+      16,
+      30,
+      536,
+      260
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      76,
+      51,
+      51
+    ],
+    "text": "一時停止\n閉じる ×\n\n同行バディ\n\nトバリ\nLv12\n氷結\n\n固有スキル\n防御支援\n再使用 25秒\n\n持ち主と5m内の味方を6秒、被ダメージ30%軽減。\n\n再使用まで\n12秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "568-touch:cooldown:画面内",
+    "ok": true,
+    "detail": [
+      16,
+      30,
+      536,
+      260
+    ]
+  },
+  {
+    "name": "568-touch:cooldown:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "568-touch:cooldown:操作44px以上",
+    "ok": true,
+    "detail": [
+      76,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "568-touch:cooldown:undefined/NaNなし",
+    "ok": true,
+    "detail": "一時停止\n閉じる ×\n\n同行バディ\n\nトバリ\nLv12\n氷結\n\n固有スキル\n防御支援\n再使用 25秒\n\n持ち主と5m内の味方を6秒、被ダメージ30%軽減。\n\n再使用まで\n12秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "568-touch:cooldown:再使用まで12秒",
+    "ok": true,
+    "detail": "一時停止\n閉じる ×\n\n同行バディ\n\nトバリ\nLv12\n氷結\n\n固有スキル\n防御支援\n再使用 25秒\n\n持ち主と5m内の味方を6秒、被ダメージ30%軽減。\n\n再使用まで\n12秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "568-touch",
+    "label": "active",
+    "dialog": [
+      16,
+      30,
+      536,
+      260
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      76,
+      51,
+      51
+    ],
+    "text": "一時停止\n閉じる ×\n\n同行バディ\n\nオリハ\nLv40\n電撃\n\n固有スキル\n身体強化\n再使用 25秒\n\n持ち主と5m内の味方を6秒、移動速度20%増・回避再使用20%短縮。\n\n効果中\n残り4秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "568-touch:active:画面内",
+    "ok": true,
+    "detail": [
+      16,
+      30,
+      536,
+      260
+    ]
+  },
+  {
+    "name": "568-touch:active:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "568-touch:active:操作44px以上",
+    "ok": true,
+    "detail": [
+      76,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "568-touch:active:undefined/NaNなし",
+    "ok": true,
+    "detail": "一時停止\n閉じる ×\n\n同行バディ\n\nオリハ\nLv40\n電撃\n\n固有スキル\n身体強化\n再使用 25秒\n\n持ち主と5m内の味方を6秒、移動速度20%増・回避再使用20%短縮。\n\n効果中\n残り4秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "568-touch:active:効果中",
+    "ok": true,
+    "detail": "一時停止\n閉じる ×\n\n同行バディ\n\nオリハ\nLv40\n電撃\n\n固有スキル\n身体強化\n再使用 25秒\n\n持ち主と5m内の味方を6秒、移動速度20%増・回避再使用20%短縮。\n\n効果中\n残り4秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "568-touch",
+    "label": "blocked",
+    "dialog": [
+      16,
+      30,
+      536,
+      260
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      76,
+      51,
+      51
+    ],
+    "text": "一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "568-touch:blocked:画面内",
+    "ok": true,
+    "detail": [
+      16,
+      30,
+      536,
+      260
+    ]
+  },
+  {
+    "name": "568-touch:blocked:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "568-touch:blocked:操作44px以上",
+    "ok": true,
+    "detail": [
+      76,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "568-touch:blocked:undefined/NaNなし",
+    "ok": true,
+    "detail": "一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "568-touch:blocked:理由",
+    "ok": true,
+    "detail": "一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "568-touch",
+    "label": "fire",
+    "dialog": [
+      16,
+      31,
+      536,
+      257
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      74,
+      51,
+      51
+    ],
+    "text": "一時停止\n閉じる ×\n\n同行バディ\n\nタタラ\nLv7\n火炎\n\n固有スキル\n範囲攻撃\n再使用 20秒\n\nバディ中心4mの敵へ火炎攻撃。\n\n再開後に使用可能\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "568-touch:fire:画面内",
+    "ok": true,
+    "detail": [
+      16,
+      31,
+      536,
+      257
+    ]
+  },
+  {
+    "name": "568-touch:fire:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "568-touch:fire:操作44px以上",
+    "ok": true,
+    "detail": [
+      74,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "568-touch:fire:undefined/NaNなし",
+    "ok": true,
+    "detail": "一時停止\n閉じる ×\n\n同行バディ\n\nタタラ\nLv7\n火炎\n\n固有スキル\n範囲攻撃\n再使用 20秒\n\nバディ中心4mの敵へ火炎攻撃。\n\n再開後に使用可能\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "568-touch",
+    "label": "missing",
+    "dialog": [
+      16,
+      40,
+      536,
+      240
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      56,
+      51,
+      51
+    ],
+    "text": "一時停止\n閉じる ×\n\n同行バディ\n\n同行バディ\n\n固有スキル\nスキル情報なし\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "568-touch:missing:画面内",
+    "ok": true,
+    "detail": [
+      16,
+      40,
+      536,
+      240
+    ]
+  },
+  {
+    "name": "568-touch:missing:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "568-touch:missing:操作44px以上",
+    "ok": true,
+    "detail": [
+      56,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "568-touch:missing:undefined/NaNなし",
+    "ok": true,
+    "detail": "一時停止\n閉じる ×\n\n同行バディ\n\n同行バディ\n\n固有スキル\nスキル情報なし\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "568-touch",
+    "label": "escape",
+    "dialog": [
+      16,
+      16,
+      536,
+      288
+    ],
+    "inViewport": true,
+    "bodyScroll": 38,
+    "resumeHit": true,
+    "buttons": [
+      115,
+      51,
+      51
+    ],
+    "text": "一時停止\n閉じる ×\n\n同行バディ\n\n<b>長い名前のバディ&テスト</b>\nLv40\n未知<i>\n\n固有スキル\n\"引用\"<script>\n再使用 25秒\n\nとても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。\n\n再使用まで\n1秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア\n続きは上下にスクロール ↕"
+  },
+  {
+    "name": "568-touch:escape:画面内",
+    "ok": true,
+    "detail": [
+      16,
+      16,
+      536,
+      288
+    ]
+  },
+  {
+    "name": "568-touch:escape:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 38
+  },
+  {
+    "name": "568-touch:escape:操作44px以上",
+    "ok": true,
+    "detail": [
+      115,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "568-touch:escape:undefined/NaNなし",
+    "ok": true,
+    "detail": "一時停止\n閉じる ×\n\n同行バディ\n\n<b>長い名前のバディ&テスト</b>\nLv40\n未知<i>\n\n固有スキル\n\"引用\"<script>\n再使用 25秒\n\nとても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。\n\n再使用まで\n1秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア\n続きは上下にスクロール ↕"
+  },
+  {
+    "name": "568-touch:escape:タグを文字で表示",
+    "ok": true,
+    "detail": "一時停止\n閉じる ×\n\n同行バディ\n\n<b>長い名前のバディ&テスト</b>\nLv40\n未知<i>\n\n固有スキル\n\"引用\"<script>\n再使用 25秒\n\nと"
+  },
+  {
+    "tag": "568-touch",
+    "label": "none",
+    "dialog": [
+      16,
+      40,
+      536,
+      240
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      56,
+      51,
+      51
+    ],
+    "text": "一時停止\n閉じる ×\n\n同行バディ\n\n同行なし\nこの出撃にはバディが同行していません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "568-touch:none:画面内",
+    "ok": true,
+    "detail": [
+      16,
+      40,
+      536,
+      240
+    ]
+  },
+  {
+    "name": "568-touch:none:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "568-touch:none:操作44px以上",
+    "ok": true,
+    "detail": [
+      56,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "568-touch:none:undefined/NaNなし",
+    "ok": true,
+    "detail": "一時停止\n閉じる ×\n\n同行バディ\n\n同行なし\nこの出撃にはバディが同行していません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "568-touch:none:同行なし",
+    "ok": true,
+    "detail": "一時停止\n閉じる ×\n\n同行バディ\n\n同行なし\nこの出撃にはバディが同行していません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "568-touch",
+    "label": "unavailable",
+    "dialog": [
+      16,
+      40,
+      536,
+      240
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      56,
+      51,
+      51
+    ],
+    "text": "一時停止\n閉じる ×\n\n同行バディ\n\n情報を表示できません\n同行の状態を読み取れませんでした。戦闘はそのまま再開できます。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "568-touch:unavailable:画面内",
+    "ok": true,
+    "detail": [
+      16,
+      40,
+      536,
+      240
+    ]
+  },
+  {
+    "name": "568-touch:unavailable:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "568-touch:unavailable:操作44px以上",
+    "ok": true,
+    "detail": [
+      56,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "568-touch:unavailable:undefined/NaNなし",
+    "ok": true,
+    "detail": "一時停止\n閉じる ×\n\n同行バディ\n\n情報を表示できません\n同行の状態を読み取れませんでした。戦闘はそのまま再開できます。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "568-touch:unavailable:取得不可と区別",
+    "ok": true,
+    "detail": "一時停止\n閉じる ×\n\n同行バディ\n\n情報を表示できません\n同行の状態を読み取れませんでした。戦闘はそのまま再開できます。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "568-touch",
+    "settings": {
+      "save": [
+        365,
+        170
+      ],
+      "pause": [
+        376,
+        151
+      ],
+      "overflow": -8
+    }
+  },
+  {
+    "name": "568-touch:settings:メニュー欄に収まる",
+    "ok": true,
+    "detail": {
+      "save": [
+        365,
+        170
+      ],
+      "pause": [
+        376,
+        151
+      ],
+      "overflow": -8
+    }
+  },
+  {
+    "tag": "568-touch",
+    "label": "real",
+    "defeatHit": true,
+    "defeatH": 46,
+    "scroll": 0,
+    "downRect": [
+      17,
+      58,
+      534,
+      247
+    ],
+    "inViewport": true,
+    "adNote": true,
+    "pauseHidden": "none",
+    "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:02\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "568-touch:down-real:敗北を確定が押せる",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 46,
+      "scroll": 0,
+      "downRect": [
+        17,
+        58,
+        534,
+        247
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:02\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "568-touch:down-real:画面内・スクロールなし",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 46,
+      "scroll": 0,
+      "downRect": [
+        17,
+        58,
+        534,
+        247
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:02\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "568-touch:down-real:pt-ad-note維持",
+    "ok": true,
+    "detail": true
+  },
+  {
+    "name": "568-touch:down-real:保存済・復活を出さない",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:02\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "568-touch:down-real:undefined/NaNなし",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:02\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "568-touch:down:pause非表示を維持",
+    "ok": true,
+    "detail": "none"
+  },
+  {
+    "name": "568-touch:down-real:戦況の実値",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:02\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "tag": "568-touch",
+    "label": "missing",
+    "defeatHit": true,
+    "defeatH": 46,
+    "scroll": 0,
+    "downRect": [
+      17,
+      58,
+      534,
+      247
+    ],
+    "inViewport": true,
+    "adNote": true,
+    "pauseHidden": "none",
+    "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "568-touch:down-missing:敗北を確定が押せる",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 46,
+      "scroll": 0,
+      "downRect": [
+        17,
+        58,
+        534,
+        247
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "568-touch:down-missing:画面内・スクロールなし",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 46,
+      "scroll": 0,
+      "downRect": [
+        17,
+        58,
+        534,
+        247
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "568-touch:down-missing:pt-ad-note維持",
+    "ok": true,
+    "detail": true
+  },
+  {
+    "name": "568-touch:down-missing:保存済・復活を出さない",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "568-touch:down-missing:undefined/NaNなし",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "568-touch:down:pause非表示を維持",
+    "ok": true,
+    "detail": "none"
+  },
+  {
+    "name": "568-touch:down-missing:—表示",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "tag": "568-touch",
+    "label": "long",
+    "defeatHit": true,
+    "defeatH": 46,
+    "scroll": 0,
+    "downRect": [
+      17,
+      58,
+      534,
+      247
+    ],
+    "inViewport": true,
+    "adNote": true,
+    "pauseHidden": "none",
+    "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "568-touch:down-long:敗北を確定が押せる",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 46,
+      "scroll": 0,
+      "downRect": [
+        17,
+        58,
+        534,
+        247
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "568-touch:down-long:画面内・スクロールなし",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 46,
+      "scroll": 0,
+      "downRect": [
+        17,
+        58,
+        534,
+        247
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "568-touch:down-long:pt-ad-note維持",
+    "ok": true,
+    "detail": true
+  },
+  {
+    "name": "568-touch:down-long:保存済・復活を出さない",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "568-touch:down-long:undefined/NaNなし",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "568-touch:down:pause非表示を維持",
+    "ok": true,
+    "detail": "none"
+  },
+  {
+    "name": "568-touch:down:敗北を確定で結果へ",
+    "ok": true,
+    "detail": "result"
+  },
+  {
+    "name": "568-touch:ページ例外なし",
+    "ok": true,
+    "detail": []
+  },
+  {
+    "tag": "844-safe",
+    "pauseButton": {
+      "rect": [
+        405,
+        317,
+        44,
+        44
+      ],
+      "styleSize": [
+        "44px",
+        "44px"
+      ],
+      "hit": true,
+      "inside": true,
+      "aria": "一時停止メニュー",
+      "name": "停止"
+    }
+  },
+  {
+    "name": "844-safe:pause:中心で押せる",
+    "ok": true,
+    "detail": {
+      "rect": [
+        405,
+        317,
+        44,
+        44
+      ],
+      "styleSize": [
+        "44px",
+        "44px"
+      ],
+      "hit": true,
+      "inside": true,
+      "aria": "一時停止メニュー",
+      "name": "停止"
+    }
+  },
+  {
+    "name": "844-safe:pause:中身が枠内",
+    "ok": true,
+    "detail": {
+      "rect": [
+        405,
+        317,
+        44,
+        44
+      ],
+      "styleSize": [
+        "44px",
+        "44px"
+      ],
+      "hit": true,
+      "inside": true,
+      "aria": "一時停止メニュー",
+      "name": "停止"
+    }
+  },
+  {
+    "name": "844-safe:pause:寸法はlayoutの指定",
+    "ok": true,
+    "detail": {
+      "rect": [
+        405,
+        317,
+        44,
+        44
+      ],
+      "styleSize": [
+        "44px",
+        "44px"
+      ],
+      "hit": true,
+      "inside": true,
+      "aria": "一時停止メニュー",
+      "name": "停止"
+    }
+  },
+  {
+    "name": "844-safe:pause:aria維持",
+    "ok": true,
+    "detail": "一時停止メニュー"
+  },
+  {
+    "tag": "844-safe",
+    "label": "real",
+    "dialog": [
+      42,
+      55,
+      760,
+      281
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      84,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-safe:real:画面内",
+    "ok": true,
+    "detail": [
+      42,
+      55,
+      760,
+      281
+    ]
+  },
+  {
+    "name": "844-safe:real:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "844-safe:real:操作44px以上",
+    "ok": true,
+    "detail": [
+      84,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "844-safe:real:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-safe:real:同行バディ名",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-safe:real:本体スクロールなし",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "tag": "844-safe",
+    "label": "cooldown",
+    "dialog": [
+      42,
+      55,
+      760,
+      281
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      84,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nトバリ\nLv12\n氷結\n\n固有スキル\n防御支援\n再使用 25秒\n\n持ち主と5m内の味方を6秒、被ダメージ30%軽減。\n\n再使用まで\n12秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-safe:cooldown:画面内",
+    "ok": true,
+    "detail": [
+      42,
+      55,
+      760,
+      281
+    ]
+  },
+  {
+    "name": "844-safe:cooldown:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "844-safe:cooldown:操作44px以上",
+    "ok": true,
+    "detail": [
+      84,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "844-safe:cooldown:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nトバリ\nLv12\n氷結\n\n固有スキル\n防御支援\n再使用 25秒\n\n持ち主と5m内の味方を6秒、被ダメージ30%軽減。\n\n再使用まで\n12秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-safe:cooldown:再使用まで12秒",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nトバリ\nLv12\n氷結\n\n固有スキル\n防御支援\n再使用 25秒\n\n持ち主と5m内の味方を6秒、被ダメージ30%軽減。\n\n再使用まで\n12秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "844-safe",
+    "label": "active",
+    "dialog": [
+      42,
+      55,
+      760,
+      281
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      84,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nオリハ\nLv40\n電撃\n\n固有スキル\n身体強化\n再使用 25秒\n\n持ち主と5m内の味方を6秒、移動速度20%増・回避再使用20%短縮。\n\n効果中\n残り4秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-safe:active:画面内",
+    "ok": true,
+    "detail": [
+      42,
+      55,
+      760,
+      281
+    ]
+  },
+  {
+    "name": "844-safe:active:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "844-safe:active:操作44px以上",
+    "ok": true,
+    "detail": [
+      84,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "844-safe:active:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nオリハ\nLv40\n電撃\n\n固有スキル\n身体強化\n再使用 25秒\n\n持ち主と5m内の味方を6秒、移動速度20%増・回避再使用20%短縮。\n\n効果中\n残り4秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-safe:active:効果中",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nオリハ\nLv40\n電撃\n\n固有スキル\n身体強化\n再使用 25秒\n\n持ち主と5m内の味方を6秒、移動速度20%増・回避再使用20%短縮。\n\n効果中\n残り4秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "844-safe",
+    "label": "blocked",
+    "dialog": [
+      42,
+      55,
+      760,
+      281
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      84,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-safe:blocked:画面内",
+    "ok": true,
+    "detail": [
+      42,
+      55,
+      760,
+      281
+    ]
+  },
+  {
+    "name": "844-safe:blocked:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "844-safe:blocked:操作44px以上",
+    "ok": true,
+    "detail": [
+      84,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "844-safe:blocked:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-safe:blocked:理由",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nヨスガ\nLv1\n風\n\n固有スキル\n自己回復\n再使用 25秒\n\n持ち主だけを5秒で最大HPの25%回復。\n\n今は使えません\nHPが満タンです\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "844-safe",
+    "label": "fire",
+    "dialog": [
+      42,
+      56,
+      760,
+      278
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      81,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nタタラ\nLv7\n火炎\n\n固有スキル\n範囲攻撃\n再使用 20秒\n\nバディ中心4mの敵へ火炎攻撃。\n\n再開後に使用可能\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-safe:fire:画面内",
+    "ok": true,
+    "detail": [
+      42,
+      56,
+      760,
+      278
+    ]
+  },
+  {
+    "name": "844-safe:fire:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "844-safe:fire:操作44px以上",
+    "ok": true,
+    "detail": [
+      81,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "844-safe:fire:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\nタタラ\nLv7\n火炎\n\n固有スキル\n範囲攻撃\n再使用 20秒\n\nバディ中心4mの敵へ火炎攻撃。\n\n再開後に使用可能\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "844-safe",
+    "label": "missing",
+    "dialog": [
+      42,
+      69,
+      760,
+      253
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      56,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n同行バディ\n\n固有スキル\nスキル情報なし\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-safe:missing:画面内",
+    "ok": true,
+    "detail": [
+      42,
+      69,
+      760,
+      253
+    ]
+  },
+  {
+    "name": "844-safe:missing:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "844-safe:missing:操作44px以上",
+    "ok": true,
+    "detail": [
+      56,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "844-safe:missing:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n同行バディ\n\n固有スキル\nスキル情報なし\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "844-safe",
+    "label": "escape",
+    "dialog": [
+      42,
+      47,
+      760,
+      296
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      100,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n<b>長い名前のバディ&テスト</b>\nLv40\n未知<i>\n\n固有スキル\n\"引用\"<script>\n再使用 25秒\n\nとても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。\n\n再使用まで\n1秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-safe:escape:画面内",
+    "ok": true,
+    "detail": [
+      42,
+      47,
+      760,
+      296
+    ]
+  },
+  {
+    "name": "844-safe:escape:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "844-safe:escape:操作44px以上",
+    "ok": true,
+    "detail": [
+      100,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "844-safe:escape:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n<b>長い名前のバディ&テスト</b>\nLv40\n未知<i>\n\n固有スキル\n\"引用\"<script>\n再使用 25秒\n\nとても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。とても長い説明文。\n\n再使用まで\n1秒\n\n停止中は時間が止まり、スキルは使えません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-safe:escape:タグを文字で表示",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n<b>長い名前のバディ&テスト</b>\nLv40\n未知<i>\n\n固有スキル\n\"引用\"<script"
+  },
+  {
+    "tag": "844-safe",
+    "label": "none",
+    "dialog": [
+      42,
+      69,
+      760,
+      253
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      56,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n同行なし\nこの出撃にはバディが同行していません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-safe:none:画面内",
+    "ok": true,
+    "detail": [
+      42,
+      69,
+      760,
+      253
+    ]
+  },
+  {
+    "name": "844-safe:none:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "844-safe:none:操作44px以上",
+    "ok": true,
+    "detail": [
+      56,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "844-safe:none:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n同行なし\nこの出撃にはバディが同行していません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-safe:none:同行なし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n同行なし\nこの出撃にはバディが同行していません。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "844-safe",
+    "label": "unavailable",
+    "dialog": [
+      42,
+      69,
+      760,
+      253
+    ],
+    "inViewport": true,
+    "bodyScroll": 0,
+    "resumeHit": true,
+    "buttons": [
+      56,
+      51,
+      51
+    ],
+    "text": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n情報を表示できません\n同行の状態を読み取れませんでした。戦闘はそのまま再開できます。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-safe:unavailable:画面内",
+    "ok": true,
+    "detail": [
+      42,
+      69,
+      760,
+      253
+    ]
+  },
+  {
+    "name": "844-safe:unavailable:再開がスクロールなしで押せる",
+    "ok": true,
+    "detail": 0
+  },
+  {
+    "name": "844-safe:unavailable:操作44px以上",
+    "ok": true,
+    "detail": [
+      56,
+      51,
+      51
+    ]
+  },
+  {
+    "name": "844-safe:unavailable:undefined/NaNなし",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n情報を表示できません\n同行の状態を読み取れませんでした。戦闘はそのまま再開できます。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "name": "844-safe:unavailable:取得不可と区別",
+    "ok": true,
+    "detail": "SWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n情報を表示できません\n同行の状態を読み取れませんでした。戦闘はそのまま再開できます。\n\nタップで再開\n設定・操作\nリタイア"
+  },
+  {
+    "tag": "844-safe",
+    "settings": {
+      "save": [
+        570,
+        202
+      ],
+      "pause": [
+        581,
+        183
+      ],
+      "overflow": -8
+    }
+  },
+  {
+    "name": "844-safe:settings:メニュー欄に収まる",
+    "ok": true,
+    "detail": {
+      "save": [
+        570,
+        202
+      ],
+      "pause": [
+        581,
+        183
+      ],
+      "overflow": -8
+    }
+  },
+  {
+    "tag": "844-safe",
+    "label": "real",
+    "defeatHit": true,
+    "defeatH": 55,
+    "scroll": 0,
+    "downRect": [
+      69,
+      66,
+      716,
+      280
+    ],
+    "inViewport": true,
+    "adNote": true,
+    "pauseHidden": "none",
+    "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:02\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "844-safe:down-real:敗北を確定が押せる",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 55,
+      "scroll": 0,
+      "downRect": [
+        69,
+        66,
+        716,
+        280
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:02\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "844-safe:down-real:画面内・スクロールなし",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 55,
+      "scroll": 0,
+      "downRect": [
+        69,
+        66,
+        716,
+        280
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:02\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "844-safe:down-real:pt-ad-note維持",
+    "ok": true,
+    "detail": true
+  },
+  {
+    "name": "844-safe:down-real:保存済・復活を出さない",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:02\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "844-safe:down-real:undefined/NaNなし",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:02\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "844-safe:down:pause非表示を維持",
+    "ok": true,
+    "detail": "none"
+  },
+  {
+    "name": "844-safe:down-real:戦況の実値",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n前哨掃討\n経過\n0:02\n撃破\n0体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "tag": "844-safe",
+    "label": "missing",
+    "defeatHit": true,
+    "defeatH": 55,
+    "scroll": 0,
+    "downRect": [
+      69,
+      66,
+      716,
+      280
+    ],
+    "inViewport": true,
+    "adNote": true,
+    "pauseHidden": "none",
+    "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "844-safe:down-missing:敗北を確定が押せる",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 55,
+      "scroll": 0,
+      "downRect": [
+        69,
+        66,
+        716,
+        280
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "844-safe:down-missing:画面内・スクロールなし",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 55,
+      "scroll": 0,
+      "downRect": [
+        69,
+        66,
+        716,
+        280
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "844-safe:down-missing:pt-ad-note維持",
+    "ok": true,
+    "detail": true
+  },
+  {
+    "name": "844-safe:down-missing:保存済・復活を出さない",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "844-safe:down-missing:undefined/NaNなし",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "844-safe:down:pause非表示を維持",
+    "ok": true,
+    "detail": "none"
+  },
+  {
+    "name": "844-safe:down-missing:—表示",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\n—\n経過\n—\n撃破\n—\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "tag": "844-safe",
+    "label": "long",
+    "defeatHit": true,
+    "defeatH": 55,
+    "scroll": 0,
+    "downRect": [
+      69,
+      66,
+      716,
+      280
+    ],
+    "inViewport": true,
+    "adNote": true,
+    "pauseHidden": "none",
+    "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "844-safe:down-long:敗北を確定が押せる",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 55,
+      "scroll": 0,
+      "downRect": [
+        69,
+        66,
+        716,
+        280
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "844-safe:down-long:画面内・スクロールなし",
+    "ok": true,
+    "detail": {
+      "defeatHit": true,
+      "defeatH": 55,
+      "scroll": 0,
+      "downRect": [
+        69,
+        66,
+        716,
+        280
+      ],
+      "inViewport": true,
+      "adNote": true,
+      "pauseHidden": "none",
+      "text": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+    }
+  },
+  {
+    "name": "844-safe:down-long:pt-ad-note維持",
+    "ok": true,
+    "detail": true
+  },
+  {
+    "name": "844-safe:down-long:保存済・復活を出さない",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "844-safe:down-long:undefined/NaNなし",
+    "ok": true,
+    "detail": "ダウン\n\n戦闘不能\n\nまだ敗北は確定していません\n\n作戦\nST 12 · WAVE 10 / 10 · 長い作戦名<テスト>\n経過\n59:59\n撃破\n9999体\n敗北を確定\n\n押すと敗北として結果画面へ進みます。"
+  },
+  {
+    "name": "844-safe:down:pause非表示を維持",
+    "ok": true,
+    "detail": "none"
+  },
+  {
+    "name": "844-safe:down:敗北を確定で結果へ",
+    "ok": true,
+    "detail": "result"
+  },
+  {
+    "name": "844-safe:ページ例外なし",
+    "ok": true,
+    "detail": []
+  }
+]

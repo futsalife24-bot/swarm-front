@@ -3,6 +3,13 @@ import {
   equipBattleBuddy,
 } from "../shared/buddy-combat";
 import { buddyLevel } from "../shared/buddy-progression";
+import { getAdvanceBuddyView } from "./buddy-presentation";
+import {
+  advancePauseMarkup,
+  advanceDownMarkup,
+  pauseButtonMarkup,
+} from "./advance-pause-ui";
+import "./advance-pause-ui.css";
 import { mountGameBuddyMenu, attachBuddySkill } from "./buddy-bindings";
 import {
   battleLoadingMarkup,
@@ -355,7 +362,9 @@ function pause() {
   checkpointNow();
   const d = dialog(
     "一時停止",
-    '<button id="pt-resume">タップで再開</button><button id="pt-pause-layout">設定・操作</button><button id="pt-retire">リタイア</button>',
+    world?.solo && !world.defense
+      ? advancePauseMarkup(getAdvanceBuddyView(world, "solo"))
+      : '<button id="pt-resume">タップで再開</button><button id="pt-pause-layout">設定・操作</button><button id="pt-retire">リタイア</button>',
   );
   view.drone?.mount(d.querySelector<HTMLElement>(".menu-dialog-body")!);
   d.querySelector<HTMLButtonElement>("#pt-pause-layout")!.onclick = () => {
@@ -402,7 +411,15 @@ function defeatChoice() {
   setScreen("down");
   header(
     "ダウン",
-    `<div class="pt-intro">${SHOW_AD_UI ? `<p>復活成功時はHP50%・2秒無敵。戦況・残弾・救急箱は維持されます。ミッション③は復活後も未達成です。</p><button id="pt-revive" ${mode === "test" && !world!.solo!.revived ? "" : "disabled"}>${mode === "test" ? "テスト広告で復活" : "広告は準備中"}</button>` : ""}<button id="pt-defeat">敗北を確定</button><p id="pt-ad-note"></p></div>`,
+    !SHOW_AD_UI && world?.solo && !world.defense
+      ? advanceDownMarkup({
+          stageLabel: stageFor(world).name,
+          elapsed: Number.isFinite(world.time)
+            ? `${Math.floor(world.time / 60)}:${String(Math.floor(world.time % 60)).padStart(2, "0")}`
+            : "",
+          kills: world.totalKills,
+        })
+      : `<div class="pt-intro">${SHOW_AD_UI ? `<p>復活成功時はHP50%・2秒無敵。戦況・残弾・救急箱は維持されます。ミッション③は復活後も未達成です。</p><button id="pt-revive" ${mode === "test" && !world!.solo!.revived ? "" : "disabled"}>${mode === "test" ? "テスト広告で復活" : "広告は準備中"}</button>` : ""}<button id="pt-defeat">敗北を確定</button><p id="pt-ad-note"></p></div>`,
     false,
   );
   bind("pt-defeat", defeat);
@@ -1219,6 +1236,7 @@ document.addEventListener("visibilitychange", () => {
   if (document.hidden) pause();
 });
 document.addEventListener("click", () => sound.unlock(), true);
+$("pause").innerHTML = pauseButtonMarkup;
 $("pause").onclick = () => pause();
 document.addEventListener("keydown", (e) => {
   if (
