@@ -1,0 +1,461 @@
+{
+  "browser": "156.0.4314.58",
+  "conditions": "通常協力進撃。所持だけを隔離保存で準備。実World・表示の読取hook。HP・敵・時間の改変なし。",
+  "results": [
+    {
+      "type": "two-product-buddies",
+      "snapshots": [
+        {
+          "run": "456e0a450b714367ae6373f84f9925a2",
+          "time": 4.8,
+          "localId": "12ebbe7d58c347a6b11c274b40d7292e",
+          "players": [
+            {
+              "id": "12ebbe7d58c347a6b11c274b40d7292e",
+              "x": -1,
+              "z": 34,
+              "hp": 160,
+              "connected": true
+            },
+            {
+              "id": "a4876df294a94b12aa1fc47b494a34b3",
+              "x": 1,
+              "z": 34,
+              "hp": 160,
+              "connected": true
+            }
+          ],
+          "combat": {
+            "run": "456e0a450b714367ae6373f84f9925a2",
+            "entries": {
+              "12ebbe7d58c347a6b11c274b40d7292e": {
+                "buddyId": "tatara",
+                "level": 1,
+                "x": -3.2,
+                "y": 0,
+                "z": 32.23,
+                "attackReadyAt": 0,
+                "skillReadyAt": 0,
+                "skillHeld": false,
+                "displayUntil": 0,
+                "lastAttackAt": -1,
+                "lastSkillAt": -1,
+                "healUntil": 0,
+                "healRate": 0,
+                "visible": true
+              },
+              "a4876df294a94b12aa1fc47b494a34b3": {
+                "buddyId": "tobari",
+                "level": 1,
+                "x": -0.7,
+                "y": 0,
+                "z": 32.22,
+                "attackReadyAt": 0,
+                "skillReadyAt": 0,
+                "skillHeld": false,
+                "displayUntil": 0,
+                "lastAttackAt": -1,
+                "lastSkillAt": -1,
+                "healUntil": 0,
+                "healRate": 0,
+                "visible": true
+              }
+            },
+            "buffs": {}
+          },
+          "entries": [
+            {
+              "key": "12ebbe7d58c347a6b11c274b40d7292e",
+              "owner": "12ebbe7d58c347a6b11c274b40d7292e",
+              "kind": "tatara",
+              "loaded": true,
+              "visible": true,
+              "motion": "Idle"
+            },
+            {
+              "key": "a4876df294a94b12aa1fc47b494a34b3",
+              "owner": "a4876df294a94b12aa1fc47b494a34b3",
+              "kind": "tobari",
+              "loaded": true,
+              "visible": true,
+              "motion": "Idle"
+            }
+          ]
+        },
+        {
+          "run": "456e0a450b714367ae6373f84f9925a2",
+          "time": 4.9,
+          "localId": "a4876df294a94b12aa1fc47b494a34b3",
+          "players": [
+            {
+              "id": "12ebbe7d58c347a6b11c274b40d7292e",
+              "x": -1,
+              "z": 34,
+              "hp": 160,
+              "connected": true
+            },
+            {
+              "id": "a4876df294a94b12aa1fc47b494a34b3",
+              "x": 1,
+              "z": 34,
+              "hp": 160,
+              "connected": true
+            }
+          ],
+          "combat": {
+            "run": "456e0a450b714367ae6373f84f9925a2",
+            "entries": {
+              "12ebbe7d58c347a6b11c274b40d7292e": {
+                "buddyId": "tatara",
+                "level": 1,
+                "x": -3.2,
+                "y": 0,
+                "z": 32.23,
+                "attackReadyAt": 0,
+                "skillReadyAt": 0,
+                "skillHeld": false,
+                "displayUntil": 0,
+                "lastAttackAt": -1,
+                "lastSkillAt": -1,
+                "healUntil": 0,
+                "healRate": 0,
+                "visible": true
+              },
+              "a4876df294a94b12aa1fc47b494a34b3": {
+                "buddyId": "tobari",
+                "level": 1,
+                "x": -0.7,
+                "y": 0,
+                "z": 32.22,
+                "attackReadyAt": 0,
+                "skillReadyAt": 0,
+                "skillHeld": false,
+                "displayUntil": 0,
+                "lastAttackAt": -1,
+                "lastSkillAt": -1,
+                "healUntil": 0,
+                "healRate": 0,
+                "visible": true
+              }
+            },
+            "buffs": {}
+          },
+          "entries": [
+            {
+              "key": "12ebbe7d58c347a6b11c274b40d7292e",
+              "owner": "12ebbe7d58c347a6b11c274b40d7292e",
+              "kind": "tatara",
+              "loaded": true,
+              "visible": true,
+              "motion": "Idle"
+            },
+            {
+              "key": "a4876df294a94b12aa1fc47b494a34b3",
+              "owner": "a4876df294a94b12aa1fc47b494a34b3",
+              "kind": "tobari",
+              "loaded": true,
+              "visible": true,
+              "motion": "Idle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "button-skill-synced",
+      "readyAt": 25.65,
+      "lastSkillAt": 5.65
+    },
+    {
+      "type": "product-reconnect",
+      "snapshot": {
+        "run": "456e0a450b714367ae6373f84f9925a2",
+        "time": 28.6,
+        "localId": "12ebbe7d58c347a6b11c274b40d7292e",
+        "players": [
+          {
+            "id": "12ebbe7d58c347a6b11c274b40d7292e",
+            "x": -1,
+            "z": 34,
+            "hp": 111.5,
+            "connected": true
+          },
+          {
+            "id": "a4876df294a94b12aa1fc47b494a34b3",
+            "x": 1,
+            "z": 34,
+            "hp": 100,
+            "connected": true
+          }
+        ],
+        "combat": {
+          "run": "456e0a450b714367ae6373f84f9925a2",
+          "entries": {
+            "12ebbe7d58c347a6b11c274b40d7292e": {
+              "buddyId": "tatara",
+              "level": 1,
+              "x": -3.22,
+              "y": 0,
+              "z": 32.25,
+              "attackReadyAt": 29.55,
+              "skillReadyAt": 25.65,
+              "skillHeld": false,
+              "displayUntil": 28.65,
+              "lastAttackAt": 28.35,
+              "lastSkillAt": 5.65,
+              "healUntil": 0,
+              "healRate": 0,
+              "visible": true
+            },
+            "a4876df294a94b12aa1fc47b494a34b3": {
+              "buddyId": "tobari",
+              "level": 1,
+              "x": -0.72,
+              "y": 0,
+              "z": 32.24,
+              "attackReadyAt": 29.25,
+              "skillReadyAt": 0,
+              "skillHeld": false,
+              "displayUntil": 28.35,
+              "lastAttackAt": 28.05,
+              "lastSkillAt": -1,
+              "healUntil": 0,
+              "healRate": 0,
+              "visible": true
+            }
+          },
+          "buffs": {}
+        },
+        "entries": [
+          {
+            "key": "12ebbe7d58c347a6b11c274b40d7292e",
+            "owner": "12ebbe7d58c347a6b11c274b40d7292e",
+            "kind": "tatara",
+            "loaded": true,
+            "visible": true,
+            "motion": "Palm"
+          },
+          {
+            "key": "a4876df294a94b12aa1fc47b494a34b3",
+            "owner": "a4876df294a94b12aa1fc47b494a34b3",
+            "kind": "tobari",
+            "loaded": true,
+            "visible": true,
+            "motion": "Idle"
+          }
+        ]
+      }
+    },
+    {
+      "type": "product-leave",
+      "snapshots": [
+        {
+          "localId": "12ebbe7d58c347a6b11c274b40d7292e",
+          "entries": []
+        },
+        {
+          "run": "456e0a450b714367ae6373f84f9925a2",
+          "time": 29.9,
+          "localId": "a4876df294a94b12aa1fc47b494a34b3",
+          "players": [
+            {
+              "id": "12ebbe7d58c347a6b11c274b40d7292e",
+              "x": -1,
+              "z": 34,
+              "hp": 89,
+              "connected": false
+            },
+            {
+              "id": "a4876df294a94b12aa1fc47b494a34b3",
+              "x": 1,
+              "z": 34,
+              "hp": 85,
+              "connected": true
+            }
+          ],
+          "combat": {
+            "run": "456e0a450b714367ae6373f84f9925a2",
+            "entries": {
+              "12ebbe7d58c347a6b11c274b40d7292e": {
+                "buddyId": "tatara",
+                "level": 1,
+                "x": -3.18,
+                "y": 0,
+                "z": 32.2,
+                "attackReadyAt": 30.75,
+                "skillReadyAt": 25.65,
+                "skillHeld": false,
+                "displayUntil": 29.85,
+                "lastAttackAt": 29.55,
+                "lastSkillAt": 5.65,
+                "healUntil": 0,
+                "healRate": 0,
+                "visible": true
+              },
+              "a4876df294a94b12aa1fc47b494a34b3": {
+                "buddyId": "tobari",
+                "level": 1,
+                "x": -0.72,
+                "y": 0,
+                "z": 32.24,
+                "attackReadyAt": 30.45,
+                "skillReadyAt": 0,
+                "skillHeld": false,
+                "displayUntil": 29.55,
+                "lastAttackAt": 29.25,
+                "lastSkillAt": -1,
+                "healUntil": 0,
+                "healRate": 0,
+                "visible": true
+              }
+            },
+            "buffs": {}
+          },
+          "entries": [
+            {
+              "key": "a4876df294a94b12aa1fc47b494a34b3",
+              "owner": "a4876df294a94b12aa1fc47b494a34b3",
+              "kind": "tobari",
+              "loaded": true,
+              "visible": true,
+              "motion": "Idle"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "connections": [
+    {
+      "buddyId": "tatara",
+      "opened": 1793954542603,
+      "events": [
+        {
+          "at": 1793954542778,
+          "type": "welcome"
+        },
+        {
+          "at": 1793954548363,
+          "type": "pong"
+        },
+        {
+          "at": 1793954552518,
+          "type": "pong"
+        },
+        {
+          "at": 1793954557586,
+          "type": "pong"
+        },
+        {
+          "at": 1793954564264,
+          "type": "pong"
+        },
+        {
+          "at": 1793954567524,
+          "type": "pong"
+        },
+        {
+          "at": 1793954572526,
+          "type": "pong"
+        },
+        {
+          "at": 1793954577762,
+          "type": "pong"
+        },
+        {
+          "at": 1793954582537,
+          "type": "pong"
+        }
+      ]
+    },
+    {
+      "buddyId": "tobari",
+      "opened": 1793954546569,
+      "events": [
+        {
+          "at": 1793954546619,
+          "type": "welcome"
+        },
+        {
+          "at": 1793954554858,
+          "type": "pong"
+        },
+        {
+          "at": 1793954556489,
+          "type": "pong"
+        },
+        {
+          "at": 1793954561529,
+          "type": "pong"
+        },
+        {
+          "at": 1793954566484,
+          "type": "pong"
+        },
+        {
+          "at": 1793954571491,
+          "type": "pong"
+        },
+        {
+          "at": 1793954576483,
+          "type": "pong"
+        },
+        {
+          "at": 1793954581503,
+          "type": "pong"
+        },
+        {
+          "at": 1793954586541,
+          "type": "pong"
+        },
+        {
+          "at": 1793954591511,
+          "type": "pong"
+        },
+        {
+          "at": 1793954596496,
+          "type": "pong"
+        },
+        {
+          "at": 1793954601501,
+          "type": "pong"
+        },
+        {
+          "at": 1793954606515,
+          "type": "pong"
+        }
+      ]
+    },
+    {
+      "buddyId": "tatara",
+      "opened": 1793954586443,
+      "events": [
+        {
+          "at": 1793954586526,
+          "type": "welcome"
+        },
+        {
+          "at": 1793954595276,
+          "type": "pong"
+        },
+        {
+          "at": 1793954597785,
+          "type": "pong"
+        },
+        {
+          "at": 1793954601673,
+          "type": "pong"
+        },
+        {
+          "at": 1793954606432,
+          "type": "pong"
+        },
+        {
+          "at": 1793954607218,
+          "type": "closed"
+        }
+      ]
+    }
+  ]
+}

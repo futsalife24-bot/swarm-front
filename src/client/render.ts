@@ -3,6 +3,7 @@ import { CalyxEffects } from "./calyx-effects";
 import { BastionView } from "./bastion-view";
 import { HarrowEffects } from "./harrow-effects";
 import { redWarningDuringWind } from "./attack-telegraph";
+import { PLEAT_STRIKE, pleatStrike } from "../shared/pleat-strike";
 import { foundryLaserWarningLine } from "./foundry-laser-warning";
 import {
   projectileWarningPaths,
@@ -644,7 +645,7 @@ export class Renderer {
         transparent: true,
         opacity: 0.3,
       }),
-      Math.max(40, enemyCapacity),
+      Math.max(40, enemyCapacity * 2),
     );
     this.terrainWarnings.attach(this.rings);
     this.terrainWarnings.attach(this.houndWarnings);
@@ -656,7 +657,7 @@ export class Renderer {
         opacity: 0.7,
         depthWrite: false,
       }),
-      Math.max(120, enemyCapacity * 126),
+      Math.max(120, enemyCapacity * 127),
     );
     this.aimWarnings.visible = !cleanCapture.enabled;
     this.rings.visible = !cleanCapture.enabled;
@@ -1473,6 +1474,7 @@ export class Renderer {
           const rangedAnt =
             e.kind === "ant" && Math.hypot(e.tx - e.x, e.tz - e.z) > 2.5;
           if (redWarning && e.kind === "crawler") {
+            const strike = pleatStrike(e, activeMap.blocks);
             const warningLift =
               supportHeight(e.x, e.z, activeMap.blocks, e.y) -
               groundHeight(e.x, e.z, activeMap.blocks);
@@ -1488,6 +1490,36 @@ export class Renderer {
               -Math.PI / 2,
               Math.atan2(-(e.tx - e.x), -(e.tz - e.z)),
             );
+            if (strike.travel > 0) {
+              this.instance(
+                this.houndWarnings,
+                hi++,
+                e.x + strike.dx * strike.travel,
+                warningLift + 0.09,
+                e.z + strike.dz * strike.travel,
+                1,
+                1,
+                1,
+                -Math.PI / 2,
+                Math.atan2(-strike.dx, -strike.dz),
+              );
+              const center = strike.travel / 2 + PLEAT_STRIKE.radius / 2;
+              if (ai < this.aimWarnings.instanceMatrix.count) {
+                this.instance(
+                  this.aimWarnings,
+                  ai,
+                  e.x + strike.dx * center,
+                  e.y + 0.08,
+                  e.z + strike.dz * center,
+                  PLEAT_STRIKE.halfWidth * 2,
+                  0.02,
+                  strike.travel,
+                  0,
+                  Math.atan2(strike.dx, strike.dz),
+                );
+                this.aimWarnings.setColorAt(ai++, new T.Color(0xff7755));
+              }
+            }
           } else if (
             redWarning &&
             (e.kind === "spitter" || e.kind === "hornet" || rangedAnt)

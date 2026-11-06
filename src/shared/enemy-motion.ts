@@ -8,6 +8,7 @@ import { mapFor } from "./stages";
 import { createPleat, stepPleat } from "./pleat-locomotion";
 import { surfaceRay } from "./surface-ray";
 import { enemySize } from "./enemy-size";
+import { advancePleatStrike } from "./pleat-strike";
 
 // Per-enemy random sequence keeps loot randomness independent from steering.
 export function pursuitDirection(w: World, e: Enemy, t: Player) {
@@ -117,6 +118,10 @@ export function specialMotion(w: World, e: Enemy, t: Player, dt: number) {
       (t.y ?? 0) + 0.8 - s.body.y,
       t.z - s.body.z,
     );
+    if (s.strike) {
+      advancePleatStrike(e, blocks, dt);
+      return true;
+    }
     if (
       !e.lungeWait &&
       distance < 10 &&
@@ -148,6 +153,7 @@ export function specialMotion(w: World, e: Enemy, t: Player, dt: number) {
         : def.speed * enemySpeedFactor(e) * ((e.lunge ?? 0) > 0 ? 2.2 : 1),
       dt,
       world,
+      stopped ? 0 : Math.min(5.25, def.speed * enemySpeedFactor(e)) * 1.5,
     );
     // Existing combat coordinates describe feet altitude. Keep body centre equal
     // to (x,y+.8*scale,z), including on ceilings, so aim/hits follow the creature.

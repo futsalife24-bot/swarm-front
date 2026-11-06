@@ -44,6 +44,15 @@ export interface PleatTransfer {
  * contacts are a renderer effect (src/client/pleat-procedural.ts).
  */
 export interface PleatState {
+  /** Authority-only attack sweep; existing body/cool fields drive remote poses. */
+  strike?: {
+    dx: number;
+    dz: number;
+    remaining: number;
+    hit: string[];
+    from?: V3;
+    travelled: number;
+  };
   anchor: V3;
   normal: V3;
   forward: V3;
@@ -159,12 +168,13 @@ export function stepPleat(
   speed: number,
   dt: number,
   world: PleatSurface,
+  groundSpeed?: number,
 ) {
   migrate(s);
   let remaining = clamp(dt, 0, 0.1);
   while (remaining > 1e-8) {
     const h = Math.min(SUBSTEP, remaining);
-    step(s, direction, speed, h, world);
+    step(s, direction, speed, h, world, groundSpeed);
     remaining -= h;
   }
 }
@@ -357,6 +367,7 @@ function step(
   speed: number,
   dt: number,
   world: PleatSurface,
+  groundSpeed?: number,
 ) {
   const scale = s.scale,
     height = 0.8 * scale,
@@ -383,7 +394,14 @@ function step(
     );
   }
   // 2. Next surface: a wall ahead (concave) or a lip under the head (convex).
-  const gait = pleatGaitSpeed(scale, speed);
+  const gait =
+    groundSpeed !== undefined &&
+    s.normal.y > 0.99 &&
+    !s.transfer &&
+    !s.settling &&
+    !s.poseHeld
+      ? groundSpeed
+      : pleatGaitSpeed(scale, speed);
   const clearance = 1.12 * scale + 0.08,
     look = clearance + gait * dt;
   if (!s.transfer && !s.settling && speed > 0.001) {
@@ -444,7 +462,7 @@ function step(
       prepareTransfer(s, gait);
     }
   }
-  // 3. Ground speed: the legacy gait-limited speed, never faster than before.
+  // 3. Explicit combat speed applies on settled floors; surface transitions keep the legacy gait.
   const targetSpeed = s.transfer || s.settling ? 0 : gait;
   s.speed += clamp(
     targetSpeed - s.speed,
