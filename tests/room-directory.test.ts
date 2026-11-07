@@ -1,6 +1,8 @@
 import { it, expect } from "vitest";
 import {
   roomOptions,
+  availableRoomId,
+  validRoomId,
   normalizeRoomId,
   visibleRooms,
   type DirectoryEntry,
@@ -49,4 +51,61 @@ it("keeps legacy creations private and normalizes pasted room IDs", () => {
     24,
   );
   expect(normalizeRoomId(" ａｂ１２ｃｄ３４ ")).toBe("AB12CD34");
+});
+
+const entry = (roomId: string, expires = 200): DirectoryEntry => ({
+  roomId,
+  expires,
+  code: roomId,
+  name: "部隊",
+  players: 1,
+  stage: 1,
+  listed: false,
+  updated: 0,
+  phase: "lobby",
+});
+it("new room IDs preserve three digits including leading zeroes", () => {
+  expect(availableRoomId([], 100, () => 0)).toBe("000");
+  expect(availableRoomId([], 100, () => 0.007)).toBe("007");
+  expect(availableRoomId([], 100, () => 0.99999)).toBe("999");
+  expect(normalizeRoomId(" ００７ ")).toBe("007");
+  for (const id of ["000", "007", "999", "ABCDEF12"])
+    expect(validRoomId(id)).toBe(true);
+  for (const id of [
+    "7",
+    "07",
+    "1000",
+    "-07",
+    "1.2",
+    "ABC",
+    "１２３",
+    "abcdef12",
+    "123\n",
+  ])
+    expect(validRoomId(id)).toBe(false);
+});
+it("allocation skips active IDs across public/private modes and wraps once", () => {
+  const live = [
+    entry("999"),
+    { ...entry("000"), ruleset: "front-v1" as const, listed: true },
+    entry("001", 100),
+    entry("ABCDEF12"),
+  ];
+  expect(availableRoomId(live, 100, () => 0.999)).toBe("001");
+  expect(live).toHaveLength(4);
+});
+it("all 1000 reservations produce a bounded full result without overwriting a room", () => {
+  const all = Array.from({ length: 1000 }, (_, i) =>
+    entry(String(i).padStart(3, "0")),
+  );
+  expect(availableRoomId(all, 100, () => 0.5)).toBeUndefined();
+  all[7].expires = 100;
+  expect(availableRoomId(all, 100, () => 0.5)).toBe("007");
+  expect(
+    availableRoomId(
+      all.filter((e) => e.roomId !== "007"),
+      100,
+      () => 0.999,
+    ),
+  ).toBe("007");
 });

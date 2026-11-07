@@ -76,6 +76,7 @@ import {
   bindRoomBrowser,
   setRoomBrowserBusy,
 } from "./room-browser";
+import { validRoomId, normalizeRoomId } from "../shared/room-directory";
 import { frontRoomInvite } from "./room-invite";
 import { roomAccessInfo } from "./room-access";
 import { FrontNetwork, loadFrontNetworkSession } from "./front-network";
@@ -930,7 +931,7 @@ function paintLobby() {
   document.body.classList.remove("playtest");
   document.body.dataset.screen = "lobby";
   $("ui").innerHTML =
-    `<section class="panel lobby front-lobby front-unified-lobby"><header class="lobby-header"><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力ロビー <span class="room-access-label" data-access="${access.state}">${access.label}</span></h1><div class="lobby-room"><small class="lobby-room-name">${esc(net.roomName)}</small><span class="lobby-room-id">${net.roomListed === true ? "直接招待用パスワード" : "招待用パスワード"} <code id="front-room-password">${esc(net.roomId || "接続中")}</code><button id="front-copy-password" aria-label="パスワードをコピー" title="パスワードをコピー" ${net.roomId ? "" : "disabled"}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/></svg></button></span></div></div><div class="lobby-share"><button id="front-copy" ${net.roomId ? "" : "disabled"}>招待リンクを共有</button></div><span>${present.length} / 4 人</span><button id="front-leave">退出</button></header><div class="lobby-workspace"><section class="lobby-mission" aria-label="出撃情報"><div class="eyebrow">SURVIVAL</div><h2>${esc(modeNames[net.mode])}</h2><p>${net.mode === "survival" ? "出撃から60分で帰還・保存猶予2分。" : "協力して作戦に挑みます。"}</p><p class="front-room-access fine">${esc(access.detail)}${net.roomListed === true ? " 直接招待する場合はパスワードまたはリンクを共有できます。" : ""}</p><div class="lobby-actions"><p class="status" role="status">${!online ? esc(status) : canStart ? "全員の準備が整いました" : host === net.id ? (status.startsWith("戦場を準備中") ? esc(status) : "隊員の準備完了を待っています") : "ホストの出撃を待っています"}</p><button id="front-edit-loadout">出撃準備・装備変更</button><button class="primary" id="front-start" ${canStart ? "" : "disabled"}>全員で出撃 ↗</button></div></section><section class="lobby-squad" aria-label="参加メンバー"><div class="squad-heading"><h2>参加メンバー</h2><small>装備 / 状況</small></div><div class="squad-cards">${Array.from(
+    `<section class="panel lobby front-lobby front-unified-lobby"><header class="lobby-header"><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力ロビー <span class="room-access-label" data-access="${access.state}">${access.label}</span></h1><div class="lobby-room"><small class="lobby-room-name">${esc(net.roomName)}</small><span class="lobby-room-id">部屋ID <code id="front-room-password">${esc(net.roomId || "接続中")}</code><button id="front-copy-password" aria-label="部屋IDをコピー" title="部屋IDをコピー" ${net.roomId ? "" : "disabled"}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/></svg></button></span></div></div><div class="lobby-share"><button id="front-copy" ${net.roomId ? "" : "disabled"}>招待リンクを共有</button></div><span>${present.length} / 4 人</span><button id="front-leave">退出</button></header><div class="lobby-workspace"><section class="lobby-mission" aria-label="出撃情報"><div class="eyebrow">SURVIVAL</div><h2>${esc(modeNames[net.mode])}</h2><p>${net.mode === "survival" ? "出撃から60分で帰還・保存猶予2分。" : "協力して作戦に挑みます。"}</p><p class="front-room-access fine">${esc(access.detail)}${net.roomListed === true ? " 直接招待する場合は部屋IDまたはリンクを共有できます。" : ""}</p><div class="lobby-actions"><p class="status" role="status">${!online ? esc(status) : canStart ? "全員の準備が整いました" : host === net.id ? (status.startsWith("戦場を準備中") ? esc(status) : "隊員の準備完了を待っています") : "ホストの出撃を待っています"}</p><button id="front-edit-loadout">出撃準備・装備変更</button><button class="primary" id="front-start" ${canStart ? "" : "disabled"}>全員で出撃 ↗</button></div></section><section class="lobby-squad" aria-label="参加メンバー"><div class="squad-heading"><h2>参加メンバー</h2><small>装備 / 状況</small></div><div class="squad-cards">${Array.from(
       { length: 4 },
       (_, i) => {
         const m = members[i];
@@ -983,19 +984,15 @@ function paintLobby() {
     if (!url) return;
     void navigator.clipboard.writeText(url).then(
       () => notice("招待リンクをコピーしました"),
-      () =>
-        notice(
-          "コピーできません。画面の招待用パスワードを共有してください。",
-          8,
-        ),
+      () => notice("コピーできません。画面の部屋IDを共有してください。", 8),
     );
   };
   $("front-copy-password").onclick = () => {
     if (!net.roomId) return;
     void navigator.clipboard.writeText(net.roomId).then(
-      () => notice("招待用パスワードをコピーしました"),
+      () => notice("部屋IDをコピーしました"),
       () =>
-        notice("コピーできません。画面の8文字を選択して共有してください。", 8),
+        notice("コピーできません。画面の部屋IDを選択して共有してください。", 8),
     );
   };
 }
@@ -1640,7 +1637,7 @@ startWithSaveWriter(async () => {
   else if (navigation.get("solo") === "1") prep();
   else if (navigation.get("coop") === "1") rooms();
   const invitation = new URL(location.href).searchParams.get("frontRoom");
-  if (invitation && /^[A-Fa-f0-9]{8}$/.test(invitation)) {
+  if (invitation && validRoomId(normalizeRoomId(invitation))) {
     rooms();
     ($("room-id") as HTMLInputElement).value = invitation;
     notice("招待先を確認し、参加を押してください", 5);

@@ -57,6 +57,7 @@ try {
     });
     assert.equal(response.status, 200);
     const entry = await response.json();
+    assert.match(entry.roomId, /^[0-9]{3}$/);
     const host = await connect(entry.code);
     assert.equal(host.roomId, entry.roomId);
     assert.equal(host.listed, listed, "部屋主へ正しい募集方式が届く");
@@ -69,8 +70,8 @@ try {
     record.rooms.push({ listed, roomId: entry.roomId });
     record.checks.push(
       listed
-        ? "フリー作成・8文字解決・実2接続"
-        : "招待作成・8文字解決・実2接続",
+        ? "フリー作成・数字3桁解決・実2接続"
+        : "招待作成・数字3桁解決・実2接続",
     );
   }
   // ディレクトリ更新はRoomから非同期で届くため、上限付きで待つ。

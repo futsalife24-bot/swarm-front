@@ -8,7 +8,7 @@ export function roomAccessInfo(listed: boolean | undefined) {
   if (listed === false)
     return {
       state: "private",
-      label: "パスワード付き",
+      label: "IDで招待",
       detail: "この部屋は一覧には表示されません。",
     } as const;
   return {

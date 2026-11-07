@@ -92,6 +92,7 @@ import { encodeState, prepareState } from "../src/shared/state-wire";
 import { encodeStateChunks } from "../src/shared/state-chunks";
 import {
   roomOptions,
+  availableRoomId,
   normalizeRoomId,
   visibleRooms,
   type DirectoryEntry,
@@ -445,7 +446,7 @@ export default {
         : json({ error: "ルーム作成の準備中です" }, 503);
     else if (
       req.method === "GET" &&
-      (path === "/rooms" || /^\/rooms\/[A-Fa-f0-9]{8}$/.test(path))
+      (path === "/rooms" || /^\/rooms\/(?:[0-9]{3}|[A-Fa-f0-9]{8})$/.test(path))
     ) {
       res = await env.GATE.get(env.GATE.idFromName("admission")).fetch(
         new Request(
@@ -847,19 +848,25 @@ export class Gate extends DurableObject<Env> {
       );
     let code: string | undefined;
     let roomId: string | undefined;
+    let directory: Record<string, DirectoryEntry> | undefined;
     if (create) {
-      c.c++;
-      state.total++;
-      const directory =
+      directory =
         (await this.ctx.storage.get<Record<string, DirectoryEntry>>(
           "directory",
         )) ?? {};
       for (const [key, entry] of Object.entries(directory))
         if (entry.expires <= now) delete directory[key];
+      roomId = availableRoomId(Object.values(directory), now);
+      if (roomId === undefined)
+        return json(
+          { error: "部屋IDが使用中です。しばらく待ってから作成してください" },
+          503,
+        );
       do {
         code = secret();
-        roomId = code.slice(0, 8).toUpperCase();
-      } while (Object.values(directory).some((e) => e.roomId === roomId));
+      } while (Object.hasOwn(rooms, code) || Object.hasOwn(directory, code));
+      c.c++;
+      state.total++;
       const options = roomOptions(await req.json());
       directory[code] = {
         ...options,
@@ -871,13 +878,14 @@ export class Gate extends DurableObject<Env> {
         players: 0,
         stage: 1,
       };
-      await this.ctx.storage.put("directory", directory);
       rooms[code] = now + LIMITS.roomMs;
     } else {
       c.j++;
       state.connections = (state.connections ?? 0) + 1;
     }
-    await this.ctx.storage.put("gate", state);
+    await this.ctx.storage.put(
+      directory ? { directory, gate: state } : { gate: state },
+    );
     await this.ctx.storage.setAlarm(now + 86400000);
     return json({ ok: true, ...(code ? { code, roomId } : {}) });
   }

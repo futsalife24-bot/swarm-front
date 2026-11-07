@@ -47,6 +47,32 @@ export function roomOptions(value: unknown): RoomOptions {
 export function normalizeRoomId(value: string) {
   return value.normalize("NFKC").trim().toUpperCase();
 }
+/** New IDs are three decimal digits. Existing eight-character rooms stay joinable. */
+export function validRoomId(value: string): boolean {
+  return (
+    (value.length === 3 || value.length === 8) &&
+    /^(?:[0-9]{3}|[A-F0-9]{8})$/.test(value)
+  );
+}
+
+/** Bounded search: reserve a free ID across every mode until its room expires. */
+export function availableRoomId(
+  entries: DirectoryEntry[],
+  now: number,
+  random: () => number = () =>
+    crypto.getRandomValues(new Uint32Array(1))[0] / 0x100000000,
+): string | undefined {
+  const occupied = new Set(
+    entries.filter((e) => e.expires > now).map((e) => e.roomId),
+  );
+  const first = Math.floor(random() * 1000);
+  for (let offset = 0; offset < 1000; offset++) {
+    const id = String((first + offset) % 1000).padStart(3, "0");
+    if (!occupied.has(id)) return id;
+  }
+  return undefined;
+}
+
 export function visibleRooms(
   entries: DirectoryEntry[],
   now: number,

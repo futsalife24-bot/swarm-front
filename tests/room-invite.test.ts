@@ -40,3 +40,26 @@ describe("room invitation input", () => {
       expect(parseRoomEntry(value, base)).toBe("");
   });
 });
+
+it("three-digit room IDs and invitation URLs keep leading zeroes", () => {
+  for (const id of ["000", "007", "999"]) {
+    expect(parseRoomEntry(id, base)).toBe(id);
+    const link = frontRoomInvite(
+      base + "&server=https://other.example/#old",
+      id,
+    );
+    expect(link).toBe("https://game.example/swarm-front/?frontRoom=" + id);
+    expect(parseRoomEntry(link, base, "front-v1")).toBe(id);
+    expect(parseRoomEntry(link, base)).toBe("");
+  }
+  expect(parseRoomEntry(" ００７ ", base)).toBe("007");
+  for (const id of ["7", "07", "1000", "1e2", "1.2", "-07", "ABC"])
+    expect(parseRoomEntry(id, base)).toBe("");
+  expect(
+    parseRoomEntry(
+      "https://other.example/swarm-front/?frontRoom=007",
+      base,
+      "front-v1",
+    ),
+  ).toBe("");
+});

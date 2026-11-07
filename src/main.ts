@@ -1338,7 +1338,7 @@ function lobby() {
   if (network?.roomId)
     ui.querySelector(".lobby-header h1")!.insertAdjacentHTML(
       "afterend",
-      `<div class="lobby-room"><small class="lobby-room-name">${esc(network.roomName)}</small><span class="lobby-room-id">${network.roomListed === true ? "直接招待用パスワード" : "招待用パスワード"} <code id="room-code">${esc(network.roomId)}</code><button id="copy" aria-label="パスワードをコピー" title="パスワードをコピー"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/></svg></button><span id="room-id-feedback" role="status"></span></span></div>`,
+      `<div class="lobby-room"><small class="lobby-room-name">${esc(network.roomName)}</small><span class="lobby-room-id">部屋ID <code id="room-code">${esc(network.roomId)}</code><button id="copy" aria-label="部屋IDをコピー" title="部屋IDをコピー"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/></svg></button><span id="room-id-feedback" role="status"></span></span></div>`,
     );
   chatInput.value = draft;
   if (focused) {
@@ -1392,9 +1392,9 @@ function lobby() {
       if (!id) return;
       try {
         await navigator.clipboard.writeText(id);
-        $("room-id-feedback").textContent = "パスワードをコピーしました";
+        $("room-id-feedback").textContent = "部屋IDをコピーしました";
       } catch {
-        window.prompt("招待用パスワードをコピーしてください", id);
+        window.prompt("部屋IDをコピーしてください", id);
       }
     };
   $("share").onclick = async () => {
@@ -1402,7 +1402,7 @@ function lobby() {
     try {
       await navigator.share({
         title: "SWARM FRONT 協力プレイ",
-        text: `招待用パスワード: ${network?.roomId ?? ""}。ホーム画面のアプリでは「協力プレイ」の「パスワード付き」にパスワードまたは招待リンクを貼り付けて参加できます。`,
+        text: `部屋ID: ${network?.roomId ?? ""}。ホーム画面のアプリでは「協力プレイ」の「IDで招待」に部屋IDまたは招待リンクを貼り付けて参加できます。`,
         url: link,
       });
     } catch (error) {
