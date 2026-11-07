@@ -1,10 +1,12 @@
 import { chromium, expect } from "@playwright/test";
 import fs from "node:fs";
 const origin = process.env.ORIGIN ?? "http://127.0.0.1:5196";
+if (!/^http:\/\/127\.0\.0\.1:\d+$/.test(origin))
+  throw Error("Local fixture only");
 const out = "dist-validation/buddy-charge-game";
 fs.mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({
-  channel: "msedge",
+  channel: process.env.TEST_BROWSER_CHANNEL ?? "chrome",
   args: ["--use-angle=d3d11"],
 });
 const results = [],

@@ -8,7 +8,7 @@ if (!/^http:\/\/127\.0\.0\.1:\d+$/.test(origin))
 const out = "dist-validation/reward-weapon-details";
 fs.mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({
-  channel: "msedge",
+  channel: process.env.TEST_BROWSER_CHANNEL ?? "chrome",
   args: ["--use-angle=d3d11"],
 });
 const records = [];
@@ -23,6 +23,7 @@ try {
       hasTouch: true,
       isMobile: true,
       serviceWorkers: "block",
+      reducedMotion: "reduce",
     });
     activePage = page;
     const errors = [];
