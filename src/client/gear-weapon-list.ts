@@ -101,11 +101,14 @@ export function gearReadOnlyRows(
   items: readonly { weapon: StoredWeapon; state: GearRowState }[],
   label: string,
   stateHead = "状態",
+  actions?: { locks: readonly string[] },
 ) {
   return `<div class="pt-weapon-list gear-weapon-list is-read-only" aria-label="${esc(label)}">${listHead(stateHead)}${items
     .map(({ weapon: w, state }) => {
       const name = WEAPONS[w.kind].name;
-      return `<div class="pt-weapon-row" data-row="${esc(w.id)}" data-state="${esc(state.key)}" style="--weapon-tier:${tiers[weaponTier(w)]}"><div class="pt-identity"><span class="gear-row-name"><small class="gear-rarity pt-grade-${weaponTier(w)}">${weaponGrade(w)}</small><b>${esc(name)}</b><span class="gear-level">Lv${weaponLevel(w)}</span></span></div>${statCells(w)}<span class="gear-row-state" data-state="${esc(state.key)}" title="${esc(state.title)}">${esc(state.label)}</span></div>`;
+      const identity = `<small class="gear-rarity pt-grade-${weaponTier(w)}">${weaponGrade(w)}</small><b>${esc(name)}</b><span class="gear-level">Lv${weaponLevel(w)}</span>`;
+      const locked = actions?.locks.includes(w.id) ?? false;
+      return `<div class="pt-weapon-row" data-row="${esc(w.id)}" data-state="${esc(state.key)}" style="--weapon-tier:${tiers[weaponTier(w)]}"><div class="pt-identity">${actions ? `<button data-detail="${esc(w.id)}" aria-label="${esc(name)} 詳細">${identity}</button>` : `<span class="gear-row-name">${identity}</span>`}</div>${statCells(w)}${actions ? `<button data-lock="${esc(w.id)}" aria-label="${esc(name)}のロック" aria-pressed="${locked}" title="${esc(state.title)}" ${state.key === "unsaved" ? "disabled" : ""}>${lockMarkup(locked)}</button>` : `<span class="gear-row-state" data-state="${esc(state.key)}" title="${esc(state.title)}">${esc(state.label)}</span>`}</div>`;
     })
     .join("")}</div>`;
 }

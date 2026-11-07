@@ -1,0 +1,79 @@
+[
+  {
+    "file": "oriha-v3.glb",
+    "sha256": "490ac82d86642c7b45a7f760533b5a7948ac824ad307d91823270d7d8f8ba72e",
+    "bytes": 377792,
+    "gltfVersion": 2,
+    "lengthMatches": true,
+    "nodes": 12,
+    "skins": 1,
+    "joints": 10,
+    "primitives": 1,
+    "triangles": 2008,
+    "materials": 1,
+    "textures": 0,
+    "clips": [
+      "Coil",
+      "Display",
+      "Follow",
+      "Idle"
+    ]
+  },
+  {
+    "file": "tatara-v3.glb",
+    "sha256": "8d612e6a43abb3fbb27a983be7b97a113d973f59eb8f1b14efb224ad515fddcf",
+    "bytes": 394576,
+    "gltfVersion": 2,
+    "lengthMatches": true,
+    "nodes": 13,
+    "skins": 1,
+    "joints": 11,
+    "primitives": 1,
+    "triangles": 1924,
+    "materials": 1,
+    "textures": 0,
+    "clips": [
+      "Follow",
+      "Idle",
+      "Palm"
+    ]
+  },
+  {
+    "file": "tobari-v7.glb",
+    "sha256": "8b3f88e17df752bd5fc421f7f7aaa846efca3b3335a57d54a6da5b7e406f5ce7",
+    "bytes": 221420,
+    "gltfVersion": 2,
+    "lengthMatches": true,
+    "nodes": 9,
+    "skins": 1,
+    "joints": 7,
+    "primitives": 1,
+    "triangles": 1180,
+    "materials": 1,
+    "textures": 0,
+    "clips": [
+      "Display",
+      "Follow",
+      "Idle"
+    ]
+  },
+  {
+    "file": "yosuga-v5.glb",
+    "sha256": "c6bb71f21fd9b9baaf322d0b4d627997b88d53ccb0b83a191aa0d00e663e6cc8",
+    "bytes": 315108,
+    "gltfVersion": 2,
+    "lengthMatches": true,
+    "nodes": 15,
+    "skins": 1,
+    "joints": 13,
+    "primitives": 1,
+    "triangles": 1464,
+    "materials": 1,
+    "textures": 0,
+    "clips": [
+      "Display",
+      "Follow",
+      "Idle"
+    ]
+  }
+]

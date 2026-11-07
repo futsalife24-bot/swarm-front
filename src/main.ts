@@ -1,4 +1,7 @@
 import { loadProgress } from "./client/progression-save";
+import { bindResultWeaponActions } from "./client/result-weapon-actions";
+import { lockMarkup } from "./client/gear-weapon-list";
+import type { StoredWeapon } from "./shared/progression";
 import { buddyLevel } from "./shared/buddy-progression";
 import { mountGameBuddyMenu, attachBuddySkill } from "./client/buddy-bindings";
 import {
@@ -506,7 +509,9 @@ const esc = (s: string) =>
 const weaponName = (w: Weapon) => WEAPONS[w.kind].name;
 const equipped = () =>
   save.equipped.map((id) => save.inventory.find((w) => w.id === id)!);
+let releaseResultWeaponActions = () => {};
 function setScreen(name: string) {
+  releaseResultWeaponActions();
   activeBuddyMenu?.destroy();
   activeBuddyMenu = undefined;
   if (name !== screen) {
@@ -620,7 +625,9 @@ function card(w: Weapon, lootOnly = false) {
       ? '"'
       : '" data-equip="' + w.id + '" role="button" tabindex="0"') +
     '><div class="weapon-identity"><h3>' +
-    weaponName(w) +
+    (lootOnly
+      ? `<button data-detail="${esc(w.id)}" aria-label="${esc(weaponName(w))} 詳細">${esc(weaponName(w))}</button>`
+      : weaponName(w)) +
     "</h3>" +
     (lootOnly ? kindHelp(w.kind) : "") +
     '<em class="rarity-tag rarity' +
@@ -1421,6 +1428,8 @@ function battle() {
 }
 function favoriteButton(w: Weapon, compact = false) {
   const marked = save.favorites?.includes(w.id) ?? false;
+  if (compact)
+    return `<button data-lock="${esc(w.id)}" aria-label="${esc(weaponName(w))}のロック" title="ロック" aria-pressed="${marked}" ${![...save.inventory, ...(save.pendingWeapons ?? [])].some((a) => a.id === w.id) ? "disabled" : ""}>${lockMarkup(marked)}</button>`;
   return `<button data-favorite="${esc(w.id)}" data-compact="${compact}" aria-label="${esc(weaponName(w))}のお気に入り" title="お気に入り" aria-pressed="${marked}" ${![...save.inventory, ...(save.pendingWeapons ?? [])].some((a) => a.id === w.id) ? "disabled" : ""}>${compact ? (marked ? "★" : "☆") : marked ? "★ お気に入り" : "☆ お気に入り"}</button>`;
 }
 function bindFavorites() {
@@ -1749,7 +1758,7 @@ function result() {
   if (w.phase === "victory") {
     stored = storeMissionRewards(w);
   }
-  ui.innerHTML = `<section class="panel result"><div class="result-summary"><div class="eyebrow">OPERATION ${String(stageFor(w).id).padStart(2, "0")} / ${mapFor(w).name}</div><h1>${w.phase === "victory" ? "MISSION CLEAR" : "MISSION FAILED"}</h1><p>${w.phase === "victory" ? "作戦を達成しました。戦利品を確認して、次の戦場へ。" : esc(w.reason || "部隊が全員ダウンしました")}</p><div class="stats"><div><span>作戦時間</span><b>${Math.floor(w.time / 60)}:${String(Math.floor(w.time % 60)).padStart(2, "0")}</b></div><div><span>撃破数</span><b>${w.totalKills}</b></div><div><span>回収武器</span><b>${items.length}</b></div></div><div class="result-actions"><button class="primary" id="regear">${returnToSquad ? "同じ部隊のロビーへ戻る ↗" : "ホームへ戻る ↗"}</button><button id="retry-save" ${stored ? "hidden" : ""}>保存を再試行</button></div></div><section class="result-loot"><h2>${w.phase === "victory" ? "獲得武器" : "未確定戦利品は失われました"}</h2><p class="status" role="status">${esc(saveError || (w.phase === "victory" ? status : "保存済みの武器は保持されています。"))}</p><div class="loot-list loot-table" aria-label="獲得武器リスト"><div class="weapon-head"><span>武器</span><span>特殊効果</span><span>威力</span><span>装弾</span><span>装填</span><span>射程</span><span>連射</span><span title="お気に入り">☆</span></div>${items.map((item) => card(item, true)).join("")}</div></section></section>`;
+  ui.innerHTML = `<section class="panel result"><div class="result-summary"><div class="eyebrow">OPERATION ${String(stageFor(w).id).padStart(2, "0")} / ${mapFor(w).name}</div><h1>${w.phase === "victory" ? "MISSION CLEAR" : "MISSION FAILED"}</h1><p>${w.phase === "victory" ? "作戦を達成しました。戦利品を確認して、次の戦場へ。" : esc(w.reason || "部隊が全員ダウンしました")}</p><div class="stats"><div><span>作戦時間</span><b>${Math.floor(w.time / 60)}:${String(Math.floor(w.time % 60)).padStart(2, "0")}</b></div><div><span>撃破数</span><b>${w.totalKills}</b></div><div><span>回収武器</span><b>${items.length}</b></div></div><div class="result-actions"><button class="primary" id="regear">${returnToSquad ? "同じ部隊のロビーへ戻る ↗" : "ホームへ戻る ↗"}</button><button id="retry-save" ${stored ? "hidden" : ""}>保存を再試行</button></div></div><section class="result-loot"><h2>${w.phase === "victory" ? "獲得武器" : "未確定戦利品は失われました"}</h2><p class="status" role="status">${esc(saveError || (w.phase === "victory" ? status : "保存済みの武器は保持されています。"))}</p><div class="loot-list loot-table" aria-label="獲得武器リスト"><div class="weapon-head"><span>武器</span><span>特殊効果</span><span>威力</span><span>装弾</span><span>装填</span><span>射程</span><span>連射</span><span title="ロック">ロック</span></div>${items.map((item) => card(item, true)).join("")}</div></section></section>`;
   $("regear").onclick = () => {
     if (!stored) {
       ui.querySelector(".status")!.textContent =
@@ -1772,7 +1781,19 @@ function result() {
     } else title();
   };
   $("retry-save").onclick = result;
-  bindFavorites();
+  releaseResultWeaponActions = bindResultWeaponActions(
+    ui,
+    items.map((w) => ({
+      ...w,
+      acquired: 0,
+      testData: false,
+    })) as StoredWeapon[],
+    localStorage,
+    () => {
+      save = loadSharedCoopSave();
+      result();
+    },
+  );
 }
 // Solo runs the world here, so it can truly stop. Co-op cannot: the server keeps
 // stepping and the player keeps taking hits, which the menu has to admit.

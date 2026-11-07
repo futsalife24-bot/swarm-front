@@ -1,0 +1,52 @@
+[
+  {
+    "width": 568,
+    "height": 320,
+    "scenario": "return",
+    "baseline": false,
+    "layout": {
+      "visible": true,
+      "panelScroll": 323
+    },
+    "detailChecks": [
+      {
+        "saved": true,
+        "id": "6e765eed-4310-46a9-8f04-af0531e9f837-survival-0-0",
+        "rowLayout": {
+          "rightmost": true,
+          "withinRow": true
+        },
+        "layout": {
+          "overflow": [
+            {
+              "tag": "menu-dialog weapon-detail-dialog",
+              "x": 0,
+              "y": 0
+            },
+            {
+              "tag": "menu-dialog-body",
+              "x": 0,
+              "y": 0
+            },
+            {
+              "tag": "weapon-detail-layout",
+              "x": 0,
+              "y": 0
+            },
+            {
+              "tag": "pt-comparison",
+              "x": 0,
+              "y": 0
+            }
+          ],
+          "aligned": true,
+          "sideBySide": true,
+          "visible": true
+        }
+      }
+    ],
+    "rewardText": "撤収完了\nタイトルへ\n\n生存作戦から帰還しました\n\n2:05\n取得 1回\n最大 0連鎖\n\n融合なし\n\n獲得報酬\n攻略コイン\n+30\n宝箱10を含む\n保存済\n功績 +100\n武器\n3丁\n保存済3\nレア\n武器\n特殊効果\n威力\n装弾\n装填\n射程\n連射\nロック\nN\nSG-4 ブレイカー\nLv1\nー\n20×8▲\n7\n1.93s▲\n23.2m▲\n1.3▲\nN\nMD-4 ブルーム\nLv1\nー\n9×7▲\n5\n2.43s▲\n49.1m▲\n1.0▲\nN\nAR-9 リーフ\nLv1\nー\n23▼\n32\n1.53s▲\n75.4m▲\n▲\n7.8▲",
+    "errors": [],
+    "relaunched": true
+  }
+]

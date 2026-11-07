@@ -1,0 +1,99 @@
+[
+  {
+    "buddy": "tatara",
+    "variant": "textured",
+    "file": "tatara\\balanced\\tatara-textured.glb",
+    "bytes": 965124,
+    "sha256": "cb46cfd4460056ffff1731eb25c4e9d481ba20bcf31390859a8e389c054babd3",
+    "triangles": 4604,
+    "primitives": 1,
+    "materials": 1,
+    "bones": 11,
+    "textures": 2,
+    "clips": [
+      "Follow",
+      "Idle",
+      "Palm"
+    ],
+    "animation_data_identical": true,
+    "bone_transforms_identical": true,
+    "inverse_bind_identical": true,
+    "originalMatchesCurrent": true,
+    "animationBytesMatch": true,
+    "jointTransformsMatch": true,
+    "inverseBindBytesMatch": true
+  },
+  {
+    "buddy": "yosuga",
+    "variant": "textured",
+    "file": "yosuga\\balanced\\yosuga-textured.glb",
+    "bytes": 806972,
+    "sha256": "a9b9bab855d3519fb9008c647b967ded992a6ad781d893bc443abf7eb24beec4",
+    "triangles": 3200,
+    "primitives": 1,
+    "materials": 1,
+    "bones": 13,
+    "textures": 2,
+    "clips": [
+      "Display",
+      "Follow",
+      "Idle"
+    ],
+    "animation_data_identical": true,
+    "bone_transforms_identical": true,
+    "inverse_bind_identical": true,
+    "originalMatchesCurrent": true,
+    "animationBytesMatch": true,
+    "jointTransformsMatch": true,
+    "inverseBindBytesMatch": true
+  },
+  {
+    "buddy": "tobari",
+    "variant": "textured",
+    "file": "tobari\\balanced\\tobari-textured.glb",
+    "bytes": 469048,
+    "sha256": "bcf76ca197c1b7242b3686d03aea4ab36d7c34f9adbe1e61c679a735af5a127a",
+    "triangles": 1284,
+    "primitives": 1,
+    "materials": 1,
+    "bones": 7,
+    "textures": 2,
+    "clips": [
+      "Display",
+      "Follow",
+      "Idle"
+    ],
+    "animation_data_identical": true,
+    "bone_transforms_identical": true,
+    "inverse_bind_identical": true,
+    "originalMatchesCurrent": true,
+    "animationBytesMatch": true,
+    "jointTransformsMatch": true,
+    "inverseBindBytesMatch": true
+  },
+  {
+    "buddy": "oriha",
+    "variant": "textured",
+    "file": "oriha\\balanced\\oriha-textured.glb",
+    "bytes": 874520,
+    "sha256": "4d1995da21122e127b419f395de1a828654e6741edc0621fdba8abed1275c4b4",
+    "triangles": 2436,
+    "primitives": 1,
+    "materials": 1,
+    "bones": 10,
+    "textures": 2,
+    "clips": [
+      "Coil",
+      "Display",
+      "Follow",
+      "Idle"
+    ],
+    "animation_data_identical": true,
+    "bone_transforms_identical": true,
+    "inverse_bind_identical": true,
+    "originalMatchesCurrent": true,
+    "animationBytesMatch": true,
+    "jointTransformsMatch": true,
+    "inverseBindBytesMatch": true
+  }
+]

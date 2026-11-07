@@ -1,0 +1,1019 @@
+{
+  "browser": "156.0.4314.58",
+  "results": [
+    {
+      "width": 844,
+      "height": 390,
+      "shadows": false,
+      "n": 0,
+      "samples": [
+        {
+          "buddyUpdateMs": 0.09999999403953552,
+          "renderSubmitMs": 15.900000005960464,
+          "totalCpuMs": 17.100000023841858,
+          "calls": 445,
+          "triangles": 1007220
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 22.600000023841858,
+          "totalCpuMs": 23.400000005960464,
+          "calls": 445,
+          "triangles": 1007220
+        },
+        {
+          "buddyUpdateMs": 0.20000001788139343,
+          "renderSubmitMs": 15.5,
+          "totalCpuMs": 18.099999994039536,
+          "calls": 445,
+          "triangles": 1007220
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 12.5,
+          "totalCpuMs": 13.299999982118607,
+          "calls": 445,
+          "triangles": 1007220
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 15.300000011920929,
+          "totalCpuMs": 16.600000023841858,
+          "calls": 445,
+          "triangles": 1007220
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 16.599999994039536,
+          "totalCpuMs": 17.299999982118607,
+          "calls": 445,
+          "triangles": 1007220
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 22.19999998807907,
+          "totalCpuMs": 26.099999994039536,
+          "calls": 445,
+          "triangles": 1007220
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 12.699999988079071,
+          "totalCpuMs": 13.5,
+          "calls": 445,
+          "triangles": 1007220
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 19,
+          "totalCpuMs": 20.19999998807907,
+          "calls": 445,
+          "triangles": 1007220
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 23.799999982118607,
+          "totalCpuMs": 25.599999994039536,
+          "calls": 445,
+          "triangles": 1007220
+        },
+        {
+          "buddyUpdateMs": 0.19999998807907104,
+          "renderSubmitMs": 38.099999994039536,
+          "totalCpuMs": 41,
+          "calls": 445,
+          "triangles": 1007220
+        },
+        {
+          "buddyUpdateMs": 0.09999999403953552,
+          "renderSubmitMs": 35.5,
+          "totalCpuMs": 37.29999998211861,
+          "calls": 445,
+          "triangles": 1007220
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 42,
+          "totalCpuMs": 45,
+          "calls": 445,
+          "triangles": 1007220
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 33.30000001192093,
+          "totalCpuMs": 35.30000001192093,
+          "calls": 445,
+          "triangles": 1007220
+        },
+        {
+          "buddyUpdateMs": 0.09999999403953552,
+          "renderSubmitMs": 35.5,
+          "totalCpuMs": 38,
+          "calls": 445,
+          "triangles": 1007220
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 38.900000005960464,
+          "totalCpuMs": 40.69999998807907,
+          "calls": 445,
+          "triangles": 1007220
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 38.900000005960464,
+          "totalCpuMs": 42.400000005960464,
+          "calls": 445,
+          "triangles": 1007220
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 34,
+          "totalCpuMs": 35.900000005960464,
+          "calls": 445,
+          "triangles": 1007220
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 26.19999998807907,
+          "totalCpuMs": 28.599999994039536,
+          "calls": 445,
+          "triangles": 1007220
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 31.200000017881393,
+          "totalCpuMs": 33.30000001192093,
+          "calls": 445,
+          "triangles": 1007220
+        }
+      ],
+      "memory": {
+        "geometries": 666,
+        "textures": 1198
+      },
+      "entries": [],
+      "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "shadows": false,
+      "n": 1,
+      "samples": [
+        {
+          "buddyUpdateMs": 0.19999998807907104,
+          "renderSubmitMs": 37.30000001192093,
+          "totalCpuMs": 39,
+          "calls": 446,
+          "triangles": 1011824
+        },
+        {
+          "buddyUpdateMs": 0.4000000059604645,
+          "renderSubmitMs": 35.80000001192093,
+          "totalCpuMs": 37.099999994039536,
+          "calls": 446,
+          "triangles": 1011824
+        },
+        {
+          "buddyUpdateMs": 0.5999999940395355,
+          "renderSubmitMs": 16.80000001192093,
+          "totalCpuMs": 21,
+          "calls": 446,
+          "triangles": 1011824
+        },
+        {
+          "buddyUpdateMs": 0.19999998807907104,
+          "renderSubmitMs": 21.900000005960464,
+          "totalCpuMs": 22.69999998807907,
+          "calls": 446,
+          "triangles": 1011824
+        },
+        {
+          "buddyUpdateMs": 0.19999998807907104,
+          "renderSubmitMs": 29.5,
+          "totalCpuMs": 31.099999994039536,
+          "calls": 446,
+          "triangles": 1011824
+        },
+        {
+          "buddyUpdateMs": 0.5999999940395355,
+          "renderSubmitMs": 33.900000005960464,
+          "totalCpuMs": 36.20000001788139,
+          "calls": 446,
+          "triangles": 1011824
+        },
+        {
+          "buddyUpdateMs": 0.4000000059604645,
+          "renderSubmitMs": 16.19999998807907,
+          "totalCpuMs": 19.19999998807907,
+          "calls": 446,
+          "triangles": 1011824
+        },
+        {
+          "buddyUpdateMs": 0.30000001192092896,
+          "renderSubmitMs": 31.5,
+          "totalCpuMs": 32.30000001192093,
+          "calls": 446,
+          "triangles": 1011824
+        },
+        {
+          "buddyUpdateMs": 0.29999998211860657,
+          "renderSubmitMs": 18.099999994039536,
+          "totalCpuMs": 19.799999982118607,
+          "calls": 446,
+          "triangles": 1011824
+        },
+        {
+          "buddyUpdateMs": 0.5,
+          "renderSubmitMs": 46.80000001192093,
+          "totalCpuMs": 48.80000001192093,
+          "calls": 446,
+          "triangles": 1011824
+        },
+        {
+          "buddyUpdateMs": 0.5999999940395355,
+          "renderSubmitMs": 41.5,
+          "totalCpuMs": 45.599999994039536,
+          "calls": 446,
+          "triangles": 1011824
+        },
+        {
+          "buddyUpdateMs": 0.5999999940395355,
+          "renderSubmitMs": 37,
+          "totalCpuMs": 39.400000005960464,
+          "calls": 446,
+          "triangles": 1011824
+        },
+        {
+          "buddyUpdateMs": 0.699999988079071,
+          "renderSubmitMs": 29.5,
+          "totalCpuMs": 33.69999998807907,
+          "calls": 446,
+          "triangles": 1011824
+        },
+        {
+          "buddyUpdateMs": 0.6000000238418579,
+          "renderSubmitMs": 35.5,
+          "totalCpuMs": 37.10000002384186,
+          "calls": 446,
+          "triangles": 1011824
+        },
+        {
+          "buddyUpdateMs": 0.699999988079071,
+          "renderSubmitMs": 38.69999998807907,
+          "totalCpuMs": 53.39999997615814,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.5,
+          "renderSubmitMs": 37.5,
+          "totalCpuMs": 39.60000002384186,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.7000000178813934,
+          "renderSubmitMs": 18.19999998807907,
+          "totalCpuMs": 22.69999998807907,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.19999998807907104,
+          "renderSubmitMs": 11.900000005960464,
+          "totalCpuMs": 12.599999994039536,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.29999998211860657,
+          "renderSubmitMs": 19.700000017881393,
+          "totalCpuMs": 22.200000017881393,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.4000000059604645,
+          "renderSubmitMs": 16.799999982118607,
+          "totalCpuMs": 18.299999982118607,
+          "calls": 392,
+          "triangles": 1008932
+        }
+      ],
+      "memory": {
+        "geometries": 667,
+        "textures": 1201
+      },
+      "entries": [
+        {
+          "owner": "p0",
+          "visible": true,
+          "motion": "Idle"
+        }
+      ],
+      "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "shadows": false,
+      "n": 4,
+      "samples": [
+        {
+          "buddyUpdateMs": 0.7000000178813934,
+          "renderSubmitMs": 20.5,
+          "totalCpuMs": 22.400000005960464,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 1.9000000059604645,
+          "renderSubmitMs": 44.5,
+          "totalCpuMs": 47.79999998211861,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 1.7999999821186066,
+          "renderSubmitMs": 27.30000001192093,
+          "totalCpuMs": 32.30000001192093,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 0.800000011920929,
+          "renderSubmitMs": 13.400000005960464,
+          "totalCpuMs": 15,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 0.6000000238418579,
+          "renderSubmitMs": 10.5,
+          "totalCpuMs": 12.400000005960464,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 0.7999999821186066,
+          "renderSubmitMs": 10.700000017881393,
+          "totalCpuMs": 12.099999994039536,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 0.5999999940395355,
+          "renderSubmitMs": 13,
+          "totalCpuMs": 14.599999994039536,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 0.5999999940395355,
+          "renderSubmitMs": 32.29999998211861,
+          "totalCpuMs": 33.69999998807907,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 1.800000011920929,
+          "renderSubmitMs": 28.30000001192093,
+          "totalCpuMs": 33.10000002384186,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 1.5,
+          "renderSubmitMs": 29.30000001192093,
+          "totalCpuMs": 32,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 1.2999999821186066,
+          "renderSubmitMs": 28.80000001192093,
+          "totalCpuMs": 32.599999994039536,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 1.800000011920929,
+          "renderSubmitMs": 36.29999998211861,
+          "totalCpuMs": 39.599999994039536,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 1.7000000178813934,
+          "renderSubmitMs": 18.799999982118607,
+          "totalCpuMs": 23.5,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 0.699999988079071,
+          "renderSubmitMs": 12.599999994039536,
+          "totalCpuMs": 14,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 0.5999999940395355,
+          "renderSubmitMs": 24.299999982118607,
+          "totalCpuMs": 27.099999994039536,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 1,
+          "renderSubmitMs": 20.099999994039536,
+          "totalCpuMs": 22.400000005960464,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 1.4000000059604645,
+          "renderSubmitMs": 29.5,
+          "totalCpuMs": 33,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 2.0999999940395355,
+          "renderSubmitMs": 27.599999994039536,
+          "totalCpuMs": 31.400000005960464,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 0.7999999821186066,
+          "renderSubmitMs": 29.200000017881393,
+          "totalCpuMs": 32.80000001192093,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 2.5999999940395355,
+          "renderSubmitMs": 31.099999994039536,
+          "totalCpuMs": 34.69999998807907,
+          "calls": 395,
+          "triangles": 1015852
+        }
+      ],
+      "memory": {
+        "geometries": 670,
+        "textures": 1210
+      },
+      "entries": [
+        {
+          "owner": "p0",
+          "visible": true,
+          "motion": "Idle"
+        },
+        {
+          "owner": "p1",
+          "visible": true,
+          "motion": "Idle"
+        },
+        {
+          "owner": "p2",
+          "visible": true,
+          "motion": "Idle"
+        },
+        {
+          "owner": "p3",
+          "visible": true,
+          "motion": "Idle"
+        }
+      ],
+      "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "shadows": false,
+      "n": 0,
+      "samples": [
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 27.80000001192093,
+          "totalCpuMs": 29.80000001192093,
+          "calls": 391,
+          "triangles": 1004328
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 32.30000001192093,
+          "totalCpuMs": 33.5,
+          "calls": 391,
+          "triangles": 1004328
+        },
+        {
+          "buddyUpdateMs": 0.09999999403953552,
+          "renderSubmitMs": 25.200000017881393,
+          "totalCpuMs": 28.19999998807907,
+          "calls": 391,
+          "triangles": 1004328
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 24.200000017881393,
+          "totalCpuMs": 24.80000001192093,
+          "calls": 391,
+          "triangles": 1004328
+        },
+        {
+          "buddyUpdateMs": 0.09999999403953552,
+          "renderSubmitMs": 32.80000001192093,
+          "totalCpuMs": 35.69999998807907,
+          "calls": 391,
+          "triangles": 1004328
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 27.899999976158142,
+          "totalCpuMs": 29.19999998807907,
+          "calls": 391,
+          "triangles": 1004328
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 11,
+          "totalCpuMs": 12.700000017881393,
+          "calls": 391,
+          "triangles": 1004328
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 10.299999982118607,
+          "totalCpuMs": 10.799999982118607,
+          "calls": 391,
+          "triangles": 1004328
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 10.100000023841858,
+          "totalCpuMs": 11.100000023841858,
+          "calls": 391,
+          "triangles": 1004328
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 10.099999994039536,
+          "totalCpuMs": 10.599999994039536,
+          "calls": 391,
+          "triangles": 1004328
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 10.400000005960464,
+          "totalCpuMs": 11.5,
+          "calls": 391,
+          "triangles": 1004328
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 10.599999994039536,
+          "totalCpuMs": 11.099999994039536,
+          "calls": 391,
+          "triangles": 1004328
+        },
+        {
+          "buddyUpdateMs": 0.09999999403953552,
+          "renderSubmitMs": 11.100000023841858,
+          "totalCpuMs": 12.300000011920929,
+          "calls": 391,
+          "triangles": 1004328
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 10,
+          "totalCpuMs": 10.399999976158142,
+          "calls": 391,
+          "triangles": 1004328
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 10.099999994039536,
+          "totalCpuMs": 11.200000017881393,
+          "calls": 391,
+          "triangles": 1004328
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 10.199999988079071,
+          "totalCpuMs": 10.699999988079071,
+          "calls": 391,
+          "triangles": 1004328
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 13.900000005960464,
+          "totalCpuMs": 15,
+          "calls": 391,
+          "triangles": 1004328
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 22.399999976158142,
+          "totalCpuMs": 23.099999994039536,
+          "calls": 391,
+          "triangles": 1004328
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 29,
+          "totalCpuMs": 30.30000001192093,
+          "calls": 391,
+          "triangles": 1004328
+        },
+        {
+          "buddyUpdateMs": 0,
+          "renderSubmitMs": 32.5,
+          "totalCpuMs": 33.900000005960464,
+          "calls": 391,
+          "triangles": 1004328
+        }
+      ],
+      "memory": {
+        "geometries": 666,
+        "textures": 1198
+      },
+      "entries": [],
+      "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "shadows": false,
+      "n": 1,
+      "samples": [
+        {
+          "buddyUpdateMs": 0.19999998807907104,
+          "renderSubmitMs": 16.30000001192093,
+          "totalCpuMs": 19.700000017881393,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.19999998807907104,
+          "renderSubmitMs": 17.30000001192093,
+          "totalCpuMs": 18,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.30000001192092896,
+          "renderSubmitMs": 13.5,
+          "totalCpuMs": 15.199999988079071,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.20000001788139343,
+          "renderSubmitMs": 12.399999976158142,
+          "totalCpuMs": 13.199999988079071,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.20000001788139343,
+          "renderSubmitMs": 12.5,
+          "totalCpuMs": 13.700000017881393,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.09999999403953552,
+          "renderSubmitMs": 11.099999994039536,
+          "totalCpuMs": 11.799999982118607,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.19999998807907104,
+          "renderSubmitMs": 11.900000005960464,
+          "totalCpuMs": 13.200000017881393,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.19999998807907104,
+          "renderSubmitMs": 14,
+          "totalCpuMs": 14.799999982118607,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.3999999761581421,
+          "renderSubmitMs": 30.900000005960464,
+          "totalCpuMs": 32.900000005960464,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.800000011920929,
+          "renderSubmitMs": 27.400000005960464,
+          "totalCpuMs": 29.30000001192093,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.29999998211860657,
+          "renderSubmitMs": 15.300000011920929,
+          "totalCpuMs": 17.099999994039536,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.30000001192092896,
+          "renderSubmitMs": 21.69999998807907,
+          "totalCpuMs": 22.599999994039536,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.20000001788139343,
+          "renderSubmitMs": 21.799999982118607,
+          "totalCpuMs": 23.599999994039536,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.5,
+          "renderSubmitMs": 23.899999976158142,
+          "totalCpuMs": 26,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.3999999761581421,
+          "renderSubmitMs": 16.80000001192093,
+          "totalCpuMs": 19.80000001192093,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.09999999403953552,
+          "renderSubmitMs": 12.700000017881393,
+          "totalCpuMs": 13.300000011920929,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.30000001192092896,
+          "renderSubmitMs": 35.099999994039536,
+          "totalCpuMs": 36.69999998807907,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.4000000059604645,
+          "renderSubmitMs": 36,
+          "totalCpuMs": 37.30000001192093,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.699999988079071,
+          "renderSubmitMs": 33.400000005960464,
+          "totalCpuMs": 37.19999998807907,
+          "calls": 392,
+          "triangles": 1008932
+        },
+        {
+          "buddyUpdateMs": 0.5,
+          "renderSubmitMs": 26.19999998807907,
+          "totalCpuMs": 28.099999994039536,
+          "calls": 392,
+          "triangles": 1008932
+        }
+      ],
+      "memory": {
+        "geometries": 667,
+        "textures": 1201
+      },
+      "entries": [
+        {
+          "owner": "p0",
+          "visible": true,
+          "motion": "Idle"
+        }
+      ],
+      "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "shadows": false,
+      "n": 4,
+      "samples": [
+        {
+          "buddyUpdateMs": 0.5999999940395355,
+          "renderSubmitMs": 10.699999988079071,
+          "totalCpuMs": 12.399999976158142,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 0.5999999940395355,
+          "renderSubmitMs": 9.900000005960464,
+          "totalCpuMs": 11.100000023841858,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 0.5999999940395355,
+          "renderSubmitMs": 10.699999988079071,
+          "totalCpuMs": 12.299999982118607,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 0.6000000238418579,
+          "renderSubmitMs": 10.399999976158142,
+          "totalCpuMs": 11.5,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 0.6000000238418579,
+          "renderSubmitMs": 9.899999976158142,
+          "totalCpuMs": 11.5,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 0.5999999940395355,
+          "renderSubmitMs": 17.400000005960464,
+          "totalCpuMs": 18.400000005960464,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 0.7999999821186066,
+          "renderSubmitMs": 24.5,
+          "totalCpuMs": 27.099999994039536,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 1.5999999940395355,
+          "renderSubmitMs": 28.19999998807907,
+          "totalCpuMs": 30.900000005960464,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 1,
+          "renderSubmitMs": 18.80000001192093,
+          "totalCpuMs": 22,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 1.0999999940395355,
+          "renderSubmitMs": 38.69999998807907,
+          "totalCpuMs": 40.5,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 2.5,
+          "renderSubmitMs": 32.099999994039536,
+          "totalCpuMs": 38.30000001192093,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 1.7999999821186066,
+          "renderSubmitMs": 26.599999994039536,
+          "totalCpuMs": 29.799999982118607,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 2.199999988079071,
+          "renderSubmitMs": 35.69999998807907,
+          "totalCpuMs": 41.5,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 1.600000023841858,
+          "renderSubmitMs": 22.099999994039536,
+          "totalCpuMs": 25.200000017881393,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 1.5,
+          "renderSubmitMs": 30.30000001192093,
+          "totalCpuMs": 34.099999994039536,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 0.8999999761581421,
+          "renderSubmitMs": 33.60000002384186,
+          "totalCpuMs": 35.30000001192093,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 2.5,
+          "renderSubmitMs": 38.19999998807907,
+          "totalCpuMs": 44.29999998211861,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 1.800000011920929,
+          "renderSubmitMs": 26.5,
+          "totalCpuMs": 29.700000017881393,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 1.2999999821186066,
+          "renderSubmitMs": 27.200000017881393,
+          "totalCpuMs": 31,
+          "calls": 395,
+          "triangles": 1015852
+        },
+        {
+          "buddyUpdateMs": 1.199999988079071,
+          "renderSubmitMs": 26.200000017881393,
+          "totalCpuMs": 28.099999994039536,
+          "calls": 395,
+          "triangles": 1015852
+        }
+      ],
+      "memory": {
+        "geometries": 670,
+        "textures": 1210
+      },
+      "entries": [
+        {
+          "owner": "p0",
+          "visible": true,
+          "motion": "Idle"
+        },
+        {
+          "owner": "p1",
+          "visible": true,
+          "motion": "Idle"
+        },
+        {
+          "owner": "p2",
+          "visible": true,
+          "motion": "Idle"
+        },
+        {
+          "owner": "p3",
+          "visible": true,
+          "motion": "Idle"
+        }
+      ],
+      "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    },
+    {
+      "type": "oriha-coil-full-loop",
+      "mixerTime": 0.016666666666666666,
+      "clip": "Coil",
+      "clipTime": 0.016666666666666666,
+      "duration": 4.0333333015441895
+    },
+    {
+      "type": "oriha-coil-full-loop",
+      "mixerTime": 1.016666666666668,
+      "clip": "Coil",
+      "clipTime": 1.016666666666668,
+      "duration": 4.0333333015441895
+    },
+    {
+      "type": "oriha-coil-full-loop",
+      "mixerTime": 3.016666666666661,
+      "clip": "Coil",
+      "clipTime": 3.016666666666661,
+      "duration": 4.0333333015441895
+    },
+    {
+      "type": "oriha-coil-full-loop",
+      "mixerTime": 4.0666666666666575,
+      "clip": "Coil",
+      "clipTime": 0.03333336512246821,
+      "duration": 4.0333333015441895
+    },
+    {
+      "type": "released-memory",
+      "memory": {
+        "geometries": 666,
+        "textures": 1198
+      }
+    }
+  ],
+  "errors": []
+}

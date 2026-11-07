@@ -17,7 +17,9 @@ try {
   for (const [width, height] of [
     [844, 390],
     [640, 360],
+    [568, 320],
   ]) {
+    if (process.env.WIDTH && width !== Number(process.env.WIDTH)) continue;
     const page = await browser.newPage({
       viewport: { width, height },
       hasTouch: true,
@@ -45,12 +47,13 @@ window.rewardDetailFixture = async () => {
   const { freshProgress, loadProgress } = await import('/src/client/progression-save.ts');
   mode = 'normal'; save = loadProgress('normal') ?? freshProgress('normal');
   save.tutorials = ['gear','armory','base','battle'];
-  const items = Object.keys(WEAPONS).map((kind, i) => makeWeapon('detail-' + kind, kind, i % 5, { power: 20, reload: -10, range: 10, rate: 20 }, false, save.serial++, 'none'));
+  const kinds = ${process.env.SHOTGUN_RARITIES === "1" ? "Array(5).fill('shotgun')" : "Object.keys(WEAPONS)"};
+  const items = kinds.map((kind, i) => makeWeapon('detail-' + kind + '-' + i, kind, i % 5, { power: 20, reload: -10, range: 10, rate: 20 }, false, save.serial++, 'none'));
   save.inventory.push(...items);
   save.result = { run:'detail-fixture', stage:1, difficulty:'normal', win:true, time:307, kills:176, missions:[true,false,true], first:false, coins:70, firstCoins:0, weapons:items, bonus:[], collected:items.length, choice:'normal', collectionDone:true };
   save.receipts.push(save.result.run);
   persistProgress(save); result();
-  return items.map(w => ({ id:w.id, kind:w.kind, name:WEAPONS[w.kind].name }));
+  return items.map(w => ({ id:w.id, kind:w.kind, rarity:w.rarity, name:WEAPONS[w.kind].name }));
 };`,
         });
       },
@@ -91,6 +94,7 @@ window.rewardDetailFixture = async () => {
     const rawBefore = await page.evaluate(() =>
       localStorage.getItem("swarm-front-shared-progress-v3"),
     );
+    const detailLayouts = [];
     for (const item of items) {
       const name = page.locator(`[data-detail="${item.id}"]`);
       const p = await point(name);
@@ -105,8 +109,38 @@ window.rewardDetailFixture = async () => {
         ),
       );
       assert.equal(await page.locator("#pt-comparison tr").count(), 6);
+      assert.equal(await page.locator(".weapon-detail-dialog select").count(), 0);
+      assert.equal(await page.locator("#pt-share").innerText(), "共有");
+      assert.equal(await page.locator("#pt-detail-lock").isEnabled(), true);
       await page.locator("#pt-weapon-preview canvas").waitFor();
-      console.log(`${width}: ${item.kind} detail and model verified`);
+      const preview = await page.locator("#pt-weapon-preview canvas").evaluate(canvas => {
+        const copy = document.createElement("canvas");
+        copy.width = canvas.width; copy.height = canvas.height;
+        const ctx = copy.getContext("2d"); ctx.drawImage(canvas, 0, 0);
+        const pixels = ctx.getImageData(0, 0, copy.width, copy.height).data;
+        let foreground = 0;
+        for (let i = 0; i < pixels.length; i += 4) {
+          if (pixels[i + 3] && Math.abs(pixels[i] - 17) + Math.abs(pixels[i + 1] - 35) + Math.abs(pixels[i + 2] - 47) > 30) foreground++;
+        }
+        return { foreground, total: copy.width * copy.height, width: copy.width, height: copy.height };
+      });
+      await page.screenshot({ path: `${out}/${width}-${item.kind}-detail.png` });
+      if (process.env.SHOTGUN_RARITIES === "1") await page.screenshot({ path: `${out}/${width}-shotgun-r${item.rarity}.png` });
+      assert.ok(preview.foreground > 100, `${item.kind}: blank preview ${JSON.stringify(preview)}`);
+      const layout = await page.locator(".weapon-detail-dialog").evaluate((dialog) => {
+        const rect = (selector) => dialog.querySelector(selector).getBoundingClientRect();
+        const visual = rect(".weapon-detail-visual"), data = rect("#pt-comparison");
+        const lock = rect("#pt-detail-lock"), share = rect("#pt-share"), box = dialog.getBoundingClientRect();
+        const overflow = [dialog, ...dialog.querySelectorAll(".menu-dialog-body,.weapon-detail-layout,#pt-comparison")]
+          .map(el => ({ tag: el.className || el.id, x: el.scrollWidth - el.clientWidth, y: el.scrollHeight - el.clientHeight }));
+        return { overflow, sideBySide: visual.right <= data.left + 2,
+          aligned: Math.abs(lock.top - share.top) <= 2 && Math.abs(lock.height - share.height) <= 2 && lock.height >= 43 && share.height >= 43,
+          visible: box.left >= -1 && box.top >= -1 && box.right <= innerWidth + 1 && box.bottom <= innerHeight + 1 };
+      });
+      detailLayouts.push({ kind: item.kind, preview, ...layout });
+      assert.ok(layout.visible && layout.sideBySide && layout.aligned, JSON.stringify(layout));
+      assert.ok(layout.overflow.every(v => v.x <= 2 && v.y <= 2), JSON.stringify(layout));
+      console.log(`${width}: ${item.kind} detail and preview canvas verified`);
       if (item.kind === "kick")
         await page.screenshot({ path: `${out}/${width}-detail.png` });
       await dismiss();
@@ -175,7 +209,9 @@ window.rewardDetailFixture = async () => {
       width,
       height,
       allWeaponDetails: items.length,
-      previewModels: items.length,
+      previewCanvases: items.length,
+      detailLayouts,
+      savedDetailLockEnabled: true,
       nativeTouchHold: true,
       cancelAndScroll: true,
       tapKeyboard: true,

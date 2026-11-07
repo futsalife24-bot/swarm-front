@@ -181,7 +181,7 @@ describe("追従の通行と採用素材", () => {
       z: -1.8,
     });
   });
-  it("固定された採用4GLBが実クリップと一致し、テクスチャや旧版を追加しない", () => {
+  it("採用4GLBが実クリップと一致し、埋込画像2枚・1材質を維持する", () => {
     for (const [kind, def] of Object.entries(BUDDY_ASSETS)) {
       const data = readFileSync(`public/assets/buddy/${def.file}`);
       expect(data.readUInt32LE(0)).toBe(0x46546c67);
@@ -197,7 +197,14 @@ describe("追従の通行と採用素材", () => {
           ...(kind === "oriha" ? ["Coil"] : []),
         ].sort(),
       );
-      expect(json.textures ?? []).toHaveLength(0);
+      expect(json.textures ?? []).toHaveLength(2);
+      expect(json.images).toHaveLength(2);
+      expect(
+        json.images.every(
+          (image: { bufferView?: number; uri?: string }) =>
+            Number.isInteger(image.bufferView) && !image.uri,
+        ),
+      ).toBe(true);
       expect(json.materials).toHaveLength(1);
     }
   });
@@ -230,7 +237,12 @@ describe("バディ発動クリップと接地", () => {
         const bytes = readFileSync(
           `public/assets/buddy/${BUDDY_ASSETS[kind].file}`,
         );
-        return new GLTFLoader().parseAsync(
+        // Nodeでは画像デコードだけを代替する。実画像の読込はブラウザQAで検証。
+        const loader = new GLTFLoader().register(() => ({
+          name: "node-animation-texture-fixture",
+          loadTexture: async () => new T.Texture(),
+        }));
+        return loader.parseAsync(
           bytes.buffer.slice(
             bytes.byteOffset,
             bytes.byteOffset + bytes.byteLength,

@@ -1,0 +1,170 @@
+[
+  {
+    "variant": "original",
+    "width": 844,
+    "n": 0,
+    "calls": 445,
+    "triangles": 1007220,
+    "cpuMedianMs": 28.1,
+    "cpuMaxMs": 57.9,
+    "memory": {
+      "geometries": 666,
+      "textures": 1198
+    },
+    "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  {
+    "variant": "original",
+    "width": 844,
+    "n": 1,
+    "calls": 392,
+    "triangles": 1006252,
+    "cpuMedianMs": 38.3,
+    "cpuMaxMs": 51.1,
+    "memory": {
+      "geometries": 667,
+      "textures": 1199
+    },
+    "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  {
+    "variant": "original",
+    "width": 844,
+    "n": 4,
+    "calls": 395,
+    "triangles": 1010904,
+    "cpuMedianMs": 24.55,
+    "cpuMaxMs": 41.6,
+    "memory": {
+      "geometries": 670,
+      "textures": 1202
+    },
+    "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  {
+    "variant": "original",
+    "width": 640,
+    "n": 0,
+    "calls": 391,
+    "triangles": 1004328,
+    "cpuMedianMs": 33.05,
+    "cpuMaxMs": 45.9,
+    "memory": {
+      "geometries": 666,
+      "textures": 1198
+    },
+    "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  {
+    "variant": "original",
+    "width": 640,
+    "n": 1,
+    "calls": 392,
+    "triangles": 1006252,
+    "cpuMedianMs": 39.0,
+    "cpuMaxMs": 44.6,
+    "memory": {
+      "geometries": 667,
+      "textures": 1199
+    },
+    "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  {
+    "variant": "original",
+    "width": 640,
+    "n": 4,
+    "calls": 395,
+    "triangles": 1010904,
+    "cpuMedianMs": 33.55,
+    "cpuMaxMs": 51.3,
+    "memory": {
+      "geometries": 670,
+      "textures": 1202
+    },
+    "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  {
+    "variant": "candidate",
+    "width": 844,
+    "n": 0,
+    "calls": 445,
+    "triangles": 1007220,
+    "cpuMedianMs": 27.35,
+    "cpuMaxMs": 45,
+    "memory": {
+      "geometries": 666,
+      "textures": 1198
+    },
+    "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  {
+    "variant": "candidate",
+    "width": 844,
+    "n": 1,
+    "calls": 392,
+    "triangles": 1008932,
+    "cpuMedianMs": 33.0,
+    "cpuMaxMs": 53.4,
+    "memory": {
+      "geometries": 667,
+      "textures": 1201
+    },
+    "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  {
+    "variant": "candidate",
+    "width": 844,
+    "n": 4,
+    "calls": 395,
+    "triangles": 1015852,
+    "cpuMedianMs": 31.7,
+    "cpuMaxMs": 47.8,
+    "memory": {
+      "geometries": 670,
+      "textures": 1210
+    },
+    "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  {
+    "variant": "candidate",
+    "width": 640,
+    "n": 0,
+    "calls": 391,
+    "triangles": 1004328,
+    "cpuMedianMs": 13.85,
+    "cpuMaxMs": 35.7,
+    "memory": {
+      "geometries": 666,
+      "textures": 1198
+    },
+    "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  {
+    "variant": "candidate",
+    "width": 640,
+    "n": 1,
+    "calls": 392,
+    "triangles": 1008932,
+    "cpuMedianMs": 19.75,
+    "cpuMaxMs": 37.3,
+    "memory": {
+      "geometries": 667,
+      "textures": 1201
+    },
+    "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  {
+    "variant": "candidate",
+    "width": 640,
+    "n": 4,
+    "calls": 395,
+    "triangles": 1015852,
+    "cpuMedianMs": 28.9,
+    "cpuMaxMs": 44.3,
+    "memory": {
+      "geometries": 670,
+      "textures": 1210
+    },
+    "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  }
+]

@@ -1,0 +1,1 @@
+export default {test:{include:["docs/evidence/buddy-brushup-adoption-20261107/four-peer-charge.test.ts"],testTimeout:35000,fileParallelism:false}};

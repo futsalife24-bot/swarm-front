@@ -30,6 +30,7 @@ import "../menu-theme.css";
 import "./playtest.css";
 import "./gear-weapon-list.css";
 import { bindRewardWeaponDetails } from "./reward-weapon-details";
+import { openWeaponDetail } from "./weapon-detail";
 import { growthMarkup, bindGrowthUI, growthConfirmation } from "./growth-ui";
 import {
   openSurvivalTraining,
@@ -38,9 +39,7 @@ import {
 import {
   menuAssemble,
   menuEquip,
-  menuGlow,
   menuGrowthSaved,
-  menuShine,
   menuTerrain,
 } from "./menu-effects";
 import {
@@ -141,9 +140,8 @@ import {
   victoryCoins,
   stageLabel,
   missionKey,
-  varianceClass,
-  varianceMark,
   weaponStatVariance,
+  varianceMark,
   makeWeapon,
   type NewWeapon,
   type StoredWeapon,
@@ -621,7 +619,11 @@ function finishDaily(interrupted = false) {
       const ledger = save.dailyDefense!;
       ui.innerHTML = `<div class="daily-cinematic"><strong>${outcome === "victory" ? "武器庫を守り抜いた" : d.armory.hp <= 0 ? "武器庫が破壊された" : "防衛作戦終了"}</strong></div>`;
       const showResult = () => {
-        if (world !== w || screen !== "daily-cinematic") return;
+        if (
+          world !== w ||
+          !["daily-cinematic", "daily-result"].includes(screen)
+        )
+          return;
         setScreen("daily-result");
         backgroundMusic().setScreen("result", outcome === "victory");
         const items = allWeapons(save).filter((item) =>
@@ -632,9 +634,22 @@ function finishDaily(interrupted = false) {
           `<p>${esc(w.reason)} · 保証1個 / 道中${ledger.collected.length}個 / 追加${ledger.bonus}個${outcome === "defeat" ? " · 武装片5個" : ""}</p><button id="pt-daily-home">ホームへ戻る</button>${gearWeaponRows(items, save, false, new Set())}`,
           false,
         );
-        ui.querySelectorAll<HTMLButtonElement>(
-          "[data-lock],[data-detail]",
-        ).forEach((b) => (b.disabled = true));
+        const open = (id: string) => {
+          const weapon = allWeapons(save).find((item) => item.id === id);
+          if (weapon && items.some((item) => item.id === id))
+            detail(weapon, "daily-result", showResult);
+        };
+        releaseRewardDetails = bindRewardWeaponDetails(ui, open);
+        ui.querySelectorAll<HTMLButtonElement>("[data-detail]").forEach(
+          (button) => {
+            button.onclick = () => open(button.dataset.detail!);
+          },
+        );
+        ui.querySelectorAll<HTMLButtonElement>("[data-lock]").forEach(
+          (button) => {
+            button.onclick = () => toggleLock(button.dataset.lock!, showResult);
+          },
+        );
         bind("pt-daily-home", home);
       };
       setTimeout(showResult, interrupted ? 0 : 2400);
@@ -1746,18 +1761,6 @@ function gear() {
   bindList("gear");
 }
 
-function metric(w: StoredWeapon, key: string) {
-  const d = stats(w);
-  return key === "power"
-    ? d.damage.toFixed(0)
-    : key === "reload"
-      ? d.reload.toFixed(2)
-      : key === "range"
-        ? d.range.toFixed(1)
-        : key === "rate"
-          ? (1 / d.interval).toFixed(2)
-          : String(d.mag);
-}
 function metricValue(w: StoredWeapon, key: string) {
   const d = stats(w);
   return key === "power"
@@ -1769,10 +1772,6 @@ function metricValue(w: StoredWeapon, key: string) {
         : key === "rate"
           ? 1 / d.interval
           : d.mag;
-}
-function metricDifference(w: StoredWeapon, base: StoredWeapon, key: string) {
-  const delta = metricValue(w, key) - metricValue(base, key);
-  return `${delta > 0 ? "+" : ""}${delta.toFixed(2)}`;
 }
 function weaponList(items: StoredWeapon[], context: string) {
   const shown = items
@@ -2148,26 +2147,44 @@ function equipWeapon(id: string, slot: number, after: () => void) {
     );
   });
 }
-function detail(w: StoredWeapon, context: string) {
-  const d = dialog(
-    `${WEAPONS[w.kind].name} / ${weaponGrade(w)}`,
-    `<div id="pt-weapon-preview"></div><p>${esc(effectLabel(w))}</p><label>比較相手 <select id="pt-compare">${soldier(
-      save,
-    )
-      .equipped.map(
-        (id, i) =>
-          `<option value="${id}">装備${i + 1} ${esc(WEAPONS[save.inventory.find((a) => a.id === id)!.kind].name)}</option>`,
-      )
-      .join(
-        "",
-      )}</select></label><div id="pt-comparison"></div><button id="pt-detail-lock">${lockMarkup(save.locks.includes(w.id), true)}</button>${context !== "result" && !save.pending.some((a) => a.id === w.id) ? '<button data-slot="0">装備1へ</button><button data-slot="1">装備2へ</button>' : ""}<button id="pt-share">共有画像</button>`,
-  );
+function detail(w: StoredWeapon, context: string, redraw?: () => void) {
+  const isResult = context === "result" || context === "daily-result";
+  const refresh =
+    redraw ??
+    (() =>
+      context === "result" ? result() : context === "gear" ? gear() : armory());
+  const d = openWeaponDetail(w, {
+    dialog,
+    locked: save.locks.includes(w.id),
+    onLock: () =>
+      toggleLock(w.id, () => {
+        d.close();
+        refresh();
+      }),
+    onShare: () => shareWeapon(w),
+  });
+  const actions = d.querySelector<HTMLElement>(".weapon-detail-actions")!;
+  if (!isResult && !save.pending.some((item) => item.id === w.id)) {
+    for (const slot of [0, 1]) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.dataset.slot = String(slot);
+      button.textContent = "装備" + (slot + 1) + "へ";
+      button.onclick = () =>
+        equipWeapon(w.id, slot, () => {
+          d.close();
+          refresh();
+        });
+      actions.append(button);
+    }
+  }
   if (
     mode === "normal" &&
-    context !== "result" &&
+    !isResult &&
     save.inventory.some((item) => item.id === w.id)
   ) {
     const workshop = document.createElement("button");
+    workshop.type = "button";
     workshop.textContent = "変換・恒久改造";
     workshop.onclick = () => {
       d.close();
@@ -2176,69 +2193,15 @@ function detail(w: StoredWeapon, context: string) {
         localStorage,
         () => {
           save = loadProgress("normal")!;
-          context === "gear" ? gear() : armory();
+          refresh();
         },
         w.id,
       );
     };
-    d.append(workshop);
+    actions.append(workshop);
   }
-  const draw = () => {
-    const base = save.inventory.find(
-      (a) =>
-        a.id === (d.querySelector("#pt-compare") as HTMLSelectElement).value,
-    )!;
-    d.querySelector("#pt-comparison")!.innerHTML =
-      `<table><tr><th>性能</th><th>実数値</th><th>同レア基準差</th><th>装備差分</th></tr>${[
-        ["power", "威力"],
-        ["mag", "装弾"],
-        ["reload", "装填秒"],
-        ["range", "射程m"],
-        ["rate", "連射/秒"],
-      ]
-        .map(
-          ([k, t]) =>
-            `<tr><th>${t}</th><td class="pt-var-${varianceClass(weaponStatVariance(w, k as "mag" | keyof Variances))}">${metric(w, k)}<sup>${varianceMark(weaponStatVariance(w, k as "mag" | keyof Variances))}</sup></td><td>${w.format === 2 && k === "mag" ? "固定" : `${w.format === 2 ? "" : "約"}${weaponStatVariance(w, k as "mag" | keyof Variances) >= 0 ? "+" : ""}${Number(weaponStatVariance(w, k as "mag" | keyof Variances).toFixed(3))}%`}</td><td>${metricDifference(w, base, k)}</td></tr>`,
-        )
-        .join(
-          "",
-        )}</table><p>印は同じ武器種・レア度の標準性能との差です。装填は速度換算、特殊効果は除外。★は+20%ちょうど。</p>`;
-  };
-  if (context === "gear")
-    (d.querySelector("#pt-compare") as HTMLSelectElement).value =
-      soldier(save).equipped[selectedGearSlot];
-  draw();
-  d.querySelector("#pt-compare")!.addEventListener("change", draw);
-  d.querySelector<HTMLButtonElement>("#pt-detail-lock")!.onclick = () =>
-    toggleLock(w.id, () => {
-      d.close();
-      context === "result" ? result() : context === "gear" ? gear() : armory();
-    });
-  d.querySelectorAll<HTMLButtonElement>("[data-slot]").forEach(
-    (b) =>
-      (b.onclick = () => {
-        equipWeapon(w.id, Number(b.dataset.slot), () => {
-          d.close();
-          context === "gear" ? gear() : armory();
-        });
-      }),
-  );
-  d.querySelector<HTMLButtonElement>("#pt-share")!.onclick = () =>
-    void shareWeapon(w);
-  void import("./weapon-sharing")
-    .then((m) =>
-      m.previewWeapon(d.querySelector<HTMLElement>("#pt-weapon-preview")!, w),
-    )
-    .then((dispose) => {
-      if (!d.isConnected) {
-        dispose();
-        return;
-      }
-      d.addEventListener("close", dispose);
-      menuGlow(d.querySelector("#pt-weapon-preview canvas"));
-      menuShine(d.querySelector("#pt-weapon-preview"));
-    });
 }
+
 function growth() {
   tutorial(
     "growth",

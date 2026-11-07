@@ -2,7 +2,7 @@
 export const BUDDY_ASSETS = {
   tatara: {
     name: "タタラ",
-    file: "tatara-v3.glb",
+    file: "tatara-textured-20261107.glb",
     portrait: "tatara.webp",
     display: "Palm",
     radius: 0.93,
@@ -10,7 +10,7 @@ export const BUDDY_ASSETS = {
   },
   yosuga: {
     name: "ヨスガ",
-    file: "yosuga-v5.glb",
+    file: "yosuga-textured-20261107.glb",
     portrait: "yosuga.webp",
     display: "Display",
     radius: 0.52,
@@ -18,7 +18,7 @@ export const BUDDY_ASSETS = {
   },
   tobari: {
     name: "トバリ",
-    file: "tobari-v7.glb",
+    file: "tobari-textured-20261107.glb",
     portrait: "tobari.webp",
     display: "Display",
     radius: 0.43,
@@ -26,7 +26,7 @@ export const BUDDY_ASSETS = {
   },
   oriha: {
     name: "オリハ",
-    file: "oriha-v3.glb",
+    file: "oriha-textured-20261107.glb",
     portrait: "oriha.webp",
     display: "Display",
     radius: 0.88,

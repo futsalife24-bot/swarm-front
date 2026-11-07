@@ -1,0 +1,70 @@
+[
+  {
+    "file": "oriha-textured-20261107.glb",
+    "images": [
+      {
+        "width": 512,
+        "height": 512,
+        "encodedBytes": 270314,
+        "rgbaBytesWithMipmapsEstimate": 1398101
+      },
+      {
+        "width": 512,
+        "height": 512,
+        "encodedBytes": 214946,
+        "rgbaBytesWithMipmapsEstimate": 1398101
+      }
+    ]
+  },
+  {
+    "file": "tatara-textured-20261107.glb",
+    "images": [
+      {
+        "width": 512,
+        "height": 512,
+        "encodedBytes": 336242,
+        "rgbaBytesWithMipmapsEstimate": 1398101
+      },
+      {
+        "width": 512,
+        "height": 512,
+        "encodedBytes": 238909,
+        "rgbaBytesWithMipmapsEstimate": 1398101
+      }
+    ]
+  },
+  {
+    "file": "tobari-textured-20261107.glb",
+    "images": [
+      {
+        "width": 512,
+        "height": 512,
+        "encodedBytes": 111011,
+        "rgbaBytesWithMipmapsEstimate": 1398101
+      },
+      {
+        "width": 512,
+        "height": 512,
+        "encodedBytes": 133279,
+        "rgbaBytesWithMipmapsEstimate": 1398101
+      }
+    ]
+  },
+  {
+    "file": "yosuga-textured-20261107.glb",
+    "images": [
+      {
+        "width": 512,
+        "height": 512,
+        "encodedBytes": 309905,
+        "rgbaBytesWithMipmapsEstimate": 1398101
+      },
+      {
+        "width": 512,
+        "height": 512,
+        "encodedBytes": 216657,
+        "rgbaBytesWithMipmapsEstimate": 1398101
+      }
+    ]
+  }
+]

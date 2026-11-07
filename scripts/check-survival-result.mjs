@@ -2,6 +2,7 @@
 import { chromium, expect } from "@playwright/test";
 import fs from "node:fs";
 const origin = process.env.ORIGIN ?? "http://127.0.0.1:5186";
+if (!/^http:\/\/127\.0\.0\.1:\d+$/.test(origin)) throw Error("Local fixture only");
 const baseline = process.env.BASELINE === "1";
 const out = process.argv[2] ?? "dist-validation/survival-result-rewards";
 fs.mkdirSync(out, { recursive: true });
@@ -10,11 +11,14 @@ const browser = await chromium.launch({
   args: ["--use-angle=d3d11"],
 });
 const results = [];
+let activePage;
 try {
   for (const [width, height] of [
     [844, 390],
     [640, 360],
+    [568, 320],
   ]) {
+    if (process.env.WIDTH && width !== Number(process.env.WIDTH)) continue;
     for (const scenario of process.env.SCENARIO
       ? [process.env.SCENARIO]
       : ["return", "defeat", "short", "save-failure"]) {
@@ -24,6 +28,7 @@ try {
         serviceWorkers: "block",
         reducedMotion: width === 844 ? "no-preference" : "reduce",
       });
+      activePage = page;
       page.setDefaultTimeout(60000);
       const errors = [];
       page.on("pageerror", (e) => errors.push(e.message));
@@ -76,8 +81,75 @@ window.resultFixture = (scenario) => {
       await page.evaluate((s) => window.resultFixture(s), scenario);
       await page.locator("#front-leave").waitFor();
       await page.locator(".operation-cue").waitFor({ state: "detached" });
+      const detailChecks = [];
+      const checkDetail = async (saved) => {
+        const name = page.locator("#ui [data-detail]").first();
+        const id = await name.getAttribute("data-detail");
+        const rowLock = page.locator(`#ui [data-lock="${id}"]`);
+        if (saved) await expect(rowLock).toBeEnabled();
+        else await expect(rowLock).toBeDisabled();
+        const rowLayout = await rowLock.evaluate(button => {
+          const row = button.closest("[data-row]"), r = row.getBoundingClientRect();
+          const b = button.getBoundingClientRect(), n = row.querySelector("[data-detail]").getBoundingClientRect();
+          return { rightmost: b.left >= n.right - 1 && b.right <= r.right + 1,
+            withinRow: b.top >= r.top - 1 && b.bottom <= r.bottom + 1 };
+        });
+        expect(rowLayout.rightmost && rowLayout.withinRow, JSON.stringify(rowLayout)).toBe(true);
+        const before = await page.evaluate(() => localStorage.getItem("swarm-front-shared-progress-v3"));
+        await name.tap();
+        const dialog = page.locator(".weapon-detail-dialog[open]");
+        await expect(dialog).toBeVisible();
+        await expect(dialog.locator("#pt-comparison tr")).toHaveCount(6);
+        await expect(dialog.locator("select")).toHaveCount(0);
+        await expect(dialog.locator("#pt-share")).toHaveText("共有");
+        if (saved) await expect(dialog.locator("#pt-detail-lock")).toBeEnabled();
+        else {
+          await expect(dialog.locator("#pt-detail-lock")).toBeDisabled();
+          await expect(dialog.locator(".weapon-detail-note")).toContainText("未保存");
+        }
+        await dialog.locator("#pt-weapon-preview canvas").waitFor();
+        if (!saved) {
+          const noteLayout = await dialog.evaluate(d => {
+            const note = d.querySelector(".weapon-detail-note").getBoundingClientRect();
+            const body = d.querySelector(".menu-dialog-body").getBoundingClientRect();
+            const overlaps = [...d.querySelectorAll(".weapon-detail-actions button")].some(el => {
+              const b = el.getBoundingClientRect();
+              return note.left < b.right && note.right > b.left && note.top < b.bottom && note.bottom > b.top;
+            });
+            return { overlaps, visible: note.top >= body.top - 1 && note.bottom <= body.bottom + 1 && note.left >= body.left - 1 && note.right <= body.right + 1 };
+          });
+          expect(noteLayout.visible && !noteLayout.overlaps, JSON.stringify(noteLayout)).toBe(true);
+        }
+        const layout = await dialog.evaluate(d => {
+          const rect = selector => d.querySelector(selector).getBoundingClientRect();
+          const a = rect("#pt-detail-lock"), b = rect("#pt-share"), box = d.getBoundingClientRect();
+          return {
+            overflow: [d, ...d.querySelectorAll(".menu-dialog-body,.weapon-detail-layout,#pt-comparison")]
+              .map(el => ({ tag: el.className || el.id, x: el.scrollWidth - el.clientWidth, y: el.scrollHeight - el.clientHeight })),
+            aligned: Math.abs(a.top - b.top) <= 2 && Math.abs(a.height - b.height) <= 2 && a.height >= 43 && b.height >= 43,
+            sideBySide: rect(".weapon-detail-visual").right <= rect("#pt-comparison").left + 2,
+            visible: box.left >= -1 && box.top >= -1 && box.right <= innerWidth + 1 && box.bottom <= innerHeight + 1,
+          };
+        });
+        detailChecks.push({ saved, id, rowLayout, layout });
+        expect(layout.aligned && layout.sideBySide && layout.visible, JSON.stringify(layout)).toBe(true);
+        expect(layout.overflow.every(v => v.x <= 2 && v.y <= 2), JSON.stringify(layout)).toBe(true);
+        await page.screenshot({ path: `${out}/${width}-${scenario}-${saved ? "saved" : "unsaved"}-detail.png` });
+        await dialog.locator(".dialog-close").click();
+        await expect(dialog).toHaveCount(0);
+        expect(await page.evaluate(() => localStorage.getItem("swarm-front-shared-progress-v3"))).toBe(before);
+        if (saved) {
+          await expect(rowLock).toHaveAttribute("aria-pressed", "false");
+          await rowLock.tap();
+          await expect(rowLock).toHaveAttribute("aria-pressed", "true");
+          expect(await page.evaluate(id => JSON.parse(localStorage.getItem("swarm-front-shared-progress-v3")).locks.includes(id), id)).toBe(true);
+          await rowLock.tap();
+          await expect(rowLock).toHaveAttribute("aria-pressed", "false");
+        }
+      };
       if (scenario === "save-failure") {
         await expect(page.locator("#front-retry-save")).toBeVisible();
+        if (!baseline) await checkDetail(false);
         await page.screenshot({
           path: `${out}/${width}-${scenario}-before.png`,
         });
@@ -96,6 +168,7 @@ window.resultFixture = (scenario) => {
         await expect(page.locator("#ui [data-row]")).toHaveCount(
           scenario === "long" ? 30 : scenario === "short" ? 0 : 3,
         );
+        if (scenario !== "short") await checkDetail(true);
         if (width >= 844)
           expect(
             await page
@@ -128,15 +201,33 @@ window.resultFixture = (scenario) => {
         scenario,
         baseline,
         layout,
+        detailChecks,
         rewardText,
         errors,
       });
       await tap("#front-leave");
       await expect(page.locator("#solo")).toBeVisible();
+      if (process.env.INTEGRATION_FLOW === "1") {
+        await tap("#solo");
+        await tap('[data-operation="survival"]');
+        await tap("#front-launch");
+        await page.locator("[data-card]").first().waitFor({ timeout: 120000 });
+        await tap("[data-card]:first-of-type");
+        await expect(page.locator("#controls")).toBeVisible();
+        await page.locator(".operation-cue").waitFor({ state: "detached" });
+        results[results.length - 1].relaunched = true;
+        await page.screenshot({ path: `${out}/${width}-${scenario}-relaunched.png` });
+      }
       await page.close();
       console.log(`${width} ${scenario}: 合格`);
     }
   }
+} catch (error) {
+  if (activePage && !activePage.isClosed()) {
+    await activePage.screenshot({ path: `${out}/failure.png`, timeout: 10000 }).catch(() => {});
+    fs.writeFileSync(`${out}/failure.json`, JSON.stringify({ message: String(error), url: activePage.url() }, null, 2));
+  }
+  throw error;
 } finally {
   fs.writeFileSync(
     `${out}/${baseline ? "baseline" : "results"}.json`,
