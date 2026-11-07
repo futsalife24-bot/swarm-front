@@ -33,6 +33,7 @@ import "./rebuild.css";
 import "./playtest.css";
 import "./gear-weapon-list.css";
 import "./front.css";
+import "./front-prep-deck.css";
 import "./survival-card.css";
 import "./front-reward-ui.css";
 import "./front-result-ui.css";
@@ -450,6 +451,35 @@ function prep(coop = false) {
   document.body.classList.add("playtest");
   screen = "prep";
   document.body.dataset.screen = "prep";
+  if (coop && mode === "survival") {
+    openFrontBase($("ui"), progressStorage, coop ? returnToLobby : home, {
+      allUnlocked: true,
+      departure: {
+        coop,
+        onApply: () => {
+          frontLoadout = readModeLoadout();
+          if (frontLoadout.error) throw new Error(frontLoadout.error);
+          if (coop) {
+            if (!network || network.ws?.readyState !== 1 || network.retry)
+              throw new Error("部屋へ再接続してから準備完了にしてください。");
+            network.upgradePool = frontLoadout.pool;
+            network.survivalUpgradePool = [...frontLoadout.pool];
+            network.survivalPlan =
+              readFrontSurvivalLoadout(progressStorage).plan;
+            network.equipment(frontEquipment());
+            network.preparation(false);
+            returnToLobby();
+          } else void solo();
+        },
+        onSettings: () => menuSettings(() => prep(coop)),
+      },
+    });
+    return;
+  }
+  weaponPrep(coop);
+}
+/** Defense/daily retain their existing two-weapon equipment editor. */
+function weaponPrep(coop: boolean) {
   $("ui").innerHTML =
     `<section class="panel gear menu-screen pt-screen front-prep"><header class="menu-header"><h1>出撃準備</h1><nav><button id="front-base">生存カード</button><button id="front-back">${coop ? "部屋を退出" : "タイトルへ"}</button><button id="front-prep-settings">設定・操作</button></nav></header><div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 出撃先</span><button id="front-mission-info">作戦詳細</button></div>${
       coop
@@ -604,6 +634,17 @@ async function solo() {
   );
   setView();
   await loadBattle();
+}
+/** Leaving the editor does not imply readiness; only its explicit save action does. */
+function returnToLobby() {
+  if (!network) {
+    home();
+    return;
+  }
+  preparedGeneration = -1;
+  screen = "lobby";
+  paintLobby();
+  void prepareLobby();
 }
 async function loadBattle() {
   cancelOperationCue();
@@ -837,10 +878,11 @@ function connectRoom(code: string, target: string, token = "") {
   net.ready = () => {
     id = net.id;
     mode = net.mode;
-    prep(true);
+    // Welcome/reconnect must not replace an open deck draft or force prep on entry.
+    if (screen !== "prep") returnToLobby();
   };
   net.onLobby = () => {
-    if (screen === "prep" || net.preparing) return;
+    if (screen === "prep") return;
     screen = "lobby";
     paintLobby();
     void prepareLobby();
@@ -928,10 +970,23 @@ function paintLobby() {
     host === net.id &&
     present.length > 0 &&
     present.every((m) => m.ready);
+  const lobbyStatus = !online
+    ? status
+    : net.preparing
+      ? net.mode === "survival"
+        ? "カードデッキを確認して準備完了にしてください"
+        : "装備を確認して準備完了にしてください"
+      : canStart
+        ? "全員の準備が整いました"
+        : !net.assetReady && status.startsWith("戦場を準備中")
+          ? status
+          : host === net.id
+            ? "隊員の準備完了を待っています"
+            : "ホストの出撃を待っています";
   document.body.classList.remove("playtest");
   document.body.dataset.screen = "lobby";
   $("ui").innerHTML =
-    `<section class="panel lobby front-lobby front-unified-lobby"><header class="lobby-header"><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力ロビー <span class="room-access-label" data-access="${access.state}">${access.label}</span></h1><div class="lobby-room"><small class="lobby-room-name">${esc(net.roomName)}</small><span class="lobby-room-id">部屋ID <code id="front-room-password">${esc(net.roomId || "接続中")}</code><button id="front-copy-password" aria-label="部屋IDをコピー" title="部屋IDをコピー" ${net.roomId ? "" : "disabled"}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/></svg></button></span></div></div><div class="lobby-share"><button id="front-copy" ${net.roomId ? "" : "disabled"}>招待リンクを共有</button></div><span>${present.length} / 4 人</span><button id="front-leave">退出</button></header><div class="lobby-workspace"><section class="lobby-mission" aria-label="出撃情報"><div class="eyebrow">SURVIVAL</div><h2>${esc(modeNames[net.mode])}</h2><p>${net.mode === "survival" ? "出撃から60分で帰還・保存猶予2分。" : "協力して作戦に挑みます。"}</p><p class="front-room-access fine">${esc(access.detail)}${net.roomListed === true ? " 直接招待する場合は部屋IDまたはリンクを共有できます。" : ""}</p><div class="lobby-actions"><p class="status" role="status">${!online ? esc(status) : canStart ? "全員の準備が整いました" : host === net.id ? (status.startsWith("戦場を準備中") ? esc(status) : "隊員の準備完了を待っています") : "ホストの出撃を待っています"}</p><button id="front-edit-loadout">出撃準備・装備変更</button><button class="primary" id="front-start" ${canStart ? "" : "disabled"}>全員で出撃 ↗</button></div></section><section class="lobby-squad" aria-label="参加メンバー"><div class="squad-heading"><h2>参加メンバー</h2><small>装備 / 状況</small></div><div class="squad-cards">${Array.from(
+    `<section class="panel lobby front-lobby front-unified-lobby"><header class="lobby-header"><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力ロビー <span class="room-access-label" data-access="${access.state}">${access.label}</span></h1><div class="lobby-room"><small class="lobby-room-name">${esc(net.roomName)}</small><span class="lobby-room-id">部屋ID <code id="front-room-password">${esc(net.roomId || "接続中")}</code><button id="front-copy-password" aria-label="部屋IDをコピー" title="部屋IDをコピー" ${net.roomId ? "" : "disabled"}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/></svg></button></span></div></div><div class="lobby-share"><button id="front-copy" ${net.roomId ? "" : "disabled"}>招待リンクを共有</button></div><span>${present.length} / 4 人</span><button id="front-leave">退出</button></header><div class="lobby-workspace"><section class="lobby-mission" aria-label="出撃情報"><div class="eyebrow">SURVIVAL</div><h2>${esc(modeNames[net.mode])}</h2><p>${net.mode === "survival" ? "出撃から60分で帰還・保存猶予2分。" : "協力して作戦に挑みます。"}</p><p class="front-room-access fine">${esc(access.detail)}${net.roomListed === true ? " 直接招待する場合は部屋IDまたはリンクを共有できます。" : ""}</p><div class="lobby-actions"><p class="status" role="status">${esc(lobbyStatus)}</p><button id="front-edit-loadout" ${online ? "" : "disabled"}>${net.mode === "survival" ? "カードデッキ編成" : "出撃準備・装備変更"}</button><button class="primary" id="front-start" ${canStart ? "" : "disabled"}>全員で出撃 ↗</button></div></section><section class="lobby-squad" aria-label="参加メンバー"><div class="squad-heading"><h2>参加メンバー</h2><small>装備 / 状況</small></div><div class="squad-cards">${Array.from(
       { length: 4 },
       (_, i) => {
         const m = members[i];
@@ -1000,6 +1055,7 @@ async function prepareLobby() {
   const net = network;
   if (
     !net ||
+    net.preparing ||
     net.assetReady ||
     preparedGeneration === net.preparationGeneration
   )
@@ -1051,17 +1107,30 @@ async function prepareLobby() {
         screen !== "lobby" ||
         net.preparationGeneration !== generation,
       (percentage, detail) => {
-        if (network !== net || net.preparationGeneration !== generation) return;
+        if (
+          network !== net ||
+          screen !== "lobby" ||
+          net.preparationGeneration !== generation
+        )
+          return;
         status = `戦場を準備中 ${percentage}% · ${detail.stage} · 経過 ${detail.elapsedSeconds}秒`;
         paintLobby();
       },
     );
-    if (network === net) {
+    if (
+      network === net &&
+      screen === "lobby" &&
+      net.preparationGeneration === generation
+    ) {
       net.setAssetReady(true, generation);
       paintLobby();
     }
   } catch (error) {
-    if (network === net && net.preparationGeneration === generation) {
+    if (
+      network === net &&
+      screen === "lobby" &&
+      net.preparationGeneration === generation
+    ) {
       preparedGeneration = -1;
       status = `${status} · ${(error as Error).message}`;
       paintLobby();
