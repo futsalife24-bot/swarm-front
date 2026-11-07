@@ -377,3 +377,9 @@
   pointer-events: none;
   z-index: 2;
 }
+/* Reward-name hold is additive. Keep both scroll axes and the existing row. */
+.playtest #ui .pt-result [data-reward-detail-hold] {
+  touch-action: pan-x pan-y;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
