@@ -21,7 +21,7 @@ base: ac14198177bd3184ba7843c64da07155f346d1de。
 - 進撃844×390の隔離Chromeで通常UIから部屋作成、表示された459をコピー、別プロフィールで不正ID拒否→459参加、2人同一ロビー、横はみ出しなしを確認。campaign-844.pngを目視確認。準備読込み中のロビーであり、実戦通し攻略ではない。
 - 生存640×360は作成POST200、実WS接続、706解決まで進んだが、PC応答遅延のため試験を中断。完了扱いにしていない。両モードの実WS人数確認は上記で別途成功している。
 - 初回UI試験のVite起動待ち切れと、再試験時の新規プレイヤー名ダイアログ未処理は検証器の不足。隔離プロフィール名を設定した次の試験で進撃成功。
-- Vite production build成功。既存chunkサイズ警告あり。manifestは最終41,063 bytesを生成。Worker dry-runは実行中。
+- Vite production build成功。既存chunkサイズ警告あり。manifestは最終41,063 bytesを生成。既存Worker production dry-runも終了コード0。実装commit前の同じ製品差分での検証であり、公開時は統合mainから再buildする。
 - 生存UI、実スマホ/PWA/実回線、ロビー改善との統合後再検証、公開確認は未完。
 
 ## 再実行
@@ -33,4 +33,4 @@ node scripts/check-three-digit-rooms-ui.mjs は Vite5202 と Worker8811、隔離
 
 ## 統合
 
-バディ担当はserver/worker.tsの戦闘部分、ロビー担当はfront-app.tsの遷移/カード編集を変更中。今回のGate採番/IDコピー表示差分を残して統合する。共有STATE/mainの書込みと公開は一人に調整し、必要な現行許可と保護/CIを確認する。今回はまだ公開していない。
+バディ担当はserver/worker.tsの戦闘部分、ロビー担当はfront-app.tsの遷移/カード編集を変更中。今回のGate採番/IDコピー表示差分を残して統合する。共有STATE/mainの書込みと公開は一人に調整し、必要な現行許可と保護/CIを確認する。実装commit: 429aaf908bb9890d1393f96bb043223b8b882330。今回はまだ公開していない。試験Chrome/Vite5202/Worker8811は終了済み。
