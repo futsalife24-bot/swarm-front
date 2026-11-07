@@ -1,0 +1,437 @@
+{
+  "at": "2026-11-07T04:25:50.587Z",
+  "origin": "https://swarm-front.melosalife-24.workers.dev",
+  "health": {
+    "status": 200,
+    "body": {
+      "ok": true,
+      "transport": "websocket",
+      "authority": "durable-object"
+    }
+  },
+  "devReviewAbsent": true,
+  "designAbsent": true,
+  "checks": [
+    {
+      "asset": "anomaly-voices.html",
+      "status": 200,
+      "bytes": 6870,
+      "sha256": "041ae76658ff785de3bed305438eec4127396a20d0a7c440a4e8d23464dd14bb",
+      "pass": true
+    },
+    {
+      "asset": "asset-download-manifest.json",
+      "status": 200,
+      "bytes": 41063,
+      "sha256": "6af3da1f35cf847c536848e22b46d64d1a2ca6d2e3e82f0d535e62e6b467a8c4",
+      "pass": true
+    },
+    {
+      "asset": "assets/audio/anomaly-voice-v1/manifest.json",
+      "status": 200,
+      "bytes": 3361,
+      "sha256": "0b1c2112aa7a816a4772b657885dbe173e661a73e11f15f8d84f9876a4f46283",
+      "pass": true
+    },
+    {
+      "asset": "assets/audio/anomaly-voice-v2/manifest.json",
+      "status": 200,
+      "bytes": 6579,
+      "sha256": "30006e0e9726365f10def3e086453a5a5f0fdbb390ba5b21b7c69702bba495b6",
+      "pass": true
+    },
+    {
+      "asset": "assets/audio/anomaly-voice-v3/manifest.json",
+      "status": 200,
+      "bytes": 10573,
+      "sha256": "50c2feed53a3bd415601e2938a1a7d899d567df436a807fa07e56636a29082d4",
+      "pass": true
+    },
+    {
+      "asset": "assets/audio/ar-hit-v1/manifest.json",
+      "status": 200,
+      "bytes": 3084,
+      "sha256": "24f70008f8278fd8d9f00168734cdc0459d6e7a306694a5272b299de5dedb1aa",
+      "pass": true
+    },
+    {
+      "asset": "assets/audio/rocket-final-v1/manifest.json",
+      "status": 200,
+      "bytes": 793,
+      "sha256": "c99aed811a0907139fa98da8fcf9e20ae077284899c2c83a41afeb8ee535be8c",
+      "pass": true
+    },
+    {
+      "asset": "assets/audio/se-v1/manifest.json",
+      "status": 200,
+      "bytes": 7627,
+      "sha256": "d1ce5091f87dac461684f4972388a7699e3b9b0ddd270720e9bab82f9732f254",
+      "pass": true
+    },
+    {
+      "asset": "assets/audio/selected-v1/manifest.json",
+      "status": 200,
+      "bytes": 1566,
+      "sha256": "8f65ab1b34a72bea39bccb2663158caf0ec2aa4a78c536d4f78064a7046a143f",
+      "pass": true
+    },
+    {
+      "asset": "assets/buddy/README.md",
+      "status": 200,
+      "bytes": 1644,
+      "sha256": "49f4acfd9553913d238c3b2da88e67855d132926aef500b10d0b75ba56258c29",
+      "pass": true
+    },
+    {
+      "asset": "assets/buddy/oriha-v3.glb",
+      "status": 200,
+      "bytes": 377792,
+      "sha256": "490ac82d86642c7b45a7f760533b5a7948ac824ad307d91823270d7d8f8ba72e",
+      "pass": true
+    },
+    {
+      "asset": "assets/buddy/portraits/oriha.webp",
+      "status": 200,
+      "bytes": 4858,
+      "sha256": "8b65514a31860ccf732182ce0b0a2cae2fba6d9d8f52c9424486715bb492d36c",
+      "pass": true
+    },
+    {
+      "asset": "assets/buddy/portraits/tatara.webp",
+      "status": 200,
+      "bytes": 7090,
+      "sha256": "08315565b45fdcf94683906efaca0f6d906d9481907331ee2b54befc6d6203af",
+      "pass": true
+    },
+    {
+      "asset": "assets/buddy/portraits/tobari.webp",
+      "status": 200,
+      "bytes": 5164,
+      "sha256": "12084398365b371a7dfc9e8d700180d0bc4b0de42d6ad520316c7cdb28ac13af",
+      "pass": true
+    },
+    {
+      "asset": "assets/buddy/portraits/yosuga.webp",
+      "status": 200,
+      "bytes": 8984,
+      "sha256": "df92bb773e10790bb3ec53d40581d21575540f6500963ac007d9c1f419b2fc35",
+      "pass": true
+    },
+    {
+      "asset": "assets/buddy/tatara-v3.glb",
+      "status": 200,
+      "bytes": 394576,
+      "sha256": "8d612e6a43abb3fbb27a983be7b97a113d973f59eb8f1b14efb224ad515fddcf",
+      "pass": true
+    },
+    {
+      "asset": "assets/buddy/tobari-v7.glb",
+      "status": 200,
+      "bytes": 221420,
+      "sha256": "8b3f88e17df752bd5fc421f7f7aaa846efca3b3335a57d54a6da5b7e406f5ce7",
+      "pass": true
+    },
+    {
+      "asset": "assets/buddy/yosuga-v5.glb",
+      "status": 200,
+      "bytes": 315108,
+      "sha256": "c6bb71f21fd9b9baaf322d0b4d627997b88d53ccb0b83a191aa0d00e663e6cc8",
+      "pass": true
+    },
+    {
+      "asset": "assets/characters/standard_trooper_sprint_v8.json",
+      "status": 200,
+      "bytes": 684,
+      "sha256": "6200f869c2a872f56f67069caa962ddb71ffa8950eed55aaef1651cce3975cbc",
+      "pass": true
+    },
+    {
+      "asset": "assets/characters/standard_trooper_v1.json",
+      "status": 200,
+      "bytes": 691,
+      "sha256": "7c9bf9c85bc862506ec73978795109d9526d852f25b5f5cc179c0ba89e6a78b8",
+      "pass": true
+    },
+    {
+      "asset": "assets/characters/standard_trooper_v10.blender.json",
+      "status": 200,
+      "bytes": 823,
+      "sha256": "f4b9fa83b9d6a5f34877d68374d4e791ae1cbd62b053e8e1f0667fc62736724c",
+      "pass": true
+    },
+    {
+      "asset": "assets/characters/standard_trooper_v10.json",
+      "status": 200,
+      "bytes": 1259,
+      "sha256": "28e7a6593f9d31d966a06aee46b81abe03f9e7388c023bcf8893b2b5727e2059",
+      "pass": true
+    },
+    {
+      "asset": "assets/characters/standard_trooper_v2.json",
+      "status": 200,
+      "bytes": 691,
+      "sha256": "7c9bf9c85bc862506ec73978795109d9526d852f25b5f5cc179c0ba89e6a78b8",
+      "pass": true
+    },
+    {
+      "asset": "assets/characters/standard_trooper_v3.json",
+      "status": 200,
+      "bytes": 774,
+      "sha256": "1da9b1edb9c400f867cca9fc9852343207086afc316bfa0f72631dbe87c183b1",
+      "pass": true
+    },
+    {
+      "asset": "assets/characters/standard_trooper_v4.json",
+      "status": 200,
+      "bytes": 18401,
+      "sha256": "089435c3b2ae8d46491c9f096a8c32fc425d5aca4cb28a0f572c9c6346ac9fc4",
+      "pass": true
+    },
+    {
+      "asset": "assets/characters/standard_trooper_v5.json",
+      "status": 200,
+      "bytes": 1132,
+      "sha256": "5582f1966f51c7dc592ac7d272c0f73652569c6680be194baea5b3f0fd0ea663",
+      "pass": true
+    },
+    {
+      "asset": "assets/characters/standard_trooper_v9.json",
+      "status": 200,
+      "bytes": 1391,
+      "sha256": "1b9c2f4d2333127adb1185a1dcb5977e888931c4887963b413a25577cc07ca29",
+      "pass": true
+    },
+    {
+      "asset": "assets/cloud-save-BbOUmLuJ.css",
+      "status": 200,
+      "bytes": 3758,
+      "sha256": "210675c63713e1125bbcd1ff64bf0e4c5e5697d6552f21fa589dbcba81aa5313",
+      "pass": true
+    },
+    {
+      "asset": "assets/cloud-save-DQ1YpgVI.js",
+      "status": 200,
+      "bytes": 122197,
+      "sha256": "b7c92c9b24a4da9a0598b1002ba90b0f162bd6aae07b677cacada6236d252ca7",
+      "pass": true
+    },
+    {
+      "asset": "assets/event-banners/consumer-manifest.json",
+      "status": 200,
+      "bytes": 9901,
+      "sha256": "2b049a0ee15e63c00328c6d3c73a98094365216a1b873c6ab84e3fd2e00f05f0",
+      "pass": true
+    },
+    {
+      "asset": "assets/event-banners/validation.json",
+      "status": 200,
+      "bytes": 4452,
+      "sha256": "7d825cccdc5ca6e30fdcca978fff04dc64f782f058dbe064af59f880d890bb8f",
+      "pass": true
+    },
+    {
+      "asset": "assets/front-C4zBc097.css",
+      "status": 200,
+      "bytes": 46312,
+      "sha256": "c4beb713f240eb6c2286017c559061a7457df0fa31fce08c14027b262910257d",
+      "pass": true
+    },
+    {
+      "asset": "assets/front-D8ACyHbS.js",
+      "status": 200,
+      "bytes": 128513,
+      "sha256": "848f53b4d4a42e645d5e4dd9448bf9db5f7876a301ef2a8ef6a5e49d889a8a82",
+      "pass": true
+    },
+    {
+      "asset": "assets/game-select-C-P1GfeG.css",
+      "status": 200,
+      "bytes": 20477,
+      "sha256": "b4ef613a7946c922ad21b990cefb89ae183068ca0151a0f3d88fb8d0ff53d261",
+      "pass": true
+    },
+    {
+      "asset": "assets/game-select-DubZsud-.js",
+      "status": 200,
+      "bytes": 36631,
+      "sha256": "dae485d85397eaad2ea784fcdb8b505e685ede411503aa1bc3f1f5894654a1d0",
+      "pass": true
+    },
+    {
+      "asset": "assets/hud-D24MZjEE.js",
+      "status": 200,
+      "bytes": 883845,
+      "sha256": "ec91be896e297e48b572827f8e046bb4dca6388366b7abd62ca28dc3441adbed",
+      "pass": true
+    },
+    {
+      "asset": "assets/hud-KJkCjEBB.css",
+      "status": 200,
+      "bytes": 108021,
+      "sha256": "c7675dc5514d16a3e2892ec71ea62ec120b09c6bdbd51aa13f425fa4aa0d45f3",
+      "pass": true
+    },
+    {
+      "asset": "assets/legacy-Bec3BYbp.js",
+      "status": 200,
+      "bytes": 19203,
+      "sha256": "bad0bd53128ab2946440e5a912cf09910594efe172a0653a0aaa33f2993f767c",
+      "pass": true
+    },
+    {
+      "asset": "assets/legacy-CPbai1ZT.css",
+      "status": 200,
+      "bytes": 259,
+      "sha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "pass": true
+    },
+    {
+      "asset": "assets/main-BOIn8V8d.css",
+      "status": 200,
+      "bytes": 1316,
+      "sha256": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "pass": true
+    },
+    {
+      "asset": "assets/main-Cby_aFEo.js",
+      "status": 200,
+      "bytes": 56406,
+      "sha256": "24732718197e9c49e9ee766714c5fcce81d5e57fe028a43fcc778a88e4b30095",
+      "pass": true
+    },
+    {
+      "asset": "assets/playtest-app-Cs3B8-Sz.css",
+      "status": 200,
+      "bytes": 17081,
+      "sha256": "87c890420d83514bb68cd689fe504d57145f61249293484d0b87f4a8b81781a2",
+      "pass": true
+    },
+    {
+      "asset": "assets/playtest-app-D6WY1r7Q.js",
+      "status": 200,
+      "bytes": 90304,
+      "sha256": "11857e99989e20e6b3600a5a8cf301627676f75fc1776a45e1bbc817b16256f4",
+      "pass": true
+    },
+    {
+      "asset": "assets/room-access-DRn36ASA.js",
+      "status": 200,
+      "bytes": 7714,
+      "sha256": "4337dafe594f8d5aace3f696b0ae9c79b73689e59fd9cfdde230bcdbb98d580c",
+      "pass": true
+    },
+    {
+      "asset": "assets/room-access-n-8m8axW.css",
+      "status": 200,
+      "bytes": 6755,
+      "sha256": "f45dc9e8a45cdc3a61d2274b3f69504f722c39b5b77d655209c54795afb70254",
+      "pass": true
+    },
+    {
+      "asset": "assets/save-writer-BUUOzIBn.css",
+      "status": 200,
+      "bytes": 2949,
+      "sha256": "4e91d064f9a5b74cf809d7b17d6e3529fdd161528f02d2f949cb0ff9b443d5dc",
+      "pass": true
+    },
+    {
+      "asset": "assets/save-writer-Di_zDa42.js",
+      "status": 200,
+      "bytes": 192067,
+      "sha256": "032f540dbd2bc284a96e6986a8c60ac70716cb01948f3d6d4a7fb5a25f92bf9f",
+      "pass": true
+    },
+    {
+      "asset": "assets/training-app-CP6wFOvB.js",
+      "status": 200,
+      "bytes": 3806,
+      "sha256": "86cc46d1cbe5f27476fc0f7022ad38c27e62476a603a18c892b7509afa5eca91",
+      "pass": true
+    },
+    {
+      "asset": "assets/weapon-sharing-Df6rR5ck.js",
+      "status": 200,
+      "bytes": 4792,
+      "sha256": "4b02abfe67d524a245117826a8e50c92498142dcaf58348d5510c77c713fd195",
+      "pass": true
+    },
+    {
+      "asset": "assets/weapon-workshop-ui-CUy3r-qc.js",
+      "status": 200,
+      "bytes": 454964,
+      "sha256": "afa237927d76d04503a99e97ea776917a72d3054ca9df218294162c9dfb3769b",
+      "pass": true
+    },
+    {
+      "asset": "assets/weapon-workshop-ui-DDPmFTsF.css",
+      "status": 200,
+      "bytes": 37424,
+      "sha256": "8f08c6149a31221688ee25fe6a3316608f163dd26ae3e312a5f1d2fbf1699561",
+      "pass": true
+    },
+    {
+      "asset": "assets/weapons/progression-v1/manifest.json",
+      "status": 200,
+      "bytes": 3167,
+      "sha256": "a7701dc826e1667792f7b380d65af1b03215e2627760380c44383b05e41ae588",
+      "pass": true
+    },
+    {
+      "asset": "assets/weapons/realism-v2/manifest.json",
+      "status": 200,
+      "bytes": 5117,
+      "sha256": "386265f8e50e7882d700fbab8f6d1326283c6def8fafd9e7ae300197a7b3c18e",
+      "pass": true
+    },
+    {
+      "asset": "assets/zoom-guard-CYxqEXnM.js",
+      "status": 200,
+      "bytes": 387,
+      "sha256": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "pass": true
+    },
+    {
+      "asset": "briefing/index.html",
+      "status": 200,
+      "bytes": 59139,
+      "sha256": "c727868b6a291da432efcf21e48a2cfb35ceae5b1cd136c4c18427d0476c46bc",
+      "pass": true
+    },
+    {
+      "asset": "briefing/slides.html",
+      "status": 200,
+      "bytes": 5351501,
+      "sha256": "9b6e9fedf6a3a15134d4634b5c5c46a6648da831a41bcfd2aa3add0ab07d63a5",
+      "pass": true
+    },
+    {
+      "asset": "front.html",
+      "status": 200,
+      "bytes": 4875,
+      "sha256": "33570c7d55d434e80179e6614ad90cc08d8e8775618dabaaa10cfba01d9994d6",
+      "pass": true
+    },
+    {
+      "asset": "index.html",
+      "status": 200,
+      "bytes": 5430,
+      "sha256": "c1e0b8ad42dc941ac81186dc025fa7127db96dc30211a4d7c25dfb3d7c69f247",
+      "pass": true
+    },
+    {
+      "asset": "manifest.webmanifest",
+      "status": 200,
+      "bytes": 792,
+      "sha256": "a395e41a6419798be87fb74999412078387866aca0e9db0e15a3cf69d52e4cf6",
+      "pass": true
+    },
+    {
+      "asset": "sw.js",
+      "status": 200,
+      "bytes": 5681,
+      "sha256": "32df8fbaf4e428fd5e6ea43ca2dc69a74823f07fa7eb7cd5b380e7e5adcb85ae",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

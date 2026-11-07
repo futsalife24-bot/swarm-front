@@ -1,0 +1,26 @@
+{
+  "at": "2026-11-07T04:27:09.220Z",
+  "origin": "https://swarm-front.melosalife-24.workers.dev",
+  "conditions": "公開配信JS、HP/時間/敵無変更。隔離新規保存、実UIでタタラ選択。協力は部屋作成せず入口確認。",
+  "results": [
+    {
+      "width": 844,
+      "height": 390,
+      "threeDigitEntry": true,
+      "tataraChosenInUI": true,
+      "fullCharge": true,
+      "releaseToCooldown": true,
+      "pauseBuddy": true
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "threeDigitEntry": true,
+      "tataraChosenInUI": true,
+      "fullCharge": true,
+      "releaseToCooldown": true,
+      "pauseBuddy": true
+    }
+  ],
+  "errors": []
+}
