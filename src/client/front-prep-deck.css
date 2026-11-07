@@ -75,11 +75,10 @@ body.front-game #ui .front-base.front-departure-deck {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.front-departure-deck .base-service {
-  flex: 0 1 auto;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
+/* 再抽選の回数は常に全文で読めるようにする（縮めるのは固定武器の補足だけ）。 */
+body.front-game #ui .front-departure-deck .base-service {
+  flex: none;
+  font-size: 11px;
   white-space: nowrap;
 }
 .front-departure-deck .base-header nav {
@@ -87,7 +86,7 @@ body.front-game #ui .front-base.front-departure-deck {
   display: flex;
   gap: 4px;
 }
-/* 保存して準備完了・ロビーへ戻るは主操作。押しやすい44pxにそろえる。 */
+/* 保存して準備完了・ロビーへ・設定・操作の3つ。押しやすい44pxにそろえる。 */
 body.front-game #ui .front-departure-deck .base-header nav button {
   min-height: 44px;
   padding: 6px 12px;
@@ -128,6 +127,13 @@ body.front-game #ui .front-departure-deck .base-header nav button {
   }
   .front-departure-deck .front-departure-weapon {
     max-width: 11em;
+  }
+}
+/* 568幅などでは3ボタンと再抽選回数を優先し、固定武器の補足は出さない
+   （武器を選ぶ操作はこの画面に無く、欠けても操作に影響しない）。 */
+@media (max-width: 600px) {
+  .front-departure-deck .front-departure-weapon {
+    display: none;
   }
 }
 /* 横画面の低い高さ：段間を詰めて格子の表示行を確保する。 */
