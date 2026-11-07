@@ -48,7 +48,7 @@
 ## 検証（独立fixture・2026-11-07）
 
 - 手順：`/?base=1` で新規の隔離保存を作り、進撃3突破相当だけを設定する（既存 `scripts/check-survival-elements-base.mjs` と同じ準備）。`/front?cards=1` の生存カード画面に、Codex予定のDOM（クラス追加・見出し・2ボタン名・固定武器の補足）をスクリプトで再現し、このCSSを当てた。Chrome・タッチ有効、Vite `127.0.0.1:5195`。
-- 証拠は作業領域の外：`C:\Users\futsa\AppData\Local\Temp\claude\015f2ffdbe350595\8e09aef0-055f-4ebb-9f1a-d61a7f7c836b\scratchpad\coop-deck\`（`before-sim` / `after` / `after-long` / `solo-with-css`、各 `results.json`）。
+- 設計担当の一時検証資料は別途保持。統合版の実画面と検証結果は `docs/evidence/swarm-integrated-20261107/` を参照。
 
 | 条件                        | 全体が見えるカード 前→後 | 主操作の高さ | 詳細欄と格子の上端 | ページのスクロール |
 | --------------------------- | ------------------------ | ------------ | ------------------ | ------------------ |

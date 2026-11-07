@@ -1,0 +1,28 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "allWeaponDetails": 12,
+    "previewModels": 12,
+    "nativeTouchHold": true,
+    "cancelAndScroll": true,
+    "tapKeyboard": true,
+    "lock": true,
+    "redraw": true,
+    "readOnly": true,
+    "errors": []
+  },
+  {
+    "width": 640,
+    "height": 360,
+    "allWeaponDetails": 12,
+    "previewModels": 12,
+    "nativeTouchHold": true,
+    "cancelAndScroll": true,
+    "tapKeyboard": true,
+    "lock": true,
+    "redraw": true,
+    "readOnly": true,
+    "errors": []
+  }
+]

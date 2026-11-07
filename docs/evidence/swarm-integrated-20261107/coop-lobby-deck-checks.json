@@ -1,0 +1,10 @@
+[
+  "Both host and guest enter lobby first; neither is implicitly ready",
+  "Draft is unsaved until explicit save; cancel/discard preserves saved deck and readiness",
+  "Existing two-exclusion capacity is enforced; no invented deck rules",
+  "Storage failure blocks readiness; successful save keeps the exact excluded cards",
+  "Editing during background preparation preserves the editor and requires explicit readiness again",
+  "Only host can launch after both players save and assets are ready",
+  "Actual two-player authoritative survival opening reached",
+  "Server received host 23-card deck and guest 25-card deck"
+]

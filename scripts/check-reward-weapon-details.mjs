@@ -42,12 +42,13 @@ try {
             (await response.text()) +
             `
 window.rewardDetailFixture = async () => {
-  const { freshProgress } = await import('/src/client/progression-save.ts');
-  mode = 'normal'; save = freshProgress('normal');
+  const { freshProgress, loadProgress } = await import('/src/client/progression-save.ts');
+  mode = 'normal'; save = loadProgress('normal') ?? freshProgress('normal');
   save.tutorials = ['gear','armory','base','battle'];
   const items = Object.keys(WEAPONS).map((kind, i) => makeWeapon('detail-' + kind, kind, i % 5, { power: 20, reload: -10, range: 10, rate: 20 }, false, save.serial++, 'none'));
   save.inventory.push(...items);
   save.result = { run:'detail-fixture', stage:1, difficulty:'normal', win:true, time:307, kills:176, missions:[true,false,true], first:false, coins:70, firstCoins:0, weapons:items, bonus:[], collected:items.length, choice:'normal', collectionDone:true };
+  save.receipts.push(save.result.run);
   persistProgress(save); result();
   return items.map(w => ({ id:w.id, kind:w.kind, name:WEAPONS[w.kind].name }));
 };`,
@@ -64,6 +65,7 @@ window.rewardDetailFixture = async () => {
       null,
       { timeout: 120000 },
     );
+    await page.locator("#pt-start").waitFor();
     const items = await page.evaluate(() => window.rewardDetailFixture());
     console.log(`${width}: result rendered, ${items.length} weapons`);
     await page.locator("#pt-result-home").waitFor();
@@ -149,6 +151,8 @@ window.rewardDetailFixture = async () => {
     assert.equal(await lock.getAttribute("aria-pressed"), "true");
     assert.equal(await page.locator(".menu-dialog").count(), 0);
     await lock.tap();
+    // Existing unlock confirmation remains required, even in the test fixture.
+    await page.getByRole("button", { name: "確定", exact: true }).click();
     assert.equal(await lock.getAttribute("aria-pressed"), "false");
     await page.screenshot({ path: `${out}/${width}-result.png` });
     // Re-render through actual sort controls, then verify newly bound name.
