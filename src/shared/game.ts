@@ -146,6 +146,7 @@ import {
 } from "./defs";
 export interface Input {
   buddySkill?: boolean;
+  buddyCharge?: boolean;
   mx: number;
   mz: number;
   yaw: number;
@@ -2481,6 +2482,7 @@ export function validInput(v: unknown): v is Input {
     (i.cameraAim === undefined || typeof i.cameraAim === "boolean") &&
     (i.jump === undefined || typeof i.jump === "boolean") &&
     (i.buddySkill === undefined || typeof i.buddySkill === "boolean") &&
+    (i.buddyCharge === undefined || typeof i.buddyCharge === "boolean") &&
     Number.isSafeInteger(i.seq) &&
     i.seq >= 0 &&
     ["fire", "reload", "dodge", "swap", "revive"].every(

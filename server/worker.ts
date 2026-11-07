@@ -1468,6 +1468,7 @@ export class Room extends DurableObject<Env> {
             now / 1000 < this.saved.frontRun.resumeUntil)
         ) {
           delete this.inputs[s.id];
+          s.buddySkillHeld = false;
           return;
         }
         const previous = this.inputs[s.id]?.i;
@@ -1480,6 +1481,8 @@ export class Room extends DurableObject<Env> {
           m.input.jump ||
           m.input.swap ||
           m.input.reload ||
+          m.input.buddySkill ||
+          m.input.buddyCharge ||
           Math.abs(m.input.yaw - (previous?.yaw ?? 0)) > 0.01
         )
           member.last = now;
@@ -1495,6 +1498,8 @@ export class Room extends DurableObject<Env> {
               (m.input.buddySkill === true && !s.buddySkillHeld) ||
               previous?.buddySkill ||
               false,
+            // Keep the latest hold through ticks, but never latch a release.
+            buddyCharge: m.input.buddyCharge === true,
           },
           at: now,
         };

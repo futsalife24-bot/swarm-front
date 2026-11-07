@@ -543,6 +543,8 @@ export class FrontNetwork {
       swap: input.swap || !!pending?.swap,
       dodge: input.dodge || !!pending?.dodge,
       jump: input.jump || !!pending?.jump,
+      buddySkill: input.buddySkill || !!pending?.buddySkill,
+      buddyCharge: input.buddyCharge === true,
     };
     const now = performance.now();
     // Rendering stalls must not produce a burst of catch-up packets. Keep taps.

@@ -3,7 +3,18 @@ import { clampPitch, gyroDelta } from "../shared/aim";
 import { ensureScopeControls } from "./layout";
 export class Controls {
   input = { ...neutral(), cameraAim: true };
-  enabled = false;
+  private active = false;
+  private buddyHolds = new Set<string>();
+  get enabled() {
+    return this.active;
+  }
+  set enabled(enabled: boolean) {
+    this.active = enabled;
+    if (!enabled) {
+      this.buddyHolds.clear();
+      this.queued.delete("buddySkill");
+    }
+  }
   scoped = false;
   private mouseAim = false;
   /** Visual readiness follows the existing aim gesture; never serialized. */
@@ -33,6 +44,7 @@ export class Controls {
       this.motionAt = 0;
       this.keys.clear();
       this.queued.clear();
+      this.buddyHolds.clear();
       this.touches.clear();
       const yaw = this.input.yaw,
         pitch = this.input.pitch;
@@ -116,19 +128,22 @@ export class Controls {
       this.keys.add(e.code);
       if (!e.repeat) {
         if (e.code === "KeyZ") this.toggleScope();
+        if (e.code === "KeyG") this.beginBuddySkill("keyboard");
         const action = (
           {
             KeyR: "reload",
             KeyQ: "swap",
             Space: "dodge",
             KeyF: "jump",
-            KeyG: "buddySkill",
           } as Record<string, string>
         )[e.code];
         if (action) this.queued.add(action);
       }
     });
-    window.addEventListener("keyup", (e) => this.keys.delete(e.code));
+    window.addEventListener("keyup", (e) => {
+      this.keys.delete(e.code);
+      if (e.code === "KeyG") this.endBuddySkill(true, "keyboard");
+    });
     window.addEventListener("pointerdown", (e) => {
       if (!this.enabled || e.pointerType !== "mouse") return;
       if (
@@ -290,7 +305,14 @@ export class Controls {
   }
   /** ClaudeのHUDボタンから呼ぶ。レイアウトと入力の責務を分離。 */
   activateBuddySkill() {
-    if (this.enabled) this.queued.add("buddySkill");
+    if (this.enabled && !this.buddyHolds.size) this.queued.add("buddySkill");
+  }
+  beginBuddySkill(source = "hud") {
+    if (this.enabled) this.buddyHolds.add(source);
+  }
+  endBuddySkill(activate: boolean, source = "hud") {
+    const held = this.buddyHolds.delete(source);
+    if (held && activate) this.activateBuddySkill();
   }
   read(): Input {
     if (document.hidden || !document.hasFocus()) this.resetInput();
@@ -301,6 +323,7 @@ export class Controls {
     i.dodge = this.queued.has("dodge");
     i.jump = this.queued.has("jump");
     i.buddySkill = this.queued.has("buddySkill");
+    i.buddyCharge = this.enabled && this.buddyHolds.size > 0;
     this.queued.clear();
     i.revive ||= this.keys.has("KeyE");
     i.seq = ++this.input.seq;

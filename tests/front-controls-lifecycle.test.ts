@@ -58,6 +58,91 @@ function fixture() {
 afterEach(() => vi.unstubAllGlobals());
 
 describe("戦闘入力の独立した解放と中断", () => {
+  it("Gは長押しを連続採取し、離した時だけ一度発動する", () => {
+    const { controls, view, fire } = fixture();
+    fire(view, "keydown", { code: "KeyG", repeat: false });
+    expect(controls.read()).toMatchObject({
+      buddyCharge: true,
+      buddySkill: false,
+    });
+    fire(view, "keydown", { code: "KeyG", repeat: true });
+    expect(controls.read()).toMatchObject({
+      buddyCharge: true,
+      buddySkill: false,
+    });
+    fire(view, "keyup", { code: "KeyG" });
+    expect(controls.read()).toMatchObject({
+      buddyCharge: false,
+      buddySkill: true,
+    });
+    expect(controls.read()).toMatchObject({
+      buddyCharge: false,
+      buddySkill: false,
+    });
+  });
+
+  it("採取間の短いGタップも解放を保持し、旧AT操作も一度発動する", () => {
+    const { controls, view, fire } = fixture();
+    fire(view, "keydown", { code: "KeyG", repeat: false });
+    fire(view, "keyup", { code: "KeyG" });
+    expect(controls.read()).toMatchObject({
+      buddyCharge: false,
+      buddySkill: true,
+    });
+    controls.activateBuddySkill();
+    expect(controls.read().buddySkill).toBe(true);
+    expect(controls.read().buddySkill).toBe(false);
+  });
+
+  it.each(["blur", "disabled", "reset"])(
+    "%s後の古いG/HUD解放は発動せず、新規押下だけを受け付ける",
+    (mode) => {
+      const { controls, view, fire } = fixture();
+      fire(view, "keydown", { code: "KeyG", repeat: false });
+      controls.beginBuddySkill();
+      expect(controls.read().buddyCharge).toBe(true);
+      if (mode === "blur") fire(view, "blur");
+      else if (mode === "disabled") controls.enabled = false;
+      else controls.reset();
+      controls.enabled = true;
+      fire(view, "keydown", { code: "KeyG", repeat: true });
+      fire(view, "keyup", { code: "KeyG" });
+      controls.endBuddySkill(true);
+      expect(controls.read()).toMatchObject({
+        buddyCharge: false,
+        buddySkill: false,
+      });
+      controls.beginBuddySkill();
+      controls.endBuddySkill(true);
+      expect(controls.read()).toMatchObject({
+        buddyCharge: false,
+        buddySkill: true,
+      });
+    },
+  );
+
+  it("GとHUDの同時押しは最後の解放で発動し、取消は発動しない", () => {
+    const { controls, view, fire } = fixture();
+    fire(view, "keydown", { code: "KeyG", repeat: false });
+    controls.beginBuddySkill();
+    fire(view, "keyup", { code: "KeyG" });
+    expect(controls.read()).toMatchObject({
+      buddyCharge: true,
+      buddySkill: false,
+    });
+    controls.endBuddySkill(true);
+    expect(controls.read()).toMatchObject({
+      buddyCharge: false,
+      buddySkill: true,
+    });
+    controls.beginBuddySkill();
+    controls.endBuddySkill(false);
+    expect(controls.read()).toMatchObject({
+      buddyCharge: false,
+      buddySkill: false,
+    });
+  });
+
   it("表示用の歩行読取は送信番号と一度だけの操作を消費しない", () => {
     const { controls, view, fire, touch } = fixture();
     touch("pointerdown", "move", 1);

@@ -12,9 +12,46 @@ import {
 } from "../src/shared/buddy-progression";
 import { createWorld, addPlayer } from "../src/shared/game";
 import {
+  BUDDY_COMBAT,
   createBuddyBattleState,
   equipBattleBuddy,
 } from "../src/shared/buddy-combat";
+
+it("HUDは権威時刻からチャージ率と発動中を読み、中断や旧状態を区別する", () => {
+  const w = createWorld("charged-view");
+  addPlayer(w, "p");
+  w.phase = "battle";
+  w.buddies = createBuddyBattleState(w);
+  equipBattleBuddy(w.buddies, w.players[0], "tatara");
+  const buddy = w.buddies.entries.p;
+  expect(getBuddySkillView(w, "p", true)!.charge).toBeUndefined();
+  buddy.chargeStartedAt = 1;
+  w.time = 1;
+  expect(getBuddySkillView(w, "p", true)!.charge).toBe(0);
+  w.time = 1 + BUDDY_COMBAT.chargeThreshold + BUDDY_COMBAT.chargeDuration / 2;
+  expect(getBuddySkillView(w, "p", true)!.charge).toBeCloseTo(0.5);
+  w.time += BUDDY_COMBAT.chargeDuration;
+  expect(getBuddySkillView(w, "p", true)!.charge).toBe(1);
+  expect(getBuddySkillView(w, "p", false)!.charge).toBeUndefined();
+  buddy.skillPending = true;
+  expect(getBuddySkillView(w, "p", true)).toMatchObject({
+    charge: undefined,
+    casting: true,
+  });
+  expect(getBuddySkillView(w, "p", false)!.casting).toBe(false);
+  buddy.skillPending = false;
+  buddy.chargeStartedAt = -1;
+  expect(getBuddySkillView(w, "p", true)).toMatchObject({
+    charge: undefined,
+    casting: false,
+  });
+  delete buddy.chargeStartedAt;
+  delete buddy.skillPending;
+  expect(getBuddySkillView(w, "p", true)).toMatchObject({
+    charge: undefined,
+    casting: false,
+  });
+});
 
 it("初回表示は旧保存を書き換えず、保証中は未所持だけの実確率を出す", () => {
   const save = freshProgress("normal");

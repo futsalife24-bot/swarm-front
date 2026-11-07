@@ -7,6 +7,7 @@ import {
   type BuddyMotion,
 } from "./buddy-assets";
 import { buddyFollowTarget, type BuddyPoint } from "./buddy-follow";
+import { sampleBuddySkillPose } from "./buddy-skill-motion";
 import { mapFor } from "../shared/stages";
 import type { World } from "../shared/game";
 
@@ -36,9 +37,20 @@ interface Entry extends BuddyAppearance {
   mixer?: T.AnimationMixer;
   actions?: Map<string, T.AnimationAction>;
   motion?: string;
+  skillPlaybackAt?: number;
   position?: BuddyPoint;
   error?: string;
   loading?: Promise<void>;
+}
+function reducedMotionReader() {
+  const query =
+    typeof window !== "undefined"
+      ? window.matchMedia?.("(prefers-reduced-motion: reduce)")
+      : undefined;
+  return () =>
+    query?.matches === true ||
+    (typeof document !== "undefined" &&
+      document.documentElement.dataset.menuReducedMotion === "true");
 }
 /** 外観のみ。所有者の位置は実World／既存兵士描画を参照し、戦闘・保存を変更しない。 */
 export class BuddyVisuals {
@@ -53,6 +65,7 @@ export class BuddyVisuals {
       new GLTFLoader().loadAsync(
         `${import.meta.env.BASE_URL}assets/buddy/${BUDDY_ASSETS[kind].file}`,
       ),
+    private reducedMotion: () => boolean = reducedMotionReader(),
   ) {}
 
   private remove(key: string) {
@@ -150,11 +163,38 @@ export class BuddyVisuals {
   private play(e: Entry, motion: BuddyMotion) {
     const name = motion === "Display" ? BUDDY_ASSETS[e.kind].display : motion;
     const next = e.actions?.get(name);
-    if (!next || e.motion === name) return;
+    if (!next || (e.motion === name && e.skillPlaybackAt === undefined)) return;
+    e.skillPlaybackAt = undefined;
     const previous = e.motion ? e.actions?.get(e.motion) : undefined;
-    next.reset().setEffectiveTimeScale(1).setEffectiveWeight(1).play();
-    previous?.crossFadeTo(next, 0.18, false);
+    next.clampWhenFinished = false;
+    next
+      .reset()
+      .setLoop(T.LoopRepeat, Infinity)
+      .setEffectiveTimeScale(1)
+      .setEffectiveWeight(1)
+      .play();
+    if (previous !== next) previous?.crossFadeTo(next, 0.18, false);
     e.motion = name;
+  }
+  private playSkill(e: Entry, startedAt: number, progress: number) {
+    const name = BUDDY_ASSETS[e.kind].display;
+    const next = e.actions?.get(name);
+    if (!next) return;
+    if (e.skillPlaybackAt !== startedAt || e.motion !== name) {
+      // 絶対時刻へseekするため、前のループとfadeの時刻を混ぜない。
+      e.mixer?.stopAllAction();
+      next
+        .reset()
+        .setLoop(T.LoopOnce, 1)
+        .setEffectiveTimeScale(0)
+        .setEffectiveWeight(1)
+        .play();
+      next.clampWhenFinished = true;
+      e.skillPlaybackAt = startedAt;
+      e.motion = name;
+    }
+    next.time = next.getClip().duration * progress;
+    e.mixer?.update(0);
   }
   update(
     world: World | null,
@@ -197,6 +237,7 @@ export class BuddyVisuals {
     }
     for (const [key, a] of wanted) if (!this.entries.has(key)) this.add(a);
     const delta = Math.max(0, Math.min(0.1, dt));
+    const reducedMotion = this.reducedMotion();
     for (const e of this.entries.values()) {
       const p = world.players.find((p) => p.id === e.owner)!;
       const soldier = soldiers.get(p.id);
@@ -220,38 +261,56 @@ export class BuddyVisuals {
       e.root.visible = !!target && !!e.model;
       if (!target) {
         e.position = undefined;
+        e.root.scale.set(1, 1, 1);
         continue;
       }
+      const skill = sampleBuddySkillPose(
+        e.kind,
+        reviewMotion ? undefined : authoritative,
+        world.time,
+        reducedMotion,
+      );
       const before = e.position;
-      const t = before ? 1 - Math.exp(-7 * delta) : 1;
+      // 発動中は権威側で固定した地点へ合わせ、補間の残りで横滑りさせない。
+      const t = before && !skill.casting ? 1 - Math.exp(-7 * delta) : 1;
       const position = before
         ? {
             x: T.MathUtils.lerp(before.x, target.x, t),
             y: T.MathUtils.lerp(before.y, target.y, t),
             z: T.MathUtils.lerp(before.z, target.z, t),
           }
-        : target;
+        : { x: target.x, y: target.y, z: target.z };
       const speed =
         before && delta > 0
           ? Math.hypot(position.x - before.x, position.z - before.z) / delta
           : 0;
       e.position = position;
-      e.root.position.set(position.x, position.y, position.z);
+      e.root.position.set(position.x, position.y + skill.jump, position.z);
+      e.root.scale.set(skill.scaleXZ, skill.scaleY, skill.scaleXZ);
       const yaw =
         speed > 0.15 && before
           ? Math.atan2(position.x - before.x, -(position.z - before.z))
           : p.yaw;
       if (!before) e.root.rotation.y = Math.PI - yaw;
-      e.root.rotation.y +=
-        Math.atan2(
-          Math.sin(Math.PI - yaw - e.root.rotation.y),
-          Math.cos(Math.PI - yaw - e.root.rotation.y),
-        ) *
-        (1 - Math.exp(-10 * delta));
+      if (!skill.casting)
+        e.root.rotation.y +=
+          Math.atan2(
+            Math.sin(Math.PI - yaw - e.root.rotation.y),
+            Math.cos(Math.PI - yaw - e.root.rotation.y),
+          ) *
+          (1 - Math.exp(-10 * delta));
+      if (skill.casting) {
+        this.playSkill(e, authoritative!.skillStartedAt!, skill.clipProgress);
+        continue;
+      }
       this.play(
         e,
         reviewMotion ??
-          (authoritative && world.time < authoritative.displayUntil
+          (authoritative &&
+          world.time <
+            (authoritative.skillStartedAt === undefined
+              ? authoritative.displayUntil
+              : authoritative.lastAttackAt + 0.3)
             ? "Display"
             : speed > 0.15
               ? "Follow"
