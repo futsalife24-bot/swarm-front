@@ -60,11 +60,13 @@ export function attachBuddySkill(
   const skill = createBuddySkillButton({
     keyHint: "G",
     onActivate: () => controls.activateBuddySkill(),
+    onHoldStart: () => controls.beginBuddySkill(),
+    onHoldEnd: (activate) => controls.endBuddySkill(activate),
     sound: (cue) => sound.play(cue),
   });
   skill.element.id = "buddy";
   skill.element.hidden = true;
-  skill.element.title = "固有スキル（G）";
+  skill.element.title = "固有スキル（G）：短押しで発動・長押しで強化";
   skill.element.dataset.buddyActive = "false";
   const placeholder = document.getElementById("buddy");
   if (placeholder) placeholder.replaceWith(skill.element);

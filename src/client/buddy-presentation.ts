@@ -5,7 +5,11 @@ import type {
   BuddySkillView,
   BuddyUiState,
 } from "./buddy-ui";
-import { BUDDY_COMBAT, buddyMode } from "../shared/buddy-combat";
+import {
+  BUDDY_COMBAT,
+  buddyChargeFraction,
+  buddyMode,
+} from "../shared/buddy-combat";
 import {
   BUDDY_IDS,
   BUDDY_LEVEL_CAPS,
@@ -224,5 +228,10 @@ export function getBuddySkillView(
     remaining: Math.max(0, entry.skillReadyAt - world.time),
     activeRemaining,
     unavailable,
+    charge:
+      !unavailable && !entry.skillPending && (entry.chargeStartedAt ?? -1) >= 0
+        ? buddyChargeFraction(world.time - entry.chargeStartedAt!)
+        : undefined,
+    casting: !unavailable && entry.skillPending === true,
   };
 }

@@ -1,0 +1,150 @@
+/*
+ * 協力・生存戦の出撃前カードデッキ編成（.front-base.front-departure-deck）。
+ * 既存 front-base（生存カード）の構成・テーマを継承し、この画面だけの配置を調整する。
+ * ソロの生存カード画面・防衛・デイリー・通常の出撃準備には作用しない。
+ *
+ * 配置：
+ *   見出し（編成名・固定武器・再抽選・保存して準備完了・ロビーへ戻る）
+ *   左：強化/融合タブ＋カード格子　右上：次の獲得・抽選数・除外枠　右：詳細＋除外操作
+ *   下：状態表示（保存結果・エラー）
+ * デッキ枚数の段を詳細欄の上へ寄せ、縦の1段を格子の表示件数へ回す。
+ */
+body.front-game #ui .front-base.front-departure-deck {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(220px, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "head head"
+    "catalog bar"
+    "catalog detail"
+    "status status";
+  gap: 6px 10px;
+}
+/* 想定外の追加要素は全幅の段へ置き、格子や詳細へ重ねない。 */
+.front-departure-deck > * {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+/* 配置だけの箱。中の格子と詳細を直接この画面の段へ載せる。 */
+.front-departure-deck > .base-workbench {
+  display: contents;
+}
+.front-departure-deck > .base-header {
+  grid-area: head;
+}
+.front-departure-deck .base-catalog {
+  grid-area: catalog;
+}
+.front-departure-deck > .base-deck-bar {
+  grid-area: bar;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  align-content: center;
+  gap: 1px 8px;
+  /* タブの段の高さ − 段間。詳細欄の上端を格子の上端へそろえる。 */
+  min-height: 30px;
+  line-height: 14px;
+}
+.front-departure-deck .base-detail {
+  grid-area: detail;
+}
+.front-departure-deck > #front-pool-status {
+  grid-area: status;
+}
+
+/* 見出し：固定武器は小さな補足。名前が長い時は省略し、操作を押し出さない。 */
+.front-departure-deck .base-header {
+  min-width: 0;
+}
+.front-departure-deck .base-header h1 {
+  flex: none;
+}
+.front-departure-deck .front-departure-weapon {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 15em;
+  overflow: hidden;
+  padding: 2px 7px;
+  border: 1px solid #6e858b99;
+  background: #0d222b;
+  color: #c5d7dc;
+  font-size: 11px;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* 再抽選の回数は常に全文で読めるようにする（縮めるのは固定武器の補足だけ）。 */
+body.front-game #ui .front-departure-deck .base-service {
+  flex: none;
+  font-size: 11px;
+  white-space: nowrap;
+}
+.front-departure-deck .base-header nav {
+  flex: none;
+  display: flex;
+  gap: 4px;
+}
+/* 保存して準備完了・ロビーへ・設定・操作の3つ。押しやすい44pxにそろえる。 */
+body.front-game #ui .front-departure-deck .base-header nav button {
+  min-height: 44px;
+  padding: 6px 12px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* デッキの状態：次の獲得（左）と抽選数・除外枠（右）。幅が足りなければ2行。 */
+.front-departure-deck .base-next-unlock {
+  flex: 1 1 9em;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.front-departure-deck #base-count {
+  margin-left: auto;
+  font-weight: 700;
+}
+/* 格子の上端と詳細欄の上端をそろえる（タブの段と同じ高さ）。 */
+.front-base.front-departure-deck .base-catalog-heading {
+  min-height: 36px;
+  margin: 0;
+}
+/* 除外操作は詳細欄の下に固定のまま、押しやすい高さへ。 */
+.front-base.front-departure-deck .base-exclude-control {
+  min-height: 44px;
+}
+
+@media (max-width: 700px) {
+  body.front-game #ui .front-base.front-departure-deck {
+    grid-template-columns: minmax(0, 1.6fr) minmax(210px, 1fr);
+    column-gap: 6px;
+  }
+  body.front-game #ui .front-departure-deck .base-header nav button {
+    padding: 6px 9px;
+    font-size: 12px;
+  }
+  .front-departure-deck .front-departure-weapon {
+    max-width: 11em;
+  }
+}
+/* 568幅などでは3ボタンと再抽選回数を優先し、固定武器の補足は出さない
+   （武器を選ぶ操作はこの画面に無く、欠けても操作に影響しない）。 */
+@media (max-width: 600px) {
+  .front-departure-deck .front-departure-weapon {
+    display: none;
+  }
+}
+/* 横画面の低い高さ：段間を詰めて格子の表示行を確保する。 */
+@media (max-height: 370px) {
+  body.front-game #ui .front-base.front-departure-deck {
+    row-gap: 4px;
+  }
+  .playtest #ui .pt-screen.front-departure-deck .menu-header {
+    padding-bottom: 2px;
+  }
+  .front-base.front-departure-deck .base-catalog-heading {
+    min-height: 34px;
+  }
+}

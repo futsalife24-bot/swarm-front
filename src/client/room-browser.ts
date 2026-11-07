@@ -1,6 +1,6 @@
 import { parseRoomEntry } from "./room-invite";
 import { STAGES } from "../shared/stages";
-import { type RoomListing } from "../shared/room-directory";
+import { validRoomId, type RoomListing } from "../shared/room-directory";
 
 const esc = (s: string) =>
   s.replace(
@@ -20,11 +20,11 @@ export function setRoomBrowserBusy(root: HTMLElement, busy: boolean) {
 /** 招待で集まる部屋と、一覧から入る部屋を切り替える。 */
 export function roomBrowserMarkup(endpoint: string, status: string) {
   return `<section class="panel room-entry room-browser"><header><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力プレイ</h1></div><button id="home">タイトルへ</button></header>
-  <div class="room-access" role="group" aria-label="募集方法"><button type="button" data-room-access="private" aria-pressed="true">パスワード付き</button><button type="button" data-room-access="public" aria-pressed="false">フリーマッチング</button></div>
-  <p id="room-access-help" class="fine">招待リンクか参加用パスワードを共有して、仲間と集まります。一覧には表示されません。</p>
+  <div class="room-access" role="group" aria-label="募集方法"><button type="button" data-room-access="private" aria-pressed="true">IDで招待</button><button type="button" data-room-access="public" aria-pressed="false">フリーマッチング</button></div>
+  <p id="room-access-help" class="fine">招待リンクか部屋IDを共有して、仲間と集まります。一覧には表示されません。</p>
   <input id="room-visibility" type="hidden" value="private">
   <div class="room-browser-columns"><section class="room-create"><div class="room-create-fields"><h2>部屋を作る</h2><label>部屋名<input id="room-name" maxlength="24" value="協力部隊" autocomplete="off"></label><div id="turnstile-room-create" aria-label="ルーム作成の人間確認"></div><p id="turnstile-status" class="fine"></p></div><button class="primary" id="launch">部屋を作る ↗</button></section>
-  <section class="room-browse"><header><h2 id="room-browse-title">招待で参加する</h2><button id="room-refresh" hidden>更新</button></header><form id="room-join-form"><label class="sr-only" for="room-id">参加用パスワードまたは招待リンク</label><input id="room-id" maxlength="2048" placeholder="参加用パスワード / 招待リンク" autocomplete="off" autocapitalize="off" spellcheck="false"><button id="room-join" type="submit">参加</button></form><p id="room-list-status" role="status">部屋主から届いた8文字のパスワードか招待リンクを入力してください。</p><div id="room-list" aria-label="公開部屋一覧" hidden></div></section></div>
+  <section class="room-browse"><header><h2 id="room-browse-title">招待で参加する</h2><button id="room-refresh" hidden>更新</button></header><form id="room-join-form"><label class="sr-only" for="room-id">部屋IDまたは招待リンク</label><input id="room-id" maxlength="2048" placeholder="部屋ID / 招待リンク" autocomplete="off" autocapitalize="off" spellcheck="false"><button id="room-join" type="submit">参加</button></form><p id="room-list-status" role="status">部屋主から届いた数字3桁の部屋IDか招待リンクを入力してください。</p><div id="room-list" aria-label="公開部屋一覧" hidden></div></section></div>
   <details class="coop-advanced"><summary>接続先を手動設定（開発用）</summary><div class="join"><input id="endpoint" aria-label="協力サーバー" value="${esc(endpoint)}"><input id="creation-key" type="password" aria-label="ローカル作成キー" placeholder="ローカル作成キー" autocomplete="off" maxlength="256"></div></details><p class="status" role="status">${esc(status)}</p></section>`;
 }
 
@@ -85,7 +85,7 @@ export function bindRoomBrowser(
     if (!response.ok)
       throw new Error(
         response.status === 404
-          ? "部屋が見つかりません。パスワードが違うか、部屋が終了しています。部屋主にご確認ください。"
+          ? "部屋が見つかりません。部屋IDが違うか、部屋が終了しています。部屋主にご確認ください。"
           : typeof value?.error === "string"
             ? value.error
             : "部屋情報を取得できませんでした。もう一度お試しください。",
@@ -101,7 +101,7 @@ export function bindRoomBrowser(
     if (!id) {
       roomInput.setAttribute("aria-invalid", "true");
       message(
-        "入力エラー：パスワードは0〜9・A〜Fの8文字です。部屋主のパスワードか招待リンクをコピーしてください。",
+        "入力エラー：部屋IDは数字3桁です。部屋主のIDか招待リンクをコピーしてください。以前の8文字IDも利用できます。",
         "error",
       );
       return;
@@ -160,7 +160,8 @@ export function bindRoomBrowser(
         throw new Error("部屋一覧を取得できませんでした");
       list.replaceChildren();
       for (const room of (data.rooms as RoomListing[]).slice(0, 20)) {
-        if (!/^[A-F0-9]{8}$/.test(room.roomId)) continue;
+        if (typeof room.roomId !== "string" || !validRoomId(room.roomId))
+          continue;
         const row = document.createElement("div");
         row.className = "room-list-row";
         const title = document.createElement("strong");
@@ -206,12 +207,12 @@ export function bindRoomBrowser(
       : "招待で参加する";
     root.querySelector("#room-access-help")!.textContent = isPublic
       ? "公開中の部屋から選んで参加できます。部屋を作ると、この一覧に公開されます。"
-      : "招待リンクか参加用パスワードを共有して、仲間と集まります。一覧には表示されません。";
+      : "招待リンクか部屋IDを共有して、仲間と集まります。一覧には表示されません。";
     roomInput.removeAttribute("aria-invalid");
     message(
       isPublic
         ? "公開部屋を探しています…"
-        : "部屋主から届いた8文字のパスワードか招待リンクを入力してください。",
+        : "部屋主から届いた数字3桁の部屋IDか招待リンクを入力してください。",
     );
     if (isPublic) void refresh();
   }

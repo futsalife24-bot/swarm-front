@@ -91,7 +91,7 @@ try {
   await host.locator("#launch").click();
   await host.locator("#room-code").waitFor();
   const roomId = await host.locator("#room-code").innerText();
-  assert.match(roomId, /^[A-F0-9]{8}$/);
+  assert.match(roomId, /^[0-9]{3}$/);
   await poll(async () =>
     (await list()).some((r) => r.roomId === roomId && r.players === 1),
   );
@@ -137,7 +137,7 @@ try {
   await third.locator("#room-id").fill("INVALID!");
   await third.locator("#room-join").click();
   assert.ok(
-    (await third.locator("#room-list-status").innerText()).includes("8文字"),
+    (await third.locator("#room-list-status").innerText()).includes("数字3桁"),
   );
   await third.locator("#room-id").fill(roomId.toLowerCase());
   await third.locator("#room-join").click();

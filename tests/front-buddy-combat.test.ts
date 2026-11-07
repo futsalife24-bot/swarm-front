@@ -39,6 +39,7 @@ describe("進撃バディの権威戦闘コア", () => {
       expect(activateBuddySkill(f.w, f.state, p.id)).toBe(true),
     );
     expect(f.w.players.map((p) => p.hp)).toEqual([40, 40, 40, 40]);
+    advance(f, 0.35); // 発動モーションの完了後から回復
     advance(f, 2.5);
     f.w.players.forEach((p) => expect(p.hp).toBeCloseTo(60));
     advance(f, 3);
@@ -70,11 +71,12 @@ describe("進撃バディの権威戦闘コア", () => {
     const f = setup(["tobari", "tobari", "oriha", "yosuga"]);
     f.w.players[3].x = 20;
     ["p0", "p1", "p2"].forEach((id) => activateBuddySkill(f.w, f.state, id));
+    advance(f, 0.35);
     expect(buddyDamageMultiplier(f.w, f.state, "p0")).toBe(0.7);
     expect(buddyMoveMultiplier(f.w, f.state, "p0")).toBe(1.2);
     expect(buddyEvadeCooldownMultiplier(f.w, f.state, "p0")).toBe(0.8);
     expect(buddyDamageMultiplier(f.w, f.state, "p3")).toBe(1);
-    f.w.time = 6;
+    f.w.time = 6.4;
     expect(buddyDamageMultiplier(f.w, f.state, "p0")).toBe(1);
     expect(buddyMoveMultiplier(f.w, f.state, "p0")).toBe(1);
   });
@@ -101,6 +103,9 @@ describe("進撃バディの権威戦闘コア", () => {
     Object.assign(near, { x: 0, y: 0, z: -2, hp: 100 });
     Object.assign(far, { x: 0, y: 0, z: -8, hp: 100 });
     expect(activateBuddySkill(f.w, f.state, "p0")).toBe(true);
+    expect(near.hp).toBe(100);
+    f.state.entries.p0.attackReadyAt = 999;
+    advance(f, 0.65);
     expect(near.hp).toBe(40);
     expect(far.hp).toBe(100);
     expect(activateBuddySkill(f.w, f.state, "p0")).toBe(false);

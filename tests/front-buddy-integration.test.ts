@@ -72,6 +72,8 @@ describe("進撃バディの既存処理への接続", () => {
       control = setup();
     advance(world, 0.05, { buddySkill: true });
     advance(control, 0.05);
+    advance(world, 0.35);
+    advance(control, 0.35);
     for (let i = 0; i < 2; i++) {
       hurtPlayer(world, world.players[i], 40);
       hurtPlayer(control, control.players[i], 40);
@@ -92,8 +94,12 @@ describe("進撃バディの既存処理への接続", () => {
   it("移動と回避の本処理が身体強化を使用し、回避速度自体は増やさない", () => {
     const world = setup("oriha"),
       control = setup();
+    advance(world, 0.05, { buddySkill: true });
+    advance(control, 0.05);
+    advance(world, 0.35);
+    advance(control, 0.35);
     const start = world.players[0].x;
-    advance(world, 0.05, { buddySkill: true, mx: 1 });
+    advance(world, 0.05, { mx: 1 });
     advance(control, 0.05, { mx: 1 });
     expect(world.players[0].x - start).toBeCloseTo(
       (control.players[0].x - start) * 1.2,

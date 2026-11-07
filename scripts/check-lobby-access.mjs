@@ -69,7 +69,7 @@ try {
       );
       assert.equal(
         await label.innerText(),
-        listed ? "フリーマッチング" : "パスワード付き",
+        listed ? "フリーマッチング" : "IDで招待",
       );
       if (mode === "survival") {
         assert.match(
@@ -156,7 +156,7 @@ try {
             : ":light(#room-code)",
         )
         .innerText();
-      assert.match(password, /^[A-F0-9]{8}$/);
+      assert.match(password, /^[0-9]{3}$/);
       await page
         .locator(
           mode === "survival"

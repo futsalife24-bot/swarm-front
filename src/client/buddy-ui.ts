@@ -7,6 +7,10 @@
  * 接続手順は design/buddy-ui/HANDOFF.md。
  */
 import "./buddy-ui.css";
+import {
+  bindBuddySkillInput,
+  type BuddySkillInputActions,
+} from "./buddy-skill-input";
 
 export type BuddyElement = "fire" | "wind" | "ice" | "lightning";
 
@@ -608,6 +612,10 @@ export interface BuddySkillView {
   remaining: number;
   /** 効果の持続中（残り秒）。表示だけで、効果判定は主担当側。 */
   activeRemaining?: number;
+  /** サーバーの保持時間から算出。undefinedはチャージ操作なし。 */
+  charge?: number;
+  /** 解放後、効果が出るまでの発動モーション中。 */
+  casting?: boolean;
   /** 戦闘不能・表示不可などで押せない理由 */
   unavailable?: string | null;
 }
@@ -625,14 +633,15 @@ export {
 } from "./buddy-ui-placement";
 import type { BuddySkillLabelSide } from "./buddy-ui-placement";
 
-export function createBuddySkillButton(options: {
-  onActivate(): void;
-  sound?(cue: BuddySoundCue): void;
-  /** layout.ts の placeControls が getElementById で配置するためのID。既定は "buddy"。 */
-  id?: string;
-  /** PC（pointer: fine）で添えるキー表示。例："V"。タッチ端末では出さない。 */
-  keyHint?: string;
-}) {
+export function createBuddySkillButton(
+  options: BuddySkillInputActions & {
+    sound?(cue: BuddySoundCue): void;
+    /** layout.ts の placeControls が getElementById で配置するためのID。既定は "buddy"。 */
+    id?: string;
+    /** PC（pointer: fine）で添えるキー表示。例："V"。タッチ端末では出さない。 */
+    keyHint?: string;
+  },
+) {
   const button = document.createElement("button");
   button.type = "button";
   button.id = options.id ?? "buddy";
@@ -652,21 +661,17 @@ export function createBuddySkillButton(options: {
   const name = button.querySelector<HTMLElement>(".bd-skill-name")!;
   let element: string | null = null;
 
-  const fire = (e: Event) => {
-    e.preventDefault();
-    if (!view || view.unavailable || view.remaining > 0) return;
-    options.onActivate();
-  };
-  button.addEventListener("pointerdown", fire);
-  button.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") fire(e);
-  });
-  button.addEventListener("contextmenu", (e) => e.preventDefault());
+  const input = bindBuddySkillInput(
+    button,
+    () => !!view && !view.unavailable && view.remaining <= 0,
+    options,
+  );
 
   return {
     element: button,
     update(next: BuddySkillView | null) {
       view = next;
+      if (!next || next.unavailable || next.remaining > 0) input.cancel();
       button.hidden = !next;
       if (!next) return;
       if (element !== next.element) {
@@ -676,20 +681,34 @@ export function createBuddySkillButton(options: {
       }
       const total = Math.max(0.001, next.cooldown);
       const remaining = Math.max(0, next.remaining);
-      const ready = remaining <= 0 && !next.unavailable;
+      const ready = remaining <= 0 && !next.unavailable && !next.casting;
+      const charge =
+        next.charge === undefined
+          ? undefined
+          : Math.max(0, Math.min(1, next.charge));
       const state = next.unavailable
         ? "unavailable"
-        : (next.activeRemaining ?? 0) > 0
+        : next.casting ||
+            charge !== undefined ||
+            (next.activeRemaining ?? 0) > 0
           ? "active"
           : ready
             ? "ready"
             : "cooldown";
-      const seconds = ready
-        ? ""
-        : next.unavailable
-          ? "—"
-          : String(Math.ceil(remaining));
-      const progress = (1 - Math.min(1, remaining / total)).toFixed(2);
+      const seconds = next.unavailable
+        ? "—"
+        : next.casting
+          ? "発動"
+          : charge !== undefined
+            ? charge >= 1
+              ? "MAX"
+              : `${Math.floor(charge * 100)}%`
+            : ready
+              ? ""
+              : String(Math.ceil(remaining));
+      const progress = (charge ?? 1 - Math.min(1, remaining / total)).toFixed(
+        2,
+      );
       // 毎フレーム呼ばれる。輪の進み（1%刻み）・秒・状態が変わった時だけDOMを書き換える。
       const key = `${state}|${seconds}|${progress}|${next.name}|${next.skillName}|${next.unavailable ?? ""}`;
       if (key !== lastKey) {
@@ -701,7 +720,7 @@ export function createBuddySkillButton(options: {
         button.setAttribute("aria-disabled", String(!ready));
         button.setAttribute(
           "aria-label",
-          `${next.name}の固有スキル ${next.skillName}${ready ? " 使用可能" : next.unavailable ? ` ${next.unavailable}` : ` 再使用まで${seconds}秒`}`,
+          `${next.name}の固有スキル ${next.skillName}${next.unavailable ? ` ${next.unavailable}` : next.casting ? " 発動中" : charge !== undefined ? ` チャージ${Math.floor(charge * 100)}%。離すと発動` : ready ? " 短押しで発動、長押しで強化して離すと発動" : ` 再使用まで${seconds}秒`}`,
         );
       }
       if (ready && !wasReady && initialized) {
@@ -724,6 +743,7 @@ export function createBuddySkillButton(options: {
       return name.getBoundingClientRect();
     },
     destroy() {
+      input.destroy();
       button.remove();
     },
   };

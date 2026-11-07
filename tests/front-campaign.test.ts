@@ -43,13 +43,17 @@ it("生存は獲得済み全種類を候補にし、進撃突破で追加して�
   const before = [...s.map];
   const survival = readFrontSurvivalLoadout(s);
   expect(survival.error).toBe("");
-  expect(survival.pool).toHaveLength(22);
+  // 生存だけは進撃1〜3で追加される属性3種も保持する。旧防衛デッキ22種は下で別に確認。
+  expect(survival.pool).toHaveLength(25);
   expect(survival.pool).toEqual(
     expect.arrayContaining([
       ...initial.pool,
       "boost-coil",
       "recovery-pack",
       "burst-cell",
+      "fire-rounds",
+      "frost-rounds",
+      "chain-lightning",
     ]),
   );
   expect(survival.pool).toContain("life-drain");

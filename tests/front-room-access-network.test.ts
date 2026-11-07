@@ -66,6 +66,6 @@ it.each([Network, FrontNetwork])(
 
 it("募集方式が不明なとき公開・非公開を推測しない", () => {
   expect(roomAccessInfo(true).label).toBe("フリーマッチング");
-  expect(roomAccessInfo(false).label).toBe("パスワード付き");
+  expect(roomAccessInfo(false).label).toBe("IDで招待");
   expect(roomAccessInfo(undefined).state).toBe("unknown");
 });

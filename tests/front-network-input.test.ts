@@ -162,6 +162,49 @@ it("通常の混雑では短押しを保持し、移動は最新値で送る", (
     }),
   ]);
 });
+it.each([false, true])(
+  "バディ長押しは最新値を送り、混雑中の解放パルスだけを保持する（legacy=%s）",
+  (legacy) => {
+    const { net, ws, advance } = setup(false, false, legacy);
+    net.input({ ...neutral(), seq: 1, buddyCharge: true });
+    expect(ws.inputs()[0]).toMatchObject({
+      buddyCharge: true,
+      buddySkill: false,
+    });
+    ws.bufferedAmount = 5000;
+    advance();
+    net.input({ ...neutral(), seq: 2, buddyCharge: false, buddySkill: true });
+    net.input({ ...neutral(), seq: 3 });
+    ws.bufferedAmount = 0;
+    net.input({ ...neutral(), seq: 4 });
+    expect(ws.inputs()[1]).toMatchObject({
+      buddyCharge: false,
+      buddySkill: true,
+    });
+    advance();
+    net.input({ ...neutral(), seq: 5 });
+    expect(ws.inputs()[2]).toMatchObject({
+      buddyCharge: false,
+      buddySkill: false,
+    });
+  },
+);
+it.each([false, true])(
+  "バディ長押し中断は未送信の保持と発動を破棄し、旧形式入力で復活しない（legacy=%s）",
+  (legacy) => {
+    const { net, ws } = setup(false, false, legacy);
+    ws.bufferedAmount = 5000;
+    net.input({ ...neutral(), seq: 1, buddyCharge: true });
+    net.input({ ...neutral(), seq: 2, buddySkill: true });
+    net.discardPendingInput();
+    ws.bufferedAmount = 0;
+    net.input({ ...neutral(), seq: 3 });
+    expect(ws.inputs()[0]).toMatchObject({
+      buddyCharge: false,
+      buddySkill: false,
+    });
+  },
+);
 it("中断すると未送信タップを破棄し、再開後の新しいタップは送る", () => {
   const { net, ws, advance } = setup();
   ws.bufferedAmount = 5000;

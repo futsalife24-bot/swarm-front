@@ -29,6 +29,7 @@ import "../menu-ui.css";
 import "../menu-theme.css";
 import "./playtest.css";
 import "./gear-weapon-list.css";
+import { bindRewardWeaponDetails } from "./reward-weapon-details";
 import { growthMarkup, bindGrowthUI, growthConfirmation } from "./growth-ui";
 import {
   openSurvivalTraining,
@@ -1412,7 +1413,10 @@ function commit(next: ProgressSave, after: () => void = () => {}) {
   checkpointNow();
   return true;
 }
+let releaseRewardDetails: (() => void) | undefined;
 function setScreen(next: string) {
+  releaseRewardDetails?.();
+  releaseRewardDetails = undefined;
   activeBuddyMenu?.destroy();
   activeBuddyMenu = undefined;
   if (next !== screen) {
@@ -1841,6 +1845,11 @@ function weaponList(items: StoredWeapon[], context: string) {
 }
 
 function bindList(context: string) {
+  if (context === "result")
+    releaseRewardDetails = bindRewardWeaponDetails(ui, (id) => {
+      const weapon = allWeapons(save).find((item) => item.id === id);
+      if (weapon) detail(weapon, context);
+    });
   if (context === "gear")
     bind("pt-organize", () => {
       gearOrganizing = !gearOrganizing;

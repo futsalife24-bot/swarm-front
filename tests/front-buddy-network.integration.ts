@@ -98,7 +98,7 @@ it("実Workerで4人の装備を同期し、発動・変更拒否・同一所有
     input: { ...neutral(), buddySkill: true, seq: 1 },
   });
   const cast = await a.wait(
-    (m) => m.world?.buddies?.entries[guardian.id]?.skillReadyAt > 0,
+    (m) => m.world?.buddies?.buffs[guardian.id]?.guardUntil > m.world?.time,
   );
   const readyAt = cast.world.buddies.entries[guardian.id].skillReadyAt;
   expect(cast.world.buddies.buffs[guardian.id].guardUntil).toBeGreaterThan(
@@ -155,6 +155,128 @@ it("実Workerで4人の装備を同期し、発動・変更拒否・同一所有
       2,
     ),
   );
+});
+
+it("実Workerで長押しを蓄積し、解放モーション・取消・入力失効を区別する", async () => {
+  const response = await fetch(`${endpoint}/rooms`, {
+    method: "POST",
+    headers: { "X-Room-Creation-Key": localCreationKey() },
+    body: JSON.stringify({ name: "バディ長押し通信検証", listed: false }),
+  });
+  expect(response.status).toBe(200);
+  const { code } = (await response.json()) as { code: string };
+  const peers: Client[] = [];
+  for (let i = 0; i < 3; i++) {
+    const client = new Client(code);
+    peers.push(client);
+    await client.wait((m) => m.type === "welcome");
+    client.send({
+      type: "equip",
+      weapons: STARTERS.slice(0, 2),
+      buddy: { id: "tatara", level: 1 },
+    });
+    await client.wait((m) =>
+      m.members?.some((p: any) => p.id === client.id && p.buddy),
+    );
+  }
+  const [holding, cancelling, expiring] = peers;
+  const equipped = await holding.wait(
+    (m) => m.members?.length === 3 && m.members.every((p: any) => p.buddy),
+  );
+  for (const client of peers)
+    client.send({
+      type: "ready",
+      ready: true,
+      stage: equipped.stage,
+      preparationGeneration: equipped.preparationGeneration,
+    });
+  await holding.wait(
+    (m) => m.members?.length === 3 && m.members.every((p: any) => p.ready),
+  );
+  holding.send({
+    type: "start",
+    stage: equipped.stage,
+    preparationGeneration: equipped.preparationGeneration,
+  });
+  await holding.wait((m) => m.world?.phase === "battle");
+  for (const client of peers)
+    client.send({
+      type: "input",
+      input: { ...neutral(), seq: 1, buddyCharge: true },
+    });
+  let seq = 1;
+  const keepHeld = setInterval(
+    () =>
+      holding.send({
+        type: "input",
+        input: { ...neutral(), seq: ++seq, buddyCharge: true },
+      }),
+    100,
+  );
+  try {
+    const started = await holding.wait((m) =>
+      peers.every(
+        (client) =>
+          (m.world?.buddies?.entries[client.id]?.chargeStartedAt ?? -1) >= 0,
+      ),
+    );
+    const chargeAt = started.world.buddies.entries[holding.id].chargeStartedAt;
+    cancelling.send({
+      type: "input",
+      input: { ...neutral(), seq: 2, buddyCharge: false },
+    });
+    const charged = await holding.wait((m) => m.world?.time >= chargeAt + 1.9);
+    for (const client of [cancelling, expiring]) {
+      const buddy = charged.world.buddies.entries[client.id];
+      expect(buddy.chargeStartedAt).toBe(-1);
+      expect(buddy.skillReadyAt).toBe(0);
+      expect(buddy.lastSkillAt).toBe(-1);
+      expect(buddy.skillPending).toBe(false);
+    }
+    expect(charged.world.buddies.entries[holding.id].chargeStartedAt).toBe(
+      chargeAt,
+    );
+    expect(charged.world.buddies.entries[holding.id].skillReadyAt).toBe(0);
+  } finally {
+    clearInterval(keepHeld);
+  }
+  const offset = holding.messages.length;
+  holding.send({
+    type: "input",
+    input: { ...neutral(), seq: ++seq, buddyCharge: false, buddySkill: true },
+  });
+  // A later sample before the next simulation tick must not erase the release.
+  holding.send({ type: "input", input: { ...neutral(), seq: ++seq } });
+  const windup = await holding.wait(
+    (m) => m.world?.buddies?.entries[holding.id]?.skillPending,
+    offset,
+  );
+  const buddy = windup.world.buddies.entries[holding.id];
+  expect(buddy.skillCharge).toBe(1);
+  expect(buddy.lastSkillAt).toBe(-1);
+  expect(buddy.skillImpactAt - buddy.skillStartedAt).toBeCloseTo(0.65);
+  const impact = await holding.wait(
+    (m) =>
+      m.world?.buddies?.entries[holding.id]?.lastSkillAt >=
+      buddy.skillImpactAt - 1e-8,
+    offset,
+  );
+  expect(impact.world.buddies.entries[holding.id].skillPending).toBe(false);
+  expect(impact.world.buddies.entries[holding.id].skillReadyAt).toBe(
+    buddy.skillReadyAt,
+  );
+
+  // Legacy activation is still a short tap and cannot inherit an expired charge.
+  const legacyOffset = expiring.messages.length;
+  expiring.send({
+    type: "input",
+    input: { ...neutral(), seq: 2, buddySkill: true },
+  });
+  const short = await expiring.wait(
+    (m) => m.world?.buddies?.entries[expiring.id]?.skillPending,
+    legacyOffset,
+  );
+  expect(short.world.buddies.entries[expiring.id].skillCharge).toBe(0);
 });
 
 it("実Workerで旧装備パケットは選択を保持し、null解除と不正level拒否を区別", async () => {

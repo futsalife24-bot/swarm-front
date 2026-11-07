@@ -49,9 +49,17 @@ export function openFrontBase(
   root: HTMLElement,
   storage: FrontStorage,
   back: () => void,
-  options: { allUnlocked?: boolean } = {},
+  options: {
+    allUnlocked?: boolean;
+    departure?: {
+      coop: boolean;
+      onApply: () => void;
+      onSettings: () => void;
+    };
+  } = {},
 ) {
   const allUnlocked = options.allUnlocked === true;
+  const departure = options.departure;
   const baseIds = allUnlocked ? FRONT_SURVIVAL_BASE_IDS : FRONT_BASE_IDS;
   const discovery = readFrontFusionDiscovery(storage);
   const known = (id: FrontUpgradeId) => discovery.ids.includes(id);
@@ -75,8 +83,8 @@ export function openFrontBase(
     allUnlocked
       ? `進撃${FRONT_SURVIVAL_UNLOCKS.find((r) => r.ids.includes(id))?.stage ?? ""}突破で解放`
       : `攻略${FRONT_CAMPAIGN_UNLOCKS.find((r) => r.ids.includes(id))?.stage ?? ""}クリアで解放`;
-  root.innerHTML = `<section class="panel menu-screen pt-screen front-base" aria-label="生存カード設定・デッキ編成">
-    <header class="menu-header base-header"><h1>生存カード</h1><span class="base-service">${progress.wins}勝 · ${progress.credits}功績</span><nav><button id="front-save-pool" class="primary">出撃にセット</button><button id="base-back">戻る</button></nav></header>
+  root.innerHTML = `<section class="panel menu-screen pt-screen front-base${departure ? " front-departure-deck" : ""}" aria-label="生存カード設定・デッキ編成">
+    <header class="menu-header base-header"><h1>${departure ? "カードデッキ編成" : "生存カード"}</h1>${departure ? '<small class="front-departure-weapon">武器は固定：ライフル</small>' : ""}<span class="base-service">${progress.wins}勝 · ${progress.credits}功績</span><nav><button id="front-save-pool" class="primary">出撃にセット</button><button id="base-back">${departure ? (departure.coop ? "ロビーへ" : "タイトルへ") : "戻る"}</button>${departure ? '<button id="front-prep-settings">設定・操作</button>' : ""}</nav></header>
     <div class="base-deck-bar"><label class="sr-only" for="base-slot">保存デッキ</label><select id="base-slot"></select><label class="sr-only" for="base-name">デッキ名</label><input id="base-name" maxlength="24" placeholder="デッキ名（24文字まで）"><button id="base-store">デッキ保存</button><button id="base-load">呼び出す</button><span id="base-count"></span></div>
     <div class="base-workbench"><section class="base-catalog" aria-label="強化候補">
       <div class="base-catalog-heading"><div role="tablist" aria-label="強化と融合"><button id="base-upgrades" role="tab" aria-selected="true" aria-controls="base-grid">強化 ${baseIds.length}</button><button id="base-fusions" role="tab" aria-selected="false" aria-controls="base-grid" tabindex="-1">融合 ${FRONT_FUSION_IDS.length}</button></div><span id="base-fusion-count"></span></div>
@@ -105,7 +113,9 @@ export function openFrontBase(
     loadoutDirty = true;
     message(
       allUnlocked
-        ? "編集中 · 「除外を保存」で次の出撃から反映します。"
+        ? departure
+          ? "編集中 · 「保存して準備完了」でデッキの変更を反映します。"
+          : "編集中 · 「除外を保存」で次の出撃から反映します。"
         : "編集中 · 出撃に使うには「出撃にセット」。デッキ保存で別の構成も残せます。",
     );
     render();
@@ -338,6 +348,7 @@ export function openFrontBase(
             : "出撃にセットしました。次のソロ・協力出撃から反映します。",
         true,
       );
+      departure?.onApply();
     });
   $("base-store").onclick = () =>
     attempt(() => {
@@ -425,18 +436,29 @@ export function openFrontBase(
       }
     };
   }
-  $("base-back").onclick = () =>
+  const leaveEditor = (action: () => void, label = "変更を破棄して戻る") =>
     loadoutDirty || nameDirty
-      ? confirmAction("編集中の変更があります", "変更を破棄して戻る", back)
-      : back();
+      ? confirmAction("編集中の変更があります", label, action)
+      : action();
+  $("base-back").onclick = () => leaveEditor(back);
+  if (departure)
+    $("front-prep-settings").onclick = () =>
+      leaveEditor(departure.onSettings, "変更を破棄して設定へ");
   slotOptions();
   name.value = decks.slots[slot]?.name ?? "";
   render();
   if (allUnlocked) {
     root
       .querySelector(".front-base")!
-      .setAttribute("aria-label", "生存カード一覧");
-    $("front-save-pool").textContent = "除外を保存";
+      .setAttribute(
+        "aria-label",
+        departure ? "生存戦のカードデッキ編成" : "生存カード一覧",
+      );
+    $("front-save-pool").textContent = departure
+      ? departure.coop
+        ? "保存して準備完了"
+        : "保存してソロ出撃"
+      : "除外を保存";
     $("front-save-pool").toggleAttribute("disabled", !!survival.error);
     root.querySelector(".base-service")!.textContent =
       `再抽選 ${survival.rerolls}回`;

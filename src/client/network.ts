@@ -461,6 +461,8 @@ export class Network {
       dodge: input.dodge || !!pending?.dodge,
       jump: input.jump || !!pending?.jump,
       buddySkill: input.buddySkill || !!pending?.buddySkill,
+      // Held state is always the newest sample, never a latched tap.
+      buddyCharge: input.buddyCharge === true,
     };
     const now = performance.now();
     // Rendering stalls must not produce a burst of catch-up packets. Keep taps.
