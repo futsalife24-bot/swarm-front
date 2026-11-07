@@ -1,0 +1,16 @@
+{
+  "at": "2026-11-07T04:26:03.584Z",
+  "window": [
+    "2026-11-07T00:00:00Z",
+    "2026-11-07T04:26:03.584Z"
+  ],
+  "planStatus": 403,
+  "planReadSucceeded": false,
+  "usageStatus": 200,
+  "usageReadSucceeded": true,
+  "totals": {
+    "requests": 112,
+    "errors": 0,
+    "subrequests": 118
+  }
+}
