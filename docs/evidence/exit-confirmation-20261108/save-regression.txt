@@ -1,0 +1,11 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-11-08/task/exit-confirm-implementation
+
+
+ Test Files  2 passed (2)
+      Tests  53 passed (53)
+   Start at  22:58:46
+   Duration  5.01s (import 55%, transform 35%, tests 10%)
+
+    Isolate  2 workers spawned · ~261ms startup each (spawn + environment, per file)
+             at least ~261ms faster with isolate: false — reuses workers across files instead of one per file

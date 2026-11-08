@@ -1,4 +1,5 @@
 import { guardMenuTransitionInput } from "./menu-transition-input";
+import { navigateGameMenu } from "./exit-confirmation";
 
 const ROUTE_KEY = "swarm-front-menu-route-v1";
 const REDUCED_KEY = "swarm-front-menu-reduced-motion-v1";
@@ -21,7 +22,7 @@ export function navigateMenu(url: string) {
   } catch {
     // Storage restrictions must never prevent the original navigation.
   }
-  location.href = url;
+  navigateGameMenu(url);
 }
 
 function revealMenuRoute() {

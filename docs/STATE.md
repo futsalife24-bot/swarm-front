@@ -1,3 +1,7 @@
+# 終了確認：非公開の実装・検証候補（2026-11-08）
+
+本人の限定依頼に基づき、端末Back等で文書を離れる際の標準確認を追加。通常のメニュー戻る/閉じるは維持、取消で履歴/編成/接続を操作しない。base `303b7745ab6db05ac9d02c6985e35249eaada4cd`、専用branch `codex/exit-confirm-20261108`。両型、関連67＋保存回帰53件、隔離Chrome6経路（ローカル実WebSocket含む）成功。実Android/PWA終了・実複数人協力は未検証。本人の指示によりpush/merge/deployせず、独立レビュー用に非公開保存。以前の独立メニュー監査は別フォルダーに保持。[仕様・証拠・制約](EXIT-CONFIRMATION-20261108.md)。
+
 # 武器UI＋バディ4体：公開・配信・通常UI確認済み（2026-11-08）
 
 PR294を通常merge、公開source 9d625396c465fbb0f80253a4c5f0a7f59eb6e194。既存Worker Version42fb8817-67cc-4d0f-b478-73a12aeedc00を100%配信、64ファイルSHA一致/health200。公開の通常武器庫で詳細/lock/戻る、4体の通常選択/戦闘描画/停止再開を実視、例外0。実Android・実回線・実cloud入場・全報酬入口の公開通しは未確認。[公開記録と限界](evidence/weapon-buddy-integration-20261107/RELEASE.md)。公開記録のみの後続変更で再公開しない。
