@@ -1,0 +1,60 @@
+{
+  "at": "2026-11-08T00:44:45.260Z",
+  "origin": "https://swarm-front.melosalife-24.workers.dev",
+  "conditions": "公開配信JS、HP/時間/敵無変更。隔離新規保存、実UIでタタラ選択。協力は部屋作成せず入口確認。",
+  "results": [
+    {
+      "kind": "tatara",
+      "width": 844,
+      "height": 390,
+      "normalUIStarter": true,
+      "modelRequests": [
+        {
+          "url": "https://swarm-front.melosalife-24.workers.dev/assets/buddy/tatara-textured-20261107.glb",
+          "status": 200
+        }
+      ],
+      "errors": []
+    },
+    {
+      "kind": "yosuga",
+      "width": 844,
+      "height": 390,
+      "normalUIStarter": true,
+      "modelRequests": [
+        {
+          "url": "https://swarm-front.melosalife-24.workers.dev/assets/buddy/yosuga-textured-20261107.glb",
+          "status": 200
+        }
+      ],
+      "errors": []
+    },
+    {
+      "kind": "tobari",
+      "width": 844,
+      "height": 390,
+      "normalUIStarter": true,
+      "modelRequests": [
+        {
+          "url": "https://swarm-front.melosalife-24.workers.dev/assets/buddy/tobari-textured-20261107.glb",
+          "status": 200
+        }
+      ],
+      "errors": []
+    },
+    {
+      "kind": "oriha",
+      "width": 844,
+      "height": 390,
+      "normalUIStarter": true,
+      "modelRequests": [
+        {
+          "url": "https://swarm-front.melosalife-24.workers.dev/assets/buddy/oriha-textured-20261107.glb",
+          "status": 200
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "errors": []
+}

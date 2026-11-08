@@ -1,3 +1,7 @@
+# 武器UI＋バディ4体：公開・配信・通常UI確認済み（2026-11-08）
+
+PR294を通常merge、公開source 9d625396c465fbb0f80253a4c5f0a7f59eb6e194。既存Worker Version42fb8817-67cc-4d0f-b478-73a12aeedc00を100%配信、64ファイルSHA一致/health200。公開の通常武器庫で詳細/lock/戻る、4体の通常選択/戦闘描画/停止再開を実視、例外0。実Android・実回線・実cloud入場・全報酬入口の公開通しは未確認。[公開記録と限界](evidence/weapon-buddy-integration-20261107/RELEASE.md)。公開記録のみの後続変更で再公開しない。
+
 # 武器UI＋バディ4体：公開準備（2026-11-07）
 
 本人の「公開して」を受領。隔離統合候補 codex/weapon-buddy-integration-20261107、base d9c5d280。全モード報酬の詳細/ロック、左3D右性能の共通詳細、4体GLB参照を統合。型2種・関連105件・build・Worker dry-run・568x320の戦闘→結果→詳細/ロック→再出撃・4体描画/発動/破棄成功。元2候補保持。実Android/実回線/実cloud入場は未検証。公開とmain反映はこれからで完了扱いしない。[統合証拠と限界](evidence/weapon-buddy-integration-20261107/VERIFICATION.md)。
