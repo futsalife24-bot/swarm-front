@@ -1,0 +1,6 @@
+{
+  "src\\client\\weapon-detail.css": "82e2d71ec83f61c28b3412e8ed59ffec69a208d12da9f8da6803e9fa726a82aa",
+  "src\\client\\buddy-assets.ts": "61eddda72279ac0ff9fb1b17c2b1415d7cc0fc4ae7bb4e75ffd3ee8a8e83c068",
+  "scripts\\check-buddy-brushup-render.mjs": "a2e307cf0d69f1fa53cd36dad928a321935ba4946465bd2c64049e092a8021aa",
+  "scripts\\check-survival-result.mjs": "a872b35480163b1030e7d886acc958750e0e0cd87c347fde647fc52a9e8aaf74"
+}

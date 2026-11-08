@@ -1,0 +1,302 @@
+/*
+ * 武器詳細（openWeaponDetail）の横画面レイアウト。全12武器・全入口で共通。
+ * 規則は .weapon-detail-dialog の中だけ。共通 menu-dialog のテーマ（紺の面・細枠・
+ * 角の飾り・ボタン）はそのまま継承する。
+ *
+ *   見出し：武器名 / レア度 ・ 閉じる
+ *   左：3D画像＋特殊効果　右：性能表（実数値・同レア基準差）＋説明・注記
+ *   下（全幅）：エラー → ロックする・共有（＋入口ごとの追加操作）
+ * 通常時は本文がスクロールしない高さに収める。長い文やエラーで溢れた時だけ本文が
+ * スクロールし、操作の段は下端に貼り付いたまま押せる。
+ */
+body dialog.menu-dialog.weapon-detail-dialog {
+  box-sizing: border-box;
+  width: min(
+    780px,
+    calc(
+      100vw - 24px - env(safe-area-inset-left, 0px) -
+        env(safe-area-inset-right, 0px)
+    )
+  );
+  max-width: none;
+  max-height: calc(100dvh - 16px);
+  overflow: hidden;
+}
+body dialog.menu-dialog.weapon-detail-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+body .weapon-detail-dialog > header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+body .weapon-detail-dialog > header > div {
+  flex: 1;
+  min-width: 0;
+}
+/* 長い武器名は1行で省略し、閉じるを押し出さない。 */
+body .weapon-detail-dialog > header h2 {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body .weapon-detail-dialog .dialog-close {
+  flex: none;
+  min-height: 44px;
+}
+body .weapon-detail-dialog .menu-dialog-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.weapon-detail-dialog .weapon-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  grid-template-rows: auto auto auto minmax(0, 1fr) auto auto;
+  column-gap: 14px;
+  row-gap: 0;
+  min-width: 0;
+}
+/* 右列の箱は配置だけ。中身を直接この格子へ載せ、操作の段を全幅にする。 */
+.weapon-detail-dialog .weapon-detail-data {
+  display: contents;
+}
+.weapon-detail-dialog .weapon-detail-visual {
+  grid-column: 1;
+  grid-row: 1 / 5;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.weapon-detail-dialog #pt-comparison {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+}
+.weapon-detail-dialog .weapon-detail-help {
+  grid-column: 2;
+  grid-row: 2;
+}
+.weapon-detail-dialog .weapon-detail-note {
+  grid-column: 2;
+  grid-row: 3;
+}
+.weapon-detail-dialog .weapon-detail-error {
+  grid-column: 1 / -1;
+  grid-row: 5;
+}
+.weapon-detail-dialog .weapon-detail-actions {
+  grid-column: 1 / -1;
+  grid-row: 6;
+}
+
+/* 3D画像：既存の 170px 固定・最小幅300px をこの画面だけ解除し、列幅と画面の高さに合わせる。
+   画面の高さから見出し・操作の段・余白（約212px）を引いた高さまで。左列が右の性能表より
+   高くなって本文が溢れ、共通の「続きは上下にスクロール」が出るのを防ぐ。 */
+.weapon-detail-dialog #pt-weapon-preview {
+  box-sizing: border-box;
+  width: min(100%, calc((100dvh - 212px) * 1.76));
+  min-width: 0;
+  height: auto;
+  aspect-ratio: 300 / 170;
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid #536b7099;
+  background: #0b171d;
+  color: #b4c5cc;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+}
+.weapon-detail-dialog #pt-weapon-preview canvas {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+}
+.weapon-detail-dialog p {
+  margin: 0;
+}
+.weapon-detail-dialog .weapon-detail-effect {
+  font-size: 13px;
+  line-height: 1.45;
+  color: #dbe7e4;
+  overflow-wrap: anywhere;
+}
+
+/* 性能表：5項目×3列を詰めて、数値は等幅の数字で右寄せ。 */
+.weapon-detail-dialog #pt-comparison table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+}
+.weapon-detail-dialog #pt-comparison :is(th, td) {
+  padding: 3px 6px;
+  white-space: nowrap;
+}
+.weapon-detail-dialog #pt-comparison thead th {
+  padding-top: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: #a5bcc8;
+  border-bottom: 1px solid #64858c66;
+}
+.weapon-detail-dialog #pt-comparison tbody tr + tr :is(th, td) {
+  border-top: 1px solid #64858c2e;
+}
+.weapon-detail-dialog #pt-comparison tbody th {
+  font-weight: 600;
+  color: #c9d8dc;
+}
+.weapon-detail-dialog #pt-comparison td sup {
+  margin-left: 1px;
+  font-size: 10px;
+}
+.weapon-detail-dialog .weapon-detail-help {
+  margin-top: 5px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #a5bcc8;
+}
+.weapon-detail-dialog .weapon-detail-note {
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #ffd599;
+}
+.weapon-detail-dialog .weapon-detail-error {
+  margin-top: 8px;
+  padding: 5px 8px;
+  border-left: 3px solid #e0896b;
+  background: #3a1c1866;
+  color: #ffc9b5;
+  font-size: 12px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.weapon-detail-dialog :is(.weapon-detail-note, .weapon-detail-error)[hidden] {
+  display: none;
+}
+
+/* 操作の段：ロックする・共有は同じ高さ・同じ上端。入口ごとの追加操作も同じ段に並べる。 */
+.weapon-detail-dialog .weapon-detail-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 6px;
+  margin-top: var(--wd-actions-space, 6px);
+  padding-top: var(--wd-actions-space, 6px);
+  border-top: 1px solid #64858c4d;
+  background: #111f27;
+}
+/* 注記（未保存など）がある時は、操作の段の右側（ロック・共有の横の空き）へ置く。
+   縦の段を増やさず、注記も操作も最初から見える。操作は左列の幅で折り返す。 */
+.weapon-detail-dialog
+  .weapon-detail-layout:has(.weapon-detail-note:not([hidden]))
+  .weapon-detail-actions {
+  grid-column: 1;
+}
+.weapon-detail-dialog
+  .weapon-detail-layout:has(.weapon-detail-note:not([hidden]))
+  .weapon-detail-note {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  grid-column: 2;
+  grid-row: 6;
+  display: flex;
+  align-items: center;
+  margin-top: var(--wd-actions-space, 6px);
+  padding-top: var(--wd-actions-space, 6px);
+  border-top: 1px solid #64858c4d;
+  background: #111f27;
+}
+body .weapon-detail-dialog .weapon-detail-actions button {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-sizing: border-box;
+  min-width: 88px;
+  min-height: 44px;
+  margin: 0;
+  padding: 6px 14px;
+  font-size: 13px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+body .weapon-detail-dialog .weapon-detail-actions .gear-lock-icon {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  object-fit: contain;
+}
+
+/* 低い横画面：見出しと余白を詰め、性能表と操作の段を1画面に収める。 */
+@media (max-height: 420px) {
+  body .weapon-detail-dialog > header {
+    padding: 6px 14px;
+  }
+  body .weapon-detail-dialog > header .eyebrow {
+    display: none;
+  }
+  body .weapon-detail-dialog > header h2 {
+    font-size: 18px;
+    line-height: 1.25;
+  }
+  body .weapon-detail-dialog .menu-dialog-body {
+    padding: 8px 14px 10px;
+  }
+}
+@media (max-width: 700px) {
+  .weapon-detail-dialog .weapon-detail-layout {
+    column-gap: 10px;
+  }
+  .weapon-detail-dialog #pt-comparison :is(th, td) {
+    padding: 3px 4px;
+  }
+  .weapon-detail-dialog .weapon-detail-effect {
+    font-size: 12px;
+  }
+  body .weapon-detail-dialog .weapon-detail-actions button {
+    min-width: 0;
+    padding: 6px 11px;
+  }
+}
+@media (max-height: 340px) {
+  body .weapon-detail-dialog > header h2 {
+    font-size: 17px;
+  }
+  body .weapon-detail-dialog .menu-dialog-body {
+    padding: 6px 12px 8px;
+  }
+  /* 568×320では右列（性能表＋説明）が高さを決めるため、表の行を約3px詰める。 */
+  .weapon-detail-dialog #pt-comparison table {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+  .weapon-detail-dialog #pt-comparison :is(th, td) {
+    padding-block: 2px;
+  }
+  .weapon-detail-dialog .weapon-detail-help {
+    margin-top: 3px;
+  }
+  .weapon-detail-dialog .weapon-detail-layout {
+    --wd-actions-space: 4px;
+  }
+}

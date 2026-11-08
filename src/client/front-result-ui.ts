@@ -84,6 +84,8 @@ export function frontResultRewardsMarkup(rewards: FrontResultRewards): string {
         state: WEAPON_STATES[state],
       })),
       "今回の武器",
+      "ロック",
+      { locks: rewards.save?.locks ?? [] },
     )}${notes.map((n) => `<p class="fr-note">${n}</p>`).join("")}`;
   }
 

@@ -1,0 +1,27 @@
+[
+  {
+    "path": "src/client/buddy-assets.ts",
+    "sha256": "61eddda72279ac0ff9fb1b17c2b1415d7cc0fc4ae7bb4e75ffd3ee8a8e83c068",
+    "distMatches": null
+  },
+  {
+    "path": "public/assets/buddy/oriha-textured-20261107.glb",
+    "sha256": "4d1995da21122e127b419f395de1a828654e6741edc0621fdba8abed1275c4b4",
+    "distMatches": true
+  },
+  {
+    "path": "public/assets/buddy/tatara-textured-20261107.glb",
+    "sha256": "cb46cfd4460056ffff1731eb25c4e9d481ba20bcf31390859a8e389c054babd3",
+    "distMatches": true
+  },
+  {
+    "path": "public/assets/buddy/tobari-textured-20261107.glb",
+    "sha256": "bcf76ca197c1b7242b3686d03aea4ab36d7c34f9adbe1e61c679a735af5a127a",
+    "distMatches": true
+  },
+  {
+    "path": "public/assets/buddy/yosuga-textured-20261107.glb",
+    "sha256": "a9b9bab855d3519fb9008c647b967ded992a6ad781d893bc443abf7eb24beec4",
+    "distMatches": true
+  }
+]

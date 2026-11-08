@@ -1,0 +1,278 @@
+{
+  "base": "d9c5d280a7fcbe1023694ca1f5db48e509db7595",
+  "verifiedAt": "2026-11-07T15:18:03.428Z",
+  "sources": [
+    {
+      "path": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-all-reward-weapon-actions",
+      "head": "d9c5d280a7fcbe1023694ca1f5db48e509db7595",
+      "status": "M scripts/check-reward-weapon-details.mjs\n M scripts/check-survival-result.mjs\n M src/client/front-app.ts\n M src/client/front-result-ui.css\n M src/client/front-result-ui.ts\n M src/client/gear-weapon-list.ts\n M src/client/playtest-app.ts\n M src/main.ts\n M src/style.css\n?? docs/WEAPON-DETAIL-DESIGN-20261107.md\n?? docs/WEAPON-REWARD-VALIDATION-20261107.md\n?? scripts/check-extra-reward-entries.mjs\n?? src/client/result-weapon-actions.ts\n?? src/client/result-weapon-lock.ts\n?? src/client/weapon-detail.css\n?? src/client/weapon-detail.ts\n?? tests/front-result-weapon-lock.test.ts"
+    },
+    {
+      "path": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "head": "d9c5d280a7fcbe1023694ca1f5db48e509db7595",
+      "status": "M public/assets/buddy/README.md\n M src/client/buddy-assets.ts\n M tests/front-buddy-visuals.test.ts\n?? docs/evidence/buddy-brushup-adoption-20261107/\n?? public/assets/buddy/oriha-textured-20261107.glb\n?? public/assets/buddy/tatara-textured-20261107.glb\n?? public/assets/buddy/tobari-textured-20261107.glb\n?? public/assets/buddy/yosuga-textured-20261107.glb\n?? scripts/check-buddy-brushup-render.mjs"
+    }
+  ],
+  "files": [
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-all-reward-weapon-actions",
+      "file": "scripts/check-reward-weapon-details.mjs",
+      "sha256": "d7ca19adfd585630898c786542c52141dcfb90547f4bc7240a5ad26b49ba58d2"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-all-reward-weapon-actions",
+      "file": "scripts/check-survival-result.mjs",
+      "sha256": "e49c45de902c48ce3871cbc0849e930a60192e8ea07085e0735f492d6248160e"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-all-reward-weapon-actions",
+      "file": "src/client/front-app.ts",
+      "sha256": "35399dcec398b9cf619ce7177d216c3ad7d38dc9b75a65f067e02328ab5cb092"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-all-reward-weapon-actions",
+      "file": "src/client/front-result-ui.css",
+      "sha256": "ad0a36252b186cca06e50ae3483191b72a492a7dd5c8ae1646e31b3938627d78"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-all-reward-weapon-actions",
+      "file": "src/client/front-result-ui.ts",
+      "sha256": "abd7860079f9ca079ed4f2d4679ff470066115613b52aa72e2622eb75d8efd0d"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-all-reward-weapon-actions",
+      "file": "src/client/gear-weapon-list.ts",
+      "sha256": "68aedca489e38edf574fcc0e05501f9b40524ca3d5405e49be8c9c1d03cc8954"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-all-reward-weapon-actions",
+      "file": "src/client/playtest-app.ts",
+      "sha256": "55173e25afcdfe47f96c10f22797bb947655720954ced64a76f002513a157ea5"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-all-reward-weapon-actions",
+      "file": "src/main.ts",
+      "sha256": "ab44f7a992af1f77dddb15aac86b2f52e452c2e5a32e82b91a7708baaa22de8f"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-all-reward-weapon-actions",
+      "file": "src/style.css",
+      "sha256": "0a11e9754041f25b4aaad8865d98c331c6a7f6f24ce5ddb3f474f7c2fce7ac98"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-all-reward-weapon-actions",
+      "file": "docs/WEAPON-DETAIL-DESIGN-20261107.md",
+      "sha256": "4d42697617c38bdc9ef776ba5932470e9d4bcf8002700f24892a2857f2e66db6"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-all-reward-weapon-actions",
+      "file": "docs/WEAPON-REWARD-VALIDATION-20261107.md",
+      "sha256": "8e808f7d0aae155f7d6d4debc67feca4424de2c4d8e91d9ba80f4e732d445c02"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-all-reward-weapon-actions",
+      "file": "scripts/check-extra-reward-entries.mjs",
+      "sha256": "858482ae56fa79dfc71f2b7ccc72476b155559dc3e4044b9f8a28fe0b309dc30"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-all-reward-weapon-actions",
+      "file": "src/client/result-weapon-actions.ts",
+      "sha256": "d3d0dfed0ef04c81708502facc5dc9cfa176e68ec204ad2b5fd95027a93e73d7"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-all-reward-weapon-actions",
+      "file": "src/client/result-weapon-lock.ts",
+      "sha256": "c1035ec462792db7e12ba696edb4ca822802a1c1fb7b2cee75e651c7c76b4946"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-all-reward-weapon-actions",
+      "file": "src/client/weapon-detail.css",
+      "sha256": "82e2d71ec83f61c28b3412e8ed59ffec69a208d12da9f8da6803e9fa726a82aa"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-all-reward-weapon-actions",
+      "file": "src/client/weapon-detail.ts",
+      "sha256": "357056480acffc1db412864efc4191c653fa01b93fba2b8ede294035a00e5fc2"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-all-reward-weapon-actions",
+      "file": "tests/front-result-weapon-lock.test.ts",
+      "sha256": "7cda0e4cd7238842cdf24a7fe389d99705499848e69fbbdf44550774f012ac63"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "public/assets/buddy/README.md",
+      "sha256": "479cbdf6a4165f5201da0a1090107837068dbc900030e13eec8f9f8bbfba098f"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "src/client/buddy-assets.ts",
+      "sha256": "61eddda72279ac0ff9fb1b17c2b1415d7cc0fc4ae7bb4e75ffd3ee8a8e83c068"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "tests/front-buddy-visuals.test.ts",
+      "sha256": "7841bb11c6989408ccc66b5ed719e28ca8b7a0a952177fc9fc0562a7a8b4b245"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/README.md",
+      "sha256": "5e27aa25904b16efc2ba08603c51199158ce99229d7217ea9461cf99a971bbe5"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/candidate-files.json",
+      "sha256": "ae77637103d319eff12095fc96610d1d06a48b27e098a6bc85563bb88d15fb0d"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/candidate-verification.json",
+      "sha256": "4138800f9b59e0379af102d4b686b7083c2abb6dd38471cbce4d7d6822ae9afe"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/candidate/640-plain-4.png",
+      "sha256": "ff8f2c832c816f4590cc0eb944b87135e9e40e9f7a0fb88ce757759cb25c7f97"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/candidate/844-plain-1.png",
+      "sha256": "1b77de4b9896c218df2682b7bc36690f1007a322714bf9e3f3b22aa573e535eb"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/candidate/results.json",
+      "sha256": "088a972ab2d9d97e80bb7564afb77e76d82d120b2c8e0fbfa91bd7fcb1925545"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/current-assets.json",
+      "sha256": "aa38454a5e89817b7d5593866bc181772ef1e894abcdcbd0a789292c64610f3c"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/four-peer-charge.test.ts",
+      "sha256": "ea42a967a6bb4ea1984e29aa830b2395f0d1cd6281203224a539fc5e1f384e19"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/game/oriha-640.png",
+      "sha256": "8744948c44b023596a7e4d2ed3c6720e0bb6d00c20ca2e4fb2c9acf9751a35af"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/game/oriha-844.png",
+      "sha256": "33d8ca2b577df57703ee8bdef4eea06099ec6bc3750c8ea7b7435e561dd7f2f1"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/game/results.json",
+      "sha256": "94e1ff0a2fd8e85d24c88d34828984330f1c736eb3ded3695a6b9431f65a1497"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/game/tatara-640.png",
+      "sha256": "f7ac8dd94fdf8ab5cec881b92b66bb36c63c760f4f886cf0985f30ecac5f8bfb"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/game/tatara-844.png",
+      "sha256": "684ee8d8071b2849b6acc6ab30614536f2fc55542ea44a0214bee1351116a248"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/game/tobari-640.png",
+      "sha256": "88014e0fb9efa400262b47bdb8c1f7d905d3be5eeaa61d0617081e251dd6d0fd"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/game/tobari-844.png",
+      "sha256": "66134ddbc3a3c8a6510cc8a027f49290558c452ed138955dc3cb35140f541087"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/game/yosuga-640.png",
+      "sha256": "0397167719df522365c2e2b94588860951008a2a1a82e00b7eefe880436fe606"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/game/yosuga-844.png",
+      "sha256": "99ea796c801496f9d038d19df3c5145d6abdc45a0a4f822f8be108d1124bd9d7"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/original/640-plain-4.png",
+      "sha256": "92044ee396d222f94d10de567fd2050f268290db75f2c604376adda2eccf79c5"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/original/844-plain-1.png",
+      "sha256": "1ab1dd58b57f5e068578d8feff58945d0df96c5ad93292d143ece2a07eb76f72"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/original/results.json",
+      "sha256": "a65bdda73dcd609101018ebe49c892050dc6a1d69f96b4baa27847359488913d"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/render-summary.json",
+      "sha256": "06bb9b2792465e33cd8aad371c50915019824b446799276e06b76307868735b5"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/textures.json",
+      "sha256": "06b2864895e309d3cf54763a98aa83aac154477fe247c52a30e131993a26e060"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/vitest.config.mjs",
+      "sha256": "aa870fb3b63bd1aada6087e01451e44e380d10e42b136e2cc676d57551827772"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/ws-explicit-leave-observed.json",
+      "sha256": "91c78ade4a9ffe96c052748791fc6507f4308f9f75c7c1a3d2fa1274193edb80"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/ws-explicit-leave-results.json",
+      "sha256": "900cd2b4cc7ca69661005050fe0522a9ebd8d6e5e88a1202a9637a02aea428ac"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/ws-four-charge-results.json",
+      "sha256": "e6f500713dab0ce095206aef3ac5a4f31c88b27f48e1ff726564909a04df1a61"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "docs/evidence/buddy-brushup-adoption-20261107/ws-test-results.json",
+      "sha256": "a6ab4dcf7f42af5bbb54f9dad78120ec4485866864e996b01c7c6183b294ab82"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "public/assets/buddy/oriha-textured-20261107.glb",
+      "sha256": "4d1995da21122e127b419f395de1a828654e6741edc0621fdba8abed1275c4b4"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "public/assets/buddy/tatara-textured-20261107.glb",
+      "sha256": "cb46cfd4460056ffff1731eb25c4e9d481ba20bcf31390859a8e389c054babd3"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "public/assets/buddy/tobari-textured-20261107.glb",
+      "sha256": "bcf76ca197c1b7242b3686d03aea4ab36d7c34f9adbe1e61c679a735af5a127a"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "public/assets/buddy/yosuga-textured-20261107.glb",
+      "sha256": "a9b9bab855d3519fb9008c647b967ded992a6ad781d893bc443abf7eb24beec4"
+    },
+    {
+      "source": "C:\\Users\\futsa\\Documents\\Codex\\2026-10-02\\github\\swarm-rebuild-p1a\\task-buddy-brushup-adoption",
+      "file": "scripts/check-buddy-brushup-render.mjs",
+      "sha256": "454a466878acbea592f142288a74245033a510d325d776673f9869b3da5223ed"
+    }
+  ]
+}

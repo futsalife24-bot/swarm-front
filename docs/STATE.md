@@ -1,3 +1,7 @@
+# 武器UI＋バディ4体：公開準備（2026-11-07）
+
+本人の「公開して」を受領。隔離統合候補 codex/weapon-buddy-integration-20261107、base d9c5d280。全モード報酬の詳細/ロック、左3D右性能の共通詳細、4体GLB参照を統合。型2種・関連105件・build・Worker dry-run・568x320の戦闘→結果→詳細/ロック→再出撃・4体描画/発動/破棄成功。元2候補保持。実Android/実回線/実cloud入場は未検証。公開とmain反映はこれからで完了扱いしない。[統合証拠と限界](evidence/weapon-buddy-integration-20261107/VERIFICATION.md)。
+
 # スワフロ4件：main反映・公開・配信確認済み（2026-11-07）
 
 バディ短押し/長押し・着地発動、協力3桁部屋ID、入室ロビーと生存カード編成、戦果武器長押し詳細を統合。PR292で通常merge、公開ソースmain `bf5c68a056498d49949972460fc4ad8492cd0b87`。既存Worker Version `26ad4f7e-d581-4070-bada-a95663c8afbb` を100%公開。60配信ファイルSHA一致・health200。関連200単体・両型・build/dry-run、実WSバディ3/ID8、ローカル実UI4バディ/12武器/協力8条件、公開2サイズで3桁案内とタタラMAX→解放→待機/停止を確認、例外0。隔離fixture条件・実スマホ未確認を維持。診断送信の追加承認後に再開し、新規費用/権限変更なし。今回の検証プロセスは終了。[統合QA](SWARM-INTEGRATION-20261107.md)、[公開・配信・証拠](SWARM-INTEGRATION-RELEASE-20261107.md)。後続は記録のみで再公開しない。

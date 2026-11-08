@@ -1,0 +1,399 @@
+{
+  "results": [
+    {
+      "kind": "tatara",
+      "before": {
+        "hp": 40,
+        "time": 1.6500000000000008,
+        "kind": "tatara"
+      },
+      "windup": {
+        "buddyId": "tatara",
+        "level": 1,
+        "x": -3.201039799750371,
+        "y": 0,
+        "z": 32.22578924591388,
+        "attackReadyAt": 0,
+        "skillReadyAt": 21.85,
+        "skillHeld": true,
+        "chargeStartedAt": -1,
+        "skillStartedAt": 1.850000000000001,
+        "skillImpactAt": 2.500000000000001,
+        "skillCharge": 0,
+        "skillPending": true,
+        "displayUntil": 2.700000000000001,
+        "lastAttackAt": -1,
+        "lastSkillAt": -1,
+        "healUntil": 0,
+        "healRate": 0,
+        "visible": true,
+        "skillOrigin": {
+          "x": -3.201039799750371,
+          "y": 0,
+          "z": 32.22578924591388
+        }
+      },
+      "active": {
+        "buddy": {
+          "run": "22bd8380-1bc0-499d-a2d7-660ef89e206a",
+          "entries": {
+            "solo": {
+              "buddyId": "tatara",
+              "level": 1,
+              "x": -3.201039799750371,
+              "y": 0,
+              "z": 32.22578924591388,
+              "attackReadyAt": 0,
+              "skillReadyAt": 21.85,
+              "skillHeld": false,
+              "chargeStartedAt": -1,
+              "skillStartedAt": 1.850000000000001,
+              "skillImpactAt": 2.500000000000001,
+              "skillCharge": 0,
+              "skillPending": false,
+              "displayUntil": 2.700000000000001,
+              "lastAttackAt": -1,
+              "lastSkillAt": 2.499999999999999,
+              "healUntil": 0,
+              "healRate": 0,
+              "visible": true,
+              "skillOrigin": {
+                "x": -3.201039799750371,
+                "y": 0,
+                "z": 32.22578924591388
+              }
+            }
+          },
+          "buffs": {}
+        },
+        "motion": "Palm"
+      },
+      "longCast": {
+        "buddyId": "tatara",
+        "level": 1,
+        "x": -3.201039799750371,
+        "y": 0,
+        "z": 32.22578924591388,
+        "attackReadyAt": 0,
+        "skillReadyAt": 25.799999999999986,
+        "skillHeld": false,
+        "chargeStartedAt": -1,
+        "skillStartedAt": 5.799999999999987,
+        "skillImpactAt": 6.449999999999988,
+        "skillCharge": 1,
+        "skillPending": false,
+        "displayUntil": 6.649999999999988,
+        "lastAttackAt": -1,
+        "lastSkillAt": 6.449999999999985,
+        "healUntil": 0,
+        "healRate": 0,
+        "visible": true,
+        "skillOrigin": {
+          "x": -3.201039799750371,
+          "y": 0,
+          "z": 32.22578924591388
+        }
+      },
+      "retireCleared": true
+    },
+    {
+      "kind": "yosuga",
+      "before": {
+        "hp": 40,
+        "time": 1.6500000000000008,
+        "kind": "yosuga"
+      },
+      "windup": {
+        "buddyId": "yosuga",
+        "level": 1,
+        "x": -2.7910682130514517,
+        "y": 0,
+        "z": 32.220962435417206,
+        "attackReadyAt": 0,
+        "skillReadyAt": 26.85,
+        "skillHeld": false,
+        "chargeStartedAt": -1,
+        "skillStartedAt": 1.850000000000001,
+        "skillImpactAt": 2.200000000000001,
+        "skillCharge": 0,
+        "skillPending": true,
+        "displayUntil": 2.4000000000000012,
+        "lastAttackAt": -1,
+        "lastSkillAt": -1,
+        "healUntil": 0,
+        "healRate": 0,
+        "visible": true,
+        "skillOrigin": {
+          "x": -1,
+          "y": 0,
+          "z": 34
+        }
+      },
+      "active": {
+        "buddy": {
+          "run": "b2aadd81-ec67-4759-a3bc-dbd6a0b0b6ca",
+          "entries": {
+            "solo": {
+              "buddyId": "yosuga",
+              "level": 1,
+              "x": -2.7910682130514517,
+              "y": 0,
+              "z": 32.220962435417206,
+              "attackReadyAt": 0,
+              "skillReadyAt": 26.85,
+              "skillHeld": false,
+              "chargeStartedAt": -1,
+              "skillStartedAt": 1.850000000000001,
+              "skillImpactAt": 2.200000000000001,
+              "skillCharge": 0,
+              "skillPending": false,
+              "displayUntil": 2.4000000000000012,
+              "lastAttackAt": -1,
+              "lastSkillAt": 2.2,
+              "healUntil": 7.2,
+              "healRate": 8,
+              "visible": true,
+              "skillOrigin": {
+                "x": -1,
+                "y": 0,
+                "z": 34
+              }
+            }
+          },
+          "buffs": {}
+        },
+        "motion": "Display"
+      },
+      "longCast": {
+        "buddyId": "yosuga",
+        "level": 1,
+        "x": -2.7910682130514517,
+        "y": 0,
+        "z": 32.220962435417206,
+        "attackReadyAt": 11.250000000000007,
+        "skillReadyAt": 34.7,
+        "skillHeld": false,
+        "chargeStartedAt": -1,
+        "skillStartedAt": 9.700000000000003,
+        "skillImpactAt": 10.050000000000002,
+        "skillCharge": 1,
+        "skillPending": false,
+        "displayUntil": 10.350000000000009,
+        "lastAttackAt": 10.050000000000008,
+        "lastSkillAt": 10.050000000000008,
+        "healUntil": 15.050000000000008,
+        "healRate": 12,
+        "visible": true,
+        "skillOrigin": {
+          "x": -1,
+          "y": 0,
+          "z": 34
+        }
+      },
+      "retireCleared": true
+    },
+    {
+      "kind": "tobari",
+      "before": {
+        "hp": 40,
+        "time": 1.6500000000000008,
+        "kind": "tobari"
+      },
+      "windup": {
+        "buddyId": "tobari",
+        "level": 1,
+        "x": -2.701074450117543,
+        "y": 0,
+        "z": 32.219902891649646,
+        "attackReadyAt": 0,
+        "skillReadyAt": 26.8,
+        "skillHeld": false,
+        "chargeStartedAt": -1,
+        "skillStartedAt": 1.800000000000001,
+        "skillImpactAt": 2.150000000000001,
+        "skillCharge": 0,
+        "skillPending": true,
+        "displayUntil": 2.350000000000001,
+        "lastAttackAt": -1,
+        "lastSkillAt": -1,
+        "healUntil": 0,
+        "healRate": 0,
+        "visible": true,
+        "skillOrigin": {
+          "x": -1,
+          "y": 0,
+          "z": 34
+        }
+      },
+      "active": {
+        "buddy": {
+          "run": "9ff4dc64-2937-4d80-a4bf-c67e4945db00",
+          "entries": {
+            "solo": {
+              "buddyId": "tobari",
+              "level": 1,
+              "x": -2.701074450117543,
+              "y": 0,
+              "z": 32.219902891649646,
+              "attackReadyAt": 0,
+              "skillReadyAt": 26.8,
+              "skillHeld": false,
+              "chargeStartedAt": -1,
+              "skillStartedAt": 1.800000000000001,
+              "skillImpactAt": 2.150000000000001,
+              "skillCharge": 0,
+              "skillPending": false,
+              "displayUntil": 2.350000000000001,
+              "lastAttackAt": -1,
+              "lastSkillAt": 2.1500000000000004,
+              "healUntil": 0,
+              "healRate": 0,
+              "visible": true,
+              "skillOrigin": {
+                "x": -1,
+                "y": 0,
+                "z": 34
+              }
+            }
+          },
+          "buffs": {
+            "solo": {
+              "guardUntil": 8.15,
+              "boostUntil": 0
+            }
+          }
+        },
+        "motion": "Display"
+      },
+      "longCast": {
+        "buddyId": "tobari",
+        "level": 1,
+        "x": -2.701074450117543,
+        "y": 0,
+        "z": 32.219902891649646,
+        "attackReadyAt": 0,
+        "skillReadyAt": 30.29999999999999,
+        "skillHeld": false,
+        "chargeStartedAt": -1,
+        "skillStartedAt": 5.299999999999989,
+        "skillImpactAt": 5.649999999999989,
+        "skillCharge": 1,
+        "skillPending": false,
+        "displayUntil": 5.849999999999989,
+        "lastAttackAt": -1,
+        "lastSkillAt": 5.649999999999988,
+        "healUntil": 0,
+        "healRate": 0,
+        "visible": true,
+        "skillOrigin": {
+          "x": -1,
+          "y": 0,
+          "z": 34
+        }
+      },
+      "retireCleared": true
+    },
+    {
+      "kind": "oriha",
+      "before": {
+        "hp": 40,
+        "time": 1.5000000000000007,
+        "kind": "oriha"
+      },
+      "windup": {
+        "buddyId": "oriha",
+        "level": 1,
+        "x": -3.151043264787088,
+        "y": 0,
+        "z": 32.225200610487455,
+        "attackReadyAt": 0,
+        "skillReadyAt": 26.7,
+        "skillHeld": false,
+        "chargeStartedAt": -1,
+        "skillStartedAt": 1.7000000000000008,
+        "skillImpactAt": 2.0500000000000007,
+        "skillCharge": 0,
+        "skillPending": true,
+        "displayUntil": 2.250000000000001,
+        "lastAttackAt": -1,
+        "lastSkillAt": -1,
+        "healUntil": 0,
+        "healRate": 0,
+        "visible": true,
+        "skillOrigin": {
+          "x": -1,
+          "y": 0,
+          "z": 34
+        }
+      },
+      "active": {
+        "buddy": {
+          "run": "30faf0a5-ba56-49b5-9524-b67a1edabb15",
+          "entries": {
+            "solo": {
+              "buddyId": "oriha",
+              "level": 1,
+              "x": -3.151043264787088,
+              "y": 0,
+              "z": 32.225200610487455,
+              "attackReadyAt": 0,
+              "skillReadyAt": 26.7,
+              "skillHeld": false,
+              "chargeStartedAt": -1,
+              "skillStartedAt": 1.7000000000000008,
+              "skillImpactAt": 2.0500000000000007,
+              "skillCharge": 0,
+              "skillPending": false,
+              "displayUntil": 2.250000000000001,
+              "lastAttackAt": -1,
+              "lastSkillAt": 2.0500000000000007,
+              "healUntil": 0,
+              "healRate": 0,
+              "visible": true,
+              "skillOrigin": {
+                "x": -1,
+                "y": 0,
+                "z": 34
+              }
+            }
+          },
+          "buffs": {
+            "solo": {
+              "guardUntil": 0,
+              "boostUntil": 8.05
+            }
+          }
+        },
+        "motion": "Display"
+      },
+      "longCast": {
+        "buddyId": "oriha",
+        "level": 1,
+        "x": -3.151043264787088,
+        "y": 0,
+        "z": 32.225200610487455,
+        "attackReadyAt": 0,
+        "skillReadyAt": 30.69999999999999,
+        "skillHeld": false,
+        "chargeStartedAt": -1,
+        "skillStartedAt": 5.699999999999988,
+        "skillImpactAt": 6.049999999999987,
+        "skillCharge": 1,
+        "skillPending": false,
+        "displayUntil": 6.249999999999988,
+        "lastAttackAt": -1,
+        "lastSkillAt": 6.0499999999999865,
+        "healUntil": 0,
+        "healRate": 0,
+        "visible": true,
+        "skillOrigin": {
+          "x": -1,
+          "y": 0,
+          "z": 34
+        }
+      },
+      "retireCleared": true
+    }
+  ],
+  "errors": []
+}

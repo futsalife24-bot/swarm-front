@@ -1,0 +1,20 @@
+{
+  "endpoint": "http://127.0.0.1:8834",
+  "clients": 4,
+  "ids": [
+    "tatara",
+    "yosuga",
+    "tobari",
+    "oriha"
+  ],
+  "observed": {
+    "fourOwners": true,
+    "authoritativeSkill": true,
+    "battleEquipRejected": true,
+    "sameOwnerReconnected": true,
+    "noDuplicate": true,
+    "cooldownPreserved": true
+  },
+  "transport": "実ローカルWorkerとWebSocket。UI・インターネット回線・実スマホは未確認。",
+  "cooldown": 25.05
+}

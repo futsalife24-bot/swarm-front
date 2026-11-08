@@ -300,3 +300,90 @@
     margin-bottom: 4px;
   }
 }
+
+/* ---- 報酬武器行の操作（2026-11-07）：武器名で詳細、右端でロック ----
+   行の高さ30px・列幅（名前174px／右端48px）は既存のまま。ボタンは各セルを
+   丸ごと押せる大きさにし、既存の共通ボタンの切欠き・余白・最小高さを外す。 */
+body #ui .fr-rewards .gear-weapon-list .pt-identity > [data-detail] {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  clip-path: none;
+  box-shadow: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+body #ui .fr-rewards .gear-weapon-list [data-detail] b {
+  min-width: 0;
+  overflow: hidden;
+  text-decoration: underline dotted #a9c7c080;
+  text-underline-offset: 3px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body #ui .fr-rewards .gear-weapon-list [data-detail] .gear-rarity {
+  border: 1px solid currentColor;
+  border-radius: 2px;
+}
+body #ui .fr-rewards .gear-weapon-list [data-detail]:hover {
+  background: #a0d9e214;
+}
+body #ui .fr-rewards .gear-weapon-list [data-lock] {
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #72857d;
+  border-radius: 2px;
+  clip-path: none;
+  box-shadow: none;
+  background: var(--row-surface);
+  color: #b6c3be;
+  cursor: pointer;
+}
+body #ui .fr-rewards .gear-weapon-list [data-lock][aria-pressed="true"] {
+  border-color: #ebc253;
+  background: #493b19;
+  color: #ffe89b;
+}
+body #ui .fr-rewards .gear-weapon-list [data-lock]:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+body #ui .fr-rewards .gear-weapon-list [data-lock] .gear-lock-icon {
+  width: 22px;
+  height: 24px;
+}
+body #ui .fr-rewards .gear-weapon-list :is([data-detail], [data-lock])::before,
+body #ui .fr-rewards .gear-weapon-list :is([data-detail], [data-lock])::after {
+  display: none;
+}
+body
+  #ui
+  .fr-rewards
+  .gear-weapon-list
+  :is([data-detail], [data-lock]):focus-visible {
+  outline: 2px solid var(--gold, #e8c775);
+  outline-offset: -2px;
+}
