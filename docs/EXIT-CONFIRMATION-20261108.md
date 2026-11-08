@@ -9,7 +9,7 @@
 - 通常の画面内の戻る、モーダル閉じ、タブ切替には追加確認なし。既存の未保存編集の破棄確認・戦果なし退出確認は維持する。
 - 明示的な `navigateMenu` による同一originの正規ゲーム入口間移動は一度だけ確認を省く。外部URLや管理画面等にはこの省略を適用しない。失敗/同一文書移動時には次タスクで省略を解除する。
 - ブラウザーの履歴を直接たどって別のゲーム文書へ移る場合も、編成/編集/接続を破棄する可能性があるため確認対象。アプリ内の一段戻るとは区別する。内部画面の履歴化は今回実装しない。
-- BFCache復帰時に保存権限を再取得するための既存自動reloadだけは確認を省く。ユーザーによる通常の更新は確認する。
+- BFCache復帰時に保存権限を再取得するための既存自動reloadは確認を省く。ユーザーによる通常の更新は確認する。
 - 招待アプリリンクは既存の招待確認を維持し、取消時は接続・履歴を触らない。承認後の接続解除・URL置換・reloadに二重の終了確認を出さない。
 - 協力ロビーの「退出」は既存の明示的退出で接続を閉じる。今回の端末Back取消とは別操作であり、ロビー退出の仕様は変更しない。管理者認証ページ等の特殊な直接遷移は追加の省略対象にしない。
 
@@ -34,9 +34,8 @@ pushStateによる番兵、履歴の増殖、popstateからの強制forward/back
 ```powershell
 node node_modules/typescript/bin/tsc -p tsconfig.json
 node node_modules/typescript/bin/tsc -p tsconfig.worker.json
-node node_modules/vitest/vitest.mjs run tests/front-exit-confirmation.test.ts tests/front-menu-transition-input.test.ts tests/room-invite.test.ts tests/shared-armory.test.ts
+node node_modules/vitest/vitest.mjs run tests/front-exit-confirmation.test.ts tests/front-invite-exit-confirmation.test.ts tests/front-menu-transition-input.test.ts tests/room-invite.test.ts tests/shared-armory.test.ts tests/front-title-entry.test.ts tests/front-title-input.test.ts
 node node_modules/vitest/vitest.mjs run --config vitest.save.config.ts tests/save-regression.test.ts tests/playtest-checkpoint.test.ts
-node node_modules/vitest/vitest.mjs run tests/front-title-entry.test.ts tests/front-title-input.test.ts
 node node_modules/vite/bin/vite.js build
 node scripts/setup-local.mjs
 node node_modules/@playwright/test/cli.js test --config playwright.exit-confirmation.config.ts
