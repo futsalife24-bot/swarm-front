@@ -1,3 +1,4 @@
+import { confirmDeparture } from "./confirm-departure";
 import { test, expect, type Page } from "@playwright/test";
 import { localCreationKey } from "../tests/credentials";
 
@@ -24,29 +25,6 @@ async function home(page: Page) {
     .click();
   await expect(page.locator(".title-entry")).toHaveCount(0);
 }
-async function confirmDeparture(
-  page: Page,
-  action: () => Promise<unknown>,
-  accept: boolean,
-) {
-  const dialogPromise = page.waitForEvent("dialog", { timeout: 10000 });
-  page.setDefaultNavigationTimeout(5000);
-  const navigation = action().catch((error: Error) => {
-    if (
-      accept ||
-      !/ERR_ABORTED|interrupted|NS_BINDING_ABORTED|Timeout .*exceeded/.test(
-        error.message,
-      )
-    )
-      throw error;
-  });
-  const dialog = await dialogPromise;
-  expect(dialog.type()).toBe("beforeunload");
-  if (accept) await dialog.accept();
-  else await dialog.dismiss();
-  await navigation;
-  if (!page.isClosed()) page.setDefaultNavigationTimeout(30000);
-}
 const state = (page: Page) =>
   page.evaluate(() => ({
     url: location.href,
@@ -54,6 +32,38 @@ const state = (page: Page) =>
     screen: document.body.dataset.screen,
     saves: Object.fromEntries(Object.entries(localStorage)),
   }));
+
+test("P2-03: 操作先行失敗の後も次の終了確認を処理できる", async ({ page }) => {
+  await home(page);
+  await expect(
+    confirmDeparture(
+      page,
+      async () => {
+        throw new Error("先行失敗");
+      },
+      false,
+    ),
+  ).rejects.toThrow("先行失敗");
+  expect(page.listenerCount("dialog")).toBe(0);
+  await confirmDeparture(page, () => page.reload({ timeout: 5000 }), false);
+  await expect(page.locator("#solo")).toBeVisible();
+});
+
+test("P2-03: 想定外の実alertを回収し次の終了確認を処理できる", async ({
+  page,
+}) => {
+  await home(page);
+  await expect(
+    confirmDeparture(
+      page,
+      () => page.evaluate(() => alert("試験用alert")),
+      false,
+    ),
+  ).rejects.toThrow("想定外のダイアログ");
+  expect(page.listenerCount("dialog")).toBe(0);
+  await confirmDeparture(page, () => page.reload({ timeout: 5000 }), false);
+  await expect(page.locator("#solo")).toBeVisible();
+});
 
 test("外部Back取消を繰り返しても設定・保存・履歴を保持し、続行/Forwardできる", async ({
   page,
@@ -66,7 +76,7 @@ test("外部Back取消を繰り返しても設定・保存・履歴を保持し�
   ).toBeVisible();
   const before = await state(page);
   for (let i = 0; i < 4; i++) {
-    await confirmDeparture(page, () => page.goBack(), false);
+    await confirmDeparture(page, () => page.goBack({ timeout: 5000 }), false);
     expect(await state(page)).toEqual(before);
     await expect(page.locator("dialog[open]")).toBeVisible();
   }
@@ -90,7 +100,7 @@ test("外部Back取消を繰り返しても設定・保存・履歴を保持し�
   await page.screenshot({
     path: "dist-validation/exit-confirmation/cancel-keeps-settings.png",
   });
-  await confirmDeparture(page, () => page.goBack(), true);
+  await confirmDeparture(page, () => page.goBack({ timeout: 5000 }), true);
   await expect(
     page.getByRole("heading", { name: "ゲーム外のテストページ" }),
   ).toBeVisible();
@@ -102,9 +112,9 @@ test("外部Back取消を繰り返しても設定・保存・履歴を保持し�
 test("更新の取消と続行、タブ閉じるの取消と続行", async ({ page }) => {
   await home(page);
   const before = await state(page);
-  await confirmDeparture(page, () => page.reload(), false);
+  await confirmDeparture(page, () => page.reload({ timeout: 5000 }), false);
   expect(await state(page)).toEqual(before);
-  await confirmDeparture(page, () => page.reload(), true);
+  await confirmDeparture(page, () => page.reload({ timeout: 5000 }), true);
   await page
     .getByRole("button", { name: "SWARM FRONT はじめる", exact: true })
     .click();
@@ -183,7 +193,7 @@ test("カードの閲覧状態はBack取消で保持され、画面内戻るは�
   // Tab selection is local UI state and must also survive cancellation.
   await page.locator("#base-fusions").click();
   const before = await state(page);
-  await confirmDeparture(page, () => page.goBack(), false);
+  await confirmDeparture(page, () => page.goBack({ timeout: 5000 }), false);
   expect(await state(page)).toEqual(before);
   await expect(page.locator("#base-fusions")).toHaveAttribute(
     "aria-selected",
@@ -203,7 +213,7 @@ test("未保存カード編集は更新取消で保持され、通常戻るで�
   await page.locator("#front-base").click();
   await page.locator("#base-name").fill("未保存の確認用デッキ");
   const before = await state(page);
-  await confirmDeparture(page, () => page.reload(), false);
+  await confirmDeparture(page, () => page.reload({ timeout: 5000 }), false);
   expect(await state(page)).toEqual(before);
   await expect(page.locator("#base-name")).toHaveValue("未保存の確認用デッキ");
   await page.locator("#base-back").click();
@@ -236,7 +246,7 @@ test("ローカル実WebSocketの協力ロビーと編成は更新取消で保�
   await expect(page.locator(".squad-member.self")).toContainText("HOST");
   const before = await page.locator(".squad-member.self").textContent();
   const history = await page.evaluate(() => history.length);
-  await confirmDeparture(page, () => page.reload(), false);
+  await confirmDeparture(page, () => page.reload({ timeout: 5000 }), false);
   await expect(page.locator(".squad-member.self")).toHaveText(before!);
   expect(sockets.length).toBeGreaterThan(0);
   expect(sockets.every((socket) => !socket.isClosed())).toBe(true);

@@ -73,9 +73,10 @@ export function isGameMenuDestination(
   }
 }
 
-export function navigateGameMenu(url: string) {
+export function navigateGameMenu(url: string, replace = false) {
   const go = () => {
-    location.href = url;
+    if (replace) location.replace(url);
+    else location.assign(url);
   };
   if (
     confirmation &&
@@ -85,9 +86,16 @@ export function navigateGameMenu(url: string) {
   else go();
 }
 
-/** Only restoration or an already confirmed invitation may use this reload. */
+/** Only restoration, confirmed retry or an already confirmed invitation. */
 export function reloadAuthorizedGameDocument() {
   const reload = () => location.reload();
   if (confirmation) confirmation.proceed(reload);
   else reload();
+}
+
+/** Confirm before reserving a retry; cancellation must not create boot work. */
+export function retryGameDocument(key: string, request: unknown) {
+  if (!window.confirm("現在の作戦の読み込みを再試行しますか？")) return;
+  sessionStorage.setItem(key, JSON.stringify(request));
+  reloadAuthorizedGameDocument();
 }

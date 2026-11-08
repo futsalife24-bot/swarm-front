@@ -1,3 +1,4 @@
+import { retryGameDocument } from "./exit-confirmation";
 import {
   createBuddyBattleState,
   equipBattleBuddy,
@@ -318,11 +319,7 @@ async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
         void launch(undefined, daily);
         return;
       }
-      sessionStorage.setItem(
-        retryKey,
-        JSON.stringify({ mode, stage, difficulty }),
-      );
-      location.reload();
+      retryGameDocument(retryKey, { mode, stage, difficulty });
     });
     bind("pt-load-home", () => {
       loadingGeneration++;
