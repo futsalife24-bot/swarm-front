@@ -106,6 +106,7 @@ import {
   troopAt,
   troopCount,
   type BossForm,
+  type Wave,
 } from "./stages";
 import { pursuitDirection, specialMotion } from "./enemy-motion";
 import {
@@ -1596,158 +1597,170 @@ function segmentDistance(
   );
 }
 
-export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
-  if (w.phase !== "battle") return;
-  if (!w.players.some((p) => p.connected)) return;
-  dt = Math.min(0.1, Math.max(0, dt));
-  w.time += dt;
-  if (w.buddies)
-    tickBuddyCombat(w, w.buddies, inputs, dt, (p, b) =>
-      buddyFollowTarget(
-        { x: p.x, y: p.y ?? 0, z: p.z, yaw: p.yaw },
-        { tatara: 0.93, yosuga: 0.52, tobari: 0.43, oriha: 0.88 }[b.buddyId],
-        mapFor(w).blocks,
-        b.visible ? b : undefined,
-      ),
-    );
-  if (w.front) tickFrontEffects(w);
-  if (w.solo) w.solo.invincible = Math.max(0, w.solo.invincible - dt);
-  const previousPositions = new Map(
-    w.players.map((p) => [p.id, { x: p.x, z: p.z }]),
-  );
-  for (const p of w.players) {
-    if (!p.connected) continue;
-    const i = inputs[p.id] ?? neutral();
-    p.ack = i.seq;
-    p.yaw = i.yaw;
-    p.pitch = i.pitch;
-    p.hurt = Math.max(0, p.hurt - dt);
-    // The authoritative tick is 50ms. Assigning a full interval on every shot
-    // quantised every weapon to that tick, so anything faster than 20 shots a
-    // second was silently capped and its rate roll did nothing. While the
-    // trigger is held the remainder is carried, bounded by one tick so that
-    // releasing and re-pressing cannot bank a burst.
-    p.cool = i.fire ? Math.max(-dt, p.cool - dt) : Math.max(0, p.cool - dt);
-    p.evadeCd = Math.max(0, p.evadeCd - dt);
-    const wasEvading = p.evade > 0;
-    p.evade = Math.max(0, p.evade - dt);
-    p.heavyHit = Math.max(0, (p.heavyHit ?? 0) - dt);
-    if (wasEvading && p.evade <= 0 && p.swapCd > 0)
-      p.swapResume = WEAPON_SWITCH_RESUME;
-    else if ((p.swapResume ?? 0) > 0)
-      p.swapResume = Math.max(0, p.swapResume! - dt);
-    else if (!wasEvading) p.swapCd = Math.max(0, p.swapCd - dt);
-    if (p.hp <= 0) {
-      // A soldier downed in midair still falls to a support surface.
-      const blocks = mapFor(w).blocks;
-      const from = Math.max(p.y ?? 0, groundHeight(p.x, p.z, blocks));
-      const velocity = Math.min(0, p.verticalSpeed ?? 0);
-      const to = from + velocity * dt - 10 * dt * dt;
-      const landing = landingHeight(p.x, p.z, from, to, blocks);
-      p.y = landing ?? to;
-      p.verticalSpeed = landing === undefined ? velocity - 20 * dt : 0;
-      p.jumpHeld = false;
-      continue;
-    }
-    p.safe += dt;
-    const hpCap = w.front?.players[p.id]?.maxHp ?? maxHp(w);
-    if (p.safe > recoveryWait(w) && p.hp < hpCap * (w.solo ? 0.5 : 1))
-      p.hp = Math.min(hpCap * (w.solo ? 0.5 : 1), p.hp + dt * 3);
-    if (w.solo && p.reloadSlots)
-      for (let slot = 0; slot < p.weapons.length; slot++)
-        if (slot !== p.slot && p.reloadSlots[slot] > 0) {
-          p.reloadSlots[slot] = Math.max(0, p.reloadSlots[slot] - dt);
-          if (p.reloadSlots[slot] === 0)
-            p.ammo[slot] = stats(p.weapons[slot]).mag;
-        }
-    if (p.reload > 0) {
-      p.reload -= dt;
-      if (p.reload <= 0) {
-        p.ammo[p.slot] = stats(p.weapons[p.slot]).mag;
-        const front = w.front?.players[p.id];
-        if (
-          front &&
-          front.levels["opening-shot"] > 0 &&
-          !front.openingSlots.includes(p.slot)
-        )
-          front.openingSlots.push(p.slot);
+/** 入力の反映と各種タイマーの消化。直前まで回避中だったかを返す。 */
+function tickPlayerTimers(p: Player, i: Input, dt: number) {
+  p.ack = i.seq;
+  p.yaw = i.yaw;
+  p.pitch = i.pitch;
+  p.hurt = Math.max(0, p.hurt - dt);
+  // The authoritative tick is 50ms. Assigning a full interval on every shot
+  // quantised every weapon to that tick, so anything faster than 20 shots a
+  // second was silently capped and its rate roll did nothing. While the
+  // trigger is held the remainder is carried, bounded by one tick so that
+  // releasing and re-pressing cannot bank a burst.
+  p.cool = i.fire ? Math.max(-dt, p.cool - dt) : Math.max(0, p.cool - dt);
+  p.evadeCd = Math.max(0, p.evadeCd - dt);
+  const wasEvading = p.evade > 0;
+  p.evade = Math.max(0, p.evade - dt);
+  p.heavyHit = Math.max(0, (p.heavyHit ?? 0) - dt);
+  if (wasEvading && p.evade <= 0 && p.swapCd > 0)
+    p.swapResume = WEAPON_SWITCH_RESUME;
+  else if ((p.swapResume ?? 0) > 0)
+    p.swapResume = Math.max(0, p.swapResume! - dt);
+  else if (!wasEvading) p.swapCd = Math.max(0, p.swapCd - dt);
+  return wasEvading;
+}
+/** ダウン中の兵士は入力を受けず、足場まで落下だけする。 */
+function fallWhileDowned(w: World, p: Player, dt: number) {
+  // A soldier downed in midair still falls to a support surface.
+  const blocks = mapFor(w).blocks;
+  const from = Math.max(p.y ?? 0, groundHeight(p.x, p.z, blocks));
+  const velocity = Math.min(0, p.verticalSpeed ?? 0);
+  const to = from + velocity * dt - 10 * dt * dt;
+  const landing = landingHeight(p.x, p.z, from, to, blocks);
+  p.y = landing ?? to;
+  p.verticalSpeed = landing === undefined ? velocity - 20 * dt : 0;
+  p.jumpHeld = false;
+}
+/** 自然回復と装填の完了。 */
+function recoverPlayer(w: World, p: Player, dt: number) {
+  p.safe += dt;
+  const hpCap = w.front?.players[p.id]?.maxHp ?? maxHp(w);
+  if (p.safe > recoveryWait(w) && p.hp < hpCap * (w.solo ? 0.5 : 1))
+    p.hp = Math.min(hpCap * (w.solo ? 0.5 : 1), p.hp + dt * 3);
+  if (w.solo && p.reloadSlots)
+    for (let slot = 0; slot < p.weapons.length; slot++)
+      if (slot !== p.slot && p.reloadSlots[slot] > 0) {
+        p.reloadSlots[slot] = Math.max(0, p.reloadSlots[slot] - dt);
+        if (p.reloadSlots[slot] === 0)
+          p.ammo[slot] = stats(p.weapons[slot]).mag;
       }
+  if (p.reload > 0) {
+    p.reload -= dt;
+    if (p.reload <= 0) {
+      p.ammo[p.slot] = stats(p.weapons[p.slot]).mag;
+      const front = w.front?.players[p.id];
+      if (
+        front &&
+        front.levels["opening-shot"] > 0 &&
+        !front.openingSlots.includes(p.slot)
+      )
+        front.openingSlots.push(p.slot);
     }
-    if (i.swap && p.swapCd <= 0 && p.weapons.length > 1) {
-      if (w.solo) {
-        p.reloadSlots ??= [0, 0];
-        p.reloadSlots[p.slot] = Math.max(0, p.reload);
-      }
-      p.slot = 1 - p.slot;
-      p.reload = w.solo ? (p.reloadSlots?.[p.slot] ?? 0) : 0;
-      p.swapCd = w.solo ? switchTime(w) : WEAPON_SWITCH_DURATION;
-      if (w.solo) p.swapDuration = p.swapCd;
-      p.swapResume = 0;
-    }
-    if (
-      (i.reload || p.ammo[p.slot] === 0) &&
-      p.reload <= 0 &&
-      p.ammo[p.slot] < stats(p.weapons[p.slot]).mag
-    )
-      p.reload =
-        reloadDuration(p.weapons[p.slot], p.ammo[p.slot]) *
-        (w.front ? frontReloadStarted(w, p) : 1);
-    if (i.dodge && p.evadeCd <= 0) {
-      p.evade = EVADE_DURATION;
-      p.evadeCd =
-        2.2 *
-        buddyEvadeCooldownMultiplier(w, w.buddies, p.id) *
-        (1 -
-          Math.min(
-            0.48,
-            0.08 * (w.front?.players[p.id]?.levels["boost-coil"] || 0),
-          ));
-    }
-    const airborne = playerVerticalStep(p, i, mapFor(w).blocks, dt);
-    const norm = Math.max(1, Math.hypot(i.mx, i.mz)),
-      speed =
-        p.evade > 0
-          ? MOVE_SPEED.dodge
-          : MOVE_SPEED.walk *
-            (1 + 0.03 * (w.solo?.levels.move ?? 0)) *
-            buddyMoveMultiplier(w, w.buddies, p.id);
-    move(
-      p,
-      ((i.mx * Math.cos(i.yaw) + i.mz * Math.sin(i.yaw)) / norm) * speed * dt,
-      ((i.mx * Math.sin(i.yaw) - i.mz * Math.cos(i.yaw)) / norm) * speed * dt,
-      0.55,
-      mapFor(w).blocks,
-      airborne,
-      true,
-    );
-    if (w.front && wasEvading && p.evade <= 0) frontDodgeEnded(w, p);
-    if (i.fire)
-      // A weapon faster than the tick fires more than once here. The cap is a
-      // guard against a pathological interval, not an intended rate limit.
-      for (let shots = 0; shots < 8 && p.cool <= 0; shots++) {
-        const ammo = p.ammo[p.slot];
-        fire(w, p, i, airborne);
-        // Reload, weapon switch or an empty magazine stopped it. Clear the debt
-        // so it cannot be spent as a burst the moment firing becomes possible.
-        if (p.ammo[p.slot] === ammo) {
-          p.cool = Math.max(0, p.cool);
-          break;
-        }
-      }
-    if (i.cameraAim) {
-      const shot = cameraShot(w, p, i);
-      p.yaw = shot.yaw;
-      p.pitch = shot.pitch;
-    }
-    if (w.solo) collectSolo(w, p);
-    else
-      for (const d of w.drops.filter(
-        (d) => d.owner === p.id && Math.hypot(d.x - p.x, d.z - p.z) < 3,
-      )) {
-        if (w.pending[p.id].length < 3) w.pending[p.id].push(d.weapon);
-        w.drops = w.drops.filter((x) => x !== d);
-      }
   }
+}
+/** 持ち替え・装填開始・回避開始。 */
+function applyPlayerActions(w: World, p: Player, i: Input) {
+  if (i.swap && p.swapCd <= 0 && p.weapons.length > 1) {
+    if (w.solo) {
+      p.reloadSlots ??= [0, 0];
+      p.reloadSlots[p.slot] = Math.max(0, p.reload);
+    }
+    p.slot = 1 - p.slot;
+    p.reload = w.solo ? (p.reloadSlots?.[p.slot] ?? 0) : 0;
+    p.swapCd = w.solo ? switchTime(w) : WEAPON_SWITCH_DURATION;
+    if (w.solo) p.swapDuration = p.swapCd;
+    p.swapResume = 0;
+  }
+  if (
+    (i.reload || p.ammo[p.slot] === 0) &&
+    p.reload <= 0 &&
+    p.ammo[p.slot] < stats(p.weapons[p.slot]).mag
+  )
+    p.reload =
+      reloadDuration(p.weapons[p.slot], p.ammo[p.slot]) *
+      (w.front ? frontReloadStarted(w, p) : 1);
+  if (i.dodge && p.evadeCd <= 0) {
+    p.evade = EVADE_DURATION;
+    p.evadeCd =
+      2.2 *
+      buddyEvadeCooldownMultiplier(w, w.buddies, p.id) *
+      (1 -
+        Math.min(
+          0.48,
+          0.08 * (w.front?.players[p.id]?.levels["boost-coil"] || 0),
+        ));
+  }
+}
+/** 跳躍と水平移動。空中にいるかを返す。 */
+function movePlayer(w: World, p: Player, i: Input, dt: number) {
+  const airborne = playerVerticalStep(p, i, mapFor(w).blocks, dt);
+  const norm = Math.max(1, Math.hypot(i.mx, i.mz)),
+    speed =
+      p.evade > 0
+        ? MOVE_SPEED.dodge
+        : MOVE_SPEED.walk *
+          (1 + 0.03 * (w.solo?.levels.move ?? 0)) *
+          buddyMoveMultiplier(w, w.buddies, p.id);
+  move(
+    p,
+    ((i.mx * Math.cos(i.yaw) + i.mz * Math.sin(i.yaw)) / norm) * speed * dt,
+    ((i.mx * Math.sin(i.yaw) - i.mz * Math.cos(i.yaw)) / norm) * speed * dt,
+    0.55,
+    mapFor(w).blocks,
+    airborne,
+    true,
+  );
+  return airborne;
+}
+/** 射撃と、カメラ照準時の向きの確定。 */
+function firePlayer(w: World, p: Player, i: Input, airborne: boolean) {
+  if (i.fire)
+    // A weapon faster than the tick fires more than once here. The cap is a
+    // guard against a pathological interval, not an intended rate limit.
+    for (let shots = 0; shots < 8 && p.cool <= 0; shots++) {
+      const ammo = p.ammo[p.slot];
+      fire(w, p, i, airborne);
+      // Reload, weapon switch or an empty magazine stopped it. Clear the debt
+      // so it cannot be spent as a burst the moment firing becomes possible.
+      if (p.ammo[p.slot] === ammo) {
+        p.cool = Math.max(0, p.cool);
+        break;
+      }
+    }
+  if (i.cameraAim) {
+    const shot = cameraShot(w, p, i);
+    p.yaw = shot.yaw;
+    p.pitch = shot.pitch;
+  }
+}
+/** 足元の戦利品の回収。 */
+function collectDrops(w: World, p: Player) {
+  if (w.solo) collectSolo(w, p);
+  else
+    for (const d of w.drops.filter(
+      (d) => d.owner === p.id && Math.hypot(d.x - p.x, d.z - p.z) < 3,
+    )) {
+      if (w.pending[p.id].length < 3) w.pending[p.id].push(d.weapon);
+      w.drops = w.drops.filter((x) => x !== d);
+    }
+}
+/** 兵士1人の1tick。タイマー→回復→操作→移動→射撃→回収の順を変えない。 */
+function stepPlayer(w: World, p: Player, i: Input, dt: number) {
+  const wasEvading = tickPlayerTimers(p, i, dt);
+  if (p.hp <= 0) {
+    fallWhileDowned(w, p, dt);
+    return;
+  }
+  recoverPlayer(w, p, dt);
+  applyPlayerActions(w, p, i);
+  const airborne = movePlayer(w, p, i, dt);
+  if (w.front && wasEvading && p.evade <= 0) frontDodgeEnded(w, p);
+  firePlayer(w, p, i, airborne);
+  collectDrops(w, p);
+}
+/** ダウンした兵士の救助。 */
+function stepRevives(w: World, inputs: Record<string, Input>, dt: number) {
   for (const p of w.players.filter(
     (p) => p.connected && p.hp <= 0 && p.down > 0,
   )) {
@@ -1767,28 +1780,803 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
       event(w, { type: "revive", x: p.x, z: p.z, y: (p.y ?? 0) + 1 });
     }
   }
-  const living = w.players.filter((p) => p.hp > 0 && p.connected);
-  if (w.defense)
-    for (const p of living) {
-      const distance = Math.hypot(p.x, p.z);
-      // Blender vault including its corners plus the soldier's body clearance.
-      if (distance < 1.95) {
-        p.x = distance > 0 ? (p.x / distance) * 1.95 : 1.95;
-        p.z = distance > 0 ? (p.z / distance) * 1.95 : 0;
+}
+/** 武器庫防衛: 兵士を金庫の外へ押し戻す。 */
+function keepOutOfVault(living: Player[]) {
+  for (const p of living) {
+    const distance = Math.hypot(p.x, p.z);
+    // Blender vault including its corners plus the soldier's body clearance.
+    if (distance < 1.95) {
+      p.x = distance > 0 ? (p.x / distance) * 1.95 : 1.95;
+      p.z = distance > 0 ? (p.z / distance) * 1.95 : 0;
+    }
+  }
+}
+/** 生存者がいないtickの終了処理。 */
+function endWipedTick(w: World) {
+  if (w.defense && !w.front) {
+    finishDefenseTick(w);
+    return;
+  }
+  if (w.solo) {
+    endSoloTick(w);
+    return;
+  }
+  // 前線作戦の全滅判定は、この共通戦闘tickの後に作戦側で行う。
+  if (w.front) return;
+  finish(w, false, "部隊が全員ダウンしました");
+}
+/** 通常作戦: 出現予定の1体を出す。 */
+function spawnWaveTroop(w: World, wave: Wave) {
+  if (
+    w.spawned < troopCount(wave) &&
+    pendingFoundryCount(w) === 0 &&
+    w.enemies.length < LIMITS.enemies &&
+    w.time >= w.nextSpawn
+  ) {
+    const kind = troopAt(wave, w.spawned);
+    const factory = w.enemies.find(
+      (e) =>
+        e.kind === "boss" && !e.segments && e.hp > 0 && foundryPhase(e) >= 2,
+    );
+    // Existing wave budget only: fabrication relocates the scheduled unit.
+    if (factory && kind === "spitter") {
+      spawn(
+        w,
+        kind,
+        factory.x + 5,
+        factory.z,
+        "crown",
+        waveSizeSlot(w, wave.bosses.length + w.spawned),
+      );
+      factory.fabrication = 0.8;
+    } else
+      spawn(
+        w,
+        kind,
+        undefined,
+        undefined,
+        "crown",
+        waveSizeSlot(w, wave.bosses.length + w.spawned),
+      );
+    w.spawned++;
+    w.nextSpawn = w.time + wave.interval;
+  }
+}
+/** 通常作戦: 波の掃討判定と次の波への移行。作戦が完了したら true。 */
+function advanceWave(
+  w: World,
+  plan: ReturnType<typeof stageFor>,
+  wave: Wave,
+  living: Player[],
+) {
+  if (
+    w.spawned >= troopCount(wave) &&
+    w.enemies.every((e) => e.hp <= 0) &&
+    pendingFoundryCount(w) === 0
+  ) {
+    if (w.wave === plan.waves.length) {
+      finish(w, true);
+      return true;
+    }
+    w.waveClearAt ??= w.time;
+  } else w.waveClearAt = null;
+  if (w.waveClearAt !== null && w.time - w.waveClearAt >= WAVE_INTERVAL) {
+    w.wave++;
+    w.waveAt = w.time;
+    w.waveClearAt = null;
+    w.waveKills = 0;
+    for (const p of living) p.hp = Math.min(160, p.hp + 45);
+    beginWave(w);
+  }
+  return false;
+}
+/** 個体差（速度・威力）を反映した、このtickの敵の性能。 */
+interface EnemyTuning {
+  speed: number;
+  damage: number;
+  radius: number;
+  cruise: number;
+}
+function liftEnemyToFloor(w: World, e: Enemy) {
+  // Repair pre-relief checkpoint heights before targeting or movement.
+  // This also covers dormant enemies and segmented chains.
+  for (const node of wormNodes(e)) {
+    if (e.kind === "crawler" && e.pleat) continue;
+    const blocks = mapFor(w).blocks;
+    const ground = groundHeight(node.x, node.z, blocks);
+    const radius = ENEMIES[e.kind].radius * (ENEMIES[e.kind].cruise ? 1 : 0.65);
+    const floor =
+      blocks !== CAVE_BLOCKS &&
+      blocked(node.x, node.z, radius, Math.max(node.y, ground), blocks)
+        ? roofHeight(node.x, node.z, radius, blocks)
+        : ground;
+    if (node.y < floor) {
+      if (node === e && e.jumpFrom !== undefined) e.jumpFrom += floor - node.y;
+      node.y = floor;
+    }
+  }
+}
+/** 溜めの解放: FOUNDRY ZERO の範囲爆発。 */
+function releaseFoundryBurst(
+  w: World,
+  e: Enemy,
+  def: EnemyTuning,
+  living: Player[],
+) {
+  event(w, {
+    type: "burst",
+    radius: 7,
+    x: e.tx,
+    z: e.tz,
+    y: groundHeight(e.tx, e.tz, mapFor(w).blocks) + 0.1,
+  });
+  for (const p of living)
+    if (
+      Math.hypot(p.x - e.tx, p.z - e.tz) < 7 &&
+      visible(e, p, mapFor(w).blocks)
+    )
+      hurtPlayer(w, p, def.damage, true);
+  e.cool = 3 * enemyStatSize(e);
+}
+/** 溜めの解放: 射撃型の発射。 */
+function releaseVolley(w: World, e: Enemy, t: Player, def: EnemyTuning) {
+  const dist = Math.hypot(e.tx - e.x, e.tz - e.z);
+  for (const spread of e.kind === "ant" ? [-0.16, 0, 0.16] : [0]) {
+    const angle = Math.atan2(e.tx - e.x, e.tz - e.z) + spread;
+    const speed = e.kind === "hornet" ? 19 : 13;
+    const height = eye(e);
+    const targetY = (e.ty ?? t.y ?? 0) + 1.2;
+    const length = Math.max(1e-8, Math.hypot(dist, targetY - height));
+    const flight = Math.max(0.3, dist / speed);
+    const gravity = e.kind === "ant" ? 12 : 0;
+    if (w.projectiles.length < 100)
+      w.projectiles.push({
+        id: ++w.serial,
+        x: e.x,
+        z: e.z,
+        y: height,
+        dx:
+          e.kind === "hornet"
+            ? ((e.tx - e.x) / length) * speed
+            : Math.sin(angle) * speed,
+        dz:
+          e.kind === "hornet"
+            ? ((e.tz - e.z) / length) * speed
+            : Math.cos(angle) * speed,
+        // Cross the player's body at the aimed position, then fall to
+        // the ground beyond it if they move away. Aiming at y=0 made
+        // short/medium-range volleys pass underneath a standing player.
+        dy:
+          e.kind === "hornet"
+            ? ((targetY - height) / length) * speed
+            : gravity
+              ? (targetY - height) / flight + 0.5 * gravity * flight
+              : ((targetY - height) / Math.max(1, dist)) * speed,
+        gravity,
+        ...(e.kind === "hornet" ? { style: "stake" as const } : {}),
+        life: 4,
+        owner: "enemy",
+        damage: def.damage,
+        rocket: false,
+      });
+  }
+  e.cool = 2.7;
+}
+/** 溜めの解放: PLEAT の突進。進めなければ前方への打撃。 */
+function releasePleatStrike(
+  w: World,
+  e: Enemy,
+  def: EnemyTuning,
+  living: Player[],
+) {
+  const area = pleatStrike(e, mapFor(w).blocks);
+  if (area.travel > 0 && e.pleat) {
+    e.pleat.strike = {
+      dx: area.dx,
+      dz: area.dz,
+      remaining: area.travel,
+      hit: [],
+      travelled: 0,
+    };
+    event(w, {
+      type: "burst",
+      x: e.x + area.dx * 1.25,
+      z: e.z + area.dz * 1.25,
+      y: e.pleat.body.y,
+      radius: 1.25,
+    });
+    e.cool = 1.2;
+    return;
+  }
+  const ax = e.tx - e.x,
+    az = e.tz - e.z;
+  const length = Math.max(0.001, Math.hypot(ax, az));
+  event(w, {
+    type: "burst",
+    x: e.x + (ax / length) * 1.25,
+    z: e.z + (az / length) * 1.25,
+    y: e.pleat?.body.y ?? e.y + 0.3,
+    radius: 1.25,
+  });
+  for (const p of living) {
+    const px = p.x - e.x,
+      pz = p.z - e.z,
+      pd = Math.hypot(px, pz);
+    if (
+      pd < 2.5 &&
+      Math.abs((p.y ?? 0) - e.y) < 2.5 &&
+      (px * ax + pz * az) / (Math.max(0.001, pd) * length) >= 0.5 &&
+      visible(e, p, mapFor(w).blocks)
+    )
+      hurtPlayer(w, p, def.damage);
+  }
+  e.cool = 1.2;
+}
+/** 溜めの解放: 近接攻撃。 */
+function releaseMelee(
+  w: World,
+  e: Enemy,
+  t: Player,
+  d: number,
+  def: EnemyTuning,
+) {
+  if (d < 2.5 && Math.abs(e.y - (t.y ?? 0)) < 2) hurtPlayer(w, t, def.damage);
+  e.cool = 1.2;
+  if (e.kind === "spider") {
+    const recovery =
+      STRUCTURE_TIMING.crawler.duration - STRUCTURE_TIMING.crawler.impact;
+    e.jumpWait = Math.max(e.jumpWait ?? 0, recovery);
+    e.wallCooldown = Math.max(e.wallCooldown ?? 0, recovery);
+  }
+}
+/** 攻撃の溜めを進め、終わったtickに種別ごとの攻撃を出す。 */
+function stepWindup(
+  w: World,
+  e: Enemy,
+  t: Player,
+  d: number,
+  def: EnemyTuning,
+  living: Player[],
+  dt: number,
+) {
+  if (e.kind === "hornet" && e.wind > 0.4) {
+    const locked = living.find((p) => p.id === e.targetId);
+    if (locked) {
+      e.tx = locked.x;
+      e.tz = locked.z;
+    }
+  }
+  e.wind -= dt;
+  if (e.kind === "crawler" && e.wind < 1e-9) e.wind = 0;
+  if (e.wind <= 0) {
+    if (e.kind === "boss") releaseFoundryBurst(w, e, def, living);
+    else if (
+      e.kind === "spitter" ||
+      (e.kind === "ant" && Math.hypot(e.tx - e.x, e.tz - e.z) > 2.5) ||
+      e.kind === "hornet"
+    )
+      releaseVolley(w, e, t, def);
+    else if (e.kind === "crawler") releasePleatStrike(w, e, def, living);
+    else releaseMelee(w, e, t, d, def);
+  }
+}
+/** 目標への接近・後退・旋回。 */
+function advanceEnemy(
+  w: World,
+  e: Enemy,
+  t: Player,
+  d: number,
+  def: EnemyTuning,
+  special: ReturnType<typeof specialMotion>,
+  dt: number,
+) {
+  const stop =
+    mapFor(w).blocks === CAVE_BLOCKS && !visible(e, t, mapFor(w).blocks)
+      ? 0
+      : e.kind === "spitter"
+        ? 17
+        : e.kind === "boss"
+          ? 10
+          : 2;
+  if ((d > stop || (e.kind === "spitter" && d < 16)) && !special) {
+    const direction = pursuitDirection(w, e, t);
+    if (e.kind === "spitter" && d < 16) {
+      direction.x *= -1;
+      direction.z *= -1;
+    }
+    if (e.kind === "crawler") {
+      if (!e.lungeWait && d < 10 && d > 3) {
+        e.lunge = 0.35;
+        e.lungeWait = 2;
+      }
+      if ((e.lunge ?? 0) > 0) {
+        direction.x *= 2.2;
+        direction.z *= 2.2;
       }
     }
+    if (e.kind === "hornet" && d < 9) {
+      const dx = direction.x;
+      direction.x = -direction.z;
+      direction.z = dx;
+    }
+    if (def.cruise) {
+      // Straight line, but only into space it has actually climbed above.
+      const nx = e.x + direction.x * def.speed * dt,
+        nz = e.z + direction.z * def.speed * dt;
+      if (!blocked(nx, nz, def.radius, e.y, mapFor(w).blocks)) {
+        e.x = nx;
+        e.z = nz;
+      }
+    } else {
+      const old = { x: e.x, z: e.z };
+      move(
+        e,
+        direction.x * def.speed * dt,
+        direction.z * def.speed * dt,
+        def.radius * 0.65,
+        mapFor(w).blocks,
+      );
+      if (Math.hypot(e.x - old.x, e.z - old.z) < 0.01)
+        move(
+          e,
+          Math.sign(-e.x || 1) * def.speed * dt,
+          0,
+          def.radius * 0.65,
+          mapFor(w).blocks,
+        );
+    }
+  }
+}
+function holdFlightHeight(
+  w: World,
+  e: Enemy,
+  t: Player,
+  d: number,
+  def: EnemyTuning,
+  special: ReturnType<typeof specialMotion>,
+  dt: number,
+) {
+  // Choose flight height independently of target proximity.
+  if (def.cruise && !special) {
+    // Obstacle clearance takes priority over the chosen flight height.
+    const ahead = Math.max(
+      roofHeight(e.x, e.z, def.radius, mapFor(w).blocks),
+      roofHeight(
+        e.x + ((t.x - e.x) / Math.max(0.001, d)) * 3,
+        e.z + ((t.z - e.z) / Math.max(0.001, d)) * 3,
+        def.radius,
+        mapFor(w).blocks,
+      ),
+    );
+    if (w.time >= (e.flightUntil ?? 0)) {
+      const cycle = Math.floor(w.time / 3.5);
+      let flightSeed =
+        Math.imul(e.id + 31, 374761393) ^ Math.imul(cycle + 7, 668265263);
+      flightSeed = Math.imul(flightSeed ^ (flightSeed >>> 13), 1274126177);
+      const choice = ((flightSeed ^ (flightSeed >>> 16)) >>> 0) / 4294967296;
+      e.flightHeight =
+        RAY_MIN_FLIGHT_HEIGHT +
+        choice * (RAY_MAX_FLIGHT_HEIGHT - RAY_MIN_FLIGHT_HEIGHT);
+      e.flightUntil = w.time + 3.5;
+    }
+    let want = Math.max(ahead ? ahead + 1.5 : 0, e.flightHeight ?? def.cruise);
+    if (mapFor(w).blocks === CAVE_BLOCKS) want = Math.min(want, 5);
+    const step = 9 * dt;
+    e.y += Math.max(-step, Math.min(step, want - e.y));
+  }
+}
+/** 射程と視線の条件がそろったら攻撃の溜めを始める。 */
+function beginWindup(
+  w: World,
+  e: Enemy,
+  t: Player,
+  target: Player,
+  d: number,
+  living: Player[],
+) {
+  if (
+    e.cool <= 0 &&
+    d <
+      (e.kind === "boss"
+        ? 28
+        : e.kind === "spitter"
+          ? 33
+          : e.kind === "ant"
+            ? 18
+            : e.kind === "hornet"
+              ? 24
+              : 2.6) &&
+    (e.kind !== "spider" || ((e.jump ?? 0) <= 0 && (e.perch ?? 0) <= 0)) &&
+    (e.kind !== "crawler" ||
+      (Math.abs((t.y ?? 0) - e.y) < 2.5 &&
+        !e.pleat?.transfer &&
+        !e.pleat?.settling &&
+        !e.pleat?.poseHeld)) &&
+    (e.kind === "hornet"
+      ? rayVisible(e, t, mapFor(w).blocks)
+      : visible(e, t, mapFor(w).blocks))
+  ) {
+    e.wind =
+      e.kind === "boss"
+        ? STRUCTURE_TIMING.boss.wind
+        : e.kind === "hornet"
+          ? STRUCTURE_TIMING.hornet.wind
+          : e.kind === "spitter" || e.kind === "ant"
+            ? 0.8
+            : STRUCTURE_TIMING.crawler.wind;
+    e.tx = t.x;
+    e.ty = t.y ?? 0;
+    e.tz = t.z;
+    if (e.kind === "crawler" && target !== t) {
+      e.tx = target.x;
+      e.tz = target.z;
+      if (pleatStrike(e, mapFor(w).blocks).travel === 0) {
+        e.tx = t.x;
+        e.tz = t.z;
+      }
+    }
+    if (e.kind === "boss") {
+      const point = clusterPoint(living, 7, (p) =>
+        visible(e, p, mapFor(w).blocks),
+      )!;
+      e.tx = point.x;
+      e.tz = point.z;
+    }
+  }
+}
+/** 敵1体の1tick。 */
+function stepEnemy(
+  w: World,
+  e: Enemy,
+  living: Player[],
+  previousPositions: Map<string, { x: number; z: number }>,
+  dt: number,
+) {
+  if (e.hp <= 0) return;
+  liftEnemyToFloor(w, e);
+  e.hurt = Math.max(0, e.hurt - dt);
+  if (w.training) return;
+  if (frontEnemyFrozen(w, e)) return;
+  const t = w.defense
+    ? defenseTarget(w, e, w.players)
+    : selectStructureTarget(e, living, (p) => visible(e, p, mapFor(w).blocks));
+  // An earlier enemy can down the last target in this same tick.
+  if (!t) return;
+  if (e.wind <= 0) e.targetId = t.id;
+  if (e.kind === "boss" && !e.segments) {
+    e.phase = foundryPhase(e);
+    e.fabrication = Math.max(0, (e.fabrication ?? 0) - dt);
+  }
+  const d = Math.hypot(t.x - e.x, t.z - e.z),
+    def = {
+      ...ENEMIES[e.kind],
+      speed: ENEMIES[e.kind].speed * enemySpeedFactor(e),
+      damage: ENEMIES[e.kind].damage * enemyStatSize(e),
+    };
+  if (e.active === false) {
+    if (
+      !living.some(
+        (p) =>
+          Math.hypot(p.x - e.x, p.z - e.z) < 18 &&
+          visible(e, p, mapFor(w).blocks),
+      )
+    )
+      return;
+    e.active = true;
+  }
+  if (e.kind === "harrow") {
+    stepHarrow(w, e, t, living, dt);
+    return;
+  }
+  if (e.kind === "calyx") {
+    stepCalyx(w, e, t, living, dt);
+    return;
+  }
+  if (e.kind === "bastion") {
+    stepBastion(w, e, t, dt);
+    return;
+  }
+  if (e.segments) {
+    moveWorm(w, e, dt);
+    return;
+  }
+  if (e.kind === "crawler") {
+    e.lungeWait = Math.max(0, (e.lungeWait ?? 0) - dt);
+    e.lunge = Math.max(0, (e.lunge ?? 0) - dt);
+  }
+  e.cool -= dt;
+  const previous = previousPositions.get(t.id);
+  let target = t;
+  if (
+    e.kind === "crawler" &&
+    previous &&
+    dt > 0 &&
+    e.pleat &&
+    e.pleat.up.y > 0.95 &&
+    !e.pleat.transfer &&
+    !e.pleat.settling &&
+    !e.pleat.poseHeld
+  ) {
+    const vx = (t.x - previous.x) / dt,
+      vz = (t.z - previous.z) / dt;
+    const lead = 0.8 * Math.min(1, 8.4 / Math.max(0.001, Math.hypot(vx, vz)));
+    target = { ...t, x: t.x + vx * lead, z: t.z + vz * lead };
+  }
+  const special = specialMotion(w, e, target, dt);
+  const strike = e.kind === "crawler" ? e.pleat?.strike : undefined;
+  if (strike?.from) {
+    const area = {
+      ...strike.from,
+      dx: strike.dx,
+      dz: strike.dz,
+      travel: strike.travelled,
+    };
+    for (const p of living) {
+      if (
+        !strike.hit.includes(p.id) &&
+        insidePleatStrike(area, p) &&
+        visible(e, p, mapFor(w).blocks)
+      ) {
+        strike.hit.push(p.id);
+        hurtPlayer(w, p, def.damage);
+      }
+    }
+    if (strike.remaining <= 0) delete e.pleat!.strike;
+    return;
+  }
+  if (e.wind > 0) {
+    stepWindup(w, e, t, d, def, living, dt);
+    return;
+  }
+  advanceEnemy(w, e, t, d, def, special, dt);
+  holdFlightHeight(w, e, t, d, def, special, dt);
+  beginWindup(w, e, t, target, d, living);
+}
+/** ロケット弾の爆発と、直撃で撃破した通常敵からの誘爆。 */
+function detonateRocket(w: World, q: Projectile, direct: Enemy | undefined) {
+  // Rounds fired before weapons carried their own blast read as the
+  // original rocket, so its numbers stay exactly what they were.
+  const blast = q.radius ?? 6.5,
+    blastFamily = q.family ?? "rocket",
+    // The original reached zero at 9m for a 6.5m blast; keeping that
+    // proportion means a bigger blast never turns damage negative.
+    reach = (blast * 9) / 6.5,
+    chainBlast = (blast * 3.5) / 6.5;
+  event(w, {
+    type: "burst",
+    radius: blast,
+    weapon: blastFamily,
+    x: q.x,
+    z: q.z,
+    y: q.y,
+    owner: q.owner,
+  });
+  for (const e of w.enemies) {
+    for (const b of enemyBodies(e).sort(
+      (a, b) => Number(a.part === 0) - Number(b.part === 0) || a.part - b.part,
+    )) {
+      const d = Math.hypot(b.x - q.x, b.z - q.z, b.y - q.y);
+      // HARROW and FOUNDRY ZERO can exceed a weapon's entire blast radius.
+      // Measure its blast overlap at the same surface used for direct hits.
+      // Keep the existing distance curve for every other enemy.
+      const blastDistance =
+        e.kind === "harrow" || e.kind === "boss"
+          ? Math.max(0, d - b.radius)
+          : d;
+      if (blastDistance >= blast) continue;
+      const clear =
+        d < 0.01 ||
+        wallDistance(
+          q.x,
+          q.y,
+          q.z,
+          (b.x - q.x) / d,
+          (b.y - q.y) / d,
+          (b.z - q.z) / d,
+          d,
+          mapFor(w).blocks,
+        ) >=
+          d - 0.01;
+      if (clear && w.front?.growthVersion === 3 && q.frontShot !== undefined)
+        frontManualHit(
+          w,
+          e,
+          q.damage * (1 - blastDistance / reach),
+          q.owner,
+          q.frontShot,
+          b.part,
+          blastFamily,
+          q.frontSlot,
+        );
+      else if (clear)
+        hurtEnemy(
+          w,
+          e,
+          q.damage * (1 - blastDistance / reach),
+          q.owner,
+          b.part,
+        );
+    }
+  }
+  // Only the directly hit, defeated normal enemy can trigger one burst.
+  // Damage from this secondary burst never enters this trigger again.
+  if (
+    q.chain &&
+    direct &&
+    direct.hp <= 0 &&
+    direct.kind !== "boss" &&
+    direct.kind !== "harrow" &&
+    w.phase === "battle"
+  ) {
+    event(w, {
+      type: "burst",
+      radius: chainBlast,
+      weapon: blastFamily,
+      x: direct.x,
+      z: direct.z,
+      y: eye(direct),
+      owner: q.owner,
+    });
+    for (const e of w.enemies) {
+      const d = Math.hypot(
+        e.x - direct.x,
+        e.z - direct.z,
+        eye(e) - eye(direct),
+      );
+      const blastDistance =
+        e.kind === "harrow" || e.kind === "boss"
+          ? Math.max(0, d - (enemyBodies(e)[0]?.radius ?? 0))
+          : d;
+      if (
+        e.hp > 0 &&
+        blastDistance < chainBlast &&
+        visible(direct, e, mapFor(w).blocks)
+      )
+        hurtEnemy(
+          w,
+          e,
+          q.damage * 0.5 * (1 - blastDistance / (chainBlast * 2)),
+          q.owner,
+        );
+    }
+  }
+}
+/** 弾1発の1tick。 */
+function stepProjectile(w: World, q: Projectile, living: Player[], dt: number) {
+  if (q.style === "pollen") {
+    advancePollen(w, q, dt);
+    return;
+  }
+  if (q.style === "laser") {
+    advanceFoundryLaser(w, q, living, dt);
+    return;
+  }
+  const dx = q.dx * dt,
+    dz = q.dz * dt,
+    dy = q.dy * dt - 0.5 * (q.gravity ?? 0) * dt * dt,
+    dist = Math.hypot(dx, dy, dz);
+  const blocks = mapFor(w).blocks;
+  const wall =
+    q.rocket && dist === 0
+      ? 0
+      : wallDistance(
+          q.x,
+          q.y,
+          q.z,
+          dx / dist,
+          dy / dist,
+          dz / dist,
+          dist,
+          blocks,
+        );
+  let covered = q.rocket && dist === 0 ? 0 : Math.min(1, wall / dist);
+  let direct: Enemy | undefined;
+  let surfaceHit = wall < dist;
+  if (q.rocket) {
+    // wallDistance already clips terrain rays. Flat ground also stops a round
+    // at the crossing, rather than at a later endpoint beneath the floor.
+    const underFloor = (fraction: number) =>
+      q.y + dy * fraction <=
+      groundHeight(q.x + dx * fraction, q.z + dz * fraction, blocks);
+    if (underFloor(0)) {
+      covered = 0;
+      surfaceHit = true;
+    } else if (underFloor(covered)) {
+      let low = 0,
+        high = covered;
+      for (let n = 0; n < 20; n++) {
+        const middle = (low + high) / 2;
+        if (underFloor(middle)) high = middle;
+        else low = middle;
+      }
+      covered = high;
+      surfaceHit = true;
+    }
+    // Scan every body before moving the round. A nearer intersection wins
+    // regardless of enemy order; an obstacle wins an exact-distance tie.
+    if (q.life > 0)
+      for (const e of w.enemies) {
+        if (e.hp <= 0) continue;
+        for (const body of enemyBodies(e)) {
+          const entry = projectileSphereEntry(q, dx, dy, dz, body, covered);
+          if (
+            entry !== undefined &&
+            (entry < covered ||
+              (entry === covered && (direct ? e.id < direct.id : !surfaceHit)))
+          ) {
+            covered = entry;
+            direct = e;
+          }
+        }
+      }
+  }
+  q.x += dx * covered;
+  q.z += dz * covered;
+  q.y += dy * covered;
+  q.dy -= (q.gravity ?? 0) * dt;
+  q.life -= dt;
+  const floor = groundHeight(q.x, q.z, blocks);
+  let hit = surfaceHit || q.y <= floor || q.life <= 0;
+  q.y = Math.max(floor, q.y);
+  if (q.rocket) {
+    hit ||= !!direct;
+    if (hit) detonateRocket(w, q, direct);
+  } else {
+    // BASTION's rounds move over 1m per tick, so they test the whole
+    // segment they crossed instead of only the end point.
+    const swept = q.style === "bastion";
+    for (const p of living)
+      if (
+        !hit &&
+        (swept
+          ? segmentDistance(
+              p.x,
+              (p.y ?? 0) + 1.2,
+              p.z,
+              q,
+              dx,
+              dy,
+              dz,
+              wall / dist,
+            )
+          : Math.hypot(p.x - q.x, p.z - q.z, (p.y ?? 0) + 1.2 - q.y)) < 1
+      ) {
+        hurtPlayer(w, p, q.damage);
+        hit = true;
+      }
+  }
+  if (hit) {
+    if (!q.rocket) event(w, { type: "acid", x: q.x, y: q.y, z: q.z });
+    q.life = -1;
+  }
+}
+export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
+  if (w.phase !== "battle") return;
+  if (!w.players.some((p) => p.connected)) return;
+  dt = Math.min(0.1, Math.max(0, dt));
+  w.time += dt;
+  if (w.buddies)
+    tickBuddyCombat(w, w.buddies, inputs, dt, (p, b) =>
+      buddyFollowTarget(
+        { x: p.x, y: p.y ?? 0, z: p.z, yaw: p.yaw },
+        { tatara: 0.93, yosuga: 0.52, tobari: 0.43, oriha: 0.88 }[b.buddyId],
+        mapFor(w).blocks,
+        b.visible ? b : undefined,
+      ),
+    );
+  if (w.front) tickFrontEffects(w);
+  if (w.solo) w.solo.invincible = Math.max(0, w.solo.invincible - dt);
+  const previousPositions = new Map(
+    w.players.map((p) => [p.id, { x: p.x, z: p.z }]),
+  );
+  for (const p of w.players)
+    if (p.connected) stepPlayer(w, p, inputs[p.id] ?? neutral(), dt);
+  stepRevives(w, inputs, dt);
+  const living = w.players.filter((p) => p.hp > 0 && p.connected);
+  if (w.defense) keepOutOfVault(living);
   if (!living.length) {
-    if (w.defense && !w.front) {
-      finishDefenseTick(w);
-      return;
-    }
-    if (w.solo) {
-      endSoloTick(w);
-      return;
-    }
-    // 前線作戦の全滅判定は、この共通戦闘tickの後に作戦側で行う。
-    if (w.front) return;
-    finish(w, false, "部隊が全員ダウンしました");
+    endWipedTick(w);
     return;
   }
   const plan = stageFor(w);
@@ -1799,662 +2587,12 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   } else if (w.defense) defenseSpawn(w);
   else if (w.solo) soloSpawnAndProgress(w);
   else if (!w.training && !w.rebuild) {
-    if (
-      w.spawned < troopCount(wave) &&
-      pendingFoundryCount(w) === 0 &&
-      w.enemies.length < LIMITS.enemies &&
-      w.time >= w.nextSpawn
-    ) {
-      const kind = troopAt(wave, w.spawned);
-      const factory = w.enemies.find(
-        (e) =>
-          e.kind === "boss" && !e.segments && e.hp > 0 && foundryPhase(e) >= 2,
-      );
-      // Existing wave budget only: fabrication relocates the scheduled unit.
-      if (factory && kind === "spitter") {
-        spawn(
-          w,
-          kind,
-          factory.x + 5,
-          factory.z,
-          "crown",
-          waveSizeSlot(w, wave.bosses.length + w.spawned),
-        );
-        factory.fabrication = 0.8;
-      } else
-        spawn(
-          w,
-          kind,
-          undefined,
-          undefined,
-          "crown",
-          waveSizeSlot(w, wave.bosses.length + w.spawned),
-        );
-      w.spawned++;
-      w.nextSpawn = w.time + wave.interval;
-    }
-    if (
-      w.spawned >= troopCount(wave) &&
-      w.enemies.every((e) => e.hp <= 0) &&
-      pendingFoundryCount(w) === 0
-    ) {
-      if (w.wave === plan.waves.length) {
-        finish(w, true);
-        return;
-      }
-      w.waveClearAt ??= w.time;
-    } else w.waveClearAt = null;
-    if (w.waveClearAt !== null && w.time - w.waveClearAt >= WAVE_INTERVAL) {
-      w.wave++;
-      w.waveAt = w.time;
-      w.waveClearAt = null;
-      w.waveKills = 0;
-      for (const p of living) p.hp = Math.min(160, p.hp + 45);
-      beginWave(w);
-    }
+    spawnWaveTroop(w, wave);
+    if (advanceWave(w, plan, wave, living)) return;
   }
   if (w.defense) living.push(w.defense.armory);
-  for (const e of w.enemies) {
-    if (e.hp <= 0) continue;
-    // Repair pre-relief checkpoint heights before targeting or movement.
-    // This also covers dormant enemies and segmented chains.
-    for (const node of wormNodes(e)) {
-      if (e.kind === "crawler" && e.pleat) continue;
-      const blocks = mapFor(w).blocks;
-      const ground = groundHeight(node.x, node.z, blocks);
-      const radius =
-        ENEMIES[e.kind].radius * (ENEMIES[e.kind].cruise ? 1 : 0.65);
-      const floor =
-        blocks !== CAVE_BLOCKS &&
-        blocked(node.x, node.z, radius, Math.max(node.y, ground), blocks)
-          ? roofHeight(node.x, node.z, radius, blocks)
-          : ground;
-      if (node.y < floor) {
-        if (node === e && e.jumpFrom !== undefined)
-          e.jumpFrom += floor - node.y;
-        node.y = floor;
-      }
-    }
-    e.hurt = Math.max(0, e.hurt - dt);
-    if (w.training) continue;
-    if (frontEnemyFrozen(w, e)) continue;
-    const t = w.defense
-      ? defenseTarget(w, e, w.players)
-      : selectStructureTarget(e, living, (p) =>
-          visible(e, p, mapFor(w).blocks),
-        );
-    // An earlier enemy can down the last target in this same tick.
-    if (!t) continue;
-    if (e.wind <= 0) e.targetId = t.id;
-    if (e.kind === "boss" && !e.segments) {
-      e.phase = foundryPhase(e);
-      e.fabrication = Math.max(0, (e.fabrication ?? 0) - dt);
-    }
-    const d = Math.hypot(t.x - e.x, t.z - e.z),
-      def = {
-        ...ENEMIES[e.kind],
-        speed: ENEMIES[e.kind].speed * enemySpeedFactor(e),
-        damage: ENEMIES[e.kind].damage * enemyStatSize(e),
-      };
-    if (e.active === false) {
-      if (
-        !living.some(
-          (p) =>
-            Math.hypot(p.x - e.x, p.z - e.z) < 18 &&
-            visible(e, p, mapFor(w).blocks),
-        )
-      )
-        continue;
-      e.active = true;
-    }
-    if (e.kind === "harrow") {
-      stepHarrow(w, e, t, living, dt);
-      continue;
-    }
-    if (e.kind === "calyx") {
-      stepCalyx(w, e, t, living, dt);
-      continue;
-    }
-    if (e.kind === "bastion") {
-      stepBastion(w, e, t, dt);
-      continue;
-    }
-    if (e.segments) {
-      moveWorm(w, e, dt);
-      continue;
-    }
-    if (e.kind === "crawler") {
-      e.lungeWait = Math.max(0, (e.lungeWait ?? 0) - dt);
-      e.lunge = Math.max(0, (e.lunge ?? 0) - dt);
-    }
-    e.cool -= dt;
-    const previous = previousPositions.get(t.id);
-    let target = t;
-    if (
-      e.kind === "crawler" &&
-      previous &&
-      dt > 0 &&
-      e.pleat &&
-      e.pleat.up.y > 0.95 &&
-      !e.pleat.transfer &&
-      !e.pleat.settling &&
-      !e.pleat.poseHeld
-    ) {
-      const vx = (t.x - previous.x) / dt,
-        vz = (t.z - previous.z) / dt;
-      const lead = 0.8 * Math.min(1, 8.4 / Math.max(0.001, Math.hypot(vx, vz)));
-      target = { ...t, x: t.x + vx * lead, z: t.z + vz * lead };
-    }
-    const special = specialMotion(w, e, target, dt);
-    const strike = e.kind === "crawler" ? e.pleat?.strike : undefined;
-    if (strike?.from) {
-      const area = {
-        ...strike.from,
-        dx: strike.dx,
-        dz: strike.dz,
-        travel: strike.travelled,
-      };
-      for (const p of living) {
-        if (
-          !strike.hit.includes(p.id) &&
-          insidePleatStrike(area, p) &&
-          visible(e, p, mapFor(w).blocks)
-        ) {
-          strike.hit.push(p.id);
-          hurtPlayer(w, p, def.damage);
-        }
-      }
-      if (strike.remaining <= 0) delete e.pleat!.strike;
-      continue;
-    }
-    if (e.wind > 0) {
-      if (e.kind === "hornet" && e.wind > 0.4) {
-        const locked = living.find((p) => p.id === e.targetId);
-        if (locked) {
-          e.tx = locked.x;
-          e.tz = locked.z;
-        }
-      }
-      e.wind -= dt;
-      if (e.kind === "crawler" && e.wind < 1e-9) e.wind = 0;
-      if (e.wind <= 0) {
-        if (e.kind === "boss") {
-          event(w, {
-            type: "burst",
-            radius: 7,
-            x: e.tx,
-            z: e.tz,
-            y: groundHeight(e.tx, e.tz, mapFor(w).blocks) + 0.1,
-          });
-          for (const p of living)
-            if (
-              Math.hypot(p.x - e.tx, p.z - e.tz) < 7 &&
-              visible(e, p, mapFor(w).blocks)
-            )
-              hurtPlayer(w, p, def.damage, true);
-          e.cool = 3 * enemyStatSize(e);
-        } else if (
-          e.kind === "spitter" ||
-          (e.kind === "ant" && Math.hypot(e.tx - e.x, e.tz - e.z) > 2.5) ||
-          e.kind === "hornet"
-        ) {
-          const dist = Math.hypot(e.tx - e.x, e.tz - e.z);
-          for (const spread of e.kind === "ant" ? [-0.16, 0, 0.16] : [0]) {
-            const angle = Math.atan2(e.tx - e.x, e.tz - e.z) + spread;
-            const speed = e.kind === "hornet" ? 19 : 13;
-            const height = eye(e);
-            const targetY = (e.ty ?? t.y ?? 0) + 1.2;
-            const length = Math.max(1e-8, Math.hypot(dist, targetY - height));
-            const flight = Math.max(0.3, dist / speed);
-            const gravity = e.kind === "ant" ? 12 : 0;
-            if (w.projectiles.length < 100)
-              w.projectiles.push({
-                id: ++w.serial,
-                x: e.x,
-                z: e.z,
-                y: height,
-                dx:
-                  e.kind === "hornet"
-                    ? ((e.tx - e.x) / length) * speed
-                    : Math.sin(angle) * speed,
-                dz:
-                  e.kind === "hornet"
-                    ? ((e.tz - e.z) / length) * speed
-                    : Math.cos(angle) * speed,
-                // Cross the player's body at the aimed position, then fall to
-                // the ground beyond it if they move away. Aiming at y=0 made
-                // short/medium-range volleys pass underneath a standing player.
-                dy:
-                  e.kind === "hornet"
-                    ? ((targetY - height) / length) * speed
-                    : gravity
-                      ? (targetY - height) / flight + 0.5 * gravity * flight
-                      : ((targetY - height) / Math.max(1, dist)) * speed,
-                gravity,
-                ...(e.kind === "hornet" ? { style: "stake" as const } : {}),
-                life: 4,
-                owner: "enemy",
-                damage: def.damage,
-                rocket: false,
-              });
-          }
-          e.cool = 2.7;
-        } else if (e.kind === "crawler") {
-          const area = pleatStrike(e, mapFor(w).blocks);
-          if (area.travel > 0 && e.pleat) {
-            e.pleat.strike = {
-              dx: area.dx,
-              dz: area.dz,
-              remaining: area.travel,
-              hit: [],
-              travelled: 0,
-            };
-            event(w, {
-              type: "burst",
-              x: e.x + area.dx * 1.25,
-              z: e.z + area.dz * 1.25,
-              y: e.pleat.body.y,
-              radius: 1.25,
-            });
-            e.cool = 1.2;
-            continue;
-          }
-          const ax = e.tx - e.x,
-            az = e.tz - e.z;
-          const length = Math.max(0.001, Math.hypot(ax, az));
-          event(w, {
-            type: "burst",
-            x: e.x + (ax / length) * 1.25,
-            z: e.z + (az / length) * 1.25,
-            y: e.pleat?.body.y ?? e.y + 0.3,
-            radius: 1.25,
-          });
-          for (const p of living) {
-            const px = p.x - e.x,
-              pz = p.z - e.z,
-              pd = Math.hypot(px, pz);
-            if (
-              pd < 2.5 &&
-              Math.abs((p.y ?? 0) - e.y) < 2.5 &&
-              (px * ax + pz * az) / (Math.max(0.001, pd) * length) >= 0.5 &&
-              visible(e, p, mapFor(w).blocks)
-            )
-              hurtPlayer(w, p, def.damage);
-          }
-          e.cool = 1.2;
-        } else {
-          if (d < 2.5 && Math.abs(e.y - (t.y ?? 0)) < 2)
-            hurtPlayer(w, t, def.damage);
-          e.cool = 1.2;
-          if (e.kind === "spider") {
-            const recovery =
-              STRUCTURE_TIMING.crawler.duration -
-              STRUCTURE_TIMING.crawler.impact;
-            e.jumpWait = Math.max(e.jumpWait ?? 0, recovery);
-            e.wallCooldown = Math.max(e.wallCooldown ?? 0, recovery);
-          }
-        }
-      }
-      continue;
-    }
-    const stop =
-      mapFor(w).blocks === CAVE_BLOCKS && !visible(e, t, mapFor(w).blocks)
-        ? 0
-        : e.kind === "spitter"
-          ? 17
-          : e.kind === "boss"
-            ? 10
-            : 2;
-    if ((d > stop || (e.kind === "spitter" && d < 16)) && !special) {
-      const direction = pursuitDirection(w, e, t);
-      if (e.kind === "spitter" && d < 16) {
-        direction.x *= -1;
-        direction.z *= -1;
-      }
-      if (e.kind === "crawler") {
-        if (!e.lungeWait && d < 10 && d > 3) {
-          e.lunge = 0.35;
-          e.lungeWait = 2;
-        }
-        if ((e.lunge ?? 0) > 0) {
-          direction.x *= 2.2;
-          direction.z *= 2.2;
-        }
-      }
-      if (e.kind === "hornet" && d < 9) {
-        const dx = direction.x;
-        direction.x = -direction.z;
-        direction.z = dx;
-      }
-      if (def.cruise) {
-        // Straight line, but only into space it has actually climbed above.
-        const nx = e.x + direction.x * def.speed * dt,
-          nz = e.z + direction.z * def.speed * dt;
-        if (!blocked(nx, nz, def.radius, e.y, mapFor(w).blocks)) {
-          e.x = nx;
-          e.z = nz;
-        }
-      } else {
-        const old = { x: e.x, z: e.z };
-        move(
-          e,
-          direction.x * def.speed * dt,
-          direction.z * def.speed * dt,
-          def.radius * 0.65,
-          mapFor(w).blocks,
-        );
-        if (Math.hypot(e.x - old.x, e.z - old.z) < 0.01)
-          move(
-            e,
-            Math.sign(-e.x || 1) * def.speed * dt,
-            0,
-            def.radius * 0.65,
-            mapFor(w).blocks,
-          );
-      }
-    }
-    // Choose flight height independently of target proximity.
-    if (def.cruise && !special) {
-      // Obstacle clearance takes priority over the chosen flight height.
-      const ahead = Math.max(
-        roofHeight(e.x, e.z, def.radius, mapFor(w).blocks),
-        roofHeight(
-          e.x + ((t.x - e.x) / Math.max(0.001, d)) * 3,
-          e.z + ((t.z - e.z) / Math.max(0.001, d)) * 3,
-          def.radius,
-          mapFor(w).blocks,
-        ),
-      );
-      if (w.time >= (e.flightUntil ?? 0)) {
-        const cycle = Math.floor(w.time / 3.5);
-        let flightSeed =
-          Math.imul(e.id + 31, 374761393) ^ Math.imul(cycle + 7, 668265263);
-        flightSeed = Math.imul(flightSeed ^ (flightSeed >>> 13), 1274126177);
-        const choice = ((flightSeed ^ (flightSeed >>> 16)) >>> 0) / 4294967296;
-        e.flightHeight =
-          RAY_MIN_FLIGHT_HEIGHT +
-          choice * (RAY_MAX_FLIGHT_HEIGHT - RAY_MIN_FLIGHT_HEIGHT);
-        e.flightUntil = w.time + 3.5;
-      }
-      let want = Math.max(
-        ahead ? ahead + 1.5 : 0,
-        e.flightHeight ?? def.cruise,
-      );
-      if (mapFor(w).blocks === CAVE_BLOCKS) want = Math.min(want, 5);
-      const step = 9 * dt;
-      e.y += Math.max(-step, Math.min(step, want - e.y));
-    }
-    if (
-      e.cool <= 0 &&
-      d <
-        (e.kind === "boss"
-          ? 28
-          : e.kind === "spitter"
-            ? 33
-            : e.kind === "ant"
-              ? 18
-              : e.kind === "hornet"
-                ? 24
-                : 2.6) &&
-      (e.kind !== "spider" || ((e.jump ?? 0) <= 0 && (e.perch ?? 0) <= 0)) &&
-      (e.kind !== "crawler" ||
-        (Math.abs((t.y ?? 0) - e.y) < 2.5 &&
-          !e.pleat?.transfer &&
-          !e.pleat?.settling &&
-          !e.pleat?.poseHeld)) &&
-      (e.kind === "hornet"
-        ? rayVisible(e, t, mapFor(w).blocks)
-        : visible(e, t, mapFor(w).blocks))
-    ) {
-      e.wind =
-        e.kind === "boss"
-          ? STRUCTURE_TIMING.boss.wind
-          : e.kind === "hornet"
-            ? STRUCTURE_TIMING.hornet.wind
-            : e.kind === "spitter" || e.kind === "ant"
-              ? 0.8
-              : STRUCTURE_TIMING.crawler.wind;
-      e.tx = t.x;
-      e.ty = t.y ?? 0;
-      e.tz = t.z;
-      if (e.kind === "crawler" && target !== t) {
-        e.tx = target.x;
-        e.tz = target.z;
-        if (pleatStrike(e, mapFor(w).blocks).travel === 0) {
-          e.tx = t.x;
-          e.tz = t.z;
-        }
-      }
-      if (e.kind === "boss") {
-        const point = clusterPoint(living, 7, (p) =>
-          visible(e, p, mapFor(w).blocks),
-        )!;
-        e.tx = point.x;
-        e.tz = point.z;
-      }
-    }
-  }
-  for (const q of w.projectiles) {
-    if (q.style === "pollen") {
-      advancePollen(w, q, dt);
-      continue;
-    }
-    if (q.style === "laser") {
-      advanceFoundryLaser(w, q, living, dt);
-      continue;
-    }
-    const dx = q.dx * dt,
-      dz = q.dz * dt,
-      dy = q.dy * dt - 0.5 * (q.gravity ?? 0) * dt * dt,
-      dist = Math.hypot(dx, dy, dz);
-    const blocks = mapFor(w).blocks;
-    const wall =
-      q.rocket && dist === 0
-        ? 0
-        : wallDistance(
-            q.x,
-            q.y,
-            q.z,
-            dx / dist,
-            dy / dist,
-            dz / dist,
-            dist,
-            blocks,
-          );
-    let covered = q.rocket && dist === 0 ? 0 : Math.min(1, wall / dist);
-    let direct: Enemy | undefined;
-    let surfaceHit = wall < dist;
-    if (q.rocket) {
-      // wallDistance already clips terrain rays. Flat ground also stops a round
-      // at the crossing, rather than at a later endpoint beneath the floor.
-      const underFloor = (fraction: number) =>
-        q.y + dy * fraction <=
-        groundHeight(q.x + dx * fraction, q.z + dz * fraction, blocks);
-      if (underFloor(0)) {
-        covered = 0;
-        surfaceHit = true;
-      } else if (underFloor(covered)) {
-        let low = 0,
-          high = covered;
-        for (let n = 0; n < 20; n++) {
-          const middle = (low + high) / 2;
-          if (underFloor(middle)) high = middle;
-          else low = middle;
-        }
-        covered = high;
-        surfaceHit = true;
-      }
-      // Scan every body before moving the round. A nearer intersection wins
-      // regardless of enemy order; an obstacle wins an exact-distance tie.
-      if (q.life > 0)
-        for (const e of w.enemies) {
-          if (e.hp <= 0) continue;
-          for (const body of enemyBodies(e)) {
-            const entry = projectileSphereEntry(q, dx, dy, dz, body, covered);
-            if (
-              entry !== undefined &&
-              (entry < covered ||
-                (entry === covered &&
-                  (direct ? e.id < direct.id : !surfaceHit)))
-            ) {
-              covered = entry;
-              direct = e;
-            }
-          }
-        }
-    }
-    q.x += dx * covered;
-    q.z += dz * covered;
-    q.y += dy * covered;
-    q.dy -= (q.gravity ?? 0) * dt;
-    q.life -= dt;
-    const floor = groundHeight(q.x, q.z, blocks);
-    let hit = surfaceHit || q.y <= floor || q.life <= 0;
-    q.y = Math.max(floor, q.y);
-    if (q.rocket) {
-      hit ||= !!direct;
-      if (hit) {
-        // Rounds fired before weapons carried their own blast read as the
-        // original rocket, so its numbers stay exactly what they were.
-        const blast = q.radius ?? 6.5,
-          blastFamily = q.family ?? "rocket",
-          // The original reached zero at 9m for a 6.5m blast; keeping that
-          // proportion means a bigger blast never turns damage negative.
-          reach = (blast * 9) / 6.5,
-          chainBlast = (blast * 3.5) / 6.5;
-        event(w, {
-          type: "burst",
-          radius: blast,
-          weapon: blastFamily,
-          x: q.x,
-          z: q.z,
-          y: q.y,
-          owner: q.owner,
-        });
-        for (const e of w.enemies) {
-          for (const b of enemyBodies(e).sort(
-            (a, b) =>
-              Number(a.part === 0) - Number(b.part === 0) || a.part - b.part,
-          )) {
-            const d = Math.hypot(b.x - q.x, b.z - q.z, b.y - q.y);
-            // HARROW and FOUNDRY ZERO can exceed a weapon's entire blast radius.
-            // Measure its blast overlap at the same surface used for direct hits.
-            // Keep the existing distance curve for every other enemy.
-            const blastDistance =
-              e.kind === "harrow" || e.kind === "boss"
-                ? Math.max(0, d - b.radius)
-                : d;
-            if (blastDistance >= blast) continue;
-            const clear =
-              d < 0.01 ||
-              wallDistance(
-                q.x,
-                q.y,
-                q.z,
-                (b.x - q.x) / d,
-                (b.y - q.y) / d,
-                (b.z - q.z) / d,
-                d,
-                mapFor(w).blocks,
-              ) >=
-                d - 0.01;
-            if (
-              clear &&
-              w.front?.growthVersion === 3 &&
-              q.frontShot !== undefined
-            )
-              frontManualHit(
-                w,
-                e,
-                q.damage * (1 - blastDistance / reach),
-                q.owner,
-                q.frontShot,
-                b.part,
-                blastFamily,
-                q.frontSlot,
-              );
-            else if (clear)
-              hurtEnemy(
-                w,
-                e,
-                q.damage * (1 - blastDistance / reach),
-                q.owner,
-                b.part,
-              );
-          }
-        }
-        // Only the directly hit, defeated normal enemy can trigger one burst.
-        // Damage from this secondary burst never enters this trigger again.
-        if (
-          q.chain &&
-          direct &&
-          direct.hp <= 0 &&
-          direct.kind !== "boss" &&
-          direct.kind !== "harrow" &&
-          w.phase === "battle"
-        ) {
-          event(w, {
-            type: "burst",
-            radius: chainBlast,
-            weapon: blastFamily,
-            x: direct.x,
-            z: direct.z,
-            y: eye(direct),
-            owner: q.owner,
-          });
-          for (const e of w.enemies) {
-            const d = Math.hypot(
-              e.x - direct.x,
-              e.z - direct.z,
-              eye(e) - eye(direct),
-            );
-            const blastDistance =
-              e.kind === "harrow" || e.kind === "boss"
-                ? Math.max(0, d - (enemyBodies(e)[0]?.radius ?? 0))
-                : d;
-            if (
-              e.hp > 0 &&
-              blastDistance < chainBlast &&
-              visible(direct, e, mapFor(w).blocks)
-            )
-              hurtEnemy(
-                w,
-                e,
-                q.damage * 0.5 * (1 - blastDistance / (chainBlast * 2)),
-                q.owner,
-              );
-          }
-        }
-      }
-    } else {
-      // BASTION's rounds move over 1m per tick, so they test the whole
-      // segment they crossed instead of only the end point.
-      const swept = q.style === "bastion";
-      for (const p of living)
-        if (
-          !hit &&
-          (swept
-            ? segmentDistance(
-                p.x,
-                (p.y ?? 0) + 1.2,
-                p.z,
-                q,
-                dx,
-                dy,
-                dz,
-                wall / dist,
-              )
-            : Math.hypot(p.x - q.x, p.z - q.z, (p.y ?? 0) + 1.2 - q.y)) < 1
-        ) {
-          hurtPlayer(w, p, q.damage);
-          hit = true;
-        }
-    }
-    if (hit) {
-      if (!q.rocket) event(w, { type: "acid", x: q.x, y: q.y, z: q.z });
-      q.life = -1;
-    }
-  }
+  for (const e of w.enemies) stepEnemy(w, e, living, previousPositions, dt);
+  for (const q of w.projectiles) stepProjectile(w, q, living, dt);
   w.projectiles = w.projectiles.filter((q) => q.life > 0);
   w.enemies = w.enemies.filter((e) => e.hp > 0);
   stepPollen(w, living, dt);
