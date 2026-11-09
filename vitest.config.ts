@@ -75,6 +75,7 @@ export default defineConfig({
       "tests/stages.test.ts",
       "tests/armory.test.ts",
       "tests/game.test.ts",
+      "tests/game-step-equivalence.test.ts",
       "tests/weapon-families.test.ts",
       "tests/p1.test.ts",
       "tests/layout.test.ts",

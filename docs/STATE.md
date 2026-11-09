@@ -1,3 +1,16 @@
+# step() の分割：検証済み、PR296で main へ通常merge（2026-11-10、Claude Code）
+
+本人依頼のリファクタリング候補1。`src/shared/game.ts` の `step()`（約870行）を、同じファイル内の非公開関数（兵士・救助・波・敵・弾）へ純粋抽出した。数値・判定順・乱数の消費順・dt の処理順は無変更で、描画・UI・通信形式にも触れていない。Worker への公開は行わない。独立Chat監査なし（2026-10-15方針）。
+
+- 作業場所: 別worktree `task-refactor-game-step`、branch `claude/refactor-game-step-20261110`（origin へ push 済み）、基点 origin/main `303b7745ab6db05ac9d02c6985e35249eaada4cd`。テスト追加 `2c97bc8`、分割 `1c6a8a0`。元rootの他担当差分と他worktreeには触れていない。node_modules は元rootへの junction で、インストールはしていない。
+- 分割前後の一致: `tests/game-step-equivalence.test.ts` を分割前の `step()` のまま先に commit。同一seed・同一入力の World（前線・改装版は run 全体）を毎tick直列化して SHA-256 に畳み込み、スナップショットと照合する。通常・ソロ・武器庫防衛・訓練場・P1a改装版・前線の22条件が、分割後もスナップショット無更新で一致。処理順を一時的に入れ替えると6条件が失敗することも確認して戻した。
+- 対象 HEAD `1c6a8a0` での結果: `npm run typecheck` 成功。`npm test` は1694件中1675成功・19失敗で、失敗19件は分割前の `303b774` と同一（一覧を照合して差分なし）。`npx vitest run --config vitest.playtest.config.ts` 109件成功。`npm run format:check` は既存14ファイルの警告で失敗（分割前と同一、今回の3ファイルは警告なし）。`git diff --check` 問題なし。`npm run build` と `npm run server:build`（dry-run）成功。
+- 未実施: 実通信の統合テスト、実UI確認、Worker公開。既存の失敗19件（aim / asset-download-manifest / bgm-layout-return / briefing-cache / enemy-report-motion / front-feedback / front-shot-origin / maps / stages / standard-trooper / state-receipt / structure-v2）と format:check の14ファイルは範囲外で未修正。
+- main反映: [PR296](https://github.com/futsalife24-bot/swarm-front/pull/296) を通常merge。merge後の SHA は main の履歴を正とする（この記録は merge 前に同じ PR へ含めた）。この環境の `gh` は未ログインだったため、本人の承認を受けて、git push と同じ保存済み認証をコマンド実行中だけ `gh` へ渡して PR 作成と merge を行った。`gh` のログイン設定は変更していない。
+- 更新履歴: merge 本文に `Player-Note` を付け、自動生成の文言を「内部処理の整理（遊び方・性能の変更なし）」にした。次回の公開時に反映される。
+- スナップショットの更新は、数値や判定順を意図して変えた時だけ `npx vitest run tests/game-step-equivalence.test.ts -u`。
+- 残課題（未着手）: 候補2 `server/worker.ts` の `Room.webSocketMessage` の分割（`npm run server:build` と実通信確認が必須）、候補3 `clamp` の重複定義を `src/shared/surface-math.ts` へ統一。
+
 # 武器UI＋バディ4体：公開・配信・通常UI確認済み（2026-11-08）
 
 PR294を通常merge、公開source 9d625396c465fbb0f80253a4c5f0a7f59eb6e194。既存Worker Version42fb8817-67cc-4d0f-b478-73a12aeedc00を100%配信、64ファイルSHA一致/health200。公開の通常武器庫で詳細/lock/戻る、4体の通常選択/戦闘描画/停止再開を実視、例外0。実Android・実回線・実cloud入場・全報酬入口の公開通しは未確認。[公開記録と限界](evidence/weapon-buddy-integration-20261107/RELEASE.md)。公開記録のみの後続変更で再公開しない。
