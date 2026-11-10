@@ -11,10 +11,19 @@ try {
   const page = await browser.newPage({ viewport: { width: 844, height: 390 } });
   const errors = [];
   page.on("pageerror", (e) => errors.push(String(e)));
-  await page.goto("http://127.0.0.1:5197/scripts/catena-omega-preview.html", {
-    timeout: 120000,
-  });
+  await page.goto(
+    "http://127.0.0.1:5197/scripts/catena-omega-preview.html?game=1",
+    {
+      timeout: 120000,
+    },
+  );
   await page.waitForFunction(() => window.__omega, null, { timeout: 120000 });
+  const previewFlight = await page.evaluate(() => window.__omega.frame(3.3));
+  assert.equal(previewFlight.pads, 15);
+  writeFileSync(
+    out + "/production-flight-warning-960x540.png",
+    Buffer.from(previewFlight.png.split(",")[1], "base64"),
+  );
   const result = await page.evaluate(async () => {
     const { Renderer } = await import("/src/client/render.ts");
     const { omegaPads } = await import("/src/shared/catena-omega.ts");

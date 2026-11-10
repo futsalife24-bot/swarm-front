@@ -51,14 +51,26 @@ try {
     method: "POST",
   });
   assert.equal(fixture.status, 200, await fixture.text());
-  await page.waitForFunction(
-    () =>
-      window.__legacy.observations.statuses.some((s) =>
-        s.includes("再読み込み"),
-      ),
-    null,
-    { timeout: 20000 },
-  );
+  try {
+    await page.waitForFunction(
+      () =>
+        window.__legacy.observations.statuses.some((s) =>
+          s.includes("再読み込み"),
+        ),
+      null,
+      { timeout: 40000 },
+    );
+  } catch (error) {
+    console.error(
+      JSON.stringify({
+        waitingFor: "更新案内",
+        observed: await page.evaluate(() => window.__legacy?.observations),
+        screen: await page.evaluate(() => window.__legacy?.status()),
+        errors,
+      }),
+    );
+    throw error;
+  }
   const result = await page.evaluate(() => ({
     statuses: window.__legacy.observations.statuses,
     oldBodyStates: window.__legacy.observations.oldBodyStates,

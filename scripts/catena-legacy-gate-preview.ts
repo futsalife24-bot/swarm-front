@@ -1,8 +1,14 @@
 // The test runner supplies legacy-network-gate.ts from the unmodified base SHA.
 import { Network } from "../src/client/legacy-network-gate";
+import { makeWeapon } from "../src/shared/progression";
 
 const status = document.getElementById("status")!;
 const network = new Network("http://127.0.0.1:8797");
+const zero = { power: 0, reload: 0, range: 0, rate: 0 };
+network.equip = [
+  makeWeapon("legacy-gate-rifle", "rifle", 0, zero, false, 1),
+  makeWeapon("legacy-gate-shotgun", "shotgun", 0, zero, false, 2),
+];
 const observations = { statuses: [] as string[], oldBodyStates: 0, worlds: 0 };
 network.onStatus = (message) => {
   status.textContent = message;

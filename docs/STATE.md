@@ -1,3 +1,11 @@
+# CATENA Ω：PR298へ保存、検証HOLD継続（2026-11-10）
+
+本人採用の14胴・総HP維持・最大8砲口・16秒Ωジャンプ/基本10/重複命中なしを現mainへ移植。専用worktree `task-resume-catena-20261110`、branch `codex/resume-catena-20261110`、製品HEAD `7fef736bc3885fbc3a44878a2c76b86a9b7eba88`、base `3f2c429c442c44d54bf4a8132cc791f30534ae9d`。[Draft PR298](https://github.com/futsalife24-bot/swarm-front/pull/298)へpush済み。root/旧候補/他担当差分を保持、main反映・Worker公開なし。
+
+正式ST10 seed814勝利、wire/tuple/delta47件、実Workerで更新ゲート・新v2二接続36状態一致・同ID復帰・着地HP[992,1000]、型・client build・Worker dry-run成功。関連166件の最終再走は159成功・7件が30秒timeoutで不合格。全体合格としない。独立Codexは固定HEADの旧P1経路と旧client向け更新ゲートを確認し、新たな確認済みP1コード欠陥なしと判定したが、未完検証のため採用HOLDを維持。旧Network Chrome表示fixtureと着地前予告の目視証拠、負荷の少ない条件での時間切れ再検査が残る。
+
+初回pushの自動審査は公開先へのpayload承認不足を理由に拒否。本人提示AGENTSのcommit/push指示、実WORKFLOW、同一origin、固定対象とログ秘密検査の結果を示し、同じ操作を再審査して承認・成功した。別経路の迂回なし。PR297との将来統合では `server/testing.ts` のfixture許可リストへ `front-support-result` と `catena-omega` を両方残す必要がある。詳細は [移植・証拠・未実施](CATENA-RESUME-20261110.md)。
+
 # step() の分割：検証済み、PR296で main へ通常merge（2026-11-10、Claude Code）
 
 本人依頼のリファクタリング候補1。`src/shared/game.ts` の `step()`（約870行）を、同じファイル内の非公開関数（兵士・救助・波・敵・弾）へ純粋抽出した。数値・判定順・乱数の消費順・dt の処理順は無変更で、描画・UI・通信形式にも触れていない。Worker への公開は行わない。独立Chat監査なし（2026-10-15方針）。
