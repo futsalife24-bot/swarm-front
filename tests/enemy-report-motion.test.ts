@@ -329,9 +329,45 @@ it("builds independent foundry snapshots and resets movement for attack/idle", (
   const attack = reportWorm("attack", 2);
   expect(move.z).toBe(-8.4);
   expect(attack.z).toBe(0);
-  expect(attack.segments).toHaveLength(7);
+  expect(attack.segments).toHaveLength(14);
   expect(attack.pulseAim).toBeDefined();
   expect(reportWorm("idle", 0).pulseAim).toBeUndefined();
   attack.segments![0].x = 100;
   expect(JSON.stringify(move)).toBe(before);
+});
+
+it("previews CATENA head-to-tail jump, landing and eight laser mouths", () => {
+  const laser = reportWorm("attack", 2);
+  expect([laser, ...laser.segments!].filter((n) => n.pulseAim)).toHaveLength(8);
+  const flight = reportWorm("attack", 9.85);
+  expect(flight.omega).toBeDefined();
+  expect(flight.y).toBeGreaterThan(flight.segments!.at(-1)!.y);
+  expect([flight, ...flight.segments!].some((n) => n.pulseAim)).toBe(false);
+  const landed = reportWorm("attack", 11.5);
+  expect(landed.omega).toBeUndefined();
+  expect([landed, ...landed.segments!].every((n) => n.y === 0)).toBe(true);
+  expect(reportWorm("attack", 25.85).y).toBeCloseTo(flight.y);
+  expect(reportWorm("idle", 9.85).omega).toBeUndefined();
+});
+
+it("shows CATENA landing marks only during the warned jump and clears on exit", () => {
+  const effects = new ReportEffects();
+  try {
+    const marks = effects.root.getObjectByName(
+      "CATENA_LANDING_WARNING",
+    ) as T.InstancedMesh;
+    effects.update("boss", true, "attack", 8.2);
+    expect(marks.count).toBe(0);
+    effects.update("boss", true, "attack", 9);
+    expect(marks.visible).toBe(true);
+    expect(marks.count).toBe(15);
+    effects.update("boss", true, "attack", 11.5);
+    expect(marks.visible).toBe(false);
+    expect(marks.count).toBe(0);
+    effects.update("boss", true, "attack", 9);
+    effects.update("boss", true, "idle", 9);
+    expect(marks.visible).toBe(false);
+  } finally {
+    effects.dispose();
+  }
 });

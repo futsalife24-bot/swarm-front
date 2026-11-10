@@ -11,9 +11,10 @@ import { ENEMY_REPORT_NAMES } from "../src/shared/enemy-identity";
 import { ENEMY_REPORT_ORDER } from "../src/shared/enemy-report-order";
 import { BASTION_ASSET } from "../src/client/bastion-view";
 
-// 2026-10-15 の9種と、2026-10-18 に追加した BASTION を報告順に合わせて照合する。
+// CATENAだけ現行収録を優先し、他種は既存manifestを報告順に照合する。
 const read = (file: string) => JSON.parse(readFileSync(file, "utf8"));
 const rows = [
+  ...read("docs/evidence/catena-report-20261111/worm-manifest.json").rows,
   ...read("docs/evidence/encounter-films-current-20261015/manifest.json").rows,
   ...read("docs/evidence/encounter-films-bastion-20261018/manifest.json").rows,
 ];
