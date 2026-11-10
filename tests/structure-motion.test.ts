@@ -1,5 +1,9 @@
 import { it, expect } from "vitest";
 import {
+  harrowLandingSample,
+  harrowWingStroke,
+} from "../src/client/harrow-motion-polish";
+import {
   addPlayer,
   createWorld,
   neutral,
@@ -24,6 +28,81 @@ const sample = (changes: Partial<StructureInput> = {}): StructureInput => ({
   wind: 0,
   cool: 0,
   ...changes,
+});
+it("HARROWは横から上へ動き、横位置で止まらず羽先へ遅れてしなる", () => {
+  expect(harrowWingStroke(0)).toBe(0);
+  expect(harrowWingStroke(1)).toBe(0);
+  expect(harrowWingStroke(0.01)).toBeLessThan(0);
+  expect(harrowWingStroke(0.25)).toBeCloseTo(-0.65);
+  expect(harrowWingStroke(0.75)).toBeCloseTo(0.45);
+  const velocity = (p: number, lag = 0) =>
+    (harrowWingStroke(p + 1e-5, lag) - harrowWingStroke(p - 1e-5, lag)) / 2e-5;
+  expect(velocity(0)).toBeLessThan(-3);
+  expect(velocity(0.5)).toBeGreaterThan(3);
+  expect(velocity(0)).toBeCloseTo(velocity(1), 5);
+  const peaks = [];
+  for (const lag of [0, 0.04, 0.08]) {
+    expect(harrowWingStroke(0, lag)).toBe(0);
+    expect(harrowWingStroke(1, lag)).toBeCloseTo(0, 7);
+    let at = 0;
+    for (let i = 0; i <= 1000; i++)
+      if (harrowWingStroke(i / 2000, lag) < harrowWingStroke(at, lag))
+        at = i / 2000;
+    expect(harrowWingStroke(at, lag)).toBeCloseTo(-0.65, 4);
+    expect(velocity(at - 0.005, lag)).toBeLessThan(0);
+    expect(velocity(at + 0.005, lag)).toBeGreaterThan(0);
+    peaks.push(at);
+  }
+  expect(peaks[1]).toBeGreaterThan(peaks[0] + 0.03);
+  expect(peaks[2]).toBeGreaterThan(peaks[1] + 0.03);
+});
+it("HARROWは通常降下の接地とダイブ後の沈み込みを別の表示時刻にする", () => {
+  const normal = harrowLandingSample(1.75, 1.75, true);
+  expect(normal).toBeCloseTo(0.385);
+  expect(harrowLandingSample(0.8, 1.75, true)).toBe(0);
+  expect(harrowLandingSample(0.14, 1.75, false)).toBeCloseTo(0.385);
+  expect(harrowLandingSample(1.75, 1.75, false)).toBe(1.75);
+  const c = new StructureMotionController("harrow"),
+    poses: unknown[][] = [];
+  const b = {
+    setPose(...args: unknown[]) {
+      poses.push(args);
+    },
+  };
+  const input = sample({
+    worldTime: 11.75,
+    harrowAirborne: true,
+    harrow: {
+      kind: "Land",
+      started: 10,
+      fired: false,
+      yaw: 0,
+      from: { x: 0, y: 45, z: 0 },
+      to: { x: 0, y: 0, z: 0 },
+    },
+  });
+  const before = JSON.stringify(input);
+  c.update(b, [input], 0);
+  expect(c.states.get(7)?.time).toBeCloseTo(0.385);
+  expect(JSON.stringify(input)).toBe(before);
+  c.update(b, [sample()], 0.1);
+  expect(poses.at(-1)?.[3]).toBe("Land");
+  expect(poses.at(-1)?.[4]).toBeCloseTo(0.385);
+  expect(poses.at(-1)?.[5]).toBeCloseTo(1 / 3);
+  const ground = sample({
+    worldTime: 20.14,
+    harrow: {
+      kind: "Land",
+      started: 20,
+      fired: false,
+      yaw: 0,
+      from: { x: 0, y: 0, z: 0 },
+      to: { x: 0, y: 0, z: 0 },
+    },
+  });
+  c.update(b, [ground], 0);
+  expect(c.states.get(7)?.time).toBeCloseTo(0.385);
+  expect(poses.at(-1)?.[5]).toBeGreaterThanOrEqual(1);
 });
 it("LEAPER displays the attack through recovery before restarting travel jumps", () => {
   const world = createWorld("leaper-attack", 11, 1);

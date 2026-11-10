@@ -220,6 +220,7 @@ export function soloDrop(w: World, e: Enemy) {
       s.test,
       s.acquired++,
       () => random(w),
+      "solo",
     );
     w.drops.push({
       id,

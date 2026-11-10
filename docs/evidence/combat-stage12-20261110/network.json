@@ -1,0 +1,15 @@
+{
+  "pass": true,
+  "realLocalWorker": true,
+  "clients": 2,
+  "fixture": "bastion-fire",
+  "openSeconds": 2.2,
+  "sharedHits": 88,
+  "openHits": 34,
+  "openAmounts": [
+    24
+  ],
+  "rapidBeforeAndAfter": true,
+  "sameEnemyAndProjectiles": true,
+  "errors": []
+}

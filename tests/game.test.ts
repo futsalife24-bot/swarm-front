@@ -136,9 +136,12 @@ describe("authoritative combat", () => {
       false,
     );
   });
-  it("bounded loot includes all weapon families, rarities and piercing", () => {
-    const w = createWorld("loot", 53),
-      items = Array.from({ length: 100000 }, () => loot(w));
+  it("bounded co-op loot includes all weapon families, rarities and piercing", () => {
+    const w = createWorld("loot", 53);
+    addPlayer(w, "p0");
+    addPlayer(w, "p1");
+    start(w); // Solo excludes new MD; the full 12-kind contract is for co-op.
+    const items = Array.from({ length: 100000 }, () => loot(w));
     expect(items.slice(0, 1793).every(validWeapon)).toBe(true);
     expect(items.every(validWeapon)).toBe(true);
     expect(new Set(items.map((w) => w.id)).size).toBe(100000);

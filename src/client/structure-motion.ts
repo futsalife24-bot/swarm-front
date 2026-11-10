@@ -7,6 +7,11 @@ import {
 } from "./hound-motion";
 import { STRUCTURE_TIMING } from "../shared/structure-timing";
 import { HARROW_MOVE_SPEED } from "../shared/harrow-motion";
+import { HARROW } from "../shared/harrow";
+import {
+  harrowLandingSample,
+  HARROW_LANDING_RECOVERY,
+} from "./harrow-motion-polish";
 import { PleatProcedural } from "./pleat-procedural";
 import type { PleatPose } from "./pleat-procedural";
 import type { Block } from "../shared/map-blocks";
@@ -95,17 +100,28 @@ export class StructureMotionController {
           s.time = 0;
           s.blend = 0;
         }
-        s.time = e.harrow
+        const age = e.harrow
           ? Math.max(0, (e.worldTime ?? 0) - e.harrow.started)
+          : 0;
+        const descendingLand =
+          (e.harrow?.from?.y ?? 0) - (e.harrow?.to?.y ?? 0) > 0.1;
+        s.time = e.harrow
+          ? desired === "Land"
+            ? harrowLandingSample(age, HARROW.landDuration, descendingLand)
+            : age
           : s.time +
             (desired === "Locomotion" ? e.distance / HARROW_MOVE_SPEED : dt);
-        s.blend = e.harrow ? Math.max(s.blend + dt, s.time) : s.blend + dt;
+        s.blend = e.harrow ? Math.max(s.blend + dt, age) : s.blend + dt;
         const blendTime =
-          desired === "Land"
-            ? 0.35
-            : desired === "Flight" || desired === "Glide"
-              ? 0.24
-              : 0.15;
+          s.from === "Land" && (desired === "Idle" || desired === "Locomotion")
+            ? HARROW_LANDING_RECOVERY
+            : desired === "Land"
+              ? descendingLand
+                ? 0.35
+                : 0.1
+              : desired === "Flight" || desired === "Glide"
+                ? 0.24
+                : 0.15;
         batch.setPose(
           i,
           s.clip,

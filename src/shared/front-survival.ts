@@ -83,6 +83,7 @@ export function finalizeFrontSurvivalRewards(
         false,
         index,
         () => random(world),
+        world.scale === 1 ? "solo" : "party",
       ),
       level,
     })) as NewWeapon[];
