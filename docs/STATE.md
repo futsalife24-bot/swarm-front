@@ -1,10 +1,16 @@
-# CATENAの自然跳躍：保留機能との統合検証中（2026-11-10）
+# 保留機能とCATENA自然跳躍：検証済み、main反映準備（2026-11-10）
 
-本人の「自然に跳ねる感じ」の指示を反映した `5f0a4d750c17477e9139b09dbf355e9611903ff8` を、PR297候補 `aca371023cbb1db5dbf68ee0364b688f45bfb676` と専用worktree `task-resume-catena-20261110` / `codex/resume-catena-20261110` 内で通常mergeしている。競合は検証fixture名と本STATEのみ。`catena-omega` / `front-support-result` を両方残し、双方の記録を保持した。旧root12差分・他のmain worktreeは変更しない。PR297/298ともmain未反映、Worker公開なし。
+専用worktree `task-resume-catena-20261110` / `codex/resume-catena-20261110` に、[PR297](https://github.com/futsalife24-bot/swarm-front/pull/297)のHARROW・武器調整・支援報酬・表示専用補給演出と、[PR298](https://github.com/futsalife24-bot/swarm-front/pull/298)のCATENAを通常mergeした。基点main `3f2c429c442c44d54bf4a8132cc791f30534ae9d`、最終全体検査の製品HEAD `c4f2c27ff4ca87192ca103bf3b5fb86522ca1c8a`。fixtureは両方を残し、rootの他担当12差分と他worktreeは保護。main使用中の `task-survival-build` も変更しない。
 
-自然跳躍は頭→尾の連続した上下運動へ変更し、地表XZ・予告・着地時刻・威力・単回命中を維持。ST10 seed814、関連193件（旧timeout7件を全て含む）、型、実Renderer8フレームの確認が成功。独立Codexは統合前の旧P1/timeout起因の単体技術HOLDを解除可と判定。旧Networkの限定Chrome fixtureも更新案内/token保持/14節受信0/例外0で成功済み。実端末追従視点と旧製品全体E2Eは未確認。
+`npm test -- --reporter=verbose` は1752件を完走し1729成功/23失敗、exit 1。基点との機械照合で既存22件＋旧v1比較の指定不足1件。後者は試験だけにv1を明示し、旧生成器・期待byte・assert・製品コードを維持して関連9件成功を確認した。全件修正後再走とは扱わない。ST25と更新履歴の2件は今回成功。既存22失敗とformat14警告は未修正で、全体合格ではない。初期の負荷下中断、ツール再接続後の途中中断、終了コードを含む最終結果を区別して保存した。
 
-残件は統合後の型/build・通信容量・実WS、CATENAのstep特性差の原因対照と限定更新。PR297の全体検査は1349条件（1326成功・既存23失敗、追加失敗0、ST25成功）まで記録したが、2026-11-10 14:48:44 JSTに前後するツール再接続後にプロセス不在となり、終了集計・終了コードを取得できなかった。`integration-precheck-interrupted.txt` と比較JSONへ途中結果を保存し、全件完了とは扱わない。最終統合候補で全体検査を完了させ、基点mainの既存失敗と区別して通常main反映へ進む。候補2リファクタは本人指定の開始ゲート不合格で未着手、候補3も未着手。[CATENA詳細](CATENA-RESUME-20261110.md)、[PR297検証](evidence/gameplay-resume-20261110/README.md)。
+型は両方成功、`npm run build` と `npm run server:build`（dry-run）成功、基点からの `git diff --check` 成功。format14件は基点とファイル名まで一致。4人密集の実WS（400弾/1000弾）、支援報酬7件、CATENA旧版更新/同ID復帰/2接続36状態同期も成功。通信欠落・decode・容量切断なし。今回の検証Workerは終了し8789番ポート解放を確認。[コマンド・結果・HEAD・限界](evidence/catena-resume-20261110/INTEGRATED.md)。
+
+本人の「自然に跳ねる感じ」を受け、頭から尾へ連続して跳ぶ姿勢へ修正。実Renderer8画像/動画、ST10 seed814、関連193件が成功。総HP・14胴・最大8砲口・16秒間隔・基本威力10・単回命中を維持。別Codexは旧P1と単体検証HOLDを解除可能と判定した。stepの意図差4条件はPR297と初差tick/fieldを照合して限定更新し、既存前線4条件は基点/統合で毎tick・受信SHAが一致することを確認した。
+
+次は既存GitHubの通常PRからmainへ反映する。既存Workerへは公開しない。実Android/iOS・実回線・旧製品全体E2Eは未確認。補給演出は確定結果の表示専用で、本番抽選・券消費・保存へ接続していない。縦横モック `codex/resume-orientation-20261110` / `81e7d24` は専用branchへ保存し、本番mainへ混ぜない。
+
+候補2リファクタは本人指定の開始ゲート不合格で未着手。`codex/refactor-worker-message-20261110` / 記録 `2cc75da3c4fcf8cb04c21f40eb621ce350a37ef8`、PRなし。開始時main3f2c429の全体24失敗・format14警告・step前線4不一致を保存し、候補1をやり直さず候補3も未着手。再開には開始ゲートの解消または本人の次指示が必要。独立Chat監査は通常タスクに必須ではない。MainVaultの既存swarm-frontノートにも概要を記録する。
 
 # CATENA Ω：PR298へ保存、検証HOLD継続（2026-11-10）
 

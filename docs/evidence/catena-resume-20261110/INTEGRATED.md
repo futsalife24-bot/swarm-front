@@ -15,8 +15,10 @@
 | CATENA旧版更新/再接続 | 更新案内、14胴state前の旧版切断、旧版再接続案内、新版同ID復帰、非WORM旧版互換、旧版同室のWORM出撃阻止が成功 |
 | CATENA新版同期 | 実WebSocket2本で同時刻36状態一致、着地HP992/1000、エラーなし |
 | step特性22条件 | 18成功/既存前線4不一致。新規4条件だけ対照後に期待更新。前線4は基点/統合版で毎tickと受信SHA一致 |
-| client build / Worker dry-run | 統合後はこれから実行 |
-| 全体 `npm test` / format | 最終統合候補でこれから実行 |
+| client build / Worker dry-run | HEAD c4f2c27で両方成功。client 290 modules、Worker 526.00 KiB / gzip 135.20 KiB。公開なし |
+| 全体 `npm test` | HEAD c4f2c27で170ファイル/1752件を完走。1729成功・23失敗、547.92秒、exit 1。既存22件＋旧版を新版形式で比較した試験1件 |
+| 旧版形式の試験指定修正 | 歴史的v1との比較にversion=1を明示し、当該ファイル9/9成功。旧生成器・期待byte・assert・製品コードは不変。修正後の全件再走は未実施 |
+| format / 差分 | formatは基点と同じ14ファイルの警告で失敗。ファイル名の機械照合で増加0。基点からの `git diff --check` は成功 |
 
 通信は起動済みの隔離Worker `http://127.0.0.1:8789` を再利用。CATENAの検証スクリプトは接続先を `SWARM_TEST_SERVER_URL` で選べるようにしただけで、既定の8797・入力・assert・上限は維持した。鍵/tokenを出力しない。生ログはGit除外、要点と測定JSONを同じフォルダーへ保存。実通信の密集fixtureは7胴、14胴/Ωと支援メタデータの合成は単体、実CATENA同期は14胴であり、検証範囲を混同しない。
 
@@ -24,6 +26,8 @@ step対照では、WORM波の初差はtick529の胴HP半減、全種平地/高�
 
 PR297単体の全体試験は、CPU負荷対処後に1349条件（1326成功/既存23失敗）まで進んだ。ST25は189.5秒で成功し、観測失敗名の追加は0。14:48:44 JSTに前後するツール再接続後、セッションIDとVitestプロセスがなくなり終了集計を取得できなかった。途中結果を `integration-precheck-interrupted.txt` / `integration-precheck-comparison.json` に保全し、完走や合格には数えない。最終統合版は終了コードもファイルへ残す個別の隠し検証プロセスで実行する。Node親子だけAboveNormal、既定の時間上限・assert・入力は変えない。
 
-基点mainには全体24失敗とformat14警告がある。候補2リファクタは本人指定の開始ゲート不合格で停止しており、この機能統合へ混ぜない。候補1の再実装・候補3・依存のインストール・既存Worker公開は行っていない。実Android/iOS・実回線・公開版の通し操作・旧製品全体E2Eは未確認。
+最終全体結果は [integrated-full-comparison.json](integrated-full-comparison.json) と [生結果](integrated-full-test.txt)。基点24失敗と名前を機械照合し、既存22件を再観測、ST25と更新履歴の2件は明示的な成功行を確認した。新規1件は旧受信者を確かめる試験が `packet()` の既定v2を選んでいたためで、Workerの実接続は既に旧版へv1を明示していた。v1選択だけを試験へ追加し、同じ旧生成器との厳密なbyte一致を含む9件が成功した。失敗した全体ログは残し、この限定再検査と全件完走を混同しない。[指定修正と証拠](integrated-v1-compat-fix.md)。
+
+基点mainには全体24失敗とformat14警告がある。現在も既存22件とformat14警告は未修正であり、全体合格とは報告しない。候補2リファクタは本人指定の開始ゲート不合格で停止しており、この機能統合へ混ぜない。候補1の再実装・候補3・依存のインストール・既存Worker公開は行っていない。実Android/iOS・実回線・公開版の通し操作・旧製品全体E2Eは未確認。
 
 元rootの他担当12差分と別worktreeは保護。主担当の実モデルID/推論値は未確認、子2体の割当はgpt-6-sol/high（実行値は未確認）。ClaudeのUI表示はOpus 5.5/高。記憶の概要はMainVaultの既存swarm-frontノートで管理する。

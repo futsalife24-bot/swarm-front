@@ -1,0 +1,52 @@
+{
+  "complete": true,
+  "head": "c4f2c27ff4ca87192ca103bf3b5fb86522ca1c8a",
+  "base": "3f2c429c442c44d54bf4a8132cc791f30534ae9d",
+  "command": "npm test -- --reporter=verbose",
+  "exitCode": 1,
+  "startedAt": "2026-11-10T06:13:02.402Z",
+  "finishedAt": "2026-11-10T06:22:13.533Z",
+  "durationSeconds": 551.131,
+  "baselineFailures": 24,
+  "currentFailures": 23,
+  "newFailures": [
+    "tests/pleat-pose-wire.test.ts > PLEAT pose negotiation > keeps old recipients byte-identical and preserves combat fields (tuples=true)"
+  ],
+  "baselineNowPassing": [
+    "tests/stages.test.ts > stage 25 completes within the time limit using legal endgame gear and ordinary inputs",
+    "tests/structure-v2.test.ts > current changelog contains no legacy creature descriptions"
+  ],
+  "failureNames": [
+    "tests/aim.test.ts > camera-aligned authoritative shots > sends accurate rockets through the center target at near/far and elevated angles",
+    "tests/asset-download-manifest.test.ts > 事前保存manifestの生成 > 現行実参照を使い、不要な旧版・旧モード・任意mediaを共通へ混ぜない",
+    "tests/bgm-layout-return.test.ts > solo layout return screen routing > restores battle without briefly routing through a different music screen",
+    "tests/bgm-layout-return.test.ts > solo layout return screen routing > restores collection without briefly routing through a different music screen",
+    "tests/briefing-cache.test.ts > presentation stays outside the game offline cache > preserves the game shell for scope https://game.example/",
+    "tests/briefing-cache.test.ts > presentation stays outside the game offline cache > preserves the game shell for scope https://game.example/swarm-front/",
+    "tests/enemy-report-motion.test.ts > observes ten upward missiles and clears them when leaving attack playback",
+    "tests/front-feedback.test.ts > 戦闘フィードバックの回帰 > 最大密集の4人通信でも判定状態を保持し、古い演出だけを64KiB内に収める",
+    "tests/front-shot-origin.test.ts > fixed body-centre shot presentation > falls back to the body-centre height while no weapon is in the hand",
+    "tests/front-shot-origin.test.ts > fixed body-centre shot presentation > keeps emission fixed to the rendered body with lateral lag -0.4",
+    "tests/front-shot-origin.test.ts > fixed body-centre shot presentation > keeps emission fixed to the rendered body with lateral lag 0",
+    "tests/front-shot-origin.test.ts > fixed body-centre shot presentation > keeps emission fixed to the rendered body with lateral lag 0.4",
+    "tests/front-shot-origin.test.ts > fixed body-centre shot presentation > leaves the drawn muzzle with the real soldier model and keeps the authority endpoint",
+    "tests/front-shot-origin.test.ts > fixed body-centre shot presentation > preserves world-space effects when no body exists, for enemies and secondary shots",
+    "tests/game-step-equivalence.test.ts > step は同一seed・同一入力で毎tick同じ状態になる: 前線・旧方式",
+    "tests/game-step-equivalence.test.ts > step は同一seed・同一入力で毎tick同じ状態になる: 前線・生存・融合・1人",
+    "tests/game-step-equivalence.test.ts > step は同一seed・同一入力で毎tick同じ状態になる: 前線・生存・融合・2人",
+    "tests/game-step-equivalence.test.ts > step は同一seed・同一入力で毎tick同じ状態になる: 前線・防衛・融合",
+    "tests/maps.test.ts > 晶脈の地底巣 has connected walkable passages and safe enemy entries",
+    "tests/pleat-pose-wire.test.ts > PLEAT pose negotiation > keeps old recipients byte-identical and preserves combat fields (tuples=true)",
+    "tests/standard-trooper.test.ts > evaded boss damage and ordinary contact do not trigger the heavy clip",
+    "tests/state-receipt.test.ts > front接続は検証済みstateだけを通知し、退出時にtimerを残さない",
+    "tests/structure-v2.test.ts > PLEAT holds through preparation and red warning before the forward shockwave"
+  ],
+  "summary": [
+    "Snapshots  4 failed",
+    "Test Files  13 failed | 157 passed (170)",
+    "Tests  23 failed | 1729 passed (1752)",
+    "Start at  15:13:05",
+    "Duration  547.92s (tests 82%, import 15%, transform 3%)"
+  ],
+  "conditions": "Dedicated hidden local process; Node and forks AboveNormal; default timeout/assert/input unchanged; no other heavy validation suite"
+}
