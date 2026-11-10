@@ -1,0 +1,23 @@
+{
+  "at": "2026-11-10T07:06:36.958Z",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "passed": true,
+  "results": [
+    {
+      "file": "assets/enemies/harrow_motion_v14.glb",
+      "status": 200,
+      "size": 14151632,
+      "expected": "0385b7c0198d47125a0779544726787c6076bc7213bd61382221eb0c6592d5ae",
+      "actual": "0385b7c0198d47125a0779544726787c6076bc7213bd61382221eb0c6592d5ae",
+      "pass": true
+    },
+    {
+      "file": "assets/enemies/foundry_zero_mechanical_legs_v2.glb",
+      "status": 200,
+      "size": 1787652,
+      "expected": "cefb976551d55167ba6b2ecf7ec9c7144105d890a85cb1c5335e24db90c275ab",
+      "actual": "cefb976551d55167ba6b2ecf7ec9c7144105d890a85cb1c5335e24db90c275ab",
+      "pass": true
+    }
+  ]
+}
