@@ -5,8 +5,8 @@
 - 専用worktree：`C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-resume-catena-20261110`、branch `codex/resume-catena-20261110`、基準 `origin/main` = `3f2c429c442c44d54bf4a8132cc791f30534ae9d`。
 - 旧候補は `C:/Users/futsa/Documents/Codex/2026-10-21/task-2/swarm-front` のHEAD `4e2b632e2373cb10319dda12f095a32ec2eb1a45`、初回実装 `5599da75fc3643ed0bfc8a75c1a88ccdcbe725f6`、P1接地修正 `4689fd06087d023ba37edfc50c1772e04b9b6160`。旧worktreeは読み取りのみ。
 - 本人の今回の明示採用：胴7→14節、総HPを維持して各胴HPを半分、最大8砲口、16秒間隔のΩジャンプ、着地基本威力10、重複命中なし。武器・報酬・増援上限・ボット・ステージ制限はこのbranchで変更しない。
-- **2026-10-21の独立監査P1は現候補の別担当読み取りで照合済み。関連テストの時間切れが残るため採用HOLDを維持。** main反映と公開は未実施。
-- 実装固定SHA `7fef736bc3885fbc3a44878a2c76b86a9b7eba88` は既存GitHubの[Draft PR298](https://github.com/futsalife24-bot/swarm-front/pull/298)へ親がpush済み。main反映・Worker公開は未実施、採用HOLD継続。
+- **2026-10-21の独立監査P1は現候補の別担当読み取りで照合済み。自然跳躍後の関連193件とST10合格により候補単体の旧P1/timeout技術HOLDは解除可能と独立担当が判定。** 統合後の型/build/容量/実通信は別の残ゲートで、main反映と公開は未実施。
+- 初回移植SHA `7fef736bc3885fbc3a44878a2c76b86a9b7eba88` は既存GitHubの[Draft PR298](https://github.com/futsalife24-bot/swarm-front/pull/298)へ親がpush済み。本人の「自然に跳ねる」追加指示による後続差分は別commitで固定する。main反映・Worker公開は未実施、統合検証待ち。
 
 ## 移植差分
 
@@ -50,7 +50,7 @@
 - 旧監査の原ZIPは `C:/Users/futsa/Documents/Codex/2026-10-21/task-2/catena-omega-audit-3934c65.zip`（SHA256 `b8f245aa3ecf1e808a15d4510a9bb5a291e065b143b0cd0e7fdfa2b58c39f8f5`）。P1修正後の配布ZIPは同 `catena-omega-audit-20261021.zip`（SHA256 `9d0d7886b699c7cf291b47952554f9a6c9ad5367f83b0122108c1d19fdfd31cc`）、照合票は同 `catena-omega-delivery.json`。ZIP・動画はローカル保護対象でGit管理へ複製しない。
 - 別担当レビューの焦点：ST10 seed814と815/816・14節対7節の因果、洞窟支持面/斜面/旧保存PLEAT、Ω重複命中と中断、総HP/砲口/16秒/威力10、実GLB予告、旧v1/新v2混在・再接続・保存復元、旧v1のΩ中object-state容量と65,536上限/チャンク、**旧ブラウザの7節固定描画への更新ゲートと旧socketへ14節stateを送らない順序**、実端末での見え方と負荷。現mainの別変更や武器/報酬をCATENA差分に混ぜない。
 
-- 別担当Codexの固定SHA `7fef736` 読み取りでは旧P1-01のseed814経路と旧client更新ゲートを照合し、新たな確認済みP1コード欠陥なし。関連166件の7 timeoutが残るため採用HOLDは継続。親の統合branch `50b303e`との`git merge-tree`で確認した競合は`server/testing.ts`のfixture正規表現1行で、`front-support-result`と`catena-omega`を両方残す。これをmain反映の承認や全体合格とは扱わない。
+- 別担当Codexの固定SHA `7fef736` 読み取りでは旧P1-01のseed814経路と旧client更新ゲートを照合し、新たな確認済みP1コード欠陥なし。この時点では関連166件の7 timeoutにより採用HOLDを継続した。親の統合branch `50b303e`との`git merge-tree`で確認した競合は`server/testing.ts`のfixture正規表現1行で、`front-support-result`と`catena-omega`を両方残す。これをmain反映の承認や全体合格とは扱わない。
 
 ## 再現と資料セット
 
@@ -64,4 +64,14 @@
 
 旧Network表示と飛行全景の後続ログは `validation-logs-followup.zip` に保存する。追加PNG/JSONは同じ証拠directoryに置く。ローカル検証サーバーは終了した。
 
-追加後の`npm run typecheck`は成功。`npm run format:check`は基点から未変更の14ファイルの警告で不合格となった。CATENAで変更したソース・検証スクリプトと本詳細文書だけのPrettier checkは成功。14件の既存整形をこのbranchで書き換えず、ログに対象を残す。親の統合branchでも高CPU下で物理/描画/協力性能の時間切れが出たため、同条件での166件再走は行わず、負荷改善と親の限定再検査後に待機する。
+追加後の`npm run typecheck`は成功。`npm run format:check`は基点から未変更の14ファイルの警告で不合格となった。CATENAで変更したソース・検証スクリプトと本詳細文書だけのPrettier checkは成功。14件の既存整形をこのbranchで書き換えず、ログに対象を残す。親の統合branchでも高CPU下で物理/描画/協力性能の時間切れが出たため、同条件での166件再走を控えた。負荷改善後の広い193件の結果は後述する。
+
+## 自然な跳躍への修正（本人の画像確認後）
+
+本人は最初の飛行画像について「Ωに忠実すぎるよ、自然に跳ねる感じね」と修正指示。旧形状は`peak`へ全節を同時補間して文字Ωの円弧を作っていた。判定位置と描画位置を一致させるため、描画だけを変えず権威側の`omegaPose()`を変更した。15節は着地印のXZを保ち、頭→尾へ最大0.5秒の位相差をつけて連続して上下する。`peak`の旧障害物掃引は発動可否の保守的な包絡として残し、最大上昇量もその9割とした。新しい垂直軌道について洞窟の各節位置で`ground.y + lift + 4 * size <= caveCeiling`を発動前に検査する。予告円の床位置、brace/warn/flightの時刻、16秒再発動、着地威力10、重複命中なし、総HP/14胴/8砲口、state schemaは変更していない。
+
+- 新規の頭尾・節間テストと既存の予告→単回着地テストは各1件成功。`npm run typecheck`も成功。
+- 実GLBと本番Rendererを使う固定検証カメラで、予備動作→赤予告→頭側から踏切→全身飛行→着地の8連続フレームを保存。`natural-sequence/`のPNG8枚・2秒MP4・`sequence.json`を目視/数値照合した。旧文字Ωの輪郭は消え、一続きの身体として跳ねる。隣接節間の最大値は地上3.84mに対して飛行中3.95m（約+2.9%）、pageerror 0、予告15円、着地後HP100→91.2の1回だけ。固定カメラでの確認であり、実端末の追従視点は未確認。
+- 旧P1の正式ST10 seed814は単独成功。関連9ファイルは既定30秒閾値のまま逐次実行し193/193成功、141.72秒。前回の166件/7 timeoutとテスト集合は一致しないが、失敗した7つの名前は今回の合格ファイルへ7/7含まれ、改名/削除なし（`related-failure-coverage.json`）。当該Node親子だけAboveNormal、他プロセス・閾値・assertionは変更していない。
+- 洞窟ST10の現行自然巡回ではΩ発動0回（`natural-motion.json`）。初期配置を含む今回の観測で有効な洞窟発動点はなく、時系列の洞窟飛行実例は未確認。実軌道の天井上界は上記の発動前チェックで満たす。別担当Codexの自然跳躍差分読み取りでは新たな確認済みP1欠陥なし、旧P1対策と天井上界の整合を確認した。
+- 自然跳躍後の別担当Codexレビューは旧P1-01と旧7 timeout起因の候補単体技術HOLDを解除可能と判定し、新たな確認済みP1なし。統合branchの型/build/容量/実通信と実Android/iOSは別の残件で、main未反映・Worker未公開を維持する。親が統合検証とPRの判断を担う。

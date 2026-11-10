@@ -1,0 +1,38 @@
+[
+  {
+    "stage": 1,
+    "map": "灰明の街区",
+    "jumps": 2,
+    "maxHeight": 19.22823238186248
+  },
+  {
+    "stage": 5,
+    "map": "薄暮の倉庫地区",
+    "jumps": 5,
+    "maxHeight": 19.22823238186248
+  },
+  {
+    "stage": 11,
+    "map": "蒼鉄の工業区",
+    "jumps": 5,
+    "maxHeight": 19.22823238186248
+  },
+  {
+    "stage": 2,
+    "map": "風渡る草原",
+    "jumps": 2,
+    "maxHeight": 19.22823238186248
+  },
+  {
+    "stage": 13,
+    "map": "白嶺の雪峡",
+    "jumps": 0,
+    "maxHeight": 0
+  },
+  {
+    "stage": 10,
+    "map": "晶脈の地底巣",
+    "jumps": 0,
+    "maxHeight": 0
+  }
+]

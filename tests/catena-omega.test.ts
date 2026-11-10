@@ -15,6 +15,7 @@ import {
   stepOmega,
   omegaPads,
   omegaPhase,
+  omegaPose,
 } from "../src/shared/catena-omega";
 import { enemySize } from "../src/shared/enemy-size";
 import { encodeState } from "../src/shared/state-wire";
@@ -91,6 +92,33 @@ it("予備動作→赤予告→Ω飛行→一度の着地攻撃の順で固定�
   w.time += 0.05;
   stepOmega(w, e);
   expect(p.hp).toBe(hp);
+});
+it("頭から尾へ滑らかに跳ね、節間と地上の着地印を保つ", () => {
+  const { w, e } = field();
+  stepOmega(w, e);
+  const planned = e.omega!;
+  const flightAt = planned.at + OMEGA.brace + OMEGA.warn;
+  const takeoff = omegaPose(planned, flightAt + 0.3);
+  const descent = omegaPose(planned, flightAt + 1.35);
+  expect(takeoff[0].y).toBeGreaterThan(takeoff.at(-1)!.y + 1);
+  expect(descent.at(-1)!.y).toBeGreaterThan(descent[0].y + 1);
+  for (const pose of [takeoff, descent]) {
+    for (const [i, p] of pose.entries()) {
+      expect([p.x, p.z]).toEqual([planned.ground[i].x, planned.ground[i].z]);
+      if (i === 0) continue;
+      const distance = Math.hypot(
+        p.x - pose[i - 1].x,
+        p.y - pose[i - 1].y,
+        p.z - pose[i - 1].z,
+      );
+      const groundDistance = Math.hypot(
+        planned.ground[i].x - planned.ground[i - 1].x,
+        planned.ground[i].z - planned.ground[i - 1].z,
+      );
+      expect(distance / groundDistance).toBeLessThan(1.35);
+    }
+  }
+  expect(omegaPose(planned, flightAt + OMEGA.flight)).toEqual(planned.ground);
 });
 it("重複円は協力各隊員へ最大1回、圏外・高所・回避・切断隊員は無傷", () => {
   const { w, e, p } = field();

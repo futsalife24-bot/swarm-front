@@ -44,14 +44,18 @@ export function omegaPads(e: Enemy, time: number) {
 }
 export function omegaPose(s: OmegaState, time: number): OmegaPoint[] {
   const age = time - s.at - OMEGA.brace - OMEGA.warn;
-  const f =
-    age < 0 ? 0 : smooth(Math.min(age / 0.8, (OMEGA.flight - age) / 0.8));
-  return s.ground.map((p, i) => ({
-    x: p.x + (s.peak[i].x - p.x) * f,
-    y: p.y + (s.peak[i].y - p.y) * f,
-    z: p.z + (s.peak[i].z - p.z) * f,
-    heading: p.heading,
-  }));
+  // The stored peak still bounds the original obstacle sweep. The body jumps
+  // above its own landing marks, with takeoff traveling from head to tail.
+  const lift = Math.max(...s.peak.map((p, i) => p.y - s.ground[i].y)) * 0.9;
+  return s.ground.map((p, i) => {
+    const delay = (0.5 * i) / (s.ground.length - 1);
+    const progress = Math.max(
+      0,
+      Math.min(1, (age - delay) / (OMEGA.flight - delay)),
+    );
+    const height = lift * smooth(2 * Math.min(progress, 1 - progress));
+    return { x: p.x, y: p.y + height, z: p.z, heading: p.heading };
+  });
 }
 /** 同じ支持面へ戻るΩ。通路・地形・天井に余裕がなければ発動しない。 */
 export function planOmega(w: World, e: Enemy): OmegaState | undefined {
@@ -89,6 +93,12 @@ export function planOmega(w: World, e: Enemy): OmegaState | undefined {
       heading: yaw,
     };
   });
+  const lift = Math.max(...peak.map((p, i) => p.y - ground[i].y)) * 0.9;
+  if (
+    map.biome === "cave" &&
+    ground.some((p) => p.y + lift + 4 * size > caveCeiling(p.x, p.z))
+  )
+    return;
   for (const [i, p] of ground.entries()) {
     // 水平掃引を地上の広い通行判定でも通す。飛行で建物を越える仕様は追加しない。
     if (
