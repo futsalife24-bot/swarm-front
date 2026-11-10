@@ -1,3 +1,14 @@
+# 保留機能を専用ブランチへ統合中（2026-11-10、main未反映・未公開）
+
+本人の全作業再開と具体的配分承認に基づく作業。`task-resume-support-rewards-20261110` 内で `codex/resume-gameplay-20261110` を作成し、支援報酬dcb12f5（記録1e7fa6b）・補給演出31292f0と、HARROW503c9fe・武器段階1/2の8cff2bfを通常merge。統合製品HEAD `7fe26b9af49122343dea518ab44635b6f26d916d`、base main `3f2c429c442c44d54bf4a8132cc791f30534ae9d`、競合なし。root12差分・各担当の元branchは保持。
+
+統合後の支援報酬実WS7件とWorker dry-run（515.94KiB/gzip132.38KiB）は成功。全体npm test・両型/client build・format確認を実行中。基点mainには全体24失敗・format14警告があり、今回の差分と照合する。武器調整の意図差6snapshotは変更前に元期待値と一致する対照まで完了し、厳密な切分けを継続。無条件更新はしない。各機能の実行済み検証は以下の記録を参照。
+
+- [HARROW羽ばたき](HARROW-RESUME-20261110.md)、[BASTION開放・ソロMD抽選](EQUIPMENT-RESUME-20261110.md)、[協力支援報酬](SUPPORT-REWARDS-RESUME-20261110.md)、[補給演出](../design/resume-ui-20261110/HANDOFF.md)。
+- CATENA Ωは別worktree `task-resume-catena-20261110` で移植と通信互換性を確認中。過去P1再監査HOLDは維持し、この統合へ含めていない。
+- 縦横モックは専用branch `codex/resume-orientation-20261110` / `81e7d24` をpush済み、ローカル/remote一致・clean確認。本番mainに混ぜない。単体34・Chrome E2E9・両型/専用build成功、公開なし。
+- 候補2リファクタは本人の開始ゲート不合格停止に従い未着手、専用branchの記録 `2cc75da` を保持。候補1再実装・候補3・Worker公開なし。
+
 # 生成素材とClaudeによる補給ポッド演出を受領（2026-11-10、表示専用）
 
 本人依頼の画像生成とClaude UI制作を実施。透明補給ポッドを使う1連/10連の再生モジュールを `design/resume-ui-20261110/` に保存した。Claudeの書込範囲は元rootの同designフォルダーだけで、旧試作・製品・他担当差分は保護。納品95ファイルをhash一致で本worktreeへ複製し、入力を検証して確定結果だけ再生する処理・エスケープ・多重ループ防止を主担当がレビュー。実Chrome3サイズ228場面の配置、26条件の予兆/停止点、スキップ・連打・中断復帰・動き減をClaudeが検証。主担当は比較画像2枚とコピー後26条件を確認、すべて成功。通常ゲームのbuild入口には接続していない。
