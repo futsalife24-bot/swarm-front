@@ -1,3 +1,11 @@
+# 保留機能・CATENA自然跳躍を既存Workerへ公開済み（2026-11-10）
+
+本人の「すすめて」を受け、main 769353b21567ad9f0c2251d0c439c50edac9a077から本番ビルドし、既存swarm-frontへ公開した。Worker Version abe7ecdb-5026-4c71-a0b6-f080028654e1、100%配信。作業場所 task-resume-catena-20261110 / codex/release-resume-20261110。製品コードは変更せず、root他担当12差分・別worktreeを保護。
+
+本番build/dry-run/deploy成功、health 200/ok、本体36ファイル＋HARROW/CATENAモデル2件のSHA一致。公開Chrome2サイズで出撃・実戦・停止まで操作、pageerror 0。初回640のconsole出力4件は失敗として保存し、発生元記録を加えた640再検査は再現せず0件・再開まで成功。初回出力の根因は未特定。本番協力はTurnstile未完了で部屋/WS作成前に終了し未検証、認証回避なし。
+
+公開前点検の非公開運用情報はローカルに保持し、公開資料から除外。新規費用・契約・権限変更なし。既存22失敗/format14警告、リファクタ候補2の開始ゲート停止、候補3未着手、実スマホ・公開CATENA遭遇・補給演出の本番接続未実施は維持。[公開元HEAD・コマンド・結果・制約](evidence/resume-release-20261110/RELEASE.md)。
+
 # 保留機能とCATENA自然跳躍：main反映済み、Worker未公開（2026-11-10）
 
 専用worktree `task-resume-catena-20261110` / `codex/resume-catena-20261110` に、[PR297](https://github.com/futsalife24-bot/swarm-front/pull/297)のHARROW・武器調整・支援報酬・表示専用補給演出と、[PR298](https://github.com/futsalife24-bot/swarm-front/pull/298)のCATENAを通常mergeした。基点main `3f2c429c442c44d54bf4a8132cc791f30534ae9d`、最終全体検査の製品HEAD `c4f2c27ff4ca87192ca103bf3b5fb86522ca1c8a`。fixtureは両方を残し、rootの他担当12差分と他worktreeは保護。main使用中の `task-survival-build` も変更しない。

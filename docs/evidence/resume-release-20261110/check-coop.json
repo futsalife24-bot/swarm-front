@@ -1,0 +1,32 @@
+{
+  "origin": "https://swarm-front.melosalife-24.workers.dev",
+  "checkedAt": "2026-11-10T07:07:01.270Z",
+  "status": "unverified",
+  "stage": "turnstile",
+  "clients": [
+    {
+      "label": "host",
+      "received": 0,
+      "state": 0,
+      "stateDelta": 0,
+      "stateChunk": 0,
+      "tupleV2": 0,
+      "maxFrameBytes": 0,
+      "socketCloses": 0,
+      "pageErrors": 0
+    },
+    {
+      "label": "guest",
+      "received": 0,
+      "state": 0,
+      "stateDelta": 0,
+      "stateChunk": 0,
+      "tupleV2": 0,
+      "maxFrameBytes": 0,
+      "socketCloses": 0,
+      "pageErrors": 0
+    }
+  ],
+  "reason": "turnstile_not_confirmed",
+  "errorName": "TimeoutError"
+}
