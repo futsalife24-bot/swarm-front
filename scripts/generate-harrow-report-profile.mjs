@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
-import { readFileSync, writeFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { build } from "esbuild";
 import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { clone as cloneSkeleton } from "three/addons/utils/SkeletonUtils.js";
@@ -25,6 +26,35 @@ const asset = await loader.parseAsync(
 const rotationY = -Math.PI / 2;
 asset.scene.rotation.y = rotationY;
 asset.scene.updateMatrixWorld(true);
+// Use the same load-time Flight articulation as production. No texture decoding
+// or skeleton evaluation is added to the report's runtime camera.
+const helperDirectory = fileURLToPath(
+  new URL("../dist-validation/harrow-report-generator/", import.meta.url),
+);
+mkdirSync(helperDirectory, { recursive: true });
+const helperPath = helperDirectory + "/polish.mjs";
+await build({
+  entryPoints: [
+    fileURLToPath(
+      new URL("../src/client/harrow-motion-polish.ts", import.meta.url),
+    ),
+  ],
+  bundle: true,
+  platform: "node",
+  format: "esm",
+  external: ["three"],
+  outfile: helperPath,
+});
+const { polishHarrowFlight } = await import(pathToFileURL(helperPath).href);
+let skeleton;
+asset.scene.traverse((object) => {
+  if (object instanceof T.SkinnedMesh && !skeleton) skeleton = object.skeleton;
+});
+polishHarrowFlight(
+  asset.scene,
+  skeleton.bones,
+  asset.animations.find((c) => c.name === "Flight"),
+);
 const viewDirection = [0.65, 0.4, -0.65];
 const forward = new T.Vector3(...viewDirection).normalize();
 const right = new T.Vector3(forward.z, 0, -forward.x).normalize();
@@ -33,6 +63,7 @@ const steps = 12;
 const binCount = 256;
 const spinSteps = 60;
 const motionSteps = 48;
+const flightSteps = 168;
 const motionBuckets = 512;
 const spinWind = 1.15;
 const spinTurn = 1.05;
@@ -210,7 +241,12 @@ function motionProfile(clipName) {
     0,
   );
   const positions = new Float32Array(count * 3);
-  const steps = clipName === "Spin" ? spinSteps : motionSteps;
+  const steps =
+    clipName === "Spin"
+      ? spinSteps
+      : clipName === "Flight"
+        ? flightSteps
+        : motionSteps;
   const mixer = new T.AnimationMixer(model);
   const action = mixer.clipAction(clip).reset();
   if (!loopingClips.has(clipName)) {
@@ -262,6 +298,14 @@ const data = {
     samplesPerClip: steps + 1,
     spinSamples: spinSteps + 1,
     motionSamples: motionSteps + 1,
+    flightSamples: flightSteps + 1,
+    flightPolishSha256: createHash("sha256")
+      .update(
+        readFileSync(
+          new URL("../src/client/harrow-motion-polish.ts", import.meta.url),
+        ),
+      )
+      .digest("hex"),
     motionBuckets,
     spinWind,
     spinTurn,

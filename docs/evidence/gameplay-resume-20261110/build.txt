@@ -1,0 +1,52 @@
+> swarm-front@0.1.0 build
+> vite build
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 288 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/asset-download-manifest.json              0.05 kB │ gzip:   0.06 kB
+dist/front.html                                4.88 kB │ gzip:   1.98 kB
+dist/index.html                                5.43 kB │ gzip:   2.04 kB
+dist/assets/pixelfx-battle-CK0H9ElO.png      270.80 kB
+dist/assets/legacy-CPbai1ZT.css                0.25 kB │ gzip:   0.13 kB
+dist/assets/main-BOIn8V8d.css                  1.31 kB │ gzip:   0.66 kB
+dist/assets/preload-helper-BUUOzIBn.css        2.94 kB │ gzip:   1.17 kB
+dist/assets/room-access-n-8m8axW.css           6.75 kB │ gzip:   1.79 kB
+dist/assets/cloud-save-DDmsa4bl.css            8.90 kB │ gzip:   2.30 kB
+dist/assets/playtest-app-Cs3B8-Sz.css         17.08 kB │ gzip:   4.33 kB
+dist/assets/game-select-C-P1GfeG.css          20.47 kB │ gzip:   5.25 kB
+dist/assets/weapon-workshop-ui-DDPmFTsF.css   37.42 kB │ gzip:   8.32 kB
+dist/assets/front-BthREkfP.css                48.03 kB │ gzip:  10.85 kB
+dist/assets/hud-CHKQqPB8.css                 109.28 kB │ gzip:  22.37 kB
+dist/assets/zoom-guard-CYxqEXnM.js             0.38 kB │ gzip:   0.21 kB
+dist/assets/training-app-5O3WnjoD.js           3.80 kB │ gzip:   1.96 kB
+dist/assets/weapon-sharing-DQ_iLMgL.js         4.79 kB │ gzip:   2.56 kB
+dist/assets/room-access-BkYsJjnz.js            9.35 kB │ gzip:   3.87 kB
+dist/assets/legacy-DQ7S_dnW.js                18.02 kB │ gzip:   6.85 kB
+dist/assets/game-select-BHmI1deT.js           36.63 kB │ gzip:  13.73 kB
+dist/assets/main-D5E-R5-V.js                  56.81 kB │ gzip:  20.04 kB
+dist/assets/playtest-app-pEBpFefj.js          86.55 kB │ gzip:  31.58 kB
+dist/assets/front-DPX6QOlJ.js                130.21 kB │ gzip:  44.67 kB
+dist/assets/cloud-save-BWLhatMq.js           132.48 kB │ gzip:  47.50 kB
+dist/assets/preload-helper-CqttCsPh.js       198.01 kB │ gzip:  71.33 kB
+dist/assets/weapon-workshop-ui-CIGXyoxG.js   494.15 kB │ gzip: 174.86 kB
+dist/assets/hud-DFtmkFPj.js                  887.13 kB │ gzip: 244.85 kB
+
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 48.81s
+[PLUGIN_TIMINGS] Plugin hooks ran for 60.2s. The build took 48.6s. Hooks such as `closeBundle` run after the build ends, so hook time can be more than build time.
+The slowest hooks, timed inside each callback (the wait before a callback starts is excluded, the time it awaits is included):
+  - swarm-current-asset-download-manifest writeBundle (64%, 31.2s, 1 call)
+  - swarm-current-asset-download-manifest closeBundle (32%, 15.5s, 1 call)
+  - vite:prepare-out-dir renderStart (21%, 10.2s, 1 call)
+Additional hook time came from the hooks below and from hooks under 1s.
+2 hooks are listed without a time. Their calls overlapped, so the time inside one call includes work from other calls. To find their cost, profile the build with `node --cpu-prof`:
+  - vite:css transform (39 calls)
+  - vite:build-html transform (2 calls)
+See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.

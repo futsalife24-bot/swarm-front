@@ -1,0 +1,27 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-resume-support-rewards-20261110
+
+ ❯ tests/front-support-rewards.test.ts (18 tests | 1 failed) 42649ms
+   ❯ 協力支援報酬の参加資格・経済上限 (9)
+     × 2/3/4人の合成1万条件で従来総数・個人30個・参加時間上限を超えない 42069ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/front-support-rewards.test.ts > 協力支援報酬の参加資格・経済上限 > 2/3/4人の合成1万条件で従来総数・個人30個・参加時間上限を超えない
+Error: Test timed out in 20000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/front-support-rewards.test.ts:136:3
+    134|     expect(() => createSupportRewards(["p", "__proto__"], 0)).toThrow(…
+    135|   });
+    136|   it("2/3/4人の合成1万条件で従来総数・個人30個・参加時間上限を超えない", () => {
+       |   ^
+    137|     let seed = 814;
+    138|     const rand = () =>
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 9 passed (10)
+      Tests  1 failed | 164 passed (165)
+   Start at  12:54:24
+   Duration  103.09s (tests 66%, transform 19%, import 14%)

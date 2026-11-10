@@ -1,3 +1,40 @@
+# 保留機能の再開：追加8件の再検証成功・自然跳躍を調整中（2026-11-10）
+
+主担当の統合worktreeは `task-resume-support-rewards-20261110`、branch `codex/resume-gameplay-20261110`。製品HEAD `7fe26b9af49122343dea518ab44635b6f26d916d` に、原因対照済みの固定snapshot6件と武器UI/実WS証拠を `50b303e96c9c52f03da51254682b98fa2b8ad484` で追加した。[Draft PR297](https://github.com/futsalife24-bot/swarm-front/pull/297)はHARROW羽ばたき・BASTION/ソロMD・協力支援報酬・表示専用補給演出。CATENAは別branch `codex/resume-catena-20261110`、製品 `7fef736bc3885fbc3a44878a2c76b86a9b7eba88` を [Draft PR298](https://github.com/futsalife24-bot/swarm-front/pull/298)へ保存。双方ともmain未反映・Worker公開なし。
+
+統合の型・client build・Worker dry-run・実WS7条件は成功。format14警告は基点mainと対象ファイルまで完全一致。最初の全体検査は通常sandboxと重い別検査の並行下で長時間化し中断。同じ既定条件で正式昇格した再実行も長時間化し、同条件の反復を止めて中断した。step特性は22件中18成功、更新6件は全て成功、失敗は基点と同じ前線4件。再実行の途中では基点24失敗中23件と、移動5/描画2/協力性能1の追加8項目を観測。基点のST25は未観測で解消扱いせず、全体成功とはしない。CPU測定でBlender接続補助4系統の高負荷を観測し、本体未起動を確認した。本人の停止承認後の対処と再検査成功は下記の後続更新を参照。[統合検証の詳細](evidence/gameplay-resume-20261110/README.md)。
+
+CATENAは正式ST10・実WS更新ゲート/新v2復帰・wire47件・型/build成功。旧Networkの限定Chrome fixtureも更新案内/token保持/14節受信0/例外0で成功したが、全旧製品の通し検証ではない。独立Codexは旧P1経路と旧版描画クラッシュ対策を確認し、最終関連166件中7timeout等により採用HOLDを維持。旧文字姿勢の着地前予告画像も補完済みで、現在は本人追加指示の自然跳躍を別commitへ準備している。将来統合では `server/testing.ts` のfixture名を両方残す1行競合解消と統合検証が必要。縦横モックは専用branch `81e7d24` をpush済み、単体34/ブラウザー9成功。本番mainへ混ぜない。
+
+候補2リファクタは本人の開始ゲートで停止し未着手。記録 `2cc75da3c4fcf8cb04c21f40eb621ce350a37ef8` を `codex/refactor-worker-message-20261110` へpushしremote一致確認。基点main3f2c429の型成功・全体1694中24失敗・format14警告・step前線4不一致を保持し、候補1のやり直し・候補3は行わない。rootの他担当12差分と旧候補、mainを使用中の別worktreeも保護する。
+
+後続更新: 本人がBlender補助4系統の停止を承認し、対象を再特定して停止完了。その後8件限定で4成功/4timeout、残る4件は検査Node親子だけAboveNormalへ揃えて全成功。入力・assert・既定の30秒/120秒上限は不変。追加8項目は分割確認ですべて成功し、補助停止の承認待ちも解消。初回失敗と再検査条件は上記詳細へ保持する。
+
+現在の残件: PR297の全体検査の完了と既存失敗照合、通常main反映。CATENAには本人から「Ωに忠実すぎるよ、自然に跳ねる感じね」の追加指示があり、文字形を作る姿勢を自然な跳躍へ修正中。着地位置・予告・攻撃時刻・威力を維持し、連続フレームとST10/関連検査で確認する。CPU検査は直列化。候補2は別途、本人指定の開始ゲート解消または次指示が必要。
+
+# 保留機能を専用ブランチへ統合中（2026-11-10、main未反映・未公開）
+
+本人の全作業再開と具体的配分承認に基づく作業。`task-resume-support-rewards-20261110` 内で `codex/resume-gameplay-20261110` を作成し、支援報酬dcb12f5（記録1e7fa6b）・補給演出31292f0と、HARROW503c9fe・武器段階1/2の8cff2bfを通常merge。統合製品HEAD `7fe26b9af49122343dea518ab44635b6f26d916d`、base main `3f2c429c442c44d54bf4a8132cc791f30534ae9d`、競合なし。root12差分・各担当の元branchは保持。
+
+統合後の支援報酬実WS7件とWorker dry-run（515.94KiB/gzip132.38KiB）は成功。全体npm test・両型/client build・format確認を実行中。基点mainには全体24失敗・format14警告があり、今回の差分と照合する。武器調整の意図差6snapshotは変更前に元期待値と一致する対照まで完了し、厳密な切分けを継続。無条件更新はしない。各機能の実行済み検証は以下の記録を参照。
+
+- [HARROW羽ばたき](HARROW-RESUME-20261110.md)、[BASTION開放・ソロMD抽選](EQUIPMENT-RESUME-20261110.md)、[協力支援報酬](SUPPORT-REWARDS-RESUME-20261110.md)、[補給演出](../design/resume-ui-20261110/HANDOFF.md)。
+- CATENA Ωは別worktree `task-resume-catena-20261110` で移植と通信互換性を確認中。過去P1再監査HOLDは維持し、この統合へ含めていない。
+- 縦横モックは専用branch `codex/resume-orientation-20261110` / `81e7d24` をpush済み、ローカル/remote一致・clean確認。本番mainに混ぜない。単体34・Chrome E2E9・両型/専用build成功、公開なし。
+- 候補2リファクタは本人の開始ゲート不合格停止に従い未着手、専用branchの記録 `2cc75da` を保持。候補1再実装・候補3・Worker公開なし。
+
+# 生成素材とClaudeによる補給ポッド演出を受領（2026-11-10、表示専用）
+
+本人依頼の画像生成とClaude UI制作を実施。透明補給ポッドを使う1連/10連の再生モジュールを `design/resume-ui-20261110/` に保存した。Claudeの書込範囲は元rootの同designフォルダーだけで、旧試作・製品・他担当差分は保護。納品95ファイルをhash一致で本worktreeへ複製し、入力を検証して確定結果だけ再生する処理・エスケープ・多重ループ防止を主担当がレビュー。実Chrome3サイズ228場面の配置、26条件の予兆/停止点、スキップ・連打・中断復帰・動き減をClaudeが検証。主担当は比較画像2枚とコピー後26条件を確認、すべて成功。通常ゲームのbuild入口には接続していない。
+
+本番の抽選・券配布/消費・課金・保存の仕様は未確定で、勝手に追加しない。検証画像の全shotsはローカル保持、比較9枚・結果JSON・再現器・元生成素材をGit対象にした。旧試作のタイムラインと操作機能を維持するためJS/CSS合計は約1300行で、外部依存の追加はない。Claude UI表示Opus5.5/高、主担当モデル/推論未確認。[納品と検証](../design/resume-ui-20261110/HANDOFF.md)、[生成素材](../design/resume-ui-20261110/ASSET-NOTES.md)。
+
+# 協力支援報酬の再開（2026-11-10、検証・統合作業中）
+
+本人の具体的承認により、協力武器の従来合計枠を参加時間で分配する段階3を現main3f2c429へ移植。資格30秒/10秒/10%/直近30秒、3対3等の再配分、総数非増加、旧型/混在/ソロ互換を維持。コイン・宝箱は既存受領条件のまま。task-resume-support-rewards-20261110 / codex/resume-support-rewards-20261110。関連165件を分割確認、追加の結果表示を含む23件・保存147・実WS7・人工12000条件成功、両型・client build・Worker dry-run成功。初回sandbox一時ファイル/接続失敗と合成試験timeoutは分けて記録。説明画面の現行Chrome2サイズ・横はみ出しなし/戻る操作/例外0も確認。現在は統合中で、PR/main/Worker公開は未実施。[詳細と未実施](SUPPORT-REWARDS-RESUME-20261110.md)。
+
+別件の候補2リファクタは開始ゲート不合格で本人指定どおり未着手。task-refactor-worker-message-20261110 / codex/refactor-worker-message-20261110、記録2cc75da。main3f2c429で型成功、1694中1670成功/24失敗、format14警告、step22中18成功/前線4失敗。候補1の分割はやり直さず、候補3にも未着手。rootの他担当12差分・旧候補を保持。
+
 # step() の分割：検証済み、PR296で main へ通常merge（2026-11-10、Claude Code）
 
 本人依頼のリファクタリング候補1。`src/shared/game.ts` の `step()`（約870行）を、同じファイル内の非公開関数（兵士・救助・波・敵・弾）へ純粋抽出した。数値・判定順・乱数の消費順・dt の処理順は無変更で、描画・UI・通信形式にも触れていない。Worker への公開は行わない。独立Chat監査なし（2026-10-15方針）。

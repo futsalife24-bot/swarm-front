@@ -1,0 +1,26 @@
+{
+  "solo": {
+    "size": 1,
+    "rewardKinds": [
+      [
+        "slug",
+        "kick",
+        "kick"
+      ]
+    ],
+    "rewardCount": [
+      3
+    ],
+    "errors": []
+  },
+  "partyRooms": 1,
+  "partyMd": 2,
+  "partyRewardKinds": [
+    [
+      "slug",
+      "medic",
+      "medic"
+    ]
+  ],
+  "peerConsistent": true
+}

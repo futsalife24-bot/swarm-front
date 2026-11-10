@@ -26,6 +26,13 @@ import {
 import { mapFor, stageFor } from "./stages";
 import { BASTION, bastionSurvivalCap } from "./bastion";
 import {
+  bindSupportRewards,
+  createSupportRewards,
+  sampleSupportRewards,
+  supportRewardAllocation,
+  type FrontSupportRewards,
+} from "./front-support-rewards";
+import {
   finalizeFrontSurvivalRewards,
   frontSurvivalDifficulty,
   frontDedicatedSurvivalScale,
@@ -90,6 +97,8 @@ export type FrontTreasureReward =
   | { kind: "heal"; amount: number }
   | { kind: "coins"; amount: number };
 export interface FrontRunOptions {
+  /** 対応する参加者だけで新規の協力支援報酬を開始する。 */
+  supportRewards?: boolean;
   runId: string;
   seed: number;
   mode?: FrontMode;
@@ -111,6 +120,7 @@ export interface FrontRunOptions {
   }[];
 }
 export interface FrontRun {
+  supportRewards?: FrontSupportRewards;
   world: World;
   fusion?: true;
   returnAt?: number;
@@ -291,8 +301,20 @@ export function createFrontRun(options: FrontRunOptions, now = 0): FrontRun {
     world.defense = { day, armory, maxHp: 2000, duration: 540, nextSpawn: 0 };
   }
   start(world);
+  const supportRewards =
+    options.supportRewards &&
+    options.fusion &&
+    mode === "survival" &&
+    options.players.length > 1
+      ? createSupportRewards(
+          options.players.map((p) => p.id),
+          world.time,
+        )
+      : undefined;
+  bindSupportRewards(world, supportRewards);
   return {
     world,
+    ...(supportRewards ? { supportRewards } : {}),
     ...(options.fusion &&
     mode === "survival" &&
     Number.isFinite(options.returnAt)
@@ -919,6 +941,13 @@ function collectFrontTreasure(run: FrontRun, now: number): boolean {
   return true;
 }
 function conclude(run: FrontRun, win: boolean, reason: string) {
+  const allowed = Object.keys(run.rewardEligible ?? {}).filter(
+    (id) => run.rewardEligible?.[id],
+  );
+  const allocation = run.supportRewards
+    ? supportRewardAllocation(run.world, run.supportRewards, allowed)
+    : undefined;
+  if (run.supportRewards && allocation) run.supportRewards.settled = allocation;
   run.treasure = undefined;
   if (run.world.front?.survivalBuildVersion === 1) run.world.front.chests = [];
   finish(run.world, win, reason);
@@ -926,9 +955,8 @@ function conclude(run: FrontRun, win: boolean, reason: string) {
     finalizeFrontSurvivalRewards(
       run.world,
       run.clearedStage ?? 0,
-      Object.keys(run.rewardEligible ?? {}).filter(
-        (id) => run.rewardEligible?.[id],
-      ),
+      allowed,
+      allocation?.counts,
     );
   run.phase = win ? "victory" : "defeat";
   run.metrics.endedAt = run.world.time;
@@ -1037,11 +1065,13 @@ export function stepFrontRun(
   queueSurvivalWave(run);
   schedule(run);
   scheduleBastion(run);
+  bindSupportRewards(w, run.supportRewards);
   step(
     w,
     inputs,
     Math.min(0.1, dt, (boundary ?? Infinity) - w.time, timeout - w.time),
   );
+  if (run.supportRewards) sampleSupportRewards(w, run.supportRewards);
   if (w.phase === "battle" && collectFrontTreasure(run, now)) return run;
   collectFrontXp(w);
   updateRights(run);
@@ -1098,6 +1128,8 @@ export function getFrontRunView(run: FrontRun, id: string) {
       weaponLevel: 1,
       rewardCount: 0,
       rewardEligible: false,
+      supportRewardEligible: false,
+      rewardPolicy: "individual-v1" as const,
       maxPicks: 7,
       growthVersion: 1,
       returnAt: null as number | null,
@@ -1115,15 +1147,33 @@ export function getFrontRunView(run: FrontRun, id: string) {
     r = run.world.front!.players[id];
   if (!s || !r) throw new RangeError("参加者が見つかりません");
   const offer = s.offer;
+  const allocation = run.supportRewards
+    ? supportRewardAllocation(
+        run.world,
+        run.supportRewards,
+        Object.keys(run.rewardEligible ?? {}).filter(
+          (owner) => run.rewardEligible?.[owner],
+        ),
+      )
+    : undefined;
   return {
     phase: run.phase,
     clearedStage: run.clearedStage ?? 0,
     weaponLevel: frontSurvivalWeaponLevel(run.clearedStage ?? 0),
-    rewardCount: frontSurvivalRewardCount(
-      run.world.time,
-      run.world.players.find((p) => p.id === id)?.kills ?? 0,
-    ),
+    rewardCount: allocation
+      ? (allocation.counts[id] ?? 0)
+      : frontSurvivalRewardCount(
+          run.world.time,
+          run.world.players.find((p) => p.id === id)?.kills ?? 0,
+        ),
+    // コインと宝箱分の既存受領条件は変更しない。新しい資格は武器枠だけに適用する。
     rewardEligible: run.rewardEligible?.[id] ?? false,
+    supportRewardEligible:
+      (run.rewardEligible?.[id] ?? false) &&
+      (!allocation || !!allocation.eligible[id]),
+    rewardPolicy: run.supportRewards
+      ? ("team-v1" as const)
+      : ("individual-v1" as const),
     maxPicks: frontPickLimit(s),
     growthVersion: run.fusion ? 3 : 2,
     returnAt: run.returnAt ?? null,

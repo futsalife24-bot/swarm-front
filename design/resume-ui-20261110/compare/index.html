@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>補給ポッド演出の新旧比較</title>
+<link rel="icon" href="data:,">
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; background: #0b151b; color: #dbe7e4; font: 14px/1.6 "Noto Sans JP", "Yu Gothic UI", system-ui, sans-serif; }
+  main { max-width: 1720px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  p { margin: 0 0 12px; color: #a5bcc8; }
+  figure { margin: 0 0 22px; }
+  figcaption { display: flex; gap: 12px; align-items: baseline; margin-bottom: 6px; }
+  figcaption b { font-size: 15px; }
+  figcaption span { color: #a5bcc8; font-size: 13px; }
+  img { width: 100%; height: auto; display: block; border: 1px solid #64858c55; }
+  .lr { display: grid; grid-template-columns: 1fr 1fr; color: #8fb4bc; font-size: 12px; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>補給ポッド演出：旧試作（左）と新モジュール（右）</h1>
+  <p>同じ確定済みの結果・同じ場面（時間軸の同じ区切り）を 844×390 の Chrome で撮影して並べた画像です。確率・報酬は仮の入力で、仕様を示すものではありません。</p>
+  <div class="lr"><span>左：旧試作 prototypes/gacha-reveal（2026-11-08）</span><span>右：design/resume-ui-20261110/supply-reveal</span></div>
+  <figure><figcaption><b>1連 SSR：予兆</b><span>下限だけを示す金の反応。新版はポッド素材の灯が反応色に変わり、足元が照らされる</span></figcaption><img src="./1-ssr-omen.jpg" alt="1連SSRの予兆の新旧比較" loading="lazy"></figure>
+  <figure><figcaption><b>1連 SSR：開封</b><span>新版は蓋が継ぎ目から跳ね上がり、開封口から光が漏れて、カードが中から持ち上がる</span></figcaption><img src="./1-ssr-open.jpg" alt="1連SSRの開封の新旧比較" loading="lazy"></figure>
+  <figure><figcaption><b>1連 SSR：カットインの停止点</b><span>背景の大きなレア度表記と流れる線を追加。名前の上下2分割、星、NEWは継承</span></figcaption><img src="./1-ssr-cut.jpg" alt="1連SSRのカットインの新旧比較" loading="lazy"></figure>
+  <figure><figcaption><b>1連 SR：最後</b><span>カードを大きく持ち上げて表示。開封後は予兆の表示を消す</span></figcaption><img src="./1-sr-final.jpg" alt="1連SRの最後の新旧比較" loading="lazy"></figure>
+  <figure><figcaption><b>10連：予兆</b><span>個々のポッドは中立のまま、画面の縁と表示で最高段階の下限だけを示す</span></figcaption><img src="./10-mix-omen.jpg" alt="10連の予兆の新旧比較" loading="lazy"></figure>
+  <figure><figcaption><b>10連：低レアの一斉開封</b><span>新版は蓋の動きを小さくして隣と重ならないようにし、残ったSR以上は前面パネルに「SR以上」</span></figcaption><img src="./10-mix-wave.jpg" alt="10連の一斉開封の新旧比較" loading="lazy"></figure>
+  <figure><figcaption><b>10連：SR以上の個別開封</b><span>開ける1つを拡大し、他を暗くする</span></figcaption><img src="./10-mix-focus.jpg" alt="10連の個別開封の新旧比較" loading="lazy"></figure>
+  <figure><figcaption><b>10連：バディのカットイン（停止点）</b><span>縞の帯が弾んで着地してから面が開く</span></figcaption><img src="./10-mix-buddy.jpg" alt="10連のバディカットインの新旧比較" loading="lazy"></figure>
+  <figure><figcaption><b>10連：受領一覧</b><span>武装片は名前に数量を出して段階表示との重複をなくした。名前は枠の中で縦中央に置く</span></figcaption><img src="./10-mix-list.jpg" alt="10連の一覧の新旧比較" loading="lazy"></figure>
+</main>
+</body>
+</html>

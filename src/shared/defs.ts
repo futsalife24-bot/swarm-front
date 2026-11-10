@@ -325,6 +325,19 @@ export const FAMILY_KINDS: Record<Family, readonly Kind[]> = FAMILIES.reduce(
   }),
   {} as Record<Family, readonly Kind[]>,
 );
+export type RewardContext = "solo" | "party";
+/** New rewards only: exclude the ally-only MD for solo rolls. */
+export function rollRewardKind(
+  rng: () => number,
+  context: RewardContext = "party",
+): Kind {
+  const family = FAMILIES[Math.floor(rng() * FAMILIES.length)];
+  const pool =
+    context === "solo"
+      ? FAMILY_KINDS[family].filter((kind) => kind !== "medic")
+      : FAMILY_KINDS[family];
+  return pool[Math.floor(rng() * pool.length)];
+}
 // `aim` is the body centre used by bullets and aim assist, measured from the unit's
 // own base. `cruise` is how high that base floats; ground units keep it at 0, so
 // their hit boxes are unchanged.

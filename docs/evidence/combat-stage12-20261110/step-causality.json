@@ -1,0 +1,50 @@
+[
+  {
+    "scenario": "通常・3人・BASTIONの波",
+    "base": "3ceb53e293baa72a4f04a9a0b5d493f23d665800dfdbdcea17743d624764b521",
+    "stage1": "2995e74fdb09c8e420c7ad66f376800d712e43a5cafc31f711bed8df337d60f2",
+    "stage2": "3ceb53e293baa72a4f04a9a0b5d493f23d665800dfdbdcea17743d624764b521",
+    "combined": "2995e74fdb09c8e420c7ad66f376800d712e43a5cafc31f711bed8df337d60f2",
+    "otherFieldsEqual": true
+  },
+  {
+    "scenario": "通常・全種を直接配置",
+    "base": "b4f997635563e034c66f8741932ddf0298dae4157fc6e348be3b336ed606c426",
+    "stage1": "f67dc899be658727aabb907646b0da485545d6e71f77b4d48d24347257575d70",
+    "stage2": "b4f997635563e034c66f8741932ddf0298dae4157fc6e348be3b336ed606c426",
+    "combined": "f67dc899be658727aabb907646b0da485545d6e71f77b4d48d24347257575d70",
+    "otherFieldsEqual": true
+  },
+  {
+    "scenario": "通常・高低差・全種を直接配置",
+    "base": "1e907e507fb2873e8de432bf1f726569f82c3df491f44c1e9598de3ce4280498",
+    "stage1": "89ddffc650d38755e4772e00c3ce2f858c1d726f030f9fddc03353ea34a6a9bc",
+    "stage2": "1e907e507fb2873e8de432bf1f726569f82c3df491f44c1e9598de3ce4280498",
+    "combined": "89ddffc650d38755e4772e00c3ce2f858c1d726f030f9fddc03353ea34a6a9bc",
+    "otherFieldsEqual": true
+  },
+  {
+    "scenario": "通常・洞窟・全種を直接配置",
+    "base": "82391250749faf9fe56766b31237362103f9ee5f90ef7a3cdf7ccfa6f41d6448",
+    "stage1": "9ed46d659d3d6e4b422461a43949feea8eb3d5de38bd3982c0a195cdd40cd800",
+    "stage2": "82391250749faf9fe56766b31237362103f9ee5f90ef7a3cdf7ccfa6f41d6448",
+    "combined": "9ed46d659d3d6e4b422461a43949feea8eb3d5de38bd3982c0a195cdd40cd800",
+    "otherFieldsEqual": true
+  },
+  {
+    "scenario": "ソロ・ST1・normal",
+    "base": "a45c0321f96388362fd66cb15b5fde0bd437ffad7664ee3ed83bce7b8eb1783b",
+    "stage1": "a45c0321f96388362fd66cb15b5fde0bd437ffad7664ee3ed83bce7b8eb1783b",
+    "stage2": "2dc6d604a9ddf5ebacda6a0451b1c6cfdaca294f74c37ddb584e1730e645caab",
+    "combined": "2dc6d604a9ddf5ebacda6a0451b1c6cfdaca294f74c37ddb584e1730e645caab",
+    "otherFieldsEqual": true
+  },
+  {
+    "scenario": "武器庫防衛",
+    "base": "9e612765ba3362bf7e99c09c67cfee147c81b0f749e4df80f781f79685f8a41b",
+    "stage1": "9e612765ba3362bf7e99c09c67cfee147c81b0f749e4df80f781f79685f8a41b",
+    "stage2": "19a6908d358a33e09924f013a0ede62a5e2411cec04f38e6c468552177c4757c",
+    "combined": "19a6908d358a33e09924f013a0ede62a5e2411cec04f38e6c468552177c4757c",
+    "otherFieldsEqual": true
+  }
+]

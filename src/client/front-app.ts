@@ -426,7 +426,7 @@ function base(back: () => void = home) {
 }
 const modeDetails: Record<FrontMode, string> = {
   survival:
-    "敵の強さは生存時間とともに上昇。報酬Lvは出撃時の進撃最高クリア進度で固定。死亡・60分帰還・ソロ60秒後の任意帰還で戦果を持ち帰ります。武器は60秒以上かつ1撃破から、1分ごと＋30撃破ごとに1丁（最大30）。コインは1分10、最大300。途中退出は戦果なし、切断は作戦を継続し結果保存猶予2分。",
+    "敵の強さは生存時間とともに上昇。報酬Lvは出撃時の進撃最高クリア進度で固定。死亡・60分帰還・ソロ60秒後の任意帰還で戦果を持ち帰ります。個人武器報酬は60秒以上かつ1撃破から、1分ごと＋30撃破ごとに1丁（最大30）。対応済みの協力部屋は従来の合計枠を参加時間で分配し、与ダメージ・味方への実回復・蘇生も参加に数えます。資格は生存接続30秒以上、行動後10秒の累積が10秒以上かつ参加時間の10%以上、最後の生存接続時点から30秒以内に有効行動。切断分は武器上限を比例制限。コインは従来どおり1分10、最大300。途中退出は戦果なし、切断は作戦を継続し結果保存猶予2分。",
   defense:
     "拠点を守りながら最終大型を撃破。拠点破壊・部隊全滅・9分経過で作戦終了。",
   daily:
@@ -1571,6 +1571,15 @@ function frame(time: number) {
               weapons: (world.rewards[id] ?? []) as NewWeapon[],
               kills: world.players.find((p) => p.id === id)?.kills ?? 0,
               clearedStage: info.clearedStage,
+              ...(info.rewardPolicy === "team-v1"
+                ? {
+                    team: {
+                      version: 1 as const,
+                      kills: world.totalKills,
+                      size: world.players.length,
+                    },
+                  }
+                : {}),
               treasureCoins: info.treasureCoins,
             }
           : undefined,

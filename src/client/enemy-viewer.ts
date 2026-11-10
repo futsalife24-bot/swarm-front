@@ -4,6 +4,7 @@ import { enemyGeometry } from "./enemy-model";
 import type { Enemy } from "../shared/game";
 import type { ReportEnemyKind } from "../shared/enemy-identity";
 import { harrowSpinRotation } from "../shared/harrow-motion";
+import { HARROW_LANDING_RECOVERY } from "./harrow-motion-polish";
 import {
   loadEnemyMotion,
   HoundMotionBatch,
@@ -95,7 +96,16 @@ export function createEnemyViewer(host: HTMLElement) {
   function animatePose() {
     if (motion) {
       const pose = reportPose(kind, mode, time, selectedHarrowAttack);
-      motion.setPose(0, pose.clip, pose.sample);
+      if ("landingRecovery" in pose && pose.landingRecovery)
+        motion.setPose(
+          0,
+          pose.clip,
+          pose.sample,
+          "Land",
+          motion.asset.ranges.Land.duration * 0.22,
+          Math.min(1, pose.sample / HARROW_LANDING_RECOVERY),
+        );
+      else motion.setPose(0, pose.clip, pose.sample);
       // Combat uses heading - PI. The report's base heading is PI.
       transform.makeRotationY(
         kind === "harrow" && pose.clip === "Spin"
