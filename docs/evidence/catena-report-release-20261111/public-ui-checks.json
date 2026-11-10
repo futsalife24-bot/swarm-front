@@ -1,0 +1,35 @@
+{
+  "site": "https://swarm-front.melosalife-24.workers.dev",
+  "checks": [
+    {
+      "width": 1280,
+      "height": 720,
+      "asset": "ready",
+      "motion": "attack",
+      "box": {
+        "x": 293,
+        "y": 102,
+        "width": 924,
+        "height": 232.421875
+      },
+      "film": {
+        "duration": 11,
+        "source": "/assets/encounters/report-v3/worm-20261111.mp4?v=c712e47513cc"
+      },
+      "errors": []
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "asset": "ready",
+      "motion": "attack",
+      "box": {
+        "x": 189,
+        "y": 78,
+        "width": 303,
+        "height": 211
+      },
+      "errors": []
+    }
+  ]
+}
