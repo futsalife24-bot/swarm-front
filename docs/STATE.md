@@ -1,6 +1,6 @@
 # 保留機能・CATENA自然跳躍を既存Workerへ公開済み（2026-11-10）
 
-本人の「すすめて」を受け、main 769353b21567ad9f0c2251d0c439c50edac9a077から本番ビルドし、既存swarm-frontへ公開した。Worker Version abe7ecdb-5026-4c71-a0b6-f080028654e1、100%配信。作業場所 task-resume-catena-20261110 / codex/release-resume-20261110。製品コードは変更せず、root他担当12差分・別worktreeを保護。
+本人の「すすめて」を受け、main 769353b21567ad9f0c2251d0c439c50edac9a077から本番ビルドし、既存swarm-frontへ公開した。Worker Version abe7ecdb-5026-4c71-a0b6-f080028654e1、100%配信。作業場所 task-resume-catena-20261110 / codex/release-resume-20261110。公開記録[PR300](https://github.com/futsalife24-bot/swarm-front/pull/300)、初回記録HEAD 392109cab76bd27fb0536748af6dcca3b8892462。製品コードは変更せず、root他担当12差分・別worktreeを保護。
 
 本番build/dry-run/deploy成功、health 200/ok、本体36ファイル＋HARROW/CATENAモデル2件のSHA一致。公開Chrome2サイズで出撃・実戦・停止まで操作、pageerror 0。初回640のconsole出力4件は失敗として保存し、発生元記録を加えた640再検査は再現せず0件・再開まで成功。初回出力の根因は未特定。本番協力はTurnstile未完了で部屋/WS作成前に終了し未検証、認証回避なし。
 

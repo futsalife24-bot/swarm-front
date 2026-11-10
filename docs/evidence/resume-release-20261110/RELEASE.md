@@ -31,3 +31,5 @@
 ## 記録の送信範囲
 
 初回のcommit/pushは自動承認レビューが非公開運用情報の共有範囲を理由に拒否したため未実行。アカウント使用量・契約・認証APIの詳細を公開資料から外し、既存Workerの公開結果・SHA・UI検査に限定した。同じGit操作を正式審査へ戻し、別経路で迂回しない。
+
+限定後の同じcommit/pushは正式審査で承認・成功し、記録HEAD 392109cab76bd27fb0536748af6dcca3b8892462を[PR300](https://github.com/futsalife24-bot/swarm-front/pull/300)へ保存した。送信範囲は18ファイル（STATEを含む）、秘密パターン0・100 MiB超0。mainの保護/rulesetは0件と読取確認。既存CIを無効化していない。
