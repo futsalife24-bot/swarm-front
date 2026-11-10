@@ -1,0 +1,57 @@
+RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-resume-catena-20261110
+
+ ❯ tests/enemy-report-motion.test.ts (12 tests | 1 failed) 105ms
+   × observes ten upward missiles and clears them when leaving attack playback 21ms
+ ❯ tests/catena-omega.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/catena-omega.test.ts [ tests/catena-omega.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\openai.codex_2p2nqsd0c76g0\AC\#!sandbox.{2c48e37f-90bc-4a57-9f7b-398ed91351b9}\Temp\_f1_n3prCQB-BTwcPTJfO\ssr\501c2fd779da38febae18e79b8eccb06c259a516'
+ ❯ tests/catena-omega.test.ts:3:1
+      1| import { expect, it } from "vitest";
+      2| import { mkdirSync, writeFileSync } from "node:fs";
+      3| import {
+       | ^
+      4|   createWorld,
+      5|   addPlayer,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/enemy-report-motion.test.ts > observes ten upward missiles and clears them when leaving attack playback
+AssertionError: expected [ 10, 10, 10, +0, +0, undefined, …(2) ] to deeply equal [ 10, 10, 10, +0, +0, undefined, +0 ]
+
+- Expected
++ Received
+
+@@ -4,6 +4,7 @@
+    10,
+    0,
+    0,
+    undefined,
+    0,
++   0,
+  ]
+
+ ❯ tests/enemy-report-motion.test.ts:210:7
+    208|         .filter((child) => !(child instanceof T.Group))
+    209|         .map((child) => (child as T.InstancedMesh).count),
+    210|     ).toEqual([10, 10, 10, 0, 0, undefined, 0]);
+       |       ^
+    211|     expect(group.getObjectByName("HARROW_SPIN_PRESSURE")?.visible).toB…
+    212|     effects.update("harrow", false, "idle", start + 0.1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  1 failed | 11 passed (12)
+   Start at  00:27:49
+   Duration  4.86s (transform 64%, import 30%, tests 3%, worker 2%)
+
+  Transform  transforming modules took 2.18s · 64% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns

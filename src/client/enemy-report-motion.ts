@@ -1,4 +1,7 @@
 import * as T from "three";
+import { WORM_UNIT_COUNT } from "../shared/worm";
+import { OMEGA, omegaPose } from "../shared/catena-omega";
+import { OmegaWarning } from "./catena-omega-warning";
 import { harrowLandingSample } from "./harrow-motion-polish";
 import type { Enemy } from "../shared/game";
 import type { ReportEnemyKind } from "../shared/enemy-identity";
@@ -377,23 +380,48 @@ export function reportPose(
 export function reportWorm(mode: ReportMotion, time: number): Enemy {
   const distance = mode === "move" ? -time * 4.2 : 0;
   const phase = time % 3.2;
-  const nodes = Array.from({ length: 8 }, (_, i) => ({
+  const jumpAge = (time % OMEGA.cooldown) - 8;
+  const jumping =
+    mode === "attack" &&
+    jumpAge >= 0 &&
+    jumpAge < OMEGA.brace + OMEGA.warn + OMEGA.flight;
+  const nodes = Array.from({ length: WORM_UNIT_COUNT }, (_, i) => ({
     x: mode === "move" ? Math.sin(time * 0.8 - i * 0.32) * 0.42 : 0,
     y: 0,
     z: distance + i * 3.2,
     heading: Math.PI,
-    partHp: 100,
-    ...(mode === "attack"
+    partHp: i === 0 ? 100 : 50,
+    ...(mode === "attack" && !jumping && i < 8
       ? {
           pulseAim: { x: 1.5, y: 1.2, z: distance - 14 },
           acidAt: time - phase + FOUNDRY_LASER_WARNING,
         }
       : {}),
   }));
+  const omega = jumping
+    ? {
+        at: time - jumpAge,
+        ground: nodes.map((n) => ({
+          x: n.x,
+          y: n.y,
+          z: n.z,
+          heading: n.heading,
+        })),
+        peak: nodes.map((n) => ({
+          x: n.x,
+          y: n.y + 6,
+          z: n.z,
+          heading: n.heading,
+        })),
+      }
+    : undefined;
+  if (omega)
+    omegaPose(omega, time).forEach((pose, i) => Object.assign(nodes[i], pose));
   return {
     id: 1,
     kind: "boss",
     ...nodes[0],
+    ...(omega ? { omega } : {}),
     segments: nodes.slice(1),
     hp: 800,
     maxHp: 800,
@@ -409,6 +437,7 @@ export function reportWorm(mode: ReportMotion, time: number): Enemy {
 export class ReportEffects {
   readonly root = new T.Group();
   private readonly harrow = new HarrowEffects();
+  private readonly omega = new OmegaWarning();
   private readonly harrowMissiles = reportHarrowMissiles();
   private readonly harrowAirMissiles = reportHarrowMissiles(true);
   private readonly harrowSnipeMissiles = reportHarrowMissiles(false, "snipe");
@@ -432,10 +461,17 @@ export class ReportEffects {
     () => new T.Mesh(new T.CylinderGeometry(0.025, 0.025, 1, 6), this.material),
   );
   constructor() {
+    this.omega.mesh.name = "CATENA_LANDING_WARNING";
     this.ring.rotation.x = Math.PI / 2;
     // Report models use authored units, while combat uses HARROW.scale.
     this.harrow.root.scale.setScalar(1 / HARROW.scale);
-    this.root.add(this.ring, ...this.bolts, ...this.beams, this.harrow.root);
+    this.root.add(
+      this.ring,
+      ...this.bolts,
+      ...this.beams,
+      this.harrow.root,
+      this.omega.mesh,
+    );
   }
   update(
     kind: ReportEnemyKind,
@@ -525,7 +561,10 @@ export class ReportEffects {
     if (worm) {
       const phase = time % 3.2;
       const e = reportWorm(mode, time);
-      [e, ...e.segments!].forEach((node, i) => {
+      this.omega.update([e], time);
+      this.omega.mesh.visible = !!e.omega;
+      if (e.omega) return;
+      [e, ...e.segments!].slice(0, this.beams.length).forEach((node, i) => {
         if (phase > FOUNDRY_LASER_WARNING + 0.2) return;
         const origin = foundryLaserOrigin(node, i);
         const a = new T.Vector3(origin.x, origin.y, origin.z),
@@ -579,6 +618,7 @@ export class ReportEffects {
   }
   dispose() {
     this.harrow.dispose();
+    this.omega.mesh.material.dispose();
     this.root.children.forEach((o) => (o as T.Mesh).geometry.dispose());
     this.material.dispose();
     this.root.removeFromParent();

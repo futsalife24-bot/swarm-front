@@ -1,0 +1,90 @@
+{
+  "file": "public/assets/encounters/report-v3/worm-20261111.mp4",
+  "sha256": "c712e47513cc41aa5a7b0a207a28b389fbf933ff35d0b221ad2ae84323839721",
+  "bytes": 2066624,
+  "width": 1280,
+  "height": 720,
+  "fps": 30,
+  "duration": 11,
+  "frameCount": 330,
+  "metadata": {
+    "kind": "worm",
+    "name": "CATENA",
+    "assets": [
+      {
+        "url": "/assets/enemies/foundry_zero_mechanical_legs_v2.glb",
+        "sha256": "cefb976551d55167ba6b2ecf7ec9c7144105d890a85cb1c5335e24db90c275ab"
+      }
+    ],
+    "worldFrozen": true,
+    "errors": [],
+    "duration": 11,
+    "capture": "webcodecs-vp9-frames",
+    "frameCount": 330,
+    "stage": 6,
+    "camera": {
+      "distance": 73.98273191938642,
+      "fov": 40
+    },
+    "catena": {
+      "segments": 14,
+      "phases": [
+        "idle",
+        "brace",
+        "warn",
+        "flight",
+        "landed"
+      ],
+      "maxLift": 19.22823238186248,
+      "maxWarningPads": 15,
+      "idlePoseDelta": 0.08052683956501783,
+      "idleAnimated": true,
+      "source": "shared stepOmega + production FoundryWormView + OmegaWarning"
+    }
+  },
+  "sourceScript": "scripts/record-catena-report-20261111.mjs",
+  "model": [
+    {
+      "url": "/assets/enemies/foundry_zero_mechanical_legs_v2.glb",
+      "sha256": "cefb976551d55167ba6b2ecf7ec9c7144105d890a85cb1c5335e24db90c275ab"
+    }
+  ],
+  "oldFilmPreserved": "public/assets/encounters/report-v3/worm-20261015.mp4",
+  "oldFilmReference": "e3b73bd91414",
+  "idleDecodedFrames": {
+    "frames": [60, 72],
+    "md5": [
+      "7def77d9115d9bf9517fb3dec4eccaa3",
+      "dd84054dbe823fbed4b8ba5fa763dd71"
+    ]
+  },
+  "rows": [
+    {
+      "key": "worm",
+      "name": "CATENA",
+      "file": "public/assets/encounters/report-v3/worm-20261111.mp4",
+      "sha256": "c712e47513cc41aa5a7b0a207a28b389fbf933ff35d0b221ad2ae84323839721",
+      "bytes": 2066624,
+      "duration": 11,
+      "stage": 6,
+      "camera": {
+        "distance": 73.98273191938642,
+        "fov": 40
+      },
+      "assets": [
+        {
+          "file": "public/assets/enemies/foundry_zero_mechanical_legs_v2.glb",
+          "sha256": "cefb976551d55167ba6b2ecf7ec9c7144105d890a85cb1c5335e24db90c275ab"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "capture": "webcodecs-vp9-frames",
+      "frameCount": 330,
+      "worldFrozen": true,
+      "allDecoded": true,
+      "idleAnimated": true
+    }
+  ]
+}

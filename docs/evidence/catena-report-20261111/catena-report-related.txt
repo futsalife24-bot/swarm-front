@@ -1,0 +1,10 @@
+RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-resume-catena-20261110
+
+
+ Test Files  3 passed (3)
+      Tests  11 passed (11)
+   Start at  00:30:58
+   Duration  3.47s (import 65%, transform 30%, tests 4%)
+
+    Isolate  3 workers spawned · ~137ms startup each (spawn + environment, per file)
+             at least ~275ms faster with isolate: false — reuses workers across files instead of one per file

@@ -1,3 +1,11 @@
+# CATENAレポート本体・会敵ムービーを連動修正（2026-11-11）
+
+本人の「公開まで進めて」により、説明/専用表示/カメラ/着地予告/会敵ムービーを現14胴・自然跳躍へ揃えた。基点main 8c03cd7e4f7e0389b0751352d02072e5f69a19a1、task-resume-catena-20261110 / codex/catena-report-20261111。戦闘側の数値・判定は変更せずroot他担当12差分・旧動画/他9種を保持。
+
+型成功、CATENA追加3件・omega14件・関連11件・動画素材1件成功。レポート全件のHARROW1不一致とformat14は既存で維持。実Chrome2サイズで通常タイトルからレポートを開き、14胴全身・赤円・跳躍・着地・新11秒動画の再生を確認（遭遇状態は隔離fixture、実スマホ未確認）。build/本番dry-run成功。詳細は[検証記録](evidence/catena-report-20261111/VALIDATION.md)。
+
+公開は未実施。現環境のWranglerは未認証のため、main反映後の公開用ビルドと既存ログイン復旧を進める。旧公開Version abe7ecdbは前回確認値で、現在の再取得は未実施。
+
 # ANOMALYレポート連動を必須化・CATENAの漏れを確認（2026-11-11）
 
 本人の「ANOMALYの更新は必ずエネミーレポートも連動」をAGENTS.mdへ明記。基点main c816292d8da40e5bd6f202e415233c9ec75b1030、専用worktree task-resume-catena-20261110 / codex/anomaly-report-rule-20261111。文書変更のみ、製品変更・再公開なし。
