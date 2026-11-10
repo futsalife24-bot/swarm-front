@@ -40,7 +40,7 @@
 
 実通信の結果は180秒・90撃破・参加資格を人工設定したfixture。実射撃・回復・蘇生の成立点は単体試験で検証しており、通信試験を自然攻略や人間の受入評価と呼ばない。ローカルWorkerは127.0.0.1:8903、配布用buildからTestRoomを公開していない。最初のsandbox起動はEACCES、正式昇格した同コマンドで起動した。
 
-実ログは `docs/evidence/support-resume-20261110/`。認証ファイル・DB・一時変換キャッシュはGitに含めない。基点mainの全体24失敗・format14警告は `docs/REFACTOR-WORKER-START-GATE-20261110.md` がある別worktreeで確認済み。この機能の成功で既存失敗の解消を主張しない。
+実装commitは `dcb12f5`。実ログは `docs/evidence/support-resume-20261110/`（Git保存のtxtは末尾空白だけ正規化、元logはローカル保持）。認証ファイル・DB・一時変換キャッシュはGitに含めない。基点mainの全体24失敗・format14警告は `docs/REFACTOR-WORKER-START-GATE-20261110.md` がある別worktreeで確認済み。この機能の成功で既存失敗の解消を主張しない。
 
 ## 残作業
 

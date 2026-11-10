@@ -122,4 +122,3 @@ Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Pac
 
     Isolate  10 workers spawned · ~544ms startup each (spawn + environment, per file)
              at least ~4.90s faster with isolate: false — reuses workers across files instead of one per file
-
