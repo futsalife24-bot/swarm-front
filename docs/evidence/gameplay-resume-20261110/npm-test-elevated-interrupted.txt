@@ -1,0 +1,61 @@
+> swarm-front@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-resume-support-rewards-20261110
+
+ ❯ tests/foundry-movement.test.ts (34 tests | 5 failed) 398484ms
+   × ground patrol stays clear and covers both axes on map 0 (灰明の街区) 31039ms
+   × all cut chains navigate to a distant player on map 0 105111ms
+   × all cut chains navigate to a distant player on map 1 117830ms
+   × all cut chains navigate to a distant player on map 2 62386ms
+   × all cut chains navigate to a distant player on map 4 30480ms
+ ❯ tests/structure-v2.test.ts (23 tests | 2 failed) 219809ms
+   × PLEAT holds through preparation and red warning before the forward shockwave 258ms
+   × current changelog contains no legacy creature descriptions 209453ms
+ ❯ tests/game-step-equivalence.test.ts (22 tests | 4 failed) 189660ms
+   × step は同一seed・同一入力で毎tick同じ状態になる: 前線・生存・融合・1人 14680ms
+   × step は同一seed・同一入力で毎tick同じ状態になる: 前線・生存・融合・2人 12272ms
+   × step は同一seed・同一入力で毎tick同じ状態になる: 前線・防衛・融合 11862ms
+   × step は同一seed・同一入力で毎tick同じ状態になる: 前線・旧方式 7410ms
+ ❯ tests/asset-download-manifest.test.ts (16 tests | 1 failed) 1728ms
+   ❯ 事前保存manifestの生成 (16)
+     × 現行実参照を使い、不要な旧版・旧モード・任意mediaを共通へ混ぜない 44ms
+ ❯ tests/maps.test.ts (6 tests | 1 failed) 1573ms
+   × 晶脈の地底巣 has connected walkable passages and safe enemy entries 23ms
+ ❯ tests/front-feedback.test.ts (7 tests | 1 failed) 614ms
+   ❯ 戦闘フィードバックの回帰 (7)
+     × 最大密集の4人通信でも判定状態を保持し、古い演出だけを64KiB内に収める 388ms
+ ❯ tests/enemy-report-motion.test.ts (11 tests | 1 failed) 133ms
+   × observes ten upward missiles and clears them when leaving attack playback 33ms
+ ❯ tests/briefing-cache.test.ts (2 tests | 2 failed) 70ms
+   ❯ presentation stays outside the game offline cache (2)
+     × preserves the game shell for scope https://game.example/ 62ms
+     × preserves the game shell for scope https://game.example/swarm-front/ 4ms
+ ❯ tests/state-receipt.test.ts (10 tests | 1 failed) 489ms
+   × front接続は検証済みstateだけを通知し、退出時にtimerを残さない 259ms
+ ❯ tests/front-shot-origin.test.ts (9 tests | 6 failed) 25ms
+   ❯ fixed body-centre shot presentation (9)
+     × keeps emission fixed to the rendered body with lateral lag -0.4 7ms
+     × keeps emission fixed to the rendered body with lateral lag 0 2ms
+     × keeps emission fixed to the rendered body with lateral lag 0.4 1ms
+     × leaves the drawn muzzle with the real soldier model and keeps the authority endpoint 2ms
+     × falls back to the body-centre height while no weapon is in the hand 1ms
+     × preserves world-space effects when no body exists, for enemies and secondary shots 1ms
+ ❯ tests/standard-trooper.test.ts (4 tests | 1 failed) 59ms
+   × evaded boss damage and ordinary contact do not trigger the heavy clip 20ms
+ ❯ tests/aim.test.ts (10 tests | 1 failed) 40ms
+   ❯ camera-aligned authoritative shots (6)
+     × sends accurate rockets through the center target at near/far and elevated angles 13ms
+ ❯ tests/bgm-layout-return.test.ts (2 tests | 2 failed) 12ms
+   ❯ solo layout return screen routing (2)
+     × restores battle without briefly routing through a different music screen 9ms
+     × restores collection without briefly routing through a different music screen 1ms
+ ❯ tests/harrow-model.test.ts (8 tests | 2 failed) 285293ms
+   × 羽ばたき加工は翼だけを変え、左右非交差と上下主体の翼端軌道を保つ 64921ms
+   × tracks every report clip's actual intermediate skinned poses 206424ms
+stdout | tests/coop-performance.test.ts > measures the authoritative three-player simulation without changing combat
+{"simulationMedianMs":14.592500000002474,"simulationP95Ms":37.240200000000186}
+
+ ❯ tests/coop-performance.test.ts (1 test | 1 failed) 31863ms
+   × measures the authoritative three-player simulation without changing combat 31860ms

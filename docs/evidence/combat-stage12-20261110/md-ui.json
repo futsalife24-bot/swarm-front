@@ -1,0 +1,52 @@
+[
+  {
+    "width": 844,
+    "height": 390,
+    "allWeaponDetails": 1,
+    "previewCanvases": 1,
+    "detailLayouts": [
+      {
+        "kind": "medic",
+        "preview": {
+          "foreground": 5415,
+          "total": 52870,
+          "width": 311,
+          "height": 170
+        },
+        "overflow": [
+          {
+            "tag": "menu-dialog weapon-detail-dialog",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "tag": "menu-dialog-body",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "tag": "weapon-detail-layout",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "tag": "pt-comparison",
+            "x": 0,
+            "y": 0
+          }
+        ],
+        "sideBySide": true,
+        "aligned": true,
+        "visible": true
+      }
+    ],
+    "savedDetailLockEnabled": true,
+    "nativeTouchHold": true,
+    "cancelAndScroll": true,
+    "tapKeyboard": true,
+    "lock": true,
+    "redraw": true,
+    "readOnly": true,
+    "errors": []
+  }
+]

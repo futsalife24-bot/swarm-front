@@ -71,6 +71,7 @@ export function beginDefense<T extends DefenseSave>(
       save.mode === "test",
       next.serial++,
       rng,
+      "solo",
     ),
   );
   return next;
@@ -123,6 +124,7 @@ export function settleDefense<T extends DefenseSave>(
           save.mode === "test",
           next.serial++,
           rng,
+          "solo",
         ),
       );
   } else if (outcome === "defeat") next.powder += 5;

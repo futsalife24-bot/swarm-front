@@ -129,6 +129,7 @@ interface Member {
   frontGrowth?: 2 | 3;
   frontCatalog?: 2 | 3;
   frontOpening?: 2;
+  frontSupportRewards?: 1;
   upgradePool?: FrontUpgradeId[];
   initialCards?: FrontUpgradeId[];
   id: string;
@@ -1249,6 +1250,7 @@ export class Room extends DurableObject<Env> {
         return;
       }
       if (
+        (this.saved.frontRun?.supportRewards && m.frontSupportRewards !== 1) ||
         (this.saved.frontRun?.world.front?.survivalBuildVersion === 1 &&
           m.frontSurvivalBuild !== 1) ||
         (this.saved.frontRun?.world.front?.catalogVersion === 3 &&
@@ -1333,6 +1335,7 @@ export class Room extends DurableObject<Env> {
         m.frontCatalog === 3 ? 3 : m.frontCatalog === 2 ? 2 : undefined;
       member.frontSurvivalBuild =
         m.frontSurvivalBuild === 1 && m.frontGrowth === 3 ? 1 : undefined;
+      member.frontSupportRewards = m.frontSupportRewards === 1 ? 1 : undefined;
       member.frontOpening = m.frontOpening === 2 ? 2 : undefined;
       member.frontGrowth =
         m.frontGrowth === 3 ? 3 : m.frontGrowth === 2 ? 2 : undefined;
@@ -1849,6 +1852,7 @@ export class Room extends DurableObject<Env> {
             seed: crypto.getRandomValues(new Uint32Array(1))[0],
             mode: this.saved.directory.mode,
             fusion: present.every((p) => p.frontGrowth === 3),
+            supportRewards: present.every((p) => p.frontSupportRewards === 1),
             clearedStage: present[0]?.frontClearedStage ?? 0,
             catalogVersion: present.every((p) => p.frontCatalog === 3)
               ? 3

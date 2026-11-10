@@ -51,6 +51,8 @@ export function highestClearedStage(save: ProgressSave | null) {
   );
 }
 export interface SurvivalSpoils {
+  /** 新規協力報酬の運用情報。参加の詳細なラン内集計はクライアントへ送らない。 */
+  team?: { version: 1; kills: number; size: number };
   weapons: NewWeapon[];
   kills: number;
   clearedStage: number;
@@ -62,6 +64,15 @@ function validSpoils(value: SurvivalSpoils) {
     !!value &&
     Number.isSafeInteger(value.kills) &&
     value.kills >= 0 &&
+    (value.team === undefined ||
+      (value.team !== null &&
+        typeof value.team === "object" &&
+        value.team.version === 1 &&
+        Number.isSafeInteger(value.team.kills) &&
+        value.team.kills >= value.kills &&
+        Number.isInteger(value.team.size) &&
+        value.team.size >= 2 &&
+        value.team.size <= 4)) &&
     Number.isInteger(value.clearedStage) &&
     value.clearedStage >= 0 &&
     value.clearedStage <= CAMPAIGN_COUNT &&
@@ -88,7 +99,8 @@ function validSpoilsForRun(
   return (
     validSpoils(spoils) &&
     seconds <= 3601 &&
-    spoils.weapons.length <= frontSurvivalRewardCount(seconds, spoils.kills) &&
+    spoils.weapons.length <=
+      frontSurvivalRewardCount(seconds, spoils.team?.kills ?? spoils.kills) &&
     spoils.weapons.every((w) =>
       w.id.startsWith(`${run.slice(0, 48)}-survival-`),
     )

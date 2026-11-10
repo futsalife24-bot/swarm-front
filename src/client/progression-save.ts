@@ -746,6 +746,7 @@ export function grantResult(
             n.mode === "test",
             n.serial++,
             rng,
+            "solo",
           ),
         );
     bank(n, r.weapons);
@@ -794,6 +795,7 @@ export function prepareChoice(s: ProgressSave, rng: () => number) {
       n.mode === "test",
       n.serial++,
       rng,
+      "solo",
     ),
   );
   return n;

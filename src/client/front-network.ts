@@ -239,6 +239,7 @@ export class FrontNetwork {
         frontGrowth: 3,
         frontCatalog: 3,
         frontOpening: 2,
+        frontSupportRewards: 1,
         frontSurvivalBuild: 1,
         name: this.playerName,
         ...(this.token ? { token: this.token } : {}),

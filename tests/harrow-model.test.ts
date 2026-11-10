@@ -16,6 +16,7 @@ import {
   projectedBoxDistance,
 } from "../src/client/harrow-report-camera";
 import { HARROW_REPORT_PROFILE } from "../src/client/harrow-report-camera-profile";
+import { polishHarrowFlight } from "../src/client/harrow-motion-polish";
 import { HARROW_REPORT_SEQUENCE } from "../src/client/enemy-report-motion";
 
 async function model() {
@@ -31,6 +32,129 @@ async function model() {
     "",
   );
 }
+
+it("羽ばたき加工は翼だけを変え、左右非交差と上下主体の翼端軌道を保つ", async () => {
+  const asset = await model();
+  const meshes: T.SkinnedMesh[] = [];
+  asset.scene.traverse((o) => {
+    if (o instanceof T.SkinnedMesh) meshes.push(o);
+  });
+  const bones = meshes[0].skeleton.bones;
+  const clip = asset.animations.find((c) => c.name === "Flight")!;
+  const digest = (c: T.AnimationClip) =>
+    createHash("sha256").update(JSON.stringify(c.toJSON())).digest("hex");
+  const untouched = asset.animations
+    .filter((c) => c !== clip)
+    .map((c) => [c, digest(c)] as const);
+  const tracks = clip.tracks
+    .filter((t) => !/^Wing_(upper|fore|fan)[LR]\.quaternion$/.test(t.name))
+    .map((t) => [t, Array.from(t.values)] as const);
+  const rest = bones.map(
+    (b) => [b.position.clone(), b.quaternion.clone(), b.scale.clone()] as const,
+  );
+  const duration = clip.duration;
+  polishHarrowFlight(asset.scene, bones, clip);
+  for (const track of clip.tracks.filter((t) =>
+    /^Wing_(upper|fore|fan)[LR]\.quaternion$/.test(t.name),
+  )) {
+    // Constant authored elbow tracks were STEP. Articulated elbows must not
+    // hold each baked sample and jump to the next one.
+    expect(track.getInterpolation()).toBe(T.InterpolateLinear);
+    const interpolant = track.createInterpolant();
+    const midpoint = Array.from(interpolant.evaluate(1 / 60));
+    expect(midpoint).not.toEqual(Array.from(track.values.slice(0, 4)));
+  }
+  expect(clip.duration).toBe(duration);
+  expect(bones).toHaveLength(39);
+  for (const [c, hash] of untouched) expect(digest(c)).toBe(hash);
+  for (const [t, values] of tracks)
+    expect(Array.from(t.values)).toEqual(values);
+  bones.forEach((b, i) => {
+    expect(b.position.equals(rest[i][0])).toBe(true);
+    expect(b.quaternion.equals(rest[i][1])).toBe(true);
+    expect(b.scale.equals(rest[i][2])).toBe(true);
+  });
+  const vertices: { mesh: T.SkinnedMesh; index: number; sign: number }[] = [];
+  for (const mesh of meshes)
+    for (
+      let index = 0;
+      index < mesh.geometry.attributes.position.count;
+      index++
+    )
+      for (let n = 0; n < 4; n++) {
+        const name =
+          bones[mesh.geometry.attributes.skinIndex.getComponent(index, n)].name;
+        if (
+          mesh.geometry.attributes.skinWeight.getComponent(index, n) > 0.99 &&
+          /^Wing_/.test(name)
+        ) {
+          vertices.push({ mesh, index, sign: name.endsWith("L") ? 1 : -1 });
+          break;
+        }
+      }
+  expect(vertices.length).toBeGreaterThan(12000);
+  const mixer = new T.AnimationMixer(asset.scene);
+  const action = mixer.clipAction(clip);
+  action.setLoop(T.LoopOnce, 1);
+  action.clampWhenFinished = true;
+  action.play();
+  const p = new T.Vector3();
+  let minimum = Infinity;
+  const tips = [1, -1].map((sign) => {
+    const candidates = vertices.filter((v) => v.sign === sign);
+    return candidates.reduce(
+      (best, v) => {
+        const span =
+          v.mesh.getVertexPosition(v.index, p).applyMatrix4(v.mesh.matrixWorld)
+            .z * sign;
+        return span > best.span
+          ? {
+              v,
+              span,
+              minX: Infinity,
+              maxX: -Infinity,
+              minY: Infinity,
+              maxY: -Infinity,
+            }
+          : best;
+      },
+      {
+        v: candidates[0],
+        span: -Infinity,
+        minX: Infinity,
+        maxX: -Infinity,
+        minY: Infinity,
+        maxY: -Infinity,
+      },
+    );
+  });
+  for (let frame = 0; frame <= Math.round(duration * 120); frame++) {
+    mixer.setTime(frame / 120);
+    asset.scene.updateMatrixWorld(true);
+    for (const v of vertices) {
+      v.mesh.getVertexPosition(v.index, p).applyMatrix4(v.mesh.matrixWorld);
+      minimum = Math.min(minimum, p.z * v.sign);
+    }
+    for (const tip of tips) {
+      tip.v.mesh
+        .getVertexPosition(tip.v.index, p)
+        .applyMatrix4(tip.v.mesh.matrixWorld);
+      tip.minX = Math.min(tip.minX, p.x);
+      tip.maxX = Math.max(tip.maxX, p.x);
+      tip.minY = Math.min(tip.minY, p.y);
+      tip.maxY = Math.max(tip.maxY, p.y);
+    }
+  }
+  // A positive separating plane also separates all triangle interiors.
+  expect(minimum).toBeGreaterThan(0.05);
+  for (const tip of tips) {
+    const vertical = tip.maxY - tip.minY;
+    expect(vertical).toBeGreaterThan(3);
+    expect(vertical).toBeGreaterThan((tip.maxX - tip.minX) * 2.5);
+  }
+  mixer.stopAllAction();
+  mixer.uncacheRoot(asset.scene);
+}, 60000);
 
 it("matches the shipped HARROW asset and frames both complete motion clips", async () => {
   const bytes = readFileSync("public/assets/enemies/harrow_motion_v14.glb");
@@ -111,6 +235,15 @@ it("tracks every report clip's actual intermediate skinned poses", async () => {
   const asset = await model();
   asset.scene.rotation.y = HARROW_REPORT_PROFILE.source.rotationY;
   asset.scene.updateMatrixWorld(true);
+  let skeleton: T.Skeleton | undefined;
+  asset.scene.traverse((o) => {
+    if (o instanceof T.SkinnedMesh && !skeleton) skeleton = o.skeleton;
+  });
+  polishHarrowFlight(
+    asset.scene,
+    skeleton!.bones,
+    asset.animations.find((c) => c.name === "Flight")!,
+  );
   const meshes: T.SkinnedMesh[] = [];
   asset.scene.traverse((object) => {
     if (object instanceof T.SkinnedMesh) meshes.push(object);

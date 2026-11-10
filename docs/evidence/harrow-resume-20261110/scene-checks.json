@@ -1,0 +1,59 @@
+{
+  "passed": true,
+  "initial": {
+    "enemies": 1,
+    "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "assetErrors": []
+  },
+  "rows": [
+    {
+      "fps": 30,
+      "quality": 1,
+      "drawnFrames": 4,
+      "pixelRatio": 1,
+      "drawCalls": 51,
+      "phase": "Flight",
+      "paletteBytes": 12240384,
+      "counts": {
+        "harrow": 1
+      }
+    },
+    {
+      "fps": 30,
+      "quality": 0.65,
+      "drawnFrames": 4,
+      "pixelRatio": 0.65,
+      "drawCalls": 51,
+      "phase": "Flight",
+      "paletteBytes": 12240384,
+      "counts": {
+        "harrow": 1
+      }
+    },
+    {
+      "fps": 60,
+      "quality": 1,
+      "drawnFrames": 8,
+      "pixelRatio": 1,
+      "drawCalls": 51,
+      "phase": "Flight",
+      "paletteBytes": 12240384,
+      "counts": {
+        "harrow": 1
+      }
+    },
+    {
+      "fps": 60,
+      "quality": 0.65,
+      "drawnFrames": 8,
+      "pixelRatio": 0.65,
+      "drawCalls": 51,
+      "phase": "Flight",
+      "paletteBytes": 12240384,
+      "counts": {
+        "harrow": 1
+      }
+    }
+  ],
+  "errors": []
+}

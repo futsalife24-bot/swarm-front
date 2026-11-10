@@ -1,0 +1,125 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-resume-support-rewards-20261110
+
+ ❯ tests/weapon-families.test.ts (0 test)
+ ❯ tests/front-network-input.test.ts (0 test)
+ ❯ tests/front-support-rewards.test.ts (0 test)
+ ❯ tests/state-wire.test.ts (0 test)
+ ❯ tests/front-treasure.test.ts (0 test)
+ ❯ tests/front-survival.test.ts (0 test)
+ ❯ tests/front-survival-build.test.ts (0 test)
+ ❯ tests/front-network-opening.test.ts (0 test)
+ ❯ tests/front-campaign.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/front-campaign.test.ts [ tests/front-campaign.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{2aee6390-d235-4265-b6ab-17e6e20c17c2}\AC\Temp\Wv-4vdSfiahMZUq2Iu2s8\ssr\7ce46689be5a6358fbe73e4275e13c69ba8dd7b0'
+ ❯ src/client/progression-save.ts:2:1
+      1| import { assertSaveWriter } from "./save-writer";
+      2| import {
+       | ^
+      3|   freshBuddyProgress,
+      4|   validBuddyProgress,
+ ❯ tests/front-campaign.test.ts:2:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  tests/front-network-input.test.ts [ tests/front-network-input.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{2aee6390-d235-4265-b6ab-17e6e20c17c2}\AC\Temp\Wv-4vdSfiahMZUq2Iu2s8\ssr\1814a45d350221a603cd055f269fc41de4b4360c'
+ ❯ src/client/front-network.ts:1:1
+      1| import {
+       | ^
+      2|   FRONT_BASE_IDS,
+      3|   FRONT_V2_UPGRADE_IDS,
+ ❯ tests/front-network-input.test.ts:2:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  tests/front-network-opening.test.ts [ tests/front-network-opening.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{2aee6390-d235-4265-b6ab-17e6e20c17c2}\AC\Temp\Wv-4vdSfiahMZUq2Iu2s8\ssr\b161267d41c0184402d735efe24112cf79835fe0'
+ ❯ tests/front-network-opening.test.ts:2:1
+      1| import { afterEach, expect, it, vi } from "vitest";
+      2| import {
+       | ^
+      3|   FrontNetwork,
+      4|   FRONT_NETWORK_SESSION_KEY,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  tests/front-support-rewards.test.ts [ tests/front-support-rewards.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{2aee6390-d235-4265-b6ab-17e6e20c17c2}\AC\Temp\Wv-4vdSfiahMZUq2Iu2s8\ssr\c8ae0afac1012b741a98b3ad95d85f238619373a'
+ ❯ src/shared/front-weapon.ts:1:1
+      1| import { STARTERS, type Weapon } from "./defs";
+       | ^
+      2|
+      3| export { FRONT_SURVIVAL_WEAPON_NAME, isFrontSurvivalWeapon } from "./d…
+ ❯ src/shared/front-run.ts:2:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+ FAIL  tests/front-survival-build.test.ts [ tests/front-survival-build.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{2aee6390-d235-4265-b6ab-17e6e20c17c2}\AC\Temp\Wv-4vdSfiahMZUq2Iu2s8\ssr\c8ae0afac1012b741a98b3ad95d85f238619373a'
+ ❯ tests/front-survival-build.test.ts:2:1
+      1| import { expect, it } from "vitest";
+      2| import { STARTERS, stats } from "../src/shared/defs";
+       | ^
+      3| import {
+      4|   createFrontRun,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+
+ FAIL  tests/front-survival.test.ts [ tests/front-survival.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{2aee6390-d235-4265-b6ab-17e6e20c17c2}\AC\Temp\Wv-4vdSfiahMZUq2Iu2s8\ssr\3bfffceb5144690e3d144392289143a723e7cfc0'
+ ❯ tests/front-survival.test.ts:2:1
+      1| import { describe, expect, it } from "vitest";
+      2| import {
+       | ^
+      3|   createFrontRun,
+      4|   forfeitFrontRunPlayer,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+
+ FAIL  tests/front-treasure.test.ts [ tests/front-treasure.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{2aee6390-d235-4265-b6ab-17e6e20c17c2}\AC\Temp\Wv-4vdSfiahMZUq2Iu2s8\ssr\3bfffceb5144690e3d144392289143a723e7cfc0'
+ ❯ tests/front-treasure.test.ts:2:1
+      1| import { expect, it } from "vitest";
+      2| import {
+       | ^
+      3|   createFrontRun,
+      4|   chooseFrontUpgrade,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/9]⎯
+
+ FAIL  tests/state-wire.test.ts [ tests/state-wire.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{2aee6390-d235-4265-b6ab-17e6e20c17c2}\AC\Temp\Wv-4vdSfiahMZUq2Iu2s8\ssr\4ba657f3ca9118500e346e097ce4338badc76427'
+ ❯ tests/state-wire.test.ts:2:1
+      1| import { it, expect, vi } from "vitest";
+      2| import { createWorld, addPlayer, start, neutral } from "../src/shared/…
+       | ^
+      3| import {
+      4|   encodeState,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/9]⎯
+
+ FAIL  tests/weapon-families.test.ts [ tests/weapon-families.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{2aee6390-d235-4265-b6ab-17e6e20c17c2}\AC\Temp\Wv-4vdSfiahMZUq2Iu2s8\ssr\c8ae0afac1012b741a98b3ad95d85f238619373a'
+ ❯ tests/weapon-families.test.ts:3:1
+      1| import { describe, it, expect } from "vitest";
+      2| import { existsSync } from "node:fs";
+      3| import {
+       | ^
+      4|   WEAPONS,
+      5|   LIMITS,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/9]⎯
+
+
+ Test Files  9 failed | 1 passed (10)
+      Tests  35 passed (35)
+   Start at  12:53:13
+   Duration  25.37s (tests 51%, transform 42%, import 6%, worker 1%)
+
+  Transform  transforming modules took 5.38s · 42% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns

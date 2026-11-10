@@ -1,7 +1,7 @@
 import {
   WEAPONS,
-  FAMILIES,
-  FAMILY_KINDS,
+  rollRewardKind,
+  type RewardContext,
   EFFECT_POOLS,
   EFFECTS,
   RARITIES,
@@ -240,12 +240,11 @@ export function rollWeapon(
   testData: boolean,
   acquired: number,
   rng: () => number,
+  context: RewardContext = "party",
 ): NewWeapon {
   // Family first, weapon second: adding a family must not halve how often any
   // existing one is seen, only split that family's own share.
-  const family = FAMILIES[Math.floor(rng() * FAMILIES.length)];
-  const pool = FAMILY_KINDS[family];
-  const kind: Kind = pool[Math.floor(rng() * pool.length)];
+  const kind = rollRewardKind(rng, context);
   const rarity = weighted(rarityWeights(stage, d), rng);
   const variance = Object.fromEntries(
     VARIANCE_KEYS.map((k) => [k, rollVariance(rng)]),

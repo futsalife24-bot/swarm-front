@@ -9,6 +9,34 @@ import {
 import { HARROW, harrowMissilePosition } from "../src/shared/harrow";
 import * as T from "three";
 
+it("HARROWの通常降下は接地側で沈み込み、続く待機へ表示だけを戻す", () => {
+  const index = HARROW_REPORT_SEQUENCE.findIndex(
+    (p) => p.clip === "Land" && (p.from ?? 0) > (p.to ?? 0),
+  );
+  expect(index).toBeGreaterThan(0);
+  const start = HARROW_REPORT_SEQUENCE.slice(0, index).reduce(
+    (n, p) => n + p.duration,
+    0,
+  );
+  const landing = reportPose(
+    "harrow",
+    "attack",
+    start + HARROW.landDuration - 0.001,
+  );
+  expect(landing.clip).toBe("Land");
+  expect(landing.sample).toBeCloseTo(HARROW.landDuration * 0.22, 4);
+  expect(landing.height).toBeLessThan(0.001);
+  const recovery = reportPose(
+    "harrow",
+    "attack",
+    start + HARROW.landDuration + 0.1,
+  );
+  expect(recovery.clip).toBe("Idle");
+  expect(recovery).toMatchObject({ landingRecovery: true, height: 0 });
+  const ground = reportPose("harrow", "attack", 0.14, "Land");
+  expect(ground.sample).toBeCloseTo(HARROW.landDuration * 0.22);
+});
+
 it("observes HARROW spin, full threat, dive and staggered fall in one grounded loop", () => {
   let start = 0;
   const seen: string[] = [];

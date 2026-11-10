@@ -34,6 +34,7 @@ import {
   createBastion,
   stepBastion,
 } from "./bastion";
+import { noteSupportRewardAction } from "./front-support-rewards";
 import {
   HARROW,
   stepHarrow,
@@ -139,8 +140,7 @@ import {
   WEAPON_SWITCH_DURATION,
   WEAPON_SWITCH_RESUME,
   HEAVY_HIT_DURATION,
-  FAMILIES,
-  FAMILY_KINDS,
+  rollRewardKind,
   HEAL_RADIUS,
   type Family,
   type Kind,
@@ -309,8 +309,9 @@ export interface Event {
     | "calyxSlam";
   // Damage dealt, on hit and kill events, for the floating numbers.
   amount?: number;
-  /** BASTION: the armor step (1-3) that reduced this hit; drives the deflection sparks. */
+  /** BASTION: rapid resistance or armor strength (1-3). */
   guard?: number;
+  guardKind?: "rapid" | "armor" | "open";
   // On a shot: the round ended on a wall or a body rather than running out of
   // range. Carried here because two weapons of the same family can be equipped
   // at once, and the family alone cannot say which one fired.
@@ -466,10 +467,13 @@ export function loot(w: World): Weapon {
       w.solo.test,
       w.solo.acquired++,
       () => random(w),
+      "solo",
     );
-  const family = FAMILIES[Math.floor(random(w) * FAMILIES.length)];
-  const kindPool = FAMILY_KINDS[family];
-  const kind: Kind = kindPool[Math.floor(random(w) * kindPool.length)];
+  // Scale is fixed by start(); disconnects do not change the reward pool.
+  const kind = rollRewardKind(
+    () => random(w),
+    w.scale === 1 ? "solo" : "party",
+  );
   // Roll the five figures first; the tier is then a reading of how they landed
   // rather than a bag that was drawn before anything was known.
   const rolls: Partial<Record<(typeof ROLLS)[number], number>> = {};
@@ -979,6 +983,7 @@ export function hurtEnemy(
     e.hp = wormNodes(e).reduce((sum, n) => sum + Math.max(0, n.partHp ?? 0), 0);
   } else e.hp -= damage;
   staggerHarrow(w, e, damage);
+  if (damage > 0) noteSupportRewardAction(w, owner);
   e.hurt = 0.15;
   const guard = e.bastion && damage > 0 ? bastionGuard(e.bastion) : 0;
   event(w, {
@@ -988,6 +993,9 @@ export function hurtEnemy(
     ...impact,
     owner,
     ...(guard ? { guard } : {}),
+    ...(e.bastion && (guard || e.bastion.guardKind === "open")
+      ? { guardKind: e.bastion.guardKind }
+      : {}),
     amount: Math.round(damage),
     ...(attribution ? { rebuild: attribution } : {}),
   });
@@ -1271,7 +1279,8 @@ function healShot(
       owner: p.id,
     });
   }
-  for (const [a, amount] of restored)
+  for (const [a, amount] of restored) {
+    if (amount > 0) noteSupportRewardAction(w, p.id);
     event(w, {
       type: "heal",
       amount: Math.round(amount),
@@ -1280,6 +1289,7 @@ function healShot(
       z: a.z,
       owner: p.id,
     });
+  }
 }
 export function fire(w: World, p: Player, i: Input, airborne = false) {
   const weapon = p.weapons[p.slot],
@@ -1768,7 +1778,7 @@ function stepRevives(w: World, inputs: Record<string, Input>, dt: number) {
   for (const p of w.players.filter(
     (p) => p.connected && p.hp <= 0 && p.down > 0,
   )) {
-    const aid = w.players.some(
+    const aid = w.players.find(
       (a) =>
         a.hp > 0 &&
         a.connected &&
@@ -1781,6 +1791,7 @@ function stepRevives(w: World, inputs: Record<string, Input>, dt: number) {
       p.hp = 90;
       p.down = 0;
       p.revive = 0;
+      if (aid) noteSupportRewardAction(w, aid.id);
       event(w, { type: "revive", x: p.x, z: p.z, y: (p.y ?? 0) + 1 });
     }
   }

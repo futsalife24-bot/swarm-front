@@ -1,0 +1,365 @@
+{
+  "date": "2026-11-10T03:50:04.364Z",
+  "browser": "Google Chrome 156.0.8078.81",
+  "sizes": {
+    "844x390": {
+      "scenes": 50,
+      "ng": []
+    },
+    "844x390-reduced": {
+      "scenes": 26,
+      "ng": []
+    },
+    "640x360": {
+      "scenes": 50,
+      "ng": []
+    },
+    "640x360-reduced": {
+      "scenes": 26,
+      "ng": []
+    },
+    "568x320": {
+      "scenes": 50,
+      "ng": []
+    },
+    "568x320-reduced": {
+      "scenes": 26,
+      "ng": []
+    }
+  },
+  "audit": [
+    {
+      "name": "武装片",
+      "reduced": false,
+      "dur": 2.41,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "武装片",
+      "reduced": true,
+      "dur": 1.07,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "N武器",
+      "reduced": false,
+      "dur": 2.48,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "N武器",
+      "reduced": true,
+      "dur": 1.14,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "R武器",
+      "reduced": false,
+      "dur": 2.55,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "R武器",
+      "reduced": true,
+      "dur": 1.21,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "SR武器",
+      "reduced": false,
+      "dur": 2.92,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "SR武器",
+      "reduced": true,
+      "dur": 1.78,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "SSR武器",
+      "reduced": false,
+      "dur": 3.69,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "SSR武器",
+      "reduced": true,
+      "dur": 2.03,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "バディ",
+      "reduced": false,
+      "dur": 4.66,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "バディ",
+      "reduced": true,
+      "dur": 2.4,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "バディ（所持済み）",
+      "reduced": false,
+      "dur": 4.66,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "バディ（所持済み）",
+      "reduced": true,
+      "dur": 2.4,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "通常のみ",
+      "reduced": false,
+      "dur": 3.37,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "通常のみ",
+      "reduced": true,
+      "dur": 2.3,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "SR2件",
+      "reduced": false,
+      "dur": 6.28,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "SR2件",
+      "reduced": true,
+      "dur": 5.01,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "SSR＋SR",
+      "reduced": false,
+      "dur": 7.87,
+      "stops": 2,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "SSR＋SR",
+      "reduced": true,
+      "dur": 5.63,
+      "stops": 2,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "バディ＋SSR＋SR",
+      "reduced": false,
+      "dur": 11.03,
+      "stops": 3,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "バディ＋SSR＋SR",
+      "reduced": true,
+      "dur": 7.6,
+      "stops": 3,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "長い名前の確認",
+      "reduced": false,
+      "dur": 11.11,
+      "stops": 3,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "長い名前の確認",
+      "reduced": true,
+      "dur": 7.66,
+      "stops": 3,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "全部武装片",
+      "reduced": false,
+      "dur": 3.29,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    },
+    {
+      "name": "全部武装片",
+      "reduced": true,
+      "dur": 2.18,
+      "stops": 1,
+      "ok": true,
+      "errs": []
+    }
+  ],
+  "behavior": {
+    "skipDuringPlayback": {
+      "tBeforeSkip": 0.983,
+      "phaseBeforeSkip": "降下中",
+      "skipButton": {
+        "w": 80,
+        "h": 44
+      },
+      "skipEnabled": true,
+      "tAfter": 11.03,
+      "dur": 11.03,
+      "listVisible": true
+    },
+    "noMultiplexAfterAgain": {
+      "liveLoops": 1,
+      "generations": 13
+    },
+    "realtimeStop": {
+      "firstStop": 7.07,
+      "heldAt": 7.07,
+      "stillHeldAfter2s": true,
+      "heldAfter8Taps": true,
+      "passedAfterHold": true
+    },
+    "stops1x": [
+      {
+        "stop": 7.07,
+        "t": 7.07,
+        "hold": true,
+        "firstHoldFrame": {
+          "frame": 424,
+          "t": 7.07
+        },
+        "movedWhileHeld": false
+      },
+      {
+        "stop": 9.77,
+        "t": 9.77,
+        "hold": true,
+        "firstHoldFrame": {
+          "frame": 161,
+          "t": 9.77
+        },
+        "movedWhileHeld": false
+      },
+      {
+        "stop": 11.03,
+        "t": 11.03,
+        "hold": true,
+        "firstHoldFrame": {
+          "frame": 75,
+          "t": 11.03
+        },
+        "movedWhileHeld": false
+      }
+    ],
+    "stops2x": [
+      {
+        "stop": 7.07,
+        "t": 7.07,
+        "hold": true,
+        "firstHoldFrame": {
+          "frame": 212,
+          "t": 7.07
+        },
+        "movedWhileHeld": false
+      },
+      {
+        "stop": 9.77,
+        "t": 9.77,
+        "hold": true,
+        "firstHoldFrame": {
+          "frame": 81,
+          "t": 9.77
+        },
+        "movedWhileHeld": false
+      },
+      {
+        "stop": 11.03,
+        "t": 11.03,
+        "hold": true,
+        "firstHoldFrame": {
+          "frame": 37,
+          "t": 11.03
+        },
+        "movedWhileHeld": false
+      }
+    ],
+    "ownedBuddy": {
+      "sub": "バディ　バディが合流",
+      "newHidden": true,
+      "cardNew": 0
+    },
+    "resume": {
+      "bannerShown": true,
+      "tiles": 10,
+      "atFinal": true,
+      "pendingCleared": true
+    },
+    "reduceToggle": {
+      "sameResults": true,
+      "reduced": true
+    }
+  },
+  "perf": {
+    "stateAndApplyMsPerFrame10": 0.119,
+    "realtimeFrameMs": {
+      "median": 16.7,
+      "p95": 17.1,
+      "frames": 179
+    }
+  },
+  "failures": [],
+  "compare": [
+    "compare/1-ssr-omen.jpg",
+    "compare/1-ssr-open.jpg",
+    "compare/1-ssr-cut.jpg",
+    "compare/1-sr-final.jpg",
+    "compare/10-mix-omen.jpg",
+    "compare/10-mix-wave.jpg",
+    "compare/10-mix-focus.jpg",
+    "compare/10-mix-buddy.jpg",
+    "compare/10-mix-list.jpg"
+  ],
+  "ok": true
+}

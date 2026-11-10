@@ -1,0 +1,46 @@
+{
+  "complete": false,
+  "head": "50b303e96c9c52f03da51254682b98fa2b8ad484",
+  "base": "3f2c429c442c44d54bf4a8132cc791f30534ae9d",
+  "baselineFailed": 24,
+  "observedFailed": 31,
+  "sharedObserved": 23,
+  "newObserved": [
+    {
+      "test": "tests/coop-performance.test.ts :: measures the authoritative three-player simulation without changing combat",
+      "durationMs": 31860
+    },
+    {
+      "test": "tests/foundry-movement.test.ts :: all cut chains navigate to a distant player on map 0",
+      "durationMs": 105111
+    },
+    {
+      "test": "tests/foundry-movement.test.ts :: all cut chains navigate to a distant player on map 1",
+      "durationMs": 117830
+    },
+    {
+      "test": "tests/foundry-movement.test.ts :: all cut chains navigate to a distant player on map 2",
+      "durationMs": 62386
+    },
+    {
+      "test": "tests/foundry-movement.test.ts :: all cut chains navigate to a distant player on map 4",
+      "durationMs": 30480
+    },
+    {
+      "test": "tests/foundry-movement.test.ts :: ground patrol stays clear and covers both axes on map 0 (灰明の街区)",
+      "durationMs": 31039
+    },
+    {
+      "test": "tests/harrow-model.test.ts :: tracks every report clip's actual intermediate skinned poses",
+      "durationMs": 206424
+    },
+    {
+      "test": "tests/harrow-model.test.ts :: 羽ばたき加工は翼だけを変え、左右非交差と上下主体の翼端軌道を保つ",
+      "durationMs": 64921
+    }
+  ],
+  "baselineNotObserved": [
+    "tests/stages.test.ts :: stage 25 completes within the time limit using legal endgame gear and ordinary inputs"
+  ],
+  "note": "全体を中断した途中結果。新規項目は既定壁時計上限を超える長時間化。最終エラー詳細は未集計のため成功/解消扱いしない。"
+}
