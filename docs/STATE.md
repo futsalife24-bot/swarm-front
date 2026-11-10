@@ -1,6 +1,8 @@
-# 保留機能とCATENA自然跳躍：検証済み、main反映準備（2026-11-10）
+# 保留機能とCATENA自然跳躍：main反映済み、Worker未公開（2026-11-10）
 
 専用worktree `task-resume-catena-20261110` / `codex/resume-catena-20261110` に、[PR297](https://github.com/futsalife24-bot/swarm-front/pull/297)のHARROW・武器調整・支援報酬・表示専用補給演出と、[PR298](https://github.com/futsalife24-bot/swarm-front/pull/298)のCATENAを通常mergeした。基点main `3f2c429c442c44d54bf4a8132cc791f30534ae9d`、最終全体検査の製品HEAD `c4f2c27ff4ca87192ca103bf3b5fb86522ca1c8a`。fixtureは両方を残し、rootの他担当12差分と他worktreeは保護。main使用中の `task-survival-build` も変更しない。
+
+通常merge完了: PR297 `f72672f2cb5cbe3eda670a10d859490ed75a18cd`、PR298 `4dfc8228e99309464f1436b0853228a0fd4aa0f5`。実mainを明示fetchして専用worktreeをfast-forwardし、PR298の最終候補f35a7e6との全tree一致、検証HEAD c4f2c27との製品コード/素材一致を確認した。ローカルmainは別worktreeで使用中のため変更せず、専用worktreeで最新mainを確認した。この後続追記は `codex/record-resume-main-20261110` の文書だけで、製品変更・再公開は行わない。
 
 `npm test -- --reporter=verbose` は1752件を完走し1729成功/23失敗、exit 1。基点との機械照合で既存22件＋旧v1比較の指定不足1件。後者は試験だけにv1を明示し、旧生成器・期待byte・assert・製品コードを維持して関連9件成功を確認した。全件修正後再走とは扱わない。ST25と更新履歴の2件は今回成功。既存22失敗とformat14警告は未修正で、全体合格ではない。初期の負荷下中断、ツール再接続後の途中中断、終了コードを含む最終結果を区別して保存した。
 
@@ -8,7 +10,7 @@
 
 本人の「自然に跳ねる感じ」を受け、頭から尾へ連続して跳ぶ姿勢へ修正。実Renderer8画像/動画、ST10 seed814、関連193件が成功。総HP・14胴・最大8砲口・16秒間隔・基本威力10・単回命中を維持。別Codexは旧P1と単体検証HOLDを解除可能と判定した。stepの意図差4条件はPR297と初差tick/fieldを照合して限定更新し、既存前線4条件は基点/統合で毎tick・受信SHAが一致することを確認した。
 
-次は既存GitHubの通常PRからmainへ反映する。既存Workerへは公開しない。実Android/iOS・実回線・旧製品全体E2Eは未確認。補給演出は確定結果の表示専用で、本番抽選・券消費・保存へ接続していない。縦横モック `codex/resume-orientation-20261110` / `81e7d24` は専用branchへ保存し、本番mainへ混ぜない。
+通常main反映は完了。既存Workerへは公開していない。実Android/iOS・実回線・旧製品全体E2Eは未確認。補給演出は確定結果の表示専用で、本番抽選・券消費・保存へ接続していない。縦横モック `codex/resume-orientation-20261110` / `81e7d24` は専用branchへ保存し、本番mainへ混ぜない。
 
 候補2リファクタは本人指定の開始ゲート不合格で未着手。`codex/refactor-worker-message-20261110` / 記録 `2cc75da3c4fcf8cb04c21f40eb621ce350a37ef8`、PRなし。開始時main3f2c429の全体24失敗・format14警告・step前線4不一致を保存し、候補1をやり直さず候補3も未着手。再開には開始ゲートの解消または本人の次指示が必要。独立Chat監査は通常タスクに必須ではない。MainVaultの既存swarm-frontノートにも概要を記録する。
 

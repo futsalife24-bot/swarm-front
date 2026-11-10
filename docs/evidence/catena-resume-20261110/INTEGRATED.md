@@ -4,7 +4,7 @@
 
 - [PR297](https://github.com/futsalife24-bot/swarm-front/pull/297): HARROW・武器調整・支援報酬・表示専用補給演出。
 - [PR298](https://github.com/futsalife24-bot/swarm-front/pull/298): CATENAの14胴・自然跳躍・接地修正・通信互換性。
-- main反映とWorker公開はこの記録時点では未実施。独立Chat監査は通常タスクに必須ではない。別Codexによる旧P1と自然跳躍の技術レビューでは、単体候補の旧HOLDを解除可能と判定済み。
+- 通常main反映済み: PR297 `f72672f2cb5cbe3eda670a10d859490ed75a18cd`、PR298 `4dfc8228e99309464f1436b0853228a0fd4aa0f5`。Worker公開は未実施。実mainを明示fetchして専用worktreeへfast-forwardし、候補f35a7e6との全tree一致・検証c4f2c27との製品コード/素材一致を確認した。別worktreeで使用中のローカルmainは保護した。この後続更新は記録だけで製品不変。独立Chat監査は通常タスクに必須ではなく、別Codexの技術レビューで単体候補の旧HOLDは解除可能と判定済み。
 
 | 確認 | 実結果 |
 | --- | --- |
