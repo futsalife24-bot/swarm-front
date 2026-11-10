@@ -158,11 +158,24 @@ export class FoundryWormGait {
     }
   }
 
-  update(time: number) {
+  update(time: number, airborne = false) {
     const elapsed = this.lastTime === undefined ? 0 : time - this.lastTime;
     const dt = Math.max(0, Math.min(0.1, elapsed));
     this.lastTime = time;
     for (const unit of this.units) {
+      if (airborne) {
+        unit.ready = false;
+        for (const leg of unit.legs) {
+          leg.upper.position.copy(leg.hip);
+          leg.lower.position.copy(leg.knee);
+          leg.foot.position.copy(leg.toe);
+          leg.upper.quaternion.copy(leg.upperRotation);
+          leg.lower.quaternion.copy(leg.lowerRotation);
+          leg.foot.quaternion.copy(leg.footRotation);
+          leg.foot.userData.foundryContact = false;
+        }
+        continue;
+      }
       if (!unit.root.visible) {
         unit.ready = false;
         continue;

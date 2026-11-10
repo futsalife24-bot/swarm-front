@@ -61,6 +61,7 @@ function wireEnemy(e: Enemy) {
     partHp: e.partHp,
     pulseAim: e.pulseAim,
     acidAt: e.acidAt,
+    omega: e.omega,
     harrow: e.harrow && {
       kind: e.harrow.kind,
       started: e.harrow.started,
@@ -211,9 +212,9 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
   const getEnemies = (
     modern: boolean,
     compact: boolean,
-    tuples: boolean,
+    tupleVersion: 0 | 1 | 2,
   ): EnemySet => {
-    const key = `${modern}:${compact}:${tuples}`;
+    const key = `${modern}:${compact}:${tupleVersion}`;
     const previous = enemySets.get(key);
     if (previous) return previous;
     const byId = new Map(
@@ -231,8 +232,10 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
         const wire = encodeStateWithLegacyTurn(projected, exactVolley, compact);
         return [
           enemy.id,
-          tuples
-            ? JSON.stringify(packEnemyTuple(JSON.parse(wire), owners))
+          tupleVersion
+            ? JSON.stringify(
+                packEnemyTuple(JSON.parse(wire), owners, tupleVersion),
+              )
             : wire,
         ] as const;
       }),
@@ -278,7 +281,13 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
       tupleSupported = false,
       chunksSupported = false,
       pleatPoseSupported = false,
+      tupleVersion: 1 | 2 = 2,
     ) {
+      // v1 cannot represent Ω. Use the existing object-state path only while
+      // that telegraph is active; all other v1 frames keep their tuple budget.
+      const tupleMode =
+        tupleSupported &&
+        !(tupleVersion === 1 && commonEnemies.some((enemy) => enemy.omega));
       // 受信者別の戦況・時刻も含め、実際に送る最終データで容量を判定する。
       const recipientTail = recipientMetadata
         ? encodeState({ ...metadata, ...recipientMetadata }).slice(1, -1)
@@ -302,7 +311,7 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
             ),
           }).slice(0, -1)
         : "";
-      const orbSet = getOrbWires(tupleSupported);
+      const orbSet = getOrbWires(tupleMode);
       const allOrbs = [...orbSet.values()].join(",");
       const packetWith = (
         count: number,
@@ -317,15 +326,15 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
           : equipmentCached
             ? legacyCached
             : legacyFull;
-        if (tupleSupported || pleatPoseSupported) {
-          const key = `${tupleSupported}:${partialSupported}:${equipmentCached}:${pleatPoseSupported}`;
+        if (tupleMode || pleatPoseSupported) {
+          const key = `${tupleMode ? tupleVersion : 0}:${partialSupported}:${equipmentCached}:${pleatPoseSupported}`;
           if (!tupleCaches.has(key)) tupleCaches.set(key, new Map());
           cache = tupleCaches.get(key)!;
         }
         const enemySet = getEnemies(
           partialSupported,
           pleatPoseSupported,
-          tupleSupported,
+          tupleMode ? tupleVersion : 0,
         );
         let encoded = enemies ? undefined : cache.get(count);
         if (encoded === undefined) {
@@ -333,13 +342,13 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
             ? enemies.map((enemy) => enemySet.byId.get(enemy.id)!).join(",")
             : enemySet.all;
           const eventWire = count ? eventWires.slice(-count).join(",") : "";
-          encoded = `${tupleSupported ? getTuplePrefix() : commonPrefix},"players":${equipmentCached ? cachedPlayerWire : playerWire},"enemies":[${enemyWire}],"events":[${eventWire}]`;
+          encoded = `${tupleMode ? getTuplePrefix() : commonPrefix},"players":${equipmentCached ? cachedPlayerWire : playerWire},"enemies":[${enemyWire}],"events":[${eventWire}]`;
           if (!enemies) cache.set(count, encoded);
         }
         const own = front
           ? `"front":${frontPrefix},"orbs":[${orbs ? orbs.map((orb) => orbSet.get(orb.id)!).join(",") : allOrbs}]},${personal}`
           : personal;
-        return `{"type":"state"${pleatPoseSupported ? `,"pleatPose":1` : ""}${tupleSupported ? `,"stateEncoding":"${STATE_TUPLE_ENCODING}","stateOwners":${ownerWire}` : ""},"equipmentCached":${equipmentCached},"inputAck":${inputAck},"world":${encoded},${own}}${recipientTail ? `,${recipientTail}` : ""}${omitted ? `,"omitted":${JSON.stringify(omitted)}` : ""}}`;
+        return `{"type":"state"${pleatPoseSupported ? `,"pleatPose":1` : ""}${tupleMode ? `,"stateEncoding":"${tupleVersion === 1 ? "tuples-v1" : STATE_TUPLE_ENCODING}","stateOwners":${ownerWire}` : ""},"equipmentCached":${equipmentCached},"inputAck":${inputAck},"world":${encoded},${own}}${recipientTail ? `,${recipientTail}` : ""}${omitted ? `,"omitted":${JSON.stringify(omitted)}` : ""}}`;
       };
       const packet = packetWith(common.events.length);
       if (!front || new TextEncoder().encode(packet).length <= 65536)

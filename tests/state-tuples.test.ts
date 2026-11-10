@@ -67,6 +67,76 @@ afterEach(() => {
 });
 
 describe("丸め後の状態tuple", () => {
+  it("CATENA Ωの予告座標を従来stateとv2 tupleの両方で保ち、不正な座標を拒否する", () => {
+    const { w, ids, metadata } = smallFixture();
+    const worm = w.enemies.find((e) => e.segments)!;
+    const nodes = [worm, ...worm.segments!].map((n) => ({
+      x: n.x,
+      y: n.y,
+      z: n.z,
+      heading: n.heading ?? 0,
+    }));
+    worm.omega = {
+      at: w.time,
+      ground: nodes,
+      peak: nodes.map((n) => ({ ...n, y: n.y + 3 })),
+    };
+    const prepared = prepareState(w, 0, metadata);
+    const legacy = JSON.parse(prepared.packet(ids[0]));
+    const oldPeer = JSON.parse(
+      prepared.packet(
+        ids[0],
+        false,
+        -1,
+        undefined,
+        true,
+        true,
+        false,
+        false,
+        1,
+      ),
+    );
+    expect(oldPeer.stateEncoding).toBeUndefined();
+    expect(
+      oldPeer.world.enemies.find((e: any) => e.id === worm.id).omega,
+    ).toEqual(legacy.world.enemies.find((e: any) => e.id === worm.id).omega);
+    const compact = JSON.parse(
+      prepared.packet(ids[0], false, -1, undefined, true, true),
+    );
+    expect(compact.stateEncoding).toBe("tuples-v2");
+    expect(restoreStateTuples(compact)).toBe(true);
+    expect(
+      compact.world.enemies.find((e: any) => e.id === worm.id).omega,
+    ).toEqual(legacy.world.enemies.find((e: any) => e.id === worm.id).omega);
+    const broken = JSON.parse(
+      prepared.packet(ids[0], false, -1, undefined, true, true),
+    );
+    broken.world.enemies[2].at(-1).ground[0].heading = "invalid";
+    expect(restoreStateTuples(broken)).toBe(false);
+  });
+
+  it("Ωのない旧v1接続はtuple圧縮を維持する", () => {
+    const { w, ids, metadata } = smallFixture();
+    const prepared = prepareState(w, 0, metadata);
+    const legacyWire = prepared.packet(ids[0]);
+    const v1Wire = prepared.packet(
+      ids[0],
+      false,
+      -1,
+      undefined,
+      true,
+      true,
+      false,
+      false,
+      1,
+    );
+    const v1 = JSON.parse(v1Wire);
+    expect(v1.stateEncoding).toBe("tuples-v1");
+    expect(bytes(v1Wire)).toBeLessThan(bytes(legacyWire));
+    expect(restoreStateTuples(v1)).toBe(true);
+    expect(v1).toEqual(JSON.parse(legacyWire));
+  });
+
   it("従来wire値へ可逆で、PLEAT・HP保護・武器端数・角度ビット列を維持する", () => {
     const { w, ids, metadata } = smallFixture();
     const before = JSON.stringify(w);
@@ -131,6 +201,22 @@ describe("丸め後の状態tuple", () => {
           true,
         );
         const compact = JSON.parse(wire);
+        const oldWire = prepared.packet(
+          id,
+          equipmentCached,
+          7,
+          undefined,
+          true,
+          true,
+          false,
+          false,
+          1,
+        );
+        const old = JSON.parse(oldWire);
+        expect(old.stateEncoding).toBe("tuples-v1");
+        expect(bytes(oldWire)).toBe(bytes(wire));
+        expect(bytes(oldWire)).toBeLessThanOrEqual(65536);
+        expect(old.omitted?.enemies ?? []).toEqual([]);
         expect(bytes(wire)).toBeLessThanOrEqual(65536);
         expect(compact.omitted?.enemies ?? []).toEqual([]);
         expect(restoreStateTuples(compact)).toBe(true);
@@ -293,7 +379,7 @@ describe("丸め後の状態tuple", () => {
     [
       "不正版",
       (p: any) => {
-        p.stateEncoding = "tuples-v2";
+        p.stateEncoding = "tuples-v3";
       },
     ],
     [
@@ -396,7 +482,7 @@ describe("丸め後の状態tuple", () => {
         network.connect("test");
         const ws = network.ws as unknown as Socket;
         ws.onopen?.();
-        expect(ws.sent[0].stateTuples).toBe(1);
+        expect(ws.sent[0].stateTuples).toBe(2);
         expect(ws.sent[0].pleatPose).toBe(1);
         ws.message(packet(false));
         ws.message(packet());

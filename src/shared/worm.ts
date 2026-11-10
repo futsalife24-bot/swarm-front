@@ -2,6 +2,7 @@ import { enemySize, enemyStatSize, enemySpeedFactor } from "./enemy-size";
 import { supportHeight } from "./terrain";
 import type { Enemy, Player, World } from "./game";
 import { mapFor } from "./stages";
+import { stepOmega } from "./catena-omega";
 import {
   FOUNDRY_FRACTURED_SPEED,
   FOUNDRY_LASER_DAMAGE,
@@ -44,7 +45,7 @@ export interface WormNode {
   groundRepathAt?: number;
   groundChasing?: boolean;
 }
-export const WORM_BODY_COUNT = 7;
+export const WORM_BODY_COUNT = 14;
 export const WORM_UNIT_COUNT = 1 + WORM_BODY_COUNT;
 export const wormNodes = (e: Enemy): WormNode[] => [e, ...(e.segments ?? [])];
 export function wormChains(e: Enemy): number[][] {
@@ -68,7 +69,10 @@ export function attachedWormBodyParts(e: Enemy): number[] {
 }
 export function initWorm(e: Enemy) {
   if (!e.segments) return;
-  for (const node of wormNodes(e)) node.partHp ??= e.maxHp / WORM_UNIT_COUNT;
+  // 頭の耐久を従来の1/8に保ち、胴全体7/8を実際の節数へ配分。旧7節保存も読める。
+  for (const [i, node] of wormNodes(e).entries())
+    node.partHp ??=
+      i === 0 ? e.maxHp / 8 : (e.maxHp * 7) / (8 * e.segments.length);
 }
 export const wormSpeed = (e: Enemy) =>
   (e.fractured ? FOUNDRY_FRACTURED_SPEED : FOUNDRY_SPEED) * enemySpeedFactor(e);
@@ -114,22 +118,73 @@ export function placeWormOnGround(w: World, e: Enemy) {
     }))
     .sort((a, b) => b.distance - a.distance || a.index - b.index);
   let behind: FoundryPoint[] = [];
+  let longest: FoundryPoint[] = [],
+    longestLength = 0;
   for (const { point } of farthest) {
     const path = foundryPath(map, head, point);
     const candidate = [head, ...path];
     let length = 0;
     for (let i = 1; i < candidate.length; i++)
       length += foundryDistance(candidate[i - 1], candidate[i]);
-    if (length >= (WORM_BODY_COUNT + 1) * FOUNDRY_UNIT_PITCH * enemySize(e)) {
+    if (length > longestLength) {
+      longest = candidate;
+      longestLength = length;
+    }
+    if (length >= nodes.length * FOUNDRY_UNIT_PITCH * enemySize(e)) {
       behind = candidate;
       break;
     }
   }
-  if (!behind.length)
+  // 長い個体は1本の経路で足りない場合がある。既存の巡回経路を継ぎ足し、
+  // 地形を貫く直線延長や全節を同じ点に置く代替を避ける。
+  if (!behind.length && longest.length) {
+    behind = longest;
+    for (
+      let pass = 0;
+      pass < 8 &&
+      longestLength < nodes.length * FOUNDRY_UNIT_PITCH * enemySize(e);
+      pass++
+    ) {
+      const end = behind.at(-1)!;
+      const previous = behind[behind.length - 2],
+        hx = end.x - previous.x,
+        hz = end.z - previous.z;
+      const destinations = patrol
+        .map((p, index) => ({
+          p,
+          index,
+          d: foundryDistance(end, p),
+          forward:
+            ((p.x - end.x) * hx + (p.z - end.z) * hz) /
+            Math.max(1e-6, Math.hypot(hx, hz) * foundryDistance(end, p)),
+        }))
+        .sort(
+          (a, b) => b.forward - a.forward || b.d - a.d || a.index - b.index,
+        );
+      let added = false;
+      for (const { p } of destinations) {
+        const path = foundryPath(map, end, p);
+        if (!path.length) continue;
+        let prev = end;
+        for (const next of path) {
+          longestLength += foundryDistance(prev, next);
+          behind.push(next);
+          prev = next;
+        }
+        added = true;
+        break;
+      }
+      if (!added) break;
+    }
+  }
+  if (
+    !behind.length ||
+    longestLength < nodes.length * FOUNDRY_UNIT_PITCH * enemySize(e)
+  )
     throw new Error("FOUNDRY ZERO cannot place its full body safely");
   const trail = trimHistory(
     behind.reverse(),
-    WORM_UNIT_COUNT * FOUNDRY_UNIT_PITCH * enemySize(e),
+    nodes.length * FOUNDRY_UNIT_PITCH * enemySize(e),
   );
   for (const [index, node] of nodes.entries()) {
     const offset = index * FOUNDRY_UNIT_PITCH * enemySize(e),
@@ -377,6 +432,7 @@ export function moveWorm(w: World, e: Enemy, dt: number) {
   if (!e.segments || e.hp <= 0) return;
   const nodes = wormNodes(e),
     chains = wormChains(e);
+  if (stepOmega(w, e)) return;
   // Restored pre-relief trails can begin inside an added building. Ground
   // navigation cannot leave that point by changing y: rebuild a legal body
   // placement and its history, preserving all health and severed-part state.
@@ -431,7 +487,16 @@ export function moveWorm(w: World, e: Enemy, dt: number) {
       node.y = supportHeight(node.x, node.z, mapFor(w).blocks);
       node.trailOwner = parts[0];
       node.trailOffset = offset * FOUNDRY_UNIT_PITCH * enemySize(e);
-      fireLaser(w, node, part, enemySize(e), enemyStatSize(e));
+      // 胴14節でも稼働砲口は従来どおり頭1＋胴7。旧7節は全砲口を維持。
+      if (part === 0 || e.segments.length <= 7 || part % 2 === 0)
+        fireLaser(
+          w,
+          node,
+          part === 0 ? 0 : e.segments.length <= 7 ? part : part / 2,
+          enemySize(e),
+          enemyStatSize(e),
+        );
+      else node.pulseAim = undefined;
     }
   }
 }

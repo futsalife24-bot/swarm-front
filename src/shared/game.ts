@@ -7,6 +7,7 @@ import {
 } from "./buddy-combat";
 import { buddyFollowTarget } from "./buddy-follow";
 import type { Block } from "./map-blocks";
+import { cancelOmega } from "./catena-omega";
 import {
   beginFrontShot,
   frontManualHit,
@@ -209,6 +210,8 @@ export interface Player {
   safe: number;
 }
 export interface Enemy extends WormNode {
+  omega?: import("./catena-omega").OmegaState;
+  omegaReadyAt?: number;
   pleat?: import("./pleat-locomotion").PleatState;
   harrow?: import("./harrow").HarrowAttack;
   harrowAirborne?: boolean;
@@ -962,6 +965,7 @@ export function hurtEnemy(
     node.partHp -= damage;
     impact = { x: node.x, y: node.y + (part === 0 ? 3 : 2), z: node.z };
     if (node.partHp <= 0) {
+      cancelOmega(e);
       if (part > 0) {
         e.fractured = true;
         cutPendingFoundrySpawn(w, e, part);

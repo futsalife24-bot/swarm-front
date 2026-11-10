@@ -19,6 +19,7 @@ import { enemySize } from "../shared/enemy-size";
 import { dropAt } from "../shared/solo-progression";
 import { groundHeight, supportHeight } from "../shared/terrain";
 import { TerrainWarnings } from "./terrain-warnings";
+import { OmegaWarning } from "./catena-omega-warning";
 import { MapAssets, VIEW_MAPS } from "./map-assets";
 import {
   StructureMotion,
@@ -333,6 +334,8 @@ export class Renderer {
   healDrops: T.InstancedMesh;
   rings: T.InstancedMesh;
   private terrainWarnings = new TerrainWarnings();
+  private omegaWarning = new OmegaWarning();
+  private omegaVisual = new Set<number>();
   aimWarnings: T.InstancedMesh;
   private projectileWarningCache = new Map<
     number,
@@ -550,7 +553,7 @@ export class Renderer {
       mechanizeMaterial(
         new T.MeshStandardMaterial({ vertexColors: true, roughness: 0.8 }),
       ),
-      enemyCapacity,
+      enemyCapacity * 14,
     );
     this.bossBody.instanceMatrix.setUsage(T.DynamicDrawUsage);
     this.bossBody.count = 0;
@@ -648,6 +651,8 @@ export class Renderer {
       Math.max(40, enemyCapacity * 2),
     );
     this.terrainWarnings.attach(this.rings);
+    this.scene.add(this.omegaWarning.mesh);
+    this.terrainWarnings.attach(this.omegaWarning.mesh);
     this.terrainWarnings.attach(this.houndWarnings);
     this.aimWarnings = new T.InstancedMesh(
       new T.BoxGeometry(1, 1, 1),
@@ -1190,6 +1195,10 @@ export class Renderer {
             if (this.bastion.place(e, v, w.time, animate ? dt : 0)) continue;
           }
           if (e.kind === "boss" && e.segments) {
+            const snapOmega = !!e.omega || this.omegaVisual.has(e.id);
+            if (e.omega) this.omegaVisual.add(e.id);
+            else this.omegaVisual.delete(e.id);
+            if (snapOmega) v.set(e.x, e.y, e.z);
             const foundry = this.foundryWorm(e.id);
             if (foundry.view) {
               const projected: Enemy = {
@@ -1212,6 +1221,7 @@ export class Renderer {
                     1 - Math.exp(-dt * 12),
                   );
                   position.y = segment.y;
+                  if (snapOmega) position.set(segment.x, segment.y, segment.z);
                   this.visual.set(segmentKey, position);
                   return {
                     ...segment,
@@ -1598,6 +1608,7 @@ export class Renderer {
       this.houndWarnings.count = hi;
       syncDynamicInstances(this.houndWarnings);
       this.rings.count = ri;
+      this.omegaWarning.update(w.enemies, w.time);
       syncDynamicInstances(this.rings);
       let projectileCount = 0,
         laserCount = 0;
@@ -1795,7 +1806,10 @@ export class Renderer {
       this.camera.position.set(8, 5.5, 30);
       this.camera.lookAt(-4, 2, -20);
     }
-    if (!w) this.combat.clear();
+    if (!w) {
+      this.combat.clear();
+      this.omegaWarning.update([], 0);
+    }
     this.combat.update(animate ? dt : 0, this.camera);
     if (w && animate)
       this.combat.trails(

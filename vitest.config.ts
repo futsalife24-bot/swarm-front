@@ -2,6 +2,8 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     include: [
+      "tests/catena-omega.test.ts",
+      "tests/catena-cave-regression.test.ts",
       "tests/pleat-*.test.ts",
       "tests/surface-ray.test.ts",
       "tests/front-*.test.ts",

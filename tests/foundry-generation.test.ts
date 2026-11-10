@@ -35,11 +35,11 @@ function field(stage = 6) {
   return { w, p, e };
 }
 
-it("generates exactly the head-attached count for all 128 body destruction patterns, once", () => {
+it("7生成枠の全128切断パターンで増援数を維持し、二重生成しない", () => {
   for (let mask = 0; mask < 128; mask++) {
     const { w, p, e } = field();
     for (let part = 1; part <= 7; part++)
-      if (mask & (1 << (part - 1))) hurtEnemy(w, e, 1e6, p.id, part);
+      if (mask & (1 << (part - 1))) hurtEnemy(w, e, 1e6, p.id, 2 * part - 1);
     const firstCut =
       Array.from({ length: 7 }, (_, i) => i + 1).find(
         (part) => mask & (1 << (part - 1)),
@@ -70,8 +70,8 @@ it("generates exactly the head-attached count for all 128 body destruction patte
 
 it("same-tick head/body damage yields body-first results in either order; later cuts do not change the count", () => {
   for (const order of [
-    [0, 4],
-    [4, 0],
+    [0, 7],
+    [7, 0],
   ]) {
     const { w, p, e } = field();
     for (const part of order) hurtEnemy(w, e, 1e6, p.id, part);
@@ -139,7 +139,7 @@ it("pending generation survives the original boss and blocks final victory, incl
     w.spawned = troopCount(stageFor(w).waves[w.wave - 1]);
     hurtEnemy(w, e, 1e6, p.id, 0);
     step(w, {}, 0.01);
-    for (let part = 1; part <= 7; part++) hurtEnemy(w, e, 1e6, p.id, part);
+    for (let part = 1; part <= 14; part++) hurtEnemy(w, e, 1e6, p.id, part);
     step(w, {}, 0.01);
     expect(w.enemies).toHaveLength(0);
     expect(pendingFoundryCount(w)).toBe(7);

@@ -33,7 +33,7 @@ function field(stage = 1) {
   p.z = 0;
   return { w, p };
 }
-it("head-connected generation count excludes every detached chain for all body destruction patterns", () => {
+it("前半7節の全128切断パターンで連結数・保存・物理部位を検査", () => {
   for (let mask = 0; mask < 128; mask++) {
     const { w, p } = field(6);
     spawn(w, "boss", 0, 0, "worm");
@@ -43,7 +43,7 @@ it("head-connected generation count excludes every detached chain for all body d
     const firstCut =
       Array.from({ length: 7 }, (_, i) => i + 1).find(
         (part) => mask & (1 << (part - 1)),
-      ) ?? 8;
+      ) ?? 15;
     expect(attachedWormBodyParts(e)).toEqual(
       Array.from({ length: firstCut - 1 }, (_, i) => i + 1),
     );
@@ -73,7 +73,7 @@ it("body cuts preserve stable fragment identities regardless of cut order or spa
     expect(wormChains(e)).toEqual([
       [0, 1],
       [3, 4],
-      [6, 7],
+      Array.from({ length: 9 }, (_, i) => i + 6),
     ]);
     expect(attachedWormBodyParts(e)).toEqual([1]);
   }
@@ -88,8 +88,10 @@ it("worm cuts remove only the hit segment, accelerate both chains, and award one
   const e = w.enemies[0];
   expect(wormSpeed(e)).toBeCloseTo(4.2 * enemySpeedFactor(e));
   hurtEnemy(w, e, 1e6, p.id, 4);
-  expect(enemyBodies(e).map((b) => b.part)).toEqual([0, 1, 2, 3, 5, 6, 7]);
-  expect(e.hp).toBeCloseTo((e.maxHp * 7) / 8);
+  expect(enemyBodies(e).map((b) => b.part)).toEqual(
+    Array.from({ length: 15 }, (_, i) => i).filter((i) => i !== 4),
+  );
+  expect(e.hp).toBeCloseTo((e.maxHp * 15) / 16);
   expect(w.totalKills).toBe(0);
   expect(wormSpeed(e)).toBeCloseTo(6.3 * enemySpeedFactor(e));
   p.z = 38;
@@ -107,7 +109,7 @@ it("worm cuts remove only the hit segment, accelerate both chains, and award one
   hurtEnemy(w, e, 1e6, p.id, 0);
   expect(e.hp).toBeGreaterThan(0);
   expect(wormSpeed(e)).toBeCloseTo(6.3 * enemySpeedFactor(e));
-  for (let i = 1; i < 8; i++) hurtEnemy(w, e, 1e6, p.id, i);
+  for (let i = 1; i < 15; i++) hurtEnemy(w, e, 1e6, p.id, i);
   expect(e.hp).toBe(0);
   expect(enemyBodies(e)).toHaveLength(0);
   expect(w.totalKills).toBe(1);
@@ -119,6 +121,7 @@ it.each([6, 10, 13, 16, 20])(
     const { w } = field(stage);
     spawn(w, "boss", 0, -35, "worm");
     const e = w.enemies[0];
+    e.omegaReadyAt = 1e9; // 地上巡回だけを分離検証。Ωは専用回帰で確認する。
     let minX = e.x,
       maxX = e.x,
       minZ = e.z,
@@ -176,7 +179,7 @@ it("every surviving worm node fires a straight laser while moving", () => {
     expect(q.z + q.dz * t).toBeCloseTo(p.z);
     expect(q.y + q.dy * t).toBeCloseTo((p.y ?? 0) + 1.2);
   }
-  hurtEnemy(w, e, 1e6, p.id, 3);
+  hurtEnemy(w, e, 1e6, p.id, 4);
   w.projectiles = [];
   for (const node of wormNodes(e)) node.acidAt = w.time + 0.8;
   moveWorm(w, e, 0);
@@ -233,7 +236,9 @@ it("rocket blast respects vertical distance and damages only nearby grounded seg
   };
   w.projectiles.push(rocket);
   step(w, {}, 0.001);
-  expect(wormNodes(e).every((n) => n.partHp === e.maxHp / 8)).toBe(true);
+  expect(
+    wormNodes(e).every((n, i) => n.partHp === e.maxHp / (i === 0 ? 8 : 16)),
+  ).toBe(true);
   w.projectiles.push({
     ...rocket,
     id: ++w.serial,
@@ -245,7 +250,7 @@ it("rocket blast respects vertical distance and damages only nearby grounded seg
   step(w, {}, 0.001);
   expect(e.partHp).toBeLessThan(e.maxHp / 8);
   expect(e.segments![0].partHp).toBeLessThan(e.maxHp / 8);
-  expect(e.segments![6].partHp).toBe(e.maxHp / 8);
+  expect(e.segments![6].partHp).toBe(e.maxHp / 16);
 });
 it.each([3, 5, 10, 17, 24, 30])(
   "airborne ant acid hits a stationary player at %sm",
@@ -508,12 +513,12 @@ it("spider jumps and lands in clear space", () => {
   expect(e.y).toBe(0);
   expect(e.z).toBeGreaterThan(-12);
 });
-it("worm form has seven authoritative hittable body segments independent of stage", () => {
+it("連結型の14節がステージによらず射撃判定と保存へ反映される", () => {
   for (const stage of [1, 5, 10]) {
     const { w, p } = field(stage);
     spawn(w, "boss", 0, -35, stage === 1 ? "crown" : "worm");
     const e = w.enemies[0];
-    expect(e.segments?.length ?? 0).toBe(stage === 1 ? 0 : 7);
+    expect(e.segments?.length ?? 0).toBe(stage === 1 ? 0 : 14);
     if (!e.segments) continue;
     p.x = 0;
     p.z = 0;
@@ -522,7 +527,7 @@ it("worm form has seven authoritative hittable body segments independent of stag
     const hp = e.hp;
     fire(w, p, { ...neutral(), fire: true, yaw: 0, pitch: 0 });
     expect(e.hp).toBeLessThan(hp);
-    expect(JSON.parse(JSON.stringify(w)).enemies[0].segments).toHaveLength(7);
+    expect(JSON.parse(JSON.stringify(w)).enemies[0].segments).toHaveLength(14);
   }
 });
 

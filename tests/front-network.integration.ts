@@ -57,7 +57,7 @@ class Client {
         ...(growth === 3 && catalog === 2 ? { frontCatalog: 2 } : {}),
         ...(growth === 3 && opening === 2 ? { frontOpening: 2 } : {}),
         ...(stateOmissions ? { stateOmissions: 1 } : {}),
-        ...(stateTuples ? { stateTuples: 1 } : {}),
+        ...(stateTuples ? { stateTuples: 2 } : {}),
         ...(stateChunks ? { stateChunks: 1 } : {}),
         ...(stateFlow ? { stateFlow: 1 } : {}),
         ...(optimized
@@ -83,7 +83,7 @@ class Client {
       );
       if (!m) return;
       if (m.type === "state" && m.pleatPose === 1) this.compactPackets++;
-      if (m.stateEncoding === "tuples-v1") this.tuplePackets++;
+      if (m.stateEncoding === "tuples-v2") this.tuplePackets++;
       if (!restoreStateTuples(m)) {
         this.decodeErrors++;
         return;

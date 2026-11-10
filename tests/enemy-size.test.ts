@@ -113,7 +113,7 @@ it.each([0.8, 1, 2])(
     expect(w.projectiles).toHaveLength(8);
     w.projectiles.forEach((q, i) => {
       expect(q.damage).toBeCloseTo(10 * size);
-      const origin = foundryLaserOrigin(wormNodes(e)[i], i, size * 1.5);
+      const origin = foundryLaserOrigin(wormNodes(e)[i * 2], i * 2, size * 1.5);
       expect(q.x).toBeCloseTo(origin.x);
       expect(q.y).toBeCloseTo(origin.y);
     });
