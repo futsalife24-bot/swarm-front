@@ -1,3 +1,17 @@
+# 保留機能の再開：PR297/298、負荷対策の確認待ち（2026-11-10）
+
+主担当の統合worktreeは `task-resume-support-rewards-20261110`、branch `codex/resume-gameplay-20261110`。製品HEAD `7fe26b9af49122343dea518ab44635b6f26d916d` に、原因対照済みの固定snapshot6件と武器UI/実WS証拠を `50b303e96c9c52f03da51254682b98fa2b8ad484` で追加した。[Draft PR297](https://github.com/futsalife24-bot/swarm-front/pull/297)はHARROW羽ばたき・BASTION/ソロMD・協力支援報酬・表示専用補給演出。CATENAは別branch `codex/resume-catena-20261110`、製品 `7fef736bc3885fbc3a44878a2c76b86a9b7eba88` を [Draft PR298](https://github.com/futsalife24-bot/swarm-front/pull/298)へ保存。双方ともmain未反映・Worker公開なし。
+
+統合の型・client build・Worker dry-run・実WS7条件は成功。format14警告は基点mainと対象ファイルまで完全一致。最初の全体検査は通常sandboxと重い別検査の並行下で長時間化し中断。同じ既定条件で正式昇格した再実行も長時間化し、同条件の反復を止めて中断した。step特性は22件中18成功、更新6件は全て成功、失敗は基点と同じ前線4件。再実行の途中では基点24失敗中23件と、移動5/描画2/協力性能1の追加8項目を観測。基点のST25は未観測で解消扱いせず、全体成功とはしない。CPU測定でBlender接続補助4系統の高負荷を観測したが本体は未起動。共有セッションへの影響を避け、補助4系統の停止だけ本人へ確認中で、回答前には停止しない。[統合検証の詳細](evidence/gameplay-resume-20261110/README.md)。
+
+CATENAは正式ST10・実WS更新ゲート/新v2復帰・wire47件・型/build成功。旧Networkの限定Chrome fixtureも更新案内/token保持/14節受信0/例外0で成功したが、全旧製品の通し検証ではない。独立Codexは旧P1経路と旧版描画クラッシュ対策を確認し、最終関連166件中7timeout等により採用HOLDを維持。着地前予告の目視証拠も補完中。将来統合では `server/testing.ts` のfixture名を両方残す1行競合解消と統合検証が必要。縦横モックは専用branch `81e7d24` をpush済み、単体34/ブラウザー9成功。本番mainへ混ぜない。
+
+候補2リファクタは本人の開始ゲートで停止し未着手。記録 `2cc75da3c4fcf8cb04c21f40eb621ce350a37ef8` を `codex/refactor-worker-message-20261110` へpushしremote一致確認。基点main3f2c429の型成功・全体1694中24失敗・format14警告・step前線4不一致を保持し、候補1のやり直し・候補3は行わない。rootの他担当12差分と旧候補、mainを使用中の別worktreeも保護する。
+
+停止理由: 移動・描画等の必要な検証が未完了で、負荷を占める共有補助4系統の停止承認待ち。検査失敗を合格扱いしてmainへ入れない。
+
+再開条件: 本人承認後に対象補助を再特定して停止、または安全なCPU負荷低下を確認し、追加8項目とCATENAの7件、未完了範囲を既定条件で検査する。必要な修正・統合確認後に通常PR mergeへ進む。候補2は別途、本人指定の開始ゲート解消または次指示が必要。
+
 # 保留機能を専用ブランチへ統合中（2026-11-10、main未反映・未公開）
 
 本人の全作業再開と具体的配分承認に基づく作業。`task-resume-support-rewards-20261110` 内で `codex/resume-gameplay-20261110` を作成し、支援報酬dcb12f5（記録1e7fa6b）・補給演出31292f0と、HARROW503c9fe・武器段階1/2の8cff2bfを通常merge。統合製品HEAD `7fe26b9af49122343dea518ab44635b6f26d916d`、base main `3f2c429c442c44d54bf4a8132cc791f30534ae9d`、競合なし。root12差分・各担当の元branchは保持。
