@@ -1,3 +1,6 @@
+# 縦横モック修正版を再検証（2026-11-10、未公開）
+
+本人の全作業再開依頼により、既存修正版7c49bf6を専用task-resume-orientation-20261110 / codex/resume-orientation-20261110で再検証。製品コードは追加変更なし。単体34件・client/Worker型・専用build・実Chrome E2E9件・diff確認成功。dry-runは346 assets/bindingなし/exit0だがsandboxログ先EPERM警告あり。初回sandboxの単体一時ファイルENOENTとE2E未起動は正式昇格後の再実行で解消。画像2枚を目視。Android実機・物理回転・長時間性能は未確認。公開と認証確認は未実施。詳細 [再開記録](RESUME-20261110.md)。元worktree・本番main・リファクタ担当を保護。
 # 現在地: 縦横プレイの分離モック（2026-10-24 Claude Code監査・修正済み、修正版は未公開）
 
 2026-10-24、本人指定のClaude Codeが `e9a8ac4` を独立監査し、`claude/orientation-mock-audit-20261024` で修正。作業場所 `C:/Users/futsa/.codex/worktrees/orientation-mock-audit/swarm-rebuild-p1a`。詳細は [監査と修正](ORIENTATION-MOCK.md#claude-code独立監査と修正2026-10-24)、[証拠](evidence/orientation-mock-audit-20261024/README.md)。
