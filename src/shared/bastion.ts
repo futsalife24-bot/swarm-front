@@ -94,7 +94,7 @@ export function bastionShot(
     s.streakTick = w.time;
   }
   s.streakAt = w.time;
-  s.shot = bastionRapidFactor(s.streak ?? 1);
+  s.shot = s.phase === "open" ? 1 : bastionRapidFactor(s.streak ?? 1);
   return s.shot;
 }
 
@@ -128,6 +128,8 @@ export interface BastionState {
   shot?: number;
   /** 直近の被弾に適用した段階（0〜3）。被弾イベントの装甲火花に使う。 */
   guard?: number;
+  /** 直近の命中表現。 */
+  guardKind?: "rapid" | "armor" | "open";
   /**
    * 赤い予告の開始時に確定し、発射まで変えない。
    * `turn` は配信で丸められない名前。予告と実弾の向きを全員で一致させる。
@@ -208,6 +210,8 @@ export function bastionDamage(w: World, e: Enemy, damage: number) {
   s.hitAt = w.time;
   const shot = s.shot;
   s.shot = undefined;
+  s.guardKind =
+    s.phase === "open" ? "open" : shot !== undefined ? "rapid" : "armor";
   if (shot !== undefined) {
     // 実弾は連射耐性を発射側で掛け済み。段階軽減は重ねない。
     s.guard = shot >= 1 ? 0 : shot > 0.35 ? 1 : shot > 0.1 ? 2 : 3;

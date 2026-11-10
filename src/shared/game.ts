@@ -138,8 +138,7 @@ import {
   WEAPON_SWITCH_DURATION,
   WEAPON_SWITCH_RESUME,
   HEAVY_HIT_DURATION,
-  FAMILIES,
-  FAMILY_KINDS,
+  rollRewardKind,
   HEAL_RADIUS,
   type Family,
   type Kind,
@@ -306,8 +305,9 @@ export interface Event {
     | "calyxSlam";
   // Damage dealt, on hit and kill events, for the floating numbers.
   amount?: number;
-  /** BASTION: the armor step (1-3) that reduced this hit; drives the deflection sparks. */
+  /** BASTION: rapid resistance or armor strength (1-3). */
   guard?: number;
+  guardKind?: "rapid" | "armor" | "open";
   // On a shot: the round ended on a wall or a body rather than running out of
   // range. Carried here because two weapons of the same family can be equipped
   // at once, and the family alone cannot say which one fired.
@@ -463,10 +463,13 @@ export function loot(w: World): Weapon {
       w.solo.test,
       w.solo.acquired++,
       () => random(w),
+      "solo",
     );
-  const family = FAMILIES[Math.floor(random(w) * FAMILIES.length)];
-  const kindPool = FAMILY_KINDS[family];
-  const kind: Kind = kindPool[Math.floor(random(w) * kindPool.length)];
+  // Scale is fixed by start(); disconnects do not change the reward pool.
+  const kind = rollRewardKind(
+    () => random(w),
+    w.scale === 1 ? "solo" : "party",
+  );
   // Roll the five figures first; the tier is then a reading of how they landed
   // rather than a bag that was drawn before anything was known.
   const rolls: Partial<Record<(typeof ROLLS)[number], number>> = {};
@@ -984,6 +987,9 @@ export function hurtEnemy(
     ...impact,
     owner,
     ...(guard ? { guard } : {}),
+    ...(e.bastion && (guard || e.bastion.guardKind === "open")
+      ? { guardKind: e.bastion.guardKind }
+      : {}),
     amount: Math.round(damage),
     ...(attribution ? { rebuild: attribution } : {}),
   });
