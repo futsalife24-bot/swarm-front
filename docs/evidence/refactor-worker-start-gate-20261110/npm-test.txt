@@ -1,0 +1,464 @@
+
+> swarm-front@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-refactor-worker-message-20261110
+
+ ❯ tests/structure-v2.test.ts (23 tests | 2 failed) 121324ms
+   × PLEAT holds through preparation and red warning before the forward shockwave 21ms
+   × current changelog contains no legacy creature descriptions 120587ms
+stdout | tests/stages.test.ts > stage 25 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST25: 191.5s / 87 kills / HP 0.0
+{"wave":3,"spawned":24,"nextSpawn":138.29999999999694,"waveClearAt":null,"player":{"id":"p","accentSlot":0,"x":18.641403574745578,"z":14.516285042557474,"yaw":2.386881622396092,"pitch":0.027863336743615946,"hp":0,"down":25,"revive":0,"weapons":[{"id":"starter-rifle","kind":"rifle","rarity":3,"power":1.36,"effect":"pierce","rolls":{"power":1.25,"mag":1.25,"reload":0.8,"range":1.25,"rate":1.25}},{"id":"starter-shotgun","kind":"shotgun","rarity":3,"power":1.36,"effect":"pierce","rolls":{"power":1.25,"mag":1.25,"reload":0.8,"range":1.25,"rate":1.25}}],"slot":0,"ammo":[8,9],"reload":-0.030000000000000582,"cool":0.028000000000000108,"evade":0,"evadeCd":1.7000000000000006,"swapCd":0,"kills":87,"connected":true,"ack":3830,"hurt":0.15000000000000002,"safe":0,"y":2.750278235006755,"heavyHit":1.15,"jumpHeld":false,"verticalSpeed":0},"enemies":[{"id":145,"size":1,"kind":"harrow","x":-2.496062373524019,"y":6.342268319130105,"z":22.12761709645797,"hp":45.83004584385567,"maxHp":14080,"cool":0,"wind":0,"tx":7.77445618095541,"tz":18.42933428075991,"hurt":0,"harrowAirborne":false,"harrowAirDamage":0,"harrowSwitchAt":199.5500000000084,"targetId":"p","heading":1.839316878465703,"steerAngle":-0.2524716111831367,"steerUntil":191.4216096636114,"active":true,"ty":4.489994330673181,"harrow":{"kind":"Spin","started":190.30000000000902,"fired":true,"yaw":1.839316878465703,"hitIds":["p"]}},{"id":146,"size":1.05,"kind":"crawler","x":-12,"y":5.2664923667907715,"z":-76,"hp":126,"maxHp":126,"cool":1.2684673606418073,"wind":0,"tx":0,"tz":0,"hurt":0,"active":false,"targetId":"p"},{"id":147,"size":1.5,"kind":"spitter","x":12,"y":1.749388575553894,"z":-76,"hp":240,"maxHp":240,"cool":1.765924395993352,"wind":0,"tx":0,"tz":0,"hurt":0,"active":false,"targetId":"p"},{"id":153,"size":1.4,"kind":"spitter","x":28.493695946839587,"y":1.7110920505048424,"z":24.99259996728202,"hp":93.44000000000003,"maxHp":224,"cool":2.4000000000000012,"wind":-9.71445146547012e-17,"tx":7.77445618095541,"tz":18.42933428075991,"hurt":0.09999999999999999,"targetId":"p","steerAngle":-0.718693228974007,"steerUntil":191.90110885052468,"ty":4.489994330673181,"active":true},{"id":165,"size":1.15,"kind":"spitter","x":30.378888202083065,"y":1.4917927754238183,"z":24.51732331352323,"hp":53.44000000000001,"maxHp":184,"cool":0.9500000000000017,"wind":-9.71445146547012e-17,"tx":9.095840977885441,"tz":18.35267383963916,"hurt":0.09999999999999999,"targetId":"p","steerAngle":-0.049198962398804724,"steerUntil":192.25191662605835,"ty":4.27435386739088,"active":true},{"id":169,"size":1.2,"kind":"spitter","x":5.50793818674659,"y":4.419202456817942,"z":1.5354315434696342,"hp":96.33277539460299,"maxHp":192,"cool":-0.7499999999999988,"wind":0.09999999999999991,"tx":10.408867670359086,"tz":17.48071628361992,"hurt":0,"targetId":"p","steerAngle":-0.6951294591883197,"steerUntil":190.78963422073008,"ty":4.0434348054119775,"active":true},{"id":184,"size":0.8,"kind":"crawler","x":6.202360266393795,"y":4.145838078849423,"z":-5.24902921964232,"hp":54.82861296586267,"maxHp":96,"cool":-58.467076172585344,"wind":0,"tx":0,"tz":0,"hurt":0,"targetId":"p","lungeWait":0,"lunge":0,"steerAngle":0.3567448056302965,"steerUntil":191.96983548411853,"pleat":{"anchor":{"x":6.199949806919997,"y":4.137525649320661,"z":-5.1059289731021895},"normal":{"x":0.15634979052049985,"y":0.9873892979328508,"z":-0.024841846386042615},"forward":{"x":0.7229763243639529,"y":-0.09727227554281552,"z":0.6839907446887795},"poseForward":{"x":0.7229763243639529,"y":-0.09727227554281552,"z":0.6839907446887795},"body":{"x":6.202360266393795,"y":5.105838078849423,"z":-5.24902921964232},"up":{"x":0.15634979052057973,"y":0.9873892979328402,"z":-0.024841846385960806},"velocity":{"x":1.2722363276800275,"y":-0.1764430733674088,"z":1.007293445781587},"scale":1.2000000000000002,"speed":1.701000000000001,"phase":0.8527234052658511,"settling":false,"switches":0},"active":true}]}
+
+ ❯ tests/stages.test.ts (35 tests | 1 failed) 90671ms
+   × stage 25 completes within the time limit using legal endgame gear and ordinary inputs 2470ms
+ ❯ tests/asset-download-manifest.test.ts (16 tests | 1 failed) 5975ms
+   ❯ 事前保存manifestの生成 (16)
+     × 現行実参照を使い、不要な旧版・旧モード・任意mediaを共通へ混ぜない 604ms
+ ❯ tests/maps.test.ts (6 tests | 1 failed) 1167ms
+   × 晶脈の地底巣 has connected walkable passages and safe enemy entries 31ms
+ ❯ tests/front-feedback.test.ts (7 tests | 1 failed) 201ms
+   ❯ 戦闘フィードバックの回帰 (7)
+     × 最大密集の4人通信でも判定状態を保持し、古い演出だけを64KiB内に収める 150ms
+ ❯ tests/enemy-report-motion.test.ts (10 tests | 1 failed) 78ms
+   × observes ten upward missiles and clears them when leaving attack playback 25ms
+ ❯ tests/briefing-cache.test.ts (2 tests | 2 failed) 73ms
+   ❯ presentation stays outside the game offline cache (2)
+     × preserves the game shell for scope https://game.example/ 67ms
+     × preserves the game shell for scope https://game.example/swarm-front/ 3ms
+ ❯ tests/state-receipt.test.ts (10 tests | 1 failed) 67ms
+   × front接続は検証済みstateだけを通知し、退出時にtimerを残さない 41ms
+ ❯ tests/standard-trooper.test.ts (4 tests | 1 failed) 28ms
+   × evaded boss damage and ordinary contact do not trigger the heavy clip 9ms
+ ❯ tests/aim.test.ts (10 tests | 1 failed) 28ms
+   ❯ camera-aligned authoritative shots (6)
+     × sends accurate rockets through the center target at near/far and elevated angles 7ms
+ ❯ tests/front-shot-origin.test.ts (9 tests | 6 failed) 52ms
+   ❯ fixed body-centre shot presentation (9)
+     × keeps emission fixed to the rendered body with lateral lag -0.4 16ms
+     × keeps emission fixed to the rendered body with lateral lag 0 3ms
+     × keeps emission fixed to the rendered body with lateral lag 0.4 3ms
+     × leaves the drawn muzzle with the real soldier model and keeps the authority endpoint 3ms
+     × falls back to the body-centre height while no weapon is in the hand 2ms
+     × preserves world-space effects when no body exists, for enemies and secondary shots 3ms
+ ❯ tests/bgm-layout-return.test.ts (2 tests | 2 failed) 6ms
+   ❯ solo layout return screen routing (2)
+     × restores battle without briefly routing through a different music screen 4ms
+     × restores collection without briefly routing through a different music screen 1ms
+ ❯ tests/game-step-equivalence.test.ts (22 tests | 4 failed) 68826ms
+   × step は同一seed・同一入力で毎tick同じ状態になる: 前線・生存・融合・1人 11288ms
+   × step は同一seed・同一入力で毎tick同じ状態になる: 前線・生存・融合・2人 6983ms
+   × step は同一seed・同一入力で毎tick同じ状態になる: 前線・防衛・融合 2467ms
+   × step は同一seed・同一入力で毎tick同じ状態になる: 前線・旧方式 4615ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 24 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/aim.test.ts > camera-aligned authoritative shots > sends accurate rockets through the center target at near/far and elevated angles
+AssertionError: expected 1.8750000000000022 to be close to 1.25, received difference is 0.6250000000000022, but expected 5e-7
+ ❯ tests/aim.test.ts:127:32
+    125|           shot.target.z - e.z,
+    126|         );
+    127|         expect(targetDistance).toBeCloseTo(1.25, 6);
+       |                                ^
+    128|       }
+    129|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/24]⎯
+
+ FAIL  tests/asset-download-manifest.test.ts > 事前保存manifestの生成 > 現行実参照を使い、不要な旧版・旧モード・任意mediaを共通へ混ぜない
+AssertionError: expected [ …(8) ] to deeply equal [ 'assets/buddy/oriha-v3.glb', …(7) ]
+
+- Expected
++ Received
+
+  [
+-   "assets/buddy/oriha-v3.glb",
++   "assets/buddy/oriha-textured-20261107.glb",
+    "assets/buddy/portraits/oriha.webp",
+    "assets/buddy/portraits/tatara.webp",
+    "assets/buddy/portraits/tobari.webp",
+    "assets/buddy/portraits/yosuga.webp",
+-   "assets/buddy/tatara-v3.glb",
+-   "assets/buddy/tobari-v7.glb",
+-   "assets/buddy/yosuga-v5.glb",
++   "assets/buddy/tatara-textured-20261107.glb",
++   "assets/buddy/tobari-textured-20261107.glb",
++   "assets/buddy/yosuga-textured-20261107.glb",
+  ]
+
+ ❯ tests/asset-download-manifest.test.ts:216:7
+    214|     expect(
+    215|       common.filter((url: string) => url.startsWith("assets/buddy/")),
+    216|     ).toEqual([
+       |       ^
+    217|       "assets/buddy/oriha-v3.glb",
+    218|       "assets/buddy/portraits/oriha.webp",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/24]⎯
+
+ FAIL  tests/bgm-layout-return.test.ts > solo layout return screen routing > restores battle without briefly routing through a different music screen
+ FAIL  tests/bgm-layout-return.test.ts > solo layout return screen routing > restores collection without briefly routing through a different music screen
+ReferenceError: cancelOperationCue is not defined
+ ❯ pause evalmachine.<anonymous>:13:3
+ ❯ evalmachine.<anonymous>:63:1
+ ❯ tests/bgm-layout-return.test.ts:71:7
+     69|         },
+     70|       });
+     71|       runInContext(actualFunctions + "\npause();", context);
+       |       ^
+     72|       buttons.get("#pt-pause-layout")!.onclick!();
+     73|       buttons.get("#pt-layout")!.onclick!();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/24]⎯
+
+ FAIL  tests/briefing-cache.test.ts > presentation stays outside the game offline cache > preserves the game shell for scope https://game.example/
+ FAIL  tests/briefing-cache.test.ts > presentation stays outside the game offline cache > preserves the game shell for scope https://game.example/swarm-front/
+AssertionError: front.html: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/briefing-cache.test.ts:55:36
+     53|           },
+     54|         });
+     55|         expect(intercepted, route).toBe(false);
+       |                                    ^
+     56|       }
+     57|       expect(writes).toEqual([]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/24]⎯
+
+ FAIL  tests/enemy-report-motion.test.ts > observes ten upward missiles and clears them when leaving attack playback
+AssertionError: expected [ 10, 10, 10, +0, +0, undefined, …(2) ] to deeply equal [ 10, 10, 10, +0, +0, undefined, +0 ]
+
+- Expected
++ Received
+
+@@ -4,6 +4,7 @@
+    10,
+    0,
+    0,
+    undefined,
+    0,
++   0,
+  ]
+
+ ❯ tests/enemy-report-motion.test.ts:182:7
+    180|         .filter((child) => !(child instanceof T.Group))
+    181|         .map((child) => (child as T.InstancedMesh).count),
+    182|     ).toEqual([10, 10, 10, 0, 0, undefined, 0]);
+       |       ^
+    183|     expect(group.getObjectByName("HARROW_SPIN_PRESSURE")?.visible).toB…
+    184|     effects.update("harrow", false, "idle", start + 0.1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/24]⎯
+
+ FAIL  tests/front-feedback.test.ts > 戦闘フィードバックの回帰 > 最大密集の4人通信でも判定状態を保持し、古い演出だけを64KiB内に収める
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/front-feedback.test.ts:253:7
+    251|     expect(
+    252|       [sendStart, sendEnd, broadcastStart, broadcastEnd].every((n) => …
+    253|     ).toBe(true);
+       |       ^
+    254|     const actualMethods = stripTypeScriptTypes(
+    255|       `class Harness {${source.slice(sendStart, sendEnd)}${source.slic…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/24]⎯
+
+ FAIL  tests/front-shot-origin.test.ts > fixed body-centre shot presentation > keeps emission fixed to the rendered body with lateral lag -0.4
+ FAIL  tests/front-shot-origin.test.ts > fixed body-centre shot presentation > keeps emission fixed to the rendered body with lateral lag 0
+ FAIL  tests/front-shot-origin.test.ts > fixed body-centre shot presentation > keeps emission fixed to the rendered body with lateral lag 0.4
+TypeError: Cannot read properties of undefined (reading 'mesh')
+ ❯ tests/front-shot-origin.test.ts:48:20
+     46|       const start = new T.Vector3(body.x, body.y + 1.5, body.z);
+     47|       expect(bullet.mesh.position.distanceTo(start)).toBeLessThan(1e-9…
+     48|       expect(flash.mesh.position.distanceTo(start)).toBeLessThan(1e-9);
+       |                    ^
+     49|       // The original authority hit endpoint is preserved, including s…
+     50|       const endpoint = start
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/24]⎯
+
+ FAIL  tests/front-shot-origin.test.ts > fixed body-centre shot presentation > leaves the drawn muzzle with the real soldier model and keeps the authority endpoint
+TypeError: Cannot read properties of undefined (reading 'mesh')
+ ❯ tests/front-shot-origin.test.ts:81:18
+     79|     const flash = fx.items.find((item) => item.kind === "flash")!;
+     80|     expect(bullet.mesh.position.distanceTo(muzzle)).toBeLessThan(1e-9);
+     81|     expect(flash.mesh.position.distanceTo(muzzle)).toBeLessThan(1e-9);
+       |                  ^
+     82|     const endpoint = muzzle
+     83|       .clone()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/24]⎯
+
+ FAIL  tests/front-shot-origin.test.ts > fixed body-centre shot presentation > falls back to the body-centre height while no weapon is in the hand
+TypeError: Cannot read properties of undefined (reading 'mesh')
+ ❯ tests/front-shot-origin.test.ts:100:13
+     98|     const flash = fx.items.find((item) => item.kind === "flash")!;
+     99|     expect(
+    100|       flash.mesh.position.distanceTo(new T.Vector3(4, 3.5, 6)),
+       |             ^
+    101|     ).toBeLessThan(1e-9);
+    102|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/24]⎯
+
+ FAIL  tests/front-shot-origin.test.ts > fixed body-centre shot presentation > preserves world-space effects when no body exists, for enemies and secondary shots
+TypeError: Cannot read properties of undefined (reading 'mesh')
+ ❯ tests/front-shot-origin.test.ts:143:20
+    141|       const flash = fx.items.find((item) => item.kind === "flash")!;
+    142|       expect(bullet.mesh.position.toArray()).toEqual([4, 3.5, 6]);
+    143|       expect(flash.mesh.position.toArray()).toEqual([4, 3.5, 5.2]);
+       |                    ^
+    144|       body.x = 200;
+    145|       fx.update(0.02);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/24]⎯
+
+ FAIL  tests/game-step-equivalence.test.ts > step は同一seed・同一入力で毎tick同じ状態になる: 前線・生存・融合・1人
+Error: Snapshot `step は同一seed・同一入力で毎tick同じ状態になる: 前線・生存・融合・1人 1` mismatched
+
+- Expected
++ Received
+
+@@ -5,10 +5,10 @@
+    "phase": "battle",
+    "projectiles": "acid bastion",
+    "reason": "",
+    "seed": 1059240909,
+    "serial": 340,
+-   "sha256": "55bcffc5c7ebdfbc7a6a2f8e3e5d1b6f90aeb42c9e36751dff007fc4e4d099b7",
++   "sha256": "af5b0bff264ff105169fa4398bd63bdbc21228a7b2456ecc4939ba5f0baaa997",
+    "ticks": 1500,
+    "time": 73.94999999999794,
+    "wave": 1,
+  }
+
+ ❯ tests/game-step-equivalence.test.ts:522:31
+    520|   "step は同一seed・同一入力で毎tick同じ状態になる: %s",
+    521|   (name) => {
+    522|     expect(scenarios[name]()).toMatchSnapshot();
+       |                               ^
+    523|   },
+    524| );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/24]⎯
+
+ FAIL  tests/game-step-equivalence.test.ts > step は同一seed・同一入力で毎tick同じ状態になる: 前線・生存・融合・2人
+Error: Snapshot `step は同一seed・同一入力で毎tick同じ状態になる: 前線・生存・融合・2人 1` mismatched
+
+- Expected
++ Received
+
+@@ -5,10 +5,10 @@
+    "phase": "battle",
+    "projectiles": "",
+    "reason": "",
+    "seed": 1940084782,
+    "serial": 196,
+-   "sha256": "45d5e6e653021a345b9d9bfbf6b37191e74be2bacb6d2d36a1e3c3d733ee5d11",
++   "sha256": "c64c67b30753ddb27064b9a466c7816e5df895e867b0c6d63798d16440ea4db2",
+    "ticks": 1000,
+    "time": 49.19999999999934,
+    "wave": 1,
+  }
+
+ ❯ tests/game-step-equivalence.test.ts:522:31
+    520|   "step は同一seed・同一入力で毎tick同じ状態になる: %s",
+    521|   (name) => {
+    522|     expect(scenarios[name]()).toMatchSnapshot();
+       |                               ^
+    523|   },
+    524| );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/24]⎯
+
+ FAIL  tests/game-step-equivalence.test.ts > step は同一seed・同一入力で毎tick同じ状態になる: 前線・防衛・融合
+Error: Snapshot `step は同一seed・同一入力で毎tick同じ状態になる: 前線・防衛・融合 1` mismatched
+
+- Expected
++ Received
+
+@@ -5,10 +5,10 @@
+    "phase": "defeat",
+    "projectiles": "",
+    "reason": "防衛対象が破壊されました",
+    "seed": 1433471809,
+    "serial": 96,
+-   "sha256": "c072c30f8228be4af2355b0b73f81e91b603f769417d5490799d85676ff50177",
++   "sha256": "74718c06678c452aece9fe2cd19c0112bf676b99855e68c5c6f79981ea0af43f",
+    "ticks": 800,
+    "time": 38.54999999999995,
+    "wave": 1,
+  }
+
+ ❯ tests/game-step-equivalence.test.ts:522:31
+    520|   "step は同一seed・同一入力で毎tick同じ状態になる: %s",
+    521|   (name) => {
+    522|     expect(scenarios[name]()).toMatchSnapshot();
+       |                               ^
+    523|   },
+    524| );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/24]⎯
+
+ FAIL  tests/game-step-equivalence.test.ts > step は同一seed・同一入力で毎tick同じ状態になる: 前線・旧方式
+Error: Snapshot `step は同一seed・同一入力で毎tick同じ状態になる: 前線・旧方式 1` mismatched
+
+- Expected
++ Received
+
+@@ -5,10 +5,10 @@
+    "phase": "battle",
+    "projectiles": "",
+    "reason": "",
+    "seed": 3333369809,
+    "serial": 173,
+-   "sha256": "e93f1b3230b062cc99c65bf26e4c0174863d18dba683391473d99ba709b2043c",
++   "sha256": "67e0ba97c4affe411f7b2dbb703b7ad28b60652381c563e0300bce26d704807b",
+    "ticks": 1000,
+    "time": 49.39999999999933,
+    "wave": 1,
+  }
+
+ ❯ tests/game-step-equivalence.test.ts:522:31
+    520|   "step は同一seed・同一入力で毎tick同じ状態になる: %s",
+    521|   (name) => {
+    522|     expect(scenarios[name]()).toMatchSnapshot();
+       |                               ^
+    523|   },
+    524| );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/24]⎯
+
+ FAIL  tests/maps.test.ts > 晶脈の地底巣 has connected walkable passages and safe enemy entries
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/maps.test.ts:103:74
+    101|         spawn(w, kind);
+    102|         const e = w.enemies.at(-1)!;
+    103|         expect(blocked(e.x, e.z, ENEMIES[kind].radius, e.y, map.blocks…
+       |                                                                          ^
+    104|           false,
+    105|         );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/24]⎯
+
+ FAIL  tests/stages.test.ts > stage 25 completes within the time limit using legal endgame gear and ordinary inputs
+AssertionError: Stage 25, time 191.5000000000093, kills 87: expected 'defeat' to be 'victory' // Object.is equality
+
+Expected: "victory"
+Received: "defeat"
+
+ ❯ tests/stages.test.ts:61:7
+     59|       w.phase,
+     60|       `Stage ${s.id}, time ${w.time}, kills ${w.totalKills}`,
+     61|     ).toBe("victory");
+       |       ^
+     62|     expect(w.totalKills).toBe(
+     63|       s.waves.reduce((a, b) => a + waveCount(b), 0) + (w.foundrySpawne…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/24]⎯
+
+ FAIL  tests/standard-trooper.test.ts > evaded boss damage and ordinary contact do not trigger the heavy clip
+AssertionError: expected 160 to be less than 160
+ ❯ tests/standard-trooper.test.ts:89:16
+     87|   Object.assign(w.enemies[0], { wind: 0.01, tx: 0, tz: 0, active: true…
+     88|   step(w, {});
+     89|   expect(p.hp).toBeLessThan(hp);
+       |                ^
+     90|   expect(p.heavyHit ?? 0).toBe(0);
+     91| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/24]⎯
+
+ FAIL  tests/state-receipt.test.ts > front接続は検証済みstateだけを通知し、退出時にtimerを残さない
+AssertionError: expected { type: 'hello', …(16) } to deeply equal { type: 'stateAck', stateAck: 2 }
+
+- Expected
++ Received
+
+  {
+-   "stateAck": 2,
+-   "type": "stateAck",
++   "clearedStage": 0,
++   "equipmentCache": 1,
++   "frontCatalog": 3,
++   "frontGrowth": 3,
++   "frontOpening": 2,
++   "frontSurvivalBuild": 1,
++   "inputReceipt": 1,
++   "name": "隊員",
++   "networkTiming": 1,
++   "pleatPose": 1,
++   "stateChunks": 1,
++   "stateDelta": 1,
++   "stateDeltaPlayers": 1,
++   "stateFlow": 1,
++   "stateOmissions": 1,
++   "stateTuples": 1,
++   "type": "hello",
+  }
+
+ ❯ tests/state-receipt.test.ts:155:34
+    153|       });
+    154|       vi.advanceTimersByTime(100);
+    155|       expect(socket.sent.at(-1)).toEqual({ type: "stateAck", stateAck:…
+       |                                  ^
+    156|       socket.receive({
+    157|         type: "state",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/24]⎯
+
+ FAIL  tests/structure-v2.test.ts > PLEAT holds through preparation and red warning before the forward shockwave
+AssertionError: expected 160 to be close to 150.5, received difference is 9.5, but expected 0.005
+ ❯ tests/structure-v2.test.ts:138:27
+    136|   expect(w.players.map((p) => p.hp)).toEqual(hp);
+    137|   while (e.wind > 0) step(w, {});
+    138|   expect(w.players[0].hp).toBeCloseTo(
+       |                           ^
+    139|     hp[0] - ENEMIES.crawler.damage * enemyStatSize(e),
+    140|   );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/24]⎯
+
+ FAIL  tests/structure-v2.test.ts > current changelog contains no legacy creature descriptions
+Error: Test timed out in 90000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/structure-v2.test.ts:333:1
+    331|   expect(effects.items[0].mesh.material.color.getHex()).toBe(0x65edff);
+    332| });
+    333| it("current changelog contains no legacy creature descriptions", async…
+       | ^
+    334|   // Vite injects this value during builds; exercise the same generate…
+    335|   vi.stubGlobal(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/24]⎯
+
+
+  Snapshots  4 failed
+ Test Files  13 failed | 152 passed (165)
+      Tests  24 failed | 1670 passed (1694)
+   Start at  12:31:39
+   Duration  774.63s (tests 83%, import 12%, transform 5%)
+
+    Isolate  165 workers spawned · ~346ms startup each (spawn + environment, per file)
+             at least ~56.74s faster with isolate: false — reuses workers across files instead of one per file

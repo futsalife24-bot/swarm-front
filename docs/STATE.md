@@ -1,3 +1,11 @@
+# 候補2 `Room.webSocketMessage` 分割：開始ゲート不合格で実装停止（2026-11-10、Codex）
+
+本人指定の開始ゲートを最新 `origin/main` `3f2c429c442c44d54bf4a8132cc791f30534ae9d` で実行。専用worktree `task-refactor-worker-message-20261110`、branch `codex/refactor-worker-message-20261110`、HEADも同SHA。候補1はPR296でmain反映済みで、`tests/game-step-equivalence.test.ts` とsnapshotを確認した。既存 `node_modules` へのjunctionだけを専用worktreeに作り、依存をインストールしていない。
+
+実測は `npm run typecheck` 成功、`npm test` **1694件中1670成功・24失敗**、`npm run format:check` **14ファイル警告で失敗**。特性テスト単独は22件中18成功・前線4件のsnapshot不一致。全体テスト内も同じ4件で、全体終了後の単独逐次再実行でも同じ4件・同じSHA差。旧STATEに記された候補1時点の全体19失敗・format14警告を今回の合格へ読み替えない。前線4件はテストの固定入力に`day`がなく、`front-run.ts` が実行時UTC日付をrunへ入れる。snapshot作成時はUTC 11/9、今回実行時はUTC 11/10で、日付差がSHA不一致の有力原因。残る1件の旧記録との差は旧失敗の個別一覧がなく確定していない。スナップショットや既存失敗、仕様は変更していない。
+
+**停止理由:** ご本人の条件「通常の既存失敗でも開始ゲート不合格」に該当。候補2の `server/worker.ts` は未編集、実装のcommit/push/PR/main反映/公開も未実施。**再開条件:** 最新main上で指定の4チェックが全て成功したことを、HEAD付きログで確認し、本人の次指示を受ける。詳細・全ログは [開始ゲート記録](REFACTOR-WORKER-START-GATE-20261110.md)。rootと他worktreeの差分は保護。
+
 # step() の分割：検証済み、PR296で main へ通常merge（2026-11-10、Claude Code）
 
 本人依頼のリファクタリング候補1。`src/shared/game.ts` の `step()`（約870行）を、同じファイル内の非公開関数（兵士・救助・波・敵・弾）へ純粋抽出した。数値・判定順・乱数の消費順・dt の処理順は無変更で、描画・UI・通信形式にも触れていない。Worker への公開は行わない。独立Chat監査なし（2026-10-15方針）。

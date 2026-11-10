@@ -1,0 +1,133 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-refactor-worker-message-20261110
+
+ ❯ tests/game-step-equivalence.test.ts (22 tests | 4 failed) 71201ms
+   × step は同一seed・同一入力で毎tick同じ状態になる: 前線・生存・融合・1人 5404ms
+   × step は同一seed・同一入力で毎tick同じ状態になる: 前線・生存・融合・2人 8182ms
+   × step は同一seed・同一入力で毎tick同じ状態になる: 前線・防衛・融合 2471ms
+   × step は同一seed・同一入力で毎tick同じ状態になる: 前線・旧方式 3007ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/game-step-equivalence.test.ts > step は同一seed・同一入力で毎tick同じ状態になる: 前線・生存・融合・1人
+Error: Snapshot `step は同一seed・同一入力で毎tick同じ状態になる: 前線・生存・融合・1人 1` mismatched
+
+- Expected
++ Received
+
+@@ -5,10 +5,10 @@
+    "phase": "battle",
+    "projectiles": "acid bastion",
+    "reason": "",
+    "seed": 1059240909,
+    "serial": 340,
+-   "sha256": "55bcffc5c7ebdfbc7a6a2f8e3e5d1b6f90aeb42c9e36751dff007fc4e4d099b7",
++   "sha256": "af5b0bff264ff105169fa4398bd63bdbc21228a7b2456ecc4939ba5f0baaa997",
+    "ticks": 1500,
+    "time": 73.94999999999794,
+    "wave": 1,
+  }
+
+ ❯ tests/game-step-equivalence.test.ts:522:31
+    520|   "step は同一seed・同一入力で毎tick同じ状態になる: %s",
+    521|   (name) => {
+    522|     expect(scenarios[name]()).toMatchSnapshot();
+       |                               ^
+    523|   },
+    524| );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/game-step-equivalence.test.ts > step は同一seed・同一入力で毎tick同じ状態になる: 前線・生存・融合・2人
+Error: Snapshot `step は同一seed・同一入力で毎tick同じ状態になる: 前線・生存・融合・2人 1` mismatched
+
+- Expected
++ Received
+
+@@ -5,10 +5,10 @@
+    "phase": "battle",
+    "projectiles": "",
+    "reason": "",
+    "seed": 1940084782,
+    "serial": 196,
+-   "sha256": "45d5e6e653021a345b9d9bfbf6b37191e74be2bacb6d2d36a1e3c3d733ee5d11",
++   "sha256": "c64c67b30753ddb27064b9a466c7816e5df895e867b0c6d63798d16440ea4db2",
+    "ticks": 1000,
+    "time": 49.19999999999934,
+    "wave": 1,
+  }
+
+ ❯ tests/game-step-equivalence.test.ts:522:31
+    520|   "step は同一seed・同一入力で毎tick同じ状態になる: %s",
+    521|   (name) => {
+    522|     expect(scenarios[name]()).toMatchSnapshot();
+       |                               ^
+    523|   },
+    524| );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/game-step-equivalence.test.ts > step は同一seed・同一入力で毎tick同じ状態になる: 前線・防衛・融合
+Error: Snapshot `step は同一seed・同一入力で毎tick同じ状態になる: 前線・防衛・融合 1` mismatched
+
+- Expected
++ Received
+
+@@ -5,10 +5,10 @@
+    "phase": "defeat",
+    "projectiles": "",
+    "reason": "防衛対象が破壊されました",
+    "seed": 1433471809,
+    "serial": 96,
+-   "sha256": "c072c30f8228be4af2355b0b73f81e91b603f769417d5490799d85676ff50177",
++   "sha256": "74718c06678c452aece9fe2cd19c0112bf676b99855e68c5c6f79981ea0af43f",
+    "ticks": 800,
+    "time": 38.54999999999995,
+    "wave": 1,
+  }
+
+ ❯ tests/game-step-equivalence.test.ts:522:31
+    520|   "step は同一seed・同一入力で毎tick同じ状態になる: %s",
+    521|   (name) => {
+    522|     expect(scenarios[name]()).toMatchSnapshot();
+       |                               ^
+    523|   },
+    524| );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  tests/game-step-equivalence.test.ts > step は同一seed・同一入力で毎tick同じ状態になる: 前線・旧方式
+Error: Snapshot `step は同一seed・同一入力で毎tick同じ状態になる: 前線・旧方式 1` mismatched
+
+- Expected
++ Received
+
+@@ -5,10 +5,10 @@
+    "phase": "battle",
+    "projectiles": "",
+    "reason": "",
+    "seed": 3333369809,
+    "serial": 173,
+-   "sha256": "e93f1b3230b062cc99c65bf26e4c0174863d18dba683391473d99ba709b2043c",
++   "sha256": "67e0ba97c4affe411f7b2dbb703b7ad28b60652381c563e0300bce26d704807b",
+    "ticks": 1000,
+    "time": 49.39999999999933,
+    "wave": 1,
+  }
+
+ ❯ tests/game-step-equivalence.test.ts:522:31
+    520|   "step は同一seed・同一入力で毎tick同じ状態になる: %s",
+    521|   (name) => {
+    522|     expect(scenarios[name]()).toMatchSnapshot();
+       |                               ^
+    523|   },
+    524| );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+  Snapshots  4 failed
+ Test Files  1 failed (1)
+      Tests  4 failed | 18 passed (22)
+   Start at  12:37:21
+   Duration  76.38s (tests 94%, transform 4%, import 2%)
