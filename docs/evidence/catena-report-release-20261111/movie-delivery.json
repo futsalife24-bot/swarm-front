@@ -1,0 +1,8 @@
+{
+  "path": "assets/encounters/report-v3/worm-20261111.mp4",
+  "status": 200,
+  "bytes": 2066624,
+  "expected": "c712e47513cc41aa5a7b0a207a28b389fbf933ff35d0b221ad2ae84323839721",
+  "actual": "c712e47513cc41aa5a7b0a207a28b389fbf933ff35d0b221ad2ae84323839721",
+  "pass": true
+}
