@@ -279,6 +279,38 @@ export class TestRoom extends Room {
         }
         return Response.json({ ok: true });
       }
+      if (u.searchParams.get("case") === "front-support-result") {
+        const run = this.saved.frontRun;
+        if (!run?.fusion || run.mode !== "survival")
+          return new Response("生存戦が必要です", { status: 409 });
+        run.phase = "combat";
+        run.world.time = 180;
+        run.world.totalKills = 90;
+        run.world.enemies = [];
+        run.world.players.forEach((p, i) => {
+          p.kills = i === 0 ? 90 : 0;
+          p.hp = 0;
+        });
+        // 合成の参加条件。自然な攻略や有効行動の実測結果として扱わない。
+        if (run.supportRewards) {
+          for (const r of Object.values(run.supportRewards.players))
+            Object.assign(r, {
+              present: 180,
+              active: 18,
+              actionAt: 180,
+              presentAt: 180,
+            });
+          run.supportRewards.tickAt = 180;
+        }
+        await this.tick();
+        await this.persist();
+        const stored = await this.ctx.storage.get<typeof this.saved>("room");
+        if (!stored?.frontRun) throw Error("保存検証失敗");
+        stored.frontRun.world = stored.world!;
+        this.saved = stored;
+        this.broadcast();
+        return Response.json({ ok: true });
+      }
       if (u.searchParams.get("case") === "front-growth-result") {
         const run = this.saved.frontRun;
         if (!run?.fusion || run.mode !== "survival")
@@ -645,7 +677,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|pleat-strike|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion|front-survival-wave|front-survival-cluster|front-treasure|front-treasure-drop|front-elements)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|pleat-strike|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-support-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion|front-survival-wave|front-survival-cluster|front-treasure|front-treasure-drop|front-elements)$/.exec(
         u.pathname,
       );
     if (

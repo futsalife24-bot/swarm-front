@@ -33,6 +33,7 @@ import {
   createBastion,
   stepBastion,
 } from "./bastion";
+import { noteSupportRewardAction } from "./front-support-rewards";
 import {
   HARROW,
   stepHarrow,
@@ -975,6 +976,7 @@ export function hurtEnemy(
     e.hp = wormNodes(e).reduce((sum, n) => sum + Math.max(0, n.partHp ?? 0), 0);
   } else e.hp -= damage;
   staggerHarrow(w, e, damage);
+  if (damage > 0) noteSupportRewardAction(w, owner);
   e.hurt = 0.15;
   const guard = e.bastion && damage > 0 ? bastionGuard(e.bastion) : 0;
   event(w, {
@@ -1267,7 +1269,8 @@ function healShot(
       owner: p.id,
     });
   }
-  for (const [a, amount] of restored)
+  for (const [a, amount] of restored) {
+    if (amount > 0) noteSupportRewardAction(w, p.id);
     event(w, {
       type: "heal",
       amount: Math.round(amount),
@@ -1276,6 +1279,7 @@ function healShot(
       z: a.z,
       owner: p.id,
     });
+  }
 }
 export function fire(w: World, p: Player, i: Input, airborne = false) {
   const weapon = p.weapons[p.slot],
@@ -1764,7 +1768,7 @@ function stepRevives(w: World, inputs: Record<string, Input>, dt: number) {
   for (const p of w.players.filter(
     (p) => p.connected && p.hp <= 0 && p.down > 0,
   )) {
-    const aid = w.players.some(
+    const aid = w.players.find(
       (a) =>
         a.hp > 0 &&
         a.connected &&
@@ -1777,6 +1781,7 @@ function stepRevives(w: World, inputs: Record<string, Input>, dt: number) {
       p.hp = 90;
       p.down = 0;
       p.revive = 0;
+      if (aid) noteSupportRewardAction(w, aid.id);
       event(w, { type: "revive", x: p.x, z: p.z, y: (p.y ?? 0) + 1 });
     }
   }
