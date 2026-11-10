@@ -11,6 +11,9 @@ import {
 } from "../src/shared/harrow";
 import { groundHeight } from "../src/shared/terrain";
 import { mapFor } from "../src/shared/stages";
+import { wormNodes } from "../src/shared/worm";
+import { planOmega } from "../src/shared/catena-omega";
+import { enemySize } from "../src/shared/enemy-size";
 import { populateDenseWireWorld } from "../scripts/state-wire-fixture";
 import production, { Room, Gate } from "./worker";
 import { frontDedicatedSurvivalThreshold } from "../src/shared/front-run";
@@ -568,6 +571,44 @@ export class TestRoom extends Room {
         w.stage = 6;
         spawn(w, "boss", 0, -15, "worm");
         hurtEnemy(w, w.enemies[0], 1e6, w.players[0].id, 4);
+      } else if (u.searchParams.get("case") === "catena-omega") {
+        // ローカル専用。初期配置のみ短縮し、実step・権威・wireを通す。
+        w.stage = 1;
+        const boss = spawn(w, "boss", 0, 0, "worm")!;
+        boss.size = 0.8;
+        boss.active = true;
+        let plan;
+        search: for (const x of [
+          -72, -60, -48, -36, -24, -12, 0, 12, 24, 36, 48, 60, 72,
+        ])
+          for (const z of [-48, -24, 0, 24, 48]) {
+            wormNodes(boss).forEach((n, i) =>
+              Object.assign(n, {
+                x,
+                y: groundHeight(
+                  x,
+                  z + (i - 7) * 3.2 * enemySize(boss),
+                  mapFor(w).blocks,
+                ),
+                z: z + (i - 7) * 3.2 * enemySize(boss),
+                heading: Math.PI,
+              }),
+            );
+            plan = planOmega(w, boss);
+            if (plan) break search;
+          }
+        if (!plan)
+          return new Response("Ωの安全な検証配置なし", { status: 500 });
+        boss.omega = plan;
+        boss.omegaReadyAt = w.time + 16;
+        w.players.forEach((p, i) =>
+          Object.assign(p, {
+            x: plan!.ground[7].x + i * 7,
+            y: plan!.ground[7].y,
+            z: plan!.ground[7].z,
+            hp: 1000,
+          }),
+        );
       } else if (u.searchParams.get("case") === "foundry") {
         if (u.searchParams.get("form") === "explosive") {
           const kind = u.searchParams.get("weapon") as
@@ -677,7 +718,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|pleat-strike|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-support-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion|front-survival-wave|front-survival-cluster|front-treasure|front-treasure-drop|front-elements)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|pleat-strike|worm-split|foundry|catena-omega|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-support-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion|front-survival-wave|front-survival-cluster|front-treasure|front-treasure-drop|front-elements)$/.exec(
         u.pathname,
       );
     if (

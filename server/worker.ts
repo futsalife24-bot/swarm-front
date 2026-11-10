@@ -47,7 +47,7 @@ import {
   normalizeChatText,
   type ChatMessage,
 } from "../src/shared/social";
-import { validStage } from "../src/shared/stages";
+import { STAGES, stageFor, validStage } from "../src/shared/stages";
 import { developerAuth } from "./developer-auth";
 import {
   playerVault,
@@ -98,6 +98,17 @@ import {
   type DirectoryEntry,
   type RoomOptions,
 } from "../src/shared/room-directory";
+
+const CATENA_UPDATE_NOTICE =
+  "連結型の表示が更新されています。画面を再読み込みして復帰してください";
+const stageHasCatena = (stage: number) =>
+  validStage(stage) &&
+  STAGES[stage - 1].waves.some((wave) => wave.bosses.includes("worm"));
+const roomHasCatena = (w: World) =>
+  w.enemies.some((enemy) => (enemy.segments?.length ?? 0) > 7) ||
+  (w.phase === "battle" &&
+    !w.front &&
+    stageFor(w).waves.some((wave) => wave.bosses.includes("worm")));
 
 interface Env {
   ROOMS: DurableObjectNamespace<Room>;
@@ -955,6 +966,7 @@ export class Room extends DurableObject<Env> {
       equipmentCache?: boolean;
       stateOmissions?: boolean;
       stateTuples?: boolean;
+      stateTupleVersion?: 1 | 2;
       pleatPose?: boolean;
       stateChunks?: boolean;
       stateDelta?: StateDeltaSender;
@@ -993,6 +1005,7 @@ export class Room extends DurableObject<Env> {
           id: string;
           stateOmissions?: boolean;
           stateTuples?: boolean;
+          stateTupleVersion?: 1 | 2;
           pleatPose?: boolean;
           stateChunks?: boolean;
           stateDelta?: boolean;
@@ -1011,6 +1024,7 @@ export class Room extends DurableObject<Env> {
           seq: -1,
           stateOmissions: a.stateOmissions === true,
           stateTuples: a.stateTuples === true,
+          stateTupleVersion: a.stateTupleVersion === 2 ? 2 : 1,
           pleatPose: a.pleatPose === true,
           stateChunks: a.stateChunks === true,
           stateDelta:
@@ -1260,6 +1274,15 @@ export class Room extends DurableObject<Env> {
         return;
       }
       if (
+        m.stateTuples !== 2 &&
+        this.saved.world &&
+        roomHasCatena(this.saved.world)
+      ) {
+        this.send(ws, { type: "notice", reason: CATENA_UPDATE_NOTICE });
+        ws.close(4000, "画面を再読み込みして復帰してください");
+        return;
+      }
+      if (
         m.clearedStage !== undefined &&
         !validFrontClearedStage(m.clearedStage)
       ) {
@@ -1328,7 +1351,8 @@ export class Room extends DurableObject<Env> {
       s.id = member.id;
       s.equipmentCache = m.equipmentCache === 1;
       s.stateOmissions = m.stateOmissions === 1;
-      s.stateTuples = m.stateTuples === 1;
+      s.stateTuples = m.stateTuples === 1 || m.stateTuples === 2;
+      s.stateTupleVersion = m.stateTuples === 2 ? 2 : 1;
       s.pleatPose = m.pleatPose === 1;
       s.stateChunks = m.stateChunks === 1;
       s.inputReceipt = m.inputReceipt === 1;
@@ -1764,6 +1788,23 @@ export class Room extends DurableObject<Env> {
         this.error(ws, "ステージが不正です");
         return;
       }
+      if (
+        this.saved.directory?.ruleset !== "front-v1" &&
+        stageHasCatena(this.saved.stage ?? m.stage ?? 1)
+      ) {
+        const oldPeers = [...this.sockets].filter(
+          ([, session]) =>
+            session.stateTupleVersion !== 2 &&
+            present.some((member) => member.id === session.id),
+        );
+        if (oldPeers.length) {
+          for (const [peer] of oldPeers)
+            this.send(peer, { type: "notice", reason: CATENA_UPDATE_NOTICE });
+          if (!oldPeers.some(([peer]) => peer === ws))
+            this.send(ws, { type: "notice", reason: CATENA_UPDATE_NOTICE });
+          return;
+        }
+      }
       let world: World;
       if (this.saved.directory?.ruleset === "front-v1") {
         if (
@@ -1935,6 +1976,7 @@ export class Room extends DurableObject<Env> {
       id: s.id,
       stateOmissions: s.stateOmissions,
       stateTuples: s.stateTuples,
+      stateTupleVersion: s.stateTupleVersion,
       pleatPose: s.pleatPose,
       stateChunks: s.stateChunks,
       stateDelta: !!s.stateDelta,
@@ -1963,6 +2005,19 @@ export class Room extends DurableObject<Env> {
       : 2;
   }
   broadcast(target?: WebSocket) {
+    const active = this.saved.world;
+    if (active && roomHasCatena(active)) {
+      const old = [...this.sockets].find(
+        ([, session]) => session.id && session.stateTupleVersion !== 2,
+      );
+      if (old) {
+        const [ws] = old;
+        this.send(ws, { type: "notice", reason: CATENA_UPDATE_NOTICE });
+        ws.close(4000, "画面を再読み込みして復帰してください");
+        this.disconnected(ws);
+        return;
+      }
+    }
     this.publishDirectory();
     const w = this.saved.world;
     if (w)
@@ -2073,6 +2128,7 @@ export class Room extends DurableObject<Env> {
               s.stateTuples === true,
               s.stateChunks === true,
               s.pleatPose === true,
+              s.stateTupleVersion ?? 1,
             );
             if (s.stateDelta) {
               try {

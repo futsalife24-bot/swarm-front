@@ -96,6 +96,7 @@ function field(map = 0) {
   spawn(w, "boss", 0, 0, "worm");
   const e = w.enemies[0];
   placeWormOnGround(w, e);
+  e.omegaReadyAt = 1e9; // 地上巡回の検証から跳躍を分離する。
   return { w, p, e };
 }
 
@@ -211,13 +212,13 @@ it.each(MAPS.map((map, index) => [index, map.name] as const))(
     }
     expect(maxX - minX).toBeGreaterThan(80);
     expect(maxZ - minZ).toBeGreaterThan(80);
-    expect(maxPoints).toBeLessThan(100);
-    expect(JSON.stringify(e).length).toBeLessThan(10000);
+    expect(maxPoints).toBeLessThan(200); // 最大尾長の増加に対応する2倍の履歴予算。
+    expect(JSON.stringify(e).length).toBeLessThan(20000);
   },
 );
 
 it.each(MAPS.map((_, index) => index))(
-  "unsafe initial spawn projects all eight units safely on map %i",
+  "初期位置が障害物内でも全15部位を安全に配置する（マップ%i）",
   (map) => {
     const { w, e } = field(map);
     e.x = MAPS[map].blocks[0]?.x ?? 90;
@@ -229,7 +230,7 @@ it.each(MAPS.map((_, index) => index))(
       new Set(
         wormNodes(e).map((node) => `${node.x.toFixed(2)},${node.z.toFixed(2)}`),
       ).size,
-    ).toBe(8);
+    ).toBe(15);
   },
 );
 
@@ -320,9 +321,11 @@ it("each unit warns then emits a straight 60m/s, 100m laser from its model socke
   for (const node of wormNodes(e)) node.acidAt = w.time + 0.8;
   moveWorm(w, e, 0);
   const target = { x: p.x, y: (p.y ?? 0) + 1.2, z: p.z };
-  expect(wormNodes(e).every((node) => node.pulseAim?.x === target.x)).toBe(
-    true,
-  );
+  expect(
+    wormNodes(e)
+      .filter((_, i) => i % 2 === 0)
+      .every((node) => node.pulseAim?.x === target.x),
+  ).toBe(true);
   p.x += 10;
   w.time += 0.79;
   moveWorm(w, e, 0);
@@ -337,7 +340,7 @@ it("each unit warns then emits a straight 60m/s, 100m laser from its model socke
     expect(Math.hypot(q.dx, q.dy, q.dz)).toBeCloseTo(FOUNDRY_LASER_SPEED, 9);
     expect(q.life * FOUNDRY_LASER_SPEED).toBeCloseTo(FOUNDRY_LASER_RANGE, 9);
     expect({ x: q.x, y: q.y, z: q.z }).toEqual(
-      foundryLaserOrigin(wormNodes(e)[part], part, enemySize(e)),
+      foundryLaserOrigin(wormNodes(e)[part * 2], part * 2, enemySize(e)),
     );
     const flight =
       Math.hypot(target.x - q.x, target.y - q.y, target.z - q.z) /
@@ -345,7 +348,7 @@ it("each unit warns then emits a straight 60m/s, 100m laser from its model socke
     expect(q.x + q.dx * flight).toBeCloseTo(target.x, 8);
     expect(q.y + q.dy * flight).toBeCloseTo(target.y, 8);
     expect(q.z + q.dz * flight).toBeCloseTo(target.z, 8);
-    expect(wormNodes(e)[part].acidAt).toBeCloseTo(
+    expect(wormNodes(e)[part * 2].acidAt).toBeCloseTo(
       w.time + 4.8 * Math.max(1, enemyStatSize(e)),
       8,
     );

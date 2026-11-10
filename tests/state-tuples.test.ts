@@ -14,6 +14,10 @@ import { Network } from "../src/client/network";
 import { FrontNetwork } from "../src/client/front-network";
 import { bastionLanes } from "../src/shared/bastion";
 import { mapFor } from "../src/shared/stages";
+import {
+  encodeStateChunks,
+  StateChunkAssembler,
+} from "../src/shared/state-chunks";
 
 const bytes = (wire: string) => new TextEncoder().encode(wire).length;
 function smallFixture() {
@@ -67,6 +71,76 @@ afterEach(() => {
 });
 
 describe("丸め後の状態tuple", () => {
+  it("CATENA Ωの予告座標を従来stateとv2 tupleの両方で保ち、不正な座標を拒否する", () => {
+    const { w, ids, metadata } = smallFixture();
+    const worm = w.enemies.find((e) => e.segments)!;
+    const nodes = [worm, ...worm.segments!].map((n) => ({
+      x: n.x,
+      y: n.y,
+      z: n.z,
+      heading: n.heading ?? 0,
+    }));
+    worm.omega = {
+      at: w.time,
+      ground: nodes,
+      peak: nodes.map((n) => ({ ...n, y: n.y + 3 })),
+    };
+    const prepared = prepareState(w, 0, metadata);
+    const legacy = JSON.parse(prepared.packet(ids[0]));
+    const oldPeer = JSON.parse(
+      prepared.packet(
+        ids[0],
+        false,
+        -1,
+        undefined,
+        true,
+        true,
+        false,
+        false,
+        1,
+      ),
+    );
+    expect(oldPeer.stateEncoding).toBeUndefined();
+    expect(
+      oldPeer.world.enemies.find((e: any) => e.id === worm.id).omega,
+    ).toEqual(legacy.world.enemies.find((e: any) => e.id === worm.id).omega);
+    const compact = JSON.parse(
+      prepared.packet(ids[0], false, -1, undefined, true, true),
+    );
+    expect(compact.stateEncoding).toBe("tuples-v2");
+    expect(restoreStateTuples(compact)).toBe(true);
+    expect(
+      compact.world.enemies.find((e: any) => e.id === worm.id).omega,
+    ).toEqual(legacy.world.enemies.find((e: any) => e.id === worm.id).omega);
+    const broken = JSON.parse(
+      prepared.packet(ids[0], false, -1, undefined, true, true),
+    );
+    broken.world.enemies[2].at(-1).ground[0].heading = "invalid";
+    expect(restoreStateTuples(broken)).toBe(false);
+  });
+
+  it("Ωのない旧v1接続はtuple圧縮を維持する", () => {
+    const { w, ids, metadata } = smallFixture();
+    const prepared = prepareState(w, 0, metadata);
+    const legacyWire = prepared.packet(ids[0]);
+    const v1Wire = prepared.packet(
+      ids[0],
+      false,
+      -1,
+      undefined,
+      true,
+      true,
+      false,
+      false,
+      1,
+    );
+    const v1 = JSON.parse(v1Wire);
+    expect(v1.stateEncoding).toBe("tuples-v1");
+    expect(bytes(v1Wire)).toBeLessThan(bytes(legacyWire));
+    expect(restoreStateTuples(v1)).toBe(true);
+    expect(v1).toEqual(JSON.parse(legacyWire));
+  });
+
   it("従来wire値へ可逆で、PLEAT・HP保護・武器端数・角度ビット列を維持する", () => {
     const { w, ids, metadata } = smallFixture();
     const before = JSON.stringify(w);
@@ -131,6 +205,22 @@ describe("丸め後の状態tuple", () => {
           true,
         );
         const compact = JSON.parse(wire);
+        const oldWire = prepared.packet(
+          id,
+          equipmentCached,
+          7,
+          undefined,
+          true,
+          true,
+          false,
+          false,
+          1,
+        );
+        const old = JSON.parse(oldWire);
+        expect(old.stateEncoding).toBe("tuples-v1");
+        expect(bytes(oldWire)).toBe(bytes(wire));
+        expect(bytes(oldWire)).toBeLessThanOrEqual(65536);
+        expect(old.omitted?.enemies ?? []).toEqual([]);
         expect(bytes(wire)).toBeLessThanOrEqual(65536);
         expect(compact.omitted?.enemies ?? []).toEqual([]);
         expect(restoreStateTuples(compact)).toBe(true);
@@ -159,76 +249,133 @@ describe("丸め後の状態tuple", () => {
     },
   );
 
-  it("400弾へ実frontView・時刻・最長名・31予告の合成余裕を足しても全数が届く", () => {
-    const { ids, metadata } = denseWireFixture(400);
-    const run = createFrontRun(
-      {
-        runId: "recipient-pressure",
-        seed: 4520,
-        mode: "survival",
-        fusion: true,
+  it.each([
+    ["旧7胴/v1", false, 7, 1],
+    ["支援報酬14胴/v2", true, 14, 2],
+  ] as const)(
+    "%sで400弾・実frontView・31予告を容量内に復元する",
+    (_label, supportRewards, segmentCount, tupleVersion) => {
+      const { ids, metadata } = denseWireFixture(400);
+      const run = createFrontRun(
+        {
+          runId: "recipient-pressure",
+          seed: 4520,
+          mode: "survival",
+          fusion: true,
+          supportRewards,
+          clearedStage: 10,
+          returnAt: 1900003600,
+          players: ids.map((id) => ({ id })),
+        },
+        1900000000,
+      );
+      populateDenseWireWorld(run.world, ids, 400);
+      const worm = run.world.enemies.find((enemy) => enemy.segments)!;
+      if (supportRewards) {
+        worm.segments = [
+          ...worm.segments!,
+          ...worm.segments!.map((part, index) => ({
+            ...part,
+            x: part.x + 7 + index,
+            z: part.z - 7 - index,
+          })),
+        ];
+        const ground = [worm, ...worm.segments].map((part) => ({
+          x: part.x,
+          y: part.y,
+          z: part.z,
+          heading: part.heading ?? 0,
+        }));
+        worm.omega = {
+          at: run.world.time,
+          ground,
+          peak: ground.map((part) => ({ ...part, y: part.y + 3 })),
+        };
+      }
+      run.phase = "combat";
+      // 通常のfrontView生成に、実戦より多めの予告を合成して余裕を測る。
+      run.pendingSpawns = Array.from({ length: 10 }, (_, n) => ({
+        x: n * 3.123456,
+        z: n * -2.123456,
+        at: 1900000001.5,
+        kinds: ["ant", "spitter", "hornet"],
+      }));
+      run.pendingBoss = { x: 10, z: 10, at: 1900000001.5 };
+      metadata.members.forEach((member) => {
+        member.name = "隊".repeat(20);
+      });
+      const common = {
+        ...metadata,
         clearedStage: 10,
-        returnAt: 1900003600,
-        players: ids.map((id) => ({ id })),
-      },
-      1900000000,
-    );
-    populateDenseWireWorld(run.world, ids, 400);
-    run.phase = "combat";
-    // 通常のfrontView生成に、実戦より多めの予告を合成して余裕を測る。
-    run.pendingSpawns = Array.from({ length: 10 }, (_, n) => ({
-      x: n * 3.123456,
-      z: n * -2.123456,
-      at: 1900000001.5,
-      kinds: ["ant", "spitter", "hornet"],
-    }));
-    run.pendingBoss = { x: 10, z: 10, at: 1900000001.5 };
-    metadata.members.forEach((member) => {
-      member.name = "隊".repeat(20);
-    });
-    const common = {
-      ...metadata,
-      clearedStage: 10,
-      ruleset: "front-v1",
-      mode: "survival",
-    };
-    const recipient = {
-      frontView: getFrontRunView(run, ids[0]),
-      serverNow: 1900000000.123,
-      expiresAt: 1900003720000,
-    };
-    for (const equipmentCached of [false, true]) {
-      const prepared = prepareState(run.world, 0, common);
-      const wire = prepared.packet(
+        ruleset: "front-v1",
+        mode: "survival",
+      };
+      const recipient = {
+        frontView: getFrontRunView(run, ids[0]),
+        serverNow: 1900000000.123,
+        expiresAt: 1900003720000,
+      };
+      expect(recipient.frontView.rewardPolicy).toBe(
+        supportRewards ? "team-v1" : "individual-v1",
+      );
+      for (const equipmentCached of [false, true])
+        for (const chunksSupported of supportRewards
+          ? [false, true]
+          : [false]) {
+          const wire = prepareState(run.world, 0, common).packet(
+            ids[0],
+            equipmentCached,
+            99,
+            recipient,
+            true,
+            true,
+            chunksSupported,
+            false,
+            tupleVersion,
+          );
+          const frames = chunksSupported
+            ? encodeStateChunks(wire, 99)!
+            : [wire];
+          expect(frames.every((frame) => bytes(frame) <= 65536)).toBe(true);
+          const assembler = new StateChunkAssembler();
+          const decoded = frames
+            .map((frame) => assembler.read(frame, 0))
+            .filter((state) => state !== undefined);
+          expect(decoded).toHaveLength(1);
+          const message = decoded[0] as any;
+          expect(message.stateEncoding).toBe(`tuples-v${tupleVersion}`);
+          expect(restoreStateTuples(message)).toBe(true);
+          expect(message.world.enemies).toHaveLength(96);
+          expect(message.world.projectiles).toHaveLength(400);
+          expect(message.world.front.orbs).toHaveLength(160);
+          expect(
+            message.world.enemies.find((enemy: any) => enemy.segments)
+              ?.segments,
+          ).toHaveLength(segmentCount);
+          if (supportRewards)
+            expect(
+              message.world.enemies.some((enemy: any) => enemy.omega),
+            ).toBe(true);
+          expect(message.frontView).toEqual(
+            JSON.parse(encodeState(recipient.frontView)),
+          );
+          expect(message.omitted).toBeUndefined();
+        }
+      run.world.events = [];
+      const noEvents = prepareState(run.world, 0, common).packet(
         ids[0],
-        equipmentCached,
+        false,
         99,
         recipient,
         true,
         true,
+        false,
+        false,
+        tupleVersion,
       );
-      const message = JSON.parse(wire);
-      expect(bytes(wire)).toBeLessThanOrEqual(65536);
-      expect(restoreStateTuples(message)).toBe(true);
-      expect(message.world.enemies).toHaveLength(96);
-      expect(message.world.projectiles).toHaveLength(400);
-      expect(message.world.front.orbs).toHaveLength(160);
-      expect(message.frontView).toEqual(
-        JSON.parse(encodeState(recipient.frontView)),
-      );
-      expect(message.omitted).toBeUndefined();
-    }
-    run.world.events = [];
-    const noEvents = prepareState(run.world, 0, common).packet(
-      ids[0],
-      false,
-      99,
-      recipient,
-      true,
-      true,
-    );
-    expect(65536 - bytes(noEvents)).toBeGreaterThan(4096);
-  });
+      expect(65536 - bytes(noEvents)).toBeGreaterThan(4096);
+    },
+  );
   it("交渉前は従来形式、同じ準備の新旧送信順・装備cacheで符号列を混同しない", () => {
     const { w, ids, metadata } = smallFixture();
     const prepared = prepareState(w, 0, metadata);
@@ -293,7 +440,7 @@ describe("丸め後の状態tuple", () => {
     [
       "不正版",
       (p: any) => {
-        p.stateEncoding = "tuples-v2";
+        p.stateEncoding = "tuples-v3";
       },
     ],
     [
@@ -396,7 +543,7 @@ describe("丸め後の状態tuple", () => {
         network.connect("test");
         const ws = network.ws as unknown as Socket;
         ws.onopen?.();
-        expect(ws.sent[0].stateTuples).toBe(1);
+        expect(ws.sent[0].stateTuples).toBe(2);
         expect(ws.sent[0].pleatPose).toBe(1);
         ws.message(packet(false));
         ws.message(packet());

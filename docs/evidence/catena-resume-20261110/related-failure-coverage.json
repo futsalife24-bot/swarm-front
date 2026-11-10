@@ -1,0 +1,49 @@
+{
+  "priorFailures": 7,
+  "newRunPassed": true,
+  "allOldFailuresCovered": true,
+  "cases": [
+    {
+      "file": "tests/catena-omega.test.ts",
+      "oldFailure": "実際の巡回と標準待ち時間からΩが自然発動し、地形制約下でも有限座標を維持する",
+      "sourcePatternPresent": true,
+      "includedInPassingRun": true
+    },
+    {
+      "file": "tests/foundry-movement.test.ts",
+      "oldFailure": "ground patrol stays clear and covers both axes on map 0 (灰明の街区)",
+      "sourcePatternPresent": true,
+      "includedInPassingRun": true
+    },
+    {
+      "file": "tests/foundry-movement.test.ts",
+      "oldFailure": "ground patrol stays clear and covers both axes on map 2 (蒼鉄の工業区)",
+      "sourcePatternPresent": true,
+      "includedInPassingRun": true
+    },
+    {
+      "file": "tests/foundry-movement.test.ts",
+      "oldFailure": "ground patrol stays clear and covers both axes on map 4 (白嶺の雪峡)",
+      "sourcePatternPresent": true,
+      "includedInPassingRun": true
+    },
+    {
+      "file": "tests/foundry-movement.test.ts",
+      "oldFailure": "all cut chains navigate to a distant player on map 0",
+      "sourcePatternPresent": true,
+      "includedInPassingRun": true
+    },
+    {
+      "file": "tests/foundry-movement.test.ts",
+      "oldFailure": "all cut chains navigate to a distant player on map 1",
+      "sourcePatternPresent": true,
+      "includedInPassingRun": true
+    },
+    {
+      "file": "tests/foundry-movement.test.ts",
+      "oldFailure": "all cut chains navigate to a distant player on map 2",
+      "sourcePatternPresent": true,
+      "includedInPassingRun": true
+    }
+  ]
+}

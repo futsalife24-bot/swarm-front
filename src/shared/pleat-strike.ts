@@ -4,6 +4,8 @@ import type { Block } from "./map-blocks";
 import { surfaceRay } from "./surface-ray";
 import { enemySize } from "./enemy-size";
 import { ENEMIES } from "./defs";
+import { CAVE_BLOCKS } from "./cave";
+import { groundHeight } from "./terrain";
 export const PLEAT_STRIKE = {
   travel: 4,
   radius: 2.5,
@@ -104,6 +106,14 @@ export function advancePleatStrike(e: Enemy, blocks: Block[], dt: number) {
     s.body.z += a.dz * increment;
     s.anchor.x += a.dx * increment;
     s.anchor.z += a.dz * increment;
+    if (blocks === CAVE_BLOCKS) {
+      // The cave floor slopes beneath a strike. Keep the replicated body and
+      // support anchor on that floor as the warned path advances.
+      const rise = floor.point.y - e.y;
+      e.y = floor.point.y;
+      s.body.y += rise;
+      s.anchor.y = groundHeight(s.anchor.x, s.anchor.z, blocks);
+    }
     moved += increment;
     a.travelled += increment;
     a.remaining = Math.max(0, a.remaining - increment);

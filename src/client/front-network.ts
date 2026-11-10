@@ -227,7 +227,7 @@ export class FrontNetwork {
         clearedStage: this.clearedStage,
         equipmentCache: 1,
         stateOmissions: 1,
-        stateTuples: 1,
+        stateTuples: 2,
         pleatPose: 1,
         stateChunks: 1,
         stateFlow: 1,

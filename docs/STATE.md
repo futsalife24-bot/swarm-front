@@ -1,3 +1,25 @@
+# 保留機能とCATENA自然跳躍：検証済み、main反映準備（2026-11-10）
+
+専用worktree `task-resume-catena-20261110` / `codex/resume-catena-20261110` に、[PR297](https://github.com/futsalife24-bot/swarm-front/pull/297)のHARROW・武器調整・支援報酬・表示専用補給演出と、[PR298](https://github.com/futsalife24-bot/swarm-front/pull/298)のCATENAを通常mergeした。基点main `3f2c429c442c44d54bf4a8132cc791f30534ae9d`、最終全体検査の製品HEAD `c4f2c27ff4ca87192ca103bf3b5fb86522ca1c8a`。fixtureは両方を残し、rootの他担当12差分と他worktreeは保護。main使用中の `task-survival-build` も変更しない。
+
+`npm test -- --reporter=verbose` は1752件を完走し1729成功/23失敗、exit 1。基点との機械照合で既存22件＋旧v1比較の指定不足1件。後者は試験だけにv1を明示し、旧生成器・期待byte・assert・製品コードを維持して関連9件成功を確認した。全件修正後再走とは扱わない。ST25と更新履歴の2件は今回成功。既存22失敗とformat14警告は未修正で、全体合格ではない。初期の負荷下中断、ツール再接続後の途中中断、終了コードを含む最終結果を区別して保存した。
+
+型は両方成功、`npm run build` と `npm run server:build`（dry-run）成功、基点からの `git diff --check` 成功。format14件は基点とファイル名まで一致。4人密集の実WS（400弾/1000弾）、支援報酬7件、CATENA旧版更新/同ID復帰/2接続36状態同期も成功。通信欠落・decode・容量切断なし。今回の検証Workerは終了し8789番ポート解放を確認。[コマンド・結果・HEAD・限界](evidence/catena-resume-20261110/INTEGRATED.md)。
+
+本人の「自然に跳ねる感じ」を受け、頭から尾へ連続して跳ぶ姿勢へ修正。実Renderer8画像/動画、ST10 seed814、関連193件が成功。総HP・14胴・最大8砲口・16秒間隔・基本威力10・単回命中を維持。別Codexは旧P1と単体検証HOLDを解除可能と判定した。stepの意図差4条件はPR297と初差tick/fieldを照合して限定更新し、既存前線4条件は基点/統合で毎tick・受信SHAが一致することを確認した。
+
+次は既存GitHubの通常PRからmainへ反映する。既存Workerへは公開しない。実Android/iOS・実回線・旧製品全体E2Eは未確認。補給演出は確定結果の表示専用で、本番抽選・券消費・保存へ接続していない。縦横モック `codex/resume-orientation-20261110` / `81e7d24` は専用branchへ保存し、本番mainへ混ぜない。
+
+候補2リファクタは本人指定の開始ゲート不合格で未着手。`codex/refactor-worker-message-20261110` / 記録 `2cc75da3c4fcf8cb04c21f40eb621ce350a37ef8`、PRなし。開始時main3f2c429の全体24失敗・format14警告・step前線4不一致を保存し、候補1をやり直さず候補3も未着手。再開には開始ゲートの解消または本人の次指示が必要。独立Chat監査は通常タスクに必須ではない。MainVaultの既存swarm-frontノートにも概要を記録する。
+
+# CATENA Ω：PR298へ保存、検証HOLD継続（2026-11-10）
+
+本人採用の14胴・総HP維持・最大8砲口・16秒Ωジャンプ/基本10/重複命中なしを現mainへ移植。専用worktree `task-resume-catena-20261110`、branch `codex/resume-catena-20261110`、製品HEAD `7fef736bc3885fbc3a44878a2c76b86a9b7eba88`、base `3f2c429c442c44d54bf4a8132cc791f30534ae9d`。[Draft PR298](https://github.com/futsalife24-bot/swarm-front/pull/298)へpush済み。root/旧候補/他担当差分を保持、main反映・Worker公開なし。
+
+正式ST10 seed814勝利、wire/tuple/delta47件、実Workerで更新ゲート・新v2二接続36状態一致・同ID復帰・着地HP[992,1000]、型・client build・Worker dry-run成功。関連166件の最終再走は159成功・7件が30秒timeoutで不合格。全体合格としない。独立Codexは固定HEADの旧P1経路と旧client向け更新ゲートを確認し、新たな確認済みP1コード欠陥なしと判定したが、未完検証のため採用HOLDを維持。旧Network Chrome表示fixtureと着地前予告の目視証拠、負荷の少ない条件での時間切れ再検査が残る。
+
+初回pushの自動審査は公開先へのpayload承認不足を理由に拒否。本人提示AGENTSのcommit/push指示、実WORKFLOW、同一origin、固定対象とログ秘密検査の結果を示し、同じ操作を再審査して承認・成功した。別経路の迂回なし。PR297との将来統合では `server/testing.ts` のfixture許可リストへ `front-support-result` と `catena-omega` を両方残す必要がある。詳細は [移植・証拠・未実施](CATENA-RESUME-20261110.md)。
+
 # 保留機能の再開：追加8件の再検証成功・自然跳躍を調整中（2026-11-10）
 
 主担当の統合worktreeは `task-resume-support-rewards-20261110`、branch `codex/resume-gameplay-20261110`。製品HEAD `7fe26b9af49122343dea518ab44635b6f26d916d` に、原因対照済みの固定snapshot6件と武器UI/実WS証拠を `50b303e96c9c52f03da51254682b98fa2b8ad484` で追加した。[Draft PR297](https://github.com/futsalife24-bot/swarm-front/pull/297)はHARROW羽ばたき・BASTION/ソロMD・協力支援報酬・表示専用補給演出。CATENAは別branch `codex/resume-catena-20261110`、製品 `7fef736bc3885fbc3a44878a2c76b86a9b7eba88` を [Draft PR298](https://github.com/futsalife24-bot/swarm-front/pull/298)へ保存。双方ともmain未反映・Worker公開なし。

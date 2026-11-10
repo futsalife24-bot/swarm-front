@@ -11,6 +11,7 @@ import {
 import { FoundryWormGait } from "./foundry-worm-gait";
 import { windupPressure } from "./enemy-windup-clip";
 import { FOUNDRY_WORM_FILE } from "./enemy-motion-assets";
+import { omegaPhase } from "../shared/catena-omega";
 
 export const FOUNDRY_WORM_ASSET = `${import.meta.env.BASE_URL}${FOUNDRY_WORM_FILE}`;
 
@@ -246,7 +247,7 @@ function buildBatches(root: T.Group): BatchState {
 }
 
 /**
- * Rigid eight-unit view. The caller supplies its URL and owns this view.
+ * 剛体の頭1＋胴14節を描く。旧7節の保存にも対応する。
  * Every load creates a separate asset; no cache or cross-view resource sharing.
  * Meshes inside one asset may share resources, which dispose releases once.
  * Do not independently dispose, clone, or lend these resources to another view.
@@ -297,6 +298,17 @@ export class FoundryWormView {
   private constructor(root: T.Group, resources: Resources) {
     const assembly = requiredNode(root, "FOUNDRY_ZERO_ROOT");
     const units = UNIT_NAMES.map((name) => requiredNode(assembly, name));
+    // 既存GLBの剛体節を共有資源のまま複製。元アセットを上書きしない。
+    for (let i = 8; i <= 14; i++) {
+      const source = units[1 + ((i - 8) % 7)],
+        clone = source.clone(true);
+      const prefix = `FZ_BODY_${String(i).padStart(2, "0")}`;
+      clone.traverse((n) => {
+        n.name = n.name.replace(source.name, prefix);
+      });
+      assembly.add(clone);
+      units.push(clone);
+    }
     if (units.some((unit) => unit.parent !== assembly))
       throw new Error("FOUNDRY ZERO units must share the assembly parent");
     const connectors = units.slice(1).map((unit) => {
@@ -353,7 +365,7 @@ export class FoundryWormView {
   }
 
   /**
-   * Read-only snapshot projection: e is slot 0; segments[0..6] are slots 1..7.
+   * 読み取り専用投影。eは頭、segmentsは7または14の固定した胴の枠。
    * Broken slots stay in place. A body never becomes a replacement head.
    * Coordinates are in root-local game metres; callers may transform root for
    * an inspection scene. time is the monotonic visual clock within one run.
@@ -389,11 +401,13 @@ export class FoundryWormView {
       ? (x, z) => ground(x * size, z * size) / size
       : undefined;
     if (this.disposed) throw new Error("FOUNDRY ZERO view has been disposed");
-    if (enemy.kind !== "boss" || enemy.segments?.length !== 7)
+    if (enemy.kind !== "boss" || ![7, 14].includes(enemy.segments?.length ?? 0))
       throw new Error(
-        "FOUNDRY ZERO requires one boss with seven fixed body slots",
+        "FOUNDRY ZERO requires one boss with seven or fourteen fixed body slots",
       );
-    const nodes: readonly Readonly<WormNode>[] = [enemy, ...enemy.segments];
+    const nodes: readonly Readonly<WormNode>[] = [enemy, ...enemy.segments!];
+    for (let i = nodes.length; i < this.units.length; i++)
+      this.units[i].visible = false;
     if (
       !Number.isFinite(time) ||
       nodes.some(
@@ -427,10 +441,13 @@ export class FoundryWormView {
       unit.visible = alive(node);
       unit.position.set(node.x, node.y, node.z);
       unit.rotation.set(0, heading + Math.PI, 0);
+      if (omegaPhase(enemy, time) === "brace")
+        unit.rotation.x =
+          0.22 * Math.sin((Math.PI * (time - enemy.omega!.at)) / 0.7);
       unit.scale.set(1, 1, 1);
     }
 
-    for (let index = 1; index < this.units.length; index++) {
+    for (let index = 1; index < nodes.length; index++) {
       const unit = this.units[index];
       const previous = this.units[index - 1];
       const connector = this.connectors[index - 1];
@@ -457,7 +474,7 @@ export class FoundryWormView {
       );
       connector.scale.z = length / CONNECTOR_LENGTH;
     }
-    this.gait.update(time);
+    this.gait.update(time, omegaPhase(enemy, time) === "flight");
     // Fan the head's articulated launchers while its central laser builds pressure.
     const headProgress =
       1 - ((enemy.acidAt ?? time) - time) / FOUNDRY_LASER_WARNING;

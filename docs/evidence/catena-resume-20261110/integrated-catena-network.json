@@ -1,0 +1,22 @@
+{
+  "pass": true,
+  "realWorker": true,
+  "sockets": 2,
+  "fixture": "通常市街地の安全配置・size0.8・Ω即開始のみ",
+  "matched": 36,
+  "phases": [
+    "予備",
+    "赤予告",
+    "飛行",
+    "完了"
+  ],
+  "maxBytes": 2891,
+  "hp": [
+    992,
+    1000
+  ],
+  "errors": [
+    [],
+    []
+  ]
+}

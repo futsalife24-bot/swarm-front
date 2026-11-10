@@ -119,7 +119,9 @@ function tupleRows(rows: unknown): rows is any[][] {
 }
 function tupleState(value: ObjectValue) {
   return (
-    value.stateEncoding === STATE_TUPLE_ENCODING &&
+    ["tuples-v1", STATE_TUPLE_ENCODING].includes(
+      value.stateEncoding as string,
+    ) &&
     record(value.world) &&
     [value.world.enemies, value.world.projectiles].every(tupleRows)
   );
