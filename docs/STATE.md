@@ -1,3 +1,11 @@
+# ANOMALYレポート連動を必須化・CATENAの漏れを確認（2026-11-11）
+
+本人の「ANOMALYの更新は必ずエネミーレポートも連動」をAGENTS.mdへ明記。基点main c816292d8da40e5bd6f202e415233c9ec75b1030、専用worktree task-resume-catena-20261110 / codex/anomaly-report-rule-20261111。文書変更のみ、製品変更・再公開なし。
+
+CATENAは未対応を確認: src/client/bestiary.tsの説明は「七つの胴節」、src/client/enemy-report-motion.tsのreportWormは頭＋7胴（length:8）の専用生成。攻撃再生はレーザーのみで自然跳躍の再生なし。前回の38ファイル配信照合と戦闘側描画検証はレポート確認を含まず、レポート更新済みという証拠にはならない。今回のルール記録によってこれらが修正されたとは扱わない。必要な後続対応は14胴/自然跳躍の説明・専用プレビュー・カメラ/エフェクトの整合と実レポート画面検証。
+
+検証: 対象ソースと前回差分の読み取り、git diff --check。既存root他担当12差分を保持。
+
 # 保留機能・CATENA自然跳躍を既存Workerへ公開済み（2026-11-10）
 
 本人の「すすめて」を受け、main 769353b21567ad9f0c2251d0c439c50edac9a077から本番ビルドし、既存swarm-frontへ公開した。Worker Version abe7ecdb-5026-4c71-a0b6-f080028654e1、100%配信。作業場所 task-resume-catena-20261110 / codex/release-resume-20261110。公開記録[PR300](https://github.com/futsalife24-bot/swarm-front/pull/300)、初回記録HEAD 392109cab76bd27fb0536748af6dcca3b8892462。製品コードは変更せず、root他担当12差分・別worktreeを保護。
