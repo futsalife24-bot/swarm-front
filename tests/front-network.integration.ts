@@ -23,6 +23,7 @@ class Client {
   decodeErrors = 0;
   maxPacketBytes = 0;
   chunkPackets = 0;
+  closeCodes: number[] = [];
   deltaPackets = 0;
   deltaVersions = new Set<number>();
   compactPackets = 0;
@@ -42,6 +43,7 @@ class Client {
     pleatPose: number | undefined = undefined,
     playerDelta = false,
     networkTrace = false,
+    supportRewards = false,
   ) {
     this.ws = new WebSocket(
       `${base.replace("http", "ws")}/rooms/${code}?ruleset=front-v1&testClient=${createHash(
@@ -66,6 +68,7 @@ class Client {
         ...(pleatPose !== undefined ? { pleatPose } : {}),
         ...(playerDelta ? { stateDeltaPlayers: 1 } : {}),
         ...(networkTrace ? { networkTrace: 1 } : {}),
+        ...(supportRewards ? { frontSupportRewards: 1 } : {}),
         ...(token ? { token } : {}),
       });
     this.ws.onmessage = (e) => {
@@ -94,6 +97,7 @@ class Client {
         this.token = m.token;
       }
     };
+    this.ws.onclose = (event) => this.closeCodes.push(event.code);
     clients.push(this);
   }
   send(value: unknown) {
@@ -158,6 +162,7 @@ async function team(
   pleatPose: (number | undefined)[] = [],
   playerDelta: boolean[] = [],
   networkTrace: boolean[] = [],
+  supportRewards = false,
 ) {
   const entry = await room(mode),
     members: Client[] = [];
@@ -176,6 +181,7 @@ async function team(
       pleatPose[i],
       playerDelta[i],
       networkTrace[i],
+      supportRewards,
     );
     await c.wait((m) => m.type === "welcome");
     members.push(c);
@@ -429,6 +435,80 @@ describe("改装版の実通信", () => {
       expect(members[index].ws.readyState).toBe(WebSocket.OPEN);
     }
   });
+  it.each([
+    ["front-wire-heavy", 400, false],
+    ["front-wire-overflow", 1000, true],
+  ] as const)(
+    "支援報酬対応4人のv2密集状態を%sで欠落なく復元する",
+    async (fixture, projectileCount, chunksSupported) => {
+      const { entry, members, states } = await team(
+        4,
+        "survival",
+        3,
+        true,
+        true,
+        chunksSupported,
+        false,
+        false,
+        [],
+        [],
+        [],
+        true,
+      );
+      states.forEach((state) =>
+        expect(state.frontView.rewardPolicy).toBe("team-v1"),
+      );
+      const offsets = members.map((member) => member.messages.length);
+      const response = await fetch(
+        `${base}/fixtures/${entry.code}/${fixture}`,
+        { method: "POST" },
+      );
+      expect(response.status).toBe(200);
+      const packets = await Promise.all(
+        members.map((member, index) =>
+          member.wait(
+            (message) =>
+              message.type === "state" &&
+              message.world.projectiles.length === projectileCount,
+            offsets[index],
+          ),
+        ),
+      );
+      for (const [index, packet] of packets.entries()) {
+        const member = members[index];
+        expect(packet.frontView.rewardPolicy).toBe("team-v1");
+        expect(typeof packet.frontView.supportRewardEligible).toBe("boolean");
+        expect(typeof packet.frontView.rewardCount).toBe("number");
+        expect(packet.world.enemies).toHaveLength(96);
+        expect(packet.world.front.orbs).toHaveLength(160);
+        expect(packet.omitted?.enemies ?? []).toHaveLength(0);
+        expect(packet.omitted?.orbs ?? []).toHaveLength(0);
+        expect(member.tuplePackets).toBeGreaterThan(0);
+        if (chunksSupported) expect(member.chunkPackets).toBeGreaterThan(1);
+        expect(member.decodeErrors).toBe(0);
+        expect(member.maxPacketBytes).toBeLessThanOrEqual(65536);
+        expect(member.closeCodes).not.toContain(4009);
+        expect(member.ws.readyState).toBe(WebSocket.OPEN);
+      }
+      console.info(
+        "integrated-capacity",
+        JSON.stringify({
+          fixture,
+          members: packets.map((packet, index) => ({
+            maxPacketBytes: members[index].maxPacketBytes,
+            chunkPackets: members[index].chunkPackets,
+            enemies: packet.world.enemies.length,
+            orbs: packet.world.front.orbs.length,
+            projectiles: packet.world.projectiles.length,
+            omittedEnemies: packet.omitted?.enemies?.length ?? 0,
+            omittedOrbs: packet.omitted?.orbs?.length ?? 0,
+            decodeErrors: members[index].decodeErrors,
+            closeCodes: members[index].closeCodes,
+          })),
+        }),
+      );
+    },
+  );
   it("新旧画面が混在する実通信でもBASTIONの予告方向を維持する", async () => {
     const { entry, members } = await team(
       2,
