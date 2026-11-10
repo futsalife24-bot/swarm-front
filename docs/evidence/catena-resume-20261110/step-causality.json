@@ -1,0 +1,306 @@
+{
+  "baseHead": "aca371023cbb1db5dbf68ee0364b688f45bfb676",
+  "currentHead": "7ef8b71b01e35bf3540d352657be0af44158e5a1",
+  "comparisons": [
+    {
+      "scenario": "通常・2人・WORMの波",
+      "firstDivergentTick": 529,
+      "field": {
+        "path": "$.enemies.0.segments.0.partHp",
+        "base": 1033.59375,
+        "candidate": 516.796875
+      },
+      "baseline": {
+        "ticks": 1500,
+        "phase": "battle",
+        "reason": "",
+        "time": 74.99999999999788,
+        "wave": 2,
+        "kills": 56,
+        "serial": 128,
+        "seed": 551303319,
+        "enemies": "ant crawler spider spitter worm",
+        "events": "acid:52 burst:13 hit:86 kill:56 shot:629",
+        "projectiles": "laser rocket",
+        "sha256": "3090bf7443f58b8a5bfe653239584e34d89645913110c903cbad51433e049162"
+      },
+      "candidate": {
+        "ticks": 1500,
+        "phase": "battle",
+        "reason": "",
+        "time": 74.99999999999788,
+        "wave": 2,
+        "kills": 56,
+        "serial": 123,
+        "seed": 551303319,
+        "enemies": "ant crawler spider spitter worm",
+        "events": "acid:47 burst:43 hit:87 kill:56 shot:629",
+        "projectiles": "laser rocket",
+        "sha256": "6168b9bcdd91551ed6cb852ec01844eae133a50009214669e26de0282de22dab"
+      },
+      "snapshotExpectedSha256": "3090bf7443f58b8a5bfe653239584e34d89645913110c903cbad51433e049162",
+      "baselineMatchesSnapshot": true,
+      "snapshotAction": "updated named CATENA scenario"
+    },
+    {
+      "scenario": "通常・全種を直接配置",
+      "firstDivergentTick": 0,
+      "field": {
+        "path": "$.enemies.12.segments.0.x",
+        "base": 4.483686966178871e-16,
+        "candidate": 4.483686966178875e-16
+      },
+      "baseline": {
+        "ticks": 800,
+        "phase": "battle",
+        "reason": "",
+        "time": 39.999999999999865,
+        "wave": 1,
+        "kills": 14,
+        "serial": 187,
+        "seed": 2742004619,
+        "enemies": "ant bastion boss calyx crawler harrow hornet spider spitter worm",
+        "events": "acid:73 burst:96 hit:146 kill:14 shot:154",
+        "projectiles": "bastion laser pollen rocket",
+        "sha256": "f67dc899be658727aabb907646b0da485545d6e71f77b4d48d24347257575d70"
+      },
+      "candidate": {
+        "ticks": 800,
+        "phase": "battle",
+        "reason": "",
+        "time": 39.999999999999865,
+        "wave": 1,
+        "kills": 14,
+        "serial": 188,
+        "seed": 2742004619,
+        "enemies": "ant bastion boss calyx crawler harrow hornet spider spitter worm",
+        "events": "acid:70 burst:111 hit:152 kill:14 shot:154",
+        "projectiles": "bastion laser pollen rocket",
+        "sha256": "2bf815eb8b9526bc07fe899021c47908cb5aeeca8ad09a8f3f04ed4e81c5eed8"
+      },
+      "snapshotExpectedSha256": "f67dc899be658727aabb907646b0da485545d6e71f77b4d48d24347257575d70",
+      "baselineMatchesSnapshot": true,
+      "snapshotAction": "updated named CATENA scenario"
+    },
+    {
+      "scenario": "通常・高低差・全種を直接配置",
+      "firstDivergentTick": 0,
+      "field": {
+        "path": "$.enemies.12.segments.0.x",
+        "base": 4.483686966178871e-16,
+        "candidate": 4.483686966178875e-16
+      },
+      "baseline": {
+        "ticks": 600,
+        "phase": "battle",
+        "reason": "",
+        "time": 30.00000000000029,
+        "wave": 1,
+        "kills": 7,
+        "serial": 115,
+        "seed": 1730777705,
+        "enemies": "ant bastion boss calyx crawler harrow hornet spider spitter worm",
+        "events": "acid:72 burst:17 hit:81 kill:7 shot:107",
+        "projectiles": "acid bastion laser pollen rocket stake",
+        "sha256": "89ddffc650d38755e4772e00c3ce2f858c1d726f030f9fddc03353ea34a6a9bc"
+      },
+      "candidate": {
+        "ticks": 600,
+        "phase": "battle",
+        "reason": "",
+        "time": 30.00000000000029,
+        "wave": 1,
+        "kills": 7,
+        "serial": 116,
+        "seed": 1730777705,
+        "enemies": "ant bastion boss calyx crawler harrow hornet spider spitter worm",
+        "events": "acid:68 burst:32 hit:86 kill:7 shot:107",
+        "projectiles": "acid bastion laser pollen rocket stake",
+        "sha256": "e5f62a5838169d4db279dcdb250924013b80c40dc6ebaa21b9b033388aea8830"
+      },
+      "snapshotExpectedSha256": "89ddffc650d38755e4772e00c3ce2f858c1d726f030f9fddc03353ea34a6a9bc",
+      "baselineMatchesSnapshot": true,
+      "snapshotAction": "updated named CATENA scenario"
+    },
+    {
+      "scenario": "通常・洞窟・全種を直接配置",
+      "firstDivergentTick": 0,
+      "field": {
+        "path": "$.enemies.8.x",
+        "base": 0.0000884554786973481,
+        "candidate": -0.0029536807612721185
+      },
+      "baseline": {
+        "ticks": 800,
+        "phase": "battle",
+        "reason": "",
+        "time": 39.999999999999865,
+        "wave": 1,
+        "kills": 27,
+        "serial": 199,
+        "seed": 1190243187,
+        "enemies": "ant bastion boss calyx crawler harrow hornet spider spitter worm",
+        "events": "acid:108 burst:35 hit:458 kill:27 shot:375",
+        "projectiles": "acid bastion laser pollen rocket stake",
+        "sha256": "9ed46d659d3d6e4b422461a43949feea8eb3d5de38bd3982c0a195cdd40cd800"
+      },
+      "candidate": {
+        "ticks": 800,
+        "phase": "battle",
+        "reason": "",
+        "time": 39.999999999999865,
+        "wave": 1,
+        "kills": 26,
+        "serial": 211,
+        "seed": 2471222189,
+        "enemies": "ant bastion boss calyx crawler harrow hornet spider spitter worm",
+        "events": "acid:118 burst:35 hit:421 kill:26 shot:375",
+        "projectiles": "acid bastion laser pollen rocket stake",
+        "sha256": "6fdca2cf61e0170e089b2438bc0e99b3fbcd0ccb3f00ac293af0f381ae60bdd2"
+      },
+      "snapshotExpectedSha256": "9ed46d659d3d6e4b422461a43949feea8eb3d5de38bd3982c0a195cdd40cd800",
+      "baselineMatchesSnapshot": true,
+      "snapshotAction": "updated named CATENA scenario"
+    },
+    {
+      "scenario": "前線・生存・融合・1人",
+      "firstDivergentTick": -1,
+      "baseline": {
+        "ticks": 1500,
+        "phase": "battle",
+        "reason": "",
+        "time": 73.94999999999794,
+        "wave": 1,
+        "kills": 156,
+        "serial": 340,
+        "seed": 1059240909,
+        "enemies": "bastion crawler spitter",
+        "events": "acid:3 burst:275 hit:345 kill:156 shot:348",
+        "projectiles": "acid bastion",
+        "sha256": "af5b0bff264ff105169fa4398bd63bdbc21228a7b2456ecc4939ba5f0baaa997"
+      },
+      "candidate": {
+        "ticks": 1500,
+        "phase": "battle",
+        "reason": "",
+        "time": 73.94999999999794,
+        "wave": 1,
+        "kills": 156,
+        "serial": 340,
+        "seed": 1059240909,
+        "enemies": "bastion crawler spitter",
+        "events": "acid:3 burst:275 hit:345 kill:156 shot:348",
+        "projectiles": "acid bastion",
+        "sha256": "af5b0bff264ff105169fa4398bd63bdbc21228a7b2456ecc4939ba5f0baaa997"
+      },
+      "snapshotExpectedSha256": "55bcffc5c7ebdfbc7a6a2f8e3e5d1b6f90aeb42c9e36751dff007fc4e4d099b7",
+      "baselineMatchesSnapshot": false,
+      "snapshotAction": "preserve pre-existing mismatch"
+    },
+    {
+      "scenario": "前線・生存・融合・2人",
+      "firstDivergentTick": -1,
+      "baseline": {
+        "ticks": 1000,
+        "phase": "battle",
+        "reason": "",
+        "time": 49.19999999999934,
+        "wave": 1,
+        "kills": 85,
+        "serial": 196,
+        "seed": 1940084782,
+        "enemies": "crawler",
+        "events": "burst:195 hit:376 kill:85 shot:413",
+        "projectiles": "",
+        "sha256": "c64c67b30753ddb27064b9a466c7816e5df895e867b0c6d63798d16440ea4db2"
+      },
+      "candidate": {
+        "ticks": 1000,
+        "phase": "battle",
+        "reason": "",
+        "time": 49.19999999999934,
+        "wave": 1,
+        "kills": 85,
+        "serial": 196,
+        "seed": 1940084782,
+        "enemies": "crawler",
+        "events": "burst:195 hit:376 kill:85 shot:413",
+        "projectiles": "",
+        "sha256": "c64c67b30753ddb27064b9a466c7816e5df895e867b0c6d63798d16440ea4db2"
+      },
+      "snapshotExpectedSha256": "45d5e6e653021a345b9d9bfbf6b37191e74be2bacb6d2d36a1e3c3d733ee5d11",
+      "baselineMatchesSnapshot": false,
+      "snapshotAction": "preserve pre-existing mismatch"
+    },
+    {
+      "scenario": "前線・防衛・融合",
+      "firstDivergentTick": -1,
+      "baseline": {
+        "ticks": 800,
+        "phase": "defeat",
+        "reason": "防衛対象が破壊されました",
+        "time": 38.54999999999995,
+        "wave": 1,
+        "kills": 24,
+        "serial": 96,
+        "seed": 1433471809,
+        "enemies": "crawler",
+        "events": "burst:281 hit:75 kill:24 shot:185",
+        "projectiles": "",
+        "sha256": "74718c06678c452aece9fe2cd19c0112bf676b99855e68c5c6f79981ea0af43f"
+      },
+      "candidate": {
+        "ticks": 800,
+        "phase": "defeat",
+        "reason": "防衛対象が破壊されました",
+        "time": 38.54999999999995,
+        "wave": 1,
+        "kills": 24,
+        "serial": 96,
+        "seed": 1433471809,
+        "enemies": "crawler",
+        "events": "burst:281 hit:75 kill:24 shot:185",
+        "projectiles": "",
+        "sha256": "74718c06678c452aece9fe2cd19c0112bf676b99855e68c5c6f79981ea0af43f"
+      },
+      "snapshotExpectedSha256": "c072c30f8228be4af2355b0b73f81e91b603f769417d5490799d85676ff50177",
+      "baselineMatchesSnapshot": false,
+      "snapshotAction": "preserve pre-existing mismatch"
+    },
+    {
+      "scenario": "前線・旧方式",
+      "firstDivergentTick": -1,
+      "baseline": {
+        "ticks": 1000,
+        "phase": "battle",
+        "reason": "",
+        "time": 49.39999999999933,
+        "wave": 1,
+        "kills": 64,
+        "serial": 173,
+        "seed": 3333369809,
+        "enemies": "crawler",
+        "events": "burst:124 hit:152 kill:64 shot:238",
+        "projectiles": "",
+        "sha256": "67e0ba97c4affe411f7b2dbb703b7ad28b60652381c563e0300bce26d704807b"
+      },
+      "candidate": {
+        "ticks": 1000,
+        "phase": "battle",
+        "reason": "",
+        "time": 49.39999999999933,
+        "wave": 1,
+        "kills": 64,
+        "serial": 173,
+        "seed": 3333369809,
+        "enemies": "crawler",
+        "events": "burst:124 hit:152 kill:64 shot:238",
+        "projectiles": "",
+        "sha256": "67e0ba97c4affe411f7b2dbb703b7ad28b60652381c563e0300bce26d704807b"
+      },
+      "snapshotExpectedSha256": "e93f1b3230b062cc99c65bf26e4c0174863d18dba683391473d99ba709b2043c",
+      "baselineMatchesSnapshot": false,
+      "snapshotAction": "preserve pre-existing mismatch"
+    }
+  ]
+}
