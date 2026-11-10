@@ -1,5 +1,7 @@
 # CATENAレポート・会敵ムービー公開済み（2026-11-11）
 
+公開記録: [PR303](https://github.com/futsalife24-bot/swarm-front/pull/303)、初回記録HEAD 0919e10d07d094d2ed2cd0a6b314ce57636fbe80。
+
 本人の「公開まで進めて」に従い、[PR302](https://github.com/futsalife24-bot/swarm-front/pull/302)を通常merge。公開source 233f2f5860997e6c0206700aa27abc1fff80fa5d、既存Worker Version 5d778296-0c44-43b1-aef1-539cc67461d9を100%配信。専用worktree task-resume-catena-20261110 / codex/catena-report-release-20261111。ルート他担当12差分を保持。
 
 mainで本番build/dry-run/deploy成功。本体36ファイル＋新動画SHA一致、health200/ok。公開Chrome1280×720 / 844×390で14胴のレポート表示・攻撃再生、1280幅で11秒動画の再生を確認、pageerror0。公開UIは隔離遭遇fixtureを使用、実スマホ/自然遭遇/協力実通信は今回未実施。既存失敗とformat14警告、候補2の開始ゲート停止、候補3未着手を維持。[公開コマンド・結果・証拠](evidence/catena-report-release-20261111/RELEASE.md)。後続は記録のみで製品再公開不要。
