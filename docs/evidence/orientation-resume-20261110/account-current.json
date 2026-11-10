@@ -1,0 +1,69 @@
+{
+  "at": "2026-11-10T03:59:19.571Z",
+  "subscriptions": {
+    "status": 403,
+    "errors": [
+      {
+        "code": 10000,
+        "message": "Authentication error"
+      }
+    ]
+  },
+  "versions": {
+    "swarm-front": {
+      "status": 200,
+      "deployments": [
+        {
+          "id": "3b81ae10-2fc2-469c-9577-542df7eb4e00",
+          "created_on": "2026-11-08T00:38:32.272317Z",
+          "versions": [
+            {
+              "version_id": "42fb8817-67cc-4d0f-b478-73a12aeedc00",
+              "percentage": 100
+            }
+          ]
+        }
+      ]
+    },
+    "swarm-front-orientation-mock": {
+      "status": 200,
+      "deployments": [
+        {
+          "id": "deb8e330-4b76-4030-b37e-dead11d0b711",
+          "created_on": "2026-10-23T14:43:30.044298Z",
+          "versions": [
+            {
+              "version_id": "32ec0642-3411-417b-a02d-cf539e0861c2",
+              "percentage": 100
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "usage": {
+    "status": 200,
+    "interval": {
+      "start": "2026-11-10T00:00:00Z",
+      "end": "2026-11-10T03:59:19.571Z"
+    },
+    "result": {
+      "viewer": {
+        "accounts": [
+          {
+            "workersInvocationsAdaptive": [
+              {
+                "sum": {
+                  "errors": 0,
+                  "requests": 48,
+                  "subrequests": 49
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "errors": null
+  }
+}
