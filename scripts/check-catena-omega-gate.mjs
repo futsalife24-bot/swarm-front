@@ -2,7 +2,7 @@
 import assert from "node:assert/strict";
 import { readFileSync, writeFileSync } from "node:fs";
 
-const base = "http://127.0.0.1:8797";
+const base = process.env.SWARM_TEST_SERVER_URL ?? "http://127.0.0.1:8797";
 const key = /^ROOM_CREATION_KEY="([a-f0-9]{64})"$/m.exec(
   readFileSync(".dev.vars", "utf8"),
 )?.[1];

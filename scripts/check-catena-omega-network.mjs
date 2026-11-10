@@ -1,7 +1,7 @@
 // 本番Room/Workerにv2 WebSocketを2本接続し、ΩとHPの同時刻一致を照合する。
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import assert from "node:assert/strict";
-const base = "http://127.0.0.1:8797";
+const base = process.env.SWARM_TEST_SERVER_URL ?? "http://127.0.0.1:8797";
 const key = /^ROOM_CREATION_KEY="([a-f0-9]{64})"$/m.exec(
   readFileSync(".dev.vars", "utf8"),
 )?.[1];

@@ -4,7 +4,7 @@
 
 自然跳躍は頭→尾の連続した上下運動へ変更し、地表XZ・予告・着地時刻・威力・単回命中を維持。ST10 seed814、関連193件（旧timeout7件を全て含む）、型、実Renderer8フレームの確認が成功。独立Codexは統合前の旧P1/timeout起因の単体技術HOLDを解除可と判定。旧Networkの限定Chrome fixtureも更新案内/token保持/14節受信0/例外0で成功済み。実端末追従視点と旧製品全体E2Eは未確認。
 
-残件は統合後の型/build・通信容量・実WS、CATENAのstep特性差の原因対照と限定更新。PR297は別worktreeで全体npm testを実行中。基点mainの既存失敗と区別して通常main反映へ進む。候補2リファクタは本人指定の開始ゲート不合格で未着手、候補3も未着手。[CATENA詳細](CATENA-RESUME-20261110.md)、[PR297検証](evidence/gameplay-resume-20261110/README.md)。
+残件は統合後の型/build・通信容量・実WS、CATENAのstep特性差の原因対照と限定更新。PR297の全体検査は1349条件（1326成功・既存23失敗、追加失敗0、ST25成功）まで記録したが、2026-11-10 14:48:44 JSTに前後するツール再接続後にプロセス不在となり、終了集計・終了コードを取得できなかった。`integration-precheck-interrupted.txt` と比較JSONへ途中結果を保存し、全件完了とは扱わない。最終統合候補で全体検査を完了させ、基点mainの既存失敗と区別して通常main反映へ進む。候補2リファクタは本人指定の開始ゲート不合格で未着手、候補3も未着手。[CATENA詳細](CATENA-RESUME-20261110.md)、[PR297検証](evidence/gameplay-resume-20261110/README.md)。
 
 # CATENA Ω：PR298へ保存、検証HOLD継続（2026-11-10）
 
