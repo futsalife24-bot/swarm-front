@@ -1,4 +1,5 @@
 import * as T from "three";
+import { harrowLandingSample } from "./harrow-motion-polish";
 import type { Enemy } from "../shared/game";
 import type { ReportEnemyKind } from "../shared/enemy-identity";
 import type { HoundClip } from "./hound-motion";
@@ -167,6 +168,7 @@ function reportHarrowPhase(time: number, selected?: HoundClip) {
       const sample = time % phase.duration;
       return {
         ...phase,
+        landingRecovery: false,
         sample,
         ...reportHarrowPosition(phase, sample),
       };
@@ -175,10 +177,15 @@ function reportHarrowPhase(time: number, selected?: HoundClip) {
   let sample =
     time %
     HARROW_REPORT_SEQUENCE.reduce((sum, phase) => sum + phase.duration, 0);
+  let previous: (typeof HARROW_REPORT_SEQUENCE)[number] | undefined;
   for (const phase of HARROW_REPORT_SEQUENCE) {
     if (sample < phase.duration)
       return {
         ...phase,
+        landingRecovery:
+          phase.clip === "Idle" &&
+          previous?.clip === "Land" &&
+          (previous.from ?? 0) > (previous.to ?? 0) + 0.1,
         sample,
         clip:
           phase.threat && sample >= HARROW.threatDuration
@@ -187,6 +194,7 @@ function reportHarrowPhase(time: number, selected?: HoundClip) {
         ...reportHarrowPosition(phase, sample),
       };
     sample -= phase.duration;
+    previous = phase;
   }
   return {
     clip: "Idle" as HoundClip,
@@ -195,6 +203,7 @@ function reportHarrowPhase(time: number, selected?: HoundClip) {
     height: 0,
     z: 0,
     threat: false,
+    landingRecovery: false,
   };
 }
 
@@ -292,7 +301,17 @@ export function reportPose(
           : mode === "move"
             ? ("Locomotion" as HoundClip)
             : ("Idle" as HoundClip),
-      sample: mode === "attack" ? phase.sample : time,
+      sample:
+        mode === "attack"
+          ? phase.clip === "Land"
+            ? harrowLandingSample(
+                phase.sample,
+                HARROW.landDuration,
+                (phase.from ?? 0) > (phase.to ?? 0) + 0.1,
+              )
+            : phase.sample
+          : time,
+      landingRecovery: mode === "attack" && phase.landingRecovery,
       height: mode === "attack" ? phase.height : 0,
       z: mode === "attack" ? phase.z : 0,
       impact: phase.threat ? HARROW.markerLead : HARROW.spinWind,

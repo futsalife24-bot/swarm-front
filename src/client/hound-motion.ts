@@ -4,6 +4,7 @@ import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { leaperReportClip } from "./leaper-report-clip";
 import { enemyIdleClip } from "./enemy-idle-clip";
 import { enemyWindupClip } from "./enemy-windup-clip";
+import { polishHarrowFlight } from "./harrow-motion-polish";
 import { trsPalette, TRS_PALETTE_GLSL } from "./motion-trs";
 import {
   ENEMY_MOTION_FILES,
@@ -118,6 +119,12 @@ export function loadEnemyMotion(
         throw new Error("Invalid enemy motion asset");
       const skeleton = meshes[0].skeleton,
         bones = skeleton.bones.length;
+      if (name === "harrow")
+        polishHarrowFlight(
+          model,
+          skeleton.bones,
+          clips.find((c) => c.name === "Flight")!,
+        );
       if (name !== "calyx" && name !== "harrow") {
         clips.splice(
           clips.findIndex((c) => c.name === "Idle"),
