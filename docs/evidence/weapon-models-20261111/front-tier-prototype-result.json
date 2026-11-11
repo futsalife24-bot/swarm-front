@@ -1,0 +1,131 @@
+{
+  "cases": [
+    {
+      "type": "new",
+      "tier": 0,
+      "before": 0,
+      "oldAfter": 1,
+      "newAfter": 0,
+      "packetModes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "type": "new",
+      "tier": 1,
+      "before": 1,
+      "oldAfter": 2,
+      "newAfter": 1,
+      "packetModes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "type": "new",
+      "tier": 2,
+      "before": 2,
+      "oldAfter": 3,
+      "newAfter": 2,
+      "packetModes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "type": "new",
+      "tier": 3,
+      "before": 3,
+      "oldAfter": 4,
+      "newAfter": 3,
+      "packetModes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "type": "new",
+      "tier": 4,
+      "before": 4,
+      "oldAfter": 5,
+      "newAfter": 4,
+      "packetModes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "type": "old",
+      "tier": 0,
+      "before": 1,
+      "oldAfter": 1,
+      "newAfter": 1,
+      "packetModes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "type": "old",
+      "tier": 1,
+      "before": 2,
+      "oldAfter": 2,
+      "newAfter": 2,
+      "packetModes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "type": "old",
+      "tier": 2,
+      "before": 3,
+      "oldAfter": 3,
+      "newAfter": 3,
+      "packetModes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "type": "old",
+      "tier": 3,
+      "before": 4,
+      "oldAfter": 4,
+      "newAfter": 4,
+      "packetModes": [
+        0,
+        1,
+        2
+      ]
+    }
+  ],
+  "collision": {
+    "oldTier": 1,
+    "newTier": 0,
+    "projected": {
+      "id": "one",
+      "kind": "slug",
+      "rarity": 0,
+      "power": 1,
+      "effect": "none",
+      "rolls": {
+        "mag": 1,
+        "reload": 1,
+        "range": 1,
+        "rate": 1
+      }
+    }
+  },
+  "malformedFallback": true,
+  "untrustedFieldAccepted": true
+}
