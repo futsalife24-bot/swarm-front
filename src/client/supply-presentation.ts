@@ -1,6 +1,7 @@
 import { WEAPONS, familyOf } from "../shared/defs";
 import { GRADES } from "../shared/progression";
 import type { SupplyReward } from "../shared/supply-contract";
+import { orderSupplyRewards } from "../shared/supply-policy";
 import { BUDDY_ASSETS } from "./buddy-assets";
 
 export interface Reveal {
@@ -43,7 +44,7 @@ export function supplyResults(
   owned: ReadonlySet<string> = new Set(),
 ) {
   const acquired = new Set(owned);
-  return rewards.map((reward) => {
+  return orderSupplyRewards(rewards).map((reward) => {
     if (reward.type === "shard")
       return { type: "shard", amount: reward.amount };
     if (reward.type === "buddy") {

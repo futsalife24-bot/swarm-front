@@ -22,7 +22,7 @@ const parallel=await Promise.all([call('draw',{requestId:first,count:10}),call('
 assert.deepEqual(parallel.map(r=>r.status).sort(),[200,409]);
 const accepted=parallel.find(r=>r.status===200).data;
 assert.equal(accepted.tickets,0);assert.equal(accepted.pending.rewards.length,10);
-assert(accepted.pending.rewards.some(r=>r.type==='buddy'||r.type==='weapon'&&r.weapon.rarity>=2));
+assert(accepted.pending.rewards[9].type==='buddy'||accepted.pending.rewards[9].type==='weapon'&&accepted.pending.rewards[9].weapon.rarity>=2);
 const receipt=accepted.pending;
 assert.deepEqual((await call('draw',{requestId:receipt.requestId,count:10})).data,accepted);
 report.push('並行要求は1回だけ消費・10連保証・同一結果再送');

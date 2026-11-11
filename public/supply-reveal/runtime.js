@@ -1,5 +1,5 @@
 import { createDropReveal, STOP_HOLD_MS } from './core.js';
-import { install, reset as resetFx, set as setFx } from './kakutei-fx.js';
+import { install, reset as resetFx, set as setFx, setBuddyArt } from './kakutei-fx.js';
 import { CLIPS } from './reference-scenes.js';
 import { chooseEffect } from './effect-selection.js';
 
@@ -15,6 +15,8 @@ export function createSupplyReveal(host, options = {}) {
   let parts = [], pos = 0, elapsed = 0, presentationClock = 0, waiting = null, waitSince = 0, queued = false, active = false, closed = false;
   let fxNumber = 0, model = null, result = null, caption = null, raf = 0, last = 0;
   let muted = false, reduced = core.state().reduced, fast = core.state().fast, cleanupFx = null, heldPointer = false;
+  let skipping = false;
+  const confirmedCuts = new Set();
   const ready = Promise.all([core.ready, install(core, o.assetBase || new URL('./assets/', import.meta.url).href, () => reduced)]).then(([, cleanup]) => { if (closed) cleanup(); else cleanupFx = cleanup; });
   const visual = (p, sec, tap = false) => {
     const u = p.d ? clamp(sec / p.d) : 1;
@@ -49,6 +51,7 @@ export function createSupplyReveal(host, options = {}) {
   const render = () => {
     const p = current(); if (!p) return;
     visual(p, elapsed, !!waiting && waiting !== 'final');
+    if (skipping && waiting === 'cut') core.root.querySelector('[data-act="skip"]').disabled = true;
   };
   const tick = (now) => {
     raf = requestAnimationFrame(tick);
@@ -72,6 +75,13 @@ export function createSupplyReveal(host, options = {}) {
   };
   const motion = (a, b, opt = {}) => ({ a, b, d: Math.max(0, b - a), snd: true, ...opt });
   const waitPart = (s, fx = null, seg = null) => ({ a: s.t, b: s.t, d: 0, wait: s.kind, fx, gold: !!seg?.gold, notap: !!seg?.notap, refStart: seg?.refStart === undefined ? undefined : seg.refStart + seg.refDuration });
+  const skippedParts = (indices) => [
+    ...indices.map((i) => {
+      const c = model.cuts.find((c) => c.p.i === i);
+      return { ...waitPart({ t: c.tDone, kind: 'cut' }), skipCut: i };
+    }),
+    waitPart(model.stops.at(-1)),
+  ];
   const append = (out, seg, stops, omit = new Set()) => {
     if (seg.b > seg.a + 1e-6) {
       let a = seg.a, used = 0;
@@ -144,7 +154,9 @@ export function createSupplyReveal(host, options = {}) {
       muted = !!cfg.silent;
       await core.play(results, { manual: true, silent: muted });
       model = core.model(); result = results;
+      skipping = false; confirmedCuts.clear();
       fxNumber = chooseEffect(model, cfg.effects);
+      setBuddyArt(fxNumber === 10 ? model.pods.find((p) => p.tier === 5)?.r.art : null);
       caption = fxNumber ? CLIPS[fxNumber - 1] : null;
       parts = makeParts(model, fxNumber); pos = 0; elapsed = 0; presentationClock = 0; waiting = null; queued = false; active = true;
       if (parts.length) enter(parts[0]);
@@ -156,10 +168,22 @@ export function createSupplyReveal(host, options = {}) {
       if (!active || waiting === 'final') return;
       if (!waiting) { const next = parts.slice(pos + 1).find((p) => p.wait); if (next && (next.wait === 'pod' || next.wait === 'promo')) queued = true; return; }
       if (performance.now() - waitSince < (STOP_HOLD_MS[waiting] || 0)) return;
+      if (waiting === 'cut') {
+        const c = model.cuts.find((c) => Math.abs(c.tDone - current().a) < 1e-4);
+        if (c) confirmedCuts.add(c.p.i);
+      }
       advance(); render();
     },
     skip() {
       if (!active || waiting === 'final') return;
+      if (skipping) return; // 獲得確認は再度スキップしても飛ばさない。
+      const remaining = model.cuts.filter((c) => !confirmedCuts.has(c.p.i));
+      if (remaining.length) {
+        skipping = true; queued = false;
+        parts = skippedParts(remaining.map((c) => c.p.i)); pos = 0; elapsed = 0; waiting = null;
+        setFx(null); enter(parts[0]); render();
+        return;
+      }
       pos = parts.length - 1; elapsed = 0; waiting = 'final';
       const end = model.tEnd; setFx(null); core.seek(end, 0, false);
       cue({ id: 'done' });
@@ -168,10 +192,10 @@ export function createSupplyReveal(host, options = {}) {
     close() { if (!active) return; active = false; cancelAnimationFrame(raf); setFx(null); core.close(); },
     destroy() { if (closed) return; api.close(); closed = true; cleanupFx?.(); root.removeEventListener('pointerdown', onPointer); root.removeEventListener('click', onClick, true); window.removeEventListener('pointerup', onRelease); window.removeEventListener('pointercancel', onRelease); window.removeEventListener('keydown', onKey); core.destroy(); },
     setFast(v) { fast = !!v; core.setFast(fast); },
-    setReduced(v) { reduced = !!v; core.setReduced(reduced); if (active) { const old = current(), fr = old?.d ? elapsed / old.d : 0; model = core.model(); parts = makeParts(model, fxNumber); pos = Math.min(pos, parts.length - 1); elapsed = (current()?.d || 0) * fr; render(); } },
+    setReduced(v) { reduced = !!v; core.setReduced(reduced); if (active) { const old = current(), fr = old?.d ? elapsed / old.d : 0; model = core.model(); parts = skipping ? skippedParts(parts.filter((p) => p.skipCut !== undefined).map((p) => p.skipCut)) : makeParts(model, fxNumber); pos = Math.min(pos, parts.length - 1); elapsed = (current()?.d || 0) * fr; render(); } },
     setSound(v) { core.setSound(v); },
     seek(t, idle = 0, tap = false, fx = null) { setFx(fx); core.seek(t, idle, tap); },
-    state() { return { active, effect: fxNumber, waiting, part: pos, t: current() ? current().a + (current().b - current().a) * (current().d ? elapsed / current().d : 1) : 0, reduced, fast }; },
+    state() { return { active, effect: fxNumber, waiting, part: pos, skipping, t: current() ? current().a + (current().b - current().a) * (current().d ? elapsed / current().d : 1) : 0, reduced, fast }; },
     model() { return model; },
     timeline() { return parts.map((p) => ({ a: p.a, b: p.b, d: p.d, refStart: p.refStart, refDuration: p.refDuration, wait: p.wait || null, gold: !!p.gold, fx: p.fx?.(p.d * 0.5, 0.5)?.id || null, cues: (p.cues || []).map((c) => ({ at: c.at, id: c.id })), snd: !!p.snd })); },
     root: core.root,

@@ -1,3 +1,9 @@
+# 補給10連の末尾確定・獲得停止・バディ通信を修正（2026-11-11、公開準備）
+
+本人の指定により、10連はSR以上の1個を必ず最後へ配置。通常10抽選→当たり0時だけ条件付き保証の方式と報酬個数/確率を維持し、既存pendingは保存を変えず表示時だけ整列する。スキップは未確認のSSR/バディ各獲得画面で止まり、タップで順に確認後、一覧へ進む。再スキップで飛ばさず、確認済みは再表示しない。
+
+通信ジャックの固定ヨスガ影を対象バディ本人へ変更。本人が4体別の2行セリフ案も採用し反映。4体/複数バディ/反復/未知artを実Chromeで確認。関連73件・両型成功、2サイズでSSR/バディ獲得停止・動き減・確認済み除外、通常10連/回復/受領、開発者10案＋ランダム成功。実HTTPの末尾保証と並行/再送も成功。base b140965、branch codex/supply-last-guarantee-skip-20261111。[証拠](evidence/supply-last-skip-20261111/RELEASE.md)。
+
 # 開発者モードの旧開封音キャッシュを修正・公開済み（2026-11-11）
 
 本人の「音が変わらない」を旧キャッシュで再現。共通の固定URL演出JSがService Workerのcache-firstへ残り、ピアノ音を再生していた。前回の新規/Service Worker無効の検査では見落とした。Viteで依存音源とWorkerまでハッシュ付きbundleへ変更。旧キャッシュ入りの実開発者10連で修正前は旧音8件、修正後は新音8件/旧音0件/全rate1/例外0/保存不変。型/build成功。base de715ac、branch codex/supply-audio-cache-fix-20261111。PR313を通常merge、source 66aad08からWorker Version 73733ca9-4ed9-45f1-96ab-08ceb5e837aaを100%公開。ハッシュ付きruntime/Workerを含む38ファイルSHA一致・health200。[記録](evidence/supply-audio-cache-20261111/RELEASE.md)。

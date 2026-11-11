@@ -27,3 +27,7 @@ node scripts/check-supply-game.mjs
 管理者確認器の既定はローカル8796。公開環境で再検証する時は `SUPPLY_SITE` と、既存の認証済み `SUPPLY_STORAGE_STATE` または正式ログイン用 `SUPPLY_PASSWORD_FILE` を使用する。接続情報はignoreされたローカル領域に置き、値/状態ファイルを出力・commitしない。
 
 実スマホ・実聴・今回の全ゲーム全件/協力実戦は未実施。公開結果は [RELEASE.md](RELEASE.md) に記録する。主担当gpt-6.1-sol（推論未確認）、補助の指定gpt-6-sol/medium（実行設定未確認、入口調査と実UI検証器を担当）。主担当がコードと画像を確認して検証を実行。独立Chat監査ではない。
+
+## 画像の更新（末尾確定・獲得停止の変更後）
+
+local/の画像と結果は後続の補給末尾確定・スキップ獲得停止の実UI検証で再生成したものへ更新。元の試験時点の画像は実装commit 99f6ac1の同パスに保持する。今回の結果は ../supply-last-skip-20261111/RELEASE.md を参照。

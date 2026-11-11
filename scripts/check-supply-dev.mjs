@@ -9,7 +9,7 @@ const host = new URL(site).hostname;
 const local = ['127.0.0.1', 'localhost'].includes(host);
 const label = local ? 'local' : 'public';
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const out = path.join(repo, 'docs/evidence/supply-dev-preview-20261111', label);
+const out = path.resolve(repo, process.env.SUPPLY_DEV_OUTPUT || `docs/evidence/supply-dev-preview-20261111/${label}`);
 const passwordFile = process.env.SUPPLY_PASSWORD_FILE;
 const password = local ? 'test-only-random-developer-password' : process.env.SUPPLY_PASSWORD;
 const storageState = process.env.SUPPLY_STORAGE_STATE;
@@ -130,6 +130,7 @@ async function run(viewport, browser) {
       await layout(page);
       await page.screenshot({ path: path.join(out, `${size}-${kind}-${effect}-effect.png`) });
       await tap(page, '.gx-skip');
+      for (let cut=0; cut<11 && !await page.locator('.gx-actions [data-id="close"]').isVisible(); cut++) { await page.waitForTimeout(550); await page.locator('.gx-root').click({position:{x:320,y:180}}); }
       const close = page.locator('.gx-actions [data-id="close"]');
       await close.waitFor({ state: 'visible' });
       await layout(page);
