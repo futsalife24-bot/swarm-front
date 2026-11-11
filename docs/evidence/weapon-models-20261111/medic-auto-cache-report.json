@@ -1,0 +1,22 @@
+{
+  "scope": "isolated local origin, real SW, one prior GLB in preload cache, unchanged app code; comment-only SW byte update triggers controllerchange; then normal reload and fetch. No product deploy, actual phone or real network.",
+  "oldRevision": "1cf64f2",
+  "oldBytes": 487700,
+  "currentBytes": 498132,
+  "oldSha256": "d940bf8980a6f0a33361cd0d4611418da4efa6bfb47ed3455f07f67ae2516986",
+  "currentSha256": "9bd333e6e96440068f4b9575cf6d28fc3d559658589878e1d2581d6c527fd9f0",
+  "before": {
+    "status": 200,
+    "bytes": 487700,
+    "sha256": "d940bf8980a6f0a33361cd0d4611418da4efa6bfb47ed3455f07f67ae2516986"
+  },
+  "controllerChanged": true,
+  "swRequests": 2,
+  "after": {
+    "status": 200,
+    "bytes": 487700,
+    "sha256": "d940bf8980a6f0a33361cd0d4611418da4efa6bfb47ed3455f07f67ae2516986"
+  },
+  "assetNetworkRequests": 0,
+  "errors": []
+}

@@ -1,5 +1,7 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
+同一URL更新時の通常キャッシュ（2026-11-12）: 隔離ローカルで旧MD-4をPRELOADへ保存し、同じURLの配信元を新版にした後、実Service Workerのコメントだけを変えて更新・切替を確認。通常再読込後も旧GLBが返り、GLBの配信元への要求は0、ページ例外0だった。明示ダウンロードでは更新できるが、通常起動では古いデータが残る例として未解決。今回の新URL初回公開で利用者が旧MD-4を持つことを示す結果ではない。公開Worker・実通信・実スマホは未確認。[測定](evidence/weapon-models-20261111/medic-auto-cache-report.json)。再現は `node scripts/check-medic-auto-update.mjs`。
+
 追加造形後のMD-4のキャッシュ確認（2026-11-12）: 隔離ローカル環境の実Service Workerと製品保存処理で、旧MD-4の実GLB5種を2種類のキャッシュへ入れ、通常読込で旧版が返ることを確認。明示ダウンロード後、オフラインで新5種を読み、実ファイルのサイズ・SHA-256と全件一致。ページ例外0。以前の55件の記録はMD-4追加造形前のもので、現行MD-4の証拠にはしない。正規manifest・自動更新・公開Worker・実スマホは未確認。[測定](evidence/weapon-models-20261111/medic-updated-cache-report.json)。再現は `node scripts/check-medic-cache-updated.mjs`。
 
 追加造形後のMD-4の詳細・共有画像確認（2026-11-12）: 隔離仮保存を用いた844×390の実ローカルUIでN等級の詳細画面と共有画像画面を開き、追加造形を目視。実UIが生成した1200×720 PNGを取り出し、性能表示と下端の注記まで画像内にあることを確認した。ページ例外・武器素材読込失敗0。横画面の共有ダイアログでは画像下部がスクロール領域に隠れ、全体を一度に表示できたとは確認していない。実送信・他等級・スマホ実機は未確認。[生成画像](evidence/weapon-models-20261111/medic-updated-share.png)、[測定](evidence/weapon-models-20261111/medic-updated-share-report.json)。再現は `node scripts/check-medic-detail-after-update.mjs`。
