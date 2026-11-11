@@ -43,8 +43,8 @@ it("ランダム確認も通常の10連保証を使い、取得・保存しな�
     const results = randomSupplyPreview(() => value);
     expect(results).toHaveLength(10);
     expect(model(results).tiers.some((t) => t >= 3)).toBe(true);
-    expect(chooseEffect(model(results), undefined, () => 0.5)).toBeGreaterThan(
-      0,
+    expect(chooseEffect(model(results), undefined, () => 0.5) > 0).toBe(
+      model(results).tiers.some((t) => t >= 4),
     );
   }
   expect(forbidden).not.toHaveBeenCalled();
@@ -59,8 +59,12 @@ it("通常側と共有する演出選択は順番送りでなく乱数に従い�
   expect(m).toEqual(before);
   expect(() => chooseEffect(m, 10)).toThrow();
   expect(chooseEffect({ multi: true, tiers: [3, 1] }, undefined, () => 0)).toBe(
-    2,
+    0,
   );
-  expect(chooseEffect({ multi: true, tiers: [5, 1] }, undefined)).toBe(10);
+  for (let n = 1; n <= 10; n++)
+    expect(() => chooseEffect({ multi: true, tiers: [3, 1] }, n)).toThrow();
+  const buddy = { multi: true, tiers: [5, 1] };
+  expect(chooseEffect(buddy, undefined, () => 0)).toBe(1);
+  expect(chooseEffect(buddy, undefined, () => 0.999)).toBe(10);
   expect(chooseEffect({ multi: false, tiers: [1] }, undefined)).toBe(0);
 });

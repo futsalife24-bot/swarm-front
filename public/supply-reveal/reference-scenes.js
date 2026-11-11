@@ -6,7 +6,7 @@ export const CLIPS = [
     { d: 0.55, a: 0, b: B, gold: true, fx: (s, u) => ({ id: 'gold', p: { k: u, shock: -1 } }) },
     { d: 1.5, a: B, b: B, tap: true, gold: true, fx: () => ({ id: 'gold', p: { k: 1, shock: -1 } }) },
     { d: 1.9, a: B, b: B + 1.9, snd: true, gold: true, cues: [{ at: 0, id: 'promote4', vol: 0.7 }], fx: (s) => ({ id: 'gold', p: { k: 1 - c01(s / 0.5), shock: s / 0.9 } }) }]; } },
-  { n: 2, scene: '10:SSR＋SR', caption: '② 流星群の降下', sub: '降下中 ／ SR以上確定', make: (M) => { const B = M.B; return [
+  { n: 2, scene: '10:SSR＋SR', caption: '② 流星群の降下', sub: '降下中 ／ SSR以上が1個以上確定', make: (M) => { const B = M.B; return [
     { d: 0.5, a: B, b: B, tap: true },
     { d: 2.6, a: B, b: B + 2.6, snd: true, cues: [0.25, 0.5, 0.8, 1.05, 1.3].map((at, i) => ({ at, id: 'whoosh', vol: 0.5, rate: 0.7 + 0.12 * i })), fx: (s) => ({ id: 'meteor', p: { t: s } }) }]; } },
   { n: 3, right: true, scene: '10:SSR＋SR', caption: '③ 地割れの着地', sub: '着地 ／ そのポッドがSSR以上確定', make: (M) => { const P = M.pods.find((p) => p.tier === 4), a = M.B + 0.25, b = M.pods[9].tLand + 1.9; return [
