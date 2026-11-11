@@ -1,0 +1,399 @@
+{
+  "frames": [
+    {
+      "n": 1,
+      "index": 0,
+      "u": 0.25,
+      "name": "01-0.jpg"
+    },
+    {
+      "n": 1,
+      "index": 0,
+      "u": 0.7,
+      "name": "01-1.jpg"
+    },
+    {
+      "n": 1,
+      "index": 1,
+      "u": 0.25,
+      "name": "01-2.jpg"
+    },
+    {
+      "n": 1,
+      "index": 1,
+      "u": 0.7,
+      "name": "01-3.jpg"
+    },
+    {
+      "n": 1,
+      "index": 2,
+      "u": 0.25,
+      "name": "01-4.jpg"
+    },
+    {
+      "n": 1,
+      "index": 2,
+      "u": 0.7,
+      "name": "01-5.jpg"
+    },
+    {
+      "n": 2,
+      "index": 0,
+      "u": 0.6,
+      "name": "02-0.jpg"
+    },
+    {
+      "n": 2,
+      "index": 1,
+      "u": 0.25,
+      "name": "02-1.jpg"
+    },
+    {
+      "n": 2,
+      "index": 1,
+      "u": 0.7,
+      "name": "02-2.jpg"
+    },
+    {
+      "n": 3,
+      "index": 0,
+      "u": 0.25,
+      "name": "03-0.jpg"
+    },
+    {
+      "n": 3,
+      "index": 0,
+      "u": 0.7,
+      "name": "03-1.jpg"
+    },
+    {
+      "n": 4,
+      "index": 0,
+      "u": 0.6,
+      "name": "04-0.jpg"
+    },
+    {
+      "n": 4,
+      "index": 1,
+      "u": 0.25,
+      "name": "04-1.jpg"
+    },
+    {
+      "n": 4,
+      "index": 1,
+      "u": 0.7,
+      "name": "04-2.jpg"
+    },
+    {
+      "n": 4,
+      "index": 2,
+      "u": 0.25,
+      "name": "04-3.jpg"
+    },
+    {
+      "n": 4,
+      "index": 2,
+      "u": 0.7,
+      "name": "04-4.jpg"
+    },
+    {
+      "n": 5,
+      "index": 0,
+      "u": 0.6,
+      "name": "05-0.jpg"
+    },
+    {
+      "n": 5,
+      "index": 1,
+      "u": 0.6,
+      "name": "05-1.jpg"
+    },
+    {
+      "n": 5,
+      "index": 2,
+      "u": 0.25,
+      "name": "05-2.jpg"
+    },
+    {
+      "n": 5,
+      "index": 2,
+      "u": 0.7,
+      "name": "05-3.jpg"
+    },
+    {
+      "n": 5,
+      "index": 3,
+      "u": 0.25,
+      "name": "05-4.jpg"
+    },
+    {
+      "n": 5,
+      "index": 3,
+      "u": 0.7,
+      "name": "05-5.jpg"
+    },
+    {
+      "n": 6,
+      "index": 0,
+      "u": 0.6,
+      "name": "06-0.jpg"
+    },
+    {
+      "n": 6,
+      "index": 1,
+      "u": 0.6,
+      "name": "06-1.jpg"
+    },
+    {
+      "n": 6,
+      "index": 2,
+      "u": 0.25,
+      "name": "06-2.jpg"
+    },
+    {
+      "n": 6,
+      "index": 2,
+      "u": 0.7,
+      "name": "06-3.jpg"
+    },
+    {
+      "n": 6,
+      "index": 3,
+      "u": 0.25,
+      "name": "06-4.jpg"
+    },
+    {
+      "n": 6,
+      "index": 3,
+      "u": 0.7,
+      "name": "06-5.jpg"
+    },
+    {
+      "n": 6,
+      "index": 4,
+      "u": 0.6,
+      "name": "06-6.jpg"
+    },
+    {
+      "n": 7,
+      "index": 0,
+      "u": 0.25,
+      "name": "07-0.jpg"
+    },
+    {
+      "n": 7,
+      "index": 0,
+      "u": 0.7,
+      "name": "07-1.jpg"
+    },
+    {
+      "n": 7,
+      "index": 1,
+      "u": 0.25,
+      "name": "07-2.jpg"
+    },
+    {
+      "n": 7,
+      "index": 1,
+      "u": 0.7,
+      "name": "07-3.jpg"
+    },
+    {
+      "n": 7,
+      "index": 2,
+      "u": 0.25,
+      "name": "07-4.jpg"
+    },
+    {
+      "n": 7,
+      "index": 2,
+      "u": 0.7,
+      "name": "07-5.jpg"
+    },
+    {
+      "n": 7,
+      "index": 3,
+      "u": 0.25,
+      "name": "07-6.jpg"
+    },
+    {
+      "n": 7,
+      "index": 3,
+      "u": 0.7,
+      "name": "07-7.jpg"
+    },
+    {
+      "n": 8,
+      "index": 0,
+      "u": 0.6,
+      "name": "08-0.jpg"
+    },
+    {
+      "n": 8,
+      "index": 1,
+      "u": 0.25,
+      "name": "08-1.jpg"
+    },
+    {
+      "n": 8,
+      "index": 1,
+      "u": 0.7,
+      "name": "08-2.jpg"
+    },
+    {
+      "n": 8,
+      "index": 2,
+      "u": 0.6,
+      "name": "08-3.jpg"
+    },
+    {
+      "n": 8,
+      "index": 3,
+      "u": 0.6,
+      "name": "08-4.jpg"
+    },
+    {
+      "n": 9,
+      "index": 0,
+      "u": 0.6,
+      "name": "09-0.jpg"
+    },
+    {
+      "n": 9,
+      "index": 1,
+      "u": 0.25,
+      "name": "09-1.jpg"
+    },
+    {
+      "n": 9,
+      "index": 1,
+      "u": 0.7,
+      "name": "09-2.jpg"
+    },
+    {
+      "n": 9,
+      "index": 2,
+      "u": 0.25,
+      "name": "09-3.jpg"
+    },
+    {
+      "n": 9,
+      "index": 2,
+      "u": 0.7,
+      "name": "09-4.jpg"
+    },
+    {
+      "n": 9,
+      "index": 3,
+      "u": 0.25,
+      "name": "09-5.jpg"
+    },
+    {
+      "n": 9,
+      "index": 3,
+      "u": 0.7,
+      "name": "09-6.jpg"
+    },
+    {
+      "n": 10,
+      "index": 0,
+      "u": 0.6,
+      "name": "10-0.jpg"
+    },
+    {
+      "n": 10,
+      "index": 1,
+      "u": 0.25,
+      "name": "10-1.jpg"
+    },
+    {
+      "n": 10,
+      "index": 1,
+      "u": 0.7,
+      "name": "10-2.jpg"
+    },
+    {
+      "n": 10,
+      "index": 2,
+      "u": 0.25,
+      "name": "10-3.jpg"
+    },
+    {
+      "n": 10,
+      "index": 2,
+      "u": 0.7,
+      "name": "10-4.jpg"
+    },
+    {
+      "n": 10,
+      "index": 3,
+      "u": 0.25,
+      "name": "10-5.jpg"
+    },
+    {
+      "n": 10,
+      "index": 3,
+      "u": 0.7,
+      "name": "10-6.jpg"
+    },
+    {
+      "n": 10,
+      "index": 4,
+      "u": 0.6,
+      "name": "10-7.jpg"
+    }
+  ],
+  "assets": [
+    {
+      "name": "b-oriha.webp",
+      "equal": true
+    },
+    {
+      "name": "b-tatara.webp",
+      "equal": true
+    },
+    {
+      "name": "b-tobari.webp",
+      "equal": true
+    },
+    {
+      "name": "b-yosuga.webp",
+      "equal": true
+    },
+    {
+      "name": "OFL.txt",
+      "equal": true
+    },
+    {
+      "name": "pod-256.webp",
+      "equal": true
+    },
+    {
+      "name": "pod-512.webp",
+      "equal": true
+    },
+    {
+      "name": "Rajdhani-Bold.ttf",
+      "equal": true
+    },
+    {
+      "name": "w-rifle.webp",
+      "equal": true
+    },
+    {
+      "name": "w-rocket.webp",
+      "equal": true
+    },
+    {
+      "name": "w-shotgun.webp",
+      "equal": true
+    }
+  ],
+  "formulas": {
+    "renderer": true,
+    "fx": true,
+    "audio": true,
+    "css": true
+  },
+  "errors": []
+}

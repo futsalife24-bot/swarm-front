@@ -1,0 +1,85 @@
+.supply-menu {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.9fr);
+  gap: 16px;
+}
+.supply-menu section {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--menu-line);
+  background: rgba(8, 24, 31, 0.72);
+}
+.supply-menu h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+.supply-menu p {
+  margin: 6px 0;
+  line-height: 1.5;
+}
+.supply-menu .supply-count {
+  display: inline-block;
+  margin: 8px 0 14px;
+  font-size: 32px;
+  color: #ffe6a2;
+}
+.supply-menu .supply-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.supply-menu button {
+  min-height: 44px;
+  padding: 8px 10px;
+  font-size: 13px;
+}
+.supply-menu .supply-guarantee {
+  color: #ffe0a2;
+  font-size: 13px;
+}
+.supply-menu .supply-feedback {
+  min-height: 1.5em;
+  color: #ffe0a2;
+}
+.supply-rates {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.supply-rates th,
+.supply-rates td {
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--menu-line);
+  text-align: left;
+}
+.supply-rates td:last-child {
+  text-align: right;
+}
+.supply-menu small {
+  display: block;
+  font-size: 11px;
+  color: var(--menu-muted, #b8ccce);
+  line-height: 1.45;
+  margin-top: 8px;
+}
+@media (max-height: 450px) {
+  .supply-menu {
+    gap: 10px;
+  }
+  .supply-menu section {
+    padding: 10px;
+  }
+  .supply-menu .supply-count {
+    font-size: 26px;
+    margin: 4px 0 8px;
+  }
+  .supply-rates th,
+  .supply-rates td {
+    padding: 3px 8px;
+  }
+}
+@media (max-width: 620px) {
+  .supply-menu {
+    grid-template-columns: 1fr;
+  }
+}
