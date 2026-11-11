@@ -1,8 +1,10 @@
-# 補給10連の通常箱SEを金属箱の実録へ変更（2026-11-11、公開準備）
+# 補給10連の通常箱SEを金属箱の実録へ変更・公開済み（2026-11-11）
 
 本人の「連続開封のピアノ音が嫌、実際の箱のSEを探すか作る」を受け、CC0の金属箱開蓋実録を2か所切り出し、採用版のpop/pop_rへ接続。重厚版にpopの定義がなく標準の打鍵音へ戻っていたのが原因。10連の箱開封ごとの音階変更も外し、同じ速度で鳴らす。見た目・時間軸・当たりの音・券/報酬は変更なし。
 
-専用worktree `task-gacha-kakutei-10-20261111` / `codex/supply-crate-open-se-20261111`、base `4b538dd`。実Chromeの表示fixtureで10箱をタップ開封し、実WebAudio10音の波形RMS/長さ一致・全rate1・例外0を確認。両型成功、本体buildと公開へ進める。[原音と再生成](../assets/audio/supply/README.md)、[検証記録](evidence/supply-crate-se-20261111/VALIDATION.md)。
+専用worktree `task-gacha-kakutei-10-20261111` / `codex/supply-crate-open-se-20261111`、base `4b538dd`。実Chromeの表示fixtureで10箱をタップ開封し、実WebAudio10音の波形RMS/長さ一致・全rate1・例外0を確認。両型・本体build成功。[原音と再生成](../assets/audio/supply/README.md)、[検証記録](evidence/supply-crate-se-20261111/VALIDATION.md)。
+
+[PR308](https://github.com/futsalife24-bot/swarm-front/pull/308)を通常merge。公開source `00d013cd450aacda73636bfac31a28a936d2e18f`から本番build/dry-run/deploy成功。既存Worker Version `99e4ee4d-7810-4e05-b538-767ef48de7cf` を100%配信、本体36＋演出23ファイルSHA一致・health200/ok。公開試聴MP3は実Chromeで5.2秒の読込・再生進行成功。実聴/実スマホは未実施。公開後のbranch `codex/supply-crate-se-release-record-20261111` は記録/検証器のみ。元root/別worktreeを保持。[公開記録](evidence/supply-crate-se-20261111/RELEASE.md)。
 
 # 管理者モードの補給10連・演出確認を公開済み（2026-11-11）
 
