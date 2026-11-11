@@ -1,0 +1,16 @@
+{
+  "source": "assets/audio/supply/0053-metal-box-source.ogg",
+  "sourceSha256": "09668061bfda24f064bce7b48ff8d870e5993ab45e6ab8a9d6fc2b757b383e16",
+  "sampleRate": 22050,
+  "cuts": [
+    {
+      "start": 0.245,
+      "duration": 0.405
+    },
+    {
+      "start": 3.775,
+      "duration": 0.44
+    }
+  ],
+  "bytes": 50789
+}
