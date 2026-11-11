@@ -1,5 +1,11 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
+SMG-3の造形隔離試作（2026-11-12）: 参考画像に近づけるため、大型装甲と上部取っ手を別環境で追加。8,208三角形・6材質・最大492,552 bytes、正規40項目合格・警告0。ただし黄色い単調な面が目立ち、参考画像の機構密度・摩耗や求められた完成品質には届かず不採用。製品ファイルは変更していない。兵士・実ゲーム・製品ネオンでは未確認。[比較](evidence/weapon-models-20261111/smg-art-lab-comparison.png)、[検査](evidence/weapon-models-20261111/smg-art-lab-check.json)、[試作ソース](evidence/weapon-models-20261111/smg-art-lab.py)。
+
+参考画像後のRL-9飛翔体の再測定（2026-11-12）: 追加造形後、補正なしの実ローカル単独プレイで最初に描かれた弾体と武器の辺・面交差はRL-9で277組、RL-2は0組。どちらも兵士の可視体表との交差は0組で、弾を体側へ移した正例は交差を検出。RL-9の問題は引き続き未解決。完全内包・共平面・他時点・実通信・実機は対象外。[測定](evidence/weapon-models-20261111/concept-rocket-overlap-report.json)。再現は `node scripts/rocket-overlap-probe.mjs`。
+
+参考画像後の背負い静止位置（2026-11-12）: 実兵士を局所更新し、12種×背負い2位置で体表と武器の辺・面交差を調べた結果、24条件すべて0組。銃を体側に動かした正例では246組の交差を検出した。[測定](evidence/weapon-models-20261111/concept-back-surface-report.json)。完全内包、共平面、接触の深さ、連続動作、実ゲーム・実機は対象外で、ダウン時の床への入り込み問題は別途未解決。
+
 参考画像後のローカル配信検証（2026-11-12）: 再造形後のGL-6／ST-3は844×390の隔離仮保存の実画面で初回射撃と詳細・共有画像を再確認し、生成時の銃口炎・発光弾と製品の銃口位置の差は各0mm。[射撃](evidence/weapon-models-20261111/concept-round2-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/concept-round2-detail-report.json)。ゲームとWorkerの型検査、本番ビルドとWorkerの公開しないdry-run、武器読込・配信関連4ファイル67テストが成功。本番ビルドの武器60件はmanifestのサイズ・SHAおよびpublic実体と一致。隔離環境での明示保存後、60件をオフラインで一致確認。[本番ビルド](evidence/weapon-models-20261111/concept-build-manifest-report.json)、[オフライン](evidence/weapon-models-20261111/concept-cache-report.json)。これは本番配信や実スマホの検証ではない。同じURLの将来更新で古いキャッシュが残る課題は未解決。
 
 参考画像後の装填観測（2026-11-12）: 新規9丁について、844×390の隔離仮保存を使った実ローカル単独プレイで装填開始、5時点のRenderer画像と両手の座標、満弾への復帰を取得。6丁では遭遇演出をスキップしている。画像はゲームの通常カメラで兵士が小さく、隠れた手の接触・めり込みを判定できないため、手の位置の完全な確認とは扱わない。[画像](evidence/weapon-models-20261111/concept-reload-9.png)、[測定](evidence/weapon-models-20261111/concept-reload-9-report.json)。実通信・実スマホ・音は未確認。
