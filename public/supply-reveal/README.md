@@ -23,7 +23,7 @@ await reveal.play(finalizedResults);
 
 生成元は `design/gacha-reveal-max-20261111/kakutei/kakutei-preview.mjs` の `CLIPS` です。`reference-scenes.js` はその `c01` と `CLIPS` の範囲をそのまま抽出しました。`core.js` の `createRenderer` 全文と `kakutei-fx.js` の `FX` オブジェクト全文は元ファイルと文字単位で一致します。①～⑩の時刻、FX引数、追加音の合図は `CLIPS` から計算し、元の描画式・色・粒子・素材・効果音波形は変えていません。10連の⑤～⑩は該当する当たりポッドの時刻・位置へ同じ式を適用します。
 
-素材11ファイルは元 `assets/` と全件SHA-256一致です。`gacha.css` SHA-256 `DE9835141AA8FED4F1947226DCCC2E6EC06AD5B3E3264985D4D44A9A2432C502`、`sfx-worker.js` `BAA2A1467213D1A378CF76239A18ADCDBCFCBDC58956710BFEC0476D30E2122D` は原本と一致します。`sfx.js` の波形生成・mixは原本のままで、ブラウザーの音量設定への接続と破棄時のAudioContext/Worker解放だけを追加しました。`core.js` は外部操作・音の合図・音量・入力後始末の口だけ、`kakutei-fx.js` はマウント場所と破棄処理だけを変更しました。
+描画素材10ファイルは元 `assets/` と全件SHA-256一致です。OFLライセンスは文言を保持し、末尾空白だけ整えました。`gacha.css` SHA-256 `DE9835141AA8FED4F1947226DCCC2E6EC06AD5B3E3264985D4D44A9A2432C502`、`sfx-worker.js` `BAA2A1467213D1A378CF76239A18ADCDBCFCBDC58956710BFEC0476D30E2122D` は原本と一致します。`sfx.js` の波形生成・mixは原本のままで、ブラウザーの音量設定への接続と破棄時のAudioContext/Worker解放だけを追加しました。`core.js` は外部操作・音の合図・音量・入力後始末の口だけ、`kakutei-fx.js` はマウント場所と破棄処理だけを変更しました。
 
 ## 検証
 

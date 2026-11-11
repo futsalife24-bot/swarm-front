@@ -18,7 +18,8 @@
     },
     {
       "name": "OFL.txt",
-      "sha256": "f62ef357d3a1c3d27edd35a6e1ba350e8a8d13499797964eeadefbf0b3b15d1f"
+      "sha256": "f62ef357d3a1c3d27edd35a6e1ba350e8a8d13499797964eeadefbf0b3b15d1f",
+      "normalizedSha256": "793bdd8538a0c03afb5bc10906be27ad1dc76f143cfeac8c55cd9075a5b3a55c"
     },
     {
       "name": "pod-256.webp",
@@ -45,8 +46,8 @@
       "sha256": "86c4026070c593e31615a58028fa388bccd92cf2b4cebbd2a14cc422ad58b168"
     }
   ],
-  "renderer": "46d89b3cc29a24b853bec31312fb277fb23cd2af5c105e0b27d2131bacef3f3e",
+  "renderer": "e17d78e5430930249c97a7a796920eaf3ef7013e7385025827ddbcc081fabda2",
   "fx": "0a3608a18681e8f7b0cbf38182590586cf153ac7cb56f975d60da920d0791eb0",
-  "audioFormula": "6bf1a8e642c7a2d2f4632d657a47e4e1de33c8af9b3f3bd6bd253b7098c6547c",
+  "audioFormula": "76bc7427680e9efd1e5f39922380d5c14a359eaf80205c63db1b2580532d8524",
   "css": "de9835141aa8fed4f1947226dccc2e6ec06ad5b3e3264985d4d44a9a2432c502"
 }

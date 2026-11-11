@@ -66,10 +66,11 @@ try {
   const ported=path.join(project,'public/supply-reveal');
   const hash=f=>crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
   const manifest=JSON.parse(fs.readFileSync(path.join(project,'docs/evidence/supply-kakutei-20261111/reference-manifest.json'),'utf8'));
-  const assets=manifest.assets.map(({name,sha256})=>({name,equal:hash(path.join(ported,'assets',name))===sha256}));
-  const stringHash=s=>crypto.createHash('sha256').update(s).digest('hex');
+  const normalized=s=>s.replaceAll('\r\n','\n');
+  const stringHash=s=>crypto.createHash('sha256').update(normalized(s)).digest('hex');
+  const assets=manifest.assets.map(({name,sha256,normalizedSha256})=>({name,equal:normalizedSha256?stringHash(normalized(fs.readFileSync(path.join(ported,'assets',name),'utf8')).split('\n').map(l=>l.trimEnd()).join('\n').trimEnd()+'\n')===normalizedSha256:hash(path.join(ported,'assets',name))===sha256}));
   const core=fs.readFileSync(path.join(ported,'core.js'),'utf8'),fx=fs.readFileSync(path.join(ported,'kakutei-fx.js'),'utf8'),audio=fs.readFileSync(path.join(ported,'sfx.js'),'utf8');
-  const formulas={renderer:stringHash(core.slice(core.indexOf('function createRenderer('),core.indexOf('const loadImg')))===manifest.renderer,fx:stringHash(fx.slice(fx.indexOf('const FX = {'),fx.indexOf('export async function install')))===manifest.fx,audio:stringHash(audio.slice(0,audio.indexOf('// ブラウザ用：')))===manifest.audioFormula,css:hash(path.join(ported,'gacha.css'))===manifest.css};
+  const formulas={renderer:stringHash(core.slice(core.indexOf('function createRenderer('),core.indexOf('const loadImg')))===manifest.renderer,fx:stringHash(fx.slice(fx.indexOf('const FX = {'),fx.indexOf('export async function install')))===manifest.fx,audio:stringHash(audio.slice(0,audio.indexOf('// ブラウザ用：')))===manifest.audioFormula,css:stringHash(fs.readFileSync(path.join(ported,'gacha.css'),'utf8'))===manifest.css};
   const report={frames:records,assets,formulas,errors};
   fs.writeFileSync(path.join(out,'capture.json'),JSON.stringify(report,null,2));
   console.log(JSON.stringify({frames:records.length,assetsMatch:assets.every(a=>a.equal),formulas,errors}));

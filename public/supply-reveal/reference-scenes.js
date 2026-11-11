@@ -48,5 +48,3 @@ export const CLIPS = [
     { d: 0.3, a: t, b: t, notap: true, fx: (s, u) => ({ id: 'jack', p: { g: 1, w: 1 - u, a: 3 } }) },
     { d: 1.3, a: b3.t1 - 0.004, b: b3.t1 + 1.296, snd: true }]; } },
 ];
-
-
