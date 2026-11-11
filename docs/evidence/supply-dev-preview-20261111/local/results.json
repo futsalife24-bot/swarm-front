@@ -1,0 +1,176 @@
+{
+  "site": "http://127.0.0.1:8796",
+  "label": "local",
+  "checkedAt": "2026-11-11T08:03:33.352Z",
+  "viewports": [
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "scenarios": [
+        {
+          "kind": "selected",
+          "selected": 1,
+          "played": 1,
+          "cleanup": true
+        },
+        {
+          "kind": "selected",
+          "selected": 2,
+          "played": 2,
+          "cleanup": true
+        },
+        {
+          "kind": "selected",
+          "selected": 3,
+          "played": 3,
+          "cleanup": true
+        },
+        {
+          "kind": "selected",
+          "selected": 4,
+          "played": 4,
+          "cleanup": true
+        },
+        {
+          "kind": "selected",
+          "selected": 5,
+          "played": 5,
+          "cleanup": true
+        },
+        {
+          "kind": "selected",
+          "selected": 6,
+          "played": 6,
+          "cleanup": true
+        },
+        {
+          "kind": "selected",
+          "selected": 7,
+          "played": 7,
+          "cleanup": true
+        },
+        {
+          "kind": "selected",
+          "selected": 8,
+          "played": 8,
+          "cleanup": true
+        },
+        {
+          "kind": "selected",
+          "selected": 9,
+          "played": 9,
+          "cleanup": true
+        },
+        {
+          "kind": "selected",
+          "selected": 10,
+          "played": 10,
+          "cleanup": true
+        },
+        {
+          "kind": "random",
+          "selected": null,
+          "played": 4,
+          "cleanup": true
+        },
+        {
+          "kind": "random",
+          "selected": null,
+          "played": 9,
+          "cleanup": true
+        }
+      ],
+      "supplyRequests": 0,
+      "storagePreserved": true,
+      "errors": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "width": 640,
+        "height": 360
+      },
+      "scenarios": [
+        {
+          "kind": "selected",
+          "selected": 1,
+          "played": 1,
+          "cleanup": true
+        },
+        {
+          "kind": "selected",
+          "selected": 2,
+          "played": 2,
+          "cleanup": true
+        },
+        {
+          "kind": "selected",
+          "selected": 3,
+          "played": 3,
+          "cleanup": true
+        },
+        {
+          "kind": "selected",
+          "selected": 4,
+          "played": 4,
+          "cleanup": true
+        },
+        {
+          "kind": "selected",
+          "selected": 5,
+          "played": 5,
+          "cleanup": true
+        },
+        {
+          "kind": "selected",
+          "selected": 6,
+          "played": 6,
+          "cleanup": true
+        },
+        {
+          "kind": "selected",
+          "selected": 7,
+          "played": 7,
+          "cleanup": true
+        },
+        {
+          "kind": "selected",
+          "selected": 8,
+          "played": 8,
+          "cleanup": true
+        },
+        {
+          "kind": "selected",
+          "selected": 9,
+          "played": 9,
+          "cleanup": true
+        },
+        {
+          "kind": "selected",
+          "selected": 10,
+          "played": 10,
+          "cleanup": true
+        },
+        {
+          "kind": "random",
+          "selected": null,
+          "played": 10,
+          "cleanup": true
+        },
+        {
+          "kind": "random",
+          "selected": null,
+          "played": 8,
+          "cleanup": true
+        }
+      ],
+      "supplyRequests": 0,
+      "storagePreserved": true,
+      "errors": [],
+      "ok": true
+    }
+  ],
+  "ok": true
+}

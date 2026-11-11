@@ -1,0 +1,20 @@
+{
+  "attempts": [
+    {
+      "attempt": "first",
+      "stage": "TAP START未操作",
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n"
+    },
+    {
+      "attempt": "second",
+      "stage": "TAP START未操作",
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n"
+    },
+    {
+      "attempt": "third",
+      "stage": "切替中の配置判定",
+      "error": "AssertionError: 画面外のボタン: 999,999i"
+    }
+  ],
+  "final": "local/results.json"
+}

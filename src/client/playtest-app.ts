@@ -12,6 +12,7 @@ import {
 import "./advance-pause-ui.css";
 import { mountGameBuddyMenu, attachBuddySkill } from "./buddy-bindings";
 import { mountSupplyMenu } from "./supply-menu";
+import { mountSupplyPreview } from "./supply-preview";
 import {
   battleLoadingMarkup,
   updateBattleLoadingStatus,
@@ -2040,7 +2041,7 @@ function base() {
       <button id="pt-base-accessories"><strong>アクセサリ</strong><span>作成・装備・合成</span><small>${save.accessories.length}個を所持</small></button>
       <button id="pt-base-growth"><strong>育成</strong><span>兵士の能力を強化</span><small>兵士ごとの成長を管理</small></button>
       <button id="pt-base-buddy"><strong>バディ</strong><span>編成・育成・招集</span><small>進撃に同行する相棒</small></button>
-      <button id="pt-base-supply" ${mode === "normal" ? "" : "disabled"}><strong>補給ポッド</strong><span>補給券で1回・10連</span><small>${mode === "normal" ? "武器・バディ・武装片を補給" : "通常プレイで利用できます"}</small></button>
+      <button id="pt-base-supply" ${developerMode || mode === "normal" ? "" : "disabled"}><strong>補給ポッド</strong><span>${developerMode ? "10連の演出確認" : "補給券で1回・10連"}</span><small>${developerMode ? "演出選択・ランダム（取得なし）" : mode === "normal" ? "武器・バディ・武装片を補給" : "通常プレイで利用できます"}</small></button>
       <button id="pt-base-survival"><strong>生存カード</strong><span>強化候補・デッキ設定</span><small>カードの効果・融合条件を確認</small></button>
       <button id="pt-base-workshop" disabled aria-describedby="pt-workshop-note"><strong>工房</strong><span>工事中</span><small id="pt-workshop-note">武器のグレードアップ施設を準備中</small></button>
     </div>`,
@@ -2055,8 +2056,19 @@ function base() {
   );
 }
 function supply() {
+  if (!developerMode && mode !== "normal") return;
   setScreen("supply");
-  header("補給ポッド", '<div class="pt-supply"></div>');
+  header(
+    developerMode ? "補給ポッド・演出確認" : "補給ポッド",
+    '<div class="pt-supply"></div>',
+  );
+  if (developerMode) {
+    activeSupplyMenu = mountSupplyPreview(
+      ui.querySelector(".pt-supply")!,
+      () => sound.effectsVolume,
+    );
+    return;
+  }
   activeSupplyMenu = mountSupplyMenu(
     ui.querySelector(".pt-supply")!,
     () => save,

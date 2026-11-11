@@ -1,6 +1,3 @@
-import { WEAPONS, familyOf } from "../shared/defs";
-import { GRADES } from "../shared/progression";
-import { BUDDY_ASSETS } from "./buddy-assets";
 import {
   loadProgress,
   persistProgress,
@@ -14,29 +11,12 @@ import {
 import { createSupplyService } from "./supply-service";
 import { applySupplyReceipt } from "./supply-rewards";
 import { getMenuReducedMotion } from "./menu-effects";
+import {
+  loadSupplyReveal,
+  supplyResults,
+  type Reveal,
+} from "./supply-presentation";
 import "./supply-menu.css";
-
-interface Reveal {
-  ready: Promise<unknown>;
-  play(results: object[], options?: object): Promise<void>;
-  destroy(): void;
-  state(): { waiting: string | null };
-}
-let styleReady: Promise<void> | undefined;
-function revealStyle() {
-  return (styleReady ??= new Promise((resolve, reject) => {
-    const style = document.createElement("link");
-    style.rel = "stylesheet";
-    style.href = import.meta.env.BASE_URL + "supply-reveal/gacha.css";
-    style.onload = () => resolve();
-    style.onerror = () => {
-      styleReady = undefined;
-      style.remove();
-      reject(Error("補給演出を読み込めません。再試行してください"));
-    };
-    document.head.appendChild(style);
-  }));
-}
 
 /** 基地の新補給。保存成功済みの結果だけを表示レイヤーへ渡す。 */
 export function mountSupplyMenu(
@@ -114,40 +94,11 @@ export function mountSupplyMenu(
     const next = applySupplyReceipt(current, receipt);
     if (next !== current) persistProgress(next);
     saved(next);
-    const acquired = new Set(Object.keys(current.buddies?.owned ?? {}));
-    const results = receipt.rewards.map((reward) => {
-      if (reward.type === "shard")
-        return { type: "shard", amount: reward.amount };
-      if (reward.type === "buddy") {
-        const result = {
-          type: "buddy",
-          name: BUDDY_ASSETS[reward.buddyId].name,
-          art: `b-${reward.buddyId}`,
-          new: !acquired.has(reward.buddyId),
-        };
-        acquired.add(reward.buddyId);
-        return result;
-      }
-      const family = familyOf(reward.weapon.kind);
-      const art =
-        family === "shotgun"
-          ? "w-shotgun"
-          : family === "rocket" || family === "grenade"
-            ? "w-rocket"
-            : "w-rifle";
-      return {
-        type: "weapon",
-        rarity: GRADES[reward.weapon.rarity],
-        name: WEAPONS[reward.weapon.kind].name,
-        art,
-        new: true,
-      };
-    });
-    const moduleUrl = import.meta.env.BASE_URL + "supply-reveal/runtime.js";
-    const [module] = await Promise.all([
-      import(/* @vite-ignore */ moduleUrl),
-      revealStyle(),
-    ]);
+    const results = supplyResults(
+      receipt.rewards,
+      new Set(Object.keys(current.buddies?.owned ?? {})),
+    );
+    const module = await loadSupplyReveal();
     if (closed) return;
     let finished = false;
     const onClose = async () => {
