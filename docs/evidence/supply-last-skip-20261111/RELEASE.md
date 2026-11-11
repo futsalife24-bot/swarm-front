@@ -1,4 +1,4 @@
-# 10連末尾確定・獲得停止・通信ジャック（2026-11-11、公開準備）
+# 10連末尾確定・獲得停止・通信ジャック（2026-11-11、公開済み）
 
 ## 本人の採用内容と実装
 
@@ -17,3 +17,11 @@
 - 既存の検証器が旧画像フォルダーへ今回の画像を生成した。フォルダー一括復元は自動承認レビューが他編集の破棄リスクで拒否したため、破棄せず今回の画像更新をGit履歴に保持する方式へ変更。旧証拠の元画像は以前のcommitで保持。出力先指定も検証器へ追加した。今回の画像を当時の実行証拠と混同しない。
 
 公開結果は後記する。実スマホ/実聴/今回の全ゲーム全件は未実施。主担当gpt-6.1-sol（推論未確認）、補助指定gpt-6-sol/medium（実設定未確認）：順序方針/テストと通信FX/検証器を担当、親が統合と実HTTP/本体操作/画像を確認。独立Chat監査ではない。
+
+## 公開結果
+
+- PR315を通常merge、source `87f7c96ecdd259799f3f71be94e8235a11bb32bd` から本体build/dry-run/deploy成功。status/workflow0件・mergeableを確認、保護の迂回なし。既存大chunk警告は維持。
+- 既存Worker Version `24243026-1a16-4c2a-95da-ef00e1f9aba6` 100%配信。本体38＋演出23ファイルのbytes/SHA一致、health200/ok。release/build-manifest.json、delivery.json、supply-delivery.json。
+- 公開Workerの隔離した検証用匿名IDで、実10連の最後がSR以上、並行要求1回だけ消費、同結果再送、認証/Origin拒否、ACK再送/再消費拒否を成功。release/http.json。利用者の既存券/保存は変更なし。
+- 公開側の認証済みゲーム操作/実スマホは未実施。認証済みの通常/管理者実操作と獲得停止・4体の通信表示はローカル実Worker/実Chromeで検証し、配信一致と区別する。音の変更なし。
+- 公開後branch codex/supply-last-skip-release-record-20261111は記録のみで製品再公開不要。元root/別worktreeを保護し、専用HEADをorigin/mainと一致・cleanへ同期する。主担当が公開と配信を確認した。
