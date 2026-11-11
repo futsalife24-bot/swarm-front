@@ -1,4 +1,12 @@
-# 補給ポッド10演出・新ガチャを実装、公開準備（2026-11-11）
+# 補給ポッド10演出・無料補給ガチャを公開済み（2026-11-11）
+
+本人の「goalで公開まで」に従い、[PR304](https://github.com/futsalife24-bot/swarm-front/pull/304)を通常merge。公開source `aaecc2ac7898866364ac85fe65f9101b53032f0e`、既存Worker Version `72f68324-431a-4d3a-8908-a495aac62433`を100%配信。基地→補給ポッドから利用可能。改善5案は保留のまま。
+
+merge後mainで本体build/Worker dry-run/deploy成功。本体36ファイル＋演出20ファイルのSHA一致、health200/ok。公開HTTPで並行要求/再送/認証/10連保証/ACK成功。公開Chrome844×390・640×360で初回バディ選択→補給10連→途中再読込み→結果回復→スキップ→受領まで成功、pageerror0、二重付与なし。実スマホ・実聴・今回の全ゲーム全件/協力実戦は未実施。[公開結果と証拠](evidence/supply-kakutei-20261111/RELEASE.md)。
+
+公開後の専用branch `codex/supply-release-record-20261111` は記録・検証器のみ。別worktreeで使用中のmainとrootの既存差分を保護し、専用worktreeだけorigin/mainへ同期する。製品再公開は不要。
+
+# 補給ポッド10演出・新ガチャを実装、公開準備（2026-11-11、公開前の記録）
 
 本人が元動画10案の継承と本体接続/公開、無料補給ガチャ新設の対象/券/確率/10連SR以上保証を採用。専用worktree `task-gacha-kakutei-10-20261111`、branch `codex/gacha-kakutei-10-20261111`、base `48eb270`。改善5案は保留、元root/別worktreeの差分を保持。
 

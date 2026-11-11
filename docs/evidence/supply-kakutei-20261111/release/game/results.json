@@ -1,0 +1,24 @@
+{
+  "origin": "https://swarm-front.melosalife-24.workers.dev",
+  "report": [
+    {
+      "width": 844,
+      "height": 390,
+      "ten": true,
+      "reloadRecover": true,
+      "skip": true,
+      "ack": true,
+      "noDuplicate": true
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "ten": true,
+      "reloadRecover": true,
+      "skip": true,
+      "ack": true,
+      "noDuplicate": true
+    }
+  ],
+  "errors": []
+}

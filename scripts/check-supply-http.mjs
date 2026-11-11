@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 const origin=process.env.SUPPLY_SITE || 'http://127.0.0.1:8796';
+const out=process.env.SUPPLY_OUTPUT || 'docs/evidence/supply-kakutei-20261111';
 const secret=()=>crypto.randomUUID().replaceAll('-','');
 const id=secret(),token=secret()+secret(),first=crypto.randomUUID(),other=crypto.randomUUID();
 const call=async(action,body,overrides={})=>{
@@ -30,6 +31,6 @@ assert.equal((await call('ack',{requestId:receipt.requestId})).data.pending,null
 assert.equal((await call('ack',{requestId:receipt.requestId})).status,200);
 assert.equal((await call('draw',{requestId:receipt.requestId,count:10})).status,409);
 assert.equal((await call('initialize',{})).data.tickets,0);report.push('再接続・ACK再送・使用済みID再消費拒否');
-fs.mkdirSync('docs/evidence/supply-kakutei-20261111',{recursive:true});
-fs.writeFileSync('docs/evidence/supply-kakutei-20261111/http.json',JSON.stringify({origin,checks:report,passed:true},null,2));
+fs.mkdirSync(out,{recursive:true});
+fs.writeFileSync(`${out}/http.json`,JSON.stringify({origin,checks:report,passed:true},null,2));
 console.log(JSON.stringify({checks:report.length,passed:true}));
