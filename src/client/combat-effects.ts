@@ -294,6 +294,17 @@ export class CombatEffects {
       const delta = new T.Vector3(e.tx!, e.ty!, e.tz!).sub(start);
       const distance = delta.length();
       const dir = delta.normalize();
+      // Grenade shots carry a two-metre direction marker, not an impact point.
+      // Match the renderer's 30 m aim target without extending the tracer life.
+      if (muzzle && e.weapon === "grenade") {
+        const origin = new T.Vector3(e.x, e.y, e.z);
+        const marker = new T.Vector3(e.tx!, e.ty!, e.tz!).sub(origin);
+        const length = marker.length();
+        if (length > 0.001 && length < 3)
+          dir
+            .copy(origin.addScaledVector(marker, 30 / length).sub(start))
+            .normalize();
+      }
       const color =
         e.frontEffect === "ricochet"
           ? 0x8fd7ff

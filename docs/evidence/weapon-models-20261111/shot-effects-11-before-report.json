@@ -1,0 +1,443 @@
+{
+  "scope": "Real local fire events, StandardTrooper and CombatEffects; not full Renderer, network, projectile flight, or device",
+  "missing": [
+    "sticky"
+  ],
+  "rows": [
+    {
+      "kind": "rifle",
+      "pose": "rifle",
+      "eventFamily": "rifle",
+      "shots": 1,
+      "localBore": [
+        0,
+        0.04300000115430781,
+        -0.6600000262260437
+      ],
+      "heldBore": [
+        -3.898997526957395e-18,
+        0.043000001154307854,
+        -0.6600000262260437
+      ],
+      "boreDifference": 4.1815536964909735e-17,
+      "worldMuzzle": [
+        0.1073980405890984,
+        1.21765714418464,
+        -0.8367938419207647
+      ],
+      "flashOffsets": [
+        0
+      ],
+      "bulletOffsets": [
+        0
+      ],
+      "barrelToBulletDegrees": [
+        0.004104853483699071
+      ],
+      "barrelToMeanAimDegrees": 0.004104853394910342,
+      "projectile": null
+    },
+    {
+      "kind": "smg",
+      "pose": "rifle",
+      "eventFamily": "rifle",
+      "shots": 1,
+      "localBore": [
+        9.479579771756363e-12,
+        0.0451084341719208,
+        -0.42000001668930054
+      ],
+      "heldBore": [
+        9.47959335171514e-12,
+        0.04510843417192092,
+        -0.42000001668930054
+      ],
+      "boreDifference": 1.1874030119797214e-16,
+      "worldMuzzle": [
+        0.10357341338008244,
+        1.217773129254943,
+        -0.5985039986820809
+      ],
+      "flashOffsets": [
+        0
+      ],
+      "bulletOffsets": [
+        0
+      ],
+      "barrelToBulletDegrees": [
+        0.006574723044896641
+      ],
+      "barrelToMeanAimDegrees": 0.006574723044896641,
+      "projectile": null
+    },
+    {
+      "kind": "shotgun",
+      "pose": "shotgun",
+      "eventFamily": "shotgun",
+      "shots": 8,
+      "localBore": [
+        4.74104519383358e-12,
+        0.05314123400301629,
+        -0.6570000052452087
+      ],
+      "heldBore": [
+        4.7410450056812116e-12,
+        0.053141234003016284,
+        -0.6570000052452087
+      ],
+      "boreDifference": 6.941444368668202e-18,
+      "worldMuzzle": [
+        0.12185610024873893,
+        1.2249035222049487,
+        -0.8326325574041875
+      ],
+      "flashOffsets": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "bulletOffsets": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "barrelToBulletDegrees": [
+        4.201716967698224,
+        0.8066020739100764,
+        3.1227528405249196,
+        2.1175505632791394,
+        5.15615758975633,
+        3.367383058301162,
+        3.0836451145252606,
+        1.6036514343134374
+      ],
+      "barrelToMeanAimDegrees": 0.03404215497053809,
+      "projectile": null
+    },
+    {
+      "kind": "slug",
+      "pose": "shotgun",
+      "eventFamily": "shotgun",
+      "shots": 1,
+      "localBore": [
+        1.3666091502373666e-11,
+        0.054156318401125655,
+        -0.6600000858306885
+      ],
+      "heldBore": [
+        1.3666080607512663e-11,
+        0.05415631840112566,
+        -0.6600000858306885
+      ],
+      "boreDifference": 1.2916897649330106e-17,
+      "worldMuzzle": [
+        0.10504603505758946,
+        1.2287963113226774,
+        -0.8371049958171529
+      ],
+      "flashOffsets": [
+        0
+      ],
+      "bulletOffsets": [
+        0
+      ],
+      "barrelToBulletDegrees": [
+        0.008774967296552263
+      ],
+      "barrelToMeanAimDegrees": 0.008774967296552263,
+      "projectile": null
+    },
+    {
+      "kind": "rocket",
+      "pose": "rocket",
+      "eventFamily": "rocket",
+      "shots": 1,
+      "localBore": [
+        -5.6311492233464935e-11,
+        0.09003758697816415,
+        -0.6029999852180481
+      ],
+      "heldBore": [
+        -5.631149319906013e-11,
+        0.09003758697816416,
+        -0.6029999852180482
+      ],
+      "boreDifference": 1.118904688192658e-16,
+      "worldMuzzle": [
+        0.14638776459791114,
+        1.4339473695765939,
+        -0.8351082682621666
+      ],
+      "flashOffsets": [
+        0
+      ],
+      "bulletOffsets": [],
+      "barrelToBulletDegrees": [],
+      "barrelToMeanAimDegrees": 0.008972475833482388,
+      "projectile": {
+        "initial": [
+          0,
+          1.5,
+          0
+        ],
+        "initialDistanceFromMuzzle": 0.8504105757395419,
+        "flight": "未検証"
+      }
+    },
+    {
+      "kind": "heavy",
+      "pose": "rocket",
+      "eventFamily": "rocket",
+      "shots": 1,
+      "localBore": [
+        -2.886642755911637e-10,
+        0.09014953864759621,
+        -0.6200000047683716
+      ],
+      "heldBore": [
+        -2.886642892077522e-10,
+        0.09014953864759623,
+        -0.6200000047683715
+      ],
+      "boreDifference": 1.1271182777975712e-16,
+      "worldMuzzle": [
+        0.146297525467805,
+        1.4340968738488347,
+        -0.8521095416758061
+      ],
+      "flashOffsets": [
+        0
+      ],
+      "bulletOffsets": [],
+      "barrelToBulletDegrees": [],
+      "barrelToMeanAimDegrees": 0.009169693880910169,
+      "projectile": {
+        "initial": [
+          0,
+          1.5,
+          0
+        ],
+        "initialDistanceFromMuzzle": 0.867085266285532,
+        "flight": "未検証"
+      }
+    },
+    {
+      "kind": "sniper",
+      "pose": "rifle",
+      "eventFamily": "sniper",
+      "shots": 1,
+      "localBore": [
+        6.743356103080045e-12,
+        0.046077132481599316,
+        -0.6999999284744263
+      ],
+      "heldBore": [
+        6.743356103080045e-12,
+        0.04607713248159929,
+        -0.6999999284744263
+      ],
+      "boreDifference": 2.7755575615628914e-17,
+      "worldMuzzle": [
+        0.1101746207789196,
+        1.223443605798605,
+        -0.8755883903935139
+      ],
+      "flashOffsets": [
+        0
+      ],
+      "bulletOffsets": [
+        0
+      ],
+      "barrelToBulletDegrees": [
+        0.14308778185735604
+      ],
+      "barrelToMeanAimDegrees": 0.14308778185735604,
+      "projectile": null
+    },
+    {
+      "kind": "laser",
+      "pose": "rifle",
+      "eventFamily": "sniper",
+      "shots": 1,
+      "localBore": [
+        0,
+        0.05000000132713467,
+        -0.6600000262260437
+      ],
+      "heldBore": [
+        -2.7466455036299444e-17,
+        0.05000000132713463,
+        -0.6600000262260438
+      ],
+      "boreDifference": 1.217115226520804e-16,
+      "worldMuzzle": [
+        0.11132794541805782,
+        1.2262966885372641,
+        -0.835720250903375
+      ],
+      "flashOffsets": [
+        0
+      ],
+      "bulletOffsets": [
+        0
+      ],
+      "barrelToBulletDegrees": [
+        0.0018934967212710483
+      ],
+      "barrelToMeanAimDegrees": 0.0018934967212710483,
+      "projectile": null
+    },
+    {
+      "kind": "grenade",
+      "pose": "rocket",
+      "eventFamily": "grenade",
+      "shots": 1,
+      "localBore": [
+        9.310587647409643e-12,
+        0.05310649929740782,
+        -0.5
+      ],
+      "heldBore": [
+        9.310587647409643e-12,
+        0.05310649929740782,
+        -0.5
+      ],
+      "boreDifference": 0,
+      "worldMuzzle": [
+        0.14478133256170503,
+        1.3958765159432784,
+        -0.7333563503759943
+      ],
+      "flashOffsets": [
+        0
+      ],
+      "bulletOffsets": [
+        0
+      ],
+      "barrelToBulletDegrees": [
+        7.684903559050033
+      ],
+      "barrelToMeanAimDegrees": 0.011367376883285063,
+      "projectile": {
+        "initial": [
+          0,
+          1.5,
+          0
+        ],
+        "initialDistanceFromMuzzle": 0.7547283424035773,
+        "flight": "未検証"
+      }
+    },
+    {
+      "kind": "sticky",
+      "missing": true
+    },
+    {
+      "kind": "kick",
+      "pose": "shotgun",
+      "eventFamily": "special",
+      "shots": 5,
+      "localBore": [
+        1.8016591138913122e-11,
+        0.04770608505113038,
+        -0.5200000405311584
+      ],
+      "heldBore": [
+        1.8016594747521848e-11,
+        0.04770608505113036,
+        -0.5200000405311568
+      ],
+      "boreDifference": 1.6654685455486826e-15,
+      "worldMuzzle": [
+        0.11055918853591214,
+        1.2195110638207969,
+        8.299222199221445
+      ],
+      "flashOffsets": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "bulletOffsets": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "barrelToBulletDegrees": [
+        1.7683799250659766,
+        0.493698942465522,
+        1.1937873464392101,
+        0.6615509518143438,
+        3.305294426671721
+      ],
+      "barrelToMeanAimDegrees": 0.024794139945712744,
+      "projectile": null
+    },
+    {
+      "kind": "medic",
+      "pose": "rifle",
+      "eventFamily": "special",
+      "shots": 7,
+      "localBore": [
+        1.1028819962551718e-9,
+        0.045000002033224226,
+        -0.4991056025028229
+      ],
+      "heldBore": [
+        1.1028819962551718e-9,
+        0.045000002033224205,
+        -0.4991056025028229
+      ],
+      "boreDifference": 2.0816681711721685e-17,
+      "worldMuzzle": [
+        0.11591863125339666,
+        1.2196668949366438,
+        -0.6745188249630095
+      ],
+      "flashOffsets": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "bulletOffsets": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "barrelToBulletDegrees": [
+        2.0850437836875932,
+        0.5162238265157706,
+        1.591014916086933,
+        1.1060916755409644,
+        2.451258332457299,
+        1.643374729322016,
+        1.3972830204103246
+      ],
+      "barrelToMeanAimDegrees": 0.005720806503991261,
+      "projectile": null
+    }
+  ],
+  "errors": []
+}

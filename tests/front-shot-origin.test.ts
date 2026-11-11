@@ -91,6 +91,34 @@ describe("fixed body-centre shot presentation", () => {
     expect(flash.mesh.position.distanceTo(muzzle)).toBeLessThan(1e-9);
   });
 
+  it("aligns a grenade direction marker with the rendered barrel without lengthening the tracer", () => {
+    const fx = new CombatEffects(new T.Scene());
+    const body = new T.Vector3(0, 0, 0);
+    const muzzle = new T.Vector3(0.4, 1.4, -0.5);
+    const event = shot({
+      weapon: "grenade",
+      x: 0,
+      y: 1.5,
+      z: 0,
+      tx: 0,
+      ty: 1.5,
+      tz: -2,
+    });
+    fx.event(event, body, (out) => out.copy(muzzle));
+    const bullet = fx.items.find((item) => item.kind === "bullet")!;
+    const expectedDirection = new T.Vector3(0, 1.5, -30)
+      .sub(muzzle)
+      .normalize();
+    expect(bullet.mesh.position.distanceTo(muzzle)).toBeLessThan(1e-9);
+    expect(
+      bullet.velocity.clone().normalize().distanceTo(expectedDirection),
+    ).toBeLessThan(1e-9);
+    expect(bullet.duration).toBeCloseTo(
+      new T.Vector3(0, 1.5, -2).distanceTo(muzzle) / 120,
+      9,
+    );
+  });
+
   it("falls back to the body-centre height while no weapon is in the hand", () => {
     const fx = new CombatEffects(new T.Scene());
     const body = new T.Vector3(4, 2, 6);
