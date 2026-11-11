@@ -1,0 +1,23 @@
+{
+  "site": "https://swarm-front.melosalife-24.workers.dev",
+  "checkedAt": "2026-11-11T08:12:14.721Z",
+  "passed": true,
+  "rows": [
+    {
+      "width": 844,
+      "height": 390,
+      "loginRequired": true,
+      "previewAbsent": true,
+      "supplyRequests": 0,
+      "errors": []
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "loginRequired": true,
+      "previewAbsent": true,
+      "supplyRequests": 0,
+      "errors": []
+    }
+  ]
+}

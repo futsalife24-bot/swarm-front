@@ -1,8 +1,10 @@
-# 管理者モードの補給10連・演出確認を実装（2026-11-11、公開準備）
+# 管理者モードの補給10連・演出確認を公開済み（2026-11-11）
 
 本人の「演出選択と通常同様のランダム、取得なし」を実装。認証済み管理者の基地→補給ポッドに10案の選択10連とランダム10連を追加。通常と表示変換・描画・抽選方針を共用し、確認側は補給API/受領/保存を呼ばない。通常側の表示選択だけ、順番送りから適格候補のランダムへ変更（バディ通信優先は維持）。演出の描画式・尺・素材とサーバーの抽選/券は変更なし。
 
-base `2a97b3c`、専用worktree `task-gacha-kakutei-10-20261111` / `codex/supply-dev-preview-20261111`。関連62件・両型・本体build・format成功。正式なローカル管理者ログイン後、Chrome844×390/640×360で各10案＋ランダム2回、スキップ/閉じる/繰返し、補給API0件・全localStorage不変・例外0を確認。通常10連/再読込み/受領も2サイズ成功。公開は次の工程。[詳細と証拠](evidence/supply-dev-preview-20261111/VALIDATION.md)。
+base `2a97b3c`、専用worktree `task-gacha-kakutei-10-20261111` / 実装branch `codex/supply-dev-preview-20261111`。関連62件・両型・本体build・format成功。正式なローカル管理者ログイン後、Chrome844×390/640×360で各10案＋ランダム2回、スキップ/閉じる/繰返し、補給API0件・全localStorage不変・例外0を確認。通常10連/再読込み/受領も2サイズ成功。[詳細と証拠](evidence/supply-dev-preview-20261111/VALIDATION.md)。
+
+[PR306](https://github.com/futsalife24-bot/swarm-front/pull/306)を通常mergeし、公開source `c0a75e61e620224a4ce39e158de43b6cd6bb2f70` から本番build/dry-run/deploy成功。既存Worker Version `2bc75dc0-9d49-4082-af29-43f1fd87a664` を100%配信。本体36＋演出21ファイルSHA一致、health200/ok。公開Chrome2サイズで未認証のログイン必須・確認UI非表示を確認。公開側の認証済み操作、実スマホ/実聴は未確認。公開後は記録・検証器のみで製品差分なし。別main worktreeとrootの既存差分を保護。[公開記録](evidence/supply-dev-preview-20261111/RELEASE.md)。
 
 # 補給ポッド10演出・無料補給ガチャを公開済み（2026-11-11）
 

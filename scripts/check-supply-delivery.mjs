@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const localRoot = path.join(repo, 'dist', 'supply-reveal');
-const output = path.join(repo, 'docs', 'evidence', 'supply-kakutei-20261111', 'release', 'supply-delivery.json');
+const output = path.resolve(repo, process.env.SUPPLY_OUTPUT || 'docs/evidence/supply-kakutei-20261111/release', 'supply-delivery.json');
 const publicRoot = 'https://swarm-front.melosalife-24.workers.dev/supply-reveal/';
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
 
