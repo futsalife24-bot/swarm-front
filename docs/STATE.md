@@ -1,5 +1,7 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
+同一URL武器のネットワーク優先・隔離試作（2026-11-12）: 新規武器フォルダのみを対象に、最新版取得と両キャッシュ更新、通信失敗時の既存キャッシュ利用を試作。旧MD-4から新版へ更新し、503・オフライン・短い不正応答時に旧版へ戻れた。成功時は両キャッシュが新版になりオフラインでも新版だったが、PRELOAD書込失敗を模擬するとオンラインで新版を返した後、オフラインでは旧版が返った。no-store条件では2回の読込で計996,264 bytesを受信し、模擬遅延200msで各約234／240ms。通信量と安定性のため未採用、製品未変更。不正応答全般・実スマホ・公開配信は未確認。[結果](evidence/weapon-models-20261111/cache-network-first-report.json)。再現は `node scripts/cache-network-first-proto.mjs`。
+
 同一URL更新時の通常キャッシュ（2026-11-12）: 隔離ローカルで旧MD-4をPRELOADへ保存し、同じURLの配信元を新版にした後、実Service Workerのコメントだけを変えて更新・切替を確認。通常再読込後も旧GLBが返り、GLBの配信元への要求は0、ページ例外0だった。明示ダウンロードでは更新できるが、通常起動では古いデータが残る例として未解決。今回の新URL初回公開で利用者が旧MD-4を持つことを示す結果ではない。公開Worker・実通信・実スマホは未確認。[測定](evidence/weapon-models-20261111/medic-auto-cache-report.json)。再現は `node scripts/check-medic-auto-update.mjs`。
 
 追加造形後のMD-4のキャッシュ確認（2026-11-12）: 隔離ローカル環境の実Service Workerと製品保存処理で、旧MD-4の実GLB5種を2種類のキャッシュへ入れ、通常読込で旧版が返ることを確認。明示ダウンロード後、オフラインで新5種を読み、実ファイルのサイズ・SHA-256と全件一致。ページ例外0。以前の55件の記録はMD-4追加造形前のもので、現行MD-4の証拠にはしない。正規manifest・自動更新・公開Worker・実スマホは未確認。[測定](evidence/weapon-models-20261111/medic-updated-cache-report.json)。再現は `node scripts/check-medic-cache-updated.mjs`。
