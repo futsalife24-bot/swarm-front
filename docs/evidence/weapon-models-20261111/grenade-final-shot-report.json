@@ -1,0 +1,102 @@
+{
+  "scope": "Actual local solo UI and renderer; passive wrappers observe the real CombatEffects.event/add at effect creation before per-frame movement, first event only. Injected isolated save, no network or phone; no proof of continued flight, exact screen position or continuous action.",
+  "viewport": [
+    844,
+    390
+  ],
+  "missing": [],
+  "records": [
+    {
+      "kind": "grenade",
+      "family": "grenade",
+      "shot": {
+        "type": "shot",
+        "weapon": "grenade",
+        "x": -1,
+        "y": 1.5,
+        "z": 34,
+        "tx": -1.0218684368428235,
+        "tz": 32.00042685935755,
+        "ty": 1.4649425230322863,
+        "owner": "solo",
+        "id": 1
+      },
+      "muzzle": [
+        -0.8611923882454277,
+        1.3852627948153249,
+        33.25897755120243
+      ],
+      "barrel": [
+        -0.016104669802607146,
+        -0.013961397746670967,
+        -0.9997728336894878
+      ],
+      "body": [
+        -1,
+        0,
+        34
+      ],
+      "hadFollow": true,
+      "effects": [
+        {
+          "kind": "bullet",
+          "created": true,
+          "position": [
+            -0.8611923882454277,
+            1.3852627948153249,
+            33.25897755120243
+          ],
+          "age": 0,
+          "velocity": [
+            -1.9146156665891336,
+            -1.6861368103418957,
+            -119.97287689101259
+          ],
+          "color": 16768131,
+          "argumentPosition": [
+            -0.8611923882454277,
+            1.3852627948153249,
+            33.25897755120243
+          ],
+          "distanceFromMuzzle": 0
+        },
+        {
+          "kind": "muzzle",
+          "created": true,
+          "position": [
+            -0.8611923882454277,
+            1.3852627948153249,
+            33.25897755120243
+          ],
+          "age": 0,
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "color": 16768131,
+          "argumentPosition": [
+            -0.8611923882454277,
+            1.3852627948153249,
+            33.25897755120243
+          ],
+          "distanceFromMuzzle": 0
+        }
+      ],
+      "worldTime": 0.2,
+      "muzzleAfter": [
+        -0.8611923882454277,
+        1.3852627948153249,
+        33.25897755120243
+      ],
+      "effectKindsAfter": [
+        "muzzle",
+        "smoke",
+        "flash"
+      ],
+      "screen": "battle",
+      "errors": []
+    }
+  ],
+  "errors": []
+}
