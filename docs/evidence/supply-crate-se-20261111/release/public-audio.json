@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "checkedAt": "2026-11-11T09:19:28.980Z",
+  "result": {
+    "source": "https://swarm-front.melosalife-24.workers.dev/supply-reveal/assets/crate-open-preview.mp3",
+    "duration": 5.2,
+    "time": 0.223305,
+    "paused": false,
+    "error": null
+  },
+  "errors": [],
+  "note": "公開MP3を実HTMLMediaElementで再生。ゲーム本体の操作確認とは区別する"
+}
