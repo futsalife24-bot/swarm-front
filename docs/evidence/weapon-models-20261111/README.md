@@ -10,6 +10,7 @@
 - `ground-renderer-sg4-sr1.png` / `ground-renderer-sg4-sr1-report.json`: 地形を読み込んだ実ゲームRendererの844×390画面で同じ2種類のダウン・回避と両背負い位置を固定入力で比較。床に隠れる場面を確認。実操作・移動・他地形・通信・スマホは未確認。`node scripts/check-weapon-floor-renderer.mjs` で再現する。
 - `ground-offset-review.md`: 背負い位置を固定変更する4案の検証結果。いずれも床下の問題を解消できなかった。
 - `ground-lift-prototype.md` / `ground-lift-prototype.png` / `ground-lift-prototype-report.json`: 背負い武器を床から垂直に押し上げる隔離試作。平面では床下を避けたが最大367mmの移動が必要で、浮きや体との交差を懸念し不採用。製品には未反映。
+- `ground-rotation-prototype.png` / `ground-rotation-prototype-report.json`、`ground-rotation-smooth-prototype.png` / `ground-rotation-smooth-prototype-report.json`: SG-4・SR-1×両背負い×ダウン／回避の平面・60fps固定入力で、回転と押し上げを組み合わせた隔離試作。8条件で床下は避けたが、無制限案は隣接フレームで最大66.5度の変化、1フレーム15度までの制限案でも最大253mmの押し上げが必要。体との交差や自然さが未保証のため不採用。実Renderer・実地形・持ち替え・通信・実機は未確認。再現は `node scripts/weapon-floor-rotation-proto.mjs` と `node scripts/weapon-floor-rotation-smooth-proto.mjs`。
 - `laser-detail-trooper.png` / `laser-detail-trooper-report.json` と `sniper-detail-trooper.png` / `sniper-detail-trooper-report.json`: 追加造形したLZ-2とSR-1の実兵士表示。赤い点・線は銃口計測の補助表示で、実射撃エフェクトではない。各武器の手持ち・背負い・装填3時点を確認。
 - `detail-round-2guns.png`: 同じ2種類の生成画像から多面表示を切り出して1枚にまとめた途中確認画像。最終評価や実機確認の代わりではない。
 - `detail-round-preview.png` / `detail-round-preview-report.json` と `detail-round-shot.png` / `detail-round-shot-report.json`: LZ-2・SR-1の追加造形後に、生成済み11種類の製品プレビュー・共有画像と射撃エフェクトをそれぞれ再確認した結果。ST-3、実際の詳細ダイアログ、実通信、実機は未確認。
@@ -17,6 +18,9 @@
 - `heavy-kick-detail-trooper.png` / `heavy-kick-detail-trooper-report.json`: 追加造形した2種類について実兵士の手持ち・背負い・装填各10場面と銃口計算を確認。赤い点・線は計測補助で、実射撃エフェクトではない。
 - `heavy-kick-detail-preview.png` / `heavy-kick-detail-preview-report.json` と `heavy-kick-detail-shot.png` / `heavy-kick-detail-shot-report.json`: 追加造形後の生成済み11種類のプレビュー・共有画像生成と局所射撃エフェクト。ページ例外0。ST-3、実際の詳細ダイアログ、実通信、実機は未確認。
 - `kick-old-inlay-negative.json` / `kick-topology-negative.json`: 強化した検査が旧KB-6の隠れた識別色と、寸法・頂点数を変えない面接続の変更を不合格にした負例。`python scripts/check-weapon-inspection-regression.py` でも現行データから隔離負例を作って再現できる。生成済み8種は新しい40項目をすべて合格。識別色の視認検査は左右それぞれ正面9点であり、斜めや実ゲーム画面での視認を保証しない。
+- `medic-detail-trooper.png` / `medic-detail-trooper-report.json`: 追加造形したMD-4の実兵士表示と銃口計算。手持ち・背負い・装填3時点の10画像。赤い点・線は計測補助で実射撃エフェクトではない。`medic-detail-shot.png` / `medic-detail-shot-report.json` は更新後の生成済み11種類の局所射撃エフェクトで、ST-3・実通信・実機は未確認。
+- `medic-detail-round.png`: MD-4の追加造形と実際の詳細・共有画像ダイアログを1枚にまとめた途中確認画像。実機や最終評価の代わりではない。
+- `detail-ui-11.png` / `share-ui-11.png` / `detail-ui-11-report.json`: 孤立ブラウザーに仮保存を入れ、実ゲームの出撃準備一覧から生成済み11種類それぞれを装備して詳細と共有画像を開いた844×390画面。共有画像は1200×720で読込成功、画像の送信や実スマホは未確認。初期試験では画面遷移中の入力保護を待たずに操作が取りこぼされたため、完了待ちを入れて再試験した。`node scripts/check-weapon-detail-ui-matrix.mjs --available` で再現。ST-3完成後は `--available` を外して12種で再確認する。
 - `grenade-projectile-60fps.png` / `grenade-projectile-report.json`: 実Rendererだが `fire()` の後 `step()` の前を人工的に描いた中間状態。通常のゲームプレイで表示されるとは限らない。
 - `grenade-projectile-stepped.png` / `grenade-projectile-stepped-report.json`: 通常 `step()` 後の弾体を実Rendererで描いた隔離fixture。実UIや通信の検証ではない。2種類の画像は `node scripts/check-grenade-renderer-shot.mjs` と同コマンドの `--stepped` 付きでそれぞれ再現する。
 - `grenade-ui-first-render.png` / `grenade-ui-after.png` / `grenade-ui-report.json`: 隔離ブラウザーの仮保存でGL-6を装備し、実際の出撃画面とPCのマウス入力で発射。描画の計測だけを追加したローカル単独プレイであり、協力通信や実スマホの検証ではない。`node scripts/check-grenade-ui-shot.mjs` で再現する。

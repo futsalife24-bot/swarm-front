@@ -4,8 +4,8 @@
   "name": "MD-4 ブルーム",
   "family": "special",
   "blender": "5.2.1 LTS",
-  "triangles": 7944,
-  "vertices": 4216,
+  "triangles": 8336,
+  "vertices": 4464,
   "bounds": [
     [
       -0.09910556674003601,
@@ -148,32 +148,32 @@
     {
       "file": "medic_0.glb",
       "grade": 0,
-      "bytes": 464100,
-      "sha256": "8450aaf811664caa0051506f52cb2c0def38880279c9ffd4e8942616808f9436"
+      "bytes": 487700,
+      "sha256": "d940bf8980a6f0a33361cd0d4611418da4efa6bfb47ed3455f07f67ae2516986"
     },
     {
       "file": "medic_1.glb",
       "grade": 1,
-      "bytes": 464100,
-      "sha256": "3aa0814db360f4d72943eac5eb0414aaeed0442ef6e39610e730155a7bbbed8e"
+      "bytes": 487700,
+      "sha256": "4f0ec9460540a40a41139c5d84801c8a45a36b8e8ac37bd36877e7445c3a79ce"
     },
     {
       "file": "medic_2.glb",
       "grade": 2,
-      "bytes": 464100,
-      "sha256": "2662ae23439220309f22ebfda683c60dcc1c26576a06841790580458dcf5ec87"
+      "bytes": 487700,
+      "sha256": "cb352ebc346cf09ba1890ba7b165be32e68db0b4f154c83f37dac4e7d0527803"
     },
     {
       "file": "medic_3.glb",
       "grade": 3,
-      "bytes": 464100,
-      "sha256": "46639acca6743c17a4500ca304730bcad9fc4d9559e8c9d9c83f4c145e30b7f4"
+      "bytes": 487700,
+      "sha256": "bdad71f63c5a767bf8caca4603d1fafdbe173661f13fd5a1be02a77530b0c0f0"
     },
     {
       "file": "medic_4.glb",
       "grade": 4,
-      "bytes": 464096,
-      "sha256": "86034117dfa6c4fcb8f94c91ba5341c1c3de18ba6739b469c85ab8dd3f7f6f34"
+      "bytes": 487696,
+      "sha256": "03d06176c22c2ada7af0d515f30796c94e3d7a4ef27ca443b2f682e51dc400aa"
     }
   ]
 }

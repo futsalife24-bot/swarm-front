@@ -104,3 +104,26 @@ def build(k):
             k.rod('Grip texture',(side*.021,y,z),(side*.021,y+.027,z),.0015,'polymer',6)
         for y in [.21,.25,.29,.33]:
             k.rod('Support fastening',(side*.022,y,-.005),(side*.023,y,-.005),.0025,'white',8)
+
+        # 薬液カプセルと送液部を立体的な配管で結び、白い胴に整備用の層を作る。
+        tube=[(side*.030,.105,.110),(side*.044,.130,.100),
+              (side*.047,.154,.078),(side*.039,.177,.056),
+              (side*.025,.198,.045)]
+        for a,b in zip(tube,tube[1:]):
+            k.rod('Dose transfer conduit',a,b,.0035,'polymer',6)
+
+        # 識別インレイに重ならない範囲で、薬液量を示す暗い窓と段付きの枠を配置。
+        k.profile('Dose readout surround', [(-.039,.026),(.048,.026),(.059,.038),
+                                            (.048,.067),(-.039,.067)],
+                  .002,'polymer',0,x=side*.063)
+        k.profile('Dose readout glass', [(-.030,.034),(.034,.034),(.045,.041),
+                                        (.035,.058),(-.030,.058)],
+                  .001,'vial',0,x=side*.0645)
+        for y in [-.020,0,.020]:
+            k.box('Dose readout tick',(side*.0655,y,.046),(.001,.002,.017),'white',0)
+
+        # 投与セルのつかみ位置に複数の段差を設け、交換式部品として読めるようにする。
+        for z in [-.038,-.067,-.096]:
+            k.box('Cartridge grip band',(side*.022,.107,z),(.003,.031,.004),'teal',0)
+        k.profile('Cartridge lower latch',[(.083,-.103),(.13,-.103),(.129,-.116),(.084,-.116)],
+                  .003,'polymer',0,x=side*.021)
