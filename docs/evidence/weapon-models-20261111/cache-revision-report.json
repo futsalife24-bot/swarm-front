@@ -1,0 +1,36 @@
+{
+  "scope": "Isolated localhost, unchanged actual SW and asset store. MD-4 five versions and one original rifle; old/new manifests generated from supplied diagnostic packs, not full product manifests. No production changes, deployed Worker/CDN, phone, or real client.",
+  "oldAudit": {
+    "checked": 6,
+    "revision": "51b0ca988fa1d75f2a49138b5b30dc515337b0a38c460ce42e07b5a622ad796e"
+  },
+  "newAudit": {
+    "checked": 6,
+    "revision": "0dfbcf772d069d4c19ae80f36d243391477df13b548ca6673da70ae8af5d867a"
+  },
+  "mismatchCaught": true,
+  "validation": {
+    "old": true,
+    "next": true
+  },
+  "oldOfflineBefore": {
+    "ok": true,
+    "status": 200,
+    "sha256": "d940bf8980a6f0a33361cd0d4611418da4efa6bfb47ed3455f07f67ae2516986"
+  },
+  "newOfflineBefore": {
+    "ok": false,
+    "error": "TypeError: Failed to fetch"
+  },
+  "firstRequests": 5,
+  "repeatRequests": 0,
+  "newOfflineMatches": 5,
+  "oldCachedStillMatches": true,
+  "rifleCachedMatches": true,
+  "oldUrlColdReturnsCurrent": true,
+  "oldDownload": {
+    "accepted": false,
+    "error": "Error: データの版が切り替わりました。画面を開き直して再開してください。"
+  },
+  "errors": []
+}
