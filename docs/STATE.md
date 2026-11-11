@@ -1,6 +1,6 @@
-# 補給箱SEを鍵のロック解除音へ再修正（2026-11-11、公開準備）
+# 補給箱SEを鍵のロック解除音へ再修正・公開済み（2026-11-11）
 
-本人が前回の開蓋音を見送り、「ガチャって鍵を開けた感じ」を指定。CC0の鍵とボルトの実録#0191の二段の打撃へ差替え、約0.4秒・音階なし。実Chromeの表示fixtureで10箱分の新波形再生・全rate1・例外0を確認。描画/時刻/券/報酬は変更なし。base ce6c775、branch codex/supply-lock-se-20261111。[詳細](evidence/supply-lock-se-20261111/RELEASE.md)。
+本人が前回の開蓋音を見送り、「ガチャって鍵を開けた感じ」を指定。CC0の鍵とボルトの実録#0191の二段の打撃へ差替え、約0.4秒・音階なし。実Chromeの表示fixtureで10箱分の新波形再生・全rate1・例外0を確認。描画/時刻/券/報酬は変更なし。base ce6c775、branch codex/supply-lock-se-20261111。PR310を通常mergeし、source fd9e4ddから既存Worker Version 4c7843fb-ce67-47a3-900d-d0f974dc184dを100%公開。本体36＋演出23ファイルSHA一致・health200・公開MP3再生成功。[詳細](evidence/supply-lock-se-20261111/RELEASE.md)。
 
 # 補給10連の通常箱SEを金属箱の実録へ変更・公開済み（2026-11-11）
 
