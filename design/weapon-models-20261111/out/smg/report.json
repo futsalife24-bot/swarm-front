@@ -4,8 +4,8 @@
   "name": "SMG-3 ワスプ",
   "family": "rifle",
   "blender": "5.2.1 LTS",
-  "triangles": 7240,
-  "vertices": 3936,
+  "triangles": 7760,
+  "vertices": 4272,
   "bounds": [
     [
       -0.041999995708465576,
@@ -15,7 +15,7 @@
     [
       0.041999995708465576,
       0.42000001668930054,
-      0.09799999743700027
+      0.09950000047683716
     ]
   ],
   "materials": [
@@ -153,32 +153,32 @@
     {
       "file": "smg_0.glb",
       "grade": 0,
-      "bytes": 446420,
-      "sha256": "4397636d163e7128a5308621989da0378d8a46ad1688b75ae81c5957f5648ee6"
+      "bytes": 480004,
+      "sha256": "7463ff566b00871fae78749ab964658efe81cee5d0dc4dae8c1c0c0eb80f1ce7"
     },
     {
       "file": "smg_1.glb",
       "grade": 1,
-      "bytes": 446420,
-      "sha256": "a1f47b6c0c968b48a818de221a641382c4d721946c845d963f228b63ec15189f"
+      "bytes": 480004,
+      "sha256": "96717790deedad91abd469886222437d448391b343cf69f1f0fb6993b31a61d1"
     },
     {
       "file": "smg_2.glb",
       "grade": 2,
-      "bytes": 446420,
-      "sha256": "275cd03508c6cd532cbe0acd3c76ece101b6342712ee799ba6f934879f24108e"
+      "bytes": 480004,
+      "sha256": "d6b5708803d3a49c03d2cfa4daf692a0515457d53c5a86ec7c01b74f8da2fac3"
     },
     {
       "file": "smg_3.glb",
       "grade": 3,
-      "bytes": 446420,
-      "sha256": "4860d5a7eb0f515a7541ad2939ed2cafb6ae092b0feb07cc68317cc6cb1a4704"
+      "bytes": 480004,
+      "sha256": "b635102fc61cb2f7140929b5d48b11f73dfac4d3f4ba2404f3c180351eaa67f0"
     },
     {
       "file": "smg_4.glb",
       "grade": 4,
-      "bytes": 446416,
-      "sha256": "8aeb1595751d4544e674a73f9d83825ce5a75f44d8157bd7e7edcf0469664fce"
+      "bytes": 480000,
+      "sha256": "aa42021f22e28bcd1128fc344c963fb461112430644a45a5f703261008b2bb42"
     }
   ]
 }

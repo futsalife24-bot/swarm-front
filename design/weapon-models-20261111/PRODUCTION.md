@@ -93,6 +93,8 @@ node "$d/render/render_weapon.mjs" <kind>
 | 読み直し | Blender へ読み込んで、三角形数・寸法・材質名が `report.json` と一致 |
 | インレイの遮蔽 | 読み直したGLBを左右から直交方向に各9点検査し、全点で識別材質が最初に見える |
 
+加えて `node scripts/check-weapon-rarity-invariants.mjs` は新規9種の5レア度について、識別材質のRGB以外のglTF設定とバイナリが同一であることを比較する。未完成時だけ `--available` で生成済み分を確認できるが、完成時は引数なしで全種を通す。ネオンは製品側で別に生成されるため、この比較に含まれない。
+
 目で見る（`out/<kind>/views.png`）:
 
 - 札サイズ（96×36 等倍）で目印が読める。

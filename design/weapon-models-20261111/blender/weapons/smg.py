@@ -90,3 +90,34 @@ def build(k):
             k.box('Abdomen recess', (side*.028,y,.058), (.002,.009,.006), 'black', .0005)
         for y in [.21,.25,.29,.32]:
             k.rod('Support screw', (side*.022,y,-.005),(side*.023,y,-.005),.0025,'steel',8)
+
+        # 前方の支持具を別体のヒートシールドに見せる。節・黄帯を隠さない。
+        k.profile('Support shield inset', [(.197,.006),(.319,.006),(.311,-.008),(.204,-.011)],
+                  .002,'gunmetal',0,x=side*.0225)
+        k.profile('Support shield lower rib', [(.206,-.012),(.310,-.009),(.307,-.014),(.207,-.017)],
+                  .002,'steel',0,x=side*.0225)
+        for y in [.22,.25,.28,.30]:
+            k.box('Shield cooling notch',(side*.024,y,-.001),(.002,.010,.004),'black',0)
+
+        # 黄い副弾倉に外装継ぎ目と確認窓を設け、単色の板に見えないようにする。
+        k.profile('Auxiliary magazine frame',[(.096,-.024),(.112,-.024),(.137,-.108),(.124,-.108)],
+                  .0015,'black',0,x=side*.0175)
+        k.profile('Auxiliary magazine insert',[(.100,-.031),(.108,-.031),(.128,-.100),(.124,-.100)],
+                  .0015,'gunmetal',0,x=side*.0185)
+        for y,z in [(.104,-.041),(.111,-.063),(.118,-.085)]:
+            k.box('Auxiliary magazine marker',(side*.0195,y,z),(.001,.005,.003),'hazard',0)
+        k.rod('Auxiliary magazine retaining pin',(side*.018,.127,-.101),
+              (side*.020,.127,-.101),.002,'steel',8)
+
+        # 上部レールの前後で照準器の支えと狭い照準溝を立てる。
+        for y in [-.027,.060]:
+            k.box('Sight mount foot',(side*.010,y,.095),(.009,.010,.004),'gunmetal',0)
+            k.box('Sight mount tooth',(side*.010,y,.098),(.004,.006,.003),'steel',0)
+
+        # 銃床と機関部の接合部を、着脱できる固定ラグとして浮き上がらせる。
+        k.profile('Stock mount lug',[(-.085,.024),(-.067,.024),(-.063,.036),(-.084,.039)],
+                  .003,'gunmetal',0,x=side*.0285)
+        k.rod('Stock mount lug pin',(side*.030,-.075,.031),(side*.032,-.075,.031),
+              .003,'steel',8)
+        k.profile('Grip heel reinforcement',[(-.075,-.128),(-.026,-.141),(-.029,-.145),(-.076,-.133)],
+                  .002,'gunmetal',0,x=side*.022)
