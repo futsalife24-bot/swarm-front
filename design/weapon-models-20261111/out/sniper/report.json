@@ -4,8 +4,8 @@
   "name": "SR-1 ソーン",
   "family": "sniper",
   "blender": "5.2.1 LTS",
-  "triangles": 4652,
-  "vertices": 2472,
+  "triangles": 8448,
+  "vertices": 4528,
   "bounds": [
     [
       -0.03800000622868538,
@@ -13,7 +13,7 @@
       -0.1441379338502884
     ],
     [
-      0.03800000622868538,
+      0.05480422452092171,
       0.6999999284744263,
       0.1600000113248825
     ]
@@ -177,32 +177,32 @@
     {
       "file": "sniper_0.glb",
       "grade": 0,
-      "bytes": 278580,
-      "sha256": "5c8b54a98ac5f3cb52e3057e64bffa6555df9de48582ad53c37891696e4bd950"
+      "bytes": 496060,
+      "sha256": "ebff6a0f5a97ed5013e8d2366f03a954a4f3ebfdf1a0196756617afc57a58c64"
     },
     {
       "file": "sniper_1.glb",
       "grade": 1,
-      "bytes": 278580,
-      "sha256": "576b9481f8e2343e52a3d5d6cd953911e1c488e7ec7ba2be28e42eb399bbb8d1"
+      "bytes": 496060,
+      "sha256": "feee5143a7f77d48eafdbdd7e432af2f41abc0493e6115b4dbb7573026b9b499"
     },
     {
       "file": "sniper_2.glb",
       "grade": 2,
-      "bytes": 278580,
-      "sha256": "62134b9141018ca01bcd9e9ab492751df1f2d7df732a4d381e02664af7839134"
+      "bytes": 496060,
+      "sha256": "fa6406ec80afd91a3343c3a75c5d88f1d9735d878c577b3616389fac6b90b134"
     },
     {
       "file": "sniper_3.glb",
       "grade": 3,
-      "bytes": 278580,
-      "sha256": "c12acbd503e8a48763703554b77f291c071d524ac94cd68d5be7b35b2c00387b"
+      "bytes": 496060,
+      "sha256": "8dc115cd5c02256a8c605b032abd996aa020bff4aca098030987a599ee4b6dcb"
     },
     {
       "file": "sniper_4.glb",
       "grade": 4,
-      "bytes": 278580,
-      "sha256": "903eb4f7ee4d40582b0bca6c0960a274c3a4ee97f895fd92abfc25050d02241f"
+      "bytes": 496056,
+      "sha256": "b2c3f80f642b36762830b3da18903d80dc3fa34b7e00eb6e8db0d1fef8a13135"
     }
   ]
 }

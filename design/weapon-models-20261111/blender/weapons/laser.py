@@ -41,6 +41,16 @@ def build(k):
             k.box('Cooling gill', (s * .033, y, .05), (.004, .006, .021), 'copper', .001)
     k.profile('Pistol grip', [(-.035, 0), (.02, 0), (.019, -.039), (-.025, -.145), (-.076, -.131)],
               .042, 'polymer', .004)
+    # 握りの凹凸と底板を独立した部品にし、手に持った時も単一の平面に見せない。
+    for s in [-1, 1]:
+        k.profile('Grip inset', [(-.043, -.042), (.006, -.042), (-.027, -.125), (-.062, -.116)],
+                  .002, 'gunmetal', .001, x=s * .0215)
+        for i in range(5):
+            z = -.052 - i * .013
+            y = -.035 - i * .005
+            k.rod('Grip rib', (s * .023, y - .012, z), (s * .023, y + .015, z), .0016, 'copper', 8)
+    k.profile('Grip heel', [(-.075, -.13), (-.025, -.145), (-.021, -.134), (-.069, -.119)],
+              .044, 'gunmetal', .001)
     k.guard(.047, -.005, .057, .05, 'copper')
 
     # --- 給電セル（弾倉の位置。装填動作の手が届く場所に置く） ---
@@ -65,6 +75,14 @@ def build(k):
             a = (i + .5) * math.pi / 4
             y, z = -.235 + .048 * math.cos(a), .03 + .048 * math.sin(a)
             k.rod('Drum radial slot', (s * .037, y, z), (s * .038, y, z), .006, 'polymer', 8)
+            # 蓄電ドラムに角度の付いた分割装甲と内側の銅製リテーナーを重ねる。
+            y0, z0 = -.235, .03
+            wedge = [(y0 + r * math.cos(a + t), z0 + r * math.sin(a + t))
+                     for r, t in [(.036, -.22), (.055, -.22), (.055, .22), (.036, .22)]]
+            k.profile('Drum radial armor', wedge, .002, 'gunmetal', .0005, x=s * .039)
+            q = a + .31
+            y1, z1 = y0 + .045 * math.cos(q), z0 + .045 * math.sin(q)
+            k.rod('Drum retainer screw', (s * .040, y1, z1), (s * .042, y1, z1), .0025, 'copper', 8)
     k.box('Butt pad', (0, -.331, .03), (.06, .018, .15), 'polymer', .004)
 
     # --- 上面: 放熱フィン7枚と小型プリズム照準 ---
@@ -76,6 +94,12 @@ def build(k):
     k.box('Prism sight', (0, -.052, .122), (.036, .06, .044), 'gunmetal', .004)
     for y in [-.083, -.021]:
         k.rod('Sight lens', (0, y - .001, .124), (0, y + .001, .124), .013, 'polymer', 12)
+    for s in [-1, 1]:
+        k.profile('Sight side plate', [(-.077, .11), (-.028, .11), (-.024, .12),
+                  (-.029, .137), (-.075, .137)], .002, 'copper', .001, x=s * .0185)
+        k.box('Sight aperture', (s * .020, -.051, .124), (.001, .027, .010), 'polymer', .001)
+        for y in [-.070, -.032]:
+            k.rod('Sight screw', (s * .019, y, .124), (s * .021, y, .124), .0025, 'gunmetal', 8)
 
     # --- 発振部: 光る結晶棒を銅コイルで囲む ---
     k.rod('Focus crystal', (0, .20, BORE), (0, .335, BORE), .015, 'glow_laser', 12)
@@ -100,6 +124,11 @@ def build(k):
 
     # --- 左手の支え ---
     k.profile('Handguard', [(.20, -.004), (.37, -.002), (.36, -.032), (.215, -.036)], .044, 'polymer', .004)
+    for s in [-1, 1]:
+        for y in [.245, .295, .345]:
+            k.box('Handguard cooling flute', (s * .0225, y, -.02), (.002, .014, .006), 'gunmetal', .0005)
+        for y in [.22, .36]:
+            k.rod('Handguard captive screw', (s * .023, y, -.018), (s * .025, y, -.018), .003, 'copper', 8)
 
     # --- 給電ケーブル（右側面） ---
     path = [(.036, -.20, .085), (.040, -.10, .113), (.039, .0, .108), (.034, .17, .062)]

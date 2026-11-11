@@ -10,6 +10,9 @@
 - `ground-renderer-sg4-sr1.png` / `ground-renderer-sg4-sr1-report.json`: 地形を読み込んだ実ゲームRendererの844×390画面で同じ2種類のダウン・回避と両背負い位置を固定入力で比較。床に隠れる場面を確認。実操作・移動・他地形・通信・スマホは未確認。`node scripts/check-weapon-floor-renderer.mjs` で再現する。
 - `ground-offset-review.md`: 背負い位置を固定変更する4案の検証結果。いずれも床下の問題を解消できなかった。
 - `ground-lift-prototype.md` / `ground-lift-prototype.png` / `ground-lift-prototype-report.json`: 背負い武器を床から垂直に押し上げる隔離試作。平面では床下を避けたが最大367mmの移動が必要で、浮きや体との交差を懸念し不採用。製品には未反映。
+- `laser-detail-trooper.png` / `laser-detail-trooper-report.json` と `sniper-detail-trooper.png` / `sniper-detail-trooper-report.json`: 追加造形したLZ-2とSR-1の実兵士表示。赤い点・線は銃口計測の補助表示で、実射撃エフェクトではない。各武器の手持ち・背負い・装填3時点を確認。
+- `detail-round-2guns.png`: 同じ2種類の生成画像から多面表示を切り出して1枚にまとめた途中確認画像。最終評価や実機確認の代わりではない。
+- `detail-round-preview.png` / `detail-round-preview-report.json` と `detail-round-shot.png` / `detail-round-shot-report.json`: LZ-2・SR-1の追加造形後に、生成済み11種類の製品プレビュー・共有画像と射撃エフェクトをそれぞれ再確認した結果。ST-3、実際の詳細ダイアログ、実通信、実機は未確認。
 - `grenade-projectile-60fps.png` / `grenade-projectile-report.json`: 実Rendererだが `fire()` の後 `step()` の前を人工的に描いた中間状態。通常のゲームプレイで表示されるとは限らない。
 - `grenade-projectile-stepped.png` / `grenade-projectile-stepped-report.json`: 通常 `step()` 後の弾体を実Rendererで描いた隔離fixture。実UIや通信の検証ではない。2種類の画像は `node scripts/check-grenade-renderer-shot.mjs` と同コマンドの `--stepped` 付きでそれぞれ再現する。
 - `grenade-ui-first-render.png` / `grenade-ui-after.png` / `grenade-ui-report.json`: 隔離ブラウザーの仮保存でGL-6を装備し、実際の出撃画面とPCのマウス入力で発射。描画の計測だけを追加したローカル単独プレイであり、協力通信や実スマホの検証ではない。`node scripts/check-grenade-ui-shot.mjs` で再現する。
