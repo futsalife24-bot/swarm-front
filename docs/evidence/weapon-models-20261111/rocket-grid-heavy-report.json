@@ -1,0 +1,318 @@
+{
+  "kind": "heavy",
+  "initial": {
+    "projectile": {
+      "id": 2,
+      "x": -1,
+      "z": 34,
+      "y": 1.5,
+      "dx": -0.24584677243728648,
+      "dz": -19.993730124275334,
+      "dy": -0.43625116862556407,
+      "life": 4,
+      "owner": "solo",
+      "damage": 430,
+      "rocket": true,
+      "chain": false,
+      "radius": 11,
+      "family": "rocket"
+    },
+    "worldTime": 0.2
+  },
+  "worldTime": 0.2,
+  "shot": {
+    "type": "shot",
+    "weapon": "rocket",
+    "x": -1,
+    "y": 1.5,
+    "z": 34,
+    "tx": -1.0245846772437286,
+    "tz": 32.00062698757247,
+    "ty": 1.4563748831374437,
+    "owner": "solo",
+    "id": 1
+  },
+  "projectile": {
+    "id": 2,
+    "x": -1.0122923386218643,
+    "z": 33.00031349378623,
+    "y": 1.4781874415687217,
+    "dx": -0.24584677243728648,
+    "dz": -19.993730124275334,
+    "dy": -0.43625116862556407,
+    "life": 3.95,
+    "owner": "solo",
+    "damage": 430,
+    "rocket": true,
+    "chain": false,
+    "radius": 11,
+    "family": "rocket"
+  },
+  "instanceIndex": 0,
+  "instanceCount": 1,
+  "meshWorld": [
+    -1.0148557424545288,
+    1.473638653755188,
+    32.791839599609375
+  ],
+  "muzzle": [
+    -0.8643749191969924,
+    1.4160083980073896,
+    33.135741158152484
+  ],
+  "barrel": [
+    -0.017459483485070093,
+    -0.019510606412714238,
+    -0.9996571925784572
+  ],
+  "muzzleScreen": [
+    395.9992931566416,
+    257.9655487827387,
+    0.9661792984750507
+  ],
+  "projectileScreen": [
+    390.4141643130409,
+    250.99330608086345,
+    0.9680594241954504
+  ],
+  "alongMetres": 0.13584717562175183,
+  "sideMetres": 0.16009994871581715,
+  "meshVertexAlongMin": 0.0000013651897464500226,
+  "meshVertexAlongMax": 0.6887715257224541,
+  "heldSocket": "RightHandWeaponSocket",
+  "assetNodePresent": true,
+  "clipObservation": {
+    "q": {
+      "id": 2,
+      "x": -1.0122923386218643,
+      "z": 33.00031349378623,
+      "y": 1.4781874415687217,
+      "dx": -0.24584677243728648,
+      "dz": -19.993730124275334,
+      "dy": -0.43625116862556407,
+      "life": 3.95,
+      "owner": "solo",
+      "damage": 430,
+      "rocket": true,
+      "chain": false,
+      "radius": 11,
+      "family": "rocket"
+    },
+    "currentMuzzle": [
+      -0.8643749191969924,
+      1.4160083980073896,
+      33.135741158152484
+    ],
+    "scale": 0.6228445648923713,
+    "forward": 0.2085379221891241,
+    "before": 262,
+    "after": 0,
+    "ms": 24.700000002980232
+  },
+  "crossings": {
+    "body": {
+      "targetTriangles": 99302,
+      "projectileTriangles": 20,
+      "testedPairs": 0,
+      "crossingPairs": 0,
+      "groups": {},
+      "examples": [],
+      "exampleScreen": []
+    },
+    "weapon": {
+      "targetTriangles": 8456,
+      "projectileTriangles": 20,
+      "testedPairs": 747,
+      "crossingPairs": 0,
+      "groups": {},
+      "examples": [],
+      "exampleScreen": []
+    },
+    "farControl": {
+      "targetTriangles": 99302,
+      "projectileTriangles": 20,
+      "testedPairs": 0,
+      "crossingPairs": 0,
+      "groups": {},
+      "examples": []
+    },
+    "shiftedControl": {
+      "fraction": 0.5,
+      "shiftMetres": 0.6334306254477855,
+      "crossingPairs": 150
+    }
+  },
+  "screen": "battle",
+  "clipFrames": [
+    {
+      "time": 0.2,
+      "q": [
+        -1.0122923386218643,
+        1.4781874415687217,
+        33.00031349378623
+      ],
+      "position": [
+        -1.0148557424545288,
+        1.473638653755188,
+        32.791839599609375
+      ],
+      "scale": [
+        0.19999999622395118,
+        0.19999999310064154,
+        0.40484895256488984
+      ],
+      "active": true,
+      "plane": [
+        -0.8643749191969924,
+        1.4160083980073896,
+        33.135741158152484
+      ],
+      "detail": {
+        "time": 0.2,
+        "id": 2,
+        "owner": "solo",
+        "radius": 11,
+        "before": 262,
+        "after": 0,
+        "scale": 0.6228445648923713,
+        "forward": 0.2085379221891241,
+        "elapsedMs": 24.700000002980232,
+        "queryMs": 5.5999999940395355,
+        "buildCostMs": 18.900000005960464,
+        "checks": 3973,
+        "visits": 6662,
+        "dist": 0.13335646276239307
+      }
+    },
+    {
+      "time": 0.3,
+      "q": [
+        -1.0368770158655929,
+        1.4345623247061652,
+        31.000940481358693
+      ],
+      "position": [
+        -1.0368770360946655,
+        1.4345623254776,
+        31.000940322875977
+      ],
+      "scale": [
+        0.19999999622395118,
+        0.19999999310064154,
+        0.6500000184488544
+      ],
+      "active": false,
+      "plane": null,
+      "detail": null
+    },
+    {
+      "time": 0.3,
+      "q": [
+        -1.0368770158655929,
+        1.4345623247061652,
+        31.000940481358693
+      ],
+      "position": [
+        -1.0368770360946655,
+        1.4345623254776,
+        31.000940322875977
+      ],
+      "scale": [
+        0.19999999622395118,
+        0.19999999310064154,
+        0.6500000184488544
+      ],
+      "active": false,
+      "plane": null,
+      "detail": null
+    },
+    {
+      "time": 0.35,
+      "q": [
+        -1.0491693544874572,
+        1.412749766274887,
+        30.001253975144927
+      ],
+      "position": [
+        -1.0491693019866943,
+        1.4127497673034668,
+        30.001253128051758
+      ],
+      "scale": [
+        0.19999999622395118,
+        0.19999999310064154,
+        0.6500000184488544
+      ],
+      "active": false,
+      "plane": null,
+      "detail": null
+    },
+    {
+      "time": 0.35,
+      "q": [
+        -1.0491693544874572,
+        1.412749766274887,
+        30.001253975144927
+      ],
+      "position": [
+        -1.0491693019866943,
+        1.4127497673034668,
+        30.001253128051758
+      ],
+      "scale": [
+        0.19999999622395118,
+        0.19999999310064154,
+        0.6500000184488544
+      ],
+      "active": false,
+      "plane": null,
+      "detail": null
+    }
+  ],
+  "currentSamples": [
+    {
+      "time": 0.2,
+      "id": 2,
+      "owner": "solo",
+      "radius": 11,
+      "before": 262,
+      "after": 0,
+      "scale": 0.6228445648923713,
+      "forward": 0.2085379221891241,
+      "elapsedMs": 24.700000002980232,
+      "queryMs": 5.5999999940395355,
+      "buildCostMs": 18.900000005960464,
+      "checks": 3973,
+      "visits": 6662,
+      "dist": 0.13335646276239307
+    }
+  ],
+  "gridControls": {
+    "bruteCrossings": 262,
+    "gridCrossings": 262,
+    "farCrossings": 0,
+    "stress": [
+      {
+        "simulatedIdenticalBullets": 1,
+        "ms": 2.2999999970197678
+      },
+      {
+        "simulatedIdenticalBullets": 8,
+        "ms": 12
+      },
+      {
+        "simulatedIdenticalBullets": 32,
+        "ms": 45.5
+      }
+    ],
+    "buildMs": 18.599999994039536,
+    "triangles": 8456,
+    "gridCells": 352,
+    "gridEntries": 16709
+  },
+  "meshStateDifference": 0.20853926983435128,
+  "errors": [],
+  "warnings": [
+    "Service Worker registration blocked by Playwright"
+  ]
+}

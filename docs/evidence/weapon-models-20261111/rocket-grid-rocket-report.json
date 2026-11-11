@@ -1,0 +1,239 @@
+{
+  "kind": "rocket",
+  "initial": {
+    "projectile": {
+      "id": 2,
+      "x": -1,
+      "z": 34,
+      "y": 1.5,
+      "dx": -0.34418548141220107,
+      "dz": -27.99122217398547,
+      "dy": -0.6107516360757896,
+      "life": 2.6785714285714284,
+      "owner": "solo",
+      "damage": 170,
+      "rocket": true,
+      "chain": false,
+      "radius": 6.5,
+      "family": "rocket"
+    },
+    "worldTime": 0.2
+  },
+  "worldTime": 0.2,
+  "shot": {
+    "type": "shot",
+    "weapon": "rocket",
+    "x": -1,
+    "y": 1.5,
+    "z": 34,
+    "tx": -1.0245846772437286,
+    "tz": 32.00062698757247,
+    "ty": 1.4563748831374437,
+    "owner": "solo",
+    "id": 1
+  },
+  "projectile": {
+    "id": 2,
+    "x": -1.01720927407061,
+    "z": 32.600438891300726,
+    "y": 1.4694624181962106,
+    "dx": -0.34418548141220107,
+    "dz": -27.99122217398547,
+    "dy": -0.6107516360757896,
+    "life": 2.6285714285714286,
+    "owner": "solo",
+    "damage": 170,
+    "rocket": true,
+    "chain": false,
+    "radius": 6.5,
+    "family": "rocket"
+  },
+  "instanceIndex": 0,
+  "instanceCount": 1,
+  "meshWorld": [
+    -1.0172092914581299,
+    1.4694623947143555,
+    32.60043716430664
+  ],
+  "muzzle": [
+    -0.8640755785889014,
+    1.4162301873790022,
+    33.15273925401339
+  ],
+  "barrel": [
+    -0.01745647215691401,
+    -0.01950810939339577,
+    -0.9996572939001296
+  ],
+  "muzzleScreen": [
+    395.920254635946,
+    258.17066154984605,
+    0.9660808558274508
+  ],
+  "projectileScreen": [
+    391.4426537749539,
+    249.1700635380893,
+    0.9690166141888992
+  ],
+  "alongMetres": 0.5528484600749703,
+  "sideMetres": 0.16024315877732673,
+  "meshVertexAlongMin": -0.00007284022751529373,
+  "meshVertexAlongMax": 1.1057732147346884,
+  "heldSocket": "RightHandWeaponSocket",
+  "assetNodePresent": true,
+  "clipObservation": null,
+  "crossings": {
+    "body": {
+      "targetTriangles": 99302,
+      "projectileTriangles": 20,
+      "testedPairs": 0,
+      "crossingPairs": 0,
+      "groups": {},
+      "examples": [],
+      "exampleScreen": []
+    },
+    "weapon": {
+      "targetTriangles": 7580,
+      "projectileTriangles": 20,
+      "testedPairs": 623,
+      "crossingPairs": 0,
+      "groups": {},
+      "examples": [],
+      "exampleScreen": []
+    },
+    "farControl": {
+      "targetTriangles": 99302,
+      "projectileTriangles": 20,
+      "testedPairs": 0,
+      "crossingPairs": 0,
+      "groups": {},
+      "examples": []
+    },
+    "shiftedControl": {
+      "fraction": 0.45,
+      "shiftMetres": 0.6508188970111414,
+      "crossingPairs": 252
+    }
+  },
+  "screen": "battle",
+  "clipFrames": [
+    {
+      "time": 0.2,
+      "q": [
+        -1.01720927407061,
+        1.4694624181962106,
+        32.600438891300726
+      ],
+      "position": [
+        -1.0172092914581299,
+        1.4694623947143555,
+        32.60043716430664
+      ],
+      "scale": [
+        0.19999999622395118,
+        0.19999999310064154,
+        0.6500000184488544
+      ],
+      "active": false,
+      "plane": null,
+      "detail": null
+    },
+    {
+      "time": 0.3,
+      "q": [
+        -1.05162782221183,
+        1.4083872545886318,
+        29.80131667390218
+      ],
+      "position": [
+        -1.0516278743743896,
+        1.408387303352356,
+        29.80131721496582
+      ],
+      "scale": [
+        0.19999999622395118,
+        0.19999999310064154,
+        0.6500000184488544
+      ],
+      "active": false,
+      "plane": null,
+      "detail": null
+    },
+    {
+      "time": 0.3,
+      "q": [
+        -1.05162782221183,
+        1.4083872545886318,
+        29.80131667390218
+      ],
+      "position": [
+        -1.0516278743743896,
+        1.408387303352356,
+        29.80131721496582
+      ],
+      "scale": [
+        0.19999999622395118,
+        0.19999999310064154,
+        0.6500000184488544
+      ],
+      "active": false,
+      "plane": null,
+      "detail": null
+    },
+    {
+      "time": 0.3,
+      "q": [
+        -1.05162782221183,
+        1.4083872545886318,
+        29.80131667390218
+      ],
+      "position": [
+        -1.0516278743743896,
+        1.408387303352356,
+        29.80131721496582
+      ],
+      "scale": [
+        0.19999999622395118,
+        0.19999999310064154,
+        0.6500000184488544
+      ],
+      "active": false,
+      "plane": null,
+      "detail": null
+    },
+    {
+      "time": 0.35,
+      "q": [
+        -1.06883709628244,
+        1.3778496727848424,
+        28.401755565202905
+      ],
+      "position": [
+        -1.06883704662323,
+        1.3778496980667114,
+        28.401756286621094
+      ],
+      "scale": [
+        0.19999999622395118,
+        0.19999999310064154,
+        0.6500000184488544
+      ],
+      "active": false,
+      "plane": null,
+      "detail": null
+    }
+  ],
+  "currentSamples": [],
+  "gridControls": null,
+  "meshStateDifference": 0.0000017272412381523108,
+  "errors": [],
+  "warnings": [
+    "Service Worker registration blocked by Playwright",
+    "THREE.WebGLProgram: Program Info Log: (271,1): warning X4000: use of potentially uninitialized variable (f_motionLocal)",
+    "THREE.WebGLProgram: Program Info Log: (180,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(192,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(180,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(192,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(180,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(192,1): warning X4000: use of potentially uninitialized v",
+    "THREE.WebGLProgram: Program Info Log: (203,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(215,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(203,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(215,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(203,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(215,1): warning X4000: use of potentially uninitialized v",
+    "THREE.WebGLProgram: Program Info Log: (186,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(198,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(186,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(198,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(186,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(198,1): warning X4000: use of potentially uninitialized v",
+    "THREE.WebGLProgram: Program Info Log: (197,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(209,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(197,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(209,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(197,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(209,1): warning X4000: use of potentially uninitialized v",
+    "THREE.WebGLProgram: Program Info Log: (188,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(200,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(188,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(200,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(188,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(200,1): warning X4000: use of potentially uninitialized v"
+  ]
+}
