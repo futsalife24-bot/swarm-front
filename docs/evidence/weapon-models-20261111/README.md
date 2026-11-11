@@ -9,6 +9,7 @@
 - `ground-11-summary.json`: 既存地面接触検査をST-3以外へ同じ基準で適用した集計。不合格88条件は既存3種類にもある。`ground-runtime-sg4-sr1.png` / `ground-runtime-sg4-sr1-report.json` は既存SG-4と新規SR-1を実兵士の更新とブレンドで確認した平面上の局所検証。ゲーム内の地形・通信・手操作ではない。
 - `ground-renderer-sg4-sr1.png` / `ground-renderer-sg4-sr1-report.json`: 地形を読み込んだ実ゲームRendererの844×390画面で同じ2種類のダウン・回避と両背負い位置を固定入力で比較。床に隠れる場面を確認。実操作・移動・他地形・通信・スマホは未確認。`node scripts/check-weapon-floor-renderer.mjs` で再現する。
 - `ground-offset-review.md`: 背負い位置を固定変更する4案の検証結果。いずれも床下の問題を解消できなかった。
+- `ground-lift-prototype.md` / `ground-lift-prototype.png` / `ground-lift-prototype-report.json`: 背負い武器を床から垂直に押し上げる隔離試作。平面では床下を避けたが最大367mmの移動が必要で、浮きや体との交差を懸念し不採用。製品には未反映。
 - `grenade-projectile-60fps.png` / `grenade-projectile-report.json`: 実Rendererだが `fire()` の後 `step()` の前を人工的に描いた中間状態。通常のゲームプレイで表示されるとは限らない。
 - `grenade-projectile-stepped.png` / `grenade-projectile-stepped-report.json`: 通常 `step()` 後の弾体を実Rendererで描いた隔離fixture。実UIや通信の検証ではない。2種類の画像は `node scripts/check-grenade-renderer-shot.mjs` と同コマンドの `--stepped` 付きでそれぞれ再現する。
 - `grenade-ui-first-render.png` / `grenade-ui-after.png` / `grenade-ui-report.json`: 隔離ブラウザーの仮保存でGL-6を装備し、実際の出撃画面とPCのマウス入力で発射。描画の計測だけを追加したローカル単独プレイであり、協力通信や実スマホの検証ではない。`node scripts/check-grenade-ui-shot.mjs` で再現する。
