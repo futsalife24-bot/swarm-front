@@ -1,0 +1,45 @@
+{
+  "scope": "Isolated local server, unchanged SW and asset store; old and new immutable physical files both deployed in test. Five MD-4 variants and one existing rifle. No product deployment, CDN, real device, or old browser.",
+  "oldAudit": {
+    "checked": 6,
+    "revision": "773c09e7b1ec916960ce49de9ec003b5186da372d7bfedb79538e15a8d7c79c5"
+  },
+  "newAudit": {
+    "checked": 6,
+    "revision": "d94730ee8a43daadc3317130acc59e1e95f536a73d9428b4fdce375919031be8"
+  },
+  "validation": {
+    "old": true,
+    "next": true
+  },
+  "oldOfflineBefore": {
+    "ok": true,
+    "status": 200,
+    "sha256": "d940bf8980a6f0a33361cd0d4611418da4efa6bfb47ed3455f07f67ae2516986"
+  },
+  "newOfflineBefore": {
+    "ok": false,
+    "error": "TypeError: Failed to fetch"
+  },
+  "oldColdResult": {
+    "ok": true,
+    "status": 200,
+    "sha256": "d940bf8980a6f0a33361cd0d4611418da4efa6bfb47ed3455f07f67ae2516986"
+  },
+  "oldDownload": {
+    "accepted": true
+  },
+  "firstRequests": 5,
+  "repeatRequests": 0,
+  "downloadRequests": 0,
+  "savedCount": 5,
+  "newOfflineMatches": 5,
+  "oldOfflineStillMatches": true,
+  "rifleOfflineMatches": true,
+  "storage": {
+    "oldBytes": 2438496,
+    "newBytes": 2490656,
+    "physicalFiles": 10
+  },
+  "errors": []
+}
