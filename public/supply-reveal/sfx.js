@@ -1,4 +1,4 @@
-// 補給ポッド演出の効果音。合成波形とCC0の金属箱開蓋実録を使う。
+// 補給ポッド演出の効果音。合成波形とCC0の鍵とボルトの解除実録を使う。
 import { crateOpen } from './crate-open-pcm.js';
 // ブラウザ（再生）と Node（動画用の書き出し）の両方から同じ計算を使う。
 // 音作りの方針（2026-11-11 改訂）：耳に刺さる高音を避ける。
@@ -513,11 +513,11 @@ CHARGE.forEach((d, k) => { CINEMA['charge' + k] = () => cineCharge(k, d); CINEMA
 PROMO.forEach((root, j) => { CINEMA['promote' + (j + 2)] = () => cinePromote(root, j); });
 
 // 採用版（2026-11-11 本人指定「開封はAでそれ以外はEで」）：ポッドが開く瞬間の音だけ重厚（A）、それ以外は映画の衝撃音（E）。
-// 10連の通常箱（pop・pop_r）は本人の追加指示により金属箱の実録へ差替え。
+// 10連の通常箱（pop・pop_r）は本人の追加指示により鍵が外れる実録へ差替え。
 const OPEN_IDS = ['open0', 'open1', 'open2', 'open3', 'open4', 'open5', 'pop', 'pop_r'];
 const ADOPT = { ...CINEMA, ...Object.fromEntries(OPEN_IDS.map((id) => [id, HEAVY[id] || DEF[id]])),
-  pop: () => fin(crateOpen(0), 0.46, 1.0, 4800),
-  pop_r: () => fin(crateOpen(1), 0.5, 1.0, 4800),
+  pop: () => fin(crateOpen(0), 0.49, 1.0, 6000),
+  pop_r: () => fin(crateOpen(1), 0.5, 1.0, 6000),
 };
 const STYLES = { balance: {}, heavy: HEAVY, deep: DEEP, metal: METAL, cinema: CINEMA, adopt: ADOPT };
 export const STYLE_NAMES = { balance: '標準（打鍵音＋金管）', heavy: '重厚（ティンパニ・銅鑼・低い金管）', deep: '深い電子音（808系の重低音・シンセ）', metal: '金属と太鼓（膜・金属板・低い鐘）', cinema: '映画の衝撃音（うなり・上昇音・重い衝撃）', adopt: '採用版（開封は重厚、それ以外は映画の衝撃音）' };

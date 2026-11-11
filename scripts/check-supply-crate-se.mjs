@@ -6,7 +6,7 @@ import { chromium } from '@playwright/test';
 import { render, mix, SR } from '../public/supply-reveal/sfx.js';
 import { build } from '../public/supply-reveal/core.js';
 
-const out='docs/evidence/supply-crate-se-20261111';
+const out=process.env.SUPPLY_AUDIO_OUTPUT||'docs/evidence/supply-crate-se-20261111';
 fs.mkdirSync(out,{recursive:true});
 const results=Array.from({length:10},(_,i)=>i===5?{type:'shard',amount:10}:{type:'weapon',rarity:i%3===0?'R':'N',name:'開封SE確認',art:'w-rifle'});
 const model=build(results),opens=model.cues.filter(c=>['pop','pop_r'].includes(c.id));

@@ -1,3 +1,9 @@
+# 現行：鍵とボルトのロック解除SE（2026-11-11）
+
+本人が前回の開蓋音を見送り、「もっとガチャって鍵を開けた感じ」と指定。
+[Lock #0191 / Joseph SARDIN](https://bigsoundbank.com/lock-s0191.html) のCC0実録を使用。正規ページで無料・商用・加工・再配布可を再確認。音声リンク https://bigsoundbank.com/UPLOAD/ogg/0191.ogg?v=d 、原音SHA256 `9d2b6abb1ae23c157f34a5abd810b84092b8df2dbf2866660c544dcf477162a3`。
+鍵を回してボルトが解除される前半1.28秒/1.30秒から約0.43秒/0.41秒を使用。150Hz以下/6.5kHz以上を抑え、軽い圧縮、頭2ms/末尾40msフェードで二段の機械的な打撃を前へ出した。現行の再生成scriptは0191を使用。以下0053は見送りとなった前回の履歴。
+
 # 補給箱の開封SE原音
 
 - 音源：[Metal box lid #0053](https://bigsoundbank.com/metal-box-lid-s0053.html)
