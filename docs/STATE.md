@@ -1,5 +1,7 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
+追加造形後のMD-4の実プレイ確認（2026-11-12）: 隔離仮保存の実ローカル単独プレイを844×390で出撃・初回射撃。実CombatEffects生成直後の銃口炎・発光弾の位置はいずれも製品の銃口と0mm差。実UIでMD-4装備と残弾4/5、ページ例外0を確認。既存WebGL警告あり。実通信・スマホ・飛行全体・画面上の厳密な位置は未確認。[画像](evidence/weapon-models-20261111/medic-updated-live.png)は上が射撃時Canvas、下が実UIで、出撃表示が中央に重なる。[測定](evidence/weapon-models-20261111/medic-updated-live-report.json)。再現は `node scripts/weapon-shot-medic-after-update.mjs`。
+
 MD-4の胴体を追加造形（2026-11-12）: 白い円筒面に周方向の分割、両側の点検蓋・通気窓・留め具を追加。8,496三角形、材質6、最大498,132 bytes、40項目合格・警告0。多面画像を目視し、本体5等級のSHA-256が生成物と一致、生成済み8種のレア度不変検査も成功。実兵士を直接更新する局所検査10場面と製品コードの銃口を確認、ページ例外0。実プレイの射撃エフェクト・実機は追加確認していない。[素材画像](../design/weapon-models-20261111/out/medic/views.png)、[兵士表示](evidence/weapon-models-20261111/medic-detail-trooper.png)、[測定](evidence/weapon-models-20261111/medic-detail-trooper-report.json)。
 
 融合成長の持ち込み値を除去する第3隔離試作（2026-11-12）: 兵士作成時の装備複製から同名値を除去し、元装備から表示等級を再算出。新旧9等級、偽装値12条件、代表不正入力5条件とJSON・tupleの関数試験で期待どおり。GLBはスタブ、実保存・実ゲーム・実通信・旧ブラウザー・実機は未確認。通信項目追加の承認・互換検証待ちで製品未変更。[結果](evidence/weapon-models-20261111/front-tier-projection.md)。
