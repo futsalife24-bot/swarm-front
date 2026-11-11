@@ -42,6 +42,7 @@ try {
     await tap('[data-supply-recover]');
     await expect(page.locator('.gx-root')).toBeVisible();
     await tap('.gx-skip');
+    for (let cut=0; cut<11 && !await page.locator('.gx-actions button[data-id="close"]').isVisible(); cut++) { await page.waitForTimeout(550); await page.locator('.gx-root').click({position:{x:320,y:180}}); }
     await expect(page.locator('.gx-actions button[data-id="close"]')).toBeVisible();
     await page.screenshot({path:`${out}/${width}-results.png`});
     await tap('.gx-actions button[data-id="close"]');

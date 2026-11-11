@@ -1,7 +1,7 @@
 {
   "site": "http://127.0.0.1:8796",
   "label": "local",
-  "checkedAt": "2026-11-11T08:03:33.352Z",
+  "checkedAt": "2026-11-11T10:31:41.225Z",
   "viewports": [
     {
       "viewport": {
@@ -78,7 +78,7 @@
         {
           "kind": "random",
           "selected": null,
-          "played": 9,
+          "played": 4,
           "cleanup": true
         }
       ],
@@ -156,13 +156,13 @@
         {
           "kind": "random",
           "selected": null,
-          "played": 10,
+          "played": 6,
           "cleanup": true
         },
         {
           "kind": "random",
           "selected": null,
-          "played": 8,
+          "played": 4,
           "cleanup": true
         }
       ],

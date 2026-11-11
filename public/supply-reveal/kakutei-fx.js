@@ -7,6 +7,16 @@ const c01 = (x) => (x < 0 ? 0 : x > 1 ? 1 : x), out3 = (x) => 1 - (1 - c01(x)) *
 const hash = (a, b = 0) => { const x = Math.sin(a * 127.1 + b * 311.7 + 0.5) * 43758.5453; return x - Math.floor(x); };
 const rgba = (hex, a) => `rgba(${[1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(',')},${c01(a).toFixed(3)})`;
 let st = null, cap = null, snap = null, buddy = null, targetRoot = null;
+let buddyArts = new Map();
+const BUDDY_ARTS = ['b-tatara', 'b-yosuga', 'b-tobari', 'b-oriha'];
+const COMMON_LINES = ['……きこえる？', 'そっちへ行く。'];
+const BUDDY_LINES = {
+  'b-tatara': ['準備できた。', 'そっちへ行く。'],
+  'b-yosuga': ['……見つけた。', '待ってて。'],
+  'b-tobari': ['聞こえたよ。', 'すぐそばに。'],
+  'b-oriha': ['つながった。', '会いに行くね。'],
+};
+let buddyLines = COMMON_LINES;
 const world = (g, I) => g.setTransform(I.S * I.cam.z, 0, 0, I.S * I.cam.z, I.S * (I.VW / 2 - I.cam.x * I.cam.z + I.sh.x), I.S * (H / 2 - I.cam.y * I.cam.z + I.sh.y));
 const screen = (g, I) => g.setTransform(I.S, 0, 0, I.S, 0, 0);
 const add = (g) => { g.globalCompositeOperation = 'lighter'; }, over = (g) => { g.globalCompositeOperation = 'source-over'; };
@@ -129,22 +139,42 @@ const FX = {
       if (buddy && buddy.complete) { const bh = 176, bw = bh * buddy.naturalWidth / buddy.naturalHeight, jx = (hash(fr, 9) - 0.5) * 6; g.drawImage(buddy, x0 + 110 - bw / 2 + jx, 200 - bh / 2 + 4, bw, bh); } // 影だけ（誰かは見せない）
       g.fillStyle = 'rgba(111,255,210,.07)'; for (let y = y0; y < y0 + wh; y += 4) g.fillRect(x0, y, ww, 1.4); const sy = y0 + ((I.A * 90) % 196); g.fillStyle = 'rgba(111,255,210,.14)'; g.fillRect(x0, sy, ww, 14);
       g.textAlign = 'left'; g.textBaseline = 'alphabetic'; g.font = '700 13px "GX Rajdhani", sans-serif'; g.fillStyle = rgba(TEAL, 0.9); g.fillText('UNKNOWN SIGNAL  ///  CH-07', x0 + 216, 132); g.fillStyle = rgba('#ff5fa8', 0.5 + 0.5 * Math.sin(I.A * 10)); g.fillText('● REC', x0 + ww - 60, 132);
-      const msg = '……きこえる？', n = Math.floor(c01((p.a - 0.4) / 0.9) * msg.length); g.font = '800 26px "Yu Gothic", sans-serif'; g.fillStyle = '#eafff8'; g.fillText(msg.slice(0, n), x0 + 216, 188);
-      if (p.a > 1.5) { g.font = '700 15px "Yu Gothic", sans-serif'; g.fillStyle = rgba(TEAL, c01((p.a - 1.5) * 4)); g.fillText('そっちへ行く。', x0 + 216, 218); }
+      const msg = buddyLines[0], n = Math.floor(c01((p.a - 0.4) / 0.9) * msg.length); g.font = '800 26px "Yu Gothic", sans-serif'; g.fillStyle = '#eafff8'; g.fillText(msg.slice(0, n), x0 + 216, 188);
+      if (p.a > 1.5) { g.font = '700 15px "Yu Gothic", sans-serif'; g.fillStyle = rgba(TEAL, c01((p.a - 1.5) * 4)); g.fillText(buddyLines[1], x0 + 216, 218); }
       g.fillStyle = rgba(TEAL, 0.85); for (let i = 0; i < 26; i++) { const hh = 4 + 26 * Math.abs(Math.sin(I.A * (6 + i * 0.7) + i)) * (p.a > 0.4 ? 1 : 0.2); g.fillRect(x0 + 216 + i * 7, 262 - hh, 4, hh); }
       g.restore(); g.strokeStyle = rgba(TEAL, 0.95); g.lineWidth = 2; g.strokeRect(x0, y0, ww, wh); add(g); g.strokeStyle = rgba(TEAL, 0.3); g.lineWidth = 8; g.strokeRect(x0, y0, ww, wh); over(g); }
   },
 };
 export async function install(reveal, assetBase, isReduced = () => false) {
   targetRoot = reveal.root;
+  buddy = null; buddyArts = new Map(); buddyLines = COMMON_LINES;
+  targetRoot.dataset.jackArt = ''; targetRoot.dataset.jackLine = buddyLines[0]; targetRoot.dataset.jackReply = buddyLines[1];
   cap = document.createElement('div'); cap.className = 'kx-cap'; cap.hidden = true; targetRoot.appendChild(cap);
   const s = document.createElement('style'); s.textContent = '.gx-root .kx-cap{position:absolute;left:14px;bottom:12px;z-index:97;padding:6px 14px 6px 12px;font:700 15px/1.5 "Yu Gothic","Hiragino Sans",sans-serif;color:#fff;background:rgba(0,0,0,.72);border-left:4px solid #ffc94d;white-space:pre;pointer-events:none}.gx-root .kx-cap[hidden]{display:none}.gx-root .kx-cap small{display:block;font-size:11px;font-weight:600;color:#ffe9a8}'
     + '.gx-root.kx-gold .gx-launch b{color:#fff2c0!important;text-shadow:0 0 18px rgba(255,201,77,.95),0 0 46px rgba(255,170,40,.8)!important}.gx-root.kx-gold .gx-launch small{color:#fff2c0!important;border-color:rgba(255,201,77,.8)!important}.gx-root.kx-notap .gx-tap{display:none!important}.gx-root.kx-right .kx-cap{left:auto;right:14px}'; document.head.appendChild(s);
-  // バディの影：絵を黒緑に塗りつぶした画像を作っておく
-  const im = new Image(); im.src = assetBase + 'b-yosuga.webp'; await new Promise((r) => { im.onload = im.onerror = r; });
-  if (im.naturalWidth) { const c = document.createElement('canvas'); c.width = im.naturalWidth; c.height = im.naturalHeight; const g = c.getContext('2d'); g.drawImage(im, 0, 0); g.globalCompositeOperation = 'source-in'; g.fillStyle = '#062822'; g.fillRect(0, 0, c.width, c.height); buddy = new Image(); buddy.src = c.toDataURL(); await new Promise((r) => { buddy.onload = r; }); }
+  // 全バディの絵を先に黒緑の影へ変換し、選ばれた個体だけ表示する。
+  await Promise.all(BUDDY_ARTS.map(async (art) => {
+    const im = new Image(); im.src = assetBase + art + '.webp';
+    await new Promise((r) => { im.onload = im.onerror = r; });
+    if (!im.naturalWidth || !im.naturalHeight) return;
+    const c = document.createElement('canvas'); c.width = im.naturalWidth; c.height = im.naturalHeight;
+    const g = c.getContext('2d'); g.drawImage(im, 0, 0);
+    g.globalCompositeOperation = 'source-in'; g.fillStyle = '#062822'; g.fillRect(0, 0, c.width, c.height);
+    const silhouette = new Image(); silhouette.src = c.toDataURL();
+    await new Promise((r) => { silhouette.onload = silhouette.onerror = r; });
+    if (silhouette.naturalWidth && silhouette.naturalHeight) buddyArts.set(art, silhouette);
+  }));
   reveal.setOnDraw((g, I) => { if (st && st.id && FX[st.id]) FX[st.id](g, isReduced() ? { ...I, A: 0 } : I, st.p || {}); });
-  return () => { reveal.setOnDraw(null); set(null); cap?.remove(); s.remove(); cap = null; targetRoot = null; buddy = null; };
+  return () => { reveal.setOnDraw(null); set(null); cap?.remove(); s.remove(); cap = null; delete targetRoot.dataset.jackArt; delete targetRoot.dataset.jackLine; delete targetRoot.dataset.jackReply; targetRoot = null; buddy = null; buddyLines = COMMON_LINES; buddyArts.clear(); };
+}
+export function setBuddyArt(art) {
+  buddy = buddyArts.get(art) || null;
+  buddyLines = Object.hasOwn(BUDDY_LINES, art) ? BUDDY_LINES[art] : COMMON_LINES;
+  if (targetRoot) {
+    targetRoot.dataset.jackArt = buddy ? art : '';
+    targetRoot.dataset.jackLine = buddyLines[0];
+    targetRoot.dataset.jackReply = buddyLines[1];
+  }
 }
 export function set(s) { st = s; if (!s) snap = null; if (cap) { cap.innerHTML = s && s.caption ? `${s.caption}<small>${s.sub || ''}</small>` : ''; cap.hidden = !cap.innerHTML; } targetRoot?.classList.toggle('kx-gold', !!(s && s.gold)); targetRoot?.classList.toggle('kx-notap', !!(s && s.notap)); targetRoot?.classList.toggle('kx-right', !!(s && s.right)); }
 export function reset() { snap = null; }

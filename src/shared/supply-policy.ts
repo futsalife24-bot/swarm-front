@@ -80,6 +80,24 @@ function category(rng: () => number) {
   return "shard";
 }
 
+const isHighReward = (item: SupplyReward) =>
+  item.type === "buddy" || (item.type === "weapon" && item.weapon.rarity >= 2);
+
+/** 10連の既存当たりを確定位置へ移す。報酬と入力配列は変更しない。 */
+export function orderSupplyRewards(
+  rewards: readonly SupplyReward[],
+): SupplyReward[] {
+  const ordered = [...rewards];
+  if (ordered.length !== 10 || isHighReward(ordered[9])) return ordered;
+  for (let index = 8; index >= 0; index--) {
+    if (isHighReward(ordered[index])) {
+      [ordered[index], ordered[9]] = [ordered[9], ordered[index]];
+      break;
+    }
+  }
+  return ordered;
+}
+
 /** Pure draw: the caller commits this receipt together with the ticket debit. */
 export function drawSupply(
   count: 1 | 10,
@@ -98,14 +116,7 @@ export function drawSupply(
   const rewards = Array.from({ length: count }, (_, index) =>
     reward(category(rng), requestId, index, now, rng),
   );
-  if (
-    count === 10 &&
-    !rewards.some(
-      (item) =>
-        item.type === "buddy" ||
-        (item.type === "weapon" && item.weapon.rarity >= 2),
-    )
-  ) {
+  if (count === 10 && !rewards.some(isHighReward)) {
     const value = random(rng);
     const guaranteed =
       value < SUPPLY_RULES.guaranteeWeights.SR
@@ -116,5 +127,11 @@ export function drawSupply(
           : "buddy";
     rewards[9] = reward(guaranteed, requestId, 9, now, rng);
   }
-  return { version: 1, requestId, count, createdAt: now, rewards };
+  return {
+    version: 1,
+    requestId,
+    count,
+    createdAt: now,
+    rewards: orderSupplyRewards(rewards),
+  };
 }
