@@ -25,9 +25,11 @@ function revealStyle() {
   }));
 }
 export async function loadSupplyReveal() {
-  const moduleUrl = import.meta.env.BASE_URL + "supply-reveal/runtime.js";
   const [module] = await Promise.all([
-    import(/* @vite-ignore */ moduleUrl),
+    // Viteで依存する音源・Workerまで内容ハッシュ付きにする。
+    // 固定URLのpublicモジュールはService Workerの旧キャッシュに残る。
+    // @ts-expect-error 元の演出モジュールはJavaScriptで提供される。
+    import("../../public/supply-reveal/runtime.js"),
     revealStyle(),
   ]);
   return module as {
