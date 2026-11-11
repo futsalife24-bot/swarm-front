@@ -1,5 +1,7 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
+RL-9の現在フレーム交差に限定した隔離試作（2026-11-12）: 発射イベントと弾の対応付けを使わず、現行のRL-9に該当する系統・爆風半径を候補に、実Rendererで現在の武器との面交差がある場合だけ弾体を前端固定で縮小。初回描画は258面組から0組、長さ62.28%。次に観測した約0.1秒後には元の長さ。RL-2は観測7フレームで元サイズ。RL-9の弾1件の交差検査は `performance.now` の単一観測で約41.9msかかり、60fpsの1フレーム約16.7msを超えたため不採用。GPUや全フレームの負荷、実スマホ性能を示す値ではない。中間時点・装備切替・他弾との交差・実通信・実機は未確認。爆風半径は武器IDの保証ではなく、結果JSONの `clipFrames.active` は前回値が残る計測上の欠陥があるため継続判定に使わない。[RL-9測定](evidence/weapon-models-20261111/rocket-current-heavy-report.json)、[RL-2測定](evidence/weapon-models-20261111/rocket-current-rocket-report.json)。再現は `python scripts/create-rocket-current.py`、続けて `node dist-validation/rocket-current-collision.mjs`。
+
 内容版を別ファイルで保持する隔離試作（2026-11-12）: MD-4の旧新5等級を内容ハッシュ付きの物理ファイルとして同時配信し、実Service Workerと保存処理で検証。旧版未保存の仮クライアントも旧版を取得でき、診断用6資産の旧新manifestは各々照合成功。新版5件の初回取得後は再読込・明示保存の追加通信0、オフライン5件一致、旧版と既存AR-9もオフラインで維持。新版未取得のままオフラインでは読込失敗。旧5本2,438,496 bytesと新5本2,490,656 bytesの双方を配信側に保持する運用が前提で、無期限の容量増加・旧版保持方針・既存固定URLからの移行は未検討。実旧ブラウザー・CDN・Worker・スマホ・正規全manifest・保存失敗時は未確認、製品未採用。[結果](evidence/weapon-models-20261111/cache-immutable-report.json)。再現は `node scripts/cache-immutable-proto.mjs`。
 
 内容に応じたURL版の隔離試作（2026-11-12）: 新規武器URLのクエリに内容由来の版を付け、配信一覧と同じ値を使う案を、既存の実Service Worker・保存処理とMD-4旧新5等級＋既存AR-9の診断用6資産で検証。新5種は初回だけ取得し、再読込の配信元要求0、取得後オフライン5件一致。旧キャッシュと既存AR-9も読めた。新版未取得のままオフラインでは新版URLが失敗し、クエリを無視する静的配信では旧版未キャッシュの旧URLが新版を返し得る。古い一覧による明示保存は不一致を拒否。正規全manifest・実CDN・旧ブラウザー・実スマホは未確認で製品未採用。[結果](evidence/weapon-models-20261111/cache-revision-report.json)。再現は `node scripts/cache-revision-proto.mjs`。
