@@ -1,0 +1,600 @@
+{
+  "scope": "EXPERIMENTAL visual-only prototype; actual local solo UI/game loop and real renderer, first frame only. Edge/face crossings between projectile and deformed visible skinned body / held-weapon mesh; excludes neon. Does not detect containment, coplanar contact, hidden-parent visibility, full flight, actual network or phone.",
+  "analyticControls": "known intersecting / separate triangle pairs and projectile translated 100m away; shifted-toward-chest test where detected",
+  "viewport": [
+    844,
+    390
+  ],
+  "records": [
+    {
+      "kind": "rocket",
+      "initial": {
+        "projectile": {
+          "id": 2,
+          "x": -1,
+          "z": 34,
+          "y": 1.5,
+          "dx": -0.34418548141220107,
+          "dz": -27.99122217398547,
+          "dy": -0.6107516360757896,
+          "life": 2.6785714285714284,
+          "owner": "solo",
+          "damage": 170,
+          "rocket": true,
+          "chain": false,
+          "radius": 6.5,
+          "family": "rocket"
+        },
+        "worldTime": 0.49999999999999994
+      },
+      "worldTime": 0.49999999999999994,
+      "shot": {
+        "type": "shot",
+        "weapon": "rocket",
+        "x": -1,
+        "y": 1.5,
+        "z": 34,
+        "tx": -1.0245846772437286,
+        "tz": 32.00062698757247,
+        "ty": 1.4563748831374437,
+        "owner": "solo",
+        "id": 1
+      },
+      "projectile": {
+        "id": 2,
+        "x": -1.01720927407061,
+        "z": 32.600438891300726,
+        "y": 1.4694624181962106,
+        "dx": -0.34418548141220107,
+        "dz": -27.99122217398547,
+        "dy": -0.6107516360757896,
+        "life": 2.6285714285714286,
+        "owner": "solo",
+        "damage": 170,
+        "rocket": true,
+        "chain": false,
+        "radius": 6.5,
+        "family": "rocket"
+      },
+      "instanceIndex": 0,
+      "instanceCount": 1,
+      "meshWorld": [
+        -1.0172092914581299,
+        1.4694623947143555,
+        32.60043716430664
+      ],
+      "muzzle": [
+        -0.864075867698147,
+        1.4172329403415929,
+        33.15272269346798
+      ],
+      "barrel": [
+        -0.017456460098040645,
+        -0.019543482715487705,
+        -0.9996566031814099
+      ],
+      "muzzleScreen": [
+        395.92015959592203,
+        258.118600717411,
+        0.9660807266913153
+      ],
+      "projectileScreen": [
+        391.4426537749539,
+        249.1700635380893,
+        0.9690166141888992
+      ],
+      "alongMetres": 0.5528537737749468,
+      "sideMetres": 0.15983698402846847,
+      "meshVertexAlongMin": -0.00006752652753874732,
+      "meshVertexAlongMax": 1.1057785284346648,
+      "heldSocket": "RightHandWeaponSocket",
+      "assetNodePresent": true,
+      "clipObservation": null,
+      "crossings": {
+        "body": {
+          "targetTriangles": 99302,
+          "projectileTriangles": 20,
+          "testedPairs": 0,
+          "crossingPairs": 0,
+          "groups": {},
+          "examples": [],
+          "exampleScreen": []
+        },
+        "weapon": {
+          "targetTriangles": 7580,
+          "projectileTriangles": 20,
+          "testedPairs": 616,
+          "crossingPairs": 0,
+          "groups": {},
+          "examples": [],
+          "exampleScreen": []
+        },
+        "farControl": {
+          "targetTriangles": 99302,
+          "projectileTriangles": 20,
+          "testedPairs": 0,
+          "crossingPairs": 0,
+          "groups": {},
+          "examples": []
+        },
+        "shiftedControl": {
+          "fraction": 0.45,
+          "shiftMetres": 0.6506764628494542,
+          "crossingPairs": 247
+        }
+      },
+      "screen": "battle",
+      "clipFrames": [
+        {
+          "time": 0.49999999999999994,
+          "q": [
+            -1.01720927407061,
+            1.4694624181962106,
+            32.600438891300726
+          ],
+          "position": [
+            -1.0172092914581299,
+            1.4694623947143555,
+            32.60043716430664
+          ],
+          "scale": [
+            0.19999999622395118,
+            0.19999999310064154,
+            0.6500000184488544
+          ],
+          "active": false,
+          "plane": null
+        },
+        {
+          "time": 0.6,
+          "q": [
+            -1.05162782221183,
+            1.4083872545886318,
+            29.80131667390218
+          ],
+          "position": [
+            -1.0516278743743896,
+            1.408387303352356,
+            29.80131721496582
+          ],
+          "scale": [
+            0.19999999622395118,
+            0.19999999310064154,
+            0.6500000184488544
+          ],
+          "active": false,
+          "plane": null
+        },
+        {
+          "time": 0.65,
+          "q": [
+            -1.06883709628244,
+            1.3778496727848424,
+            28.401755565202905
+          ],
+          "position": [
+            -1.06883704662323,
+            1.3778496980667114,
+            28.401756286621094
+          ],
+          "scale": [
+            0.19999999622395118,
+            0.19999999310064154,
+            0.6500000184488544
+          ],
+          "active": false,
+          "plane": null
+        },
+        {
+          "time": 0.65,
+          "q": [
+            -1.06883709628244,
+            1.3778496727848424,
+            28.401755565202905
+          ],
+          "position": [
+            -1.06883704662323,
+            1.3778496980667114,
+            28.401756286621094
+          ],
+          "scale": [
+            0.19999999622395118,
+            0.19999999310064154,
+            0.6500000184488544
+          ],
+          "active": false,
+          "plane": null
+        },
+        {
+          "time": 0.65,
+          "q": [
+            -1.06883709628244,
+            1.3778496727848424,
+            28.401755565202905
+          ],
+          "position": [
+            -1.06883704662323,
+            1.3778496980667114,
+            28.401756286621094
+          ],
+          "scale": [
+            0.19999999622395118,
+            0.19999999310064154,
+            0.6500000184488544
+          ],
+          "active": false,
+          "plane": null
+        },
+        {
+          "time": 0.7000000000000001,
+          "q": [
+            -1.08604637035305,
+            1.347312090981053,
+            27.00219445650363
+          ],
+          "position": [
+            -1.0860463380813599,
+            1.347312092781067,
+            27.002195358276367
+          ],
+          "scale": [
+            0.19999999622395118,
+            0.19999999310064154,
+            0.6500000184488544
+          ],
+          "active": false,
+          "plane": null
+        },
+        {
+          "time": 0.7000000000000001,
+          "q": [
+            -1.08604637035305,
+            1.347312090981053,
+            27.00219445650363
+          ],
+          "position": [
+            -1.0860463380813599,
+            1.347312092781067,
+            27.002195358276367
+          ],
+          "scale": [
+            0.19999999622395118,
+            0.19999999310064154,
+            0.6500000184488544
+          ],
+          "active": false,
+          "plane": null
+        }
+      ],
+      "meshStateDifference": 0.0000017272412381523108,
+      "errors": [],
+      "warnings": [
+        "Service Worker registration blocked by Playwright",
+        "THREE.WebGLProgram: Program Info Log: (271,1): warning X4000: use of potentially uninitialized variable (f_motionLocal)",
+        "THREE.WebGLProgram: Program Info Log: (180,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(192,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(180,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(192,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(180,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(192,1): warning X4000: use of potentially uninitialized v",
+        "THREE.WebGLProgram: Program Info Log: (197,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(209,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(197,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(209,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(197,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(209,1): warning X4000: use of potentially uninitialized v",
+        "THREE.WebGLProgram: Program Info Log: (203,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(215,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(203,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(215,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(203,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(215,1): warning X4000: use of potentially uninitialized v",
+        "THREE.WebGLProgram: Program Info Log: (186,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(198,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(186,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(198,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(186,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(198,1): warning X4000: use of potentially uninitialized v",
+        "THREE.WebGLProgram: Program Info Log: (188,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(200,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(188,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(200,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(188,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(200,1): warning X4000: use of potentially uninitialized v"
+      ]
+    },
+    {
+      "kind": "heavy",
+      "initial": {
+        "projectile": {
+          "id": 2,
+          "x": -1,
+          "z": 34,
+          "y": 1.5,
+          "dx": -0.24584677243728648,
+          "dz": -19.993730124275334,
+          "dy": -0.43625116862556407,
+          "life": 4,
+          "owner": "solo",
+          "damage": 430,
+          "rocket": true,
+          "chain": false,
+          "radius": 11,
+          "family": "rocket"
+        },
+        "worldTime": 0.39999999999999997
+      },
+      "worldTime": 0.39999999999999997,
+      "shot": {
+        "type": "shot",
+        "weapon": "rocket",
+        "x": -1,
+        "y": 1.5,
+        "z": 34,
+        "tx": -1.0245846772437286,
+        "tz": 32.00062698757247,
+        "ty": 1.4563748831374437,
+        "owner": "solo",
+        "id": 1
+      },
+      "projectile": {
+        "id": 2,
+        "x": -1.0122923386218643,
+        "z": 33.00031349378623,
+        "y": 1.4781874415687217,
+        "dx": -0.24584677243728648,
+        "dz": -19.993730124275334,
+        "dy": -0.43625116862556407,
+        "life": 3.95,
+        "owner": "solo",
+        "damage": 430,
+        "rocket": true,
+        "chain": false,
+        "radius": 11,
+        "family": "rocket"
+      },
+      "instanceIndex": 0,
+      "instanceCount": 1,
+      "meshWorld": [
+        -1.0148557424545288,
+        1.4736387729644775,
+        32.79184341430664
+      ],
+      "muzzle": [
+        -0.8643751314108326,
+        1.4167427410484073,
+        33.135728997469506
+      ],
+      "barrel": [
+        -0.017459474647161015,
+        -0.019536542386263383,
+        -0.9996566861961333
+      ],
+      "muzzleScreen": [
+        395.9992241333132,
+        257.9275323937106,
+        0.9661792046408967
+      ],
+      "projectileScreen": [
+        390.41414087905616,
+        250.99334177022047,
+        0.9680594045303006
+      ],
+      "alongMetres": 0.13585103404295887,
+      "sideMetres": 0.15980239860026113,
+      "meshVertexAlongMin": -5.451545763669133e-7,
+      "meshVertexAlongMax": 0.6887735207059084,
+      "heldSocket": "RightHandWeaponSocket",
+      "assetNodePresent": true,
+      "clipObservation": {
+        "q": {
+          "id": 2,
+          "x": -1.0122923386218643,
+          "z": 33.00031349378623,
+          "y": 1.4781874415687217,
+          "dx": -0.24584677243728648,
+          "dz": -19.993730124275334,
+          "dy": -0.43625116862556407,
+          "life": 3.95,
+          "owner": "solo",
+          "damage": 430,
+          "rocket": true,
+          "chain": false,
+          "radius": 11,
+          "family": "rocket"
+        },
+        "frozenPlane": [
+          -0.8643751314108326,
+          1.4167427410484073,
+          33.135728997469506
+        ],
+        "scale": 0.6228480540048403,
+        "forward": 0.2085359929785206
+      },
+      "crossings": {
+        "body": {
+          "targetTriangles": 99302,
+          "projectileTriangles": 20,
+          "testedPairs": 0,
+          "crossingPairs": 0,
+          "groups": {},
+          "examples": [],
+          "exampleScreen": []
+        },
+        "weapon": {
+          "targetTriangles": 8456,
+          "projectileTriangles": 20,
+          "testedPairs": 745,
+          "crossingPairs": 0,
+          "groups": {},
+          "examples": [],
+          "exampleScreen": []
+        },
+        "farControl": {
+          "targetTriangles": 99302,
+          "projectileTriangles": 20,
+          "testedPairs": 0,
+          "crossingPairs": 0,
+          "groups": {},
+          "examples": []
+        },
+        "shiftedControl": {
+          "fraction": 0.5,
+          "shiftMetres": 0.6332953281223925,
+          "crossingPairs": 150
+        }
+      },
+      "screen": "battle",
+      "clipFrames": [
+        {
+          "time": 0.39999999999999997,
+          "q": [
+            -1.0122923386218643,
+            1.4781874415687217,
+            33.00031349378623
+          ],
+          "position": [
+            -1.0148557424545288,
+            1.4736387729644775,
+            32.79184341430664
+          ],
+          "scale": [
+            0.19999999622395118,
+            0.19999999310064154,
+            0.40485124805901923
+          ],
+          "active": true,
+          "plane": [
+            -0.8643751314108326,
+            1.4167427410484073,
+            33.135728997469506
+          ]
+        },
+        {
+          "time": 0.49999999999999994,
+          "q": [
+            -1.0368770158655929,
+            1.4345623247061652,
+            31.000940481358693
+          ],
+          "position": [
+            -1.0368770360946655,
+            1.4345623254776,
+            31.000940322875977
+          ],
+          "scale": [
+            0.19999999622395118,
+            0.19999999310064154,
+            0.6500000184488544
+          ],
+          "active": false,
+          "plane": [
+            -0.8643751314108326,
+            1.4167427410484073,
+            33.135728997469506
+          ]
+        },
+        {
+          "time": 0.5499999999999999,
+          "q": [
+            -1.0491693544874572,
+            1.412749766274887,
+            30.001253975144927
+          ],
+          "position": [
+            -1.0491693019866943,
+            1.4127497673034668,
+            30.001253128051758
+          ],
+          "scale": [
+            0.19999999622395118,
+            0.19999999310064154,
+            0.6500000184488544
+          ],
+          "active": false,
+          "plane": [
+            -0.8643751314108326,
+            1.4167427410484073,
+            33.135728997469506
+          ]
+        },
+        {
+          "time": 0.6,
+          "q": [
+            -1.0614616931093215,
+            1.3909372078436086,
+            29.00156746893116
+          ],
+          "position": [
+            -1.0614616870880127,
+            1.3909372091293335,
+            29.001567840576172
+          ],
+          "scale": [
+            0.19999999622395118,
+            0.19999999310064154,
+            0.6500000184488544
+          ],
+          "active": false,
+          "plane": [
+            -0.8643751314108326,
+            1.4167427410484073,
+            33.135728997469506
+          ]
+        },
+        {
+          "time": 0.65,
+          "q": [
+            -1.0737540317311858,
+            1.3691246494123304,
+            28.001880962717394
+          ],
+          "position": [
+            -1.073754072189331,
+            1.3691246509552002,
+            28.001880645751953
+          ],
+          "scale": [
+            0.19999999622395118,
+            0.19999999310064154,
+            0.6500000184488544
+          ],
+          "active": false,
+          "plane": [
+            -0.8643751314108326,
+            1.4167427410484073,
+            33.135728997469506
+          ]
+        },
+        {
+          "time": 0.7000000000000001,
+          "q": [
+            -1.08604637035305,
+            1.347312090981052,
+            27.002194456503627
+          ],
+          "position": [
+            -1.0860463380813599,
+            1.347312092781067,
+            27.002195358276367
+          ],
+          "scale": [
+            0.19999999622395118,
+            0.19999999310064154,
+            0.6500000184488544
+          ],
+          "active": false,
+          "plane": [
+            -0.8643751314108326,
+            1.4167427410484073,
+            33.135728997469506
+          ]
+        },
+        {
+          "time": 0.7500000000000001,
+          "q": [
+            -1.0983387089749144,
+            1.3254995325497738,
+            26.00250795028986
+          ],
+          "position": [
+            -1.0983387231826782,
+            1.3254995346069336,
+            26.00250816345215
+          ],
+          "scale": [
+            0.19999999622395118,
+            0.19999999310064154,
+            0.6500000184488544
+          ],
+          "active": false,
+          "plane": [
+            -0.8643751314108326,
+            1.4167427410484073,
+            33.135728997469506
+          ]
+        }
+      ],
+      "meshStateDifference": 0.20853545373270904,
+      "errors": [],
+      "warnings": [
+        "Service Worker registration blocked by Playwright"
+      ]
+    }
+  ]
+}
