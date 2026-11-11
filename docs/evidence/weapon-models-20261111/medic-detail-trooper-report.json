@@ -259,8 +259,8 @@
     {
       "kind": "medic",
       "file": "public\\assets\\weapons\\unique-v1\\medic_0.glb",
-      "bytes": 487700,
-      "sha256": "d940bf8980a6f0a33361cd0d4611418da4efa6bfb47ed3455f07f67ae2516986"
+      "bytes": 498132,
+      "sha256": "9bd333e6e96440068f4b9575cf6d28fc3d559658589878e1d2581d6c527fd9f0"
     }
   ],
   "errors": [],

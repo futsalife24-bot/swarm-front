@@ -1,4 +1,5 @@
 """MD-4 ブルーム: 薬液カプセルと四弁の先端を持つ支援医療銃。"""
+import math
 
 BORE = .045
 SPEC = dict(
@@ -19,6 +20,23 @@ def build(k):
     k.rod('Main ceramic housing', (0, -.12, BORE), (0, .17, BORE), .062, 'white', 32)
     for y in [-.115, .165]:
         k.ring('Ceramic housing rim', y, BORE, .064, .058, 'teal', .012, n=32)
+    # 陶製の胴を周方向に分割し、上肩には曲面の接線に沿う点検蓋を載せる。
+    for y in [-.097, .140]:
+        k.ring('Ceramic housing service seam', y, BORE, .0628, .0612, 'polymer', .0025, n=12)
+    angle = math.pi / 4
+    for side in [-1, 1]:
+        normal = (side * math.cos(angle), 0, math.sin(angle))
+        def service_plate(name, y, radius, size, material):
+            o = k.box(name, (normal[0] * radius, y, BORE + normal[2] * radius), size, material, 0)
+            o.rotation_euler[1] = -side * angle
+        service_plate('Curved service hatch gasket', .062, .0630, (.002, .092, .018), 'polymer')
+        service_plate('Curved service hatch cover', .062, .0641, (.001, .084, .012), 'white')
+        for y in [.033, .051, .069, .087]:
+            service_plate('Hatch ventilation slot', y, .0649, (.001, .005, .008), 'teal')
+        for y in [.022, .102]:
+            a = (normal[0] * .064, y, BORE + normal[2] * .064)
+            b = (normal[0] * .066, y, BORE + normal[2] * .066)
+            k.rod('Service hatch fastener', a, b, .002, 'polymer', 6)
     # 背面は暗い機器パネルを重ね、三人称視点で大きな白い板にしない。
     k.rod('Rear instrument panel', (0,-.126,BORE),(0,-.120,BORE),.053,'polymer',24)
     k.ring('Rear panel seal',-.127,BORE,.049,.045,'teal',.004,n=24)
@@ -54,7 +72,7 @@ def build(k):
     # 細い先台と中心の発光面。先端3%は四弁が軸対称にそろう。
     k.rod('Delivery neck', (0,.17,BORE),(0,.36,BORE),.021,'teal',24)
     for y in [.20,.25,.30,.34]:
-        k.ring('Neck retaining band',y,BORE,.025,.020,'white',.009,n=24)
+        k.ring('Neck retaining band',y,BORE,.025,.020,'white',.009,n=16)
     k.profile('Underhand support', [(.18,.015),(.35,.015),(.34,-.025),(.19,-.026)],.045,'polymer',.003)
     k.rod('Healing emitter', (0,.34,BORE),(0,.47,BORE),.015,'glow_heal',20)
     k.ring('Emitter collar',.36,BORE,.032,.020,'teal',.018,n=24)
