@@ -17,12 +17,16 @@ SPEC = dict(
 
 def build(k):
     # 白い円筒を重ねた本体と、薬液残量が見える上部カプセル。
-    k.rod('Main ceramic housing', (0, -.12, BORE), (0, .17, BORE), .062, 'white', 32)
+    k.rod('Main ceramic housing', (0, -.12, BORE), (0, .17, BORE), .062, 'white', 24)
     for y in [-.115, .165]:
-        k.ring('Ceramic housing rim', y, BORE, .064, .058, 'teal', .012, n=32)
+        k.ring('Ceramic housing rim', y, BORE, .064, .058, 'teal', .012, n=24)
     # 陶製の胴を周方向に分割し、上肩には曲面の接線に沿う点検蓋を載せる。
     for y in [-.097, .140]:
         k.ring('Ceramic housing service seam', y, BORE, .0628, .0612, 'polymer', .0025, n=12)
+    # 交換・点検できる筒として、離れた位置に独立した締結リングを設ける。
+    for y in [-.052, .105]:
+        k.ring('Housing service collar', y, BORE, .0645, .0620, 'polymer', .006, n=16)
+        k.ring('Housing collar edge', y+.004, BORE, .0647, .0628, 'teal', .002, n=16)
     angle = math.pi / 4
     for side in [-1, 1]:
         normal = (side * math.cos(angle), 0, math.sin(angle))
@@ -43,15 +47,15 @@ def build(k):
     k.rod('Rear status lamp',(0,-.130,BORE+.018),(0,-.126,BORE+.018),.006,'vial',12)
     k.rod('Vial body', (0, -.05, .128), (0, .12, .128), .027, 'vial', 24)
     for y in [-.052, .122]:
-        k.ring('Vial clamp', y, .128, .03, .025, 'teal', .012, n=24)
+        k.ring('Vial clamp', y, .128, .03, .025, 'teal', .012, n=16)
         k.rod('Vial cap', (0, y-.006, .128), (0, y+.006, .128), .025, 'polymer', 20)
     for y in [-.015, .02, .055, .09]:
-        k.ring('Dosage graduations', y, .128, .0277, .026, 'white', .003, n=24)
+        k.ring('Dosage graduations', y, .128, .0277, .026, 'white', .003, n=16)
     k.box('Vial cradle', (0, .035, .10), (.047, .20, .014), 'teal', .002)
     for side in [-1,1]:
         k.box('Vial measurement strip', (side*.027,.034,.128), (.002,.125,.008), 'polymer', .001)
         for y in [-.01,.01,.03,.05,.07,.09]:
-            k.box('Vial measurement mark', (side*.0285,y,.128), (.001,.003,.012), 'white', .0005)
+            k.box('Vial measurement mark', (side*.0285,y,.128), (.001,.003,.012), 'white', 0)
         for y in [-.053,.123]:
             k.rod('Vial clamp screw', (side*.028,y,.128),(side*.031,y,.128),.003,'polymer',8)
 
@@ -89,7 +93,7 @@ def build(k):
         # 小さな着色インセットは先端3%の手前で終わらせる。
         for side in [-1,1]:
             p=k.profile('Petal inset', [(.375,.063),(.435,.096),(.455,.11),(.431,.084)],
-                        .002,'teal',.001,x=side*.0085)
+                        .002,'teal',0,x=side*.0085)
             for v in p.data.vertices:
                 x=v.co.x; z=v.co.z-BORE
                 if turn==1: v.co.x=-z; v.co.z=BORE+x
@@ -105,14 +109,14 @@ def build(k):
         for y in [-.065,.09]:
             k.rod('Housing fastener',(side*.060,y,.047),(side*.062,y,.047),.003,'polymer',10)
         for y in [-.04,-.02,0,.02,.04]:
-            k.box('Instrument mark',(side*.062,y,.046),(.002,.006,.012),'teal',.0005)
+            k.box('Instrument mark',(side*.062,y,.046),(.002,.006,.012),'teal',0)
         # パネル上に触診用の表示、医療マーク、取付ねじを別レイヤーで置く。
         k.box('Medical cross horizontal',(side*.062,.075,.046),(.002,.020,.006),'teal',.0005)
         k.box('Medical cross vertical',(side*.062,.075,.046),(.002,.006,.020),'teal',.0005)
         for y in [-.055,.06]:
             k.rod('Control plate screw',(side*.062,y,.035),(side*.064,y,.035),.0025,'polymer',8)
         for y in [-.04,-.02,0,.02,.04]:
-            k.box('Control marker backing',(side*.0615,y,.065),(.002,.007,.004),'polymer',.0005)
+            k.box('Control marker backing',(side*.0615,y,.065),(.002,.007,.004),'polymer',0)
         k.profile('Cartridge holder edge', [(.076,-.012),(.136,-.012),(.139,-.025),(.076,-.025)],
                   .002,'teal',.001,x=side*.0205)
         for y in [.09,.125]:
@@ -129,14 +133,24 @@ def build(k):
               (side*.025,.198,.045)]
         for a,b in zip(tube,tube[1:]):
             k.rod('Dose transfer conduit',a,b,.0035,'polymer',6)
+        rear_tube=[(side*.026,-.050,.121),(side*.037,-.070,.113),
+                   (side*.045,-.084,.096),(side*.047,-.094,.078)]
+        for a,b in zip(rear_tube,rear_tube[1:]):
+            k.rod('Return conduit',a,b,.003,'polymer',6)
 
         # 識別インレイに重ならない範囲で、薬液量を示す暗い窓と段付きの枠を配置。
-        k.profile('Dose readout surround', [(-.039,.026),(.048,.026),(.059,.038),
-                                            (.048,.067),(-.039,.067)],
+        k.profile('Dose readout surround', [(-.044,.020),(.047,.020),(.059,.038),
+                                            (.048,.072),(-.044,.072)],
                   .002,'polymer',0,x=side*.063)
-        k.profile('Dose readout glass', [(-.030,.034),(.034,.034),(.045,.041),
-                                        (.035,.058),(-.030,.058)],
+        k.profile('Dose readout glass', [(-.036,.027),(.034,.027),(.046,.041),
+                                        (.035,.065),(-.036,.065)],
                   .001,'vial',0,x=side*.0645)
+        # 透明な画像素材を使わず、既存材質の細いフレームで窓と留め具を表現する。
+        for z in [.023,.069]:
+            k.rod('Readout guard rail',(side*.067,-.038,z),(side*.067,.043,z),.0018,'white',6)
+        for y in [-.038,.043]:
+            k.rod('Readout guard clasp',(side*.067,y,.023),(side*.067,y,.069),.0018,'teal',6)
+            k.rod('Readout guard bolt',(side*.067,y,.047),(side*.069,y,.047),.002,'polymer',6)
         for y in [-.020,0,.020]:
             k.box('Dose readout tick',(side*.0655,y,.046),(.001,.002,.017),'white',0)
 

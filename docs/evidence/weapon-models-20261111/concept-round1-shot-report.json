@@ -1,0 +1,1092 @@
+{
+  "scope": "Actual local solo UI and renderer; passive wrappers observe the real CombatEffects.event/add at effect creation before per-frame movement, first event only. Injected isolated save, no network or phone; no proof of continued flight, exact screen position or continuous action.",
+  "viewport": [
+    844,
+    390
+  ],
+  "missing": [],
+  "records": [
+    {
+      "kind": "rifle",
+      "family": "rifle",
+      "shot": {
+        "type": "shot",
+        "weapon": "rifle",
+        "stopped": true,
+        "x": -1,
+        "z": 34,
+        "y": 1.5,
+        "tx": -2.1772562507630555,
+        "tz": -30.04229427985848,
+        "ty": -2.220446049250313e-16,
+        "owner": "solo",
+        "id": 1
+      },
+      "muzzle": [
+        -0.9029242087281525,
+        1.1984319660068725,
+        33.156320344047984
+      ],
+      "barrel": [
+        -0.020108612494598156,
+        -0.019013055937571608,
+        -0.9996170003593662
+      ],
+      "body": [
+        -1,
+        0,
+        34
+      ],
+      "hadFollow": true,
+      "effects": [
+        {
+          "kind": "bullet",
+          "created": true,
+          "position": [
+            -0.9029242087281525,
+            1.1984319660068725,
+            33.156320344047984
+          ],
+          "age": 0,
+          "velocity": [
+            -2.418744425783052,
+            -2.274682376212239,
+            -119.95405576924064
+          ],
+          "color": 16768131,
+          "argumentPosition": [
+            -0.9029242087281525,
+            1.1984319660068725,
+            33.156320344047984
+          ],
+          "distanceFromMuzzle": 0
+        },
+        {
+          "kind": "muzzle",
+          "created": true,
+          "position": [
+            -0.9029242087281525,
+            1.1984319660068725,
+            33.156320344047984
+          ],
+          "age": 0,
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "color": 16768131,
+          "argumentPosition": [
+            -0.9029242087281525,
+            1.1984319660068725,
+            33.156320344047984
+          ],
+          "distanceFromMuzzle": 0
+        }
+      ],
+      "worldTime": 0.25,
+      "muzzleAfter": [
+        -0.9029242087281525,
+        1.1984319660068725,
+        33.156320344047984
+      ],
+      "effectKindsAfter": [
+        "bullet",
+        "muzzle"
+      ],
+      "screen": "battle",
+      "errors": []
+    },
+    {
+      "kind": "smg",
+      "family": "rifle",
+      "shot": {
+        "type": "shot",
+        "weapon": "rifle",
+        "stopped": false,
+        "x": -1,
+        "z": 34,
+        "y": 1.5,
+        "tx": -0.8219867384033845,
+        "tz": -3.9975134489557718,
+        "ty": 1.1034108232420854,
+        "owner": "solo",
+        "id": 1
+      },
+      "muzzle": [
+        -0.8839009732456796,
+        1.210870627057691,
+        33.41937017679312
+      ],
+      "barrel": [
+        0.0017208406026627307,
+        -0.0029716944998557982,
+        -0.9999941038523276
+      ],
+      "body": [
+        -1,
+        0,
+        34
+      ],
+      "hadFollow": true,
+      "effects": [
+        {
+          "kind": "bullet",
+          "created": true,
+          "position": [
+            -0.8839009732456796,
+            1.210870627057691,
+            33.41937017679312
+          ],
+          "age": 0,
+          "velocity": [
+            0.19856456896489066,
+            -0.34463334126712236,
+            -119.9993408314064
+          ],
+          "color": 16768131,
+          "argumentPosition": [
+            -0.8839009732456796,
+            1.210870627057691,
+            33.41937017679312
+          ],
+          "distanceFromMuzzle": 0
+        },
+        {
+          "kind": "muzzle",
+          "created": true,
+          "position": [
+            -0.8839009732456796,
+            1.210870627057691,
+            33.41937017679312
+          ],
+          "age": 0,
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "color": 16768131,
+          "argumentPosition": [
+            -0.8839009732456796,
+            1.210870627057691,
+            33.41937017679312
+          ],
+          "distanceFromMuzzle": 0
+        }
+      ],
+      "worldTime": 0.25,
+      "muzzleAfter": [
+        -0.8839009732456796,
+        1.210870627057691,
+        33.41937017679312
+      ],
+      "effectKindsAfter": [
+        "bullet",
+        "muzzle"
+      ],
+      "screen": "battle",
+      "errors": []
+    },
+    {
+      "kind": "shotgun",
+      "family": "shotgun",
+      "shot": {
+        "type": "shot",
+        "weapon": "shotgun",
+        "stopped": false,
+        "x": -1,
+        "z": 34,
+        "y": 1.5,
+        "tx": -3.071102244089461,
+        "tz": 11.095151997798801,
+        "ty": 1.780131202452321,
+        "owner": "solo",
+        "id": 1
+      },
+      "muzzle": [
+        -0.9211242038959118,
+        1.2544339026000568,
+        33.1720734911676
+      ],
+      "barrel": [
+        -0.03788719813118009,
+        0.0331811387549552,
+        -0.9987309809196334
+      ],
+      "body": [
+        -1,
+        0,
+        34
+      ],
+      "hadFollow": true,
+      "effects": [
+        {
+          "kind": "bullet",
+          "created": true,
+          "position": [
+            -0.9211242038959118,
+            1.2544339026000568,
+            33.1720734911676
+          ],
+          "age": 0,
+          "velocity": [
+            -11.62800218275445,
+            2.8431961796223515,
+            -119.40144806794446
+          ],
+          "color": 16754014,
+          "argumentPosition": [
+            -0.9211242038959118,
+            1.2544339026000568,
+            33.1720734911676
+          ],
+          "distanceFromMuzzle": 0
+        },
+        {
+          "kind": "muzzle",
+          "created": true,
+          "position": [
+            -0.9211242038959118,
+            1.2544339026000568,
+            33.1720734911676
+          ],
+          "age": 0,
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "color": 16754014,
+          "argumentPosition": [
+            -0.9211242038959118,
+            1.2544339026000568,
+            33.1720734911676
+          ],
+          "distanceFromMuzzle": 0
+        }
+      ],
+      "worldTime": 0.3,
+      "muzzleAfter": [
+        -0.9211242038959118,
+        1.2544339026000568,
+        33.1720734911676
+      ],
+      "effectKindsAfter": [
+        "bullet",
+        "muzzle",
+        "bullet",
+        "muzzle",
+        "bullet",
+        "muzzle",
+        "bullet",
+        "muzzle",
+        "bullet",
+        "muzzle",
+        "bullet",
+        "muzzle",
+        "bullet",
+        "muzzle",
+        "bullet",
+        "muzzle"
+      ],
+      "screen": "battle",
+      "errors": []
+    },
+    {
+      "kind": "slug",
+      "family": "shotgun",
+      "shot": {
+        "type": "shot",
+        "weapon": "shotgun",
+        "stopped": false,
+        "x": -1,
+        "z": 34,
+        "y": 1.5,
+        "tx": -1.6894588216348945,
+        "tz": -10.991192892984273,
+        "ty": 0.9367872519633303,
+        "owner": "solo",
+        "id": 1
+      },
+      "muzzle": [
+        -0.9012542483155693,
+        1.219943378751711,
+        33.15967150724007
+      ],
+      "barrel": [
+        -0.017750066039697598,
+        -0.006533434728291556,
+        -0.9998211086920687
+      ],
+      "body": [
+        -1,
+        0,
+        34
+      ],
+      "hadFollow": true,
+      "effects": [
+        {
+          "kind": "bullet",
+          "created": true,
+          "position": [
+            -0.9012542483155693,
+            1.219943378751711,
+            33.15967150724007
+          ],
+          "age": 0,
+          "velocity": [
+            -2.1419180988788735,
+            -0.7694667771621311,
+            -119.97841517429934
+          ],
+          "color": 16754014,
+          "argumentPosition": [
+            -0.9012542483155693,
+            1.219943378751711,
+            33.15967150724007
+          ],
+          "distanceFromMuzzle": 0
+        },
+        {
+          "kind": "muzzle",
+          "created": true,
+          "position": [
+            -0.9012542483155693,
+            1.219943378751711,
+            33.15967150724007
+          ],
+          "age": 0,
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "color": 16754014,
+          "argumentPosition": [
+            -0.9012542483155693,
+            1.219943378751711,
+            33.15967150724007
+          ],
+          "distanceFromMuzzle": 0
+        }
+      ],
+      "worldTime": 0.3,
+      "muzzleAfter": [
+        -0.9012542483155693,
+        1.219943378751711,
+        33.15967150724007
+      ],
+      "effectKindsAfter": [
+        "bullet",
+        "muzzle"
+      ],
+      "screen": "battle",
+      "errors": []
+    },
+    {
+      "kind": "rocket",
+      "family": "rocket",
+      "shot": {
+        "type": "shot",
+        "weapon": "rocket",
+        "x": -1,
+        "y": 1.5,
+        "z": 34,
+        "tx": -1.0245846772437286,
+        "tz": 32.00062698757247,
+        "ty": 1.4563748831374437,
+        "owner": "solo",
+        "id": 1
+      },
+      "muzzle": [
+        -0.8640756367999569,
+        1.416432082447229,
+        33.15273591960734
+      ],
+      "barrel": [
+        -0.017456469730728726,
+        -0.019515231490170787,
+        -0.9996571549308418
+      ],
+      "body": [
+        -1,
+        0,
+        34
+      ],
+      "hadFollow": true,
+      "effects": [
+        {
+          "kind": "muzzle",
+          "created": true,
+          "position": [
+            -0.8640756367999569,
+            1.416432082447229,
+            33.15273591960734
+          ],
+          "age": 0,
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "color": 16768131,
+          "argumentPosition": [
+            -0.8640756367999569,
+            1.416432082447229,
+            33.15273591960734
+          ],
+          "distanceFromMuzzle": 0
+        }
+      ],
+      "worldTime": 0.25,
+      "muzzleAfter": [
+        -0.8640756367999569,
+        1.416432082447229,
+        33.15273591960734
+      ],
+      "effectKindsAfter": [
+        "muzzle",
+        "smoke",
+        "flash"
+      ],
+      "screen": "battle",
+      "errors": []
+    },
+    {
+      "kind": "heavy",
+      "family": "rocket",
+      "shot": {
+        "type": "shot",
+        "weapon": "rocket",
+        "x": -1,
+        "y": 1.5,
+        "z": 34,
+        "tx": -1.0245846772437286,
+        "tz": 32.00062698757247,
+        "ty": 1.4563748831374437,
+        "owner": "solo",
+        "id": 1
+      },
+      "muzzle": [
+        -0.8643749191969924,
+        1.4160083980073896,
+        33.135741158152484
+      ],
+      "barrel": [
+        -0.017459483485070093,
+        -0.019510606412714238,
+        -0.9996571925784572
+      ],
+      "body": [
+        -1,
+        0,
+        34
+      ],
+      "hadFollow": true,
+      "effects": [
+        {
+          "kind": "muzzle",
+          "created": true,
+          "position": [
+            -0.8643749191969924,
+            1.4160083980073896,
+            33.135741158152484
+          ],
+          "age": 0,
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "color": 16768131,
+          "argumentPosition": [
+            -0.8643749191969924,
+            1.4160083980073896,
+            33.135741158152484
+          ],
+          "distanceFromMuzzle": 0
+        }
+      ],
+      "worldTime": 0.2,
+      "muzzleAfter": [
+        -0.8643749191969924,
+        1.4160083980073896,
+        33.135741158152484
+      ],
+      "effectKindsAfter": [
+        "muzzle"
+      ],
+      "screen": "battle",
+      "errors": []
+    },
+    {
+      "kind": "sniper",
+      "family": "sniper",
+      "shot": {
+        "type": "shot",
+        "enemyKind": "crawler",
+        "weapon": "sniper",
+        "stopped": true,
+        "x": -1,
+        "z": 34,
+        "y": 1.5,
+        "tx": -4.063780367938046,
+        "tz": -91.97195483953239,
+        "ty": 1.2000000000000002,
+        "owner": "solo",
+        "id": 3
+      },
+      "muzzle": [
+        -0.9084329358565978,
+        1.2188290179371042,
+        33.12095296022578
+      ],
+      "barrel": [
+        -0.025202690661984283,
+        -0.00016730681402944846,
+        -0.9996823477444354
+      ],
+      "body": [
+        -1,
+        0,
+        34
+      ],
+      "hadFollow": true,
+      "effects": [
+        {
+          "kind": "bullet",
+          "created": true,
+          "position": [
+            -0.9084329358565978,
+            1.2188290179371042,
+            33.12095296022578
+          ],
+          "age": 0,
+          "velocity": [
+            -3.0259212608508026,
+            -0.018056688502045587,
+            -119.9618417434441
+          ],
+          "color": 12778239,
+          "argumentPosition": [
+            -0.9084329358565978,
+            1.2188290179371042,
+            33.12095296022578
+          ],
+          "distanceFromMuzzle": 0
+        },
+        {
+          "kind": "muzzle",
+          "created": true,
+          "position": [
+            -0.9084329358565978,
+            1.2188290179371042,
+            33.12095296022578
+          ],
+          "age": 0,
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "color": 12778239,
+          "argumentPosition": [
+            -0.9084329358565978,
+            1.2188290179371042,
+            33.12095296022578
+          ],
+          "distanceFromMuzzle": 0
+        }
+      ],
+      "worldTime": 0.2,
+      "muzzleAfter": [
+        -0.9084329358565978,
+        1.2188290179371042,
+        33.12095296022578
+      ],
+      "effectKindsAfter": [
+        "impact",
+        "bullet",
+        "muzzle"
+      ],
+      "screen": "battle",
+      "errors": []
+    },
+    {
+      "kind": "laser",
+      "family": "sniper",
+      "shot": {
+        "type": "shot",
+        "weapon": "sniper",
+        "stopped": true,
+        "x": -1,
+        "z": 34,
+        "y": 1.5,
+        "tx": -1.8453161508260543,
+        "tz": -34.746165840426755,
+        "ty": 0,
+        "owner": "solo",
+        "id": 1
+      },
+      "muzzle": [
+        -0.8975340798999676,
+        1.2072110699587428,
+        33.157572524519466
+      ],
+      "barrel": [
+        -0.013914059286638997,
+        -0.017823642093902154,
+        -0.9997443256836601
+      ],
+      "body": [
+        -1,
+        0,
+        34
+      ],
+      "hadFollow": true,
+      "effects": [
+        {
+          "kind": "bullet",
+          "created": true,
+          "position": [
+            -0.8975340798999676,
+            1.2072110699587428,
+            33.157572524519466
+          ],
+          "age": 0,
+          "velocity": [
+            -1.674499959919976,
+            -2.1328477824925134,
+            -119.9693586305309
+          ],
+          "color": 12778239,
+          "argumentPosition": [
+            -0.8975340798999676,
+            1.2072110699587428,
+            33.157572524519466
+          ],
+          "distanceFromMuzzle": 0
+        },
+        {
+          "kind": "muzzle",
+          "created": true,
+          "position": [
+            -0.8975340798999676,
+            1.2072110699587428,
+            33.157572524519466
+          ],
+          "age": 0,
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "color": 12778239,
+          "argumentPosition": [
+            -0.8975340798999676,
+            1.2072110699587428,
+            33.157572524519466
+          ],
+          "distanceFromMuzzle": 0
+        }
+      ],
+      "worldTime": 0.2,
+      "muzzleAfter": [
+        -0.8975340798999676,
+        1.2072110699587428,
+        33.157572524519466
+      ],
+      "effectKindsAfter": [
+        "bullet",
+        "muzzle",
+        "bullet",
+        "muzzle"
+      ],
+      "screen": "battle",
+      "errors": []
+    },
+    {
+      "kind": "grenade",
+      "family": "grenade",
+      "shot": {
+        "type": "shot",
+        "weapon": "grenade",
+        "x": -1,
+        "y": 1.5,
+        "z": 34,
+        "tx": -1.0182963902332458,
+        "tz": 32.000337995726035,
+        "ty": 1.468107825921406,
+        "owner": "solo",
+        "id": 1
+      },
+      "muzzle": [
+        -0.8598756325941579,
+        1.3866176655779998,
+        33.260028617026734
+      ],
+      "barrel": [
+        -0.014273450272138936,
+        -0.012345794737876628,
+        -0.9998219091266298
+      ],
+      "body": [
+        -1,
+        0,
+        34
+      ],
+      "hadFollow": true,
+      "effects": [
+        {
+          "kind": "bullet",
+          "created": true,
+          "position": [
+            -0.8598756325941579,
+            1.3866176655779998,
+            33.260028617026734
+          ],
+          "age": 0,
+          "velocity": [
+            -1.7002096048244166,
+            -1.4969164330029883,
+            -119.97861696357508
+          ],
+          "color": 16768131,
+          "argumentPosition": [
+            -0.8598756325941579,
+            1.3866176655779998,
+            33.260028617026734
+          ],
+          "distanceFromMuzzle": 0
+        },
+        {
+          "kind": "muzzle",
+          "created": true,
+          "position": [
+            -0.8598756325941579,
+            1.3866176655779998,
+            33.260028617026734
+          ],
+          "age": 0,
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "color": 16768131,
+          "argumentPosition": [
+            -0.8598756325941579,
+            1.3866176655779998,
+            33.260028617026734
+          ],
+          "distanceFromMuzzle": 0
+        }
+      ],
+      "worldTime": 0.25,
+      "muzzleAfter": [
+        -0.8598756325941579,
+        1.3866176655779998,
+        33.260028617026734
+      ],
+      "effectKindsAfter": [
+        "muzzle"
+      ],
+      "screen": "battle",
+      "errors": []
+    },
+    {
+      "kind": "sticky",
+      "family": "grenade",
+      "shot": {
+        "type": "shot",
+        "weapon": "grenade",
+        "x": -1,
+        "y": 1.5,
+        "z": 34,
+        "tx": -1.0261690781242634,
+        "tz": 32.00041462166857,
+        "ty": 1.4687991328121397,
+        "owner": "solo",
+        "id": 1
+      },
+      "muzzle": [
+        -0.8638037075072315,
+        1.3784259148933056,
+        33.202070483717186
+      ],
+      "barrel": [
+        -0.018357461853520104,
+        -0.011763135574835963,
+        -0.9997622878643425
+      ],
+      "body": [
+        -1,
+        0,
+        34
+      ],
+      "hadFollow": true,
+      "effects": [
+        {
+          "kind": "bullet",
+          "created": true,
+          "position": [
+            -0.8638037075072315,
+            1.3784259148933056,
+            33.202070483717186
+          ],
+          "age": 0,
+          "velocity": [
+            -2.172672733165174,
+            -1.4235902877602404,
+            -119.97188372234203
+          ],
+          "color": 16768131,
+          "argumentPosition": [
+            -0.8638037075072315,
+            1.3784259148933056,
+            33.202070483717186
+          ],
+          "distanceFromMuzzle": 0
+        },
+        {
+          "kind": "muzzle",
+          "created": true,
+          "position": [
+            -0.8638037075072315,
+            1.3784259148933056,
+            33.202070483717186
+          ],
+          "age": 0,
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "color": 16768131,
+          "argumentPosition": [
+            -0.8638037075072315,
+            1.3784259148933056,
+            33.202070483717186
+          ],
+          "distanceFromMuzzle": 0
+        }
+      ],
+      "worldTime": 0.25,
+      "muzzleAfter": [
+        -0.8638037075072315,
+        1.3784259148933056,
+        33.202070483717186
+      ],
+      "effectKindsAfter": [
+        "muzzle",
+        "smoke",
+        "flash"
+      ],
+      "screen": "battle",
+      "errors": []
+    },
+    {
+      "kind": "kick",
+      "family": "special",
+      "shot": {
+        "type": "shot",
+        "weapon": "special",
+        "stopped": false,
+        "x": -1,
+        "z": 34,
+        "y": 1.5,
+        "tx": -0.20813783192116775,
+        "tz": 20.072415652196725,
+        "ty": 2.681248721307519,
+        "owner": "solo",
+        "id": 1
+      },
+      "muzzle": [
+        -0.9513695562707177,
+        1.2674269491216923,
+        35.64125069228269
+      ],
+      "barrel": [
+        -0.001928758293085464,
+        0.05988692226829222,
+        -0.9982033041583656
+      ],
+      "body": [
+        -1.0562724630950497,
+        0,
+        36.32394917945327
+      ],
+      "hadFollow": true,
+      "effects": [
+        {
+          "kind": "bullet",
+          "created": true,
+          "position": [
+            -0.9513695562707177,
+            1.2674269491216923,
+            35.64125069228269
+          ],
+          "age": 0,
+          "velocity": [
+            5.69869886313866,
+            10.840420641203401,
+            -119.37340621591154
+          ],
+          "color": 16768131,
+          "argumentPosition": [
+            -0.9513695562707177,
+            1.2674269491216923,
+            35.64125069228269
+          ],
+          "distanceFromMuzzle": 0
+        },
+        {
+          "kind": "muzzle",
+          "created": true,
+          "position": [
+            -0.9513695562707177,
+            1.2674269491216923,
+            35.64125069228269
+          ],
+          "age": 0,
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "color": 16768131,
+          "argumentPosition": [
+            -0.9513695562707177,
+            1.2674269491216923,
+            35.64125069228269
+          ],
+          "distanceFromMuzzle": 0
+        }
+      ],
+      "worldTime": 0.2,
+      "muzzleAfter": [
+        -0.9513695562707177,
+        1.2674269491216923,
+        35.64125069228269
+      ],
+      "effectKindsAfter": [
+        "bullet",
+        "muzzle",
+        "bullet",
+        "muzzle",
+        "bullet",
+        "muzzle",
+        "bullet",
+        "muzzle",
+        "bullet",
+        "muzzle"
+      ],
+      "screen": "battle",
+      "errors": []
+    },
+    {
+      "kind": "medic",
+      "family": "special",
+      "shot": {
+        "type": "shot",
+        "weapon": "special",
+        "x": -1,
+        "z": 34,
+        "y": 1.5,
+        "tx": -0.5645684249801114,
+        "tz": -10.992357097714837,
+        "ty": 0.7941656460717218,
+        "owner": "solo",
+        "id": 1
+      },
+      "muzzle": [
+        -0.8811188274989885,
+        1.2131992909530565,
+        33.323522044720235
+      ],
+      "barrel": [
+        0.007209852255039621,
+        -0.007118996289657127,
+        -0.9999486676436389
+      ],
+      "body": [
+        -1,
+        0,
+        34
+      ],
+      "hadFollow": true,
+      "effects": [
+        {
+          "kind": "bullet",
+          "created": true,
+          "position": [
+            -0.8811188274989885,
+            1.2131992909530565,
+            33.323522044720235
+          ],
+          "age": 0,
+          "velocity": [
+            0.8571054460862526,
+            -1.1345934684121808,
+            -119.9915749872287
+          ],
+          "color": 16768131,
+          "argumentPosition": [
+            -0.8811188274989885,
+            1.2131992909530565,
+            33.323522044720235
+          ],
+          "distanceFromMuzzle": 0
+        },
+        {
+          "kind": "muzzle",
+          "created": true,
+          "position": [
+            -0.8811188274989885,
+            1.2131992909530565,
+            33.323522044720235
+          ],
+          "age": 0,
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "color": 16768131,
+          "argumentPosition": [
+            -0.8811188274989885,
+            1.2131992909530565,
+            33.323522044720235
+          ],
+          "distanceFromMuzzle": 0
+        }
+      ],
+      "worldTime": 0.2,
+      "muzzleAfter": [
+        -0.8811188274989885,
+        1.2131992909530565,
+        33.323522044720235
+      ],
+      "effectKindsAfter": [
+        "bullet",
+        "muzzle",
+        "bullet",
+        "muzzle",
+        "bullet",
+        "muzzle",
+        "bullet",
+        "muzzle",
+        "bullet",
+        "muzzle",
+        "bullet",
+        "muzzle",
+        "bullet",
+        "muzzle"
+      ],
+      "screen": "battle",
+      "errors": []
+    }
+  ],
+  "errors": []
+}

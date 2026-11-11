@@ -62,19 +62,19 @@ def build(k):
 
     # --- 後部: 銃床の代わりの蓄電ドラム（横向きの円盤） ---
     k.profile('Drum yoke', [(-.09, .075), (-.17, .07), (-.17, 0), (-.09, .005)], .05, 'gunmetal', .003)
-    k.rod('Capacitor drum', (-.035, -.235, .03), (.035, -.235, .03), .085, 'gunmetal', 28)
-    k.rod('Capacitor band', (-.012, -.235, .03), (.012, -.235, .03), .089, 'copper', 28)
+    k.rod('Capacitor drum', (-.035, -.235, .03), (.035, -.235, .03), .085, 'gunmetal', 24)
+    k.rod('Capacitor band', (-.012, -.235, .03), (.012, -.235, .03), .089, 'copper', 24)
     for s in [-1, 1]:
         k.rod('Capacitor hub', (s * .035, -.235, .03), (s * .039, -.235, .03), .024, 'glow_laser', 16)
         k.rod('Capacitor hub rim', (s * .035, -.235, .03), (s * .0375, -.235, .03), .034, 'copper', 16)
         for i in range(8):
             a = i * math.pi / 4
             y, z = -.235 + .062 * math.cos(a), .03 + .062 * math.sin(a)
-            k.rod('Drum bolt', (s * .035, y, z), (s * .038, y, z), .006, 'copper', 8)
+            k.rod('Drum bolt', (s * .035, y, z), (s * .038, y, z), .006, 'copper', 6)
         for i in range(8):
             a = (i + .5) * math.pi / 4
             y, z = -.235 + .048 * math.cos(a), .03 + .048 * math.sin(a)
-            k.rod('Drum radial slot', (s * .037, y, z), (s * .038, y, z), .006, 'polymer', 8)
+            k.rod('Drum radial slot', (s * .037, y, z), (s * .038, y, z), .006, 'polymer', 6)
             # 蓄電ドラムに角度の付いた分割装甲と内側の銅製リテーナーを重ねる。
             y0, z0 = -.235, .03
             wedge = [(y0 + r * math.cos(a + t), z0 + r * math.sin(a + t))
@@ -83,6 +83,13 @@ def build(k):
             q = a + .31
             y1, z1 = y0 + .045 * math.cos(q), z0 + .045 * math.sin(q)
             k.rod('Drum retainer screw', (s * .040, y1, z1), (s * .042, y1, z1), .0025, 'copper', 8)
+        # 参考画像の独立した銅管と支持金具を、既存の蓄電ドラムへ接続する。
+        for a,b in [((s*.037,-.180,.080),(s*.037,-.155,.105)),
+                    ((s*.037,-.155,.105),(s*.034,-.110,.105)),
+                    ((s*.034,-.110,.105),(s*.034,-.090,.090))]:
+            k.rod('Capacitor service conduit', a,b,.0025,'copper',6)
+        for y in [-.145,-.115]:
+            k.box('Conduit bracket', (s*.034,y,.105), (.005,.006,.008), 'polymer', 0)
     k.box('Butt pad', (0, -.331, .03), (.06, .018, .15), 'polymer', .004)
 
     # --- 上面: 放熱フィン7枚と小型プリズム照準 ---

@@ -6,11 +6,14 @@ SPEC = dict(
     kind='sticky', code='ST-3', name='ST-3 リンバー', family='grenade',
     bore_z=BORE, inlay=(.037, -.055, .045),
     neon_profile=[[-.34,.105,.046],[-.27,.105,.043],[-.18,.09,.038],
-      [-.12,.09,.036],[-.09,.08,.035],[-.04,.08,.035],[-.034,.175,.027],
-      [-.017,.195,.027],[.008,.195,.027],[.025,.175,.027],[.025,.085,.035],
-      [.050,.085,.035],[.051,.175,.027],[.068,.195,.027],[.093,.195,.027],
-      [.11,.175,.027],[.11,.085,.035],[.135,.085,.035],[.136,.175,.027],
-      [.153,.195,.027],[.178,.195,.027],[.195,.175,.027],[.195,.09,.035],
+      [-.12,.09,.036],[-.09,.08,.035],[-.04,.08,.035],[-.04,.153,.037],
+      [-.034,.181,.037],[-.022,.202,.037],[-.005,.207,.037],
+      [.012,.202,.037],[.024,.181,.037],[.03,.153,.037],[.03,.085,.035],
+      [.045,.085,.035],[.045,.153,.037],[.051,.181,.037],[.063,.202,.037],
+      [.08,.207,.037],[.097,.202,.037],[.109,.181,.037],[.115,.153,.037],
+      [.115,.085,.035],[.13,.085,.035],[.13,.153,.037],[.136,.181,.037],
+      [.148,.202,.037],[.165,.207,.037],[.182,.202,.037],[.194,.181,.037],
+      [.20,.153,.037],[.20,.09,.035],
       [.26,.09,.04],[.33,.085,.038],[.41,.07,.035],[.44,.075,.035],
       [.56,.115,.07],[.56,-.025,.07],[.44,.015,.035],[.33,.015,.035],
       [.30,-.10,.02],[.26,-.10,.02],[.24,.015,.035],[.19,.015,.035],
@@ -26,8 +29,8 @@ def build(k):
     k.rod('Rear sealed cap', (0,-.340,.065), (0,-.328,.065), .043, 'polymer', 24)
     for y in [-.30,-.24,-.18]:
         k.ring('Rear pressure collar', y, .065, .043, .039, 'hazmat', .008, n=20)
-    for angle in range(8):
-        a=2*math.pi*angle/8
+    for angle in range(4):
+        a=2*math.pi*angle/4
         x,z=.0405*math.cos(a),.065+.0405*math.sin(a)
         k.rod('Rear pressure seam', (x,-.285,z),(x,-.255,z),.002,'polymer',6)
         k.rod('Rear end fastener',(x,-.334,z),(x,-.338,z),.003,'steel',8)
@@ -56,31 +59,48 @@ def build(k):
         a=2*math.pi*i/8
         k.rod('Nozzle protective fin', (.039*math.cos(a),.47,BORE+.039*math.sin(a)),
               (.058*math.cos(a),.525,BORE+.058*math.sin(a)), .0035,'steel',8)
-        if i % 2 == 0:
-            k.rod('Nozzle fin bolt', (.058*math.cos(a),.520,BORE+.058*math.sin(a)),
-                  (.061*math.cos(a),.520,BORE+.061*math.sin(a)), .0025,'polymer',6)
     # 三本それぞれに金属の蓋・薬液の窓・抱持器具を置く。
     for tank_index, y in enumerate([-.005,.08,.165]):
-        k.rod('Chemical cylinder', (0,y,.088), (0,y,.177), .028, 'goo', 20)
-        k.rod('Cylinder bottom collar', (0,y,.087), (0,y,.101), .030, 'steel', 20)
-        k.rod('Cylinder upper collar', (0,y,.169), (0,y,.18), .030, 'steel', 20)
-        k.rod('Cylinder valve', (0,y,.18), (0,y,.193), .013, 'polymer', 16)
-        k.rod('Cylinder valve pin', (0,y,.193), (0,y,.198), .006, 'steel', 12)
+        # 枠の高さを増やさずに液槽を太くし、上部に独立した配管の余地を設ける。
+        k.rod('Chemical cylinder', (0,y,.078), (0,y,.160), .032, 'goo', 20)
+        k.rod('Cylinder bottom collar', (0,y,.077), (0,y,.094), .034, 'steel', 20)
+        k.rod('Cylinder upper collar', (0,y,.150), (0,y,.163), .034, 'steel', 20)
+        k.rod('Cylinder valve', (0,y,.163), (0,y,.170), .013, 'polymer', 16)
+        k.rod('Cylinder valve pin', (0,y,.170), (0,y,.175), .006, 'steel', 12)
         for side in [-1,1]:
-            k.box('Cylinder viewing slot', (side*.0275,y,.135), (.003,.016,.042), 'glow_acid', .001)
-            for z in [.104,.166]:
-                k.rod('Cylinder clamp rivet', (side*.028,y,z), (side*.032,y,z), .003, 'polymer', 8)
-        for yoff in [-.022,.022]:
-            k.rod('Cylinder protective upright', (0,y+yoff,.100), (0,y+yoff,.166), .0025, 'steel', 8)
+            k.box('Cylinder viewing slot', (side*.0315,y,.122), (.003,.018,.046), 'glow_acid', .001)
+            for z in [.097,.151]:
+                k.rod('Cylinder clamp rivet', (side*.032,y,z), (side*.036,y,z), .003, 'polymer', 8)
+        for yoff in [-.026,.026]:
+            k.rod('Cylinder protective upright', (0,y+yoff,.094), (0,y+yoff,.153), .0025, 'steel', 8)
         # 薬液の残量目盛りと保守ラッチを各ボンベへ独立して設ける。
         for side in [-1,1]:
-            for z in [.114,.134,.154]:
-                k.box('Cylinder level graduation', (side*.030,y+.013,z), (.002,.009,.002), 'steel', 0)
-            k.box('Cylinder latch', (side*.031,y-.014,.163), (.004,.008,.010), 'polymer', .001)
-            k.rod('Latch pin', (side*.033,y-.014,.163),(side*.035,y-.014,.163),.002,'steel',8)
+            for z in [.123]:
+                k.box('Cylinder level graduation', (side*.034,y+.013,z), (.002,.009,.002), 'steel', 0)
+            k.box('Cylinder latch', (side*.035,y-.014,.150), (.004,.008,.010), 'polymer', .001)
+            k.rod('Latch pin', (side*.037,y-.014,.150),(side*.039,y-.014,.150),.002,'steel',8)
+            # 三つの液槽を独立した金属ケージで囲み、点検用に部品の境界を残す。
+            for dy in [-.026,.026]:
+                k.rod('Cylinder cage upright', (side*.034,y+dy,.094),
+                      (side*.034,y+dy,.153),.0025,'steel',6)
+            for z in [.097,.150]:
+                k.rod('Cylinder cage bridge', (side*.034,y-.026,z),
+                      (side*.034,y+.026,z),.0025,'steel',6)
+        # 各液槽の上に蛇腹管を１本ずつ這わせる。最高点は設計枠 .21 m 内。
+        arch = [(-.030,.151),(-.029,.168),(-.025,.183),(-.016,.195),
+                (0,.198),(.016,.195),(.025,.183),(.029,.168),(.030,.151)]
+        for i in range(len(arch)-1):
+            y0,z0=arch[i]
+            y1,z1=arch[i+1]
+            a,b=(0,y+y0,z0),(0,y+y1,z1)
+            k.rod('Tank arched hose',a,b,.0055,'polymer',6)
+            if i in [2,5]:
+                k.rod('Tank hose rib',
+                      (0,y+y0*.60+y1*.40,z0*.60+z1*.40),
+                      (0,y+y0*.40+y1*.60,z0*.40+z1*.60),.007,'steel',8)
     # 供給管はボンベから射出口までつながり、蛇腹と固定バンドを分ける。
     for side in [-1,1]:
-        for a,b in [((side*.024,.185,.17),(side*.039,.225,.148)),
+        for a,b in [((side*.024,.185,.154),(side*.039,.225,.148)),
                     ((side*.039,.225,.148),(side*.043,.28,.10)),
                     ((side*.043,.28,.10),(side*.038,.315,.075))]:
             k.rod('Chemical hose', a,b,.006,'polymer',10)
@@ -109,11 +129,11 @@ def build(k):
                 k.rod('Receiver screw', (side*.035,y,z), (side*.038,y,z), .003,'steel',8)
         for y in [.025,.045,.065,.085,.105]:
             k.box('Pressure vent', (side*.0365,y,.047), (.003,.009,.018), 'polymer', .001)
-        for i in range(4):
-            z=-.05-i*.016
-            y=-.037-i*.006
+        for i in range(2):
+            z=-.05-i*.032
+            y=-.037-i*.012
             k.rod('Grip texture', (side*.021,y-.011,z), (side*.021,y+.014,z), .0018,'steel',6)
-        for z in [-.035,-.052,-.069,-.086]:
+        for z in [-.035,-.069]:
             k.rod('Foregrip texture', (side*.019,.266,z), (side*.019,.288,z), .0018,'steel',6)
         for y in [.335,.36,.385,.41]:
             k.box('Neck cooling flute', (side*.030,y,.052), (.003,.012,.016), 'polymer', .001)

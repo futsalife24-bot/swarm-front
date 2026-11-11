@@ -36,16 +36,18 @@ def build(k):
         # 各帯を留める金具と芯の小ねじ。7本の帯自体は一続きの輪として保つ。
         y = .19 + i * .06
         for side in [-1, 1]:
-            k.box('Band clasp', (side * .038, y, BORE), (.004, .016, .017), 'black', .001)
+            k.box('Band clasp', (side * .038, y, BORE), (.004, .016, .017), 'black', 0)
             k.rod('Band clasp screw', (side * .040, y, BORE), (side * .042, y, BORE), .0032, 'brass', 8)
     # 帯の間の冷却スリットと上部レールが、滑らかな銃身に機械的な層を作る。
     for i in range(6):
         y = .22 + i * .06
+        # 七つの真鍮帯の間に、赤茶の革包みを細く見せる。
+        k.ring('Leather sleeve between bands', y, BORE, .0295, .028, 'leather', .014, n=16)
         for side in [-1, 1]:
-            k.box('Barrel recessed panel', (side * .028, y, BORE), (.003, .022, .016), 'black', .001)
-            k.box('Barrel vent highlight', (side * .030, y, BORE), (.002, .013, .004), 'polymer', .0005)
-        k.box('Upper barrel bridge', (0, y, .081), (.018, .024, .007), 'polymer', .001)
-        k.box('Bridge central seam', (0, y, .085), (.006, .014, .002), 'steel', .0005)
+            k.box('Barrel recessed panel', (side * .028, y, BORE), (.003, .022, .016), 'black', 0)
+            k.box('Barrel vent highlight', (side * .030, y, BORE), (.002, .013, .004), 'polymer', 0)
+        k.box('Upper barrel bridge', (0, y, .081), (.018, .024, .007), 'polymer', 0)
+        k.box('Bridge central seam', (0, y, .085), (.006, .014, .002), 'steel', 0)
     k.ring('Muzzle lip', .654, BORE, .032, .021, 'black', .012, n=24)
     k.rod('Muzzle recess', (0, .659, BORE), (0, .66, BORE), .020, 'black', 24)
     k.rod('Underbarrel magazine', (0, .14, -.002), (0, .44, -.002), .023, 'black', 20)
@@ -98,3 +100,16 @@ def build(k):
                   .002,'polymer',0,x=side*.0305)
         for y in [-.042,-.021]:
             k.box('Receiver lower housing bolt', (side*.032,y,.020), (.002,.004,.004), 'brass', 0)
+
+        # 革の銃床を包む補強帯と、参考の着脱可能な真鍮留め具。
+        # 外周を変えず、3組の大きな板・枠・ピンを側面に立ち上げる。
+        for y,upper,lower in [(-.30,-.012,-.091),(-.24,-.003,-.072),(-.18,.006,-.052)]:
+            k.profile('Stock leather strap backing',[(y-.009,lower),(y+.009,lower+.004),
+                      (y+.009,upper+.003),(y-.009,upper)],.002,'polymer',0,x=side*.024)
+            mid=(upper+lower)*.5
+            for yy in [y-.007,y+.007]:
+                k.box('Stock buckle upright',(side*.026,yy,mid),(.002,.003,.025),'brass',0)
+            for zz in [mid-.012,mid+.012]:
+                k.box('Stock buckle crossbar',(side*.026,y,zz),(.002,.017,.003),'brass',0)
+            k.box('Stock buckle tongue',(side*.027,y,mid),(.002,.014,.002),'steel',0)
+            k.rod('Stock buckle retaining pin',(side*.026,y,mid),(side*.028,y,mid),.002,'brass',6)

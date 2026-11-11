@@ -19,24 +19,24 @@ def build(k):
     k.profile('Compact receiver', [(-.09, 0), (.16, 0), (.17, .025), (.15, .085),
                                    (-.07, .085), (-.09, .07)], .056, 'polymer', .004)
     for i, (a, b, radius) in enumerate([(.16, .226, .038), (.230, .286, .034), (.290, .339, .029)]):
-        k.rod('Armored abdomen segment', (0, a, BORE), (0, b, BORE), radius, 'polymer', 24)
-        k.ring('Abdomen yellow band', (a + b) / 2, BORE, radius + .001, radius - .002, 'hazard', .012, n=24)
-        k.ring('Segment joint', b, BORE, radius + .001, radius - .003, 'steel', .004, n=24)
+        k.rod('Armored abdomen segment', (0, a, BORE), (0, b, BORE), radius, 'polymer', 20)
+        k.ring('Abdomen yellow band', (a + b) / 2, BORE, radius + .001, radius - .002, 'hazard', .012, n=16)
+        k.ring('Segment joint', b, BORE, radius + .001, radius - .003, 'steel', .004, n=16)
         # 各節に分割装甲、帯留め、短い冷却溝を設け、3本の黄帯は独立して見せる。
         midpoint = (a+b)/2
         for side in [-1,1]:
-            k.box('Band latch', (side*(radius+.001),midpoint,BORE), (.003,.009,.014), 'black', .001)
+            k.box('Band latch', (side*(radius+.001),midpoint,BORE), (.003,.009,.014), 'black', 0)
             k.rod('Band latch screw', (side*(radius+.0025),midpoint,BORE),
                   (side*(radius+.004),midpoint,BORE),.0023,'steel',8)
             for y in [a+.012,b-.011]:
                 k.box('Segment armor panel', (side*(radius-.001),y,BORE+.006),
-                      (.003,.012,.014),'gunmetal',.001)
+                      (.003,.012,.014),'gunmetal',0)
                 k.box('Armor cutout', (side*(radius+.001),y,BORE+.006),
-                      (.001,.007,.005),'black',.0005)
+                      (.001,.007,.005),'black',0)
             k.rod('Segment seam screw', (side*(radius-.001),a+.011,BORE-.012),
                   (side*radius,a+.011,BORE-.012),.002,'steel',8)
         for y in [a+.013,b-.012]:
-            k.box('Segment top inset', (0,y,BORE+radius-.001), (.018,.012,.003), 'gunmetal', .001)
+            k.box('Segment top inset', (0,y,BORE+radius-.001), (.018,.012,.003), 'gunmetal', 0)
     k.rod('Needle mount', (0, .339, BORE), (0, .366, BORE), .017, 'steel', 20, r2=.011)
     k.rod('Symmetric needle', (0, .366, BORE), (0, .42, BORE), .010, 'steel', 16, r2=.003)
     k.rod('Needle dark tip', (0, .415, BORE), (0, .42, BORE), .003, 'black', 12)
@@ -121,3 +121,37 @@ def build(k):
               .003,'steel',8)
         k.profile('Grip heel reinforcement',[(-.075,-.128),(-.026,-.141),(-.029,-.145),(-.076,-.133)],
                   .002,'gunmetal',0,x=side*.022)
+
+        # 参考画像の工業装甲を、インレイを避けた着脱式の黄黒パネルに置き換える。
+        k.profile('Rear yellow armor', [(-.088,.020),(-.088,.071),(-.069,.080),
+                  (-.059,.073),(-.059,.024),(-.068,.016)], .002, 'hazard', 0, x=side*.030)
+        k.profile('Rear dark armor insert', [(-.084,.027),(-.084,.064),(-.071,.071),
+                  (-.065,.067),(-.065,.027)], .001, 'gunmetal', 0, x=side*.0315)
+        k.profile('Forward yellow armor', [(.082,.066),(.130,.066),(.142,.076),
+                  (.132,.081),(.082,.081)], .002, 'hazard', 0, x=side*.030)
+        k.profile('Forward yellow lower armor', [(.079,.011),(.135,.011),(.140,.020),
+                  (.130,.024),(.079,.024)], .002, 'hazard', 0, x=side*.030)
+        for y in [.087,.102,.117]:
+            k.box('Armor locking tooth',(side*.0315,y,.074),(.002,.006,.004),'black',0)
+        for y in [-.078,.084,.130]:
+            k.rod('Armor locking rivet',(side*.031,y,.020),(side*.033,y,.020),.0025,'steel',8)
+        # 外装下に短い金属の作動軸と固定クランプを見せる。
+        k.rod('Visible receiver actuator',(side*.031,-.015,.028),(side*.031,.070,.028),.0032,'steel',10)
+        for y in [-.010,.038,.065]:
+            k.box('Actuator retaining clamp',(side*.032,y,.028),(.004,.005,.010),'black',.0005)
+        for y in [.180,.242,.301]:
+            k.profile('Abdomen hazard shield',[(y,.060),(y+.014,.060),(y+.020,.069),
+                      (y+.016,.075),(y+.002,.075)], .002,'hazard',0,x=side*.030)
+            k.box('Shield identification slot',(side*.0315,y+.010,.068),(.001,.008,.003),'black',0)
+
+        # 片面の独立した整備口と横軸。面取りを使わず小部品の負荷を抑える。
+        k.profile('Service port metal surround',[(.070,.028),(.112,.028),(.122,.037),
+                  (.118,.059),(.070,.059)], .002,'steel',0,x=side*.032)
+        k.profile('Service port dark inset',[(.074,.032),(.109,.032),(.116,.039),
+                  (.113,.055),(.074,.055)], .001,'black',0,x=side*.0335)
+        k.rod('Service port spindle',(side*.034,.095,.044),(side*.036,.095,.044),.008,'gunmetal',12)
+        k.rod('Spindle retaining pin',(side*.036,.095,.044),(side*.037,.095,.044),.003,'hazard',8)
+        for y in [.078,.111]:
+            k.rod('Service port fastener',(side*.034,y,.035),(side*.036,y,.035),.002,'steel',6)
+        for y in [.020,.040,.060]:
+            k.box('Receiver metallic seam',(side*.032,y,.071),(.001,.011,.002),'steel',0)

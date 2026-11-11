@@ -7,13 +7,19 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 
 const kinds=['rifle','smg','shotgun','slug','rocket','heavy','sniper','laser','grenade','sticky','kick','medic'];
+const kindArgs=process.argv.slice(2).filter(arg=>arg.startsWith('--kinds='));
+if(kindArgs.length>1||process.argv.includes('--kinds'))throw Error('--kinds は --kinds=grenade,sticky の形式で1回だけ指定してください');
+const requested=kindArgs.length?kindArgs[0].slice(8).split(','):kinds;
+const invalid=requested.filter(kind=>!kinds.includes(kind));
+if(invalid.length)throw Error('無効な武器ID: '+invalid.map(k=>k||'(空)').join(','));
+if(new Set(requested).size!==requested.length)throw Error('武器IDが重複しています: '+requested.join(','));
 const missing=[];
-for(const kind of kinds){
+for(const kind of requested){
   const dir=['rifle','shotgun','rocket'].includes(kind)?'realism-v2':'unique-v1';
   try{await fs.access(`public/assets/weapons/${dir}/${kind}_0.glb`);}catch(e){if(e.code==='ENOENT')missing.push(kind);else throw e;}
 }
 if(missing.length&&!process.argv.includes('--available'))throw Error('未生成: '+missing.join(','));
-const selected=kinds.filter(k=>!missing.includes(k));
+const selected=requested.filter(k=>!missing.includes(k));
 if(!selected.length)throw Error('検査できる武器がありません');
 const out='dist-validation/weapon-shot-live';await fs.mkdir(out,{recursive:true});
 const fixtureSource=`import {freshProgress,validateProgress,newSaveKey} from './src/client/progression-save.ts';
@@ -83,7 +89,7 @@ view.render=(...args)=>{const result=captureDraw(...args);
   console.log('PASS',kind,config.family,'created',data.effects.map(e=>e.kind+':'+e.distanceFromMuzzle).join(','));
   await context.close();context=undefined;
  }
- const report={scope:'Actual local solo UI and renderer; passive wrappers observe the real CombatEffects.event/add at effect creation before per-frame movement, first event only. Injected isolated save, no network or phone; no proof of continued flight, exact screen position or continuous action.',viewport:[844,390],missing,records,errors};
+ const report={scope:'Actual local solo UI and renderer; passive wrappers observe the real CombatEffects.event/add at effect creation before per-frame movement, first event only. Injected isolated save, no network or phone; no proof of continued flight, exact screen position or continuous action.',viewport:[844,390],requested,missing,records,errors};
  await fs.writeFile(out+'/report.json',JSON.stringify(report,null,2));
 }catch(e){
  await fs.writeFile(out+'/failure.json',JSON.stringify({stage,error:String(e),completed:records.map(r=>r.kind),errors},null,2));

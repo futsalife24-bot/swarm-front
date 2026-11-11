@@ -31,10 +31,22 @@ def build(k):
         angle = 2 * math.pi * i / 6
         y = .15 + .053 * math.cos(angle)
         z = .03 + .053 * math.sin(angle)
-        k.rod('Cartridge chamber', (-.037, y, z), (.037, y, z), .021, 'brass', 16)
+        # 真鍮の筒と3段の蓋を側面から張り出し、6連の立体機構として読めるようにする。
+        # 前下の2室は左手の支えと重なるため、残りより薄い構造にする。
+        slim = i in (0, 5)
+        shell = .035 if slim else .046
+        cap = shell + (.001 if slim else .004)
+        hub = cap + (.001 if slim else .003)
+        latch = hub + (.001 if slim else .002)
+        k.rod('Cartridge chamber', (-shell, y, z), (shell, y, z), .021, 'brass', 16)
         for side in [-1, 1]:
-            k.rod('Chamber cap', (side * .037, y, z), (side * .039, y, z), .013, 'black', 12)
-    k.rod('Cylinder central pin', (-.04, .15, .03), (.04, .15, .03), .012, 'polymer', 12)
+            k.rod('Chamber cap', (side*shell,y,z), (side*cap,y,z), .016, 'black', 12)
+            k.rod('Chamber stepped hub', (side*cap,y,z), (side*hub,y,z), .012, 'steel', 12)
+            k.rod('Chamber latch', (side*hub,y,z), (side*latch,y,z), .007, 'brass', 10)
+            k.box('Chamber latch slot', (side*(latch+.0002),y,z), (.001,.008,.002), 'black', 0)
+            for offset in [-.015, .015]:
+                k.rod('Chamber rim stud', (side*shell,y+offset,z), (side*(shell+.002),y+offset,z), .0025, 'steel', 8)
+    k.rod('Cylinder central pin', (-.049, .15, .03), (.049, .15, .03), .012, 'polymer', 12)
 
     # 分割された装甲、締結具、摺動部。表面に凹凸を設け、磨耗跡を控えめに入れる。
     k.profile('Receiver upper rail', [(-.06,.075),(.07,.075),(.06,.083),(-.055,.083)], .025, 'steel', .001)
@@ -51,16 +63,27 @@ def build(k):
             k.rod('Grip texture', (side * .021, y, z), (side * .021, y + .027, z), .002, 'steel', 6)
         for y in [-.235, -.215, -.195, -.175]:
             k.box('Shoulder plate cooling cut', (side*.027,y,.006), (.003,.007,.014), 'steel', .0005)
+        k.profile('Shoulder service plate', [(-.252,.052),(-.12,.052),(-.12,.062),(-.252,.062)],
+                  .002,'black',0,x=side*.026)
+        for y in [-.24,-.22,-.20,-.18,-.16,-.14]:
+            k.box('Shoulder service plate screw', (side*.028,y,.057), (.002,.003,.003), 'brass', 0)
         for y in [-.045,-.015,.015,.045]:
             k.box('Rail tooth', (side*.014,y,.085), (.006,.008,.004), 'black', .0005)
         k.box('Receiver side panel', (side * .0305, -.025, .031), (.002, .07, .026), 'steel', .001)
         for y in [-.047, -.035, -.023, -.011]:
             k.box('Receiver vent', (side * .032, y, .031), (.002, .006, .015), 'black', .0005)
-        k.rod('Cylinder pivot', (side * .04, .15, .03), (side * .042, .15, .03), .008, 'brass', 12)
+        k.rod('Cylinder pivot', (side*.049,.15,.03), (side*.052,.15,.03), .008, 'brass', 12)
         for i in range(6):
             a = 2 * math.pi * i / 6
             y, z = .15 + .033 * math.cos(a), .03 + .033 * math.sin(a)
-            k.rod('Cylinder retaining pin', (side*.039,y,z), (side*.0398,y,z), .003, 'steel', 8)
+            pin = .038 if i == 0 else .046
+            k.rod('Cylinder retaining pin', (side*pin,y,z), (side*(pin+.001),y,z), .003, 'steel', 8)
+        # 薄い輪に見えていた弾倉の下辺を、接続管と継手で外装に結ぶ。
+        k.rod('Cylinder lower conduit', (side*.035,.102,-.054), (side*.035,.218,-.054), .003, 'brass', 8)
+        k.rod('Conduit rear connector', (side*.035,.102,-.054), (side*.035,.09,-.041), .003, 'steel', 8)
+        k.rod('Conduit front connector', (side*.035,.218,-.054), (side*.035,.23,-.041), .003, 'steel', 8)
+        for y in [.115,.205]:
+            k.rod('Conduit collar', (side*.035,y-.003,-.054), (side*.035,y+.003,-.054), .0045, 'steel', 8)
 
     # 先端は銃身軸に対称。照尺や前握りは銃口から離す。
     k.rod('Short barrel', (0, .23, BORE), (0, .48, BORE), .035, 'olive', 24)
@@ -72,6 +95,9 @@ def build(k):
     for side in [-1, 1]:
         for y in [.295, .325, .355, .385, .415]:
             k.box('Barrel cooling slot', (side * .0345, y, .065), (.002, .015, .006), 'black', .001)
+        for y in [.28,.36,.44]:
+            k.profile('Barrel side armor', [(y-.014,.029),(y+.014,.029),(y+.010,.041),(y-.010,.041)],
+                      .002,'steel',0,x=side*.035)
         for y, z in [(.265, -.004), (.292, -.004), (.34, -.005)]:
             k.rod('Fore-end screw', (side * .026, y, z), (side * .027, y, z), .0035, 'brass', 8)
     k.profile('Front support', [(.245, .016), (.37, .016), (.35, -.032), (.26, -.035)], .052, 'polymer', .003)

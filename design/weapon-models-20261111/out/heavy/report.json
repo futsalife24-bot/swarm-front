@@ -4,8 +4,8 @@
   "name": "RL-9 メテオ",
   "family": "rocket",
   "blender": "5.2.1 LTS",
-  "triangles": 8456,
-  "vertices": 4540,
+  "triangles": 8340,
+  "vertices": 4564,
   "bounds": [
     [
       -0.09600000083446503,
@@ -20,8 +20,8 @@
   ],
   "materials": [
     "Metal gunmetal",
-    "Metal steel",
     "Paint rust orange",
+    "Metal steel",
     "Recess black",
     "Glow heat",
     "Rarity identification"
@@ -153,32 +153,32 @@
     {
       "file": "heavy_0.glb",
       "grade": 0,
-      "bytes": 469624,
-      "sha256": "49ccb11f765125cc98919e2ed62dc6256c0b225e1d0b92184c95ab5110134aef"
+      "bytes": 446720,
+      "sha256": "1e79613e7d88d6fa2e657dd4070786ec314ec883787bc083228ba0a86991b6a6"
     },
     {
       "file": "heavy_1.glb",
       "grade": 1,
-      "bytes": 469624,
-      "sha256": "847e6b3760d8c510b4d0305421e239cb8f1b71d39545cdffee522df3e27d1d5f"
+      "bytes": 446720,
+      "sha256": "e3d89993affce84847e67c1a5a57403ab77a2fddac226010bd32d69cc1457296"
     },
     {
       "file": "heavy_2.glb",
       "grade": 2,
-      "bytes": 469624,
-      "sha256": "396686d57e09a60f02a84420b09a4bd1a23e7a9904997d58a48f50acb739d43c"
+      "bytes": 446720,
+      "sha256": "e56d6347a76294a6b98fa1dbb1d0d6454d1c44074fa7bd4bee00de66d9e10cb8"
     },
     {
       "file": "heavy_3.glb",
       "grade": 3,
-      "bytes": 469624,
-      "sha256": "f361dd6e414108bc3f4aa2d9d004f58b8381a61ac48577b5d998b1711608721c"
+      "bytes": 446720,
+      "sha256": "5521ed1bb18c721e0f2613107c24cd2f51504587bab1e14341b5108c6df01671"
     },
     {
       "file": "heavy_4.glb",
       "grade": 4,
-      "bytes": 469624,
-      "sha256": "4981af3790cc97961de90d19f96e268699a3cf00bac97d341796f41050cb6de9"
+      "bytes": 446716,
+      "sha256": "9253d06ecc9ace80a18f50c17667dd2a2ef9ff9540f9e88e1c665ed826ea517f"
     }
   ]
 }

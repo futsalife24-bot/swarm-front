@@ -6,8 +6,15 @@ import fs from 'node:fs/promises';
 
 const out = 'dist-validation/weapon-detail-ui-matrix';
 const kinds = ['rifle','smg','shotgun','slug','rocket','heavy','sniper','laser','grenade','sticky','kick','medic'];
+const kindArgs = process.argv.slice(2).filter(arg => arg.startsWith('--kinds='));
+if (kindArgs.length > 1 || process.argv.includes('--kinds')) throw Error('--kinds は --kinds=grenade,sticky の形式で1回だけ指定してください');
+const requested = kindArgs.length ? kindArgs[0].slice(8).split(',') : kinds;
+const invalid = requested.filter(kind => !kinds.includes(kind));
+if (invalid.length) throw Error('無効な武器ID: ' + invalid.map(k => k || '(空)').join(','));
+if (new Set(requested).size !== requested.length) throw Error('武器IDが重複しています: ' + requested.join(','));
 const missing = [];
-for (const [i, kind] of kinds.entries()) {
+for (const kind of requested) {
+  const i = kinds.indexOf(kind);
   const dir = ['rifle','shotgun','rocket'].includes(kind) ? 'realism-v2' : 'unique-v1';
   try { await fs.access(`public/assets/weapons/${dir}/${kind}_${i % 5}.glb`); }
   catch { missing.push(kind); }
@@ -16,7 +23,7 @@ await fs.mkdir(out, {recursive:true});
 const source = `import {freshProgress,validateProgress,newSaveKey} from './src/client/progression-save.ts';
 import {makeWeapon} from './src/shared/progression.ts';
 const save=freshProgress('normal');
-for (const [i,kind] of ${JSON.stringify(kinds.filter(k=>!missing.includes(k)))}.entries()) {
+for (const [i,kind] of ${JSON.stringify(requested.filter(k=>!missing.includes(k)))}.entries()) {
   const grade=${JSON.stringify(kinds)}.indexOf(kind)%5;
   save.inventory.push(makeWeapon('fixture-'+kind,kind,grade,{power:0,reload:0,range:0,rate:0},false,save.serial++));
 }
@@ -36,7 +43,7 @@ try {
   await page.addInitScript(({key,raw})=>{localStorage.setItem(key,raw);localStorage.setItem('swarm-front-player-name-v1','ローカル検証');},{key:fixture.key,raw:fixture.raw});
   await page.goto('http://127.0.0.1:'+server.httpServer.address().port+'/?solo=1',{waitUntil:'domcontentloaded',timeout:50000});
   await page.locator('#pt-start').waitFor({state:'visible',timeout:90000});
-  for (const kind of kinds.filter(k=>!missing.includes(k))) {
+  for (const kind of requested.filter(k=>!missing.includes(k))) {
     stage=kind+' 詳細';
     // Screen-transition snapshots contain cloned UI in shadow roots; target the live document only.
     const row=page.locator(`css:light=[data-row="fixture-${kind}"] [data-detail]`);
@@ -67,7 +74,7 @@ try {
     rows.push({kind,title,image});
     console.log('PASS',kind,title);
   }
-  const report={scope:'Actual local gear, detail dialog and share-image dialog with isolated disposable save; no external sharing or real phone',viewport:[844,390],missing,rows,errors,failedRequests};
+  const report={scope:'Actual local gear, detail dialog and share-image dialog with isolated disposable save; no external sharing or real phone',viewport:[844,390],requested,missing,rows,errors,failedRequests};
   await fs.writeFile(out+'/report.json',JSON.stringify(report,null,2));
   if(errors.length||failedRequests.length||(missing.length&&!process.argv.includes('--available')))process.exitCode=1;
 } catch(error) {

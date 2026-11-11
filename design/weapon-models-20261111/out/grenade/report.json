@@ -4,16 +4,16 @@
   "name": "GL-6 ホロウ",
   "family": "grenade",
   "blender": "5.2.1 LTS",
-  "triangles": 6216,
-  "vertices": 3354,
+  "triangles": 8512,
+  "vertices": 4682,
   "bounds": [
     [
-      -0.0430000014603138,
+      -0.05570000037550926,
       -0.2750000059604645,
       -0.14420583844184875
     ],
     [
-      0.0430000014603138,
+      0.05570000037550926,
       0.5,
       0.16499999165534973
     ]
@@ -168,32 +168,32 @@
     {
       "file": "grenade_0.glb",
       "grade": 0,
-      "bytes": 359616,
-      "sha256": "8351441b16cab78fd58d0c97d024b1a53df0cdc747779f00f63002638780000e"
+      "bytes": 470296,
+      "sha256": "4ad45d9b6408bf6fa3401e4e57ee6e5633aa7309ccfa3b56eeb8a4feaf3c5765"
     },
     {
       "file": "grenade_1.glb",
       "grade": 1,
-      "bytes": 359616,
-      "sha256": "373e91f04a419ff01bc935131a3a056ad0c8d3d1ce3688d0ea96ae64c9607cc7"
+      "bytes": 470296,
+      "sha256": "d1d10b2369cea6a5b2124c3833396553272354990698fbc2a045c2e34e700604"
     },
     {
       "file": "grenade_2.glb",
       "grade": 2,
-      "bytes": 359616,
-      "sha256": "9d117db75aa2f2f87862af8b41c8a9451c1e9be846b981aa251abeb35fcd9b5f"
+      "bytes": 470296,
+      "sha256": "bf96da96fcc544c6badf887af8c53269c4c939fd60b13055ceeec99f0013f4e5"
     },
     {
       "file": "grenade_3.glb",
       "grade": 3,
-      "bytes": 359616,
-      "sha256": "e5de4bb70725ef6ce2e16edba7ff09008c09f7ae718f49cf872b4b32f1c0fe5d"
+      "bytes": 470296,
+      "sha256": "46499fb8251e5e15c8b0d2f1e0558c26f33822a78444ea68fecbe4f02d56bac4"
     },
     {
       "file": "grenade_4.glb",
       "grade": 4,
-      "bytes": 359612,
-      "sha256": "bc3cfe020126f44ff43fb334b08b697f090feb1f0a3312c6b39d45f1f4b6692a"
+      "bytes": 470292,
+      "sha256": "df87159d1e853a6112f413bb034fe580707cf542e896a46adc64a228c449eb64"
     }
   ]
 }

@@ -48,12 +48,12 @@
     {
       "name": "[heavy_0.glb] 三角形数（上限）",
       "ok": true,
-      "detail": "8456 / 12060"
+      "detail": "8340 / 12060"
     },
     {
       "name": "[heavy_0.glb] 三角形数（目標）",
       "ok": true,
-      "detail": "8456 / 9000"
+      "detail": "8340 / 9000"
     },
     {
       "name": "[heavy_0.glb] 材質数=描画回数",
@@ -123,12 +123,12 @@
     {
       "name": "[heavy_0.glb] ファイルサイズ（上限）",
       "ok": true,
-      "detail": "469624 / 800000"
+      "detail": "446720 / 800000"
     },
     {
       "name": "[heavy_0.glb] ファイルサイズ（目標）",
       "ok": true,
-      "detail": "469624 / 500000"
+      "detail": "446720 / 500000"
     },
     {
       "name": "[heavy_0.glb] 識別インレイの色",
@@ -138,17 +138,17 @@
     {
       "name": "[heavy_1.glb] 形はグレード0と同一",
       "ok": true,
-      "detail": "頂点 12898 三角形 8456"
+      "detail": "頂点 12204 三角形 8340"
     },
     {
       "name": "[heavy_1.glb] ファイルサイズ（上限）",
       "ok": true,
-      "detail": "469624 / 800000"
+      "detail": "446720 / 800000"
     },
     {
       "name": "[heavy_1.glb] ファイルサイズ（目標）",
       "ok": true,
-      "detail": "469624 / 500000"
+      "detail": "446720 / 500000"
     },
     {
       "name": "[heavy_1.glb] 識別インレイの色",
@@ -158,17 +158,17 @@
     {
       "name": "[heavy_2.glb] 形はグレード0と同一",
       "ok": true,
-      "detail": "頂点 12898 三角形 8456"
+      "detail": "頂点 12204 三角形 8340"
     },
     {
       "name": "[heavy_2.glb] ファイルサイズ（上限）",
       "ok": true,
-      "detail": "469624 / 800000"
+      "detail": "446720 / 800000"
     },
     {
       "name": "[heavy_2.glb] ファイルサイズ（目標）",
       "ok": true,
-      "detail": "469624 / 500000"
+      "detail": "446720 / 500000"
     },
     {
       "name": "[heavy_2.glb] 識別インレイの色",
@@ -178,17 +178,17 @@
     {
       "name": "[heavy_3.glb] 形はグレード0と同一",
       "ok": true,
-      "detail": "頂点 12898 三角形 8456"
+      "detail": "頂点 12204 三角形 8340"
     },
     {
       "name": "[heavy_3.glb] ファイルサイズ（上限）",
       "ok": true,
-      "detail": "469624 / 800000"
+      "detail": "446720 / 800000"
     },
     {
       "name": "[heavy_3.glb] ファイルサイズ（目標）",
       "ok": true,
-      "detail": "469624 / 500000"
+      "detail": "446720 / 500000"
     },
     {
       "name": "[heavy_3.glb] 識別インレイの色",
@@ -198,17 +198,17 @@
     {
       "name": "[heavy_4.glb] 形はグレード0と同一",
       "ok": true,
-      "detail": "頂点 12898 三角形 8456"
+      "detail": "頂点 12204 三角形 8340"
     },
     {
       "name": "[heavy_4.glb] ファイルサイズ（上限）",
       "ok": true,
-      "detail": "469624 / 800000"
+      "detail": "446716 / 800000"
     },
     {
       "name": "[heavy_4.glb] ファイルサイズ（目標）",
       "ok": true,
-      "detail": "469624 / 500000"
+      "detail": "446716 / 500000"
     },
     {
       "name": "[heavy_4.glb] 識別インレイの色",
@@ -223,7 +223,7 @@
     {
       "name": "[読み直し] 三角形数が生成時と一致",
       "ok": true,
-      "detail": "8456 / 8456"
+      "detail": "8340 / 8340"
     },
     {
       "name": "[読み直し] 寸法が生成時と一致",
@@ -233,7 +233,7 @@
     {
       "name": "[読み直し] 材質名が生成時と一致",
       "ok": true,
-      "detail": "['Metal gunmetal', 'Metal steel', 'Paint rust orange', 'Recess black', 'Glow heat', 'Rarity identification']"
+      "detail": "['Metal gunmetal', 'Paint rust orange', 'Metal steel', 'Recess black', 'Glow heat', 'Rarity identification']"
     },
     {
       "name": "[読み直し] 左の識別インレイが見える",

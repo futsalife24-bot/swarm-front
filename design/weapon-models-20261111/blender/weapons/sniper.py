@@ -1,4 +1,5 @@
 """SR-1 ソーン。骨色の細身と有機的な棘を持つ長距離ライフル。"""
+import math
 BORE = .046
 SPEC = dict(
     kind='sniper', code='SR-1', name='SR-1 ソーン', family='sniper',
@@ -41,7 +42,7 @@ def build(k):
         for y in [.066,.094]:
             k.rod('Magazine fastener',(side*.025,y,-.049),(side*.027,y,-.049),.0025,'leather',8)
         for z in [-.018,-.028,-.038]:
-            k.box('Magazine witness notch',(side*.025,.080,z),(.002,.020,.003),'polymer',.0005)
+            k.box('Magazine witness notch',(side*.025,.080,z),(.002,.020,.003),'polymer',0)
     # 銃身と銃口の棘。先端3%以内は対称な円筒のみ。
     k.rod('Precision barrel',(0,.20,BORE),(0,.68,BORE),.012,'steel',20)
     k.ring('Muzzle brake',.69,BORE,.014,.009,'steel',.02,n=20)
@@ -64,9 +65,11 @@ def build(k):
     for y in [.015,.17]:
         k.box('Optic mount',(0,y,.088),(.036,.02,.04),'steel',.002)
     k.rod('Scope tube',(0,-.015,.122),(0,.25,.122),.022,'polymer',24)
-    k.rod('Scope objective',(0,.245,.122),(0,.30,.122),.035,'steel',24,r2=.038)
-    k.ring('Objective rim',.302,.122,.038,.028,'bone',.008,n=24)
+    k.rod('Scope objective',(0,.245,.122),(0,.30,.122),.035,'bone',24,r2=.038)
+    k.ring('Objective rim',.302,.122,.038,.028,'steel',.008,n=24)
     k.rod('Objective lens',(0,.306,.122),(0,.307,.122),.027,'polymer',24)
+    k.ring('Objective internal focus ring',.307,.122,.025,.022,'steel',.002,n=16)
+    k.rod('Objective central lens',(0,.308,.122),(0,.309,.122),.017,'polymer',16)
     k.ring('Eyepiece',-.02,.122,.028,.018,'steel',.018,n=20)
     for y in [.01,.19]:
         k.ring('Scope focus ring',y,.122,.024,.021,'steel',.008,n=20)
@@ -74,13 +77,18 @@ def build(k):
         k.ring('Scope grip ring',y,.122,.0235,.0215,'bone',.002,n=16)
     for y in [.256,.284]:
         k.ring('Objective focus rib',y,.122,.038,.035,'polymer',.003,n=20)
+    # 参照画像の大きな光学系を、白い外套の細い操作溝で立体的にする。
+    for i in range(12):
+        a=2*math.pi*i/12
+        x,z=.0357*math.cos(a),.122+.0357*math.sin(a)
+        k.rod('Objective axial grip',(x,.260,z),(x,.280,z),.0014,'polymer',6)
     k.rod('Scope elevation dial',(0,.10,.143),(0,.10,.158),.015,'steel',16)
     k.rod('Dial cap',(0,.10,.158),(0,.10,.16),.012,'leather',16)
     for side in [-1,1]:
         k.rod('Scope windage dial',(side*.022,.105,.122),(side*.031,.105,.122),.012,'steel',16)
         k.rod('Windage dial cap',(side*.031,.105,.122),(side*.033,.105,.122),.009,'leather',12)
         for y in [.035,.075,.145,.185]:
-            k.box('Scope adjustment mark',(side*.0215,y,.122),(.002,.003,.010),'bone',.0005)
+            k.box('Scope adjustment mark',(side*.0215,y,.122),(.002,.003,.010),'bone',0)
     for side in [-1,1]:
         k.profile('Receiver side armor',[(-.08,.012),(.045,.012),(.075,.028),(.075,.062),
                   (.045,.073),(-.08,.073)],.003,'steel',.001,x=side*.031)
@@ -90,22 +98,32 @@ def build(k):
             for z in [.026,.059]:
                 k.rod('Receiver rivet',(side*.034,y,z),(side*.036,y,z),.003,'leather',8)
         k.profile('Forward ceramic armor',[(.08,.014),(.17,.014),(.19,.026),(.18,.065),(.08,.065)],
-                  .003,'steel',.001,x=side*.031)
+                  .003,'bone',.001,x=side*.031)
+        # 白い整備外装に赤茶の補強帯と小さな金属の固定具を配置する。
+        for y in [.102,.152]:
+            k.profile('Ceramic access clamp',[(y,.016),(y+.011,.016),(y+.011,.060),(y,.060)],
+                      .0015,'leather',0,x=side*.0335)
+            for z in [.023,.054]:
+                k.rod('Access clamp bolt',(side*.034,y+.005,z),(side*.036,y+.005,z),.002,'steel',6)
+        k.profile('Ceramic lower service seam',[(.082,.013),(.17,.013),(.17,.017),(.082,.017)],
+                  .0015,'polymer',0,x=side*.033)
+        for y,z,length in [(.088,.020,.008),(.120,.029,.012),(.143,.054,.008),(.168,.037,.010)]:
+            k.box('Ceramic exposed seam',(side*.0335,y,z),(.001,length,.0015),'polymer',0)
         for y in [.095,.11,.125,.14,.155]:
-            k.box('Receiver cooling slit',(side*.033,y,.04),(.002,.006,.024),'polymer',.0005)
+            k.box('Receiver cooling slit',(side*.033,y,.04),(.002,.006,.024),'polymer',0)
         for y in [.09,.17]:
             k.rod('Fore receiver bolt',(side*.033,y,.06),(side*.035,y,.06),.003,'leather',8)
         for i in range(4):
             k.rod('Grip texture',(side*.021,-.054+i*.007,-.09+i*.015),
                   (side*.021,-.027+i*.007,-.09+i*.015),.0018,'steel',6)
         for y in [.23,.27,.31,.35]:
-            k.box('Forearm cooling port',(side*.022,y,.003),(.002,.014,.006),'steel',.0005)
+            k.box('Forearm cooling port',(side*.022,y,.003),(.002,.014,.006),'steel',0)
         # レシーバーの継ぎ目、操作桿、固定具で機関部の構造を読めるようにする。
         k.rod('Receiver upper seam',(side*.032,-.075,.075),(side*.032,.18,.075),.0015,'polymer',6)
         for y in [-.075,.005,.055,.18]:
             k.rod('Receiver frame pin',(side*.032,y,.011),(side*.035,y,.011),.0027,'leather',8)
         for y in [.205,.245,.285,.325,.365]:
-            k.box('Forearm serration',(side*.022,y,-.009),(.002,.004,.010),'bone',.0005)
+            k.box('Forearm serration',(side*.022,y,-.009),(.002,.004,.010),'bone',0)
     k.rod('Bolt action shaft',(.032,.025,.062),(.051,.025,.068),.0035,'steel',10)
     k.rod('Bolt action handle',(.051,.025,.068),(.051,.008,.044),.004,'steel',10)
     k.rod('Bolt knob',(.049,.008,.044),(.053,.008,.044),.006,'leather',12)

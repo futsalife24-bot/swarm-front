@@ -23,7 +23,7 @@ def build(k):
     k.ring('Forward nozzle liner',.519,BORE,.057,.039,'russet',.002,n=24)
     k.rod('Forward nozzle recess',(0,.519,BORE),(0,.52,BORE),.038,'black',24)
     for y, radius in [(.425,.039),(.45,.049),(.475,.060),(.49,.067)]:
-        k.ring('Forward bell reinforcing hoop',y,BORE,radius+.002,radius-.001,'steel',.004,n=24)
+        k.ring('Forward bell reinforcing hoop',y,BORE,radius+.002,radius-.001,'steel',.004,n=16)
     # 先端3%より手前に縦の冷却リブ。ノズル中心と軸対称を保つ。
     import math
     for i in range(8):
@@ -36,7 +36,7 @@ def build(k):
     k.ring('Rear jet hot liner',-.363,BORE,.047,.034,'glow_heat',.002,n=24)
     k.rod('Rear jet recess',(0,-.364,BORE),(0,-.362,BORE),.032,'black',24)
     for y, radius in [(-.34,.059),(-.29,.052),(-.24,.046),(-.19,.040),(-.14,.034)]:
-        k.ring('Rear jet heat rib',y,BORE,radius+.002,radius-.002,'steel',.005,n=24)
+        k.ring('Rear jet heat rib',y,BORE,radius+.002,radius-.002,'steel',.005,n=16)
     for i in range(8):
         a=2*math.pi*i/8
         c,s=math.cos(a),math.sin(a)
@@ -58,19 +58,33 @@ def build(k):
         k.rod('Wing spar',(side*.035,-.06,.067),(side*.073,-.17,.055),.005,'steel',10)
         k.profile('Wing dark inset',[(-.17,.048),(-.07,.067),(.07,.065),(-.08,.046)],
                   .002,'black',.001,x=side*.073)
+        # 青灰の翼の上に赤茶の分割外板を重ね、参考画像の積層感を出す。
+        k.profile('Wing russet overlay',[(-.16,.060),(-.07,.071),(.035,.069),(.065,.065),(-.08,.062)],
+                  .0015,'russet',0,x=side*.075)
+        for y,z in [(-.14,.062),(-.08,.067),(-.02,.067),(.035,.066)]:
+            k.rod('Overlay fastening pin',(side*.076,y,z),(side*.078,y,z),.002,'steel',6)
+        for y,z in [(-.13,.063),(-.09,.067),(-.04,.066),(.01,.066)]:
+            k.box('Wing overlay panel joint',(side*.076,y,z),(.001,.004,.005),'black',0)
         for y,z in [(-.14,.054),(-.09,.057),(-.04,.059),(.01,.061)]:
             k.rod('Wing surface rivet',(side*.074,y,z),(side*.076,y,z),.0025,'russet',8)
         k.rod('Wing inner frame',(side*.074,-.17,.048),(side*.074,.08,.064),.0018,'steel',8)
         for y in [-.12,-.05,.02]:
             k.box('Wing vent notch',(side*.075,y,.052),(.002,.012,.004),'black',.0005)
         k.profile('Engine armor',[(-.085,.014),(.16,.014),(.19,.03),(.18,.071),(-.085,.071)],
-                  .003,'steel',.001,x=side*.033)
-        # 六つの排気口を一本ずつ独立した小部品で構成。
+                  .003,'russet',.001,x=side*.033)
+        # 6口を翼の下で読み取れる位置に置き、金属枠・暗い口・内側の光を分ける。
         for i in range(6):
             y = -.065 + i*.04
-            k.box('Exhaust port',(side*.035,y,.044),(.003,.022,.024),'black',.002)
-            k.box('Exhaust inner glow',(side*.037,y,.043),(.001,.012,.009),'glow_heat',.001)
-            k.rod('Port rivet',(side*.036,y-.013,.065),(side*.038,y-.013,.065),.0025,'russet',8)
+            k.box('Exhaust metal frame',(side*.035,y,.024),(.003,.029,.022),'steel',0)
+            k.box('Exhaust port',(side*.037,y,.024),(.002,.024,.017),'black',0)
+            k.box('Exhaust inner glow',(side*.0385,y,.024),(.001,.015,.005),'glow_heat',0)
+            k.rod('Port rivet',(side*.036,y-.014,.040),(side*.038,y-.014,.040),.0025,'steel',8)
+            k.rod('Port lower rivet',(side*.036,y+.013,.011),(side*.038,y+.013,.011),.002,'steel',6)
+        # 後端寄りと前端寄りに、外板の継ぎ目と保守用の小パネルを設ける。
+        for y in [-.079,.159]:
+            k.profile('Engine panel edge',[(y,.042),(y+.012,.042),(y+.012,.062),(y,.062)],
+                      .002,'slate',0,x=side*.035)
+            k.rod('Engine panel edge lock',(side*.036,y+.006,.052),(side*.038,y+.006,.052),.002,'steel',6)
         for y in [-.08,.17]:
             k.rod('Engine lock',(side*.035,y,.068),(side*.038,y,.068),.004,'russet',8)
         k.rod('Control unit upper seam',(side*.032,-.07,.081),(side*.032,.125,.081),.0015,'steel',8)
