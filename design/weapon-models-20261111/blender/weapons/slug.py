@@ -32,7 +32,7 @@ def build(k):
     # 単銃身と七本の厚い真鍮帯。最後の3%は軸対称。
     k.rod('Single barrel', (0, .13, BORE), (0, .66, BORE), .028, 'steel', 24)
     for i in range(7):
-        k.ring('Wide brass barrel band', .19 + i * .06, BORE, .038, .027, 'brass', .024, n=24)
+        k.ring('Wide brass barrel band', .19 + i * .06, BORE, .038, .027, 'brass', .024, n=20)
         # 各帯を留める金具と芯の小ねじ。7本の帯自体は一続きの輪として保つ。
         y = .19 + i * .06
         for side in [-1, 1]:
@@ -54,6 +54,11 @@ def build(k):
     k.profile('Spike inset', [(.455, -.025), (.46, -.070), (.58, -.013)], .002, 'black', .001, x=.0185)
     k.profile('Spike inset', [(.455, -.025), (.46, -.070), (.58, -.013)], .002, 'black', .001, x=-.0185)
     for side in [-1, 1]:
+        # 太い棘の内側に金属製の補強板と段差を重ね、単色の平板に見せない。
+        k.profile('Spike brass inset', [(.466,-.030),(.471,-.056),(.553,-.021),(.540,-.021)],
+                  .002,'brass',0,x=side*.020)
+        k.profile('Spike raised central spine', [(.462,-.034),(.468,-.045),(.556,-.018),(.545,-.016)],
+                  .002,'steel',0,x=side*.021)
         k.rod('Spike reinforcing edge', (side*.019,.46,-.064), (side*.019,.575,-.014), .002, 'brass', 8)
         for y,z in [(.45,-.024),(.46,-.078),(.51,-.043)]:
             k.rod('Spike retaining rivet', (side*.019,y,z), (side*.021,y,z), .003, 'brass', 8)
@@ -68,6 +73,11 @@ def build(k):
                   .002, 'polymer', .001, x=side * .0235)
         for y, z in [(-.33, -.05), (-.30, -.065), (-.16, -.015)]:
             k.rod('Stock rivets', (side*.024, y, z), (side*.026, y, z), .0035, 'brass', 10)
+        # 銃床の革と接合金具に細い段差を入れ、握りの輪郭は変えない。
+        k.profile('Stock inset rim', [(-.31,-.049),(-.17,-.019),(-.18,-.028),(-.30,-.066)],
+                  .0015,'steel',0,x=side*.025)
+        for y, z in [(-.28,-.051),(-.24,-.040),(-.20,-.030)]:
+            k.box('Stock inlay seam', (side*.026,y,z), (.002,.008,.002), 'brass', 0)
         for y, z in [(-.06, .035), (.095, .06)]:
             k.rod('Receiver rivets', (side*.030, y, z), (side*.032, y, z), .0035, 'brass', 10)
         for i in range(5):
@@ -84,3 +94,7 @@ def build(k):
             k.box('Receiver mechanical seam', (side*.032,y,.058), (.002,.007,.014), 'black', .0005)
         for y in [.005,.102]:
             k.rod('Receiver plate screw',(side*.032,y,.069),(side*.034,y,.069),.003,'brass',10)
+        k.profile('Receiver lower housing', [(-.052,.010),(.006,.010),(.006,.030),(-.047,.030)],
+                  .002,'polymer',0,x=side*.0305)
+        for y in [-.042,-.021]:
+            k.box('Receiver lower housing bolt', (side*.032,y,.020), (.002,.004,.004), 'brass', 0)

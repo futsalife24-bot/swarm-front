@@ -4,8 +4,8 @@
   "name": "SG-7 スパイク",
   "family": "shotgun",
   "blender": "5.2.1 LTS",
-  "triangles": 7924,
-  "vertices": 4274,
+  "triangles": 7916,
+  "vertices": 4306,
   "bounds": [
     [
       -0.04200000315904617,
@@ -138,32 +138,32 @@
     {
       "file": "slug_0.glb",
       "grade": 0,
-      "bytes": 496528,
-      "sha256": "d0cf1897b70e0d6aa3fa1e3dae1713a98f4acc2f4c5c150dd075a4b2725ec1c5"
+      "bytes": 499552,
+      "sha256": "32a98a2a28f7082edc37da62d5fb678933af8149aae4fbd4277021069244d7dd"
     },
     {
       "file": "slug_1.glb",
       "grade": 1,
-      "bytes": 496528,
-      "sha256": "05fed0833e96153bf125f76bad6a64872f952b0e116e5eac7df9f4b6ea8d9d9f"
+      "bytes": 499552,
+      "sha256": "fc044e35905b34bcb1f2a76b72176acc0de0071ee635a99812c2f850ea0e3669"
     },
     {
       "file": "slug_2.glb",
       "grade": 2,
-      "bytes": 496528,
-      "sha256": "30e6fa863303d772f50c6518cb27c723203c65644ef0ca81a787cf073c2766f0"
+      "bytes": 499552,
+      "sha256": "bb38bb3085ff905d4932042492b91731f166b087045074c7a8cd76386948edc1"
     },
     {
       "file": "slug_3.glb",
       "grade": 3,
-      "bytes": 496528,
-      "sha256": "7000436c51b24ea10ba8fd265f9eb793deb2cfaa9b9d87f7dbaae4fd7a8fa22f"
+      "bytes": 499552,
+      "sha256": "9d91343007fb52cf7b28c53bec000b892b894a65a266766eb54fa537726553a1"
     },
     {
       "file": "slug_4.glb",
       "grade": 4,
-      "bytes": 496524,
-      "sha256": "36a516b66924d8a6d24f85295740f234b98a718b0c47eafc01ef7587c3332866"
+      "bytes": 499548,
+      "sha256": "29cce047041fca3ae2b8f9a77e099f95a02aaa73ce6177affd7181dc54cd3921"
     }
   ]
 }
